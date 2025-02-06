@@ -1,103 +1,343 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2B81FF5F4
-	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 08:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C8D226523
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 08:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738828981; cv=none; b=EQEscYzSadIpM2nSmEWqFekCz558QDU9fBZRkq5y/U2vE3lJFowgqzTEsYPb8lyIR+jejBuhHorPmgXHF8QJildzlvivYxChnjnbXp1HTRn8G00pCGJVBFpt9jBWQnjAYWCQfSF2n/RUSkr8xuD93sJeDwrkkcglP3+4T+UTdsA=
+	t=1738829447; cv=none; b=hn0OiQpE1hy2L0L4LnG9dthWLrep11UfhJ+NSWulHaxtO7GcCCt+1DkpzGcxFCknWvjv3aDP2h63QftzFmYCHSpea840rGMIlFLGJmeRA647h1lYJXNfn7EEkN9efU+7oLtZgkb1oHvqjL05N4MYJAv0qMCzUayaVNlFK28xPSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738828981; c=relaxed/simple;
-	bh=t5ISdDJR/VEFHvOGril1zQ1eTns/6CK1nqON++9kuZY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SterbUq/HV3XtQPsZ2crXhHoUDMZ8gXoNTst1nOiVx0n1k0POvYD/CyEzT+iQhJDLIWVEqx/n7DuPHSk5pGEl/OLMtNXeJNq5qowc59xBzOFm6i+7cwattmXKdFyhwqXc1aCgQWShbsdia23Pl6wqHGjeZSXs60TKYRx27brsH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tfwqX-0003w4-Tu; Thu, 06 Feb 2025 09:02:49 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1tfwqX-003ljE-1j;
-	Thu, 06 Feb 2025 09:02:49 +0100
-Received: from pengutronix.de (pd9e59fec.dip0.t-ipconnect.de [217.229.159.236])
+	s=arc-20240116; t=1738829447; c=relaxed/simple;
+	bh=IY7DU1BhjQRR5Coi7wNZ7++4LSEJz4/d+wLFVatOJNE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nF+XwOqZTHpxTXg9QyeNmoZSDq3ltehcObGTvn3yi7jiPAvEeRyBMS33RhA5B9xHlF3AOB0nf1Mu7FkggKhtt34zCllLQdJ6Oob7EiOZraNuTn5ARp7xjXM4gmPlz1K/OhGrsfPGnnXLmBsVhe9yfc0eZia5dd6DA7tcZE44Bws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NiBq74Il; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NiBq74Il"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738829443;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rPPwrQnu9UKt/4NbsUXxMh/AuN498RxwAC9aj1izwuk=;
+	b=NiBq74Il1cWBPiVKtYtTB91wRBnRwq7yUObYgbZhBT/szW+E9XaVJIaGly9VPypRI3e7XN
+	zrjUT76HG105o223PUU3rlPGTzjEKScKQrZAG8egJIXnb77U3qb0dqn7VbE34iQctoKcE/
+	2dMMRF94ec5mvNtNGNZxlgGceLVpXTM=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-608-fiP22780PDCosPesVr3YzA-1; Thu,
+ 06 Feb 2025 03:10:41 -0500
+X-MC-Unique: fiP22780PDCosPesVr3YzA-1
+X-Mimecast-MFC-AGG-ID: fiP22780PDCosPesVr3YzA
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 2FE7C3BB126;
-	Thu, 06 Feb 2025 08:02:49 +0000 (UTC)
-Date: Thu, 6 Feb 2025 09:02:48 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Reyders Morales <reyders1@gmail.com>
-Cc: kuba@kernel.org, Oliver Hartkopp <socketcan@hartkopp.net>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-can@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/networking: Fix basic node example
- document ISO 15765-2
-Message-ID: <20250206-light-brave-polecat-3290ac-mkl@pengutronix.de>
-References: <20250203224720.42530-1-reyders1@gmail.com>
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2A17B1956059;
+	Thu,  6 Feb 2025 08:10:40 +0000 (UTC)
+Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.45.224.82])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 436AD19560B9;
+	Thu,  6 Feb 2025 08:10:35 +0000 (UTC)
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-doc@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: Gabriele Monaco <gmonaco@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	John Kacur <jkacur@redhat.com>,
+	Clark Williams <williams@redhat.com>
+Subject: [RFC PATCH 10/11] Documentation/rv: Add docs for the sched monitors
+Date: Thu,  6 Feb 2025 09:09:46 +0100
+Message-ID: <20250206080952.98478-11-gmonaco@redhat.com>
+In-Reply-To: <20250206080952.98478-1-gmonaco@redhat.com>
+References: <20250206080952.98478-1-gmonaco@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vavlqxkz2rpr5b3f"
-Content-Disposition: inline
-In-Reply-To: <20250203224720.42530-1-reyders1@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
+Add man page and kernel documentation for the sched monitors, as sched
+is a container of other monitors, document all in the same page.
+sched is the first nested monitor, also explain what is a nested monitor
+and how enabling containers or children monitors work.
 
---vavlqxkz2rpr5b3f
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] Documentation/networking: Fix basic node example
- document ISO 15765-2
-MIME-Version: 1.0
+To: Ingo Molnar <mingo@redhat.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: John Kacur <jkacur@redhat.com>
+Cc: Clark Williams <williams@redhat.com>
+Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+---
+ Documentation/tools/rv/rv-mon-sched.rst  |  69 +++++++++
+ Documentation/trace/rv/monitor_sched.rst | 171 +++++++++++++++++++++++
+ 2 files changed, 240 insertions(+)
+ create mode 100644 Documentation/tools/rv/rv-mon-sched.rst
+ create mode 100644 Documentation/trace/rv/monitor_sched.rst
 
-On 03.02.2025 23:47:20, Reyders Morales wrote:
-> In the current struct sockaddr_can tp is member of can_addr.
-> tp is not member of struct sockaddr_can.
->=20
-> Signed-off-by: Reyders Morales <reyders1@gmail.com>
+diff --git a/Documentation/tools/rv/rv-mon-sched.rst b/Documentation/tools/rv/rv-mon-sched.rst
+new file mode 100644
+index 0000000000000..da0fe4c79ae52
+--- /dev/null
++++ b/Documentation/tools/rv/rv-mon-sched.rst
+@@ -0,0 +1,69 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============
++rv-mon-sched
++============
++-----------------------------
++Scheduler monitors collection
++-----------------------------
++
++:Manual section: 1
++
++SYNOPSIS
++========
++
++**rv mon sched** [*OPTIONS*]
++
++**rv mon <NESTED_MONITOR>** [*OPTIONS*]
++
++**rv mon sched:<NESTED_MONITOR>** [*OPTIONS*]
++
++DESCRIPTION
++===========
++
++The scheduler monitor collection is a container for several monitors to model
++the behaviour of the scheduler. Each monitor describes a specification that
++the scheduler should follow.
++
++As a monitor container, it will enable all nested monitors and set them
++according to OPTIONS.
++Nevertheless nested monitors can also be activated independently both by name
++and by specifying sched: , e.g. to enable only monitor tss you can do any of:
++
++    # rv mon sched:tss
++
++    # rv mon tss
++
++See kernel documentation for further information about this monitor:
++<https://docs.kernel.org/trace/rv/monitor_sched.html>
++
++OPTIONS
++=======
++
++.. include:: common_ikm.rst
++
++NESTED MONITOR
++==============
++
++The available nested monitors are:
++  * scpd: schedule called with preemption disabled
++  * snep: schedule does not enable preempt
++  * sncid: schedule not called with interrupt disabled
++  * snroc: set non runnable on its own context
++  * sco: scheduling context operations
++  * tss: task switch while scheduling
++
++SEE ALSO
++========
++
++**rv**\(1), **rv-mon**\(1)
++
++Linux kernel *RV* documentation:
++<https://www.kernel.org/doc/html/latest/trace/rv/index.html>
++
++AUTHOR
++======
++
++Written by Gabriele Monaco <gmonaco@redhat.com>
++
++.. include:: common_appendix.rst
+diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
+new file mode 100644
+index 0000000000000..24b2c62a3bc26
+--- /dev/null
++++ b/Documentation/trace/rv/monitor_sched.rst
+@@ -0,0 +1,171 @@
++Scheduler monitors
++==================
++
++- Name: sched
++- Type: container for multiple monitors
++- Author: Gabriele Monaco <gmonaco@redhat.com>, Daniel Bristot de Oliveira <bristot@kernel.org>
++
++Description
++-----------
++
++Monitors describing complex systems, such as the scheduler, can easily grow to
++the point where they are just hard to understand because of the many possible
++state transitions.
++Often it is possible to break such descriptions into smaller monitors,
++sharing some or all events. Enabling those smaller monitors concurrently is,
++in fact, testing the system as if we had one single larger monitor.
++Splitting models into multiple specification is not only easier to
++understand, but gives some more clues when we see errors.
++
++The sched monitor is a set of specifications to describe the scheduler behaviour.
++It includes several per-cpu and per-task monitors that work independently to verify
++different specifications the scheduler should follow.
++
++To make this system as straightforward as possible, sched specifications are *nested*
++monitors, whereas sched itself is a *container*.
++From the interface perspective, sched includes other monitors as sub-directories,
++enabling/disabling or setting reactors to sched, propagates the change to all monitors,
++however single monitors can be used independently as well.
++
++It is important that future modules are built after their container (sched, in
++this case), otherwise the linker would not respect the order and the nesting
++wouldn't work as expected.
++To do so, simply add them after sched in the Makefile.
++
++Specifications
++--------------
++
++The specifications included in sched are currently a work in progress, adapting the ones
++defined in by Daniel Bristot in [1].
++
++Currently we included the following:
++
++Monitor tss
++~~~~~~~~~~~
++
++The task switch while scheduling (tss) monitor ensures a task switch happens
++only in scheduling context, that is inside a call to `__schedule`::
++
++                     |
++                     |
++                     v
++                   +-----------------+
++                   |     thread      | <+
++                   +-----------------+  |
++                     |                  |
++                     | schedule_entry   | schedule_exit
++                     v                  |
++    sched_switch                        |
++  +---------------                      |
++  |                       sched         |
++  +-------------->                     -+
++
++Monitor sco
++~~~~~~~~~~~
++
++The scheduling context operations (sco) monitor ensures changes in a task state
++happen only in thread context::
++
++
++                        |
++                        |
++                        v
++    sched_set_state   +------------------+
++  +------------------ |                  |
++  |                   |  thread_context  |
++  +-----------------> |                  | <+
++                      +------------------+  |
++                        |                   |
++                        | schedule_entry    | schedule_exit
++                        v                   |
++                                            |
++                       scheduling_context  -+
++
++Monitor snroc
++~~~~~~~~~~~~~
++
++The set non runnable on its own context (snroc) monitor ensures changes in a
++task state happens only in the respective task's context. This is a per-task
++monitor::
++
++                        |
++                        |
++                        v
++                      +------------------+
++                      |  other_context   | <+
++                      +------------------+  |
++                        |                   |
++                        | sched_switch_in   | sched_switch_out
++                        v                   |
++    sched_set_state                         |
++  +------------------                       |
++  |                       own_context       |
++  +----------------->                      -+
++
++Monitor scpd
++~~~~~~~~~~~~
++
++The schedule called with preemption disabled (scpd) monitor ensures schedule is
++called with preemption disabled::
++
++                       |
++                       |
++                       v
++                     +------------------+
++                     |    cant_sched    | <+
++                     +------------------+  |
++                       |                   |
++                       | preempt_disable   | preempt_enable
++                       v                   |
++    schedule_entry                         |
++    schedule_exit                          |
++  +-----------------      can_sched        |
++  |                                        |
++  +---------------->                      -+
++
++Monitor snep
++~~~~~~~~~~~~
++
++The schedule does not enable preempt (snep) monitor ensures a schedule call
++does not enable preemption::
++
++                        |
++                        |
++                        v
++    preempt_disable   +------------------------+
++    preempt_enable    |                        |
++  +------------------ | non_scheduling_context |
++  |                   |                        |
++  +-----------------> |                        | <+
++                      +------------------------+  |
++                        |                         |
++                        | schedule_entry          | schedule_exit
++                        v                         |
++                                                  |
++                          scheduling_contex      -+
++
++Monitor sncid
++~~~~~~~~~~~~~
++
++The schedule not called with interrupt disabled (sncid) monitor ensures
++schedule is not called with interrupt disabled::
++
++                       |
++                       |
++                       v
++    schedule_entry   +--------------+
++    schedule_exit    |              |
++  +----------------- |  can_sched   |
++  |                  |              |
++  +----------------> |              | <+
++                     +--------------+  |
++                       |               |
++                       | irq_disable   | irq_enable
++                       v               |
++                                       |
++                        cant_sched    -+
++
++References
++----------
++
++[1] - https://bristot.me/linux-task-model
+-- 
+2.48.1
 
-Applied to linux-can.
-
-Thanks,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---vavlqxkz2rpr5b3f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmekbKYACgkQDHRl3/mQ
-kZyqiwgAjN3IlKV06MiTRQNzwmKUCSVPUON3i1AgHOtESn6MJkQmEaHpiUjPIEEQ
-6p6ZokumiGO0EHGw+MbKRAnerJzWt56QkOCoVer8DayWFl8THX5ufU5983SLLzY7
-BrL/qJevmiX2Zn4+M41MWQo6knEKFl0N9JuyCb+ZZPvFXgcVCQgil0nyqLfLZZRg
-kPww8YiZ8iWvDcU4jO3hJL6Khd3M/ERVH4A+aY3ovVIPv7tejdeVNa8o4H0iq6WH
-I6LRz06dSWKPIeZZUDh7rziJZK0BlCQbn2utqRwWGlDSsGlWJIsMwrv1cZW+fwje
-xERmZXyV/8XJ8TeaLrNBSkhytdoCVw==
-=38XI
------END PGP SIGNATURE-----
-
---vavlqxkz2rpr5b3f--
