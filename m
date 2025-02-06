@@ -1,125 +1,94 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m21472.qiye.163.com (mail-m21472.qiye.163.com [117.135.214.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B4C1FF617
-	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 06:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577F9524C
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 07:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.214.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738825123; cv=none; b=AeoEVswU6LcIipE76aM1OH6N+8TvmMMttB+JZHsN5gRVnsjGmoXHMM+yjIhRe1mxuCOlWglcc96+LX9m7m+1cgu8h84XptmTDtRwJ803jxdM3y54SFoBVXIahiuMhUZK3vAjkWGhUhoVuDVuqDHsbbnQJRuv4drKyR+7II+AR5Y=
+	t=1738825427; cv=none; b=IDGJ4Y/bTuyLwQj8vRCUcoBM28TGn1MSYIeJ/UxWtLzWfEi67TOsXlo3iUqlprN9gxwwoInD/o9zmatOXW5ks742ff5n/Kr6WRMAwHpkZaHWLpfMj7rTqC5PUw1SBpMgK+lHhENnli1xPRy+1yDq0u1alwSmYZ7w6ifzPmeBil8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738825123; c=relaxed/simple;
-	bh=og3Aq1IjApPzY4pBlRJEpp2monYtKZMRFoZcCbo2WO8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=g+TUOccyIKHocrh4bYdNWaj6DUiTyJCrTy1WFEe6GOlHqFDk+Jc4BNCIXdsD6h46k3TNsCrv5MPQKmYCHYrKpwV13+ojGq+66P25g6fmTpSI4T3TgfSTxscFp9vsjPadyfDkzrcYMTrtOq7wmsLM1o7rKv6i89HthCwXVGME2W0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=vmnDxC7G; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+	s=arc-20240116; t=1738825427; c=relaxed/simple;
+	bh=3FS7a7B4CGvxIl1bxQXd2Sj9A1R0zNw0wSdXnN8KDQg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=n3DqvnVhUa1vrpcPPz+BD4Xkx8xA2PFufuvlxqQstJczCDDRTtOoyTENQx5vYV0zNjGBW9C+dcwy93d0gdZI6hyP/kgRe2j5g19LGda388ipq7Tajh+SOHBnvP5AB2+C5hgNnp9Dy5szenjiQIjKvLl9W5VFEO3n3K3S5EPU2Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=Y/CZrlOh; arc=none smtp.client-ip=117.135.214.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="vmnDxC7G"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2164b662090so11591945ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Feb 2025 22:58:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1738825121; x=1739429921; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MfkFHRY4BuNO95W0YyldJMDcWeJ1g/mRAGw+u9+CPB0=;
-        b=vmnDxC7Gxchxw1LtQ3i7bSdlDrG0ebeWraoMP4rauxsI9uiJ5x+WxrDyHSIEWhrb0p
-         wjraVaFlMkv16b6IYjG27lol78/n506Ws//dWuJ4sPiUyma+6x3CiRJVc7ZjhHFeEneU
-         yA5j0VaFe53ATkXIMJJ8zr1nAuQT1R2TpUOwnainI2C6d7kh4p4AmArZOLGoJ197SCFs
-         ngwx3rOENpKJlGX2wy8DLXNzl8vDSmoNgSBWiI3zfDp7FyKrxW9qDdhRXo4i61+y8DFm
-         kkfGhfHGGr3rrXObj5zbMB/3FQTxXVU397KqaGCwtPQKG0Qcs+9FdemWZTsf+yuamk0/
-         Hpgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738825121; x=1739429921;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MfkFHRY4BuNO95W0YyldJMDcWeJ1g/mRAGw+u9+CPB0=;
-        b=rxKntBpT8xSVqFLEuYqVkD/+O2SWpqwAUJviUQJLtWy/18UN9EuSiqfg4y2De40Mh7
-         807Sd3fUXOsPYfqzCZFLoY825qf6EXgOV0PSlW9c96bT10y4azvK731k2VHdsXOsyMnT
-         gZrKed7Vr/IDExwqTJT5VScS3Ls16q1e6uHb33M+Q2PqCJYhzoKp906mVvA7nVZz/FUm
-         vnrDc7tYpwJ5KmsxwQL/uGa1dSsf6C3d4lp+pSTNy3pd8xyVIETqIk/aKKJaJJG7C+Dc
-         NtzcqBx7t/fmJgEbelPBLJrGPQGsV2kkfgRVc6TWGjggw2SCWTErI5+i7c3gLlhy9ekz
-         NyBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVSoQIBXjZdVCaWO3F23QdfGY0E5wYeA8uaJwODlbSwMNtRXBP2H57lqsQy1SaCXW6LJp/Gy+e/Qso=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfQuiqqiaHxVcxRCQx38RR1qEAY0SIiMVkctQcDHHxNKL2Aiv+
-	B+lRYdszbInG2ztEvDlCTUPOKRxCKbmG530Lv6CT4CkCj692yBwUO51gIV9TxI0=
-X-Gm-Gg: ASbGncvromq9WCbsI24oCNhNADZ28xZ7x7bQ0A0LsAm7pfrOeykcBYLp6vdtdJrzWTa
-	3f0G6uvwHJSrxxCpzGS9ihshs6WbDAjwA+d2ro/5l9z2iiWu45GO1ZL74G5nHOwtPtHkcr5br1K
-	Xnt6YdVOlMG0X4qi5n9So6wORjaNNsKj0/f9h6KNU8oI7ie7wBCG6/CybDfIR+0hnpkA5Y5d1sm
-	r+7RkcvKkVfmQbMDfw5PRsSjUYemwFRiAHjejkfxXgln+EwrZPk1K9O9PleZXoiyAKNTIz8Bvvm
-	NyNhp3pUNZyrtw81b1zd4GoGO2rq
-X-Google-Smtp-Source: AGHT+IHSHvbDEBE36nUTLqiZtQMOf3j/rI2OoIwM0kMRTh5vyxMjVD4DwGY5i/68BnM7I5tCX5GUew==
-X-Received: by 2002:a05:6a21:1805:b0:1ed:a6d7:3c07 with SMTP id adf61e73a8af0-1ede881f0b3mr9719443637.4.1738825121065;
-        Wed, 05 Feb 2025 22:58:41 -0800 (PST)
-Received: from [157.82.207.107] ([157.82.207.107])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73048ad292dsm590546b3a.61.2025.02.05.22.58.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Feb 2025 22:58:40 -0800 (PST)
-Message-ID: <1c2a1bd6-9ce9-47d8-b89d-1a647575ce07@daynix.com>
-Date: Thu, 6 Feb 2025 15:58:34 +0900
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="Y/CZrlOh"
+Received: from localhost.localdomain (unknown [1.193.57.36])
+	by smtp.qiye.163.com (Hmail) with ESMTP id a46ac897;
+	Thu, 6 Feb 2025 10:27:42 +0800 (GMT+08:00)
+From: zhangwei <zhangwei@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhaoshuo@cqsoftware.com.cn,
+	zhaoyuehui@cqsoftware.com.cn,
+	maoyuxian@cqsoftware.com.cn,
+	linux-doc@vger.kernel.org,
+	zhangwei <zhangwei@cqsoftware.com.cn>
+Subject: [PATCH 3/3] Translate .../security/secrets/index.rst into Chinese
+Date: Thu,  6 Feb 2025 10:26:48 +0800
+Message-ID: <3e62158115e2e2bae2a14ab92f8334331b201434.1738807847.git.zhangwei@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1738807847.git.zhangwei@cqsoftware.com.cn>
+References: <cover.1738807847.git.zhangwei@cqsoftware.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 5/7] tun: Extract the vnet handling code
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Jason Wang <jasowang@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>,
- Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
- devel@daynix.com
-References: <20250205-tun-v5-0-15d0b32e87fa@daynix.com>
- <20250205-tun-v5-5-15d0b32e87fa@daynix.com>
- <67a3d44d44f12_170d392947c@willemb.c.googlers.com.notmuch>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <67a3d44d44f12_170d392947c@willemb.c.googlers.com.notmuch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZHk9IVkxIS01PShpISUMfS1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVITVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
+	JLS1kG
+X-HM-Tid: 0a94d915a70e03abkunma46ac897
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MCo6Eww*ITIKHgkoLlYdKjEz
+	LBZPCQNVSlVKTEhDQ0tDQ01IT0pDVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkxVSE1ZV1kIAVlBQkxMNwY+
+DKIM-Signature:a=rsa-sha256;
+	b=Y/CZrlOhibNFVngQziH5NkytSTLsUJ6yogJOEIzRQMoaCPboc9+t+Jk03QcU+1jVhy6aAKtMAHW2ls4ysfQ4voV4elPEKhDxLbS7uW5lG5uuVEzibxS1AGwuv9wbYg93xoh5SJjEiv6DSwxG1sxFX5w68NqDOx8nBP9Q6enRBFo=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
+	bh=ZE8oydAjAa283gxpQGc+8YS5Zu14A1NjqWhrZEosJbQ=;
+	h=date:mime-version:subject:message-id:from;
 
-On 2025/02/06 6:12, Willem de Bruijn wrote:
-> Akihiko Odaki wrote:
->> The vnet handling code will be reused by tap.
->>
->> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->> ---
->>   MAINTAINERS            |   2 +-
->>   drivers/net/tun.c      | 179 +----------------------------------------------
->>   drivers/net/tun_vnet.h | 184 +++++++++++++++++++++++++++++++++++++++++++++++++
->>   3 files changed, 187 insertions(+), 178 deletions(-)
-> 
->> -static inline bool tun_legacy_is_little_endian(unsigned int flags)
->> -{
->> -	return !(IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) &&
->> -		 (flags & TUN_VNET_BE)) &&
->> -		virtio_legacy_is_little_endian();
->> -}
-> 
->> +static inline bool tun_vnet_legacy_is_little_endian(unsigned int flags)
->> +{
->> +	return !(IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) &&
->> +		 (flags & TUN_VNET_BE)) &&
->> +		virtio_legacy_is_little_endian();
->> +}
-> 
-> In general LGTM. But why did you rename functions while moving them?
-> Please add an explanation in the commit message for any non obvious
-> changes like that.
+Update the translation through commit 7419995a331c
+("docs: security: Add secrets/coco documentation")
 
-I renamed them to clarify they are in a distinct, decoupled part of 
-code. It was obvious in the previous version as they are static 
-functions contained in a translation unit, but now they are part of a 
-header file so I'm clarifying that with this rename. I will add this 
-explanation to the commit message.
+Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
+---
+ .../zh_CN/security/secrets/index.rst           | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/security/secrets/index.rst
+
+diff --git a/Documentation/translations/zh_CN/security/secrets/index.rst b/Documentation/translations/zh_CN/security/secrets/index.rst
+new file mode 100644
+index 000000000000..bc360522135e
+--- /dev/null
++++ b/Documentation/translations/zh_CN/security/secrets/index.rst
+@@ -0,0 +1,18 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/security/secrets/index.rst
++
++:翻译:
++ 张巍 Wei Zhang <zhangwei@cqsoftware.com.cn>
++
++=====================
++密钥文档
++=====================
++
++.. toctree::
++
++
++TODOLIST:
++
++* coco
+-- 
+2.47.1
+
