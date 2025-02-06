@@ -1,91 +1,84 @@
-Received: from mail-m3288.qiye.163.com (mail-m3288.qiye.163.com [220.197.32.88])
+Received: from unicom146.biz-email.net (unicom146.biz-email.net [210.51.26.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B851B15B10D
-	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 09:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7480B12B94;
+	Thu,  6 Feb 2025 09:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.26.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738833065; cv=none; b=CAJCxk0TfFwo779huNy708LBoH7LlUVLdkPQ1YyXlBbmeA3G7saYkE0GJB/16wN5qydTZ0Jgg7qF5fK2s6bgTkcBGYts+mRL3TUl9q3d2Nw5YcG3CwrNa1p7kehjgxZdtqHQXpQ1Vi7P0fg3fXWjdVBr4vVDUZZOYnRndERpNxQ=
+	t=1738833423; cv=none; b=bTrkyUSMA3MlufX1gnQLp6DXEEbFqVKHfjmBzu41pm9uKxgRJ/G2ZhCGxD4EQWDBsL6wkdW2rjC4TRcmsYAmoXv8tQGO2NLrDG1TVzfCyrNeptExvRiQbdFT8eP1AhLMWHk2F8LWGFPBB5pgXxU65lexXtmUCdV7G3Jcycalv1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738833065; c=relaxed/simple;
-	bh=UUe7zqsK9R8R0GZjgCi/GJIsPenPnBTS936aWBRKrc8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EtcoAKNPaIRMZgxDuTppKVHzfdt5HlJoU85yYFpDsyGd+xTsVPB8rXyuKYyJjkMHnF0tBvtl6OjoemIS+T+QE/nm22Y4T0xBYcxNbhJ3ouOa5pVQezypgcc2TuBelu5w0CxM5+SpcaaDL4ibb8xsIWf58FAJpXRuIflL0+YSvL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=fFR6cGq9; arc=none smtp.client-ip=220.197.32.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="fFR6cGq9"
-Received: from [192.168.6.2] (unknown [1.193.57.36])
-	by smtp.qiye.163.com (Hmail) with ESMTP id a5118189;
-	Thu, 6 Feb 2025 17:10:51 +0800 (GMT+08:00)
-Message-ID: <52f55e71-c48e-45fd-8d5e-876264cc1fc7@cqsoftware.com.cn>
-Date: Thu, 6 Feb 2025 17:10:50 +0800
+	s=arc-20240116; t=1738833423; c=relaxed/simple;
+	bh=J4Jw6hCfAnfFcT8LYUjoO+YszJi+kEUP6N7RQM56PQ0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J8+9ZIokNpglmlYxla245GvUH4As7F+S6GvFwyy+3f0XJTjw3KoBEoXIu8tNHzkmeXGEFHGXNC02QphYAPql5aFprl6dcH3ePCHP7d2z6g+94XWpdITGPyehW5YO4hfH4EQPqhUe/f7CRX8xlNIcn40bI/ocAqgR1xls+ZwCp3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com; spf=pass smtp.mailfrom=inspur.com; arc=none smtp.client-ip=210.51.26.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspur.com
+Received: from unicom146.biz-email.net
+        by unicom146.biz-email.net ((D)) with ASMTP (SSL) id EDW00134;
+        Thu, 06 Feb 2025 17:15:34 +0800
+Received: from localhost.localdomain (10.94.12.153) by
+ jtjnmail201609.home.langchao.com (10.100.2.9) with Microsoft SMTP Server id
+ 15.1.2507.39; Thu, 6 Feb 2025 17:15:33 +0800
+From: Charles Han <hanchunchao@inspur.com>
+To: <mkl@pengutronix.de>, <manivannan.sadhasivam@linaro.org>,
+	<thomas.kopp@microchip.com>, <mailhol.vincent@wanadoo.fr>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <cem@kernel.org>,
+	<djwong@kernel.org>, <corbet@lwn.net>
+CC: <linux-can@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-xfs@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, Charles Han <hanchunchao@inspur.com>
+Subject: [PATCH] Documentation: Remove repeated word in docs
+Date: Thu, 6 Feb 2025 17:15:29 +0800
+Message-ID: <20250206091530.4826-1-hanchunchao@inspur.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [lwn:docs-next 9/11] htmldocs: Warning:
- Documentation/translations/zh_CN/security/credentials.rst references a file
- that doesn't exist: Documentation/translations/zh_CN/security/keys/*
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Yanteng Si <si.yanteng@linux.dev>,
- Alex Shi <alexs@kernel.org>
-References: <202502050403.uFwUnStI-lkp@intel.com>
-From: zhaoshuo <zhaoshuo@cqsoftware.com.cn>
-In-Reply-To: <202502050403.uFwUnStI-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaTh1PVkoYTkhCH05KQx4YTFYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVITVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
-	JLS1kG
-X-HM-Tid: 0a94da86c07b09d0kunma5118189
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Myo6CSo4ETIJSwgvDxoTKiMc
-	Dj4wFBZVSlVKTEhDQ0hIS05JTEhIVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSlVKQkhVTkxVSE1ZV1kIAVlBSU9JQjcG
-DKIM-Signature:a=rsa-sha256;
-	b=fFR6cGq9eJOcdeLcxiyLxH0B/Qm9+JnAfg0obiDaMYiGwJsCpMveo3+tWuxQXBtD1qwG9Bz7d7M1cX782OG15xsUXoM+qLBwtsfB0ZEyN1EQB/FNxLDgMORrnrTGV8jsCSZKrsE6DcNb1g1BPzlHuo2wut8Lwdo3naMMzr1cYp0=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=cyRk1f9a3qigXehXxrwyIBWgGE9b9zqiTJzAb5RTp18=;
-	h=date:mime-version:subject:message-id:from;
+tUid: 2025206171534bc23d4d50169965adca0608dc6528377
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 
+Remove the repeated word "to" docs.
 
-在 2025/2/5 4:55, kernel test robot 写道:
-> tree:   git://git.lwn.net/linux.git docs-next
-> head:   e8bcda12176c47f2ce6c5104955845d028a640e8
-> commit: f5c7cc77acf5abebc5aec4f4236954c23f29e09b [9/11] docs/zh_CN: Add security credentials Chinese translation
-> reproduce: (https://download.01.org/0day-ci/archive/20250205/202502050403.uFwUnStI-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502050403.uFwUnStI-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->     Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
->     Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
->     Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
->     Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
->     Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
->>> Warning: Documentation/translations/zh_CN/security/credentials.rst references a file that doesn't exist: Documentation/translations/zh_CN/security/keys/*
+Signed-off-by: Charles Han <hanchunchao@inspur.com>
+---
+ .../devicetree/bindings/net/can/microchip,mcp251xfd.yaml        | 2 +-
+ Documentation/filesystems/xfs/xfs-online-fsck-design.rst        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml b/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml
+index 2a98b26630cb..c155c9c6db39 100644
+--- a/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml
++++ b/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml
+@@ -40,7 +40,7 @@ properties:
+ 
+   microchip,rx-int-gpios:
+     description:
+-      GPIO phandle of GPIO connected to to INT1 pin of the MCP251XFD, which
++      GPIO phandle of GPIO connected to INT1 pin of the MCP251XFD, which
+       signals a pending RX interrupt.
+     maxItems: 1
+ 
+diff --git a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+index 12aa63840830..994f9e5638ee 100644
+--- a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
++++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+@@ -4521,7 +4521,7 @@ Both online and offline repair can use this strategy.
+ | For this second effort, the ondisk parent pointer format as originally   |
+ | proposed was ``(parent_inum, parent_gen, dirent_pos) → (dirent_name)``.  |
+ | The format was changed during development to eliminate the requirement   |
+-| of repair tools needing to to ensure that the ``dirent_pos`` field       |
++| of repair tools needing to ensure that the ``dirent_pos`` field       |
+ | always matched when reconstructing a directory.                          |
+ |                                                                          |
+ | There were a few other ways to have solved that problem:                 |
+-- 
+2.43.0
 
-
-Ok，This document will be added later.
-
-Thanks，
-
-ZhaoShuo
-
->     Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
->     Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
->     Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->     Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
->     Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
->
