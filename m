@@ -1,224 +1,279 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D2C23644D;
-	Thu,  6 Feb 2025 14:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BD123644D;
+	Thu,  6 Feb 2025 14:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738853223; cv=none; b=p1Tmhl2/4aHAECPpnmhdnvjbOM6qTVXhiNCdZyNdGyxrPcajY5kujdGbgF1H/Y7at+ArGPv4vVjJyvySLV1/FOTQ7Vaw8PJdEAdsUYrPlDt5i36FIM1sRg0MqPh6ulCE1x2Zq4PEF30lovnV1M9M7TQj7TbvGjoaNeYw37t2btQ=
+	t=1738853358; cv=none; b=I7lceZ3y8fFw6OcHoUEJPD6jRaEVlEPyVABkNL3lPgH1b+NNR4AOzP/TBbqypeQwuioAXCycAzWJ1iY66qB+KxAov12DvLaRvK2MfQjzyBpKpyBuPFUXZmOxah5XgdPqW2d5YsVvv0bhabEcEmPD4fb7Of0DCuio4WJQpV9pSn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738853223; c=relaxed/simple;
-	bh=BEO2KJS5XZoEhfdp2Sdo2BYa4e1Ky164SYHEhGEyQ3g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tekzni5k02UwA1PG70K046cXuqmmtyvQ4RpFHJwp2ytvTJok3yt1kOtcgUf+n4RQWySoAsdiHRr0vYvAWWOfurKOcV5+/7IbeG+vOaKW2a6lnkl8Q+r35hx/6yrJoeCiJQoYfZKC1y4S58J7EYIQrl/Y4/ih33Plyn2sqMDsor8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=nkP/qXhw; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1738853358; c=relaxed/simple;
+	bh=cO9xv/pgkriWpvpU7X8se6LkKHWu8m6H7ZLMTtebHOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T7WpoeaGis1MWEE/x8fQcMtz+h9lpqKLfhUhSxofxIXibqK34uw1ojbulnq/0bFimsX9VGSP0WmR48+EtJ2XfZUjoqCmlea2vJxBQQrwIxiQapjy9jfUR7H/b45hRd6SSTEFOseA7XU9bo8V+Hs//0g6bpbCahxXm86gIpWQjYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dil55C2w; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="nkP/qXhw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
-	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
-	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=2MKzDAWIHrqoLoPImA1+pvUzX0z2r66l7z8LOxhCvOE=; t=1738853220; x=1739285220; 
-	b=nkP/qXhwtkZxqlWBQlA8tK2yKB2meNX7lt7nDKP+wn8T9cTgh+8Hhr1QszRU+W81SdpAr4FfSIC
-	VV/8pgmQ100RcJDXtPvxRUSILKyW9nL+uI516IcqBlEA+f8dIxDlOQaNMlbjIaVOtNVA0EcCfV9zh
-	2kyYxhsdkG8M5EokeWmy7zovWZ/aZp1UZf3iyTQdR91IT80es97d5aZPWITYWvIVZ/3io4O4S+zhf
-	0gyCqoVU6ZJpQDOXWk6wUTGKYqsB4PQkBJAvVedgeyId6eHsmpFPPUhBWFOf29Lf78AxAV75w4SH1
-	52D8Ia4fPAkWN7U6Jxj96YVRVsz3P+ZuvjvQ==;
-Received: from ip4d148d89.dynamic.kabel-deutschland.de ([77.20.141.137] helo=truhe.fritz.box); authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	id 1tg2tP-006f3e-2V;
-	Thu, 06 Feb 2025 15:30:12 +0100
-From: Thorsten Leemhuis <linux@leemhuis.info>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v4] docs: clarify rules wrt tagging other people
-Date: Thu,  6 Feb 2025 15:30:10 +0100
-Message-ID: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.45.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dil55C2w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B64EAC4CEE2;
+	Thu,  6 Feb 2025 14:49:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738853357;
+	bh=cO9xv/pgkriWpvpU7X8se6LkKHWu8m6H7ZLMTtebHOw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Dil55C2wPV6WwA5bRmSX6PDp1N2edfxKwYV1n42K/UoFdcBNA4nPrhMaadior8tu3
+	 tdq+m5zvIJ4BYU5kFKlFfs2zQSlzjZHNME6xCEXsAWuoD6oUYFsJ8LRV4+Vo1JGWjI
+	 rXyD1IcWnu8QdfAib3+OM315k7cUtfC3YdVFc1TOPNYaKlUExZPKhAEYyNIqs39mRA
+	 BAUTw7VzppECtPNUfxnLGvfhJNUfdgFHxyuknoOey7RKQJjMTYsVynuBvOIx22eBeN
+	 Td9SBYYEKvVGX1sRBfCcIEKnrh7UNHuMDU7gHbqNvJNejvvPtc0AdYnBXkTagl1hiZ
+	 51iHWqVTbhJUg==
+Date: Thu, 6 Feb 2025 15:49:09 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
+	pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
+	jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
+	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	Nouveau <nouveau-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH v2 1/2] gpu: nova-core: add initial driver stub
+Message-ID: <Z6TL5a5SCZoVq8Zt@cassiopeiae>
+References: <20250204190400.2550-1-dakr@kernel.org>
+ <D7LF554L2J0N.JRPHDUCHVKP3@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1738853220;fd75dc04;
-X-HE-SMSGID: 1tg2tP-006f3e-2V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D7LF554L2J0N.JRPHDUCHVKP3@nvidia.com>
 
-Point out that explicit permission is usually needed to tag other people
-in changes, but mention that implicit permission can be sufficient in
-certain cases. This fixes slight inconsistencies between Reported-by:
-and Suggested-by: and makes the usage more intuitive.
+Hi Alexandre,
 
-While at it, explicitly mention the dangers of our bugzilla instance, as
-it makes it easy to forget that email addresses visible there are only
-shown to logged-in users.
+On Thu, Feb 06, 2025 at 11:05:37PM +0900, Alexandre Courbot wrote:
+> > +
+> > +/// Enum representation of the GPU chipset.
+> > +#[derive(fmt::Debug)]
+> 
+> I suspect you will eventually want to also derive Copy and Clone, as
+> well as PartialEq and Eq (so the assigned values can be used), but it's
+> of course fine to postpone this until we actually need them.
 
-The latter is not a theoretical issue, as one maintainer mentioned that
-his employer received a EU GDPR (general data protection regulation)
-complaint after exposing a email address used in bugzilla through a tag
-in a patch description.
+Indeed, the idea is to add it as needed.
 
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
----
+> 
+> Note that the usage made of Debug suggests that you actually want
+> Display - but I understand that implementing Display would be more
+> cumbersome.
+> 
+> > +
+> > +// TODO replace with something like derive(FromPrimitive)
+> > +impl Chipset {
+> > +    fn from_u32(value: u32) -> Option<Chipset> {
+> > +        match value {
+> > +            0x162 => Some(Chipset::TU102),
+> > +            0x164 => Some(Chipset::TU104),
+> > +            0x166 => Some(Chipset::TU106),
+> > +            0x167 => Some(Chipset::TU117),
+> > +            0x168 => Some(Chipset::TU116),
+> > +            0x172 => Some(Chipset::GA102),
+> > +            0x173 => Some(Chipset::GA103),
+> > +            0x174 => Some(Chipset::GA104),
+> > +            0x176 => Some(Chipset::GA106),
+> > +            0x177 => Some(Chipset::GA107),
+> > +            0x192 => Some(Chipset::AD102),
+> > +            0x193 => Some(Chipset::AD103),
+> > +            0x194 => Some(Chipset::AD104),
+> > +            0x196 => Some(Chipset::AD106),
+> > +            0x197 => Some(Chipset::AD107),
+> > +            _ => None,
+> > +        }
+> > +    }
+> > +}
+> 
+> Shouldn't this be an implementation of TryFrom<u32>? By doing so you can
+> return ENODEV as the error and simplify the caller code below.
 
-Jonathan, what do you think of this? I felt somewhat unsure about this a
-few weeks ago, but I guess I was overly careful. If you think this
-change is fine and shouldn't cause any trouble for anyone, feel free to
-merge this. And if not, please speak up.
+Yes, it should be. I wanted to change that, but forgot about it. Thanks for the
+reminder.
 
-Note: this triggers a few checkpatch.pl complaints that are irrelevant
-when when to comes to changes like this.
+But ultimately, as the comment says, I'd like to have some kind of FromPrimitive
+implementation for that.
 
-v4:
-- slight wording change to make a implicity aspect explicit, as pointed
-  out by Mauro
-- Add reviewed-bys from Mauro and Shuah
-- The number of reviewed-bys is still smal, nevertheless drop the
-  DONOTMERGE and hole that Jonathan will speak up if he thinks this is
-  a stupid move.
+> 
+> > +
+> > +// TODO:
+> > +// - replace with something like derive(FromPrimitive)
+> > +// - consider to store within Chipset, if arbitrary_enum_discriminant becomes stable
+> > +impl Architecture {
+> > +    fn from_u32(value: u32) -> Option<Architecture> {
+> > +        match value {
+> > +            0x16 => Some(Architecture::Turing),
+> > +            0x17 => Some(Architecture::Ampere),
+> > +            0x19 => Some(Architecture::Ada),
+> > +            _ => None,
+> > +        }
+> > +    }
+> > +}
+> > +
+> > +impl Revision {
+> > +    fn new(major: u8, minor: u8) -> Self {
+> > +        Self { major, minor }
+> > +    }
+> 
+> Suggestion: add a version that takes a Boot0 as argument and call the
+> right methods directly in the method instead of relying on the caller to
+> do that for us, e.g:
+> 
+>     fn from_boot0(boot0: &regs::Boot0) -> Self {
+>         Self::new(boot0.major_rev(), boot0.minor_rev())
+>     }
+> 
+> 
+> Then new() can also be removed if Boot0 is the only sensible source of
+> Revision.
 
-v3: https://lore.kernel.org/all/c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info/
-- try yet again from a slightly different angle which loosens the rules
-  slightly. This from review feedback to earlier versions is apparently
-  what other developers want and from their "no lawyer" perspective
-  consider to be okay. As IANAL myself I don't feel totally comfortable
-  with this and have no idea if this legally is sound, so tag patch with
-  "DONOTMERGE" for now; will remove this for v4 if enough people add a
-  "Reviewed-by". Otherwise the story of this patch might end here, unless
-  someone else submits it for inclusion (you are free to do so!).
-- remote patch adding Suggested-by: tag to 5.Posting and submit it
-  separately
+That's a good suggestion, I'll pick that up.
 
-v2: https://lore.kernel.org/all/cover.1731749544.git.linux@leemhuis.info/
-- Retry differently. This slightly hardens the rule for Reported-by:
-  while slightly lessening it for Suggested-by:. Those in the end are
-  quite similar, so it does not make much sense to apply different ones.
-  I considered using an approach along the lines of "if you reported it
-  in pubic by mail, implicit permission to use in a tag is granted"; but
-  I abstained from it, as I assume there are good reasons for the
-  existing approach regarding Suggested-by:.
-- CC all the people that provided feedback on the text changes in v1
+> 
+> (I'd argue that Boot0 should also implement Copy, that way this method
+> can take it by value directly)
+> 
+> > +}
+> > +
+> > +impl fmt::Display for Revision {
+> > +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+> > +        write!(f, "{:x}.{:x}", self.major, self.minor)
+> > +    }
+> > +}
+> > +
+> > +impl Spec {
+> > +    fn new(bar: &Devres<Bar0>) -> Result<Spec> {
+> > +        let bar = bar.try_access().ok_or(ENXIO)?;
+> > +        let boot0 = regs::Boot0::read(&bar);
+> > +
+> > +        let Some(chipset) = Chipset::from_u32(boot0.chipset()) else {
+> > +            return Err(ENODEV);
+> > +        };
+> > +
+> > +        let Some(arch) = Architecture::from_u32(boot0.arch()) else {
+> > +            return Err(ENODEV);
+> > +        };
+> 
+> Technically the Architecture is already known if the Chipset has been
+> built successfully, so there should be no need to build it again (and
+> test for a failure that cannot happen at this point).
+> 
+> Since the architecture information is already embedded in Chipset, maybe
+> we can have an arch() method there?
+> 
+> Something like:
+> 
+>     impl Chipset {
+>         pub(crate) fn arch(self) -> Architecture {
+>             match self as u32 & !0xf {
+>                 0x160 => Architecture::Turing,
+>                 0x170 => Architecture::Ampere,
+>                 0x190 => Architecture::Ada,
+>                 _ => unreachable!(),
+>             }
+>         }
+>     }
 
-v1: https://lore.kernel.org/all/f5bc0639a20d6fac68062466d5e3dd0519588d08.1731486825.git.linux@leemhuis.info/
-- initial version
----
- Documentation/process/5.Posting.rst          | 13 +++++--
- Documentation/process/submitting-patches.rst | 39 ++++++++++++++------
- 2 files changed, 36 insertions(+), 16 deletions(-)
+I thought about this, which is also why the comment above says: "consider to
+store within Chipset, if arbitrary_enum_discriminant becomes stable".
 
-diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-index dbb763a8de901d..22fa925353cf54 100644
---- a/Documentation/process/5.Posting.rst
-+++ b/Documentation/process/5.Posting.rst
-@@ -268,10 +268,15 @@ The tags in common use are:
-  - Cc: the named person received a copy of the patch and had the
-    opportunity to comment on it.
- 
--Be careful in the addition of tags to your patches, as only Cc: is appropriate
--for addition without the explicit permission of the person named; using
--Reported-by: is fine most of the time as well, but ask for permission if
--the bug was reported in private.
-+Be careful in the addition of the aforementioned tags to your patches, as all
-+except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
-+person named. For those three implicit permission is sufficient if the person
-+contributed to the Linux kernel using that name and email address according
-+to the lore archives or the commit history -- and in case of Reported-by:
-+and Suggested-by: did the reporting or suggestion in public. Note,
-+bugzilla.kernel.org is a public place in this sense, but email addresses
-+used there are private; so do not expose them in tags, unless the person
-+used them in earlier contributions.
- 
- 
- Sending the patch
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 8fdc0ef3e604f4..72f6de419ccc4c 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -495,10 +495,10 @@ list archives.  A "# Suffix" may also be used in this case to clarify.
- 
- If a person has had the opportunity to comment on a patch, but has not
- provided such comments, you may optionally add a ``Cc:`` tag to the patch.
--This is the only tag which might be added without an explicit action by the
--person it names - but it should indicate that this person was copied on the
--patch.  This tag documents that potentially interested parties
--have been included in the discussion.
-+This tag documents that potentially interested parties have been included in
-+the discussion. Note, this is one of only three tags you might be able to use
-+without explicit permission of the person named (see 'Tagging people requires
-+permission' below for details).
- 
- Co-developed-by: states that the patch was co-created by multiple developers;
- it is used to give attribution to co-authors (in addition to the author
-@@ -544,9 +544,9 @@ hopefully inspires them to help us again in the future. The tag is intended for
- bugs; please do not use it to credit feature requests. The tag should be
- followed by a Closes: tag pointing to the report, unless the report is not
- available on the web. The Link: tag can be used instead of Closes: if the patch
--fixes a part of the issue(s) being reported. Please note that if the bug was
--reported in private, then ask for permission first before using the Reported-by
--tag.
-+fixes a part of the issue(s) being reported. Note, the Reported-by tag is one
-+of only three tags you might be able to use without explicit permission of the
-+person named (see 'Tagging people requires permission' below for details).
- 
- A Tested-by: tag indicates that the patch has been successfully tested (in
- some environment) by the person named.  This tag informs maintainers that
-@@ -596,11 +596,11 @@ Usually removal of someone's Tested-by or Reviewed-by tags should be mentioned
- in the patch changelog (after the '---' separator).
- 
- A Suggested-by: tag indicates that the patch idea is suggested by the person
--named and ensures credit to the person for the idea. Please note that this
--tag should not be added without the reporter's permission, especially if the
--idea was not posted in a public forum. That said, if we diligently credit our
--idea reporters, they will, hopefully, be inspired to help us again in the
--future.
-+named and ensures credit to the person for the idea: if we diligently credit
-+our idea reporters, they will, hopefully, be inspired to help us again in the
-+future. Note, this is one of only three tags you might be able to use without
-+explicit permission of the person named (see 'Tagging people requires
-+permission' below for details).
- 
- A Fixes: tag indicates that the patch fixes an issue in a previous commit. It
- is used to make it easy to determine where a bug originated, which can help
-@@ -618,6 +618,21 @@ Finally, while providing tags is welcome and typically very appreciated, please
- note that signers (i.e. submitters and maintainers) may use their discretion in
- applying offered tags.
- 
-+.. _tagging_people:
-+
-+Tagging people requires permission
-+----------------------------------
-+
-+Be careful in the addition of the aforementioned tags to your patches, as all
-+except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
-+person named. For those three implicit permission is sufficient if the person
-+contributed to the Linux kernel using that name and email address according
-+to the lore archives or the commit history -- and in case of Reported-by:
-+and Suggested-by: did the reporting or suggestion in public. Note,
-+bugzilla.kernel.org is a public place in this sense, but email addresses
-+used there are private; so do not expose them in tags, unless the person
-+used them in earlier contributions.
-+
- .. _the_canonical_patch_format:
- 
- The canonical patch format
+I did not go with what you suggest because it leaves us with either
+Chipset::arch() returning a Result, which is annoying, or with Chipset::arch()
+being able to panic the kernel, which I'd dislike even more.
 
-base-commit: e8bcda12176c47f2ce6c5104955845d028a640e8
--- 
-2.45.0
+There's also a third option, which would be to have some kind of unknown
+architecture, which we could catch later on, but that's just a worse variation
+of returning a Result.
 
+Another reason was that I did not want to encode register specific masks into
+the Chipset type.
+
+> 
+> 
+> This would also enable us to remove Architecture::from_u32() and
+> Spec::arch, which is redundant with Spec::chipset anyway.
+> 
+> A better (but more verbose) implementation of Chipset::arch() might be
+> to match every possible variant, so we get a build error if we forget to
+> handle a new chipset instead of hitting the unreachable!() at runtime...
+
+I think that would indeed be a reasonable option.
+
+> 
+> > +
+> > +        let revision = Revision::new(boot0.major_rev(), boot0.minor_rev());
+> > +
+> > +        Ok(Self {
+> > +            arch,
+> > +            chipset,
+> > +            revision,
+> > +        })
+> > +    }
+> > +}
+> > +
+> > +impl Firmware {
+> > +    fn new(dev: &device::Device, spec: &Spec, ver: &str) -> Result<Firmware> {
+> > +        let mut chip_name = CString::try_from_fmt(fmt!("{:?}", spec.chipset))?;
+> > +        chip_name.make_ascii_lowercase();
+> > +
+> > +        let fw_booter_load_path =
+> > +            CString::try_from_fmt(fmt!("nvidia/{}/gsp/booter_load-{}.bin", &*chip_name, ver))?;
+> > +        let fw_booter_unload_path =
+> > +            CString::try_from_fmt(fmt!("nvidia/{}/gsp/booter_unload-{}.bin", &*chip_name, ver))?;
+> > +        let fw_bootloader_path =
+> > +            CString::try_from_fmt(fmt!("nvidia/{}/gsp/bootloader-{}.bin", &*chip_name, ver))?;
+> > +        let fw_gsp_path =
+> > +            CString::try_from_fmt(fmt!("nvidia/{}/gsp/gsp-{}.bin", &*chip_name, ver))?;
+> > +
+> > +        let booter_load = firmware::Firmware::request(&fw_booter_load_path, dev)?;
+> > +        let booter_unload = firmware::Firmware::request(&fw_booter_unload_path, dev)?;
+> > +        let bootloader = firmware::Firmware::request(&fw_bootloader_path, dev)?;
+> > +        let gsp = firmware::Firmware::request(&fw_gsp_path, dev)?;
+> > +
+> > +        Ok(Firmware {
+> > +            booter_load,
+> > +            booter_unload,
+> > +            bootloader,
+> > +            gsp,
+> > +        })
+> 
+> This looks like a good opportunity to use a closure and avoid
+> repeating the code:
+> 
+>     let request_fw = |type_| {
+>         CString::try_from_fmt(fmt!("nvidia/{}/gsp/{}-{}.bin", type_, &*chip_name, ver))
+>             .and_then(|path| firmware::Firmware::request(&path, dev))
+>     };
+> 
+> It is also short enough that you can directly invoke it when building
+> the Firmware object, without using temporary variables:
+> 
+>     Ok(Firmware {
+>         booter_load: request_fw("booter_load")?,
+>         booter_unload: request_fw("booter_unload")?,
+>         bootloader: request_fw("bootloader")?,
+>         gsp: request_fw("gsp")?,
+>     })
+> 
+> IMHO this has the benefit of being more concise and keeping related
+> operations closer.
+
+I agree, that's pretty clean.
+
+> 
+> Thanks!
+> Alex.
+> 
