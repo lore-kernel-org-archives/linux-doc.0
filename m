@@ -1,153 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632591CD2B;
-	Thu,  6 Feb 2025 00:57:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00A12BB13
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 01:06:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738803438; cv=none; b=jVcp2Gp6qL5i/X0sltHJkmq25v7bou0k7DDkmc8opUDHfrptq+2fnlaJE2ioZJiFSIlgZQWmBWmZOCqX33hbnsAcQSaOKi0coDatfYuDfCR/CzNcIsR0vFFTPMqc4CNe8sfYaQ7XdBCaC93YEFbug+DvS9Y8fVWxsmCvVkrympQ=
+	t=1738803973; cv=none; b=hmmdgftqFnZilMcJXdfkyE7rdf5jxBgNp14W/BVuSxRAccumV7rr0dmmEFXg5uZ+Ggn+mVJdxn7lHmt+UVvx+LMQujE3riCz9eyMT0c3LySRf0BSfHy9FOdFDf3+GqNolEp9m2N1Ilk1crnPNZdOHCvmKp4v5sH3kKSGMyyU07A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738803438; c=relaxed/simple;
-	bh=iQ485Cw0pY8pQXFxZIajrEafX7DgvWFJ9mqOOPLKz+k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H1+szkPtMJvGlMqZsRdEaT7vGih38lST1PlgJB+Im2AUco3iWznuLBvjyFr+mJQ9dZDj+keb0SUVJmDeSzLARRAisF+1B9P79ZABEA4T/J3SPafLjDPzu8GsDaBV7KR3RnKOFSpVxnXv6KacjmbvPhCws+JvdHXY27sQcpMsfL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gkms5PKZ; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738803973; c=relaxed/simple;
+	bh=IXC13o6D8+SRcnZ4bUuI8mYmE2RIqCqJ9wgb+sl11jc=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=uYY93XVYN+w0utVmgCvpKCMBbyYl9nQ3TINRenlpHQJvDnEcObCPeVSdbS8blCd+qljzUhmeorG0xYRkhAhoB8PIVtjoQ03a/cjzp+PC8N4GYZgsZdCtGVfP34yIkabwOaReQNefkItgj5IWPjCZxysPREXa/c0VLYZd58YNE2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jrtc27.com; spf=pass smtp.mailfrom=jrtc27.com; dkim=pass (2048-bit key) header.d=jrtc27.com header.i=@jrtc27.com header.b=ioCHvCoI; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jrtc27.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jrtc27.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gkms5PKZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738803436; x=1770339436;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=iQ485Cw0pY8pQXFxZIajrEafX7DgvWFJ9mqOOPLKz+k=;
-  b=gkms5PKZRf7JbBdqOXVzwKPXgN19JCyIuIX6/DS+zU51hE1YV+Uqk1np
-   QAsdsGfy5iUaTbcqNSaV3LAL+yS/npBhvHMdB1+Wr4GiNRQlp65H2+Xcs
-   wMHpeW1uwBwEQ5zGy4wfijtH7kYuW8FXddEiauTHiFt1I5b0wlOsD+zqX
-   EEPA/aIrL8w4mEefWQGA/A0fJQzjnWAyBLoZPgFa/8YncG7DGtuQ0ZZGE
-   1HA6JvPuMaLj9T1dQnNEeX95qyvDq3P0XC0KuiDZ7ZhxVtqtQdmb62bI2
-   asgvg0Fk+AV6c7p8E08+syMaAUTKpnPrMrwuwQkEx8zJs8ooJDQQ4KzEh
-   w==;
-X-CSE-ConnectionGUID: o3G88JEOQQuuHsw6f+3KXA==
-X-CSE-MsgGUID: SIDZwTJsSN2a6ysNEE6g6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42231268"
-X-IronPort-AV: E=Sophos;i="6.13,263,1732608000"; 
-   d="scan'208";a="42231268"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 16:57:15 -0800
-X-CSE-ConnectionGUID: Ij/bjUBYSeCrQkzss4lIxg==
-X-CSE-MsgGUID: H5HXzbVLQDq891KmmFx/mQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,263,1732608000"; 
-   d="scan'208";a="110966239"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO [10.125.110.153]) ([10.125.110.153])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 16:57:13 -0800
-Message-ID: <c344dfaa-7e79-498f-89d7-44631140d0f4@intel.com>
-Date: Wed, 5 Feb 2025 16:57:15 -0800
+	dkim=pass (2048-bit key) header.d=jrtc27.com header.i=@jrtc27.com header.b="ioCHvCoI"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43634b570c1so2329435e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Feb 2025 17:06:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jrtc27.com; s=gmail.jrtc27.user; t=1738803970; x=1739408770; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IXC13o6D8+SRcnZ4bUuI8mYmE2RIqCqJ9wgb+sl11jc=;
+        b=ioCHvCoIHjgIxCOm7Fu2bDZ3vrCuFmrV7l7XhRtTqLkdDXqFdoHCra5rd/ZEtNGTpf
+         yJk2oNbTsPQjTYyusPKhNhHXNaEf490k4oYL8d1o0Mm3/FkhuANbwc9WVgkx8wTlPLeV
+         8FLckQCuFPd3YT9tmTHy4wrn7JSWML8ZbmePzdfcVxoIzm38sZvppJPejGy4FAsYcRBd
+         0qwHZU3xJpUABEdWIFGSAjk+3MXTTZ0DhZsWm1n7eN0SdCQd8QX6fSDFYUVxkiWv7X7Y
+         YsQEIG51xhktfbJV45XtNj/naOxc6NUMdfJXi2yMjuUWluX/QcI2LC7tpZZNtQv+kFZH
+         QQfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738803970; x=1739408770;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IXC13o6D8+SRcnZ4bUuI8mYmE2RIqCqJ9wgb+sl11jc=;
+        b=g1EGwQgTdt3Od6z2pTJ4V6cI75kZlvn7wezKUlyRFnLHqS+2yBzXOdOIROvoXWg8zk
+         hXUo2ovpq5YxAoGcTeDmfh22gdLkNSt05ULpdJ63+uivfVRUEkLz/J0Ms/JNPvdgfTkp
+         /wUEtcBGWybBcxQl/S78HtvVHviuzkxeV7ZruMqigo6IkrCPTryoPer4kNIV+JnJlL1m
+         P9D8SOpLzsvrezvBUQjqLQ6D6ijJNZGL92aNOzbXRCgG1/ptZurnAimfz/SMPgags6gO
+         BRffHhXD0ANzYQ/T3tbCsxhzmTr9pcbhW/IXTc1pcinCq3F3is2Ckm6S6rf5E780HUD8
+         5ixg==
+X-Forwarded-Encrypted: i=1; AJvYcCXIdGbIyi/LbHegupCxz2Uk/vSGffXRPbfhHOosUsJeTNT1Ec7ElTrc/4JcHiPzC5t9OwfS/xfgLUI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGF2jVbrwEZebhJ8QDYUQTX3+wNRirQR2JsuZ+qiiV6n2m76QM
+	wsp9e1zBMeW39YU0YUZBqqHnktqmLtAqBakZKRtNkLh3DuwQzTPCLicfDwFes74=
+X-Gm-Gg: ASbGncsed1XN/qcmfNrLB8zcZ2OLFp97s3O9awCzVxea045TuF7LrNZ8kPTTlMcAZrB
+	3JTl+/wdhnejLye68JLjkQL0LNZVlI9VzaeTIhdJcSqVNA+XWYjpXHEep3gjblGwfG5JZlxybJx
+	oPbOnNUGWuozo1S9zbCWifLUbOJErivAfME6MIxRVc26TjtDCboxXbDfmAce2AP4DXUVbPm2YzJ
+	otgLExh5t5W0EA/l7gerRMpTwsN2G2JIE8qcGJDwX0T2035PDWtIYZSnHcqejgaXpd80z1E3sXY
+	rdFrGV4DVw3h+y4HpxSh98FFUxxV
+X-Google-Smtp-Source: AGHT+IEwac37+EXHhjn9+QPVtQMUBZtDhAuPXBew4a2Q2YL1bLmJ4OaTvYU/Tl6sFbBaC4yuKH/eUg==
+X-Received: by 2002:a05:6000:1f87:b0:386:3e48:f732 with SMTP id ffacd0b85a97d-38db4873819mr4226170f8f.16.1738803969824;
+        Wed, 05 Feb 2025 17:06:09 -0800 (PST)
+Received: from smtpclient.apple ([131.111.5.201])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dbde1dcc7sm246954f8f.88.2025.02.05.17.06.07
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 05 Feb 2025 17:06:08 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/15] x86: Physical address comparisons in fill_p*d/pte
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, luto@kernel.org,
- xin@zytor.com, kirill.shutemov@linux.intel.com, palmer@dabbelt.com,
- tj@kernel.org, andreyknvl@gmail.com, brgerst@gmail.com, ardb@kernel.org,
- dave.hansen@linux.intel.com, jgross@suse.com, will@kernel.org,
- akpm@linux-foundation.org, arnd@arndb.de, corbet@lwn.net,
- dvyukov@google.com, richard.weiyang@gmail.com, ytcoode@gmail.com,
- tglx@linutronix.de, hpa@zytor.com, seanjc@google.com,
- paul.walmsley@sifive.com, aou@eecs.berkeley.edu, justinstitt@google.com,
- jason.andryuk@amd.com, glider@google.com, ubizjak@gmail.com,
- jannh@google.com, bhe@redhat.com, vincenzo.frascino@arm.com,
- rafael.j.wysocki@intel.com, ndesaulniers@google.com, mingo@redhat.com,
- catalin.marinas@arm.com, junichi.nomura@nec.com, nathan@kernel.org,
- ryabinin.a.a@gmail.com, dennis@kernel.org, bp@alien8.de,
- kevinloughlin@google.com, morbo@google.com, dan.j.williams@intel.com,
- julian.stecklina@cyberus-technology.de, peterz@infradead.org, cl@linux.com,
- kees@kernel.org
-Cc: kasan-dev@googlegroups.com, x86@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.300.87.4.3\))
+Subject: Re: [PATCH 00/15] kasan: x86: arm64: risc-v: KASAN tag-based mode for
+ x86
+From: Jessica Clarke <jrtc27@jrtc27.com>
+In-Reply-To: <72837fcd-97a8-c213-0098-c8f308c3415d@gentwo.org>
+Date: Thu, 6 Feb 2025 01:05:56 +0000
+Cc: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+ luto@kernel.org,
+ xin@zytor.com,
+ kirill.shutemov@linux.intel.com,
+ palmer@dabbelt.com,
+ tj@kernel.org,
+ andreyknvl@gmail.com,
+ brgerst@gmail.com,
+ ardb@kernel.org,
+ dave.hansen@linux.intel.com,
+ jgross@suse.com,
+ will@kernel.org,
+ akpm@linux-foundation.org,
+ arnd@arndb.de,
+ corbet@lwn.net,
+ dvyukov@google.com,
+ richard.weiyang@gmail.com,
+ ytcoode@gmail.com,
+ tglx@linutronix.de,
+ hpa@zytor.com,
+ seanjc@google.com,
+ paul.walmsley@sifive.com,
+ aou@eecs.berkeley.edu,
+ justinstitt@google.com,
+ jason.andryuk@amd.com,
+ glider@google.com,
+ ubizjak@gmail.com,
+ jannh@google.com,
+ bhe@redhat.com,
+ vincenzo.frascino@arm.com,
+ rafael.j.wysocki@intel.com,
+ ndesaulniers@google.com,
+ mingo@redhat.com,
+ catalin.marinas@arm.com,
+ junichi.nomura@nec.com,
+ nathan@kernel.org,
+ ryabinin.a.a@gmail.com,
+ dennis@kernel.org,
+ bp@alien8.de,
+ kevinloughlin@google.com,
+ morbo@google.com,
+ dan.j.williams@intel.com,
+ julian.stecklina@cyberus-technology.de,
+ peterz@infradead.org,
+ kees@kernel.org,
+ kasan-dev@googlegroups.com,
+ x86@kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org,
+ llvm@lists.linux.dev,
  linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <29A74A26-E922-4A4F-9B4A-8DB0336B99DF@jrtc27.com>
 References: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
- <2c2a71ec844db597f30754dd79faf87c9de0b21f.1738686764.git.maciej.wieczor-retman@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzUVEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gKEludGVsIFdvcmsgQWRkcmVzcykgPGRhdmUuaGFuc2VuQGludGVs
- LmNvbT7CwXgEEwECACIFAlQ+9J0CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEGg1
- lTBwyZKwLZUP/0dnbhDc229u2u6WtK1s1cSd9WsflGXGagkR6liJ4um3XCfYWDHvIdkHYC1t
- MNcVHFBwmQkawxsYvgO8kXT3SaFZe4ISfB4K4CL2qp4JO+nJdlFUbZI7cz/Td9z8nHjMcWYF
- IQuTsWOLs/LBMTs+ANumibtw6UkiGVD3dfHJAOPNApjVr+M0P/lVmTeP8w0uVcd2syiaU5jB
- aht9CYATn+ytFGWZnBEEQFnqcibIaOrmoBLu2b3fKJEd8Jp7NHDSIdrvrMjYynmc6sZKUqH2
- I1qOevaa8jUg7wlLJAWGfIqnu85kkqrVOkbNbk4TPub7VOqA6qG5GCNEIv6ZY7HLYd/vAkVY
- E8Plzq/NwLAuOWxvGrOl7OPuwVeR4hBDfcrNb990MFPpjGgACzAZyjdmYoMu8j3/MAEW4P0z
- F5+EYJAOZ+z212y1pchNNauehORXgjrNKsZwxwKpPY9qb84E3O9KYpwfATsqOoQ6tTgr+1BR
- CCwP712H+E9U5HJ0iibN/CDZFVPL1bRerHziuwuQuvE0qWg0+0SChFe9oq0KAwEkVs6ZDMB2
- P16MieEEQ6StQRlvy2YBv80L1TMl3T90Bo1UUn6ARXEpcbFE0/aORH/jEXcRteb+vuik5UGY
- 5TsyLYdPur3TXm7XDBdmmyQVJjnJKYK9AQxj95KlXLVO38lczsFNBFRjzmoBEACyAxbvUEhd
- GDGNg0JhDdezyTdN8C9BFsdxyTLnSH31NRiyp1QtuxvcqGZjb2trDVuCbIzRrgMZLVgo3upr
- MIOx1CXEgmn23Zhh0EpdVHM8IKx9Z7V0r+rrpRWFE8/wQZngKYVi49PGoZj50ZEifEJ5qn/H
- Nsp2+Y+bTUjDdgWMATg9DiFMyv8fvoqgNsNyrrZTnSgoLzdxr89FGHZCoSoAK8gfgFHuO54B
- lI8QOfPDG9WDPJ66HCodjTlBEr/Cwq6GruxS5i2Y33YVqxvFvDa1tUtl+iJ2SWKS9kCai2DR
- 3BwVONJEYSDQaven/EHMlY1q8Vln3lGPsS11vSUK3QcNJjmrgYxH5KsVsf6PNRj9mp8Z1kIG
- qjRx08+nnyStWC0gZH6NrYyS9rpqH3j+hA2WcI7De51L4Rv9pFwzp161mvtc6eC/GxaiUGuH
- BNAVP0PY0fqvIC68p3rLIAW3f97uv4ce2RSQ7LbsPsimOeCo/5vgS6YQsj83E+AipPr09Caj
- 0hloj+hFoqiticNpmsxdWKoOsV0PftcQvBCCYuhKbZV9s5hjt9qn8CE86A5g5KqDf83Fxqm/
- vXKgHNFHE5zgXGZnrmaf6resQzbvJHO0Fb0CcIohzrpPaL3YepcLDoCCgElGMGQjdCcSQ+Ci
- FCRl0Bvyj1YZUql+ZkptgGjikQARAQABwsFfBBgBAgAJBQJUY85qAhsMAAoJEGg1lTBwyZKw
- l4IQAIKHs/9po4spZDFyfDjunimEhVHqlUt7ggR1Hsl/tkvTSze8pI1P6dGp2XW6AnH1iayn
- yRcoyT0ZJ+Zmm4xAH1zqKjWplzqdb/dO28qk0bPso8+1oPO8oDhLm1+tY+cOvufXkBTm+whm
- +AyNTjaCRt6aSMnA/QHVGSJ8grrTJCoACVNhnXg/R0g90g8iV8Q+IBZyDkG0tBThaDdw1B2l
- asInUTeb9EiVfL/Zjdg5VWiF9LL7iS+9hTeVdR09vThQ/DhVbCNxVk+DtyBHsjOKifrVsYep
- WpRGBIAu3bK8eXtyvrw1igWTNs2wazJ71+0z2jMzbclKAyRHKU9JdN6Hkkgr2nPb561yjcB8
- sIq1pFXKyO+nKy6SZYxOvHxCcjk2fkw6UmPU6/j/nQlj2lfOAgNVKuDLothIxzi8pndB8Jju
- KktE5HJqUUMXePkAYIxEQ0mMc8Po7tuXdejgPMwgP7x65xtfEqI0RuzbUioFltsp1jUaRwQZ
- MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
- hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
- vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <2c2a71ec844db597f30754dd79faf87c9de0b21f.1738686764.git.maciej.wieczor-retman@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <8bd9c793-aac6-a330-ea8f-3bde0230a20b@gentwo.org>
+ <F974BA79-80D8-4414-9DFD-1EEF9395143C@jrtc27.com>
+ <72837fcd-97a8-c213-0098-c8f308c3415d@gentwo.org>
+To: "Christoph Lameter (Ampere)" <cl@gentwo.org>
+X-Mailer: Apple Mail (2.3826.300.87.4.3)
 
-On 2/4/25 09:33, Maciej Wieczor-Retman wrote:
-> @@ -287,7 +287,7 @@ static pte_t *fill_pte(pmd_t *pmd, unsigned long vaddr)
->  	if (pmd_none(*pmd)) {
->  		pte_t *pte = (pte_t *) spp_getpage();
->  		pmd_populate_kernel(&init_mm, pmd, pte);
-> -		if (pte != pte_offset_kernel(pmd, 0))
-> +		if (__pa(pte) != __pa(pte_offset_kernel(pmd, 0)))
->  			printk(KERN_ERR "PAGETABLE BUG #03!\n");
->  	}
->  	return pte_offset_kernel(pmd, vaddr);
+On 5 Feb 2025, at 18:51, Christoph Lameter (Ampere) <cl@gentwo.org> =
+wrote:
+>=20
+> On Tue, 4 Feb 2025, Jessica Clarke wrote:
+>=20
+>> It=E2=80=99s not =E2=80=9Cno performance penalty=E2=80=9D, there is a =
+cost to tracking the MTE
+>> tags for checking. In asynchronous (or asymmetric) mode that=E2=80=99s =
+not too
+>=20
+>=20
+> On Ampere Processor hardware there is no penalty since the logic is =
+build
+> into the usual read/write paths. This is by design. There may be on =
+other
+> platforms that cannot do this.
 
-Maciej, could you do a quick check on this and make sure that it doesn't
-hurt code generation on current kernels?
+You helpfully cut out all the explanation of where the performance
+penalty comes from. But if it=E2=80=99s as you say I can only assume =
+your
+design chooses to stall all stores until they have actually written, in
+which case you have a performance cost compared with hardware that
+omitted MTE or optimises for non-synchronous MTE. The literature on MTE
+agrees that it is not no penalty (but can be low penalty). I don=E2=80=99t=
 
-pte_offset_kernel() has an internal __va() so this ends up logically
-being something like:
+really want to have some big debate here about the ins and outs of MTE,
+it=E2=80=99s not the place for it, but I will stand up and point out =
+that
+claiming MTE to be =E2=80=9Cno performance penalty=E2=80=9D is =
+misrepresentative of the
+truth
 
--	if (     pte  !=      __va(pmd))
-+	if (__pa(pte) != __pa(__va(pmd)))
+Jess
 
-The __pa() and __va() obviously logically cancel each other out in the
-new version. But if the compiler for whatever reason can't figure this
-out we might end up with worse code.
-
-If it generates crummy code we might want to do this differently like
-avoiding pte_offset_kernel() and adding some other helper that's more
-direct and to the point.
