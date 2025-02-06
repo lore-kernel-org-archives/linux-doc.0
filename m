@@ -1,153 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from poodle.tulip.relay.mailchannels.net (poodle.tulip.relay.mailchannels.net [23.83.218.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E5F222594;
-	Thu,  6 Feb 2025 21:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738878092; cv=none; b=fJBTFImgVkjk9V3aarN0WCYC3nN/LeMBFr3yQ15CSwT8hLN/wW/3E6IftJmijnY8XkvDgZmofb0NgVw86E2RY0A3+hfvXFzLvIISUKOeP6yvYJt9Ymujx7zrcJJWSGKvF8obTMv4VNnjWiCI8MLdqisqWdSwBXyzd8MQtjEYGf8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738878092; c=relaxed/simple;
-	bh=3OgHs6tzCrAw+gGCDLhhtpN/agDfB2Z70E0T/xuo+TU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XLYY6e5WWYljEyU53ViN74p/ZZ8EUOD8JtNPlt1o7i77xOJ0BVbsrm3AHnEt15Wd/HGvlYe1cZk0rXWNxN3rKt27o/JMVlgCtoXsiU+UUmjacGfm3X7XkitWjrw5tyhO3uhClsP6wefZ4KAJoCFBIYw0oC0q+7ztpxMh3wTSuTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l5NBXOdv; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8288E19E7E2;
+	Thu,  6 Feb 2025 21:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.218.249
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738878360; cv=pass; b=RVavOBnVvi11jTRzkPGkypaITCtnlm8T1m0KCd82MociNFEX+FjQsiKd0c5ougfGwjJqU3s3hAf7fW4r2I+cghcWf72ijhIAlQPMkcadOCkuH7RolZnMa04uYtBzRs7qPO6DL/6uNJloKDI1UolEfLnRBwIOq64zygZEl57rhFE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738878360; c=relaxed/simple;
+	bh=pYXeZWRk42/ZKJn9nfzSEfSPAS+Qq+7Hbo3m4foI6m4=;
+	h=From:Subject:Message-Id:MIME-Version:Content-Type:To:Cc:Date; b=C62qhcs/o7L5L3E6Ty+OiTwRjUL52j6iBZ2pdK6pDCXoYyHCk3B5vwKvlBXtQRNFbgT8xvBY2e0Aqhq8dZuBgykGk6MugVmhD2bgtf/nqxCx2SVLHMslkbugzSnajEZrqVQNvt6aWEd64ykI92D0XYiadBAx/zpge8qTwngDr3s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invicto.ai; spf=pass smtp.mailfrom=invicto.ai; dkim=fail (0-bit key) header.d=invicto.ai header.i=@invicto.ai header.b=KsefuRaK reason="key not found in DNS"; arc=pass smtp.client-ip=23.83.218.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invicto.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=invicto.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l5NBXOdv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738878091; x=1770414091;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=3OgHs6tzCrAw+gGCDLhhtpN/agDfB2Z70E0T/xuo+TU=;
-  b=l5NBXOdvEmt50CBu7EhIPS5nDnbbFqktQfe/OOuK+GKmbohNTiDpcWWs
-   +1K9yo1QEZQ2E948NANx2eQ8+r7XTZB0+nd/xDzaf0BbVHsHMRbfD5hek
-   o0MO4QqpFxi1UyhxeA/NZEFwODwv8BGb0ZALTdv275UtmKEc/9KxB7kna
-   KSqOAgT1W6jqPQBxvwtYQuDbf3cK4mOczSdnpi65oXav0R54sd3doAE4D
-   kNuvyU3Bw2VnuOHuHHGiQqhcnjmI4x+qJBnF853cYmhGUGfcp8SyVQFZB
-   WnrfmV6HrtM7kfRS7JpsFqnuzf2thfvn+Ap6rLtvlSz1W4q6In1q1wXMy
-   g==;
-X-CSE-ConnectionGUID: jVKHkCj9QZSnbmvsBk9qVg==
-X-CSE-MsgGUID: CaHsI2tsRSW9fFDHjNMjYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42345047"
-X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
-   d="scan'208";a="42345047"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 13:41:28 -0800
-X-CSE-ConnectionGUID: 6H771ns0SpuSxG9hNzP1oQ==
-X-CSE-MsgGUID: Z+csMKT7SBO/Wvx19isNiQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116528569"
-Received: from dnelso2-mobl.amr.corp.intel.com (HELO [10.125.111.17]) ([10.125.111.17])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 13:41:27 -0800
-Message-ID: <239de2b9-0787-4105-a481-418dbd4d861e@intel.com>
-Date: Thu, 6 Feb 2025 13:41:29 -0800
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=invicto.ai header.i=@invicto.ai header.b="KsefuRaK"
+X-Sender-Id: hostingeremail|x-authuser|kurti@invicto.ai
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id B28CC8445D0;
+	Thu,  6 Feb 2025 21:07:58 +0000 (UTC)
+Received: from fr-int-smtpout8.hostinger.io (trex-6.trex.outbound.svc.cluster.local [100.127.158.245])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id E9F8284377B;
+	Thu,  6 Feb 2025 21:07:53 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1738876078; a=rsa-sha256;
+	cv=none;
+	b=KYB+F9RvFcbnpUPd3PbMy2sIiJTtsPnt+COOSNOn3MAQzk+KIbZCGa4x3RWpDho3RjSyl+
+	o6NoytryPxaxqW6uCkXxiF2dMoWdaR/qV5QCum0ssq9cQxn9y0eckPrdJ/NboVQ7rSUvap
+	u4xnsaM81JRdrrBiD5EE0vjxrM1RIW+euE8f2nLCyyBMXRL1+fX+n4EUDxw2M1s9LbW7lv
+	bL2CsigGkga+YQNqHVddUm8WEB57GJFMcXi+2bh5kKePr7w7vAhZSm0lLeuT15KKFeez9J
+	tHEy02JmERDYynIHKn4PQ8zbnksYrU2kwIY9JFxtvj5T5DZFmkLTAD2SpjdX5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1738876078;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=Z/WUVlRe4tP/MfzqUsTxDtSPEpFNCz05VpHyl8nQi+c=;
+	b=h2cYPkU+azmpKg5OkLe1ZA8i4CdoaAiAYcV6NrP1kSSlB9ZFe/SaBx7otW8avmLweYPnL/
+	L4lbRszwqwNFaq76vPqfVbwNHm7ytowIUgERKbH4hamJVVuEKmRM+76aPHYQu+20iooUAX
+	o3zCnHyR5eEyWb1iIYvQyh5U9pyYg2PUMG0Ilio6TsP5TwcMwZpImgVCI9cGEWEz2j+d7u
+	B+GJV8qFzVfDK0/xWipcutkoo/turNf5+OaRkOzVATXYXQBPuHfFmRFgXAhN3BwVcup6JA
+	vIeEYtk+WYJYLcE19ySexxWs9joo2X3BfEzeaeY8f3/+Euvs9Eirwd0IbtEARw==
+ARC-Authentication-Results: i=1;
+	rspamd-8586946c78-9pdp9;
+	auth=pass smtp.auth=hostingeremail smtp.mailfrom=kurti@invicto.ai
+X-Sender-Id: hostingeremail|x-authuser|kurti@invicto.ai
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostingeremail|x-authuser|kurti@invicto.ai
+X-MailChannels-Auth-Id: hostingeremail
+X-Continue-Versed: 02e721ef73e41276_1738876078403_1443058005
+X-MC-Loop-Signature: 1738876078403:2730700952
+X-MC-Ingress-Time: 1738876078402
+Received: from fr-int-smtpout8.hostinger.io (fr-int-smtpout8.hostinger.io
+ [89.116.146.204])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.127.158.245 (trex/7.0.2);
+	Thu, 06 Feb 2025 21:07:58 +0000
+From: Alban Kurti <kurti@invicto.ai>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=invicto.ai;
+	s=hostingermail-a; t=1738876072;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Z/WUVlRe4tP/MfzqUsTxDtSPEpFNCz05VpHyl8nQi+c=;
+	b=KsefuRaKOViSVbjPF9zt29fFXM9I3vU5ccIWt+h/2WWP7TDZNBig+0H17FWV90haTKIwXi
+	knPg+sr2BewCax0zrQdQMAD7wAXrN+h2skvhJGLfk7o8VXP1ZtrSSVPtT0KpekMVA/byGq
+	FiziCDlforIPLb5pFyG6opdJQnMub8zGpg+za9FMvmnLeFLmdGd2mRtd50w0eYfSp2nBTH
+	ZTqL87pCRKWVjZfPx0627gyEPJAUA3MsFSgdPJouA6ZtlsQFPFuIDUTBDy8s1Y5dge/6Et
+	xjRBWh1xr8/PaGbRs9kzsi980m5N/1oMN2WJpgtEZw02DSYsrKa8dY1L7u43UQ==
+Subject: [PATCH v3 0/6] rust: treewide: add missing newlines to printing
+ calls
+Message-Id: <20250206-printing_fix-v3-0-a85273b501ae@invicto.ai>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/15] kasan: x86: arm64: risc-v: KASAN tag-based mode for
- x86
-To: "Christoph Lameter (Ampere)" <cl@gentwo.org>,
- Jessica Clarke <jrtc27@jrtc27.com>
-Cc: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, luto@kernel.org,
- xin@zytor.com, kirill.shutemov@linux.intel.com, palmer@dabbelt.com,
- tj@kernel.org, andreyknvl@gmail.com, brgerst@gmail.com, ardb@kernel.org,
- dave.hansen@linux.intel.com, jgross@suse.com, will@kernel.org,
- akpm@linux-foundation.org, arnd@arndb.de, corbet@lwn.net,
- dvyukov@google.com, richard.weiyang@gmail.com, ytcoode@gmail.com,
- tglx@linutronix.de, hpa@zytor.com, seanjc@google.com,
- paul.walmsley@sifive.com, aou@eecs.berkeley.edu, justinstitt@google.com,
- jason.andryuk@amd.com, glider@google.com, ubizjak@gmail.com,
- jannh@google.com, bhe@redhat.com, vincenzo.frascino@arm.com,
- rafael.j.wysocki@intel.com, ndesaulniers@google.com, mingo@redhat.com,
- catalin.marinas@arm.com, junichi.nomura@nec.com, nathan@kernel.org,
- ryabinin.a.a@gmail.com, dennis@kernel.org, bp@alien8.de,
- kevinloughlin@google.com, morbo@google.com, dan.j.williams@intel.com,
- julian.stecklina@cyberus-technology.de, peterz@infradead.org,
- kees@kernel.org, kasan-dev@googlegroups.com, x86@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
- linux-doc@vger.kernel.org, "Shutemov, Kirill" <kirill.shutemov@intel.com>
-References: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
- <8bd9c793-aac6-a330-ea8f-3bde0230a20b@gentwo.org>
- <F974BA79-80D8-4414-9DFD-1EEF9395143C@jrtc27.com>
- <72837fcd-97a8-c213-0098-c8f308c3415d@gentwo.org>
- <29A74A26-E922-4A4F-9B4A-8DB0336B99DF@jrtc27.com>
- <94f81328-a135-b99b-7f73-43fb77bd7292@gentwo.org>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzUVEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gKEludGVsIFdvcmsgQWRkcmVzcykgPGRhdmUuaGFuc2VuQGludGVs
- LmNvbT7CwXgEEwECACIFAlQ+9J0CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEGg1
- lTBwyZKwLZUP/0dnbhDc229u2u6WtK1s1cSd9WsflGXGagkR6liJ4um3XCfYWDHvIdkHYC1t
- MNcVHFBwmQkawxsYvgO8kXT3SaFZe4ISfB4K4CL2qp4JO+nJdlFUbZI7cz/Td9z8nHjMcWYF
- IQuTsWOLs/LBMTs+ANumibtw6UkiGVD3dfHJAOPNApjVr+M0P/lVmTeP8w0uVcd2syiaU5jB
- aht9CYATn+ytFGWZnBEEQFnqcibIaOrmoBLu2b3fKJEd8Jp7NHDSIdrvrMjYynmc6sZKUqH2
- I1qOevaa8jUg7wlLJAWGfIqnu85kkqrVOkbNbk4TPub7VOqA6qG5GCNEIv6ZY7HLYd/vAkVY
- E8Plzq/NwLAuOWxvGrOl7OPuwVeR4hBDfcrNb990MFPpjGgACzAZyjdmYoMu8j3/MAEW4P0z
- F5+EYJAOZ+z212y1pchNNauehORXgjrNKsZwxwKpPY9qb84E3O9KYpwfATsqOoQ6tTgr+1BR
- CCwP712H+E9U5HJ0iibN/CDZFVPL1bRerHziuwuQuvE0qWg0+0SChFe9oq0KAwEkVs6ZDMB2
- P16MieEEQ6StQRlvy2YBv80L1TMl3T90Bo1UUn6ARXEpcbFE0/aORH/jEXcRteb+vuik5UGY
- 5TsyLYdPur3TXm7XDBdmmyQVJjnJKYK9AQxj95KlXLVO38lczsFNBFRjzmoBEACyAxbvUEhd
- GDGNg0JhDdezyTdN8C9BFsdxyTLnSH31NRiyp1QtuxvcqGZjb2trDVuCbIzRrgMZLVgo3upr
- MIOx1CXEgmn23Zhh0EpdVHM8IKx9Z7V0r+rrpRWFE8/wQZngKYVi49PGoZj50ZEifEJ5qn/H
- Nsp2+Y+bTUjDdgWMATg9DiFMyv8fvoqgNsNyrrZTnSgoLzdxr89FGHZCoSoAK8gfgFHuO54B
- lI8QOfPDG9WDPJ66HCodjTlBEr/Cwq6GruxS5i2Y33YVqxvFvDa1tUtl+iJ2SWKS9kCai2DR
- 3BwVONJEYSDQaven/EHMlY1q8Vln3lGPsS11vSUK3QcNJjmrgYxH5KsVsf6PNRj9mp8Z1kIG
- qjRx08+nnyStWC0gZH6NrYyS9rpqH3j+hA2WcI7De51L4Rv9pFwzp161mvtc6eC/GxaiUGuH
- BNAVP0PY0fqvIC68p3rLIAW3f97uv4ce2RSQ7LbsPsimOeCo/5vgS6YQsj83E+AipPr09Caj
- 0hloj+hFoqiticNpmsxdWKoOsV0PftcQvBCCYuhKbZV9s5hjt9qn8CE86A5g5KqDf83Fxqm/
- vXKgHNFHE5zgXGZnrmaf6resQzbvJHO0Fb0CcIohzrpPaL3YepcLDoCCgElGMGQjdCcSQ+Ci
- FCRl0Bvyj1YZUql+ZkptgGjikQARAQABwsFfBBgBAgAJBQJUY85qAhsMAAoJEGg1lTBwyZKw
- l4IQAIKHs/9po4spZDFyfDjunimEhVHqlUt7ggR1Hsl/tkvTSze8pI1P6dGp2XW6AnH1iayn
- yRcoyT0ZJ+Zmm4xAH1zqKjWplzqdb/dO28qk0bPso8+1oPO8oDhLm1+tY+cOvufXkBTm+whm
- +AyNTjaCRt6aSMnA/QHVGSJ8grrTJCoACVNhnXg/R0g90g8iV8Q+IBZyDkG0tBThaDdw1B2l
- asInUTeb9EiVfL/Zjdg5VWiF9LL7iS+9hTeVdR09vThQ/DhVbCNxVk+DtyBHsjOKifrVsYep
- WpRGBIAu3bK8eXtyvrw1igWTNs2wazJ71+0z2jMzbclKAyRHKU9JdN6Hkkgr2nPb561yjcB8
- sIq1pFXKyO+nKy6SZYxOvHxCcjk2fkw6UmPU6/j/nQlj2lfOAgNVKuDLothIxzi8pndB8Jju
- KktE5HJqUUMXePkAYIxEQ0mMc8Po7tuXdejgPMwgP7x65xtfEqI0RuzbUioFltsp1jUaRwQZ
- MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
- hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
- vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <94f81328-a135-b99b-7f73-43fb77bd7292@gentwo.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJMkpWcC/x2MQQqAIBAAvxJ7TlgME/tKRJhtthcTjQjEvycdZ
+ 2CmQKbElGHqCiR6OPMVGgx9B+60wZPgvTFIlAoljiImDjcHvx78CtJWG4WbIe2gJTFR0/9uXmr
+ 9AAeZNcVeAAAA
+X-Change-ID: 20250206-printing_fix-e7a7950b9e7c
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Jonathan Corbet <corbet@lwn.net>, 
+ David Gow <davidgow@google.com>, Dirk Behme <dirk.behme@de.bosch.com>, 
+ Asahi Lina <lina@asahilina.net>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+ Wedson Almeida Filho <walmeida@microsoft.com>, 
+ "Andreas Hindborg (Samsung)" <nmi@metaspace.dk>, Tejun Heo <tj@kernel.org>, 
+ Fiona Behrens <me@kloenk.dev>, 
+ Vincenzo Palazzo <vincenzopalazzodev@gmail.com>, 
+ Xiangfei Ding <dingxiangfei2009@gmail.com>
+Cc: rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Alban Kurti <kurti@invicto.ai>, 
+ Martin Rodriguez Reboredo <yakoyoku@gmail.com>, 
+ Fox Chen <foxhlchen@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738876070; l=1426;
+ i=kurti@invicto.ai; s=20250206; h=from:subject:message-id;
+ bh=pYXeZWRk42/ZKJn9nfzSEfSPAS+Qq+7Hbo3m4foI6m4=;
+ b=4xSpkYbl9+VsWvFsZY9w0iM7VQ2qHwb/a9rw7Pwy1oWgOfnj6pgBZOsaRONP4mY4a6xyE/OqC
+ 0JGrPEsJ3+rDcpdJfiQAXyCpzl097hCFRIDoWRTZpgcMV0I8DCXKijc
+X-Developer-Key: i=kurti@invicto.ai; a=ed25519;
+ pk=D1lKs+JFapuEVI9zJ2QUTLSf5u4aT12tG0ny6vMMuOc=
+Date: Thu, 06 Feb 2025 21:07:50 +0000 (UTC)
+X-CM-Analysis: v=2.4 cv=PMNd+uqC c=1 sm=1 tr=0 ts=67a524a8 a=9/DLicljd4JGVkZ5BRdAJQ==:117 a=9/DLicljd4JGVkZ5BRdAJQ==:17 a=IkcTkHD0fZMA:10 a=WWgaao6JuW3fq2SmxSwA:9 a=QEXdDO2ut3YA:10
+X-CM-Envelope: MS4xfKFr1Vl6mjl7LLCK5YBRZtlYnG6DnCEKo5NQc9u2omKjY/AMU3pgTyrXtU1dQ5imhPpe6xqFw/nSy3TjZvmMjGRBpM5WSL0nmalchdTqjcFxQ03KrEjL KUf9R8pOhCZgj6bw2mqTcKjNqzBQUfS3QaSIZ61Ivly1L3E0jKeSnvRC09eMA/Z6NXZQ1i/VFxMTN/vlUIhpqRPRvzty21rus78gdn7CXkUWvU6WDgSZm40E LGKHbvAm4rsFeazNrH/Bn+RUS4cCZ3CBDZjCMGvaOR+R0L7vOaOcWbHGq4bWGQLgeebhTheXm0FmfQfhlHlEXzn3uB11/MB/kWqtcLcai9D5m01w6JhFZOtL z7y/ldu6fk4rk9aLMW2wLQ6XpOe9e7glUijKa8RNItCPECE3I1tk1FJZs5KSIAUwNJxjdnCTQ0z4dtYlwDoMFzH7F+vbwcTMbo3kI8aEvy2hCRC3VLL39KZm nCZwxHziWtwXeY/68OuzVxVvMHSTA71qdy2eSjKQBGXEgis/nIAiVgVz7Bi9B/sEuXq2RhZPZsSC/mybkKMrzJX1v1c/oZ1IiUWC5JHGd+xmUaGG6IEhNBHn cvTtr3Ooj/gr6+/ueMBGDmRzJFYTTkIuKqO+z+UToyoG0uBgw2b/vDJ1SCjNV5dMTb0g0BhuEQh0fTrt2fK1tODucMdNct/pTfpnTuunQxxcVwRctmDjcVT4 ad96oSWpMsd1bOXyZbIwiHH1jMiZCzL1Vs/H6TqBlzE5mmbs31qxNlYftst4EQtFkDc3Gvx4feBaCeFnBcaSvai2u3ZWABwL0Gt/tVgSw1s5H/Y0jBFamEV7 uxhca7F1aar4LqjUUM4Eie6969Y4vmpX+7SXWkQpOUi0ZpHGjHx5fM6JgbYzKi7LcIs1vBWaDALHuwuC0cPfxUXG4npUIYV4A0BufUKMYGY5/wIkHBFuwFSX UuAYax6SW4LQuNw
+ YfBmec6fDIHT1WJ1bOGhxWF1rWnSIbvKL
+X-AuthUser: kurti@invicto.ai
 
-On 2/6/25 11:11, Christoph Lameter (Ampere) wrote:
-> I also see that KASAN_HW_TAGS exist but this means that the tags can only
-> be used with CONFIG_KASAN which is a kernel configuration for debug
-> purposes.
-> 
-> What we are interested in is a *production* implementation with minimal
-> software overhead that will be the default on ARM64 if the appropriate
-> hardware is detected. 
+Adding newline at the end of all Rust pr_* and dev_* macro
+calls that miss a newline.
+`pr_*!` and `dev_*!` macros are supposed to be called
+with a newline at the end, just like in the C side
+such that independent lines are not visually missed.
+There were no dev_*! cases with a missing newline found.
 
-Ahh, interesting. I'd assumed that once folks had in-hardware tag checks
-that they'd just turn on CONFIG_KASAN and be happy.  Guess not!
+Signed-off-by: Alban Kurti <kurti@invicto.ai>
+---
+Changes in v3:
+- Same code changes to v2, but split patches into multiple patches
+  and improved the descriptions
 
-> That in turn will hopefully allow other software instrumentation
-> that is currently used to keep small objects secure and in turn
-> creates overhead.
-OK, so KASAN as-is is too broad. Are you saying that the kernel
-_currently_ have "software instrumentation" like SLAB
-redzoning/poisoning and you'd like to see MTE used to replace those?
+---
+Alban Kurti (6):
+      rust: docs: add missing newline to printing macro examples
+      rust: error: add missing newline to pr_warn! calls
+      rust: init: add missing newline to pr_info! calls
+      rust: sync: add missing newline in locked_by log example
+      rust: workqueue: add missing newline to pr_info! examples
+      rust: samples: add missing newline to pr_info! calls in rust_print_main
 
-Are you just interested in small objects?  What counts as small?  I
-assume it's anything roughly <PAGE_SIZE.
+ Documentation/rust/testing.rst  |  2 +-
+ rust/kernel/error.rs            |  2 +-
+ rust/kernel/init.rs             | 12 ++++++------
+ rust/kernel/init/macros.rs      |  6 +++---
+ rust/kernel/sync/locked_by.rs   |  2 +-
+ rust/kernel/workqueue.rs        |  6 +++---
+ samples/rust/rust_print_main.rs |  8 ++++----
+ 7 files changed, 19 insertions(+), 19 deletions(-)
+---
+base-commit: ceff0757f5dafb5be5205988171809c877b1d3e3
+change-id: 20250206-printing_fix-e7a7950b9e7c
+
+Best regards,
+-- 
+Alban Kurti <kurti@invicto.ai>
+
