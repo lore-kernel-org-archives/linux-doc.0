@@ -1,39 +1,64 @@
-Received: from terminus.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181DF148FF5;
-	Thu,  6 Feb 2025 06:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297C62248BB
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 06:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738823428; cv=none; b=Cjwl/SdWcVFF1U4MS44BaqRWED+89EXF2WHpKPOyjcRzCaEOCmFc/1TinT0Kf3lTgpkc9KffNNIjdG4Y7SW6+5yp0hb9XZKytaR5/ViVxZ+asuwgiV6zoVQko7GQIJiRMfGWYT6APCB2fucfkZpulku32RLWgh23eHSO/BHJKO4=
+	t=1738824815; cv=none; b=IiODp1P53mu0jpwoYQlZEssBWrzsoPG349XW0Ha+oXzFC26Y1BsulZhUftFYITk8znLUgeLa7M3N5N1P9Kb+CUi3pL7IgQOAPOhU/D45kmEfpux/QMO/CojLJEMmufvj0lI7DcpPQFAT0EG0EdTO90ZgXbtOdvrO7PPonturffs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738823428; c=relaxed/simple;
-	bh=9ZLbZg8+Xvk72GIODNaeA+Z7Vu5HANSYPNrUM+hLHiA=;
+	s=arc-20240116; t=1738824815; c=relaxed/simple;
+	bh=QFOprhmkYAckDmLpj8OaQpl0QIRArOwxk2YuENHmzqo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pD3Bwt6WgwAv4exE6sUIPU6EhACUIgqQaZrbye5VHKbuUidj/c7DSUgOk94j+mKHI5D3sXmbg1zM83buBIbXQzmnFuL1OBjUhpcDI8eoQg6CTDQhvIYeIBgLtRlx9DPw2/fqJNCfAIf5+dSsGG2C9k/uG25yVHUewQr2IQRlX38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=YkIS2IjT; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	 In-Reply-To:Content-Type; b=TWlOQAMy909A9kM23fut2WfuCgSs814zQTSkbZ02dCG5BVNJfJJjNx0zNGU9NbtLSDcDfSnDzZEiGbGeCJhYt0Z/lfUG6Tc5EwHGxHlRgfZQlwnKEFhpIvG/R5rFN4XbPGfHTVyU7GbDmtz2jDLjcbDa/HsfoHSn0L0c0+0waUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=F0mlw8j/; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="YkIS2IjT"
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 5166Owlh315066
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Wed, 5 Feb 2025 22:24:59 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 5166Owlh315066
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025011701; t=1738823102;
-	bh=fymziyVyp8rJBSGPNwwK+NaZBG6pu4jnw9nQIUdAr60=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YkIS2IjTC22HK/o/H3otUopCforsKPkOOz1GuElfg0k/bHYcugHtrT1rtqffLJv/P
-	 hscDAs/MrX1+pcs+nwoifMdKe/QzvxfLMw8kuBqfjJ6Z0W0xgKa492RyABPIV3TSiP
-	 oZ0sZ427BGIgksgt35JmKB0l+apwZrZL2tqF2MakEaMpvaRyN2BkyvgSoiVWQyHhxV
-	 ADpsFiI79ehMO8afkpOp1bJyfsNrGA9/9TER7KgGu07iUzEiPpYt1llSya99r22wBR
-	 NfgAXx9E9XXhpagBc92cF30DB/mGh3voHf1IxI3dRbFvyteMzOzmOQPA66sYGZtiR0
-	 gG1q5kssrPA0Q==
-Message-ID: <ead5a097-44f7-4eaa-8e98-08450b4d51f6@zytor.com>
-Date: Wed, 5 Feb 2025 22:24:58 -0800
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="F0mlw8j/"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2f9c3ef6849so996075a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 05 Feb 2025 22:53:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1738824813; x=1739429613; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yfPzJgqGwInu62D/JbABqcLSTAUY1ivE7x32/lUlB+s=;
+        b=F0mlw8j/AG0MKEBcdJHMFfXXcLJ0ZHP9/2K6J65yteNpK+qdNKxi18sDLlaF6onQnk
+         7c70gicAMlBwDxssr+lPqXbLewbQ61RYZzGZA9AY1cZ3ojHEeFqPVvWp2W6wq6PdJ2bE
+         dhHzIGyD5t5vvHpYQ2LULeZ9rPFAIDAly6LNqJ5wLvylIZqJcjCrNgEQhbCKjwhNjzji
+         MMKSGqxhTzGYnejgMhOTdphd7HLFgxNBm+LPWbpTPy2vL60I1iVcWsL+XvNdoH43xudi
+         lGe7fCgaaruH+etviHr/ZmC0t4qH7k5F/h9dOxCCLMbehoxwPncy/r7dWoQ1vnfqnb7E
+         DR6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738824813; x=1739429613;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yfPzJgqGwInu62D/JbABqcLSTAUY1ivE7x32/lUlB+s=;
+        b=sbCTo24Hp4I+GaDlOY2AkR80K6IGz6LFbHuaaP1Xpk8jdecSS1/Fnt9VU7EdcLrn8B
+         eZgJqKyUMUUQfL8ZGeXrSKcYIpg+qiOyPRbRuDpCKdLkUoOWtmDqpYOtoa3pEKCBHIwi
+         a4EEAaw6JRqMYfKwFkFYjSjXoRoL9d+vHTLzUxQ0xi+9cSA/sD8xFTWGGZiPRHEJmehx
+         4FuvwVPrfP5hGzemPIWBkjIvm69UkOYod13ukl3Fm0L5L1YrE/sgXiJWZjlW33NiRgiX
+         Ce6IQ1U9tRAll/OqxNFTZkKADbLrTu3AANaOI0FIRINXS6IQuWdbd/I7xtVXYTk0QzNP
+         pQCw==
+X-Forwarded-Encrypted: i=1; AJvYcCU3fsVUJ6VdA+r6KWne93tH1QC8pk5WgVSrunOypNvzUy2Ql5frDM+UzwMHSn/3Mbw9p3ZsGHiqXzQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhIiMRjzDtiG+olS+GYHBVwAmxb7HvLNGOPkT53JLCqh7erW6W
+	4vAuc4pI945PC3szj9tzzZqdNHTos5KriIS4F4vhEHxEy+Aa9cUxpZJ6oZwfASE=
+X-Gm-Gg: ASbGncuuQ0OejWFxefq+4rh9cLoJ9E1XgrifZ2QAskrtIN5j9F0R1+G5m2ScaQoNNaV
+	TDj44yuCh05lE077i08M4yAFqazu7CUN3NBoFvjYb0fzBMLXzGRWz6XYPeWmh6f2BNYLtaG6wtf
+	6isx1ALsOlq3rYmll32qWjcn1K04YMNC4XM7chXdqj2pEd3uvJ1Ssy6nCA1T8gGALQPSlnTr4q1
+	0kjxaaDEWZmRR5myXmAod1ynd3foTmiCBf5TgkeJmx4KUZ6eybbWjKzRYAr4QnubDqgPWjPM9dD
+	/oseq3JB9ksaXPhnLQLQVqCl1v08
+X-Google-Smtp-Source: AGHT+IER8psjFE80ifTWvoXn5WHFoV2OjIRpn8B020yOLPR0qnk21Bx82Mdy+x+4gwZSwLApBeX7OA==
+X-Received: by 2002:a17:90b:2d8e:b0:2ea:bf1c:1e3a with SMTP id 98e67ed59e1d1-2f9e0767573mr10783588a91.12.1738824813210;
+        Wed, 05 Feb 2025 22:53:33 -0800 (PST)
+Received: from [157.82.207.107] ([157.82.207.107])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f9e1e24559sm2800958a91.31.2025.02.05.22.53.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Feb 2025 22:53:32 -0800 (PST)
+Message-ID: <12dbfa5e-32cc-4355-89e4-6c1cd4e12d1a@daynix.com>
+Date: Thu, 6 Feb 2025 15:53:26 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,111 +66,73 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 10/23] x86/resctrl: Remove MSR reading of event
- configuration value
-To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, reinette.chatre@intel.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, tony.luck@intel.com,
-        peternewman@google.com
-Cc: fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
-        akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
-        xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
-        daniel.sneddon@linux.intel.com, jpoimboe@kernel.org,
-        perry.yuan@amd.com, sandipan.das@amd.com, kai.huang@intel.com,
-        xiaoyao.li@intel.com, seanjc@google.com, xin3.li@intel.com,
-        andrew.cooper3@citrix.com, ebiggers@google.com,
-        mario.limonciello@amd.com, james.morse@arm.com,
-        tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-        eranian@google.com
-References: <cover.1737577229.git.babu.moger@amd.com>
- <b4298186c0be8db76be4eb74e1d948fbe5c1de7d.1737577229.git.babu.moger@amd.com>
+Subject: Re: [PATCH net-next v5 1/7] tun: Refactor CONFIG_TUN_VNET_CROSS_LE
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jason Wang <jasowang@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>,
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
+ devel@daynix.com
+Cc: Willem de Bruijn <willemb@google.com>
+References: <20250205-tun-v5-0-15d0b32e87fa@daynix.com>
+ <20250205-tun-v5-1-15d0b32e87fa@daynix.com>
+ <67a3d2efbba32_170d392944d@willemb.c.googlers.com.notmuch>
 Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <b4298186c0be8db76be4eb74e1d948fbe5c1de7d.1737577229.git.babu.moger@amd.com>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <67a3d2efbba32_170d392944d@willemb.c.googlers.com.notmuch>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 1/22/2025 12:20 PM, Babu Moger wrote:
-> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-> index 8917c7261680..6fe9e610e9a0 100644
-> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
-> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-> @@ -1324,3 +1324,49 @@ int resctrl_arch_mbm_cntr_assign_set(struct rdt_resource *r, bool enable)
->   
->   	return 0;
->   }
-> +
-> +u32 resctrl_arch_mon_event_config_get(struct rdt_mon_domain *d,
-> +				      enum resctrl_event_id eventid)
-> +{
-> +	struct rdt_hw_mon_domain *hw_dom = resctrl_to_arch_mon_dom(d);
-> +
-> +	switch (eventid) {
-> +	case QOS_L3_OCCUP_EVENT_ID:
-> +		break;
-> +	case QOS_L3_MBM_TOTAL_EVENT_ID:
-> +		return hw_dom->mbm_total_cfg;
-> +	case QOS_L3_MBM_LOCAL_EVENT_ID:
-> +		return hw_dom->mbm_local_cfg;
-> +	}
-> +
-> +	/* Never expect to get here */
-> +	WARN_ON_ONCE(1);
-> +
-> +	return INVALID_CONFIG_VALUE;
-> +}
-> +
-> +void resctrl_arch_mon_event_config_set(void *info)
-> +{
-> +	struct mon_config_info *mon_info = info;
-> +	struct rdt_hw_mon_domain *hw_dom;
-> +	unsigned int index;
-> +
-> +	index = mon_event_config_index_get(mon_info->evtid);
-> +	if (index == INVALID_CONFIG_INDEX)
-> +		return;
-> +
-> +	wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
+On 2025/02/06 6:06, Willem de Bruijn wrote:
+> Akihiko Odaki wrote:
+>> Check IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) to save some lines and make
+>> future changes easier.
+>>
+>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> Reviewed-by: Willem de Bruijn <willemb@google.com>
+>> ---
+>>   drivers/net/tun.c | 26 ++++++++------------------
+>>   1 file changed, 8 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+>> index e816aaba8e5f2ed06f8832f79553b6c976e75bb8..452fc5104260fe7ff5fdd5cedc5d2647cbe35c79 100644
+>> --- a/drivers/net/tun.c
+>> +++ b/drivers/net/tun.c
+>> @@ -298,10 +298,10 @@ static bool tun_napi_frags_enabled(const struct tun_file *tfile)
+>>   	return tfile->napi_frags_enabled;
+>>   }
+>>   
+>> -#ifdef CONFIG_TUN_VNET_CROSS_LE
+>>   static inline bool tun_legacy_is_little_endian(struct tun_struct *tun)
+>>   {
+>> -	return tun->flags & TUN_VNET_BE ? false :
+>> +	return !(IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) &&
+>> +		 (tun->flags & TUN_VNET_BE)) &&
+>>   		virtio_legacy_is_little_endian();
+> 
+> Since I have other comments to the series:
+> 
+> Can we make this a bit simpler to the reader, by splitting the test:
+> 
+>      if (IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) && tun->flags & TUN_VNET_BE)
+>              return false;
+> 
+>      return virtio_legacy_is_little_endian();
+> 
 
-This is the existing code, however it would be better to use wrmsrl()
-when the higher 32-bit are all 0s:
+I kept all in one expression to show how different variables are reduced 
+into one bool value, but I agree it is too complicated.
 
-	wrmsrl(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config);
+I'm adding a new variable to simplify this. The return statement will 
+look like: return !be && virtio_legacy_is_little_endian();
 
-Thanks!
-     Xin
+It means: for tun, whether the legacy format is in little endian will be 
+determined from the tun-specific big-endian flag and the virtio's common 
+logic.
