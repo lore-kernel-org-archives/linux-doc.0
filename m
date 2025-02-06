@@ -1,51 +1,51 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A9E1DE8A0
-	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 21:06:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CADD1DED5E
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 21:06:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738875998; cv=none; b=oCLRiOUfQvywkQ3EV++NaWN/I45AdV0M4KSMy3sI2RGA3gkt9OxVQneYzld5EmtM9Ba1YiY9jgeVi+1v9GAOduGHzaGDjZlAxA7trRKeKdbt0zPPIxNsDz3MiI8JRfkhmDUPs0ZhniaJKwTVig2uRqlDertaacyGNbYuvv4ifcg=
+	t=1738876000; cv=none; b=E5vlTDt5EQzdnQJYnqUA6gmmKBWcbYMUCeq2TA/gfR4MVNcrMh6uAzStFWPzpz+/K2fKJpTQLN9X1IWzKyI3p28yfSQgW82CtBFzXAwTKGMd59NBpd2hFifuNnYy8kORwRNU6mg3DQt5MngRP+YsnwiSYb9IAidoly90rtpiJyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738875998; c=relaxed/simple;
-	bh=YY9bE9k54mPVjMb14lVjLXVWPpAYIrmSESM5ZlgANEU=;
+	s=arc-20240116; t=1738876000; c=relaxed/simple;
+	bh=ESbuNypcgBCHyjkOkObQIW1RS2AAlSszimf2FxSwtps=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=T7zeAl6hpZk/QjUGd0ARQMLA2GjdVt/eROgkHnOr4qrPIQvuORp7xWQO58QjuK9unlj2ctVEGAXOgSmnHDaemNrVKiUw1dnuMvzRTLhjqV7NGPfErmtp4KsvJ0B0Q9imISFUTAQ13TFohFmIe06T5rDID/9QR1vnmcoXKheB/0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fQuTcJMg; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:To:Cc; b=a31AsMuTdDvp1wNqR+1zHRDumyiHr4AHCJFvfTttX/GnplT2y6XgCRq+IHAlolbs50DIjgTf5aKsCk79fapO5at2jcdjtGeGruf4jj8u2yKsdfuFemOnE74uCOF1WaN+hFF2S6ufNRsvI7ob5feGcJnAJzXrr8kXdPKgNnTF6tY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ddqrit+c; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fQuTcJMg"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ddqrit+c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1738875995;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=s7xAmzUbaN5huovQdYAEAsYWu0KhUnt9GjWcpVdzsA0=;
-	b=fQuTcJMgbE0QGCAWNSW69gcrILL+OdMnnLCTaj8UvYMvAN11DrbuiJYsM1W4VwVV7EWnni
-	jAqkwmL/EMX2mg/4NRb/nuLCGT3ORp42KQ1fVhwob4p9/YoYFLJ9NuJCUZmH7ObO1auPRV
-	vWzPY4GZRXyvEU5R5qOgqIwRL+czF1w=
+	bh=OZgXkv8VT/dXdNsGzQhyz1KbMcC31LmBmlVwA1uQe/w=;
+	b=Ddqrit+cOgtIs+hi0lUmlzGvpkWxG8pHfrwl1HT7V2NFPNSGtX5zdqN56J6au07RUwiwrR
+	fo9d7gjKOlLuOLgCKpBR3YgKoJbQLmiwReAMiIEry8Dh9Y3ZW9JAPIqKbeVZN4ubl6CWu9
+	MZ+INTiYNdyURETrIoneWAABvPIzwp8=
 Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-625-qQPf6AzhOUiGnvPgy0xiMg-1; Thu,
- 06 Feb 2025 16:06:32 -0500
-X-MC-Unique: qQPf6AzhOUiGnvPgy0xiMg-1
-X-Mimecast-MFC-AGG-ID: qQPf6AzhOUiGnvPgy0xiMg
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-215-f-wjLbaiN_-dRQwZougrWA-1; Thu,
+ 06 Feb 2025 16:06:30 -0500
+X-MC-Unique: f-wjLbaiN_-dRQwZougrWA-1
+X-Mimecast-MFC-AGG-ID: f-wjLbaiN_-dRQwZougrWA
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 734681800874;
-	Thu,  6 Feb 2025 21:06:30 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.21])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9C09A1800570;
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4F807180056F;
 	Thu,  6 Feb 2025 21:06:26 +0000 (UTC)
+Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.21])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 989EB1800570;
+	Thu,  6 Feb 2025 21:06:22 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 06 Feb 2025 16:05:59 -0500
-Subject: [PATCH 04/14] drm/panel/jdi-lpm102a188a: Move to using
- mipi_dsi_generic_write_seq_multi()
+Date: Thu, 06 Feb 2025 16:05:58 -0500
+Subject: [PATCH 03/14] drm/panel/himax-hx8394: Move to using
+ mipi_dsi_dcs_write_seq_multi()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-mipi-cocci-v1-4-4ff0c69e8897@redhat.com>
+Message-Id: <20250206-mipi-cocci-v1-3-4ff0c69e8897@redhat.com>
 References: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
 In-Reply-To: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -68,87 +68,543 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jonathan Corbet <corbet@lwn.net>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738875969; l=2957;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738875969; l=23561;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=YY9bE9k54mPVjMb14lVjLXVWPpAYIrmSESM5ZlgANEU=;
- b=MuWUzWk138+PYDgGPkyO9/t5bPV/hiDsEXzstTvTHxe+a/j5VsjlRaRwXztm3CZKoqET3LqQx
- 5oVKJEmN5bQBlrRjtAcTARKab+1+ox+ldm1Fkbvok1654/jw/KL5g2q
+ bh=ESbuNypcgBCHyjkOkObQIW1RS2AAlSszimf2FxSwtps=;
+ b=8R/Bo3cmFrWEVihOit0Cj6aR3nDeV9JuKAbi+lHSes/KWcX7S1cuMuWZm5cXXd06tpVGd0x8z
+ WyWuVfZ53aODKsH8c5AmpB+NgY3FcgCJvCXoEzkAJyYh3XrfWlJqv6B
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-Use mipi_dsi_generic_write_seq_multi() instead of
-mipi_dsi_generic_write_seq()
+Use mipi_dsi_dcs_write_seq_multi() instead of
+mipi_dsi_dcs_write_seq()
 
 Used Coccinelle to do this change. SmPl patch:
-
-@rule_2@
-expression dsi_var;
+@rule_1@
+identifier dsi_var;
+expression dsi_device;
 expression list es;
-identifier jdi;
 @@
-static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
-{
-+struct mipi_dsi_multi_context dsi_ctx1 = { .dsi = jdi->link1 };
-+struct mipi_dsi_multi_context dsi_ctx2 = { .dsi = jdi->link2 };
+struct mipi_dsi_device *dsi_var = dsi_device;
++struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi_var };
 <+...
--mipi_dsi_generic_write_seq(jdi->link1,es);
-+mipi_dsi_generic_write_seq_multi(&dsi_ctx1,es);
--mipi_dsi_generic_write_seq(jdi->link2,es);
-+mipi_dsi_generic_write_seq_multi(&dsi_ctx2,es);
+-mipi_dsi_dcs_write_seq(dsi_var,es);
++mipi_dsi_dcs_write_seq_multi(&dsi_ctx,es);
 ...+>
-}
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 31 ++++++++++++++-------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/panel/panel-himax-hx8394.c | 364 ++++++++++++++---------------
+ 1 file changed, 175 insertions(+), 189 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-index 5b5082efb282bcf705cf2d38dea24901e9803648..30ed3acd4790d049cc2042a64dc10b77dde56034 100644
---- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-@@ -161,27 +161,28 @@ static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
- 
- static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
+diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+index 92b03a2f65a3594a43e42e9df88f824084349b61..9f3734fa6b6a1b833d0b7cffaae36b7c9873b65b 100644
+--- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
++++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+@@ -91,93 +91,93 @@ static inline struct hx8394 *panel_to_hx8394(struct drm_panel *panel)
+ static int hsd060bhw4_init_sequence(struct hx8394 *ctx)
  {
-+	struct mipi_dsi_multi_context dsi_ctx1 = { .dsi = jdi->link1 };
-+	struct mipi_dsi_multi_context dsi_ctx2 = { .dsi = jdi->link2 };
- 	/* Clear the manufacturer command access protection */
--	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
--				   MCS_CMD_ACS_PROT_OFF);
--	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
--				   MCS_CMD_ACS_PROT_OFF);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx1, MCS_CMD_ACS_PROT,
-+					 MCS_CMD_ACS_PROT_OFF);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx2, MCS_CMD_ACS_PROT,
-+					 MCS_CMD_ACS_PROT_OFF);
- 	/*
- 	 * Change the VGH/VGL divide rations to move the noise generated by the
- 	 * TCONN. This should hopefully avoid interaction with the backlight
- 	 * controller.
- 	 */
--	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
--				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
--				   MCS_PWR_CTRL_PARAM1_DEFAULT,
--				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
--				   MCS_PWR_CTRL_PARAM2_DEFAULT);
--
--	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
--				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
--				   MCS_PWR_CTRL_PARAM1_DEFAULT,
--				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
--				   MCS_PWR_CTRL_PARAM2_DEFAULT);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx1, MCS_PWR_CTRL_FUNC,
-+					 MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-+					 MCS_PWR_CTRL_PARAM1_DEFAULT,
-+					 MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-+					 MCS_PWR_CTRL_PARAM2_DEFAULT);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx2, MCS_PWR_CTRL_FUNC,
-+					 MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-+					 MCS_PWR_CTRL_PARAM1_DEFAULT,
-+					 MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-+					 MCS_PWR_CTRL_PARAM2_DEFAULT);
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	/* 5.19.8 SETEXTC: Set extension command (B9h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETEXTC,
+-			       0xff, 0x83, 0x94);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETEXTC, 0xff, 0x83,
++				     0x94);
+ 
+ 	/* 5.19.2 SETPOWER: Set power (B1h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
+-			       0x48, 0x11, 0x71, 0x09, 0x32, 0x24, 0x71, 0x31, 0x55, 0x30);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETPOWER, 0x48,
++				     0x11, 0x71, 0x09, 0x32, 0x24, 0x71, 0x31,
++				     0x55, 0x30);
+ 
+ 	/* 5.19.9 SETMIPI: Set MIPI control (BAh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETMIPI,
+-			       0x63, 0x03, 0x68, 0x6b, 0xb2, 0xc0);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETMIPI, 0x63, 0x03,
++				     0x68, 0x6b, 0xb2, 0xc0);
+ 
+ 	/* 5.19.3 SETDISP: Set display related register (B2h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETDISP,
+-			       0x00, 0x80, 0x78, 0x0c, 0x07);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETDISP, 0x00, 0x80,
++				     0x78, 0x0c, 0x07);
+ 
+ 	/* 5.19.4 SETCYC: Set display waveform cycles (B4h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCYC,
+-			       0x12, 0x63, 0x12, 0x63, 0x12, 0x63, 0x01, 0x0c, 0x7c, 0x55,
+-			       0x00, 0x3f, 0x12, 0x6b, 0x12, 0x6b, 0x12, 0x6b, 0x01, 0x0c,
+-			       0x7c);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETCYC, 0x12, 0x63,
++				     0x12, 0x63, 0x12, 0x63, 0x01, 0x0c, 0x7c,
++				     0x55, 0x00, 0x3f, 0x12, 0x6b, 0x12, 0x6b,
++				     0x12, 0x6b, 0x01, 0x0c, 0x7c);
+ 
+ 	/* 5.19.19 SETGIP0: Set GIP Option0 (D3h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP0,
+-			       0x00, 0x00, 0x00, 0x00, 0x3c, 0x1c, 0x00, 0x00, 0x32, 0x10,
+-			       0x09, 0x00, 0x09, 0x32, 0x15, 0xad, 0x05, 0xad, 0x32, 0x00,
+-			       0x00, 0x00, 0x00, 0x37, 0x03, 0x0b, 0x0b, 0x37, 0x00, 0x00,
+-			       0x00, 0x0c, 0x40);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGIP0, 0x00, 0x00,
++				     0x00, 0x00, 0x3c, 0x1c, 0x00, 0x00, 0x32,
++				     0x10, 0x09, 0x00, 0x09, 0x32, 0x15, 0xad,
++				     0x05, 0xad, 0x32, 0x00, 0x00, 0x00, 0x00,
++				     0x37, 0x03, 0x0b, 0x0b, 0x37, 0x00, 0x00,
++				     0x00, 0x0c, 0x40);
+ 
+ 	/* 5.19.20 Set GIP Option1 (D5h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP1,
+-			       0x19, 0x19, 0x18, 0x18, 0x1b, 0x1b, 0x1a, 0x1a, 0x00, 0x01,
+-			       0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x20, 0x21, 0x18, 0x18,
+-			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+-			       0x24, 0x25, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+-			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGIP1, 0x19, 0x19,
++				     0x18, 0x18, 0x1b, 0x1b, 0x1a, 0x1a, 0x00,
++				     0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
++				     0x20, 0x21, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x24, 0x25, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18);
+ 
+ 	/* 5.19.21 Set GIP Option2 (D6h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP2,
+-			       0x18, 0x18, 0x19, 0x19, 0x1b, 0x1b, 0x1a, 0x1a, 0x07, 0x06,
+-			       0x05, 0x04, 0x03, 0x02, 0x01, 0x00, 0x25, 0x24, 0x18, 0x18,
+-			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+-			       0x21, 0x20, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+-			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGIP2, 0x18, 0x18,
++				     0x19, 0x19, 0x1b, 0x1b, 0x1a, 0x1a, 0x07,
++				     0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00,
++				     0x25, 0x24, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x21, 0x20, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18);
+ 
+ 	/* 5.19.25 SETGAMMA: Set gamma curve related setting (E0h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGAMMA,
+-			       0x00, 0x04, 0x0c, 0x12, 0x14, 0x18, 0x1a, 0x18, 0x31, 0x3f,
+-			       0x4d, 0x4c, 0x54, 0x65, 0x6b, 0x70, 0x7f, 0x82, 0x7e, 0x8a,
+-			       0x99, 0x4a, 0x48, 0x49, 0x4b, 0x4a, 0x4c, 0x4b, 0x7f, 0x00,
+-			       0x04, 0x0c, 0x11, 0x13, 0x17, 0x1a, 0x18, 0x31,
+-			       0x3f, 0x4d, 0x4c, 0x54, 0x65, 0x6b, 0x70, 0x7f,
+-			       0x82, 0x7e, 0x8a, 0x99, 0x4a, 0x48, 0x49, 0x4b,
+-			       0x4a, 0x4c, 0x4b, 0x7f);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGAMMA, 0x00,
++				     0x04, 0x0c, 0x12, 0x14, 0x18, 0x1a, 0x18,
++				     0x31, 0x3f, 0x4d, 0x4c, 0x54, 0x65, 0x6b,
++				     0x70, 0x7f, 0x82, 0x7e, 0x8a, 0x99, 0x4a,
++				     0x48, 0x49, 0x4b, 0x4a, 0x4c, 0x4b, 0x7f,
++				     0x00, 0x04, 0x0c, 0x11, 0x13, 0x17, 0x1a,
++				     0x18, 0x31, 0x3f, 0x4d, 0x4c, 0x54, 0x65,
++				     0x6b, 0x70, 0x7f, 0x82, 0x7e, 0x8a, 0x99,
++				     0x4a, 0x48, 0x49, 0x4b, 0x4a, 0x4c, 0x4b,
++				     0x7f);
+ 
+ 	/* 5.19.17 SETPANEL (CCh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPANEL,
+-			       0x0b);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETPANEL, 0x0b);
+ 
+ 	/* Unknown command, not listed in the HX8394-F datasheet */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN1,
+-			       0x1f, 0x31);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN1, 0x1f,
++				     0x31);
+ 
+ 	/* 5.19.5 SETVCOM: Set VCOM voltage (B6h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETVCOM,
+-			       0x7d, 0x7d);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETVCOM, 0x7d, 0x7d);
+ 
+ 	/* Unknown command, not listed in the HX8394-F datasheet */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN3,
+-			       0x02);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN3, 0x02);
+ 
+ 	/* 5.19.11 Set register bank (BDh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+-			       0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETREGBANK, 0x01);
+ 
+ 	/* 5.19.2 SETPOWER: Set power (B1h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
+-			       0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETPOWER, 0x00);
+ 
+ 	/* 5.19.11 Set register bank (BDh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+-			       0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETREGBANK, 0x00);
+ 
+ 	/* Unknown command, not listed in the HX8394-F datasheet */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN3,
+-			       0xed);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN3, 0xed);
+ 
+ 	return 0;
+ }
+@@ -208,109 +208,108 @@ static const struct hx8394_panel_desc hsd060bhw4_desc = {
+ static int powkiddy_x55_init_sequence(struct hx8394 *ctx)
+ {
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	/* 5.19.8 SETEXTC: Set extension command (B9h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETEXTC,
+-			       0xff, 0x83, 0x94);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETEXTC, 0xff, 0x83,
++				     0x94);
+ 
+ 	/* 5.19.9 SETMIPI: Set MIPI control (BAh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETMIPI,
+-			       0x63, 0x03, 0x68, 0x6b, 0xb2, 0xc0);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETMIPI, 0x63, 0x03,
++				     0x68, 0x6b, 0xb2, 0xc0);
+ 
+ 	/* 5.19.2 SETPOWER: Set power (B1h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
+-			       0x48, 0x12, 0x72, 0x09, 0x32, 0x54, 0x71, 0x71, 0x57, 0x47);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETPOWER, 0x48,
++				     0x12, 0x72, 0x09, 0x32, 0x54, 0x71, 0x71,
++				     0x57, 0x47);
+ 
+ 	/* 5.19.3 SETDISP: Set display related register (B2h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETDISP,
+-			       0x00, 0x80, 0x64, 0x2c, 0x16, 0x2f);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETDISP, 0x00, 0x80,
++				     0x64, 0x2c, 0x16, 0x2f);
+ 
+ 	/* 5.19.4 SETCYC: Set display waveform cycles (B4h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCYC,
+-			       0x73, 0x74, 0x73, 0x74, 0x73, 0x74, 0x01, 0x0c, 0x86, 0x75,
+-			       0x00, 0x3f, 0x73, 0x74, 0x73, 0x74, 0x73, 0x74, 0x01, 0x0c,
+-			       0x86);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETCYC, 0x73, 0x74,
++				     0x73, 0x74, 0x73, 0x74, 0x01, 0x0c, 0x86,
++				     0x75, 0x00, 0x3f, 0x73, 0x74, 0x73, 0x74,
++				     0x73, 0x74, 0x01, 0x0c, 0x86);
+ 
+ 	/* 5.19.5 SETVCOM: Set VCOM voltage (B6h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETVCOM,
+-			       0x6e, 0x6e);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETVCOM, 0x6e, 0x6e);
+ 
+ 	/* 5.19.19 SETGIP0: Set GIP Option0 (D3h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP0,
+-			       0x00, 0x00, 0x07, 0x07, 0x40, 0x07, 0x0c, 0x00, 0x08, 0x10,
+-			       0x08, 0x00, 0x08, 0x54, 0x15, 0x0a, 0x05, 0x0a, 0x02, 0x15,
+-			       0x06, 0x05, 0x06, 0x47, 0x44, 0x0a, 0x0a, 0x4b, 0x10, 0x07,
+-			       0x07, 0x0c, 0x40);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGIP0, 0x00, 0x00,
++				     0x07, 0x07, 0x40, 0x07, 0x0c, 0x00, 0x08,
++				     0x10, 0x08, 0x00, 0x08, 0x54, 0x15, 0x0a,
++				     0x05, 0x0a, 0x02, 0x15, 0x06, 0x05, 0x06,
++				     0x47, 0x44, 0x0a, 0x0a, 0x4b, 0x10, 0x07,
++				     0x07, 0x0c, 0x40);
+ 
+ 	/* 5.19.20 Set GIP Option1 (D5h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP1,
+-			       0x1c, 0x1c, 0x1d, 0x1d, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05,
+-			       0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x24, 0x25, 0x18, 0x18,
+-			       0x26, 0x27, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+-			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x20, 0x21,
+-			       0x18, 0x18, 0x18, 0x18);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGIP1, 0x1c, 0x1c,
++				     0x1d, 0x1d, 0x00, 0x01, 0x02, 0x03, 0x04,
++				     0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b,
++				     0x24, 0x25, 0x18, 0x18, 0x26, 0x27, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x20, 0x21, 0x18, 0x18, 0x18, 0x18);
+ 
+ 	/* 5.19.21 Set GIP Option2 (D6h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP2,
+-			       0x1c, 0x1c, 0x1d, 0x1d, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02,
+-			       0x01, 0x00, 0x0b, 0x0a, 0x09, 0x08, 0x21, 0x20, 0x18, 0x18,
+-			       0x27, 0x26, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+-			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x25, 0x24,
+-			       0x18, 0x18, 0x18, 0x18);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGIP2, 0x1c, 0x1c,
++				     0x1d, 0x1d, 0x07, 0x06, 0x05, 0x04, 0x03,
++				     0x02, 0x01, 0x00, 0x0b, 0x0a, 0x09, 0x08,
++				     0x21, 0x20, 0x18, 0x18, 0x27, 0x26, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x25, 0x24, 0x18, 0x18, 0x18, 0x18);
+ 
+ 	/* 5.19.25 SETGAMMA: Set gamma curve related setting (E0h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGAMMA,
+-			       0x00, 0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24, 0x22, 0x47, 0x56,
+-			       0x65, 0x66, 0x6e, 0x82, 0x88, 0x8b, 0x9a, 0x9d, 0x98, 0xa8,
+-			       0xb9, 0x5d, 0x5c, 0x61, 0x66, 0x6a, 0x6f, 0x7f, 0x7f, 0x00,
+-			       0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24, 0x22, 0x47, 0x56, 0x65,
+-			       0x65, 0x6e, 0x81, 0x87, 0x8b, 0x98, 0x9d, 0x99, 0xa8, 0xba,
+-			       0x5d, 0x5d, 0x62, 0x67, 0x6b, 0x72, 0x7f, 0x7f);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGAMMA, 0x00,
++				     0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24, 0x22,
++				     0x47, 0x56, 0x65, 0x66, 0x6e, 0x82, 0x88,
++				     0x8b, 0x9a, 0x9d, 0x98, 0xa8, 0xb9, 0x5d,
++				     0x5c, 0x61, 0x66, 0x6a, 0x6f, 0x7f, 0x7f,
++				     0x00, 0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24,
++				     0x22, 0x47, 0x56, 0x65, 0x65, 0x6e, 0x81,
++				     0x87, 0x8b, 0x98, 0x9d, 0x99, 0xa8, 0xba,
++				     0x5d, 0x5d, 0x62, 0x67, 0x6b, 0x72, 0x7f,
++				     0x7f);
+ 
+ 	/* Unknown command, not listed in the HX8394-F datasheet */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN1,
+-			       0x1f, 0x31);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN1, 0x1f,
++				     0x31);
+ 
+ 	/* 5.19.17 SETPANEL (CCh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPANEL,
+-			       0x0b);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETPANEL, 0x0b);
+ 
+ 	/* Unknown command, not listed in the HX8394-F datasheet */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN3,
+-			       0x02);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN3, 0x02);
+ 
+ 	/* 5.19.11 Set register bank (BDh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+-			       0x02);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETREGBANK, 0x02);
+ 
+ 	/* Unknown command, not listed in the HX8394-F datasheet */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN4,
+-			       0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+-			       0xff, 0xff);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN4, 0xff,
++				     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++				     0xff, 0xff, 0xff, 0xff);
+ 
+ 	/* 5.19.11 Set register bank (BDh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+-			       0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETREGBANK, 0x00);
+ 
+ 	/* 5.19.11 Set register bank (BDh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+-			       0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETREGBANK, 0x01);
+ 
+ 	/* 5.19.2 SETPOWER: Set power (B1h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
+-			       0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETPOWER, 0x00);
+ 
+ 	/* 5.19.11 Set register bank (BDh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+-			       0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETREGBANK, 0x00);
+ 
+ 	/* Unknown command, not listed in the HX8394-F datasheet */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN5,
+-			       0x40, 0x81, 0x50, 0x00, 0x1a, 0xfc, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN5, 0x40,
++				     0x81, 0x50, 0x00, 0x1a, 0xfc, 0x01);
+ 
+ 	/* Unknown command, not listed in the HX8394-F datasheet */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN2,
+-			       0xed);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN2, 0xed);
+ 
+ 	return 0;
+ }
+@@ -342,126 +341,113 @@ static const struct hx8394_panel_desc powkiddy_x55_desc = {
+ static int mchp_ac40t08a_init_sequence(struct hx8394 *ctx)
+ {
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
++	struct mipi_dsi_multi_context dsi_ctx = {
++		.dsi = dsi
++		};
+ 
+ 	/* DCS commands do not seem to be sent correclty without this delay */
+ 	msleep(20);
+ 
+ 	/* 5.19.8 SETEXTC: Set extension command (B9h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETEXTC,
+-			       0xff, 0x83, 0x94);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETEXTC, 0xff, 0x83,
++				     0x94);
+ 
+ 	/* 5.19.9 SETMIPI: Set MIPI control (BAh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETMIPI,
+-			       0x63, 0x03, 0x68, 0x6b, 0xb2, 0xc0);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETMIPI, 0x63, 0x03,
++				     0x68, 0x6b, 0xb2, 0xc0);
+ 
+ 	/* 5.19.2 SETPOWER: Set power (B1h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
+-			       0x48, 0x12, 0x72, 0x09, 0x32, 0x54,
+-			       0x71, 0x71, 0x57, 0x47);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETPOWER, 0x48,
++				     0x12, 0x72, 0x09, 0x32, 0x54, 0x71, 0x71,
++				     0x57, 0x47);
+ 
+ 	/* 5.19.3 SETDISP: Set display related register (B2h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETDISP,
+-			       0x00, 0x80, 0x64, 0x0c, 0x0d, 0x2f);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETDISP, 0x00, 0x80,
++				     0x64, 0x0c, 0x0d, 0x2f);
+ 
+ 	/* 5.19.4 SETCYC: Set display waveform cycles (B4h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCYC,
+-			       0x73, 0x74, 0x73, 0x74, 0x73, 0x74,
+-			       0x01, 0x0c, 0x86, 0x75, 0x00, 0x3f,
+-			       0x73, 0x74, 0x73, 0x74, 0x73, 0x74,
+-			       0x01, 0x0c, 0x86);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETCYC, 0x73, 0x74,
++				     0x73, 0x74, 0x73, 0x74, 0x01, 0x0c, 0x86,
++				     0x75, 0x00, 0x3f, 0x73, 0x74, 0x73, 0x74,
++				     0x73, 0x74, 0x01, 0x0c, 0x86);
+ 
+ 	/* 5.19.5 SETVCOM: Set VCOM voltage (B6h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETVCOM,
+-			       0x6e, 0x6e);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETVCOM, 0x6e, 0x6e);
+ 
+ 	/* 5.19.19 SETGIP0: Set GIP Option0 (D3h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP0,
+-			       0x00, 0x00, 0x07, 0x07, 0x40, 0x07,
+-			       0x0c, 0x00, 0x08, 0x10, 0x08, 0x00,
+-			       0x08, 0x54, 0x15, 0x0a, 0x05, 0x0a,
+-			       0x02, 0x15, 0x06, 0x05, 0x06, 0x47,
+-			       0x44, 0x0a, 0x0a, 0x4b, 0x10, 0x07,
+-			       0x07, 0x0c, 0x40);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGIP0, 0x00, 0x00,
++				     0x07, 0x07, 0x40, 0x07, 0x0c, 0x00, 0x08,
++				     0x10, 0x08, 0x00, 0x08, 0x54, 0x15, 0x0a,
++				     0x05, 0x0a, 0x02, 0x15, 0x06, 0x05, 0x06,
++				     0x47, 0x44, 0x0a, 0x0a, 0x4b, 0x10, 0x07,
++				     0x07, 0x0c, 0x40);
+ 
+ 	/* 5.19.20 Set GIP Option1 (D5h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP1,
+-			       0x1c, 0x1c, 0x1d, 0x1d, 0x00, 0x01,
+-			       0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+-			       0x08, 0x09, 0x0a, 0x0b, 0x24, 0x25,
+-			       0x18, 0x18, 0x26, 0x27, 0x18, 0x18,
+-			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+-			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+-			       0x18, 0x18, 0x20, 0x21, 0x18, 0x18,
+-			       0x18, 0x18);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGIP1, 0x1c, 0x1c,
++				     0x1d, 0x1d, 0x00, 0x01, 0x02, 0x03, 0x04,
++				     0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b,
++				     0x24, 0x25, 0x18, 0x18, 0x26, 0x27, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x20, 0x21, 0x18, 0x18, 0x18, 0x18);
+ 
+ 	/* 5.19.21 Set GIP Option2 (D6h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP2,
+-			       0x1c, 0x1c, 0x1d, 0x1d, 0x07, 0x06,
+-			       0x05, 0x04, 0x03, 0x02, 0x01, 0x00,
+-			       0x0b, 0x0a, 0x09, 0x08, 0x21, 0x20,
+-			       0x18, 0x18, 0x27, 0x26, 0x18, 0x18,
+-			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+-			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+-			       0x18, 0x18, 0x25, 0x24, 0x18, 0x18,
+-			       0x18, 0x18);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGIP2, 0x1c, 0x1c,
++				     0x1d, 0x1d, 0x07, 0x06, 0x05, 0x04, 0x03,
++				     0x02, 0x01, 0x00, 0x0b, 0x0a, 0x09, 0x08,
++				     0x21, 0x20, 0x18, 0x18, 0x27, 0x26, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
++				     0x18, 0x25, 0x24, 0x18, 0x18, 0x18, 0x18);
+ 
+ 	/* 5.19.25 SETGAMMA: Set gamma curve related setting (E0h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGAMMA,
+-			       0x00, 0x0a, 0x15, 0x1b, 0x1e, 0x21,
+-			       0x24, 0x22, 0x47, 0x56, 0x65, 0x66,
+-			       0x6e, 0x82, 0x88, 0x8b, 0x9a, 0x9d,
+-			       0x98, 0xa8, 0xb9, 0x5d, 0x5c, 0x61,
+-			       0x66, 0x6a, 0x6f, 0x7f, 0x7f, 0x00,
+-			       0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24,
+-			       0x22, 0x47, 0x56, 0x65, 0x65, 0x6e,
+-			       0x81, 0x87, 0x8b, 0x98, 0x9d, 0x99,
+-			       0xa8, 0xba, 0x5d, 0x5d, 0x62, 0x67,
+-			       0x6b, 0x72, 0x7f, 0x7f);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETGAMMA, 0x00,
++				     0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24, 0x22,
++				     0x47, 0x56, 0x65, 0x66, 0x6e, 0x82, 0x88,
++				     0x8b, 0x9a, 0x9d, 0x98, 0xa8, 0xb9, 0x5d,
++				     0x5c, 0x61, 0x66, 0x6a, 0x6f, 0x7f, 0x7f,
++				     0x00, 0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24,
++				     0x22, 0x47, 0x56, 0x65, 0x65, 0x6e, 0x81,
++				     0x87, 0x8b, 0x98, 0x9d, 0x99, 0xa8, 0xba,
++				     0x5d, 0x5d, 0x62, 0x67, 0x6b, 0x72, 0x7f,
++				     0x7f);
+ 
+ 	/* Unknown command, not listed in the HX8394-F datasheet (C0H) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN1,
+-			       0x1f, 0x73);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN1, 0x1f,
++				     0x73);
+ 
+ 	/* Set CABC control (C9h)*/
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCABC,
+-			       0x76, 0x00, 0x30);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETCABC, 0x76, 0x00,
++				     0x30);
+ 
+ 	/* 5.19.17 SETPANEL (CCh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPANEL,
+-			       0x0b);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETPANEL, 0x0b);
+ 
+ 	/* Unknown command, not listed in the HX8394-F datasheet (D4h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN3,
+-			       0x02);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN3, 0x02);
+ 
+ 	/* 5.19.11 Set register bank (BDh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+-			       0x02);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETREGBANK, 0x02);
+ 
+ 	/* 5.19.11 Set register bank (D8h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN4,
+-			       0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+-			       0xff, 0xff, 0xff, 0xff, 0xff, 0xff);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN4, 0xff,
++				     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++				     0xff, 0xff, 0xff, 0xff);
+ 
+ 	/* 5.19.11 Set register bank (BDh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+-			       0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETREGBANK, 0x00);
+ 
+ 	/* 5.19.11 Set register bank (BDh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+-			       0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETREGBANK, 0x01);
+ 
+ 	/* 5.19.2 SETPOWER: Set power (B1h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
+-			       0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETPOWER, 0x00);
+ 
+ 	/* 5.19.11 Set register bank (BDh) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+-			       0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_SETREGBANK, 0x00);
+ 
+ 	/* Unknown command, not listed in the HX8394-F datasheet (C6h) */
+-	mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN2,
+-			       0xed);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX8394_CMD_UNKNOWN2, 0xed);
  
  	return 0;
  }
