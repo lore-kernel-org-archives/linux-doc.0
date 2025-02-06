@@ -1,220 +1,264 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6FA1624EF
-	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 13:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CF31C7003;
+	Thu,  6 Feb 2025 13:59:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738849836; cv=none; b=MglbD8MtEXcqOmwkmMxFfBX3egmV37dSf3TyIhU+btyflqBHeYTsCifSLRkSGiXzcfQBEj/aEiHtBesM+FButiuRBXmtkxwjz8ZSjHrndGGgKa9pQnQ8KV4NAowmRAByFFa6nuF0hrjnuAmzuEHqGAeHZpHew7sqnqI7hwsOMCw=
+	t=1738850369; cv=none; b=J0n7qRUfaR4XBi6l6XRHAb9OGocB7SX3VYbTlVrxXZT6bkKV24Suc67VdmX980CKzspf7fw8EGMJXDFWHxaqNtYQbk2s56lWUNi5mRQyvSC02zq4Ca9s8A/9QJ0e1kvmbAIdRhVjl+w423az5VAPSM/qI2FTbsHpi/jaMezLmZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738849836; c=relaxed/simple;
-	bh=eQAAGwqNOl7v+M9a4ivw00ivo+95Yco+MnJBXOwIKAw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kiEqA4gh674dxOi/xQgucxCXILvUorxIMe5aGXSlJz659zgFCu97VmqM8WiNBO14d6Qz3fUwiuSRb68RD7s9X0S6QYn7d2EnJgcy9MITcjZuUMisC462j4nE1wt2Fj6gsMzRFJ9aUi8g3faEZtNk9YaW0Zl9rnUBGMRw1UwqI78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Cz1P6bFE; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1738850369; c=relaxed/simple;
+	bh=/8T0ISoh6DtyVHsrNW7Gm3mjILIJdd5Ay57tRPWwflY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HKfmb7qwqPyFC3avTCYYFShlZ7Xp5pdm+Eoqw0Hykb+vdlaaTgbx5m8C8sUU4vNnVVMnvK6ojfZS4P3VgrKfEclUVEWjbc2bsCxkeh4QsGAxne67/gflunjWgBg9fxjdwYJlqIepCBXRu3beGRKV3vHUD9X5ZlB67i2ZRcrkaiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cjtA9e/D; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Cz1P6bFE"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-38dabb11eaaso463724f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 05:50:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cjtA9e/D"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6f7031ea11cso9261007b3.2;
+        Thu, 06 Feb 2025 05:59:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1738849832; x=1739454632; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZqG9Iy11y+7j3Q1qmHPl/yKVh88xdsRebgLzRhIb/28=;
-        b=Cz1P6bFE92HuscbEUlQZ5N4TG2VoG7SA53cQMFhVWCFlDqez+Ygx2znFCkao7s9QVu
-         DHc3L1PdWy2Ivr44FzHKhLT+iAmbNX0t8ktKGQUM1A601ARdwH8WgO4R0qtwl4xHlzl3
-         yqg8QO2/dooso+d7BjaUo0sEWtb3gVZMDTIzrFGLA7ruyTYXtzvvcVi90XNrkTaTQyFA
-         9YiVM9dq/PhhZe5zUKMZEtj1qdybJk51tXi1qTz3TLGprhYLS8+UajcYL+xc6xtgkHJj
-         AnP5KbLXh2hiWyouT3jvO4gXSFG3M0QXzqYJqoi3kATURA0qf7JnvBq2RIKNUWACAdfD
-         K+jg==
+        d=gmail.com; s=20230601; t=1738850366; x=1739455166; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JkSmWPOCb+asYOBVa33NM1TSxlPpxpo4SUCa1fCfjBE=;
+        b=cjtA9e/DK/WqlXszFc+e+jYmSC9YuW/eQjYZFoYZXTnfWSqABKY0o4aRw0V+JncYvt
+         LhANkeY04fRzKazt6+yBr2swhHoOo/vNgEp0dfHuJN7Ah7owpyKckiEHzt0TOozHZtPb
+         YzgI+8uKW3uhKCcT+VFcyS93mv4ORl37y1wYx7Shad9u00qmXp40pQIuCmDtv/Xxi8wt
+         5UJvgKbHLI//i+qL7H2jGDv+VyrjuMTr83BMW/rdmysHkhwrbSLjFAhirWIxl4p5tL8D
+         DESh0/vCCYM/32lXvmAWiqhCm+H5zho1TTGVHuiEnsBdZABd8L8m8Z9GOQkv1AbQ0P1+
+         4++A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738849832; x=1739454632;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZqG9Iy11y+7j3Q1qmHPl/yKVh88xdsRebgLzRhIb/28=;
-        b=i4g3vVSe8Wz5n3YKQVaa761YJHqD9i08xv8I6G45zY8JvlGK80lT0XmaVC7+dhQfI7
-         ntjm33YpsnqdgpnOZvD+X+dRyKiWPZCRsGq93Pk/E+60o2bizMwRRYm9gK1LzhWz0Bw+
-         7/X89idQVcfhP97wcynXXxKgdH0osiHelaNmmpyXYqQXo1cqzaKlNC0YSlz9LVCNevqV
-         Je2S3DgL58wlxOhpwKouA1CHJQ0CIUloHcAwYR8Oxt4PHJ/nSDEB61SUpzXZPCV9Wbqa
-         7sKLPru8x8S2iDCk7nfy9kD9SikL7ClHdJZIHShHN8td2j8wF+uQaOxFmU05Lr5ICc5e
-         oSkg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNZtr0epYkLyqI4T1eKjmd8P6TvIvIhaXR2ST22A1vnn+Qwg/1sNCWge59TARct1pfPwJJxzxf/08=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz13ug6H6hYeePyF0FeMWaFvgAi3hH/14/k4FdFXpYJEc3UQt1
-	ZGKkgkD4+3BfobnjvTtEfelhttBoxOVikUVDZOkIQFcy+F1GPeoupjiFFFr1rhQ=
-X-Gm-Gg: ASbGnctWyGpFb3z9U1OR5I8fk3xuxElbskpptD1D9Tc/BzcgbudtKMVbfDsaZSJko+s
-	AVQY97GIcUyl4qSG9uQKNHBbhB8rwhu2yNQ+Yn/PQYb5YazT5NWodxCL3wxMgN/hJQ5eS+75eZ5
-	Zu4wqB6Y4su6q/KWHa9C69wugOkoRMwqN/UZe88wreamFc9EpX26GiGF9C5yqiTB/zOngg4y9M/
-	YiWclo0AFfyE8nAdW0pq0HrA8w7WvmiULXmtnbSk4RI31fCLbS2k18zDyR9XN2KNYWiznw8vMic
-	Rv7UPA0PCpl4JDYtZs9R6SCzp6iedvP9+iJvy+D9tcYGxakAb1zXHSCDjxKK
-X-Google-Smtp-Source: AGHT+IEYIYIWW6J/hIRqm2Y0oUfYR4o1i/HreKUFQmuOWd+xJTMh9Ma+9XSSasA3LYOW3FeM7FN37Q==
-X-Received: by 2002:adf:e5cb:0:b0:385:faec:d94d with SMTP id ffacd0b85a97d-38db4910812mr5188370f8f.51.1738849831734;
-        Thu, 06 Feb 2025 05:50:31 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dc17e278bsm1117573f8f.48.2025.02.06.05.50.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Feb 2025 05:50:31 -0800 (PST)
-Message-ID: <782ef14c-e7c4-435e-adc6-9559ce3cc06d@rivosinc.com>
-Date: Thu, 6 Feb 2025 14:50:29 +0100
+        d=1e100.net; s=20230601; t=1738850366; x=1739455166;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JkSmWPOCb+asYOBVa33NM1TSxlPpxpo4SUCa1fCfjBE=;
+        b=mwpqy398GcwdXMs9PV2iet5QBpY6+8TL95im0CwewHyXDCE850kfFCYWqRL96Tt4SM
+         BlLJYylyNC+3hGNUPeF21/d+ztdq7EE8T2MYbWRjatwc86s1SkEAeaCB4VHV+LLWCLih
+         AqeG5U0nLcfE9icPurP89GYINf+VBkpkv1qe17Y7NrvjZ6WL1gPy4ZHnDs3tyB9I0TNp
+         pB25s/7fAcr8rzRn/axpJR5PxNXQa68HD8Zqaa8//6SDIvuQBBxPcdrHcVfsqpVWa16x
+         2LhrQUQx5eGDBsqpmBmvxik1q0JMD0cRZj68vnFLVwWCIEKXem1guSUBsZj7pfl0905O
+         +VgA==
+X-Forwarded-Encrypted: i=1; AJvYcCVHpsPGJ+nj16JwiphaA6EBsHw+SL3Ib/Lc4U5+gAp1BEvpEl/CiynrbqzL+Yx9ncfBDNPgSPTY2nMU7g==@vger.kernel.org, AJvYcCVWNecQBLuK9fzFwfdSoSWkWKAuU5Wpc5ealjdKsjGG2FcdRgmwwsF+MWhgZHRqTdGOXdTYbEPo@vger.kernel.org, AJvYcCXFxrVXtdZXmX+3sytFSvfIV9Q/lFjkh+Zt1Vezfi0WjFnbr19UOfZ8RgI8fmg5GPv0llcPF6WvBfI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yya66r4Fcr1BQZaB+hPXIT1DEuetK1ap0aAwirPx3Oe6U6+S7Gt
+	QyfThEvd8qqacWA9EPOwY/NxB/Th6CCPqfYdT4cf2LvqqV2CrjxtW9mLnhxc32yDDE2SdrbL9oP
+	L/a19ZPu1Ot+PIzmKy+UKbAJFXUM=
+X-Gm-Gg: ASbGncuUeQ3P/eCr/ZOybl1kei3KoKpDmi8WJDjcoovDI7mMnGZ6qibDeAemIuLmY6r
+	89A9A1L+pPQr+LIFbfXLp9qVSqU11pY9bWzvjNX7jdan+zbIqmixik0cTrSz0GiItI2THugA=
+X-Google-Smtp-Source: AGHT+IF7QbK88hZIUeOKhP4HUXqRLH/FEPzNp2ncgTrNDqmPPHmt8VMgtwE7tmJot/sChcYQOaDAf5nDVMxooT+csZ0=
+X-Received: by 2002:a05:690c:4907:b0:6f4:8207:c68d with SMTP id
+ 00721157ae682-6f989e3b297mr68197967b3.3.1738850366360; Thu, 06 Feb 2025
+ 05:59:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 03/26] riscv: zicfiss / zicfilp enumeration
-To: Deepak Gupta <debug@rivosinc.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Christian Brauner <brauner@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>,
- Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com,
- andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
- atishp@rivosinc.com, evan@rivosinc.com, alexghiti@rivosinc.com,
- samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com
-References: <20250204-v5_user_cfi_series-v9-0-b37a49c5205c@rivosinc.com>
- <20250204-v5_user_cfi_series-v9-3-b37a49c5205c@rivosinc.com>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20250204-v5_user_cfi_series-v9-3-b37a49c5205c@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1738778580.git.leon@kernel.org> <e536ca28cd1686dfbb613de7ccfc01fbe5a734e4.1738778580.git.leon@kernel.org>
+ <CAAeCc_kfRt8LhKgRmLsaaSmJs94hjH85DxCjEnJA6OQc5S5XXw@mail.gmail.com> <20250206085443.GO74886@unreal>
+In-Reply-To: <20250206085443.GO74886@unreal>
+From: Bharat Bhushan <bharatb.linux@gmail.com>
+Date: Thu, 6 Feb 2025 19:29:13 +0530
+X-Gm-Features: AWEUYZkAMS0xeWv1xX-sqj7qXRsmFL_3wRd3BZAL4CFL2zz343S8a3XHEeWSvn8
+Message-ID: <CAAeCc_n-xXBdfyAkRh0KEnvKuuJSHtPQB0umzeSL2aNzJFPXGQ@mail.gmail.com>
+Subject: Re: [PATCH ipsec-next 1/5] xfrm: delay initialization of offload path
+ till its actually requested
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Steffen Klassert <steffen.klassert@secunet.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Ayush Sawal <ayush.sawal@chelsio.com>, Bharat Bhushan <bbhushan2@marvell.com>, 
+	Eric Dumazet <edumazet@google.com>, Geetha sowjanya <gakula@marvell.com>, 
+	hariprasad <hkelam@marvell.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	intel-wired-lan@lists.osuosl.org, Jakub Kicinski <kuba@kernel.org>, 
+	Jay Vosburgh <jv@jvosburgh.net>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, Louis Peens <louis.peens@corigine.com>, 
+	netdev@vger.kernel.org, oss-drivers@corigine.com, 
+	Paolo Abeni <pabeni@redhat.com>, Potnuri Bharat Teja <bharat@chelsio.com>, 
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Subbaraya Sundeep <sbhatta@marvell.com>, Sunil Goutham <sgoutham@marvell.com>, 
+	Tariq Toukan <tariqt@nvidia.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
+	Ilia Lin <ilia.lin@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Feb 6, 2025 at 2:24=E2=80=AFPM Leon Romanovsky <leon@kernel.org> wr=
+ote:
+>
+> On Thu, Feb 06, 2025 at 02:16:08PM +0530, Bharat Bhushan wrote:
+> > Hi Leon,
+> >
+> > On Wed, Feb 5, 2025 at 11:50=E2=80=AFPM Leon Romanovsky <leon@kernel.or=
+g> wrote:
+> > >
+> > > From: Leon Romanovsky <leonro@nvidia.com>
+> > >
+> > > XFRM offload path is probed even if offload isn't needed at all. Let'=
+s
+> > > make sure that x->type_offload pointer stays NULL for such path to
+> > > reduce ambiguity.
+> > >
+> > > Fixes: 9d389d7f84bb ("xfrm: Add a xfrm type offload.")
+> > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > > ---
+> > >  include/net/xfrm.h     | 12 +++++++++++-
+> > >  net/xfrm/xfrm_device.c | 14 +++++++++-----
+> > >  net/xfrm/xfrm_state.c  | 22 +++++++++-------------
+> > >  net/xfrm/xfrm_user.c   |  2 +-
+> > >  4 files changed, 30 insertions(+), 20 deletions(-)
+>
+> <...>
+>
+> > > +       x->type_offload =3D xfrm_get_type_offload(x->id.proto, x->pro=
+ps.family);
+> > > +       if (!x->type_offload) {
+>
+> <...>
+>
+> > > +               xfrm_put_type_offload(x->type_offload);
+> > > +               x->type_offload =3D NULL;
+> >
+> > We always set type_offload to NULL. Can we move type_offload =3D NULL i=
+n
+> > xfrm_put_type_offload() ?
+>
+> We can, but it will require change to xfrm_get_type_offload() too,
+> otherwise we will get asymmetrical get/put.
 
+"x->type_offload =3D NULL" is always set after the put() function. so I
+thought that maybe moving "x->type_offload =3D NULL" to the put()
+function would simplify.
+Yes, get/put will be asymmetric. Maybe setting "x->type_offload" can
+be done in get/put().
+Anyway it is not a major comment. ignore if this does not simplify.
 
-On 05/02/2025 02:21, Deepak Gupta wrote:
-> This patch adds support for detecting zicfiss and zicfilp. zicfiss and
-> zicfilp stands for unprivleged integer spec extension for shadow stack
-> and branch tracking on indirect branches, respectively.
-> 
-> This patch looks for zicfiss and zicfilp in device tree and accordinlgy
-> lights up bit in cpu feature bitmap. Furthermore this patch adds detection
-> utility functions to return whether shadow stack or landing pads are
-> supported by cpu.
-> 
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> ---
->  arch/riscv/include/asm/cpufeature.h | 13 +++++++++++++
->  arch/riscv/include/asm/hwcap.h      |  2 ++
->  arch/riscv/include/asm/processor.h  |  1 +
->  arch/riscv/kernel/cpufeature.c      |  2 ++
->  4 files changed, 18 insertions(+)
-> 
-> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-> index 569140d6e639..69007b8100ca 100644
-> --- a/arch/riscv/include/asm/cpufeature.h
-> +++ b/arch/riscv/include/asm/cpufeature.h
-> @@ -12,6 +12,7 @@
->  #include <linux/kconfig.h>
->  #include <linux/percpu-defs.h>
->  #include <linux/threads.h>
-> +#include <linux/smp.h>
->  #include <asm/hwcap.h>
->  #include <asm/cpufeature-macros.h>
->  
-> @@ -137,4 +138,16 @@ static __always_inline bool riscv_cpu_has_extension_unlikely(int cpu, const unsi
->  	return __riscv_isa_extension_available(hart_isa[cpu].isa, ext);
->  }
->  
-> +static inline bool cpu_supports_shadow_stack(void)
-> +{
-> +	return (IS_ENABLED(CONFIG_RISCV_USER_CFI) &&
-> +		riscv_cpu_has_extension_unlikely(smp_processor_id(), RISCV_ISA_EXT_ZICFISS));
-> +}
-> +
-> +static inline bool cpu_supports_indirect_br_lp_instr(void)
-> +{
-> +	return (IS_ENABLED(CONFIG_RISCV_USER_CFI) &&
-> +		riscv_cpu_has_extension_unlikely(smp_processor_id(), RISCV_ISA_EXT_ZICFILP));
-> +}
-> +
->  #endif
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-> index 869da082252a..2dc4232bdb3e 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -100,6 +100,8 @@
->  #define RISCV_ISA_EXT_ZICCRSE		91
->  #define RISCV_ISA_EXT_SVADE		92
->  #define RISCV_ISA_EXT_SVADU		93
-> +#define RISCV_ISA_EXT_ZICFILP		94
-> +#define RISCV_ISA_EXT_ZICFISS		95
->  
->  #define RISCV_ISA_EXT_XLINUXENVCFG	127
->  
-> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
-> index 5f56eb9d114a..e3aba3336e63 100644
-> --- a/arch/riscv/include/asm/processor.h
-> +++ b/arch/riscv/include/asm/processor.h
-> @@ -13,6 +13,7 @@
->  #include <vdso/processor.h>
->  
->  #include <asm/ptrace.h>
-> +#include <asm/hwcap.h>
->  
->  #define arch_get_mmap_end(addr, len, flags)			\
->  ({								\
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> index c6ba750536c3..e72de12e5b99 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -333,6 +333,8 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
->  	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicboz, RISCV_ISA_EXT_ZICBOZ, riscv_xlinuxenvcfg_exts,
->  					  riscv_ext_zicboz_validate),
->  	__RISCV_ISA_EXT_DATA(ziccrse, RISCV_ISA_EXT_ZICCRSE),
-> +	__RISCV_ISA_EXT_SUPERSET(zicfilp, RISCV_ISA_EXT_ZICFILP, riscv_xlinuxenvcfg_exts),
-> +	__RISCV_ISA_EXT_SUPERSET(zicfiss, RISCV_ISA_EXT_ZICFISS, riscv_xlinuxenvcfg_exts),
+Thanks
+-Bharat
 
-Hey Deepak,
-
-I think these definitions can benefit from using a validation callback:
-
-static int riscv_cfi_validate(const struct riscv_isa_ext_data *data,
-				  const unsigned long *isa_bitmap)
-{
-	if (!IS_ENABLED(CONFIG_RISCV_USER_CFI)
-		return -EINVAL;
-		
-	return 0;
-}
-
-__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicfilp, RISCV_ISA_EXT_ZICFILP,
-riscv_xlinuxenvcfg_exts, riscv_cfi_validate),
-__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicfiss, RISCV_ISA_EXT_ZICFISS,
-riscv_xlinuxenvcfg_exts, riscv_cfi_validate),
-
-That way, ZICFISS/ZICFILP wont be enable if the kernel does not have
-builtin support for them. Additionally, this solve a bug you have with
-your hwprobe patch (19/26) that exposes ZICFILP/ZICFISS unconditionally
-(ie, even if the kernel does not have CONFIG_RISCV_USER_CFI).
-
-BTW, patch 23/26 introduce CONFIG_RISCV_USER_CFI but it is used in that
-patch.
-
-Thanks,
-
-Clément
-
->  	__RISCV_ISA_EXT_DATA(zicntr, RISCV_ISA_EXT_ZICNTR),
->  	__RISCV_ISA_EXT_DATA(zicond, RISCV_ISA_EXT_ZICOND),
->  	__RISCV_ISA_EXT_DATA(zicsr, RISCV_ISA_EXT_ZICSR),
-> 
-
+>
+> Do you want something like that?
+> int xfrm_get_type_offload(struct xfrm_state *x);
+> void xfrm_put_type_offload(struct xfrm_state *x);
+>
+> Thansk
+>
+> >
+> > Thanks
+> > -Bharat
+> >
+> > >                 /* User explicitly requested packet offload mode and =
+configured
+> > >                  * policy in addition to the XFRM state. So be civil =
+to users,
+> > >                  * and return an error instead of taking fallback pat=
+h.
+> > > diff --git a/net/xfrm/xfrm_state.c b/net/xfrm/xfrm_state.c
+> > > index ad2202fa82f3..568fe8df7741 100644
+> > > --- a/net/xfrm/xfrm_state.c
+> > > +++ b/net/xfrm/xfrm_state.c
+> > > @@ -424,11 +424,12 @@ void xfrm_unregister_type_offload(const struct =
+xfrm_type_offload *type,
+> > >  }
+> > >  EXPORT_SYMBOL(xfrm_unregister_type_offload);
+> > >
+> > > -static const struct xfrm_type_offload *
+> > > -xfrm_get_type_offload(u8 proto, unsigned short family, bool try_load=
+)
+> > > +const struct xfrm_type_offload *xfrm_get_type_offload(u8 proto,
+> > > +                                                     unsigned short =
+family)
+> > >  {
+> > >         const struct xfrm_type_offload *type =3D NULL;
+> > >         struct xfrm_state_afinfo *afinfo;
+> > > +       bool try_load =3D true;
+> > >
+> > >  retry:
+> > >         afinfo =3D xfrm_state_get_afinfo(family);
+> > > @@ -456,11 +457,7 @@ xfrm_get_type_offload(u8 proto, unsigned short f=
+amily, bool try_load)
+> > >
+> > >         return type;
+> > >  }
+> > > -
+> > > -static void xfrm_put_type_offload(const struct xfrm_type_offload *ty=
+pe)
+> > > -{
+> > > -       module_put(type->owner);
+> > > -}
+> > > +EXPORT_SYMBOL(xfrm_get_type_offload);
+> > >
+> > >  static const struct xfrm_mode xfrm4_mode_map[XFRM_MODE_MAX] =3D {
+> > >         [XFRM_MODE_BEET] =3D {
+> > > @@ -609,8 +606,6 @@ static void ___xfrm_state_destroy(struct xfrm_sta=
+te *x)
+> > >         kfree(x->coaddr);
+> > >         kfree(x->replay_esn);
+> > >         kfree(x->preplay_esn);
+> > > -       if (x->type_offload)
+> > > -               xfrm_put_type_offload(x->type_offload);
+> > >         if (x->type) {
+> > >                 x->type->destructor(x);
+> > >                 xfrm_put_type(x->type);
+> > > @@ -784,6 +779,9 @@ void xfrm_dev_state_free(struct xfrm_state *x)
+> > >         struct xfrm_dev_offload *xso =3D &x->xso;
+> > >         struct net_device *dev =3D READ_ONCE(xso->dev);
+> > >
+> > > +       xfrm_put_type_offload(x->type_offload);
+> > > +       x->type_offload =3D NULL;
+> > > +
+> > >         if (dev && dev->xfrmdev_ops) {
+> > >                 spin_lock_bh(&xfrm_state_dev_gc_lock);
+> > >                 if (!hlist_unhashed(&x->dev_gclist))
+> > > @@ -3122,7 +3120,7 @@ u32 xfrm_state_mtu(struct xfrm_state *x, int mt=
+u)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(xfrm_state_mtu);
+> > >
+> > > -int __xfrm_init_state(struct xfrm_state *x, bool init_replay, bool o=
+ffload,
+> > > +int __xfrm_init_state(struct xfrm_state *x, bool init_replay,
+> > >                       struct netlink_ext_ack *extack)
+> > >  {
+> > >         const struct xfrm_mode *inner_mode;
+> > > @@ -3178,8 +3176,6 @@ int __xfrm_init_state(struct xfrm_state *x, boo=
+l init_replay, bool offload,
+> > >                 goto error;
+> > >         }
+> > >
+> > > -       x->type_offload =3D xfrm_get_type_offload(x->id.proto, family=
+, offload);
+> > > -
+> > >         err =3D x->type->init_state(x, extack);
+> > >         if (err)
+> > >                 goto error;
+> > > @@ -3229,7 +3225,7 @@ int xfrm_init_state(struct xfrm_state *x)
+> > >  {
+> > >         int err;
+> > >
+> > > -       err =3D __xfrm_init_state(x, true, false, NULL);
+> > > +       err =3D __xfrm_init_state(x, true, NULL);
+> > >         if (!err)
+> > >                 x->km.state =3D XFRM_STATE_VALID;
+> > >
+> > > diff --git a/net/xfrm/xfrm_user.c b/net/xfrm/xfrm_user.c
+> > > index 08c6d6f0179f..82a768500999 100644
+> > > --- a/net/xfrm/xfrm_user.c
+> > > +++ b/net/xfrm/xfrm_user.c
+> > > @@ -907,7 +907,7 @@ static struct xfrm_state *xfrm_state_construct(st=
+ruct net *net,
+> > >                         goto error;
+> > >         }
+> > >
+> > > -       err =3D __xfrm_init_state(x, false, attrs[XFRMA_OFFLOAD_DEV],=
+ extack);
+> > > +       err =3D __xfrm_init_state(x, false, extack);
+> > >         if (err)
+> > >                 goto error;
+> > >
+> > > --
+> > > 2.48.1
+> > >
+> > >
+> >
