@@ -1,71 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m19731111.qiye.163.com (mail-m19731111.qiye.163.com [220.197.31.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482A34A06;
-	Thu,  6 Feb 2025 01:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D9844C94
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 02:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738806318; cv=none; b=E/WMOs2/jsPSP3knYLc21Z00fsAMQ4I+jxZthAKivJUPeQYMx/Bt5QzhrsW13y4GLGtN80o6BecWVPPeC7h6SZ3gJERKUmy6x6xKllePed1DVUvYtoZkEaE84Di+eMmGS5icYSu2ZHTwsUfwJ1nEv6XQ6VDy2ShNGGuBCFtzFUA=
+	t=1738808825; cv=none; b=QD0g/X3NXTwbcvQEqa7hjSW8MranW0N/IDCs/fZIJQ3Szs/o/lEu4tCY0+CBFr2q+JDhBYAWdetOflm86aSfdKMA7p+IWISH8rfOuQPlIVYH8ygOxCDoRm2CdjYJ+KHDuDTEx0MkrpfmiFrq0eIK0x4KNJM+cvcO5u4em4Xj1Xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738806318; c=relaxed/simple;
-	bh=3FKgirNXQBD9To5djYaaxMigf7vVsLObBwiIb3LzA+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TMgkcCMwrjIDLtlBXYcBTkjsZh8fT2+s85x+D3blAaa8L6qx7SsRGxzsFkGbhpP3884JgENe8CpU92gRMXE5++hO7N61WTVxAq3AmdOxAvbFuJMOuI6GOzqN1c/ksNTGdLe4IP8SwyjeeMmDnnzI+njVQiTizMJEz/5eNy1lJVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D7ljF96j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738808825; c=relaxed/simple;
+	bh=qp2/ztRcBHP8Hk3jVPelmLwKPSiTEnVWCn0wRCSpeUQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qq+bmiZabQp8wp+EmZfIaqPCnGTJyVbXDZFxQwq3TDSRDN0baV8i4GW9vaaZoOU0Sgir1c2BzGVrEDI/EM7qgu+K+zI++5F3SXgOYRgIlMnreE1I2iu0HRtgwhjZBE4+VJhrxifOg77sVHkM12Ug71ZIuuGxGWccIwUNOnZ3skQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=crRawtTW; arc=none smtp.client-ip=220.197.31.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D7ljF96j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B58ECC4CED1;
-	Thu,  6 Feb 2025 01:45:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738806317;
-	bh=3FKgirNXQBD9To5djYaaxMigf7vVsLObBwiIb3LzA+o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=D7ljF96jPqObiWUUX4RymLnHDejsWlOf7Lh4b5TZjKhiZONmEp2keHrwrvyxBwKgr
-	 kolGt6oDUMXlHZRmAY/m6Wy20wyDBIrBnX9A/tcP3QMLWurszEB/C8PIMjTrgCmArk
-	 Owo1E2b80+dFU/jPNUGx4Y9jUvdY18131mp/EElXW28Pai9R/n/jpO/SMPyZfv7g4u
-	 ju2ndhmCTO7IcslYOLpsg2mQNQm4WZgY2yA9Wl/H3EjdgJJNWSqnhkWq8ZKjU//hpP
-	 kPZrZ+y4Vj9fEVLj0Qdwocc6n88tLyZZvS57Ko9hvFyo6QPFtqdBFvrEotocFp1m8+
-	 YPKn4GjB05R8A==
-Date: Wed, 5 Feb 2025 17:45:16 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org, Donald
- Hunter <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Neal Cardwell <ncardwell@google.com>, David Ahern
- <dsahern@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang
- <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eugenio
- =?UTF-8?B?UMOpcmV6?= <eperezma@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan
- <shuah@kernel.org>, sdf@fomichev.me, asml.silence@gmail.com,
- dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira
- <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>, Samiullah
- Khawaja <skhawaja@google.com>
-Subject: Re: [PATCH net-next v3 0/6] Device memory TCP TX
-Message-ID: <20250205174516.537a7101@kernel.org>
-In-Reply-To: <CAHS8izNxi+Dc6mXPNaQSjtmz5YzmeA-Sn8JdMWLpYRomJdCWMA@mail.gmail.com>
-References: <20250203223916.1064540-1-almasrymina@google.com>
-	<20250204180833.48cb40cb@kernel.org>
-	<CAHS8izNxi+Dc6mXPNaQSjtmz5YzmeA-Sn8JdMWLpYRomJdCWMA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="crRawtTW"
+Received: from localhost.localdomain (unknown [1.193.57.36])
+	by smtp.qiye.163.com (Hmail) with ESMTP id a46ac7e7;
+	Thu, 6 Feb 2025 10:26:56 +0800 (GMT+08:00)
+From: zhangwei <zhangwei@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhaoshuo@cqsoftware.com.cn,
+	zhaoyuehui@cqsoftware.com.cn,
+	maoyuxian@cqsoftware.com.cn,
+	linux-doc@vger.kernel.org,
+	zhangwei <zhangwei@cqsoftware.com.cn>
+Subject: [PATCH 0/3] Translation self-protection.rst into chinese
+Date: Thu,  6 Feb 2025 10:26:45 +0800
+Message-ID: <cover.1738807847.git.zhangwei@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCGBlMVktKTUJNTU1ITEgdQlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVITVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
+	JLS1kG
+X-HM-Tid: 0a94d914f32a03abkunma46ac7e7
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MU06Cyo4FzIVOAkpEA0NUTU2
+	FDUwCk5VSlVKTEhDQ0tDQ0pMTUhNVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkxVSE1ZV1kIAVlBQ0hJNwY+
+DKIM-Signature:a=rsa-sha256;
+	b=crRawtTWiPdLYyPrynVtQnckW1wrFQc5dFuoPr3Lc8jpB2JisfBo9UpVOcWgWX+I8SPzsYn0zpep0Q++UPeo4oIkWfb2nTMGyKxsOXdQrsqZ/Lb7w6JGYby+JTLeFYdKAtymgUA81W2MIGFfxsM3OvYnqsbFVUiWVzFnQM47fjs=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
+	bh=j4lhdAMNV8RE2lDEp2nGByvkoQxnOjqBB9tk13RyH6U=;
+	h=date:mime-version:subject:message-id:from;
 
-On Wed, 5 Feb 2025 11:52:20 -0800 Mina Almasry wrote:
-> > please stick to RFC until a driver implementation is ready and
-> > included  
-> 
-> For the RX path proposals I kept the driver implementation out of the
-> series and linked to it in the cover letter. Just to confirm, is that
-> OK for this series as well?
+Translate self-protection.rst into Chinese
+and add index.rst under keys and secrets
 
-No, the other series was large IIRC. This is just 6 patches, normal
-rules. 
+zhangwei (3):
+  docs/zh_CN: Add self-protection index Chinese translation
+  Translate .../security/keys/index.rst into Chinese
+  Translate .../security/secrets/index.rst into Chinese
+
+ .../translations/zh_CN/security/index.rst     |   2 +-
+ .../zh_CN/security/keys/index.rst             |  24 ++
+ .../zh_CN/security/secrets/index.rst          |  18 ++
+ .../zh_CN/security/self-protection.rst        | 271 ++++++++++++++++++
+ 4 files changed, 314 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/keys/index.rst
+ create mode 100644 Documentation/translations/zh_CN/security/secrets/index.rst
+ create mode 100644 Documentation/translations/zh_CN/security/self-protection.rst
+
+-- 
+2.47.1
+
