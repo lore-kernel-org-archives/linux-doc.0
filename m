@@ -1,38 +1,39 @@
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B4F1A3A80;
-	Thu,  6 Feb 2025 18:15:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EAC1A7253;
+	Thu,  6 Feb 2025 18:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738865707; cv=none; b=LRzp5eDnTnbwVk/b0Nh2OJ1pQfTNYpHvX5CCyw/nvzO9/Tu1BWdrZTARUCKHpHzt7IvQaRgwx6AhKrBwqUSrCj020/6FxJdZNV6Qz1Rz/+beV17g/SsSZzvS/mvfPn0RyjkSuZpRK8uhYaSAdxiyVivvwM8CAkBeA6NncCCRgPI=
+	t=1738865710; cv=none; b=AZLULjJZA47PzA7I0eGQdCDtd+bjDXwqTcwIlUVCK8FW8bU3Syv8HRO9MjUl/mWunogvWmQ5rkfrjKPSz/hdc2ahl7q4dKnNx8eEqAIIUqDT3M51Z9enT+fcSbw6nmOaOr+uwrYjODj/YH/1Pgr+ok1GAZMIOwkekiTuk/nBqHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738865707; c=relaxed/simple;
-	bh=UFeo3zXfTZtQafX6OvGxyFrg+kuwL7Dng3fJ9+9LXS0=;
+	s=arc-20240116; t=1738865710; c=relaxed/simple;
+	bh=lC1P5FTg7rI+CaAgHdONs7K4+B/sZXgMYydV70gy0kk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ov0QFSVgfTVgvSVVrMUxzkzUiVg4OILeDKT3EoQ8GywQSONf2JDh1UdpXVePviuu7OpFh8hyimC8dyNONNSdVfiYldN2K2b17Ak+7Q+Y5/WQDH0xFonIbZmgmfHHxvYgQf6ok3Jx/Libor2eJmvjflPWwf4GyHN6+PGpxpcSFn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VZfRnZJN; arc=none smtp.client-ip=217.70.183.198
+	 In-Reply-To:To:Cc; b=DxVJyGRYMwULN9aDHRaagyxKWUieyykhrDNb/1ovj5hfUIluaqp6NYoUWlf8gBxmErGmRvjLlCSqLW2gawg7qpNnC6onq2zbZopKcH/OgB7YN7PYkgpYV9bQrn/5JMqVA1KiNMKZJzyBHnVn/5+8FCVwozWBCmfFkDWavAumyt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=alWZYw5+; arc=none smtp.client-ip=217.70.183.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VZfRnZJN"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A883743297;
-	Thu,  6 Feb 2025 18:15:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="alWZYw5+"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 40FB8442D4;
+	Thu,  6 Feb 2025 18:15:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1738865704;
+	t=1738865706;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3BUqEtfCEh3q+AMxh9LslActlP7bwrUqRLfwXX1jD/I=;
-	b=VZfRnZJNdlAHyGR7Y5JUB+4Zs1FeePP7fAQWkoeWfCu2x/H34TMAIfz0AMwTC9ykMNM7mR
-	9kMl0ajWjarJu7PMb1NamwCsLBAlIOouA5yd39/YtPfgRuzWmR7XtD31N+TsazT3qrjGZy
-	qMjwBWMd/uiKO0Wh91+kHdpMy+1alr4FDE8RaL+UXBrbNygoFfZaOv9+IX+tw5B30mFcB6
-	ehGRkPZM960fD3+h2eKCGmtZs25jLDLj/DAu1Kw5/jbF4RwDLzK0m+Tivuu2zYk9112bXC
-	2Eil9YKnOK1v4GxWgRr/AA40F3GH2G6f3kJVmvWBY/uC1LAcoYkqlQE0hhDYWw==
+	bh=vHGKRRwUFJ1hKE8GkVs2Ez/vUs0X0HmXOnbYhe5x4PU=;
+	b=alWZYw5+dkL1Byea1MLItdJnR6sEkiLtF/qRlFzH1fH1o4wc/B4cVix0giMXpxuxotAKXa
+	NUxXCTo2oIqOHWXSlduliLid5Crv24bFILYvn1IbnSK27Whtmcb/TBmea6vTn7FN2YQYXE
+	mJra3HiBro5kWZ8s/BtEmjYo0TNah5iAwh/NBNB2dDz/+lIc2p+veWwuQ3AwsXn361k+oo
+	yooIP1PA4lKDQRWoZF797UY8kLWybJI8TgpEQ1QVjmtKuxqkpQ7jk7QOrPlhyRwiXFN6pc
+	pcJD+hz+3tEYSBdhayBdlJKDSXWdzIRwxeLILbi0VeHKoHLZzVp8olo3WUcW2Q==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 06 Feb 2025 19:14:25 +0100
-Subject: [PATCH v6 10/26] drm/bridge: add devm_drm_of_get_bridge_by_node()
+Date: Thu, 06 Feb 2025 19:14:26 +0100
+Subject: [PATCH v6 11/26] drm/bridge: samsung-dsim: use
+ devm_drm_of_get_bridge[_by_node] to find the out_bridge
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +42,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-hotplug-drm-bridge-v6-10-9d6f2c9c3058@bootlin.com>
+Message-Id: <20250206-hotplug-drm-bridge-v6-11-9d6f2c9c3058@bootlin.com>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
 In-Reply-To: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
 To: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
@@ -74,21 +75,38 @@ Cc: Paul Kocialkowski <contact@paulk.fr>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjedtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieeiuedvffetgfeuudelheeutefggfejieettdetteekueeuueeukeevvedvueevnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemhegrgedtmedvughfieemrgdulegvmedutgejgeenucevlhhushhtvghrufhiiigvpeejnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemhegrgedtmedvughfieemrgdulegvmedutgejgedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeekpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopehsrdhhrghuvghrsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmp
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjedtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieeiuedvffetgfeuudelheeutefggfejieettdetteekueeuueeukeevvedvueevnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemhegrgedtmedvughfieemrgdulegvmedutgejgeenucevlhhushhtvghrufhiiigvpeelnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemhegrgedtmedvughfieemrgdulegvmedutgejgedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeekpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopehsrdhhrghuvghrsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmp
  dhrtghpthhtoheptghlrghuughiuhdrsggviihnvggrsehtuhigohhnrdguvghvpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
-devm_drm_of_get_bridge(), which is based on graph links, is the recommended
-function to get a pointer to the following bridge.
+In order to support panels described either via graph links or via a
+subnode (e.g. "panel@0"), this driver uses low-level deprecated functions
+to find the next bridge. The resulting logic is complex and duplicates code
+already present in the DRM bridge core. Switch to the new APIs in DRM
+bridge core that allow to do the same in a much cleaner way.
 
-This is valid even for panels, for which the recommended device tree
-description is via graph links and not (or not only) panel subnodes of a
-panel controller (e.g. "dsi@1234" controller node with a "panel@0"
-subnode).
+Note there are two slight changes in the new logic intended to improve the
+final result:
 
-However there are drivers supporting the panel subnode description in
-addition to the graph links. For those drivers add a _by_node variant that
-takes the node of the target node.
+ * the old code looks for a subnode with any name except "port" or "ports",
+   while the new code uses the node passed as a parameter
+
+ * the old code looks for a subnode first and falls back to a graph link,
+   while the new code uses the reverse order because graph links are the
+   recommended device tree representation now
+
+The first change makes the code more robust by avoiding the risk of using
+an unrelated node which is not describing a panel and not names "port" or
+"ports".
+
+The second change is not expected to expose regressions because, in the
+cases where both a subnode and a graph link are used to describe a panel,
+the graph link should point to the subnode itself, such as in
+arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dts
+
+As a further cleanup, use a temporary variable to assign dsi->out_bridge
+only on success. This avoids the risk of leaving a non-NULL value in
+dsi->out_bridge when samsung_dsim_host_attach() fails.
 
 Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
@@ -97,77 +115,85 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 This patch was added in v6.
 ---
- drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
- include/drm/drm_bridge.h     |  8 ++++++++
- 2 files changed, 38 insertions(+)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 55 ++++++-----------------------------
+ 1 file changed, 9 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 2aa17fbe538b86066c4e68f0d0e8046e9ca9b965..b0834b8644284e5f7751cec81724af849b4180e7 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1407,6 +1407,36 @@ struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
- }
- EXPORT_SYMBOL(devm_drm_of_get_bridge);
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index f8b4fb8357659018ec0db65374ee5d05330639ae..bbd0a4f5a3f52b61bf48f10d6e8ca741bffa5e46 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1704,55 +1704,16 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+ 	const struct samsung_dsim_plat_data *pdata = dsi->plat_data;
+ 	struct device *dev = dsi->dev;
+ 	struct device_node *np = dev->of_node;
+-	struct device_node *remote;
+-	struct drm_panel *panel;
++	struct drm_bridge *out_bridge;
+ 	int ret;
  
-+/**
-+ * devm_drm_of_get_bridge_by_node - Return bridge for a given OF node
-+ * @dev: device to tie the bridge lifetime to
-+ * @bridge_node: device node of the remote bridge
-+ *
-+ * Given a bridge DT node, returns the associated bridge if any. This
-+ * should be used in addition to devm_drm_of_get_bridge() when the regular
-+ * graph link search is not enough, e.g. for drivers that need to support
-+ * panels described only as subnodes.
-+ *
-+ * RETURNS:
-+ * A pointer to the bridge if successful, or an error pointer otherwise.
-+ */
-+struct drm_bridge *devm_drm_of_get_bridge_by_node(struct device *dev,
-+						  struct device_node *bridge_node)
-+{
-+	struct drm_bridge *bridge;
-+	int ret;
+-	/*
+-	 * Devices can also be child nodes when we also control that device
+-	 * through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
+-	 *
+-	 * Lookup for a child node of the given parent that isn't either port
+-	 * or ports.
+-	 */
+-	for_each_available_child_of_node(np, remote) {
+-		if (of_node_name_eq(remote, "port") ||
+-		    of_node_name_eq(remote, "ports"))
+-			continue;
++	out_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
++	if (IS_ERR(out_bridge) && PTR_ERR(out_bridge) != -EPROBE_DEFER)
++		out_bridge = devm_drm_of_get_bridge_by_node(dev, device->dev.of_node);
+ 
+-		goto of_find_panel_or_bridge;
+-	}
+-
+-	/*
+-	 * of_graph_get_remote_node() produces a noisy error message if port
+-	 * node isn't found and the absence of the port is a legit case here,
+-	 * so at first we silently check whether graph presents in the
+-	 * device-tree node.
+-	 */
+-	if (!of_graph_is_present(np))
+-		return -ENODEV;
+-
+-	remote = of_graph_get_remote_node(np, 1, 0);
+-
+-of_find_panel_or_bridge:
+-	if (!remote)
+-		return -ENODEV;
+-
+-	panel = of_drm_find_panel(remote);
+-	if (!IS_ERR(panel)) {
+-		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
+-	} else {
+-		dsi->out_bridge = of_drm_find_bridge(remote);
+-		if (!dsi->out_bridge)
+-			dsi->out_bridge = ERR_PTR(-EINVAL);
+-	}
+-
+-	of_node_put(remote);
+-
+-	if (IS_ERR(dsi->out_bridge)) {
+-		ret = PTR_ERR(dsi->out_bridge);
+-		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
+-		return ret;
++	if (IS_ERR(out_bridge)) {
++		DRM_DEV_ERROR(dev, "failed to find the bridge: %ld\n", PTR_ERR(out_bridge));
++		return PTR_ERR(out_bridge);
+ 	}
+ 
+ 	DRM_DEV_INFO(dev, "Attached %s device (lanes:%d bpp:%d mode-flags:0x%lx)\n",
+@@ -1784,6 +1745,8 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+ 	dsi->format = device->format;
+ 	dsi->mode_flags = device->mode_flags;
+ 
++	dsi->out_bridge = out_bridge;
 +
-+	if (!bridge_node)
-+		return ERR_PTR(-EINVAL);
-+
-+	bridge = of_drm_find_bridge(bridge_node);
-+	if (!bridge)
-+		return ERR_PTR(-ENODEV);
-+
-+	return bridge;
-+}
-+EXPORT_SYMBOL(devm_drm_of_get_bridge_by_node);
-+
- /**
-  * drmm_of_get_bridge - Return next bridge in the chain
-  * @drm: device to tie the bridge lifetime to
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 496dbbd2ad7edff7f091adfbe62de1e33ef0cf07..1561347c4991dac6022319774510f9560c9283c3 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -1088,6 +1088,8 @@ static inline int drm_panel_bridge_set_orientation(struct drm_connector *connect
- #if defined(CONFIG_OF) && defined(CONFIG_DRM_PANEL_BRIDGE)
- struct drm_bridge *devm_drm_of_get_bridge(struct device *dev, struct device_node *node,
- 					  u32 port, u32 endpoint);
-+struct drm_bridge *devm_drm_of_get_bridge_by_node(struct device *dev,
-+						  struct device_node *bridge_node);
- struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm, struct device_node *node,
- 					  u32 port, u32 endpoint);
- #else
-@@ -1099,6 +1101,12 @@ static inline struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
- 	return ERR_PTR(-ENODEV);
+ 	return 0;
  }
  
-+static inline struct drm_bridge *devm_drm_of_get_bridge_by_node(struct device *dev,
-+								struct device_node *bridge_node)
-+{
-+	return ERR_PTR(-ENODEV);
-+}
-+
- static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
- 						     struct device_node *node,
- 						     u32 port,
 
 -- 
 2.34.1
