@@ -1,158 +1,274 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AA0235348
-	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 16:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738860035; cv=none; b=kFOSHTmeLHJ9pybYPreGCwihv3JgqXdhzDiTmQXxlv8n/anCg9qjOLTIXVhvSbOnvGf7EQ3tvtGx8qjFOOvr2OD/N+4yk02PnqrxD5nURT0cL2YTHZ2P57IoA9iyRMzNAwnHaJ2mX0YmJPIvKm4mgjz72DH5DKUudMovOmlXNng=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738860035; c=relaxed/simple;
-	bh=YSenI0dFBxlahuLj06tCyKMc1TwqjbLp00+pK/SxmRU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J2d0LjkKGGcF3jpniu19/ZEgpYXfdeyDaDA1+B8Mf7lbtmY9A3exeIaGEXW14tpxU56quDd8qTsZCvOyIjqpoi8aiYAyR3DXm4BXZMvLvWW8Yf/sZdaml7IDX8ZNxWFREEvXj0WzrTQb4oiQae/PDuIcCT8Dx6geMoHSeALPPeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eDnB+8pm; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFA7189F39;
+	Thu,  6 Feb 2025 18:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738864920; cv=fail; b=hY6iEfYz5m6aLrwadGk1Ton6wc/UIALxDrWm0QPJtARj6BvhAVHjZW2H6vJxQU7A0gIEVlaDOA7xZrEYWNTPNWa/ushtoyVhV4S6kcxdk+n8Z0XR6SX4sx2H+g4b0mRHx1ymQILYKXB9ijSapkn2yqeN5W6o1yCDXPsYyrQ0ZaI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738864920; c=relaxed/simple;
+	bh=W/8Bzov5Fp0g7u8boBbzrIci/E9bICVZ/+lyKdG3png=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=nbQpf0tr+VCtUEBI0F3Qe2lnBRpiJCUukFnUrT8su1G5rtA1uKYM7vYu+75kZUc9W/SRFQ8MhqtWfYAtQkRC8OjaTg+cXTDBnrvOiPU5eWVLoZpPuRIpX+ZgUQUg41Xh5V9x2AcqYNIbzilYodlm2JzesHT7TC2gEiU/G2Cj1dw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XIBQnobM; arc=fail smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eDnB+8pm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738860032;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nojvbQSsLpg1qz6+VMqqdHm2nUvx5Sx9GqRia20D7TI=;
-	b=eDnB+8pmGD/m6eZB8Gz/LIEWAQNpJKJANHXgy9Aav5XXnhdLKcfyheKDHVoP4AJ0VUBRyk
-	K56Rbpbzla0/84e5rzx69zTeOi2cu2KrAe+0RBjVuAxHj7bnANih22EdUf3g4ZlFrZGi+X
-	jJzJsBZCXNGyzKf2sN0wkItRgBsyCbE=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-138-upHk_FvxN56Sepzk_8c_Lw-1; Thu,
- 06 Feb 2025 11:40:29 -0500
-X-MC-Unique: upHk_FvxN56Sepzk_8c_Lw-1
-X-Mimecast-MFC-AGG-ID: upHk_FvxN56Sepzk_8c_Lw
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7B344180087E;
-	Thu,  6 Feb 2025 16:40:27 +0000 (UTC)
-Received: from dba-icx.bos.redhat.com (prarit2023-dbaguest.khw.eng.bos2.dc.redhat.com [10.26.1.94])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D91EF19560AB;
-	Thu,  6 Feb 2025 16:40:25 +0000 (UTC)
-From: David Arcari <darcari@redhat.com>
-To: linux-pm@vger.kernel.org
-Cc: David Arcari <darcari@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jacob Pan <jacob.jun.pan@linux.intel.com>,
-	Len Brown <lenb@kernel.org>,
-	Prarit Bhargava <prarit@redhat.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] intel_idle: introduce 'no_native' module parameter
-Date: Thu,  6 Feb 2025 11:40:09 -0500
-Message-ID: <20250206164009.816232-1-darcari@redhat.com>
-In-Reply-To: <20250128141139.2033088-1-darcari@redhat.com>
-References: <20250128141139.2033088-1-darcari@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XIBQnobM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738864918; x=1770400918;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=W/8Bzov5Fp0g7u8boBbzrIci/E9bICVZ/+lyKdG3png=;
+  b=XIBQnobMlpz87CRDQVoYQJJi4JVnGA72HDo2KxWO9zqmg82vcL4uylH/
+   OsVoF0ig5aM/eu+8POXxr5/WwpRg0qLbKMU11pLu4J5hpZIVEhJHiJNK9
+   pD/K8dE5Ff2y88PXeZgk5qlv+XG8cJkwNheMzN9IiMyi/Kj+v3EbKyBVW
+   z3C4QEdxDv77bMb350D0uZJOYIg5TOxC7wvgsTaO5GMFgrB/np2W/FOO3
+   bkY+RNllZ0MjB1dU4ghKxFsXcv9i2kJLQBPf/lZJHp6HFiy6Pzd45xa3t
+   /mmKGt9TXRi+Y9Cm6RxsXJDIHPIQTdwCqCgdgYrs/AuoQHS6om1z0AsfF
+   Q==;
+X-CSE-ConnectionGUID: sygmVspYTDe+skFdMhi2kg==
+X-CSE-MsgGUID: W+IwwV3lQmiQ/ZpP4dVyVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39755853"
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
+   d="scan'208";a="39755853"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 10:01:57 -0800
+X-CSE-ConnectionGUID: CEm8iE5rT+mJgFPopblNjQ==
+X-CSE-MsgGUID: pWd0MkFiSIaEHbi7WJBOgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="111140197"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Feb 2025 10:01:56 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Thu, 6 Feb 2025 10:01:56 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Thu, 6 Feb 2025 10:01:56 -0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.46) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 6 Feb 2025 10:01:56 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uPqNkzui43uYXllZUIl5yJ5UMg/rgp3OU2IceIOA6W9/nDlrzmbRSpe89BU7F4FLWqRo8eXWDHO/EobcLCMMVMy996XNKLcxJHtV9A35lXJ65CaN9sQz3uXHG4E4rnShJqqOv7HQKUXmxl8D/eSEAemM9DfFo2P0BgC3i/yzDX1H8roTlBn+EBq1SkV39DKedGNHuboDIrOOLaxMRxjlSs/K3mo6iLPAltwxae5Ctz9t/ZYdAbIkpPjINEgb9XPIKXEHLrD0ZN6CHwS2T9OdXCRCAZBSAqhtZCvh/F2rVfJs2VYMr2pfckzkdNACRp5dTdpMhQCuCDchafRl9jXQSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tB5tBLGFZWn+nfLX/cYRsFzf+rRFYWwFH1gqFt2Ih0M=;
+ b=FVha4S3CNanv95A5uIUfxfaFGu+MMl93tHI9wlpQoB2Qg8ffmbNu8YoXrF2oSoz5kjaaGT1z32D+7opJOgX82E3S/iYnrjzpNMyfrO7pn7wxbh+G/cas7+jCTpOpl4XXFbC5JSeZ15h/Fp0L6UmMACQeIxu06zo1GffmPEZRdkjkZgcuNbziUeZCckFKYFhdVln7FHdhdCzrRH1t80QUoU7JWiS7Fk149L2qWY2yIc7KLDV3HHruOsdQivd28kGbd6jLYhKH426Lzttfnym+eooBOHezW8k7p69mZmPj29UPWUmk6GP6BA1BCUkWbljjQX9T72x1kk5TA/d4OgiSAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SA2PR11MB4908.namprd11.prod.outlook.com (2603:10b6:806:112::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.11; Thu, 6 Feb
+ 2025 18:01:53 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.8422.010; Thu, 6 Feb 2025
+ 18:01:52 +0000
+Message-ID: <6d215925-ee84-4b39-b002-9e3b66c015b0@intel.com>
+Date: Thu, 6 Feb 2025 10:01:48 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 07/23] x86/resctrl: Introduce the interface to display
+ monitor mode
+To: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<tony.luck@intel.com>, <peternewman@google.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<akpm@linux-foundation.org>, <thuth@redhat.com>, <rostedt@goodmis.org>,
+	<xiongwei.song@windriver.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<daniel.sneddon@linux.intel.com>, <jpoimboe@kernel.org>,
+	<perry.yuan@amd.com>, <sandipan.das@amd.com>, <kai.huang@intel.com>,
+	<xiaoyao.li@intel.com>, <seanjc@google.com>, <xin3.li@intel.com>,
+	<andrew.cooper3@citrix.com>, <ebiggers@google.com>,
+	<mario.limonciello@amd.com>, <james.morse@arm.com>,
+	<tan.shaopeng@fujitsu.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <maciej.wieczor-retman@intel.com>,
+	<eranian@google.com>
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <b298391d4db5806c145ba0b92d79e02a4df8d8c5.1737577229.git.babu.moger@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <b298391d4db5806c145ba0b92d79e02a4df8d8c5.1737577229.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0065.namprd04.prod.outlook.com
+ (2603:10b6:303:6b::10) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA2PR11MB4908:EE_
+X-MS-Office365-Filtering-Correlation-Id: fd52f748-cdfd-4648-9623-08dd46d855aa
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WW05V04vQ0dydjBIcDQ2Tk1IajgyRjBtMHAyTlhiY1Q2ZjV0dWVaVEJnZVdu?=
+ =?utf-8?B?UCtBRndGekw3V2dVWTE3Mkh3NHE0a3RnSC8vUm9tWkFrZVpXUGJFTGRMQXB5?=
+ =?utf-8?B?N2QzSWdicm9YS2xVcmkzUzVhWFU2MjE4OWZBMlZNakd4UEY3U1ZzME5XTzVV?=
+ =?utf-8?B?UnNxOU9lSFlsMDZqbk9saU5yUlJISWFHUEVFSExtS1NJazcwWHVTekZ3a09C?=
+ =?utf-8?B?YnRMV0JGQlRja3lKd3BpbVdIcVJlMkxHRm83K2pQNFZtQXFiRnJZUHRCYTBL?=
+ =?utf-8?B?a0ZTLytIZVJpa0xIMGpVa1dUaURnSmxjczMwcHhOTzNISzBVWm53MmZVWGZJ?=
+ =?utf-8?B?Wkhib3JMVTV0bGVuWFJPNmprdHVIc1o1U1VPajVSVGh1aldHYXFSYXJTZzJt?=
+ =?utf-8?B?Y2FmcmRZbWFJNTZWckhZWGZpQVJtbU1PNXpCQXh1MjhLakNqSkZaSmVwQTV4?=
+ =?utf-8?B?YmdyVXlUYitUSGMyQXYxbVZjNyt4Z1RoOHdEdm1Qa2JQc2pFMFpjcFd4MW52?=
+ =?utf-8?B?YVZGaDhiOWdrWERFQi9JTFdPTDJHZE5TalI2MW12KzNVSkp1b1FXd0Q0Tldq?=
+ =?utf-8?B?RjJlYzlaeS80SzI5d0ZnbXFtS0ZtM1BSTW9teHFWaE9KZjEveFVPb1VXMWlB?=
+ =?utf-8?B?Q091L0ZKSTdTSU43TVVZMk1OZE5GT0o5OG5OczJrMFp1b3A0eWZXdWZlWDd1?=
+ =?utf-8?B?NXoxaG9ua2xaTFJNYjZiQXVlaEJuSWI5aTUvSVhaajBodjRSdE5qRThORlBo?=
+ =?utf-8?B?MnJORCt4S1c2QmpLWjNVdlVFdlh0TzZDYlh2RmdrdGp3WkQzbE8zN0NRUHd4?=
+ =?utf-8?B?NW9JRngzQnRMK2owTTNxZ2ltb2R6OHl2NmFHY2ZlYWRXU1VjdWpYNGhUL1Ns?=
+ =?utf-8?B?aDV3SEtiL21Bd0xCSG5Nd2tZK2RoWGZXeTRMRjB0YStKb2tDbWJ2S3hlelN6?=
+ =?utf-8?B?Qkw5NllaeU9heXFuSXBBWTh4SWwzakt1Sjh5Y3VYS0p4MUFwaUNFL3lGT0U3?=
+ =?utf-8?B?YTRFMW5MTUVvSzVEMlpuQlNId0dHenJJbTcyZXNVVlM3MTFINnJ2Z0VYTmxo?=
+ =?utf-8?B?a1plZ2FSaXhWeFBrVWE3V2c5OC83RG1Gdmh4U3VSZWl0bnozNHl2VE9qbjZU?=
+ =?utf-8?B?U0FCWEZ4L0NDY0J0b2EzQ29BQXlxS2V1NEN6OUVaelk2NmFGbi9qbUZxS2lj?=
+ =?utf-8?B?b2gzb3lZVGdNdmFEQkZNR20wTnJqMHM0a1QwV09rYmlqaFVqaWxGa21CaVVP?=
+ =?utf-8?B?V2pTL3BLVGhrMGZYRHFBc3l5UmtsWFpObERWS0hXZHJZb0pPdkRnMFRaM090?=
+ =?utf-8?B?YU5PalJaZmI1TkRYSVRTVzZKaWh3aGRjWE1UeEhkSjk1eFQ1TG5adXFPbkEx?=
+ =?utf-8?B?MGhMRzJCUGZSQjBaWW5hcEJnN3ZqVDlnWXhJKzQ2OStDaUlKWEJ3SXVjaEo5?=
+ =?utf-8?B?anhyUmU4OFNuMllaais5anJ1cll3VjN0akgwTmZtOTA1NjFmTG84WG9RVTl4?=
+ =?utf-8?B?ZUU1V2psKytGbWpNdnA3N2RNOWVqTi91aXJPVm5Id2RYL0hVZ1VMU0ZOeXpD?=
+ =?utf-8?B?cW5yVllkUE0rdFdKcWFwbVZKNnlidjRPNGhJNlRHQXVhUXlwZ291MExvWEh1?=
+ =?utf-8?B?enA4UEJtb1lmc01SK2I4VlErenprOGx0Sk1Nc002MnpCdkhsd2UwaG1RQzRi?=
+ =?utf-8?B?cUR0ZVIzQTJPUnowa2hRTUFlcXgwOHJnUEQydzRBYjJLaHlkdUFhbGNiYWgv?=
+ =?utf-8?B?cEJ3NHNJYkRwR3lXM3dlbFJBM1pad3JUR3RpVGNhOTlBMy9Zbi9LZHFWWlNl?=
+ =?utf-8?B?TFFrMTJEc0NjN2pHQVNqTEErcFc4QllhemhpN0I4N2FqTTNobnM2ZFZwSzVK?=
+ =?utf-8?Q?qsuwycwaVV3KG?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Unl2UEFHU3NCZWdGSi9YQlFkVitPblpiYTFpUEhIRUltRGlueW41enRYVm1Y?=
+ =?utf-8?B?NkZnMkZxVjJMSDlNVkR6dW5ZbFo2dG85VHVoaDg1bjlES0tiNHBxdkZabnVY?=
+ =?utf-8?B?RWExeWZoNUdmRyt5VlBHcFVQS1hkb2NLejhEa25mY3h4bGkrR0hWaEhBcjl0?=
+ =?utf-8?B?SFdvbDcvR0NGWkdJU1l1ZnJOMTFrVjZxWXpKS0FqdlZQWjJtcC9ITnhsU3JU?=
+ =?utf-8?B?OFYxSnZmRG5EQlRPR05hb0tYQThBNTUvMDJtZ2E0OEZVTTNZSU5WN085a1hK?=
+ =?utf-8?B?MEY2K0J3eC8zdHdNNkttdTc0QW9IYTRZZ01xclpKNFdaa1l5MFhFTSthZXha?=
+ =?utf-8?B?ZG5STG9rTXdNdHZicTFFQ0Nzb2xuK2RydnNsMlRnSUh0bDZCQVZEeXJ1RE5v?=
+ =?utf-8?B?T3M0eE02MEk2TXhZKzlOWFZqTnAwanhDbEdwZDJmWTRCdGk0c2VoSFZVWkN6?=
+ =?utf-8?B?YnZKQ0JSVGFYMjdzdG1kczVmcjZZdEFKMGQ5bkNWRW05NHZOd3JyeUFJRk5U?=
+ =?utf-8?B?ZkhDaVVrRVdvMlRDTjRsdW84TFQvRmxRazNTWER2K2lxbEZQaUJvK2FqSlhp?=
+ =?utf-8?B?azJUd3NPcXVLQ3JkU2xRVUwvMWpnYXdpblJWT3JsR1oza1ZzbVMvc2p1b2dS?=
+ =?utf-8?B?NjhBZEVFU0FWUU5TUWhBUC9PT0p6RTByc2NPUlRWcG5kd1ZtODFPT2NMd2xF?=
+ =?utf-8?B?T1FtREN4MDZRQjRZN2hYUzhVcXNLQXJXN1ArREpIQUxiVmlvVzFpRVRBOXRl?=
+ =?utf-8?B?azd2SFBGOWxFZnhWNGVUY3poa3lMZWtnNzVWMnVpZXpVWmpvc3hzN3p5Wmsr?=
+ =?utf-8?B?QXlXQ0Nsb0RDQXJFME5VZEhKTjh4S0hpdXlObU83NnlHa09tWGhka1ZTWm5r?=
+ =?utf-8?B?OUowYjE0TkUwN1VXRFh6ZzhqTUpWcm1rWnFqa2VlRkl4QmMzYXhzMlJWWDlq?=
+ =?utf-8?B?cmt2amoxYmNMVHlGSHFoMGRCeERQSzVaYzBPNXRPTVI4aG5Vb3ZoY1FSMkN3?=
+ =?utf-8?B?UUNwZ3pwN0tEc0Z2Qy9SaXZqYzdqYm53dzhMcXpYTUd6d2ZYazlGTVFlZUhX?=
+ =?utf-8?B?cDA5bExlR3Y4Tjd1MUQrWXgxV1BGWlByYWNDUVcyenhTZDZGV2FWVk5Ub3d6?=
+ =?utf-8?B?eWtvSnA1SW5ERTEyUjkwN3hXS1JQUVFHZEthRmU4MEE3Q3F0QWlTY3g1ZkVn?=
+ =?utf-8?B?YnRGZy85ZGJhME9OeU5NTU1DK2xDSmZTN0ZtYlNKdzFtZDYrem5MTy9vZ2U5?=
+ =?utf-8?B?UEQ5akFFVEwwM29BVHRJTzQ2NExOaWJmMjJudVZGUG1pcENhQW5LQ1pwNHRJ?=
+ =?utf-8?B?N0dBSVJNSGZJTFJJMENBUkQzbkduOGMyS1NncDFZQWpaMURxa0ZMRysweU5x?=
+ =?utf-8?B?clkvNkZNMVBYSi9CemJVcUZYZVB5SWpSZ09GUVA4QnU1WW4yNjRlbk1URTcx?=
+ =?utf-8?B?TkdCU0xzeWJJRUhkSUExamJ2a2FRTkowZkVadUUxWnFxRElHRVA2Z2l3WkFp?=
+ =?utf-8?B?MGV3cEVFdUVFZVJ5b0x2dDVRQjdHK1FTd0F0alFQZGZhZWl0NEVmUDlFbTJq?=
+ =?utf-8?B?TzdVQkJMY0lLVnU3cWtDaHFJSXdWSmp0NFUzUGdvenp5YThOQ1VPOHRBNTNt?=
+ =?utf-8?B?eXE3MGVwUDJjZkhvSDI0bStlNE9BcjUrVDlKeUJHVnJUUVJWLzk4M2g2Rlda?=
+ =?utf-8?B?VGJJTE82NEkrakQxT2VWdCt6Mk0ycXZCbjc3RU5pa2lRVkMxYndTdWdEN3Ex?=
+ =?utf-8?B?YW9Mekx6cEtsczdINnoyWVlXVHkrem5HZW1vS3BFNDhOcWl4Q1FEeGpBV1J3?=
+ =?utf-8?B?b09jNCt2b0NxQ3B0UEgxeXp2UndFS3lRUE1HT3pNUkxCd0tQWnpRYS85cUdE?=
+ =?utf-8?B?YWlFTGdNM0RSVkcvTWRxRmZ6NUpzaEU0RXlzSlRZSDRmOEVTSWhEQUlOQ0Yr?=
+ =?utf-8?B?dC9yZ3k1aXdpV0k1ZG1aTjVuVzhxaEdUUzlJWGovcFdPaERIWWpwWHpieWJQ?=
+ =?utf-8?B?TlNsVjh3bTMyNHVpYjJxeEx0Zk94dkc3R29pcHJZM055ZmlZSXJ6UnkveFZp?=
+ =?utf-8?B?NUZvaUZ2aW5TRWZQdjRSV2tuUGptZ1hnZmd3UnhXejRiZE9obmtXUDkvRDlV?=
+ =?utf-8?B?cGdlSFVEVXh2ZCttK1B0NTduUFVQNGJXOVhWdmVaeWE2b21aQ3ZIZG9GQ0ZD?=
+ =?utf-8?B?eWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd52f748-cdfd-4648-9623-08dd46d855aa
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 18:01:52.2158
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: s7gkExdn83pmLJQ0r48a2BCCjbOFRSeZAI0GWt1QmLAY0tbFUzVD/+QRVysKO3yTIFrZB7GS/eL8rqgrHHv8dSPoEH8KDwY5oDlzy3GOy9E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4908
+X-OriginatorOrg: intel.com
 
-Since commit 18734958e9bf ("intel_idle: Use ACPI _CST for processor models
-without C-state tables") the intel_idle driver has had the ability to use
-the ACPI _CST to populate C-states when the processor model is not
-recognized. However, even when the processor model is recognized (native
-mode) there are cases where it is useful to make the driver ignore the per
-cpu idle states in lieu of ACPI C-states (such as specific application
-performance). Add the 'no_native' module parameter to provide this
-functionality.
+Hi Babu,
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Len Brown <lenb@kernel.org>
-Cc: David Arcari <darcari@redhat.com>
-Cc: Prarit Bhargava <prarit@redhat.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: David Arcari <darcari@redhat.com>
----
-v2: renamed parameter, cleaned up documentation
+On 1/22/25 12:20 PM, Babu Moger wrote:
+> Introduce the interface file "mbm_assign_mode" to list monitor modes
+> supported.
+> 
+> The "mbm_cntr_assign" mode provides the option to assign a counter to
+> an RMID, event pair and monitor the bandwidth as long as it is assigned.
+> 
+> On AMD systems "mbm_cntr_assign" is backed by the ABMC (Assignable
 
- Documentation/admin-guide/pm/intel_idle.rst | 17 ++++++++++++-----
- drivers/idle/intel_idle.c                   | 11 +++++++++++
- 2 files changed, 23 insertions(+), 5 deletions(-)
+""mbm_cntr_assign" is backed" -> ""mbm_cntr_assign" mode is backed"?
 
-diff --git a/Documentation/admin-guide/pm/intel_idle.rst b/Documentation/admin-guide/pm/intel_idle.rst
-index 39bd6ecce7de..1f02a880836c 100644
---- a/Documentation/admin-guide/pm/intel_idle.rst
-+++ b/Documentation/admin-guide/pm/intel_idle.rst
-@@ -192,11 +192,18 @@ even if they have been enumerated (see :ref:`cpu-pm-qos` in
- Documentation/admin-guide/pm/cpuidle.rst).
- Setting ``max_cstate`` to 0 causes the ``intel_idle`` initialization to fail.
- 
--The ``no_acpi`` and ``use_acpi`` module parameters (recognized by ``intel_idle``
--if the kernel has been configured with ACPI support) can be set to make the
--driver ignore the system's ACPI tables entirely or use them for all of the
--recognized processor models, respectively (they both are unset by default and
--``use_acpi`` has no effect if ``no_acpi`` is set).
-+The ``no_acpi``, ``use_acpi`` and ``no_native`` module parameters are
-+recognized by ``intel_idle`` if the kernel has been configured with ACPI
-+support).
-+
-+``no_acpi`` - Do not use ACPI at all.  Only native mode is available, no
-+ACPI mode.
-+
-+``use_acpi`` - No-op in ACPI mode; however, the driver will consult ACPI
-+tables for C-states on/off status in native mode.
-+
-+``no_native`` - Work only in ACPI mode, no native mode available (ignore
-+all custom tables).
- 
- The value of the ``states_off`` module parameter (0 by default) represents a
- list of idle states to be disabled by default in the form of a bitmask.
-diff --git a/drivers/idle/intel_idle.c b/drivers/idle/intel_idle.c
-index 118fe1d37c22..5e5bd3fd3064 100644
---- a/drivers/idle/intel_idle.c
-+++ b/drivers/idle/intel_idle.c
-@@ -1695,6 +1695,10 @@ static bool force_use_acpi __read_mostly; /* No effect if no_acpi is set. */
- module_param_named(use_acpi, force_use_acpi, bool, 0444);
- MODULE_PARM_DESC(use_acpi, "Use ACPI _CST for building the idle states list");
- 
-+static bool no_native __read_mostly; /* No effect if no_acpi is set. */
-+module_param_named(no_native, no_native, bool, 0444);
-+MODULE_PARM_DESC(no_native, "Ignore cpu specific (native) idle states in lieu of ACPI idle states");
-+
- static struct acpi_processor_power acpi_state_table __initdata;
- 
- /**
-@@ -1836,6 +1840,7 @@ static bool __init intel_idle_off_by_default(unsigned int flags, u32 mwait_hint)
- }
- #else /* !CONFIG_ACPI_PROCESSOR_CSTATE */
- #define force_use_acpi	(false)
-+#define no_native	(false)
- 
- static inline bool intel_idle_acpi_cst_extract(void) { return false; }
- static inline void intel_idle_init_cstates_acpi(struct cpuidle_driver *drv) { }
-@@ -2328,6 +2333,12 @@ static int __init intel_idle_init(void)
- 	pr_debug("MWAIT substates: 0x%x\n", mwait_substates);
- 
- 	icpu = (const struct idle_cpu *)id->driver_data;
-+	if (no_native && !no_acpi) {
-+		if (icpu) {
-+			pr_debug("ignoring native cpu idle states\n");
-+			icpu = NULL;
-+		}
-+	}
- 	if (icpu) {
- 		if (icpu->state_table)
- 			cpuidle_state_table = icpu->state_table;
--- 
-2.48.1
+> Bandwidth Monitoring Counters) hardware feature and is enabled by default.
+> 
+> The "default" mode is the existing monitoring mode that works without the
+> explicit counter assignment, instead relying on dynamic counter assignment
+> by hardware that may result in hardware not dedicating a counter resulting
+> in monitoring data reads returning "Unavailable".
+> 
+> Provide an interface to display the monitor mode on the system.
+> $ cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+> [mbm_cntr_assign]
+> default
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
 
+
+> ---
+>  Documentation/arch/x86/resctrl.rst     | 26 +++++++++++++++++++++
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 31 ++++++++++++++++++++++++++
+>  2 files changed, 57 insertions(+)
+> 
+> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+> index fb90f08e564e..b5defc5bce0e 100644
+> --- a/Documentation/arch/x86/resctrl.rst
+> +++ b/Documentation/arch/x86/resctrl.rst
+> @@ -257,6 +257,32 @@ with the following files:
+>  	    # cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config
+>  	    0=0x30;1=0x30;3=0x15;4=0x15
+>  
+> +"mbm_assign_mode":
+> +	Reports the list of monitoring modes supported. The enclosed brackets
+> +	indicate which mode is enabled.
+> +	::
+> +
+> +	  # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+> +	  [mbm_cntr_assign]
+> +	  default
+> +
+> +	"mbm_cntr_assign":
+> +
+> +	In mbm_cntr_assign, monitoring event can only accumulate data while
+
+"In mbm_cntr_assign, monitoring event" -> "In mbm_cntr_assign mode, a monitoring event"?
+
+> +	it is backed by a hardware counter. The user-space is able to specify
+> +	which of the events in CTRL_MON or MON groups should have a counter
+> +	assigned using the "mbm_assign_control" file. The number of counters
+> +	available is described in the "num_mbm_cntrs" file. Changing the mode
+> +	may cause all counters on a resource to reset.
+> +
+> +	"default":
+> +
+> +	In default mode, resctrl assumes there is a hardware counter for each
+> +	event within every CTRL_MON and MON group. On AMD platforms, it is
+> +	recommended to use mbm_cntr_assign mode if supported, because reading
+> +	"mbm_total_bytes" or "mbm_local_bytes" will report 'Unavailable' if
+
+Reinette
