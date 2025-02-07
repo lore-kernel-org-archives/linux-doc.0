@@ -1,134 +1,99 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m49230.qiye.163.com (mail-m49230.qiye.163.com [45.254.49.230])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF2E1547CA
-	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 02:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB931547C0
+	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 02:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.230
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738894954; cv=none; b=TK6thra9U+m0Ehx14FlTF5wEHRQxyelpw12XOWuxVQ6Hi0JqToUNfylaA8fnjlowVXYSvjm6AH/nwJmFJ27eCnFy4B97buUC49XoKMUNg9sDsBBieKmpkVBVX5j8GUV9Tp948NVMHqQoR/ZhIcH3jaQTTgjYk6yjEWgzUJJYUMM=
+	t=1738894971; cv=none; b=FbbVehqNg7CZAnmIZH22iVsDOXzLTO4or+s7rFe9OeBayP50jhdTmHNZO7YuwMzoLZpE5Vsn6iGj5mRy0YiNHUV7Q9dmShP65QAPZbm9kpUd2AUKzcUgKwdIPCOuXhnbShxRHocI0iV5eWmDfKKe/4xC2A1EGBosyYBnuGbXmWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738894954; c=relaxed/simple;
-	bh=jvE8zKpfRmfKAz2BQ6sxAgZ6btqjmbBFLAixmmadIsE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dcdEjgLNQsPfiinqoxi3MHrpqhku+WQTPQa6HK3KMnhs8jHGFzEeYFPr4X38Ad6KVC4DsKnkaSCdNTjdjPHD1cw68Slr0kTVu08roMmpPug6SO8RMeT5OHSXFYryh2a1qm+K9gfM3+Nr0sBJ1GPsLadv0nMVf1wMtA61gb6Scrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lJw6UwpX; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1738894971; c=relaxed/simple;
+	bh=x94c1vOzR94g6cGS9qf8v0kjY7HKujW3wMFsI/omCWw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rsSUHnWWiTi11Y9PSVtbytW/nJ63X6rxoMV1VWOHOQ9Urn92gLkPcW+zMofYOgTJmzQ1yZXeGJNztPgsnUTx8ymZpWwu42nKuooqqSa0ef+lT4ckYOUM2sn/CNv2FDvaG3yHPT0z/qf+6CwunndPYVqz9/MCsNFb2clUfiFGAqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=eiRRzZ6X; arc=none smtp.client-ip=45.254.49.230
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lJw6UwpX"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3076262bfc6so16351531fa.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 18:22:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738894949; x=1739499749; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XJ2zkKifpQ89f3hMtzxU+G41sKfC/86q4GHwa2AD6jI=;
-        b=lJw6UwpXtiE+1ArUUJzsDI13yS2GsjlmNIz+LNRnkYGp8nKVtXdkDbOHSym4nINJsX
-         WjiL0ugINjlqbAZHFlTKacCL/wSCZg5Yp3PdVqPuR+Xo+PmBJ4L9ywHhL0yKH6HU0Cop
-         YIxmcXyJcBfzeVwMlMEUN+BvUzjf1cHlhq96TktHEf2qFfDGUeptozQnZ0GwkrvMUOQ0
-         d4yRHEUez/1gIQxLrg43q7WhCZOgLDcJuQKWWdYRViMyXVTQWzdAtJXM4sxUjmCAD8cQ
-         sjdbTZ4BlgyX/fhZRM2WyTGCZ4LUcfMJNFeMuNyOUsiPrBNZCqV2XPcB/NffZ/iW8K5R
-         fJEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738894949; x=1739499749;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XJ2zkKifpQ89f3hMtzxU+G41sKfC/86q4GHwa2AD6jI=;
-        b=GGFBE/BQZr0PGIlEBJmo/dE3qFBRrtYckmaKRvcjnev4duV11MR7m/Qtzzn+XGoU6m
-         5NH/PRlJNB9ErsY0fptL0fKM9MzuRhEJJuhFxGrwca0bBqTz+UhLMJWkj05gB6zHK7Nc
-         KMcFx6Bd7dPoohBC0UeIuxJzFCA5QqbAnBGPSOojwSc9X9l93Gm3A+wBsqPJ7Olp0DZ9
-         T3DC/Qz8nJe5D3cl5ICtAnUWrSC6zp5jMdBgscJ7NXb4sGyhO/M1vOvzswVoEHl7qqdV
-         PU93+rMMCXfsvHQPKiu0y4KnnvODlBqn6gxRVl8hziJenHeRuMduxMYEGnel1r6/byoq
-         k3wA==
-X-Forwarded-Encrypted: i=1; AJvYcCW+2vurOyOxiATJWl/PxNq3hwn+gDn3m4WnwV+uphgkuoFvxhQ6EZB2gYgl9LPPR46GFveVq/s+SEk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3eb0zBMRfLHOJwtjtacNFZNz5VF/v1vMeVCV2o9fwEF/gtXI7
-	ivk1UPHwOv7YdfOGdHGviZRw0EOf2DaPQD2mYXCY2SwyoDCQeWVCDJP+fU/JP94=
-X-Gm-Gg: ASbGncvpO4v90Td5yBZOlmvRdgWcE3Swef4Zj0aQGk+La1lUM0KqKISX1VTJaj/s6yP
-	QVsBMOQKYGGHOhKECrvBdFKjyCSEBsk8Q1HBsALQCcrj0FHyrhjC/JczuVl3YgETKygbG/7S621
-	hU0je7gDhOvR+fPop1Rs8ETxzoNpuIdo0XojcVJrc+qrH/UvImiGR0LFIVa0zPaqvlqYZEbjFJ5
-	MMMUicjGWU2kgQQAo2UegXbw1JloCuy3WFGlBY+U5+6p15kmj2rSRw+nwVrt9la/QZDq6FhX72G
-	Heh5eRMoTpKDgcbY1M4mtN1zm79B5HyxQQxWd7tRDqO22dR2Th8z5h0Nqoa3HPU/4qRfpac=
-X-Google-Smtp-Source: AGHT+IGYPeDLkcUcJNuKIyN2Hu1GKaefHM6B17kcLxSwD3vE/zsB8TapdQI7IpzwkzI9FScw1YMjSg==
-X-Received: by 2002:a2e:be21:0:b0:300:3de4:ff72 with SMTP id 38308e7fff4ca-307e5a739e3mr2648431fa.27.1738894949030;
-        Thu, 06 Feb 2025 18:22:29 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307de1a67c9sm2915881fa.48.2025.02.06.18.22.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 18:22:27 -0800 (PST)
-Date: Fri, 7 Feb 2025 04:22:25 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	=?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 04/26] drm/bridge: panel: drm_panel_bridge_remove:
- warn when called on non-panel bridge
-Message-ID: <cpe634qeg46gfph6diw7lshdiolnpmuik3nmd4fpayg4st5r55@5bcfdwjme7z7>
-References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
- <20250206-hotplug-drm-bridge-v6-4-9d6f2c9c3058@bootlin.com>
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="eiRRzZ6X"
+Received: from [192.168.5.122] (unknown [1.193.57.36])
+	by smtp.qiye.163.com (Hmail) with ESMTP id a5e4be67;
+	Fri, 7 Feb 2025 10:07:20 +0800 (GMT+08:00)
+Message-ID: <e04cc74e-2e87-4c4a-87ad-132aadbfefc4@cqsoftware.com.cn>
+Date: Fri, 7 Feb 2025 10:07:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250206-hotplug-drm-bridge-v6-4-9d6f2c9c3058@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Reply-To: zhangwei@cqsoftware.com.cn
+Subject: Re: [PATCH v3 0/3] Translation self-protection.rst into chinese
+To: Yuxian Mao <maoyuxian@cqsoftware.com.cn>, alexs@kernel.org,
+ si.yanteng@linux.dev, corbet@lwn.net
+Cc: zhaoshuo@cqsoftware.com.cn, zhaoyuehui@cqsoftware.com.cn,
+ linux-doc@vger.kernel.org
+References: <cover.1738833098.git.zhangwei@cqsoftware.com.cn>
+ <21d7d8b1-947b-4c14-932f-f5401644c8ae@cqsoftware.com.cn>
+From: zhangwei <zhangwei@cqsoftware.com.cn>
+In-Reply-To: <21d7d8b1-947b-4c14-932f-f5401644c8ae@cqsoftware.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDT0JLVh1LGkhDGk5KQkgZSVYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVITVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
+	JLS1kG
+X-HM-Tid: 0a94de295f1b03abkunma5e4be67
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Ngg6USo6TzIRDg4cLi1WDFE6
+	MAgwCwlVSlVKTEhDQ0JPS09KQ0pLVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkxVSE1ZV1kIAVlBSkhJQzcG
+DKIM-Signature:a=rsa-sha256;
+	b=eiRRzZ6XI6QJcc7GDEhkrKJqEG21DWS8scPX/GFmLPL8pyrS/zsGhlA+WQoLxiIsARBoAZku4yqnXQWLSKSS7WQeDmROwzLbObg3a1s63gvRFhZ7j3C8juk0TMEGqO2GHEez3N9Qgo3u2s25aEQ/x4GVfUXBlhChmo4FyJx4KxU=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
+	bh=sBJlzr+CKXBl4YeWDN0nFw5qk9WxmhnS9J2BnuL8tE4=;
+	h=date:mime-version:subject:message-id:from;
 
-On Thu, Feb 06, 2025 at 07:14:19PM +0100, Luca Ceresoli wrote:
-> This function is for panel_bridge instances only. The silent return when
-> invoked on other bridges might hide actual errors, so avoid them to go
-> unnoticed.
 
-Is there a real case of something using this function in a wrong way?
+在 2025/2/7 9:41, Yuxian Mao 写道:
+>
+> 在 2025/2/6 17:38, zhangwei 写道:
+>> Translate self-protection.rst into Chinese
+>> and add index.rst under keys and secrets
+>>
+>> Changelog
+>> v3:
+>>    * add index.rst under keys and secrets
+>>
+>> v2:
+>>    * fix remove the unnecessary blank lines
+>>
+>> zhangwei (3):
+>>    docs/zh_CN: Add self-protection index Chinese translation
+>>    Translate .../security/keys/index.rst into Chinese
+>>    Translate .../security/secrets/index.rst into Chinese
+>>
+>>   .../translations/zh_CN/security/index.rst     |   2 +-
+>>   .../zh_CN/security/keys/index.rst             |  24 ++
+>>   .../zh_CN/security/secrets/index.rst          |  18 ++
+>>   .../zh_CN/security/self-protection.rst        | 271 ++++++++++++++++++
+>>   4 files changed, 314 insertions(+), 1 deletion(-)
+>>   create mode 100644 
+>> Documentation/translations/zh_CN/security/keys/index.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_CN/security/secrets/index.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_CN/security/self-protection.rst
+> The patch contains whitespace characters，please modify them before 
+> submitting the patch.
+>
+> Thanks,
+>
+> Yuxian
+>
+OK,I'll resubmit
 
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> ---
-> 
-> This patch was added in v6.
-> ---
->  drivers/gpu/drm/bridge/panel.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> index 0c5db13b11dcb90ee88b9932b91aa05fc48d59bd..c57036b06493a6922e2cae38bcd1733930ff0073 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -322,8 +322,10 @@ void drm_panel_bridge_remove(struct drm_bridge *bridge)
->  	if (!bridge)
->  		return;
->  
-> -	if (!drm_bridge_is_panel(bridge))
-> +	if (!drm_bridge_is_panel(bridge)) {
-> +		drm_warn(bridge->dev, "%s: called on non-panel bridge!\n", __func__);
->  		return;
-> +	}
->  
->  	panel_bridge = drm_bridge_to_panel_bridge(bridge);
->  
-> 
-> -- 
-> 2.34.1
-> 
+Thanks,
+Zhangwei
 
--- 
-With best wishes
-Dmitry
+
