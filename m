@@ -1,141 +1,212 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356E58479;
-	Fri,  7 Feb 2025 22:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668441662EF
+	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 22:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738966619; cv=none; b=HuR3RqB00jzEGip201cAVf4udoQHEXGKv5BGdhxpVkqr3YKE2e8xFNW4RDQxzIFroWi3ZCDv6CKbkmE6wU9G2BdHi+eVkXn+hsZ5Y1Yf044AH+Z2aUl40ZmfN9+2NBLgE3RFxZhXipstkm4OerWIV5zmn8Z6xrySae+fXOJNdVU=
+	t=1738968258; cv=none; b=gUWe6mLkXMPDWJ5Mk0acmGtJrkhUjNjYH2da+ox4qMzJnCCWhkbMP9R70B3UBJSl5M0HE/ROBxS/I2Kjc9blK8UBKZOw4dFuFbknOIHl5vtnCC/0fOkeOHyWN4VjI/Qb+nRhZ6FY5ZeXv9lgOIUjBOnBgS/geZLhRh+XjRDmSWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738966619; c=relaxed/simple;
-	bh=vBguwXYtPq2YWrzcJrg+d/ZEDpXox2WcEHb2Zy7c7eI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U7KKC5ZZHQxp8z+auOg9P4ARKBvpoByITE7QFcGj777tHeCgOPUNUrAleeDb2PMBM5n7G11R+QaadhX6HtgQasGMN98IEXk9hviPEmng8kK6GX9jirLTSV55gbQSIWObdGx5iDfAUu2i0cluWlfd59KsejxHiI8nVf4eEM40/7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AAYITtmD; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1738968258; c=relaxed/simple;
+	bh=BKd51xQGZZ4Gqq3HzT1bsS3JNQF+dVtvOyP2185nGbg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XTb7FFr7T/mlAH7ctH/ZODnTg2jeXFuidymr/0SQanqXXoSEft3zfmgL8ubDunSqhisc1zwCMsIA5/tr6B2h6bDfIY3F6sEv0XLkf4z98/DwXQXWCVLRUDlopE4+Rok2CNCn25hvacKuKTwTOZH0baZLuMyOtbrWxeVo5aXv3Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=jHhTxFEx; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AAYITtmD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=giX8OGERwfO4MHhAX700Y15yzZhxddmBA51O/pJlx9o=; b=AAYITtmDEiu1aMKUL25OhuP4Km
-	7y3Uc/Dxmajc1tLFw2Z+q0OHmEaZzfj6mtBiHcZOOQXD+wg4wik1cB0hA63URPfaSqid0BMQAmrkE
-	adzUTEZOcmySqN7tBuT1ZqGPb10W68PEgCXPCg6sCAFaxPm90JEvA6h/lHnT+mVCpGI6dlVmilYxr
-	XnGCPLB3YMNKDAtGMfFbUUFnd5WxAVEdhnvDTTyX2IioKhtB+C+5y+TGX5EXjSvqdWojPICCDsA0f
-	0AGQtIvIpyJ5dMG5E2YOYMY9KluYwIt18CE2l+3Hyt48J9w5P5Cu3V1DKh7ErcugqdIcb7CyCAfOG
-	fMSWYtFQ==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tgWeS-0000000HJx6-2HzP;
-	Fri, 07 Feb 2025 22:16:45 +0000
-Message-ID: <8edae47f-2b70-4a47-9141-c728037cc029@infradead.org>
-Date: Fri, 7 Feb 2025 14:16:38 -0800
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="jHhTxFEx"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2fa345713a8so1620641a91.2
+        for <linux-doc@vger.kernel.org>; Fri, 07 Feb 2025 14:44:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1738968255; x=1739573055; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=o2ipDsFh+4Wi6+DfKBkgvbX5MRHqphXmotwjlbhmRh4=;
+        b=jHhTxFExduXYPEeCSR1AkECffBNHSVsANRuMsv3hdU8pw1TP4r7tdhVLWaJ7kFx0tw
+         fbuBeLTrIIhHIAfVXwnMmFfy2+Bw653qkelq8YHFzcHxRkz7A05mm96ugf+84flI0HfL
+         7njB9tFx3VEq0OLqeNiaCcp6tgKrZejvz9i6KVlLc566FO6u6C9E5OAoyaFUCnTxU3n0
+         +SbDnf62y3EzGZ34x5RckTxXbWo+lZE9caW0awgOkFYtquNHT5Zfp8jHYhv9+22phEHr
+         46cP5acHZAsBdNTPhyuIulMiHfFgkZJ5bUUilQCpW9ESxZX+ccUTGE3XCFnSO0mLhaPn
+         s0Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738968255; x=1739573055;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o2ipDsFh+4Wi6+DfKBkgvbX5MRHqphXmotwjlbhmRh4=;
+        b=cxCcXWi/IcefgTTpbqG4/nimgVz30/40ZLEDMKSHDSfhzdanUEO7j9ykEu+TM0PRTl
+         dZe41VxgxbIepqBNgTe5e4+fbP3UNJZ9lu6ztFcWHnlY+GMxGG1+H6UPbEATwjtUy3HM
+         nI6I8DdKmeE5KpLFWP9Oi2CkrnmomjjlbHPBJyY68UX+4TkuHBWwIb0iWYcgOzdDX7SH
+         9AaR+dhCJGFbrWnyItLPhbs0p24gP8e1h1HEfyy4kjG8coMJfFTfxYDq9cRtCtL8jOwt
+         yAdYvcOu8OeSOm5mD8EdFpRS93uW5kY5Qs3J2xHIpopVf3s+Kdb5jUnPpzuSxaYm6UBA
+         aRmg==
+X-Forwarded-Encrypted: i=1; AJvYcCXLRqEOsV4XJrN9uKkY4R1eABGLf5kB7PFN0vK+SDywC9MrkV7twKwIwLb8t9F8UJ0iIjOJJHpD4v8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoTTqrfBcer75r0vBy213ccgAGKgFp/qQEp4TJ6UMeM44368kR
+	S36xtO8RmcKrQ53i6xX1tmtbwVD8WaonAymHZu+LjpANBDIlXzgGgmLfe4DF9y8=
+X-Gm-Gg: ASbGncs5buCpV2lwAvcBHTg4RSdnXaOck6L8dDKDB3CFhjO1cv3EiohwZpbReI/9ON7
+	QRoBnrVDw/uCmUcyR5ROSkXE3dYf1HZXbu8R7t9pgw6aN4TYCFLhtQ1HrQk0lFr4gWomyUI38zO
+	zqXStzuemmKHSbUfCHcvWm7R9it38tkxtQ+TQnsjsBtMVizEM1xZOjmesg2bYffo3f6ZPY6mRWX
+	uSKFr/VGK0MwKLSMZACsborvUs9T44WuGJ16EByoUqqhYkU7e8XSOEaVrCW4U1jYJP/AXOg5A8y
+	DVwi+Bk+ZeoxII3aMfFJHOffQw==
+X-Google-Smtp-Source: AGHT+IH0ObGSX9Z5Li4uWD9lYbrpJL6WiQ/fR0RPEu4WFLYzu4KaceG7QOyaNMgDiAsQ/fdeHHOGVA==
+X-Received: by 2002:a17:90b:19d8:b0:2ee:6d04:9dac with SMTP id 98e67ed59e1d1-2fa243f02dcmr6699334a91.32.1738968254644;
+        Fri, 07 Feb 2025 14:44:14 -0800 (PST)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f9bf6f268fsm5069384a91.0.2025.02.07.14.44.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Feb 2025 14:44:14 -0800 (PST)
+Date: Fri, 7 Feb 2025 14:44:10 -0800
+From: Deepak Gupta <debug@rivosinc.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	alistair.francis@wdc.com, richard.henderson@linaro.org,
+	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
+	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
+	cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com
+Subject: Re: [PATCH v9 01/26] mm: helper `is_shadow_stack_vma` to check
+ shadow stack vma
+Message-ID: <Z6aMuuXMQAu7Tcvm@debug.ba.rivosinc.com>
+References: <20250204-v5_user_cfi_series-v9-0-b37a49c5205c@rivosinc.com>
+ <20250204-v5_user_cfi_series-v9-1-b37a49c5205c@rivosinc.com>
+ <6543c6b6-da86-4c10-9b8c-e5fe6f6f7da9@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] docs/arch: remove deprecated function name
-To: Jiayuan Chen <mrpre@163.com>, linux-doc@vger.kernel.org, corbet@lwn.net
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- linux-kernel@vger.kernel.org
-References: <20250207125504.728688-1-mrpre@163.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250207125504.728688-1-mrpre@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <6543c6b6-da86-4c10-9b8c-e5fe6f6f7da9@suse.cz>
 
+On Fri, Feb 07, 2025 at 10:27:10AM +0100, Vlastimil Babka wrote:
+>On 2/5/25 02:21, Deepak Gupta wrote:
+>> VM_SHADOW_STACK (alias to VM_HIGH_ARCH_5) is used to encode shadow stack
+>
+>I see that arm GCS uses VM_HIGH_ARCH_6.
 
+Stale commit message. I thought I had fixed it.
+Sorry about that, will fix it.
 
-On 2/7/25 4:55 AM, Jiayuan Chen wrote:
-> The dumpstack.c file has undergone many modifications, and the
-> print_context_stack() function was removed or rewritten a long time ago,
-> so it's better to remove the incorrect guidance.
-> 
-> I also want to preserve the original contributor info by keeping email
-> address and name.
-> 
-> Signed-off-by: Jiayuan Chen <mrpre@163.com>
+>
+>> VMA on three architectures (x86 shadow stack, arm GCS and RISC-V shadow
+>
+>And RISC-V doesn't define it at all, not even in this patchset, or did I
+>miss it somewhere?
+>
+>> stack). In case architecture doesn't implement shadow stack, it's VM_NONE
+>> Introducing a helper `is_shadow_stack_vma` to determine shadow stack vma
+>> or not.
+>
+>This looks like an unfinished sentence. As if it was to continue with "...
+>will allow us to ..." what?
+>
+>I'm not against a helper but this changelog is rather confusing and also
+>code in arch/x86 and arch/arm64 isn't converted to the helper but testing
+>VM_SHADOW_STACK still.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/arch/x86/kernel-stacks.rst | 51 +++++++++---------------
->  1 file changed, 18 insertions(+), 33 deletions(-)
-> 
-> diff --git a/Documentation/arch/x86/kernel-stacks.rst b/Documentation/arch/x86/kernel-stacks.rst
-> index 738671a4070b..45b7a225da11 100644
-> --- a/Documentation/arch/x86/kernel-stacks.rst
-> +++ b/Documentation/arch/x86/kernel-stacks.rst
-> @@ -112,41 +112,26 @@ Printing backtraces on x86
->  ==========================
->  
->  The question about the '?' preceding function names in an x86 stacktrace
-> -keeps popping up, here's an indepth explanation. It helps if the reader
-> -stares at print_context_stack() and the whole machinery in and around
-> -arch/x86/kernel/dumpstack.c.
-> +keeps popping up. This provides guidance about it. It helps if the reader
-> +stares at printk_stack_addressk() and its callers and pays special
-> +attention to the 'reliable' parameter ('?' basically means that the
-> +address is unreliable).
->  
-> -Adapted from Ingo's mail, Message-ID: <20150521101614.GA10889@gmail.com>:
-> +The detail about '?' can be found in the comments within dumpstack.c:
-> +::
->  
-> -We always scan the full kernel stack for return addresses stored on
-> -the kernel stack(s) [1]_, from stack top to stack bottom, and print out
-> -anything that 'looks like' a kernel text address.
-> +    /*
-> +     * Scan the stack, printing any text addresses we find.  At the
-> +     * same time, follow proper stack frames with the unwinder.
-> +     *
-> +     * Addresses found during the scan which are not reported by
-> +     * the unwinder are considered to be additional clues which are
-> +     * sometimes useful for debugging and are prefixed with '?'.
-> +     * This also serves as a failsafe option in case the unwinder
-> +     * goes off in the weeds.
-> +     */
->  
-> -If it fits into the frame pointer chain, we print it without a question
-> -mark, knowing that it's part of the real backtrace.
->  
-> -If the address does not fit into our expected frame pointer chain we
-> -still print it, but we print a '?'. It can mean two things:
-> +You can also get more info from Ingo's original emal. [1]_
->  
-> - - either the address is not part of the call chain: it's just stale
-> -   values on the kernel stack, from earlier function calls. This is
-> -   the common case.
-> -
-> - - or it is part of the call chain, but the frame pointer was not set
-> -   up properly within the function, so we don't recognize it.
-> -
-> -This way we will always print out the real call chain (plus a few more
-> -entries), regardless of whether the frame pointer was set up correctly
-> -or not - but in most cases we'll get the call chain right as well. The
-> -entries printed are strictly in stack order, so you can deduce more
-> -information from that as well.
-> -
-> -The most important property of this method is that we _never_ lose
-> -information: we always strive to print _all_ addresses on the stack(s)
-> -that look like kernel text addresses, so if debug information is wrong,
-> -we still print out the real call chain as well - just with more question
-> -marks than ideal.
-> -
-> -.. [1] For things like IRQ and IST stacks, we also scan those stacks, in
-> -       the right order, and try to cross from one stack into another
-> -       reconstructing the call chain. This works most of the time.
-> +.. [1] https://lore.kernel.org/lkml/20150521101614.GA10889@gmail.com/
-
--- 
-~Randy
-
+Yes I didn't pay attention during rebase, will update the commit message.
+>
+>> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>> Reviewed-by: Mark Brown <broonie@kernel.org>
+>> ---
+>>  mm/gup.c  |  2 +-
+>>  mm/mmap.c |  2 +-
+>>  mm/vma.h  | 10 +++++++---
+>>  3 files changed, 9 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/mm/gup.c b/mm/gup.c
+>> index 3883b307780e..8c64f3ff34ab 100644
+>> --- a/mm/gup.c
+>> +++ b/mm/gup.c
+>> @@ -1291,7 +1291,7 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
+>>  		    !writable_file_mapping_allowed(vma, gup_flags))
+>>  			return -EFAULT;
+>>
+>> -		if (!(vm_flags & VM_WRITE) || (vm_flags & VM_SHADOW_STACK)) {
+>> +		if (!(vm_flags & VM_WRITE) || is_shadow_stack_vma(vm_flags)) {
+>>  			if (!(gup_flags & FOLL_FORCE))
+>>  				return -EFAULT;
+>>  			/*
+>> diff --git a/mm/mmap.c b/mm/mmap.c
+>> index cda01071c7b1..7b6be4eec35d 100644
+>> --- a/mm/mmap.c
+>> +++ b/mm/mmap.c
+>> @@ -648,7 +648,7 @@ SYSCALL_DEFINE1(old_mmap, struct mmap_arg_struct __user *, arg)
+>>   */
+>>  static inline unsigned long stack_guard_placement(vm_flags_t vm_flags)
+>>  {
+>> -	if (vm_flags & VM_SHADOW_STACK)
+>> +	if (is_shadow_stack_vma(vm_flags))
+>>  		return PAGE_SIZE;
+>>
+>>  	return 0;
+>> diff --git a/mm/vma.h b/mm/vma.h
+>> index a2e8710b8c47..47482a25f5c3 100644
+>> --- a/mm/vma.h
+>> +++ b/mm/vma.h
+>> @@ -278,7 +278,7 @@ static inline struct vm_area_struct *vma_prev_limit(struct vma_iterator *vmi,
+>>  }
+>>
+>>  /*
+>> - * These three helpers classifies VMAs for virtual memory accounting.
+>> + * These four helpers classifies VMAs for virtual memory accounting.
+>>   */
+>>
+>>  /*
+>> @@ -289,6 +289,11 @@ static inline bool is_exec_mapping(vm_flags_t flags)
+>>  	return (flags & (VM_EXEC | VM_WRITE | VM_STACK)) == VM_EXEC;
+>>  }
+>>
+>> +static inline bool is_shadow_stack_vma(vm_flags_t vm_flags)
+>> +{
+>> +	return !!(vm_flags & VM_SHADOW_STACK);
+>> +}
+>> +
+>>  /*
+>>   * Stack area (including shadow stacks)
+>>   *
+>> @@ -297,7 +302,7 @@ static inline bool is_exec_mapping(vm_flags_t flags)
+>>   */
+>>  static inline bool is_stack_mapping(vm_flags_t flags)
+>>  {
+>> -	return ((flags & VM_STACK) == VM_STACK) || (flags & VM_SHADOW_STACK);
+>> +	return ((flags & VM_STACK) == VM_STACK) || is_shadow_stack_vma(flags);
+>>  }
+>>
+>>  /*
+>> @@ -308,7 +313,6 @@ static inline bool is_data_mapping(vm_flags_t flags)
+>>  	return (flags & (VM_WRITE | VM_SHARED | VM_STACK)) == VM_WRITE;
+>>  }
+>>
+>> -
+>>  static inline void vma_iter_config(struct vma_iterator *vmi,
+>>  		unsigned long index, unsigned long last)
+>>  {
+>>
+>
