@@ -1,150 +1,141 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4729A182D9
-	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 16:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED0C18DB21;
+	Fri,  7 Feb 2025 16:29:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738944987; cv=none; b=JhdhZ0w3dC0F0QSRIa/g9EASaAobrYld2T9hXCjf+KUedc89CacfW5AJNVsGGUUbKEOgmayd95bjF2YybDU2O4ottaByIJJqa342F/yNNjfthT9UxjgZZnA/X4DtlJqSZt7tSF1R3oLo6w2iXBbl8yTE1Gw+4u98lw6J8SYqFM4=
+	t=1738945787; cv=none; b=j6S/mvXCaw7g1O86nso3wNv/HGd1lLZw4gMuZcZ3rxl/ljKp0qhv8QIfpA2vtRKYxb7SYe8eLDrGzD8Dla0tsa36jIFeiloApOBZ8DfkIzSKsHJ7T81IoszQVk1l7PcL6UlyFvxXp/hRRgC69cN+yEQTTGJUAwy5WS62PQO7AFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738944987; c=relaxed/simple;
-	bh=hD+eCZVAmu9HYlJ66O10gtRu+u/xshw0dNIF0ppHeG4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T55wesq/i6ZTO4zy27e0O5niu5K3uuH+X0SSHlI/0d1gpph7k0EsXBE4ZuLdlnU57AbHIKM8nNa6qjzpOh0JVtIhFpkB2Z0a37uFsi4o2VI0mXsCh2SzDtdV8dY/d5rf9xtfihVPvztfB+RtG3VxmxMEn9JLGHDyEe4ibnhw01c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YuORY2oB; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1738945787; c=relaxed/simple;
+	bh=CTg/oPt7b8oDc+wpDgmpUzTTliBbDj+D/KiMzWPe6wg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lKphFsLLsqdGDscdO+PbqSUEP30xEO3UqUORo9CwoRii6QW0pAAlmSwCRERMfKTUvaxfC2aIiZCt9qDtWw93vtp28QAecZCg3EQx7rqio7DhTooEi7iELSaQUJa63YCLGWCn76XlzryyRWNNJi2S0lbvvfSNCVqWn4eMg9gCc/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=m+l0jBJc; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YuORY2oB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738944984;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hD+eCZVAmu9HYlJ66O10gtRu+u/xshw0dNIF0ppHeG4=;
-	b=YuORY2oBfCPOdTPGwf5EzqLLdAf/zylsM7/yufw/rTqoXFkFhWVRIbKCod4DmlFTuC2B72
-	OOpRygSdG5jX9cfqsIAJB7CtLrMcJwXH1t38ti9M4U0zYrW4nORRrTAa1MOcmZ0tTJOO3L
-	RJMpv9w1IKtXewdXpAksumqvh4/rUTk=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-367-rzTFmBBgNcWRwFcwVjwMzQ-1; Fri, 07 Feb 2025 11:16:22 -0500
-X-MC-Unique: rzTFmBBgNcWRwFcwVjwMzQ-1
-X-Mimecast-MFC-AGG-ID: rzTFmBBgNcWRwFcwVjwMzQ
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-2fa166cf656so3379108a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 07 Feb 2025 08:16:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738944982; x=1739549782;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hD+eCZVAmu9HYlJ66O10gtRu+u/xshw0dNIF0ppHeG4=;
-        b=b1KGOc0KR1DbQv16Un1VKNmzj22a4yJ5S+uHlmbPz1aSOZPapa/H3+uZYEmvkTuKHo
-         3P2OYoaz80dUU5ZijozCTHHq2TR+HyWFpfYiIdfULvZ4NZdAmyHEMotsT6DfEc7aNxAp
-         4mzYNMunuP8B9zB/jJR4FA+LGFx2fMmEedLS0AmyJ3CAMlS+JSnx/1DSokx1L7K5bai5
-         hVwdt1bMgoCuhm3lTHRP85J8mGicTevDZMuwOQEtFWldfdfoxut0iGG7FBW8r+e4cj3A
-         a3zYKZoe2rpXrZx5GNOUo3/tR1UaLwIiqGYvVEiSvzjMdhmDno+t9QwkdrL4Q79Ui7GC
-         ELWA==
-X-Forwarded-Encrypted: i=1; AJvYcCVBPyvj4TWay5/kf+AzYJFu8+Gs7E1ahw+lDh0dyck8tDy6Tk/w8o3rCNh4QGVk2cYFSb8b7svutIU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCNcOcZcMCgZB/x/zb7juI/8o1r8NL9fG0oULMEsdQ4/n92I8m
-	vLLY1VLcznsewnTvQFBOJMN6uQ10dUF5B26jMi6KgcMbEPCd/9A5q97dTDqoXOeMZx3GQrvgANb
-	3she5SRzvGAjQ+djB2vN3Rd1WzH2Rla1UXcaknkX5FLYreNNH9z31MtYueFSjM9uvi6Iy2zbxWe
-	GApE6/sKq0nqd9ytW/BPzpOJ5r+vqhmt9Z
-X-Gm-Gg: ASbGnctbTHkGH5yaVdvHfxbIEoQJl4XKbRAHSiocNgvxN82qqBrVcPnRCBm5DmR/AnM
-	nbd2aVTiv583mx1jXN8Jx8aTcLjIz8MxxScKh32fnYFTpxzHGOEbAUFx+VHJtsUoH
-X-Received: by 2002:a17:90b:1b44:b0:2f4:f7f8:fc8b with SMTP id 98e67ed59e1d1-2fa242e7602mr5367354a91.27.1738944981868;
-        Fri, 07 Feb 2025 08:16:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG9qQ6Ac9CdjS0hM2Fp5CTCftFgkMjfVYiNIpp2aFlk5UPLOL/FOPn2I3gKNt5IDhZaRA3QY4m6BBB8aMlIkFs=
-X-Received: by 2002:a17:90b:1b44:b0:2f4:f7f8:fc8b with SMTP id
- 98e67ed59e1d1-2fa242e7602mr5367287a91.27.1738944981087; Fri, 07 Feb 2025
- 08:16:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="m+l0jBJc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1738945783;
+	bh=CTg/oPt7b8oDc+wpDgmpUzTTliBbDj+D/KiMzWPe6wg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=m+l0jBJc2+iprI6Pu9oAN8vZvFcertgTLFqvOC1P0Cf9VU8moZlNVRZxTS+ML6aBh
+	 G1pCo6/0HOXqFJxWmsDkvSkoTE03JlUCGl4Mb/oqTR1fEqyQTtvq23xAtTATRaDaO5
+	 MJEDmnG2FxgwQjEX2QUP0rH/r2ZLN6TJy/mv1snvQP5kK9TNdsMR6M6cF5Dd0sCFla
+	 EfOK4JfX3CzuSkoOnpwn/MhwtyrOPpWkat8fKqRZIoCiwJ+ZbLAdJ7MXmcgbvhtV0F
+	 LHLnW5Vh17bwySYzpWPGmFgTs3tfTj9hIiYzyYg4SJafUiyZqFJRpEZPjqoXDM6lhD
+	 P+7cCBNuAglyg==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id CF71617E1507;
+	Fri,  7 Feb 2025 17:29:42 +0100 (CET)
+Date: Fri, 7 Feb 2025 17:29:35 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
+ Corbet <corbet@lwn.net>, Steven Price <steven.price@arm.com>, Liviu Dudau
+ <liviu.dudau@arm.com>, kernel@collabora.com, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 0/5] drm/panthor: Display size of internal kernel
+ BOs through fdinfo
+Message-ID: <20250207172935.2fa23902@collabora.com>
+In-Reply-To: <20250130172851.941597-1-adrian.larumbe@collabora.com>
+References: <20250130172851.941597-1-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
- <bfae590045c7fc37b7ccef10b9cec318012979fd.1736488799.git-series.apopple@nvidia.com>
- <Z6NhkR8ZEso4F-Wx@redhat.com> <67a3fde7da328_2d2c2942b@dwillia2-xfh.jf.intel.com.notmuch>
- <Z6S7A-51SdPco_3Z@redhat.com> <20250206143032.GA400591@fedora>
- <CADSE00+2o5Ma0W6FBLHwpUaKut9Tf74GKLCU-377qgxr08EeoQ@mail.gmail.com> <e1630046-8889-4452-9f8f-07695ba07772@redhat.com>
-In-Reply-To: <e1630046-8889-4452-9f8f-07695ba07772@redhat.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Fri, 7 Feb 2025 17:16:09 +0100
-X-Gm-Features: AWEUYZnF6uEewR9F7JdT3B1cLzxz-kUGRVOwAxRfyR8MegKqDpoCLJWu8Fphkbs
-Message-ID: <CADSE00KUeTp_C_kZPS1U2JcLiWuN1s6Se72gtFiN71kXCZx4UA@mail.gmail.com>
-Subject: Re: [PATCH v6 01/26] fuse: Fix dax truncate/punch_hole fault path
-To: David Hildenbrand <david@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org, 
-	linux-mm@kvack.org, alison.schofield@intel.com, lina@asahilina.net, 
-	zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, logang@deltatee.com, bhelgaas@google.com, jack@suse.cz, 
-	jgg@ziepe.ca, catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au, 
-	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com, 
-	willy@infradead.org, djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, 
-	peterx@redhat.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de, 
-	david@fromorbit.com, chenhuacai@kernel.org, kernel@xen0n.name, 
-	loongarch@lists.linux.dev, Hanna Czenczek <hreitz@redhat.com>, 
-	German Maglione <gmaglione@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 6, 2025 at 7:22=E2=80=AFPM David Hildenbrand <david@redhat.com>=
- wrote:
->
-> On 06.02.25 15:59, Albert Esteve wrote:
-> > Hi!
-> >
-> > On Thu, Feb 6, 2025 at 3:30=E2=80=AFPM Stefan Hajnoczi <stefanha@redhat=
-.com> wrote:
-> >>
-> >> On Thu, Feb 06, 2025 at 08:37:07AM -0500, Vivek Goyal wrote:
-> >>> And then there are challenges at QEMU level. virtiofsd needs addition=
-al
-> >>> vhost-user commands to implement DAX and these never went upstream in
-> >>> QEMU. I hope these challenges are sorted at some point of time.
-> >>
-> >> Albert Esteve has been working on QEMU support:
-> >> https://lore.kernel.org/qemu-devel/20240912145335.129447-1-aesteve@red=
-hat.com/
-> >>
-> >> He has a viable solution. I think the remaining issue is how to best
-> >> structure the memory regions. The reason for slow progress is not
-> >> because it can't be done, it's probably just because this is a
-> >> background task.
-> >
-> > It is partially that, indeed. But what has me blocked for now on postin=
-g the
-> > next version is that I was reworking a bit the MMAP strategy.
-> > Following David comments, I am relying more on RAMBlocks and
-> > subregions for mmaps. But this turned out more difficult than anticipat=
-ed.
->
-> Yeah, if that turns out to be too painful, we could start with the
-> previous approach and work on that later. I also did not expect that to
-> become that complicated.
+On Thu, 30 Jan 2025 17:28:08 +0000
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Thanks. I'd like to do it properly, so I think will try a bit more to get i=
-t
-to work. Maybe another week. If I do not manage, I may do
-what you suggested (I'll align with you first) to move the patch forward.
+> This patch series enables display of the size of driver-owned shmem BO's =
+that aren't
+> exposed to userspace through a DRM handle. Also fixes a use-after-free bu=
+g in the
+> existing fdinfo implementation for Panthor.
+>=20
+> Discussion of previous revision can be found here [1].
+>=20
+> Changelog:
+> v10:
+>  - Simplified locking scheme in panthor_vm_heaps_sizes
+>  - Fixed kernel test robot warning about documentation
+>  - Added some R-b tags to patches
+> v9:
+>  - Added proper locking around group pool xarray to prevent UAF errors.
+>  - Added proper locking around vms pool xarray loop for the same reason
+>  - Added new patch that fixes UAF error because no locking when accessing=
+=20
+>    fdinfo group stats.
+>  - Some minor cosmetic and naming changes.
+> v8:
+>  - Made print_size public and added prefix argument for drm_print_memory_=
+stats
+>  - Updated documentation commit to reflect new name tags
+>  - Some minor polishing
+> v7:
+>  - Added new commit: mentions the formation rules for driver-specific fdi=
+nfo keys
+>  - Added new commit: adds a helper that lets driver print memory size key=
+:value
+>    pairs with their driver name as a prefix.
+>  - Modified later commits to make use of the previous ones.
+>  - Deleted mentions of now unnecessary memory keys in the old revision.
+> v6:
+>  - Replace up_write witnh up_read, which was left out in the previous ver=
+sion
+>  - Fixed some minor comment and documentation issues reported by the kern=
+el test robot
+> v5:
+>  - Replaced down_write semaphore with the read flavour
+>  - Fixed typo and added explicit description for drm-shared-internal in
+>  the fdinfo documentation file for Panthor.
+> v4:
+>  - Remove unrelated formating fix
+>  - Moved calculating overall size of a group's kernel BO's into
+>  its own static helper.
+>  - Renamed group kernel BO's size aggregation function to better
+>  reflect its actual responsibility.
+>=20
+> [1] https://lore.kernel.org/dri-devel/20250123225325.3271764-1-adrian.lar=
+umbe@collabora.com/
+>=20
+> Adri=C3=A1n Larumbe (5):
+>   Documentation/gpu: Clarify format of driver-specific fidnfo keys
+>   drm/file: Add fdinfo helper for printing regions with prefix
+>   drm/panthor: Expose size of driver internal BO's over fdinfo
+>   Documentation/gpu: Add fdinfo meanings of panthor-*-memory tags
+>   drm/panthor: Fix race condition when gathering fdinfo group samples
 
-That said, if I end up doing that, I will definitively revisit it later.
+Queued to drm-misc-next.
 
-BR,
-Albert.
-
->
-> --
-> Cheers,
->
-> David / dhildenb
->
+>=20
+>  Documentation/gpu/drm-usage-stats.rst   |  5 ++-
+>  Documentation/gpu/panthor.rst           | 10 +++++
+>  drivers/gpu/drm/drm_file.c              | 27 ++++++++----
+>  drivers/gpu/drm/panthor/panthor_drv.c   | 14 ++++++
+>  drivers/gpu/drm/panthor/panthor_heap.c  | 26 +++++++++++
+>  drivers/gpu/drm/panthor/panthor_heap.h  |  2 +
+>  drivers/gpu/drm/panthor/panthor_mmu.c   | 33 ++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_mmu.h   |  3 ++
+>  drivers/gpu/drm/panthor/panthor_sched.c | 58 ++++++++++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_sched.h |  3 ++
+>  include/drm/drm_file.h                  |  5 +++
+>  11 files changed, 176 insertions(+), 10 deletions(-)
+>=20
 
