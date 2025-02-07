@@ -1,62 +1,62 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114F9193409
-	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 02:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57519155C8C
+	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 02:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738894866; cv=none; b=UmJ3pcMPMoRJaYLkV04gGnXgjF3fOK4/fEC2AWOUE2oXg6WJQkHZbv0ysni35mSP6kgyv+vNpTOdfWROtzlIQqETNOFqZYEFTiMHBdofui9LllIR04Bs5FtceSgdQ4X0vAjAVlpMx22XX9lwgRWsvUZkBcfXAMvzeml+NvsUIDc=
+	t=1738894911; cv=none; b=PrrB/o7Mb3Tv40Pm8BwMr+gKczg57niG+TThBnwgtyblTzqdVqIRDuWW9sZ8tW2m5fw+e3KpBxmTdxHtKhcGEx1n5SQ4kT9YvoUtuqgQ790WllwPfHOtJUcVdwR3PQJcuQ6dIDZf4iEQ+Zas4qStiYGilvHUPL1y9tGOP2uxsJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738894866; c=relaxed/simple;
-	bh=lQaV34lurimnaPJ9vgfTHAK/26+j4AVXi7l/BHGkvic=;
+	s=arc-20240116; t=1738894911; c=relaxed/simple;
+	bh=NwprDrTmE/wpQWc71fqFMJ+9Mlb8oEsxHNb1kniSsss=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K0sttc/dRztS+OSo5+9Wu/HTEg4Oe5aBhpuncgFOMZDn3lMFlOqJOoW90NXAa4Pkc2CMzDRrAE6oQj3KSQYigdDVDQIngtmG/D1UyXsXPq6EROw2bahHaubTk+WbCdgqM6R51wcXcAJRGnsJAt4rmcRuFjlsE5oHkN7+QRERU9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MZbX5Y06; arc=none smtp.client-ip=209.85.208.180
+	 Content-Type:Content-Disposition:In-Reply-To; b=GmmkG/i3cPVmeRk1i8Xj+tz2ed5ckiEviIpsi1Ha9O6OWj6JESVNpwT8FhEBOmCMZhadXyLwdwVAbO8/cirk6X7SwoG9TQmmXd0wLdr+deYLsIzX9yaFuxnfQ3ArbiLi5948E4i1DlpH1S55wn3r+gwX4QZT3iGlCY1PvwpPDns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dVRYGDXI; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MZbX5Y06"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30613802a04so17227551fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 18:21:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dVRYGDXI"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5441040a325so1168035e87.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 18:21:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738894863; x=1739499663; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1738894907; x=1739499707; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ihgnc3taSXbrknD0hSr+bBzd9N3zZ9ifJfj9N5E5nmY=;
-        b=MZbX5Y06nGBOcPlOPzBF/mufImJFsR5/iJ9xyq2oZIl7LtRAxUpFtHFuKf8T5SRk29
-         wj+qrZIGEJgZLBZV7Hr2N25M8ailDKEbwWOxfyFdOWUKFxpo4BY4EpEHW+DnP9rSsjb/
-         6BkEhM4bpBpBdzLH1Qntc3Bht42IV70PGtZLsnGxPh9QYVXjRATcLmN4f80Tl5OziIV4
-         JjnCNjEMAt4Y7/Q+OY6QzRaH7o7nI5IhJVBkZ2eSfLH8WcUQvU5SVVlUdoNqYdokls4+
-         L8pVgLH+D7yzchOkuSmnLZGYJt7ngxcQXeUf9zraD1djJmTnYewaa3jG5w7m3l9X6ef7
-         2Lyw==
+        bh=Lzta5S0gzTGOLstB++0r/Lba8xmTnzwJ+9gzDMBGEjI=;
+        b=dVRYGDXI1TjQl1PwYD/QdU4sXXB4fNRr9BLrBdLR7f+0UKAMLK6NYh1ZZI1Lgns+Pj
+         d/BROoxx6wMQXGJdjPvVBNkWXGnnh184nYATow8HG2AbgeMrmRtB0AnnhS8+N3M0hGhU
+         kEyNzVaLvruT8YlDcMxRnN4SM46v8oG6xIXfIbHfZfcJqGTsCbuIxgI8x8x0U0bP2fpe
+         9hcLbhde1G7UTIWKOar/TV2t+haaA570E0yAKvKv8K6GE5rCDHW/OppSQxwK1PDJmWH2
+         yv27+FFBaS1CyfVecw7Ecnn22onTome4C7z2KPnMwM44Hw3kc6vm19WZAJlitLUia7VS
+         NRXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738894863; x=1739499663;
+        d=1e100.net; s=20230601; t=1738894907; x=1739499707;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ihgnc3taSXbrknD0hSr+bBzd9N3zZ9ifJfj9N5E5nmY=;
-        b=YxbUc+bCuxK4iCsTRBYnZkSSHJZvZjT562LSke93oay1lYMONkMMqAf1vF1PKHsjVp
-         vq+bvpwOoel1h2s1DFIYzQiSOdbccO+L+yxWyckK6BZrt8yf0lWO+fEMZgFRYSkvCuXF
-         qbNAPBINKspm51MvSxbRMV1mmJQYKRtYBa7+if/jVuTk0ui+Tv4oCE4i15sXAUiuZaO4
-         DcOH7utcoFU117uJe/4TaT6p99S0FN7Dyzap6CE+obvTGefOdaAUiiCj/XoP24ADliXi
-         jfGTwMVsIoMI6LuzOeJgJ2fAATnTFI0VrPnP2QjKa1NT0TbNP3cpRhEt2zvX4pckzebw
-         MxrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWk/zcC+fLkfd9WZzOumRS9AUdKeB8aa0kyeOT74d1sfK1Wyy0eNwnjvsje1EEHrBwJoYvvdQXgfJQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtZWRB0RvQvB5kxGyqDhjb9WD3uGd90Jnsuqx5qEu1hbpuhXDy
-	MfFAZSnqha1rHDu8pMdelhC/s01v6A4ngg045G+c/XsDIqEAPszUCiX802y+YQY=
-X-Gm-Gg: ASbGncvdtUfC1LsLUTUzfiP62MMVG8V6l8vvPOZZ/4iyqo13z+C8lipAgp+bC5LWr0b
-	le1GFi32Qm5/EDJyzTCT8aWTJ/HBjcfggwT1nnRKFLQzeqKQygtqDWWagLdC1U40ZNuQz31V7DP
-	I2a4etUM+VGYFoEiDSAm3Y+QtVJTXpcyX4oZMVGvpCetnmxJYbBddO6k7jz/vUBoZ4vXIm6bwqM
-	XgCVF4UelujsWvJD/ye7N99w+C/P86K1hTwO2sY+WZWOKeEfGX7y0FjUEuRDPt4WXZDEom5g6iI
-	XikC8w8x50oX2soe3nGfUyli/3ym3JHuybzKRbdeMPKmA4ctQ56ohpN1s7YOlSDH/yWCwOo=
-X-Google-Smtp-Source: AGHT+IHRDTBhlu8pAlsQ3oP0N0FtT5qdWC2jNVUTMMclmHpLd2GBk+UOaDGiKoBFjKCmUJyp2r/OWA==
-X-Received: by 2002:a2e:a913:0:b0:300:3a15:8f22 with SMTP id 38308e7fff4ca-307e581b0bdmr3526211fa.21.1738894862959;
-        Thu, 06 Feb 2025 18:21:02 -0800 (PST)
+        bh=Lzta5S0gzTGOLstB++0r/Lba8xmTnzwJ+9gzDMBGEjI=;
+        b=O4t45XUGhg5gCOaW0zRqje8wUQjhF6OkjC/88tp7xmtWmDFk/0B8+giED+nFOfxfKj
+         MBmOHlKwGBKxeDqgKph/4runQ+p+7/81EkNtBHltwUS8OAwIdIuqpkvQr5WMXl6DfUE8
+         scCnquyMqcAeXW6EdtlYd5yD0guidarGcvQg1kjbR4Vh8zZCx+tWkY86OMzXOoMraiIj
+         gy37nRWla9qFmpRQTvUSzfYmvS6iTzfF22ZP7NloTwKJvZNUHBL66bRHlcnwRG89GJH1
+         ZkMhFCffe3H+uhGYT8khP5XnwpGYd4yaDUwkSNvMfPcNr+OnxPkJ5GRoNH8X9qE4fdy2
+         WjKA==
+X-Forwarded-Encrypted: i=1; AJvYcCXpaUfZSw3/Ib0m1c1BxpuJeq98eV0fjem2J7MieiLbrHHIP0GlXjCjIRKE+1OQnc0rLL5eLpL/Tvc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz78mnI2/7RpgwREXHODwI0ydkZry/J3b8+6o5JHc1fQ95drvbk
+	dur6qGnAqvfKgOtS3EKedj0WquarTZ4lXAGqoPZVH0WExMKnJDO4XIffJYQ6bJA=
+X-Gm-Gg: ASbGnctyHQDMIXwQFpS4eyv6RT0NzGLky/a1/y5JnnbMXGm3Qjj2qnxwid0zVxi44kW
+	RZ/soF3QW7fGuediZdkKYJJJu/IkZD+njHMaReSF1+v7WKZG6FpVw2A3MNJQlAYN88LKOlEC+5+
+	CNPpVc2Ep1yy4+03PO8beNEoV9pF2mNHTnzV+LNltinmgwIBOIzldSSFYYF1GX9nffjFJ7RiaCg
+	71dqHs4HOC9Dd4Kpl5RHkfqC7iGgc+3Z9Ls6N8e6+lqyKwT8E4KAVpz458LPcL/XV3NQkf7cKGi
+	9hrfFtIWzkdzHxIAJf6ADAlNkXAtl000JhBdOoJZoJZOEZAdEL5huQ8jul4z3U2zlP3NgFo=
+X-Google-Smtp-Source: AGHT+IEEMycc7B1Xywi6/voRjDNNe0jaAwgIo39w5VQbQbJyRuz6zbWk5Cv25Kf+Od2N2WEWuA4GlA==
+X-Received: by 2002:a05:6512:3d0b:b0:542:2388:3f09 with SMTP id 2adb3069b0e04-54414ae0b88mr338836e87.37.1738894907389;
+        Thu, 06 Feb 2025 18:21:47 -0800 (PST)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307de177d22sm2841571fa.2.2025.02.06.18.21.00
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5441053eb2dsm296973e87.28.2025.02.06.18.21.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 18:21:01 -0800 (PST)
-Date: Fri, 7 Feb 2025 04:20:59 +0200
+        Thu, 06 Feb 2025 18:21:46 -0800 (PST)
+Date: Fri, 7 Feb 2025 04:21:44 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
@@ -76,11 +76,11 @@ Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>,
 	=?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
 	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 02/26] drm: of: drm_of_find_panel_or_bridge: move
- misplaced comment
-Message-ID: <w4iufoohajidadw6s6qwaa6uo4qna2yepieb4qe3thkk5terwe@m2b6wogduiiz>
+Subject: Re: [PATCH v6 03/26] drm/bridge: panel: use drm_bridge_is_panel()
+ instead of open code
+Message-ID: <yokzxkh2fobfvrvcsp72o7j44tnhhb7w7sf5ofvsuibivju2my@bpauhrvwpkmh>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
- <20250206-hotplug-drm-bridge-v6-2-9d6f2c9c3058@bootlin.com>
+ <20250206-hotplug-drm-bridge-v6-3-9d6f2c9c3058@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,15 +89,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250206-hotplug-drm-bridge-v6-2-9d6f2c9c3058@bootlin.com>
+In-Reply-To: <20250206-hotplug-drm-bridge-v6-3-9d6f2c9c3058@bootlin.com>
 
-On Thu, Feb 06, 2025 at 07:14:17PM +0100, Luca Ceresoli wrote:
-> This comment is misleading as it refers to one of the inner if() branches
-> only, not the whole outer if(). Move it to the branch it refers to.
+On Thu, Feb 06, 2025 at 07:14:18PM +0100, Luca Ceresoli wrote:
+> drm_panel_bridge_remove() reads bridge->funcs to find out whether this is a
+> panel bridge or another kind of bridge. drm_bridge_is_panel() is made
+> exactly for that, so use it.
 > 
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > 
 > ---
+> 
+> This patch was added in v6.
+> ---
+>  drivers/gpu/drm/bridge/panel.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
