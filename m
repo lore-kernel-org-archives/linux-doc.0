@@ -1,163 +1,236 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61245374F1;
-	Fri,  7 Feb 2025 09:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C951D7E41;
+	Fri,  7 Feb 2025 09:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738918880; cv=none; b=G512Drrvj6BC4R80UoRngxYDPzaewn5vXLgH650dv8MHvoiOsd4WHa8wK+Wt+ebN8R9uJXWS8WzxCGuQVkPNWWpUAy7eer5GYsa0/sixseN1w9fs2tJ92XyCOUQ4R1IOiP0poq09UrJKpCwlSuukCeWb0nYPoishbQsf9Kc9NoA=
+	t=1738919128; cv=none; b=CgYv5Z7F9gc0GFYn64c/SWAut8n25WBjHqB4Sx7uciwZJjZs7CK0KdiUJhLGsYTMdUs13TvKOgjq8zCfKRbsaJtD6uSXuDNzgD5SLNBZgxM0Hfnhww9l2xuqZdYwYpEG4NAKRf99LeymR4thzr1L8qwZ3fsiSUOQDScbctGebVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738918880; c=relaxed/simple;
-	bh=xcV043l2gNFd4WQNGBe8qS01eay8Iql7A6xo/1emEqc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cmEVx8NwsYvE0r0qZXaJeRDL4dWWk9FZXY73NGeFXHNgHkk8H2mDC5HhYGXVUooc9xEOb9ceYhSuTbQ0f4ex+i9AkU0szQq6PurAMr0x3r+2d7CXZEga6u/msVmwBmPVBhTfSKHcYNC88+UohQ2p8NrvAmkbvnhaDTSA8sMo1vA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GSWncqUo; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1738919128; c=relaxed/simple;
+	bh=HDV2XgWZWGOLz7GUhH/TJiTek9PEyoDKgc7XS8kOcu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PQLXN9bDxOgomECFv59OHqYWfD2abNcysjVsu5RvnFmSKVlz2XdCrZmNXwZMQ8xgAVEJpgMaz8jc0d07GXLveMSaqLk+FCbg1yYfjYHAGp5WLzUhDAsewLfd4JattU7KGDiSkH9lk4aw6pHGxxLocwBoGvSISAFSx2+waYn93UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rWqnbIbx; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GSWncqUo"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2BCAD43310;
-	Fri,  7 Feb 2025 09:01:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1738918874;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9QuQO7QcmtLV3YXSW7XXjQXJN3jM1qRLRyaLw973vGc=;
-	b=GSWncqUoCRG8fOhlT1BgumurcgFCDidy4afWlPmtggBq1JnOWRBv0IxGG6+BVetOGhKI5S
-	FF37VhIlCH9QHylO0jP/kUcPqysMvln62a/xDma3U4U8SigHrBqroWmm7BebHh7MkS5rpA
-	d5sHWvyX8FACg0kX2BZo6ar5hYhGCCVRTcHhtDSoqNWURaS5bfwznlJxJmhFHjMJ51DQoH
-	CPekqRTO8wuxdDKL1V54skt5X7MFs9mmgN1F0ZmSYZU6o95lXcf7QBfN+f6lzbr78r3sHA
-	85xB/aKdHHqCGWQRnven2+sfGhYqFYSaZexbKwZeD6sxLphwseutALcfRD68gQ==
-Date: Fri, 7 Feb 2025 10:01:10 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
- Teki <jagan@amarulasolutions.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard
- <mripard@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
- =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 00/26] Add support for hot-pluggable DRM bridges
-Message-ID: <20250207100110.3bc5baef@booty>
-In-Reply-To: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
-References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rWqnbIbx"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ADAF2BA;
+	Fri,  7 Feb 2025 10:04:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1738919050;
+	bh=HDV2XgWZWGOLz7GUhH/TJiTek9PEyoDKgc7XS8kOcu0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rWqnbIbxXL9V47iBpD9vejgoCdnRi0MxEe7QGTvyQQY/zC4DHRW4Y+e/Ipoqh2K1U
+	 UCqtBTQvNZeLsr7R1uDEN7FuYQTUbsWJuJDNqX9a8MO7CbjAfPzAJ4id00JZSeB+wU
+	 QDu2NEN4YqiwZQi1C/3selmQkJce498ECtgQcMv4=
+Date: Fri, 7 Feb 2025 11:05:18 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
+Message-ID: <20250207090518.GE24886@pendragon.ideasonboard.com>
+References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeekiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefjedprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepjhgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgto
- hhmpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsrdhhrghuvghrsehpvghnghhuthhrohhnihigrdguvg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
 
-On Thu, 06 Feb 2025 19:14:15 +0100
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+Hi Thorsten,
 
-> Patch series overview
-> =====================
+Thank you for the patch.
 
-And I messed up with my patch series overview.
-
-Please ignore all lines from here...
-
->  * 2 Preliminary patches (maybe to be removed as this work progresses):
->    - drm/bridge: allow bridges to be informed about added and removed bridges
->    - drm/encoder: add drm_encoder_cleanup_from()
+On Thu, Feb 06, 2025 at 03:30:10PM +0100, Thorsten Leemhuis wrote:
+> Point out that explicit permission is usually needed to tag other people
+> in changes, but mention that implicit permission can be sufficient in
+> certain cases. This fixes slight inconsistencies between Reported-by:
+> and Suggested-by: and makes the usage more intuitive.
 > 
->  * Implement refcounting in the drm_bridge core:
->    - drm/bridge: add support for refcounted DRM bridges
->    - drm/tests: bridge: add KUnit tests for DRM bridges (init and destroy)
->    - drm/bridge: add documentation of refcounted bridges
+> While at it, explicitly mention the dangers of our bugzilla instance, as
+> it makes it easy to forget that email addresses visible there are only
+> shown to logged-in users.
 > 
->  * Adapt some existing bridges to be refcounted and/or to refcount bridges
->    they take a pointer to:
->    - drm/bridge: ti-sn65dsi83: use dynamic lifetime management
->    - drm/bridge: panel: use dynamic lifetime management
->    - drm/bridge: samsung-dsim: use supporting variable for out_bridge
->    - drm/bridge: samsung-dsim: refcount the out_bridge
+> The latter is not a theoretical issue, as one maintainer mentioned that
+> his employer received a EU GDPR (general data protection regulation)
+> complaint after exposing a email address used in bugzilla through a tag
+> in a patch description.
 > 
->  * Add hotplug-bridge (may be removed as this work progresses): 
->    - drm/bridge: hotplug-bridge: add driver to support hot-pluggable DSI bridges
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+> 
+> Jonathan, what do you think of this? I felt somewhat unsure about this a
+> few weeks ago, but I guess I was overly careful. If you think this
+> change is fine and shouldn't cause any trouble for anyone, feel free to
+> merge this. And if not, please speak up.
+> 
+> Note: this triggers a few checkpatch.pl complaints that are irrelevant
+> when when to comes to changes like this.
+> 
+> v4:
+> - slight wording change to make a implicity aspect explicit, as pointed
+>   out by Mauro
+> - Add reviewed-bys from Mauro and Shuah
+> - The number of reviewed-bys is still smal, nevertheless drop the
+>   DONOTMERGE and hole that Jonathan will speak up if he thinks this is
+>   a stupid move.
+> 
+> v3: https://lore.kernel.org/all/c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info/
+> - try yet again from a slightly different angle which loosens the rules
+>   slightly. This from review feedback to earlier versions is apparently
+>   what other developers want and from their "no lawyer" perspective
+>   consider to be okay. As IANAL myself I don't feel totally comfortable
+>   with this and have no idea if this legally is sound, so tag patch with
+>   "DONOTMERGE" for now; will remove this for v4 if enough people add a
+>   "Reviewed-by". Otherwise the story of this patch might end here, unless
+>   someone else submits it for inclusion (you are free to do so!).
+> - remote patch adding Suggested-by: tag to 5.Posting and submit it
+>   separately
+> 
+> v2: https://lore.kernel.org/all/cover.1731749544.git.linux@leemhuis.info/
+> - Retry differently. This slightly hardens the rule for Reported-by:
+>   while slightly lessening it for Suggested-by:. Those in the end are
+>   quite similar, so it does not make much sense to apply different ones.
+>   I considered using an approach along the lines of "if you reported it
+>   in pubic by mail, implicit permission to use in a tag is granted"; but
+>   I abstained from it, as I assume there are good reasons for the
+>   existing approach regarding Suggested-by:.
+> - CC all the people that provided feedback on the text changes in v1
+> 
+> v1: https://lore.kernel.org/all/f5bc0639a20d6fac68062466d5e3dd0519588d08.1731486825.git.linux@leemhuis.info/
+> - initial version
+> ---
+>  Documentation/process/5.Posting.rst          | 13 +++++--
+>  Documentation/process/submitting-patches.rst | 39 ++++++++++++++------
+>  2 files changed, 36 insertions(+), 16 deletions(-)
+> 
+> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+> index dbb763a8de901d..22fa925353cf54 100644
+> --- a/Documentation/process/5.Posting.rst
+> +++ b/Documentation/process/5.Posting.rst
+> @@ -268,10 +268,15 @@ The tags in common use are:
+>   - Cc: the named person received a copy of the patch and had the
+>     opportunity to comment on it.
+>  
+> -Be careful in the addition of tags to your patches, as only Cc: is appropriate
+> -for addition without the explicit permission of the person named; using
+> -Reported-by: is fine most of the time as well, but ask for permission if
+> -the bug was reported in private.
+> +Be careful in the addition of the aforementioned tags to your patches, as all
+> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
+> +person named. For those three implicit permission is sufficient if the person
+> +contributed to the Linux kernel using that name and email address according
+> +to the lore archives or the commit history -- and in case of Reported-by:
+> +and Suggested-by: did the reporting or suggestion in public. Note,
+> +bugzilla.kernel.org is a public place in this sense, but email addresses
+> +used there are private; so do not expose them in tags, unless the person
+> +used them in earlier contributions.
 
-...to here, as they belong to v5
+I like this text very much, it's concise and clear. My only possible
+concern is that "explicit permission" isn't defined. I assume that
+someone sendubg a Reviewed-by or Acked-by tag in a public mail thread
+counts as permission, but strictly speaking it's not explicit.
 
-The lines that follow are the correct ones for v6:
+Regardless of that, I think we can clarify what explicit permission
+means in a follow-up patch. If you would like to merge this one as-is,
 
->  * Prelimiary, simple cleanups:
->    - drm/debugfs: fix printk format for bridge index
->    - drm: of: drm_of_find_panel_or_bridge: move misplaced comment
->    - drm/bridge: panel: use drm_bridge_is_panel() instead of open code
->    - drm/bridge: panel: drm_panel_bridge_remove: warn when called on non-panel bridge
-> 
->  * debugfs improvements to show bridges, part 1:
->    - drm/debugfs: add top-level 'bridges' file showing all added bridges
-> 
->  * Restructure panel code to always add a panel_bridge:
->    - drm/panel: move all code into bridge/panel.c
->    - drm/bridge: panel: forbid initializing a panel with unknown connector type
->    - drm/bridge: panel: add a panel_bridge to every panel
->    - drm/bridge: move devm_drm_of_get_bridge and drmm_of_get_bridge to drm_bridge.c
-> 
->  * Add new get_bridge variant for drivers supporting non-graph DT:
->    - drm/bridge: add devm_drm_of_get_bridge_by_node()
->    - drm/bridge: samsung-dsim: use devm_drm_of_get_bridge[_by_node] to find the out_bridge
->    
->  * Preliminary patches (maybe to be removed as this work progresses):
->    - drm/bridge: allow bridges to be informed about added and removed bridges
->    - drm/encoder: add drm_encoder_cleanup_from()
-> 
->  * Implement refcounting in the drm_bridge core:
->    - drm/bridge: add support for refcounted DRM bridges
->    - drm/bridge: devm_drm_of_get_bridge and drmm_of_get_bridge: automatically put the bridge
->    - drm/bridge: increment refcount in of_drm_find_bridge()
->    - drm/bridge: add devm_drm_put_bridge() and devm_drm_put_and_clear_bridge()
->    - drm/bridge: add documentation of refcounted bridges
->    - drm/tests: bridge: add KUnit tests for DRM bridges (init and destroy)
-> 
->  * debugfs improvements to show bridges, part 2:
->    - drm/debugfs: bridges_show: show refcount
->    - drm/bridge: add list of removed refcounted bridges
->    - drm/debugfs: show removed bridges
->    
->  * Adapt some existing bridges to be refcounted and/or to refcount bridges
->    they take a pointer to:
->    - drm/bridge: samsung-dsim: use refcounting for the out_bridge
->    - drm/bridge: panel: use dynamic lifetime management
->    - drm/bridge: ti-sn65dsi83: use dynamic lifetime management
->    
->  * Add hotplug-bridge (may be removed as this work progresses): 
->    - drm/bridge: hotplug-bridge: add driver to support hot-pluggable DSI bridges (HEAD -> ge/luca/wip)
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Apologies for the mess.
+You have my explicit permission to include this tag in the commit :-D
 
-Luca
+>  Sending the patch
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 8fdc0ef3e604f4..72f6de419ccc4c 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -495,10 +495,10 @@ list archives.  A "# Suffix" may also be used in this case to clarify.
+>  
+>  If a person has had the opportunity to comment on a patch, but has not
+>  provided such comments, you may optionally add a ``Cc:`` tag to the patch.
+> -This is the only tag which might be added without an explicit action by the
+> -person it names - but it should indicate that this person was copied on the
+> -patch.  This tag documents that potentially interested parties
+> -have been included in the discussion.
+> +This tag documents that potentially interested parties have been included in
+> +the discussion. Note, this is one of only three tags you might be able to use
+> +without explicit permission of the person named (see 'Tagging people requires
+> +permission' below for details).
+>  
+>  Co-developed-by: states that the patch was co-created by multiple developers;
+>  it is used to give attribution to co-authors (in addition to the author
+> @@ -544,9 +544,9 @@ hopefully inspires them to help us again in the future. The tag is intended for
+>  bugs; please do not use it to credit feature requests. The tag should be
+>  followed by a Closes: tag pointing to the report, unless the report is not
+>  available on the web. The Link: tag can be used instead of Closes: if the patch
+> -fixes a part of the issue(s) being reported. Please note that if the bug was
+> -reported in private, then ask for permission first before using the Reported-by
+> -tag.
+> +fixes a part of the issue(s) being reported. Note, the Reported-by tag is one
+> +of only three tags you might be able to use without explicit permission of the
+> +person named (see 'Tagging people requires permission' below for details).
+>  
+>  A Tested-by: tag indicates that the patch has been successfully tested (in
+>  some environment) by the person named.  This tag informs maintainers that
+> @@ -596,11 +596,11 @@ Usually removal of someone's Tested-by or Reviewed-by tags should be mentioned
+>  in the patch changelog (after the '---' separator).
+>  
+>  A Suggested-by: tag indicates that the patch idea is suggested by the person
+> -named and ensures credit to the person for the idea. Please note that this
+> -tag should not be added without the reporter's permission, especially if the
+> -idea was not posted in a public forum. That said, if we diligently credit our
+> -idea reporters, they will, hopefully, be inspired to help us again in the
+> -future.
+> +named and ensures credit to the person for the idea: if we diligently credit
+> +our idea reporters, they will, hopefully, be inspired to help us again in the
+> +future. Note, this is one of only three tags you might be able to use without
+> +explicit permission of the person named (see 'Tagging people requires
+> +permission' below for details).
+>  
+>  A Fixes: tag indicates that the patch fixes an issue in a previous commit. It
+>  is used to make it easy to determine where a bug originated, which can help
+> @@ -618,6 +618,21 @@ Finally, while providing tags is welcome and typically very appreciated, please
+>  note that signers (i.e. submitters and maintainers) may use their discretion in
+>  applying offered tags.
+>  
+> +.. _tagging_people:
+> +
+> +Tagging people requires permission
+> +----------------------------------
+> +
+> +Be careful in the addition of the aforementioned tags to your patches, as all
+> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
+> +person named. For those three implicit permission is sufficient if the person
+> +contributed to the Linux kernel using that name and email address according
+> +to the lore archives or the commit history -- and in case of Reported-by:
+> +and Suggested-by: did the reporting or suggestion in public. Note,
+> +bugzilla.kernel.org is a public place in this sense, but email addresses
+> +used there are private; so do not expose them in tags, unless the person
+> +used them in earlier contributions.
+> +
+>  .. _the_canonical_patch_format:
+>  
+>  The canonical patch format
+> 
+> base-commit: e8bcda12176c47f2ce6c5104955845d028a640e8
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Regards,
+
+Laurent Pinchart
