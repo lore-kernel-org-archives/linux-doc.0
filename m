@@ -1,62 +1,62 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBC0175D39
-	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 02:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1073610E9
+	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 02:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738896290; cv=none; b=Y3JN8hD+ntNh0XKzBo8SaS8i40btXPCnpW0KwIadIa+uX61BU8DfvuHdSdEi5eB7Nb+R4vP1qXP3bXrwfhYKsn/FW05a+J5TM4fEaK21wbnO0Z5N250nOTBroV2o4lmUZMbxBfay8EyXNIlqClHkLuUD5Xie3W2dT6kbETtTj8w=
+	t=1738896568; cv=none; b=mtionV4f0hWss6IbUlEF3++3Vm2KYNEvVsfpDlt64UoB4fOsX52Rl4Pl68IoWAROLcS2TMJPVCsWoaINS6nGTERsXfjClbko+9LmlXY4GQrTgIAlEVwHIRGNRDZPIqlB1uUK1R8h9CvVSqqg719BW7Aph/Q73sdHBDMujff0rWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738896290; c=relaxed/simple;
-	bh=njpUqwl/r4pQN1u7M/lKGAXXUSRWblXXzfDwGSSvc0s=;
+	s=arc-20240116; t=1738896568; c=relaxed/simple;
+	bh=z+3SwErCQCLpR/cq6xUmSY+6RvMLMGu6uTKAf+5gJfY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C1p7Z4K+zuYoFMilivk6KwyaqXoTaEf+Mt1p3IB0Zeeni2GTjEji86VxhoVp+wml6oeqb3H1wvMHFZM6wnpy8KA5knlUiBZ59KbvQbpEi3j5yQ0qnYeZDzi/BdxQcmmjSknwHKN/XgdhmC7Bnkwl1OG4Ut0qJKfCPU4ITIJcSH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f08RbSE2; arc=none smtp.client-ip=209.85.167.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=L7snF6tNqVnr4mE3DIYF8Ofc6zCI0RsLQAuLO9V00Pg35pp/84+/Q9QlL12DLZ0IsBDO9dW3+/bgWcrfMMlt/bEPRJV3MUwBDzLaEIQQSWZTO6tYiMoPCjjV5FtBt1gkUoEuAf7jIYluJPr/WuFt9tRD0AZXpiMZftDAYa4YpdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=X2EjD8BT; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f08RbSE2"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5440d5b30a8so1878084e87.2
-        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 18:44:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X2EjD8BT"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54025432becso1621933e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 18:49:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738896286; x=1739501086; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1738896565; x=1739501365; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MQReq9xQ99y9zIKRJOryjTQFC2bFCDp3B7MQU03SZE4=;
-        b=f08RbSE2MuL30HmuCmv0TXbRZl+m0C+o48eYS/tW/HmSH2rU1WNUmA28WjaDVSUz/h
-         ZrI0kKhfoFsgJgiXB9a0KQckJVNrY8hBoSj0ySOG3HrAcDEx34A6HaAN4Szv96Sd9sF5
-         Tx22zmlqrRuF6VdJMsiT6G09+J80VgqeFGDNZi3fwTAaicgUvXzowpW6HyhJea1lZNKZ
-         llDmM3ENMIDyftS3suZTmmDd0WUGRcFgyEEzVn4e/pULXnmZDp4x4Yp2aKLwCC3rSGdg
-         x8YG/R4iiBFEy5VXo/KPrp8nWh4749NCWeF+8jkTxWsZFOGFk+vwU4zK9Fn2NEKzBHtU
-         QFHw==
+        bh=x1QxMKnddA91WCGvSvK0Kv8+Ui7raPxM47ZCxWA1T70=;
+        b=X2EjD8BT5DuHplKeAdGLI6jeC3j6Q3FLAGL/7rX9QrOFhds3q0p3eR1nu4yTHDPnrU
+         seDVokBEa2LTnzm7s7O/xbh9D41vCYg/asXTMbZ/pG1cSDbpjPq4sg3B7joQnY+yABOQ
+         nUQFv6k9yr26+P4WZHeDqSgjUR9MphLJPx5o7KYgDyx/Ztc/YgOR3k3ddw6yvAemAd6D
+         W9ruXL7eDjRxvLDOR7KH+0dhW+w6ZqWpZiGA/oceVkbNMGODO8ii2ySlEh1Erfa2t7k+
+         iWR+ePRJHqJroYnVx1oPsiAu5MAcrns3g1bC3eqJTtEfKoOa8hLE3Kv/pC5VnGukAVSb
+         zKTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738896286; x=1739501086;
+        d=1e100.net; s=20230601; t=1738896565; x=1739501365;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MQReq9xQ99y9zIKRJOryjTQFC2bFCDp3B7MQU03SZE4=;
-        b=K4ye6BIY696gvDgICQdK23Cn4k95HYhFdVKXcVJHMXMDQuuliQ0MGNur2aDFeL7amC
-         TYcr1UXqleO6hghCPGYHdzSmobCjFEXFrqemSD9CW60UVk80Mj10fm/TRwpypybqWrYM
-         OnjRplyLb6MYNst6GIOk0GlPCpiKCB+QtV+B0HpQSqmoQFMFw8DajlsHe050atkuaVMs
-         h6QlxemVLIdra5+RYKbu5i955LyaVqxTPQHO/hlOlQyuxGr918Xx2xRdGiWK7xhXIX+R
-         4I4+zRkR32uRWhVxhXfiKiHOSuYGSZIKQq0H+ySO7McExFaWcZJeXBsJVkxo6l2ygJ8n
-         LHnw==
-X-Forwarded-Encrypted: i=1; AJvYcCXBrmQOIlWWcYQPsgbkz5nvoPiVzboZisUCKD/t3yoh4spoP1kuaxFdVeHEV+5v9SlU/Bxte9Zgts0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgvmjeTfhHL3+KWMOiD714Uv6rf+1+J7F5j5SbHsudJH/MiXve
-	ToUx1ZdBo64/CNCVBRrA6zITwIeljLTw7S0txz1MzqB7h9rXZ55/ZErvX5xTmQA=
-X-Gm-Gg: ASbGncsGdOkSc4ha+UaBVTOcT4K/mq3bMKPwoJ8Es7D38s7dX/lTfTcQ1s6E6ZOWuAE
-	Dzf31wPd0IzvyYb5Kmttn54kheKoGXssj9eFZAvbj9R50FXW01aZ97CBzQ+FHV8P5U6nnBCDp9y
-	kJjMuhGO7w010Ixd6IElpysE3v5xr9AYEJna5u31Q21M/RpRVZKPw7ojhDwrX399ObM/BBefU3Z
-	BupVEIJqEK7AhmPP8rMQcqnOD6QnV8xESblTjMKJCDj+kTOjJdy3pF2nrWruBkgGznEa02rznaj
-	AmtwXhmcneQ2lQZ6uM119szf2siud1szjIWVd53iXNNiI5Ql2oMA5hePOfjyl6FA79U1BvI=
-X-Google-Smtp-Source: AGHT+IEMdrg6IaKfrHTFSkbGGZM6z3+o/AOEBo27rSaLzMBVYmx9IKsUOm6sC7QIz9laKpK7sx9QjQ==
-X-Received: by 2002:a05:6512:5d3:b0:540:fb1a:af1f with SMTP id 2adb3069b0e04-54414af5721mr284630e87.39.1738896286187;
-        Thu, 06 Feb 2025 18:44:46 -0800 (PST)
+        bh=x1QxMKnddA91WCGvSvK0Kv8+Ui7raPxM47ZCxWA1T70=;
+        b=SPXBahUV9eDdgsb/epm2qWD3YKLtonffGmn4i3UT5wBaNy3B+oVn4JVY202G/dKp7Q
+         AMOks/Xgkc+pv/h/Plyc0txdnx0yxgCbkKo7OvZcuykN4DYmCxx1bxq6OMNMEvmWltN0
+         mv4UQ9l4g1ZgDMk+1TVwMbSs+BkugOCnOoCKOfYUSp77y9a3VnVK2S82rVcF+vTCqyUV
+         VQoHiNlEeYylVJbssJnQBebf+t9BBjluvPSik8Mg9rjC/+5/5ze5DfA9/vpt9QNPdOYQ
+         sDp/L04v7a5qmZWwYppS4jVJcQTaqySUskZ3k85vitnjyZsuluvyW8x7jiehwTsosAX2
+         CNgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUE8DwYYYGkvKq77VWlGXzDKvHTB0Pu73FBzXkncGXFEikOau9lr0Kgg/4JIgVEuZdXH9Dkl2nuAwo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLt0Q72j52u5BR2azLwcS8u4lP424a82HqjH3/40Kp+/Z/ov0j
+	273rhsqLu7KCoaymGDgkFm/X+Y/LBoKb9lxFwwaPSp0oEV0jyauRvb20FypKnbo=
+X-Gm-Gg: ASbGncvc5X84mbJujYaIL6Vuw6mzfR1T5fnP1oeFeHiNHWAcetDJ9l4fRPuA7SzqNYv
+	nSROZ7mns6yofJaFfhwyQ9tindDmGn5ODRgysz7IsnUuOxQ2qNU5PioncpBShd18zkfI96t0yDk
+	Pk3uNtkIUb5SZ6sqvjNzL7YugrElig6ySb3TWGp9a2HKyjvhTpSLXEXYCA2amchUXf6WY/PT9wi
+	tX7oihZStO6uIyS896sYSkAIGsZXJHxjei5GRKJL9LWpHOpwF6e6BNpXIvFRg9KvDO4hru8aYvb
+	H/oYo8rQrF33I7hSupK41whEfkw9JQp5OaRv5dO73GwUnPlOlwtqX8jFWd10UR0XiztViDE=
+X-Google-Smtp-Source: AGHT+IFTPGY2nzRLHllSo8hDFl+TxXnd4EtAypxnHw3YEBN2TqXVdM1x8iFz55a0HF67J/9VnE7uOQ==
+X-Received: by 2002:a05:6512:70e:b0:540:1e17:10d2 with SMTP id 2adb3069b0e04-54414ae5f0amr254436e87.49.1738896565019;
+        Thu, 06 Feb 2025 18:49:25 -0800 (PST)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-544105bf58esm296912e87.107.2025.02.06.18.44.44
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5441053ed63sm300364e87.41.2025.02.06.18.49.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 18:44:45 -0800 (PST)
-Date: Fri, 7 Feb 2025 04:44:43 +0200
+        Thu, 06 Feb 2025 18:49:23 -0800 (PST)
+Date: Fri, 7 Feb 2025 04:49:21 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
@@ -76,11 +76,11 @@ Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>,
 	=?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
 	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 07/26] drm/bridge: panel: forbid initializing a panel
- with unknown connector type
-Message-ID: <cii3ko3pejzmvz3cft2saw3biyx6yipcsemd3mzihzy7tyhsdg@zpmqujujwcie>
+Subject: Re: [PATCH v6 08/26] drm/bridge: panel: add a panel_bridge to every
+ panel
+Message-ID: <iucfx6tewwazxnonivajmdqqaexdfn6izwxwlv2l5t3256uwfy@sp4cm5eifdt3>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
- <20250206-hotplug-drm-bridge-v6-7-9d6f2c9c3058@bootlin.com>
+ <20250206-hotplug-drm-bridge-v6-8-9d6f2c9c3058@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,23 +89,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250206-hotplug-drm-bridge-v6-7-9d6f2c9c3058@bootlin.com>
+In-Reply-To: <20250206-hotplug-drm-bridge-v6-8-9d6f2c9c3058@bootlin.com>
 
-On Thu, Feb 06, 2025 at 07:14:22PM +0100, Luca Ceresoli wrote:
-> Having an DRM_MODE_CONNECTOR_Unknown connector type is consuidered bad, and
-
-considered
-
-> drm_panel_bridge_add_typed() and derivatives are deprecated for this.
+On Thu, Feb 06, 2025 at 07:14:23PM +0100, Luca Ceresoli wrote:
+> Adding a panel does currently not add a panel_bridge wrapping it. Usually
+> the panel_bridge creation happens when some other driver (e.g. the previous
+> bridge or the encoder) calls *_of_get_bridge() and the following element in
+> the pipeline is a panel.
 > 
-> drm_panel_init() won't prevent initializing a panel with a
-> DRM_MODE_CONNECTOR_Unknown connector type. Luckily there are no in-tree
-> users doing it, so take this as an opportinuty to document a valid
-> connector type must be passed.
+> This has some drawbacks:
 > 
-> Returning an error if this rule is violated is not possible because
-> drm_panel_init() is a void function. Add at least a warning to make any
-> violations noticeable, especially to non-upstream drivers.
+>  * the panel_bridge is not created in the context of the driver of the
+>    underlying physical device (the panel driver), but of some other driver
+>  * that "other driver" is not aware of whether the returned drm_bridge
+>    pointer is a panel_bridge created on the fly, a pre-existing
+>    panel_bridge or a non-panel bridge
+>  * removal of a panel_bridge requires calling drm_panel_bridge_remove(),
+>    but the "other driver" doesn't know whether this is needed because it
+>    doesn't know whether it has created a panel_bridge or not
+> 
+> So far this approach has been working because devm and drmm ensure the
+> panel bridge would be dealloacted at some later point. However with the
+> upcoming implementation of dynamic bridge lifetime this will get more
+> complicated.
+> 
+> Correct removal of a panel_bridge might possibly be obtained by adding more
+> devm/drmm technology to have it freed correctly at all times. However this
+> would add more complexity and not help making lifetime more understandable.
+> 
+> Use a different approach instead: always create a panel_bridge with a
+> drm_panel, thus matching the lifetime of the drm_panel and the panel_bridge
+> wrapping it. This makes lifetime much more straightforward to understand
+> and to further develop on.
+> 
+> With the panel_bridge always created, the functions to get a bridge
+> [devm_drm_of_get_bridge() and drmm_of_get_bridge()] become simpler because
+> the bridge they are looking for exists already (if it can exist at all). In
+> turn, this is implemented based on a variant of
+> drm_of_find_panel_or_bridge() that only looks for panels:
+> of_drm_find_bridge_by_endpoint(). In the future
+> drm_of_find_panel_or_bridge() can be progressively removed because there
+> will never be a panel not exposing a bridge.
 > 
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > 
@@ -113,11 +137,29 @@ considered
 > 
 > This patch was added in v6.
 > ---
->  drivers/gpu/drm/bridge/panel.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/panel.c | 74 +++++++++++++++++++++++++++++++++---------
+>  include/drm/drm_panel.h        |  8 +++++
+>  2 files changed, 66 insertions(+), 16 deletions(-)
 > 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+LGTM, minor issue below.
+
+> @@ -1018,6 +1067,11 @@ struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
+>  {
+>  	struct drm_bridge **ptr, *bridge;
+>  
+> +	if (panel->bridge) {
+> +		DRM_DEBUG("panel %s: returning existing bridge=%p", dev_name(dev), panel->bridge);
+> +		return panel->bridge;
+> +	}
+
+Shouldn't the rest of the function also be removed as you do in other
+cases?
+
+> +
+>  	ptr = devres_alloc(devm_drm_panel_bridge_release, sizeof(*ptr),
+>  			   GFP_KERNEL);
+>  	if (!ptr)
 
 -- 
 With best wishes
