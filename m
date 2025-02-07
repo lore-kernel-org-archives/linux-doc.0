@@ -1,62 +1,62 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95496AA7
-	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 02:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117FB36124
+	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 03:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738896961; cv=none; b=pa3lXV5ak/HNkZN7w9XTmXIV+y9aw2N9QxtwPWOHC1zZf6gX4ZY71mb1XqGtjrxaV6W4xwnIP1oS88KluLGV5CnTEntfDiB3Eequ1cf/Gva6P9e4uMqqmlJy74OaTB7w4uNliQ/ITE5D5OXQdMmEfpqVpwAHxK38eBl9Un8qqYw=
+	t=1738897287; cv=none; b=JWj+QictPY/KqFFlKXPp9tbfT7pnNO0VNEku8c8hPZHwXuej3NXDg8bB4u06BDed5lNZ7/rVTC2UW5oVwtSFrb0rApUYI7kjAinMxPom3WSEdhYrFgE072RBbt5UESwbi6PeKlL+a1MZdwWpxwOU5SyaWOR8uFL0ZosFWHNwisY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738896961; c=relaxed/simple;
-	bh=KNb2sPbBvRi60mplWVUb/wlii3cfAV4CqRauzhDNtCs=;
+	s=arc-20240116; t=1738897287; c=relaxed/simple;
+	bh=gJh0Lv3WVGZyLCoutcMcGnow+aK2BupFtmH5zSujVIs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=twwqbgMT38aZhG8Ruz66DT9ow1CQ8N6fPpCgdrnRS+j/f6zaCcklj/CMyR+em7WP7y1vu6MPkqvJoSaQ+OfvXiqr1svTR0OdzmZW5Zcq2S+mZU3DSo6VoLh+4fkTOOrzRfYChLXY+Etc8sinh3PTdyy6MGwbAd9oTzsO2levQqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XMBf4RwG; arc=none smtp.client-ip=209.85.208.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=XlmT8Bl+Mcm7+YNdFOUut8XBluIJUXLFTvtAANHHeu+3ih3MnDmPjmc2mDf0MYtVD7q4t7w7pS3O2u69qzJyVncQxvoAEnFjvPekNrtQBVaus8rMRm/q0uVIhFJggoJPABl+Sja//hT4orEzT2RZ9RI7b8uNl0r0PezL4WWwXlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TUPiE6Zo; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XMBf4RwG"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30761be8fa8so14213091fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 18:55:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TUPiE6Zo"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-307325f2436so14357641fa.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 19:01:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738896958; x=1739501758; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1738897283; x=1739502083; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Byca7B+SvHo9poDjpj+NTEDwW3aW+UfYwBPg1UM/mI=;
-        b=XMBf4RwGsmhuRwtQAsirsOIv84QEgaJvPpSFTNH+UgALobIPwpaB2LnEPHIId6goW+
-         C2w3WIslfaq9V66RdgiSTVFet59K3NNerDV8FMCW+RGzTqeTfWh3qxeN9iPUPewn7ZxW
-         OLH4YqiUjZ7tWNZZq1AukrPW8FsTB+zJfQ7LgUXelbSt3vgzG0ailobXLf70v3eUmmnQ
-         SNHT+4dDOVqGv287VOd+M03MKqZWu2hMqj8YUqtTEQlZZO8TgCW6AtxERqTC3hKYV9qw
-         RdibvpTGTISGrM13L3OdMcS6NFySbNYIB6vLBeA3/wPtB0kL/97AttTQgY141yD/qPzq
-         C8cQ==
+        bh=rv/3RFVNWDMcc5HMME46hF6itjMzUu60Z1kcevabBlU=;
+        b=TUPiE6ZomkptDoUmK5LqPp+AtT4vn5y13yBebHrHZgV9oIY58xCIYKM9kVAUFUoYOj
+         ezTanc8Sr6o7ORqc3BAOScyqYFrxWfzSwtmlZAvE7lalTt0G96nNJEMuexc2bAuyfUym
+         SOiflJ3mzIU4W+J6KmENxChp0Gh/eJAzO2R8mBN2xD2CUN0ouvpO0Wxf/wauyItfxNGx
+         ATXCKeY3Mwb0SXhd9wpkm+XNQzVHGga9Kvo0+dXDOL72VoTQZ6iRCHAghmsSH/VyJ2uD
+         DyylZXe1Bd3JW6t2qgJS3RYoB3nAW2zeNX3wEx3VuQ1bDXE46R9CKQ/LDOqsofE0HA4d
+         kR9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738896958; x=1739501758;
+        d=1e100.net; s=20230601; t=1738897283; x=1739502083;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+Byca7B+SvHo9poDjpj+NTEDwW3aW+UfYwBPg1UM/mI=;
-        b=pXNtrRN3tk+fFYv+RdtHcf1VlDQdmwPiZLUD5kBzmAOLk5yquHMkxWcwwYWEnMb8K8
-         CofEF06i7TpzOlfL6+4gRJurvu4l1bSLQoR7zw4GD3jcaWw7E7yTP1qQy65gGX7M6cLW
-         FfwgZqHTgWuocUsr1FW5tT2iv0OvhVA2o+67LlzV31vtp2PyWjLuReasin7cNJSd68HS
-         sEgji8c4sb07t/nr29jClpusH2Med+UglYgjaVL+CPQjYoZPzlwnobFasZOyTSrSY96z
-         BdPprJQWsdJEOp/YnIPTsr3FQH+25TZ7opmxDtgEIkOrjLqnKCaicvdScLWCbmcrcjxd
-         Mp2A==
-X-Forwarded-Encrypted: i=1; AJvYcCW3kvtblVVzsUXpqVDCEVgnITZcJRcNqliR5e2JIZVRjAS4qC9lD1oWTrmJX6GACMybUdQ0n2h+27o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbQIuH4sEU7k3ZGZulUFZvvQjFhiJKIwbx2cmM6/CFinFWNpEN
-	e+rC9RA9RF6tOrDDxkJY/egvSsnkFWBsp01ZmU4+3SXLUB6c9tbpgG6I29A7Kuk=
-X-Gm-Gg: ASbGncv7sRMZMlHikH8YrVrU85Jg/9SYblpu5g0SyReIrMdZfwWhGeXHj9Bt/vnpBN3
-	W0iE0PWImPqJdRvHgsJ+ak5p2MCy5/TBOYE8FbVLE+u7U2IaRyyV+85T4x97SftVKUE5abf3Dgy
-	8HsZYaHvfydU179gPDlNmutVQ0Wm9DWOZTYTtiOrcoLTRHDO0oMyb8IusWKdaG8ExZIejHpjygT
-	4Tby1oMMV7uPD+DF/1+AxLz6XWH8xi+bXJbqHMTWSZf6xHUohC2xUlAzu9fKyKa+gSn62JJP5SN
-	eVNdofIRoiMgO1jt0Ro8d7jOr1+TIUAqwW3hHR4ln3Jk3jt5U8grIfZucK7r8qxl5AKF0tk=
-X-Google-Smtp-Source: AGHT+IFZ4T7u0nGpfUVwU5s+4eCkQKYR6Jj3XEJ5v8Yh2TBgTlWEdJadPmr9h+8Pcw7MtkjpxzqCxQ==
-X-Received: by 2002:a05:651c:892:b0:2fb:8c9a:fe3f with SMTP id 38308e7fff4ca-307e5817d58mr4571041fa.22.1738896957912;
-        Thu, 06 Feb 2025 18:55:57 -0800 (PST)
+        bh=rv/3RFVNWDMcc5HMME46hF6itjMzUu60Z1kcevabBlU=;
+        b=BjZHf72gUrg2LOFBc0Z5N4MG58X3rcXllujG67XEuP1yLWdx9K3l5AafsJRUX0Mxfy
+         8pTHT5AY2LWWf0Lk7dlwf6fxCIWqgJwCZmN48SYU5CoC+bNCTtivPOhSIZ7M0HaqdJOY
+         I4l4FrQO0dGE1yl0E4zP+VA34/JvWEeAsf49fIUY4obdBzxE+4IDYk15xD5jcZLZNOna
+         EVCK/weA4PfQ1bhR7lI+1FzcHDx3neA2eE29NMt3HMDJbPIkcX9LwC+dtbqDYy4SadvE
+         2jOI3RLt6NOCoDby5x7uWI9Y2Lke+7fy2qT06kqUB72/xm4NfwNcSiGTxqtGnibUjMS3
+         AAhw==
+X-Forwarded-Encrypted: i=1; AJvYcCWNzhEZ/YlIfecMPTR8EGW6E6Di4OCEkZXRfZ+m+jtunxzsJElHE4I+6fxMSqgLL2JSVhfcNYmcUCo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxB7pGg3exGOq0Je94IjgKLAyl47nlnr0UCOxqQeXm7a+zUgQn4
+	aFF/pWSbaVGwUgFgWsUb+WzonHd305or7N1LGxXlzBWixBeRcTUfAxv2eehVzXc=
+X-Gm-Gg: ASbGncvam0njGbGFosJxu4riRo+1yvRWHi5HBsHZUIAjxnSF0QL761AOtae4zN94wjB
+	hskQAJHU4YrJ3FP9fM5K0qvVt248VbvTABp98/QJTAMQDzFBUJKt5z+peKOUXHgES97qVfEd4CH
+	G1QIB+DLGJt2OnJ+QGW0YycTBZjdbPR2AgqvaGpf1vfOk3PF8TEE3bgu4fkH2+ynxKPVoh9zopc
+	GXpgiAbMfQN32AOTeE3jOEMvFky4iSkvxaCtQwMF4AUL/+rKZvoODgN1A114SHRpbMl3SWqIgBY
+	yf4q2ybKcVAt3OSaOfuZ8ZGL09va6fUWdlFR29aR/SQA+pI6Ei7IzDZArXCGCi6dotB7vVk=
+X-Google-Smtp-Source: AGHT+IGDqEkE6OWYr0NcLlg1JR9sknC45WBuXsh87/ud3ljT7djhN2ztl5wAF/TJfj5OXo6RJ8lw+Q==
+X-Received: by 2002:a2e:bc21:0:b0:302:244a:da2c with SMTP id 38308e7fff4ca-307e5a71d1amr2898811fa.31.1738897283014;
+        Thu, 06 Feb 2025 19:01:23 -0800 (PST)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307de2d8efesm2799391fa.88.2025.02.06.18.55.55
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307de18e48dsm2871441fa.27.2025.02.06.19.01.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 18:55:56 -0800 (PST)
-Date: Fri, 7 Feb 2025 04:55:54 +0200
+        Thu, 06 Feb 2025 19:01:21 -0800 (PST)
+Date: Fri, 7 Feb 2025 05:01:19 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
@@ -76,11 +76,11 @@ Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>,
 	=?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
 	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 11/26] drm/bridge: samsung-dsim: use
- devm_drm_of_get_bridge[_by_node] to find the out_bridge
-Message-ID: <hc6llejnkhj5uaj5o4fof64hmderfcbfkrburv7nmqwzq2jnin@nac32akftsbm>
+Subject: Re: [PATCH v6 12/26] drm/bridge: allow bridges to be informed about
+ added and removed bridges
+Message-ID: <5roxoodskw3ieksvzqezs33gcwhppeqikagu5462wljc6zylif@5ls7bmdusmq5>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
- <20250206-hotplug-drm-bridge-v6-11-9d6f2c9c3058@bootlin.com>
+ <20250206-hotplug-drm-bridge-v6-12-9d6f2c9c3058@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,133 +89,122 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250206-hotplug-drm-bridge-v6-11-9d6f2c9c3058@bootlin.com>
+In-Reply-To: <20250206-hotplug-drm-bridge-v6-12-9d6f2c9c3058@bootlin.com>
 
-On Thu, Feb 06, 2025 at 07:14:26PM +0100, Luca Ceresoli wrote:
-> In order to support panels described either via graph links or via a
-> subnode (e.g. "panel@0"), this driver uses low-level deprecated functions
-> to find the next bridge. The resulting logic is complex and duplicates code
-> already present in the DRM bridge core. Switch to the new APIs in DRM
-> bridge core that allow to do the same in a much cleaner way.
+On Thu, Feb 06, 2025 at 07:14:27PM +0100, Luca Ceresoli wrote:
+> In preparation for allowing bridges to be added to and removed from a DRM
+> card without destroying the whole card, add a new DRM bridge function
+> called on addition and removal of bridges.
 > 
-> Note there are two slight changes in the new logic intended to improve the
-> final result:
-> 
->  * the old code looks for a subnode with any name except "port" or "ports",
->    while the new code uses the node passed as a parameter
-> 
->  * the old code looks for a subnode first and falls back to a graph link,
->    while the new code uses the reverse order because graph links are the
->    recommended device tree representation now
-> 
-> The first change makes the code more robust by avoiding the risk of using
-> an unrelated node which is not describing a panel and not names "port" or
-> "ports".
-> 
-> The second change is not expected to expose regressions because, in the
-> cases where both a subnode and a graph link are used to describe a panel,
-> the graph link should point to the subnode itself, such as in
-> arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dts
-> 
-> As a further cleanup, use a temporary variable to assign dsi->out_bridge
-> only on success. This avoids the risk of leaving a non-NULL value in
-> dsi->out_bridge when samsung_dsim_host_attach() fails.
-> 
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > 
 > ---
 > 
-> This patch was added in v6.
-> ---
->  drivers/gpu/drm/bridge/samsung-dsim.c | 55 ++++++-----------------------------
->  1 file changed, 9 insertions(+), 46 deletions(-)
+> Changed in v6:
+>  - rebased fixing conflicts
 > 
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> index f8b4fb8357659018ec0db65374ee5d05330639ae..bbd0a4f5a3f52b61bf48f10d6e8ca741bffa5e46 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -1704,55 +1704,16 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
->  	const struct samsung_dsim_plat_data *pdata = dsi->plat_data;
->  	struct device *dev = dsi->dev;
->  	struct device_node *np = dev->of_node;
-> -	struct device_node *remote;
-> -	struct drm_panel *panel;
-> +	struct drm_bridge *out_bridge;
->  	int ret;
+> Changed in v5:
+>  - fixed kerneldoc errors
+> 
+> This patch was added in v4.
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 12 ++++++++++++
+>  include/drm/drm_bridge.h     | 23 +++++++++++++++++++++++
+>  2 files changed, 35 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index b0834b8644284e5f7751cec81724af849b4180e7..1955a231378050abf1071d74a145831b425c47c5 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -207,12 +207,18 @@ LIST_HEAD(bridge_list);
+>   */
+>  void drm_bridge_add(struct drm_bridge *bridge)
+>  {
+> +	struct drm_bridge *br, *tmp;
+> +
+>  	mutex_init(&bridge->hpd_mutex);
 >  
-> -	/*
-> -	 * Devices can also be child nodes when we also control that device
-> -	 * through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
-> -	 *
-> -	 * Lookup for a child node of the given parent that isn't either port
-> -	 * or ports.
-> -	 */
-
-Please leave the comment in place (maybe rewrite it slightly).
-
-> -	for_each_available_child_of_node(np, remote) {
-> -		if (of_node_name_eq(remote, "port") ||
-> -		    of_node_name_eq(remote, "ports"))
-> -			continue;
-> +	out_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
-> +	if (IS_ERR(out_bridge) && PTR_ERR(out_bridge) != -EPROBE_DEFER)
-
-Can it actually return EPROBE_DEFER?
-
-> +		out_bridge = devm_drm_of_get_bridge_by_node(dev, device->dev.of_node);
+>  	if (bridge->ops & DRM_BRIDGE_OP_HDMI)
+>  		bridge->ycbcr_420_allowed = !!(bridge->supported_formats &
+>  					       BIT(HDMI_COLORSPACE_YUV420));
 >  
-> -		goto of_find_panel_or_bridge;
-> -	}
-> -
-> -	/*
-> -	 * of_graph_get_remote_node() produces a noisy error message if port
-> -	 * node isn't found and the absence of the port is a legit case here,
-> -	 * so at first we silently check whether graph presents in the
-> -	 * device-tree node.
-> -	 */
-> -	if (!of_graph_is_present(np))
-> -		return -ENODEV;
-> -
-> -	remote = of_graph_get_remote_node(np, 1, 0);
-> -
-> -of_find_panel_or_bridge:
-> -	if (!remote)
-> -		return -ENODEV;
-> -
-> -	panel = of_drm_find_panel(remote);
-> -	if (!IS_ERR(panel)) {
-> -		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
-> -	} else {
-> -		dsi->out_bridge = of_drm_find_bridge(remote);
-> -		if (!dsi->out_bridge)
-> -			dsi->out_bridge = ERR_PTR(-EINVAL);
-> -	}
-> -
-> -	of_node_put(remote);
-> -
-> -	if (IS_ERR(dsi->out_bridge)) {
-> -		ret = PTR_ERR(dsi->out_bridge);
-> -		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
-> -		return ret;
-> +	if (IS_ERR(out_bridge)) {
-> +		DRM_DEV_ERROR(dev, "failed to find the bridge: %ld\n", PTR_ERR(out_bridge));
-> +		return PTR_ERR(out_bridge);
->  	}
+> +	list_for_each_entry_safe(br, tmp, &bridge_list, list)
+> +		if (br->funcs->bridge_event_notify)
+> +			br->funcs->bridge_event_notify(br, DRM_EVENT_BRIDGE_ADD, bridge);
+> +
+>  	mutex_lock(&bridge_lock);
+>  	list_add_tail(&bridge->list, &bridge_list);
+>  	mutex_unlock(&bridge_lock);
+> @@ -249,10 +255,16 @@ EXPORT_SYMBOL(devm_drm_bridge_add);
+>   */
+>  void drm_bridge_remove(struct drm_bridge *bridge)
+>  {
+> +	struct drm_bridge *br, *tmp;
+> +
+>  	mutex_lock(&bridge_lock);
+>  	list_del_init(&bridge->list);
+>  	mutex_unlock(&bridge_lock);
 >  
->  	DRM_DEV_INFO(dev, "Attached %s device (lanes:%d bpp:%d mode-flags:0x%lx)\n",
-> @@ -1784,6 +1745,8 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
->  	dsi->format = device->format;
->  	dsi->mode_flags = device->mode_flags;
->  
-> +	dsi->out_bridge = out_bridge;
+> +	list_for_each_entry_safe(br, tmp, &bridge_list, list)
+> +		if (br->funcs->bridge_event_notify)
+> +			br->funcs->bridge_event_notify(br, DRM_EVENT_BRIDGE_REMOVE, bridge);
 > +
 
-Please move the assignment closer to the original place.
+I think the order should be different: notify about the added bridge
+after adding to the list, notify about bridge removal before removing it
+from the list.
 
->  	return 0;
+>  	mutex_destroy(&bridge->hpd_mutex);
 >  }
+>  EXPORT_SYMBOL(drm_bridge_remove);
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 1561347c4991dac6022319774510f9560c9283c3..ad7ba444a13e5ecf16f996de3742e4ac67dc21f1 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -56,6 +56,11 @@ enum drm_bridge_attach_flags {
+>  	DRM_BRIDGE_ATTACH_NO_CONNECTOR = BIT(0),
+>  };
 >  
+> +enum drm_bridge_event_type {
+> +	DRM_EVENT_BRIDGE_ADD,
+> +	DRM_EVENT_BRIDGE_REMOVE,
+> +};
+> +
+>  /**
+>   * struct drm_bridge_funcs - drm_bridge control functions
+>   */
+> @@ -729,6 +734,24 @@ struct drm_bridge_funcs {
+>  				      struct drm_bridge *bridge,
+>  				      bool enable, int direction);
+>  
+> +	/**
+> +	 * @bridge_event_notify:
+> +	 *
+> +	 * Notify that another bridge is being added or removed.
+> +	 *
+> +	 * This callback is optional. Bridges implementing it must always
+> +	 * check whether the event refers to a bridge they actually need to
+> +	 * interact with.
+> +	 *
+> +	 * @bridge: bridge being notified
+> +	 * @event: event happened (add/remove bridge)
+> +	 * @event_bridge: the bridge mentioned by the event (i.e. the
+> +	 * bridge being added or removed)
+> +	 */
+> +	void (*bridge_event_notify)(struct drm_bridge *bridge,
+> +				    enum drm_bridge_event_type event,
+> +				    struct drm_bridge *event_bridge);
+> +
+
+This creates a small issue. It requires drivers to have a bridge, even
+if they don't need one - e.g. the drm_encoder doesn't get notifications
+about the added bridges.
+
+I'm not sure if that can be solved in an efficient way.
+
+>  	/**
+>  	 * @debugfs_init:
+>  	 *
 > 
 > -- 
 > 2.34.1
