@@ -1,151 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222A41DF260;
-	Fri,  7 Feb 2025 11:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11D2F1E1023;
+	Fri,  7 Feb 2025 12:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738929296; cv=none; b=ODLtM7nMufDGqojAdQFNZOFIHfLbNRaib7Fj5Wxtcbev6K2l2M56gtTJQ64riChUUNNX+FBK2KB6y7RYkVcJHHTGuZFMTquf0U4VzSD8vu8MEn8dgAZpl0zprlHeg77M0PxI1SfUkljCVPfLmXF1uYwup8hpGChq/ZZzU1+uOFY=
+	t=1738932985; cv=none; b=FovbCdwpZ6Q3a1ArNMPo2g6+xqxARaqZgIQJOhLy9vnQaW12RYWAP8n+ywh6VY6pRkb/+g5PKHh9ZVnb0LPL4880gov4fuRjbzp0PAoEbUJ4/Hx6AuyXE7pxyOCdRzrExV0lauYZ87elAHFnVjn18BjrlQAsEPFNrfxXxavBOok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738929296; c=relaxed/simple;
-	bh=8SQg7TcF5hpBJJpgIKj3oXoAnUub+FtPN3W5PtDxUQA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TfuoR9D15IQB3L678DbTjJsQiZvGloWZFRrzwdol8zWQdcdcV/WdCCsNHTZFv+/jglc1U6jBrem08fAxEToFxispwo1sZlq0VvUUVcA98RbLwO/nNMaX5Z1JFLObJAy3J/lICd2K3lQ5XcVPU9t+NcclbrpT47zHtjq5UNWC3aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EAB7C4CED1;
-	Fri,  7 Feb 2025 11:54:54 +0000 (UTC)
-Message-ID: <d22d2f35-bf04-4d0c-a94c-70dcc08a945e@xs4all.nl>
-Date: Fri, 7 Feb 2025 12:54:52 +0100
+	s=arc-20240116; t=1738932985; c=relaxed/simple;
+	bh=mqACu9h0OAQ4CRSazX2X4bX1MXuArhK+5x7TwSckoew=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Jwj62Acx8Ewbixx0EE6QHHwc9txawkG00VXjPET0OYDJNweMJM7OeADRtZd5qiPxjim9m1dVyhdrV9SG34cbSODxXlwcJu7EC1D/fm7KqSoBsTly1J/fQdgVXvVcZj8mZfagWSvmVjYWP2vJaMxvPnHxkCl7pqHVnG3l9wbwncw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Hjlkaiz3; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Hjlkaiz3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=6Ekvy
+	V02O3WxbJ15gIoZ3zQm8U5+cIFYX3HYbe9GxHY=; b=Hjlkaiz33wS+c7HSEPGAC
+	AS51WaeifDMhhL6nIvRGZmI6lisQuRe9yhnpPbbstxeD4r3a/0xLFtwk2eccvrEh
+	usy1Rs2i1yuagW5uFcpju5t7Mxq+HJSz0jCBr9MyEnBdHeMSFkho1uDuB3kbZM7E
+	Sk08ZEEbVxcsLO9smWSm0U=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD3F4muAqZn8JUPKw--.7159S2;
+	Fri, 07 Feb 2025 20:55:11 +0800 (CST)
+From: Jiayuan Chen <mrpre@163.com>
+To: linux-doc@vger.kernel.org,
+	rdunlap@infradead.org,
+	corbet@lwn.net
+Cc: tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	linux-kernel@vger.kernel.org,
+	Jiayuan Chen <mrpre@163.com>
+Subject: [PATCH v3] docs/arch: remove deprecated function name
+Date: Fri,  7 Feb 2025 20:55:04 +0800
+Message-ID: <20250207125504.728688-1-mrpre@163.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Media committers model postponed to 6.14 - Was: Re: [PATCH v3
- 0/3] Document the new media-committer's model
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-References: <cover.1733131405.git.mchehab+huawei@kernel.org>
- <b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
- <20241203081958.6c186835@foz.lan>
- <20241203112209.GR10736@pendragon.ideasonboard.com>
- <20241203140712.57daa65f@foz.lan> <20241209091548.165e5152@foz.lan>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241209091548.165e5152@foz.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3F4muAqZn8JUPKw--.7159S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCr4fAw18Ar4DAry5WFW8tFb_yoW5KF1Dpr
+	ZxJas3Jr4DXFy0vw10vw48ury3Aw4kXF1UGrn7Kr15uwn0qwnFvrW3KF1ayFyUur1rtayY
+	vr90vr1DWws8JaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zZg4U5UUUUU=
+X-CM-SenderInfo: xpus2vi6rwjhhfrp/1tbiWxnsp2emAZIO9QAAsg
 
-On 09/12/2024 09:15, Mauro Carvalho Chehab wrote:
-> Em Tue, 3 Dec 2024 14:07:12 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> 
->>
->> The idea is to gradually open media-committers to more people, as each
->> phase succeeds, addressing infra, procedures, etc.
->>
->> My rough idea is to do:
->>
->> - Phase 0.99: beta testers;
->> - Phase 1 is to invite people that regularly submit PRs;
->> - Phase 2 is to invite other active maintainers;
->> - Phase 3 (or 2?, TBD) to open for non-maintainers.
->>
->> We shouldn't rush it, as there are a lot to be done before opening it
->> broadly. So, I would say that:
->> - phase 0.99 would start in -rc2 (if things go well during this week); 
->> - phase 1 may still happen on this merge window, but as there will be
->>   only a few weeks between -rc2 and -rc6, and people usually get
->>   holidays in Dec/Jan, it is more likely that it will start for
->>   6.14-rc1, again if we didn't notice big issues on phase 0.99.
->>
->>   We should wait at least for a couple of releases on phase 1,
->>   again to cleanup process and fine-tune infra. If things go well, 
->>   we can move to phase 2.
-> 
-> After some discussions with Hans, we decided to postpone the
-> beta testers phase to the next kernel cycle. There are a couple of
-> reasons for that:
-> 
-> - This should give us more time to come up with a final version of 
->   the media-committers documentation and agreement;
+The dumpstack.c file has undergone many modifications, and the
+print_context_stack() function was removed or rewritten a long time ago,
+so it's better to remove the incorrect guidance.
 
-Where are we with this? I haven't seen any updates since this post.
+I also want to preserve the original contributor info by keeping email
+address and name.
 
-Personally, I think the CI is ready for more committers, so it would be
-nice if we can get some experience with that.
+Signed-off-by: Jiayuan Chen <mrpre@163.com>
+---
+ Documentation/arch/x86/kernel-stacks.rst | 51 +++++++++---------------
+ 1 file changed, 18 insertions(+), 33 deletions(-)
 
-Regards,
-
-	Hans
-
-> 
-> - This would also work better with regards to end of year's vacations,
->   as they'll be affecting at least 2/3 -rc versions. Plus, we all have
->   things to finish before such vacations. So, better to start fresh next
->   year;
-> 
-> - Media CI still had issues with a patch series I submitted, as it picked
->   the wrong baseline, causing CI to not test two patches that were
->   applied on the top of media-committers/next branch. This was fixed
->   by Ricardo, but it means that we may still need to polish CI before
->   granting more people righs there.
-> 
-> With that, if we want to start the media committers for 6.14, we should
-> aim to close review this document by -rc6, or, at most, -rc7, getting 
-> the patches merged during the next merge window.
-> 
-> Regard
-> 
-> Thanks,
-> Mauro
-> 
+diff --git a/Documentation/arch/x86/kernel-stacks.rst b/Documentation/arch/x86/kernel-stacks.rst
+index 738671a4070b..45b7a225da11 100644
+--- a/Documentation/arch/x86/kernel-stacks.rst
++++ b/Documentation/arch/x86/kernel-stacks.rst
+@@ -112,41 +112,26 @@ Printing backtraces on x86
+ ==========================
+ 
+ The question about the '?' preceding function names in an x86 stacktrace
+-keeps popping up, here's an indepth explanation. It helps if the reader
+-stares at print_context_stack() and the whole machinery in and around
+-arch/x86/kernel/dumpstack.c.
++keeps popping up. This provides guidance about it. It helps if the reader
++stares at printk_stack_addressk() and its callers and pays special
++attention to the 'reliable' parameter ('?' basically means that the
++address is unreliable).
+ 
+-Adapted from Ingo's mail, Message-ID: <20150521101614.GA10889@gmail.com>:
++The detail about '?' can be found in the comments within dumpstack.c:
++::
+ 
+-We always scan the full kernel stack for return addresses stored on
+-the kernel stack(s) [1]_, from stack top to stack bottom, and print out
+-anything that 'looks like' a kernel text address.
++    /*
++     * Scan the stack, printing any text addresses we find.  At the
++     * same time, follow proper stack frames with the unwinder.
++     *
++     * Addresses found during the scan which are not reported by
++     * the unwinder are considered to be additional clues which are
++     * sometimes useful for debugging and are prefixed with '?'.
++     * This also serves as a failsafe option in case the unwinder
++     * goes off in the weeds.
++     */
+ 
+-If it fits into the frame pointer chain, we print it without a question
+-mark, knowing that it's part of the real backtrace.
+ 
+-If the address does not fit into our expected frame pointer chain we
+-still print it, but we print a '?'. It can mean two things:
++You can also get more info from Ingo's original emal. [1]_
+ 
+- - either the address is not part of the call chain: it's just stale
+-   values on the kernel stack, from earlier function calls. This is
+-   the common case.
+-
+- - or it is part of the call chain, but the frame pointer was not set
+-   up properly within the function, so we don't recognize it.
+-
+-This way we will always print out the real call chain (plus a few more
+-entries), regardless of whether the frame pointer was set up correctly
+-or not - but in most cases we'll get the call chain right as well. The
+-entries printed are strictly in stack order, so you can deduce more
+-information from that as well.
+-
+-The most important property of this method is that we _never_ lose
+-information: we always strive to print _all_ addresses on the stack(s)
+-that look like kernel text addresses, so if debug information is wrong,
+-we still print out the real call chain as well - just with more question
+-marks than ideal.
+-
+-.. [1] For things like IRQ and IST stacks, we also scan those stacks, in
+-       the right order, and try to cross from one stack into another
+-       reconstructing the call chain. This works most of the time.
++.. [1] https://lore.kernel.org/lkml/20150521101614.GA10889@gmail.com/
+-- 
+2.47.1
 
