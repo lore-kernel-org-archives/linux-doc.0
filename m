@@ -1,87 +1,119 @@
-Received: from mail-m19731112.qiye.163.com (mail-m19731112.qiye.163.com [220.197.31.112])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70DF80BFF
-	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 10:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DFB197A76;
+	Fri,  7 Feb 2025 10:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738923867; cv=none; b=I146Cqy9h3i0oh0eiof9RibuDOAsSwBnyW1X6fDc/93r9sRKNuhxyz+ELu0UJ0R230JFOzbV05jJA65FbepN3WpXSe9L/mRmP3ni2iHsqs9pIF78Z2ao7j5fJAnpXL5xMgkcOjlxiFUdSyHM/JzoCNuEk/YOCyUWT9wvXCheLoI=
+	t=1738925053; cv=none; b=VW5r6seuv8Ptr4jdsF163356UInXe1cK6kit0G+mckKepsc1oqCSRoVl3tweYVMXb/fDXWyBclyGuY1MAXK73666UnIOe1KOJbcAmg4S/Hczd9UxUOwYvlvhBr/OBJmrh9g1/dYWCsRMiKztkdywweKWOpSxuw2v7FRCOV+7Zu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738923867; c=relaxed/simple;
-	bh=Riew5X7GyhQk7kvLncFkJGmHKYNaYBdvD8SbNfCNc64=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XaBynuI/+WkgKM60pSVcgFNWfgYWYgbBy/Fk1NlQfR04vUR0r7KuFYlU6k70kHk2LzCU48mNp7byXxoZtXLOYiJlqJoZZxhTIzEVudBO8upZS1D7eckyPIR8jxLYSlSdM5D8AeFxmbVFv905Zcs6/uydOCfBz2Xd6CaMSwLq53o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=fnPOSYX3; arc=none smtp.client-ip=220.197.31.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1738925053; c=relaxed/simple;
+	bh=+PnHJgJsHGVk93WnAIslGWw2a83XhmUqB5y6LpefQqY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BcRXoi/hsSX+FqkdjZWQF3Eg9A4iI9sFcS9KVu4c8dw9WYbokmrQ5sJnAvB8i/6GbeEEsPF7lRwxPZogbPh6HpKjZJtgFkrU0yMVakvemOMALnR8vyfuhLNgx2E5Xl9DLKs0iD3QkUstWOFFTocb01dZ04hC+Ul1X0HTJGGIPDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HaNH6WWF; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="fnPOSYX3"
-Received: from localhost.localdomain (unknown [1.193.57.36])
-	by smtp.qiye.163.com (Hmail) with ESMTP id a6b57c88;
-	Fri, 7 Feb 2025 18:19:07 +0800 (GMT+08:00)
-From: zhangwei <zhangwei@cqsoftware.com.cn>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net
-Cc: zhaoshuo@cqsoftware.com.cn,
-	zhaoyuehui@cqsoftware.com.cn,
-	maoyuxian@cqsoftware.com.cn,
-	linux-doc@vger.kernel.org,
-	zhangwei <zhangwei@cqsoftware.com.cn>
-Subject: [PATCH v5 0/3] Translation self-protection.rst into chinese
-Date: Fri,  7 Feb 2025 18:18:54 +0800
-Message-ID: <cover.1738923258.git.zhangwei@cqsoftware.com.cn>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HaNH6WWF"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CA82E4341E;
+	Fri,  7 Feb 2025 10:44:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1738925046;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S2JN7acEOnnpYF6SorF298vSINNq+oWjlH4/5NBSfyY=;
+	b=HaNH6WWFViXuiG2j0REEdEA7Huzmr47PqsGfPagJxsHdJYbotxExCUATLn7KdciQ5z+OeE
+	SnVoCCuh7O0xu/LfCMmQJwrpdXU9wivbuYvqL3xNOv857o9Kt5lTkkd/BelPnyK0SK7oD/
+	eHx646DAA+sZUqiq3xhAMU2z4255Uq4y4P2sL2XLOKKoag0s8Ya0dVf5/s/GlGB2nSvmqr
+	xeP7XFChYhGVl+Fyfkg+QJUnP5VcHft/XlsrsoE4Ev0W+NRdxPZ0tXdKMHmDi53JWapH7P
+	gEIQuiMR/bsX0Qi+Z8oLFEQYHSjji99C06ryYEuNQMDD4P/dbggMiSEFEuBUOw==
+Date: Fri, 7 Feb 2025 11:44:01 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Paul Kocialkowski
+ <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
+ =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 15/26] drm/bridge: devm_drm_of_get_bridge and
+ drmm_of_get_bridge: automatically put the bridge
+Message-ID: <20250207114401.7869b422@booty>
+In-Reply-To: <w3qufv73ldzdcfuz6n3prx4di2dhoq2wfqmmvxvxkea6uqxkge@pjwmugvicsbt>
+References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
+	<20250206-hotplug-drm-bridge-v6-15-9d6f2c9c3058@bootlin.com>
+	<w3qufv73ldzdcfuz6n3prx4di2dhoq2wfqmmvxvxkea6uqxkge@pjwmugvicsbt>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaShlMVkwaSUxNSEwfTEhJT1YVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVITVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
-	JLS1kG
-X-HM-Tid: 0a94dfeb9d1f03abkunma6b57c88
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Kzo6Dio*CjIVSwwIUSkZDUgf
-	GCowFBVVSlVKTEhDQklITk9DQ09NVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSlVKQkhVTkxVSE1ZV1kIAVlBSktPSTcG
-DKIM-Signature:a=rsa-sha256;
-	b=fnPOSYX3XYryzNLPeARrCxXBWhai4xyHP5k0NFLu2dakv4VZFHCt3afcN9PRs739X0c7QUyWHKzOlOgU9aoggIMeYJBFPygT714U8NPgkCMKu07mMC1r1kZwh19Dzo+benyGinWCoUH88XWkwjDIBrD0CqJ0YJYIAIhSqNAK2Wc=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
-	bh=58zYHx4URjNyfsMPG7/Sf6nHxXvmbyWEg7woW6lzVAg=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefjedprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovheslhhinhgrrhhordhorhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehinhhkihdruggrvgesshgrmhhsuhhnghdrt
+ ghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvrhhnvghlrdhorhhg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Translate self-protection.rst into Chinese
-and add index.rst under keys and secrets
+On Fri, 7 Feb 2025 05:17:43 +0200
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
 
-Changelog
-v5:
-  * Delete my signature in the index file
+> On Thu, Feb 06, 2025 at 07:14:30PM +0100, Luca Ceresoli wrote:
+> > Add a devm/drmm action to these functions so the bridge reference is
+> > dropped automatically when the caller is removed.  
+> 
+> I think the get() should go to the underlying of_drm_bridge_find() function.
 
-v4:
-  * fix remove the blank lines in keys/index.rst
+It is done in the following patch.
 
-v3:
-  * add index.rst under keys and secrets
+Indeed I could swap patches 15 and 16 for clarity. Or I could squash
+together patches 14+15+16, as they are various parts or the refcounted
+bridge implementation, but I felt like keeping them separated would
+help reviewing.
 
-v2:
-  * fix remove the unnecessary blank lines
+> Also it really feels like it's an overkill to keep the wrappers. After
+> getting bridge being handled by the panel code would it be possible to
+> drop all of them?
 
-zhangwei (3):
-  docs/zh_CN: Add self-protection index Chinese translation
-  docs/zh_CN: Add keys index Chinese translation
-  docs/zh_CN: Add secrets index Chinese translation
+Do you mean having only drm_of_get_bridge_by_node(), without any devm
+or drmm variant? I'm not sure it is a good idea. Most DRM code (well,
+all of it, technically) is currently unable of working with refcounted
+bridges, but if they use the devm variant they will put the ref when
+they disappear.
 
- .../translations/zh_CN/security/index.rst     |   2 +-
- .../zh_CN/security/keys/index.rst             |  22 ++
- .../zh_CN/security/secrets/index.rst          |  17 ++
- .../zh_CN/security/self-protection.rst        | 271 ++++++++++++++++++
- 4 files changed, 311 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/keys/index.rst
- create mode 100644 Documentation/translations/zh_CN/security/secrets/index.rst
- create mode 100644 Documentation/translations/zh_CN/security/self-protection.rst
+> Then this patch might introduce one new devm_
+> function? Or are drmm_ functions actually being used to store data in
+> the drmm-managed memory?
+
+Which devm function are you thinking about? Sorry, I'm not following
+here.
+
+Luca
 
 -- 
-2.47.1
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
