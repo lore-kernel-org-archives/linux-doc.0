@@ -1,136 +1,141 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520651AF0AF
-	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 21:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356E58479;
+	Fri,  7 Feb 2025 22:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738963617; cv=none; b=JVYra1pOeJI1EeToW9MXsKBefOEgo0tQxLTeSBldb6UNO0Uo9iabCJgxg3qYn2KOZSkXk0ZR63r/NgxJgrsOOSFwjsMydBdPmyjCfPQ6R9srLv69k+6CSRvTzMBAY8lgJD7OMIQn3lsuPV5EQppb1+bpWd06RvdcrtKHuK0jbmg=
+	t=1738966619; cv=none; b=HuR3RqB00jzEGip201cAVf4udoQHEXGKv5BGdhxpVkqr3YKE2e8xFNW4RDQxzIFroWi3ZCDv6CKbkmE6wU9G2BdHi+eVkXn+hsZ5Y1Yf044AH+Z2aUl40ZmfN9+2NBLgE3RFxZhXipstkm4OerWIV5zmn8Z6xrySae+fXOJNdVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738963617; c=relaxed/simple;
-	bh=HVmE+Tt35mu4vWqHOKjrmfxx5g5d6DsZZLA0kmOgFzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D9/ywJSnQiHW/7xqTKSgf/uofwNt7bPEYheRnHDbsQPgUeiaH2fpr8qiHcUQf32e2fOOzuUlLNTfVTf74+KxFM7JYNoz4waeL+BmqwWM9K7bngqXMHqPzcO5x0rAw15KAhKRBOHh0KHv67u28SIFqaTXZSIs/OC/1JHPI4+YzN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=2Zi69OuW; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1738966619; c=relaxed/simple;
+	bh=vBguwXYtPq2YWrzcJrg+d/ZEDpXox2WcEHb2Zy7c7eI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U7KKC5ZZHQxp8z+auOg9P4ARKBvpoByITE7QFcGj777tHeCgOPUNUrAleeDb2PMBM5n7G11R+QaadhX6HtgQasGMN98IEXk9hviPEmng8kK6GX9jirLTSV55gbQSIWObdGx5iDfAUu2i0cluWlfd59KsejxHiI8nVf4eEM40/7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AAYITtmD; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="2Zi69OuW"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21f62cc4088so11115485ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 07 Feb 2025 13:26:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1738963614; x=1739568414; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=HVmE+Tt35mu4vWqHOKjrmfxx5g5d6DsZZLA0kmOgFzY=;
-        b=2Zi69OuWZX0UEjdLx5h7V2aS2lqQrckk3FDmNx05GHs46itAomz4crC74qdpyA1/aO
-         EDpv/V+hCufPH6md+AJjX8dBvJpvI2nXq5QRAdC0FEAplwx4oA/mAL53314IdTNMLaiz
-         Z3oEJ0QfQfYoKs4jRCcSc5rMyUaI6eIiATejMY+99z83i77qvglKsPeZwRBla726fYop
-         PSTgQ5SiRqNy7P0s2LbWOPPnWkA7jU0SOOkIBgWbTQv/vWC8OPJTplulgmJsq2zsIs0u
-         AQ+Zavzfd70CDCuvreBZ9eZ/w0CgBpcS/rskGViakv1aBnSUYnfnrZjwsuraqKhv0PFf
-         3wTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738963614; x=1739568414;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HVmE+Tt35mu4vWqHOKjrmfxx5g5d6DsZZLA0kmOgFzY=;
-        b=MbVEAx45VB2eLymtP7UlnadI7OWHdC2NsesAJiBHtxxsXLBK2JBYHA7w/7Cn1XMkkt
-         odE41UoOhYjaorYTxmfC8cGyi6RoYYrIiossXH41SrAwOdSwo/Qq0Mm/eJY5ef8Q5miA
-         F2ZpYrwAUWu14dzETiwO9zrfoZmUaS+7XiCu7k6hk7oy4rRaiCwzhwPD9DvgeyRC3Zch
-         FK3qElDMKCmCvpRzDvujxCvY79LPn8Z+XBR+hK3NNOuoAvXDoLqi5g/CFSAiIgcbySAT
-         7quPMylasVbHwKtZTbPrN7wwcKlsywItZQvVbTO9Hba1z+uA2D9mz9yrWMdhJP2cwSPX
-         1I9A==
-X-Forwarded-Encrypted: i=1; AJvYcCWEcyK/8CVMJKQ5Kc39bP9f7Qr9M0eTA8TTOSiHtuJY4PGQ23Li/ueO2cvwHfGbAlrZAOrGS2lVAPE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0FJfZBZjrx/eNTV/A9wB62/Z7j9sHimdsBAEPBUbdaVn/fHX+
-	DnrTPNUQIvta4C/+qI4/y42w3K/X+z2I8F7dl5oV7bakY70KZZ8G+LI64HUnnbQ=
-X-Gm-Gg: ASbGncty1rW5tqp7077k4BsiKBlVIJgz2U1QB2eME5OYMV5xNteGGpNqfm/NLluirQj
-	6HaK5WlsPebS8tmnFFs1D4r0zR899l7NeAEyAmtNCdMtcEijJfEZnB5Frzl3/vcnYjX5LlPE1YZ
-	efDmehPYT7dorRd4C9vqPIevhCEcEvsniRT8jsHiUj0ZMBOxVtuQjwVNv0LgA4Ofp9IpEFR5ORh
-	ECJbQmSTUnmB7OQIcDQIFz6HFFnjh8Yb5rquB9PKUde/w3oHZDmzyEaRTU7P+X7CFCzWkVkUew9
-	FRQAkwWLA0/Rb6UqruNGL+mDpw==
-X-Google-Smtp-Source: AGHT+IE9Oev0Y7C5Xmqtwl/B+JiwmKuI48iGekPbKSdtVdA99oMBiZeUkT8jvrSGxyy3gXBYBBsXzA==
-X-Received: by 2002:a17:902:d4cc:b0:21f:6a36:7bf3 with SMTP id d9443c01a7336-21f6a369009mr6855425ad.12.1738963614537;
-        Fri, 07 Feb 2025 13:26:54 -0800 (PST)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3683d551sm35131205ad.110.2025.02.07.13.26.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Feb 2025 13:26:54 -0800 (PST)
-Date: Fri, 7 Feb 2025 13:26:50 -0800
-From: Deepak Gupta <debug@rivosinc.com>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com
-Subject: Re: [PATCH v9 14/26] riscv/traps: Introduce software check exception
-Message-ID: <Z6Z6mhiQ3DmsNZe9@debug.ba.rivosinc.com>
-References: <20250204-v5_user_cfi_series-v9-0-b37a49c5205c@rivosinc.com>
- <20250204-v5_user_cfi_series-v9-14-b37a49c5205c@rivosinc.com>
- <fec3b7be-4259-4eef-87f9-b2cee5718cae@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AAYITtmD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=giX8OGERwfO4MHhAX700Y15yzZhxddmBA51O/pJlx9o=; b=AAYITtmDEiu1aMKUL25OhuP4Km
+	7y3Uc/Dxmajc1tLFw2Z+q0OHmEaZzfj6mtBiHcZOOQXD+wg4wik1cB0hA63URPfaSqid0BMQAmrkE
+	adzUTEZOcmySqN7tBuT1ZqGPb10W68PEgCXPCg6sCAFaxPm90JEvA6h/lHnT+mVCpGI6dlVmilYxr
+	XnGCPLB3YMNKDAtGMfFbUUFnd5WxAVEdhnvDTTyX2IioKhtB+C+5y+TGX5EXjSvqdWojPICCDsA0f
+	0AGQtIvIpyJ5dMG5E2YOYMY9KluYwIt18CE2l+3Hyt48J9w5P5Cu3V1DKh7ErcugqdIcb7CyCAfOG
+	fMSWYtFQ==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tgWeS-0000000HJx6-2HzP;
+	Fri, 07 Feb 2025 22:16:45 +0000
+Message-ID: <8edae47f-2b70-4a47-9141-c728037cc029@infradead.org>
+Date: Fri, 7 Feb 2025 14:16:38 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fec3b7be-4259-4eef-87f9-b2cee5718cae@rivosinc.com>
-
-Hi Clement,
-
-Thanks for looking at it. Inline
-On Thu, Feb 06, 2025 at 02:49:09PM +0100, Clément Léger wrote:
->
->
->On 05/02/2025 02:22, Deepak Gupta wrote:
->> zicfiss / zicfilp introduces a new exception to priv isa `software check
->> exception` with cause code = 18. This patch implements software check
->> exception.
->
->Hey Deepak,
->
->While not directly related to this patch, is the exception 18 delegation
->documented in the SBI doc ? I mean, should we specify that it is always
->delegated when implementing FWFT LANDING_PAD/SHADOW_STACK ?
-
-I don't think it's document in SBI spec anywhere. Should it be ?
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] docs/arch: remove deprecated function name
+To: Jiayuan Chen <mrpre@163.com>, linux-doc@vger.kernel.org, corbet@lwn.net
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ linux-kernel@vger.kernel.org
+References: <20250207125504.728688-1-mrpre@163.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250207125504.728688-1-mrpre@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-In code, opensbi delegates the exception (SW_CHECK)
-https://github.com/riscv-software-src/opensbi/commit/110524441a827e026db3547ed03c5723b9c9e211
 
->
->Thanks,
->
->Clément
->
->>
+On 2/7/25 4:55 AM, Jiayuan Chen wrote:
+> The dumpstack.c file has undergone many modifications, and the
+> print_context_stack() function was removed or rewritten a long time ago,
+> so it's better to remove the incorrect guidance.
+> 
+> I also want to preserve the original contributor info by keeping email
+> address and name.
+> 
+> Signed-off-by: Jiayuan Chen <mrpre@163.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/arch/x86/kernel-stacks.rst | 51 +++++++++---------------
+>  1 file changed, 18 insertions(+), 33 deletions(-)
+> 
+> diff --git a/Documentation/arch/x86/kernel-stacks.rst b/Documentation/arch/x86/kernel-stacks.rst
+> index 738671a4070b..45b7a225da11 100644
+> --- a/Documentation/arch/x86/kernel-stacks.rst
+> +++ b/Documentation/arch/x86/kernel-stacks.rst
+> @@ -112,41 +112,26 @@ Printing backtraces on x86
+>  ==========================
+>  
+>  The question about the '?' preceding function names in an x86 stacktrace
+> -keeps popping up, here's an indepth explanation. It helps if the reader
+> -stares at print_context_stack() and the whole machinery in and around
+> -arch/x86/kernel/dumpstack.c.
+> +keeps popping up. This provides guidance about it. It helps if the reader
+> +stares at printk_stack_addressk() and its callers and pays special
+> +attention to the 'reliable' parameter ('?' basically means that the
+> +address is unreliable).
+>  
+> -Adapted from Ingo's mail, Message-ID: <20150521101614.GA10889@gmail.com>:
+> +The detail about '?' can be found in the comments within dumpstack.c:
+> +::
+>  
+> -We always scan the full kernel stack for return addresses stored on
+> -the kernel stack(s) [1]_, from stack top to stack bottom, and print out
+> -anything that 'looks like' a kernel text address.
+> +    /*
+> +     * Scan the stack, printing any text addresses we find.  At the
+> +     * same time, follow proper stack frames with the unwinder.
+> +     *
+> +     * Addresses found during the scan which are not reported by
+> +     * the unwinder are considered to be additional clues which are
+> +     * sometimes useful for debugging and are prefixed with '?'.
+> +     * This also serves as a failsafe option in case the unwinder
+> +     * goes off in the weeds.
+> +     */
+>  
+> -If it fits into the frame pointer chain, we print it without a question
+> -mark, knowing that it's part of the real backtrace.
+>  
+> -If the address does not fit into our expected frame pointer chain we
+> -still print it, but we print a '?'. It can mean two things:
+> +You can also get more info from Ingo's original emal. [1]_
+>  
+> - - either the address is not part of the call chain: it's just stale
+> -   values on the kernel stack, from earlier function calls. This is
+> -   the common case.
+> -
+> - - or it is part of the call chain, but the frame pointer was not set
+> -   up properly within the function, so we don't recognize it.
+> -
+> -This way we will always print out the real call chain (plus a few more
+> -entries), regardless of whether the frame pointer was set up correctly
+> -or not - but in most cases we'll get the call chain right as well. The
+> -entries printed are strictly in stack order, so you can deduce more
+> -information from that as well.
+> -
+> -The most important property of this method is that we _never_ lose
+> -information: we always strive to print _all_ addresses on the stack(s)
+> -that look like kernel text addresses, so if debug information is wrong,
+> -we still print out the real call chain as well - just with more question
+> -marks than ideal.
+> -
+> -.. [1] For things like IRQ and IST stacks, we also scan those stacks, in
+> -       the right order, and try to cross from one stack into another
+> -       reconstructing the call chain. This works most of the time.
+> +.. [1] https://lore.kernel.org/lkml/20150521101614.GA10889@gmail.com/
+
+-- 
+~Randy
+
