@@ -1,122 +1,178 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486744C6E;
-	Fri,  7 Feb 2025 01:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112FE155C87
+	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 02:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738893028; cv=none; b=iynh2TPpUM0M12mrPYAK8oNVcUZpMFwZUSHeJvUaXL66N4KoUaMUR7oc7cVLe6/3iIVEfyKFsNhRHskGH3891Wss7MIhUJBIQJ3evwE4XGJ9mOfgjSqq51zFpFi+9AhG44nM8WOxM9OQFSNzB0m+46Gl4EYovVtiX3PxSVhU024=
+	t=1738893997; cv=none; b=dk5CbtzfbiUsuDIrgu9iAvf3QMKFKzmH5/ksw0wEanFUVcThLUcvmSnqhexF2s84wVgmGhBRaqlyCyHIyynYgk6TKxi5uElS+8U270N3YLyBwtRl3yQdfiZm2D+iml8YKzOLSD0ogBcKg3ii1+ZjMqPOtj/2a8viD/I5T7o0S4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738893028; c=relaxed/simple;
-	bh=Rud4kJG4jLV8/BLphCONNw9DdTI3UIf93xW0ZFGDjNo=;
+	s=arc-20240116; t=1738893997; c=relaxed/simple;
+	bh=JqUXIcXk56HCeBpiV+ND4dzTwsPm0TGrW5Qo5O5sG4c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fy2f979qjGxatLGf7JIaMg2IVj7Ln0v5J4pys7h60tF5VhEl6/WszGaCa0uEyU63DLaVzqgfmZnFELWIXKpD375o8txjLChV2XGJ4GMXjv1X4MOmJyoxW9Co2uJ4oT0NTXis/2d7z8ih3uhD89OcZmWbFSJ8iOO/7ICWEzynKBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k0TU8Mjn; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=mg7WWs4SV2ET+bM4+434KLhOXI82NBzgfOd+mGf12xr7OIUZjpqjZ/6GcSfDKTqqlnKlDopnX0LJpzXO+c3m29ueqF45kcftHB5iDJkLJ1pkUAEuiBE63ETPeHggMPsNR6MYjgk00BIAw1OUYjrdmPsyBvSvQJoxst5NSFIIels=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=a9YuIOn3; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k0TU8Mjn"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2163dc5155fso31770335ad.0;
-        Thu, 06 Feb 2025 17:50:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a9YuIOn3"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54450213957so202133e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 18:06:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738893026; x=1739497826; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1738893990; x=1739498790; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4YfON87g7ZENJvxYhKgpcX2R2CBtwnkVHbGO7qiUEc8=;
-        b=k0TU8MjnF8D9VYorzYWyLsnJBqVVg8yhx+wi8R/GYqfxE0eW60wTV24swJFHqjVrq+
-         ZNsze6HuVWD3ASV9g8F7p4rt7i2Bjwhcw1Zr1CAQ+YIVd/MvLKGEf0D07WvNfrZRhq8s
-         8oPxWAPBMwIKfujRAwjENcth273irlndHbWXvfLWrAKSY+k9vNoC8ABEMN/zjpoifpL4
-         rv41D6S3WdTSerPQCqwOtFzmFa3gLT+JwC+/A5AgTKijzAMTjFq81yqSPFwYlcIZ7x0I
-         LpOeNUBWAKZdTPTt+r2c8kXfdh7ROH49a+mpmsFpdZtdEx63rcKBiq8yBJsEjELko4OZ
-         bH8Q==
+        bh=6ujQXMd3f5rR8lvPCe761XT8r53CWwMCKlPO4+SHJsQ=;
+        b=a9YuIOn3Yuov2vHPPInmDrRoK5+ExFRVWftla5W4+yHp1r6Iwd1wJJE1u3dLBRNvor
+         0ZARhHNgQhjPTYxnFrPw17ewm8xAw4Vf7q0XRDyK4dG2Wow2YW+IgDE07lCQHevh2N9T
+         0sWjCcKGwN0NeausVmsfyoy4/Fp36i0V2tWl5OL7lOKoJQ4svB5XvjevsZYwFtb9+mbK
+         tifDI0RpJtWBTgCvheF7akbnGvru+fGMnBXNGhi5U4in+U66Wv0jSnjAXCxqv0TlhO9r
+         FuaBs9uY6kvJrSIRu/mHjXCE4mBKc84X41JFvE6dMUfSDpqRVNW/34yQ4b+FHNgPME32
+         lycw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738893026; x=1739497826;
+        d=1e100.net; s=20230601; t=1738893990; x=1739498790;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4YfON87g7ZENJvxYhKgpcX2R2CBtwnkVHbGO7qiUEc8=;
-        b=oxjF3nNIRVNoE28mFe39is+vGVNnEexN3CZg/cRFAGDK9DPKkafTpDwYvojI/aj2dF
-         qaacEJLizmvwXf7rEAM71QdFKFmAh76e78+zrOnQiP3eFRNMVFSbRhAZx/5/deWU3m75
-         rOye0R+76ONOlY+ELJO2OXkMAMj8ookklJcFJwOflWbs2AsY0B4vzPgKcN+OND2q0gTY
-         XeAPi7/RbuzSj7kXrczldHkrxFU9xX/aM3OKdmTuD5oKcyN/DtlAEVjKRBOiWFo/Q6wV
-         83S1Rk1G66wu7x4fNPRSZwVW5U6C2PvAjwW5elPG9xvozWTZ3JrW6DvSwCRIxZokC65l
-         FdJw==
-X-Forwarded-Encrypted: i=1; AJvYcCUqHcmxiRjNevBGYtPZDJJeTA/3/Oi32yo9ym+0CdBKYbZJvbU2Q84TOu911/fh1a+59vGpNrblAmycndevUQvG@vger.kernel.org, AJvYcCXgMRWn7zP02AG5L+FS1TZb6bhdRAk3VPAI+00tnmNwmLw255B0yrWCm5vDA3okiUexypnjhAldEvI=@vger.kernel.org, AJvYcCXnUrOE4b6B0f6X6jaLbmlVAj+Hb14IVOIQ9n3t9gG3cFH3q7AtvPkcWWsxP4HPSPPPf391DzI2+B0NJPRU@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/x7QCkKVMMgbPnQKqKuE6Zn7jHKYF+giWNBiurs2GGMGYlzpL
-	yUyPY3skZWXyQ6Z9JcLFw+7VNTYUguctw6EeIbjODuHZaboGlp5y
-X-Gm-Gg: ASbGncu8A1jf2k1R5OGk4ByiQH+9iyJdOLFo/Q1+lBQZkrX8w5jx7BzSZ7DJIzbO7L2
-	5fkfcCROhy/8yZCLujhdpByKR75pFoN9NsNbXrkVVCwjvYp+iXXTJQ6f3k9CTvvQp9TKa+UL8He
-	mqPpaOUmDKIgMblnCbDB43yPqez5H9DeXQ2AAg1YzX2LeIlMiXZUrXYdkdIS/Qh4QPGv4n2026w
-	aH078ipcrLBO4Cw2Ks9omhpKHkOYgbbq3Z69Zbe6Pjj6bRgdWfD66pB+3OGH0mRIFRwjtxY2AFd
-	l8k7SUdkTQg+k8s=
-X-Google-Smtp-Source: AGHT+IEKPltVte/Yg9TtzUIHo+iiX2qVLRUgE9ZWa/b3KIV9wnOfO9sorF4AZAlMYmQdYvEQfurITQ==
-X-Received: by 2002:a05:6a21:9982:b0:1e1:b12e:edb8 with SMTP id adf61e73a8af0-1ee03b0c1a3mr3117686637.30.1738893026363;
-        Thu, 06 Feb 2025 17:50:26 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73048ad2809sm1939143b3a.58.2025.02.06.17.50.25
+        bh=6ujQXMd3f5rR8lvPCe761XT8r53CWwMCKlPO4+SHJsQ=;
+        b=e2oFmhj+Kyu8RKozCLNxgh49nQ9WEBPAhIJqvdDXFpjT3oivXc8RMJGAOv3ncxCk8V
+         USGc0dQ1knDuat5dXJdtxUtUCRaI7L/7mEOAqpu5Ytg80edmHAnno6CQUcyWIizhIzLq
+         pEIhm2ti3v/se1/DBIPdaCLQ+SCsmgF749KSBnRSkaJyTqiNjZd/9A19r+MEf8bgB7ER
+         uwc0G/3MN2VrB/jj24yQBp9WAGvhuEWABD66IzAtAhVSwDIpoC0shTQTXwQm2kZW5Btp
+         C8iiUnZceA/pTwHYYH+Rn90hAxQ2Esmwi3TqX4cxcu6oy0eLUR/KcN1F2TBJtTLNEmhl
+         lNOA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTVi1VXsyO7BaiRVNDRwmYiSKVASuB3Xfxe2xSwGRtoFwo/zyITvZo5RhRWpmVEpdF/zyF4lcSn2A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXcsqMssJAYhQWdknbTeLGVLE2i+9+BnYPxZhHJPMbIZddRB6l
+	cRpOgay3JUyjLBnMXrzmAMRm6qOPBRK/SsvQvoPegvsk623kqQy59IZDccVA10LPyl5/69S//Zg
+	9uJM=
+X-Gm-Gg: ASbGncsVXR5IoFHWCmMXYLkJwNzKr7k9CqWYUYFmEqpbZ4fLfgqa/EqM+W83xzaycne
+	26winYsmPpjcaSKTvQ0Rh4MOueX7zB3wOopfyxSPEcakSocwO+ouQRuG8ooBZI7G6qzRogzzj7N
+	I31VkuxvG90VTTiN9A8gGAEGn5vC9tyGtf+CdX0ALtbC/y9pATczqsCCB7lBttLE284mLn65Yn2
+	V3BZYWTggW/pZ8lq0yGnU2MPEiYl+lqLJYUZDOHKErOdxMpn5oncHE5BROCljAsT8ldcJUfMkJh
+	CU+/7+toDLu4XqtgHNk8pKezrvLtDX1jYCh4VfjK25r0ZctVJkvfPK10TkjlMyCzAGf5KKo=
+X-Google-Smtp-Source: AGHT+IGSvbfbhwvFe2ZxA945w3FQ/WVD5eHjbkXKqsZNGZOOvNSGAyY3FitJEH9UmMivIMdxH8YSOA==
+X-Received: by 2002:a05:6512:ea6:b0:544:132b:603a with SMTP id 2adb3069b0e04-54414aa8905mr250920e87.29.1738893990018;
+        Thu, 06 Feb 2025 18:06:30 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-544105557ddsm292039e87.75.2025.02.06.18.06.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 17:50:25 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 469244208FB2; Fri, 07 Feb 2025 08:50:22 +0700 (WIB)
-Date: Fri, 7 Feb 2025 08:50:22 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	rdunlap@infradead.org, kernel-team@meta.com
-Subject: Re: [PATCH net-next v5 8/8] netconsole: docs: Add documentation for
- CPU number auto-population
-Message-ID: <Z6Vm3ny5VN6mcKJN@archie.me>
-References: <20250206-netcon_cpu-v5-0-859b23cc3826@debian.org>
- <20250206-netcon_cpu-v5-8-859b23cc3826@debian.org>
+        Thu, 06 Feb 2025 18:06:28 -0800 (PST)
+Date: Fri, 7 Feb 2025 04:06:26 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Joel Selvaraj <jo@jsfamily.in>, 
+	Ondrej Jirman <megi@xff.cz>, Javier Martinez Canillas <javierm@redhat.com>, 
+	Artur Weber <aweber.kernel@gmail.com>, Jianhua Lu <lujianhua000@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 01/14] drm/panel/boe-bf060y8m-aj0: Move to using
+ mipi_dsi_dcs_write_seq_multi()
+Message-ID: <mz6usiheb2lx6wlk47z3btvf6t6kbo4ja4n6mli5hosrpcvdwp@wmvfvhaqhpkm>
+References: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
+ <20250206-mipi-cocci-v1-1-4ff0c69e8897@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lodIkLAKjr6DSprG"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250206-netcon_cpu-v5-8-859b23cc3826@debian.org>
+In-Reply-To: <20250206-mipi-cocci-v1-1-4ff0c69e8897@redhat.com>
 
+On Thu, Feb 06, 2025 at 04:05:56PM -0500, Anusha Srivatsa wrote:
+> Use mipi_dsi_dcs_write_seq_multi() instead of
+> mipi_dsi_dcs_write_seq()
+> 
+> Used Coccinelle to do this change. SmPl patch:
+> @rule_1@
+> identifier dsi_var;
+> expression dsi_device;
+> expression list es;
+> @@
+> struct mipi_dsi_device *dsi_var = dsi_device;
+> +struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi_var };
+> <+...
+> -mipi_dsi_dcs_write_seq(dsi_var,es);
+> +mipi_dsi_dcs_write_seq_multi(&dsi_ctx,es);
 
---lodIkLAKjr6DSprG
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is not enough. All the commands and sleeps inbetween should also be
+converted to _multi(), so that there is a single return at the end or
+even a return via the context. Most of foo_on() functions can take
+context as a param and return void, having error code in the context.
 
-On Thu, Feb 06, 2025 at 03:05:59AM -0800, Breno Leitao wrote:
-> +.. note::
-> +
-> +   If the user has set a conflicting `cpu` key in the userdata dictionar=
-y,
-> +   both keys will be reported, with the kernel-populated entry appearing=
- after
-> +   the user one. For example::
+> ...+>
+> 
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> ---
+>  drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c | 36 ++++++++++++++------------
+>  1 file changed, 19 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
+> index 7e66db4a88bbed27920107458d01efd9cf4986df..640312096c1370c293c84431efa6fd17dc520f2e 100644
+> --- a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
+> +++ b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
+> @@ -55,15 +55,17 @@ static void boe_bf060y8m_aj0_reset(struct boe_bf060y8m_aj0 *boe)
+>  static int boe_bf060y8m_aj0_on(struct boe_bf060y8m_aj0 *boe)
+>  {
+>  	struct mipi_dsi_device *dsi = boe->dsi;
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+>  	struct device *dev = &dsi->dev;
+>  	int ret;
+>  
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x00, 0x4c);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_3D_CONTROL, 0x10);
+> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, DCS_ALLOW_HBM_RANGE);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xf8,
+> -			       0x00, 0x08, 0x10, 0x00, 0x22, 0x00, 0x00, 0x2d);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0xa5, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x00, 0x4c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_3D_CONTROL, 0x10);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE,
+> +				     DCS_ALLOW_HBM_RANGE);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf8, 0x00, 0x08, 0x10, 0x00,
+> +				     0x22, 0x00, 0x00, 0x2d);
+>  
+>  	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+>  	if (ret < 0) {
+> @@ -72,17 +74,17 @@ static int boe_bf060y8m_aj0_on(struct boe_bf060y8m_aj0 *boe)
+>  	}
+>  	msleep(30);
+>  
+> -	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xc0,
+> -			       0x08, 0x48, 0x65, 0x33, 0x33, 0x33,
+> -			       0x2a, 0x31, 0x39, 0x20, 0x09);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xc1, 0x00, 0x00, 0x00, 0x1f, 0x1f,
+> -			       0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
+> -			       0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xe2, 0x20, 0x04, 0x10, 0x12, 0x92,
+> -			       0x4f, 0x8f, 0x44, 0x84, 0x83, 0x83, 0x83,
+> -			       0x5c, 0x5c, 0x5c);
+> -	mipi_dsi_dcs_write_seq(dsi, 0xde, 0x01, 0x2c, 0x00, 0x77, 0x3e);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0xa5, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc0, 0x08, 0x48, 0x65, 0x33,
+> +				     0x33, 0x33, 0x2a, 0x31, 0x39, 0x20, 0x09);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1, 0x00, 0x00, 0x00, 0x1f,
+> +				     0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
+> +				     0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe2, 0x20, 0x04, 0x10, 0x12,
+> +				     0x92, 0x4f, 0x8f, 0x44, 0x84, 0x83, 0x83,
+> +				     0x83, 0x5c, 0x5c, 0x5c);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xde, 0x01, 0x2c, 0x00, 0x77,
+> +				     0x3e);
+>  
+>  	msleep(30);
+>  
+> 
+> -- 
+> 2.47.0
+> 
 
-In that case, shouldn't the kernel autopopulates numbers of the rest of
-CPUs?
-
-Confused...
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---lodIkLAKjr6DSprG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6Vm3gAKCRD2uYlJVVFO
-o2bTAP4uJmPtE0EY4degcM3pfk3wqYf0sMZJz2mr4YVi/uHxmgD8Cbi3tjnZVF5s
-ZA5M+4zojHr6lDlCXHmZ0SJWVwLyBAQ=
-=bMtW
------END PGP SIGNATURE-----
-
---lodIkLAKjr6DSprG--
+-- 
+With best wishes
+Dmitry
