@@ -1,73 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from unicom145.biz-email.net (unicom145.biz-email.net [210.51.26.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75DEF188733;
-	Fri,  7 Feb 2025 07:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDFA1A2C0B;
+	Fri,  7 Feb 2025 07:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.26.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738913140; cv=none; b=Z5AfDl59ntAZGi8HnEwjOVHIUZciEgr/ErM/HPa9kv5Mkmo3heQhvCnSJEeGsyXuiFPULVPGo2bndtKCm4X6HDbGyQXXrfDj+io1KW65/LehNqdqh66yknxJWocWKkXIzvxy7D8dTMs/jUT6t1CgAqOjcfDziwwyMUf5YhbBOHY=
+	t=1738913770; cv=none; b=iWrvLgfmCklD69UHfV5cX4SNB56akciEwm/vCEEfWKBlaXXpz+mPU9Lsn+9EAiNYTGQ2UfMHtliIp8YtQR99SePNiNyLLZaWfCspSbfILLZ2M8lCqMm6ZfbecIZx9+/4xIHzEk/LfF5Kw1psLCrQG9Y8VfGNZnlEuYwplzXzfDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738913140; c=relaxed/simple;
-	bh=RH1nZRu6/rvTiYwNWNvLjiMC9XfUG3eG9OzimREUwgU=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=YoQCrBV2LvRSe8oamQWo5soDI2UJvyFa6P/HYmtfDw6BGMGqvVjVjjb6iDis8XhJiyYVsd161gE3JM2Mw97L8MGB7pwheVdRJEhgi6xTeRmgyiJi9cwnuraDUZG3Ob7LoIX7/a2f+Egso+PgIdBfFj4RD6J4azzzQOGdAWpxfLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MMnApV3N; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MMnApV3N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BCD1C4CED1;
-	Fri,  7 Feb 2025 07:25:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738913139;
-	bh=RH1nZRu6/rvTiYwNWNvLjiMC9XfUG3eG9OzimREUwgU=;
-	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
-	b=MMnApV3NXZZMPZW3IGvqiDxdnVD7McmJuXaD2J2CFRVEEz1U5oOJ/73tGE0Vj18mw
-	 zA/YpQwJ20DYSsFFAdCpYuwRoh7owAExbbrSdecSTLrPijpZKy6hv7tRsFmhEQWouw
-	 7dhP3TgkVAGEQo5SYnGIG6xLpAOJKPUaWYNGapPzfSypfh0VeAtIT+jjhCcmE18NfJ
-	 R3VxW3NSXWK9L7LMptQauHv+P7c3n9d/gKQWa6EMt1u3y9ABEKWoP5jk59cK8badPw
-	 TbDrW4kCQmk9GcCGX90m4/yPY5oPEkElu7bKkv281t6Gmk5U1NCfSdiaMtNJ8llbi3
-	 pJcVrGGRDj97Q==
-Message-ID: <9dd0d7d40b9e178650c9c70a6a496568@kernel.org>
-Date: Fri, 07 Feb 2025 07:25:37 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v6 04/26] drm/bridge: panel: drm_panel_bridge_remove:
- warn when called on non-panel bridge
-In-Reply-To: <20250206-hotplug-drm-bridge-v6-4-9d6f2c9c3058@bootlin.com>
-References: <20250206-hotplug-drm-bridge-v6-4-9d6f2c9c3058@bootlin.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alexandre
- Belloni" <alexandre.belloni@bootlin.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Boris
- Brezillon" <bbrezillon@kernel.org>, "Catalin Marinas" <catalin.marinas@arm.com>, "Claudiu
- Beznea" <claudiu.beznea@tuxon.dev>, "Daniel Thompson" <danielt@kernel.org>, "David
- Airlie" <airlied@gmail.com>, "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, "Fabio
- Estevam" <festevam@gmail.com>, =?utf-8?b?SGVydsOpIENvZGluYQ==?= <herve.codina@bootlin.com>, "Inki
- Dae" <inki.dae@samsung.com>, "Jagan Teki" <jagan@amarulasolutions.com>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jessica Zhang" <quic_jesszhan@quicinc.com>, "Jonas
- Karlman" <jonas@kwiboo.se>, "Jonathan Corbet" <corbet@lwn.net>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marek
- Szyprowski" <m.szyprowski@samsung.com>, "Maxime Ripard" <mripard@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Nicolas Ferre" <nicolas.ferre@microchip.com>, "Paul
- Kocialkowski" <contact@paulk.fr>, "Paul Kocialkowski" <paul.kocialkowski@bootlin.com>, "Pengutronix
- Kernel Team" <kernel@pengutronix.de>, "Robert Foss" <rfoss@kernel.org>, "Sam
- Ravnborg" <sam@ravnborg.org>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Shawn
- Guo" <shawnguo@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Will
- Deacon" <will@kernel.org>
-Content-Transfer-Encoding: 7bit
+	s=arc-20240116; t=1738913770; c=relaxed/simple;
+	bh=KP0xPlJQnncOfGBLdKus6e0ffsRrhdP0K7kpQJEhrmk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EnO9dCmmhiwM167qlyJiz9kUicDTAIl7pobJ4JEX38sdB65W/VYpuXLlq5bm5s/2kbZjlO5hK+3+qM0QyGcVJ5wAW+twYGBcZyQ74MCAo4h+LSeUGulPOiCTR3lrfpv74ETBF8u+oruGKrqavCEtQ4xqLB86Wzw/wOfGUuS1Wlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com; spf=pass smtp.mailfrom=inspur.com; arc=none smtp.client-ip=210.51.26.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspur.com
+Received: from unicom145.biz-email.net
+        by unicom145.biz-email.net ((D)) with ASMTP (SSL) id EZP00148;
+        Fri, 07 Feb 2025 15:34:48 +0800
+Received: from jtjnmail201607.home.langchao.com (10.100.2.7) by
+ jtjnmail201609.home.langchao.com (10.100.2.9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 7 Feb 2025 15:34:47 +0800
+Received: from locahost.localdomain (10.94.12.190) by
+ jtjnmail201607.home.langchao.com (10.100.2.7) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 7 Feb 2025 15:34:47 +0800
+From: Charles Han <hanchunchao@inspur.com>
+To: <mkl@pengutronix.de>, <manivannan.sadhasivam@linaro.org>,
+	<thomas.kopp@microchip.com>, <mailhol.vincent@wanadoo.fr>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <cem@kernel.org>,
+	<djwong@kernel.org>, <corbet@lwn.net>
+CC: <linux-can@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-xfs@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, Charles Han <hanchunchao@inspur.com>
+Subject: [v2] Documentation: Remove repeated word in docs
+Date: Fri, 7 Feb 2025 15:34:29 +0800
+Message-ID: <20250207073433.23604-1-hanchunchao@inspur.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: Jtjnmail201617.home.langchao.com (10.100.2.17) To
+ jtjnmail201607.home.langchao.com (10.100.2.7)
+tUid: 20252071534487ca61296d0d4a6ca2047d9cd90f405c0
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 
-On Thu, 6 Feb 2025 19:14:19 +0100, Luca Ceresoli wrote:
-> This function is for panel_bridge instances only. The silent return when
-> invoked on other bridges might hide actual errors, so avoid them to go
-> unnoticed.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> [ ... ]
+Remove the repeated word "to" docs.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Charles Han <hanchunchao@inspur.com>
+---
+ .../devicetree/bindings/net/can/microchip,mcp251xfd.yaml      | 2 +-
+ Documentation/filesystems/xfs/xfs-online-fsck-design.rst      | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Thanks!
-Maxime
+diff --git a/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml b/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml
+index 2a98b26630cb..c155c9c6db39 100644
+--- a/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml
++++ b/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml
+@@ -40,7 +40,7 @@ properties:
+ 
+   microchip,rx-int-gpios:
+     description:
+-      GPIO phandle of GPIO connected to to INT1 pin of the MCP251XFD, which
++      GPIO phandle of GPIO connected to INT1 pin of the MCP251XFD, which
+       signals a pending RX interrupt.
+     maxItems: 1
+ 
+diff --git a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+index 12aa63840830..e231d127cd40 100644
+--- a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
++++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+@@ -4521,8 +4521,8 @@ Both online and offline repair can use this strategy.
+ | For this second effort, the ondisk parent pointer format as originally   |
+ | proposed was ``(parent_inum, parent_gen, dirent_pos) → (dirent_name)``.  |
+ | The format was changed during development to eliminate the requirement   |
+-| of repair tools needing to to ensure that the ``dirent_pos`` field       |
+-| always matched when reconstructing a directory.                          |
++| of repair tools needing to ensure that the ``dirent_pos`` field always   |
++| matched when reconstructing a directory.                                 |
+ |                                                                          |
+ | There were a few other ways to have solved that problem:                 |
+ |                                                                          |
+-- 
+2.43.0
+
