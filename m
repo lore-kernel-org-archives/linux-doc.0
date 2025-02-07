@@ -1,36 +1,36 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89301ACECF;
-	Fri,  7 Feb 2025 08:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED5B1ACECF;
+	Fri,  7 Feb 2025 08:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738918409; cv=none; b=Aq5R0RvI/vcmlfAXEjZf0nbtdKh1v/G2PWUldqwCobUX8NeKOjel+54KZTAJN3BAAynkRYNiwzNKn7vT48dJjKBRUQsHXXYxKhQYeElE445jd74+soqJJoLqvnbRPj1NpkjBbfYiY3Dn27bFvt1v00xFkL9eHdiLQHytey7H7XU=
+	t=1738918470; cv=none; b=G3+wY28zX0+U2EnTlevTH7vZLt+0vyT6A169Cn9rDpMvQNOsscXTAPX5y6AOXCBB4CBDmhaxgWGB5Gg9amHFGjIr/W9Jv/FFIo7EZGIDxqCgXdlZleljPF/CEPwPU6HmdtmNj6LxhrjnwDoYv+HB2EK1t9f38OikLgwcVP4mcj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738918409; c=relaxed/simple;
-	bh=HG64Mii3r6zRp9CmIsjmwviU3LgNGTvZ+/LQPp+MEls=;
+	s=arc-20240116; t=1738918470; c=relaxed/simple;
+	bh=VvVtv+HEUmE14dLKRk9XDGe384qIN1pMD+VqSdr40nE=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eNAtJ/Wby0ww6kqPpI1t7F/tz1mxPXs6D6/u7BbbVi0aT3nUZ9Vz0Oj6o5humaniCQ/N5N2+TUQEmzGOdME8yNOmnoa/Wo9/TF+bvVrqD6G+LAKWXl2gIl0LAcXhj1aNCUnUNZ2secDgUE7XD71S4LE9qezCvyHja1H49MHxLnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Jt11DHRq; arc=none smtp.client-ip=217.70.183.198
+	 MIME-Version:Content-Type; b=iEL3xbKmWcIAVSOw1d1ZNXiFwvM825OnMn6m5BDhvu5r+xZStv4jC5FhLP4Pkt39S9CtwmNYl8R1cfWFMsy2v5Obg4moSf5rAPJFmJHUNAF0/7EuY++0rsqMHDO0wp5MFWBiqGxEK8eyJGKPSszal5M7Lwp6eSf0IVrYEzP9St0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bRuyJMiT; arc=none smtp.client-ip=217.70.183.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Jt11DHRq"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A9912442CE;
-	Fri,  7 Feb 2025 08:53:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bRuyJMiT"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5221143421;
+	Fri,  7 Feb 2025 08:54:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1738918404;
+	t=1738918460;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mKxj3pSD0UwzMwdxWit8kdJvq0oc5hRaBZzxFkTM46k=;
-	b=Jt11DHRqH/hXBBUEMf6EkKmyU63Y9/C8UFL/hQXT+cT/sBvJcPNHnTdb21tQMKpXIIaS8n
-	Tjy72dAH3yPLxX3dqKeROQm5keBVXaUjd58v3UNMxIspmoEGRvwT69peKmMTNn0e6daa3V
-	al+b+2v6RA3XNUzYrjh+Ey+kJLdoxAbWb8xNz01kb1g5TW7VMLqikmvXvt4uv+Fj1KkHc1
-	DzrZkzZzMjh0JRsawywnNJabEBCijVEZfARH8y0/h/S76bj5yLmPNv8qg/6yDyiExoH/JF
-	SR5yL1Mt/orv91qMJq3j0p//MLNZTzIkWXA7UVywXc+HYC491xHAPngeJJyqBA==
-Date: Fri, 7 Feb 2025 09:53:18 +0100
+	bh=bIOirByBUe+Z/pgSS0CP2M68HwFVjUFI3KKx8O+0aLM=;
+	b=bRuyJMiTRrELEebdfdiA9B0NSk7cW0ACh8i8N6hUx8PLACKgule/KvdQcnqB9lKe7dUNw1
+	eD/BJlPRZFmDTaRa7bHHHXSO8ZtdQM9m5MgYCIMgoSMbVe4hSsFx+z3IfTeLJ5aT11v9Sa
+	AeUA2lH1hS9QJBP74PsqnxaNtwXAS/z2oEGU+Eyaz9Cb/rOSAwRUJ3CcwSBuWByv3RsfME
+	JSywNs/Mf/VjZNRgr9KyPKVoZxB/20BvhgAifmEsMu9OcuxHfasWSbrIde0nqYZFEYp74s
+	anr4OLGDP60vxZHT5o9+YQIWqgetIyGW7qMCZmOM2XnxIjC1YYPNsS7hEMd5KQ==
+Date: Fri, 7 Feb 2025 09:54:17 +0100
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
@@ -55,12 +55,13 @@ Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
  dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, Paul Kocialkowski
  <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 13/26] drm/encoder: add drm_encoder_cleanup_from()
-Message-ID: <20250207095318.2fc8d54e@booty>
-In-Reply-To: <spxzxwcs27uv2ttt5mh3r2767ihczvzzrtov6afdmex2ye7lam@r6kdqv5ocg5h>
+Subject: Re: [PATCH v6 05/26] drm/debugfs: add top-level 'bridges' file
+ showing all added bridges
+Message-ID: <20250207095417.4328d05e@booty>
+In-Reply-To: <vnmkwcqv74y6qxbgmq7s5fkodjxiaow3hbob7xacfw2n6tyuth@ldddeoshkqdp>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
-	<20250206-hotplug-drm-bridge-v6-13-9d6f2c9c3058@bootlin.com>
-	<spxzxwcs27uv2ttt5mh3r2767ihczvzzrtov6afdmex2ye7lam@r6kdqv5ocg5h>
+	<20250206-hotplug-drm-bridge-v6-5-9d6f2c9c3058@bootlin.com>
+	<vnmkwcqv74y6qxbgmq7s5fkodjxiaow3hbob7xacfw2n6tyuth@ldddeoshkqdp>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -73,68 +74,37 @@ Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeekgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefjedprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovheslhhinhgrrhhordhorhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehinhhkihdruggrvgesshgrmhhsuhhnghdrt
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeekgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefjedprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovheslhhinhgrrhhordhorhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehinhhkihdruggrvgesshgrmhhsuhhnghdrt
  ghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvrhhnvghlrdhorhhg
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Fri, 7 Feb 2025 05:03:13 +0200
+Hi Dmitry,
+
+On Fri, 7 Feb 2025 04:41:12 +0200
 Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
 
-> On Thu, Feb 06, 2025 at 07:14:28PM +0100, Luca Ceresoli wrote:
-> > Supporting hardware whose final part of the DRM pipeline can be physically
-> > removed requires the ability to detach all bridges from a given point to
-> > the end of the pipeline.
+> On Thu, Feb 06, 2025 at 07:14:20PM +0100, Luca Ceresoli wrote:
+> > The global bridges_list holding all the bridges between drm_bridge_add()
+> > and drm_bridge_remove() cannot be inspected via debugfs. Add a file showing
+> > it.
 > > 
-> > Introduce a variant of drm_encoder_cleanup() for this.
+> > To avoid code duplication, move the code printing a bridge info to a common
+> > function.
 > > 
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > Note: this change requires exporting bridge_list and the mutex protecting
+> > it.
 > > 
-> > ---
-> > 
-> > Changes in v6: none
-> > Changes in v5: none
-> > Changes in v4: none
-> > Changes in v3: none
-> > 
-> > Changed in v2:
-> >  - fix a typo in a comment
-> > ---
-> >  drivers/gpu/drm/drm_encoder.c | 21 +++++++++++++++++++++
-> >  include/drm/drm_encoder.h     |  1 +
-> >  2 files changed, 22 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
-> > index 8f2bc6a28482229fd0b030a1958f87753ad7885f..472dfbefe2960924a4e83bec425af8c7ef5f5265 100644
-> > --- a/drivers/gpu/drm/drm_encoder.c
-> > +++ b/drivers/gpu/drm/drm_encoder.c
-> > @@ -207,6 +207,27 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
-> >  }
-> >  EXPORT_SYMBOL(drm_encoder_cleanup);
-> >  
-> > +/**
-> > + * drm_encoder_cleanup_from - remove a given bridge and all the following
-> > + * @encoder: encoder whole list of bridges shall be pruned
-> > + * @bridge: first bridge to remove
-> > + *
-> > + * Removes from an encoder all the bridges starting with a given bridge
-> > + * and until the end of the chain.
-> > + *
-> > + * This should not be used in "normal" DRM pipelines. It is only useful for
-> > + * devices whose final part of the DRM chain can be physically removed and
-> > + * later reconnected (possibly with different hardware).
-> > + */
-> > +void drm_encoder_cleanup_from(struct drm_encoder *encoder, struct drm_bridge *bridge)
-> > +{
-> > +	struct drm_bridge *next;
-> > +
-> > +	list_for_each_entry_safe_from(bridge, next, &encoder->bridge_chain, chain_node)
-> > +		drm_bridge_detach(bridge);
-> > +}
-> > +EXPORT_SYMBOL(drm_encoder_cleanup_from);  
+> > Also add a comment about bridge_lock to make checkpatch happy.  
 > 
-> Shouldn't drm_encoder_cleanup() also use this function?
+> I think, exporting mutex _and_ a list is a bad idea (especially since
+> they don't have a proper prefix). It might be better to make the
+> bridge_print() function a more public one (and name it
+> drm_bridge_print()) and move allbridges attribute definition to
+> drm_bridge.c
 
-Sure. I'll do it in v7.
+I was also not happy with exporting these two symbols, and agree
+exporting a print function from drm_bridge.c is cleaner. I'll rearrange
+this for v7.
 
 Luca
 
