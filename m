@@ -1,226 +1,154 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1E61624E9
-	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 03:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB0A4EB51;
+	Fri,  7 Feb 2025 03:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738898270; cv=none; b=Mawtpn8pnk9A1VN9GtK1OvOKZyRXeyYfKDPz4KEFQRUW9vEGGpiPHjthIyPvxreZ1jMVNsopoCpTa40EeTyg/SbbirUz5hRWPpQot5Kn4gL/SsN0670z6LDBTmMkCLN1uGS/HPJiyOg2H0dWe0hKGOaeFiGagE//vLe+sv0LyBM=
+	t=1738898396; cv=none; b=R72qq8msz/G9BeUyjXOYwsl7Fwjv5ZpYRA8OujFtUtnq17IFZFOPAKH1Z/mlBm8uuw5bJDBnk4IYq0c2K4ytIgiBUDQF3NXWm+jMjQCgET1mo2eK7JalShy0tYXBPtX5vlxLa3tlaBt4kBpZtSAfVGXI0zD7wpTtGf8aeR4fKCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738898270; c=relaxed/simple;
-	bh=uvivVCMiOcxUCIpgv+1nEhxOGPfz3p2u4mzomXHP6kw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I5MfSGLqd6wN5t8TOKd2B/uP25rh/W23toOJyllDk1MTe6TUBadQgnhzSlZrrrYlIv5KvKNrFKTY7oU7K7PQf/WP9eScXIaVoZusURRR1H5d8PWKYuqtwtl9r650vSRJ0k5wChpzHwtYbxm1veH2s4ekoXsTPqrMAk155cKhV9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=htv6afQ+; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1738898396; c=relaxed/simple;
+	bh=JG956fzd0jjhmlxEzXChxzrS6pPluJ2zkfnPj+42JTI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BgWqNkHr2ngT2o0L3TOzZjC2fV04mcVHnVPU2tAQDPYF5zvb/U+ds6bPLqiG3yyBmnyeGeoudgWe1UCvObshEZkXuMJyeHLJVM94FdIJ5LR4M6MRuyutj1roYjBhI+MKb5138gJo0VP+AVkWUJ+Lj+coY5U/qoqMWYCQgBVEoKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Pyt6U0nA; arc=none smtp.client-ip=18.194.254.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="htv6afQ+"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54298ec925bso1952523e87.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 19:17:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738898266; x=1739503066; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=17pakd/Znr7AQ717iCmCdIgifIQxR3pgh2Z0bF8TxTs=;
-        b=htv6afQ+VCXeagoXWB34SIiHR9O/0vWp54CANcvCWPC0izYRRmoXMkKaaBBk6qN4eZ
-         oKZUaZF3+bI4XTF7gL9gIpBG5WJiZxarpPQ+uF2wkXRtjVW0FUbITCFwvKFO0uxTEt43
-         sICFr+gR+FgshgmPlkxdyf6PnESn7CnVcn2d0RIuH5YTcHjTdoovcG3UKV8ZXs4KeGfN
-         a+uKbEkF5xSV7Pa4Gdt+/IkVxaPQdxBT+aK8VUH7tJe2yPZYC/UVI9w1HZBMX/lqlRhm
-         Ye4L+v3dxU3yal14rZtH+U1yho8byk4qvJ/m5lBeObwLyYRibMsWatjToKcooOqZ410c
-         3VzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738898266; x=1739503066;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=17pakd/Znr7AQ717iCmCdIgifIQxR3pgh2Z0bF8TxTs=;
-        b=EElEswY7LAi50BxGeZJH1BKW8IbI/YV0JIVswhqiB1JFwp47Je6PNFpb67mVai4XL/
-         sJDdG6VyLuo+C1H39nwHHbTQmV0woOCMD5WdgiH4NSYGqHbEoJmlVNNtCFg550v0AxWo
-         9BYspDvvouiW+ne6dXE6EgwuEUyqBOlwpeFXAJc6lF92sBleGUC++hm2+WqO6LnYg2/b
-         89qdHVfnRbxH78RfMNNylqtlp4XUpIp5fFmZNgi+D07EEytcGPeJW4Mu/HI1tZy+6aQS
-         NaHhCNaKSaBaptiEx3sB76tySM8DSHzptLvMLj832b47GteMOc40K2WlD/siDysShZkJ
-         dR1w==
-X-Forwarded-Encrypted: i=1; AJvYcCX00VDavxuEHH0QNXl+N+gFtVnn1mRN7WNdBwn8IvQPC3jh0BFD5KdYcFXu+DfrPArA0NP/albAB/4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQZ72Al1hyVMwKD5ovU5IPS+kAuOgulo3ol/kcbP80BeFQUq2b
-	4D3A4aFLXLvxqE0fBzY8HBeO/D/8NReOEXtefuK08yVNAw5UKGL1OxvyLqHVkYs=
-X-Gm-Gg: ASbGncuvOopRaJNBCxyPQoCmoxT+4aQS1qsxyL02scOIpJyiwcePl5jV58jF1ZbSsX+
-	o/9lrIWa9DUSCES+iCazwZ2YE0uXVP1CNZlZ52kBlPE2kLlh07gf+3QeSs8/2+SFHZQwYTiH4zK
-	IWiU5OnovtDLgeB7PzUrtc5IqB7lHmTHQ8SeIp0wzgVNbwzyaDmCLAnnbSFGxiX9/PXrToqNuNL
-	F8Mc+TBrl6ayiktDpER+1pIbiBbzF1J0qA9xWyzdm4UybvdYAIDVvXCRI8ZQn8RGPx+UHTxzGw0
-	COyl3yKNXX7rT0lVj/+cpl6gsSG8hKMjclBuSjIYWcut+mQWmzbGl7RIC9YSrSHj2epBcmM=
-X-Google-Smtp-Source: AGHT+IGFRWR3LZSENTzR1jrQjMzeY7hexf5uTv34xRfQ9DibP0IYIH3nm+4A52IVjL038EoBPPmYtg==
-X-Received: by 2002:a05:6512:2105:b0:53e:ca48:776e with SMTP id 2adb3069b0e04-54414b043d3mr248350e87.36.1738898266070;
-        Thu, 06 Feb 2025 19:17:46 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54410603876sm310371e87.211.2025.02.06.19.17.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 19:17:44 -0800 (PST)
-Date: Fri, 7 Feb 2025 05:17:43 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	=?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 15/26] drm/bridge: devm_drm_of_get_bridge and
- drmm_of_get_bridge: automatically put the bridge
-Message-ID: <w3qufv73ldzdcfuz6n3prx4di2dhoq2wfqmmvxvxkea6uqxkge@pjwmugvicsbt>
-References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
- <20250206-hotplug-drm-bridge-v6-15-9d6f2c9c3058@bootlin.com>
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Pyt6U0nA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1738898339;
+	bh=YSXkgYzjJL7wborCG9TYyTnNqOq5SypQ1Pi6JB7VMKg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=Pyt6U0nA9QvtcU56VLnjCRbvv5qKHh2ZWjhKmk5BVT4q6SFGflcM0M5AqUrCGdrVx
+	 b7iEW9Wb9w18SL5fTJwSpDcxqZ4+TgEMRWo2CB/t4WHvTXsHVHcXpbnOcCMV4VMXcV
+	 zuMukEkXD0QefXsVMroIg2D9nuPfPi7FrV1MAVpk=
+X-QQ-mid: bizesmtpip4t1738898297t0gn14q
+X-QQ-Originating-IP: gjY1fGp2RJL2iF8bGq+qp4sf+tdNAN9lTtRwnSnF1QI=
+Received: from localhost.localdomain ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 07 Feb 2025 11:18:15 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 1343161272209656644
+From: WangYuli <wangyuli@uniontech.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net,
+	wangyuli@uniontech.com,
+	dzm91@hust.edu.cn
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	horms@kernel.org,
+	zhanjun@uniontech.com,
+	guanwentao@uniontech.com,
+	chenlinxuan@uniontech.com
+Subject: [PATCH v2] docs/zh_CN: Update the translation of dev-tools/ubsan to v6.14-rc1
+Date: Fri,  7 Feb 2025 11:18:11 +0800
+Message-ID: <EE89209B6353C426+20250207031812.15023-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250206-hotplug-drm-bridge-v6-15-9d6f2c9c3058@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MvW0gkkpO9JeUiOgB3s70gG6I0YJZW6apTznjN8tmLJGNRDI8HXwowds
+	yAR0mWq8NS6WSk2kHHCbFHZqwhP+czKD8ntZlF1sumnlkvwEEdOZYtnqGiQRCPwXJ306yp+
+	ZTtJCADyNsaDaDGHABuyn2oi/UGA0gEFoEUQjBRQznWq0e7VqHaxGFDel9CLQdGMNXd+GuW
+	X9/X68gVLEoyZXLZWktsBS5SIzj0FRpWz20QDX4qo/R+ysTL1qlrPHBxyTKUiNUc2gm/SPo
+	T6cnEjdGa7lTgyh60FQaq60zoFXrkI5mL1k/uWRFVH0YqPNw2NdVZAxOCLKfWJwGOdVKzen
+	r4XnNJPcDGadNDmVtZLB+JxzU5ql89tRl5rQL5zWTRkM8PHF5nCE5E9LjWoHamMBdKRR8+R
+	ztEl9XSvwugAfrB+2ezgWifVtslNAQhx6otLvsuteuUhZTxnQIjYCJCcqsGsFFW2Amb/Vwj
+	QXKEKhAq/UsZxmk0jp6tIUK0WptbeLNFwPNmjec6CM8nC+uZPnwF5e5w8Vrkm9J5V6hwA/r
+	cW4NBafGL/1AZrFoXiD0XCX3vJ3744+EK4rcp6mwB1yl17oeaRKmVJA0+QdQ6Z5c9AGSXj4
+	L6UOozbUk8YAhl5rZ/g+fGi12JjHx8YMGcfJNcMBsbkeyBV4hYLmj7H4pZDCbBLKiWggXTV
+	Tvp1g/CNDhAElaskrxgKQQxmgSlqFe4mXEyci9HJCIMxIjjXTkJ3woqu73QPkIYdEprtRd4
+	fXQM7RHDmBbXdlBqbszSrKA4Pxc8kXbT+klMDf1E/zJz8WTpsmaH93Sorlrvs/F4ynNIMCL
+	RbEaj9EGzr6n36qwOri9462NP267JV4ULKJTTnMicUnGuxi8ooOKYkv4DHWaqt9t9RwucH9
+	yHltPQZVeTIkH4514Z4IMhfE3Ckzf/Egdj704VygzZKUmCFWrHRBAN2unExctTe1ZQZc75p
+	HS8iOrsQDMnAAXL92IzNz1CCXZfPFG+BKi9JIMRdsDJxrvAksNhKYDwKtMve8ddeyChZarW
+	MZDxx5Aw==
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+X-QQ-RECHKSPAM: 0
 
-On Thu, Feb 06, 2025 at 07:14:30PM +0100, Luca Ceresoli wrote:
-> Add a devm/drmm action to these functions so the bridge reference is
-> dropped automatically when the caller is removed.
+Commit 918327e9b7ff ("ubsan: Remove CONFIG_UBSAN_SANITIZE_ALL")
+removed the CONFIG_UBSAN_SANITIZE_ALL configuration option. Update
+the Chinese documentation accordingly and revise the document format
+by the way.
 
-I think the get() should go to the underlying of_drm_bridge_find() function.
+Link: https://lore.kernel.org/all/6F05157E5E157493+20250123043258.149643-1-wangyuli@uniontech.com/
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
+---
+Changelog:
+ *v1->v2: Update commit title to v6.14-rc1 and add Dongliang Mu's Chinese name.
+---
+ .../translations/zh_CN/dev-tools/ubsan.rst    | 35 +++++++++----------
+ 1 file changed, 17 insertions(+), 18 deletions(-)
 
-Also it really feels like it's an overkill to keep the wrappers. After
-getting bridge being handled by the panel code would it be possible to
-drop all of them? Then this patch might introduce one new devm_
-function? Or are drmm_ functions actually being used to store data in
-the drmm-managed memory?
-
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> ---
-> 
-> This patch was added in v6.
-> ---
->  drivers/gpu/drm/drm_bridge.c | 39 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index f694b32ca59cb91c32846bc00b43360df41cc1ad..497ec06dfcb05ab5dee8ea5e8f1eafb9c2807612 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -33,6 +33,7 @@
->  #include <drm/drm_edid.h>
->  #include <drm/drm_encoder.h>
->  #include <drm/drm_file.h>
-> +#include <drm/drm_managed.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_print.h>
->  
-> @@ -1459,6 +1460,13 @@ static int of_drm_find_bridge_by_endpoint(const struct device_node *np,
->  	return ret;
->  }
->  
-> +static void devm_drm_bridge_put_void(void *data)
-> +{
-> +	struct drm_bridge *bridge = (struct drm_bridge *)data;
-> +
-> +	drm_bridge_put(bridge);
-> +}
-> +
->  /**
->   * devm_drm_of_get_bridge - Return next bridge in the chain
->   * @dev: device to tie the bridge lifetime to
-> @@ -1469,6 +1477,10 @@ static int of_drm_find_bridge_by_endpoint(const struct device_node *np,
->   * Given a DT node's port and endpoint number, finds the connected node
->   * and returns the associated bridge if any.
->   *
-> + * The refcount of the returned bridge is incremented, but the caller does
-> + * not have to call drm_bridge_put() when done with the bridge. It will be
-> + * done by devres when @dev is removed.
-> + *
->   * Returns a pointer to the bridge if successful, or an error pointer
->   * otherwise.
->   */
-> @@ -1483,6 +1495,10 @@ struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
->  	if (ret)
->  		return ERR_PTR(ret);
->  
-> +	ret = devm_add_action_or_reset(dev, devm_drm_bridge_put_void, bridge);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
->  	return bridge;
->  }
->  EXPORT_SYMBOL(devm_drm_of_get_bridge);
-> @@ -1497,6 +1513,10 @@ EXPORT_SYMBOL(devm_drm_of_get_bridge);
->   * graph link search is not enough, e.g. for drivers that need to support
->   * panels described only as subnodes.
->   *
-> + * The refcount of the returned bridge is incremented, but the caller does
-> + * not have to call drm_bridge_put() when done with the bridge. It will be
-> + * done by devres when @dev is removed.
-> + *
->   * RETURNS:
->   * A pointer to the bridge if successful, or an error pointer otherwise.
->   */
-> @@ -1513,10 +1533,21 @@ struct drm_bridge *devm_drm_of_get_bridge_by_node(struct device *dev,
->  	if (!bridge)
->  		return ERR_PTR(-ENODEV);
->  
-> +	ret = devm_add_action_or_reset(dev, devm_drm_bridge_put_void, bridge);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
->  	return bridge;
->  }
->  EXPORT_SYMBOL(devm_drm_of_get_bridge_by_node);
->  
-> +static void drmm_bridge_put_void(struct drm_device *drm, void *ptr)
-> +{
-> +	struct drm_bridge *bridge = ptr;
-> +
-> +	drm_bridge_put(bridge);
-> +}
-> +
->  /**
->   * drmm_of_get_bridge - Return next bridge in the chain
->   * @drm: device to tie the bridge lifetime to
-> @@ -1527,6 +1558,10 @@ EXPORT_SYMBOL(devm_drm_of_get_bridge_by_node);
->   * Given a DT node's port and endpoint number, finds the connected node
->   * and returns the associated bridge if any.
->   *
-> + * The refcount of the returned bridge is incremented, but the caller does
-> + * not have to call drm_bridge_put() when done with the bridge. It will be
-> + * done by drmm when @dev is removed.
-> + *
->   * Returns a drmm managed pointer to the bridge if successful, or an error
->   * pointer otherwise.
->   */
-> @@ -1541,6 +1576,10 @@ struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
->  	if (ret)
->  		return ERR_PTR(ret);
->  
-> +	ret = drmm_add_action_or_reset(drm, drmm_bridge_put_void, bridge);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
->  	return bridge;
->  }
->  EXPORT_SYMBOL(drmm_of_get_bridge);
-> 
-> -- 
-> 2.34.1
-> 
-
+diff --git a/Documentation/translations/zh_CN/dev-tools/ubsan.rst b/Documentation/translations/zh_CN/dev-tools/ubsan.rst
+index 2487696b3772..a4d4d4c6d157 100644
+--- a/Documentation/translations/zh_CN/dev-tools/ubsan.rst
++++ b/Documentation/translations/zh_CN/dev-tools/ubsan.rst
+@@ -3,7 +3,16 @@
+ .. include:: ../disclaimer-zh_CN.rst
+ 
+ :Original: Documentation/dev-tools/ubsan.rst
+-:Translator: Dongliang Mu <dzm91@hust.edu.cn>
++
++:翻译:
++
++ 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
++
++:校译:
++
++ 王昱力 WangYuli <wangyuli@uniontech.com>
++
++.. _cn_ubsan:
+ 
+ 未定义行为消毒剂 - UBSAN
+ ====================================
+@@ -55,30 +64,20 @@ GCC自4.9.x [1_] （详见 ``-fsanitize=undefined`` 选项及其子选项）版
+ 
+ 使用如下内核配置启用UBSAN::
+ 
+-	CONFIG_UBSAN=y
+-
+-使用如下内核配置检查整个内核::
+-
+-        CONFIG_UBSAN_SANITIZE_ALL=y
++  CONFIG_UBSAN=y
+ 
+-为了在特定文件或目录启动代码插桩，需要在相应的内核Makefile中添加一行类似内容:
+-
+-- 单文件（如main.o）::
+-
+-    UBSAN_SANITIZE_main.o := y
+-
+-- 一个目录中的所有文件::
+-
+-    UBSAN_SANITIZE := y
+-
+-即使设置了``CONFIG_UBSAN_SANITIZE_ALL=y``，为了避免文件被插桩，可使用::
++排除要被检测的文件::
+ 
+   UBSAN_SANITIZE_main.o := n
+ 
+-与::
++排除一个目录中的所有文件::
+ 
+   UBSAN_SANITIZE := n
+ 
++当全部文件都被禁用，可通过如下方式为特定文件启用::
++
++  UBSAN_SANITIZE_main.o := y
++
+ 未对齐的内存访问检测可通过开启独立选项 - CONFIG_UBSAN_ALIGNMENT 检测。
+ 该选项在支持未对齐访问的架构上(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y)
+ 默认为关闭。该选项仍可通过内核配置启用，但它将产生大量的UBSAN报告。
 -- 
-With best wishes
-Dmitry
+2.47.2
+
