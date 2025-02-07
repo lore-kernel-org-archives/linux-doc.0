@@ -1,36 +1,36 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4FA1D63EB;
-	Fri,  7 Feb 2025 08:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DF91A9B48;
+	Fri,  7 Feb 2025 08:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738918519; cv=none; b=CWUJoNvi2a2lECBSOKXKdor2fEcmbp9VCn1i0POTCNC/T0kVEpoQqy8wy0/L2WGRyKZdmby1gtzyEC13U3fZRSJbPj2Bw+WwPnM8aU/QXHbgLJ/OPuLfjGrdFSznL8NM4/Q4PPZ0LQLqFLm1Dy3WsIQqLIR5qaqCju/bivZqulE=
+	t=1738918753; cv=none; b=bJmcFYcsflnFFQ9Cv5eddlaKEhkbpinox9h5nUdmxidWuGj0YGWdHZGV7wDvOXWWks/zFJUhlkwmwu1SIsKigGnpwg8WFCP8cFv+ZTTNIe2eYJja+NX1pvNY7GFZTG/EMZp9v/HtAtG/10bpa8QxFSk78nFAGh/wsOLUtRI3qUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738918519; c=relaxed/simple;
-	bh=xmRmWDujecPEI19urgcmISHom1fsMZN2Uhn3Jrrly8g=;
+	s=arc-20240116; t=1738918753; c=relaxed/simple;
+	bh=Q4j27tE8EcIHMIt1PgSMISXAmVSJEvtj2JTSOQQaBgs=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A69emz33HX8RpyBGbRY27DErJIgx1fMZZd0DDpTej9ZeQDBgkFui1bkEfTPRrHezTOoGhVZ0rmQmdHMAME2oV5D6qesl2rkZULFSVwU5dLPIAMjXHB8xCNaUKKl8BWX81vfZ8xWH3OfheCTV7bKqakDfJvYvCJdEQlV6jWrrw4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OmZshL39; arc=none smtp.client-ip=217.70.183.199
+	 MIME-Version:Content-Type; b=B7B/7npqvgR3HLiAvMqlPDZbZtKwRSpGh2DcycJmbb804zzvI20AluD+17wXs0Gq0pzVYWSsqq4wo/Fm/rEZL0sX7UgxcEQakJCk0OVPlIFXnc4sbYWKifofsyYjGfk19WSbcHEklS7QLch2SwmSxhsBIlHKR2Ksw85To1Kp2xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jeWFhEhU; arc=none smtp.client-ip=217.70.183.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OmZshL39"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CAAAC4430D;
-	Fri,  7 Feb 2025 08:54:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jeWFhEhU"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 766B44439C;
+	Fri,  7 Feb 2025 08:59:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1738918447;
+	t=1738918748;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MXvhynDFLGl2VG/eD2ULksaHNrcYF1H4SjCXfYiNuEI=;
-	b=OmZshL39S+98eneP+hu/yjwtRqSkN58pfmU6nEjLJ1fB2ngGo7EG8Jk3/PFROC3BjDVuiI
-	NueKOrYh7sitc4edomP/fP7o1sBn3DSrsTiYu6W+k4QrlGhPlwF8xj3bD3uTlx0lT67tu2
-	/bn0hjZxKiAYwZVyV26IUo8VRvnS1dVh0ByDMj7XmzyOwRcRALa4EFkHHuAB4IqKLzLNoD
-	G1EX8/1nTBTNzt03u/7FvmzRbV0s8/8wi7WBRWb+GOokfKTFpq3qbkzcYwImsj/XwKMR6i
-	twMR4vtXSpPq7Y8WWF88REIwETi5bN7PfW/ChNLAJBzg+GAeHxkhA+YOXBBvoA==
-Date: Fri, 7 Feb 2025 09:54:01 +0100
+	bh=HS5RaRTjPPs886uKnPgM9Gu4eihbomnvhbN7rWX9FJs=;
+	b=jeWFhEhU3AQBw6HUma0NVg4uS9fJGRBckJvDPWZ6YuxA4UwHthsb/TZsi3FG3QeaxWxcX+
+	0VPhcFKQBKr7SMFDKGes8Y4TvHYYk+d6c/qzbN1B56KyiSkebZ68WK4X8R8tmzna8TT0OJ
+	q0o9NYIDYRa0ZG9zbJz/8hN73ihXnes/B8UghLrw5G740zV+AjqsUEJDeDjVL/m6/kiqLb
+	wVREEubJnZJYbHoKQlT+I8ODosFtev9JhuWRdSzv3WOBz8Z7DYXAJ4ursFyC4sFKpu7pz8
+	NQ1baJE3OfzTX5GvrPaONZndiwdcqMlEnVIuqC4imfdG1KUCCDFlE6y8yVZiQw==
+Date: Fri, 7 Feb 2025 09:59:04 +0100
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
@@ -55,13 +55,13 @@ Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
  dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, Paul Kocialkowski
  <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 11/26] drm/bridge: samsung-dsim: use
- devm_drm_of_get_bridge[_by_node] to find the out_bridge
-Message-ID: <20250207095401.42d7871d@booty>
-In-Reply-To: <hc6llejnkhj5uaj5o4fof64hmderfcbfkrburv7nmqwzq2jnin@nac32akftsbm>
+Subject: Re: [PATCH v6 04/26] drm/bridge: panel: drm_panel_bridge_remove:
+ warn when called on non-panel bridge
+Message-ID: <20250207095904.478df621@booty>
+In-Reply-To: <cpe634qeg46gfph6diw7lshdiolnpmuik3nmd4fpayg4st5r55@5bcfdwjme7z7>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
-	<20250206-hotplug-drm-bridge-v6-11-9d6f2c9c3058@bootlin.com>
-	<hc6llejnkhj5uaj5o4fof64hmderfcbfkrburv7nmqwzq2jnin@nac32akftsbm>
+	<20250206-hotplug-drm-bridge-v6-4-9d6f2c9c3058@bootlin.com>
+	<cpe634qeg46gfph6diw7lshdiolnpmuik3nmd4fpayg4st5r55@5bcfdwjme7z7>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -74,142 +74,23 @@ Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeekgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefjedprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovheslhhinhgrrhhordhorhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehinhhkihdruggrvgesshgrmhhsuhhnghdrt
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeekiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefjedprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovheslhhinhgrrhhordhorhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehinhhkihdruggrvgesshgrmhhsuhhnghdrt
  ghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvrhhnvghlrdhorhhg
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Fri, 7 Feb 2025 04:55:54 +0200
+On Fri, 7 Feb 2025 04:22:25 +0200
 Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
 
-> On Thu, Feb 06, 2025 at 07:14:26PM +0100, Luca Ceresoli wrote:
-> > In order to support panels described either via graph links or via a
-> > subnode (e.g. "panel@0"), this driver uses low-level deprecated functions
-> > to find the next bridge. The resulting logic is complex and duplicates code
-> > already present in the DRM bridge core. Switch to the new APIs in DRM
-> > bridge core that allow to do the same in a much cleaner way.
-> > 
-> > Note there are two slight changes in the new logic intended to improve the
-> > final result:
-> > 
-> >  * the old code looks for a subnode with any name except "port" or "ports",
-> >    while the new code uses the node passed as a parameter
-> > 
-> >  * the old code looks for a subnode first and falls back to a graph link,
-> >    while the new code uses the reverse order because graph links are the
-> >    recommended device tree representation now
-> > 
-> > The first change makes the code more robust by avoiding the risk of using
-> > an unrelated node which is not describing a panel and not names "port" or
-> > "ports".
-> > 
-> > The second change is not expected to expose regressions because, in the
-> > cases where both a subnode and a graph link are used to describe a panel,
-> > the graph link should point to the subnode itself, such as in
-> > arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dts
-> > 
-> > As a further cleanup, use a temporary variable to assign dsi->out_bridge
-> > only on success. This avoids the risk of leaving a non-NULL value in
-> > dsi->out_bridge when samsung_dsim_host_attach() fails.
-> > 
-> > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > 
-> > ---
-> > 
-> > This patch was added in v6.
-> > ---
-> >  drivers/gpu/drm/bridge/samsung-dsim.c | 55 ++++++-----------------------------
-> >  1 file changed, 9 insertions(+), 46 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > index f8b4fb8357659018ec0db65374ee5d05330639ae..bbd0a4f5a3f52b61bf48f10d6e8ca741bffa5e46 100644
-> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > @@ -1704,55 +1704,16 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
-> >  	const struct samsung_dsim_plat_data *pdata = dsi->plat_data;
-> >  	struct device *dev = dsi->dev;
-> >  	struct device_node *np = dev->of_node;
-> > -	struct device_node *remote;
-> > -	struct drm_panel *panel;
-> > +	struct drm_bridge *out_bridge;
-> >  	int ret;
-> >  
-> > -	/*
-> > -	 * Devices can also be child nodes when we also control that device
-> > -	 * through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
-> > -	 *
-> > -	 * Lookup for a child node of the given parent that isn't either port
-> > -	 * or ports.
-> > -	 */  
+> On Thu, Feb 06, 2025 at 07:14:19PM +0100, Luca Ceresoli wrote:
+> > This function is for panel_bridge instances only. The silent return when
+> > invoked on other bridges might hide actual errors, so avoid them to go
+> > unnoticed.  
 > 
-> Please leave the comment in place (maybe rewrite it slightly).
+> Is there a real case of something using this function in a wrong way?
 
-OK
-
-> > -	for_each_available_child_of_node(np, remote) {
-> > -		if (of_node_name_eq(remote, "port") ||
-> > -		    of_node_name_eq(remote, "ports"))
-> > -			continue;
-> > +	out_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
-> > +	if (IS_ERR(out_bridge) && PTR_ERR(out_bridge) != -EPROBE_DEFER)  
-> 
-> Can it actually return EPROBE_DEFER?
-
-It can't indeed. Dropping the second condition.
-
-> 
-> > +		out_bridge = devm_drm_of_get_bridge_by_node(dev, device->dev.of_node);
-> >  
-> > -		goto of_find_panel_or_bridge;
-> > -	}
-> > -
-> > -	/*
-> > -	 * of_graph_get_remote_node() produces a noisy error message if port
-> > -	 * node isn't found and the absence of the port is a legit case here,
-> > -	 * so at first we silently check whether graph presents in the
-> > -	 * device-tree node.
-> > -	 */
-> > -	if (!of_graph_is_present(np))
-> > -		return -ENODEV;
-> > -
-> > -	remote = of_graph_get_remote_node(np, 1, 0);
-> > -
-> > -of_find_panel_or_bridge:
-> > -	if (!remote)
-> > -		return -ENODEV;
-> > -
-> > -	panel = of_drm_find_panel(remote);
-> > -	if (!IS_ERR(panel)) {
-> > -		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
-> > -	} else {
-> > -		dsi->out_bridge = of_drm_find_bridge(remote);
-> > -		if (!dsi->out_bridge)
-> > -			dsi->out_bridge = ERR_PTR(-EINVAL);
-> > -	}
-> > -
-> > -	of_node_put(remote);
-> > -
-> > -	if (IS_ERR(dsi->out_bridge)) {
-> > -		ret = PTR_ERR(dsi->out_bridge);
-> > -		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
-> > -		return ret;
-> > +	if (IS_ERR(out_bridge)) {
-> > +		DRM_DEV_ERROR(dev, "failed to find the bridge: %ld\n", PTR_ERR(out_bridge));
-> > +		return PTR_ERR(out_bridge);
-> >  	}
-> >  
-> >  	DRM_DEV_INFO(dev, "Attached %s device (lanes:%d bpp:%d mode-flags:0x%lx)\n",
-> > @@ -1784,6 +1745,8 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
-> >  	dsi->format = device->format;
-> >  	dsi->mode_flags = device->mode_flags;
-> >  
-> > +	dsi->out_bridge = out_bridge;
-> > +  
-> 
-> Please move the assignment closer to the original place.
-
-OK. With this change it doesn't make sense to have a temporary
-out_bridge variable, so I'll drop it as well.
+I don't know, but there was one in my v5 code. Having this warning
+would have saved me a lot of debugging, so it looked useful for future
+developers.
 
 Luca
 
