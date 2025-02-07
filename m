@@ -1,151 +1,100 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from mail-m3295.qiye.163.com (mail-m3295.qiye.163.com [220.197.32.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FC11DDC20;
-	Fri,  7 Feb 2025 10:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CCF80BFF
+	for <linux-doc@vger.kernel.org>; Fri,  7 Feb 2025 10:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738922918; cv=none; b=hSm62H6u2/V4GvgY/IkE6RqimZGFwKhVBqtoCQTZU/zFmtJyS8GY/sZVENlylC6mdPzEziyAw9hjJ25AZUJMA80NEnoHeHZf3pPsGmcVSpeFfDOzjzOGGTj7EuC1Tdx+NVc2o01+GW8a0LtiINVXKkELlmFBrg9JjUvfj6WH/XU=
+	t=1738923558; cv=none; b=ND6Lf2pco4u+Z0yqf1Xj/eAQa7MiRs4UnZTmSZ4/LaQ7UO8kk90dAStbAE1oR02ZHslhf8hlf7zG1O1Y7Da8OD0LcwKgMr8SVjktUigHuq2WAiSia+WGi214t1KgXDvJdBLnS+NZHMjfPQ++4GOYmNiP4Uv47NG3QWRqH9h/ozA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738922918; c=relaxed/simple;
-	bh=J/JUWUCK4kpkkbEK+sQLADV0oKlnmD/NccRgd5SIFGo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KjUKBV1eR6Nj65tsNcJaWsC88gM5gyr5sY9qAXePBpA0iVp9hIr561F9ZSZyN3KgNzYFzidwJqNmneHV/vb3XVP8S1KhGFE5t/+jnX2UPeiZnE1Orug0RCEsOTirBpmbNTeysQKjyJfttQG7brfC9k7GllB0/+8+6G9dRSjqnvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=bV3dz7rs; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1738923558; c=relaxed/simple;
+	bh=Eg9Iy6P4nhfZd0y7KRhFmlmaJbeE8N74sLffuETqaSY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rDE7P7QQNnsVbJb4PwHvaD5yqmJVFh9E+dFrFKoa7zxXr7dPPoxhwEyoc+6GtgWU2zGgOZk+KxVXFOsQnNJcjFQeJitneMJ+1fGjZmh2tttS16Uz6ciU2aRTRew6CtZQhXssLdf52M0sATLfBoyiwzTBv0ShdpMy0uFPSzzpcBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=d15PdozT; arc=none smtp.client-ip=220.197.32.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="bV3dz7rs"
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 517A7KPc808431
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 7 Feb 2025 02:07:21 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 517A7KPc808431
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025011701; t=1738922846;
-	bh=Apwz20nr9hCUwMVgMKbHMnfyZuL4SglzqGtqKxOJ21I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bV3dz7rsFhszfbESJYNdVNekHYbwlEgXeM+cVsVyDyupingS/NWqCjWbxO+j63tdU
-	 Z51W/2GsoVa4pc8WvKoNqXtxkwJwXTXJGwHsqpYVIxdmpLgQnlEUkKdTXGPzzM5gWB
-	 cwz1ERdibEmXiECqvuAvaykF1xqzkw3WEZmFipeDgGe4I6Kk4f35pPo2XrKm1SgvQV
-	 SbvrCvKF2nTEemh4nzWobI0vzV4e6qfLOfEZWV98IoMS4+oWfx2WWs6myl5EPEU+Uy
-	 OQ6++sHKbaUkKuFkZHPVm7llqaeMspucLL9EpvpkRRhkYLB8/Q5whMo+fnbarXebTi
-	 vLAepWrlEeSPw==
-Message-ID: <0fc8dbd4-07d8-40bd-8eec-402b48762807@zytor.com>
-Date: Fri, 7 Feb 2025 02:07:19 -0800
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="d15PdozT"
+Received: from localhost.localdomain (unknown [1.193.57.36])
+	by smtp.qiye.163.com (Hmail) with ESMTP id a6b57c90;
+	Fri, 7 Feb 2025 18:19:10 +0800 (GMT+08:00)
+From: zhangwei <zhangwei@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhaoshuo@cqsoftware.com.cn,
+	zhaoyuehui@cqsoftware.com.cn,
+	maoyuxian@cqsoftware.com.cn,
+	linux-doc@vger.kernel.org,
+	zhangwei <zhangwei@cqsoftware.com.cn>
+Subject: [PATCH v5 2/3] docs/zh_CN: Add keys index Chinese translation
+Date: Fri,  7 Feb 2025 18:18:56 +0800
+Message-ID: <6e55a93d889871a872a3449cb186c28fb38fd3df.1738923258.git.zhangwei@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1738923258.git.zhangwei@cqsoftware.com.cn>
+References: <cover.1738923258.git.zhangwei@cqsoftware.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 10/23] x86/resctrl: Remove MSR reading of event
- configuration value
-To: Reinette Chatre <reinette.chatre@intel.com>,
-        Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        tony.luck@intel.com, peternewman@google.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
-        akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
-        xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
-        daniel.sneddon@linux.intel.com, jpoimboe@kernel.org,
-        perry.yuan@amd.com, sandipan.das@amd.com, kai.huang@intel.com,
-        xiaoyao.li@intel.com, seanjc@google.com, xin3.li@intel.com,
-        andrew.cooper3@citrix.com, ebiggers@google.com,
-        mario.limonciello@amd.com, james.morse@arm.com,
-        tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-        eranian@google.com
-References: <cover.1737577229.git.babu.moger@amd.com>
- <b4298186c0be8db76be4eb74e1d948fbe5c1de7d.1737577229.git.babu.moger@amd.com>
- <ead5a097-44f7-4eaa-8e98-08450b4d51f6@zytor.com>
- <ffb74a45-ca63-46a4-9047-d55c9f51375a@intel.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <ffb74a45-ca63-46a4-9047-d55c9f51375a@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaQ09OVklCS0hPThlDGEIdT1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVITVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
+	JLS1kG
+X-HM-Tid: 0a94dfeba8df03abkunma6b57c90
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PS46ISo*HzITHgwDLilPDQwD
+	VhkaC1FVSlVKTEhDQklITk5KTEJMVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkxVSE1ZV1kIAVlBSktLTTcG
+DKIM-Signature:a=rsa-sha256;
+	b=d15PdozTU6jMgdBz5JKq7NfrAZYQ3XPbWh7QEYhihNzLuXJxJLNvAuyzM3qZY9VNabLfBrGPx3yfKUUq1YEmM9K7CiyYEJisZqxnOrhEB6+m///smr+oebSEYEtV1d/vvGlNTAuRzpnZcLrcqpOOx0CuSixVsAxuE2A2EN8vfzI=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
+	bh=9wIjgq5fk9CUAg1ix5cwRvBTEUEyRBzpwEyuZANejbQ=;
+	h=date:mime-version:subject:message-id:from;
 
-On 2/6/2025 8:17 AM, Reinette Chatre wrote:
->>> +    wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
->> This is the existing code, however it would be better to use wrmsrl()
->> when the higher 32-bit are all 0s:
->>
->>      wrmsrl(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config);
->>
-> Could you please elaborate what makes this change better?
+Translate .../security/keys/index.rst into Chinese
 
-In short, it takes one less argument, and doesn't pass an argument of 0.
+Update the translation through commit 5395d312dff0
+("doc: ReSTify keys-trusted-encrypted.txt")
 
-The longer story is that hpa and I are refactoring the MSR access APIs
-to accommodate the immediate form of MSR access instructions.  And we
-are not happy about that there are too many MSR access APIs and their
-uses are *random*.  The native wrmsr() and wrmsrl() are essentially the 
-same and the only difference is that wrmsr() passes a 64-bit value to be
-written into a MSR in *2* u32 arguments.  But we already have struct msr
-defined in asm/shared/msr.h as:
-	struct msr {
-         	union {
-                 	struct {
-                         	u32 l;
-	                        u32 h;
-         	        };
-                 	u64 q;
-	        };
-	};
+Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
+---
+ .../zh_CN/security/keys/index.rst             | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/security/keys/index.rst
 
-it's more natural to do the same job with this data structure in most
-cases.  And we want to remove wrmsr() and only keep wrmsrl(), thus a
-developer won't have to figure out which one is better to use :-P.
-
-For that to happen, one cleanup is to replace wrmsr(msr, low, 0) with
-wrmsrl(msr, low) (low is automatically converted to u64 from u32).
-
-However, I'm fine if Babu wants to keep it as-is.
-
-Thanks!
-     Xin
-
-
-
-
-
-
-
+diff --git a/Documentation/translations/zh_CN/security/keys/index.rst b/Documentation/translations/zh_CN/security/keys/index.rst
+new file mode 100644
+index 000000000000..7c28d003fb0a
+--- /dev/null
++++ b/Documentation/translations/zh_CN/security/keys/index.rst
+@@ -0,0 +1,22 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/security/keys/index.rst
++
++:翻译:
++
++
++========
++内核密钥
++========
++
++.. toctree::
++   :maxdepth: 1
++
++
++TODOLIST:
++* core
++* ecryptfs
++* request-key
++* trusted-encrypted
+-- 
+2.47.1
 
