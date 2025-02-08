@@ -1,78 +1,75 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D41148304;
-	Sat,  8 Feb 2025 03:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DF015E5B8;
+	Sat,  8 Feb 2025 03:58:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738984014; cv=none; b=WBih1gX6bPxNNR7xyJHhAOp92CetEdPVAG8ehy9pkIfb9iQBStmjtU8Ojcg43hDe85mlwBnNUIky9k+q2eaWt7mIzdHFi9GkABfXvef01bXgf8BMMYj6z2n1oJiFerkWSlmQluEn7ZRAOfm7VMBFhcWMn+XuR2MytaFnLEW+EIw=
+	t=1738987116; cv=none; b=OjAopflYJfy+KkFwcqK/JCwpKzB/Z+2RBxk9XXswjGh15HIRwnPRVAlcClm9ppI5cmGMMNfhKDl+b61Orj5jHooePbxnNCVIXZ5hvxEDMfIKCq4mjbpdVN3tctoUhyL9kKfOIJt+/XVibRPWnkoBkuoUIHs6274QNmUf/ok7rkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738984014; c=relaxed/simple;
-	bh=Xnnfahr+2G8w4owchNWnEm2cHSGVDVQh8K1zVoVGmIk=;
+	s=arc-20240116; t=1738987116; c=relaxed/simple;
+	bh=hVfSHYfS0vABHC0bsTt8JISrVLmvWHnTFhXTgV9zWTU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pSA2DB4OsH+QEwRdUpieRdeoe7VpVlsmtCsfyfWTiLFjZnQ6szS6FeH/JqT08egIEH8crPjTOIxs1L2nGwuZFkTlPRbroF3IGUnuygCMc02rGRmiJmgDEqg5UnEckXM03XCpW98cXnmRF71TvXHBpjNjwR71CfMi/4fJX+CGSWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=av38B6Df; arc=none smtp.client-ip=209.85.214.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=c1BYlAdk8atCah83FTwH4VXB2XeNLBulziS+vo9bUx97TzJkVgCdweb9BV6e7ew/w/7f2vZDccDhhQLxIEgS+Xz9S9V9q66EisNKGGCcZtAZXD6VquRgvkgwEYyoOi6bNk09PE9fims2Td5dDALY28ql2lrgC167EzfAm02jQUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l5t95YaD; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="av38B6Df"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2163dc5155fso56116495ad.0;
-        Fri, 07 Feb 2025 19:06:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l5t95YaD"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21c2f1b610dso67645945ad.0;
+        Fri, 07 Feb 2025 19:58:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738984012; x=1739588812; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1738987114; x=1739591914; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DdgvWheqjT5pXT4I1T07lINQhy5JHRq7w0nHepie99s=;
-        b=av38B6Df4VzRnRofNFNdZOaLPkgFPEdIxTCa+EhQFWLW5zg9A31b7PDh6WQKhUQACF
-         nMBc3/0/1/PK1Ao16iYE2RwVdCE6zMbAuW2tYX7Yh8TX/gm77dcZEzJ4ZDDeYNQkeI5w
-         TrWqdNPiwe5Z3veU5zFEyuHkP4QXEFo/tD+ldNvl0RDk5h17rk8xf5IrkqJHG/dHR55q
-         P8zNu0b6IksCtH+/aZEsiYTeihNv8Q6k9s0JTQTR8jVcYD8T9B/5LWhFBXfeEahUOJVq
-         9MD5XPTxOW3UqBAuEDpASxi1723eM9n9rgilf70b5D7Et2c0liZLY9c4WnxG1+CARoTM
-         RkAQ==
+        bh=snSzU3y4SYB+Rvb2oNUbT3gLzbFZ3CF+oDS8ezVbZ0Q=;
+        b=l5t95YaDVG5d6rSi9CxAW0lxo7MMNL8Bd/RzknyAO4TJDdQyrGTy/h0wpn0a27ha7G
+         HXc8QXlwO+DyoXivSDtJoo7X/PAHkmvckADve3m5Ate538Iwco9xdjWQdVIbyii8dVvS
+         G7t04RjaUxAEzn4XmY+lgA75DfxzN/gBnvEJWCc3dpq5BzZEf1BSoEHH764H4+kMqQuJ
+         kNf06QkTg6lVVvMNykQS8QBaleEBhuG8TVMwdVBCB293hf6HO+mVC0gPdkAEYE+ikd/c
+         Zdqm+AaHrSzolH/mnmhLYEiC7lYgtBRenp6d25rYN5P5pG2WXjiHRdALpsjPoeMwtOKE
+         6D8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738984012; x=1739588812;
+        d=1e100.net; s=20230601; t=1738987114; x=1739591914;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DdgvWheqjT5pXT4I1T07lINQhy5JHRq7w0nHepie99s=;
-        b=SEdNbTWlmX/sNCzsbkWhz9/u6ZO6Z6fUU40cAsjTDBtHbrjlLVqQ7Okz/Z737vb7CH
-         GLwr8G0wt8/TAwSBgRL17Q6c739XmF14DUx+yR0wheSaGD7jNKrmWepdeZWsNBK9DqYu
-         857qz+E8D2YYb4GxVl7iFPCXK3Kw9Ell5UcnZ/ZyFDbBqPU53n9oGhA4a57rCDgUZrLz
-         BfcTE/cdXR/yT4M0nzF5CU0knsvHnJfLVSgWtyWYhEbN07uTxj1qQb/2Q+J0zbkkZYiR
-         VzleY6YtepH9uwhl3Au7PA+x9+99DFA2LCRszy5rx5H+WV8TYwe8JqG8V7gHf+yfd9Oc
-         EaVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJrjN/kueCat/gfhF/QAJOdvTRXzGTfp8VyZp1Vw4cB9iCI8HZdI0dEGTM7YWLM6cB5j90XrtNB1EYVxJR@vger.kernel.org, AJvYcCX70pByXhz/SQJhQnShE1A592oH+x9lfWRVWMHC4tWqvZePchsRwvRtM6KZU0GaUZNGBEFJ272e1n0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzyg5G3jiviDGOKh5USUNWg+4K5r+q4aUJYLQmZKQXveuiHneu7
-	VzKHPj/u6tMMPQLqtLoGepLP9RM0XegSfC9uoBlANlApi8JlfuFC
-X-Gm-Gg: ASbGnctLAqNthGUyWxS8VpxZ9nAhbRc9Zyw+R/Sb+H/40bpui0pUftsyNfpoIK9Ydkj
-	OqdDOW7OHKoO5GU+Bzd/qCDfdmQpndLS16nZcevLZFRhaLCTGoNF3lpV9kjw1ebvjXYGEfM+oVh
-	L5KDicv5R3Tk5Ls83CQP8b7ocUBwp/VqpHDF7AN/loM81JVpRgtkiFif88WQkp7loYSeH8kbvmN
-	RFa4xZbRO25gBR/iEc8NI9XPi4+vHaN8octxQR2Cljxt98TMyHnaMiHEDbeTOz2TTTeVOPW9Sfo
-	nzVyIH8BBCybNlk=
-X-Google-Smtp-Source: AGHT+IFJLSCXQpLWVjygO2ryT8UBN9/TQaLw2cpmwi5QB34TSe8wHW0JRe80FNHslqUQ/LyOyYDIWg==
-X-Received: by 2002:a17:903:2f84:b0:212:63c0:d9e7 with SMTP id d9443c01a7336-21f4e110a0bmr88071015ad.0.1738984011623;
-        Fri, 07 Feb 2025 19:06:51 -0800 (PST)
+        bh=snSzU3y4SYB+Rvb2oNUbT3gLzbFZ3CF+oDS8ezVbZ0Q=;
+        b=uyBOgfFLOADLCwi0uKH6kJM71HjwTcjy6zGBPrV9CFl/fswxdoJiFuKxIxGpIOSJOI
+         N9xxTfTmvSW2D7ndLlmLPG3Fagh4jtshClrZ/QUSCQPQtxeWgsf4kFKQYTWdCsbKx80/
+         mBSDc0XPB6gCzEKyYeKgeDW8QTx1clKz2sc4KskgTg+Vz+P4Ixk99Vd0ORHLU4pe+XUa
+         xNspNo+8z2TeXfWuWU4gzBMWPDuQ6Ra5hHvck+3H5aruySnNlSwpNdKRG4ZSgO2LLXw7
+         DsXx4W19yZNWkT/Fn6Co6H/g2mUfecFFZexxO7YwWgFM9tOBVJC3uwrxDUj0rjC2RGb1
+         /hAw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/kRuow/Q6fu/94wEdIjx7OM3NdxyuNP/QUQ9tXlmkNjMgUyeCjxXWb+9kPVuK8wtNb9GvFKSBjhg=@vger.kernel.org, AJvYcCU0lpS5aLQViOvkvTrbmULCYmLDBckSqjSJPsNCCxc0mC5BXBEH9M7Km4HeSH8V/f0zQP803Wyt@vger.kernel.org, AJvYcCWr0oOOvkVYrjxl9GK8DbK9pu3g7zjzxhWGCMGkZZvPELAEoMqM1KidzIMvRJIp7J5gkayPGkedyT3cMJY9@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywsa4/W898vlCi8dx3BmaqRHFqrkK2j/SjpsCGRbPyThJnD206N
+	ixPb1vz7WUmSRu1XDwd02IcC30LNFuHNhh/mkCIK2E9+1V3oRr3y
+X-Gm-Gg: ASbGnctIWmN5cxTmr75ygRdvQsOVTObqxBSvC0n8c0EXD6kpVLDoqnLCMnG/HnDl96h
+	IcqQ02ZSoAB9SjhBGPP5IJ4sQkwnAJLoCW0CgelYP3GIu/5uTWDlsT5SKymxkCnMVL7XDX62QHU
+	7+9C0+v+ZwPlTcVDdvZ3yw/LGSuH2RiFDs82IS6+644JSNwR8TpCU3SJ0YZ1VtFoJP9G5PYMNXJ
+	wde0Zi0Zy42bJYUWU8oMJxReZKDhpAbU5uIumXKRHBV7DhPB+U90LkypfH8t7LFSCP5IuhZ/E1Q
+	djjCjtcKElp06Vs=
+X-Google-Smtp-Source: AGHT+IGlsdM2otW4mn5iBpSVAmZG13eaJ1Xemc3rUL60sZYfVsoKnhpX29usQLefCuYDuc329vvVdw==
+X-Received: by 2002:a17:902:dad0:b0:216:42fd:79d2 with SMTP id d9443c01a7336-21f4e7f1129mr92878125ad.49.1738987114018;
+        Fri, 07 Feb 2025 19:58:34 -0800 (PST)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687dddasm38069655ad.203.2025.02.07.19.06.49
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fa0cceff11sm4156460a91.10.2025.02.07.19.58.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Feb 2025 19:06:50 -0800 (PST)
+        Fri, 07 Feb 2025 19:58:32 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id D25224208F47; Sat, 08 Feb 2025 10:06:47 +0700 (WIB)
-Date: Sat, 8 Feb 2025 10:06:47 +0700
+	id 6CFD84208F47; Sat, 08 Feb 2025 10:58:30 +0700 (WIB)
+Date: Sat, 8 Feb 2025 10:58:30 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
-Message-ID: <Z6bKR9K16-oYMLFl@archie.me>
-References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
+To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org
+Cc: ahmed.zaki@intel.com, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next] documentation: networking: Add NAPI config
+Message-ID: <Z6bWZkf-xm0EB6uD@archie.me>
+References: <20250208012822.34327-1-jdamato@fastly.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,85 +77,95 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Zw9znROb1LsOQG2j"
+	protocol="application/pgp-signature"; boundary="QJo/HyYKmTOzl2kz"
 Content-Disposition: inline
-In-Reply-To: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
+In-Reply-To: <20250208012822.34327-1-jdamato@fastly.com>
 
 
---Zw9znROb1LsOQG2j
+--QJo/HyYKmTOzl2kz
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 07, 2025 at 10:23:25PM +0530, Pranav Tyagi wrote:
-> Corrects the following grammatical issues in the VGA Arbiter documentatio=
-n:
-> - Fixes subject-verb agreement by changing "co-exists" to "co-exist"
-> - Corrects pluralization by changing "server" to "servers"
-> - Improves sentence structure for clarity
+On Sat, Feb 08, 2025 at 01:28:21AM +0000, Joe Damato wrote:
+> diff --git a/Documentation/networking/napi.rst b/Documentation/networking=
+/napi.rst
+> index f970a2be271a..de146f63f09b 100644
+> --- a/Documentation/networking/napi.rst
+> +++ b/Documentation/networking/napi.rst
+> @@ -171,12 +171,42 @@ a channel as an IRQ/NAPI which services queues of a=
+ given type. For example,
+>  a configuration of 1 ``rx``, 1 ``tx`` and 1 ``combined`` channel is expe=
+cted
+>  to utilize 3 interrupts, 2 Rx and 2 Tx queues.
+> =20
+> +Persistent NAPI config
+> +----------------------
+> +
+> +Drivers can opt-in to using a persistent NAPI configuration space by cal=
+ling
+> +netif_napi_add_config. This API maps a NAPI instance to a configuration
+> +structure using a driver defined index value, like a queue number. If the
+> +driver were to destroy and recreate NAPI instances (if a user requested =
+a queue
+> +count change, for example), the new NAPI instances will inherit the conf=
+iguration
+> +settings of the NAPI configuration structure they are mapped to.
+> +
+> +Using this API allows for persistent NAPI IDs (among other settings), wh=
+ich can
+> +be beneficial to userspace programs using ``SO_INCOMING_NAPI_ID``. See t=
+he
+> +sections below for other NAPI configuration settings.
+> +
+>  User API
+>  =3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+>  User interactions with NAPI depend on NAPI instance ID. The instance IDs
+>  are only visible to the user thru the ``SO_INCOMING_NAPI_ID`` socket opt=
+ion.
+> -It's not currently possible to query IDs used by a given device.
+> +
+> +Users can query NAPI IDs for a device or device queue using netlink. Thi=
+s can
+> +be done programmatically in a user application or by using a script incl=
+uded in
+> +the kernel source tree: ``tools/net/ynl/pyynl/cli.py``.
+> +
+> +For example, using the script to dump all of the queues for a device (wh=
+ich
+> +will reveal each queue's NAPI ID):
+> +
+> +.. code-block:: bash
+> +
+> +   $ kernel-source/tools/net/ynl/pyynl/cli.py \
+> +             --spec Documentation/netlink/specs/netdev.yaml \
+> +             --dump queue-get \
+> +             --json=3D'{"ifindex": 2}'
+> +
+> +See ``Documentation/netlink/specs/netdev.yaml`` for more details on
+> +available operations and attributes.
+> =20
+>  Software IRQ coalescing
+>  -----------------------
 >=20
 
-+Cc: DRM folks.
-
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> ---
->  Documentation/gpu/vgaarbiter.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbi=
-ter.rst
-> index bde3c0afb059..d1e953712cc2 100644
-> --- a/Documentation/gpu/vgaarbiter.rst
-> +++ b/Documentation/gpu/vgaarbiter.rst
-> @@ -11,9 +11,9 @@ Section 7, Legacy Devices.
-> =20
->  The Resource Access Control (RAC) module inside the X server [0] existed=
- for
->  the legacy VGA arbitration task (besides other bus management tasks) whe=
-n more
-> -than one legacy device co-exists on the same machine. But the problem ha=
-ppens
-> +than one legacy device co-exist on the same machine. But the problem hap=
-pens
->  when these devices are trying to be accessed by different userspace clie=
-nts
-> -(e.g. two server in parallel). Their address assignments conflict. Moreo=
-ver,
-> +(e.g. two servers in parallel). Their address assignments conflict. More=
-over,
->  ideally, being a userspace application, it is not the role of the X serv=
-er to
->  control bus resources. Therefore an arbitration scheme outside of the X =
-server
->  is needed to control the sharing of these resources. This document intro=
-duces
-> @@ -106,7 +106,7 @@ In-kernel interface
->  libpciaccess
->  ------------
-> =20
-> -To use the vga arbiter char device it was implemented an API inside the
-> +To use the vga arbiter char device, an API was implemented inside the
->  libpciaccess library. One field was added to struct pci_device (each dev=
-ice
->  on the system)::
-> =20
-
-The diff looks OK.
+Looks good, thanks!
 
 Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---Zw9znROb1LsOQG2j
+--QJo/HyYKmTOzl2kz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6bKPwAKCRD2uYlJVVFO
-o2EnAP9KXpy/sNMRD07GgHf0CZ34bJcFE7NvYEFNIzeNQDcgiQEA3gktCvb0ofFa
-SL7vz+ybdAw6ceg4vF/hhZ8ZdbitVgA=
-=VhPf
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6bWYQAKCRD2uYlJVVFO
+o+auAP9tc3yGiExQWnNTRFcDQP5rMd2xy503uEVK/Ys92j1Z8AD+Pjr/rgz8jdL6
+O1asp8NUqDkO59utbN3j9OVOiMxUGAg=
+=NlDe
 -----END PGP SIGNATURE-----
 
---Zw9znROb1LsOQG2j--
+--QJo/HyYKmTOzl2kz--
