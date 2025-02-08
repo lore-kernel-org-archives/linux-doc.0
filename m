@@ -1,142 +1,137 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2AC32941C
-	for <linux-doc@vger.kernel.org>; Sat,  8 Feb 2025 01:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5633BBE5
+	for <linux-doc@vger.kernel.org>; Sat,  8 Feb 2025 01:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738978124; cv=none; b=EW+NkuKFBGSv70s8TmtnxASCme2EUA6N2ys9bqodUZdXuqDZIBLUoTFZaQrNPxuCcDqG1U6LqE/ju22PXv5/0cXaCETIoCsdZvo93KqV27ZrfuIpXGdOAp8UVExS4R1dx4zGEq8xU7RDTPvtN0IvJCH6inFp739II5JfF+9b8jU=
+	t=1738978729; cv=none; b=idX64ntpYRwqgEreQxN99iE7tj39wuPsihEYZxgUG6XtRIosULdMwc9cdXdInwc6wdKa7RsWGTYNPUjLp79v528NfL/K/KcZufCJQ//RXliv/KOL6C31H1YkKR2aJDeATkWjzfs6fsEn7Y/isRCziIlfdZm0eqqbXhnKS5/vypY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738978124; c=relaxed/simple;
-	bh=F9r7BAv4PgGXAhDfk4jGDe5wzI28HN9K/csThIkDDVg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dXV6sbf33fPn3sKw4mgNG/21GLIlbSQbIgIsGTX7yhINrHdhPWl78hSaPqhtIsDqUyubRlPHo72VkV/NjakiOKjNfO0p8zTKu3LaFfpfDqoXM1E+i7ijeCXMvNtWzd4jmL27UW7WRG3oHfNRQ3mj0yyTyp54KJ5tle624Ejm6OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=tNlsXaOG; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1738978729; c=relaxed/simple;
+	bh=ju47K4YUcq5vbKrnu/73+Xzl14uDRzIGxdhBiGOEKwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jZnQ2f0IwKJVAuNiODo3uT3eb28L5hQNLr9hfUp7JsPWRF2x/YZC1dabV8ETbwfvTHNUJofrH/wEQ7eyTgAx6TmVNvgh5HzweF8FeWXQSPFIl8B/0PSz2KCTA7477882TThK4rK39hmiCIPr/Qb2RanH57Q9tAGI8I6LFqYPst4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E6gWZsu+; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="tNlsXaOG"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21f0444b478so40236365ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 07 Feb 2025 17:28:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1738978121; x=1739582921; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C/jz6zfV+DBHmvoxAFtAoktT0KBDhc6UitGswSFEQiw=;
-        b=tNlsXaOGnJGv54yuug2TQ3l7J8AARZmDHRB0RfvP+SdqZmgieZ2iE6WYUxuCJGi5v5
-         J1BkYe346Aeu2zEaLWgz7spm9X3X1YIua5YOpiwsYb/mutPxuBGLvd+c+89PAwjZvV7a
-         9nm4RTKRXO1vN1iyGSZfCI7vhqEcksMGj6sDE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738978121; x=1739582921;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C/jz6zfV+DBHmvoxAFtAoktT0KBDhc6UitGswSFEQiw=;
-        b=fsBeKGVzov+oAMqEMNIwa8Y5IttyKU0Z0644/Zt7MD7FfczHLaby02Ei3/3M/9oVNn
-         rtmXI3YARHMKsJdqiUAx9CohYRQ011vYwOByi2R/4rs2NreeSwKWSOSBWNSju/xIFBvZ
-         7QdOXRNX2kcx0vp1r09xyH4ieNM9j4vx8x1SejkKJuAjhykUrRZRY5J3gDCDlOSeJzyw
-         gEf13x8c1si00RjNsJLFO17I+xV/VBtyfe8T1X9JuNIDxT7swUlyE6fNYhtVdFHgfmJg
-         A9zDnH1AX8iwnUAZxMY4or+m+IIGEI+2o5ITvYEW0uqz7M85BCfzVjmRfqOPFfrp42Cj
-         gU2g==
-X-Forwarded-Encrypted: i=1; AJvYcCW+b9SOQxvu5auNCrV0BvmXXJHAVrFdV1Tx3K5YxOA/VwPMmT9Lval7XNDk462Z1jT9Exg6ZjDlE9A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlYDhwvTwguMpse2P5+PqYXsSrUiGlHECvrbjXxEa1CTf0fi6Y
-	v0dROWssKoJHr0oEZw7MezJwUyRdgPlg422O3G0zLDF1zZyBahvhYGTcU0MIovM=
-X-Gm-Gg: ASbGncvKoe8f8DyjEoDS80/Do572UspbBKj0Ziia7nJtAocLbAuDQKbmQKitrqGUT05
-	+QS2EYTvGOZ0ug0uLydJfQeeVOJAtqa56gdY4IFJG4l8/RGOe85D0gFZZETr+WK7rrAyNQUgh9W
-	9SO9JtYVsaZ4rCe/Ntjy10dXaDMGc9ONxlbStJ/Ui6OQCB4ay88PAT6HmEhvFQ6rdqDrWOdy8aE
-	gE/yTB/eYN6CDVckhl8nhwYkPnjECZFuBn0yyIbnuAn+OawPlBC4YI99SH+l572zi0MDGfZSrOF
-	D3DvGoJtjl8nsl4ao7cTtKI=
-X-Google-Smtp-Source: AGHT+IEHMwYdGBJpLZD807RWAj5yJcAOhKgdcOa+RZW7NQ/Y7a8uV/knvJSk/mA8Tb9bfo/1eDkKWg==
-X-Received: by 2002:a17:903:2f8b:b0:216:1367:7e3d with SMTP id d9443c01a7336-21f4e70b204mr80906315ad.31.1738978121181;
-        Fri, 07 Feb 2025 17:28:41 -0800 (PST)
-Received: from localhost.localdomain ([2620:11a:c019:0:65e:3115:2f58:c5fd])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ad51af7815csm3715311a12.70.2025.02.07.17.28.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Feb 2025 17:28:40 -0800 (PST)
-From: Joe Damato <jdamato@fastly.com>
-To: netdev@vger.kernel.org
-Cc: ahmed.zaki@intel.com,
-	Joe Damato <jdamato@fastly.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E6gWZsu+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738978725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4OGpJKlqYKJlS0pLuHn983Uuh5n9DtUrxuwcndbRF+g=;
+	b=E6gWZsu+36TGo6CxBCuxK/KU0QOuFzlIS8NCLaALobr/rETVpkZjPAV0tfK6tgDpsaTkNx
+	1KluWd57+r8+QoFfiIIkBW5jWgN7jfWPLL3oBvs5P3qNV32R4SgMFfW+P4mnN/zgyjI5iG
+	AYAJKYUn25NcQ43fl4TAi0ND3ekQExk=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-692-CGeBAf_OMfe2Z_xYLc2IJA-1; Fri,
+ 07 Feb 2025 20:38:42 -0500
+X-MC-Unique: CGeBAf_OMfe2Z_xYLc2IJA-1
+X-Mimecast-MFC-AGG-ID: CGeBAf_OMfe2Z_xYLc2IJA
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4EE0C1956094;
+	Sat,  8 Feb 2025 01:38:36 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.20])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CBBC7180087A;
+	Sat,  8 Feb 2025 01:38:32 +0000 (UTC)
+Date: Sat, 8 Feb 2025 09:38:27 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
+	Alexander Graf <graf@amazon.com>, Andy Lutomirski <luto@kernel.org>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH net-next] documentation: networking: Add NAPI config
-Date: Sat,  8 Feb 2025 01:28:21 +0000
-Message-ID: <20250208012822.34327-1-jdamato@fastly.com>
-X-Mailer: git-send-email 2.43.0
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Pratyush Yadav <ptyadav@amazon.de>,
+	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+	changyuanl@google.com
+Subject: Re: [PATCH v4 00/14] kexec: introduce Kexec HandOver (KHO)
+Message-ID: <Z6a1kxR2GlQoepgI@MiWiFi-R3L-srv>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+ <20250206162939.a1f86fb835f1eeb7ed73ff1c@linux-foundation.org>
+ <CA+CK2bD6204AKWGOgzLMiMsnVZ=tk+DGc+VWgi3RVt2byaLJJA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bD6204AKWGOgzLMiMsnVZ=tk+DGc+VWgi3RVt2byaLJJA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Document the existence of persistent per-NAPI configuration space and
-the API that drivers can opt into.
+On 02/06/25 at 08:28pm, Pasha Tatashin wrote:
+> On Thu, Feb 6, 2025 at 7:29 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> >
+> > On Thu,  6 Feb 2025 15:27:40 +0200 Mike Rapoport <rppt@kernel.org> wrote:
+> >
+> > > This a next version of Alex's "kexec: Allow preservation of ftrace buffers"
+> > > series (https://lore.kernel.org/all/20240117144704.602-1-graf@amazon.com),
+> > > just to make things simpler instead of ftrace we decided to preserve
+> > > "reserve_mem" regions.
+> > >
+> > > The patches are also available in git:
+> > > https://git.kernel.org/rppt/h/kho/v4
+> > >
+> > >
+> > > Kexec today considers itself purely a boot loader: When we enter the new
+> > > kernel, any state the previous kernel left behind is irrelevant and the
+> > > new kernel reinitializes the system.
+> >
+> > I tossed this into mm.git for some testing and exposure.
+> >
+> > What merge path are you anticipating?
+> >
+> > Review activity seems pretty thin thus far?
+> 
+> KHO is going to be discussed at the upcoming lsfmm, we are also
+> planning to send v5 of this patch series (discussed with Mike
+> Rapoport) in a couple of weeks. It will include enhancements needed
+> for the hypervisor live update scenario:
 
-Update stale documentation which suggested that NAPI IDs cannot be
-queried from userspace.
+So is this V4 still a RFC if v5 will be sent by plan? Should we hold the
+reviewing until v5? Or this series is a infrustructure building, v5 will
+add more details as you listed as below. I am a little confused.
 
-Signed-off-by: Joe Damato <jdamato@fastly.com>
----
- Documentation/networking/napi.rst | 32 ++++++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/networking/napi.rst b/Documentation/networking/napi.rst
-index f970a2be271a..de146f63f09b 100644
---- a/Documentation/networking/napi.rst
-+++ b/Documentation/networking/napi.rst
-@@ -171,12 +171,42 @@ a channel as an IRQ/NAPI which services queues of a given type. For example,
- a configuration of 1 ``rx``, 1 ``tx`` and 1 ``combined`` channel is expected
- to utilize 3 interrupts, 2 Rx and 2 Tx queues.
- 
-+Persistent NAPI config
-+----------------------
-+
-+Drivers can opt-in to using a persistent NAPI configuration space by calling
-+netif_napi_add_config. This API maps a NAPI instance to a configuration
-+structure using a driver defined index value, like a queue number. If the
-+driver were to destroy and recreate NAPI instances (if a user requested a queue
-+count change, for example), the new NAPI instances will inherit the configuration
-+settings of the NAPI configuration structure they are mapped to.
-+
-+Using this API allows for persistent NAPI IDs (among other settings), which can
-+be beneficial to userspace programs using ``SO_INCOMING_NAPI_ID``. See the
-+sections below for other NAPI configuration settings.
-+
- User API
- ========
- 
- User interactions with NAPI depend on NAPI instance ID. The instance IDs
- are only visible to the user thru the ``SO_INCOMING_NAPI_ID`` socket option.
--It's not currently possible to query IDs used by a given device.
-+
-+Users can query NAPI IDs for a device or device queue using netlink. This can
-+be done programmatically in a user application or by using a script included in
-+the kernel source tree: ``tools/net/ynl/pyynl/cli.py``.
-+
-+For example, using the script to dump all of the queues for a device (which
-+will reveal each queue's NAPI ID):
-+
-+.. code-block:: bash
-+
-+   $ kernel-source/tools/net/ynl/pyynl/cli.py \
-+             --spec Documentation/netlink/specs/netdev.yaml \
-+             --dump queue-get \
-+             --json='{"ifindex": 2}'
-+
-+See ``Documentation/netlink/specs/netdev.yaml`` for more details on
-+available operations and attributes.
- 
- Software IRQ coalescing
- -----------------------
-
-base-commit: 7bca2b2d5fcc685b81eb32fe564689eca6a59a99
--- 
-2.43.0
+> 
+> 1. Allow nodes to be added to the KHO tree at any time
+> 2. Remove "activate" (I will also send a live update framework that
+> provides the activate functionality).
+> 3. Allow serialization during shutdown.
+> 4. Decouple KHO from kexec_file_load(), as kexec_file_load() should
+> not be used during live update blackout time.
+> 5. Enable multithreaded serialization by using hash-table as an
+> intermediate step before conversion to FDT.
 
