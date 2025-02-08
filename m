@@ -1,168 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98DA1A314B
-	for <linux-doc@vger.kernel.org>; Sat,  8 Feb 2025 11:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0AF182BC;
+	Sat,  8 Feb 2025 14:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739013227; cv=none; b=MAWf49p6IX2CGAnHVDEXMFcE8sPahmXzcAoeF49VEvo9XtLpWUS9jb/jhc3mhz1hHOEQSRt1HkojFrNAlvC1/NLZbBoMQFpQfL3D07LnCIxct5txGUhr3XqxqfdSq0Epm+sVc8/kKlUxqNDSZ5Ir/znWnXzP4LImHwtZD1vYTnw=
+	t=1739025325; cv=none; b=Pb92ioV+eZ3pl2CvVBAQvcfU6mZ2+/o38k5e7GzsvnnVJk+RvWNHf/+sI2l0R1RwShqywkUgwFIgD8J6TaUfAAG9zQqe2TK75uRa02GVyKqjHB4ciqpFHtv5YkX0qXmfqpDSTePrEUgT0JkCEejbWHNv0cinA2cmcXQkmF20CxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739013227; c=relaxed/simple;
-	bh=zNTqRPImJ92nz+c0YeK4LqJ1stJKDQ9br/TFYbHj1Lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F7KeStTHRfGiFTVKK6QHzrYk0P7AMsuivHKktjmGNky9yoFofsdRGIuiUteORwQgyIggx0xRY/QEgleUsbZDYA87wq7qR/CkDxViOjx/M3PvirO3Wjt5FuAkYTmBBPsrAJBjqAmsOjsK3uCWvw/Q+iuJtOp4OIL8nfa9A5XrzVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QYxeq4YK; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1739025325; c=relaxed/simple;
+	bh=aBF1RM7ns4mvKouKEITmUpZR7BuFcLU+O2CgksQs/+A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SYati4tXrkqd6fD3NnkRv2hyykAVnmpPnuOagjkyT/vo4oHsOpcoC19nPO7wd3qz/TfADavveZkHlCdKvHlUFUFxHfiSqur6Hwsyrekl18gj6Qj+zwrjPlOrKWaYs+FKB5JUTl8sDUY8+8pJMO3rmsETzneNOwHJU//MqCdgS2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nzjsT0pW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QYxeq4YK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739013224;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Yd9C+xXA2LYK4yay23tEJLHcwK0FQNJYR+yHMEQ6ia4=;
-	b=QYxeq4YKdWwP+Sl22+Fa2owq8vOWjDfVl61AY8Ygpafg5kW7bU3QcG27Anae8Ma8oqmO2Q
-	wHlDJ7+dCrp2Gu53yqs9+WfL5iTtaQQlv/XhCJsKfp6D5dHZ/qShY6QDY/l0jd4F5TLBX1
-	EubpWZNS9C8RyeL0RtVd3jGdWt1ypYw=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-548-9tRamBlGP6-FTEK_1JuOMQ-1; Sat,
- 08 Feb 2025 06:13:40 -0500
-X-MC-Unique: 9tRamBlGP6-FTEK_1JuOMQ-1
-X-Mimecast-MFC-AGG-ID: 9tRamBlGP6-FTEK_1JuOMQ
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EAF631955DD0;
-	Sat,  8 Feb 2025 11:13:34 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.25])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A2B1619560A3;
-	Sat,  8 Feb 2025 11:13:29 +0000 (UTC)
-Date: Sat, 8 Feb 2025 19:13:25 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pratyush Yadav <ptyadav@amazon.de>,
-	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
-	changyuanl@google.com
-Subject: Re: [PATCH v4 00/14] kexec: introduce Kexec HandOver (KHO)
-Message-ID: <Z6c8VeXqV1s+aPXY@fedora>
-References: <20250206132754.2596694-1-rppt@kernel.org>
- <20250206162939.a1f86fb835f1eeb7ed73ff1c@linux-foundation.org>
- <CA+CK2bD6204AKWGOgzLMiMsnVZ=tk+DGc+VWgi3RVt2byaLJJA@mail.gmail.com>
- <Z6a1kxR2GlQoepgI@MiWiFi-R3L-srv>
- <Z6cYt8QryoUfI0wc@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nzjsT0pW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF1E1C4CED6;
+	Sat,  8 Feb 2025 14:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739025324;
+	bh=aBF1RM7ns4mvKouKEITmUpZR7BuFcLU+O2CgksQs/+A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=nzjsT0pWTU8VSdyg6NRGrXWAeRSFyCqSEOTt2guNZB73ngNLeMpr7tG0EvgU/C10n
+	 gIYB21NpPvWWAGpE7jeVNa0JxWoNpJNpgKI56sSDM7RiqowXXZyr1ZT5vwhUKyhAQZ
+	 c8ufQYlZ4/OQwZoSN6EvaHdOgpv7l+tgz0sRJyxXxgz6mr3874uOjajUlnJrFHXp2r
+	 2sgAXH4ajr6bEfRko7f9X+eUHcftDP8zdsiM05vnw507wEUnaOcKLmSI/pyF1j2tud
+	 1TfFdvIBuEYu4k/RnRNOiXXUfJQNPahwryeQZilF47rEEWCJP4pYCy2GCwO0z/j5jQ
+	 dYmpDpr7RSCEA==
+Date: Sat, 8 Feb 2025 14:35:14 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Alisa-Dariana Roman <alisadariana@gmail.com>, "Rob Herring (Arm)"
+ <robh@kernel.org>, Alisa-Dariana Roman <alisa.roman@analog.com>, Jonathan
+ Cameron <Jonathan.Cameron@huawei.com>, Ramona Gradinariu
+ <ramona.bolboaca13@gmail.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>
+Subject: Re: [PATCH v4 2/3] iio: adc: ad7191: add AD7191
+Message-ID: <20250208143514.1db3510f@jic23-huawei>
+In-Reply-To: <3f03b03d-9f41-4683-a284-df48afbee83e@baylibre.com>
+References: <20250203133254.313106-1-alisa.roman@analog.com>
+	<20250203133254.313106-3-alisa.roman@analog.com>
+	<3f03b03d-9f41-4683-a284-df48afbee83e@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z6cYt8QryoUfI0wc@kernel.org>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 02/08/25 at 10:41am, Mike Rapoport wrote:
-> Hi Baoquan,
-> 
-> On Sat, Feb 08, 2025 at 09:38:27AM +0800, Baoquan He wrote:
-> > On 02/06/25 at 08:28pm, Pasha Tatashin wrote:
-> > > On Thu, Feb 6, 2025 at 7:29 PM Andrew Morton <akpm@linux-foundation.org> wrote:
-> > > >
-> > > > On Thu,  6 Feb 2025 15:27:40 +0200 Mike Rapoport <rppt@kernel.org> wrote:
-> > > >
-> > > > > This a next version of Alex's "kexec: Allow preservation of ftrace buffers"
-> > > > > series (https://lore.kernel.org/all/20240117144704.602-1-graf@amazon.com),
-> > > > > just to make things simpler instead of ftrace we decided to preserve
-> > > > > "reserve_mem" regions.
-> > > > >
-> > > > > The patches are also available in git:
-> > > > > https://git.kernel.org/rppt/h/kho/v4
-> > > > >
-> > > > >
-> > > > > Kexec today considers itself purely a boot loader: When we enter the new
-> > > > > kernel, any state the previous kernel left behind is irrelevant and the
-> > > > > new kernel reinitializes the system.
-> > > >
-> > > > I tossed this into mm.git for some testing and exposure.
-> > > >
-> > > > What merge path are you anticipating?
-> > > >
-> > > > Review activity seems pretty thin thus far?
-> > > 
-> > > KHO is going to be discussed at the upcoming lsfmm, we are also
-> > > planning to send v5 of this patch series (discussed with Mike
-> > > Rapoport) in a couple of weeks. It will include enhancements needed
-> > > for the hypervisor live update scenario:
-> > 
-> > So is this V4 still a RFC if v5 will be sent by plan? Should we hold the
-> > reviewing until v5? Or this series is a infrustructure building, v5 will
-> > add more details as you listed as below. I am a little confused.
-> 
-> v4 adds the very basic support for kexec handover in the simplest form we
-> could think of. There were discussions on Linux MM Alignment and Hypervisor
-> live update meetings and there people agreed about MVP for KHO that v4
-> essentially implements.
-> 
-> v5 will add more details on top of v4 and I'm not sure there's a consensus
-> about some of them among the people involved in KHO.
 
-Thanks for the information.
-
-Then I will apply v4 and learn the infrastructure and mechanism firstly.
-
-While what sounds more meaningful to me is v4 can be reviewed, then updated
-and merged. Then another patchset can be posted to add details, if you have
-reached the consensus on the infrastructure part. With that, posting and
-reviewing will be much easier. Unless you guys are still discussing the
-infrastructure part.
-
->  
-> > > 1. Allow nodes to be added to the KHO tree at any time
-> > > 2. Remove "activate" (I will also send a live update framework that
-> > > provides the activate functionality).
-> > > 3. Allow serialization during shutdown.
-> > > 4. Decouple KHO from kexec_file_load(), as kexec_file_load() should
-> > > not be used during live update blackout time.
-> > > 5. Enable multithreaded serialization by using hash-table as an
-> > > intermediate step before conversion to FDT.
-> > 
 > 
-> -- 
-> Sincerely yours,
-> Mike.
 > 
+> > +
+> > +static const struct iio_chan_spec ad7191_channels[] = {
+> > +	{
+> > +		.type = IIO_TEMP,
+> > +		.address = AD7191_CH_TEMP,
+> > +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
+> > +				      BIT(IIO_CHAN_INFO_OFFSET),
+> > +		.info_mask_shared_by_all = BIT(IIO_CHAN_INFO_SAMP_FREQ),
+> > +		.info_mask_shared_by_all_available = BIT(IIO_CHAN_INFO_SAMP_FREQ),  
+> 
+> Should this one be info_mask_separate?
+> 
+> Since this is a multiplexed ADC and not simelutaneous sampling, I would expect
+> that if the ORD pins are set to 10Hz (0.1s period), then a buffered read with
+> all channels enabled would take 0.3s to do the 3 samples (effective sample rate
+> of 3.33Hz), but if only one channel was enabled in the buffer, then it only
+> takes 0.1s to do all of the samples (effective sample rate is 10Hz).
+> 
+> The iio convention is to use info_mask_separate for the sampling_frequency
+> attribute to indicate that the rate only applies to each individual channel
+> and not the combined rate to do one "set" of samples for all enabled channels.
+> 
+> A sampling_frequency attribute that was shared_by_all would mean that on each
+> period equivlent to this rate, all samples are read no matter how many channels
+> were enabled for a buffered read.
+
+I think this device channel selection is onehot.  As such only one channel
+is ever enabled at a time. See num_slots in ad_sigma_delta
+which is set to 1 if not specified. We could argue that maybe one day the
+infrastructure will be added to make that code deal with dynamic channel 
+changes, settling time and all that mess though so maybe it should be
+separate even though it makes no difference today.
+
+Jonathan
 
