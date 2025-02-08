@@ -1,137 +1,164 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5633BBE5
-	for <linux-doc@vger.kernel.org>; Sat,  8 Feb 2025 01:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D41148304;
+	Sat,  8 Feb 2025 03:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738978729; cv=none; b=idX64ntpYRwqgEreQxN99iE7tj39wuPsihEYZxgUG6XtRIosULdMwc9cdXdInwc6wdKa7RsWGTYNPUjLp79v528NfL/K/KcZufCJQ//RXliv/KOL6C31H1YkKR2aJDeATkWjzfs6fsEn7Y/isRCziIlfdZm0eqqbXhnKS5/vypY=
+	t=1738984014; cv=none; b=WBih1gX6bPxNNR7xyJHhAOp92CetEdPVAG8ehy9pkIfb9iQBStmjtU8Ojcg43hDe85mlwBnNUIky9k+q2eaWt7mIzdHFi9GkABfXvef01bXgf8BMMYj6z2n1oJiFerkWSlmQluEn7ZRAOfm7VMBFhcWMn+XuR2MytaFnLEW+EIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738978729; c=relaxed/simple;
-	bh=ju47K4YUcq5vbKrnu/73+Xzl14uDRzIGxdhBiGOEKwM=;
+	s=arc-20240116; t=1738984014; c=relaxed/simple;
+	bh=Xnnfahr+2G8w4owchNWnEm2cHSGVDVQh8K1zVoVGmIk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jZnQ2f0IwKJVAuNiODo3uT3eb28L5hQNLr9hfUp7JsPWRF2x/YZC1dabV8ETbwfvTHNUJofrH/wEQ7eyTgAx6TmVNvgh5HzweF8FeWXQSPFIl8B/0PSz2KCTA7477882TThK4rK39hmiCIPr/Qb2RanH57Q9tAGI8I6LFqYPst4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E6gWZsu+; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=pSA2DB4OsH+QEwRdUpieRdeoe7VpVlsmtCsfyfWTiLFjZnQ6szS6FeH/JqT08egIEH8crPjTOIxs1L2nGwuZFkTlPRbroF3IGUnuygCMc02rGRmiJmgDEqg5UnEckXM03XCpW98cXnmRF71TvXHBpjNjwR71CfMi/4fJX+CGSWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=av38B6Df; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E6gWZsu+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738978725;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4OGpJKlqYKJlS0pLuHn983Uuh5n9DtUrxuwcndbRF+g=;
-	b=E6gWZsu+36TGo6CxBCuxK/KU0QOuFzlIS8NCLaALobr/rETVpkZjPAV0tfK6tgDpsaTkNx
-	1KluWd57+r8+QoFfiIIkBW5jWgN7jfWPLL3oBvs5P3qNV32R4SgMFfW+P4mnN/zgyjI5iG
-	AYAJKYUn25NcQ43fl4TAi0ND3ekQExk=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-692-CGeBAf_OMfe2Z_xYLc2IJA-1; Fri,
- 07 Feb 2025 20:38:42 -0500
-X-MC-Unique: CGeBAf_OMfe2Z_xYLc2IJA-1
-X-Mimecast-MFC-AGG-ID: CGeBAf_OMfe2Z_xYLc2IJA
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4EE0C1956094;
-	Sat,  8 Feb 2025 01:38:36 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.20])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CBBC7180087A;
-	Sat,  8 Feb 2025 01:38:32 +0000 (UTC)
-Date: Sat, 8 Feb 2025 09:38:27 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
-	Alexander Graf <graf@amazon.com>, Andy Lutomirski <luto@kernel.org>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pratyush Yadav <ptyadav@amazon.de>,
-	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
-	changyuanl@google.com
-Subject: Re: [PATCH v4 00/14] kexec: introduce Kexec HandOver (KHO)
-Message-ID: <Z6a1kxR2GlQoepgI@MiWiFi-R3L-srv>
-References: <20250206132754.2596694-1-rppt@kernel.org>
- <20250206162939.a1f86fb835f1eeb7ed73ff1c@linux-foundation.org>
- <CA+CK2bD6204AKWGOgzLMiMsnVZ=tk+DGc+VWgi3RVt2byaLJJA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="av38B6Df"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2163dc5155fso56116495ad.0;
+        Fri, 07 Feb 2025 19:06:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738984012; x=1739588812; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DdgvWheqjT5pXT4I1T07lINQhy5JHRq7w0nHepie99s=;
+        b=av38B6Df4VzRnRofNFNdZOaLPkgFPEdIxTCa+EhQFWLW5zg9A31b7PDh6WQKhUQACF
+         nMBc3/0/1/PK1Ao16iYE2RwVdCE6zMbAuW2tYX7Yh8TX/gm77dcZEzJ4ZDDeYNQkeI5w
+         TrWqdNPiwe5Z3veU5zFEyuHkP4QXEFo/tD+ldNvl0RDk5h17rk8xf5IrkqJHG/dHR55q
+         P8zNu0b6IksCtH+/aZEsiYTeihNv8Q6k9s0JTQTR8jVcYD8T9B/5LWhFBXfeEahUOJVq
+         9MD5XPTxOW3UqBAuEDpASxi1723eM9n9rgilf70b5D7Et2c0liZLY9c4WnxG1+CARoTM
+         RkAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738984012; x=1739588812;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DdgvWheqjT5pXT4I1T07lINQhy5JHRq7w0nHepie99s=;
+        b=SEdNbTWlmX/sNCzsbkWhz9/u6ZO6Z6fUU40cAsjTDBtHbrjlLVqQ7Okz/Z737vb7CH
+         GLwr8G0wt8/TAwSBgRL17Q6c739XmF14DUx+yR0wheSaGD7jNKrmWepdeZWsNBK9DqYu
+         857qz+E8D2YYb4GxVl7iFPCXK3Kw9Ell5UcnZ/ZyFDbBqPU53n9oGhA4a57rCDgUZrLz
+         BfcTE/cdXR/yT4M0nzF5CU0knsvHnJfLVSgWtyWYhEbN07uTxj1qQb/2Q+J0zbkkZYiR
+         VzleY6YtepH9uwhl3Au7PA+x9+99DFA2LCRszy5rx5H+WV8TYwe8JqG8V7gHf+yfd9Oc
+         EaVg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJrjN/kueCat/gfhF/QAJOdvTRXzGTfp8VyZp1Vw4cB9iCI8HZdI0dEGTM7YWLM6cB5j90XrtNB1EYVxJR@vger.kernel.org, AJvYcCX70pByXhz/SQJhQnShE1A592oH+x9lfWRVWMHC4tWqvZePchsRwvRtM6KZU0GaUZNGBEFJ272e1n0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzyg5G3jiviDGOKh5USUNWg+4K5r+q4aUJYLQmZKQXveuiHneu7
+	VzKHPj/u6tMMPQLqtLoGepLP9RM0XegSfC9uoBlANlApi8JlfuFC
+X-Gm-Gg: ASbGnctLAqNthGUyWxS8VpxZ9nAhbRc9Zyw+R/Sb+H/40bpui0pUftsyNfpoIK9Ydkj
+	OqdDOW7OHKoO5GU+Bzd/qCDfdmQpndLS16nZcevLZFRhaLCTGoNF3lpV9kjw1ebvjXYGEfM+oVh
+	L5KDicv5R3Tk5Ls83CQP8b7ocUBwp/VqpHDF7AN/loM81JVpRgtkiFif88WQkp7loYSeH8kbvmN
+	RFa4xZbRO25gBR/iEc8NI9XPi4+vHaN8octxQR2Cljxt98TMyHnaMiHEDbeTOz2TTTeVOPW9Sfo
+	nzVyIH8BBCybNlk=
+X-Google-Smtp-Source: AGHT+IFJLSCXQpLWVjygO2ryT8UBN9/TQaLw2cpmwi5QB34TSe8wHW0JRe80FNHslqUQ/LyOyYDIWg==
+X-Received: by 2002:a17:903:2f84:b0:212:63c0:d9e7 with SMTP id d9443c01a7336-21f4e110a0bmr88071015ad.0.1738984011623;
+        Fri, 07 Feb 2025 19:06:51 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687dddasm38069655ad.203.2025.02.07.19.06.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Feb 2025 19:06:50 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id D25224208F47; Sat, 08 Feb 2025 10:06:47 +0700 (WIB)
+Date: Sat, 8 Feb 2025 10:06:47 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
+Message-ID: <Z6bKR9K16-oYMLFl@archie.me>
+References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Zw9znROb1LsOQG2j"
+Content-Disposition: inline
+In-Reply-To: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
+
+
+--Zw9znROb1LsOQG2j
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+CK2bD6204AKWGOgzLMiMsnVZ=tk+DGc+VWgi3RVt2byaLJJA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Transfer-Encoding: quoted-printable
 
-On 02/06/25 at 08:28pm, Pasha Tatashin wrote:
-> On Thu, Feb 6, 2025 at 7:29 PM Andrew Morton <akpm@linux-foundation.org> wrote:
-> >
-> > On Thu,  6 Feb 2025 15:27:40 +0200 Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> > > This a next version of Alex's "kexec: Allow preservation of ftrace buffers"
-> > > series (https://lore.kernel.org/all/20240117144704.602-1-graf@amazon.com),
-> > > just to make things simpler instead of ftrace we decided to preserve
-> > > "reserve_mem" regions.
-> > >
-> > > The patches are also available in git:
-> > > https://git.kernel.org/rppt/h/kho/v4
-> > >
-> > >
-> > > Kexec today considers itself purely a boot loader: When we enter the new
-> > > kernel, any state the previous kernel left behind is irrelevant and the
-> > > new kernel reinitializes the system.
-> >
-> > I tossed this into mm.git for some testing and exposure.
-> >
-> > What merge path are you anticipating?
-> >
-> > Review activity seems pretty thin thus far?
-> 
-> KHO is going to be discussed at the upcoming lsfmm, we are also
-> planning to send v5 of this patch series (discussed with Mike
-> Rapoport) in a couple of weeks. It will include enhancements needed
-> for the hypervisor live update scenario:
+On Fri, Feb 07, 2025 at 10:23:25PM +0530, Pranav Tyagi wrote:
+> Corrects the following grammatical issues in the VGA Arbiter documentatio=
+n:
+> - Fixes subject-verb agreement by changing "co-exists" to "co-exist"
+> - Corrects pluralization by changing "server" to "servers"
+> - Improves sentence structure for clarity
+>=20
 
-So is this V4 still a RFC if v5 will be sent by plan? Should we hold the
-reviewing until v5? Or this series is a infrustructure building, v5 will
-add more details as you listed as below. I am a little confused.
++Cc: DRM folks.
 
-> 
-> 1. Allow nodes to be added to the KHO tree at any time
-> 2. Remove "activate" (I will also send a live update framework that
-> provides the activate functionality).
-> 3. Allow serialization during shutdown.
-> 4. Decouple KHO from kexec_file_load(), as kexec_file_load() should
-> not be used during live update blackout time.
-> 5. Enable multithreaded serialization by using hash-table as an
-> intermediate step before conversion to FDT.
+> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> ---
+>  Documentation/gpu/vgaarbiter.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbi=
+ter.rst
+> index bde3c0afb059..d1e953712cc2 100644
+> --- a/Documentation/gpu/vgaarbiter.rst
+> +++ b/Documentation/gpu/vgaarbiter.rst
+> @@ -11,9 +11,9 @@ Section 7, Legacy Devices.
+> =20
+>  The Resource Access Control (RAC) module inside the X server [0] existed=
+ for
+>  the legacy VGA arbitration task (besides other bus management tasks) whe=
+n more
+> -than one legacy device co-exists on the same machine. But the problem ha=
+ppens
+> +than one legacy device co-exist on the same machine. But the problem hap=
+pens
+>  when these devices are trying to be accessed by different userspace clie=
+nts
+> -(e.g. two server in parallel). Their address assignments conflict. Moreo=
+ver,
+> +(e.g. two servers in parallel). Their address assignments conflict. More=
+over,
+>  ideally, being a userspace application, it is not the role of the X serv=
+er to
+>  control bus resources. Therefore an arbitration scheme outside of the X =
+server
+>  is needed to control the sharing of these resources. This document intro=
+duces
+> @@ -106,7 +106,7 @@ In-kernel interface
+>  libpciaccess
+>  ------------
+> =20
+> -To use the vga arbiter char device it was implemented an API inside the
+> +To use the vga arbiter char device, an API was implemented inside the
+>  libpciaccess library. One field was added to struct pci_device (each dev=
+ice
+>  on the system)::
+> =20
 
+The diff looks OK.
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--Zw9znROb1LsOQG2j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6bKPwAKCRD2uYlJVVFO
+o2EnAP9KXpy/sNMRD07GgHf0CZ34bJcFE7NvYEFNIzeNQDcgiQEA3gktCvb0ofFa
+SL7vz+ybdAw6ceg4vF/hhZ8ZdbitVgA=
+=VhPf
+-----END PGP SIGNATURE-----
+
+--Zw9znROb1LsOQG2j--
