@@ -1,134 +1,88 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from server-598995.kolorio.com (server-598995.kolorio.com [162.241.152.247])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB6D243946
-	for <linux-doc@vger.kernel.org>; Sat,  8 Feb 2025 20:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917E81F3B9E
+	for <linux-doc@vger.kernel.org>; Sat,  8 Feb 2025 21:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.241.152.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739047082; cv=none; b=bOdLSse5AAPGS0vFf5frqIVqEu9GUlew+gVPrrCoRkaLNl+QQoZeqoaNlgG9G/eHTX7Bqjlkdf8pzB/1divOYfLVZS8SE/nyYkmhCdRff/cL/ViG0I5t1RYkLBkEyV2gi+ZnppeznWMZAjvC30HBahdWdpzqi8DVhcrw05neAo4=
+	t=1739051776; cv=none; b=ZPPsab93fU7GDlczyvT43oINNHfIvoyeI962Lakg4wxybFk0hTYZ3fvmRR0/BaXEWxI2OSgkjiZ/lWRGXzMtJpTap6u1fFx2gO7SZcrRZ9SfICY3aKGuuY/wxBeDLEcR2QQ19uVXrccwvYCaiSObm1VeX5zfVgEt2DN+7JK2p6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739047082; c=relaxed/simple;
-	bh=aLXDtqwkQRLpryu9rC+CUz7k+xX8tB/DDrhNDrtPAJE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kPxG0W8m9iy8kXujmYRixr4IbeoSqBp2c7rMNcF0inQU/2Y/3WxEAA2bv4mo5Wgx4j7cH9NtkGIx/qJNqgsCcU/PkY/+FpI0AY029C7kgREkibxUhYohi/bH/Rgyj3VJenTn7Uetq/BNALRGdMTdiENbFqxzmlwW+71IHYNiF3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IbAbY/ya; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1739051776; c=relaxed/simple;
+	bh=gl4+7vNxgV9+JzZtw7EthQ6aGDgi0WVn3wQV/lnKiyo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LT/ztnCNa70MygQqSE1lcfDP6bysBc5fRIKicbxhvfbtiWwMTQ2XQYci5I2x53PbmhyrUe4eWN8OwxSltKfY8FmlrtV0VdcayyZUEnZs+pBJckcmJZtuRAcpd2w14y0wVVowJ8HejbDdFUtkGBdXjdzn5v3Mt0xrAAjq6OEeAys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=truemaisha.co.tz; spf=pass smtp.mailfrom=truemaisha.co.tz; dkim=pass (2048-bit key) header.d=truemaisha.co.tz header.i=@truemaisha.co.tz header.b=qCDlvZN6; arc=none smtp.client-ip=162.241.152.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=truemaisha.co.tz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=truemaisha.co.tz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IbAbY/ya"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3061f1e534bso30560231fa.1
-        for <linux-doc@vger.kernel.org>; Sat, 08 Feb 2025 12:38:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1739047077; x=1739651877; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aLXDtqwkQRLpryu9rC+CUz7k+xX8tB/DDrhNDrtPAJE=;
-        b=IbAbY/ya4lJmP+GkqIpf5UMICb1r/JEAxP3yZM/0ory3GPOxHUi5T8O1Eyo+lIOTHz
-         9nRvfLFZkJo9do0oUvpnrlQeXC7jqqBCcM6GYzKmPgavfQDCEGCDtmE6N6D11+9yl5qM
-         mn6nT3odf9vgYV9HCciEviMgHhw1Wv7sp3tzU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739047077; x=1739651877;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aLXDtqwkQRLpryu9rC+CUz7k+xX8tB/DDrhNDrtPAJE=;
-        b=oUxgj2m2KZhX/CrDxAE1O5GjkbTjS/Nef35js2fsFpvSAnlKRnhtl/wSZHNpgr3S2+
-         Y1Cltl7wd84zP5qW3kkWsnCDxvZSzqL1FHx0Wh4WYHy/KfmRKZW08UoCxZwYNq8/H7co
-         9RDdLx5wFNUUtSxfyKAVA2HlGFMRYZQGRpLqi8imNOojqm3t4eIH0zKV77WTL7Ym7iLC
-         VQo+BMDeuORirKGSckRlWEyWSTYV1h0T+j9s/dNWsa0X35syueO4ZZ3qGEN2VdGDE3QL
-         itapn73gg5IgSSkW9EknXfshlMvU4xRhr4L68xjoZpGb1cwEpsj93bII9RUFibw4c4Qm
-         mN4w==
-X-Forwarded-Encrypted: i=1; AJvYcCU0XilO9sUZEZPtMzUp5iuWrnzRKppOAeH6oXaHyQfFoM/XgkqHrEUhWvLSWS2wpRA/XdHa2R5pkdo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwAjT50RqLRqm+x4uYJWwXUwaDkpxGqs/I4/587NFsyNqsxc3V
-	I9fDmYIDmrD7yMdroT3HoIT5NHGEF8B6MHnOd+fLNP/L7yrQWVbRWMXPSeQ2UOmXxxUwsGRSBIZ
-	okibb
-X-Gm-Gg: ASbGnct2TLwVmAMeL2rF91u+sMrBVgrO6vQjw3XN2HlSmG2usIG6q7kFyql92bWGZn2
-	7HnWsfvRgglA3Zcl3eiW57SYqxR0ZueNeJirBu+Bqi6j9V9g11w26tZyfIaXIatMDpOBWrFiFfh
-	4DSEBzdhL0d1xtWb2KnhyCOSGaUPHLA00E4n4rl2O8botXgHQVLquJFTiA5MWGMlbw8X6JzfUa7
-	tshVUHsESBwuxSl3aQv1Godr6Zof+MqQS5Wu0bEbqDoSUWmCKUZC66ZSEjc2Q+ivYUdgG1pGmi5
-	Jx9JTgpeavDx9cuJd913ro5mqrzYqG7ZXLxCkoKtdvakdUxe+wXN5sG0Uwo=
-X-Google-Smtp-Source: AGHT+IFmeNWAH6frpiC12B/YJzcBf8Ql6poYP/WqU2JS5pe2dqMdepmMiHz8vRbvfj8HZB/Nd4Z5Mg==
-X-Received: by 2002:a2e:a803:0:b0:2ff:c027:cf5c with SMTP id 38308e7fff4ca-307e580fd53mr25368001fa.16.1739047077401;
-        Sat, 08 Feb 2025 12:37:57 -0800 (PST)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307de2dbdbasm7683281fa.96.2025.02.08.12.37.56
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Feb 2025 12:37:56 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3061f1e534bso30560011fa.1
-        for <linux-doc@vger.kernel.org>; Sat, 08 Feb 2025 12:37:56 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXGfJhQxUrWhEZS1AEv/476MkpQ1XcCEmTMYutiQLdObs/GUQPrR2X4cLmoptGBgXAZKhDRJMm+BMY=@vger.kernel.org
-X-Received: by 2002:a2e:9f47:0:b0:308:e803:118e with SMTP id
- 38308e7fff4ca-308e80314f1mr1813521fa.0.1739047076046; Sat, 08 Feb 2025
- 12:37:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=truemaisha.co.tz header.i=@truemaisha.co.tz header.b="qCDlvZN6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=truemaisha.co.tz; s=default; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Sender:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=gl4+7vNxgV9+JzZtw7EthQ6aGDgi0WVn3wQV/lnKiyo=; b=qCDlvZN6MJom0MgGrp8L+jtqSO
+	ByK9FJjIRkmr3USTNNSaza+OwJNcv8BbMlgVvlnl8nMIqiTLg/nm9q+JVqczcNICYZlvlvUskG2hN
+	ehgx3pPzBGW2xxohVR9TOP9vyrjBaflemt2oOuqmdt2e+RjpTW7aydMOEhl307PTNcUMM9a7InDr+
+	QD7D2gfONA4rYyecTk5W/9Ez/49bcs6iM1QJSY/iz8dpDwrXSfHYIdBSWo291LiE9kLIXMcZ5J5nX
+	pQafRhH36P/pxISINECUbMlDh544PLYt0Os+0ljKRlURry2jsEj1qhSAriqA5C8Uc2aMJNZqJDuCi
+	5XIs/nuQ==;
+Received: from [74.208.124.33] (port=59276 helo=truemaisha.co.tz)
+	by server-598995.kolorio.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <chrispinerick@truemaisha.co.tz>)
+	id 1tgso7-0003jI-2w
+	for linux-doc@vger.kernel.org;
+	Sat, 08 Feb 2025 15:56:13 -0600
+Reply-To: dsong@aa4financialservice.com
+From: David Song <chrispinerick@truemaisha.co.tz>
+To: linux-doc@vger.kernel.org
+Subject: Re: The business loan- 
+Date: 08 Feb 2025 21:56:14 +0000
+Message-ID: <20250208210541.BB99A1EB07AF07A5@truemaisha.co.tz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
-In-Reply-To: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Sat, 8 Feb 2025 12:37:43 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WkPefg00R_TAQQA6waRqGdD+3e84JXfPLk2i9BRzW6Yg@mail.gmail.com>
-X-Gm-Features: AWEUYZmtp_A3cX_L46ivt1I8hAClJ-sovMP_5NAQXDAfEvF1gvbHGKAwEokNtOY
-Message-ID: <CAD=FV=WkPefg00R_TAQQA6waRqGdD+3e84JXfPLk2i9BRzW6Yg@mail.gmail.com>
-Subject: Re: [PATCH 00/14] drm/panel: Transition away from using mipi_dsi_*_write_seq()
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Joel Selvaraj <jo@jsfamily.in>, Ondrej Jirman <megi@xff.cz>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Artur Weber <aweber.kernel@gmail.com>, 
-	Jianhua Lu <lujianhua000@gmail.com>, Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Tejas Vipin <tejasvipin76@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+	charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server-598995.kolorio.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - truemaisha.co.tz
+X-Get-Message-Sender-Via: server-598995.kolorio.com: authenticated_id: chrispinerick@truemaisha.co.tz
+X-Authenticated-Sender: server-598995.kolorio.com: chrispinerick@truemaisha.co.tz
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-Hi,
+Hello,
 
-On Thu, Feb 6, 2025 at 1:06=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.com=
-> wrote:
->
-> Transition away from mipi_dsi_generic_write_seq() and
-> mipi_dsi_dcs_write_seq() to mipi_dsi_generic_write_seq_multi()
-> and mipi_dsi_dcs_write_seq_multi() respectively.
->
-> This is addressing one of the gpu todo items [1]
->
-> Used Coccinelle to make the code changes.
+My name is David Song, at AA4 FS, we are a consultancy and
+brokerage Firm specializing in Growth Financial Loan and joint
+partnership venture. We specialize in investments in all Private
+and public sectors in a broad range of areas within our Financial
+Investment Services.
 
-As Dmitry mentioned [1], I think a real cleanup needs more thought
-than can be done in a Coccinelle script. Maybe you can make a script
-that's super fancy and does a perfect conversion, but I sorta doubt it
-in this case.
+ We are experts in financial and operational management, due
+diligence and capital planning in all markets and industries. Our
+Investors wish to invest in any viable Project presented by your
+Management after reviews on your Business Project Presentation
+Plan.
 
-A few other note:
+ We look forward to your Swift response. We also offer commission
+to consultants and brokers for any partnership referrals.
 
-* Tejas Vipin has been slowly whittling down this TODO item. It would
-be good to CC him on any attempts to avoid duplicating work. He just
-submitted a patch [2] that duplicates one of the panels you ran your
-script on. It would also be good to look at the patches he has been
-posting to see some of the extra complexities.
+ Regards,
+David Song
+Senior Broker
 
-* I'm happy you CCed on the cover letter, but given that I've been
-helping with this TODO entry it would have been nice to have been CCed
-on all the patches.
+AA4 Financial Services
+13 Wonersh Way, Cheam,
+Sutton, Surrey, SM2 7LX
+Email: dsong@aa4financialservice.com
 
-For now I'm not going to review the individual patches in this series.
-If there are any where you think your Coccinelle script really got
-everything adjusted perfectly then feel free to point them out and
-I'll review them. If you want to help with this effort, my own
-personal preference would be to at least start w/ one panel at a time
-since probably review feedback on all the conversions will be similar.
-
-Thanks!
-
--Doug
-
-[1] https://lore.kernel.org/r/mz6usiheb2lx6wlk47z3btvf6t6kbo4ja4n6mli5hosrp=
-cvdwp@wmvfvhaqhpkm
-[2] http://lore.kernel.org/r/20250208051541.176667-1-tejasvipin76@gmail.com
