@@ -1,112 +1,98 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB5D241CBE;
-	Sat,  8 Feb 2025 17:35:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAB3241123;
+	Sat,  8 Feb 2025 19:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739036158; cv=none; b=k6tBxacBjwBadPbAao//94er48JGQXy2wvaipMjRnQoG9L9ebvHdeYTbZCYKo8IK6tyiKb9Kcml/Uju+6nt7XdDbZhczlX4UBV/n4r7AhzRj/cJPOqBdywwA85+8DgK7lF0sCGksqc3P0c731vNALBCHxh4HQ4Ci+del7Zrtm7Q=
+	t=1739042298; cv=none; b=ueyYZlMfMrRgj4FNjcz9YyK+Mi2fUVGvQVkz53nixp8cxySZ8r1gg6Y5Ipfy2mK9tgwJf9DqP20ILWQs4JQ8/5kF01wo5pp6er5XK2Md5ioK7qIkjzEt+TqzIIaZRnng2OM76DviWHeDEHXGueXHZpzaGRbdBGejj/5oTmfIehI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739036158; c=relaxed/simple;
-	bh=eMZffd+CadDurEeqwJEY5xGDr/mcDUP+cWGAGDhXkVA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OsNfyOm4feEn83Gx0t59sKRCw/TnOjnGFtPqbrpyOffv4HDGNySZnPpTj31lSgnyJR4TTHZrPKhhN+pA9kpFS+A/4amJLzvkiAvxOLeisnQXh7KBWvfbGH6XX5v1lYVwhIr/A1ATbsUVvz2BB52gLSX18Vf+HEPqKrclnYhMhf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kLiuU9dn; arc=none smtp.client-ip=209.85.222.180
+	s=arc-20240116; t=1739042298; c=relaxed/simple;
+	bh=Qjr1Lwn6U5Rw4Ej8sM40TWnuhXzjrsCgHcdYuSWInTQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HVe4n6E7g2gVXkds+PY3KaSBLLVJv1zbPh7ORaNcZWqsq0H672ex+XxwvWYsX9j770mXyBG49mz62Wa8evdutR8jCyX7KN/RMnNbckQ8Xl3jY7Svqn+jijq57yV7pCVkM6IQp8sx0tZsHkxJ3yV5E7MVxJMf82FWk/AcXvYIss0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=knZ/7Sqh; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kLiuU9dn"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7be8f281714so295981185a.1;
-        Sat, 08 Feb 2025 09:35:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="knZ/7Sqh"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21f40deb941so60250095ad.2;
+        Sat, 08 Feb 2025 11:18:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739036156; x=1739640956; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pFzxysuPq7z+/AWWc6raq13TKutBoDxFqezNtvWPS14=;
-        b=kLiuU9dnLUH4gUhk80ah2meA8+dSLoWszYNr2UMrXAsh65NiuyERL47VnRO268sZdo
-         sd4j0v0E1RW5NKSdbxePPxvx3IVqhfmir6/0CZWupViQFBRyITDlJ3eHnBQoYO1d5uoq
-         14cA6sCS7iRdK1HC1VbSAEJDL3gpx91BXM3lpuuBxCiNx8L2qwK2MCubLtEOwLYmmkmf
-         P6i0pcWVWdQcFkRPwWO0IikY6LvIH+hIlEoqi+zKbstfW3mKDaEsCEL/GxHo7wAdJOxw
-         /xvaLwZpgHEFT+WqA2RqBE9KzmGTeRQhHjX4vj7lL2MbEaYG1NEcq5qW1fZUlENww7k5
-         hH3Q==
+        d=gmail.com; s=20230601; t=1739042297; x=1739647097; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EaZobdudAIfmgRkPGXc55iVGg6/s8yxwmlpxfTutnFA=;
+        b=knZ/7SqhGah2rSzL5I7ati/9DG19teXQsE9YrC6ViH+uXxniUmwrtq5OShWI+F4I37
+         o5W/c2Gr98pt/US8xRNSSTjTqlMoJzf0HsFkEAzVVwRqaeuV65jHSPJFaVsWha7ZCoiq
+         Osm4Uaq4rpu6YGzrsJAgVGHS2+F46V4Xb/iAGRqZv2v8pydoqAylbpwRexS5aCU4+WAu
+         Zh4u5fudzxgH1WatICi68aPqjkjP6XL30EmSR2l+gH62IqN9eqVC0HjEhdIAw9/UbuKZ
+         OZYfyJawu0d+dR9CRXaayLZ7JGJAnloP8+t7sod+zbg0z0SxefYNlMpbblFDHoBq2MpT
+         +s2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739036156; x=1739640956;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pFzxysuPq7z+/AWWc6raq13TKutBoDxFqezNtvWPS14=;
-        b=g5TZBb49EMQ6MBfH3rSwaaFuU3sVZNQ/qaJ8t2yXT0K/hmONBxjBGtWfFg79wv5Qv5
-         OVDgYrFdmmAsC32Hc5iXARFkvHVvYwkmGHsz7JtmvJ2N+nmO3BJoeuaBwuGr0IsQUszL
-         dNqpggL/NLbRoZ7nDRW5JsvjO1SghhQuAIsC+xb+F4il75vdIT8Yi+boMim8Zdpul03J
-         8FzK/HQIyB9LeDf58/q2YpQkOKQuBqrGywRLdxmfJd0rrBnfcPNNRLZZPwK7T9C2PoUg
-         QrujyF+PfiPqmzSdBlkZSeYOhvT/+3X+X18qjUfrskmcOaBum3CYfbi50OIOqnc9SbeK
-         eZPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWDGena66Zw6+w623PEBc+1dVFigx6/A8jjbXUaeuG7HqkXYdt6/NuFDzZ8WBpbg/JtPwbs/0wL0PI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7M61YuXq1cQtCuK9wPOGhxOpNAb/2SoX4oqypA7S+T/TmKsCa
-	jZHq9sHhAHfQefBkySdp6OwU6b+u3CBoNnyqQmNFM7QGRrEorlbS
-X-Gm-Gg: ASbGncvgRckkWI0+AfjgwsK4rJEC1aeoLf5GGsoKqg97u1ARNOEpbiynoOhSvpqJurq
-	qiAnVt81cRiKezuliPw0wbBv2opWS+40FibA6C25d0zMws0iDRdKImPSsMEy3DT5ydfrpNhNepl
-	kV9bRn1rHoiMhIt7+9U7HVCl+OCeyZADyqVdI7HM12cNmUfZaRtUCwisTT8Rhi6nAhz0orS1ooE
-	v7cO0nnVNUt2lqBbR2fGpk8VMeNbbdO9qobnm/Zp9m7z0wZDbbE7HKNNMsHXILBCmiYS0LjENoM
-	FmrJx5AZN2n2Wt1oCbfjsfpbxgtWhd4nPO7AyWXiie+Cvfrqt85HFt+JfZ68
-X-Google-Smtp-Source: AGHT+IF0gm0hACvAn/KGurrADYXQRqp+r5zIZ86tyDekU7Pa/twFzTRNBMTXl1JBZ2fejh0stjaMlw==
-X-Received: by 2002:a05:620a:3191:b0:7b1:12f5:7af5 with SMTP id af79cd13be357-7c047bf3fbemr1034580885a.3.1739036156013;
-        Sat, 08 Feb 2025 09:35:56 -0800 (PST)
-Received: from localhost (DESKTOP-V1XZZQ5.ross.clarkson.edu. [128.153.205.31])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c041dfcafdsm324136985a.46.2025.02.08.09.35.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Feb 2025 09:35:55 -0800 (PST)
-From: Brendan Connelly <brendanjconnelly17@gmail.com>
-To: corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	dmitry.torokhov@gmail.com
-Subject: [PATCH] Documentation: input: Add section pertaining to polled input devices
-Date: Sat,  8 Feb 2025 12:35:54 -0500
-Message-Id: <20250208173554.209688-1-brendanjconnelly17@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1739042297; x=1739647097;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EaZobdudAIfmgRkPGXc55iVGg6/s8yxwmlpxfTutnFA=;
+        b=g4OzzY0tm79+z3S+lmNS5vW6qXruRSsHs90QXHojK8ZmWkdBiR4cO87iB4UykfIw+d
+         L0iqANUnoGd4lR6lo7n/ucd8rM5yzL9qKfhDrL4Dg5Mm7yXLUKH+/RQaY29dUsiq0sSW
+         Ril/vPnv3ZwpO3+JbsAKzwYVzzsjEEiVHzDE0eoGH4SigkktDuz54Lmj2lo86BV4YYRh
+         Le2ZDXBE+OeeOyVUqKemnRQdF/68FoMiRWXmPVrZy3xKUl70bw4quO04bfM386ylCts1
+         p6sLJI8BoXYgnx+AFLKPlgaeFZnOXZccFkMPsjHTB26gy3W+/YKQEyXL09gZDl5Au3qu
+         Mt+w==
+X-Forwarded-Encrypted: i=1; AJvYcCWQClwkGGT/+jr7g2gUOMEdX4xFS2naSjwczAaytMBNl4tVmV3sQBFDTc6J7OAZpMmb2tjy/4dziWA=@vger.kernel.org, AJvYcCWrsTopgtpbaWOtGPmrPyamua/Cq/ubw2K8QYm2muJgLZq0DFdxyRdO9o7KKzXBH26BtQhDoqxM9G0n+3vN@vger.kernel.org, AJvYcCWxaA9wKkvcZa1qlBQvnh2esES5dxaR35sfa3lU1sklxcLSV2pD1aKQaazHX6ggVcAoQSyQd5fNAITFfAM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsWhn7UPWE5tbYKemfGVUPLP6rBQZcT+FiNFNYwcY0qAv30+gD
+	AY1C5pwjOLSuK8H9SRacaJTtC+k4T56zp5IXSZKaJoVcyI5rzsJEwQ60jJGe
+X-Gm-Gg: ASbGncsubRLxXEH1Rdb/HisT60Q4PiaDhbkuN1iKy3IWSn6sVygtVJExygKNh6QjOS7
+	zzyCIExtsJ60+NDCdvLlwmbT/10OgTZXpznkOCl9VARvRAKG6xcroHqIG3K7KIbF062aVCmrGbk
+	WVr76rZ7imLb5OLliki2VKh2ITVL3/0821Ut4sZMeeCispiim2f69s7rlbbxFcYa+wQh5naO0Y7
+	Z6JNAaStrLK3VqdReKD1M2PBmF1VpZv1NLriehJl1KXVKS/XFRmzew4xIvFwW5X1L5Ryb2gPC9Y
+	ZZb6cNB7AZR5frNiOUBsgV+IR/76ay2NFuI6ZHelL5i1jS0UzVnkGu+mQmhbZaSJzKfaZg==
+X-Google-Smtp-Source: AGHT+IGK4ENVPz75Utsdlpusg9fVkdWaS6EY8fISSBPjjwvWXOzzzLFVyJDsDe9ASLA3AP7D0H9nxw==
+X-Received: by 2002:a17:902:d2cb:b0:21f:60cd:e8b with SMTP id d9443c01a7336-21f60cd2b67mr87598285ad.14.1739042296667;
+        Sat, 08 Feb 2025 11:18:16 -0800 (PST)
+Received: from ?IPV6:2409:40c0:101d:c4fc:7ba0:5deb:5197:6901? ([2409:40c0:101d:c4fc:7ba0:5deb:5197:6901])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3653babfsm49923715ad.68.2025.02.08.11.18.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 Feb 2025 11:18:16 -0800 (PST)
+Message-ID: <2840ae27-1754-4f01-9768-f0ec81f40cf8@gmail.com>
+Date: Sun, 9 Feb 2025 00:48:09 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: hwmon: Fix spelling and grammatical issues
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: jdelvare@suse.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250205200134.12006-1-purvayeshi550@gmail.com>
+ <e0dcc70d-5dad-44cc-8209-7b31c13b0976@roeck-us.net>
+Content-Language: en-US
+From: Purva Yeshi <purvayeshi550@gmail.com>
+In-Reply-To: <e0dcc70d-5dad-44cc-8209-7b31c13b0976@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Added section in Documentation/input/input-programming.rst about
-input_setup_polling() and input_set_poll_interval()
+On 07/02/25 08:22, Guenter Roeck wrote:
+> On Thu, Feb 06, 2025 at 01:31:34AM +0530, Purva Yeshi wrote:
+>> Fix spelling and grammatical errors across hwmon driver
+>> documentation files.
+>>
+>> Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
+>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Applied.
+> 
+> Thanks,
+> Guenter
 
-Signed-off-by: Brendan Connelly <brendanjconnelly17@gmail.com>
----
- Documentation/input/input-programming.rst | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Thank You!
 
-diff --git a/Documentation/input/input-programming.rst b/Documentation/input/input-programming.rst
-index c9264814c7aa..2b3e6a34e34b 100644
---- a/Documentation/input/input-programming.rst
-+++ b/Documentation/input/input-programming.rst
-@@ -346,3 +346,22 @@ driver can handle these events, it has to set the respective bits in evbit,
- 
- This callback routine can be called from an interrupt or a BH (although that
- isn't a rule), and thus must not sleep, and must not take too long to finish.
-+
-+Polled input devices
-+~~~~~~~~~~~~~~~~~~~~
-+
-+Input polling is set up by passing an input device struct and a callback to
-+the function::
-+
-+    int input_setup_polling(struct input_dev *dev,
-+        void (*poll_fn)(struct input_dev *dev))
-+
-+Within the callback, devices should use the regular input_report_* functions
-+and input_sync as is used by other devices.
-+
-+There is also the function::
-+
-+    void input_set_poll_interval(struct input_dev *dev, unsigned int interval)
-+
-+which is used to configure the interval, in milliseconds, that the device will
-+be polled at.
--- 
-2.39.5
-
+Best Regards,
+Purva Yeshi
