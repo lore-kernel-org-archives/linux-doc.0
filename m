@@ -1,114 +1,168 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6A21A8F71;
-	Sat,  8 Feb 2025 10:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98DA1A314B
+	for <linux-doc@vger.kernel.org>; Sat,  8 Feb 2025 11:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739011033; cv=none; b=VFeG++JIEUuSCkl8NwPtWi/j9j7xGWsZStwB5w18KQA+dHChv1sznEp3XLYvnTIlNxlGBs2AHpl31tjKuijt1cO2NTW//90NrCSLkQqBdqdCZzMROCWvUHWQIO5QSHGVWFCXGTpe8zeOO0zP6ntTvz7YYHevir8xOU95oVpWOVg=
+	t=1739013227; cv=none; b=MAWf49p6IX2CGAnHVDEXMFcE8sPahmXzcAoeF49VEvo9XtLpWUS9jb/jhc3mhz1hHOEQSRt1HkojFrNAlvC1/NLZbBoMQFpQfL3D07LnCIxct5txGUhr3XqxqfdSq0Epm+sVc8/kKlUxqNDSZ5Ir/znWnXzP4LImHwtZD1vYTnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739011033; c=relaxed/simple;
-	bh=fbTAEHxKYAB+zntHxdQR3V8tZP+Ebuo9IaCwxPfpeWM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JyLX3/Pv5N8H0u+dxnYCkCuDn7U80DUXWkF35e58m6+4X5mxjuqPwHyrP2N7hW2x02nE9s73WW8FCK01kize8Mt9nuHDj1ZIUp8y6uNeD/iW2sv0L9Nqt0cM70A9L0NS0sPoS60ZvSHMVLSSmLoYr065B/o6KIJ2Yy+/fUcwEos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z+I9CRvD; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739013227; c=relaxed/simple;
+	bh=zNTqRPImJ92nz+c0YeK4LqJ1stJKDQ9br/TFYbHj1Lo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F7KeStTHRfGiFTVKK6QHzrYk0P7AMsuivHKktjmGNky9yoFofsdRGIuiUteORwQgyIggx0xRY/QEgleUsbZDYA87wq7qR/CkDxViOjx/M3PvirO3Wjt5FuAkYTmBBPsrAJBjqAmsOjsK3uCWvw/Q+iuJtOp4OIL8nfa9A5XrzVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QYxeq4YK; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z+I9CRvD"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5de594e2555so1264998a12.2;
-        Sat, 08 Feb 2025 02:37:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739011030; x=1739615830; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:reply-to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Lqq5OoJ+h980raMJOy0T0Ud0ZH+rb/gmRb99fFAaT6Q=;
-        b=Z+I9CRvDr3axEtu9pR9hiWXEo32jZuwRWrPvEpUBsbZUeKbcM4hHbnzXB/PjEkBaJ6
-         l2r+ol+0Eh6MYIRfzEQ/Cmn/wP7oK5R2jYGQDqv3KxsDN/C0K0NX5Aw4IhwluaS91x+t
-         f/2aPA1W3BdQsPUCrJZ46bEKbVqgs76Dg517N0KR5iGCY9uze75pyR4hWAhYQPoDa1Wi
-         rKeb1jCNBBGuolYcO8H5vZThC66BqYHIHUbUUq+1eWkg1aPZBWOjjtLA754jRbwi7N/x
-         XRx2Hem0JRjJnKOr7YY2YEzGdTTi9LJsdHwLhMkyKGP/NL8drUknAH9D+8nmdcABPBla
-         Br3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739011030; x=1739615830;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:reply-to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lqq5OoJ+h980raMJOy0T0Ud0ZH+rb/gmRb99fFAaT6Q=;
-        b=dsvzVOnTLXbyA5+vENzxuIUqTmVi5F0HTHdFE3AWZRK/Q1By6lBmsHftItJ/2oUWty
-         p+MDrMyR5dnydB7Ow1jrVeRit6jZzN+0jZhcAjBR0MMxWZy/5C8SRsvWct1ugCEHYoYD
-         htE5IL2zP34Cmm39i/BNSf6Jt+d8aBl8qinmDeMUGJj08ItruFMYcIOg1Vdguae0nw0e
-         TuYla4iOpeLvDNsOp0SbuuN2vhM7csaSNSNBexvB3z/ZWT22zFcGJDGjIULDd+uHW0Zd
-         wqVqMWCu7k4qH/Ia9hzo99UyCA2yRb0VO/xKlftgvjFuuFL6Yd4PzPPQypGVadJot5XN
-         5tvw==
-X-Forwarded-Encrypted: i=1; AJvYcCU3M1A5FhAwDKMPplzQMvlJHfevHItFBblEtqxAKwddHZNDNMAH2i6AdlsWDBvsiikplv/6dndyWxM=@vger.kernel.org, AJvYcCUT+aJf1KxeZvJqPHfAe56V5clbCTgOrNmWie69TAjQjF3j+8Er/TVoS0CNzyfuZla2We7WlwqKNeVVPi9t@vger.kernel.org, AJvYcCVvuC1zzFuMtatFn0Bf1KJ/OYmTYGkRhqOAfBWz/BjpWib0037+1FssIB+jquNrjNEQCxzak06bqR4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhuctIz9Xea7kquPi1pN1n9ZjOOmXCIJlaVwt372syut0LgP4e
-	5YSiQhHVhXcCcV2kCj83nyEYf3EzeVRNzW704XdDaK+82uTtyVjpUQO770Rz
-X-Gm-Gg: ASbGnctWFBYkNT1T+0ofXKPFRCiqXZjC/ZPI9Zu7qMr1VxhU1cPGNDNBoPXjgIArQFa
-	J7xqEpYSjPLzxswYO8NGgxhDu3uCk78Gkcn2fIdcXtkmj+LDQUN/wkbayxfbXz0iwj/KnSKwGKs
-	NPDKRWp4GgnRnl0F3I/80UJSY+Ow3GHwR5HqtHKQQqV8iQxn7fCuO1G/IuccTfMYfXOL7PEfzc5
-	9SB5JEHodbk9t0aDiVFd7sT1wpLp66ZSyCMoGDH6yNIJ9fYCWbQAfDYfM5KxJhB+QTtDg/9lUTl
-	I5syBLQCgc/lQTP7lZx6LGs+oqbsVqjeGXzDtB5DnF/OUw==
-X-Google-Smtp-Source: AGHT+IF7wQRnc4J9ubjIAS64xIxUH7T3gYgY1o1PxDnZ0PIwuxSosqX96dunVxzMghowYFQ2GxIymg==
-X-Received: by 2002:a17:907:3608:b0:ab2:db7b:5db3 with SMTP id a640c23a62f3a-ab789c6e8efmr543532166b.54.1739011030301;
-        Sat, 08 Feb 2025 02:37:10 -0800 (PST)
-Received: from abityuts-desk1.ger.corp.intel.com ([134.191.196.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7a275537csm110939466b.66.2025.02.08.02.37.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Feb 2025 02:37:09 -0800 (PST)
-Message-ID: <c25d3b9abced9263da463b3ef4f31fff73878189.camel@gmail.com>
-Subject: Re: [PATCH v2] intel_idle: introduce 'no_native' module parameter
-From: Artem Bityutskiy <dedekind1@gmail.com>
-Reply-To: dedekind1@gmail.com
-To: David Arcari <darcari@redhat.com>, linux-pm@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Jacob Pan
- <jacob.jun.pan@linux.intel.com>,  Len Brown <lenb@kernel.org>, Prarit
- Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Date: Sat, 08 Feb 2025 12:37:06 +0200
-In-Reply-To: <9241eff1-0c2d-4c82-a77d-cb8b67cab6f9@redhat.com>
-References: <20250128141139.2033088-1-darcari@redhat.com>
-	 <20250206164009.816232-1-darcari@redhat.com>
-	 <6c258775cdf2f8f3c370c0cb81daf22dacf6aeed.camel@gmail.com>
-	 <9241eff1-0c2d-4c82-a77d-cb8b67cab6f9@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QYxeq4YK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739013224;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Yd9C+xXA2LYK4yay23tEJLHcwK0FQNJYR+yHMEQ6ia4=;
+	b=QYxeq4YKdWwP+Sl22+Fa2owq8vOWjDfVl61AY8Ygpafg5kW7bU3QcG27Anae8Ma8oqmO2Q
+	wHlDJ7+dCrp2Gu53yqs9+WfL5iTtaQQlv/XhCJsKfp6D5dHZ/qShY6QDY/l0jd4F5TLBX1
+	EubpWZNS9C8RyeL0RtVd3jGdWt1ypYw=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-548-9tRamBlGP6-FTEK_1JuOMQ-1; Sat,
+ 08 Feb 2025 06:13:40 -0500
+X-MC-Unique: 9tRamBlGP6-FTEK_1JuOMQ-1
+X-Mimecast-MFC-AGG-ID: 9tRamBlGP6-FTEK_1JuOMQ
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EAF631955DD0;
+	Sat,  8 Feb 2025 11:13:34 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.25])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A2B1619560A3;
+	Sat,  8 Feb 2025 11:13:29 +0000 (UTC)
+Date: Sat, 8 Feb 2025 19:13:25 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Pratyush Yadav <ptyadav@amazon.de>,
+	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+	changyuanl@google.com
+Subject: Re: [PATCH v4 00/14] kexec: introduce Kexec HandOver (KHO)
+Message-ID: <Z6c8VeXqV1s+aPXY@fedora>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+ <20250206162939.a1f86fb835f1eeb7ed73ff1c@linux-foundation.org>
+ <CA+CK2bD6204AKWGOgzLMiMsnVZ=tk+DGc+VWgi3RVt2byaLJJA@mail.gmail.com>
+ <Z6a1kxR2GlQoepgI@MiWiFi-R3L-srv>
+ <Z6cYt8QryoUfI0wc@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z6cYt8QryoUfI0wc@kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-On Fri, 2025-02-07 at 12:13 -0500, David Arcari wrote:
-> > And if kernel was not configured with ACPI support, are these not
-> > recognized? Or
-> > they are just no-op basically?
->=20
-> They are a no-op - the flags are all set to false so ACPI C-state tables=
-=20
-> are ignored.
+On 02/08/25 at 10:41am, Mike Rapoport wrote:
+> Hi Baoquan,
+> 
+> On Sat, Feb 08, 2025 at 09:38:27AM +0800, Baoquan He wrote:
+> > On 02/06/25 at 08:28pm, Pasha Tatashin wrote:
+> > > On Thu, Feb 6, 2025 at 7:29 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> > > >
+> > > > On Thu,  6 Feb 2025 15:27:40 +0200 Mike Rapoport <rppt@kernel.org> wrote:
+> > > >
+> > > > > This a next version of Alex's "kexec: Allow preservation of ftrace buffers"
+> > > > > series (https://lore.kernel.org/all/20240117144704.602-1-graf@amazon.com),
+> > > > > just to make things simpler instead of ftrace we decided to preserve
+> > > > > "reserve_mem" regions.
+> > > > >
+> > > > > The patches are also available in git:
+> > > > > https://git.kernel.org/rppt/h/kho/v4
+> > > > >
+> > > > >
+> > > > > Kexec today considers itself purely a boot loader: When we enter the new
+> > > > > kernel, any state the previous kernel left behind is irrelevant and the
+> > > > > new kernel reinitializes the system.
+> > > >
+> > > > I tossed this into mm.git for some testing and exposure.
+> > > >
+> > > > What merge path are you anticipating?
+> > > >
+> > > > Review activity seems pretty thin thus far?
+> > > 
+> > > KHO is going to be discussed at the upcoming lsfmm, we are also
+> > > planning to send v5 of this patch series (discussed with Mike
+> > > Rapoport) in a couple of weeks. It will include enhancements needed
+> > > for the hypervisor live update scenario:
+> > 
+> > So is this V4 still a RFC if v5 will be sent by plan? Should we hold the
+> > reviewing until v5? Or this series is a infrustructure building, v5 will
+> > add more details as you listed as below. I am a little confused.
+> 
+> v4 adds the very basic support for kexec handover in the simplest form we
+> could think of. There were discussions on Linux MM Alignment and Hypervisor
+> live update meetings and there people agreed about MVP for KHO that v4
+> essentially implements.
+> 
+> v5 will add more details on top of v4 and I'm not sure there's a consensus
+> about some of them among the people involved in KHO.
 
-It would be nice to mention this too. Otherwise it sounds a bit incomplete.=
- Like
-this:
+Thanks for the information.
 
-	If A then B. (nothing about "else").
+Then I will apply v4 and learn the infrastructure and mechanism firstly.
 
-Better way:
+While what sounds more meaningful to me is v4 can be reviewed, then updated
+and merged. Then another patchset can be posted to add details, if you have
+reached the consensus on the infrastructure part. With that, posting and
+reviewing will be much easier. Unless you guys are still discussing the
+infrastructure part.
 
-	If A then B, else C.
-
-:-)
-
-> >=20
-> Sure - so is this better:
->=20
-> ``use_acpi`` - No-op in ACPI mode, the driver will consult ACPI tabees=
-=20
-> for C-states on/off status in native mode.
-
-Yes, thanks!
+>  
+> > > 1. Allow nodes to be added to the KHO tree at any time
+> > > 2. Remove "activate" (I will also send a live update framework that
+> > > provides the activate functionality).
+> > > 3. Allow serialization during shutdown.
+> > > 4. Decouple KHO from kexec_file_load(), as kexec_file_load() should
+> > > not be used during live update blackout time.
+> > > 5. Enable multithreaded serialization by using hash-table as an
+> > > intermediate step before conversion to FDT.
+> > 
+> 
+> -- 
+> Sincerely yours,
+> Mike.
+> 
 
