@@ -1,133 +1,134 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8C7241116
-	for <linux-doc@vger.kernel.org>; Sat,  8 Feb 2025 19:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB6D243946
+	for <linux-doc@vger.kernel.org>; Sat,  8 Feb 2025 20:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739044569; cv=none; b=WApl+QArNYLafisLIWZt/M7CQY59o6SFLjiimsFDPnbBxj30BNakYOp2iN/fC0E9QWL0Y0twbhCI4pTyPQJilgQ1FiQrDmIFLHVU4HvEW44mYVFLQg57lrx6nWgUmLZBYeOexxpzm45V4/yhf0ZJMHpWz8ZOoY/yLtaZM8JAplE=
+	t=1739047082; cv=none; b=bOdLSse5AAPGS0vFf5frqIVqEu9GUlew+gVPrrCoRkaLNl+QQoZeqoaNlgG9G/eHTX7Bqjlkdf8pzB/1divOYfLVZS8SE/nyYkmhCdRff/cL/ViG0I5t1RYkLBkEyV2gi+ZnppeznWMZAjvC30HBahdWdpzqi8DVhcrw05neAo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739044569; c=relaxed/simple;
-	bh=1drWUIgvHFq0hezfTkFnWaTwhco6irh+3Gr9yrHOpOU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lClZUaORxyB7vyE1C+jLjfYBtY7OaUZ/+I7DuO9xDsvl/rj7VI8B6DoA0UKGbHWhe70enkpUbcyMavf5lYhz9JPiQnN0XcUwKVhnPCQGj671eAnSp+jx4z7UQkezMtQPk1LGvp5+o4SVZJs8SYNj2/XTOgi+pb3WBjRvE81aI2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=USE8hKZX; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1739047082; c=relaxed/simple;
+	bh=aLXDtqwkQRLpryu9rC+CUz7k+xX8tB/DDrhNDrtPAJE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kPxG0W8m9iy8kXujmYRixr4IbeoSqBp2c7rMNcF0inQU/2Y/3WxEAA2bv4mo5Wgx4j7cH9NtkGIx/qJNqgsCcU/PkY/+FpI0AY029C7kgREkibxUhYohi/bH/Rgyj3VJenTn7Uetq/BNALRGdMTdiENbFqxzmlwW+71IHYNiF3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IbAbY/ya; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="USE8hKZX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739044566;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qJrBPQnhtPlXH6IxDYHNsAVehPX7LGhNXc/5vBp7/qY=;
-	b=USE8hKZXGrB0K07X8syeNvmINUUNdDRr1CqJ+8wHCX+EU83y6omS/ADXmIL5Z448kY31cD
-	/mY5ATWakq+DLMmEFIAZQVaCTqu7X9Eprrk4Ur2LIYisg4QAA2U3z1YcX1aVx8BRv09NvA
-	OZ8qWHaFuAk85kr603CYv57/CbXuvw0=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-594-WSzq0xAjNqWTiIBBLRIoag-1; Sat, 08 Feb 2025 14:56:05 -0500
-X-MC-Unique: WSzq0xAjNqWTiIBBLRIoag-1
-X-Mimecast-MFC-AGG-ID: WSzq0xAjNqWTiIBBLRIoag
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-3eba5d45854so3520388b6e.1
-        for <linux-doc@vger.kernel.org>; Sat, 08 Feb 2025 11:56:05 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IbAbY/ya"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3061f1e534bso30560231fa.1
+        for <linux-doc@vger.kernel.org>; Sat, 08 Feb 2025 12:38:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1739047077; x=1739651877; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aLXDtqwkQRLpryu9rC+CUz7k+xX8tB/DDrhNDrtPAJE=;
+        b=IbAbY/ya4lJmP+GkqIpf5UMICb1r/JEAxP3yZM/0ory3GPOxHUi5T8O1Eyo+lIOTHz
+         9nRvfLFZkJo9do0oUvpnrlQeXC7jqqBCcM6GYzKmPgavfQDCEGCDtmE6N6D11+9yl5qM
+         mn6nT3odf9vgYV9HCciEviMgHhw1Wv7sp3tzU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739044564; x=1739649364;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qJrBPQnhtPlXH6IxDYHNsAVehPX7LGhNXc/5vBp7/qY=;
-        b=ccIXNd8Y5F4QApX+Cw9FjOR2XpVA1eB3fmF9di3Xw/Y0hUvWCHzIXbBcBpenIjRZ4U
-         HJMnRD1VB4PpWKXmtvGSiv6UsUrF1/+C15frR4lWKcnbhk3riYJqai1qJ5Ldak2yYxsK
-         hxLLVQABMVhqD2/luMBtmIpXYG7oLgMKv9nrX+D960w5Qzp3jC6temkWL9aZ8IKTIrI4
-         NkIkbCftxlx1JAVP6rDLq6ToQroDgciqjGqIVshWiCYsmf/PGJKZanQOVgF+eCTlxFLr
-         NjwbG45OcY1kkPL+VqjcoTwBRmogn0aYefvvPuHDkN2bOgWVn9tKow7DSTxTkVRsgp8y
-         XIig==
-X-Forwarded-Encrypted: i=1; AJvYcCXRNbNDpJLXTE0Wh+eVOdIfDhM9ju0NdlCoO1y6FN8Uoo86xi7I97DxSUzRN3aL2RnGbt0BLqFGn2I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7taPemn1SDJZGfwNBueZ78LzharcId98VBD/jxNkUhMOWmeX7
-	D2uBkeqeShaaZlAq6muSqxLC9Le5LJKc99qCUEzUrT6y4aQcEuwAZiRNReZi1eR5dFOX9IO44Q9
-	BINiib/3ScQceXQzqwhA2amqEpd4j4b7lz0h1+YVMx3FihmWXIUHnk5+wsg==
-X-Gm-Gg: ASbGncv2V0/e6AAWUEm30Q2+643ErjXlBZO6aY4YqARhCMKnOmMlSiyfu2USlhWEe7a
-	keZky+Nr8+zneKEmeQpSJ/n2m1umtljaGI6v7bY+P+Dau4bs4vfWmLZjN7xGh/rAoLt8PhahZpF
-	Xl4Ujhqq04GkC4B17JDbqB+NpQJ5VkBGopuP3ezFsgqHPIOaQUpMRD3WASdtk8Y4WU9TaIz08Rl
-	SyCARIGchF4j9J+KXUq25nAM1qZSF5taMi5jKjit4i+DlIRNRvuJm6rRIyHSM2U5qzFEHATaQsN
-	MbXr
-X-Received: by 2002:a05:6808:80cc:b0:3e6:3116:99d0 with SMTP id 5614622812f47-3f39222b3fbmr5393575b6e.13.1739044564702;
-        Sat, 08 Feb 2025 11:56:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF77f8SjJ5aO8jURW5smUN5SBZK/+nJGx6pVJEW7YxApvAY6WlsUk5VVFGjgRkKRDc4TDJ/xA==
-X-Received: by 2002:a05:6808:80cc:b0:3e6:3116:99d0 with SMTP id 5614622812f47-3f39222b3fbmr5393561b6e.13.1739044564465;
-        Sat, 08 Feb 2025 11:56:04 -0800 (PST)
-Received: from [10.26.1.94] ([66.187.232.136])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f389fda9a7sm1417358b6e.48.2025.02.08.11.56.03
+        d=1e100.net; s=20230601; t=1739047077; x=1739651877;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aLXDtqwkQRLpryu9rC+CUz7k+xX8tB/DDrhNDrtPAJE=;
+        b=oUxgj2m2KZhX/CrDxAE1O5GjkbTjS/Nef35js2fsFpvSAnlKRnhtl/wSZHNpgr3S2+
+         Y1Cltl7wd84zP5qW3kkWsnCDxvZSzqL1FHx0Wh4WYHy/KfmRKZW08UoCxZwYNq8/H7co
+         9RDdLx5wFNUUtSxfyKAVA2HlGFMRYZQGRpLqi8imNOojqm3t4eIH0zKV77WTL7Ym7iLC
+         VQo+BMDeuORirKGSckRlWEyWSTYV1h0T+j9s/dNWsa0X35syueO4ZZ3qGEN2VdGDE3QL
+         itapn73gg5IgSSkW9EknXfshlMvU4xRhr4L68xjoZpGb1cwEpsj93bII9RUFibw4c4Qm
+         mN4w==
+X-Forwarded-Encrypted: i=1; AJvYcCU0XilO9sUZEZPtMzUp5iuWrnzRKppOAeH6oXaHyQfFoM/XgkqHrEUhWvLSWS2wpRA/XdHa2R5pkdo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwAjT50RqLRqm+x4uYJWwXUwaDkpxGqs/I4/587NFsyNqsxc3V
+	I9fDmYIDmrD7yMdroT3HoIT5NHGEF8B6MHnOd+fLNP/L7yrQWVbRWMXPSeQ2UOmXxxUwsGRSBIZ
+	okibb
+X-Gm-Gg: ASbGnct2TLwVmAMeL2rF91u+sMrBVgrO6vQjw3XN2HlSmG2usIG6q7kFyql92bWGZn2
+	7HnWsfvRgglA3Zcl3eiW57SYqxR0ZueNeJirBu+Bqi6j9V9g11w26tZyfIaXIatMDpOBWrFiFfh
+	4DSEBzdhL0d1xtWb2KnhyCOSGaUPHLA00E4n4rl2O8botXgHQVLquJFTiA5MWGMlbw8X6JzfUa7
+	tshVUHsESBwuxSl3aQv1Godr6Zof+MqQS5Wu0bEbqDoSUWmCKUZC66ZSEjc2Q+ivYUdgG1pGmi5
+	Jx9JTgpeavDx9cuJd913ro5mqrzYqG7ZXLxCkoKtdvakdUxe+wXN5sG0Uwo=
+X-Google-Smtp-Source: AGHT+IFmeNWAH6frpiC12B/YJzcBf8Ql6poYP/WqU2JS5pe2dqMdepmMiHz8vRbvfj8HZB/Nd4Z5Mg==
+X-Received: by 2002:a2e:a803:0:b0:2ff:c027:cf5c with SMTP id 38308e7fff4ca-307e580fd53mr25368001fa.16.1739047077401;
+        Sat, 08 Feb 2025 12:37:57 -0800 (PST)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307de2dbdbasm7683281fa.96.2025.02.08.12.37.56
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Feb 2025 11:56:04 -0800 (PST)
-Message-ID: <720944c4-48b2-4d1c-8a02-d81416ed7484@redhat.com>
-Date: Sat, 8 Feb 2025 14:56:02 -0500
+        Sat, 08 Feb 2025 12:37:56 -0800 (PST)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3061f1e534bso30560011fa.1
+        for <linux-doc@vger.kernel.org>; Sat, 08 Feb 2025 12:37:56 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXGfJhQxUrWhEZS1AEv/476MkpQ1XcCEmTMYutiQLdObs/GUQPrR2X4cLmoptGBgXAZKhDRJMm+BMY=@vger.kernel.org
+X-Received: by 2002:a2e:9f47:0:b0:308:e803:118e with SMTP id
+ 38308e7fff4ca-308e80314f1mr1813521fa.0.1739047076046; Sat, 08 Feb 2025
+ 12:37:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] intel_idle: introduce 'no_native' module parameter
-To: dedekind1@gmail.com, linux-pm@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Len Brown <lenb@kernel.org>,
- Prarit Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250128141139.2033088-1-darcari@redhat.com>
- <20250206164009.816232-1-darcari@redhat.com>
- <6c258775cdf2f8f3c370c0cb81daf22dacf6aeed.camel@gmail.com>
- <9241eff1-0c2d-4c82-a77d-cb8b67cab6f9@redhat.com>
- <c25d3b9abced9263da463b3ef4f31fff73878189.camel@gmail.com>
-Content-Language: en-US
-From: David Arcari <darcari@redhat.com>
-In-Reply-To: <c25d3b9abced9263da463b3ef4f31fff73878189.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
+In-Reply-To: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Sat, 8 Feb 2025 12:37:43 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WkPefg00R_TAQQA6waRqGdD+3e84JXfPLk2i9BRzW6Yg@mail.gmail.com>
+X-Gm-Features: AWEUYZmtp_A3cX_L46ivt1I8hAClJ-sovMP_5NAQXDAfEvF1gvbHGKAwEokNtOY
+Message-ID: <CAD=FV=WkPefg00R_TAQQA6waRqGdD+3e84JXfPLk2i9BRzW6Yg@mail.gmail.com>
+Subject: Re: [PATCH 00/14] drm/panel: Transition away from using mipi_dsi_*_write_seq()
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Joel Selvaraj <jo@jsfamily.in>, Ondrej Jirman <megi@xff.cz>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Artur Weber <aweber.kernel@gmail.com>, 
+	Jianhua Lu <lujianhua000@gmail.com>, Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Tejas Vipin <tejasvipin76@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
+On Thu, Feb 6, 2025 at 1:06=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.com=
+> wrote:
+>
+> Transition away from mipi_dsi_generic_write_seq() and
+> mipi_dsi_dcs_write_seq() to mipi_dsi_generic_write_seq_multi()
+> and mipi_dsi_dcs_write_seq_multi() respectively.
+>
+> This is addressing one of the gpu todo items [1]
+>
+> Used Coccinelle to make the code changes.
 
-On 2/8/25 5:37 AM, Artem Bityutskiy wrote:
-> On Fri, 2025-02-07 at 12:13 -0500, David Arcari wrote:
->>> And if kernel was not configured with ACPI support, are these not
->>> recognized? Or
->>> they are just no-op basically?
->>
->> They are a no-op - the flags are all set to false so ACPI C-state tables
->> are ignored.
-> 
-> It would be nice to mention this too. Otherwise it sounds a bit incomplete. Like
-> this:
-> 
-> 	If A then B. (nothing about "else").
-> 
-> Better way:
-> 
-> 	If A then B, else C.
-> 
-> :-)
+As Dmitry mentioned [1], I think a real cleanup needs more thought
+than can be done in a Coccinelle script. Maybe you can make a script
+that's super fancy and does a perfect conversion, but I sorta doubt it
+in this case.
 
-I actually took that from what was already there.
+A few other note:
 
-So I can add "In the case that ACPI is not configured these flags have 
-no impact on functionality."
+* Tejas Vipin has been slowly whittling down this TODO item. It would
+be good to CC him on any attempts to avoid duplicating work. He just
+submitted a patch [2] that duplicates one of the panels you ran your
+script on. It would also be good to look at the patches he has been
+posting to see some of the extra complexities.
 
-Does that work?
+* I'm happy you CCed on the cover letter, but given that I've been
+helping with this TODO entry it would have been nice to have been CCed
+on all the patches.
 
--DA
+For now I'm not going to review the individual patches in this series.
+If there are any where you think your Coccinelle script really got
+everything adjusted perfectly then feel free to point them out and
+I'll review them. If you want to help with this effort, my own
+personal preference would be to at least start w/ one panel at a time
+since probably review feedback on all the conversions will be similar.
 
-> 
->>>
->> Sure - so is this better:
->>
->> ``use_acpi`` - No-op in ACPI mode, the driver will consult ACPI tabees
->> for C-states on/off status in native mode.
-> 
-> Yes, thanks!
-> 
+Thanks!
 
+-Doug
+
+[1] https://lore.kernel.org/r/mz6usiheb2lx6wlk47z3btvf6t6kbo4ja4n6mli5hosrp=
+cvdwp@wmvfvhaqhpkm
+[2] http://lore.kernel.org/r/20250208051541.176667-1-tejasvipin76@gmail.com
