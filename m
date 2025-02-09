@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBFA243370;
-	Sun,  9 Feb 2025 10:38:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B97243392;
+	Sun,  9 Feb 2025 12:01:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739097538; cv=none; b=A5ZDB7QXVtb2tYs26YTvAuLhVFrOUelT5Xp0+9Qf+6uPvUSNGe4Fz3CQkbDTSfiOSZ2puXch3KwXnZbyyKo+z37EU6ictk6ImA0DZHwwf9/rBs7LkXLIWbhYr8ab0Y9cRLcirC6Cxml4SPT5zHsx6lZShgQm0v8op4SPpMZtHbo=
+	t=1739102484; cv=none; b=Vd+I/DaB77gUdeXOCQIRwsW/WCdFTpipOt3Ro5pjIj9yI/V6NQ9x7sD/Nk3cggtwHO73DUdnsndmo/7Ext4+dTVh2uiDY4uRCNuYrWpmLJ0HIG5j36yyvTwsfGO/z7F5FEnoZtmEF8SkHYg6Ki05GNruiw4FQGnskIQ3INM3Y1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739097538; c=relaxed/simple;
-	bh=9nFwagNxCfn0j52uHcSSNAhPNFRHroONyYXsrNVJahI=;
+	s=arc-20240116; t=1739102484; c=relaxed/simple;
+	bh=YOlF0kfEhFPlEFqyngV+aVrsjWHQHhzJ3hb7R1wmWaY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=umnwQrEBxQ+Y9vquSH2F7TJtDzYWGyxgbwqUwbhdHkU8Cw1SBgZP2G2n2OvmK1JtXp6aQZoZ8M/42cV82Erdr4i2ni+EnI2WGtngCS2BuqzTcqvqnRs4M3+IrCIcgdwgbaJ023fu5IindLDJDqfAHXzt2SSXcooLWEEXdYxmKMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e0l8jxZw; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=q6ma026IbOIHRpNzMhoejd71U2UQ4a7ihrBSnY+c381EMt99KpOU39diGM8hMd0wgbYfXRB9YMAFoZ/FcWXj8ZRmEfIMEArQL0pV3rH/bwfgsi8gZYAXn24J2ooIHu7S7Mhztn4k/SkBoWiksW4uUz+eg4f70CUziM8r5wpXoRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DI0fLVPn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e0l8jxZw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7973BC4CEDD;
-	Sun,  9 Feb 2025 10:38:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DI0fLVPn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE53C4CEE2;
+	Sun,  9 Feb 2025 12:01:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739097535;
-	bh=9nFwagNxCfn0j52uHcSSNAhPNFRHroONyYXsrNVJahI=;
+	s=k20201202; t=1739102484;
+	bh=YOlF0kfEhFPlEFqyngV+aVrsjWHQHhzJ3hb7R1wmWaY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=e0l8jxZwRnj6FN5X+Zi4CNSdeS98Z610zj9MbxG1WkmXcbrodAatfXuGDO7pc8iMO
-	 JUKsC+JTn43AnT1hvYhXKteip7hBHI1rN+4yBOsNfPIkHxr9QIJw80IMRxWQ44whUB
-	 z5POpknvfD+L0LtegF9LPOlegv3wXvO6zCwCQbkLllpNBxTgiv4RC9CJv2VR4y90gE
-	 CA95KwA84hGYr+0Q2inTeFdFHyDUrgp/bdQMLGwsDmGkS8poP8NflN8hQ0l7dNSmwC
-	 7ppSZF04BbR5YbcCj6qZvwMx2dd2pJmlrKdrD1pJWVDwGVkdDenZsLychX7S0jzG7I
-	 tSG8bP1yfetvQ==
-Message-ID: <b1e59928-b2f4-47d4-87b8-424234c52f8d@kernel.org>
-Date: Sun, 9 Feb 2025 11:38:37 +0100
+	b=DI0fLVPnHzCLzO/qyU7oeSgqlxDU/UEQdIgw+LaJ3hX/9EKWQPWn9d2gmA+dsV74h
+	 JAglg5KC/qvKWcAskeAB6dGq8y6qZjxVPVPIBjdqL1rZzvxw2w304+5MSSoVoHeLhK
+	 SYjO/5Z7zyvQMCVfYKW6ae51S0M1oB9yfydfXHn1ebhF2GjV5SwRRvzoNHplPNFNBu
+	 zxxUSpNpmiFut6/uheoxm8HzhSX47Bgvn7qPSzmItuc5xPwbrbAkoY6Xv7DD5JBofE
+	 WzOi5zk2dP68aOEAQXTy6u05EUYmFnv3D31uAc1AfulbXHrHmb4FD5PTC2/BEzjegA
+	 V0tCGga0bNHQg==
+Message-ID: <5d2b71a9-a62b-418c-91ae-fa2a195aa27c@kernel.org>
+Date: Sun, 9 Feb 2025 13:01:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,32 +35,21 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/14] arm64: Add KHO support
-To: Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org
-Cc: Alexander Graf <graf@amazon.com>,
- Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski
- <luto@kernel.org>, Anthony Yznaga <anthony.yznaga@oracle.com>,
- Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- David Woodhouse <dwmw2@infradead.org>, Eric Biederman
- <ebiederm@xmission.com>, Ingo Molnar <mingo@redhat.com>,
- James Gowans <jgowans@amazon.com>, Jonathan Corbet <corbet@lwn.net>,
- Mark Rutland <mark.rutland@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, "H. Peter Anvin"
- <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>,
- Pratyush Yadav <ptyadav@amazon.de>, Rob Herring <robh+dt@kernel.org>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
- Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
- Tom Lendacky <thomas.lendacky@amd.com>, Usama Arif
- <usama.arif@bytedance.com>, Will Deacon <will@kernel.org>,
- devicetree@vger.kernel.org, kexec@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, x86@kernel.org
-References: <20250206132754.2596694-1-rppt@kernel.org>
- <20250206132754.2596694-11-rppt@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: trivial-devices: add lt3074
+To: "Encarnacion, Cedric justine" <Cedricjustine.Encarnacion@analog.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+References: <20250124-upstream-lt3074-v1-0-7603f346433e@analog.com>
+ <20250124-upstream-lt3074-v1-1-7603f346433e@analog.com>
+ <20250127-outgoing-ibis-of-respect-028c50@krzk-bin>
+ <PH0PR03MB6938B71327DAADC17492A5538EF62@PH0PR03MB6938.namprd03.prod.outlook.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,61 +95,61 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250206132754.2596694-11-rppt@kernel.org>
+In-Reply-To: <PH0PR03MB6938B71327DAADC17492A5538EF62@PH0PR03MB6938.namprd03.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 06/02/2025 14:27, Mike Rapoport wrote:
-> From: Alexander Graf <graf@amazon.com>
+On 06/02/2025 10:05, Encarnacion, Cedric justine wrote:
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzk@kernel.org>
+>> Sent: Monday, January 27, 2025 3:52 PM
+>> To: Encarnacion, Cedric justine <Cedricjustine.Encarnacion@analog.com>
+>> Cc: Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
+>> Conor Dooley <conor+dt@kernel.org>; Jean Delvare <jdelvare@suse.com>;
+>> Guenter Roeck <linux@roeck-us.net>; Jonathan Corbet <corbet@lwn.net>;
+>> Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>;
+>> devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+>> hwmon@vger.kernel.org; linux-doc@vger.kernel.org; linux-i2c@vger.kernel.org
+>> Subject: Re: [PATCH 1/2] dt-bindings: trivial-devices: add lt3074
+>>
+>> [External]
+>>
+>> On Fri, Jan 24, 2025 at 11:39:06PM +0800, Cedric Encarnacion wrote:
+>>> Add Analog Devices LT3074 Ultralow Noise, High PSRR Dropout Linear
+>>> Regulator.
+>>
+>> Regulator? Then why is it trivial? No enable-gpios? No I2C interface?
+>>
+>> Best regards,
+>> Krzysztof
 > 
-> We now have all bits in place to support KHO kexecs. This patch adds
+> I based this driver primarily on the LT7182S dual-channel silent switcher
+> regulator. 
 
 
-Please do not use "This commit/patch/change", but imperative mood. See
-longer explanation here:
-https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
+I do not understand why the base of driver matters here? If it was based
+on LTFOOBARGROUNDHOG1 would it change something? I know neither LT7182S
+nor the LTFOOBARGROUNDHOG1. And driver matters here even less - bindings
+are about hardware, not given implementation in OS.
 
-> awareness of KHO in the kexec file as well as boot path for arm64 and
-> adds the respective kconfig option to the architecture so that it can
-> use KHO successfully.
+> The LT3074 is a single-channel device with basic enable and
+> power-good GPIOs, fewer registers, and fewer functionalities than the
+
+So it has GPIOs? And by GPIOs you mean what the SoC/CPU, thus the
+operating system, sees as GPIOs or something else?
+
+> LT7182S. Like other PMBus drivers, its GPIOs are not exposed.
 > 
-> Signed-off-by: Alexander Graf <graf@amazon.com>
-> Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
+> Here are other PMBus regulators/power modules found in trivial-devices
+> I also used as reference:
+> 
+> - infineon,irps5401
+> - delta,q54sj108a2
 
 
-...
+I don't know these devices so still no clue. Please rather explain in
+the terms of the hardware, e.g. what this device has or has not. See
+also regulator bindings.
 
-> +#ifdef CONFIG_KEXEC_HANDOVER
-> +	dt = image->kho.dt.buffer;
-> +	dt_mem = image->kho.dt.mem;
-> +	dt_len = image->kho.dt.bufsz;
-> +
-> +	scratch_mem = image->kho.scratch.mem;
-> +	scratch_len = image->kho.scratch.bufsz;
-> +#endif
-> +
-> +	if (!dt)
-> +		goto out;
-> +
-> +	pr_debug("Adding kho metadata to DT");
-> +
-> +	ret = fdt_appendprop_addrrange(fdt, 0, chosen_node, "linux,kho-dt",
-
-Where is the ABI documentation for this?
-
-> +				       dt_mem, dt_len);
-> +	if (ret)
-> +		goto out;
-> +
-> +	ret = fdt_appendprop_addrrange(fdt, 0, chosen_node, "linux,kho-scratch",
-
-Same question.
-
-> +				       scratch_mem, scratch_len);
-> +	if (ret)
-> +		goto out;
-> +
 Best regards,
 Krzysztof
