@@ -1,156 +1,116 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58861392
-	for <linux-doc@vger.kernel.org>; Sun,  9 Feb 2025 00:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9950928EC;
+	Sun,  9 Feb 2025 00:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739060645; cv=none; b=Ey4+olg+VVsbfSoaTC6LnZurzihOTP2QQk9X3CUMcksDscu9WPxq9HvIxf+N4/X02E1ypbLXN8l8hqYKsJGHOZd6bBx4ha9azxgt8pezpUpMFoSFJpFLcRCQYzNF3530V/MPVqnA/Za/29WywYsOT0zdvf6WPu5cuSyd8L35Uoc=
+	t=1739062319; cv=none; b=snNee/nxQwMPjS+EvIvyEz9H84VDGW6Ban1lrSQYzQyEaBragYhxSrYRSdQ5wUCsyxe6IvXiOUHpke0UvvhF2nvYoAs/ymZrEGia7jHkC0tggvaKAlC3y7oHQZcf0RbDlkjFZTEbRBLFR6PVtFOqnzgZ+ViLaB+8lI4PIzo7NbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739060645; c=relaxed/simple;
-	bh=8rgYzZv3rSSdAvQylMlRpXn+zz10aBE5mdUoPt384Xs=;
+	s=arc-20240116; t=1739062319; c=relaxed/simple;
+	bh=DWsrXxGGdjjESo2yPO6grtFkKr9W7RtqWMSm/cfEOGM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tF0TmU9OSZIWtHL/Rpl0fdeS5nQ/fm6FbplGtTMTxrvjhlnCNGNMRKoPUOR2VhmzeDA8GJgDJS5Hct+jcvwLKoVneXOpGsKJqyAIULmAv9IbMnDUX4h7pNrNH+HKsWVXyheTFIEzJIAMKSV2hnPd8ziakn/Yy1ba9be/f8EAB4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=Xgb7XH/7; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 To:Cc:Content-Type; b=E7tuJvAOXhLhqppNjcZzHCGQaG1N/0uTfvKrxhdz6iP1xtmaZ2qRMEQhKLhFnUN5qLiwC7qPZVywfYd1M+5y0IQ8Yt/GK8EBDQ8TW639vPf/0aZQbGhdp0ST3FUMJ42YUk53uwerQ56nrB9POl8mH4LPVXzKiobYSeIqsBBRwEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZwmrV7J9; arc=none smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="Xgb7XH/7"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-467918c360aso41460151cf.0
-        for <linux-doc@vger.kernel.org>; Sat, 08 Feb 2025 16:24:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZwmrV7J9"
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4bbb56bbbd4so581680137.1;
+        Sat, 08 Feb 2025 16:51:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1739060643; x=1739665443; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1739062316; x=1739667116; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4gjXaQBLaw4NUMDsntEFs7TEopqGWrY+9/yjxC8/Zts=;
-        b=Xgb7XH/7tYqM+PvmRQHe0Fpuxjvt115x9N0pjfi4kdZVhGng4SDnD7m4Y8lhWGUI4Y
-         duWWozNFbruqsRMVmGf71NDi3YQNB88KeYjxBXr6HETwlE1A195xVd9tMMNxK0ReC94z
-         dQJnXrXXuvSFjToyKdzcOP0AXFMZbq7FxghqowR0a5+rvRfUsVosqCndmvOvoDZAz81C
-         PyNcQcG41zzMdiVFAkb2mgLTnbgYABWYK7vvWfCFdsuFA66b/R/102Z7jPkgZ39DGIwN
-         9F0ffcLugeF6c9nP7lDfvggRbXb8ZRmoWDZSjisGBuY0yi2KN11kHv77BUYwJ16+tdro
-         uqtw==
+        bh=moq4SnbaCAx8eYUk71pHxNOu7coQOxVd2ccab0EZm5I=;
+        b=ZwmrV7J9pdSpUu/Lc8tA282d6N2B7ee6//570kFtvuv/cFCDi9ahLOufIkxS7BfHed
+         G4b/9MKm9X1qJZy8WHtYdtKxFVTVBa0duUZBLXvYBIximN3KOtVxM3GZlQxXszb9TP1y
+         Qjmmc7cUxs+9ZGsCsWTpD+7hHqtoHD+m+AN5kxY7q7ZNZUrZH8kTbNaLh9o16CdUGpo5
+         2UUDcsbBOX033o3cYHC4vU/rmqqoYLkQd8XpDrfx4udurYrtPao52A8qwrH6cekYtYm7
+         wpJJqasw7gH1annRJ6nH0wiYbe5bIJZXpJ/iNcRq0sp+kHEKVZ7GMAIShBOA77BzP0yJ
+         yLHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739060643; x=1739665443;
+        d=1e100.net; s=20230601; t=1739062316; x=1739667116;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4gjXaQBLaw4NUMDsntEFs7TEopqGWrY+9/yjxC8/Zts=;
-        b=KlRk4Eu1ZoM6CIbTSvhvsX+lzIaVeAFgoBpksYOp1TPDaIxhOXWlTYjCL+/Oag3mmb
-         CH+aB4AkgefkfhktZ7Tjcizha5A25x3xYorI+ktlpglLvMoQPTNaagBitig/q/GsMQpe
-         D94AV7OygglKvC5bfI/7qrZb2vubjzsVZq6BztdHF0h6NfDbgxYxtSI2ombGL6fTavAA
-         uZiKbyhMvQCmmN2SprjXY6BHMPBm3rMUf05CiDlcWea0Cg3+IoX/8lPYehGUpKfRgZtL
-         oMftoiA04zwM2FhlJhLAz7xrMdSdTUkg492rv/x58zfwx617hj8/cipxe5DFIXWgycSd
-         Alpg==
-X-Forwarded-Encrypted: i=1; AJvYcCXk90mtvWwqOhwW1+sPM703M0lYvUKwTOgOmWuvVaOQYKo2rDWvWnvmocu5eN5HHDmuaLqr8j/v8N8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZ5vcSGQfgbm+P0tVZ2hi3q7823ZMuPGr2BW4ZNT3x1B/OYItM
-	0t08rx5dvnBLqiPdlu3hANU4ZXdGXEWones5oW43Acr7ZJJxE7MoQe55nbzqrQi+Luln661iz4a
-	BhZ/JKY5t8KNDzCKEsZWLeY0KuLzfkM8PJHcYDQ==
-X-Gm-Gg: ASbGnct9RZlE30Q8rf7GyFjdtfNeFw4ytAW5HmZzfz0P3MwpYna96ZIsskyy7hXS3hx
-	eOoGXAj+KnDfrZcbEVdLn2nVYCtGsZxuEZdYzWKeNSHTwRZw3sgBQJ6B8TYAv1Ir7sZWmCw==
-X-Google-Smtp-Source: AGHT+IEWLXbbE35/NH7CqFs9Aene/KOrNSHj6kBiOSxP6T7AhYHyVwGrjMz5VAE9dQe0u6W8V5wpkpW0r78/dGV9jWk=
-X-Received: by 2002:a05:622a:1195:b0:460:8e3b:6790 with SMTP id
- d75a77b69052e-47167c10096mr111860501cf.48.1739060642643; Sat, 08 Feb 2025
- 16:24:02 -0800 (PST)
+        bh=moq4SnbaCAx8eYUk71pHxNOu7coQOxVd2ccab0EZm5I=;
+        b=Gbj/nIgSaXR/2hEqdkbqvtzEwesCyQeZpytsApbcGkSE6hX3rE4IaJ+0SZaeNz0SQQ
+         3Da0LCBTTXcPcEiSXSid70MExmQVHK+IkpcZgCQcDZPBuYcKaGOnnFvhKCEJR3Wx9VGq
+         UjOzbNy+wZoPmEk0/AgYoFLK0nLPXZVwS4lz8SA1fvMQ2qFVsZzFkfm7OdWKq6UIRsu/
+         UtWtpIHq7A413zSW/u51wnw5xRmgh7o9yUTwxxPQWJEKw6uN/Ed+mspyhNlxYr/lFjLF
+         LVEP45LIKZ3C8u3HekfeSJ9GFSBwVH32lveKpM+Iqm82Yy0qgoqyay5Bck7fW4ehBbsY
+         xl3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUNgltWNKlGnEF1Rk5TQxlffOpF8q7vgIxDw1bL9D/uJoyKXN/A1nGs5HA94EBWVjBIiR3K4fhgCGns@vger.kernel.org, AJvYcCWgMmi3XekU8jHzpU3VSWX4AVmr7+jmv+p6UUtQxvYtKyCYc2UckxUi5TIfxvb7DRfNr7O3IZyzNhld@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuCe4z7ivgRTckFe53lFu56N5E0KEfDmJ0zMYte83zJ7yzzq4C
+	shJ2MMq4X8XE89sJOzVqno0+L1uqDyDLpQrFQxJWoTxBI7+VOAVuBbIRKOpoqMga+toDy7ik8th
+	KJZj+ebxeSGFZnfb6X1o7KJXIr7g=
+X-Gm-Gg: ASbGncsg5s9EjV34au3hhTFI37dPliTBOOvGI/LHoU+trZrgRNPRecOnThv44fK4z7g
+	uZqsqLQXuLjUB4MTWLLLQi4cCMynXNKjPbYP8IbA8te2L/4NLvIOngurR/DuUtxmq430mwPLunN
+	l0AFoCAk0gM+opY/59hgK9VTlY9RHgQQ==
+X-Google-Smtp-Source: AGHT+IHbvBsh6V0fXstr8+BOoSkHjjWgUMnEaXVoAFyg/1U+OLW9gAoZ0JTlsqAOxqlsdld7G6QKRI/njRDoksoZ/U0=
+X-Received: by 2002:a05:6102:8086:b0:4af:ef82:ce8d with SMTP id
+ ada2fe7eead31-4ba86dc8dc9mr5995609137.0.1739062316419; Sat, 08 Feb 2025
+ 16:51:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250206132754.2596694-1-rppt@kernel.org> <20250206162939.a1f86fb835f1eeb7ed73ff1c@linux-foundation.org>
- <CA+CK2bD6204AKWGOgzLMiMsnVZ=tk+DGc+VWgi3RVt2byaLJJA@mail.gmail.com> <Z6a1kxR2GlQoepgI@MiWiFi-R3L-srv>
-In-Reply-To: <Z6a1kxR2GlQoepgI@MiWiFi-R3L-srv>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sat, 8 Feb 2025 19:23:25 -0500
-X-Gm-Features: AWEUYZm4sw7r0YqYCsAlTqJTyIoFI_gwgSC8Xqrde5SyZs_ybRNGci9xB-WlypE
-Message-ID: <CA+CK2bDgP2DfsfVAhQhFhBiNJFUS1n17oX9KgC1JFXAk76j01Q@mail.gmail.com>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+In-Reply-To: <20250206132754.2596694-1-rppt@kernel.org>
+From: Cong Wang <xiyou.wangcong@gmail.com>
+Date: Sat, 8 Feb 2025 16:51:44 -0800
+X-Gm-Features: AWEUYZlTa-fKw29GejPO9DLzpee4iJIj63nbPkF2TO1t-8jFRDudad4UpWMOvAI
+Message-ID: <CAM_iQpW+K-Q7qCZ_EH+BsF64aevK0tE3_kO=hma7sWa4TcWDSw@mail.gmail.com>
 Subject: Re: [PATCH v4 00/14] kexec: introduce Kexec HandOver (KHO)
-To: Baoquan He <bhe@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>, 
-	linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>, 
-	Andy Lutomirski <luto@kernel.org>, Anthony Yznaga <anthony.yznaga@oracle.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>, 
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, Borislav Petkov <bp@alien8.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	David Woodhouse <dwmw2@infradead.org>, Eric Biederman <ebiederm@xmission.com>, 
-	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>, Jonathan Corbet <corbet@lwn.net>, 
+To: Mike Rapoport <rppt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski <luto@kernel.org>, 
+	Anthony Yznaga <anthony.yznaga@oracle.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Ashish Kalra <ashish.kalra@amd.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
+	Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Woodhouse <dwmw2@infradead.org>, 
+	Eric Biederman <ebiederm@xmission.com>, Ingo Molnar <mingo@redhat.com>, 
+	James Gowans <jgowans@amazon.com>, Jonathan Corbet <corbet@lwn.net>, 
 	Krzysztof Kozlowski <krzk@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Pratyush Yadav <ptyadav@amazon.de>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, Pratyush Yadav <ptyadav@amazon.de>, 
 	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Saravana Kannan <saravanak@google.com>, 
 	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>, Steven Rostedt <rostedt@goodmis.org>, 
 	Thomas Gleixner <tglx@linutronix.de>, Tom Lendacky <thomas.lendacky@amd.com>, 
 	Usama Arif <usama.arif@bytedance.com>, Will Deacon <will@kernel.org>, devicetree@vger.kernel.org, 
 	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org, 
-	changyuanl@google.com
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 7, 2025 at 8:38=E2=80=AFPM Baoquan He <bhe@redhat.com> wrote:
->
-> On 02/06/25 at 08:28pm, Pasha Tatashin wrote:
-> > On Thu, Feb 6, 2025 at 7:29=E2=80=AFPM Andrew Morton <akpm@linux-founda=
-tion.org> wrote:
-> > >
-> > > On Thu,  6 Feb 2025 15:27:40 +0200 Mike Rapoport <rppt@kernel.org> wr=
-ote:
-> > >
-> > > > This a next version of Alex's "kexec: Allow preservation of ftrace =
-buffers"
-> > > > series (https://lore.kernel.org/all/20240117144704.602-1-graf@amazo=
-n.com),
-> > > > just to make things simpler instead of ftrace we decided to preserv=
-e
-> > > > "reserve_mem" regions.
-> > > >
-> > > > The patches are also available in git:
-> > > > https://git.kernel.org/rppt/h/kho/v4
-> > > >
-> > > >
-> > > > Kexec today considers itself purely a boot loader: When we enter th=
-e new
-> > > > kernel, any state the previous kernel left behind is irrelevant and=
- the
-> > > > new kernel reinitializes the system.
-> > >
-> > > I tossed this into mm.git for some testing and exposure.
-> > >
-> > > What merge path are you anticipating?
-> > >
-> > > Review activity seems pretty thin thus far?
-> >
-> > KHO is going to be discussed at the upcoming lsfmm, we are also
-> > planning to send v5 of this patch series (discussed with Mike
-> > Rapoport) in a couple of weeks. It will include enhancements needed
-> > for the hypervisor live update scenario:
->
-> So is this V4 still a RFC if v5 will be sent by plan? Should we hold the
-> reviewing until v5? Or this series is a infrustructure building, v5 will
-> add more details as you listed as below. I am a little confused.
+Hi Mike,
 
-We will modify the existing patches and send as v5 because some
-interfaces are going to be changed*.
+On Thu, Feb 6, 2025 at 5:28=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wrot=
+e:
+> We introduce a metadata file that the kernels pass between each other. Ho=
+w
+> they pass it is architecture specific. The file's format is a Flattened
+> Device Tree (fdt) which has a generator and parser already included in
+> Linux. When the root user enables KHO through /sys/kernel/kho/active, the
+> kernel invokes callbacks to every driver that supports KHO to serialize
+> its state. When the actual kexec happens, the fdt is part of the image
+> set that we boot into. In addition, we keep a "scratch regions" available
+> for kexec: A physically contiguous memory regions that is guaranteed to
+> not have any memory that KHO would preserve.  The new kernel bootstraps
+> itself using the scratch regions and sets all handed over memory as in us=
+e.
+> When drivers initialize that support KHO, they introspect the fdt and
+> recover their state from it. This includes memory reservations, where the
+> driver can either discard or claim reservations.
 
-Otherwise, v5 will make KHO a lot more flexible as it will allow to
-use the tree all the time while the system is running instead of only
-once during the activation phase.
+I have gone through your entire patchset, if you could provide an example
+of a specific driver that supports KHO it would help a lot for people to
+understand and more importantly help driver developers to adopt.
+Even with a simulated driver, e.g. netdevsim, it would be greatly helpful.
 
-* Changing interfaces  is optional, but decision whether to change
-will be discussed at Hypervisor Live Update on Feb 10th:
-https://lore.kernel.org/all/26a4b7ca-93a6-30e2-923b-f551ced03d62@google.com=
-/
-
->
-> >
-> > 1. Allow nodes to be added to the KHO tree at any time
-> > 2. Remove "activate" (I will also send a live update framework that
-> > provides the activate functionality).
-> > 3. Allow serialization during shutdown.
-> > 4. Decouple KHO from kexec_file_load(), as kexec_file_load() should
-> > not be used during live update blackout time.
-> > 5. Enable multithreaded serialization by using hash-table as an
-> > intermediate step before conversion to FDT.
->
+Thanks.
