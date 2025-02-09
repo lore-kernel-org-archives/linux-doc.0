@@ -1,179 +1,137 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D061E32DB;
-	Sun,  9 Feb 2025 20:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E227424337A;
+	Sun,  9 Feb 2025 20:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739132336; cv=none; b=lkFZfRFJfFil6nXG6sV8ZKuPYsiU919jwppqcYL1XBNa8Z6qD2NExq9GQhEopTNHSD3Q8vDP+666v+6LEl2IOCY5NtN0d8U38+bTpY25WM1qbIG/sySC2Grwr0/QbPPO5QBnR1s8DI5oZdgnB6F+kKMeJiFj6bVfM96zoqNwTMU=
+	t=1739133725; cv=none; b=aMnsXNpVqckJKBrdNO+AGjM/RRuRv/LzgElHuA+5kI/LmsMfvL2S6yH+n4dno0EtRbL3j6DfZIE+l/RneaBWAm9GuVmYfXZY/n5AA0E3mE5/Q0vpG/Kqt0t8TfndsHLUoiyofAwpHN9x8q4U7wQ9yc4u5yZX2k5Z0ZrcxClMqRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739132336; c=relaxed/simple;
-	bh=oaYAuK9nmziiscKPZjJxiKNjUuO72j7bI38bgwqkZNo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=uH7ke5nfKejtDibQSpC2jLX4RIEn8gSZCcAFxnulSNbNqCJ0swrTun8fhFe/jPF5ioT2px+6bto5pFC2XxCeqJgQb0XwS0gRtOlwe8Xs7T2LLCxs5vAxFsaRnX6helQGLQZH1jiDA/1a2QOU75Sg1LgqKgsTL/sn0NMnoxst+EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=A3A4E1Nm; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1739133725; c=relaxed/simple;
+	bh=I5K6zxbY/URQKv0ExjhoGFG70Vc1gvwB7vWXZFIu2Cc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lg73IWXpd0guRluw9Usf1g6B7RWUvxy3m6bNUnjElPbgTmaJnKMjHP83G2sywnhL7zkRn4mLurpuyE/1gHALeCwP6DkC2sLMUfgsMHFgerby9sGcJ147vLj/hom/wFmpejn71p+7T8zPg5HsXBelOIEnpOWn5VYrVWxjwiC4mbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mvb6ZNQq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="A3A4E1Nm"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 519CSr9d002069;
-	Sun, 9 Feb 2025 20:18:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	AknllMxznHeV3Ng+slIocpUPoFbsi91x9tjW8w819Nw=; b=A3A4E1Nmk8ckYt1J
-	+tWnFRvBgJFFgXpLXOwgGO78Rw/chS7LoymLX9hrT7SnR2Zl/JALdF9eF2qcqvyK
-	GsgPgICp37LQ2rARVZZi2m3e1o3kAtxljJSITGL45bVx83CnYID1927oKFdWH6zU
-	5n8n9JUf6//cTnmfIn5wHmS8FwLl5/UvOmsRTxU90wo+gUpGsSSqSaZRxTWtPeq3
-	6efRX7EKBDHQuvNNTeY8IxPl8eTanRme3yeBbgynD4mqjCWFHgl4GPn81zGHQUDm
-	+EN1AdZi8yzv+GSO07w9gHPzLp4KVXR6Z0wTxYs99+0z+KWOng0mzzivCQ8qikhn
-	n59eHg==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44p0dyjd41-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 09 Feb 2025 20:18:43 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 519KIgTl006393
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 9 Feb 2025 20:18:42 GMT
-Received: from [10.4.85.13] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 9 Feb 2025
- 12:18:39 -0800
-Message-ID: <c4f6f9e0-5a5f-4286-95f1-f01a46d415ee@quicinc.com>
-Date: Mon, 10 Feb 2025 07:18:36 +1100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mvb6ZNQq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB0C8C4CEDD;
+	Sun,  9 Feb 2025 20:41:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739133724;
+	bh=I5K6zxbY/URQKv0ExjhoGFG70Vc1gvwB7vWXZFIu2Cc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Mvb6ZNQqXlj09hq+unmSZoCfmod0TI+N53mH8hNPSmhVyaECG7qL/VeLfhSozBwyK
+	 bKp+3joGTS/8s3clIpcXU+Kf3coxgVOphSyzF4hIIfi6JPcitd2fnaTr4OYmTK+2eo
+	 HlHqV/qAg7XSOsMq2x0B+/PJIDWofzpZ5yMR8hNDTGhHx/Y9oX1jWuLDZoWAREW4+R
+	 DJBNXzGWKtGcx9XY6KOHAp5SdQBSySW6jRv0MlYbzTruhoFWCjOEJhK0IaUSIjok8i
+	 Gx7waD6FniX2f5APSdEPIG+AUN5MSH7PclqCC2YAZNH9a44UXgOHUXHV2I40nrNzbv
+	 P8DS5GHanX+6A==
+Date: Sun, 9 Feb 2025 22:41:46 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Pratyush Yadav <ptyadav@amazon.de>,
+	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v4 14/14] Documentation: KHO: Add memblock bindings
+Message-ID: <Z6kTCvex3DGhB-3C@kernel.org>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+ <20250206132754.2596694-15-rppt@kernel.org>
+ <45df0d7a-622a-4268-9683-c5c6067483c3@kernel.org>
+ <Z6jFZII5b-j7hzkj@kernel.org>
+ <a3cca0ed-64ca-4921-bb4c-27c0e06b78c6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/8] Trusted Execution Environment (TEE) driver for
- Qualcomm TEE (QTEE)
-To: Sumit Garg <sumit.garg@linaro.org>
-CC: Jens Wiklander <jens.wiklander@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        <linux-arm-msm@vger.kernel.org>, <op-tee@lists.trustedfirmware.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
- <CAFA6WYNGH_LP-R4hQx-+XMY3zFN74ij-JngwnuKOsz8=r_-bsQ@mail.gmail.com>
- <f3b30e00-d6cd-44ee-88a5-e5a523563bb3@quicinc.com>
- <CAFA6WYMhyDLmFaZMWd3TFfNTnujAN8ZuzguPgzjJXfhZf2ZnKA@mail.gmail.com>
-Content-Language: en-US
-From: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-In-Reply-To: <CAFA6WYMhyDLmFaZMWd3TFfNTnujAN8ZuzguPgzjJXfhZf2ZnKA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 2UIILcL5wVtpnW_3GdsSeNZxVrm3IQA1
-X-Proofpoint-GUID: 2UIILcL5wVtpnW_3GdsSeNZxVrm3IQA1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-09_09,2025-02-07_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
- clxscore=1015 lowpriorityscore=0 impostorscore=0 mlxlogscore=999
- mlxscore=0 priorityscore=1501 spamscore=0 adultscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502090181
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a3cca0ed-64ca-4921-bb4c-27c0e06b78c6@kernel.org>
 
-
-
-On 2/7/2025 4:12 PM, Sumit Garg wrote:
-> On Fri, 7 Feb 2025 at 01:25, Amirreza Zarrabi <quic_azarrabi@quicinc.com> wrote:
->>
->>
->>
->> On 2/5/2025 4:38 PM, Sumit Garg wrote:
->>> Hi Amirreza,
->>>
->>> On Mon, 3 Feb 2025 at 08:14, Amirreza Zarrabi <quic_azarrabi@quicinc.com> wrote:
->>>>
->>>> This patch series introduces a Trusted Execution Environment (TEE)
->>>> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
->>>> and services to run securely. It uses an object-based interface, where
->>>> each service is an object with sets of operations. Clients can invoke
->>>> these operations on objects, which can generate results, including other
->>>> objects. For example, an object can load a TA and return another object
->>>> that represents the loaded TA, allowing access to its services.
->>>>
->>>> Kernel and userspace services are also available to QTEE through a
->>>> similar approach. QTEE makes callback requests that are converted into
->>>> object invocations. These objects can represent services within the
->>>> kernel or userspace process.
->>>>
->>>> Note: This patch series focuses on QTEE objects and userspace services.
->>>>
->>>> Linux already provides a TEE subsystem, which is described in [1]. The
->>>> tee subsystem provides a generic ioctl interface, TEE_IOC_INVOKE, which
->>>> can be used by userspace to talk to a TEE backend driver. We extend the
->>>> Linux TEE subsystem to understand object parameters and an ioctl call so
->>>> client can invoke objects in QTEE:
->>>>
->>>>   - TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_*
->>>>   - TEE_IOC_OBJECT_INVOKE
->>>>
->>>> The existing ioctl calls TEE_IOC_SUPPL_RECV and TEE_IOC_SUPPL_SEND are
->>>> used for invoking services in the userspace process by QTEE.
->>>>
->>>> The TEE backend driver uses the QTEE Transport Message to communicate
->>>> with QTEE. Interactions through the object INVOKE interface are
->>>> translated into QTEE messages. Likewise, object invocations from QTEE
->>>> for userspace objects are converted into SEND/RECV ioctl calls to
->>>> supplicants.
->>>>
->>>> The details of QTEE Transport Message to communicate with QTEE is
->>>> available in [PATCH 10/10] Documentation: tee: Add Qualcomm TEE driver.
->>>>
->>>> You can run basic tests with following steps:
->>>> git clone https://github.com/quic/quic-teec.git
->>>> cd quic-teec
->>>> mkdir build
->>>> cmake .. -DCMAKE_TOOLCHAIN_FILE=CMakeToolchain.txt -DBUILD_UNITTEST=ON
->>>>
->>>> https://github.com/quic/quic-teec/blob/main/README.md lists dependancies
->>>> needed to build the above.
->>>>
->>>> This series has been tested for basic QTEE object invocations and
->>>> callback requests, including loading a TA and requesting services form
->>>> the TA.
->>>
->>> Thanks for sharing these test user-space applications/libraries. Can I
->>> know which platforms are currently supported by this QTEE driver? I
->>> would like to run and understand the overall stack on a real device. I
->>> do have rb3, rb5 and db410c on my desk to test with.
->>>
->>> Also, platform support is important information you should put in the
->>> cover letter as well as the QTEE documentation.
->>>
->>> -Sumit
->>>
->>
->> I have tested it with sm8650-mtp. But would expect it to work with any platform.
+On Sun, Feb 09, 2025 at 04:23:09PM +0100, Krzysztof Kozlowski wrote:
+> On 09/02/2025 16:10, Mike Rapoport wrote:
+> > On Sun, Feb 09, 2025 at 11:29:41AM +0100, Krzysztof Kozlowski wrote:
+> >> On 06/02/2025 14:27, Mike Rapoport wrote:
+> >>> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> >>>
+> >>> We introduced KHO into Linux: A framework that allows Linux to pass
+> >>> metadata and memory across kexec from Linux to Linux. KHO reuses fdt
+> >>> as file format and shares a lot of the same properties of firmware-to-
+> >>> Linux boot formats: It needs a stable, documented ABI that allows for
+> >>> forward and backward compatibility as well as versioning.
+> >>
+> >> Please use subject prefixes matching the subsystem. You can get them for
+> >> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+> >> your patch is touching. For bindings, the preferred subjects are
+> >> explained here:
+> >> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+> >  
+> > These are not devicetree binding for communicating data from firmware to
+> > the kernel. These bindings are specific to KHO which is perfectly
+> > reflected by the subject.
 > 
-> Good to know that I will try to test it by next week on one of the
-> available platforms on my desk.
+> No, it is not. None of the bindings use above subject prefix.
 > 
->> I'll update the cover letter with the details :).
+> > 
+> > Just a brief reminder from v2 discussion:
+> > (https://lore.kernel.org/linux-mm/20231222193607.15474-1-graf@amazon.com/)
+> > 
+> > "For quick reference: KHO is a new mechanism this patch set introduces 
+> > which allows Linux to pass arbitrary memory and metadata between kernels 
+> > on kexec. I'm reusing FDTs to implement the hand over protocol, as 
+> > Linux-to-Linux boot communication holds very similar properties to 
+> > firmware-to-Linux boot communication. So this binding is not about 
+> > hardware; it's about preserving Linux subsystem state across kexec.
 > 
-> Also, put it in QTEE documentation too such that people are aware
-> about supported platforms.
-> 
+> does not matter. You added file to ABI documentation so you must follow
+> that ABI documentation rules. One rule is proper subject prefix.
+ 
+No, it does not. It's a different ABI.
 
-Ack.
+FDT is a _data structure_ that provides cross platform unified, versioned,
+introspectable data format.
 
-> -Sumit
+Documentation/devicetree/bindings standardizes it's use for describing
+hardware, but KHO uses FDT _data structure_ to describe state of the kernel
+components that will be reused by the kexec'ed kernel.
 
+KHO is a different namespace from Open Firmware Device Tree, with different
+requirements and different stakeholders. Putting descriptions of KHO data
+formats in Documentation/kho rather than in
+Documentation/devicetree/bindings was not done to evade review of Open
+Firmware Device Tree maintainers, but rather to emphasize that KHO FDT _is
+not_ Open Firmware Device Tree.
+
+> Best regards,
+> Krzysztof
+
+-- 
+Sincerely yours,
+Mike.
