@@ -1,99 +1,133 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E651EF1D;
-	Mon, 10 Feb 2025 11:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E02C1C5D7C;
+	Mon, 10 Feb 2025 11:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739185650; cv=none; b=e08TZeXPJE+QAjpvOT1KVZ4t+6GaJ80hZDz11wN6cUFMStzIlco3QM6a/5XNsmAQkgHYKJGgUyNDKSmnGCONuDmYvScXC0hXnv44foNXVHSqRLKORjEJNL0SU/s5UpUzR+VUgstLxRD+t8B83EnpE+fRYls6sdP++WtvgVkqirM=
+	t=1739186114; cv=none; b=eLbEmW7cBhDmtIs1Q7/iOSSRDMLDZPiM27be47z75VNo3/llFQOas6v9to1MEFeDh6bxyD0/j/YLAnE3LKR0Mj1QlJrh5Ty6GLs+hzul58nDdw56uiyMtUiEKuPISapI99N9TNtZd1XOzbSDVeckJlqQUuN4Hhqj11PF2b1DQ14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739185650; c=relaxed/simple;
-	bh=p3RrExhhMbcybY++HDmJSat1lWJaRselOq7u0dkhjsI=;
+	s=arc-20240116; t=1739186114; c=relaxed/simple;
+	bh=5CBqDfYk0oFqMBufkZckF4ZUcwXX+m/vSHvF0rrzvWQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vfh5ay27sDWp79+f9SXU4YYUmIcgRjYFo8mDMD9bUzhZKeheD8HKKC/D6jbdeK7dBbpG4y7ZV2iAcMrAZbGAcXkjSydF77JXFt8Bk0CgYW4XycKnbnazVD1mg84tAS0bE3hRQGzZ8pR38aD1yo2YPZk4vcQhvvZr1CD1W9W2Blw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ab77e266c71so598620066b.2;
-        Mon, 10 Feb 2025 03:07:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739185647; x=1739790447;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yAgZVVzs1qooCCE2t7DyLuVDHyt8kAQrNZT9NH7Ms9w=;
-        b=tFyvCPBV24llzcr8V9F/cFo6cp3N4ofXmEbfll+bezUsLq8crel4bw7eNEg6jT9aDb
-         4Bw3CeWvoRfUIoQ12KOQjcHRl6AZ8QOTp5duz5ey1ejDqTCUGocC9XFKkDGF8/vakDy2
-         Rmk+KlKVSETQN8TXjqFD9yO7E0kZ49z0M742QzGv+BwhhzJk4TGmpChfQvJ8lVwhkapq
-         vebxCM+t2Bw6S6OtpTe3dNxxvWEfuMAS5BptdQ9uGZuiPZuvbZyfpHWqdQRvUjziSLks
-         q/9G2hVu8kMHu6WirN2NlKoTHS7aeCx02Se5mYCYaMvz/n4/6lvgAH98kyIVqG33JY08
-         4o7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVFXAQERs+xq/kJ4MLzbt73BPhTLz0rm7yUz0/f8EHRNNpOr8Gcf6CproA9r+/dKSGRbBNmogk5OYEWgg2izba1@vger.kernel.org, AJvYcCW6ZS6pHevWG3WArxgVUf2eVvp71m5H+s3R2jb2LUpC3wed4D/t2K9nh0BmlEwwa76daBsD9WlCl+Ae3/YU@vger.kernel.org, AJvYcCWzeqRXRgfShEtxGQ+i5xNjqsi7NlvYW4s7LFzoMG0Dbz/JeNRvooVDTg038o1HdA749cmwLXt5jyQ=@vger.kernel.org, AJvYcCX/cKYmADmNwNw8+ivUzrhJHb/45B/yZMfqKnJpP83H6lBdX0uddWFrqjyBZeo8OvQ8kaCdUZXz@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKPqtOekLb3LOv32jNdL2ThoXwMbLNIFBWTc394SjWvttoimja
-	imyembexSzgYCxn/3BCrzaDpt2S2OFj2qVbknAb2C4I7MveXmzcB
-X-Gm-Gg: ASbGncteTKyF+7t0JC1onnBFM0vK8sOUVgMrykFxyTOtCDypC8D1SPJCCP+vOmBO35e
-	RE/BTjPnT5ZvZ5YL3xVg7DyitmL/Zr6B+XqqvvGK8n780pypaffr2nv+0la6tVakn3UJpYkc10p
-	D0a4wN9SNeFn4kvmQ/9HG1MvBZ4n0KTvuL3YONAuW4QjUdZYbfaLJ2qS2CPE/uX68EPxZXa/H9G
-	cVeNu4LIsfW4Lgxy83ysSSDjBZGDkENfZVrbZ+JphHX7DU5xvEZar/z3UxN6235Rmr5rmPZ2fcm
-	dM4=
-X-Google-Smtp-Source: AGHT+IENAJlo7TsBJws4Qf1vo99U2cLsdl6/G/Z/CVxbymzOGRwCo/AL0b6oPbO9KfI+15t76NEuNQ==
-X-Received: by 2002:a17:906:e4a:b0:ab7:cc43:c51e with SMTP id a640c23a62f3a-ab7cc43cffamr144056666b.13.1739185647150;
-        Mon, 10 Feb 2025 03:07:27 -0800 (PST)
-Received: from gmail.com ([2a03:2880:30ff::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7ced6fe0dsm68989466b.179.2025.02.10.03.07.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 03:07:26 -0800 (PST)
-Date: Mon, 10 Feb 2025 03:07:24 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, rdunlap@infradead.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH net-next v5 8/8] netconsole: docs: Add documentation for
- CPU number auto-population
-Message-ID: <20250210-crafty-snobbish-pogona-83e904@leitao>
-References: <20250206-netcon_cpu-v5-0-859b23cc3826@debian.org>
- <20250206-netcon_cpu-v5-8-859b23cc3826@debian.org>
- <Z6Vm3ny5VN6mcKJN@archie.me>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZOHaUGhlZEsOfY5oa3U4r+8RDks9e7LrzFkrnICLGNVIf5+eePev4DlgqPEpZp5uoGzm5+M6+uB6xD3rTlJZfnYJiU90+VyDxvnSAC9+P74uVxYLU12yL/MEMAa90f8o7+egC8iLi549tdKd/73/u1c6WQRVsSJKd+Ji/99XIL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cw61DjqK; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cw61DjqK"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14815352;
+	Mon, 10 Feb 2025 12:13:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1739186034;
+	bh=5CBqDfYk0oFqMBufkZckF4ZUcwXX+m/vSHvF0rrzvWQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cw61DjqKaw7PXxQCCiwrbqPgnn0D4nalMo8V9cnkjFNi432mQszqyzPYk7e3j9lxB
+	 XUGZnn6e5C/vQO5o8wC3GAYdgCntxcHhq+e3Rlzjy0xred0b+g+R/PB0U0tbUU/8Ty
+	 4zgRXFAk/VrrIni2ntTpQyHuQJBP9raAD2P6hOOk=
+Date: Mon, 10 Feb 2025 13:15:01 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
+Message-ID: <20250210111501.GF2966@pendragon.ideasonboard.com>
+References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
+ <20250207090518.GE24886@pendragon.ideasonboard.com>
+ <f50c7b22-2b31-47d2-8353-41d80f5241c1@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z6Vm3ny5VN6mcKJN@archie.me>
+In-Reply-To: <f50c7b22-2b31-47d2-8353-41d80f5241c1@leemhuis.info>
 
-Hello Bagas,
-
-On Fri, Feb 07, 2025 at 08:50:22AM +0700, Bagas Sanjaya wrote:
-> On Thu, Feb 06, 2025 at 03:05:59AM -0800, Breno Leitao wrote:
-> > +.. note::
-> > +
-> > +   If the user has set a conflicting `cpu` key in the userdata dictionary,
-> > +   both keys will be reported, with the kernel-populated entry appearing after
-> > +   the user one. For example::
+On Sat, Feb 08, 2025 at 04:36:47PM +0100, Thorsten Leemhuis wrote:
+> On 07.02.25 10:05, Laurent Pinchart wrote:
+> > Thank you for the patch.
 > 
-> In that case, shouldn't the kernel autopopulates numbers of the rest of
-> CPUs?
+> Thx for saying that!
+> 
+> > On Thu, Feb 06, 2025 at 03:30:10PM +0100, Thorsten Leemhuis wrote:
+> >> Point out that explicit permission is usually needed to tag other people
+> >> in changes, but mention that implicit permission can be sufficient in
+> >> certain cases. This fixes slight inconsistencies between Reported-by:
+> >> and Suggested-by: and makes the usage more intuitive.
+> >>
+> >> While at it, explicitly mention the dangers of our bugzilla instance, as
+> >> it makes it easy to forget that email addresses visible there are only
+> >> shown to logged-in users.
+> >>
+> >> The latter is not a theoretical issue, as one maintainer mentioned that
+> >> his employer received a EU GDPR (general data protection regulation)
+> >> complaint after exposing a email address used in bugzilla through a tag
+> >> in a patch description.
+> > [...]
+> >> -Be careful in the addition of tags to your patches, as only Cc: is appropriate
+> >> -for addition without the explicit permission of the person named; using
+> >> -Reported-by: is fine most of the time as well, but ask for permission if
+> >> -the bug was reported in private.
+> >> +Be careful in the addition of the aforementioned tags to your patches, as all
+> >> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
+> >> +person named. For those three implicit permission is sufficient if the person
+> >> +contributed to the Linux kernel using that name and email address according
+> >> +to the lore archives or the commit history -- and in case of Reported-by:
+> >> +and Suggested-by: did the reporting or suggestion in public. Note,
+> >> +bugzilla.kernel.org is a public place in this sense, but email addresses
+> >> +used there are private; so do not expose them in tags, unless the person
+> >> +used them in earlier contributions.
+> > 
+> > I like this text very much, it's concise and clear.
+> 
+> Glad to hear!
+> 
+> > My only possible
+> > concern is that "explicit permission" isn't defined. I assume that
+> > someone sendubg a Reviewed-by or Acked-by tag in a public mail thread
+> > counts as permission, but strictly speaking it's not explicit.
+> > 
+> > Regardless of that, I think we can clarify what explicit permission
+> > means in a follow-up patch. If you would like to merge this one as-is,
+> 
+> Hmmmm. Not totally sure that I exactly understand what you mean, but I
+> think I see it.
 
-Do you mean listing all the CPUs that are *not* sending the current
-message?
+What I meant is that I interpret "explicit" as requiring an explicit
+mention of permission (e.g. "You can add my tag to the commit"), while
+replying to a patch with a tag on a public list seems to me to convey an
+implicit permission instead.
 
-Let me come up with an example to try to understand this better. Let's
-suppopse I have a machine with 64 cores, and cpu=42 is sending that
-current message, then I would see the following on the dictionary:
+> But I'm not sure how to solve that. Would simply
+> dropping the "explicit" solve this? Or should I start the section like this:
 
- cpu=42
+Dropping "explicit" seems to be the simplest solution, but the next
+sentence mentions "implicit permission" which would then sound weird.
 
-You are suggesting we send all the other cpus, except 42 in a "key"?
+> ""
+> Be careful in the addition of the aforementioned tags to your patches,
+> almost all need permission by the person named; one can be assumed if
+> the person provided that tag in a reply or acknowledged its inclusion
 
-Thanks
---breno
+"in a reply to a public list"
+
+> after being made aware that name and email address will end up in public
+> places where they can't be removed.
+> 
+> The tags Cc:, Reported-by:, and Suggested-by: are an exception: for
+> those three implicit permission is sufficient, ...
+> """
+
+This sounds good to me.
+
+-- 
+Regards,
+
+Laurent Pinchart
