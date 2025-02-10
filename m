@@ -1,224 +1,172 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9631BD9DF
-	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 20:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E876D1F754E
+	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 21:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739221122; cv=none; b=Gj3BPqn6mKb/5lGTBXIA4Tg27v/rdQZcZPPHRo129rg3+Kr2rc8EqBAmraklS6vwXAEHnyDKQVk41CyktxpSS8CbIVLWIiW30OnXJOr2nkwrXZdN0q+wUTcF9O7aayuLqjapQWTw51Oc4L4EyUq5+uUe4LX5uvTff2zEpP7PoxU=
+	t=1739221805; cv=none; b=dlRX9qdrrKuRn39V8VIlFaGNMh3WRxACGjOTy3GEZaALWVBVi0zOEriVxXvVUgzLtxfBJ81Xji8JnVphSxJ/NMuG9B8vAewgKk0FUExNCFPj2XmsnXGIErWPs0CZ1IWWmTi+sAjOltpm5Wr3bTGyX5Uy+A5IdsNJnkToVkS40XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739221122; c=relaxed/simple;
-	bh=11XGu+b0HW/rRG+UoKPdLv3p1YZWVhTMtobxaORYQf4=;
+	s=arc-20240116; t=1739221805; c=relaxed/simple;
+	bh=KJLfGH4r6zCwTj9etgMAbr9xZH0AFU/ISuULlewI/hw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DFUAIXERBSJnJnoZuRuuzrt69JmTDd2M8NXK6xM+TEYa3/cV8dEDyJvckozK7Dtp4YbMplqLzvBthRvOgwHNQ71d0zG2sbY5rZVBAz0+2A9N/QLqgqDf+FL7xVnIXRdiyWgLxTG8H3MXbuqESUPYMHi6K/pfVTOqb0dj8TIP6IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=AzQ/E1zV; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 To:Cc:Content-Type; b=nMLYbUzZgiyw4taT44fzzJQAGfYv0hJ2KuoH+p+K+wmYwy3Vgb6DRyI7Ef8D7qKFBeHVZnYwdTlj7NvjRh/xzbh2GQTwRPefKeTFKNFN3wYEIViAB4JOnp6yC2j9Pyz/DDV/+LV92Py2UUFbMep+/6kiWU9Gjj2xCCAlnNOGkkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HYcKkZRy; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="AzQ/E1zV"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-47191570ed7so7810741cf.2
-        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 12:58:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HYcKkZRy"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21f032484d4so40405ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 13:10:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1739221118; x=1739825918; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1739221803; x=1739826603; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Wl/1DFtCVA8JUg3JrvOVSDvXuYWKhgnuN/JPe0OCyKE=;
-        b=AzQ/E1zVbhsWSha6H71yA872pTWK5X/qO7x3pzC+66ygVSwwc1CEG3/BdfTf+4sqiy
-         bWXaEd2Ic/oePmzfDnIj/l5E+RvuLsDKh8DKzvYBOC5ElNrLJEyF/t+fZqwCNcBUGHP1
-         P1ZhLaxtbOiGZE8yOcOhtG3a5t9SLc2cjoIFKewYmFFUttSGyX7H3CfqJo5hsjD88r7R
-         qIoNela05feDdhFRQEgGptkz+CoPs+bYwvvNSRTxkFmSBBtm/yZWb3Wlx5R1j5IDzsh+
-         Wm6wmu5hZnId/c8wTw/SOt/mrHDxL7N7cAlNq8Y53873mIC9ky6cbyclMzcoxLApcx5n
-         eJiw==
+        bh=BpOwhdLpPNB8gZcJrWR5hgdVmgWAHMy1UaC6q1qkDqE=;
+        b=HYcKkZRyQNKbVx5G/iwtKV89LIVijVFII4qPK0wy3zDORkhMDGygEqD/YBhOAtvnT1
+         GV/kjK1wIsO2P8sPSY4FJwAqMDBjJ4LG08ZeLL+DUdaigstRLaqUHcHQIeJxlatAaK4L
+         sQER6fsn69HGUfKskHN/i2ouFn4yneqyRN5j5hhe2qI1D6s7vWClVEnV/Wso/TMcUGuL
+         Jk/w7JmDavqm+0HL9Ci19TTMwchyO1QmkpLP3yMFGlXKNWyzwj3x9/PB4gUJt6vODNuM
+         GzaubUQQEcQRZz6Fnog04MpnrpH24dPINOl/v6dt40MLih8J7dLPTmNwNNexHNXtSBuo
+         O3IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739221118; x=1739825918;
+        d=1e100.net; s=20230601; t=1739221803; x=1739826603;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Wl/1DFtCVA8JUg3JrvOVSDvXuYWKhgnuN/JPe0OCyKE=;
-        b=frzXSTib4kCajppcj3OF/N/7VK2b9q9eA7evCbBjLdBVOuggBOK5xC3TE+2LomFIHS
-         VmqWe5mTSuOsDznwLBpKqDXV5tBhBrPzZqD7v/JHYmxwf7zxZA7y95n+h7cVgRh4zLjg
-         vCv9mH7yHJd6ngPop6u9H7c12LeyK7u5kkMmMKXQ6dRJ81CHFVCHqxDpN9kpqY1KY2tg
-         umcWSTBzz4B9Zgd9fF6MJ1PPxRpnVIu7ROufEeNi2fxIpOcWoNT1AnIx/WOvQXCiw1hS
-         ctrm3PY/aBIMoQGqq/uqgk5ALE2vP1xzK+njMHmVbFHEY+/xhslGLqcKDdRr6YsyALbe
-         IbeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXTUETlDvRirVjz2Mjv7xQ4MJeSros7xFepFydxgm+aim9wVPV+rGRTR30IKwsuZtCcrmqQcmjlWIc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqOe7ok9vYmuexPPjeWzXGA55n+pWEhwgTTJaf2g7Nxg7N7LMC
-	lPY++zYGFI3l1hfOYnzjIMxUXUm6mwbnQJKR6hlGJi6HgqOvf1YN61RsYXbzzg8pGUs0lk1FQNO
-	lpGLQAe7UDfMNhxrDZx/CeepFfOXc6K9T4FStJA==
-X-Gm-Gg: ASbGncvuomVOL7uMpbzjggQyYk4YqrlSeBUTYDd9V7WfBA54k1ZzJ88ecpy29Htvzda
-	Nq/8jgEjuJfV3oWSXcIIeLtqEcDq3GVHxjj0cwI0B+JF00xvI1KqCCfeLFcS6LFdH4Gipyw==
-X-Google-Smtp-Source: AGHT+IETHCKadrtvKNJ7fIHLak3uf8ALu7tDsyEEqgrBMvB7GxxInEvWUg2pBVKBZMO1RROtaHb319Yhs3eTr5CpbD4=
-X-Received: by 2002:a05:622a:1a05:b0:46c:86d8:fc5 with SMTP id
- d75a77b69052e-471679cb76emr238937621cf.5.1739221117601; Mon, 10 Feb 2025
- 12:58:37 -0800 (PST)
+        bh=BpOwhdLpPNB8gZcJrWR5hgdVmgWAHMy1UaC6q1qkDqE=;
+        b=a8nFibAHwy0kDCXTJiO8R8wSzlWg2iVCIKMK8t6iTxaaFzlErTLc9bQTI6T0Z04QfP
+         smSycxfqR4z/A7D0plVzvYVzjMmwY/cCEP7ChPBoJPjncwwvWEBHZoXunNQp9XwzswT2
+         tGavAqdzwP+aUKzcLMmkzOikZ5REw1YsVKBdDBNTKleE6OQfkiEm52KgSyAavjZEffBA
+         6lVUTvgMYgsRrRCaf2cwIcnjG3etjWXewOJpPrc6Tu0N8kCXBOucBmq/j5rvF/yDldQa
+         WsZx1tgU30R/im1oiu30UvpLEQ3WxQbifutk7t3eP7GqpZtlE2ooZmr6aqo5P85JmuKM
+         4oHw==
+X-Forwarded-Encrypted: i=1; AJvYcCWRjlXsPUdvixEV7GL7MuoHPbdGJx3hNXV4RiiiXKOg9EVnjNWC7WHuBIot8WUz+JunFSQSMfaG6Ks=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5px8CJp5avFx+m380+rCvmAQxIi7QHokjxic3AqV0Oy+G7E63
+	gdYyO1gnYBIoaIbDWNrm2zpSa1IGJm5sdT+ixP+LXAaAAF7x7qF7YFci7ROjuGc6cAn7UHQzLl4
+	4LZcBuW0bKmGnb+sZJaYVAdYka1F9C0URfWBE
+X-Gm-Gg: ASbGnctryta7TWzMFNpWnK2LUNs+mFdcVlEGoXZ7uvrqTyBxhAO/oB4N38+Nma9WwRY
+	oHgM3C8UxaIMnq9iKA7TF0s5xo96HBa2dZFwdTJ5Lyattrw2pzR/iO4hUPvcAyZdP9f7aaRs6
+X-Google-Smtp-Source: AGHT+IHi+uVLv++ClIB5TNGxSvvd8P8hJcj6QNPCjz84MeycHAppY5tmh3RbNn2a2dnjMuITjeslPW3wgJ9FwpR0OB4=
+X-Received: by 2002:a17:902:7c8a:b0:21f:631c:7fc9 with SMTP id
+ d9443c01a7336-21fb80c64a8mr630465ad.0.1739221802714; Mon, 10 Feb 2025
+ 13:10:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250206132754.2596694-1-rppt@kernel.org> <20250206132754.2596694-6-rppt@kernel.org>
- <20250210202220.GC3765641@nvidia.com>
-In-Reply-To: <20250210202220.GC3765641@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 10 Feb 2025 15:58:00 -0500
-X-Gm-Features: AWEUYZnfXstpOnVhbWRWzg5zc_KYEQnAl1ReknkHBBoTgx3FQhtVYh2voma8nHI
-Message-ID: <CA+CK2bBBX+HgD0HLj-AyTScM59F2wXq11BEPgejPMHoEwqj+_Q@mail.gmail.com>
-Subject: Re: [PATCH v4 05/14] kexec: Add Kexec HandOver (KHO) generation helpers
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org, 
-	Alexander Graf <graf@amazon.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andy Lutomirski <luto@kernel.org>, Anthony Yznaga <anthony.yznaga@oracle.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>, 
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, Borislav Petkov <bp@alien8.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	David Woodhouse <dwmw2@infradead.org>, Eric Biederman <ebiederm@xmission.com>, 
-	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Pratyush Yadav <ptyadav@amazon.de>, 
-	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, 
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Tom Lendacky <thomas.lendacky@amd.com>, 
-	Usama Arif <usama.arif@bytedance.com>, Will Deacon <will@kernel.org>, devicetree@vger.kernel.org, 
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+References: <20250203223916.1064540-1-almasrymina@google.com>
+ <20250203223916.1064540-6-almasrymina@google.com> <abc22620-d509-4b12-80ac-0c36b08b36d9@gmail.com>
+In-Reply-To: <abc22620-d509-4b12-80ac-0c36b08b36d9@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 10 Feb 2025 13:09:50 -0800
+X-Gm-Features: AWEUYZlmH-9dq3h0n7ypL1723AKovUOyGvCt-k8ZJ20f-dbsLO-5Bruftf8RSss
+Message-ID: <CAHS8izNOqaFe_40gFh09vdBz6-deWdeGu9Aky-e7E+Wu2qtfdw@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 5/6] net: devmem: Implement TX path
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Neal Cardwell <ncardwell@google.com>, 
+	David Ahern <dsahern@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
+	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 10, 2025 at 3:22=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
+On Wed, Feb 5, 2025 at 4:20=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.c=
+om> wrote:
 >
-> On Thu, Feb 06, 2025 at 03:27:45PM +0200, Mike Rapoport wrote:
-> > diff --git a/Documentation/ABI/testing/sysfs-kernel-kho b/Documentation=
-/ABI/testing/sysfs-kernel-kho
-> > new file mode 100644
-> > index 000000000000..f13b252bc303
-> > --- /dev/null
-> > +++ b/Documentation/ABI/testing/sysfs-kernel-kho
-> > @@ -0,0 +1,53 @@
-> > +What:                /sys/kernel/kho/active
-> > +Date:                December 2023
-> > +Contact:     Alexander Graf <graf@amazon.com>
-> > +Description:
-> > +             Kexec HandOver (KHO) allows Linux to transition the state=
- of
-> > +             compatible drivers into the next kexec'ed kernel. To do s=
-o,
-> > +             device drivers will serialize their current state into a =
-DT.
-> > +             While the state is serialized, they are unable to perform
-> > +             any modifications to state that was serialized, such as
-> > +             handed over memory allocations.
-> > +
-> > +             When this file contains "1", the system is in the transit=
-ion
-> > +             state. When contains "0", it is not. To switch between th=
-e
-> > +             two states, echo the respective number into this file.
+> On 2/3/25 22:39, Mina Almasry wrote:
+> ...
+> > diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+> > index bb2b751d274a..3ff8f568c382 100644
+> > --- a/include/linux/skbuff.h
+> > +++ b/include/linux/skbuff.h
+> > @@ -1711,9 +1711,12 @@ struct ubuf_info *msg_zerocopy_realloc(struct so=
+ck *sk, size_t size,
+> ...
+> >   int zerocopy_fill_skb_from_iter(struct sk_buff *skb,
+> >                               struct iov_iter *from, size_t length);
+> > @@ -1721,12 +1724,14 @@ int zerocopy_fill_skb_from_iter(struct sk_buff =
+*skb,
+> >   static inline int skb_zerocopy_iter_dgram(struct sk_buff *skb,
+> >                                         struct msghdr *msg, int len)
+> >   {
+> > -     return __zerocopy_sg_from_iter(msg, skb->sk, skb, &msg->msg_iter,=
+ len);
+> > +     return __zerocopy_sg_from_iter(msg, skb->sk, skb, &msg->msg_iter,=
+ len,
+> > +                                    NULL);
 >
-> I don't think this is a great interface for the actual state machine..
+> Instead of propagating it all the way down and carving a new path, why
+> not reuse the existing infra? You already hook into where ubuf is
+> allocated, you can stash the binding in there. And
 
-In our next proposal we are going to remove this "activate" phase.
+It looks like it's not possible to increase the side of ubuf_info at
+all, otherwise the BUILD_BUG_ON in msg_zerocopy_alloc() fires.
 
->
-> > +What:                /sys/kernel/kho/dt_max
-> > +Date:                December 2023
-> > +Contact:     Alexander Graf <graf@amazon.com>
-> > +Description:
-> > +             KHO needs to allocate a buffer for the DT that gets
-> > +             generated before it knows the final size. By default, it
-> > +             will allocate 10 MiB for it. You can write to this file
-> > +             to modify the size of that allocation.
->
-> Seems gross, why can't it use a non-contiguous page list to generate
-> the FDT? :\
+It's asserting that sizeof(ubuf_info_msgzc) <=3D sizeof(skb->cb), and
+I'm guessing increasing skb->cb size is not really the way to go.
 
-We will consider some of these ideas in the future version. I like the
-idea of using preserved memory to carry sparse KHO tree: i.e FDT over
-sparse memory, maybe use the anchor page to describe how it should be
-vmapped into a virtually contiguous tree in the next kernel?
+What I may be able to do here is stash the binding somewhere in
+ubuf_info_msgzc via union with fields we don't need for devmem, and/or
+stashing the binding in ubuf_info_ops (very hacky). Neither approach
+seems ideal, but the former may work and may be cleaner.
 
+I'll take a deeper look here. I had looked before and concluded that
+we're piggybacking devmem TX on MSG_ZEROCOPY path, because we need
+almost all of the functionality there (no copying, send complete
+notifications, etc), with one minor change in the skb filling. I had
+concluded that if MSG_ZEROCOPY was never updated to use the existing
+infra, then it's appropriate for devmem TX piggybacking on top of it
+to follow that. I would not want to get into a refactor of
+MSG_ZEROCOPY for no real reason.
+
+But I'll take a deeper look here and see if I can make something
+slightly cleaner work.
+
+> zerocopy_fill_skb_from_devmem can implement ->sg_from_iter,
+> see __zerocopy_sg_from_iter().
 >
-> See below for a suggestion..
->
-> > +static int kho_serialize(void)
+> ...
+> > diff --git a/net/core/datagram.c b/net/core/datagram.c
+> > index f0693707aece..c989606ff58d 100644
+> > --- a/net/core/datagram.c
+> > +++ b/net/core/datagram.c
+> > @@ -63,6 +63,8 @@
+> > +static int
+> > +zerocopy_fill_skb_from_devmem(struct sk_buff *skb, struct iov_iter *fr=
+om,
+> > +                           int length,
+> > +                           struct net_devmem_dmabuf_binding *binding)
 > > +{
-> > +     void *fdt =3D NULL;
-> > +     int err =3D -ENOMEM;
+> > +     int i =3D skb_shinfo(skb)->nr_frags;
+> > +     size_t virt_addr, size, off;
+> > +     struct net_iov *niov;
 > > +
-> > +     fdt =3D kvmalloc(kho_out.dt_max, GFP_KERNEL);
-> > +     if (!fdt)
-> > +             goto out;
+> > +     while (length && iov_iter_count(from)) {
+> > +             if (i =3D=3D MAX_SKB_FRAGS)
+> > +                     return -EMSGSIZE;
 > > +
-> > +     if (fdt_create(fdt, kho_out.dt_max)) {
-> > +             err =3D -EINVAL;
-> > +             goto out;
-> > +     }
-> > +
-> > +     err =3D fdt_finish_reservemap(fdt);
-> > +     if (err)
-> > +             goto out;
-> > +
-> > +     err =3D fdt_begin_node(fdt, "");
-> > +     if (err)
-> > +             goto out;
-> > +
-> > +     err =3D fdt_property_string(fdt, "compatible", "kho-v1");
-> > +     if (err)
-> > +             goto out;
-> > +
-> > +     /* Loop through all kho dump functions */
-> > +     err =3D blocking_notifier_call_chain(&kho_out.chain_head, KEXEC_K=
-HO_DUMP, fdt);
-> > +     err =3D notifier_to_errno(err);
+> > +             virt_addr =3D (size_t)iter_iov_addr(from);
 >
-> I don't see this really working long term. I think we'd like each
-> component to be able to serialize at its own pace under userspace
-> control.
+> Unless I missed it somewhere it needs to check that the iter
+> is iovec based.
 >
-> This design requires that the whole thing be wrapped in a notifier
-> callback just so we can make use of the fdt APIs.
->
-> It seems like a poor fit me.
->
-> IMHO if you want to keep using FDT I suggest that each serializing
-> component (ie driver, ftrace whatever) allocate its own FDT fragment
-> from scratch and the main KHO one just link to the memories that holds
-> those fragements.
->
-> Ie the driver experience would be more like
->
->  kho =3D kho_start_storage("my_compatible_string,v1", some_kind_of_instan=
-ce_key);
->
->  fdt...(kho->fdt..)
->
->  kho_finish_storage(kho);
->
-> Where this ends up creating a stand alone FDT fragment:
->
-> /dts-v1/;
-> / {
->   compatible =3D "linux-kho,my_compatible_string,v1";
->   instance =3D some_kind_of_instance_key;
->   key-value-1 =3D <..>;
->   key-value-1 =3D <..>;
-> };
->
-> And then kho_finish_storage() would remember the phys/length until the
-> kexec fdt is produced as the very last step.
->
-> This way we could do things like fdbox an iommufd and create the above
-> FDT fragment completely seperately from any notifier chain and,
-> crucially, disconnected from the fdt_create() for the kexec payload.
->
-> Further, if you split things like this (it will waste some small
-> amount of memory) you can probably get to a point where no single FDT
-> is more than 4k. That looks like it would simplify/robustify alot of
-> stuff?
->
-> Jason
->
+
+How do we end up here with an iterator that is not iovec based? Is the
+user able to trigger that somehow and I missed it?
+
+--=20
+Thanks,
+Mina
