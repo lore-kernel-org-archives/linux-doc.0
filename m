@@ -1,77 +1,102 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC3625742A;
-	Mon, 10 Feb 2025 19:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F201F4636
+	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 19:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739215695; cv=none; b=JRIjxI98hxeq9nq13gBbQJS4Qd5rRSBxeeGvCf2Lz38JxjCLW/76JB7/hdOSXbhKo78yvSHr8W76RytNlTfMhAvrRXJyTSRkca8gcbkTGJtgkKG2J+8tENRJISmBvYWfhB5KlObkvY7MWyzPg3hgatzY7TRtI4ngQof4+DfkL1g=
+	t=1739216292; cv=none; b=mJuxSugWqclMoot2CFReDzRlhk22PoGXkdMRtSOqOBhnL/wINRQL8c4iqQBt4IKTo6bxJDJwHzo//DeNwjpIeAyyeiSzFSy/lDV+eeeTLaKbhqSb7LKavI2wcAcm/xbaIq5tncKZzcFnRoBNLPGDMPQ1HGr2Gj5MqyYQxvcM/sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739215695; c=relaxed/simple;
-	bh=B0NhETpnvPQVSyO/GpKfAdXFTG5DHeiGwtAVdN5A7Cs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DIUSn8PpM8JJwtBjFb9P0ISOs1IVZoIhuALZObS+e3qakdcBNVj6g+pG1ygi7STuuJM6JaPltTfx1kxoqZ08WEdxw6sw/AAlLQokeWe/fk10JHwax2rS/p7UlVphIE26cXUwmDRiOBOJaADkGbmcRYQZNiZsQQvszJwIilUPg6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VIgcO5bD; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739216292; c=relaxed/simple;
+	bh=apI3TaNZZL36DYa7Oiv1+x3h78ZZQgNoP4cKlZ77AWk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l0r7DXfIYMgRt/zBREP26VKzNda1PVBpyD7f7Mj712t3UKsx/O3srIfGx8AdsUpScqYezTmJFWd5K+zdzcv6SKzdYa1/cjA0yZVaKkBvfA86YW4frr0aYRk2UByYJdjxAIeBlNEwCNTUEV0BTkJkryYw42W94TZRClIX4yZltXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UtP5y4Yr; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VIgcO5bD"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5de6ff9643fso3299242a12.3;
-        Mon, 10 Feb 2025 11:28:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739215692; x=1739820492; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vmW1HfK2SM2OqIojXGSSnLO3+e4bjP6WcfB/geKC4z0=;
-        b=VIgcO5bDPNBHAbmamdPRaDXAb2AHyKZxdW9ftUCQHit3mxfmQfV4SJmB2huAO7fPFe
-         LFhUi/8qh9w3qXhvpMOnMshwkW4WaB/r+VINsDVXJ3oPuG3NfSqI0XUWO/JxFrDzZJ6c
-         IgRnQmGEcSzIHsgQvvlAkY6iGYc5QuN0tlXlgjpu+g0q45FD+Y6n2oWBmjiFqDZh+fvZ
-         W0V/dTZ1SutVNch2YeGmGO80obeDGPM7riUjVQaklg88vH2KnK7ffp4+axZqhIWw/KYu
-         7NF1WNiPWHQaTaO+ulno9VbMdGYCtbMllct8lDSoP4GLqhDjLxsT1KD/82+4NCZz10+v
-         wSoQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UtP5y4Yr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739216288;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=MCWz0QKB/3zA+wyPgSQYXWNTlsWbH4Vu3NwNK9eMowA=;
+	b=UtP5y4YrC1pXYufZxEZPPslSmSH/8v3Y3WvMrBxzNAnVt2I3Hx7OSsHo5YcuyHvM0L0BAc
+	zoOuc88gNEXhYq1M6XFVuli56bK2U47AaNNOsU/umrrbjMWvatKnnuKF0wQyiH2MO8iCqH
+	KIIHoh5XO5x/UNcjue3xUM8hVK+DfJs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-488-w_nW1Mx1O9CcJEyITEOcWQ-1; Mon, 10 Feb 2025 14:38:07 -0500
+X-MC-Unique: w_nW1Mx1O9CcJEyITEOcWQ-1
+X-Mimecast-MFC-AGG-ID: w_nW1Mx1O9CcJEyITEOcWQ
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4392fc6bceaso13131735e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 11:38:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739215692; x=1739820492;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vmW1HfK2SM2OqIojXGSSnLO3+e4bjP6WcfB/geKC4z0=;
-        b=WDjhuWlkt+lpdnZrdNuzZxcw9vKghdcy/KU2jO7vPZ76j9eKdU/EtYAuRK2SECp4Re
-         utxIREu3WnA/a51YyQ8zoky91iVyWg8LWxy2AtbLx4dUMSm/HFd7mR6tA2b2xCVMOwTs
-         +OqQLnpMZxd5Hs5cyc9eRGj41XG57eEpQqPuk4QioVoFnqWCNUfSQCckueY6m0yfJVuw
-         D+8Cn65SZtqi/YVmpIaeb6T93d8hV0qDEJVe/VtzmqRWIA5URL7rchhLIGycc9/vUGaB
-         7dZojCd3+d2UyY7zwX1FgqHkEFxPYlonAPGTkWM2A645dz0IxFpLVGMJ8ZiSFfPJHY43
-         vPJw==
-X-Forwarded-Encrypted: i=1; AJvYcCVUDi/KF/wvq5t9PuYbq0UUx3euOndE0qMnx2ccUmXG8AUlScaLhx+ED7Dz3DBIZtzmBPagXJ5/HGin0NqT@vger.kernel.org, AJvYcCXOB2Hq73UNjiqJObMfhBgSlHAC5/IsRh+AJ1384AueRZjaakMR2Ovw/DbAIYXp7R6/hW9qeWfxOXE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNtNe9O/6eAdR1ajWgT4w0MYUWeMvrftuDrqHRKYeK63Wm8X5z
-	2BVqLT7g3Ea6CRSkI0az1zcffgtltS8Jb13fkKMIdbfqTkmj6Eo4
-X-Gm-Gg: ASbGncuTGsvajMQkbXnJ9H1p2RrFVJYLBDzULnYIMHWi2G8TR3TX+JTUSCx3IFXNLca
-	t0FQ6gZLVTJ7ZizGrAB3h8uATsIfCK0ozKIh1IpiHEKyz2zdUHEkph1zhvajf8IE4+dP7uHKW02
-	aKqkH0n9ZtbSr9KEy7WfsNMwg1iBKSo6tSlMesKf0m3SwEEqDWAAQPC9AuF9z5cCC/IULAGa4Ay
-	WtTSHnHmninUjYyWMlhqcNdbtAimS+T+7sXDxLFuOUvYaD3SMdqWEmetZw+PvS4+W/njX7mT7q9
-	ofRfCxdqJdziuW/et+Yzysq36CxJo0mNBqw=
-X-Google-Smtp-Source: AGHT+IEvr71u5k+r2/bgZtzaewDxM9eo+2QMspsHoaG61WMLpWVHGjMh8wiDQzEmBjvyBkIxe1lP6w==
-X-Received: by 2002:a05:6402:5309:b0:5de:8332:a8e1 with SMTP id 4fb4d7f45d1cf-5de8332aa41mr5553113a12.18.1739215691603;
-        Mon, 10 Feb 2025 11:28:11 -0800 (PST)
-Received: from nyx.. (g171115.upc-g.chello.nl. [80.57.171.115])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5de4d250084sm6576804a12.16.2025.02.10.11.28.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 11:28:10 -0800 (PST)
-Sender: Armin M <arminmahdilou@gmail.com>
-From: Armin Mahdilou <armin.mahdilou@gmail.com>
-X-Google-Original-From: Armin Mahdilou <Armin.Mahdilou@gmail.com>
-To: corbet@lwn.net
-Cc: shuah@kernel.org,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Armin Mahdilou <Armin.Mahdilou@gmail.com>
-Subject: [PATCH v2] Documentation: proofreading Documentation
-Date: Mon, 10 Feb 2025 20:25:31 +0100
-Message-ID: <20250210192754.30283-1-Armin.Mahdilou@gmail.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <87bjv91yi3.fsf@trenco.lwn.net>
-References: <87bjv91yi3.fsf@trenco.lwn.net>
+        d=1e100.net; s=20230601; t=1739216286; x=1739821086;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MCWz0QKB/3zA+wyPgSQYXWNTlsWbH4Vu3NwNK9eMowA=;
+        b=OfYGQ3cix656vXiq1oiKizRBtH7GRIJLRJ0rFE+PkPxbPIMVSs/YsmJ92UeJUSD00F
+         WHvTn+t/KqAwrx2Sed2/qAYRRPpEuPNiBlCq+OOfioHmBEeV/lHrRJ7tIvZGo38nGukI
+         ckpTvJ6f0YIkwVDPzpofiV7I69if2vq3Nklm9Ar0bqWnZFgMnq6V35AnQ+ylsmR0aoSX
+         n5IJnNaa4k97R3twd3uog8fFCaW1p4cJNsVKrDfVkWP5gDnnDJmpjHs9m/0WJjkpuiPD
+         pH3Mi9tnt1skiDRJfBuAZ+fSHFX41tthXqjHEm3orrBYvDo5fE9jylqo4kh0hzS3d+LC
+         ye6A==
+X-Gm-Message-State: AOJu0YzJVC18rEPSpPuojvBza9i2bzv51n8LHhuNlux6HjahUSoj1Ry6
+	x/0xzg+3jEoD9blQ4EPdEFEv0ckaW/4MiwlDMhGacgH2olujk6EDKipBnTcHqXeKehYckVzLwrq
+	Q1AJWO9eL1aIr6qyVmYSZlHRxdq0XVvfU1v9Bysl3lLn3AXXSKecJuCRlxw==
+X-Gm-Gg: ASbGncs5qw9vfxLXQDnl/h/ywQt4npj4szhGQZ8RR7cDXUJppbTR93BdJvHs986PXJp
+	YG21TGZqcbjY7V9iQ5OZsC8nwFhtFsLPsleC9YFrphrqwJWWx8CnJywFvsCv/uSXE7zAFNz0aBu
+	RnmyJr327BIJoha5oyDdBVIxJSY0XzhDxB9eJvONwLIjk69H/TMBUAlmH6gGkKrzcGFv3aCkeom
+	Hht2CaxuecfiMk1y1i41/cGNNi16xp8VIqppg0FkZlwioa66V4Q6G9lFRkAaqkCKItk/Y7PUXOK
+	SS7hvgQ4tU8KUHHkzSknsfjRMzDRHnT5Gye4Fh5f/EFrvA1ocF1XKoL+Z+JsaikUQQ==
+X-Received: by 2002:a05:600c:1e0e:b0:431:5e3c:2ff0 with SMTP id 5b1f17b1804b1-439249889a8mr117184855e9.8.1739216286106;
+        Mon, 10 Feb 2025 11:38:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEHEaOpDMG7a/03CRbYKSofR+ckzDf4tR3vs9lDmaTs2zKGFHodBnTigVeQlsjTuu7+8Xv9cw==
+X-Received: by 2002:a05:600c:1e0e:b0:431:5e3c:2ff0 with SMTP id 5b1f17b1804b1-439249889a8mr117184625e9.8.1739216285660;
+        Mon, 10 Feb 2025 11:38:05 -0800 (PST)
+Received: from localhost (p200300cbc734b80012c465cd348aaee6.dip0.t-ipconnect.de. [2003:cb:c734:b800:12c4:65cd:348a:aee6])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4390d94db77sm189019515e9.15.2025.02.10.11.38.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Feb 2025 11:38:04 -0800 (PST)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-mm@kvack.org,
+	nouveau@lists.freedesktop.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	damon@lists.linux.dev,
+	David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Karol Herbst <kherbst@redhat.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Jann Horn <jannh@google.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Peter Xu <peterx@redhat.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: [PATCH v2 00/17] mm: fixes for device-exclusive entries (hmm)
+Date: Mon, 10 Feb 2025 20:37:42 +0100
+Message-ID: <20250210193801.781278-1-david@redhat.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,87 +106,232 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fixed some spelling issues in documentations.
+Against mm-hotfixes-stable for now.
 
-Signed-off-by: Armin Mahdilou <Armin.Mahdilou@gmail.com>
----
-Thanks the Ack and Review. This is my first patch for the kernel.
-Fixed SOB.
+Discussing the PageTail() call in make_device_exclusive_range() with
+Willy, I recently discovered [1] that device-exclusive handling does
+not properly work with THP, making the hmm-tests selftests fail if THPs
+are enabled on the system.
 
-Regards
+Looking into more details, I found that hugetlb is not properly fenced,
+and I realized that something that was bugging me for longer -- how
+device-exclusive entries interact with mapcounts -- completely breaks
+migration/swapout/split/hwpoison handling of these folios while they have
+device-exclusive PTEs.
 
- Documentation/ABI/testing/configfs-usb-gadget-midi2 | 2 +-
- Documentation/input/devices/elantech.rst            | 2 +-
- Documentation/nvme/nvme-pci-endpoint-target.rst     | 2 +-
- Documentation/sound/soc/machine.rst                 | 2 +-
- Documentation/usb/gadget-testing.rst                | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+The program below can be used to allocate 1 GiB worth of pages and
+making them device-exclusive on a kernel with CONFIG_TEST_HMM.
 
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-midi2 b/Documentation/ABI/testing/configfs-usb-gadget-midi2
-index 0eac3aaba137..d76a52e2ca7f 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-midi2
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-midi2
-@@ -47,7 +47,7 @@ Description:
- 		midi1_first_group	The first UMP Group number for MIDI 1.0 (0-15)
- 		midi1_num_groups	The number of groups for MIDI 1.0 (0-16)
- 		ui_hint			0: unknown, 1: receiver, 2: sender, 3: both
--		midi_ci_verison		Supported MIDI-CI version number (8 bit)
-+		midi_ci_version		Supported MIDI-CI version number (8 bit)
- 		is_midi1		Legacy MIDI 1.0 device (0, 1 or 2)
- 		sysex8_streams		Max number of SysEx8 streams (8 bit)
- 		active			Active FB flag (0 or 1)
-diff --git a/Documentation/input/devices/elantech.rst b/Documentation/input/devices/elantech.rst
-index c3374a7ce7af..98163a258b83 100644
---- a/Documentation/input/devices/elantech.rst
-+++ b/Documentation/input/devices/elantech.rst
-@@ -556,7 +556,7 @@ Note on debounce:
- In case the box has unstable power supply or other electricity issues, or
- when number of finger changes, F/W would send "debounce packet" to inform
- driver that the hardware is in debounce status.
--The debouce packet has the following signature::
-+The debounce packet has the following signature::
- 
-     byte 0: 0xc4
-     byte 1: 0xff
-diff --git a/Documentation/nvme/nvme-pci-endpoint-target.rst b/Documentation/nvme/nvme-pci-endpoint-target.rst
-index 66e7b7d869b4..b699595d1762 100644
---- a/Documentation/nvme/nvme-pci-endpoint-target.rst
-+++ b/Documentation/nvme/nvme-pci-endpoint-target.rst
-@@ -86,7 +86,7 @@ configurable through configfs before starting the controller. To avoid issues
- with excessive local memory usage for executing commands, MDTS defaults to 512
- KB and is limited to a maximum of 2 MB (arbitrary limit).
- 
--Mimimum number of PCI Address Mapping Windows Required
-+Minimum number of PCI Address Mapping Windows Required
- ------------------------------------------------------
- 
- Most PCI endpoint controllers provide a limited number of mapping windows for
-diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/soc/machine.rst
-index 9db132bc0070..1828f5edca3e 100644
---- a/Documentation/sound/soc/machine.rst
-+++ b/Documentation/sound/soc/machine.rst
-@@ -75,7 +75,7 @@ In the above struct, dai’s are registered using names but you can pass
- either dai name or device tree node but not both. Also, names used here
- for cpu/codec/platform dais should be globally unique.
- 
--Additionaly below example macro can be used to register cpu, codec and
-+Additionally below example macro can be used to register cpu, codec and
- platform dai::
- 
-   SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index bf555c2270f5..1998dc146c56 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -1050,7 +1050,7 @@ Its attributes are:
- 	midi1_num_groups	The number of groups for MIDI 1.0 (0-16)
- 	ui_hint			UI-hint of this FB
- 				0: unknown, 1: receiver, 2: sender, 3: both
--	midi_ci_verison		Supported MIDI-CI version number (8 bit)
-+	midi_ci_version		Supported MIDI-CI version number (8 bit)
- 	is_midi1		Legacy MIDI 1.0 device (0-2)
- 				0: MIDI 2.0 device,
- 				1: MIDI 1.0 without restriction, or
+Once they are device-exclusive, these folios cannot get swapped out
+(proc$pid/smaps_rollup will always indicate 1 GiB RSS no matter how
+much one forces memory reclaim), and when having a memory block onlined
+to ZONE_MOVABLE, trying to offline it will loop forever and complain about
+failed migration of a page that should be movable.
+
+# echo offline > /sys/devices/system/memory/memory136/state
+# echo online_movable > /sys/devices/system/memory/memory136/state
+# ./hmm-swap &
+... wait until everything is device-exclusive
+# echo offline > /sys/devices/system/memory/memory136/state
+[  285.193431][T14882] page: refcount:2 mapcount:0 mapping:0000000000000000
+  index:0x7f20671f7 pfn:0x442b6a
+[  285.196618][T14882] memcg:ffff888179298000
+[  285.198085][T14882] anon flags: 0x5fff0000002091c(referenced|uptodate|
+  dirty|active|owner_2|swapbacked|node=1|zone=3|lastcpupid=0x7ff)
+[  285.201734][T14882] raw: ...
+[  285.204464][T14882] raw: ...
+[  285.207196][T14882] page dumped because: migration failure
+[  285.209072][T14882] page_owner tracks the page as allocated
+[  285.210915][T14882] page last allocated via order 0, migratetype
+  Movable, gfp_mask 0x140dca(GFP_HIGHUSER_MOVABLE|__GFP_COMP|__GFP_ZERO),
+  id 14926, tgid 14926 (hmm-swap), ts 254506295376, free_ts 227402023774
+[  285.216765][T14882]  post_alloc_hook+0x197/0x1b0
+[  285.218874][T14882]  get_page_from_freelist+0x76e/0x3280
+[  285.220864][T14882]  __alloc_frozen_pages_noprof+0x38e/0x2740
+[  285.223302][T14882]  alloc_pages_mpol+0x1fc/0x540
+[  285.225130][T14882]  folio_alloc_mpol_noprof+0x36/0x340
+[  285.227222][T14882]  vma_alloc_folio_noprof+0xee/0x1a0
+[  285.229074][T14882]  __handle_mm_fault+0x2b38/0x56a0
+[  285.230822][T14882]  handle_mm_fault+0x368/0x9f0
+...
+
+This series fixes all issues I found so far. There is no easy way to fix
+without a bigger rework/cleanup. I have a bunch of cleanups on top (some
+previous sent, some the result of the discussion in v1) that I will send
+out separately once this landed and I get to it.
+
+I wish we could just use some special present PROT_NONE PTEs instead of
+these (non-present, non-none) fake-swap entries; but that just results in
+the same problem we keep having (lack of spare PTE bits), and staring at
+other similar fake-swap entries, that ship has sailed.
+
+With this series, make_device_exclusive() doesn't actually belong into
+mm/rmap.c anymore, but I'll leave moving that for another day.
+
+I only tested this series with the hmm-tests selftests due to lack of HW,
+so I'd appreciate some testing, especially if the interaction between
+two GPUs wanting a device-exclusive entry works as expected.
+
+<program>
+#include <stdio.h>
+#include <fcntl.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/mman.h>
+#include <sys/ioctl.h>
+#include <linux/types.h>
+#include <linux/ioctl.h>
+
+#define HMM_DMIRROR_EXCLUSIVE _IOWR('H', 0x05, struct hmm_dmirror_cmd)
+
+struct hmm_dmirror_cmd {
+	__u64 addr;
+	__u64 ptr;
+	__u64 npages;
+	__u64 cpages;
+	__u64 faults;
+};
+
+const size_t size = 1 * 1024 * 1024 * 1024ul;
+const size_t chunk_size = 2 * 1024 * 1024ul;
+
+int main(void)
+{
+	struct hmm_dmirror_cmd cmd;
+	size_t cur_size;
+	int fd, ret;
+	char *addr, *mirror;
+
+	fd = open("/dev/hmm_dmirror1", O_RDWR, 0);
+	if (fd < 0) {
+		perror("open failed\n");
+		exit(1);
+	}
+
+	addr = mmap(NULL, size, PROT_READ | PROT_WRITE,
+		    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	if (addr == MAP_FAILED) {
+		perror("mmap failed\n");
+		exit(1);
+	}
+	madvise(addr, size, MADV_NOHUGEPAGE);
+	memset(addr, 1, size);
+
+	mirror = malloc(chunk_size);
+
+	for (cur_size = 0; cur_size < size; cur_size += chunk_size) {
+		cmd.addr = (uintptr_t)addr + cur_size;
+		cmd.ptr = (uintptr_t)mirror;
+		cmd.npages = chunk_size / getpagesize();
+		ret = ioctl(fd, HMM_DMIRROR_EXCLUSIVE, &cmd);
+		if (ret) {
+			perror("ioctl failed\n");
+			exit(1);
+		}
+	}
+	pause();
+	return 0;
+}
+</program>
+
+[1] https://lkml.kernel.org/r/25e02685-4f1d-47fa-be5b-01ff85bb0ce2@redhat.com
+
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Jérôme Glisse" <jglisse@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Alex Shi <alexs@kernel.org>
+Cc: Yanteng Si <si.yanteng@linux.dev>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Oleg Nesterov <oleg@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: SeongJae Park <sj@kernel.org>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Jann Horn <jannh@google.com>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Alistair Popple <apopple@nvidia.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>
+
+v1 -> v2:
+ * "mm/rmap: convert make_device_exclusive_range() to make_device_exclusive()"
+  -> Fix and simplify return value handling when calling dmirror_atomic_map()
+  -> Fix parameter order when calling make_device_exclusive()
+  [both things were fixed by the separate cleanups I previously sent, realized
+   it when re-testing the fixes here only]
+  -> Heavily extend documentation of make_device_exclusive()
+ * "mm/rmap: implement make_device_exclusive() using folio_walk instead of
+    rmap walk"
+  -> Keep MMU_NOTIFY_EXCLUSIVE, and update comments/description
+ * "mm/rmap: handle device-exclusive entries correctly in try_to_migrate_one()"
+  -> Handle PageHWPoison with device-private pages differently
+ * Added a bunch of "handle device-exclusive entries correctly" fixes,
+   now handling all page_vma_mapped_walk() callers correctly
+ * Added "mm/rmap: avoid -EBUSY from make_device_exclusive()" to fix some
+   hmm selftest failures I saw while testing under memory pressure
+ * Plenty of comment/description updates and improvements
+
+David Hildenbrand (17):
+  mm/gup: reject FOLL_SPLIT_PMD with hugetlb VMAs
+  mm/rmap: reject hugetlb folios in folio_make_device_exclusive()
+  mm/rmap: convert make_device_exclusive_range() to
+    make_device_exclusive()
+  mm/rmap: implement make_device_exclusive() using folio_walk instead of
+    rmap walk
+  mm/memory: detect writability in restore_exclusive_pte() through
+    can_change_pte_writable()
+  mm: use single SWP_DEVICE_EXCLUSIVE entry type
+  mm/page_vma_mapped: device-exclusive entries are not migration entries
+  kernel/events/uprobes: handle device-exclusive entries correctly in
+    __replace_page()
+  mm/ksm: handle device-exclusive entries correctly in
+    write_protect_page()
+  mm/rmap: handle device-exclusive entries correctly in
+    try_to_unmap_one()
+  mm/rmap: handle device-exclusive entries correctly in
+    try_to_migrate_one()
+  mm/rmap: handle device-exclusive entries correctly in
+    page_vma_mkclean_one()
+  mm/page_idle: handle device-exclusive entries correctly in
+    page_idle_clear_pte_refs_one()
+  mm/damon: handle device-exclusive entries correctly in
+    damon_folio_young_one()
+  mm/damon: handle device-exclusive entries correctly in
+    damon_folio_mkold_one()
+  mm/rmap: keep mapcount untouched for device-exclusive entries
+  mm/rmap: avoid -EBUSY from make_device_exclusive()
+
+ Documentation/mm/hmm.rst                    |   2 +-
+ Documentation/translations/zh_CN/mm/hmm.rst |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_svm.c       |   5 +-
+ include/linux/mmu_notifier.h                |   2 +-
+ include/linux/rmap.h                        |   5 +-
+ include/linux/swap.h                        |   7 +-
+ include/linux/swapops.h                     |  27 +-
+ kernel/events/uprobes.c                     |  13 +-
+ lib/test_hmm.c                              |  41 +-
+ mm/damon/ops-common.c                       |  23 +-
+ mm/damon/paddr.c                            |  10 +-
+ mm/gup.c                                    |   3 +
+ mm/ksm.c                                    |   9 +-
+ mm/memory.c                                 |  28 +-
+ mm/mprotect.c                               |   8 -
+ mm/page_idle.c                              |   9 +-
+ mm/page_table_check.c                       |   5 +-
+ mm/page_vma_mapped.c                        |   3 +-
+ mm/rmap.c                                   | 469 +++++++++-----------
+ 19 files changed, 315 insertions(+), 356 deletions(-)
+
+
+base-commit: e5b2a356dc8a88708d97bd47cca3b8f7ed7af6cb
 -- 
-2.47.2
+2.48.1
 
