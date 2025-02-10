@@ -1,135 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B2E2580D8;
-	Mon, 10 Feb 2025 16:43:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25ABF256C88;
+	Mon, 10 Feb 2025 16:59:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739205781; cv=none; b=ISum0pcOsTHB1Mw6u9WS4JPsX+gpSZxJjhCemp/MNa/L0NM4s9Yir7aAvVSf42k1XlrWXHRqsVK1M/gqGFYc+fHoFrGh3C+V7vGzTxxOOwLeG8Z19eDDyQ997bkbSoi51HEHYX/fXfpfIkUdN2HqwbSb2B0bAh54v8IjxKAcTg4=
+	t=1739206769; cv=none; b=pRz6XXYMo3JVah2AeXlV07lTuljyzpfb2brqJsYcV2gz0BG71htg5/xJgGZtkaR2stLr9AjrS+f8y5rCJkT+yuYkVRYZAS4GXIPLLJg2wXptXPDZVoMNgcbb+Syy2pCPP+SU8R5B3dJTKIUbBpgCmTJA6WOn/y+DIia+zIMltxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739205781; c=relaxed/simple;
-	bh=mPMQ/r2tER76Ym5c2/i5WaN/wRM3LmL3waxtdryUaBY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s1zGArRzjdDsczExnk7qp7rjy0klqblReHisY5s1wlO1OLnjMHXl4oXTK2/V8i7TUg6VoczYE9aXkipWqaeQExO8CZ8sbhuDmfrB7ImJdTUOxSElDCXKZ9ozkPDmlJB10rro/VUvSt0S/xPDm4mWxflG8LQpmB9Xy59OkBXrdVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k6CRwpAP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739206769; c=relaxed/simple;
+	bh=EqjZQKixxYPB7j/vkC+p5WO+e5I+dXqgZTguykjhQ64=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mvlN6ewpjXOfpc6M8LFT7iN4qIe3ICXa7rWEwVY/2pKNtHFSNZNYFnsLNHOB08cbQfFrpmLe78P5w93walmTffBmUqAdGR3N6LrCPl4M1TAKc4NK0wFOLyShYhMBAc0z/qNYpkAYHNK0rik7mDtj2bYFwc0Vl9b20xwDp/gPk+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ifcxRZHv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k6CRwpAP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C473DC4CEDF;
-	Mon, 10 Feb 2025 16:42:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ifcxRZHv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B850C4CED1;
+	Mon, 10 Feb 2025 16:59:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739205780;
-	bh=mPMQ/r2tER76Ym5c2/i5WaN/wRM3LmL3waxtdryUaBY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=k6CRwpAPipNwWpQaCTXwPnOf+2w1rmiKX2u5l+E1Q1r5ljg/P/XjX6IS0mX4MhujU
-	 5TqJcCFPlfx7GwKz7qhusSce6nnF3jpC9D0EEkZKzMuE+k/Ngn40ywJwpfQjVyGgQF
-	 rh5y75r08I3w8BHA+QZwVUrEeJgbF6aLnK6rA73lflq0uRD4QLx2pVn+WQzQwXHvYb
-	 c2cLn37NpyS3GcWcpXzexsjK+hL1eXOCVkGjPqBjr8j+3v9cxciV4A6ZmkS45HoEnI
-	 hLGd9teilbBneYgcfDlngYP9it6EX+6bY3EkvCWptfgv2mpfeJKk/xW0VB4kTjTPRy
-	 I5F/AWrtmlEow==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org,
+	s=k20201202; t=1739206768;
+	bh=EqjZQKixxYPB7j/vkC+p5WO+e5I+dXqgZTguykjhQ64=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ifcxRZHvi5GRrbyjMrKfQ/vkX8nHDzmrZ3bJPJdd6R/EpNhngmus2iJ9xYS30UYlJ
+	 /lvYPiNxaZGIHY2X5oVMRiQlwSxCUxez/agIWb5S2MaSe5stYfsS7yWQDXMy3u3lJZ
+	 sA+n95+tbujncQ5fpVzdrqcXHkVMVOaj1/ujh082lk6QjiYXOcIN+QF1944RAz0cH2
+	 AdTka+6WeRN5eeiBqchQH4k4d+0UQPiOFY+ePGba04NFJGUf86eGFuami6+XEcWOk3
+	 DKuHfhYeC6bbQG+ngly4I+GggaDtVSAjDzQl6FAsuIcn3idT5aGlRAY+Il8/GeFRKA
+	 ktkOX8MxQ96Kw==
+Date: Mon, 10 Feb 2025 16:59:23 +0000
+From: Lee Jones <lee@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers),
-	Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: [PATCH] kbuild: rust: add rustc-min-version support function
-Date: Mon, 10 Feb 2025 17:42:45 +0100
-Message-ID: <20250210164245.282886-1-ojeda@kernel.org>
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+Subject: Re: (subset) [PATCH v11 3/3] leds: Add LED1202 I2C driver
+Message-ID: <20250210165923.GC1868108@google.com>
+References: <20241218183401.41687-1-vicentiu.galanopulo@remote-tech.co.uk>
+ <20241218183401.41687-4-vicentiu.galanopulo@remote-tech.co.uk>
+ <173641864745.2570436.6359371577917683428.b4-ty@kernel.org>
+ <CAMuHMdXNOEXuEADeSGGHw88Tse+QjSkknKYGH-kk02jSpiuNiQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXNOEXuEADeSGGHw88Tse+QjSkknKYGH-kk02jSpiuNiQ@mail.gmail.com>
 
-Introduce `rustc-min-version` support function that mimics
-`{gcc,clang}-min-version` ones, following commit 88b61e3bff93
-("Makefile.compiler: replace cc-ifversion with compiler-specific macros").
+On Tue, 21 Jan 2025, Geert Uytterhoeven wrote:
 
-In addition, use it in the first use case we have in the kernel (which
-was done independently to minimize the changes needed for the fix).
+> Hi Lee,
+> 
+> On Thu, Jan 9, 2025 at 11:31 AM Lee Jones <lee@kernel.org> wrote:
+> > On Wed, 18 Dec 2024 18:33:59 +0000, Vicentiu Galanopulo wrote:
+> > > The output current can be adjusted separately for each channel by 8-bit
+> > > analog (current sink input) and 12-bit digital (PWM) dimming control. The
+> > > LED1202 implements 12 low-side current generators with independent dimming
+> > > control.
+> > > Internal volatile memory allows the user to store up to 8 different patterns,
+> > > each pattern is a particular output configuration in terms of PWM
+> > > duty-cycle (on 4096 steps). Analog dimming (on 256 steps) is per channel but
+> > > common to all patterns. Each device tree LED node will have a corresponding
+> > > entry in /sys/class/leds with the label name. The brightness property
+> > > corresponds to the per channel analog dimming, while the patterns[1-8] to the
+> > > PWM dimming control.
+> > >
+> > > [...]
+> >
+> > Applied, thanks!
+> >
+> > [3/3] leds: Add LED1202 I2C driver
+> >       commit: 939757aafeb9c266dda37657ee5f7a73ffd35ae2
+> 
+> You also have commit 259230378c65ebb6 ("leds: Add LED1202 I2C driver")
+> in mfd/for-mfd-next, which dropped the change to drivers/leds/Makefile,
+> and changed the Link:-tag to point to the older version v10?
 
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
-This is based on top of the fix so that the fix remains as simple as
-possible:
+Interesting.  Not sure I noticed and if I did, I must have fixed it.
 
-    https://lore.kernel.org/rust-for-linux/20250210163732.281786-1-ojeda@kernel.org/
+This is the commit that made it in:
 
- Documentation/kbuild/makefiles.rst | 14 ++++++++++++++
- arch/arm64/Makefile                |  2 +-
- scripts/Makefile.compiler          |  4 ++++
- 3 files changed, 19 insertions(+), 1 deletion(-)
+  939757aafeb9 ("leds: Add LED1202 I2C driver")
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index d36519f194dc..2608aa32c762 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -670,6 +670,20 @@ cc-cross-prefix
-             endif
-     endif
-
-+$(RUSTC) support functions
-+--------------------------
-+
-+rustc-min-version
-+  rustc-min-version tests if the value of $(CONFIG_RUSTC_VERSION) is greater
-+  than or equal to the provided value and evaluates to y if so.
-+
-+  Example::
-+
-+    rustflags-$(call rustc-min-version, 108500) := -Cfoo
-+
-+  In this example, rustflags-y will be assigned the value -Cfoo if
-+  $(CONFIG_RUSTC_VERSION) is >= 1.85.0.
-+
- $(LD) support functions
- -----------------------
-
-diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index 2b25d671365f..1d5dfcd1c13e 100644
---- a/arch/arm64/Makefile
-+++ b/arch/arm64/Makefile
-@@ -48,7 +48,7 @@ KBUILD_CFLAGS	+= $(CC_FLAGS_NO_FPU) \
- KBUILD_CFLAGS	+= $(call cc-disable-warning, psabi)
- KBUILD_AFLAGS	+= $(compat_vdso)
-
--ifeq ($(call test-ge, $(CONFIG_RUSTC_VERSION), 108500),y)
-+ifeq ($(call rustc-min-version, 108500),y)
- KBUILD_RUSTFLAGS += --target=aarch64-unknown-none-softfloat
- else
- KBUILD_RUSTFLAGS += --target=aarch64-unknown-none -Ctarget-feature="-neon"
-diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-index 8c1029687e2e..8956587b8547 100644
---- a/scripts/Makefile.compiler
-+++ b/scripts/Makefile.compiler
-@@ -67,6 +67,10 @@ gcc-min-version = $(call test-ge, $(CONFIG_GCC_VERSION), $1)
- # Usage: cflags-$(call clang-min-version, 110000) += -foo
- clang-min-version = $(call test-ge, $(CONFIG_CLANG_VERSION), $1)
-
-+# rustc-min-version
-+# Usage: rustc-$(call rustc-min-version, 108500) += -Cfoo
-+rustc-min-version = $(call test-ge, $(CONFIG_RUSTC_VERSION), $1)
-+
- # ld-option
- # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
- ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
---
-2.48.1
+-- 
+Lee Jones [李琼斯]
