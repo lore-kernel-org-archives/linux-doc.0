@@ -1,85 +1,93 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A080A2528F6;
-	Mon, 10 Feb 2025 14:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BAA1F8BAA;
+	Mon, 10 Feb 2025 15:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739198411; cv=none; b=M24+ghF0Spj8pmMelOx/jSL5Fgp+ApSQc4ZSMKfXtcPGOHw5iSshMHlzgy5qcJqgw0fL5eYiqCw48xLRC2oKUtlZ0Ix8Yd6uZp6Yv90oMYSlgtXugarBXBfZ9lIV1aqhG9UWUy5WtQAWadlXBo+Oe9lDY5DCcz7YJbb/yfJ8ZlE=
+	t=1739200207; cv=none; b=JP2GKVdPSMwonYvHqSZfqqKar6XTqM8h1JwEcePmEHSAnxkvXe2hfOG6U+wunYOO2z3Hj+xIxYkgBuF2LX1CwIFdsnFbC7LkuFCM6dddwHeeLDvDIIvIKDgboKAG1pdgXa8QXYeHB1fhAePBVXzieQmsv4d2xUaHG4W34IzH+tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739198411; c=relaxed/simple;
-	bh=Sj5eW9kyqvbKG1tZic0BsHM7+quD6yMZl2YhX8AXDkE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=etzu2v8qJPVZXklzCCaY4kbrzlhT1CEjQbs0fxSVfE8pB6kPm+SLe3CS0eJQQ2QAZw9m+clQ6wYYQHrqKgOYMNcYmUb3sXx+BbeJSfPv/91pJrbLmjkvdaO0ZHRx6gmU1sX7miDRnUr1gieNTZ0tDy494mpN08t5VoBPB3e0tlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sXJCTr0L; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1739200207; c=relaxed/simple;
+	bh=5v/Hlf0nYjNMcNjSA0QajG/0QZb2RxzbH+I0PIjVBQU=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=UyFJieb/bjckTOQDdCVyXvyRByuX0w71UwZouzPHzVywUAfrkkcQGtPhh6WLzidLCYkX2hLLe2xIM70kngkGkpq2yK6hgWeiqqTOLaSMca6YMY69BJPuifxlH5DYZcMkDUB9k6ZGc2It0VuPf6sXXNZ3AjfWykgyJoYsWl5RVhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PJj2g6s1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sXJCTr0L"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6DEC148EB4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739198403; bh=J0LDPXJ6Fp7OnZfUagLzuEZvxrfo5+dhEZvqyspU/b0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=sXJCTr0Lwe/fVwRGXlZgaAd+8X4YcPL3vLhzmSDeHxFUDpjm9yk6yTdfZ0m4YUw4r
-	 Q7+QAqLkKiHVR4s0btbXp9/VxfRY/RjawZzgap8NgKYz2yHsp6yedXtYNkliIg10Le
-	 nA/I06O5wpBnD67CYF5RlyzyKwwXTeQb2K4nx+25CsH2z9q+Zr9UGPe7mUq7EocQ9m
-	 rtg2bhnNIR6IVy604sOxn8t1ZkGat3pqC9pYhn1QvHWd14+77CAX2BZKYxUpEFF+eU
-	 5gy1PZzJDB7jVy18Egh9Z5Qb+FS3Q6YX6iV5UFHthrf9KfPQH9gIIVP1Z7SoX+zvbI
-	 ErycYTzPi/aHQ==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6DEC148EB4;
-	Mon, 10 Feb 2025 14:40:03 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
-Subject: Re: [RFC v2 18/38] docs: sphinx/kernel_abi: use AbiParser directly
-In-Reply-To: <20250210082748.05ba85ae@foz.lan>
-References: <cover.1738020236.git.mchehab+huawei@kernel.org>
- <fb800900352d90a0e501e5d6732e1bea277478f2.1738020236.git.mchehab+huawei@kernel.org>
- <87lduu7efu.fsf@trenco.lwn.net> <20250129014324.60a8dfce@foz.lan>
- <20250202155652.1652e420@foz.lan> <878qqlfxc9.fsf@trenco.lwn.net>
- <20250210082748.05ba85ae@foz.lan>
-Date: Mon, 10 Feb 2025 07:40:02 -0700
-Message-ID: <87cyfp3ltp.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PJj2g6s1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F44EC4CED1;
+	Mon, 10 Feb 2025 15:10:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739200207;
+	bh=5v/Hlf0nYjNMcNjSA0QajG/0QZb2RxzbH+I0PIjVBQU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=PJj2g6s1gJcgAhmj3IrAKN+6L/oPlWDj7XCTsngX8DkIzWo/RSpvPJsY1omiEGfmZ
+	 Rnzisb7R4srB+WBHLZQk/2B7qkioco0MHeMay+6cXtDatBmJSqWKWtDWLtn0IU/6+B
+	 EQBLiCdvp4GGYj3zSt9flHdDI1EqK6JvJiY078p4E0tQuoJiJ3gf6cYlI5sUFc/AOt
+	 zvwB2wPNm2V4uPjGRxDQca6GAcqk0RY5+VDygapssAKwTlB33L+owGv1IS3ml4oHw6
+	 Gk8cdN4LJCxPtagw/OXGxZrGfcJJUWMl1zyzzKCmx7NVLRQPwXbRCRZKgBzxc1AtKi
+	 hTRN4qoe5aszA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ECA19380AA66;
+	Mon, 10 Feb 2025 15:10:36 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v5 0/8] netconsole: Add support for CPU population
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <173920023581.3788663.11102897546048751137.git-patchwork-notify@kernel.org>
+Date: Mon, 10 Feb 2025 15:10:35 +0000
+References: <20250206-netcon_cpu-v5-0-859b23cc3826@debian.org>
+In-Reply-To: <20250206-netcon_cpu-v5-0-859b23cc3826@debian.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ shuah@kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ rdunlap@infradead.org, kernel-team@meta.com
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Hello:
 
-> I took a look on Markus work: it was licensed under GPL 3.0 and it was
-> written in 2016. There were several changes on kerneldoc since them,
-> including the addition of a regex that it is not compatible with
-> Python re[1]:
->
->         $members =~ s/\bSTRUCT_GROUP(\(((?:(?>[^)(]+)|(?1))*)\))[^;]*;/$2/gos;
->
-> This one use:
->
-> 	- recursive patterns: ?1
-> 	- atomic grouping (?>...)
->
-> Also, it is hard to map what he does with the existing script. I'm
-> opting to write a new script from scratch.
+This series was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-That's fine, I just wanted to be sure you'd had a chance to look at
-it... 
+On Thu, 06 Feb 2025 03:05:51 -0800 you wrote:
+> The current implementation of netconsole sends all log messages in
+> parallel, which can lead to an intermixed and interleaved output on the
+> receiving side. This makes it challenging to demultiplex the messages
+> and attribute them to their originating CPUs.
+> 
+> As a result, users and developers often struggle to effectively analyze
+> and debug the parallel log output received through netconsole.
+> 
+> [...]
 
->     Another option would be to re-implement such regexes without using
->     such advanced patterns.
+Here is the summary with links:
+  - [net-next,v5,1/8] netconsole: consolidate send buffers into netconsole_target struct
+    https://git.kernel.org/netdev/net-next/c/1c1377d7b60c
+  - [net-next,v5,2/8] netconsole: Rename userdata to extradata
+    https://git.kernel.org/netdev/net-next/c/4205f6495eea
+  - [net-next,v5,3/8] netconsole: Helper to count number of used entries
+    https://git.kernel.org/netdev/net-next/c/563fe939a81a
+  - [net-next,v5,4/8] netconsole: Introduce configfs helpers for sysdata features
+    https://git.kernel.org/netdev/net-next/c/364f67837e86
+  - [net-next,v5,5/8] netconsole: Include sysdata in extradata entry count
+    https://git.kernel.org/netdev/net-next/c/2bae25b16aea
+  - [net-next,v5,6/8] netconsole: add support for sysdata and CPU population
+    https://git.kernel.org/netdev/net-next/c/ec15bc46c63c
+  - [net-next,v5,7/8] netconsole: selftest: test for sysdata CPU
+    https://git.kernel.org/netdev/net-next/c/12fd83ca44d8
+  - [net-next,v5,8/8] netconsole: docs: Add documentation for CPU number auto-population
+    https://git.kernel.org/netdev/net-next/c/a7aec70a9092
 
-Seems like a preferred option if that can be done.  Banging one's head
-against all those regexes is often the hardest part of dealing with that
-script; anything that makes it simpler is welcome.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thanks,
 
-jon
