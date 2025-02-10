@@ -1,116 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF741B85FD;
-	Mon, 10 Feb 2025 23:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CDC25EFAC
+	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 23:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739228717; cv=none; b=Z8N14KrOWFR0T1QV/INF9E35PLn/vBCMMmxGsFKWu1iR1PE7FLHAQW+8m4fDSExI8ESPteBXLAoaZckbxCBRvP+J5s5Tqo1zaoQkYfe3KeG8l+2wskrR7lelis46AgFKgXwa5d+WGVsM+/OYm4C30fudNyd3Pnqja7a4GngUNoA=
+	t=1739229275; cv=none; b=aRD0tLET5PsCEahOaeRL//1KtP6L8mGmF3J1Oi5EBNbcwVDoKIWmDabkt7t6i+7o+4BU58hcJh0Rm+7311uEvoK7aIEwFu8U/Bwot7aRIKYLYPmbBmtvUXmK1nwwAnMqUrdtnbVSrh2DvzN96zIQ2TE4prqpdSoOgyz7/pOiP+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739228717; c=relaxed/simple;
-	bh=a+20u3F0olFhn2ger6QyJLQ5lx1Ke3LUoxDGzvt6t8E=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=KNBF2m3rNNwE5ZBevcyGjFlL9VAH+ltP7JR1xV/CqvcXcZDr8Tvc/lL6pX2tNAjRSy4ComHIRoa2btUlmBVT4wpeAj+s4iGctsQYIFe7xso59wOwLfUCRfow33ih9Q8MkGJxluCMZeMIXfDrIGHEVl0OqIT8NUB0WybZJfArKTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ywk5yFm7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739229275; c=relaxed/simple;
+	bh=8i9JszH04TiBwcb05AP+zS29cixB68Cf6w5CTdI0D+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bMtvMHsVp8NqaThx7gM0xNJFr7MWHLB1he/CwA0BSXVio8lEngmhfelcbgM5KjTsZYI7tIHOSZDOAJj6szA5mLtRafbdmr2CeFym79SJuX5wDBIdXP8x8McVuQ7ibKm0DH2RjLTIOZOyyuiBqGTHuHZLsjytjveFFMrkE5fay08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RujU9PpP; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ywk5yFm7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDB13C4CED1;
-	Mon, 10 Feb 2025 23:05:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1739228717;
-	bh=a+20u3F0olFhn2ger6QyJLQ5lx1Ke3LUoxDGzvt6t8E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ywk5yFm7ctuCPKJQ9+BCPXUz/RzUhWb19Ww4mTtphZcClJDthieFzci4pzmtFsB2I
-	 Yp0xaownlpeRYsr5jbwGmNoxuPqSzXm8ItDVb71qJ3LuODj6XFApcFUVl6eL6hlFDA
-	 RkQ1jhvczfJ6AIkjUhJS3bVUC+B1AyLXWs+uA/LA=
-Date: Mon, 10 Feb 2025 15:05:15 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- nouveau@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, damon@lists.linux.dev, =?ISO-8859-1?Q?J?=
- =?ISO-8859-1?Q?=E9r=F4me?= Glisse <jglisse@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, Yanteng Si
- <si.yanteng@linux.dev>, Karol Herbst <kherbst@redhat.com>, Lyude Paul
- <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Masami Hiramatsu
- <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra
- <peterz@infradead.org>, SeongJae Park <sj@kernel.org>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, Pasha
- Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
- Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Barry Song <v-songbaohua@oppo.com>
-Subject: Re: [PATCH v2 00/17] mm: fixes for device-exclusive entries (hmm)
-Message-Id: <20250210150515.c71078f212ff4661eafc15bf@linux-foundation.org>
-In-Reply-To: <20250210193801.781278-1-david@redhat.com>
-References: <20250210193801.781278-1-david@redhat.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RujU9PpP"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-307bc125e2eso46602571fa.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 15:14:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739229271; x=1739834071; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/9kko6nvgrCtMDMk3GCD451xeU3goOMEnvnQebWZMb0=;
+        b=RujU9PpPOHxQBi3Y3um7wqiPaj7HY9Gjg6zE8fVTsjcELNz7f6dQN78koh5mbTiEk+
+         wCAwUa+Olw7qiCLUIB1HdojxyDgeBqS5w5rJiDfm9WrU0b5Omt5JX6ukEO+Me1ZJVqm2
+         r2i9winT5hyq/YmNaGPGA7QUnaGcNvI1tQLd/1lYPkezniew6j0PwlMivH0IGsP+pZGw
+         59YZvS6SasF5pnK/R+QfhZgDd37XsBMofgt6VDeL84AftM6tQpIRs8TrrQTPKRPq1GiQ
+         lvvYQC79pABXfUhp+vnboOOqEmTCFctA2Jzl+abh3xQ8StU9L4HJEJqCG3OGA9dFO68d
+         6oGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739229271; x=1739834071;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/9kko6nvgrCtMDMk3GCD451xeU3goOMEnvnQebWZMb0=;
+        b=s2nkFf6g5TfNv3n6dHY6Dwb/YMoWbrWoZN8MmAmbyhazOpOii7ugtU4TozszI3mlWm
+         wbxDY/Ds3LQVlwc7fVuV51Fs2E6L9+KCvBuJ/hGFZA84kG5KgxRtvuEVo/awtA6ou/HE
+         CoZmiYYgua+sDSBMSazlsvESJ9J4ef+QRONRb9gEcMao5pyteXh0Q+DYiaUHopjptIg3
+         Qnc5u1A1CZmOeeb60+XPVL/bAl5hRywFle1bW3HpSt2wScwMNMG/E7+ov2aOGVbmzjrs
+         FMgYn9do/91txrZb8jLiObnt6yanFlANIk8qFovKdaCuKSmrmmhFgRIjeTO5ZQIfm4sP
+         mbKg==
+X-Forwarded-Encrypted: i=1; AJvYcCUkR6PhKfQAsKuHax5tDT9eZNBxUU76ntrwn28G3M/1TBSd+8skz/4FBN05xjU0PJIRxu4hEssGubc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwI65UdD8/Tkr5qTMYKMWm5iA2EY4jFduE/+hpKjmMry6CbnDKw
+	tmiaZ+41JEk9QLRi/+7Ke/1Fv9cMyjMf2qkmUWSpUkfqSoIPdSxrcpwk7lK7oj0=
+X-Gm-Gg: ASbGncuKshiGQBec40TMTIOyzJLmoHtfe954nwJu/ZvE10OZ/6H57BvTqjtl6WzTVhD
+	+fmEUnDC7rLUTmmzisMqPr9kTuJxXouXWHTtaF27WlQghsx/66SLse4WbYpX1fQgdxYXdvb1xLT
+	/eBByUVI0NjCbaB/kBR2DsmTr6xsg4/ZQPdiLUmJb4nT5+vIiWvdztMJ+GW+Bq8hn1XybNVuPEx
+	flyIODSGZF17dscxsgNGnvFYMltoxFQ+pe0Ij/yi13N0iDgf1ZjGGRshMxILevMA+veAYFCEmHy
+	IsHJGw3gtMkjUAiQKkT5HC4Ch2uYsB7kMne3n/w/ScZDcvXuYSZecrEo692sHgBSZs3xpSU=
+X-Google-Smtp-Source: AGHT+IEiYA4ZdHNW0MIRhlYTkHA5cjZMO3XRsBNobQiwPDauCXQyDb35RHo4o7SlxDmsaMRxsdJWGw==
+X-Received: by 2002:a2e:b8c2:0:b0:2ff:d2e4:8dd9 with SMTP id 38308e7fff4ca-307e5a779a5mr54736081fa.32.1739229271515;
+        Mon, 10 Feb 2025 15:14:31 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307de2baaf7sm13653451fa.81.2025.02.10.15.14.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2025 15:14:30 -0800 (PST)
+Date: Tue, 11 Feb 2025 01:14:28 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+	Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	Paul Kocialkowski <contact@paulk.fr>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
+ bridges
+Message-ID: <qnuskv4mln32nqgbgvwi2qcdwfma6tqfbq7e6sqb3za6pmms2j@ir7pt5634dsh>
+References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
+ <20250206-hotplug-drm-bridge-v6-14-9d6f2c9c3058@bootlin.com>
+ <20250207-ingenious-daffodil-dugong-51be57@houat>
+ <ucttjaf3trkgtpvhnsj7xfsybhnoi4qqow5ucwghlggivbagy7@gngjhbtu73lb>
+ <20250210181244.0e3e9189@booty>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250210181244.0e3e9189@booty>
 
-On Mon, 10 Feb 2025 20:37:42 +0100 David Hildenbrand <david@redhat.com> wrote:
+On Mon, Feb 10, 2025 at 06:12:44PM +0100, Luca Ceresoli wrote:
+> Hi Maxime, Dmitry
+> 
+> On Fri, 7 Feb 2025 21:54:06 +0200
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> 
+> > > > +/* Internal function (for refcounted bridges) */
+> > > > +void __drm_bridge_free(struct kref *kref)
+> > > > +{
+> > > > +	struct drm_bridge *bridge = container_of(kref, struct drm_bridge, refcount);
+> > > > +	void *container = ((void *)bridge) - bridge->container_offset;
+> > > > +
+> > > > +	DRM_DEBUG("bridge=%p, container=%p FREE\n", bridge, container);  
+> > > 
+> > > Pointers are not really useful to track here, since they are obfuscated
+> > > most of the time. Using the bridge device name would probably be better
+> > > (or removing the SHOUTING DEBUG entirely :))  
+> > 
+> > bridge device name or bridge funcs (I opted for the latter for the
+> > debugfs file)
+> 
+> These DRM_DEBUG()s proved extremely useful exactly because of the
+> pointer. This is because when using hotplug one normally has the same
+> device added and removed multiple times, and so the device name or
+> bridge funcs is always the same, preventing from understanding which
+> instance is leaking, or being freed, get, put, etc.
+> 
+> Do you think this is a sufficient motivation to keep it?
 
-> Against mm-hotfixes-stable for now.
-> 
-> Discussing the PageTail() call in make_device_exclusive_range() with
-> Willy, I recently discovered [1] that device-exclusive handling does
-> not properly work with THP, making the hmm-tests selftests fail if THPs
-> are enabled on the system.
-> 
-> Looking into more details, I found that hugetlb is not properly fenced,
-> and I realized that something that was bugging me for longer -- how
-> device-exclusive entries interact with mapcounts -- completely breaks
-> migration/swapout/split/hwpoison handling of these folios while they have
-> device-exclusive PTEs.
-> 
-> The program below can be used to allocate 1 GiB worth of pages and
-> making them device-exclusive on a kernel with CONFIG_TEST_HMM.
-> 
-> Once they are device-exclusive, these folios cannot get swapped out
-> (proc$pid/smaps_rollup will always indicate 1 GiB RSS no matter how
-> much one forces memory reclaim), and when having a memory block onlined
-> to ZONE_MOVABLE, trying to offline it will loop forever and complain about
-> failed migration of a page that should be movable.
-> 
-> # echo offline > /sys/devices/system/memory/memory136/state
-> # echo online_movable > /sys/devices/system/memory/memory136/state
-> # ./hmm-swap &
-> ... wait until everything is device-exclusive
-> # echo offline > /sys/devices/system/memory/memory136/state
-> [  285.193431][T14882] page: refcount:2 mapcount:0 mapping:0000000000000000
->   index:0x7f20671f7 pfn:0x442b6a
-> [  285.196618][T14882] memcg:ffff888179298000
-> [  285.198085][T14882] anon flags: 0x5fff0000002091c(referenced|uptodate|
->   dirty|active|owner_2|swapbacked|node=1|zone=3|lastcpupid=0x7ff)
-> [  285.201734][T14882] raw: ...
-> [  285.204464][T14882] raw: ...
-> [  285.207196][T14882] page dumped because: migration failure
-> [  285.209072][T14882] page_owner tracks the page as allocated
-> [  285.210915][T14882] page last allocated via order 0, migratetype
->   Movable, gfp_mask 0x140dca(GFP_HIGHUSER_MOVABLE|__GFP_COMP|__GFP_ZERO),
->   id 14926, tgid 14926 (hmm-swap), ts 254506295376, free_ts 227402023774
-> [  285.216765][T14882]  post_alloc_hook+0x197/0x1b0
-> [  285.218874][T14882]  get_page_from_freelist+0x76e/0x3280
-> [  285.220864][T14882]  __alloc_frozen_pages_noprof+0x38e/0x2740
-> [  285.223302][T14882]  alloc_pages_mpol+0x1fc/0x540
-> [  285.225130][T14882]  folio_alloc_mpol_noprof+0x36/0x340
-> [  285.227222][T14882]  vma_alloc_folio_noprof+0xee/0x1a0
-> [  285.229074][T14882]  __handle_mm_fault+0x2b38/0x56a0
-> [  285.230822][T14882]  handle_mm_fault+0x368/0x9f0
-> ...
-> 
-> This series fixes all issues I found so far.
+Then it should be something like %px. I found that %p is mangled.
+What about having both device name _and_ a pointer?
 
-Cool.
+> 
+> Luca
+> 
+> -- 
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
-Barry, could you please redo your series "mm: batched unmap lazyfree
-large folios during reclamation" on top of this (on top of mm-unstable,
-ideally).
+-- 
+With best wishes
+Dmitry
