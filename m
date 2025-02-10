@@ -1,65 +1,66 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6492505A1
-	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 20:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EA02505D0
+	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 20:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739219207; cv=none; b=F6d2vgSn7hlLaTokcZDH1lSRKxeYC+YrFVC6ENEAZhdR6PSrl+HbpHxk85/6uixElXdhN2tmD/yIZL9vPj33yn8UTEVBiLmGIys8YB4f9zOK+gYfM0J3bg00wbKxL7s831cl4vdLIvut/gYR3JoVayJy4H9AxBI3izT0EJJhThM=
+	t=1739219210; cv=none; b=TpRm+hDEJYdeJH9ATho3Tg+VGc19Dj75AYNU8BJuoOfg3GV9nO8ZUxKSBPjKut+gdw26CnnB/qRC0ke4QqnNV0ps1k7uxeJX/LpiGpDm57pTo86N4lT2Sj3XnSGYU5b/2Yg0FOGTuoakKGTI2yyjTuPqHEOhAYkYxfiKYr4Vn6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739219207; c=relaxed/simple;
-	bh=fvZEXse498MAei+juRUqd4/R9FeoMw38NPBzNnBXz58=;
+	s=arc-20240116; t=1739219210; c=relaxed/simple;
+	bh=DjlSjyKZg5L1RJtFrw9Awsbe+InTSaQHdJt80sHp1pA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=b30DAeeyAwgqol1YykXWgYuJ/4NQiGJ7WskywVh75mbLrsNVcL80IiKcnuR1fYnvb+LMD+QEh+kZW3MFZjtgVkqWWGWBQPxWGv6P6QMo6Z5u1TNOY/E+qT0sYHOPDeaS71EmNTXDDj+rl42gor1QMr++0uFyBAO3SLKuPNIBueI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=iC7pYDk8; arc=none smtp.client-ip=209.85.214.171
+	 In-Reply-To:To:Cc; b=E0/gEZzrj+o00skzLWV9YY+cwjHpGCIMDsJD5l2DgC3e+dpnfWPL4adWULocZmCKuXrL+0nRGjg0q6dSL7OfGfpu0WiQ/gbrobtEKqj9NVD0w1xzPncaofbdAOP2P/cDcFfMj2gbI31bfH/axPokk2tUn4ocd43mr+jZYE7hlbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=hNzYN8Ij; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="iC7pYDk8"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21f40deb941so100108635ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 12:26:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="hNzYN8Ij"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-21f78b1fb7dso30616515ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 12:26:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1739219204; x=1739824004; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1739219207; x=1739824007; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9ADFXc53D/cc0VutYfr8tgUjvI5cmEZUhOUtSZhfaHM=;
-        b=iC7pYDk8OzVxQx34StINsJPUvclETZ51O3nqxZcnMRSSI0pS8YDMF0tl8RACTkwQG1
-         EIIJa2hvUhAVSC+NK6x6cB/zpc5BIggq+ffK/Ym2uhs4ypf0q2MlPhm5MFXn7yA/Gf6F
-         VdOjpYaR05YpLdXjNcCB2S9lj2E7PfIhoCe1iV2Y5NiD8xM3gPoCtzDvZUuQNKTqaDam
-         5jUhVk6vThDz40Xv0p6Y+HrPqiqmlrwqbV+py7GwueSfLxT16kT77zCvYQ3bOcgXpGbL
-         QvNH7BGhaCPklt4xoP9kS/jPJ3JIlgqTeRw9uXFt1GvOJXmOqXtXeDycjD8c4kPaNlhL
-         HhyA==
+        bh=kHEXIimjUTXAyC0fOzh8XAkym19Q72QcmDI6hc+cq4k=;
+        b=hNzYN8Ij6heIG7PbOVHPJU2y7awRw5Xrn9nqukeLQXCcQAPvDh1EIhE6r/QcxCJlqS
+         GGvE5O8yh+ei1E5IsYc1C21EZ9ou78ojYNzhBwZW+v6lWBjPj7BYx0sXmuQ14Ha7TqOW
+         xBp+bdnYsVmeUYUIyabNFaIbroqqFZHQQN7OjSWmInclr3HXmVWytgcqAW1ti0vyvYaR
+         wzUtujcu3iFervm0c//2zJRrTn/JjZy9QpwLSFsr7Z06NKzLptyYI6xFrRkNykGBGBP7
+         mAAJdpdD/U6IJO2Byl0/7c3ztA/3EgsmqCJL5k7y1z8MoxXxPAUg3XNQP9PLuatDl+3P
+         oDGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739219204; x=1739824004;
+        d=1e100.net; s=20230601; t=1739219207; x=1739824007;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9ADFXc53D/cc0VutYfr8tgUjvI5cmEZUhOUtSZhfaHM=;
-        b=MAPlKxuFK0lQ+uaTFngKsYo5xqCrWW1DB+ynSfCafEb3mmF03q62Xi9b+oAahSMNT4
-         LsI4EYZl/VpQCV1+mmAWyD0IRKCoR5O0nqo3CWhtMDcfUlB/etkKipSBRxcO8YpryMKh
-         MGjcmOx7OPLhLJOzWm5tmaJruTJQiOC2SdaWR+WdOM9b6TWYc2S13NLV4DopmEf5Imfn
-         gufeafoZXmT0P5NDMJqaaeP26xId1Xw3ih2q4T8XQn3Fn2CsRWspG+C4yGdTWAh0uzEO
-         J1gyWvzoQI7NMe3Dx3p0D6lR3Clt5e0Hpp9UPjvwELIlWu0+z5kOF+Y1JgMC3afj9rBP
-         P6sA==
-X-Forwarded-Encrypted: i=1; AJvYcCXBUDWz6trR/hnIiCeWm1sjZ8U6C8UgPVVPiOS1qRAD9b1WQ2tF7y1NeaM751NEJQGbu33p6OEaigk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+eRFDUp2fxTh1N4JMGrFcwbX8V/POhVSSh0709VVoB82llPN9
-	LoAw3Ri4h867yjj+7Owzyazd8ffLaJdrD+d1FDmvV85/jlOFDU3EGjm+vLWjBG8=
-X-Gm-Gg: ASbGncuzH4l2lFqSrbvuCWAwNvUMZyF3pd1HLJIlaJ1hl5SDijgVdJYs2EQaCHDEkRU
-	8LL0nMHQA7XstcmfkgNZiDP1eewmznpN/HdBNuiyWwFEWnyN6mf2P8MHJHxIdqBspOFXCHOp6WJ
-	nP2FzR2vI+1EM3WpDmucbhBQ5vsbb643yzhLSr/N3T5HVnyuFCnljGnCzHOfLECPUsq47Awa7pU
-	t34MR1ZQ8zVpFf2AJC0WyVXvTzKPXpg+m/I479TzV7tA1rDeEwMLNdxvkA21y1NwikiEAP8huIN
-	WyJmwOkQAsJ+iaxcoK2jePTK+w==
-X-Google-Smtp-Source: AGHT+IFznxG4IUsH1vtGUm0FvXVBvTHvmf0eQhdxQZjLsHpvXLSfCmOiU5USFlGIslppLz4th5AW+A==
-X-Received: by 2002:a17:902:f114:b0:21f:75c:f7d3 with SMTP id d9443c01a7336-21f4e798104mr179051845ad.38.1739219204274;
-        Mon, 10 Feb 2025 12:26:44 -0800 (PST)
+        bh=kHEXIimjUTXAyC0fOzh8XAkym19Q72QcmDI6hc+cq4k=;
+        b=P/zVUqxm1qNpT+muCYfPcs3n6sxFZJmdoTDXRhOEY1H57/+UnFfDYRUAwCMo11U3v5
+         PeOwocrOPRY1Tp5O9XsKph3GXxQZFSeJDr77MH+aLdvGjS6IyS6pveHq7Uw5jp3pT5qF
+         33/Tyx0NIVEYF+lnQHFQLqXPyShd32rt51moy4m7QkCXQAjKJZVG0eoG2B3uDyQNqlvO
+         ys2gy8QYRhE3ZvVicorCzqogxkBatrVhrTE1TMXS2MNqCQ0xmI0cUMF1cNRpdRdERKmB
+         8eGykvNHqGBGr/CFD/RymnFz0bUh0waXqsH/kpC3d+iIWk9jTBIClFCv+BKIwRJdbRjR
+         hIrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUd2UF0y/do4dmYoY44xLYYr2MH5QzxNNxT96WQ+r/fXqs5YwOxQbOOmaPhxJAS0XKsLE4F5k+2CPc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyG9Kl7sv6H9xw8+UuJBl14O4aKxwgq0Fv6iq+qs4j6t2Y9lf4Y
+	6syQ0OdcKCh6E1400qVzri34YcncW9sbVMRY9bic6nja4SIMuJp7Gvp3wkCtxlk=
+X-Gm-Gg: ASbGncvVo09YxaeoVAXqh7yXoJb0UkzXvIsBARA2bcGi4oGdpS8aAnltpJd12dTn+qW
+	7qb2+uAtGfQroTAdEVzOdpjTlGoTtUMKn/aG30OwtAEo6nHMisQw+ZD1SmnmXzrBlIja6kMh7fi
+	GiiT+PcIZxM6QohVj157svjNN8u2RLxK1SQoDFjV06pXNbAJ2IZMgYSsff/Rb2K/wHuO1e/g7qT
+	O4zAe+aYC+JsEXsxm6ELRBGfBVY6ubPj549L0qTftKI+Mr9ALVi+DXEVmC5QC3MScEHQwokwSOi
+	R4R6ipfZW+eFOe56OhLPpX3Lag==
+X-Google-Smtp-Source: AGHT+IGXqRpNguUrMSnJHDFrz3qQhRvvMy95jaGz8XHpdEECN7AcOh1dWxqC1mHx3x1SCoyBHua2rw==
+X-Received: by 2002:a17:902:db0b:b0:21f:169d:9f39 with SMTP id d9443c01a7336-21f4e779cc3mr280440675ad.46.1739219206908;
+        Mon, 10 Feb 2025 12:26:46 -0800 (PST)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c187sm83711555ad.168.2025.02.10.12.26.41
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c187sm83711555ad.168.2025.02.10.12.26.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 12:26:43 -0800 (PST)
+        Mon, 10 Feb 2025 12:26:46 -0800 (PST)
 From: Deepak Gupta <debug@rivosinc.com>
-Date: Mon, 10 Feb 2025 12:26:34 -0800
-Subject: [PATCH v10 01/27] mm: VM_SHADOW_STACK definition for riscv
+Date: Mon, 10 Feb 2025 12:26:35 -0800
+Subject: [PATCH v10 02/27] dt-bindings: riscv: zicfilp and zicfiss in
+ dt-bindings (extensions.yaml)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,7 +69,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250210-v5_user_cfi_series-v10-1-163dcfa31c60@rivosinc.com>
+Message-Id: <20250210-v5_user_cfi_series-v10-2-163dcfa31c60@rivosinc.com>
 References: <20250210-v5_user_cfi_series-v10-0-163dcfa31c60@rivosinc.com>
 In-Reply-To: <20250210-v5_user_cfi_series-v10-0-163dcfa31c60@rivosinc.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
@@ -98,31 +99,39 @@ Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  rick.p.edgecombe@intel.com, Deepak Gupta <debug@rivosinc.com>
 X-Mailer: b4 0.14.0
 
-VM_HIGH_ARCH_5 is used for riscv
+Make an entry for cfi extensions in extensions.yaml.
 
 Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- include/linux/mm.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ Documentation/devicetree/bindings/riscv/extensions.yaml | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 7b1068ddcbb7..1ef231cbc8fe 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -378,6 +378,13 @@ extern unsigned int kobjsize(const void *objp);
- # define VM_SHADOW_STACK	VM_HIGH_ARCH_6
- #endif
+diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+index a63b994e0763..9b9024dbc8d2 100644
+--- a/Documentation/devicetree/bindings/riscv/extensions.yaml
++++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+@@ -426,6 +426,20 @@ properties:
+             The standard Zicboz extension for cache-block zeroing as ratified
+             in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
  
-+#if defined(CONFIG_RISCV_USER_CFI)
-+/*
-+ * Following x86 and picking up the same bitpos.
-+ */
-+# define VM_SHADOW_STACK	VM_HIGH_ARCH_5
-+#endif
++        - const: zicfilp
++          description: |
++            The standard Zicfilp extension for enforcing forward edge
++            control-flow integrity as ratified in commit 3f8e450 ("merge
++            pull request #227 from ved-rivos/0709") of riscv-cfi
++            github repo.
 +
- #ifndef VM_SHADOW_STACK
- # define VM_SHADOW_STACK	VM_NONE
- #endif
++        - const: zicfiss
++          description: |
++            The standard Zicfiss extension for enforcing backward edge
++            control-flow integrity as ratified in commit 3f8e450 ("merge
++            pull request #227 from ved-rivos/0709") of riscv-cfi
++            github repo.
++
+         - const: zicntr
+           description:
+             The standard Zicntr extension for base counters and timers, as
 
 -- 
 2.34.1
