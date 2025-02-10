@@ -1,66 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B932F85B;
-	Mon, 10 Feb 2025 06:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80361990CD;
+	Mon, 10 Feb 2025 06:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739167507; cv=none; b=prM6T+e2QP/E4VJZUh1an7MS0mqK1MqVM4VvKE/iDNP/VFtOxNn0uStERfnVEq7fZNXt/2jDQAl2jy9qErO4ms7zZSr4hDdxhsjUsGh0vDs+sgBBWmLJq61bZW/fcl3hJ7Ob5KTf0KvVsbOmTRcvKGl5sPcHL6RGrewc0N0Yg/A=
+	t=1739168703; cv=none; b=DbhnFCwLSr6dJNULfNv3Wu4aQGKpYvVFUMjJloJrWfu6IG1UITionxfvR1Jj2xR0PX36F0Y7zTqbd4zPWSM17+Qu5vDWGep5hlg5rNqBilbVqruFTcng10WIPV2iLaKrWOTUkW3XYcw2VR9o6EwwtmlcIFclzmnt2bkkOxu0ZcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739167507; c=relaxed/simple;
-	bh=rRYJteOQgsHZbcvoZwYX3N714vayvL0FCI84xdksnrY=;
+	s=arc-20240116; t=1739168703; c=relaxed/simple;
+	bh=fSEh8wAH74tf2Pgk9r76wl/MA4PVpqat9Ab0u7aTfV4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XoM3O9/hyKt6rsgSgkcxbvEqZCqtEYpF5EsdigGze9jcnGfnTgepKUJJGsdsSF+lPVPvhcDI0YDf4iduQ1vGZYlUW14Mpjc8ernFKLEah3j44On4hA7tXcJdSo+WAad9p7apIokpe+qfRqg0wozoPQ65q6biNEDC+D8oLK3VDRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UUxznfMj; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bBnnpPrszT/m8h+L/yfoTgOsUPEFRsur9S87Q/kGpSOLdy7wmNqyvAXB+rqvDdj+VF7Cp3QHjklZAObrdTE2KMjuU2F/l4ZGhzQXDWCuLIcYDjH5MY5mYG7mdeIHTAzQ3S5gpn2qcvfeHsv5QDiv9drO6pAr0b47U71XDQv4ChQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VCB7sw5X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UUxznfMj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739167506; x=1770703506;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rRYJteOQgsHZbcvoZwYX3N714vayvL0FCI84xdksnrY=;
-  b=UUxznfMj/TLniGMapgtZPKua9IZEdeZXG+FnDbhkERk4spJMTkYP8T1c
-   T6MMu5YjY0/+pxo5TX0sJnY+uZzpF4nUFBwr/TPsnheVUyqjkugcSGnjx
-   E0yMmHWQABJt+pX8s1IFJmh7B36K3pt7+jgWnwS7dDqeBshU+LdaN74lu
-   vH0oeIMSxl/DTVgq2YQI1+QPR+hFFgNsqv62oe2pUMvu+ZmxkXOcN/LwN
-   YhNslJOSRvAqNHJtJh2CzzGC9ebaHo2afradsivVRofD2l1Q6yrvcoH2+
-   j6BL4m1i8TaHxFWL1JF4NSMLfXZagIgyZu+jpRlLieQPXvM3oIFkgbpp0
-   w==;
-X-CSE-ConnectionGUID: heXIHRHuRVW6g4QRjl0fMg==
-X-CSE-MsgGUID: isVcMtsqRZettLawMEu/TQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="65089297"
-X-IronPort-AV: E=Sophos;i="6.13,273,1732608000"; 
-   d="scan'208";a="65089297"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 22:05:05 -0800
-X-CSE-ConnectionGUID: ukIvttzbRHSU1vhKl0BCeQ==
-X-CSE-MsgGUID: 7YuVGQOLTeGjdM/8qQ6T5w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,273,1732608000"; 
-   d="scan'208";a="111926110"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 22:05:02 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1thMuh-0000000A23u-1NV2;
-	Mon, 10 Feb 2025 08:04:59 +0200
-Date: Mon, 10 Feb 2025 08:04:59 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: subramanian.mohan@intel.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	gregkh@linuxfoundation.org, giometti@enneenne.com,
-	tglx@linutronix.de, corbet@lwn.net, eddie.dong@intel.com,
-	christopher.s.hall@intel.com, pandith.n@intel.com,
-	thejesh.reddy.t.r@intel.com, david.zage@intel.com,
-	srinivasan.chinnadurai@intel.com
-Subject: Re: [PATCH v13 1/4] drivers pps/generators: replace copy of pps-gen
- info struct with const pointer
-Message-ID: <Z6mXC7loE3qRYpUQ@smile.fi.intel.com>
-References: <20250210050421.29256-1-subramanian.mohan@intel.com>
- <20250210050421.29256-2-subramanian.mohan@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VCB7sw5X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90853C4CED1;
+	Mon, 10 Feb 2025 06:25:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1739168703;
+	bh=fSEh8wAH74tf2Pgk9r76wl/MA4PVpqat9Ab0u7aTfV4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VCB7sw5XNiMlm/DHUR77DE//9H7W9gAlGdrTtVwC32UQD74Y/pIw0hroZHzHzozTS
+	 ju9CU/kNR469twGAnJ8HRT16YZ8doAnhjqGpdgFfEujoQITAId9UD7m+o6+PFlrv2Z
+	 weL+yFZzFWgUIBbEmeAN0BHB1GpJIxXLmE7t5jsg=
+Date: Mon, 10 Feb 2025 07:24:59 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
+	pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
+	jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
+	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] gpu: nova-core: add initial driver stub
+Message-ID: <2025021011-dangling-retrain-f61e@gregkh>
+References: <20250209173048.17398-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,76 +48,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210050421.29256-2-subramanian.mohan@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250209173048.17398-1-dakr@kernel.org>
 
-On Mon, Feb 10, 2025 at 10:34:18AM +0530, subramanian.mohan@intel.com wrote:
-> From: Subramanian Mohan <subramanian.mohan@intel.com>
-> 
-> Some PPS generator drivers may need to retrieve a pointer to their
-> internal data while executing the PPS generator enable() method.
-> 
-> During the driver registration the pps_gen_device pointer is returned
-> from the framework, and for that reason, there is difficulty in
-> getting generator driver data back in the enable function. We won't be
-> able to use container_of macro as it results in static assert, and we
-> might end up in using static pointer.
-> 
-> To solve the issue and to get back the generator driver data back, we
-> should not copy the struct pps_gen_source_info within the struct
-> pps_gen_device during the registration stage, but simply save the
-> pointer of the driver one. In this manner, driver may get a pointer
-> to their internal data as shown below:
-> 
-> struct pps_gen_foo_data_s {
->         ...
-> 	struct pps_gen_source_info gen_info;
-> 	struct pps_gen_device *pps_gen;
-> 	...
-> };
-> 
-> static int __init pps_gen_foo_init(void)
-> {
->         struct pps_gen_foo_data_s *foo;
-> 	...
-> 
->         foo->pps_gen = pps_gen_register_source(&foo->gen_info);
-> 	...
-> }
-> 
-> Then, in the enable() method, we can retrieve the pointer to the main
-> struct by using the code below:
-> 
-> static int pps_gen_foo_enable(struct pps_gen_device *pps_gen, bool enable)
-> {
->         struct pps_gen_foo_data_s *foo = container_of(pps_gen->info,
+On Sun, Feb 09, 2025 at 06:30:24PM +0100, Danilo Krummrich wrote:
+> +config NOVA_CORE
+> +	tristate "Nova Core GPU driver"
+> +	depends on PCI
+> +	depends on RUST
+> +	depends on RUST_FW_LOADER_ABSTRACTIONS
+> +	default n
 
-> 	       			      struct pps_gen_foo_data_s, gen_info);
+Tiny nit, if you happen to respin this, "default n" is always the
+default, so there's never a need to specify it.
 
-TABs/spaces mix.
+> +impl Firmware {
+> +    fn new(dev: &device::Device, spec: &Spec, ver: &str) -> Result<Firmware> {
+> +        let mut chip_name = CString::try_from_fmt(fmt!("{}", spec.chipset))?;
+> +        chip_name.make_ascii_lowercase();
+> +
+> +        let request = |name_| {
+> +            CString::try_from_fmt(fmt!("nvidia/{}/gsp/{}-{}.bin", &*chip_name, name_, ver))
 
->         ...
-> }
+How does this match up with the MODULE_FIRMWARE() aliases that end up in
+a kernel module so that the tools know to add the firmware to the system
+in the proper place (i.e. initramfs or something like that)?
 
-> Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
+I always thought you needed to individually list the firmware files, or
+does the rust implementation now somehow handle that in a programatic
+way from strings like this?
 
-Hmm... Is Rodolfo indeed a correct to be mentioned here?
-I think you wanted Suggested-by with somebody else.
+thanks,
 
-...
-
-> -struct pps_gen_device *pps_gen_register_source(struct pps_gen_source_info *info)
-> +struct pps_gen_device *pps_gen_register_source(
-> +					const struct pps_gen_source_info *info)
-
-Still leave it a single line.
-
-...
-
-Otherwise looks good to me, thanks for taking this approach!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+greg k-h
