@@ -1,181 +1,110 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBF2264605
-	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 20:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D9D264602;
+	Mon, 10 Feb 2025 20:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739220126; cv=none; b=PSXwpqQ0itbUdIDgeQF+zD35joBk25Sh1LIecujUaQ9hv207Wd3VvBmztAe5juCnH6NpcbQA1HsqjZu6efyrJY3jnxLQhH/dhhd+d2FrhmBw+21YOrT3DysBbC/psWQ6dMcUhWWFbRd2evkPY+UxNwfUpj+68AtY2xZdRZ22cDA=
+	t=1739220260; cv=none; b=QfcFDgrJwplWOyZNQAmDz9PoKIz3fN+8hsnm/RSzy/KRqQg0fPeNXf+aOaHBnHBSZSDcRK8Diu5/jdJCGR+enws3v2tl7oAV/pBj0NXuLYkZcUPyXsYVXIyrRXvL6IjAlyf+T0qRXcoGqRq6SS9OiIG6jqkz6F80H2OGv0jKt2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739220126; c=relaxed/simple;
-	bh=LZK52sN6xKz5e0cxi1jyEskOoHVCK0oOXBq8lcjmYI0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a1YsEQsk62syysnCR30ckbU46Cmuwjl1IEScNLjN3qDeR/+Nw2H/H6+09tsVIYVYWb/xX/v4PW97bx0mn+wKUaQE5/a0PCzfoR99bYWgIaUIFzVksF2cNvb0wZyRRdTwamqgu7Bg8hQc+gJH2hNrq9XczjXdv4gXBQp8LKkjq2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=yjrkPaox; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1739220260; c=relaxed/simple;
+	bh=GYYg29N2M0qozRhEXhp7yi/83WQc6oszYAElFpy7uHY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tmvGxfaXlWpJStVxfyn+T1E4zf6M05INiPnj5iq7/jGndqz/uoqjORxiC0Gt+G8GqOwvxtV0f64YfwoE0n/Vj7ck6msndmInt1x4KEuU6nSc7hJvCp4358fdkKYKCicjsSPLpv4MHryZ4AO36WPeqmUKwMjYgLaXN/72jZMV21Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GSRNYJYV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="yjrkPaox"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7be8f28172dso278558885a.3
-        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 12:42:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739220122; x=1739824922; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aWIqkfiAlllX+sdfSqusAXqRIO/gfWorBPQNzhmxr6s=;
-        b=yjrkPaoxjWtBxU61ItyKHkOOh5F2hQafUXVfxx8Hp+aPzWfdqxrHcLNxTs64FK9fgz
-         7Gc7p2GjoCg5pxP8vSOGaCJ8FerF4v3cF5cFS08OOJ5M5wQEk28ZS0tV3+FOL+xj3Jv5
-         XCt07GBPCzII700EU8jptDhrLD3gSzwAE2VlKkHXhVMkbFTzca78SsqUyyzuc8WWQjUX
-         2Rn+oUZNL6Fe4p3dWY3QiMZFnddT04f1AQ54lT/7p7Pi8LNrUVHiX/RQsJEugPS/9MFQ
-         Y3+Hi5zVB7E8FRo8iINtJAUMPcce2Qfzj3xeLC/9LR+Fh3NbEOdddwor0CUsSHr43r8W
-         AcrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739220122; x=1739824922;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aWIqkfiAlllX+sdfSqusAXqRIO/gfWorBPQNzhmxr6s=;
-        b=jutpktQYxqJHJsGkChrmi3wytK55xlBE2OFUz5k7pi2oac53PbKRdYT8OpI5ROAMMP
-         YGqsjoFyscYNG4hherZp3aIgv68ms6SE32WpExjzBhoyp86yh/e//OMQrgs0MB4i40/0
-         bGSNMwiBcuzNZBSKqA4i+fvFHAkrCWqciJ0snumkiJDgcRuk11oYe2i5yN+lLMuCpKxV
-         60zc5xkQTCZY7r4F74JcwbVl1h4IMIkEybl8Ux2H+6+01s7YcF+yvesCjwm0CWagrZKA
-         /3/k0qtsVmNjo3ag5bBGIzGxbaWWvQuVCAMw0uSZbhUSkWjUhzS837hIIkvmEsnTY3QQ
-         pt+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXHXSKDi2LHsH9Xa1qZ6KjfO60XC7BhFljsH/6d6KvzxvzxkYga5JUwU6/bOh3j014dTaaqCokaGck=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxy7l5gyjQO7/ClVxmEfZcDerfwMIClUlzmWjqLC61jib3fY+OU
-	dDpzsCR7NXsOQ4KJzTttAbJaqTQJLhYLt+oKuIck5fO8kehsUxrq5NItGXKPxFE=
-X-Gm-Gg: ASbGnctlj86wwNE0SMyrTE6gc6EIhUmj6xMUImWRi9++BDDb/eQvlwjnuNvN/9ik3tQ
-	NTSh9T8Kfe5ET3cvJxaH9i/Mom5OymXKnuEK4KOhLq04PMbvcX6TvI9AVO7Dcue96goHCcqvzBP
-	uMDHtgKQPMdOqkdkJtW5zRDY+OMukpux7xgMVY7kDFdgKbE8pV9lweU1/5538pjBrePiuu9mrO0
-	vzlML+S1ihi3/uQKJrJlxG+ufJ2yulcPFuUB7yE7oMS/roSyTR52nBaue/nMDWRkldL2SzapyEg
-	sc22Wbekt0NqEkfjXarqRkGiSGnCrU1Y3t7L43+SV4DI2LL8RW41TdOdOUM=
-X-Google-Smtp-Source: AGHT+IEMjXJvDef9P4rap26kwWYFjE5BNIyxGYznn1+Pr0PfR68QMcTrO7XUW+fLRJcbcMtrdSheew==
-X-Received: by 2002:a05:620a:25c9:b0:7b6:dc74:82ac with SMTP id af79cd13be357-7c047ba6246mr1979567385a.1.1739220121869;
-        Mon, 10 Feb 2025 12:42:01 -0800 (PST)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c041decf43sm574544985a.7.2025.02.10.12.42.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2025 12:42:01 -0800 (PST)
-Message-ID: <c03ec6fb-8cde-47b6-82e5-e91723dd7af3@baylibre.com>
-Date: Mon, 10 Feb 2025 15:41:59 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GSRNYJYV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EA70C4CED1;
+	Mon, 10 Feb 2025 20:44:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739220260;
+	bh=GYYg29N2M0qozRhEXhp7yi/83WQc6oszYAElFpy7uHY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=GSRNYJYVMG1DHiJ877VvjKwKlVjz7uBJyrlRAqcmlPrsidAvWglfinZib/USic9uC
+	 Exa2ba93Q69fZbwyv3lC7WVYPXtUbeL0GizO5xsA82WyGY61Gf3MTsqXpmJefFSZ7B
+	 nrydwfQuL+gFLmRIIvwn8tkXiAAxX9k/hmZTL30jP4kT5kBU1INqW/brkp3Tda7Mtl
+	 DajJ5p3K1nKCWkZoSV3SvxkRRU0zlpu3kKzp9TyzgxsQyLZKVgS6gd2ZUTOSwfiC9K
+	 zGaYWjWGPtkUVjOu/b1iPHGkaswY+8qXoD6oDZ7XIixM9LXkAeFcimsMQAGONU69gS
+	 fcw8TTvVJpjlQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1thadd-00000006Pwj-3u0c;
+	Mon, 10 Feb 2025 21:44:17 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: ABI: move README contents to the top
+Date: Mon, 10 Feb 2025 21:43:28 +0100
+Message-ID: <20250210204416.1529671-1-mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] iio: adc: ad4695: add offload-based oversampling
- support
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Michael Hennerich <michael.hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>, Lars-Peter Clausen <lars@metafoo.de>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250109-ad4695-oversampling-v2-0-a46ac487082c@baylibre.com>
- <20250109-ad4695-oversampling-v2-1-a46ac487082c@baylibre.com>
- <e3fd7f56675908a60d8ce6bcb6ad4f05b828e132.camel@gmail.com>
- <efba6746-47a6-484f-ade5-f1e17246ac68@baylibre.com>
- <20250210190338.484c463e@jic23-huawei>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <20250210190338.484c463e@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+The ABI documentation looks a little bit better if it starts
+with the contents of the README is placed at the beginning.
 
-On 2025-02-10 14:03, Jonathan Cameron wrote:
-> On Mon, 13 Jan 2025 11:49:49 -0500
-> Trevor Gamblin <tgamblin@baylibre.com> wrote:
->
->> On 2025-01-13 09:35, Nuno Sá wrote:
->>> On Thu, 2025-01-09 at 13:47 -0500, Trevor Gamblin wrote:
->>>> Add support for the ad4695's oversampling feature when SPI offload is
->>>> available. This allows the ad4695 to set oversampling ratios on a
->>>> per-channel basis, raising the effective-number-of-bits from 16
->>>> (OSR == 1) to 17 (4), 18 (16), or 19 (64) for a given sample (i.e. one
->>>> full cycle through the auto-sequencer). The logic for reading and
->>>> writing sampling frequency for a given channel is also adjusted based on
->>>> the current oversampling ratio.
->>>>
->>>> The non-offload case isn't supported as there isn't a good way to
->>>> trigger the CNV pin in this mode. Support could be added in the future
->>>> if a use-case arises.
->>>>
->>>> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
->>>> ---
->>> LGTM, just one small thing inline... Either way:
->>>
->>> Reviewed-by: Nuno Sa <nuno.sa@analog.com>
->>>   
->>>>    drivers/iio/adc/ad4695.c | 333 ++++++++++++++++++++++++++++++++++++++++++----
->>>> -
->>>>    1 file changed, 303 insertions(+), 30 deletions(-)
->>>>
->>>> diff --git a/drivers/iio/adc/ad4695.c b/drivers/iio/adc/ad4695.c
->>>> index c8cd73d19e86..0caaeaa310ed 100644
->>>> --- a/drivers/iio/adc/ad4695.c
->>>> +++ b/drivers/iio/adc/ad4695.c
->>>> @@ -79,6 +79,7 @@
->>>>    #define   AD4695_REG_CONFIG_IN_MODE			  BIT(6)
->>>>    #define   AD4695_REG_CONFIG_IN_PAIR			  GENMASK(5, 4)
->>>>    #define   AD4695_REG_CONFIG_IN_AINHIGHZ_EN		  BIT(3)
->>>> +#define   AD4695_REG_CONFIG_IN_OSR_SET			  GENMASK(1, 0)
->>>>    #define AD4695_REG_UPPER_IN(n)				(0x0040 | (2 * (n)))
->>>>    #define AD4695_REG_LOWER_IN(n)				(0x0060 | (2 * (n)))
->>>>    #define AD4695_REG_HYST_IN(n)				(0x0080 | (2 * (n)))
->>>> @@ -127,6 +128,7 @@ struct ad4695_channel_config {
->>>>    	bool bipolar;
->>>>    	enum ad4695_in_pair pin_pairing;
->>>>    	unsigned int common_mode_mv;
->>>> +	unsigned int oversampling_ratio;
->>>>    };
->>>>      
->>> ...
->>>   
->>>> +
->>>> +static unsigned int ad4695_get_calibbias(int val, int val2, int osr)
->>>> +{
->>>> +	int val_calc, scale;
->>>> +
->>>> +	switch (osr) {
->>>> +	case 4:
->>>> +		scale = 4;
->>>> +		break;
->>>> +	case 16:
->>>> +		scale = 2;
->>>> +		break;
->>>> +	case 64:
->>>> +		scale = 1;
->>>> +		break;
->>>> +	default:
->>>> +		scale = 8;
->>>> +		break;
->>>> +	}
->>>> +
->>>> +	val = clamp_t(int, val, S32_MIN / 8, S32_MAX / 8);
->>>> +
->>> Why not clamp()? AFAICS, we have the same type on all the arguments. I also
->>> think clamp*() macros got the same improvements as min/max() ones which means
->>> that using the ones with explicit casts are not so often needed anymore. My
->>> understanding is also that those macros are not that encouraged as it's easy to
->>> go wrong with the casts.
->> I have no preference, this is just a recent habitual use of clamp_t(). If
->> clamp() is preferred I can send a v3. Or maybe Jonathan can tweak it
->> when it is
-> I've left it as clamp_T for now.  We can always follow up with a series
-> to tidy these up general.
->
-> Series applied though a bit provisionally as the SPI offload set needed
-> a few tweaks that might get changed.
->
-> Pushed out as testing for now.
->
-> Thanks,
->
-> Jonathan
-Thank you!
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/ABI/README                      | 3 ++-
+ Documentation/admin-guide/abi-readme-file.rst | 6 ------
+ Documentation/admin-guide/abi.rst             | 3 ++-
+ 3 files changed, 4 insertions(+), 8 deletions(-)
+ delete mode 100644 Documentation/admin-guide/abi-readme-file.rst
+
+diff --git a/Documentation/ABI/README b/Documentation/ABI/README
+index 8bac9cb09a6d..ef0e6d11e919 100644
+--- a/Documentation/ABI/README
++++ b/Documentation/ABI/README
+@@ -1,4 +1,5 @@
+-This directory attempts to document the ABI between the Linux kernel and
++This part of the documentation inside Documentation/ABI directory
++attempts to document the ABI between the Linux kernel and
+ userspace, and the relative stability of these interfaces.  Due to the
+ everchanging nature of Linux, and the differing maturity levels, these
+ interfaces should be used by userspace programs in different ways.
+diff --git a/Documentation/admin-guide/abi-readme-file.rst b/Documentation/admin-guide/abi-readme-file.rst
+deleted file mode 100644
+index 6172e4ccbda2..000000000000
+--- a/Documentation/admin-guide/abi-readme-file.rst
++++ /dev/null
+@@ -1,6 +0,0 @@
+-.. SPDX-License-Identifier: GPL-2.0
+-
+-ABI README
+-==========
+-
+-.. kernel-abi:: README
+diff --git a/Documentation/admin-guide/abi.rst b/Documentation/admin-guide/abi.rst
+index 15a2dcb1388c..c6039359e585 100644
+--- a/Documentation/admin-guide/abi.rst
++++ b/Documentation/admin-guide/abi.rst
+@@ -4,6 +4,8 @@
+ Linux ABI description
+ =====================
+ 
++.. kernel-abi:: README
++
+ ABI symbols
+ -----------
+ 
+@@ -21,7 +23,6 @@ ABI files
+ .. toctree::
+    :maxdepth: 2
+ 
+-   abi-readme-file
+    abi-stable-files
+    abi-testing-files
+    abi-obsolete-files
+-- 
+2.48.1
 
