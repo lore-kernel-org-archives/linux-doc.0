@@ -1,156 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B573A25B690;
-	Mon, 10 Feb 2025 18:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEA325B690;
+	Mon, 10 Feb 2025 18:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739211738; cv=none; b=mplOTD0TEMmLSyByWD1CSSMRlLw3d0lQf/rs4v6XGqdrXsYpYO10rwB8O+TN5vsQ/3IljGmIGah3XyU2UzL4PnyH0JpoPjd2WfhMtPtC15Q4pTHVjdbHr9FAn52vloEl+xC2mvOhRhKv+GWdrh2/kn0Q/VQdn0a4mcW+IeBFlX0=
+	t=1739211806; cv=none; b=LBYHc0EqOXpBNsayeAWGrAU5pxza3Lyl5lNupGA7SGsEB8Iii1hgyW5XRKoGtD4WkH64RwvnJtQ3PHQaoDYvPu+rXfuppoQpeqKzSEA3P+fKi5EHb8fXf4WFp849eZ+DzGNIX9kDZ5EfvLEjeVEqgS/AUSizAEaGqVet26cBVLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739211738; c=relaxed/simple;
-	bh=kW4WlH1HkjqvMNtVdOaqv6Bu3HBYq9GrG/aLmkyGeCg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=awm7aFyNQK3QF38alVH5+sMnUx1iy7oRapOR1ApaaF82UaWENRvw6spoLKr6GeHFzNPE7n8AN5Y2LME01bgjwpAJQzP3mfqPMbYtcwelg9KH1peCoGxjXoZ3cLV9rWmb3aTCBO27z5fJPQFrp554b6r+HcqR2Vv8X4LBEskDgwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=be1eT55i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739211806; c=relaxed/simple;
+	bh=eqq5ajvjea3MeOhWfO3+dxXQWvINLCgWfRuHmU74dSs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FYyisZuZ6JxK6Z3eL41K+Y+ro+bzgxJnmNyy5l1HAiiVrkqZk5hyZ0W/uS4E6xog/LKX+VcnHqpASW3zEWHIm+gg0qwVs7Fjh2PmJSeQCO7gQ1rpQERbztVVmLwe7oEy8f0tShZzOnp9hE6d4qs1td7yygBK/Yl9hdVQvjypMuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MbnDdv9F; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="be1eT55i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07A8BC4CED1;
-	Mon, 10 Feb 2025 18:22:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739211738;
-	bh=kW4WlH1HkjqvMNtVdOaqv6Bu3HBYq9GrG/aLmkyGeCg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=be1eT55i+UR6ruMjbhjaLYShzWBV7ozYReKlgdefdv/FGyh77+ltMi3kDsqbo/sVF
-	 eHRVRXaqBUzsfLgIzgOEeKSp6hKXCEOrVSin5J1mkd58bPYgwxnnU+qKyP4sPeMqIf
-	 tVBEhX6NQHBU8JD/H0/rIZJaX2T6mhwDPsz43JOINFl1GVXwNWJGH9zcJFAQZRC20C
-	 qnVOrHalrHMtHpuxYxkC6VZ9o7zMhOGGeYftsHslUmYk5whiorSveKLY1PZC/FOPA+
-	 h0OGLPdtge3ogo82C6Ksqvc6KrUWpWrKHm7mdekN5jTU8J5DPSdCCb5CZwBVoAkPaY
-	 aVJ7wRqrkyRgg==
-Date: Mon, 10 Feb 2025 19:22:15 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
-	Paul Kocialkowski <contact@paulk.fr>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	=?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 10/26] drm/bridge: add devm_drm_of_get_bridge_by_node()
-Message-ID: <20250210-vague-fluorescent-toad-c7d1ce@houat>
-References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
- <20250206-hotplug-drm-bridge-v6-10-9d6f2c9c3058@bootlin.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MbnDdv9F"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6d8e8445219so37832656d6.0;
+        Mon, 10 Feb 2025 10:23:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739211804; x=1739816604; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zywqNIFDXEwlE7hLyD+JRB5FcKOg2ioCGIncmY+HT84=;
+        b=MbnDdv9FMhidJwSyokcNQpwikdHGjbCZGKdKBTrQsT7bYd9VqR6TUYZLqWAsRSuk2D
+         Bz3mpdAahrmKmE+Y4xo1x63SU3TU7UImeEd+1Bmsv4FJk1iflTllkQVidPcqEbtQA81W
+         FuePaX2t1Nd+05CUIIcCuD9MII3Mdh4pGH3EtiQehrGoUwiMj6Ar6jYNNcU4KbeDZ61+
+         APSufWC2Xojj55ifCtOobZ6fIOO71UMWxhUqtOuwYzsHJDwm5dGpr8wLwORQvZKbGfYr
+         /RR804as2O8a9G1zMYv0eyujlY9H0HE3JR8t1ZmXErpNRO+bkR8Txwn3G/DlHyakWkGj
+         OfOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739211804; x=1739816604;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zywqNIFDXEwlE7hLyD+JRB5FcKOg2ioCGIncmY+HT84=;
+        b=FpvYO+RZNTjoT+hLg1au7oZa485RaGynaPZNPJbR5XIiN3W5uvMwM/0VMKKWtxMp8H
+         6LinpmJXr/6J/27dPuEQPdE5vEOdiw3XlwhYVLepBykezCNM+9Qidcs/1iIJEa0snmtQ
+         4e5E20K4U457LpfUWLp1uWwk/ViEx1Fc2WoRWGwXvPmF7ELSotmuCWENn2GePZTDHHM5
+         ba6bNeLZxRTwa/05RZNl55kugtVJemxo/F/8SvrgLXKFHGhF+l0tKBc4++t+3cI8/xrN
+         SnCsP6nPHghh3bxbdnpwvH0x+kRNxoQaRT4vO8DSSjw12+vhE9hC4RVZ2kNr6sR23Vx2
+         wmuA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5nircOLbVEZVqh29DHWfmG0AFn5pi7yzJYTg6KoNckDX4MmfNlKBwFysTbBkRarQczJzG81iU4bo=@vger.kernel.org, AJvYcCXVuMxgKqnDBGa+jh2E2/0t+O5djOeeM3fYE/SNz6ATu9FFC0TDletGpdkAz9WxpPlvER8YbZ9JYQmdVRv2K1iK@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2QYDSoyyreii5m426juRuFwod4JH6MSih/BCemIWot1Fdapw4
+	GH/bv6OKTNNLp2BfcjYCeGkeXWbFl4Z/2rS1dnD+DdxPz5ieJ/OF
+X-Gm-Gg: ASbGncsGo7b3mNXX8rBHrZiUYnLzPHO5WNcGKxP8oUUUbgb2OHicrdKPsaSZ5TIrxxc
+	rcmfG9PR15o5tVsW8cRGUQvPv1nYvcCpBW6QTpgKr9l1tn6sQjqItCi1cXznqJPkMArgUOq2ZNk
+	+7vxJbeG1idMU7eFEQe984O2vpK1ak+0KQzn80ZBoIvoRQ5lDHgxcBM6YXKf6gdETs7wrDm/Ope
+	i0Op5flE0iwepOtIPhCei8kn2f2OjigHsAk4vXzNUHDjVcO2jnnQ8l4UR2khcv2y665fHskDRN9
+	djUgyxy9wkuhRsFYFIV+rPM5vK6ip5008ZoPG/MO1NS+Eu3ubACqxjUHTmaRnln7mMmQVDnHSXL
+	lMj+jONZc/T2myTc4dQUSYdtg
+X-Google-Smtp-Source: AGHT+IHJUbDxjdCsNNj+OQxZXpiKoN2yODdzK86kuSDraz80IM/wj9UOVb/ft5Ok46q9atDDV1Hi/g==
+X-Received: by 2002:ad4:5dea:0:b0:6e4:29f5:b8b3 with SMTP id 6a1803df08f44-6e44562d887mr219755746d6.20.1739211804219;
+        Mon, 10 Feb 2025 10:23:24 -0800 (PST)
+Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([2620:10d:c091:600::1:cc94])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e440d902d3sm45436456d6.7.2025.02.10.10.23.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2025 10:23:23 -0800 (PST)
+From: Tamir Duberstein <tamird@gmail.com>
+Subject: [PATCH v3 0/2] printf: convert self-test to KUnit
+Date: Mon, 10 Feb 2025 13:23:21 -0500
+Message-Id: <20250210-printf-kunit-convert-v3-0-ee6ac5500f5e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="a3gp6fts62sykw5k"
-Content-Disposition: inline
-In-Reply-To: <20250206-hotplug-drm-bridge-v6-10-9d6f2c9c3058@bootlin.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABlEqmcC/3XNTQ6CMBCG4auQrq1pp+UnrryHcVHKABO1JQUbD
+ eHuFtyw0OX7JfPMzEYMhCM7ZTMLGGkk71KoQ8Zsb1yHnJrUDATkQirJh0Buavnt6Wji1ruIYeJ
+ to4UEYwBtwdLpELCl18Zerql7Gicf3tuXKNf1C4LQv8EoueBoW1lXujC6wXP3MHQ/Wv9gKxhhj
+ 5R/EEiIyMsaVFWICtQeWZblA0B3Ep79AAAA
+X-Change-ID: 20250131-printf-kunit-convert-fd4012aa2ec6
+To: Arpitha Raghunandan <98.arpi@gmail.com>, 
+ David Gow <davidgow@google.com>, Petr Mladek <pmladek@suse.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Naveen N Rao <naveen@kernel.org>, 
+ Brendan Higgins <brendan.higgins@linux.dev>
+Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+ linuxppc-dev@lists.ozlabs.org, Tamir Duberstein <tamird@gmail.com>
+X-Mailer: b4 0.15-dev
 
+This is one of just 3 remaining "Test Module" kselftests (the others
+being bitmap and scanf), the rest having been converted to KUnit.
 
---a3gp6fts62sykw5k
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 10/26] drm/bridge: add devm_drm_of_get_bridge_by_node()
-MIME-Version: 1.0
+I tested this using:
 
-On Thu, Feb 06, 2025 at 07:14:25PM +0100, Luca Ceresoli wrote:
-> devm_drm_of_get_bridge(), which is based on graph links, is the recommend=
-ed
-> function to get a pointer to the following bridge.
->=20
-> This is valid even for panels, for which the recommended device tree
-> description is via graph links and not (or not only) panel subnodes of a
-> panel controller (e.g. "dsi@1234" controller node with a "panel@0"
-> subnode).
->=20
-> However there are drivers supporting the panel subnode description in
-> addition to the graph links. For those drivers add a _by_node variant that
-> takes the node of the target node.
->=20
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->=20
-> ---
->=20
-> This patch was added in v6.
-> ---
->  drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
->  include/drm/drm_bridge.h     |  8 ++++++++
->  2 files changed, 38 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 2aa17fbe538b86066c4e68f0d0e8046e9ca9b965..b0834b8644284e5f7751cec81=
-724af849b4180e7 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1407,6 +1407,36 @@ struct drm_bridge *devm_drm_of_get_bridge(struct d=
-evice *dev,
->  }
->  EXPORT_SYMBOL(devm_drm_of_get_bridge);
-> =20
-> +/**
-> + * devm_drm_of_get_bridge_by_node - Return bridge for a given OF node
-> + * @dev: device to tie the bridge lifetime to
-> + * @bridge_node: device node of the remote bridge
-> + *
-> + * Given a bridge DT node, returns the associated bridge if any. This
-> + * should be used in addition to devm_drm_of_get_bridge() when the regul=
-ar
-> + * graph link search is not enough, e.g. for drivers that need to support
-> + * panels described only as subnodes.
-> + *
-> + * RETURNS:
-> + * A pointer to the bridge if successful, or an error pointer otherwise.
-> + */
-> +struct drm_bridge *devm_drm_of_get_bridge_by_node(struct device *dev,
-> +						  struct device_node *bridge_node)
-> +{
-> +	struct drm_bridge *bridge;
-> +	int ret;
-> +
-> +	if (!bridge_node)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	bridge =3D of_drm_find_bridge(bridge_node);
-> +	if (!bridge)
-> +		return ERR_PTR(-ENODEV);
-> +
-> +	return bridge;
-> +}
-> +EXPORT_SYMBOL(devm_drm_of_get_bridge_by_node);
-> +
+$ tools/testing/kunit/kunit.py run --arch arm64 --make_options LLVM=1 printf
 
-A bridge is a KMS-facing structure, there's no reason to tie it to the
-lifetime of the device.
+I have also sent out a series converting scanf[0].
 
-Maxime
+Link: https://lore.kernel.org/all/20250204-scanf-kunit-convert-v3-0-386d7c3ee714@gmail.com/T/#u [0]
 
---a3gp6fts62sykw5k
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+---
+Changes in v3:
+- Remove extraneous trailing newlines from failure messages.
+- Replace `pr_warn` with `kunit_warn`.
+- Drop arch changes.
+- Remove KUnit boilerplate from CONFIG_PRINTF_KUNIT_TEST help text.
+- Restore `total_tests` counting.
+- Remove tc_fail macro in last patch.
+- Link to v2: https://lore.kernel.org/r/20250207-printf-kunit-convert-v2-0-057b23860823@gmail.com
 
------BEGIN PGP SIGNATURE-----
+Changes in v2:
+- Incorporate code review from prior work[0] by Arpitha Raghunandan.
+- Link to v1: https://lore.kernel.org/r/20250204-printf-kunit-convert-v1-0-ecf1b846a4de@gmail.com
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6pD1wAKCRAnX84Zoj2+
-duqYAYCyFN95MaOSOiHSy48n6f+H3RwjknEahucK0hxM//iGFFhtWemOcArKOv5O
-ruChdWsBgMttvepbPSgqHfhHAKiGVSo2oYhJYPPZWeYyVlDWHVRi49u6PZWnEoWZ
-iHl0s6SF1A==
-=82V5
------END PGP SIGNATURE-----
+Link: https://lore.kernel.org/lkml/20200817043028.76502-1-98.arpi@gmail.com/t/#u [0]
 
---a3gp6fts62sykw5k--
+---
+Tamir Duberstein (2):
+      printf: convert self-test to KUnit
+      printf: break kunit into test cases
+
+ Documentation/core-api/printk-formats.rst |   2 +-
+ MAINTAINERS                               |   2 +-
+ lib/Kconfig.debug                         |  12 +-
+ lib/Makefile                              |   2 +-
+ lib/{test_printf.c => printf_kunit.c}     | 429 +++++++++++++-----------------
+ tools/testing/selftests/lib/config        |   1 -
+ tools/testing/selftests/lib/printf.sh     |   4 -
+ 7 files changed, 192 insertions(+), 260 deletions(-)
+---
+base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
+change-id: 20250131-printf-kunit-convert-fd4012aa2ec6
+
+Best regards,
+-- 
+Tamir Duberstein <tamird@gmail.com>
+
