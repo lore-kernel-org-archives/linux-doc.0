@@ -1,158 +1,148 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A5A261375;
-	Mon, 10 Feb 2025 23:39:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38311DE3B8;
+	Mon, 10 Feb 2025 23:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739230761; cv=none; b=rZ8Ei8rBzl1YfOSYiWaMj+W2w+cL/rDSiB6JHwNcSi1qxtHlu5AzwQF8B84pG/c+aP/dAWWGjXXgZ8ccg/DgljEuu/wugme8SdDQgKp3TTxQ6rLHhRiIFt1VSEONet7P+sd2lZoqMrT7355eUeWcfgYtnKLSbeHDQ6cYr3Z9B3s=
+	t=1739230982; cv=none; b=qH7al10kpRaIzh8OUhWWhVsEBHOjn5US3jO1Z/f/UXjDbXpNRxdgdMnt/uw1HBmX0oUyyqdbLJCrtEV6OQ16OxuFXcBPYMlUnv6j2G5OEdPhQ9oq/u/uW5SsgDcsES6Z98+DYjW+dkwG7zv5+PBscVH/t6pC9KJlmIKAv5CpS5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739230761; c=relaxed/simple;
-	bh=XtC1lnaFlsxPJJUHriOWePwP8yBTmLkmhQe6ny+9TZw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=enyxpP0ePtn43VNmurpnbv3QRJrTbIlcaAF9tNxR0hNz8wBfR4Oml8YfH1AOEo+c1oh4G4QTPWaieOcwBjpkLFT8RPA5cMJbf01MpAQcFzfUwS7oo2lhripwhPNXKp4af1uL+GcEYrLedl/NY06/N+BIRYjtcsyna8M4j6iOzs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PvCsv4p/; arc=none smtp.client-ip=209.85.222.46
+	s=arc-20240116; t=1739230982; c=relaxed/simple;
+	bh=MUIDd2fI73QZi6v0y5Fvhz8OUmwuDCtfk7eH7bHgesY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q5BEBNWaNMsy7hS9a4Mav/c1NyL6bOUJlCwRfbpjGhJNO2zO3Adcuysra7gry60yDD+TCXOA5h8PjRrbjb7PtnhC7UCATZYyPZ5L2PaCvAPcARknmhLMsQAP7hQ2pTu9wnfyeD7KJ4zu8ep2MjZDl1nr4TXYiHmryJ6w0v3h+18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CnF5EYED; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PvCsv4p/"
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-86703c58149so1230238241.0;
-        Mon, 10 Feb 2025 15:39:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CnF5EYED"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-21f5660c2fdso64765965ad.2;
+        Mon, 10 Feb 2025 15:43:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739230758; x=1739835558; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r4J5WV+6IR7+S2waApgF1qBwpbiN//GCbixakjmicks=;
-        b=PvCsv4p/sEKjoFjFtVnpdanLWNPVWH5TQE4Bh0rNoohnh2nWO5PabqYBxnAu8S3+ik
-         Mrmgt0OSLz5KlhUYDkE2UYYqtz0dyvV6f6cLCkXL/Dmtd72+fkxnfJfqp/PHbUrQ72V/
-         1iO8Y/5Wq/E3vhT87QgBUrHUqh5iQHux4pt1SwP1ICt5kbJtr5szjkrL7wxGeN9zCd2t
-         CvBoeUrIBuyeJUT/pyklgAsVA5LAoeYaQiV+t6XKBrdiwBLts7oA814JU3ifGYkEvwIj
-         227H85kfKRR7bTI46CMcWRUA0ce0TTN0WA6t94QToL+SdtPo5azlgqunYArWBeAeV2Ht
-         eHDw==
+        d=gmail.com; s=20230601; t=1739230980; x=1739835780; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hvhku1/z5ISGPVdL1BlHcUNOUe+L4Ex94wS+iRNs3Co=;
+        b=CnF5EYEDELE95V5U5WCgqmoBgp6Yiau9wanowXL4nAZc4pNFSNWU0fxbhXRaq1CTLk
+         4vc2GR373bBHxhWW+VcKXdzghHPXG/Nj8aCc4TQQurj/iMoAg2pdCyuxSjmRzKoiMHSA
+         xUuuDg1HtmPWJ+K8Cv2xNVq+rasYJAbcyEv2Cwbi6QY34d8aWNQAv5sffnLzCThikWmI
+         Zy6DIQpeUSlvJyjxeWTiQ2wEJAaMMO2cMc8/nFgRZwenNZ7troINypz13Ufqyd/7Vdw0
+         DM28zwzOvB+DEqMrWPIpG3kcZp1swL5bmG4A4W2zZR2rUKZ4J4rylcHLugbM3JgkctYQ
+         GhEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739230758; x=1739835558;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r4J5WV+6IR7+S2waApgF1qBwpbiN//GCbixakjmicks=;
-        b=YFPTmTE+faKyd5PeDli4wq3PZLmXnbYarapMkSS8IconQGbE+FbvZz6ZaCerUP2sIC
-         ADNVeCzYPgWlfV2mvG+SUDfo+WTQHW1IQCRlpFR2d3ViIZlyvPrDA6hEmeUJqmAqxNuo
-         fYNgSRp2R+5Ce/ydJaV+hce4sKlHGQqY6YlN5OcyYi5G/IgLemDbpREZPiTGPuLLc31m
-         9teJnQf/nYOHZwtkEZZH3UZ5IjBhYRVsPac5GwyHDHYrLMfaL5FZizPrzu66coEob9DY
-         WFLWtZp7TLOS7dSvr7hKep0t0md5vj6JtrcZXy33IcExvxLitB1fpD8yBW4VX5dbxEbJ
-         ZyuA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMwXGRBWzaxykwHPx6EpFnz4h6TJAx8vEZIBo4PAmsEyITHqJXv6siANG15/+PF+KRcAzUI0d415JjByehmgdI3A==@vger.kernel.org, AJvYcCUfGoinyiubk9ar27zndQxCrlsIwpfHGi+eeuy4+OxFBp4QwZDk0HPVgFAHACoUt7IX2cHejxQGUVnXNm0nEwc/E0ZU@vger.kernel.org, AJvYcCUxdzmZ8UQbEcLCDldnQf/IvVAoV28h34raWWIf/6hQ0vlJtlob30AYYZ3OaBkCECixCTlxz2GKuGw6qP6D@vger.kernel.org, AJvYcCW76MZGXav1J96O8mHJpBz0Pc0Wq0xIdoYwj/2AedrtT1Q0VWa7nS/H+Ln5YarJ16+Ud1ut9Gld8Fc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGm2TqEfGEtvmrVgQiyD1+ZI2ZuWs+QmPFKwTeTxgjLgo4qrOa
-	MSNP4w8RYDYNcV+GvzL6XMXJRAqhDpMwwhX5undWBEyDoh7NvwbVYI32HkBN+USzeQHBLwQzYSo
-	XWwUbxZSfzosXWbmNY71hCXwP5nY=
-X-Gm-Gg: ASbGncukU/5Rg7r7139f0qjOiOweN8iyZuTkLvLpr9qr9KNyq59bc+6prnBFeZ3toJu
-	YuKeU8HF7iKTp8/F2Ombl4ULBKn4a5m+l/onDOnoqnw5iRLHSGTG6tI9SzB0MuTpXI6LIK6y2pf
-	Gp8J7Jl6s4bOfaBpHaZialLZcbK8pOEyU=
-X-Google-Smtp-Source: AGHT+IEzfy3CbplemS9WcnlHDD6MpmxCskJpVqC7I5+Y9/ioGIApBpWu1Deqy+MADOJ9mj0OMU6KQgcPeg0LuaokY6w=
-X-Received: by 2002:a05:6102:2b88:b0:4bb:ba51:7d48 with SMTP id
- ada2fe7eead31-4bbba51806cmr4870296137.5.1739230758203; Mon, 10 Feb 2025
- 15:39:18 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739230980; x=1739835780;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hvhku1/z5ISGPVdL1BlHcUNOUe+L4Ex94wS+iRNs3Co=;
+        b=fGQRC0yqz/O5pxEf28Px0OkH1/W/y/yhPOhDPoTtVNPd71kawLBWHZSMsgOkOB1GEh
+         7Z9ivt0Q+nE1Wz3JEPiZ7X0dBoOxlc2nKbWvnImDtOWW5r64tsERcNHe/UByVjc46XH4
+         zXVHfEwP2FAsR3yYIvVk4Xk7pueKPmcwMgV9O6adZTFpH6Jeh9Wgjk9+7PV+V4EJ6+/O
+         mZBNfmS9kdrUGDOWcCqWi6niOk9M2cig/Oml+e33mfJhfVV5fHgsTCP5pKFIaN6WbUKQ
+         ArLC57Po/Fg9htssy0OTBBKBmRZH2NziyjZQtBf0U9+iH587/sTsedw2t/gyX6/PH97h
+         92GQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWwmjpUuxPE3x1VvdQDsMYcIN++tAm5MTGLjNLVuhG827W64moJ9s6uivy4qS528q740iBTmwie1w=@vger.kernel.org, AJvYcCUrDIDALdL3KOBG/UxzJOF5IrTaC/pz7wP3UQ7Wkgm7Fgy8w1Qa78ZpKS5xeuI6xNJby3yc3KYJf4nQqOut@vger.kernel.org, AJvYcCVL+eC8LUtDfGvO5btUZK632in6zdwjg+4rYXkvQmqXkeOUtQYg/1VC57OSuofj8Ds7bYQh+B4IVMW32aJtxc2c@vger.kernel.org, AJvYcCX9rRvUw2rCaE9b7JAHunouS/SXYsmAvn4axWhSoXRrQlvQkxX2Nt71vsyUVQwHWlqXtLBqhzwd@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIksHFjN9unX5yAQqFkvDxbexR8ygoPkcih+ijSyb1N2sAE6+b
+	YlpHr4d+NQS5o/usOg7MA4Snv56fyIvd104PZetz6ruvGE/KSA9D
+X-Gm-Gg: ASbGncumo5F8DiZ2r7K3LeCSN74F3kPmigL4n6WzMjpWxBGD8MOwMHDXeCEE3tnu8P+
+	PyTuO/hNCEZmM21+EikMzx/wohFW9QcJAwTtjO3rhjE9YC7vfATKSAufTQfQMvIVpfGzVQOpOsH
+	8Nt/PixFx8QcTtSiAFfGbajv7dHcfcHW+PusBIUxNxABbdJ2hBghGCUCua1cScFL/uztcWxGg0y
+	GFqIpBKsQ8cryzxjiA0z2XnOgxuSPHka2csqr2zK3uOdElQp3wR1fhwJl7Ldf9y2SOlO9BPut5+
+	mBlAWK3Jb8bC5q4=
+X-Google-Smtp-Source: AGHT+IH/fffzdjw2z+TAvMPwE3HgU+tyPfoL2nybzuCe5nAEYQkGbNqUIgJ55joJVM1uAlrE35NZOg==
+X-Received: by 2002:a17:902:f790:b0:21f:614e:9e7c with SMTP id d9443c01a7336-21f614ea049mr227369245ad.25.1739230979741;
+        Mon, 10 Feb 2025 15:42:59 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3650e6aasm83909935ad.12.2025.02.10.15.42.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2025 15:42:57 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 98551423E4E4; Tue, 11 Feb 2025 06:42:51 +0700 (WIB)
+Date: Tue, 11 Feb 2025 06:42:51 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, rdunlap@infradead.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH net-next v5 8/8] netconsole: docs: Add documentation for
+ CPU number auto-population
+Message-ID: <Z6qO-_Ebnn5OTkgy@archie.me>
+References: <20250206-netcon_cpu-v5-0-859b23cc3826@debian.org>
+ <20250206-netcon_cpu-v5-8-859b23cc3826@debian.org>
+ <Z6Vm3ny5VN6mcKJN@archie.me>
+ <20250210-crafty-snobbish-pogona-83e904@leitao>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250210193801.781278-1-david@redhat.com> <20250210150515.c71078f212ff4661eafc15bf@linux-foundation.org>
-In-Reply-To: <20250210150515.c71078f212ff4661eafc15bf@linux-foundation.org>
-From: Barry Song <21cnbao@gmail.com>
-Date: Tue, 11 Feb 2025 12:39:07 +1300
-X-Gm-Features: AWEUYZmxTQri2-Cf24uNq3e2oUES2a1ywMTPcjyR3D9qOdCEqwTj81M6L3Eziec
-Message-ID: <CAGsJ_4yVkJdKejof1CxJY1hkUSsQ-ziRzCTp9CBXdBJ-4d1HHw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/17] mm: fixes for device-exclusive entries (hmm)
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-mm@kvack.org, nouveau@lists.freedesktop.org, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	damon@lists.linux.dev, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
-	Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, SeongJae Park <sj@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>, 
-	Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Barry Song <v-songbaohua@oppo.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jrZ3IkBhdvf9Qfh8"
+Content-Disposition: inline
+In-Reply-To: <20250210-crafty-snobbish-pogona-83e904@leitao>
+
+
+--jrZ3IkBhdvf9Qfh8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 11, 2025 at 12:05=E2=80=AFPM Andrew Morton
-<akpm@linux-foundation.org> wrote:
->
-> On Mon, 10 Feb 2025 20:37:42 +0100 David Hildenbrand <david@redhat.com> w=
-rote:
->
-> > Against mm-hotfixes-stable for now.
-> >
-> > Discussing the PageTail() call in make_device_exclusive_range() with
-> > Willy, I recently discovered [1] that device-exclusive handling does
-> > not properly work with THP, making the hmm-tests selftests fail if THPs
-> > are enabled on the system.
-> >
-> > Looking into more details, I found that hugetlb is not properly fenced,
-> > and I realized that something that was bugging me for longer -- how
-> > device-exclusive entries interact with mapcounts -- completely breaks
-> > migration/swapout/split/hwpoison handling of these folios while they ha=
-ve
-> > device-exclusive PTEs.
-> >
-> > The program below can be used to allocate 1 GiB worth of pages and
-> > making them device-exclusive on a kernel with CONFIG_TEST_HMM.
-> >
-> > Once they are device-exclusive, these folios cannot get swapped out
-> > (proc$pid/smaps_rollup will always indicate 1 GiB RSS no matter how
-> > much one forces memory reclaim), and when having a memory block onlined
-> > to ZONE_MOVABLE, trying to offline it will loop forever and complain ab=
-out
-> > failed migration of a page that should be movable.
-> >
-> > # echo offline > /sys/devices/system/memory/memory136/state
-> > # echo online_movable > /sys/devices/system/memory/memory136/state
-> > # ./hmm-swap &
-> > ... wait until everything is device-exclusive
-> > # echo offline > /sys/devices/system/memory/memory136/state
-> > [  285.193431][T14882] page: refcount:2 mapcount:0 mapping:000000000000=
-0000
-> >   index:0x7f20671f7 pfn:0x442b6a
-> > [  285.196618][T14882] memcg:ffff888179298000
-> > [  285.198085][T14882] anon flags: 0x5fff0000002091c(referenced|uptodat=
-e|
-> >   dirty|active|owner_2|swapbacked|node=3D1|zone=3D3|lastcpupid=3D0x7ff)
-> > [  285.201734][T14882] raw: ...
-> > [  285.204464][T14882] raw: ...
-> > [  285.207196][T14882] page dumped because: migration failure
-> > [  285.209072][T14882] page_owner tracks the page as allocated
-> > [  285.210915][T14882] page last allocated via order 0, migratetype
-> >   Movable, gfp_mask 0x140dca(GFP_HIGHUSER_MOVABLE|__GFP_COMP|__GFP_ZERO=
-),
-> >   id 14926, tgid 14926 (hmm-swap), ts 254506295376, free_ts 22740202377=
-4
-> > [  285.216765][T14882]  post_alloc_hook+0x197/0x1b0
-> > [  285.218874][T14882]  get_page_from_freelist+0x76e/0x3280
-> > [  285.220864][T14882]  __alloc_frozen_pages_noprof+0x38e/0x2740
-> > [  285.223302][T14882]  alloc_pages_mpol+0x1fc/0x540
-> > [  285.225130][T14882]  folio_alloc_mpol_noprof+0x36/0x340
-> > [  285.227222][T14882]  vma_alloc_folio_noprof+0xee/0x1a0
-> > [  285.229074][T14882]  __handle_mm_fault+0x2b38/0x56a0
-> > [  285.230822][T14882]  handle_mm_fault+0x368/0x9f0
-> > ...
-> >
-> > This series fixes all issues I found so far.
->
-> Cool.
->
-> Barry, could you please redo your series "mm: batched unmap lazyfree
-> large folios during reclamation" on top of this (on top of mm-unstable,
-> ideally).
+On Mon, Feb 10, 2025 at 03:07:24AM -0800, Breno Leitao wrote:
+> Hello Bagas,
+>=20
+> On Fri, Feb 07, 2025 at 08:50:22AM +0700, Bagas Sanjaya wrote:
+> > On Thu, Feb 06, 2025 at 03:05:59AM -0800, Breno Leitao wrote:
+> > > +.. note::
+> > > +
+> > > +   If the user has set a conflicting `cpu` key in the userdata dicti=
+onary,
+> > > +   both keys will be reported, with the kernel-populated entry appea=
+ring after
+> > > +   the user one. For example::
+> >=20
+> > In that case, shouldn't the kernel autopopulates numbers of the rest of
+> > CPUs?
+>=20
+> Do you mean listing all the CPUs that are *not* sending the current
+> message?
 
-Sure. Thanks for letting me know.
+Nope.
 
->
+>=20
+> Let me come up with an example to try to understand this better. Let's
+> suppopse I have a machine with 64 cores, and cpu=3D42 is sending that
+> current message, then I would see the following on the dictionary:
+>=20
+>  cpu=3D42
+>=20
+> You are suggesting we send all the other cpus, except 42 in a "key"?
+
+Sort of.
+
+I mean, on the dictionary, we would see user-defined cpu number on one cpu,
+and kernel-generated numbers on the rest.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--jrZ3IkBhdvf9Qfh8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6qO9AAKCRD2uYlJVVFO
+oyo6APsFj5scWxy8KkPllfChAVz5wqVh0oignotmAl3UJbIfqwD/RuuRG9shJ5JF
+mRYIV7kgg8Aec4+MY+9ni4010HWTrAc=
+=R/cL
+-----END PGP SIGNATURE-----
+
+--jrZ3IkBhdvf9Qfh8--
