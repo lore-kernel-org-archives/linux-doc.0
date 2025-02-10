@@ -1,49 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30B2199E80;
-	Mon, 10 Feb 2025 07:00:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E21E8F49;
+	Mon, 10 Feb 2025 07:27:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739170822; cv=none; b=sYFAx0fO7Zblp73RpWuUda5/hoCtJRzBf27TrbkepRBxUIFu2Qqs79P7m+dNUcS7dBSAzFPfzZrKcayGygjaUdvnfSSPycAEd5/wYC5OJs8ye6PkaipcUXWr7db9tIkY3T2qfsxa94H0N/s02ogRNQCR2EyIDhSuO8MOxAk6cLM=
+	t=1739172472; cv=none; b=O4/0fFPU5jhpZ5aO+mWThdzhS+OCbm139HfoNh9uuksKjfG2rhVPisVU14idqVXRTh1nHatADQKRQUlGIEnjjlJzHZiNr7kzrhfHAB9D/+qnouCchWWGWuZq2Ubdw59xhexyxBjmbHW+WlT3Usr5Z3ElBY1uUciqgI/9j4vP8fE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739170822; c=relaxed/simple;
-	bh=Xl3BMLyDGUAanmjjk+KC91tfVRhpWXzxatEBHOqYqgA=;
+	s=arc-20240116; t=1739172472; c=relaxed/simple;
+	bh=io+aPIWHumdCGQZeZed0nhFjIJYgHleGcqa00PqvCA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kniqJgilZ6NOHHSC9MKNe1mq4QPCrXmeno7oQu+p+XRE2h0ndY2kZLkddlTfuvQvp4WxdgWddFlj99pVi+K6nYCnrCSAuaEc0SRmCjseMqbCde2xmI1CHZtl3sCdNOQPFyLjdWBEyFunwHBPT7Pf0nqnxln2NdjH5L+IZJb7+FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DAmCdaXC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ovwL+FdhQ/iuaIk3DJf53sl+vj/KcMDEUKVF055752FhsFGd36S9cHadDD9nWEcOJ85MuftYJv/UCtcnpsKsPZ8EP/CnepS712QO8fVneQSvKurtZhUkjvlBmJ1XRz1wllzypN/cilCW04kik0Bt2iZEOHTo98g6mgh8PyW/L0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aYz4sHBk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DAmCdaXC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B145BC4CED1;
-	Mon, 10 Feb 2025 07:00:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aYz4sHBk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13839C4CED1;
+	Mon, 10 Feb 2025 07:27:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739170821;
-	bh=Xl3BMLyDGUAanmjjk+KC91tfVRhpWXzxatEBHOqYqgA=;
+	s=k20201202; t=1739172472;
+	bh=io+aPIWHumdCGQZeZed0nhFjIJYgHleGcqa00PqvCA8=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DAmCdaXCUmboIE/ETNDWXRKXYYb2emgJl4jZrrjAdnnsaxk3GDjfjnQSPd6pdfgap
-	 XPspRb+hQYHhTJ4gfIgyN7ISYeaT2QRV4T4/35u6lKby5Xxckepk6P7gw6Ong0A7vx
-	 cVJ6PMDa/jy9vnx9+nPtKsk9a4Mw0aRCqLLJfC4oQ48Iuf7sZNGcWGFW+2xfAxlgYn
-	 CF9tubWhDbk2SciRn/t+n8ek+NrfuIPE/N33FbLAwA+wW2ZT3Lx1dUGDxKZMhWVnEQ
-	 emm1DeWpMiTDbWOMP4eGHma66v4wTKuMIohJdMDkSxvuJP3+IKpZc7x+hScctiSZMb
-	 cXyqpkzv+bHag==
-Date: Mon, 10 Feb 2025 08:00:16 +0100
+	b=aYz4sHBkexH3zcP6ZHhwCY/js7zCpMTCmyfAe3o+uWAwHXSHR4iMLv5zEJHhqtiCj
+	 t1ovl0XJ9NuNySnbw0086oQpQci/Ys3PFOnFAzumjjThlHOPCKJZmnq6JFrJ2OJRd9
+	 M/99DDq6d8CkWvrrC/sUrN5wb3xQCnaRYRxiVbb8VzvNBUMGkDFiVQE30Wa+typQbm
+	 vFSUDAGLaJQXe9ux7z/Ao7dk2g4k9NKom+v3kCqZIp+Wn2TmfnLJ6vfY5IqpMqQoab
+	 PSYzTQcJiQUydb9NkgdaSmSrRnOygtPibZO4ffEfUdZvd89tkV3yFZF3o9r7y5NIGh
+	 1h74ioKPqEUyw==
+Date: Mon, 10 Feb 2025 08:27:48 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-Subject: Re: Media committers model postponed to 6.14 - Was: Re: [PATCH v3
- 0/3] Document the new media-committer's model
-Message-ID: <20250210080016.475d0518@foz.lan>
-In-Reply-To: <d22d2f35-bf04-4d0c-a94c-70dcc08a945e@xs4all.nl>
-References: <cover.1733131405.git.mchehab+huawei@kernel.org>
-	<b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
-	<20241203081958.6c186835@foz.lan>
-	<20241203112209.GR10736@pendragon.ideasonboard.com>
-	<20241203140712.57daa65f@foz.lan>
-	<20241209091548.165e5152@foz.lan>
-	<d22d2f35-bf04-4d0c-a94c-70dcc08a945e@xs4all.nl>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2 18/38] docs: sphinx/kernel_abi: use AbiParser directly
+Message-ID: <20250210082748.05ba85ae@foz.lan>
+In-Reply-To: <878qqlfxc9.fsf@trenco.lwn.net>
+References: <cover.1738020236.git.mchehab+huawei@kernel.org>
+	<fb800900352d90a0e501e5d6732e1bea277478f2.1738020236.git.mchehab+huawei@kernel.org>
+	<87lduu7efu.fsf@trenco.lwn.net>
+	<20250129014324.60a8dfce@foz.lan>
+	<20250202155652.1652e420@foz.lan>
+	<878qqlfxc9.fsf@trenco.lwn.net>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -54,118 +50,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Fri, 7 Feb 2025 12:54:52 +0100
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+Em Tue, 04 Feb 2025 10:12:22 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> On 09/12/2024 09:15, Mauro Carvalho Chehab wrote:
-> > Em Tue, 3 Dec 2024 14:07:12 +0100
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> >   
-> >>
-> >> The idea is to gradually open media-committers to more people, as each
-> >> phase succeeds, addressing infra, procedures, etc.
-> >>
-> >> My rough idea is to do:
-> >>
-> >> - Phase 0.99: beta testers;
-> >> - Phase 1 is to invite people that regularly submit PRs;
-> >> - Phase 2 is to invite other active maintainers;
-> >> - Phase 3 (or 2?, TBD) to open for non-maintainers.
-> >>
-> >> We shouldn't rush it, as there are a lot to be done before opening it
-> >> broadly. So, I would say that:
-> >> - phase 0.99 would start in -rc2 (if things go well during this week); 
-> >> - phase 1 may still happen on this merge window, but as there will be
-> >>   only a few weeks between -rc2 and -rc6, and people usually get
-> >>   holidays in Dec/Jan, it is more likely that it will start for
-> >>   6.14-rc1, again if we didn't notice big issues on phase 0.99.
-> >>
-> >>   We should wait at least for a couple of releases on phase 1,
-> >>   again to cleanup process and fine-tune infra. If things go well, 
-> >>   we can move to phase 2.  
-> > 
-> > After some discussions with Hans, we decided to postpone the
-> > beta testers phase to the next kernel cycle. There are a couple of
-> > reasons for that:
-> > 
-> > - This should give us more time to come up with a final version of 
-> >   the media-committers documentation and agreement;  
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
-> Where are we with this? I haven't seen any updates since this post.
+> > Hi Jon,  
 > 
-> Personally, I think the CI is ready for more committers, so it would be
-> nice if we can get some experience with that.
-
-IMO, there are still some pending issues.
-
-We still need to reach a consensus about what media maintainers will do.
-I have to confess that discussing last time was painful due to some
-arguments going too personal to my taste. Anyway, discussing it during
-the end of the year was not a good idea as people (including myself) were
-busy completing their yearly tasks. Also, people were taking vacations.
-
-At the end of the last year, I finally rewrote the scripts I use on my
-workflow. I'd like to test them during this cycle and see how it
-behaves. 
-
-While doing that, I noticed that we really need to have something like
-margebot to help our workflow. From my side, I'd like to have one separate
-MR per each separate patch series, as this makes easier to document the
-main changes that the media subsystem is merging. I hope to test them more
-during this Kernel cycle to be sure that everything is in place.
-
-While using my scripts, I ended having 4 or 5 pending MRs at
-media-committers. As we want a clean history without being bloated with
-merges from temp trees/branches, we need to have some automation to help
-basing the commits on the top of the branches.
-
-The idea is to have margebot enabled there, meaning that committers
-may delegate patches to margebot and let it automatically place patches
-on the top of the branches. However, margebot has currently a problem:
-it mangles with committer's metadata. Ricardo have been working upstream
-and they are reaching a consensus about how to support preserving
-committer data with margebot. IMO, we need that before having more
-committers.
-
-Finally, we need to have useful data to prepare changelog summary
-upstream. In the past, as we were reviewing everything, it was easier
-to identify the core changes (besides fixes/cleanups). With a
-multicommitter's model, we need to rely on what committers will be
-providing us. The idea I've been playing with, and that's what I
-ended implementing on last submission(*), is to generate it based on
-what each merge metadata contains.
-
-(*) Yet, the level of information there were very inconsistent.
-We need to do better during this cycle.
-
-> Regards,
+> > As I'll be preparing such patches for merge along this week, I'd
+> > like to know what do you prefer in terms of directories:
+> >
+> > 1. Keep it as-is;
+> > 2. have a separate library directory for Python modules
+> >    (scripts/lib?);
+> > 3. place python modules inside scripts/;
+> > 4. place python modules inside Documentation/sphinx (IMO a bad
+> >    idea);
+> > 5. something else  
 > 
-> 	Hans
-> 
-> > 
-> > - This would also work better with regards to end of year's vacations,
-> >   as they'll be affecting at least 2/3 -rc versions. Plus, we all have
-> >   things to finish before such vacations. So, better to start fresh next
-> >   year;
-> > 
-> > - Media CI still had issues with a patch series I submitted, as it picked
-> >   the wrong baseline, causing CI to not test two patches that were
-> >   applied on the top of media-committers/next branch. This was fixed
-> >   by Ricardo, but it means that we may still need to polish CI before
-> >   granting more people righs there.
-> > 
-> > With that, if we want to start the media committers for 6.14, we should
-> > aim to close review this document by -rc6, or, at most, -rc7, getting 
-> > the patches merged during the next merge window.
-> > 
-> > Regard
-> > 
-> > Thanks,
-> > Mauro
-> >   
-> 
+> Honestly, I'm not sure.  I do feel that importing out of scripts/ is
+> inelegant at best; having a dedicated directory for modules meant to be
+> imported would be better.  So maybe scripts/lib?  Or lib/python, though
+> that might raise eyebrows elsewhere, dunno.  Pick something you like,
+> and we'll give that a try.
 
+I would go for scripts/lib then.
 
+> 
+> > Btw, I'm considering to also submit later a patchset similar to
+> > this one converting kernel-doc to Python. I already started writing
+> > something like that (written from the scratch, following as much
+> > as possible what we have today on Perl to avoid regressions).
+> >
+> > I would probably split the code into separate classes to make the code 
+> > more readable/maintainable (a base class, a class with rest output,
+> > another one with man output, and a few other helper classes).  
+> 
+> I definitely approve of the idea - I've pondered doing such a thing, but
+> have never come close to finding the time.  It's probably worth looking
+> at the rewrite Markus did years ago as a starting point?
+
+I took a look on Markus work: it was licensed under GPL 3.0 and it was
+written in 2016. There were several changes on kerneldoc since them,
+including the addition of a regex that it is not compatible with
+Python re[1]:
+
+        $members =~ s/\bSTRUCT_GROUP(\(((?:(?>[^)(]+)|(?1))*)\))[^;]*;/$2/gos;
+
+This one use:
+
+	- recursive patterns: ?1
+	- atomic grouping (?>...)
+
+Also, it is hard to map what he does with the existing script. I'm
+opting to write a new script from scratch. I have already a version
+that does ReST conversion (still missing man pages and filtering).
+I'll send a RFC patch once I get it to the point it works properly.
+
+[1] In the specific case of such regex, added on this commit:
+
+	 50d7bd38c3aa ("stddef: Introduce struct_group() helper macro")
+
+    I'm not sure why a very complex regex was used there. I'm currently 
+    stuck on handling it properly in Python. An option would be do to:
+
+	try:
+		import regex as re
+		has_regex_advanced_features = True
+	except:
+		import re
+		has_regex_advanced_features = False
+
+    And, if has_regex_advanced_features is false, use a simpler regex 
+    that would work in Python or would just ignore struct_group
+    expressions.
+
+    Another option would be to re-implement such regexes without using
+    such advanced patterns.
 
 Thanks,
 Mauro
