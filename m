@@ -1,390 +1,216 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2069.outbound.protection.outlook.com [40.107.237.69])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DE725E44E;
-	Mon, 10 Feb 2025 18:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.69
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739213703; cv=fail; b=rKMNY4foTo54qKNdpBxeme9IWiSF601q1D7jL9E4ANFRtGNwIdPvWb50s7+awyfi0mNN7flSCZ74BeIZjZXvO57E6Smbgu8yc9CGmS0DjbFCissJEfZDF0Yq2mkNB/4rd4iB8hzNFFHR6pyOgrLxUNRlzrT/bE4LYBpwwn4aMIE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739213703; c=relaxed/simple;
-	bh=ek6YE96e47zHMGmkgRo4qscojT7aUDZnZCZH1GshHxs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=e/1J4+Mduod6v0JsecBCurrCv7kqZcAKOvrR2PLv5gYHQYyC6z2BZP/N258W0IjH/NgrMGm4hA8p2kG3NJq/+/6JO+jR9H/K63g79nXoKQPgPkAwvIPECi4MDm0ntvZO5jbpOUSFIowpGV3JPJ+WV6NawJaL0Vjs+i0o0R9IGb4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=iQymd9Lw; arc=fail smtp.client-ip=40.107.237.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54BB7E105
+	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 19:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739214097; cv=none; b=UTThK0lZiOnIf4FJzKqvAUZUqOo0tZMpGA+TITHm4/MGunmaIEdRgZgWLgpMJSzpPM7vdvXlgOcKbMW20pf2kRoN7YvG1TVo42E+ilXtZ6ErNQJgWOxgcShZI5tediW5Alb/AfSKWliKgbKQBnrv34y/FF7ZJ+BJe7xaL73GgUE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739214097; c=relaxed/simple;
+	bh=HCanVBKFOpmun47JOfujSAdBOhizy93bERI/UUMbepU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KEjwTrswh0Bzg/lMB7mzJMfXNuj2dX371Nmdch7YgKkWpNIaB/F6y+5VyI+GQLVCnE3wHMV3Jm+RuFoSZ6tUSOS3nmbDUF32Htr54L5N80HKEKrTW6t11jV3LxCSh0lzC82RSJDjzORqA/v91ohtGVRB+yVMdKY8bjchepFpHtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N/ca8gRx; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="iQymd9Lw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JyCixBBiK9aL+BAQpI/BjlYpk70Fq3sVMhIQ/LekeoGKXg3ZoxObh8QzokFTRqcpOM2SipukUOur9WDW7AEoQYRD8+iWbhnQuspo7Cn1r0D/4xG8ItlUSSjb9mLKmQxhNWSf3IOsSFfOkVPQD70hbesOHq/5u+DdPz5zB1WAY+CPZrYGI4Gl+bDgMbC672qDErpj8YNvdtdKpjiPP5g7rytWsdBmK2UjYTEQHIgalhLwj8unAQh4CM2oswi/4EVUoHWivQdfNGSKdAexHzJ514n8rxmjXiRZTHL4m8jZJ6SPy4nzv+lyCA5gkaN4ytnZz0xHMJiGUA8Up4RFv8i3xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=281urXyOent4uIWQ4zPuHfLGfkB82E9VQ6oR1EhuVuA=;
- b=MSx0Uf4eb5BAPqsnDF14DbXhJYqJy4rT71MGsQhwwvkDjWZi13C3t8iXcyVr65Wk5kdC0O0o97nuVmF/ZIAxQ0HX91ZRZSjg4NKCIvjVZEyX87pROlyFINFy/vazGRPJ2d+wzXtSWchan3YDqUIIrrFxPgGh59Ts6lrjbJDR+2VTQigiYMrMQKy4WvntLAwmlioM5ouRUMYq1XQgYkBH8obxzIzG6PN7bcpSrFlWgsamFOUjgxw5wUMMH97Q7kNllqygKmmD8gKrSyv2Cfl9pUo9fsGfDhV50Hm99pz7/kSY6Xlj0C5ga7pSnBHfr/XSfu7H54ETcVU/VVHw+WQieQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=281urXyOent4uIWQ4zPuHfLGfkB82E9VQ6oR1EhuVuA=;
- b=iQymd9Lw2lVxycBiSJvGqYKxVy54bF7aS0gy4T1RnGfA58Itj3iBYzhePWRhTuwARcwsk/e+FGn8qiAP+OqXEpWyCcFZWTZUhoULFtV/Zq3Slwb0IMkD3csOzZcDtTL1EUu1eiRFRSmbFoAvr0d5Ax6tX0/4J5oR4O9a4+iCFG0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by SJ2PR12MB7866.namprd12.prod.outlook.com (2603:10b6:a03:4cc::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.10; Mon, 10 Feb
- 2025 18:54:57 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8422.015; Mon, 10 Feb 2025
- 18:54:57 +0000
-Message-ID: <31c04287-c81f-47e9-86a1-50099cc2bbf7@amd.com>
-Date: Mon, 10 Feb 2025 12:54:53 -0600
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v11 19/23] x86/resctrl: Introduce the interface to switch
- between monitor modes
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, tony.luck@intel.com, peternewman@google.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
- akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
- xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
- daniel.sneddon@linux.intel.com, jpoimboe@kernel.org, perry.yuan@amd.com,
- sandipan.das@amd.com, kai.huang@intel.com, xiaoyao.li@intel.com,
- seanjc@google.com, xin3.li@intel.com, andrew.cooper3@citrix.com,
- ebiggers@google.com, mario.limonciello@amd.com, james.morse@arm.com,
- tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
- eranian@google.com
-References: <cover.1737577229.git.babu.moger@amd.com>
- <cee46a0ddace8ea05ca5371a93dfc53c71016c77.1737577229.git.babu.moger@amd.com>
- <b60b4f72-6245-46db-a126-428fb13b6310@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <b60b4f72-6245-46db-a126-428fb13b6310@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR16CA0071.namprd16.prod.outlook.com
- (2603:10b6:805:ca::48) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N/ca8gRx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739214094;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=wzsV/nHxroBNjLXhWoD5i0vnw07P5+Zp+zulUeyeNIU=;
+	b=N/ca8gRx5A+3HqwGD1/qCjoGe3DKwQSXMZyAJuX1tflVOtZywp+30F41v1szXZcxTVpn0p
+	7aJgMPGtJzTyZ8d4jjeB/7UmHJ/X/TRIDTri46a8R9m70G26GRyGQyCT8UceehmQK9AWbu
+	yPd6u0obaEI9zI3vaEmh6JKfuRS66tE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-98-YFSpLxk1ObamhBty-e0A_g-1; Mon, 10 Feb 2025 14:01:33 -0500
+X-MC-Unique: YFSpLxk1ObamhBty-e0A_g-1
+X-Mimecast-MFC-AGG-ID: YFSpLxk1ObamhBty-e0A_g
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4393e8738b3so11504295e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 11:01:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739214092; x=1739818892;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wzsV/nHxroBNjLXhWoD5i0vnw07P5+Zp+zulUeyeNIU=;
+        b=kLQ1E3Tmb6KA7/4cRL5/fwXaYQCNWvncB9qt5xFzL3b+4gx2VjMM2xdZLU1+JxnxPA
+         i4SxWZejyV43LVZSVcmcAYRkg/RkvFu2WNCF3QB8zBAstbhkCpZN8ybhdLlQPjoRdpCL
+         jGZtE2grOnZloHPSMOyiXjGGmh6tQw58ce1uz+xB3rxxk/cNw9ZzpOPox2QXVn3QyK6s
+         ubSGafmwB7yEVPI8V/pgH5y3aAeXc7ebSFpoqhIH55GT9NE7e/COnDtGYXLSirLArOa5
+         7DqGlzg8o9zm7CZJarJj3i8RsVq+RswsjeWA268Hc9cPOO05BXO3T/o2LOOTnooqDXne
+         AJrw==
+X-Forwarded-Encrypted: i=1; AJvYcCXczC26VnLgz4btsGiLQSYERP+/xEX3KxEXGYD+scVb+sStap30Wo8NTB6+exPy+XFAYQtSm0gmqe4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcNX8ppoDHByD7acY/J/vlTMst9Hrw6YiayygHW7F9T1BR7p9W
+	PeJTkwODf+w05k95iPOXEJzQKu0uj0/j/LAdgPXee51815m31HB8mNxZ2Ybja+FFIHYm5yFqXDc
+	zLGH8OYvzFVRUnJAUUo/Amp9J2hpwjlBtC+/FkH3V2CRNa/4K+B6jABqRGA==
+X-Gm-Gg: ASbGnct07VRq15wY9AHgABBv3o7hmrKZ4WRnk1RgkX3ARUAIzDCrmRbddgLcAWzm6h6
+	ffQlRgBpgMoVhiDkl8iGImNxCztoWxFUrR1p+4bPnkU6vTBvtWdh+rDXYROnXaAS3uSUC+Wq2oN
+	cHQcq335AP/9HKv0NkRPe27/SWtAwhEOpA6vTTXi4tBNnRFWXLEdTwsS/jvQazT4eAYXo4QVPwS
+	ZQNddsQgdikyLC51HzaNmWMGScTeCn9GfeNK1x/La9UFYZTxrfovYj+1zwvCGEkxIBe123F04Lj
+	MzQosGUIv96+4/lfKbGH8z7hhVVWg/mhJv70U20+3aRa/L17gj/hJ3OqHWrocaHXer2QSJtIqrl
+	+jd+8JQKGozLZaoDFtseS3KUwAQAJbF5e
+X-Received: by 2002:a05:600c:190e:b0:438:a240:c55 with SMTP id 5b1f17b1804b1-4392497d5a2mr101320085e9.1.1739214092167;
+        Mon, 10 Feb 2025 11:01:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEqWvelv/EcWxqIdqqM8VMOUSW6z55PUGBNaBVsQSNr8P/MbW0xQgBUZTOgnOd6dY4d3UNnxA==
+X-Received: by 2002:a05:600c:190e:b0:438:a240:c55 with SMTP id 5b1f17b1804b1-4392497d5a2mr101319385e9.1.1739214091737;
+        Mon, 10 Feb 2025 11:01:31 -0800 (PST)
+Received: from ?IPV6:2003:cb:c734:b800:12c4:65cd:348a:aee6? (p200300cbc734b80012c465cd348aaee6.dip0.t-ipconnect.de. [2003:cb:c734:b800:12c4:65cd:348a:aee6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dc17e278bsm12112233f8f.48.2025.02.10.11.01.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Feb 2025 11:01:30 -0800 (PST)
+Message-ID: <6a6773ae-a21a-437c-be6f-d8e53267e534@redhat.com>
+Date: Mon, 10 Feb 2025 20:01:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SJ2PR12MB7866:EE_
-X-MS-Office365-Filtering-Correlation-Id: d7a1e6a6-6fe4-45a4-39c5-08dd4a0469e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UGhkRmtlekM2eGtSbnJqdlNHL0FvcnhXMUxndnNsa256c2RhZ3FoQlRkdFJV?=
- =?utf-8?B?ZFplSkhvTWpJUWpTN1RRUVFxbWp1N2k2OTNNcVFnS25pYW56UFdiU3hySllL?=
- =?utf-8?B?Q3JkeEdkNlY1cS9NbEZHOWNCeEF6NmE4TW5kdDVDSWphVXpIczdJd21WY3Bq?=
- =?utf-8?B?WFQ0NFl2R2JuNWhKNDExMVNCNG5WOHF0MnFZYUpNN00yMVQ2dXBPUFdVNUFs?=
- =?utf-8?B?ZGdFNlNrS2hGdm1UVWZWckhJL2Fwa3cxZWVBaGRxdmphOGV4ekxaUjVoQThh?=
- =?utf-8?B?di9WUEQ1K2ZaU00yL1lFWmtKS3RUcjk3K2JoZTl0dUNHcUY3SytNSFYyaHNL?=
- =?utf-8?B?M0RXbFI1RUZQNExzc004Qm1vQ1I1Z2hWOGZzb1ZjazE4dWk2bkhZL2hzNEo1?=
- =?utf-8?B?NmZQNXY1KzNvQ0NyN0ViYTlnNVRIWEg5ckRtSWsvSDVBMnF0RnN3YWpxQjdO?=
- =?utf-8?B?TS90NHduZ0QybTg4dCtUK3FWa3BXdElZWDZ4b0lhQU83ZklmNWY2clIycTJt?=
- =?utf-8?B?MGNrZmlJRGxmQ2NmeUxxOTduaXlka2M3UWJVZmsraUVQMEF2UGhnNXl4RDk5?=
- =?utf-8?B?eTgreDVMaE82TEZzSC9kWEp1dWlKRzNQakt3Y3Y2TUQ3aEpKOUhBaWYyTFFw?=
- =?utf-8?B?cGorUGRqSnpZZmVDYXNPMHBveHFvWTFNQXNEN1BOYkh6WjJzaUpJcXJmZm5Q?=
- =?utf-8?B?SWZqUklDMjR3UlFNREV1QUZ5VG5lNEdPWVBsYndpVEwwQ2RMRGdLNWhkOGRH?=
- =?utf-8?B?YTRINUFyd25RZlZkOFV5Vjc3VEZxc0U5elRiY09HSlB2cDBxWFBlZXJnazJV?=
- =?utf-8?B?N1BrWUNrelJTY3BCS2J2LzErQ1p1b2g3ck1HcC9kQzVmOWM1cmRDRFZMN0JS?=
- =?utf-8?B?Nll1ZDBJUWxkbHVreVo5NUZqOGw4dWpVUGFkajRnQWJzRkxGQ2NVV3dDUzJ6?=
- =?utf-8?B?Y25QQkFJRGNoVVdXNmQ0SGpGOUhnMjREbVBGeU54bzEzWnpQd2hqdi92SG0v?=
- =?utf-8?B?RXYvanUyQ0sxcnZiczBNTit3Vm1JNkc3aGtkdndrZndHQUZOWmUwZzRtOGRX?=
- =?utf-8?B?bnVOelBBTFhOOHp3MHFnTGZMV2pKL05KeTZYWnhRQ2xyc25pamVpOVR3S2Jx?=
- =?utf-8?B?RlVlbCtFWDlkYmcwaDFNSmk3VGY5K2lmOW1WRXBmWUUzbWUzNDFOQ1RFZGZQ?=
- =?utf-8?B?aFV2Lys3UVBVRTBFcWZTT2lCdXV1Z1J4ZnpKaCtHTmtTd3ZkL1lRNFRsUUlk?=
- =?utf-8?B?NGhpemk2T0pSVmJxSGp0OWUxOEZyZk5iMDVrL3grOEVmMUd1Q2t0c3VEbVYw?=
- =?utf-8?B?L3hZRFAwUE41Uk00eEFtMUFoZ2RNOHFFY3Jndm1Eb1NOMmRJb0ZDYWd1Z2xO?=
- =?utf-8?B?dmdUZ0gyNWdCbEF1dUxwTFpIQ2dHekRpeFlFWDNOU0tIWEY1UFFSSTFvNHcz?=
- =?utf-8?B?TFhDSHhxNjZmcWhXZ3FTNVpBTmFIaGgyNkZDczF3TlB2TkxsU1ZNbFNwVHhD?=
- =?utf-8?B?RkNlNk9JUWZBQ1BvdFgxVjQzNkN1SGtXelFuRkVkNHJaaVE4eUVmSUhTdk1X?=
- =?utf-8?B?M1N6N252ZUloUUdKWTh0Rkp0bE9oeU5UampaODcwUjJtV3pRM09EeFRrWS9U?=
- =?utf-8?B?NTRiL3JwelNmQmE2ZktjbGFqRmh4eVVkdlRWT1N5M0Yzem9kQ2JicWszSTBz?=
- =?utf-8?B?VHlrcmdhajUzOWI0dGFidkhJSmxhWDJRWUpMNjRXa0lxTU1jREZxWnphWENP?=
- =?utf-8?B?SDNCVE10VzFiNFZWa3BNRHJoUXAzdkM5bERJUEN6MnQ2S2YxTmlGUmg4OE5m?=
- =?utf-8?B?cFFMNmNQalhQc29JVGJSbFZyaGhNMDVCVjgyaERtUzlhQ2NOdDZnamE2Ukgx?=
- =?utf-8?Q?wpmIUwo+fgyR3?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZDhhemFrc2JzZEx0d1FzR1V5djFkMHh1WDFPcnJoYXFMcXhkTGhoV2hzeHlI?=
- =?utf-8?B?NlJzUmlDM1hQZ1FyU3NoNk42U1F1d3BIenNkNUxGVGozWjBFa0kwejlZNEEw?=
- =?utf-8?B?dUJpU3E2a1RkRjZLRnJWMHp3V0hMQ2hzZW9paVRoL1BFU2t3VjJZNUFudmt0?=
- =?utf-8?B?bWNjRXhmMGp3cnNiUzJtMlRBWWZOcThVZFdVZzlqV2k5Q2RzWTY0djQ4RGhN?=
- =?utf-8?B?d09zTHRGYkxVajBMc0c3QWp5QTBXc3lFVktRT0M3M2xubG1kZlJTL3lIcFBB?=
- =?utf-8?B?ckE3ZkFBZ2huOUFXL0VVNFJmSG9Wb2l0bWpKNE8xTVpsUnRyd3hBT3J6ZE1Q?=
- =?utf-8?B?QjVxY25NVFBvK1NJWW02K2hSVWpCbmVmdGNPUjRwRTV1L21VYU9uMlNnY0lq?=
- =?utf-8?B?QStYYVhON1pOOHdiMitEMVRPdjVGYXUyM01lbFU5ajk0cEhjUFlBTzlseHI3?=
- =?utf-8?B?WVZ0MUQxUHpreUhpbGpDQXRLZzNBckFkLzNMY3F2dEpFd1JhVUhLNU1BeHhr?=
- =?utf-8?B?dHFwUlBNWE5OQ05WdTFWS3V4a1VFbmk1ZW9rdmJXL3pOUGdvdnVFSTdJMHhG?=
- =?utf-8?B?Z0JlMjM0WlVnV1E3ZmRjMWY4anBlLzErOUZ5WUdsdVVHb2lyRHE2QlJvSndv?=
- =?utf-8?B?QitmRjIyK0d5b1pUUzJpUHdUYVEwcFdZREc2SzRkaVJnNWRXTDNZZWIzUllT?=
- =?utf-8?B?MHl0cHJ5eGpmbjJRdVV2WVZ1Wm9Yd3pnTHM5T0UyS0g5c2RndFJ2TzRqQkJL?=
- =?utf-8?B?MWtyUlpXY2RmQWJpZVowdldWR293ck9UWm5jZDdrbm9XbHhPcjQzbEttRDZV?=
- =?utf-8?B?ZGNad2FCTFc3OXVBL2ZFR0xSQS9acUJucjk3U2taM09ua0JkaGRQMkk3SDVT?=
- =?utf-8?B?QlVuL0NqZzdFdXlwUHBTeXN1K1VuTnliVXZXL0xXdlpRMExMem5xNnhUQXdW?=
- =?utf-8?B?T1l0amE4aGpGbklmRm9sZ0k4NTFpd0ZQVlB4WXFYVHNUeW54OGxNNXNXVmxm?=
- =?utf-8?B?MEZDRlJmOXRKNFY1VVdjZVJ4MzF2Ukd5dytub1NWRC96TlRtZm9HelpFdE1R?=
- =?utf-8?B?MTlUMWR6dG1mSzBmTCsvYlZvc1V5cExOenJ2VnJEL3doUnplL0xBa3V2OHZK?=
- =?utf-8?B?b1lrZ0NVcG4vL1Zwd3dqOHhnNmo3cDNnb0RVamp0MnhwZ0doMTJ4RytsSFZi?=
- =?utf-8?B?Z2NoUnZxQUlOUENFODBHMk43eUloSjZqd1pqQ016OCtPcFlBaHdGb1JjSlN5?=
- =?utf-8?B?aXhMaXBFOE9PZS9hUXM0RDZpaFFEYWdzalM1eWtuSzhHR1Fwd1NhM3VNTTUv?=
- =?utf-8?B?WVc4VHhsRmF1cm9WQnBubm9UZ0NHMFJOUmhwYzJGMHZsQVRmWkkrZFhlK2dK?=
- =?utf-8?B?UFIrK1oxQnVuOTNXNTVKZmdmZ1NzQ3JVMThBT256YThuTFBod0o1NVl1SnNH?=
- =?utf-8?B?bFF1dTUwWGlLZDg1c1dQNzJuMHhZTGZERzV5ZEdhQXpnVmthbEx5Z1JOUlRp?=
- =?utf-8?B?MmlFNVplcW9mZ3l3ODhlMjRBRFhoQy9SaVRmVklGOUFUQ3RidUhrbEMyS2JC?=
- =?utf-8?B?WkhpdnRCMjI0alB5TFBZZE5mOWVpYThFelVycUlaZjJ2SVFMcDFTM3JCNkhH?=
- =?utf-8?B?VlJ4WjRNaGRJc2h3ZTNPbkVsWHhqZENkYTRJS01zUUNySjEwdzhtNk4vbGsy?=
- =?utf-8?B?WWhPQm5wdC9wMGpaOGhRY2Fiajh3ZzdjTU1ISkJ5OEw0SGVkT1VyNGJUUnVl?=
- =?utf-8?B?anZkNUk1cmk2VFVMVndHdXNWVHJBZUVuMW9HWk1MWDJ5SWd0aTR0QWJTSU1w?=
- =?utf-8?B?NnlPbVZXWjZhdURZTDh4OVlGSTJRRFFVbXRJUkR3UnlyY2lEajlTVzZjQllL?=
- =?utf-8?B?OVlkbk0xWWFqaWYxcjN1M2V4eC9sUElEZ0Y2dlorZGZkSjlieHVVU2FBTnVy?=
- =?utf-8?B?VEVyTUlDa1FhWmk4cmpHUmVtcGZnckVYbEZZYXRIK29EY2gyMXhFMUJuVi9V?=
- =?utf-8?B?N0VQTVg3SXFSSnFnbjFjZGE5QkNIc3dxR1pOcWZCd3p6N1pOT1hwbHlQOGFw?=
- =?utf-8?B?OE16UzNhZVV3M0gzdFJhVFFlOVVYandyWkxONk4ycGhleER5b003WHNnaTQ5?=
- =?utf-8?Q?6Gdk=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7a1e6a6-6fe4-45a4-39c5-08dd4a0469e8
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2025 18:54:57.5834
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SJo9eL09zxnmITF1IoWbyPpcIbwXJLV4PmiGgZ77NL9KB7EdmBSEBwfyrsL0UvmC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7866
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 19/20] fs/dax: Properly refcount fs dax pages
+To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
+ dan.j.williams@intel.com, linux-mm@kvack.org
+Cc: Alison Schofield <alison.schofield@intel.com>, lina@asahilina.net,
+ zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+ vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+ bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
+ will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+ dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org,
+ djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+ david@fromorbit.com, chenhuacai@kernel.org, kernel@xen0n.name,
+ loongarch@lists.linux.dev
+References: <cover.472dfc700f28c65ecad7591096a1dc7878ff6172.1738709036.git-series.apopple@nvidia.com>
+ <b5c33b201b9dc0131d8bb33b31661645c68bf398.1738709036.git-series.apopple@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <b5c33b201b9dc0131d8bb33b31661645c68bf398.1738709036.git-series.apopple@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Reinette,
 
-On 2/6/25 12:05, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 1/22/25 12:20 PM, Babu Moger wrote:
->> Resctrl subsystem can support two monitoring modes, 'mbm_cntr_assign' or
->> 'default'. In mbm_cntr_assign, monitoring event can only accumulate data
->> while it is backed by a hardware counter. In 'default' mode, resctrl
->> assumes there is a hardware counter for each event within every CTRL_MON
->> and MON group.
->>
->> Introduce interface to switch between mbm_cntr_assign and default modes.
->>
->> $ cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> [mbm_cntr_assign]
->> default
->>
->> To enable the "mbm_cntr_assign" mode:
->> $ echo "mbm_cntr_assign" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->>
->> To enable the default monitoring mode:
->> $ echo "default" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->>
->> MBM event counters are automatically reset as part of changing the mode.
->> Clear both architectural and non-architectural event states to prevent
->> overflow conditions during the next event read.
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
-> 
-> 
->> ---
->>  Documentation/arch/x86/resctrl.rst     | 25 ++++++++++++-
->>  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 50 +++++++++++++++++++++++++-
->>  2 files changed, 73 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
->> index 072b15550ff7..5d18c4c8bc48 100644
->> --- a/Documentation/arch/x86/resctrl.rst
->> +++ b/Documentation/arch/x86/resctrl.rst
->> @@ -259,7 +259,10 @@ with the following files:
->>  
->>  "mbm_assign_mode":
->>  	Reports the list of monitoring modes supported. The enclosed brackets
->> -	indicate which mode is enabled.
->> +	indicate which mode is enabled. The MBM events (mbm_total_bytes and/or
->> +	mbm_local_bytes) associated with counters may reset when "mbm_assign_mode"
->> +	is changed.
->> +
->>  	::
->>  
->>  	  # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> @@ -275,6 +278,16 @@ with the following files:
->>  	available is described in the "num_mbm_cntrs" file. Changing the mode
->>  	may cause all counters on a resource to reset.
->>  
->> +	Moving to mbm_cntr_assign mode require users to assign the counters to
->> +	the events. Otherwise, the MBM event counters will return "Unassigned"
->> +	when read.
-> 
-> Again ... please be consistent in using single or double quotes for information
-> returned from file.
+>   
+> -static inline unsigned long dax_page_share_put(struct page *page)
+> +static inline unsigned long dax_folio_put(struct folio *folio)
+>   {
+> -	WARN_ON_ONCE(!page->share);
+> -	return --page->share;
+> +	unsigned long ref;
+> +
+> +	if (!dax_folio_is_shared(folio))
+> +		ref = 0;
+> +	else
+> +		ref = --folio->share;
+> +
+> +	WARN_ON_ONCE(ref < 0);
+> +	if (!ref) {
+> +		folio->mapping = NULL;
+> +		if (folio_order(folio)) {
 
-ok. Will change it to 'Unassigned'.
 
-> 
->> +
->> +	The mode is beneficial for AMD platforms that support more CTRL_MON
->> +	and MON groups than available hardware counters. By default, this
->> +	feature is enabled on AMD platforms with the ABMC (Assignable Bandwidth
->> +	Monitoring Counters) capability, ensuring counters remain assigned even
->> +	when the corresponding RMID is not actively used by any processor.
->> +
->>  	"default":
->>  
->>  	In default mode, resctrl assumes there is a hardware counter for each
->> @@ -283,6 +296,16 @@ with the following files:
->>  	"mbm_total_bytes" or "mbm_local_bytes" will report 'Unavailable' if
->>  	there is no counter associated with that event.
->>  
->> +	* To enable "mbm_cntr_assign" mode:
->> +	  ::
->> +
->> +	    # echo "mbm_cntr_assign" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> +
->> +	* To enable default monitoring mode:
->> +	  ::
->> +
->> +	    # echo "default" > /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->> +
-> 
-> Please be consistent in the documentation.
-> 
-> To enable "mbm_cntr_assign" mode:
-> To enable "default" mode:
-> or
-> To enable "mbm_cntr_assign" monitoring mode:
-> To enable "default" monitoring mode:
+I'd have made this easier to read by doing
 
-This sounds (monitoring mode) better.
+if (ref)
+	return ref;
+folio->mapping = NULL;
 
-> or 
-> ...?
-> 
-> 
-> 
->>  "num_mbm_cntrs":
->>  	The number of monitoring counters available for assignment when the
->>  	system supports mbm_cntr_assign mode.
->> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> index f61f0cd032ef..6922173c4f8f 100644
->> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> @@ -928,6 +928,53 @@ static int resctrl_available_mbm_cntrs_show(struct kernfs_open_file *of,
->>  	return ret;
->>  }
->>  
->> +static ssize_t resctrl_mbm_assign_mode_write(struct kernfs_open_file *of,
->> +					     char *buf, size_t nbytes, loff_t off)
->> +{
->> +	struct rdt_resource *r = of->kn->parent->priv;
->> +	int ret = 0;
->> +	bool enable;
->> +
->> +	/* Valid input requires a trailing newline */
->> +	if (nbytes == 0 || buf[nbytes - 1] != '\n')
->> +		return -EINVAL;
->> +
->> +	buf[nbytes - 1] = '\0';
->> +
->> +	cpus_read_lock();
->> +	mutex_lock(&rdtgroup_mutex);
->> +
->> +	rdt_last_cmd_clear();
->> +
->> +	if (!strcmp(buf, "default")) {
->> +		enable = 0;
->> +	} else if (!strcmp(buf, "mbm_cntr_assign")) {
->> +		if (r->mon.mbm_cntr_assignable) {
->> +			enable = 1;
->> +		} else {
->> +			ret = -EINVAL;
->> +			rdt_last_cmd_puts("mbm_cntr_assign mode is not supported\n");
->> +			goto write_exit;
->> +		}
->> +	} else {
->> +		ret = -EINVAL;
->> +		rdt_last_cmd_puts("Unsupported assign mode\n");
->> +		goto write_exit;
->> +	}
->> +
->> +	if (enable != resctrl_arch_mbm_cntr_assign_enabled(r)) {
->> +		ret = resctrl_arch_mbm_cntr_assign_set(r, enable);
->> +		if (!ret)
->> +			mbm_cntr_reset(r);
-> 
-> The following APIs interact with the MBM assignable counters:
-> 
-> mbm_cntr_alloc()
-> mbm_cntr_get()
-> mbm_cntr_free()
-> 
-> mbm_cntr_reset() appears to be related but does significantly more
-> than interact with the MBM assignable counters and that creates a
-> confusing API.
-> 
-> How about introducing mbm_cntr_free_all() that _only_ releases all
-> MBM assignable counters and match with mbm_cntr_free() that releases
-> a single MBM assignable counter? mbm_cntr_free_all() lives with the
-> other functions operating on MBM assignable counters, thus not
-> hiding its functionality in other parts of resctrl.
-> 
-> This series open codes reset of non-architectural state in two places,
-> within mbm_cntr_reset() and within mbm_config_write_domain(). That
-> can be turned into a new helper that only resets architectural state,
-> for example resctrl_reset_rmid_all() to match existing
-> resctrl_arch_reset_rmid_all().
-> 
-> resctrl_arch_mbm_cntr_assign_set() can also reset any architectural
-> state leaving mbm_cntr_free_all() and resctrl_reset_rmid_all() to be called
-> here and from within mbm_config_write_domain().
-> 
-> What do you think?
+order = folio_order(folio)
+if (!order)
+	return 0;
 
-Sounds like a good code separation. It should be fine.
-Will let you know if there are any issues.
+pgmap = page_pgmap(&folio->page);
+for (i = 0; i < (1UL << order); i++) {
+	// loop body see below
+}
+return 0;
 
-> 
->> +	}
->> +
->> +write_exit:
->> +	mutex_unlock(&rdtgroup_mutex);
->> +	cpus_read_unlock();
->> +
->> +	return ret ?: nbytes;
->> +}
->> +
->>  #ifdef CONFIG_PROC_CPU_RESCTRL
->>  
->>  /*
->> @@ -1945,9 +1992,10 @@ static struct rftype res_common_files[] = {
->>  	},
->>  	{
->>  		.name		= "mbm_assign_mode",
->> -		.mode		= 0444,
->> +		.mode		= 0644,
->>  		.kf_ops		= &rdtgroup_kf_single_ops,
->>  		.seq_show	= resctrl_mbm_assign_mode_show,
->> +		.write		= resctrl_mbm_assign_mode_write,
->>  		.fflags		= RFTYPE_MON_INFO,
->>  	},
->>  	{
-> 
-> Reinette
-> 
+
+In the context of similar split users and related discussions in the 
+future with memdescs -- see 89a41a0263293856678189981e5407375261c4ff -- 
+I would further do within the loop (avoiding messing with page-> 
+completely):
+
+...
+	struct page *page = folio_page(folio, i);
+	/* Careful: see __split_huge_page_tail() */
+	struct folio *new_folio = (struct folio *)page;
+
+	ClearPageHead(page);
+	clear_compound_head(page);
+
+	new_folio->mapping = NULL;	
+	/*
+	 * Reset pgmap which was over-written by
+	 * prep_compound_page().
+	 */
+	new_folio->pgmap = pgmap;
+	new_folio->share = 0;
+	WARN_ON_ONCE(folio_ref_count(new_folio));
+...
+
+
+I scanned over the other stuff in here, but I'm not an expert on the 
+pfn_t etc thingies.
 
 -- 
-Thanks
-Babu Moger
+Cheers,
+
+David / dhildenb
+
