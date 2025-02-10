@@ -1,90 +1,72 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE7F4A0F;
-	Mon, 10 Feb 2025 02:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DEC224CC;
+	Mon, 10 Feb 2025 02:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739153730; cv=none; b=llmo8qhIMhf5COaMnhKbnkr/GzkIZYtzIM2O61PgGCJYtvZGeN4usV/wof/kcQ+iRUff5bjhG0krQTAwZHm6NymebxKG3F0NHPvPDWX0BFXZg+A8ePx6vdIBncqmOUW2OUfTcrPimLKmwAJOFDnsZzatXCv4in1Gttvy/C1LKII=
+	t=1739153903; cv=none; b=Jz3gdq21WnT0C/yKjxs4oZ5rVjYl3DWxIKDyhetNyIbPn9Zkyf5TUFZiYTUVEq1vFXrPJm2ll0IDaX3obBOGAZf2ziJ7dHBvgBCXIfAw1dk6mqL0Fna2u3CQtY9NK7pJ7yibm4U2gSxBRBIi5bDPEqurWy+LYlDQW6ueTKJj7qM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739153730; c=relaxed/simple;
-	bh=d4csEdXdPouuvEctBR0STLu2d4Qh4cBW4eqGwtryIGU=;
+	s=arc-20240116; t=1739153903; c=relaxed/simple;
+	bh=5wdGOtQ+WCoVtj83txux2ncaqVrSvdPlm2bBpsnktOk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ph22lGFKTs1LTTxqL8ThfRSqPMvztXnrw41u2mlKp4pqsZaJZjYq2QjBy0H6YmDwPapDd4C7awr9P4XGpIlw7McySpBfbpJ7dLRR0iEb6jhEvljFFqfURCmqRCLPApPA3rmeAqr7EbgsomA3M8aMjmFWO6pYTr27P3t0n6yRiX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CnTxJem3; arc=none smtp.client-ip=209.85.214.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=aV0clehCPkn7KIkfney+sEgp99W18RWezqUAJIxB6vMEl2RrpbFDn2Kcf0YKbVf0qA21JF4pYD6z1RGcV/NPzMgu8JoBneWGuwVANpUj9PzB0pkXlv1GmOyq0Jjx4gS0l7OIIVLtV0gqOi5QRvmri8TS+1jdXnuDbn6duDKHGtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hWZksRA7; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CnTxJem3"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21f49837d36so39571355ad.3;
-        Sun, 09 Feb 2025 18:15:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hWZksRA7"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2fa1a3c88c5so4540318a91.3;
+        Sun, 09 Feb 2025 18:18:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739153729; x=1739758529; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1739153901; x=1739758701; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O3h+K3xR4vN2GfbZyH+TPDkNGsUg4ZtBD2xwpc7ZXYU=;
-        b=CnTxJem3IPKOukxPRl5HIcdHkoA9Rjh2xTJASdAu3cLKJFYxCG/GgGycZKGISBw9h6
-         Ieqfv9cugBzPdnNfkr5gVR7vZsviRjQG2XWNYNcenV99GDsiRfi7YhRk8r/LcKUkDart
-         a+OqnDGpM2V0TdfHJaX39QOcv5DnpgO+BYUUHzs10/kfuyQxQyTOos55d0jCrE2l7bRJ
-         Oi4/mOU6ru4ajE1yQGkRed+JxjCen8t/KO6BuPkrTBYfTCV5bKie6ZnMKdXYdx9Ww9VP
-         VSlcJ2m54Wne7cHrBFkV5WyutYBXia8TmiDZ//i2l5fGcNNOqXq8oT6H6dD6awBKLk5O
-         j8Bg==
+        bh=Pra/oOUTQO2yZOLjR2ZipvGGXwjEY9SiYtTQgWiqLL0=;
+        b=hWZksRA7eSRgX66vk/3pDShaA0w/IC1LphxUukVwpk5Fe2Bd/yYxabO8DLBH9FoJ7j
+         AbWoAE6Q7rZ164eUfqJmR180l1q0l0lNmMIA98yPm/aJfqDUEcTdKRAsKhliaf2AjyEL
+         uzxAsv5xYgaTfqJYhp5yEbeJNXDPcbNy6SOeBFMoibvwJSFKOAFthdMfDU8FMoHWkLMV
+         T7wJV+BD5QSoaxZ0oLcTUC6uDI3MIDGDnd/O4FDh8ocVJkxinWKDvoNReilaSGKVax7G
+         zjBhZpxydWmrOwCS5Ib6acWQTqHatxcdMWwKxidu7E1lTQ3WrRg1heI8LAimKOlthRUA
+         ztVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739153729; x=1739758529;
+        d=1e100.net; s=20230601; t=1739153901; x=1739758701;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O3h+K3xR4vN2GfbZyH+TPDkNGsUg4ZtBD2xwpc7ZXYU=;
-        b=VpBnOnKxfijde46PrnSLWFGfkVgB3nzK+hvzbP8yWK5pWhnRjkN4NQZb72gcnPLAkK
-         K5xXjBvP3uFoZY2TaQ7aNuLU3SAxIO62tDeEdeQEkbrmy3eBHJgcKNCY4u9uExBUBzO9
-         Fb5yf+jDza3UNR0Z71DaleYqyLOMkliOAI/LhQw2lNBRpP/FfB9zEwPSUBs7xiiWJOgc
-         YHKr+ojnd1PidvMErreoljJmQZUheuo2wvQphBvZWp82Bvq/Syaw80jY3/BtVXRJEfk1
-         fbGptwWrW39JX1ih6dXwaZZO47ALy//yfp+yEXMgQF0uFLsHJA8SLlAskRYOJs+S7Y1Q
-         5zSw==
-X-Forwarded-Encrypted: i=1; AJvYcCUHFfKyz45NhqqjivKUti031e4uuq6p+vO5DSHBiZ3JpqVASqj2Rp0lDZtfNrb8a9tc6+syQZLOEdN3/GeYlxao@vger.kernel.org, AJvYcCUL8dCI8XUTNt1aRRqHddPegZGI4mkUVrlBWaVJk7brEl1x2qxASKggWRceux1uwHRAz67R6Q/L@vger.kernel.org, AJvYcCV4wLbWHagWsbQ0qkdKUzEfd94G3tFVyPzLyTLc2uUW4evcMSxeaMTjVh/B/IAU8zCjsdMXYmIyx2XF@vger.kernel.org, AJvYcCVhhWr+KmPT6FI0ZGyOCryD8bJW62PfhLgHwomNX6+hpPgpeU2xmydxKsw6l3rm+DrFalIvf67+t8RV@vger.kernel.org, AJvYcCXa1OJiWdt6g5vJe78y3Slgj66Ize98vkbambk0r3hDL9UOn+LUbdbWZaF0LDDV6BIbFDfUtI9FajHGViID@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1ep1zToSMAWbEKPxCFApEfXUJRREdtRN9WJCLpqXCRiaBD6W2
-	Nl8Cz/9cXdufHcOsku3yp9yosI6Hp7pVhbqvlcGVv3bBBH48O/ON
-X-Gm-Gg: ASbGnctrm6ZDN4GGroyoKAQl0YnrQkqORUO3lw1K85WHT9NXrtUPTEQzobDjxWCZZUs
-	xZsA49aF95//tRX3FvMALMB2rZKFPDDdGlCvm1Bx1uBER6QrMoEcfaHpfla2hOwJge/4xIwKmDG
-	B6KL1pqt9yit+R8BBwJJGsP1e3VDzQKkk7ggnoh+WHjqfAjXZWECrxQOlcGucSDZrNMIbXmxSDv
-	PWXJZ1eo6jsD82i//lcRTjtcG9BF6uXBD9mSMUmX1FJfI3HYMAFPCIHFEAma7zASf7WduybQFvE
-	JzCsvQter4M++XA=
-X-Google-Smtp-Source: AGHT+IEMZLL6A898TuhD34LNu3mPAP0x4lvq9FaS7cJrjdZuV33t4zhik3UfBf9JlIWEEyYiL3+yJA==
-X-Received: by 2002:a17:903:2f91:b0:21f:90ae:bf83 with SMTP id d9443c01a7336-21f90aec1bcmr54697905ad.44.1739153728473;
-        Sun, 09 Feb 2025 18:15:28 -0800 (PST)
+        bh=Pra/oOUTQO2yZOLjR2ZipvGGXwjEY9SiYtTQgWiqLL0=;
+        b=e3IkmiNgsA0ZlCpwkmwg0ItS4AN+Y1/Vt9a/i+pCbmq08x6K8Ik+ORZmJzJdjHl7BO
+         N0I5khVxJbhtGBPgYJJNhQq4Rzes2b3r2V5cLgvQFrgO1/nITmWgdnlq9+j7hYSN+CMK
+         Fi4oYsAIUVJZirgIJydJgGvv6ymVLJOUv/RtiOyNnaKuccbXyNT5Cxh2VaYEhxbBkgP+
+         vEtdifXZ6vid4JQcohoo2xFhZRXonv0O/x8mHkPkQgFcU/BdPgD2JTywO3+bmcF2AH0F
+         YW2EarwaO4wqnwI2p4MCQUWAOsBP4s4oxk7csJ4EAIeNqVO7bHtJyuP3wijKDUKAAbCf
+         iIrw==
+X-Forwarded-Encrypted: i=1; AJvYcCX24coh5IkUoVG12E1bGfvYeilz8WQN9MLfar/MfzOXTRuZc8xQ1UK6iOKBgzjAGRPvUIL93t46bww=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyd9qw3kCqBWgOj078E9o5dEjMbsbxAazgXNl+vbC3UaLGmjpeS
+	cYg1+ZshfajQgO55YVYUuojKJmoI8wzIsldjOi4cvPBG13B33BS5O0T90A==
+X-Gm-Gg: ASbGncttoCsRUmdpzJWr/FiK66hvyVvs/9QEA1N7zMjfNfpV60L3Io5b2CfEZ39z+7z
+	3a2VtNgKpbkuwxvyYxFpIvzbpdGl7VSEfeKHZFPWLOuPbmYbbY2R03kbgKjnY01mXjm3uWHpVep
+	4CGQS+PEPEdWMYr6VsR9W4/pOkkBbHSiELi/QI1CKbsEyJ0PR67TUvXUrDnoc3xZrJ93HR2YOTp
+	11Ujq0X4GjhKnEnhDVAjRdNV3SBhEZeI11iWitaWO2lXpw0UMGn31LN+Vm8Wh0JjWuuDQ8SuvbX
+	Y4TWjvEDQ9WOWDs=
+X-Google-Smtp-Source: AGHT+IGAVndFTV+DV78WX/Ayo0O2pEYbWNwUS8TyCwA96kczLn+f3VS4tdoh+KmpDqgHmFzfI9jSjQ==
+X-Received: by 2002:a17:90b:368f:b0:2fa:1f1b:3db9 with SMTP id 98e67ed59e1d1-2fa243f05b1mr15799780a91.26.1739153900950;
+        Sun, 09 Feb 2025 18:18:20 -0800 (PST)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f368d8ccbsm67022615ad.255.2025.02.09.18.15.26
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fa184ac945sm7260682a91.46.2025.02.09.18.18.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2025 18:15:27 -0800 (PST)
+        Sun, 09 Feb 2025 18:18:19 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id C40654208FB4; Mon, 10 Feb 2025 09:15:24 +0700 (WIB)
-Date: Mon, 10 Feb 2025 09:15:24 +0700
+	id 8CB9F4208FB4; Mon, 10 Feb 2025 09:18:17 +0700 (WIB)
+Date: Mon, 10 Feb 2025 09:18:17 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Luo Jie <quic_luoj@quicinc.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lei Wei <quic_leiwei@quicinc.com>,
-	Suruchi Agarwal <quic_suruchia@quicinc.com>,
-	Pavithra R <quic_pavir@quicinc.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
-	quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com,
-	srinivas.kandagatla@linaro.org, bartosz.golaszewski@linaro.org,
-	john@phrozen.org
-Subject: Re: [PATCH net-next v3 02/14] docs: networking: Add PPE driver
- documentation for Qualcomm IPQ9574 SoC
-Message-ID: <Z6lhPB1y3BBFI4ux@archie.me>
-References: <20250209-qcom_ipq_ppe-v3-0-453ea18d3271@quicinc.com>
- <20250209-qcom_ipq_ppe-v3-2-453ea18d3271@quicinc.com>
+To: Brendan Connelly <brendanjconnelly17@gmail.com>, corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dmitry.torokhov@gmail.com
+Subject: Re: [PATCH] Documentation: input: Add section pertaining to polled
+ input devices
+Message-ID: <Z6lh6QC7qwuw71N9@archie.me>
+References: <20250208173554.209688-1-brendanjconnelly17@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -92,89 +74,56 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cfhwIsb4npdCWsvl"
+	protocol="application/pgp-signature"; boundary="MzJliMcHmfnza9QT"
 Content-Disposition: inline
-In-Reply-To: <20250209-qcom_ipq_ppe-v3-2-453ea18d3271@quicinc.com>
+In-Reply-To: <20250208173554.209688-1-brendanjconnelly17@gmail.com>
 
 
---cfhwIsb4npdCWsvl
+--MzJliMcHmfnza9QT
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 09, 2025 at 10:29:36PM +0800, Luo Jie wrote:
-> +The Ethernet functionality in the PPE (Packet Process Engine) is compris=
-ed of three
-> +components: the switch core, port wrapper and Ethernet DMA.
+On Sat, Feb 08, 2025 at 12:35:54PM -0500, Brendan Connelly wrote:
+> +Polled input devices
+> +~~~~~~~~~~~~~~~~~~~~
 > +
-> +The Switch core in the IPQ9574 PPE has maximum of 6 front panel ports an=
-d two FIFO
-> +interfaces. One of the two FIFO interfaces is used for Ethernet port to =
-host CPU
-> +communication using Ethernet DMA. The other is used communicating to the=
- EIP engine
-                                    "The other one is used ..."
-> +which is used for IPsec offload. On the IPQ9574, the PPE includes 6 GMAC=
-/XGMACs that
-> +can be connected with external Ethernet PHY. Switch core also includes B=
-M (Buffer
-> +Management), QM (Queue Management) and SCH (Scheduler) modules for suppo=
-rting the
-> +packet processing.
+> +Input polling is set up by passing an input device struct and a callback=
+ to
+> +the function::
 > +
-> <snipped>...
-> +The PPE driver files in drivers/net/ethernet/qualcomm/ppe/ are listed as=
- below:
+> +    int input_setup_polling(struct input_dev *dev,
+> +        void (*poll_fn)(struct input_dev *dev))
 > +
-> +- Makefile
-> +- ppe.c
-> +- ppe.h
-> +- ppe_config.c
-> +- ppe_config.h
-> +- ppe_debugfs.c
-> +- ppe_debugfs.h
-> +- ppe_regs.h
+> +Within the callback, devices should use the regular input_report_* funct=
+ions
+> +and input_sync as is used by other devices.
+> +
+> +There is also the function::
+> +
+> +    void input_set_poll_interval(struct input_dev *dev, unsigned int int=
+erval)
+> +
+> +which is used to configure the interval, in milliseconds, that the devic=
+e will
+> +be polled at.
 
-If somehow new source files were added, should the list above be updated to
-keep up?
+Looks good, thanks!
 
-> +Enabling the Driver
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The driver is located in the menu structure at:
-> +
-> +  -> Device Drivers
-> +    -> Network device support (NETDEVICES [=3Dy])
-> +      -> Ethernet driver support
-> +        -> Qualcomm devices
-> +          -> Qualcomm Technologies, Inc. PPE Ethernet support
-
-Literal code block should format above nicer, but plain paragraph is fine.
-
-> +
-> +If this driver is built as a module, we can use below commands to instal=
-l and remove it:
-> +
-> +- insmod qcom-ppe.ko
-> +- rmmod qcom-ppe.ko
-
-"If the driver is built as a module, the module will be called qcom-ppe."
-(I assume that readers know how to insert/remove modules).
-
-Thanks.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---cfhwIsb4npdCWsvl
+--MzJliMcHmfnza9QT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6lhNQAKCRD2uYlJVVFO
-o7e/APoDNBjOLKQmK+f6b5JwODo6N6WVYG5M8j6f2ORiDqF35AD/SZ9dHfFlvBE+
-di88znArDOyp/iAzBZn0EJ/Lj0/3Xg0=
-=jAqU
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6lh6QAKCRD2uYlJVVFO
+oykjAP0Wg05htKkLMtzwvpBRhM2345oR/4W/HgFEivvwW8i9MQD+PGdhYFvIJ5qH
+hN33E8vEbFoJprBBPAr4pDNrDS6uTw0=
+=H9Fp
 -----END PGP SIGNATURE-----
 
---cfhwIsb4npdCWsvl--
+--MzJliMcHmfnza9QT--
