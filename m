@@ -1,133 +1,169 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E02C1C5D7C;
-	Mon, 10 Feb 2025 11:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75242222585;
+	Mon, 10 Feb 2025 12:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739186114; cv=none; b=eLbEmW7cBhDmtIs1Q7/iOSSRDMLDZPiM27be47z75VNo3/llFQOas6v9to1MEFeDh6bxyD0/j/YLAnE3LKR0Mj1QlJrh5Ty6GLs+hzul58nDdw56uiyMtUiEKuPISapI99N9TNtZd1XOzbSDVeckJlqQUuN4Hhqj11PF2b1DQ14=
+	t=1739190693; cv=none; b=N9ATRYQSU/jvkRAPNedTcJQjST7Edrb8neqc5FHaWIr75b0im5ulZx0oFu7hHM34K9LkA5yrDewsY5StqzWTl/2Y2/5GA8omgjEJtXOs9sIehGgYK8lE0o/dDQwo0h49eVffRc2QZxrBo4INjlM2FsX2zTBHyP0ajAMpm+wyf3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739186114; c=relaxed/simple;
-	bh=5CBqDfYk0oFqMBufkZckF4ZUcwXX+m/vSHvF0rrzvWQ=;
+	s=arc-20240116; t=1739190693; c=relaxed/simple;
+	bh=teK4ttYOMlWq8tq2UiLPoCPI2lhY9ZNw14S8VUBzkF8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZOHaUGhlZEsOfY5oa3U4r+8RDks9e7LrzFkrnICLGNVIf5+eePev4DlgqPEpZp5uoGzm5+M6+uB6xD3rTlJZfnYJiU90+VyDxvnSAC9+P74uVxYLU12yL/MEMAa90f8o7+egC8iLi549tdKd/73/u1c6WQRVsSJKd+Ji/99XIL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cw61DjqK; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PKQyorwyF6dILJhMfQo9I4jBM00KjFjXLhM0Pdlqb06/l7Q3+WRlwO06jlCuR/razbElreCxeymBMb9G/pRG3LZiqLjHgesQLFSODB5jTjZtGUVALGoLQUcXNnjIBImVUARme8QiIqcFmpNLMejEWGCSS5HCHWnxKvAE5PLMiMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IM7scVdB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cw61DjqK"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14815352;
-	Mon, 10 Feb 2025 12:13:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739186034;
-	bh=5CBqDfYk0oFqMBufkZckF4ZUcwXX+m/vSHvF0rrzvWQ=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IM7scVdB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69938C4CED1;
+	Mon, 10 Feb 2025 12:31:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739190692;
+	bh=teK4ttYOMlWq8tq2UiLPoCPI2lhY9ZNw14S8VUBzkF8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cw61DjqKaw7PXxQCCiwrbqPgnn0D4nalMo8V9cnkjFNi432mQszqyzPYk7e3j9lxB
-	 XUGZnn6e5C/vQO5o8wC3GAYdgCntxcHhq+e3Rlzjy0xred0b+g+R/PB0U0tbUU/8Ty
-	 4zgRXFAk/VrrIni2ntTpQyHuQJBP9raAD2P6hOOk=
-Date: Mon, 10 Feb 2025 13:15:01 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
-Message-ID: <20250210111501.GF2966@pendragon.ideasonboard.com>
-References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
- <20250207090518.GE24886@pendragon.ideasonboard.com>
- <f50c7b22-2b31-47d2-8353-41d80f5241c1@leemhuis.info>
+	b=IM7scVdBK/YoxQXWdz4vMVPrjsEedMZzOkn3yM3sFHloHvp+F/Cfp4zn4FNyGAckh
+	 2zwIKnYXmnmDMI81dKsmTZp2OhNargnEkEQ1exTzXlHV1Tu+F5yg7087aQorHrlGdK
+	 +Gl8DJThc35ntFiR0F36SJZL7b6XAmOt5sttil4U0/iret59qdI5nkGtNWnYc76qZ1
+	 QWZKVdNTAr6T338TKMHkjFvbqevdRmft01XOttquqPBVps3du4Z7sy+jqXK0TIuY2w
+	 SpgL6/vkEUJXp3CmEw/VDH6YeTggXvlowVI++laevGKOATyD3nu+9ELbiLRC0l3cCf
+	 RSfIfhJJ/hR9g==
+Date: Mon, 10 Feb 2025 13:31:30 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	Paul Kocialkowski <contact@paulk.fr>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
+ bridges
+Message-ID: <20250210-bold-steel-collie-cecbad@houat>
+References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
+ <20250206-hotplug-drm-bridge-v6-14-9d6f2c9c3058@bootlin.com>
+ <20250207-ingenious-daffodil-dugong-51be57@houat>
+ <ucttjaf3trkgtpvhnsj7xfsybhnoi4qqow5ucwghlggivbagy7@gngjhbtu73lb>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="h3r7ypzcsxjmsmg3"
 Content-Disposition: inline
-In-Reply-To: <f50c7b22-2b31-47d2-8353-41d80f5241c1@leemhuis.info>
+In-Reply-To: <ucttjaf3trkgtpvhnsj7xfsybhnoi4qqow5ucwghlggivbagy7@gngjhbtu73lb>
 
-On Sat, Feb 08, 2025 at 04:36:47PM +0100, Thorsten Leemhuis wrote:
-> On 07.02.25 10:05, Laurent Pinchart wrote:
-> > Thank you for the patch.
-> 
-> Thx for saying that!
-> 
-> > On Thu, Feb 06, 2025 at 03:30:10PM +0100, Thorsten Leemhuis wrote:
-> >> Point out that explicit permission is usually needed to tag other people
-> >> in changes, but mention that implicit permission can be sufficient in
-> >> certain cases. This fixes slight inconsistencies between Reported-by:
-> >> and Suggested-by: and makes the usage more intuitive.
-> >>
-> >> While at it, explicitly mention the dangers of our bugzilla instance, as
-> >> it makes it easy to forget that email addresses visible there are only
-> >> shown to logged-in users.
-> >>
-> >> The latter is not a theoretical issue, as one maintainer mentioned that
-> >> his employer received a EU GDPR (general data protection regulation)
-> >> complaint after exposing a email address used in bugzilla through a tag
-> >> in a patch description.
-> > [...]
-> >> -Be careful in the addition of tags to your patches, as only Cc: is appropriate
-> >> -for addition without the explicit permission of the person named; using
-> >> -Reported-by: is fine most of the time as well, but ask for permission if
-> >> -the bug was reported in private.
-> >> +Be careful in the addition of the aforementioned tags to your patches, as all
-> >> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
-> >> +person named. For those three implicit permission is sufficient if the person
-> >> +contributed to the Linux kernel using that name and email address according
-> >> +to the lore archives or the commit history -- and in case of Reported-by:
-> >> +and Suggested-by: did the reporting or suggestion in public. Note,
-> >> +bugzilla.kernel.org is a public place in this sense, but email addresses
-> >> +used there are private; so do not expose them in tags, unless the person
-> >> +used them in earlier contributions.
-> > 
-> > I like this text very much, it's concise and clear.
-> 
-> Glad to hear!
-> 
-> > My only possible
-> > concern is that "explicit permission" isn't defined. I assume that
-> > someone sendubg a Reviewed-by or Acked-by tag in a public mail thread
-> > counts as permission, but strictly speaking it's not explicit.
-> > 
-> > Regardless of that, I think we can clarify what explicit permission
-> > means in a follow-up patch. If you would like to merge this one as-is,
-> 
-> Hmmmm. Not totally sure that I exactly understand what you mean, but I
-> think I see it.
 
-What I meant is that I interpret "explicit" as requiring an explicit
-mention of permission (e.g. "You can add my tag to the commit"), while
-replying to a patch with a tag on a public list seems to me to convey an
-implicit permission instead.
+--h3r7ypzcsxjmsmg3
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
+ bridges
+MIME-Version: 1.0
 
-> But I'm not sure how to solve that. Would simply
-> dropping the "explicit" solve this? Or should I start the section like this:
+On Fri, Feb 07, 2025 at 09:54:06PM +0200, Dmitry Baryshkov wrote:
+> On Fri, Feb 07, 2025 at 12:47:51PM +0100, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Thu, Feb 06, 2025 at 07:14:29PM +0100, Luca Ceresoli wrote:
+> > > DRM bridges are currently considered as a fixed element of a DRM card=
+, and
+> > > thus their lifetime is assumed to extend for as long as the card
+> > > exists. New use cases, such as hot-pluggable hardware with video brid=
+ges,
+> > > require DRM bridges to be added and removed to a DRM card without tea=
+ring
+> > > the card down. This is possible for connectors already (used by DP MS=
+T), so
+> > > add this possibility to DRM bridges as well.
+> > >=20
+> > > Implementation is based on drm_connector_init() as far as it makes se=
+nse,
+> > > and differs when it doesn't. A difference is that bridges are not exp=
+osed
+> > > to userspace, hence struct drm_bridge does not embed a struct
+> > > drm_mode_object which would provide the refcount. Instead we add to s=
+truct
+> > > drm_bridge a refcount field (we don't need other struct drm_mode_obje=
+ct
+> > > fields here) and instead of using the drm_mode_object_*() functions we
+> > > reimplement from those functions the few lines that drm_bridge needs =
+for
+> > > refcounting.
+> > >=20
+> > > Also add a new devm_drm_bridge_alloc() macro to allocate a new refcou=
+nted
+> > > bridge.
+> > >=20
+> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> >=20
+> > So, a couple of general comments:
+> >=20
+> > - I've said it a couple of times already, but I really think you're
+> >   making it harder than necessary for you here. This (and only this!)
+> >   should be the very first series you should be pushing. The rest can
+> >   only ever work if that work goes through, and it's already hard enough
+> >   as it is. So, split that patch into a series of its own, get that
+> >   merged, and then we will be able to deal with panels conversion and
+> >   whatever. That's even more true with panels since there's ongoing work
+> >   that will make it easier for you too. So the best thing here is
+> >   probably to wait.
+>=20
+> Luca and I had a quick chat on this during FOSDEM. I really think that
+> panel (part of the) series can go in first as it fixes a very well known
+> bug _and_ allows a pretty good cleanup to a whole set of drivers.
 
-Dropping "explicit" seems to be the simplest solution, but the next
-sentence mentions "implicit permission" which would then sound weird.
+I don't necessarily disagree on principle, but if you state that it can
+get first, and fixes a known problem (which one?), then it should be a
+separate, standalone, series.
 
-> ""
-> Be careful in the addition of the aforementioned tags to your patches,
-> almost all need permission by the person named; one can be assumed if
-> the person provided that tag in a reply or acknowledged its inclusion
+Ever-expanding features are bad for both the reviewers and the
+contributors, even more so when the discussion happens off-list.
 
-"in a reply to a public list"
+> With all those panel / bridge wrappers gone we should be able to see a
+> clearer picture of what individual drivers are doing. In other words,
+> which memory and which code actually hosts and uses internal
+> 'next_bridge' reference.
+>=20
+> > - This patch really needs to be split into several patches, something
+> >   along the lines of:
+> >=20
+> >   + Creating devm_drm_bridge_alloc()
+> >   + Adding refcounting
+> >   + Taking the references in all the needed places
+> >   + Converting a bunch of drivers
+>=20
+> The last two parts seem troublematic to me, but, I must admit, I didn't
+> spend so much time reviewing all drm_bridge usage patterns.
 
-> after being made aware that name and email address will end up in public
-> places where they can't be removed.
-> 
-> The tags Cc:, Reported-by:, and Suggested-by: are an exception: for
-> those three implicit permission is sufficient, ...
-> """
+Why? the third one is already done by that patch, the fourth can
+relatively easily be done using coccinelle.
 
-This sounds good to me.
+Maxime
 
--- 
-Regards,
+--h3r7ypzcsxjmsmg3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Laurent Pinchart
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6nxmgAKCRAnX84Zoj2+
+dgAAAYD1zo9jws+jFwyoujUMoXvo7uqOZL/9OK/s0i3cA8pEq+cLx/HKCQF3NN9l
+sJ5kBOYBf2gBZ4AIQPwr2cf1FpfD0FsbxKZRGHTMQuNOS/9mZhrWytOQgkQ29ihv
+bB/Hs5n12w==
+=CoCR
+-----END PGP SIGNATURE-----
+
+--h3r7ypzcsxjmsmg3--
