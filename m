@@ -1,174 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A950C220693;
-	Sun,  9 Feb 2025 20:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD582253A1
+	for <linux-doc@vger.kernel.org>; Sun,  9 Feb 2025 23:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739134252; cv=none; b=oC8vZ0yHuV9n7g0mbbQDidAtvnRQ0wxiSGoSNXU3qQrEzXc4QnjYAPR6kroA7SinHk1U7cxEOdlWpDLEMhS9np7cDjwOyINKFArNntgTMKaoiP7vcHZyi+fGco2GJwupYgIF4YP2f/JlyhgkFdrkZLJDKJVjbDAkqHCfaxKPbmQ=
+	t=1739142586; cv=none; b=NsCF23bUI3bnVmRp2NvxD8b5f4qrhj6Hy7vp1tqdR1u0x/copXuSzHTDqWg3vWOttx/hc2AtBf2HojLmCl8wUPE14FyVxF/rcvAoBkw04jpZ/usqsGG3uoJs3CORg5Tv/RLgJZMKRssHN6/ChOY1EreZ7NQJLPGXEnwQQhDHnCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739134252; c=relaxed/simple;
-	bh=nYh6HS/8YhYPUbpFj0lcvwBp+jEeNeVWldCm/vWJV6w=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=gHkZdeaUwjvHJIjz5Iu19WqlXOTPzushgc2C+qlXyNQIGeqSRHdLsJkV7CxKwG32GJWwEBqlQloVmR1YrSM11zn3wcZEOF2yMKZwvrHOVUvYagHB/NYYVxB2C36t4uHHlHLGbxEOPBzDLwmhXdlf4EI8LbvnqnIX0zNQFTIWhaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FRoXnfew; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739142586; c=relaxed/simple;
+	bh=OwyNbHzr6nbf0VNQwpYxaf2tsXgpqdF70EqeajHRFx4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QZX9l3wGWDz2QiWLgGM0lyH69ha6sKwZOne3JbTloFSAd2ymwo8l5kdgEzAUbM6UdcjSA3prGWkMUyPrz+8cL1L6SUzVbuCu0739VfA8jdXl+d0LKHIY86g+wfqnkOhOkxBqPB8LNYNYtc68V2+aWlV8g+F/FElOZoO9uCftlsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FHk1oa4X; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FRoXnfew"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5816CC4CEDD;
-	Sun,  9 Feb 2025 20:50:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739134252;
-	bh=nYh6HS/8YhYPUbpFj0lcvwBp+jEeNeVWldCm/vWJV6w=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=FRoXnfewBrxuCbbhALBsvsNs+tIGI2i7J1Yhkl23PaokLqsGphsoDBqlba8Dc21C9
-	 8z+X9lYQr8N10vRumpkokgJaKIyyD4Y6dgG9PDoauwTe9EvTNynnTuhQZDOc/DdD0Q
-	 Xnisd7BQ2zmWehNaO+m7sLwGT60EQR/Rfej6w3NAmvDTd5TNKs7iryubycPlRLpKd8
-	 PzfZZSIwftUllTLMsa0Z217TjJ5RgbkujfegcHLXKzAKKpNLdPniFnl8OHk98t+ezY
-	 OBE9iLm7eewcAJeVMC6RI+S1HCeqlmqBm7ztBZ4VecgFLEK8QmUI5Z/tau+pzi+7eT
-	 7NpranzMzhUVg==
-Message-ID: <aa4ec16a-b35f-41b0-92f7-40b3eb64124a@kernel.org>
-Date: Sun, 9 Feb 2025 21:50:37 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FHk1oa4X"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-21f49837d36so38625995ad.3
+        for <linux-doc@vger.kernel.org>; Sun, 09 Feb 2025 15:09:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739142584; x=1739747384; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IRtpFSrOe0YUFBCGtZKy2pmvQABInQf8jn/zl5yH35c=;
+        b=FHk1oa4XRKIEHrBu6GRENhh9k1eAs8LR9IzHAeuG1fLh0QI98Mw/hdilVJa1HCfUWH
+         b+SOnHG1om9Sep6A0EMBrjlW7Fy49hII32pBX039C9SFerKBSwp9yde6cNdds7NvmpTX
+         OsQHTF5MGY1wH3I/eZYhzXFhZAjgvOC4uUNEpC2RpVbhOPrYHgJdA6OLnf2wXBmIIbNv
+         PhtOhflaM6YOt5HgYMNqTQhbOaYugrZFMGhNjIf19XYRnF+DArBibqrhY7Qvaaj4MTz+
+         zPmyKJ+31d+qHSOlNytqRRtDy7X9NpNYMsIQTML1HkrxRlGyDcIEnerxmfEhI9t8llk2
+         LWzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739142584; x=1739747384;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IRtpFSrOe0YUFBCGtZKy2pmvQABInQf8jn/zl5yH35c=;
+        b=aBpVx3WHaKSgM1yApCn3GbS4u4Nvn3DcxjenQd/dcGa0ukbC9Jwu0IIDP8thRpv6Vi
+         UdeJzDxOm1z3YPfs+CBfdtlgAuSVoPfgHZAb/PWNL5YRurJd9wB8z+leqfmjvWZDQvNO
+         2rXILQThF4AzCgYhWWqhzUr9lWeNnbddR0Lvfh5bI9v2dAdo+cLBx5Gd/n0wqqzNRQ2r
+         KmKZcG/P4QgwCuRqavdGY4vXAsjjMOqRPqmojTTmEFUcdhBVeB7yfNJlXvJAT3qoMYs+
+         mGbwiTf3dqisgJr4BvwtKKm9fgGcn/Zk+szKVuz0dwUVKfOqLmInU52R4lWK7qlh17VP
+         k+Yw==
+X-Gm-Message-State: AOJu0Yy5Zvr+cIzNkqLUrD9aR7pKdfz451UtEcLJ1sySE9ilZgEJt0D/
+	rl/L82VJRDPxpi0oKKAKlSnHbk18wwna2yL/OIrZMZRHpxL/OQCfkU2K8L4K
+X-Gm-Gg: ASbGncvutGfJJPN4qp71TcsnN2FGKlgtTHyGQuizm9xLdGe0CpxEeNjJPy32i3ymGrC
+	Hj5RgJeu4e5Njv4tG+/8Pvv6VGElJsUJBOlOJRRH18Z+Ii3yupXlwEmr7cpFsa30J54+Ah+EH6X
+	Kx8xPyTYxdcdIly6yfwFGh70e7OhbzZcRqluLwN2hML5JI8Qd+NG3a7t1X6O68CmmxAerJTyflE
+	Nbue309CfhoKDxTYRg3PQK40m5zDIp/b9csZhEyy2vXKND/y/zlixHU3uXE1fwZhycwCRR9djq6
+	QvsRGAEYAQ9VC1AwnysrNpTDqimexk1wUEdAB7zEYB8wXy08
+X-Google-Smtp-Source: AGHT+IEsXaLhAw+BdeFLmr3E9pcj0NZRRv1NE6e2LnmnpRHBIst/JH+s4wYziF17uy1EPreJMNESyw==
+X-Received: by 2002:a17:902:da8e:b0:21f:98fc:8421 with SMTP id d9443c01a7336-21f98fc85e7mr21974615ad.50.1739142583722;
+        Sun, 09 Feb 2025 15:09:43 -0800 (PST)
+Received: from ritvikos.localdomain ([2405:201:5501:4115:fd74:2c07:b6e:c967])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f368d8ccbsm65615965ad.255.2025.02.09.15.09.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Feb 2025 15:09:43 -0800 (PST)
+Received: by ritvikos.localdomain (Postfix, from userid 1000)
+	id 43898140645; Mon, 10 Feb 2025 04:39:37 +0000 (UTC)
+From: ritvikfoss@gmail.com
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] documentation/filesystems: fix spelling mistakes
+Date: Mon, 10 Feb 2025 04:39:37 +0000
+Message-ID: <20250210043937.30952-1-ritvikfoss@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 14/14] Documentation: KHO: Add memblock bindings
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
- Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski
- <luto@kernel.org>, Anthony Yznaga <anthony.yznaga@oracle.com>,
- Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- David Woodhouse <dwmw2@infradead.org>, Eric Biederman
- <ebiederm@xmission.com>, Ingo Molnar <mingo@redhat.com>,
- James Gowans <jgowans@amazon.com>, Jonathan Corbet <corbet@lwn.net>,
- Mark Rutland <mark.rutland@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, "H. Peter Anvin"
- <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>,
- Pratyush Yadav <ptyadav@amazon.de>, Rob Herring <robh+dt@kernel.org>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
- Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
- Tom Lendacky <thomas.lendacky@amd.com>, Usama Arif
- <usama.arif@bytedance.com>, Will Deacon <will@kernel.org>,
- devicetree@vger.kernel.org, kexec@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, x86@kernel.org
-References: <20250206132754.2596694-1-rppt@kernel.org>
- <20250206132754.2596694-15-rppt@kernel.org>
- <45df0d7a-622a-4268-9683-c5c6067483c3@kernel.org>
- <Z6jFZII5b-j7hzkj@kernel.org>
- <a3cca0ed-64ca-4921-bb4c-27c0e06b78c6@kernel.org>
- <Z6kTCvex3DGhB-3C@kernel.org>
- <18529b1f-dc79-4c85-a485-a0a2cdd48670@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <18529b1f-dc79-4c85-a485-a0a2cdd48670@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 09/02/2025 21:49, Krzysztof Kozlowski wrote:
->>>>  
->>>> These are not devicetree binding for communicating data from firmware to
->>>> the kernel. These bindings are specific to KHO which is perfectly
->>>> reflected by the subject.
->>>
->>> No, it is not. None of the bindings use above subject prefix.
->>>
->>>>
->>>> Just a brief reminder from v2 discussion:
->>>> (https://lore.kernel.org/linux-mm/20231222193607.15474-1-graf@amazon.com/)
->>>>
->>>> "For quick reference: KHO is a new mechanism this patch set introduces 
->>>> which allows Linux to pass arbitrary memory and metadata between kernels 
->>>> on kexec. I'm reusing FDTs to implement the hand over protocol, as 
->>>> Linux-to-Linux boot communication holds very similar properties to 
->>>> firmware-to-Linux boot communication. So this binding is not about 
->>>> hardware; it's about preserving Linux subsystem state across kexec.
->>>
->>> does not matter. You added file to ABI documentation so you must follow
->>> that ABI documentation rules. One rule is proper subject prefix.
->>  
->> No, it does not. It's a different ABI.
->>
->> FDT is a _data structure_ that provides cross platform unified, versioned,
->> introspectable data format.
->>
->> Documentation/devicetree/bindings standardizes it's use for describing
->> hardware, but KHO uses FDT _data structure_ to describe state of the kernel
->> components that will be reused by the kexec'ed kernel.
->>
->> KHO is a different namespace from Open Firmware Device Tree, with different
->> requirements and different stakeholders. Putting descriptions of KHO data
->> formats in Documentation/kho rather than in
->> Documentation/devicetree/bindings was not done to evade review of Open
->> Firmware Device Tree maintainers, but rather to emphasize that KHO FDT _is
->> not_ Open Firmware Device Tree.
-> 
-> 
-> Ah, neat, that would almost solve the problem but you wrote:
-> 
-> +$id: http://devicetree.org/schemas/memblock/reserve_mem.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> 
-> so no, this does not work like that. You use devicetree here namespace
-> and ignore its rules.
+From: Ritvik Gupta <ritvikfoss@gmail.com>
 
+Corrected the following spelling mistakes,
+based on the suggestions by codespell:
 
-... and that obviously is barely parseable, so maybe one more try:
-"You use here devicetree namespace but ignore its rules."
+1. Optionaly   -> Optionally
+2. prefereable -> preferable
+3. peformance  -> performance
+4. ontext      -> context
+5. failuer     -> failure
+6. poiners     -> pointers
+7. realtively  -> relatively
+8. uptream     -> upstream
 
-> 
-> You cannot pretend this is not devicetree if you put it into devicetree
-> schemas.
+Thanks for your time!
+Regards Ritvik
 
-Best regards,
-Krzysztof
+Signed-off-by: Ritvik Gupta <ritvikfoss@gmail.com>
+---
+ Documentation/filesystems/9p.rst                              | 2 +-
+ Documentation/filesystems/bcachefs/SubmittingPatches.rst      | 4 ++--
+ Documentation/filesystems/coda.rst                            | 2 +-
+ Documentation/filesystems/debugfs.rst                         | 2 +-
+ Documentation/filesystems/netfs_library.rst                   | 2 +-
+ Documentation/filesystems/xfs/xfs-delayed-logging-design.rst  | 2 +-
+ .../filesystems/xfs/xfs-maintainer-entry-profile.rst          | 2 +-
+ 7 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
+index 2bbf68b56b0d..3078f3c9256a 100644
+--- a/Documentation/filesystems/9p.rst
++++ b/Documentation/filesystems/9p.rst
+@@ -90,7 +90,7 @@ Just start the 9pfs capable network server like diod/nfs-ganesha e.g.::
+
+         $ diod -f -n -d 0 -S -l 0.0.0.0:9999 -e $PWD
+
+-Optionaly scan your bus if there are more then one usbg gadgets to find their path::
++Optionally scan your bus if there are more then one usbg gadgets to find their path::
+
+         $ python $kernel_dir/tools/usb/p9_fwd.py list
+
+diff --git a/Documentation/filesystems/bcachefs/SubmittingPatches.rst b/Documentation/filesystems/bcachefs/SubmittingPatches.rst
+index 026b12ae0d6a..4b79ca58faf2 100644
+--- a/Documentation/filesystems/bcachefs/SubmittingPatches.rst
++++ b/Documentation/filesystems/bcachefs/SubmittingPatches.rst
+@@ -30,7 +30,7 @@ CI:
+ ===
+
+ Instead of running your tests locally, when running the full test suite it's
+-prefereable to let a server farm do it in parallel, and then have the results
++preferable to let a server farm do it in parallel, and then have the results
+ in a nice test dashboard (which can tell you which failures are new, and
+ presents results in a git log view, avoiding the need for most bisecting).
+
+@@ -68,7 +68,7 @@ Other things to think about:
+   land - use them. Use them judiciously, and not as a replacement for proper
+   error handling, but use them.
+
+-- Does it need to be performance tested? Should we add new peformance counters?
++- Does it need to be performance tested? Should we add new performance counters?
+
+   bcachefs has a set of persistent runtime counters which can be viewed with
+   the 'bcachefs fs top' command; this should give users a basic idea of what
+diff --git a/Documentation/filesystems/coda.rst b/Documentation/filesystems/coda.rst
+index bdde7e4e010b..0db3c83a50e5 100644
+--- a/Documentation/filesystems/coda.rst
++++ b/Documentation/filesystems/coda.rst
+@@ -141,7 +141,7 @@ kernel support.
+   a process P which accessing a Coda file. It makes a system call which
+   traps to the OS kernel. Examples of such calls trapping to the kernel
+   are ``read``, ``write``, ``open``, ``close``, ``create``, ``mkdir``,
+-  ``rmdir``, ``chmod`` in a Unix ontext.  Similar calls exist in the Win32
++  ``rmdir``, ``chmod`` in a Unix context.  Similar calls exist in the Win32
+   environment, and are named ``CreateFile``.
+
+   Generally the operating system handles the request in a virtual
+diff --git a/Documentation/filesystems/debugfs.rst b/Documentation/filesystems/debugfs.rst
+index f7f977ffbf8d..610f718ef8b5 100644
+--- a/Documentation/filesystems/debugfs.rst
++++ b/Documentation/filesystems/debugfs.rst
+@@ -220,7 +220,7 @@ There are a couple of other directory-oriented helper functions::
+
+ A call to debugfs_change_name() will give a new name to an existing debugfs
+ file, always in the same directory.  The new_name must not exist prior
+-to the call; the return value is 0 on success and -E... on failuer.
++to the call; the return value is 0 on success and -E... on failure.
+ Symbolic links can be created with debugfs_create_symlink().
+
+ There is one important thing that all debugfs users must take into account:
+diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
+index 73f0bfd7e903..3886c14f89f4 100644
+--- a/Documentation/filesystems/netfs_library.rst
++++ b/Documentation/filesystems/netfs_library.rst
+@@ -515,7 +515,7 @@ The methods defined in the table are:
+    the cache to expand a request in either direction.  This allows the cache to
+    size the request appropriately for the cache granularity.
+
+-   The function is passed poiners to the start and length in its parameters,
++   The function is passed pointers to the start and length in its parameters,
+    plus the size of the file for reference, and adjusts the start and length
+    appropriately.  It should return one of:
+
+diff --git a/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst b/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+index 6402ab8e370c..2a2705e975e8 100644
+--- a/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
++++ b/Documentation/filesystems/xfs/xfs-delayed-logging-design.rst
+@@ -219,7 +219,7 @@ The log is circular, so the positions in the log are defined by the combination
+ of a cycle number - the number of times the log has been overwritten - and the
+ offset into the log.  A LSN carries the cycle in the upper 32 bits and the
+ offset in the lower 32 bits. The offset is in units of "basic blocks" (512
+-bytes). Hence we can do realtively simple LSN based math to keep track of
++bytes). Hence we can do relatively simple LSN based math to keep track of
+ available space in the log.
+
+ Log space accounting is done via a pair of constructs called "grant heads".  The
+diff --git a/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst b/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+index 32b6ac4ca9d6..ce4584fb3103 100644
+--- a/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
++++ b/Documentation/filesystems/xfs/xfs-maintainer-entry-profile.rst
+@@ -93,7 +93,7 @@ others on a regular basis about burnout.
+   sponsoring work on any part of XFS.
+
+ - **LTS Maintainer**: Someone who backports and tests bug fixes from
+-  uptream to the LTS kernels.
++  upstream to the LTS kernels.
+   There tend to be six separate LTS trees at any given time.
+
+   The maintainer for a given LTS release should identify themselves with an
+--
+2.43.0
+
