@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C181CEE8D;
-	Mon, 10 Feb 2025 10:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEB21DDC3F;
+	Mon, 10 Feb 2025 10:18:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739182705; cv=none; b=QIUktodGyE2/X51BFsdvYDRoadyM/3zB5sOVwmNSFhRKxzZ2v9qN1W+T44WRHtammJUhNaiB31rpcuFimmkqyd24tgY7M0RJbmcJM+0hu8GqVwdy7ILb++dmQnxOhEMk+pfXHFLGClQcbtihdiM+ySKzWWfA/4vbQIBntg82kME=
+	t=1739182705; cv=none; b=DC5XrgXcKoJE1FpTO1oflpDeXh5dVdTtj8Qa68I1WkK1Z6qyE/RZu2l50bY8sYqZBeYpb5ayXKXiEUuuHSXcXmxcLnzlUqyFjuRVKQc7jLO7jdAB8IK9Uzh1z0K9rm3QugrQll7lXMNYdRIsJO8mgOACmPDz7AebOSFn14J8/mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739182705; c=relaxed/simple;
-	bh=ioH67mGmMrR7TV2QvHCqqT6mvSN3es7X+oI3VVv4IjM=;
+	bh=W0QttvocLbg9MNZjjCOsNJWUuoYSXbcWqR4OJBpGkhQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ABGP6tIMw9pBFaZCKDyg/cqcyVo1wVok/PsGr8kETcz7UD6oFFiDqY37WvbugE9eMFYnJYXVIP2DY1TTnJRSCe2Cy4o4HrARVuWH5plSj6W48NcQ7igapst/W/NLkI7H2XdhrTFduK0YnoI0+zR1Wnw5o1oosqWXuzIzPtJoGdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fwdoaYtC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=OGJoA9uis7TQhEkzO3sRjSaPQqE4KiotP8WWpeIOSCGPVTzepUWlLHt+qluQE2VaVkAgX6MaQkgo03qWQ44V8ktPwFSAPvdLOOk2Iie628/V6lMWDexBb8xRYD9lmaLR2aTWkVDUtDZKYBAnuIzMvDx0dcae9KGQa/yNPnzzABM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mhUZnr96; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fwdoaYtC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3577CC4CEFF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mhUZnr96"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47B5DC16AAE;
 	Mon, 10 Feb 2025 10:18:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1739182704;
-	bh=ioH67mGmMrR7TV2QvHCqqT6mvSN3es7X+oI3VVv4IjM=;
+	bh=W0QttvocLbg9MNZjjCOsNJWUuoYSXbcWqR4OJBpGkhQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fwdoaYtCc+OirL8GqRT1NghqS9E2w2ZR5RR3fxw7lsS97vO4TirSEaAEMCKJZwmDb
-	 InealSIMP6amc6kBOzISZ0pR/X78zIiVB580WxYWU1UM+fw7VJykB61cY3Yro8pdiT
-	 DADYVLrRWeO58wRzjXrkxT0nWWWCvuhGoG6e+Tkq94auRqhjwQ/e1+IlpR7LCh2P3O
-	 lT3fcIoIUQBO6liwIqQ6jW35d843UYapg6oi/eH8AuM1beQbUZafiQdJBuua22xc7/
-	 ahKFh5bLHnC6QSixfK8YPyGda79H44rhwdkBuPBlHUFDFczQZUloNKCoYxIxKLmV3s
-	 UuEzLIqFGtjOw==
+	b=mhUZnr96S+xMDkzTvbHS2MbxPqMZVlejlkMMudpueCt5lRYcTJpEmYh1mGIjtXPTh
+	 6SXzVCOFRgSWBQyEWLllz+1/BqvG40WWETuW1hpTzo5nXWjtUACVU/Gf6x149UZjKX
+	 hrDWk3tTK19ptCy2pNF5l3NjDLpskjswGbzZfEj+G2ucOp8bMxz/IJrkKMwmqfh7PA
+	 eDgUS8bkPyzvKp4imevNBN1ua57b6uB9RfRa67Z1UqhKSYwZo88/V7w6HMmMRInIDg
+	 xIiC3yfnZoOSwKCdhNzUVmIu1bQsckGSNHBXjYB31uTCLqZ/BmRREs1zEvTiuX1dZH
+	 12W2YtGbXRt8A==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1thQru-00000006CjI-1PFj;
+	id 1thQru-00000006Cjc-1wlv;
 	Mon, 10 Feb 2025 11:18:22 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 18/27] scripts/get_abi.pl: Add filtering capabilities to rest output
-Date: Mon, 10 Feb 2025 11:18:07 +0100
-Message-ID: <41e108e816e46434aa596e5c0d25d227cb9f0fe5.1739182025.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 23/27] docs: sphinx/kernel_abi: avoid warnings during Sphinx module init
+Date: Mon, 10 Feb 2025 11:18:12 +0100
+Message-ID: <b0e79dc60d556e3b39fa6774d3b7bf734b73f352.1739182025.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1739182025.git.mchehab+huawei@kernel.org>
 References: <cover.1739182025.git.mchehab+huawei@kernel.org>
@@ -51,77 +51,85 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-This way, Sphinx ABI extension can parse symbols only once, while
-keep displaying results in separate files.
+Sphinx logging system doesn't like warnings during module load,
+as it understands that such logs are produced at the wrong time:
+
+	WARNING: while setting up extension automarkup: /sys/devices/system/cpu/cpuX/topology/physical_package_id is defined 2 times: /new_devel/v4l/docs/Documentation/ABI/stable/sysfs-devices-system-cpu:27; /new_devel/v4l/docs/Documentation/ABI/testing/sysfs-devices-system-cpu:70
+	WARNING: while setting up extension automarkup: /sys/devices/system/cpu/cpuX/topology/ppin is defined 2 times: /new_devel/v4l/docs/Documentation/ABI/stable/sysfs-devices-system-cpu:89; /new_devel/v4l/docs/Documentation/ABI/testing/sysfs-devices-system-cpu:70
+
+So, use a function to allocate/process ABI files and use it to
+be called at kernel_abi.py, as automarkup also needs it to
+produce the right cross-references.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/lib/abi/abi_parser.py | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ Documentation/sphinx/automarkup.py |  4 +++-
+ Documentation/sphinx/kernel_abi.py | 23 +++++++++++++++++++----
+ 2 files changed, 22 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/lib/abi/abi_parser.py b/scripts/lib/abi/abi_parser.py
-index 1db6c54fc65a..b20d5c9d920e 100644
---- a/scripts/lib/abi/abi_parser.py
-+++ b/scripts/lib/abi/abi_parser.py
-@@ -160,6 +160,7 @@ class AbiParser:
-                         self.data[fdata.key] = {
-                             "what": [content],
-                             "file": [fdata.file_ref],
-+                            "path": fdata.ftype,
-                             "line_no": fdata.ln,
-                         }
+diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
+index 7d91c39b4ca6..22defc18d6d2 100644
+--- a/Documentation/sphinx/automarkup.py
++++ b/Documentation/sphinx/automarkup.py
+@@ -11,7 +11,7 @@ from sphinx.errors import NoUri
+ import re
+ from itertools import chain
  
-@@ -182,8 +183,6 @@ class AbiParser:
-                 if new_what:
-                     fdata.label = ""
+-from kernel_abi import kernel_abi
++from kernel_abi import get_kernel_abi
  
--                    self.data[fdata.key]["type"] = fdata.ftype
--
-                     if "description" in self.data[fdata.key]:
-                         self.data[fdata.key]["description"] += "\n\n"
- 
-@@ -299,6 +298,7 @@ class AbiParser:
-         fdata.nametag = {}
-         fdata.nametag["what"] = [f"File {path}/{basename}"]
-         fdata.nametag["type"] = "File"
-+        fdata.nametag["path"] = fdata.ftype
-         fdata.nametag["file"] = [fdata.file_ref]
-         fdata.nametag["line_no"] = 1
-         fdata.nametag["description"] = ""
-@@ -427,7 +427,8 @@ class AbiParser:
- 
-         return new_desc + "\n\n"
- 
--    def doc(self, output_in_txt=False, show_file=True):
-+    def doc(self, output_in_txt=False, show_symbols=True, show_file=True,
-+            filter_path=None):
-         """Print ABI at stdout"""
- 
-         part = None
-@@ -435,12 +436,20 @@ class AbiParser:
-                              key=lambda x: (x[1].get("type", ""),
-                                             x[1].get("what"))):
- 
--            wtype = v.get("type", "Var")
-+            wtype = v.get("type", "Symbol")
-             file_ref = v.get("file")
-             names = v.get("what", [""])
- 
--            if not show_file and wtype == "File":
--                continue
-+            if wtype == "File":
-+                if not show_file:
-+                    continue
-+            else:
-+                if not show_symbols:
-+                    continue
+ #
+ # Python 2 lacks re.ASCII...
+@@ -287,6 +287,8 @@ def markup_abi_ref(docname, app, match):
+     #
+     # Go through the dance of getting an xref out of the std domain
+     #
++    kernel_abi = get_kernel_abi()
 +
-+            if filter_path:
-+                if v.get("path") != filter_path:
-+                    continue
+     fname = match.group(1)
+     target = kernel_abi.xref(fname)
  
-             msg = ""
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+index 964f586de171..e017b0299953 100644
+--- a/Documentation/sphinx/kernel_abi.py
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -52,10 +52,23 @@ __version__ = "1.0"
+ logger = logging.getLogger('kernel_abi')
+ path = os.path.join(srctree, "Documentation/ABI")
  
+-# Parse ABI symbols only once
+-kernel_abi = AbiParser(path, logger=logger)
+-kernel_abi.parse_abi()
+-kernel_abi.check_issues()
++_kernel_abi = None
++
++def get_kernel_abi():
++    u"""
++    Initialize kernel_abi global var, if not initialized yet.
++
++    This is needed to avoid warnings during Sphinx module initialization.
++    """
++    global _kernel_abi
++
++    if not _kernel_abi:
++        # Parse ABI symbols only once
++        _kernel_abi = AbiParser(path, logger=logger)
++        _kernel_abi.parse_abi()
++        _kernel_abi.check_issues()
++
++    return _kernel_abi
+ 
+ def setup(app):
+ 
+@@ -83,6 +96,8 @@ class KernelCmd(Directive):
+     }
+ 
+     def run(self):
++        kernel_abi = get_kernel_abi()
++
+         doc = self.state.document
+         if not doc.settings.file_insertion_enabled:
+             raise self.warning("docutils: file insertion disabled")
 -- 
 2.48.1
 
