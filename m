@@ -1,68 +1,68 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCFE24E4D6
-	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 19:38:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681E82505A9
+	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 19:39:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739216339; cv=none; b=PFUjwnfM5fTL6HYZrUX9foeMueLmFzuO2OxPoyxgJvkd6uZsLWkBrGFd9CYeGKJVz/vaCSvLtarr6SSFC0upTNG+41q0wuzQwWnz+VWYtjuimdNmsK7Edsj8ObHnVhjo4eWRWr/Ir8QENVoUGKaQ+P7BrSd2W8P8Vriy6QD7pcc=
+	t=1739216343; cv=none; b=ktoEB9l1wNWLz4ArXlCX/IDPhVP0L5Xhhh0dUkAK3V2waXR5T3fUHCkXqQdN03OqgOTwTPnPgod4IRBJvsx/djAhhP6VpsA9WRr6x4R8KP204dlydqEpPzZLSmJ+gMPKUpZg+yYKq+RnoMvzxXbwb0C0EeufsWxS96lSaoRxC/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739216339; c=relaxed/simple;
-	bh=OGZL6ZsQM7FmXrtZCcJrdgAs8xmw1WSnlW2HAWblnM0=;
+	s=arc-20240116; t=1739216343; c=relaxed/simple;
+	bh=xdb/Bd8nabay5U0SQXbchR0hBzNIzuX4jtY3vE4Olv8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fvV1qHcK7v5BuRGunpfXvx8sp6Ck0IZcpWAgN5RLD6Ywn2Op337/Fgivf7pkcClRDq0KP0vcmVsCVvj2hXGrUoD3xW0eHLa/HD8L5+a8Gi4uJK8lMCK5Vr8dfEkOwAjpDqkxgI7oLSD2Eei99DhgVe5d7x6g+nBW0oVNZXscvsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XdOo9gMS; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=A4jluThhJNpnNOzWMbWtbJDb/apcCxFFSit1RUd5pWoubex7eaV9S2V0kjMDFqXHfOo9lLRHhvtsawvSV/j4xe0hqU9AJOGz6qMYmCAzGLVIHBEnnuKCG01RQht5ABzde+fim/V4DgXkHTEb9Fscm7dvaQCsAc5v4RVAt4w6TiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=g67cTE5k; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XdOo9gMS"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="g67cTE5k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739216336;
+	s=mimecast20190719; t=1739216340;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mwHnciP+OvnJG9alUSG9/jEypyVF3ZPTXQLV9dVcfyg=;
-	b=XdOo9gMSZSqnTHaKJ0tOLousfIs0hjXtmEzkgMEz2eSxUVfAzvpHxj4meMF2bBPtdpXstL
-	hWX61uB23xzGHmHcdP/app0H72bz+KGiTWMlWwzroOcPFCfEjTyISGJcNgRyLAVS+3QSOw
-	rndLTExp5bS29vrEFs24ZbrWSe2MNvc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=oE9Ja/aC61CHup4qeT96Odiagg40Q7TPEFXRUvHwXRo=;
+	b=g67cTE5kem53Qfb56KG6/b812KoghfArDZpyBshBrSShtsRrNbMvTvQxkz48P05eyEUwK5
+	YzsgqYdpC115+QJKyo2DNHaBkA++ut+VMfmYHEBnZcpAwmvTP4cQqanPLSGAI73KZTf+EY
+	MECnnyuNWFQLlBbZidKnT+hpbQNqx3I=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-304-mwY6TfCqPMKBkFixNnCfQQ-1; Mon, 10 Feb 2025 14:38:55 -0500
-X-MC-Unique: mwY6TfCqPMKBkFixNnCfQQ-1
-X-Mimecast-MFC-AGG-ID: mwY6TfCqPMKBkFixNnCfQQ
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-38dc6aad9f8so1835255f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 11:38:54 -0800 (PST)
+ us-mta-434-6WgKZUj6PA6Wke2UL_3Fog-1; Mon, 10 Feb 2025 14:38:59 -0500
+X-MC-Unique: 6WgKZUj6PA6Wke2UL_3Fog-1
+X-Mimecast-MFC-AGG-ID: 6WgKZUj6PA6Wke2UL_3Fog
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-38dc709f938so1785949f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 11:38:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739216334; x=1739821134;
+        d=1e100.net; s=20230601; t=1739216338; x=1739821138;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mwHnciP+OvnJG9alUSG9/jEypyVF3ZPTXQLV9dVcfyg=;
-        b=ovU5dPa8zNqDHLbWlQePJ4Hk5wqneX3IVRIpcu2re8szEJeX0oWu/MEtWCUG8EYLSO
-         quiIIclqNnCzrBgu7LyxaP0tA0aDF8Tz7EBoSGFwRDMKJ50vTSUCSRSRa334b/w6htGP
-         uky40q7bdV/RDsUcZ62b7LgUuFWhsNWhjQKXftZZNGWOdjKcNf83GsxCoiX4UzANqcn4
-         j1oJZu0u+tBeb2auoL1AbxigaObby8Xc59V0WBrBfxLUvMHsYGSCiCLq2THEMwuHErFV
-         BpsxjPaYqx/4uA1AOG2OLUP7llYH5d81T4Mr6SvQ9qwL1t45otE+Y/W37c09isZlZmns
-         Frmg==
-X-Gm-Message-State: AOJu0Yxsg99NjqMh1RFpX7e/57JmpqfUO8bzmKPC1rbc/Eh/qaPhm0SS
-	UXgl9lkX0sOEw4mvTrLU2olDBDIKBB38SK57lTOJ0JU8l85uFA8J8VTOWGokh89DVvAI4cDD7k/
-	Ez4X6C1vAJPkRel8WasC8ZefICdKtVIi3JduBYWhyEBZ9aQiGZp/PlJyCFg==
-X-Gm-Gg: ASbGncugnJ1vh8LJH86zVu6fk3BNm2ojah45tA84bhQnT+y+Xi7IgKHPuM1Y3MM+5Xs
-	4AUa/wS9LlkxMOtQnfvugRecGbONIANiUv7lLo+kvydjn82x5IdSSxiFS6kRgzR7u7+foeuXE++
-	mcigHlYIHNIlXgS6d11YaDUJzSntAA71MTgCNCZ/h5h7/gJ5fP4vBh4opBMo8PtX2BLV/dVJbwD
-	rNZZFTknALO0tWYHLOHSM5HLdGP5dN8uHBjY82xY+dTRkij2hEh+nOhowulkKX4JmMOcDZjxJU3
-	MV8xL80Uurp4WNjf3S1Ms4N1DEIxmKClmoY3mu8Stj3kjOiI+qi0utXILWybo5SHVw==
-X-Received: by 2002:a5d:5f42:0:b0:38d:df15:2770 with SMTP id ffacd0b85a97d-38de432d90fmr568611f8f.0.1739216333900;
-        Mon, 10 Feb 2025 11:38:53 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEQ8jI3Pr0PhgIrX5XFi88nBpwoaMc1TLFqexlyUt/iDFsCN9k6Hzlrlovdfu0/+3mYproMTQ==
-X-Received: by 2002:a5d:5f42:0:b0:38d:df15:2770 with SMTP id ffacd0b85a97d-38de432d90fmr568579f8f.0.1739216333460;
-        Mon, 10 Feb 2025 11:38:53 -0800 (PST)
+        bh=oE9Ja/aC61CHup4qeT96Odiagg40Q7TPEFXRUvHwXRo=;
+        b=AWrLooKn0kQE/Y/8XrVU7O5fwfiIJf5BYwMEWaw5flJM42Od8LI1IxgnvnqVdg7Wvl
+         KO3f9LHtgquKmi4ATEmkly11YIZAKb3R/X4NDO1HlujmukUWYDWE5CzrgYhFBd53n5QJ
+         35fMe9iR2IxEZtMfD5TA67m39ASSsWdsD4Ada+waYsNl6Ki9WnCTSlZSsoT6zJTntMn3
+         aUEeVyjcnwmTGOmV9vWidR0ITsiPLb02iIcv5kGOiWCaZaoIqFwxI9Vq1HrecTIf31cw
+         13rlfiOqTpFaS3+ZTWNJD4yZID9ET0Rjlrce4PmQerrsdHm+6is6F2VhqMhi1SAFGpRG
+         /nRQ==
+X-Gm-Message-State: AOJu0YxBMYxXuBUk1ONjWLMh08LGGVooA1nZBGOF1lihoqWHqDw3s2Tx
+	NLZOXj+iUAN5K+nffqVFiNnKwidqQdwbl6yNKs2tlIYtvUwq/dsHhT1sDrvRbVKEzYM4iBBl+yI
+	MPlXm7OL7f4jV1ZEke3GNPeNDBgZlLyKsCVoK1fv6euWNh4jo2nyza8YdFQ==
+X-Gm-Gg: ASbGncuaOSaevsJ7RDuzAY3D+fQQuPd/Bodj9nmdVOB0u9ZyqSmaBLjKwfBV/ISijpw
+	j6PwcOZ2D7LEfZUD6hul6GZLPUsUsKdmLxFvHOAU5nNRMiDa7sDnU/hv8OW+H+Zx1R3QpqjZ52l
+	O1d+8XlP3rKy9jbb8wRKHC0Ju23CnBObXZxhqu3YVIoYAzsr4YKPmNONp36qYAvSFS/boCZXRth
+	JMGn/deFS2QwYHwyNdBD40x/YZ0HtRy1ywYEIS7UdyLZqDjZXmbQHGau70Juc+4a/LplFds1WDx
+	QKVwW914jVpCqBiKdbWRzCI/lnWnL/tVnE80SsnLqy64kE6ZN6YCb6cp0IKp0DzzPQ==
+X-Received: by 2002:a05:6000:1887:b0:38b:f4e6:21aa with SMTP id ffacd0b85a97d-38de439b7e5mr512532f8f.5.1739216337880;
+        Mon, 10 Feb 2025 11:38:57 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF/uzgNmJSm7r4vj5m1RC+0Hk4d4M8qsuHzJI2p/6gaMOev6b/snbfbww+U3ctbsFbws8/HTA==
+X-Received: by 2002:a05:6000:1887:b0:38b:f4e6:21aa with SMTP id ffacd0b85a97d-38de439b7e5mr512516f8f.5.1739216337518;
+        Mon, 10 Feb 2025 11:38:57 -0800 (PST)
 Received: from localhost (p200300cbc734b80012c465cd348aaee6.dip0.t-ipconnect.de. [2003:cb:c734:b800:12c4:65cd:348a:aee6])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4390db11200sm187831345e9.38.2025.02.10.11.38.50
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38dcc9bd251sm9816921f8f.9.2025.02.10.11.38.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2025 11:38:52 -0800 (PST)
+        Mon, 10 Feb 2025 11:38:56 -0800 (PST)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -95,9 +95,9 @@ Cc: linux-doc@vger.kernel.org,
 	Peter Xu <peterx@redhat.com>,
 	Alistair Popple <apopple@nvidia.com>,
 	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v2 13/17] mm/page_idle: handle device-exclusive entries correctly in page_idle_clear_pte_refs_one()
-Date: Mon, 10 Feb 2025 20:37:55 +0100
-Message-ID: <20250210193801.781278-14-david@redhat.com>
+Subject: [PATCH v2 14/17] mm/damon: handle device-exclusive entries correctly in damon_folio_young_one()
+Date: Mon, 10 Feb 2025 20:37:56 +0100
+Message-ID: <20250210193801.781278-15-david@redhat.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250210193801.781278-1-david@redhat.com>
 References: <20250210193801.781278-1-david@redhat.com>
@@ -112,13 +112,13 @@ Content-Transfer-Encoding: 8bit
 Ever since commit b756a3b5e7ea ("mm: device exclusive memory access")
 we can return with a device-exclusive entry from page_vma_mapped_walk().
 
-page_idle_clear_pte_refs_one() is not prepared for that, so let's
-teach it what to do with these PFN swap PTEs. Note that device-private
-entries are so far not applicable on that path, as page_idle_get_folio()
-filters out non-lru folios.
+damon_folio_young_one() is not prepared for that, so teach it about these
+PFN swap PTEs. Note that device-private entries are so far not applicable
+on that path, as we expect ZONE_DEVICE pages so far only in migration code
+when it comes to the RMAP.
 
-Should we just skip PFN swap PTEs completely? Possible, but it seems
-straight forward to just handle them correctly.
+The impact is rather small: we'd be calling pte_young() on a
+non-present PTE, which is not really defined to have semantic.
 
 Note that we could currently only run into this case with
 device-exclusive entries on THPs. We still adjust the mapcount on
@@ -131,30 +131,35 @@ handle device-exclusive entries.
 Fixes: b756a3b5e7ea ("mm: device exclusive memory access")
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/page_idle.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ mm/damon/paddr.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/mm/page_idle.c b/mm/page_idle.c
-index 947c7c7a37289..408aaf29a3ea6 100644
---- a/mm/page_idle.c
-+++ b/mm/page_idle.c
-@@ -62,9 +62,14 @@ static bool page_idle_clear_pte_refs_one(struct folio *folio,
- 			/*
- 			 * For PTE-mapped THP, one sub page is referenced,
- 			 * the whole THP is referenced.
-+			 *
+diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
+index 0f9ae14f884dd..10d75f9ceeafb 100644
+--- a/mm/damon/paddr.c
++++ b/mm/damon/paddr.c
+@@ -92,12 +92,20 @@ static bool damon_folio_young_one(struct folio *folio,
+ {
+ 	bool *accessed = arg;
+ 	DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, addr, 0);
++	pte_t pte;
+ 
+ 	*accessed = false;
+ 	while (page_vma_mapped_walk(&pvmw)) {
+ 		addr = pvmw.address;
+ 		if (pvmw.pte) {
+-			*accessed = pte_young(ptep_get(pvmw.pte)) ||
++			pte = ptep_get(pvmw.pte);
++
++			/*
 +			 * PFN swap PTEs, such as device-exclusive ones, that
 +			 * actually map pages are "old" from a CPU perspective.
 +			 * The MMU notifier takes care of any device aspects.
- 			 */
--			if (ptep_clear_young_notify(vma, addr, pvmw.pte))
--				referenced = true;
-+			if (likely(pte_present(ptep_get(pvmw.pte))))
-+				referenced |= ptep_test_and_clear_young(vma, addr, pvmw.pte);
-+			referenced |= mmu_notifier_clear_young(vma->vm_mm, addr, addr + PAGE_SIZE);
- 		} else if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
- 			if (pmdp_clear_young_notify(vma, addr, pvmw.pmd))
- 				referenced = true;
++			 */
++			*accessed = (pte_present(pte) && pte_young(pte)) ||
+ 				!folio_test_idle(folio) ||
+ 				mmu_notifier_test_young(vma->vm_mm, addr);
+ 		} else {
 -- 
 2.48.1
 
