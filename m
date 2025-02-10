@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367F425B690;
-	Mon, 10 Feb 2025 18:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EC025742A;
+	Mon, 10 Feb 2025 18:17:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739211404; cv=none; b=EBquMkVw+k6/yWzizvO+BGOIKeDX8KDmIhAtWKTUJKMFgAtiWHEZBu5LeHAixEBhd0EOz6drsTpUW3lqhxGXDKt2GEhk5+tPUo0v17vwi6cyPLp3lOceJgAbxMwJCu0pu5IUqcLER28wnpKEI72U5pNrsodkwzrlxwKaITCPiBs=
+	t=1739211463; cv=none; b=JN5MArl5Wvayea9zwzUcYrf2bHljeytzvLXIe+AVEoCRs6tZr8v04Qau3VCHQhS6dGQmThhetw77LPy2yvSQmoCYtJgiwePdi62ZpfJvoXunMJAg+i8JSiPEYkMXrGnZO1l5eFCPWToHmeLpU9TCbjAPbrJYs3pK6t4f5Vg4vGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739211404; c=relaxed/simple;
-	bh=P1ss1v0bvkD5l9H6qgtHX7kFY/vS319qh4txvfoWsq4=;
+	s=arc-20240116; t=1739211463; c=relaxed/simple;
+	bh=WiOKGuitaydzhswX/7JM6O1nTPijJq8eyPlKsuXqT/0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c8VZRLmwnnUDTAD7JQy1xcBbb+nLn5nGwX08BGkcVwT3z9uDwPUL6qApYcG6EdPcgxirWsHooIFgPFe9wuCClpRQrNC4U0AvPg7RLvLavbXMX3OxWWiwo0O/1mGVg8kuuJieAQF2c1CvL9eNH2Uxk+CrSiaM9KzEeYaiwxuQ9zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nU59BCnv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=iywAW9+cos94xVC7hArxKDIvz50a4H2lPOQPm2Tv5jB073OtIzNA3eAArwjkxlDhgbIwE2Zz3vHExq9beM50ju+bQlLT+rusf1AOOrhc8tEzh2l+/Nm7n1Ygy2ZgGBLIm8eJqjdpwqIZQhuXE4ojctGoKrW07Q4GHYncafYl9GE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYC5e8jA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nU59BCnv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C1FC4CEE6;
-	Mon, 10 Feb 2025 18:16:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SYC5e8jA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02401C4CEE6;
+	Mon, 10 Feb 2025 18:17:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739211403;
-	bh=P1ss1v0bvkD5l9H6qgtHX7kFY/vS319qh4txvfoWsq4=;
+	s=k20201202; t=1739211462;
+	bh=WiOKGuitaydzhswX/7JM6O1nTPijJq8eyPlKsuXqT/0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nU59BCnvDkLk479ynMymoJdH9LGPPQspXrC9ge1Bqw5MC+ab9QddYvZz0MsQ6EH3g
-	 215Adk2n3B75BaYdQNBv8cAoNL+jFR77sl8JGjbz1PvZLlKeA1FERlRiBWEpzVB/Ou
-	 wt2yoOga77GA2y6TIH9MPaiwpW0Jmo0FdCZpUCB57ExqVHqMSGfsbkOK9K65Nu/3T4
-	 tBhmZLlvzoCYi0LlsXm5L86NGYCGcwbaLzbathKuqAM78nNkzgSXjDxs7Hl66xwjuB
-	 LvSdau0a9cqdIi+WrqnOH6FI9Zk1bPXKeA7GsUSj+tLSY0hvS5u6d6wAySJNd/hdQ7
-	 QlUYiB3+MArbQ==
-Date: Mon, 10 Feb 2025 19:16:40 +0100
+	b=SYC5e8jAmnFQbgWzl7VBI9YMtbd7So6JvOfGkmZR4rPjBqZ4L77d44l+d00zp2aPK
+	 vdY2EDi971nV/mQePhMvYhghFcmArOCv3gVcP2lJiAK0FN3KPcy2bhUNSh+b8pbgMK
+	 jD+oZXJW6CRk1yRxk36qHlpWWwKFwyXuQ5iEPykue89vmpXr2X9MqFOqc2O0gBdD6a
+	 oCyBLJXpsqq0u00imJlBSuR+8Y6VTLMeycXL1n0SI8dszQCypYTkKHx4OGpFwOmEiT
+	 jYACq03l9RxT9tsx6qROQ4SbUcgSmnx8ymMVJUb1kGv2HGgKdi5gmL/d1Y97vRoS9w
+	 3uMgSSMariMfg==
+Date: Mon, 10 Feb 2025 19:17:39 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
 	Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
 	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
 	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
@@ -49,14 +49,13 @@ Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
  bridges
-Message-ID: <20250210-spirited-premium-rabbit-34e1cc@houat>
+Message-ID: <20250210-proficient-millipede-of-recreation-91da6c@houat>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
  <20250206-hotplug-drm-bridge-v6-14-9d6f2c9c3058@bootlin.com>
  <20250207-ingenious-daffodil-dugong-51be57@houat>
  <ucttjaf3trkgtpvhnsj7xfsybhnoi4qqow5ucwghlggivbagy7@gngjhbtu73lb>
  <20250210-bold-steel-collie-cecbad@houat>
  <CAA8EJppyDiAeH8bm-rdCUsGoyVOrp=4AvrYLJ-=5BTLtmnP11g@mail.gmail.com>
- <20250210181203.36798a31@booty>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,12 +63,12 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="rffgj3g2dkwuwd4j"
+	protocol="application/pgp-signature"; boundary="ctkvotoob64tevup"
 Content-Disposition: inline
-In-Reply-To: <20250210181203.36798a31@booty>
+In-Reply-To: <CAA8EJppyDiAeH8bm-rdCUsGoyVOrp=4AvrYLJ-=5BTLtmnP11g@mail.gmail.com>
 
 
---rffgj3g2dkwuwd4j
+--ctkvotoob64tevup
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -77,98 +76,122 @@ Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
  bridges
 MIME-Version: 1.0
 
-On Mon, Feb 10, 2025 at 06:12:03PM +0100, Luca Ceresoli wrote:
-> Hello Maxime, Dmitry,
->=20
-> On Mon, 10 Feb 2025 16:23:44 +0200
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
->=20
-> > On Mon, 10 Feb 2025 at 14:31, Maxime Ripard <mripard@kernel.org>
-> > wrote:
+On Mon, Feb 10, 2025 at 04:23:44PM +0200, Dmitry Baryshkov wrote:
+> On Mon, 10 Feb 2025 at 14:31, Maxime Ripard <mripard@kernel.org> wrote:
+> >
+> > On Fri, Feb 07, 2025 at 09:54:06PM +0200, Dmitry Baryshkov wrote:
+> > > On Fri, Feb 07, 2025 at 12:47:51PM +0100, Maxime Ripard wrote:
+> > > > Hi,
+> > > >
+> > > > On Thu, Feb 06, 2025 at 07:14:29PM +0100, Luca Ceresoli wrote:
+> > > > > DRM bridges are currently considered as a fixed element of a DRM =
+card, and
+> > > > > thus their lifetime is assumed to extend for as long as the card
+> > > > > exists. New use cases, such as hot-pluggable hardware with video =
+bridges,
+> > > > > require DRM bridges to be added and removed to a DRM card without=
+ tearing
+> > > > > the card down. This is possible for connectors already (used by D=
+P MST), so
+> > > > > add this possibility to DRM bridges as well.
+> > > > >
+> > > > > Implementation is based on drm_connector_init() as far as it make=
+s sense,
+> > > > > and differs when it doesn't. A difference is that bridges are not=
+ exposed
+> > > > > to userspace, hence struct drm_bridge does not embed a struct
+> > > > > drm_mode_object which would provide the refcount. Instead we add =
+to struct
+> > > > > drm_bridge a refcount field (we don't need other struct drm_mode_=
+object
+> > > > > fields here) and instead of using the drm_mode_object_*() functio=
+ns we
+> > > > > reimplement from those functions the few lines that drm_bridge ne=
+eds for
+> > > > > refcounting.
+> > > > >
+> > > > > Also add a new devm_drm_bridge_alloc() macro to allocate a new re=
+fcounted
+> > > > > bridge.
+> > > > >
+> > > > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > >
+> > > > So, a couple of general comments:
+> > > >
+> > > > - I've said it a couple of times already, but I really think you're
+> > > >   making it harder than necessary for you here. This (and only this=
+!)
+> > > >   should be the very first series you should be pushing. The rest c=
+an
+> > > >   only ever work if that work goes through, and it's already hard e=
+nough
+> > > >   as it is. So, split that patch into a series of its own, get that
+> > > >   merged, and then we will be able to deal with panels conversion a=
+nd
+> > > >   whatever. That's even more true with panels since there's ongoing=
+ work
+> > > >   that will make it easier for you too. So the best thing here is
+> > > >   probably to wait.
 > > >
-> > > On Fri, Feb 07, 2025 at 09:54:06PM +0200, Dmitry Baryshkov wrote: =20
-> > > > On Fri, Feb 07, 2025 at 12:47:51PM +0100, Maxime Ripard wrote: =20
-> > > > > Hi,
-> > > > >
-> > > > > On Thu, Feb 06, 2025 at 07:14:29PM +0100, Luca Ceresoli wrote: =
-=20
-> > > > > > DRM bridges are currently considered as a fixed element of a
-> > > > > > DRM card, and thus their lifetime is assumed to extend for as
-> > > > > > long as the card exists. New use cases, such as hot-pluggable
-> > > > > > hardware with video bridges, require DRM bridges to be added
-> > > > > > and removed to a DRM card without tearing the card down. This
-> > > > > > is possible for connectors already (used by DP MST), so add
-> > > > > > this possibility to DRM bridges as well.
-> > > > > >
-> > > > > > Implementation is based on drm_connector_init() as far as it
-> > > > > > makes sense, and differs when it doesn't. A difference is
-> > > > > > that bridges are not exposed to userspace, hence struct
-> > > > > > drm_bridge does not embed a struct drm_mode_object which
-> > > > > > would provide the refcount. Instead we add to struct
-> > > > > > drm_bridge a refcount field (we don't need other struct
-> > > > > > drm_mode_object fields here) and instead of using the
-> > > > > > drm_mode_object_*() functions we reimplement from those
-> > > > > > functions the few lines that drm_bridge needs for refcounting.
-> > > > > >
-> > > > > > Also add a new devm_drm_bridge_alloc() macro to allocate a
-> > > > > > new refcounted bridge.
-> > > > > >
-> > > > > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com> =20
-> > > > >
-> > > > > So, a couple of general comments:
-> > > > >
-> > > > > - I've said it a couple of times already, but I really think
-> > > > > you're making it harder than necessary for you here. This (and
-> > > > > only this!) should be the very first series you should be
-> > > > > pushing. The rest can only ever work if that work goes through,
-> > > > > and it's already hard enough as it is. So, split that patch
-> > > > > into a series of its own, get that merged, and then we will be
-> > > > > able to deal with panels conversion and whatever. That's even
-> > > > > more true with panels since there's ongoing work that will make
-> > > > > it easier for you too. So the best thing here is probably to
-> > > > > wait. =20
+> > > Luca and I had a quick chat on this during FOSDEM. I really think that
+> > > panel (part of the) series can go in first as it fixes a very well kn=
+own
+> > > bug _and_ allows a pretty good cleanup to a whole set of drivers.
+> >
+> > I don't necessarily disagree on principle, but if you state that it can
+> > get first, and fixes a known problem (which one?), then it should be a
+> > separate, standalone, series.
 >=20
-> The idea you proposed was to handle the issues current panel bridge
-> code adds to the hotplug work by adding a .destroy callback and some
-> more devm magic. I explored the idea but even after some clarifications
-> from you it still didn't appear clearly doable and correct to me. And
-> even in the case it were perfectly correct and doable, it is based on
-> adding more complexity and "magic" on top of a topic that is already
-> hard to understand: panel_bridge lifetime.
+> A problem of panel bridges having the wrong lifetime because of devm_
+> attachment to a wrong device and so either being kept for too long or
+> being destroyed too early.
 
-Not really, no. I told you several time that you shouldn't deal with
-panels yet.
+Yeah, and panels too. Which isn't solved there.
 
-> So I opted for the other way: rework panel_bridge code so its lifetime
-> is clear and as one would expect (panel_bridge lifetime =3D=3D panel
-> lifetime).
+> > Ever-expanding features are bad for both the reviewers and the
+> > contributors, even more so when the discussion happens off-list.
+> >
+> > > With all those panel / bridge wrappers gone we should be able to see a
+> > > clearer picture of what individual drivers are doing. In other words,
+> > > which memory and which code actually hosts and uses internal
+> > > 'next_bridge' reference.
+> > >
+> > > > - This patch really needs to be split into several patches, somethi=
+ng
+> > > >   along the lines of:
+> > > >
+> > > >   + Creating devm_drm_bridge_alloc()
+> > > >   + Adding refcounting
+> > > >   + Taking the references in all the needed places
+> > > >   + Converting a bunch of drivers
+> > >
+> > > The last two parts seem troublematic to me, but, I must admit, I didn=
+'t
+> > > spend so much time reviewing all drm_bridge usage patterns.
+> >
+> > Why? the third one is already done by that patch, the fourth can
+> > relatively easily be done using coccinelle.
 >=20
-> Possibly more work for me, but now it's done and it's in these patches
-> so why waiting?
+> I have doubts about cocci. It doesn't have a way to know, what is the
+> lifetime of the references to the reference-holding memory. Maybe I'm
+> missing a point there.
 
-No, it's not done. You have the same issue with panels than you are
-trying to fix with bridges: it's allocated through devm so they'll get
-destroyed too soon. The panel_bridge might work fine now, but the panel
-won't.
-
-So it's more work, more scope-creep, and more discussions. For example,
-I'm really not convinced on moving the drm_panel code under bridge.
-
-Splitting it up will allow you to at least merge the parts that are
-somewhat agreed upon. But do however you want :)
+It doesn't matter? Cocci doesn't (have to) understand the code, it
+generates a patch for you. It's up to the author to make a correct
+patch.
 
 Maxime
 
---rffgj3g2dkwuwd4j
+--ctkvotoob64tevup
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6pChAAKCRAnX84Zoj2+
-dpqyAX9yyUCN76HmBvf3yU/Fwr0oPMOIzqBP07NsD/+k2jjVzrgSQM4ai90MiX0b
-lSvbIdkBgPRVzIb7rhd6y4Pi4tuJ69NyDfsvuORTdgT42FpLlM3GPs3pujt/R1o9
-AnFVC6dF0w==
-=Xy4e
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6pCwwAKCRAnX84Zoj2+
+ds3DAYCmyuWWTQzL+uHFZsj4ooH84JF7ylfCHkygjk4bJCQXQisORfKKbJfiPywk
+z2E+5o0BgLSZ3mrnwgjna4TApCO5ujytoxWxMXYaZK8XX1nkPOV0t4H3yXXgLltd
+APIGGfkStg==
+=nbSx
 -----END PGP SIGNATURE-----
 
---rffgj3g2dkwuwd4j--
+--ctkvotoob64tevup--
