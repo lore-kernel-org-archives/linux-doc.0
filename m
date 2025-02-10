@@ -1,1179 +1,575 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4712B1DED63;
-	Mon, 10 Feb 2025 10:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6739915624D;
+	Mon, 10 Feb 2025 10:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739182705; cv=none; b=Pv8xxHX0uPFZ3haaN51QkuvdhlPy312lmlg/0t4wJkWMUo0MloOFz/cPs8zfFHn+uY0dWvq874ksjGuhDF835rNGA+AKPX1ISm0o6MHkwqV/T6VcyBhvITeWCMyUXljtklzKnwPJbjlEc4iaxQ0JZrkgh3cte/KOBpKDmhGymro=
+	t=1739183623; cv=none; b=qpliD2wHnng1lTisNocB+S+IFRP/F5RxMvnUjJUWQygiFWOB/6TOZVwRHs5wjom12mNIBCBs3VhG4LaTLYJReZ1aHETEXhWKhjhZG69HsQ+DFAgzKXbbUMtUgWlAIc4+J95ID1nnbknT8VgkYrFMy/NWgJdCC4a7PbkuQPd3sPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739182705; c=relaxed/simple;
-	bh=sCuTz3zxaa3V2tY51057fBvBcrlzP04scyPpCe0UiUk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HkjZOxJ1BYDP+jIVyqrSFyMEIYe8iUHXkMsMcEbQ7phHr8zW/C+FlkDGBeMXniMFVKxKbgkIX815vP0KTcetWZTu1wypUojIypCb23/ewUVBYekfcRa0idPsOqU/feGNAlbw5WDyhzzFTt/wKArx8maWROhZMNSoMEywInBy/wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLZjQNMj; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLZjQNMj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B3CBC2BCB2;
-	Mon, 10 Feb 2025 10:18:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739182704;
-	bh=sCuTz3zxaa3V2tY51057fBvBcrlzP04scyPpCe0UiUk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MLZjQNMjHHzoyAfoDi7A1lOZldyuqNYOm+b5ILtFKI5JUanNLnJDHxoryBFzIjNLH
-	 hD9C6UMvzwr02jrHNjQbGcSpvI4ZSR6hTSg4p+D5rkiRhsV7IS833chcTYh4j5ozq/
-	 NPXHbldKV3UfThHP3XuOtxWvbgwDXspI1gS8o2rQWD6ozfG3YvDn9df794g39Q5Miu
-	 DQLcDr3SDMGI9fvZQeKTKlTmoPYLlVN+mFlP7iQm/pWTRTDK/r8q5KvyhO2DR+uUj+
-	 AtbtSnneRpl30+kgV8ANozSIWYuQHx63DWfHOpxod+5EveHbblwP42XwOFhylTPQhU
-	 chdF+UNqJeIqQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1thQru-00000006Cjs-2P03;
-	Mon, 10 Feb 2025 11:18:22 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Kees Cook <mchehab+huawei@kernel.org>,
-	Tony Luck <tony.luck@intel.com>,
-	bpf@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 27/27] scripts/get_abi.pl: drop now obsoleted script
-Date: Mon, 10 Feb 2025 11:18:16 +0100
-Message-ID: <698ec258b36b63ccde5f7da1af9c97cf8df51050.1739182025.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <cover.1739182025.git.mchehab+huawei@kernel.org>
-References: <cover.1739182025.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1739183623; c=relaxed/simple;
+	bh=pp+Twi1QbBT/7fOPEar6z98m8tklwnvP7kYyQuDFs4M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BkXvN+iRYo6w64o6U14knCjwcDFFMZpV04gn8dkshXBeL3Zd9QbCrQ/a8l/R8z/aGWooPMZJh2uyUN7PUtaKch8AZ+7o9l8S6q+PZfEDzvfeZthPc/HqUpKJWcAlImG2mt9RWoCIOEV6fCUzpVLwdTou/jubczh5WLlTDzasYQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39BB41BA8;
+	Mon, 10 Feb 2025 02:34:01 -0800 (PST)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 38B313F58B;
+	Mon, 10 Feb 2025 02:33:38 -0800 (PST)
+Message-ID: <7947d674-90d7-4968-b00e-84444be9fdfc@arm.com>
+Date: Mon, 10 Feb 2025 10:33:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 05/27] ABI: sysfs-bus-coresight-*: fix kernelversion tags
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, James Clark <james.clark@linaro.org>,
+ Mike Leach <mike.leach@linaro.org>, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <cover.1739182025.git.mchehab+huawei@kernel.org>
+ <72c3a6583c2ffca23ae9ee1c0b6dc98618ae0775.1739182025.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <72c3a6583c2ffca23ae9ee1c0b6dc98618ae0775.1739182025.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-As all functionalities of it were migrated to get_abi.py,
-drop the now obsoleted script.
+On 10/02/2025 10:17, Mauro Carvalho Chehab wrote:
+> Some kernelversion tags are missing colons. Add them to comply with
+> ABI description and produce right results when converted to html/pdf.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>   .../testing/sysfs-bus-coresight-devices-cti   | 78 +++++++++----------
+>   .../testing/sysfs-bus-coresight-devices-tpdm  | 52 ++++++-------
+>   2 files changed, 65 insertions(+), 65 deletions(-)
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/get_abi.pl | 1103 --------------------------------------------
- 1 file changed, 1103 deletions(-)
- delete mode 100755 scripts/get_abi.pl
 
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-deleted file mode 100755
-index de1c0354b50c..000000000000
---- a/scripts/get_abi.pl
-+++ /dev/null
-@@ -1,1103 +0,0 @@
--#!/usr/bin/env perl
--# SPDX-License-Identifier: GPL-2.0
--
--BEGIN { $Pod::Usage::Formatter = 'Pod::Text::Termcap'; }
--
--use strict;
--use warnings;
--use utf8;
--use Pod::Usage qw(pod2usage);
--use Getopt::Long;
--use File::Find;
--use IO::Handle;
--use Fcntl ':mode';
--use Cwd 'abs_path';
--use Data::Dumper;
--
--my $help = 0;
--my $hint = 0;
--my $man = 0;
--my $debug = 0;
--my $enable_lineno = 0;
--my $show_warnings = 1;
--my $prefix="Documentation/ABI";
--my $sysfs_prefix="/sys";
--my $search_string;
--
--# Debug options
--my $dbg_what_parsing = 1;
--my $dbg_what_open = 2;
--my $dbg_dump_abi_structs = 4;
--my $dbg_undefined = 8;
--
--$Data::Dumper::Indent = 1;
--$Data::Dumper::Terse = 1;
--
--#
--# If true, assumes that the description is formatted with ReST
--#
--my $description_is_rst = 1;
--
--GetOptions(
--	"debug=i" => \$debug,
--	"enable-lineno" => \$enable_lineno,
--	"rst-source!" => \$description_is_rst,
--	"dir=s" => \$prefix,
--	'help|?' => \$help,
--	"show-hints" => \$hint,
--	"search-string=s" => \$search_string,
--	man => \$man
--) or pod2usage(2);
--
--pod2usage(1) if $help;
--pod2usage(-exitstatus => 0, -noperldoc, -verbose => 2) if $man;
--
--pod2usage(2) if (scalar @ARGV < 1 || @ARGV > 2);
--
--my ($cmd, $arg) = @ARGV;
--
--pod2usage(2) if ($cmd ne "search" && $cmd ne "rest" && $cmd ne "validate" && $cmd ne "undefined");
--pod2usage(2) if ($cmd eq "search" && !$arg);
--
--require Data::Dumper if ($debug & $dbg_dump_abi_structs);
--
--my %data;
--my %symbols;
--
--#
--# Displays an error message, printing file name and line
--#
--sub parse_error($$$$) {
--	my ($file, $ln, $msg, $data) = @_;
--
--	return if (!$show_warnings);
--
--	$data =~ s/\s+$/\n/;
--
--	print STDERR "Warning: file $file#$ln:\n\t$msg";
--
--	if ($data ne "") {
--		print STDERR ". Line\n\t\t$data";
--	} else {
--	    print STDERR "\n";
--	}
--}
--
--#
--# Parse an ABI file, storing its contents at %data
--#
--sub parse_abi {
--	my $file = $File::Find::name;
--
--	my $mode = (stat($file))[2];
--	return if ($mode & S_IFDIR);
--	return if ($file =~ m,/README,);
--	return if ($file =~ m,/\.,);
--	return if ($file =~ m,\.(rej|org|orig|bak)$,);
--
--	my $name = $file;
--	$name =~ s,.*/,,;
--
--	my $fn = $file;
--	$fn =~ s,.*Documentation/ABI/,,;
--
--	my $nametag = "File $fn";
--	$data{$nametag}->{what} = "File $name";
--	$data{$nametag}->{type} = "File";
--	$data{$nametag}->{file} = $name;
--	$data{$nametag}->{filepath} = $file;
--	$data{$nametag}->{is_file} = 1;
--	$data{$nametag}->{line_no} = 1;
--
--	my $type = $file;
--	$type =~ s,.*/(.*)/.*,$1,;
--
--	my $what;
--	my $new_what;
--	my $tag = "";
--	my $ln;
--	my $xrefs;
--	my $space;
--	my @labels;
--	my $label = "";
--
--	print STDERR "Opening $file\n" if ($debug & $dbg_what_open);
--	open IN, $file;
--	while(<IN>) {
--		$ln++;
--		if (m/^(\S+)(:\s*)(.*)/i) {
--			my $new_tag = lc($1);
--			my $sep = $2;
--			my $content = $3;
--
--			if (!($new_tag =~ m/(what|where|date|kernelversion|contact|description|users)/)) {
--				if ($tag eq "description") {
--					# New "tag" is actually part of
--					# description. Don't consider it a tag
--					$new_tag = "";
--				} elsif ($tag ne "") {
--					parse_error($file, $ln, "tag '$tag' is invalid", $_);
--				}
--			}
--
--			# Invalid, but it is a common mistake
--			if ($new_tag eq "where") {
--				parse_error($file, $ln, "tag 'Where' is invalid. Should be 'What:' instead", "");
--				$new_tag = "what";
--			}
--
--			if ($new_tag =~ m/what/) {
--				$space = "";
--				$content =~ s/[,.;]$//;
--
--				push @{$symbols{$content}->{file}}, " $file:" . ($ln - 1);
--
--				if ($tag =~ m/what/) {
--					$what .= "\xac" . $content;
--				} else {
--					if ($what) {
--						parse_error($file, $ln, "What '$what' doesn't have a description", "") if (!$data{$what}->{description});
--
--						foreach my $w(split /\xac/, $what) {
--							$symbols{$w}->{xref} = $what;
--						};
--					}
--
--					$what = $content;
--					$label = $content;
--					$new_what = 1;
--				}
--				push @labels, [($content, $label)];
--				$tag = $new_tag;
--
--				push @{$data{$nametag}->{symbols}}, $content if ($data{$nametag}->{what});
--				next;
--			}
--
--			if ($tag ne "" && $new_tag) {
--				$tag = $new_tag;
--
--				if ($new_what) {
--					@{$data{$what}->{label_list}} = @labels if ($data{$nametag}->{what});
--					@labels = ();
--					$label = "";
--					$new_what = 0;
--
--					$data{$what}->{type} = $type;
--					if (!defined($data{$what}->{file})) {
--						$data{$what}->{file} = $name;
--						$data{$what}->{filepath} = $file;
--					} else {
--						$data{$what}->{description} .= "\n\n" if (defined($data{$what}->{description}));
--						if ($name ne $data{$what}->{file}) {
--							$data{$what}->{file} .= " " . $name;
--							$data{$what}->{filepath} .= " " . $file;
--						}
--					}
--					print STDERR "\twhat: $what\n" if ($debug & $dbg_what_parsing);
--					$data{$what}->{line_no} = $ln;
--				} else {
--					$data{$what}->{line_no} = $ln if (!defined($data{$what}->{line_no}));
--				}
--
--				if (!$what) {
--					parse_error($file, $ln, "'What:' should come first:", $_);
--					next;
--				}
--				if ($new_tag eq "description") {
--					$sep =~ s,:, ,;
--					$content = ' ' x length($new_tag) . $sep . $content;
--					while ($content =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
--					if ($content =~ m/^(\s*)(\S.*)$/) {
--						# Preserve initial spaces for the first line
--						$space = $1;
--						$content = "$2\n";
--						$data{$what}->{$tag} .= $content;
--					} else {
--						undef($space);
--					}
--
--				} else {
--					$data{$what}->{$tag} = $content;
--				}
--				next;
--			}
--		}
--
--		# Store any contents before tags at the database
--		if (!$tag && $data{$nametag}->{what}) {
--			$data{$nametag}->{description} .= $_;
--			next;
--		}
--
--		if ($tag eq "description") {
--			my $content = $_;
--			while ($content =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
--			if (m/^\s*\n/) {
--				$data{$what}->{$tag} .= "\n";
--				next;
--			}
--
--			if (!defined($space)) {
--				# Preserve initial spaces for the first line
--				if ($content =~ m/^(\s*)(\S.*)$/) {
--					$space = $1;
--					$content = "$2\n";
--				}
--			} else {
--				$space = "" if (!($content =~ s/^($space)//));
--			}
--			$data{$what}->{$tag} .= $content;
--
--			next;
--		}
--		if (m/^\s*(.*)/) {
--			$data{$what}->{$tag} .= "\n$1";
--			$data{$what}->{$tag} =~ s/\n+$//;
--			next;
--		}
--
--		# Everything else is error
--		parse_error($file, $ln, "Unexpected content", $_);
--	}
--	$data{$nametag}->{description} =~ s/^\n+// if ($data{$nametag}->{description});
--	if ($what) {
--		parse_error($file, $ln, "What '$what' doesn't have a description", "") if (!$data{$what}->{description});
--
--		foreach my $w(split /\xac/,$what) {
--			$symbols{$w}->{xref} = $what;
--		};
--	}
--	close IN;
--}
--
--sub create_labels {
--	my %labels;
--
--	foreach my $what (keys %data) {
--		next if ($data{$what}->{file} eq "File");
--
--		foreach my $p (@{$data{$what}->{label_list}}) {
--			my ($content, $label) = @{$p};
--			$label = "abi_" . $label . " ";
--			$label =~ tr/A-Z/a-z/;
--
--			# Convert special chars to "_"
--			$label =~s/([\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xff])/_/g;
--			$label =~ s,_+,_,g;
--			$label =~ s,_$,,;
--
--			# Avoid duplicated labels
--			while (defined($labels{$label})) {
--			    my @chars = ("A".."Z", "a".."z");
--			    $label .= $chars[rand @chars];
--			}
--			$labels{$label} = 1;
--
--			$data{$what}->{label} = $label;
--
--			# only one label is enough
--			last;
--		}
--	}
--}
--
--#
--# Outputs the book on ReST format
--#
--
--# \b doesn't work well with paths. So, we need to define something else:
--# Boundaries are punct characters, spaces and end-of-line
--my $start = qr {(^|\s|\() }x;
--my $bondary = qr { ([,.:;\)\s]|\z) }x;
--my $xref_match = qr { $start(\/(sys|config|proc|dev|kvd)\/[^,.:;\)\s]+)$bondary }x;
--my $symbols = qr { ([\x01-\x08\x0e-\x1f\x21-\x2f\x3a-\x40\x7b-\xff]) }x;
--
--sub output_rest {
--	create_labels();
--
--	my $part = "";
--
--	foreach my $what (sort {
--				($data{$a}->{type} eq "File") cmp ($data{$b}->{type} eq "File") ||
--				$a cmp $b
--			       } keys %data) {
--		my $type = $data{$what}->{type};
--
--		my @file = split / /, $data{$what}->{file};
--		my @filepath = split / /, $data{$what}->{filepath};
--
--		if ($enable_lineno) {
--			printf ".. LINENO %s%s#%s\n\n",
--			       $prefix, $file[0],
--			       $data{$what}->{line_no};
--		}
--
--		my $w = $what;
--
--		if ($type ne "File") {
--			my $cur_part = $what;
--			if ($what =~ '/') {
--				if ($what =~ m#^(\/?(?:[\w\-]+\/?){1,2})#) {
--					$cur_part = "Symbols under $1";
--					$cur_part =~ s,/$,,;
--				}
--			}
--
--			if ($cur_part ne "" && $part ne $cur_part) {
--			    $part = $cur_part;
--			    my $bar = $part;
--			    $bar =~ s/./-/g;
--			    print "$part\n$bar\n\n";
--			}
--
--			printf ".. _%s:\n\n", $data{$what}->{label};
--
--			my @names = split /\xac/,$w;
--			my $len = 0;
--
--			foreach my $name (@names) {
--				$name =~ s/$symbols/\\$1/g;
--				$name = "**$name**";
--				$len = length($name) if (length($name) > $len);
--			}
--
--			print "+-" . "-" x $len . "-+\n";
--			foreach my $name (@names) {
--				printf "| %s", $name . " " x ($len - length($name)) . " |\n";
--				print "+-" . "-" x $len . "-+\n";
--			}
--
--			print "\n";
--		}
--
--		for (my $i = 0; $i < scalar(@filepath); $i++) {
--			my $path = $filepath[$i];
--			my $f = $file[$i];
--
--			$path =~ s,.*/(.*/.*),$1,;;
--			$path =~ s,[/\-],_,g;;
--			my $fileref = "abi_file_".$path;
--
--			if ($type eq "File") {
--				print ".. _$fileref:\n\n";
--			} else {
--				print "Defined on file :ref:`$f <$fileref>`\n\n";
--			}
--		}
--
--		if ($type eq "File") {
--			my $bar = $w;
--			$bar =~ s/./-/g;
--			print "$w\n$bar\n\n";
--		}
--
--		my $desc = "";
--		$desc = $data{$what}->{description} if (defined($data{$what}->{description}));
--		$desc =~ s/\s+$/\n/;
--
--		if (!($desc =~ /^\s*$/)) {
--			if ($description_is_rst) {
--				# Remove title markups from the description
--				# Having titles inside ABI files will only work if extra
--				# care would be taken in order to strictly follow the same
--				# level order for each markup.
--				$desc =~ s/\n[\-\*\=\^\~]+\n/\n\n/g;
--
--				# Enrich text by creating cross-references
--
--				my $new_desc = "";
--				my $init_indent = -1;
--				my $literal_indent = -1;
--
--				open(my $fh, "+<", \$desc);
--				while (my $d = <$fh>) {
--					my $indent = $d =~ m/^(\s+)/;
--					my $spaces = length($indent);
--					$init_indent = $indent if ($init_indent < 0);
--					if ($literal_indent >= 0) {
--						if ($spaces > $literal_indent) {
--							$new_desc .= $d;
--							next;
--						} else {
--							$literal_indent = -1;
--						}
--					} else {
--						if ($d =~ /()::$/ && !($d =~ /^\s*\.\./)) {
--							$literal_indent = $spaces;
--						}
--					}
--
--					$d =~ s,Documentation/(?!devicetree)(\S+)\.rst,:doc:`/$1`,g;
--
--					my @matches = $d =~ m,Documentation/ABI/([\w\/\-]+),g;
--					foreach my $f (@matches) {
--						my $xref = $f;
--						my $path = $f;
--						$path =~ s,.*/(.*/.*),$1,;;
--						$path =~ s,[/\-],_,g;;
--						$xref .= " <abi_file_" . $path . ">";
--						$d =~ s,\bDocumentation/ABI/$f\b,:ref:`$xref`,g;
--					}
--
--					# Seek for cross reference symbols like /sys/...
--					@matches = $d =~ m/$xref_match/g;
--
--					foreach my $s (@matches) {
--						next if (!($s =~ m,/,));
--						if (defined($data{$s}) && defined($data{$s}->{label})) {
--							my $xref = $s;
--
--							$xref =~ s/$symbols/\\$1/g;
--							$xref = ":ref:`$xref <" . $data{$s}->{label} . ">`";
--
--							$d =~ s,$start$s$bondary,$1$xref$2,g;
--						}
--					}
--					$new_desc .= $d;
--				}
--				close $fh;
--
--
--				print "$new_desc\n\n";
--			} else {
--				$desc =~ s/^\s+//;
--
--				# Remove title markups from the description, as they won't work
--				$desc =~ s/\n[\-\*\=\^\~]+\n/\n\n/g;
--
--				if ($desc =~ m/\:\n/ || $desc =~ m/\n[\t ]+/  || $desc =~ m/[\x00-\x08\x0b-\x1f\x7b-\xff]/) {
--					# put everything inside a code block
--					$desc =~ s/\n/\n /g;
--
--					print "::\n\n";
--					print " $desc\n\n";
--				} else {
--					# Escape any special chars from description
--					$desc =~s/([\x00-\x08\x0b-\x1f\x21-\x2a\x2d\x2f\x3c-\x40\x5c\x5e-\x60\x7b-\xff])/\\$1/g;
--					print "$desc\n\n";
--				}
--			}
--		} else {
--			print "DESCRIPTION MISSING for $what\n\n" if (!$data{$what}->{is_file});
--		}
--
--		if ($data{$what}->{symbols}) {
--			printf "Has the following ABI:\n\n";
--
--			foreach my $content(@{$data{$what}->{symbols}}) {
--				my $label = $data{$symbols{$content}->{xref}}->{label};
--
--				# Escape special chars from content
--				$content =~s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
--
--				print "- :ref:`$content <$label>`\n\n";
--			}
--		}
--
--		if (defined($data{$what}->{users})) {
--			my $users = $data{$what}->{users};
--
--			$users =~ s/\n/\n\t/g;
--			printf "Users:\n\t%s\n\n", $users if ($users ne "");
--		}
--
--	}
--}
--
--#
--# Searches for ABI symbols
--#
--sub search_symbols {
--	foreach my $what (sort keys %data) {
--		next if (!($what =~ m/($arg)/));
--
--		my $type = $data{$what}->{type};
--		next if ($type eq "File");
--
--		my $file = $data{$what}->{filepath};
--
--		$what =~ s/\xac/, /g;
--		my $bar = $what;
--		$bar =~ s/./-/g;
--
--		print "\n$what\n$bar\n\n";
--
--		my $kernelversion = $data{$what}->{kernelversion} if (defined($data{$what}->{kernelversion}));
--		my $contact = $data{$what}->{contact} if (defined($data{$what}->{contact}));
--		my $users = $data{$what}->{users} if (defined($data{$what}->{users}));
--		my $date = $data{$what}->{date} if (defined($data{$what}->{date}));
--		my $desc = $data{$what}->{description} if (defined($data{$what}->{description}));
--
--		$kernelversion =~ s/^\s+// if ($kernelversion);
--		$contact =~ s/^\s+// if ($contact);
--		if ($users) {
--			$users =~ s/^\s+//;
--			$users =~ s/\n//g;
--		}
--		$date =~ s/^\s+// if ($date);
--		$desc =~ s/^\s+// if ($desc);
--
--		printf "Kernel version:\t\t%s\n", $kernelversion if ($kernelversion);
--		printf "Date:\t\t\t%s\n", $date if ($date);
--		printf "Contact:\t\t%s\n", $contact if ($contact);
--		printf "Users:\t\t\t%s\n", $users if ($users);
--		print "Defined on file(s):\t$file\n\n";
--		print "Description:\n\n$desc";
--	}
--}
--
--# Exclude /sys/kernel/debug and /sys/kernel/tracing from the search path
--sub dont_parse_special_attributes {
--	if (($File::Find::dir =~ m,^/sys/kernel,)) {
--		return grep {!/(debug|tracing)/ } @_;
--	}
--
--	if (($File::Find::dir =~ m,^/sys/fs,)) {
--		return grep {!/(pstore|bpf|fuse)/ } @_;
--	}
--
--	return @_
--}
--
--my %leaf;
--my %aliases;
--my @files;
--my %root;
--
--sub graph_add_file {
--	my $file = shift;
--	my $type = shift;
--
--	my $dir = $file;
--	$dir =~ s,^(.*/).*,$1,;
--	$file =~ s,.*/,,;
--
--	my $name;
--	my $file_ref = \%root;
--	foreach my $edge(split "/", $dir) {
--		$name .= "$edge/";
--		if (!defined ${$file_ref}{$edge}) {
--			${$file_ref}{$edge} = { };
--		}
--		$file_ref = \%{$$file_ref{$edge}};
--		${$file_ref}{"__name"} = [ $name ];
--	}
--	$name .= "$file";
--	${$file_ref}{$file} = {
--		"__name" => [ $name ]
--	};
--
--	return \%{$$file_ref{$file}};
--}
--
--sub graph_add_link {
--	my $file = shift;
--	my $link = shift;
--
--	# Traverse graph to find the reference
--	my $file_ref = \%root;
--	foreach my $edge(split "/", $file) {
--		$file_ref = \%{$$file_ref{$edge}} || die "Missing node!";
--	}
--
--	# do a BFS
--
--	my @queue;
--	my %seen;
--	my $st;
--
--	push @queue, $file_ref;
--	$seen{$start}++;
--
--	while (@queue) {
--		my $v = shift @queue;
--		my @child = keys(%{$v});
--
--		foreach my $c(@child) {
--			next if $seen{$$v{$c}};
--			next if ($c eq "__name");
--
--			if (!defined($$v{$c}{"__name"})) {
--				printf STDERR "Error: Couldn't find a non-empty name on a children of $file/.*: ";
--				print STDERR Dumper(%{$v});
--				exit;
--			}
--
--			# Add new name
--			my $name = @{$$v{$c}{"__name"}}[0];
--			if ($name =~ s#^$file/#$link/#) {
--				push @{$$v{$c}{"__name"}}, $name;
--			}
--			# Add child to the queue and mark as seen
--			push @queue, $$v{$c};
--			$seen{$c}++;
--		}
--	}
--}
--
--my $escape_symbols = qr { ([\x01-\x08\x0e-\x1f\x21-\x29\x2b-\x2d\x3a-\x40\x7b-\xfe]) }x;
--sub parse_existing_sysfs {
--	my $file = $File::Find::name;
--
--	my $mode = (lstat($file))[2];
--	my $abs_file = abs_path($file);
--
--	my @tmp;
--	push @tmp, $file;
--	push @tmp, $abs_file if ($abs_file ne $file);
--
--	foreach my $f(@tmp) {
--		# Ignore cgroup, as this is big and has zero docs under ABI
--		return if ($f =~ m#^/sys/fs/cgroup/#);
--
--		# Ignore firmware as it is documented elsewhere
--		# Either ACPI or under Documentation/devicetree/bindings/
--		return if ($f =~ m#^/sys/firmware/#);
--
--		# Ignore some sysfs nodes that aren't actually part of ABI
--		return if ($f =~ m#/sections|notes/#);
--
--		# Would need to check at
--		# Documentation/admin-guide/kernel-parameters.txt, but this
--		# is not easily parseable.
--		return if ($f =~ m#/parameters/#);
--	}
--
--	if (S_ISLNK($mode)) {
--		$aliases{$file} = $abs_file;
--		return;
--	}
--
--	return if (S_ISDIR($mode));
--
--	# Trivial: file is defined exactly the same way at ABI What:
--	return if (defined($data{$file}));
--	return if (defined($data{$abs_file}));
--
--	push @files, graph_add_file($abs_file, "file");
--}
--
--sub get_leave($)
--{
--	my $what = shift;
--	my $leave;
--
--	my $l = $what;
--	my $stop = 1;
--
--	$leave = $l;
--	$leave =~ s,/$,,;
--	$leave =~ s,.*/,,;
--	$leave =~ s/[\(\)]//g;
--
--	# $leave is used to improve search performance at
--	# check_undefined_symbols, as the algorithm there can seek
--	# for a small number of "what". It also allows giving a
--	# hint about a leave with the same name somewhere else.
--	# However, there are a few occurences where the leave is
--	# either a wildcard or a number. Just group such cases
--	# altogether.
--	if ($leave =~ m/\.\*/ || $leave eq "" || $leave =~ /\\d/) {
--		$leave = "others";
--	}
--
--	return $leave;
--}
--
--my @not_found;
--
--sub check_file($$)
--{
--	my $file_ref = shift;
--	my $names_ref = shift;
--	my @names = @{$names_ref};
--	my $file = $names[0];
--
--	my $found_string;
--
--	my $leave = get_leave($file);
--	if (!defined($leaf{$leave})) {
--		$leave = "others";
--	}
--	my @expr = @{$leaf{$leave}->{expr}};
--	die ("\rmissing rules for $leave") if (!defined($leaf{$leave}));
--
--	my $path = $file;
--	$path =~ s,(.*/).*,$1,;
--
--	if ($search_string) {
--		return if (!($file =~ m#$search_string#));
--		$found_string = 1;
--	}
--
--	for (my $i = 0; $i < @names; $i++) {
--		if ($found_string && $hint) {
--			if (!$i) {
--				print STDERR "--> $names[$i]\n";
--			} else {
--				print STDERR "    $names[$i]\n";
--			}
--		}
--		foreach my $re (@expr) {
--			print STDERR "$names[$i] =~ /^$re\$/\n" if ($debug && $dbg_undefined);
--			if ($names[$i] =~ $re) {
--				return;
--			}
--		}
--	}
--
--	if ($leave ne "others") {
--		my @expr = @{$leaf{"others"}->{expr}};
--		for (my $i = 0; $i < @names; $i++) {
--			foreach my $re (@expr) {
--				print STDERR "$names[$i] =~ /^$re\$/\n" if ($debug && $dbg_undefined);
--				if ($names[$i] =~ $re) {
--					return;
--				}
--			}
--		}
--	}
--
--	push @not_found, $file if (!$search_string || $found_string);
--
--	if ($hint && (!$search_string || $found_string)) {
--		my $what = $leaf{$leave}->{what};
--		$what =~ s/\xac/\n\t/g;
--		if ($leave ne "others") {
--			print STDERR "\r    more likely regexes:\n\t$what\n";
--		} else {
--			print STDERR "\r    tested regexes:\n\t$what\n";
--		}
--	}
--}
--
--sub check_undefined_symbols {
--	my $num_files = scalar @files;
--	my $next_i = 0;
--	my $start_time = times;
--
--	@files = sort @files;
--
--	my $last_time = $start_time;
--
--	# When either debug or hint is enabled, there's no sense showing
--	# progress, as the progress will be overriden.
--	if ($hint || ($debug && $dbg_undefined)) {
--		$next_i = $num_files;
--	}
--
--	my $is_console;
--	$is_console = 1 if (-t STDERR);
--
--	for (my $i = 0; $i < $num_files; $i++) {
--		my $file_ref = $files[$i];
--		my @names = @{$$file_ref{"__name"}};
--
--		check_file($file_ref, \@names);
--
--		my $cur_time = times;
--
--		if ($i == $next_i || $cur_time > $last_time + 1) {
--			my $percent = $i * 100 / $num_files;
--
--			my $tm = $cur_time - $start_time;
--			my $time = sprintf "%d:%02d", int($tm), 60 * ($tm - int($tm));
--
--			printf STDERR "\33[2K\r", if ($is_console);
--			printf STDERR "%s: processing sysfs files... %i%%: $names[0]", $time, $percent;
--			printf STDERR "\n", if (!$is_console);
--			STDERR->flush();
--
--			$next_i = int (($percent + 1) * $num_files / 100);
--			$last_time = $cur_time;
--		}
--	}
--
--	my $cur_time = times;
--	my $tm = $cur_time - $start_time;
--	my $time = sprintf "%d:%02d", int($tm), 60 * ($tm - int($tm));
--
--	printf STDERR "\33[2K\r", if ($is_console);
--	printf STDERR "%s: processing sysfs files... done\n", $time;
--
--	foreach my $file (@not_found) {
--		print "$file not found.\n";
--	}
--}
--
--sub undefined_symbols {
--	print STDERR "Reading $sysfs_prefix directory contents...";
--	find({
--		wanted =>\&parse_existing_sysfs,
--		preprocess =>\&dont_parse_special_attributes,
--		no_chdir => 1
--	     }, $sysfs_prefix);
--	print STDERR "done.\n";
--
--	$leaf{"others"}->{what} = "";
--
--	print STDERR "Converting ABI What fields into regexes...";
--	foreach my $w (sort keys %data) {
--		foreach my $what (split /\xac/,$w) {
--			next if (!($what =~ m/^$sysfs_prefix/));
--
--			# Convert what into regular expressions
--
--			# Escape dot characters
--			$what =~ s/\./\xf6/g;
--
--			# Temporarily change [0-9]+ type of patterns
--			$what =~ s/\[0\-9\]\+/\xff/g;
--
--			# Temporarily change [\d+-\d+] type of patterns
--			$what =~ s/\[0\-\d+\]/\xff/g;
--			$what =~ s/\[(\d+)\]/\xf4$1\xf5/g;
--
--			# Temporarily change [0-9] type of patterns
--			$what =~ s/\[(\d)\-(\d)\]/\xf4$1-$2\xf5/g;
--
--			# Handle multiple option patterns
--			$what =~ s/[\{\<\[]([\w_]+)(?:[,|]+([\w_]+)){1,}[\}\>\]]/($1|$2)/g;
--
--			# Handle wildcards
--			$what =~ s,\*,.*,g;
--			$what =~ s,/\xf6..,/.*,g;
--			$what =~ s/\<[^\>]+\>/.*/g;
--			$what =~ s/\{[^\}]+\}/.*/g;
--			$what =~ s/\[[^\]]+\]/.*/g;
--
--			$what =~ s/[XYZ]/.*/g;
--
--			# Recover [0-9] type of patterns
--			$what =~ s/\xf4/[/g;
--			$what =~ s/\xf5/]/g;
--
--			# Remove duplicated spaces
--			$what =~ s/\s+/ /g;
--
--			# Special case: this ABI has a parenthesis on it
--			$what =~ s/sqrt\(x^2\+y^2\+z^2\)/sqrt\(x^2\+y^2\+z^2\)/;
--
--			# Special case: drop comparition as in:
--			#	What: foo = <something>
--			# (this happens on a few IIO definitions)
--			$what =~ s,\s*\=.*$,,;
--
--			# Escape all other symbols
--			$what =~ s/$escape_symbols/\\$1/g;
--			$what =~ s/\\\\/\\/g;
--			$what =~ s/\\([\[\]\(\)\|])/$1/g;
--			$what =~ s/(\d+)\\(-\d+)/$1$2/g;
--
--			$what =~ s/\xff/\\d+/g;
--
--			# Special case: IIO ABI which a parenthesis.
--			$what =~ s/sqrt(.*)/sqrt\(.*\)/;
--
--			# Simplify regexes with multiple .*
--			$what =~ s#(?:\.\*){2,}##g;
--#			$what =~ s#\.\*/\.\*#.*#g;
--
--			# Recover dot characters
--			$what =~ s/\xf6/\./g;
--
--			my $leave = get_leave($what);
--
--			my $added = 0;
--			foreach my $l (split /\|/, $leave) {
--				if (defined($leaf{$l})) {
--					next if ($leaf{$l}->{what} =~ m/\b$what\b/);
--					$leaf{$l}->{what} .= "\xac" . $what;
--					$added = 1;
--				} else {
--					$leaf{$l}->{what} = $what;
--					$added = 1;
--				}
--			}
--			if ($search_string && $added) {
--				print STDERR "What: $what\n" if ($what =~ m#$search_string#);
--			}
--
--		}
--	}
--	# Compile regexes
--	foreach my $l (sort keys %leaf) {
--		my @expr;
--		foreach my $w(sort split /\xac/, $leaf{$l}->{what}) {
--			push @expr, qr /^$w$/;
--		}
--		$leaf{$l}->{expr} = \@expr;
--	}
--
--	# Take links into account
--	foreach my $link (sort keys %aliases) {
--		my $abs_file = $aliases{$link};
--		graph_add_link($abs_file, $link);
--	}
--	print STDERR "done.\n";
--
--	check_undefined_symbols;
--}
--
--# Ensure that the prefix will always end with a slash
--# While this is not needed for find, it makes the patch nicer
--# with --enable-lineno
--$prefix =~ s,/?$,/,;
--
--if ($cmd eq "undefined" || $cmd eq "search") {
--	$show_warnings = 0;
--}
--#
--# Parses all ABI files located at $prefix dir
--#
--find({wanted =>\&parse_abi, no_chdir => 1}, $prefix);
--
--print STDERR Data::Dumper->Dump([\%data], [qw(*data)]) if ($debug & $dbg_dump_abi_structs);
--
--#
--# Handles the command
--#
--if ($cmd eq "undefined") {
--	undefined_symbols;
--} elsif ($cmd eq "search") {
--	search_symbols;
--} else {
--	if ($cmd eq "rest") {
--		output_rest;
--	}
--
--	# Warn about duplicated ABI entries
--	foreach my $what(sort keys %symbols) {
--		my @files = @{$symbols{$what}->{file}};
--
--		next if (scalar(@files) == 1);
--
--		printf STDERR "Warning: $what is defined %d times: @files\n",
--		    scalar(@files);
--	}
--}
--
--__END__
--
--=head1 NAME
--
--get_abi.pl - parse the Linux ABI files and produce a ReST book.
--
--=head1 SYNOPSIS
--
--B<get_abi.pl> [--debug <level>] [--enable-lineno] [--man] [--help]
--	       [--(no-)rst-source] [--dir=<dir>] [--show-hints]
--	       [--search-string <regex>]
--	       <COMMAND> [<ARGUMENT>]
--
--Where B<COMMAND> can be:
--
--=over 8
--
--B<search> I<SEARCH_REGEX> - search for I<SEARCH_REGEX> inside ABI
--
--B<rest>                   - output the ABI in ReST markup language
--
--B<validate>               - validate the ABI contents
--
--B<undefined>              - existing symbols at the system that aren't
--                            defined at Documentation/ABI
--
--=back
--
--=head1 OPTIONS
--
--=over 8
--
--=item B<--dir>
--
--Changes the location of the ABI search. By default, it uses
--the Documentation/ABI directory.
--
--=item B<--rst-source> and B<--no-rst-source>
--
--The input file may be using ReST syntax or not. Those two options allow
--selecting between a rst-compliant source ABI (B<--rst-source>), or a
--plain text that may be violating ReST spec, so it requres some escaping
--logic (B<--no-rst-source>).
--
--=item B<--enable-lineno>
--
--Enable output of .. LINENO lines.
--
--=item B<--debug> I<debug level>
--
--Print debug information according with the level, which is given by the
--following bitmask:
--
--    -  1: Debug parsing What entries from ABI files;
--    -  2: Shows what files are opened from ABI files;
--    -  4: Dump the structs used to store the contents of the ABI files.
--
--=item B<--show-hints>
--
--Show hints about possible definitions for the missing ABI symbols.
--Used only when B<undefined>.
--
--=item B<--search-string> I<regex string>
--
--Show only occurences that match a search string.
--Used only when B<undefined>.
--
--=item B<--help>
--
--Prints a brief help message and exits.
--
--=item B<--man>
--
--Prints the manual page and exits.
--
--=back
--
--=head1 DESCRIPTION
--
--Parse the Linux ABI files from ABI DIR (usually located at Documentation/ABI),
--allowing to search for ABI symbols or to produce a ReST book containing
--the Linux ABI documentation.
--
--=head1 EXAMPLES
--
--Search for all stable symbols with the word "usb":
--
--=over 8
--
--$ scripts/get_abi.pl search usb --dir Documentation/ABI/stable
--
--=back
--
--Search for all symbols that match the regex expression "usb.*cap":
--
--=over 8
--
--$ scripts/get_abi.pl search usb.*cap
--
--=back
--
--Output all obsoleted symbols in ReST format
--
--=over 8
--
--$ scripts/get_abi.pl rest --dir Documentation/ABI/obsolete
--
--=back
--
--=head1 BUGS
--
--Report bugs to Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
--
--=head1 COPYRIGHT
--
--Copyright (c) 2016-2021 by Mauro Carvalho Chehab <mchehab+huawei@kernel.org>.
--
--License GPLv2: GNU GPL version 2 <http://gnu.org/licenses/gpl.html>.
--
--This is free software: you are free to change and redistribute it.
--There is NO WARRANTY, to the extent permitted by law.
--
--=cut
--- 
-2.48.1
+Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+
+
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti b/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
+> index bf2869c413e7..a97b70f588da 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
+> +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
+> @@ -1,241 +1,241 @@
+>   What:		/sys/bus/coresight/devices/<cti-name>/enable
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Enable/Disable the CTI hardware.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/powered
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Indicate if the CTI hardware is powered.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/ctmid
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Display the associated CTM ID
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/nr_trigger_cons
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Number of devices connected to triggers on this CTI
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/name
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Name of connected device <N>
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/in_signals
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Input trigger signals from connected device <N>
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/in_types
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Functional types for the input trigger signals
+>   		from connected device <N>
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/out_signals
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Output trigger signals to connected device <N>
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/out_types
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Functional types for the output trigger signals
+>   		to connected device <N>
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/inout_sel
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Select the index for inen and outen registers.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/inen
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Read or write the CTIINEN register selected by inout_sel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/outen
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Read or write the CTIOUTEN register selected by inout_sel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/gate
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Read or write CTIGATE register.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/asicctl
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Read or write ASICCTL register.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/intack
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Write the INTACK register.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/appset
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Set CTIAPPSET register to activate channel. Read back to
+>   		determine current value of register.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/appclear
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Write APPCLEAR register to deactivate channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/apppulse
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Write APPPULSE to pulse a channel active for one clock
+>   		cycle.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/chinstatus
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Read current status of channel inputs.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/choutstatus
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) read current status of channel outputs.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/triginstatus
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) read current status of input trigger signals
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/trigoutstatus
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) read current status of output trigger signals.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigin_attach
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Attach a CTI input trigger to a CTM channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigin_detach
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Detach a CTI input trigger from a CTM channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_attach
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Attach a CTI output trigger to a CTM channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_detach
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Detach a CTI output trigger from a CTM channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_gate_enable
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Enable CTIGATE for single channel (Write) or list enabled
+>   		channels through the gate (R).
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_gate_disable
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Disable CTIGATE for single channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_set
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Activate a single channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_clear
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Deactivate a single channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_pulse
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Pulse a single channel - activate for a single clock cycle.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_filtered
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) List of output triggers filtered across all connections.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trig_filter_enable
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Enable or disable trigger output signal filtering.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_inuse
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) show channels with at least one attached trigger signal.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_free
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) show channels with no attached trigger signals.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_sel
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Write channel number to select a channel to view, read to
+>   		see selected channel number.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_in
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Read to see input triggers connected to selected view
+>   		channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_out
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Read to see output triggers connected to selected view
+>   		channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_reset
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Clear all channel / trigger programming.
+> diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
+> index bf710ea6e0ef..53cb454b60d0 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
+> +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
+> @@ -1,6 +1,6 @@
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/integration_test
+>   Date:		January 2023
+> -KernelVersion	6.2
+> +KernelVersion:	6.2
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(Write) Run integration test for tpdm. Integration test
+> @@ -14,7 +14,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/reset_dataset
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(Write) Reset the dataset of the tpdm.
+> @@ -24,7 +24,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_type
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the trigger type of the DSB for tpdm.
+> @@ -35,7 +35,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_ts
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the trigger timestamp of the DSB for tpdm.
+> @@ -46,7 +46,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_mode
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the programming mode of the DSB for tpdm.
+> @@ -60,7 +60,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/ctrl_idx
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the index number of the edge detection for the DSB
+> @@ -69,7 +69,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/ctrl_val
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		Write a data to control the edge detection corresponding to
+> @@ -85,7 +85,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/ctrl_mask
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		Write a data to mask the edge detection corresponding to the index
+> @@ -97,21 +97,21 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/edcr[0:15]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		Read a set of the edge control value of the DSB in TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/edcmr[0:7]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		Read a set of the edge control mask of the DSB in TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_patt/xpr[0:7]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the value of the trigger pattern for the DSB
+> @@ -119,7 +119,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_patt/xpmr[0:7]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the mask of the trigger pattern for the DSB
+> @@ -127,21 +127,21 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpr[0:7]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the value of the pattern for the DSB subunit TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpmr[0:7]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the mask of the pattern for the DSB subunit TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/enable_ts
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(Write) Set the pattern timestamp of DSB tpdm. Read
+> @@ -153,7 +153,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/set_type
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(Write) Set the pattern type of DSB tpdm. Read
+> @@ -165,7 +165,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_msr/msr[0:31]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the MSR(mux select register) for the DSB subunit
+> @@ -173,7 +173,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_mode
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:	(Write) Set the data collection mode of CMB tpdm. Continuous
+>   		change creates CMB data set elements on every CMBCLK edge.
+> @@ -187,7 +187,7 @@ Description:	(Write) Set the data collection mode of CMB tpdm. Continuous
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_trig_patt/xpr[0:1]
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the value of the trigger pattern for the CMB
+> @@ -195,7 +195,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_trig_patt/xpmr[0:1]
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the mask of the trigger pattern for the CMB
+> @@ -203,21 +203,21 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpr[0:1]
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the value of the pattern for the CMB subunit TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpmr[0:1]
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the mask of the pattern for the CMB subunit TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_patt/enable_ts
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(Write) Set the pattern timestamp of CMB tpdm. Read
+> @@ -229,7 +229,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_trig_ts
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the trigger timestamp of the CMB for tpdm.
+> @@ -240,7 +240,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_ts_all
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Read or write the status of timestamp upon all interface.
+> @@ -252,7 +252,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_msr/msr[0:31]
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the MSR(mux select register) for the CMB subunit
 
