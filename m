@@ -1,68 +1,68 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6E625A329
-	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 19:38:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D2D25A346
+	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 19:38:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739216317; cv=none; b=KQsvpKkB53zjdVqmNXvAF0MOXspbTOh864Ql6uWY9nCoR90GspOlleP1kU67iobZOT5g5K1aO7mZww5ekMwN3hvQoU33EtQg0EL5+C4Cqk88PKg10Q15NwEjrbQAWah3NDYPor3ApEI+0irYMRrrope5BO3tQvnvIf+Dk1fyQv0=
+	t=1739216320; cv=none; b=Ga5Q7zZHl5CSE68lEgyqdQmGnalZHe9fuINJI8vKPqWhKJ27l/+ywNnEWPRxrYNa4kPzUoKplP1HDxUQlaHnWatCAk87sYzPCI56WKNH6yuIaJYDYFSchzbXkAH/kd3JVH8oCwEMBBe4pFBZRn2cDw/i4afAVqn5XwETGoOYb1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739216317; c=relaxed/simple;
-	bh=WTAKrIObiH0+XnAmevo4XgmL855z4Fu5Qvoz089fAGM=;
+	s=arc-20240116; t=1739216320; c=relaxed/simple;
+	bh=76d5pEBVKf4Yijczbwj7KuBibjsq0aAlESoqsTf2wbw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T8D/WhcWmBzRCvEooTCSG4Pu9JoNZFI+w44D1GoPwmp5/pQVy6ahV2fzr/41LjCDHMkISlUgIL/q7czqjdvgxkgCQB09SyJAORRHXkTSTLusAjdsLiwXNyW3BAtDiEhoxDlshLL27GTu6ahD55bZ9nSL8Z4gWTCZR/yL6EdTckU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fuR/tZua; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=bmBYGcDjq72B628JGSPdkNkzNLrunaWOesDbD6YJPij2awNNWGUVXTg8Tp2vbn7lvgnhSmUyNQvwHLi5qwZjI+AOV8GcnptbVBaNnMtgHn7lIZSOicKb7eFm7e14JS1o3FphyTIFpg0r1BWl+d0npNXqZ6bZxdQEaTbi8wa2voM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=es0bOGsN; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fuR/tZua"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="es0bOGsN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739216314;
+	s=mimecast20190719; t=1739216318;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NPITbiV5yRtNZIanqm2v+SKlb5hdEoVu/zyhpD+AgeU=;
-	b=fuR/tZuabeAN3RHCueQYmMmKXGcP+aIsicl1j4W0aOTKGy9nuOtaXTjpOJWY9SIHPqDlLx
-	2HJuS4Ydqm7cRqlYbQoy6VQxslXHDmx2ahdbN5EyWTKP7dSlayTL4TaN7pvglPRGBevX8t
-	NAMIoKbNC+g8PZkEc2sn4FtDYkhbVFc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=8sC+CKPivo9nJ2nwAVN+E4SAgEKJPEiCVQrD/mzwcqM=;
+	b=es0bOGsN+emNWNv0iKtdB+/awn1NRoHB7YrfChy+rLlYA5DTzw/IxgRvietxiTkm8QeMQJ
+	PAAYFe9CnfSBFi2IOFCsoMSOVm2xD9R1eH2egtajc9Z9ybOlUE+b/drXUagETlqCbzaihq
+	1k1rfy1IcAwFoqUrQWAAeKi5VLJGMC4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-462-eIhLshhVNxSkYRCZSDx8QA-1; Mon, 10 Feb 2025 14:38:32 -0500
-X-MC-Unique: eIhLshhVNxSkYRCZSDx8QA-1
-X-Mimecast-MFC-AGG-ID: eIhLshhVNxSkYRCZSDx8QA
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4392fc6bceaso13133105e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 11:38:32 -0800 (PST)
+ us-mta-492-sVTgYj85NTe0fWw6VCEmHQ-1; Mon, 10 Feb 2025 14:38:36 -0500
+X-MC-Unique: sVTgYj85NTe0fWw6VCEmHQ-1
+X-Mimecast-MFC-AGG-ID: sVTgYj85NTe0fWw6VCEmHQ
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4392fc6bceaso13133425e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 11:38:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739216311; x=1739821111;
+        d=1e100.net; s=20230601; t=1739216315; x=1739821115;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NPITbiV5yRtNZIanqm2v+SKlb5hdEoVu/zyhpD+AgeU=;
-        b=PMxctl6ntWqjVzrKfsmhW6KMYQ7AvE2ajiHWfTb4u206WHAk1Fai8RzapV9+Am9h54
-         6BwdFMgcQW0dsP7qwJ6ZIeY10tHgz7Xz3LaPl+doPTqs3fyGLFQc6CrV5MwU3lsrbNdK
-         +azG42+ylViEn/k57Cwy+sRAnPntG4pzIvu7k5Os/2zwGzpsQXDt9QsqHSPC4SJl11hK
-         r6dAKmy3+7mPNsbhkHRduV/100KuUQMw0qPuf0ye7idCWVGy/gsp7ovOB9/FL6VKJ4/P
-         zlPa3YMou3e04DtLpIujRaFtXhARFuUOnO01U58Vij46S53SuddZXih6mmh8CQCZZ8zL
-         b7Ow==
-X-Gm-Message-State: AOJu0YzGNHSVonJAc+RQZ77GbM2zqy7CQTe6C+qLwKU1McRFW8VVuRbB
-	er5s0NkN/hbRptrqK17a9aGgH4UywKV5eWaDs3eBvV7u5BRKQ/8zatcHL0AH1VyPSOrF2nI94yk
-	9NTN+2l1MJAqHu+oyCzORXW/03KcKVEMg0VkD5e4yRW+pgfPIblraF/+Y4w==
-X-Gm-Gg: ASbGncsQmwUKLyYNyrhtujqMrRlBe50NSR0MRAKCeP0lYR3JvFN/rHjbLK24uy9FnVm
-	hE7EhKkQBakeedWUDQIgUPXxm2kkuY0Pqde4Fnt0t3LSvsr2Pf9RqOsyXWqqK2fhyeRpoMfHFPl
-	Aih0w5t9j4FHHbKIf42eCekwNAGJOntAAxFUrMNUgK3FoHK8ZkkhgcUvyxAp1U8Yy3t1c1k1NGP
-	LgCZgQYMF9kSnz1vDH3naEbY3nQVFY8qlHPJ+0vfu6PktqZi9Eu3DRmIxbd5BnndtwZ4fw5r+mE
-	FuoZE2UA5tTMGbZAwY506E6ZAtyjprIYDFADk2UonmuBdrHpf9x70L8yE+Z9LECS1A==
-X-Received: by 2002:a05:600c:500d:b0:439:3dc0:29b6 with SMTP id 5b1f17b1804b1-4393dc02be1mr57220325e9.2.1739216311481;
-        Mon, 10 Feb 2025 11:38:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHbUQzL3Yq1p3VwDR+lxH773I/PQZNBDcgTpUgE2nEJHxULXhio/DNj6yNxLtRtBjWIFSwTIg==
-X-Received: by 2002:a05:600c:500d:b0:439:3dc0:29b6 with SMTP id 5b1f17b1804b1-4393dc02be1mr57220015e9.2.1739216311167;
-        Mon, 10 Feb 2025 11:38:31 -0800 (PST)
+        bh=8sC+CKPivo9nJ2nwAVN+E4SAgEKJPEiCVQrD/mzwcqM=;
+        b=sqbXOQU7GVslGNEY9ec8oujkOrYdUJFp4KmrIPmKpQ9zgUSOs0iAztc734KVrSVT9r
+         NMX9XeCAENLQ7qxcOHFW/s3Gn0jhbWf00aiQxFspvQlLxDEfgnejhDy78XesCAyCR10a
+         KhM6OBHcPmJ71L18QqrwKmkZfSEW7U1MYoJkbqzYNL9dJP0tAII67JX13QJyBX5FYkB7
+         b/VrE5uRPcDngsbtdcIYSz6F+OGPRYgBnWa0OrP7Bjxz0OrJsrfAQA6wYd1GqqSFdD/O
+         lZB64GOcUUr8yCQ2OTdzLCVERIcoOlKBUffxJuCTm1cV893kFTugx/tpoVLWBzQHRTUA
+         oPfA==
+X-Gm-Message-State: AOJu0YyhmOJdheSs6lhmZ1DqTpnN78clvnQ95zxFW+a/2PqK5PxToz0k
+	XKRACw8SGAM64qo0OLn9nJE7+zTi9a46TUuARuaJGPlrj9A4qxUVOmdZ+w0BwBAPgnQje/qdb5r
+	8hK65PPfjkw6Z7kEyt3v+ZL47X473noxZKG6BLlgduMRkWq/iXpFnHBCKpg==
+X-Gm-Gg: ASbGnct6B/OtunjOrg67OaEJtZ4jsXzvjPi4v+0gzJymPzskHvR7HHUCKWIY6wGKOwo
+	Bsso52+QU0XKWRthohhXZ+5lUwVDfR8XrwQ/Lf4+OPcf5kxBTLlgZLcWAKLuTXnVGEX0tX+/nsF
+	dOzIQHeXfymSn8iryZqh+SHRfoylLfN8hg6PpvWMbwYTD0IfRSMQDkYzoZGoAy+7yKjNq5mAlez
+	sO0KNicGoATyBk74h89sVO/iSxT/Pkua3zZnJ7dvtm3IFw2EXSqrxraRqAiNH972fp3TRqhuUWw
+	0Ei5SJANDk7ykKOdVoMPniNticZlm2UbO7L6xfBEuNR6mueodQGAkUzu7fap19tTmA==
+X-Received: by 2002:a05:600c:4e91:b0:439:4637:9d9 with SMTP id 5b1f17b1804b1-43946370d97mr43287455e9.12.1739216315602;
+        Mon, 10 Feb 2025 11:38:35 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF6B7q2dhfsb9dj8LY+8M1CJU6DFUQTZK7m2VERaPDmly8AB+qIiZRItOcPeyw5uy4LKosd2g==
+X-Received: by 2002:a05:600c:4e91:b0:439:4637:9d9 with SMTP id 5b1f17b1804b1-43946370d97mr43287075e9.12.1739216315147;
+        Mon, 10 Feb 2025 11:38:35 -0800 (PST)
 Received: from localhost (p200300cbc734b80012c465cd348aaee6.dip0.t-ipconnect.de. [2003:cb:c734:b800:12c4:65cd:348a:aee6])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4390d933523sm192523445e9.1.2025.02.10.11.38.27
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4390d94d802sm195260345e9.12.2025.02.10.11.38.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2025 11:38:29 -0800 (PST)
+        Mon, 10 Feb 2025 11:38:33 -0800 (PST)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -95,9 +95,9 @@ Cc: linux-doc@vger.kernel.org,
 	Peter Xu <peterx@redhat.com>,
 	Alistair Popple <apopple@nvidia.com>,
 	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v2 07/17] mm/page_vma_mapped: device-exclusive entries are not migration entries
-Date: Mon, 10 Feb 2025 20:37:49 +0100
-Message-ID: <20250210193801.781278-8-david@redhat.com>
+Subject: [PATCH v2 08/17] kernel/events/uprobes: handle device-exclusive entries correctly in __replace_page()
+Date: Mon, 10 Feb 2025 20:37:50 +0100
+Message-ID: <20250210193801.781278-9-david@redhat.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250210193801.781278-1-david@redhat.com>
 References: <20250210193801.781278-1-david@redhat.com>
@@ -109,35 +109,66 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It's unclear why they would be considered migration entries; they are
-not.
+Ever since commit b756a3b5e7ea ("mm: device exclusive memory access")
+we can return with a device-exclusive entry from page_vma_mapped_walk().
 
-Likely we'll never really trigger that case in practice, because
-migration (including folio split) of a folio that has device-exclusive
-entries is never started, as we would detect "additional references":
-device-exclusive entries adjust the mapcount, but not the refcount.
+__replace_page() is not prepared for that, so teach it about these
+PFN swap PTEs. Note that device-private entries are so far not
+applicable on that path, because GUP would never have returned such
+folios (conversion to device-private happens by page migration, not
+in-place conversion of the PTE).
+
+There is a race between GUP and us locking the folio to look it up
+using page_vma_mapped_walk(), so this is likely a fix (unless something
+else could prevent that race, but it doesn't look like). pte_pfn() on
+something that is not a present pte could give use garbage, and we'd
+wrongly mess up the mapcount because it was already adjusted by calling
+folio_remove_rmap_pte() when making the entry device-exclusive.
 
 Fixes: b756a3b5e7ea ("mm: device exclusive memory access")
-Reviewed-by: Alistair Popple <apopple@nvidia.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/page_vma_mapped.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ kernel/events/uprobes.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
-index 81839a9e74f16..32679be22d30c 100644
---- a/mm/page_vma_mapped.c
-+++ b/mm/page_vma_mapped.c
-@@ -111,8 +111,7 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw)
- 			return false;
- 		entry = pte_to_swp_entry(ptent);
+diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
+index 2ca797cbe465f..cd6105b100325 100644
+--- a/kernel/events/uprobes.c
++++ b/kernel/events/uprobes.c
+@@ -173,6 +173,7 @@ static int __replace_page(struct vm_area_struct *vma, unsigned long addr,
+ 	DEFINE_FOLIO_VMA_WALK(pvmw, old_folio, vma, addr, 0);
+ 	int err;
+ 	struct mmu_notifier_range range;
++	pte_t pte;
  
--		if (!is_migration_entry(entry) &&
--		    !is_device_exclusive_entry(entry))
-+		if (!is_migration_entry(entry))
- 			return false;
+ 	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, addr,
+ 				addr + PAGE_SIZE);
+@@ -192,6 +193,16 @@ static int __replace_page(struct vm_area_struct *vma, unsigned long addr,
+ 	if (!page_vma_mapped_walk(&pvmw))
+ 		goto unlock;
+ 	VM_BUG_ON_PAGE(addr != pvmw.address, old_page);
++	pte = ptep_get(pvmw.pte);
++
++	/*
++	 * Handle PFN swap PTES, such as device-exclusive ones, that actually
++	 * map pages: simply trigger GUP again to fix it up.
++	 */
++	if (unlikely(!pte_present(pte))) {
++		page_vma_mapped_walk_done(&pvmw);
++		goto unlock;
++	}
  
- 		pfn = swp_offset_pfn(entry);
+ 	if (new_page) {
+ 		folio_get(new_folio);
+@@ -206,7 +217,7 @@ static int __replace_page(struct vm_area_struct *vma, unsigned long addr,
+ 		inc_mm_counter(mm, MM_ANONPAGES);
+ 	}
+ 
+-	flush_cache_page(vma, addr, pte_pfn(ptep_get(pvmw.pte)));
++	flush_cache_page(vma, addr, pte_pfn(pte));
+ 	ptep_clear_flush(vma, addr, pvmw.pte);
+ 	if (new_page)
+ 		set_pte_at(mm, addr, pvmw.pte,
 -- 
 2.48.1
 
