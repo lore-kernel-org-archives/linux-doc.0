@@ -1,46 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD9325B667
-	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 17:47:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FC825B661;
+	Mon, 10 Feb 2025 17:49:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739209635; cv=none; b=gMJEZU8vzZtTtdtR5dzQqxZBbc76NMXngoAK5cd80TIaqFzasEnQWHL+sylKyWXxS0WDOW22o4dTw5ACJvIiwZie5QMLqfOGf4PCJjLkiAQXEmfV5y9Ify9iPff/J/zNbG1VVdQitFf97yo7y7NuzkYZnJdIvmfUrfHKVCavnuQ=
+	t=1739209752; cv=none; b=Uc0hdc09YLI1yOTX3+xuwD8eCxIvJfl1+4HDPjrKzPliLclfaJW5ES8c0mVQRvNzDJS4Ke+C4thl3usmpMI5vTRaHcFpbQFZDdWZIKfFLGVORkvEQka1eMI/7Rtut1qwCQH9qC9wL+OSNlXzTVjdvf7fnQbkCEta5lycH562L9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739209635; c=relaxed/simple;
-	bh=3XYMsF/JltYobm5fpigCYAMzJ/N6sXTC9v0QKmfknNs=;
+	s=arc-20240116; t=1739209752; c=relaxed/simple;
+	bh=r/ErqC1VjnkWQHiB8w1XvG3t29glOpGfSaKHA8XX5ok=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=TwusBFVW3fjSY9DKnfTivaT6MC9gaNGn5+7MqJ+Hu2J07y3vJwi78b0GSTNA9Y+nqZieARlTd8H1p9rqeg6UcoE6c6p8dvJb1YZXwFJdz4sUW+2Nh2KOaInMOpDxUyfRYpF0pCK05qmrb6bICPoL2T42CdwYYOmMY43x9FtnyYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=r1zK9/oR; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=WKCDdJq6wU7sB1aOOhbAZ8L6xnqwmycmTZJf2y+QOeg0OExemCXqnkmpXML2IvCNM9g1NbCebV05KlYTyElEhnsznAPz4/AYl8kpZYsPTkvCGlk/wYD4Nx4QMuSHXkrBonV/1bYY5MrDljtxHO2c2L2sRlI68AP+nTHvcHioAxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=SHaWU9PG; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="r1zK9/oR"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 246A7411A1
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="SHaWU9PG"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C85F4411A7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739209632; bh=usCSxGFJFpJfYhpfqyEEgAs8nuXlxyQs97pnBTa6Pmg=;
+	t=1739209750; bh=r/ErqC1VjnkWQHiB8w1XvG3t29glOpGfSaKHA8XX5ok=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=r1zK9/oRJPorE3jiKrSIuTe6/+g4nPKkjFDco4pbk2pYf21qOObqJaV87YXQRW8Ov
-	 ToEMWtHcPXOVyAhdRjApStSk3OjGXOQ77XRzUbXUO+jlURaykhcmqYCYtEg9z30mrl
-	 Vb6g84UPdL4ZPX428ABdNkTGIkaQb4mzHbBMVjMf51Uo6dYj7TMo4wMLVX6sHkeyXn
-	 N2VvER/RqelNs+BKYaSXbuHd5QnnmRds2kx/D4JsJ9bhifMzI6rMcAvtL+1jd3Lzo2
-	 hbpZpq+RTC87wzKgnK1l/xifpLWPIIj3wmlCiWOYSwSNvuaCB97xkB9E2ZDUWfg3uR
-	 J0hYWZzNEUCRA==
+	b=SHaWU9PGWq1FH1U5hZ+zOyoxvcnXGQB+uSVU8GnHxN82LlIyA9glZMNj8qgnuHJ8c
+	 hm8/mNTadVtVxqAnErXcO1q3nqDZe4oQbPe/ViYL4b1TtjmOeVQaRivmmxPAJCUii7
+	 +iTT3I2rfHvhTo1TS0YoPkznpxhdu16C/s8BO+RVCwatf36Fm4wXwxRYxvaALClAib
+	 R5foKIQTQTL7DQMayLWNuaJFLXvaDC3dBS2XI4bnwT2Y5fC67XOlw6wDZv/GBldBzF
+	 ZSGET3b3hw133SDPm72GNmNWsEr99Dv8Y3lTUU0zHdlZ5HCg4uyuP7gl+MtOAoWtBg
+	 MurxnpXAhRh+A==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 246A7411A1;
-	Mon, 10 Feb 2025 17:47:12 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id C85F4411A7;
+	Mon, 10 Feb 2025 17:49:09 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: ritvikfoss@gmail.com
-Cc: linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] documentation/filesystems: fix spelling mistakes
-In-Reply-To: <20250210043937.30952-1-ritvikfoss@gmail.com>
-References: <20250210043937.30952-1-ritvikfoss@gmail.com>
-Date: Mon, 10 Feb 2025 10:47:11 -0700
-Message-ID: <87frkl1ylc.fsf@trenco.lwn.net>
+To: Armin <armin.mahdilou@gmail.com>
+Cc: shuah@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Armin <Armin.Mahdilou@gmail.com>
+Subject: Re: [PATCH] Documentation: proofreading Documentation
+In-Reply-To: <20250210041800.357393-1-Armin.Mahdilou@gmail.com>
+References: <20250210041800.357393-1-Armin.Mahdilou@gmail.com>
+Date: Mon, 10 Feb 2025 10:49:08 -0700
+Message-ID: <87bjv91yi3.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,50 +49,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-ritvikfoss@gmail.com writes:
+Armin <armin.mahdilou@gmail.com> writes:
 
-> From: Ritvik Gupta <ritvikfoss@gmail.com>
+> Fixed some spelling issues in documentations.
 >
-> Corrected the following spelling mistakes,
-> based on the suggestions by codespell:
->
-> 1. Optionaly   -> Optionally
-> 2. prefereable -> preferable
-> 3. peformance  -> performance
-> 4. ontext      -> context
-> 5. failuer     -> failure
-> 6. poiners     -> pointers
-> 7. realtively  -> relatively
-> 8. uptream     -> upstream
->
-> Thanks for your time!
-> Regards Ritvik
->
-> Signed-off-by: Ritvik Gupta <ritvikfoss@gmail.com>
-> ---
->  Documentation/filesystems/9p.rst                              | 2 +-
->  Documentation/filesystems/bcachefs/SubmittingPatches.rst      | 4 ++--
->  Documentation/filesystems/coda.rst                            | 2 +-
->  Documentation/filesystems/debugfs.rst                         | 2 +-
->  Documentation/filesystems/netfs_library.rst                   | 2 +-
->  Documentation/filesystems/xfs/xfs-delayed-logging-design.rst  | 2 +-
->  .../filesystems/xfs/xfs-maintainer-entry-profile.rst          | 2 +-
->  7 files changed, 8 insertions(+), 8 deletions(-)
+> Signed-off-by: Armin <Armin.Mahdilou@gmail.com>
 
-I've applied this, but ... for future reference ...
-
-- As Randy noted, the "thanks" message doesn't belong in the changelog;
-  I took it out.
-
-- It's not really necessary to list every word you've fixed; "fix some
-  misspellings" is sufficient.  I left those in though :)
-
-- This patch did not apply to docs-next - the bcachefs file you change
-  only showed up in the mainline yesterday.  I pulled docs-next forward
-  to -rc2 to avoid making you redo it, but it's better not to make
-  maintainers do that in general.  The proper approach, which would have
-  been needed for a more involved change, would have been to send that
-  fix to the bcachefs maintainer instead to go through his tree.
+Could I please get a version of this with your full name in the SOB?
+Otherwise the patch seems fine.
 
 Thanks,
 
