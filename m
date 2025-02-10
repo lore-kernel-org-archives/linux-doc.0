@@ -1,68 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD801ADC8C;
-	Mon, 10 Feb 2025 08:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536FB57C93;
+	Mon, 10 Feb 2025 08:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739174812; cv=none; b=Ash3yddc4A2awe3dbu2G0N+UPk0APj/YcmldDABb7EbdReARMJNLFoWE/jcH/SZx6kYMKmMKMMho4UcaCSGgwD5z4ZPsgOVZYmNvj46NelIZP8oxP8Us1Ya6ttZMkyzNYX0waXG9N8Kud3EoLKpZgKBraaOpnV86g+z6+/g9mEA=
+	t=1739176762; cv=none; b=Xwfqn1eomVBUCa9NVMBtNK9L/AQkXJcwJG92v6qrun8KS67rJRcRWyz2ZaiGZvwkS2D5aYVRs1x5qV8rXpFfixIFpv8rvcsOCwFaVQKiNWa1hOOER2aEWJAl4iqPGwVM6br53BOE4haIN3aVZkHXnHVyOHJJQ7sULWCbTg7yK6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739174812; c=relaxed/simple;
-	bh=M+MWhRxTA1Um+KeGexerlO1TUKACbx3fXo7FZ3qwQQk=;
+	s=arc-20240116; t=1739176762; c=relaxed/simple;
+	bh=cB2/4NoQX3HhCi0YEklI0a7Y6Qdh4paqmB9/dx2Qj5c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kbOgqRhL7FMLmHT/n21telTdQRvWESF4Gg1QDFqtxjgNDGY31MxTCgRa2SFWbSNsYdx4fV8bI9VZH4oMHT833BSXt9ea02IjyxonDQFMkiaFFbY6+S9bEHdBLs4Lz40cDXuU72RDOmDN0X0w3dgytBU8C2Ir1cmr0hSqQfCqF6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MaOSp3kX; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=BydOWHd5xF4YVqfAhLFiTJqJXxoL4aRCqsTJUj7no6YswGgfZcDhKyv+U/4LFVLdJvH4USJcJP7TkcRqc6Mo+5aRGaFPc4cx0YDZwL+AmMEdT+6PUV8HOfOJjJP/6tjxJ4cyl/4vFbUax09e5tq66ycGvbkhoSgqWmFk2NxDAUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JeIBG7aH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MaOSp3kX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739174811; x=1770710811;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M+MWhRxTA1Um+KeGexerlO1TUKACbx3fXo7FZ3qwQQk=;
-  b=MaOSp3kXfrAcIjip6hXiZO5kvgGz7Sp+c3FnB0CWPltnhfZFRIPd6RH+
-   21VM99NLOhOk7a39qX5LG2CulXeBWzhoLjS/KwFrV6GqwYa5eGuAMsxNm
-   ASbXawKnusyu0Pa/O6C1v+gAI1jhkv5al3GQ0JU3Kr1pUxiFI67cwPVyM
-   yRluRN7JAOKBUI4haLn8h7wG6uXsVQl9+6Tb+tW25setMIKQhbyNJJc/p
-   koZT1VZzxPj+KXdYZXzti8dTTsTlayErQIgh1RBRVsQqdE8mVsVvwx6v6
-   FWBf44wBjbPHcuD4KFiJv+Xfnx77MSmUlLXL3+dkvu38OE0zqHq6s2do3
-   A==;
-X-CSE-ConnectionGUID: XFYiJVBsStC+Hbdn+VLq6w==
-X-CSE-MsgGUID: gspeWAtkSjWeKvVF0B8Naw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="39891440"
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="39891440"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 00:06:48 -0800
-X-CSE-ConnectionGUID: L+QhWWd8TpaaesaS+g9ZVw==
-X-CSE-MsgGUID: /nZzuL4ITbSVmPEy+iuELw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="142970262"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 00:06:45 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1thOoT-0000000A3lL-1uz7;
-	Mon, 10 Feb 2025 10:06:41 +0200
-Date: Mon, 10 Feb 2025 10:06:41 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Rodolfo Giometti <giometti@enneenne.com>
-Cc: subramanian.mohan@intel.com, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-	tglx@linutronix.de, corbet@lwn.net, eddie.dong@intel.com,
-	christopher.s.hall@intel.com, pandith.n@intel.com,
-	thejesh.reddy.t.r@intel.com, david.zage@intel.com,
-	srinivasan.chinnadurai@intel.com
-Subject: Re: [PATCH v13 1/4] drivers pps/generators: replace copy of pps-gen
- info struct with const pointer
-Message-ID: <Z6mzkWxOYtFXyZL6@smile.fi.intel.com>
-References: <20250210050421.29256-1-subramanian.mohan@intel.com>
- <20250210050421.29256-2-subramanian.mohan@intel.com>
- <Z6mXC7loE3qRYpUQ@smile.fi.intel.com>
- <73539b96-fc89-48f3-81e7-53af0066bc22@enneenne.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JeIBG7aH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 336CEC4CED1;
+	Mon, 10 Feb 2025 08:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739176761;
+	bh=cB2/4NoQX3HhCi0YEklI0a7Y6Qdh4paqmB9/dx2Qj5c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JeIBG7aHXyacXb1ZdUsWf9t1KJyobLr4BCY3cBQFA+TkfxNWgbMHqf0/lMWghm6Ug
+	 WZ8cqCIltuIL+bxLhh9aRy0oTykCSyoXLxmMj5yeZJlE2REwtVUvRF9OToN6yNmNBW
+	 UV2XK9s95IUS0U1g785HzliMYnQEzUKsg/M3B4S56rp7zM02SR1fVQdFBVaaAreh8K
+	 1HrU4LITUBVqKKm59RVm1Gx0NlL2ABAj9BDUmKYWAEaRZ9Y2HHhAfqM20M/oI8Ht1k
+	 is5ihCsZRK+3Sb9VqZgHRvlN62Muie/Z26Jj579T9YmEUi3nlhdAe/HW/8V2wsfgVO
+	 CljokwOSXVVNw==
+Date: Mon, 10 Feb 2025 09:39:13 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
+	pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
+	jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
+	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] gpu: nova-core: add initial driver stub
+Message-ID: <Z6m7MVErUPbkK9vV@pollux>
+References: <20250209173048.17398-1-dakr@kernel.org>
+ <2025021011-dangling-retrain-f61e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,34 +52,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <73539b96-fc89-48f3-81e7-53af0066bc22@enneenne.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <2025021011-dangling-retrain-f61e@gregkh>
 
-On Mon, Feb 10, 2025 at 09:00:16AM +0100, Rodolfo Giometti wrote:
-> On 10/02/25 07:04, Andy Shevchenko wrote:
-> > > Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
-> > 
-> > Hmm... Is Rodolfo indeed a correct to be mentioned here?
-> > I think you wanted Suggested-by with somebody else.
+On Mon, Feb 10, 2025 at 07:24:59AM +0100, Greg KH wrote:
+> On Sun, Feb 09, 2025 at 06:30:24PM +0100, Danilo Krummrich wrote:
+> > +config NOVA_CORE
+> > +	tristate "Nova Core GPU driver"
+> > +	depends on PCI
+> > +	depends on RUST
+> > +	depends on RUST_FW_LOADER_ABSTRACTIONS
+> > +	default n
 > 
-> Honestly speaking, the patch was written by me, tested by Mohan, and
-> suggested by you. :)
-> 
-> Then I proposed to Mohan to send the patch with other patches in his patch
-> set, since this patch is logically connected with them.
-> 
-> Maybe we can put:
-> 
-> Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
-> Tested-by: Mohan Subramanian <subramanian.mohan@intel.com>
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> ?
+> Tiny nit, if you happen to respin this, "default n" is always the
+> default, so there's never a need to specify it.
 
-Sounds good to me! Whatever you agree on.
+At some point we'll want to change that to 'default m', and I thought keeping it
+explicit is probably a good reminder. But I'm also fine removing it.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> 
+> > +impl Firmware {
+> > +    fn new(dev: &device::Device, spec: &Spec, ver: &str) -> Result<Firmware> {
+> > +        let mut chip_name = CString::try_from_fmt(fmt!("{}", spec.chipset))?;
+> > +        chip_name.make_ascii_lowercase();
+> > +
+> > +        let request = |name_| {
+> > +            CString::try_from_fmt(fmt!("nvidia/{}/gsp/{}-{}.bin", &*chip_name, name_, ver))
+> 
+> How does this match up with the MODULE_FIRMWARE() aliases that end up in
+> a kernel module so that the tools know to add the firmware to the system
+> in the proper place (i.e. initramfs or something like that)?
+> 
+> I always thought you needed to individually list the firmware files, or
+> does the rust implementation now somehow handle that in a programatic
+> way from strings like this?
 
+That'd be nice, but the firmware we load is (or in general might be) only a
+subset of the firmware that the module needs potentially.
 
+So, you're right, all (potentially) required firmware files need to be listed in
+the module!() macro's firmware field (or in this case within
+module_pci_driver!()).
+
+Back when I wrote this code we haven't had this field yet -- thanks for
+reminding me of that.
