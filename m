@@ -1,68 +1,68 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E171A25A2A5
-	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 19:38:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC1325A2D1
+	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 19:38:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739216308; cv=none; b=E4So1dlQOvx5qj3MEEvFX5JO8K4yVxF9vh7pJKIDNtib7flkkeo/C2a/tedOkKK/G5W0qcxiqV7jD8LnDxQK8oj1MgRbuvuX6JNnGiu3OPZ8sPjQGdgG8avlMc7ZA1b8nwDnJ89obgDs9SteDqefPYxGAF0uWuaveLLSw5IPREI=
+	t=1739216314; cv=none; b=Qp/FDGiGhUP1eeNoKfAli3VXqWSg+PXn5taq89NoVNjXCvDHnxA+M7lc5NTlW2fzgYbr038c/6uAWNWdZvER0SASUxIpyMj3caiHrA+ECI8g2M2Pvtaz6YPlROwbQgWgKwjHkxL9gV3XRWbbeWaQEZkn2k8g3zvlu1qaO54QwJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739216308; c=relaxed/simple;
-	bh=L16e+mH6ktPBqGV6aP9/w+AaZ+mPEhmgfdTbdQ7/2+A=;
+	s=arc-20240116; t=1739216314; c=relaxed/simple;
+	bh=aAO5U4rIUSmSiW9HiZeU+4RaV76aniUNOw4ep9QcM3I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=riKe3maIGzqkNqZ8ftSOIB1+E2LsL7glGtIQdfe2Y2JwwshahjDFW3GAtQ2AgZizAD/cJrUPjAiop1R4CUoiDDYOJoRwrU4PJT6Qv9G6PxKjZy8bs9DD1ZSbkfPQohJ6vVnfohr2svXqq2K/JBUyQrY7KECU145Qs4Mf4c9ywJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KfS4/8jo; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=ipsyqdhVLuC1Sx02u/cXuaVlqeJw4sAVcPlsW9wTwzG+wQNhVZ1ytqZ8mO9g4yKMoJlB4SusliQbrbp78paGIH7qAeN7TWikcX/emM4+oZ9Psnfffspqim75WpZ79xo7H+dthmkv+VqkVNEsOGBAanfKERnImGQsKUmP4N50PpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EXXD+NXZ; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KfS4/8jo"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EXXD+NXZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739216306;
+	s=mimecast20190719; t=1739216311;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mARFTZKeX08fN9+zJg7ejGdzGLsE2rU+aFhmUgxRNAg=;
-	b=KfS4/8jodMlKiJVwcVyxdPzC5rjodW+uMZr1E8j5emxB1DZQa0h028WB4EWfwhXvsVqwl7
-	XdxLCUvtYlmf8VpPiW6mmnp4VZIBl61gmUhchaV8OT8M/H68ydKZ6v5vyI3H0Q9pxqegqu
-	zP7AZIx9CUxYsEcpL1X8EBneiTfF3oc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=fLiFHA5Aiy4k7pcGr1QPi7NyoGcLfJYJaAk0JBe4xM8=;
+	b=EXXD+NXZQtX8WOsFr+c2PuKRT5sJO4WZUVBvqTUrn3vMkAOxnAQPj4sBkfBa16IPg1VwU2
+	tfY8a5UBSdeB1SnxAreOvCJFy+35tNNJFLEWqKgRMVEbVY+xjSxUF4s6SYxNtdPPAWssMh
+	3W0uSLCuD/FBpwrrIcGOApnWdANtPEE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-146-w51c1EdMNC2WRmmxR1Ddqg-1; Mon, 10 Feb 2025 14:38:24 -0500
-X-MC-Unique: w51c1EdMNC2WRmmxR1Ddqg-1
-X-Mimecast-MFC-AGG-ID: w51c1EdMNC2WRmmxR1Ddqg
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-38dcc9653caso862290f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 11:38:24 -0800 (PST)
+ us-mta-138-saT4h_bvOV-ls1o1r-WnXA-1; Mon, 10 Feb 2025 14:38:29 -0500
+X-MC-Unique: saT4h_bvOV-ls1o1r-WnXA-1
+X-Mimecast-MFC-AGG-ID: saT4h_bvOV-ls1o1r-WnXA
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-38dd6edef72so1032949f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 11:38:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739216303; x=1739821103;
+        d=1e100.net; s=20230601; t=1739216307; x=1739821107;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mARFTZKeX08fN9+zJg7ejGdzGLsE2rU+aFhmUgxRNAg=;
-        b=J6LZl4Zhq42fiLFBa5Y1dM1z5Fqwjx/oIM70zrC/8dPtoKBn5CTLz1uw8J+Jzj4c15
-         d/BPmWGbiZJJyibTCmqamtUDtYoeEDHKJfmTx7F3q9JjU0rrWlZU7lmTMMvvNf0Vnkfi
-         9tA4QquEF+6x+6oKwL4OZKTOmlAeG1gCWS1nqiuJDfVmaeyt2L4QRqpr1uxsFScONvpg
-         3njEpAdmpd/c5Xk8VDNAhVNShskd64gxZRpkDLtBh91X3S0I0Fmzu/WMSvkykrkKjuUZ
-         6KsDOQ6y4UckssenBnesLGn9VW3iFmSMmY9o6nwch8JUi9kB1GoCIMEgp/kqDQWPWSVx
-         gk0Q==
-X-Gm-Message-State: AOJu0YxS8MaMoGzsHJLSaEY3AlMmobqfQoxfjutMlf3pReCM3z8YA573
-	FAHRGzL/fbyq3axS9oe2BVbHgUpuDd8Qdw97Zd0m5vO7VC5ezV7mJv4nMkUwD5o4livpNIvFXyf
-	7UZNx8XpL6yhj69zdX0oMGD9tuDkLz+PrCoUXRQCgAPKOdH4hr1/xxP3WXw==
-X-Gm-Gg: ASbGnctNtI6C0WaQvQ1D9/IpeGE2hinLLsIQvfvdwond5MBoouDq3Yit8xtO8QHbV6f
-	gVJ2dUag7ekkKWr4aTH3IcR4XjQiXawKnOxGWsbzHEZk9sixKMcFj695+zu5xV1bPNSoRjjGNOh
-	xLn2OAU0mkn/btazibSLUWh1FcjGItl/DVoBxnEt80OSbVTBXDYNoH2trZ4qwigQbbxIVT1/yB/
-	845JuRc89rRLFkGZBwoSvkYdpAZPf8eZHMcBGe7kiukK3KNYZfU1AznrliKK4oc454167KlmlUP
-	5KXX3BQD+LIrATkTQ2CAe7edXCTvVA26vIiL1SAfm07hWFA7X4AA2YEw73zvoztIvQ==
-X-Received: by 2002:a05:6000:18a5:b0:38d:e33d:d0db with SMTP id ffacd0b85a97d-38de33dd2b2mr2312777f8f.14.1739216303469;
-        Mon, 10 Feb 2025 11:38:23 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH1Llhtf765OHh3Rdp8g77cDKhZyIe7rPLF3LamWfRFHXBXmPgwl/7uacqNHueSdZU9tH9+kA==
-X-Received: by 2002:a05:6000:18a5:b0:38d:e33d:d0db with SMTP id ffacd0b85a97d-38de33dd2b2mr2312758f8f.14.1739216303053;
-        Mon, 10 Feb 2025 11:38:23 -0800 (PST)
+        bh=fLiFHA5Aiy4k7pcGr1QPi7NyoGcLfJYJaAk0JBe4xM8=;
+        b=n0r978YKwpvrzZplD/8Myf9/4cD5Xoe053J1ENbk4wMCxJuxDxZasi6VaiKiKh6BhH
+         H3Sju+kVY25SjvgXwctEIUWQMt6CrrMNjKLsrTiUEk1ypvP+y5lk4JaZKdg+fWu4X+PC
+         LI7cIPTkXcv/fu3lbsMa2WZmUy+jy97sxpm2OAE3bs0Buf5bAmQqVnZdYYKFSch53bQn
+         odj0X2pnF1ZHw5P2jdE8pGpljMHUMJZzmQZu3tmRbwwL3IGTopfVjuvDvxLx8TIuImwC
+         Ye6j+oDOXHU85Qw+QQ88ucTkkhtZnHjlvU/6B0Qyw/CbdFK0nKrSlC3m1I0eIKs1ld1j
+         WomQ==
+X-Gm-Message-State: AOJu0Yy5MF/Z1j78pWLg9iKyoFFpQI58P8MokWIc2QX5oqyMI5pH96JS
+	uqwmmh+z3dCeH7pJuYEONgzuSNsti6oIriTa0zBJUZlhDgK5HgnyiANdcaS94owXuDYSAuB8/D+
+	3qTG75GtqXSTOLDMNLujVhn0aAkFtsgt/qVyMCOaXZ7pcQ0t5wu23hExbHw==
+X-Gm-Gg: ASbGncvW5Z5As0LUgrxnO3FyQLgjACkPLXWYSlbt8VYMMyKXAO8jvd1GZyEViHxFxmg
+	jDVEEVvVTT2srMQ4+GRaest5qc1wA5eoFfxlYloAr0gDo/aZaJLZm3q2smkduVMJG126d6dQHvR
+	Z2C/RclXxe5BvE4DFCIn6ItooxrADOOiGxyQGHF2/8YN1lzVucHlzu+ABXewe84n7HbPfXE2oyA
+	uqKK/JaBNlm0ary8Ew6qWbWEMQBFqZSbpFN7X9ckb55JSM0KBG8ESrNottnMoVYAuXQBLwap2IP
+	LyaxpQa3yS8QT2qwFEKf6WGXSAmFxP1KWukO9yfpnf6qyTYbTbOELnXdpSjNeebpBA==
+X-Received: by 2002:a05:6000:2ab:b0:38d:e3fd:1a1c with SMTP id ffacd0b85a97d-38de43b38d8mr568339f8f.23.1739216307226;
+        Mon, 10 Feb 2025 11:38:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGsdgSvAB5qD8mlN6AGjEYvBbSJNfBUob/X5TfyCrhv/WAdQoby+DEB/v6QRZcPR+eQm0f2lQ==
+X-Received: by 2002:a05:6000:2ab:b0:38d:e3fd:1a1c with SMTP id ffacd0b85a97d-38de43b38d8mr568308f8f.23.1739216306759;
+        Mon, 10 Feb 2025 11:38:26 -0800 (PST)
 Received: from localhost (p200300cbc734b80012c465cd348aaee6.dip0.t-ipconnect.de. [2003:cb:c734:b800:12c4:65cd:348a:aee6])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38dd3fc7ee5sm7734941f8f.39.2025.02.10.11.38.20
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38dc2f6aeafsm11911098f8f.20.2025.02.10.11.38.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2025 11:38:21 -0800 (PST)
+        Mon, 10 Feb 2025 11:38:25 -0800 (PST)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -94,10 +94,11 @@ Cc: linux-doc@vger.kernel.org,
 	Pasha Tatashin <pasha.tatashin@soleen.com>,
 	Peter Xu <peterx@redhat.com>,
 	Alistair Popple <apopple@nvidia.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v2 05/17] mm/memory: detect writability in restore_exclusive_pte() through can_change_pte_writable()
-Date: Mon, 10 Feb 2025 20:37:47 +0100
-Message-ID: <20250210193801.781278-6-david@redhat.com>
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>
+Subject: [PATCH v2 06/17] mm: use single SWP_DEVICE_EXCLUSIVE entry type
+Date: Mon, 10 Feb 2025 20:37:48 +0100
+Message-ID: <20250210193801.781278-7-david@redhat.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250210193801.781278-1-david@redhat.com>
 References: <20250210193801.781278-1-david@redhat.com>
@@ -109,64 +110,150 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Let's do it just like mprotect write-upgrade or during NUMA-hinting
-faults on PROT_NONE PTEs: detect if the PTE can be writable by using
-can_change_pte_writable().
+There is no need for the distinction anymore; let's merge the readable
+and writable device-exclusive entries into a single device-exclusive
+entry type.
 
-Set the PTE only dirty if the folio is dirty: we might not
-necessarily have a write access, and setting the PTE writable doesn't
-require setting the PTE dirty.
-
-From a CPU perspective, these entries are clean. So only set the PTE dirty
-if the folios is dirty.
-
-With this change in place, there is no need to have separate
-readable and writable device-exclusive entry types, and we'll merge
-them next separately.
-
-Note that, during fork(), we first convert the device-exclusive entries
-back to ordinary PTEs, and we only ever allow conversion of writable
-PTEs to device-exclusive -- only mprotect can currently change them to
-readable-device-exclusive. Consequently, we always expect
-PageAnonExclusive(page)==true and can_change_pte_writable()==true,
-unless we are dealing with soft-dirty tracking or uffd-wp. But reusing
-can_change_pte_writable() for now is cleaner.
-
+Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+Reviewed-by: Alistair Popple <apopple@nvidia.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/memory.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ include/linux/swap.h    |  7 +++----
+ include/linux/swapops.h | 27 ++++-----------------------
+ mm/mprotect.c           |  8 --------
+ mm/page_table_check.c   |  5 ++---
+ mm/rmap.c               |  2 +-
+ 5 files changed, 10 insertions(+), 39 deletions(-)
 
-diff --git a/mm/memory.c b/mm/memory.c
-index 539c0f7c6d545..ba33ba3b7ea17 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -723,18 +723,21 @@ static void restore_exclusive_pte(struct vm_area_struct *vma,
- 	struct folio *folio = page_folio(page);
- 	pte_t orig_pte;
- 	pte_t pte;
--	swp_entry_t entry;
+diff --git a/include/linux/swap.h b/include/linux/swap.h
+index b13b72645db33..26b1d8cc5b0e7 100644
+--- a/include/linux/swap.h
++++ b/include/linux/swap.h
+@@ -74,14 +74,13 @@ static inline int current_is_kswapd(void)
+  * to a special SWP_DEVICE_{READ|WRITE} entry.
+  *
+  * When a page is mapped by the device for exclusive access we set the CPU page
+- * table entries to special SWP_DEVICE_EXCLUSIVE_* entries.
++ * table entries to a special SWP_DEVICE_EXCLUSIVE entry.
+  */
+ #ifdef CONFIG_DEVICE_PRIVATE
+-#define SWP_DEVICE_NUM 4
++#define SWP_DEVICE_NUM 3
+ #define SWP_DEVICE_WRITE (MAX_SWAPFILES+SWP_HWPOISON_NUM+SWP_MIGRATION_NUM)
+ #define SWP_DEVICE_READ (MAX_SWAPFILES+SWP_HWPOISON_NUM+SWP_MIGRATION_NUM+1)
+-#define SWP_DEVICE_EXCLUSIVE_WRITE (MAX_SWAPFILES+SWP_HWPOISON_NUM+SWP_MIGRATION_NUM+2)
+-#define SWP_DEVICE_EXCLUSIVE_READ (MAX_SWAPFILES+SWP_HWPOISON_NUM+SWP_MIGRATION_NUM+3)
++#define SWP_DEVICE_EXCLUSIVE (MAX_SWAPFILES+SWP_HWPOISON_NUM+SWP_MIGRATION_NUM+2)
+ #else
+ #define SWP_DEVICE_NUM 0
+ #endif
+diff --git a/include/linux/swapops.h b/include/linux/swapops.h
+index 96f26e29fefed..64ea151a7ae39 100644
+--- a/include/linux/swapops.h
++++ b/include/linux/swapops.h
+@@ -186,26 +186,16 @@ static inline bool is_writable_device_private_entry(swp_entry_t entry)
+ 	return unlikely(swp_type(entry) == SWP_DEVICE_WRITE);
+ }
  
- 	orig_pte = ptep_get(ptep);
- 	pte = pte_mkold(mk_pte(page, READ_ONCE(vma->vm_page_prot)));
- 	if (pte_swp_soft_dirty(orig_pte))
- 		pte = pte_mksoft_dirty(pte);
+-static inline swp_entry_t make_readable_device_exclusive_entry(pgoff_t offset)
++static inline swp_entry_t make_device_exclusive_entry(pgoff_t offset)
+ {
+-	return swp_entry(SWP_DEVICE_EXCLUSIVE_READ, offset);
+-}
+-
+-static inline swp_entry_t make_writable_device_exclusive_entry(pgoff_t offset)
+-{
+-	return swp_entry(SWP_DEVICE_EXCLUSIVE_WRITE, offset);
++	return swp_entry(SWP_DEVICE_EXCLUSIVE, offset);
+ }
  
--	entry = pte_to_swp_entry(orig_pte);
- 	if (pte_swp_uffd_wp(orig_pte))
- 		pte = pte_mkuffd_wp(pte);
--	else if (is_writable_device_exclusive_entry(entry))
--		pte = maybe_mkwrite(pte_mkdirty(pte), vma);
-+
-+	if ((vma->vm_flags & VM_WRITE) &&
-+	    can_change_pte_writable(vma, address, pte)) {
-+		if (folio_test_dirty(folio))
-+			pte = pte_mkdirty(pte);
-+		pte = pte_mkwrite(pte, vma);
-+	}
+ static inline bool is_device_exclusive_entry(swp_entry_t entry)
+ {
+-	return swp_type(entry) == SWP_DEVICE_EXCLUSIVE_READ ||
+-		swp_type(entry) == SWP_DEVICE_EXCLUSIVE_WRITE;
++	return swp_type(entry) == SWP_DEVICE_EXCLUSIVE;
+ }
  
- 	VM_BUG_ON_FOLIO(pte_write(pte) && (!folio_test_anon(folio) &&
- 					   PageAnonExclusive(page)), folio);
+-static inline bool is_writable_device_exclusive_entry(swp_entry_t entry)
+-{
+-	return unlikely(swp_type(entry) == SWP_DEVICE_EXCLUSIVE_WRITE);
+-}
+ #else /* CONFIG_DEVICE_PRIVATE */
+ static inline swp_entry_t make_readable_device_private_entry(pgoff_t offset)
+ {
+@@ -227,12 +217,7 @@ static inline bool is_writable_device_private_entry(swp_entry_t entry)
+ 	return false;
+ }
+ 
+-static inline swp_entry_t make_readable_device_exclusive_entry(pgoff_t offset)
+-{
+-	return swp_entry(0, 0);
+-}
+-
+-static inline swp_entry_t make_writable_device_exclusive_entry(pgoff_t offset)
++static inline swp_entry_t make_device_exclusive_entry(pgoff_t offset)
+ {
+ 	return swp_entry(0, 0);
+ }
+@@ -242,10 +227,6 @@ static inline bool is_device_exclusive_entry(swp_entry_t entry)
+ 	return false;
+ }
+ 
+-static inline bool is_writable_device_exclusive_entry(swp_entry_t entry)
+-{
+-	return false;
+-}
+ #endif /* CONFIG_DEVICE_PRIVATE */
+ 
+ #ifdef CONFIG_MIGRATION
+diff --git a/mm/mprotect.c b/mm/mprotect.c
+index 516b1d847e2cd..9cb6ab7c40480 100644
+--- a/mm/mprotect.c
++++ b/mm/mprotect.c
+@@ -225,14 +225,6 @@ static long change_pte_range(struct mmu_gather *tlb,
+ 				newpte = swp_entry_to_pte(entry);
+ 				if (pte_swp_uffd_wp(oldpte))
+ 					newpte = pte_swp_mkuffd_wp(newpte);
+-			} else if (is_writable_device_exclusive_entry(entry)) {
+-				entry = make_readable_device_exclusive_entry(
+-							swp_offset(entry));
+-				newpte = swp_entry_to_pte(entry);
+-				if (pte_swp_soft_dirty(oldpte))
+-					newpte = pte_swp_mksoft_dirty(newpte);
+-				if (pte_swp_uffd_wp(oldpte))
+-					newpte = pte_swp_mkuffd_wp(newpte);
+ 			} else if (is_pte_marker_entry(entry)) {
+ 				/*
+ 				 * Ignore error swap entries unconditionally,
+diff --git a/mm/page_table_check.c b/mm/page_table_check.c
+index 509c6ef8de400..c2b3600429a0c 100644
+--- a/mm/page_table_check.c
++++ b/mm/page_table_check.c
+@@ -196,9 +196,8 @@ EXPORT_SYMBOL(__page_table_check_pud_clear);
+ /* Whether the swap entry cached writable information */
+ static inline bool swap_cached_writable(swp_entry_t entry)
+ {
+-	return is_writable_device_exclusive_entry(entry) ||
+-	    is_writable_device_private_entry(entry) ||
+-	    is_writable_migration_entry(entry);
++	return is_writable_device_private_entry(entry) ||
++	       is_writable_migration_entry(entry);
+ }
+ 
+ static inline void page_table_check_pte_flags(pte_t pte)
+diff --git a/mm/rmap.c b/mm/rmap.c
+index 0cd2a2d3de00d..1129ed132af94 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -2492,7 +2492,7 @@ struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
+ 	 * do_swap_page() will trigger the conversion back while holding the
+ 	 * folio lock.
+ 	 */
+-	entry = make_writable_device_exclusive_entry(page_to_pfn(page));
++	entry = make_device_exclusive_entry(page_to_pfn(page));
+ 	swp_pte = swp_entry_to_pte(entry);
+ 	if (pte_soft_dirty(fw.pte))
+ 		swp_pte = pte_swp_mksoft_dirty(swp_pte);
 -- 
 2.48.1
 
