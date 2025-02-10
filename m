@@ -1,62 +1,62 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51FA524CEC4
-	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 21:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FE024CEDF
+	for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 21:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739223369; cv=none; b=tfaRpQQJTqpHP/AlOUWxzgGaFWmIGnJ40o0doFqQaAntw2TbQ518cyDAApmjyisgO9ziXRO6AiAuwvmj4m2Iethfi7826jwHyvKGmnmxVelzIc0nE7he4gyOc4gfmayW3+5tpn6NzNI0zx0AIUd1rUaEgFl5/w2UVOk5SQtLUcA=
+	t=1739223370; cv=none; b=MBZ93ckQQcwNgfm3t0sa7ltP9vGb/uVbl546XYbCQcuksVrgLD3ZKPumyfj5rercyqQVVhnC0arpyDAvg/pVJuE7s8E2VMMzDScDlbVbFKwaL1o+xuJKQC+HU81YjzWDFwViRIhocbGP5ArMiKvm9XNNgjkWadtKf5NfcFLR4rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739223369; c=relaxed/simple;
-	bh=pmkjbFivpopT/t1TZQFWk2I+IyDpQtxJktgGqR1CYS4=;
+	s=arc-20240116; t=1739223370; c=relaxed/simple;
+	bh=FpB5O8tTVYsJf4s/U7ogtYS7K3aviElxXOMssz8eUCA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uQrux9S8nVnbIbENSHmx3IDnEN1o/J5qtKvP4sc0sz6hCGMYGSMbnZ9CRIZisPSfgt01jT9GlD4mUtLXyy03aQB3dDs93IL9BRXFW5pRLtnn3IlML8b2G4npJ6utIzZFrcwQdciW1Ibvb5NmdOEzv4vS1UnmkK2Pb3FJpG3nTjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ElJIDrr+; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version:Content-Type; b=jOJ2zT5NrixLRd2X/zgvJ8Ga5zPONO/sZTy/R4v6WAZxhCh355cFAFq6++K7yRS/fpkc/U+AKlCgNRu2BsUivbp/4UTRFwwnXugH3gTmhQQnZAYfUPPQkC9wOe939zQpsXls2pTOu+v9SRxpWd9qz6/xoRzrWZTg1wB8ceFiZi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=tZ+JjSQA; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ElJIDrr+"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43675b1155bso54261695e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 13:36:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="tZ+JjSQA"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-436249df846so33001895e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Feb 2025 13:36:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1739223364; x=1739828164; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1739223366; x=1739828166; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dNygMxZnETinUIbqht3HdG0xEf8Y/zFmGWQC8EBuXhA=;
-        b=ElJIDrr+OQmC6jPe4mIqSUR5mRtwFbqWwlWYxdQY172qlMaLocL9xC3e5VOO+gRaBa
-         3naV6gwfGy38sh/uaicAqANkjcJP4WPFwOUVvy9FE1sKKJtNlYjVDHyg9uwjITm1kBo9
-         NPeuA/E4aS0R0U6gA1TvQ5e3tj/Mj2mDiH0MA275Qu+wl3ds+1COyLrv9BfDf9Exfo3M
-         fgcP45ipCYrBFuBvkl5FkZ51sctmxLmrhVdtDkK+Pl0uCJp6TiaBzyUqdxYWjhfvjivN
-         gDL2AFe0gXWxcsj9XgQNXVa1ax8b1RhCxKRvHEL/aQ55di+FO7oVzu4dwy2pcG7gDqaC
-         WIJA==
+        bh=t9JWUPguvJXyATshOaEX8SYplIWPzd3JQCRzjjvJvmU=;
+        b=tZ+JjSQA+Ap6lIB85/I7ByYMIbZ+WtVNR8gDiU8JDzHacv0HnyWiJNBFkp0+sUHEuP
+         jGADN5Ewf4zrMTiWKBetNqVgqywQbW9etDsn0ka8IzjnhtDp8Yd7vVrvccBYLypEiti1
+         +AsdvZfm0HisZW4VcHdbJ3ffUoii08xZAw5ruW+9oRe7TspsTFFOhc4W3tMKfUU6QrQ1
+         EaXikjnTQOr5ZGWrw8Olq9XlQThD9+YyioCfma7Sls2yBMMrg2YSAz2jt4Hb/CYiPkjM
+         CHrPwut7vvCAsHJuGwUxlwSn0Q/9vM7WD2mWqgC78kYofbsVs7uJ0glN2sl9ayWUfW1a
+         G3yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739223364; x=1739828164;
+        d=1e100.net; s=20230601; t=1739223366; x=1739828166;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dNygMxZnETinUIbqht3HdG0xEf8Y/zFmGWQC8EBuXhA=;
-        b=IK6cVJD5BX/cZY4icp1Xb1Mei2FR8wY4h/UTMuwLjk0N8b9chKcPBJj8kaPjzxunZF
-         Ofydn6lnz1S43mqZIuO0jHVjR2o5c3VOpjT2Nh10t2unI23ESYM1G+cWd0bwlzBWQPRz
-         Gy3CWMaTYeOFy+FJDxj7WWASiV0o4QUD1T+sxHBnPUkuIxgSZe7SPWV/FM2WYhvNQvzD
-         KMiOpesFymLXGXRsUuUdooLS1UL6sFezuS2+bKNX8ZFTdz8bHVONbLMeBJVJaCtQzd/F
-         M5S7c8QXTdacfuogPPleYzJ30EUc+L87qrieCBFHERABvJTEeJIYXfVhez4b3pdCEo4z
-         3YgA==
-X-Forwarded-Encrypted: i=1; AJvYcCULA+5TRkS+HvpIayikGWxrH/ml7/jJYAbbwRHgFyATJzHT4Ohx7A7VsfrbvspzyI/aZT4bPbQP/sc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyg61RF7l+ExrkhV5sO1sgcRdS0kE76XkQ1QyK18mAYGGxWF3hW
-	YiFAhWnW+Tup069M+eNns02RbcnhBxNrGUDBsa17XJBmshhQtiE2kZ4LUCGLg0I=
-X-Gm-Gg: ASbGncs1CcvaMKf/aJGWybxyMnuUcP9HKONAHVgF/1z41ztUU5ydBtYmeOOYB5mkfnv
-	7VwntjklBnq5AuG1e//age86pdRJ4YNInb/8esQjfnaYUr1VW+xC7RvScwmPbNCynAiXEmru+uD
-	xQ9Z6tyhtGnqHZWh6Ho7XxNQcg5FjKgzkm63riNHL57p73fwr9Y4trCJJXNu/y9LD0GSIoBsqly
-	jjp/jWaUSBWbKrLrYfT7g/ga9h8fzhHJbRWYUaRwB2W2FYW742Uwf/bHY+n2WOYT+pKFbMjyy22
-	oTDBxxdzzznoe9fU
-X-Google-Smtp-Source: AGHT+IEAhlsJGIdKtITdkCqcTf1jglZE/SWwXLDChC0QYiT0cR7GNzwUW0cObTxbcQCBuKABIqPOaA==
-X-Received: by 2002:a05:600c:1f17:b0:436:e8b4:36e7 with SMTP id 5b1f17b1804b1-43924987efbmr120307725e9.8.1739223364575;
-        Mon, 10 Feb 2025 13:36:04 -0800 (PST)
+        bh=t9JWUPguvJXyATshOaEX8SYplIWPzd3JQCRzjjvJvmU=;
+        b=qFzvD0LzweypTEVBFKs4m7scQ70AgPklbmjX2+1Uk6E2euZS11uUVKTVdRUtP7AS39
+         TGXo8Qj78+zE+pXu3TApWvzotKx7dPKLsvO1KximhDFDSzFTMtrh7KLl92PwsfM5bDFa
+         w7V0TlGzYjjhRb6UeyZ1Ywrqsi0b5k2WzRUThzxLqEqT9Uz294oS1JBis/ULxBUqPEMi
+         nNGJ0ILb++LcbOsMwq8xDp1/UF47Hp2pRz0WnL/gEKre6g8V0hH53HIW1M5asE+cTqg0
+         hZqfJp/ZUfiu+0dfSVNu7MAQnvOVRJ9p2pq0zl3X0HIpNEJSJYbBOG1y2bTbF1W2OEIv
+         dang==
+X-Forwarded-Encrypted: i=1; AJvYcCUk6QZUH0SuISzA3HlM8PYmw+6zTowTjZQpFwTorWQclu+Yk0/JF4+g6aBZdiV3Z3fqOuwwFy480DQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3DeFBwsHnsySw8wi/hYQcsO4IRLmN1DwYY7MyICWQHdrxJfnn
+	UDK5lf4v8BLKuQ3npBoUbTEy1h2a/50yL43oPhBwS49GaXrhWhwkAAWQI1ZWMHc=
+X-Gm-Gg: ASbGnctPzp8h+0O7E2K9gyXl3SbDGxtoOcFNeJVBwCkiRN72m7oIayRMDHJFAeHCVBz
+	B/04e3ObanPR9A5mspydXJ+mSfGol6XjURPiL4jXaYESA6a4aIGywGxCJQEvE6fk8fkLI1j6qWU
+	hP1D304WHhZr1VxcrxRoCM0mR8y+7W7ZLes/oBc80ZAOu6t/Fg1ldEbSJMLaKUIylJUFnfhh1+h
+	0X8n+/hcoiuUkbCrftjTBKTNksDa7q5ShoctCiAZN7S9mqLPkE/qMAqSoCB4AQo40CkujB+HUJz
+	M2z87a0a0uVPawwu
+X-Google-Smtp-Source: AGHT+IFCUBo5ZJUEfRAM++W2IWKipAW2usGjFmvIL0zfj471rainYZRPFDdB0RmyHu2I/2e1UVroug==
+X-Received: by 2002:a05:600c:1d86:b0:439:4499:54de with SMTP id 5b1f17b1804b1-439449955c6mr51321255e9.31.1739223365934;
+        Mon, 10 Feb 2025 13:36:05 -0800 (PST)
 Received: from carbon-x1.. ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4394376118esm47541515e9.40.2025.02.10.13.36.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4394376118esm47541515e9.40.2025.02.10.13.36.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 13:36:03 -0800 (PST)
+        Mon, 10 Feb 2025 13:36:05 -0800 (PST)
 From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -72,9 +72,9 @@ To: Paul Walmsley <paul.walmsley@sifive.com>,
 	linux-kselftest@vger.kernel.org
 Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
 	Samuel Holland <samuel.holland@sifive.com>
-Subject: [PATCH v2 01/15] riscv: add Firmware Feature (FWFT) SBI extensions definitions
-Date: Mon, 10 Feb 2025 22:35:34 +0100
-Message-ID: <20250210213549.1867704-2-cleger@rivosinc.com>
+Subject: [PATCH v2 02/15] riscv: misaligned: request misaligned exception from SBI
+Date: Mon, 10 Feb 2025 22:35:35 +0100
+Message-ID: <20250210213549.1867704-3-cleger@rivosinc.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250210213549.1867704-1-cleger@rivosinc.com>
 References: <20250210213549.1867704-1-cleger@rivosinc.com>
@@ -87,74 +87,201 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The Firmware Features extension (FWFT) was added as part of the SBI 3.0
-specification. Add SBI definitions to use this extension.
+Now that the kernel can handle misaligned accesses in S-mode, request
+misaligned access exception delegation from SBI. This uses the FWFT SBI
+extension defined in SBI version 3.0.
 
 Signed-off-by: Clément Léger <cleger@rivosinc.com>
-Reviewed-by: Samuel Holland <samuel.holland@sifive.com>
-Tested-by: Samuel Holland <samuel.holland@sifive.com>
 ---
- arch/riscv/include/asm/sbi.h | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ arch/riscv/include/asm/cpufeature.h        |  3 +-
+ arch/riscv/kernel/traps_misaligned.c       | 96 +++++++++++++++++++++-
+ arch/riscv/kernel/unaligned_access_speed.c | 11 ++-
+ 3 files changed, 105 insertions(+), 5 deletions(-)
 
-diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
-index 3d250824178b..d373b5c08039 100644
---- a/arch/riscv/include/asm/sbi.h
-+++ b/arch/riscv/include/asm/sbi.h
-@@ -35,6 +35,7 @@ enum sbi_ext_id {
- 	SBI_EXT_DBCN = 0x4442434E,
- 	SBI_EXT_STA = 0x535441,
- 	SBI_EXT_NACL = 0x4E41434C,
-+	SBI_EXT_FWFT = 0x46574654,
+diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
+index 569140d6e639..ad7d26788e6a 100644
+--- a/arch/riscv/include/asm/cpufeature.h
++++ b/arch/riscv/include/asm/cpufeature.h
+@@ -64,8 +64,9 @@ void __init riscv_user_isa_enable(void);
+ 	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts), _validate)
  
- 	/* Experimentals extensions must lie within this range */
- 	SBI_EXT_EXPERIMENTAL_START = 0x08000000,
-@@ -402,6 +403,33 @@ enum sbi_ext_nacl_feature {
- #define SBI_NACL_SHMEM_SRET_X(__i)		((__riscv_xlen / 8) * (__i))
- #define SBI_NACL_SHMEM_SRET_X_LAST		31
+ bool check_unaligned_access_emulated_all_cpus(void);
++void unaligned_access_init(void);
++int cpu_online_unaligned_access_init(unsigned int cpu);
+ #if defined(CONFIG_RISCV_SCALAR_MISALIGNED)
+-void check_unaligned_access_emulated(struct work_struct *work __always_unused);
+ void unaligned_emulation_finish(void);
+ bool unaligned_ctl_available(void);
+ DECLARE_PER_CPU(long, misaligned_access_speed);
+diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
+index 7cc108aed74e..66eef398bad4 100644
+--- a/arch/riscv/kernel/traps_misaligned.c
++++ b/arch/riscv/kernel/traps_misaligned.c
+@@ -16,6 +16,7 @@
+ #include <asm/entry-common.h>
+ #include <asm/hwprobe.h>
+ #include <asm/cpufeature.h>
++#include <asm/sbi.h>
+ #include <asm/vector.h>
  
-+/* SBI function IDs for FW feature extension */
-+#define SBI_EXT_FWFT_SET		0x0
-+#define SBI_EXT_FWFT_GET		0x1
+ #define INSN_MATCH_LB			0x3
+@@ -635,7 +636,7 @@ bool check_vector_unaligned_access_emulated_all_cpus(void)
+ 
+ static bool unaligned_ctl __read_mostly;
+ 
+-void check_unaligned_access_emulated(struct work_struct *work __always_unused)
++static void check_unaligned_access_emulated(struct work_struct *work __always_unused)
+ {
+ 	int cpu = smp_processor_id();
+ 	long *mas_ptr = per_cpu_ptr(&misaligned_access_speed, cpu);
+@@ -646,6 +647,13 @@ void check_unaligned_access_emulated(struct work_struct *work __always_unused)
+ 	__asm__ __volatile__ (
+ 		"       "REG_L" %[tmp], 1(%[ptr])\n"
+ 		: [tmp] "=r" (tmp_val) : [ptr] "r" (&tmp_var) : "memory");
++}
 +
-+enum sbi_fwft_feature_t {
-+	SBI_FWFT_MISALIGNED_EXC_DELEG		= 0x0,
-+	SBI_FWFT_LANDING_PAD			= 0x1,
-+	SBI_FWFT_SHADOW_STACK			= 0x2,
-+	SBI_FWFT_DOUBLE_TRAP			= 0x3,
-+	SBI_FWFT_PTE_AD_HW_UPDATING		= 0x4,
-+	SBI_FWFT_POINTER_MASKING_PMLEN		= 0x5,
-+	SBI_FWFT_LOCAL_RESERVED_START		= 0x6,
-+	SBI_FWFT_LOCAL_RESERVED_END		= 0x3fffffff,
-+	SBI_FWFT_LOCAL_PLATFORM_START		= 0x40000000,
-+	SBI_FWFT_LOCAL_PLATFORM_END		= 0x7fffffff,
++static int cpu_online_check_unaligned_access_emulated(unsigned int cpu)
++{
++	long *mas_ptr = per_cpu_ptr(&misaligned_access_speed, cpu);
 +
-+	SBI_FWFT_GLOBAL_RESERVED_START		= 0x80000000,
-+	SBI_FWFT_GLOBAL_RESERVED_END		= 0xbfffffff,
-+	SBI_FWFT_GLOBAL_PLATFORM_START		= 0xc0000000,
-+	SBI_FWFT_GLOBAL_PLATFORM_END		= 0xffffffff,
++	check_unaligned_access_emulated(NULL);
+ 
+ 	/*
+ 	 * If unaligned_ctl is already set, this means that we detected that all
+@@ -654,9 +662,10 @@ void check_unaligned_access_emulated(struct work_struct *work __always_unused)
+ 	 */
+ 	if (unlikely(unaligned_ctl && (*mas_ptr != RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED))) {
+ 		pr_crit("CPU misaligned accesses non homogeneous (expected all emulated)\n");
+-		while (true)
+-			cpu_relax();
++		return -EINVAL;
+ 	}
++
++	return 0;
+ }
+ 
+ bool check_unaligned_access_emulated_all_cpus(void)
+@@ -688,4 +697,85 @@ bool check_unaligned_access_emulated_all_cpus(void)
+ {
+ 	return false;
+ }
++static int cpu_online_check_unaligned_access_emulated(unsigned int cpu)
++{
++	return 0;
++}
+ #endif
++
++#ifdef CONFIG_RISCV_SBI
++
++struct misaligned_deleg_req {
++	atomic_t error;
 +};
 +
-+#define SBI_FWFT_PLATFORM_FEATURE_BIT		(1 << 30)
-+#define SBI_FWFT_GLOBAL_FEATURE_BIT		(1 << 31)
++static int sbi_request_unaligned_delegation(void)
++{
++	struct sbiret ret;
 +
-+#define SBI_FWFT_SET_FLAG_LOCK			(1 << 0)
++	ret = sbi_ecall(SBI_EXT_FWFT, SBI_EXT_FWFT_SET,
++			SBI_FWFT_MISALIGNED_EXC_DELEG, 1, 0, 0, 0, 0);
 +
- /* SBI spec version fields */
- #define SBI_SPEC_VERSION_DEFAULT	0x1
- #define SBI_SPEC_VERSION_MAJOR_SHIFT	24
-@@ -419,6 +447,11 @@ enum sbi_ext_nacl_feature {
- #define SBI_ERR_ALREADY_STARTED -7
- #define SBI_ERR_ALREADY_STOPPED -8
- #define SBI_ERR_NO_SHMEM	-9
-+#define SBI_ERR_INVALID_STATE	-10
-+#define SBI_ERR_BAD_RANGE	-11
-+#define SBI_ERR_TIMEOUT		-12
-+#define SBI_ERR_IO		-13
-+#define SBI_ERR_DENIED_LOCKED	-14
++	return sbi_err_map_linux_errno(ret.error);
++}
++
++static bool misaligned_traps_delegated;
++
++static int cpu_online_sbi_unaligned_setup(unsigned int cpu)
++{
++	if (sbi_request_unaligned_delegation() && misaligned_traps_delegated) {
++		pr_crit("Misaligned trap delegation non homogeneous (expected delegated)");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static void
++cpu_unaligned_sbi_request_delegation(void *arg)
++{
++	struct misaligned_deleg_req *req = arg;
++
++	if (sbi_request_unaligned_delegation())
++		atomic_set(&req->error, 1);
++}
++
++static void unaligned_sbi_request_delegation(void)
++{
++	struct misaligned_deleg_req req = {.error = ATOMIC_INIT(0)};
++
++	on_each_cpu(cpu_unaligned_sbi_request_delegation, &req, 1);
++	if (atomic_read(&req.error) == 0) {
++		pr_info("SBI misaligned access exception delegation ok\n");
++		misaligned_traps_delegated = true;
++		/*
++		 * Note that we don't have to take any specific action here, if
++		 * the delegation is successful, then
++		 * check_unaligned_access_emulated() will verify that indeed the
++		 * platform traps on misaligned accesses.
++		 */
++	}
++}
++
++void unaligned_access_init(void)
++{
++	if (sbi_probe_extension(SBI_EXT_FWFT) > 0)
++		unaligned_sbi_request_delegation();
++}
++#else
++void unaligned_access_init(void) {}
++
++static int cpu_online_sbi_unaligned_setup(unsigned int cpu __always_unused)
++{
++	return 0;
++}
++#endif
++
++int cpu_online_unaligned_access_init(unsigned int cpu)
++{
++	int ret = cpu_online_sbi_unaligned_setup(cpu);
++	if (ret)
++		return ret;
++
++	return cpu_online_check_unaligned_access_emulated(cpu);
++}
+diff --git a/arch/riscv/kernel/unaligned_access_speed.c b/arch/riscv/kernel/unaligned_access_speed.c
+index 91f189cf1611..2f3aba073297 100644
+--- a/arch/riscv/kernel/unaligned_access_speed.c
++++ b/arch/riscv/kernel/unaligned_access_speed.c
+@@ -188,13 +188,20 @@ arch_initcall_sync(lock_and_set_unaligned_access_static_branch);
  
- extern unsigned long sbi_spec_version;
- struct sbiret {
+ static int riscv_online_cpu(unsigned int cpu)
+ {
++	int ret;
+ 	static struct page *buf;
+ 
+ 	/* We are already set since the last check */
+ 	if (per_cpu(misaligned_access_speed, cpu) != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN)
+ 		goto exit;
+ 
+-	check_unaligned_access_emulated(NULL);
++	ret = cpu_online_unaligned_access_init(cpu);
++	if (ret)
++		return ret;
++
++	if (per_cpu(misaligned_access_speed, cpu) == RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED)
++		goto exit;
++
+ 	buf = alloc_pages(GFP_KERNEL, MISALIGNED_BUFFER_ORDER);
+ 	if (!buf) {
+ 		pr_warn("Allocation failure, not measuring misaligned performance\n");
+@@ -403,6 +410,8 @@ static int check_unaligned_access_all_cpus(void)
+ {
+ 	bool all_cpus_emulated, all_cpus_vec_unsupported;
+ 
++	unaligned_access_init();
++
+ 	all_cpus_emulated = check_unaligned_access_emulated_all_cpus();
+ 	all_cpus_vec_unsupported = check_vector_unaligned_access_emulated_all_cpus();
+ 
 -- 
 2.47.2
 
