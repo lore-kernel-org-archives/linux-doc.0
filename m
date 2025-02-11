@@ -1,72 +1,38 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AFC1EF0AB
-	for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 08:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71E01F03C7;
+	Tue, 11 Feb 2025 08:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739262844; cv=none; b=FUgFkbBczBG6eK3NbgaBH+4vCcThbZdkU3KSIMUWbT0Xjl+zznE5pv0/4KiLFLv8EnLyCbHs2PmI+da+h+Bsr5GdXnbfZF3ktoEMDgzku1pmc27hmJ1/KBRq8fsGzTT5E7uIfcNYn7DBBmBPHVL1XZy9DB4y/wozlU+tIpJSq7E=
+	t=1739263398; cv=none; b=MGJDS0tL67plv7g3eFTiALCpiUpG+pfm+ODuDEUoFuumkN9+Iy/brD9ro2+aoBeh06fEIPCaoIeuQOQR+HxbDm+1U1jkuqewUys6dEKRogZSleGW1ERRBwVzbtU9EhhsJpxzhQaqV1pj03StLqS1rU2CNgSG3r+J/nz8/5Xv+Vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739262844; c=relaxed/simple;
-	bh=Au8XBPmMwlwFZ61FwwJbY3H/g7cAz6iuo5ULUZnNq+g=;
+	s=arc-20240116; t=1739263398; c=relaxed/simple;
+	bh=y13kSM2I6kFR3lwjanigTNCWNL+jHK50WvlXD1ugtWw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ao8EokL3fEiT0keJmLht/E1fp8PN7Gkx8FbmlhyOFeZehAFpdv6WrcPIbdNOiGkRAkQ3UXYIyI+OL1fEukHxlVb58xfWJADrLCliW5wqALkQC2+ZoCivbODgCSOZfwMSL4Ok9VK72fQ+GldSDadTe6LZxDpK4XNFfDSljbUcnsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BZJJFXQs; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=U8AKt+JDh9OjsaAH2o5nA/YwrY/HMJtSCjxikVEegWWjAuix2ffy9zfQsvH+4PbErnu+n3pwZHzibJH10MQfnON0T79OnBsE3nXkZL1+Ur/UmBNpI1XziaZuL31N1kC+hTvGWyoSstgOqULyxteyil6nswLv5DOG4dqDw6owMdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=HWkhh+WW; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BZJJFXQs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739262842;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mIqIp1BIbRZ5jFRcS7Am3BCGDHCX3wHlAnSNlNmFiWQ=;
-	b=BZJJFXQsViIkEimABulVkmWR3bJc2iqVVaU6Jbp6miWED9r0jT12jek0hp2nl+uzw9EdeU
-	VyW+JwkWogb9OwlW3eG2l+pJ1A8TlV+avv926kBRY3Mt6VXMe+GSthz1px5gOWWPMoiC82
-	A7FXJpXPMk+9Miu0jWOIB1V0NLrU0ag=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-573-7To9l-tjOLyKQGDRDbW12Q-1; Tue, 11 Feb 2025 03:34:00 -0500
-X-MC-Unique: 7To9l-tjOLyKQGDRDbW12Q-1
-X-Mimecast-MFC-AGG-ID: 7To9l-tjOLyKQGDRDbW12Q
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-43942e82719so14089765e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 00:34:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739262839; x=1739867639;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=mIqIp1BIbRZ5jFRcS7Am3BCGDHCX3wHlAnSNlNmFiWQ=;
-        b=Goc/hV0HwkzfupjetljR8YN7dHOWKsRIkwsswMd0b431JMRm2OWhPevSBB3PvUs3qH
-         QJQczOABKNjT+oTLLnf3E53f9SYtdZjeDPrrCGHkbcJqIWF5gbKlVxlsgUHOrkFX55nG
-         4QDvXTM5W/gftaKls5FxZEAd/pBZoK3a633ypxtw4m3AdxZ1bcKuvlsW2iKaGHcKkvc5
-         MBxS2GyolFL8dmIwOFQGzeeu27E+pq7VmudxwHjXDi09zpSWCQhZ5yXyK10IqSQS+cBO
-         bd/eqz+80mRwM9INMxJIuuFRZN85BXP0X6UBgeBN0avmfHwqDg5Sil4T1h8yGQrgfsem
-         fCgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+EN1AKYfKva46P4q8XZGWuVt3YLCzYIOBPH3eSTYYCqXxYG/FFkaz84Xb6BjsPss9AfzH+lvMn+s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHAwSZPQD41q5SQrIBFESemnFyMEdWLU44nZKYx8imTLgXqNGG
-	EJt4ubYg29XJ/8jAlGNYi+jmzQzH7UY27pAhUT0MOI7q75csSU2/JJeqwfvwLEhJFFyJqNtVZu2
-	/NcVvNWU/npdrIrCIfLEnyC6OQmZ4B3TvWMVHXNn1y4Ha6LWcYtdh7TAu5A==
-X-Gm-Gg: ASbGncvbzHtbgvXwCHDhMv3+HxOPKe49xzWBtuUNxiXwb00de6We0qyKP4jxD55ICPI
-	ruCM1wIGeMwNyDQJL4op/g/69ZVnZA9tkucWMRkpRh6dDy19oWTCldRXqzP6xfZ/mQQMfv6lMi2
-	PXl5koQhLmzyLGsFscr4zCESQ6ebHu+QP8PFMBvJGcryay6TbiELJcwWCTxQojoJ379Fz05LAbD
-	I7yDSnCCIZ2PxghgVNQK1p7lhwvk9LFmcC4iai7/aibriub8gjR/sgXDlHitjXDo/QFh8C/G/RN
-	MU7cGqhmTyNTPDboBGcMipmDAcFINVGCBHxBuU7P7SSzEg==
-X-Received: by 2002:a05:600c:358f:b0:436:1bbe:f686 with SMTP id 5b1f17b1804b1-439249a83c0mr109645835e9.21.1739262839409;
-        Tue, 11 Feb 2025 00:33:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEJyNq+mZpSMIMzz0wnTiImVt/FUDNeInl/wSkrB9SyIlWYR/M5mlCRyd/qU2Yby5bdkaf4JQ==
-X-Received: by 2002:a05:600c:358f:b0:436:1bbe:f686 with SMTP id 5b1f17b1804b1-439249a83c0mr109645555e9.21.1739262838972;
-        Tue, 11 Feb 2025 00:33:58 -0800 (PST)
-Received: from ?IPV6:2a01:599:929:885b:12c0:a824:1abd:41c4? ([2a01:599:929:885b:12c0:a824:1abd:41c4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4394136fb8bsm65885945e9.29.2025.02.11.00.33.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Feb 2025 00:33:57 -0800 (PST)
-Message-ID: <48fd75b9-696e-402c-95bd-55f2f0e24dfc@redhat.com>
-Date: Tue, 11 Feb 2025 09:33:54 +0100
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="HWkhh+WW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=uyJmcvGS+qmv1dFDk/+38JNtlkl5uWBR7dxdzJatsbk=; t=1739263396;
+	x=1739695396; b=HWkhh+WWuA4cJoDLohfk9voKzFTRK48DCaZBdELNe7m8jvKU27Se5MGPvVHCj
+	9ltwyvomXadGIe1gmR9nN1RajsyNCTwhxi4xnyR4cHb+C8fkuTx4RX+br4fc+bKHNE4y6rnTQrnho
+	78rmgmH6Y0QSG8xF3fgaMFC+PysbljuOwTIw3U+l8V6N7BY7P8mMLocOpexywuprZKV+cpDgOxdBb
+	DN5tbNzh5Cbv8GCVR6nWCmWQBlVWfRLw7Belp3u6nqbwvT7fVvD85Nu4iJOZrjScXD/o0MtNiuZ6n
+	fez/dBZzd6p/Rryhr5kmDO6JqkK7O+eWb7f6MW+sUYs2o4GNqw==;
+Received: from [2a02:8108:8984:1d00:a0cf:1912:4be:477f]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1thlrE-00Ayhf-05;
+	Tue, 11 Feb 2025 09:43:04 +0100
+Message-ID: <51ad94dc-4534-4255-b9d4-383ddd95cb5e@leemhuis.info>
+Date: Tue, 11 Feb 2025 09:43:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,146 +40,112 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/17] mm/rmap: convert make_device_exclusive_range()
- to make_device_exclusive()
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- nouveau@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, damon@lists.linux.dev,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, SeongJae Park <sj@kernel.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
- Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-References: <20250210193801.781278-1-david@redhat.com>
- <20250210193801.781278-4-david@redhat.com>
- <20250210210001.5dc68b38eb1bfa44d0fd78f6@linux-foundation.org>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20250210210001.5dc68b38eb1bfa44d0fd78f6@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
+ <20250207090518.GE24886@pendragon.ideasonboard.com>
+ <f50c7b22-2b31-47d2-8353-41d80f5241c1@leemhuis.info>
+ <20250210111501.GF2966@pendragon.ideasonboard.com>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <20250210111501.GF2966@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1739263396;1e52b262;
+X-HE-SMSGID: 1thlrE-00Ayhf-05
 
-On 11.02.25 06:00, Andrew Morton wrote:
-> On Mon, 10 Feb 2025 20:37:45 +0100 David Hildenbrand <david@redhat.com> wrote:
+On 10.02.25 12:15, Laurent Pinchart wrote:
+> On Sat, Feb 08, 2025 at 04:36:47PM +0100, Thorsten Leemhuis wrote:
+>> On 07.02.25 10:05, Laurent Pinchart wrote:
+>>> On Thu, Feb 06, 2025 at 03:30:10PM +0100, Thorsten Leemhuis wrote:
+>>> [...]
+>>>> +Be careful in the addition of the aforementioned tags to your patches, as all
+>>>> +except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
+>>>> +person named. For those three implicit permission is sufficient if the person
+>>>> +contributed to the Linux kernel using that name and email address according
+>>>> +to the lore archives or the commit history -- and in case of Reported-by:
+>>>> +and Suggested-by: did the reporting or suggestion in public. Note,
+>>>> +bugzilla.kernel.org is a public place in this sense, but email addresses
+>>>> +used there are private; so do not expose them in tags, unless the person
+>>>> +used them in earlier contributions.
+> [...]
+>> But I'm not sure how to solve that. Would simply
+>> dropping the "explicit" solve this? Or should I start the section like this:
 > 
->> The single "real" user in the tree of make_device_exclusive_range() always
->> requests making only a single address exclusive. The current implementation
->> is hard to fix for properly supporting anonymous THP / large folios and
->> for avoiding messing with rmap walks in weird ways.
->>
->> So let's always process a single address/page and return folio + page to
->> minimize page -> folio lookups. This is a preparation for further
->> changes.
->>
->> Reject any non-anonymous or hugetlb folios early, directly after GUP.
->>
->> While at it, extend the documentation of make_device_exclusive() to
->> clarify some things.
+> Dropping "explicit" seems to be the simplest solution, but the next
+> sentence mentions "implicit permission" which would then sound weird.
+
+TBH: a bit, yes, but I think I'd prefer that a tiny bit over making that
+section yet again a few lines longer. But I don't care much. Maybe
+someone else (Jonathan?) can weight in on this?
+
+>> ""
+>> Be careful in the addition of the aforementioned tags to your patches,
+>> almost all need permission by the person named; one can be assumed if
+>> the person provided that tag in a reply or acknowledged its inclusion
 > 
-> x86_64 allmodconfig:
-> 
-> drivers/gpu/drm/nouveau/nouveau_svm.c: In function 'nouveau_atomic_range_fault':
-> drivers/gpu/drm/nouveau/nouveau_svm.c:612:68: error: 'folio' undeclared (first use in this function)
->    612 |                 page = make_device_exclusive(mm, start, drm->dev, &folio);
->        |                                                                    ^~~~~
-> drivers/gpu/drm/nouveau/nouveau_svm.c:612:68: note: each undeclared identifier is reported only once for each function it appears in
+> "in a reply to a public list"
 
-Ah! Because I was carrying on the same branch SVM fixes [1] that are
-getting surprisingly little attention so far.
+Yes, albeit I'd go with "public reply" (shorter, and does not exclude a
+reply in a public bug tracker comment).
 
+>> after being made aware that name and email address will end up in public
+>> places where they can't be removed.
+>>
+>> The tags Cc:, Reported-by:, and Suggested-by: are an exception: for
+>> those three implicit permission is sufficient, ...
+>> """
+> This sounds good to me.
 
-The following sorts it out for now:
+Thx!
 
- From 337c68bf24af59f36477be11ea6ef7c7ce9aa8ae Mon Sep 17 00:00:00 2001
-From: David Hildenbrand <david@redhat.com>
-Date: Tue, 11 Feb 2025 09:33:04 +0100
-Subject: [PATCH] merge
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
-  drivers/gpu/drm/nouveau/nouveau_svm.c | 1 +
-  1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index 39e3740980bb7..1fed638b9eba8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -590,6 +590,7 @@ static int nouveau_atomic_range_fault(struct nouveau_svmm *svmm,
-  	unsigned long timeout =
-  		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-  	struct mm_struct *mm = svmm->notifier.mm;
-+	struct folio *folio;
-  	struct page *page;
-  	unsigned long start = args->p.addr;
-  	unsigned long notifier_seq;
--- 
-2.48.1
-
-
-I'll resend [1] once this stuff here landed.
-
-Let me know if you want a full resend of this series, thanks.
-
-
-[1] https://lkml.kernel.org/r/20250124181524.3584236-1-david@redhat.com
-
--- 
-Cheers,
-
-David / dhildenb
-
+Ciao, Thorsten
