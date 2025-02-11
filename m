@@ -1,215 +1,307 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF79821A424;
-	Tue, 11 Feb 2025 16:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87D325291B;
+	Tue, 11 Feb 2025 16:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739292422; cv=none; b=BIhaWCrnAO8eVNLCy5eK8igXw83whCnsYgRjGrC8peDNHIBy7Em8eO8IE2Mm1IKyC3ytvcr0L3HEMaiO0BnhQdnov6Qd96Lmc1uydwIfXU+nn6DKAt2rGpeHDr49YtJANVgbA1kBRBuwyVgsS+8wymh/99pEYllkLY66C832Ns4=
+	t=1739292961; cv=none; b=OmA9L7b6gaWNrjm3XZFw/32vGSfEXqEg+mKkKGSNmoWh0j+2GM3xtXIjIL2qj8y8BDCX1sNkYURTDOP3kPQhAp5BOTKIhztScDZzBd85o/YU/iMkMXQdk2m2sPjscDJxcBMRrD5F0+Rc7v1vnEuoUGlJux1U/HUyzyA/cs5MpGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739292422; c=relaxed/simple;
-	bh=Fw6SVeNXzLvfb224w7BNBYbemQCCrZ4h3Lf2HlO83tc=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=beG/JD4VetN9TGb5R1kz0gycDEdk60F8vAa6kiGJl5zyl6hC+TYOS1fiRTxgXurLl6oBnBCDdaOo5eYjzkcnxM27I8L/h5QNWeAY+49qhxOUM1igrtuKSg6+VKRYdzSwI/bQmt97gUx2uk3VPnLDG3A6UcoTHf2sMBJOdW8gn7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=ijHPvaWn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Of4q54We; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="ijHPvaWn";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Of4q54We"
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 9142E254018A;
-	Tue, 11 Feb 2025 11:46:59 -0500 (EST)
-Received: from phl-imap-10 ([10.202.2.85])
-  by phl-compute-02.internal (MEProxy); Tue, 11 Feb 2025 11:46:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1739292419;
-	 x=1739378819; bh=jELG8TlPFjBSmkdvazl9U9lJl1lPYlPrt7kKtqTvmOE=; b=
-	ijHPvaWnCKsJzTN5UV2Mq+eCkj1rCr4DQFIbASvd8rJB3StWviXgBm5aQwyb37//
-	5eDSqrInWl1kYT30iw3caBh/JLBwa8zxmnmRr40Dp3g20HRsEBrGNw6gNFhNOprp
-	aEbeRKjxJTBhj5JeuiHcHKsW0RebCHU6U98C4px6ZUElIxiVQ+3Fz+df/FITjX1l
-	fDocYueGa6o6H5KqVK6lUYfviHFdYXzrdEGt+70EFrNMzCZL3g8lhulL702mkn2v
-	B0p2AAsSLReZFKLeSK2VqqbZKXQxFyQAyV6mJrQabqWQWG1m5F2liudtcei42wXP
-	/noSsEI4OsABj/xWN6Jjzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739292419; x=
-	1739378819; bh=jELG8TlPFjBSmkdvazl9U9lJl1lPYlPrt7kKtqTvmOE=; b=O
-	f4q54WeRTb50+n9zfwp8I8H2h8i1OlpjpnnYNuKIjT+y4D8z/on7mGVoo2RM4kp+
-	2ZwUY1287RCGyJydyOwCVytiJDwa7jZoiz+bHB4R3Yfwl807BLdafgO5/BCGxAsf
-	3b5naPvaDOo0/gCPP9HYCDlp0S2muvU9k1MYxWM61qC6np7vXv/0YLE1fn8pUmPE
-	gy5GJEuwh/bByaAgg2xcdTw1gWXxvDLDQj9eCP7a7pPNTxBqh1bRXXoPxLuyMDiC
-	H8efzppbKr0iJwKdSVPPlzYG+5NtJ9tRYOB2pdwpQk9eIpdRq2XIph0Pqw7wT2oQ
-	FV5V0nryUuA24mnMpyfew==
-X-ME-Sender: <xms:An-rZzkxfYRRYJowecSjdC6digDQp1iapsUopeYNnxwDi68hWot14g>
-    <xme:An-rZ21HCfoEHYP9FlYXujKEfndQB63c9WOmEjncccI9M-aBppUy3N09Jq8tmzFWO
-    DEBuwYMUm71KEsTegI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegudehudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdforghrkhcurfgvrghrshhonhdfuceomhhpvggrrhhsohhnqdhlvg
-    hnohhvohesshhquhgvsggsrdgtrgeqnecuggftrfgrthhtvghrnhephfeuvdehteeghedt
-    hedtveehuddvjeejgffgieejvdegkefhfeelheekhedvffehnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhhpvggrrhhsohhnqdhlvghnohhv
-    ohesshhquhgvsggsrdgtrgdpnhgspghrtghpthhtohepudefpdhmohguvgepshhmthhpoh
-    huthdprhgtphhtthhopehjrghmvghssegvqhhuihhvrdhtvggthhdprhgtphhtthhopeif
-    pggrrhhmihhnsehgmhigrdguvgdprhgtphhtthhopehjohhrghgvrdhlohhpvgiivdeshh
-    hprdgtohhmpdhrtghpthhtohepmhgrrhhkphgvrghrshhonheslhgvnhhovhhordgtohhm
-    pdhrtghpthhtohepihhlphhordhjrghrvhhinhgvnheslhhinhhugidrihhnthgvlhdrtg
-    homhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehhuggv
-    ghhovgguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtoheplhhinhhugiesrhhovggtkh
-    dquhhsrdhnvghtpdhrtghpthhtohepjhguvghlvhgrrhgvsehsuhhsvgdrtghomh
-X-ME-Proxy: <xmx:A3-rZ5qv-yFXdvh1zYEcdnzTra8CU6yMOvkMd11n3L3bxbYZ-tgGQQ>
-    <xmx:A3-rZ7mMyUrqzsHsE5EG-4HD00OwWFwTCOVMlIJ2fCNxbLV5txoqrg>
-    <xmx:A3-rZx3lDlHhRtWsFa-raWu4g6tlNLwT_NS5Wf9225tXuWXO7c2Clg>
-    <xmx:A3-rZ6s30sKpu8jkqgCfYkZnLX7TnBJEXVuLw0VmFBkWr9cqNMqU2g>
-    <xmx:A3-rZ_Nmf7h98yYct2ufVD4pokwFGw67cBmGEMNn3Ksf8s4lncdzCQF4>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id E406C3C0066; Tue, 11 Feb 2025 11:46:58 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1739292961; c=relaxed/simple;
+	bh=yyn719VaAyIMcUMTWTNmPXbCFPVkN+95ZQVcRv+ZUfM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=j1CWIq4qXKtn1ymwPwlteaP7qWgoPfAIo88iDn/16ZP8Qzi1fJx5AULQ+athkONRBtJgEnZpeGZU1SNoBPxJbuUiYxNeMakieXo7ZzDecd9T1NmZ5krhuRlwAScMyZ6L+yvc0vK/9F7K72nY2/rqUO5JWfB0cd1+RMYSkcdaK74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YsnYw2HZNz6L54D;
+	Wed, 12 Feb 2025 00:52:52 +0800 (CST)
+Received: from frapeml100006.china.huawei.com (unknown [7.182.85.201])
+	by mail.maildlp.com (Postfix) with ESMTPS id BB3081400DD;
+	Wed, 12 Feb 2025 00:55:49 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (7.182.85.172) by
+ frapeml100006.china.huawei.com (7.182.85.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 11 Feb 2025 17:55:49 +0100
+Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
+ frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
+ Tue, 11 Feb 2025 17:55:49 +0100
+From: Shiju Jose <shiju.jose@huawei.com>
+To: Fan Ni <nifan.cxl@gmail.com>
+CC: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+	"tony.luck@intel.com" <tony.luck@intel.com>, "rafael@kernel.org"
+	<rafael@kernel.org>, "lenb@kernel.org" <lenb@kernel.org>,
+	"mchehab@kernel.org" <mchehab@kernel.org>, "dan.j.williams@intel.com"
+	<dan.j.williams@intel.com>, "dave@stgolabs.net" <dave@stgolabs.net>,
+	"Jonathan Cameron" <jonathan.cameron@huawei.com>, "dave.jiang@intel.com"
+	<dave.jiang@intel.com>, "alison.schofield@intel.com"
+	<alison.schofield@intel.com>, "vishal.l.verma@intel.com"
+	<vishal.l.verma@intel.com>, "ira.weiny@intel.com" <ira.weiny@intel.com>,
+	"david@redhat.com" <david@redhat.com>, "Vilas.Sridharan@amd.com"
+	<Vilas.Sridharan@amd.com>, "leo.duran@amd.com" <leo.duran@amd.com>,
+	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "rientjes@google.com"
+	<rientjes@google.com>, "jiaqiyan@google.com" <jiaqiyan@google.com>,
+	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
+	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
+	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
+	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
+	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
+	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
+	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
+	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
+	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>, tanxiaofei
+	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
+ Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
+	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>,
+	Linuxarm <linuxarm@huawei.com>, "a.manzanares@samsung.com"
+	<a.manzanares@samsung.com>, "nmtadam.samsung@gmail.com"
+	<nmtadam.samsung@gmail.com>, "anisa.su887@gmail.com" <anisa.su887@gmail.com>
+Subject: RE: [PATCH v19 00/15] EDAC: Scrub: introduce generic EDAC RAS control
+ feature driver + CXL/ACPI-RAS2 drivers
+Thread-Topic: [PATCH v19 00/15] EDAC: Scrub: introduce generic EDAC RAS
+ control feature driver + CXL/ACPI-RAS2 drivers
+Thread-Index: AQHbeW7q+yAlb0l8b0m3xpFA4TlX9rNAxY6AgAF8IfA=
+Date: Tue, 11 Feb 2025 16:55:49 +0000
+Message-ID: <c2fe65c81ab4484f977f5938a3278036@huawei.com>
+References: <20250207144445.1879-1-shiju.jose@huawei.com>
+ <Z6o87wa-tabDy34V@fan>
+In-Reply-To: <Z6o87wa-tabDy34V@fan>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 11 Feb 2025 11:46:38 -0500
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Armin Wolf" <W_Armin@gmx.de>, james@equiv.tech,
- "Mark Pearson" <markpearson@lenovo.com>, "Jorge Lopez" <jorge.lopez2@hp.com>
-Cc: jdelvare@suse.com, "Guenter Roeck" <linux@roeck-us.net>,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Hans de Goede" <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org
-Message-Id: <10f2da65-0873-4512-b0c3-b91ab149a199@app.fastmail.com>
-In-Reply-To: <33eac2f8-b295-4716-a5f8-9f0bf7f6d349@gmx.de>
-References: <20250203182322.384883-1-W_Armin@gmx.de>
- <20250203182322.384883-3-W_Armin@gmx.de>
- <33eac2f8-b295-4716-a5f8-9f0bf7f6d349@gmx.de>
-Subject: Re: [PATCH 2/7] platform/x86: think-lmi: Use ACPI object when extracting
- strings
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
-Hi Armin
+>-----Original Message-----
+>From: Fan Ni <nifan.cxl@gmail.com>
+>Sent: 10 February 2025 17:53
+>To: Shiju Jose <shiju.jose@huawei.com>
+>Cc: linux-edac@vger.kernel.org; linux-cxl@vger.kernel.org; linux-
+>acpi@vger.kernel.org; linux-mm@kvack.org; linux-kernel@vger.kernel.org;
+>linux-doc@vger.kernel.org; bp@alien8.de; tony.luck@intel.com;
+>rafael@kernel.org; lenb@kernel.org; mchehab@kernel.org;
+>dan.j.williams@intel.com; dave@stgolabs.net; Jonathan Cameron
+><jonathan.cameron@huawei.com>; dave.jiang@intel.com;
+>alison.schofield@intel.com; vishal.l.verma@intel.com; ira.weiny@intel.com;
+>david@redhat.com; Vilas.Sridharan@amd.com; leo.duran@amd.com;
+>Yazen.Ghannam@amd.com; rientjes@google.com; jiaqiyan@google.com;
+>Jon.Grimm@amd.com; dave.hansen@linux.intel.com;
+>naoya.horiguchi@nec.com; james.morse@arm.com; jthoughton@google.com;
+>somasundaram.a@hpe.com; erdemaktas@google.com; pgonda@google.com;
+>duenwen@google.com; gthelen@google.com;
+>wschwartz@amperecomputing.com; dferguson@amperecomputing.com;
+>wbs@os.amperecomputing.com; nifan.cxl@gmail.com; tanxiaofei
+><tanxiaofei@huawei.com>; Zengtao (B) <prime.zeng@hisilicon.com>; Roberto
+>Sassu <roberto.sassu@huawei.com>; kangkang.shen@futurewei.com;
+>wanghuiqiang <wanghuiqiang@huawei.com>; Linuxarm
+><linuxarm@huawei.com>; a.manzanares@samsung.com;
+>nmtadam.samsung@gmail.com; anisa.su887@gmail.com
+>Subject: Re: [PATCH v19 00/15] EDAC: Scrub: introduce generic EDAC RAS
+>control feature driver + CXL/ACPI-RAS2 drivers
+>
+>On Fri, Feb 07, 2025 at 02:44:29PM +0000, shiju.jose@huawei.com wrote:
+>> From: Shiju Jose <shiju.jose@huawei.com>
+>>
+>> The CXL patches of this series has dependency on Dave's CXL fwctl
+>> series [1].
+>>
+>> The code is based on v3 of CXL fwctl series [1] posted by Dave and
+>> v3 of FWCTL series [2] posted by Jason and rebased on top of
+>> v6.14-rc1.
+>>
+>> [1]:
+>> https://lore.kernel.org/linux-cxl/20250204220430.4146187-1-dave.jiang@
+>> intel.com/
+>> [2]:
+>> https://lore.kernel.org/linux-cxl/0-v3-960f17f90f17+516-fwctl_jgg@nvid
+>> ia.com/#r
+>>
+>>
+>> Userspace code for CXL memory repair features [3] and sample
+>> boot-script for CXL memory repair [4].
+>>
+>> [3]:
+>> https://lore.kernel.org/lkml/20250207143028.1865-1-shiju.jose@huawei.c
+>> om/
+>> [4]:
+>> https://lore.kernel.org/lkml/20250207143028.1865-5-shiju.jose@huawei.c
+>> om/
+>>
+>
+>Hi Shiju,
+>Is this series the same as in branch
+>https://github.com/shijujose4/linux/tree/edac-enhancement-ras-features_v19=
+?
+>
+>I hit some compile errors wen trying to test with the above branch directl=
+y.
+>
+>Here are two cases where I found the code cannot compile. Please check if =
+it is a
+>false alarm.
+>
+>Case 1: CONFIG_CXL_RAS_FEATURES=3Dm
+>
+>fan:~/cxl/linux-edac$ cat .config | egrep -i "edac|cxl|ras" | grep -v "^#"
+>CONFIG_ACPI_RAS2=3Dy
+>CONFIG_ACPI_APEI_EINJ_CXL=3Dy
+>CONFIG_PCIEAER_CXL=3Dy
+>CONFIG_CXL_BUS=3Dy
+>CONFIG_CXL_PCI=3Dy
+>CONFIG_CXL_MEM_RAW_COMMANDS=3Dy
+>CONFIG_CXL_ACPI=3Dy
+>CONFIG_CXL_PMEM=3Dy
+>CONFIG_CXL_MEM=3Dy
+>CONFIG_CXL_FWCTL=3Dy
+>CONFIG_CXL_PORT=3Dy
+>CONFIG_CXL_SUSPEND=3Dy
+>CONFIG_CXL_REGION=3Dy
+>CONFIG_CXL_REGION_INVALIDATION_TEST=3Dy
+>CONFIG_CXL_RAS_FEATURES=3Dm
+>CONFIG_MMC_SDHCI_OF_ARASAN=3Dy
+>CONFIG_EDAC_ATOMIC_SCRUB=3Dy
+>CONFIG_EDAC_SUPPORT=3Dy
+>CONFIG_EDAC=3Dy
+>CONFIG_EDAC_LEGACY_SYSFS=3Dy
+>CONFIG_EDAC_DEBUG=3Dy
+>CONFIG_EDAC_DECODE_MCE=3Dm
+>CONFIG_EDAC_GHES=3Dm
+>CONFIG_EDAC_SCRUB=3Dy
+>CONFIG_EDAC_ECS=3Dy
+>CONFIG_EDAC_MEM_REPAIR=3Dy
+>CONFIG_EDAC_IGEN6=3Dm
+>CONFIG_RAS=3Dy
+>CONFIG_MEM_ACPI_RAS2=3Dy
+>CONFIG_DEV_DAX_CXL=3Dm
+>fan:~/cxl/linux-edac$
+>
+>
+>fan:~/cxl/linux-edac$ make -j16
+>mkdir -p /home/fan/cxl/linux-edac/tools/objtool && make
+>O=3D/home/fan/cxl/linux-edac subdir=3Dtools/objtool --no-print-directory -=
+C objtool
+>  CALL    scripts/checksyscalls.sh
+>  INSTALL libsubcmd_headers
+>  UPD     include/generated/utsversion.h
+>  CC      init/version-timestamp.o
+>  KSYMS   .tmp_vmlinux0.kallsyms.S
+>  AS      .tmp_vmlinux0.kallsyms.o
+>  LD      .tmp_vmlinux1
+>ld: vmlinux.o: in function `cxl_region_probe':
+>/home/fan/cxl/linux-edac/drivers/cxl/core/region.c:3456:(.text+0x7b296f):
+>undefined reference to `devm_cxl_region_edac_register'
+>ld: vmlinux.o: in function `cxl_mem_probe':
+>/home/fan/cxl/linux-edac/drivers/cxl/mem.c:188:(.text+0x7b8ad1): undefined
+>reference to `devm_cxl_memdev_edac_register'
+>make[2]: *** [scripts/Makefile.vmlinux:77: vmlinux] Error 1
+>make[1]: *** [/home/fan/cxl/linux-edac/Makefile:1226: vmlinux] Error 2
+>make: *** [Makefile:251: __sub-make] Error 2
+>
+>When compile with CONFIG_CXL_RAS_FEATURES=3Dy,  it can compile.
+>
+Hi Fan,
 
-On Sun, Feb 9, 2025, at 7:31 PM, Armin Wolf wrote:
-> Am 03.02.25 um 19:23 schrieb Armin Wolf:
->
->> Move the ACPI buffer handling out of tlmi_extract_output_string()
->> and instead pass the unpacked ACPI object to prepare for future
->> changes.
->
-> Hi,
->
-> i was hoping that maybe the driver maintainer could take a look at this patch
-> and give some feedback.
->
-My apologies - because of this patch (and a couple of others) I've just realised I never updated the MAINTAINERS file.
-I have been mothballing the markpearson@lenovo.com address as it's a nightmare to use and switched to using my personal email domain instead. It seems my email filters aren't flagging these messages the way they are supposed to be - I have to figure that out :(
+Thanks for checking this and reporting.
 
-> Thanks,
-> Armin Wolf
+This error is with CONFIG_CXL_RAS_FEATURES=3Dm and CONFIG_CXL_BUS=3Dy and C=
+ONFIG_CXL_MEM=3Dy.
+Now changed  CONFIG_CXL_RAS_FEATURES  for tristate -> boolean as this imple=
+mented only interface functions
+for the CXL RAS features.
 >
->> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
->> ---
->>   drivers/platform/x86/think-lmi.c | 38 +++++++++++++++++---------------
->>   1 file changed, 20 insertions(+), 18 deletions(-)
->>
->> diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
->> index 323316ac6783..2c94a4af9a1d 100644
->> --- a/drivers/platform/x86/think-lmi.c
->> +++ b/drivers/platform/x86/think-lmi.c
->> @@ -262,16 +262,11 @@ static int tlmi_simple_call(const char *guid, const char *arg)
->>   	return 0;
->>   }
->>
->> -/* Extract output string from WMI return buffer */
->> -static int tlmi_extract_output_string(const struct acpi_buffer *output,
->> -				      char **string)
->> +/* Extract output string from WMI return value */
->> +static int tlmi_extract_output_string(union acpi_object *obj, char **string)
->>   {
->> -	const union acpi_object *obj;
->>   	char *s;
->>
->> -	obj = output->pointer;
->> -	if (!obj)
->> -		return -ENOMEM;
->>   	if (obj->type != ACPI_TYPE_STRING || !obj->string.pointer)
->>   		return -EIO;
->>
->> @@ -352,17 +347,21 @@ static int tlmi_opcode_setting(char *setting, const char *value)
->>   static int tlmi_setting(int item, char **value, const char *guid_string)
->>   {
->>   	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
->> +	union acpi_object *obj;
->>   	acpi_status status;
->>   	int ret;
->>
->>   	status = wmi_query_block(guid_string, item, &output);
->> -	if (ACPI_FAILURE(status)) {
->> -		kfree(output.pointer);
->> +	if (ACPI_FAILURE(status))
->>   		return -EIO;
->> -	}
->>
->> -	ret = tlmi_extract_output_string(&output, value);
->> -	kfree(output.pointer);
->> +	obj = output.pointer;
->> +	if (!obj)
->> +		return -ENODATA;
->> +
->> +	ret = tlmi_extract_output_string(obj, value);
->> +	kfree(obj);
->> +
->>   	return ret;
->>   }
->>
->> @@ -370,19 +369,22 @@ static int tlmi_get_bios_selections(const char *item, char **value)
->>   {
->>   	const struct acpi_buffer input = { strlen(item), (char *)item };
->>   	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
->> +	union acpi_object *obj;
->>   	acpi_status status;
->>   	int ret;
->>
->>   	status = wmi_evaluate_method(LENOVO_GET_BIOS_SELECTIONS_GUID,
->>   				     0, 0, &input, &output);
->> -
->> -	if (ACPI_FAILURE(status)) {
->> -		kfree(output.pointer);
->> +	if (ACPI_FAILURE(status))
->>   		return -EIO;
->> -	}
->>
->> -	ret = tlmi_extract_output_string(&output, value);
->> -	kfree(output.pointer);
->> +	obj = output.pointer;
->> +	if (!obj)
->> +		return -ENODATA;
->> +
->> +	ret = tlmi_extract_output_string(obj, value);
->> +	kfree(obj);
->> +
->>   	return ret;
->>   }
->>
->> --
->> 2.39.5
->>
->>
-Changes look good to me. If you can hold on a bit I'll see if I can test them on a few platforms to make sure no surprises.
+>CASE 2: CONFIG_EDAC=3Dm
+>
+>fan:~/cxl/linux-edac$ cat .config | egrep -i "edac|cxl|ras" | grep -v "^#"
+>CONFIG_CRASH_RESERVE=3Dy
+>CONFIG_CRASH_DUMP=3Dy
+>CONFIG_CRASH_HOTPLUG=3Dy
+>CONFIG_CRASH_MAX_MEMORY_RANGES=3D8192
+>CONFIG_ARCH_SUPPORTS_CRASH_DUMP=3Dy
+>CONFIG_ARCH_DEFAULT_CRASH_DUMP=3Dy
+>CONFIG_ARCH_SUPPORTS_CRASH_HOTPLUG=3Dy
+>CONFIG_ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION=3Dy
+>CONFIG_ACPI_RAS2=3Dy
+>CONFIG_ACPI_APEI_EINJ_CXL=3Dy
+>CONFIG_PCIEAER_CXL=3Dy
+>CONFIG_CXL_BUS=3Dy
+>CONFIG_CXL_PCI=3Dy
+>CONFIG_CXL_MEM_RAW_COMMANDS=3Dy
+>CONFIG_CXL_ACPI=3Dy
+>CONFIG_CXL_PMEM=3Dy
+>CONFIG_CXL_MEM=3Dy
+>CONFIG_CXL_FWCTL=3Dy
+>CONFIG_CXL_PORT=3Dy
+>CONFIG_CXL_SUSPEND=3Dy
+>CONFIG_CXL_REGION=3Dy
+>CONFIG_CXL_REGION_INVALIDATION_TEST=3Dy
+>CONFIG_CXL_RAS_FEATURES=3Dy
+>CONFIG_MMC_SDHCI_OF_ARASAN=3Dy
+>CONFIG_EDAC_ATOMIC_SCRUB=3Dy
+>CONFIG_EDAC_SUPPORT=3Dy
+>CONFIG_EDAC=3Dm
+>CONFIG_EDAC_LEGACY_SYSFS=3Dy
+>CONFIG_EDAC_DEBUG=3Dy
+>CONFIG_EDAC_DECODE_MCE=3Dm
+>CONFIG_EDAC_GHES=3Dm
+>CONFIG_EDAC_SCRUB=3Dy
+>CONFIG_EDAC_ECS=3Dy
+>CONFIG_EDAC_MEM_REPAIR=3Dy
+>CONFIG_EDAC_IGEN6=3Dm
+>CONFIG_RAS=3Dy
+>CONFIG_MEM_ACPI_RAS2=3Dy
+>CONFIG_DEV_DAX_CXL=3Dm
+>fan:~/cxl/linux-edac$
+>
+>fan:~/cxl/linux-edac$ make -j16
+>mkdir -p /home/fan/cxl/linux-edac/tools/objtool && make
+>O=3D/home/fan/cxl/linux-edac subdir=3Dtools/objtool --no-print-directory -=
+C objtool
+>  CALL    scripts/checksyscalls.sh
+>  INSTALL libsubcmd_headers
+>  UPD     include/generated/utsversion.h
+>  CC      init/version-timestamp.o
+>  KSYMS   .tmp_vmlinux0.kallsyms.S
+>  AS      .tmp_vmlinux0.kallsyms.o
+>  LD      .tmp_vmlinux1
+>ld: vmlinux.o: in function `devm_cxl_region_edac_register':
+>/home/fan/cxl/linux-
+>edac/drivers/cxl/core/memfeature.c:1720:(.text+0x7b665d): undefined
+>reference to `edac_dev_register'
+>ld: vmlinux.o: in function `devm_cxl_memdev_edac_register':
+>/home/fan/cxl/linux-
+>edac/drivers/cxl/core/memfeature.c:1697:(.text+0x7b7241): undefined
+>reference to `edac_dev_register'
+>ld: vmlinux.o: in function `ras2_probe':
+>/home/fan/cxl/linux-edac/drivers/ras/acpi_ras2.c:363:(.text+0xb0ecc8):
+>undefined reference to `edac_dev_register'
+>make[2]: *** [scripts/Makefile.vmlinux:77: vmlinux] Error 1
+>make[1]: *** [/home/fan/cxl/linux-edac/Makefile:1226: vmlinux] Error 2
+>make: *** [Makefile:251: __sub-make] Error 2
+>
 
-Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-
-Mark
+Here the symbol 'edac_dev_register' can't find with CONFIG_CXL_BUS=3Dy  CON=
+FIG_CXL_RAS_FEATURES=3Dy and=20
+CONFIG_EDAC=3Dm.
+Modified CXL_RAS_FEATURES depends on EDAC=3Dy || (CXL_BUS=3Dm && EDAC=3Dm)
+to fix this.
+>
+>
+>Fan
+>
+>
+Thanks,
+Shiju
