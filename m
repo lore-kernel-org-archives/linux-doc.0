@@ -1,46 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E191D54C2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E701E3DFD;
 	Tue, 11 Feb 2025 06:23:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739254995; cv=none; b=h9Hc4rdFcsVUeF6EE7b8wLWSjcBNmp/XzsDtzO3UkVH52V22+UxIMkPY1FvhQhTj+NIM1J9T2PVnPnFU+TTMv3297WzVMY/i/5UgFjQt9al3KoSyiiZuBPxtkj6/PSxAOiAaNYtvGyHDWn1Gb61LLcZ1ExOt+hyio3pPPwsgpyk=
+	t=1739254995; cv=none; b=janRaDjTzJ6sSMMn1OqUnaiQH9eNl9U3yVJQV1dksnCKNbOzVLZCvM6Clg3eq0Kb8rXVatY+FR75XLi2+VGsbxNWvpvKNL9tbul9p8i/Z0+acoO3vwZS2ipowHLaRG0njvdjjV4AkKVsoQ5PNaO5kI2hs564V004HcJYwBQbkOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739254995; c=relaxed/simple;
-	bh=t4nvCsVaeq/JWg5HRJsbxqzjIAI8bXe8VWVi54lXQhI=;
+	bh=rbk4BpPM7ONpaeiUWNXID/PprX5q2RG5Ax9J83M5MFM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PEHLpzf3I7g14zmL1Cgme4KVhOIR4RdnTu9TmamtgyzLxX/DrRuPNrv8xLXB97KEmXIFXXXs6PnmSk4Cdwjm+g7Ryh2buBNItXw3sQfzfW/tVjUPxSoALFNNGX+HeCn1g05uTq96N5IcD4GQeBzxOzsAdrCuXqgiAhArLQWGsNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YJYZ/+7h; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=KRcbHhdAohzXq8ReGenDvMNF4PzZ95WSrhu4LUDRR7M6kO581nlZEFB2JSpqxIpM194toK2ClxbaMgVhfGhMoEsYenI1Kw2WiwHq990foDCoqzAgRYH6rOQ7DIOUYBOgs+xFKJXqRQsQxUdAEGt9HpLEXi1ZcZCqPOH8PDDGGGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G5RNmNSo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YJYZ/+7h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 826AFC4CEE4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G5RNmNSo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9017AC4CEE5;
 	Tue, 11 Feb 2025 06:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1739254994;
-	bh=t4nvCsVaeq/JWg5HRJsbxqzjIAI8bXe8VWVi54lXQhI=;
+	bh=rbk4BpPM7ONpaeiUWNXID/PprX5q2RG5Ax9J83M5MFM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YJYZ/+7hJosWMfEZ28HJjJhTP3Q5VQyEJbDLYTss8M8hrB7i/k9VAreWE+sJVZCRC
-	 SoRdczOhg8x0un+CW/AfoqJ3C7e4YrgaUE7OpHBu6+A/I3QaCrPDuT5n22kjBYV9le
-	 eBVeZ+gYKwNVQ2fjZv+0JH1tu3UYIAli0pXA7gFE1cSJFJdaRjl1gEYoPjWeUZTz6l
-	 5ssX1As1PSmocWoJsHiyJk7mYvJS70ogxrSKC5ITWvPp6ppdu27bOzEF9ltFm1I3VX
-	 /xSzkkKT/lJs7BRAhfobftYGLcaRuCuvplSCvBJ1y4w9Kcu6yuD6naBE5vgAP2xV1y
-	 xkgybcRkbtJSQ==
+	b=G5RNmNSoMc+SaaL2V2pZNmm3UdE6xYr4BD4fUnKW9b0Hzkh0t00EVzF7wbkrN/vlg
+	 mM4J8/ioHnIHkI7P9ZI+T9f9vKiFCgcmqJtlOXuhj0GdfEaRirRXIMD64Uwx5YuGce
+	 EwSCWuyu0sy8+8gIa77CTR5LhVfgS3hiog7YAJX8Qo0XQGiAaxBjqpJ1ljrtFDyySW
+	 3Hd/MjSarGn7VIIdpbkX+aKXoseawV5n7f+N8mlhx/4Ih/t+RYvgg9c2qJn7BPYqeZ
+	 zKU/A6TPjzDlSVC3qZa/zCaWl65XO1HBT31Kl8yDrCd+NZUfsft723s7FfwODvz84p
+	 gQ7PoVEKRX83w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1thjfs-00000008YBH-34yO;
+	id 1thjfs-00000008YBP-3J0Z;
 	Tue, 11 Feb 2025 07:23:12 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Sean Young <sean@mess.org>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
 	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH 1/9] docs: media: Allow creating cross-references for RC ABI
-Date: Tue, 11 Feb 2025 07:22:55 +0100
-Message-ID: <7c2f9a9970a15df8b5e3a6ecd21bcedcc8881ce1.1739254867.git.mchehab+huawei@kernel.org>
+	linux-usb@vger.kernel.org
+Subject: [PATCH 3/9] docs: thunderbolt: Allow creating cross-references for ABI
+Date: Tue, 11 Feb 2025 07:22:57 +0100
+Message-ID: <a655e770e1446f91088f579b79ae890a19771119.1739254867.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1739254867.git.mchehab+huawei@kernel.org>
 References: <cover.1739254867.git.mchehab+huawei@kernel.org>
@@ -54,83 +57,27 @@ Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 Now that Documentation/ABI is processed by automarkup, let it
-generate cross-references for RC sysfs devnodes.
+generate cross-references for the corresponding ABI file.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- Documentation/sphinx/automarkup.py              | 17 +++++++++++++----
- .../userspace-api/media/rc/rc-sysfs-nodes.rst   |  2 +-
- 2 files changed, 14 insertions(+), 5 deletions(-)
+ Documentation/admin-guide/thunderbolt.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-index 22defc18d6d2..03bb7020f5cb 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -88,13 +88,13 @@ def markup_refs(docname, app, node):
-     # Associate each regex with the function that will markup its matches
-     #
-     markup_func_sphinx2 = {RE_doc: markup_doc_ref,
--                           RE_abi_file: markup_abi_ref,
-+                           RE_abi_file: markup_abi_file_ref,
-                            RE_abi_symbol: markup_abi_ref,
-                            RE_function: markup_c_ref,
-                            RE_generic_type: markup_c_ref}
+diff --git a/Documentation/admin-guide/thunderbolt.rst b/Documentation/admin-guide/thunderbolt.rst
+index 2ed79f41a411..d0502691dfa1 100644
+--- a/Documentation/admin-guide/thunderbolt.rst
++++ b/Documentation/admin-guide/thunderbolt.rst
+@@ -28,7 +28,7 @@ should be a userspace tool that handles all the low-level details, keeps
+ a database of the authorized devices and prompts users for new connections.
  
-     markup_func_sphinx3 = {RE_doc: markup_doc_ref,
--                           RE_abi_file: markup_abi_ref,
-+                           RE_abi_file: markup_abi_file_ref,
-                            RE_abi_symbol: markup_abi_ref,
-                            RE_function: markup_func_ref_sphinx3,
-                            RE_struct: markup_c_ref,
-@@ -279,10 +279,10 @@ def markup_doc_ref(docname, app, match):
-         return nodes.Text(match.group(0))
+ More details about the sysfs interface for Thunderbolt devices can be
+-found in ``Documentation/ABI/testing/sysfs-bus-thunderbolt``.
++found in Documentation/ABI/testing/sysfs-bus-thunderbolt.
  
- #
--# Try to replace a documentation reference of the form Documentation/ABI/...
-+# Try to replace a documentation reference for ABI symbols and files
- # with a cross reference to that page
- #
--def markup_abi_ref(docname, app, match):
-+def markup_abi_ref(docname, app, match, warning=False):
-     stddom = app.env.domains['std']
-     #
-     # Go through the dance of getting an xref out of the std domain
-@@ -294,6 +294,8 @@ def markup_abi_ref(docname, app, match):
- 
-     # Kernel ABI doesn't describe such file or symbol
-     if not target:
-+        if warning:
-+            kernel_abi.log.warning("%s not found", fname)
-         return nodes.Text(match.group(0))
- 
-     pxref = addnodes.pending_xref('', refdomain = 'std', reftype = 'ref',
-@@ -317,6 +319,13 @@ def markup_abi_ref(docname, app, match):
-     else:
-         return nodes.Text(match.group(0))
- 
-+#
-+# Variant of markup_abi_ref() that warns whan a reference is not found
-+#
-+def markup_abi_file_ref(docname, app, match):
-+    return markup_abi_ref(docname, app, match, warning=True)
-+
-+
- def get_c_namespace(app, docname):
-     source = app.env.doc2path(docname)
-     with open(source) as f:
-diff --git a/Documentation/userspace-api/media/rc/rc-sysfs-nodes.rst b/Documentation/userspace-api/media/rc/rc-sysfs-nodes.rst
-index 34d6a0a1f4d3..70b5966aaff8 100644
---- a/Documentation/userspace-api/media/rc/rc-sysfs-nodes.rst
-+++ b/Documentation/userspace-api/media/rc/rc-sysfs-nodes.rst
-@@ -6,7 +6,7 @@
- Remote Controller's sysfs nodes
- *******************************
- 
--As defined at ``Documentation/ABI/testing/sysfs-class-rc``, those are
-+As defined at Documentation/ABI/testing/sysfs-class-rc, those are
- the sysfs nodes that control the Remote Controllers:
- 
- 
+ Those users who just want to connect any device without any sort of
+ manual work can add following line to
 -- 
 2.48.1
 
