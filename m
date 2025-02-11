@@ -1,173 +1,184 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2071.outbound.protection.outlook.com [40.107.244.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A1E1EB1A5
-	for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 10:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739269892; cv=none; b=k+GBzqTfo+4kiXrxrCHJGC3IVzU/xHpCzRBPeNWs9vubCBvTB1UMFnFUKFI+3d3x6TWdF+0tGq6qtN161/lfys47982+LlDqdnDWDR8KAY6OEjOFWqpdYMylkqqKWo6JlMV1HScQ3V+gwR3Njk6TByayEIYGdBJu1nFV28VLcr8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739269892; c=relaxed/simple;
-	bh=3UHxA/qdoAY3MebmP1PqzZZYiy2zYfWAOCI1X57hn6g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KEMi6OwW35SBOTdocYcErdyPPoHguFH3XikUhKjCq7f7VegHkHm1FNGxVMjBl9NqdhADaCXlzzMuhNqv0qbrpV/zBOI6FGoFunnVNZQEZ0mKCgO6wVIM8OD10g26xdfoGM4Y+qGZX0oSuMjUE+QP2nFytMqWlPo6lkHY3NWBi3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=pkaMqdaX; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7931F472E;
+	Tue, 11 Feb 2025 10:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739270282; cv=fail; b=D/IsFsLgEZ3V9w2kEMpgK7fmIVIUIYJcQXRpwQJMg4Dxl3jqs9y4a1xR3PQjtzaP55XYeJxCnDt6sjngZdK9bu4kIOz0fIw5SLIueIaeagtL4u/SLDVXw0G1AT6g4DbQMKAz8p6EBdOfzCzbmC/XDB8Bfkk4AzncnG0MaoWkkog=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739270282; c=relaxed/simple;
+	bh=JMKUGND2G9+aIWKhij1ebLrQNVm6bI9EPlqQp6l85ck=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SD1Ex3+lhZCir8pNmOiVulFgVQSXLU3trQdh1W2R9G5Qkl9p9Gu3XoyKwGXdRQCRgI0Fr9HZh0Dp7GLv2QYrW0v19TH/qDojS426mc8gsQcwUSDQo/Xow1J8U1sONvCwrTbbsiJYGgMv3SpC8kbodc20o4LFCYhvMYMI4kO9UGE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=e+TWzU1F; arc=fail smtp.client-ip=40.107.244.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="pkaMqdaX"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38dd93a4e8eso2051330f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 02:31:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1739269889; x=1739874689; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/a6P8MPGQ0avVAV5Cfpz5Ib9WVUVZW41mP8caOrUgAQ=;
-        b=pkaMqdaXgaH8QmNXCo5B47pnLdVS4Skgx+AokX/Evv4YmPRQCOTYWmIVQxQpf8Ex5d
-         OsVKM262Hg94W0XE3ZlIQUS7Ze5609rOSMjvyKh6d0BhEJzyQjzozs2XfBRqNQzayBRq
-         CCJPjUn/In+zVVEQoRoZEAtTJf4G3oykcdD+e/aYSf9e/0oNnCHpJO2tOfJrQu/fvhxN
-         9WnRwzQI4Mx7U5sKEWEugBgSVYMOHK0iw6TzBYNM5x7l0W4M6E6vCBOMxR/jBhlhqhHb
-         A9xjyEnaFuiFYD9tGaIIexPq/7xzK13iCyNBVSRSey66RQmDXiJXzoydgqgJzu4/p+sG
-         rhcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739269889; x=1739874689;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/a6P8MPGQ0avVAV5Cfpz5Ib9WVUVZW41mP8caOrUgAQ=;
-        b=veo1Rj2S/KflLeu60uyodyYmTQnsmDkUEnwRAMkQ5J+DRxlX4NT7zWQ8UlgU3JYP6N
-         xXT13OtCRhBcWuvUYVELW54VTW0w072uh4hL9fbQPZSZfFMb0ESH85IilzTU2p7sx6rH
-         xU7uc+ONMeVpfwIZMPVODuT+FtD2300uhMg+b1u+pmsICvSkSxjKZsDIP7MBg1hYj9i6
-         SgFvH/oRO3kQcRiFI4tJ1sYuhEo+UrGhElv8xidCGCSqNGs+M5+4kcN0x9iVHyzt407G
-         xO4/+yzHfxcCoE+oC39speVDbB75ZqAn1y0JNTwv2RLBz3llkM34X2XxlTVCueSLFvet
-         CZbA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6jiDssq4ObjsURuWlZMOdqhwfoT71PBhwaZzw1xu5fa5tN0v66LALyPlQT2lrfkm9aAp2JkAFw04=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjD2C4Lj//JOkF/1qrsxmMR8VjZGl3cJ2hw5fnHxQBdMmUpZnS
-	BDTfO8ZECyLWL4PahNRFBLkpr1ISM1rpfBEeCYLCzOjwym9kHXz8h1iO69HRv5w=
-X-Gm-Gg: ASbGncuvh5eB6FJqnFO4ZpTyFaQT5iptOslOmpniKUeDmX0SnKuQLQ2wAx1HX93yMyO
-	E5pjWvA+YTPBD8f0lQ9SfLSBX6Rg39VBBnmB47rjq+m3egIttucD76jX1cQdMegm/4vjuKd6yZ1
-	6u4apV1/x4fi9nNQQQNsh2JPh4l9CNVsaSSZNFaB3K7H7RVl2fKZEaCSO3JZ1BzRuBDMU9WPJ32
-	AyXqMLB8355esbZjmQb8uJz4jNMGNo1MuQrIbHwyNNZqSwHP/MYC/Ryt3nloBUdjSWrWzXCyt+O
-	S+/GoJBIfleAvW95lhuBdpGrSF+JphK/MH7/qBdbOpRtMBYWm6+z4FyFKlyS
-X-Google-Smtp-Source: AGHT+IGrgjPSoOFkF4U85XDHHGJCIZJGQtRmyI8bFutmDHy81O7VBQ3XMYuog+hqAiQegwH4kGE9Dg==
-X-Received: by 2002:a5d:588f:0:b0:38d:d613:9bb1 with SMTP id ffacd0b85a97d-38dd6139eacmr6656232f8f.12.1739269889329;
-        Tue, 11 Feb 2025 02:31:29 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dc3a10fffsm13606012f8f.12.2025.02.11.02.31.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Feb 2025 02:31:28 -0800 (PST)
-Message-ID: <a8af5d3a-e739-4f65-9e2d-d92978be9a3d@rivosinc.com>
-Date: Tue, 11 Feb 2025 11:31:28 +0100
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="e+TWzU1F"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vTO03n5MOskUwHVaNyQr+f687oErZ8dnjQWIQK3PU7kLJeyqLMhFYMzhS8liP3aTU5yvdjcDv/Q0/1GXkMYq+ucUDxXi6x4sqweiebSMze1CiJZg9+zGUUlU1E0IjEKcm1QuwaPnzZf4eVoMN7LWnjS/tjL502iGHEMTy2IR8HIte2+7yvWS3hI0TNKU3kg93N9pXNwvH/xXee91xcLVw13RMoTnwmwvUmeJLkLcmdRhx0XYWmsdKF3c3GEaermFAJjGV79jR+c9v/k/er+kmzQLt/wRrkXHnWwbJrF8ZW4j+1YcwXlbEOyBKO7aydH1SXag/5kUNmNjSU3xTB4gpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MkCzXgmSOByJKTfbgb4kkpX+TXMqWPEGhnFIJU/Ma4g=;
+ b=kpTp3sa+t2+pQVDwlKj99Z7K/G2mZ9SHCcHVeZ2z8PHNfnEKzhGBlnwhapnY+ZiS4lT9WinhBvcY4eY2/sujxp9PBVz30LRBC5FSgKMWDY3lS+lPUx2snzRYQJbjjtHBKvSz5L2BEAisnNUBkwspzQbAuS2BANtLmySUfp5vtd+Ug1z4RPghYJ5l7RNxChz9u9F2vJ47DdWiCPEfkzxC0cMNglPp9+ri0lAvcCtGRN1Xgz+UlfK0Ii2mZj2NR/ff/0fJaMB2YcOoGomY2H87XWOGuzjnQwYtWXskSCZSoNgOR2yXDsRtCmg4aeWf4lrVPWbiIGd2PyBSQoEfQ9vTOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MkCzXgmSOByJKTfbgb4kkpX+TXMqWPEGhnFIJU/Ma4g=;
+ b=e+TWzU1FeySl2FvCkbGBPMmVF8/apG5f+BX42o4k6yo77ibnA2pcgRfg7n4aBseyw9qlJnJv684EGais1YzSYoTqATLsoIFEoVgTWRL8wyDXhRK9/esRFDVgdF9y2te5STyZf7ynFrNDDkwENDo8nhjGXUOnc/JiINY4US/GtnQym5El6FU3Xpb+nh9b+6e58oSvHgVRydaBeuUYtEqQvl/yCMkr3QkN4Jd3yArdwo7QJj7XR08g2lq7kmpcB5R03jg9c0FUjzpqM1Htiq8eqiquA2T78YMU7TUfdePtOBZu6M2w/E6HZBQHfZWEzb59dDVWLiXa5FB0poHb3UHYTg==
+Received: from SA0PR11CA0023.namprd11.prod.outlook.com (2603:10b6:806:d3::28)
+ by SN7PR12MB7936.namprd12.prod.outlook.com (2603:10b6:806:347::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Tue, 11 Feb
+ 2025 10:37:57 +0000
+Received: from SA2PEPF00001507.namprd04.prod.outlook.com
+ (2603:10b6:806:d3:cafe::38) by SA0PR11CA0023.outlook.office365.com
+ (2603:10b6:806:d3::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.31 via Frontend Transport; Tue,
+ 11 Feb 2025 10:37:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SA2PEPF00001507.mail.protection.outlook.com (10.167.242.39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8445.10 via Frontend Transport; Tue, 11 Feb 2025 10:37:57 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 11 Feb
+ 2025 02:37:46 -0800
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 11 Feb
+ 2025 02:37:45 -0800
+Received: from sumitg-l4t.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server id 15.2.1544.14 via Frontend
+ Transport; Tue, 11 Feb 2025 02:37:40 -0800
+From: Sumit Gupta <sumitg@nvidia.com>
+To: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <lenb@kernel.org>,
+	<robert.moore@intel.com>, <corbet@lwn.net>, <linux-pm@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
+	<jonathanh@nvidia.com>, <sashal@nvidia.com>, <vsethi@nvidia.com>,
+	<ksitaraman@nvidia.com>, <sanjayc@nvidia.com>, <bbasu@nvidia.com>,
+	<sumitg@nvidia.com>
+Subject: [Patch 0/5] Support Autonomous Selection mode in cppc_cpufreq
+Date: Tue, 11 Feb 2025 16:07:32 +0530
+Message-ID: <20250211103737.447704-1-sumitg@nvidia.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 14/15] RISC-V: KVM: add support for FWFT SBI extension
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
- Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
- linux-kselftest@vger.kernel.org, Samuel Holland <samuel.holland@sifive.com>
-References: <20250210213549.1867704-1-cleger@rivosinc.com>
- <20250210213549.1867704-15-cleger@rivosinc.com>
- <Z6rjkk5JlMlqbl2j@debug.ba.rivosinc.com>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <Z6rjkk5JlMlqbl2j@debug.ba.rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
+X-NVConfidentiality: public
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00001507:EE_|SN7PR12MB7936:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1e113579-c2fe-45d7-27e7-08dd4a882686
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|376014|7416014|1800799024|82310400026|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?7EGtXIzDU9gwXaKy5jtRP/tb+JOVjRmz6swR/0PORREe7o2GZUlbShJibDf3?=
+ =?us-ascii?Q?fjPU5ZcMpDBI1LoPDIllsjAKJR+26YnV+V7mvUUb6JQDPQM9UbIhVhEQ26sM?=
+ =?us-ascii?Q?6wY9azsLJgefdEZ4QeShD1wuYlc2SHIwH3jzJdbBbJ05LTBaMlD68xmCkPHP?=
+ =?us-ascii?Q?NFFVoeKpN1uQHuD/0Obf5KvfnG9EakntFCiCPJZW5gQ47ENBWHjT9UoPBmYG?=
+ =?us-ascii?Q?Ot8xjNgItFGpPWFYLgneGcgELkMFuL+juiH8bLfYZIInBcrc1OOy4Ibe3WU8?=
+ =?us-ascii?Q?LNrarW+LJa6CjqrUjFW3RFey+3PNRI1CtQi87gtgxKd9yyaDlRzO3T/MY8Fd?=
+ =?us-ascii?Q?3UGsqVn2O02lvz0dX++iEmDQnKSebEPsHbwm9o7aebvP9n9TJUzDMdE6RHdA?=
+ =?us-ascii?Q?/U6M+KZCM0xNQn1u/nR7zhpf+I0gsikJee1jRqxWtyokW6Es1iGV7CTGjeNW?=
+ =?us-ascii?Q?SnGhOUDDjuC8Wap/AHWJiKREVzdMALTM0PYfKI+OPyQQxAkb9Ihdw33Mj5As?=
+ =?us-ascii?Q?Y9evGlOyK3l92cLBcHo3ZczGbvx285YzWlOehMkILz9ig8WC/hAeYMqXVaYF?=
+ =?us-ascii?Q?Lw8SgLeyz1T2s9JGKtX5qKrMC//zgm2zk8J0cVSVbD9tqC1PAoVgHFk8RxkD?=
+ =?us-ascii?Q?6oj7iomIE+Jas8nj1ZZnvwLGPZkqr64q6xlJJURRF4EmR6FWvAKwcfbR1W/q?=
+ =?us-ascii?Q?aoZcXRojeob9Zz9OuGDqxneIEf3RIA3Pr34pAEhXt1YL+omaWz6uRvNMkfHo?=
+ =?us-ascii?Q?9QueOL7dsSLvNzAzBZ4M0/BHxcMhlTXpicq4tTpsSC2qP05+Dq5TGNYsDhfA?=
+ =?us-ascii?Q?YjuDonw+2ElDZGEB/pB1GbrBuh+fYL8MEc8VoxHlJKM1KV3KRS8nPbMJ4rLx?=
+ =?us-ascii?Q?+htrEIT/Lj9h/MyPUheMuw1zSQ7bg+wyPe2iZz/Cv1Yw2kRiJ5GvWu3QHAX2?=
+ =?us-ascii?Q?3kydaxkChRCjesHt512YV9zMRk8GtVfkPM7i1riLApSSTODi+0PLBIPPXnKc?=
+ =?us-ascii?Q?uzFSztCI3UiGKB/66v8kmHs/DVFq9ksx0psDdtuK7BQvLW1jVrSFS46Au4/R?=
+ =?us-ascii?Q?5ojUU/bo0uu1KZ3GqYFiUVn9hMq5aiLQdpywMv75ObmPNi5k1LAbr5/AqVhs?=
+ =?us-ascii?Q?XfLWqfocFXBqD8KJB3KhImwtabKX5I2d0KTzFJgJsmQH0ywvw4yn2aXKwEc0?=
+ =?us-ascii?Q?rs3e0S7/AiUNk2fnRLeDnfYhuwD+5Ycb4lyod9Ah5D0+BYG1c7XWdLUNnaU5?=
+ =?us-ascii?Q?WxCPxAOgWAksGWCCxhN9vWNc42a8hHMLXFFm7W6W9WRcf6JWsrTYUa1+r8IL?=
+ =?us-ascii?Q?Px8JLjHvCrbU+l/EZ3tZNxx0zI8uU4bdr7m2DGdi2q5iOEeIr//GhDcidl9M?=
+ =?us-ascii?Q?0/2gaXXZo3gExIuIMFdtuk+P59umnhZfyiGgYUdrHMdiJFstN59+9V1azLP+?=
+ =?us-ascii?Q?4+o4/JIjTBjX026XIb7Hrvh8LNHWkA73rSzjkvIAXs29OOZPwmQrnYXxNbSj?=
+ =?us-ascii?Q?g+C+je3O/SwVFpYbL8INy4MBzAYjACK8JUO8?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(1800799024)(82310400026)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2025 10:37:57.7249
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e113579-c2fe-45d7-27e7-08dd4a882686
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00001507.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7936
 
+This patchset supports the Autonomous Performance Level Selection mode
+in the cppc_cpufreq driver. The feature is part of the existing CPPC
+specification and already present in Intel and AMD specific pstate
+cpufreq drivers. The patchset adds the support in generic acpi cppc
+cpufreq driver.
 
+It adds a new 'cppc_cpufreq_epp' instance of the 'cppc_cpufreq' driver
+for supporting the Autonomous Performance Level Selection and Energy
+Performance Preference (EPP).
+Autonomous selection will get enabled during boot if 'cppc_auto_sel'
+boot argument is passed or the 'Autonomous Selection Enable' register
+is already set before kernel boot. When enabled, the hardware is
+allowed to autonomously select the CPU frequency within the min and
+max perf boundaries using the Engergy Performance Preference hints.
+The EPP values range from '0x0'(performance preference) to '0xFF'
+(energy efficiency preference).
 
-On 11/02/2025 06:43, Deepak Gupta wrote:
->> +static int kvm_sbi_fwft_get(struct kvm_vcpu *vcpu, unsigned long
->> feature,
->> +                unsigned long *value)
->> +{
->> +    int ret;
->> +    struct kvm_sbi_fwft_config *conf;
->> +
->> +    ret = kvm_fwft_get_feature(vcpu, feature, &conf);
->> +    if (ret)
->> +        return ret;
->> +
->> +    return conf->feature->get(vcpu, conf, value);
->> +}
->> +
->> +static int kvm_sbi_ext_fwft_handler(struct kvm_vcpu *vcpu, struct
->> kvm_run *run,
->> +                    struct kvm_vcpu_sbi_return *retdata)
->> +{
->> +    int ret = 0;
->> +    struct kvm_cpu_context *cp = &vcpu->arch.guest_context;
->> +    unsigned long funcid = cp->a6;
->> +
->> +    switch (funcid) {
->> +    case SBI_EXT_FWFT_SET:
->> +        ret = kvm_sbi_fwft_set(vcpu, cp->a0, cp->a1, cp->a2);
->> +        break;
->> +    case SBI_EXT_FWFT_GET:
->> +        ret = kvm_sbi_fwft_get(vcpu, cp->a0, &retdata->out_val);
->> +        break;
->> +    default:
->> +        ret = SBI_ERR_NOT_SUPPORTED;
->> +        break;
->> +    }
->> +
->> +    retdata->err_val = ret;
->> +
->> +    return 0;
->> +}
->> +
->> +static int kvm_sbi_ext_fwft_init(struct kvm_vcpu *vcpu)
->> +{
->> +    struct kvm_sbi_fwft *fwft = vcpu_to_fwft(vcpu);
->> +    const struct kvm_sbi_fwft_feature *feature;
->> +    struct kvm_sbi_fwft_config *conf;
->> +    int i;
->> +
->> +    fwft->configs = kcalloc(ARRAY_SIZE(features), sizeof(struct
->> kvm_sbi_fwft_config),
->> +                GFP_KERNEL);
-> nit:
-> 
-> I understand that in next patch you grow the static array`features`. But
-> in this patch
-> `ARRAY_SIZE(features)` evaluates to 0, thus kcalloc will be returning a
-> pointer
-> to some slab block (IIRC, kcalloc will not return NULL if size
-> eventually evals to 0)
-> 
-> This probably won't result in some bad stuff. But still there is a
-> pointer in
-> fwft->configs which is pointing to some random stuff if `features` turns
-> out to be
-> empty.
-> 
-> Let me know if I got that right or missing something.
+It also exposes the acpi_cppc sysfs nodes to update the epp, auto_sel
+and {min|max_perf} registers for changing the hints to hardware for
+Autonomous selection.
 
-So I actually searched into the kmalloc code to see what hapopens with a
-zero size allocation and it actually return ZERO_SIZE_PTR:
+In a followup patch, plan to add support to dynamically switch the
+cpufreq driver instance from 'cppc_cpufreq_epp' to 'cppc_cpufreq' and
+vice-versa without reboot.
 
-/*
- * ZERO_SIZE_PTR will be returned for zero sized kmalloc requests.
- *
- * Dereferencing ZERO_SIZE_PTR will lead to a distinct access fault.
- *
- * ZERO_SIZE_PTR can be passed to kfree though in the same way that NULL
-can.
- * Both make kfree a no-op.
- */
+The patches are divided into below groups:
+- Patch [1-2]: Improvements. Can be applied independently.
+- Patch [3-4]: sysfs store nodes for Auto mode. Depend on Patch [1-2].
+- Patch [5]: Support for 'cppc_cpufreq_epp'. Uses a macro from [3].
 
-Which seems like it's not really random and will fault if accessed. I
-think that's enough for that commit (which will be bisectable if needed
-then).
+Sumit Gupta (5):
+  ACPI: CPPC: add read perf ctrls api and rename few existing
+  ACPI: CPPC: expand macro to create store acpi_cppc sysfs node
+  ACPI: CPPC: support updating epp, auto_sel and {min|max_perf} from
+    sysfs
+  Documentation: ACPI: add autonomous mode ctrls info in cppc_sysfs.txt
+  cpufreq: CPPC: Add cppc_cpufreq_epp instance for Autonomous mode
 
-Clément
+ Documentation/admin-guide/acpi/cppc_sysfs.rst |  28 ++
+ .../admin-guide/kernel-parameters.txt         |  11 +
+ drivers/acpi/cppc_acpi.c                      | 311 ++++++++++++++++--
+ drivers/cpufreq/cppc_cpufreq.c                | 260 ++++++++++++++-
+ include/acpi/cppc_acpi.h                      |  19 +-
+ 5 files changed, 572 insertions(+), 57 deletions(-)
+
+-- 
+2.25.1
+
