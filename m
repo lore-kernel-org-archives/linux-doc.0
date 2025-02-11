@@ -1,135 +1,122 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13651D63E1;
-	Tue, 11 Feb 2025 06:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D9E1E9B2D;
+	Tue, 11 Feb 2025 06:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739257129; cv=none; b=WKwm2HlS8PBZCS06mVL/3iwFqLlHZeVKPzMIpE1TaDY40DkBuDJ3AyfVwZKJUNgZrRaXHgO9LktN5QYYOMWHyQ/bP79WtXlFCOyaN4gJt+qmvFLSeDWvVLCPhf36xL3cYmiTZEi0jj3wWV+dgSbUWd2izL4hyBRYeRwxDQlVvlM=
+	t=1739257188; cv=none; b=MAfPTMel1/B/8vv8BzgjevG31Jr5B6sehw6OLGBfZO1//DTa2WDdDR4p4ZR9oYBgiQvFWQtl9dN7A2n4Bc0riExFiYBXkeD8/AK3KsRiWPQYDfvFMHD+jfrvMvjUY9Hmjj0vgs88ytriBKTf6PX7IyF5TgpYcp+trEVIZkhhwg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739257129; c=relaxed/simple;
-	bh=y95fGU1MM4LPX/GdpJQ+n4qKaswP/rgFqTDMBehwQwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fxvwFZNuVnj2+KV3dV5Zz2K4cLWLEVIoIDtGptmg4ENtuokSVN6qnXehxnA5ybpyjD+W7bX3xRrpYlrMOtOc85BxV/gj/aZQBUoYFF4+P/cXpD6Ibpow4xT25c5ej0UghytNJg6TDEpQz1zqtDjenJfurH2iT0GoQATM+gZr4FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q6XK7hTt; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739257188; c=relaxed/simple;
+	bh=aZA2VhXLslsO+rW9gDYbT7BHncOZEzesAjlj64CzaBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=buaI5BIxLXwXru+y9FEmMA+opGZMwN+xUIC7YEI9YoaUj/CQ3TmRK/ZzyV4ETrPumMRH97CWAEhkGrVP4LS9kpZeYETBNpmCT8jGYq1L9+u6fraaXtIVRlwozLRSsQ65mAm9HtIGBRLsHD+BOqqhZ8mzl8+wrv0PUUQKssMViUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nh2jjdUv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q6XK7hTt"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21f48ab13d5so84452545ad.0;
-        Mon, 10 Feb 2025 22:58:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739257125; x=1739861925; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JbbHUiRCm1HRMSRoMw9y9z9V16wOdtH431mNWX2Wxkk=;
-        b=Q6XK7hTtOmi22PVikScQrm2ovExSK14zqArHqqPvK2x9jJwQ+kpSosadwddQzJ15Ty
-         s370pbP0d4iRwDBPjysre9vecxzvV02h8Zj7JBGf5EDwZ+v1sg9Ilo2UpKNziaNWCv6R
-         aBPlwGW6zViRtHPCmecMHaM3UNfxH+thGCS40dN/5FfQUOl0mlkEkfNU4pnCfbUdIz6L
-         5WpOc4tffYKBUGvXPCUKwyK2Ucj2fKN5meMJ6uwRHwboOX0PrRPCaNFsSa+ENf4VxSYc
-         6OI24kNjcu4xpImSOe/QxFZbMUI0TkejTV3joR6yldfCzvHNwdAg/3ZosySrFdI1PEgZ
-         Wvkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739257125; x=1739861925;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JbbHUiRCm1HRMSRoMw9y9z9V16wOdtH431mNWX2Wxkk=;
-        b=JzHTwmAsSlX3yosbGhE8/J70YHRegnQKxZ27bMWV+o7pJPwponu9fW0cW/tyQl1TYr
-         n5ZGyNhfS5XRRhYY9uZF8/EKmrVNoRI2w6c7ix2y4OlnSebtZ/sz4kuls8ujVQdkBPii
-         o8CimYC93atMDVXAFIHEDReoZUKxcAi44KVpOADiYBwfjXZxBwep9YM/elKnh2CijefZ
-         mBHHNTniBSOen474lmELCPw8WZiybE/WMouCh248nmgdGUF6NJFdFP6HQzsOQaVS+c/4
-         kO3HjjQQWqT1g56YO6H7HBisDS69cblevx0Wa4Iwv5yjT3m0olvDkBlLQT2gSIoi6VIB
-         CqRw==
-X-Forwarded-Encrypted: i=1; AJvYcCUmmNtapueEIM5SNqIS5yoHH/eZIbXSvyX/nmDKHCOWkZFSQIU+HP2/gFmIs3NR1UxJtn59C4sU3tjurTZL@vger.kernel.org, AJvYcCVkhDbsh+kGlKYP9Jhx7klLoFYP8ZLerCxCZxxF2R+IIER3KX5cSqBYGuYjMWkUzix5z/dtvurOp+o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5jUhbxSIRu6SzUrFTWHhsb/z6OekICqag7kJSS2WkyvOKnUh4
-	pNxbQLNPtJcVYLWed22H6bzhAZSy2RqJKLIpQlJRouuagafglpyB
-X-Gm-Gg: ASbGncvfg7HFCad50UC6VGJD2tBzRlpm3FsJm1EASkWKwwpD+B/GCl/At4h0/NwwmSZ
-	0k8OKPcATEKGvJr6gg8wkIwrGI1XhOqF/n5Md9StvJWmBq9DKdRapufX9KR2TdJDDABkWZSSoAw
-	tp/nxHSRTN5ufSx4bpIfA9rzH3nGvbrm46Mi3ecoEycraeCdXOBIhRLWk2Ym7FevAe7vV0eQeJd
-	kIqgnSoIeX8oZIxYO51UC7J+LZsxUvOZyCqSJZUEVXEb9ieukTFlYb56bsOoIJPIgAJrY/W/yxW
-	9feBvocwn7xp4N49qQ5K2anCi5/o0y97
-X-Google-Smtp-Source: AGHT+IGGYypNjNwNWDfoiOb8NXySt3jh2IW0/2tkps6gTHppURLbDKRPahotbtiFs00rCt6CJbO61w==
-X-Received: by 2002:a17:903:2f91:b0:21f:90ae:bf83 with SMTP id d9443c01a7336-21f90aec1bcmr150010335ad.44.1739257124773;
-        Mon, 10 Feb 2025 22:58:44 -0800 (PST)
-Received: from vaxr-BM6660-BM6360 ([2001:288:7001:2703:fb40:c00e:5259:b412])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fa09b5d0b6sm10215220a91.46.2025.02.10.22.58.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 22:58:44 -0800 (PST)
-Date: Tue, 11 Feb 2025 14:58:39 +0800
-From: I Hsin Cheng <richard120310@gmail.com>
-To: Brian Ochoa <brianeochoa@gmail.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, corbet@lwn.net,
-	x86@kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] docs: arch/x86/sva: Fix two grammar errors under
- Background and FAQ
-Message-ID: <Z6r1H5V-m_xuEu0q@vaxr-BM6660-BM6360>
-References: <20250211025054.4062-1-brianeochoa@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nh2jjdUv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7CE4C4CEDD;
+	Tue, 11 Feb 2025 06:59:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739257188;
+	bh=aZA2VhXLslsO+rW9gDYbT7BHncOZEzesAjlj64CzaBo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=nh2jjdUvZlHBjr6cdJcjN47DmLGdC6kgXOvfbbHJaI1l5rAcrd8sXqSns+M11Z5Oy
+	 X1ABngoGb152yOdMJVoWOy8DDdvK6/WNplidjXzFztWSUoTXq1toXMtBYvpqIPyQ6F
+	 kXLKbgD/nFlJBCuqbFF1JBZs2UXcI1ux0ZbShK27XQtIAOvzQJVAipx0uXoMwt36Am
+	 eSlpD4Juaxl8IxxhgJg+r22jDeox7JmVTIrDpEP/a+lCFPzIxlfL/QoLNacA66r34n
+	 aYqo/lnKn4NY1YlzXSZWe0u9A1znlIj+iqgKzg0V5nfGd2bqHrVZKTGrEE32E1aRo4
+	 v6BqpVrDtwrrA==
+Date: Tue, 11 Feb 2025 07:59:43 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Adrian Hunter <adrian.hunter@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, "Liang, Kan" <kan.liang@linux.intel.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, Ian Rogers
+ <irogers@google.com>, "Ingo Molnar" <mingo@redhat.com>, Mark Rutland
+ <mark.rutland@arm.com>, "Peter Zijlstra" <peterz@infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>
+Subject: Re: [PATCH 3/6] tools: perf: tools: perf: exported-sql-viewer: drop
+ support for Python 2
+Message-ID: <20250211075943.7aa74ff1@foz.lan>
+In-Reply-To: <ef4110a1-d76b-4d01-bbed-734e7ba13ef5@intel.com>
+References: <cover.1738171937.git.mchehab+huawei@kernel.org>
+	<761ec2ebe518b5506e67d088797b559f89c396bb.1738171937.git.mchehab+huawei@kernel.org>
+	<ef4110a1-d76b-4d01-bbed-734e7ba13ef5@intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250211025054.4062-1-brianeochoa@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 10, 2025 at 09:50:54PM -0500, Brian Ochoa wrote:
-> - Insert missing "to" to a sentence under Background
-> - Insert missing "an" to a sentence under FAQ
+Em Thu, 30 Jan 2025 09:00:26 +0200
+Adrian Hunter <adrian.hunter@intel.com> escreveu:
+
+> On 29/01/25 19:39, Mauro Carvalho Chehab wrote:
+> > As stated at process/changes.rsy doc, the current minimal Python
+> > version is 3.x, so drop support for EOL python 2.x.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  tools/perf/scripts/python/exported-sql-viewer.py | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/tools/perf/scripts/python/exported-sql-viewer.py b/tools/perf/scripts/python/exported-sql-viewer.py
+> > index 121cf61ba1b3..b096592fd35f 100755
+> > --- a/tools/perf/scripts/python/exported-sql-viewer.py
+> > +++ b/tools/perf/scripts/python/exported-sql-viewer.py
+> > @@ -3939,9 +3939,8 @@ def CopyTreeCellsToClipboard(view, as_csv=False, with_hdr=False):
+> >  	indent_str = " " * indent_sz
+> >  
+> >  	expanded_mark_sz = 2
+> > -	if sys.version_info[0] == 3:
+> > -		expanded_mark = "\u25BC "
+> > -		not_expanded_mark = "\u25B6 "
+> > +    expanded_mark = "\u25BC "
+> > +    not_expanded_mark = "\u25B6 "  
 > 
-> Signed-off-by: Brian Ochoa <brianeochoa@gmail.com>
-> ---
->  Documentation/arch/x86/sva.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> You removed the 'if' but left the 'else'.
 > 
-> diff --git a/Documentation/arch/x86/sva.rst b/Documentation/arch/x86/sva.rst
-> index 33cb05005982..6a759984d471 100644
-> --- a/Documentation/arch/x86/sva.rst
-> +++ b/Documentation/arch/x86/sva.rst
-> @@ -25,7 +25,7 @@ to cache translations for virtual addresses. The IOMMU driver uses the
->  mmu_notifier() support to keep the device TLB cache and the CPU cache in
->  sync. When an ATS lookup fails for a virtual address, the device should
->  use the PRI in order to request the virtual address to be paged into the
-> -CPU page tables. The device must use ATS again in order the fetch the
-> +CPU page tables. The device must use ATS again in order to fetch the
->  translation before use.
->  
->  Shared Hardware Workqueues
-> @@ -216,7 +216,7 @@ submitting work and processing completions.
->  
->  Single Root I/O Virtualization (SR-IOV) focuses on providing independent
->  hardware interfaces for virtualizing hardware. Hence, it's required to be
-> -almost fully functional interface to software supporting the traditional
-> +an almost fully functional interface to software supporting the traditional
->  BARs, space for interrupts via MSI-X, its own register layout.
->  Virtual Functions (VFs) are assisted by the Physical Function (PF)
->  driver.
-> -- 
-> 2.34.1
+> The white is messed up.
 > 
->
+> So presumably not tested at all:
+> 
+>   python3 tools/perf/scripts/python/exported-sql-viewer.py
+>     File "/home/user/git/review2/tools/perf/scripts/python/exported-sql-viewer.py", line 3942
+>       expanded_mark = "\u25BC "
+>                              ^
+>   IndentationError: unindent does not match any outer indentation level
+> 
+> Posting untested patches, especially tidy-ups,
+> should really be discouraged.
+> 
+> There are many other obvious python2 things in this
+> file that have not been addressed.  When asked, AI
+> listed 10 things.
 
-Hello Brian,
+You're right. Btw my main goal was just to make vermin to detect the
+minimal version of this script.
 
-It looks good to me, though the commit message is kinda redundant and
-confusing.
+I tried to run this script on Fedora 41, installing PySide with
+pip there (*):
 
-> - Insert missing "to" to a sentence under Background
-> - Insert missing "an" to a sentence under FAQ
+	$ pip install --user PySide2
+	...
+	$ perf record  ls
+	...
+	$ perf script -s tools/perf/scripts/python/export-to-sqlite.py pt_example branches calls
+	Segmentation fault (core dumped)
 
-"a sentence" doesn't really help us understand which sentence you are
-refering to, use "insert" here is kind of weird to me, too. Maybe
-something like the following will be more direct
 
-- Correct "in order" to "in order to"
-- Append missing quantifier
+but it gives me segmentation fault on a required library:
 
-What do you think?
+	Program terminated with signal SIGSEGV, Segmentation fault.
+	#0  0x00007fcab2e0d1ec in SbkObject_TypeF () from ~/.local/lib/python3.13/site-packages/shiboken2/libshiboken2.abi3.so.5.13
 
-Best regards,
-I Hsin Cheng
+(*) Fedora 41 doesn't have pyside2 packages anymore. 
+
+Thanks,
+Mauro
