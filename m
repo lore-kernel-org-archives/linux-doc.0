@@ -1,122 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D9E1E9B2D;
-	Tue, 11 Feb 2025 06:59:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9654726BDB6;
+	Tue, 11 Feb 2025 07:00:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739257188; cv=none; b=MAfPTMel1/B/8vv8BzgjevG31Jr5B6sehw6OLGBfZO1//DTa2WDdDR4p4ZR9oYBgiQvFWQtl9dN7A2n4Bc0riExFiYBXkeD8/AK3KsRiWPQYDfvFMHD+jfrvMvjUY9Hmjj0vgs88ytriBKTf6PX7IyF5TgpYcp+trEVIZkhhwg0=
+	t=1739257258; cv=none; b=SDax0E76ijQDv0LiEiMytqYLMN/Ni6jYHtqHRVB9UHDSizjymOPRW9ZP+qpJNkCn7BvlVxBEB/Rnakf78Ypd8frgo4yribx8ZgFAj0qfLq+SjeUFr/URKQy/CbxL1z7xcDZyYq2TJb1K18oMJwGPWRRuRsoaRhBUOMg4A/jQYeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739257188; c=relaxed/simple;
-	bh=aZA2VhXLslsO+rW9gDYbT7BHncOZEzesAjlj64CzaBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=buaI5BIxLXwXru+y9FEmMA+opGZMwN+xUIC7YEI9YoaUj/CQ3TmRK/ZzyV4ETrPumMRH97CWAEhkGrVP4LS9kpZeYETBNpmCT8jGYq1L9+u6fraaXtIVRlwozLRSsQ65mAm9HtIGBRLsHD+BOqqhZ8mzl8+wrv0PUUQKssMViUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nh2jjdUv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739257258; c=relaxed/simple;
+	bh=31QWdnjJ3Q7WNte0pNALik3EiaOkqFc9f2Wf++QpPF8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dKbVuhpWu0YaXFWsswd8ELDM5FhC/r4LeRk9AOq9dmr7w1DBGfvYFAz4bbtV1wEO6EuJ5bgl/vmv3YDr7xKlnfhnEsG1qRvT5u7ok9Xf8mvtFabKqq+f+1pS8cemOiIIeLRmceez8e7pEaWZxx+9cJK5gZ7Dgb1Vpc2oAklz9+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KQ74n4sF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nh2jjdUv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7CE4C4CEDD;
-	Tue, 11 Feb 2025 06:59:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KQ74n4sF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 130C3C4CEDD;
+	Tue, 11 Feb 2025 07:00:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739257188;
-	bh=aZA2VhXLslsO+rW9gDYbT7BHncOZEzesAjlj64CzaBo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nh2jjdUvZlHBjr6cdJcjN47DmLGdC6kgXOvfbbHJaI1l5rAcrd8sXqSns+M11Z5Oy
-	 X1ABngoGb152yOdMJVoWOy8DDdvK6/WNplidjXzFztWSUoTXq1toXMtBYvpqIPyQ6F
-	 kXLKbgD/nFlJBCuqbFF1JBZs2UXcI1ux0ZbShK27XQtIAOvzQJVAipx0uXoMwt36Am
-	 eSlpD4Juaxl8IxxhgJg+r22jDeox7JmVTIrDpEP/a+lCFPzIxlfL/QoLNacA66r34n
-	 aYqo/lnKn4NY1YlzXSZWe0u9A1znlIj+iqgKzg0V5nfGd2bqHrVZKTGrEE32E1aRo4
-	 v6BqpVrDtwrrA==
-Date: Tue, 11 Feb 2025 07:59:43 +0100
+	s=k20201202; t=1739257258;
+	bh=31QWdnjJ3Q7WNte0pNALik3EiaOkqFc9f2Wf++QpPF8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KQ74n4sFxhlL0HwATB55Z1PNtVgs22A9iD2hHFn1M2Dv0SmYX2xo3T1Xt8hzXHjZO
+	 QW6G5DJqLSsz/1DrO6tiMjvN1liui/jGFYiiRlUZOGpfEzdoQWHOjhxMEck+PutzCy
+	 +287U5wRb5mwxXNX6JlXwAyQjSumrMVUbP+Nh5egfNecd/wL/AzvbCFHvTitmRGqMA
+	 YDvLxmsZuz2TNFG2XXOZ1VDxHImV0yXbfwaTJteRX+Lboc3CXVAYj2EuviCCH0tSmr
+	 Ehj67aoI1wXX9YLPZbjpU6fOUFEO/kQHZllZlPCL0V61myTxH96SoM2bUpdDC10i0d
+	 zLiwJ4qFJ7+pQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1thkGO-00000008ZVQ-0S8s;
+	Tue, 11 Feb 2025 08:00:56 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Adrian Hunter <adrian.hunter@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, "Liang, Kan" <kan.liang@linux.intel.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, Ian Rogers
- <irogers@google.com>, "Ingo Molnar" <mingo@redhat.com>, Mark Rutland
- <mark.rutland@arm.com>, "Peter Zijlstra" <peterz@infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>
-Subject: Re: [PATCH 3/6] tools: perf: tools: perf: exported-sql-viewer: drop
- support for Python 2
-Message-ID: <20250211075943.7aa74ff1@foz.lan>
-In-Reply-To: <ef4110a1-d76b-4d01-bbed-734e7ba13ef5@intel.com>
-References: <cover.1738171937.git.mchehab+huawei@kernel.org>
-	<761ec2ebe518b5506e67d088797b559f89c396bb.1738171937.git.mchehab+huawei@kernel.org>
-	<ef4110a1-d76b-4d01-bbed-734e7ba13ef5@intel.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: trace: decode_msr.py: make it compatible with python 3
+Date: Tue, 11 Feb 2025 08:00:46 +0100
+Message-ID: <88bb0d47100feaa3cda215e68bf6500dc67da7b3.1739257245.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Em Thu, 30 Jan 2025 09:00:26 +0200
-Adrian Hunter <adrian.hunter@intel.com> escreveu:
+This script uses print <foo> instead of print(foo), which is
+incompatible with Python 3.
 
-> On 29/01/25 19:39, Mauro Carvalho Chehab wrote:
-> > As stated at process/changes.rsy doc, the current minimal Python
-> > version is 3.x, so drop support for EOL python 2.x.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  tools/perf/scripts/python/exported-sql-viewer.py | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/tools/perf/scripts/python/exported-sql-viewer.py b/tools/perf/scripts/python/exported-sql-viewer.py
-> > index 121cf61ba1b3..b096592fd35f 100755
-> > --- a/tools/perf/scripts/python/exported-sql-viewer.py
-> > +++ b/tools/perf/scripts/python/exported-sql-viewer.py
-> > @@ -3939,9 +3939,8 @@ def CopyTreeCellsToClipboard(view, as_csv=False, with_hdr=False):
-> >  	indent_str = " " * indent_sz
-> >  
-> >  	expanded_mark_sz = 2
-> > -	if sys.version_info[0] == 3:
-> > -		expanded_mark = "\u25BC "
-> > -		not_expanded_mark = "\u25B6 "
-> > +    expanded_mark = "\u25BC "
-> > +    not_expanded_mark = "\u25B6 "  
-> 
-> You removed the 'if' but left the 'else'.
-> 
-> The white is messed up.
-> 
-> So presumably not tested at all:
-> 
->   python3 tools/perf/scripts/python/exported-sql-viewer.py
->     File "/home/user/git/review2/tools/perf/scripts/python/exported-sql-viewer.py", line 3942
->       expanded_mark = "\u25BC "
->                              ^
->   IndentationError: unindent does not match any outer indentation level
-> 
-> Posting untested patches, especially tidy-ups,
-> should really be discouraged.
-> 
-> There are many other obvious python2 things in this
-> file that have not been addressed.  When asked, AI
-> listed 10 things.
+Fix it.
 
-You're right. Btw my main goal was just to make vermin to detect the
-minimal version of this script.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/trace/postprocess/decode_msr.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I tried to run this script on Fedora 41, installing PySide with
-pip there (*):
+diff --git a/Documentation/trace/postprocess/decode_msr.py b/Documentation/trace/postprocess/decode_msr.py
+index aa9cc7abd5c2..f5609b16f589 100644
+--- a/Documentation/trace/postprocess/decode_msr.py
++++ b/Documentation/trace/postprocess/decode_msr.py
+@@ -32,6 +32,6 @@ for j in sys.stdin:
+ 					break
+ 		if r:
+ 			j = j.replace(" " + m.group(2), " " + r + "(" + m.group(2) + ")")
+-	print j,
++	print(j)
+ 
+ 
+-- 
+2.48.1
 
-	$ pip install --user PySide2
-	...
-	$ perf record  ls
-	...
-	$ perf script -s tools/perf/scripts/python/export-to-sqlite.py pt_example branches calls
-	Segmentation fault (core dumped)
-
-
-but it gives me segmentation fault on a required library:
-
-	Program terminated with signal SIGSEGV, Segmentation fault.
-	#0  0x00007fcab2e0d1ec in SbkObject_TypeF () from ~/.local/lib/python3.13/site-packages/shiboken2/libshiboken2.abi3.so.5.13
-
-(*) Fedora 41 doesn't have pyside2 packages anymore. 
-
-Thanks,
-Mauro
