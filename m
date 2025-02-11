@@ -1,148 +1,88 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38311DE3B8;
-	Mon, 10 Feb 2025 23:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB88136B;
+	Tue, 11 Feb 2025 00:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739230982; cv=none; b=qH7al10kpRaIzh8OUhWWhVsEBHOjn5US3jO1Z/f/UXjDbXpNRxdgdMnt/uw1HBmX0oUyyqdbLJCrtEV6OQ16OxuFXcBPYMlUnv6j2G5OEdPhQ9oq/u/uW5SsgDcsES6Z98+DYjW+dkwG7zv5+PBscVH/t6pC9KJlmIKAv5CpS5A=
+	t=1739232285; cv=none; b=OLXGDwbgqa2rZSJLKSu28r2imXBuMBk9vIfYtCKMvqRcdXV0t04IkyHnalZbE9Hm/H3nBwQVp4G0dV8lk1lzt1Dy+J36yTF5UA0zGdVXs/u6kYVdfTnGG3t4t9dnEmgCTtJnQzU69783G6nWvjx6ImIXXAmfdlzCnz1XPuiCvbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739230982; c=relaxed/simple;
-	bh=MUIDd2fI73QZi6v0y5Fvhz8OUmwuDCtfk7eH7bHgesY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q5BEBNWaNMsy7hS9a4Mav/c1NyL6bOUJlCwRfbpjGhJNO2zO3Adcuysra7gry60yDD+TCXOA5h8PjRrbjb7PtnhC7UCATZYyPZ5L2PaCvAPcARknmhLMsQAP7hQ2pTu9wnfyeD7KJ4zu8ep2MjZDl1nr4TXYiHmryJ6w0v3h+18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CnF5EYED; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739232285; c=relaxed/simple;
+	bh=hJn7ULHbq6CRfDggJSdFISFXucCrGiXYfkgvYplnnGM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Q20vRk4b9zQV40ipeAH4EvX7uR11WQu8VgQyDh3qMSQ86FLGz+8mrj9BvOy3hvD/SutsWgrgc0Wbz2AQovDPMr3RsJpFSBTkgOb9xowwE25/R50LxVHV8ipT37t2eZGuMFMruBnEFumHquAlelR/TEicp7sIXio8B3JULY66IaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CbTBU09J; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CnF5EYED"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-21f5660c2fdso64765965ad.2;
-        Mon, 10 Feb 2025 15:43:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739230980; x=1739835780; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hvhku1/z5ISGPVdL1BlHcUNOUe+L4Ex94wS+iRNs3Co=;
-        b=CnF5EYEDELE95V5U5WCgqmoBgp6Yiau9wanowXL4nAZc4pNFSNWU0fxbhXRaq1CTLk
-         4vc2GR373bBHxhWW+VcKXdzghHPXG/Nj8aCc4TQQurj/iMoAg2pdCyuxSjmRzKoiMHSA
-         xUuuDg1HtmPWJ+K8Cv2xNVq+rasYJAbcyEv2Cwbi6QY34d8aWNQAv5sffnLzCThikWmI
-         Zy6DIQpeUSlvJyjxeWTiQ2wEJAaMMO2cMc8/nFgRZwenNZ7troINypz13Ufqyd/7Vdw0
-         DM28zwzOvB+DEqMrWPIpG3kcZp1swL5bmG4A4W2zZR2rUKZ4J4rylcHLugbM3JgkctYQ
-         GhEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739230980; x=1739835780;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Hvhku1/z5ISGPVdL1BlHcUNOUe+L4Ex94wS+iRNs3Co=;
-        b=fGQRC0yqz/O5pxEf28Px0OkH1/W/y/yhPOhDPoTtVNPd71kawLBWHZSMsgOkOB1GEh
-         7Z9ivt0Q+nE1Wz3JEPiZ7X0dBoOxlc2nKbWvnImDtOWW5r64tsERcNHe/UByVjc46XH4
-         zXVHfEwP2FAsR3yYIvVk4Xk7pueKPmcwMgV9O6adZTFpH6Jeh9Wgjk9+7PV+V4EJ6+/O
-         mZBNfmS9kdrUGDOWcCqWi6niOk9M2cig/Oml+e33mfJhfVV5fHgsTCP5pKFIaN6WbUKQ
-         ArLC57Po/Fg9htssy0OTBBKBmRZH2NziyjZQtBf0U9+iH587/sTsedw2t/gyX6/PH97h
-         92GQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWwmjpUuxPE3x1VvdQDsMYcIN++tAm5MTGLjNLVuhG827W64moJ9s6uivy4qS528q740iBTmwie1w=@vger.kernel.org, AJvYcCUrDIDALdL3KOBG/UxzJOF5IrTaC/pz7wP3UQ7Wkgm7Fgy8w1Qa78ZpKS5xeuI6xNJby3yc3KYJf4nQqOut@vger.kernel.org, AJvYcCVL+eC8LUtDfGvO5btUZK632in6zdwjg+4rYXkvQmqXkeOUtQYg/1VC57OSuofj8Ds7bYQh+B4IVMW32aJtxc2c@vger.kernel.org, AJvYcCX9rRvUw2rCaE9b7JAHunouS/SXYsmAvn4axWhSoXRrQlvQkxX2Nt71vsyUVQwHWlqXtLBqhzwd@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIksHFjN9unX5yAQqFkvDxbexR8ygoPkcih+ijSyb1N2sAE6+b
-	YlpHr4d+NQS5o/usOg7MA4Snv56fyIvd104PZetz6ruvGE/KSA9D
-X-Gm-Gg: ASbGncumo5F8DiZ2r7K3LeCSN74F3kPmigL4n6WzMjpWxBGD8MOwMHDXeCEE3tnu8P+
-	PyTuO/hNCEZmM21+EikMzx/wohFW9QcJAwTtjO3rhjE9YC7vfATKSAufTQfQMvIVpfGzVQOpOsH
-	8Nt/PixFx8QcTtSiAFfGbajv7dHcfcHW+PusBIUxNxABbdJ2hBghGCUCua1cScFL/uztcWxGg0y
-	GFqIpBKsQ8cryzxjiA0z2XnOgxuSPHka2csqr2zK3uOdElQp3wR1fhwJl7Ldf9y2SOlO9BPut5+
-	mBlAWK3Jb8bC5q4=
-X-Google-Smtp-Source: AGHT+IH/fffzdjw2z+TAvMPwE3HgU+tyPfoL2nybzuCe5nAEYQkGbNqUIgJ55joJVM1uAlrE35NZOg==
-X-Received: by 2002:a17:902:f790:b0:21f:614e:9e7c with SMTP id d9443c01a7336-21f614ea049mr227369245ad.25.1739230979741;
-        Mon, 10 Feb 2025 15:42:59 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3650e6aasm83909935ad.12.2025.02.10.15.42.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 15:42:57 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 98551423E4E4; Tue, 11 Feb 2025 06:42:51 +0700 (WIB)
-Date: Tue, 11 Feb 2025 06:42:51 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, rdunlap@infradead.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH net-next v5 8/8] netconsole: docs: Add documentation for
- CPU number auto-population
-Message-ID: <Z6qO-_Ebnn5OTkgy@archie.me>
-References: <20250206-netcon_cpu-v5-0-859b23cc3826@debian.org>
- <20250206-netcon_cpu-v5-8-859b23cc3826@debian.org>
- <Z6Vm3ny5VN6mcKJN@archie.me>
- <20250210-crafty-snobbish-pogona-83e904@leitao>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CbTBU09J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739232283; x=1770768283;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hJn7ULHbq6CRfDggJSdFISFXucCrGiXYfkgvYplnnGM=;
+  b=CbTBU09JSmm5dyryDM1kHiR+yxGyU++LinhFS+RDeulp7+vsk2zs6TMj
+   X0+Sx5oECQ5VfLmF7ZpgaduR9tAB/R8cMGG9ykbPw0euJt/qmejtI5S3o
+   pg0tgHFOvxDMhIvhgBFkEv4E3gGFoX9IvtO7Z4IPhom1o4u1jJKfhPChZ
+   X+DmdiH4uTAOKYuob37Ly62XFejt2FcgpJ5FeZ5cHHe48ZFRLWvFmQJOP
+   Aw0imnVuWe+hu+Y/Hp/frQcdEpi0JnjtSFkG7KMUxuJP/cfXEIZeXyeY4
+   AF4H3P2rsgTNRpIajmX/gwhepZWEhoUSdC580jKsiWDW26/q9NNcE5oHI
+   A==;
+X-CSE-ConnectionGUID: 7FRh7FSvQtOgrH7Sgmj1Ew==
+X-CSE-MsgGUID: CU0kfWVVSluVJxHu/Ol6zQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="57376672"
+X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
+   d="scan'208";a="57376672"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 16:04:42 -0800
+X-CSE-ConnectionGUID: HshYmhZ9Rlm/Ekg9LHrdgg==
+X-CSE-MsgGUID: 4zfi4CbcTteOMgJGm1O6rw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
+   d="scan'208";a="117372450"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 10 Feb 2025 16:04:40 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1thdlV-0013Xz-2s;
+	Tue, 11 Feb 2025 00:04:37 +0000
+Date: Tue, 11 Feb 2025 08:04:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [lwn:docs-next 35/37] htmldocs: make[2]: ./scripts/get_abi.pl: No
+ such file or directory
+Message-ID: <202502110736.ZGWaWsep-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jrZ3IkBhdvf9Qfh8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210-crafty-snobbish-pogona-83e904@leitao>
 
+tree:   git://git.lwn.net/linux.git docs-next
+head:   95767a592dc997eab17a4f58fcb16abff2101ba3
+commit: 1c7e66bc5d20ac7779130e146d70066b3af4711c [35/37] scripts/get_abi.pl: drop now obsoleted script
+reproduce: (https://download.01.org/0day-ci/archive/20250211/202502110736.ZGWaWsep-lkp@intel.com/reproduce)
 
---jrZ3IkBhdvf9Qfh8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502110736.ZGWaWsep-lkp@intel.com/
 
-On Mon, Feb 10, 2025 at 03:07:24AM -0800, Breno Leitao wrote:
-> Hello Bagas,
->=20
-> On Fri, Feb 07, 2025 at 08:50:22AM +0700, Bagas Sanjaya wrote:
-> > On Thu, Feb 06, 2025 at 03:05:59AM -0800, Breno Leitao wrote:
-> > > +.. note::
-> > > +
-> > > +   If the user has set a conflicting `cpu` key in the userdata dicti=
-onary,
-> > > +   both keys will be reported, with the kernel-populated entry appea=
-ring after
-> > > +   the user one. For example::
-> >=20
-> > In that case, shouldn't the kernel autopopulates numbers of the rest of
-> > CPUs?
->=20
-> Do you mean listing all the CPUs that are *not* sending the current
-> message?
+All errors (new ones prefixed by >>):
 
-Nope.
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+>> make[2]: ./scripts/get_abi.pl: No such file or directory
+   Using alabaster theme
 
->=20
-> Let me come up with an example to try to understand this better. Let's
-> suppopse I have a machine with 64 cores, and cpu=3D42 is sending that
-> current message, then I would see the following on the dictionary:
->=20
->  cpu=3D42
->=20
-> You are suggesting we send all the other cpus, except 42 in a "key"?
-
-Sort of.
-
-I mean, on the dictionary, we would see user-defined cpu number on one cpu,
-and kernel-generated numbers on the rest.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---jrZ3IkBhdvf9Qfh8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6qO9AAKCRD2uYlJVVFO
-oyo6APsFj5scWxy8KkPllfChAVz5wqVh0oignotmAl3UJbIfqwD/RuuRG9shJ5JF
-mRYIV7kgg8Aec4+MY+9ni4010HWTrAc=
-=R/cL
------END PGP SIGNATURE-----
-
---jrZ3IkBhdvf9Qfh8--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
