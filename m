@@ -1,237 +1,123 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B71A1F2381;
-	Tue, 11 Feb 2025 10:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416C61F03D9;
+	Tue, 11 Feb 2025 10:15:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739268114; cv=none; b=NGOFqb5AWeXCKwfhtIxNSxbE/rW87IfHbZeROBZGyKSfqLkqDQABAWzQdA70ux3kQJww9BgWfUIuTYFC2nVQU/f07KlP+yhtk51XGe0qZz7tHyRnNZb+FsHLUa2JMuEdP3piUtKP6n/5wgUHJ+7fmNZgADvcfV8Oe/4r/Ocbi/A=
+	t=1739268928; cv=none; b=UsmIFE0tdWi+BOsrkowjCvgPR/TcWZeFdOUBZySKfP/UuhAw0jrBSxLyWtItOwE/FNG05O3P11sS03szcGFSQlAlGcdKAebVL4m3nkKOq78M+CeQCbsVrpldKjw5YeC7NsfG4SqmhPS7GYCMUHg2G4oSF66vghM7A6icQYX3sVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739268114; c=relaxed/simple;
-	bh=fsztC0WAUDAiVqONGmAmLoFIpLdTBrlp8DGfVjBnzH0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FPjlu80rTjkmELgdG8yndiGYVfPTW5ceLw0AIODCMiF18xGmhl8W0bJgCajxiyOxmB3yFer65rLbpR7ng0nK7kzAReNAsaPEnw0UIJE07KmPr1cynHc82l3h3p8+ThkYBjrtBMq3AXAwmML/IXv6TPRt6lEVXUQOzjTIKXCx5ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YEWh4g06; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739268928; c=relaxed/simple;
+	bh=FCdEnDf9oipcxKTdnA7WndtjMuMXT6dVmy4L1o/HFbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IWR56Ajtr/Mrv/ezQTHGESnCcT3YYFuAgt5uM6pzXCEy2VXmE79JuBN9Lod7/zLai3CAq1SRhz1QCEzPP4oTVTKEj+/nwf0Nwu9UZidiVnFYZHtTNl3RRRlYGQlqAk7bVyCGU1ovpt74O/HgPcjlFTDF/C89gXLZSklcElhkOaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRUwt8CO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YEWh4g06"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4395578be70so2397665e9.2;
-        Tue, 11 Feb 2025 02:01:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739268110; x=1739872910; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=fsztC0WAUDAiVqONGmAmLoFIpLdTBrlp8DGfVjBnzH0=;
-        b=YEWh4g0637mt7Dr0NF4tkanCkrheYIB/dc2hi2LQoVNWPyvtIdGcikOcjI3LkVZB+C
-         wo/88DC4XqZ285HBOeSAN8E99xndanaIrY6Z57K8Koj3elbsN21lqHu8At+wj83AINQD
-         yzp+dpXuLShbf37vPTxjVUtx4mbB+OrJGi9IF+p1zGX37SkCeEE8AG9vVApBKhwkhDth
-         vgtenqfCYsSeAS6G5q2ARlK8FZQ4nnL/o2fbpTkFWrxZl/6u709YGKiZ6T5f1CfIdkFp
-         hXJd7i8SxxrNb+6M5fpNNI2JPgFiGPrC05cyYR8QyDy8XeZKAMdyQy4/EOqmiWB6e6Yz
-         ipRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739268110; x=1739872910;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fsztC0WAUDAiVqONGmAmLoFIpLdTBrlp8DGfVjBnzH0=;
-        b=CJJf/U9jP/GHiWlyX9w7J/hJNnOlKq5XElLGfZPn09ILDTsRJBvXqvGcE4rGA1ofKJ
-         UMgt2eDIbuEuoHgNPfE5ervgNsKfJ8rFpUYdkPYL2+5xMEVsjcUDgEa5wYe+oKPciSij
-         jfwvqciaYETcs6I50xRpw+MPlU+0h7ecU7OkAFdr4cGEr1OOR71cd2JDWtKasINRcDON
-         C2FC9HzgUBPCeMAqpc7lkin/AgU7MswWWDR3SYaEtVz8pym7lo22cFQ+cxq2Pf5PBsju
-         fF1Q8OIeSBHcKCvK4ok5YC5PMAL/OpvHvZ7SFYqnyqUUw5BHNDQcUO1fVhTB4MUwGnzH
-         MVkg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZjvSUUrixVnY/7kn60IcG5LF9qqcK3mfLfdYz8vES3fTDBgMiYXyZF0CVewq4GkX6o3aTcnoL/43j@vger.kernel.org, AJvYcCWZKsJiwXR0CY/uZ911tAndnPVWBMnXb61wfZ75H47ogg1v7kDXJr/06zXcKv13LqTc5KM/1kcqaqCS@vger.kernel.org, AJvYcCWw0YuSgLTk4NxkRf2x90X38CCV6x29qB7hiaLvE6o/usDQpH1zyQDsCAcWZ7Fm7nAeuNw8jny+jJGabx6g@vger.kernel.org, AJvYcCXLGGznfvs178SkKmlNWbtT51Zsc6D6PPZysPA6HAUsfQzzvJNgjCA1Vs5LhD6nIK8D3e6R6y+uE9Gx@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtcxOfEeu67aMdpyLr8m7Jf+YsWyibQNz3638kFPVuK66UYwVG
-	GTA31lYksSM4Bi35QE/EeAIDIeEEofs4LIrVrRq19/EAIeTg+4mn
-X-Gm-Gg: ASbGncvpupe9yBojJEr4OI2W7LK1PQxBeABjXNZjY4hqw7k4r6mKaLTQ9vxJ7EpDO5Q
-	tbIBl3Crdma6EUwOVXNRRqoP5k8o7VnXbYzaiVyy+ghvhjUIm+ix5ZrS7HIT2i/PnIFO6CN1/z1
-	KawC3ZhJbfHKnggXKEOl3772fg3+Q/j1igSgvqmqWKS9mi3wSAFlSNrTZaAy3PvVLv0SgS1Gos+
-	9fd1++fR9DNC0YKacwpsUpKiO7GEb5C2Zu7XTIUYW5GkjkqLyziMCcLJJrZ5TlwdAAytJolH9Ns
-	wQ/Depo/6rR5xQhGNFra1AW5BenbKdpf4xrHFFv6mP3jLOl2NkYnD2heqpBc0U4=
-X-Google-Smtp-Source: AGHT+IHqh7iCiN9GsXADLTwNvK95VZKU0mIGqmengeJ2nj9y7k2avZvpfXaMmy4iVM0ur9UviO0xgQ==
-X-Received: by 2002:a05:600c:1d02:b0:434:a815:2b57 with SMTP id 5b1f17b1804b1-439249a8276mr128530795e9.20.1739268110088;
-        Tue, 11 Feb 2025 02:01:50 -0800 (PST)
-Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4394127afcbsm68845475e9.23.2025.02.11.02.01.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 02:01:49 -0800 (PST)
-Message-ID: <ed008eeec841448fb597b144a8f706a3ae1a513e.camel@gmail.com>
-Subject: Re: [PATCH v6 4/6] dt-bindings: iio: Add adis16550 bindings
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>, Conor Dooley <conor@kernel.org>
-Cc: Robert Budai <robert.budai@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>,  Michael Hennerich <Michael.Hennerich@analog.com>,
- Alexandru Ardelean <alexandru.ardelean@analog.com>, Rob Herring	
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>, Ramona
- Gradinariu <ramona.gradinariu@analog.com>, Trevor Gamblin
- <tgamblin@baylibre.com>, Marcelo Schmitt	 <marcelo.schmitt@analog.com>,
- Paul Cercueil <paul@crapouillou.net>, David Lechner
- <dlechner@baylibre.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Tue, 11 Feb 2025 10:01:51 +0000
-In-Reply-To: <20250208153843.0353baa9@jic23-huawei>
-References: <20250204143612.85939-1-robert.budai@analog.com>
-		<20250204143612.85939-5-robert.budai@analog.com>
-		<20250204-helium-marbled-a0863a0a18a8@spud>
-		<15065d0cd19f39d92ce860cd03802c368df74b34.camel@gmail.com>
-		<20250205-styling-chirpy-79eae9437b3b@spud>
-	 <20250208153843.0353baa9@jic23-huawei>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRUwt8CO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E73EC4CEDD;
+	Tue, 11 Feb 2025 10:15:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739268927;
+	bh=FCdEnDf9oipcxKTdnA7WndtjMuMXT6dVmy4L1o/HFbU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NRUwt8CORW4roJdPPnanaDYNQtqwz1PeyjcZ7QqpS4r95x8XvXuEO+oTC0LQ4sgqX
+	 awUB1f05Bi3IP7A+3RuWXxj1KawkeVXSySAEI/XD027i/zhHJh2abm+EvUN9FD8Qph
+	 QkhN0O+HP9+p/r3zADAfvkOk40t+fvhSARZCgkDXMjFDhmOm5wcQ0dLHezv+9SlfvU
+	 mhyRww6nnS19qPS8DP9rkczS+C3yuaxqVe2BmINwCEXsQ8xfyMzeoE62aACHKcSDG+
+	 D2BQgprunMo6M9jLhrcW3hVUcktDQLDEBcpF7nrAJ6+oop4PGhgA0EIchDtFv94yDs
+	 wmqVlOEHh40cA==
+Date: Tue, 11 Feb 2025 10:15:22 +0000
+From: Lee Jones <lee@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+Subject: Re: (subset) [PATCH v11 3/3] leds: Add LED1202 I2C driver
+Message-ID: <20250211101522.GL1868108@google.com>
+References: <20241218183401.41687-1-vicentiu.galanopulo@remote-tech.co.uk>
+ <20241218183401.41687-4-vicentiu.galanopulo@remote-tech.co.uk>
+ <173641864745.2570436.6359371577917683428.b4-ty@kernel.org>
+ <CAMuHMdXNOEXuEADeSGGHw88Tse+QjSkknKYGH-kk02jSpiuNiQ@mail.gmail.com>
+ <20250210165923.GC1868108@google.com>
+ <20250210170136.GD1868108@google.com>
+ <CAMuHMdXtDd-KSeX_8nhj_J0X33WRT47_v3m01qdBN01-p4xVjA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXtDd-KSeX_8nhj_J0X33WRT47_v3m01qdBN01-p4xVjA@mail.gmail.com>
 
-On Sat, 2025-02-08 at 15:38 +0000, Jonathan Cameron wrote:
-> On Wed, 5 Feb 2025 19:52:37 +0000
-> Conor Dooley <conor@kernel.org> wrote:
->=20
-> > On Wed, Feb 05, 2025 at 04:11:51PM +0000, Nuno S=C3=A1 wrote:
-> > > On Tue, 2025-02-04 at 19:25 +0000, Conor Dooley wrote:=C2=A0=20
-> > > > On Tue, Feb 04, 2025 at 04:36:08PM +0200, Robert Budai wrote:=C2=A0=
-=20
-> > > > > Document the ADIS16550 device devicetree bindings.
-> > > > >=20
-> > > > > Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > > > > Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > > > > Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> > > > > Signed-off-by: Robert Budai <robert.budai@analog.com>
-> > > > > ---
-> > > > >=20
-> > > > > v6:
-> > > > > - applied blank line suggestions
-> > > > > - added clock-frequency dependency change suggestions
-> > > > > - yamllint corrections
-> > > > >=20
-> > > > > =C2=A0.../bindings/iio/imu/adi,adis16550.yaml=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 83
-> > > > > +++++++++++++++++++
-> > > > > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 9 ++
-> > > > > =C2=A02 files changed, 92 insertions(+)
-> > > > > =C2=A0create mode 100644
-> > > > > Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> > > > >=20
-> > > > > diff --git
-> > > > > a/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> > > > > b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> > > > > new file mode 100644
-> > > > > index 000000000000..8750bb937979
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yam=
-l
-> > > > > @@ -0,0 +1,83 @@
-> > > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: http://devicetree.org/schemas/iio/imu/adi,adis16550.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: Analog Devices ADIS16550 and similar IMUs
-> > > > > +
-> > > > > +maintainers:
-> > > > > +=C2=A0 - Nuno Sa <nuno.sa@analog.com>
-> > > > > +=C2=A0 - Ramona Gradinariu <ramona.gradinariu@analog.com>
-> > > > > +=C2=A0 - Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > > > > +
-> > > > > +properties:
-> > > > > +=C2=A0 compatible:
-> > > > > +=C2=A0=C2=A0=C2=A0 enum:
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adis16550
-> > > > > +
-> > > > > +=C2=A0 reg:
-> > > > > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > > > > +
-> > > > > +=C2=A0 spi-cpha: true
-> > > > > +=C2=A0 spi-cpol: true
-> > > > > +
-> > > > > +=C2=A0 spi-max-frequency:
-> > > > > +=C2=A0=C2=A0=C2=A0 maximum: 15000000
-> > > > > +
-> > > > > +=C2=A0 vdd-supply: true
-> > > > > +
-> > > > > +=C2=A0 interrupts:
-> > > > > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > > > > +
-> > > > > +=C2=A0 reset-gpios:
-> > > > > +=C2=A0=C2=A0=C2=A0 description:
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Must be the device tree identifie=
-r of the RESET pin. If
-> > > > > specified,
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 it will be asserted during driver=
- probe. As the line is active
-> > > > > low,
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 it should be marked GPIO_ACTIVE_L=
-OW.
-> > > > > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > > > > +
-> > > > > +=C2=A0 clocks:
-> > > > > +=C2=A0=C2=A0=C2=A0 description: If not provided, then the intern=
-al clock is used.
-> > > > > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > > > > +
-> > > > > +=C2=A0 clock-frequency:
-> > > > > +=C2=A0=C2=A0=C2=A0 description: Clock frequency in Hz when an ex=
-ternal clock is
-> > > > > used.
-> > > > > +=C2=A0=C2=A0=C2=A0 oneOf:
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - minimum: 1
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maximum: 128
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - minimum: 3000
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maximum: 4500=C2=A0=
-=20
-> > > >=20
-> > > > I don't get why this is a property, to be honest. When you've got a=
-n
-> > > > external clock, why isn't the frequency obtained from the clock pro=
-vider
-> > > > node?
-> > > > =C2=A0=20
-> > >=20
-> > > The main purpose of this property is actually to show/document the
-> > > constrains of
-> > > the external clock. We can very well just error out in the driver (an=
-d we
-> > > do
-> > > that) and not have this property. I mentioned this property to Robert=
- some
-> > > revisions ago and I also pointed out that I wasn't really sure if it
-> > > should be
-> > > used or not=C2=A0(I guess this is more for fixed clock providers...).=
- IIRC, I
-> > > did
-> > > asked for some advice/comments but we got none so I assume Robert jus=
-t
-> > > decided
-> > > to use it and see what you guys had to say about it.=C2=A0=20
-> >=20
-> > NGL, this is one of the kinda of things where if you're relying on
-> > dt-bindings to avoid cocking up your board design, things have already
-> > gotten pretty badly wrong! That said, "clock-frequency" is a
-> > property for cpus, fixed-frequency clock providers and i2c buses, you'd
-> > need a vendor prefix and a unit suffix here IMO. Also, I don't really
-> > think that it actually does anything at all, given it does not constrai=
-n the
-> > clock you're linking to with the clocks property. This may as well just=
- be
-> > a comment in the description of the clocks property, for all that it do=
-es.
->=20
-> I'd just drop it.=20
->=20
+On Tue, 11 Feb 2025, Geert Uytterhoeven wrote:
 
-Agreed...
+> Hi Lee,
+> 
+> On Mon, 10 Feb 2025 at 18:01, Lee Jones <lee@kernel.org> wrote:
+> > On Mon, 10 Feb 2025, Lee Jones wrote:
+> > > On Tue, 21 Jan 2025, Geert Uytterhoeven wrote:
+> > >
+> > > > Hi Lee,
+> > > >
+> > > > On Thu, Jan 9, 2025 at 11:31 AM Lee Jones <lee@kernel.org> wrote:
+> > > > > On Wed, 18 Dec 2024 18:33:59 +0000, Vicentiu Galanopulo wrote:
+> > > > > > The output current can be adjusted separately for each channel by 8-bit
+> > > > > > analog (current sink input) and 12-bit digital (PWM) dimming control. The
+> > > > > > LED1202 implements 12 low-side current generators with independent dimming
+> > > > > > control.
+> > > > > > Internal volatile memory allows the user to store up to 8 different patterns,
+> > > > > > each pattern is a particular output configuration in terms of PWM
+> > > > > > duty-cycle (on 4096 steps). Analog dimming (on 256 steps) is per channel but
+> > > > > > common to all patterns. Each device tree LED node will have a corresponding
+> > > > > > entry in /sys/class/leds with the label name. The brightness property
+> > > > > > corresponds to the per channel analog dimming, while the patterns[1-8] to the
+> > > > > > PWM dimming control.
+> > > > > >
+> > > > > > [...]
+> > > > >
+> > > > > Applied, thanks!
+> > > > >
+> > > > > [3/3] leds: Add LED1202 I2C driver
+> > > > >       commit: 939757aafeb9c266dda37657ee5f7a73ffd35ae2
+> > > >
+> > > > You also have commit 259230378c65ebb6 ("leds: Add LED1202 I2C driver")
+> > > > in mfd/for-mfd-next, which dropped the change to drivers/leds/Makefile,
+> > > > and changed the Link:-tag to point to the older version v10?
+> > >
+> > > Interesting.  Not sure I noticed and if I did, I must have fixed it.
+> > >
+> > > This is the commit that made it in:
+> > >
+> > >   939757aafeb9 ("leds: Add LED1202 I2C driver")
+> >
+> > Scratch that - looks like:
+> >
+> >   259230378c65 ("leds: Add LED1202 I2C driver")
+> >
+> > ... also made it in.  However the Makefile line survived:
+> >
+> >   drivers/leds/Makefile:obj-$(CONFIG_LEDS_ST1202)         += leds-st1202.o
+> >
+> > Did anything break or is all as expected?
+> 
+> The end result is fine.  History might confuse people (the (un)happy
+> few who care about history ;-), as "git log -p v6.14-rc1 --
+> drivers/leds/Makefile" shows 939757aafeb9, while "git log -p v6.14-rc1
+> -- drivers/leds/leds-st1202.c" shows 259230378c65, linking to the
+> older version.
 
-- Nuno S=C3=A1
+Sorry about that.  I am one who cares a great deal about history.
 
+One of the pitfalls of maintaining multiple repos I guess.
+
+#humanafterall :)
+
+-- 
+Lee Jones [李琼斯]
