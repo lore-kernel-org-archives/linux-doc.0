@@ -1,133 +1,144 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-42ad.mail.infomaniak.ch (smtp-42ad.mail.infomaniak.ch [84.16.66.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AA4262D14
-	for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 19:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08CD2638AC
+	for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 19:24:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739301146; cv=none; b=jcVbtuZi3n1Baah0hgY6Pa7n/mSZlpHhPHycug6cKFLTgEM5pXpqedTg4DspxijMXz3QJGDya4itNDRvwkhFlE0mx99rMbRtQZvnXjaDZNYfzQxSErKBcTm01SvDF9SphDaLwAuROyU8YaMVaUP1DajGaAUm/h9nNGjwuNX8yvc=
+	t=1739301874; cv=none; b=rGJV91iW5X5VER5T3wv8Bv1oTLdRBuyk2lNrCcoePXHjYOmC28d9Prz9/blPh+Cu4ta/XXz7aj9PP1N9hNaiPZIiAtDIuXFyLiwMMd3uAT1bHD0nQ1/Nc73GghnqnOlhQcbzUGEz1KTtPV8r9XrLruBwL2wtdTg/Tr+LITbBWSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739301146; c=relaxed/simple;
-	bh=X2lHVeiQCvgsTWG4ldShMFudcwDEqu2vU7n95Bksp1g=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=UQScxzaFTw2kH2oDCmrdUU2xX8WImj8dFoXv8dFWhCoUCAPao5Ib5CYwV5sF1gJgfVZ9AXNlRzJrhuBMBMjq75+lyBFyzHzGEp4raYvSSlT80JkhQWwEt7JhkSiX6zuGDEVo8w/uwRldR4MlEnmNtRUFw3cZy19WO4d05IMA9iQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hMruvI1F; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1739301874; c=relaxed/simple;
+	bh=15B3NB2Jc6UAvD+/Ts407VLwdrwuTRLKfsAMpL4R0rA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V0ct5td9bjouSjgAf2/E3uf9ZYCGryyjv5mA7ToOGQKq9SjiRPYywAD3v66jGRkaXKd/xwl6HYBN2Wm8SlAK2dZAP6pSeEiS4TBxc2oUohfOCfkJi0oa0z/klqvYhsXpRYUaYAbgOghy3A4rm1iAdtqRM//I1H+V/DjMl/EfG+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=vuMpHyMU; arc=none smtp.client-ip=84.16.66.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hMruvI1F"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2fa514fa6c7so6966616a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 11:12:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1739301143; x=1739905943; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PTpX8vb40IrRH8tThk8Xp9PbVo3Mo5gqnSvnja00T+A=;
-        b=hMruvI1FW0GCKBP2RLY0+6xuhau0c40Edo2TduE+nPuco9zAnVLytuvhmcDdSW7r+P
-         a1DU++OIrY45CiKzMOHA8Wta4Zk/Mgn4VghV6U6Y3Lvc6Q89v3xYJr7OqfOPIQthredV
-         wfs5GM7Nxsqp0GV+DcYZ/SsMnbm+RuK8Gmx3y5NRo3RaX5/4A8JkNQ65YiSKmBB7Z3CF
-         5YwS6jX+QzyohXQz7lHrPvi8L36RKmUt8aamgUGAzIEYZHLJ8m4ry4AEVghKBSNrNaNW
-         yRA7Rqp5nUEzwRaBKuCDBrh9KjXklKLNDxfheMEloCCvYAfUt/7cLKKlXViC5hxIIzRf
-         ZLAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739301143; x=1739905943;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PTpX8vb40IrRH8tThk8Xp9PbVo3Mo5gqnSvnja00T+A=;
-        b=jPibIn1cuhhUhoDDcgZ95aEArPdjzFzDVxGXVIz9iEPjsIMYO+v3Ek/0LQ8h8LIith
-         8VtmlVoHyPkA/M5zjIf5e1yF0d0+wBZoBolxOHDfDSX4yv/ILFA3xpfYDTSmAjbOjqnN
-         ZZBPqNFhBZLxMJWpGbnx9rcI/x50TC0SX0aji74dMYvYtEsuYhT8y6SLYW7m61/6Up79
-         v8XlIZzs/ItfWzy1tMHLbc3xF2V6EmAw4+X+v3eyNDyRluw91qQEJcHiOU1+UpD6M3jw
-         98DtBe1Imctrot4tC0hVsOoef6/GrXzwFK50VEeDG7ABEN1RXsju/oysyI1HBBbehL6q
-         sAhA==
-X-Forwarded-Encrypted: i=1; AJvYcCVx2Xg3buYYh+p7N4XWGQsENmslg83cHqhEoZoddz00m4q46R87onv6J2LphJocDf5iRC12tQ/CDPc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaFHid2rZ3Q3pEYEXeqiA/TnCq6H0k+qDISCf7drMQD8gAEY4L
-	7UQe8Wa2CW2zplSKrq0vwtzJgWf6KBJq8W0pEHBmFjoDNCVcvpqUEXpB9VSZKXzKXH2Ewc4ADam
-	unw==
-X-Google-Smtp-Source: AGHT+IGv8249oY83CM/3P+pInwQEw8t8wmWjTUc5E08ZmLN+aIBTlVARTrjh2oczuif83iwhrztL+xZK9vk=
-X-Received: from pjbpm7.prod.google.com ([2002:a17:90b:3c47:b0:2ef:95f4:4619])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:5485:b0:2f7:7680:51a6
- with SMTP id 98e67ed59e1d1-2fbf5bb578emr314150a91.6.1739301142742; Tue, 11
- Feb 2025 11:12:22 -0800 (PST)
-Date: Tue, 11 Feb 2025 11:12:21 -0800
-In-Reply-To: <20241127172654.1024-3-kalyazin@amazon.com>
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="vuMpHyMU"
+Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Ysrwl3kM7zQSk;
+	Tue, 11 Feb 2025 20:24:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1739301863;
+	bh=+bzsGKDDfDPHHZ5hnwg/FUMPKucsS5mykrkkOVX0PAg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vuMpHyMUyBsWqKt2OTBBJHszaQyhM/vmZJ4y7lPQUzcHqr3+4uQY0GYb7gEKkUs/U
+	 e7cl0CMbkiffoMtROiw8zsTh18vT1mQ4mw5v4VpHCQ2bS31ucqhSx/ZCpjBzWyb0jN
+	 7ow1TbKUAwDPpgPJxa/H4j3UF8ktYdun6KaCGjoA=
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4Ysrwk1MjNzSyL;
+	Tue, 11 Feb 2025 20:24:22 +0100 (CET)
+Date: Tue, 11 Feb 2025 20:24:21 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
+	linux-security-module@vger.kernel.org, Tahera Fahimi <fahimitahera@gmail.com>, 
+	Tanya Agarwal <tanyaagarwal25699@gmail.com>, Daniel Burgener <dburgener@linux.microsoft.com>, 
+	tools@kernel.org, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
+Subject: Re: [PATCH 1/2] landlock: Minor typo and grammar fixes in IPC
+ scoping documentation
+Message-ID: <20250211.oavooPhap9OX@digikod.net>
+References: <20250124154445.162841-1-gnoack@google.com>
+ <20250211.Ree5bu6Eph2p@digikod.net>
+ <22olfm76rcgjfs4vrr3adtbznsnz47kaehlr3ljn6e5jkc6waq@ue7azstxlwfv>
+ <20250211.ieSoo7Phe5oh@digikod.net>
+ <3unkhxarmiddobfjvojx4sdpgitjld26udcagka2ocgrb6c2jc@dcg4w5yk5mut>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241127172654.1024-1-kalyazin@amazon.com> <20241127172654.1024-3-kalyazin@amazon.com>
-Message-ID: <Z6uhFYGdmcq_EWCU@google.com>
-Subject: Re: [PATCH 2/2] KVM: x86: async_pf: determine x86 user as cpl == 3
-From: Sean Christopherson <seanjc@google.com>
-To: Nikita Kalyazin <kalyazin@amazon.com>
-Cc: pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	vkuznets@redhat.com, xiaoyao.li@intel.com, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, roypat@amazon.co.uk, 
-	xmarcalx@amazon.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3unkhxarmiddobfjvojx4sdpgitjld26udcagka2ocgrb6c2jc@dcg4w5yk5mut>
+X-Infomaniak-Routing: alpha
 
-On Wed, Nov 27, 2024, Nikita Kalyazin wrote:
-> Suggested-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>
-> ---
->  arch/x86/kvm/x86.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Feb 11, 2025 at 05:13:21PM +0100, Alejandro Colomar wrote:
+> Hi!
 > 
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 8f784f07d423..168dcf1d4625 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -13360,7 +13360,7 @@ static bool kvm_can_deliver_async_pf(struct kvm_vcpu *vcpu)
->  	if (!kvm_pv_async_pf_enabled(vcpu))
->  		return false;
->  
-> -	if (kvm_x86_call(get_cpl)(vcpu) == 0)
-> +	if (kvm_x86_call(get_cpl)(vcpu) != 3)
+> On Tue, Feb 11, 2025 at 04:53:44PM +0100, Mickaël Salaün wrote:
+> > > Let me suggest the opposite: Could we move the kernel docs to manual
+> > > pages in man9?  (As is the historic place for kernel docs.)
+> > > (You could keep man9 in the kernel tree if you want, or could handle it
+> > >  to the Linux man-pages project, if you want.)  That would help have a
+> > > more clear separation between the two sets of documentation, and prevent
+> > > duplication.
+> > 
+> > I didn't know about man9 but it's not clear to me what would be the
+> > content.
+> 
+> The official name of man9 is "Kernel Developer's Manual".
+> In-scope in man9 are internal kernel APIs, and in general anything that
+> is of interest to kernel developers but not to user-space developers.
+> 
+> >  Because I want new kernel features to come with proper tests
+> > and documentation, it would be much easier to apply all these patches to
+> > the same repository, at the same time.  Using the same repository should
+> > also help to synchronize documentation with code changes.
+> > 
+> > One remaining issue would be that some generated documentation come from
+> > the kernel source files, especially the UAPI headers, which also helps
+> > maintaining the documentation in sync with the code.  What would you
+> > suggest to improve the current workflow?
+> 
+> For generated documentation, I'd really avoid that.  Currently, in the
+> man-pages we only have bpf-helpers(7), and I'd very much not follow that
+> for other pages.
 
-Ugh, looking at the documentation (explicitly says "vcpu is in cpl == 0"), and
-what KVM consideres "in kernel" in other flows, e.g. kvm_arch_vcpu_in_kernel(),
-I think the existing code is working as intended.  The only thing that's "wrong"
-is the name of KVM's internal variable.  Paolo will probably complain about
-checking for a negative, but I think the below is actually what we want.  I'll
-post a patch.
+OK, kernel doc in man9 would not be a good fit then.
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index b15cde0a9b5c..528057105c26 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -996,8 +996,8 @@ struct kvm_vcpu_arch {
-                u64 msr_int_val; /* MSR_KVM_ASYNC_PF_INT */
-                u16 vec;
-                u32 id;
--               bool send_user_only;
-                u32 host_apf_flags;
-+               bool send_always;
-                bool delivery_as_pf_vmexit;
-                bool pageready_pending;
-        } apf;
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 8e77e61d4fbd..c47cdccc7c5c 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -3544,7 +3544,7 @@ static int kvm_pv_enable_async_pf(struct kvm_vcpu *vcpu, u64 data)
-                                        sizeof(u64)))
-                return 1;
- 
--       vcpu->arch.apf.send_user_only = !(data & KVM_ASYNC_PF_SEND_ALWAYS);
-+       vcpu->arch.apf.send_always = (data & KVM_ASYNC_PF_SEND_ALWAYS);
-        vcpu->arch.apf.delivery_as_pf_vmexit = data & KVM_ASYNC_PF_DELIVERY_AS_PF_VMEXIT;
- 
-        kvm_async_pf_wakeup_all(vcpu);
-@@ -13378,8 +13378,7 @@ static bool kvm_can_deliver_async_pf(struct kvm_vcpu *vcpu)
-        if (!kvm_pv_async_pf_enabled(vcpu))
-                return false;
- 
--       if (vcpu->arch.apf.send_user_only &&
--           kvm_x86_call(get_cpl)(vcpu) == 0)
-+       if (!vcpu->arch.apf.send_always && kvm_x86_call(get_cpl)(vcpu) == 0)
-                return false;
- 
-        if (is_guest_mode(vcpu)) {
+> 
+> For APIs that change often, that may make sense, but in general, APIs
+> shouldn't change significantly enough to prefer generated docs.
+> 
+> > > I personally don't like the idea of having man2 in the kernel tree.
+> > > Michael Kerrisk already mentioned several reasons for why it's a bad
+> > > idea in the past.  On top of them, I'd add that the build system of the
+> > > Linux man-pages project is quite more powerful than the kernel one, and
+> > > it would be an important regression to have to adapt to the kernel
+> > > Makefiles in the manual pages.
+> > 
+> > For the Landlock syscalls case, could we move the syscall documentation
+> > to man9?
+> 
+> man9 is for internal kernel APIs.  Here's intro(9) in different systems,
+> which documents what should go into man9, and what shouldn't:
+> 
+> <https://man.netbsd.org/intro.9>
+> <https://man.openbsd.org/intro.9>
+> <https://man.freebsd.org/cgi/man.cgi?query=intro&apropos=0&sektion=9&manpath=FreeBSD+14.2-RELEASE+and+Ports&arch=default&format=html>
+> 
+> Debian had a project which documented some Linux kernel internals in
+> man9, but it was eventually dropped.  I don't know who maintained that,
+> and what was the history about it.
+> 
+> If Landlock has internal documentation that only matters to kernel
+> developers, yes, that would be in-scope for man9.  The user-facing docs
+> are more relevant in man2 and man7, though.
+> 
+> I would be happy to take all the landlock docs in the form of man9 pages
+> if you handle them to the Linux man-pages project.  I can do the work of
+> transforming the .rst docs into man(7) pages; that's fine by me.
+> 
+> If there's consensus in the kernel of moving to man9 docs, I'd be happy
+> to help with that.  I fear that some maintainers may fear man(7) pages.
+> If you need me to give any talks to explain how to write man(7) source
+> code, and show that it's easier than it looks like, I could do that
+> (Günther already suggested me to do so :).  Maybe I should give a talk
+> at Plumbers.
+
+It would be interesting to get the point of view of other kernel
+maintainers but I guess a lot of them would have the same: to lower the
+bar of contributions.
+
+> 
+> 
+> Cheers,
+> Alex
+> 
+> -- 
+> <https://www.alejandro-colomar.es/>
+
+
