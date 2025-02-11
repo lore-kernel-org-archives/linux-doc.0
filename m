@@ -1,59 +1,59 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D441F4168
-	for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 10:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21D41DF967
+	for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 10:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739269394; cv=none; b=DrDDxzuhJNOQyITfBor97YjvEvowgtcBku2VgWGE8Djo08ni3Iu524b/WPQiaLS4RyUnL68XNFso6fbff4WRIH9FnqtI4D1hxwP2P6v97smPzBuL/wxO6tMSkFyRmYW1f/4QHZvh7B0bU/4A+KAjncgrbGfSqleyy1hurc/aR/A=
+	t=1739269815; cv=none; b=tw22i4cbr24GVPkpqI4CEHkGSSjNnu0wrT1rBdzojC2oS36YlrjAy20otLmFWmcXqQF2nYhWbqqYzP5C2wDJBZq0Ixsjvniqj3WnIJC3bY4ilj6PjZ+LWycuo5ErWyRLQA2SPX7ui0VKcLhLPS0/BuwB2PbS6hLKfMLnG23NU8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739269394; c=relaxed/simple;
-	bh=7gkiFUdcb0gYKQOEYScuWQUf2plqI1v9qKLm0MkxY1c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L6W8vc+hnxxwPORwNbreaVCQqntVE/R/Z7qxIWGuZIrTuGgVlUzQclcKhwS/GmqkuW8/ELoMqm+WQx2nZsm2ClwbVytaat0dBGmuFNPFfrK1T1uxN267xK/oz2lO6aqjLgyD+jfm3R/QYmpZG6EwT+CJrejrrTMnQJsOLdcxMT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K7GcGDY2; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1739269815; c=relaxed/simple;
+	bh=fNsV/w5qlTC0UnjLXwyi9kyQZ7wIrrmDxbP6Hk8uLLY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=B0kJJ3SVTJXhhH3rKQWhy8h9g1Tt7GkjOaxCeJlLQXhbatP6lM5BC6l9yHAkyWLoTOtSs7VnAoG4UihZZsHElLq4snZNeBUQ2iW1EXY9ZKcNWCbgpwzhPn6S1EozC7FlXvaOYBhjJFbuW78dtL4PnkfIoYt4eFWaLktoVq5VIWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VX6IQipY; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K7GcGDY2"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2fa21145217so8439763a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 02:23:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VX6IQipY"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21f573ff39bso77311925ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 02:30:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739269392; x=1739874192; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1739269813; x=1739874613; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yNUSfX7eO+cmTPTl6G2d4kERHxGcLvqZO8iyv33AFPY=;
-        b=K7GcGDY2dMaBEYOcbRW/gy01hVaomOJssxRPkgATA7aa1DFR0JyyBVVheqtHAG3mZX
-         6EQplg2jym/a5+Mh8+eydK8nmNpeJC8FijwZVzph6JjoyG7SxE5haiX3SGBM8w+2VnXg
-         jIfkiULGK9HaCDepgDnP7V9VIFpdHgMFoFHWUR72hs4GakwcQoFGFV4JTKAxA068IKR0
-         uE8A0bmA2eaHnQfFg7HOtxiEgbtcDkZ4SyPUofJ34XHXAg/jEZWFSRVzCCWOK5Jd2IxH
-         pV1CVOzJPjcj8Zw/YwIltellCcEHRuAHv9n1CAGuyOUfA7tBCCkxdlh6TFNXyhyGfzSi
-         kd5Q==
+        bh=sHfbaJWue40oGVU9gl6xqWDxiyf5UiEbsGPKoxtQUu8=;
+        b=VX6IQipYarLrJOFwUCAKgF6LT5WN9O6Vqemcxlo2WB8BDaMOB8IscjE9hVjBYczAtj
+         PY48ynQWqpjhXLVsDVORwxm1WAG7pZmsCnz9OYwzpDHxGlgX7zrZuze8momWKF/28NNY
+         B0+l8s200A6UbANww3mXfO5tNVFvIdCzgjNzsRxOTqcwZx6mQN7DEyIr6rW3YWAlPt9a
+         /0SrjyrKONy08zU3jxU4yRnEuA6zQlERia/iJzKJbE16s21zlcNq/IqV1xyvKsaF/zeD
+         4UiKuWZ6aZajQHCEIRa/Q7oFz1+b3E7mNEXTUF59b7kridfW579Hj4OssnszMYSWTBog
+         MeOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739269392; x=1739874192;
+        d=1e100.net; s=20230601; t=1739269813; x=1739874613;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yNUSfX7eO+cmTPTl6G2d4kERHxGcLvqZO8iyv33AFPY=;
-        b=aVbtFb/srVfuL5GNB9Kiar0sbpF/h1Sbma1TYY38iGKw7hbvGHH+b9huUjO0/xdvyc
-         2Vp6GbuCvNIwby7mfnDtTE+/s2UAdtht8sTx5J11mxJ/w4GG4IvKK9lrvKhWwnFVIP9U
-         R0plWdZKgjs3cpZfYhYvejO0FZKn+IIuvDpZ/4KpZcjunHB7nvtlHX5BUkNSHWmlHe5N
-         18Z70u/dcN3ZGHHwm1xNxh4EAmPzRxYZp/IDjovpIB30r829DIPUKcHqi9kr5UCiScuk
-         gP+xVRzyX1EkM2nfRdxqJO62s+kvlbeCyI5nkDgog20srCEth0ddd2fJ5v+nL7xxTgNG
-         gaHg==
-X-Gm-Message-State: AOJu0YwdZ2/2OZAB9VEX/Gb9ZqkzG2Q9C+yRNN8OmU7P9XL1+rXLFBHO
-	RCNzmyL9BRR7BblyrYcUL1NTyk+LkstugxHcSc7lrDtSyKqManI7
-X-Gm-Gg: ASbGncv31RT2iWgTpNiCxZD9ZiQWVsxSkQry1oqzkffALuHe0sQDT/1OW2bJTyfBR0I
-	Yf7qdsIH2zOJD0815B0l+qT5riJIAlOU34B8lFIyRt4fRYv1krlNfPwjyGm2m6wA5/chPzazMO0
-	JNKXh4elOYglUThWR29fdj4MKD0rT+x0TW32LSopkbROYuHTJjPvvb+7EDF+8oDnRncZaQE0BU8
-	bT9It+9/u7lCqrjwMRbH49P8a/Z3TwdiZ59fGLv7jBmdTE74HGrPWD1sb/1/pdkKC+CXN2wWrFK
-	uK4vs+pcU+X+UoQgKYA=
-X-Google-Smtp-Source: AGHT+IGTWse2dOartYTkk3C2PWo6EDO3+yLZq21aVlgmvJwCW1e/Vx5WpWj7JQ1Tn8qEgiNu/YLRng==
-X-Received: by 2002:a17:90b:3dc3:b0:2ee:edae:75e with SMTP id 98e67ed59e1d1-2fa24067d7amr25467131a91.13.1739269392236;
-        Tue, 11 Feb 2025 02:23:12 -0800 (PST)
+        bh=sHfbaJWue40oGVU9gl6xqWDxiyf5UiEbsGPKoxtQUu8=;
+        b=TrzEKqU1BnMU7FBzY0DgS6cf1ztXeS6/NU4GYM1ysg5jGq9273w+0WGVjvjaZyiUFK
+         mRiuI2FmY+5fQ2DTVFRLHHQmGtDPVoYGcKAJo8/K2z+5BSKcKGUtVZdDkKvHTJpGLsU+
+         Q1JQW9l7/FfHIX/5sqFQcCYEbvHUPvaunIdZx9d+i4CZw56yuUyiQvKr7rp9DEpnXYAv
+         kN5blKKO/wdqmBKi0ZkJYr21c3ZD32vt9YhSN2DDC81JTTSI9DmpPhNlgG0VM9UaFSUW
+         B7lt3KOKe5P+58So5/xkRMLzTVhmWBchvAH3e+pcUpJ6LcQuaeUgz+Iga/y1W8BYDfz4
+         FTpA==
+X-Gm-Message-State: AOJu0YziH2t7tvvEdSvDi0jHCPJeQ1KnD7Y+Nea2aNGg4QFoP1HOZonj
+	h6VTkWgJw1j4N8H7OHmf40iAZ8MT3tL7Vy4JepEe6cPPpCUlKcyR
+X-Gm-Gg: ASbGncvllXn0ta/8UvabUU+SBM2MkzrWYmeaIMX+FwFlp7A+6HHN+N+Av/+4pgTxP9N
+	ZKCZLS0+kpKDvjvbelWovYCIIpZmpLRqaW9fCSxb6GRnFJhMU3mPST6j1zBYic0y8+5Cyqsh7lz
+	/PMnUDByO+dJmrY2SkjYZd40esYt8Ugxv77Q+scJ2UGR++iQkZ+wTLbZpKw0Txki3jDpR3IcaPe
+	Xehg/HT3h4Ee78We6ZvnIweXtzQSa4vFpFNMaxgUHdRjRP8aUb/X8IBh3kJ3hPOz3/pQDk/mlWF
+	xdKQ89YLrPb8G1fppFM=
+X-Google-Smtp-Source: AGHT+IEnKuqhVUNUIpoiBX2xq3wVpCFtMSrJbwfG0VM2EBLTBd73Q6SWH+mSESRCyRpa+aZI0oVCjg==
+X-Received: by 2002:a17:902:f787:b0:216:644f:bc0e with SMTP id d9443c01a7336-21f4e6c899dmr327386445ad.24.1739269813123;
+        Tue, 11 Feb 2025 02:30:13 -0800 (PST)
 Received: from pop-os.. ([2401:4900:4e6e:cd6d:2732:b5a2:e46f:2ac5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fa44aa6657sm7300372a91.38.2025.02.11.02.23.09
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3687c8f7sm94054635ad.178.2025.02.11.02.30.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 02:23:11 -0800 (PST)
+        Tue, 11 Feb 2025 02:30:12 -0800 (PST)
 From: Aditya Dutt <duttaditya18@gmail.com>
 To: corbet@lwn.net
 Cc: linux-doc@vger.kernel.org,
@@ -61,8 +61,8 @@ Cc: linux-doc@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	Aditya Dutt <duttaditya18@gmail.com>
 Subject: [PATCH] Documentation/driver-api: fixed spelling mistakes
-Date: Tue, 11 Feb 2025 15:53:03 +0530
-Message-Id: <20250211102303.197763-1-duttaditya18@gmail.com>
+Date: Tue, 11 Feb 2025 16:00:02 +0530
+Message-Id: <20250211103002.199004-1-duttaditya18@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -79,10 +79,6 @@ This typo would have caused a compilation error if copied as-is.
 
 Signed-off-by: Aditya Dutt <duttaditya18@gmail.com>
 ---
-
-This is my first patch. I was sure to make patch against the docs-next
-tree.
-
  Documentation/driver-api/media/drivers/zoran.rst            | 2 +-
  Documentation/driver-api/media/maintainer-entry-profile.rst | 2 +-
  Documentation/driver-api/nvdimm/nvdimm.rst                  | 6 +++---
