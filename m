@@ -1,128 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AF71E9B3B;
-	Tue, 11 Feb 2025 06:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13651D63E1;
+	Tue, 11 Feb 2025 06:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739254995; cv=none; b=F09eimW5aUdrTktMAJRw5u+jSWkVptZkAhv+Z6r8PpLLvSu4oYR39QdwWo+2GibE7r7pqMOrhYOozhfSJtjQWDgzPbm+Mv5Vgvo+pV+5XWEdC9bHOu+Fxwjv57xOVM5gQJsmWx5Kzc35p8K6KtGXVSyp6uE/IRAiBwkxhX7kij4=
+	t=1739257129; cv=none; b=WKwm2HlS8PBZCS06mVL/3iwFqLlHZeVKPzMIpE1TaDY40DkBuDJ3AyfVwZKJUNgZrRaXHgO9LktN5QYYOMWHyQ/bP79WtXlFCOyaN4gJt+qmvFLSeDWvVLCPhf36xL3cYmiTZEi0jj3wWV+dgSbUWd2izL4hyBRYeRwxDQlVvlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739254995; c=relaxed/simple;
-	bh=xJJNTHLm28pOieLtRLXBCsjINp9HkQQLtgWkMVSB5X4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NuQUwBMXN3stOUtWtChM2aequpRtN4UDRyB+Wjfbiaa+axjsmomOMv1BSFsefuuDNYoR07KIwjQQN+nJ2vmW5y9x4LNvMxfO/rhNEI7+XbskD0cakZyur0VmoTQHngVcJrdgf0/oL8V+HWt0l+1repUeCHrL6QDJoolT0gHHQU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FL55aSTe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739257129; c=relaxed/simple;
+	bh=y95fGU1MM4LPX/GdpJQ+n4qKaswP/rgFqTDMBehwQwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fxvwFZNuVnj2+KV3dV5Zz2K4cLWLEVIoIDtGptmg4ENtuokSVN6qnXehxnA5ybpyjD+W7bX3xRrpYlrMOtOc85BxV/gj/aZQBUoYFF4+P/cXpD6Ibpow4xT25c5ej0UghytNJg6TDEpQz1zqtDjenJfurH2iT0GoQATM+gZr4FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q6XK7hTt; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FL55aSTe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B26AFC4CEF0;
-	Tue, 11 Feb 2025 06:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739254994;
-	bh=xJJNTHLm28pOieLtRLXBCsjINp9HkQQLtgWkMVSB5X4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FL55aSTeN5bnsbco4QM1TbvJO0WsQw3bepNk4uiUiEDE7xGFPjsbuhAaxJyMfHr5g
-	 cJEIIhiWg3EK8fDk2j53hmb0wArtgfRD9tr4j3Xm37/g3DINHkvRxrOf9tZcZwaghc
-	 MQ0l36Dl4srDoPB70+Zvm8OTSQySnwc5KSoGVKMmZxnrila95sOxN59sBtNLf9xPB3
-	 59kMltV7jnLlSNbG94xQEf5Xr+CjzJugeAv/tcqFWz5RuB7nNEH2QAAxbhmQSmBQcI
-	 cFHJ7ys5/wASU9F59vhxInMY6/eg8CQCOAjoUy1FApWId/AjpwmCmQGABEx+5wgUWC
-	 8aGJt2FDTm1Ew==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1thjfs-00000008YBn-40dj;
-	Tue, 11 Feb 2025 07:23:12 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Alex Shi <mchehab+huawei@kernel.org>,
-	Avadhut Naik <avadhut.naik@amd.com>,
-	Carlos Bilbao <mchehab+huawei@kernel.org>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Remington Brasga <rbrasga@uci.edu>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 9/9] docs: translations: Allow creating cross-references for ABI README
-Date: Tue, 11 Feb 2025 07:23:03 +0100
-Message-ID: <685461ca5834c0cd4f7830f354d7ee123afb3716.1739254867.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <cover.1739254867.git.mchehab+huawei@kernel.org>
-References: <cover.1739254867.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q6XK7hTt"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21f48ab13d5so84452545ad.0;
+        Mon, 10 Feb 2025 22:58:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739257125; x=1739861925; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JbbHUiRCm1HRMSRoMw9y9z9V16wOdtH431mNWX2Wxkk=;
+        b=Q6XK7hTtOmi22PVikScQrm2ovExSK14zqArHqqPvK2x9jJwQ+kpSosadwddQzJ15Ty
+         s370pbP0d4iRwDBPjysre9vecxzvV02h8Zj7JBGf5EDwZ+v1sg9Ilo2UpKNziaNWCv6R
+         aBPlwGW6zViRtHPCmecMHaM3UNfxH+thGCS40dN/5FfQUOl0mlkEkfNU4pnCfbUdIz6L
+         5WpOc4tffYKBUGvXPCUKwyK2Ucj2fKN5meMJ6uwRHwboOX0PrRPCaNFsSa+ENf4VxSYc
+         6OI24kNjcu4xpImSOe/QxFZbMUI0TkejTV3joR6yldfCzvHNwdAg/3ZosySrFdI1PEgZ
+         Wvkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739257125; x=1739861925;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JbbHUiRCm1HRMSRoMw9y9z9V16wOdtH431mNWX2Wxkk=;
+        b=JzHTwmAsSlX3yosbGhE8/J70YHRegnQKxZ27bMWV+o7pJPwponu9fW0cW/tyQl1TYr
+         n5ZGyNhfS5XRRhYY9uZF8/EKmrVNoRI2w6c7ix2y4OlnSebtZ/sz4kuls8ujVQdkBPii
+         o8CimYC93atMDVXAFIHEDReoZUKxcAi44KVpOADiYBwfjXZxBwep9YM/elKnh2CijefZ
+         mBHHNTniBSOen474lmELCPw8WZiybE/WMouCh248nmgdGUF6NJFdFP6HQzsOQaVS+c/4
+         kO3HjjQQWqT1g56YO6H7HBisDS69cblevx0Wa4Iwv5yjT3m0olvDkBlLQT2gSIoi6VIB
+         CqRw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmmNtapueEIM5SNqIS5yoHH/eZIbXSvyX/nmDKHCOWkZFSQIU+HP2/gFmIs3NR1UxJtn59C4sU3tjurTZL@vger.kernel.org, AJvYcCVkhDbsh+kGlKYP9Jhx7klLoFYP8ZLerCxCZxxF2R+IIER3KX5cSqBYGuYjMWkUzix5z/dtvurOp+o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5jUhbxSIRu6SzUrFTWHhsb/z6OekICqag7kJSS2WkyvOKnUh4
+	pNxbQLNPtJcVYLWed22H6bzhAZSy2RqJKLIpQlJRouuagafglpyB
+X-Gm-Gg: ASbGncvfg7HFCad50UC6VGJD2tBzRlpm3FsJm1EASkWKwwpD+B/GCl/At4h0/NwwmSZ
+	0k8OKPcATEKGvJr6gg8wkIwrGI1XhOqF/n5Md9StvJWmBq9DKdRapufX9KR2TdJDDABkWZSSoAw
+	tp/nxHSRTN5ufSx4bpIfA9rzH3nGvbrm46Mi3ecoEycraeCdXOBIhRLWk2Ym7FevAe7vV0eQeJd
+	kIqgnSoIeX8oZIxYO51UC7J+LZsxUvOZyCqSJZUEVXEb9ieukTFlYb56bsOoIJPIgAJrY/W/yxW
+	9feBvocwn7xp4N49qQ5K2anCi5/o0y97
+X-Google-Smtp-Source: AGHT+IGGYypNjNwNWDfoiOb8NXySt3jh2IW0/2tkps6gTHppURLbDKRPahotbtiFs00rCt6CJbO61w==
+X-Received: by 2002:a17:903:2f91:b0:21f:90ae:bf83 with SMTP id d9443c01a7336-21f90aec1bcmr150010335ad.44.1739257124773;
+        Mon, 10 Feb 2025 22:58:44 -0800 (PST)
+Received: from vaxr-BM6660-BM6360 ([2001:288:7001:2703:fb40:c00e:5259:b412])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fa09b5d0b6sm10215220a91.46.2025.02.10.22.58.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2025 22:58:44 -0800 (PST)
+Date: Tue, 11 Feb 2025 14:58:39 +0800
+From: I Hsin Cheng <richard120310@gmail.com>
+To: Brian Ochoa <brianeochoa@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, corbet@lwn.net,
+	x86@kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] docs: arch/x86/sva: Fix two grammar errors under
+ Background and FAQ
+Message-ID: <Z6r1H5V-m_xuEu0q@vaxr-BM6660-BM6360>
+References: <20250211025054.4062-1-brianeochoa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250211025054.4062-1-brianeochoa@gmail.com>
 
-Update translations to also generate cross references for the ABI
-readme file.
+On Mon, Feb 10, 2025 at 09:50:54PM -0500, Brian Ochoa wrote:
+> - Insert missing "to" to a sentence under Background
+> - Insert missing "an" to a sentence under FAQ
+> 
+> Signed-off-by: Brian Ochoa <brianeochoa@gmail.com>
+> ---
+>  Documentation/arch/x86/sva.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/arch/x86/sva.rst b/Documentation/arch/x86/sva.rst
+> index 33cb05005982..6a759984d471 100644
+> --- a/Documentation/arch/x86/sva.rst
+> +++ b/Documentation/arch/x86/sva.rst
+> @@ -25,7 +25,7 @@ to cache translations for virtual addresses. The IOMMU driver uses the
+>  mmu_notifier() support to keep the device TLB cache and the CPU cache in
+>  sync. When an ATS lookup fails for a virtual address, the device should
+>  use the PRI in order to request the virtual address to be paged into the
+> -CPU page tables. The device must use ATS again in order the fetch the
+> +CPU page tables. The device must use ATS again in order to fetch the
+>  translation before use.
+>  
+>  Shared Hardware Workqueues
+> @@ -216,7 +216,7 @@ submitting work and processing completions.
+>  
+>  Single Root I/O Virtualization (SR-IOV) focuses on providing independent
+>  hardware interfaces for virtualizing hardware. Hence, it's required to be
+> -almost fully functional interface to software supporting the traditional
+> +an almost fully functional interface to software supporting the traditional
+>  BARs, space for interrupts via MSI-X, its own register layout.
+>  Virtual Functions (VFs) are assisted by the Physical Function (PF)
+>  driver.
+> -- 
+> 2.34.1
+> 
+>
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/translations/it_IT/process/submit-checklist.rst | 2 +-
- Documentation/translations/sp_SP/process/submit-checklist.rst | 2 +-
- Documentation/translations/zh_CN/process/submit-checklist.rst | 2 +-
- Documentation/translations/zh_TW/process/submit-checklist.rst | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+Hello Brian,
 
-diff --git a/Documentation/translations/it_IT/process/submit-checklist.rst b/Documentation/translations/it_IT/process/submit-checklist.rst
-index 692be4af9c9b..3308c3084c60 100644
---- a/Documentation/translations/it_IT/process/submit-checklist.rst
-+++ b/Documentation/translations/it_IT/process/submit-checklist.rst
-@@ -58,7 +58,7 @@ Fornite documentazione
- 4) Tutti i nuovi parametri dei moduli sono documentati con ``MODULE_PARM_DESC()``.
- 
- 5) Tutte le nuove interfacce verso lo spazio utente sono documentate in
--    ``Documentation/ABI/``.  Leggete ``Documentation/ABI/README`` per maggiori
-+    ``Documentation/ABI/``.  Leggete Documentation/ABI/README per maggiori
-     informazioni.  Le patch che modificano le interfacce utente dovrebbero
-     essere inviate in copia anche a linux-api@vger.kernel.org.
- 
-diff --git a/Documentation/translations/sp_SP/process/submit-checklist.rst b/Documentation/translations/sp_SP/process/submit-checklist.rst
-index 0d6651f9d871..3087ba80e818 100644
---- a/Documentation/translations/sp_SP/process/submit-checklist.rst
-+++ b/Documentation/translations/sp_SP/process/submit-checklist.rst
-@@ -97,7 +97,7 @@ y en otros lugares con respecto al envío de parches del kernel de Linux.
-     ``MODULE_PARM_DESC()``.
- 
- 18) Todas las nuevas interfaces de espacio de usuario están documentadas
--    en ``Documentation/ABI/``. Consulte ``Documentation/ABI/README`` para
-+    en ``Documentation/ABI/``. Consulte Documentation/ABI/README para
-     obtener más información. Los parches que cambian las interfaces del
-     espacio de usuario deben ser CCed a linux-api@vger.kernel.org.
- 
-diff --git a/Documentation/translations/zh_CN/process/submit-checklist.rst b/Documentation/translations/zh_CN/process/submit-checklist.rst
-index 10536b74aeec..5c20a7f0936b 100644
---- a/Documentation/translations/zh_CN/process/submit-checklist.rst
-+++ b/Documentation/translations/zh_CN/process/submit-checklist.rst
-@@ -82,7 +82,7 @@ Linux内核补丁提交检查单
- 17) 所有新的模块参数都记录在 ``MODULE_PARM_DESC()``
- 
- 18) 所有新的用户空间接口都记录在 ``Documentation/ABI/`` 中。有关详细信息，
--    请参阅 ``Documentation/ABI/README`` 。更改用户空间接口的补丁应该抄送
-+    请参阅 Documentation/ABI/README 。更改用户空间接口的补丁应该抄送
-     linux-api@vger.kernel.org。
- 
- 19) 已通过至少注入slab和page分配失败进行检查。请参阅 ``Documentation/fault-injection/`` 。
-diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
-index 0ecb187753e4..b09d29b0cc1b 100644
---- a/Documentation/translations/zh_TW/process/submit-checklist.rst
-+++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
-@@ -85,7 +85,7 @@ Linux內核補丁提交檢查單
- 17) 所有新的模塊參數都記錄在 ``MODULE_PARM_DESC()``
- 
- 18) 所有新的用戶空間接口都記錄在 ``Documentation/ABI/`` 中。有關詳細信息，
--    請參閱 ``Documentation/ABI/README`` 。更改用戶空間接口的補丁應該抄送
-+    請參閱 Documentation/ABI/README 。更改用戶空間接口的補丁應該抄送
-     linux-api@vger.kernel.org。
- 
- 19) 已通過至少注入slab和page分配失敗進行檢查。請參閱 ``Documentation/fault-injection/`` 。
--- 
-2.48.1
+It looks good to me, though the commit message is kinda redundant and
+confusing.
 
+> - Insert missing "to" to a sentence under Background
+> - Insert missing "an" to a sentence under FAQ
+
+"a sentence" doesn't really help us understand which sentence you are
+refering to, use "insert" here is kind of weird to me, too. Maybe
+something like the following will be more direct
+
+- Correct "in order" to "in order to"
+- Append missing quantifier
+
+What do you think?
+
+Best regards,
+I Hsin Cheng
