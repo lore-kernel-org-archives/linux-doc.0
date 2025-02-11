@@ -1,153 +1,185 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1B9265602;
-	Tue, 11 Feb 2025 20:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62459266576
+	for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 21:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739306780; cv=none; b=mLNFAATuTt8WS9207xnXzDHB7NMwEt6YrgBQiGpT0eLjP4d5QxzL/t6fKe6D5q40j36+pTkS7WWjmg09kpBSkaZkXV5XzbTD5oPyREkRgLSLcZd3/YR7W4GHbXLVlGr5n+zWXPi3Ab2/kfov4KSn17ixpKB3ZRQ+Y44fim+Utr8=
+	t=1739308639; cv=none; b=Qf+0/yGakIhtCB/WrSRt3p+53WXY/h/JnsB7SuuvGHWBzUmvvQ64Q/9cogdWg6NqTdESnusaaPbdhhPyxJIJdPa3OObSgKvWTOa+Pgtmi/pqaZO4y1/JB09b9pyaOQWoEUlNfkYl5eBgAUVAzLs9hGYTyVyhFGfiO7emSSyfaeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739306780; c=relaxed/simple;
-	bh=rtYJnuschOu9ZccExP0TzGZGyAr5e3wvA88oRm4xUUM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=b+p/NvC3OGafkO/mYgb2wUfNlWVn1ntlnEcnItH+/EkRjz+8prY52ReeXXPujppsZsU5OZWRqsibpiQFRSTAkfo1IulxqQFWfwnZsoU2qTiaQliX49rU3Etf+HLXSrGv2h9ZwylZ042+D3YjBLxSzBmKEc5x+FNdkLRDODIlQTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Ystjn5SMhz6K9Hx;
-	Wed, 12 Feb 2025 04:45:01 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7E3C51401F1;
-	Wed, 12 Feb 2025 04:46:15 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (7.182.85.172) by
- frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 11 Feb 2025 21:46:15 +0100
-Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
- frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
- Tue, 11 Feb 2025 21:46:15 +0100
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Dave Jiang <dave.jiang@intel.com>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "linux-cxl@vger.kernel.org"
-	<linux-cxl@vger.kernel.org>, "linux-acpi@vger.kernel.org"
-	<linux-acpi@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "bp@alien8.de"
-	<bp@alien8.de>, "tony.luck@intel.com" <tony.luck@intel.com>,
-	"rafael@kernel.org" <rafael@kernel.org>, "lenb@kernel.org" <lenb@kernel.org>,
-	"mchehab@kernel.org" <mchehab@kernel.org>, "dan.j.williams@intel.com"
-	<dan.j.williams@intel.com>, "dave@stgolabs.net" <dave@stgolabs.net>,
-	"Jonathan Cameron" <jonathan.cameron@huawei.com>,
-	"alison.schofield@intel.com" <alison.schofield@intel.com>,
-	"vishal.l.verma@intel.com" <vishal.l.verma@intel.com>, "ira.weiny@intel.com"
-	<ira.weiny@intel.com>, "david@redhat.com" <david@redhat.com>,
-	"Vilas.Sridharan@amd.com" <Vilas.Sridharan@amd.com>, "leo.duran@amd.com"
-	<leo.duran@amd.com>, "Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
-	"rientjes@google.com" <rientjes@google.com>, "jiaqiyan@google.com"
-	<jiaqiyan@google.com>, "Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>, "james.morse@arm.com"
-	<james.morse@arm.com>, "jthoughton@google.com" <jthoughton@google.com>,
-	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>, "erdemaktas@google.com"
-	<erdemaktas@google.com>, "pgonda@google.com" <pgonda@google.com>,
-	"duenwen@google.com" <duenwen@google.com>, "gthelen@google.com"
-	<gthelen@google.com>, "wschwartz@amperecomputing.com"
-	<wschwartz@amperecomputing.com>, "dferguson@amperecomputing.com"
-	<dferguson@amperecomputing.com>, "wbs@os.amperecomputing.com"
-	<wbs@os.amperecomputing.com>, "nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
-	tanxiaofei <tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>,
-	"Roberto Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>,
-	Linuxarm <linuxarm@huawei.com>
-Subject: RE: [PATCH v19 07/15] cxl: Add helper function to retrieve a feature
- entry
-Thread-Topic: [PATCH v19 07/15] cxl: Add helper function to retrieve a feature
- entry
-Thread-Index: AQHbeW73p7HBQAni1USkV2PhrmlPmLNBWNGAgAE/cbA=
-Date: Tue, 11 Feb 2025 20:46:15 +0000
-Message-ID: <f99739cce216404680c60456504d7ed3@huawei.com>
-References: <20250207144445.1879-1-shiju.jose@huawei.com>
-	<20250207144445.1879-8-shiju.jose@huawei.com>
- <99a80c40-4c1d-4dc6-8b44-397f49460501@intel.com>
-In-Reply-To: <99a80c40-4c1d-4dc6-8b44-397f49460501@intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1739308639; c=relaxed/simple;
+	bh=9wpSlaYQ+3T+GSVJ+uTjY7BZltuAqSqWdmPAKYj3qso=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Ed3O4h8TiCrT3oeQMHGSdQB6VlR5KYY5TfGjNR+zu0rs8eMyliF5issQKQGPlOHeY5GEwEwUnKW1kqSWn6GN/iJBMH2FcyI8LK7exYQgmmcGSLrihD3QTSwsDGZ5OMZOUBai6yd86O4ACBA71TGlP9EfrXzR++7e9QwxsvruPOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lNDRcdMl; arc=none smtp.client-ip=209.85.214.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lNDRcdMl"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-21f818a6d75so90340415ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 11 Feb 2025 13:17:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1739308634; x=1739913434; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KIfvgky9veY2hzjiVBclsLjtmap1/nd7ereBYnmFQjs=;
+        b=lNDRcdMlMowlwOXgqgLIl/uq4rQvIuugHZxHd/ydkSQ8RB2Jnt/BjFifnpnFl4gWcd
+         o3R7CgfkVxEet/oveZGsiCnBlsVW53+9iBNC/UGWuSpax9LXNUazNUusPBVjZbI+/S8S
+         DaQ0paEdOfOiu+tCaiHnOJve9xntxjZ3SyvCzMq7Jxoc/4/m/OcV/qfLduM03HLyXODI
+         mXMwYObNJOEsKqrH1Kn0Xx0jkQqZfJHdtZhACZQYWoWgz/NBzI3YV/Ke54auoNXRTplP
+         4GWQ9Dxa7z+yKQaPEFzsw+17FI3KrMf1KVCLeO70UpthPXb5/MvJ+nQgnHJZtuiBQbAS
+         +pmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739308634; x=1739913434;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KIfvgky9veY2hzjiVBclsLjtmap1/nd7ereBYnmFQjs=;
+        b=Y8jLVudqINrrPA/GLEwCDWdugoPG/wMsgE8b5V/5wHrMLAVcwVdxAfwutUY52ZzAiX
+         GIyNG9G55kXpHOKpHb+WmnBhuwfzT0b1TnKn/KqpVYzs6T69AlVHA5kcNtF6CagLWNwx
+         Ro56dGZ7lJuDR+t2jHMqKB7uFcKijwkBsyf2wKefevLgJm5o2CvlzWwnOk6mYVCnCvBa
+         u8G44bMLUasvyvAtaksqrbPI5bDq403h0Vb56RmycXhObWITnwncuHiy9OK9oERenBKA
+         3s2B5i25tuX9uqvoT1HI+AS8Fv+3YBhUCM5bg9grjXi4vgx+whj4nyrNjNx3mqxvnRIb
+         HVjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXWPNpzrQXrY0gY/aNp0qB+nVpmMnwLCoDP9cvItqkColHkAlGjXsL+x7ZqlU3Na/IDgtGXbhCaJkY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyhbAd1/UZMjEZXzpceceOWfjTxbMFg56/mWS232Yldp9j7lge
+	9/i+txUA/KCDITmB5G5vhAxs0d1F/C1gD6EuA59fEVHcPri9FqsbnmZQ0KNBfB/whfzTGEz+zL+
+	Kow==
+X-Google-Smtp-Source: AGHT+IFET9IWVHjPlxyGR2feK6f9TwBvVgVNbG99vGLbfBvsF+l1UXScJabTFFPnkEjUA0nLxtM9c4Ik/Ws=
+X-Received: from pfaz1.prod.google.com ([2002:aa7:91c1:0:b0:730:8518:b97])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:788d:b0:1ee:4813:8a93
+ with SMTP id adf61e73a8af0-1ee5c8410f6mr1165733637.27.1739308634574; Tue, 11
+ Feb 2025 13:17:14 -0800 (PST)
+Date: Tue, 11 Feb 2025 13:17:13 -0800
+In-Reply-To: <20241118123948.4796-1-kalyazin@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+References: <20241118123948.4796-1-kalyazin@amazon.com>
+Message-ID: <Z6u-WdbiW3n7iTjp@google.com>
+Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
+From: Sean Christopherson <seanjc@google.com>
+To: Nikita Kalyazin <kalyazin@amazon.com>
+Cc: pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, jthoughton@google.com, david@redhat.com, 
+	peterx@redhat.com, oleg@redhat.com, vkuznets@redhat.com, gshan@redhat.com, 
+	graf@amazon.de, jgowans@amazon.com, roypat@amazon.co.uk, derekmn@amazon.com, 
+	nsaenz@amazon.es, xmarcalx@amazon.com
+Content-Type: text/plain; charset="us-ascii"
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogRGF2ZSBKaWFuZyA8ZGF2ZS5qaWFu
-Z0BpbnRlbC5jb20+DQo+U2VudDogMTEgRmVicnVhcnkgMjAyNSAwMjo0MA0KPlRvOiBTaGlqdSBK
-b3NlIDxzaGlqdS5qb3NlQGh1YXdlaS5jb20+OyBsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZzsg
-bGludXgtDQo+Y3hsQHZnZXIua2VybmVsLm9yZzsgbGludXgtYWNwaUB2Z2VyLmtlcm5lbC5vcmc7
-IGxpbnV4LW1tQGt2YWNrLm9yZzsgbGludXgtDQo+a2VybmVsQHZnZXIua2VybmVsLm9yZw0KPkNj
-OiBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOyBicEBhbGllbjguZGU7IHRvbnkubHVja0BpbnRl
-bC5jb207DQo+cmFmYWVsQGtlcm5lbC5vcmc7IGxlbmJAa2VybmVsLm9yZzsgbWNoZWhhYkBrZXJu
-ZWwub3JnOw0KPmRhbi5qLndpbGxpYW1zQGludGVsLmNvbTsgZGF2ZUBzdGdvbGFicy5uZXQ7IEpv
-bmF0aGFuIENhbWVyb24NCj48am9uYXRoYW4uY2FtZXJvbkBodWF3ZWkuY29tPjsgYWxpc29uLnNj
-aG9maWVsZEBpbnRlbC5jb207DQo+dmlzaGFsLmwudmVybWFAaW50ZWwuY29tOyBpcmEud2VpbnlA
-aW50ZWwuY29tOyBkYXZpZEByZWRoYXQuY29tOw0KPlZpbGFzLlNyaWRoYXJhbkBhbWQuY29tOyBs
-ZW8uZHVyYW5AYW1kLmNvbTsgWWF6ZW4uR2hhbm5hbUBhbWQuY29tOw0KPnJpZW50amVzQGdvb2ds
-ZS5jb207IGppYXFpeWFuQGdvb2dsZS5jb207IEpvbi5HcmltbUBhbWQuY29tOw0KPmRhdmUuaGFu
-c2VuQGxpbnV4LmludGVsLmNvbTsgbmFveWEuaG9yaWd1Y2hpQG5lYy5jb207DQo+amFtZXMubW9y
-c2VAYXJtLmNvbTsganRob3VnaHRvbkBnb29nbGUuY29tOyBzb21hc3VuZGFyYW0uYUBocGUuY29t
-Ow0KPmVyZGVtYWt0YXNAZ29vZ2xlLmNvbTsgcGdvbmRhQGdvb2dsZS5jb207IGR1ZW53ZW5AZ29v
-Z2xlLmNvbTsNCj5ndGhlbGVuQGdvb2dsZS5jb207IHdzY2h3YXJ0ekBhbXBlcmVjb21wdXRpbmcu
-Y29tOw0KPmRmZXJndXNvbkBhbXBlcmVjb21wdXRpbmcuY29tOyB3YnNAb3MuYW1wZXJlY29tcHV0
-aW5nLmNvbTsNCj5uaWZhbi5jeGxAZ21haWwuY29tOyB0YW54aWFvZmVpIDx0YW54aWFvZmVpQGh1
-YXdlaS5jb20+OyBaZW5ndGFvIChCKQ0KPjxwcmltZS56ZW5nQGhpc2lsaWNvbi5jb20+OyBSb2Jl
-cnRvIFNhc3N1IDxyb2JlcnRvLnNhc3N1QGh1YXdlaS5jb20+Ow0KPmthbmdrYW5nLnNoZW5AZnV0
-dXJld2VpLmNvbTsgd2FuZ2h1aXFpYW5nIDx3YW5naHVpcWlhbmdAaHVhd2VpLmNvbT47DQo+TGlu
-dXhhcm0gPGxpbnV4YXJtQGh1YXdlaS5jb20+DQo+U3ViamVjdDogUmU6IFtQQVRDSCB2MTkgMDcv
-MTVdIGN4bDogQWRkIGhlbHBlciBmdW5jdGlvbiB0byByZXRyaWV2ZSBhIGZlYXR1cmUNCj5lbnRy
-eQ0KPg0KPg0KPg0KPk9uIDIvNy8yNSA3OjQ0IEFNLCBzaGlqdS5qb3NlQGh1YXdlaS5jb20gd3Jv
-dGU6DQo+PiBGcm9tOiBTaGlqdSBKb3NlIDxzaGlqdS5qb3NlQGh1YXdlaS5jb20+DQo+Pg0KPj4g
-QWRkIGhlbHBlciBmdW5jdGlvbiB0byByZXRyaWV2ZSBhIGZlYXR1cmUgZW50cnkgZnJvbSB0aGUg
-c3VwcG9ydGVkDQo+PiBmZWF0dXJlcyBsaXN0LCBpZiBzdXBwb3J0ZWQuDQo+Pg0KPj4gU2lnbmVk
-LW9mZi1ieTogU2hpanUgSm9zZSA8c2hpanUuam9zZUBodWF3ZWkuY29tPg0KPj4gLS0tDQo+PiAg
-ZHJpdmVycy9jeGwvY29yZS9mZWF0dXJlcy5jIHwgMjEgKysrKysrKysrKysrKysrKysrKysrDQo+
-PiAgaW5jbHVkZS9jeGwvZmVhdHVyZXMuaCAgICAgIHwgIDIgKysNCj4+ICAyIGZpbGVzIGNoYW5n
-ZWQsIDIzIGluc2VydGlvbnMoKykNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9jeGwvY29y
-ZS9mZWF0dXJlcy5jIGIvZHJpdmVycy9jeGwvY29yZS9mZWF0dXJlcy5jDQo+PiBpbmRleCA1ZjY0
-MTg1YTVjN2EuLmJmMTc1ZTY5Y2RhMSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvY3hsL2NvcmUv
-ZmVhdHVyZXMuYw0KPj4gKysrIGIvZHJpdmVycy9jeGwvY29yZS9mZWF0dXJlcy5jDQo+PiBAQCAt
-NDMsNiArNDMsMjcgQEAgYm9vbCBpc19jeGxfZmVhdHVyZV9leGNsdXNpdmUoc3RydWN0IGN4bF9m
-ZWF0X2VudHJ5DQo+PiAqZW50cnkpICB9ICBFWFBPUlRfU1lNQk9MX05TX0dQTChpc19jeGxfZmVh
-dHVyZV9leGNsdXNpdmUsICJDWEwiKTsNCj4+DQo+PiArc3RydWN0IGN4bF9mZWF0X2VudHJ5ICpj
-eGxfZ2V0X2ZlYXR1cmVfZW50cnkoc3RydWN0IGN4bF9tZW1kZXYgKmN4bG1kLA0KPj4gKwkJCQkJ
-ICAgICBjb25zdCB1dWlkX3QgKmZlYXRfdXVpZCkNCj4+ICt7DQo+PiArCXN0cnVjdCBjeGxfZmVh
-dHVyZXNfc3RhdGUgKmN4bGZzID0gY3hsbWQtPmN4bGZzOw0KPj4gKwlzdHJ1Y3QgY3hsX2ZlYXRf
-ZW50cnkgKmZlYXRfZW50cnk7DQo+PiArCWludCBjb3VudDsNCj4+ICsNCj4+ICsJLyoNCj4+ICsJ
-ICogUmV0cmlldmUgdGhlIGZlYXR1cmUgZW50cnkgZnJvbSB0aGUgc3VwcG9ydGVkIGZlYXR1cmVz
-IGxpc3QsDQo+PiArCSAqIGlmIHRoZSBmZWF0dXJlIGlzIHN1cHBvcnRlZC4NCj4+ICsJICovDQo+
-PiArCWZlYXRfZW50cnkgPSBjeGxmcy0+ZW50cmllczsNCj4+ICsJZm9yIChjb3VudCA9IDA7IGNv
-dW50IDwgY3hsZnMtPm51bV9mZWF0dXJlczsgY291bnQrKywgZmVhdF9lbnRyeSsrKSB7DQo+PiAr
-CQlpZiAodXVpZF9lcXVhbCgmZmVhdF9lbnRyeS0+dXVpZCwgZmVhdF91dWlkKSkNCj4+ICsJCQly
-ZXR1cm4gZmVhdF9lbnRyeTsNCj4+ICsJfQ0KPj4gKw0KPj4gKwlyZXR1cm4gRVJSX1BUUigtRU5P
-RU5UKTsNCj4+ICt9DQo+PiArRVhQT1JUX1NZTUJPTF9OU19HUEwoY3hsX2dldF9mZWF0dXJlX2Vu
-dHJ5LCAiQ1hMIik7DQo+DQo+WW91IHByb2JhYmx5IGRvbid0IG5lZWQgdGhpcyBpZiB0aGUgbWVt
-ZmVhdHVyZSBjb2RlIGFyZSBpbiBDWEwgY29yZS4NCg0KSGkgRGF2ZSwNCg0KWW91IGFyZSByaWdo
-dC4gQXQgcHJlc2VudCwgRVhQT1JUX1NZTUJPTF9OU19HUEwoY3hsX2dldF9mZWF0dXJlX2VudHJ5
-KSAgaXMgbm90IHJlcXVpcmVkLg0KDQo+DQo+REoNCj4NCj4+ICsNCj4+ICBzaXplX3QgY3hsX2dl
-dF9mZWF0dXJlKHN0cnVjdCBjeGxfbWFpbGJveCAqY3hsX21ib3gsIGNvbnN0IHV1aWRfdCAqZmVh
-dF91dWlkLA0KPj4gIAkJICAgICAgIGVudW0gY3hsX2dldF9mZWF0X3NlbGVjdGlvbiBzZWxlY3Rp
-b24sDQo+PiAgCQkgICAgICAgdm9pZCAqZmVhdF9vdXQsIHNpemVfdCBmZWF0X291dF9zaXplLCB1
-MTYgb2Zmc2V0LCBkaWZmIC0tZ2l0DQo+PiBhL2luY2x1ZGUvY3hsL2ZlYXR1cmVzLmggYi9pbmNs
-dWRlL2N4bC9mZWF0dXJlcy5oIGluZGV4DQo+PiBlNTJkMDU3M2Y1MDQuLjU2M2Q5NjZiZWVlNSAx
-MDA2NDQNCj4+IC0tLSBhL2luY2x1ZGUvY3hsL2ZlYXR1cmVzLmgNCj4+ICsrKyBiL2luY2x1ZGUv
-Y3hsL2ZlYXR1cmVzLmgNCj4+IEBAIC02OCw2ICs2OCw4IEBAIHN0cnVjdCBjeGxfZmVhdHVyZXNf
-c3RhdGUgeyAgfTsNCj4+DQo+PiAgc3RydWN0IGN4bF9tYWlsYm94Ow0KPj4gK3N0cnVjdCBjeGxf
-ZmVhdF9lbnRyeSAqY3hsX2dldF9mZWF0dXJlX2VudHJ5KHN0cnVjdCBjeGxfbWVtZGV2ICpjeGxt
-ZCwNCj4+ICsJCQkJCSAgICAgY29uc3QgdXVpZF90ICpmZWF0X3V1aWQpOw0KPj4gIHNpemVfdCBj
-eGxfZ2V0X2ZlYXR1cmUoc3RydWN0IGN4bF9tYWlsYm94ICpjeGxfbWJveCwgY29uc3QgdXVpZF90
-ICpmZWF0X3V1aWQsDQo+PiAgCQkgICAgICAgZW51bSBjeGxfZ2V0X2ZlYXRfc2VsZWN0aW9uIHNl
-bGVjdGlvbiwNCj4+ICAJCSAgICAgICB2b2lkICpmZWF0X291dCwgc2l6ZV90IGZlYXRfb3V0X3Np
-emUsIHUxNiBvZmZzZXQsDQo+DQo+DQoNClRoYW5rcywNClNoaWp1DQo=
+On Mon, Nov 18, 2024, Nikita Kalyazin wrote:
+> Async PF [1] allows to run other processes on a vCPU while the host
+> handles a stage-2 fault caused by a process on that vCPU. When using
+> VM-exit-based stage-2 fault handling [2], async PF functionality is lost
+> because KVM does not run the vCPU while a fault is being handled so no
+> other process can execute on the vCPU. This patch series extends
+> VM-exit-based stage-2 fault handling with async PF support by letting
+> userspace handle faults instead of the kernel, hence the "async PF user"
+> name.
+> 
+> I circulated the idea with Paolo, Sean, David H, and James H at the LPC,
+> and the only concern I heard was about injecting the "page not present"
+> event via #PF exception in the CoCo case, where it may not work. In my
+> implementation, I reused the existing code for doing that, so the async
+> PF user implementation is on par with the present async PF
+> implementation in this regard, and support for the CoCo case can be
+> added separately.
+> 
+> Please note that this series is applied on top of the VM-exit-based
+> stage-2 fault handling RFC [2].
+
+...
+
+> Nikita Kalyazin (6):
+>   Documentation: KVM: add userfault KVM exit flag
+>   Documentation: KVM: add async pf user doc
+>   KVM: x86: add async ioctl support
+>   KVM: trace events: add type argument to async pf
+>   KVM: x86: async_pf_user: add infrastructure
+>   KVM: x86: async_pf_user: hook to fault handling and add ioctl
+> 
+>  Documentation/virt/kvm/api.rst  |  35 ++++++
+>  arch/x86/include/asm/kvm_host.h |  12 +-
+>  arch/x86/kvm/Kconfig            |   7 ++
+>  arch/x86/kvm/lapic.c            |   2 +
+>  arch/x86/kvm/mmu/mmu.c          |  68 ++++++++++-
+>  arch/x86/kvm/x86.c              | 101 +++++++++++++++-
+>  arch/x86/kvm/x86.h              |   2 +
+>  include/linux/kvm_host.h        |  30 +++++
+>  include/linux/kvm_types.h       |   1 +
+>  include/trace/events/kvm.h      |  50 +++++---
+>  include/uapi/linux/kvm.h        |  12 +-
+>  virt/kvm/Kconfig                |   3 +
+>  virt/kvm/Makefile.kvm           |   1 +
+>  virt/kvm/async_pf.c             |   2 +-
+>  virt/kvm/async_pf_user.c        | 197 ++++++++++++++++++++++++++++++++
+>  virt/kvm/async_pf_user.h        |  24 ++++
+>  virt/kvm/kvm_main.c             |  14 +++
+>  17 files changed, 535 insertions(+), 26 deletions(-)
+
+I am supportive of the idea, but there is way too much copy+paste in this series.
+And it's not just the code itself, it's all the structures and concepts.  Off the
+top of my head, I can't think of any reason there needs to be a separate queue,
+separate lock(s), etc.  The only difference between kernel APF and user APF is
+what chunk of code is responsible for faulting in the page.
+
+I suspect a good place to start would be something along the lines of the below
+diff, and go from there.  Given that KVM already needs to special case the fake
+"wake all" items, I'm guessing it won't be terribly difficult to teach the core
+flows about userspace async #PF.
+
+I'm also not sure that injecting async #PF for all userfaults is desirable.  For
+in-kernel async #PF, KVM knows that faulting in the memory would sleep.  For
+userfaults, KVM has no way of knowing if the userfault will sleep, i.e. should
+be handled via async #PF.  The obvious answer is to have userspace only enable
+userspace async #PF when it's useful, but "an all or nothing" approach isn't
+great uAPI.  On the flip side, adding uAPI for a use case that doesn't exist
+doesn't make sense either :-/
+
+Exiting to userspace in vCPU context is also kludgy.  It makes sense for base
+userfault, because the vCPU can't make forward progress until the fault is
+resolved.  Actually, I'm not even sure it makes sense there.  I'll follow-up in
+James' series.  Anyways, it definitely doesn't make sense for async #PF, because
+the whole point is to let the vCPU run.  Signalling userspace would definitely
+add complexity, but only because of the need to communicate the token and wait
+for userspace to consume said token.  I'll think more on that.
+
+diff --git a/virt/kvm/async_pf.c b/virt/kvm/async_pf.c
+index 0ee4816b079a..fc31b47cf9c5 100644
+--- a/virt/kvm/async_pf.c
++++ b/virt/kvm/async_pf.c
+@@ -177,7 +177,8 @@ void kvm_check_async_pf_completion(struct kvm_vcpu *vcpu)
+  * success, 'false' on failure (page fault has to be handled synchronously).
+  */
+ bool kvm_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+-                       unsigned long hva, struct kvm_arch_async_pf *arch)
++                       unsigned long hva, struct kvm_arch_async_pf *arch,
++                       bool userfault)
+ {
+        struct kvm_async_pf *work;
+ 
+@@ -202,13 +203,16 @@ bool kvm_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+        work->addr = hva;
+        work->arch = *arch;
+ 
+-       INIT_WORK(&work->work, async_pf_execute);
+-
+        list_add_tail(&work->queue, &vcpu->async_pf.queue);
+        vcpu->async_pf.queued++;
+        work->notpresent_injected = kvm_arch_async_page_not_present(vcpu, work);
+ 
+-       schedule_work(&work->work);
++       if (userfault) {
++               work->userfault = true;
++       } else {
++               INIT_WORK(&work->work, async_pf_execute);
++               schedule_work(&work->work);
++       }
+ 
+        return true;
+ }
