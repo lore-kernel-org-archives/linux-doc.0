@@ -1,74 +1,103 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DFD2AF19;
-	Wed, 12 Feb 2025 11:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B884A1F2365;
+	Wed, 12 Feb 2025 11:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739358650; cv=none; b=N7h8YDhEGw265tEBmJ6H9Od0wYWOSODdwr1+4csOW7FlzG96vpYRepSddZhBX62IZ8ShsaAP47JBu3+ZfAW6XNITvUQw/qahs4hi19CeVeiX5/9i4QVpFOl8P2HrZA7B3x3eqQPDGBB6XYLEYaUCTRFsFDNjPI0wjsLsuhl+oJE=
+	t=1739359521; cv=none; b=UIafIX2VXu7PXx69kZhAG56zm1mmMOi5qAEV+j+c/n8B6tDbfEOWB8Csc71DjfbB3sHYMT4rqu7f0IM/7bb7uEDPmXTyhH9OAq8bI1pBn9YjyRGMg2gjTEjtPai6i46dEf35bqo/tcjYybmerclx+SltnPdnXdEFi3cmZBNUIqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739358650; c=relaxed/simple;
-	bh=r79VELnViF7+zIzfkgy+4Z0CPtTiHpjajGKPiHY0sQI=;
+	s=arc-20240116; t=1739359521; c=relaxed/simple;
+	bh=TgoLBoSdsmfmuqpXM5gofGXTPEUeyBBSV93lb6OMC7Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kOqzY2ICWJToFPUztUAPnk7tT8Nkz0C6b6Gw05gkie5oLS0UiPhcZyeaXI7adRwl80ZoJonFUWiyiTteFs7VSsv+0SbV6VizK+paZ6EAS5b5nxjjJZVwyWHSOcWaR0U+pJiBNRR8DdxV1GGKv7un5VxXoRH15xzkncebQSzKrIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=neO4g9XF; arc=none smtp.client-ip=209.85.214.180
+	 Content-Type:Content-Disposition:In-Reply-To; b=AgusiZFa3QWIWOPbfFsmlV8vcAER7VtDXup7q+9pgaBMYt3a8KaGhC+Q3licMv+JXaetopFJkj3HDdhCz+SfRzdcBuKHR+WgnoHX5Gad1c4ZiD8OXAJcxlpy0dD39ELlWpPZuAfP6Ts5A6r0O4/WVojBxpOQaxiitZw9eQzdUcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IUtBTPbt; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="neO4g9XF"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-21f40deb941so144886845ad.2;
-        Wed, 12 Feb 2025 03:10:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IUtBTPbt"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21f62cc4088so81832025ad.3;
+        Wed, 12 Feb 2025 03:25:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739358649; x=1739963449; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1739359519; x=1739964319; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=a7fijWHvwPLZETcSwOhX6AJpI56/uusqCA2JoLk/IPY=;
-        b=neO4g9XFVWb1XbZZIkfGaRNkJYnwRx94ikmveCBAw1WNVW2UiqYjebpXhwPn5AyTG1
-         vBhgvYWLlidkeQqf82+YtOgK0754W/qEQFHR14TZa5sgNzpBv55whiM0dKEiFdHNfOh8
-         Yv470DjerqAXWeMGwZepx7kIwrGn49+LCOKjmcT2Ui7s/nPjd+QldWbd01g80wZWb/+w
-         e0PQdnfE5PdK7LYm4je9SvDxo3zM9IJ3yApkm9vqPIcOnD9VAoA2Y+5QfWB/mjf9Fwxp
-         AAqysxVn8bIfNSvk6ipVW25U6RfCRCtccSbkX8TR9HXHKC3aQlJ2Nx21dgIbbfQhV+PU
-         ESHA==
+        bh=TgoLBoSdsmfmuqpXM5gofGXTPEUeyBBSV93lb6OMC7Y=;
+        b=IUtBTPbtTp4ZNtJqA4BWixkMQ5MFlLMWUcYSFL7e31EDCCLw+0PXNgecSsNYF572kE
+         vSlQH9uWL/NL32ajvOo9IYeOstxZT4pn655W38HhCZgd9Gq5UGthqUqeos36pgfAYjNT
+         NZ8T4lzpQloN/lf6OJmlK4whpB0vw21vF8IE8c253qR82EO4BIcEczsnmRbbfijCNjw8
+         Z+MhwW6TNd3qCiKt2zuemY3sgulyJZOaEFlP+Ehy8c6vJlO/CVPsN1RFgthfaf7bokDT
+         I/CAVI4JYoCuocisBF0CM4LZgN93IGLGrvugb+hZRjVMtCr3HjdszGY91a7g6nSJ1d9U
+         NIrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739358649; x=1739963449;
+        d=1e100.net; s=20230601; t=1739359519; x=1739964319;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=a7fijWHvwPLZETcSwOhX6AJpI56/uusqCA2JoLk/IPY=;
-        b=QCU6YpRF52gcyed2ig+5r37C7E4V7xQrSuINjiPH0R0FoDYrdAMMiKuVPzLvitbj5j
-         iZpzGc0ofODwwSe4WGsZ1d9EGRFz3u3YSZ8CxOOSzUE1thMgAXIlLwwkzGv7VSpMn2Hp
-         6VfvHBhFnPViaZ0PW6whKpbcD8egDfwez87U+NAZp1qke22efrNT/qJ/L7H0oQQ3w2BA
-         vdersyCeE/k85NMF8dO8TXW77LSpwL5EvxiCRPyqr6bQCHZFG/Y7q9gu7SWMz7t82ptl
-         wjuwubS3zdg0o2X7vKviTF+L7fpc2lNGCetIZu0uPt3SiriEKRUxiUqesI+Or85y1pJ7
-         XT1w==
-X-Forwarded-Encrypted: i=1; AJvYcCVuG8oH2CCJJFVFUL/RQoz3pQrhkrVQ92nZcMUukGH9FfZcxJ/NsH2HZeVgLjdrL3bd//VEIMJbfPzCay5k@vger.kernel.org, AJvYcCWlD9M7eGnuA/ZXBOabUdz1+4bpnrmu38NwYaIP93e+BR/TYZVKHa+uLohMLtKxAiTo8NYOu0lgOnc=@vger.kernel.org, AJvYcCXhvXN3hoYN8mEcuevsXQts2EAo/+38GK3W2opX4Jy43Uw1uU3/NpybREAwmhg8vCnZvViMKmJtHjxcMpmdXT+2qXcJ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3yYvh7kwJt/mh1TkdQkAcHQLmmDRN6+qgeUBXwvl4BrCfWcx7
-	bgG5v1+lYdRv8N/0dx55I7Obszx2dvQ9punOE38mcsKeXwZ/LvbY
-X-Gm-Gg: ASbGnctuhoI1/mxPu+zDOcQXb7GWS4qjCmekBvnksYTORd8zS5Rl+2+YvztQ3NvvmOL
-	qUoKXHXEoPFAWpb4QhN8hQbSWjlmg2SdEEzMIyQqzhLEIDhJeQhKnyYe6cOh2kn56bEvnsiICbw
-	vELnV7t2XkgmFXhE3SeHwVOsdAdNrFzerj3UnG6TqmU7adqkATE8Q7S47LAKPyt27ckQDnFcj3v
-	EQAajAETsVBUYuSp6RuS8rwMC1wPSpYvj4sRj9xB8z/l/yseoMyOkY/FHFoUHDJdd7ZpifZdvwy
-	BlJSXOcLZxqgSPs=
-X-Google-Smtp-Source: AGHT+IGp2GrkTxnkrKocmv5gmhrc7t4bOc4wq/AeiNfsAXB6wLiZu11bnsEFtrqJaXyjiakK2bDQ0A==
-X-Received: by 2002:a05:6a00:2e28:b0:730:8526:5db0 with SMTP id d2e1a72fcca58-7322c3fe428mr4533067b3a.22.1739358648568;
-        Wed, 12 Feb 2025 03:10:48 -0800 (PST)
+        bh=TgoLBoSdsmfmuqpXM5gofGXTPEUeyBBSV93lb6OMC7Y=;
+        b=DpiTK9XVBcT6I/LDyjlDBR3CMAeiaQL4xSZrXpww3kxnMmZGSbnCae4S9rWEp4L8TH
+         rZIhsmA3qm0xpxVG9dB6Heg3jfxJ0HGJt08PqrRNsmtGp0YnINq4vxGym+SkRUqbiTbE
+         k9nH6wbI+WLHtAtA4jC2BB+OF+YC8FEotTtKaOwqdZFDRL2pfiDnQuEBbNrUaVAtMedc
+         MP1xCjGixCDKcZ6TGfs1exLy860IKLM2KXsGqRPzG2iWANK6a6mUGsQcqYruI1+9GqSP
+         /bOkKDlr+1zOh5b1g/hwGtW+y0RDJgVulfgwq2o82XcR170VygIwoo2qLdW6iJNRqbi+
+         T6Ug==
+X-Forwarded-Encrypted: i=1; AJvYcCUfHznFPBNsLyhDRpH88qpVKrRxwCICc/ftZHKmEQ1a852YhCkBnyplKTW5W3y62rY+buMP2QBNj2xD@vger.kernel.org, AJvYcCVRXPKKNlC1FA6ZjA8mRpBx0gxGU4JyFvDIMBzcwI4wItXZvNUeB2V+8sYukXHmSb7PU6B1Pm3U@vger.kernel.org, AJvYcCVVU/wgTJ1V+acRbfHijP40zRxC4Te4SPDDmiURuh7LnVvc+cnEo+XS2l8UMn1f0RkthB5JscfRDSd6@vger.kernel.org, AJvYcCVqRZ9WTgJFR1Jy/VTSDjGwGTHHArUKmIW2TveBNUic/7wuJy9CVM8Ytay2wFrYdDpEnbHB0h12JhkToxs=@vger.kernel.org, AJvYcCWvqQd4MJyqcaoRmFECnTkrCrqmkPEUTTjLBFJCIq/u5NwTU466mPEOVTMVUQhrRvxo3AqWyXamTwOB@vger.kernel.org, AJvYcCXCEDxWS0F5hHhaBbrOtxFCiYiyFdOqS8yfmmjZsLCCKhC9G9JsjA853++6GclQhBN3+1A4GVjlV30=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuLGGHWC1TDKgkMaNX4whlxuutlXKzN0YaaYxiiNHFgpQYB2/W
+	ZYTxiZaPBQCsZRuxM5M3iRBmKR8L+VW0yEjwfDxiU+wudLeE2CKh
+X-Gm-Gg: ASbGncucLx+5hqYlOeo4wkC4x81MHMVdGKJlXZ0ER3AY++J/LQ6+5vlE3+HsDZ+TW8G
+	Ox2mD6MM8QZuavsktlCoCZ/2GnuAfU0zFAS+JtCU+vIAB24CpwXRL5F0zgWW9NBrzCa4LCMy6mq
+	+xuGH+couv6dsi/iBlIUTPpwaCG4/hr+Kg12yTg/r2YWv+kayAVj2bTnZRHaBjqA0pZPZD/6J41
+	+tyEu5SQJMif5bnKd675CYDil+QYr5qsuU2aVKOjs5CHmKJx0dqj8XRXZHSyFTh74qEJqA+pv4D
+	it9gAIW32ZGHFXs=
+X-Google-Smtp-Source: AGHT+IGSXAu22CD7MFAjaX8B91j1oDJlyn+2ztCU9HVQMzNMzKgxATJmndOJK7sQ6+CxJ94W1Ao6xg==
+X-Received: by 2002:a05:6a21:3987:b0:1d9:6c9c:75ea with SMTP id adf61e73a8af0-1ee5c732ce4mr4676523637.5.1739359518743;
+        Wed, 12 Feb 2025 03:25:18 -0800 (PST)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7322d4c2fb2sm1071798b3a.166.2025.02.12.03.10.47
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7308cef0957sm5468012b3a.5.2025.02.12.03.25.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 03:10:47 -0800 (PST)
+        Wed, 12 Feb 2025 03:25:17 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id A937F41F5559; Wed, 12 Feb 2025 18:10:44 +0700 (WIB)
-Date: Wed, 12 Feb 2025 18:10:44 +0700
+	id EF2E541F5559; Wed, 12 Feb 2025 18:25:15 +0700 (WIB)
+Date: Wed, 12 Feb 2025 18:25:15 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Purva Yeshi <purvayeshi550@gmail.com>
-Cc: mhiramat@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs: trace: Refactor index documentation
-Message-ID: <Z6yBtB7mjoiquKRj@archie.me>
-References: <20250206141453.139613-1-purvayeshi550@gmail.com>
- <20250210174556.70fc53b7@gandalf.local.home>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Avadhut Naik <avadhut.naik@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Paolo Abeni <pabeni@redhat.com>, Sean Young <sean@mess.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	James Morse <james.morse@arm.com>,
+	"Nysal Jan K.A" <nysal@linux.ibm.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Sourabh Jain <sourabhjain@linux.ibm.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Frederic Barrat <fbarrat@linux.ibm.com>,
+	Andrew Donnellan <ajd@linux.ibm.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, workflows@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 0/9] Extend automarkup support for ABI symbols
+Message-ID: <Z6yFG_NntQfkwYli@archie.me>
+References: <cover.1739254867.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,51 +105,46 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="G4fEeRqeY7bfT9kX"
+	protocol="application/pgp-signature"; boundary="/8yu6IEGS0ve/RxO"
 Content-Disposition: inline
-In-Reply-To: <20250210174556.70fc53b7@gandalf.local.home>
+In-Reply-To: <cover.1739254867.git.mchehab+huawei@kernel.org>
 
 
---G4fEeRqeY7bfT9kX
+--/8yu6IEGS0ve/RxO
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 10, 2025 at 05:45:56PM -0500, Steven Rostedt wrote:
-> On Thu,  6 Feb 2025 19:44:53 +0530
-> Purva Yeshi <purvayeshi550@gmail.com> wrote:
->=20
-> > +Introduction to Tracing
-> > +-----------------------
-> > +
-> > +This section provides an overview of Linux tracing mechanisms
-> > +and debugging approaches.
-> > =20
-> >  .. toctree::
-> > -   :maxdepth: 2
-> > +   :maxdepth: 1
->=20
-> I don't really know what the maxdepth gives here, but there was no mention
-> in the change log why it had to be converted from 2 to 1.
+On Tue, Feb 11, 2025 at 07:22:54AM +0100, Mauro Carvalho Chehab wrote:
+> Now that ABI creates a python dictionary, use automarkup to create cross
+> references for ABI symbols as well.=20
 
-:maxdepth: specifies heading levels depth of the toctree. In this case,
-the author wants only doc titles (hence 1), whereas 2 also includes
-second-level (section) headings.
+I get three new warnings:
+
+WARNING: /sys/devices/system/cpu/cpuX/topology/physical_package_id is defin=
+ed 2 times: /home/bagas/repo/linux-kernel/Documentation/ABI/stable/sysfs-de=
+vices-system-cpu:27; /home/bagas/repo/linux-kernel/Documentation/ABI/testin=
+g/sysfs-devices-system-cpu:70
+WARNING: /sys/devices/system/cpu/cpuX/topology/ppin is defined 2 times: /ho=
+me/bagas/repo/linux-kernel/Documentation/ABI/stable/sysfs-devices-system-cp=
+u:89; /home/bagas/repo/linux-kernel/Documentation/ABI/testing/sysfs-devices=
+-system-cpu:70
+WARNING: Documentation/ABI/testing/sysfs-class-cxl not found
 
 Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---G4fEeRqeY7bfT9kX
+--/8yu6IEGS0ve/RxO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6yBtAAKCRD2uYlJVVFO
-o7o7AP9ZDuLNx/pS+dVzBbJANlqkQ6/aBRBsp18uCVK/VSXP0QD/erPFR5e1iGi1
-Y96FwEN5+wlxAfr87V4jb7YnOpTMmww=
-=pH/s
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6yFGwAKCRD2uYlJVVFO
+o8lhAQCQ4fRHrhmP52Ie1GWpvmnThVAVajYhveINLTbggfy+8AEAmFJjGR9fv2Ph
+AlybXGGYbN21qaIJUDcQ8kIXnvwi2Q0=
+=z6el
 -----END PGP SIGNATURE-----
 
---G4fEeRqeY7bfT9kX--
+--/8yu6IEGS0ve/RxO--
