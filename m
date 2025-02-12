@@ -1,122 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazolkn19012055.outbound.protection.outlook.com [52.103.37.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC3B253B40;
-	Wed, 12 Feb 2025 16:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739376042; cv=none; b=oafA05I4dGlukuKTV5vze351GoFbiPSxZ8oY9Xtthqg2YaHY2EX4lgBg2TG+X7pELX5EcGVmCoSrDjexuJ3ochq8I5habDq+CS9SSbY2Lil9vhrc/1UojHSJwUrqXBoHzfw+A2o6K7wsL8HEpkAE7Rq6JJN50W3AVUzSrEKxits=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739376042; c=relaxed/simple;
-	bh=P2PvM3qZ0BEUNG+xxCfwPu3336ksPgx0VFrUhWZNXA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QO0RZmAf+84TBnsNTfdDy9uA+RMUyRMjDZ0X6xMe7QLrHna5RMmeM5eUu5acO+WS5bDhehqrK6jEDof6x7G1CwaJ3Pw0egvbAM5wPs3n09N6BcDmnkNYv83uZKrKl/9+tdgqw91MoHnBFLDY0d5qbBu3XqFxaqlvfrpB8Gx/Woo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HCC36UzI; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796F01D516D;
+	Wed, 12 Feb 2025 16:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.37.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739377723; cv=fail; b=EjPInYLG4Sk22jsmwMWrJ/edlm7gWJK02rUA0iXHI2gOn9wUnuO+71yrQGeqTY9n8QfcLUr61aYfAynLMmpTxTRM2iMSR83Uc2yzu5sfKCDHjfm9lhghdA/CH0JcEIh6cBl1PxM4kV241mZXYDgFwe+FYoPLF2GoU9mHgpWCPOQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739377723; c=relaxed/simple;
+	bh=iODVGzhfnmcF/xSowJvljS7et+XSWeLXEs3yyzDZQEs=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 Content-Type:MIME-Version; b=diRZvdrvI6Ri5VCYAI7mGT860fPtIT2ms14iCLF/c7jHFwwwwrozRjUqNSnMz5Vc5eCwJ7EUuWjJXgPVAAoANVAYnBAE5I96eXzdhNZfWz/odlie18+lHtr3h+EwstbSTfSK3JR3rUg/ySosHKrWfTGJOJbGUhWgf3MVwrTgsoE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=DKX1mGi+; arc=fail smtp.client-ip=52.103.37.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HCC36UzI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA975C4CEE4;
-	Wed, 12 Feb 2025 16:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739376042;
-	bh=P2PvM3qZ0BEUNG+xxCfwPu3336ksPgx0VFrUhWZNXA0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HCC36UzI5XBvCVDEyZmkpEjKTweo4lRn22Jcr57O8TYA4WG6yztDM7xUPMpbHXwPA
-	 6ik2sjCWTK0Demi17AUvltnpwZJs4K21ZaxEOhIlLsoX2/gKsbDoao1B4LyUk3Gt+7
-	 RLzMvpg1RTwslbWYmoqoSEp5phjfBi/bAWroTHzeNBMwQuhzqelFPR9Bth1s50o/Cu
-	 t762+vVPiI4XQFx/Q36/eBPYLe9Se/7uXtevG82OKGZbPPnAfHpZVkE/pHCGPluycY
-	 b0sJBqsOa66GQ2IOn3SvABlnQv2cQEWXragDbof3+ALbgRqjK+8gMM93Qrt5GFCJFb
-	 P+dBLJrUeXXaw==
-Date: Wed, 12 Feb 2025 18:00:20 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org,
-	Alexander Graf <graf@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pratyush Yadav <ptyadav@amazon.de>,
-	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v4 14/14] Documentation: KHO: Add memblock bindings
-Message-ID: <Z6zFlKU3Cm3nHI74@kernel.org>
-References: <20250206132754.2596694-15-rppt@kernel.org>
- <45df0d7a-622a-4268-9683-c5c6067483c3@kernel.org>
- <Z6jFZII5b-j7hzkj@kernel.org>
- <a3cca0ed-64ca-4921-bb4c-27c0e06b78c6@kernel.org>
- <Z6kTCvex3DGhB-3C@kernel.org>
- <18529b1f-dc79-4c85-a485-a0a2cdd48670@kernel.org>
- <aa4ec16a-b35f-41b0-92f7-40b3eb64124a@kernel.org>
- <20250210191539.GA3765641@nvidia.com>
- <2fe7a404-be2c-4ac8-8980-2b3d07a74bca@kernel.org>
- <20250210202040.GB3754072@nvidia.com>
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="DKX1mGi+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YUw2884qvF1p3d/HPMEJ2z/J+yTIXZlwny7PfhbagC28yqSevtiUOIe5FUaRRIgQDISc14+/0ElIsLdfsbkBfLeUKlGc1GzsqI/c2+kuayq/ucu2ZTdirH4mN1oS/e5xYx2AtQOkMEyTXtXEgoHE1alVU06/H6uBb473ArSZR+ZTeQMR7xCfA90itJnpgABlf9pY5HF333Ed7iusjWVno4N9+e4gvJUVgsmOU9+GE13EFQcDM8Z38FDrui5xoWZHMGvIyMoWEdFLcyNpZakaMCxGrs9VvcgCINP4VcXoBwxOSBmnIcEP5wDYKt4zDR/tB2gpz0xmLDF9NtpbsD4FzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=97yc2rJVFLPrOnTv52jEN2C350uaKocsNZ5LR/Spqdg=;
+ b=KcvFOGsjvtxRhm0DdCi1VFRAAynx5X/9ay4pG/Udf0/mckRfe/nVhl9KwuRB4FqHd6lUKg8FadiyyztfQGpRcT7JYVfPzaVCat0HyOFtiNWxiwIBG49QsOElZ/B/6nsKcmiExJR7rC5q3xSisePUCQ7nhVO54uxZXg2UfDqXUi40WJ5obZwJirVnoLjwMA6frvfHzm4oF5xL+zU8EizOaZKnOBfnmRpwMnBkIFaU3p7UuniucmYpmxEwZznTmA2xTWowKn4rwwQF/895aLNNIYRvchUVnto8Bww39IZlEyTWzKqBSdyJeETtKz9MpXweoGxZG7i+06a8DRJn4UyMyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=97yc2rJVFLPrOnTv52jEN2C350uaKocsNZ5LR/Spqdg=;
+ b=DKX1mGi+TNjFG9P01l2hrixSPQDnrx96Vjv4OzMRVq7jbwyI2IeiPXkcmXyDN7OtaNEY10VohS13u0jqjQt1PGhossV1ud72UTYl8svMi/YBSnF8TPaiTluoaZ3ZVKZkmvtQDgiuDtgqGwAKfRtASTg8VVwTCp+prZksxarRumJBvCc9qtBiNFLIaoUEOgSE2KFVZHJLdii8DdVAfMRkbRZqFOWwPv4/X0cD8oXmd1clhsAziL5SwmMhEfrFIIYPvga2idNpUJGBw1Vlozon/woRrwC/mg7q5kXTEnCIHYk6CDQb87xud7XF2pYhntze30pQZRXR4LeUHEXDu9RlFA==
+Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:160::13)
+ by LO2P123MB7100.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:32f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.19; Wed, 12 Feb
+ 2025 16:28:39 +0000
+Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::c0fe:9ff5:51fd:3fdb]) by CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::c0fe:9ff5:51fd:3fdb%5]) with mapi id 15.20.8445.008; Wed, 12 Feb 2025
+ 16:28:39 +0000
+Date: Wed, 12 Feb 2025 16:28:37 +0000 (GMT)
+From: Manuel Fombuena <fombuena@outlook.com>
+To: Lee Jones <lee@kernel.org>
+cc: pavel@ucw.cz, corbet@lwn.net, linux-leds@vger.kernel.org, 
+    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND 1/5] leds: leds-st1202: fix NULL pointer access
+ on race condition
+In-Reply-To: <20250211133149.GN1868108@google.com>
+Message-ID:
+ <CWLP123MB547308A731A2B7F1B7FF12DFC5FC2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
+References: <CWLP123MB5473933B9B97137828ACC6A6C5EB2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM> <CWLP123MB547377D20905AF224E682BFBC5EB2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM> <20250211133149.GN1868108@google.com>
+Content-Type: text/plain; charset=US-ASCII
+X-ClientProxiedBy: LO4P265CA0121.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c6::9) To CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:160::13)
+X-Microsoft-Original-Message-ID:
+ <166442dd-65f1-3958-c2ed-722d378328c1@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250210202040.GB3754072@nvidia.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB5473:EE_|LO2P123MB7100:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69cab9be-d7f5-4ba4-f87b-08dd4b824e27
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|7092599003|15080799006|19110799003|5072599009|461199028|8060799006|6090799003|440099028|3412199025;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?noZCgk/z51vrGJiHbhCxVhKFllBP2juZVtOWfNx0U5n2b128TyoBwNryfPUx?=
+ =?us-ascii?Q?yUIz3xQQWHaNoU+tVCk7BG8qepg7mxWZzQGNKlckW4BxA/a312LWpjeOXbFm?=
+ =?us-ascii?Q?qtVQzbxGwejRs3Vzp9Qm5cO4ey6hUyjIf5U2TLsDO4yb2fll7VtbXMPt9Qjg?=
+ =?us-ascii?Q?6xGhk6Vl3zOVLtZCdzOZX/fTR+97iW7pWUFSpu5XAu2B6EEL0wOpbvhzP4oQ?=
+ =?us-ascii?Q?/7acCz3zqQSIogoeMPPt9U8TvzGCXKtFPt48RGBx4fRlkg+FUAfcl6ZoGsBe?=
+ =?us-ascii?Q?QHkCDC5pvuonvupkBeR1FwZu9W2uTUK6RFdVBODnf1P+ML2Bg5BKfcvkmMdV?=
+ =?us-ascii?Q?XiLfXjNhmAyBPV+H+Hkvy+96gpfoB7TAX4GZZn1s5zyeVpQFzB81aMipR6Kg?=
+ =?us-ascii?Q?C0eWhBd5sN2NgvQ+ISbsg1+KrBove/ztGGNy+4ZmHD57qiTZqrpriUaxLojT?=
+ =?us-ascii?Q?vY9ocnnpONFF6HTIJdwoSx/2DtYX4KU+S68uCggfXFue+asnO0F1OSj8NokO?=
+ =?us-ascii?Q?Da3sgdYIjNq4EfzY6ViGMzGul2MF6qrD4sFg2vmWD4mA/1RDYOi5fd+F95Fz?=
+ =?us-ascii?Q?Y6T+eO8h+pOPFfR4JxzxtTKGjhxXmeyC4I9PbFIx2kL4/MR6Z5NiYlPZlmDi?=
+ =?us-ascii?Q?/uT/rea29/h8lekYkhvjbvM1ZvWRvAJ1v9O4f6EmERhgOVP4fpHrS6S3wWv2?=
+ =?us-ascii?Q?z1fczJV43JNGmFu/CPCzS3DUAeCyjmo+9mW4vMX0tv4nRQcgBGkW+kQADhGM?=
+ =?us-ascii?Q?bX/YThnzRD02q2rmBVJ4tUSnfSedqlbo82X+WXqu9r936MxSJsEBP+9P7O/w?=
+ =?us-ascii?Q?L4dixhSjRiujvkknb8Txx0w6zkF/k78/4ZZLxUHL39jIgmTmc8T7xk+UmzCd?=
+ =?us-ascii?Q?8KWy1clxsOBoumwHkdYOsYPjXDkJCn1MnqRhXAwGm/U3J4N9zmqfdDRH76Zz?=
+ =?us-ascii?Q?HkdYHECBvRPJ44hRqDqV/l+jBspeXaDg8DIH0CBimhYjeONVPjbSLlCXeD3S?=
+ =?us-ascii?Q?FVrLD+i3T/5Gw5pCqobMbHX4Ft2lCOL3km7ybYapVRGrx/eEwbypacYnvhzY?=
+ =?us-ascii?Q?n65ybUfzMsIQ4E3NayCTWVSnHBGD5bjxoVCs/gQlze1elHAmZ1E=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?uQAgz6ni3bAVjOYn4MFT52VzXIgdau8BSC+wEJCAvvrupzNZ8MJWotFgFd1p?=
+ =?us-ascii?Q?Tra7VyIA4L8KThO7bBU4WNMZErSdh3ngr9aDwSI6Tu9MEwzfkRF4j9WBjlDz?=
+ =?us-ascii?Q?5gC2zAGBeYHMrxZYja5wlqITKmY0+nAkd4P9lWcTm2hQMpNKC2p9LY0qIRRL?=
+ =?us-ascii?Q?nZXyKVI1iEPMjFJG38ido9qb2im/e5Oj5xnIFD1w64F96ZVb0ADEEuNw5pgn?=
+ =?us-ascii?Q?fbUrtxYNmteioErhJBK0Lehm2/kNIn+YV+1yu7wNaXn0u2FFCAq0ocKDJzZa?=
+ =?us-ascii?Q?YjB69YEpNiYuxvceFjcsG7WQnRr+FlTEyKggze7IikuKiqlwGBJTr7nfPnLl?=
+ =?us-ascii?Q?lcyEy15TdwBfLqyIuoz4gfEKl7ZuONAGG1qh7B44VuTwRQUMmn3LqrIxANhA?=
+ =?us-ascii?Q?JaUAVGrTdFwW9oLR/GQF8wY/ecVvNiALV/CYX1ls/rnBDzLLGGRNdp9u5A8y?=
+ =?us-ascii?Q?QbgkQ0+Hpsb25/y4ilNo5K+M8wjQHnZnBOJtd3j/THMkk4VLLpjs6hn9/fYH?=
+ =?us-ascii?Q?0jh2bp51sUFSSJ3zeNOp2R7wTePlahOmhRuY11OKdIj06HEcoJaxkGFWoc09?=
+ =?us-ascii?Q?gu43fyfp5sWbBWxDz/Bj2FlTCXXQxuraXJTX70mqiZjQ5jWubs+xC845COP4?=
+ =?us-ascii?Q?IqJ34yOSnMBqVGASwXAeOsq3EaAwiYDh+XsxU74eG2Dg9aX7URJ0aZRzFVnS?=
+ =?us-ascii?Q?N5iMJrETgqrJr6mNHbvLRsEd6FXmZxeAUK3U2nZO7yx5x5+1m3nnGHiCQkAL?=
+ =?us-ascii?Q?KIkgqCMtIu9bsyco+cbp3SbfPyutOkiZtr07QSinFYVCEwA7C/m3yucAjFrL?=
+ =?us-ascii?Q?lrH6OuM6vgqEmMGv8eD8iQ1RwPNziuWYp9AwCRLv3W9UgLBE0MRRXAIfr+cK?=
+ =?us-ascii?Q?aNqC2A0Gq9GD0W/5XiQgTP8n826yVLAb8dk44U59NU00WcEH/Jv10nMG+f0n?=
+ =?us-ascii?Q?jQ8YZL1KaEHhPBESwAPof1dmXI0aJS7lrA1rRkVJf01bKo8PkL3qoGIea2Wy?=
+ =?us-ascii?Q?eIHBEWD7XsAgW1xgZL/RydcUha4qt0c6407O25AD+wtiXTI+6uXHeQv7n5K+?=
+ =?us-ascii?Q?ZOBTxpa58+E2az0P2rTo9UVBvROUFZgwD/uskgpd8ztGJYYFzfDei43ZK+Bi?=
+ =?us-ascii?Q?7w5roSNfkaa7w1/mIwa/EFEZmsqhKxNFTqQBqsmCXE8OaH+7qMCZMjxM4Teu?=
+ =?us-ascii?Q?ofBOkzgboS+ofPv8SfKIPQAqcGvy8vfXnDMwt1gBXmq0PcMwR3XsPqvKjzEN?=
+ =?us-ascii?Q?YjtUbIjAsXqWk/Yd+0q2Q5LIAUwHrhRgeWCezDlyBDqaUeNwqG3Y2Fn3RCH3?=
+ =?us-ascii?Q?XrI=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69cab9be-d7f5-4ba4-f87b-08dd4b824e27
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 16:28:38.9337
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P123MB7100
 
-On Mon, Feb 10, 2025 at 04:20:40PM -0400, Jason Gunthorpe wrote:
-> On Mon, Feb 10, 2025 at 08:27:34PM +0100, Krzysztof Kozlowski wrote:
-> > On 10/02/2025 20:15, Jason Gunthorpe wrote:
-> > > On Sun, Feb 09, 2025 at 09:50:37PM +0100, Krzysztof Kozlowski wrote:
-> > >>> Ah, neat, that would almost solve the problem but you wrote:
-> > >>>
-> > >>> +$id: http://devicetree.org/schemas/memblock/reserve_mem.yaml#
-> > >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > >>>
-> > >>> so no, this does not work like that. You use devicetree here namespace
-> > >>> and ignore its rules.
-> > >>
-> > >> ... and that obviously is barely parseable, so maybe one more try:
-> > >> "You use here devicetree namespace but ignore its rules."
-> > > 
-> > > It makes sense to me, there should be zero cross-over of the two
-> > > specs, KHO should be completely self defined and stand alone.
-> > > 
-> > > There is some documentation missing, I think. This yaml describes one
-> > > node type, but the entire overall structure of the fdt does not seem
-> > > to have documentation?
-> > 
-> > A lot of ABI is missing there and undocumented like: node name (which
-> > for every standard DT would be a NAK), few properties. This binding
-> > describes only subset while skipping all the rest and effectively
-> > introducing implied/undocumented ABI.
+On Tue, 11 Feb 2025, Lee Jones wrote:
+
+> On Sat, 01 Feb 2025, Manuel Fombuena wrote:
 > 
-> I agree, I think it can be easily adressed - the docs should have a
-> sample of the overal DT from the root node and yaml for each of the
-> blocks, laying out the purpose very much like the open dt spec..
+> > st1202_dt_init() calls devm_led_classdev_register_ext() before the
+> > internal data structures are properly setup, so the leds become visible
+> > to user space while being partially initialized, leading to a window
+> > where trying to access them causes a NULL pointer access.
+> 
+> If this is true, you need to provide a Fixes: tag and to Cc: Stable.
+>
+> Documentation/process/stable-kernel-rules.rst
+> 
 
-I'll update the docs with more details about overall structure and will
-make it clear that it's a different namespace.
- 
-> Jason
+Yes, some circumstances have to confluence but it is reproducible under 
+normal use. I can send panic logs if you want to see the details.
 
--- 
-Sincerely yours,
-Mike.
+Since this driver has been added in 6.14-rc1, I thought that, if applied,    
+this patch would be included in fixes before the final release and there 
+would be no need to apply it to -stable trees, as it is nowhere else at 
+the moment. But of course I will review the documentation and make changes as 
+suggested.
+
+-- Manuel Fombuena
