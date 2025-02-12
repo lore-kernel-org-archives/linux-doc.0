@@ -1,131 +1,98 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648552046BE
-	for <linux-doc@vger.kernel.org>; Wed, 12 Feb 2025 12:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C3120CCF5;
+	Wed, 12 Feb 2025 12:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739364827; cv=none; b=Ul1rylLPrUj20FdOkaaiZRI1jbmVinKIkl5nfIOMjlSJwv+51pyHiKVNcbG2lKBwZyug0IKu2xLQEOc5iRHxs0Vrqm96sUGwgwD4OGOq8Ugc5IMSy73GLscuMTVQdB7gnSSfQNQquCkzRkBDxEORDoKx+QhVqefpPq3cVxvpF+M=
+	t=1739365100; cv=none; b=At1IHgq7R16M8Jm4y7dHwYS6ZWxWRc3My/jtmhG5N8kDlTmrPR4GQ+n6QkTOnWjat3NtP/6W6WkzVeI8VxtWpIYI5eydGpp1yqnRZhWniBW4IMk1J1Kq/HwJqsbTMsYLX6vULPP0g2pqZpS1Wymgr+rf3AFwTmJL/nSPUU0Mokk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739364827; c=relaxed/simple;
-	bh=W4vUf1/0kFjyw3Paou9TarghzObDE/bTqGE1At5j+8c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=USjKwY6tGrq35qxqE9fWJkFVxw2v+XpHLHua3HloVo26PPQIxpk9b30dRtdzEch+fwhOuq/9v6pxzpyP4+H+sdQMTsOGOZBA79TgJCvrAF0EXd/JrhglOPDeHCnwC/ZR5NJ/OxXHg1ylC24qW2e/JK9jWGZj03tidMhBbuBje1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cjuzHfm3; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1739365100; c=relaxed/simple;
+	bh=+rUyy8CCsAX49LoyMo4QlyZTIfngKhPrGjoTwwC4T/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IwiesL5Qg9yxLF/KybMQcb7AMBL76/rOW+jnC2+dwYMrLrSw55v189nkfspgUZYA5JLxc2g19y0b9VihFE/05/75r8H5wJI1o/XHeXMxkZjSr2jm5I5UyikYKxQMDBgzajQGj5R9XUHLHDTtSHksGgM+WWpQtGI8qXMALLi10xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aYoHh9I8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cjuzHfm3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739364823;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=knzBHB+xibELoM9METHHEBNydWfuqJFvfie23B+AtL0=;
-	b=cjuzHfm3SjMhB1Pk4TTyKQks7GfhHpOjmCwhG922dLdbdR/FkT6UAgHo318kw50IYXyDE7
-	8eGN82ICNgxxdXqV1jH0QcjsfyJUvMZjFE1ljaItD80KGLAogPdWE4XjeYC1K8F18CzAOK
-	kb7Ccos9jc3NSyeIUJX9mf8TAgw89XA=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-361-xuOSMG3BM0GlmTzpuCgjMw-1; Wed, 12 Feb 2025 07:53:42 -0500
-X-MC-Unique: xuOSMG3BM0GlmTzpuCgjMw-1
-X-Mimecast-MFC-AGG-ID: xuOSMG3BM0GlmTzpuCgjMw
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c0784e9214so19806185a.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Feb 2025 04:53:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739364822; x=1739969622;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=knzBHB+xibELoM9METHHEBNydWfuqJFvfie23B+AtL0=;
-        b=aIy4osm51U0fSlGMDhCfHOuXAscjVoTdf40Ze2KmHdQGVDDv4J5TiPISlmBO7rlxih
-         4rhl+GZzvDt1tTTBw8Wx8IAxP3IWdUiO+WJTHhsJsCcMPRLZi1gIlG5E8Ft5I7q9h45n
-         sBijGdMFeY9u9eTu3y36zTdeLRSpmX/f0vYB2f8equPSVoLjzudfmcNpxknOfeMyT2SN
-         bZdkl1c8FlCe8lN+sh768GVWzHqy+1FLRGEpB+65s7OeTyMhPFqDXbkPHJE0gzWe0Vdt
-         n1JEfWvUebAnuMc4S7dwMWNBdyLJ5oAXmZ/gnqxrDGR0toHUltcpmaR3ORkumd/elplc
-         2uJg==
-X-Forwarded-Encrypted: i=1; AJvYcCXgP3n3CLc2JlfFiY2++PJ1YE85IIXB87tQDWJezGr6DE6xFHF54I92l4nvAd1FJK253EjoHL+L3Ds=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvInKtWXir57PF8sLf6AIyOGG958Ap1Nw1VQTBi1zhk0kPQaKp
-	qdksB0bh8mJq5T5Jyy+7w2hOKynYMf+S2IvwSFlak4tP7H7Tw91O0EAnBZs8kYCb95ok8hU2caO
-	T67ALtkDCY06oF8EITWcdg8ad6Kv7bYnAg9AeosD/slYV/AqtlJdfFwhK2A==
-X-Gm-Gg: ASbGncti/kD/BNLskSPgqTl2RdSR7YPxKbqW58My2oB/eszu2mw3ME58BHyqAt91Zzw
-	RJl8Z7FIA2bcmaq38qRvwOd0J7FkDZEAGSL6o13hEYqi3azLVhT6inMqa9MydIgovsfq+VnAxU9
-	Fa0vlYTNSdxKLpkq8cSMeExOGQHGLADbggqeJMeiYl/BuUMWQAacKf52SBdUPYgmJ9d574Co0x1
-	7B42q9kR1QJifWJ3qPC/ugy1w/gxSDWGT8MCkNVDbbHtxOnlj1aZwUwQQ5yeen+VvDJ9s+SF/kb
-	dJNt
-X-Received: by 2002:a05:620a:3950:b0:7c0:589b:2f3e with SMTP id af79cd13be357-7c06fc88adcmr407301585a.29.1739364822205;
-        Wed, 12 Feb 2025 04:53:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE7FcO8kuy6Gfi4rIlvRUBrNcSfOrvcVLper0drGWk6xj15NOdU6I+CCP8OX2xjc19cBs0qPg==
-X-Received: by 2002:a05:620a:3950:b0:7c0:589b:2f3e with SMTP id af79cd13be357-7c06fc88adcmr407299085a.29.1739364821922;
-        Wed, 12 Feb 2025 04:53:41 -0800 (PST)
-Received: from [10.26.1.94] ([66.187.232.136])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c07518e80fsm66396585a.26.2025.02.12.04.53.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2025 04:53:41 -0800 (PST)
-Message-ID: <1d2c943f-9521-4dc8-b798-06cbb84bb7dc@redhat.com>
-Date: Wed, 12 Feb 2025 07:53:40 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aYoHh9I8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC30EC4CEDF;
+	Wed, 12 Feb 2025 12:58:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739365099;
+	bh=+rUyy8CCsAX49LoyMo4QlyZTIfngKhPrGjoTwwC4T/4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aYoHh9I8hOFC/rd6q6DuWBa0ELk6Z7OMZH+d1Po86Hca4RmKPfp6Iy748FXUdyIlI
+	 tgH/3yl0mOAPAoIko670EqeX9y9i+3JZ/uI7ZsPHzcVNNFWCQ27UkVj53+bdt/O6h1
+	 tp2zNyvG6uiP3W6uc1ax8M6WidyQaPTSueZo4zk6WWNhXIYT0nyl+heT4KgnulLxOT
+	 VgWKUUVaGzBd9JgaNBnvjddPhhnrvtOVueKPNh9Ht9jYirxxZuEV9VqTmcHVbKcyW5
+	 ewHSt4dDIHHeiLGHQBiKMVEehzQ+s32Auf+U/HtB+/DzK1kpDbUrePlehroB/oTObM
+	 X96pQV4d2Rp4A==
+Date: Wed, 12 Feb 2025 13:58:08 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-kernel@vger.kernel.org, "David S. Miller"
+ <davem@davemloft.net>, Andreas Noever <andreas.noever@gmail.com>, Avadhut
+ Naik <avadhut.naik@amd.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Eric Dumazet <edumazet@google.com>, Hu Haowen
+ <2023002089@link.tyut.edu.cn>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Jamet <michael.jamet@intel.com>, Mika Westerberg
+ <mika.westerberg@linux.intel.com>, Paolo Abeni <pabeni@redhat.com>, Sean
+ Young <sean@mess.org>, Yanteng Si <si.yanteng@linux.dev>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Michael
+ Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>,
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>, James Morse <james.morse@arm.com>,
+ "Nysal Jan K.A" <nysal@linux.ibm.com>, Tom Lendacky
+ <thomas.lendacky@amd.com>, Sourabh Jain <sourabhjain@linux.ibm.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Frederic Barrat
+ <fbarrat@linux.ibm.com>, Andrew Donnellan <ajd@linux.ibm.com>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao
+ <naveen@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ workflows@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 0/9] Extend automarkup support for ABI symbols
+Message-ID: <20250212135808.58d2f032@foz.lan>
+In-Reply-To: <Z6yFG_NntQfkwYli@archie.me>
+References: <cover.1739254867.git.mchehab+huawei@kernel.org>
+	<Z6yFG_NntQfkwYli@archie.me>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] intel_idle: introduce 'no_native' module parameter
-To: dedekind1@gmail.com, kernel test robot <lkp@intel.com>,
- linux-pm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Len Brown <lenb@kernel.org>,
- Prarit Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250211132741.99944-1-darcari@redhat.com>
- <202502121732.P7lZkbhm-lkp@intel.com>
- <21e66060c13c6a3cc33592f71cb08975711a6adb.camel@gmail.com>
- <9416ee48-a68a-465e-85be-89d5a53afcd8@redhat.com>
- <b7ed8d0b07e82a637bfc8a3f4d592f0f15ba9688.camel@gmail.com>
-Content-Language: en-US
-From: David Arcari <darcari@redhat.com>
-In-Reply-To: <b7ed8d0b07e82a637bfc8a3f4d592f0f15ba9688.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Em Wed, 12 Feb 2025 18:25:15 +0700
+Bagas Sanjaya <bagasdotme@gmail.com> escreveu:
 
-
-On 2/12/25 7:46 AM, Artem Bityutskiy wrote:
-> On Wed, 2025-02-12 at 07:41 -0500, David Arcari wrote:
->> - #ifdef the code that doesn't compile
->> - default no_acpi=true in the !CONFIG_ACPI_PROCESSOR_CSTATE case
->>
->> I sort of like the second option better, but I worry about the
->> documentation.  Specifically:
->>
->> "In the case that ACPI is not configured these flags have no impact
->> +on functionality."
->>
->> I guess that is still true.
->>
->> Perhaps there is a better option.  What do you think?
+> On Tue, Feb 11, 2025 at 07:22:54AM +0100, Mauro Carvalho Chehab wrote:
+> > Now that ABI creates a python dictionary, use automarkup to create cross
+> > references for ABI symbols as well.   
 > 
-> I've not been involved into kernel that much for long time. In old days
-> sprinkling #ifdefs around was an anti-pattern. Most probably nowadays too. So
-> the second option sounds better to me.
-
-Another option would be to change the offending code to a function call:
-
-if (ignore_native()) {
-
-And have ignore_native() always return false when ACPI is not configured.
-
-And yes I should have built and tested the kernel with ACPI disabled. 
-My apologies.
-
-I will do that for v4.
-
--DA
-
+> I get three new warnings:
 > 
-> Artem.
-> 
+> WARNING: /sys/devices/system/cpu/cpuX/topology/physical_package_id is defined 2 times: /home/bagas/repo/linux-kernel/Documentation/ABI/stable/sysfs-devices-system-cpu:27; /home/bagas/repo/linux-kernel/Documentation/ABI/testing/sysfs-devices-system-cpu:70
+> WARNING: /sys/devices/system/cpu/cpuX/topology/ppin is defined 2 times: /home/bagas/repo/linux-kernel/Documentation/ABI/stable/sysfs-devices-system-cpu:89; /home/bagas/repo/linux-kernel/Documentation/ABI/testing/sysfs-devices-system-cpu:70
 
+Those two are new reports that get_abi.py detects after the recent changes.
+In the past, symbol duplication were detected only within the same group
+(testing, stable, ...). The new version can detect symbols that are
+duplicated on different parts of the ABI. In this specific case, the same
+symbols exist on both stable and testing.
+
+There is a fix for them already at:
+
+https://lore.kernel.org/linux-doc/673e9543783349b0fcf625018e38e4e93fe98f52.1738020236.git.mchehab+huawei@kernel.org/
+
+> WARNING: Documentation/ABI/testing/sysfs-class-cxl not found
+
+I need to double-check verify this one, as it didn't appear on
+my tests. Are you getting it against docs-next or linux-next?
+
+Thanks,
+Mauro
