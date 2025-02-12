@@ -1,151 +1,170 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31EB2B9BC;
-	Wed, 12 Feb 2025 08:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6279A205E24;
+	Wed, 12 Feb 2025 09:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739349267; cv=none; b=jHHVFg88O9bCY10gmkDdvlNrdGHe8QoZyuzK47S/hgW+2sOXAgzeB2SaIEjzXkrnCnf9hqHl0Hrf9nLJAB4KNzbApA7Pc17obIhJ2G+UQKSlS5J/7Cbe6enmlCR7vJ93nzLJdCZi4NUBdzszB1SDXRIivE5aZvj999PBSMbctvE=
+	t=1739352519; cv=none; b=rzEhl388prYzY1vlobBnHF973RnC4P1ICx5/+NgfyS/J3rEGhE1brJRRo+v6Y5ubBUAoNOyqghWrPTmNzjbNykfJRifUcLVHdC8+iTYB6mmbRlkV7v20msAqtSViXnpNEKw0HMO5lHcBTltxDrMQYvHrUTSiDKzlBlABDQ0NdjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739349267; c=relaxed/simple;
-	bh=oN4wDfG0GCXLZlEghGqHoPoOAn745GrM6wHHXMvRvNY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ixa90Nq/sdK0bYWIlnOnFjfBSJfFcPf8t/L2Rl8nuW7szbEdDMzoj/TqqLwjWgbxDzGYA4j6JQHrq0lbZHx+zbzbQ6GJg65WPjR6V75ONB9CgGGjda3mNEWko7zUNGwmlakhBrNp46QsCroCNXu6Zzs07D7c+dsiXQLQlRLbpBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=BPF300yc; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1739352519; c=relaxed/simple;
+	bh=gJpIK2N1oWtH5ADm/MDAKA+A5d3VUR0XUHUg0+3+Iq8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cm/maOLWhiUrT8Z5G8EESgTAu4bv5fU78zSE95LiURn7AJ2uwnBncBIHoGcXjn1fuujpDDlXREWzR2LDDqgdD3vb7z+AgzmQQPM1sBSF6Qbn5C0q1jiVADBhMm4b6zQFx0vuzKNeZYR1SnYf+ZznYQkMtbQcZ0ZN+qQfd9YfGF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IuL9uzUu; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="BPF300yc"
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51C8X7Gp2936430
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Wed, 12 Feb 2025 00:33:07 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51C8X7Gp2936430
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025011701; t=1739349193;
-	bh=Na/XKn5Mxm4koLwTUC27XoL6JofpQapGRJrJHnMbv3Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BPF300yctVWoLPyajY/1eckOE/YPyOmy73M8lcze7widDDtFsyVEEAA9T55Op/ncD
-	 bhdVuIouPtzCVpbex3DajbZqolsIGgogwFuIV59IakOpDzCHf61il3tCGTjCnMOxba
-	 NQRu5+qgd4RT0a0hjSz9uWDrmPtHoBKueR3fAJWbjE0iC04O6ogIfeRbixtxipR2pT
-	 5Y/Rf1EYtttg/sI7tBkpH1Iwm3ZNHm5Br8JaC37o1a0c2SWyVlzTAUqov5xX6Mkrbj
-	 F8yCB6ja+JO1GgcEhM9NvbesIveOtCXuLcDVTWpZuI5JKoNeFB4l22ksS4s5krIK+P
-	 KYkL8rbH+lzHg==
-Message-ID: <449bd407-0f54-47dc-bb3c-034e92a5145b@zytor.com>
-Date: Wed, 12 Feb 2025 00:33:06 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IuL9uzUu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739352517; x=1770888517;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gJpIK2N1oWtH5ADm/MDAKA+A5d3VUR0XUHUg0+3+Iq8=;
+  b=IuL9uzUuUH+8nCg77Sg+hb4u0zPJq0i75WfPFV7+3vTjA36JBLM6E2r7
+   COVfCO8AZAy/nBEW2BdZdQ2cANqf1xd0kyJ4L9SHb3b2fteeTL3z/kBuJ
+   ZDXsAo5JB2z9HTcXKedKREAJoqDZRODkxMGi658kJpuwIRZG0ssrzzMSh
+   NUFOmx0Zo6UJwm7Cm5ct7QEVauOWDYnlM0Kv4D/CI/gm9zvMo4pIR003L
+   zNISUcr3nZ2hFo5I0V4xwsAauVeySgJj8A0uFJkyHU1mCe/beLnxP5S+J
+   EJGYHw+uopBnByxvSQdYboJsh6TiN1/8C2vE/9Wo+1olxLO0EqyoqpETB
+   A==;
+X-CSE-ConnectionGUID: fTfQ6i8fRB+M9w9c4GvkYA==
+X-CSE-MsgGUID: 2zc2OsELS7Cz2/nAqIYjJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="43925758"
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
+   d="scan'208";a="43925758"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 01:28:36 -0800
+X-CSE-ConnectionGUID: uoFlp30lSuaGrdQz3fpcsg==
+X-CSE-MsgGUID: XLCudRqwS5uKdTV8jnwDsw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
+   d="scan'208";a="112526808"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 12 Feb 2025 01:28:32 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ti92j-0015R1-2F;
+	Wed, 12 Feb 2025 09:28:29 +0000
+Date: Wed, 12 Feb 2025 17:27:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
+	viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
+	corbet@lwn.net, linux-pm@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+	acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-tegra@vger.kernel.org, treding@nvidia.com,
+	jonathanh@nvidia.com, sashal@nvidia.com, vsethi@nvidia.com,
+	ksitaraman@nvidia.com, sanjayc@nvidia.com, bbasu@nvidia.com,
+	sumitg@nvidia.com
+Subject: Re: [Patch 5/5] cpufreq: CPPC: Add cppc_cpufreq_epp instance for
+ Autonomous mode
+Message-ID: <202502121734.xMnvqs6o-lkp@intel.com>
+References: <20250211103737.447704-6-sumitg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 10/23] x86/resctrl: Remove MSR reading of event
- configuration value
-To: babu.moger@amd.com, Reinette Chatre <reinette.chatre@intel.com>,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, tony.luck@intel.com,
-        peternewman@google.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
-        akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
-        xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
-        daniel.sneddon@linux.intel.com, jpoimboe@kernel.org,
-        perry.yuan@amd.com, sandipan.das@amd.com, kai.huang@intel.com,
-        xiaoyao.li@intel.com, seanjc@google.com, xin3.li@intel.com,
-        andrew.cooper3@citrix.com, ebiggers@google.com,
-        mario.limonciello@amd.com, james.morse@arm.com,
-        tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-        eranian@google.com
-References: <cover.1737577229.git.babu.moger@amd.com>
- <b4298186c0be8db76be4eb74e1d948fbe5c1de7d.1737577229.git.babu.moger@amd.com>
- <ead5a097-44f7-4eaa-8e98-08450b4d51f6@zytor.com>
- <ffb74a45-ca63-46a4-9047-d55c9f51375a@intel.com>
- <0fc8dbd4-07d8-40bd-8eec-402b48762807@zytor.com>
- <b09e5829-6192-47f0-aed4-93116c33f4a0@amd.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <b09e5829-6192-47f0-aed4-93116c33f4a0@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250211103737.447704-6-sumitg@nvidia.com>
 
-On 2/11/2025 11:44 AM, Moger, Babu wrote:
-> Hi Xin,
-> 
-> On 2/7/25 04:07, Xin Li wrote:
->> On 2/6/2025 8:17 AM, Reinette Chatre wrote:
->>>>> +    wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
->>>> This is the existing code, however it would be better to use wrmsrl()
->>>> when the higher 32-bit are all 0s:
->>>>
->>>>       wrmsrl(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config);
->>>>
->>> Could you please elaborate what makes this change better?
->>
->> In short, it takes one less argument, and doesn't pass an argument of 0.
->>
->> The longer story is that hpa and I are refactoring the MSR access APIs
->> to accommodate the immediate form of MSR access instructions.  And we
->> are not happy about that there are too many MSR access APIs and their
->> uses are *random*.  The native wrmsr() and wrmsrl() are essentially the
->> same and the only difference is that wrmsr() passes a 64-bit value to be
->> written into a MSR in *2* u32 arguments.  But we already have struct msr
->> defined in asm/shared/msr.h as:
->>      struct msr {
->>              union {
->>                      struct {
->>                              u32 l;
->>                              u32 h;
->>                      };
->>                      u64 q;
->>              };
->>      };
->>
->> it's more natural to do the same job with this data structure in most
->> cases.  And we want to remove wrmsr() and only keep wrmsrl(), thus a
->> developer won't have to figure out which one is better to use :-P.
->>
->> For that to happen, one cleanup is to replace wrmsr(msr, low, 0) with
->> wrmsrl(msr, low) (low is automatically converted to u64 from u32).
->>
->> However, I'm fine if Babu wants to keep it as-is.
-> 
-> Thanks for the explanation.  Changed it to use wrmsrl().
-> 
+Hi Sumit,
 
-You're welcome.  And thanks for making the change.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20250210]
+[cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge v6.14-rc2 v6.14-rc1 v6.13 linus/master v6.14-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/ACPI-CPPC-add-read-perf-ctrls-api-and-rename-few-existing/20250211-184154
+base:   next-20250210
+patch link:    https://lore.kernel.org/r/20250211103737.447704-6-sumitg%40nvidia.com
+patch subject: [Patch 5/5] cpufreq: CPPC: Add cppc_cpufreq_epp instance for Autonomous mode
+config: riscv-randconfig-001-20250212 (https://download.01.org/0day-ci/archive/20250212/202502121734.xMnvqs6o-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121734.xMnvqs6o-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502121734.xMnvqs6o-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/cpufreq/cppc_cpufreq.c:780:68: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     780 |         pr_debug("cpu%d, curr epp:%u, new epp:%u, curr mode:%u, new mode:%u\n",
+         |                                                                          ~^
+   include/linux/printk.h:631:30: note: expanded from macro 'pr_debug'
+     631 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                     ^~~
+   drivers/cpufreq/cppc_cpufreq.c:11:37: note: expanded from macro 'pr_fmt'
+      11 | #define pr_fmt(fmt)     "CPPC Cpufreq:" fmt
+         |                                         ^~~
+   include/linux/printk.h:135:11: note: expanded from macro 'no_printk'
+     135 |                 _printk(fmt, ##__VA_ARGS__);            \
+         |                         ^~~
+>> drivers/cpufreq/cppc_cpufreq.c:799:23: warning: unused variable 'cpu_data' [-Wunused-variable]
+     799 |         struct cppc_cpudata *cpu_data = policy->driver_data;
+         |                              ^~~~~~~~
+   drivers/cpufreq/cppc_cpufreq.c:1018:23: warning: unused variable 'cpu_data' [-Wunused-variable]
+    1018 |         struct cppc_cpudata *cpu_data;
+         |                              ^~~~~~~~
+>> drivers/cpufreq/cppc_cpufreq.c:1019:11: warning: unused variable 'pref' [-Wunused-variable]
+    1019 |         int cpu, pref, ret = 0;
+         |                  ^~~~
+   4 warnings generated.
+
+
+vim +780 drivers/cpufreq/cppc_cpufreq.c
+
+   773	
+   774	static int cppc_cpufreq_epp_update_auto_mode(struct cpufreq_policy *policy, int auto_sel, u32 epp)
+   775	{
+   776		struct cppc_cpudata *cpu_data = policy->driver_data;
+   777		int ret, curr_epp;
+   778	
+   779		curr_epp = cpu_data->perf_ctrls.energy_perf;
+ > 780		pr_debug("cpu%d, curr epp:%u, new epp:%u, curr mode:%u, new mode:%u\n",
+   781			 curr_epp, epp, cpu_data->perf_caps.auto_sel, auto_sel);
+   782	
+   783		/* set Performance preference as default */
+   784		cpu_data->perf_ctrls.energy_perf = epp;
+   785		ret = cppc_set_epp_perf(policy->cpu, &cpu_data->perf_ctrls, auto_sel);
+   786		if (ret < 0) {
+   787			pr_err("failed to set energy perf value (%d)\n", ret);
+   788			cpu_data->perf_ctrls.energy_perf = curr_epp;
+   789			return ret;
+   790		}
+   791		cpu_data->perf_caps.auto_sel = auto_sel;
+   792	
+   793		return ret;
+   794	}
+   795	
+   796	static int cppc_cpufreq_epp_update_perf(struct cpufreq_policy *policy, int auto_sel, u32 epp,
+   797						u32 highest_perf, u32 lowest_perf)
+   798	{
+ > 799		struct cppc_cpudata *cpu_data = policy->driver_data;
+   800		int ret;
+   801	
+   802		ret = cppc_cpufreq_epp_update_perf_ctrls(policy, highest_perf, lowest_perf);
+   803		if (ret)
+   804			return ret;
+   805	
+   806		ret = cppc_cpufreq_epp_update_auto_mode(policy, auto_sel, epp);
+   807		if (ret)
+   808			return ret;
+   809	
+   810		return ret;
+   811	}
+   812	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
