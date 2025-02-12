@@ -1,172 +1,149 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29EE2B9BC;
-	Wed, 12 Feb 2025 09:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FB22063C7;
+	Wed, 12 Feb 2025 10:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739352725; cv=none; b=d1XLIMsw7B+siI9dXHqG/erQCI1cUbE20fw4ljlbiUw287/L2HRBdGvmfzxm1bXK5s0KkG8+NC107n3DSnJJtzvI2zZf8VMawm0WFXNTDlU8R4/4/gMd4HFYAS29qLehsGVw7ImbuPCzghSENsfthySFpIqmv5eYLssSD5+bLzM=
+	t=1739354898; cv=none; b=E5ghCeSvqL+DSUPYQyjMZac67ZgfALff/AY876nWSM3+CifwQLAau/TjyAbHbrox9bcuepbNF9jtf5ilgiAxvdP2BrzkKvtTGONH8WkQ5bvVRkxmins9tk8C9NIvVvx3DL6bu5wTl8aVE8gspEUc8YG31bluEJtHkwOgGrbt1Z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739352725; c=relaxed/simple;
-	bh=9pTolNQ+XqJ4URq9Vk/Xw++m/9IEeXkG2WXe/BEl7xA=;
+	s=arc-20240116; t=1739354898; c=relaxed/simple;
+	bh=SZIYgUNCCnIL5V0seV/NEEb2Rim4jnuOX/CWoopZRZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jUUNhWxHwvdLoC86UjIVdQsVugkn1xYRqKOP3cNtspCI4CZ891gFAhUDrGT/8W90JiJL1x21nbmZHo2muYxJJrnoQPH1VgxPYod+dtC6EDt/N1J0AdTldqh/PwdkCWas+Vw/MgyG5LT3j325BDW7oV9cZ0vPuJcrKr253snisJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KjTfijJL; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fof96XvqUbqNxp9YyUhGZiZjMGhtPMgVSC75oMhoWVBOiKUXr520vw2Tt0Fa/uOO+DzqPyYFRE2TDu1V+SORxVbrFfhTtV/+i/bOVncNsobNmgyXC5uVD8HAEorhcBlAIcUkAH0cH8zlFN5W7qiyU6Cqm+j/USuRV5vBe3RsuHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BVr9syjr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KjTfijJL"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2fa1c093d6eso7947465a91.0;
-        Wed, 12 Feb 2025 01:32:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739352723; x=1739957523; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=V5DmmKO72SaGBOzQSc/JkhpJVRIV+UZwXCKdV/BgHww=;
-        b=KjTfijJL71BIHyDbzQxawS3ZL3weSZokIxQ3i7bvPeMjQUt4fz7diUYb51IbRZKNdy
-         5dT17zvU7nJkxLBv1Sic2a28jp3/xf1b/iHK+A5H3qgKZ25GM+I1pWvMx0gsX6QI9AVP
-         +WYZ2+nx8LxojgDs6CF5LSx0YjIEGqGPqumC48FA9B3EOHuz3pz7YtbAOsGdo6M+Uffg
-         fhLXZdd4d5u6iHtLFo7Bd3Cbrcv8LMUGFQuSlEYh4pK2h02VR6hsz6WILFH57uTfk6O6
-         Dp6a9SeXG8bUfH5nKvmrAs63YAWCbva4IDibKjMFqGmM5Pg3sqRduk8YUnBkjRg7RnfB
-         HtpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739352723; x=1739957523;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V5DmmKO72SaGBOzQSc/JkhpJVRIV+UZwXCKdV/BgHww=;
-        b=X3HK6EXHGmUDs+6xN+ZAin9h1PsF9j4YRWKWyyppy1PGwoH7xNS0R0r9We0Xe/Yks6
-         /9syJbuoA5z0mHjc9AjAaFEmbuELlQff6e0/1leIh9ry4THcG6dXQEQk5ZTRDQxAcRwa
-         pmTDrEuOddLfr6rI1Ch9ahy1DFzLjQXv0dlCTOLi13AC5XRvu4euYgRq/ozWQxv0vExw
-         PvGcWzBCt+YqszK9Rs422A6bNVsS2YlSopPUlTJJfmU3gHhTwdH/KGfSodVYZVW+PyjT
-         jLdRKUrpOd7l+DO75C3v+fTDdxO71pv22b+3cxDYKPEAxn9xWPqm7lf3FVhSA33j/uOe
-         3u+A==
-X-Forwarded-Encrypted: i=1; AJvYcCUAfxPNMBDITRcKiRiRaGMcFeAYGwIa/NA4JVEkFQvVHA1MJ4ZaBSPZKt6gT/tMuipOhnWBi/A1BG9S00i4@vger.kernel.org, AJvYcCUkezG5Y1aFc13AJl72BDw1wSI32WuGO43fXtALz12XKzWDXG1MKGcPZyQMK3D10CrbL6Y72WT2@vger.kernel.org, AJvYcCW5MTxGol+6uOBxInmevJuOIZ11TYO9YgCUizDLWYT0uct1I8S2uOn9g+Z2o7XfO/qSwv5Tn67ovpU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfDPRvJ/4BaObC/jA0dK4bJPAPj3Z/O4jeKwj7HEhow5JO5bik
-	IPZ9qWZN+yNP+LCj6HiFLBLxOlMzu6sc06sZmivuSLgXVzXgn1mi
-X-Gm-Gg: ASbGncve0sPLUK9V0uF76+iQ650VMHvfG517jj0/lJVWL/IISdwt1Zhbsbigv+gxQ39
-	6kbUJ0uFcJgYHevec8nXMQFi5beXnoYnr+sVv9Qp/fYbWKPP+OPxBXK/qnhvSTMJtij+A3y43Ju
-	/FyISpiFPFCxRHoD52ryLsFGbFfZ+8wnrDxy85wWWS+Lj1HSKGld6gNLsq4WiurW2lDUW65ohWf
-	oj7IIyYp2y4FPXx/GX1MXZMN3cOsbreq7QDOkn3Hxft6a4/JzeqklygXTD+aoB5cjTCXnJdOwnl
-	kSNRg9nmfxf8o+M=
-X-Google-Smtp-Source: AGHT+IHmRC7uaZIrF/FOX0ISVnivbMGm9aw43E3iyh18+4pTXlXSwaj4w0wma18l2IjmXtm4CB974w==
-X-Received: by 2002:a17:90b:4c04:b0:2f2:a796:26b with SMTP id 98e67ed59e1d1-2fbf5bc07famr3593478a91.1.1739352722791;
-        Wed, 12 Feb 2025 01:32:02 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fbf98b79easm1020925a91.14.2025.02.12.01.32.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 01:32:01 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id B1DE741F5559; Wed, 12 Feb 2025 16:31:54 +0700 (WIB)
-Date: Wed, 12 Feb 2025 16:31:54 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org
-Cc: kuba@kernel.org, rdunlap@infradead.org, ahmed.zaki@intel.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next v2] documentation: networking: Add NAPI config
-Message-ID: <Z6xqipobYH_Ood7A@archie.me>
-References: <CALALjgz_jtONSFLAhOTYFcfL2-UwDct9AxhaT4BFGOnnt2UF8A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BVr9syjr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AAACC4CEDF;
+	Wed, 12 Feb 2025 10:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739354896;
+	bh=SZIYgUNCCnIL5V0seV/NEEb2Rim4jnuOX/CWoopZRZo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BVr9syjrufyTLY9xamchuxaxhtBwatQn4E5nLYGo3FDTekqf1z2gkJHayWmn9KZaJ
+	 bNmP+QFDQx2oinhW1Bj8Zj+b3YdHej+ggMUb99OkAqJ08Cn0ZnMEiP6iW06TKEJA7k
+	 HutHsQ865WyPlyj253gDAw15bF0gKSH/wal3TwAhWjNPV2Hm3BDwBeNpRHvvk/6isx
+	 IpAoIPlguCWJeEc7sJKvTz3WzPGkRV8tk5fZJD2h8DBGZFpfQp1qNbsZNRmZjIVSQ0
+	 SyZuGYTItv+KchRHitB/qEwzMHf8LMQ/7DlPxayOqcbKZ3+Oas2iu2Jhda2oPHr+y0
+	 agQ0hJJV4eLlw==
+Date: Wed, 12 Feb 2025 11:08:14 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	Paul Kocialkowski <contact@paulk.fr>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
+ bridges
+Message-ID: <20250212-petite-persimmon-termite-c0bce2@houat>
+References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
+ <20250206-hotplug-drm-bridge-v6-14-9d6f2c9c3058@bootlin.com>
+ <20250207-ingenious-daffodil-dugong-51be57@houat>
+ <ucttjaf3trkgtpvhnsj7xfsybhnoi4qqow5ucwghlggivbagy7@gngjhbtu73lb>
+ <20250210181244.0e3e9189@booty>
+ <qnuskv4mln32nqgbgvwi2qcdwfma6tqfbq7e6sqb3za6pmms2j@ir7pt5634dsh>
+ <20250211-venomous-dragon-of-competition-d76bf9@houat>
+ <i5q5zuymhn6sy4nou22zxbolztqbq6soef2cwrdq3ey63vfugj@z3rv7zh7xhle>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cF2FwkLKTADE1R5c"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="c2fwd2zsskly2q4c"
 Content-Disposition: inline
-In-Reply-To: <CALALjgz_jtONSFLAhOTYFcfL2-UwDct9AxhaT4BFGOnnt2UF8A@mail.gmail.com>
+In-Reply-To: <i5q5zuymhn6sy4nou22zxbolztqbq6soef2cwrdq3ey63vfugj@z3rv7zh7xhle>
 
 
---cF2FwkLKTADE1R5c
-Content-Type: text/plain; charset=utf-8
+--c2fwd2zsskly2q4c
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
+ bridges
+MIME-Version: 1.0
 
-On Tue, Feb 11, 2025 at 08:06:03PM +0000, Joe Damato wrote:
-> diff --git a/Documentation/networking/napi.rst
-> b/Documentation/networking/napi.rst
-> index f970a2be271a..d0e3953cae6a 100644
-> --- a/Documentation/networking/napi.rst
-> +++ b/Documentation/networking/napi.rst
-> @@ -171,12 +171,43 @@ a channel as an IRQ/NAPI which services queues
-> of a given type. For example,
->  a configuration of 1 ``rx``, 1 ``tx`` and 1 ``combined`` channel is expe=
-cted
->  to utilize 3 interrupts, 2 Rx and 2 Tx queues.
+On Wed, Feb 12, 2025 at 02:55:10AM +0200, Dmitry Baryshkov wrote:
+> On Tue, Feb 11, 2025 at 09:48:31AM +0100, Maxime Ripard wrote:
+> > On Tue, Feb 11, 2025 at 01:14:28AM +0200, Dmitry Baryshkov wrote:
+> > > On Mon, Feb 10, 2025 at 06:12:44PM +0100, Luca Ceresoli wrote:
+> > > > Hi Maxime, Dmitry
+> > > >=20
+> > > > On Fri, 7 Feb 2025 21:54:06 +0200
+> > > > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> > > >=20
+> > > > > > > +/* Internal function (for refcounted bridges) */
+> > > > > > > +void __drm_bridge_free(struct kref *kref)
+> > > > > > > +{
+> > > > > > > +	struct drm_bridge *bridge =3D container_of(kref, struct drm=
+_bridge, refcount);
+> > > > > > > +	void *container =3D ((void *)bridge) - bridge->container_of=
+fset;
+> > > > > > > +
+> > > > > > > +	DRM_DEBUG("bridge=3D%p, container=3D%p FREE\n", bridge, con=
+tainer); =20
+> > > > > >=20
+> > > > > > Pointers are not really useful to track here, since they are ob=
+fuscated
+> > > > > > most of the time. Using the bridge device name would probably b=
+e better
+> > > > > > (or removing the SHOUTING DEBUG entirely :)) =20
+> > > > >=20
+> > > > > bridge device name or bridge funcs (I opted for the latter for the
+> > > > > debugfs file)
+> > > >=20
+> > > > These DRM_DEBUG()s proved extremely useful exactly because of the
+> > > > pointer. This is because when using hotplug one normally has the sa=
+me
+> > > > device added and removed multiple times, and so the device name or
+> > > > bridge funcs is always the same, preventing from understanding which
+> > > > instance is leaking, or being freed, get, put, etc.
+> > > >=20
+> > > > Do you think this is a sufficient motivation to keep it?
+> > >=20
+> > > Then it should be something like %px. I found that %p is mangled.
+> > > What about having both device name _and_ a pointer?
+> >=20
+> > No, %px must not be used there. %p is mangled but should be consistent
+> > across calls. But yeah, it's kind of the reason I suggested to use the
+> > bridge device name instead.
 >=20
-> +Persistent NAPI config
-> +----------------------
-> +
-> +Drivers often allocate and free NAPI instances dynamically. This leads t=
-o loss
-> +of NAPI-related user configuration each time NAPI instances are realloca=
-ted.
-> +The netif_napi_add_config() API prevents this loss of configuration by
-> +associating each NAPI instance with a persistent NAPI configuration base=
-d on
-> +a driver defined index value, like a queue number.
-> +
-> +Using this API allows for persistent NAPI IDs (among other settings), wh=
-ich can
-> +be beneficial to userspace programs using ``SO_INCOMING_NAPI_ID``. See t=
-he
-> +sections below for other NAPI configuration settings.
-> +
-> +Drivers should try to use netif_napi_add_config() whenever possible.
-> +
->  User API
->  =3D=3D=3D=3D=3D=3D=3D=3D
->=20
->  User interactions with NAPI depend on NAPI instance ID. The instance IDs
->  are only visible to the user thru the ``SO_INCOMING_NAPI_ID`` socket opt=
-ion.
-> -It's not currently possible to query IDs used by a given device.
-> +
-> +Users can query NAPI IDs for a device or device queue using netlink. Thi=
-s can
-> +be done programmatically in a user application or by using a script incl=
-uded in
-> +the kernel source tree: ``tools/net/ynl/pyynl/cli.py``.
-> +
-> +For example, using the script to dump all of the queues for a device (wh=
-ich
-> +will reveal each queue's NAPI ID):
-> +
-> +.. code-block:: bash
-> +
-> +   $ kernel-source/tools/net/ynl/pyynl/cli.py \
-> +             --spec Documentation/netlink/specs/netdev.yaml \
-> +             --dump queue-get \
-> +             --json=3D'{"ifindex": 2}'
-> +
-> +See ``Documentation/netlink/specs/netdev.yaml`` for more details on
-> +available operations and attributes.
->=20
->  Software IRQ coalescing
->  -----------------------
->=20
+> Then we need to extend struct drm_bridge with struct device *dev (which
+> I would appreciate, it will solve whole hdmi_audio_dev / CEC device /
+> etc story).
 
-Looks good, thanks!
+Let's not get carried away and start yet another side discussion here.
+Most of these log messages need to be reworked anyway, so I'm sure we
+can find something that wouldn't require yet another rework to argue
+about.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Maxime
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---cF2FwkLKTADE1R5c
+--c2fwd2zsskly2q4c
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6xqgQAKCRD2uYlJVVFO
-o81lAP4z/yUAyaOjOOztxdyySiDTD32H5qQDDqSlytkoDtTUjAD9HiD25Uc/PYP3
-amQcPLgp9Og74lJ41fy+4Yw+Lil98ww=
-=e5TW
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6xzDQAKCRAnX84Zoj2+
+dkT0AYCkUL7FAvh7cyVAWf35anla6gaIPKKt7fnIaZU+CIoMLp/xlH2vfqItsVOF
+V6M0p+4BgJd7VNGXdmw73nQmuc5U6UM6/Rn1xP94EajbmmZyjqxzR+xwsOjC0P2J
+qhJjJSwQoQ==
+=IEWS
 -----END PGP SIGNATURE-----
 
---cF2FwkLKTADE1R5c--
+--c2fwd2zsskly2q4c--
