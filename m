@@ -1,68 +1,111 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2083.outbound.protection.outlook.com [40.107.92.83])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C641E3DED;
-	Wed, 12 Feb 2025 23:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA051EF0B9;
+	Wed, 12 Feb 2025 23:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739402833; cv=fail; b=S9dS9kd+h2iVxiAvJUHEyA+HRVX/JhXbjsV54/CQfWur9uSNGc0LMsexTW5ycyOi5XEMpDaLuvwI09YZdjPgnORIKM2vLN8l9csVrqvZPQm7LiN5tTVnbIFpPFeOs1vSJRoHTEGsNjfGTeeJWMjkDPxAhgVcbQiKeVQk2pK+TFc=
+	t=1739403256; cv=fail; b=cUXFddt7NlaOTJXI/70FEJyvU9fKKhrZrTBk4JnoNgWbo+rFBX6BlwSaEQczywQiMZApOIWgmT2ApbKJI7e10OEsF3VyfnnnHEwmM7F+Hc86FncMdBk5LQVV1SPmmhPyHK6SzbYWLB18O30Bs2kYVzWnHweN7AGx8z0WlEn6sQk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739402833; c=relaxed/simple;
-	bh=yWDwnnP0ijbt2bEeIQQid3tG23MGNWL0RHr7QXOnkpU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=BEINvdCvUd8F+TFHqVIeuSyg1Sq+FampQkaUQDIYv9h28fXGi+AB6aBrkcJ8zTbui/LUiHgC5P8D/QAnzI3DkHbeYbzpUVvj/T2UmqzeuggwyZrY3fsTnALFfT6bqwTO8IoPc2Z79TpBNOzAGSFlD0V8p+POr6ViX8XvzujdueQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ffQN1dD3; arc=fail smtp.client-ip=40.107.92.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1739403256; c=relaxed/simple;
+	bh=Unk3/2GcJXC0xDVMTCfZH0xvWNWdZ1dnFBp0wfTgWZ8=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=bF5NYI6Ydk0ruT9XHkc7urSm12/sgvy2ntxLzptxdQOIeyGE0m6Fjr1/Ul+skKYVQYCXUFsjdrBWPxhQFKtSTMeWULi9eJHnWgBsPzG6yOxSRLRgy6PTWpN0p7nMum4V0bifMU+zYVkfOdGR0uJWyBnI08ZDbTbTWi/JpaMMTJI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VbixEkyO; arc=fail smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ffQN1dD3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbixEkyO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739403254; x=1770939254;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Unk3/2GcJXC0xDVMTCfZH0xvWNWdZ1dnFBp0wfTgWZ8=;
+  b=VbixEkyO1IWkEOpWgjTDk/YMVGv7AuhQUq0DRX+zf6KmJfmw5EPbg0bC
+   2HAwz10bGOTmqWL7S1LeTQgVa302WvHiSJ/zc0Fgo/MV3exwTK26eSDDS
+   HM8e8MiN/r8E5xGj8y32Gbq7YD5FVvNOHVgbvXzLow77//9YgyIHd8Ww3
+   R2dXreX6tIK3OOrwdPH08fJxidJ3vfLr6Y8l2USBLyzZ1d8i1WgX7PeMY
+   97HeGeVKwpB/dGZ015uHwo/XbJ+ttqbD7QFE9JZ4+45IrWH1okrIrJipx
+   OhtucCwvy2eF3SGdrJIn5RNfvo2vOIErJarRhdN4PR/H1/oHi2UcizZ5p
+   A==;
+X-CSE-ConnectionGUID: q1kiztFuTBeNHpMPYcb6Xg==
+X-CSE-MsgGUID: tm+P7AL9Tqebo768Nc50HA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="39965170"
+X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; 
+   d="scan'208";a="39965170"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 15:34:13 -0800
+X-CSE-ConnectionGUID: apvGeP0HQDGkqimakeZV4g==
+X-CSE-MsgGUID: NlCX4lTDQt+S+7YRV3NLWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; 
+   d="scan'208";a="117974731"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Feb 2025 15:34:13 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Wed, 12 Feb 2025 15:34:13 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Wed, 12 Feb 2025 15:34:13 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.46) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 12 Feb 2025 15:34:12 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vcqlawlN2GB9w0yr7sZuxTCIJze7qHZJCFSHcQaI29dTe6s4rzkRvDHBCrk3BpAW4ABa9Pl6T8KzYhiQtlxS0CqR3j9nU5MiTpVTkwA7B4Uj2yeeooaWatxTxTkeTicm/MJ11dV5h+3Al0Wrf9zfEVAavX7pcb4p8/AG36XS/MCF9QSeDl63tJvCoJlu1sCDvr/GG9L0Kqz+Jg7+4vwXTOEGUumc2X4zWgNU+pwpKICgG/aIxmNL9WrEg+ICPu3t9T88h/WHAUy5xBhqXN8enguETjZm8kBZTcFhA4hVzEnSa3plbrPIkEcxT3jCyCOnNG6MFlzq33szEP9/LW2eZA==
+ b=HcUnpPpgZuGWvecK8GuW5DHMv70jR4LFHRIHjU7CmVLsjt4xW1PgQPUfiQv6Q0jg8B6R+VI6+pShsqMdQFE1CvgqIR5FzctVSeLjP3KjPRKTrKbaaGDSfK2OR23DHOjVbYCKSzwScZCiWlBwaWGgEna370vG5yxrCf///sBMrm2ydPp5mSX1wh91tD9phFUmAd/WXyC0yW/GrunsQGrU1XVV+7nFWPP6DrNVij5+YkJxJZ6uTAKYjTTl/7CWB3bG67SM0M1/rcL1GHgVJVxOOoNQBPR97G4rm1pCoj/1faDkUu3GGTyocP81Ijjt3uOP53ZowquZDNyy76DZu4HUNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HGlbJQYDNTixszmPwhf3NFyiMcRfvDKUXvIoiwpKqF4=;
- b=MD1lIp7l/rIMyDwMEFpn+4BvT35e2kcnO6G1FTg40ErqD5wrx79Y0BeOlxPWm7cmN0pcZ761B+X/trP6xEokkne278rs4l5uEPOrVbNncZVJZSQHGICEb8FHLnCOdL/SL2PQcbzAHWVDd1rH6UeaCAt/bl3Z0F9aNAEpG/aYl3FRGz26M2J6M7UprHk6+pvAigl4kZEOa1qCL1LDv1lxRkxS5ywbtcXxHDxUW72jdmQVeO1WXGZLcfsauetuNR7x5xR89Zpa9e/uIHXP5f4W8ycgIJNpcYY0rbKBAqc92eRhT/frIR9PWwyiVqTn5cGO8GIBQ17qlrKviO7W8Mg8dw==
+ bh=rFYPd+TxhxAd7BjIqDjl0AAEFeY1Ho3e05RlwoUuud8=;
+ b=WIFnuby6WO7nQOwryuH8M5qxstsAnQvLy3eFY9ksstE6sRUDKBsxHBPqUbDbfKA83sk7l484JXEoFnVJPpUAHMPs3oXR1JNuYK97LtBTZ6gxgthzvAyfpuSC9z1Sr8/mPgEHppvBceLPtzAa+X1Nr7szfHOXzbBy5ry6GILrlEOSj1TXqkQ36lFVtc8rEpjWDw7Ek0QfOmnppybkZfzuYSQTYG/YrW+Vq8t87iej+4doJQsNgPwFh8z7dy2N9UbWTzkb2icFVrJvtJYav+Kee0POFAr08QzA/r1r8OuevTDINCT8Fj0M8E823URg+mimXK74CRTOaZehBCbDiXtVlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HGlbJQYDNTixszmPwhf3NFyiMcRfvDKUXvIoiwpKqF4=;
- b=ffQN1dD3HYJQH7917O6x7O8npCdikGN8t7j6rTgxcwr+8aO66AVM5aasqOQJoIiCNUYtAa+FCt/41h5CZ+jmlispcIK4dk5H5gm6dfza4XBeb1SQtNDMtJaqE+p+MbEu2rStwZqQmVhvf0T5sgxhkzbdAZpMlMzcqzC6bDgWRob5sbU7SGlWZrdWD6a4btirfITtoqyNP3/i+ED2wGkk1ibdMj8GlJTWpawZle7Bbqvo01NEtQB67c8whthFZUwCbkFsUkeOBVhI83RTe9bPNWoEbR7qSTroEoY1IlR/8x+nneqwubX9ipd4xo7UnAPxmo3hN9kNEwyXJgx2/zeUyQ==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CY8PR12MB7705.namprd12.prod.outlook.com (2603:10b6:930:84::9)
- by DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SA0PR11MB4653.namprd11.prod.outlook.com (2603:10b6:806:94::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.13; Wed, 12 Feb
- 2025 23:27:07 +0000
-Received: from CY8PR12MB7705.namprd12.prod.outlook.com
- ([fe80::4b06:5351:3db4:95f6]) by CY8PR12MB7705.namprd12.prod.outlook.com
- ([fe80::4b06:5351:3db4:95f6%5]) with mapi id 15.20.8445.013; Wed, 12 Feb 2025
- 23:27:07 +0000
-Date: Thu, 13 Feb 2025 10:27:01 +1100
-From: Alistair Popple <apopple@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, ajanulgu@redhat.com, 
-	lyude@redhat.com, pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com, 
-	jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com, ojeda@kernel.org, 
-	alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
-	benno.lossin@proton.me, a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] gpu: nova-core: add initial documentation
-Message-ID: <xaj6mg4rgm5teesapw5d2npkr3oagaon5baqiplhzjag2fwv2j@kscfzjg3cfbv>
-References: <20250209173048.17398-1-dakr@kernel.org>
- <20250209173048.17398-2-dakr@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250209173048.17398-2-dakr@kernel.org>
-X-ClientProxiedBy: SY8PR01CA0006.ausprd01.prod.outlook.com
- (2603:10c6:10:29c::31) To CY8PR12MB7705.namprd12.prod.outlook.com
- (2603:10b6:930:84::9)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.11; Wed, 12 Feb
+ 2025 23:33:35 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.8422.015; Wed, 12 Feb 2025
+ 23:33:34 +0000
+Message-ID: <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
+Date: Wed, 12 Feb 2025 15:33:31 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: Dave Martin <Dave.Martin@arm.com>, Babu Moger <babu.moger@amd.com>,
+	<peternewman@google.com>
+CC: <corbet@lwn.net>, <tglx@linutronix.de>, <mingo@redhat.com>,
+	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <tony.luck@intel.com>,
+	<fenghua.yu@intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<paulmck@kernel.org>, <akpm@linux-foundation.org>, <thuth@redhat.com>,
+	<rostedt@goodmis.org>, <xiongwei.song@windriver.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <daniel.sneddon@linux.intel.com>,
+	<jpoimboe@kernel.org>, <perry.yuan@amd.com>, <sandipan.das@amd.com>,
+	<kai.huang@intel.com>, <xiaoyao.li@intel.com>, <seanjc@google.com>,
+	<xin3.li@intel.com>, <andrew.cooper3@citrix.com>, <ebiggers@google.com>,
+	<mario.limonciello@amd.com>, <james.morse@arm.com>,
+	<tan.shaopeng@fujitsu.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <maciej.wieczor-retman@intel.com>,
+	<eranian@google.com>
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <Z6zeXby8ajh0ax6i@e133380.arm.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <Z6zeXby8ajh0ax6i@e133380.arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW3PR06CA0009.namprd06.prod.outlook.com
+ (2603:10b6:303:2a::14) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,642 +113,318 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY8PR12MB7705:EE_|DS7PR12MB9473:EE_
-X-MS-Office365-Filtering-Correlation-Id: dfbdb689-828c-44ec-9f0b-08dd4bbcc3d7
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA0PR11MB4653:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3157fb15-e1cc-4b54-6fdb-08dd4bbdaadb
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?GMGkix6/3YZI1I7gtY94CFa31PR/0KVEBLMbD0JPYkH00BS1/tSeNBzRxUB8?=
- =?us-ascii?Q?xN59cDO7J6gD+7XUZS3KW6wA1Zh4fqKBKe4yPPT5BI7GqZdRFbt7p43Cq+ua?=
- =?us-ascii?Q?Bvi3Onm4v5Kd8FU0bwNzddzR0L+H9/gj/w6uI4Jg09j2NUvKhIrHFQ416Yaw?=
- =?us-ascii?Q?Dd9WhdW8/aWc/kBOX/AqZzgSjIeURb6gXoytLCxh8GxZFSgW/P9YFFCf/Sk9?=
- =?us-ascii?Q?3fUcwPoDXXJQIO86limrsJcBNqGia7uMrKKQcUy/8PJeZX+Bqkb8WpQ5dPwf?=
- =?us-ascii?Q?xCLbp94zOnJ9H/opGIfWXLjPlpw7J5E9ISrgDezrE9rMKlhnGyysfvwIZ3wx?=
- =?us-ascii?Q?NjTsdzMbKmGXfrOLvN56YjesrzFNQcul1YT0Bu84uSvUtWzbgl9kG16HNBQB?=
- =?us-ascii?Q?HjEWvbt5HS86tKHJCpORzG7eaxLc5JnIT3YcjnTE4B7u6CIYqv9/pzWMWSZm?=
- =?us-ascii?Q?/BmG3ffLolhykT1EoGpGMTrmayhJrjTaDg0Dq3zPqHEIQelQ5rvu57ePva5G?=
- =?us-ascii?Q?hbOt6Ivf79FKE/w+iUJJveSqXeQp9nz1P56P/3wVnVKTXuspDuCUh+KwLMoF?=
- =?us-ascii?Q?itxvvp03T3CMM1KdFVZAbcn5rzBN6ysdBR+w4373xP3Ba59ciF61g1vQe2nJ?=
- =?us-ascii?Q?ih/g0VbL3VXGzY8PMRsS5NaLurVc9ggrVVYgTGpA33BmxzZ1migC2EUCge7t?=
- =?us-ascii?Q?/udDk7Egm6w/NZqsBcgzOvuf7JHm0I591uuZK0EhiIEJQl2Hw44s20jn7AVj?=
- =?us-ascii?Q?A9cu5c+9IHLTU/yJOEeoyg+2P3R9BhdWcVNxEi2oUahj7iTQTolYorLp9sLW?=
- =?us-ascii?Q?B5MQ8xxYcgYZMFeqbpgfWYIWOPTkmO4kXaMOe2NVbpV0AIoMjzj4lpTzWDSQ?=
- =?us-ascii?Q?6Az7wcY068sZ7ywOM6xAVAMtdJC2ofcWPYkG4b/CNvWCY3Qrhy5eDqW0x5+9?=
- =?us-ascii?Q?Om/OeMrAXQb5iXeugMPG+JGZZ62mgaSUtetUPeJQQHK2EmrR2iK2gIDGLFTf?=
- =?us-ascii?Q?MO7YTF5qyOAhAVJUQIE0aiMZjG4GGAyPTkbRjA8fOACMpSqQVh4fQoyEj69q?=
- =?us-ascii?Q?X6K9M1pYKLpio4sTl6AYckeT9VsHm78XB6qkqVLbjCm1r1PYfQYuC0Gql57+?=
- =?us-ascii?Q?nhyKMiEghUbTvjiPJ2tl7yfdyT/Lm1N9zz5CWVjfNDixZZNocIjee2DBujwx?=
- =?us-ascii?Q?9GnYyw0N8RDSafnj/2mHBe29mCPjqECYYZ7wbO5ZW0gmxgI2avkgH+GbUNRe?=
- =?us-ascii?Q?yFMReqc9SrlEZez+9UnVMO0ydHaFi7V1DYRvJQVTcWEcQDTvpa+TGhVlor8S?=
- =?us-ascii?Q?2zttp1COj8I8VOG7IzxK5/NM/y/6K+aQDBU6QsggEZcZxjaFywMOuIoayXdS?=
- =?us-ascii?Q?ZR9BcxQOoS4d9dZIQOmO8LIxJtV/?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR12MB7705.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|13003099007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?c3hBd1BrQ3pSTGFwZWdtQmhydWNOd3daakZ2elVoakVaWVlLYmdOTytTS2Jo?=
+ =?utf-8?B?L2JvQ0pXTFFtalo0WlBtM3YxNi94VTZTb2tkeTV4b09VTUthNnd4TlBxc1E1?=
+ =?utf-8?B?MTd1UXc0c0kzVjh4NG15Vmdkbjg0bHFZWjFPNUZXb2dmU0ZsMW92QlV6WUlW?=
+ =?utf-8?B?L3JQRXpMWGtzN1BIT3JCaDNjWExqOEFLRzU1bjFQYTRRdThuMnRKd3F0dzVN?=
+ =?utf-8?B?ajRqSXgwRkkrUkZOUDJJUE9iM24rTWd2Z3IvTFZreHFEY3ZQOGo2eXRrRTlx?=
+ =?utf-8?B?LzREOUtSMXkvZHRJTGd0WlFzdG0zQVZkOFdtZnRpNXZKcUY4Z0JVdlgvMjhG?=
+ =?utf-8?B?Zm5ENElTaHFBa2ZTb0JHbU9BUmEzRU5aWnVmUlM4VE82Z1VRVTZ2Q214ZUdu?=
+ =?utf-8?B?SkVTbVhUTWdFc0ZkRWR2Z25SNlJGSlZSc2JaUzlITUV6S1JxNStuekFlY09Q?=
+ =?utf-8?B?TDVUU1FqNHptOVl4ZW8xeTdUNzlTbStlVFJXTldFQTVManJsd2VETHNxSnNz?=
+ =?utf-8?B?TWpsRXMyeGNFeGNiSjNWOW9iMGsrNGZseTZmWDFhM3ZDR0x6eE5LS04wcGk5?=
+ =?utf-8?B?WnhWVXJOdnFpckF6YXlVZUQ4RGdKRGYxRy9FbXRjQXkyUldLcmtDYVp3NFhq?=
+ =?utf-8?B?eGxsUjRqZnZDZGVqV01NOU9EUE5NQXV2K1V1UmJrNnA1VjdFVXduWkZtNjBS?=
+ =?utf-8?B?NlVsd1dndU9zOFhmQTVKM0tXczE4ZVdGWEVYUHZkb0hQdHVCQ1dwZ0hiS3B5?=
+ =?utf-8?B?cTdBdGlBNnhnVzZqREVrMG9IcGwybGlRODJUOURYK0tJMmZBMWtuL2p1Y05w?=
+ =?utf-8?B?VHRzY3VGSTNrVVJxbUNOaGlQaTlXRjh1UmdESXR6Qkp2a0FKeWExamZ6Mnlo?=
+ =?utf-8?B?SHdjVGZMSk90RitDZEhWYzNTeXhWcDNiM0pGS1hRVzkwNkFQQ2poQmpNYllJ?=
+ =?utf-8?B?ODFFWE0ybVNScUlJTEtHclVmV253ZUw1RHZSTHc3WDBWQkVxN0IvUlMwWmhF?=
+ =?utf-8?B?TnEyL05pZjY1WURKZjgxU0hKbVlUb1pjVzFsdG55N29MbTdSWVFJYzNHbjYv?=
+ =?utf-8?B?U1FtUkIzWWZVL1RaQ1dYN0ladE8xS1ZHTzM5Z01LR3ZlU1ZIRXM0SnhYYlNy?=
+ =?utf-8?B?RWlrMk5WcTNUUTh2cXlFNzJ6c0FGdVRPYzRaNDA2M1RnOHN3c3EyRzdDbEtj?=
+ =?utf-8?B?MG11ZmtPWEJDc3AzNG9wNExtTXdBVXBGUUU5b0RudlhrdHBFUGlTWjNCbjJS?=
+ =?utf-8?B?SzRFZS80SXdTUHhtZ3d4c202d1VWY1JnWktIeC8ydHdyeHQwTWEza1FoQlEr?=
+ =?utf-8?B?eUkzRENELzY0QlVzejBoS2JQL3NRWGt1ait0cGJLUTlKbzYxbXVaSVZaTHFV?=
+ =?utf-8?B?anJiQ2pMTlhObDVYMUNVVEpHSk5RSFJaS0FOV05XbUN0QUFWUllVcHA0U1FM?=
+ =?utf-8?B?UVdia3NKSy9uOHBqNU9BdEJKdk92WXhoZVAyZjd0N2NtcDR1UnZpUnZMdEM1?=
+ =?utf-8?B?K1dyeTBIMGNIMGlaVjRWOEhnaU01OFlNeWhIaDd1U0daZHBKM2FSZTdRK1ZU?=
+ =?utf-8?B?WnBzSFMrcWdUcVhrbUV4aGtKcjdGQkpxREpvdXRYVVF1bnlRMG9KZDY1aUJw?=
+ =?utf-8?B?K0hRZ1VLcGxoQVJIdnFFRnJwMSszVnorUHNPTG9oQnZkaWpxSVFvY3BiV0ZP?=
+ =?utf-8?B?OVJzMHdnYWY2T3lPdWJMQVUxaU1RVXFBUDFOcHlZMXNtVnJWc1B2aW5VMG5y?=
+ =?utf-8?B?a0JZT0hsYzdYbnJlY2hROTdzbWJzaUlRbHJ0WDFuS3RXeXVOVHpjVWR5WEVs?=
+ =?utf-8?B?NHZSN0w5TW14S09xck1XQT09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?V/pNU8jEjE9MEvvRDFLmCocIHhaQzyn6ft9zsJQHIYmWrV6GMWwgD9EE2ryZ?=
- =?us-ascii?Q?CFbvrz5G8OuLoyN7Q0BbUUbC4CVDL4xbAdswpU1uFBHFkn4/gcBuuieYznzs?=
- =?us-ascii?Q?h3i7zaeqnHMOxdNkUYr3b2ioOwIsjVIRlbCwq85h4VwurFQQPe1Ls6YrHzLU?=
- =?us-ascii?Q?F1Ypd2fAnVh0XRnA0mB8FIQl2q9KvjMOYmRL169o9y2TgjIYFeZurQ/l4R2x?=
- =?us-ascii?Q?PpZDKxfdLWp0s0HWT8RbBpxQc6f7fGTBoGslYhWxXN3BgMpCA/5pS3XdZvcj?=
- =?us-ascii?Q?iYtkPNOCyuFGpXX33uQD2hLh2u3BtHY3339e6gGPZz7r3CKFcvIFP/VuGkKI?=
- =?us-ascii?Q?4GRSAa4wZJxuR7EczGFpPCCBtpsa68LzMvifbclS/C+v2ir1R6q1BlUBHH9H?=
- =?us-ascii?Q?nk2Ew3ncA8xbUbQ5YT6GTUBuS60EMYGH1yqYAffkxAgK76SOTWa1DbpmoGyf?=
- =?us-ascii?Q?mTAjha4xa3HLTuCwQLnRi2kSLtLi9url5dLV288UP4pffFSS1+IXGwgYepf/?=
- =?us-ascii?Q?a1RH3GVv6MgLDQFoWg7snrb0pUDCzdpk3RA8ZV8dMBZ3l3m2IaF6p5nBmzLi?=
- =?us-ascii?Q?XNwQ7JIezQxo7F8PPoCgrYtliiW6CqkYosz7gXfdiyQScK1QjTpsGCsWjzGw?=
- =?us-ascii?Q?9x5AugVtyVFFiaJJipv/c81QaG33iwG8MiUlMiMWwkRT/5jUEUmPd1Zo8cmM?=
- =?us-ascii?Q?1E0+yGgqFzLyHKy7m6xhJhlDIJzpBjGBLU7at5ozI2d28aX3dAyEdLoq6Bnd?=
- =?us-ascii?Q?C5WxWnC4rKv7M4VFJpZjibxVIskXfAAm25tgcWIZ9GCYpRPsPo/F12y9v1mg?=
- =?us-ascii?Q?s7aLaJEIM8I9uwjeCNmsKjR7KX81Pr+oZCDEDleNohYSdnsTT6vDj1scE96/?=
- =?us-ascii?Q?nfA9yc3KR66SI+LbYmYt7rzouvE7/zeBD3BUJAg0YFzq7ARg/GEgLS+wmUzN?=
- =?us-ascii?Q?o9I2IL0GtQ2/+kubFmltsUGzyvDCvr0M2W83IaYHUW1hgimx0IsqLWbnTJZ0?=
- =?us-ascii?Q?eRvF+++ZPhB/WOCpSz//Xy4SM32MoSfZTcIADcLj/W+tPBbf0xcADCSe3v9+?=
- =?us-ascii?Q?e1bQFMjIg0kjdY0psuq9U/azX2oHbf/Uc0Dw5NCuddHVHmZpiojiMZAi2oFQ?=
- =?us-ascii?Q?yZPjZsP+s0C6ITDaOM2mJxlEW7OAFIkm03UTgIz5Owq8B6IVQXNq69tOGnf5?=
- =?us-ascii?Q?S4Yvqy2j1FEgrWoFDxAAZmUQta65Bm4ogCmyX7WE7eXsnM+WhsJvrve6rZwG?=
- =?us-ascii?Q?kk3po80DM0eG7l4iCLAT0jf6L3AjPshC6nVKq0vFGSx/smBtSGt3NDgJEpZ5?=
- =?us-ascii?Q?f9VZ8isZcaEXsbOEOtvWxyJBAEMxuJm8OMphP0PnrvLltvbzXMlHYIoQCQph?=
- =?us-ascii?Q?Q/LBmZJkl9Sq2cKYDHRbgkLPpbOJcdKnWkeckTa5kKmtuQYBQ7t9rIBz9PcZ?=
- =?us-ascii?Q?xrtE0SLXD70Jd+bAq/LPCYxpaAqC6QdLS9FCzo61wrcU8HFRI+KgRBdHJ+Vn?=
- =?us-ascii?Q?2iCbOb1SkPd4QH8pEHNTdNeS4yCHn5dby65YBepL6q86JPiMywURtaBy0mEM?=
- =?us-ascii?Q?LbzWcHz9Z6nuLfuKWEL9nl4MyJu9TIgvq7G4Q9Sb?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfbdb689-828c-44ec-9f0b-08dd4bbcc3d7
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR12MB7705.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2lqZnpJMW1CSG5vZzdWTm4rTzIrUEZ0bzZOOUl1b3VCampXMCtLNktHdFJQ?=
+ =?utf-8?B?SS9FZnZUTVRyaW83SEJxcXJzNHkxc2hRcHNseXRIQzBwVm9TN056dVU4MUE0?=
+ =?utf-8?B?VDdOSkNmL3FCaUVPOHp2bHFHeFBVdEJvbnhHUFlpTEhLa3o5RVRkTGZ1ZTNs?=
+ =?utf-8?B?NU9MZFRHMnBiemk2cHd3alBkR0F1ejZqUG9MeEVEQ2R2L1dvT3V6VSs2NjFt?=
+ =?utf-8?B?dVA1MnJvWHVzQkdEK3dOeFlSS3NyWWhxR01SNmRNeGYrSWl3WFA4RlVwSDJl?=
+ =?utf-8?B?dlk0S2dwSGF0V3QwNmhKTmM4a1N3WE9zV1kza1JzcWI2alI5TWhCcTlidHc3?=
+ =?utf-8?B?cDR0U2h5SXVJWDRTT3d6V0NZQVpSUFQrdkxYWlRFdlZEYXNFdmROZ05CTU56?=
+ =?utf-8?B?VVFOU0ptOGxZNFN1RTJmQ2ZBb1Z1dTdIdjBUNStlNndBZ3hHT01tdjYwUHNh?=
+ =?utf-8?B?UUVJYldhYSt5d3pGNUUyRVp5bkFDVnVsdHNhb1dHaWQvQ1JzWk43ekQwYjU0?=
+ =?utf-8?B?MUN6UVp4RFI2RmtoV24zOEN2Uy96aXVmS0ZOZHNyd0dVMktSeFU0SkpuZGd1?=
+ =?utf-8?B?NmlOOTFVQUZGaEhqdGRVeHpiYkJRL1U2M0xBTFBiN1dmWmQ4d2RZeHk5NW1o?=
+ =?utf-8?B?b1FrVmcyWS8yamhkNitFL3p5NHQvOHdLcW1NUnVsUWVOZTY1dVdnOUJHdGF1?=
+ =?utf-8?B?cmtxeTB6MVlBMUpWUVo0SHNEZnNYbDd0aVNrYXZEbmdHOEpsVnByVzdyQkpw?=
+ =?utf-8?B?TWNFR3ZQcm9wQVBZdWZ6ZHJna3Qzb056ZVp0M3ZhYUl6blVPLzg3VVZqRkdW?=
+ =?utf-8?B?NUN3enRJWGFUa1hGSDA3ZHBMZExUMWREYnh4eW9FdzZJM3NtMWtXZ29JQ3pV?=
+ =?utf-8?B?dFZFQVhrakxaTDR5UnJMZXA2T2pnT0hubDVNZFRNZGFWQWJnaGJKQ0p6TWps?=
+ =?utf-8?B?YUNFam9LWlZoSmp2TkwrUnhPbVlBdHBKRVRUbkUwL015Wlh5ZGJTTHZyL1ZG?=
+ =?utf-8?B?bVArQXhOTnkxQnhCMU83aU1PS25PL1ExNFdjM09PeVJOQ1Z3bTRndURudENz?=
+ =?utf-8?B?WGhUUzRpQWJmaElmZXFnaTZYOWNNZ1N0NG5uNmZKNHh1b0VZcjIwYlMvTzZ5?=
+ =?utf-8?B?RVhrRG9GTGZHbk4wdlZ2eUhDUHNwTXVjVDk0Tk5PRXdpdXNWRWlKa0pEM1hL?=
+ =?utf-8?B?ZklhTzB4LzBUdEVFUnREN2NaY2piLzI2c3lyNUx6ellJM2tzMlZ4MDl5RzAx?=
+ =?utf-8?B?OUdzUU9SY3RqeWhSV0lSN2ZCT1ZQUW9DdTdRSEtudXhoeDdvZEV4TUJPRDVU?=
+ =?utf-8?B?cWdZSWpERDBNWWtHdUI5YWo5SmxEYTV0MExHQmhjeUlMNEZHeXdrWFVVMUxN?=
+ =?utf-8?B?OUFPVWlrcFppR1RPdTRBbmpzY1lXblBLbUJTRjlESVFyYSt2MGtRaGZlU1dv?=
+ =?utf-8?B?bzNTdzBrOS81MlIxb1dOMDRDUmFkZis0TzNKQnBrbE5oeURDS3diMVhQSVhp?=
+ =?utf-8?B?Q0lUZnQvbXd6UWxiR0xMMml1bGFUMGNxdEFVU3JoMHE2ejlLbzFhTjEwZkpt?=
+ =?utf-8?B?Yy8yYXp3YXJLMnorN1VEVWsxdmJ1QXdSWXVOclVwNi9KZktINEtqdlkrcHd3?=
+ =?utf-8?B?QXVoWmtreWhoUmtYb2hJK0VtK29aYk9NNnhHTkJVK0trTm1xS3JZMlN6N094?=
+ =?utf-8?B?QXRGc2NEdzl5aENvK3JXQVdTSGNjejA0QVNKVXA0Ty9LQW5oVXlVMzFSQ3Zp?=
+ =?utf-8?B?ekdPb3YwVFBHb0U5VHdkTmdKeFNmcDVzZHNIRUQwM2ZMS2ZHUVJ3SG45enBw?=
+ =?utf-8?B?TkYvU2RERGI3Z1FSYzJWdHQxVFJxTWZXT2lEbWx4dkR0eFVFbkVaSlROTVBR?=
+ =?utf-8?B?S2tsdUtsVkxnWGZGYUxLb0l2RVphM0ZBMFFUWjFNUHR6VTNWdk9GN3dSdDNL?=
+ =?utf-8?B?a25ZZDhQb0hSUys2K24zUGZwTWVCVUZvNlloOEpvOW9WaGU5WEVkZDMzYmto?=
+ =?utf-8?B?MWtGZTNYald1WWVRZEFSbkFrRHNzWkRkT1k5N2NQVnhqN2g1dTBwbkt0K3Y2?=
+ =?utf-8?B?VDBWMjhENmpLd2J4V2FQTDZPaG42d0JUUElpQkNqVWhLMEtNdDUyMzFub0Mv?=
+ =?utf-8?B?YklYaitrSVlJT3RsNUx2M3ZMazlRRWFRZVRDYXFtZUxabzVGSkVFTUVORFZZ?=
+ =?utf-8?B?QXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3157fb15-e1cc-4b54-6fdb-08dd4bbdaadb
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 23:27:07.2898
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 23:33:34.6344
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lvc9034ua9X4zatyIzAwpJacL8Ge45kCbWdTM8S5TE5pZMj8q0iATdHhCRSR193tCJSMN06w7vRGJALWCiVuqw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9473
+X-MS-Exchange-CrossTenant-UserPrincipalName: WeIx4FpLNqRmurpMeJy/rvQLQ9/pcYoONwXOIhhrUMKshxgMRBLI3RLG34m2lWyBh6kEqu7p8QuOyQsGdXSs1bfRxhlBWQUbStMEjr8O8Ao=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4653
+X-OriginatorOrg: intel.com
 
-On Sun, Feb 09, 2025 at 06:30:25PM +0100, Danilo Krummrich wrote:
+Hi Dave,
 
-[...]
+On 2/12/25 9:46 AM, Dave Martin wrote:
+> Hi there,
+> 
+> On Wed, Jan 22, 2025 at 02:20:08PM -0600, Babu Moger wrote:
+>>
+>> This series adds the support for Assignable Bandwidth Monitoring Counters
+>> (ABMC). It is also called QoS RMID Pinning feature
+>>
+>> Series is written such that it is easier to support other assignable
+>> features supported from different vendors.
+>>
+>> The feature details are documented in the  APM listed below [1].
+>> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+>> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+>> Monitoring (ABMC). The documentation is available at
+>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+>>
+>> The patches are based on top of commit
+>> d361b84d51bfe (tip/master) Merge branch into tip/master: 'x86/tdx'
+>>
+>> # Introduction
+> 
+> [...]
+> 
+>> # Examples
+>>
+>> a. Check if ABMC support is available
+>> 	#mount -t resctrl resctrl /sys/fs/resctrl/
+>>
+>> 	# cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>> 	[mbm_cntr_assign]
+>> 	default
+> 
+> (Nit: can this be called "mbm_counter_assign"?  The name is already
+> long, so I wonder whether anything is gained by using a cryptic
+> abbreviation for "counter".  Same with all the "cntrs" elsewhere.
+> This is purely cosmetic, though -- the interface works either way.)
+> 
+>> 	ABMC feature is detected and it is enabled.
+>>
+>> b. Check how many ABMC counters are available. 
+>>
+>> 	# cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs 
+>> 	32
+> 
+> Is this file needed?
+> 
+> With MPAM, it is more difficult to promise that the same number of
+> counters will be available everywhere.
+> 
+> Rather than lie, or report a "safe" value here that may waste some
+> counters, can we just allow the number of counters to be be discovered
+> per domain via available_mbm_cntrs?
 
-> +FromPrimitive API
-> +-----------------
-> +
-> +Sometimes the need arises to convert a number to a value of an enum or a
-> +structure.
-> +
-> +A good example from nova-core would be the ``Chipset`` enum type, which defines
-> +the value ``AD102``. When probing the GPU the value ``0x192`` can be read from a
-> +certain register indication the chipset AD102. Hence, the enum value ``AD102``
-> +should be derived from the number ``0x192``. Currently, nova-core uses a custom
-> +implementation (``Chipset::from_u32`` for this.
-> +
-> +Instead, it would be desirable to have something like the ``FromPrimitive``
-> +trait [1] from the num crate.
+This sounds reasonable to me. I think us having trouble with the
+user documentation of this file so late in development should also have been
+a sign to rethink its value.
 
-I took a quick look at this, mainly to get more up to speed on Rust macros.
+For a user to discover the number of counters supported via available_mbm_cntrs
+would require the file's contents to be captured right after mount. Since we've
+had scenarios where new userspace needs to discover an up-and-running system's
+configuration this may not be possible. I thus wonder instead of removing
+num_mbm_cntrs, it could be modified to return the per-domain supported counters
+instead of a single value? 
 
-It seemed to me that bulk of the work here is actually in getting enough
-functionality added to rust/macros/quote.rs to make writing procedural macros
-pleasant. That seemed reasonably involved (probably beyond beginner level) and
-not the most pressing thing so I'm not currently looking at it, but thought I'd
-drop this note here in case it's useful for anyone else that is/wants to take
-a look.
+> num_closids and num_rmids are already problematic for MPAM, so it would
+> be good to avoid any more parameters of this sort from being reported
+> to userspace unless there is a clear understanding of why they are
+> needed.
 
- - Alistair
+Yes. Appreciate your help in identifying what could be problematic for MPAM.
 
-> +Having this generalization also helps with implementing a generic macro that
-> +automatically generates the corresponding mappings between a value and a number.
-> +
-> +| Complexity: Beginner
-> +| Link: https://docs.rs/num/latest/num/trait.FromPrimitive.html
-> +
-> +Generic register abstraction
-> +----------------------------
-> +
-> +Work out how register constants and structures can be automatically generated
-> +through generalized macros.
-> +
-> +Example:
-> +
-> +.. code-block:: rust
-> +
-> +	register!(BOOT0, 0x0, u32, pci::Bar<SIZE>, Fields [
-> +	   MINOR_REVISION(3:0, RO),
-> +	   MAJOR_REVISION(7:4, RO),
-> +	   REVISION(7:0, RO), // Virtual register combining major and minor rev.
-> +	])
-> +
-> +This could expand to something like:
-> +
-> +.. code-block:: rust
-> +
-> +	const BOOT0_OFFSET: usize = 0x00000000;
-> +	const BOOT0_MINOR_REVISION_SHIFT: u8 = 0;
-> +	const BOOT0_MINOR_REVISION_MASK: u32 = 0x0000000f;
-> +	const BOOT0_MAJOR_REVISION_SHIFT: u8 = 4;
-> +	const BOOT0_MAJOR_REVISION_MASK: u32 = 0x000000f0;
-> +	const BOOT0_REVISION_SHIFT: u8 = BOOT0_MINOR_REVISION_SHIFT;
-> +	const BOOT0_REVISION_MASK: u32 = BOOT0_MINOR_REVISION_MASK | BOOT0_MAJOR_REVISION_MASK;
-> +
-> +	struct Boot0(u32);
-> +
-> +	impl Boot0 {
-> +	   #[inline]
-> +	   fn read(bar: &RevocableGuard<'_, pci::Bar<SIZE>>) -> Self {
-> +	      Self(bar.readl(BOOT0_OFFSET))
-> +	   }
-> +
-> +	   #[inline]
-> +	   fn minor_revision(&self) -> u32 {
-> +	      (self.0 & BOOT0_MINOR_REVISION_MASK) >> BOOT0_MINOR_REVISION_SHIFT
-> +	   }
-> +
-> +	   #[inline]
-> +	   fn major_revision(&self) -> u32 {
-> +	      (self.0 & BOOT0_MAJOR_REVISION_MASK) >> BOOT0_MAJOR_REVISION_SHIFT
-> +	   }
-> +
-> +	   #[inline]
-> +	   fn revision(&self) -> u32 {
-> +	      (self.0 & BOOT0_REVISION_MASK) >> BOOT0_REVISION_SHIFT
-> +	   }
-> +	}
-> +
-> +Usage:
-> +
-> +.. code-block:: rust
-> +
-> +	let bar = bar.try_access().ok_or(ENXIO)?;
-> +
-> +	let boot0 = Boot0::read(&bar);
-> +	pr_info!("Revision: {}\n", boot0.revision());
-> +
-> +| Complexity: Advanced
-> +
-> +Delay / Sleep abstractions
-> +--------------------------
-> +
-> +Rust abstractions for the kernel's delay() and sleep() functions.
-> +
-> +There is some ongoing work from FUJITA Tomonori [1], which has not seen any updates
-> +since Oct. 24.
-> +
-> +| Complexity: Beginner
-> +| Link: https://lore.kernel.org/netdev/20241001112512.4861-2-fujita.tomonori@gmail.com/ [1]
-> +
-> +IRQ abstractions
-> +----------------
-> +
-> +Rust abstractions for IRQ handling.
-> +
-> +There is active ongoing work from Daniel Almeida [1] for the "core" abstractions
-> +to request IRQs.
-> +
-> +Besides optional review and testing work, the required ``pci::Device`` code
-> +around those core abstractions needs to be worked out.
-> +
-> +| Complexity: Intermediate
-> +| Link: https://lore.kernel.org/lkml/20250122163932.46697-1-daniel.almeida@collabora.com/ [1]
-> +| Contact: Daniel Almeida
-> +
-> +Page abstraction for foreign pages
-> +----------------------------------
-> +
-> +Rust abstractions for pages not created by the Rust page abstraction without
-> +direct ownership.
-> +
-> +There is active onging work from Abdiel Janulgue [1] and Lina [2].
-> +
-> +| Complexity: Advanced
-> +| Link: https://lore.kernel.org/linux-mm/20241119112408.779243-1-abdiel.janulgue@gmail.com/ [1]
-> +| Link: https://lore.kernel.org/rust-for-linux/20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net/ [2]
-> +
-> +Scatterlist / sg_table abstractions
-> +-----------------------------------
-> +
-> +Rust abstractions for scatterlist / sg_table.
-> +
-> +There is preceding work from Abdiel Janulgue, which hasn't made it to the
-> +mailing list yet.
-> +
-> +| Complexity: Intermediate
-> +| Contact: Abdiel Janulgue
-> +
-> +ELF utils
-> +---------
-> +
-> +Rust implementation of ELF header representation to retrieve section header
-> +tables, names, and data from an ELF-formatted images.
-> +
-> +There is preceding work from Abdiel Janulgue, which hasn't made it to the
-> +mailing list yet.
-> +
-> +| Complexity: Beginner
-> +| Contact: Abdiel Janulgue
-> +
-> +PCI MISC APIs
-> +-------------
-> +
-> +Extend the existing PCI device / driver abstractions by SR-IOV, config space,
-> +capability, MSI API abstractions.
-> +
-> +| Complexity: Beginner
-> +
-> +Auxiliary bus abstractions
-> +--------------------------
-> +
-> +Rust abstraction for the auxiliary bus APIs.
-> +
-> +This is needed to connect nova-core to the nova-drm driver.
-> +
-> +| Complexity: Intermediate
-> +
-> +Debugfs abstractions
-> +--------------------
-> +
-> +Rust abstraction for debugfs APIs.
-> +
-> +| Reference: Export GSP log buffers
-> +| Complexity: Intermediate
-> +
-> +Vec extensions
-> +--------------
-> +
-> +Implement ``Vec::truncate`` and ``Vec::resize``.
-> +
-> +Currently this is used for some experimental code to parse the vBIOS.
-> +
-> +| Reference vBIOS support
-> +| Complexity: Beginner
-> +
-> +GPU (general)
-> +=============
-> +
-> +Parse firmware headers
-> +----------------------
-> +
-> +Parse ELF headers from the firmware files loaded from the filesystem.
-> +
-> +| Reference: ELF utils
-> +| Complexity: Beginner
-> +| Contact: Abdiel Janulgue
-> +
-> +Build radix3 page table
-> +-----------------------
-> +
-> +Build the radix3 page table to map the firmware.
-> +
-> +| Complexity: Intermediate
-> +| Contact: Abdiel Janulgue
-> +
-> +vBIOS support
-> +-------------
-> +
-> +Parse the vBIOS and probe the structures required for driver initialization.
-> +
-> +| Contact: Dave Airlie
-> +| Reference: Vec extensions
-> +| Complexity: Intermediate
-> +
-> +Initial Devinit support
-> +-----------------------
-> +
-> +Implement BIOS Device Initialization, i.e. memory sizing, waiting, PLL
-> +configuration.
-> +
-> +| Contact: Dave Airlie
-> +| Complexity: Beginner
-> +
-> +Boot Falcon controller
-> +----------------------
-> +
-> +Infrastructure to load and execute falcon (sec2) firmware images; handle the
-> +GSP falcon processor and fwsec loading.
-> +
-> +| Complexity: Advanced
-> +| Contact: Dave Airlie
-> +
-> +GPU Timer support
-> +-----------------
-> +
-> +Support for the GPU's internal timer peripheral.
-> +
-> +| Complexity: Beginner
-> +| Contact: Dave Airlie
-> +
-> +MMU / PT management
-> +-------------------
-> +
-> +Work out the architecture for MMU / page table management.
-> +
-> +We need to consider that nova-drm will need rather fine-grained control,
-> +especially in terms of locking, in order to be able to implement asynchronous
-> +Vulkan queues.
-> +
-> +While generally sharing the corresponding code is desirable, it needs to be
-> +evaluated how (and if at all) sharing the corresponding code is expedient.
-> +
-> +| Complexity: Expert
-> +
-> +VRAM memory allocator
-> +---------------------
-> +
-> +Investigate options for a VRAM memory allocator.
-> +
-> +Some possible options:
-> +  - Rust abstractions for
-> +    - RB tree (interval tree) / drm_mm
-> +    - maple_tree
-> +  - native Rust collections
-> +
-> +| Complexity: Advanced
-> +
-> +Instance Memory
-> +---------------
-> +
-> +Implement support for instmem (bar2) used to store page tables.
-> +
-> +| Complexity: Intermediate
-> +| Contact: Dave Airlie
-> +
-> +GPU System Processor (GSP)
-> +==========================
-> +
-> +Export GSP log buffers
-> +----------------------
-> +
-> +Recent patches from Timur Tabi [1] added support to expose GSP-RM log buffers
-> +(even after failure to probe the driver) through debugfs.
-> +
-> +This is also an interesting feature for nova-core, especially in the early days.
-> +
-> +| Link: https://lore.kernel.org/nouveau/20241030202952.694055-2-ttabi@nvidia.com/ [1]
-> +| Reference: Debugfs abstractions
-> +| Complexity: Intermediate
-> +
-> +GSP firmware abstraction
-> +------------------------
-> +
-> +The GSP-RM firmware API is unstable and may incompatibly change from version to
-> +version, in terms of data structures and semantics.
-> +
-> +This problem is one of the big motivations for using Rust for nova-core, since
-> +it turns out that Rust's procedural macro feature provides a rather elegant way
-> +to address this issue:
-> +
-> +1. generate Rust structures from the C headers in a separate namespace per version
-> +2. build abstraction structures (within a generic namespace) that implement the
-> +   firmware interfaces; annotate the differences in implementation with version
-> +   identifiers
-> +3. use a procedural macro to generate the actual per version implementation out
-> +   of this abstraction
-> +4. instantiate the correct version type one on runtime (can be sure that all
-> +   have the same interface because it's defined by a common trait)
-> +
-> +There is a PoC implementation of this pattern, in the context of the nova-core
-> +PoC driver.
-> +
-> +This task aims at refining the feature and ideally generalize it, to be usable
-> +by other drivers as well.
-> +
-> +| Complexity: Expert
-> +
-> +GSP message queue
-> +-----------------
-> +
-> +Implement low level GSP message queue (command, status) for communication
-> +between the kernel driver and GSP.
-> +
-> +| Complexity: Advanced
-> +| Contact: Dave Airlie
-> +
-> +Bootstrap GSP
-> +-------------
-> +
-> +Call the boot firmware to boot the GSP processor; execute initial control
-> +messages.
-> +
-> +| Complexity: Intermediate
-> +| Contact: Dave Airlie
-> +
-> +Client / Device APIs
-> +--------------------
-> +
-> +Implement the GSP message interface for client / device allocation and the
-> +corresponding client and device allocation APIs.
-> +
-> +| Complexity: Intermediate
-> +| Contact: Dave Airlie
-> +
-> +Bar PDE handling
-> +----------------
-> +
-> +Synchronize page table handling for BARs between the kernel driver and GSP.
-> +
-> +| Complexity: Beginner
-> +| Contact: Dave Airlie
-> +
-> +FIFO engine
-> +-----------
-> +
-> +Implement support for the FIFO engine, i.e. the corresponding GSP message
-> +interface and provide an API for chid allocation and channel handling.
-> +
-> +| Complexity: Advanced
-> +| Contact: Dave Airlie
-> +
-> +GR engine
-> +---------
-> +
-> +Implement support for the graphics engine, i.e. the corresponding GSP message
-> +interface and provide an API for (golden) context creation and promotion.
-> +
-> +| Complexity: Advanced
-> +| Contact: Dave Airlie
-> +
-> +CE engine
-> +---------
-> +
-> +Implement support for the copy engine, i.e. the corresponding GSP message
-> +interface.
-> +
-> +| Complexity: Intermediate
-> +| Contact: Dave Airlie
-> +
-> +VFN IRQ controller
-> +------------------
-> +
-> +Support for the VFN interrupt controller.
-> +
-> +| Complexity: Intermediate
-> +| Contact: Dave Airlie
-> +
-> +External APIs
-> +=============
-> +
-> +nova-core base API
-> +------------------
-> +
-> +Work out the common pieces of the API to connect 2nd level drivers, i.e. vGPU
-> +manager and nova-drm.
-> +
-> +| Complexity: Advanced
-> +
-> +vGPU manager API
-> +----------------
-> +
-> +Work out the API parts required by the vGPU manager, which are not covered by
-> +the base API.
-> +
-> +| Complexity: Advanced
-> +
-> +nova-core C API
-> +---------------
-> +
-> +Implement a C wrapper for the APIs required by the vGPU manager driver.
-> +
-> +| Complexity: Intermediate
-> +
-> +Testing
-> +=======
-> +
-> +CI pipeline
-> +-----------
-> +
-> +Investigate option for continuous integration testing.
-> +
-> +This can go from as simple as running KUnit tests over running (graphics) CTS to
-> +booting up (multiple) guest VMs to test VFIO use-cases.
-> +
-> +It might also be worth to consider the introduction of a new test suite directly
-> +sitting on top of the uAPI for more targeted testing and debugging. There may be
-> +options for collaboration / shared code with the Mesa project.
-> +
-> +| Complexity: Advanced
-> diff --git a/Documentation/gpu/nova/guidelines.rst b/Documentation/gpu/nova/guidelines.rst
-> new file mode 100644
-> index 000000000000..13ab13984a18
-> --- /dev/null
-> +++ b/Documentation/gpu/nova/guidelines.rst
-> @@ -0,0 +1,69 @@
-> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +
-> +==========
-> +Guidelines
-> +==========
-> +
-> +This document describes the general project guidelines that apply to nova-core
-> +and nova-drm.
-> +
-> +Language
-> +========
-> +
-> +The Nova project uses the Rust programming language. In this context, all rules
-> +of the Rust for Linux project as documented in
-> +:doc:`../../rust/general-information` apply. Additionally, the following rules
-> +apply.
-> +
-> +- Unless technically necessary otherwise (e.g. uAPI), any driver code is written
-> +  in Rust.
-> +
-> +- Unless technically necessary, unsafe Rust code must be avoided. In case of
-> +  technical necessity, unsafe code should be isolated in a separate component
-> +  providing a safe API for other driver code to use.
-> +
-> +Style
-> +-----
-> +
-> +All rules of the Rust for Linux project as documented in
-> +:doc:`../../rust/coding-guidelines` apply.
-> +
-> +For a submit checklist, please also see the `Rust for Linux Submit checklist
-> +addendum <https://rust-for-linux.com/contributing#submit-checklist-addendum>`_.
-> +
-> +Documentation
-> +=============
-> +
-> +The availability of proper documentation is essential in terms of scalability,
-> +accessibility for new contributors and maintainability of a project in general,
-> +but especially for a driver running as complex hardware as Nova is targeting.
-> +
-> +Hence, adding documentation of any kind is very much encouraged by the project.
-> +
-> +Besides that, there are some minimum requirements.
-> +
-> +- Every non-private structure needs at least a brief doc comment explaining the
-> +  semantical sense of the structure, as well as potential locking and lifetime
-> +  requirements. It is encouraged to have the same minimum documentation for
-> +  non-trivial private structures.
-> +
-> +- uAPIs must be fully documented with kernel-doc comments; additionally, the
-> +  semantical behavior must be explained including potential special or corner
-> +  cases.
-> +
-> +- The APIs connecting the 1st level driver (nova-core) with 2nd level drivers
-> +  must be fully documented. This includes doc comments, potential locking and
-> +  lifetime requirements, as well as example code if applicable.
-> +
-> +- Abbreviations must be explained when introduced; terminology must be uniquely
-> +  defined.
-> +
-> +- Register addresses, layouts, shift values and masks must be defined properly;
-> +  unless obvious, the semantical sense must be documented. This only applies if
-> +  the author is able to obtain the corresponding information.
-> +
-> +Acceptance Criteria
-> +===================
-> +
-> +- Patches must only be applied if reviewed by at least one other person on the
-> +  mailing list; this also applies for maintainers.
-> diff --git a/Documentation/gpu/nova/index.rst b/Documentation/gpu/nova/index.rst
-> new file mode 100644
-> index 000000000000..2701b3f4af35
-> --- /dev/null
-> +++ b/Documentation/gpu/nova/index.rst
-> @@ -0,0 +1,30 @@
-> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +
-> +=======================
-> +nova NVIDIA GPU drivers
-> +=======================
-> +
-> +The nova driver project consists out of two separate drivers nova-core and
-> +nova-drm and intends to supersede the nouveau driver for NVIDIA GPUs based on
-> +the GPU System Processor (GSP).
-> +
-> +The following documents apply to both nova-core and nova-drm.
-> +
-> +.. toctree::
-> +   :titlesonly:
-> +
-> +   guidelines
-> +
-> +nova-core
-> +=========
-> +
-> +The nova-core driver is the core driver for NVIDIA GPUs based on GSP. nova-core,
-> +as the 1st level driver, provides an abstraction around the GPUs hard- and
-> +firmware interfaces providing a common base for 2nd level drivers, such as the
-> +vGPU manager VFIO driver and the nova-drm driver.
-> +
-> +.. toctree::
-> +   :titlesonly:
-> +
-> +   core/guidelines
-> +   core/todo
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5d5b7ed7da9e..ed618e8757a5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7454,6 +7454,7 @@ Q:	https://patchwork.freedesktop.org/project/nouveau/
->  B:	https://gitlab.freedesktop.org/drm/nova/-/issues
->  C:	irc://irc.oftc.net/nouveau
->  T:	git https://gitlab.freedesktop.org/drm/nova.git nova-next
-> +F:	Documentation/gpu/nova/
->  F:	drivers/gpu/nova-core/
->  
->  DRM DRIVER FOR OLIMEX LCD-OLINUXINO PANELS
-> -- 
-> 2.48.1
+> 
+> Reporting number of counters per monitoring domain is a more natural
+> fit for MPAM, as below:
+> 
+>> c. Check how many ABMC counters are available in each domain.
+>>
+>> 	# cat /sys/fs/resctrl/info/L3_MON/available_mbm_cntrs 
+>> 	0=30;1=30
+> 
+> For MPAM, this seems supportable.  Each monitoring domain will have
+> some counters, and a well-defined number of them will be available for
+> allocation at any one time.
+> 
+>> d. Create few resctrl groups.
+>>
+>> 	# mkdir /sys/fs/resctrl/mon_groups/child_default_mon_grp
+>> 	# mkdir /sys/fs/resctrl/non_default_ctrl_mon_grp
+>> 	# mkdir /sys/fs/resctrl/non_default_ctrl_mon_grp/mon_groups/child_non_default_mon_grp
+>>
+>> e. This series adds a new interface file /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>    to list and modify any group's monitoring states. File provides single place
+>>    to list monitoring states of all the resctrl groups. It makes it easier for
+>>    user space to learn about the used counters without needing to traverse all
+>>    the groups thus reducing the number of file system calls.
+>>
+>> 	The list follows the following format:
+>>
+>> 	"<CTRL_MON group>/<MON group>/<domain_id>=<flags>"
+>>
+>> 	Format for specific type of groups:
+>>
+>> 	* Default CTRL_MON group:
+>> 	 "//<domain_id>=<flags>"
+> 
+> [...]
+> 
+>>        Flags can be one of the following:
+>>
+>>         t  MBM total event is enabled.
+>>         l  MBM local event is enabled.
+>>         tl Both total and local MBM events are enabled.
+>>         _  None of the MBM events are enabled
+>>
+>> 	Examples:
+> 
+> [...]
+> 
+> I think that this basically works for MPAM.
+> 
+> The local/total distinction doesn't map in a consistent way onto MPAM,
+> but this problem is not specific to ABMC.  It feels sensible for ABMC
+> to be built around the same concepts that resctrl already has elsewhere
+> in the interface.  MPAM will do its best to fit (as already).
+> 
+> Regarding Peter's use case of assiging multiple counters to a
+> monitoring group [1], I feel that it's probably good enough to make
+> sure that the ABMC interface can be extended in future in a backwards
+> compatible way so as to support this, without trying to support it
+> immediately.
+> 
+> [1] https://lore.kernel.org/lkml/CALPaoCjY-3f2tWvBjuaQPfoPhxveWxxCxHqQMn4BEaeBXBa0bA@mail.gmail.com/
+> 
+
+I do not think that resctrl's current support of the mbm_total_bytes and
+mbm_local_bytes should be considered as the "only" two available "slots"
+into which all possible events should be forced into. "mon_features" exists
+to guide user space to which events are supported and as I see it new events
+can be listed here to inform user space of their availability, with their
+associated event files available in the resource groups.
+
+> 
+> For example, if we added new generic "letters" -- say, "0" to "9",
+> combined with new counter files in resctrlfs, that feels like a
+> possible approach.  ABMC (as in this series) should just reject such
+> such assignments, and the new counter files wouldn't exist.
+> 
+> Availability of this feature could also be reported as a distinct mode
+> in mbm_assign_mode, say "mbm_cntr_generic", or whatever.
 > 
 > 
+> A _sketch_ of this follows.  This is NOT a proposal -- the key
+> question is whether we are confident that we can extend the interface
+> in this way in the future without breaking anything.
+> 
+> If "yes", then the ABMC interface (as proposed by this series) works as
+> a foundation to build on.
+> 
+> --8<--
+> 
+> [artists's impression]
+> 
+> # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>  	mbm_cntr_generic
+>  	[mbm_cntr_assign]
+>  	default
+> 
+> # echo mbm_cntr_generic >/sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+> # echo '//0=01;1=23' >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
+> # echo t >/sys/fs/resctrl/info/L3_MON/mbm_counter0_bytes_type 
+> # echo l >/sys/fs/resctrl/info/L3_MON/mbm_counter1_bytes_type 
+> # echo t >/sys/fs/resctrl/info/L3_MON/mbm_counter2_bytes_type 
+> # echo l >/sys/fs/resctrl/info/L3_MON/mbm_counter3_bytes_type 
+> 
+> ...
+> 
+> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_counter1_bytes
+> 
+> etc.
+> 
+
+It is not clear to me what additional features such an interface enables. It
+also looks like user space will need to track and manage counter IDs?
+
+It sounds to me as though the issue starts with your statement
+"The local/total distinction doesn't map in a consistent way onto MPAM". To
+address this I expect that an MPAM system will not support nor list
+mbm_total_bytes and/or mbm_local_bytes in its mon_features file (*)? Instead,
+it would list the events that are appropriate to the system? Trying to match
+with what Peter said [1] in the message you refer to, this may be possible:
+
+# cat /sys/fs/resctrl/info/L3_MON/mon_features
+mbm_local_read_bytes
+mbm_local_write_bytes
+mbm_local_bytes
+
+(*) I am including mbm_local_bytes since it could be an event that can be software
+defined as a sum of mbm_local_read_bytes and mbm_local_write_bytes when they are both
+counted.
+
+I see the support for MPAM events distinct from the support of assignable counters.
+Once the MPAM events are sorted, I think that they can be assigned with existing interface.
+Please help me understand if you see it differently.
+	
+Doing so would need to come up with alphabetical letters for these events,
+which seems to be needed for your proposal also? If we use possible flags of:
+
+mbm_local_read_bytes a
+mbm_local_write_bytes b
+
+Then mbm_assign_control can be used as:
+# echo '//0=ab;1=b' >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
+# cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_read_bytes
+<value>
+# cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
+<sum of mbm_local_read_bytes and mbm_local_write_bytes>
+
+One issue would be when resctrl needs to support more than 26 events (no more flags available),
+assuming that upper case would be used for "shared" counters (unless this interface is defined
+differently and only few uppercase letters used for it). Would this be too low of a limit?
+
+Reinette
+
+[1] https://lore.kernel.org/lkml/CALPaoCjY-3f2tWvBjuaQPfoPhxveWxxCxHqQMn4BEaeBXBa0bA@mail.gmail.com/
