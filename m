@@ -1,170 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6279A205E24;
-	Wed, 12 Feb 2025 09:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29EE2B9BC;
+	Wed, 12 Feb 2025 09:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739352519; cv=none; b=rzEhl388prYzY1vlobBnHF973RnC4P1ICx5/+NgfyS/J3rEGhE1brJRRo+v6Y5ubBUAoNOyqghWrPTmNzjbNykfJRifUcLVHdC8+iTYB6mmbRlkV7v20msAqtSViXnpNEKw0HMO5lHcBTltxDrMQYvHrUTSiDKzlBlABDQ0NdjE=
+	t=1739352725; cv=none; b=d1XLIMsw7B+siI9dXHqG/erQCI1cUbE20fw4ljlbiUw287/L2HRBdGvmfzxm1bXK5s0KkG8+NC107n3DSnJJtzvI2zZf8VMawm0WFXNTDlU8R4/4/gMd4HFYAS29qLehsGVw7ImbuPCzghSENsfthySFpIqmv5eYLssSD5+bLzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739352519; c=relaxed/simple;
-	bh=gJpIK2N1oWtH5ADm/MDAKA+A5d3VUR0XUHUg0+3+Iq8=;
+	s=arc-20240116; t=1739352725; c=relaxed/simple;
+	bh=9pTolNQ+XqJ4URq9Vk/Xw++m/9IEeXkG2WXe/BEl7xA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cm/maOLWhiUrT8Z5G8EESgTAu4bv5fU78zSE95LiURn7AJ2uwnBncBIHoGcXjn1fuujpDDlXREWzR2LDDqgdD3vb7z+AgzmQQPM1sBSF6Qbn5C0q1jiVADBhMm4b6zQFx0vuzKNeZYR1SnYf+ZznYQkMtbQcZ0ZN+qQfd9YfGF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IuL9uzUu; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=jUUNhWxHwvdLoC86UjIVdQsVugkn1xYRqKOP3cNtspCI4CZ891gFAhUDrGT/8W90JiJL1x21nbmZHo2muYxJJrnoQPH1VgxPYod+dtC6EDt/N1J0AdTldqh/PwdkCWas+Vw/MgyG5LT3j325BDW7oV9cZ0vPuJcrKr253snisJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KjTfijJL; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IuL9uzUu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739352517; x=1770888517;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gJpIK2N1oWtH5ADm/MDAKA+A5d3VUR0XUHUg0+3+Iq8=;
-  b=IuL9uzUuUH+8nCg77Sg+hb4u0zPJq0i75WfPFV7+3vTjA36JBLM6E2r7
-   COVfCO8AZAy/nBEW2BdZdQ2cANqf1xd0kyJ4L9SHb3b2fteeTL3z/kBuJ
-   ZDXsAo5JB2z9HTcXKedKREAJoqDZRODkxMGi658kJpuwIRZG0ssrzzMSh
-   NUFOmx0Zo6UJwm7Cm5ct7QEVauOWDYnlM0Kv4D/CI/gm9zvMo4pIR003L
-   zNISUcr3nZ2hFo5I0V4xwsAauVeySgJj8A0uFJkyHU1mCe/beLnxP5S+J
-   EJGYHw+uopBnByxvSQdYboJsh6TiN1/8C2vE/9Wo+1olxLO0EqyoqpETB
-   A==;
-X-CSE-ConnectionGUID: fTfQ6i8fRB+M9w9c4GvkYA==
-X-CSE-MsgGUID: 2zc2OsELS7Cz2/nAqIYjJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="43925758"
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="43925758"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 01:28:36 -0800
-X-CSE-ConnectionGUID: uoFlp30lSuaGrdQz3fpcsg==
-X-CSE-MsgGUID: XLCudRqwS5uKdTV8jnwDsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="112526808"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 12 Feb 2025 01:28:32 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ti92j-0015R1-2F;
-	Wed, 12 Feb 2025 09:28:29 +0000
-Date: Wed, 12 Feb 2025 17:27:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
-	viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
-	corbet@lwn.net, linux-pm@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-	acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-tegra@vger.kernel.org, treding@nvidia.com,
-	jonathanh@nvidia.com, sashal@nvidia.com, vsethi@nvidia.com,
-	ksitaraman@nvidia.com, sanjayc@nvidia.com, bbasu@nvidia.com,
-	sumitg@nvidia.com
-Subject: Re: [Patch 5/5] cpufreq: CPPC: Add cppc_cpufreq_epp instance for
- Autonomous mode
-Message-ID: <202502121734.xMnvqs6o-lkp@intel.com>
-References: <20250211103737.447704-6-sumitg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KjTfijJL"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2fa1c093d6eso7947465a91.0;
+        Wed, 12 Feb 2025 01:32:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739352723; x=1739957523; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V5DmmKO72SaGBOzQSc/JkhpJVRIV+UZwXCKdV/BgHww=;
+        b=KjTfijJL71BIHyDbzQxawS3ZL3weSZokIxQ3i7bvPeMjQUt4fz7diUYb51IbRZKNdy
+         5dT17zvU7nJkxLBv1Sic2a28jp3/xf1b/iHK+A5H3qgKZ25GM+I1pWvMx0gsX6QI9AVP
+         +WYZ2+nx8LxojgDs6CF5LSx0YjIEGqGPqumC48FA9B3EOHuz3pz7YtbAOsGdo6M+Uffg
+         fhLXZdd4d5u6iHtLFo7Bd3Cbrcv8LMUGFQuSlEYh4pK2h02VR6hsz6WILFH57uTfk6O6
+         Dp6a9SeXG8bUfH5nKvmrAs63YAWCbva4IDibKjMFqGmM5Pg3sqRduk8YUnBkjRg7RnfB
+         HtpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739352723; x=1739957523;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V5DmmKO72SaGBOzQSc/JkhpJVRIV+UZwXCKdV/BgHww=;
+        b=X3HK6EXHGmUDs+6xN+ZAin9h1PsF9j4YRWKWyyppy1PGwoH7xNS0R0r9We0Xe/Yks6
+         /9syJbuoA5z0mHjc9AjAaFEmbuELlQff6e0/1leIh9ry4THcG6dXQEQk5ZTRDQxAcRwa
+         pmTDrEuOddLfr6rI1Ch9ahy1DFzLjQXv0dlCTOLi13AC5XRvu4euYgRq/ozWQxv0vExw
+         PvGcWzBCt+YqszK9Rs422A6bNVsS2YlSopPUlTJJfmU3gHhTwdH/KGfSodVYZVW+PyjT
+         jLdRKUrpOd7l+DO75C3v+fTDdxO71pv22b+3cxDYKPEAxn9xWPqm7lf3FVhSA33j/uOe
+         3u+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUAfxPNMBDITRcKiRiRaGMcFeAYGwIa/NA4JVEkFQvVHA1MJ4ZaBSPZKt6gT/tMuipOhnWBi/A1BG9S00i4@vger.kernel.org, AJvYcCUkezG5Y1aFc13AJl72BDw1wSI32WuGO43fXtALz12XKzWDXG1MKGcPZyQMK3D10CrbL6Y72WT2@vger.kernel.org, AJvYcCW5MTxGol+6uOBxInmevJuOIZ11TYO9YgCUizDLWYT0uct1I8S2uOn9g+Z2o7XfO/qSwv5Tn67ovpU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfDPRvJ/4BaObC/jA0dK4bJPAPj3Z/O4jeKwj7HEhow5JO5bik
+	IPZ9qWZN+yNP+LCj6HiFLBLxOlMzu6sc06sZmivuSLgXVzXgn1mi
+X-Gm-Gg: ASbGncve0sPLUK9V0uF76+iQ650VMHvfG517jj0/lJVWL/IISdwt1Zhbsbigv+gxQ39
+	6kbUJ0uFcJgYHevec8nXMQFi5beXnoYnr+sVv9Qp/fYbWKPP+OPxBXK/qnhvSTMJtij+A3y43Ju
+	/FyISpiFPFCxRHoD52ryLsFGbFfZ+8wnrDxy85wWWS+Lj1HSKGld6gNLsq4WiurW2lDUW65ohWf
+	oj7IIyYp2y4FPXx/GX1MXZMN3cOsbreq7QDOkn3Hxft6a4/JzeqklygXTD+aoB5cjTCXnJdOwnl
+	kSNRg9nmfxf8o+M=
+X-Google-Smtp-Source: AGHT+IHmRC7uaZIrF/FOX0ISVnivbMGm9aw43E3iyh18+4pTXlXSwaj4w0wma18l2IjmXtm4CB974w==
+X-Received: by 2002:a17:90b:4c04:b0:2f2:a796:26b with SMTP id 98e67ed59e1d1-2fbf5bc07famr3593478a91.1.1739352722791;
+        Wed, 12 Feb 2025 01:32:02 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fbf98b79easm1020925a91.14.2025.02.12.01.32.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 01:32:01 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id B1DE741F5559; Wed, 12 Feb 2025 16:31:54 +0700 (WIB)
+Date: Wed, 12 Feb 2025 16:31:54 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org
+Cc: kuba@kernel.org, rdunlap@infradead.org, ahmed.zaki@intel.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next v2] documentation: networking: Add NAPI config
+Message-ID: <Z6xqipobYH_Ood7A@archie.me>
+References: <CALALjgz_jtONSFLAhOTYFcfL2-UwDct9AxhaT4BFGOnnt2UF8A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cF2FwkLKTADE1R5c"
 Content-Disposition: inline
-In-Reply-To: <20250211103737.447704-6-sumitg@nvidia.com>
-
-Hi Sumit,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20250210]
-[cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge v6.14-rc2 v6.14-rc1 v6.13 linus/master v6.14-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/ACPI-CPPC-add-read-perf-ctrls-api-and-rename-few-existing/20250211-184154
-base:   next-20250210
-patch link:    https://lore.kernel.org/r/20250211103737.447704-6-sumitg%40nvidia.com
-patch subject: [Patch 5/5] cpufreq: CPPC: Add cppc_cpufreq_epp instance for Autonomous mode
-config: riscv-randconfig-001-20250212 (https://download.01.org/0day-ci/archive/20250212/202502121734.xMnvqs6o-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121734.xMnvqs6o-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502121734.xMnvqs6o-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/cpufreq/cppc_cpufreq.c:780:68: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
-     780 |         pr_debug("cpu%d, curr epp:%u, new epp:%u, curr mode:%u, new mode:%u\n",
-         |                                                                          ~^
-   include/linux/printk.h:631:30: note: expanded from macro 'pr_debug'
-     631 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                     ^~~
-   drivers/cpufreq/cppc_cpufreq.c:11:37: note: expanded from macro 'pr_fmt'
-      11 | #define pr_fmt(fmt)     "CPPC Cpufreq:" fmt
-         |                                         ^~~
-   include/linux/printk.h:135:11: note: expanded from macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ^~~
->> drivers/cpufreq/cppc_cpufreq.c:799:23: warning: unused variable 'cpu_data' [-Wunused-variable]
-     799 |         struct cppc_cpudata *cpu_data = policy->driver_data;
-         |                              ^~~~~~~~
-   drivers/cpufreq/cppc_cpufreq.c:1018:23: warning: unused variable 'cpu_data' [-Wunused-variable]
-    1018 |         struct cppc_cpudata *cpu_data;
-         |                              ^~~~~~~~
->> drivers/cpufreq/cppc_cpufreq.c:1019:11: warning: unused variable 'pref' [-Wunused-variable]
-    1019 |         int cpu, pref, ret = 0;
-         |                  ^~~~
-   4 warnings generated.
+In-Reply-To: <CALALjgz_jtONSFLAhOTYFcfL2-UwDct9AxhaT4BFGOnnt2UF8A@mail.gmail.com>
 
 
-vim +780 drivers/cpufreq/cppc_cpufreq.c
+--cF2FwkLKTADE1R5c
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   773	
-   774	static int cppc_cpufreq_epp_update_auto_mode(struct cpufreq_policy *policy, int auto_sel, u32 epp)
-   775	{
-   776		struct cppc_cpudata *cpu_data = policy->driver_data;
-   777		int ret, curr_epp;
-   778	
-   779		curr_epp = cpu_data->perf_ctrls.energy_perf;
- > 780		pr_debug("cpu%d, curr epp:%u, new epp:%u, curr mode:%u, new mode:%u\n",
-   781			 curr_epp, epp, cpu_data->perf_caps.auto_sel, auto_sel);
-   782	
-   783		/* set Performance preference as default */
-   784		cpu_data->perf_ctrls.energy_perf = epp;
-   785		ret = cppc_set_epp_perf(policy->cpu, &cpu_data->perf_ctrls, auto_sel);
-   786		if (ret < 0) {
-   787			pr_err("failed to set energy perf value (%d)\n", ret);
-   788			cpu_data->perf_ctrls.energy_perf = curr_epp;
-   789			return ret;
-   790		}
-   791		cpu_data->perf_caps.auto_sel = auto_sel;
-   792	
-   793		return ret;
-   794	}
-   795	
-   796	static int cppc_cpufreq_epp_update_perf(struct cpufreq_policy *policy, int auto_sel, u32 epp,
-   797						u32 highest_perf, u32 lowest_perf)
-   798	{
- > 799		struct cppc_cpudata *cpu_data = policy->driver_data;
-   800		int ret;
-   801	
-   802		ret = cppc_cpufreq_epp_update_perf_ctrls(policy, highest_perf, lowest_perf);
-   803		if (ret)
-   804			return ret;
-   805	
-   806		ret = cppc_cpufreq_epp_update_auto_mode(policy, auto_sel, epp);
-   807		if (ret)
-   808			return ret;
-   809	
-   810		return ret;
-   811	}
-   812	
+On Tue, Feb 11, 2025 at 08:06:03PM +0000, Joe Damato wrote:
+> diff --git a/Documentation/networking/napi.rst
+> b/Documentation/networking/napi.rst
+> index f970a2be271a..d0e3953cae6a 100644
+> --- a/Documentation/networking/napi.rst
+> +++ b/Documentation/networking/napi.rst
+> @@ -171,12 +171,43 @@ a channel as an IRQ/NAPI which services queues
+> of a given type. For example,
+>  a configuration of 1 ``rx``, 1 ``tx`` and 1 ``combined`` channel is expe=
+cted
+>  to utilize 3 interrupts, 2 Rx and 2 Tx queues.
+>=20
+> +Persistent NAPI config
+> +----------------------
+> +
+> +Drivers often allocate and free NAPI instances dynamically. This leads t=
+o loss
+> +of NAPI-related user configuration each time NAPI instances are realloca=
+ted.
+> +The netif_napi_add_config() API prevents this loss of configuration by
+> +associating each NAPI instance with a persistent NAPI configuration base=
+d on
+> +a driver defined index value, like a queue number.
+> +
+> +Using this API allows for persistent NAPI IDs (among other settings), wh=
+ich can
+> +be beneficial to userspace programs using ``SO_INCOMING_NAPI_ID``. See t=
+he
+> +sections below for other NAPI configuration settings.
+> +
+> +Drivers should try to use netif_napi_add_config() whenever possible.
+> +
+>  User API
+>  =3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>  User interactions with NAPI depend on NAPI instance ID. The instance IDs
+>  are only visible to the user thru the ``SO_INCOMING_NAPI_ID`` socket opt=
+ion.
+> -It's not currently possible to query IDs used by a given device.
+> +
+> +Users can query NAPI IDs for a device or device queue using netlink. Thi=
+s can
+> +be done programmatically in a user application or by using a script incl=
+uded in
+> +the kernel source tree: ``tools/net/ynl/pyynl/cli.py``.
+> +
+> +For example, using the script to dump all of the queues for a device (wh=
+ich
+> +will reveal each queue's NAPI ID):
+> +
+> +.. code-block:: bash
+> +
+> +   $ kernel-source/tools/net/ynl/pyynl/cli.py \
+> +             --spec Documentation/netlink/specs/netdev.yaml \
+> +             --dump queue-get \
+> +             --json=3D'{"ifindex": 2}'
+> +
+> +See ``Documentation/netlink/specs/netdev.yaml`` for more details on
+> +available operations and attributes.
+>=20
+>  Software IRQ coalescing
+>  -----------------------
+>=20
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Looks good, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--cF2FwkLKTADE1R5c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6xqgQAKCRD2uYlJVVFO
+o81lAP4z/yUAyaOjOOztxdyySiDTD32H5qQDDqSlytkoDtTUjAD9HiD25Uc/PYP3
+amQcPLgp9Og74lJ41fy+4Yw+Lil98ww=
+=e5TW
+-----END PGP SIGNATURE-----
+
+--cF2FwkLKTADE1R5c--
