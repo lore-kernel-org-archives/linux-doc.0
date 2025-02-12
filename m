@@ -1,64 +1,64 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D05D211297
-	for <linux-doc@vger.kernel.org>; Wed, 12 Feb 2025 15:12:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0D22116FC
+	for <linux-doc@vger.kernel.org>; Wed, 12 Feb 2025 15:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739373163; cv=none; b=sp5LYE27whn5u1vkasFi07pQhV4GJn5CtoNtgw4L6b3ESzp99eylAf//rHwRTcd4wkDHX9vMZkU0dptomSBqIyFbi9ayjC9yErYlcLPVAeWeQuzofUHu0R+bt9HKvCj9AKJzCMyzq5rXiuOqfZzCYSsrvKGPCA8QV0F861KEz/A=
+	t=1739373306; cv=none; b=Npdj3QjKfXa9A1B0ieMmyerbu88POXisat0BtE8cbKOy4RJsSMlBzyJQkJJB0cGIRmJhjkD50Q+sE3PdaEriplmlMYO3ZQHH2eaD0S6HlyUF8itwFeR0olcvkabR1RApT2TSDHaNAJRiMPsjW4V9+Z6N0gZrN5z2vbJ91mjKGxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739373163; c=relaxed/simple;
-	bh=IHSbh6r5DGMhZN/8rWZQQsLrq0/FTXzKTkc6Gh9pAKc=;
+	s=arc-20240116; t=1739373306; c=relaxed/simple;
+	bh=UKSI6EDytSdjdgykF5MQAulLMhQVp1al45tKOJnsdH0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uitSN+g5JdduongrFYLAldoVVc0g0Dywkp5eMjsfP2ebC8bBdEw4NKeWHaSl0+w2Mq31j9xrWru92PeDN4Tu0yvuDBWD9ZKqhWcDClLTduZzOlqIkNYROUdJ0RMxOMWSGkM+c/lSVndc44GgxjpKswsLVx0+zbYNlGoqci+9Ug0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=GNaEO2hi; arc=none smtp.client-ip=209.85.214.178
+	 In-Reply-To:Content-Type; b=TPIceKOYpCMAM57V4nKuIrJlubkcqavnRNOyy82CAnFCgCqJu+w0q6X+TVcZjUqEt5TfzixGCEdpHcN1J4rp5VXplJkXeYzNPAwhr/uHe5c8L+O7fP6XBJGUb+kAMRT6tS2+xGG5zuEK4zf+PJYD4b4E0MXGpWJ3LCE8aAeqlqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=QtiL1o5f; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="GNaEO2hi"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2166db59927so14380525ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Feb 2025 07:12:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="QtiL1o5f"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21fa8ca8eedso6846385ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Feb 2025 07:15:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1739373160; x=1739977960; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1739373304; x=1739978104; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=YBs34c4qQHheJQVXIkvBxk26x9OYVq3E9NsfJIlzJr4=;
-        b=GNaEO2hiqCvKgE13oySLduw++pti1rY6qtZfFCVtKna3X9nOsT0MZcHTtX1rbYFz1g
-         s8/+qjWpNYHqnA7WTQd6tz+P76aJJu6EWr6hEIc+S4Dma80FiR3YpjlN0UnFoa7zQFI9
-         HjcWoNPD6V6PllPlX1BS1LhbLegf3PDlfcc5BVA1dZPkuX+I2UvP6pouQb/fieg8Ry9E
-         w2T3AEIPGD9NWK+OI5kx5MWsJXicfP+g3p5eN/u9576E8IKcQr6v/oQYk++fE5kkNwRb
-         6ThHVaNc9KDuJosFyimB2D7DlJkQoMVcBq6gjb6GB6CGpsH2y5kVzo01Ii37uitAZ84F
-         ZWWg==
+        bh=ljlNJ9UmDZpoTWF1Xq95Z534XH7s9JC+28dFI3VXtdY=;
+        b=QtiL1o5fqu/nFwGQkhRUAbMFBMr2j7j+IJMele+Y/ilWf46h53pfx/2CBq/OskzUEX
+         mDk6n4g+gG8XUFPYCcxRT1K2o9Tt/CYGha8v5RU6VBpL9CYt9fz4qh8ukfHgsYDvhpNs
+         YS1fhaAdnxzLPmWTsBQFwg/ZSn81YY2to/J1WyWxCbGLaUH+Ahl8wMbiE0DzMrgqMeD6
+         aGDWSgVhTcBppWgvKsa7a/T/vVXhVbI1OtDYMqDFXUKeMY2uSrtaNQjsucqOZgvS2l4j
+         GlQapwQ58YJRg1CGPhjMszqS0876cbX9GNA2HPgyzu/Hm+6E3/kZ5DrQ8Evu1RhZ5cgt
+         Ce5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739373160; x=1739977960;
+        d=1e100.net; s=20230601; t=1739373304; x=1739978104;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YBs34c4qQHheJQVXIkvBxk26x9OYVq3E9NsfJIlzJr4=;
-        b=dLlzbJONfZlq+gUB63Y8zyZ1DW7cGMYsXQ45bTqqB3Ec8EQxoXzuzZF4xPZE2UIx9r
-         SJqInSQAvLIcaCsaghGBIJfd/SKskPNqMIZP7uO9hgq21nNIggg8V6S60Aki5qCqZsj4
-         x6fmQF+P4xLSWs3kVfbGxbx3++ls8jDlJmR7xkqEIe5m+6k4gwch8VquFu76IuUxFukk
-         qdpXevj+g9ZkmQI+YHnrufpSFNT1jKVMDegjtJ9h/yrpXV3R1k00ao8v+4P6vGidNpi7
-         BJfMtufyF0aW7oC0Cl0VC48MkOAZDnjO2lO9G7HlGbffSnpqI2JtxbNuyclr/GI7gCAr
-         NKyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPN5fAA5g9IKC9ToEdk7qQvbFQSLlkPnmjQ8caABab4zpuCnhM8MmQI8e21Hj9Qud5lXZcxjVBVGk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4OcTcv0RHrNSsGCyVOqFSGLGbN9/t943pIBtgqef3B+joFmil
-	8R+5sbrm7LuNKgaH/mAE9eEdq0kojnxBEaqUAcSDZu1RrOhb0ql3UGAcqWAGd6I=
-X-Gm-Gg: ASbGncv+de43JGxj0W1rqy+NwpGJqLRcm2wfCh/BlnFaBw79OgOFIGAfoXPCUedDOHF
-	lQA/rxuDVKCmaU9egY6ZJWmwUdnLkVyw1Qhd9V1bJR7VSGdt8Kv2E5EODlb8IScs2NDD7kMEuZ5
-	lo3WVhBrjjLlGClQ5foHLk2+SkYXQymmzLBW7RP/EaA6QzyKvtsGhqUGDcldsaOJ/Q5lgAKlE83
-	aV53Mxe5igsuK+oQUnKfWA4sZzKagh5dMLafVQnM2EPv90/Fk6g9mKXYFh+TDeS/MlN1cBbBw4h
-	kNvMGhwpchnEpmbriVDBqxcHDJF/V2oUynta
-X-Google-Smtp-Source: AGHT+IGouYzGmjROSox/PWnSlVRVChVYl2AaCCEc0qnqfNRunaVXv0XRlbBjS/AwWeQ6AnVHMD63tw==
-X-Received: by 2002:a17:902:d512:b0:20c:f648:e388 with SMTP id d9443c01a7336-220bbafb2b9mr22054375ad.7.1739373160274;
-        Wed, 12 Feb 2025 07:12:40 -0800 (PST)
+        bh=ljlNJ9UmDZpoTWF1Xq95Z534XH7s9JC+28dFI3VXtdY=;
+        b=ZP7mck7M3hRx+o6VrAgcQNbpvPjXokIniT2+0jwbc8ojvxJdPAbXxVWB1IaISkpb2e
+         Gz4a3pzZpC3xNMRwX0UMvw5vcFj4Byz3fEFOG1PxMm35812fwvmr1ty73QXpsybloG6r
+         8FLyrlWUsyWYs915vmEx2WkUTLTYZBq1RBZMjtYzVB6geNapy33Yf25Q5v+JafcHEaOY
+         F0aKdeYPJAXQBixz25+rPtqzUKgimqJ2MLuISK0JZBiKzGxtmxlc1eTNbTp4d1L26R5H
+         4ZpEa4NDz8qkfpeovxF2Y4+O1YJcRkXUyvhR40zVlgG7zo1IvAd4dIoCB9l2LhWxlHht
+         JttQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW5Hgbl4YGRwyM4wkF1AZdy/YQt/hkDXC0eIrjALfYlFsywQfQdTjfrnyG3GdTK9jeUWVKidc8RfBc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTBoisCNXdIwOBcLRQ0MCRFy+Og+kkKSV1mTaPPUpZM3mSTgGq
+	8EOYITInwun0abN7yK7ocWP1lZ9wKg0MkGRAu61fD0UIManfNU61ps3ElaenyA0=
+X-Gm-Gg: ASbGnctRiYU88VNJnmMprIm2sb6k7fV4afqYjgHTQ2Mqm7cCMbLqyOZAvexuQ+E3tjn
+	qLDjLvdw7XmbvlIzw8a5RFhkR/KH4AsBpKAAmEjRVluRMsxhzsbVXte/QzDLPFoyHn32m+aduLM
+	VNAJiMNta4/ookcaygUIoi2vwDr7bDGtCsazKv3zDK29GZ9O66EcsR7S81iOIk5nutTRS1i1HPJ
+	Ax0n+6xgKOtkAUN8OmLDsc06p1YuY773GKPJS6sYnXu+1eKYNEcBjtVlwXje5biuIRkKLIcQHo+
+	gAXCfbwzBk1ihMOP0dsFjEjuGA7La400yUbM
+X-Google-Smtp-Source: AGHT+IGMKZH7Pjm+B4qQMXXr8SYftdRnx3TSgwBf542/KSP2GU0FH9uQfkBy0KRoBLo407PBjmHRWg==
+X-Received: by 2002:a05:6a21:a46:b0:1ea:e7be:ff07 with SMTP id adf61e73a8af0-1ee5cd189aamr2473323637.6.1739373304086;
+        Wed, 12 Feb 2025 07:15:04 -0800 (PST)
 Received: from [10.4.234.23] ([139.177.225.244])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fbf9ab0233sm1613044a91.44.2025.02.12.07.12.32
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73048ad2809sm11229424b3a.58.2025.02.12.07.14.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2025 07:12:39 -0800 (PST)
-Message-ID: <4c0f852e-bf79-4e59-be42-bdf11fb92f3b@bytedance.com>
-Date: Wed, 12 Feb 2025 23:12:29 +0800
+        Wed, 12 Feb 2025 07:15:03 -0800 (PST)
+Message-ID: <b4ae80bf-36b4-4f31-96ad-6876372c91a2@bytedance.com>
+Date: Wed, 12 Feb 2025 23:14:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,10 +69,11 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: Re: [PATCH v2 3/3] cgroup/rstat: Add run_delay accounting for
  cgroups
 Content-Language: en-US
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+To: Tejun Heo <tj@kernel.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
  Vincent Guittot <vincent.guittot@linaro.org>,
  Dietmar Eggemann <dietmar.eggemann@arm.com>,
  Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
@@ -88,94 +89,50 @@ References: <20250125052521.19487-1-wuyun.abel@bytedance.com>
  <3wqaz6jb74i2cdtvkv4isvhapiiqukyicuol76s66xwixlaz3c@qr6bva3wbxkx>
  <9515c474-366d-4692-91a7-a4c1a5fc18db@bytedance.com>
  <qt3qdbvmrqtbceeogo32bw2b7v5otc3q6gfh7vgsk4vrydcgix@33hepjadeyjb>
+ <Z6onPMIxS0ixXxj9@slm.duckdns.org>
 From: Abel Wu <wuyun.abel@bytedance.com>
-In-Reply-To: <qt3qdbvmrqtbceeogo32bw2b7v5otc3q6gfh7vgsk4vrydcgix@33hepjadeyjb>
+In-Reply-To: <Z6onPMIxS0ixXxj9@slm.duckdns.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2/10/25 11:38 PM, Michal Koutný Wrote:
-> Hello Abel (sorry for my delay).
+On 2/11/25 12:20 AM, Tejun Heo Wrote:
+> On Mon, Feb 10, 2025 at 04:38:56PM +0100, Michal Koutný wrote:
+> ...
+>> The challenge is with nr (assuming they're all runnable during Δt), that
+>> would need to be sampled from /sys/kernel/debug/sched/debug. But then
+>> you can get whatever load for individual cfs_rqs from there. Hm, does it
+>> even make sense to add up run_delays from different CPUs?
 > 
-> On Wed, Jan 29, 2025 at 12:48:09PM +0800, Abel Wu <wuyun.abel@bytedance.com> wrote:
->> PSI tracks stall times for each cpu, and
->>
->> 	tSOME[cpu] = time(nr_delayed_tasks[cpu] != 0)
->>
->> which turns nr_delayed_tasks[cpu] into boolean value, hence loses
->> insight into how severely this task group is stalled on this cpu.
-> 
-> Thanks for example. So the lost information is kind of a group load.
+> The difficulty in aggregating across CPUs is why some and full pressures are
+> defined the way they are. Ideally, we'd want full distribution of stall
+> states across CPUs but both aggregation and presentation become challenging,
+> so some/full provide the two extremes. Sum of all cpu_delay adds more
+> incomplete signal on top. I don't know how useful it'd be. At meta, we
+> depend on PSI a lot when investigating resource problems and we've never
+> felt the need for the sum time, so that's one data point with the caveat
+> that usually our focus is on mem and io pressures where some and full
+> pressure metrics usually seem to provide sufficient information.
 
-Exactly.
-
-> What meaning it has when there is no group throttling?
-
-It means how severely this cgroup is interfered by co-located tasks.
-Both psi and run_delay are tracked in (part of) our fleet, and the
-spikes usually lead to poor SLI. But we do find circumstances that
-run_delay has a better correlation with SLI due to the abovementioned
-method of stall time accounting.
-
-They are treated as indicators of triggering throttling or evicting
-the co-located low priority jobs.
-
-In fact we also track per-cpu stats (cpu.stat.percpu) for cgroups,
-including run_delay which helped us to decide which job to be the
-victim, and also provided useful info when we diagnose issues.
-
-> 
-> Honestly, I can't reason neither about PSI.some nor Σ run_delay wrt
-> feedback for resource control. What it is slightly bugging me is
-> introduction of another stats field before first one was explored :-)
-> 
-> But if there's information loss with PSI -- could cpu.pressure:some be
-> removed in favor of Σ run_delay? (The former could be calculated from
-> latter if you're right :-p)
-
-It is not my intent to replacing cpu.pressure:some by run_delay. The
-former provides a normalized value that can be used to compare among
-different cgroups while the latter isn't able to.
+It's interesting, as we also find that PSI is of great useful in memory
+and io and never thought of aggregating them across CPUs. With my limited
+knowledge, I guess it's because they have shared global bottleneck. F.e.
+a shortage of memory will put all the tasks of that memcg in same situation
+no matter which cpu they are running on. And the io issues are generally
+caused by legacy backends which have poor performance, that is lower speed
+or less hwqueues, so still contend with each other outside the scope of
+cpus. While the scheduling is different, some cpus can be much contended
+than others due to affinity constrains or something else, since different
+cpus have separated bandwidth.
 
 > 
-> (I didn't like the before/after shuffling with enum cpu_usage_stat
-> NR_STATS but I saw v4 where you tackled that.)
-> 
-> Michal
-> 
-> 
-> More context form previous message, the difference is between a) and c),
-> or better equal lanes:
-> 
-> a')
->     t1 |----|
->     t2 |xx--|
->     t3 |----|
-> 
-> c)
->     t1 |----|
->     t2 |xx--|
->     t3 |xx--|
-> 
->        <-Δt->
+> As the picture provided by some and full metrics is incomplete, I can
+> imagine adding the sum being useful. That said, it'd help if Able can
+> provide more concrete examples on it being useful. Another thing to consider
+> is whether we should add this across resources monitored by PSI - cpu, mem
+> and io.
 
-Yes, a) and c) have same cpu.pressure:some but make different progress.
-
-> 
-> run_delay can be calculated indepently of cpu.pressure:some
-> because there is still difference between a') and c) in terms of total
-> cpu usage.
-> 
-> 	Δrun_delay = nr * Δt - Δusage
-> 
-> The challenge is with nr (assuming they're all runnable during Δt), that
-> would need to be sampled from /sys/kernel/debug/sched/debug. But then
-> you can get whatever load for individual cfs_rqs from there. Hm, does it
-> even make sense to add up run_delays from different CPUs?
-
-Very good question. In our case, this summed value is used as a general
-indicator to trigger strategy which further depends on raw per-cpu data
-provided by cpu.stat.percpu, which implies that what we actually want is
-the per-cpu data.
+Please check my last reply to see our usecase, and it would be appreciated
+if you can shed some light on it.
 
 Thanks & Best Regards,
 	Abel
