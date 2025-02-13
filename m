@@ -1,50 +1,50 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8443D26982C
-	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 20:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893F526E179
+	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 20:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739479541; cv=none; b=kYp9MHhIuelZEpg8ARbmigwPkJeXIaA0DPdLiuhz+vCe9sFJx6rwI4BAUAZVaDjC1at6namOCtpO0whPcLVXo5EcQR0ylzUyIBO/mGUiE7oA5p3pyh/S3bA6CJjq7XT7X/RBVkKMxB2xrCakLktlZDRxMFegudjYkC8Bkm+78zE=
+	t=1739479547; cv=none; b=eIbkkV5K/Wnbzyj4eTsb+6zg7pGUvbxtStAP2xm/vFiAK0bZkDrCNZsOi17h1NL+yTMeEvpePsg36ZAqnunx+/cRyNXZ7oUAdVUOhPQBWdHVw3MoGliYvt/qziCrFVGYE6sc2UVTbkSjM6TSk97tPqooyaAg3hVZYTC9QuTQPpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739479541; c=relaxed/simple;
-	bh=s7pkylKj9Id4dUrLKbPumaUbKjaG4N7AczlbfdWejBw=;
+	s=arc-20240116; t=1739479547; c=relaxed/simple;
+	bh=JTmwREOm8vgAh+wf21oC9KKkM2p3YQTmbpEgnmgWrS0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oG7eEt7+4q42Zj4kGP3YgbRaBz9i/GM6MDaAF/PcMIGN2Jtz9XQLRA8VwKoT3h9QUDiOQQzGQBTx0JikUOZRKy4MknpXclxuzt5ybi3zFO0RQS2G98i1kQRspiA40cULz0JDlu1oZVdjjuN2PhGFQYYs/S7v2JXGTmTjsTEKcxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JXcbwvtg; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:To:Cc; b=Kycc7GVEL2+TmgoGVB/jCeY+7JbpZU1z36CRJWq8gFg7cS34GsL6/CuzZinbgMwtaOU5Jd2jHHceB+pisptzaiM9etzuUBDwnoxFJnO8yxT4ViRPjeyAs0bdCdX2lmCP4hfdNryeVvVHNMymDREVY03cem7vNN7dyShNJ96spJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FKu6gu65; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JXcbwvtg"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FKu6gu65"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739479538;
+	s=mimecast20190719; t=1739479544;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yhlsWximTz7SM0eXj6/ntZGY/brqFKDtzIbgKalU1c0=;
-	b=JXcbwvtg4ReqtwzqABQZas8MSIkc0m3UwiQcQDd5uksHP9zAxIpIpw/qGjSykj62hM8ZPN
-	jptRV+cv9uE0o1j2DQr+qyX7QeDftXdRlSd2YClj5bZaLGMUpkP+Dc1LeR565mTRoPAYQU
-	91YwzXBDIBvi0fUDiW0dICI+mK2WlZ0=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+	bh=HeQ/jjV+ywcVwkIAgFP1/8gfeoyRPCv4hLqMOutRAYs=;
+	b=FKu6gu65YmwpUeEXgw0O7gpuFEhGp+YHZ8AUvvk6mygFhXb2c7iTZsRxU9SDHxaTshS3Wj
+	AaauUtDeKFRWPjFOGU58qXD3+/sZRMEw0GEsA3MbOQn7mq4ErXNSATY0+iDJl5g7EXBFU7
+	70AQGtchcR080bcnubq32kQejCU8ryw=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-199-ZeCav7lZM_WT0AlM83Wntg-1; Thu,
- 13 Feb 2025 15:45:34 -0500
-X-MC-Unique: ZeCav7lZM_WT0AlM83Wntg-1
-X-Mimecast-MFC-AGG-ID: ZeCav7lZM_WT0AlM83Wntg_1739479532
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-70-xd3SnrE7O8qiOCQjVxYrkQ-1; Thu,
+ 13 Feb 2025 15:45:42 -0500
+X-MC-Unique: xd3SnrE7O8qiOCQjVxYrkQ-1
+X-Mimecast-MFC-AGG-ID: xd3SnrE7O8qiOCQjVxYrkQ_1739479539
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 22CD91800871;
-	Thu, 13 Feb 2025 20:45:32 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A12E118004A7;
+	Thu, 13 Feb 2025 20:45:39 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.199])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E203719373D9;
-	Thu, 13 Feb 2025 20:45:28 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5557E19373D9;
+	Thu, 13 Feb 2025 20:45:36 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 13 Feb 2025 15:44:30 -0500
-Subject: [PATCH 13/20] drm/panel/samsung-s6d7aa0:Move to using
+Date: Thu, 13 Feb 2025 15:44:32 -0500
+Subject: [PATCH 15/20] drm/panel/samsung-sofef00: Move to using
  mipi_dsi_*_multi() variants
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250213-mipi_cocci_multi-v1-13-67d94ff319cc@redhat.com>
+Message-Id: <20250213-mipi_cocci_multi-v1-15-67d94ff319cc@redhat.com>
 References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
 In-Reply-To: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -68,11 +68,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Artur Weber <aweber.kernel@gmail.com>, Jonathan Corbet <corbet@lwn.net>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739479476; l=8860;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739479476; l=4080;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=s7pkylKj9Id4dUrLKbPumaUbKjaG4N7AczlbfdWejBw=;
- b=xwoKSFa+Sr+JD9ljrYv5QeATeHYpxSMfK0AIgL6f9p87bHCo5P+vL/7d/W9vGKGHfRm+tqwDC
- 6SIod3dWci2CD3ZPQ1DdpCcpELY8oKbl7GLiNtFNSLAVUTUeS81eqlA
+ bh=JTmwREOm8vgAh+wf21oC9KKkM2p3YQTmbpEgnmgWrS0=;
+ b=5rn5ms1OjZSvqDJokZYYm0hNftZeie4fKtlxIKYMBHkyIOmd39mbqTXkkMsw7o+U0aru2mwCv
+ mlmJG3t8ql+BQnlFAMiqnFdtP3P8SG14XBMaL3CPpPkhzMB3O8dsOeV
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
@@ -118,55 +118,57 @@ struct mipi_dsi_device *dsi_var = dsi_device;
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 101 ++++++++++++++------------
- 1 file changed, 56 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c | 54 +++++++++------------------
+ 1 file changed, 17 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-index f23d8832a1ad055483b1f513557cb3d2807e3692..c451b2f7e9843a109767516f3138718a1345297f 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-@@ -65,17 +65,24 @@ static void s6d7aa0_reset(struct s6d7aa0 *ctx)
- static int s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
+diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+index 04ce925b3d9dbd91841f4b4e4a12320eac8e03af..07fabca54c5284d9d640e125ed1c6624a9ca04f8 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
++++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+@@ -44,39 +44,28 @@ static void sofef00_panel_reset(struct sofef00_panel *ctx)
+ static int sofef00_panel_on(struct sofef00_panel *ctx)
  {
  	struct mipi_dsi_device *dsi = ctx->dsi;
+-	struct device *dev = &dsi->dev;
+-	int ret;
 +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
  
- 	if (lock) {
--		mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0xa5, 0xa5);
--		mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0xa5, 0xa5);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_PASSWD1, 0xa5,
-+					     0xa5);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_PASSWD2, 0xa5,
-+					     0xa5);
- 		if (ctx->desc->use_passwd3)
--			mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0x5a, 0x5a);
-+			mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_PASSWD3,
-+						     0x5a, 0x5a);
- 	} else {
--		mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0x5a, 0x5a);
--		mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0x5a, 0x5a);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_PASSWD1, 0x5a,
-+					     0x5a);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_PASSWD2, 0x5a,
-+					     0x5a);
- 		if (ctx->desc->use_passwd3)
--			mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0xa5, 0xa5);
-+			mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_PASSWD3,
-+						     0xa5, 0xa5);
- 	}
+ 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
  
- 	return 0;
-@@ -84,6 +91,7 @@ static int s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
- static int s6d7aa0_on(struct s6d7aa0 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 	struct device *dev = &dsi->dev;
- 	int ret;
+-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+ 	usleep_range(10000, 11000);
  
-@@ -94,11 +102,7 @@ static int s6d7aa0_on(struct s6d7aa0 *ctx)
- 		return ret;
- 	}
+-	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
+ 
+-	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set tear on: %d\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+ 
+-	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x07);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x12);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x07);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x12);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY,
++				     0x20);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE,
++				     0x00);
  
 -	ret = mipi_dsi_dcs_set_display_on(dsi);
 -	if (ret < 0) {
@@ -177,156 +179,33 @@ index f23d8832a1ad055483b1f513557cb3d2807e3692..c451b2f7e9843a109767516f3138718a
  
  	return 0;
  }
-@@ -184,12 +188,10 @@ static int s6d7aa0_unprepare(struct drm_panel *panel)
- static int s6d7aa0_bl_update_status(struct backlight_device *bl)
+@@ -84,23 +73,14 @@ static int sofef00_panel_on(struct sofef00_panel *ctx)
+ static int sofef00_panel_off(struct sofef00_panel *ctx)
  {
- 	struct mipi_dsi_device *dsi = bl_get_data(bl);
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 	u16 brightness = backlight_get_brightness(bl);
+ 	struct mipi_dsi_device *dsi = ctx->dsi;
+-	struct device *dev = &dsi->dev;
 -	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
  
--	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
--	if (ret < 0)
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_set_display_off(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set display off: %d\n", ret);
 -		return ret;
-+	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, brightness);
+-	}
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+ 	msleep(40);
+ 
+-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+-		return ret;
+-	}
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+ 	msleep(160);
  
  	return 0;
- }
-@@ -231,6 +233,7 @@ s6d7aa0_create_backlight(struct mipi_dsi_device *dsi)
- static int s6d7aa0_lsl080al02_init(struct s6d7aa0 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 	struct device *dev = &dsi->dev;
- 	int ret;
- 
-@@ -242,18 +245,19 @@ static int s6d7aa0_lsl080al02_init(struct s6d7aa0 *ctx)
- 		return ret;
- 	}
- 
--	mipi_dsi_dcs_write_seq(dsi, MCS_OTP_RELOAD, 0x00, 0x10);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_OTP_RELOAD, 0x00, 0x10);
- 	usleep_range(1000, 1500);
- 
- 	/* SEQ_B6_PARAM_8_R01 */
--	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x10);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x10);
- 
- 	/* BL_CTL_ON */
--	mipi_dsi_dcs_write_seq(dsi, MCS_BL_CTL, 0x40, 0x00, 0x28);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_BL_CTL, 0x40, 0x00, 0x28);
- 
- 	usleep_range(5000, 6000);
- 
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_ADDRESS_MODE,
-+				     0x04);
- 
- 	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
- 	if (ret < 0) {
-@@ -262,7 +266,8 @@ static int s6d7aa0_lsl080al02_init(struct s6d7aa0 *ctx)
- 	}
- 
- 	msleep(120);
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_ADDRESS_MODE,
-+				     0x00);
- 
- 	ret = s6d7aa0_lock(ctx, true);
- 	if (ret < 0) {
-@@ -282,9 +287,10 @@ static int s6d7aa0_lsl080al02_init(struct s6d7aa0 *ctx)
- static int s6d7aa0_lsl080al02_off(struct s6d7aa0 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	/* BL_CTL_OFF */
--	mipi_dsi_dcs_write_seq(dsi, MCS_BL_CTL, 0x40, 0x00, 0x20);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_BL_CTL, 0x40, 0x00, 0x20);
- 
- 	return 0;
- }
-@@ -320,6 +326,7 @@ static const struct s6d7aa0_panel_desc s6d7aa0_lsl080al02_desc = {
- static int s6d7aa0_lsl080al03_init(struct s6d7aa0 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 	struct device *dev = &dsi->dev;
- 	int ret;
- 
-@@ -332,35 +339,38 @@ static int s6d7aa0_lsl080al03_init(struct s6d7aa0 *ctx)
- 	}
- 
- 	if (ctx->desc->panel_type == S6D7AA0_PANEL_LSL080AL03) {
--		mipi_dsi_dcs_write_seq(dsi, MCS_BL_CTL, 0xc7, 0x00, 0x29);
--		mipi_dsi_dcs_write_seq(dsi, 0xbc, 0x01, 0x4e, 0xa0);
--		mipi_dsi_dcs_write_seq(dsi, 0xfd, 0x16, 0x10, 0x11, 0x23,
--				       0x09);
--		mipi_dsi_dcs_write_seq(dsi, 0xfe, 0x00, 0x02, 0x03, 0x21,
--				       0x80, 0x78);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_BL_CTL, 0xc7, 0x00,
-+					     0x29);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbc, 0x01, 0x4e, 0xa0);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfd, 0x16, 0x10, 0x11,
-+					     0x23, 0x09);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0x00, 0x02, 0x03,
-+					     0x21, 0x80, 0x78);
- 	} else if (ctx->desc->panel_type == S6D7AA0_PANEL_LTL101AT01) {
--		mipi_dsi_dcs_write_seq(dsi, MCS_BL_CTL, 0x40, 0x00, 0x08);
--		mipi_dsi_dcs_write_seq(dsi, 0xbc, 0x01, 0x4e, 0x0b);
--		mipi_dsi_dcs_write_seq(dsi, 0xfd, 0x16, 0x10, 0x11, 0x23,
--				       0x09);
--		mipi_dsi_dcs_write_seq(dsi, 0xfe, 0x00, 0x02, 0x03, 0x21,
--				       0x80, 0x68);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MCS_BL_CTL, 0x40, 0x00,
-+					     0x08);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbc, 0x01, 0x4e, 0x0b);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfd, 0x16, 0x10, 0x11,
-+					     0x23, 0x09);
-+		mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xfe, 0x00, 0x02, 0x03,
-+					     0x21, 0x80, 0x68);
- 	}
- 
--	mipi_dsi_dcs_write_seq(dsi, 0xb3, 0x51);
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
--	mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x02, 0x08, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb3, 0x51);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY,
-+				     0x24);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x02, 0x08, 0x08);
- 
- 	usleep_range(10000, 11000);
- 
--	mipi_dsi_dcs_write_seq(dsi, 0xc0, 0x80, 0x80, 0x30);
--	mipi_dsi_dcs_write_seq(dsi, 0xcd,
--			       0x2e, 0x2e, 0x2e, 0x2e, 0x2e, 0x2e, 0x2e, 0x2e,
--			       0x2e, 0x2e, 0x2e, 0x2e, 0x2e);
--	mipi_dsi_dcs_write_seq(dsi, 0xce,
--			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--			       0x00, 0x00, 0x00, 0x00, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xc1, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc0, 0x80, 0x80, 0x30);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcd, 0x2e, 0x2e, 0x2e, 0x2e,
-+				     0x2e, 0x2e, 0x2e, 0x2e, 0x2e, 0x2e, 0x2e,
-+				     0x2e, 0x2e);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xce, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1, 0x03);
- 
- 	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
- 	if (ret < 0) {
-@@ -386,8 +396,9 @@ static int s6d7aa0_lsl080al03_init(struct s6d7aa0 *ctx)
- static int s6d7aa0_lsl080al03_off(struct s6d7aa0 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
--	mipi_dsi_dcs_write_seq(dsi, 0x22, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x22, 0x00);
- 
- 	return 0;
- }
 
 -- 
 2.47.0
