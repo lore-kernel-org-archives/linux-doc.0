@@ -1,267 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569CD14AD20;
-	Thu, 13 Feb 2025 17:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CD620409A;
+	Thu, 13 Feb 2025 17:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739466843; cv=none; b=FObS6mY2StcM+NdIuD3u1LpEYefP3lW4aq44kN8MJrv33bWUOoYaxxHzLPUuymOn+IgTfHniKSCD0XdBEmqHRD7Zkjct3bteSTFe3m1ZAvfieZ2ToeV5k/Ji7EKqp1xDIw8HLUiyuzJVE/h/cpMO2bcjJtHnva/KQA+eoenn30I=
+	t=1739468156; cv=none; b=ADxd3OzlbHwDHrHB9AAZ0hsjuQRMdWWtgYmMGuEAfqM2UhC2CsWjbQhgZxYrKofUohVeZOt8InEEs5tRQ/w4v+oN2pLepHQNjIL+JIyAqlvqOOXc6sOq4Oy+EmfC2El4Aa2jjpf+YIYJpFnRtTjWbMpLy0eTK61pr4DgFZF2Zwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739466843; c=relaxed/simple;
-	bh=c5kpCmM/AUe0gxWM0ksdx93Irwzp3MjKsc8taJMFDkk=;
+	s=arc-20240116; t=1739468156; c=relaxed/simple;
+	bh=YQq0NVsq8jz1OjuxiXdAWFkTr+laei83KpjusFxQA8g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lO8MxYfadUqHJv7BAuQuDaB9ZJ54CVEGY0Vg09Y474b0WbSAxV5hXXHvE0hz6crCjnQfWotI2GU5HHClmz1mAinQ/EomQF7eDzxWdARqJGFgX/4vkm0pMIMtxPxdMu6JoFph9cFqmMpWLLSNpAeveY2TKRsNToep5cHGhomm7W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VfsLGCVq; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=VAQztjrPKGy0GQX1f51zQ26dEPvFRbGzB2isaB/Ctercn6A2vzz8xXv68l6xA7J8kUBXkVxW017F45A7LJffeRrKd5ogEItzNfAI2ZkfMRbs6fLfGtZcBeDY/isupL3yuOE7dpVaOdUnDz/JtE/5VnWXxUFrwMyJOMSoxdYkyQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=POwGeouU; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VfsLGCVq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B35D4C4CEE4;
-	Thu, 13 Feb 2025 17:14:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739466842;
-	bh=c5kpCmM/AUe0gxWM0ksdx93Irwzp3MjKsc8taJMFDkk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=VfsLGCVqcnvsz0EPdvO/D1d9L7HWoG9sBA+WrxnRRxQfjSfihFRkvreaFRvRRTKyc
-	 T1Ml9RQ+KkPSVOC0sMPwwtGCINxRdZvohregL0RYui2+LL9BRWNH6wiNV8niVyjluN
-	 LAz5PSyYyqh05V6STGXAf9maWUrTaqRlzKGmM0EBj2AFJLfrI8aljuDgDFe9/MJeqU
-	 CzGabrkbRDo7Ag7oAwuW5ZiG+NwnZbU3y/I13/6a6Mxzyh0jHScQZaDwO78cTIf5Uv
-	 pWi25M1o6osC7Pt00ERpTa+5xO8olPgpxqeTotApd+FfFQGxDq2+Zl+v76j4wJfeJR
-	 PQxXyqv5eDKOQ==
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ab7cb1154abso154952766b.0;
-        Thu, 13 Feb 2025 09:14:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUIDNXrKNWeUIdnhasrsbOw9gF6F136nAE4UpQDN06gNIqEGiR2OhIBbbICk6KH1odR579nR77gG3eI7yW3@vger.kernel.org, AJvYcCWz9TFvgwZqe7fYtZ4PdoJos2Fwqbj3bFIc2uEeURWDOi0v2YVYni+WLpjhaETkQ6tJ4dnJK9jGyXlLKIqcjIsIAw==@vger.kernel.org, AJvYcCXxJnAYTEaifgLIggfrJTTDRN5NUUDqydWebU0ssgvebTZ2z9KqWm26MU6f4p3KwYQBwsYN5saKZN8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcQ5c8eEYaQlme2PC38xFB7d6S2BWMheltm9GrhAEi9J6/heCs
-	VpcOusvqKVPgxaRpqeIcNM4UYO07O+X4nVvRpjJVk/IC0L8a/AnLO/iQjexXdQXrzrGhpa8MAlm
-	cM2vj2i1t5rk+hhexehEAULRpOQ==
-X-Google-Smtp-Source: AGHT+IGLiNgkbdSgKYJxLv9yLc1GoCVMmMj+s80I6QXFJXsr3H3G985MmMlHVjvY6J6a3cMlBPrls5p737/5XQ9g0aM=
-X-Received: by 2002:a05:6402:5285:b0:5dc:5a51:cbfa with SMTP id
- 4fb4d7f45d1cf-5dec9d2c185mr11085898a12.6.1739466841112; Thu, 13 Feb 2025
- 09:14:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="POwGeouU"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30762598511so13009111fa.0;
+        Thu, 13 Feb 2025 09:35:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739468152; x=1740072952; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7qAMpVDOhtGjLWY8rXJglFjJtR265JZ5195CB8+cKFo=;
+        b=POwGeouUZeLfxEiLjQBIwVtup2ySCZUbZSa2AdsWsVX3srNT2Vb+KFzCxcp20MeIeQ
+         mm52hOGaIN4QpvQkDzc6pbq2QQ9hqzmU6NaPT24WHHnw+z6yGGO8+Qk2Wdef2sTQTs/9
+         2zaj9tNlHiEkHTsV31a4wSzjoQr1PAq7C3Mf3ZNHxsFVinveuM5GGOZrYoH8FyVaKSFF
+         MMZTmaPyf2XEKsXUGIh6HuaGO8imAdEpJDteKhnLLE5gKeEPQtAXA5Su/NRONE9WXxuj
+         /L7t5BOoLC4Ug33O9LtVXGb9L8zmfM5FaA7QSAbrHNcGqQuwt/9s9JeezQ4g4KdPdY8b
+         zbcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739468152; x=1740072952;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7qAMpVDOhtGjLWY8rXJglFjJtR265JZ5195CB8+cKFo=;
+        b=hdqXY7CfRnRGle6y96RPq8ZC7hUcAJzChQ8ZrACVNMbadNuo6vMejdR196Jlkd/Llc
+         aa9k4UW1vDIbHqzZ1PkpJGkx3YdCuWnmvSgVRv1thxYUZ60yWY9hFxXNacd+2oLd6e4D
+         L4rDv8pew2JjoLD1vw7s3PK5GJlZMqw1kkcSC6pzqQH7hDv4/Yf1tdYecLZIubi83cdk
+         I7dNA9RxOFXkLQRifZPP+U7ZeQgqgAoo2xAr3baYOucCMldnMLjGxE8Q+Ce0w0GZZmz+
+         2nBSfgw8AB6KbHO1qDNZ7y79S6KPkT4axUkpd21f/ZhZ7rRjFTDFMgDxJ2hHoHOV65kN
+         LAmA==
+X-Forwarded-Encrypted: i=1; AJvYcCXlxMOVr4TxTs7DdrRVqTMj8GJsQI9hRXrh6NIPmijLn5K+01hxMLz0zOqCoHeO4HKpbPW22w9V4n8FTRA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAmbVKML3+lS54TF7u64BdcJoms65D2UpnjQElsG9Jm7wheZeJ
+	/3qMe0Cj0dTxIG+KQYFTSKMpLTLRZSrl0KMZWMuZvkKEAlg8CQ13NRWZfS/TjgTzM6b5xVDEbty
+	uKssQyNzv1WqTsWz/T6uS/53D/hw=
+X-Gm-Gg: ASbGnctW0negaMtnnJNW/EBLeMHHk41nVGcMoy8h1S3+pdkt0AvVbea5qCUh79PXCD4
+	OuKEh19snitxiImwV7S4AdvrsWFRPhCQHByNU/j+1YWSAEsSXHeX7TVlYbvuxeACLOlJ7s97S96
+	9BjyafyQJW0C+sst1QgI1Hyufko4pqFQ==
+X-Google-Smtp-Source: AGHT+IGY0srE7wji4W9bLp26kLxH0QGCdWUi5EwnHnmRRB8roSRmEHIwTufI5RAZRQ0k86nA9jKtQdN81/gcY/A+yK8=
+X-Received: by 2002:a2e:a913:0:b0:308:f6cf:3611 with SMTP id
+ 38308e7fff4ca-3090dd06b8cmr17279501fa.10.1739468151884; Thu, 13 Feb 2025
+ 09:35:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250202-arm-brbe-v19-v19-0-1c1300802385@kernel.org>
- <20250202-arm-brbe-v19-v19-11-1c1300802385@kernel.org> <20250213161628.GF235556@e132581.arm.com>
-In-Reply-To: <20250213161628.GF235556@e132581.arm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 13 Feb 2025 11:13:49 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+VmfibMVdh+9DxqU5Axiv_zMiznAh8_umFB1J2y8reig@mail.gmail.com>
-X-Gm-Features: AWEUYZl-h3OwTWUMTokpITINNaXk1-oL6xdH92FmLUNnd48obarnwJfoMpDQhGA
-Message-ID: <CAL_Jsq+VmfibMVdh+9DxqU5Axiv_zMiznAh8_umFB1J2y8reig@mail.gmail.com>
-Subject: Re: [PATCH v19 11/11] perf: arm_pmuv3: Add support for the Branch
- Record Buffer Extension (BRBE)
-To: Leo Yan <leo.yan@arm.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	James Clark <james.clark@linaro.org>, Anshuman Khandual <anshuman.khandual@arm.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kvmarm@lists.linux.dev
+References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
+ <Z6bKR9K16-oYMLFl@archie.me> <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
+In-Reply-To: <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Date: Thu, 13 Feb 2025 23:05:39 +0530
+X-Gm-Features: AWEUYZn6qEdgw-FWu9wGm9trUEcco7CIRDetR6lShyMK3GR9NJoIyLrnadYOLAI
+Message-ID: <CAH4c4j+kOYMfzO5QOBg+hGe2zt4kN4f7v+mrri-2GMLzYtCPrw@mail.gmail.com>
+Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>, 
+	Linux DRI Development <dri-devel@lists.freedesktop.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-kernel-mentees@lists.linux.dev, 
+	skhan@linuxfoundation.org, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Jonathan Corbet <corbet@lwn.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 13, 2025 at 10:16=E2=80=AFAM Leo Yan <leo.yan@arm.com> wrote:
->
-> On Sun, Feb 02, 2025 at 06:43:05PM -0600, Rob Herring (Arm) wrote:
->
-> [...]
->
-> > +void brbe_enable(const struct arm_pmu *arm_pmu)
-> > +{
-> > +       struct pmu_hw_events *cpuc =3D this_cpu_ptr(arm_pmu->hw_events)=
-;
-> > +       u64 brbfcr =3D 0, brbcr =3D 0;
-> > +
-> > +       /*
-> > +        * Merge the permitted branch filters of all events.
-> > +        */
-> > +       for (int i =3D 0; i < ARMPMU_MAX_HWEVENTS; i++) {
-> > +               struct perf_event *event =3D cpuc->events[i];
-> > +
-> > +               if (event && has_branch_stack(event)) {
-> > +                       brbfcr |=3D event->hw.branch_reg.config;
-> > +                       brbcr |=3D event->hw.extra_reg.config;
-> > +               }
-> > +       }
-> > +
-> > +       /*
-> > +        * If the record buffer contains any branches, we've already re=
-ad them
-> > +        * out and don't want to read them again.
-> > +        * No need to sync as we're already stopped.
-> > +        */
-> > +       brbe_invalidate_nosync();
-> > +       isb(); // Make sure invalidate takes effect before enabling
-> > +
-> > +       /*
-> > +        * In VHE mode with MDCR_EL2.HPMN set to PMCR_EL0.N, the counte=
-rs are
-> > +        * controlled by BRBCR_EL1 rather than BRBCR_EL2 (which writes =
-to
-> > +        * BRBCR_EL1 are redirected to). Use the same value for both re=
-gister
-> > +        * except keep EL1 and EL0 recording disabled in guests.
-> > +        */
-> > +       if (is_kernel_in_hyp_mode())
-> > +               write_sysreg_s(brbcr & ~(BRBCR_ELx_ExBRE | BRBCR_ELx_E0=
-BRE), SYS_BRBCR_EL12);
-> > +       write_sysreg_s(brbcr, SYS_BRBCR_EL1);
-> > +       isb(); // Ensure BRBCR_ELx settings take effect before unpausin=
-g
-> > +
-> > +       write_sysreg_s(brbfcr, SYS_BRBFCR_EL1);
->
-> Seems to me, it is weird that first enable recording (BRBCR), then set
-> control register BRBFCR.  And the writing SYS_BRBFCR_EL1 not guarded
-> by a barrier is also a bit concerned.
+Hi,
 
-We are always disabled (paused) when we enter brbe_enable(). So the
-last thing we do is unpause. The only ordering we care about after
-writing SYS_BRBFCR_EL1 is writing PMCR which has an isb before it is
-written.
+Just a gentle follow-up on this patch. It has been reviewed but hasn't
+been applied yet.
 
-> > +}
-> > +
-> > +void brbe_disable(void)
-> > +{
-> > +       /*
-> > +        * No need for synchronization here as synchronization in PMCR =
-write
-> > +        * ensures ordering and in the interrupt handler this is a NOP =
-as
-> > +        * we're already paused.
-> > +        */
-> > +       write_sysreg_s(BRBFCR_EL1_PAUSED, SYS_BRBFCR_EL1);
+Regards
+Pranav Tyagi
+
+
+On Thu, Feb 13, 2025 at 10:54=E2=80=AFPM Pranav Tyagi <pranav.tyagi03@gmail=
+.com> wrote:
 >
-> Maybe the Arm ARM causes the confusion for the description of the
-> PAUSED bit, I read it as this bit is a status bit to indicate
-> branch recording is paused.
-
-I agree, but I tested that writing it sets the bit (on FVP). Rule
-RSRJND says s/w clears the bit to unpause, so it is definitely
-writeable. While it doesn't say anything explicitly about s/w setting
-the bit, there is no definition in the Arm ARM of a 'write 0 to clear'
-only bit while there are W1C and W1S definitions.
-
-> > +}
-> > +
-> > +static const int brbe_type_to_perf_type_map[BRBINFx_EL1_TYPE_DEBUG_EXI=
-T + 1][2] =3D {
-> > +       [BRBINFx_EL1_TYPE_DIRECT_UNCOND] =3D { PERF_BR_UNCOND, 0 },
-> > +       [BRBINFx_EL1_TYPE_INDIRECT] =3D { PERF_BR_IND, 0 },
-> > +       [BRBINFx_EL1_TYPE_DIRECT_LINK] =3D { PERF_BR_CALL, 0 },
-> > +       [BRBINFx_EL1_TYPE_INDIRECT_LINK] =3D { PERF_BR_IND_CALL, 0 },
-> > +       [BRBINFx_EL1_TYPE_RET] =3D { PERF_BR_RET, 0 },
-> > +       [BRBINFx_EL1_TYPE_DIRECT_COND] =3D { PERF_BR_COND, 0 },
-> > +       [BRBINFx_EL1_TYPE_CALL] =3D { PERF_BR_CALL, 0 },
-> > +       [BRBINFx_EL1_TYPE_ERET] =3D { PERF_BR_ERET, 0 },
-> > +       [BRBINFx_EL1_TYPE_IRQ] =3D { PERF_BR_IRQ, 0 },
+> Hi,
 >
-> I saw this table cannot reflect the complete branch type.  We might
-> need to consider to extend the perf branch flags later.
+> Just a gentle follow-up on this patch. It has been reviewed by Bagas Sanj=
+aya but hasn't been applied yet.
 >
-> If the 'new_type' is always zero, it is not necessary to maintain a
-> array with two items (the second one is always 0).
-
-I'm adding the new_type's back in the next version.
-
+> Regards,
 >
-> > +};
-> > +
-> > +static void brbe_set_perf_entry_type(struct perf_branch_entry *entry, =
-u64 brbinf)
-> > +{
-> > +       int brbe_type =3D brbinf_get_type(brbinf);
-> > +
-> > +       if (brbe_type <=3D BRBINFx_EL1_TYPE_DEBUG_EXIT) {
-> > +               const int *br_type =3D brbe_type_to_perf_type_map[brbe_=
-type];
-> > +
-> > +               entry->type =3D br_type[0];
-> > +               entry->new_type =3D br_type[1];
-> > +       }
-> > +}
-> > +
-> > +static int brbinf_get_perf_priv(u64 brbinf)
-> > +{
-> > +       int brbe_el =3D brbinf_get_el(brbinf);
-> > +
-> > +       switch (brbe_el) {
-> > +       case BRBINFx_EL1_EL_EL0:
-> > +               return PERF_BR_PRIV_USER;
-> > +       case BRBINFx_EL1_EL_EL1:
-> > +               return PERF_BR_PRIV_KERNEL;
-> > +       case BRBINFx_EL1_EL_EL2:
-> > +               if (is_kernel_in_hyp_mode())
-> > +                       return PERF_BR_PRIV_KERNEL;
-> > +               return PERF_BR_PRIV_HV;
-> > +       default:
-> > +               pr_warn_once("%d - unknown branch privilege captured\n"=
-, brbe_el);
-> > +               return PERF_BR_PRIV_UNKNOWN;
-> > +       }
-> > +}
-> > +
-> > +static void capture_brbe_flags(struct perf_branch_entry *entry,
-> > +                              const struct perf_event *event,
-> > +                              u64 brbinf)
-> > +{
-> > +       brbe_set_perf_entry_type(entry, brbinf);
-> > +
-> > +       if (!branch_sample_no_cycles(event))
-> > +               entry->cycles =3D brbinf_get_cycles(brbinf);
-> > +
-> > +       if (!branch_sample_no_flags(event)) {
-> > +               /* Mispredict info is available for source only and com=
-plete branch records. */
-> > +               if (!brbe_record_is_target_only(brbinf)) {
-> > +                       entry->mispred =3D brbinf_get_mispredict(brbinf=
-);
-> > +                       entry->predicted =3D !entry->mispred;
-> > +               }
-> > +
-> > +               /*
-> > +                * Currently TME feature is neither implemented in any =
-hardware
-> > +                * nor it is being supported in the kernel. Just warn h=
-ere once
-> > +                * if TME related information shows up rather unexpecte=
-dly.
-> > +                */
-> > +               if (brbinf_get_lastfailed(brbinf) || brbinf_get_in_tx(b=
-rbinf))
-> > +                       pr_warn_once("Unknown transaction states\n");
+> Pranav Tyagi
 >
-> If the branch is in transaction, we can set:
 >
->   entry->in_tx =3D 1;
-
-We actively don't want to support the feature. The comment there is
-from Mark's feedback on a prior version.
-
->
-> > +       }
-> > +
-> > +       /*
-> > +        * Branch privilege level is available for target only and comp=
-lete
-> > +        * branch records.
-> > +        */
-> > +       if (!brbe_record_is_source_only(brbinf))
-> > +               entry->priv =3D brbinf_get_perf_priv(brbinf);
->
-> This logic is not quite right.  In theory, if we check with above
-> condition (!brbe_record_is_source_only(brbinf)), it might be the
-> case both source and target are not valid.
-
-We never get here if the record is not valid. A valid record must have
-at least 1 address valid.
-
-I could merge capture_brbe_flags() into perf_entry_from_brbe_regset().
-There's not much reason to have a separate function.
-
-Rob
+> On Sat, Feb 8, 2025 at 8:36=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.co=
+m> wrote:
+>>
+>> On Fri, Feb 07, 2025 at 10:23:25PM +0530, Pranav Tyagi wrote:
+>> > Corrects the following grammatical issues in the VGA Arbiter documenta=
+tion:
+>> > - Fixes subject-verb agreement by changing "co-exists" to "co-exist"
+>> > - Corrects pluralization by changing "server" to "servers"
+>> > - Improves sentence structure for clarity
+>> >
+>>
+>> +Cc: DRM folks.
+>>
+>> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+>> > ---
+>> >  Documentation/gpu/vgaarbiter.rst | 6 +++---
+>> >  1 file changed, 3 insertions(+), 3 deletions(-)
+>> >
+>> > diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaa=
+rbiter.rst
+>> > index bde3c0afb059..d1e953712cc2 100644
+>> > --- a/Documentation/gpu/vgaarbiter.rst
+>> > +++ b/Documentation/gpu/vgaarbiter.rst
+>> > @@ -11,9 +11,9 @@ Section 7, Legacy Devices.
+>> >
+>> >  The Resource Access Control (RAC) module inside the X server [0] exis=
+ted for
+>> >  the legacy VGA arbitration task (besides other bus management tasks) =
+when more
+>> > -than one legacy device co-exists on the same machine. But the problem=
+ happens
+>> > +than one legacy device co-exist on the same machine. But the problem =
+happens
+>> >  when these devices are trying to be accessed by different userspace c=
+lients
+>> > -(e.g. two server in parallel). Their address assignments conflict. Mo=
+reover,
+>> > +(e.g. two servers in parallel). Their address assignments conflict. M=
+oreover,
+>> >  ideally, being a userspace application, it is not the role of the X s=
+erver to
+>> >  control bus resources. Therefore an arbitration scheme outside of the=
+ X server
+>> >  is needed to control the sharing of these resources. This document in=
+troduces
+>> > @@ -106,7 +106,7 @@ In-kernel interface
+>> >  libpciaccess
+>> >  ------------
+>> >
+>> > -To use the vga arbiter char device it was implemented an API inside t=
+he
+>> > +To use the vga arbiter char device, an API was implemented inside the
+>> >  libpciaccess library. One field was added to struct pci_device (each =
+device
+>> >  on the system)::
+>> >
+>>
+>> The diff looks OK.
+>>
+>> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>>
+>> --
+>> An old man doll... just what I always wanted! - Clara
