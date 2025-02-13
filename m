@@ -1,142 +1,220 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazolkn19010010.outbound.protection.outlook.com [52.103.37.10])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9AA176AA1;
-	Thu, 13 Feb 2025 15:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.37.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739460367; cv=fail; b=ueVPaaZ1NDK4hrmlqlpbZ7/3AOCFGt/uJo9JrtSnxidCiDrw3K0TiFqX2kkdlB09bBm9OOEU6SaMKdDBvecX+KBMi58LyTxiwdl2BeMz3fQO2BPEwrjAeIv11bGYeaEHRSorYReM/uhCpg5nw8BBFDYoUyNrAx2hBQt0SvSUrY4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739460367; c=relaxed/simple;
-	bh=eCgqxksE4LxPTLnHItMJWvS+UZElL6XVYCnW7L/Uz0E=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 Content-Type:MIME-Version; b=q2bYmXejr65uDj/BWXjKGzw3cYv7KPkcmdQ5NbaOZDK2OrahDFjZ3SDzcl7H+/VMl/OEumz0Xbur76Cxc6ecgo2vwdUd3XqsdopRnBTa/oTFRZ2KXMNRf0SYjEytJemPaMxCnFnZbPN7rggUok2H6qTaqF7Ym6NNdtC/H6EdKAk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=oHp+GMpL; arc=fail smtp.client-ip=52.103.37.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF621993B9
+	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 15:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739461404; cv=none; b=LD5KWAmAwxcUvN7STfhK0NQ49Wt2dwtapLmiPJi+cdbSgQ1RYL+phYTQrnP9tEHTCkBSdGYPvACYgnTw3Iic0syLrWIW+ZD2auI5m/5QonxY21AJWOm/1OLlaM9hr++ET4S/Dhugtk9K9XjsTYERD9awh4ntNfiLptsePaCxRtA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739461404; c=relaxed/simple;
+	bh=uLiZ1rCqYfK/j8eSgyeV2MyQP8gfHxF6rrcTwqcvaaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gjUChxZb5Lvr/zpxsfW+VfJfYI6/5Nes3mEE2bo+SFG35wwvERXhA5XIObqKl03sFiwqRezsI4P9kj0DlwYthU3sv1c+tWaG8v3tTdCNEqGgnXNLO/hByL6ummkkxbh7GV4/R5e37jSMupOS/qwLu+Z05hVUdQTJPDt2C3ZhrMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UhkYDYG9; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="oHp+GMpL"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G+nWl2MZYwPWc2Cz9qfbpB/9D9ZVyQR8HKmS7AvoSqIMI7nfwLiYLBaYjrA4f+P8ZpoHk0EG1zm/NmX684Ift8lTv/GEjbbkebz2iraps3POd3qw/S+CxtnHrr0uuL9405VGtuLOIgiuH7BrIrsJtxfAr/dc/G2qJsV/QIzaR4UFLRFNurcONlpH8P6bHf+tzIjZ38H3P0XZIyiA22Ig+F11O2Yb2ax42h9pp4mS7X+JBy8o3eVrJwGkze8PWchMUIbllxF1jbTg+ENf8jbVScKxjbVb1mxCb1LuPeoe1zxesXZLpr47i4bArhXAmUGyjAxRaOeEz4y3GsUKJsDELg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0Rsr+NX9gnG3yKCerIWDAeAli+mkFZuswqyE0CcX90M=;
- b=xXhqa7j0ZCF9s9ndkn9aHP/hiWsLXL322QVdLFKDraZRk7iM4yh3K8ZlCxEe6Q9QuB8RwavL0aNGTiKYj4sDxAAqDNziZCBjSlny9k3uZ1YqRfE5B1e2ZioajrpquItNZip12Lktb6vX4Lvq1cf6NPqf78fa1Bx7zB5kaR3zEdGf2T+TSCDIO9njb+myY7e02hzv9OXlqQmhrB3yDl8S7RQ687xm2O3FE7SYSILF81OqcFFiZ76bllKyjgA73rXimdotmOYb5KuuGkPkY5vDAMIZBQRNt9pnWks0HX6t5trCjd58TOTNdVOH/qs0yPY8sj4u1lyHwYIqG0ayZDWekA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0Rsr+NX9gnG3yKCerIWDAeAli+mkFZuswqyE0CcX90M=;
- b=oHp+GMpLhS+0Vj6XzT+5Qdk+DZGCueoc80/pLTtA6yHQ5poNjP3YX0++KdUYnfesUp20X2cCAiZyuoyjEvB2VS6+PLIrwbB3bIXa2oYm8TksoUr5iDCoU1+BM/TDhCm8VAADzD9GBtY0tXv+pxmWgI0ne8neHce5HJhnWWwKNek3ZGrcGxoOy/K05T3yM9jVwmLt4P4Vdwl8KnpMgzRlgkGVoBy4W9SZmj63RuD7GKp5/DMLwBd87inX++OAcqR4zWaJbYZkHjy97UjXBao1PljvJ+Vzl3waTGXMR0YbzHPmCGpvwdL/aYpfpHzagUDiLFtGMaHfw7TahTaDPGYeGw==
-Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:160::13)
- by LO2P123MB4141.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:156::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.16; Thu, 13 Feb
- 2025 15:26:00 +0000
-Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- ([fe80::c0fe:9ff5:51fd:3fdb]) by CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- ([fe80::c0fe:9ff5:51fd:3fdb%5]) with mapi id 15.20.8445.015; Thu, 13 Feb 2025
- 15:26:00 +0000
-Date: Thu, 13 Feb 2025 15:25:28 +0000 (GMT)
-From: Manuel Fombuena <fombuena@outlook.com>
-To: Lee Jones <lee@kernel.org>
-cc: pavel@ucw.cz, corbet@lwn.net, linux-leds@vger.kernel.org, 
-    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND 1/5] leds: leds-st1202: fix NULL pointer access
- on race condition
-In-Reply-To: <20250213102449.GC2756671@google.com>
-Message-ID:
- <CWLP123MB54739D3E587725A0E408E2E3C5FF2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
-References: <CWLP123MB5473933B9B97137828ACC6A6C5EB2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM> <CWLP123MB547377D20905AF224E682BFBC5EB2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM> <20250211133149.GN1868108@google.com> <CWLP123MB547308A731A2B7F1B7FF12DFC5FC2@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
- <20250213102449.GC2756671@google.com>
-Content-Type: text/plain; charset=US-ASCII
-X-ClientProxiedBy: LO4P302CA0018.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:2c1::14) To CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:160::13)
-X-Microsoft-Original-Message-ID:
- <a4872d57-4c7f-37a9-fb86-15e6f50a4c8d@outlook.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UhkYDYG9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739461401;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yzI2r5nmEeXgT2ts1VutUTn2sHSIfm7BIbhjPpBpcIA=;
+	b=UhkYDYG9fauI4vTP6k7nj1UftfNzyYF+Kjn9sGmNeYMi/vIeL3ShainNVnNWjl6ZQ2oncB
+	ltr7P+nMyEkrUWBJ/JQqamW1eIKaxH11ayvM2lIbEs+/a0HWlWSb23QbwFFm+1RUEy64LG
+	FSbyDda7xaxdiqD+Qeyi5OZs02S8iQ0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-649-L-4sw-KjOAK6wHkfKI-2xQ-1; Thu, 13 Feb 2025 10:43:15 -0500
+X-MC-Unique: L-4sw-KjOAK6wHkfKI-2xQ-1
+X-Mimecast-MFC-AGG-ID: L-4sw-KjOAK6wHkfKI-2xQ
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ab77e03f2c0so111903466b.3
+        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 07:43:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739461394; x=1740066194;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yzI2r5nmEeXgT2ts1VutUTn2sHSIfm7BIbhjPpBpcIA=;
+        b=VKRq99W3tBLeEtjvOUqybd9FrMss6D2ttJx7lfOA7N2vfv2J6P6+GO+UAb6see0Cb+
+         qgfycxd7ityNu3On1MHRtoweS/mkv61d1OxFJTVRYwQltBOBlm2CpFhLgGoqM5XS7RnJ
+         KoLkO5PDYpVH9EPfcVzfzlOt0wqCAqKNFTL59aQqu4qFY0OVkLZGGKDUmwMNSM7B+Pf4
+         5z4/4WUXMSh7jicFszgVnaG8DcaaZ9CiZEAqya8bk6+J+x22KOxTVGNBnVOZk2w+hDUU
+         HPbNFNct2wG3BhoOJMP3LvMCx/YQKv6V4Ff3p4gIJGSapS3E5HfuIMqKtN75LzweNaM8
+         jrMA==
+X-Forwarded-Encrypted: i=1; AJvYcCW9ugIomhbk0QZNhqvks9ojwRKAEA3fbcBJDzVYRTHqjQTmOwo+kxCYN2JcyQela0be3n0wlbjTsjg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3I0Wr23bq6PH/P420EzgSk+6tcIp9lSQCFVIR2wPrTpmaTSvk
+	XWue2P1rnD5RBdTvEooYxAQun2vYGSasiURv6azphYvOzczPfEI8D2IBgQZCPQuRuuMRi13vpOo
+	urCWjRER08DVvKDsHc0B1EDxu04J7NVa0ex8NhufqGsKwS1CR/CgShoRX5Q==
+X-Gm-Gg: ASbGncsXGLJnlgQPUvNjvjQZVGGZQVX68bQcju5+DeZ7d7WxGYmB/yS3TbjPd9BGWWv
+	cZSEfumvuS8oL/w0/LqJ0HZZUi85bDh3RTj9o1Jprw8IMZ6wjp8QlcJ1g10TDn+OdLtUZIebmwW
+	NfK3jExFyNUvjjBIPV6N8pM4Oy7ANMXwwAynVZ1fiO5p7GIWsjlU8dQt8PARsCEjbNvS2ZQHXrX
+	/oM8cn9dX8f2UhJxA7kD4lwQn1zg6Ioklpf3eyOB8uJFE5+dSZ/jzTx60OXfPVotnEbrlHEJw==
+X-Received: by 2002:a17:907:96ac:b0:ab7:cd83:98b6 with SMTP id a640c23a62f3a-ab7f336d4dcmr727680866b.6.1739461393903;
+        Thu, 13 Feb 2025 07:43:13 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGMjEK63T1Hvw2DRYuMNZ0QhIbCttTcpsK+feVhTHyAb3Qwlg1NW7Q7NJFwB80xOR6TDebhgw==
+X-Received: by 2002:a17:907:96ac:b0:ab7:cd83:98b6 with SMTP id a640c23a62f3a-ab7f336d4dcmr727676966b.6.1739461393478;
+        Thu, 13 Feb 2025 07:43:13 -0800 (PST)
+Received: from redhat.com ([2a02:14f:171:92b6:64de:62a8:325e:4f1d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba53376abbsm153403066b.93.2025.02.13.07.43.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 07:43:12 -0800 (PST)
+Date: Thu, 13 Feb 2025 10:43:07 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowang@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+	linux-kselftest@vger.kernel.org,
+	Yuri Benditovich <yuri.benditovich@daynix.com>,
+	Andrew Melnychenko <andrew@daynix.com>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	gur.stavi@huawei.com, devel@daynix.com
+Subject: Re: [PATCH net-next] tun: Pad virtio headers
+Message-ID: <20250213103636-mutt-send-email-mst@kernel.org>
+References: <20250213-buffers-v1-1-ec4a0821957a@daynix.com>
+ <20250213020702-mutt-send-email-mst@kernel.org>
+ <0fa16c0e-8002-4320-b7d3-d3d36f80008c@daynix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB5473:EE_|LO2P123MB4141:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c1c472a-07c7-47b6-8064-08dd4c42b806
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|15080799006|7092599003|5072599009|8060799006|461199028|6090799003|19110799003|440099028|3412199025;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?CtHWbG5Z9W6pGDJK+Dc9ySCSVOkvr4T87ruy1ivDHuu8j6875dnyxJdrmdLT?=
- =?us-ascii?Q?lROsVqoMdyJigE6vS1w7t9A2XTGh+BPEPasS0G3sYMGIKIwyM1EULA2aPJNI?=
- =?us-ascii?Q?qnBt1Px1sVWt3gC2zDzdSCQtvqKg77LhBmeSip56mOrGZXan7TF+CH2h0+CH?=
- =?us-ascii?Q?TZmBRFxFEk5VCllMlhCEOxAvyS+/pkQV1DWzZUlvtg+gdarpFaOtBxhI/IcD?=
- =?us-ascii?Q?Cs7Z1OxCQRtnERMR03UybyUL137eUIiuSrtXMQm0oraEaxun03h9bFZyvoLX?=
- =?us-ascii?Q?jtNBIQE9X+W/UyQ4YwdiMY+1eV0ZZzWqPx8xb+Cyz7OUfAQG9P1We5/XLrqc?=
- =?us-ascii?Q?cgrPONSWAGZXFt/x+4mEOSubwuF5xQ0QXd5gqc8986wITtSeN/7rhsarvGqi?=
- =?us-ascii?Q?mEvaL9AWyVnMegR12EJFAjC5t7/FCGBKljSuo+bxqTN0UQM+neq/k+gnsCFS?=
- =?us-ascii?Q?fZcLsptzMKF9KMpZkzt/c5/0TJT8LVGsK4bqMYDkR8lcd0SW7nLqJJHiSHM9?=
- =?us-ascii?Q?EG4EolI6ukFVDMc/TPSy+oXC9j6ia6k58LVYxKvMxh8fRYMJwvPBf85wdyw8?=
- =?us-ascii?Q?Ph/MzmuEyqprFwJyAGt9GHstIrCAxo6RnLyw+cnQFpNzOlQlfP11xWZAB6Yp?=
- =?us-ascii?Q?1EnYzrxJgsObnxjkh96yo2IWIj/lv9drEwcJ2pNWSXJpmpaVZx40+hjc66Dp?=
- =?us-ascii?Q?Al1v1d9Saxn3L+syiA0QJCs/H302TeAdC6tk++bibTxI4WUYFJkM50bcMvWm?=
- =?us-ascii?Q?b8EpTAgoDMR4orNqzS39DVw5sQDw3wSrHL8bqrnbvzRADB1+A4wDZsM9Yq1r?=
- =?us-ascii?Q?hMPVVu3i7qAyuryTHPzLUjEGlaTNqmJYca4hy7qpgwHvsHviE4XNBFtNI6V6?=
- =?us-ascii?Q?tWUWaHQ7SM5I8nzyt6EGJ6gmJ0qrP6dd2pAs695oJ9iq9ciRc6XVBpBjMEYD?=
- =?us-ascii?Q?3v+yIjA8hAgAYS6r+RTtLqO2ywPRzE9+vRf3EcQV6RDlfuBb9jHK/YLbNf/L?=
- =?us-ascii?Q?z+adIR83scwuN9+uW2FsAE0jmEB361Mseb1qH2MitCWnlIix9hcmp+RkAoiB?=
- =?us-ascii?Q?hm5/a9N5P3T2Ic6cQs+ue6G987bSO/sweutWQ4Ohx8eTAHhrtb8=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3fIaP1XyViaEpi4MWIpH7GRsoiRj1IixpfV5aIlc4+dyWicL7YyvTJmviuUP?=
- =?us-ascii?Q?duG/9C4ynfgD0Dlq0TWdNStKrrP3x/e3+H9kO0oD+k02GPzcPNis76j2AGE1?=
- =?us-ascii?Q?3bz48+UR85e1k51yuchQwUTUaW+CLREr1jCBZKKJBi9i7WvLlCQGFlvHOLUE?=
- =?us-ascii?Q?zXLh2jiaqSsCbbzhj6LchI57AA1RQZS05I7l7O3ggLxmLRVqhlqAT+XwjyIe?=
- =?us-ascii?Q?RrUO6PQwIiT+nDP0msp7mjuiGDPMxTfJ2BGMRqFt9uuMQxbKB0ruzcpxybfm?=
- =?us-ascii?Q?p+JML+TeOXBrG12Ns5k1ScJwS/YvNHIUAEHT+FP6u5ovPd9LMfiBOQ3w6LlP?=
- =?us-ascii?Q?6bg8hiKys/bDwFdSOxLQBQxo0nT7CccodlnWVnpTsL2wh4PuyoRIwXaDiwSZ?=
- =?us-ascii?Q?9R96So/c5JpUIdMkcbUlG3At4X36nFKxUjzDhrUtObbmkUixNSomqnSSlExp?=
- =?us-ascii?Q?J4PcnoxfkXhaoT9ISH10AnJ89vXYqPBXzJACINwNktVclhneUHihHyWubown?=
- =?us-ascii?Q?WBte5Pw74yVSXtd1MWF4XJO9Ui609U1IF2HCUJN7EU2QjbPmJq1TallHgAXB?=
- =?us-ascii?Q?hyKMK0dixJ3Wy03nFEUfI6bXcCQsTZiC8p9GwVbqP4d1oP8pZkeD+ozC3NZi?=
- =?us-ascii?Q?nMuRqPh1bsPQV7sVjmCJ1/wD60FcyYiWWQhVsCNsvloCCJXAA5YaKhxe+q8d?=
- =?us-ascii?Q?RgkGBDaiNnprPh4G7A+1qBPayi99UCyQfTF/5iOOrKejUY9bV6Yq2Wka8YQZ?=
- =?us-ascii?Q?Z0QsSW3ZX11M0toz7m+zNRUUb0nMdsDaKTU09ZwPyHZ3QihbYOuF8jDgJlZZ?=
- =?us-ascii?Q?/gw6MmZX+Zzl1LSY8fEXH9+CuFOw370YkLZAMrfKcGTjCtbBCFjUGOBZI4Of?=
- =?us-ascii?Q?Df55XzT611p3Ss4AseIPG+3G1T/jAnueOvOsCWXK/M5rmMHUB+W5mPA8N6oa?=
- =?us-ascii?Q?MVmz6qxXeqFBSpbR4yF+mWYEbn5r9Du+odSg1shW2PMMpNKWNkSAHKD+aU17?=
- =?us-ascii?Q?Xw/gfxeMbhU+RuCbA6/QMgiiflQqHdlzMZ/XFri2bZ1KAs5P/4JVR6587Atq?=
- =?us-ascii?Q?O74Y6sWX35z8yeH8//AgVHNWHjFb65sTpa28NBK3sqEC9mvNjz/UsC/iZvtR?=
- =?us-ascii?Q?XFGrY+fzBUBl916pbFB/paeEe+1tCXywkgcVitx89g4+qjrZ9NtCrZTphB7a?=
- =?us-ascii?Q?atv0tDZpPCtye7OK+kHWAO18m/PCwqz8JjPxGQUKWqzvJ2pfthsrkWSWSN1y?=
- =?us-ascii?Q?24rgtXdiBdDepgkVVhi9fzdcgihhI+oKEt0sQQM+9DJ7wXzAQnolwmjm6GEK?=
- =?us-ascii?Q?j6c=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c1c472a-07c7-47b6-8064-08dd4c42b806
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2025 15:25:59.9963
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P123MB4141
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0fa16c0e-8002-4320-b7d3-d3d36f80008c@daynix.com>
 
-On Thu, 13 Feb 2025, Lee Jones wrote:
+On Thu, Feb 13, 2025 at 06:23:55PM +0900, Akihiko Odaki wrote:
+> On 2025/02/13 16:18, Michael S. Tsirkin wrote:
+> > 
+> > Commit log needs some work.
+> > 
+> > So my understanding is, this patch does not do much functionally,
+> > but makes adding the hash feature easier. OK.
+> > 
+> > On Thu, Feb 13, 2025 at 03:54:06PM +0900, Akihiko Odaki wrote:
+> > > tun used to simply advance iov_iter when it needs to pad virtio header,
+> > > which leaves the garbage in the buffer as is. This is especially
+> > > problematic
+> > 
+> > I think you mean "this will become especially problematic"
+> > 
+> > > when tun starts to allow enabling the hash reporting
+> > > feature; even if the feature is enabled, the packet may lack a hash
+> > > value and may contain a hole in the virtio header because the packet
+> > > arrived before the feature gets enabled or does not contain the
+> > > header fields to be hashed. If the hole is not filled with zero, it is
+> > > impossible to tell if the packet lacks a hash value.
+> > > 
+> > > In theory, a user of tun can fill the buffer with zero before calling
+> > > read() to avoid such a problem, but leaving the garbage in the buffer is
+> > > awkward anyway so fill the buffer in tun.
+> > 
+> > 
+> > What is missing here is description of what the patch does.
+> > I think it is
+> > "Replace advancing the iterator with writing zeros".
+> > 
+> > There could be performance cost to the dirtying extra cache lines, though.
+> > Could you try checking that please?
+> 
+> It will not dirty extra cache lines; an explanation follows later. Because
+> of that, any benchmark are likely to show only noises, but if you have an
+> idea of workloads that should be tested, please tell me.
 
-> Then you need to separate the set into patches you expect to be
-> submitted to the -rcs and ones which can be applied during the next
-> cycle, then go to lengths to explain that either in the diff section of
-> each patch (preferred) or in the cover-letter.
+pktgen usually
 
-One question so I don't take more of your time later on on this. Should I 
-continue the set with 5 patches as v2, applying the above and the other 
-comments, or would it be preferable to send this patch with its 
-cover letter separately and drop it from this set?
 
---
-Manuel Fombuena
+
+> > 
+> > I think we should mention the risks of the patch, too.
+> > Maybe:
+> > 
+> > 	Also in theory, a user might have initialized the buffer
+> > 	to some non-zero value, expecting tun to skip writing it.
+> > 	As this was never a documented feature, this seems unlikely.
+> > >
+> > > 
+> > > The specification also says the device MUST set num_buffers to 1 when
+> > > the field is present so set it when the specified header size is big
+> > > enough to contain the field.
+> > 
+> > This part I dislike. tun has no idea what the number of buffers is.
+> > Why 1 specifically?
+> 
+> That's a valid point. I rewrote the commit log to clarify, but perhaps we
+> can drop the code to set the num_buffers as "[PATCH] vhost/net: Set
+> num_buffers for virtio 1.0" already landed.
+
+
+I think I'd prefer that second option. it allows userspace
+to reliably detect the new behaviour, by setting the value
+to != 0.
+
+
+> 
+> Below is the rewritten commit log, which incorporates your suggestions and
+> is extended to cover the performance implication and reason the num_buffers
+> initialization:
+> 
+> tun simply advances iov_iter when it needs to pad virtio header,
+> which leaves the garbage in the buffer as is. This will become
+> especially problematic when tun starts to allow enabling the hash
+> reporting feature; even if the feature is enabled, the packet may lack a
+> hash value and may contain a hole in the virtio header because the
+> packet arrived before the feature gets enabled or does not contain the
+> header fields to be hashed. If the hole is not filled with zero, it is
+> impossible to tell if the packet lacks a hash value.
+> 
+> In theory, a user of tun can fill the buffer with zero before calling
+> read() to avoid such a problem, but leaving the garbage in the buffer is
+> awkward anyway so replace advancing the iterator with writing zeros.
+> 
+> A user might have initialized the buffer to some non-zero value,
+> expecting tun to skip writing it. As this was never a documented
+> feature, this seems unlikely. Neither is there a non-zero value that can
+> be determined and set before receiving the packet; the only exception
+> is the num_buffers field, which is expected to be 1 for version 1 when
+> VIRTIO_NET_F_HASH_REPORT is not negotiated.
+
+you need mergeable buffers instead i presume.
+
+> This field is specifically
+> set to 1 instead of 0.
+> 
+> The overhead of filling the hole in the header is negligible as the
+> entire header is already placed on the cache when a header size defined
+
+
+what does this mean?
+
+> in the current specification is used even if the cache line is small
+> (16 bytes for example).
+> 
+> Below are the header sizes possible with the current specification:
+> a) 10 bytes if the legacy interface is used
+> b) 12 bytes if the modern interface is used
+> c) 20 bytes if VIRTIO_NET_F_HASH_REPORT is negotiated
+> 
+> a) and b) obviously fit in a cache line. c) uses one extra cache line,
+> but the cache line also contains the first 12 bytes of the packet so
+> it is always placed on the cache.
+
+
+Hmm. But it could be clean so shared. write makes it dirty and so
+not shared.
+
+-- 
+MST
+
