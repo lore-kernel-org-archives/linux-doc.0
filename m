@@ -1,205 +1,679 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2242753F0
-	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 22:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D1A2753F3
+	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 23:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739487561; cv=none; b=AltgTjOoWhpahgSOvF4TOlUyhZ5Rar3X8pbv/2s7H6zmNCi1lkOnCCXOmOaqyl8nk+74hu89uqVRatR3wKLNdOQHSOIGgvihInWYUC/PRUiA7JoJ8RACLSYtOdmh/6VW6Dp2tLPrYOWiWGEAu3Az/hYaAyV4iNnB8ZKSWwdT/vo=
+	t=1739487883; cv=none; b=LfjATjB/iHZwva2yo9WDXvGFghcRaEr4yAZunpTDpjBBjvLKtWFfdnhmSy2ahLvH/Ejm6G0xdPdd7VIxkAxHGq9hWwVcjWSa0Yz8AsHMzFkmF2UFR81dRMzjNTG6yTePCvTD6kgLDR0Rpz5pvtOtlgNlYY8lUKzAxgb0hJWogSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739487561; c=relaxed/simple;
-	bh=IYWc6MsnXJtGhjkFgmYtXuRtBlusO6zPvFX85df7cNw=;
+	s=arc-20240116; t=1739487883; c=relaxed/simple;
+	bh=0Te9P915LWDuFiq3SXI9sMEX8f27H0RR79AJPYWl/AE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ITZbnNL0lbaWyzEQXMknBe3xt3raFcgpzx3E3Y44fm5OPBotQkVX+Pr8QQ4myQBFZ0ssLv8v7NorOeJxGwA6uTMg3lVwpdh3T/PwvPwZb39ipkwRqeCdGHKIGNRX9v6zeQ11cn2G8CtQoNkgj8uJ6Y0nUiEoRpbMmzr18BzUhtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dAcVy8K+; arc=none smtp.client-ip=209.85.160.182
+	 To:Cc:Content-Type; b=ZtZXePotiDCwgb1s46okXWVg695eDnaiJyyV8SRbJinv1RBe8PEAqZIQ686feuMP0kgyYWbmdLnOwvUPJa08hrK1d9IA+nBrjvO6LJPVlwv1ppWGpOClna13rqKtCg63182cXQ8ijetLn3KMr7WM4l0/WZzM3kTflsL0SXFRvpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DwHjwe/T; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dAcVy8K+"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4718aea0718so116531cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 14:59:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DwHjwe/T"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4718aea0718so118311cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 15:04:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1739487559; x=1740092359; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1739487880; x=1740092680; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cDIANBVumajBd13du95VEVdci2R7G4b/MflfuioNn1c=;
-        b=dAcVy8K+IZuib1CRGgTStxnFrH+taQI22CXcLYgTOUbhu9wcrfF8U7Kr5kNDuRLJJr
-         qRoBBu5WZrSGFYS1ABDSiFpTZEbH/rjcfuh7GEgUPMgYS5ISEdakvINigcX7NTNAJckW
-         YCJ1x0eG0Hi5N4rT42LmL+r/P/q0BZopUdIIHo4w7xtzzL3bKWjz/arIMmZtZ2FHCW1d
-         wh5PAvxfqp7f41praYvhjO7WogTFktVprW17UeiDkfoWcmkfg0LhBKa0fWuXyF6iJKho
-         6ECez0nnXPR2olH6Uu+1EPRP+RnR9CtX3W7WCJfLwb/cpyOfptR+um5HcS7g0yYnn7D7
-         yuhQ==
+        bh=jBIR+bt56wtcSqA6PQ7lniFOC3/eEtZ264TeXuADiqg=;
+        b=DwHjwe/T0tD+x6+BiW2gOUUI+G4deoTBVFTAMnS1pPxKtSdsMSUH0eHRKoW7hXAQbD
+         asiqVXeeUZ42djurxTODZqXFnkG/MGn9zlOxverNfKlnq466Oap93ItzYlHK7H6RK8Sn
+         A0O7Go4aYskMcoPeNjNKfGrM7ZFR/6NLaLnkKjTM+sXdfXXh6QCom6uC4T/hYCbWuEfN
+         GfboHsiPjwm034qCPYDF6qIeM0CTb9HFV6bYlvHxxmU/n8W2SeuHc705BfrGydrmWFKU
+         4mDiXSS+EBN9XSl+pnS0Agv1GAuxOXW/ITHr521mOyhY8vwP2BTA3pa/VAoAbxZj+qVR
+         FgsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739487559; x=1740092359;
+        d=1e100.net; s=20230601; t=1739487880; x=1740092680;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cDIANBVumajBd13du95VEVdci2R7G4b/MflfuioNn1c=;
-        b=NYTWaGGYiTGtoiPoDrqorlUsSdmRmDDES3f3VYO/zc+B1UC+CjzOrxo4pIU5loDHW8
-         QXmYN8525zGR9XK1QR+LXUI4bNHSGGMMHfDWrzANX509/To5CKKoB6eQOQdFmk+WPz82
-         PeNy2p0p1NPpdXkB7CdwAJSWu3Zgqo22ub2KH2MwyblXf7Xh2HmNHb4qGrP9Ty2YzlHA
-         r7Gle8Oj0GZ4mx38vVMsY6nIJbg308ilRdN6/TMImIs7wRpadqoBEjJtIMpfepklRtvS
-         w85OpAVNkbxPcgbN9PnWwOq0JEDwJJlyIvX4sgEPqYhIGoRf1cFhqn0Qlyr5D0SHWBZS
-         3q6g==
-X-Forwarded-Encrypted: i=1; AJvYcCWAh5/HCGRTqF9WUuqf1RVkT8/hoA105oI8+wiAsLTipEYym+Xcx6OOHesap+lj+VBpMRGD174M8Zs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIEA0HpTftAuw/33a7HMecLjt76/sqkEsuD7ilqxgq6/GbZvLe
-	Ezw8mSvYmEZmUU97l0P72neWNDLseCvI3bcNMD7XxrH43BFFOwir0ssRLmT2W23VmNeo/FfzqPQ
-	GK4k+fFWiWzF8oQbQ6tl2CFjiBe4I8S13JZtK
-X-Gm-Gg: ASbGncs2fCM91dc1KUj1UyGs/1hOM+K+Tt56sLZApPN8iMz9OxJ8lvMQ0ttahleMheE
-	5i587++NU8S78hzuYC4RdbqDPS/VIPpRfVeqn9LwwW50LDcuB7VOBVTJYET7sBmd/aTj9nyEzlF
-	nlLhm4aLDZQK2jJhgEPJEDtLhN9Zw=
-X-Google-Smtp-Source: AGHT+IH1CnRV5ltlIFYCD8r2z+kCU2AjYaHwGfhq6KhIQ8OE5guM8kGIum9PY0Ww3eZxM7IkjMsYobe9TP0B8I4TUWk=
-X-Received: by 2002:a05:622a:3d0:b0:447:e59b:54eb with SMTP id
- d75a77b69052e-471ce95ecd4mr1005091cf.26.1739487558542; Thu, 13 Feb 2025
- 14:59:18 -0800 (PST)
+        bh=jBIR+bt56wtcSqA6PQ7lniFOC3/eEtZ264TeXuADiqg=;
+        b=fSI7TaKPRgudEmJvSZREepvu1lcKDqhEHlbgip870Y5lKmRxYXqQLHSNyVsSgWOjAh
+         aql7/wes8jk5xGF/o2YxKSfczu34UAfiKE8HWODtXQPVPywzFQkuCth40/zBJYj4S0w5
+         ArfLhHnOld7oxoY43WppvG2ivRC6p7HnZADAJaAyGR60Zz0Hf58D4bZ8uajpY0v/UWV3
+         cMKhzJG0l80indAopdF9hjqyo/Vd8h2wtEkmbqIAm3Fi62NKcIlucMaswKuClX+l8LmA
+         S3i+PN1rWncaGjUyBVe731bomtr8dImd5TEmki34MWClYfSVVqpOjbpXEmUbpJUxzm69
+         KcAg==
+X-Forwarded-Encrypted: i=1; AJvYcCW9Auze2FD2SarzG7UY4ITcVHdZg16emn0gmLqL10cSqtdSQbpryl7KwWvboWxAABU3z2hFv+5DjMQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4R1Y8oigpDsxS/vlkNTLOi056cXS7lVdKFl+eP2GNGW+/Yp0D
+	VMIZWb3Ap29LiasYPzpwifTHgMrxJDnbAtMWf7CRET9DkXVBTbi2yV06neNogCiV0Zv7jPuJPqq
+	XdqZkY/m/8bkHmF7sSK4slsistl63L5sGUYm4
+X-Gm-Gg: ASbGncuxPpdASbTwNinFx7/fu6QE8F7L/UHFS1dMzA9PYiGgsBl5RI55bWk8jC2UJ07
+	VDyHllJaFoNNWrt4GGpkC9PvEmhTK637GLncUn54yDTKYf2gcWpilllU2zXxF9kpRXjOmQ47Ufb
+	7RPO1OHQSn6zdnWGu7fhc73XYqhMk=
+X-Google-Smtp-Source: AGHT+IGf874ZRh0zerFODNt7RB8GYHE5ea29qNg8zPbOQBkNZFFwLpiSvmZMzlKwzTmGlhHoTCIIXejfb5EeHZEHOME=
+X-Received: by 2002:a05:622a:1191:b0:471:bf59:5f9f with SMTP id
+ d75a77b69052e-471ce95eecfmr1150381cf.22.1739487879285; Thu, 13 Feb 2025
+ 15:04:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-13-surenb@google.com>
- <20250115105056.GY5388@noisy.programming.kicks-ass.net> <CAJuCfpEU-D_G3N1aduOprR0YmV+jP+4un78XMs4Qj41_V+_6Ug@mail.gmail.com>
-In-Reply-To: <CAJuCfpEU-D_G3N1aduOprR0YmV+jP+4un78XMs4Qj41_V+_6Ug@mail.gmail.com>
+References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-12-surenb@google.com>
+ <gdipfy63r4wxiqlnglsjzatpej6jjswimuzadm2l57o2e45u56@qfd763n4ysft>
+ <CAJuCfpGu4UVXiBaivTVOGNBVVz3rhZ+VY27gT3_R0cTij5fTGw@mail.gmail.com>
+ <20250115104841.GX5388@noisy.programming.kicks-ass.net> <20250115111334.GE8385@noisy.programming.kicks-ass.net>
+ <20250115160011.GG8385@noisy.programming.kicks-ass.net> <20250117154135.GA17569@willie-the-truck>
+ <20250127140915.GA25672@willie-the-truck> <CAJuCfpFuZt7h3gd5Oih74oC_VsSpt=psSoPoBLJWoSam7TFgPQ@mail.gmail.com>
+ <CAJuCfpHJedxhZuuoKkKaQXsT-3tPSkhUwHadJRGEdTxSkzRc_w@mail.gmail.com> <CAJuCfpGeHaQu_F6mJo70S+cxWD_PvhDCvfBsD-UXWqwMuOTRYA@mail.gmail.com>
+In-Reply-To: <CAJuCfpGeHaQu_F6mJo70S+cxWD_PvhDCvfBsD-UXWqwMuOTRYA@mail.gmail.com>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 13 Feb 2025 14:59:07 -0800
-X-Gm-Features: AWEUYZmlg1kcVkmWqjyI70BvcBxyYcl4HVx6CnlwWZWv5s51alYwg7U7bzMVrGY
-Message-ID: <CAJuCfpG+WkmjriuEZH2_=YKgqrVLXfO19b4SMf_tQ=N25ntbww@mail.gmail.com>
-Subject: Re: [PATCH v9 12/17] mm: move lesser used vma_area_struct members
- into the last cacheline
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
+Date: Thu, 13 Feb 2025 15:04:28 -0800
+X-Gm-Features: AWEUYZlCybXByrvagkzEiChzM_Vh_Z7U51Cwvq0lCWEUfWRGM0B5G4X0WxzOEd8
+Message-ID: <CAJuCfpED6Bhxhbo59Q8MitwmWKwzEPiV6Z0e6e0H-0VE8Z=Erg@mail.gmail.com>
+Subject: Re: [PATCH] refcount: Strengthen inc_not_zero()
+To: Will Deacon <will@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, boqun.feng@gmail.com, mark.rutland@arm.com, 
+	Mateusz Guzik <mjguzik@gmail.com>, akpm@linux-foundation.org, willy@infradead.org, 
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, 
+	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, oliver.sang@intel.com, mgorman@techsingularity.net, 
+	david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, 
+	paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, 
+	hughd@google.com, lokeshgidra@google.com, minchan@google.com, 
+	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com, 
+	pasha.tatashin@soleen.com, klarasmodin@gmail.com, richard.weiyang@gmail.com, 
+	corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 15, 2025 at 8:39=E2=80=AFAM Suren Baghdasaryan <surenb@google.c=
-om> wrote:
+On Wed, Feb 5, 2025 at 7:03=E2=80=AFPM Suren Baghdasaryan <surenb@google.co=
+m> wrote:
 >
-> On Wed, Jan 15, 2025 at 2:51=E2=80=AFAM Peter Zijlstra <peterz@infradead.=
-org> wrote:
+> On Tue, Jan 28, 2025 at 3:51=E2=80=AFPM Suren Baghdasaryan <surenb@google=
+.com> wrote:
 > >
-> > On Fri, Jan 10, 2025 at 08:25:59PM -0800, Suren Baghdasaryan wrote:
-> > > Move several vma_area_struct members which are rarely or never used
-> > > during page fault handling into the last cacheline to better pack
-> > > vm_area_struct. As a result vm_area_struct will fit into 3 as opposed
-> > > to 4 cachelines. New typical vm_area_struct layout:
+> > On Mon, Jan 27, 2025 at 11:21=E2=80=AFAM Suren Baghdasaryan <surenb@goo=
+gle.com> wrote:
 > > >
-> > > struct vm_area_struct {
-> > >     union {
-> > >         struct {
-> > >             long unsigned int vm_start;              /*     0     8 *=
-/
-> > >             long unsigned int vm_end;                /*     8     8 *=
-/
-> > >         };                                           /*     0    16 *=
-/
-> > >         freeptr_t          vm_freeptr;               /*     0     8 *=
-/
-> > >     };                                               /*     0    16 *=
-/
-> > >     struct mm_struct *         vm_mm;                /*    16     8 *=
-/
-> > >     pgprot_t                   vm_page_prot;         /*    24     8 *=
-/
-> > >     union {
-> > >         const vm_flags_t   vm_flags;                 /*    32     8 *=
-/
-> > >         vm_flags_t         __vm_flags;               /*    32     8 *=
-/
-> > >     };                                               /*    32     8 *=
-/
-> > >     unsigned int               vm_lock_seq;          /*    40     4 *=
-/
+> > > On Mon, Jan 27, 2025 at 6:09=E2=80=AFAM Will Deacon <will@kernel.org>=
+ wrote:
+> > > >
+> > > > On Fri, Jan 17, 2025 at 03:41:36PM +0000, Will Deacon wrote:
+> > > > > On Wed, Jan 15, 2025 at 05:00:11PM +0100, Peter Zijlstra wrote:
+> > > > > > On Wed, Jan 15, 2025 at 12:13:34PM +0100, Peter Zijlstra wrote:
+> > > > > >
+> > > > > > > Notably, it means refcount_t is entirely unsuitable for anyth=
+ing
+> > > > > > > SLAB_TYPESAFE_BY_RCU, since they all will need secondary vali=
+dation
+> > > > > > > conditions after the refcount succeeds.
+> > > > > > >
+> > > > > > > And this is probably fine, but let me ponder this all a littl=
+e more.
+> > > > > >
+> > > > > > Even though SLAB_TYPESAFE_BY_RCU is relatively rare, I think we=
+'d better
+> > > > > > fix this, these things are hard enough as they are.
+> > > > > >
+> > > > > > Will, others, wdyt?
+> > > > >
+> > > > > We should also update the Documentation (atomic_t.txt and
+> > > > > refcount-vs-atomic.rst) if we strengthen this.
+> > > > >
+> > > > > > ---
+> > > > > > Subject: refcount: Strengthen inc_not_zero()
+> > > > > >
+> > > > > > For speculative lookups where a successful inc_not_zero() pins =
+the
+> > > > > > object, but where we still need to double check if the object a=
+cquired
+> > > > > > is indeed the one we set out to aquire, needs this validation t=
+o happen
+> > > > > > *after* the increment.
+> > > > > >
+> > > > > > Notably SLAB_TYPESAFE_BY_RCU is one such an example.
+> > > > > >
+> > > > > > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> > > > > > ---
+> > > > > >  include/linux/refcount.h | 15 ++++++++-------
+> > > > > >  1 file changed, 8 insertions(+), 7 deletions(-)
+> > > > > >
+> > > > > > diff --git a/include/linux/refcount.h b/include/linux/refcount.=
+h
+> > > > > > index 35f039ecb272..340e7ffa445e 100644
+> > > > > > --- a/include/linux/refcount.h
+> > > > > > +++ b/include/linux/refcount.h
+> > > > > > @@ -69,9 +69,10 @@
+> > > > > >   * its the lock acquire, for RCU/lockless data structures its =
+the dependent
+> > > > > >   * load.
+> > > > > >   *
+> > > > > > - * Do note that inc_not_zero() provides a control dependency w=
+hich will order
+> > > > > > - * future stores against the inc, this ensures we'll never mod=
+ify the object
+> > > > > > - * if we did not in fact acquire a reference.
+> > > > > > + * Do note that inc_not_zero() does provide acquire order, whi=
+ch will order
+> > > > > > + * future load and stores against the inc, this ensures all su=
+bsequent accesses
+> > > > > > + * are from this object and not anything previously occupying =
+this memory --
+> > > > > > + * consider SLAB_TYPESAFE_BY_RCU.
+> > > > > >   *
+> > > > > >   * The decrements will provide release order, such that all th=
+e prior loads and
+> > > > > >   * stores will be issued before, it also provides a control de=
+pendency, which
+> > > > > > @@ -144,7 +145,7 @@ bool __refcount_add_not_zero(int i, refcoun=
+t_t *r, int *oldp)
+> > > > > >     do {
+> > > > > >             if (!old)
+> > > > > >                     break;
+> > > > > > -   } while (!atomic_try_cmpxchg_relaxed(&r->refs, &old, old + =
+i));
+> > > > > > +   } while (!atomic_try_cmpxchg_acquire(&r->refs, &old, old + =
+i));
+> > > > >
+> > > > > Hmm, do the later memory accesses need to be ordered against the =
+store
+> > > > > part of the increment or just the read? If it's the former, then =
+I don't
+> > > > > think that _acquire is sufficient -- accesses can still get in-be=
+tween
+> > > > > the read and write parts of the RmW.
+> > > >
+> > > > I dug some more into this at the end of last week. For the
+> > > > SLAB_TYPESAFE_BY_RCU where we're racing inc_not_zero() with
+> > > > dec_and_test(), then I think using _acquire() above is correct as t=
+he
+> > > > later references can only move up into the critical section in the =
+case
+> > > > that we successfully obtained a reference.
+> > > >
+> > > > However, if we're going to make the barriers implicit in the refcou=
+nt
+> > > > operations here then I think we also need to do something on the pr=
+oducer
+> > > > side for when the object is re-initialised after being destroyed an=
+d
+> > > > allocated again. I think that would necessitate release ordering fo=
+r
+> > > > refcount_set() so that whatever allows the consumer to validate the
+> > > > object (e.g. sequence number) is published *before* the refcount.
+> > >
+> > > Thanks Will!
+> > > I would like to expand on your answer to provide an example of the
+> > > race that would happen without release ordering in the producer. To
+> > > save reader's time I provide a simplified flow and reasoning first.
+> > > More detailed code of what I'm considering a typical
+> > > SLAB_TYPESAFE_BY_RCU refcounting example is added at the end of my
+> > > reply (Addendum).
+> > > Simplified flow looks like this:
+> > >
+> > > consumer:
+> > >     obj =3D lookup(collection, key);
+> > >     if (!refcount_inc_not_zero(&obj->ref))
+> > >         return;
+> > >     smp_rmb(); /* Peter's new acquire fence */
+> > >     if (READ_ONCE(obj->key) !=3D key) {
+> > >         put_ref(obj);
+> > >         return;
+> > >     }
+> > >     use(obj->value);
+> > >
+> > > producer:
+> > >     old_key =3D obj->key;
+> > >     remove(collection, old_key);
+> > >     if (!refcount_dec_and_test(&obj->ref))
+> > >         return;
+> > >     obj->key =3D KEY_INVALID;
+> > >     free(objj);
+> > >     ...
+> > >     obj =3D malloc(); /* obj is reused */
+> > >     obj->key =3D new_key;
+> > >     obj->value =3D new_value;
+> > >     smp_wmb(); /* Will's proposed release fence */
+> > >     refcount_set(obj->ref, 1);
+> > >     insert(collection, key, obj);
+> > >
+> > > Let's consider a case when new_key =3D=3D old_key. Will call both of =
+them
+> > > "key". Without WIll's proposed fence the following reordering is
+> > > possible:
+> > >
+> > > consumer:
+> > >     obj =3D lookup(collection, key);
+> > >
+> > >                  producer:
+> > >                      key =3D obj->key
+> > >                      remove(collection, key);
+> > >                      if (!refcount_dec_and_test(&obj->ref))
+> > >                          return;
+> > >                      obj->key =3D KEY_INVALID;
+> > >                      free(objj);
+> > >                      obj =3D malloc(); /* obj is reused */
+> > >                      refcount_set(obj->ref, 1);
+> > >                      obj->key =3D key; /* same key */
+> > >
+> > >     if (!refcount_inc_not_zero(&obj->ref))
+> > >         return;
+> > >     smp_rmb();
+> > >     if (READ_ONCE(obj->key) !=3D key) {
+> > >         put_ref(obj);
+> > >         return;
+> > >     }
+> > >     use(obj->value);
+> > >
+> > >                      obj->value =3D new_value; /* reordered store */
+> > >                      add(collection, key, obj);
+> > >
+> > > So, the consumer finds the old object, successfully takes a refcount
+> > > and validates the key. It succeeds because the object is allocated an=
+d
+> > > has the same key, which is fine. However it proceeds to use stale
+> > > obj->value. Will's proposed release ordering would prevent that.
+> > >
+> > > The example in https://elixir.bootlin.com/linux/v6.12.6/source/includ=
+e/linux/slab.h#L102
+> > > omits all these ordering issues for SLAB_TYPESAFE_BY_RCU.
+> > > I think it would be better to introduce two new functions:
+> > > refcount_add_not_zero_acquire() and refcount_set_release(), clearly
+> > > document that they should be used when a freed object can be recycled
+> > > and reused, like in SLAB_TYPESAFE_BY_RCU case. refcount_set_release()
+> > > should also clarify that once it's called, the object can be accessed
+> > > by consumers even if it was not added yet into the collection used fo=
+r
+> > > object lookup (like in the example above). SLAB_TYPESAFE_BY_RCU
+> > > comment at https://elixir.bootlin.com/linux/v6.12.6/source/include/li=
+nux/slab.h#L102
+> > > then can explicitly use these new functions in the example code,
+> > > further clarifying their purpose and proper use.
+> > > WDYT?
 > >
-> > Does it not make sense to move this seq field near the refcnt?
+> > Hi Peter,
+> > Should I take a stab at preparing a patch to add the two new
+> > refcounting functions suggested above with updates to the
+> > documentation and comments?
+> > If you disagree with that or need more time to decide then I'll wait.
+> > Please let me know.
 >
-> In an earlier version, when vm_lock was not a refcount yet, I tried
-> that and moving vm_lock_seq introduced regression in the pft test. We
-> have that early vm_lock_seq check in the beginning of vma_start_read()
-> and if it fails we bail out early without locking. I think that might
-> be the reason why keeping vm_lock_seq in the first cacheling is
-> beneficial. But I'll try moving it again now that we have vm_refcnt
-> instead of the lock and see if pft still shows any regression.
+> Not sure if "--in-reply-to" worked but I just posted a patch adding
+> new refcounting APIs for SLAB_TYPESAFE_BY_RCU here:
+> https://lore.kernel.org/all/20250206025201.979573-1-surenb@google.com/
 
-I confirmed that moving vm_lock_seq next to vm_refcnt regresses
-pagefault performance:
+Since I did not get any replies other than Vlastimil's Ack on the
+above patch, I went ahead and posted v10 of my patchset [1] and
+included the patch above in it [2]. Feedback is highly appreciated!
 
-Hmean     faults/cpu-1    508634.6876 (   0.00%)   508548.5498 *  -0.02%*
-Hmean     faults/cpu-4    474767.2684 (   0.00%)   475620.7653 *   0.18%*
-Hmean     faults/cpu-7    451356.6844 (   0.00%)   446738.2381 *  -1.02%*
-Hmean     faults/cpu-12   360114.9092 (   0.00%)   337121.8189 *  -6.38%*
-Hmean     faults/cpu-21   227567.8237 (   0.00%)   205277.2029 *  -9.80%*
-Hmean     faults/cpu-30   163383.6765 (   0.00%)   152765.1451 *  -6.50%*
-Hmean     faults/cpu-48   118048.2568 (   0.00%)   109959.2027 *  -6.85%*
-Hmean     faults/cpu-56   103189.6761 (   0.00%)    92989.3749 *  -9.89%*
-Hmean     faults/sec-1    508228.4512 (   0.00%)   508129.1963 *  -0.02%*
-Hmean     faults/sec-4   1854868.9033 (   0.00%)  1862443.6146 *   0.41%*
-Hmean     faults/sec-7   3088881.6158 (   0.00%)  3050403.1664 *  -1.25%*
-Hmean     faults/sec-12  4222540.9948 (   0.00%)  3951163.9557 *  -6.43%*
-Hmean     faults/sec-21  4555777.5386 (   0.00%)  4130470.6021 *  -9.34%*
-Hmean     faults/sec-30  4336721.3467 (   0.00%)  4150477.5095 *  -4.29%*
-Hmean     faults/sec-48  5163921.7465 (   0.00%)  4857286.2166 *  -5.94%*
-Hmean     faults/sec-56  5413622.8890 (   0.00%)  4936484.0021 *  -8.81%*
+[1] https://lore.kernel.org/all/20250213224655.1680278-1-surenb@google.com/
+[2] https://lore.kernel.org/all/20250213224655.1680278-11-surenb@google.com=
+/
 
-So, I kept it unchanged in v10
-(https://lore.kernel.org/all/20250213224655.1680278-14-surenb@google.com/)
 
+> Since Peter seems to be busy I discussed these ordering requirements
+> for SLAB_TYPESAFE_BY_RCU with Paul McKenney and he was leaning towards
+> having separate functions with the additional fences for this case.
+> That's what I provided in my patch.
+> Another possible option is to add acquire ordering in the
+> __refcount_add_not_zero() as Peter suggested and add
+> refcount_set_release() function.
+> Thanks,
+> Suren.
 >
-> >
-> > >     /* XXX 4 bytes hole, try to pack */
-> > >
-> > >     struct list_head           anon_vma_chain;       /*    48    16 *=
-/
-> > >     /* --- cacheline 1 boundary (64 bytes) --- */
-> > >     struct anon_vma *          anon_vma;             /*    64     8 *=
-/
-> > >     const struct vm_operations_struct  * vm_ops;     /*    72     8 *=
-/
-> > >     long unsigned int          vm_pgoff;             /*    80     8 *=
-/
-> > >     struct file *              vm_file;              /*    88     8 *=
-/
-> > >     void *                     vm_private_data;      /*    96     8 *=
-/
-> > >     atomic_long_t              swap_readahead_info;  /*   104     8 *=
-/
-> > >     struct mempolicy *         vm_policy;            /*   112     8 *=
-/
-> > >     struct vma_numab_state *   numab_state;          /*   120     8 *=
-/
-> > >     /* --- cacheline 2 boundary (128 bytes) --- */
-> > >     refcount_t          vm_refcnt (__aligned__(64)); /*   128     4 *=
-/
-> > >
-> > >     /* XXX 4 bytes hole, try to pack */
-> > >
-> > >     struct {
-> > >         struct rb_node     rb (__aligned__(8));      /*   136    24 *=
-/
-> > >         long unsigned int  rb_subtree_last;          /*   160     8 *=
-/
-> > >     } __attribute__((__aligned__(8))) shared;        /*   136    32 *=
-/
-> > >     struct anon_vma_name *     anon_name;            /*   168     8 *=
-/
-> > >     struct vm_userfaultfd_ctx  vm_userfaultfd_ctx;   /*   176     8 *=
-/
-> > >
-> > >     /* size: 192, cachelines: 3, members: 18 */
-> > >     /* sum members: 176, holes: 2, sum holes: 8 */
-> > >     /* padding: 8 */
-> > >     /* forced alignments: 2, forced holes: 1, sum forced holes: 4 */
-> > > } __attribute__((__aligned__(64)));
+>
+> > Thanks,
+> > Suren.
 > >
 > >
+> > >
+> > > ADDENDUM.
+> > > Detailed code for typical use of refcounting with SLAB_TYPESAFE_BY_RC=
+U:
+> > >
+> > > struct object {
+> > >     refcount_t ref;
+> > >     u64 key;
+> > >     u64 value;
+> > > };
+> > >
+> > > void init(struct object *obj, u64 key, u64 value)
+> > > {
+> > >     obj->key =3D key;
+> > >     obj->value =3D value;
+> > >     smp_wmb(); /* Will's proposed release fence */
+> > >     refcount_set(obj->ref, 1);
+> > > }
+> > >
+> > > bool get_ref(struct object *obj, u64 key)
+> > > {
+> > >     if (!refcount_inc_not_zero(&obj->ref))
+> > >         return false;
+> > >     smp_rmb(); /* Peter's new acquire fence */
+> > >     if (READ_ONCE(obj->key) !=3D key) {
+> > >         put_ref(obj);
+> > >         return false;
+> > >     }
+> > >     return true;
+> > > }
+> > >
+> > > void put_ref(struct object *obj)
+> > > {
+> > >     if (!refcount_dec_and_test(&obj->ref))
+> > >         return;
+> > >     obj->key =3D KEY_INVALID;
+> > >     free(obj);
+> > > }
+> > >
+> > > consumer:
+> > >     obj =3D lookup(collection, key);
+> > >     if (!get_ref(obj, key)
+> > >         return;
+> > >     use(obj->value);
+> > >
+> > > producer:
+> > >     remove(collection, old_obj->key);
+> > >     put_ref(old_obj);
+> > >     new_obj =3D malloc();
+> > >     init(new_obj, new_key, new_value);
+> > >     insert(collection, new_key, new_obj);
+> > >
+> > > With SLAB_TYPESAFE_BY_RCU old_obj in the producer can be reused and b=
+e
+> > > equal to new_obj.
+> > >
+> > >
+> > > >
+> > > > Will
+
+On Wed, Feb 5, 2025 at 7:03=E2=80=AFPM Suren Baghdasaryan <surenb@google.co=
+m> wrote:
+>
+> On Tue, Jan 28, 2025 at 3:51=E2=80=AFPM Suren Baghdasaryan <surenb@google=
+.com> wrote:
+> >
+> > On Mon, Jan 27, 2025 at 11:21=E2=80=AFAM Suren Baghdasaryan <surenb@goo=
+gle.com> wrote:
+> > >
+> > > On Mon, Jan 27, 2025 at 6:09=E2=80=AFAM Will Deacon <will@kernel.org>=
+ wrote:
+> > > >
+> > > > On Fri, Jan 17, 2025 at 03:41:36PM +0000, Will Deacon wrote:
+> > > > > On Wed, Jan 15, 2025 at 05:00:11PM +0100, Peter Zijlstra wrote:
+> > > > > > On Wed, Jan 15, 2025 at 12:13:34PM +0100, Peter Zijlstra wrote:
+> > > > > >
+> > > > > > > Notably, it means refcount_t is entirely unsuitable for anyth=
+ing
+> > > > > > > SLAB_TYPESAFE_BY_RCU, since they all will need secondary vali=
+dation
+> > > > > > > conditions after the refcount succeeds.
+> > > > > > >
+> > > > > > > And this is probably fine, but let me ponder this all a littl=
+e more.
+> > > > > >
+> > > > > > Even though SLAB_TYPESAFE_BY_RCU is relatively rare, I think we=
+'d better
+> > > > > > fix this, these things are hard enough as they are.
+> > > > > >
+> > > > > > Will, others, wdyt?
+> > > > >
+> > > > > We should also update the Documentation (atomic_t.txt and
+> > > > > refcount-vs-atomic.rst) if we strengthen this.
+> > > > >
+> > > > > > ---
+> > > > > > Subject: refcount: Strengthen inc_not_zero()
+> > > > > >
+> > > > > > For speculative lookups where a successful inc_not_zero() pins =
+the
+> > > > > > object, but where we still need to double check if the object a=
+cquired
+> > > > > > is indeed the one we set out to aquire, needs this validation t=
+o happen
+> > > > > > *after* the increment.
+> > > > > >
+> > > > > > Notably SLAB_TYPESAFE_BY_RCU is one such an example.
+> > > > > >
+> > > > > > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> > > > > > ---
+> > > > > >  include/linux/refcount.h | 15 ++++++++-------
+> > > > > >  1 file changed, 8 insertions(+), 7 deletions(-)
+> > > > > >
+> > > > > > diff --git a/include/linux/refcount.h b/include/linux/refcount.=
+h
+> > > > > > index 35f039ecb272..340e7ffa445e 100644
+> > > > > > --- a/include/linux/refcount.h
+> > > > > > +++ b/include/linux/refcount.h
+> > > > > > @@ -69,9 +69,10 @@
+> > > > > >   * its the lock acquire, for RCU/lockless data structures its =
+the dependent
+> > > > > >   * load.
+> > > > > >   *
+> > > > > > - * Do note that inc_not_zero() provides a control dependency w=
+hich will order
+> > > > > > - * future stores against the inc, this ensures we'll never mod=
+ify the object
+> > > > > > - * if we did not in fact acquire a reference.
+> > > > > > + * Do note that inc_not_zero() does provide acquire order, whi=
+ch will order
+> > > > > > + * future load and stores against the inc, this ensures all su=
+bsequent accesses
+> > > > > > + * are from this object and not anything previously occupying =
+this memory --
+> > > > > > + * consider SLAB_TYPESAFE_BY_RCU.
+> > > > > >   *
+> > > > > >   * The decrements will provide release order, such that all th=
+e prior loads and
+> > > > > >   * stores will be issued before, it also provides a control de=
+pendency, which
+> > > > > > @@ -144,7 +145,7 @@ bool __refcount_add_not_zero(int i, refcoun=
+t_t *r, int *oldp)
+> > > > > >     do {
+> > > > > >             if (!old)
+> > > > > >                     break;
+> > > > > > -   } while (!atomic_try_cmpxchg_relaxed(&r->refs, &old, old + =
+i));
+> > > > > > +   } while (!atomic_try_cmpxchg_acquire(&r->refs, &old, old + =
+i));
+> > > > >
+> > > > > Hmm, do the later memory accesses need to be ordered against the =
+store
+> > > > > part of the increment or just the read? If it's the former, then =
+I don't
+> > > > > think that _acquire is sufficient -- accesses can still get in-be=
+tween
+> > > > > the read and write parts of the RmW.
+> > > >
+> > > > I dug some more into this at the end of last week. For the
+> > > > SLAB_TYPESAFE_BY_RCU where we're racing inc_not_zero() with
+> > > > dec_and_test(), then I think using _acquire() above is correct as t=
+he
+> > > > later references can only move up into the critical section in the =
+case
+> > > > that we successfully obtained a reference.
+> > > >
+> > > > However, if we're going to make the barriers implicit in the refcou=
+nt
+> > > > operations here then I think we also need to do something on the pr=
+oducer
+> > > > side for when the object is re-initialised after being destroyed an=
+d
+> > > > allocated again. I think that would necessitate release ordering fo=
+r
+> > > > refcount_set() so that whatever allows the consumer to validate the
+> > > > object (e.g. sequence number) is published *before* the refcount.
+> > >
+> > > Thanks Will!
+> > > I would like to expand on your answer to provide an example of the
+> > > race that would happen without release ordering in the producer. To
+> > > save reader's time I provide a simplified flow and reasoning first.
+> > > More detailed code of what I'm considering a typical
+> > > SLAB_TYPESAFE_BY_RCU refcounting example is added at the end of my
+> > > reply (Addendum).
+> > > Simplified flow looks like this:
+> > >
+> > > consumer:
+> > >     obj =3D lookup(collection, key);
+> > >     if (!refcount_inc_not_zero(&obj->ref))
+> > >         return;
+> > >     smp_rmb(); /* Peter's new acquire fence */
+> > >     if (READ_ONCE(obj->key) !=3D key) {
+> > >         put_ref(obj);
+> > >         return;
+> > >     }
+> > >     use(obj->value);
+> > >
+> > > producer:
+> > >     old_key =3D obj->key;
+> > >     remove(collection, old_key);
+> > >     if (!refcount_dec_and_test(&obj->ref))
+> > >         return;
+> > >     obj->key =3D KEY_INVALID;
+> > >     free(objj);
+> > >     ...
+> > >     obj =3D malloc(); /* obj is reused */
+> > >     obj->key =3D new_key;
+> > >     obj->value =3D new_value;
+> > >     smp_wmb(); /* Will's proposed release fence */
+> > >     refcount_set(obj->ref, 1);
+> > >     insert(collection, key, obj);
+> > >
+> > > Let's consider a case when new_key =3D=3D old_key. Will call both of =
+them
+> > > "key". Without WIll's proposed fence the following reordering is
+> > > possible:
+> > >
+> > > consumer:
+> > >     obj =3D lookup(collection, key);
+> > >
+> > >                  producer:
+> > >                      key =3D obj->key
+> > >                      remove(collection, key);
+> > >                      if (!refcount_dec_and_test(&obj->ref))
+> > >                          return;
+> > >                      obj->key =3D KEY_INVALID;
+> > >                      free(objj);
+> > >                      obj =3D malloc(); /* obj is reused */
+> > >                      refcount_set(obj->ref, 1);
+> > >                      obj->key =3D key; /* same key */
+> > >
+> > >     if (!refcount_inc_not_zero(&obj->ref))
+> > >         return;
+> > >     smp_rmb();
+> > >     if (READ_ONCE(obj->key) !=3D key) {
+> > >         put_ref(obj);
+> > >         return;
+> > >     }
+> > >     use(obj->value);
+> > >
+> > >                      obj->value =3D new_value; /* reordered store */
+> > >                      add(collection, key, obj);
+> > >
+> > > So, the consumer finds the old object, successfully takes a refcount
+> > > and validates the key. It succeeds because the object is allocated an=
+d
+> > > has the same key, which is fine. However it proceeds to use stale
+> > > obj->value. Will's proposed release ordering would prevent that.
+> > >
+> > > The example in https://elixir.bootlin.com/linux/v6.12.6/source/includ=
+e/linux/slab.h#L102
+> > > omits all these ordering issues for SLAB_TYPESAFE_BY_RCU.
+> > > I think it would be better to introduce two new functions:
+> > > refcount_add_not_zero_acquire() and refcount_set_release(), clearly
+> > > document that they should be used when a freed object can be recycled
+> > > and reused, like in SLAB_TYPESAFE_BY_RCU case. refcount_set_release()
+> > > should also clarify that once it's called, the object can be accessed
+> > > by consumers even if it was not added yet into the collection used fo=
+r
+> > > object lookup (like in the example above). SLAB_TYPESAFE_BY_RCU
+> > > comment at https://elixir.bootlin.com/linux/v6.12.6/source/include/li=
+nux/slab.h#L102
+> > > then can explicitly use these new functions in the example code,
+> > > further clarifying their purpose and proper use.
+> > > WDYT?
+> >
+> > Hi Peter,
+> > Should I take a stab at preparing a patch to add the two new
+> > refcounting functions suggested above with updates to the
+> > documentation and comments?
+> > If you disagree with that or need more time to decide then I'll wait.
+> > Please let me know.
+>
+> Not sure if "--in-reply-to" worked but I just posted a patch adding
+> new refcounting APIs for SLAB_TYPESAFE_BY_RCU here:
+> https://lore.kernel.org/all/20250206025201.979573-1-surenb@google.com/
+> Since Peter seems to be busy I discussed these ordering requirements
+> for SLAB_TYPESAFE_BY_RCU with Paul McKenney and he was leaning towards
+> having separate functions with the additional fences for this case.
+> That's what I provided in my patch.
+> Another possible option is to add acquire ordering in the
+> __refcount_add_not_zero() as Peter suggested and add
+> refcount_set_release() function.
+> Thanks,
+> Suren.
+>
+>
+> > Thanks,
+> > Suren.
+> >
+> >
+> > >
+> > > ADDENDUM.
+> > > Detailed code for typical use of refcounting with SLAB_TYPESAFE_BY_RC=
+U:
+> > >
+> > > struct object {
+> > >     refcount_t ref;
+> > >     u64 key;
+> > >     u64 value;
+> > > };
+> > >
+> > > void init(struct object *obj, u64 key, u64 value)
+> > > {
+> > >     obj->key =3D key;
+> > >     obj->value =3D value;
+> > >     smp_wmb(); /* Will's proposed release fence */
+> > >     refcount_set(obj->ref, 1);
+> > > }
+> > >
+> > > bool get_ref(struct object *obj, u64 key)
+> > > {
+> > >     if (!refcount_inc_not_zero(&obj->ref))
+> > >         return false;
+> > >     smp_rmb(); /* Peter's new acquire fence */
+> > >     if (READ_ONCE(obj->key) !=3D key) {
+> > >         put_ref(obj);
+> > >         return false;
+> > >     }
+> > >     return true;
+> > > }
+> > >
+> > > void put_ref(struct object *obj)
+> > > {
+> > >     if (!refcount_dec_and_test(&obj->ref))
+> > >         return;
+> > >     obj->key =3D KEY_INVALID;
+> > >     free(obj);
+> > > }
+> > >
+> > > consumer:
+> > >     obj =3D lookup(collection, key);
+> > >     if (!get_ref(obj, key)
+> > >         return;
+> > >     use(obj->value);
+> > >
+> > > producer:
+> > >     remove(collection, old_obj->key);
+> > >     put_ref(old_obj);
+> > >     new_obj =3D malloc();
+> > >     init(new_obj, new_key, new_value);
+> > >     insert(collection, new_key, new_obj);
+> > >
+> > > With SLAB_TYPESAFE_BY_RCU old_obj in the producer can be reused and b=
+e
+> > > equal to new_obj.
+> > >
+> > >
+> > > >
+> > > > Will
