@@ -1,161 +1,181 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17E92F44;
-	Thu, 13 Feb 2025 00:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBA214037F;
+	Thu, 13 Feb 2025 01:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739407261; cv=none; b=EageJZ8JTITu1V6z5eZMnPrCvkkaGzpSpvg68bDIUC5JpAuz4cV5b5Js5xbALiihImL8yHzLx101CDrkXOADGTINTldiE/b73KcXZQLsg3OBkMFP3gakacWvfQyOWb1fH84BEpdu7LPmlbsWCTgAMB2MidwhEG7vpMGexlOeozw=
+	t=1739411091; cv=none; b=qEZMIo7MbFnmSe66xYDBRcclt2sir/TY/oxuF/nEZd4QWV36vIBrVLEOS79voTkpb+O0pzToLdsTth1emrcfymNR9UEwUyRmfXB7VoxXa0kE1w0w4CVBYHG0jH0+hMWyVqdHWLgHxKKVRmbgOn3oy782Z+GgyrZlu1cFG+lKiCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739407261; c=relaxed/simple;
-	bh=/5BdimO5ChYxqdyBHcKxk64mNtH5uMwvVg3cjZH2rKw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DcNAM9MAHppBk82uBdLd9NKjYo6hL8ahSN1O0U8fDI0djDkFfcDhYZUf8/tTYWWawvo7nVRCnoGSOzG39DvZUYW3r8S2eErbB44Q9wzTBS5C5WeI8a7Tbkna1m5kB3ETefrUl1RYhhwOIL7H+u1y6R2fEf9mu+pUfXaToZEPCOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=UEnWYm6G; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1739411091; c=relaxed/simple;
+	bh=olXBav6CKqcfpxooRDtGfAnr1eu6Xdsee3Taqi4Maco=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I/Jkbsz3Yo2e76Sm2iKwHVD4NFVhCTDkAZgzPywBTHK6OVyIY6qlH8/lAc6HRz3f6NehsytzCCWdlfLF1+EpYIT8tZG3PBL9gz/85UAnBmFP2Jyb+JYyCAuVp5olk+PsaTL2NqTBJUSZYaKYksvVmuWDkTeReLjnuF0htGzAGvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAEZ/IWO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="UEnWYm6G"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51CKG8FP004594;
-	Thu, 13 Feb 2025 00:39:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=kvPsau
-	XDyf47SKQKq4L7sX8eCJo/Sjkz/am1Ygpjog8=; b=UEnWYm6GywtAWklet8Kgpk
-	ry9C4dDxYoUnjlmbMhR0g8vGlzqt9nrrYlr4pT4ZH/HFnl+aUieYO9JL0FaV0Z2X
-	wgnsvrixboTeC4h3j7FLogqEFZHRQqvix/eL8cCK2Ohx0ukW8Mgs4enLAb/QXKed
-	VHf0IriPmvQU0LL44IJypBnfxnTjiGkgyDoX6VdWGBzB420z/iDMFHPM7E6e13Cj
-	VfefLAUgEiGzBKNAz19wwzO3mdB2I/np6ENZCNvI2pgs8XbKcNCg3/flpn8DJAt/
-	g0RNpy4h0c26wxoO9h3vCnPGRgWEL2uboa5tLC5aq+yuCQ90coVWd+e2UlBVHyxA
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44rhqaefkc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Feb 2025 00:39:48 +0000 (GMT)
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 51D0Yq7p011254;
-	Thu, 13 Feb 2025 00:39:47 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44rhqaefka-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Feb 2025 00:39:47 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 51CNV6bh016749;
-	Thu, 13 Feb 2025 00:39:46 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 44pk3kbmxf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Feb 2025 00:39:46 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 51D0diJD39125320
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 13 Feb 2025 00:39:44 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2372E20040;
-	Thu, 13 Feb 2025 00:39:44 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9747620043;
-	Thu, 13 Feb 2025 00:39:43 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.63.197.14])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 13 Feb 2025 00:39:43 +0000 (GMT)
-Received: from jarvis.ozlabs.ibm.com (unknown [9.36.5.210])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 0DEA2600D7;
-	Thu, 13 Feb 2025 11:39:26 +1100 (AEDT)
-Message-ID: <835f0504d85398707997b7fe96b4f1a44179ff9a.camel@linux.ibm.com>
-Subject: Re: [PATCH 0/9] Extend automarkup support for ABI symbols
-From: Andrew Donnellan <ajd@linux.ibm.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Bagas Sanjaya
-	 <bagasdotme@gmail.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet	
- <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        "David S. Miller"	
- <davem@davemloft.net>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Avadhut
- Naik	 <avadhut.naik@amd.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Eric Dumazet	 <edumazet@google.com>,
-        Hu Haowen
- <2023002089@link.tyut.edu.cn>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg	
- <mika.westerberg@linux.intel.com>,
-        Paolo Abeni <pabeni@redhat.com>, Sean
- Young	 <sean@mess.org>,
-        Yanteng Si <si.yanteng@linux.dev>,
-        Yehezkel Bernat	
- <YehezkelShB@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Michael
- Ellerman	 <mpe@ellerman.id.au>,
-        Shrikanth Hegde <sshegde@linux.ibm.com>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>,
-        James Morse	 <james.morse@arm.com>,
-        "Nysal Jan K.A" <nysal@linux.ibm.com>,
-        Tom Lendacky	
- <thomas.lendacky@amd.com>,
-        Sourabh Jain <sourabhjain@linux.ibm.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Frederic Barrat
- <fbarrat@linux.ibm.com>,
-        Madhavan Srinivasan	 <maddy@linux.ibm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy	
- <christophe.leroy@csgroup.eu>,
-        Naveen N Rao <naveen@kernel.org>, linux-arm-kernel@lists.infradead.org,
-        linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        workflows@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Date: Thu, 13 Feb 2025 11:39:20 +1100
-In-Reply-To: <20250212135808.58d2f032@foz.lan>
-References: <cover.1739254867.git.mchehab+huawei@kernel.org>
-		<Z6yFG_NntQfkwYli@archie.me> <20250212135808.58d2f032@foz.lan>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAEZ/IWO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABAD6C4CEDF;
+	Thu, 13 Feb 2025 01:44:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739411090;
+	bh=olXBav6CKqcfpxooRDtGfAnr1eu6Xdsee3Taqi4Maco=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hAEZ/IWOPGugUt6Zhsm3o8ZFAJp25JzElRJuJSVCvjg/0eoIiC9ErDI890Xs2DnCL
+	 CW7CpDfTqV+S9o3gmRibBFpd63WKYqS+Sag3eMjfH3qRQzAiG/y4CHoCvVqLHRiMm2
+	 dnhZjHzCUVd0wLoAGwJ/ea/g60qfHFJJUpN2suLvWggsR0o2nFKTcYpD2IlE6hI/FP
+	 l15Gk0fILVMPv6biQSYSdZeYvxN2pT42eHo+Zh1MYSTzgyk1dInkDGg8cVJwxi7VIy
+	 AZ02vOkW0+mx3BA0/yVa2Il95eXzxbYO+2C/V2lWtORT6xCGLydlk7Vr83V4Oy+FtE
+	 K0mzGVPDvTT5Q==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH 0/8] mm/damon: auto-tune aggregation interval
+Date: Wed, 12 Feb 2025 17:44:30 -0800
+Message-Id: <20250213014438.145611-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: OZ4Ih_TXKxH9HgohVnb0WeQrzyi138qF
-X-Proofpoint-GUID: _CytR_Qn18YZDyX1vFuvKdYXq73CWqPh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-12_08,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxscore=0
- spamscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0 adultscore=0
- impostorscore=0 bulkscore=0 mlxlogscore=609 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502130002
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2025-02-12 at 13:58 +0100, Mauro Carvalho Chehab wrote:
-> > WARNING: Documentation/ABI/testing/sysfs-class-cxl not found
->=20
-> I need to double-check verify this one, as it didn't appear on
-> my tests. Are you getting it against docs-next or linux-next?
->=20
+DAMON requires time-consuming and repetitive aggregation interval
+tuning.  Introduce a feature for automating it using a feedback loop
+that aims an amount of observed access events, like auto-exposing
+cameras.
 
-This is moved to obsolete/ by 5731d41af924b which was merged in rc1,
-and will be moved again to removed/ by [0].
+Background: Access Frequency Monitoring and Aggregation Interval
+================================================================
 
-Andrew
+DAMON checks if each memory element (damon_region) is accessed or not
+for every user-specified time interval called 'sampling interval'.  It
+aggregates the check intervals on per-element counter called
+'nr_accesses'.  DAMON users can read the counters to get the access
+temperature of a given element.  The counters are reset for every
+another user-specified time interval called 'aggregation interval'.
 
-[0]
-https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20250203072801.3655=
-51-3-ajd@linux.ibm.com/
+This can be illustrated as DAMON continuously capturing a snapshot of
+access events that happen and captured within the last aggregation
+interval.  This implies the aggregation interval plays a key role for
+the quality of the snapshots, like the camera exposure time.  If it is
+too short, the amount of access events that happened and captured for
+each snapshot is small, so each snapshot will show no many interesting
+things but just a cold and dark world with hopefuly one pale blue dot or
+two.  If it is too long, too many events are aggregated in a single
+shot, so each snapshot will look like world of flames, or Muspellheim.
+It will be difficult to find practical insights in both cases.
 
---=20
-Andrew Donnellan    OzLabs, ADL Canberra
-ajd@linux.ibm.com   IBM Australia Limited
+Problem: Time Consuming and Repetitive Tuning
+=============================================
+
+The appropriate length of the aggregation interval depends on how
+frequently the system and workloads are making access events that DAMON
+can observe.  Hence, users have to tune the interval with excessive
+amount of tests with the target system and workloads.  If the system and
+workloads are changed, the tuning should be done again.  If the
+characteristic of the workloads is dynamic, it becomes more challenging.
+It is therefore time-consuming and repetitive.
+
+The tuning challenge mainly stems from the wrong question.  It is not
+asking users what quality of monitoring results they want, but how DAMON
+should operate for their hidden goal.  To make the right answer, users
+need to fully understand DAMON's mechanisms and the characteristics of
+their workloads.  Users shouldn't be asked to understand the underlying
+mechanism.  Understanding the characteristics of the workloads shouldn't
+be the role of users but DAMON.
+
+Aim-oriented Feedback-driven Auto-Tuning
+=========================================
+
+Fortunately, the appropriate length of the aggregation interval can be
+inferred using a feedback loop.  If the current snapshots are showing no
+much intresting information, in other words, if it shows only rare
+access events, increasing the aggregation interval helps, and vice
+versa.  We tested this theory on a few real-world workloads, and
+documented one of the experience with an official DAMON monitoring
+intervals tuning guideline.  Since it is a simple theory that requires
+repeatable tries, it can be a good job for machines.
+
+Based on the guideline's theory, we design an automation of aggregation
+interval tuning, in a way similar to that of camera auto-exposure
+feature.  It defines the amount of interesting information as the ratio
+of captured access events to total capturing attempts of single snapshot,
+or more technically speaking, the ratio of positive access check samples
+to total samples within the aggregation interval.  It allows the users
+to set the target value of the ratio.  Once the target is set, the
+automation periodically measures the current value of the ratio and
+increase or decrease the aggregation interval if the ratio value is
+lower or higher than the target.  The amount of the change is proportion
+to the distance between current value and the target value.
+
+To avoid auto-tuning goes too long way, let users set minimum and
+maximum aggregation interval time.  Changing only aggregation interval
+while sampling interval is kept make the maximum level of access
+frequency in each snapshot, or discernment of regions inconsistent.
+Also, unnecessarily short sampling interval causes meaningless
+monitoring overhed.  The automation therefore adjusts the sampling
+interval together with aggregation interval, while keeping the ratio
+between the two intervals.  Users can set the ratio, or the discernment.
+
+Discussion
+==========
+
+The modified question (aimed amount of heats in each snapshot) is easy
+to answer by both the users and the kernel.  If users are interested in
+finding more cold regions, the value should be lower, and vice versa.
+If users have no idea, kernel can suggest about 20% positive access
+samples ratio as a fair default value based on the Pareto principle.
+
+Sampling to aggregation intervals ratio and min/max aggregation
+intervals are also arguably easy to answer.  What users want is
+discernment of regions for efficient system operation, for examples, X
+amount of colder regions or Y amount of warmer regions, not exactly how
+many times each cache line is accessed in nanoseconds degree.  The
+appropriate min/max aggregation interval can relatively naively set, and
+may better to set for aimed monitoring overhead.  Since sampling
+interval is directly related with the overhead, setting it based on the
+sampling interval can be easy.  With my experiences, I'd argue the
+intervals ratio 0.05, and 5 milliseconds to 20 seconds sampling interval
+range (100 milliseconds to 400 seconds aggregation interval) can be a
+good default suggestions.
+
+Evaluation
+==========
+
+We confirmed the tuning works as expected with only a few simple
+workloads including kernel builds, and that's why this is an RFC.  We
+will conduct more evaluations with more massive and realistic workloads
+and share the results by the time that we drop the RFC tag.
+
+SeongJae Park (8):
+  mm/damon: add data structure for monitoring intervals auto-tuning
+  mm/damon/core: implement intervals auto-tuning
+  mm/damon/sysfs: implement intervals tuning goal directory
+  mm/damon/sysfs: commit intervals tuning goal
+  mm/damon/sysfs: implement a command to update auto-tuned monitoring
+    intervals
+  Docs/mm/damon/design: document for intervals auto-tuning
+  Docs/ABI/damon: document intervals auto-tuning ABI
+  Docs/admin-guide/mm/damon/usage: add intervals_goal directory on the
+    hierarchy
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |  30 +++
+ Documentation/admin-guide/mm/damon/usage.rst  |  25 ++
+ Documentation/mm/damon/design.rst             |  38 +++
+ include/linux/damon.h                         |  43 ++++
+ mm/damon/core.c                               |  90 ++++++++
+ mm/damon/sysfs.c                              | 216 ++++++++++++++++++
+ 6 files changed, 442 insertions(+)
+
+
+base-commit: d5c35650f4945e1406871f9d9d51ab8c54ec0d03
+-- 
+2.39.5
