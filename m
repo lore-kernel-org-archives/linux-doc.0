@@ -1,602 +1,845 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943B4241673;
-	Thu, 13 Feb 2025 21:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739483700; cv=none; b=rr1MNL7+e9hprQSlNS53DPTTUD/ckZGB3ZHs9se5OykBtyO/KmTiTb8XNIS9WL76RX9KNr1nF89JIwdvd/7P36YrobExGl/n3awfw4u866H77mXBHPckC7JzCDenrVFgqO0ZnPsxUH4lhK2I/XGfFLz90hgg+ac6KXdu2+9/q6c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739483700; c=relaxed/simple;
-	bh=jcepQgAWzSBQlzDMXLyI0xl+fHGReOFitNX+zeqKUtk=;
-	h=Message-ID:From:Date:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pViO7wVQE3oh3dvG8GB2v/2sq/8gwp6XljYmN8E4stPpxrVXIp5eSuQMY5Fw+io1TSgHL7udtmsLk6Ha6dKhbh55ZhWhnnep9I3cBa13mOQjMci2r7AXEieQ1NwWuSpADZ5b47WllGiQzMA+hn3Xm1qWO4w4Q8cTc0ZCNSJoeTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EAiYsAHZ; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F5A266B59;
+	Thu, 13 Feb 2025 22:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739484695; cv=fail; b=Ww9dVTW5Kc5xi84clTMeL0lOAaaA+bLUXuTRkX3gQyIgQg/8u46p1vhFnihHXB/GrFnmvyN+btHbK2xShQfFgVaj7EczJr1f1tJCAOMaeHz/BcD69VGDUNAeYYS83BkRRAKcH0LV4IOAJbHvC6lkndvntlQw8vN++4jJU7DcKMo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739484695; c=relaxed/simple;
+	bh=672dIEmYeJbaS5bJsLdzpvMxCZ34sN7m6Tp/SPaTNms=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=L0JpBWeTjyWwAIqqYRR+1NL7OBHjRsCOpPr7MJAUrXs7Fxbd3Dlm/8naRHYhROTnFZxNp/eibmVA5m7PF9p9lHjM13Y9Hc3EA88aQy+VUkSOaMmP8BNSGgc/1txWe0toP58r1uvUsA99U0I+S+TxqI9m2AycFey11H1qUpgKlVg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cuN+Ahtr; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EAiYsAHZ"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21f7f1e1194so34918715ad.2;
-        Thu, 13 Feb 2025 13:54:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739483698; x=1740088498; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:date:from:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=zXqjkMomEhU6qi7QsxovQC87Ti+8c6P77nOqA/9a79s=;
-        b=EAiYsAHZUjmPzsqlarGg9qkIa3SVkp7CnwljozqACgqH/KWGVp9XbXmXq50eR8fu2G
-         Se+sV5F1H7o2k3doXT2YuPxY9CPnP0oalmIYjBGWAuMcJY+kTHn/fnrtG5nBqcVgZ3TK
-         D4w/Ds9wvOItdC37wG7d860hJGt8O3Q6rrl+uDmO08LDQEkNbgE9cl+eM3oRVrvburlX
-         B7P5LbRIxaL6iZ48Y9P55CvXRm72/scG0W11BL1QwelrJd+35fL6GXk17cJOBAZ3s3oz
-         f/Cz7KdPChFN/1JBB/K0qq8gS7KdeucbzSLPNn+tyE6SyOK9ERT9b9plMwvuu+bIHpIe
-         ykuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739483698; x=1740088498;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:date:from:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zXqjkMomEhU6qi7QsxovQC87Ti+8c6P77nOqA/9a79s=;
-        b=PU9E3CZpO6JmGRRuuSea0ueF3FbqbcvDN1stQ9RXKeOcWvccZzjmIOxAuCaSrhpPYG
-         MZaYnOUHUx6T7J8PEENyk/le1KqLcAGwRwgFpOPug1ZeA9zt3Xsdu2cbZETUpKwt7diw
-         RZae8DhPSML0RV/ZZiA+TJNeOFJQH5EiEgXernKYdiQTk78/qLCUGv8AzUuMWfhCtfLu
-         KsQzdaXzEg9+nHJQI9xtM4Gm7LNxtprOTFCgWNlWzBlP25T1eHBze0IlLyxs8rg1jzvg
-         M0qYZgZW/OjuoW7uQRlauOLXoK1xwo8hZFv4O8LWXP8xTik2VvFPtrqvj7lMugklN4lW
-         6ZPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUHNchkf/RvQdiI8Qrgqg9PLLDZnnkvhMtTGLJyxkjcBVlmX6vekLqvOJh+Ic12ut7nOxShDi9OhgTO@vger.kernel.org, AJvYcCWc9qViw33Ze/wajI68MGWnjEIvvP6GZLe/3Mg9LQGXfgdlZmRyeYCUif8u4vPWuIVsRTREVfnctXpY@vger.kernel.org, AJvYcCXcQdQnYiM2dWVjnbyL9VBwPDZpyMfPsQ3qK6xyJLdN5Yv2rOL18QJw8Im13QIa7dvdz/IlBl/Trp1I@vger.kernel.org, AJvYcCXhL2+2rLPsYU/pNFFDtudH3LfL0VmNbtKEwu56ntIlNIl+ymjFCvxWr7WfiS8Bz0LbZMdgZrnNx+3AZcm2@vger.kernel.org
-X-Gm-Message-State: AOJu0YxK9dpZWWYtX4LuIXo77wz8yhzsS/a5B89MFzinze8HIyM/fIMU
-	rEEzKEej5Q+crZHr6DkU5etTd15zm1FQQKp6VrTELKuQUl+9KFS5
-X-Gm-Gg: ASbGncukifdSk2xfKgcCiOQn3gEALHNZpwlKdU2bHy0DTVo6G4hmS19pE5MVuQNwKbS
-	bamN1Gc4oNdA+9gps/8qBG9tGp4BM8m4bWtvANueAH31r5t97oro8+TxFKXTOW8KyQc3rvVMGqu
-	a8Mi1CkPmSfjpIBX7RrFtmOsqHueTq72a5VeyKlfzxSQo95xMtgwgdd1BFTnuGhaABj+71AJcxb
-	Pq/OW/vBFaRjLW4WAkUtJkhiQxrckqa52H3t7ucVDj0SDRh4PNzKDP7yj2NXF3ooPQP5oC2tVpt
-	zJgWsDN7e0ySmAv06wMDRKteeeKcG8gJy+m1DH8P1u0=
-X-Google-Smtp-Source: AGHT+IFI9jDm1VfuN6QWAb5rv5FuI+fD2JrzWIO0z4H1qMRqdbvVsXjHFdb/2o3V8cmCntm0azHixw==
-X-Received: by 2002:a17:903:230b:b0:21f:49f2:e33f with SMTP id d9443c01a7336-220bbb243c2mr148341915ad.21.1739483697334;
-        Thu, 13 Feb 2025 13:54:57 -0800 (PST)
-Received: from asus. (c-73-189-148-61.hsd1.ca.comcast.net. [73.189.148.61])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d53494afsm17096425ad.18.2025.02.13.13.54.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 13:54:56 -0800 (PST)
-Message-ID: <67ae6a30.170a0220.3a1e25.9914@mx.google.com>
-X-Google-Original-Message-ID: <Z65qI5VAj7tkYhmV@asus.>
-From: Fan Ni <nifan.cxl@gmail.com>
-X-Google-Original-From: Fan Ni <fan.ni@samsung.com>
-Date: Thu, 13 Feb 2025 13:54:43 -0800
-To: shiju.jose@huawei.com
-Cc: linux-edac@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	bp@alien8.de, tony.luck@intel.com, rafael@kernel.org,
-	lenb@kernel.org, mchehab@kernel.org, dan.j.williams@intel.com,
-	dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com, david@redhat.com,
-	Vilas.Sridharan@amd.com, leo.duran@amd.com, Yazen.Ghannam@amd.com,
-	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
-	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
-	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
-	gthelen@google.com, wschwartz@amperecomputing.com,
-	dferguson@amperecomputing.com, wbs@os.amperecomputing.com,
-	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
-	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
-	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
-	linuxarm@huawei.com
-Subject: Re: [PATCH v20 03/15] EDAC: Add ECS control feature
-References: <20250212143654.1893-1-shiju.jose@huawei.com>
- <20250212143654.1893-4-shiju.jose@huawei.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cuN+Ahtr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739484693; x=1771020693;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=672dIEmYeJbaS5bJsLdzpvMxCZ34sN7m6Tp/SPaTNms=;
+  b=cuN+Ahtr9CUtwqiejHFXyQpZ4NO+ZLiifAKuITBzieJo/ZpkSqdtmQW5
+   Gt2vb0g7bDZ6w7Kv/pT53e7ggPsOVn8XUQPChIFe95fkEOwQWmu2kMwOU
+   ja4gjctnDxTFI7ETLFNVGaMi+/EoV8fvs8VNU+Of6y9vMv0FWg/LzjFcz
+   G25G9j9XA7a2PXr0RBOx6PWwvzWW4MVnSlV83FbkNTM3JZE6FJK8Eg0u1
+   UqhzgMGcEcI86XL5HmkQr3km48gSKchcq++SsMFGyr49zfFmpmtAIj9rW
+   X+QQGjLx92e7EdfwNWX/YSe1GoSuubvuFSkKGm1ufJRIStkjO8b9fYHFk
+   A==;
+X-CSE-ConnectionGUID: 2++LdcM+S9Gbgk4LAqCueA==
+X-CSE-MsgGUID: JrshbMAJSRepR8/ykkGDoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51646867"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="51646867"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 14:11:32 -0800
+X-CSE-ConnectionGUID: BcswBBDbTeWgRixnvzqQhw==
+X-CSE-MsgGUID: wKehxGmwT/ubTBAp6qCcIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="117893031"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 13 Feb 2025 14:11:32 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Thu, 13 Feb 2025 14:11:31 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Thu, 13 Feb 2025 14:11:31 -0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.48) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 13 Feb 2025 14:11:30 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WoeGKM5b5rr5QX00+i9gF1wF0+AYT+woTqxSskUp59gMRP8pCOm8bGOAAfbsDjyLgkqIv/nZCKyg6BCmjfvpUNSEzrfDbcIq3HoOsCnaAXf8e5HRBlXYzwtkiOwIn+KD1UKDjnC9UfxkyzhZuJBUBvezMWPzoPiFnUUGlelD3SKTrBSkwaEvLiEd5aA2APTutAHsyW47EuohldXnBi0TXawfRAPZPKmfqEIHmULRO3brQvl98rcNU1h93jQa577Dn5MUp+WV4qO+qi+fkx6khrUUXFuH7y7fKRbYfmcf++/vBQaFFIgriWbuuo0gf1ZdYTlCZaDegEOvDuLZH7ZaPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vvQtp0+VfysPzW1aSl783xYL1NuBDGhp4SIUOhlJImI=;
+ b=kyxqpgz2X5om79xQWyvI9taAr+v4uXBywNIh/gXqRqdidK53b/NvypaURNw3MP51TXoBgXPVsg+0WVXk074HunFhkNZZRDE2egFsHEaGz4KnqxDCJaxpdY+L29Y3qPcXt/fyHgtzP5MLV6PuDFUW5+Puwa6f+1YAc4VVOIEhEzjvBGP2t8jC7MRlC6AKPh/BynvO+NIg84ZN7EaojslX85TIz6SuTHn7qA90RtjhZfvVMuPu+/X2LVEseflfq9y63YLX+1Cg0Er8uqAn+GxzyFIWGi6LM04Mn535CH00zbEg1g9wxQeLq3YSqBujBby3jWW2Z7uC9IttsDp5eRBZHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by DS0PR11MB8081.namprd11.prod.outlook.com (2603:10b6:8:15c::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.19; Thu, 13 Feb
+ 2025 22:11:11 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.8422.015; Thu, 13 Feb 2025
+ 22:11:11 +0000
+Date: Thu, 13 Feb 2025 14:12:11 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Danilo Krummrich <dakr@kernel.org>
+CC: <airlied@gmail.com>, <simona@ffwll.ch>, <corbet@lwn.net>,
+	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+	<tzimmermann@suse.de>, <ajanulgu@redhat.com>, <lyude@redhat.com>,
+	<pstanner@redhat.com>, <zhiw@nvidia.com>, <cjia@nvidia.com>,
+	<jhubbard@nvidia.com>, <bskeggs@nvidia.com>, <acurrid@nvidia.com>,
+	<ojeda@kernel.org>, <alex.gaynor@gmail.com>, <boqun.feng@gmail.com>,
+	<gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <benno.lossin@proton.me>,
+	<a.hindborg@kernel.org>, <aliceryhl@google.com>, <tmgross@umich.edu>,
+	<dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
+	<rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH v3 2/2] gpu: nova-core: add initial documentation
+Message-ID: <Z65uO2BOBaJzk0AJ@lstrano-desk.jf.intel.com>
+References: <20250209173048.17398-1-dakr@kernel.org>
+ <20250209173048.17398-2-dakr@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250209173048.17398-2-dakr@kernel.org>
+X-ClientProxiedBy: SJ0PR13CA0163.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::18) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250212143654.1893-4-shiju.jose@huawei.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DS0PR11MB8081:EE_
+X-MS-Office365-Filtering-Correlation-Id: 931206ed-0d6f-4ccf-6810-08dd4c7b52be
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?dUaRj4nvhoO/TiJ7LpP+JRdOYj2LUQ4BM3XnIQNEvKLD/gurfM3+QDpDbq7v?=
+ =?us-ascii?Q?uh6rHL3IfmRcsFqIovOCKprIvNAUSBY0NX+lshu+E563At7tY7umbI95HnBM?=
+ =?us-ascii?Q?bFiDJPl4PLJhldV8TpXRjoi68elCi1dcMzk0F/EAAZNORfcgaiu/fdxMvRh+?=
+ =?us-ascii?Q?JmvbPD8Bsj4XsogMBQKDDMjKBoBX5XVLaxiWZbubXXC+ebfTl8/QahEjaaNd?=
+ =?us-ascii?Q?1LCxxtfXwnLxd20G/qGtp4hDe4t6dvMDJ6osJQyY5t8KsijKHnc2rS7CQYk9?=
+ =?us-ascii?Q?q967EjB5xGDjy/I/CFGv1HcfE4g+rNQt7FuMmsHSRd46u3wRoLQV41wk3lrh?=
+ =?us-ascii?Q?pNZ3BwNKpk/SZcxmC2MooOpsHi8Zx5b7WwvHKaK8gd9GOGqrVjT3zujY7RUt?=
+ =?us-ascii?Q?EjTWrorgYBYDuroTtu6GjyqaQPwJz1l99CF+W0wjVY0WdPK/0RoMPMShcBtQ?=
+ =?us-ascii?Q?FMOCQi3XXkcBiW0eiKNdh1duIlWJauUUZzgQ9Z4FYCj4Yg+56w5jXT8AOIMK?=
+ =?us-ascii?Q?tw6MW3Vr9wyODrqmKbDQdnUmg9yrTY/aVJL0k/xcm0lT0WVh5LDTnesXuxYw?=
+ =?us-ascii?Q?6VTA+dA2l9F6WZBf/ug1ae/8T614qpZQhU0WPiSg5Pekk1Wq0FmQkb3KWJP2?=
+ =?us-ascii?Q?k2ef3DjIwpnf7AWaDULNFNq6I4VOnZEDye78LAp+ziNU1D9CFdaPfUI+nwoH?=
+ =?us-ascii?Q?28GBXsdna67EBhSUg5qBiH8yTDmBZQBkOwHEPPVjQ3SxL+Q3lXLJ0P/vI04M?=
+ =?us-ascii?Q?BukJ9vkGdDo0iLCj7jmL5n8JzTP8qqqsC6F3Y/YtQqejfhk/YGe3UcF2RxNE?=
+ =?us-ascii?Q?DSDdaHXVmRGvWFkeK9hrHC9DXTkhW2rLRiyrjphofpdzBbTZ7Icbr4wZ1U/2?=
+ =?us-ascii?Q?4OP7chYPGCDgJrkhKdn17cjz+jkSrx7mLhGhy2zxmKhQZ5RrjogBI1yCfONK?=
+ =?us-ascii?Q?rD/2WbcyD7yfWMyWVD1ReJQc3QhHA8G2LLq5idSs8cqcq20g4ptL0ejYN5fX?=
+ =?us-ascii?Q?1hyXcBqznP26RD6MqXXiolsWEmCBjWPGKBPJfY+bLQYKi+ucd15IsbAFBvHi?=
+ =?us-ascii?Q?0V/nlh79P7mRrtyg7XNz+sESovQziKuh5eyfjMUX5kZyUKUk0Tj8XIS1YhGr?=
+ =?us-ascii?Q?04ADttK/vwYqW27WOO15WZzs+j65rsGAAYDgD4nBkErR0f1WuS8JfKV9MnBq?=
+ =?us-ascii?Q?Eb5TmSQoEKhBE9LgXCxdZq4AvNA1nczcc/L/ep/HuDW0rx8AwMH4GNIcm7vn?=
+ =?us-ascii?Q?BEuc+xHhYwLit/6/xe1s5a5xTaqGZZS3Y6x6DHM+419Sx7duhK2RjVACSk7z?=
+ =?us-ascii?Q?wP659LGdl6N6kolqxxQeEkcGDN5c+FYDjWF33YLJYuH3gA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zCX+cwEEXe1eCdpDg6BzZ3YW45bG9zOUIeMLtEhpXFdZNbO04K1dnmHuorXH?=
+ =?us-ascii?Q?9OfQTDP6q68OiEHZ4mJxCyiNPOaJOfcunGgbPa9adTfrUtTCCWsSioQ7pMr+?=
+ =?us-ascii?Q?QxcsXnci6EB2wSPsKtOMEh7/4eRYmEhCGvh9wptTT6efsEcUmtq/cLw5jGJG?=
+ =?us-ascii?Q?FBoWGVblC/aRxsLghoSSyxGr00OjykmN3j9M7mnhsjtY1ZQqwIVvYl6joTSD?=
+ =?us-ascii?Q?kMK+z3U23qF/YTdK3CMmnPl1YcMdTeACVL8FiL6HxGXs3g+6jBn0Twha1RPG?=
+ =?us-ascii?Q?hPFqGF1B01aFm17CN0Y8A4cuRBqedrWVW/tW3os0wF7/AuXfILazESDcDn+b?=
+ =?us-ascii?Q?MOwclzBmSLUiCb3qB9o2m0rqfFSxOmttvWGdh/XvxliwnZ9usZkBMXL67fsN?=
+ =?us-ascii?Q?nVCfxLUlKgCv4rdylGcP614jON0H6te9UBP/k5YozzdNsNWDD2HMxlPIqmz9?=
+ =?us-ascii?Q?gisNCYOy3bchkwVvJf5ztSi6Po2/fbkbphwNoL6RSNeU5cj6QBOPM1tqTL92?=
+ =?us-ascii?Q?0I7HFF5VgDT5fPJ4j0rCa/zxxGVELzbX0JfrvM1rqBc7dR2NgOORlz+8TxrL?=
+ =?us-ascii?Q?z08ejKVBjxVQM09FKZCBBnlL5K8H3twtwAZ4NtnuIH4qyUGfme87lp75GtHh?=
+ =?us-ascii?Q?q9fk8DRK3A7dJrBWiOCtQt/6Ft/TSnoUWwKnaMe79oECBgmMgqIUYCZ3HBXl?=
+ =?us-ascii?Q?n/kN94/aFO2xa8dpSfHD5ev2AmHb9EMxyHfWmiQNpVXti2v9Udpklnovc/bY?=
+ =?us-ascii?Q?WfEYnEw4yWgkiFS/cs11/if5XyqDZ7xuB5PQ3GasVHLjeiqGexQ4YbDP1mFB?=
+ =?us-ascii?Q?pj+mvamqlwpoT126Zux/W0b7mdoCd59hZRCGeAr3wto/ruLz+JBKrIRfZ8lB?=
+ =?us-ascii?Q?Jy8RAawfc21JUpUCIAfTRk2+188wP/DB331Svvl/R4pQgMW+gJAQpHr0HRJ5?=
+ =?us-ascii?Q?bn6PAi5sM2GOeuYmMN0XX0ZjWm9FXiYis4g70U4au4t0ECaweq2uQ3Dn6qSZ?=
+ =?us-ascii?Q?OgispIEQnDGa67uWEoAO+rW781VavEPz101TrMC5RaqOkDoClqbpfTWw8eOD?=
+ =?us-ascii?Q?DOGlFSP5HIskOrDhmUH6NzGIBET2Mv/kTsJe7Dz7NALQLJBUcZK/odH7ZS8i?=
+ =?us-ascii?Q?SJRy+qVM3LN8Xwle+h796+GJD86N49708Tkr/5n8l0++CaGfzAZscTTxR0st?=
+ =?us-ascii?Q?IIjBMLvMbtHCzjpkXrXMaLtakopAHrWL4ySgLkB0ydfujLcMIiI1z96byPeu?=
+ =?us-ascii?Q?ulzYyRnZPyTg/AoP9T1JYdOhI5F+p6Q581KgI3tf8lOjyFtOZEhWgGrdPW34?=
+ =?us-ascii?Q?sjobzXJ3mk0cGPWX6MXMPi6pJGPbY5z2n1rNGrogjVaufQTcNkH9XatfaRgX?=
+ =?us-ascii?Q?Is3etyCbvCs8fagrR5TuS8xOuueAnO17tBK/kx9jKJ0zlKJDvnHFT3HLx2tK?=
+ =?us-ascii?Q?74JpOIYuMACudlKRQHE5/TbxpF52Uz0Y1Zk8UXXHSfeUlWk9aE29r6NYhZJY?=
+ =?us-ascii?Q?HiWTnGzFfXah0vM+uqqlSr//JtYByMGnt6pT5T4ahNAYzaXT5067VRYzCyZy?=
+ =?us-ascii?Q?TFBDY2+DlYTwIJY3sugukBavyOeR3LfIMybQzj+UEW1UfmOKjmUDdIQOddto?=
+ =?us-ascii?Q?wA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 931206ed-0d6f-4ccf-6810-08dd4c7b52be
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2025 22:11:11.2443
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LAvO8Ael4ilr0upcZG3FusLv2bbdnsiBRgJp7KX2jV/UHH7I1+ZnoGiIglnxkxCEmwKYKcuoPcZHJy4ascRP7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8081
+X-OriginatorOrg: intel.com
 
-On Wed, Feb 12, 2025 at 02:36:41PM +0000, shiju.jose@huawei.com wrote:
-> From: Shiju Jose <shiju.jose@huawei.com>
+On Sun, Feb 09, 2025 at 06:30:25PM +0100, Danilo Krummrich wrote:
+> Add the initial documentation of the Nova project.
 > 
-> Add EDAC ECS (Error Check Scrub) control to manage a memory device's
-> ECS feature.
+> The initial project documentation consists out of a brief introduction
+> of the project, as well as project guidelines both general and nova-core
+> specific and a task list for nova-core specifically.
 > 
-> The Error Check Scrub (ECS) is a feature defined in JEDEC DDR5 SDRAM
-> Specification (JESD79-5) and allows the DRAM to internally read, correct
-> single-bit errors, and write back corrected data bits to the DRAM array
-> while providing transparency to error counts.
+> The task list is divided into tasks for general Rust infrastructure
+> required by the project, tasks regarding GSP enablement and firmware
+> abstraction, general GPU driver tasks as well as tasks related to
+> external API design and test infrastructure.
 > 
-> The DDR5 device contains number of memory media FRUs per device. The
-> DDR5 ECS feature and thus the ECS control driver supports configuring
-> the ECS parameters per FRU.
-> 
-> Memory devices support the ECS feature register with the EDAC device
-> driver, which retrieves the ECS descriptor from the EDAC ECS driver.
-> This driver exposes sysfs ECS control attributes to userspace via
-> /sys/bus/edac/devices/<dev-name>/ecs_fruX/.
-> 
-> The common sysfs ECS control interface abstracts the control of an
-> arbitrary ECS functionality to a common set of functions.
-> 
-> Support for the ECS feature is added separately because the control
-> attributes of the DDR5 ECS feature differ from those of the scrub
-> feature.
-> 
-> The sysfs ECS attribute nodes are only present if the client driver
-> has implemented the corresponding attribute callback function and
-> passed the necessary operations to the EDAC RAS feature driver during
-> registration.
-> 
-> Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
-
-Reviewed-by: Fan Ni <fan.ni@samsung.com>
-Tested-by: Fan Ni <fan.ni@samsung.com>
-
-
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 > ---
->  Documentation/ABI/testing/sysfs-edac-ecs |  74 ++++++++
->  Documentation/edac/scrub.rst             |   2 +
->  drivers/edac/Kconfig                     |   9 +
->  drivers/edac/Makefile                    |   1 +
->  drivers/edac/ecs.c                       | 207 +++++++++++++++++++++++
->  drivers/edac/edac_device.c               |  17 ++
->  include/linux/edac.h                     |  48 +++++-
->  7 files changed, 356 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-edac-ecs
->  create mode 100755 drivers/edac/ecs.c
+> Changes in v3:
+>   - Replace some Rust specific rules with links to existing R4L documentation.
+>   - Link in R4L submit checklist.
+>   - Update task entry "Page abstraction for foreign pages" with Lina's work.
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-edac-ecs b/Documentation/ABI/testing/sysfs-edac-ecs
+> Changes in v2:
+>   - Add task "Generic register abstraction".
+>   - Change complexity of "Debugfs abstractions".
+> ---
+>  Documentation/gpu/drivers.rst              |   1 +
+>  Documentation/gpu/nova/core/guidelines.rst |  24 ++
+>  Documentation/gpu/nova/core/todo.rst       | 446 +++++++++++++++++++++
+>  Documentation/gpu/nova/guidelines.rst      |  69 ++++
+>  Documentation/gpu/nova/index.rst           |  30 ++
+>  MAINTAINERS                                |   1 +
+>  6 files changed, 571 insertions(+)
+>  create mode 100644 Documentation/gpu/nova/core/guidelines.rst
+>  create mode 100644 Documentation/gpu/nova/core/todo.rst
+>  create mode 100644 Documentation/gpu/nova/guidelines.rst
+>  create mode 100644 Documentation/gpu/nova/index.rst
+> 
+> diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+> index 1f17ad0790d7..7c2c5dcb5fd4 100644
+> --- a/Documentation/gpu/drivers.rst
+> +++ b/Documentation/gpu/drivers.rst
+> @@ -24,6 +24,7 @@ GPU Driver Documentation
+>     panfrost
+>     panthor
+>     zynqmp
+> +   nova/index
+>  
+>  .. only::  subproject and html
+>  
+> diff --git a/Documentation/gpu/nova/core/guidelines.rst b/Documentation/gpu/nova/core/guidelines.rst
 > new file mode 100644
-> index 000000000000..87c885c4eb1a
+> index 000000000000..a389d65d7982
 > --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-edac-ecs
-> @@ -0,0 +1,74 @@
-> +What:		/sys/bus/edac/devices/<dev-name>/ecs_fruX
-> +Date:		March 2025
-> +KernelVersion:	6.15
-> +Contact:	linux-edac@vger.kernel.org
-> +Description:
-> +		The sysfs EDAC bus devices /<dev-name>/ecs_fruX subdirectory
-> +		pertains to the memory media ECS (Error Check Scrub) control
-> +		feature, where <dev-name> directory corresponds to a device
-> +		registered with the EDAC device driver for the ECS feature.
-> +		/ecs_fruX belongs to the media FRUs (Field Replaceable Unit)
-> +		under the memory device.
+> +++ b/Documentation/gpu/nova/core/guidelines.rst
+> @@ -0,0 +1,24 @@
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 > +
-> +		The sysfs ECS attr nodes are only present if the parent
-> +		driver has implemented the corresponding attr callback
-> +		function and provided the necessary operations to the EDAC
-> +		device driver during registration.
+> +==========
+> +Guidelines
+> +==========
 > +
-> +What:		/sys/bus/edac/devices/<dev-name>/ecs_fruX/log_entry_type
-> +Date:		March 2025
-> +KernelVersion:	6.15
-> +Contact:	linux-edac@vger.kernel.org
-> +Description:
-> +		(RW) The log entry type of how the DDR5 ECS log is reported.
+> +This documents contains the guidelines for nova-core. Additionally, all common
+> +guidelines of the Nova project do apply.
 > +
-> +		- 0 - per DRAM.
+> +Driver API
+> +==========
 > +
-> +		- 1 - per memory media FRU.
+> +One main purpose of nova-core is to implement the abstraction around the
+> +firmware interface of GSP and provide a firmware (version) independent API for
+> +2nd level drivers, such as nova-drm or the vGPU manager VFIO driver.
 > +
-> +		- All other values are reserved.
+> +Therefore, it is not permitted to leak firmware (version) specifics, through the
+> +driver API, to 2nd level drivers.
 > +
-> +What:		/sys/bus/edac/devices/<dev-name>/ecs_fruX/mode
-> +Date:		March 2025
-> +KernelVersion:	6.15
-> +Contact:	linux-edac@vger.kernel.org
-> +Description:
-> +		(RW) The mode of how the DDR5 ECS counts the errors.
-> +		Error count is tracked based on two different modes
-> +		selected by DDR5 ECS Control Feature - Codeword mode and
-> +		Row Count mode. If the ECS is under Codeword mode, then
-> +		the error count increments each time a codeword with check
-> +		bit errors is detected. If the ECS is under Row Count mode,
-> +		then the error counter increments each time a row with
-> +		check bit errors is detected.
+> +Acceptance Criteria
+> +===================
 > +
-> +		- 0 - ECS counts rows in the memory media that have ECC errors.
-> +
-> +		- 1 - ECS counts codewords with errors, specifically, it counts
-> +		      the number of ECC-detected errors in the memory media.
-> +
-> +		- All other values are reserved.
-> +
-> +What:		/sys/bus/edac/devices/<dev-name>/ecs_fruX/reset
-> +Date:		March 2025
-> +KernelVersion:	6.15
-> +Contact:	linux-edac@vger.kernel.org
-> +Description:
-> +		(WO) ECS reset ECC counter.
-> +
-> +		- 1 - reset ECC counter to the default value.
-> +
-> +		- All other values are reserved.
-> +
-> +What:		/sys/bus/edac/devices/<dev-name>/ecs_fruX/threshold
-> +Date:		March 2025
-> +KernelVersion:	6.15
-> +Contact:	linux-edac@vger.kernel.org
-> +Description:
-> +		(RW) DDR5 ECS threshold count per gigabits of memory cells.
-> +		The ECS error count is subject to the ECS Threshold count
-> +		per Gbit, which masks error counts less than the Threshold.
-> +
-> +		Supported values are 256, 1024 and 4096.
-> +
-> +		All other values are reserved.
-> diff --git a/Documentation/edac/scrub.rst b/Documentation/edac/scrub.rst
-> index 50bb44b126fa..5f1ff2bf54b0 100644
-> --- a/Documentation/edac/scrub.rst
-> +++ b/Documentation/edac/scrub.rst
-> @@ -257,3 +257,5 @@ sysfs
->  
->  Sysfs files are documented in
->  `Documentation/ABI/testing/sysfs-edac-scrub`
-> +
-> +`Documentation/ABI/testing/sysfs-edac-ecs`
-> diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-> index 175d706168ab..9dfc2ea02df1 100644
-> --- a/drivers/edac/Kconfig
-> +++ b/drivers/edac/Kconfig
-> @@ -84,6 +84,15 @@ config EDAC_SCRUB
->  	  into a unified set of functions.
->  	  Say 'y/n' to enable/disable EDAC scrub feature.
->  
-> +config EDAC_ECS
-> +	bool "EDAC ECS (Error Check Scrub) feature"
-> +	help
-> +	  The EDAC ECS feature is optional and is designed to control on-die
-> +	  error check scrub (e.g., DDR5 ECS) in the system. The common sysfs
-> +	  ECS interface abstracts the control of various ECS functionalities
-> +	  into a unified set of functions.
-> +	  Say 'y/n' to enable/disable EDAC ECS feature.
-> +
->  config EDAC_AMD64
->  	tristate "AMD64 (Opteron, Athlon64)"
->  	depends on AMD_NB && EDAC_DECODE_MCE
-> diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
-> index f2a86ed997b7..21334b909ec4 100644
-> --- a/drivers/edac/Makefile
-> +++ b/drivers/edac/Makefile
-> @@ -14,6 +14,7 @@ edac_core-y	+= edac_module.o edac_device_sysfs.o wq.o
->  edac_core-$(CONFIG_EDAC_DEBUG)		+= debugfs.o
->  
->  edac_core-$(CONFIG_EDAC_SCRUB)		+= scrub.o
-> +edac_core-$(CONFIG_EDAC_ECS)		+= ecs.o
->  
->  ifdef CONFIG_PCI
->  edac_core-y	+= edac_pci.o edac_pci_sysfs.o
-> diff --git a/drivers/edac/ecs.c b/drivers/edac/ecs.c
-> new file mode 100755
-> index 000000000000..7fd97984e039
+> +- To the extend possible, patches submitted to nova-core must be tested for
+> +  regressions with all 2nd level drivers.
+> diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nova/core/todo.rst
+> new file mode 100644
+> index 000000000000..3e8d2125da9d
 > --- /dev/null
-> +++ b/drivers/edac/ecs.c
-> @@ -0,0 +1,207 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * The generic ECS driver is designed to support control of on-die error
-> + * check scrub (e.g., DDR5 ECS). The common sysfs ECS interface abstracts
-> + * the control of various ECS functionalities into a unified set of functions.
-> + *
-> + * Copyright (c) 2024-2025 HiSilicon Limited.
-> + */
+> +++ b/Documentation/gpu/nova/core/todo.rst
+> @@ -0,0 +1,446 @@
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 > +
-> +#include <linux/edac.h>
+> +=========
+> +Task List
+> +=========
 > +
-> +#define EDAC_ECS_FRU_NAME "ecs_fru"
+> +Tasks may have the following fields:
 > +
-> +enum edac_ecs_attributes {
-> +	ECS_LOG_ENTRY_TYPE,
-> +	ECS_MODE,
-> +	ECS_RESET,
-> +	ECS_THRESHOLD,
-> +	ECS_MAX_ATTRS
-> +};
+> +- ``Complexity``: Describes the required familiarity with Rust and / or the
+> +  corresponding kernel APIs or subsystems. There are four different complexities,
+> +  ``Beginner``, ``Intermediate``, ``Advanced`` and ``Expert``.
+> +- ``Reference``: References to other tasks.
+> +- ``Link``: Links to external resources.
+> +- ``Contact``: The person that can be contacted for further information about
+> +  the task.
 > +
-> +struct edac_ecs_dev_attr {
-> +	struct device_attribute dev_attr;
-> +	int fru_id;
-> +};
+> +Enablement (Rust)
+> +=================
 > +
-> +struct edac_ecs_fru_context {
-> +	char name[EDAC_FEAT_NAME_LEN];
-> +	struct edac_ecs_dev_attr dev_attr[ECS_MAX_ATTRS];
-> +	struct attribute *ecs_attrs[ECS_MAX_ATTRS + 1];
-> +	struct attribute_group group;
-> +};
+> +Tasks that are not directly related to nova-core, but are preconditions in terms
+> +of required APIs.
 > +
-> +struct edac_ecs_context {
-> +	u16 num_media_frus;
-> +	struct edac_ecs_fru_context *fru_ctxs;
-> +};
+> +FromPrimitive API
+> +-----------------
 > +
-> +#define TO_ECS_DEV_ATTR(_dev_attr)	\
-> +	container_of(_dev_attr, struct edac_ecs_dev_attr, dev_attr)
+> +Sometimes the need arises to convert a number to a value of an enum or a
+> +structure.
 > +
-> +#define EDAC_ECS_ATTR_SHOW(attrib, cb, type, format)				\
-> +static ssize_t attrib##_show(struct device *ras_feat_dev,			\
-> +			     struct device_attribute *attr, char *buf)		\
-> +{										\
-> +	struct edac_ecs_dev_attr *dev_attr = TO_ECS_DEV_ATTR(attr);		\
-> +	struct edac_dev_feat_ctx *ctx = dev_get_drvdata(ras_feat_dev);		\
-> +	const struct edac_ecs_ops *ops = ctx->ecs.ecs_ops;			\
-> +	type data;								\
-> +	int ret;								\
-> +										\
-> +	ret = ops->cb(ras_feat_dev->parent, ctx->ecs.private,			\
-> +		      dev_attr->fru_id, &data);					\
-> +	if (ret)								\
-> +		return ret;							\
-> +										\
-> +	return sysfs_emit(buf, format, data);					\
-> +}
+> +A good example from nova-core would be the ``Chipset`` enum type, which defines
+> +the value ``AD102``. When probing the GPU the value ``0x192`` can be read from a
+> +certain register indication the chipset AD102. Hence, the enum value ``AD102``
+> +should be derived from the number ``0x192``. Currently, nova-core uses a custom
+> +implementation (``Chipset::from_u32`` for this.
 > +
-> +EDAC_ECS_ATTR_SHOW(log_entry_type, get_log_entry_type, u32, "%u\n")
-> +EDAC_ECS_ATTR_SHOW(mode, get_mode, u32, "%u\n")
-> +EDAC_ECS_ATTR_SHOW(threshold, get_threshold, u32, "%u\n")
+> +Instead, it would be desirable to have something like the ``FromPrimitive``
+> +trait [1] from the num crate.
 > +
-> +#define EDAC_ECS_ATTR_STORE(attrib, cb, type, conv_func)			\
-> +static ssize_t attrib##_store(struct device *ras_feat_dev,			\
-> +			      struct device_attribute *attr,			\
-> +			      const char *buf, size_t len)			\
-> +{										\
-> +	struct edac_ecs_dev_attr *dev_attr = TO_ECS_DEV_ATTR(attr);		\
-> +	struct edac_dev_feat_ctx *ctx = dev_get_drvdata(ras_feat_dev);		\
-> +	const struct edac_ecs_ops *ops = ctx->ecs.ecs_ops;			\
-> +	type data;								\
-> +	int ret;								\
-> +										\
-> +	ret = conv_func(buf, 0, &data);						\
-> +	if (ret < 0)								\
-> +		return ret;							\
-> +										\
-> +	ret = ops->cb(ras_feat_dev->parent, ctx->ecs.private,			\
-> +		      dev_attr->fru_id, data);					\
-> +	if (ret)								\
-> +		return ret;							\
-> +										\
-> +	return len;								\
-> +}
+> +Having this generalization also helps with implementing a generic macro that
+> +automatically generates the corresponding mappings between a value and a number.
 > +
-> +EDAC_ECS_ATTR_STORE(log_entry_type, set_log_entry_type, unsigned long, kstrtoul)
-> +EDAC_ECS_ATTR_STORE(mode, set_mode, unsigned long, kstrtoul)
-> +EDAC_ECS_ATTR_STORE(reset, reset, unsigned long, kstrtoul)
-> +EDAC_ECS_ATTR_STORE(threshold, set_threshold, unsigned long, kstrtoul)
+> +| Complexity: Beginner
+> +| Link: https://docs.rs/num/latest/num/trait.FromPrimitive.html
 > +
-> +static umode_t ecs_attr_visible(struct kobject *kobj, struct attribute *a, int attr_id)
-> +{
-> +	struct device *ras_feat_dev = kobj_to_dev(kobj);
-> +	struct edac_dev_feat_ctx *ctx = dev_get_drvdata(ras_feat_dev);
-> +	const struct edac_ecs_ops *ops = ctx->ecs.ecs_ops;
+> +Generic register abstraction
+> +----------------------------
 > +
-> +	switch (attr_id) {
-> +	case ECS_LOG_ENTRY_TYPE:
-> +		if (ops->get_log_entry_type)  {
-> +			if (ops->set_log_entry_type)
-> +				return a->mode;
-> +			else
-> +				return 0444;
-> +		}
-> +		break;
-> +	case ECS_MODE:
-> +		if (ops->get_mode) {
-> +			if (ops->set_mode)
-> +				return a->mode;
-> +			else
-> +				return 0444;
-> +		}
-> +		break;
-> +	case ECS_RESET:
-> +		if (ops->reset)
-> +			return a->mode;
-> +		break;
-> +	case ECS_THRESHOLD:
-> +		if (ops->get_threshold) {
-> +			if (ops->set_threshold)
-> +				return a->mode;
-> +			else
-> +				return 0444;
-> +		}
-> +		break;
-> +	default:
-> +		break;
+> +Work out how register constants and structures can be automatically generated
+> +through generalized macros.
+> +
+> +Example:
+> +
+> +.. code-block:: rust
+> +
+> +	register!(BOOT0, 0x0, u32, pci::Bar<SIZE>, Fields [
+> +	   MINOR_REVISION(3:0, RO),
+> +	   MAJOR_REVISION(7:4, RO),
+> +	   REVISION(7:0, RO), // Virtual register combining major and minor rev.
+> +	])
+> +
+> +This could expand to something like:
+> +
+> +.. code-block:: rust
+> +
+> +	const BOOT0_OFFSET: usize = 0x00000000;
+> +	const BOOT0_MINOR_REVISION_SHIFT: u8 = 0;
+> +	const BOOT0_MINOR_REVISION_MASK: u32 = 0x0000000f;
+> +	const BOOT0_MAJOR_REVISION_SHIFT: u8 = 4;
+> +	const BOOT0_MAJOR_REVISION_MASK: u32 = 0x000000f0;
+> +	const BOOT0_REVISION_SHIFT: u8 = BOOT0_MINOR_REVISION_SHIFT;
+> +	const BOOT0_REVISION_MASK: u32 = BOOT0_MINOR_REVISION_MASK | BOOT0_MAJOR_REVISION_MASK;
+> +
+> +	struct Boot0(u32);
+> +
+> +	impl Boot0 {
+> +	   #[inline]
+> +	   fn read(bar: &RevocableGuard<'_, pci::Bar<SIZE>>) -> Self {
+> +	      Self(bar.readl(BOOT0_OFFSET))
+> +	   }
+> +
+> +	   #[inline]
+> +	   fn minor_revision(&self) -> u32 {
+> +	      (self.0 & BOOT0_MINOR_REVISION_MASK) >> BOOT0_MINOR_REVISION_SHIFT
+> +	   }
+> +
+> +	   #[inline]
+> +	   fn major_revision(&self) -> u32 {
+> +	      (self.0 & BOOT0_MAJOR_REVISION_MASK) >> BOOT0_MAJOR_REVISION_SHIFT
+> +	   }
+> +
+> +	   #[inline]
+> +	   fn revision(&self) -> u32 {
+> +	      (self.0 & BOOT0_REVISION_MASK) >> BOOT0_REVISION_SHIFT
+> +	   }
 > +	}
 > +
-> +	return 0;
-> +}
+> +Usage:
 > +
-> +#define EDAC_ECS_ATTR_RO(_name, _fru_id)       \
-> +	((struct edac_ecs_dev_attr) { .dev_attr = __ATTR_RO(_name), \
-> +				     .fru_id = _fru_id })
+> +.. code-block:: rust
 > +
-> +#define EDAC_ECS_ATTR_WO(_name, _fru_id)       \
-> +	((struct edac_ecs_dev_attr) { .dev_attr = __ATTR_WO(_name), \
-> +				     .fru_id = _fru_id })
+> +	let bar = bar.try_access().ok_or(ENXIO)?;
 > +
-> +#define EDAC_ECS_ATTR_RW(_name, _fru_id)       \
-> +	((struct edac_ecs_dev_attr) { .dev_attr = __ATTR_RW(_name), \
-> +				     .fru_id = _fru_id })
+> +	let boot0 = Boot0::read(&bar);
+> +	pr_info!("Revision: {}\n", boot0.revision());
 > +
-> +static int ecs_create_desc(struct device *ecs_dev,
-> +			   const struct attribute_group **attr_groups, u16 num_media_frus)
-> +{
-> +	struct edac_ecs_context *ecs_ctx;
-> +	u32 fru;
+> +| Complexity: Advanced
 > +
-> +	ecs_ctx = devm_kzalloc(ecs_dev, sizeof(*ecs_ctx), GFP_KERNEL);
-> +	if (!ecs_ctx)
-> +		return -ENOMEM;
+> +Delay / Sleep abstractions
+> +--------------------------
 > +
-> +	ecs_ctx->num_media_frus = num_media_frus;
-> +	ecs_ctx->fru_ctxs = devm_kcalloc(ecs_dev, num_media_frus,
-> +					 sizeof(*ecs_ctx->fru_ctxs),
-> +					 GFP_KERNEL);
-> +	if (!ecs_ctx->fru_ctxs)
-> +		return -ENOMEM;
+> +Rust abstractions for the kernel's delay() and sleep() functions.
 > +
-> +	for (fru = 0; fru < num_media_frus; fru++) {
-> +		struct edac_ecs_fru_context *fru_ctx = &ecs_ctx->fru_ctxs[fru];
-> +		struct attribute_group *group = &fru_ctx->group;
-> +		int i;
+> +There is some ongoing work from FUJITA Tomonori [1], which has not seen any updates
+> +since Oct. 24.
 > +
-> +		fru_ctx->dev_attr[ECS_LOG_ENTRY_TYPE] =
-> +					EDAC_ECS_ATTR_RW(log_entry_type, fru);
-> +		fru_ctx->dev_attr[ECS_MODE] = EDAC_ECS_ATTR_RW(mode, fru);
-> +		fru_ctx->dev_attr[ECS_RESET] = EDAC_ECS_ATTR_WO(reset, fru);
-> +		fru_ctx->dev_attr[ECS_THRESHOLD] =
-> +					EDAC_ECS_ATTR_RW(threshold, fru);
+> +| Complexity: Beginner
+> +| Link: https://lore.kernel.org/netdev/20241001112512.4861-2-fujita.tomonori@gmail.com/ [1]
 > +
-> +		for (i = 0; i < ECS_MAX_ATTRS; i++)
-> +			fru_ctx->ecs_attrs[i] = &fru_ctx->dev_attr[i].dev_attr.attr;
+> +IRQ abstractions
+> +----------------
 > +
-> +		sprintf(fru_ctx->name, "%s%d", EDAC_ECS_FRU_NAME, fru);
-> +		group->name = fru_ctx->name;
-> +		group->attrs = fru_ctx->ecs_attrs;
-> +		group->is_visible  = ecs_attr_visible;
+> +Rust abstractions for IRQ handling.
 > +
-> +		attr_groups[fru] = group;
-> +	}
+> +There is active ongoing work from Daniel Almeida [1] for the "core" abstractions
+> +to request IRQs.
 > +
-> +	return 0;
-> +}
+> +Besides optional review and testing work, the required ``pci::Device`` code
+> +around those core abstractions needs to be worked out.
 > +
-> +/**
-> + * edac_ecs_get_desc - get EDAC ECS descriptors
-> + * @ecs_dev: client device, supports ECS feature
-> + * @attr_groups: pointer to attribute group container
-> + * @num_media_frus: number of media FRUs in the device
-> + *
-> + * Return:
-> + *  * %0	- Success.
-> + *  * %-EINVAL	- Invalid parameters passed.
-> + *  * %-ENOMEM	- Dynamic memory allocation failed.
-> + */
-> +int edac_ecs_get_desc(struct device *ecs_dev,
-> +		      const struct attribute_group **attr_groups, u16 num_media_frus)
-> +{
-> +	if (!ecs_dev || !attr_groups || !num_media_frus)
-> +		return -EINVAL;
+> +| Complexity: Intermediate
+> +| Link: https://lore.kernel.org/lkml/20250122163932.46697-1-daniel.almeida@collabora.com/ [1]
+> +| Contact: Daniel Almeida
 > +
-> +	return ecs_create_desc(ecs_dev, attr_groups, num_media_frus);
-> +}
-> diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
-> index 40407f0ee600..a8421dc9ab3c 100644
-> --- a/drivers/edac/edac_device.c
-> +++ b/drivers/edac/edac_device.c
-> @@ -627,6 +627,9 @@ int edac_dev_register(struct device *parent, char *name,
->  			attr_gcnt++;
->  			scrub_cnt++;
->  			break;
-> +		case RAS_FEAT_ECS:
-> +			attr_gcnt += ras_features[feat].ecs_info.num_media_frus;
-> +			break;
->  		default:
->  			return -EINVAL;
->  		}
-> @@ -671,6 +674,20 @@ int edac_dev_register(struct device *parent, char *name,
->  			scrub_cnt++;
->  			attr_gcnt++;
->  			break;
-> +		case RAS_FEAT_ECS:
-> +			if (!ras_features->ecs_ops)
-> +				goto data_mem_free;
+> +Page abstraction for foreign pages
+> +----------------------------------
 > +
-> +			dev_data = &ctx->ecs;
-> +			dev_data->ecs_ops = ras_features->ecs_ops;
-> +			dev_data->private = ras_features->ctx;
-> +			ret = edac_ecs_get_desc(parent, &ras_attr_groups[attr_gcnt],
-> +						ras_features->ecs_info.num_media_frus);
-> +			if (ret)
-> +				goto data_mem_free;
+> +Rust abstractions for pages not created by the Rust page abstraction without
+> +direct ownership.
 > +
-> +			attr_gcnt += ras_features->ecs_info.num_media_frus;
-> +			break;
->  		default:
->  			ret = -EINVAL;
->  			goto data_mem_free;
-> diff --git a/include/linux/edac.h b/include/linux/edac.h
-> index 1cbab08720df..f8346014c14e 100644
-> --- a/include/linux/edac.h
-> +++ b/include/linux/edac.h
-> @@ -667,6 +667,7 @@ static inline struct dimm_info *edac_get_dimm(struct mem_ctl_info *mci,
->  /* RAS feature type */
->  enum edac_dev_feat {
->  	RAS_FEAT_SCRUB,
-> +	RAS_FEAT_ECS,
->  	RAS_FEAT_MAX
->  };
+> +There is active onging work from Abdiel Janulgue [1] and Lina [2].
+> +
+> +| Complexity: Advanced
+> +| Link: https://lore.kernel.org/linux-mm/20241119112408.779243-1-abdiel.janulgue@gmail.com/ [1]
+> +| Link: https://lore.kernel.org/rust-for-linux/20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net/ [2]
+> +
+> +Scatterlist / sg_table abstractions
+> +-----------------------------------
+> +
+> +Rust abstractions for scatterlist / sg_table.
+> +
+> +There is preceding work from Abdiel Janulgue, which hasn't made it to the
+> +mailing list yet.
+> +
+> +| Complexity: Intermediate
+> +| Contact: Abdiel Janulgue
+> +
+> +ELF utils
+> +---------
+> +
+> +Rust implementation of ELF header representation to retrieve section header
+> +tables, names, and data from an ELF-formatted images.
+> +
+> +There is preceding work from Abdiel Janulgue, which hasn't made it to the
+> +mailing list yet.
+> +
+> +| Complexity: Beginner
+> +| Contact: Abdiel Janulgue
+> +
+> +PCI MISC APIs
+> +-------------
+> +
+> +Extend the existing PCI device / driver abstractions by SR-IOV, config space,
+> +capability, MSI API abstractions.
+> +
+> +| Complexity: Beginner
+> +
+> +Auxiliary bus abstractions
+> +--------------------------
+> +
+> +Rust abstraction for the auxiliary bus APIs.
+> +
+> +This is needed to connect nova-core to the nova-drm driver.
+> +
+> +| Complexity: Intermediate
+> +
+> +Debugfs abstractions
+> +--------------------
+> +
+> +Rust abstraction for debugfs APIs.
+> +
+> +| Reference: Export GSP log buffers
+> +| Complexity: Intermediate
+> +
+> +Vec extensions
+> +--------------
+> +
+> +Implement ``Vec::truncate`` and ``Vec::resize``.
+> +
+> +Currently this is used for some experimental code to parse the vBIOS.
+> +
+> +| Reference vBIOS support
+> +| Complexity: Beginner
+> +
+> +GPU (general)
+> +=============
+> +
+> +Parse firmware headers
+> +----------------------
+> +
+> +Parse ELF headers from the firmware files loaded from the filesystem.
+> +
+> +| Reference: ELF utils
+> +| Complexity: Beginner
+> +| Contact: Abdiel Janulgue
+> +
+> +Build radix3 page table
+> +-----------------------
+> +
+> +Build the radix3 page table to map the firmware.
+> +
+> +| Complexity: Intermediate
+> +| Contact: Abdiel Janulgue
+> +
+> +vBIOS support
+> +-------------
+> +
+> +Parse the vBIOS and probe the structures required for driver initialization.
+> +
+> +| Contact: Dave Airlie
+> +| Reference: Vec extensions
+> +| Complexity: Intermediate
+> +
+> +Initial Devinit support
+> +-----------------------
+> +
+> +Implement BIOS Device Initialization, i.e. memory sizing, waiting, PLL
+> +configuration.
+> +
+> +| Contact: Dave Airlie
+> +| Complexity: Beginner
+> +
+> +Boot Falcon controller
+> +----------------------
+> +
+> +Infrastructure to load and execute falcon (sec2) firmware images; handle the
+> +GSP falcon processor and fwsec loading.
+> +
+> +| Complexity: Advanced
+> +| Contact: Dave Airlie
+> +
+> +GPU Timer support
+> +-----------------
+> +
+> +Support for the GPU's internal timer peripheral.
+> +
+> +| Complexity: Beginner
+> +| Contact: Dave Airlie
+> +
+> +MMU / PT management
+> +-------------------
+> +
+> +Work out the architecture for MMU / page table management.
+> +
+> +We need to consider that nova-drm will need rather fine-grained control,
+> +especially in terms of locking, in order to be able to implement asynchronous
+> +Vulkan queues.
+> +
+> +While generally sharing the corresponding code is desirable, it needs to be
+> +evaluated how (and if at all) sharing the corresponding code is expedient.
+> +
+
+Looking purely from curiosity PoV...
+
+Any plans to wrap things like GPU VM in rust?
+
+> +| Complexity: Expert
+> +
+> +VRAM memory allocator
+> +---------------------
+> +
+> +Investigate options for a VRAM memory allocator.
+> +
+> +Some possible options:
+> +  - Rust abstractions for
+> +    - RB tree (interval tree) / drm_mm
+> +    - maple_tree
+> +  - native Rust collections
+> +
+
+Here what about using TTM or DRM buddy?
+
+Matt
+
+> +| Complexity: Advanced
+> +
+> +Instance Memory
+> +---------------
+> +
+> +Implement support for instmem (bar2) used to store page tables.
+> +
+> +| Complexity: Intermediate
+> +| Contact: Dave Airlie
+> +
+> +GPU System Processor (GSP)
+> +==========================
+> +
+> +Export GSP log buffers
+> +----------------------
+> +
+> +Recent patches from Timur Tabi [1] added support to expose GSP-RM log buffers
+> +(even after failure to probe the driver) through debugfs.
+> +
+> +This is also an interesting feature for nova-core, especially in the early days.
+> +
+> +| Link: https://lore.kernel.org/nouveau/20241030202952.694055-2-ttabi@nvidia.com/ [1]
+> +| Reference: Debugfs abstractions
+> +| Complexity: Intermediate
+> +
+> +GSP firmware abstraction
+> +------------------------
+> +
+> +The GSP-RM firmware API is unstable and may incompatibly change from version to
+> +version, in terms of data structures and semantics.
+> +
+> +This problem is one of the big motivations for using Rust for nova-core, since
+> +it turns out that Rust's procedural macro feature provides a rather elegant way
+> +to address this issue:
+> +
+> +1. generate Rust structures from the C headers in a separate namespace per version
+> +2. build abstraction structures (within a generic namespace) that implement the
+> +   firmware interfaces; annotate the differences in implementation with version
+> +   identifiers
+> +3. use a procedural macro to generate the actual per version implementation out
+> +   of this abstraction
+> +4. instantiate the correct version type one on runtime (can be sure that all
+> +   have the same interface because it's defined by a common trait)
+> +
+> +There is a PoC implementation of this pattern, in the context of the nova-core
+> +PoC driver.
+> +
+> +This task aims at refining the feature and ideally generalize it, to be usable
+> +by other drivers as well.
+> +
+> +| Complexity: Expert
+> +
+> +GSP message queue
+> +-----------------
+> +
+> +Implement low level GSP message queue (command, status) for communication
+> +between the kernel driver and GSP.
+> +
+> +| Complexity: Advanced
+> +| Contact: Dave Airlie
+> +
+> +Bootstrap GSP
+> +-------------
+> +
+> +Call the boot firmware to boot the GSP processor; execute initial control
+> +messages.
+> +
+> +| Complexity: Intermediate
+> +| Contact: Dave Airlie
+> +
+> +Client / Device APIs
+> +--------------------
+> +
+> +Implement the GSP message interface for client / device allocation and the
+> +corresponding client and device allocation APIs.
+> +
+> +| Complexity: Intermediate
+> +| Contact: Dave Airlie
+> +
+> +Bar PDE handling
+> +----------------
+> +
+> +Synchronize page table handling for BARs between the kernel driver and GSP.
+> +
+> +| Complexity: Beginner
+> +| Contact: Dave Airlie
+> +
+> +FIFO engine
+> +-----------
+> +
+> +Implement support for the FIFO engine, i.e. the corresponding GSP message
+> +interface and provide an API for chid allocation and channel handling.
+> +
+> +| Complexity: Advanced
+> +| Contact: Dave Airlie
+> +
+> +GR engine
+> +---------
+> +
+> +Implement support for the graphics engine, i.e. the corresponding GSP message
+> +interface and provide an API for (golden) context creation and promotion.
+> +
+> +| Complexity: Advanced
+> +| Contact: Dave Airlie
+> +
+> +CE engine
+> +---------
+> +
+> +Implement support for the copy engine, i.e. the corresponding GSP message
+> +interface.
+> +
+> +| Complexity: Intermediate
+> +| Contact: Dave Airlie
+> +
+> +VFN IRQ controller
+> +------------------
+> +
+> +Support for the VFN interrupt controller.
+> +
+> +| Complexity: Intermediate
+> +| Contact: Dave Airlie
+> +
+> +External APIs
+> +=============
+> +
+> +nova-core base API
+> +------------------
+> +
+> +Work out the common pieces of the API to connect 2nd level drivers, i.e. vGPU
+> +manager and nova-drm.
+> +
+> +| Complexity: Advanced
+> +
+> +vGPU manager API
+> +----------------
+> +
+> +Work out the API parts required by the vGPU manager, which are not covered by
+> +the base API.
+> +
+> +| Complexity: Advanced
+> +
+> +nova-core C API
+> +---------------
+> +
+> +Implement a C wrapper for the APIs required by the vGPU manager driver.
+> +
+> +| Complexity: Intermediate
+> +
+> +Testing
+> +=======
+> +
+> +CI pipeline
+> +-----------
+> +
+> +Investigate option for continuous integration testing.
+> +
+> +This can go from as simple as running KUnit tests over running (graphics) CTS to
+> +booting up (multiple) guest VMs to test VFIO use-cases.
+> +
+> +It might also be worth to consider the introduction of a new test suite directly
+> +sitting on top of the uAPI for more targeted testing and debugging. There may be
+> +options for collaboration / shared code with the Mesa project.
+> +
+> +| Complexity: Advanced
+> diff --git a/Documentation/gpu/nova/guidelines.rst b/Documentation/gpu/nova/guidelines.rst
+> new file mode 100644
+> index 000000000000..13ab13984a18
+> --- /dev/null
+> +++ b/Documentation/gpu/nova/guidelines.rst
+> @@ -0,0 +1,69 @@
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +
+> +==========
+> +Guidelines
+> +==========
+> +
+> +This document describes the general project guidelines that apply to nova-core
+> +and nova-drm.
+> +
+> +Language
+> +========
+> +
+> +The Nova project uses the Rust programming language. In this context, all rules
+> +of the Rust for Linux project as documented in
+> +:doc:`../../rust/general-information` apply. Additionally, the following rules
+> +apply.
+> +
+> +- Unless technically necessary otherwise (e.g. uAPI), any driver code is written
+> +  in Rust.
+> +
+> +- Unless technically necessary, unsafe Rust code must be avoided. In case of
+> +  technical necessity, unsafe code should be isolated in a separate component
+> +  providing a safe API for other driver code to use.
+> +
+> +Style
+> +-----
+> +
+> +All rules of the Rust for Linux project as documented in
+> +:doc:`../../rust/coding-guidelines` apply.
+> +
+> +For a submit checklist, please also see the `Rust for Linux Submit checklist
+> +addendum <https://rust-for-linux.com/contributing#submit-checklist-addendum>`_.
+> +
+> +Documentation
+> +=============
+> +
+> +The availability of proper documentation is essential in terms of scalability,
+> +accessibility for new contributors and maintainability of a project in general,
+> +but especially for a driver running as complex hardware as Nova is targeting.
+> +
+> +Hence, adding documentation of any kind is very much encouraged by the project.
+> +
+> +Besides that, there are some minimum requirements.
+> +
+> +- Every non-private structure needs at least a brief doc comment explaining the
+> +  semantical sense of the structure, as well as potential locking and lifetime
+> +  requirements. It is encouraged to have the same minimum documentation for
+> +  non-trivial private structures.
+> +
+> +- uAPIs must be fully documented with kernel-doc comments; additionally, the
+> +  semantical behavior must be explained including potential special or corner
+> +  cases.
+> +
+> +- The APIs connecting the 1st level driver (nova-core) with 2nd level drivers
+> +  must be fully documented. This includes doc comments, potential locking and
+> +  lifetime requirements, as well as example code if applicable.
+> +
+> +- Abbreviations must be explained when introduced; terminology must be uniquely
+> +  defined.
+> +
+> +- Register addresses, layouts, shift values and masks must be defined properly;
+> +  unless obvious, the semantical sense must be documented. This only applies if
+> +  the author is able to obtain the corresponding information.
+> +
+> +Acceptance Criteria
+> +===================
+> +
+> +- Patches must only be applied if reviewed by at least one other person on the
+> +  mailing list; this also applies for maintainers.
+> diff --git a/Documentation/gpu/nova/index.rst b/Documentation/gpu/nova/index.rst
+> new file mode 100644
+> index 000000000000..2701b3f4af35
+> --- /dev/null
+> +++ b/Documentation/gpu/nova/index.rst
+> @@ -0,0 +1,30 @@
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +
+> +=======================
+> +nova NVIDIA GPU drivers
+> +=======================
+> +
+> +The nova driver project consists out of two separate drivers nova-core and
+> +nova-drm and intends to supersede the nouveau driver for NVIDIA GPUs based on
+> +the GPU System Processor (GSP).
+> +
+> +The following documents apply to both nova-core and nova-drm.
+> +
+> +.. toctree::
+> +   :titlesonly:
+> +
+> +   guidelines
+> +
+> +nova-core
+> +=========
+> +
+> +The nova-core driver is the core driver for NVIDIA GPUs based on GSP. nova-core,
+> +as the 1st level driver, provides an abstraction around the GPUs hard- and
+> +firmware interfaces providing a common base for 2nd level drivers, such as the
+> +vGPU manager VFIO driver and the nova-drm driver.
+> +
+> +.. toctree::
+> +   :titlesonly:
+> +
+> +   core/guidelines
+> +   core/todo
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5d5b7ed7da9e..ed618e8757a5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7454,6 +7454,7 @@ Q:	https://patchwork.freedesktop.org/project/nouveau/
+>  B:	https://gitlab.freedesktop.org/drm/nova/-/issues
+>  C:	irc://irc.oftc.net/nouveau
+>  T:	git https://gitlab.freedesktop.org/drm/nova.git nova-next
+> +F:	Documentation/gpu/nova/
+>  F:	drivers/gpu/nova-core/
 >  
-> @@ -707,9 +708,47 @@ static inline int edac_scrub_get_desc(struct device *scrub_dev,
->  { return -EOPNOTSUPP; }
->  #endif /* CONFIG_EDAC_SCRUB */
->  
-> +/**
-> + * struct edac_ecs_ops - ECS device operations (all elements optional)
-> + * @get_log_entry_type: read the log entry type value.
-> + * @set_log_entry_type: set the log entry type value.
-> + * @get_mode: read the mode value.
-> + * @set_mode: set the mode value.
-> + * @reset: reset the ECS counter.
-> + * @get_threshold: read the threshold count per gigabits of memory cells.
-> + * @set_threshold: set the threshold count per gigabits of memory cells.
-> + */
-> +struct edac_ecs_ops {
-> +	int (*get_log_entry_type)(struct device *dev, void *drv_data, int fru_id, u32 *val);
-> +	int (*set_log_entry_type)(struct device *dev, void *drv_data, int fru_id, u32 val);
-> +	int (*get_mode)(struct device *dev, void *drv_data, int fru_id, u32 *val);
-> +	int (*set_mode)(struct device *dev, void *drv_data, int fru_id, u32 val);
-> +	int (*reset)(struct device *dev, void *drv_data, int fru_id, u32 val);
-> +	int (*get_threshold)(struct device *dev, void *drv_data, int fru_id, u32 *threshold);
-> +	int (*set_threshold)(struct device *dev, void *drv_data, int fru_id, u32 threshold);
-> +};
-> +
-> +struct edac_ecs_ex_info {
-> +	u16 num_media_frus;
-> +};
-> +
-> +#if IS_ENABLED(CONFIG_EDAC_ECS)
-> +int edac_ecs_get_desc(struct device *ecs_dev,
-> +		      const struct attribute_group **attr_groups,
-> +		      u16 num_media_frus);
-> +#else
-> +static inline int edac_ecs_get_desc(struct device *ecs_dev,
-> +				    const struct attribute_group **attr_groups,
-> +				    u16 num_media_frus)
-> +{ return -EOPNOTSUPP; }
-> +#endif /* CONFIG_EDAC_ECS */
-> +
->  /* EDAC device feature information structure */
->  struct edac_dev_data {
-> -	const struct edac_scrub_ops *scrub_ops;
-> +	union {
-> +		const struct edac_scrub_ops *scrub_ops;
-> +		const struct edac_ecs_ops *ecs_ops;
-> +	};
->  	u8 instance;
->  	void *private;
->  };
-> @@ -718,13 +757,18 @@ struct edac_dev_feat_ctx {
->  	struct device dev;
->  	void *private;
->  	struct edac_dev_data *scrub;
-> +	struct edac_dev_data ecs;
->  };
->  
->  struct edac_dev_feature {
->  	enum edac_dev_feat ft_type;
->  	u8 instance;
-> -	const struct edac_scrub_ops *scrub_ops;
-> +	union {
-> +		const struct edac_scrub_ops *scrub_ops;
-> +		const struct edac_ecs_ops *ecs_ops;
-> +	};
->  	void *ctx;
-> +	struct edac_ecs_ex_info ecs_info;
->  };
->  
->  int edac_dev_register(struct device *parent, char *dev_name,
+>  DRM DRIVER FOR OLIMEX LCD-OLINUXINO PANELS
 > -- 
-> 2.43.0
+> 2.48.1
 > 
