@@ -1,50 +1,50 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E7F266B63
-	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 20:45:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605D2269881
+	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 20:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739479548; cv=none; b=D3I5BYV8hedlM8LvaBAHhuyUSQdDPJroFcmUSLi1Bavx48REgxdNdghapam3GNvdRhE/F1IX+endA7gYbsalUQLr/LqIyKjHiW7+dKZ9vEIkVJC/ndnpBxOnKhtcCJoKPL1+vY6zvTVDurNMjyLAcCpeCYDM/6eqPjjruMjrRqw=
+	t=1739479552; cv=none; b=opZZSq+R2QB0JA0SNuwsQ1IDXKw+2eynErLZ/jlLFmQyI5sa4J7EhKUlgcbtrVxbyiyf/RjNWHS0RFbmWurOXlDp9ANFvh9uZ4qynj0n46Y/zHZX53/e24BfT+SVDDNb3HKs/9NcnsqYK4L4+8tqOqeXL1i+o+ZJ7yn/D0f/YMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739479548; c=relaxed/simple;
-	bh=z1eQx05PPLflMwEZMOji2UU0yu9vHQ2es8d9XIqxpLg=;
+	s=arc-20240116; t=1739479552; c=relaxed/simple;
+	bh=d0oAIIWg/RTKSm7WCgHGjb6bJKeS/RBtfAxq0fSwTv4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ekqavqE8swx7qPhBB7cClKpuwIkp2Qbyh5VwUIKWS3iOLAdP7BopMmkg96QOXgP6Pnzoo0TdXFW6R5iKo2sWKYssx7QwxYrnSbk7fxwAAvnsU+cRc8xK347QZ7REFV7vtHi03/C+WsA4qmzy3cImSphXOMI9/kLz6RUS8wUp1B4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AIAH1z+8; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:To:Cc; b=nSBn46c/OW1SemYJaE2m+/hc/LhrGe1lj/zrK3RsulX8uDReZ2YCZ4UnhBC+6DBfGdYAYBf7H6F9nUB5dzVZRDSyvmT1j8j35dR4s88WVbjTMfFbQGSlhbB5mE/Z7mN9/FqZ69vsegTntQg0CCt4qdMROl1vI5kco+bfAkam7Ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZVtrSsEJ; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AIAH1z+8"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZVtrSsEJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739479545;
+	s=mimecast20190719; t=1739479549;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KiCjOiXbozOnRb7iKZEhrRmWWKrf2VGSUZwTCW9Xf1g=;
-	b=AIAH1z+8iMdcA/8YWGtRt3OGdsQ7qu3PDUdGahatnSFww1T+QEVLZw+3/RoIdTI98v8yte
-	YvgKWIOH9Kqog9ApdNe7fpgdXqMttMxd3L5NEnVYX5hsY95+XwVEPLJ9RfcnSAeZD1cGji
-	83FOXApydIIQoNW4Lj/U6/+bqVPHMTQ=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=Hn8JqP8NmtJjwg+vh/7+5DBeA6eSHQ9B0cbVf3SIEUY=;
+	b=ZVtrSsEJod9Yc0oRZX45LM61d0JJ6h167liKQd6E52BjDmLbsZjH3fnOU0pcVfP8uaRhfD
+	PXhcgBh6NSHD9W1SoI61v3uhhS6NnIKDHNu+secZvO3hIdHXzLnbJ7lb7qgzdPIfmjgxqo
+	Bi7fUsN6ES8AwYLFTQzijJmpqfnbiuQ=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-93-Mf7HhN0YMuqbEnOaSdKG3Q-1; Thu,
- 13 Feb 2025 15:45:38 -0500
-X-MC-Unique: Mf7HhN0YMuqbEnOaSdKG3Q-1
-X-Mimecast-MFC-AGG-ID: Mf7HhN0YMuqbEnOaSdKG3Q_1739479536
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-185-cretByX9NY-hIkwjJaZkSw-1; Thu,
+ 13 Feb 2025 15:45:45 -0500
+X-MC-Unique: cretByX9NY-hIkwjJaZkSw-1
+X-Mimecast-MFC-AGG-ID: cretByX9NY-hIkwjJaZkSw_1739479543
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0A7DB180034A;
-	Thu, 13 Feb 2025 20:45:36 +0000 (UTC)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3747018EB2CB;
+	Thu, 13 Feb 2025 20:45:43 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.199])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C819D19373D9;
-	Thu, 13 Feb 2025 20:45:32 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EFC27190C54A;
+	Thu, 13 Feb 2025 20:45:39 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 13 Feb 2025 15:44:31 -0500
-Subject: [PATCH 14/20] drm/panel/s6e88a0-ams452ef01: Move to using
+Date: Thu, 13 Feb 2025 15:44:33 -0500
+Subject: [PATCH 16/20] drm/panel/ls043t1le01: Move to using
  mipi_dsi_*_multi() variants
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250213-mipi_cocci_multi-v1-14-67d94ff319cc@redhat.com>
+Message-Id: <20250213-mipi_cocci_multi-v1-16-67d94ff319cc@redhat.com>
 References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
 In-Reply-To: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -68,11 +68,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Artur Weber <aweber.kernel@gmail.com>, Jonathan Corbet <corbet@lwn.net>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739479476; l=4971;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739479476; l=3329;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=z1eQx05PPLflMwEZMOji2UU0yu9vHQ2es8d9XIqxpLg=;
- b=f3jqWUt3yhFOERQQS4h5DvfskpOC0OLy6tn5NYIO+vmlefrIcYJcv2HZQEDCXVvvZpDzYCaIy
- S/FUiLRCHg1CAxdHGjL7MqZq61D9LfbqRZ+WONqm7xEkuDN0p9r/TFk
+ bh=d0oAIIWg/RTKSm7WCgHGjb6bJKeS/RBtfAxq0fSwTv4=;
+ b=aMhRqAiveTQdxQO0l/HFWpmvh7ujA/2H0yoYf92b2Q1cLnvnLl9UkORhXDpFmpAr/AYLue9ge
+ jzHxOTBFVxbC2PDAJTk944mPsgwJMfTwLt+e7hb6/7wGWaNlwJnfnA1
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
@@ -118,104 +118,80 @@ struct mipi_dsi_device *dsi_var = dsi_device;
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- .../drm/panel/panel-samsung-s6e88a0-ams452ef01.c   | 63 ++++++++--------------
- 1 file changed, 21 insertions(+), 42 deletions(-)
+ drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c | 28 +++++++++----------------
+ 1 file changed, 10 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-index d2df227abbea557acb849bfc76dd4b561158bf11..f5554a38be96a4f5635cf7bf009e1b9129b2a491 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-@@ -39,45 +39,33 @@ static void s6e88a0_ams452ef01_reset(struct s6e88a0_ams452ef01 *ctx)
- static int s6e88a0_ams452ef01_on(struct s6e88a0_ams452ef01 *ctx)
+diff --git a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
+index 729cbb0d8403ff7c0c4b9d21774909cc298904a2..38df40d05ca0a786b11bc9a3b11b2c39b16bc987 100644
+--- a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
++++ b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
+@@ -36,13 +36,12 @@ static inline struct sharp_nt_panel *to_sharp_nt_panel(struct drm_panel *panel)
+ static int sharp_nt_panel_init(struct sharp_nt_panel *sharp_nt)
  {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
+ 	struct mipi_dsi_device *dsi = sharp_nt->dsi;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 	int ret;
+ 
+ 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+ 
+-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+-	if (ret < 0)
+-		return ret;
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+ 
+ 	msleep(120);
+ 
+@@ -52,10 +51,9 @@ static int sharp_nt_panel_init(struct sharp_nt_panel *sharp_nt)
+ 		return ret;
+ 
+ 	/* Set both MCU and RGB I/F to 24bpp */
+-	ret = mipi_dsi_dcs_set_pixel_format(dsi, MIPI_DCS_PIXEL_FMT_24BIT |
+-					(MIPI_DCS_PIXEL_FMT_24BIT << 4));
+-	if (ret < 0)
+-		return ret;
++	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx,
++					    MIPI_DCS_PIXEL_FMT_24BIT |
++					    (MIPI_DCS_PIXEL_FMT_24BIT << 4));
+ 
+ 	return 0;
+ }
+@@ -63,13 +61,11 @@ static int sharp_nt_panel_init(struct sharp_nt_panel *sharp_nt)
+ static int sharp_nt_panel_on(struct sharp_nt_panel *sharp_nt)
+ {
+ 	struct mipi_dsi_device *dsi = sharp_nt->dsi;
 -	int ret;
 +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
  
  	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
  
--	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a); // enable LEVEL2 commands
--	mipi_dsi_dcs_write_seq(dsi, 0xcc, 0x4c); // set Pixel Clock Divider polarity
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a); // enable LEVEL2 commands
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcc, 0x4c); // set Pixel Clock Divider polarity
- 
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
- 	msleep(120);
- 
- 	// set default brightness/gama
--	mipi_dsi_dcs_write_seq(dsi, 0xca,
--			       0x01, 0x00, 0x01, 0x00, 0x01, 0x00,	// V255 RR,GG,BB
--			       0x80, 0x80, 0x80,			// V203 R,G,B
--			       0x80, 0x80, 0x80,			// V151 R,G,B
--			       0x80, 0x80, 0x80,			// V87  R,G,B
--			       0x80, 0x80, 0x80,			// V51  R,G,B
--			       0x80, 0x80, 0x80,			// V35  R,G,B
--			       0x80, 0x80, 0x80,			// V23  R,G,B
--			       0x80, 0x80, 0x80,			// V11  R,G,B
--			       0x6b, 0x68, 0x71,			// V3   R,G,B
--			       0x00, 0x00, 0x00);			// V1   R,G,B
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca, 0x01, 0x00, 0x01, 0x00,
-+				     0x01, 0x00, 0x80, 0x80, 0x80, 0x80, 0x80,
-+				     0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-+				     0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-+				     0x80, 0x80, 0x6b, 0x68, 0x71, 0x00, 0x00,
-+				     0x00);			// V1   R,G,B
- 	// set default Amoled Off Ratio
--	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x40, 0x0a, 0x17, 0x00, 0x0a);
--	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x2c, 0x0b); // set default elvss voltage
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x03); // gamma/aor update
--	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5); // disable LEVEL2 commands
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x40, 0x0a, 0x17, 0x00,
-+				     0x0a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x2c, 0x0b); // set default elvss voltage
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE,
-+				     0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x03); // gamma/aor update
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5); // disable LEVEL2 commands
- 
 -	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display on: %d\n", ret);
+-	if (ret < 0)
 -		return ret;
--	}
 +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
  
  	return 0;
  }
-@@ -85,23 +73,14 @@ static int s6e88a0_ams452ef01_on(struct s6e88a0_ams452ef01 *ctx)
- static int s6e88a0_ams452ef01_off(struct s6e88a0_ams452ef01 *ctx)
+@@ -77,17 +73,13 @@ static int sharp_nt_panel_on(struct sharp_nt_panel *sharp_nt)
+ static int sharp_nt_panel_off(struct sharp_nt_panel *sharp_nt)
  {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
+ 	struct mipi_dsi_device *dsi = sharp_nt->dsi;
 -	int ret;
 +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
  
  	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
  
 -	ret = mipi_dsi_dcs_set_display_off(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display off: %d\n", ret);
+-	if (ret < 0)
 -		return ret;
--	}
 +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
- 	msleep(35);
  
 -	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+-	if (ret < 0)
 -		return ret;
--	}
 +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
- 	msleep(120);
  
  	return 0;
+ }
 
 -- 
 2.47.0
