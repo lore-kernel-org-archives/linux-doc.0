@@ -1,62 +1,62 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2957226619D
-	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 21:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F64E20766C
+	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 21:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739480864; cv=none; b=lfJrdvKqNTQG9r3B1lwS/Qjad3DoX1RcAZdS/tL/lnp4XCTmOANotjcidq00qAgPtWHK5FmZctzp3KqhEL1gYgP1i8fSPJbfoKdAU7CXbCs5lJr7PKGDiwRVdPfoztIZ93vQ+8Sq43nt1kpc4SwHgUTuDVclcDDvS/DG4J1IwwI=
+	t=1739480942; cv=none; b=gR5nLvKO2QedwwUi29grifev9mWcznkQ+OdI8Y49EcgEsdQ5GNMQaX03b340Nn0t7fWFei8Un2kPH83gFbYoZmJmm1wnVviz6hxPbRDY7CWg/gYkPQpy7dXPocTV572nj1zMRcw7kcWy68Gb0ZKMBH+HW6R13rH2cbD9NjVMYxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739480864; c=relaxed/simple;
-	bh=jtQY/WICwi4MD5lyg5esWz4m+CvOcfvFhUYEjimR3UE=;
+	s=arc-20240116; t=1739480942; c=relaxed/simple;
+	bh=U6wiO9BFzqs/502pytstj6KNgptL9YhRbQLkNh432rw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nRSkdM8ej+762O/185DoXdxBV5NRf5W67JfyDIY0wwrDkiOD9vuM9GX7uXwzbcn6ayRAlK0j4B0vfefnMJJuaAXwqmbMsf8WxQHCkIHfB6STOt3xerBpNolH0Dr8bl82q3xZhxW8EpKPZkMpUtL1NI/XW51PhnpgS7uSfmW9B1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dugJ2J9p; arc=none smtp.client-ip=209.85.167.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=I9NSrzp00wf+wLEx2vraI0aONKJizWq2XUT2gb4oNwHTX8to7/AG/EUyOyyiTIuGlvBH9obpAJJSbAsfVhozWDBS5gK6AaUqJQeFws0TL1k/Dov+A/DXFUoeqGgGAmIBpHmnajRm2vMhEH/PP2gPsdtOWwY8vX9hEviexc/NtNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o5deJ2pD; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dugJ2J9p"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-543cc81ddebso1481094e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 13:07:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o5deJ2pD"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30613802a04so14157711fa.2
+        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 13:09:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739480860; x=1740085660; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1739480938; x=1740085738; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=54daZ/2ISEYXfmkw2a/4DC97bZAaTJdOPQ/lBbTtt/c=;
-        b=dugJ2J9pdGId57AULVOylg//7IIH8Wisr4Jx9Zll8s0mUaiU2N32FpuSfYTmpbUAMA
-         4iLajidtuYAz4Fm2+EdDJTQF+Oh2Z4Fv5a2SNakFTkOgkzpTg011jpkSm4iyiB63HeHk
-         ZpDAC6I/UgeXZT6sWuLA/vwPoZ8lR3PX7Mziip+lA++rW7MPDGfwww0iQAusNwNUnSRJ
-         sRmmvPMOKXUT9fgVQb3ipdtQTHJCB3IcEOm1m9nyWd+dc7/3Xrp2vRm8LWuav5gzBAsR
-         rZol0jaYaS6auCCy3ssU7YBOv+NNZE1/Tig8/0r+9XhIYbfR1XXFKI1rk/Q2sqhvk5kr
-         5Syg==
+        bh=TeNMrpUqpwoLFI0ojzBCoD9uOLScIV/Ka4QcI/0Cif0=;
+        b=o5deJ2pDVYGop2hCKG7D+rKckRfYnZeEj+01GRIql50N+birOV/2G/Z4p002NKD5B0
+         122W7+2nTh1wWD+IjyH4PIwY6fR0lzLELDV8ATrqbT5k1yr2elnBXKYncpd+Sz9omyyd
+         tx+6s1D5ScwjYEefsbQScEKskaPu5fgpddJqFJUYnCggLFMyjjLy4TaM9wDLpAwFcBVo
+         zKqhaWaKOePZ5kWqef8rMm+ktd/ySB8CnUxUCgl6gLMolFFYKzFOBKtx6p5jwzIiEuHZ
+         RWI8foZYa5QEu4MV/OuClaJYkpvylapnPphkjNQygAiMDybRzhgJ4s98G9JPKF1EeZQ3
+         Bu7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739480860; x=1740085660;
+        d=1e100.net; s=20230601; t=1739480938; x=1740085738;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=54daZ/2ISEYXfmkw2a/4DC97bZAaTJdOPQ/lBbTtt/c=;
-        b=ngfgoM3Fbkaakg+jJkuLzalC1ZnQPC9rCUj3o19BIfsgj+QTVDwaTcrhnJaXjOp/ba
-         gUX9+J4fH4KogL2ungqyGU//eT73GkZD1qxO9pTtkJyKevbfxHHxyC0Sdk88NapYh85K
-         gxQnpOxgYXGgOhttAg6EEHE2lkTybrtZOWGrMyBH0ud9IjJBBXVOuCz8BhmCgkVd6osz
-         GTWjMB+K17v9FTuUG7ipBumHp02yyI5fF356bhw1r5OSTQrIdsi/aXSajU/1oPQl4s+Y
-         aRfbAjizn3YjSOxhy+jnPOqjJDmgwgAYKkVmC3R2LEnRWNrQi/TfnButJL82LpSysgGu
-         wsBA==
-X-Forwarded-Encrypted: i=1; AJvYcCXfMXCF8NXvJFSoMlx1pwqJ0fhgns+NFcnLDjQZ/oonkl5kZ8ZO0dSsmeXO+FaFuo68QHhpi5KVotU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0Rx/YTWvjtpSiTvs+ueLrI02QKs7whGO2GJXjoAugESBh5tuA
-	TpWZpBHsmI6wWtZn9m/4BXp+41Pz/xmbifVmNbOQxtc8pzYG71oP0RumlU8OuwQ=
-X-Gm-Gg: ASbGncv4vpFxSRUYQiIjz4RACVZxr+9GR6iO2Z8J6xe+0cbKbfJvrrz811LsUNgbHNL
-	Y3tY6vMGAJ1ZChr4gwF6n0ciRWdib6KQiHQ8DodGWx3aPTyQLlKpdqNydOULSTDRTYE+JQ1WBgV
-	q2eDqY3Hy/2HrU/NcckWeC6vrNr41K1VrW/mbTwzMPy/udmCOBtjT9XOD5wxDbMXcoXz0M2Oywi
-	twfmEKO+K9m4gpc1BLQjh7SKqlHLTqr0j7UgIuadn7EcTaNXmsLsAVGmlg6/rTsp+azvQbzTGp1
-	OJjWr1c95MJsuILxUm+8vdb2R0OvabuptqrPJYPX2rgiuADIUhcXxyUCrbWKHr3ifr/xMvY=
-X-Google-Smtp-Source: AGHT+IHdy6RCQWr/V5lQjpv7FHztk/zWiNciuZA02FPFndi2Sxl9F3c+cbIai8wKbgKpiRSu2MhCyA==
-X-Received: by 2002:a05:6512:1381:b0:545:c7d:1784 with SMTP id 2adb3069b0e04-5451dde7f2bmr1577449e87.43.1739480860282;
-        Thu, 13 Feb 2025 13:07:40 -0800 (PST)
+        bh=TeNMrpUqpwoLFI0ojzBCoD9uOLScIV/Ka4QcI/0Cif0=;
+        b=bP4KP2jxGB98ZbTYyug3p/rWnPZNufUGe4yYHJsW4JXmE1vhkO7Vm/kJuG1yexVS4u
+         TddlZqBNOG2uFILYkAFNE0UL9jy7YJ3h/RzMbua2CCSI3ZlWqB8WZx7UaldKDkJrJh8y
+         pj6bIUkgsz/mBkYvs6zBe2p2lYLk+bu2izkhSzqgUX9OUeGK8m5cyErpM8l//vNqaFyx
+         4iOyRYizzSkYiBc09Gw+anyuBSI6BNsbihc0UKRLvV0bh8VASu1XZzUzL7T3c0mdf28n
+         sh2OuMJN8Elv3r98rFxywp2HCIg1FeTcdR+cHtmpik1GwBwC/2LTYf4gJkCpRbt02XwS
+         MkHg==
+X-Forwarded-Encrypted: i=1; AJvYcCVvzU2fN998/b/xB8+pzA+mivWpoylrO5QcgYDLHS3uboMlQysmh6EABGD8sqHzficH9QmuemPfJsw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjyEl0ojTzRU+OAPeR4Elcny71m9RxEEaqIgc8KoddzwvCOmWW
+	f8vGamo8cj+oLkgYjL/CTyMD0lk7p0fKXejfi+aw7v9oycjSxESuHb8a4kJQc3k=
+X-Gm-Gg: ASbGncuujS/TaRurSOFcL4xgBCwRUsFT97N9MJsuFyA8I9ykKtWu3xmY6b/pkd2BSMl
+	HJoj9eRYTrQ1k2yENYRlVeuNnhzqSnAgdPrbruxIL5QS+3JIUxtLyJzs+7xxFSdZ93CUit0G/jF
+	neA5CRuK8V1//tTSgkhjlsvClvMnD1ykNwQ2bdt9eHv0ZG1u5t0yJatMcQ8M+wg4HGBFRlgAYJw
+	eKM3WSHyp9buPNutcgikV3MeQ7O4XuhVV0eMuk+XuGSjtnUnD0/otRiZwaEqwF22cA8rIsxszfN
+	LliMtG0K+5Hkq4R9iHkW69p+crsKCDLnBvY/7BYavNH0cjKgD7whqT1sRiQT1V2sNxHZkgo=
+X-Google-Smtp-Source: AGHT+IFoISTHPwl7NmM39tEjJazTxUu4ZlSD1ldej2CAwAd50t/8PacosIj09OljiXHD8nuiFDIq4g==
+X-Received: by 2002:a05:651c:211f:b0:2ff:a89b:4210 with SMTP id 38308e7fff4ca-3090379d3f6mr26646011fa.8.1739480938463;
+        Thu, 13 Feb 2025 13:08:58 -0800 (PST)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3091011ed69sm3147421fa.49.2025.02.13.13.07.37
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30914801757sm1997551fa.94.2025.02.13.13.08.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 13:07:38 -0800 (PST)
-Date: Thu, 13 Feb 2025 23:07:36 +0200
+        Thu, 13 Feb 2025 13:08:57 -0800 (PST)
+Date: Thu, 13 Feb 2025 23:08:54 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Anusha Srivatsa <asrivats@redhat.com>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -67,11 +67,11 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 	Jianhua Lu <lujianhua000@gmail.com>, Robert Chiras <robert.chiras@nxp.com>, 
 	Artur Weber <aweber.kernel@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
 	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 02/20] drm/panel/visionox-r66451: Move to using
+Subject: Re: [PATCH 03/20] drm/panel/asus-tm5p5-n35596: Move to using
  mipi_dsi_*_multi() variants
-Message-ID: <4xtwrhvoahnbd7do55n6a5dxsbceowuzqvc72bukxmt4dqfiuy@3lz4cy4xyhk7>
+Message-ID: <axar3e6jb7uzway52adqm27cox43uubkey7fcqqi5yu6wp3kfy@imipkyyg4ag7>
 References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
- <20250213-mipi_cocci_multi-v1-2-67d94ff319cc@redhat.com>
+ <20250213-mipi_cocci_multi-v1-3-67d94ff319cc@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,27 +80,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250213-mipi_cocci_multi-v1-2-67d94ff319cc@redhat.com>
+In-Reply-To: <20250213-mipi_cocci_multi-v1-3-67d94ff319cc@redhat.com>
 
-On Thu, Feb 13, 2025 at 03:44:19PM -0500, Anusha Srivatsa wrote:
+On Thu, Feb 13, 2025 at 03:44:20PM -0500, Anusha Srivatsa wrote:
 > Stop using deprecated API.
 > Used Coccinelle to make the change.
 > 
 > 
 > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 > ---
->  drivers/gpu/drm/panel/panel-visionox-r66451.c | 156 +++++++++++++-------------
->  1 file changed, 75 insertions(+), 81 deletions(-)
+>  drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+> index b05a663c134c974df2909e228d6b2e67e39d54c0..aedf644b4a81649fd9a17b6dfdcdb95be1d5762c 100644
+> --- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+> +++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+> @@ -168,14 +168,12 @@ static const struct drm_panel_funcs tm5p5_nt35596_panel_funcs = {
+>  static int tm5p5_nt35596_bl_update_status(struct backlight_device *bl)
+>  {
+>  	struct mipi_dsi_device *dsi = bl_get_data(bl);
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+>  	u16 brightness = backlight_get_brightness(bl);
+> -	int ret;
+>  
+>  	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+>  
+> -	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
+> -	if (ret < 0)
+> -		return ret;
+> +	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, brightness);
 
-commit f4dd4cb79f9ec3294e5100223ed90d8ae371f168
-Author:     Tejas Vipin <tejasvipin76@gmail.com>
-AuthorDate: Mon Feb 10 14:53:42 2025 +0530
-Commit:     Douglas Anderson <dianders@chromium.org>
-CommitDate: Wed Feb 12 08:44:34 2025 -0800
+Lost return in the error case.
 
-    drm/panel: visionox-r66451: transition to mipi_dsi wrapped functions
-
+>  
+>  	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+>  
+> 
+> -- 
+> 2.47.0
+> 
 
 -- 
 With best wishes
