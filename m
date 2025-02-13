@@ -1,48 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E99B2036FD;
-	Thu, 13 Feb 2025 16:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5A828A2DE;
+	Thu, 13 Feb 2025 16:36:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739463907; cv=none; b=oBgpT17uY2az48NlMMB17lrk81OCe3uWkO03Frk/y5pUJjDRX9wweAf5VYIs/+27Qfvpf00xlZNTrbGGGNSjD2Q7Cye+xVP2S8GQBHfBR+wiTxgl6qJwl7Rio41d3y/Fwy/gyAPvGDjbsv1ME8W5l8/X4GIJZPs2d0cgOv4G/r4=
+	t=1739464564; cv=none; b=RPCchV3WvCcrYjSGrqWMjS1h+6/mrwjUcxmRL2+WC9I2fnZcl76flq3Yp8sDK4xleK1T/Qb+8KUGK5dtsLpc9Rph+ujHMtqNLpLRIF74tRLV0zt0UAQTO+wfw4iQy7u7EoCCIoDluMv6ixt5HY14hxa2TJokTMI4k71G8rzqy7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739463907; c=relaxed/simple;
-	bh=LJYiLv2B2qtZYrVktvz7nPLYWm7u3fmQN3FyovuslSk=;
+	s=arc-20240116; t=1739464564; c=relaxed/simple;
+	bh=0MzAe+/zz8BM94vbORyLrX9hrn9VGCXIUL+TcD+ALPk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=exTxFVxgTzZWmx7atUO+EK0WhOhnu37yBCoKA0Ta9wT9kraBBIXCmZ/ARr/FgLP+SEq0zEjgzXv8I534x2Je8Y99F0uugWsHJl4ZV7yaw0BoYdRvPHsTQOP7OMCNjfzKYBY1/6S5/hH3EUxEvsAih9VFwWd7t+CU+6AYvuFWy+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mhzEZeyV; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=smkhcXM0Qadoj6P6nkr4f6ySYb5N3s+vafJENOV/HJgd2aMkL86Bnm2gZ7FRIIxF3E2dPnRvbKw/bmjJni6uuECKaAtxkZ8DYK/mI40qx8oqsyGuqIJHodSca5Yf5SvbYoC8083m2lgxcghVcFQUEsUa/MxlAVkc/y6sXKd8uAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hFCjxbbp; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mhzEZeyV"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BDC1E44097
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hFCjxbbp"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6320844097
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739463894; bh=yPECwjUzd9d/TUb9Hi1x5Fu5nz7qf+2JBwxIbrQGCWY=;
+	t=1739464559; bh=mCREvOYTSSlEvg7uFL3Cn8JKxmc33r7oFVvZAruvAj0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=mhzEZeyVhK50h+4Fd2HM8ermneWJ6JGV/cbNSKoSRIRGSeusOmz1F8VxTMl8s5oiU
-	 N5NvkubaqkxCN0EOtXGQ8uVa9lfHlqEs+0fKDwA5G1VwvBZ9b10GPuk/Bcvl1Aww7o
-	 T0D9zwqZOvlVgYdoNuS0nij1O7WzUMFPsNRKqjqC+sPewls8/OdTNjZV4vYDwNL9KY
-	 DVXEvJMoNwLOvpv+6mWsNJjhpdyZK3RWi3mlYcJkefNTJktNS5HZC5jPSH0q4k4UCh
-	 H0XE8oEIgWGBqPooioqGv5svOMiRCjxSdNJeN6KeGq+6lqB+TO70mrd7k8LJs6Dfsi
-	 bj1JKO3WWzLHQ==
+	b=hFCjxbbpHICujl3dOiAlhumYwo5L3OncX05NllUJWX2MtRQgI1EppYj2FrxgquLjM
+	 JyfF6skmkonNjexDFypuuLyhOhKKpEOK1PLTdu9th4Wg5sVlS1m+U50QkFXHffn1Tn
+	 bNv2DtEqSZ4VtcSkkmskcCaWoFnc2HfIumeZnPneHkYVZIKkOWw6s2GW5CVIuLo+cX
+	 7qh+qcXqYjuGF8w6s27UpmbaHBpcxglMA9S503D7fmdZ7LGHQ1v7IASUmf8p+bugo3
+	 zsxTjmvZQa36GYqyD5ohg9R9DwKiHzkr8NcLfqPUrwEOXByvKfYZjxb7XBYi5jZVHs
+	 4vymVWnQYfIoQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id BDC1E44097;
-	Thu, 13 Feb 2025 16:24:54 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6320844097;
+	Thu, 13 Feb 2025 16:35:59 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
  List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: ABI: drop two duplicate symbols
-In-Reply-To: <c3dce809f577584cf9aedafc6c2a0d5a9ca909ac.1739394480.git.mchehab+huawei@kernel.org>
-References: <c3dce809f577584cf9aedafc6c2a0d5a9ca909ac.1739394480.git.mchehab+huawei@kernel.org>
-Date: Thu, 13 Feb 2025 09:24:53 -0700
-Message-ID: <871pw17qy2.fsf@trenco.lwn.net>
+ <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts/kernel-doc: remove an obscure logic from
+ kernel-doc
+In-Reply-To: <fd3b28dec36ba1668325d6770d4c4754414337fc.1739340170.git.mchehab+huawei@kernel.org>
+References: <fd3b28dec36ba1668325d6770d4c4754414337fc.1739340170.git.mchehab+huawei@kernel.org>
+Date: Thu, 13 Feb 2025 09:35:58 -0700
+Message-ID: <87wmdt6bv5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,23 +53,37 @@ Content-Type: text/plain
 
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> As warned by get_abi.py, there are two symbols that are
-> defined twice:
+> Kernel-doc has an obscure logic that uses an external file
+> to map files via a .tmp_filelist.txt file stored at the current
+> directory. The rationale for such code predates git time,
+> as it was added on Kernel v2.4.5.5, with the following description:
 >
-> WARNING: /sys/devices/system/cpu/cpuX/topology/physical_package_id is defined 2 times: \
-> 	/new_devel/v4l/docs/Documentation/ABI/stable/sysfs-devices-system-cpu:27; \
-> 	/new_devel/v4l/docs/Documentation/ABI/testing/sysfs-devices-system-cpu:70
-> WARNING: /sys/devices/system/cpu/cpuX/topology/ppin is defined 2 times: \
-> 	/new_devel/v4l/docs/Documentation/ABI/stable/sysfs-devices-system-cpu:89; \
-> 	/new_devel/v4l/docs/Documentation/ABI/testing/sysfs-devices-system-cpu:70
+> 	# 26/05/2001 -         Support for separate source and object trees.
+> 	#              Return error code.
+> 	#              Keith Owens <kaos@ocs.com.au>
 >
-> As the documentation at testing/sysfs-devices-system-cpu, drop
-> the duplicated one from stable.
+> from commit 396a6123577d ("v2.4.5.4 -> v2.4.5.5") at the historic
+> tree:
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/
 >
+> Support for separate source and object trees is now done on a different
+> way via make O=<object>.
+>
+> There's no logic to create such file, so it sounds to me that this is
+> just dead code.
+>
+> So, drop it.
+>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/ABI/stable/sysfs-devices-system-cpu | 10 ----------
->  1 file changed, 10 deletions(-)
+>  scripts/kernel-doc | 19 +------------------
+>  1 file changed, 1 insertion(+), 18 deletions(-)
+
+Weird ... I went and looked, and can't find anything that ever created
+that tmp_filelist.txt file; I wonder if this code ever did anything?
+
+Don't put that functionality into the Python version :)
 
 Applied, thanks.
 
