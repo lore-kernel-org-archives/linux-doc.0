@@ -1,49 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3B7266181;
-	Thu, 13 Feb 2025 16:40:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9481124A079;
+	Thu, 13 Feb 2025 16:46:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739464853; cv=none; b=qaGH3jN+kDdFi+up8NYi6sbx6G96nGb6TRImT7eAadpTMmoZn84MukSzVzyTnt1CjjlD4sbeqbpuUMmQQy56lgh2DvyF6cxbOntGS+/jIsV1qd8AU2aUEZz58PYD/3vraCeyMvRLEJFRMf+l6PSA/dweeMAoJTHcZIy0p5xHu8c=
+	t=1739465206; cv=none; b=fb+dUFF0ioyY7lj+5fyVj1W9NwUPgwMIy9B7lb5rlbPzfBphrSypMt2Yi1RsxBu/e4oTrEC61pVUJgLM/uNz6jhVO2XfswZRPjaXL6A8rlplxLieRrgxgITyUMsJwizfv9se3kH8q24XdK25+q925GEh4uZtS7hACsTYhK9O61E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739464853; c=relaxed/simple;
-	bh=+NmJvozCvHqYo27+QZ99g9mKJER+YVCPI759srgIddc=;
+	s=arc-20240116; t=1739465206; c=relaxed/simple;
+	bh=DBrzRiKfHQhUieCoS1jd2keEcouyy2TAdA8Hy9eT5CU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=deLiy6h3QeLd7SsEUAl5j0BdCn+RalHtUt+Wcclq8F2xJUAyfKX/kXTq3om/+6HbmZ6S06avP9/P+sUBHUtxB0c1LleTj7VnTI5DiGelEF5WbYnPKg9U4KWxFfLXu+mpumBYWzQvX6++pBGu3rRcQRgRbMMHQ6QohOXoQtm0Ek0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mHu6CIWh; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=ph/snXJcvS9iU/BQN3h/qmgoDefHWgcmzJObM4qCWxaRuHCM79RQ4Y1mnr6LTe4LxgPrC2e2Ds0/bV8G9yCHUfep2+5OsipeByUQbnVg58TJSWRaPQKLcM7ezHRT1zeEOETlJfc6eDYeffVdY9K9bsDfYmbkXrqpO60gEFukkfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=d32GejBx; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mHu6CIWh"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B85D444097
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="d32GejBx"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B8FA748EBD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739464850; bh=0XfX4xkUPnhb3Qg4pir8Dg6wUP9Xma+uY4HBJFMOGuQ=;
+	t=1739465203; bh=KEZqGb45tLQV/Ib54LAY03Ohsm5zJrAVnCYgVwcKUjQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=mHu6CIWhUFtFxJvqpyTvgeZSXxUegMO2ofWHiYbxqel+lpFK6TQEueZhCy9TX30ea
-	 DEO0CsXG3P3Su+N03pSD4LFjKPemVO4kRAMVrFzplcIpV/0FAbhBg+Hzk4mXpalnRL
-	 hKi7ZHERh1oZTIqHSeqyeK9ZgafTxadjJlxV2IC+34pmOjvMK/2cSJJCKKulrGyM9x
-	 KSdUt+MqViP2eIEhgl0wSBZaHVK7Lj07MnUlnKI3lxgEEPZ+np4G4JfyZKi6UEjkV2
-	 vTybn1XeZJhnoEI0j7xA2vIs8qMB3IS4oSMjOT694n8dkFIpUc4oU4qOa3SML9Y+CA
-	 D7ESS8vnIYt9Q==
+	b=d32GejBx45dnSb/JQzlubScBvTOOS0S7DlEwWWfk/pxYJNoqzMlWA4gFE95h3srLh
+	 tO2ErhayEOPoWLvpoH5g2WQc3N8Ktu2Gq92AQ/QtXbz3NXTAUFBoyNmpz6jsXu1TkX
+	 4JajJBAmyUaFlUp+A7xx6eCG0w3UtP/ge9n2g2XJONiD+nwGEu3qLMF6JuvRyBdBXG
+	 IyrxS2TfGmdCOD+dzXkVnHypsNTw9MKyz/0MzRFyb9QavYHDVl5q4aMZ5jIEegrPdV
+	 K5LT3mJccGWY3QbNydb9fbw4u9NpsBry2Fkng1aP1V7XsKAVXb9q8za1Kv3OpSWfbV
+	 2sKA+T43jTD5w==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B85D444097;
-	Thu, 13 Feb 2025 16:40:50 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id B8FA748EBD;
+	Thu, 13 Feb 2025 16:46:43 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
  List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org, kernel test
- robot <lkp@intel.com>
-Subject: Re: [PATCH] docs: Makefile: use the new script to check for bad ABI
- references
-In-Reply-To: <20250211054446.1696826-1-mchehab+huawei@kernel.org>
-References: <20250211054446.1696826-1-mchehab+huawei@kernel.org>
-Date: Thu, 13 Feb 2025 09:40:49 -0700
-Message-ID: <87o6z56bn2.fsf@trenco.lwn.net>
+ <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: trace: decode_msr.py: make it compatible with
+ python 3
+In-Reply-To: <88bb0d47100feaa3cda215e68bf6500dc67da7b3.1739257245.git.mchehab+huawei@kernel.org>
+References: <88bb0d47100feaa3cda215e68bf6500dc67da7b3.1739257245.git.mchehab+huawei@kernel.org>
+Date: Thu, 13 Feb 2025 09:46:42 -0700
+Message-ID: <87frkh6bd9.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,28 +53,29 @@ Content-Type: text/plain
 
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> The get_abi.pl script was replaced by get_abi.py. Update it at docs
-> makefile.
+> This script uses print <foo> instead of print(foo), which is
+> incompatible with Python 3.
 >
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202502110736.ZGWaWsep-lkp@intel.com/
+> Fix it.
+>
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/Makefile | 2 +-
+>  Documentation/trace/postprocess/decode_msr.py | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 52c6c5a3efa9..63094646df28 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -12,7 +12,7 @@ endif
->  
->  # Check for broken ABI files
->  ifeq ($(CONFIG_WARN_ABI_ERRORS),y)
-> -$(shell $(srctree)/scripts/get_abi.pl validate --dir $(srctree)/Documentation/ABI)
-> +$(shell $(srctree)/scripts/get_abi.py --dir $(srctree)/Documentation/ABI validate)
->  endif
+> diff --git a/Documentation/trace/postprocess/decode_msr.py b/Documentation/trace/postprocess/decode_msr.py
+> index aa9cc7abd5c2..f5609b16f589 100644
+> --- a/Documentation/trace/postprocess/decode_msr.py
+> +++ b/Documentation/trace/postprocess/decode_msr.py
+> @@ -32,6 +32,6 @@ for j in sys.stdin:
+>  					break
+>  		if r:
+>  			j = j.replace(" " + m.group(2), " " + r + "(" + m.group(2) + ")")
+> -	print j,
+> +	print(j)
 
-Applied, thanks.
+This does make me wonder when this script was last used ... it hasn't
+seen a real change since it was added in 2015.  Oh well, it should at
+least work with current Python ... applied, thanks.
 
 jon
