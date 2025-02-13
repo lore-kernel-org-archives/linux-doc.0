@@ -1,46 +1,65 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F02DF221552;
-	Thu, 13 Feb 2025 17:51:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9753B2063E1;
+	Thu, 13 Feb 2025 17:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739469120; cv=none; b=ktH3BwvFbVjCDamr3dbqqd6W4Trp5Kjpr0BpgKPrTJN2NZS/XrVZxr0nvpwfJEVPnVvonqwqq10Sot4qvuW5hnjn6jk0Qcr06nRUncp6hJR80+Whvz/LHLmbyeavckAA1sEMuNK/xWzVaKrpQiVXLvENB2xvIuSatncMpXA7S48=
+	t=1739469389; cv=none; b=J2FfI7ABvxZIuPqN4qEyvMVdnbn6i0RljwSxK/ijJ8hGgKHITWwTSVbOU7bFOFQ0PdHVk3c8ozR1w/o7ZM3U84PeqfEK16SWcr/8rIqVvzwp6AhT8PpdT8nRm717I+szeY2S6hIYJ5IoSZnplKlSK9NA7oubZVYX0cQ2qXTSiOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739469120; c=relaxed/simple;
-	bh=zqV75qnQLwyFHhLFq1/Rw5B46LsPeHmSTmkyGiMlIk0=;
+	s=arc-20240116; t=1739469389; c=relaxed/simple;
+	bh=VJ9/7u5dm3yhevUGmYiN3uNdAeAmMy1lBqGWU8RiYq4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=evU61HYvnF+QcRtxPRXjpDf/8Dsh9CIeB1MVuLFjNqj5y4quIR74FgejJ7GYzG9LOFi5JS6V/x6p13iyPGK7g9BFdNirH1pAwHLuQEjQOhN1usZouBTStqCWyRamwVe/Y8hF8EUssXPOF8kWVRDYHEjH4Yb2qawoVcNPOF6FZq4=
+	 Content-Type:Content-Disposition:In-Reply-To; b=EZffHj+lJBgb12qZP82t6+z1FONUmXVAetXrOW0093G63mQ01aJUvIFbgSwyshxDYHSfZl11gm+p4dJns8qOBUo+nxber710u0Qg+/2NnO7HW9xlNT/gd6U+wT9E7x9FPnQr882lrpTFZnft5hp14nbS1Gx9WFQPzkixs+rekCc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C1C4B113E;
-	Thu, 13 Feb 2025 09:52:17 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8239B113E;
+	Thu, 13 Feb 2025 09:56:47 -0800 (PST)
 Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 444863F5A1;
-	Thu, 13 Feb 2025 09:51:53 -0800 (PST)
-Date: Thu, 13 Feb 2025 17:51:50 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 202C73F5A1;
+	Thu, 13 Feb 2025 09:56:23 -0800 (PST)
+Date: Thu, 13 Feb 2025 17:56:20 +0000
 From: Dave Martin <Dave.Martin@arm.com>
-To: "Moger, Babu" <babu.moger@amd.com>
-Cc: Peter Newman <peternewman@google.com>, corbet@lwn.net,
-	reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, tony.luck@intel.com,
-	fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
-	rostedt@goodmis.org, xiongwei.song@windriver.com,
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "Chatre, Reinette" <reinette.chatre@intel.com>,
+	Babu Moger <babu.moger@amd.com>,
+	"peternewman@google.com" <peternewman@google.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+	"paulmck@kernel.org" <paulmck@kernel.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"thuth@redhat.com" <thuth@redhat.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"xiongwei.song@windriver.com" <xiongwei.song@windriver.com>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+	"jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+	"perry.yuan@amd.com" <perry.yuan@amd.com>,
+	"sandipan.das@amd.com" <sandipan.das@amd.com>,
+	"Huang, Kai" <kai.huang@intel.com>,
+	"Li, Xiaoyao" <xiaoyao.li@intel.com>,
+	"seanjc@google.com" <seanjc@google.com>,
+	"Li, Xin3" <xin3.li@intel.com>,
+	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+	"ebiggers@google.com" <ebiggers@google.com>,
+	"mario.limonciello@amd.com" <mario.limonciello@amd.com>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"tan.shaopeng@fujitsu.com" <tan.shaopeng@fujitsu.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
+	"Eranian, Stephane" <eranian@google.com>
 Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
  Monitoring Counters (ABMC)
-Message-ID: <Z64xNm7GrXuVj3gv@e133380.arm.com>
+Message-ID: <Z64yRKyaG+yUhc2N@e133380.arm.com>
 References: <cover.1737577229.git.babu.moger@amd.com>
- <CALPaoCgiZ=tZE_BF2XzeYMRG84x4+kGKfhHWj2Uo=Cre_B_6Vg@mail.gmail.com>
- <7a87b18c-cfba-4edd-946b-dd2831f56633@amd.com>
+ <Z6zeXby8ajh0ax6i@e133380.arm.com>
+ <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
+ <SJ1PR11MB6083A2CD66FAE5DBEDCB96C0FCFF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,64 +68,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7a87b18c-cfba-4edd-946b-dd2831f56633@amd.com>
+In-Reply-To: <SJ1PR11MB6083A2CD66FAE5DBEDCB96C0FCFF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
 
-On Mon, Feb 03, 2025 at 02:49:27PM -0600, Moger, Babu wrote:
-> Hi Peter,
+Hi Tony,
+
+On Thu, Feb 13, 2025 at 12:11:13AM +0000, Luck, Tony wrote:
+> > I do not think that resctrl's current support of the mbm_total_bytes and
+> > mbm_local_bytes should be considered as the "only" two available "slots"
+> > into which all possible events should be forced into. "mon_features" exists
+> > to guide user space to which events are supported and as I see it new events
+> > can be listed here to inform user space of their availability, with their
+> > associated event files available in the resource groups.
 > 
-> On 2/3/25 08:54, Peter Newman wrote:
-
-[...]
-
-> >> # Linux Implementation
-> >>
-> >> Create a generic interface aimed to support user space assignment
-> >> of scarce counters used for monitoring. First usage of interface
-> >> is by ABMC with option to expand usage to "soft-ABMC" and MPAM
-> >> counters in future.
-> > 
-> > As a reminder of the work related to this, please take a look at the
-> > thread where Reinette proposed a "shared counters" mode in
-> > mbm_assign_control[1]. I am currently working to demonstrate that this
-> > combined with the mbm_*_bytes_per_second events discussed earlier in
-> > the same thread will address my users' concerns about the overhead of
-> > reading a large number of MBM counters, resulting from a maximal
-> > number of monitoring groups whose jobs are not isolated to any L3
-> > monitoring domain.
-> > 
-> > ABMC will add to the number of registers which need to be programmed
-> > in each domain, so I will need to demonstrate that ABMC combined with
-> > these additional features addresses their performance concerns and
-> > that the resulting interface is user-friendly enough that they will
-> > not need a detailed understanding of the implementation to avoid an
-> > unacceptable performance degradation (i.e., needing to understand what
-> > conditions will increase the number of IPIs required).
-> > 
-> > If all goes well, soft-ABMC will try to extend this usage model to the
-> > existing, pre-ABMC, AMD platforms I support.
-> > 
-> > Thanks,
-> > -Peter
-> > 
-> > [1] https://lore.kernel.org/lkml/7ee63634-3b55-4427-8283-8e3d38105f41@intel.com/
-> > 
+> 100%  I have a number of "events" in the pipeline that do not fit these
+> names. I'm planning on new files with descriptive[1] names for the events
+> they report.
 > 
-> Thanks for the heads-up. I understand what's going on and have an idea of
-> the plan. Please keep us updated on the progress. Also, if any changes are
-> needed in this series to meet your requirements, feel free to share your
-> feedback.
+> -Tony
+> 
+> [1] When these are ready to post we can discuss the names I chose and
+> change them if there are better names that work across architectures.
 
-Playing devil's advocate, I wonder whether there is a point beyond
-which it would be better to have an interface to hand over some of the
-counters to perf?
+Do any of the approaches discussed in [2] look viable for this?
 
-The logic for round-robin scheduling of events onto counters, dealing
-with overflows etc. has already been invented over there, and it's
-fiddly to get right.  Ideally resctrl wouldn't have its own special
-implementation of that kind of stuff.
-
-(Said my someone who has never tried to hack up an uncore event source
-in perf.)
+(Ideally, reply over there.)
 
 Cheers
 ---Dave
+
+[2] https://lore.kernel.org/lkml/Z64tw2NbJXbKpLrH@e133380.arm.com/
