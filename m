@@ -1,232 +1,737 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E613FEC4;
-	Thu, 13 Feb 2025 00:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739405484; cv=fail; b=P9pjP9fBE+0fMGz0kvhgH44bB3gkfXVxpwFz3Z0h/9+9b2HZBPZpPVQB5yTjaSSKpU/YNh7wHtr/3yxxlAZv0Og6Ltr4Gh1zsaT7BIaEf6qmbT70Ua1l4bfOdIw0vdmxLA/56n/tdthNtvzOKnHllotpDtYpjyX+u+9QoXAGQ+0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739405484; c=relaxed/simple;
-	bh=aLpEPk0RobaTrYVbpC2KZQz6XrNYGmVHmBin3FfO450=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=LW+ZBtiC+1T23Yc21RefMQ4iFS5jpBxNK3UbdUWzv0cVT0aPMa9RTHxzB7EeK27SzqkPiEmGMgViiw59LZ9L1fS5PwEMCY8ONpuiQqlraSuwUBTrMikxHUyDuXuRMIQVvSmx/Ni1VIte9n/Nx8N5lpN+klBVI0gQ0NzSMm2FSkc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LYrqkNcl; arc=fail smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF6425777;
+	Thu, 13 Feb 2025 00:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739406820; cv=none; b=VWktcsFWut5MK1ityeplMuj/C5U9qjeQGBmJ6nGhkE/0+1abF3F7sxTyhIRMVKdPWHoOXrSShsQW+PeMqiwxYvH+QQfGtt94etmOYJB4dmGUznRyQcOKn/d3MbQvk91Rjq2Cj/9WAT6KF8ebwRyUoaYUtmfbPf+AOW66LzITFjs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739406820; c=relaxed/simple;
+	bh=/aaMCV2nQaSYuHpoT8EIjJYt6AgAzAEqxYtj39NocO4=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U0oOS5/NG3WCXPW1dcYhY8JO+ZtR0QvkDwEmFd7wAnC+RPDq1kdYm516dHC1Gfp22cL2bJyE4joRD0MAJtgEpNOXaS0wmq6Nz++nZOcD1Qa+N7FggDcAS2qQjjmRJ7hk1bFcPqEVb81js7NBmxRKLi5A0bFFZA/HvhgLaF5DuFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=FWp7ltq1; arc=none smtp.client-ip=185.70.40.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LYrqkNcl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739405484; x=1770941484;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=aLpEPk0RobaTrYVbpC2KZQz6XrNYGmVHmBin3FfO450=;
-  b=LYrqkNclWkAsu5zbtn+1GRytM97z5Oz9Lw+TFPFAixY/RG6Xha/TEIHD
-   vLEF0gquTTdL1KWWCmRa20vDkqonTInoVAQ4OqqEVKAPbvm29MJjJsBam
-   +h5x/EAqFku/BnUuPvyARUFIjpV2p8ICVyH4agXZdEBH+Ja+sPPk/I2iK
-   XHq12kjn7/b9BJX3vi/irGJoyIlH8LXIoiPO5SgtwmsLG5vl2/C5n9ewm
-   WXepvvxPY6Hex50wbf3Gcp9J3Iq/zug9B+yP5rkW9/JQFxAWysvV+XumE
-   GN7RxoyC87UzzlYurkjuPmw59DHPCp0RW5Bxv6AT6qtai8wW/m1HAUKw6
-   A==;
-X-CSE-ConnectionGUID: 2OV1PqsNQSim+rvk9p3vkA==
-X-CSE-MsgGUID: G3LucsbvSIGJ1ESh0ozing==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="40121837"
-X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; 
-   d="scan'208";a="40121837"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 16:11:19 -0800
-X-CSE-ConnectionGUID: XaWXfx1MTE6PoKiPlKRdaA==
-X-CSE-MsgGUID: 2wqMW88WTWuT2Aryf2uAmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="143922703"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Feb 2025 16:11:17 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Wed, 12 Feb 2025 16:11:16 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Wed, 12 Feb 2025 16:11:16 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.174)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 12 Feb 2025 16:11:16 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jvTyod6MNmSrzzabrajVPhIf5ltZL5vt6GcXjIeEQUMgCSpJEUR8DnNfEwGaQg+jEZnZuiwR+6SM0ix/2W3Hwx2bTCJkRJ8YWHZa6wvN8Ud4iFmNwcpM7FnyJeTQHO/mYVPuuVAW9bQ2oG6O63T8lf6gXFCx7uvmlCG/skg6pF/BsXdfpKa04GlLjr/VJ2l0yMwkddi9b9QcKv89qzefmnSSMdyBoFXqcS6zu/EGH4wzdbxRqJEwZG48nN43AXzy2BnAaXDIiDTHEPXzl5trdmjHa6fS76csrU5QHyOdOYw9CLOlDOUvIGpCZ08krgR2IzF35FOrWWCshJUHqRuIbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aLpEPk0RobaTrYVbpC2KZQz6XrNYGmVHmBin3FfO450=;
- b=r5tSZBLZV62WfN/IGe/y0ysmm7vMgqSv6OCMydgyCLkR7/xqhLp/dzslAKRiT+N00ziQG68sXZDdpFc6TfggZ8ZBB01gZerpRJvp7P6olhrc+cz+7npCa0SmJp6F8TreOHwxdokHV69XLkmhg9jVFZwrBenTgh80dJ88+CVhBC3Jjq5XC3FwkZ2obSonvFg9TyQLBZ86AIXwpaUUaGesK38OjfJyuyXxPGJEKyz7iw7dQVwG1XwbOoOZwgzYqP1hgJX5r9ixEhKoomdcS3TySNqhLCim6gjKA6L0sKswkOPAdsBv5byZtWR7Hb5FxfuY3+DJirV3wqZvtkwA0VP+Yw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by DM4PR11MB6551.namprd11.prod.outlook.com (2603:10b6:8:b9::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Thu, 13 Feb
- 2025 00:11:14 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361%7]) with mapi id 15.20.8422.015; Thu, 13 Feb 2025
- 00:11:13 +0000
-From: "Luck, Tony" <tony.luck@intel.com>
-To: "Chatre, Reinette" <reinette.chatre@intel.com>, Dave Martin
-	<Dave.Martin@arm.com>, Babu Moger <babu.moger@amd.com>,
-	"peternewman@google.com" <peternewman@google.com>
-CC: "corbet@lwn.net" <corbet@lwn.net>, "tglx@linutronix.de"
-	<tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
-	<bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"fenghua.yu@intel.com" <fenghua.yu@intel.com>, "x86@kernel.org"
-	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "paulmck@kernel.org"
-	<paulmck@kernel.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "thuth@redhat.com" <thuth@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>, "xiongwei.song@windriver.com"
-	<xiongwei.song@windriver.com>, "pawan.kumar.gupta@linux.intel.com"
-	<pawan.kumar.gupta@linux.intel.com>, "daniel.sneddon@linux.intel.com"
-	<daniel.sneddon@linux.intel.com>, "jpoimboe@kernel.org"
-	<jpoimboe@kernel.org>, "perry.yuan@amd.com" <perry.yuan@amd.com>,
-	"sandipan.das@amd.com" <sandipan.das@amd.com>, "Huang, Kai"
-	<kai.huang@intel.com>, "Li, Xiaoyao" <xiaoyao.li@intel.com>,
-	"seanjc@google.com" <seanjc@google.com>, "Li, Xin3" <xin3.li@intel.com>,
-	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-	"ebiggers@google.com" <ebiggers@google.com>, "mario.limonciello@amd.com"
-	<mario.limonciello@amd.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"tan.shaopeng@fujitsu.com" <tan.shaopeng@fujitsu.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>, "Eranian,
- Stephane" <eranian@google.com>
-Subject: RE: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Thread-Topic: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Thread-Index: AQHbbQsur7YXoEmn/USrZUfWgYnla7NEEeSAgABhEoCAAAlr4A==
-Date: Thu, 13 Feb 2025 00:11:13 +0000
-Message-ID: <SJ1PR11MB6083A2CD66FAE5DBEDCB96C0FCFF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <cover.1737577229.git.babu.moger@amd.com>
- <Z6zeXby8ajh0ax6i@e133380.arm.com>
- <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
-In-Reply-To: <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|DM4PR11MB6551:EE_
-x-ms-office365-filtering-correlation-id: d5a77dcf-8391-423d-c37d-08dd4bc2ed73
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|7416014|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?UGVTL3FvM3drYUFYOVc5UnUxYkJzb1lUeVk1QjBFMmhzNjN2dm43SzNUM1BY?=
- =?utf-8?B?Vll4bjFBNHVuRFZhZFBPb3pKOHpZbHZ2SXdHQWJIYTBmcnduTjFMZzBKeTFm?=
- =?utf-8?B?eVVmbnJXenJDNUVjNHgrcXJVWkkwM0h6WlRpTlRrWW5wR0xIOHRlV0w3b1ln?=
- =?utf-8?B?QTFSU1BIbHNxWGxkQ3Nnb09nSi9qZWxCVnQ4QjhXakxDekVwK2o4M1dWbTVS?=
- =?utf-8?B?czJaZFRtWnA4MHBQWjZaUEhXOFJtNjV1QXBSZGtZU2d0RXpzRjVFcEJIekVj?=
- =?utf-8?B?VEsvTmFEMUt0V0V6QnBTUTNkZVl2M0NMdWl6VWg1RDlPVlp5SEd2UHc1OWpZ?=
- =?utf-8?B?amNCS1ozVWY0RmczOXk5MldmNVJyU1pGQjdGRXlyMGMyLzZBaitieTBGbUdt?=
- =?utf-8?B?YUZjMmJqbjMzSTY1NWJWSXM4UjJlZ1dpQzZRaUdvN1hNenNKaWpRQUNvbDho?=
- =?utf-8?B?WmhlbFpqWlJlNlBYamdLSGI2QmVSOXUrZTcrbjJ4NmRabGJkWVFKZTJVRDZi?=
- =?utf-8?B?QXZpYVdCZnlqTjdybko2M29OQmJ5bVc2aVI4QWhhdTV0Y25lMjhBbXNpVS9S?=
- =?utf-8?B?ZFRidXppcXErOE9ZcnBuQ25nR3hocXFnSm5XWVdhUlpmNEpvMVpHUWJoNEY3?=
- =?utf-8?B?VU1STzNWaHhaUVhlbE1CVWZMdFJpVmRCYnRvMDRkMldSenZTcEVtTE0vbkV4?=
- =?utf-8?B?T3NZNVNGOXB1ZWhxVFpWRDZxQzZER0psbUZiaEUyMHZNenMxQlJCN3E3Y2pq?=
- =?utf-8?B?ZHFTbG9IWDF0bVZRdHdQcHVaSTd3OXNQTmpldThZM2p3NUxVS1hFdi9ITWll?=
- =?utf-8?B?SDZmaC9iZXVPUWlydzZHbHJGdGhaL0F5RTB6ZC9teVFnNXBJb0tqeFRmQkVX?=
- =?utf-8?B?VURXVXFHSkh6M0xEaTZUYkRSOCtFcVBiN1JCY1hkckhlV2tWZXVRcEZNc1cy?=
- =?utf-8?B?Y2o4dGpoODErTFJtbjUxdDhEeDFNTGdFSDJpdktVSnk0Vm9sbk5MUm1ibVd6?=
- =?utf-8?B?Z2Rnc0hNM0ZvVnIvQUk0Q3JXMDg2NGI2THpsWnNVZk50TUp4MU1RcFNnaFFQ?=
- =?utf-8?B?VEVBS2U1YU1DSGhXdjNGdlVEVXArc3RtMG9wWklaTC9BNDh6dlJLWEFOclQ2?=
- =?utf-8?B?STBqOXFOZW9wamg2cVhkTUdlKzk5Yk1HZXd3c0t6cy8rL3NpOXRNUEVIT0Fi?=
- =?utf-8?B?a1g1akdmcXkzdHk4MlJZVjczZk5xdkFiMjZEdk9iSWsxUkVaNzBabFNKc09T?=
- =?utf-8?B?c3dzTGhMVUxQbk5VUGU4Y0dROURmdFhmQkpsa0QrQXltZWNYbmQ0bHhZMlpo?=
- =?utf-8?B?Sko4TWdBTWRJeWp1ZDBFdFZkRS8zaWhscVhsWnhpZTVZSzR6UDFwTWdtZjR5?=
- =?utf-8?B?ZzhMOEJtUXFKYUg3Z2J3NVVveDRkUjBEd09jYWZ4TDlyWTBtKzUxcUNPdXdk?=
- =?utf-8?B?U3dtY0lZREoxTFo4WUQ0SHNDbDhXOGU2TTk0VjVZZ0tkQlpoQ0dYWnJQeVV0?=
- =?utf-8?B?NmZHMmsvUjkwSEpyaHhEcXdlUGh1QVE3MGlydjZ4TE1wNnczNWdyaXh6cVFq?=
- =?utf-8?B?eXFhU1lYTUxtMEdIMmgzQTY4aGNwc1pjV1pZNVJqanNxcGx4YVZYZkRKRVVR?=
- =?utf-8?B?Wkp5aXMzMkpsS2lwVmtJcFhFdlU2QlF3T09tOWJwOHZOc3djSzBmVXBRNzhK?=
- =?utf-8?B?UEhpYzN4a0d5NmR1OWZSWTZQSmdzTHd5OC9tSVNpeG5VNytxeEF3Z0hIeEpG?=
- =?utf-8?B?dEdOL2JuYU9oZEhBWEdYT2YzWkhpaGlhZUdPSkQyYUlCOE10bUZOMHBvYWRm?=
- =?utf-8?B?dUU2STRKdUZmL0FuMGhhcnZnVFQ4N2Z2RHF6dGJIRnRYQVdrbHMrZE5YdUlL?=
- =?utf-8?B?UUJHRTh6clN1Q3ViWE5mWDVTSXhhTHUwVWZhMDlHcnlBVFVzMmZpS0ZoRjRS?=
- =?utf-8?Q?DG9Rpgkhahz15hcQRkhM0MOWxJsHYXs4?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZVRJQkt5aDRWUmZRTWVMZGVRcFdnaTk3OTNYN3RQejdzL2t0MTh0dlIvQkxX?=
- =?utf-8?B?QUNMQjdjWFVjSzNncUxmWERqUXZwUkJJclRjSVFONWlhdmF2bER4ZnNEODRB?=
- =?utf-8?B?ODl1MnV0NzZVQkRKV2tCUHFYZ293TWFxaGV5TU5LMmYvRC92aS9rL0FkbXVn?=
- =?utf-8?B?blFsb3BGckl0MVBUOThhZURrMVc3UlA3MEJVM2JWMnVubGR1ZE5hMDVpYTFZ?=
- =?utf-8?B?UDlZNit4aDZ2blo5Wlp3VVU0Smd0dURRSCsxRWlZMi9HTDB0VUdUT2VXN1I0?=
- =?utf-8?B?Tmh4YWF2T0NrNUVPZzBBcnhmRFZFcVY4TW0vWm5MZ2psTnBpdG0wSHFsVkQ3?=
- =?utf-8?B?UlpDRC9iOHlsOVUrRFpxQ2pEMVo0Z0dmVk93aW9HUTd3TWNpci9vVTR1bG9M?=
- =?utf-8?B?MWRadEt2QkpxeXlrSVZoUE0xTC94cm5tbExJU1E3MU1lZmw2YWdQeVgyZE1Q?=
- =?utf-8?B?cE9UazZnVVZVRTA4TUU0VFRjUk11MDVYTWhtQnlVeCtRdERJK0JaN2wzbnVh?=
- =?utf-8?B?UDNqYnBtY3JtcXlUd2paWWxzYllSWTNVMFFQRWgvSjcxTzVUMUZvVGxHMHVp?=
- =?utf-8?B?TWJ6RW9UU1Z0cmlLVmsvZ2JOY0swWkdmakxkZXk2N1o3TGc0VTh3ajRKdS83?=
- =?utf-8?B?TXg4YWFLbDlhb2VDbUJUZGt2clR4ZzBoZkxXbmpqQTZPTEF2dnFZYkx6dGR0?=
- =?utf-8?B?T2xyM0E5Z1A5aHJGd0h6UVZYSXBvdlFGNW9KTVFWZ1FTb2VwZUN3QVpzaGF1?=
- =?utf-8?B?NEZqMU1wN1cxenlqcXlLT2pZQ1pPb0NIN2NXZmpsaUd4aXdybStsekdLdDdk?=
- =?utf-8?B?a2p4SFU2SkVwUVp1V0RpZEM3bWZKZHlqZWNFQTNTME16OUJFU2tVQnV1a2Q2?=
- =?utf-8?B?TU4zV0s2ODZVMWtKMndVYmFGMTlkRnhsWnU4ZE9CYkxDaTNTWHNjMzcvK0o3?=
- =?utf-8?B?WXQ2eGNncGY5MXFVVUJKTU1uTTJENEVrR1pCU29VbVBMUUdTTDlCRm5XRU81?=
- =?utf-8?B?WWlVRHN5NU84elFmK1htbmc0ekpUdDdqMnd6NVdDYnZQWmQ0VlM2UmlYL1Va?=
- =?utf-8?B?WjlUZFk5UmJkQkZmS3NMOUhuVHhXK2JONDBINzlWZkZSdHEwV0lJb2RMTEU0?=
- =?utf-8?B?T3ZScFlUS1lwR1JrL25jTThqSzBOeTlZMEdxQkM4WGU5WVZodFczcXBVU3Uv?=
- =?utf-8?B?VzFhS0hrT2gxaHRSKzVKZjV3YXJtUlNGcnU0Lzd5OUpoYkNINVNkUGNUazcx?=
- =?utf-8?B?S3VYd05ibFo4Yy9JeTdaYno4aTlkenoyWnN4OEFqNkpaK01pNkFzalV6dFNy?=
- =?utf-8?B?YlN4eDk5NUl3NUNldEVEd0hhM2xrWkdDcVJmNUxQUFVPNERoalJ5YWJZdVNR?=
- =?utf-8?B?YkFiNm5iazBLWjFpWWlmaTFnb2JCck05ZDduMkFhTzM4OHdFQXd4bUlsVm0r?=
- =?utf-8?B?THpwTk9DME9Cb29YSUdBdzFBWjhoVnNXRzMyRW5xNmFZdTIzZlFYNmo5Q0Zj?=
- =?utf-8?B?Y2pLcDQvaURvZjY0TXJjWEdPbEovS28yRkE3cnN0Y2xkZlkyd3l0MUZCNzVQ?=
- =?utf-8?B?ZHpvUVd0M3hBQTNQcHJNZWh1bEg5eUJLakFxZFhDL3pFZzdxd00rdXk5WG5o?=
- =?utf-8?B?OUg2OFRoSWp6V0dVcXFXcjVjSkw5VldsMlBGZVNkbVlzQzA1RnRmVDUzVzVt?=
- =?utf-8?B?SCtIVGhLZGlnOWNzNDZqUkxJNGVia2h4YnlHU1ZtWUxpRndZMUcyK25jN1V6?=
- =?utf-8?B?SmNxMW5BZmZVR2VXUklEZUdLUHlvRmtDQ0RiUmdMN0MzRUNXTkhmbnB1SExv?=
- =?utf-8?B?amVoVlNobFdhTUpGYnRtc09SU3EyaDQvWEZTVU5wVDNUVDlSampjVGhTOURp?=
- =?utf-8?B?VmhESzlBMnpiVnJpckpBekJ4bU1sYWxxVDBqaWk1cHdIWEpKSE5KSXFuY2Fv?=
- =?utf-8?B?aUVlOUplcEFSMWxqbUhSc2xjcjVMV3AxZXJpV1Q3SW04YUw2TlJzZzdHdXRq?=
- =?utf-8?B?UVNIamFRSHZqSkUzc0JwY1F2eEkrRUJITEw5Zjl3R3BhTFU3THhNZDJzTTNj?=
- =?utf-8?B?Q01mOEdJV0VwcFJQdTdzQUtFdkV2ZXZZbVhmM1RMS2FoTC9FQ0pBbklETWF4?=
- =?utf-8?Q?pIKBHQ4I+oa4L7ZpSee4DpAAU?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="FWp7ltq1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1739406807; x=1739666007;
+	bh=fd2BKfpW/O0FEpO2NbiCO+2hcsstqB4EkikVckGXvzg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+	b=FWp7ltq1TlSia4q1n6oPEcLeXwQNJkX+7KoWa9DcD4jTh16RrfMOarCUQ/+UXgnZj
+	 yoY7QwuGux/UKq0JFqraXyLZYkQG2BmztfG+sughaUuWXq+iSyD//B0CeWWcmsZWiD
+	 yhBUsVjA+BANubGtvaumbtmg8vYGKUzL37PWKBFbYeDH7G/wRtJLVN4eSpebue5Fjf
+	 ouZX7ae+6R/qGaEBLqFPFU9KyesHQklTcwTvH7RlrX8O7ezbEntAH2UUJY/aAwMfc/
+	 7MEe51q2HJOGdlAuzwcDwTlwuFcBhrruxYJzM4m+64hryOD/YRDQqk5F7M6R5HWjse
+	 qC/YeQcsmrayg==
+Date: Thu, 13 Feb 2025 00:33:21 +0000
+To: Alistair Popple <apopple@nvidia.com>, Danilo Krummrich <dakr@kernel.org>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net, maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com, pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com, jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com, ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] gpu: nova-core: add initial documentation
+Message-ID: <82296c50-66dc-4be5-8c56-66f891047fe9@proton.me>
+In-Reply-To: <xaj6mg4rgm5teesapw5d2npkr3oagaon5baqiplhzjag2fwv2j@kscfzjg3cfbv>
+References: <20250209173048.17398-1-dakr@kernel.org> <20250209173048.17398-2-dakr@kernel.org> <xaj6mg4rgm5teesapw5d2npkr3oagaon5baqiplhzjag2fwv2j@kscfzjg3cfbv>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 358ef0d57b7297b1326814d2d557d3f1881a5d48
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5a77dcf-8391-423d-c37d-08dd4bc2ed73
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2025 00:11:13.5621
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PYzAybV8AaCPTER6b2q1MjSOcsbo6b9kmcyvA4awU8bmF+ObF1E05NlQnzbdP6FfBRv79FgnKdq7ZVQw92ZZAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6551
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-PiBJIGRvIG5vdCB0aGluayB0aGF0IHJlc2N0cmwncyBjdXJyZW50IHN1cHBvcnQgb2YgdGhlIG1i
-bV90b3RhbF9ieXRlcyBhbmQNCj4gbWJtX2xvY2FsX2J5dGVzIHNob3VsZCBiZSBjb25zaWRlcmVk
-IGFzIHRoZSAib25seSIgdHdvIGF2YWlsYWJsZSAic2xvdHMiDQo+IGludG8gd2hpY2ggYWxsIHBv
-c3NpYmxlIGV2ZW50cyBzaG91bGQgYmUgZm9yY2VkIGludG8uICJtb25fZmVhdHVyZXMiIGV4aXN0
-cw0KPiB0byBndWlkZSB1c2VyIHNwYWNlIHRvIHdoaWNoIGV2ZW50cyBhcmUgc3VwcG9ydGVkIGFu
-ZCBhcyBJIHNlZSBpdCBuZXcgZXZlbnRzDQo+IGNhbiBiZSBsaXN0ZWQgaGVyZSB0byBpbmZvcm0g
-dXNlciBzcGFjZSBvZiB0aGVpciBhdmFpbGFiaWxpdHksIHdpdGggdGhlaXINCj4gYXNzb2NpYXRl
-ZCBldmVudCBmaWxlcyBhdmFpbGFibGUgaW4gdGhlIHJlc291cmNlIGdyb3Vwcy4NCg0KMTAwJSAg
-SSBoYXZlIGEgbnVtYmVyIG9mICJldmVudHMiIGluIHRoZSBwaXBlbGluZSB0aGF0IGRvIG5vdCBm
-aXQgdGhlc2UNCm5hbWVzLiBJJ20gcGxhbm5pbmcgb24gbmV3IGZpbGVzIHdpdGggZGVzY3JpcHRp
-dmVbMV0gbmFtZXMgZm9yIHRoZSBldmVudHMNCnRoZXkgcmVwb3J0Lg0KDQotVG9ueQ0KDQpbMV0g
-V2hlbiB0aGVzZSBhcmUgcmVhZHkgdG8gcG9zdCB3ZSBjYW4gZGlzY3VzcyB0aGUgbmFtZXMgSSBj
-aG9zZSBhbmQNCmNoYW5nZSB0aGVtIGlmIHRoZXJlIGFyZSBiZXR0ZXIgbmFtZXMgdGhhdCB3b3Jr
-IGFjcm9zcyBhcmNoaXRlY3R1cmVzLg0K
+On 13.02.25 00:27, Alistair Popple wrote:
+> On Sun, Feb 09, 2025 at 06:30:25PM +0100, Danilo Krummrich wrote:
+>=20
+> [...]
+>=20
+>> +FromPrimitive API
+>> +-----------------
+>> +
+>> +Sometimes the need arises to convert a number to a value of an enum or =
+a
+>> +structure.
+>> +
+>> +A good example from nova-core would be the ``Chipset`` enum type, which=
+ defines
+>> +the value ``AD102``. When probing the GPU the value ``0x192`` can be re=
+ad from a
+>> +certain register indication the chipset AD102. Hence, the enum value ``=
+AD102``
+>> +should be derived from the number ``0x192``. Currently, nova-core uses =
+a custom
+>> +implementation (``Chipset::from_u32`` for this.
+>> +
+>> +Instead, it would be desirable to have something like the ``FromPrimiti=
+ve``
+>> +trait [1] from the num crate.
+>=20
+> I took a quick look at this, mainly to get more up to speed on Rust macro=
+s.
+>=20
+> It seemed to me that bulk of the work here is actually in getting enough
+> functionality added to rust/macros/quote.rs to make writing procedural ma=
+cros
+> pleasant. That seemed reasonably involved (probably beyond beginner level=
+) and
+> not the most pressing thing so I'm not currently looking at it, but thoug=
+ht I'd
+> drop this note here in case it's useful for anyone else that is/wants to =
+take
+> a look.
+
+We're already aware of this and actively working on a solution.
+
+Note that we don't actually have to write this code ourselves, as it
+already exists in the user-space ecosystem in the form of the quote
+crate [1].
+Also, since this is a dependency of the macros kernel crate, its fine to
+use user-space rust, since proc-macros end up as "compiler plugins", so
+they run on the host and not inside of the kernel that is being built
+(so they also have access to std).
+The only problem is that we need access to quote and since we don't use
+cargo, it's not as easy as adding it as a dependency. Currently we're
+working on a solution that will give us not only the quote crate but
+also the syn crate [2] which will make building proc-macros feasible.
+
+(Note that both crates are highly used in the Rust ecosystem and IIRC
+also the compiler depends on them. So it is not just any random Rust
+library that we would add to our dependencies.)
+
+[1]: https://crates.io/crates/quote
+[2]: https://crates.io/crates/syn
+
+---
+Cheers,
+Benno
+
+>=20
+>  - Alistair
+>=20
+>> +Having this generalization also helps with implementing a generic macro=
+ that
+>> +automatically generates the corresponding mappings between a value and =
+a number.
+>> +
+>> +| Complexity: Beginner
+>> +| Link: https://docs.rs/num/latest/num/trait.FromPrimitive.html
+>> +
+>> +Generic register abstraction
+>> +----------------------------
+>> +
+>> +Work out how register constants and structures can be automatically gen=
+erated
+>> +through generalized macros.
+>> +
+>> +Example:
+>> +
+>> +.. code-block:: rust
+>> +
+>> +=09register!(BOOT0, 0x0, u32, pci::Bar<SIZE>, Fields [
+>> +=09   MINOR_REVISION(3:0, RO),
+>> +=09   MAJOR_REVISION(7:4, RO),
+>> +=09   REVISION(7:0, RO), // Virtual register combining major and minor =
+rev.
+>> +=09])
+>> +
+>> +This could expand to something like:
+>> +
+>> +.. code-block:: rust
+>> +
+>> +=09const BOOT0_OFFSET: usize =3D 0x00000000;
+>> +=09const BOOT0_MINOR_REVISION_SHIFT: u8 =3D 0;
+>> +=09const BOOT0_MINOR_REVISION_MASK: u32 =3D 0x0000000f;
+>> +=09const BOOT0_MAJOR_REVISION_SHIFT: u8 =3D 4;
+>> +=09const BOOT0_MAJOR_REVISION_MASK: u32 =3D 0x000000f0;
+>> +=09const BOOT0_REVISION_SHIFT: u8 =3D BOOT0_MINOR_REVISION_SHIFT;
+>> +=09const BOOT0_REVISION_MASK: u32 =3D BOOT0_MINOR_REVISION_MASK | BOOT0=
+_MAJOR_REVISION_MASK;
+>> +
+>> +=09struct Boot0(u32);
+>> +
+>> +=09impl Boot0 {
+>> +=09   #[inline]
+>> +=09   fn read(bar: &RevocableGuard<'_, pci::Bar<SIZE>>) -> Self {
+>> +=09      Self(bar.readl(BOOT0_OFFSET))
+>> +=09   }
+>> +
+>> +=09   #[inline]
+>> +=09   fn minor_revision(&self) -> u32 {
+>> +=09      (self.0 & BOOT0_MINOR_REVISION_MASK) >> BOOT0_MINOR_REVISION_S=
+HIFT
+>> +=09   }
+>> +
+>> +=09   #[inline]
+>> +=09   fn major_revision(&self) -> u32 {
+>> +=09      (self.0 & BOOT0_MAJOR_REVISION_MASK) >> BOOT0_MAJOR_REVISION_S=
+HIFT
+>> +=09   }
+>> +
+>> +=09   #[inline]
+>> +=09   fn revision(&self) -> u32 {
+>> +=09      (self.0 & BOOT0_REVISION_MASK) >> BOOT0_REVISION_SHIFT
+>> +=09   }
+>> +=09}
+>> +
+>> +Usage:
+>> +
+>> +.. code-block:: rust
+>> +
+>> +=09let bar =3D bar.try_access().ok_or(ENXIO)?;
+>> +
+>> +=09let boot0 =3D Boot0::read(&bar);
+>> +=09pr_info!("Revision: {}\n", boot0.revision());
+>> +
+>> +| Complexity: Advanced
+>> +
+>> +Delay / Sleep abstractions
+>> +--------------------------
+>> +
+>> +Rust abstractions for the kernel's delay() and sleep() functions.
+>> +
+>> +There is some ongoing work from FUJITA Tomonori [1], which has not seen=
+ any updates
+>> +since Oct. 24.
+>> +
+>> +| Complexity: Beginner
+>> +| Link: https://lore.kernel.org/netdev/20241001112512.4861-2-fujita.tom=
+onori@gmail.com/ [1]
+>> +
+>> +IRQ abstractions
+>> +----------------
+>> +
+>> +Rust abstractions for IRQ handling.
+>> +
+>> +There is active ongoing work from Daniel Almeida [1] for the "core" abs=
+tractions
+>> +to request IRQs.
+>> +
+>> +Besides optional review and testing work, the required ``pci::Device`` =
+code
+>> +around those core abstractions needs to be worked out.
+>> +
+>> +| Complexity: Intermediate
+>> +| Link: https://lore.kernel.org/lkml/20250122163932.46697-1-daniel.alme=
+ida@collabora.com/ [1]
+>> +| Contact: Daniel Almeida
+>> +
+>> +Page abstraction for foreign pages
+>> +----------------------------------
+>> +
+>> +Rust abstractions for pages not created by the Rust page abstraction wi=
+thout
+>> +direct ownership.
+>> +
+>> +There is active onging work from Abdiel Janulgue [1] and Lina [2].
+>> +
+>> +| Complexity: Advanced
+>> +| Link: https://lore.kernel.org/linux-mm/20241119112408.779243-1-abdiel=
+.janulgue@gmail.com/ [1]
+>> +| Link: https://lore.kernel.org/rust-for-linux/20250202-rust-page-v1-0-=
+e3170d7fe55e@asahilina.net/ [2]
+>> +
+>> +Scatterlist / sg_table abstractions
+>> +-----------------------------------
+>> +
+>> +Rust abstractions for scatterlist / sg_table.
+>> +
+>> +There is preceding work from Abdiel Janulgue, which hasn't made it to t=
+he
+>> +mailing list yet.
+>> +
+>> +| Complexity: Intermediate
+>> +| Contact: Abdiel Janulgue
+>> +
+>> +ELF utils
+>> +---------
+>> +
+>> +Rust implementation of ELF header representation to retrieve section he=
+ader
+>> +tables, names, and data from an ELF-formatted images.
+>> +
+>> +There is preceding work from Abdiel Janulgue, which hasn't made it to t=
+he
+>> +mailing list yet.
+>> +
+>> +| Complexity: Beginner
+>> +| Contact: Abdiel Janulgue
+>> +
+>> +PCI MISC APIs
+>> +-------------
+>> +
+>> +Extend the existing PCI device / driver abstractions by SR-IOV, config =
+space,
+>> +capability, MSI API abstractions.
+>> +
+>> +| Complexity: Beginner
+>> +
+>> +Auxiliary bus abstractions
+>> +--------------------------
+>> +
+>> +Rust abstraction for the auxiliary bus APIs.
+>> +
+>> +This is needed to connect nova-core to the nova-drm driver.
+>> +
+>> +| Complexity: Intermediate
+>> +
+>> +Debugfs abstractions
+>> +--------------------
+>> +
+>> +Rust abstraction for debugfs APIs.
+>> +
+>> +| Reference: Export GSP log buffers
+>> +| Complexity: Intermediate
+>> +
+>> +Vec extensions
+>> +--------------
+>> +
+>> +Implement ``Vec::truncate`` and ``Vec::resize``.
+>> +
+>> +Currently this is used for some experimental code to parse the vBIOS.
+>> +
+>> +| Reference vBIOS support
+>> +| Complexity: Beginner
+>> +
+>> +GPU (general)
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +Parse firmware headers
+>> +----------------------
+>> +
+>> +Parse ELF headers from the firmware files loaded from the filesystem.
+>> +
+>> +| Reference: ELF utils
+>> +| Complexity: Beginner
+>> +| Contact: Abdiel Janulgue
+>> +
+>> +Build radix3 page table
+>> +-----------------------
+>> +
+>> +Build the radix3 page table to map the firmware.
+>> +
+>> +| Complexity: Intermediate
+>> +| Contact: Abdiel Janulgue
+>> +
+>> +vBIOS support
+>> +-------------
+>> +
+>> +Parse the vBIOS and probe the structures required for driver initializa=
+tion.
+>> +
+>> +| Contact: Dave Airlie
+>> +| Reference: Vec extensions
+>> +| Complexity: Intermediate
+>> +
+>> +Initial Devinit support
+>> +-----------------------
+>> +
+>> +Implement BIOS Device Initialization, i.e. memory sizing, waiting, PLL
+>> +configuration.
+>> +
+>> +| Contact: Dave Airlie
+>> +| Complexity: Beginner
+>> +
+>> +Boot Falcon controller
+>> +----------------------
+>> +
+>> +Infrastructure to load and execute falcon (sec2) firmware images; handl=
+e the
+>> +GSP falcon processor and fwsec loading.
+>> +
+>> +| Complexity: Advanced
+>> +| Contact: Dave Airlie
+>> +
+>> +GPU Timer support
+>> +-----------------
+>> +
+>> +Support for the GPU's internal timer peripheral.
+>> +
+>> +| Complexity: Beginner
+>> +| Contact: Dave Airlie
+>> +
+>> +MMU / PT management
+>> +-------------------
+>> +
+>> +Work out the architecture for MMU / page table management.
+>> +
+>> +We need to consider that nova-drm will need rather fine-grained control=
+,
+>> +especially in terms of locking, in order to be able to implement asynch=
+ronous
+>> +Vulkan queues.
+>> +
+>> +While generally sharing the corresponding code is desirable, it needs t=
+o be
+>> +evaluated how (and if at all) sharing the corresponding code is expedie=
+nt.
+>> +
+>> +| Complexity: Expert
+>> +
+>> +VRAM memory allocator
+>> +---------------------
+>> +
+>> +Investigate options for a VRAM memory allocator.
+>> +
+>> +Some possible options:
+>> +  - Rust abstractions for
+>> +    - RB tree (interval tree) / drm_mm
+>> +    - maple_tree
+>> +  - native Rust collections
+>> +
+>> +| Complexity: Advanced
+>> +
+>> +Instance Memory
+>> +---------------
+>> +
+>> +Implement support for instmem (bar2) used to store page tables.
+>> +
+>> +| Complexity: Intermediate
+>> +| Contact: Dave Airlie
+>> +
+>> +GPU System Processor (GSP)
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+>> +
+>> +Export GSP log buffers
+>> +----------------------
+>> +
+>> +Recent patches from Timur Tabi [1] added support to expose GSP-RM log b=
+uffers
+>> +(even after failure to probe the driver) through debugfs.
+>> +
+>> +This is also an interesting feature for nova-core, especially in the ea=
+rly days.
+>> +
+>> +| Link: https://lore.kernel.org/nouveau/20241030202952.694055-2-ttabi@n=
+vidia.com/ [1]
+>> +| Reference: Debugfs abstractions
+>> +| Complexity: Intermediate
+>> +
+>> +GSP firmware abstraction
+>> +------------------------
+>> +
+>> +The GSP-RM firmware API is unstable and may incompatibly change from ve=
+rsion to
+>> +version, in terms of data structures and semantics.
+>> +
+>> +This problem is one of the big motivations for using Rust for nova-core=
+, since
+>> +it turns out that Rust's procedural macro feature provides a rather ele=
+gant way
+>> +to address this issue:
+>> +
+>> +1. generate Rust structures from the C headers in a separate namespace =
+per version
+>> +2. build abstraction structures (within a generic namespace) that imple=
+ment the
+>> +   firmware interfaces; annotate the differences in implementation with=
+ version
+>> +   identifiers
+>> +3. use a procedural macro to generate the actual per version implementa=
+tion out
+>> +   of this abstraction
+>> +4. instantiate the correct version type one on runtime (can be sure tha=
+t all
+>> +   have the same interface because it's defined by a common trait)
+>> +
+>> +There is a PoC implementation of this pattern, in the context of the no=
+va-core
+>> +PoC driver.
+>> +
+>> +This task aims at refining the feature and ideally generalize it, to be=
+ usable
+>> +by other drivers as well.
+>> +
+>> +| Complexity: Expert
+>> +
+>> +GSP message queue
+>> +-----------------
+>> +
+>> +Implement low level GSP message queue (command, status) for communicati=
+on
+>> +between the kernel driver and GSP.
+>> +
+>> +| Complexity: Advanced
+>> +| Contact: Dave Airlie
+>> +
+>> +Bootstrap GSP
+>> +-------------
+>> +
+>> +Call the boot firmware to boot the GSP processor; execute initial contr=
+ol
+>> +messages.
+>> +
+>> +| Complexity: Intermediate
+>> +| Contact: Dave Airlie
+>> +
+>> +Client / Device APIs
+>> +--------------------
+>> +
+>> +Implement the GSP message interface for client / device allocation and =
+the
+>> +corresponding client and device allocation APIs.
+>> +
+>> +| Complexity: Intermediate
+>> +| Contact: Dave Airlie
+>> +
+>> +Bar PDE handling
+>> +----------------
+>> +
+>> +Synchronize page table handling for BARs between the kernel driver and =
+GSP.
+>> +
+>> +| Complexity: Beginner
+>> +| Contact: Dave Airlie
+>> +
+>> +FIFO engine
+>> +-----------
+>> +
+>> +Implement support for the FIFO engine, i.e. the corresponding GSP messa=
+ge
+>> +interface and provide an API for chid allocation and channel handling.
+>> +
+>> +| Complexity: Advanced
+>> +| Contact: Dave Airlie
+>> +
+>> +GR engine
+>> +---------
+>> +
+>> +Implement support for the graphics engine, i.e. the corresponding GSP m=
+essage
+>> +interface and provide an API for (golden) context creation and promotio=
+n.
+>> +
+>> +| Complexity: Advanced
+>> +| Contact: Dave Airlie
+>> +
+>> +CE engine
+>> +---------
+>> +
+>> +Implement support for the copy engine, i.e. the corresponding GSP messa=
+ge
+>> +interface.
+>> +
+>> +| Complexity: Intermediate
+>> +| Contact: Dave Airlie
+>> +
+>> +VFN IRQ controller
+>> +------------------
+>> +
+>> +Support for the VFN interrupt controller.
+>> +
+>> +| Complexity: Intermediate
+>> +| Contact: Dave Airlie
+>> +
+>> +External APIs
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +nova-core base API
+>> +------------------
+>> +
+>> +Work out the common pieces of the API to connect 2nd level drivers, i.e=
+. vGPU
+>> +manager and nova-drm.
+>> +
+>> +| Complexity: Advanced
+>> +
+>> +vGPU manager API
+>> +----------------
+>> +
+>> +Work out the API parts required by the vGPU manager, which are not cove=
+red by
+>> +the base API.
+>> +
+>> +| Complexity: Advanced
+>> +
+>> +nova-core C API
+>> +---------------
+>> +
+>> +Implement a C wrapper for the APIs required by the vGPU manager driver.
+>> +
+>> +| Complexity: Intermediate
+>> +
+>> +Testing
+>> +=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +CI pipeline
+>> +-----------
+>> +
+>> +Investigate option for continuous integration testing.
+>> +
+>> +This can go from as simple as running KUnit tests over running (graphic=
+s) CTS to
+>> +booting up (multiple) guest VMs to test VFIO use-cases.
+>> +
+>> +It might also be worth to consider the introduction of a new test suite=
+ directly
+>> +sitting on top of the uAPI for more targeted testing and debugging. The=
+re may be
+>> +options for collaboration / shared code with the Mesa project.
+>> +
+>> +| Complexity: Advanced
+>> diff --git a/Documentation/gpu/nova/guidelines.rst b/Documentation/gpu/n=
+ova/guidelines.rst
+>> new file mode 100644
+>> index 000000000000..13ab13984a18
+>> --- /dev/null
+>> +++ b/Documentation/gpu/nova/guidelines.rst
+>> @@ -0,0 +1,69 @@
+>> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>> +
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +Guidelines
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +This document describes the general project guidelines that apply to no=
+va-core
+>> +and nova-drm.
+>> +
+>> +Language
+>> +=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +The Nova project uses the Rust programming language. In this context, a=
+ll rules
+>> +of the Rust for Linux project as documented in
+>> +:doc:`../../rust/general-information` apply. Additionally, the followin=
+g rules
+>> +apply.
+>> +
+>> +- Unless technically necessary otherwise (e.g. uAPI), any driver code i=
+s written
+>> +  in Rust.
+>> +
+>> +- Unless technically necessary, unsafe Rust code must be avoided. In ca=
+se of
+>> +  technical necessity, unsafe code should be isolated in a separate com=
+ponent
+>> +  providing a safe API for other driver code to use.
+>> +
+>> +Style
+>> +-----
+>> +
+>> +All rules of the Rust for Linux project as documented in
+>> +:doc:`../../rust/coding-guidelines` apply.
+>> +
+>> +For a submit checklist, please also see the `Rust for Linux Submit chec=
+klist
+>> +addendum <https://rust-for-linux.com/contributing#submit-checklist-adde=
+ndum>`_.
+>> +
+>> +Documentation
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +The availability of proper documentation is essential in terms of scala=
+bility,
+>> +accessibility for new contributors and maintainability of a project in =
+general,
+>> +but especially for a driver running as complex hardware as Nova is targ=
+eting.
+>> +
+>> +Hence, adding documentation of any kind is very much encouraged by the =
+project.
+>> +
+>> +Besides that, there are some minimum requirements.
+>> +
+>> +- Every non-private structure needs at least a brief doc comment explai=
+ning the
+>> +  semantical sense of the structure, as well as potential locking and l=
+ifetime
+>> +  requirements. It is encouraged to have the same minimum documentation=
+ for
+>> +  non-trivial private structures.
+>> +
+>> +- uAPIs must be fully documented with kernel-doc comments; additionally=
+, the
+>> +  semantical behavior must be explained including potential special or =
+corner
+>> +  cases.
+>> +
+>> +- The APIs connecting the 1st level driver (nova-core) with 2nd level d=
+rivers
+>> +  must be fully documented. This includes doc comments, potential locki=
+ng and
+>> +  lifetime requirements, as well as example code if applicable.
+>> +
+>> +- Abbreviations must be explained when introduced; terminology must be =
+uniquely
+>> +  defined.
+>> +
+>> +- Register addresses, layouts, shift values and masks must be defined p=
+roperly;
+>> +  unless obvious, the semantical sense must be documented. This only ap=
+plies if
+>> +  the author is able to obtain the corresponding information.
+>> +
+>> +Acceptance Criteria
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +- Patches must only be applied if reviewed by at least one other person=
+ on the
+>> +  mailing list; this also applies for maintainers.
+>> diff --git a/Documentation/gpu/nova/index.rst b/Documentation/gpu/nova/i=
+ndex.rst
+>> new file mode 100644
+>> index 000000000000..2701b3f4af35
+>> --- /dev/null
+>> +++ b/Documentation/gpu/nova/index.rst
+>> @@ -0,0 +1,30 @@
+>> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>> +
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +nova NVIDIA GPU drivers
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +The nova driver project consists out of two separate drivers nova-core =
+and
+>> +nova-drm and intends to supersede the nouveau driver for NVIDIA GPUs ba=
+sed on
+>> +the GPU System Processor (GSP).
+>> +
+>> +The following documents apply to both nova-core and nova-drm.
+>> +
+>> +.. toctree::
+>> +   :titlesonly:
+>> +
+>> +   guidelines
+>> +
+>> +nova-core
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +The nova-core driver is the core driver for NVIDIA GPUs based on GSP. n=
+ova-core,
+>> +as the 1st level driver, provides an abstraction around the GPUs hard- =
+and
+>> +firmware interfaces providing a common base for 2nd level drivers, such=
+ as the
+>> +vGPU manager VFIO driver and the nova-drm driver.
+>> +
+>> +.. toctree::
+>> +   :titlesonly:
+>> +
+>> +   core/guidelines
+>> +   core/todo
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 5d5b7ed7da9e..ed618e8757a5 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -7454,6 +7454,7 @@ Q:=09https://patchwork.freedesktop.org/project/nou=
+veau/
+>>  B:=09https://gitlab.freedesktop.org/drm/nova/-/issues
+>>  C:=09irc://irc.oftc.net/nouveau
+>>  T:=09git https://gitlab.freedesktop.org/drm/nova.git nova-next
+>> +F:=09Documentation/gpu/nova/
+>>  F:=09drivers/gpu/nova-core/
+>>
+>>  DRM DRIVER FOR OLIMEX LCD-OLINUXINO PANELS
+>> --
+>> 2.48.1
+>>
+>>
+
