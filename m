@@ -1,85 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2494E86325;
-	Thu, 13 Feb 2025 05:42:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90085207A11
+	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 06:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739425355; cv=none; b=HTsI3J/55jAcszujl99rjy7acmW2Eo8G+ed4HaRcLxK5tNRpqCQEV4T1LfCRosD8TLsrvQe+q2sL0on5+dr+o71W9fv3pwrFwJ45ffeU11/ZfhY/vulxQLQqDnaUNGdMLRuXqfDyimnoG4nDD950W3TesJ/9yXumw+WMm95vIzo=
+	t=1739429658; cv=none; b=H5PvxbAWqiwpa2qJCg20WNcQ6DmV2Hbsg2G9BBl90ZPZTBO+O0jOjJsapDlyh7YmhBPTBY+GNO8toQXJfwla/UgL72Au3TRTvTfMPpXrXqxMb7+t0IJeksys6KDYLOEK+d4yCAunpPp5fpMqc0wgHmngXyKejwTo6JLmP3nmYsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739425355; c=relaxed/simple;
-	bh=1oy+f0Vu6QrT48bg7Fr1czgxZtf91HbCjHjLvrt5GRs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lZcHOEy2n7aljqx8kYxfyzQ47KpjTVwBw++Y1/cDjh+MTFCyzFLGIblDAzFaYl8dVzu9+4u8TzPewMkmUn1H2ck0eyvi8jemQHWJBqxcKghR4oM7V5ddOxC37dKQri2tyAoL+CGbmsE7QTbzP6ecLDntQ1bWZSXAjwZr2fqXeNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XUdH4Trm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739429658; c=relaxed/simple;
+	bh=/yzdYtH4YY0bjMwJcW3eRmS8j75+nWXBCn9ujfFhxSY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=PSAxEQdcFdC5A3VOgww6n5/aphxdkEAyw+84Mi+U3SJaDYw3V80B1dydZf2RC2OeRdfBLQjIre0nE3dPxJ/OJSObAfgEkOSWQLH+ys0nCv5tqdfgiaeGKwomOOeVTM33AFbyEnwXgf2gALmH2W3QMjasOd5KhA9liYIz6mI/9x4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=K6QsZx6s; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XUdH4Trm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 824D8C4CEE4;
-	Thu, 13 Feb 2025 05:42:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739425354;
-	bh=1oy+f0Vu6QrT48bg7Fr1czgxZtf91HbCjHjLvrt5GRs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XUdH4TrmU3PSPCNlyk4h7mN5QouLNiNCyFDFtazYjadLZYVLYnDXpbDAYVyzUG7eZ
-	 x42pdan40CIzw19MPBD/lqCow1ApzMuOXlUG5G65r1hmlwtFbvE80XZqqUvvzAlYqQ
-	 rvqH8jOtXP+MAnTYJ50LAwhm/Y8Yhyjd4FJ2MQCb4FkQ8/wx97DmzeLBqdUJt16XdE
-	 Hsole4MN2PY8lj1QgLKU/k9Wc/LzDmRkcRdiueCdUq2kCpBj3nZuthGCjY7bbF+oPr
-	 zHnmnl/TFzWmE141A6pEsLVUsboYKpfcJ4VurLONAB20RNvDJfTH2O0KgMgynk9TRM
-	 2JlImTMW0uYdQ==
-From: alexs@kernel.org
-To: 
-Cc: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] docs/zh_CN: add few request for Chinese translation
-Date: Thu, 13 Feb 2025 13:42:15 +0800
-Message-ID: <20250213054222.21776-2-alexs@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250213054222.21776-1-alexs@kernel.org>
-References: <20250213054222.21776-1-alexs@kernel.org>
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="K6QsZx6s"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-220c92c857aso8516875ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Feb 2025 22:54:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1739429655; x=1740034455; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pVRbFgdW3C2VjPS6glvqhPThuCYMsgRY+pw4xzl9/Z0=;
+        b=K6QsZx6soGddqHHAQ8vVPNDEHzYML3wLdMO08D8d6RJyCZTohRlL2UxBsBN1HSOFd3
+         nbxXMFpbZj6uHLYHa4UZllFiEXk3X/UbqQRi7X7QfbJTdUMdUudwzQhm8RrhgXd7bcTe
+         TrflT0JP9HO/kJVCSa57mPtb//9Aj2X2vfUNU5FeDwwnIdZiWTpxmaT1yx+E4+RbPTMl
+         3WqD+gCLA6YYPn1yfUP3FbhLMSnzZoqenRk9XGKJKhNBU9Z3aWFCVKuRi9FBr3Eyje9p
+         dKm1JYp6OVzil9CCa3PLkjQhiAplUymD4COTLiBfjKNk6jTdE8bWO7pxBytuSd2ipozz
+         WUjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739429655; x=1740034455;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pVRbFgdW3C2VjPS6glvqhPThuCYMsgRY+pw4xzl9/Z0=;
+        b=FXkyagHtsudSyvp2XTi32q90VW/WfNaLUE/tAaz+hDpRzJ4uzqMyvfepQhO1bGXVOX
+         Qia+8Eedo3m65whOq9yMURGmml+UTpRaWSUP+F/9QGeQ7Jil58u9ay6v/jmnNO5RqRdr
+         mMskFhy0y4Mo4EDmaqQ0ru39Lk7VaaBXzmqEAYRxdyfkb82wDfO75fXrLGhgSG33LJz4
+         hoqjLAXzTgliOfPS9X2ck3lcbP6E7jRP5T3B1SsF2LEbCpmlYqrb7pyU1cuLP3coEbmm
+         MVBUmvL3VKMRxGmefDrz7CHXUCnrrS9Sx11B+eEMbzu3eaotOABX1V3fkSjbR/0a7maC
+         b1ig==
+X-Forwarded-Encrypted: i=1; AJvYcCWK6C4SyClr7z9qCcokkhvSjyuFakDSViWR53FLXUgiQfXBLNvSActx9TliWJWCHfxZ/qjIiEXtCyE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/Qqx1jmr9YFwYEuLKBVsIgWndHEgq3g3Czg8gvnsq2oINm2bI
+	9NOnlHSTv2j2AbZv6mELmhuMz2FUab+WdeFeSAezjA/is8d1ZOe8yy2d6fFkfHc=
+X-Gm-Gg: ASbGncsME0MA0qzwjOj78ua8TKak7rfTkFiu3+MiSY0dKw9lovNjExPEN9jlfMh6YHD
+	qnM+K/VLkL+OtDvp781WOGLGh5FGpujudhoTq9XUqP7CnDYycvCCy5VrEj2cks9bW7sxFm3X9W1
+	Hw6GtlVgOhMVHcfEWTd/7Uo21bdz/DrDfxk7EKqPNTEFkVlhcu8ptw7rC5onUIUoNNoIFsag9Hm
+	3ovjALgZO08Lccx4iBNeC0GRycA5xfJLfDKkHJEhaVtwCT9AS+nNLIjR9bRevqEsIFW+fPyULUS
+	MPrOCNpjfd4GM+WUdkE=
+X-Google-Smtp-Source: AGHT+IHM0So4p/83DwxmEtYjGdBS7+MraFx0suhYHvvs65nwUSgOl1qYUwzLV/IIAGbVQphJY2u2vg==
+X-Received: by 2002:a05:6a20:7351:b0:1ee:5cf2:9c01 with SMTP id adf61e73a8af0-1ee6c61abe9mr2996634637.5.1739429654761;
+        Wed, 12 Feb 2025 22:54:14 -0800 (PST)
+Received: from localhost ([157.82.205.237])
+        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-adb57d542f1sm516772a12.2.2025.02.12.22.54.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Feb 2025 22:54:14 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+Date: Thu, 13 Feb 2025 15:54:06 +0900
+Subject: [PATCH net-next] tun: Pad virtio headers
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250213-buffers-v1-1-ec4a0821957a@daynix.com>
+X-B4-Tracking: v=1; b=H4sIAA2XrWcC/z3MywrCMBCF4VcJszYwSWOkeRXpookTzSZqLqVQ+
+ u4dVFwe/sO3QaWSqIITGxRaUk3PzEOdBITHnO8k0403aNRnVMpK32OkUuVoSRkfUQ8xAL9fhWJ
+ aP9IVMjWZaW0wfUuhd2e6/fJfdoJdo/SAsvUsLZs4m9FjuLjFwrTvB//iwYOhAAAA
+X-Change-ID: 20250116-buffers-96e14bf023fc
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
+ devel@daynix.com
+Cc: Akihiko Odaki <akihiko.odaki@daynix.com>
+X-Mailer: b4 0.14.2
 
-From: Alex Shi <alexs@kernel.org>
+tun used to simply advance iov_iter when it needs to pad virtio header,
+which leaves the garbage in the buffer as is. This is especially
+problematic when tun starts to allow enabling the hash reporting
+feature; even if the feature is enabled, the packet may lack a hash
+value and may contain a hole in the virtio header because the packet
+arrived before the feature gets enabled or does not contain the
+header fields to be hashed. If the hole is not filled with zero, it is
+impossible to tell if the packet lacks a hash value.
 
-A good checked summit could save much time for linux-doc maintainer.
+In theory, a user of tun can fill the buffer with zero before calling
+read() to avoid such a problem, but leaving the garbage in the buffer is
+awkward anyway so fill the buffer in tun.
 
-Signed-off-by: Alex Shi <alexs@kernel.org>
-Cc: Yanteng Si <siyanteng@loongson.cn> 
-Cc: Jonathan Corbet <corbet@lwn.net> 
-Cc: linux-doc@vger.kernel.org 
-Cc: linux-kernel@vger.kernel.org 
+The specification also says the device MUST set num_buffers to 1 when
+the field is present so set it when the specified header size is big
+enough to contain the field.
+
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- Documentation/translations/zh_CN/index.rst | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/net/tap.c      |  2 +-
+ drivers/net/tun.c      |  6 ++++--
+ drivers/net/tun_vnet.h | 14 +++++++++-----
+ 3 files changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 7574e1673180..cc512ca54172 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -26,7 +26,13 @@
- 顺便说下，中文文档也需要遵守内核编码风格，风格中中文和英文的主要不同就是中文
- 的字符标点占用两个英文字符宽度，所以，当英文要求不要超过每行100个字符时，
- 中文就不要超过50个字符。另外，也要注意'-'，'='等符号与相关标题的对齐。在将
--补丁提交到社区之前，一定要进行必要的 ``checkpatch.pl`` 检查和编译测试。
-+补丁提交到社区之前，一定要进行必要的 ``checkpatch.pl`` 检查和编译测试，确保
-+在 ``make htmldocs/pdfdocs`` 中不增加新的告警，最后，安装检查你生成的
-+html/pdf 文件，确认它们看起来是正常的。
-+
-+提交之前请确认你的补丁可以正常提交到中文文档维护库:
-+https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git/
-+如果你的补丁依赖于其他人的补丁, 可以与其他人商量后由某一个人合并提交。
+diff --git a/drivers/net/tap.c b/drivers/net/tap.c
+index 1287e241f4454fb8ec4975bbaded5fbaa88e3cc8..d96009153c316f669e626d95002e5fe8add3a1b2 100644
+--- a/drivers/net/tap.c
++++ b/drivers/net/tap.c
+@@ -711,7 +711,7 @@ static ssize_t tap_put_user(struct tap_queue *q,
+ 	int total;
  
- 与Linux 内核社区一起工作
- ------------------------
+ 	if (q->flags & IFF_VNET_HDR) {
+-		struct virtio_net_hdr vnet_hdr;
++		struct virtio_net_hdr_v1 vnet_hdr;
+ 
+ 		vnet_hdr_len = READ_ONCE(q->vnet_hdr_sz);
+ 
+diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+index b14231a743915c2851eaae49d757b763ec4a8841..a3aed7e42c63d8b8f523c0141c7d970ab185178c 100644
+--- a/drivers/net/tun.c
++++ b/drivers/net/tun.c
+@@ -1987,7 +1987,9 @@ static ssize_t tun_put_user_xdp(struct tun_struct *tun,
+ 	ssize_t ret;
+ 
+ 	if (tun->flags & IFF_VNET_HDR) {
+-		struct virtio_net_hdr gso = { 0 };
++		struct virtio_net_hdr_v1 gso = {
++			.num_buffers = cpu_to_tun_vnet16(tun->flags, 1)
++		};
+ 
+ 		vnet_hdr_sz = READ_ONCE(tun->vnet_hdr_sz);
+ 		ret = tun_vnet_hdr_put(vnet_hdr_sz, iter, &gso);
+@@ -2040,7 +2042,7 @@ static ssize_t tun_put_user(struct tun_struct *tun,
+ 	}
+ 
+ 	if (vnet_hdr_sz) {
+-		struct virtio_net_hdr gso;
++		struct virtio_net_hdr_v1 gso;
+ 
+ 		ret = tun_vnet_hdr_from_skb(tun->flags, tun->dev, skb, &gso);
+ 		if (ret)
+diff --git a/drivers/net/tun_vnet.h b/drivers/net/tun_vnet.h
+index fd7411c4447ffb180e032fe3e22f6709c30da8e9..b4f406f522728f92266898969831c26a87930f6a 100644
+--- a/drivers/net/tun_vnet.h
++++ b/drivers/net/tun_vnet.h
+@@ -135,15 +135,17 @@ static inline int tun_vnet_hdr_get(int sz, unsigned int flags,
+ }
+ 
+ static inline int tun_vnet_hdr_put(int sz, struct iov_iter *iter,
+-				   const struct virtio_net_hdr *hdr)
++				   const struct virtio_net_hdr_v1 *hdr)
+ {
++	int content_sz = MIN(sizeof(*hdr), sz);
++
+ 	if (unlikely(iov_iter_count(iter) < sz))
+ 		return -EINVAL;
+ 
+-	if (unlikely(copy_to_iter(hdr, sizeof(*hdr), iter) != sizeof(*hdr)))
++	if (unlikely(copy_to_iter(hdr, content_sz, iter) != content_sz))
+ 		return -EFAULT;
+ 
+-	iov_iter_advance(iter, sz - sizeof(*hdr));
++	iov_iter_zero(sz - content_sz, iter);
+ 
+ 	return 0;
+ }
+@@ -157,11 +159,11 @@ static inline int tun_vnet_hdr_to_skb(unsigned int flags, struct sk_buff *skb,
+ static inline int tun_vnet_hdr_from_skb(unsigned int flags,
+ 					const struct net_device *dev,
+ 					const struct sk_buff *skb,
+-					struct virtio_net_hdr *hdr)
++					struct virtio_net_hdr_v1 *hdr)
+ {
+ 	int vlan_hlen = skb_vlan_tag_present(skb) ? VLAN_HLEN : 0;
+ 
+-	if (virtio_net_hdr_from_skb(skb, hdr,
++	if (virtio_net_hdr_from_skb(skb, (struct virtio_net_hdr *)hdr,
+ 				    tun_vnet_is_little_endian(flags), true,
+ 				    vlan_hlen)) {
+ 		struct skb_shared_info *sinfo = skb_shinfo(skb);
+@@ -179,6 +181,8 @@ static inline int tun_vnet_hdr_from_skb(unsigned int flags,
+ 		return -EINVAL;
+ 	}
+ 
++	hdr->num_buffers = cpu_to_tun_vnet16(flags, 1);
++
+ 	return 0;
+ }
+ 
+
+---
+base-commit: f54eab84fc17ef79b701e29364b7d08ca3a1d2f6
+change-id: 20250116-buffers-96e14bf023fc
+prerequisite-change-id: 20241230-tun-66e10a49b0c7:v6
+prerequisite-patch-id: 871dc5f146fb6b0e3ec8612971a8e8190472c0fb
+prerequisite-patch-id: 2797ed249d32590321f088373d4055ff3f430a0e
+prerequisite-patch-id: ea3370c72d4904e2f0536ec76ba5d26784c0cede
+prerequisite-patch-id: 837e4cf5d6b451424f9b1639455e83a260c4440d
+prerequisite-patch-id: ea701076f57819e844f5a35efe5cbc5712d3080d
+prerequisite-patch-id: 701646fb43ad04cc64dd2bf13c150ccbe6f828ce
+prerequisite-patch-id: 53176dae0c003f5b6c114d43f936cf7140d31bb5
+
+Best regards,
 -- 
-2.43.0
+Akihiko Odaki <akihiko.odaki@daynix.com>
 
