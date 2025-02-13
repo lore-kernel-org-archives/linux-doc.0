@@ -1,223 +1,306 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FA3211A06;
-	Thu, 13 Feb 2025 11:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0FF21D3CC;
+	Thu, 13 Feb 2025 11:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739447429; cv=none; b=I39Tmja93qJJXzowY43jsRhgqbMcK68SDL0C+/cXKmWV6SOOHxZzlIl+2UKFF88UY/dVtI5dONFd2PKKBlnqjhszauo/L9qKFp8/Qr+iaag7IyyuoQqhwNCscAEttfsFYIgfzPBNwadaydW9IoppcXMtm6lW9dVkAIYqkPEHiy0=
+	t=1739447792; cv=none; b=oPc8pn96IV0q0eJFddqRpwvwvGLGfR32Upse1cHyoh7CjgJ+211xuuFp3tP+7fdbCEAFA5HdZ9ieQn2YMAE6z0iBrRiueE9n7eViK6yWl7739k6odsLz6QteoQ0evkc6PqRrLxW8th+60q4Ze9CA128MdC81B/DngrI9G03kzWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739447429; c=relaxed/simple;
-	bh=Y6v7Cbp+Xf4wQubXKdSMUI+Vl4c6tYrKjSLTH9HgeYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MmS9AufCO07Za71mVJx+uSUb91zOm8WDvtb3a2Um2l8y/8omMYo6ZhZUkWZ4QkYye8F8qehscF+E7fa8mkrG9Jko/zRyxRp4ULfYgJc2TAXnvqoMH2Ve4q0R+qHP3V8kDaCGcAaKXa6SnVHustJECymvjHmH+8koh4glLYUfRJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IZiIdOqi; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739447792; c=relaxed/simple;
+	bh=ghBZb4LeXNFAxRwbZfY/PWXFl1qW/tllSEjqwf4N+Gs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fonz4uwJAGR1oiUqx4hdZ6IzfIL7/7oq+qQoCLCHVCGijF4P7ntJdClmPzNRt46vRF/mIen6VXzWjS5JHF0x2VHCVo3BrrzLJ+N2DbRBFq0JKTz4Mxl/W2/88ftbRAj+s9IsnTSu0fx8pSKucfHXOAeG80pSQTO0CEY0D/HVZmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TmOKPFu5; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZiIdOqi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739447427; x=1770983427;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Y6v7Cbp+Xf4wQubXKdSMUI+Vl4c6tYrKjSLTH9HgeYc=;
-  b=IZiIdOqiVBAx+HDaHOxDsN2Yl9LkMDf3mbjoyNfI3tlKrTHRij3Xtvjr
-   JiTerH3DKrFydUDnFOCWl2uf5SOeaH5I7SSPhxFklgmcw5VoXv7g6MQP1
-   pYtv/4geW5mGttgzUpy9uGILAX606DrJqP6Riz3/snzFoGylENcv33R1o
-   WBJsJW6b+p8LJBCIv9GGhREubbh38WitgZ8dbpFiUFv5+bUC4FobJbILP
-   kpUuefZer90QOf1fvf29xjbFC8Oa175gQoKqcBWo7WKxOzogw85emQcSS
-   dlWK5bHj525L/sZvPcZL923reozc+csK5O69SEVWvH8d3jtNsFZ78wdrX
-   A==;
-X-CSE-ConnectionGUID: 7Ixf/dvjSGyn4j3HAXKvGg==
-X-CSE-MsgGUID: 0uvZLy1fRSeWEbKFtFNEMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="65497230"
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="65497230"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 03:50:26 -0800
-X-CSE-ConnectionGUID: syf8Snt2TKa3BUIKH1lLEQ==
-X-CSE-MsgGUID: cKdFBmusQS+ECOdshtp8ZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="113299312"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Feb 2025 03:50:24 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tiXja-0016zp-09;
-	Thu, 13 Feb 2025 11:50:22 +0000
-Date: Thu, 13 Feb 2025 19:49:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Arcari <darcari@redhat.com>, linux-pm@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	David Arcari <darcari@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Jacob Pan <jacob.jun.pan@linux.intel.com>,
-	Len Brown <lenb@kernel.org>, Artem Bityutskiy <dedekind1@gmail.com>,
-	Prarit Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] intel_idle: introduce 'no_native' module parameter
-Message-ID: <202502131953.d3fHaDCE-lkp@intel.com>
-References: <20250211132741.99944-1-darcari@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TmOKPFu5"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21f818a980cso10825645ad.3;
+        Thu, 13 Feb 2025 03:56:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739447789; x=1740052589; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BwLhHFYExqqNuiSR4rgH/TrcT4atiQ6G03BeFgZQMC0=;
+        b=TmOKPFu5J3epjxZf9jLodv3CWVfC472yJpOuxTZxCAFz2YA70RCrMUbaZmTJ/RkXfJ
+         yP0v/kZ0X3E8gPPY1gv/krgYGl7xrhgnzQFZkvC0Q52V3FZ/Evo2OLaAGJFgfQ1Ypx0U
+         BRKqy1k7CGNmzLUhwKCVZqtlX1P28ARFxB+eNhMcwYYCcp58zYffiKMAIsZGIGufJjwl
+         hr90/ypAiiMCphSoqt/L9xo6YGJq4B9HBsby5CZRX7KUCVVtsvxz9X0hzyhCTgmwoFcA
+         s/7FDvMmpZkDb8CqpPmsxMi6ykkOmGwS5p4SeN2QjrTawR3gvkTlFo3XkcBhM9eUIAzD
+         q3QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739447789; x=1740052589;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BwLhHFYExqqNuiSR4rgH/TrcT4atiQ6G03BeFgZQMC0=;
+        b=Cu2wuwJeWJ669gq3XpIVnnfnD3rfM10V8nig9MyV+c+Ol99xJ8Cbo7mzCHtqIeNGCo
+         pqTtgxHK1cHTiEkVbXErukCP6YjVfiBDnnPMg01Xj/z1ajtiLRbnRSuriGmHJHeaRLHG
+         6XlOv6OYOvCUOkRMZKq5u+cxJEPf1/dIaWPo7BtITEuDKx1uXrAK/D/vufiXwW8H0uT0
+         yQ8mihBWuklOEZ3fcK7EKgiIiMpUtDYlgk4RNdunb+ijbhYJH7jUkGq1qYPlbmw3x7wk
+         Hs6nbjDYcxQQOu7J8TE6LErYulm/xlBSljb3J/982c22Njiik80oFTB1cCGUw99K3cvT
+         oseA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3jToIhTudizcllmbdjWn9bll05odj5q1XJ3iKIIbch+UMvloZ+zImBNijXakvZiJWz3r9MQuqEMM=@vger.kernel.org, AJvYcCV8cCutYK6B0cUBKNuwO3GpBY8Uz9ZwfcEXdR5ISTHTmfsqGtXxONdwByZxzLhpWv1u1zWLVLgLzbhtnhUvgVkJNNQe@vger.kernel.org, AJvYcCXZRpX7p2Uo9MMpSNxZCiCxz/8QJu13HzKW+WpvcrK+XwpJbhYdjZEkV30vV5/I6BRn1Oe3sDOoWMWQrbSh@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwITFN6RtDVRkXik7c0hx2sFZk+ffKjmRAimkGNCpnOjrsPVqU
+	RLN5yN3lmoC4H+GOy/11uoa9IRmkeYqu2PRcgvkSLfjw5edydT9h
+X-Gm-Gg: ASbGncuPlepW9sgF3JO+JZWaU7iWEQ2VzOV4ISvwiHxkIys+HT05RH1FaJQXaDNEUqK
+	qm/fu1X/ODi9pO1w9UOd1817FShvsspsnGi5+VxvRbPym05BET0paJINCNdJzmclnhWh/bKXNTR
+	rlKyd2DPzXyJlyROQ26aho36jtJtLcrznDM0BE1uz2G8Wa+intlhOQUgoQmQV81i+PJQuMbT9J1
+	NXY2bBlw0GvsSclsxMw6Iok0vdgjvvekqJs7MIkKgffypVlVPEZfwXLnNeaN33V7yyDWk8LXgF5
+	LT85g4cF2TZ9InSQzkX7m4hDUQv+CKz0CAeRH1/bFZc3D17COVUz+s+IVw0=
+X-Google-Smtp-Source: AGHT+IH5EtHF6E0reonc0RlrObvvjZqnrmXCtbMq77TTjxaNrST/fPrT6LmatZzXAocrJaP51f/gVg==
+X-Received: by 2002:a05:6a00:2da7:b0:730:7885:d903 with SMTP id d2e1a72fcca58-7322c3768fbmr10012244b3a.5.1739447789447;
+        Thu, 13 Feb 2025 03:56:29 -0800 (PST)
+Received: from ?IPV6:2409:40c0:2e:ea4:cd5f:9fc:dd5e:c44e? ([2409:40c0:2e:ea4:cd5f:9fc:dd5e:c44e])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7324273e3c3sm1136732b3a.92.2025.02.13.03.56.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Feb 2025 03:56:29 -0800 (PST)
+Message-ID: <1906f93a-dc32-4dbe-9b11-eabd4aad196e@gmail.com>
+Date: Thu, 13 Feb 2025 17:26:21 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250211132741.99944-1-darcari@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: trace: Refactor index documentation
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: mhiramat@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250206141453.139613-1-purvayeshi550@gmail.com>
+ <20250210174556.70fc53b7@gandalf.local.home>
+Content-Language: en-US
+From: Purva Yeshi <purvayeshi550@gmail.com>
+In-Reply-To: <20250210174556.70fc53b7@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi David,
+On 11/02/25 04:15, Steven Rostedt wrote:
+> On Thu,  6 Feb 2025 19:44:53 +0530
+> Purva Yeshi <purvayeshi550@gmail.com> wrote:
+> 
+> Note, subject should start with: "docs: tracing: ..." as "tracing" is the
+> subsystem and not "trace". Even though the directory is "trace" the
+> subsystem is "tracing".
+> 
 
-kernel test robot noticed the following build errors:
+Thanks for the clarification. I'll update the subject line in the next 
+version of the patch.
 
-[auto build test ERROR on acpi/next]
-[also build test ERROR on amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v6.14-rc2 next-20250213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>> Refactored Documentation/trace/index.rst to improve clarity, structure,
+>> and organization. Reformatted sections, added appropriate headings.
+>>
+>> Background of Patch:
+>> This patch is inspired by the maintainer's suggestion on the v1 patch to
+> 
+> Usually it's bad form to have a patch reference itself as "Patch". The
+> above could be written as:
+> 
+>     Background:
+>     These changes were inspired by...
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Arcari/intel_idle-introduce-no_native-module-parameter/20250211-213031
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lenb/linux.git next
-patch link:    https://lore.kernel.org/r/20250211132741.99944-1-darcari%40redhat.com
-patch subject: [PATCH v3] intel_idle: introduce 'no_native' module parameter
-config: i386-buildonly-randconfig-002-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131953.d3fHaDCE-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131953.d3fHaDCE-lkp@intel.com/reproduce)
+I'll reword the commit message as suggested and resend the updated 
+version shortly. I'll make sure to be more careful next time to avoid 
+such mistakes.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502131953.d3fHaDCE-lkp@intel.com/
+>> bring the documentation into real order, similar to commit '270beb5b2aae'
+>> from Linux 6.13, improving clarity, structure, and usability.
+>>
+>> Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
+>> ---
+>> V1 - https://lore.kernel.org/all/20250204133616.27694-1-purvayeshi550@gmail.com/
+>> V2 - Refined formatting and improved section organization.
+>>
+>>   Documentation/trace/index.rst | 86 ++++++++++++++++++++++++++++++-----
+>>   1 file changed, 75 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+>> index 2c991dc96..c4ff7e7de 100644
+>> --- a/Documentation/trace/index.rst
+>> +++ b/Documentation/trace/index.rst
+>> @@ -1,39 +1,103 @@
+>> -==========================
+>> -Linux Tracing Technologies
+>> -==========================
+>> +================================
+>> +Linux Tracing Technologies Guide
+>> +================================
+>> +
+>> +Tracing in the Linux kernel is a powerful mechanism that allows
+>> +developers and system administrators to analyze and debug system
+>> +behavior. This guide provides documentation on various tracing
+>> +frameworks and tools available in the Linux kernel.
+>> +
+>> +Introduction to Tracing
+>> +-----------------------
+>> +
+>> +This section provides an overview of Linux tracing mechanisms
+>> +and debugging approaches.
+>>   
+>>   .. toctree::
+>> -   :maxdepth: 2
+>> +   :maxdepth: 1
+> 
+> I don't really know what the maxdepth gives here, but there was no mention
+> in the change log why it had to be converted from 2 to 1.
+> 
 
-All error/warnings (new ones prefixed by >>):
+I changed :maxdepth: from 2 to 1 to simplify the table of contents, 
+keeping only document titles instead of also including second-level 
+section headings. The intent was to improve readability and navigation.
 
-   In file included from drivers/idle/intel_idle.c:48:
-   In file included from include/trace/events/power.h:12:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/idle/intel_idle.c:2289:20: error: use of undeclared identifier 'no_acpi'; did you mean 'no_action'?
-    2289 |         if (no_native && !no_acpi) {
-         |                           ^~~~~~~
-         |                           no_action
-   include/linux/interrupt.h:138:20: note: 'no_action' declared here
-     138 | extern irqreturn_t no_action(int cpl, void *dev_id);
-         |                    ^
->> drivers/idle/intel_idle.c:2289:20: warning: address of function 'no_action' will always evaluate to 'true' [-Wpointer-bool-conversion]
-    2289 |         if (no_native && !no_acpi) {
-         |                          ~^~~~~~~
-   drivers/idle/intel_idle.c:2289:20: note: prefix with the address-of operator to silence this warning
-    2289 |         if (no_native && !no_acpi) {
-         |                           ^
-         |                           &
-   2 warnings and 1 error generated.
+Additionally, I referred to commit '270beb5b2aae', as suggested by 
+Jonathan Corbet in the v1 patch, to align the documentation structure 
+accordingly.
 
+I'll update the commit message in the next revision to explicitly 
+mention this change.
 
-vim +2289 drivers/idle/intel_idle.c
+>>   
+>> -   ftrace-design
+>> +   debugging
+>> +   tracepoints
+>>      tracepoint-analysis
+>> +
+>> +Core Tracing Frameworks
+>> +-----------------------
+>> +
+>> +The following are the primary tracing frameworks integrated into
+>> +the Linux kernel.
+>> +
+>> +.. toctree::
+>> +   :maxdepth: 1
+>> +
+>>      ftrace
+>> +   ftrace-design
+>>      ftrace-uses
+>> -   fprobe
+>>      kprobes
+>>      kprobetrace
+>>      uprobetracer
+>>      fprobetrace
+>> -   tracepoints
+>> +   fprobe
+>> +
+>> +Event Tracing and Analysis
+>> +--------------------------
+>> +
+>> +A detailed explanation of event tracing mechanisms and their
+>> +applications.
+>> +
+>> +.. toctree::
+>> +   :maxdepth: 1
+>> +
+>>      events
+>>      events-kmem
+>>      events-power
+>>      events-nmi
+>>      events-msr
+>> -   mmiotrace
+>> +   boottime-trace
+>>      histogram
+>>      histogram-design
+>> -   boottime-trace
+>> -   debugging
+> 
+> 
+>>      hwlat_detector
+>>      osnoise-tracer
+>>      timerlat-tracer
+> 
+> The above 3 probably should be in the hardware interactions section below.
+> 
 
-  2248	
-  2249	static int __init intel_idle_init(void)
-  2250	{
-  2251		const struct x86_cpu_id *id;
-  2252		unsigned int eax, ebx, ecx;
-  2253		int retval;
-  2254	
-  2255		/* Do not load intel_idle at all for now if idle= is passed */
-  2256		if (boot_option_idle_override != IDLE_NO_OVERRIDE)
-  2257			return -ENODEV;
-  2258	
-  2259		if (max_cstate == 0) {
-  2260			pr_debug("disabled\n");
-  2261			return -EPERM;
-  2262		}
-  2263	
-  2264		id = x86_match_cpu(intel_idle_ids);
-  2265		if (id) {
-  2266			if (!boot_cpu_has(X86_FEATURE_MWAIT)) {
-  2267				pr_debug("Please enable MWAIT in BIOS SETUP\n");
-  2268				return -ENODEV;
-  2269			}
-  2270		} else {
-  2271			id = x86_match_cpu(intel_mwait_ids);
-  2272			if (!id)
-  2273				return -ENODEV;
-  2274		}
-  2275	
-  2276		if (boot_cpu_data.cpuid_level < CPUID_MWAIT_LEAF)
-  2277			return -ENODEV;
-  2278	
-  2279		cpuid(CPUID_MWAIT_LEAF, &eax, &ebx, &ecx, &mwait_substates);
-  2280	
-  2281		if (!(ecx & CPUID5_ECX_EXTENSIONS_SUPPORTED) ||
-  2282		    !(ecx & CPUID5_ECX_INTERRUPT_BREAK) ||
-  2283		    !mwait_substates)
-  2284				return -ENODEV;
-  2285	
-  2286		pr_debug("MWAIT substates: 0x%x\n", mwait_substates);
-  2287	
-  2288		icpu = (const struct idle_cpu *)id->driver_data;
-> 2289		if (no_native && !no_acpi) {
-  2290			if (icpu) {
-  2291				pr_debug("ignoring native cpu idle states\n");
-  2292				icpu = NULL;
-  2293			}
-  2294		}
-  2295		if (icpu) {
-  2296			if (icpu->state_table)
-  2297				cpuidle_state_table = icpu->state_table;
-  2298			else if (!intel_idle_acpi_cst_extract())
-  2299				return -ENODEV;
-  2300	
-  2301			auto_demotion_disable_flags = icpu->auto_demotion_disable_flags;
-  2302			if (icpu->disable_promotion_to_c1e)
-  2303				c1e_promotion = C1E_PROMOTION_DISABLE;
-  2304			if (icpu->use_acpi || force_use_acpi)
-  2305				intel_idle_acpi_cst_extract();
-  2306		} else if (!intel_idle_acpi_cst_extract()) {
-  2307			return -ENODEV;
-  2308		}
-  2309	
-  2310		pr_debug("v" INTEL_IDLE_VERSION " model 0x%X\n",
-  2311			 boot_cpu_data.x86_model);
-  2312	
-  2313		intel_idle_cpuidle_devices = alloc_percpu(struct cpuidle_device);
-  2314		if (!intel_idle_cpuidle_devices)
-  2315			return -ENOMEM;
-  2316	
-  2317		intel_idle_cpuidle_driver_init(&intel_idle_driver);
-  2318	
-  2319		retval = cpuidle_register_driver(&intel_idle_driver);
-  2320		if (retval) {
-  2321			struct cpuidle_driver *drv = cpuidle_get_driver();
-  2322			printk(KERN_DEBUG pr_fmt("intel_idle yielding to %s\n"),
-  2323			       drv ? drv->name : "none");
-  2324			goto init_driver_fail;
-  2325		}
-  2326	
-  2327		retval = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "idle/intel:online",
-  2328					   intel_idle_cpu_online, NULL);
-  2329		if (retval < 0)
-  2330			goto hp_setup_fail;
-  2331	
-  2332		pr_debug("Local APIC timer is reliable in %s\n",
-  2333			 boot_cpu_has(X86_FEATURE_ARAT) ? "all C-states" : "C1");
-  2334	
-  2335		return 0;
-  2336	
-  2337	hp_setup_fail:
-  2338		intel_idle_cpuidle_devices_uninit();
-  2339		cpuidle_unregister_driver(&intel_idle_driver);
-  2340	init_driver_fail:
-  2341		free_percpu(intel_idle_cpuidle_devices);
-  2342		return retval;
-  2343	
+Okay, I'll move hwlat_detector, osnoise-tracer, and timerlat-tracer to 
+the Hardware Tracing section in the next version of the patch.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>> +
+>> +Hardware and Performance Tracing
+>> +--------------------------------
+>> +
+>> +This section covers tracing features that monitor hardware
+>> +interactions and system performance.
+>> +
+>> +.. toctree::
+>> +   :maxdepth: 1
+>> +
+>>      intel_th
+> 
+>>      ring-buffer-design
+> 
+> The ring-buffer-design should be in "Core Tracing Frameworks".
+> 
+
+I'll move 'ring-buffer-design' to the Core Tracing Frameworks section.
+
+>>      ring-buffer-map
+> 
+> This describes how to map the ring buffer in user space. Maybe it should go
+> at the "Introduction" section?
+> 
+> 
+
+For ring-buffer-map, placing it in the Introduction section could 
+provide early context, but since it is more implementation-specific, it 
+might fit better under Core Tracing Frameworks alongside 
+ring-buffer-design. Would that placement works?
+
+>>      stm
+>>      sys-t
+>>      coresight/index
+>> -   user_events
+>>      rv/index
+>>      hisi-ptt
+>> +
+>> +User-space Tracing
+>> +------------------
+>> +
+>> +These tools allow tracing user-space applications and
+>> +interactions.
+>> +
+>> +.. toctree::
+>> +   :maxdepth: 1
+>> +
+>> +   user_events
+> 
+>> +   mmiotrace
+> 
+> mmiotrace traces events between hardware and the drivers. Perhaps this
+> should go up into the Hardware and Performance tracing.
+> 
+
+Okay, since 'mmiotrace' primarily traces MMIO interactions between 
+hardware and drivers, it makes more sense under Hardware and Performance 
+Tracing. I'll move it there in the next revision.
+
+>> +
+>> +Additional Resources
+>> +--------------------
+>> +
+>> +For more details, refer to the respective documentation of each
+>> +tracing tool and framework.
+>> +
+>> +.. only:: subproject and html
+>> +
+>> +   Indices
+>> +   =======
+>> +
+>> +   * :ref:`genindex`
+>> \ No newline at end of file
+> 
+> 
+> Thanks,
+> 
+> -- Steve
+
+Thanks for the suggestions. I'll incorporate these changes in the next 
+revision.
+
+Best regards,
+Purva Yeshi
+
