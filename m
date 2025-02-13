@@ -1,343 +1,185 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FAF21505B
-	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 09:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16A5202C27
+	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 09:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739437771; cv=none; b=IlgLVyPZnFsVq3Z75CcUnFyoyDCYmHjIpDSGt4OY1J69I6I9+Gmb0RVkvdir+YkfOt9aV+6ERjJ6TLzXspRx6V/xbCSqe4wwKhQmahxCZvTTOrBNlNf/3seUfsvWNbBVUx1H4ztX7l6l8KJdqyScGn37mIlXoz95bT/s4gKt688=
+	t=1739438644; cv=none; b=i/gn/lTABad1I+Qlb9wDWpxuWfV6Otp85btsDmhjELhVhjGs4MfKcW+QJ9tKBCjs6bSR9UPjk5GP70WR4hknEVq/kqRUEjiFrUrWMNGYu//1r3/vi3Lob0UuUUC8fkKRexfmAyjrUgD3NpbUA/XnprZvNwjrpi+PzWnmnzZN3SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739437771; c=relaxed/simple;
-	bh=IY7DU1BhjQRR5Coi7wNZ7++4LSEJz4/d+wLFVatOJNE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p8z6MggnxyCV7qveRIcASq6bSccz7nVy2Gw6G8Qzy9L3ZGkUumAnW1800NEmIcCV2ogTye/VGxOEUyLosSRMnPzt9TV5bdgZGp6KKbX94tWheTJGv04KOM76P3CQ25o4WTokj55kBsm24uYLR5L7OFYKo6SNNNXbRxOcA3orj7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Oe13ryZb; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1739438644; c=relaxed/simple;
+	bh=mfXNeTj+Q8ZX0NBisxbi4QQyQ/0LK4y+WrTTR40VPyo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZPvjlWcxIgfaqaed6hZbeZ3bxHaFlVGYBfcDZP7D1qnv4AiI5acYjmNlalqNNotAHDM9lT+GoLIzIJk5zZfXD8uM2XVBqhUFIAu2q1+pK6drp7sLgDRJb2s/4EMukSrNlIS8MErHHUh4Xncxhf6RtmMbJdBv/gvl7Xyna3KCbss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=KDjKOm6/; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Oe13ryZb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739437768;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rPPwrQnu9UKt/4NbsUXxMh/AuN498RxwAC9aj1izwuk=;
-	b=Oe13ryZbIFf6Ve0ywcXTjXsf211KPBLac1SFmaJcpxDnN9gKwrHEhccMC7sESLlNPNcPSQ
-	kTUuJe/5dnUOBlsjZu+Rx5fZIexploD2UbShM4ZlaFTOY79lYrONH5Vd8i1hf37BiScj+K
-	Ngq5miSMhoA0Gs6Q/Ej8F0dnOa5/dis=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-177-9wd51bs7NIy53NyX5dF7pg-1; Thu,
- 13 Feb 2025 04:09:26 -0500
-X-MC-Unique: 9wd51bs7NIy53NyX5dF7pg-1
-X-Mimecast-MFC-AGG-ID: 9wd51bs7NIy53NyX5dF7pg_1739437765
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F2C5B19373C4;
-	Thu, 13 Feb 2025 09:09:24 +0000 (UTC)
-Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.45.224.81])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8A7C11800365;
-	Thu, 13 Feb 2025 09:09:20 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-doc@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: Gabriele Monaco <gmonaco@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	John Kacur <jkacur@redhat.com>,
-	Clark Williams <williams@redhat.com>
-Subject: [PATCH v2 10/11] Documentation/rv: Add docs for the sched monitors
-Date: Thu, 13 Feb 2025 10:08:08 +0100
-Message-ID: <20250213090819.419470-11-gmonaco@redhat.com>
-In-Reply-To: <20250213090819.419470-1-gmonaco@redhat.com>
-References: <20250213090819.419470-1-gmonaco@redhat.com>
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="KDjKOm6/"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-220bff984a0so10628435ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 01:24:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1739438642; x=1740043442; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s+g1corMoWLkqgaHyL0dUry18PBH1WwZj6geDsmEd1Y=;
+        b=KDjKOm6/0FJ3659nApC3mh5Qz2KfuRT+TelHF+ecr+t08t0h66scPICfpH8q36dDdg
+         QNpyYENQ5hApsce4xKZYWc/6l7lwDw2r288/mzMSZmM2UxvpTjK75ljeTzV7dVByqdPx
+         /867R5Ei2/PaBSNEp/Zm6k3AXDyisesc3wjyzdVOAYEUdQpIIs7TjXWlfFeDZMbsFLCJ
+         CVv8SbBjU49ezKqdbXe8QNlTxp1p3no2ssUvpPSNsstvHvLmw7r9lIrAaqXlBpobaS/R
+         NwxC17uCq2KpdNFKZkZubeft8KN3u3yeKSIGiwp0FVQZSh49q1RyQYbPtIiJL11XeB5H
+         jegA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739438642; x=1740043442;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s+g1corMoWLkqgaHyL0dUry18PBH1WwZj6geDsmEd1Y=;
+        b=jzwzLoa27r/jO8fNFpx6ZP2SqtPKgKEGyvBjwSQmV7B18pgikQUwS92TAjabRE57gQ
+         L5yysypGxozrjDEXIhKPUyY2/MvGicLoaCoNJziLdjavXUjWdcAVSERmcF95ZTcMQlNE
+         YwAxGQrhOlErK7YF8qLsoFERR8Ux938lwxSlxry9FLyLWy9UpMXGupCrIu2ur2l93LwL
+         NhjIb5GVHJdCmrr6xA8ytDikNqxLUAk4wphdjg1OjxqAAmN7dJyzkeh3JCTfgy2iCXtd
+         6TdIqsV1C1o/vOjCZ0svsraoG3uZcXneC8dx2qPfjylldOfILd5WIIJmg71GtyKZddfU
+         vp7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUvBqPP1LoZAVeF1Cr6WvRgFTiuDTYNGudpTe0Fv6IJ32RL2UbEHy4IboJyvJRmCUk53cx7ldeP/9o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6vg5Fo91v+TpOsJ8rdUQdCYuX225/wjVuGBd0FBWAdmOKGwDr
+	CwdlYeJx/uyw8yJjcCwa0uFw5YQqFooxrc54IDZyrSbjrbzomAm2/lJnwyehRLE=
+X-Gm-Gg: ASbGncsoPnJCS7Vwnz/t46j/uTQtlDXGGewNvU1TfCxzYUkNhhugWh1kj/f7AYMkLfq
+	Qi+M5lw1NQwpQxXH6VC+VFiCivb2Bkyl4XKy0piqT2aaK+c6JXAJDl0irrbQQ+jgtbDtbqA0yGK
+	IYtqTboXpVSwo51Od7uZQ/GRC+GqIREYx+8CC1J825eSG10z5XMtmvfCFgSoFZsZrtZmrEcAjiA
+	1T0YwiYJQ9FtjqwB7pHtYU30EcEqQ0TDcsC2NURSE0RZGkAQkbf0TS2PS9JF0m9bL2B4FnQe9Ay
+	Byaheb9ExFnUNZFcPLroT83sH9Qd
+X-Google-Smtp-Source: AGHT+IGF+4e3Af2SCI8Rg8n4coZI7ErejXVy5bxQnzx65sHDQNZjtZ7hhVxDzaYqpoDifzZ7gAKFSQ==
+X-Received: by 2002:a17:902:e950:b0:220:c813:dfb2 with SMTP id d9443c01a7336-220d2153077mr52167375ad.44.1739438642097;
+        Thu, 13 Feb 2025 01:24:02 -0800 (PST)
+Received: from [157.82.205.237] ([157.82.205.237])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fc13ad3fb8sm805579a91.26.2025.02.13.01.23.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Feb 2025 01:24:01 -0800 (PST)
+Message-ID: <0fa16c0e-8002-4320-b7d3-d3d36f80008c@daynix.com>
+Date: Thu, 13 Feb 2025 18:23:55 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] tun: Pad virtio headers
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>,
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
+ devel@daynix.com
+References: <20250213-buffers-v1-1-ec4a0821957a@daynix.com>
+ <20250213020702-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20250213020702-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add man page and kernel documentation for the sched monitors, as sched
-is a container of other monitors, document all in the same page.
-sched is the first nested monitor, also explain what is a nested monitor
-and how enabling containers or children monitors work.
+On 2025/02/13 16:18, Michael S. Tsirkin wrote:
+> 
+> Commit log needs some work.
+> 
+> So my understanding is, this patch does not do much functionally,
+> but makes adding the hash feature easier. OK.
+> 
+> On Thu, Feb 13, 2025 at 03:54:06PM +0900, Akihiko Odaki wrote:
+>> tun used to simply advance iov_iter when it needs to pad virtio header,
+>> which leaves the garbage in the buffer as is. This is especially
+>> problematic
+> 
+> I think you mean "this will become especially problematic"
+> 
+>> when tun starts to allow enabling the hash reporting
+>> feature; even if the feature is enabled, the packet may lack a hash
+>> value and may contain a hole in the virtio header because the packet
+>> arrived before the feature gets enabled or does not contain the
+>> header fields to be hashed. If the hole is not filled with zero, it is
+>> impossible to tell if the packet lacks a hash value.
+>>
+>> In theory, a user of tun can fill the buffer with zero before calling
+>> read() to avoid such a problem, but leaving the garbage in the buffer is
+>> awkward anyway so fill the buffer in tun.
+> 
+> 
+> What is missing here is description of what the patch does.
+> I think it is
+> "Replace advancing the iterator with writing zeros".
+> 
+> There could be performance cost to the dirtying extra cache lines, though.
+> Could you try checking that please?
 
-To: Ingo Molnar <mingo@redhat.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: John Kacur <jkacur@redhat.com>
-Cc: Clark Williams <williams@redhat.com>
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
----
- Documentation/tools/rv/rv-mon-sched.rst  |  69 +++++++++
- Documentation/trace/rv/monitor_sched.rst | 171 +++++++++++++++++++++++
- 2 files changed, 240 insertions(+)
- create mode 100644 Documentation/tools/rv/rv-mon-sched.rst
- create mode 100644 Documentation/trace/rv/monitor_sched.rst
+It will not dirty extra cache lines; an explanation follows later. 
+Because of that, any benchmark are likely to show only noises, but if 
+you have an idea of workloads that should be tested, please tell me.
 
-diff --git a/Documentation/tools/rv/rv-mon-sched.rst b/Documentation/tools/rv/rv-mon-sched.rst
-new file mode 100644
-index 0000000000000..da0fe4c79ae52
---- /dev/null
-+++ b/Documentation/tools/rv/rv-mon-sched.rst
-@@ -0,0 +1,69 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
-+rv-mon-sched
-+============
-+-----------------------------
-+Scheduler monitors collection
-+-----------------------------
-+
-+:Manual section: 1
-+
-+SYNOPSIS
-+========
-+
-+**rv mon sched** [*OPTIONS*]
-+
-+**rv mon <NESTED_MONITOR>** [*OPTIONS*]
-+
-+**rv mon sched:<NESTED_MONITOR>** [*OPTIONS*]
-+
-+DESCRIPTION
-+===========
-+
-+The scheduler monitor collection is a container for several monitors to model
-+the behaviour of the scheduler. Each monitor describes a specification that
-+the scheduler should follow.
-+
-+As a monitor container, it will enable all nested monitors and set them
-+according to OPTIONS.
-+Nevertheless nested monitors can also be activated independently both by name
-+and by specifying sched: , e.g. to enable only monitor tss you can do any of:
-+
-+    # rv mon sched:tss
-+
-+    # rv mon tss
-+
-+See kernel documentation for further information about this monitor:
-+<https://docs.kernel.org/trace/rv/monitor_sched.html>
-+
-+OPTIONS
-+=======
-+
-+.. include:: common_ikm.rst
-+
-+NESTED MONITOR
-+==============
-+
-+The available nested monitors are:
-+  * scpd: schedule called with preemption disabled
-+  * snep: schedule does not enable preempt
-+  * sncid: schedule not called with interrupt disabled
-+  * snroc: set non runnable on its own context
-+  * sco: scheduling context operations
-+  * tss: task switch while scheduling
-+
-+SEE ALSO
-+========
-+
-+**rv**\(1), **rv-mon**\(1)
-+
-+Linux kernel *RV* documentation:
-+<https://www.kernel.org/doc/html/latest/trace/rv/index.html>
-+
-+AUTHOR
-+======
-+
-+Written by Gabriele Monaco <gmonaco@redhat.com>
-+
-+.. include:: common_appendix.rst
-diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
-new file mode 100644
-index 0000000000000..24b2c62a3bc26
---- /dev/null
-+++ b/Documentation/trace/rv/monitor_sched.rst
-@@ -0,0 +1,171 @@
-+Scheduler monitors
-+==================
-+
-+- Name: sched
-+- Type: container for multiple monitors
-+- Author: Gabriele Monaco <gmonaco@redhat.com>, Daniel Bristot de Oliveira <bristot@kernel.org>
-+
-+Description
-+-----------
-+
-+Monitors describing complex systems, such as the scheduler, can easily grow to
-+the point where they are just hard to understand because of the many possible
-+state transitions.
-+Often it is possible to break such descriptions into smaller monitors,
-+sharing some or all events. Enabling those smaller monitors concurrently is,
-+in fact, testing the system as if we had one single larger monitor.
-+Splitting models into multiple specification is not only easier to
-+understand, but gives some more clues when we see errors.
-+
-+The sched monitor is a set of specifications to describe the scheduler behaviour.
-+It includes several per-cpu and per-task monitors that work independently to verify
-+different specifications the scheduler should follow.
-+
-+To make this system as straightforward as possible, sched specifications are *nested*
-+monitors, whereas sched itself is a *container*.
-+From the interface perspective, sched includes other monitors as sub-directories,
-+enabling/disabling or setting reactors to sched, propagates the change to all monitors,
-+however single monitors can be used independently as well.
-+
-+It is important that future modules are built after their container (sched, in
-+this case), otherwise the linker would not respect the order and the nesting
-+wouldn't work as expected.
-+To do so, simply add them after sched in the Makefile.
-+
-+Specifications
-+--------------
-+
-+The specifications included in sched are currently a work in progress, adapting the ones
-+defined in by Daniel Bristot in [1].
-+
-+Currently we included the following:
-+
-+Monitor tss
-+~~~~~~~~~~~
-+
-+The task switch while scheduling (tss) monitor ensures a task switch happens
-+only in scheduling context, that is inside a call to `__schedule`::
-+
-+                     |
-+                     |
-+                     v
-+                   +-----------------+
-+                   |     thread      | <+
-+                   +-----------------+  |
-+                     |                  |
-+                     | schedule_entry   | schedule_exit
-+                     v                  |
-+    sched_switch                        |
-+  +---------------                      |
-+  |                       sched         |
-+  +-------------->                     -+
-+
-+Monitor sco
-+~~~~~~~~~~~
-+
-+The scheduling context operations (sco) monitor ensures changes in a task state
-+happen only in thread context::
-+
-+
-+                        |
-+                        |
-+                        v
-+    sched_set_state   +------------------+
-+  +------------------ |                  |
-+  |                   |  thread_context  |
-+  +-----------------> |                  | <+
-+                      +------------------+  |
-+                        |                   |
-+                        | schedule_entry    | schedule_exit
-+                        v                   |
-+                                            |
-+                       scheduling_context  -+
-+
-+Monitor snroc
-+~~~~~~~~~~~~~
-+
-+The set non runnable on its own context (snroc) monitor ensures changes in a
-+task state happens only in the respective task's context. This is a per-task
-+monitor::
-+
-+                        |
-+                        |
-+                        v
-+                      +------------------+
-+                      |  other_context   | <+
-+                      +------------------+  |
-+                        |                   |
-+                        | sched_switch_in   | sched_switch_out
-+                        v                   |
-+    sched_set_state                         |
-+  +------------------                       |
-+  |                       own_context       |
-+  +----------------->                      -+
-+
-+Monitor scpd
-+~~~~~~~~~~~~
-+
-+The schedule called with preemption disabled (scpd) monitor ensures schedule is
-+called with preemption disabled::
-+
-+                       |
-+                       |
-+                       v
-+                     +------------------+
-+                     |    cant_sched    | <+
-+                     +------------------+  |
-+                       |                   |
-+                       | preempt_disable   | preempt_enable
-+                       v                   |
-+    schedule_entry                         |
-+    schedule_exit                          |
-+  +-----------------      can_sched        |
-+  |                                        |
-+  +---------------->                      -+
-+
-+Monitor snep
-+~~~~~~~~~~~~
-+
-+The schedule does not enable preempt (snep) monitor ensures a schedule call
-+does not enable preemption::
-+
-+                        |
-+                        |
-+                        v
-+    preempt_disable   +------------------------+
-+    preempt_enable    |                        |
-+  +------------------ | non_scheduling_context |
-+  |                   |                        |
-+  +-----------------> |                        | <+
-+                      +------------------------+  |
-+                        |                         |
-+                        | schedule_entry          | schedule_exit
-+                        v                         |
-+                                                  |
-+                          scheduling_contex      -+
-+
-+Monitor sncid
-+~~~~~~~~~~~~~
-+
-+The schedule not called with interrupt disabled (sncid) monitor ensures
-+schedule is not called with interrupt disabled::
-+
-+                       |
-+                       |
-+                       v
-+    schedule_entry   +--------------+
-+    schedule_exit    |              |
-+  +----------------- |  can_sched   |
-+  |                  |              |
-+  +----------------> |              | <+
-+                     +--------------+  |
-+                       |               |
-+                       | irq_disable   | irq_enable
-+                       v               |
-+                                       |
-+                        cant_sched    -+
-+
-+References
-+----------
-+
-+[1] - https://bristot.me/linux-task-model
--- 
-2.48.1
+> 
+> I think we should mention the risks of the patch, too.
+> Maybe:
+> 
+> 	Also in theory, a user might have initialized the buffer
+> 	to some non-zero value, expecting tun to skip writing it.
+> 	As this was never a documented feature, this seems unlikely.
+ > >
+>>
+>> The specification also says the device MUST set num_buffers to 1 when
+>> the field is present so set it when the specified header size is big
+>> enough to contain the field.
+> 
+> This part I dislike. tun has no idea what the number of buffers is.
+> Why 1 specifically?
 
+That's a valid point. I rewrote the commit log to clarify, but perhaps 
+we can drop the code to set the num_buffers as "[PATCH] vhost/net: Set 
+num_buffers for virtio 1.0" already landed.
+
+Below is the rewritten commit log, which incorporates your suggestions 
+and is extended to cover the performance implication and reason the 
+num_buffers initialization:
+
+tun simply advances iov_iter when it needs to pad virtio header,
+which leaves the garbage in the buffer as is. This will become
+especially problematic when tun starts to allow enabling the hash
+reporting feature; even if the feature is enabled, the packet may lack a
+hash value and may contain a hole in the virtio header because the
+packet arrived before the feature gets enabled or does not contain the
+header fields to be hashed. If the hole is not filled with zero, it is
+impossible to tell if the packet lacks a hash value.
+
+In theory, a user of tun can fill the buffer with zero before calling
+read() to avoid such a problem, but leaving the garbage in the buffer is
+awkward anyway so replace advancing the iterator with writing zeros.
+
+A user might have initialized the buffer to some non-zero value,
+expecting tun to skip writing it. As this was never a documented
+feature, this seems unlikely. Neither is there a non-zero value that can
+be determined and set before receiving the packet; the only exception
+is the num_buffers field, which is expected to be 1 for version 1 when
+VIRTIO_NET_F_HASH_REPORT is not negotiated. This field is specifically
+set to 1 instead of 0.
+
+The overhead of filling the hole in the header is negligible as the
+entire header is already placed on the cache when a header size defined
+in the current specification is used even if the cache line is small
+(16 bytes for example).
+
+Below are the header sizes possible with the current specification:
+a) 10 bytes if the legacy interface is used
+b) 12 bytes if the modern interface is used
+c) 20 bytes if VIRTIO_NET_F_HASH_REPORT is negotiated
+
+a) and b) obviously fit in a cache line. c) uses one extra cache line,
+but the cache line also contains the first 12 bytes of the packet so
+it is always placed on the cache.
