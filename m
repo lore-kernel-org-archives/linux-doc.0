@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBA214037F;
-	Thu, 13 Feb 2025 01:44:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E351632DD;
+	Thu, 13 Feb 2025 01:44:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739411091; cv=none; b=qEZMIo7MbFnmSe66xYDBRcclt2sir/TY/oxuF/nEZd4QWV36vIBrVLEOS79voTkpb+O0pzToLdsTth1emrcfymNR9UEwUyRmfXB7VoxXa0kE1w0w4CVBYHG0jH0+hMWyVqdHWLgHxKKVRmbgOn3oy782Z+GgyrZlu1cFG+lKiCc=
+	t=1739411100; cv=none; b=krCm4oG5mIbFAgd1kmZhxd0Zq+9bikbLh4xHrR23lPe5oh5mYcXsNQG7NLuVXOxd9ExuObV53Qi/x8plEd+w8a0sQky3JG2oqUaz39so4RJcT6LDoRUNZXJS1+WficBuv5+zKJ78RQ4QwHwsVocj/9a7/VMcCctQ/8EOp/bMj/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739411091; c=relaxed/simple;
-	bh=olXBav6CKqcfpxooRDtGfAnr1eu6Xdsee3Taqi4Maco=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I/Jkbsz3Yo2e76Sm2iKwHVD4NFVhCTDkAZgzPywBTHK6OVyIY6qlH8/lAc6HRz3f6NehsytzCCWdlfLF1+EpYIT8tZG3PBL9gz/85UAnBmFP2Jyb+JYyCAuVp5olk+PsaTL2NqTBJUSZYaKYksvVmuWDkTeReLjnuF0htGzAGvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAEZ/IWO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739411100; c=relaxed/simple;
+	bh=0wEx+LJOEK19dZIr4jkJc7A6zYxo+0xSxmNO8FVmzUM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=pff3c8kqGu74junJ2qjHJTfWr72m7ohGCD9bfePNh4HYyg61agBNAP7W6Jgayd/+tyJtffR2LdjWTe0VNETXmPsglsqQryGse6AgfwTm39Y2+jfwp0wSrbDjWpU3IDzGsrvBic/eWU+MRnpeBksaldmGY63tDQYNlt9OqdFXf5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kyEbhvxt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAEZ/IWO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABAD6C4CEDF;
-	Thu, 13 Feb 2025 01:44:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kyEbhvxt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C2F6C4CEE4;
+	Thu, 13 Feb 2025 01:44:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739411090;
-	bh=olXBav6CKqcfpxooRDtGfAnr1eu6Xdsee3Taqi4Maco=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hAEZ/IWOPGugUt6Zhsm3o8ZFAJp25JzElRJuJSVCvjg/0eoIiC9ErDI890Xs2DnCL
-	 CW7CpDfTqV+S9o3gmRibBFpd63WKYqS+Sag3eMjfH3qRQzAiG/y4CHoCvVqLHRiMm2
-	 dnhZjHzCUVd0wLoAGwJ/ea/g60qfHFJJUpN2suLvWggsR0o2nFKTcYpD2IlE6hI/FP
-	 l15Gk0fILVMPv6biQSYSdZeYvxN2pT42eHo+Zh1MYSTzgyk1dInkDGg8cVJwxi7VIy
-	 AZ02vOkW0+mx3BA0/yVa2Il95eXzxbYO+2C/V2lWtORT6xCGLydlk7Vr83V4Oy+FtE
-	 K0mzGVPDvTT5Q==
+	s=k20201202; t=1739411099;
+	bh=0wEx+LJOEK19dZIr4jkJc7A6zYxo+0xSxmNO8FVmzUM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=kyEbhvxtr1t+x2oavCe+QyKXEw8qJ00hlkxy6X/ohrCqozW7BMOb6O6UGLvp98fVO
+	 2VFoA+iIdl40G45gDTTQ0UQ5Z5wOv4hdFTDs4NFUDWOutPm9kdLMBlIQm0pwl5vEhC
+	 q0kXajprvSiVDOWE+vf1X/bREANPA3suqYUY3Ao1cUnfYVnqonxt/Rl2ETD+T6PB1s
+	 QEt5WwqlGh395DHe0Mo1DsyjwfQestlBl42wPeBgQ0jeWuQZHr9iMiNLPD+HzahW8Q
+	 D8immH3lmtEs+0GWWaG9R5Uc+URycBeV8ozvk1LanA8AGH+HTV/sFpXFFfZ66Ecrxb
+	 K66CQWoMjq1rA==
 From: SeongJae Park <sj@kernel.org>
 To: 
 Cc: SeongJae Park <sj@kernel.org>,
@@ -35,10 +36,12 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [RFC PATCH 0/8] mm/damon: auto-tune aggregation interval
-Date: Wed, 12 Feb 2025 17:44:30 -0800
-Message-Id: <20250213014438.145611-1-sj@kernel.org>
+Subject: [RFC PATCH 6/8] Docs/mm/damon/design: document for intervals auto-tuning
+Date: Wed, 12 Feb 2025 17:44:36 -0800
+Message-Id: <20250213014438.145611-7-sj@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250213014438.145611-1-sj@kernel.org>
+References: <20250213014438.145611-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,135 +50,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-DAMON requires time-consuming and repetitive aggregation interval
-tuning.  Introduce a feature for automating it using a feedback loop
-that aims an amount of observed access events, like auto-exposing
-cameras.
+Document DAMON sampling and aggregation intervals auto-tuning design.
 
-Background: Access Frequency Monitoring and Aggregation Interval
-================================================================
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/mm/damon/design.rst | 34 +++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-DAMON checks if each memory element (damon_region) is accessed or not
-for every user-specified time interval called 'sampling interval'.  It
-aggregates the check intervals on per-element counter called
-'nr_accesses'.  DAMON users can read the counters to get the access
-temperature of a given element.  The counters are reset for every
-another user-specified time interval called 'aggregation interval'.
-
-This can be illustrated as DAMON continuously capturing a snapshot of
-access events that happen and captured within the last aggregation
-interval.  This implies the aggregation interval plays a key role for
-the quality of the snapshots, like the camera exposure time.  If it is
-too short, the amount of access events that happened and captured for
-each snapshot is small, so each snapshot will show no many interesting
-things but just a cold and dark world with hopefuly one pale blue dot or
-two.  If it is too long, too many events are aggregated in a single
-shot, so each snapshot will look like world of flames, or Muspellheim.
-It will be difficult to find practical insights in both cases.
-
-Problem: Time Consuming and Repetitive Tuning
-=============================================
-
-The appropriate length of the aggregation interval depends on how
-frequently the system and workloads are making access events that DAMON
-can observe.  Hence, users have to tune the interval with excessive
-amount of tests with the target system and workloads.  If the system and
-workloads are changed, the tuning should be done again.  If the
-characteristic of the workloads is dynamic, it becomes more challenging.
-It is therefore time-consuming and repetitive.
-
-The tuning challenge mainly stems from the wrong question.  It is not
-asking users what quality of monitoring results they want, but how DAMON
-should operate for their hidden goal.  To make the right answer, users
-need to fully understand DAMON's mechanisms and the characteristics of
-their workloads.  Users shouldn't be asked to understand the underlying
-mechanism.  Understanding the characteristics of the workloads shouldn't
-be the role of users but DAMON.
-
-Aim-oriented Feedback-driven Auto-Tuning
-=========================================
-
-Fortunately, the appropriate length of the aggregation interval can be
-inferred using a feedback loop.  If the current snapshots are showing no
-much intresting information, in other words, if it shows only rare
-access events, increasing the aggregation interval helps, and vice
-versa.  We tested this theory on a few real-world workloads, and
-documented one of the experience with an official DAMON monitoring
-intervals tuning guideline.  Since it is a simple theory that requires
-repeatable tries, it can be a good job for machines.
-
-Based on the guideline's theory, we design an automation of aggregation
-interval tuning, in a way similar to that of camera auto-exposure
-feature.  It defines the amount of interesting information as the ratio
-of captured access events to total capturing attempts of single snapshot,
-or more technically speaking, the ratio of positive access check samples
-to total samples within the aggregation interval.  It allows the users
-to set the target value of the ratio.  Once the target is set, the
-automation periodically measures the current value of the ratio and
-increase or decrease the aggregation interval if the ratio value is
-lower or higher than the target.  The amount of the change is proportion
-to the distance between current value and the target value.
-
-To avoid auto-tuning goes too long way, let users set minimum and
-maximum aggregation interval time.  Changing only aggregation interval
-while sampling interval is kept make the maximum level of access
-frequency in each snapshot, or discernment of regions inconsistent.
-Also, unnecessarily short sampling interval causes meaningless
-monitoring overhed.  The automation therefore adjusts the sampling
-interval together with aggregation interval, while keeping the ratio
-between the two intervals.  Users can set the ratio, or the discernment.
-
-Discussion
-==========
-
-The modified question (aimed amount of heats in each snapshot) is easy
-to answer by both the users and the kernel.  If users are interested in
-finding more cold regions, the value should be lower, and vice versa.
-If users have no idea, kernel can suggest about 20% positive access
-samples ratio as a fair default value based on the Pareto principle.
-
-Sampling to aggregation intervals ratio and min/max aggregation
-intervals are also arguably easy to answer.  What users want is
-discernment of regions for efficient system operation, for examples, X
-amount of colder regions or Y amount of warmer regions, not exactly how
-many times each cache line is accessed in nanoseconds degree.  The
-appropriate min/max aggregation interval can relatively naively set, and
-may better to set for aimed monitoring overhead.  Since sampling
-interval is directly related with the overhead, setting it based on the
-sampling interval can be easy.  With my experiences, I'd argue the
-intervals ratio 0.05, and 5 milliseconds to 20 seconds sampling interval
-range (100 milliseconds to 400 seconds aggregation interval) can be a
-good default suggestions.
-
-Evaluation
-==========
-
-We confirmed the tuning works as expected with only a few simple
-workloads including kernel builds, and that's why this is an RFC.  We
-will conduct more evaluations with more massive and realistic workloads
-and share the results by the time that we drop the RFC tag.
-
-SeongJae Park (8):
-  mm/damon: add data structure for monitoring intervals auto-tuning
-  mm/damon/core: implement intervals auto-tuning
-  mm/damon/sysfs: implement intervals tuning goal directory
-  mm/damon/sysfs: commit intervals tuning goal
-  mm/damon/sysfs: implement a command to update auto-tuned monitoring
-    intervals
-  Docs/mm/damon/design: document for intervals auto-tuning
-  Docs/ABI/damon: document intervals auto-tuning ABI
-  Docs/admin-guide/mm/damon/usage: add intervals_goal directory on the
-    hierarchy
-
- .../ABI/testing/sysfs-kernel-mm-damon         |  30 +++
- Documentation/admin-guide/mm/damon/usage.rst  |  25 ++
- Documentation/mm/damon/design.rst             |  38 +++
- include/linux/damon.h                         |  43 ++++
- mm/damon/core.c                               |  90 ++++++++
- mm/damon/sysfs.c                              | 216 ++++++++++++++++++
- 6 files changed, 442 insertions(+)
-
-
-base-commit: d5c35650f4945e1406871f9d9d51ab8c54ec0d03
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index e28c6a1b40ae..c8e906ac3965 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -313,6 +313,10 @@ sufficient for the given purpose, it shouldn't be unnecessarily further
+ lowered.  It is recommended to be set proportional to ``aggregation interval``.
+ By default, the ratio is set as ``1/20``, and it is still recommended.
+ 
++Based on the manual tuning guide, DAMON provides more intuitive knob-based
++intervals auto tuning mechanism.  Please refer to :ref:`the design document of
++the feature <damon_design_monitoring_intervals_autotuning>` for detail.
++
+ Refer to below documents for an example tuning based on the above guide.
+ 
+ .. toctree::
+@@ -321,6 +325,36 @@ Refer to below documents for an example tuning based on the above guide.
+    monitoring_intervals_tuning_example
+ 
+ 
++.. _damon_design_monitoring_intervals_autotuning:
++
++Monitoring Intervals Auto-tuning
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++DAMON provides automatic tuning of the ``sampling interval`` and ``aggregation
++interval`` based on the :ref:`the tuning guide idea
++<damon_design_monitoring_params_tuning_guide>`.  The tuning mechanism allows
++users to set the aimed amount of heats to observe with DAMON within given time
++interval.  The target can be specified by the user as a ratio of access check
++samples that gave positive result to the total samples (``samples_bp``) that
++measured within a given number of aggregations (``aggrs``).  The mechanism
++calculates the ratio of access check samples for ``aggrs`` aggregations, and
++increases or decrease the ``sampleing interval`` and ``aggregation interval``
++in same ratio, if the samples ratio is lower or higher than the target,
++respectively.  The ratio of the intervals change is decided in proportion to
++the distance between current samples ratio and the target ratio.
++
++The user can further set the minimum and maximum ``sampling interval`` that can
++be set by the tuning mechanism using two parameters (``min_sample_us`` and
++``max_sample_us``).  Because the tuning mechanism changes ``sampling interval``
++and ``aggregation interval`` in same ratio always, the minimum and maximum
++``aggregation interval`` after each of the tuning changes can automatically set
++together.
++
++The tuning is turned off by default, and need to be set explicitly by the user.
++As a rule of thumbs and the Parreto principle, 20% access samples ratio target
++is recommended.
++
++
+ .. _damon_design_damos:
+ 
+ Operation Schemes
 -- 
 2.39.5
