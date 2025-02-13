@@ -1,83 +1,45 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA572204C0B
-	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 17:38:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313E828A2AB;
+	Thu, 13 Feb 2025 17:45:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739468338; cv=none; b=EUMCKleDBFjz3NUq5+KZOFfhin6vjJXt+Roewird7aAHaqZjIwEOpOtXBwVZuYWn1GSzcGioB1DkB3E5audRVfOjGx4FTZC505adhCoDc3W/gVQZDqUtYSTvlWNEFdKtLruwPNDJ5PZ0DXVFo6gng4c7FCftxrig+/3x3x1cBrE=
+	t=1739468737; cv=none; b=s88xKOU8JNZn9S51wk8zZ319klsom3bnAKjMybnJY+lrwCH/hNh/VKO4HCUhBGdJqCOPbRjP/oLDM1XF2ndl867Q8MjD9yMkYR+kM10ujpk73phgvvMSCMVAnN20/Q7SS1j90c2G/Puv//h20lFzojh4gdDK/eIxEVJiXS9BbyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739468338; c=relaxed/simple;
-	bh=b7N+8dSPQ0OnlGTOQ+2/iyi4f6259SWAIHYoRWb24J8=;
+	s=arc-20240116; t=1739468737; c=relaxed/simple;
+	bh=sukV6k51DNSlBKIQdTonT1QfJeZstAGnIOitdYPlDMw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S0OYEQtyp/D7PfLAxeQKJxRI+XFABM8osgvxTn3Mm83BssN1fkSnSOhlLY/qwo/W+IkH1oxcGSfIzVtC3NIL+EOKkXcg2I8ddVi7RpzeWZ7rERk/QP3yvZdxMLuSziTstGSOz/ELkGq6U3Lcd2KkjH1y14l6n4psovEvBr0avs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=ECU7WBy3; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="ECU7WBy3"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-21f6d2642faso30084255ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 09:38:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1739468336; x=1740073136; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oLC9kfYPwLBjTLU9fLAjv67CM2H+dgqHjhipB5hFLZc=;
-        b=ECU7WBy3jbHPomLP0Xv0uYG7Q3Uwur/tm0kyRQqp1L0sCK3uTarWXuth+a+LOA4Umw
-         brm3i/Kbk3Vk7W8H4zDLq4Q1KDeVz7TDOn6nyJ0Vyx+UXJHl1q8INHTYUENkFqDu5bgj
-         SabyGG1Yp9h18+gTUcWsm7IM+4/kyExktlqaI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739468336; x=1740073136;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oLC9kfYPwLBjTLU9fLAjv67CM2H+dgqHjhipB5hFLZc=;
-        b=HxoTYEQtL6/qBzENTYrbgn0BYHcaADrC+MD3d07/b9Cswdr+8X+C6tTHMpz7VuLBZb
-         1PeaF75i+LQNz1uqDZsH1QSwGzhcshLRKFQQVddF7UFQvlz7oOFFG67Fzgokfckd0mBK
-         9fzRHA7ASw505XgFYdXU92Tidxk6XJxcjlhHKs2WJaGRcFtkaieBXgLvRCHUUVAux64J
-         AGp6lcAjojA982bCBwl0GEU/kPFNIaxFpbq6C83FSLuGiB3d4d0JtIUuq5chrOq9BwdU
-         Q/t4l+FozRPsrOzBjqvAmY3dC87C0Ke3JN2+8XHO092fBTgrvq8dP5EIc8sTxRxA6KTV
-         eRbg==
-X-Forwarded-Encrypted: i=1; AJvYcCXCTf8rQ6jg4jZTGLiqoZmf1NxcuIEiQgfZA4nESqazIuOQdhjFamYBYBKidK7GIuueXaqpORlRsAI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6rrwxWUhYUfBAgAlQmuytitvxBg6LNmY004z+mY16dVJG6+g9
-	lS+7NUlKkO9r2hsslcacvOKphIs48S4qGIs0sJ+pQDdOR1CE7Gp3O/ZczwgAYvc=
-X-Gm-Gg: ASbGncvDWo1FSFWzDz4paXz25qvbzYvleBR0QfSg1NXy7CyRyibY3Y2Uz/zeg9Si+aL
-	mqSYW40KhmtxmFxfokYSmeBQSN4gBAFupurPIp/mCMAxDSAs2K83GR1spo2mc6Npvsi1PZey2ai
-	RWSkld9GJ7uiQYQRN2apzFflbBxLuRjLNCcjfApqQPZ472A/hElxokL481OaugNQsAfr5y4mZ5p
-	JZtXWO3dkXDLKWHO5fhZxC7SYqMyQte/eNuxblX+LOTBd7ppNhOJewjhH3UuchGyRje+b3gMsXJ
-	RWN+Fo0etlSAKRWBko1oAemGvC0k5uC5Y2mv5+an3QgxtlPRncHY7gAdBg==
-X-Google-Smtp-Source: AGHT+IHKx7UoBaIYvNAKG4jbdIsvHPKTWLspdf35/yTjPBwhkv4ORzitL5INUVr5HwUTUERzhGKRNQ==
-X-Received: by 2002:a05:6a00:2e1c:b0:732:1ffc:36f5 with SMTP id d2e1a72fcca58-7322c374111mr12059457b3a.5.1739468335955;
-        Thu, 13 Feb 2025 09:38:55 -0800 (PST)
-Received: from LQ3V64L9R2 (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7324273e4casm1588770b3a.103.2025.02.13.09.38.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 09:38:55 -0800 (PST)
-Date: Thu, 13 Feb 2025 09:38:52 -0800
-From: Joe Damato <jdamato@fastly.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-	rdunlap@infradead.org, bagasdotme@gmail.com, ahmed.zaki@intel.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next v2] documentation: networking: Add NAPI config
-Message-ID: <Z64uLN63gD0nNvk_@LQ3V64L9R2>
-Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, rdunlap@infradead.org, bagasdotme@gmail.com,
-	ahmed.zaki@intel.com, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-References: <CALALjgz_jtONSFLAhOTYFcfL2-UwDct9AxhaT4BFGOnnt2UF8A@mail.gmail.com>
- <013921c8-1fd0-410d-9034-278fc56ff8f5@redhat.com>
- <Z633ggyM-F2pfAkG@LQ3V64L9R2>
- <20250213081418.6d3966af@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=DG1aEljg5AkcfuMxtfPjDOekprq3QVtfm+Rr4PqPA/Em7COYbkE0QcJglSiZxMa9DNLga2uQXROcB6cu2dUw7sBr+k+HKpIpXiy5ULgQaIaJN9icRUMtyrsPmfgzB7zxXE3mmdv9mnelBsHcuXZ1m/lapLYXPq9PcH4fGkPZYOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1C1FC113E;
+	Thu, 13 Feb 2025 09:45:56 -0800 (PST)
+Received: from localhost (e132581.arm.com [10.2.76.71])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 17F2A3F5A1;
+	Thu, 13 Feb 2025 09:45:34 -0800 (PST)
+Date: Thu, 13 Feb 2025 17:45:30 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v19 11/11] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+Message-ID: <20250213174530.GH235556@e132581.arm.com>
+References: <20250202-arm-brbe-v19-v19-0-1c1300802385@kernel.org>
+ <20250202-arm-brbe-v19-v19-11-1c1300802385@kernel.org>
+ <20250213161628.GF235556@e132581.arm.com>
+ <CAL_Jsq+VmfibMVdh+9DxqU5Axiv_zMiznAh8_umFB1J2y8reig@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,40 +48,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250213081418.6d3966af@kernel.org>
+In-Reply-To: <CAL_Jsq+VmfibMVdh+9DxqU5Axiv_zMiznAh8_umFB1J2y8reig@mail.gmail.com>
 
-On Thu, Feb 13, 2025 at 08:14:18AM -0800, Jakub Kicinski wrote:
-> On Thu, 13 Feb 2025 05:45:38 -0800 Joe Damato wrote:
-> > On Thu, Feb 13, 2025 at 12:45:01PM +0100, Paolo Abeni wrote:
-> > > On 2/11/25 9:06 PM, Joe Damato wrote:  
-> > > > +++ b/Documentation/networking/napi.rst
-> > > > @@ -171,12 +171,43 @@ a channel as an IRQ/NAPI which services queues
-> > > > of a given type. For example,  
-> > > 
-> > > It looks like your client mangled the patch; the above lines are
-> > > corrupted (there should be no line split)
-> > > 
-> > > Please respin  
-> > 
-> > I must be missing something: I don't see the line split when looking
-> > at the original email and I just tried applying the patch directly
-> > from my email and it applied just fine.
-> > 
-> > Are you sure its not something with your client?
-> > 
-> > See the message on lore:
-> > 
-> > https://lore.kernel.org/netdev/20250211151543.645d1c57@kernel.org/T/
+On Thu, Feb 13, 2025 at 11:13:49AM -0600, Rob Herring wrote:
+
+[...]
+
+> > > +void brbe_enable(const struct arm_pmu *arm_pmu)
+> > > +{
+> > > +       struct pmu_hw_events *cpuc = this_cpu_ptr(arm_pmu->hw_events);
+> > > +       u64 brbfcr = 0, brbcr = 0;
+> > > +
+> > > +       /*
+> > > +        * Merge the permitted branch filters of all events.
+> > > +        */
+> > > +       for (int i = 0; i < ARMPMU_MAX_HWEVENTS; i++) {
+> > > +               struct perf_event *event = cpuc->events[i];
+> > > +
+> > > +               if (event && has_branch_stack(event)) {
+> > > +                       brbfcr |= event->hw.branch_reg.config;
+> > > +                       brbcr |= event->hw.extra_reg.config;
+> > > +               }
+> > > +       }
+> > > +
+> > > +       /*
+> > > +        * If the record buffer contains any branches, we've already read them
+> > > +        * out and don't want to read them again.
+> > > +        * No need to sync as we're already stopped.
+> > > +        */
+> > > +       brbe_invalidate_nosync();
+> > > +       isb(); // Make sure invalidate takes effect before enabling
+> > > +
+> > > +       /*
+> > > +        * In VHE mode with MDCR_EL2.HPMN set to PMCR_EL0.N, the counters are
+> > > +        * controlled by BRBCR_EL1 rather than BRBCR_EL2 (which writes to
+> > > +        * BRBCR_EL1 are redirected to). Use the same value for both register
+> > > +        * except keep EL1 and EL0 recording disabled in guests.
+> > > +        */
+> > > +       if (is_kernel_in_hyp_mode())
+> > > +               write_sysreg_s(brbcr & ~(BRBCR_ELx_ExBRE | BRBCR_ELx_E0BRE), SYS_BRBCR_EL12);
+> > > +       write_sysreg_s(brbcr, SYS_BRBCR_EL1);
+> > > +       isb(); // Ensure BRBCR_ELx settings take effect before unpausing
+> > > +
+> > > +       write_sysreg_s(brbfcr, SYS_BRBFCR_EL1);
+> >
+> > Seems to me, it is weird that first enable recording (BRBCR), then set
+> > control register BRBFCR.  And the writing SYS_BRBFCR_EL1 not guarded
+> > by a barrier is also a bit concerned.
 > 
-> It's also broken on lore.
-> 
-> The first diff block starting with the @@ line overflows and gets
-> broken into the next line. All lines within a diff block must start
-> with a space, + or -. The "of a given type. For example," line breaks
-> that.
+> We are always disabled (paused) when we enter brbe_enable(). So the
+> last thing we do is unpause. The only ordering we care about after
+> writing SYS_BRBFCR_EL1 is writing PMCR which has an isb before it is
+> written.
 
-I see; I think it's this oauth2 helper I've been trying to use with
-my google cloud account. Arg.
+Maybe it is good to add a comment to record the info.
 
-I'll RESEND this and my XSK attribute thing, too, which for some
-reason isn't on lore but is on other sites (like spinics).
+Thanks,
+Leo
