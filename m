@@ -1,106 +1,101 @@
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8C8227EB4;
-	Thu, 13 Feb 2025 12:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38076227EB4;
+	Thu, 13 Feb 2025 12:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739449029; cv=none; b=EhgSIJIkqlxN1V++c5J7HVVLeymcm4wleVG63U65TddQJ0w+A52deI/8he7OVoKbhqzq4xOxZalNKhJ8ZSHhBaSuJVX7YT9jPpzZQ+QWlZSPKhY5Zb+yNptZoDm2Qyzy3trT0ryR3UAB7PCOt+cXhzOYVWRcQsSWtrHMGhCclz0=
+	t=1739449207; cv=none; b=Pe0fqFNyOGEU//g/LVTnukcMx0nqdghUC+lSmwdZBZTClR62ipKFgXkPEpai5udyQjIKVL7I8AViv3jUsYYU6gBa+TuT/5MbL7ggXroEwUAvyI23CVh0g64Fr3E7Zdf8wuXUHkMdciMez6GjJHOLt/olbQOFCa47TaEbNI4q/tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739449029; c=relaxed/simple;
-	bh=vlhlBzSkIneMGWYQBwFyfnTl25nGWzLsKGHhhsEs/qs=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=E6jJV1M3iln5CXusHDIk+9L9WvHDN5ygQXtdHzwl0W3wVM+WYTLyxCGRuw1y2psA0eZcMN/LMQdSZvo6t4VYS5ValGruu9JRIOK9YPrcNuv7BIaaKQREU+KCuOVG4CkWXbZIoGJlzdp2h6djLJLHNaAM54Qhzg3r3A2TbBHhHEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=gj50goYM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KGIXqOEX; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="gj50goYM";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KGIXqOEX"
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 4B8C811401A0;
-	Thu, 13 Feb 2025 07:17:05 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-11.internal (MEProxy); Thu, 13 Feb 2025 07:17:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1739449025;
-	 x=1739535425; bh=vlhlBzSkIneMGWYQBwFyfnTl25nGWzLsKGHhhsEs/qs=; b=
-	gj50goYMrgEWpERcjDoQkgN9f3pgpWRaH9UTa9EeXqLr+vNsHhkSI10rDN2pRbPs
-	0dMsVZxIK8KbQJ+T7z0GfbemKmz7GcdahAp3mx+r+hvixy8hF7f7FN4zuGEm0grg
-	+OIwutIYnvZv9OcE9iL+nhLx7OG2D2dV+ja54OB39VnqKVdjTR/Pl9L2ckVtpLYf
-	nTOuF3/3/bFKCEEYaN6BQIbqw6bhYP6BfvS50t7yqcgctyoWAG4ACjticINh6EMo
-	jyNIMqrJOUGp/xRm9Y81r2U55gJz7ysedkHH4N2Nmfocl6tineRAWXK30FfDarhb
-	QnVbj5L6tsNXrDuw38j+sQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739449025; x=
-	1739535425; bh=vlhlBzSkIneMGWYQBwFyfnTl25nGWzLsKGHhhsEs/qs=; b=K
-	GIXqOEXDGqLOiIjohIg/UsrKcsUsFtJQspSxYVUbqFU2MmRVSknGiAGOdHheWGKY
-	OT68kTYQCcvgc1Hr+5SJm0XWij0WkkhrP9aALWDJRbpMpu57WwTp6Md0Os+bSZ5j
-	v4JCkkKw6HtLiEW7PR0PT8cfTKOV/bw9r3rakcK8c81GB/mO/vWNxso1AwNTIlVP
-	JoTeaL8Kx0XIW8t/zEDvWal1fNogVXF/1apPPdqNUX4KgrCrGwJj1SJAmdDwOT5S
-	+KZxke609KApqoVkYMmInLZvrCjdGUc3chIcZyGQr8gwMJ0BIzXc83ULenyZfDvg
-	edV28qdFhn7EjVVoUkxQA==
-X-ME-Sender: <xms:weKtZxZ2Jx0SogXKgrce2SjWTjH38dKFCmZc39GEp1sDVs3S0TbyhA>
-    <xme:weKtZ4YnIxba5f_D6pt-4Ddpe2s4Uw3nT0sCRfd8VgWa25I8OCEAy8cHqGhtfw3Z-
-    _-vVmtxmZuU-ScxE3g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegieejhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
-    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
-    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeeh
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmtghhvghhrggsodhhuhgrfigvih
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhr
-    tghpthhtoheplhhinhhugidqrghrtghhsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphht
-    thhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:weKtZz-QYp083JbvMAwwfYxmY3dIwwRyfVC1pJyvFu4paKpmoSO4jg>
-    <xmx:weKtZ_pwh3ESfCs4C12dD4F52BjHrnepmhkcN64rV-I_fx4sFyqDzw>
-    <xmx:weKtZ8p65zSwpqVmaWg9jlnDriUkxQ4bY-czD3PyRW4ZE5sYXgzvaA>
-    <xmx:weKtZ1Rg_13YwDOe9KgRY6eNSAXZxhNHKHsmkvGB94yG2QK4j3psMQ>
-    <xmx:weKtZ1k722L4lapCobovkiUcJ5fLaEUOUgSgs--Xdnd5DGEk9anU9dE->
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id EFD6F2220072; Thu, 13 Feb 2025 07:17:04 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1739449207; c=relaxed/simple;
+	bh=gwLcUsDw7xA/2Q1IvCXJOzT7YL+8moGeHio9YFBywVs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T5LOfn9YUfArECmlg36rf86L+RFU/0Hq1bdz8ja6MdPzPIoqtuO7Z3Gr6ZV9oQLGzRKx3Xkb1kKJ7S/e3UhK0Oqnj9A9doqucjNaZmXF2687+o6hprwjeMokzd4+Gh5X8HhLjXjLxgO1fB+NXIyKrXS0mQTo0syzhJrm5kRQTOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4Yttkn0dgsz9sSd;
+	Thu, 13 Feb 2025 12:49:21 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ULQcwcXgFYio; Thu, 13 Feb 2025 12:49:20 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4Yttkm6p6Zz9sSL;
+	Thu, 13 Feb 2025 12:49:20 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id D2E088B770;
+	Thu, 13 Feb 2025 12:49:20 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id TnojPLtBnGgu; Thu, 13 Feb 2025 12:49:20 +0100 (CET)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 8115F8B763;
+	Thu, 13 Feb 2025 12:49:19 +0100 (CET)
+Message-ID: <6e1201a1-60c1-40a3-951f-d603b6341a11@csgroup.eu>
+Date: Thu, 13 Feb 2025 12:49:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 13 Feb 2025 13:16:34 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
- "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org
-Message-Id: <607d3acb-0950-4ce3-b8b4-46fdeca3ce0d@app.fastmail.com>
-In-Reply-To: 
- <6d69b25e9c720e0e7fc037928695ece7c8a35034.1739447912.git.mchehab+huawei@kernel.org>
-References: <cover.1739447912.git.mchehab+huawei@kernel.org>
- <6d69b25e9c720e0e7fc037928695ece7c8a35034.1739447912.git.mchehab+huawei@kernel.org>
-Subject: Re: [PATCH RFCv2 1/5] include/asm-generic/io.h: fix kerneldoc markup
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] mm: Rename GENERIC_PTDUMP and PTDUMP_CORE
+To: Steven Price <steven.price@arm.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org
+References: <20250213040934.3245750-1-anshuman.khandual@arm.com>
+ <20250213040934.3245750-5-anshuman.khandual@arm.com>
+ <8e75c5ff-a97b-4a6f-9c8b-ac2598eafe60@arm.com>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <8e75c5ff-a97b-4a6f-9c8b-ac2598eafe60@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 13, 2025, at 13:06, Mauro Carvalho Chehab wrote:
-> Kerneldoc requires a "-" after the name of a function for it
-> to be recognized as a function.
->
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
 
-I assume this will be merged through the documentation tree,
-let me know if you prefer me to add it to the asm-generic
-tree instead.
+Le 13/02/2025 à 12:23, Steven Price a écrit :
+> On 13/02/2025 04:09, Anshuman Khandual wrote:
+>> Platforms subscribe into generic ptdump implementation via GENERIC_PTDUMP.
+>> But generic ptdump gets enabled via PTDUMP_CORE. These configs combination
+>> is confusing as they sound very similar and does not differentiate between
+>> platform's feature subscription and feature enablement for ptdump. Rename
+>> the configs as ARCH_HAS_PTDUMP and PTDUMP making it more clear and improve
+>> readability.
+> 
+> [...]
+>> diff --git a/arch/powerpc/configs/mpc885_ads_defconfig b/arch/powerpc/configs/mpc885_ads_defconfig
+>> index 77306be62e9e..db005618690b 100644
+>> --- a/arch/powerpc/configs/mpc885_ads_defconfig
+>> +++ b/arch/powerpc/configs/mpc885_ads_defconfig
+>> @@ -78,4 +78,4 @@ CONFIG_DEBUG_VM_PGTABLE=y
+>>   CONFIG_DETECT_HUNG_TASK=y
+>>   CONFIG_BDI_SWITCH=y
+>>   CONFIG_PPC_EARLY_DEBUG=y
+>> -CONFIG_GENERIC_PTDUMP=y
+>> +CONFIG_PTDUMP=y
+> 
+> I'd suggest dropp this from the defconfig too, just like patch 1 dropped
+> it from debug.config.
+> 
+
+Thanks for spotting that.
+
+That one is wrong. Was introduced by commit d210ee3fdfe8 
+("powerpc/configs: Update config files for removed/renamed symbols") 
+which aimed at fixing commit e084728393a5 ("powerpc/ptdump: Convert 
+powerpc to GENERIC_PTDUMP") but it did it wrong.
+
+It is CONFIG_PTDUMP_DEBUGFS that is wanted.
