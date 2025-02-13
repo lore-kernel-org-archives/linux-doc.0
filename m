@@ -1,197 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8355A23F420;
-	Thu, 13 Feb 2025 13:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9F3227E9C;
+	Thu, 13 Feb 2025 13:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739452634; cv=none; b=n1DG42NuhnurANz1cs7xmPgpeCnhF0hKS5xWGSDmSI/Jp8E2Bmtbc8IQ47f/ubNK2X/HlJ1sWEVtmRyJ4kFIVXS8kSI37+2siULkqurhV/pgynbH3VgseMmEK/YFnQde6SoGTveBx17LXmeNd8H7OnP/3xXUAEIFGvgZUlepUtg=
+	t=1739452667; cv=none; b=H65J6GuT+jgtu88lQuvutLVpv5cIBbudsaVqQxCXpTqMfUyoyyLYDWYVlHDLjr0haiCeCRSuDu2VoGKRATg0fdLd9IfUiu50YAJ6WExbyWV98j7cWRYsVbN9ZLXm2dONVejtme4HEUEhYwdOU0HZ+YViKX3bHyKg2GKv8BTBLow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739452634; c=relaxed/simple;
-	bh=B6LIoz76z42FvSq9wox6H1rI2ql14MAd7eBVBROWw34=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=JRU2RptH90i9GgmipTpEK83sXiEsJbPMZTi2d1C2C2kA4Cpew5toRdmhkJY7a5qu1xubzE78ofDuuvvw5Y5GfVkDttlXXnlGgk/8VcTcfQ8g0W/dpAxM+z1IcszyUkd21tYB8G93OQzjtac+qICLSJau1T0W4DoddssQrfvZnII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QhRSisuz; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1739452667; c=relaxed/simple;
+	bh=ZOrVSjQ6x7PTk/9ctQhhG+ZGpSsFcwHe8JsFOyeSGXE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EocPFoguGi/aGRQbSEk54twDzGpEMATyKqMRUY7paJxkarNdHJufB5keuLifMYm4maU34p8q1+QDQZJTBfeN74b+uOxgkso67YM7jipkckXMewk8kkrIyBe/jX/dNSfOzcMrC0C749YvGbyDpqH1GfXbyikVw1AVENitNesvjxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TnX7YQnB; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QhRSisuz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739452633; x=1770988633;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=B6LIoz76z42FvSq9wox6H1rI2ql14MAd7eBVBROWw34=;
-  b=QhRSisuzSTH1ZKt4gf4R4WARIYYi/8LNYjVp14KbdxjmabPsscz1nxOw
-   ySA15utEHCoSeZWLP+nZZcuws+sh3doTy6qrs/0nX65XtjlUOWI5nXsFn
-   4YyD/CnjN+y3yvaeMWKgcew0o352cmXpfY1SIXq/O/Qya4TDWTsTkJ40z
-   le4xMaNq/BSz4ciKD6wtYd/XhEIkql0s9zZYLghZuav2Pf0AgmUINrH5j
-   4RtTrgesGDZ50d6Cv51FPxOWVRtyf5PHwr1l3aNHozx2XnXEja8EEpG6c
-   vzV16563rzTcD2QqcTaJ2RR7geXPBT1t1KzgP7845STqq5Stfq07iOEVb
-   g==;
-X-CSE-ConnectionGUID: 6tcsXL7xSEeKExQ84x9H2Q==
-X-CSE-MsgGUID: eo4kq021QWq3zT7Yjppf9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="51134996"
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="51134996"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 05:17:12 -0800
-X-CSE-ConnectionGUID: Fv40il9nTj+lujsTW6THIw==
-X-CSE-MsgGUID: LbHAWfgGQ9SUcGg83Pgv2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="113086389"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.48])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 05:17:08 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 13 Feb 2025 15:17:03 +0200 (EET)
-To: Armin Wolf <W_Armin@gmx.de>
-cc: james@equiv.tech, markpearson@lenovo.com, jorge.lopez2@hp.com, 
-    jdelvare@suse.com, linux@roeck-us.net, linux-hwmon@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
-    platform-driver-x86@vger.kernel.org, corbet@lwn.net, 
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/7] platform/x86: think-lmi: Use WMI bus API when
- accessing BIOS settings
-In-Reply-To: <20250203182322.384883-4-W_Armin@gmx.de>
-Message-ID: <0dd7bda3-bf76-228b-27f3-f057e80e3a03@linux.intel.com>
-References: <20250203182322.384883-1-W_Armin@gmx.de> <20250203182322.384883-4-W_Armin@gmx.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TnX7YQnB"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ab7c81b8681so170184066b.0;
+        Thu, 13 Feb 2025 05:17:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739452664; x=1740057464; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lcBu1mmfCOw9BS5+FJzHYiV0BhZGp25NekRfDcZi1qw=;
+        b=TnX7YQnB+bQrfIW1nIpsTL3LdRA0cc72LYvOi2Y7O8EtF2FNORRWC8oaeWNgqnXD6A
+         KOflkVZavsgBf46/qh9Zw7jvgMTqxwl3swfL12bg1N4pi1/yx1BIu7DUnvBXSFslezLI
+         WQcjrsDtDrRLj/+KWS01+a5IQjTDY+xAFWW1vIWi6+M4rmkMu4I4xyKaWTtje8Az2J/Y
+         ASaHXmLPgdOE4dvFjXC90sQjLVpkVl56xoB2GYMcuDGUT/7M6FbM22AS2xbiP7iwfi56
+         Pom49PgHeLxHgeeuxRKminczIeixv9nYz6Wgw68ZaItrjXueQgSoyZQSBDBfrXjet33v
+         lcNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739452664; x=1740057464;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lcBu1mmfCOw9BS5+FJzHYiV0BhZGp25NekRfDcZi1qw=;
+        b=Cprqp8bzUEbsm6OyH2A/i53/ZeR0zjS/99/JW2Cc+EKbPZpIZM7KNYI7asxQS8GsTQ
+         h1a9izZMhvpD9xKSvcAnfc8yVGEDt64dJxauWdzmve5DBicOpHScvKPuWOd8M07yopKO
+         nLgOkmmFGGub6ZrcKWR+ZhJE4OLo19dhLi7dU4y5HDzcFPcPi/duDCi4SujmEdNTy2OH
+         hI2ChDzZ7WIkRBJjVZ7JqSAGg6w8N/5qlS4JQsEvv8waBZLZpNQAvieGCnnJL+y1sDg2
+         AHruNdLgW2bvP/IEBhEzchQ92nAvEveJTe2rKNSuPgU+eqVqYpHVQjJjIeYJuGchupGf
+         kDdw==
+X-Forwarded-Encrypted: i=1; AJvYcCVcK6eJsHfcuhSuuRpAN55Qz/W981LwdljWtLHdsQdHajl7H5x3JUghtMWlbsBS9rZdce8=@vger.kernel.org, AJvYcCWnPmLiil8+Fwre2SkfXAc5uVS4xJlY2eanmKBNUTR74y6fXEkd4KUxtfkUtvo0fKTBPkyLMgvncOK7b9xt@vger.kernel.org, AJvYcCWw6CTYCa9Gb5sJJzjKIj87ClIrOBrdNL0COB/y8y8Us7ySUDE2VWTlCdULMfvQTHwTGbheX8cnnKe2vgmNFHJ0@vger.kernel.org, AJvYcCX40NTAPpurb2Uyf3UeVOlRIinaXx0AXQXduKsnLfHPsJKTh+TptZG108v222hIu5nk1sg6YKWGhgAs@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+lQDAMFHh0LoAtJZqkZommmQpYcYtJR7O8PCxweKfi7NH/4Om
+	ngZYrCTQLGC4bAGi6CLqTqquXwZ9h9LmkSNLun7NrGucR08Tpp1r
+X-Gm-Gg: ASbGncvnhoyV1jybUHUJKfzpxLVuR35h6ZIdCxbd43duPK1x6pIaulljrQ6m4Jidd2k
+	bejfENjV4AcTaB2PlcECuat3aHP2KL9Mwtzs9f+AyUIVD+s0Pp3uSfOTCbib0HPoMuLpsx5Q8H1
+	FE/hHGM0h1TbbbTU8Hu0APxk9uhEfrIGemK7Xny3ZvsrXFcDROk/G8SqfoTiPtUuKMh5RvFLSYg
+	DFUXT3X54b2+q2uTjhw2lvOZcMHb5W/iy3BLQ2PBplVwyVD7ksYPs+mfXtO+iqdrU2FJnDJHJBf
+	Lo9eXarUtrck883F7QMPhCRvLXf0i4YXGJaDwdBBmBcOnYJR
+X-Google-Smtp-Source: AGHT+IHYSRmvacENlOHPaEcGh9qwXupY4qr9g756WVVr7uCCm+4s+x/aI/sqeelBWyHDGxCBfNiyaQ==
+X-Received: by 2002:a17:907:cf8a:b0:ab7:b878:e8bc with SMTP id a640c23a62f3a-ab7f387457fmr769377466b.38.1739452663746;
+        Thu, 13 Feb 2025 05:17:43 -0800 (PST)
+Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:1ba9])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba53280ee4sm130506966b.78.2025.02.13.05.17.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Feb 2025 05:17:43 -0800 (PST)
+Message-ID: <9210a12c-9adb-46ba-b92c-90fd07e1980f@gmail.com>
+Date: Thu, 13 Feb 2025 13:18:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 5/6] net: devmem: Implement TX path
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org,
+ Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Neal Cardwell <ncardwell@google.com>, David Ahern <dsahern@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
+ <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20250203223916.1064540-1-almasrymina@google.com>
+ <20250203223916.1064540-6-almasrymina@google.com>
+ <abc22620-d509-4b12-80ac-0c36b08b36d9@gmail.com>
+ <CAHS8izNOqaFe_40gFh09vdBz6-deWdeGu9Aky-e7E+Wu2qtfdw@mail.gmail.com>
+ <28343e83-6d93-4002-a691-f8273d4d24a8@gmail.com>
+ <CAHS8izOE-JzMszieHEXtYBs7_6D-ngVx2kJyMwp8eCWLK-c0cQ@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izOE-JzMszieHEXtYBs7_6D-ngVx2kJyMwp8eCWLK-c0cQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, 3 Feb 2025, Armin Wolf wrote:
-
-> Since the driver already binds to LENOVO_BIOS_SETTING_GUID, using
-> wmidev_block_query() inside tlmi_setting() allows for faster
-> access to BIOS settings.
+On 2/12/25 19:18, Mina Almasry wrote:
+> On Wed, Feb 12, 2025 at 7:52 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>
+>> On 2/10/25 21:09, Mina Almasry wrote:
+>>> On Wed, Feb 5, 2025 at 4:20 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>>>
+>>>> On 2/3/25 22:39, Mina Almasry wrote:
+>>>> ...
+>>>>> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+>>>>> index bb2b751d274a..3ff8f568c382 100644
+>>>>> --- a/include/linux/skbuff.h
+>>>>> +++ b/include/linux/skbuff.h
+>>>>> @@ -1711,9 +1711,12 @@ struct ubuf_info *msg_zerocopy_realloc(struct sock *sk, size_t size,
+>>>> ...
+>>>>>     int zerocopy_fill_skb_from_iter(struct sk_buff *skb,
+>>>>>                                 struct iov_iter *from, size_t length);
+>>>>> @@ -1721,12 +1724,14 @@ int zerocopy_fill_skb_from_iter(struct sk_buff *skb,
+>>>>>     static inline int skb_zerocopy_iter_dgram(struct sk_buff *skb,
+>>>>>                                           struct msghdr *msg, int len)
+>>>>>     {
+>>>>> -     return __zerocopy_sg_from_iter(msg, skb->sk, skb, &msg->msg_iter, len);
+>>>>> +     return __zerocopy_sg_from_iter(msg, skb->sk, skb, &msg->msg_iter, len,
+>>>>> +                                    NULL);
+>>>>
+>>>> Instead of propagating it all the way down and carving a new path, why
+>>>> not reuse the existing infra? You already hook into where ubuf is
+>>>> allocated, you can stash the binding in there. And
+>>>
+>>> It looks like it's not possible to increase the side of ubuf_info at
+>>> all, otherwise the BUILD_BUG_ON in msg_zerocopy_alloc() fires.
+>>>
+>>> It's asserting that sizeof(ubuf_info_msgzc) <= sizeof(skb->cb), and
+>>> I'm guessing increasing skb->cb size is not really the way to go.
+>>>
+>>> What I may be able to do here is stash the binding somewhere in
+>>> ubuf_info_msgzc via union with fields we don't need for devmem, and/or
+>>
+>> It doesn't need to account the memory against the user, and you
+>> actually don't want that because dmabuf should take care of that.
+>> So, it should be fine to reuse ->mmp.
+>>
+>> It's also not a real sk_buff, so maybe maintainers wouldn't mind
+>> reusing some more space out of it, if that would even be needed.
+>>
 > 
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> ---
->  drivers/platform/x86/think-lmi.c | 23 +++++++++--------------
->  drivers/platform/x86/think-lmi.h |  2 ++
->  2 files changed, 11 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think-lmi.c
-> index 2c94a4af9a1d..0fc275e461be 100644
-> --- a/drivers/platform/x86/think-lmi.c
-> +++ b/drivers/platform/x86/think-lmi.c
-> @@ -344,20 +344,14 @@ static int tlmi_opcode_setting(char *setting, const char *value)
->  	return ret;
->  }
-> 
-> -static int tlmi_setting(int item, char **value, const char *guid_string)
-> +static int tlmi_setting(struct wmi_device *wdev, int item, char **value)
->  {
-> -	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
->  	union acpi_object *obj;
-> -	acpi_status status;
->  	int ret;
-> 
-> -	status = wmi_query_block(guid_string, item, &output);
-> -	if (ACPI_FAILURE(status))
-> -		return -EIO;
-> -
-> -	obj = output.pointer;
-> +	obj = wmidev_block_query(wdev, item);
->  	if (!obj)
-> -		return -ENODATA;
-> +		return -EIO;
+> netmem skb are real sk_buff, with the modification that frags are not
 
-Hi Armin,
+We were discussing ubuf_info allocation, take a look at
+msg_zerocopy_alloc(), it has nothing to do with netmems and all that.
 
-I'm trying to understand why there are these back and forth changes in the 
-error code.
+> readable, only in the case that the netmem is unreadable. I would not
+> approve of considering netmem/devmem skbs "not real skbs", and start
+> messing with the semantics of skb fields for devmem skbs, and having
+> to start adding skb_is_devmem() checks through all code in the skb
+> handlers that touch the fields being overwritten in the devmem case.
+> No, I don't think we can re-use random fields in the skb for devmem.
+> 
+>>> stashing the binding in ubuf_info_ops (very hacky). Neither approach
+>>> seems ideal, but the former may work and may be cleaner.
+>>>
+>>> I'll take a deeper look here. I had looked before and concluded that
+>>> we're piggybacking devmem TX on MSG_ZEROCOPY path, because we need
+>>> almost all of the functionality there (no copying, send complete
+>>> notifications, etc), with one minor change in the skb filling. I had
+>>> concluded that if MSG_ZEROCOPY was never updated to use the existing
+>>> infra, then it's appropriate for devmem TX piggybacking on top of it
+>>
+>> MSG_ZEROCOPY does use the common infra, i.e. passing ubuf_info,
+>> but doesn't need ->sg_from_iter as zerocopy_fill_skb_from_iter()
+>> and it's what was there first.
+>>
+> 
+> But MSG_ZEROCOPY doesn't set msg->msg_ubuf. And not setting
+> msg->msg_ubuf fails to trigger msg->sg_from_iter altogether.
+> 
+> And also currently sg_from_iter isn't set up to take in a ubuf_info.
+> We'd need that if we stash the binding in the ubuf_info.
 
-It almost looks to me like wmidev_block_query() would want to return the 
-error code itself because after you abstracted this code using 
-wmidev_block_query(), you had to change the error code because you no 
-longer have access to the key detail to decide which error code should be 
-returned. That is, use ERR_PTR() inside wmidev_block_query() and the 
-callers should just pass that error code on with IS_ERR & friends?
+https://github.com/isilence/linux.git sg-iter-ops
+
+I have old patches for all of that, they even rebased cleanly. That
+should do it for you, and I need to send then regardless of devmem.
+
+
+> All in all I think I wanna prototype an msg->sg_from_iter approach and
+> make a judgement call on whether it's cleaner than just passing the
+> binding through a couple of helpers just as I'm doing here. My feeling
+> is that the implementation in this patch may be cleaner than
+> refactoring the entire msg_ubuf/sg_from_iter flows so we can sort of
+> use it for MSG_ZEROCOPY with devmem when it currently doesn't use it.
+> 
+>>> to follow that. I would not want to get into a refactor of
+>>> MSG_ZEROCOPY for no real reason.
+>>>
+>>> But I'll take a deeper look here and see if I can make something
+>>> slightly cleaner work.
 
 -- 
- i.
+Pavel Begunkov
 
->  	ret = tlmi_extract_output_string(obj, value);
->  	kfree(obj);
-> @@ -995,7 +989,7 @@ static ssize_t current_value_show(struct kobject *kobj, struct kobj_attribute *a
->  	char *item, *value;
->  	int ret;
-> 
-> -	ret = tlmi_setting(setting->index, &item, LENOVO_BIOS_SETTING_GUID);
-> +	ret = tlmi_setting(setting->wdev, setting->index, &item);
->  	if (ret)
->  		return ret;
-> 
-> @@ -1588,7 +1582,7 @@ static struct tlmi_pwd_setting *tlmi_create_auth(const char *pwd_type,
->  	return new_pwd;
->  }
-> 
-> -static int tlmi_analyze(void)
-> +static int tlmi_analyze(struct wmi_device *wdev)
->  {
->  	int i, ret;
-> 
-> @@ -1625,7 +1619,7 @@ static int tlmi_analyze(void)
->  		char *item = NULL;
-> 
->  		tlmi_priv.setting[i] = NULL;
-> -		ret = tlmi_setting(i, &item, LENOVO_BIOS_SETTING_GUID);
-> +		ret = tlmi_setting(wdev, i, &item);
->  		if (ret)
->  			break;
->  		if (!item)
-> @@ -1648,6 +1642,7 @@ static int tlmi_analyze(void)
->  			kfree(item);
->  			goto fail_clear_attr;
->  		}
-> +		setting->wdev = wdev;
->  		setting->index = i;
->  		strscpy(setting->display_name, item);
->  		/* If BIOS selections supported, load those */
-> @@ -1666,7 +1661,7 @@ static int tlmi_analyze(void)
->  			 */
->  			char *optitem, *optstart, *optend;
-> 
-> -			if (!tlmi_setting(setting->index, &optitem, LENOVO_BIOS_SETTING_GUID)) {
-> +			if (!tlmi_setting(setting->wdev, setting->index, &optitem)) {
->  				optstart = strstr(optitem, "[Optional:");
->  				if (optstart) {
->  					optstart += strlen("[Optional:");
-> @@ -1791,7 +1786,7 @@ static int tlmi_probe(struct wmi_device *wdev, const void *context)
->  {
->  	int ret;
-> 
-> -	ret = tlmi_analyze();
-> +	ret = tlmi_analyze(wdev);
->  	if (ret)
->  		return ret;
-> 
-> diff --git a/drivers/platform/x86/think-lmi.h b/drivers/platform/x86/think-lmi.h
-> index f267d8b46957..a80452482227 100644
-> --- a/drivers/platform/x86/think-lmi.h
-> +++ b/drivers/platform/x86/think-lmi.h
-> @@ -4,6 +4,7 @@
->  #define _THINK_LMI_H_
-> 
->  #include <linux/types.h>
-> +#include <linux/wmi.h>
-> 
->  #define TLMI_SETTINGS_COUNT  256
->  #define TLMI_SETTINGS_MAXLEN 512
-> @@ -87,6 +88,7 @@ struct tlmi_pwd_setting {
->  /* Attribute setting details */
->  struct tlmi_attr_setting {
->  	struct kobject kobj;
-> +	struct wmi_device *wdev;
->  	int index;
->  	char display_name[TLMI_SETTINGS_MAXLEN];
->  	char *possible_values;
-> --
-> 2.39.5
-> 
