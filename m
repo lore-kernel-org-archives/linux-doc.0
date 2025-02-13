@@ -1,78 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416502066E5;
-	Thu, 13 Feb 2025 18:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7CF245021;
+	Thu, 13 Feb 2025 18:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739471410; cv=none; b=NbOjtCl9Syd9VVlVg8CclQDcvfzPt5uK9L4g3jk9Qye0iC2UsPZNTcIxYILOoAH6ESt6Vp6QmOKVsARYpLNc0Ay5GlN6Lekse6vssfKRN+dkrJ5NS8J9pNPe9sPIFIu2PBb6QscO07/R8aB6ENPflXtpQzus02UZTILMGLvx9w0=
+	t=1739471968; cv=none; b=AlGFU/2s+EhnkSElmVC4jSdj/6K6l7mlKpuXqvPFIb0oSz1XYvVI6Qamzj86umwV3MfSupj2uXUNFYQyi04ZHGvxb4dwobBNaNjOiJwGDhC//ydhnTrZIgWm3pEnpOKLZfdlgLFfcuiSOcFh8uLzel0sFfaFUhqGc6jeszs1SBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739471410; c=relaxed/simple;
-	bh=nYiLZEWwxEDFeGSrJEI37JBzapCreCcmn3jtv+TxgNA=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=b6RRAY1tukQTjfwX7jwSLZKPU0OqplWgeeWyC8vLST02xnjKdR/cdnPlOckchiRBey/f6wo/pbDk9gpwhOMMQKZVwDTqBdj23pclLkFQatIbTdTuWxLqMcDFsohDpZzJBV1dfhpk3DdUffSViZDPT1k/6qZLeA82rXu9+KGruy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K2/6EKH5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739471968; c=relaxed/simple;
+	bh=IL4JfZ8f/GmNV2oysYaN+vVvAghC4NR4d9vaXPutmxU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PIywRpEMbJRzitcKTQkZiSAKq5tQoUvUGDKzIOGUXxrCN9llrNsOwbZeKKQwJerNPObA/OO0goxxFxEQTXjDvBODfxj/b9I+DhhqqBprGfZyqnWnWfWAkm0984ngLg62WH97iXq4KzgiUfectLFSBEOy3A+QQnLvHviEbjZ7Z4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Kztbnl7b; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K2/6EKH5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B63BBC4CEE8;
-	Thu, 13 Feb 2025 18:30:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739471409;
-	bh=nYiLZEWwxEDFeGSrJEI37JBzapCreCcmn3jtv+TxgNA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=K2/6EKH5uuihdFdQQvWelxx30VCvTK7nhJXalWiyU2O70abv3GiMXT3L2xhj0q8Wq
-	 aeWNaMrRW3AY+5+tN+6f8jYHpP7qxG/FjF1iR38X+vcwMtVT2naOmwTM/x2PkLOhHI
-	 tSqX+mpxJs1FanrGvxBo9JKA8dC3GYamrh7CAqTIhuj0HHkQpeupYT67kD9ae52OHx
-	 pn3RJ6kVckQrdbWWuVMYF0Hx6ER9nWDHna+F2Fhg0s9F0w3Td9L10p/cNTG3DA8BDD
-	 QZL8IVd5/c6wlFjG7mqWAMU/vXoeaRg11UXLUwEwN4IBJoJbn8RQVRrWTRhb5McWHk
-	 kx2IiwM/WyBXQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33F0F380CEEF;
-	Thu, 13 Feb 2025 18:30:40 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Kztbnl7b"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2E41640411
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1739471966; bh=hWkxJ1YfLob73I7zxkcyS5NjQGuT1JLfL25ucCp224w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Kztbnl7bnXKKL9nmBXC8dduAeQpXAai0HXznNTtO0ezpnwdepmRaJTQNzAwyAG9Io
+	 UrPsV+FC/qluP3qW4UNtBd+sANT3CRFpjkgGYu2qpm53RY/Q2BoTQf68/CyHt8yRMB
+	 sUJWB2GJPb4RD/GwTPyxKlbk8OsehSmf+goCfe6ynqwY1rH6nKLy9BwubgH7dxfmx2
+	 Wg98MTfummjoZlzmoL+4OsjHeMkKOFKr2hE2z74llUpgCsITq6IKcTBT4VOjCu4Bdz
+	 XEbK8PFV/BTYVvFlmFKh9bqMO1WQdSdS00rFHrAyAeiLQMigmx9PGg3VKOSlZ9nNP0
+	 TnZWQ1aRMp7mw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2E41640411;
+	Thu, 13 Feb 2025 18:39:26 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Nick
+ Desaulniers <ndesaulniers@google.com>, bpf@vger.kernel.org,
+ llvm@lists.linux.dev, workflows@vger.kernel.org
+Subject: Re: [PATCH 0/4] Raise the bar with regards to Python and Sphinx
+ requirements
+In-Reply-To: <cover.1739254187.git.mchehab+huawei@kernel.org>
+References: <cover.1739254187.git.mchehab+huawei@kernel.org>
+Date: Thu, 13 Feb 2025 11:39:25 -0700
+Message-ID: <871pw14rky.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] Documentation: riscv: Remove KPROBES_ON_FTRACE
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <173947143900.1330575.12977521291070529712.git-patchwork-notify@kernel.org>
-Date: Thu, 13 Feb 2025 18:30:39 +0000
-References: <20250108020342.4172-1-cp0613@linux.alibaba.com>
-In-Reply-To: <20250108020342.4172-1-cp0613@linux.alibaba.com>
-To: None <cp0613@linux.alibaba.com>
-Cc: linux-riscv@lists.infradead.org, corbet@lwn.net, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Content-Type: text/plain
 
-Hello:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-This patch was applied to riscv/linux.git (fixes)
-by Palmer Dabbelt <palmer@rivosinc.com>:
+> This series  increases the minimal requirements for Sphinx and Python, and
+> drop some backward-compatible code from Sphinx extension.
 
-On Wed,  8 Jan 2025 10:03:42 +0800 you wrote:
-> From: Chen Pei <cp0613@linux.alibaba.com>
-> 
-> Since commit 7caa9765465f60 ("ftrace: riscv: move from REGS to ARGS"),
-> kprobe on ftrace is not supported by riscv.
-> 
-> And commit 3308172276db5d ("trace: riscv: Remove deprecated kprobe on
-> ftrace support") removed the relevant code, but left out the
-> documentation, so fix that.
-> 
-> [...]
+OK, I've gone ahead and applied this series - let's see who screams...
 
-Here is the summary with links:
-  - Documentation: riscv: Remove KPROBES_ON_FTRACE
-    https://git.kernel.org/riscv/c/ccc71244f95c
+Thanks,
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+jon
