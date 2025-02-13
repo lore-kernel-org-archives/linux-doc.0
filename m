@@ -1,65 +1,70 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9753B2063E1;
-	Thu, 13 Feb 2025 17:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A359E23A9BF;
+	Thu, 13 Feb 2025 17:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739469389; cv=none; b=J2FfI7ABvxZIuPqN4qEyvMVdnbn6i0RljwSxK/ijJ8hGgKHITWwTSVbOU7bFOFQ0PdHVk3c8ozR1w/o7ZM3U84PeqfEK16SWcr/8rIqVvzwp6AhT8PpdT8nRm717I+szeY2S6hIYJ5IoSZnplKlSK9NA7oubZVYX0cQ2qXTSiOw=
+	t=1739469495; cv=none; b=G4475mm8US+cyKyMrM261TxiwrH1cNUkfFiEBlwtywTg/09PkNq9yZrFwoFRsHJn3oawRDctUmseq2oqEmLLD7fNATMaSZsr1iMcMk/d4KNzIVguXoPs7zfP2kTCpEWUyLT4FhjXUav9K6dJrWfZlgGvWYbamBfVEcKUB9t9Itk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739469389; c=relaxed/simple;
-	bh=VJ9/7u5dm3yhevUGmYiN3uNdAeAmMy1lBqGWU8RiYq4=;
+	s=arc-20240116; t=1739469495; c=relaxed/simple;
+	bh=xWOXLkZUDipVXkBEWn6lKA+dhIt25ilw4tSep9BV2AI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EZffHj+lJBgb12qZP82t6+z1FONUmXVAetXrOW0093G63mQ01aJUvIFbgSwyshxDYHSfZl11gm+p4dJns8qOBUo+nxber710u0Qg+/2NnO7HW9xlNT/gd6U+wT9E7x9FPnQr882lrpTFZnft5hp14nbS1Gx9WFQPzkixs+rekCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8239B113E;
-	Thu, 13 Feb 2025 09:56:47 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 202C73F5A1;
-	Thu, 13 Feb 2025 09:56:23 -0800 (PST)
-Date: Thu, 13 Feb 2025 17:56:20 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: "Chatre, Reinette" <reinette.chatre@intel.com>,
-	Babu Moger <babu.moger@amd.com>,
-	"peternewman@google.com" <peternewman@google.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"paulmck@kernel.org" <paulmck@kernel.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"thuth@redhat.com" <thuth@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"xiongwei.song@windriver.com" <xiongwei.song@windriver.com>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
-	"daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-	"jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-	"perry.yuan@amd.com" <perry.yuan@amd.com>,
-	"sandipan.das@amd.com" <sandipan.das@amd.com>,
-	"Huang, Kai" <kai.huang@intel.com>,
-	"Li, Xiaoyao" <xiaoyao.li@intel.com>,
-	"seanjc@google.com" <seanjc@google.com>,
-	"Li, Xin3" <xin3.li@intel.com>,
-	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-	"ebiggers@google.com" <ebiggers@google.com>,
-	"mario.limonciello@amd.com" <mario.limonciello@amd.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"tan.shaopeng@fujitsu.com" <tan.shaopeng@fujitsu.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
-	"Eranian, Stephane" <eranian@google.com>
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Message-ID: <Z64yRKyaG+yUhc2N@e133380.arm.com>
-References: <cover.1737577229.git.babu.moger@amd.com>
- <Z6zeXby8ajh0ax6i@e133380.arm.com>
- <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
- <SJ1PR11MB6083A2CD66FAE5DBEDCB96C0FCFF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=iF5XwEfEQtoEXdfHW9Qot9GpFxvjTue+56M/kQU7D/QdyrvAjqjVgpGPUaQwkCrJSmYKTR0mqcQlrRS+ABy2vXOlWdk0aSy8q9NEs8bqeZHSnaNuvBjSi3jQIJDXIWR9s1KBe1wg0P22XT16d7sVhUFJGD3/VQ4N2pBKPgV3Fww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nL7iWe8L; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nL7iWe8L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739469494; x=1771005494;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xWOXLkZUDipVXkBEWn6lKA+dhIt25ilw4tSep9BV2AI=;
+  b=nL7iWe8LRuaaE9XtsEcgHVtkJqusZwn078EcJfVJ1ID0soWE8WODa1du
+   9N/sHArAJdd1KLeVrHkSVoTA9MO870iIGOgvrxcBdCk7lHiBLgY7U/VMq
+   Cz8f8jRZpYXbDcpJtedBIZahWbcsERPBLqHVtQDp6Sj0qjziO8eqnFQ9j
+   VH4OcLRO7uFH65/NsEXo0x8x9hC4I+RVR4V/HZw2fBYGn6vuvzZfghqQa
+   AWAZGHQNoe+m5hz7QdLvSTFDcndqQwD4c/Ys8ZwV/yhBouowydsNRf2t1
+   YMa4kg89l/IqwY0tqzLuvxcLvNZ01qEJVIjKnD8J0wGiLA31CymLIOeu6
+   A==;
+X-CSE-ConnectionGUID: 4S1JRYt2TK6htlOC44dRpA==
+X-CSE-MsgGUID: LWXmXoRXSSWwfnjClGvfXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="40066666"
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
+   d="scan'208";a="40066666"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 09:58:13 -0800
+X-CSE-ConnectionGUID: xIa7/2r4Ru+OWWqzhiIL+w==
+X-CSE-MsgGUID: FRsG1AacQQO4aUWK4apTMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
+   d="scan'208";a="118223746"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 13 Feb 2025 09:58:08 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tidTS-0018XD-0N;
+	Thu, 13 Feb 2025 17:58:06 +0000
+Date: Fri, 14 Feb 2025 01:57:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Robert Budai <robert.budai@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Ramona Gradinariu <ramona.gradinariu@analog.com>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v7 3/6] iio: imu: adis: Add DIAG_STAT register
+Message-ID: <202502140107.SF1UwFxM-lkp@intel.com>
+References: <20250211175706.276987-4-robert.budai@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,32 +73,86 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SJ1PR11MB6083A2CD66FAE5DBEDCB96C0FCFF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+In-Reply-To: <20250211175706.276987-4-robert.budai@analog.com>
 
-Hi Tony,
+Hi Robert,
 
-On Thu, Feb 13, 2025 at 12:11:13AM +0000, Luck, Tony wrote:
-> > I do not think that resctrl's current support of the mbm_total_bytes and
-> > mbm_local_bytes should be considered as the "only" two available "slots"
-> > into which all possible events should be forced into. "mon_features" exists
-> > to guide user space to which events are supported and as I see it new events
-> > can be listed here to inform user space of their availability, with their
-> > associated event files available in the resource groups.
-> 
-> 100%  I have a number of "events" in the pipeline that do not fit these
-> names. I'm planning on new files with descriptive[1] names for the events
-> they report.
-> 
-> -Tony
-> 
-> [1] When these are ready to post we can discuss the names I chose and
-> change them if there are better names that work across architectures.
+kernel test robot noticed the following build warnings:
 
-Do any of the approaches discussed in [2] look viable for this?
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.14-rc2 next-20250213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-(Ideally, reply over there.)
+url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Budai/iio-imu-adis-Add-custom-ops-struct/20250212-040235
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250211175706.276987-4-robert.budai%40analog.com
+patch subject: [PATCH v7 3/6] iio: imu: adis: Add DIAG_STAT register
+config: arc-randconfig-r112-20250213 (https://download.01.org/0day-ci/archive/20250214/202502140107.SF1UwFxM-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250214/202502140107.SF1UwFxM-lkp@intel.com/reproduce)
 
-Cheers
----Dave
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502140107.SF1UwFxM-lkp@intel.com/
 
-[2] https://lore.kernel.org/lkml/Z64tw2NbJXbKpLrH@e133380.arm.com/
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/imu/adis.c:319:42: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned short [usertype] *val @@     got unsigned short [usertype] status_16 @@
+   drivers/iio/imu/adis.c:319:42: sparse:     expected unsigned short [usertype] *val
+   drivers/iio/imu/adis.c:319:42: sparse:     got unsigned short [usertype] status_16
+>> drivers/iio/imu/adis.c:319:42: sparse: sparse: non size-preserving integer to pointer cast
+
+vim +319 drivers/iio/imu/adis.c
+
+   298	
+   299	/**
+   300	 * __adis_check_status() - Check the device for error conditions (unlocked)
+   301	 * @adis: The adis device
+   302	 *
+   303	 * Returns 0 on success, a negative error code otherwise
+   304	 */
+   305	int __adis_check_status(struct adis *adis)
+   306	{
+   307		unsigned int status;
+   308		int diag_stat_bits;
+   309		u16 status_16;
+   310		int ret;
+   311		int i;
+   312	
+   313		if (adis->data->diag_stat_size)
+   314			ret = adis->ops->read(adis, adis->data->diag_stat_reg, &status,
+   315					      adis->data->diag_stat_size);
+   316		else
+   317		{
+   318			ret = __adis_read_reg_16(adis, adis->data->diag_stat_reg,
+ > 319						 status_16);
+   320			status = status_16;
+   321		}
+   322		if (ret)
+   323			return ret;
+   324	
+   325		status &= adis->data->status_error_mask;
+   326	
+   327		if (status == 0)
+   328			return 0;
+   329	
+   330		diag_stat_bits = BITS_PER_BYTE * (adis->data->diag_stat_size ?
+   331						  adis->data->diag_stat_size : 2);
+   332	
+   333		for (i = 0; i < diag_stat_bits; ++i) {
+   334			if (status & BIT(i)) {
+   335				dev_err(&adis->spi->dev, "%s.\n",
+   336					adis->data->status_error_msgs[i]);
+   337			}
+   338		}
+   339	
+   340		return -EIO;
+   341	}
+   342	EXPORT_SYMBOL_NS_GPL(__adis_check_status, "IIO_ADISLIB");
+   343	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
