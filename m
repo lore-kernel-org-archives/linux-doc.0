@@ -1,185 +1,300 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16A5202C27
-	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 09:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AADE20F09C
+	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 09:57:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739438644; cv=none; b=i/gn/lTABad1I+Qlb9wDWpxuWfV6Otp85btsDmhjELhVhjGs4MfKcW+QJ9tKBCjs6bSR9UPjk5GP70WR4hknEVq/kqRUEjiFrUrWMNGYu//1r3/vi3Lob0UuUUC8fkKRexfmAyjrUgD3NpbUA/XnprZvNwjrpi+PzWnmnzZN3SY=
+	t=1739440647; cv=none; b=GI2eVb656zkL+U0bQv0LhwqkmkGbA4dQTsi1pFZ4nGUaJ25lm8OlmaLH7p5yAb/goZkoXl4cgAnnk7G/ApkbLoQm9t2OwW+KJDlkATF4MbTKOfnd4aCErv4rRsrDLFTXhThlXqiHiKJeKBWsuESVPEGilQI+L3kD6XLRvLV/KLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739438644; c=relaxed/simple;
-	bh=mfXNeTj+Q8ZX0NBisxbi4QQyQ/0LK4y+WrTTR40VPyo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZPvjlWcxIgfaqaed6hZbeZ3bxHaFlVGYBfcDZP7D1qnv4AiI5acYjmNlalqNNotAHDM9lT+GoLIzIJk5zZfXD8uM2XVBqhUFIAu2q1+pK6drp7sLgDRJb2s/4EMukSrNlIS8MErHHUh4Xncxhf6RtmMbJdBv/gvl7Xyna3KCbss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=KDjKOm6/; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+	s=arc-20240116; t=1739440647; c=relaxed/simple;
+	bh=UGc9ObOcc9fiqV8aJE7rZhVXFHRLNN9VsFOqM6VnTkM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tzPNLKVTt/YVG+DGVmRcnpC8Pzm5rG0wf2xx1T8Pi+FlpwLoxAqDAz1zMm1dwBWfjYGMd9kpiuiO3WuLJdmbrS4iHduie7jxlGmp3unuAJypBu7YNYIIqXLsjB1ASH/1K7Bw8NX921tIBLJjYtvl8Tunr4413WFk1RAY/6+w1ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YanKuDTp; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="KDjKOm6/"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-220bff984a0so10628435ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 01:24:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YanKuDTp"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ab7e3d0921bso130152066b.3
+        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 01:57:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1739438642; x=1740043442; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s+g1corMoWLkqgaHyL0dUry18PBH1WwZj6geDsmEd1Y=;
-        b=KDjKOm6/0FJ3659nApC3mh5Qz2KfuRT+TelHF+ecr+t08t0h66scPICfpH8q36dDdg
-         QNpyYENQ5hApsce4xKZYWc/6l7lwDw2r288/mzMSZmM2UxvpTjK75ljeTzV7dVByqdPx
-         /867R5Ei2/PaBSNEp/Zm6k3AXDyisesc3wjyzdVOAYEUdQpIIs7TjXWlfFeDZMbsFLCJ
-         CVv8SbBjU49ezKqdbXe8QNlTxp1p3no2ssUvpPSNsstvHvLmw7r9lIrAaqXlBpobaS/R
-         NwxC17uCq2KpdNFKZkZubeft8KN3u3yeKSIGiwp0FVQZSh49q1RyQYbPtIiJL11XeB5H
-         jegA==
+        d=linaro.org; s=google; t=1739440643; x=1740045443; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7dDnkFZgua1UqBGscNggAFQGfuNxy2VOU9Ws/6e96UA=;
+        b=YanKuDTpXT3WAR1fj0mZuuN8ORjEWwcfELM+8E4+pWYvwttnShGQc2MbdMXlXrpSXJ
+         D7SUlnf7oUPAQqgAdmPRyM+GOSojFQBiHHvzVi0uHOpDnhLOc/y6jkt0LhkrsQrk1NKl
+         Q7loB54Fd274jpK+c5YGLIGrEnzZhgRZUCQVtY5l5kketTVDZmPCemdtFWfAyGsRPhYN
+         kXw4Aij9CI/utHfSDpvdtt4r+TKD3gNFmOpm/Jdg6wJCngyYQIIy8QJtckGoXPBnMkH9
+         prNebnEdwYfaRkbMPpPjRnQbzwR/D+Y1xf8PWnBWmAmgMZmlnBeZHhXGnmaNlAFeUTCJ
+         rEdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739438642; x=1740043442;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s+g1corMoWLkqgaHyL0dUry18PBH1WwZj6geDsmEd1Y=;
-        b=jzwzLoa27r/jO8fNFpx6ZP2SqtPKgKEGyvBjwSQmV7B18pgikQUwS92TAjabRE57gQ
-         L5yysypGxozrjDEXIhKPUyY2/MvGicLoaCoNJziLdjavXUjWdcAVSERmcF95ZTcMQlNE
-         YwAxGQrhOlErK7YF8qLsoFERR8Ux938lwxSlxry9FLyLWy9UpMXGupCrIu2ur2l93LwL
-         NhjIb5GVHJdCmrr6xA8ytDikNqxLUAk4wphdjg1OjxqAAmN7dJyzkeh3JCTfgy2iCXtd
-         6TdIqsV1C1o/vOjCZ0svsraoG3uZcXneC8dx2qPfjylldOfILd5WIIJmg71GtyKZddfU
-         vp7w==
-X-Forwarded-Encrypted: i=1; AJvYcCUvBqPP1LoZAVeF1Cr6WvRgFTiuDTYNGudpTe0Fv6IJ32RL2UbEHy4IboJyvJRmCUk53cx7ldeP/9o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6vg5Fo91v+TpOsJ8rdUQdCYuX225/wjVuGBd0FBWAdmOKGwDr
-	CwdlYeJx/uyw8yJjcCwa0uFw5YQqFooxrc54IDZyrSbjrbzomAm2/lJnwyehRLE=
-X-Gm-Gg: ASbGncsoPnJCS7Vwnz/t46j/uTQtlDXGGewNvU1TfCxzYUkNhhugWh1kj/f7AYMkLfq
-	Qi+M5lw1NQwpQxXH6VC+VFiCivb2Bkyl4XKy0piqT2aaK+c6JXAJDl0irrbQQ+jgtbDtbqA0yGK
-	IYtqTboXpVSwo51Od7uZQ/GRC+GqIREYx+8CC1J825eSG10z5XMtmvfCFgSoFZsZrtZmrEcAjiA
-	1T0YwiYJQ9FtjqwB7pHtYU30EcEqQ0TDcsC2NURSE0RZGkAQkbf0TS2PS9JF0m9bL2B4FnQe9Ay
-	Byaheb9ExFnUNZFcPLroT83sH9Qd
-X-Google-Smtp-Source: AGHT+IGF+4e3Af2SCI8Rg8n4coZI7ErejXVy5bxQnzx65sHDQNZjtZ7hhVxDzaYqpoDifzZ7gAKFSQ==
-X-Received: by 2002:a17:902:e950:b0:220:c813:dfb2 with SMTP id d9443c01a7336-220d2153077mr52167375ad.44.1739438642097;
-        Thu, 13 Feb 2025 01:24:02 -0800 (PST)
-Received: from [157.82.205.237] ([157.82.205.237])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fc13ad3fb8sm805579a91.26.2025.02.13.01.23.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Feb 2025 01:24:01 -0800 (PST)
-Message-ID: <0fa16c0e-8002-4320-b7d3-d3d36f80008c@daynix.com>
-Date: Thu, 13 Feb 2025 18:23:55 +0900
+        d=1e100.net; s=20230601; t=1739440643; x=1740045443;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7dDnkFZgua1UqBGscNggAFQGfuNxy2VOU9Ws/6e96UA=;
+        b=BNVoGlB65L9NYg5EbQnCDOSTGXM/iobZ/+7oomHsC2Q21LNhkrA4aiXB6VzVKFRxSS
+         WY5xs9yNCSi9XqLs6SZY20f+cDIRpHSLBjzFBzWW0EMqz4CUMRHWdSq1YxDjvGk3oBrf
+         IuqgDidtHluDATkqn63GpRqdGJo0TPEW+p3z/XY0l8LZR+x/xuu8iu2xgs7u17hO3YrU
+         a1gmwprn0QlaBBDualOQ8mXqJzEq3Jrf/bO14IOAH4qF2hnsCPnlZWXbuTwwsWarQiFy
+         hqXFTs7Fob9gBg6sBvV0i+QwC9mgRKtCV1QNMtdRL/1j4PDYYlFPRBdOmJVAxY6mD9SO
+         UCmA==
+X-Forwarded-Encrypted: i=1; AJvYcCWD0R+2UBnUVBu47cUVH4gFCVKygNK0qyu/TfD0OpsU3PnHNCWDHxBK6CR/UhEVPveTuYM+bvIfAQ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJtqlQi63caFihM1CJbwAn2p5njNBWtNbctgWe90Injdi0FNzG
+	Vzfg7VW5OMMHCFZ6nEr863OhAYN6MV0a+v6yZTX0gmcTGBm7vE9Pr9t9W0x6HcY=
+X-Gm-Gg: ASbGnctCFvwlMgyAoOEgUDd8BL58HJ3FOTZotK+2qhoBa37nA7ZRUec9ALZHOJoxnAY
+	fjmrRl/7S+FqSA4KGKbnKk2SDABgeLuTiMfXqGgyobJJLgLldoaACNHP6SSSw6pu1cXGsefbKGN
+	P0VWQkiUwMBSwS6W8pOLVw90Vc9fg6kKXmxQN6sNR3PMipOupQmkT9iSux/NoWQiUMUEg6v9fJ9
+	hlcgImzWbf1b8qBlM7tvE/Sc+Hn1/D5z1MmeXFpt9AU2hr2moQlolgJc2sb1OX5w4IsvuvSbOa6
+	G94E3PeyBtn6gvMfYisgKQqt
+X-Google-Smtp-Source: AGHT+IGADwhh1icVC7s+gezl0zQBAJHdG1XGHb5ZLRS19iiprTI4XevZdOeG/8A3plTf3PiJD+eKew==
+X-Received: by 2002:a17:907:3d8e:b0:ab7:7c58:7bd0 with SMTP id a640c23a62f3a-aba4eb88d83mr293589766b.10.1739440643187;
+        Thu, 13 Feb 2025 01:57:23 -0800 (PST)
+Received: from linaro.org ([2a02:2454:ff21:ef30:546e:a2d:e86:b3d6])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba532580e1sm97477466b.46.2025.02.13.01.57.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 01:57:22 -0800 (PST)
+Date: Thu, 13 Feb 2025 10:57:17 +0100
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
+	broonie@kernel.org, lgirdwood@gmail.com, tiwai@suse.com,
+	krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com,
+	Thinh.Nguyen@synopsys.com, robh@kernel.org,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v34 00/31] Introduce QC USB SND audio offloading support
+Message-ID: <Z63B_UE61OdrgEJY@linaro.org>
+References: <20250121210518.2436771-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] tun: Pad virtio headers
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>,
- Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
- devel@daynix.com
-References: <20250213-buffers-v1-1-ec4a0821957a@daynix.com>
- <20250213020702-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20250213020702-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250121210518.2436771-1-quic_wcheng@quicinc.com>
 
-On 2025/02/13 16:18, Michael S. Tsirkin wrote:
+On Tue, Jan 21, 2025 at 01:04:47PM -0800, Wesley Cheng wrote:
+> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
 > 
-> Commit log needs some work.
+> Several Qualcomm based chipsets can support USB audio offloading to a
+> dedicated audio DSP, which can take over issuing transfers to the USB
+> host controller.  The intention is to reduce the load on the main
+> processors in the SoC, and allow them to be placed into lower power modes.
+> There are several parts to this design:
+>   1. Adding ASoC binding layer
+>   2. Create a USB backend for Q6DSP
+>   3. Introduce XHCI interrupter support
+>   4. Create vendor ops for the USB SND driver
 > 
-> So my understanding is, this patch does not do much functionally,
-> but makes adding the hash feature easier. OK.
-> 
-> On Thu, Feb 13, 2025 at 03:54:06PM +0900, Akihiko Odaki wrote:
->> tun used to simply advance iov_iter when it needs to pad virtio header,
->> which leaves the garbage in the buffer as is. This is especially
->> problematic
-> 
-> I think you mean "this will become especially problematic"
-> 
->> when tun starts to allow enabling the hash reporting
->> feature; even if the feature is enabled, the packet may lack a hash
->> value and may contain a hole in the virtio header because the packet
->> arrived before the feature gets enabled or does not contain the
->> header fields to be hashed. If the hole is not filled with zero, it is
->> impossible to tell if the packet lacks a hash value.
->>
->> In theory, a user of tun can fill the buffer with zero before calling
->> read() to avoid such a problem, but leaving the garbage in the buffer is
->> awkward anyway so fill the buffer in tun.
+>       USB                          |            ASoC
+> --------------------------------------------------------------------
+>                                    |  _________________________
+>                                    | |sm8250 platform card     |
+>                                    | |_________________________|
+>                                    |         |           |
+>                                    |      ___V____   ____V____
+>                                    |     |Q6USB   | |Q6AFE    |  
+>                                    |     |"codec" | |"cpu"    |
+>                                    |     |________| |_________|
+>                                    |         ^  ^        ^
+>                                    |         |  |________|
+>                                    |      ___V____    |
+>                                    |     |SOC-USB |   |
+>    ________       ________               |        |   |
+>   |USB SND |<--->|QC offld|<------------>|________|   |
+>   |(card.c)|     |        |<----------                |
+>   |________|     |________|___     | |                |
+>       ^               ^       |    | |    ____________V_________
+>       |               |       |    | |   |APR/GLINK             |
+>    __ V_______________V_____  |    | |   |______________________|
+>   |USB SND (endpoint.c)     | |    | |              ^
+>   |_________________________| |    | |              |
+>               ^               |    | |   ___________V___________
+>               |               |    | |->|audio DSP              |
+>    ___________V_____________  |    |    |_______________________|
+>   |XHCI HCD                 |<-    |
+>   |_________________________|      |
 > 
 > 
-> What is missing here is description of what the patch does.
-> I think it is
-> "Replace advancing the iterator with writing zeros".
+> Adding ASoC binding layer
+> =========================
+> soc-usb: Intention is to treat a USB port similar to a headphone jack.
+> The port is always present on the device, but cable/pin status can be
+> enabled/disabled.  Expose mechanisms for USB backend ASoC drivers to
+> communicate with USB SND.
 > 
-> There could be performance cost to the dirtying extra cache lines, though.
-> Could you try checking that please?
-
-It will not dirty extra cache lines; an explanation follows later. 
-Because of that, any benchmark are likely to show only noises, but if 
-you have an idea of workloads that should be tested, please tell me.
-
+> Create a USB backend for Q6DSP
+> ==============================
+> q6usb: Basic backend driver that will be responsible for maintaining the
+> resources needed to initiate a playback stream using the Q6DSP.  Will
+> be the entity that checks to make sure the connected USB audio device
+> supports the requested PCM format.  If it does not, the PCM open call will
+> fail, and userspace ALSA can take action accordingly.
 > 
-> I think we should mention the risks of the patch, too.
-> Maybe:
+> Introduce XHCI interrupter support
+> ==================================
+> XHCI HCD supports multiple interrupters, which allows for events to be routed
+> to different event rings.  This is determined by "Interrupter Target" field
+> specified in Section "6.4.1.1 Normal TRB" of the XHCI specification.
 > 
-> 	Also in theory, a user might have initialized the buffer
-> 	to some non-zero value, expecting tun to skip writing it.
-> 	As this was never a documented feature, this seems unlikely.
- > >
->>
->> The specification also says the device MUST set num_buffers to 1 when
->> the field is present so set it when the specified header size is big
->> enough to contain the field.
+> Events in the offloading case will be routed to an event ring that is assigned
+> to the audio DSP.
 > 
-> This part I dislike. tun has no idea what the number of buffers is.
-> Why 1 specifically?
+> Create vendor ops for the USB SND driver
+> ========================================
+> qc_audio_offload: This particular driver has several components associated
+> with it:
+> - QMI stream request handler
+> - XHCI interrupter and resource management
+> - audio DSP memory management
+> 
+> When the audio DSP wants to enable a playback stream, the request is first
+> received by the ASoC platform sound card.  Depending on the selected route,
+> ASoC will bring up the individual DAIs in the path.  The Q6USB backend DAI
+> will send an AFE port start command (with enabling the USB playback path), and
+> the audio DSP will handle the request accordingly.
+> 
+> Part of the AFE USB port start handling will have an exchange of control
+> messages using the QMI protocol.  The qc_audio_offload driver will populate the
+> buffer information:
+> - Event ring base address
+> - EP transfer ring base address
+> 
+> and pass it along to the audio DSP.  All endpoint management will now be handed
+> over to the DSP, and the main processor is not involved in transfers.
+> 
+> Overall, implementing this feature will still expose separate sound card and PCM
+> devices for both the platform card and USB audio device:
+>  0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
+>                       SM8250-MTP-WCD9380-WSA8810-VA-DMIC
+>  1 [Audio          ]: USB-Audio - USB Audio
+>                       Generic USB Audio at usb-xhci-hcd.1.auto-1.4, high speed
+> 
+> This is to ensure that userspace ALSA entities can decide which route to take
+> when executing the audio playback.  In the above, if card#1 is selected, then
+> USB audio data will take the legacy path over the USB PCM drivers, etc...
+> 
+> The current limitation is that the latest USB audio device that is identified
+> will be automatically selected by the Q6USB BE DAI for offloading.  Future
+> patches can be added to possibly add for more flexibility, but until the userpace
+> applications can be better defined, having these mechanisms will complicate the
+> overall implementation.
+> 
+> USB offload Kcontrols
+> =====================
+> Part of the vendor offload package will have a mixer driver associated with it
+> (mixer_usb_offload.c).  This entity will be responsible for coordinating with
+> SOC USB and the Q6USB backend DAI to fetch information about the sound card
+> and PCM device indices associated with the offload path.  The logic is done
+> based on the current implementation of how paths are controlled within the QC
+> ASoC implementation.
+> 
+> QC ASoC Q6Routing
+> -----------------
+> Within the Q6 ASOC design, the registered ASoC platform card will expose a set
+> of kcontrols for enabling the BE DAI links to the FE DAI link.  For example:
+> 
+> tinymix -D 0 contents
+> Number of controls: 1033
+> ctl     type    num     name                                    value
+> ...
+> 1025    BOOL    1       USB Mixer MultiMedia1                   Off
+> 1026    BOOL    1       USB Mixer MultiMedia2                   Off
+> 1027    BOOL    1       USB Mixer MultiMedia3                   Off
+> 1028    BOOL    1       USB Mixer MultiMedia4                   Off
+> 1029    BOOL    1       USB Mixer MultiMedia5                   Off
+> 1030    BOOL    1       USB Mixer MultiMedia6                   Off
+> 1031    BOOL    1       USB Mixer MultiMedia7                   Off
+> 1032    BOOL    1       USB Mixer MultiMedia8                   Off
+> 
+> Each of these kcontrols will enable the USB BE DAI link (q6usb) to be connected
+> to a FE DAI link (q6asm).  Since each of these controls are DAPM widgets, when
+> it is enabled, the DAPM widget's "connect" flag is updated accordingly.
+> 
+> USB Offload Mapping
+> -------------------
+> Based on the Q6routing, the USB BE DAI link can determine which sound card and
+> PCM device is enabled for offloading.  Fetching the ASoC platform sound card's
+> information is fairly straightforward, and the bulk of the work goes to finding
+> the corresponding PCM device index.  As mentioned above, the USB BE DAI can
+> traverse the DAPM widgets to find the DAPM path that is related to the control
+> for the "USB Mixer."  Based on which "USB Mixer" is enabled, it can find the
+> corresponding DAPM widget associated w/ the FE DAI link (Multimedia*).  From there
+> it can find the PCM device created for the Multimedia* stream.
+> 
+> Only one BE DAI link can be enabled per FE DAI.  For example, if the HDMI path is
+> enabled for Multimedia1, the USB Mixer will be disabled and switched over.
+> 
+> Examples of kcontrol
+> --------------------
+> tinymix -D 0 contents
+> Number of controls: 1033
+> ctl     type    num     name 
+> ...
+> 1025    BOOL    1       USB Mixer MultiMedia1                   Off
+> 1026    BOOL    1       USB Mixer MultiMedia2                   On
+> 1027    BOOL    1       USB Mixer MultiMedia3                   Off
+> 1028    BOOL    1       USB Mixer MultiMedia4                   Off
+> 1029    BOOL    1       USB Mixer MultiMedia5                   Off
+> 1030    BOOL    1       USB Mixer MultiMedia6                   Off
+> 1031    BOOL    1       USB Mixer MultiMedia7                   Off
+> 1032    BOOL    1       USB Mixer MultiMedia8                   Off
+> 
+> tinymix -D 2 contents
+> Number of controls: 10
+> ctl     type    num     name                                    value
+> 0       INT     2       Capture Channel Map                     0, 0 (range 0->36)
+> 1       INT     2       Playback Channel Map                    0, 0 (range 0->36)
+> 2       BOOL    1       Headset Capture Switch                  On
+> 3       INT     1       Headset Capture Volume                  10 (range 0->13)
+> 4       BOOL    1       Sidetone Playback Switch                On
+> 5       INT     1       Sidetone Playback Volume                4096 (range 0->8192)
+> 6       BOOL    1       Headset Playback Switch                 On
+> 7       INT     2       Headset Playback Volume                 20, 20 (range 0->24)
+> 8       INT     1       USB Offload Playback Card Route PCM#0   0 (range -1->32)
+> 9       INT     1       USB Offload Playback PCM Route PCM#0    1 (range -1->255)
+> 
+> The example highlights that the userspace/application can utilize the offload path
+> for the USB device on card#0 PCM device#1.
+> 
+> When dealing with multiple USB audio devices, only the latest USB device identified
+> is going to be selected for offload capable.
+> 
+> tinymix -D 1 contents
+> Number of controls: 9
+> ctl     type    num     name                                    value
+> 0       INT     2       Capture Channel Map                     0, 0 (range 0->36)
+> 1       INT     2       Playback Channel Map                    0, 0 (range 0->36)
+> 2       BOOL    1       Headset Capture Switch                  On
+> 3       INT     1       Headset Capture Volume                  1 (range 0->4)
+> 4       BOOL    1       Sidetone Playback Switch                On
+> 5       INT     1       Sidetone Playback Volume                4096 (range 0->8192)
+> 6       BOOL    1       Headset Playback Switch                 On
+> 7       INT     2       Headset Playback Volume                 20, 20 (range 0->24)
+> 8       INT     1       USB Offload Playback Card Route PCM#0   -1 (range -1->32)
+> 9       INT     1       USB Offload Playback PCM Route PCM#0    -1 (range -1->255)
+> 
+> "-1, -1" shows that this device has no route to the offload path.
+> 
+> This feature was validated using:
+> - tinymix: set/enable the multimedia path to route to USB backend
+> - tinyplay: issue playback on platform card
+> 
 
-That's a valid point. I rewrote the commit log to clarify, but perhaps 
-we can drop the code to set the num_buffers as "[PATCH] vhost/net: Set 
-num_buffers for virtio 1.0" already landed.
+Could you share the device tree changes for a board upstream and any
+other changes needed to be able to test this series? E.g. for
+sm8250-mtp.dts, based on your examples above.
 
-Below is the rewritten commit log, which incorporates your suggestions 
-and is extended to cover the performance implication and reason the 
-num_buffers initialization:
+There are examples for qcom,q6usb etc in the bindings you submitted, but
+having a full example would be much easier.
 
-tun simply advances iov_iter when it needs to pad virtio header,
-which leaves the garbage in the buffer as is. This will become
-especially problematic when tun starts to allow enabling the hash
-reporting feature; even if the feature is enabled, the packet may lack a
-hash value and may contain a hole in the virtio header because the
-packet arrived before the feature gets enabled or does not contain the
-header fields to be hashed. If the hole is not filled with zero, it is
-impossible to tell if the packet lacks a hash value.
-
-In theory, a user of tun can fill the buffer with zero before calling
-read() to avoid such a problem, but leaving the garbage in the buffer is
-awkward anyway so replace advancing the iterator with writing zeros.
-
-A user might have initialized the buffer to some non-zero value,
-expecting tun to skip writing it. As this was never a documented
-feature, this seems unlikely. Neither is there a non-zero value that can
-be determined and set before receiving the packet; the only exception
-is the num_buffers field, which is expected to be 1 for version 1 when
-VIRTIO_NET_F_HASH_REPORT is not negotiated. This field is specifically
-set to 1 instead of 0.
-
-The overhead of filling the hole in the header is negligible as the
-entire header is already placed on the cache when a header size defined
-in the current specification is used even if the cache line is small
-(16 bytes for example).
-
-Below are the header sizes possible with the current specification:
-a) 10 bytes if the legacy interface is used
-b) 12 bytes if the modern interface is used
-c) 20 bytes if VIRTIO_NET_F_HASH_REPORT is negotiated
-
-a) and b) obviously fit in a cache line. c) uses one extra cache line,
-but the cache line also contains the first 12 bytes of the packet so
-it is always placed on the cache.
+Thanks,
+Stephan
