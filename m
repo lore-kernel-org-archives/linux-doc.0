@@ -1,46 +1,83 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40C4C204684;
-	Thu, 13 Feb 2025 17:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA572204C0B
+	for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 17:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739468241; cv=none; b=UolE38x0E8fol64FvJJljty2Nb+rb65FX8zXZDJ0Af14yVfoysxrrISI8tLwdLdzX6E0mlqw2iZqTytp2bVpIxvFnNSRzy0N3cqZ1fDNRCWV70cky8DL0UzBhYrPoOaixe0L9F6Pytz5NDQRa/DnbLmfjcbhX5UL19nRYycZtn8=
+	t=1739468338; cv=none; b=EUMCKleDBFjz3NUq5+KZOFfhin6vjJXt+Roewird7aAHaqZjIwEOpOtXBwVZuYWn1GSzcGioB1DkB3E5audRVfOjGx4FTZC505adhCoDc3W/gVQZDqUtYSTvlWNEFdKtLruwPNDJ5PZ0DXVFo6gng4c7FCftxrig+/3x3x1cBrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739468241; c=relaxed/simple;
-	bh=eF+lSLpbwJ2LDHqFaSJjz+GZVzWESaTmld8m1MfCj+Q=;
+	s=arc-20240116; t=1739468338; c=relaxed/simple;
+	bh=b7N+8dSPQ0OnlGTOQ+2/iyi4f6259SWAIHYoRWb24J8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eGt5E+ajgG4YTblwrY/lf4QO5jeLz5KrlqwB4oD+YlgOjOhYbR9IFsXWJfkw0soO6+ZWB3JpgHqIZLGtvCjZEfoAYBJDa99X3eqXeneIVHNy2Ew7x1+1SqbgXHLdrxsMknXxt1zquYQaeQcGyvQpUiuW15PD9pVBHneFO+Gsphc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD4B9113E;
-	Thu, 13 Feb 2025 09:37:38 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8AD843F5A1;
-	Thu, 13 Feb 2025 09:37:13 -0800 (PST)
-Date: Thu, 13 Feb 2025 17:37:07 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Babu Moger <babu.moger@amd.com>, peternewman@google.com, corbet@lwn.net,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, tony.luck@intel.com,
-	fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
-	rostedt@goodmis.org, xiongwei.song@windriver.com,
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Message-ID: <Z64tw2NbJXbKpLrH@e133380.arm.com>
-References: <cover.1737577229.git.babu.moger@amd.com>
- <Z6zeXby8ajh0ax6i@e133380.arm.com>
- <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=S0OYEQtyp/D7PfLAxeQKJxRI+XFABM8osgvxTn3Mm83BssN1fkSnSOhlLY/qwo/W+IkH1oxcGSfIzVtC3NIL+EOKkXcg2I8ddVi7RpzeWZ7rERk/QP3yvZdxMLuSziTstGSOz/ELkGq6U3Lcd2KkjH1y14l6n4psovEvBr0avs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=ECU7WBy3; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="ECU7WBy3"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-21f6d2642faso30084255ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Feb 2025 09:38:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fastly.com; s=google; t=1739468336; x=1740073136; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oLC9kfYPwLBjTLU9fLAjv67CM2H+dgqHjhipB5hFLZc=;
+        b=ECU7WBy3jbHPomLP0Xv0uYG7Q3Uwur/tm0kyRQqp1L0sCK3uTarWXuth+a+LOA4Umw
+         brm3i/Kbk3Vk7W8H4zDLq4Q1KDeVz7TDOn6nyJ0Vyx+UXJHl1q8INHTYUENkFqDu5bgj
+         SabyGG1Yp9h18+gTUcWsm7IM+4/kyExktlqaI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739468336; x=1740073136;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oLC9kfYPwLBjTLU9fLAjv67CM2H+dgqHjhipB5hFLZc=;
+        b=HxoTYEQtL6/qBzENTYrbgn0BYHcaADrC+MD3d07/b9Cswdr+8X+C6tTHMpz7VuLBZb
+         1PeaF75i+LQNz1uqDZsH1QSwGzhcshLRKFQQVddF7UFQvlz7oOFFG67Fzgokfckd0mBK
+         9fzRHA7ASw505XgFYdXU92Tidxk6XJxcjlhHKs2WJaGRcFtkaieBXgLvRCHUUVAux64J
+         AGp6lcAjojA982bCBwl0GEU/kPFNIaxFpbq6C83FSLuGiB3d4d0JtIUuq5chrOq9BwdU
+         Q/t4l+FozRPsrOzBjqvAmY3dC87C0Ke3JN2+8XHO092fBTgrvq8dP5EIc8sTxRxA6KTV
+         eRbg==
+X-Forwarded-Encrypted: i=1; AJvYcCXCTf8rQ6jg4jZTGLiqoZmf1NxcuIEiQgfZA4nESqazIuOQdhjFamYBYBKidK7GIuueXaqpORlRsAI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6rrwxWUhYUfBAgAlQmuytitvxBg6LNmY004z+mY16dVJG6+g9
+	lS+7NUlKkO9r2hsslcacvOKphIs48S4qGIs0sJ+pQDdOR1CE7Gp3O/ZczwgAYvc=
+X-Gm-Gg: ASbGncvDWo1FSFWzDz4paXz25qvbzYvleBR0QfSg1NXy7CyRyibY3Y2Uz/zeg9Si+aL
+	mqSYW40KhmtxmFxfokYSmeBQSN4gBAFupurPIp/mCMAxDSAs2K83GR1spo2mc6Npvsi1PZey2ai
+	RWSkld9GJ7uiQYQRN2apzFflbBxLuRjLNCcjfApqQPZ472A/hElxokL481OaugNQsAfr5y4mZ5p
+	JZtXWO3dkXDLKWHO5fhZxC7SYqMyQte/eNuxblX+LOTBd7ppNhOJewjhH3UuchGyRje+b3gMsXJ
+	RWN+Fo0etlSAKRWBko1oAemGvC0k5uC5Y2mv5+an3QgxtlPRncHY7gAdBg==
+X-Google-Smtp-Source: AGHT+IHKx7UoBaIYvNAKG4jbdIsvHPKTWLspdf35/yTjPBwhkv4ORzitL5INUVr5HwUTUERzhGKRNQ==
+X-Received: by 2002:a05:6a00:2e1c:b0:732:1ffc:36f5 with SMTP id d2e1a72fcca58-7322c374111mr12059457b3a.5.1739468335955;
+        Thu, 13 Feb 2025 09:38:55 -0800 (PST)
+Received: from LQ3V64L9R2 (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7324273e4casm1588770b3a.103.2025.02.13.09.38.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 09:38:55 -0800 (PST)
+Date: Thu, 13 Feb 2025 09:38:52 -0800
+From: Joe Damato <jdamato@fastly.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+	rdunlap@infradead.org, bagasdotme@gmail.com, ahmed.zaki@intel.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next v2] documentation: networking: Add NAPI config
+Message-ID: <Z64uLN63gD0nNvk_@LQ3V64L9R2>
+Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, rdunlap@infradead.org, bagasdotme@gmail.com,
+	ahmed.zaki@intel.com, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+References: <CALALjgz_jtONSFLAhOTYFcfL2-UwDct9AxhaT4BFGOnnt2UF8A@mail.gmail.com>
+ <013921c8-1fd0-410d-9034-278fc56ff8f5@redhat.com>
+ <Z633ggyM-F2pfAkG@LQ3V64L9R2>
+ <20250213081418.6d3966af@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,308 +86,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
+In-Reply-To: <20250213081418.6d3966af@kernel.org>
 
-Hi Reinette,
-
-On Wed, Feb 12, 2025 at 03:33:31PM -0800, Reinette Chatre wrote:
-> Hi Dave,
+On Thu, Feb 13, 2025 at 08:14:18AM -0800, Jakub Kicinski wrote:
+> On Thu, 13 Feb 2025 05:45:38 -0800 Joe Damato wrote:
+> > On Thu, Feb 13, 2025 at 12:45:01PM +0100, Paolo Abeni wrote:
+> > > On 2/11/25 9:06 PM, Joe Damato wrote:  
+> > > > +++ b/Documentation/networking/napi.rst
+> > > > @@ -171,12 +171,43 @@ a channel as an IRQ/NAPI which services queues
+> > > > of a given type. For example,  
+> > > 
+> > > It looks like your client mangled the patch; the above lines are
+> > > corrupted (there should be no line split)
+> > > 
+> > > Please respin  
+> > 
+> > I must be missing something: I don't see the line split when looking
+> > at the original email and I just tried applying the patch directly
+> > from my email and it applied just fine.
+> > 
+> > Are you sure its not something with your client?
+> > 
+> > See the message on lore:
+> > 
+> > https://lore.kernel.org/netdev/20250211151543.645d1c57@kernel.org/T/
 > 
-> On 2/12/25 9:46 AM, Dave Martin wrote:
-> > Hi there,
-> > 
-> > On Wed, Jan 22, 2025 at 02:20:08PM -0600, Babu Moger wrote:
-> >>
-> >> This series adds the support for Assignable Bandwidth Monitoring Counters
-> >> (ABMC). It is also called QoS RMID Pinning feature
-> >>
-> >> Series is written such that it is easier to support other assignable
-> >> features supported from different vendors.
-> >>
-> >> The feature details are documented in the  APM listed below [1].
-> >> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
-> >> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
-> >> Monitoring (ABMC). The documentation is available at
-> >> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
-> >>
-> >> The patches are based on top of commit
-> >> d361b84d51bfe (tip/master) Merge branch into tip/master: 'x86/tdx'
-
-[...]
-
-> >> b. Check how many ABMC counters are available. 
-> >>
-> >> 	# cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs 
-> >> 	32
-> > 
-> > Is this file needed?
-> > 
-> > With MPAM, it is more difficult to promise that the same number of
-> > counters will be available everywhere.
-> > 
-> > Rather than lie, or report a "safe" value here that may waste some
-> > counters, can we just allow the number of counters to be be discovered
-> > per domain via available_mbm_cntrs?
+> It's also broken on lore.
 > 
-> This sounds reasonable to me. I think us having trouble with the
-> user documentation of this file so late in development should also have been
-> a sign to rethink its value.
-> 
-> For a user to discover the number of counters supported via available_mbm_cntrs
-> would require the file's contents to be captured right after mount. Since we've
-> had scenarios where new userspace needs to discover an up-and-running system's
-> configuration this may not be possible. I thus wonder instead of removing
-> num_mbm_cntrs, it could be modified to return the per-domain supported counters
-> instead of a single value? 
+> The first diff block starting with the @@ line overflows and gets
+> broken into the next line. All lines within a diff block must start
+> with a space, + or -. The "of a given type. For example," line breaks
+> that.
 
-Is it actually useful to be able to discover the number of counters
-that exist?  A counter that exists but is not available cannot be used,
-so perhaps it is not useful to know about it in the first place.
+I see; I think it's this oauth2 helper I've been trying to use with
+my google cloud account. Arg.
 
-But if we keep this file but make it report the number of counters for
-each domain (similarly to mbm_available_cntrs), then I think the MPAM
-driver should be able to work with that.
-
-> > num_closids and num_rmids are already problematic for MPAM, so it would
-> > be good to avoid any more parameters of this sort from being reported
-> > to userspace unless there is a clear understanding of why they are
-> > needed.
-> 
-> Yes. Appreciate your help in identifying what could be problematic for MPAM.
-
-For clarity: this is a background issue, mostly orthogonal to this
-series.
-
-If this series is merged as-is, with a global per-resource
-num_mbm_cntrs property, then this not really worse than the current
-situation -- it's just a bit annoying from the MPAM perspective.
-
-
-In a nutshell, the num_closids / num_rmids parameters seem to expose
-RDT-specific hardware semantics to userspace, implying a specific
-allocation model for control group and monitoring group identifiers.
-
-The guarantees that userspace is entitled to asssume when resctrl
-reports particular values do not seem to be well described and are hard
-to map onto the nearest-equivalent MPAM implementation.  A combination
-of control and monitoring groups that can be created on x86 may not be
-creatable on MPAM, even when the number of supportable control and
-monitoring partitions is the same.
-
-Even with the ABMC series, we may still be constrained on what we can
-report for num_rmids: we can't know in advance whether or not the user
-is going to use mbm_cntr_assign mode -- if not, we can't promise to
-create more monitoring groups than the number of counters in the
-hardware.
-
-
-It seems natural for the counts reported by "available_mbm_cntrs" to
-change dynamically when the ABMC assignment mode is changed, but I
-think userspace are likely to expect the global "num_rmids" parameters
-to be fixed for the lifetime of the resctrl mount (and possibly fixed
-for all time on a given hardware platform -- at least, modulo CDP).
-
-
-I think it might be possible to tighten up the docmentation of
-num_closids in particular in a way that doesn't conflict with x86 and
-may make it easier for MPAM to fit in with, but that feels like a
-separate conversation.
-
-None of this should be considered a blocker for this series, either way.
-
-> > 
-> > Reporting number of counters per monitoring domain is a more natural
-> > fit for MPAM, as below:
-> > 
-> >> c. Check how many ABMC counters are available in each domain.
-> >>
-> >> 	# cat /sys/fs/resctrl/info/L3_MON/available_mbm_cntrs 
-> >> 	0=30;1=30
-> > 
-> > For MPAM, this seems supportable.  Each monitoring domain will have
-> > some counters, and a well-defined number of them will be available for
-> > allocation at any one time.
-
-[...]
-
-> >> e. This series adds a new interface file /sys/fs/resctrl/info/L3_MON/mbm_assign_control
-
-[...]
-
-> >>        Flags can be one of the following:
-> >>
-> >>         t  MBM total event is enabled.
-> >>         l  MBM local event is enabled.
-> >>         tl Both total and local MBM events are enabled.
-> >>         _  None of the MBM events are enabled
-> >>
-> >> 	Examples:
-> > 
-> > [...]
-> > 
-> > I think that this basically works for MPAM.
-> > 
-> > The local/total distinction doesn't map in a consistent way onto MPAM,
-> > but this problem is not specific to ABMC.  It feels sensible for ABMC
-> > to be built around the same concepts that resctrl already has elsewhere
-> > in the interface.  MPAM will do its best to fit (as already).
-> > 
-> > Regarding Peter's use case of assiging multiple counters to a
-> > monitoring group [1], I feel that it's probably good enough to make
-> > sure that the ABMC interface can be extended in future in a backwards
-> > compatible way so as to support this, without trying to support it
-> > immediately.
-> > 
-> > [1] https://lore.kernel.org/lkml/CALPaoCjY-3f2tWvBjuaQPfoPhxveWxxCxHqQMn4BEaeBXBa0bA@mail.gmail.com/
-> > 
-> 
-> I do not think that resctrl's current support of the mbm_total_bytes and
-> mbm_local_bytes should be considered as the "only" two available "slots"
-> into which all possible events should be forced into. "mon_features" exists
-> to guide user space to which events are supported and as I see it new events
-> can be listed here to inform user space of their availability, with their
-> associated event files available in the resource groups.
-
-That's fair.  I wasn't currently sure how (or if) the set of countable
-events was expected to grow / evolve via this route.
-
-Either way, I think this confirms that there is at least one viable way
-to enable more counters for a single control group, on top of this
-series.
-
-(If there is more than one way, that seems fine?)
-
-> > 
-> > For example, if we added new generic "letters" -- say, "0" to "9",
-> > combined with new counter files in resctrlfs, that feels like a
-> > possible approach.  ABMC (as in this series) should just reject such
-> > such assignments, and the new counter files wouldn't exist.
-> > 
-> > Availability of this feature could also be reported as a distinct mode
-> > in mbm_assign_mode, say "mbm_cntr_generic", or whatever.
-> > 
-> > 
-> > A _sketch_ of this follows.  This is NOT a proposal -- the key
-> > question is whether we are confident that we can extend the interface
-> > in this way in the future without breaking anything.
-> > 
-> > If "yes", then the ABMC interface (as proposed by this series) works as
-> > a foundation to build on.
-> > 
-> > --8<--
-> > 
-> > [artists's impression]
-> > 
-> > # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
-> >  	mbm_cntr_generic
-> >  	[mbm_cntr_assign]
-> >  	default
-> > 
-> > # echo mbm_cntr_generic >/sys/fs/resctrl/info/L3_MON/mbm_assign_mode
-> > # echo '//0=01;1=23' >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
-> > # echo t >/sys/fs/resctrl/info/L3_MON/mbm_counter0_bytes_type 
-> > # echo l >/sys/fs/resctrl/info/L3_MON/mbm_counter1_bytes_type 
-> > # echo t >/sys/fs/resctrl/info/L3_MON/mbm_counter2_bytes_type 
-> > # echo l >/sys/fs/resctrl/info/L3_MON/mbm_counter3_bytes_type 
-> > 
-> > ...
-> > 
-> > # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_counter1_bytes
-> > 
-> > etc.
-> > 
-> 
-> It is not clear to me what additional features such an interface enables. It
-> also looks like user space will need to track and manage counter IDs?
-
-My idea was that for these generic counters, new files could be exposed
-to configure what they actually count (the ..._type files shown above;
-or possibly via the ..._config files that already exist).
-
-The "IDs" were inteded as abstract; the number only relates the
-assignments in mbm_assign_control to the files created elsewhere.  This
-wouldn't be related to IDs assigned by the hardware.
-
-If there are multiple resctrl users then using numeric IDs might be
-problematic; though if we go eventually in the direction of making
-resctrlfs multi-mountable then each mount could have its own namespace.
-
-Allowing counters to be named and configured with a mkdir()-style
-interface might be possible too; that might make it easier for users to
-coexist within a single resctrl mount (if we think that's important
-enough).
-
-> It sounds to me as though the issue starts with your statement
-> "The local/total distinction doesn't map in a consistent way onto MPAM". To
-> address this I expect that an MPAM system will not support nor list
-> mbm_total_bytes and/or mbm_local_bytes in its mon_features file (*)? Instead,
-> it would list the events that are appropriate to the system? Trying to match
-> with what Peter said [1] in the message you refer to, this may be possible:
-> 
-> # cat /sys/fs/resctrl/info/L3_MON/mon_features
-> mbm_local_read_bytes
-> mbm_local_write_bytes
-> mbm_local_bytes
-> 
-> (*) I am including mbm_local_bytes since it could be an event that can be software
-> defined as a sum of mbm_local_read_bytes and mbm_local_write_bytes when they are both
-> counted.
-> 
-> I see the support for MPAM events distinct from the support of assignable counters.
-> Once the MPAM events are sorted, I think that they can be assigned with existing interface.
-> Please help me understand if you see it differently.
-> 	
-> Doing so would need to come up with alphabetical letters for these events,
-> which seems to be needed for your proposal also? If we use possible flags of:
-> 
-> mbm_local_read_bytes a
-> mbm_local_write_bytes b
-> 
-> Then mbm_assign_control can be used as:
-> # echo '//0=ab;1=b' >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
-> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_read_bytes
-> <value>
-> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
-> <sum of mbm_local_read_bytes and mbm_local_write_bytes>
-> 
-> One issue would be when resctrl needs to support more than 26 events (no more flags available),
-> assuming that upper case would be used for "shared" counters (unless this interface is defined
-> differently and only few uppercase letters used for it). Would this be too low of a limit?
-> 
-> Reinette
-> 
-> [1] https://lore.kernel.org/lkml/CALPaoCjY-3f2tWvBjuaQPfoPhxveWxxCxHqQMn4BEaeBXBa0bA@mail.gmail.com/
-
-That approach would also work, where an MPAM system has events are not
-a reasonable approximation of the generic "total" or "local".
-
-For now we would probably stick with "total" and "local" anyway though,
-because the MPAM architecture doesn't natively allow the mapping onto
-the memory system topology to be discovered, and the information in
-ACPI / device tree is insufficient to tell us everything we'd need to
-know.  But I guess what counts as "local" in particular will be quite
-hardware and topology dependent even on x86, so perhaps we shouldn't
-worry about having the behaviour match exactly (?)
-
-Regarding the code letters, my idea was that the event type might be
-configured by a separate file, instead of in mbm_assign_control
-directly, in which case running out of letters wouldn't be a problem.
-
-Alternatively, if we want to be able to expand beyond single letters,
-could we reserve one or more characters for extension purposes?
-
-If braces are forbidden by the syntax today, could we add support for
-something like the following later on, without breaking anything?
-
-# echo '//0={foo}{bar};1={bar}' >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
-
-
-For now, my main concern would be whether this series prevents that
-sort of thing being added in a backwards compatible way later.
-
-I don't really see anything that is a blocker.
-
-What do you think?
-
-Cheers
----Dave
+I'll RESEND this and my XSK attribute thing, too, which for some
+reason isn't on lore but is on other sites (like spinics).
