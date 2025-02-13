@@ -1,45 +1,46 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313E828A2AB;
-	Thu, 13 Feb 2025 17:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F02DF221552;
+	Thu, 13 Feb 2025 17:51:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739468737; cv=none; b=s88xKOU8JNZn9S51wk8zZ319klsom3bnAKjMybnJY+lrwCH/hNh/VKO4HCUhBGdJqCOPbRjP/oLDM1XF2ndl867Q8MjD9yMkYR+kM10ujpk73phgvvMSCMVAnN20/Q7SS1j90c2G/Puv//h20lFzojh4gdDK/eIxEVJiXS9BbyA=
+	t=1739469120; cv=none; b=ktH3BwvFbVjCDamr3dbqqd6W4Trp5Kjpr0BpgKPrTJN2NZS/XrVZxr0nvpwfJEVPnVvonqwqq10Sot4qvuW5hnjn6jk0Qcr06nRUncp6hJR80+Whvz/LHLmbyeavckAA1sEMuNK/xWzVaKrpQiVXLvENB2xvIuSatncMpXA7S48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739468737; c=relaxed/simple;
-	bh=sukV6k51DNSlBKIQdTonT1QfJeZstAGnIOitdYPlDMw=;
+	s=arc-20240116; t=1739469120; c=relaxed/simple;
+	bh=zqV75qnQLwyFHhLFq1/Rw5B46LsPeHmSTmkyGiMlIk0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DG1aEljg5AkcfuMxtfPjDOekprq3QVtfm+Rr4PqPA/Em7COYbkE0QcJglSiZxMa9DNLga2uQXROcB6cu2dUw7sBr+k+HKpIpXiy5ULgQaIaJN9icRUMtyrsPmfgzB7zxXE3mmdv9mnelBsHcuXZ1m/lapLYXPq9PcH4fGkPZYOM=
+	 Content-Type:Content-Disposition:In-Reply-To; b=evU61HYvnF+QcRtxPRXjpDf/8Dsh9CIeB1MVuLFjNqj5y4quIR74FgejJ7GYzG9LOFi5JS6V/x6p13iyPGK7g9BFdNirH1pAwHLuQEjQOhN1usZouBTStqCWyRamwVe/Y8hF8EUssXPOF8kWVRDYHEjH4Yb2qawoVcNPOF6FZq4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1C1FC113E;
-	Thu, 13 Feb 2025 09:45:56 -0800 (PST)
-Received: from localhost (e132581.arm.com [10.2.76.71])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 17F2A3F5A1;
-	Thu, 13 Feb 2025 09:45:34 -0800 (PST)
-Date: Thu, 13 Feb 2025 17:45:30 +0000
-From: Leo Yan <leo.yan@arm.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	James Clark <james.clark@linaro.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v19 11/11] perf: arm_pmuv3: Add support for the Branch
- Record Buffer Extension (BRBE)
-Message-ID: <20250213174530.GH235556@e132581.arm.com>
-References: <20250202-arm-brbe-v19-v19-0-1c1300802385@kernel.org>
- <20250202-arm-brbe-v19-v19-11-1c1300802385@kernel.org>
- <20250213161628.GF235556@e132581.arm.com>
- <CAL_Jsq+VmfibMVdh+9DxqU5Axiv_zMiznAh8_umFB1J2y8reig@mail.gmail.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C1C4B113E;
+	Thu, 13 Feb 2025 09:52:17 -0800 (PST)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 444863F5A1;
+	Thu, 13 Feb 2025 09:51:53 -0800 (PST)
+Date: Thu, 13 Feb 2025 17:51:50 +0000
+From: Dave Martin <Dave.Martin@arm.com>
+To: "Moger, Babu" <babu.moger@amd.com>
+Cc: Peter Newman <peternewman@google.com>, corbet@lwn.net,
+	reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, tony.luck@intel.com,
+	fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com,
+	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
+	rostedt@goodmis.org, xiongwei.song@windriver.com,
+	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
+	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
+	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
+	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
+	mario.limonciello@amd.com, james.morse@arm.com,
+	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
+	eranian@google.com
+Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+Message-ID: <Z64xNm7GrXuVj3gv@e133380.arm.com>
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <CALPaoCgiZ=tZE_BF2XzeYMRG84x4+kGKfhHWj2Uo=Cre_B_6Vg@mail.gmail.com>
+ <7a87b18c-cfba-4edd-946b-dd2831f56633@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,60 +49,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+VmfibMVdh+9DxqU5Axiv_zMiznAh8_umFB1J2y8reig@mail.gmail.com>
+In-Reply-To: <7a87b18c-cfba-4edd-946b-dd2831f56633@amd.com>
 
-On Thu, Feb 13, 2025 at 11:13:49AM -0600, Rob Herring wrote:
+On Mon, Feb 03, 2025 at 02:49:27PM -0600, Moger, Babu wrote:
+> Hi Peter,
+> 
+> On 2/3/25 08:54, Peter Newman wrote:
 
 [...]
 
-> > > +void brbe_enable(const struct arm_pmu *arm_pmu)
-> > > +{
-> > > +       struct pmu_hw_events *cpuc = this_cpu_ptr(arm_pmu->hw_events);
-> > > +       u64 brbfcr = 0, brbcr = 0;
-> > > +
-> > > +       /*
-> > > +        * Merge the permitted branch filters of all events.
-> > > +        */
-> > > +       for (int i = 0; i < ARMPMU_MAX_HWEVENTS; i++) {
-> > > +               struct perf_event *event = cpuc->events[i];
-> > > +
-> > > +               if (event && has_branch_stack(event)) {
-> > > +                       brbfcr |= event->hw.branch_reg.config;
-> > > +                       brbcr |= event->hw.extra_reg.config;
-> > > +               }
-> > > +       }
-> > > +
-> > > +       /*
-> > > +        * If the record buffer contains any branches, we've already read them
-> > > +        * out and don't want to read them again.
-> > > +        * No need to sync as we're already stopped.
-> > > +        */
-> > > +       brbe_invalidate_nosync();
-> > > +       isb(); // Make sure invalidate takes effect before enabling
-> > > +
-> > > +       /*
-> > > +        * In VHE mode with MDCR_EL2.HPMN set to PMCR_EL0.N, the counters are
-> > > +        * controlled by BRBCR_EL1 rather than BRBCR_EL2 (which writes to
-> > > +        * BRBCR_EL1 are redirected to). Use the same value for both register
-> > > +        * except keep EL1 and EL0 recording disabled in guests.
-> > > +        */
-> > > +       if (is_kernel_in_hyp_mode())
-> > > +               write_sysreg_s(brbcr & ~(BRBCR_ELx_ExBRE | BRBCR_ELx_E0BRE), SYS_BRBCR_EL12);
-> > > +       write_sysreg_s(brbcr, SYS_BRBCR_EL1);
-> > > +       isb(); // Ensure BRBCR_ELx settings take effect before unpausing
-> > > +
-> > > +       write_sysreg_s(brbfcr, SYS_BRBFCR_EL1);
-> >
-> > Seems to me, it is weird that first enable recording (BRBCR), then set
-> > control register BRBFCR.  And the writing SYS_BRBFCR_EL1 not guarded
-> > by a barrier is also a bit concerned.
+> >> # Linux Implementation
+> >>
+> >> Create a generic interface aimed to support user space assignment
+> >> of scarce counters used for monitoring. First usage of interface
+> >> is by ABMC with option to expand usage to "soft-ABMC" and MPAM
+> >> counters in future.
+> > 
+> > As a reminder of the work related to this, please take a look at the
+> > thread where Reinette proposed a "shared counters" mode in
+> > mbm_assign_control[1]. I am currently working to demonstrate that this
+> > combined with the mbm_*_bytes_per_second events discussed earlier in
+> > the same thread will address my users' concerns about the overhead of
+> > reading a large number of MBM counters, resulting from a maximal
+> > number of monitoring groups whose jobs are not isolated to any L3
+> > monitoring domain.
+> > 
+> > ABMC will add to the number of registers which need to be programmed
+> > in each domain, so I will need to demonstrate that ABMC combined with
+> > these additional features addresses their performance concerns and
+> > that the resulting interface is user-friendly enough that they will
+> > not need a detailed understanding of the implementation to avoid an
+> > unacceptable performance degradation (i.e., needing to understand what
+> > conditions will increase the number of IPIs required).
+> > 
+> > If all goes well, soft-ABMC will try to extend this usage model to the
+> > existing, pre-ABMC, AMD platforms I support.
+> > 
+> > Thanks,
+> > -Peter
+> > 
+> > [1] https://lore.kernel.org/lkml/7ee63634-3b55-4427-8283-8e3d38105f41@intel.com/
+> > 
 > 
-> We are always disabled (paused) when we enter brbe_enable(). So the
-> last thing we do is unpause. The only ordering we care about after
-> writing SYS_BRBFCR_EL1 is writing PMCR which has an isb before it is
-> written.
+> Thanks for the heads-up. I understand what's going on and have an idea of
+> the plan. Please keep us updated on the progress. Also, if any changes are
+> needed in this series to meet your requirements, feel free to share your
+> feedback.
 
-Maybe it is good to add a comment to record the info.
+Playing devil's advocate, I wonder whether there is a point beyond
+which it would be better to have an interface to hand over some of the
+counters to perf?
 
-Thanks,
-Leo
+The logic for round-robin scheduling of events onto counters, dealing
+with overflows etc. has already been invented over there, and it's
+fiddly to get right.  Ideally resctrl wouldn't have its own special
+implementation of that kind of stuff.
+
+(Said my someone who has never tried to hack up an uncore event source
+in perf.)
+
+Cheers
+---Dave
