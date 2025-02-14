@@ -1,195 +1,205 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742D921CA15;
-	Fri, 14 Feb 2025 07:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B8A21518D
+	for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2025 07:57:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739519658; cv=none; b=uUdK0sYgABNuwWjvGsc9HJ6+jSnOEN2XlKwnM7Jv5abpMCerdUXqr+4iwz0umcxbyY8j5NEuWIwSmW2B9xaUOoqHdbXqbHJB5DTpXagkHu9uDG0P4N3yUImMEn5cMPVFn2N+ZX+x/nwgvp6AE0I/W5RYsXaOXdqsEludIZimSus=
+	t=1739519863; cv=none; b=JT/TsUC7Zpn4AFp6ovpd6zOGcy8FMNyWGB3DvlFYxK30CZu8KWPV8CKZ1sL9e9UdA1KmfrNHfBtwGIDIbq+M2XIDKO/B+eDN/gtliEh7L6BBNFfJLrknRDdadvw43Rhb2evoRmAqMwK8kvJvrjjhe88reoFEtBcnSv8dYCrtXcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739519658; c=relaxed/simple;
-	bh=45Tz24uPoXgDuv5j0ursj0miH5MwS4km0Q73o3xa/Zw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=nOGenKIWc+ESEe9nj2DqBSeSEz2JXHHIYUhcsIpmZPai8TTSQOYO3gTi+aFM+/bCEg+1FJOt44CDHCsDjfs6gi8Xj6yuvHVFoTlr6hHfZ1zFvtfoN1AW3xf9GQjoZEjUKGN8xedo5v8an1CPGR4Y+KOtuMyGJkQAdubW82e+vuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=oPH5KZqS; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1739519863; c=relaxed/simple;
+	bh=cWzT6Q4H9SYevEZcU27OwPrheq9S4dYA9/HkQxzzUxA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oK9Cel2hPPf9+GMJnk2jrkfXiU6Nc5frNUYWPJFDu3Ul6RlG1N+TpVg+nlrVPaEgLWZ+PqYn8dwG+nJwyx5Gtj16oQc9AVBvvSdd2snoYJwLGBhYG7eKwUBZCOEXz6ioVl0nVfz9svJ9cpwCQ50M57m7mGh93iVMweoKrepSYfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oo1VhgsF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oPH5KZqS"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51DJB5a1021173;
-	Fri, 14 Feb 2025 07:53:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	HAYSPZbl83POZAmHJAGXhhTdwk7rXWp+0KD8AQWCC5I=; b=oPH5KZqSsozJaTLj
-	HVfsjKWnzrQONJXe/Y2LHmEXxSYjiQoPAIZJ/Qf34K7HIViQZiv68rmM/uKpEWQc
-	2iBjx73nQ8zTq0g8MpCqu3p/utQnkwP+9US5oy4Z5hjAs6uLHESSAjV7QwRGURVV
-	NPfR0MOAsy+6EY56+XclTZTw5pQcXGtxkjhQsgqw6cc8eRlvNM7pG8lw8ilXTcZb
-	CW/1XuAgFQR9l3IGsVIaWKyY7D08sl2hPtuk9FRzJOoU65HW4ObNQOmZElC0g5HK
-	TTWzCQzHEhENp5NWl5SsnnJmi7pnsnFG0jwifrllgvUUtdpXil6HM6gqZtHNitGv
-	srYn5g==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44sdyxu0w0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Feb 2025 07:53:50 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51E7rnWl007481
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Feb 2025 07:53:49 GMT
-Received: from [10.253.8.223] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 13 Feb
- 2025 23:53:43 -0800
-Message-ID: <a455a2f6-ca0b-43e0-b18c-53f73344981f@quicinc.com>
-Date: Fri, 14 Feb 2025 15:53:41 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oo1VhgsF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5B28C4CED1;
+	Fri, 14 Feb 2025 07:57:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739519862;
+	bh=cWzT6Q4H9SYevEZcU27OwPrheq9S4dYA9/HkQxzzUxA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Oo1VhgsFI/VXvsXJ5mUdq/O5KVWsy86ZgEXnEp0UkhOU21oXtoLFUa81fKd9WC13M
+	 Ny3NiVnfq2SHzO7GV2Mb+iXddBdW4eohXJjRQaVav5VFCmUMjdD6+Uj4t6LCzza7PH
+	 M+0z04GKLgYIkcJl7EiNG5vdMFgLpOOMBGjzEdjx3zIRm7sgt71kj3maWmvMpBs603
+	 1Iyp1Myd78vy+MrkTN1adrV5F2yZyDaZSEIJYgPEF+hhwMzV1qgmZbpUd+XFhZG5+9
+	 uIOtMxQf4/qE6OX70n4SXifUGo/20VDb0ZNXGLSMOM+axIHAurcmlFaOTxUJHophWH
+	 ot02HRgQmt1fA==
+Date: Fri, 14 Feb 2025 08:57:38 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, linux-doc@vger.kernel.org, Mauro Carvalho
+ Chehab <mchehab@kernel.org>
+Subject: Re: scripts/kernel-doc parsing issues
+Message-ID: <20250214085738.1722bdef@foz.lan>
+In-Reply-To: <bc6b2434-10ef-417b-9e2d-bea5cb69bab9@infradead.org>
+References: <20240131084934.191226-1-sakari.ailus@linux.intel.com>
+	<87y1byvo4t.fsf@meer.lwn.net>
+	<ZcFTepqR7xBFAMTM@kekkonen.localdomain>
+	<874jemtq2f.fsf@meer.lwn.net>
+	<3a6a7dd0-72f1-44c6-b0bc-b1ce76fca76a@infradead.org>
+	<bc6b2434-10ef-417b-9e2d-bea5cb69bab9@infradead.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 13/14] net: ethernet: qualcomm: Add PPE
- debugfs support for PPE counters
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
-        Suruchi Agarwal
-	<quic_suruchia@quicinc.com>,
-        Pavithra R <quic_pavir@quicinc.com>,
-        "Simon
- Horman" <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook
-	<kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        "Philipp
- Zabel" <p.zabel@pengutronix.de>,
-        <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
-        <srinivas.kandagatla@linaro.org>, <bartosz.golaszewski@linaro.org>,
-        <john@phrozen.org>
-References: <20250209-qcom_ipq_ppe-v3-0-453ea18d3271@quicinc.com>
- <20250209-qcom_ipq_ppe-v3-13-453ea18d3271@quicinc.com>
- <5a53333b-e94c-4fb7-b23d-e1d38d2dad8e@lunn.ch>
-Content-Language: en-US
-From: Jie Luo <quic_luoj@quicinc.com>
-In-Reply-To: <5a53333b-e94c-4fb7-b23d-e1d38d2dad8e@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 5jzzIxN4f9onN6lHbtwPFex5843Xykdw
-X-Proofpoint-GUID: 5jzzIxN4f9onN6lHbtwPFex5843Xykdw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-14_03,2025-02-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
- spamscore=0 bulkscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
- clxscore=1015 lowpriorityscore=0 phishscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502140059
 
+Em Thu, 13 Feb 2025 19:15:01 -0800
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-
-On 2/11/2025 9:55 PM, Andrew Lunn wrote:
->> +#define PRINT_COUNTER_PREFIX(desc, cnt_type)		\
->> +	seq_printf(seq, "%-16s %16s", desc, cnt_type)
->> +
->> +#define PRINT_CPU_CODE_COUNTER(cnt, code)		\
->> +	seq_printf(seq, "%10u(cpucode:%d)", cnt, code)
->> +
->> +#define PRINT_DROP_CODE_COUNTER(cnt, port, code)	\
->> +	seq_printf(seq, "%10u(port=%d),dropcode:%d", cnt, port, code)
->> +
->> +#define PRINT_SINGLE_COUNTER(tag, cnt, str, index)			\
->> +do {									\
->> +	if (!((tag) % 4))							\
->> +		seq_printf(seq, "\n%-16s %16s", "", "");		\
->> +	seq_printf(seq, "%10u(%s=%04d)", cnt, str, index);		\
->> +} while (0)
->> +
->> +#define PRINT_TWO_COUNTERS(tag, cnt0, cnt1, str, index)			\
->> +do {									\
->> +	if (!((tag) % 4))							\
->> +		seq_printf(seq, "\n%-16s %16s", "", "");		\
->> +	seq_printf(seq, "%10u/%u(%s=%04d)", cnt0, cnt1, str, index);	\
->> +} while (0)
+> On 2/5/24 7:50 PM, Randy Dunlap wrote:
+> > [reduced Cc: list]
+> > 
+> > [was: Re: [PATCH 1/1] kernel-doc: Support arrays of pointers struct fields]
+> >   
 > 
-> I don't think these make the code any more readable. Just inline it.
-
-OK.
-
 > 
->> +/* The number of packets dropped because of no buffer available, no PPE
->> + * buffer assigned to these packets.
->> + */
->> +static void ppe_port_rx_drop_counter_get(struct ppe_device *ppe_dev,
->> +					 struct seq_file *seq)
->> +{
->> +	u32 reg, drop_cnt = 0;
->> +	int ret, i, tag = 0;
->> +
->> +	PRINT_COUNTER_PREFIX("PRX_DROP_CNT", "SILENT_DROP:");
->> +	for (i = 0; i < PPE_DROP_CNT_TBL_ENTRIES; i++) {
->> +		reg = PPE_DROP_CNT_TBL_ADDR + i * PPE_DROP_CNT_TBL_INC;
->> +		ret = ppe_pkt_cnt_get(ppe_dev, reg, PPE_PKT_CNT_SIZE_1WORD,
->> +				      &drop_cnt, NULL);
->> +		if (ret) {
->> +			seq_printf(seq, "ERROR %d\n", ret);
->> +			return;
->> +		}
+> [snip]
 > 
-> This is an error getting the value from the hardware? You should not
-> put that into the debugfs itself, you want the read() call to return
-> it.
+> > 
+> > As I said here on the RFC patch from Sakari:
+> > https://lore.kernel.org/all/aa94772b-7010-4bba-b099-d3b8fe1b97aa@infradead.org/
+> > 
+> > "Yet another kernel-doc bug. I have a list of 5 or 6 or 8 bugs that are
+> > similar to this one, but I didn't have this one."
+> > 
+> > The patch to report Excess struct or union members has unearthed several
+> > kernel-doc "parsing" problems.
+> > 
+> > I have not tried to fix any of these in scripts/kernel-doc yet. I might get
+> > around to it, but it's not a high priority for me.
+> > 
+> > 
+> > Examples:
+> > 
+> > 1) drivers/slimbus/stream.c:49: warning: Excess struct member 'segdist_codes' description in 'segdist_code'
+> > 
+> > struct declaration and definition together. Also possible that the leading "static const"
+> > confuses scripts/kernel-doc.
+> > 
+> > 2) include/linux/spi/spi.h:246: warning: Function parameter or struct member 'cs_index_mask:SPI_CS_CNT_MAX' not described in 'spi_device'
+> > include/linux/spi/spi.h:246: warning: Excess struct member 'cs_index_mask' description in 'spi_device'
+> > 
+> > scripts/kernel-doc handles some bit fields in structs successfully, so something is
+> > different about this one.
+> > 
+> > 3) fs/ntfs/compress.c:24: warning: cannot understand function prototype: 'typedef enum '
+> > 
+> > fs/ntfs/* has been removed in linux-next (still in mainline for a little while), but this
+> > shows that scripts/kernel-doc does not handle a 'typedef enum' successfully.
+> > 
+> > 4) drivers/misc/vmw_balloon.c:260: warning: Excess struct member 'reserved' description in 'vmballoon_batch_entry'
+> > 
+> > This may be the same problem as #2, with using bit fields in a struct.
+> > 
+> > 5) drivers/base/power/runtime.c:362: warning: Excess function parameter 'dev' description in '__rpm_callback'
+> > 
+> > Confused by either the first function parameter (a function pointer) or the trailing
+> > __releases() and __acquires() attributes.
+> > 
+> > 6) drivers/md/bcache/request.c:309: warning: expecting prototype for bch_data_insert(). Prototype was for CLOSURE_CALLBACK() instead
+> > 
+> > and
+> > fs/bcachefs/io_write.c:1558: warning: expecting prototype for bch2_write(). Prototype was for CLOSURE_CALLBACK() instead
+> > 
+> > CLOSURE_CALLBACK() and function parameters are confusing scripts/kernel-doc.
+> > 
+> > 7) drivers/iio/adc/at91-sama5d2_adc.c:471: warning: Excess struct member 'adc_channels' description in 'at91_adc_platform'
+> > 
+> > Fixed by Sakari's patch.  :)
+> > 
+> > 8) drivers/pci/controller/pcie-iproc-msi.c:110: warning: Excess struct member 'reg_offsets' description in 'iproc_msi'
+> > 
+> > Fixed by Sakari's patch.  :)
+> > 
+> > 9) drivers/usb/gadget/udc/pch_udc.c:361: warning: Excess struct member 'stall' description in 'pch_udc_dev'
+> > pch_udc.c:361: warning: Excess struct member 'prot_stall' description in 'pch_udc_dev'
+> > pch_udc.c:361: warning: Excess struct member 'registered' description in 'pch_udc_dev'
+> > pch_udc.c:361: warning: Excess struct member 'suspended' description in 'pch_udc_dev'
+> > pch_udc.c:361: warning: Excess struct member 'connected' description in 'pch_udc_dev'
+> > pch_udc.c:361: warning: Excess struct member 'vbus_session' description in 'pch_udc_dev'
+> > pch_udc.c:361: warning: Excess struct member 'set_cfg_not_acked' description in 'pch_udc_dev'
+> > pch_udc.c:361: warning: Excess struct member 'waiting_zlp_ack' description in 'pch_udc_dev'
+> > 
+> > All of these except @registered (which is just an Excess description) are declared with one
+> > 'unsigned' followed by a list of bit fields, which isn't kernel coding style but it is valid C.
+> > or it might just be 'unsigned' without having a following 'int' that is the problem. I don't
+> > know -- haven't looked yet.
+> > 
+> > 10) Matthew Wilcox pointed out to me that commit 0d55d48b19ff is causing problems with
+> > generated output. A few instances of using TAB or multiple spaces have been patched
+> > recently, but there are others that are not being addressed. I don't have a list of these.  
 > 
-
-Yes, this error code is returned by regmap read functions in
-ppe_pkt_cnt_get() when the hardware counter read fails. I will
-remove it from debugfs file and instead log the error to the
-console (dev_info).
-
->> +/* Display the various packet counters of PPE. */
->> +static int ppe_packet_counter_show(struct seq_file *seq, void *v)
->> +{
->> +	struct ppe_device *ppe_dev = seq->private;
->> +
->> +	ppe_port_rx_drop_counter_get(ppe_dev, seq);
->> +	ppe_port_rx_bm_drop_counter_get(ppe_dev, seq);
->> +	ppe_port_rx_bm_port_counter_get(ppe_dev, seq);
->> +	ppe_parse_pkt_counter_get(ppe_dev, seq);
->> +	ppe_port_rx_counter_get(ppe_dev, seq);
->> +	ppe_vp_rx_counter_get(ppe_dev, seq);
->> +	ppe_pre_l2_counter_get(ppe_dev, seq);
->> +	ppe_vlan_counter_get(ppe_dev, seq);
->> +	ppe_cpu_code_counter_get(ppe_dev, seq);
->> +	ppe_eg_vsi_counter_get(ppe_dev, seq);
->> +	ppe_vp_tx_counter_get(ppe_dev, seq);
->> +	ppe_port_tx_counter_get(ppe_dev, seq);
->> +	ppe_queue_tx_counter_get(ppe_dev, seq);
+> Here are a few more that I found recently.
 > 
-> It would be more normal to have one debugfs file per group of
-> counters.
+> 11) security/landlock/ruleset.c:
+> security/landlock/ruleset.c:205: warning: Function parameter or struct member ''
+>  not described in 'insert_rule'
+> security/landlock/ruleset.c:205: warning: Excess function parameter 'layers' des
+> cription in 'insert_rule'
+> security/landlock/ruleset.c:692: warning: Function parameter or struct member ''
+>  not described in 'landlock_init_layer_masks'
+> security/landlock/ruleset.c:692: warning: Excess function parameter 'layer_masks
+> ' description in 'landlock_init_layer_masks'
 > 
-> 	Andrew
+> 12) security/landlock/fs.c:
+> security/landlock/fs.c:762: warning: Function parameter or struct member '' not 
+> described in 'is_access_to_paths_allowed'
+> security/landlock/fs.c:762: warning: Excess function parameter 'layer_masks_pare
+> nt1' description in 'is_access_to_paths_allowed'
+> security/landlock/fs.c:762: warning: Excess function parameter 'layer_masks_pare
+> nt2' description in 'is_access_to_paths_allowed'
+> security/landlock/fs.c:1002: warning: Function parameter or struct member '' not
+>  described in 'collect_domain_accesses'
+> security/landlock/fs.c:1002: warning: Excess function parameter 'layer_masks_dom
+> ' description in 'collect_domain_accesses'
+> 
+> 13) security/ipe/hooks.c:
+> security/ipe/hooks.c:55: warning: Function parameter or struct member '__always_
+> unused' not described in 'ipe_mmap_file'
+> security/ipe/hooks.c:55: warning: Excess function parameter 'reqprot' descriptio
+> n in 'ipe_mmap_file'
+> security/ipe/hooks.c:83: warning: Function parameter or struct member '__always_
+> unused' not described in 'ipe_file_mprotect'
+> security/ipe/hooks.c:83: warning: Excess function parameter 'reqprot' descriptio
+> n in 'ipe_file_mprotect'
+> 
+> Probably just always ignore __always_unused.
 
-Sure. We used a single file as it may be more convenient to display
-these counters all together in one go, since dumping single group
-counter has no help on tracing packet drops inside the PPE path.
-But perhaps, a script can be used as well on top of the segregated
-files to dump all the counters.
+My suggestion is to first switch to the Python version, and then address
+the issues not fixed yet by Sakari's patch at the Python version.
 
+I would very much prefer to use regex eXtended flag (re.X/re.VERBOSE) to
+implement any required new expressions with proper comments, but, at least 
+on my tests, Python support for it didn't work:
 
+	https://lore.kernel.org/linux-doc/6958d7a5-2403-423d-a0a3-0c43931a7d30@infradead.org/T/#m558bbed6272fe1bd988c53dcca2de9af9a8882d3
+
+Funny enough, it worked when I ran using Python command line interpreter.
+
+Anyway, getting regex explanations can also be done via
+https://regex101.com/. I usually test there more complex regular expressions
+with existing data, as it helps debugging issues.
+
+Perhaps I did some silly mistake there, so it could be worth investing
+some time to check why re.compile() didn't work for  __attribute__((foo)).
+
+We may also implement exceptions using some other ways:
+
+	- special function handlers (there are already two, for
+ 	  syscalls and trace events);
+	- some lexical analyzer ruleset;
+	- code.
+
+But, at least for now, I would use regex when possible (if it works,
+via re.X).
+
+Thanks,
+Mauro
