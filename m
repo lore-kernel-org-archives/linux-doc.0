@@ -1,106 +1,110 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA163245002
-	for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2025 15:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0EC266EE0;
+	Fri, 14 Feb 2025 16:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739548621; cv=none; b=YMCvSMka36kCDBBvkhFTcipKrB9dmvayg/5sePHbagxrsMxZ/i80UsJ4yd+Q7D2HPQBEU+FqdvjKJq2jbj+R6WKrw1RXM5JIdtLwypDKn+HMdKBxTaxjA1igaUFB80oxn5UI/lkhYkvp2h0Blqr/iGQQWTHzMtodyb7JDxWuqRs=
+	t=1739548955; cv=none; b=FWeyveDAJlU1OKj7LUyCj7RSS4ind8DuMxc+2K9rZ4TdQERJBIcfb2yeC37I5OmkTCvEGFpEamDU8BdyNDCAbu08sKcNV5OouNyXYVhUCLPdAPjqPr2z8HL95KLM+G9UEsw9zSn4i3f3hvCAsGCyKsw/PaeNtj34GOcbKu2oz9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739548621; c=relaxed/simple;
-	bh=C4vZIOiKDW+XoTUS5wXXpy5I7HM7qTBEsnFh6i4Wt5s=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=oYr690ip6+N43m2nSpa2jvlTB729MMCtx5Gge6kRAuH6b2964FyUQniXumR4pakfTDKCqaSVpquKnG33kBPtqHq9AF/YF26+WbN+ZD1ljB8ddLgMgIyPXWFANfqYuc9GFnOziiyNKLXaiseHu9joXukHQkrC2NQCRQZjtLkSW5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nOiQ/6jm; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1739548955; c=relaxed/simple;
+	bh=BP0F6Q1wNrUjUl3+JXUo0rphKo1JR7S7n/NVPl/WTLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P83qv+xa0B3cTI6tUowqmEoHphMrAEAWAc9Gcn8OZvFju3eP6hYiqLuvKGFOZWThDPsK5INACdUDY8lM5edENUl71y7gdxA1R7m5c92Zi+GGpd3iFjY45m61LgK+ILiwFNkiYJokPzxXoGPSo1RFBTV5b8Vmk1Dqg+z3T8HhLqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YaMKWUHG; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nOiQ/6jm"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8653744097
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739548618; bh=QaazEqTq+w4o3IuRmgp9R+21y7JRlCamDkBlHqz0b6w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nOiQ/6jmq3nPfq3qrm+raYU5k9OIpg7YX9d6PDXYYyfSUk7jrYP2WMHKFkDQNytHZ
-	 ZrJgj7P4xNkKNdRxb1MaAM4Jx8hwY+RobP4JKpi1puuBMnVjozNVdxdEjUlD8G9pAd
-	 5/H0TFTSl7KmR9buMjPTf1sszKCKQP78qrocHQLhTHy3giwv37vsVKDCrz2payZdwv
-	 OT0Q++rOLzpjV9kKb3eLGzJb3+nynvQFGG5MeClyEONY/Hxn+ajOBbixbsb3yzEP4i
-	 Ov3nT3m32Xul/xRxmn1QOnTFvfZAOxIQiKpEr/gRKoOIeWPtC2ECru5CSvWWLeysTC
-	 Bmjbmirii5ZiA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8653744097;
-	Fri, 14 Feb 2025 15:56:58 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Jani Nikula
- <jani.nikula@linux.intel.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-doc@vger.kernel.org,
- Ricardo Ribalda <ribalda@chromium.org>, Tiffany Lin
- <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil
- <hverkuil@xs4all.nl>, Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Bin
- Liu <bin.liu@mediatek.com>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia
- <quic_vgarodia@quicinc.com>, Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Sylwester Nawrocki
- <s.nawrocki@samsung.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu
- <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman
- <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: Re: [PATCH 1/1] kernel-doc: Support arrays of pointers struct fields
-In-Reply-To: <20250214084508.6ac2af28@foz.lan>
-References: <20240131084934.191226-1-sakari.ailus@linux.intel.com>
- <87y1byvo4t.fsf@meer.lwn.net> <ZcFTepqR7xBFAMTM@kekkonen.localdomain>
- <874jemtq2f.fsf@meer.lwn.net> <87wmrhdekd.fsf@intel.com>
- <20250214084508.6ac2af28@foz.lan>
-Date: Fri, 14 Feb 2025 08:56:57 -0700
-Message-ID: <874j0wzfhy.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YaMKWUHG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739548954; x=1771084954;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BP0F6Q1wNrUjUl3+JXUo0rphKo1JR7S7n/NVPl/WTLQ=;
+  b=YaMKWUHGGAhkb1IVrQBCbav7/076W16jA3FMFD2jJ+TW1oArBA9WFBuX
+   ETpuRJkUna/RbM/Gy3r+dwHlm8B6ldNAA3m1avSTDyHniUrumDkWBe4c5
+   SuQu8UCZu4/+An94yRtDddmnAZwzbxdOFqf8v911qX5phVW+vxyxbnVxS
+   L16kWao0w9eEZeaI8lhNamG0BYVhLCBpVROYVY5HTqDdOisHWzaQNeZ1l
+   EzR4uvoh0i6rk6+xHolvUunqisYiMStBZjM9Dq8D5MY+G67JOSoLuTLSP
+   h00GPSBT9l4SG6XFhpTa/BNY+hOQH4xJTF7xcgt18nLnatur/mWZ/MMtz
+   w==;
+X-CSE-ConnectionGUID: nvNWeIfgTVm7chGPby15hw==
+X-CSE-MsgGUID: 49bTjfIlRL++AwzlBo//RQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="27902468"
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
+   d="scan'208";a="27902468"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 08:01:30 -0800
+X-CSE-ConnectionGUID: +xTXFr+5SXO11Fa5Mdq1nw==
+X-CSE-MsgGUID: uC30yGarSOyVHPzD+Hscrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
+   d="scan'208";a="114132370"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 08:01:14 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tiy7q-0000000BXQx-1JPb;
+	Fri, 14 Feb 2025 18:01:10 +0200
+Date: Fri, 14 Feb 2025 18:01:10 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Tamir Duberstein <tamird@gmail.com>,
+	Arpitha Raghunandan <98.arpi@gmail.com>,
+	David Gow <davidgow@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v3 0/2] printf: convert self-test to KUnit
+Message-ID: <Z69oxhkUzTfJ6YKi@smile.fi.intel.com>
+References: <20250210-printf-kunit-convert-v3-0-ee6ac5500f5e@gmail.com>
+ <Z69isDf_6Vy8gGcS@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z69isDf_6Vy8gGcS@pathway.suse.cz>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Fri, Feb 14, 2025 at 04:35:12PM +0100, Petr Mladek wrote:
+> On Mon 2025-02-10 13:23:21, Tamir Duberstein wrote:
+> > This is one of just 3 remaining "Test Module" kselftests (the others
+> > being bitmap and scanf), the rest having been converted to KUnit.
+> > 
+> > I tested this using:
+> > 
+> > $ tools/testing/kunit/kunit.py run --arch arm64 --make_options LLVM=1 printf
+> > 
+> > I have also sent out a series converting scanf[0].
+> > 
+> > Link: https://lore.kernel.org/all/20250204-scanf-kunit-convert-v3-0-386d7c3ee714@gmail.com/T/#u [0]
+> > 
+> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> 
+> I have just quickly tested this before leaving for a week.
+> And I am fine with the result.
 
-> Em Tue, 06 Feb 2024 13:20:34 +0200
-> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
->> - Use Python bindings for libclang to parse the source code. Clang is
->>   obviously a big dependency, but nowadays more people have it already
->>   installed, and the Python part on top is neglible.
->
-> Ok, but this may increase the doc generation time, and would make clang
-> mandatory for doc generation. As you mentioned, most developers have
-> clang installed already, so it shouldn't be a big issue.
+Seems reasonable to me. But I want a consensus with Rasmus.
 
-I have pondered such things (tree-sitter too) in the past.  The problem
-is that these parsers parse C, which isn't what kernel-doc is looking
-for.  It needs to see the code without preprocessor intervention, and it
-needs to see the comments.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-There might also be more resistance to requiring clang that one might
-expect.
 
->> - Don't parse the contents of the comments, at all. Treat it as pure
->>   rst, and let Sphinx handle it.
-
-That would fix the latter problem, at the cost of breaking tens of
-thousands of kerneldoc comments in the code.  I don't relish the idea of
-all the churn needed to fix that up...  That might have been a good
-decision to make 20 years or so ago; it's hard to see it as an option
-now.
-
-jon
