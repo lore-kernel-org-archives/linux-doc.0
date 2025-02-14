@@ -1,135 +1,208 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D64275401;
-	Fri, 14 Feb 2025 08:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70817211497;
+	Fri, 14 Feb 2025 09:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739522647; cv=none; b=LBeXgKwX2rsYcBVHERADPAIqjaw0dksmS7W6+BDMw5U4SQpfQV8L8lOFrW8ll15L8n2iTN4Rb/64ARPM2rnmosPfUXPypwJgjMeWK2NUKjXy2jCTeTBIgtmf4Q5EvFiCadYv33POM6fR7cpI+MuYqCW2RPL/hGdjBfPuPOW7j2w=
+	t=1739524100; cv=none; b=uNNwFYgqPX4p8d7oZpW37/5NltZ0MiJa8eis2R2OIAN48s0C1MbIREr0aYaNcZ3PUKQ0EYdtbVQXuTqYyvJDksxU/GKUnF6j42vD/5o0kTj6YzgsFhNVf3UNYtYCxU8iNkG4l89cGYw1qySGoiXGlUvj86TRKa3q5JOR4STqKyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739522647; c=relaxed/simple;
-	bh=ykvEShYNLVtLUN8WbhFUSrKQ/Ai8VO/e+8edobeJJcY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ft7RghC0312RqKoyAIl/+wW739/sPa/NOoKZtOBZMb8VPxWSjPg8TtTcE2d5usniaN6CgRxNdZ2u4WwcMgAjc/tYQRa7jxZ2MK7meDBEWAvBmvnJg2nKCf31LLPCocgN6attTEsmwfPAwoW9X31y9WUeruQUj0vLqv9rCO4hWaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iF611NiJ; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1739524100; c=relaxed/simple;
+	bh=0JzTWN6wUPtJeL/o+wpV1b/rj6YfptImOLmfDxUrVzw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VX05VzIRQcx+I4qGAInLznYVatvoeuH2h3iWCWpp7Qrp2knXDsE0MdzWYzKsTkxHqSJRE6eEhjpN+DVcrX53ZN4XPJYCJLXK96roqTyH1kQMHVqrvyF3VfpYwL/1NHremYl167SqHeT4SrjVTRz+NDvEyWJ/T87xnDr46iHhAbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BIqWzvco; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iF611NiJ"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3D198441E5;
-	Fri, 14 Feb 2025 08:44:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1739522643;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WSaeyfo8DQwqJGKUIUvYkkgVgRZAUJU2hAJTGaurvSE=;
-	b=iF611NiJf5UmWwAeRJ9fSRHPIr3slCUYg5J6GAy0IdyLMF/8cuZA6Vlvrdk9KqZZpGEpG8
-	kLtnvTavAgWOoMu/olJ9i0hTVWQZKGjyvLFuGt9ENeeuW2gHQeRM3dozeIy233+ZMMhS5l
-	4cDs+4mGEpzgEf4vKDvoq+1MDohQXLjW1DGeXMvZ8xsXfUVsOcYUKMMVf6067nFcAb05mB
-	cfewLHnFQN1PM5oKIbQVBVnPsEDPGm/PFVLg9W1dFGD/POGdAICBc/mMRZ+80qIVM1vKux
-	lBikh5Q99/eDpUU7L0gR4sCdqdJ80nrXpDpQzlbTGaohs3kqxrCBjUkk1PI9qQ==
-Message-ID: <1274bae7-e473-4711-9235-de0aeeadb02f@bootlin.com>
-Date: Fri, 14 Feb 2025 09:44:01 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BIqWzvco"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739524098; x=1771060098;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0JzTWN6wUPtJeL/o+wpV1b/rj6YfptImOLmfDxUrVzw=;
+  b=BIqWzvcoy5tUSnqtPBAWswofk8by9aZ+oTv9KPImmxrYKUxTQ5gahzAB
+   dfBnd0PChJWsYD2NnRtmGSJp8g71WwQmlyLe8GwfPNwXWF/nZ0MJ/CMMK
+   2fy5l+43Ac4Khm525svJUr5WJlUT7lmKUn5aIHxw9SnMOKCqLXO/4uW0M
+   56fptTnZtTqdGr9cEqIWVkMcMN9fVYqciINCIHt+xKLhM8Xppik0Q/1VZ
+   9bbgTXgVqJajGIvsZ3+gvEhMgbgtunMkuQKdin8vP9AAOhlNAEDw0Mwwx
+   CP3vFvaOTP7J6xAJ6CEdmMcWvKBalhbaDLFjqX0FnaJeYff3pVKKlLk7D
+   A==;
+X-CSE-ConnectionGUID: s1ePcxSQRiaxa/RdFTieUQ==
+X-CSE-MsgGUID: mN4VDIhARZ+Z2jho7ldsZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51694738"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="51694738"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 01:08:17 -0800
+X-CSE-ConnectionGUID: HqfMZC/CTr6rJVxU8mrbeQ==
+X-CSE-MsgGUID: 0VJu2ws5RzyDUPPMdRkIRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="114302908"
+Received: from inlubt0246.iind.intel.com ([10.191.24.87])
+  by orviesa008.jf.intel.com with ESMTP; 14 Feb 2025 01:07:56 -0800
+From: subramanian.mohan@intel.com
+To: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	andriy.shevchenko@linux.intel.com,
+	giometti@enneenne.com,
+	tglx@linutronix.de,
+	corbet@lwn.net
+Cc: eddie.dong@intel.com,
+	christopher.s.hall@intel.com,
+	pandith.n@intel.com,
+	thejesh.reddy.t.r@intel.com,
+	david.zage@intel.com,
+	srinivasan.chinnadurai@intel.com,
+	subramanian.mohan@intel.com
+Subject: [PATCH v14 0/4] Add support for Intel PPS Generator
+Date: Fri, 14 Feb 2025 14:37:51 +0530
+Message-Id: <20250214090755.37450-1-subramanian.mohan@intel.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] serial: mctrl_gpio: add parameter to skip sync
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>,
- Richard Genoud <richard.genoud@bootlin.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, linux-doc@vger.kernel.org
-References: <20250214-atomic_sleep_mctrl_serial_gpio-v2-1-1e60c732fd90@bootlin.com>
-From: =?UTF-8?Q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <20250214-atomic_sleep_mctrl_serial_gpio-v2-1-1e60c732fd90@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegledvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeetlhgvgihishcunfhothhhohhrrocuoegrlhgvgihishdrlhhothhhohhrvgessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvdetteektdehudelheehkeeggfejgfelveevgeevtdejudfgveetgefhtdduuedtnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddungdpmhgrihhlfhhrohhmpegrlhgvgihishdrlhhothhhohhrvgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddtpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepjhhirhhishhlrggshieskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhitghhrghrugdrghgvnhhouhgusegsohhothhlihhnrdgtohhmpdhrtghpthhtohepnhhitgholhgrshdrfhgvrhhrvgesmhhitghro
- hgthhhiphdrtghomhdprhgtphhtthhopegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtoheptghlrghuughiuhdrsggviihnvggrsehtuhigohhnrdguvghvpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsrdhhrghuvghrsehpvghnghhuthhrohhnihigrdguvg
-X-GND-Sasl: alexis.lothore@bootlin.com
 
-On 2/14/25 09:38, Alexis Lothoré wrote:
-> The following splat has been observed on a SAMA5D27 platform using
-> atmel_serial:
-> 
-> BUG: sleeping function called from invalid context at kernel/irq/manage.c:738
-> in_atomic(): 1, irqs_disabled(): 128, non_block: 0, pid: 27, name: kworker/u5:0
-> preempt_count: 1, expected: 0
-> INFO: lockdep is turned off.
-> irq event stamp: 0
-> hardirqs last  enabled at (0): [<00000000>] 0x0
-> hardirqs last disabled at (0): [<c01588f0>] copy_process+0x1c4c/0x7bec
-> softirqs last  enabled at (0): [<c0158944>] copy_process+0x1ca0/0x7bec
-> softirqs last disabled at (0): [<00000000>] 0x0
-> CPU: 0 UID: 0 PID: 27 Comm: kworker/u5:0 Not tainted 6.13.0-rc7+ #74
-> Hardware name: Atmel SAMA5
-> Workqueue: hci0 hci_power_on [bluetooth]
-> Call trace:
->   unwind_backtrace from show_stack+0x18/0x1c
->   show_stack from dump_stack_lvl+0x44/0x70
->   dump_stack_lvl from __might_resched+0x38c/0x598
->   __might_resched from disable_irq+0x1c/0x48
->   disable_irq from mctrl_gpio_disable_ms+0x74/0xc0
->   mctrl_gpio_disable_ms from atmel_disable_ms.part.0+0x80/0x1f4
->   atmel_disable_ms.part.0 from atmel_set_termios+0x764/0x11e8
->   atmel_set_termios from uart_change_line_settings+0x15c/0x994
->   uart_change_line_settings from uart_set_termios+0x2b0/0x668
->   uart_set_termios from tty_set_termios+0x600/0x8ec
->   tty_set_termios from ttyport_set_flow_control+0x188/0x1e0
->   ttyport_set_flow_control from wilc_setup+0xd0/0x524 [hci_wilc]
->   wilc_setup [hci_wilc] from hci_dev_open_sync+0x330/0x203c [bluetooth]
->   hci_dev_open_sync [bluetooth] from hci_dev_do_open+0x40/0xb0 [bluetooth]
->   hci_dev_do_open [bluetooth] from hci_power_on+0x12c/0x664 [bluetooth]
->   hci_power_on [bluetooth] from process_one_work+0x998/0x1a38
->   process_one_work from worker_thread+0x6e0/0xfb4
->   worker_thread from kthread+0x3d4/0x484
->   kthread from ret_from_fork+0x14/0x28
-> 
-> This warning is emitted when trying to toggle, at the highest level,
-> some flow control (with serdev_device_set_flow_control) in a device
-> driver. At the lowest level, the atmel_serial driver is using
-> serial_mctrl_gpio lib to enable/disable the corresponding IRQs
-> accordingly.  The warning emitted by CONFIG_DEBUG_ATOMIC_SLEEP is due to
-> disable_irq (called in mctrl_gpio_disable_ms) being possibly called in
-> some atomic context (some tty drivers perform modem lines configuration
-> in regions protected by port lock).
-> 
-> Split mctrl_gpio_disable_ms into two differents APIs, a non-blocking one
-> and a blocking one. Replace mctrl_gpio_disable_ms calls with the
-> relevant version depending on whether the call is protected by some port
-> lock.
-> 
-> Suggested-by: Jiri Slaby <jirislaby@kernel.org>
-> Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+From: Subramanian Mohan <subramanian.mohan@intel.com>
 
-So despite changing the commit description, I forgot to update the actual commit
-message, which is eventually not adding a flag anymore but new APIs. v3 will
-follow, sorry for the noise.
+The goal of the PPS (Pulse Per Second) hardware/software is to generate a
+signal from the system on a wire so that some third-party hardware can
+observe that signal and judge how close the system's time is to another
+system or piece of hardware.
 
-Alexis
+Existing methods (like parallel ports) require software to flip a bit at
+just the right time to create a PPS signal. Many things can prevent
+software from doing this precisely. This (Timed I/O) method is better
+because software only "arms" the hardware in advance and then depends on
+the hardware to "fire" and flip the signal at just the right time.
 
+To generate a PPS signal with this new hardware, the kernel wakes up
+twice a second, once for 1->0 edge and other for the 0->1 edge. It does
+this shortly (~10ms) before the actual change in the signal needs to be
+made. It computes the TSC value at which edge will happen, convert to a
+value hardware understands and program this value to Timed I/O hardware.
+The actual edge transition happens without any further action from the
+kernel.
+
+The result here is a signal coming out of the system that is roughly
+1,000 times more accurate than the old methods. If the system is heavily
+loaded, the difference in accuracy is larger in old methods.
+
+Application Interface:
+The API to use Timed I/O is very simple. It is enabled and disabled by
+writing a '1' or '0' value to the sysfs enable attribute associated with
+the Timed I/O PPS device. Each Timed I/O pin is represented by a PPS
+device. When enabled, a pulse-per-second (PPS) synchronized with the
+system clock is continuously produced on the Timed I/O pin, otherwise it
+is pulled low.
+
+The Timed I/O signal on the motherboard is enabled in the BIOS setup.
+Intel Advanced Menu -> PCH IO Configuration -> Timed I/O <Enable>
+
+References:
+https://en.wikipedia.org/wiki/Pulse-per-second_signal
+https://drive.google.com/file/d/1vkBRRDuELmY8I3FlfOZaEBp-DxLW6t_V/view
+https://youtu.be/JLUTT-lrDqw
+
+Patch 1 Replaced copy of pps-gen info struct with const pointer in
+pps-gen framework..
+Patch 2 adds the pps(pulse per second) generator tio driver to the pps
+subsystem.
+Patch 3 documentation and usage of the pps tio generator module.
+Patch 4 includes documentation for sysfs interface.
+
+These patches are based on the timers/core branch:
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/?h=timers/core
+These changes are dependent on patches that are merged in [1].
+
+Please help to review the changes.
+
+Thanks in advance,
+Subramanian Mohan
+
+Changes from v2:
+ - Split patch 1 to remove the functions in later stages.
+ - Include required headers in pps_gen_tio.
+
+Changes from v3:
+ - Corrections in Documentation.
+ - Introducing non-RFC version of the patch series.
+
+Changes from v4:
+ - Setting id in ice_ptp
+ - Modified conversion logic in convert_base_to_cs.
+ - Included the usage of the APIs in the commit message of 2nd patch.
+
+Changes from v5:
+ - Change nsecs variable to use_nsecs.
+ - Change order of 1&2 patches and modify the commit message.
+ - Add sysfs abi file entry in MAINTAINERS file.
+ - Add check to find if any event is missed and disable hardware
+   accordingly.
+
+Changes from v6:
+ - Split patch 1 into 1&2 patches.
+ - Add check for overflow in convert_ns_to_cs().
+ - Refine commit messages.
+
+Changes from v7:
+ - Split the if condition and return error if current time exceeds
+   expire time.
+ - Update kernel version and month in ABI file.
+
+Changes from v8:
+ - Add function to enable Timed I/O.
+ - Changed the updating of tio->enabled to a centralized place in
+   disable and enable functions.
+
+Changes from v9:
+ - use tio->enabled instead of reading ctrl register.
+ - change error code in enable_store to -ENODEV.
+
+Changes from v10:
+ - Rebased to latest codebase.
+
+Changes from v11:
+ - Rebased to latest codebase.
+
+Changes from v12:
+ - As part of pps-gen framework, Replaced copy of pps-gen info struct
+   with const pointer.
+ - TIO driver adapted to pps-gen framework.
+ - Fixed review comments by Andy.
+ - Rebased to latest codebase.
+
+Changes from v13:
+ - Fixed review comments by Andy.
+ - Rebased to latest codebase.
+
+Subramanian Mohan (4):
+  drivers pps/generators: replace copy of pps-gen info struct with const
+    pointer
+  pps: generators: Add PPS Generator TIO Driver
+  Documentation: driver-api: pps: Add Intel Timed I/O PPS generator
+  ABI: pps: Add ABI documentation for Intel TIO
+
+ Documentation/ABI/testing/sysfs-pps-gen-tio |   6 +
+ Documentation/driver-api/pps.rst            |  27 +-
+ MAINTAINERS                                 |   1 +
+ drivers/pps/generators/Kconfig              |  16 ++
+ drivers/pps/generators/Makefile             |   1 +
+ drivers/pps/generators/pps_gen-dummy.c      |   2 +-
+ drivers/pps/generators/pps_gen.c            |  14 +-
+ drivers/pps/generators/pps_gen_tio.c        | 272 ++++++++++++++++++++
+ drivers/pps/generators/sysfs.c              |   6 +-
+ include/linux/pps_gen_kernel.h              |   4 +-
+ 10 files changed, 334 insertions(+), 15 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-pps-gen-tio
+ create mode 100644 drivers/pps/generators/pps_gen_tio.c
 
 -- 
-Alexis Lothoré, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.35.3
+
