@@ -1,37 +1,41 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED2570825;
-	Fri, 14 Feb 2025 02:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41982753FD;
+	Fri, 14 Feb 2025 03:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739500741; cv=none; b=BU8te1D/HRpyYBb+mSyzPW529Q2ARGpi6ZaagfyMFDnIie6XmYjOPy06FcmrAzLrIid5Nm3LuIN6eM0ilgKxjqxG8DXt+0GgfDlWTGoseem6GMFvHCH3T2NQp4dGKYHfp3lKGnKvvrObw2a0DzQZv2pFzKDvLqgKxG+VNUjD4n8=
+	t=1739502444; cv=none; b=Vkp7QpBAnFtSzxy59l74yYYmvUU3jxOrnLsQeJ8RZ4ndYUSXVYzKgIC1I9ccM2CVevYBTnxMu/12CFNCVWi5kYscIbIj7iRbFzIZ9rve/+Eb583zyJHm8bKglOiuP0fCYvPxZdySeN0a2y3gPt9HKDIE1ElpnQYTmrBXYD+YV/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739500741; c=relaxed/simple;
-	bh=smdnHJYzlxPxd9k25lNumQWUhSlWl+DD6RhFUe6nx5s=;
+	s=arc-20240116; t=1739502444; c=relaxed/simple;
+	bh=U3iLt2jTVvFU0CrH4KAjwFp/wrFL6Fai2J1A7HCeWvQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=acgnvc5kAcxzqdnm/lRj8mmtk7zIc1woKsxgp3R/cUlgbw00vAFie7wDZNAc+6BQitMVKlfZ0Eug3od/V1yxchWK6o0L2gtis/n2VIu4haC72wOgdQ3eVp7yEW3FKAc653Sgqfp4mH6+snUNSllLa8pZ+Bg/4OJpThS7A9GEyCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CCoI+NMY; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=VshFjDbzRlLs+lYIGMRIMM3MKVIHkT87g2LtLUPuy8DdfvTbxa++MLMVg0sZIqW71OxHcigD3UlBrcIOKdLCcD5QJOQx4BVKt7O9ixAe3F6C38DDEP0yd6i76whHvxJvBc/c2kYxwR5aYbugySVafkVjKsuMsD33ujfM+0CnQ34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=dEN3We9e; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CCoI+NMY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=25bbqQa7YMXs0lkfEqR1DKGHHbfacs+OqWdnJ67C+TY=; b=CCoI+NMYeuibMMDXcygIuxfdrf
-	7NsLDMv7axvAllWL2ACd0+RMpqF0oJ6k8fIQsMQ4lmmtR5h0Agy+jqep3I4BhKoB/Rabh/PvPS4O3
-	tuOdamrtuSSG4x57xPSLHRAm+Q9Odq4QHjlk4luQgr7ikX86jjLI29vSLt3aJo6fl91+VtPGC4Drm
-	7r+oe6nE2Cso8XzyITDzji6cIpmbMJ5sF6su7iklaBK4aSxwalgxGQUNOpGRtr1Yp3bcv+C+ramZF
-	l1eu76uyVi+ZHHeZH40/7bK6r9KvbKG3QHGgv42cp3OGm37KbmDao77uFnumeRA3e0/NCcU6QtYEe
-	kPxiaKFw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tilbO-00000009wn8-0hrA;
-	Fri, 14 Feb 2025 02:38:50 +0000
-Message-ID: <45cec6dc-2071-4d5a-a0bd-8ad895b19000@infradead.org>
-Date: Thu, 13 Feb 2025 18:38:47 -0800
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="dEN3We9e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1739502434; x=1740107234; i=w_armin@gmx.de;
+	bh=UkVu9TB9y3bg528X+5UCDMdueq5YjpPbMSyJYp2IyZA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=dEN3We9ef2XfOawN+NEw7U4xlzDzWpAowENjqY+KmkA7OVQ8rElf+O+aeiNnfVbq
+	 liyq+23GMTMbRik+MoGg1xo4ByCkQcO3zxfKxj0IqwqJF7BGsJYyvwwjj8cqxyn4A
+	 a18Lg2khXyzFp+WLOTmYjSxKf/Lx5LGzpcCi7Szrb5Hq1e6SDISj8HrRducNxIreC
+	 Vgo/lwNyt5u2gPZHTeW1jW8OTqzWuWuUrWJhqgj1gE7WPc+ug1tuqzMBEdNyAzoQN
+	 Scr41vutcN1f9oOIHOWCM0oco4VmqaiFLtHJE0osauuLaosn6NWIIgC9OhzhrvVQw
+	 xYFwHzLi2BsfeXRvoA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.24] ([87.177.78.219]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mzyuc-1tTqER3isg-014D2j; Fri, 14
+ Feb 2025 04:07:14 +0100
+Message-ID: <62e5b2f6-23e8-44e2-80f8-2509dd8e5a17@gmx.de>
+Date: Fri, 14 Feb 2025 04:07:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,181 +43,121 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scripts/kernel-doc: remove an obscure logic from
- kernel-doc
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org
-References: <fd3b28dec36ba1668325d6770d4c4754414337fc.1739340170.git.mchehab+huawei@kernel.org>
- <87wmdt6bv5.fsf@trenco.lwn.net> <20250214032457.6444ee93@foz.lan>
+Subject: Re: [PATCH 3/7] platform/x86: think-lmi: Use WMI bus API when
+ accessing BIOS settings
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: james@equiv.tech, markpearson@lenovo.com, jorge.lopez2@hp.com,
+ jdelvare@suse.com, linux@roeck-us.net, linux-hwmon@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ platform-driver-x86@vger.kernel.org, corbet@lwn.net,
+ linux-doc@vger.kernel.org
+References: <20250203182322.384883-1-W_Armin@gmx.de>
+ <20250203182322.384883-4-W_Armin@gmx.de>
+ <0dd7bda3-bf76-228b-27f3-f057e80e3a03@linux.intel.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250214032457.6444ee93@foz.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <0dd7bda3-bf76-228b-27f3-f057e80e3a03@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:7OWgTiuneYVq8FpBOEoyTSddAPhgwOL3QU9g3CpiK8oF7t5sbYv
+ vm4Gfz3ze46FCkApkUgdWCnjY5dtJM7FvvudeAN9MTB/l3Lc5krFEmHzpTNi+IqQv3fsUbP
+ FBCHKSO+z/yH2tyJ+PnIuT2RoD4tcbXpJIBZViuf0XPPOn5QptwISobBk5KhaOtWG6JFdjh
+ InoP4BwP99ZyGaU5h0uGQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:9oFAX8DxaHU=;AZ76pu+mJr308YybNs+pLiNTG/2
+ am67VWgfC/ASgx1PrP/gSHIZLHGKXGZGaZK+SHgpqcJFb2dt4AwV9pT/y0BhwUVeh8tljMgV5
+ OYpDF6nnuZcfqJO6HNedInVLUkL59Ypzc2jeyZnFkkOpB4vW5ft3uHmZmEmvYy+dzXw/cGdBB
+ f8bhxz7WJRypBqN5V7eO+LWy2slOJSVIRaD14JEopBaHmeFsv3wHFdJK+vx/aMwoNd9PGfJ2s
+ Mg8bOn69bfTqIQJOKbvEOobpYgdr4sTy4o6DddzH9FfHEBUJ5POSGoG8xj4IkJkizJOmU45i2
+ tlQcwcTWzd8feFIeAbF207OrCKDtyXK12/1Kivnkcx+Zgyi5KM0Qbnfm1xu7HVS9l0Qzoke93
+ cgCSX+CAddJCIhenZFJ5Tp6gLfLSRcgjPoN1JHGOHqB75L1oeJq6DQMcBGBtz8uKe+gwCz1OD
+ 9iZNjyxAEbI8d8rS+hwWChuVDD0SIR16GwoMAuy45vO6lzuZ22rirXn1IkQx8UDkrjuyZeFPJ
+ eGdBun7MGm5VxhrGWwir+6ZygCWElfStiNT70IXWLGaeAqWVy/pOvsvHXQIKtEP4OQPX5s7O3
+ /ZfOnAzSTELbhNEXxLxJDD9RzgO9gKXB+LMbuC9WZLMjhNnSlIb/lkPGvouubBtVuwfsWPDeU
+ qLkht91RfQmNbw0JXk89urcD6PQMqQTiOv825Yi4/7ZY2ROT72Gu3mK+qn1qu9VlR8LSPN6Xi
+ WhObR3cvXbzrHj53wifNIYR5sjIkkPZ8GfSeruxNfFir4/20s5Y4vLCSsvfnDx7DFp12OI1hJ
+ Y/nh+UeldcN1t3oAWje/4LrP3sCrOi1tYIMYDH3Ueqc2lYYxMCX8bO2IhIelCHUA1sEL1GFDp
+ 0ps8Q1Ij0uMXX/swpnOaU7/iHXXFi7gqCUH//3KVf2i5kCwjwleZAXyOiH31aXs36tWKjKLv7
+ LlzIJJGrKsi301p/Z2j2akNtRDagXnfZ2oJ10kjrOB1ZSrObYsqmc4d3X84lbaeuMeLtrwBEU
+ K5uj4V5V7nYRlUhp5Vb8ys9agZKXYkZVZyOVdrFC935aNsBQU1QHYVq316izc/0WbOGluSgaX
+ gKWWoP+wqgi8gcdxKFZtF4DscV4X6UiYvk9tiJV6MXYUHZ04fB+n6zB5fyG1U7oZblfSOWEsr
+ 3Y2AXWDzht+viRN/AoPWDKCid3FvKUgXR9me4PSL7o07f2fUloCLVfzngLok7v+iGF8NqOyCk
+ BAicXNF7u155wSK4a0BnGlOTIO9TNsvUp+Tm6gbClIHA5Js+M527dR0y6ICkOrVBs/K5aeI2E
+ W8saGvBT3FpA8GnTODTLQK013sDhd3A3duMqTkJhu+WK6X5hXnk2kV9G3aKuP2sJaAHULNoA7
+ fD5vpeMt2npe/8azwhkez7yLvSYjzUuG6sfwxHpNxSFqxh+TcFFlXhLvoE
 
-Hi--
+Am 13.02.25 um 14:17 schrieb Ilpo J=C3=A4rvinen:
 
-On 2/13/25 6:24 PM, Mauro Carvalho Chehab wrote:
-> Em Thu, 13 Feb 2025 09:35:58 -0700
-> Jonathan Corbet <corbet@lwn.net> escreveu:
-> 
->> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> On Mon, 3 Feb 2025, Armin Wolf wrote:
+>
+>> Since the driver already binds to LENOVO_BIOS_SETTING_GUID, using
+>> wmidev_block_query() inside tlmi_setting() allows for faster
+>> access to BIOS settings.
 >>
->>> Kernel-doc has an obscure logic that uses an external file
->>> to map files via a .tmp_filelist.txt file stored at the current
->>> directory. The rationale for such code predates git time,
->>> as it was added on Kernel v2.4.5.5, with the following description:
->>>
->>> 	# 26/05/2001 -         Support for separate source and object trees.
->>> 	#              Return error code.
->>> 	#              Keith Owens <kaos@ocs.com.au>
->>>
->>> from commit 396a6123577d ("v2.4.5.4 -> v2.4.5.5") at the historic
->>> tree:
->>> 	https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/
->>>
->>> Support for separate source and object trees is now done on a different
->>> way via make O=<object>.
->>>
->>> There's no logic to create such file, so it sounds to me that this is
->>> just dead code.
->>>
->>> So, drop it.
->>>
->>> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
->>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->>> ---
->>>  scripts/kernel-doc | 19 +------------------
->>>  1 file changed, 1 insertion(+), 18 deletions(-)  
+>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+>> ---
+>>   drivers/platform/x86/think-lmi.c | 23 +++++++++--------------
+>>   drivers/platform/x86/think-lmi.h |  2 ++
+>>   2 files changed, 11 insertions(+), 14 deletions(-)
 >>
->> Weird ... I went and looked, and can't find anything that ever created
->> that tmp_filelist.txt file; I wonder if this code ever did anything?
-> 
-> I wonder the same ;-) Anyway, better to remove this now, as, if people
-> complain, it would be easier to revert than after switching to the
-> Python version.
-> 
->> Don't put that functionality into the Python version :)
-> 
-> Yeah, I started implementing it, but it sounded a waste of time, so
-> I dropped it from the RFC versions. It sounded too complex for people
-> to maintain a separate tmp file when make O=dir would do it on a much
-> better and automated way.
-> 
-> -
-> 
-> With regards to the Python transition, since our Makefile allows
-> switching to a different script since ever[1], I'm playing with 
-> the idea of sending a patch series with:
-> 
-> Patch 1: 
->   - drops Sphinx version check from both kerneldoc 
->     (-sphinx-version parameter) and the corresponding Sphinx extension;
-> 
+>> diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/th=
+ink-lmi.c
+>> index 2c94a4af9a1d..0fc275e461be 100644
+>> --- a/drivers/platform/x86/think-lmi.c
+>> +++ b/drivers/platform/x86/think-lmi.c
+>> @@ -344,20 +344,14 @@ static int tlmi_opcode_setting(char *setting, con=
+st char *value)
+>>   	return ret;
+>>   }
+>>
+>> -static int tlmi_setting(int item, char **value, const char *guid_strin=
+g)
+>> +static int tlmi_setting(struct wmi_device *wdev, int item, char **valu=
+e)
+>>   {
+>> -	struct acpi_buffer output =3D { ACPI_ALLOCATE_BUFFER, NULL };
+>>   	union acpi_object *obj;
+>> -	acpi_status status;
+>>   	int ret;
+>>
+>> -	status =3D wmi_query_block(guid_string, item, &output);
+>> -	if (ACPI_FAILURE(status))
+>> -		return -EIO;
+>> -
+>> -	obj =3D output.pointer;
+>> +	obj =3D wmidev_block_query(wdev, item);
+>>   	if (!obj)
+>> -		return -ENODATA;
+>> +		return -EIO;
+> Hi Armin,
+>
+> I'm trying to understand why there are these back and forth changes in t=
+he
+> error code.
+>
+> It almost looks to me like wmidev_block_query() would want to return the
+> error code itself because after you abstracted this code using
+> wmidev_block_query(), you had to change the error code because you no
+> longer have access to the key detail to decide which error code should b=
+e
+> returned. That is, use ERR_PTR() inside wmidev_block_query() and the
+> callers should just pass that error code on with IS_ERR & friends?
+>
+Hi,
 
-It's currently scripts/kernel-doc. Are you planning to change it to
-scripts/kerneldoc and break other scripts and makefiles?
+the reason why wmidev_block_query() only returns NULL in case of an error =
+is that
+according to the WMI-ACPI specification, querying a WMI data block should =
+return data.
 
-> patch 2: 
->   - renames kerneldoc to kerneldoc.pl
->   - creates a symlink:
-> 	kerneldoc.pl -> kerneldoc
-> 
-> patch 3:
->   - adds kerneldoc.py:
-> 
-> patch 4:
->   - add info messages on both versions related to the transition,
->     and instructions about using KERNELDOC=<script> makefile and ask
->     people to report eventual regressions with new script.
-> 
-> patch 5:
->   - change kerneldoc symlink to point to kerneldoc.py
-> 
-> We can then keep both for maybe one Kernel cycle and see how it goes,
-> stop accepting patches to the Perl version, in favor of doing the needed
-> changes at the Python one.
-> 
-> If everything goes well, we can remove the venerable Perl version on the 
-> upcoming merge window, and change the Sphinx extension to use the Python
-> classes directly instead of running an external executable code.
-> 
-> What do you think?
-> 
-> -
-> 
-> I'm in doubt if I should split the Kernel classes for the Python version
-> into a scripts/lib/kdoc directory on this series or doing such change
-> only after we drop the Perl version.
-> 
-> Keeping it on a single file helps to do more complex code adjustments 
-> on a single place, specially if we end renaming/shifting stuff[2].
-> 
-> [1] I didn't remember about that - it is a very welcomed feature,
->     probably thanks to Markus.
-> 
-> [2] the currently global const regex macros is something that I want
->     to rename and place them inside a class (or on multiple classes).
->     Also, Python coding style is to use uppercase for const. There is
->     currently a Pylint disabled warning about that. So, I do plan to
->     do such changes in the future to make it more compatible with
->     Python coding style.
-> 
-> -
-> 
-> On a separate but related issue, perhaps we should start talking about
-> coding style. We don't have anything defined at the Kernel, and
-> different scripts follow different conventions (or most likely
-> don't follow any convention at all). We should probably think having 
-> something defined in the future.
-> 
-> From my side, I like Pylint warnings, except for the (IMHO) useless "Rxxx"
-> warnings that complains about too many/too few things. They have
-> been useful to detect hidden bugs at scripts, and it allows inlined
-> exceptions to the coding style.
-> 
-> autopep8 autoformatter is also nice (and, up to some point, black),
-> as it auto-corrects whitespace issues, but there's two things I don't 
-> like on them:
-> 
-> 1. its coding style on lines, creating function calls with open 
->    parenthesis:
-> 
-> 	-    parser.add_argument("-n", "-nosymbol", "--nosymbol", action='append',
-> 	-                         help=NOSYMBOL_DESC)
-> 	+    parser.add_argument(
-> 	+        "-n", "-nosymbol", "--nosymbol", action="append", help=NOSYMBOL_DESC
-> 	+    )
-> 
-> 2. whitespace removal on aligned consts:
-> 
-> 	-    STATE_INLINE_NA     = 0 # not applicable ($state != STATE_INLINE)
-> 	-    STATE_INLINE_NAME   = 1 # looking for member name (@foo:)
-> 	-    STATE_INLINE_TEXT   = 2 # looking for member documentation
-> 	-    STATE_INLINE_END    = 3 # done
-> 	-    STATE_INLINE_ERROR  = 4 # error - Comment without header was found.
-> 	-                            # Spit a warning as it's not
-> 	-                            # proper kernel-doc and ignore the rest.
-> 	+    STATE_INLINE_NA = 0  # not applicable ($state != STATE_INLINE)
-> 	+    STATE_INLINE_NAME = 1  # looking for member name (@foo:)
-> 	+    STATE_INLINE_TEXT = 2  # looking for member documentation	
-> 	+    STATE_INLINE_END = 3  # done
-> 	+    STATE_INLINE_ERROR = 4  # error - Comment without header was found.
-> 
-> What I do here is from time to time manually run them and cherry-pick
-> only changes that sounds good to my personal taste.
-> 
-> It is probably a good idea to define a coding style and perhaps add
-> some config files (like a .pep8 file) to have a single coding style for
-> future code, letting scripts/checkpatch.pl to run pylint and/or some
-> other coding style tool(s).
-> 
-> Thanks,
-> Mauro
-> 
+So we have two error scenarios:
 
--- 
-~Randy
+- ACPI error =3D> firmware error =3D> EIO
+- no data returned =3D> violation of firmware spec =3D> EIO
+
+Because of this always returning EIO is the correct approach in my opinion=
+.
+
+Thanks,
+Armin Wolf
 
