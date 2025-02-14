@@ -1,113 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2076.outbound.protection.outlook.com [40.107.220.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CB12AF16;
-	Fri, 14 Feb 2025 19:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C42719415E;
+	Fri, 14 Feb 2025 19:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.76
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739560704; cv=fail; b=rEtSFYOnGZ5CFuPdaCBCmKQbChE+04VPR6zwe2Y3ommW75UbcwC7pSO3RAlXxKSlaCFcY0O9ThdHGNp+v/hzkvFRF+igzj22WurC68RzaPELIQFBxShAJ6qfxWVOTe7HH6F57f18UJ0+EDNQhDZTGemZyHoo4cL4uWOio8BS/SM=
+	t=1739561672; cv=fail; b=FSXx/RWpFSuz/bFjyq8h4xyyqdxrnCRnPX37wZZCs5ZgXEfHaC7Z8WZiGUla8OrRnlu4scLwjE9IYHdTGJC54U241d7FjheyAn4HAUSWS86oI4nQLI8422T1dpi/6nmSovAnrwErQev6Q73rDs8RZs2jV+H1O/BTXeW0nNc+kxA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739560704; c=relaxed/simple;
-	bh=zwEqnxRR1NrFibM82uEmTz+rNaxYRhd7DIBB2gpudzY=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=NusO/rswsw/jzO19SJxcW0Xg3ilZLiBtyTsrYTXGdqJSh6uvnogZcBRwFKQvLsoC3ALgsy9zi0ehrpMylTm3x/0ZInLIxth+gauKEGf65ZsvLPuSQvB8wNYZEV6Yq5RdQF9Iscb6elU9WA/qVWCrHf8LnOH3r+CFIGZS6/c0Bck=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jGy1Pl3v; arc=fail smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739561672; c=relaxed/simple;
+	bh=TftYXkhQyNa4yh3NkqGanDPbXI6q4bOqUWNmMfElqL0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ma6ZVUlSoFtjMOTQPe8q/h8faVrk97vRkAkweZ2S9Qr6qTDkxFy5HDDQ1qI2BaazpToc/SIJbVJOe0gfU6evKt2oLTb5pwCRY9RdqM2sUjloMD62SvPDLhEJ9Gu4F3FPDl0gO8FlKyyLQnDHnKHpUZHJ4GVyS6XhenQ7fcmvJR8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5KoUWTuq; arc=fail smtp.client-ip=40.107.220.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jGy1Pl3v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739560703; x=1771096703;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=zwEqnxRR1NrFibM82uEmTz+rNaxYRhd7DIBB2gpudzY=;
-  b=jGy1Pl3vV/WpuAvfsvcsOB5vjpnC6cQDYeVY4+astFriDkwcMciXZ6VN
-   9yL871d8b/ZC7EgnsLsS8/Gv+HVnFiEXxL9lsKskPrl0g7kjFxrDFUw3H
-   CPeTjtC0974DqAueGpNp+kvtvJgG6+L3RLm4r0DxyGt3gpzJ/Rv9kAv+S
-   7ihqzdQX5y/qtKs4D5WzxaBaROyU4W50PQ0SxLKN0cOcrGvo6LVkImaGW
-   rBUAxiq/TtlrqrVgRzbZLljj0EP41djboymgiRzdapIE6xjzc2NLCvHLb
-   vsCBturopurHKRQfaPl0qgIAIEiW9xSp/hzxgYZk0D3mFJIDr+5YYOpjZ
-   Q==;
-X-CSE-ConnectionGUID: fWm7yrDtRaWlZG+nSWaxxQ==
-X-CSE-MsgGUID: a/tFTP19Rsi7jNd43FaQ8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40446504"
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="40446504"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 11:18:18 -0800
-X-CSE-ConnectionGUID: kIfhGYnDSgOszSay9I7GlA==
-X-CSE-MsgGUID: gduM4EpoSv2tvik7+PIiKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="118645156"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Feb 2025 11:18:15 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Fri, 14 Feb 2025 11:18:14 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Fri, 14 Feb 2025 11:18:14 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.47) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Fri, 14 Feb 2025 11:18:14 -0800
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5KoUWTuq"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FQxML1AUy83Oe1FIawb3kbATJdJp/sbr3wBeHOiQIbBcZwpVhNCu+g49yComQBe2kIwNY8s5kwI5C18iu6wWfQSIZrGaplTNZYKbUu97zNXVVHPA+0bBFTPIlk1hNJnsET58KJLFw7HVgZAzxgxZO9vZjrtW1wLL0301QIF5S/QT+iKZ0F/8E2z9NkifKVLtmFyL99SpVVxNDyzY7FUlWmvhD3sqzDqmo+gOPPHNzO7NYbHUMiNDgWuMLYHDMRcrCgdRUgpVqYhrVoEddoiXdW3dS5cCwT1uhThfCZ96Ol+3/lRnpmg3S9p+pu3VH0iENyNMzXkvH5U7mq+YIpAMMA==
+ b=yX0+p5MdjnoPZ7N+v8XLq16XQIuiYxeje0Wd/tcbl4JaWayt6PiWUApkKz56xl3gZksbzGv1X1om1z6wSpGl+HW6tgSKigGM1HQABVozTsB8ZzTvjPvaBwmm45OcxaaffOTFNDuxIYg624Lwfu2U1m/kEYmJclKO6lX4SKz2jND5a+xr7cAZarKPT0TELJHPf5WuyOxkdcn9U5Spgcp9RhMQvysIhJ78Yzjo28o5ow38y/1x94z1ZCAbmpLGKwUlBJ29Ny7QgYsxZJhPPoPEQgKfJIb6PMpCsOClSF2h24rnw+6YYM9SqEirKfPuNtX9F74GjWnLsPmjRV1nn4WBAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Adgw8nUA4+BnSy9xRW9SGnTig0J794viCslnOwYTrTk=;
- b=AVpm79cLUEn0Z0DdP8DXBQHKRKA+C3CNbxSsFBmpvnBphR7bnsTcObIcsrYYoU+atKU9wjMo0uKVCwiAFn3GGLqX29M2TosAnH2SIRofMA7HMXuUvjaMmunpdcJwzWHI6QKQnzKX2LHQ4fpnJlNL2UEASb6gQoMTIcJH+C0OyEqhqKL6lxcmamzxcvHs32sw7F4xFCaeS/4ECgmz2bddM6C70jGIFhKFpzSdlCG1/35puemyH8jKkqtExfNIQxCEFvKYn7F5op9J/UDRrsqGEEEj7JoFYyOTp52K1BfXE2E8S7PH2Cl88LqvANpnHeLuScBI6ssKJXBuZvc4QC+ncQ==
+ bh=dD26u0LxSuiSuXRk+nvp4qOJLyQun9QilcYlnm/DQiM=;
+ b=GyyWInq23hYtgfm4WHsw1XVSBqyDNV2BZZYwsNBySqJpWHE6XI9371fK4lXnQVNc3rZSyF2ZCjv9wTfZo6xxk3EyulNNf9XpEVQhMdeqJRJIBJ/fp2mQioLSclHOXgDMIo635rstg3egvoGB3IH+XmoDuzzuaEQ7d3olwFE4c1xTyw0UynLNe8MEWv7tDuWEyIwN2rtQ4BY3WlOLB8oOf3zjrojo/rS31tm3n7w6lz+YGGydoZODFJ0pz0evgJ9tpUKqOJhpPBkzxnf38s6J4cszIFoXhh/hzJmDPyqhieyO75Rz5vcZFezQ9RHWaQBiKbv1rMeVt3CUwXlb2r5UUw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dD26u0LxSuiSuXRk+nvp4qOJLyQun9QilcYlnm/DQiM=;
+ b=5KoUWTuqsdFwXKyhrarYCXsAocvtytOMRTcsNgZiHRYWHAzijA11BotutOVeDQSfGo5/88qVIn+l6Tfng6d25/U51DkIY4j1uWgrG3wDBXlUSKlyQWgLyxi9kEDf7HxeaCxDJuUpJ5kmX4J52xsg0k1mwgCs6lmvDA7qfg5dlMk=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by DM4PR11MB5972.namprd11.prod.outlook.com (2603:10b6:8:5f::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8445.13; Fri, 14 Feb 2025 19:18:11 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.8445.015; Fri, 14 Feb 2025
- 19:18:10 +0000
-Message-ID: <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com>
-Date: Fri, 14 Feb 2025 11:18:07 -0800
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH2PR12MB4262.namprd12.prod.outlook.com (2603:10b6:610:af::8)
+ by SJ0PR12MB6687.namprd12.prod.outlook.com (2603:10b6:a03:47a::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.17; Fri, 14 Feb
+ 2025 19:34:27 +0000
+Received: from CH2PR12MB4262.namprd12.prod.outlook.com
+ ([fe80::3bdb:bf3d:8bde:7870]) by CH2PR12MB4262.namprd12.prod.outlook.com
+ ([fe80::3bdb:bf3d:8bde:7870%5]) with mapi id 15.20.8445.013; Fri, 14 Feb 2025
+ 19:34:26 +0000
+Message-ID: <5e19ec93-8307-47c2-bb13-3ddf7150624e@amd.com>
+Date: Sat, 15 Feb 2025 01:04:11 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: "Moger, Babu" <bmoger@amd.com>, Dave Martin <Dave.Martin@arm.com>
-CC: Babu Moger <babu.moger@amd.com>, <peternewman@google.com>,
-	<corbet@lwn.net>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <tony.luck@intel.com>, <x86@kernel.org>,
-	<hpa@zytor.com>, <paulmck@kernel.org>, <akpm@linux-foundation.org>,
-	<thuth@redhat.com>, <rostedt@goodmis.org>, <xiongwei.song@windriver.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <daniel.sneddon@linux.intel.com>,
-	<jpoimboe@kernel.org>, <perry.yuan@amd.com>, <sandipan.das@amd.com>,
-	<kai.huang@intel.com>, <xiaoyao.li@intel.com>, <seanjc@google.com>,
-	<xin3.li@intel.com>, <andrew.cooper3@citrix.com>, <ebiggers@google.com>,
-	<mario.limonciello@amd.com>, <james.morse@arm.com>,
-	<tan.shaopeng@fujitsu.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <maciej.wieczor-retman@intel.com>,
-	<eranian@google.com>
-References: <cover.1737577229.git.babu.moger@amd.com>
- <Z6zeXby8ajh0ax6i@e133380.arm.com>
- <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
- <Z64tw2NbJXbKpLrH@e133380.arm.com>
- <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com>
- <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
+Subject: Re: [PATCH v10 00/18] reimplement per-vma lock as a refcount
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
+ lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com,
+ vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com,
+ oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com,
+ peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
+ brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
+ lokeshgidra@google.com, minchan@google.com, jannh@google.com,
+ shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
+ klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ kernel-team@android.com
+References: <20250213224655.1680278-1-surenb@google.com>
 Content-Language: en-US
-In-Reply-To: <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR04CA0144.namprd04.prod.outlook.com
- (2603:10b6:303:84::29) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+From: Shivank Garg <shivankg@amd.com>
+In-Reply-To: <20250213224655.1680278-1-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BM1P287CA0019.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:40::30) To CH2PR12MB4262.namprd12.prod.outlook.com
+ (2603:10b6:610:af::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -115,193 +73,293 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DM4PR11MB5972:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53a80402-93fc-49be-6095-08dd4d2c520c
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4262:EE_|SJ0PR12MB6687:EE_
+X-MS-Office365-Filtering-Correlation-Id: 343229fb-4d62-4d45-3207-08dd4d2e9785
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dSsreTZXTkNrcVpudFI2cEd6Z09KZDZJdndGam5VWWRIQWNERXNQQWxZbHd1?=
- =?utf-8?B?SlNEbkhHdU1Vd0djd28xQXQ5aWxNdkNFYzR3ZjNKd0FwR29hUlhoem1SVFBa?=
- =?utf-8?B?RmNrb1lTTnY4U1JHamxIYUJyRmNXaHArbVNKbGVOcndQZjlKVzlHUHZTaXNk?=
- =?utf-8?B?NlRxa0JTUFFiNVQ5THNpQ3VyaEZvVDQ2a2duRFlQZk9pV2hjREtvUnNQZjQr?=
- =?utf-8?B?TnVQNFNSTld3TlJYYVArQ0NHbEdwSExYTjFGUWd4OXpTbW9YQktMak1qZVFx?=
- =?utf-8?B?NTFxRUJBcmgrcWV6ZitqOG93cG9DMmFidG5xSDBNL2xzRUpORUdMeFIyeTdt?=
- =?utf-8?B?eFQvanFBZllXaTNMUDFJbHVPSWhpZlZGK25TODFmNEpYc1IvbkczSzFOL2Mz?=
- =?utf-8?B?VCtKSmMvQU5kdWtoYmNlQ3d5eSsyMXBFaitHRWY4aDlNZ2FHdkhHb1RnWU9m?=
- =?utf-8?B?OUh1Tjl3eTVBZGVtN001NStqT0VVWGI4R0oxTm5ld0duOXZVS0Y3T2M0K0hh?=
- =?utf-8?B?aEJlSWtGUVozaUxIR2dHY3BKdjZ0UWMvTFRrVjZSSk0xQktUbEpHcER1aEZu?=
- =?utf-8?B?aHdGZjBDdThMVy9UdGk5TGlqOFMzQUtFVjRPTXltQUVzMTBMVEFYaGk5TXR2?=
- =?utf-8?B?SHYwZEpYeHBtOXhORFNSaXk3bEZwR3JoWE54b0dKb0dNU1hKYVUxMUNSZ2NI?=
- =?utf-8?B?WW9VamlvTWJvSWIvaHZGV08vb25mK3BpQkZLc1gvWXNjSUU5QWo5WkpNZnEx?=
- =?utf-8?B?K1BQWEV6bVJYQUtpNVkwQXEySU1QUGIzdUtOTG8vV2grb0RmWWZFWmp5VSsz?=
- =?utf-8?B?MmhzVkY2bjBTaWpEeUN5dWh4Y3I5WmpnQXFlSVZSQ1hOdHNKNGVzcitqUWZX?=
- =?utf-8?B?MW9DNkZzQ3BXL2NkV0dBc0RRN2xBcCtxQU9XZGFvVW11ZWtPZjBPY1ZRNlRM?=
- =?utf-8?B?ZUliZWU0d0hEUmc5ckZPTW9pLzdhektLTEl4YzY2aVZJY0tiUzY2UEJheDE1?=
- =?utf-8?B?VXlhTGloamZONUdjVVpZZytoYTBkZGdkemtrTzF2M0dkZGJ5UmIyTnBtWnFL?=
- =?utf-8?B?SExHWmRwc2t6Sjl6VlB4blhTWWpmS1J3YWxrbHdzOW92UVRHVzFEWk1qQVQ3?=
- =?utf-8?B?RkIvc21ZbzZtMlNRVFoyVkVzU0ZvMjduUnFHb0ZrVzdFMzJzR1krYWtkMTB0?=
- =?utf-8?B?cmZtQlY3MHFsdmIwTndkc0o0MkJmU2VoYVhSdGxaL2lkblNqWXRiWDNDY3pv?=
- =?utf-8?B?UUFLbmM0UWZKbTNpM0p3UnRzSC94U2NKTFF1Tm9XODg2alZ6bFd6SUE5TEsx?=
- =?utf-8?B?YWF6ZWwvUXhpNmM3aFVhN0lhb0pSZnhWMGIyMXJZYUU4NExtcENlNWZaUkhU?=
- =?utf-8?B?UWUzbmU2QzByYVd3bTlDbU8vVDZ3Y3FxbWZVdVJ1Zlh3N1VhemhRM1FrYXll?=
- =?utf-8?B?NHdGYkxaWDF2b0tRa3pSeExlVFdkejlGczBJckJwQ0E2dUxQZDNwYUlqQVdz?=
- =?utf-8?B?VmNoV0k3cGlVMHFuWWQxd1I3dXRIUElJSm1ZTWo0QzVpTWlEM05YQU1XQ2RJ?=
- =?utf-8?B?MllFTFhvYmFaUVZqVXN0dDFuZ01UMlhUVFR6QkRoK1dFWEdhWmJhckYvSjAy?=
- =?utf-8?B?NDZZc3dLblBHcmp5aURoUWNRTlZ4ZnJ6ZTUwc1RKVWlWcEFlelJNek1QZTRj?=
- =?utf-8?B?ZFh1aGxkb1Vrb0FlRG83d1RxOXJPLys0djNPQlNyeS9ZUTN2YjBRTHhaY0dS?=
- =?utf-8?B?U1VjbDEzVFNBL3l1WVZkdFNHdzJwd0RnQ29hM1hWSG1ySmtxQkcrb0hWMThz?=
- =?utf-8?B?VjBHbXgwbEV1SUthdkYxeFJ4eXBZRENVQi9XSUsyS1pEaHJMWkt0NGRlUG9x?=
- =?utf-8?Q?yVCN4brzFuk+Z?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RW8zYkk1RE1XQnNsWHpPMDkwZDIwM1hiU1dadDVsV1ZGUm5Hd3pxOFIyaDB0?=
+ =?utf-8?B?SFlPdDN3U3FPMjdwWmV3anoxbm9sOVlQL0tYb0pBbFc5L1JJakRFUVNwZjd3?=
+ =?utf-8?B?UWFxUVFaZDJiNWNmNG5VcmNRdS9DRjdpcStHcnEwRWN0eEg0a1dtdzBRMzl3?=
+ =?utf-8?B?VmlaSUJOdGVWbFpZcVhaSHlYY1Vnbk1yeDQ5Z2ZoYzZWdXBDdi9XSE9lbzcx?=
+ =?utf-8?B?RnBvbXFzT25CR3NiUmZYRnlLbmxEQm5QTWE3dldWZHVxTXcreGYwM2IxWUtk?=
+ =?utf-8?B?MmUrZjhLemhReWFBYXVRQzNaS3d5d1BHVVQrWGZBZDBjWlZJbGRqbWFsWkU2?=
+ =?utf-8?B?cUluRExyVWhwQlRwZWdmck5iaVlUMjhkTkVpS09HUmh1T3NMS0xXcjJBdmlW?=
+ =?utf-8?B?cmwzaWlkRGlVWVgxRWxRWmo1RFo4c1FUN3ozTkJJTDVuU2REWG1GWjh5cFBr?=
+ =?utf-8?B?d2xNTWsrU3hKcGNKdS83SzkwYjVKWWY4eEtRc3NnNGhnUno2bjdJb2NDMjJ5?=
+ =?utf-8?B?NHIvajNXdEhoWmNzSExkMG1UWHY1OGJKYmY2Q1A1aWdrN2dZVDZDaXZsVkdW?=
+ =?utf-8?B?SHZoeW9JQ1RVNmJYM1I0bmV4WitkREdaN2tMSFZmWW5hbUlFR2tLT0RYM2M5?=
+ =?utf-8?B?M01lMUNmSi95N1d4V1BJd0JZTWJrOWk4L2F4MnpZNnFaL0tYUm1jVVhGUkFo?=
+ =?utf-8?B?NXRNZ0VkMTFMUk1heHAzOStINDA0eEgzSW1Jc05YbVYzNUNVZE1QeXYweFI4?=
+ =?utf-8?B?NlAwbkdXanBWYk14R2ZHVGZIbkxXNDlTTm5wV1U2VyszMjMrWlBnN3dSZWpR?=
+ =?utf-8?B?SXJqVmlVUVpiUmFyMGUvQ1E2aEZNT1JaMWphdW80UU1OSE1mYzZBYUQ2cmRu?=
+ =?utf-8?B?UjBUZlQxWGIrRGNiYTkyTTdQU2dEamR3OUlDTys2VzBmSXpHVTBmT0I1b1Y0?=
+ =?utf-8?B?eCtSRXlwSzh2cWNFWktiSElvSjQweklrcjJEZ2JrSTBsaVNCT1JMVVNtVnY2?=
+ =?utf-8?B?ckNVd2ZScDkwWDN1Z0tCVURjN21uQUJGR01NeldmRmhtSFRYMnM0NFpTUWN3?=
+ =?utf-8?B?RnhJUW9HV2ZwYlpzN3RyQmdMUmZoMmVxemZuM0JvbnVyMjVNdUs4WXkvanF5?=
+ =?utf-8?B?anlDMXFybDZRUlBscFJpeTR3RzZhcWxOenZzWDczZm5GL3YyeFpPVjlHdG54?=
+ =?utf-8?B?TlU4YXY0RU1RSWdBbjlpSENPajBwTG5jaHo4Sm9aSWo2T0ZhbWxaTU5USjFW?=
+ =?utf-8?B?dGFnR2NCQkhKeUx3czV0NzhaeWF0SEtoNDBIUGlOVUg5ZENDWE9qWWRWaTRr?=
+ =?utf-8?B?dFhUWDNzYnd2ZWRqRjBKVlRuMHA0N2pldFR4ZmFzMGhXQTE1R0RoNi9jaldy?=
+ =?utf-8?B?NndXWTkxVDQvSzE3MTh0TnkvekhwVCtJaFFDbWFoOGUvSWhITHZndU01a2NH?=
+ =?utf-8?B?OWhJS3NYczEyWElOd2hMK0tnNE5ydUJhZ0x2MWRHbnpGNm1SMmxTaVVSZlh4?=
+ =?utf-8?B?dWR3bWZudTJHbXp6NUFwcFhEd1JyZS9QSkJvR2swQTJQMUFDMCtFcTVtWmdY?=
+ =?utf-8?B?Si9NN1BtdXN6dGRUWUkwSjg2NkJjU0RSaXZvYldNcTlCZTN1Z3oyQVR6cG9o?=
+ =?utf-8?B?ellyWml4ZEl2N0RlVGJlTmV3eURuaHgxMi82SUlGVDlHejdGTENYSENZallY?=
+ =?utf-8?B?dVlObVJwQ1lPY2dXYk5aMjB6K3cvZGtJYnFYbEc0aDI2QTBjd2NrNko3djJQ?=
+ =?utf-8?B?RTA2d0pFVk5CZ1dpOTYrc2d6UnJ3TmJuZmM3czhVQnUvSDluK3RpTWIxVEpC?=
+ =?utf-8?B?dHNRS2h4d1M2MmtXdlE4Zz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB4262.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UkFPM0QzMzFVQTQ5YzZ2azRRNzZCOWJvdittUURUeGJGVmlvUXcvU1M2Smxy?=
- =?utf-8?B?Rmo5MHBLSXZuWHJEUWVmTVVMSjlNazZBb0xra0IrZjRHSk4yWGg0SzhsbUcx?=
- =?utf-8?B?cG5CZ1M4RUZBenNiZVlrc0I4U0wzb3hRTXNuY2t2YTk5Wlg3b3dqYzBZL3U0?=
- =?utf-8?B?cHYxNEdtMnp1N2taaStrL2hBM0c0QVI5VEZZZGlUM0R3Z3dOcE9Qejg4UzVj?=
- =?utf-8?B?YmJpRnZkeVhuVXZTLzNSb1ltSmJabmN5cEQxVTdxTXFCZEJZeFI4UmhpNWdo?=
- =?utf-8?B?UmtWaFJCNGNGeDROTm03YlRSZEdNOGFkdXlUNmY3cGZKRjFaL0RNQ29Cck8z?=
- =?utf-8?B?NEZDN3llRENaV0tYcCthYndxNktnbjd6L1N4dmtmcEswZVAzcGg5WnhmR2Ux?=
- =?utf-8?B?OHNMdUw2b0lldnZhOHJHd1prUmFuK1k2dVZURjUrcHN4SGF0M0h0MzArSHRR?=
- =?utf-8?B?NlhWU2E4SHZ5WkQzTTVYblJxNVZuajg1Wm54QTVubExRN2MxMzd2ZjFvTEtR?=
- =?utf-8?B?QzE4OGR1cThYQW1pVEFYbitMbk42Nm0zNHUzZGxCTFBoY2RxdERIQ2RzNWFY?=
- =?utf-8?B?L2RyQ1RiU2JYZU9ZMVBMcndpSUlqcFo4aUd3elkrbHVSdXZyMHBOMStpdmsx?=
- =?utf-8?B?cUc3QjQ4ZWlXRUxZQnBSVk55ckRrdk1Sak9Cd3AzbmdwK1ZXUHFnSncwbkEz?=
- =?utf-8?B?bVJaZ2haNG94VDhEdFpYQXlPRGcwUllMNnphQ0ZlZXA3TVdBVWozQTVST2xZ?=
- =?utf-8?B?TDE5WGVoZXR6d29ZSWJNMTBNd2FIdkhYd2Vxc2NMZEs3N2NLR21jMldHYjVh?=
- =?utf-8?B?citrTUZXOXdOK0c1d2UybkpGZVVISVkvcGxnMjZLMStOWUhHYklvZ2hRSzZs?=
- =?utf-8?B?a0poZ1R0VlROanYwemZ1OFF6UFFoTmpUT29JWUgra0FHQmpWQVRMd0FXZ0l2?=
- =?utf-8?B?M1ViKzZRMHBnaEFLbHNyOUxIclBsQ0R1WW5Ob1ZHL1JpcVRwRGIrbDBYM2lL?=
- =?utf-8?B?SXdGM0lYYklwWGIxSjY0ZTcva3Y5MVBRS0dQMHZDcCthdFZXeGczUGFGRVZ6?=
- =?utf-8?B?aHZZSVZXYVM3MFV1dDBpQS9NaCtGNnpPRmcwMWQyMTM3Q3lJRGRmUW1HQ2ND?=
- =?utf-8?B?UUNFRTBsRDhPMjFKSXVrVXM3U3ZIRlpqK2NmaFJJODBJYWV5cFBYTXdRNWFJ?=
- =?utf-8?B?bzVXTXFYM21Wbk8wUVlVQTk0T2JuWmhkL042cCtGYU50bW80N0hrM2d4Qi9F?=
- =?utf-8?B?eFo4cUNFK0VVRFF2SlNOUWJtVW1IZ3dwaklVQUhwZjB4MlUxbVVwMUs2Z0ZZ?=
- =?utf-8?B?MHdjM3Y5RDVuY3pta2kxd1JLNDdOU01XNHZ5c0RwcjQ5VndUb1NwUGhQT2RL?=
- =?utf-8?B?VzVVTC9aZXlUbzFHNk4zZ0doaFdoeGZLTzVoMUViOHNxcU9NbTlEaEF3R2dr?=
- =?utf-8?B?QVlpd1puQ3JmM1RybmJLUmFBZm5LZ0gyMzRGSXFsczBoYzhlN1NHSjlsakY0?=
- =?utf-8?B?c3g0VCs3QnlUelV5VlBUWU1zZ1dpMGo5VzB2K2RPaCtjeTZzRG5XRlJSMm11?=
- =?utf-8?B?MC9Cb3JzRnk4YUZ6RG5TSmZWSjkxMFlraUJjTmQvK3VPdURRcFY0VlJPamJU?=
- =?utf-8?B?YktMYlhrczkza25QQUViRkFTYWlBWkJFbFRBS2srWHIwRnpONnRuSHlqT3By?=
- =?utf-8?B?azY2VkVoUzBSRTBxR1UvbldQVHNTWmZJV2tOaTNPWnFJZTB5QzYzZFdFQjRt?=
- =?utf-8?B?b09VWkhkaTZXeWNNbDVaYVppeXJJdWJZTmxBdVZLek80QkhKN3N2TDZmdTZ5?=
- =?utf-8?B?YjNVcXBNbHo3TnBrYzBBTGZiam95Y1NhNHE2Q214VFIwQUIrSjgzTnpYS3E5?=
- =?utf-8?B?dDl3NFpsMUZNQUowby9RYjEzSTlWYStGWEFscHNoUklDSWt4dzBid2pMQURl?=
- =?utf-8?B?RHFoTzYwWjRtVXlPcU9vdDZ6K3NJY0Q4TlVOL3AvaDU2UHM5ZzNSOHduS0ND?=
- =?utf-8?B?VkxaTFltZ1JLQ0ZGNXJYUTJDbk5BVmZwWFp0Qy9lSEJxUjRNaUpWK1kydzdk?=
- =?utf-8?B?TnhRcHdGS2dsb2srS3A5NWVMVnhpRHFrV1M3WDBjSEVoUWxGTVFDSGthY24z?=
- =?utf-8?B?VzBvMHZ2YzQvMi9GaHAwWldzcHRYQUkzUFRxWVQxaHQwcW1vQVRjYUVvOEJx?=
- =?utf-8?B?ZWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53a80402-93fc-49be-6095-08dd4d2c520c
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?U0lIMGVqSXpPQVJ0QllOaEl0V2tpQzRPaEdFWnpVa0VoUXZkb2JyWWYzUFkr?=
+ =?utf-8?B?Tzc4ckxzRWNkRzBoNnQxNWVkKzdOUHEvWnNEUEpTUFprLzdkUmd4anFxdGJM?=
+ =?utf-8?B?ekc4QW5Sc2s2MC9tUnR0ak9PYmdxcXhaQ2pIZW1pUzNsdEJZT1JaUnhGSVpq?=
+ =?utf-8?B?a2RnaklocHo5dTdtbXZ0aGFWRWNmaXNlSEFhRW13UEJHS2lieUZqMnpTT3Zz?=
+ =?utf-8?B?dmxCcHNjS3RJbmZoOGJ5UmxWRnRRdFBrbXJGU3EwcUxvbGpjYWZZUVJ5YUk0?=
+ =?utf-8?B?ekdRRC9OQWdTTUYvVUpQTTJjT2NUd0JNRmVQbUFXRlYrVE51TDhtaVltcWpy?=
+ =?utf-8?B?YWJ4emxSazU2R3JBY1U1QmVJQU41bFFWR0xLUTlLSkhaano4RlplTUdWYTJG?=
+ =?utf-8?B?bXY1RWFSWlh4R1hQTFVpSHNwN0c3aVhXbnF4RFFFVFRvbi8wR0xtRVE1QVNO?=
+ =?utf-8?B?WFZ4Tjh5Yk1FRjk2SkUzR2NybnhReUxiT1dTbCtmelhuWmVzNDVISndLK1ZF?=
+ =?utf-8?B?MGpYdVNid3I5SkNlU21ieDRGL3hydStkMWxWallVSFVYTTA3aUxSNUloY2VI?=
+ =?utf-8?B?YlNlTFpEV29RL0NEYWRxaGo5RUhXS0JTSGZmeEd0bUxPYzNPZlZyUGdKL2l6?=
+ =?utf-8?B?TWROMURTNml4dTgwczE4RnhNN3pPR1NCRzlxN2JpQmtud3F4THFmMWFKclZO?=
+ =?utf-8?B?SDlXclpLOVBVekx0Nm9kWjBZSE44ckg2TllDK3BHWkJKTXV3eFVmcHJvWS9L?=
+ =?utf-8?B?U1NRazkxTjFjZy9IMzF5ODY5Ukx6dHJQejkwTWIwWjc5YjZPMGszYndmanZF?=
+ =?utf-8?B?TVBLa0l1Si9CUEcvaVR4OGM2YktqSytWT0hYVEJZdW1xUlBXcm44M3IwVE4z?=
+ =?utf-8?B?MDcrWjB2RUNQM1Q4TnBFV1VieGo0QUF2Y0kyamN6OXVCRC9PenRKWlZ2N1E3?=
+ =?utf-8?B?SnpHaG5UMThRcHJiUnF0UFR4cUROQktwaHFUU0FFYitWMWsxd1Iwdi9NaGox?=
+ =?utf-8?B?eUR6QmRZWk5LQ0xNRUdRUXdVNm1PMW81ZUJ6ZUxtaU5Cd1l3UVVCb0FzZXE1?=
+ =?utf-8?B?YkQrbVBNdWNoNkpFZys2cEt0S2d3WnhNUThsOGN2aHhBMHFHTkFZU1p5czcz?=
+ =?utf-8?B?TS8rSzQzbUxKbmV2RXFsU045SnExV2JpZkNzeUs4L2o3cjl4dGErMkFhcVcy?=
+ =?utf-8?B?RnNPc0lmZDU2SlNlRERvUExDSHE5RUw4WTk3ajgvUjJMd2RFbTA2R0ZyQ2dI?=
+ =?utf-8?B?eEM1UXV0MWVaSEJLTU9wTjR3Wi83d0srV2hjKzB6Sit6L25HOTlyK1RCeUhR?=
+ =?utf-8?B?VStxYU9KUSsxeTE0SmdXZFQ0UFJXcDF5WFRQMzQ0OXhSV0ZSNmYxVTFodU9Q?=
+ =?utf-8?B?RFkzWDRZOVdqREgvcXJyOW16Yjdyc0hVbjl6b3hpT3VOMXpIeXorWmZvbXh1?=
+ =?utf-8?B?SDUzSDREOTFGTndVN1FLd0hqSTZJRStzY2JXenl2dkpLMTdyQ0twVnB5V3hi?=
+ =?utf-8?B?dUNjbVBGYkxYeUtLUzEyYWFjT24wbmdsZTd2ZERRcEdaWDMwU0MwRmc3anE0?=
+ =?utf-8?B?WU5QNk85WFk5R0pZY3Z5bE1TOGxmT1IxakhHQnh3MjBPUXNPTjk5aHMveUI5?=
+ =?utf-8?B?TnRiZ0U4eVpnRUZWSzAvekRZYUNLNUlqbHl6TjU5N3JZMzRIZzFzR2toNFBH?=
+ =?utf-8?B?dHE0ZU5SZEg0SlFJcDF6aDZkeVcyMkhDbHlLazhGdTkwTTNZUnh0UUJXdDMz?=
+ =?utf-8?B?Rk9JS1Vxb2Z5RHJaY2lqcXczTW1pUE5NdS90SnpXU2xYZHM3a3RvcnNwbTVh?=
+ =?utf-8?B?Vm1FeWRlYU1yNmVOam1rbC85aHp6dnlTZzRzenJrc2M0a1cxdGRyK0I5dFow?=
+ =?utf-8?B?YktDYzdkTktzSlNDY2U0dWhoUDJGMWxMRlZIMk05R0JJL2U3MDNUVkdFdmth?=
+ =?utf-8?B?OEtHQWlsMnhBYTEvcjV6SzdBMlI1K0JJQmM0Z3NWbXAxWEtoSjRubllHOG1h?=
+ =?utf-8?B?NVNKTmZtZFNUMEEwVE5TVkpzeG55SHVDdnM3YlNyRU8xRE1jU1hleTBDaXRC?=
+ =?utf-8?B?aDJhY3E5U3pWT2FXYU1WWW4rVkJIWDdoL3NvMnhLTnlyd1JXb01MVGpFZ0pz?=
+ =?utf-8?Q?uo1fJe3bP/gCTfbxdh/a1Cf6K?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 343229fb-4d62-4d45-3207-08dd4d2e9785
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4262.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2025 19:18:10.8395
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2025 19:34:26.6973
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qDY2Wv567quhkTWUmi7TfkrTLd1zyrb3ZguXC2UI7kHog6izr5p2bRU6LPpMB/jV02x2717/+7Ysfu+LZFG0Yc1OL7h+uqWBYxRvCCMAHMo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5972
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: 51c1zgGlqdOtQ5zkJQ5Ng2jnyNLTXae3QqGZ3PKaobqWpxdEb7x2o0bem06ihLj4qcBMRo+VbU0KgJlFHu5cSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6687
 
-Hi Babu,
-
-On 2/14/25 10:31 AM, Moger, Babu wrote:
-> On 2/14/2025 12:26 AM, Reinette Chatre wrote:
->> On 2/13/25 9:37 AM, Dave Martin wrote:
->>> On Wed, Feb 12, 2025 at 03:33:31PM -0800, Reinette Chatre wrote:
->>>> On 2/12/25 9:46 AM, Dave Martin wrote:
->>>>> On Wed, Jan 22, 2025 at 02:20:08PM -0600, Babu Moger wrote:
-
-(quoting relevant parts with goal to focus discussion on new possible syntax)
-
->>>> I see the support for MPAM events distinct from the support of assignable counters.
->>>> Once the MPAM events are sorted, I think that they can be assigned with existing interface.
->>>> Please help me understand if you see it differently.
->>>>     
->>>> Doing so would need to come up with alphabetical letters for these events,
->>>> which seems to be needed for your proposal also? If we use possible flags of:
->>>>
->>>> mbm_local_read_bytes a
->>>> mbm_local_write_bytes b
->>>>
->>>> Then mbm_assign_control can be used as:
->>>> # echo '//0=ab;1=b' >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
->>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_read_bytes
->>>> <value>
->>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->>>> <sum of mbm_local_read_bytes and mbm_local_write_bytes>
->>>>
->>>> One issue would be when resctrl needs to support more than 26 events (no more flags available),
->>>> assuming that upper case would be used for "shared" counters (unless this interface is defined
->>>> differently and only few uppercase letters used for it). Would this be too low of a limit?
-
-As mentioned above, one possible issue with existing interface is that
-it is limited to 26 events (assuming only lower case letters are used). The limit
-is low enough to be of concern.
-
-....
-
->>>
->>> Alternatively, if we want to be able to expand beyond single letters,
->>> could we reserve one or more characters for extension purposes?
->>>
->>> If braces are forbidden by the syntax today, could we add support for
->>> something like the following later on, without breaking anything?
->>>
->>> # echo '//0={foo}{bar};1={bar}' >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
->>>
->>
-
-Dave proposed a change in syntax that can (a) support unlimited events,
-(b) be more intuitive than the one letter flags that may be hard to match
-to the events they correspond to.
-
->> Thank you for the suggestion. I think we may need something like this.
->> Babu, what do you think?
+On 2/14/2025 4:16 AM, Suren Baghdasaryan wrote:
+> Back when per-vma locks were introduces, vm_lock was moved out of
+> vm_area_struct in [1] because of the performance regression caused by
+> false cacheline sharing. Recent investigation [2] revealed that the
+> regressions is limited to a rather old Broadwell microarchitecture and
+> even there it can be mitigated by disabling adjacent cacheline
+> prefetching, see [3].
+> Splitting single logical structure into multiple ones leads to more
+> complicated management, extra pointer dereferences and overall less
+> maintainable code. When that split-away part is a lock, it complicates
+> things even further. With no performance benefits, there are no reasons
+> for this split. Merging the vm_lock back into vm_area_struct also allows
+> vm_area_struct to use SLAB_TYPESAFE_BY_RCU later in this patchset.
+> This patchset:
+> 1. moves vm_lock back into vm_area_struct, aligning it at the cacheline
+> boundary and changing the cache to be cacheline-aligned to minimize
+> cacheline sharing;
+> 2. changes vm_area_struct initialization to mark new vma as detached until
+> it is inserted into vma tree;
+> 3. replaces vm_lock and vma->detached flag with a reference counter;
+> 4. regroups vm_area_struct members to fit them into 3 cachelines;
+> 5. changes vm_area_struct cache to SLAB_TYPESAFE_BY_RCU to allow for their
+> reuse and to minimize call_rcu() calls.
 > 
-> I'm not quite clear on this. Do we know what 'foo' and 'bar' refer to?
-> It is a random text?
+> Pagefault microbenchmarks show performance improvement:
+> Hmean     faults/cpu-1    507926.5547 (   0.00%)   506519.3692 *  -0.28%*
+> Hmean     faults/cpu-4    479119.7051 (   0.00%)   481333.6802 *   0.46%*
+> Hmean     faults/cpu-7    452880.2961 (   0.00%)   455845.6211 *   0.65%*
+> Hmean     faults/cpu-12   347639.1021 (   0.00%)   352004.2254 *   1.26%*
+> Hmean     faults/cpu-21   200061.2238 (   0.00%)   229597.0317 *  14.76%*
+> Hmean     faults/cpu-30   145251.2001 (   0.00%)   164202.5067 *  13.05%*
+> Hmean     faults/cpu-48   106848.4434 (   0.00%)   120641.5504 *  12.91%*
+> Hmean     faults/cpu-56    92472.3835 (   0.00%)   103464.7916 *  11.89%*
+> Hmean     faults/sec-1    507566.1468 (   0.00%)   506139.0811 *  -0.28%*
+> Hmean     faults/sec-4   1880478.2402 (   0.00%)  1886795.6329 *   0.34%*
+> Hmean     faults/sec-7   3106394.3438 (   0.00%)  3140550.7485 *   1.10%*
+> Hmean     faults/sec-12  4061358.4795 (   0.00%)  4112477.0206 *   1.26%*
+> Hmean     faults/sec-21  3988619.1169 (   0.00%)  4577747.1436 *  14.77%*
+> Hmean     faults/sec-30  3909839.5449 (   0.00%)  4311052.2787 *  10.26%*
+> Hmean     faults/sec-48  4761108.4691 (   0.00%)  5283790.5026 *  10.98%*
+> Hmean     faults/sec-56  4885561.4590 (   0.00%)  5415839.4045 *  10.85%*
 
-Not random text. It refers to the events.
+I tested this patch-series on AMD EPYC Zen 5 system
+(2-socket, 64-core per socket with SMT Enabled, 4 NUMA nodes)
+using mmtests's PFT (config-workload-pft-threads) on mm-unstable. 
 
-I do not know if braces is what will be settled on but a slight change in
-example to make it match your series can be:
+I see significant performance improvement for higher thread count:
 
-# echo '//0={mbm_total_bytes}{mbm_local_bytes};1={mbm_local_bytes}' >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
+			   mm-unstable		   mm-unstable
+			   -6.14-rc2-vanilla1	   -6.14-rc2-v10-per-vma-lock
+Hmean     faults/cpu-1    1933589.0920 (   0.00%)  1950506.1985 (   0.87%)
+Hmean     faults/cpu-4     722834.4269 (   0.00%)   657946.3257 (  -8.98%)
+Hmean     faults/cpu-7     373210.8410 (   0.00%)   358995.9493 (  -3.81%)
+Hmean     faults/cpu-12    216267.7580 (   0.00%)   211032.8119 (  -2.42%)
+Hmean     faults/cpu-21    153080.2758 (   0.00%)   150207.3115 (  -1.88%)
+Hmean     faults/cpu-30    143142.8874 (   0.00%)   142904.3981 (  -0.17%)
+Hmean     faults/cpu-48    135825.2524 (   0.00%)   158502.4303 *  16.70%*
+Hmean     faults/cpu-79    111892.4921 (   0.00%)   141725.6864 *  26.66%*
+Hmean     faults/cpu-110    96905.8995 (   0.00%)   114238.6961 *  17.89%*
+Hmean     faults/cpu-128    89136.8524 (   0.00%)   107620.7035 *  20.74%*
+Hmean     faults/sec-1    1933283.3273 (   0.00%)  1950224.2371 (   0.88%)
+Hmean     faults/sec-4    2859235.5825 (   0.00%)  2611293.1103 (  -8.67%)
+Hmean     faults/sec-7    2580415.8792 (   0.00%)  2497936.1104 (  -3.20%)
+Hmean     faults/sec-12   2560172.2303 (   0.00%)  2516697.9056 (  -1.70%)
+Hmean     faults/sec-21   3080686.9599 (   0.00%)  3038393.3328 (  -1.37%)
+Hmean     faults/sec-30   4174290.0462 (   0.00%)  4168318.6202 (  -0.14%)
+Hmean     faults/sec-48   6318251.1880 (   0.00%)  7323087.0849 *  15.90%*
+Hmean     faults/sec-79   8502378.1341 (   0.00%) 10761979.4193 *  26.58%*
+Hmean     faults/sec-110 10131823.3341 (   0.00%) 12318722.2392 *  21.58%*
+Hmean     faults/sec-128 10584693.5966 (   0.00%) 13354652.5141 *  26.17%*
 
-With syntax like above there is no concern that we will run out of
-flags and the events assigned are clear without needing to parse separate flags.
-For a system with a lot of events and domains this will become quite a lot
-to parse though.
+Slight degradation at 4 and 7 can be ignored due to high variance:
 
-> 
-> In his example from
-> https://lore.kernel.org/lkml/Z643WdXYARTADSBy@e133380.arm.com/
-> --------------------------------------------------------------
-> The numbers are not supposed to have an hardware significance.
-> 
->     '//0=6'
-> 
-> just "means assign some unused counter for domain 0, and create files
-> in resctrl so I can configure and read it".
+HCoeffVar faults/cpu-4          8.7568 (   0.00%)       11.4420 ( -30.66%)
+HCoeffVar faults/cpu-7          3.3204 (   0.00%)        3.4852 (  -4.96%)
 
-Thanks for pointing this out. I missed that the idea was that the
-configuration files are dynamically created.
+Please consider my:
+
+Tested-by: Shivank Garg <shivankg@amd.com>
+
+Best Regards,
+Shivank Garg
 
 > 
-> The "6" is really just a tag for labelling the resulting resctrl
-> file names so that the user can tell them apart.  It's not supposed
-> to imply any specific hardware counter or event.
-
-Right.
-
-> ------------------------------------------------------------------
+> Changes since v9 [4]:
+> PATCH [4/18]
+> - Change VM_BUG_ON_VMA() to WARN_ON_ONCE() in vma_assert_{attached|detached},
+> per Lorenzo Stoakes
+> - Rename vma_iter_store() into vma_iter_store_new(), per Lorenzo Stoakes
+> - Expand changelog, per Lorenzo Stoakes
+> - Update vma tests to check for vma detached state correctness,
+> per Lorenzo Stoakes
 > 
-> It seems that 'foo' and 'bar' are tags used to create files in /sys/fs/resctrl/info/L3_MON/.
+> PATCH [5/18]
+> - Add Reviewed-by, per Lorenzo Stoakes
 > 
-> Given that, it looks like we're discussing entirely different things.
+> PATCH [6/18]
+> - Add Acked-by, per Lorenzo Stoakes
+> 
+> PATCH [7/18]
+> - Refactor the code, per Lorenzo Stoakes
+> - Remove Vlastimil's Acked-by since code is changed
+> 
+> PATCH [8/18]
+> - Drop inline for mmap_init_lock(), per Lorenzo Stoakes
+> - Add Reviewed-by, per Lorenzo Stoakes
+> 
+> PATCH [9/18]
+> - Add Reviewed-by, per Lorenzo Stoakes
+> 
+> PATCH [10/18]
+> - New patch to add refcount_add_not_zero_acquire/refcount_set_release
+> - Add Acked-by #slab, per Vlastimil Babka
+> 
+> PATCH [11/18]
+> - Change refcount limit to be used with xxx_acquire functions
+> 
+> PATCH [12/18]
+> - Use __refcount_inc_not_zero_limited_acquire() in vma_start_read(),
+> per Hillf Danton
+> - Refactor vma_assert_locked() to avoid vm_refcnt read when CONFIG_DEBUG_VM=n,
+> per Mateusz Guzik
+> - Update changelog, per Wei Yang
+> - Change vma_start_read() to return EAGAIN if vma got isolated and changed
+> lock_vma_under_rcu() back to detect this condition, per Wei Yang
+> - Change VM_BUG_ON_VMA() to WARN_ON_ONCE() when checking vma detached state,
+> per Lorenzo Stoakes
+> - Remove Vlastimil's Reviewed-by since code is changed
+> 
+> PATCH [13/18]
+> - Update vm_area_struct for tests, per Lorenzo Stoakes
+> - Add Reviewed-by, per Lorenzo Stoakes
+> 
+> PATCH [14/18]
+> - Minimized duplicate code, per Lorenzo Stoakes
+> 
+> PATCH [15/18]
+> - Add Reviewed-by, per Lorenzo Stoakes
+> 
+> PATCH [17/18]
+> - Use refcount_set_release() in vma_mark_attached(), per Will Deacon
+> 
+> PATCH [18/18]
+> - Updated documenation, per Lorenzo Stoakes
+> - Add Reviewed-by, per Lorenzo Stoakes
+> 
+> [1] https://lore.kernel.org/all/20230227173632.3292573-34-surenb@google.com/
+> [2] https://lore.kernel.org/all/ZsQyI%2F087V34JoIt@xsang-OptiPlex-9020/
+> [3] https://lore.kernel.org/all/CAJuCfpEisU8Lfe96AYJDZ+OM4NoPmnw9bP53cT_kbfP_pR+-2g@mail.gmail.com/
+> [4] https://lore.kernel.org/all/20250111042604.3230628-1-surenb@google.com/
+> 
+> Patchset applies over mm-unstable
+> 
+> Suren Baghdasaryan (18):
+>   mm: introduce vma_start_read_locked{_nested} helpers
+>   mm: move per-vma lock into vm_area_struct
+>   mm: mark vma as detached until it's added into vma tree
+>   mm: introduce vma_iter_store_attached() to use with attached vmas
+>   mm: mark vmas detached upon exit
+>   types: move struct rcuwait into types.h
+>   mm: allow vma_start_read_locked/vma_start_read_locked_nested to fail
+>   mm: move mmap_init_lock() out of the header file
+>   mm: uninline the main body of vma_start_write()
+>   refcount: provide ops for cases when object's memory can be reused
+>   refcount: introduce __refcount_{add|inc}_not_zero_limited_acquire
+>   mm: replace vm_lock and detached flag with a reference count
+>   mm: move lesser used vma_area_struct members into the last cacheline
+>   mm/debug: print vm_refcnt state when dumping the vma
+>   mm: remove extra vma_numab_state_init() call
+>   mm: prepare lock_vma_under_rcu() for vma reuse possibility
+>   mm: make vma cache SLAB_TYPESAFE_BY_RCU
+>   docs/mm: document latest changes to vm_lock
+> 
+>  Documentation/RCU/whatisRCU.rst               |  10 +
+>  Documentation/core-api/refcount-vs-atomic.rst |  37 +++-
+>  Documentation/mm/process_addrs.rst            |  44 +++--
+>  include/linux/mm.h                            | 176 ++++++++++++++----
+>  include/linux/mm_types.h                      |  75 ++++----
+>  include/linux/mmap_lock.h                     |   6 -
+>  include/linux/rcuwait.h                       |  13 +-
+>  include/linux/refcount.h                      | 125 +++++++++++++
+>  include/linux/slab.h                          |  15 +-
+>  include/linux/types.h                         |  12 ++
+>  kernel/fork.c                                 | 129 ++++++-------
+>  mm/debug.c                                    |   6 +
+>  mm/init-mm.c                                  |   1 +
+>  mm/memory.c                                   | 106 ++++++++++-
+>  mm/mmap.c                                     |   3 +-
+>  mm/nommu.c                                    |   4 +-
+>  mm/userfaultfd.c                              |  38 ++--
+>  mm/vma.c                                      |  27 ++-
+>  mm/vma.h                                      |  15 +-
+>  tools/include/linux/refcount.h                |   5 +
+>  tools/testing/vma/linux/atomic.h              |   6 +
+>  tools/testing/vma/vma.c                       |  42 ++++-
+>  tools/testing/vma/vma_internal.h              | 127 ++++++-------
+>  23 files changed, 702 insertions(+), 320 deletions(-)
+> 
+> 
+> base-commit: 47aa60e930fe7fc2a945e4406e3ad1dfa73bb47c
 
-I am still trying to understand how MPAM counters can be supported.
-
-Reinette
