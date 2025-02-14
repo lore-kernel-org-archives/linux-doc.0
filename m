@@ -1,150 +1,195 @@
-Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31A923A994;
-	Fri, 14 Feb 2025 09:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE2F24291F;
+	Fri, 14 Feb 2025 09:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739525387; cv=none; b=XH7sMNVvshjRUXQflsdYq+yoXf0wz7+b5ByOzeRz4DZ4uv79iX8D4R8t71lnrOB/7zQYk4WM++UG5YVHs3mGTRAh5pUQSune6FHBeqiHa8ChrunlCXxHtZMVBLEwqNlWlDB+WrVRtOsh3Nn0/dkqiEJnQVVToJ7J5b4JxU6/WxQ=
+	t=1739526247; cv=none; b=FNZEKDXrtJml8xQFLqaYXG193Ravv7S/W94vesIaInGaJwQVMHcZIToif6Rd2EreAt8g/YN0lIYWftE3yeyv5wCz8VU8dHcSbx5MCgfoEghubtBm1pbshUTsDocL5KEGd1mzhd8t07pA9TPM7fTEQpi1kM1H2vfXFgE0Ov/u86U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739525387; c=relaxed/simple;
-	bh=Me+hpIWRhhrK/f735YQpcBw7dzwWKtEUL7DZe290uYs=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mrLO7ZthKD6vpoJGaaPV+PK8nDmSxks92xc0MRCPKLNayTnFinYFHCdPP+2mbJ+XRYW++wyhs+y7IjkZFtnNhyxOiQ07ttPVEPSTR8wQw6qBSqnFAMa2WY04+WyFlpLEAAgWWe951hO6tHKY4teXogHG2fBN3hfIPgqml3WAonE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=nwIkIr6/; arc=none smtp.client-ip=62.96.220.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
+	s=arc-20240116; t=1739526247; c=relaxed/simple;
+	bh=euxH5xTB3npndNEOhGf9KR+p/1GlHm5dq8S6R5vtFvg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sz/EC3fnPRtTCTZqo5LDh3yqwLqR5b49uxwhG/15Cotg+TrmuQ9yrqu0fraoQZ+6o/1+C1UDLKNDYmtK72L2cMBH55iGzezcLr9AJX9kZYY7OoY9c9qYae9TUZI5S6lP+R7JYqS1zcrkgQmBTfd8ioXota8ARr5M+I8Mtbwg1qQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QKgThIZQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="nwIkIr6/"
-Received: from localhost (localhost [127.0.0.1])
-	by mx1.secunet.com (Postfix) with ESMTP id 8E8DD207BE;
-	Fri, 14 Feb 2025 10:29:37 +0100 (CET)
-X-Virus-Scanned: by secunet
-Received: from mx1.secunet.com ([127.0.0.1])
- by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3pmxnVF2Uw53; Fri, 14 Feb 2025 10:29:36 +0100 (CET)
-Received: from cas-essen-02.secunet.de (rl2.secunet.de [10.53.40.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mx1.secunet.com (Postfix) with ESMTPS id D702820561;
-	Fri, 14 Feb 2025 10:29:36 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com D702820561
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
-	s=202301; t=1739525376;
-	bh=fhrJLVONWyN7lozy7dAfShs/BOPSfryeG22TLnl5EA0=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To:From;
-	b=nwIkIr6/lFy/+/yC8ca/y5f7qR7zJgV70vLW7VuHr60QRWAKT5o7XJUFrbjbVj4Zz
-	 yPOxD5YzQP0kXHxe9O9p/8oT0Bgtg0atJtSj0/6u0ysLHaAfCkfo1RAu17uvyTZxtn
-	 oV8ReSd6wdie7LLjmkIb3P0cEV4L5itbMXHvUyqXfaA/ZPV2XlFnTo1Xjt9JV+mtIs
-	 MNAmk4RrYST8wIVXuSrDi8irJgTXUvLXn8AjIewO2hcJrfx8IRpZ/fB3H3/eWBaqa7
-	 tk4H838MtBHD5p+CQF+qLAiwo8nOwjVZxVGWNW63BX0+I/PJJ4hhThu6vSByIGHkhN
-	 xALe/QFZSanPQ==
-Received: from mbx-essen-02.secunet.de (10.53.40.198) by
- cas-essen-02.secunet.de (10.53.40.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 14 Feb 2025 10:29:36 +0100
-Received: from gauss2.secunet.de (10.182.7.193) by mbx-essen-02.secunet.de
- (10.53.40.198) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 14 Feb
- 2025 10:29:36 +0100
-Received: by gauss2.secunet.de (Postfix, from userid 1000)
-	id EAE3E31840A6; Fri, 14 Feb 2025 10:29:35 +0100 (CET)
-Date: Fri, 14 Feb 2025 10:29:35 +0100
-From: Steffen Klassert <steffen.klassert@secunet.com>
-To: Leon Romanovsky <leon@kernel.org>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>, Ayush Sawal
-	<ayush.sawal@chelsio.com>, Bharat Bhushan <bbhushan2@marvell.com>, "Eric
- Dumazet" <edumazet@google.com>, Geetha sowjanya <gakula@marvell.com>,
-	hariprasad <hkelam@marvell.com>, Herbert Xu <herbert@gondor.apana.org.au>,
-	<intel-wired-lan@lists.osuosl.org>, Jakub Kicinski <kuba@kernel.org>, "Jay
- Vosburgh" <jv@jvosburgh.net>, Jonathan Corbet <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Louis Peens
-	<louis.peens@corigine.com>, <netdev@vger.kernel.org>,
-	<oss-drivers@corigine.com>, Paolo Abeni <pabeni@redhat.com>, "Potnuri Bharat
- Teja" <bharat@chelsio.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Saeed Mahameed <saeedm@nvidia.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
-	Sunil Goutham <sgoutham@marvell.com>, Tariq Toukan <tariqt@nvidia.com>, "Tony
- Nguyen" <anthony.l.nguyen@intel.com>, Ilia Lin <ilia.lin@kernel.org>
-Subject: Re: [PATCH ipsec-next 2/5] xfrm: simplify SA initialization routine
-Message-ID: <Z68M/4jka5FwrvLV@gauss3.secunet.de>
-References: <cover.1738778580.git.leon@kernel.org>
- <dcadf7c144207017104657f85d512889a2d1a09e.1738778580.git.leon@kernel.org>
- <Z6yMgPSfPzgGHTkD@gauss3.secunet.de>
- <20250212183020.GJ17863@unreal>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QKgThIZQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C057C4CED1;
+	Fri, 14 Feb 2025 09:44:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739526247;
+	bh=euxH5xTB3npndNEOhGf9KR+p/1GlHm5dq8S6R5vtFvg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QKgThIZQsDXvHi250nXVACftNulY+hDA56lG4gV0mWDqpQmEI/IeByxEkZ30VumCF
+	 L+r2W1g/8OTElc/khx4mIaSFrKtauo7k7wzOS5jT9SBbtUlYjgOkI86coP9+s3NYwT
+	 y3Pkf0q3FPGmXw9gDN2jBCwdfFjlwHIM6NMKxRNfAHvOj6MfdWa4J64sZrCZ+2mWp8
+	 rvLAPOGA4lz6JczHmcz0aTOHczOZk73pBCHAN90DCEiXiuHnMIe8lrWw5JBzcFdPvS
+	 NBKHdwztH01NncybK/yA9xE55/oALEeW+VtQObpTVt07tlkncpFvbP/wa1DsJj+6au
+	 giWDWVolgoUpA==
+Date: Fri, 14 Feb 2025 10:44:04 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Joel Stanley <joel@jms.id.au>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>, 
+	Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>, 
+	Tian Tao <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
+	John Stultz <jstultz@google.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Raphael Gallais-Pou <rgallaispou@gmail.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Alexey Brodkin <abrodkin@synopsys.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
+	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 11/12] drm/vc4: move to devm_platform_ioremap_resource()
+ usage
+Message-ID: <20250214-quixotic-fossa-of-art-b8bb9f@houat>
+References: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
+ <20250205-mem-cocci-newapi-v1-11-aebf2b0e2300@redhat.com>
+ <20250206-hallowed-ultra-tiger-cfec8e@houat>
+ <CAN9Xe3SpTG7r2UkN7_pH0uMXhU5u+dkWhaM9+w5VyOQZp9byNg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="tmymxs4x7znmvcxa"
 Content-Disposition: inline
-In-Reply-To: <20250212183020.GJ17863@unreal>
-X-ClientProxiedBy: cas-essen-02.secunet.de (10.53.40.202) To
- mbx-essen-02.secunet.de (10.53.40.198)
-X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
+In-Reply-To: <CAN9Xe3SpTG7r2UkN7_pH0uMXhU5u+dkWhaM9+w5VyOQZp9byNg@mail.gmail.com>
 
-On Wed, Feb 12, 2025 at 08:30:20PM +0200, Leon Romanovsky wrote:
-> On Wed, Feb 12, 2025 at 12:56:48PM +0100, Steffen Klassert wrote:
-> > On Wed, Feb 05, 2025 at 08:20:21PM +0200, Leon Romanovsky wrote:
-> > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > 
-> > > SA replay mode is initialized differently for user-space and
-> > > kernel-space users, but the call to xfrm_init_replay() existed in
-> > > common path with boolean protection. That caused to situation where
-> > > we have two different function orders.
-> > > 
-> > > So let's rewrite the SA initialization flow to have same order for
-> > > both in-kernel and user-space callers.
-> > > 
-> > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+
+--tmymxs4x7znmvcxa
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 11/12] drm/vc4: move to devm_platform_ioremap_resource()
+ usage
+MIME-Version: 1.0
+
+On Tue, Feb 11, 2025 at 12:08:57PM -0500, Anusha Srivatsa wrote:
+> On Thu, Feb 6, 2025 at 11:13=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
+> wrote:
+>=20
+> > On Wed, Feb 05, 2025 at 03:08:07PM -0500, Anusha Srivatsa wrote:
+> > > Replace platform_get_resource_byname + devm_ioremap_resource
+> > > with just devm_platform_ioremap_resource()
+> > >
+> > > Used Coccinelle to do this change. SmPl patch:
+> > > //rule s/(devm_)platform_get_resource_byname +
+> > > //(devm_)ioremap/devm_platform_ioremap_resource.
+> > > @rule_3@
+> > > identifier res;
+> > > expression ioremap;
+> > > identifier pdev;
+> > > constant mem;
+> > > expression name;
+> > > @@
+> > > -struct resource *res;
+> > > <+...
+> > > -res =3D platform_get_resource_byname(pdev,mem,name);
+> > > <...
+> > > -if (!res) {
+> > > -...
+> > > -}
+> > > ...>
+> > > -ioremap =3D devm_ioremap(...);
+> > > +ioremap =3D devm_platform_ioremap_resource_byname(pdev,name);
+> > > ...+>
+> > >
+> > > v2: Change the SmPl patch to work on multiple occurences of
+> > > the pattern. This also fixes the compilation error.
+> > >
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > Cc: Ma=C3=ADra Canal <mcanal@igalia.com>
+> > > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 > > > ---
-> > >  include/net/xfrm.h    |  3 +--
-> > >  net/xfrm/xfrm_state.c | 22 ++++++++++------------
-> > >  net/xfrm/xfrm_user.c  |  2 +-
-> > >  3 files changed, 12 insertions(+), 15 deletions(-)
-> > > 
-> > > diff --git a/include/net/xfrm.h b/include/net/xfrm.h
-> > > index 28355a5be5b9..58f8f7661ec4 100644
-> > > --- a/include/net/xfrm.h
-> > > +++ b/include/net/xfrm.h
-> > > @@ -1770,8 +1770,7 @@ void xfrm_spd_getinfo(struct net *net, struct xfrmk_spdinfo *si);
-> > >  u32 xfrm_replay_seqhi(struct xfrm_state *x, __be32 net_seq);
-> > >  int xfrm_init_replay(struct xfrm_state *x, struct netlink_ext_ack *extack);
-> > >  u32 xfrm_state_mtu(struct xfrm_state *x, int mtu);
-> > > -int __xfrm_init_state(struct xfrm_state *x, bool init_replay,
-> > > -		      struct netlink_ext_ack *extack);
-> > > +int __xfrm_init_state(struct xfrm_state *x, struct netlink_ext_ack *extack);
-> > >  int xfrm_init_state(struct xfrm_state *x);
-> > >  int xfrm_input(struct sk_buff *skb, int nexthdr, __be32 spi, int encap_type);
-> > >  int xfrm_input_resume(struct sk_buff *skb, int nexthdr);
-> > > diff --git a/net/xfrm/xfrm_state.c b/net/xfrm/xfrm_state.c
-> > > index 568fe8df7741..42799b0946a3 100644
-> > > --- a/net/xfrm/xfrm_state.c
-> > > +++ b/net/xfrm/xfrm_state.c
-> > > @@ -3120,8 +3120,7 @@ u32 xfrm_state_mtu(struct xfrm_state *x, int mtu)
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(xfrm_state_mtu);
-> > >  
-> > > -int __xfrm_init_state(struct xfrm_state *x, bool init_replay,
-> > > -		      struct netlink_ext_ack *extack)
-> > > +int __xfrm_init_state(struct xfrm_state *x, struct netlink_ext_ack *extack)
-> > 
-> > The whole point of having __xfrm_init_state was to
-> > sepatate codepaths that need init_replay and those
-> > who don't need it. That was a bandaid for something,
-> > unfortunately I don't remenber for what.
-> > 
-> > If we don't need that anymore, maybe we can merge
-> > __xfrm_init_state into xfrm_init_state, as it was
-> > before.
-> 
-> Main difference between __xfrm_init_state and xfrm_init_state is that
-> latter is called without extack, which doesn't exist in kernel path.
+> > >  drivers/gpu/drm/vc4/vc4_hdmi.c | 55
+> > +++++++++++-------------------------------
+> > >  1 file changed, 14 insertions(+), 41 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > > index
+> > 47d9ada98430634cfd8c1e21c2a4d00d501bab7e..066f1246dab420ee889845b0c573d=
+80ce7c88595
+> > 100644
+> > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > > @@ -2951,71 +2951,44 @@ static int vc5_hdmi_init_resources(struct
+> > drm_device *drm,
+> > >  {
+> > >       struct platform_device *pdev =3D vc4_hdmi->pdev;
+> > >       struct device *dev =3D &pdev->dev;
+> > > -     struct resource *res;
+> > >       int ret;
+> > >
+> > > -     res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "hdm=
+i");
+> > > -     if (!res)
+> > > -             return -ENODEV;
+> > > -
+> > > -     vc4_hdmi->hdmicore_regs =3D devm_ioremap(dev, res->start,
+> > > -                                            resource_size(res));
+> > > +     vc4_hdmi->hdmicore_regs =3D
+> > devm_platform_ioremap_resource_byname(pdev,
+> > > +
+> >  "hdmi");
+> > >       if (!vc4_hdmi->hdmicore_regs)
+> > >               return -ENOMEM;
+> > >
+> > > -     res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "hd"=
+);
+> > > -     if (!res)
+> > > -             return -ENODEV;
+> > > -
+> > > -     vc4_hdmi->hd_regs =3D devm_ioremap(dev, res->start,
+> > resource_size(res));
+> > > +     vc4_hdmi->hd_regs =3D devm_platform_ioremap_resource_byname(pde=
+v,
+> > "hd");
+> > >       if (!vc4_hdmi->hd_regs)
+> > >               return -ENOMEM;
+> >
+> > I *think* that one is shared between both HDMI controllers on the
+> > RaspberryPi4, so we can't claim them from both instances. We should add
+> > a comment there to document that it's on purpose.
+>
+> How about vc4_hdmi->hdmicore_regs? It also has another instance
+> vc4_hdmi_init_resources(). Looks like that also doesnt need any converting
+> and shold be left as is.
 
-That split happened ~ 15 years ago, we did not have extack back than.
-But I'm also ok with keeping it if extack is a reason for it.
+No, each controller will have its own set of registers there, so it can
+be converted.
 
-Do you plan to respin, or should I take the patchset as is?
+Maxime
 
-Thanks!
+--tmymxs4x7znmvcxa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ68QXwAKCRAnX84Zoj2+
+dnJFAX44qxSqH4/9r1lPWe6YsBKR9clH1sZQRZaWBdRICp0iE+/MJiNA/tJghQgy
+Xb2262kBgMGvJFpuBmHvz9HJegWf00i39I2+ctkME/qrOcHQhoIwF07ezVrQyZOZ
+z9Q+kadHOg==
+=d/Gf
+-----END PGP SIGNATURE-----
+
+--tmymxs4x7znmvcxa--
