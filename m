@@ -1,126 +1,226 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7326B17B401;
-	Fri, 14 Feb 2025 04:34:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8151A16CD33;
+	Fri, 14 Feb 2025 05:14:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739507656; cv=none; b=bVgVT/8W1pM0uMec/td9eLoBA9REK/71wdKiuMS9QshfL/G73GXavK12p9WmDfr4SoeS4MaJ1PZku0b0xul7lBttJqYAbkft28k8Gd1sfb1QrC8bVe3Es8DOgjzYedstekgeQ6tEdeKPucHePAJTkW+EMtK3OS2gnqfaN3nBZQY=
+	t=1739510095; cv=none; b=H4RXpzq0QKAfdMRFTUU/kIFjjiVyatEVTWgCm7EImr+UtpzC/QMtmgt9ijvVtL+DJm7I9uvzzAQBdJEBcXjjO7T1hnBCRMIim/FjMTekJbEsMop1glEVRjxNsLA6r5mFx7yBerI67nQx2WYwRWlbFtxmX+EvV2DhpRL6WiKXoRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739507656; c=relaxed/simple;
-	bh=aE2wWcqpFbC4XebLj7NF3xjtNb+1wLW9AH1SRvAJy9A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kC8Vn4PHooL3bWXg1Ie+QKgh1cPFq+emTmhWS0KwjE9IMT8KLhPq6jFNtQ+osXqGoOWcY4Bfg8SZq+0myG3y0J08LFKlqta8xocIF7UDLb6FRkTTKymqnD5nYmWqDMwZmUKd9ZrzL5PM3Y9a4UKpvOhshUUoZnJZcUvlW9rlp+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bbT5E6bx; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739510095; c=relaxed/simple;
+	bh=1kskZG13mWWx6SDOsHAtgL4UfHmDhSwHYfFo9cdUNyc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=K/ONAbyc9qODHeD51GSFLoGrDfDk+iXtNGXF+0UlfuQwTg7isg+x5omH47JjnR9ohMztogq+4n+H5TGhmlSMjRPXjlE1Df8oDp0zTF9pztBh6unljr15uJMblTfSO1cc5jSruZgAcgrVHUsVqY1Lvpjh7DnYrtXRzqCM17NKKB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidreaver.com; spf=pass smtp.mailfrom=davidreaver.com; dkim=pass (2048-bit key) header.d=davidreaver.com header.i=@davidreaver.com header.b=gScARDyk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=s/r+zzXO; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidreaver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidreaver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bbT5E6bx"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ab7f42ee3ecso325847166b.0;
-        Thu, 13 Feb 2025 20:34:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739507653; x=1740112453; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aE2wWcqpFbC4XebLj7NF3xjtNb+1wLW9AH1SRvAJy9A=;
-        b=bbT5E6bxHBpVQS80mYwrID2IuYMN4ZFBzu82MlIrQP4EWTqQjzskOQdm2yLssOylxw
-         ebsb8oleBO0Od5gKbysSObkfydMD9+G+cKyw5iVt8SSa0g/yauMhI7obvBQ9D/12xp3p
-         KE1G/DaA3bvKcgF6htn+1AM1VU6YiolJwDavK3Uz5Lo9TUlJcKyXSUoHWARalayUya4Z
-         awO5eYul19vEPza1INstZCU5npKHL8atE9TYicsu+euCdF9ofyylHxB5PmF4jUq8fNED
-         NmrQjkEJWkRfVHMiEetty44RgJnI9FkuU4ZdfK9HMfYamkSWp52m0eBnwNWURPP/6JON
-         mntA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739507653; x=1740112453;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aE2wWcqpFbC4XebLj7NF3xjtNb+1wLW9AH1SRvAJy9A=;
-        b=Eyaf/MLSrsNi3JdHohGeoEwemi237dKNWSBhpO0DLbwMK8dSz7wWqwfHKgwehOcyL7
-         4HQ72CJMmlq6PQkE2mKh8LMhaFrsi2YNn5CPi+xjI8rt5RafH7QSf2py/tSR5Ctlnlm5
-         0c5HIxbXbZ2CzN3ydalapbdAJA6MAmoUeKU2NIJ3mPbqMk3HVqpmCovHBCzfqrezjJTE
-         7MOoco8cuxCEh4/4qMevzlwNfbAZwZj9R3rzXr4tEsQn157g4ukFTuX0Z9o1KM5v3pwo
-         KVgvF3ZTgqduxNmc5+oosfRGDhfPHIW765nPDKwoS70ELDXY4T+FXyun+Zu7VNjDpzvi
-         PwJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrQp68rAddgmf4RUee9lv6TQ6Q0s+ehwkyOUReBGGzz/sA0hNcIUbLY/C4Gv1FfgRNMdc73VX3QOc=@vger.kernel.org, AJvYcCXcyd7TN84StiNcjjpdPxv/XEJjHOjjIzgDLe1BTUx3Xv+uTPfCGN9pkaTnYfsUKtYlvNm2dMw+FKkFBVXe@vger.kernel.org
-X-Gm-Message-State: AOJu0YymyfU1Z/pILkQNlBQyVRHUP3wq/LEqEPOyczXXmdhpFG9SVr5s
-	1bjpx0XK1jzdHU/HJh6KK6wYWPYUlQluwQEYSBvBlUkYlLpsx9BslGmxqBpSyv1dA8tEkAOYSSU
-	z/7KLoAW+4XtLlufDfLloXIXOqKe8/GsqJDfaXQ==
-X-Gm-Gg: ASbGncsovH5ujNbsuZf824XL2v2DHktKwDQlOgNnj74vJBzj+bOHgXIsnCSfh12h6hh
-	bMmasG78FLxWb7k0PL8V4kNrrMSkBtRv8ERGXaPZobxSmIL76OVURUSS9YTZ9WYD6lyPpTZCC
-X-Google-Smtp-Source: AGHT+IEdWqk6OuWF9cpgOPkxClX2jfBAmhUTYRnLlwYU2C8FQEalrxY4didEhXlEEI2pQRacKG1c6+qdxnFlk94LWCU=
-X-Received: by 2002:a17:906:f59b:b0:ab6:8bc1:9b5a with SMTP id
- a640c23a62f3a-aba5018d9a1mr611382466b.41.1739507652395; Thu, 13 Feb 2025
- 20:34:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=davidreaver.com header.i=@davidreaver.com header.b="gScARDyk";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="s/r+zzXO"
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 788FA2540130;
+	Fri, 14 Feb 2025 00:14:51 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Fri, 14 Feb 2025 00:14:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=davidreaver.com;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1739510091; x=
+	1739596491; bh=HfqX30mZrCgAa+8ET/Xg+WbqjpSGXVUD+tOnzaOmqk4=; b=g
+	ScARDyk8FObnBFRya19vhsClllJHnpmoFzbo72nzCJzfEfJZ8vK1qbcffU53Q8im
+	y4/xZyFCSlOR+NOD6ELytBRxn7xwPIPmjo18vSjtif6eeRuJKLZx0qCVTmDbM+Us
+	+OXKE9UZIQTwyVf/dP2n5FAqZYRYHKyExbWYenCaTf7ewcezWlQJuiWK5B+HJCkG
+	0ZhTK6stBIA+L+cJTvoCualIOLBUDpJeDKqkNijz9fujKSEWO56ov0Y+xgm9b6/o
+	6s3xRUTgr1kKvVY6ck/gxMpAp0Avt4KIR47Y5ljZ4xFDj/BA7FBFM3P2w15q92TU
+	6zqk9TjhecZAXPBoUGAQQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1739510091; x=1739596491; bh=H
+	fqX30mZrCgAa+8ET/Xg+WbqjpSGXVUD+tOnzaOmqk4=; b=s/r+zzXOPyAy8T9cj
+	CersVZmwN/aUZ/XXzswitaz9iWdeMbVyqCMI/6eat8S50sLYTyLmKhSa0WvXoxVd
+	jhRXBpk/dwh4lAx78G6RxLkgyuLveLXNxfg4kVUNN8A+7K+DFRQzKkLOvxgNJtJy
+	7XC/+T01YonvJt/a/V4HwOYti+XI1IwIweTuqBCu2Zq/LcDQQgT4CFIdOKGmr5sX
+	JKbFZ4zVCM78ibkxT4ZkgsHarPrxVOn2CYroPn2vBZnSDEw5ibsdrP2P2GRDgL0R
+	5avADO3RTPBFl5I9xC2aYGaZe8MEHJsQG7rCXzUCMP+Yki1WM+py0k3YeujE10xk
+	bYBOw==
+X-ME-Sender: <xms:StGuZ-UI2c51iDW6dDKws1mxeQbYirR4xp_dJpzAgpJydWMRrg5kAg>
+    <xme:StGuZ6mjeCGlDfS4RmzGCd7nghRKM37i1fqlmAdBnu46V5n5Gu7oJFjIkMFbylUCH
+    aq8xVJh719dsU-yEto>
+X-ME-Received: <xmr:StGuZybdkwj55OFQOIFUn4fIzNtTG1CVrLFkBWAkbZEuvPi3qKyyukrAuRvGRUOgj0gX523O-eraeZpqeyMFviSqDc2lRMLz7AZNJMy1l2j-1QU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegkeejlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddt
+    necuhfhrohhmpeffrghvihguucftvggrvhgvrhcuoehmvgesuggrvhhiughrvggrvhgvrh
+    drtghomheqnecuggftrfgrthhtvghrnhepkeekueeuhfdvheevvdeftdeuhfehieekleeu
+    hfevjeefheeggeetveegveekhfevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpug
+    gvvhhitggvrdhinhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+    fhhrohhmpehmvgesuggrvhhiughrvggrvhgvrhdrtghomhdpnhgspghrtghpthhtohepke
+    dpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvght
+    pdhrtghpthhtoheprhguuhhnlhgrphesihhnfhhrrgguvggrugdrohhrghdprhgtphhtth
+    hopehmvgesuggrvhhiughrvggrvhgvrhdrtghomhdprhgtphhtthhopegrgigsohgvsehk
+    vghrnhgvlhdrughkpdhrtghpthhtohepkhhotghtlehisehgmhgrihhlrdgtohhmpdhrtg
+    hpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehlihhnuhigqdgslhhotghksehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:StGuZ1W5kJclrDkpdSVQTOtYZqq5z7N_81PVLoGk0EDa8oBYRdE7YA>
+    <xmx:S9GuZ4kLwVtpEo8apq5tQHgrP3sjZkNJGqqeqmHhOGP-QBfQk6z9GA>
+    <xmx:S9GuZ6ebwXK2GMssZvIVSlI-HdkhdvDKCBdw-VL-regH3HManymtQw>
+    <xmx:S9GuZ6Hh2JD_hUBizj6pQ6EcND7UUm_W1SDIcyyfXYt4aAAscGUkig>
+    <xmx:S9GuZy5bLAKEA_qcG7jISOCk_zP7qdI2Iy9GMPdbu7i-l6YK43jjluqw>
+Feedback-ID: i67e946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 14 Feb 2025 00:14:49 -0500 (EST)
+From: David Reaver <me@davidreaver.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: David Reaver <me@davidreaver.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Konstantin Khlebnikov <koct9i@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: iostats: Rewrite intro, remove outdated formats
+Date: Thu, 13 Feb 2025 21:14:30 -0800
+Message-ID: <20250214051432.207630-1-me@davidreaver.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <0e8c8ead-423a-45f3-9e10-020334ef8907@infradead.org>
+References: <0e8c8ead-423a-45f3-9e10-020334ef8907@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250213054222.21776-1-alexs@kernel.org> <20250213054222.21776-2-alexs@kernel.org>
- <5d35c3f6-a52f-4e63-a972-50ee2898947e@linux.dev> <CAD-N9QXhmNBUFPfo11-h0H0Du_JFNX_Qxcs8aoesW8=ABgneaw@mail.gmail.com>
-In-Reply-To: <CAD-N9QXhmNBUFPfo11-h0H0Du_JFNX_Qxcs8aoesW8=ABgneaw@mail.gmail.com>
-From: Alex Shi <seakeel@gmail.com>
-Date: Fri, 14 Feb 2025 12:33:35 +0800
-X-Gm-Features: AWEUYZk20DCwab62mCru-z3vCsCxAjsGUM0lUQ3P4Vqq843x7N2uOL-h_E0v6dQ
-Message-ID: <CAJy-AmmZAuZWUS5TTuSGg5y33Q7Q52CGQ7en5vg_eB2W2y_s9Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs/zh_CN: add few request for Chinese translation
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: Yanteng Si <si.yanteng@linux.dev>, alexs@kernel.org, 
-	Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-RG9uZ2xpYW5nIE11IDxtdWRvbmdsaWFuZ2FiY2RAZ21haWwuY29tPiDkuo4yMDI15bm0MuaciDE0
-5pel5ZGo5LqUIDExOjI15YaZ6YGT77yaDQo+DQo+IE9uIFRodSwgRmViIDEzLCAyMDI1IGF0IDY6
-MjTigK9QTSBZYW50ZW5nIFNpIDxzaS55YW50ZW5nQGxpbnV4LmRldj4gd3JvdGU6DQo+ID4NCj4g
-Pg0KPiA+IOWcqCAyLzEzLzI1IDE6NDIgUE0sIGFsZXhzQGtlcm5lbC5vcmcg5YaZ6YGTOg0KPiA+
-ID4gRnJvbTogQWxleCBTaGkgPGFsZXhzQGtlcm5lbC5vcmc+DQo+ID4gPg0KPiA+ID4gQSBnb29k
-IGNoZWNrZWQgc3VtbWl0IGNvdWxkIHNhdmUgbXVjaCB0aW1lIGZvciBsaW51eC1kb2MgbWFpbnRh
-aW5lci4NCj4gPiA+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBBbGV4IFNoaSA8YWxleHNAa2VybmVs
-Lm9yZz4NCj4gPiA+IENjOiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4g
-PiBDYzogSm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5ldD4NCj4gPiA+IENjOiBsaW51eC1k
-b2NAdmdlci5rZXJuZWwub3JnDQo+ID4gPiBDYzogbGludXgta2VybmVsQHZnZXIua2VybmVsLm9y
-Zw0KPiA+DQo+ID4gUmV2aWV3ZWQtYnk6IFlhbnRlbmcgU2kgPHNpLnlhbnRlbmdAbGludXguZGV2
-Pg0KPiA+DQo+ID4NCj4gPg0KPiA+ID4gLS0tDQo+ID4gPiAgIERvY3VtZW50YXRpb24vdHJhbnNs
-YXRpb25zL3poX0NOL2luZGV4LnJzdCB8IDggKysrKysrKy0NCj4gPiA+ICAgMSBmaWxlIGNoYW5n
-ZWQsIDcgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+ID4NCj4gPiA+IGRpZmYgLS1n
-aXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9pbmRleC5yc3QgYi9Eb2N1bWVu
-dGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9pbmRleC5yc3QNCj4gPiA+IGluZGV4IDc1NzRlMTY3
-MzE4MC4uY2M1MTJjYTU0MTcyIDEwMDY0NA0KPiA+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vaW5kZXgucnN0DQo+ID4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5z
-bGF0aW9ucy96aF9DTi9pbmRleC5yc3QNCj4gPiA+IEBAIC0yNiw3ICsyNiwxMyBAQA0KPiA+ID4g
-ICDpobrkvr/or7TkuIvvvIzkuK3mlofmlofmoaPkuZ/pnIDopoHpgbXlrojlhoXmoLjnvJbnoIHp
-o47moLzvvIzpo47moLzkuK3kuK3mloflkozoi7HmlofnmoTkuLvopoHkuI3lkIzlsLHmmK/kuK3m
-locNCj4gPiA+ICAg55qE5a2X56ym5qCH54K55Y2g55So5Lik5Liq6Iux5paH5a2X56ym5a695bqm
-77yM5omA5Lul77yM5b2T6Iux5paH6KaB5rGC5LiN6KaB6LaF6L+H5q+P6KGMMTAw5Liq5a2X56ym
-5pe277yMDQo+ID4gPiAgIOS4reaWh+WwseS4jeimgei2hei/hzUw5Liq5a2X56ym44CC5Y+m5aSW
-77yM5Lmf6KaB5rOo5oSPJy0n77yMJz0n562J56ym5Y+35LiO55u45YWz5qCH6aKY55qE5a+56b2Q
-44CC5Zyo5bCGDQo+ID4gPiAt6KGl5LiB5o+Q5Lqk5Yiw56S+5Yy65LmL5YmN77yM5LiA5a6a6KaB
-6L+b6KGM5b+F6KaB55qEIGBgY2hlY2twYXRjaC5wbGBgIOajgOafpeWSjOe8luivkea1i+ivleOA
-gg0KPiA+ID4gK+ihpeS4geaPkOS6pOWIsOekvuWMuuS5i+WJje+8jOS4gOWumuimgei/m+ihjOW/
-heimgeeahCBgYGNoZWNrcGF0Y2gucGxgYCDmo4Dmn6XlkoznvJbor5HmtYvor5XvvIznoa7kv50N
-Cj4gPiA+ICvlnKggYGBtYWtlIGh0bWxkb2NzL3BkZmRvY3NgYCDkuK3kuI3lop7liqDmlrDnmoTl
-kYrorabvvIzmnIDlkI7vvIzlronoo4Xmo4Dmn6XkvaDnlJ/miJDnmoQNCj4gPiA+ICtodG1sL3Bk
-ZiDmlofku7bvvIznoa7orqTlroPku6znnIvotbfmnaXmmK/mraPluLjnmoTjgIINCj4gPiA+ICsN
-Cj4gPiA+ICvmj5DkuqTkuYvliY3or7fnoa7orqTkvaDnmoTooaXkuIHlj6/ku6XmraPluLjmj5Dk
-uqTliLDkuK3mlofmlofmoaPnu7TmiqTlupM6DQo+ID4gPiAraHR0cHM6Ly9naXQua2VybmVsLm9y
-Zy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvYWxleHMvbGludXguZ2l0Lw0KPiA+DQo+ID4gPiAr
-5aaC5p6c5L2g55qE6KGl5LiB5L6d6LWW5LqO5YW25LuW5Lq655qE6KGl5LiBLCDlj6/ku6XkuI7l
-hbbku5bkurrllYbph4/lkI7nlLHmn5DkuIDkuKrkurrlkIjlubbmj5DkuqTjgIINCj4gPg0KPiA+
-IEkgdGhpbmsgdGhpcyByZXF1aXJlcyBhIGRldGFpbGVkIHR1dG9yaWFsLiBPdGhlcndpc2UsIGl0
-DQo+ID4NCj4gPiB3aWxsIGluY3JlYXNlIHRoZSBkaWZmaWN1bHR5IGZvciBiZWdpbm5lcnMgdG8g
-Z2V0IHN0YXJ0ZWQuDQo+ID4NCj4gPiBIb3cgYWJvdXQgcmVtb3ZpbmcgaXQgZm9yIG5vdz8gSSBo
-YXZlIGEgcGxhbiB0byB3cml0ZQ0KPiA+DQo+ID4gYSB0cmFuc2xhdGlvbiBndWlkZWJvb2suIFdo
-YXQncyB5b3VyIG9waW5pb24/DQo+DQo+IEdvb2QgaWRlYS4gSSBjYW4gaGVscCBjb250cmlidXRl
-LiBPdXIgVHJhbnNsYXRpb24gVGVhbSBoYXMgYSBzaW1wbGUNCj4gb25lIHRvIGd1aWRlIHRlYW0g
-bWVtYmVycyBpbiBrZXJuZWwgZG9jdW1lbnQgdHJhbnNsYXRpb24uDQo+DQo+IE9uZSBpc3N1ZSBp
-biBteSBtaW5kIGlzLCBgbWFrZSBodG1sZG9jc2AgbmVlZHMgbXVjaCByZXNvdWNlIGluIHRoZSBj
-b21waWxhdGlvbi4NCg0KTmljZSBkb2MhIExvb2tzIHZlcnkgdXNlZnVsLg0KQnV0IGl0IGFsc28g
-bWVudGlvbmVkICdtYWtlIGh0bWxkb2NzJyBpcyByZXF1aXJlZCwgc28gd2hhdCdzIHlvdXINCmZp
-bmFsIHN1Z2dlc3Rpb24gZm9yICdtYWtlIGh0bWxkb2NzJz8NCg0KPg0KPiBbMV0gaHR0cHM6Ly9n
-aXRodWIuY29tL2h1c3Qtb3Blbi1hdG9tLWNsdWIvVHJhbnNsYXRlUHJvamVjdC93aWtpLzMuMS0l
-RTUlODYlODUlRTYlQTAlQjglRTYlOTYlODclRTYlQTElQTMlRTclQkYlQkIlRTglQUYlOTElRTYl
-OEMlODclRTUlOEQlOTcNCg==
+The discussion of file formats for very old kernel versions obscured the
+key information in this document. Additionally, the introduction was
+missing a discussion of flush fields added in b6866318657 ("block: add
+iostat counters for flush requests") [1].
+
+Rewrite the introduction to discuss only the current kernel's disk I/O stat
+file formats. Also, clean up wording to be more concise.
+
+Link: https://lore.kernel.org/lkml/157433282607.7928.5202409984272248322.stgit@buzz/T/ [1]
+
+Signed-off-by: David Reaver <me@davidreaver.com>
+---
+
+Thanks for the encouragement Randy. Here is a rewrite of the intro.
+
+This patch is mutually exclusive with the original patch I started this
+thread with. Let me know if I should submit it as a standalone thread.
+(I'm fairly new to contributing to the kernel.)
+
+ Documentation/admin-guide/iostats.rst | 92 +++++++++++----------------
+ 1 file changed, 36 insertions(+), 56 deletions(-)
+
+diff --git a/Documentation/admin-guide/iostats.rst b/Documentation/admin-guide/iostats.rst
+index 609a3201fd4e..8e205c8afd80 100644
+--- a/Documentation/admin-guide/iostats.rst
++++ b/Documentation/admin-guide/iostats.rst
+@@ -2,62 +2,42 @@
+ I/O statistics fields
+ =====================
+ 
+-Since 2.4.20 (and some versions before, with patches), and 2.5.45,
+-more extensive disk statistics have been introduced to help measure disk
+-activity. Tools such as ``sar`` and ``iostat`` typically interpret these and do
+-the work for you, but in case you are interested in creating your own
+-tools, the fields are explained here.
+-
+-In 2.4 now, the information is found as additional fields in
+-``/proc/partitions``.  In 2.6 and upper, the same information is found in two
+-places: one is in the file ``/proc/diskstats``, and the other is within
+-the sysfs file system, which must be mounted in order to obtain
+-the information. Throughout this document we'll assume that sysfs
+-is mounted on ``/sys``, although of course it may be mounted anywhere.
+-Both ``/proc/diskstats`` and sysfs use the same source for the information
+-and so should not differ.
+-
+-Here are examples of these different formats::
+-
+-   2.4:
+-      3     0   39082680 hda 446216 784926 9550688 4382310 424847 312726 5922052 19310380 0 3376340 23705160
+-      3     1    9221278 hda1 35486 0 35496 38030 0 0 0 0 0 38030 38030
+-
+-   2.6+ sysfs:
+-      446216 784926 9550688 4382310 424847 312726 5922052 19310380 0 3376340 23705160
+-      35486    38030    38030    38030
+-
+-   2.6+ diskstats:
+-      3    0   hda 446216 784926 9550688 4382310 424847 312726 5922052 19310380 0 3376340 23705160
+-      3    1   hda1 35486 38030 38030 38030
+-
+-   4.18+ diskstats:
+-      3    0   hda 446216 784926 9550688 4382310 424847 312726 5922052 19310380 0 3376340 23705160 0 0 0 0
+-
+-On 2.4 you might execute ``grep 'hda ' /proc/partitions``. On 2.6+, you have
+-a choice of ``cat /sys/block/hda/stat`` or ``grep 'hda ' /proc/diskstats``.
+-
+-The advantage of one over the other is that the sysfs choice works well
+-if you are watching a known, small set of disks.  ``/proc/diskstats`` may
+-be a better choice if you are watching a large number of disks because
+-you'll avoid the overhead of 50, 100, or 500 or more opens/closes with
+-each snapshot of your disk statistics.
+-
+-In 2.4, the statistics fields are those after the device name. In
+-the above example, the first field of statistics would be 446216.
+-By contrast, in 2.6+ if you look at ``/sys/block/hda/stat``, you'll
+-find just the 15 fields, beginning with 446216.  If you look at
+-``/proc/diskstats``, the 15 fields will be preceded by the major and
+-minor device numbers, and device name.  Each of these formats provides
+-15 fields of statistics, each meaning exactly the same things.
+-All fields except field 9 are cumulative since boot.  Field 9 should
+-go to zero as I/Os complete; all others only increase (unless they
+-overflow and wrap). Wrapping might eventually occur on a very busy
+-or long-lived system; so applications should be prepared to deal with
+-it. Regarding wrapping, the types of the fields are either unsigned
+-int (32 bit) or unsigned long (32-bit or 64-bit, depending on your
+-machine) as noted per-field below. Unless your observations are very
+-spread in time, these fields should not wrap twice before you notice it.
++The kernel exposes disk statistics via ``/proc/diskstats`` and
++``/sys/block/<device>/stat``. These stats are usually accessed via tools
++such as ``sar`` and ``iostat``.
++
++Here are examples using a disk with two partitions::
++
++   /proc/diskstats:
++     259       0 nvme0n1 255999 814 12369153 47919 996852 81 36123024 425995 0 301795 580470 0 0 0 0 60602 106555
++     259       1 nvme0n1p1 492 813 17572 96 848 81 108288 210 0 76 307 0 0 0 0 0 0
++     259       2 nvme0n1p2 255401 1 12343477 47799 996004 0 36014736 425784 0 344336 473584 0 0 0 0 0 0
++
++   /sys/block/nvme0n1/stat:
++     255999 814 12369153 47919 996858 81 36123056 426009 0 301809 580491 0 0 0 0 60605 106562
++
++   /sys/block/nvme0n1/nvme0n1p1/stat:
++     492 813 17572 96 848 81 108288 210 0 76 307 0 0 0 0 0 0
++
++Both files contain the same 17 statistics. ``/sys/block/<device>/stat``
++contains the fields for ``<device>``. In ``/proc/diskstats`` the fields
++are prefixed with the major and minor device numbers and the device
++name. In the example above, the first stat value for ``nvme0n1`` is
++255999 in both files.
++
++The sysfs ``stat`` file is efficient for monitoring a small, known set
++of disks. If you're tracking a large number of devices,
++``/proc/diskstats`` is often the better choice since it avoids the
++overhead of opening and closing multiple files for each snapshot.
++
++All fields are cumulative, monotonic counters that start at zero at
++boot, except for field 9, which resets to zero as I/Os complete. Other
++fields only increase unless they overflow and wrap. Wrapping may occur
++on long-running or high-load systems, so applications should handle this
++properly. Field types are either 32-bit unsigned integers or unsigned
++longs, which may be 32-bit or 64-bit depending on the architecture. As
++long as observations are taken at reasonable intervals, wraparounds
++should be rare.
+ 
+ Each set of stats only applies to the indicated device; if you want
+ system-wide stats you'll have to find all the devices and sum them all up.
+
+base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
