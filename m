@@ -1,146 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38631632E4;
-	Fri, 14 Feb 2025 02:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADE38634A;
+	Fri, 14 Feb 2025 02:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739498562; cv=none; b=DSAMAULkSKPQC7yo9kdRIkUbmzd3h0XM0/jTcELjZ/OdNJJcJjkGFRWXgLaF6qAqDYUqMFiYdskdtONrutwVmSi2IRnq/F7Zba6MIjtWF7K4D6Q7lFf6e0lgC47Pit4feFz2Ldx1vB9cNKRfwLCXNu6BCD747J7HiI1pxoc9g+A=
+	t=1739498685; cv=none; b=oK1JCVJ38B1J5feJBIVeBN16apD2HGDTuAGTt1SVaEVkog0/poRa9BXh5z9IXdJQbqUc0fv40dvpoM3GFE9JswQjTYD5TdKzhZSWwdrK7aoq6tlxuCE4/LjITPyz9jfJKPUPNydc0PNssI6WBRHvR9/OD4mtH03oKsQuFaOQuSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739498562; c=relaxed/simple;
-	bh=4XsjRO/Pqa3vD4B4LvvjSYJqhR/Q8my3VF4j5+psy/8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kyqTJmwaueHL9GCjn2xbDcCA3ZG2Z2AcnxjgvAyU0B96E/kvhh8kzHq0NgkGvCF6JJAQeMn9XXp5WqxEwHZ6YhVe3vF1w+sMEu7JjyOIE432E4zm/tH4ONfr+tXwLQqfHLZ05GvyjgvSUM4YDw6RsI9/5Vm0+cXMO8a0PChahiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lbDoNZLH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739498685; c=relaxed/simple;
+	bh=wCuN/Me1tUz+HHho8HUih2pbaQUcQ85cqSJpLlmtl5c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YTG8SDx/FjbNZ/87202sZBTkHzhZ3fm8EWPpn3HAt2e1dgzZW57iLG3JKcrXNDjl/GJAShiUtDTAmcwdMD0pTjNk+r5nxWQ8GlGGm10IXAm8+bQ1Txa8X1OC0dNkcabWd6qK/CW1XSTlt4xuei6/GVY+kPgEOGnCqHkEvjucf9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e4AMHSgM; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lbDoNZLH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5148C4CEE2;
-	Fri, 14 Feb 2025 02:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739498562;
-	bh=4XsjRO/Pqa3vD4B4LvvjSYJqhR/Q8my3VF4j5+psy/8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=lbDoNZLH/npPV3CAYGJt7QFlOtgWhlVYENiulv/8XMb58njzpEUpl8nVZb7jbTURe
-	 6hSK1MQZ8PfI4FHsXWEXTKNu70mG2nfcJCjqumUjpxiSdcjGV5xwg56OW9vQn3wB3G
-	 cSU/V2pMe2+17QVsaQuqdlbLMnLedMWjmjXm6L2ggdqiVvr833prCbL4KPo5QNYBuN
-	 FE68MnzV83bmP1rcaHN0WLwnEvAgBrqgfhTWvaE/H1KjzT2OvptiHv8Rc87iClPFGh
-	 +zxHphnXK8JX48q4yQkq2A0+THWp2ceF9+LdQYKM8BxfYxPfNb1pgTUT/cgTeCchqy
-	 G7MvHDbRKo3Qg==
-From: Mark Brown <broonie@kernel.org>
-Date: Fri, 14 Feb 2025 01:58:10 +0000
-Subject: [PATCH v4 27/27] KVM: arm64: selftests: Add SME to set_id_regs
- test
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e4AMHSgM"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d9837f201aso5283490a12.0;
+        Thu, 13 Feb 2025 18:04:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739498681; x=1740103481; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LTMDK4W4OtyBBtTePoRW5Y8GLPQHBH4t4A9os3wpHBI=;
+        b=e4AMHSgMmGRw1V2UzuuyNS8I4gqzgXmzEs+p5wC2x0H8/bCIFHBKIze083wHkmyTTo
+         ebfEsdNyQ8mHWw9h5yxZ3YjjqM+aJziTfRYnujfpAa13Zy/plISVbeXW3DLcC/HrJ50g
+         JeYbzndTAR4ud+bpxLRMVaaAuG5qpWm453BzltHWt5WyL6bz1KpiIVPK9N5iNReQ4p9S
+         eCMqIsyEOFfeGcwot/bJZoqCucRtzTFomwYVtt76SjlccePdiqnBOqeoNqN1W5oeH0nw
+         Ew/f5tGdnoNIXEFxOD4pBsGRv9eRK4R4o1oy6VfshwWfcbo2nWgkAm2/t26jje2HxFxF
+         UAiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739498681; x=1740103481;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LTMDK4W4OtyBBtTePoRW5Y8GLPQHBH4t4A9os3wpHBI=;
+        b=com0eCQXwzwj44Dcx92ryr99S5cClLoGZrEQi1VX1AA2PyhaAOHN/Wa6WOqJVFdRpc
+         Th5tqs/PEm9laHBYGyh+LNl1frACjWJd3zQR+XA0dWrNBv8Ek0j+2tdhhaT8iFCJEEd+
+         n/PpBLyvmrNSW/Ls8NE3zJJUWpSgFGcKZ8rVx6gIg0U7cCcGuuM3y1cZDpNlVRLRoS22
+         TowYhKgB3ORRWbq2Dg1t13YFlIcBRWZ/HE1ztm5ii/mQui7T7wwFd8Tt7gLiNinYCo6W
+         U4RxfAzoR78qUcp3E1F3eNXBp/XDFBNScrhBny163F0KMth7q0Y1y7/N/5EQWJRN+Szo
+         Oz5w==
+X-Forwarded-Encrypted: i=1; AJvYcCVSfKxsJfbP212zTC6hFCjvj0bt1VJ5SK+id0HS+58ULOMBKnATY2g7k//H5Lz8OPapgE7351hokyc=@vger.kernel.org, AJvYcCWhx8GyoBHFHfg0GRpu33Hv4ak8siMNjeHq3yOsX+NtjyNdFyS+2jCzF7blXL59U+w0WxIMo+f8aSAJLfis@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRNkgvvLAUxBnurRVotJ/ZB2qmwRHD8uyDToUyEt6CrgPJeHP5
+	iMsar6PM8sAM4cIgkXYYEdtQtD7Aix36zvGxq2X0Wg+wQIqrPfQB8XlOs9v3CsXVFLs6cY5ALb3
+	4bSz6OImCTVquTKmjsovpTaNcLH4=
+X-Gm-Gg: ASbGncvxdxYT/eKRcjPuHU+Osxu97xKBAOdHI66G8kC/52Var5wKJ4xZrMqpy3hLnA3
+	htjWqYYqklC1PJ/yNOGQJhnF0D5WLFGloqu7jwo0OWrOVb+q3+lKUA7xWogGxF0qq6BSYeiPK
+X-Google-Smtp-Source: AGHT+IH5PC31aulzx/QhuD3wz7AJM9yq23HvyRt3VXboNjIRtQMIKmCa29IZXfnIVNhlrIcZ1l9baBQBlXbLPSMXdSY=
+X-Received: by 2002:a17:907:3f1f:b0:ab7:bba7:b758 with SMTP id
+ a640c23a62f3a-aba510aedd3mr396969666b.20.1739498680743; Thu, 13 Feb 2025
+ 18:04:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250214-kvm-arm64-sme-v4-27-d64a681adcc2@kernel.org>
-References: <20250214-kvm-arm64-sme-v4-0-d64a681adcc2@kernel.org>
-In-Reply-To: <20250214-kvm-arm64-sme-v4-0-d64a681adcc2@kernel.org>
-To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
- Joey Gouly <joey.gouly@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <shuah@kernel.org>
-Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>, 
- Mark Rutland <mark.rutland@arm.com>, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-1b0d6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3734; i=broonie@kernel.org;
- h=from:subject:message-id; bh=4XsjRO/Pqa3vD4B4LvvjSYJqhR/Q8my3VF4j5+psy/8=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnrqPVhF/rm1Hv+EDc0crKIVE9eZzvnD7KQi7+Xcuq
- BToVxzeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZ66j1QAKCRAk1otyXVSH0EKyB/
- 46ZNQvr34wuZ+41q3A8QM4rtKDn9mqBlEEHWAAKtOO/RahHBnmn7c3sABa+vN2iSS2Im3JQHca/3j1
- xoEANRnDiA/WjBm9tuMO/yFu1B4QO9GjB+AGTQU8rqMw1iJBgDQpTBo+efrNS9uPxK+xkxXE5U5iSy
- 1gL6gNmOnu0LfBKPSiop8+oW5jOoF6/e/hAo0fRRE19TIjuDMoaeEpuP1cBS0XDLw4xr7Pb2jKbmrn
- o1OHN/XsbBGqPda0D46kRC9ZvnTvd9ndqHaxlce05AS4kJes9Fo1hu8ixMUaCaiND+vk5+QsIde4Uj
- unleftWfgAFAET/vRMBY81YzWBFgjF
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <20250213054222.21776-1-alexs@kernel.org> <632baf9c-773f-4bb0-b01f-cd689e0ed1e2@linux.dev>
+In-Reply-To: <632baf9c-773f-4bb0-b01f-cd689e0ed1e2@linux.dev>
+From: Alex Shi <seakeel@gmail.com>
+Date: Fri, 14 Feb 2025 10:04:04 +0800
+X-Gm-Features: AWEUYZn9sNiKrXhBwv4t0FsLcILqPrH5-uECHcH5My_caNqaB3NigLa8cpbaltA
+Message-ID: <CAJy-AmnN0VeicBoP-J=iOJ74Ay0oiU2HVRssTCM5GjjS3ky_Ag@mail.gmail.com>
+Subject: Re: [PATCH 1/2] docs/zh_CN: add maintainer tree for Chinese doc pickup
+To: Yanteng Si <si.yanteng@linux.dev>
+Cc: alexs@kernel.org, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add coverage of the SME ID registers to set_id_regs, ID_AA64PFR1_EL1.SME
-becomes writable and we add ID_AA64SMFR_EL1 and it's subfields.
+Yanteng Si <si.yanteng@linux.dev> =E4=BA=8E2025=E5=B9=B42=E6=9C=8813=E6=97=
+=A5=E5=91=A8=E5=9B=9B 18:13=E5=86=99=E9=81=93=EF=BC=9A
+>
+>
+> =E5=9C=A8 2/13/25 1:42 PM, alexs@kernel.org =E5=86=99=E9=81=93:
+> > From: Alex Shi <alexs@kernel.org>
+> >
+> >  From now on, the Chinese translation doc should be aimed here for base=
+.
+> >
+> > Signed-off-by: Alex Shi <alexs@kernel.org>
+>
+> Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+>
+>
+> > Cc: Yanteng Si <siyanteng@loongson.cn>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: linux-doc@vger.kernel.org
+> > Cc: linux-kernel@vger.kernel.org
+> > ---
+> >   MAINTAINERS | 1 +
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index c27f3190737f..dbb7f982e9c3 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -5306,6 +5306,7 @@ F:      Documentation/dev-tools/checkpatch.rst
+> >   CHINESE DOCUMENTATION
+> >   M:  Alex Shi <alexs@kernel.org>
+> >   M:  Yanteng Si <siyanteng@loongson.cn>
+>
+> I have left LOONGSON, which means I have permanently lost this email
+> account. Could you please help me update it conveniently?
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 92fc0eca7061..e00e0baead9f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5411,7 +5411,7 @@ F: Documentation/dev-tools/checkpatch.rst
+>
+>   CHINESE DOCUMENTATION
+>   M:     Alex Shi <alexs@kernel.org>
+> -M:     Yanteng Si <siyanteng@loongson.cn>
+> +M:     Yanteng Si <si.yanteng@linux.dev>
+>   S:     Maintained
+>   F:     Documentation/translations/zh_CN/
+>
+>
+> If it's not convenient for you, I'll submit a patch separately later. :)
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/kvm/arm64/set_id_regs.c | 29 +++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+Your patch to update your email address will look more appropriatly.  :)
+So, go ahead to send a patch.
 
-diff --git a/tools/testing/selftests/kvm/arm64/set_id_regs.c b/tools/testing/selftests/kvm/arm64/set_id_regs.c
-index 217541fe653601a82697134c8d773e901a205cfe..16a4cd84f45472451479c6a5502c67adb4d64490 100644
---- a/tools/testing/selftests/kvm/arm64/set_id_regs.c
-+++ b/tools/testing/selftests/kvm/arm64/set_id_regs.c
-@@ -138,6 +138,7 @@ static const struct reg_ftr_bits ftr_id_aa64pfr0_el1[] = {
- 
- static const struct reg_ftr_bits ftr_id_aa64pfr1_el1[] = {
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, CSV2_frac, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, SME, 0),
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, SSBS, ID_AA64PFR1_EL1_SSBS_NI),
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, BT, 0),
- 	REG_FTR_END,
-@@ -182,6 +183,28 @@ static const struct reg_ftr_bits ftr_id_aa64mmfr2_el1[] = {
- 	REG_FTR_END,
- };
- 
-+static const struct reg_ftr_bits ftr_id_aa64smfr0_el1[] = {
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, FA64, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, LUTv2, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SMEver, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, I16I64, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F64F64, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, I16I32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, B16B16, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F16F16, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F8F16, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F8F32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, I8I32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F16F32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, B16F32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, BI32I32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F32F32, 0)
-+,	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SF8FMA, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SF8DP4, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SF8DP2, 0),
-+	REG_FTR_END,
-+};
-+
- static const struct reg_ftr_bits ftr_id_aa64zfr0_el1[] = {
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64ZFR0_EL1, F64MM, 0),
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64ZFR0_EL1, F32MM, 0),
-@@ -212,6 +235,7 @@ static struct test_feature_reg test_regs[] = {
- 	TEST_REG(SYS_ID_AA64MMFR0_EL1, ftr_id_aa64mmfr0_el1),
- 	TEST_REG(SYS_ID_AA64MMFR1_EL1, ftr_id_aa64mmfr1_el1),
- 	TEST_REG(SYS_ID_AA64MMFR2_EL1, ftr_id_aa64mmfr2_el1),
-+	TEST_REG(SYS_ID_AA64SMFR0_EL1, ftr_id_aa64smfr0_el1),
- 	TEST_REG(SYS_ID_AA64ZFR0_EL1, ftr_id_aa64zfr0_el1),
- };
- 
-@@ -228,6 +252,7 @@ static void guest_code(void)
- 	GUEST_REG_SYNC(SYS_ID_AA64MMFR0_EL1);
- 	GUEST_REG_SYNC(SYS_ID_AA64MMFR1_EL1);
- 	GUEST_REG_SYNC(SYS_ID_AA64MMFR2_EL1);
-+	GUEST_REG_SYNC(SYS_ID_AA64SMFR0_EL1);
- 	GUEST_REG_SYNC(SYS_ID_AA64ZFR0_EL1);
- 	GUEST_REG_SYNC(SYS_CTR_EL0);
- 
-@@ -675,8 +700,8 @@ int main(void)
- 		   ARRAY_SIZE(ftr_id_aa64isar2_el1) + ARRAY_SIZE(ftr_id_aa64pfr0_el1) +
- 		   ARRAY_SIZE(ftr_id_aa64pfr1_el1) + ARRAY_SIZE(ftr_id_aa64mmfr0_el1) +
- 		   ARRAY_SIZE(ftr_id_aa64mmfr1_el1) + ARRAY_SIZE(ftr_id_aa64mmfr2_el1) +
--		   ARRAY_SIZE(ftr_id_aa64zfr0_el1) - ARRAY_SIZE(test_regs) + 2 +
--		   MPAM_IDREG_TEST;
-+		   ARRAY_SIZE(ftr_id_aa64zfr0_el1) + ARRAY_SIZE(ftr_id_aa64smfr0_el1) - ARRAY_SIZE(test_regs) +
-+		   2 + MPAM_IDREG_TEST;
- 
- 	ksft_set_plan(test_cnt);
- 
-
--- 
-2.39.5
-
+Thanks,
