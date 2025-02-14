@@ -1,127 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4185726618A;
-	Fri, 14 Feb 2025 14:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07120263F5F;
+	Fri, 14 Feb 2025 15:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739544905; cv=none; b=hPUv7gKBZMhfooxd6/ydfTYSB4zvnwyIlyzAoQ0wb3M04l7R0OHhp5yLlDQuKsflBw0ZhDZlckU5v8Skj2yYxz3FLMjXgxTDCF9X2wWib+eLp3zeJQDVjYMQEC9lNcGinH3Uf5gqRhv3Qcd9YdR3Ul9Uld7t9rGFCVl8Gw5XV8A=
+	t=1739546037; cv=none; b=aojUqtNH6GeuFXskecCG863+xrnWzKccL/j/SbZh/jp71C4bOQoUystPwhiNll3KFK9qagC71GhozGvSsIPYEJ5fwTx9Qsc1A9OCOV+J5H/TRi3dGgwM8Rzbw58kKD3OTJ7JrXAR5X7yqkEUev71KTcmd/7DOnxHkROjP711QdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739544905; c=relaxed/simple;
-	bh=+zgSUoD1ShIEcMj3y0fZlj2imD/ikcTmN0PMrxfOaFU=;
+	s=arc-20240116; t=1739546037; c=relaxed/simple;
+	bh=RFJpcfzla1/p+yWYqC1cUGJBffni0p3EoU1xXc12NtE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eOGNRKDz3RFovHjpz5DkT7bAcGt53wiki9lQu3UjncqDuwgFr4hQhBS2cRFBNfSNuZ4wzElDz2QiPGPewf7/lqM1zpewiEX4kOH0bmhYeFD7JIeHzBlblcPHL3gTWrR8nRi+33sN0ipNNBJ1kqMvj58WJ3BxeTY2LHNVZFEdtgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iDJH8cDW; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gBFZPjMbdd7EvU2AkLIg49GZ8Zhh3oUgAiE1PVjkQhKJJRlF480U4hrAjPFklGbKH135FWh068ZtwSRsVj5y3Mh/+7/j3dqwdxdMk2Hs4Tb3cUu5tdxZakj9ikCENH8HGiB12hwMtRWpGzzSQwI6RQpnPythkZZe6oQot+5TqSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GL3W9qVJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iDJH8cDW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739544903; x=1771080903;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+zgSUoD1ShIEcMj3y0fZlj2imD/ikcTmN0PMrxfOaFU=;
-  b=iDJH8cDWJIG8sRD8AriNkpaAAT+cqXNC2XpNZBKSe+yW0c6agoQ64vcU
-   bdY8ENoWj8SR1PSI8yD+CgxsumozpGIoFhqdQoY1PAly3rbokBZaJnsly
-   bFbbpNE52ZxCSr3EQfjf8oumzZTTD+GdDAd12H9+/rWQJR+Ky/eZlphM9
-   dtb3e0MKdyXXN/BOTmbUZ9b39uBwx3tM5a1P6nR9Ud+XXhpU5CpOfPvqV
-   Svw/SUxWkveeVA9aW7Pb6NSjcaeEzde/fMG1Xp+d7XwaJXpHzrTtA3dBG
-   ybyHdtP0otlj9smcns9zE1hArSm/FiJPw11YZxqR8dDiWtuNxnhpL3jTw
-   A==;
-X-CSE-ConnectionGUID: YTKOpsISSdqIyOgiqjKv8w==
-X-CSE-MsgGUID: XmoR2ONKRkuZEHLDWcA/Rg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40559709"
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="40559709"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 06:55:02 -0800
-X-CSE-ConnectionGUID: qaLHR+DHSBadxi12aQSKiQ==
-X-CSE-MsgGUID: 8H7xUnA9QbKpHVrOoCpsDg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="118509809"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 06:54:59 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tix5j-0000000BWS3-3tdq;
-	Fri, 14 Feb 2025 16:54:55 +0200
-Date: Fri, 14 Feb 2025 16:54:55 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: subramanian.mohan@intel.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	gregkh@linuxfoundation.org, giometti@enneenne.com,
-	tglx@linutronix.de, corbet@lwn.net, eddie.dong@intel.com,
-	christopher.s.hall@intel.com, pandith.n@intel.com,
-	thejesh.reddy.t.r@intel.com, david.zage@intel.com,
-	srinivasan.chinnadurai@intel.com
-Subject: Re: [PATCH v14 1/4] drivers pps/generators: replace copy of pps-gen
- info struct with const pointer
-Message-ID: <Z69ZPy5T5eXxVTuH@smile.fi.intel.com>
-References: <20250214090755.37450-1-subramanian.mohan@intel.com>
- <20250214090755.37450-2-subramanian.mohan@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GL3W9qVJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9340C4CEDD;
+	Fri, 14 Feb 2025 15:13:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739546036;
+	bh=RFJpcfzla1/p+yWYqC1cUGJBffni0p3EoU1xXc12NtE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GL3W9qVJRdnVkROe2Jpk/w2dfKv9mGFjcE9L8pLVH4N1RfKzcJq/fZ8TX7dwk8O19
+	 /EbfgQHy0Axj6AsvQMM7ZqU0fEV4I7Br04DgFFZQspQ39PekulZTDBPoWaj7V+ZE3e
+	 N4ij2TZ87MzllNIOaUHXMIL4s7cmyWQgr7HIVuMKzvczBtUVMj7LgXwaTk1XCaLjp/
+	 t2GSIVrLipjlT7J+Bm59c5g5dilhwdFS3PEYKIL0N3koWLQwkt6XQShXXKisu2zyvQ
+	 ofphn9ih4xkL5zWvi8CpF9LBaH5dTcAR0896zurKsC3KgZ3neiBM70w0hf+QAD5UXV
+	 0BAweflLkRZ6w==
+Date: Fri, 14 Feb 2025 15:13:52 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 00/27] KVM: arm64: Implement support for SME in
+ non-protected guests
+Message-ID: <Z69dsGn1JVWPCqAi@finisterre.sirena.org.uk>
+References: <20250214-kvm-arm64-sme-v4-0-d64a681adcc2@kernel.org>
+ <86pljkswuk.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="i3oZTUREBVwjVqsD"
+Content-Disposition: inline
+In-Reply-To: <86pljkswuk.wl-maz@kernel.org>
+X-Cookie: Editing is a rewording activity.
+
+
+--i3oZTUREBVwjVqsD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250214090755.37450-2-subramanian.mohan@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 14, 2025 at 02:37:52PM +0530, subramanian.mohan@intel.com wrote:
-> From: Subramanian Mohan <subramanian.mohan@intel.com>
-> 
-> Some PPS generator drivers may need to retrieve a pointer to their
-> internal data while executing the PPS generator enable() method.
-> 
-> During the driver registration the pps_gen_device pointer is returned
-> from the framework, and for that reason, there is difficulty in
-> getting generator driver data back in the enable function. We won't be
-> able to use container_of macro as it results in static assert, and we
-> might end up in using static pointer.
-> 
-> To solve the issue and to get back the generator driver data back, we
-> should not copy the struct pps_gen_source_info within the struct
-> pps_gen_device during the registration stage, but simply save the
-> pointer of the driver one. In this manner, driver may get a pointer
-> to their internal data as shown below:
-> 
-> struct pps_gen_foo_data_s {
->         ...
-> 	struct pps_gen_source_info gen_info;
-> 	struct pps_gen_device *pps_gen;
-> 	...
-> };
-> 
-> static int __init pps_gen_foo_init(void)
-> {
->         struct pps_gen_foo_data_s *foo;
-> 	...
->         foo->pps_gen = pps_gen_register_source(&foo->gen_info);
-> 	...
-> }
-> 
-> Then, in the enable() method, we can retrieve the pointer to the main
-> struct by using the code below:
-> 
-> static int pps_gen_foo_enable(struct pps_gen_device *pps_gen, bool enable)
-> {
->         struct pps_gen_foo_data_s *foo = container_of(pps_gen->info,
-> 						struct pps_gen_foo_data_s, gen_info);
->         ...
-> }
+On Fri, Feb 14, 2025 at 09:24:03AM +0000, Marc Zyngier wrote:
+> Mark Brown <broonie@kernel.org> wrote:
 
-Shouldn't Subject start with "pps: generators: ..."?
+> Just to be clear: I do not intend to review a series that doesn't
+> cover the full gamut of KVM from day 1. Protected mode is an absolute
+> requirement. It is the largest KVM deployment, and Android phones the
+> only commonly available platform with SME. If CCA gets merged prior to
+> SME support, supporting it will also be a requirement.
 
-With that fixed,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+OK, no problem.  This is a new requirement and I'd been trying to
+balance the concerns people have with the size of serieses like this
+with the need to get everything in, my plan had been to follow up as
+soon as possible with pKVM.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> > Access to the floating point registers follows the architecture:
 
+> >  - When both SVE and SME are present:
+> >    - If PSTATE.SM =3D=3D 0 the vector length used for the Z and P regis=
+ters
+> >      is the SVE vector length.
+> >    - If PSTATE.SM =3D=3D 1 the vector length used for the Z and P regis=
+ters
+> >      is the SME vector length.
+> >  - If only SME is present:
+> >    - If PSTATE.SM =3D=3D 0 the Z and P registers are inaccessible and t=
+he
+> >      floating point state accessed via the encodings for the V register=
+s.=20
+> >    - If PSTATE.SM =3D=3D 1 the vector length used for the Z and P regis=
+ters
+> >  - The SME specific ZA and ZT0 registers are only accessible if SVCR.ZA=
+ is 1.
 
+> > The VMM must understand this, in particular when loading state SVCR
+> > should be configured before other state.
+
+> Why SVCR? This isn't a register, just an architected accessor to
+> PSTATE.{ZA,SM}. Userspace already has direct access to PSTATE, so I
+> don't understand this requirement.
+
+Could you be more explicit as to what you mean by direct access to
+PSTATE here?  The direct access to these PSTATE fields is in the form of
+SVCR register accesses, or writes via SMSTART or SMSTOP instructions
+when executing code - is there another access mechanism I'm not aware of
+here?  They don't appear in SPSR.  Or is this a terminology issue with
+referring to SVCR as the mechanism for configuring PSTATE.{SM,ZA}
+without explicitly calling out that that's what's happening?
+
+> Isn't it that there is simply a dependency between restoring PSTATE
+> and any of the vector stuff? Also, how do you preserve the current ABI
+> that do not have this requirement?
+
+Yes, that's the dependency - I'm spelling out explicitly what changes in
+the register view when PSTATE.{SM,ZA} are restored.  This ABI is what
+you appeared to be asking for the last time we discussed this.
+Previously I had also proposed either:
+
+ - Exposing the streaming mode view of the register state as separate
+   registers, selecting between the standard and streaming views for
+   load/save based on the mode when the guest runs and clearing the
+   inactive registers on userspace access.
+
+ - Always presenting userspace with the largest available vector length,
+   zero padding when userspace reads and discarding unused high bits
+   when loading into the registers for the guest.  This ends up
+   requiring rewriting between VLs, or to/from FPSIMD format, around
+   periods of userspace access since when normally executing and context
+   switching the guest we want to store the data in the native format
+   for the current PSTATE.SM for performance.
+
+both of which largely avoid the ordering requirements but add complexity
+to the implementation, and memory overhead in the first case.  I'd
+originally implemented the second case, that seems the best of the
+available options to me.  You weren't happy with these options and said
+that we should not translate register formats and always use the current
+mode for the vCPU, but given that changing PSTATE.SM changes the
+register sizes that ends up creating an ordering requirement.  You
+seemed to agree that it was reasonable to have an ordering requirement
+with PSTATE.SM so long as it only came when SME had been explicitly
+enabled.
+
+Would you prefer:
+
+ - Changing the register view based on the current value of PSTATE.SM.
+ - Exposing streaming mode Z and P as separate registers.
+ - Exposing the existing Z and P registers with the maximum S?E VL.
+
+or some other option?
+
+--i3oZTUREBVwjVqsD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmevXa0ACgkQJNaLcl1U
+h9AvMAf/UX+5QSO5KD39QjMVwAjrzs5PpGSz3thq4Ajk3AvOq6MoZLM+cigoPhqX
+VlsiJ5F1ztiGHX5M2YNaZHgpA3xg5Q+deKieaEkqUPok0M6qFUG1k18RMiKLE672
+FXoKOBodF5HMK+avPXZVprpADSTCJXcWvKNYh8/eiDe3l/hkH6+GtTTtjsRmmW2w
+Rm7PdYpNDVKxs1oVgMWd4lG7OD55/NtKfBqDaKwLia1iFVtr7RAJIw+EUiWnj8tK
+R9UND4PmPkPqsi+7Z3ixTXmwc2v2k4SDeXn2rfwCf5p1FQgwj63LAKmX75LHvdFU
+rXcZgH/UQ7bWTd6ZTfug17WaPkswBw==
+=zfPV
+-----END PGP SIGNATURE-----
+
+--i3oZTUREBVwjVqsD--
