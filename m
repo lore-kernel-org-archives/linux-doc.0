@@ -1,114 +1,122 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36B8267700;
-	Fri, 14 Feb 2025 16:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BC42673B3;
+	Fri, 14 Feb 2025 17:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739552032; cv=none; b=tvokuNsoQwgGGg9y4TysPgVUsTqeg5t+eCVBxtfDcGK5UUlmndbPBxGWL7+RnH7lcWA/4GCxfHE17mazyxk5UDd1MAKPHItX7PPhsR+7D1MfS4hZ+CyK4VWwxnXRocTSkoFXZXU1JJNTx17A15qinNUxU4gmPukS+boqn6pldDo=
+	t=1739554761; cv=none; b=QKnRbQcb6plGmAwaSbx2f0GA1QWGg9lOl597wHVtKlPykDDq+GdzEqcvnnUQ5QDgVcDfRva4wN6adhvs31nNSjIFwaQFTLqYmbNny3Y/Yk/MLKtSWLIQAnBjYVgNM262lqGk4SyZTrhy5IusgEnsaCsE73FOi+Duys2aZlaY304=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739552032; c=relaxed/simple;
-	bh=2c5NuBDyo2m0shbPuVy5ObaCNtX5qBwlWxjze7MTKVg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BDZ0Vl4XrKBcFQ+xISqtvJNR5P5PHUAGZqha6tWUephuaio6/JNLvm35UBFE9zBEJUVjbrg29P9CFxaMejJkH3qQKUIBXwX17BjlOuNJuDtZRlgtuBhaGgnFPjlzJ+moTXxfcjaG59afEjcMWVw4TOiV+QU1vpkUO6nccN7aNlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f+9T88QH; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739554761; c=relaxed/simple;
+	bh=VVbsaroIMcVsVwkplFYBuNvffUjgWhb3WTdZRGkrHX0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cd88si15rhu0ko37hqN//OC1IXNscbC+3szMGTgFcBxz0dVqHi8V5y0bQEOdrS6cilMFK7yIU9QKGvpxu64kjdeKH9TUY7hsODf91xUj3PEn4aPFwrTi2HF6DL5cCwmh+yQugf4a1k/fS1oo11D5j/PiM7QVtVarRogYJUGCSwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidreaver.com; spf=pass smtp.mailfrom=davidreaver.com; dkim=pass (2048-bit key) header.d=davidreaver.com header.i=@davidreaver.com header.b=ixenOA0f; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AMvOS5tr; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidreaver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidreaver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f+9T88QH"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30613802a59so23406471fa.0;
-        Fri, 14 Feb 2025 08:53:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739552029; x=1740156829; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2c5NuBDyo2m0shbPuVy5ObaCNtX5qBwlWxjze7MTKVg=;
-        b=f+9T88QHHF2clw9JQku/08ewFwYw3vAM0beJS3fTWf+s+f/Lbs3YHvgmQ7m756eBSL
-         Q+QNjRHWZPzJ/atrja7XLDpesNBaHogiwU+H7irju0b+oE8tlhOoZGvmfbbs1nB04Aiq
-         VqSwEjLPVY4Ku2mSaUvnwSiwew+SBdL3xGUACwOa0amr0vunHUi/IWXigDLnKd4cRplr
-         eqpIXzjXAwC73SFY/J2ERcaT7+z1fIaGu9kJ2T3QrI+HlCUjdaO+WpkWOqHFhOisqfUp
-         v6z1gwpxtn1UXufBeBiwBSrffzKouBwIYmdx+5HbefDk5MbHAgiQsJdJH97NWGZrxPfm
-         ylYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739552029; x=1740156829;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2c5NuBDyo2m0shbPuVy5ObaCNtX5qBwlWxjze7MTKVg=;
-        b=LgCYqbYbUzl9e8aJBzUBCqa+FyelZKieDSGR7hjSj353K6ewzymbQX6bcusoRyp4Ue
-         E9p2CscL0zRkSg/1N1eP9tn7j745NMdLtKhcas01Jma4I4bV7zxmBoq7r/blv0GwljL6
-         5d+fP6pBKG2OPmTQ7Dpzl6jHiFWTsULAmGbMEaJB9QYUcMDNHEZHmveVlQvukNoKiJxB
-         +QqL6m48mSmei8WlaIQUxLwTG9SgwfeuLMF9VEEIr8jbche2nWr6OCRHfDOOlaH1dY86
-         ryNT3OH+Uv8zxRlPG0SL81Rcsl2rwdAmBxOKXkFOUFDDEjoIG2W4q9h3QHGEHGCncfry
-         esgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVFBWucI3Ptg7S4XKPRd+D/QoRQtd1VQkzNdb7CZnk8GYUbhLMFvI5Sn1C3pVYAuW+Jd+8P0Idyuh4=@vger.kernel.org, AJvYcCVFy8WeK1BolTCskSp6aDN4Cb9vCsUbOFjSQCRY7BG4iPySGpKNV8cEYLwrKbRgTZ1itv9gHtZgF9vCqlqf@vger.kernel.org, AJvYcCVVSZDxU5lVXbg9wvUrTmWnoihAUemvEN1eVJxW4xjMANFRjMIV8M32uyaNX3USlDZ1YTytAhzEOkEKjf8ggAQG@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEXkHkw5D3mk5JyEmYi7qMFGaEPl1jf+FNsKZUsH73gTNpNu+u
-	MGDDzhOCg4qnkkXxHgFIbK/PgcxYxIz3yNnFU63FtA3RriwdvfGfYvtf/m7PFvhpGaBrWpBfJeX
-	bga0gk8PyW5e45bp/YptPkYY01o4=
-X-Gm-Gg: ASbGncuAXKZiL1kH/n33Noqbx2epqmNNOLkq76oaNqtJhrMbjfC7pkXCqfsSEvZP1gz
-	q+EdX3qB9wI5Cz3aag57vDClhnhp5dlxyakz9pwtWKnqv7p6k2gOKL45Jt5YO866gUK5mPB3Nax
-	tRHd1/6DfN8IkZjHzfMYO63PpsnGemEhQ=
-X-Google-Smtp-Source: AGHT+IH+ZY2j63cWbogB9A3vuP8zUi7lLVt1mNv8t9yoNtwWn6FsGoTMpU+6/obf1W6ICZ9peOj7KrEV5ms8Ua3/CX8=
-X-Received: by 2002:a05:651c:548:b0:301:12:1ef3 with SMTP id
- 38308e7fff4ca-30927a2cde4mr1356071fa.4.1739552028486; Fri, 14 Feb 2025
- 08:53:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=davidreaver.com header.i=@davidreaver.com header.b="ixenOA0f";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AMvOS5tr"
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfout.phl.internal (Postfix) with ESMTP id D15AD138017E;
+	Fri, 14 Feb 2025 12:39:13 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Fri, 14 Feb 2025 12:39:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=davidreaver.com;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1739554753; x=
+	1739641153; bh=D0fHUbhWZ9YCEDMzybuAsk0F8BQCZl9wWHFz+BIcrQ8=; b=i
+	xenOA0foL9+tXoilDHtnunbrp5EmJ+GwqGY6zWg7IGKtdtqPaJfjU7ugSaDIjelh
+	xy6A91mEh+cmQRhD/QK/9fiQ1bmNHCg5/lgapESeGaCzhL/ikAQf4SARO6exMEbU
+	hSZ+MfzomgOeaxjAZ6cu+2LPpIX1uMC//9EEZb0XoTHmtDqCT5gDcX7GJn6bTIJB
+	161LeYT82a8rRL58+MeMFmySkaZLaDIdnIjV3Y/Hy/sr1cKg1q0lMYLU2yFwiR1h
+	mPccxbFuj6T85+hfqQHZNoYbScK0KEDLdDjwoZpY6W8ti9AZqfy3wgcmOklnBAZi
+	rRZNunaDAmHurwdSPK3UA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1739554753; x=1739641153; bh=D0fHUbhWZ9YCEDMzybuAsk0F8BQCZl9wWHF
+	z+BIcrQ8=; b=AMvOS5trdLZcBf0VPgx/s/68ljqvc5R2LnsZowfgAS/o6jVbR+s
+	u8jGGuPPWHHmIg7Bi8PXt7zbdN+CUeHw9/UAFZlSW4CR9MbuVYBkiQ7bnCuMRATl
+	Yodt9pXBfvguCBK8Ufy8tIOx3/np2UDf1TRNMN//6fXipmWy6Upf6jaFyttAyAJs
+	7gAqT1+ZEdjBobka4jXtjP3QugtNIGw76qlLXBK3xbjmZ1u3ZrGsT74aQJf89KXD
+	7GQJim3E2Ir9H7nYe0o1xbo5VhyEhx0FGCVaDI+ae78YbdmPLxMlwF3t4hUpSumJ
+	4F99sFGbarCtkJjZ2ALVLe88AI6FEcsPn1Q==
+X-ME-Sender: <xms:wX-vZ4WjCKQfz3BIBaT7mvAHMtR61sjzLxoz-_tkJxcNDNPhFxPdjg>
+    <xme:wX-vZ8k5Kfc_yFGXf0_nmcJpxls0tgh4_t8VMBM4lZGC3Ayb3PTpMeep8cco4eqXB
+    dxGSXwQ-eaTLLPPS8E>
+X-ME-Received: <xmr:wX-vZ8aIJNF0WRaAfzu6LFbwp2xI4PAoTc-KQ2pf6cDLyPJX5ZfIpeImpfzbC8_bYQrfvKlwKTuHUC5v3sxjwzlraxwAcQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehtddvjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufgjfhgffffkgggtsehttdertddtredt
+    necuhfhrohhmpeffrghvihguucftvggrvhgvrhcuoehmvgesuggrvhhiughrvggrvhgvrh
+    drtghomheqnecuggftrfgrthhtvghrnhepudetjefhvdeujefhkefhteelffelheevtddu
+    ueelkeeludevteekteekjeevvddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomhepmhgvsegurghvihgurhgvrghvvghrrdgtohhmpdhnsggprhgt
+    phhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdhkvg
+    hrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgs
+    lhhotghksehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqug
+    hotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrgigsohgvsehkvghr
+    nhgvlhdrughkpdhrtghpthhtoheprhguuhhnlhgrphesihhnfhhrrgguvggrugdrohhrgh
+    dprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehkohgtthel
+    ihesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:wX-vZ3WM2-4qCfHkxMMD0Qvxut6p3pJwUVXnxo9EhmLoQYI-6f4sVQ>
+    <xmx:wX-vZymwyyHil0urOKwwBcx380FqFAtdyYRs4elcu9JUUj0BVKLCZg>
+    <xmx:wX-vZ8dzsdiNK_98rd7FSdB6n0bS-1EsByFn6KdUbbH3clIw9a7keA>
+    <xmx:wX-vZ0GnpHFLejMVNaWc2RayYRE4WwL5ZH4fLl-IswLzzQsvbf1q1w>
+    <xmx:wX-vZ0XIaJWu-qOpWaNqu0Y1wXuB7ANC1k8YGYsdbFcr3zG-UTgg7tWM>
+Feedback-ID: i67e946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 14 Feb 2025 12:39:12 -0500 (EST)
+From: David Reaver <me@davidreaver.com>
+To: Konstantin Khlebnikov <koct9i@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,  Randy Dunlap <rdunlap@infradead.org>,
+  Jens Axboe <axboe@kernel.dk>,  linux-doc@vger.kernel.org,
+  linux-block@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: iostats: Rewrite intro, remove outdated formats
+In-Reply-To: <CALYGNiOU3vPAyvsNv4rt=qZRbZFVZ9iAe+kzPzGKkx6_L3wG5Q@mail.gmail.com>
+	(Konstantin Khlebnikov's message of "Fri, 14 Feb 2025 18:00:21 +0100")
+References: <0e8c8ead-423a-45f3-9e10-020334ef8907@infradead.org>
+	<20250214051432.207630-1-me@davidreaver.com>
+	<CALYGNiOU3vPAyvsNv4rt=qZRbZFVZ9iAe+kzPzGKkx6_L3wG5Q@mail.gmail.com>
+User-Agent: mu4e 1.12.8; emacs 29.4
+Date: Fri, 14 Feb 2025 09:39:11 -0800
+Message-ID: <864j0wxw74.fsf@davidreaver.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250210-printf-kunit-convert-v3-0-ee6ac5500f5e@gmail.com>
- <Z69isDf_6Vy8gGcS@pathway.suse.cz> <Z69oxhkUzTfJ6YKi@smile.fi.intel.com>
-In-Reply-To: <Z69oxhkUzTfJ6YKi@smile.fi.intel.com>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Fri, 14 Feb 2025 11:53:10 -0500
-X-Gm-Features: AWEUYZlnq5SWYMq0W8Wtx8_gV8oE6jI4f_XCC4fWZ0NXKTJTv_1uIYIyKaB7JkM
-Message-ID: <CAJ-ks9mck4DzX+WANxKSmcN=mP9ztgwWETXLmX_F-gy=EhmLNg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] printf: convert self-test to KUnit
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Petr Mladek <pmladek@suse.com>, Arpitha Raghunandan <98.arpi@gmail.com>, David Gow <davidgow@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Naveen N Rao <naveen@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Fri, Feb 14, 2025 at 11:02=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+Konstantin Khlebnikov <koct9i@gmail.com> writes:
+
+> Wraparounds here are slightly more complicated than simply 32-bit or 64-bit overflows.
 >
-> On Fri, Feb 14, 2025 at 04:35:12PM +0100, Petr Mladek wrote:
-> > On Mon 2025-02-10 13:23:21, Tamir Duberstein wrote:
-> > > This is one of just 3 remaining "Test Module" kselftests (the others
-> > > being bitmap and scanf), the rest having been converted to KUnit.
-> > >
-> > > I tested this using:
-> > >
-> > > $ tools/testing/kunit/kunit.py run --arch arm64 --make_options LLVM=
-=3D1 printf
-> > >
-> > > I have also sent out a series converting scanf[0].
-> > >
-> > > Link: https://lore.kernel.org/all/20250204-scanf-kunit-convert-v3-0-3=
-86d7c3ee714@gmail.com/T/#u [0]
-> > >
-> > > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-> >
-> > I have just quickly tested this before leaving for a week.
-> > And I am fine with the result.
+> Internal time counters are 64-bit in nanoseconds.
 >
-> Seems reasonable to me. But I want a consensus with Rasmus.
+> Values are converted into milliseconds for printing,
+> also 32-bit architectures truncate printed values to 32-bit.
+>
+> So the common trick: delta = (long)(after - before) does not work,
+> because the time counter wraps around UINT64_MAX/1000.
+>
 
-I have a local v4 where I've added the same enhancement as the scanf
-patches so that assertions log the line in the top-level test.
+Thanks Konstantin. What do you think about just removing this entire
+sentence? It is mostly tweaked from the old text that was rewritten, but
+I'm not sure it is particularly insightful. That paragraph would look
+like this:
 
-I'll wait for Rasmus' reply before sending.
-Tamir
+  All fields are cumulative, monotonic counters that start at zero at
+  boot, except for field 9, which resets to zero as I/Os complete. Other
+  fields only increase unless they overflow and wrap. Wrapping may occur
+  on long-running or high-load systems, so applications should handle this
+  properly.
+
+Thanks,
+David Reaver
