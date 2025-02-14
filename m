@@ -1,41 +1,37 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41982753FD;
-	Fri, 14 Feb 2025 03:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722741863E
+	for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2025 03:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739502444; cv=none; b=Vkp7QpBAnFtSzxy59l74yYYmvUU3jxOrnLsQeJ8RZ4ndYUSXVYzKgIC1I9ccM2CVevYBTnxMu/12CFNCVWi5kYscIbIj7iRbFzIZ9rve/+Eb583zyJHm8bKglOiuP0fCYvPxZdySeN0a2y3gPt9HKDIE1ElpnQYTmrBXYD+YV/s=
+	t=1739502909; cv=none; b=UgInIQjResy9VMJXXNqTAcr2Y765aNZGQtt5+l6HQxtZNUaK7/Sx+z/hB1sMM1cYz+H+aZKcwAk4NNeDt8z0Q6xLq5uw7zoVHlr+YWKQb6cQeUCIhnUApsSRQZq4CNVOjT7lmdHeVIhjtpkGSQcXTvov1tN9Gn569Zrw7ssRzpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739502444; c=relaxed/simple;
-	bh=U3iLt2jTVvFU0CrH4KAjwFp/wrFL6Fai2J1A7HCeWvQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VshFjDbzRlLs+lYIGMRIMM3MKVIHkT87g2LtLUPuy8DdfvTbxa++MLMVg0sZIqW71OxHcigD3UlBrcIOKdLCcD5QJOQx4BVKt7O9ixAe3F6C38DDEP0yd6i76whHvxJvBc/c2kYxwR5aYbugySVafkVjKsuMsD33ujfM+0CnQ34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=dEN3We9e; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1739502909; c=relaxed/simple;
+	bh=nbd84qRxeCJHywfGQKvuZvjm+cl1IN8BJxyuJRmbFL4=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=LHnKhoyppw5O85RaDdYbJ7sN0DJsMXeDUSX46uZ031mPnmIZqokVn7omaIjK/YbbVegibQrMtNdKXlZau4WF8Lo72usUmwxrFNH/YDq9357LDSBfXWnZ0k9ABImOG0ILFvXTuLC0ZOxlRUvBKC5ZkMBKlB6bF/jfNBp0fIqxSNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kcUpMQZJ; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="dEN3We9e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1739502434; x=1740107234; i=w_armin@gmx.de;
-	bh=UkVu9TB9y3bg528X+5UCDMdueq5YjpPbMSyJYp2IyZA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=dEN3We9ef2XfOawN+NEw7U4xlzDzWpAowENjqY+KmkA7OVQ8rElf+O+aeiNnfVbq
-	 liyq+23GMTMbRik+MoGg1xo4ByCkQcO3zxfKxj0IqwqJF7BGsJYyvwwjj8cqxyn4A
-	 a18Lg2khXyzFp+WLOTmYjSxKf/Lx5LGzpcCi7Szrb5Hq1e6SDISj8HrRducNxIreC
-	 Vgo/lwNyt5u2gPZHTeW1jW8OTqzWuWuUrWJhqgj1gE7WPc+ug1tuqzMBEdNyAzoQN
-	 Scr41vutcN1f9oOIHOWCM0oco4VmqaiFLtHJE0osauuLaosn6NWIIgC9OhzhrvVQw
-	 xYFwHzLi2BsfeXRvoA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.24] ([87.177.78.219]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mzyuc-1tTqER3isg-014D2j; Fri, 14
- Feb 2025 04:07:14 +0100
-Message-ID: <62e5b2f6-23e8-44e2-80f8-2509dd8e5a17@gmx.de>
-Date: Fri, 14 Feb 2025 04:07:07 +0100
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kcUpMQZJ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=K5gX5mHy/xukFYiEMB1i5LukdwAOJAQawSD5xfQDsno=; b=kcUpMQZJZRi4QlpKOMYPCCAb7L
+	nOm3jM+Lpb3GtjofXRRp/Pu8gqYiZK8xSAAieT1V8VplUnudq6a8d9qaR6iwSd/rGgMqaqVio7p/O
+	J10SErtibSgJA4cNjy9R57Ms/YOLd1gQq9BmFtih+Yq8fzr3a1kGmKmFkJGEOybsDiizJf5Qbvlru
+	gvUjGmvYboA1xTmN1bCIhVcxxlfPF+mFAwBn4zuGzGdc/4fJDjEksXPA0Tkf0Mbf2zfzlv2ZKd/1Y
+	mp6SHqIz8graUOh4AZ0ZUoWYmkx8jYCpp0f60MUmM79CeG1a60SOp1pZ1vX/msCpeAN/ldVAt34uz
+	GCTpwRhw==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1timAS-0000000A2wM-1unq;
+	Fri, 14 Feb 2025 03:15:04 +0000
+Message-ID: <bc6b2434-10ef-417b-9e2d-bea5cb69bab9@infradead.org>
+Date: Thu, 13 Feb 2025 19:15:01 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,121 +39,143 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] platform/x86: think-lmi: Use WMI bus API when
- accessing BIOS settings
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: james@equiv.tech, markpearson@lenovo.com, jorge.lopez2@hp.com,
- jdelvare@suse.com, linux@roeck-us.net, linux-hwmon@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- platform-driver-x86@vger.kernel.org, corbet@lwn.net,
- linux-doc@vger.kernel.org
-References: <20250203182322.384883-1-W_Armin@gmx.de>
- <20250203182322.384883-4-W_Armin@gmx.de>
- <0dd7bda3-bf76-228b-27f3-f057e80e3a03@linux.intel.com>
+Subject: Re: scripts/kernel-doc parsing issues
+From: Randy Dunlap <rdunlap@infradead.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20240131084934.191226-1-sakari.ailus@linux.intel.com>
+ <87y1byvo4t.fsf@meer.lwn.net> <ZcFTepqR7xBFAMTM@kekkonen.localdomain>
+ <874jemtq2f.fsf@meer.lwn.net>
+ <3a6a7dd0-72f1-44c6-b0bc-b1ce76fca76a@infradead.org>
 Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <0dd7bda3-bf76-228b-27f3-f057e80e3a03@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7OWgTiuneYVq8FpBOEoyTSddAPhgwOL3QU9g3CpiK8oF7t5sbYv
- vm4Gfz3ze46FCkApkUgdWCnjY5dtJM7FvvudeAN9MTB/l3Lc5krFEmHzpTNi+IqQv3fsUbP
- FBCHKSO+z/yH2tyJ+PnIuT2RoD4tcbXpJIBZViuf0XPPOn5QptwISobBk5KhaOtWG6JFdjh
- InoP4BwP99ZyGaU5h0uGQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:9oFAX8DxaHU=;AZ76pu+mJr308YybNs+pLiNTG/2
- am67VWgfC/ASgx1PrP/gSHIZLHGKXGZGaZK+SHgpqcJFb2dt4AwV9pT/y0BhwUVeh8tljMgV5
- OYpDF6nnuZcfqJO6HNedInVLUkL59Ypzc2jeyZnFkkOpB4vW5ft3uHmZmEmvYy+dzXw/cGdBB
- f8bhxz7WJRypBqN5V7eO+LWy2slOJSVIRaD14JEopBaHmeFsv3wHFdJK+vx/aMwoNd9PGfJ2s
- Mg8bOn69bfTqIQJOKbvEOobpYgdr4sTy4o6DddzH9FfHEBUJ5POSGoG8xj4IkJkizJOmU45i2
- tlQcwcTWzd8feFIeAbF207OrCKDtyXK12/1Kivnkcx+Zgyi5KM0Qbnfm1xu7HVS9l0Qzoke93
- cgCSX+CAddJCIhenZFJ5Tp6gLfLSRcgjPoN1JHGOHqB75L1oeJq6DQMcBGBtz8uKe+gwCz1OD
- 9iZNjyxAEbI8d8rS+hwWChuVDD0SIR16GwoMAuy45vO6lzuZ22rirXn1IkQx8UDkrjuyZeFPJ
- eGdBun7MGm5VxhrGWwir+6ZygCWElfStiNT70IXWLGaeAqWVy/pOvsvHXQIKtEP4OQPX5s7O3
- /ZfOnAzSTELbhNEXxLxJDD9RzgO9gKXB+LMbuC9WZLMjhNnSlIb/lkPGvouubBtVuwfsWPDeU
- qLkht91RfQmNbw0JXk89urcD6PQMqQTiOv825Yi4/7ZY2ROT72Gu3mK+qn1qu9VlR8LSPN6Xi
- WhObR3cvXbzrHj53wifNIYR5sjIkkPZ8GfSeruxNfFir4/20s5Y4vLCSsvfnDx7DFp12OI1hJ
- Y/nh+UeldcN1t3oAWje/4LrP3sCrOi1tYIMYDH3Ueqc2lYYxMCX8bO2IhIelCHUA1sEL1GFDp
- 0ps8Q1Ij0uMXX/swpnOaU7/iHXXFi7gqCUH//3KVf2i5kCwjwleZAXyOiH31aXs36tWKjKLv7
- LlzIJJGrKsi301p/Z2j2akNtRDagXnfZ2oJ10kjrOB1ZSrObYsqmc4d3X84lbaeuMeLtrwBEU
- K5uj4V5V7nYRlUhp5Vb8ys9agZKXYkZVZyOVdrFC935aNsBQU1QHYVq316izc/0WbOGluSgaX
- gKWWoP+wqgi8gcdxKFZtF4DscV4X6UiYvk9tiJV6MXYUHZ04fB+n6zB5fyG1U7oZblfSOWEsr
- 3Y2AXWDzht+viRN/AoPWDKCid3FvKUgXR9me4PSL7o07f2fUloCLVfzngLok7v+iGF8NqOyCk
- BAicXNF7u155wSK4a0BnGlOTIO9TNsvUp+Tm6gbClIHA5Js+M527dR0y6ICkOrVBs/K5aeI2E
- W8saGvBT3FpA8GnTODTLQK013sDhd3A3duMqTkJhu+WK6X5hXnk2kV9G3aKuP2sJaAHULNoA7
- fD5vpeMt2npe/8azwhkez7yLvSYjzUuG6sfwxHpNxSFqxh+TcFFlXhLvoE
+In-Reply-To: <3a6a7dd0-72f1-44c6-b0bc-b1ce76fca76a@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Am 13.02.25 um 14:17 schrieb Ilpo J=C3=A4rvinen:
 
-> On Mon, 3 Feb 2025, Armin Wolf wrote:
->
->> Since the driver already binds to LENOVO_BIOS_SETTING_GUID, using
->> wmidev_block_query() inside tlmi_setting() allows for faster
->> access to BIOS settings.
->>
->> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
->> ---
->>   drivers/platform/x86/think-lmi.c | 23 +++++++++--------------
->>   drivers/platform/x86/think-lmi.h |  2 ++
->>   2 files changed, 11 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/th=
-ink-lmi.c
->> index 2c94a4af9a1d..0fc275e461be 100644
->> --- a/drivers/platform/x86/think-lmi.c
->> +++ b/drivers/platform/x86/think-lmi.c
->> @@ -344,20 +344,14 @@ static int tlmi_opcode_setting(char *setting, con=
-st char *value)
->>   	return ret;
->>   }
->>
->> -static int tlmi_setting(int item, char **value, const char *guid_strin=
-g)
->> +static int tlmi_setting(struct wmi_device *wdev, int item, char **valu=
-e)
->>   {
->> -	struct acpi_buffer output =3D { ACPI_ALLOCATE_BUFFER, NULL };
->>   	union acpi_object *obj;
->> -	acpi_status status;
->>   	int ret;
->>
->> -	status =3D wmi_query_block(guid_string, item, &output);
->> -	if (ACPI_FAILURE(status))
->> -		return -EIO;
->> -
->> -	obj =3D output.pointer;
->> +	obj =3D wmidev_block_query(wdev, item);
->>   	if (!obj)
->> -		return -ENODATA;
->> +		return -EIO;
-> Hi Armin,
->
-> I'm trying to understand why there are these back and forth changes in t=
-he
-> error code.
->
-> It almost looks to me like wmidev_block_query() would want to return the
-> error code itself because after you abstracted this code using
-> wmidev_block_query(), you had to change the error code because you no
-> longer have access to the key detail to decide which error code should b=
-e
-> returned. That is, use ERR_PTR() inside wmidev_block_query() and the
-> callers should just pass that error code on with IS_ERR & friends?
->
-Hi,
 
-the reason why wmidev_block_query() only returns NULL in case of an error =
-is that
-according to the WMI-ACPI specification, querying a WMI data block should =
-return data.
+On 2/5/24 7:50 PM, Randy Dunlap wrote:
+> [reduced Cc: list]
+> 
+> [was: Re: [PATCH 1/1] kernel-doc: Support arrays of pointers struct fields]
+> 
 
-So we have two error scenarios:
 
-- ACPI error =3D> firmware error =3D> EIO
-- no data returned =3D> violation of firmware spec =3D> EIO
+[snip]
 
-Because of this always returning EIO is the correct approach in my opinion=
-.
+> 
+> As I said here on the RFC patch from Sakari:
+> https://lore.kernel.org/all/aa94772b-7010-4bba-b099-d3b8fe1b97aa@infradead.org/
+> 
+> "Yet another kernel-doc bug. I have a list of 5 or 6 or 8 bugs that are
+> similar to this one, but I didn't have this one."
+> 
+> The patch to report Excess struct or union members has unearthed several
+> kernel-doc "parsing" problems.
+> 
+> I have not tried to fix any of these in scripts/kernel-doc yet. I might get
+> around to it, but it's not a high priority for me.
+> 
+> 
+> Examples:
+> 
+> 1) drivers/slimbus/stream.c:49: warning: Excess struct member 'segdist_codes' description in 'segdist_code'
+> 
+> struct declaration and definition together. Also possible that the leading "static const"
+> confuses scripts/kernel-doc.
+> 
+> 2) include/linux/spi/spi.h:246: warning: Function parameter or struct member 'cs_index_mask:SPI_CS_CNT_MAX' not described in 'spi_device'
+> include/linux/spi/spi.h:246: warning: Excess struct member 'cs_index_mask' description in 'spi_device'
+> 
+> scripts/kernel-doc handles some bit fields in structs successfully, so something is
+> different about this one.
+> 
+> 3) fs/ntfs/compress.c:24: warning: cannot understand function prototype: 'typedef enum '
+> 
+> fs/ntfs/* has been removed in linux-next (still in mainline for a little while), but this
+> shows that scripts/kernel-doc does not handle a 'typedef enum' successfully.
+> 
+> 4) drivers/misc/vmw_balloon.c:260: warning: Excess struct member 'reserved' description in 'vmballoon_batch_entry'
+> 
+> This may be the same problem as #2, with using bit fields in a struct.
+> 
+> 5) drivers/base/power/runtime.c:362: warning: Excess function parameter 'dev' description in '__rpm_callback'
+> 
+> Confused by either the first function parameter (a function pointer) or the trailing
+> __releases() and __acquires() attributes.
+> 
+> 6) drivers/md/bcache/request.c:309: warning: expecting prototype for bch_data_insert(). Prototype was for CLOSURE_CALLBACK() instead
+> 
+> and
+> fs/bcachefs/io_write.c:1558: warning: expecting prototype for bch2_write(). Prototype was for CLOSURE_CALLBACK() instead
+> 
+> CLOSURE_CALLBACK() and function parameters are confusing scripts/kernel-doc.
+> 
+> 7) drivers/iio/adc/at91-sama5d2_adc.c:471: warning: Excess struct member 'adc_channels' description in 'at91_adc_platform'
+> 
+> Fixed by Sakari's patch.  :)
+> 
+> 8) drivers/pci/controller/pcie-iproc-msi.c:110: warning: Excess struct member 'reg_offsets' description in 'iproc_msi'
+> 
+> Fixed by Sakari's patch.  :)
+> 
+> 9) drivers/usb/gadget/udc/pch_udc.c:361: warning: Excess struct member 'stall' description in 'pch_udc_dev'
+> pch_udc.c:361: warning: Excess struct member 'prot_stall' description in 'pch_udc_dev'
+> pch_udc.c:361: warning: Excess struct member 'registered' description in 'pch_udc_dev'
+> pch_udc.c:361: warning: Excess struct member 'suspended' description in 'pch_udc_dev'
+> pch_udc.c:361: warning: Excess struct member 'connected' description in 'pch_udc_dev'
+> pch_udc.c:361: warning: Excess struct member 'vbus_session' description in 'pch_udc_dev'
+> pch_udc.c:361: warning: Excess struct member 'set_cfg_not_acked' description in 'pch_udc_dev'
+> pch_udc.c:361: warning: Excess struct member 'waiting_zlp_ack' description in 'pch_udc_dev'
+> 
+> All of these except @registered (which is just an Excess description) are declared with one
+> 'unsigned' followed by a list of bit fields, which isn't kernel coding style but it is valid C.
+> or it might just be 'unsigned' without having a following 'int' that is the problem. I don't
+> know -- haven't looked yet.
+> 
+> 10) Matthew Wilcox pointed out to me that commit 0d55d48b19ff is causing problems with
+> generated output. A few instances of using TAB or multiple spaces have been patched
+> recently, but there are others that are not being addressed. I don't have a list of these.
 
-Thanks,
-Armin Wolf
+Here are a few more that I found recently.
+
+11) security/landlock/ruleset.c:
+security/landlock/ruleset.c:205: warning: Function parameter or struct member ''
+ not described in 'insert_rule'
+security/landlock/ruleset.c:205: warning: Excess function parameter 'layers' des
+cription in 'insert_rule'
+security/landlock/ruleset.c:692: warning: Function parameter or struct member ''
+ not described in 'landlock_init_layer_masks'
+security/landlock/ruleset.c:692: warning: Excess function parameter 'layer_masks
+' description in 'landlock_init_layer_masks'
+
+12) security/landlock/fs.c:
+security/landlock/fs.c:762: warning: Function parameter or struct member '' not 
+described in 'is_access_to_paths_allowed'
+security/landlock/fs.c:762: warning: Excess function parameter 'layer_masks_pare
+nt1' description in 'is_access_to_paths_allowed'
+security/landlock/fs.c:762: warning: Excess function parameter 'layer_masks_pare
+nt2' description in 'is_access_to_paths_allowed'
+security/landlock/fs.c:1002: warning: Function parameter or struct member '' not
+ described in 'collect_domain_accesses'
+security/landlock/fs.c:1002: warning: Excess function parameter 'layer_masks_dom
+' description in 'collect_domain_accesses'
+
+13) security/ipe/hooks.c:
+security/ipe/hooks.c:55: warning: Function parameter or struct member '__always_
+unused' not described in 'ipe_mmap_file'
+security/ipe/hooks.c:55: warning: Excess function parameter 'reqprot' descriptio
+n in 'ipe_mmap_file'
+security/ipe/hooks.c:83: warning: Function parameter or struct member '__always_
+unused' not described in 'ipe_file_mprotect'
+security/ipe/hooks.c:83: warning: Excess function parameter 'reqprot' descriptio
+n in 'ipe_file_mprotect'
+
+Probably just always ignore __always_unused.
+
+
+cheers.
+-- 
+~Randy
 
