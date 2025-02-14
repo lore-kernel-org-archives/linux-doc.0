@@ -1,150 +1,203 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6C02AF16;
-	Fri, 14 Feb 2025 02:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AE42AF16;
+	Fri, 14 Feb 2025 02:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739499686; cv=none; b=mkNdaaPDPPc0Gw47WloTK8cjUJUYClGlQlu8h5uj4CJndu4vjzd/NefoDOcS/HNjyq5Bcrvm0Skgo0XkCUHHo2QzRvEav9I94xBQ5v5x64oSG26oPpNF5MdS1bsovyvjQQvfgSJq659FwUScKLCpDtCu+RLD4tgNhmpE5Qnl/y4=
+	t=1739499907; cv=none; b=M6Ngd0rYSRQV+QMXMcE1BiKZsPZOIlWr5InQwh0YsTVCkQFQZecsKDtTmjcVcQBqh4CBUnu6j3vQR4LsANvATkes9I6i14GpXordTB22+6dLBj9aol9Bh/sGnfoH+2qcRFwQdc/hubFWo3tR6G5BaZCxo01xNbPGbK5cfCkQJIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739499686; c=relaxed/simple;
-	bh=IYGI/nWTPXhwIQOYV6ST+oHwwdDS1Ziz7okPrOo0FI8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m5ROM1s3ATVt/8XPKWlJlffUMAKOUqIoD0bWc3U5sHYCbjtD2i09zZZi31PxYuSWJWT9J1prQr+vczeyBVn/mPiLMMo+NOPNx6uTX3LeiZ3AA8Wo5KB0CbCYOea7VSvvTJzB6+pLIvEjACn3K/8avTBs/Bb22kldV1rqpFHwsWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VSgWsZel; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1739499907; c=relaxed/simple;
+	bh=Z6DGSCB3WS833S/uhOUTmiOjUXJ0YGRt01DkitcHLwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=M/bD/wHwctG9hQzSHdM0vtH9cW6+du1G/DA9kU8U9KISBiSMzPFHQ7gLRF3aE+y2VmVBJzB71ywHZ6vIGBrldB+3a/TFU/g0+TsUmHZd91NXKEt/NgeOt+8fFZa2iR/GCCwz4P2G0pf1JwCVu0sGGRhpWgtQBYyAuQBw2UGu0s0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dXYIY680; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VSgWsZel"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=Fz06OzUHpQ/u9+meEbjB7yJyMw334z3iTH+lpT2Bpww=; b=VSgWsZelCmMd8HogtQRy+ezRVO
-	7+Y39T4KQHxUmlGdBrp9u7472Yy63xKusYg85ySPTbdgmRqGTt4eP/raHR0HyXmrjzwU7D87aMg0C
-	SAycBtMHfr1rIW0oUIGthnpKLPb2NBJGry6O0wy8U9ECbZb/n2KqfpY+7SOah30uYPWfUuw8eU3/y
-	SMeTQVN+CA/mW9FEK+YyglalWha5dcQEydqr7GyWNNjSq96A8/4tjsYrtXrlUGrT2dQCO7h10ckON
-	B3vi++I8zUOwPH/FKvtG7284t3u3t64r2qCTa0fuSegDRqoqPS6p+gmvpzPzqKxvj4QlMy4dFa23o
-	dF4eo7jw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tilKL-00000009tyP-0kBp;
-	Fri, 14 Feb 2025 02:21:14 +0000
-Message-ID: <0e8c8ead-423a-45f3-9e10-020334ef8907@infradead.org>
-Date: Thu, 13 Feb 2025 18:21:08 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dXYIY680"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA9FDC4CED1;
+	Fri, 14 Feb 2025 02:25:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739499906;
+	bh=Z6DGSCB3WS833S/uhOUTmiOjUXJ0YGRt01DkitcHLwM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dXYIY680jj1PYNQ9zGGqc1G4ZxDUBjQnvqNidNfdCJ5sEA1zjaVwFZU1DMJeTTpWs
+	 0Z6cATMzF9L8zFUdpwjT3mVi7N0Zq8DX6gia6+H+ETwQtuwKZEBiTTO2zWYj6pQNBo
+	 HPTPufHKHlgIK7yPVXxNiNVZA0qLMphx6LcikiZ/q6egV0CwCibVpzzJcMkpAbZuif
+	 +jNtcq6apOR9UgOn7QEfORebng8r5Y5SFcMF3fjwAob/9gox+g9VpcDFGUKp9GwUHf
+	 XIwgoedwx+CuDvFMw1s16toDQgmPEqkbLOVr8k7X0zRMWsF+lOb+gRJpGujKQT95vl
+	 hR8Bj7agXwxPA==
+Date: Fri, 14 Feb 2025 03:24:57 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts/kernel-doc: remove an obscure logic from
+ kernel-doc
+Message-ID: <20250214032457.6444ee93@foz.lan>
+In-Reply-To: <87wmdt6bv5.fsf@trenco.lwn.net>
+References: <fd3b28dec36ba1668325d6770d4c4754414337fc.1739340170.git.mchehab+huawei@kernel.org>
+	<87wmdt6bv5.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: iostats: Update introduction with flush fields
-To: David Reaver <me@davidreaver.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Jens Axboe <axboe@kernel.dk>, Konstantin Khlebnikov <koct9i@gmail.com>,
- linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250214013905.60526-1-me@davidreaver.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250214013905.60526-1-me@davidreaver.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Em Thu, 13 Feb 2025 09:35:58 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-On 2/13/25 5:39 PM, David Reaver wrote:
-> Counters for flush requests were added to the kernel in
-> b6866318657 ("block: add iostat counters for flush requests") [1]. While
-> iostats.rst was updated with descriptions for the new fields, the
-> introduction still mentions 15 fields instead of 17.
-> 
-> Correct the introduction to state that there are 17 fields instead of 15.
-> Also, replace the 2.4 vs. 2.6+ comparison with a distinction between
-> /proc/diskstats and the sysfs stat file.
-> 
-> Link: https://lore.kernel.org/lkml/157433282607.7928.5202409984272248322.stgit@buzz/T/ [1]
-> 
-> Signed-off-by: David Reaver <me@davidreaver.com>
-> ---
-> 
-> I noticed this small discrepancy while writing an observability tool
-> that uses /proc/diskstats. I did a double take because I noticed the
-> extra fields in my own system's /proc/diskstats while I was reading this
-> doc, but _before_ I got to the descriptions for fields 16 and 17.
-> 
-> I think the discussion of historical formats for 2.4, 2.6, and 4.18 in
-> this document is confusing and not very useful. If you'd like, I'm happy
-> to make a patch that rewrites the intro to simplify it and remove
-> discussion of the historical formats.
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>=20
+> > Kernel-doc has an obscure logic that uses an external file
+> > to map files via a .tmp_filelist.txt file stored at the current
+> > directory. The rationale for such code predates git time,
+> > as it was added on Kernel v2.4.5.5, with the following description:
+> >
+> > 	# 26/05/2001 -         Support for separate source and object trees.
+> > 	#              Return error code.
+> > 	#              Keith Owens <kaos@ocs.com.au>
+> >
+> > from commit 396a6123577d ("v2.4.5.4 -> v2.4.5.5") at the historic
+> > tree:
+> > 	https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/
+> >
+> > Support for separate source and object trees is now done on a different
+> > way via make O=3D<object>.
+> >
+> > There's no logic to create such file, so it sounds to me that this is
+> > just dead code.
+> >
+> > So, drop it.
+> >
+> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  scripts/kernel-doc | 19 +------------------
+> >  1 file changed, 1 insertion(+), 18 deletions(-) =20
+>=20
+> Weird ... I went and looked, and can't find anything that ever created
+> that tmp_filelist.txt file; I wonder if this code ever did anything?
 
-Please do IMO.
+I wonder the same ;-) Anyway, better to remove this now, as, if people
+complain, it would be easier to revert than after switching to the
+Python version.
 
->  Documentation/admin-guide/iostats.rst | 33 +++++++++++++++------------
->  1 file changed, 18 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/iostats.rst b/Documentation/admin-guide/iostats.rst
-> index 609a3201fd4e..1df7961bdc89 100644
-> --- a/Documentation/admin-guide/iostats.rst
-> +++ b/Documentation/admin-guide/iostats.rst
-> @@ -34,6 +34,9 @@ Here are examples of these different formats::
->     4.18+ diskstats:
->        3    0   hda 446216 784926 9550688 4382310 424847 312726 5922052 19310380 0 3376340 23705160 0 0 0 0
->  
-> +   5.5+ diskstats:
-> +      3    0   hda 446216 784926 9550688 4382310 424847 312726 5922052 19310380 0 3376340 23705160 0 0 0 0 0 0
-> +
->  On 2.4 you might execute ``grep 'hda ' /proc/partitions``. On 2.6+, you have
->  a choice of ``cat /sys/block/hda/stat`` or ``grep 'hda ' /proc/diskstats``.
->  
-> @@ -43,21 +46,21 @@ be a better choice if you are watching a large number of disks because
->  you'll avoid the overhead of 50, 100, or 500 or more opens/closes with
->  each snapshot of your disk statistics.
->  
-> -In 2.4, the statistics fields are those after the device name. In
-> -the above example, the first field of statistics would be 446216.
-> -By contrast, in 2.6+ if you look at ``/sys/block/hda/stat``, you'll
-> -find just the 15 fields, beginning with 446216.  If you look at
-> -``/proc/diskstats``, the 15 fields will be preceded by the major and
-> -minor device numbers, and device name.  Each of these formats provides
-> -15 fields of statistics, each meaning exactly the same things.
-> -All fields except field 9 are cumulative since boot.  Field 9 should
-> -go to zero as I/Os complete; all others only increase (unless they
-> -overflow and wrap). Wrapping might eventually occur on a very busy
-> -or long-lived system; so applications should be prepared to deal with
-> -it. Regarding wrapping, the types of the fields are either unsigned
-> -int (32 bit) or unsigned long (32-bit or 64-bit, depending on your
-> -machine) as noted per-field below. Unless your observations are very
-> -spread in time, these fields should not wrap twice before you notice it.
-> +In ``/proc/diskstats``, the statistics fields are those after the device
-> +name. In the above example, the first field of statistics would
-> +be 446216. By contrast, in ``/sys/block/hda/stat`` you'll find just the
-> +17 fields, beginning with 446216. If you look at ``/proc/diskstats``,
-> +the 17 fields will be preceded by the major and minor device numbers,
-> +and device name. Each of these formats provides 17 fields of statistics,
-> +each meaning exactly the same things. All fields except field 9 are
-> +cumulative since boot. Field 9 should go to zero as I/Os complete; all
-> +others only increase (unless they overflow and wrap). Wrapping might
-> +eventually occur on a very busy or long-lived system; so applications
+> Don't put that functionality into the Python version :)
 
-I prefer a comma instead of semi-colon above. Yes, I know, it was already
-like this.
+Yeah, I started implementing it, but it sounded a waste of time, so
+I dropped it from the RFC versions. It sounded too complex for people
+to maintain a separate tmp file when make O=3Ddir would do it on a much
+better and automated way.
 
-> +should be prepared to deal with it. Regarding wrapping, the types of the
-> +fields are either unsigned int (32 bit) or unsigned long (32-bit or
-> +64-bit, depending on your machine) as noted per-field below. Unless your
-> +observations are very spread in time, these fields should not wrap twice
-> +before you notice it.
->  
->  Each set of stats only applies to the indicated device; if you want
->  system-wide stats you'll have to find all the devices and sum them all up.
-> 
-> base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
-> 
+-
 
-LGTM. Thanks.
+With regards to the Python transition, since our Makefile allows
+switching to a different script since ever[1], I'm playing with=20
+the idea of sending a patch series with:
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Patch 1:=20
+  - drops Sphinx version check from both kerneldoc=20
+    (-sphinx-version parameter) and the corresponding Sphinx extension;
 
--- 
-~Randy
+patch 2:=20
+  - renames kerneldoc to kerneldoc.pl
+  - creates a symlink:
+	kerneldoc.pl -> kerneldoc
+
+patch 3:
+  - adds kerneldoc.py:
+
+patch 4:
+  - add info messages on both versions related to the transition,
+    and instructions about using KERNELDOC=3D<script> makefile and ask
+    people to report eventual regressions with new script.
+
+patch 5:
+  - change kerneldoc symlink to point to kerneldoc.py
+
+We can then keep both for maybe one Kernel cycle and see how it goes,
+stop accepting patches to the Perl version, in favor of doing the needed
+changes at the Python one.
+
+If everything goes well, we can remove the venerable Perl version on the=20
+upcoming merge window, and change the Sphinx extension to use the Python
+classes directly instead of running an external executable code.
+
+What do you think?
+
+-
+
+I'm in doubt if I should split the Kernel classes for the Python version
+into a scripts/lib/kdoc directory on this series or doing such change
+only after we drop the Perl version.
+
+Keeping it on a single file helps to do more complex code adjustments=20
+on a single place, specially if we end renaming/shifting stuff[2].
+
+[1] I didn't remember about that - it is a very welcomed feature,
+    probably thanks to Markus.
+
+[2] the currently global const regex macros is something that I want
+    to rename and place them inside a class (or on multiple classes).
+    Also, Python coding style is to use uppercase for const. There is
+    currently a Pylint disabled warning about that. So, I do plan to
+    do such changes in the future to make it more compatible with
+    Python coding style.
+
+-
+
+On a separate but related issue, perhaps we should start talking about
+coding style. We don't have anything defined at the Kernel, and
+different scripts follow different conventions (or most likely
+don't follow any convention at all). We should probably think having=20
+something defined in the future.
+
+=46rom my side, I like Pylint warnings, except for the (IMHO) useless "Rxxx"
+warnings that complains about too many/too few things. They have
+been useful to detect hidden bugs at scripts, and it allows inlined
+exceptions to the coding style.
+
+autopep8 autoformatter is also nice (and, up to some point, black),
+as it auto-corrects whitespace issues, but there's two things I don't=20
+like on them:
+
+1. its coding style on lines, creating function calls with open=20
+   parenthesis:
+
+	-    parser.add_argument("-n", "-nosymbol", "--nosymbol", action=3D'append=
+',
+	-                         help=3DNOSYMBOL_DESC)
+	+    parser.add_argument(
+	+        "-n", "-nosymbol", "--nosymbol", action=3D"append", help=3DNOSYMB=
+OL_DESC
+	+    )
+
+2. whitespace removal on aligned consts:
+
+	-    STATE_INLINE_NA     =3D 0 # not applicable ($state !=3D STATE_INLINE)
+	-    STATE_INLINE_NAME   =3D 1 # looking for member name (@foo:)
+	-    STATE_INLINE_TEXT   =3D 2 # looking for member documentation
+	-    STATE_INLINE_END    =3D 3 # done
+	-    STATE_INLINE_ERROR  =3D 4 # error - Comment without header was found.
+	-                            # Spit a warning as it's not
+	-                            # proper kernel-doc and ignore the rest.
+	+    STATE_INLINE_NA =3D 0  # not applicable ($state !=3D STATE_INLINE)
+	+    STATE_INLINE_NAME =3D 1  # looking for member name (@foo:)
+	+    STATE_INLINE_TEXT =3D 2  # looking for member documentation=09
+	+    STATE_INLINE_END =3D 3  # done
+	+    STATE_INLINE_ERROR =3D 4  # error - Comment without header was found.
+
+What I do here is from time to time manually run them and cherry-pick
+only changes that sounds good to my personal taste.
+
+It is probably a good idea to define a coding style and perhaps add
+some config files (like a .pep8 file) to have a single coding style for
+future code, letting scripts/checkpatch.pl to run pylint and/or some
+other coding style tool(s).
+
+Thanks,
+Mauro
