@@ -1,50 +1,50 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10631275409
-	for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2025 00:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B67944F
+	for <linux-doc@vger.kernel.org>; Fri, 14 Feb 2025 00:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739492408; cv=none; b=bx6p3q33rhxSzEMsmTL8JCKwzGfXCjxnTSC51Cf746eGtVz2Ny+HIM0ZLlU1YxisRUvo/LoxigFBxIP1OtrSZ2mDpFNqpmSTedhTMVIpGTi+8nT4inFydmTDZRHw1AiaCjNk6uQ6aD9Nygv5z7YSy4Y5CqO23xhAiKLx4JO8TjI=
+	t=1739492416; cv=none; b=ezFDOhQ+c7w0WHXB375RfTSaobHfe5C/lJPpGN/3MlFM4lSznc6SUuxk8z9I4d+BUyRbjGfHIGnx+E5cXx7i8gqPUZlCz7/kafjFyWFE/5P3C4umjOZermFx1NKd4I7csAxRwAYxhMBhDNfidcV45SPUwksXeKzZX0QUQby2NvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739492408; c=relaxed/simple;
-	bh=8Mr23W/+G1uZ617GLarMPiY6eX2ezkHI6A58kZ43cp4=;
+	s=arc-20240116; t=1739492416; c=relaxed/simple;
+	bh=DSpX8fD4B4V0ccw0v0OQXmxnb/T74xXl9np96mYbmE0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KX2AXM30zn60wDEgRdXBysH8z0c7feW9jiWzKZms6F6Z8DTapXECFsGOwTdjjCDLoUTurl7fN96hc7iwlhHkPZ7AnCL0qwf5UpEtIKXuCL1rD0kVk4SrIBRP/510QKjJpp1kUkqt/SRzetxszUS8evyv6Ywlic2tO4tCmKtNS5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KYPWnbQK; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:To:Cc; b=CoDdfOA6ufW2DS/nz/twMCD6zt1f/ywxNoocOZwVUWERMbTw2tmIMUxBQ0BnkxOh7qjJgNCGU2c0flwDay1hacSTLED/4oTc6H8yIwZoW69DTTNUgiusqUyM+Gg6IS/ES8dbVVVacE+yvY7oFw5CalSxNm6FJFRMUAYaVw8IKSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OVeUzSTT; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KYPWnbQK"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OVeUzSTT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739492405;
+	s=mimecast20190719; t=1739492413;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qItC1tMYOWKCL7xMXToSIOhC8XUwskbCivBq7IFZWAE=;
-	b=KYPWnbQKQzCzh57Rr8YDg8laxeCfNkDzMTgsq49ga78i2i+Ubjz9hHSxkH1zwJTaAhMPVj
-	98MdMM2EKCX7D2W61euokc3QtZ0CfyDIbP3eRJbr8+FvrmNvd+4WU0XIQJXBIhZ8VhLLGJ
-	F6GCg2O0Fx+ShxbZ6Fzcf17y+bgFwes=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=HY3d/YBxMJY4CA4cB8Zgueq4cZjGXa+WIDOvgIQwRlg=;
+	b=OVeUzSTTk8sBHe9dja+MGGczI3q1Kl935sUxGMHdJseOjd7qxvYrWJ+J0OfeQuDURl32iZ
+	1MncNXN9Enb6WWYHcoQyyq7px2lWSyfcUZZS4UFQdLcTjQeWfJ06l9yC0n+yT2T2BQB5aC
+	o/8qJCQwIYOKIYMsn6/sFUdiaehr/f4=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-93-_ZGgu7BcNVOmNPp1z6MqOA-1; Thu,
- 13 Feb 2025 19:20:00 -0500
-X-MC-Unique: _ZGgu7BcNVOmNPp1z6MqOA-1
-X-Mimecast-MFC-AGG-ID: _ZGgu7BcNVOmNPp1z6MqOA_1739492395
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-42-adRffBjJPJOwTG679Vz7Hw-1; Thu,
+ 13 Feb 2025 19:20:10 -0500
+X-MC-Unique: adRffBjJPJOwTG679Vz7Hw-1
+X-Mimecast-MFC-AGG-ID: adRffBjJPJOwTG679Vz7Hw_1739492405
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DCF971800373;
-	Fri, 14 Feb 2025 00:19:52 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DF6CA19783B8;
+	Fri, 14 Feb 2025 00:20:03 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.199])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C0CE119373C4;
-	Fri, 14 Feb 2025 00:19:42 +0000 (UTC)
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 34562191D7CE;
+	Fri, 14 Feb 2025 00:19:53 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 13 Feb 2025 19:19:15 -0500
-Subject: [PATCH 02/12] drm/fsl-dcu: move to
+Date: Thu, 13 Feb 2025 19:19:16 -0500
+Subject: [PATCH 03/12] drm/hisilicon: move to
  devm_platform_ioremap_resource() usage
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250213-mem-cocci-v3-v1-2-93466d165349@redhat.com>
+Message-Id: <20250213-mem-cocci-v3-v1-3-93466d165349@redhat.com>
 References: <20250213-mem-cocci-v3-v1-0-93466d165349@redhat.com>
 In-Reply-To: <20250213-mem-cocci-v3-v1-0-93466d165349@redhat.com>
 To: Joel Stanley <joel@jms.id.au>, 
@@ -97,11 +97,11 @@ Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
  linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739492356; l=1621;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739492356; l=2968;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=8Mr23W/+G1uZ617GLarMPiY6eX2ezkHI6A58kZ43cp4=;
- b=n2tNXdlh5rQHn34kimaBoWcVbHfFakTA8EXZqZAZhLnnn5o28ZQNlIJVeAszxG7oq2QBVHOzI
- cKIyaYzxeTMCIHXWgXlkHwumd9YBsNaQmbk5wnP4D2uSBSOGUG55dCT
+ bh=DSpX8fD4B4V0ccw0v0OQXmxnb/T74xXl9np96mYbmE0=;
+ b=XeEsNqyfA9ph8vujG/SYSA/ugXnVAXluHm5R0cxMTvcCG2JQ02EZm1ZlF0o/2mnNws7N3MeCY
+ ceSS+MCY0a+AHpsz+gD1NylpHz6VWTCwcuN3cqy3DFJOhDJX7M3pjY8
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
@@ -121,36 +121,64 @@ identifier pdev;
 -ioremap_res = devm_ioremap_resource(...);
 +ioremap_res = devm_platform_ioremap_resource(pdev,0);
 
-Cc: Stefan Agner <stefan@agner.ch>
-Cc: Alison Wang <alison.wang@nxp.com>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>
+Cc: Tian Tao <tiantao6@hisilicon.com>
+Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Yongqin Liu <yongqin.liu@linaro.org>
+Cc: John Stultz <jstultz@google.com>
+
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c    | 4 +---
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c | 4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-index 03b076db9381a5db0bff6576cda2772495a61fed..3bbfc1b56a6557e2f54d2b7ed099531053871341 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-@@ -260,7 +260,6 @@ static int fsl_dcu_drm_probe(struct platform_device *pdev)
- 	struct fsl_dcu_drm_device *fsl_dev;
- 	struct drm_device *drm;
- 	struct device *dev = &pdev->dev;
+diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+index 2eea9fb0e76bf3ead8f5914e6ebb65b5b3603b9a..e80debdc41763357cb2cf321205c0dfac80a911e 100644
+--- a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
++++ b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+@@ -825,7 +825,6 @@ static const struct component_ops dsi_ops = {
+ static int dsi_parse_dt(struct platform_device *pdev, struct dw_dsi *dsi)
+ {
+ 	struct dsi_hw_ctx *ctx = dsi->ctx;
 -	struct resource *res;
- 	void __iomem *base;
- 	struct clk *pix_clk_in;
- 	char pix_clk_name[32];
-@@ -278,8 +277,7 @@ static int fsl_dcu_drm_probe(struct platform_device *pdev)
- 		return -ENODEV;
- 	fsl_dev->soc = id->data;
+ 
+ 	ctx->pclk = devm_clk_get(&pdev->dev, "pclk");
+ 	if (IS_ERR(ctx->pclk)) {
+@@ -833,8 +832,7 @@ static int dsi_parse_dt(struct platform_device *pdev, struct dw_dsi *dsi)
+ 		return PTR_ERR(ctx->pclk);
+ 	}
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	base = devm_ioremap_resource(dev, res);
-+	base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(base)) {
- 		ret = PTR_ERR(base);
- 		return ret;
+-	ctx->base = devm_ioremap_resource(&pdev->dev, res);
++	ctx->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(ctx->base)) {
+ 		DRM_ERROR("failed to remap dsi io region\n");
+ 		return PTR_ERR(ctx->base);
+diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+index 2eb49177ac42bc6dba692328cca5c99d5925041c..45c4eb008ad5d639340f769ad022d186ec454722 100644
+--- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
++++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+@@ -844,7 +844,6 @@ static struct drm_plane_funcs ade_plane_funcs = {
+ static void *ade_hw_ctx_alloc(struct platform_device *pdev,
+ 			      struct drm_crtc *crtc)
+ {
+-	struct resource *res;
+ 	struct device *dev = &pdev->dev;
+ 	struct device_node *np = pdev->dev.of_node;
+ 	struct ade_hw_ctx *ctx = NULL;
+@@ -856,8 +855,7 @@ static void *ade_hw_ctx_alloc(struct platform_device *pdev,
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	ctx->base = devm_ioremap_resource(dev, res);
++	ctx->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(ctx->base)) {
+ 		DRM_ERROR("failed to remap ade io base\n");
+ 		return ERR_PTR(-EIO);
 
 -- 
 2.47.0
