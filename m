@@ -1,186 +1,169 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B5815198D;
-	Fri, 14 Feb 2025 10:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A8325EFAA;
+	Fri, 14 Feb 2025 11:14:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739530197; cv=none; b=ElruiMxhMnvBOVZUUPAnP7CD61JqCV7wqYsf9ob4fCyZZKsSMUynPBfeXzZAaIi1TGDsMafnaJt4Dkd7MpZy2RdCHppUfwk9CqiPUm5vBYRiaIeDj0WLcsz5W1EqOAXRPgpVlNwcmOKvTPGknZds+N5m3E2100nngnI3PIj8TlM=
+	t=1739531683; cv=none; b=jvKU0Ij39k/dBJYgOF5YR3rxMRd/KPxQjjVJiZj7WsfmFiXbNLhphr+kMIlIep7ouA7bMbvCPGvW3VdQG0p116Mx2djbhBPt4AQlqNhKhcAWzNAPmC2Lrhnp5z8sgRMobD9tYbPd44vqABud8ZNA0MWlR9E5Nr0QJ49ar+IAEz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739530197; c=relaxed/simple;
-	bh=nTLGQRv9+Dmv04TXYESDtBUvopxmV+9Gvf73k4K56rs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=hJ44cjtWjEu+fgIV1Sko1tKXnldxz96ftCkt1m3twmVBG4/L+2hYeZUpCdWZ6HxV8k5SK5ZE7shGNP0vSZo3+1A1nmd0joyncpe0WOilxCb7bHGTMohX6LbnVVmJYFXCNv8t3VfDD6NMq0Ol8H7DLJlIJJkHD3f24xCyJl05v1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YvTHz4wLdz6L4t9;
-	Fri, 14 Feb 2025 18:46:39 +0800 (CST)
-Received: from frapeml100007.china.huawei.com (unknown [7.182.85.133])
-	by mail.maildlp.com (Postfix) with ESMTPS id E1DB31400DA;
-	Fri, 14 Feb 2025 18:49:45 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (7.182.85.172) by
- frapeml100007.china.huawei.com (7.182.85.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 14 Feb 2025 11:49:45 +0100
-Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
- frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
- Fri, 14 Feb 2025 11:49:45 +0100
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Fan Ni <nifan.cxl@gmail.com>
-CC: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-	"tony.luck@intel.com" <tony.luck@intel.com>, "rafael@kernel.org"
-	<rafael@kernel.org>, "lenb@kernel.org" <lenb@kernel.org>,
-	"mchehab@kernel.org" <mchehab@kernel.org>, "dan.j.williams@intel.com"
-	<dan.j.williams@intel.com>, "dave@stgolabs.net" <dave@stgolabs.net>,
-	"Jonathan Cameron" <jonathan.cameron@huawei.com>, "dave.jiang@intel.com"
-	<dave.jiang@intel.com>, "alison.schofield@intel.com"
-	<alison.schofield@intel.com>, "vishal.l.verma@intel.com"
-	<vishal.l.verma@intel.com>, "ira.weiny@intel.com" <ira.weiny@intel.com>,
-	"david@redhat.com" <david@redhat.com>, "Vilas.Sridharan@amd.com"
-	<Vilas.Sridharan@amd.com>, "leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "rientjes@google.com"
-	<rientjes@google.com>, "jiaqiyan@google.com" <jiaqiyan@google.com>,
-	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
-	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
-	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
-	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>, tanxiaofei
-	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
- Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>,
-	Linuxarm <linuxarm@huawei.com>
-Subject: RE: [PATCH v20 02/15] EDAC: Add scrub control feature
-Thread-Topic: [PATCH v20 02/15] EDAC: Add scrub control feature
-Thread-Index: AQHbfVudPqq/NHwN4UqlQ2GJSWClwrNFsryAgADmw2A=
-Date: Fri, 14 Feb 2025 10:49:45 +0000
-Message-ID: <4bf20362774e4a7cb9387f97f43fff9c@huawei.com>
-References: <20250212143654.1893-1-shiju.jose@huawei.com>
- <20250212143654.1893-3-shiju.jose@huawei.com>
- <67ae6587.170a0220.2d3544.9687@mx.google.com>
-In-Reply-To: <67ae6587.170a0220.2d3544.9687@mx.google.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1739531683; c=relaxed/simple;
+	bh=h0lJOOGwOy62qvljHZCMnbxB3nLk6xpE2zTPjM/UO1w=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=KbXpoxYsPlxfE46qNnQk5SGb+HvTzWVWWCcd5WvR37VTo5iYsT89WJjN+4kmNRj6tf6miGb/IXMeN2OKihXl4RXzXPrwLK1HauzRe+fBeKYpr7seig0ywe4+Y6Te4nlD61duKGRyaPbXIqbcc2hDBIq19P0G5Ox8JsXiF75RCbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XV5FHuQd; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XV5FHuQd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3517CC4CEDF;
+	Fri, 14 Feb 2025 11:14:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739531683;
+	bh=h0lJOOGwOy62qvljHZCMnbxB3nLk6xpE2zTPjM/UO1w=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=XV5FHuQdQ0B7nQMrIe7Y79M/gwUi4zAyhVEyt4XTYBRf+mfTcjthp2jCGQjOK+FCt
+	 IgK5QA5t+LxBB9BkoS7rd3/f6AwEZ0/IVkQSBSmPa7eiBHzYG6XwfHnZjKt0kxIECs
+	 Qp1Vk6ytWLPFJgMGpGTn03MAWkG7Fv83peA6LXfNFucekrFae2uze/6aOKgSzUKgEL
+	 6yt6IPH1CXlnVrrFvSZTQr4ohk5NaeDswAw8YMc02eS7BfWAZRoNanj0w3xCCk3mbR
+	 VocRiWuGw4zxkXYBvvj+/6wdsNPVg+fYu5hIbp9Y4UZm9gd794Z/5zX67RI960twB1
+	 BTx7pHY6au31w==
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 171CB1200043;
+	Fri, 14 Feb 2025 06:14:41 -0500 (EST)
+Received: from phl-imap-12 ([10.202.2.86])
+  by phl-compute-10.internal (MEProxy); Fri, 14 Feb 2025 06:14:41 -0500
+X-ME-Sender: <xms:oCWvZ55JMyEB0-iKQan1E9T3MM_3JPKNsLvNG5kY504jtsGeaiUYNg>
+    <xme:oCWvZ25omGA3WGMsS319f9OFrsCIETmuYk1Fscn0L4nBtM6nxd5zdUmWTCfa2E3b2
+    4UKxhxjTMvr6e6-D18>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegleehtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdfnvghonhcutfhomhgrnhhovhhskhihfdcuoehlvghonheskhgvrh
+    hnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpeejvefflefgledvgfevvdetleehhfdv
+    ffehgeffkeevleeiveefjeetieelueeuvdenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehlvghonhdomhgvshhmthhprghuthhhphgvrhhsohhn
+    rghlihhthidquddvfedtheefleekgedqvdejjeeljeejvdekqdhlvghonheppehkvghrnh
+    gvlhdrohhrgheslhgvohhnrdhnuhdpnhgspghrtghpthhtohepvdeipdhmohguvgepshhm
+    thhpohhuthdprhgtphhtthhopegrhihushhhrdhsrgifrghlsegthhgvlhhsihhordgtoh
+    hmpdhrtghpthhtohepsghhrghrrghtsegthhgvlhhsihhordgtohhmpdhrtghpthhtohep
+    lhhouhhishdrphgvvghnshestghorhhighhinhgvrdgtohhmpdhrtghpthhtohepohhssh
+    dqughrihhvvghrshestghorhhighhinhgvrdgtohhmpdhrtghpthhtohephhgvrhgsvghr
+    thesghhonhguohhrrdgrphgrnhgrrdhorhhgrdgruhdprhgtphhtthhopegvughumhgrii
+    gvthesghhoohhglhgvrdgtohhmpdhrtghpthhtoheprghnthhhohhnhidrlhdrnhhguhih
+    vghnsehinhhtvghlrdgtohhmpdhrtghpthhtohepphhriigvmhihshhlrgifrdhkihhtsh
+    iivghlsehinhhtvghlrdgtohhmpdhrtghpthhtohepjhhvsehjvhhoshgsuhhrghhhrdhn
+    vght
+X-ME-Proxy: <xmx:oCWvZwejf68vGpUuT6T7bTrCY5Ugkt3VDZeu_KYFa2RZHm6qvbbxrQ>
+    <xmx:oSWvZyIgKAdrOLr1Z8BNvhcMTp1ABJldb16i1iHxLswvvRbOqOnHsQ>
+    <xmx:oSWvZ9L-j3DB9bHYdkC0urq4nHzTOvPab5ahAM9w5DM1QZPwfYvc5A>
+    <xmx:oSWvZ7zHvtJ8SfOYb8GbeCTLnkK9XIfnHMzeRa5-cPcyqDFWOBfr8Q>
+    <xmx:oSWvZ5KEm76cXOh3dQwdghf4O5W92GjuCBf-3NT_mJr-ZJPPG59_1GGY>
+Feedback-ID: i927946fb:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id DF44F1C20066; Fri, 14 Feb 2025 06:14:40 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Date: Fri, 14 Feb 2025 13:14:21 +0200
+From: "Leon Romanovsky" <leon@kernel.org>
+To: "Steffen Klassert" <steffen.klassert@secunet.com>
+Cc: "Andrew Lunn" <andrew+netdev@lunn.ch>,
+ "Ayush Sawal" <ayush.sawal@chelsio.com>,
+ "Bharat Bhushan" <bbhushan2@marvell.com>,
+ "Eric Dumazet" <edumazet@google.com>, "Geetha sowjanya" <gakula@marvell.com>,
+ hariprasad <hkelam@marvell.com>, "Herbert Xu" <herbert@gondor.apana.org.au>,
+ intel-wired-lan@lists.osuosl.org, "Jakub Kicinski" <kuba@kernel.org>,
+ "Jay Vosburgh" <jv@jvosburgh.net>, "Jonathan Corbet" <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+ "Louis Peens" <louis.peens@corigine.com>, netdev@vger.kernel.org,
+ oss-drivers@corigine.com, "Paolo Abeni" <pabeni@redhat.com>,
+ "Potnuri Bharat Teja" <bharat@chelsio.com>,
+ "Przemek Kitszel" <przemyslaw.kitszel@intel.com>,
+ "Saeed Mahameed" <saeedm@nvidia.com>,
+ "Subbaraya Sundeep" <sbhatta@marvell.com>,
+ "Sunil Goutham" <sgoutham@marvell.com>, "Tariq Toukan" <tariqt@nvidia.com>,
+ "Tony Nguyen" <anthony.l.nguyen@intel.com>, "Ilia Lin" <ilia.lin@kernel.org>
+Message-Id: <a2157143-4adc-4551-b910-d9d99e192487@app.fastmail.com>
+In-Reply-To: <Z68M/4jka5FwrvLV@gauss3.secunet.de>
+References: <cover.1738778580.git.leon@kernel.org>
+ <dcadf7c144207017104657f85d512889a2d1a09e.1738778580.git.leon@kernel.org>
+ <Z6yMgPSfPzgGHTkD@gauss3.secunet.de> <20250212183020.GJ17863@unreal>
+ <Z68M/4jka5FwrvLV@gauss3.secunet.de>
+Subject: Re: [PATCH ipsec-next 2/5] xfrm: simplify SA initialization routine
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
->-----Original Message-----
->From: Fan Ni <nifan.cxl@gmail.com>
->Sent: 13 February 2025 21:35
->To: Shiju Jose <shiju.jose@huawei.com>
->Cc: linux-edac@vger.kernel.org; linux-cxl@vger.kernel.org; linux-
->acpi@vger.kernel.org; linux-mm@kvack.org; linux-kernel@vger.kernel.org;
->linux-doc@vger.kernel.org; bp@alien8.de; tony.luck@intel.com;
->rafael@kernel.org; lenb@kernel.org; mchehab@kernel.org;
->dan.j.williams@intel.com; dave@stgolabs.net; Jonathan Cameron
-><jonathan.cameron@huawei.com>; dave.jiang@intel.com;
->alison.schofield@intel.com; vishal.l.verma@intel.com; ira.weiny@intel.com;
->david@redhat.com; Vilas.Sridharan@amd.com; leo.duran@amd.com;
->Yazen.Ghannam@amd.com; rientjes@google.com; jiaqiyan@google.com;
->Jon.Grimm@amd.com; dave.hansen@linux.intel.com;
->naoya.horiguchi@nec.com; james.morse@arm.com; jthoughton@google.com;
->somasundaram.a@hpe.com; erdemaktas@google.com; pgonda@google.com;
->duenwen@google.com; gthelen@google.com;
->wschwartz@amperecomputing.com; dferguson@amperecomputing.com;
->wbs@os.amperecomputing.com; nifan.cxl@gmail.com; tanxiaofei
-><tanxiaofei@huawei.com>; Zengtao (B) <prime.zeng@hisilicon.com>; Roberto
->Sassu <roberto.sassu@huawei.com>; kangkang.shen@futurewei.com;
->wanghuiqiang <wanghuiqiang@huawei.com>; Linuxarm
-><linuxarm@huawei.com>
->Subject: Re: [PATCH v20 02/15] EDAC: Add scrub control feature
->
->On Wed, Feb 12, 2025 at 02:36:40PM +0000, shiju.jose@huawei.com wrote:
->> From: Shiju Jose <shiju.jose@huawei.com>
->>
->> Add a generic EDAC scrub control to manage memory scrubbers in the syste=
-m.
->> Devices with a scrub feature register with the EDAC device driver,
->> which retrieves the scrub descriptor from the EDAC scrub driver and
->> exposes the sysfs scrub control attributes for a scrub instance to
->> userspace at /sys/bus/edac/devices/<dev-name>/scrubX/.
->>
->> The common sysfs scrub control interface abstracts the control of
->> arbitrary scrubbing functionality into a common set of functions. The
->> sysfs scrub attribute nodes are only present if the client driver has
->> implemented the corresponding attribute callback function and passed
->> the
->> operations(ops) to the EDAC device driver during registration.
->>
->> Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->> Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
->> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
->> ---
->>  Documentation/ABI/testing/sysfs-edac-scrub |  69 ++++++
->>  Documentation/edac/features.rst            |   6 +
->>  Documentation/edac/index.rst               |   1 +
->>  Documentation/edac/scrub.rst               | 259 +++++++++++++++++++++
->>  drivers/edac/Kconfig                       |   9 +
->>  drivers/edac/Makefile                      |   2 +
->>  drivers/edac/edac_device.c                 |  41 +++-
->>  drivers/edac/scrub.c                       | 209 +++++++++++++++++
->>  include/linux/edac.h                       |  43 ++++
->>  9 files changed, 635 insertions(+), 4 deletions(-)  create mode
->> 100644 Documentation/ABI/testing/sysfs-edac-scrub
->>  create mode 100644 Documentation/edac/scrub.rst  create mode 100755
->> drivers/edac/scrub.c
->
->LGTM.
->
->Just one question, for min/max/current_cycle_duration attributes, is there=
- a
->reason why seconds are used instead of hours directly as mentioned in the =
-spec.
->That confused me a little bit when I tested to modify the current_cycle_du=
-ration
->with some value not multiple of 3600 and found the value read back is not =
-the
->same as that just written.
->
-Hi Fan,
 
-Thanks for reviewing and testing.
-The unit for the scrub cycle attributes has been chosen as a small unit, se=
-conds,=20
-since the EDAC scrub interface is a common interface and the unit may vary =
-across=20
-various hardware scrub interfaces.
-In the CXL scrub control feature, the scrub cycle is represented in hours. =
-Therefore,=20
-the scrub cycle is internally converted to hours, and the rounded value in =
-hours,=20
-which is set in the device, is returned when read back.
+On Fri, Feb 14, 2025, at 11:29, Steffen Klassert wrote:
+> On Wed, Feb 12, 2025 at 08:30:20PM +0200, Leon Romanovsky wrote:
+>> On Wed, Feb 12, 2025 at 12:56:48PM +0100, Steffen Klassert wrote:
+>> > On Wed, Feb 05, 2025 at 08:20:21PM +0200, Leon Romanovsky wrote:
+>> > > From: Leon Romanovsky <leonro@nvidia.com>
+>> > > 
+>> > > SA replay mode is initialized differently for user-space and
+>> > > kernel-space users, but the call to xfrm_init_replay() existed in
+>> > > common path with boolean protection. That caused to situation where
+>> > > we have two different function orders.
+>> > > 
+>> > > So let's rewrite the SA initialization flow to have same order for
+>> > > both in-kernel and user-space callers.
+>> > > 
+>> > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+>> > > ---
+>> > >  include/net/xfrm.h    |  3 +--
+>> > >  net/xfrm/xfrm_state.c | 22 ++++++++++------------
+>> > >  net/xfrm/xfrm_user.c  |  2 +-
+>> > >  3 files changed, 12 insertions(+), 15 deletions(-)
+>> > > 
+>> > > diff --git a/include/net/xfrm.h b/include/net/xfrm.h
+>> > > index 28355a5be5b9..58f8f7661ec4 100644
+>> > > --- a/include/net/xfrm.h
+>> > > +++ b/include/net/xfrm.h
+>> > > @@ -1770,8 +1770,7 @@ void xfrm_spd_getinfo(struct net *net, struct xfrmk_spdinfo *si);
+>> > >  u32 xfrm_replay_seqhi(struct xfrm_state *x, __be32 net_seq);
+>> > >  int xfrm_init_replay(struct xfrm_state *x, struct netlink_ext_ack *extack);
+>> > >  u32 xfrm_state_mtu(struct xfrm_state *x, int mtu);
+>> > > -int __xfrm_init_state(struct xfrm_state *x, bool init_replay,
+>> > > -		      struct netlink_ext_ack *extack);
+>> > > +int __xfrm_init_state(struct xfrm_state *x, struct netlink_ext_ack *extack);
+>> > >  int xfrm_init_state(struct xfrm_state *x);
+>> > >  int xfrm_input(struct sk_buff *skb, int nexthdr, __be32 spi, int encap_type);
+>> > >  int xfrm_input_resume(struct sk_buff *skb, int nexthdr);
+>> > > diff --git a/net/xfrm/xfrm_state.c b/net/xfrm/xfrm_state.c
+>> > > index 568fe8df7741..42799b0946a3 100644
+>> > > --- a/net/xfrm/xfrm_state.c
+>> > > +++ b/net/xfrm/xfrm_state.c
+>> > > @@ -3120,8 +3120,7 @@ u32 xfrm_state_mtu(struct xfrm_state *x, int mtu)
+>> > >  }
+>> > >  EXPORT_SYMBOL_GPL(xfrm_state_mtu);
+>> > >  
+>> > > -int __xfrm_init_state(struct xfrm_state *x, bool init_replay,
+>> > > -		      struct netlink_ext_ack *extack)
+>> > > +int __xfrm_init_state(struct xfrm_state *x, struct netlink_ext_ack *extack)
+>> > 
+>> > The whole point of having __xfrm_init_state was to
+>> > sepatate codepaths that need init_replay and those
+>> > who don't need it. That was a bandaid for something,
+>> > unfortunately I don't remenber for what.
+>> > 
+>> > If we don't need that anymore, maybe we can merge
+>> > __xfrm_init_state into xfrm_init_state, as it was
+>> > before.
+>> 
+>> Main difference between __xfrm_init_state and xfrm_init_state is that
+>> latter is called without extack, which doesn't exist in kernel path.
+>
+> That split happened ~ 15 years ago, we did not have extack back than.
+> But I'm also ok with keeping it if extack is a reason for it.
+>
+> Do you plan to respin, or should I take the patchset as is?
 
->With that in mind,=09
->
->Tested-by: Fan Ni <fan.ni@samsung.com>
->
->
->>
-[...]
->> --
->> 2.43.0
->>
+The best way will be if you can take this series as is.
 
-Thanks,
-Shiju
+>
+> Thanks!
