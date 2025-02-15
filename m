@@ -1,94 +1,90 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0611A5BB8;
-	Sat, 15 Feb 2025 16:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6011D89FA;
+	Sat, 15 Feb 2025 16:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739638143; cv=none; b=mzmlYIvRxcG8u1yBnT7EbVv1QKDRC/gBqRBAKVC365sa+VmzbmdkIqM+7UDcDMrhPhlhKSER1GyQyMCISR16C/Z5XEC1unZ2hPMnBIWAXmRt/FYfMotdJYS67iBxat/yEZyyRrlB3CRoQqILY+oy8f4G3oBGWaxTrM0BBoiJHCg=
+	t=1739638523; cv=none; b=hzC/Q4OXAD/RPPRZhdZM4zpbskXHKb0ys9+V5N6PqSRy9KAZR8dtNcbATrJlco58ONM3Ljxv2uY24EP9EjamdCMN6a49+cHWlHAa2/3ASF1SETcobUV9E85WSPvXuBHi1hYO6zMOFxZQoB2st2WOohX7eT+TCDlgAoG2JiYdC6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739638143; c=relaxed/simple;
-	bh=HVAL9ru94puSezllFDIDCoPNctSb1ZH+rX/U8puaa/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=afo5wFafz5lHHlVvtaeGmmfgZciTE5faIsozcvi1yBZpBhgvl/upjZTEoBn+KxV/YkzgUxT5ZODqIlc6IaZzZecnxz+GRHQ6H6v7OOcPr3lsmt8bZe2HyIX2JrPOeaj8CrUj8cAX6CECQ+fQGinraT9egRQLFtrIybeBWa6LZPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WjBMODwL; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1739638523; c=relaxed/simple;
+	bh=uy5cH16JsX4JeqEfRAx/FFIcMBDLoTmq8s1tlKdmEhc=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=N3fsLbd/tglMF2sVWnGUsVFpgBzzrja3AOtGCB/ueODL61zUlumnCAvc9WAh2HHCElyyRql5XQQJVjBUoEny5yxZE6VxZRaTRVEHT9AIGEYBU6NVLulgotk0DXMDZO78AcqBHlIgXFnbm1Fax3KzaG0kNyGVUScqr4Q71Tyzjvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hoa/mzmj; arc=none smtp.client-ip=209.85.167.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WjBMODwL"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22101839807so22809135ad.3;
-        Sat, 15 Feb 2025 08:49:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hoa/mzmj"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3f3d3bdb08eso1535899b6e.0;
+        Sat, 15 Feb 2025 08:55:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739638141; x=1740242941; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mPGJ9JBmiW7qtQ5ux5F+jqPk72bsvt4NMGySYgb6ZHU=;
-        b=WjBMODwLfBv5l3Njc0+i0zUfJYd/GrWb/TGQXre8Cf+UDb4VMUVS9ARiUj5WAzYa1J
-         siraPerBkEx++KXUXNbsvIMO/l8LM9Qd3GxJ8fhw6z6yb1Hh3NrRl3VvluNYlYJInFrh
-         vh98DSUm1THKYl4bkoygjM7Afk/S6oQf2Csu/qdXWf377tx4JmjZKtv+UuetW65AYOis
-         b3ZWJ8VAc3RgABqBBYkVgBf/nPtYxuwG4vAom191wbui5VrI6d9KkAJEUNYHtegSxIdv
-         8BedSRAwFZT91WG2zj/BCA1Qxiu+BLAWStyurRvasAoA09dMcU14DHhE4CIBrNYoJXYU
-         lNEw==
+        d=gmail.com; s=20230601; t=1739638521; x=1740243321; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fFgotg9MMog9YPyVCTVdN/A41r7u9eJzo/q5sMJJgW8=;
+        b=Hoa/mzmjsRbTVlojhp9UZXM1FE6F0iAgW6e5OfTeSAUkYkleV8QIgDZGebfCid1mH9
+         xlPHUmhIrY8oTSORj+s5uREmov3LPxlpgEF61Zqo3TPg0/YQLpUA2wwuZsdcoAU6k+7u
+         HYZ0lH4JuXavLNh0zgsKiGgL77h2yLd19H75UISi64oF3l5XCzRt4M/sQkaJmf39VQsv
+         OWRN8zffGQ18B1BcVn1BrI9RpCN9oRnbt+obWlb+9WQW3dBQGyHdZMvmHprs3mLRQIBB
+         IzA8u5PACPBBfaUrbjbxMVh2a1NVlFdMlX+HFJoVkgKKwhXl+KI0hD8pK/VNdL+zslCi
+         JjVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739638141; x=1740242941;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mPGJ9JBmiW7qtQ5ux5F+jqPk72bsvt4NMGySYgb6ZHU=;
-        b=Qvdsg6xvQ9Ql5G9UoBSHITYJZQ9nGDEoR6FW8hsZ/+TKiaZbNa73nUId9qkbkoKCwc
-         sOS/oE3Bzhs/kc1grrUenmaGccxOz8njyOtVdMZL4uPgxflLcZ5brP4c5tREX4tE7QT0
-         qqIQwhrzrbHYku+Z87D5UfF4mBOifXOc+PjSYbcD7kL6u6Rysh3FB7nqHFO7jQLoMHC2
-         9nM0aHBVNn4YciExM/ojf+ZvaOgbQ2NWKYJ4sGlE2UE8Iwj8FuyaEHbDWhwB8JttZ8gU
-         Ygd1sOI40eyI2z0SvKlY5ks+rh/cCevBHR4FVMc0mUnzxYpp8EUiJLzX6oQcG4kY30A/
-         uoHg==
-X-Forwarded-Encrypted: i=1; AJvYcCUiu1GOiOzMmQwiehtMgJrOTaHVrTvmLMh28Vtos7qQUxz9POCMe8y0e/A0mlmrkDfTpdRFpkTdWzY=@vger.kernel.org, AJvYcCWsyXtlgju7cmA8zhiVDoVwaM/ag3ovY0p881vYQFAMGv+oTeHw9UpHb2iknlAQ0I1OiFNLO8xZI5kgiR3U@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTiGLikfQj5t83RJEH+Ge3+rJn3nCX6rOpfdGFM76rRg7xf7x7
-	gUw3q5AmMaR/fAjEBOcgZ16Wr35NxoS09Hfvv/mOxtVaaDcw0yETyGNArA==
-X-Gm-Gg: ASbGnctJfIetu61aFtYJbklNHQUt5wgFS2j+RLlVXGWy5FDDxhvNFj0F7Y0OEkMb0cy
-	CuwBmjOvuEJZMsaETUpYtKrEGpXUjyoGW20En89IbcsLrr5ZLKRDELvyj6VWLYRUIBPMneq+cgo
-	zI1npowhYHndtFTSZ3Mn/xgWNRLCqDMV7ZcuZtNjuWVZbX86NsDKA6w9M4ifZkeRnEyXjy9jeyd
-	/+WI+YEuvJ1RFgpI2hK6aQVZWk4emNfsXsPIF1RtZBk2/Pk5qmlPGnCT+6cKItba5jO8yqSMG4x
-	hDmE6YE97tZEwE18v8ciXxyJqSxngHZfmXwsmjcnFfM=
-X-Google-Smtp-Source: AGHT+IEj8gf3+XYJPixhJpI54JGODKeCcZ9/YJAgyLMuO6i4t/LqgX+0Kq+mg2rqlz/+Saj1yYrOTg==
-X-Received: by 2002:a05:6a00:c87:b0:732:a24:7354 with SMTP id d2e1a72fcca58-7326177e6d2mr6184261b3a.4.1739638141249;
-        Sat, 15 Feb 2025 08:49:01 -0800 (PST)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7324277f388sm5231655b3a.174.2025.02.15.08.48.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Feb 2025 08:49:00 -0800 (PST)
-Date: Sun, 16 Feb 2025 00:48:56 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Yu-Chun Lin <eleanor15x@gmail.com>
-Cc: akpm@linux-foundation.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, jserv@ccns.ncku.edu.tw
-Subject: Re: [PATCH] Documentation/core-api: min_heap: update for variable
- types change
-Message-ID: <Z7DFeLANKM1X5uXR@visitorckw-System-Product-Name>
-References: <20250215155421.2010336-1-eleanor15x@gmail.com>
+        d=1e100.net; s=20230601; t=1739638521; x=1740243321;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fFgotg9MMog9YPyVCTVdN/A41r7u9eJzo/q5sMJJgW8=;
+        b=Aac4KTZHlvi8dBDNSkECS0HpIGBzNZskgKBVR3m9Yfx34GfHP9y/F3JdFj5F8d7lgA
+         ZecCQ+BvQ2ygUDRUSD1p3lS64QxJ0zTQt/BXPRQmf75pICXi9VcxfRN+PvkpM4bJ0Sgm
+         qAuQRRM8bcVMznNFt4H2htX9QygpTaGyKhWFJygX/+953zzgP3iMXk9LQ4VSoi/zyDY1
+         kWWbNb6G1CN9sQ9qx5I2XQRClO8AoyPo//jxwjLtJaOCZBWvLQp+DB2/j17qTrztDcVb
+         jC9O1JGbLy3JhoWc2xqMozSW9GCpevyXqQv4JyNoc6rin2852boBqBMxw3+k8/Hvcp7W
+         542g==
+X-Forwarded-Encrypted: i=1; AJvYcCUgK/6BEuiPgEslGFEdXIvmp2edj3KeGBMWsb846HJb95dZQz/APZPHnkX8E47MvIrTk2HsTLKPt20i/6qy@vger.kernel.org, AJvYcCXLjPgYdP9zOAiGjmJnOeI4C6lSFq6ozM+HgKlD8LK4o2+V88WMQZRg5G2yCdrRlhRnS/L1b3/dNI0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBFjfzqoey/Q1fm+rTuVZq9Si8GEIzTm4i8t1z+U5Yw3zM+/fs
+	+bfGd2alfU9dhEUDZmRV92giz2uzkjWgHJ3lbSnsh9Qjy5dqZ6K3+3hmsRfPsTtDH7ep/3VN/oU
+	aVzFOW3aCv/7VHc6UuuM+fy7yOtY=
+X-Gm-Gg: ASbGncuPGSLKSW+D3rPi1izAqRAXcn5BdN5EhjP+t2peObWVgzYse0PfP6k61j9sjMh
+	2IJ/L0yEdtP5SgVr9FvYxk/uREtbaPl4Gk7IUZdw4Z5CT2md1PG5BJ2fJ6EDQB+KmS+M4U1k=
+X-Google-Smtp-Source: AGHT+IGCeHqx4n/KP1WhydFUl06V5Mg/NgGju0fYq3OQFHyEYALKBBy4copQaMnqdqXEmQIOL1jxBiT1Y15BV84/x5Q=
+X-Received: by 2002:a05:6808:4496:b0:3f3:b657:cad0 with SMTP id
+ 5614622812f47-3f3eb0a42d4mr2338650b6e.4.1739638521092; Sat, 15 Feb 2025
+ 08:55:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250215155421.2010336-1-eleanor15x@gmail.com>
+From: Suchit K <suchitkarunakaran@gmail.com>
+Date: Sat, 15 Feb 2025 22:25:08 +0530
+X-Gm-Features: AWEUYZlnpn4Mw298NiG2Y9osPZ8n71VgEmJmjCOVRfOFQySR_9VyTWgb3KziY7g
+Message-ID: <CAO9wTFjW3i7C8wQEJ3kjdNMwQurs_bmAw8JN3rbsLVDuPFQ0mQ@mail.gmail.com>
+Subject: [PATCH] Documentation/mm: Fix spelling mistake
+To: akpm@linux-foundation.org, skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Feb 15, 2025 at 11:54:21PM +0800, Yu-Chun Lin wrote:
-> Update the documentation to reflect the change in variable types of
-> 'nr' and 'size' from 'int' to 'size_t', ensuring consistency with
-> commit dec6c0aac4fc ("lib min_heap: Switch to size_t").
-> 
-> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+The word watermark was misspelled as "watemark" in the balance.rst
+file. This commit corrects the spelling error.
+Signed-off-by: Suchit <suchitkarunakaran@gmail.com>
+---
+ Documentation/mm/balance.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-LGTM. Thanks for the patch.
+diff --git a/Documentation/mm/balance.rst b/Documentation/mm/balance.rst
+index abaa78561..c4962c89a 100644
+--- a/Documentation/mm/balance.rst
++++ b/Documentation/mm/balance.rst
+@@ -81,7 +81,7 @@ Page stealing from process memory and shm is done if
+stealing the page would
+ alleviate memory pressure on any zone in the page's node that has fallen below
+ its watermark.
 
-Acked-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-
-This reminds me that I have a patch to change 'int' to 'size_t' for
-indexes in min_heap.h, but it hasn't been merged yet. I'll find it and
-resend it.
-
-Regards,
-Kuan-Wei
+-watemark[WMARK_MIN/WMARK_LOW/WMARK_HIGH]/low_on_memory/zone_wake_kswapd: These
++watermark[WMARK_MIN/WMARK_LOW/WMARK_HIGH]/low_on_memory/zone_wake_kswapd: These
+ are per-zone fields, used to determine when a zone needs to be balanced. When
+ the number of pages falls below watermark[WMARK_MIN], the hysteric field
+ low_on_memory gets set. This stays set till the number of free pages becomes
+-- 
+2.48.1
