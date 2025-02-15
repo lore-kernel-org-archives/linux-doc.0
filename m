@@ -1,131 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF451624D3;
-	Sat, 15 Feb 2025 19:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7281F890D;
+	Sat, 15 Feb 2025 19:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739646272; cv=none; b=cbxYigX5iULanDMi+VNTLAJg4CJh9lP/xZHkRL0Gt/VJP/EWjvb9neHBvL8N+pjgjjYlSVv8Y3Z1J7X5nBry6i7PEkRvq2PQqCScvPNWKo578SJWuU53HcaDAp9U1HFqzQSl0P8nG+4F60joaB3k4rxoDUwcvUkq0RWl+MiU1Uk=
+	t=1739648128; cv=none; b=Tb7vS04yLoHk6jAQ3JGstEPe5I/NEipnWWhhEp7tfZBNPGfkXYCDz0G3NI5yXZJ3OhfA/PxHBmtwmq4yvuEELYcbOh7ytUy8lPCaONEedSoEJowKBfqyzdsam/Vk5eicClJ43MBQFjfoGZSb14QhjN64W94Nu7FjTMO5IZs3f/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739646272; c=relaxed/simple;
-	bh=Df2b8aVgJjFNJGQ3bD+jOZ3m5M4kbFV5KsneEFnbz1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G+gBBUtfdQ8MrKOfJZ+eIzWUhUgdlEc1M8VZevXxJytlxkUYDM16zknFq0FoD0S1ZTH9BqXitA3haaL8D+0/V3GtvQzgY2Bzkybwa7mr6dTuxjiaPKyyrVfF5+fHANtXmKk8vBo4ZbNIFF7IRhYe5tr0G5vF3Ul3sq5RPcQdONI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HOSb0Y5r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739648128; c=relaxed/simple;
+	bh=ikWYkDoin1yaKx3qdc9Z08RFLs1B9XJN0ceL+3+hyX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HQqivpsEmtsal/01jOHIZ2g1kyH2RFafNn6swoPE6qNjWxy2k/tQwhJ9EmQ9wY2/cZcVhS2MLb9aLRAEhYBm0pCNE3TNFlWWcw+3mItFD6nU2ax/H7yDJP/p5tArMd520fiIryLLz4nuF9+9mGnpu4RZ1zVvpYhBX7npFcxjyTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kbASNQqr; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HOSb0Y5r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D038CC4CEDF;
-	Sat, 15 Feb 2025 19:04:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739646271;
-	bh=Df2b8aVgJjFNJGQ3bD+jOZ3m5M4kbFV5KsneEFnbz1Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HOSb0Y5rS2c+iF55klymj6B0z0P3nkofcNiCgsMP5plndlLE+6Ux2rzZK9kiCXW0A
-	 8Xv9r5UvZhELq5KpOx3B3v+yWB5mCSwHcqK5aJtn5i9hYLs9s/hOsJ+NSMtxlU6Qzl
-	 SAmAb3QN87QQ4fNEWxSaL0jt3Bc2P5Unl9V11YdJZrVbuWkOxjDpNQv8aOVjjCDGEk
-	 BRrau+nibXXPqTvtcM4xYrX6rwfHPAQUZu1Sr7G6uCXWbwx3ZmngcvJqZYiyb0h0rq
-	 WO1T/S5i1kzxfiA2YYuU0zPyax6bsKZ3H6dUECjmFG8VpVNYCdjH2uRurDUOBQw58t
-	 V3Llh8KYjzaug==
-Date: Sat, 15 Feb 2025 11:04:28 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Song Yoong Siang <yoong.siang.song@intel.com>
-Cc: "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Willem de Bruijn <willemb@google.com>, Florian Bezdeka
- <florian.bezdeka@siemens.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Bjorn Topel <bjorn@kernel.org>, Magnus
- Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer
- <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, Joe Damato
- <jdamato@fastly.com>, Stanislav Fomichev <sdf@fomichev.me>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Mina Almasry <almasrymina@google.com>, Daniel
- Jurgens <danielj@nvidia.com>, Andrii Nakryiko <andrii@kernel.org>, Eduard
- Zingerman <eddyz87@gmail.com>, Mykola Lysenko <mykolal@fb.com>, Martin
- KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Hao Luo
- <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Shuah Khan
- <shuah@kernel.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose
- Abreu <joabreu@synopsys.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Faizal Rahim
- <faizal.abdul.rahim@linux.intel.com>, Choong Yong Liang
- <yong.liang.choong@linux.intel.com>, Bouska Zdenek
- <zdenek.bouska@siemens.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
- xdp-hints@xdp-project.net
-Subject: Re: [PATCH bpf-next v10 1/5] xsk: Add launch time hardware offload
- support to XDP Tx metadata
-Message-ID: <20250215110428.68f25c5e@kernel.org>
-In-Reply-To: <20250215110159.0c1888ae@kernel.org>
-References: <20250207021943.814768-1-yoong.siang.song@intel.com>
-	<20250207021943.814768-2-yoong.siang.song@intel.com>
-	<20250215110159.0c1888ae@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kbASNQqr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739648127; x=1771184127;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ikWYkDoin1yaKx3qdc9Z08RFLs1B9XJN0ceL+3+hyX4=;
+  b=kbASNQqrApk23tCrQpQsEiaCglf9Gs2r66qZq4IoFFSzBCRDsRueTOYW
+   GQace4MEY+cYK9ZCiJ1+hMdzzXtsDJe5h4uzaxQWZ4aP5AZZ2bvXdeWPw
+   P/PZrfzVwKsv5214x7H1+QBhO1G2ujoy0q/93wxYxE+p/fZdDLLgicTlD
+   o8XsDd6EbfwU5hIRQnApa8o89H+wcn0rjvJ9FpdYkbLS/CygGKYJe+96Z
+   RX2edhRdqqo+GeaWGT997Tl0PbfFokkVupgf4LxjHxY+d1awQekHdwHW4
+   62wZMCYuXon8VLqlDdzop7N2G3zbuvYvqWLOq7HAejygRwMnwgmbV3TOD
+   Q==;
+X-CSE-ConnectionGUID: OzLBNtRoSLiUxEyDZTx/aQ==
+X-CSE-MsgGUID: 4vWYEFD2QI6sGivwMEJQDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="51356940"
+X-IronPort-AV: E=Sophos;i="6.13,289,1732608000"; 
+   d="scan'208";a="51356940"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 11:35:27 -0800
+X-CSE-ConnectionGUID: ykA1mrAHR3eNTeriF7hLMA==
+X-CSE-MsgGUID: p5CXGFyMQL+UMtGLPwtkFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="136972271"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 15 Feb 2025 11:35:23 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tjNwe-001B7N-2f;
+	Sat, 15 Feb 2025 19:35:20 +0000
+Date: Sun, 16 Feb 2025 03:34:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Esteban Blanc <eblanc@baylibre.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Esteban Blanc <eblanc@baylibre.com>
+Subject: Re: [PATCH v4 3/6] iio: adc: ad4030: add averaging support
+Message-ID: <202502160351.NQfCUpV9-lkp@intel.com>
+References: <20250214-eblanc-ad4630_v1-v4-3-135dd66cab6a@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250214-eblanc-ad4630_v1-v4-3-135dd66cab6a@baylibre.com>
 
-On Sat, 15 Feb 2025 11:01:59 -0800 Jakub Kicinski wrote:
-> On Fri,  7 Feb 2025 10:19:39 +0800 Song Yoong Siang wrote:
-> > Extend the XDP Tx metadata framework so that user can requests launch time
-> > hardware offload, where the Ethernet device will schedule the packet for
-> > transmission at a pre-determined time called launch time. The value of
-> > launch time is communicated from user space to Ethernet driver via
-> > launch_time field of struct xsk_tx_metadata.  
-> 
-> Acked-by: Jakub Kicinski <kuba@kernel.org>
+Hi Esteban,
 
-Sorry, I take that back, you haven't regenerated the code after
-renaming the flag:
+kernel test robot noticed the following build errors:
 
-diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
-index fc0aa971d276..b97ff8bbb0c6 100644
---- a/include/uapi/linux/netdev.h
-+++ b/include/uapi/linux/netdev.h
-@@ -59,13 +59,13 @@ enum netdev_xdp_rx_metadata {
-  *   by the driver.
-  * @NETDEV_XSK_FLAGS_TX_CHECKSUM: L3 checksum HW offload is supported by the
-  *   driver.
-- * @NETDEV_XSK_FLAGS_LAUNCH_TIME: Launch Time HW offload is supported by the
-- *   driver.
-+ * @NETDEV_XSK_FLAGS_TX_LAUNCH_TIME_FIFO: Launch time HW offload is supported
-+ *   by the driver.
-  */
- enum netdev_xsk_flags {
-        NETDEV_XSK_FLAGS_TX_TIMESTAMP = 1,
-        NETDEV_XSK_FLAGS_TX_CHECKSUM = 2,
--       NETDEV_XSK_FLAGS_LAUNCH_TIME = 4,
-+       NETDEV_XSK_FLAGS_TX_LAUNCH_TIME_FIFO = 4,
- };
- 
- enum netdev_queue_type {
-diff --git a/tools/include/uapi/linux/netdev.h b/tools/include/uapi/linux/netdev.h
-index fc0aa971d276..b97ff8bbb0c6 100644
---- a/tools/include/uapi/linux/netdev.h
-+++ b/tools/include/uapi/linux/netdev.h
-@@ -59,13 +59,13 @@ enum netdev_xdp_rx_metadata {
-  *   by the driver.
-  * @NETDEV_XSK_FLAGS_TX_CHECKSUM: L3 checksum HW offload is supported by the
-  *   driver.
-- * @NETDEV_XSK_FLAGS_LAUNCH_TIME: Launch Time HW offload is supported by the
-- *   driver.
-+ * @NETDEV_XSK_FLAGS_TX_LAUNCH_TIME_FIFO: Launch time HW offload is supported
-+ *   by the driver.
-  */
- enum netdev_xsk_flags {
-        NETDEV_XSK_FLAGS_TX_TIMESTAMP = 1,
-        NETDEV_XSK_FLAGS_TX_CHECKSUM = 2,
--       NETDEV_XSK_FLAGS_LAUNCH_TIME = 4,
-+       NETDEV_XSK_FLAGS_TX_LAUNCH_TIME_FIFO = 4,
- };
- 
- enum netdev_queue_type {
+[auto build test ERROR on a64dcfb451e254085a7daee5fe51bf22959d52d3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Esteban-Blanc/dt-bindings-iio-adc-add-ADI-ad4030-ad4630-and-ad4632/20250214-202727
+base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
+patch link:    https://lore.kernel.org/r/20250214-eblanc-ad4630_v1-v4-3-135dd66cab6a%40baylibre.com
+patch subject: [PATCH v4 3/6] iio: adc: ad4030: add averaging support
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250216/202502160351.NQfCUpV9-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502160351.NQfCUpV9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502160351.NQfCUpV9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/iio/adc/ad4030.c:375:13: error: assigning to 'struct iio_scan_type *' from 'const struct iio_scan_type *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     375 |                 scan_type = iio_get_current_scan_type(indio_dev,
+         |                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     376 |                                                       st->chip->channels);
+         |                                                       ~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +375 drivers/iio/adc/ad4030.c
+
+   365	
+   366	static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
+   367					 struct iio_chan_spec const *chan,
+   368					 int *val,
+   369					 int *val2)
+   370	{
+   371		struct ad4030_state *st = iio_priv(indio_dev);
+   372		struct iio_scan_type *scan_type;
+   373	
+   374		if (chan->differential) {
+ > 375			scan_type = iio_get_current_scan_type(indio_dev,
+   376							      st->chip->channels);
+   377			*val = (st->vref_uv * 2) / MILLI;
+   378			*val2 = scan_type->realbits;
+   379			return IIO_VAL_FRACTIONAL_LOG2;
+   380		}
+   381	
+   382		*val = st->vref_uv / MILLI;
+   383		*val2 = chan->scan_type.realbits;
+   384		return IIO_VAL_FRACTIONAL_LOG2;
+   385	}
+   386	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
