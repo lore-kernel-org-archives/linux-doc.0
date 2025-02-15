@@ -1,92 +1,130 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BC11519A7;
-	Sat, 15 Feb 2025 18:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9861624D3;
+	Sat, 15 Feb 2025 19:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739642871; cv=none; b=apdU/Ql0RMJLfxW4IHfBXxylN5w5w7KsD39WKDCUTuXTiiDHof++pmvNVHVC0E83+sEf0cQbQgLfCx0bDjyygOjKayPbfcCFZSqZUeEzhIPhXlcuzg98JJdLQWqZZRcdtUtzNvlsOu5oLA63tDGHjuR6lszLaqf4qnckWmK4Pnw=
+	t=1739646086; cv=none; b=Ohm5oOGvo4CL1Pwp20hRg5YzCV0tMECeafzkHm9EQHOSVDV5hNpxGvw2TVWzhop+cYhXBBp+0iMwuEP6TvtaVs0MiMIrHU/e3rg0rjWhRR+LZlcpis5lz/gP7dqxbndFXTRCw7eRDgqX0UqVOzs8NobpDa+XJP13BoBRJSjp22o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739642871; c=relaxed/simple;
-	bh=27ihcGwNfhMOX6VMaeABMmzgHM6w++DatbE/dq/QeRg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JrQAizxkChUNWX0aDdPlM+nCbmaEhUf0j7JhReF8/+a154bz16KH5eymapBDdC/C69R1ukcsfVQcK/kZ/lClPJYVkcgE7huAYiend9T1Vfm5H461pxn2LK+KmgEiD6cG7kc1d/gIEYIaAVmdXo+uDezNL5quTxxPpqRClwyuv5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uy1dbCmC; arc=none smtp.client-ip=209.85.167.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739646086; c=relaxed/simple;
+	bh=n2T5ALAvOjzcLfMUoAUQzDS5Pil5vEK2a1j8TFhdPwc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G0u6O+lNVwTGeMcYAoDeahsoV2Q0rqLwXGNBQ/+TI0pFLO9aTE9a1eKUfYnhZz9X8fgQT+SsKMl2FDcy9aSbB5WkFaJGVlSrXjyN2aKrlDojjgX198u2K3idHvbuKRIp55kBE85sfgmAK0luAub01QpGmiu39D5E+kZQUb09r/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SYxAA92b; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uy1dbCmC"
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3f3d9348251so1993006b6e.0;
-        Sat, 15 Feb 2025 10:07:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739642868; x=1740247668; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PKiFbJxF4Rgzv9Phfm+fANcxT01MHoDXmdNdQTptkMU=;
-        b=Uy1dbCmCQLIt+gply96rAV/LII6lTLCQtApzmU44SzO//K+Oj1USWLnlxrUG/dX2DR
-         jVm12PcZVTtqA+PKI291bhqUE9lDhYR5icGJMJBt5wtOENv+ksQ15TU2l/CJv6JKxt+Q
-         rbI6a5CRsnqQ68ChMztcvF17z6Fk3gcQGYujo7JhbZ39uDhQM0LN5rXAvn7PGC27aysQ
-         nYbtY6EnoYNHBLWiH1C3ij4UaVS5iJIAaMZ3Zt+y0yoyoiHTGT9HNzUyT9Sk9pvoJA44
-         Zm4NSPrLmIi+013ZVuK8ehgmO7pFVmQ4/IWpIcG5f5zqGx6pt7G4VNaRmJhvOhc7OJB/
-         z8xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739642868; x=1740247668;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PKiFbJxF4Rgzv9Phfm+fANcxT01MHoDXmdNdQTptkMU=;
-        b=Ki9BvbVhbyAwtmZoBtyvefYmEpp38rpuONygkLfGO7uo67Vr+gBTEZKl5w5zq2xVf+
-         02OxExbDcw1A7LTsHuqfS9XBV2HaczmtP+8xkUw1Ad5q/kRbyLP2GLwYS2sbP7Of8Tor
-         dkDuSqIl+1zMfGHM4eQBDUuWEuvHEOmpyR7ljEtpPy9b9PayR8YuLhI6YeitBokgUYYB
-         85pLiD4U6eV8qQrLaib8IzBfZF4MHKmesJjYZvsFDVbixzqcvOPSqAhud/W5kO/4rffX
-         +k7DWqdy4COqKacDgeJMDpeH+tLJBwQEwCIXQbSwKdD2ILmIcClPROt3A0t/4RajpYg7
-         abhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV246sVXQtYths6dpP4xdJ3tuJbRvYayW3B92St05o9DcFwbGrdPO2Z0QPGuZxeps5FwBp6MOktZQM=@vger.kernel.org, AJvYcCVTCWCoCKSXW4I9A99w5KEV9ir+TmeHcvwO5mDmx2HCIDIujD8HRTUTkF69bnAJJd8X3NqmaVdx3hJ7qFxE@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFuu1+5YGYAE2KLLaufXbd+Xl319tR0w2x8RvtReAL5CTARiqT
-	KhRSaYS0/1ef6JuAqKiOdnEQ3E62Uil7+zkDfJGFpO49rU9uEeEnEqrwPVuRN7IXcKLM8po1kZQ
-	rYWoqtaG5kVumIpXMmIwXJpNrePo=
-X-Gm-Gg: ASbGnctRXyt99HHTVphwfrefFH87Fqe3484W+4VTTlCbznBK2Sg0Bqg66cRLwMNuV0D
-	T8XY+PfFIEWpWj4IclJfJS52dO8P/jpSVT/AY67gvaD4/WWF/UGNHF4tAXJpdsJ9ZqmDQOkdQRo
-	oJXcnj9GTHZioXAA==
-X-Google-Smtp-Source: AGHT+IEx5XmUNpapb32FPHN9D0DNU46AjpMk6k4efoTko1Wr4g+bLxj/u7aqTsFdIk4at+JRnBNAqBmm0wLqxdZof+U=
-X-Received: by 2002:a05:6808:17a7:b0:3eb:66d7:a345 with SMTP id
- 5614622812f47-3f3eb1736d6mr1977430b6e.39.1739642867013; Sat, 15 Feb 2025
- 10:07:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SYxAA92b"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739646084; x=1771182084;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n2T5ALAvOjzcLfMUoAUQzDS5Pil5vEK2a1j8TFhdPwc=;
+  b=SYxAA92bwBAKd7ikL8uHL0XMGdrM936Zunf+dsIp/uRu93KEZHyAaPtu
+   UcVsxSzrL6qt9ojlByJm/ptaiSEQ0MAyc/JQsVB19Y3f+hd6YQCxkdf63
+   sElI0Z9itucEsWK/ZJj+Tn2VFL3c2lkREeRI4a1mQqg2mwTYFxiF6a7F4
+   X0LeykQf4CcOKIZaalMNVoJzLIPEWnxB7uNyBOzveneCO9Wan0Kq0+t9g
+   ut9dQAVL/OOAaK/kG//gLBn+0DRHztHLGchfiEk7LwrahefJ86XYQ8saW
+   QQr36DBGVtof+UxZMmcxL97KvqvsIl8TuG9yblMewAn9OREMjvmOEu+CZ
+   w==;
+X-CSE-ConnectionGUID: hdR84jj3RP2sPtuS8OeY/w==
+X-CSE-MsgGUID: R9DeAuqdQkGzlRBlS9eOuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="44306130"
+X-IronPort-AV: E=Sophos;i="6.13,289,1732608000"; 
+   d="scan'208";a="44306130"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 11:01:23 -0800
+X-CSE-ConnectionGUID: fJ40fCTkSL6yxIi6UPX3jw==
+X-CSE-MsgGUID: E8f7gK+JSIG+E9h2IMF7vQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,289,1732608000"; 
+   d="scan'208";a="113618487"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 15 Feb 2025 11:01:19 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tjNPh-001B63-1m;
+	Sat, 15 Feb 2025 19:01:17 +0000
+Date: Sun, 16 Feb 2025 03:00:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Esteban Blanc <eblanc@baylibre.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Esteban Blanc <eblanc@baylibre.com>
+Subject: Re: [PATCH v4 3/6] iio: adc: ad4030: add averaging support
+Message-ID: <202502160240.IoVS8Klu-lkp@intel.com>
+References: <20250214-eblanc-ad4630_v1-v4-3-135dd66cab6a@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAO9wTFiZ8wyangitV6RZLYiL5yF5CV1eRXYYzJKhXyP2UvGDJQ@mail.gmail.com>
- <87tt8vunmv.fsf@trenco.lwn.net> <CAO9wTFiUW42yKGaZDQD=CR5f2pmjLNQfJcd81+gargstGVrF8g@mail.gmail.com>
- <87ldu7umjp.fsf@trenco.lwn.net>
-In-Reply-To: <87ldu7umjp.fsf@trenco.lwn.net>
-From: Suchit K <suchitkarunakaran@gmail.com>
-Date: Sat, 15 Feb 2025 23:37:35 +0530
-X-Gm-Features: AWEUYZm1mlF2nvmEzJhCqnl6Y7YioGfG-IzgjtzA9oLBXLkhV8_Qpf-8U0uT6uY
-Message-ID: <CAO9wTFi+T3jzgEZk97SRBaEWUYWO00YZFi3amrOV=GwZkt-vRQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/mm: Fix spelling mistake
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: akpm@linux-foundation.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250214-eblanc-ad4630_v1-v4-3-135dd66cab6a@baylibre.com>
 
-I'm sorry about sending HTML content again. I've configured my email
-client to use plain text mode now. Once again, thanks for your
-understanding and patience.
+Hi Esteban,
 
-On Sat, 15 Feb 2025 at 23:18, Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Suchit K <suchitkarunakaran@gmail.com> writes:
->
-> > Hi Jon. Thanks for the suggestions. I initially sent HTML content so
-> > it was rejected and had to send it in plain text again.
->
-> When you resend, please always say why.  Meanwhile, though, you have not
-> yet succeeded in sending plain-text-only email.
->
-> Thanks,
->
-> jon
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a64dcfb451e254085a7daee5fe51bf22959d52d3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Esteban-Blanc/dt-bindings-iio-adc-add-ADI-ad4030-ad4630-and-ad4632/20250214-202727
+base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
+patch link:    https://lore.kernel.org/r/20250214-eblanc-ad4630_v1-v4-3-135dd66cab6a%40baylibre.com
+patch subject: [PATCH v4 3/6] iio: adc: ad4030: add averaging support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250216/202502160240.IoVS8Klu-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502160240.IoVS8Klu-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502160240.IoVS8Klu-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/iio/adc/ad4030.c: In function 'ad4030_get_chan_scale':
+>> drivers/iio/adc/ad4030.c:375:27: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     375 |                 scan_type = iio_get_current_scan_type(indio_dev,
+         |                           ^
+
+
+vim +/const +375 drivers/iio/adc/ad4030.c
+
+   365	
+   366	static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
+   367					 struct iio_chan_spec const *chan,
+   368					 int *val,
+   369					 int *val2)
+   370	{
+   371		struct ad4030_state *st = iio_priv(indio_dev);
+   372		struct iio_scan_type *scan_type;
+   373	
+   374		if (chan->differential) {
+ > 375			scan_type = iio_get_current_scan_type(indio_dev,
+   376							      st->chip->channels);
+   377			*val = (st->vref_uv * 2) / MILLI;
+   378			*val2 = scan_type->realbits;
+   379			return IIO_VAL_FRACTIONAL_LOG2;
+   380		}
+   381	
+   382		*val = st->vref_uv / MILLI;
+   383		*val2 = chan->scan_type.realbits;
+   384		return IIO_VAL_FRACTIONAL_LOG2;
+   385	}
+   386	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
