@@ -1,104 +1,94 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB78B672;
-	Sat, 15 Feb 2025 15:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0611A5BB8;
+	Sat, 15 Feb 2025 16:49:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739634874; cv=none; b=mQOxo8ayAPRz7z2ZnpAQSQTagIaMyX+AWqiCFgK/tRoQG7yd0C5zfZA5aQN2TK39FkYa2Q7rBYhpkKfnY0/zg9JhSQAneVzZaavwRTOzjPfjYaC0j69ehQZbXmrxcpkD77b+TpkGzkStguN6U/F8MHn2ZCV/XYTR2zKm9QmJcQo=
+	t=1739638143; cv=none; b=mzmlYIvRxcG8u1yBnT7EbVv1QKDRC/gBqRBAKVC365sa+VmzbmdkIqM+7UDcDMrhPhlhKSER1GyQyMCISR16C/Z5XEC1unZ2hPMnBIWAXmRt/FYfMotdJYS67iBxat/yEZyyRrlB3CRoQqILY+oy8f4G3oBGWaxTrM0BBoiJHCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739634874; c=relaxed/simple;
-	bh=26GYFrHbr7JggtvPQTzzFsKlQey/lVDmwjCdKwDC8b4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VrW2FA7oibmXHltGLLM7FEJi5GZZWHwFIXs7h26TpKC/p+OdRDNsTqDomNTQNBbi91BiHNXGxYn4/QKZSbcTnDm7807bG/FVNRc6+PeZ55wrlu5xg8TdfzttGmEMkFcl4PSV9u/sid4sezydr79nX7tdm+pvjakFCKQ8ITMo2ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MlP7JuCb; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1739638143; c=relaxed/simple;
+	bh=HVAL9ru94puSezllFDIDCoPNctSb1ZH+rX/U8puaa/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=afo5wFafz5lHHlVvtaeGmmfgZciTE5faIsozcvi1yBZpBhgvl/upjZTEoBn+KxV/YkzgUxT5ZODqIlc6IaZzZecnxz+GRHQ6H6v7OOcPr3lsmt8bZe2HyIX2JrPOeaj8CrUj8cAX6CECQ+fQGinraT9egRQLFtrIybeBWa6LZPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WjBMODwL; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MlP7JuCb"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-220bff984a0so53573855ad.3;
-        Sat, 15 Feb 2025 07:54:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WjBMODwL"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22101839807so22809135ad.3;
+        Sat, 15 Feb 2025 08:49:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739634873; x=1740239673; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5qpP+HFn0u8S2m2Ngj2udrNOWfIGZJrWyc92xDPpz1k=;
-        b=MlP7JuCbZO9kwAb+20yxbXjovzH6YWsxpp4crYC7f/qmIhq3/k0CiE/1cQtQx04Q8u
-         rtLPmxWuWOWF3XVALfOtA7S7Baj2ENbAcjxOLPWMbZ75Eol+PuB3XFS4aWhYcjtkGhiE
-         gkFIKkhN++cqkkq4lS9KJpxkXjkhDRg8lAvDoc7CWXajl/sVzNNff/Y74cucihAgn9iS
-         EdXrVT8SDfzazF+x3osdJ0S9AFm6hbZxJL2SBbOqZN5wNHIy4fbhqv/PylarSmmrrk6T
-         7Bmp/FDW6CSTmgw32C2qKePR1kbFyTHMpsGQb0eso+dvGA+TQe26u0y9p7P5URmrwPLF
-         dgug==
+        d=gmail.com; s=20230601; t=1739638141; x=1740242941; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mPGJ9JBmiW7qtQ5ux5F+jqPk72bsvt4NMGySYgb6ZHU=;
+        b=WjBMODwLfBv5l3Njc0+i0zUfJYd/GrWb/TGQXre8Cf+UDb4VMUVS9ARiUj5WAzYa1J
+         siraPerBkEx++KXUXNbsvIMO/l8LM9Qd3GxJ8fhw6z6yb1Hh3NrRl3VvluNYlYJInFrh
+         vh98DSUm1THKYl4bkoygjM7Afk/S6oQf2Csu/qdXWf377tx4JmjZKtv+UuetW65AYOis
+         b3ZWJ8VAc3RgABqBBYkVgBf/nPtYxuwG4vAom191wbui5VrI6d9KkAJEUNYHtegSxIdv
+         8BedSRAwFZT91WG2zj/BCA1Qxiu+BLAWStyurRvasAoA09dMcU14DHhE4CIBrNYoJXYU
+         lNEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739634873; x=1740239673;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5qpP+HFn0u8S2m2Ngj2udrNOWfIGZJrWyc92xDPpz1k=;
-        b=Bbqbk76G4dWMdTNroWtfQJ7N6D1Lh6cuT425SFwF61Tx9e3YyE+2pP5O9Y72mD2L5z
-         9rqTm7980lH6ATnk5QOZsAm0DADok2qUguRpxKEgyvAcXAEwSJo1x3+30k4PAR5saWJ0
-         /vg5WOuUo8fjDLYZPLLCFKEYXPlGSaQXgRE6c2d1QMO3MKATC5vYJPc7d9XJIvMSyGI+
-         OFdIYMYYS6k8G/Gbt+l3ktvMbcDx6Rs5SQEbrAgoXPE5ogZDCV6UOGtqtIvDJQIx5N9R
-         uP1U6pNLfFiuiA5c2Rft2/3fJwIEQqEmrw20lvS1zeWmUFh2o0r9KEc2KO5OfNOwixY+
-         w6IA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqz4bWppk3L1cfnqSM/DSDHks9SBcRCO0V9+i7PW3ffQacGQn0nAj7YEh4u5eIsZn/59EvL7zv+eY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEhJlcFuaNx5V6VlUKqSgqI0P4M6jh7Z00OciP2M4eoWq/UG/r
-	E7iJ0z2otuXE7HQkuKPes9jtCcORQ6wC7ysEnY+XV74/rOpt3YCc
-X-Gm-Gg: ASbGncvc0olO0In0uedDT2Slx/qRi+YzHsbTFn5BhgKBYIfqL2sYPAgWGQTVeCs7YjS
-	0rjiIf7NEVhYD41KVltdQX1mISHeHPuKwaTxhuyAOIl1eONmBu6PVdS+JGC/YQmYLtd2wawFvnz
-	Gi9YhXuKMMM2WY+vHPwRXTe1KuSvnWTwv62yTLg5NWSpQvbPk30j6iVLby6oktqFYB3doLuZRGc
-	mGT9vEU165e4vyENETS5Gmwts9J7o4Qa0akIImgcERUwtP1/qGUSyZzpx9LTafVIz6gfvofEBU3
-	FGBlnJ2TwQQuL/xAzG1X
-X-Google-Smtp-Source: AGHT+IFAPKdfxucRBcn45GGdfBU8PyxpnyKhZaNIMTaIZpbuVMsg2IsHifoUa5smmNzE8SEk/2/gng==
-X-Received: by 2002:a17:903:2ac8:b0:21f:3e2d:7d41 with SMTP id d9443c01a7336-22103efec37mr40681135ad.11.1739634872547;
-        Sat, 15 Feb 2025 07:54:32 -0800 (PST)
-Received: from eleanor-wkdl.. ([140.116.96.205])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d53492d0sm45286395ad.35.2025.02.15.07.54.30
+        d=1e100.net; s=20230601; t=1739638141; x=1740242941;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mPGJ9JBmiW7qtQ5ux5F+jqPk72bsvt4NMGySYgb6ZHU=;
+        b=Qvdsg6xvQ9Ql5G9UoBSHITYJZQ9nGDEoR6FW8hsZ/+TKiaZbNa73nUId9qkbkoKCwc
+         sOS/oE3Bzhs/kc1grrUenmaGccxOz8njyOtVdMZL4uPgxflLcZ5brP4c5tREX4tE7QT0
+         qqIQwhrzrbHYku+Z87D5UfF4mBOifXOc+PjSYbcD7kL6u6Rysh3FB7nqHFO7jQLoMHC2
+         9nM0aHBVNn4YciExM/ojf+ZvaOgbQ2NWKYJ4sGlE2UE8Iwj8FuyaEHbDWhwB8JttZ8gU
+         Ygd1sOI40eyI2z0SvKlY5ks+rh/cCevBHR4FVMc0mUnzxYpp8EUiJLzX6oQcG4kY30A/
+         uoHg==
+X-Forwarded-Encrypted: i=1; AJvYcCUiu1GOiOzMmQwiehtMgJrOTaHVrTvmLMh28Vtos7qQUxz9POCMe8y0e/A0mlmrkDfTpdRFpkTdWzY=@vger.kernel.org, AJvYcCWsyXtlgju7cmA8zhiVDoVwaM/ag3ovY0p881vYQFAMGv+oTeHw9UpHb2iknlAQ0I1OiFNLO8xZI5kgiR3U@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTiGLikfQj5t83RJEH+Ge3+rJn3nCX6rOpfdGFM76rRg7xf7x7
+	gUw3q5AmMaR/fAjEBOcgZ16Wr35NxoS09Hfvv/mOxtVaaDcw0yETyGNArA==
+X-Gm-Gg: ASbGnctJfIetu61aFtYJbklNHQUt5wgFS2j+RLlVXGWy5FDDxhvNFj0F7Y0OEkMb0cy
+	CuwBmjOvuEJZMsaETUpYtKrEGpXUjyoGW20En89IbcsLrr5ZLKRDELvyj6VWLYRUIBPMneq+cgo
+	zI1npowhYHndtFTSZ3Mn/xgWNRLCqDMV7ZcuZtNjuWVZbX86NsDKA6w9M4ifZkeRnEyXjy9jeyd
+	/+WI+YEuvJ1RFgpI2hK6aQVZWk4emNfsXsPIF1RtZBk2/Pk5qmlPGnCT+6cKItba5jO8yqSMG4x
+	hDmE6YE97tZEwE18v8ciXxyJqSxngHZfmXwsmjcnFfM=
+X-Google-Smtp-Source: AGHT+IEj8gf3+XYJPixhJpI54JGODKeCcZ9/YJAgyLMuO6i4t/LqgX+0Kq+mg2rqlz/+Saj1yYrOTg==
+X-Received: by 2002:a05:6a00:c87:b0:732:a24:7354 with SMTP id d2e1a72fcca58-7326177e6d2mr6184261b3a.4.1739638141249;
+        Sat, 15 Feb 2025 08:49:01 -0800 (PST)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7324277f388sm5231655b3a.174.2025.02.15.08.48.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Feb 2025 07:54:32 -0800 (PST)
-From: Yu-Chun Lin <eleanor15x@gmail.com>
-To: akpm@linux-foundation.org,
-	visitorckw@gmail.com,
-	corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	jserv@ccns.ncku.edu.tw,
-	Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH] Documentation/core-api: min_heap: update for variable types change
-Date: Sat, 15 Feb 2025 23:54:21 +0800
-Message-ID: <20250215155421.2010336-1-eleanor15x@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sat, 15 Feb 2025 08:49:00 -0800 (PST)
+Date: Sun, 16 Feb 2025 00:48:56 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Yu-Chun Lin <eleanor15x@gmail.com>
+Cc: akpm@linux-foundation.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, jserv@ccns.ncku.edu.tw
+Subject: Re: [PATCH] Documentation/core-api: min_heap: update for variable
+ types change
+Message-ID: <Z7DFeLANKM1X5uXR@visitorckw-System-Product-Name>
+References: <20250215155421.2010336-1-eleanor15x@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250215155421.2010336-1-eleanor15x@gmail.com>
 
-Update the documentation to reflect the change in variable types of
-'nr' and 'size' from 'int' to 'size_t', ensuring consistency with
-commit dec6c0aac4fc ("lib min_heap: Switch to size_t").
+On Sat, Feb 15, 2025 at 11:54:21PM +0800, Yu-Chun Lin wrote:
+> Update the documentation to reflect the change in variable types of
+> 'nr' and 'size' from 'int' to 'size_t', ensuring consistency with
+> commit dec6c0aac4fc ("lib min_heap: Switch to size_t").
+> 
+> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
 
-Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
----
- Documentation/core-api/min_heap.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+LGTM. Thanks for the patch.
 
-diff --git a/Documentation/core-api/min_heap.rst b/Documentation/core-api/min_heap.rst
-index 683bc6d09f00..9f57766581df 100644
---- a/Documentation/core-api/min_heap.rst
-+++ b/Documentation/core-api/min_heap.rst
-@@ -47,8 +47,8 @@ Example:
- 
-     #define MIN_HEAP_PREALLOCATED(_type, _name, _nr)
-     struct _name {
--        int nr;         /* Number of elements in the heap */
--        int size;       /* Maximum number of elements that can be held */
-+        size_t nr;         /* Number of elements in the heap */
-+        size_t size;       /* Maximum number of elements that can be held */
-         _type *data;    /* Pointer to the heap data */
-         _type preallocated[_nr];  /* Static preallocated array */
-     }
--- 
-2.43.0
+Acked-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 
+This reminds me that I have a patch to change 'int' to 'size_t' for
+indexes in min_heap.h, but it hasn't been merged yet. I'll find it and
+resend it.
+
+Regards,
+Kuan-Wei
