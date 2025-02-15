@@ -1,65 +1,65 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FAB1C8622
-	for <linux-doc@vger.kernel.org>; Sat, 15 Feb 2025 13:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671D0623
+	for <linux-doc@vger.kernel.org>; Sat, 15 Feb 2025 13:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739624526; cv=none; b=mjmDKgt24x8gPuRNZpuO+0vvwAMB/zDH9G1q0NjJ4rEijbljNRPXncBClBFKeNTtOyYwaYD2cZEkbo6EUoU1Vqzmkj5uOa/omW1wPVOxvwKl90ULtg43Ufcl59NxUL3onO2PLBdXgiVDBMSlOpk9rL3bK5i6pDChdi4KqeaWRzI=
+	t=1739624767; cv=none; b=OnxS31xB0LVSC/Pn7CAl59JGONNVo4m5eI0JyO4Txi91RrGLrcZNjFc+wPwsJjWd5ZWFEaMBtsMggBSPSugADHG5OB+zbn4boP7FEI8bBHle5lYZxINV15yOaOxMwh5//j/k1VqUtA802RnciU7xm5wI5lc+0WQw9wWYtXGXDxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739624526; c=relaxed/simple;
-	bh=pNpqUiamZ9dzTnpgPJdYJAKOpDBLeZW7fnoSXdVQ0Oc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Jz2z6P4Y7aRavy93PYFyTkDWLT1hvm2rDXBVF/6rUw0JJ6KTzUANo/JK3kMzC0iBpxMUuuhGStBK/tE9XIo5CUZYnPeZo3nQw91Qkt+oJett/dsiZNFvPP1y+L1OqpRFXpJjxO8b1vdtOIubSVXCVj9KXikvonZ/DLoh/OfbpUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XKPFFvM2; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1739624767; c=relaxed/simple;
+	bh=LegW7uNViCWJ35+t2kn55rkZlppdNRxTGCe7C3E8QXY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=moInDaMoD0Q2ytg1/3I8q+x1mt0Wp2HPAsdTSJ0bNTCoQrKx3Rim1r9KSioLr+1bJgJXGxtzJmWNNmrZmrGqmXD3S6RyUr6/5dGLhPGarfOoHIhkI+UYHAzgoWOwh0PKqR0IFCTvPtK7cvxMe3EWStttIcHkOggkeRvBoC2Vu68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=twkzlFMg; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XKPFFvM2"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43935d1321aso2200945e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 15 Feb 2025 05:02:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="twkzlFMg"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-38f31b65058so179204f8f.1
+        for <linux-doc@vger.kernel.org>; Sat, 15 Feb 2025 05:06:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739624521; x=1740229321; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1739624764; x=1740229564; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
+         :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=RR/GHUMHBjoRr6SKp1D1VZVvMK6Rk4ChRoLAcy+7yFQ=;
-        b=XKPFFvM2H8umov4k3DcblYrLFytcv64PQqcpIXGIFKZtSxvNFv4VG7Xa/XKGZz/gDe
-         RGC8jdWZRCDpt9Z/EfsW3iQTsa0YN9s4LVPeZQ1ngrMsNCziBXRptREckb8b41Pz2mDy
-         Rr89WdVumDHGCsFWhtOOGYQTb1IewOH81ZedMbCbYSX6s+xYGFugtKHNbwX5feYsU2fD
-         WQ84uv10A+U0MmsKe6b7uRt9tvH0sdUPbIKvFm1wI8PKqvwQZ5v4E/mLUn7e2GCqm8ip
-         oLuviCDL/ZgzaiOWXqVl9wL0HtmdZHf5CA7Vv6/Q4sww+i/tGnXNwUZ7B7dyYgWCpS0p
-         Q4Cg==
+        bh=rdnNcfOULKMswbKDg7L33UkLvsdxqxjs2riP/giRrvs=;
+        b=twkzlFMgT4R0PbMf4yaH3OCON+dYipCS8HGXYck8Mcg8fWuaZf0ZBSJz0e8NqqA4dM
+         uUniXm0rgV0qwmtv5P5DJ5g+IuiGDcGuB+P8L+qQpe+7VwNEga/9WqW4PWg+zUIbq3Io
+         iCKEmdA/RJuRU8GV5QbKfrA9V3HJrVjsvIPODlN2XDskr32TiByVKORwjDG5EUkLuFem
+         BoNAiHKPhSrwoSBG8ppS0uv1NPj/E9XW0n/lKNgnhDh7Te9RrVwXbwgwXCqfEre95Be6
+         qGfYm4Z+UcTe6ghs4z6ed/6xZc0i4qJ4jbf/mYUUAQHiXc+rVCCwucfCdkdVe943jn5S
+         PIkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739624521; x=1740229321;
+        d=1e100.net; s=20230601; t=1739624764; x=1740229564;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
+         :references:cc:to:from:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RR/GHUMHBjoRr6SKp1D1VZVvMK6Rk4ChRoLAcy+7yFQ=;
-        b=FJgUpmXi7KJm/6hokAV4AfeTD9GzSxppl6a7itbBrO/Mtk0n5vwh//gP0eDOA8RLrB
-         HSHAjp1uUcxQHbJEhC9xiEzsrYMDYPIXXegl12mBxxU4FyV7ub8+8lm3nQROfzYSLjGd
-         KyiZkvTvwqGB8DyPquWPP0YkionN62C92lSE05pkojVEQ5SrbWzjbRo9hVdABxbNh1MI
-         Ye/gvZmBWS+6usYUnTVQDt+GX3CLc+VCXX1NdJzZpqP8nwJrKHjl365dObB3+31Y4OLa
-         PNgCgKxgwb3ie03ejfAK9+C/2WrBs0L9ZEQltElrCEIeJ30fH5TcuvVfB8mnea5hVUbR
-         nJyA==
-X-Forwarded-Encrypted: i=1; AJvYcCWjfPA0aqs+7V3Im7lZAm9jtMXQiQt6GHjRvJDrOxXZWpCMSXyfSZtF2qzbQOACg+HXrgMX1hU63ps=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEtgMtDYHXVfAfDbHAXe0XFNcwEjeT30uPTvO1RSIsBi4fzpyo
-	Co3AO4Q94CzHcSMoDb+p3EVyjQJGORuEybnyB0A8OHH7b7Svb1FOuG3KxYg24Rg=
-X-Gm-Gg: ASbGncuujaFpoCNsK+MMkZv1Hq+Bda3zOs5A9KyFv/hlM1tbZCx93ranIbYs1VeyMtx
-	ym9bwGVEvRS6SztdqM+XUrI1OYqNQQK9jf9awsqXR23Jh4Y1KCn+wsHm+zkRA4mQlOGy88l+Qum
-	I0DLBdWidv0ah8k0p3wMnYBijsQrsNL7wTH398Zw4uFB9gAqTtAP7dngRCnIcqmBUQBi6YlMoY6
-	738mfEGQi8do2AMB9BUlnP8+Qm2HUhqAfid1MPvGJUSRsR3JhJG8i/rJTZUDiAvs6/MhWN6yqQt
-	AxKXN41IFCCIPKpf7J17vzdT2x63l75gLv8=
-X-Google-Smtp-Source: AGHT+IEkYaev64JoIJX7BjN1Kn2qbNsU34l3xF8cI2UjENhYJNPkz42xyMxJqIrN2wkI3tDlo9ovyA==
-X-Received: by 2002:a05:600c:1d23:b0:434:9cb7:7321 with SMTP id 5b1f17b1804b1-4396e6d8163mr14041935e9.1.1739624521315;
-        Sat, 15 Feb 2025 05:02:01 -0800 (PST)
+        bh=rdnNcfOULKMswbKDg7L33UkLvsdxqxjs2riP/giRrvs=;
+        b=SFv3KqMhymzT8WsELsApF9uiByxx9lJ/gSO21jNwk3XE6H9kS24WDS0YyfTM4CIiBd
+         LjyuLjeAk59iQ8sy+NMrTkM7pSL1k6OkUmpO3tPAypfOm151mggO5fD9sgMk1dXS6JXG
+         QQrEJ3Dij5mKW/B9V4qYSks4RMB/8MhmRTpbhoMHjUvdEwSGCyt1CKkoEuZZY226ziAZ
+         6KpPAMczS+NO8LQnASJlyHfnaynlgvjUJj2/aiqEYL/5WMeZFluLZ86Zx/Gaa1gaP9Ou
+         l3pYe3ow1W18MCn1Kjw/kGYrcA8X5ZdwqkfHnXOSbwzWoBN6Pq3G/aIOzcszZFPrawKC
+         PZiA==
+X-Forwarded-Encrypted: i=1; AJvYcCVb57PNuiMyrv0B9mB2ecgpkT/hAEwFMjo7JOrGtub9MF/WAwko0Wj6TvQlQLRuMyofgInmEKaYGfE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YymXN8MnDxMTRGLyvU+WsgQi0n94LiIe/XnJ+H9ZhhhZ938iuMv
+	QQOdx0LeS/Yx70WLcej2uw8H+qGh1SGFmIao8Mirin7P6XWD/EPkLf43E1ClOGA=
+X-Gm-Gg: ASbGncuXxhonJN06JNwzpM5XQKHVCXZCMuXcM+z+7aWbzV3xsTN5T4vIi8brtGt4efY
+	oAvqFJPpEmQc89eApIWbDTOEImKLe4bAP8A+dcOiF2j8d6mLeZlQ/3A5/zHIoEI45i+ywX9Ha0Y
+	ULtpg16gRdp/xd9EiFb/fJ6UdGh58Ex536D68Qi2i3B+XGYcYFlBocf8Of/aLlgzb7QibfMWVCG
+	dAtSREerjJSO9NLFNcBUMdbP2fqfAbFA+WTuNU8hovkEph7ypGMaQCvNnWMnYPZpj+zQqzexadU
+	F2LvThupEoD7arMrqCE1+9c9in/BRnf81K8=
+X-Google-Smtp-Source: AGHT+IHgFfqzOyh8YOkTFwMiAGZ+drlj5ukXDY1hDHlBflrhlFazNLrZU3s4XdAUR69ZWZnyBTqsIw==
+X-Received: by 2002:a05:6000:4185:b0:38d:eb4b:f9aa with SMTP id ffacd0b85a97d-38f33f2c18fmr1005687f8f.5.1739624763697;
+        Sat, 15 Feb 2025 05:06:03 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4396713feccsm45558085e9.39.2025.02.15.05.02.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258b434fsm7332517f8f.16.2025.02.15.05.06.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Feb 2025 05:02:00 -0800 (PST)
-Message-ID: <886cb4b9-9d95-4346-9c38-923cb7c69036@linaro.org>
-Date: Sat, 15 Feb 2025 14:01:59 +0100
+        Sat, 15 Feb 2025 05:06:03 -0800 (PST)
+Message-ID: <a09b2636-dc15-4970-81dd-a16b5a166464@linaro.org>
+Date: Sat, 15 Feb 2025 14:06:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,6 +69,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] docs: kconfig: Mention IS_REACHABLE as way for optional
  dependency
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
  <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>,
@@ -76,7 +77,7 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
  linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
 References: <20250215114223.140688-1-krzysztof.kozlowski@linaro.org>
  <CAK7LNATqSPBnGfVXCfJq7oCtE1ge4-L5QY6gVx8_chpmKDQusg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <886cb4b9-9d95-4346-9c38-923cb7c69036@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -122,96 +123,73 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAK7LNATqSPBnGfVXCfJq7oCtE1ge4-L5QY6gVx8_chpmKDQusg@mail.gmail.com>
+In-Reply-To: <886cb4b9-9d95-4346-9c38-923cb7c69036@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 15/02/2025 13:54, Masahiro Yamada wrote:
-> On Sat, Feb 15, 2025 at 8:42 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
+On 15/02/2025 14:01, Krzysztof Kozlowski wrote:
+>> One more thing, please document the drawback of IS_REACHABLE.
+> 
+> Ack
+> 
 >>
->> Several drivers express optional Kconfig dependency with FOO || !FOO,
->> but for many choices this is neither suitable (lack of stubs for !FOO
->> like in HWMON) nor really needed and driver can be built in even if FOO
->> is the module.  This is achieved with IS_REACHABLE, so provide cross
->> reference to it.
+>> It is true that IS_REACHABLE() resolves the link error, but we
+>> will end up with run-time debugging.
 >>
->> Cc: Masahiro Yamada <masahiroy@kernel.org>
->> Cc: Arnd Bergmann <arnd@arndb.de>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>  Documentation/kbuild/kconfig-language.rst | 13 ++++++++++---
->>  1 file changed, 10 insertions(+), 3 deletions(-)
+>> foo_init()
+>> {
+>>         if (IS_REACHABLE(CONFIG_BAZ))
+>>                 baz_register(&foo);
+>>         ...
+>> }
 >>
->> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
->> index 2619fdf56e68..66248294a552 100644
->> --- a/Documentation/kbuild/kconfig-language.rst
->> +++ b/Documentation/kbuild/kconfig-language.rst
->> @@ -194,6 +194,8 @@ applicable everywhere (see syntax).
->>    ability to hook into a secondary subsystem while allowing the user to
->>    configure that subsystem out without also having to unset these drivers.
->>
->> +.. _is_reachable:
+>> Even if CONFIG_BAZ is enabled, baz_register() may get discarded.
 > 
-> Instead of this, could you move this hunk below ?
+> Hm, why would that happen? For compiler this would be "if(true)", so
+> what case would lead to discarding?
 > 
+>> Users may scratch their head why baz_register() does not work.
+>> Due to this reason, IS_REACHABLE() tends to be avoided.
+> 
+> I would rather say IS_REACHABLE should be avoided if someone really
+> wants to document the dependency, not optional feature.
+I hope I got your intention right below:
 
-Ack
 
-> 
-> 
-> 
-> 
->>    Note: If the combination of FOO=y and BAZ=m causes a link error,
->>    you can guard the function call with IS_REACHABLE()::
->>
->> @@ -580,10 +582,15 @@ Some drivers are able to optionally use a feature from another module
->>  or build cleanly with that module disabled, but cause a link failure
->>  when trying to use that loadable module from a built-in driver.
->>
->> -The most common way to express this optional dependency in Kconfig logic
->> -uses the slightly counterintuitive::
->> +There are two ways to express this optional dependency:
->>
->> -  config FOO
->> +1. If pre-processor can discard entire optional code or module FOO does not
->> +   provide !FOO stubs then in the C code :ref:`IS_REACHABLE<is_reachable>`
-> 
-> Instead of the link, please move the code example at line 200 to here.
-> 
-> The note at line 197 is not strongly related to the 'imply' keyword.
-> 
-> 
-> One more thing, please document the drawback of IS_REACHABLE.
 
-Ack
+@@ -580,15 +570,31 @@ Some drivers are able to optionally use a feature from another module
+-The most common way to express this optional dependency in Kconfig logic
+-uses the slightly counterintuitive::
++There are two ways to express this optional dependency:
+ 
+-  config FOO
++1. If pre-processor can discard entire optional code or module BAR does not
++   provide !BAR stubs then call can be guarded with IS_REACHABLE()::
++
++       foo_init()
++       {
++               if (IS_REACHABLE(CONFIG_BAR))
++                       bar_register(&foo);
++               ...
++       }
++
++   Drawback: this might lead to run-time debugging, when looking why
++   bar_register() was not called.
++
++2. Otherwise (and module BAR must provide all !BAR stubs) use the slightly
++   counterintuitive Kconfig syntax::
++
++     config FOO
+        tristate "Support for foo hardware"
+        depends on BAR || !BAR
+ 
+ This means that there is either a dependency on BAR that disallows
+-the combination of FOO=y with BAR=m, or BAR is completely disabled.
++the combination of FOO=y with BAR=m, or BAR is completely disabled.  Unlike
++IS_REACHABLE(), this option favors configuration-time debugging.
+ For a more formalized approach if there are multiple drivers that have
+ the same dependency, a helper symbol can be used, like::
 
-> 
-> It is true that IS_REACHABLE() resolves the link error, but we
-> will end up with run-time debugging.
-> 
-> foo_init()
-> {
->         if (IS_REACHABLE(CONFIG_BAZ))
->                 baz_register(&foo);
->         ...
-> }
-> 
-> Even if CONFIG_BAZ is enabled, baz_register() may get discarded.
-
-Hm, why would that happen? For compiler this would be "if(true)", so
-what case would lead to discarding?
-
-> Users may scratch their head why baz_register() does not work.
-> Due to this reason, IS_REACHABLE() tends to be avoided.
-
-I would rather say IS_REACHABLE should be avoided if someone really
-wants to document the dependency, not optional feature.
-
-> 
-> 
-> "depends on BAR || !BAR" is configuration-time debugging.
-> 
 
 
 
