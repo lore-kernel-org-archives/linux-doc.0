@@ -1,73 +1,83 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DB818024;
-	Sun, 16 Feb 2025 16:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD17A18DB21;
+	Sun, 16 Feb 2025 16:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739723791; cv=none; b=Hg0/V6KA/wH7Q9g/EnBSi1PFed8//NlNAsZrBRZQ+sFcMjKAXOKTdKxy8Ejmy+D9OFT+ps3aKnz5NwZRInjei8smzCGXDLfQwbI6zTsJDaw13chFdUEacOQHeMFYskIiAL4aHHT1xLZ/LUy/rzAadjaepUfVf7y+Qn8gFf+yUmM=
+	t=1739724015; cv=none; b=VZlOg5wCFVWAnB7TwG8b4IjiD55dnHrrrTkXWhw3KB2y5OHxsBPD9TlAoTQeVB7RyVnQwZe9k/eaANlIQmdl+WM3UofjEaQhQrthpr1zPVpZYowIBz89hv1Ew15ZFAjfPE9SAgSftQhuZB0mPaWgaaekAgk/cFx6674w/PPKCvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739723791; c=relaxed/simple;
-	bh=ByXLAurH+1Re1vVJZ/BAA4HrNWB6FIi2AKVogbcsalw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ocy9dv3D6lbPQpSnELcCdsY6wc6u1W7VP6MSJxXDLJc0lUhAGdNIp6wdHEW9tR4IxSuSMdhKYK22tK4MuD8FWy+UmfXpge9/+o5Qb1Boc02hx5e2hzRGkTDzfYC9hv7t69AQuwu6qrCuLyjqT02WtoTbE5P3gxPFbhoXoPi32Vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=UJ59A9xI; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1739724015; c=relaxed/simple;
+	bh=VYToQ/4dqk8RStG8Ey/hwHeYLBxZ15D7FpT1+nhkAlA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XXgFGBe9lOsdMr1myZchHny20KLwO8vOaHfW7Tq6x7GpaUxWt9eqk8X90QrApMUCSMOQg4NemgRN3DJ/S+nimfOuZtqwxOn0PAU/gvMYPh3yC9P2eIUD0Wg+7YfrdV0UxVDnlJZXjLcYPWRnYU43gmcZbPtvBA4ZQKBuXP+qiTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BTdNsL1o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="UJ59A9xI"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=ZsOQcoouRE/mfiTFlVK+KMfUUssVnYx0z0OR3ds2eRM=; b=UJ59A9xIaPWrvFp/9acztvmD2r
-	H1j65E31RNbmx78HtLmmgvzF+oNEU/h/bFAHaa5tewmZxE7PTFuQc8Y9s/g9MLpAteqq3fttnW0hN
-	82o0GHAaHZtHMphzMW02dfF6tj/KwxO+mYafb6g3rv/MeGjmrESFL8+/xi8pZIB0yKcw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tjhd0-00Ehal-SA; Sun, 16 Feb 2025 17:36:22 +0100
-Date: Sun, 16 Feb 2025 17:36:22 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>, davem@davemloft.net,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH net-next] Documentation: net: phy: Elaborate on RGMII
- delay handling
-Message-ID: <92111af4-c0d0-48bd-b774-0cac4f2abd13@lunn.ch>
-References: <20250214094414.1418174-1-maxime.chevallier@bootlin.com>
- <Z68WDG_OzTDOBGY-@shell.armlinux.org.uk>
- <20250214114254.0b57693b@fedora.home>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BTdNsL1o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04DF5C4CEDD;
+	Sun, 16 Feb 2025 16:40:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739724014;
+	bh=VYToQ/4dqk8RStG8Ey/hwHeYLBxZ15D7FpT1+nhkAlA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=BTdNsL1okkXPSEIIN6irCt05MdKuE0I4zIpWS4OL92Yo1o5E8+lWiNuSHLWMCCBdp
+	 R3YvXcDSp81TDacYwpy2LK2a3/k2fpF6v0jNyMg2wkmkmiNpUQi71aYly4Gs04mCCU
+	 pAulIvcx2yN2pL0ast1gR1CqQFxOGClG9o2RqJ+UkiE8AUdkZf5Xr1C2caE+2THuSW
+	 GM0yuGvzlnW7jRdgY3OPAlAhkslEHAzrLoMpk9MlatTssgjLGgUM235wj+1vhUXFTj
+	 U3uS+mILpWeShAP88Kk/CqqGvFiMbghIm2lQibXko76KC4C1vMSwglRd2dhb6EhZKM
+	 B26JEhRucysIQ==
+Date: Sun, 16 Feb 2025 16:40:04 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Robert Budai <robert.budai@analog.com>
+Cc: Nuno Sa <nuno.sa@analog.com>, Ramona Gradinariu
+ <ramona.gradinariu@analog.com>, Antoniu Miclaus
+ <antoniu.miclaus@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v7 0/6] Add support for ADIS16550
+Message-ID: <20250216164004.000483a1@jic23-huawei>
+In-Reply-To: <20250211175706.276987-1-robert.budai@analog.com>
+References: <20250211175706.276987-1-robert.budai@analog.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250214114254.0b57693b@fedora.home>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> Just to clarify, do you see that patch as useful ? seems to me like the
-> original version is clear enough to you
+On Tue, 11 Feb 2025 19:56:57 +0200
+Robert Budai <robert.budai@analog.com> wrote:
+
+> *** BLURB HERE ***
+Missing... 
+
 > 
-> Thanks for reviewing,
-
-Is the problem that the documentation is confusing? Or that developers
-don't actually read the documentation, nor the mailing list?
-
-There is a point of diminishing returns with working on Documentation.
-
-There might be more value in working on checkpatch, add a warning
-about any patch adding phy-mode == 'rmgii' without a comment on the
-line.
-
-	Andrew
-
+> Robert Budai (6):
+>   iio: imu: adis: Add custom ops struct
+>   iio: imu: adis: Add reset to custom ops
+>   iio: imu: adis: Add DIAG_STAT register
+>   dt-bindings: iio: Add adis16550 bindings
+>   iio: imu: adis16550: add adis16550 support
+>   docs: iio: add documentation for adis16550 driver
+> 
+>  .../bindings/iio/imu/adi,adis16550.yaml       |   73 ++
+>  Documentation/iio/adis16550.rst               |  376 ++++++
+>  Documentation/iio/index.rst                   |    1 +
+>  MAINTAINERS                                   |   10 +
+>  drivers/iio/imu/Kconfig                       |   13 +
+>  drivers/iio/imu/Makefile                      |    1 +
+>  drivers/iio/imu/adis.c                        |   36 +-
+>  drivers/iio/imu/adis16550.c                   | 1151 +++++++++++++++++
+>  include/linux/iio/imu/adis.h                  |   34 +-
+>  9 files changed, 1682 insertions(+), 13 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+>  create mode 100644 Documentation/iio/adis16550.rst
+>  create mode 100644 drivers/iio/imu/adis16550.c
+> 
 
