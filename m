@@ -1,110 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91CC450FE;
-	Sun, 16 Feb 2025 16:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E39CD299
+	for <linux-doc@vger.kernel.org>; Sun, 16 Feb 2025 17:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739725010; cv=none; b=JRJc+Qv2oOsbHCKCzXwQ/nSsK4GFW00MIPSz1DEy0DKx2u4kNeLVpyb3IPbv080CcU71wavmGINOd3MKT4pm7HwHRPpGbd7Woybm8YxXWHJR/Tg+45xTP1oG6hZm6GRuhYFhQx7nbzgcTgi6zk2aBMB3Yu9FDirUpWPJG5j/WkI=
+	t=1739726671; cv=none; b=AZt0wzjVDwjgzTu13nxUxIEdlV4HzQT3ORmOO8JvfSVyuCU64kBoouZmrG7UGNFY04qLYG9LI3srS/ZCUSu9yqYUSySSxVKKCdbM/s/I3eHR/DE/+CYNlXzONq7Z4vg1UA14OlnhQYEgBQVaCZybvrozpKtBWn/acxgcAomZYbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739725010; c=relaxed/simple;
-	bh=lyYWlIL5pV+P204PWq9RJs+b2lncRmWinTLyKexeKLQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AThv2TAFwm94dyA0Nxyb0npCSP7YR6+giWKVcTqn6S6cMaDD+wyyhwlkAJFftLNEU+iXqLLuNOE9UD3PMRmYIcywAIInvln9D5NhlhQ6Aw45FD4A8fvNZ9gVFgzJQsZ7PGF4tPPxkhvbZpn+PVEPAOF5B0myAjVMAXB0DO3pbSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rWWL35/y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739726671; c=relaxed/simple;
+	bh=ePIIWpSFZpScHCeFlHjOKZfF2NTU7f2qBx33D30B87U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=o2QbOdc6PDLOONZhRpPZT2kk6F/V1YHlZwcFNuN8/V/qANcswquoofG1evnsWPbDQ7xsL6BpdpddxHs3c4sj6+wizXsNgYCbpsujC/vJMZLvosL6V1woB2feJqbIgiCjsHG53Qqmu0GLnxNcYHUZvP7+uu4OT45lrheBjJaE5Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=VN6Jd/4u; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rWWL35/y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F1F1C4CEDD;
-	Sun, 16 Feb 2025 16:56:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739725010;
-	bh=lyYWlIL5pV+P204PWq9RJs+b2lncRmWinTLyKexeKLQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rWWL35/yPTnPOWL0B4OV5ivtP906jfLlk95gZBFEFPD1KEU7LxzPTLRF2cbiw4t/f
-	 g0IZb/wjC1GLREddI86c3DLrjgnQKARWX++ZbObj7wcz9TBg9L5A+ok85ter9WYEna
-	 r1UcfKL2SdvZdEOrekLomhS+jedss3VxXE1r0erQIeqTS2ehhUyrAmozCvOwtdwSI7
-	 o2Z71IZuu7Vb10KpVXo+1ia0k89Dsvl/hLv79p7Npad1GL90eD9o7MQI2iGNDy42j+
-	 5XFugBKU2eD5fABH/Jiz49YaiN6l15LXqmEYRt8D7k+B9jfJiYK7bAgWZQXj88nxOM
-	 W95aP2wUQL9Gg==
-Date: Sun, 16 Feb 2025 16:56:40 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Robert Budai <robert.budai@analog.com>
-Cc: Nuno Sa <nuno.sa@analog.com>, Ramona Gradinariu
- <ramona.gradinariu@analog.com>, Antoniu Miclaus
- <antoniu.miclaus@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v7 6/6] docs: iio: add documentation for adis16550
- driver
-Message-ID: <20250216165640.2e89f617@jic23-huawei>
-In-Reply-To: <20250211175706.276987-7-robert.budai@analog.com>
-References: <20250211175706.276987-1-robert.budai@analog.com>
-	<20250211175706.276987-7-robert.budai@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="VN6Jd/4u"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 32A7548EB3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1739726669; bh=rrvdMnsxaYwdh9JrKguQYHWCRZaeywGMIDje4hDj3u8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=VN6Jd/4uHky14g4AuTLHDIGuloR6c4Q4vArpM6wXx9EZhCOuxbZrqcS3Wyolu2gQ+
+	 L0WjcApjE+PD8n0co6DkTr2CBNaWmJjv3XbSyYhd9eCXzpdnS1BLUsyDIuwRGhGrBZ
+	 L98tQ2rj6YWZJ+f5VmJX3x+sZq2jfm5NqmkWX5ZIXFpJBK4V50efPouBLLD+LYEica
+	 FR82eRCum9M11ABr1aSyEawcU0BIXqtLHvfUcfzPPFw1kv10rV/UjqLg6hxK4+9vzd
+	 rQ9trw7WjN0Po6TcNoXN+rOdbDTPoML5looFpaFyzPp8D66oNzz5TP89aBrOhgPOoa
+	 CPICEhXWVVl4w==
+Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 32A7548EB3;
+	Sun, 16 Feb 2025 17:24:29 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Andres Urian Florez <andres.emb.sys@gmail.com>
+Cc: Andres Urian Florez <andres.emb.sys@gmail.com>,
+ skhan@linuxfoundation.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation:gpu: fixed spelling mistake
+In-Reply-To: <20250216160644.18924-1-andres.emb.sys@gmail.com>
+References: <20250216160644.18924-1-andres.emb.sys@gmail.com>
+Date: Sun, 16 Feb 2025 10:24:28 -0700
+Message-ID: <874j0tvm43.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Tue, 11 Feb 2025 19:57:03 +0200
-Robert Budai <robert.budai@analog.com> wrote:
+Andres Urian Florez <andres.emb.sys@gmail.com> writes:
 
-> Add documentation for adis16550 driver which describes the driver device
-> files and shows how the user may use the ABI for various scenarios
-> (configuration, measurement, etc.).
-> 
-> Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> Signed-off-by: Robert Budai <robert.budai@analog.com>
-One minor comment inline.
+> Fixed spelling mistake identified by codespell in the drm-uapi
+> documentation
+>
+> Signed-off-by: Andres Urian Florez <andres.emb.sys@gmail.com>
 > ---
->  Documentation/iio/adis16550.rst | 376 ++++++++++++++++++++++++++++++++
->  Documentation/iio/index.rst     |   1 +
->  2 files changed, 377 insertions(+)
->  create mode 100644 Documentation/iio/adis16550.rst
-> 
-> diff --git a/Documentation/iio/adis16550.rst b/Documentation/iio/adis16550.rst
-> new file mode 100644
-> index 000000000..f929c460a
-> --- /dev/null
-> +++ b/Documentation/iio/adis16550.rst
-> @@ -0,0 +1,376 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +================
-> +ADIS16550 driver
-> +================
-> +
-> +This driver supports Analog Device's IMUs on SPI bus.
-> +
-> +1. Supported devices
-> +====================
-> +
-> +* `ADIS16550 <https://www.analog.com/ADIS16550>`_
-> +
-> +The ADIS16550 is a complete inertial system that includes a triaxis gyroscope
-> +and a triaxis accelerometer. The factory calibration characterizes each sensor for
-> +sensitivity, bias, and alignment. As a result, each sensor has its own dynamic
-> +compensation formulas that provide accurate sensor measurements.
-> +
-> +1. Device attributes
+>  Documentation/gpu/drm-uapi.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 69f72e71a96e..64e002c6383c 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -518,7 +518,7 @@ ENOSPC:
+>  EPERM/EACCES:
+>          Returned for an operation that is valid, but needs more privileges.
+>          E.g. root-only or much more common, DRM master-only operations return
+> -        this when called by unpriviledged clients. There's no clear
+> +        this when called by unprivileged clients. There's no clear
+>          difference between EACCES and EPERM.
 
-1 Again?
+This is a fine patch, but it should really have been copied to the DRM
+maintainers; I think scripts/get_maintainer.pl should have told you
+that?
 
-> +====================
-...
+Thanks,
 
-> +
-> +3. Device buffers
-> +=================
-
-> +4. IIO Interfacing Tools
-> +========================
+jon
