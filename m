@@ -1,145 +1,115 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F31E1A3161;
-	Sun, 16 Feb 2025 19:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0879C9454
+	for <linux-doc@vger.kernel.org>; Sun, 16 Feb 2025 20:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739734428; cv=none; b=Pfur9P8mwUPIgow+1zBdCDQszPjeFbyZvTCmT6V3iA4VQmjPEf/TLGQIuEquLnl/Czu+3VAUjayzzfOUngavma6dd6nsBBWwLm6stExe7fDknF1ZGVtc9mqRwyfOPGIX4xX1e5PkODYdCuFqonUY/6HkcHtHLxwhCbIR6p6Lkjw=
+	t=1739736369; cv=none; b=CkOOTbHUxvfmxWccYF1yUCon5C0FSwnDXPYQqZL2nQ70bWkfd5YihQNWbB6R3fvPYu0ggqtyZanRew7qwGhm1VOHdbizYE6pCCQn51iOQ75zqIVwiCb9DkyrgWm/R9Wu4y0AjcFHR9sesr/A1uwgZp+pCnMPaPC/EqOIvj9Luyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739734428; c=relaxed/simple;
-	bh=kVzMWrgel67Mo9Ygay0IYNyhWBOB4SrG6RdEbD8Pw0c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gIVszBOcxmMAPHP2N7/Lu0pOQFck94/ZJOv1S4988Or8dnVOFNfZxe7982ZAYGlzZe9I3NwRNUJkzYaZ9ieaf62Xotr0a/RW9+DDg6dnLUACIX6NWE+Kbrm9rsrIBUNKu6sDPS8mwMwCOPEsu/QykV+BHlLyF+v/JPYepQSPqQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=Uv6mBTab; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1739736369; c=relaxed/simple;
+	bh=4rRb0s9I0b2SOLT/SYo9wgeXlV2XY6V+k9haqlrm5YQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ixylaacko3OPwO7NjvjqQoE8wXVRoVgxOyGoitsBXi7pIHGml+aC0iKKTNBHXukMEOrON13Maeunfq78Aor5QbdykhVLKvMJsbGnIEzucvNkIP8NhEXoE46DOMoC5xsx64Mt+S/uSmxE3xPsDI7EYkSE5aEPCRv3/J8fNXOAnAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=POwq6qL8; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="Uv6mBTab"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1739734400; x=1740339200; i=w_armin@gmx.de;
-	bh=l76DFXanPHoGvanPZenEdjlmcNhNLDXwwR/QizhaJBg=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Uv6mBTabls2fFkqDWs4kLofxEpUx7RPag9xb7eZe82qsTf3HpGqpRMlzVri1j1G+
-	 X8OfueEl4eQaFHNC8RqCdp69XbeqiZOhpl3FZFSibhP3Rxd1TrB8xpJTuu3VfiFb8
-	 2U70BBXUC4HN2uGZRQJbi33uVEYrAXwUtgM7Wjzf9ng1Mtk7Quo6uW0rsTPcY2LIq
-	 QQoOXg/SYw86Ag7hAc8coKJkafzfHHIlUPBMd91qIYEP91FBQe/Uj63zKfWo9sQsK
-	 BxnlN4FwmYeMkZS/Gjd1P74xtj06OhODmLDw+RJI3GZNSivCGKk7moy74WWcH2J5e
-	 5ndNqPahg6sazgO8aA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from mx-amd-b650.fritz.box ([87.177.78.219]) by mail.gmx.net
- (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1N1wll-1tLzCI22vZ-00xljU; Sun, 16 Feb 2025 20:33:19 +0100
-From: Armin Wolf <W_Armin@gmx.de>
-To: james@equiv.tech,
-	markpearson@lenovo.com,
-	jorge.lopez2@hp.com
-Cc: jdelvare@suse.com,
-	linux@roeck-us.net,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	platform-driver-x86@vger.kernel.org,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 7/8] platform/x86: wmi: Call WCxx methods when setting data blocks
-Date: Sun, 16 Feb 2025 20:32:50 +0100
-Message-Id: <20250216193251.866125-8-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250216193251.866125-1-W_Armin@gmx.de>
-References: <20250216193251.866125-1-W_Armin@gmx.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="POwq6qL8"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-471ede4b8e5so2080741cf.2
+        for <linux-doc@vger.kernel.org>; Sun, 16 Feb 2025 12:06:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739736367; x=1740341167; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EAP1KD1zZ0LDFgrnzNE0CA0YlB1kpZiKhEpfx68P448=;
+        b=POwq6qL8u8qTkPBmXLlm5JlCC3xefaiWzw0DVJwvtpcc3h8N8sRkZz5bulUv2U6Rbx
+         dhbPV0pLW8qYrCLzlzTXQsZEEuMpei8lZ4X9682CovRpDFWxDI/YZ7eOrxCBKsvPEroX
+         0VAJ8+JUi24Plbw4wBezXfI1407rvKghGGXk13BqRTY7UfnQIaNv79JKCNS74laeklwP
+         z8b4vZe1Q+ngyhy7CbaTk18K5MD4VZdXYq48tpTk8Zg8uZJzQPmDMLX+L7OBHXLvC2vy
+         sMcHaKdFjghFyNmqJb8WWHU6LXAw0XehRek8y+xEsauPZmqxUqR/WH+JpDNcnbPwusGR
+         2fCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739736367; x=1740341167;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EAP1KD1zZ0LDFgrnzNE0CA0YlB1kpZiKhEpfx68P448=;
+        b=ntmasqA1d6P1Ov7zPiFHPpSoR0K/U5aeTFg5p3QB3YtA/G9cPXXDVNC5bWHb0T1yjQ
+         /mGwB0NJx779pg7DR4PBSyHaj8KF1ty80Q7x8UbJ2KNnC0jRKPKD1Rfx/zwtvHek3alc
+         a1MnvxOHSTaE4BqxIYTtV5q2CTNd7UI31ZE6VXxB4ZVXfC/mVdPJ0ix7vZrC1Xmhu3nX
+         LQ2mtykC4Pi9GD0oTroW35zFkCbXPVqrOzRaTpyTzihFiCbUci8lni3s0ygkiF4y5d4k
+         yckrTuOZIWnJiY7Ylt+C4vrRw/Z6SIq5gDqBOw9bJX6O8I7L8THjgZjwlncRohqXHzLo
+         KmtA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQhNGWM6dZYhXNWD7JclDimj7kdmnwUbwC3BUV8ObKcBVOqEelws50/Q6+oA+USpGI+4bzryvalWQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZmtjEmgQ1O7axa/6q14OzuqQ0yAwJo9IlP46ESKNbUxF1KoJi
+	AxcsH/Xe8nsfbHdzssah3XKkqVYpRSTmow7bweXydJRk/k2CP9+0T6v+GKY8swnemTC0O64+UzR
+	duBDowVQI2FN7cUConZ7PhZ8S7FA=
+X-Gm-Gg: ASbGncvL3R3WQi3uu37x7DISBWiJkn1djmg/rSDIyWmuoMjlR/sNkWwkXduI9s3HKIY
+	PMgdurScpgPlWcy/qjhdfU94fyn0Rv7T3dlsWTx7w3xwr8J7pXtliMmHnTr8j6mpXG53Z+eOlfk
+	Q=
+X-Google-Smtp-Source: AGHT+IGMJnTzbXTh9ELT1cBFq6Q+uf6saBfPcbkuFGKb+pRYe6Suqup61hJzj18QOo4GbFyv7cGrTTg73jw91ibrb4E=
+X-Received: by 2002:ac8:590a:0:b0:471:ba98:a1d3 with SMTP id
+ d75a77b69052e-471dbcc8a65mr96701251cf.11.1739736366922; Sun, 16 Feb 2025
+ 12:06:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250216160644.18924-1-andres.emb.sys@gmail.com> <874j0tvm43.fsf@trenco.lwn.net>
+In-Reply-To: <874j0tvm43.fsf@trenco.lwn.net>
+From: Andres Urian <andres.emb.sys@gmail.com>
+Date: Sun, 16 Feb 2025 15:05:56 -0500
+X-Gm-Features: AWEUYZmokXvRusmiPvx8MGUmZQXRVUqlYmqkeNqcXe7mK7iCJHEMh-ENyudH4L8
+Message-ID: <CAMihqu_uw-51wXMTxo9YLHF8VGcdywzMZukePvbL5m=C37jfBQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation:gpu: fixed spelling mistake
+To: Jonathan Corbet <corbet@lwn.net>, airlied@gmail.com, simona@ffwll.ch, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
+Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:F57wgiORwOAZmkbtP4YoHkBZ301swdj6njSKsDQY9TMzbVvrezU
- lGMd+twSMeydRysUd3Lqf2gMqEgKNjgX2mRBEEGCKiXcrLm+0OKqMjwn4xYyKrL80P7MHfS
- CJM/22Oe6VkPSo2maorrwvSSXIsI9ZK77ylcmqRgFfhu8XI64jqKa6tcGdBhxlRKsXhywRw
- GCere+19zcITPMIsLJuhQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:gHvqS0MJtWk=;xYyimcpvjFI+5keTpMX50YmnS0a
- vRn/imuk4PUnKFcOIcoZ0McjtXn8Zjyd8kGvKOGyMkKfUBqmDeCbUhbNbdAQM9h+3e+1753zs
- bZfq91c0qeZ+JfODfKmLtFafY5Ss7VHxQ3xtxbFMGVRhBAemNvKGF58fAuX1Zz8NjLNrkpOt4
- XDUOphwsaKbDUwQ6xtLye53qLRc5EHYlE9FsRnrGZY4TdjcrDYaiIK/Fojl12vQ9SVNo9UVYG
- zVaskswE+nWJCwbSr3D8fmx0XEHNOjtO7gceT3hB+k1e2hKny42PO+NfI5Q/bfaRM6IrCQSOY
- 0ghpQ1KI0iIrWAd1nxRUSIZV7+QJnFI84aviFM5bWl1SqagO5ZJUZGXlNbfM7VSh27O7JtAzy
- pG4Kye691RN6BCv0HoCHX5WEEuP/afOJ8yDm0DkRVfpkm3vTAc8Vb1JZOOWXRvXctls+1by2p
- b1QkGGGbUfORPHtVUdM++D04HQrGdFsD6yo7ESjq2Ueuuoxs8kY9CAUjo0/fTgRSC+tEdB7re
- AGR+Myl/n+tkmIhdtc1tusEXTHjX1CTRoqcBcw6vJJWYKloQbpvffo5I2Sid8mJXAXsj8+nLm
- erUg6fqkqyihB6ens9lDaSdSffqyEcxxzM3RWQnSrnrpAXSFTc/bqH/MZmS5irNm5oRpekabC
- 2QDyJVwAOUYhT6gwoSrpn7tQcp/MKmhPBQDnEuGCQywLX5ZIaAi8H6wlmy6IKJWyin2A9mIev
- tnlfXmVSgDHOPRa81cSP+T3LwllEajcEd8t3nyAXOSiCrbVfbX3ZPzzhL0ROJsMqGkhirUmSp
- pKo86QlNEGw44xuV9p4ATvr8KAGE/WChHE8jYN2nxBvvAaPx3qhfo/OSvg7LSu5kNjyIgw0iJ
- 4LZ5KzVRcCk9fg4tYJl3jknsO+Jfuj6J/2E7TZn8pGggwmmALDvGqPrYI404XlQkq+VMkQj4t
- oRQRVmndBjmDSBcw+ciZeQlZlb+bNFqMfaOAVQ/p9vmGQgPbN8SuEWJ0O2mlNRvzUpLS78a/m
- bjq3fOOl1W6xBCU8rA2SA1wGEa1hZ0Uc5LjyjhFfMVU7Uc2cx+9cgdFbu4rKSC8mjroVzGcnx
- 7+z4Lms+BlA6tdagtC5GEXT3G9n0s8zxAUdAs28ez6yBb9Q5kEOc+qoFezdWktVcqnws87obC
- /nDlxat+ZlwAoy5h2XiL5WUpaqZnJCrBo3ZYImy1sZXDANziGs0On5G4U/undSws7DhgOWqHy
- IeoSftF4QtwWYWVrN9fqyJvrDzyp7Bi16ahC1ivGRJoIzw0EEasQRRmH7YXOdbA9qaRIiEXdU
- u2zmcqxlsnpOUVrND+WyxqzW7YWY2YVoVSPmFjlO13ozgXvPrHaIgXsqOPaTsoBKIdxMC/lI0
- 27INI+NvPJ54rIz9lgDitiiqlgWUPDgv5QK6EL2eEHmX8CQKYUdmQUClfPtAJ7ZtbU1X9Unr3
- mbJfX+zclVK5l2dhF/DDltzMW2Bzs9z92wa+fDj6FWRhKWuS3
 
-After performing some tests with a custom SSDT table available at
-https://github.com/Wer-Wolf/acpi-wmi-ssdt i found out that Windows
-also enables data block collection even when the data block is
-being set.
+On Sun, Feb 16, 2025 at 12:24=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
+rote:
+>
+> Andres Urian Florez <andres.emb.sys@gmail.com> writes:
+>
+> > Fixed spelling mistake identified by codespell in the drm-uapi
+> > documentation
+> >
+> > Signed-off-by: Andres Urian Florez <andres.emb.sys@gmail.com>
+> > ---
+> >  Documentation/gpu/drm-uapi.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uap=
+i.rst
+> > index 69f72e71a96e..64e002c6383c 100644
+> > --- a/Documentation/gpu/drm-uapi.rst
+> > +++ b/Documentation/gpu/drm-uapi.rst
+> > @@ -518,7 +518,7 @@ ENOSPC:
+> >  EPERM/EACCES:
+> >          Returned for an operation that is valid, but needs more privil=
+eges.
+> >          E.g. root-only or much more common, DRM master-only operations=
+ return
+> > -        this when called by unpriviledged clients. There's no clear
+> > +        this when called by unprivileged clients. There's no clear
+> >          difference between EACCES and EPERM.
+>
+> This is a fine patch, but it should really have been copied to the DRM
+> maintainers; I think scripts/get_maintainer.pl should have told you
+> that?
+>
+> Thanks,
+>
+> jon
 
-Emulate this behaviour to avoid confusing the ACPI firmware.
-The bus-based API already implements this behaviour, so only the
-legacy GUID-based API needs to be changed.
+Sorry, including missing maintainers.
 
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- Documentation/wmi/acpi-interface.rst | 3 +++
- drivers/platform/x86/wmi.c           | 6 ++++++
- 2 files changed, 9 insertions(+)
-
-diff --git a/Documentation/wmi/acpi-interface.rst b/Documentation/wmi/acpi=
--interface.rst
-index 06fb7fcf4413..f1b28835d23c 100644
-=2D-- a/Documentation/wmi/acpi-interface.rst
-+++ b/Documentation/wmi/acpi-interface.rst
-@@ -89,6 +89,9 @@ Similar to the ``WExx`` ACPI methods, except that it con=
-trols data collection
- instead of events and thus the last two characters of the ACPI method nam=
-e are
- the method ID of the data block to enable/disable.
-
-+Those ACPI methods are also called before setting data blocks to match th=
-e
-+behaviour of the Windows driver.
-+
- _WED ACPI method
- ----------------
-
-diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
-index 97c4a161799e..db76c5bc6e12 100644
-=2D-- a/drivers/platform/x86/wmi.c
-+++ b/drivers/platform/x86/wmi.c
-@@ -461,8 +461,14 @@ acpi_status wmi_set_block(const char *guid_string, u8=
- instance, const struct acp
- 	if (IS_ERR(wdev))
- 		return AE_ERROR;
-
-+	if (wmi_device_enable(wdev, true) < 0)
-+		dev_warn(&wdev->dev, "Failed to enable device\n");
-+
- 	status =3D  wmidev_block_set(wdev, instance, in);
-
-+	if (wmi_device_enable(wdev, false) < 0)
-+		dev_warn(&wdev->dev, "Failed to disable device\n");
-+
- 	wmi_device_put(wdev);
-
- 	return status;
-=2D-
-2.39.5
-
+Thanks,
+Andres
