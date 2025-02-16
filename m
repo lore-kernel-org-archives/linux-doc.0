@@ -1,169 +1,210 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2040.outbound.protection.outlook.com [40.107.237.40])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D712919E833;
-	Sun, 16 Feb 2025 18:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739730339; cv=fail; b=Gb2wTL0wqcvQ/k+zxVll6TBpN1uVJy/j9ic5QSCkMZ+l+qavSRQGH6w/kWwXFQF6SV/kcF7m5MjkZpHUFueN1NAu4IBDQQaMVh7eTsfSPnncbfbyZl+E838kduh8VBfno4L1IyiF0MwDVrdntAd/IC/ABlfjK2qofwevS9TOYQQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739730339; c=relaxed/simple;
-	bh=NLkYE5HOT7xJwAeeFKTm4J+gC1LcB3xmVMoNtrE9KJM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hy+LdoMGrYI6QVeZEpIb2wX6C9hPdPtR/gQVDcoH6tySH2UGg5jktkCF5L3yDkha1deQC5RU8rePowB+RCn2JLQReFMES8AcfSqyIgIQ+SZkegQSwJhDIGKQOl4K/XBpbcpZAvuRZesn/vicppYMcdh2AWfJgMKurEteqsycRiE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=n0/v/lkx; arc=fail smtp.client-ip=40.107.237.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9AC42AB4;
+	Sun, 16 Feb 2025 19:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739734399; cv=none; b=L7sszvmBCAsB/+7g5F/vNSQ2IvOc+CFmD//YVqJ23cRMYuwVjJ/DvD7kZdTqhF+ygaFGG47IscDrX9OQAVLzk+C8WsWlxMYwT7NK5cx5lzvMhL612a3K5DbGGPs13W4yVQbkeNBfaQrDnFfbyHvQSD3oGZ24jFc8v6sR0qlp1RQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739734399; c=relaxed/simple;
+	bh=4zFvPourB8H8dcn2mIjlbEat5V6fdoA0xfssgADHt8o=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Yf0gBCTTkegWXlqSZCGi3rQr0r9oO576R4YnHdbz0aBsaMLv310UEp20iwzgVQCVRSqGvaDC4pYKEZl9Vi01DmF7h1SQjMw+f+djL1IkZcRPXMRail2ujoMtuSjS2cgBwFLSOI6ZVEQsvS5syCprTPgfAFtAjeJf6ZpLLhuAxag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=FukaASuM; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="n0/v/lkx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aE09sJc785FWYhIr0VvlQ/EDeal/WkBLn+2f+kGowKAP+2ti1fxEcTisccXVVnKm9mCSFfuByVdOgt3PPyKt19zDCHLYCjQ0XTgJ+Z1VxYDo5CJ+0qOai3zCttWhIMC/AhsCkfocF5BSZrlhHFZQIVyyFAUsqfWED4/vChMwg5KtExX5pR2+jDOQnmDxyZ0IMihCWDFyYL8YROLgkWB0lCCKRGFMNCj2JHtYIYtAmjuCW0HMEVuN9QwIZWzY7kOj5iDRJ3k0zK0vZBTpaVk6nba5fl1AQNgYWqwPjhvy7zGvuWqi2+t2iv4y4R33/lz0+NDCM9yp4XCOjiynzvAX8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zs2x7GsY+Q8mv45wh/hP8xsKfiBJPgQpO0a3QQd5LRY=;
- b=IW9EOPTAa4ErERuy+eKhVuM6xiIxiq+5hhhYNjASJ5zl9bE6u4+1NSotBFBQRzad2oeK9Nj5eagNr/PsKU7egiPbvw5stEtTO3TTsPsTmD+Fo/BqlLjrW1doYxywTEFlUrILDKfnEa84FlosrGKQCs+/zOJk5EwiS9vjS/8RtTqw/ufDyN8b7ZUqEN/U74ZSrz14Mk6uPQMDlCbxQuFGiqH9MmsH6yeZbYS8MPQzIPAFxvJnIAumIYww7z2rkTpqLpza8/5yIfKWk4e2aUdnCAG9Z1N218//7qDFDdmKOyETPnjVyUXNkP9+/NK+uSS4kl5rR+HDcCERPxrRdIPYuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=davemloft.net smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zs2x7GsY+Q8mv45wh/hP8xsKfiBJPgQpO0a3QQd5LRY=;
- b=n0/v/lkxNDtffCqMGuaSxwz90BhsFJal0I0wxnB6+wsKRpj4zJAwhhZYnYbAKe7uRyJDEQKbNH9KOdjsx7QNe3UXHuqS6EHG6nzOcEVPLm5dGApWPi93XFvkW97kntSAMmbqZ3YtThAsepRj4d3C+lRhAahu9aXNl4WHVN6jR8DOg9arxrXjvA+QZL1PaujhZZ2RqRQ+lYyHKq0rPAB/otPaaJnza4K19OxVdE9BTl7DrumFElQX2sk08yni84fT9SF9FYqPKnUlqQsM0QjbxpGjMC+cIHStdxlYZZmhHwwXk90iFLrfk9Lrle8Wn5JbMW5FCKUmTqxKZ07xBdx/EA==
-Received: from BN9PR03CA0988.namprd03.prod.outlook.com (2603:10b6:408:109::33)
- by IA1PR12MB6308.namprd12.prod.outlook.com (2603:10b6:208:3e4::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Sun, 16 Feb
- 2025 18:25:31 +0000
-Received: from BL02EPF00021F68.namprd02.prod.outlook.com
- (2603:10b6:408:109:cafe::69) by BN9PR03CA0988.outlook.office365.com
- (2603:10b6:408:109::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8445.17 via Frontend Transport; Sun,
- 16 Feb 2025 18:25:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BL02EPF00021F68.mail.protection.outlook.com (10.167.249.4) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8466.11 via Frontend Transport; Sun, 16 Feb 2025 18:25:31 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Sun, 16 Feb
- 2025 10:25:20 -0800
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Sun, 16 Feb
- 2025 10:25:20 -0800
-Received: from vdi.nvidia.com (10.127.8.12) by mail.nvidia.com (10.129.68.9)
- with Microsoft SMTP Server id 15.2.1544.14 via Frontend Transport; Sun, 16
- Feb 2025 10:25:16 -0800
-From: Gal Pressman <gal@nvidia.com>
-To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-CC: <netdev@vger.kernel.org>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
-	<przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "Tariq
- Toukan" <tariqt@nvidia.com>, Edward Cree <ecree.xilinx@gmail.com>, Ahmed Zaki
-	<ahmed.zaki@intel.com>, <linux-doc@vger.kernel.org>, Gal Pressman
-	<gal@nvidia.com>, Nimrod Oren <noren@nvidia.com>
-Subject: [PATCH net-next v3 4/5] selftests: drv-net: Introduce a function that checks whether a port is available on remote host
-Date: Sun, 16 Feb 2025 20:24:52 +0200
-Message-ID: <20250216182453.226325-5-gal@nvidia.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20250216182453.226325-1-gal@nvidia.com>
-References: <20250216182453.226325-1-gal@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="FukaASuM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1739734388; x=1740339188; i=w_armin@gmx.de;
+	bh=LGy+YSCR5EXvi4r55nuFgMVSm/uxFYtiz967rCHqBWY=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=FukaASuMPulkd5/llRPinx6CGBQrHgDRlh5W25yb4FXINVbp9un9GXNwQzFWNPBe
+	 J8UQcXzzyrVdGPyyk6aQaAeWlzcFDgJAv4evIvqN5iky4sC99lbFRuTgtbUWNMknt
+	 UCVBouGBUaaCvZn6yCv31Bj1VIPqFrznGlNxgkr6HKrp6paQU65B7CedS23CyQUmo
+	 imwkxnDV0m2hiaSKp/Knt7XjiWxyWZXOiiR4TICF9EDO8c4ngkixshLJEYQnba6Ww
+	 7214awmFX561Z4gbuPqjW4d4blrKXLykqJ/UTZFv79/1fqBkl4/TbspMHNKQ4lx6q
+	 cSt6DZc7R+3vFBNpIw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mx-amd-b650.fritz.box ([87.177.78.219]) by mail.gmx.net
+ (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1MBDj4-1tdeVZ3Pag-002GLc; Sun, 16 Feb 2025 20:33:07 +0100
+From: Armin Wolf <W_Armin@gmx.de>
+To: james@equiv.tech,
+	markpearson@lenovo.com,
+	jorge.lopez2@hp.com
+Cc: jdelvare@suse.com,
+	linux@roeck-us.net,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	platform-driver-x86@vger.kernel.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 3/8] platform/x86: think-lmi: Use WMI bus API when accessing BIOS settings
+Date: Sun, 16 Feb 2025 20:32:46 +0100
+Message-Id: <20250216193251.866125-4-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250216193251.866125-1-W_Armin@gmx.de>
+References: <20250216193251.866125-1-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00021F68:EE_|IA1PR12MB6308:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6ce8b42-1779-4038-b304-08dd4eb74bd7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|7416014|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?/YW26nv5gm3425hhEvfKfkcBjg8pAz/GKGlA4b3FRj3ATUzQcvWSaMgYV89f?=
- =?us-ascii?Q?+EpFBsazCvNjAs10XHc+0mMqt/KfW8j68zcm+ZRGJA6C2OygtzMvpxq3rf1I?=
- =?us-ascii?Q?7W9A/RHbOMF5bEVAM6oW9ExpUJnX1/L1XeQPSdo/3mVt+dpmrGsvvZRZn9CS?=
- =?us-ascii?Q?LE2GHCYyxW+mOsIu8AinwtZxm9f41nLUnhHZZgMh1ZZOsV2v78aVhEF3h/s3?=
- =?us-ascii?Q?8oIYqK1r635L2wGhivQM9e8jIJ5hJML8pygwfp4Rvp6uJeQCJVsn103GCOKZ?=
- =?us-ascii?Q?7MhwDJQkpryHqd+N3cyrpLAnm3JTl6jAXZMAS9w4+cYAeEhLy7AY0W+T9JxD?=
- =?us-ascii?Q?juamh4yyS1ixIIvtnVfJnK1+l1FAWRRxMSAYWpwdDNN1tq3URYyHR6ZRebVF?=
- =?us-ascii?Q?r1mYfOTXqmLWHlCvoHJy+PZxYY6NflX5vaYm2nI63UywaG6/4LJAQmiD4sTV?=
- =?us-ascii?Q?Vgutav3DmlPXIaqcpSPeTzCLmVOOD+8ASP3MI5kG7at+CcYGiLUQzRmQgQGi?=
- =?us-ascii?Q?1xXetETBZP1TDepu3T/zw45Q4OMcI0a8FRapQ9ORLG2xmyGSd+I2zMRsArGu?=
- =?us-ascii?Q?NU19pQgU3567xCESfbDYHwwB5TWRuUshAIGOBhYCx1d64aOy+hKuNlts09M9?=
- =?us-ascii?Q?tRCMYz77J4VvFYtsxnKKa+cF5T9crb7Y2ZJgzsnTGqdp44ahj544e+YKVxm5?=
- =?us-ascii?Q?YhQ1K44cTYnab5+LiNkqloriAq8nUnnFgWUH05YZibWioiHwU2ireLjr6SmO?=
- =?us-ascii?Q?oR2/uYVKeW9YLaCt0i/abBWuWY10wbMb2pczgYXSzckcLnhFjUpbbwxAVosQ?=
- =?us-ascii?Q?BwV1iqGWZcKPlXigkTm6dZQI5GKT/ROsQ/hUf6BReYRDQy4FLe7wuKHE241F?=
- =?us-ascii?Q?kmopFG/wsulpMMn5oKLYhC2TNeFQAvyT9K187OzTcm9VHXTkPauRnVjKRd9g?=
- =?us-ascii?Q?fzJ3y/KQWxjSw6Rw4u4o31818oSxdU7wTty90yunVDSJ5LcK/72BZd+mrIqH?=
- =?us-ascii?Q?Bkmf2fpJxzwW/8KIZKnmQqp2xCG4RvE8YgMZ3oDcUeVig1/rolJMRxXd6Esp?=
- =?us-ascii?Q?WXI2Fgh8d98Kdn0avV4PcUzCb4NqQmuqdQ5bLvlkX3EP40TU8W26NhCSfp7y?=
- =?us-ascii?Q?5pJxE4VNPf9E8uvXKbkwR+C9HsjWMgUMjKMOJEWYV3Vdo5ZyFMEOo107INVz?=
- =?us-ascii?Q?RPavHEVlDOp4w+70BKw9NJZCcky9LCMo0pTilNp0e1e0GQ6L587Hy0FVkfCY?=
- =?us-ascii?Q?xHQY0bSr7S9ccCGy8Sfh89+67dbY1EwEUgVslro2u6eIZ3SYKkwICHvsUUpd?=
- =?us-ascii?Q?o6X8Y/lGpPEwfw0O/bctNaVcgSF1xJVkM1k1n7FXXUQnrYQDXBcqROpw4UNZ?=
- =?us-ascii?Q?pmlKv0+2VjRQkVOpel0Oj1R/yyX79vw89FyEDWXHdcyjhfRVW3gDjSXnME3/?=
- =?us-ascii?Q?EGFwIQNj7hgMtYgWPeNkE5koCvEZIEnoFmuCM1KMqgw0X9Gj9Z6mnJuQUXvF?=
- =?us-ascii?Q?p5lXZW8PP3eZa/4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2025 18:25:31.2856
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6ce8b42-1779-4038-b304-08dd4eb74bd7
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF00021F68.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6308
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:OYDecztJG0YqpsI7jHjqnFqVJkOdsPHa+jTcw42NzfmhRMiw+ZL
+ y6++CTXgYmhvIW8xZiKhzHc1zCpR8SeCd3k1pa7mTrQCbaCe4iK58o6ZpJ1jM+aRMv/V2Jt
+ RTKeNU2KMH9uB84Di2cld9FLOze3MGjdIzpQN9huKh4hu1I4ucvUT9JfdxkJNh6FWDoQMrD
+ ZXIRbmot3VtUKxDnP7/iw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:eQY/Orl/C+k=;KyES0va4qGRw69QoCFrMtPlrTkf
+ w1MKr0w0CGfv41ognV7ap8aiQCxIUMuwMUtPW6c8kEDHuy11GXvAOKmmz6lO45HUG4S5JLdAU
+ KhFAB349yycK2mV31QUmJ6H4P5bAS4LRSoHBcLqOybHl+iFTD+92wRMvjZOwelaXEHcxtWgO7
+ TsCAL0ZAmSnTWcXIEEXdeYYiso4ML4I+xAdM19QqSvIZ8h3T8W8KL3Dh07uktA9PJ+PS20uu/
+ XvL3YGzBKlF/Add5rx2ozy+9OU1kxuGfnj6WcVbAEVAB8cqLP3MhZrERfkr2P62tqOmdFi4vw
+ FKYrjiD1RryYBmqid9cez0w7uHaV92Z5znAKhHRRzEQJMOYq9wnf1cwMr/sPN+KFbtBeRkQfb
+ p2VG0HJ1JoNphY5ue6kZQegZmjiwUF0xrgymySAjflfEMtHFRzvP66dfujBTe8uY+QLKbpfa6
+ GgGIRt27SvsQFdVxVBFor7CHaOy+qpeizry6tbBktTs40OiEaBXG7hcFs5yKUNPEntjJYaToJ
+ r0E2P2gd00cOY6+YqW4pr1txbUfc8GoA0Lrz89iaLEQPqDioe/yv61YsxczGTKyzMl+SwbW2q
+ zFIlzQ/YrscinaRfvHkAkWB+jYGYMQa6tnoxD5wc9EPxOndpTcyNDBw7656qz29nuhNiyHIOQ
+ r5uYhX4+LME1UdMkB8hTd57/+7JC8QzKZ4VdpDHfYbjC/bu28TZOiuhAO161+K9j89BFmpbim
+ qJ11A36WQxqVdwZgeOXRh8QT1fJmRnkQ/4KyjIswlbFciC0Uy3wOyjmgkniY09q1tPgTa+TM6
+ UDFzzpQuPqhHSrNJtZ9I8etfWKGKU0RNEj/vMcWfEPSOowpGw8gFL/u+4R65ynUNUjqhV8br4
+ rrMb3tLa2gNfmMQlGli1PrA/Ywzii7SiZwSyBGbScLg7/xc4OjhHJVyhkeEE5oHTteGg5D/lA
+ 1pL5s6jJaZFAwLUPww3rZNR/Nu/us2a5XTLTCJDfl6wA4X7/KePbNPPida9T+dcCf2Q1X8fUB
+ Yg/X12gwB9UsLGdByDR0grfRGNWHxT4hKOLvT3T/cPde+hggi45X17srpaw1sYtWjQ92I3JM1
+ 2it48hmaS7PexKRuHTG3rmZrgW306Jhmz8XbF1Ug4ZoTtbafoZr6lgSFKH09D78mPEe/aQ4e+
+ ElSQf18IRzDZibSH7ldxGpwTTO7Tzsb+e2BHpKhsgiGFEm7ePezh6wrXJabNGWkYztUi8O2IY
+ cQJUhoHgqPmYOUAVGVIjSKAxgWuxNUUx03PYidhEMT7J6NAkDsfw/SZZW5iE6D4V9Q3W6+KdY
+ hpnk9ah7B2iV3yIPxp5GdelYh3ZMUIGp/AbVXh9HEIs0YiQMn5XDFRT3vx5sB5/fgoKm46pKN
+ g5E5HGQeB1qs5BZ8Q+MZT0yo2X3lN0aLIkchx66AXZtoC9zleky3P2WfBT
 
-Add a function that checks whether a port is available on the remote
-host, this will be used downstream to verify that ports that were
-allocated locally are also available on the remote side.
+Since the driver already binds to LENOVO_BIOS_SETTING_GUID, using
+wmidev_block_query() inside tlmi_setting() allows for faster
+access to BIOS settings.
 
-Reviewed-by: Nimrod Oren <noren@nvidia.com>
-Signed-off-by: Gal Pressman <gal@nvidia.com>
----
- tools/testing/selftests/net/lib/py/utils.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+=2D--
+ drivers/platform/x86/think-lmi.c | 23 +++++++++--------------
+ drivers/platform/x86/think-lmi.h |  2 ++
+ 2 files changed, 11 insertions(+), 14 deletions(-)
 
-diff --git a/tools/testing/selftests/net/lib/py/utils.py b/tools/testing/selftests/net/lib/py/utils.py
-index 5a13f4fd3784..903cc042ed0e 100644
---- a/tools/testing/selftests/net/lib/py/utils.py
-+++ b/tools/testing/selftests/net/lib/py/utils.py
-@@ -123,6 +123,13 @@ def ethtool(args, json=None, ns=None, host=None):
-     return tool('ethtool', args, json=json, ns=ns, host=host)
- 
- 
-+def check_port_available_remote(port, host):
-+    """
-+    Check if a port is available on remote host.
-+    Raise exception if not available.
-+    """
-+    cmd(f"python3 -c 'import socket; s=socket.socket(socket.AF_INET6, socket.SOCK_STREAM); s.bind((\"\", {port}))'", host=host)
-+
- def rand_port():
-     """
-     Get a random unprivileged port.
--- 
-2.40.1
+diff --git a/drivers/platform/x86/think-lmi.c b/drivers/platform/x86/think=
+-lmi.c
+index 2c94a4af9a1d..0fc275e461be 100644
+=2D-- a/drivers/platform/x86/think-lmi.c
++++ b/drivers/platform/x86/think-lmi.c
+@@ -344,20 +344,14 @@ static int tlmi_opcode_setting(char *setting, const =
+char *value)
+ 	return ret;
+ }
+
+-static int tlmi_setting(int item, char **value, const char *guid_string)
++static int tlmi_setting(struct wmi_device *wdev, int item, char **value)
+ {
+-	struct acpi_buffer output =3D { ACPI_ALLOCATE_BUFFER, NULL };
+ 	union acpi_object *obj;
+-	acpi_status status;
+ 	int ret;
+
+-	status =3D wmi_query_block(guid_string, item, &output);
+-	if (ACPI_FAILURE(status))
+-		return -EIO;
+-
+-	obj =3D output.pointer;
++	obj =3D wmidev_block_query(wdev, item);
+ 	if (!obj)
+-		return -ENODATA;
++		return -EIO;
+
+ 	ret =3D tlmi_extract_output_string(obj, value);
+ 	kfree(obj);
+@@ -995,7 +989,7 @@ static ssize_t current_value_show(struct kobject *kobj=
+, struct kobj_attribute *a
+ 	char *item, *value;
+ 	int ret;
+
+-	ret =3D tlmi_setting(setting->index, &item, LENOVO_BIOS_SETTING_GUID);
++	ret =3D tlmi_setting(setting->wdev, setting->index, &item);
+ 	if (ret)
+ 		return ret;
+
+@@ -1588,7 +1582,7 @@ static struct tlmi_pwd_setting *tlmi_create_auth(con=
+st char *pwd_type,
+ 	return new_pwd;
+ }
+
+-static int tlmi_analyze(void)
++static int tlmi_analyze(struct wmi_device *wdev)
+ {
+ 	int i, ret;
+
+@@ -1625,7 +1619,7 @@ static int tlmi_analyze(void)
+ 		char *item =3D NULL;
+
+ 		tlmi_priv.setting[i] =3D NULL;
+-		ret =3D tlmi_setting(i, &item, LENOVO_BIOS_SETTING_GUID);
++		ret =3D tlmi_setting(wdev, i, &item);
+ 		if (ret)
+ 			break;
+ 		if (!item)
+@@ -1648,6 +1642,7 @@ static int tlmi_analyze(void)
+ 			kfree(item);
+ 			goto fail_clear_attr;
+ 		}
++		setting->wdev =3D wdev;
+ 		setting->index =3D i;
+ 		strscpy(setting->display_name, item);
+ 		/* If BIOS selections supported, load those */
+@@ -1666,7 +1661,7 @@ static int tlmi_analyze(void)
+ 			 */
+ 			char *optitem, *optstart, *optend;
+
+-			if (!tlmi_setting(setting->index, &optitem, LENOVO_BIOS_SETTING_GUID))=
+ {
++			if (!tlmi_setting(setting->wdev, setting->index, &optitem)) {
+ 				optstart =3D strstr(optitem, "[Optional:");
+ 				if (optstart) {
+ 					optstart +=3D strlen("[Optional:");
+@@ -1791,7 +1786,7 @@ static int tlmi_probe(struct wmi_device *wdev, const=
+ void *context)
+ {
+ 	int ret;
+
+-	ret =3D tlmi_analyze();
++	ret =3D tlmi_analyze(wdev);
+ 	if (ret)
+ 		return ret;
+
+diff --git a/drivers/platform/x86/think-lmi.h b/drivers/platform/x86/think=
+-lmi.h
+index f267d8b46957..a80452482227 100644
+=2D-- a/drivers/platform/x86/think-lmi.h
++++ b/drivers/platform/x86/think-lmi.h
+@@ -4,6 +4,7 @@
+ #define _THINK_LMI_H_
+
+ #include <linux/types.h>
++#include <linux/wmi.h>
+
+ #define TLMI_SETTINGS_COUNT  256
+ #define TLMI_SETTINGS_MAXLEN 512
+@@ -87,6 +88,7 @@ struct tlmi_pwd_setting {
+ /* Attribute setting details */
+ struct tlmi_attr_setting {
+ 	struct kobject kobj;
++	struct wmi_device *wdev;
+ 	int index;
+ 	char display_name[TLMI_SETTINGS_MAXLEN];
+ 	char *possible_values;
+=2D-
+2.39.5
 
