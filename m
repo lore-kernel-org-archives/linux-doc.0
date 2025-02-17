@@ -1,233 +1,147 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51A5238D52
-	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 19:58:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFA423716F
+	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 20:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739822331; cv=none; b=ice2IeRO6xK22ED3ORAOrhAXFRdYg05nT7vNzSalaDnhu2PgfyHv7zEWxRTn6vhS7zEf6qmr1GD2u9TH0R81WJ67m99rTXBp/IPKgnQcDx/V1B0S9+JSvtNLzN+pRZCZaWU1c+UVeCeS7VzLcFFvqV4qj5nrh4aNvr4Am2YWVl8=
+	t=1739822754; cv=none; b=mWItwRROIpfu8w8GLci8QrALMQjxuDv1jHqb3oamDYIgI8WtEkPnXS81B4lIWVgT+jVs+e6n4X0dr0KoGXLtLroUyMY22UEi19EHuvcLINkY3rIc8a1LwywHP9XC6BQZ9v08kCUJ8uL2ZSb9uDGzrbYpplfGRRuYge2r8JlURd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739822331; c=relaxed/simple;
-	bh=H7EXqVyyi+kLT8T3AFWH4gU/uM442cOf8FS+Ncb8NkM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JzmBbCHJZJzKt8pEA0L+TYooYyJVJ/ngb0lIp1W2AxtB52bJcizt1Nn2nMfyWP82Ug1F6gyngc+/9WY9K0/+9wOpp7mxw94vm3jXJxXF0zMItc7EqvxawCRXjTWM31e2xSrcYsFEMvYqXtkyGJSpkvEZEfd3bq7S6DLgIRllsLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XEv90QqL; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1739822754; c=relaxed/simple;
+	bh=bz3ghJTQitgH08tvG4NJT/xzUkvUumCORGKU4Mo3sks=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CZaJFMbdiT/6vdD4mIR0InHM4A1LjczAJ8d28ZskbLy4eWVn4KAmDh/8N735w66JMfIifPfxNgkr0qYRfUgLxvXU5ncfngQ3PsoelY1t0Ev9DUKtOGJdlpAnrfD6krfQmg71jYXJGJJpMzRTXajIu/x42Qkl1FFhCuEByqgjPSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I2JVOCl5; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XEv90QqL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739822328;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=NlktFKbt7fWOri2OGRbyYiQR64jGh1ap4Xy3JViDRMo=;
-	b=XEv90QqLiwNBMjF1S27daonlXuEOOLHs7NrLdcZ852Eyi1X0g2ufVb6bYGyDj1wuiNUSyK
-	OOBPeN7XymK/ge0Rmg+nO6mu7L5GXaisEI3ml3V4pcEkt4r95P8NqsEYp/9GUtEx4L6ur7
-	MgBXpRf8Wjsgw/9gagCKLkl9aewXYac=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-295-j4Z9SVZUM1aqF3y8aOfdSg-1; Mon, 17 Feb 2025 14:58:46 -0500
-X-MC-Unique: j4Z9SVZUM1aqF3y8aOfdSg-1
-X-Mimecast-MFC-AGG-ID: j4Z9SVZUM1aqF3y8aOfdSg_1739822326
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-38f4bf0d5faso534579f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 11:58:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I2JVOCl5"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-220e989edb6so89998945ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 12:05:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739822752; x=1740427552; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U+O9no49fak2pvaQIEBXjpb+RmRdk13oRryIZ0i9Ffo=;
+        b=I2JVOCl5BzmHMa1zwJsVaC32JycquQCCObe0f1jcCDHTecPcGxrQ0dIm6K7+m7e/rP
+         3+Lfg/Af/cJIqBGVVW03VY7hdgYnIUUODfgMo+85rNsNbsZ+IadFc7FTBUmoVi7mvfZQ
+         xr0+FP2F9wLyvD2JKdigC03P3EnWQaf/cpnKN3iAXoSjrJz24CGgfTjr7AHLQTzMQIaI
+         qQw/Pr17AX30H8xIQHu0Eogl++h7P4h9phLVpnQQyf5G0squg2Skc4BB+6HuEMJKq0HR
+         emb9UR6FfioYs+XgyqIQvCqXIWVlnjT537bnjtSb7TUst8AGuZm3rT/tjZynEcR5koBc
+         +O+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739822326; x=1740427126;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=NlktFKbt7fWOri2OGRbyYiQR64jGh1ap4Xy3JViDRMo=;
-        b=asMMLHb/v34ozVSUfqXgbpW5H2zoXhrpaoPNXKKmuvtK8jzjnKpIojsbCuB6wCJqGx
-         nc4yYdFIk5S6FAtWLs25ge0uVGN0OieqgWh5mu/4D6ZqR3nJrTKwe9ZEQvRzR9YHehLK
-         Zj4e56vQyaXhFORk2vYxwVmx6HRQs3EGcqwi+YQf3OvbMEW0WUchd0+F3BHo0i9qk8jc
-         eO+i5clcXUPAQ4E0n1+7FeqvY0YGVXX8fAKjjvKv3ZzyNIzZhgbZ2e+44y34dywuzQrP
-         a8jLHlHP9zu/nP2YedqiAUaS2WG2vZn4COOar+3i+lB9KxIhvpRxJJa6cc7UxlZ3zK1O
-         oWBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVAxyGCfkbZWp/fVNKFwZA//81Qj493KJA0i9t5OkLHWtI4xQBle8XeNN2Dq9w/TeUkCwgD4BZSw0U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUIflQf4xz+em0sScCdcVJL7YE+lqwQhIqCoYkAScGmrtIolgn
-	cas8L5jVGmTfOwHdW/HWfbYCLM6EXXU+U9OdzMwiaG01f79r1x7SYFHy07h+7lttBUVUuT6zHFI
-	vy3NlPtRqB13BN3pAXiDGKSuaVqV2s+TOJAyDqwqjFL4YmpJwtFAU7TqYOw==
-X-Gm-Gg: ASbGnctBL0UPGP7/a4DWoGfwiDlXZh+N2X4nkInb21wixb++Xu0oYs1KCmRJprlz0aP
-	znRvuUmhffpbOJAM5r7phW6kf8S43ucCYoaPRNFL3ikJdzTVENszlAYOJBhRStIbkyV6M/yjpTW
-	yqLl0ihjTzVznc0KVt0s1hRChE5BF4qoMp8ScBFAyuZPB++osw0bLakbYBgkdv9wO2OVzsE6yQ6
-	l7c8j5B6DLfhoUkZhl1IvPt+DwXoFj5UlrhsbKHLAizuA8RIVy810e1R9+Iys986Xst2u/qIJhY
-	YeaRzCAWyJCjdpOr3L58zvFnRqd3FCI0djqiIEsAusWKdBGF2/gZK7EY+fSPwN9so+mfmKm1UZd
-	GPXBYpXThio+Wo2et587rTTSabihRig==
-X-Received: by 2002:a5d:4a43:0:b0:38f:3392:9fd8 with SMTP id ffacd0b85a97d-38f33f2cb57mr8062633f8f.18.1739822325462;
-        Mon, 17 Feb 2025 11:58:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGmnf+EH+x2w9Z3amJyvk4I4a5QL1krZ5SQiXGUsJvRabwqfhUp4vd7zVPxaXWLqtKKNwXS0Q==
-X-Received: by 2002:a5d:4a43:0:b0:38f:3392:9fd8 with SMTP id ffacd0b85a97d-38f33f2cb57mr8062617f8f.18.1739822325081;
-        Mon, 17 Feb 2025 11:58:45 -0800 (PST)
-Received: from ?IPV6:2003:cb:c739:900:900f:3c9e:2f7b:5d0a? (p200300cbc7390900900f3c9e2f7b5d0a.dip0.t-ipconnect.de. [2003:cb:c739:900:900f:3c9e:2f7b:5d0a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258b4118sm13425148f8f.18.2025.02.17.11.58.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Feb 2025 11:58:43 -0800 (PST)
-Message-ID: <519c6ef7-ca56-4aac-8e43-f75b17353d66@redhat.com>
-Date: Mon, 17 Feb 2025 20:58:38 +0100
+        d=1e100.net; s=20230601; t=1739822752; x=1740427552;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U+O9no49fak2pvaQIEBXjpb+RmRdk13oRryIZ0i9Ffo=;
+        b=SDurL+l+pMq8kCtXg498n1HWMW7lR6M1nxi4QsEkUfjSQpkhEYpU8a9MyeNimi3ezs
+         ZDPNoTHtWv1g3lc9lhjlv/gsmsHU3psaiP69O0DyWI4YqqRk/PiFKF362q4At2y2v/mM
+         NUbregJMUxbTr0tCQnOlNjk/YySUFIeGkK51GSf73LFl6aAyQIf9flV5F8TOkFKCQJOr
+         2UKRJ+tT3pc7TBEcKqj6UT795zdT3FZ2p50gsSH+qVBiH61ChQk9X7uZj+SpJTUDY8e1
+         ivpBwfhYMnXVBbOsalPxNwGiwRAgPEpFFvzvuGC+B722uYosB/7bgErooKj1V7U8C1AJ
+         Tj1g==
+X-Gm-Message-State: AOJu0YyvTjN1vddBHLZf+lSwjkuzmco9lT09qD5KobOV50Vjm0DySAV2
+	Nhv47vzeemFeKtefou5fu35aRMyGPwKPx4+Gek0vuCIIJi3jH9dB8Fp6Vg==
+X-Gm-Gg: ASbGncs7EQ2cwiyRZCSAit5KiNKk0KI/LFuny55Ttsr6+yvhl/PgM90cDgcmcKcMDBl
+	1CbPTcMQyTjtgDzI7AD83haJ1s0l4SRk1oSp8EeIKm0FDarzR9Ar47TIfW3kQIXWlXi8E2oPVl/
+	7PK1WxZHBgCWGw/47+Dlhn3pXWgyUWL9nrV6gCD01kaYjif5rCy9h/ta0B9tXx2v6WLk//I6Nhj
+	bQoGyEvATCbCR14lWtfylsx7QzpkdbhT7zKqgEgzX2I9XczxVJmR3r8/uQhTkJaVcHzuLgZfR0M
+	CaIGuZ+zk1xagJeXmHVZhrm/t6jG2G2W
+X-Google-Smtp-Source: AGHT+IHhSJE9DHS0SPJwxjLUPmyrrRlOU+pBVUM+dda4NFx/z5Y/N0WPOzv9xcHk9A/95U+6u24XVw==
+X-Received: by 2002:a17:902:cccc:b0:21f:454:953c with SMTP id d9443c01a7336-221040d6c4bmr176618605ad.52.1739822752176;
+        Mon, 17 Feb 2025 12:05:52 -0800 (PST)
+Received: from shankari-IdeaPad.. ([49.128.160.106])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5590770sm74886525ad.231.2025.02.17.12.05.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2025 12:05:51 -0800 (PST)
+From: Shankari02 <shankari.ak0208@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Shankari02 <shankari.ak0208@gmail.com>
+Subject: [PATCH] doc: Fix grammatical errors and highlight code funcs
+Date: Tue, 18 Feb 2025 01:35:42 +0530
+Message-Id: <20250217200542.26594-1-shankari.ak0208@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 16/20] huge_memory: Add vmf_insert_folio_pmd()
-To: Alistair Popple <apopple@nvidia.com>
-Cc: akpm@linux-foundation.org, dan.j.williams@intel.com, linux-mm@kvack.org,
- Alison Schofield <alison.schofield@intel.com>, lina@asahilina.net,
- zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
- vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
- bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
- will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
- dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org,
- djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
- david@fromorbit.com, chenhuacai@kernel.org, kernel@xen0n.name,
- loongarch@lists.linux.dev
-References: <cover.472dfc700f28c65ecad7591096a1dc7878ff6172.1738709036.git-series.apopple@nvidia.com>
- <9f10e88441f3cb26eff6be0c9ef5997844c8c24e.1738709036.git-series.apopple@nvidia.com>
- <afff4368-9401-4943-b802-1b15bdcf5aaa@redhat.com>
- <6mmjoe27y63cfe5cycqje63gehgumod3bp7zzgvpz7qehgfuv4@uomvqgizba2m>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <6mmjoe27y63cfe5cycqje63gehgumod3bp7zzgvpz7qehgfuv4@uomvqgizba2m>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 17.02.25 05:29, Alistair Popple wrote:
-> On Mon, Feb 10, 2025 at 07:45:09PM +0100, David Hildenbrand wrote:
->> On 04.02.25 23:48, Alistair Popple wrote:
->>> Currently DAX folio/page reference counts are managed differently to normal
->>> pages. To allow these to be managed the same as normal pages introduce
->>> vmf_insert_folio_pmd. This will map the entire PMD-sized folio and take
->>> references as it would for a normally mapped page.
->>>
->>> This is distinct from the current mechanism, vmf_insert_pfn_pmd, which
->>> simply inserts a special devmap PMD entry into the page table without
->>> holding a reference to the page for the mapping.
->>>
->>> It is not currently useful to implement a more generic vmf_insert_folio()
->>> which selects the correct behaviour based on folio_order(). This is because
->>> PTE faults require only a subpage of the folio to be PTE mapped rather than
->>> the entire folio. It would be possible to add this context somewhere but
->>> callers already need to handle PTE faults and PMD faults separately so a
->>> more generic function is not useful.
->>>
->>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
->>
->> Nit: patch subject ;)
->>
->>>
->>> ---
->>>
->>> Changes for v7:
->>>
->>>    - Fix bad pgtable handling for PPC64 (Thanks Dan and Dave)
->>
->> Is it? ;) insert_pfn_pmd() still doesn't consume a "pgtable_t *"
->>
->> But maybe I am missing something ...
-> 
-> At a high-level all I'm trying to do (perhaps badly) is pull the ptl locking one
-> level up the callstack.
-> 
-> As far as I can tell the pgtable is consumed here:
-> 
-> static int insert_pfn_pmd(struct vm_area_struct *vma, unsigned long addr,
-> 		pmd_t *pmd, pfn_t pfn, pgprot_t prot, bool write,
-> 		pgtable_t pgtable)
-> 
-> [...]
-> 
-> 	if (pgtable) {
-> 		pgtable_trans_huge_deposit(mm, pmd, pgtable);
-> 		mm_inc_nr_ptes(mm);
-> 		pgtable = NULL;
-> 	}
-> 
-> [...]
-> 
-> 	return 0;
-> 
-> Now I can see I failed to clean up the useless pgtable = NULL asignment, which
-> is confusing because I'm not trying to look at pgtable in the caller (ie.
-> vmf_insert_pfn_pmd()/vmf_insert_folio_pmd()) to determine if it needs freeing.
-> So I will remove this assignment.
+This patch improves few sentences by correcting their grammatical formation. Some code functions have been highlighted for better readability.
+---
+ Documentation/driver-api/fpga/fpga-mgr.rst | 26 +++++++++++-----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-Ahhh, yes, the "pgtable = NULL" confused me, so I was looking for a 
-"pgtable_t *pgtable" being passed instead, that we could manipulate.
-
-> 
-> Instead callers just look at the return code from insert_pfn_pmd() - if there
-> was an error pgtable_trans_huge_deposit(pgtable) wasn't called and if the caller
-> passed a pgtable it should be freed. Otherwise if insert_pfn_pmd() succeeded
-> then callers can assume the pgtable was consumed by pgtable_trans_huge_deposit()
-> and therefore should not be freed.
-> 
-> Hopefully that all makes sense, but maybe I've missed something obvious too...
-
-Yes, you assume that if insert_pfn_pmd() succeeds, the table was 
-consumed, otherwise it must be freed.
-
-Thanks!
-
-Acked-by: David Hildenbrand <david@redhat.com>
-
+diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
+index 8d2b79f696c1..a53775399bbd 100644
+--- a/Documentation/driver-api/fpga/fpga-mgr.rst
++++ b/Documentation/driver-api/fpga/fpga-mgr.rst
+@@ -76,7 +76,7 @@ parameter syntax is the same, but the call to ``fpga_mgr_unregister()`` should b
+ removed. In the above example, the ``socfpga_fpga_remove()`` function would not be
+ required.
+ 
+-The ops will implement whatever device specific register writes are needed to
++The ops will implement whatever device-specific register writes are needed to
+ do the programming sequence for this particular FPGA.  These ops return 0 for
+ success or negative error codes otherwise.
+ 
+@@ -86,34 +86,34 @@ The programming sequence is::
+  3. .write or .write_sg (may be called once or multiple times)
+  4. .write_complete
+ 
+-The .parse_header function will set header_size and data_size to
++The **.parse_header** function will set header_size and data_size to
+ struct fpga_image_info. Before parse_header call, header_size is initialized
+ with initial_header_size. If flag skip_header of fpga_manager_ops is true,
+ .write function will get image buffer starting at header_size offset from the
+ beginning. If data_size is set, .write function will get data_size bytes of
+-the image buffer, otherwise .write will get data up to the end of image buffer.
+-This will not affect .write_sg, .write_sg will still get whole image in
+-sg_table form. If FPGA image is already mapped as a single contiguous buffer,
++the image buffer; otherwise .write will get data up to the end of image buffer.
++This will not affect .write_sg, .write_sg will still get the whole image in
++sg_table form. If FPGA image is already mapped as a single contiguous buffer, the
+ whole buffer will be passed into .parse_header. If image is in scatter-gather
+ form, core code will buffer up at least .initial_header_size before the first
+-call of .parse_header, if it is not enough, .parse_header should set desired
+-size into info->header_size and return -EAGAIN, then it will be called again
++call of .parse_header, if it is not enough, .parse_header should set the desired
++size into info->header_size and return ``-EAGAIN``, then it will be called again
+ with greater part of image buffer on the input.
+ 
+-The .write_init function will prepare the FPGA to receive the image data. The
++The **.write_init** function will prepare the FPGA to receive the image data. The
+ buffer passed into .write_init will be at least info->header_size bytes long;
+ if the whole bitstream is not immediately available then the core code will
+ buffer up at least this much before starting.
+ 
+-The .write function writes a buffer to the FPGA. The buffer may be contain the
++The **.write** function writes a buffer to the FPGA. The buffer may contain the
+ whole FPGA image or may be a smaller chunk of an FPGA image.  In the latter
+ case, this function is called multiple times for successive chunks. This interface
+ is suitable for drivers which use PIO.
+ 
+-The .write_sg version behaves the same as .write except the input is a sg_table
+-scatter list. This interface is suitable for drivers which use DMA.
++The **.write_sg** version behaves the same as .write except the input is a sg_table
++scatter list. This interface is suitable for drivers that use DMA.
+ 
+-The .write_complete function is called after all the image has been written
++The **.write_complete** function is called after all the image has been written
+ to put the FPGA into operating mode.
+ 
+ The ops include a .state function which will determine the state the FPGA is in
+@@ -126,7 +126,7 @@ API for implementing a new FPGA Manager driver
+ * ``fpga_mgr_states`` -  Values for :c:expr:`fpga_manager->state`.
+ * struct fpga_manager -  the FPGA manager struct
+ * struct fpga_manager_ops -  Low level FPGA manager driver ops
+-* struct fpga_manager_info -  Parameter structure for fpga_mgr_register_full()
++* struct fpga_manager_info -  Parameter structure for ``fpga_mgr_register_full()``
+ * __fpga_mgr_register_full() -  Create and register an FPGA manager using the
+   fpga_mgr_info structure to provide the full flexibility of options
+ * __fpga_mgr_register() -  Create and register an FPGA manager using standard
 -- 
-Cheers,
-
-David / dhildenb
+2.34.1
 
