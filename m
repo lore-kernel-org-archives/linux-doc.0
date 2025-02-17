@@ -1,166 +1,126 @@
-Received: from pv50p00im-zteg10011401.me.com (pv50p00im-zteg10011401.me.com [17.58.6.41])
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75612218AD8
-	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 12:27:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635D821C17E;
+	Mon, 17 Feb 2025 12:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739795239; cv=none; b=CXHUeo4uaS3xTKRUmPYkZ38nIWTwPO+Hw/EZS4jQnV0jzMTCTcldv8rOC5PivVXaC5OFIyds0DypPY3jrjas6G08Di3Us265vND18XvwUJl37FOahFAjZXE/a3FXTErTY0Ho+5qCcZTcrLYdiuSju0cuz+ONLkeNootBBIIxhkA=
+	t=1739797172; cv=none; b=MV9BY1m9syv/fPD227jxSTuFa9XlzKXWNFLjSNfE4l7VDw6xSGHIngupJ9aeN+dbXGrfNkVL29R7klKBHChkIAbdX36pY3DwU+7FTcV+Gc/QDQlIO234o2oQSR8fw/mZ3Qqm68VGvo6dVGJp1zAw6v4DX/HXvkxy9Ay8C6eAIC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739795239; c=relaxed/simple;
-	bh=+dIR+LeHo5kZKBeudNiXzL2GMb5J0NlWFTmwEAPjc9w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tMZCw1hdRUzSh6qUPDqebW+nQMmvAumZ5NX/6GIuWLhKUcTLfqOrsx+JI1Jr827P34/E6n5NWndZ8qGMDRSyAE4V48n5SMh/Wmfd3nh/aYiT1luYfSUeOSuDB2O6trTxlJt6x8fMYdvMnXTQkd0GEDznBKkJ4cWDaSq9UIW1Ab0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=H2HroW0h; arc=none smtp.client-ip=17.58.6.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1739797172; c=relaxed/simple;
+	bh=w4qUqGu+pnae/CodpYx0ogkuKuGj2dZyD24Fd0C1thM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qePrcFIU5gHLBhenAvU5p/XKERszJshwNerTxpfN04sVIorVHJmY7LoQd/Kfrl+HzQ7lTTGQA+JUGPWiU+NUNnFeIf9kPOy5+WMRuR7mxSOohOaW/dKoLOZIpw+D0F3UeY/ZfsxxfupA7V+OCzwUebPBY3XHMV8HWh8Bm1113fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=qjVZpAJv; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="H2HroW0h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; bh=Pi7+rTG0m4v7zpGViDVCQo5NVyykXLI+pXUfY4RsiVI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:x-icloud-hme;
-	b=H2HroW0hTMUdfZo6MiZQpBP0aiBenvObYk4BxCYgvT4X03H46ggvOUXWM2lPw2vvk
-	 w022AOgNWDITlcqbRiViKm2tcLXPgKZkB4wY1iYG7PwJdo+JBeKwV8461EdTT2SYcl
-	 XOqJZdSxDVxolxgFqNqjWQ/clrLDbg718Ej0EJWQPvOLLy/ROqQY6op6M5rSzmjw8E
-	 RstWGaeZxxxsMwBk5HEcmA7wmDjEFITFfgiiyflCgZVIYqMQeZM1ux0lNBT0RC1WOi
-	 lxem4cysWmn4ZYZvYRtkG8/X5Cl9hheDMXvbJrmd4+SRHQs97e45TjjeMiEvYkkVth
-	 6M8sFD3k9zpfg==
-Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-zteg10011401.me.com (Postfix) with ESMTPSA id 920DE34BA68E;
-	Mon, 17 Feb 2025 12:27:12 +0000 (UTC)
-From: Zijun Hu <zijun_hu@icloud.com>
-Date: Mon, 17 Feb 2025 20:26:46 +0800
-Subject: [PATCH v2] PCI: endpoint: Remove API devm_pci_epc_destroy()
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="qjVZpAJv"
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51HA0AP7030330;
+	Mon, 17 Feb 2025 07:59:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=NDHtPjXfrkrLO78RC509HQt7UeV
+	gB+a/yBdbiL+s/rU=; b=qjVZpAJv8d5dy02jovx0OawjPSnJXSB9JuKlOEBw5Tc
+	Y58WFUGAe9cRvutXeU2+yNvmVLhew/KDnNCYf+kksShsdUpYZyQl61cFy5hhB+N3
+	2R5W4lJR68gV4vf/ZVp6FVjhhy12ysL0r4q+3rSKBCvjUtgWJvRqnnCh5umIjccs
+	L2QexyeTXRbWT/8tK3/yBH4cOgPGV0k3emTZvGjY1Bt7ZU4+S6ryKGqoeBB3LohY
+	/3Dj8o7KNr6Woh9zKwUP+lXRRL02nRHZgDqnK/hlP0aJKZ+nuBAzrlWtGjhfszP1
+	hslswiNAXmnJr6v03brxeZDxJTIw9osXW9A940wbixQ==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 44v2ysrkub-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Feb 2025 07:59:15 -0500 (EST)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 51HCxEp4012185
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 17 Feb 2025 07:59:14 -0500
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
+ ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Mon, 17 Feb 2025 07:59:14 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Mon, 17 Feb 2025 07:59:14 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Mon, 17 Feb 2025 07:59:14 -0500
+Received: from desktop-robi.ad.analog.com ([10.48.65.85])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 51HCx3Eq018359;
+	Mon, 17 Feb 2025 07:59:05 -0500
+From: Robert Budai <robert.budai@analog.com>
+To: Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich
+	<Michael.Hennerich@analog.com>,
+        Nuno Sa <nuno.sa@analog.com>,
+        "Ramona
+ Gradinariu" <ramona.gradinariu@analog.com>,
+        Antoniu Miclaus
+	<antoniu.miclaus@analog.com>,
+        Robert Budai <robert.budai@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+        "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, <linux-iio@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [RESEND PATCH v8 0/6] Add support for ADIS16550
+Date: Mon, 17 Feb 2025 12:57:44 +0200
+Message-ID: <20250217105753.605465-1-robert.budai@analog.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250217-remove_api-v2-1-b169c9117045@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAAUrs2cC/23MQQrCMBCF4auUWRvJpKQYV95DisRxamfRpiYal
- JK7G7t2+T943wqJo3CCY7NC5CxJwlzD7Bqg0c93VnKrDUYbqw1qFXkKmS9+EeVoQPbOOo0M9bB
- EHuS9Yee+9ijpGeJnszP+1r9MRoXq4Lm7th233tLp8RKSmfYUJuhLKV/lE89WpgAAAA==
-X-Change-ID: 20250210-remove_api-9cf1ea95901e
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Zijun Hu <zijun_hu@icloud.com>, linux-pci@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Zijun Hu <quic_zijuhu@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Proofpoint-GUID: aO8HdjU9xAh7e-Xl860WkIUQwEJ0m9eN
-X-Proofpoint-ORIG-GUID: aO8HdjU9xAh7e-Xl860WkIUQwEJ0m9eN
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: USUwmwpAzYaJI1JtDR4r62nDSNRUELh1
+X-Proofpoint-ORIG-GUID: USUwmwpAzYaJI1JtDR4r62nDSNRUELh1
+X-Authority-Analysis: v=2.4 cv=ELj800ZC c=1 sm=1 tr=0 ts=67b332a3 cx=c_pps a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=TpNKFGk_wJGFTPuD7poA:9 a=QEXdDO2ut3YA:10
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-17_05,2025-02-13_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=878
- malwarescore=0 bulkscore=0 phishscore=0 spamscore=0 adultscore=0
- mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2502170109
-X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
+ spamscore=0 adultscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ lowpriorityscore=1 clxscore=1015 bulkscore=1 phishscore=0 suspectscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2501170000
+ definitions=main-2502170113
 
-From: Zijun Hu <quic_zijuhu@quicinc.com>
+The ADIS16550 is a complete inertial system that includes a triaxis gyroscope
+and a triaxis accelerometer. Each inertial sensor in the ADIS16550 combines
+industry leading MEMS only technology with signal conditioning that optimizes
+dynamic performance. The factory calibration characterizes each sensor for
+sensitivity, bias, and alignment. As a result, each sensor has its own dynamic
+compensation formulas that provide accurate sensor measurements.
 
-Static devm_pci_epc_match() is only invoked by API devm_pci_epc_destroy()
-and the API has not had callers since 2017-04-10 when it was introduced.
+Robert Budai (6):
+  iio: imu: adis: Add custom ops struct
+  iio: imu: adis: Add reset to custom ops
+  iio: imu: adis: Add DIAG_STAT register
+  dt-bindings: iio: Add adis16550 bindings
+  iio: imu: adis16550: add adis16550 support
+  docs: iio: add documentation for adis16550 driver
 
-Remove both the API and the static function.
+ .../bindings/iio/imu/adi,adis16550.yaml       |   74 ++
+ Documentation/iio/adis16550.rst               |  376 ++++++
+ Documentation/iio/index.rst                   |    1 +
+ MAINTAINERS                                   |   10 +
+ drivers/iio/imu/Kconfig                       |   13 +
+ drivers/iio/imu/Makefile                      |    1 +
+ drivers/iio/imu/adis.c                        |   35 +-
+ drivers/iio/imu/adis16550.c                   | 1149 +++++++++++++++++
+ include/linux/iio/imu/adis.h                  |   34 +-
+ 9 files changed, 1680 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+ create mode 100644 Documentation/iio/adis16550.rst
+ create mode 100644 drivers/iio/imu/adis16550.c
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
----
-Changes in v2:
-- Correct commit message error pointed out by Manivannan Sadhasivam.
-- Link to v1: https://lore.kernel.org/r/20250210-remove_api-v1-1-8ae6b36e3a5c@quicinc.com
----
- Documentation/PCI/endpoint/pci-endpoint.rst |  7 +++----
- drivers/pci/endpoint/pci-epc-core.c         | 25 -------------------------
- include/linux/pci-epc.h                     |  1 -
- 3 files changed, 3 insertions(+), 30 deletions(-)
-
-diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
-index 35f82f2d45f5ef155b657e337e1eef51b85e68ac..599763aa01ca9d017b59c2c669be92a850e171c4 100644
---- a/Documentation/PCI/endpoint/pci-endpoint.rst
-+++ b/Documentation/PCI/endpoint/pci-endpoint.rst
-@@ -57,11 +57,10 @@ by the PCI controller driver.
-    The PCI controller driver can then create a new EPC device by invoking
-    devm_pci_epc_create()/pci_epc_create().
- 
--* devm_pci_epc_destroy()/pci_epc_destroy()
-+* pci_epc_destroy()
- 
--   The PCI controller driver can destroy the EPC device created by either
--   devm_pci_epc_create() or pci_epc_create() using devm_pci_epc_destroy() or
--   pci_epc_destroy().
-+   The PCI controller driver can destroy the EPC device created by
-+   pci_epc_create() using pci_epc_destroy().
- 
- * pci_epc_linkup()
- 
-diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index 9e9ca5f8e8f860a57d49ce62597b0f71ef6009ba..cf2e19b80551a2e02136a4411fc61b13e1556d7a 100644
---- a/drivers/pci/endpoint/pci-epc-core.c
-+++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -25,13 +25,6 @@ static void devm_pci_epc_release(struct device *dev, void *res)
- 	pci_epc_destroy(epc);
- }
- 
--static int devm_pci_epc_match(struct device *dev, void *res, void *match_data)
--{
--	struct pci_epc **epc = res;
--
--	return *epc == match_data;
--}
--
- /**
-  * pci_epc_put() - release the PCI endpoint controller
-  * @epc: epc returned by pci_epc_get()
-@@ -931,24 +924,6 @@ void pci_epc_destroy(struct pci_epc *epc)
- }
- EXPORT_SYMBOL_GPL(pci_epc_destroy);
- 
--/**
-- * devm_pci_epc_destroy() - destroy the EPC device
-- * @dev: device that wants to destroy the EPC
-- * @epc: the EPC device that has to be destroyed
-- *
-- * Invoke to destroy the devres associated with this
-- * pci_epc and destroy the EPC device.
-- */
--void devm_pci_epc_destroy(struct device *dev, struct pci_epc *epc)
--{
--	int r;
--
--	r = devres_release(dev, devm_pci_epc_release, devm_pci_epc_match,
--			   epc);
--	dev_WARN_ONCE(dev, r, "couldn't find PCI EPC resource\n");
--}
--EXPORT_SYMBOL_GPL(devm_pci_epc_destroy);
--
- static void pci_epc_release(struct device *dev)
- {
- 	kfree(to_pci_epc(dev));
-diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-index e818e3fdcded95ca053db074eb75484a2876ea6b..82a26945d038d3e45e2bbbfe3c60b7ef647f247a 100644
---- a/include/linux/pci-epc.h
-+++ b/include/linux/pci-epc.h
-@@ -257,7 +257,6 @@ __devm_pci_epc_create(struct device *dev, const struct pci_epc_ops *ops,
- struct pci_epc *
- __pci_epc_create(struct device *dev, const struct pci_epc_ops *ops,
- 		 struct module *owner);
--void devm_pci_epc_destroy(struct device *dev, struct pci_epc *epc);
- void pci_epc_destroy(struct pci_epc *epc);
- int pci_epc_add_epf(struct pci_epc *epc, struct pci_epf *epf,
- 		    enum pci_epc_interface_type type);
-
----
-base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-change-id: 20250210-remove_api-9cf1ea95901e
-
-Best regards,
 -- 
-Zijun Hu <quic_zijuhu@quicinc.com>
+2.34.1
 
