@@ -1,115 +1,170 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCB38BE8
-	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 02:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC1F76026;
+	Mon, 17 Feb 2025 02:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739757769; cv=none; b=EUZFLF4RfRPFJJGKEIzUBcsubVscJsDfwk0hIYLeW04fxnD9RclGbpVHol+yDselc7xmYqbFfb3S+aVcsIEi/91iArfw1ALIGjWPsv28d+xMeIrWznMatmZW16ui3R1Ts/pHih6tckLYQuyN/j1/gn8I42HNnSr7tklYRrvGaCw=
+	t=1739758326; cv=none; b=Vu3P5R9VuNlQXgstN54VISsxKSEiR1PHT3qynRStEykqQqacS0udwamCEL3Bcme4c1AK6TvygkC8/gJbomle45Y4JJbhOAQtaDADCuVs9ygsXaJldljVpcFn30gRQerRn5d4pQJzReSxI7uKK3RRz7vsqXZXU/tlhbRv/WIikJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739757769; c=relaxed/simple;
-	bh=80IHJ4tqXjOk66XEpcwdR4td3Bevk8CSioYG+nODTiw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DOEcICnLJi32wmRXYkvgmYcs+NU3N+wfkRT8cZyyMgllFdQRarFSpRO/oblcGFr4mW9Pe801f+mrDfV7RjuPFD6HoMpNYJ6+xeJfhJdQ+sQXrbdxhpxR4a9ayPrJ6a4HuHjeRgxt7q1JU/yXkxr6cv38jQb1pIXm2l9GfcmEI48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NqktAj5o; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1739758326; c=relaxed/simple;
+	bh=NLdFO27qpvN8zY+dJVhvFtamOsv39cjJjxxbReiO60M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uAO19PC1J1AR1pXPi8tDwW+fmgRowV/5UQlnWGJOuKiA6XuwA4jBESJjY+pRb+qt1AINP6s0VORi7U6/JB907SpKxKFjqaQeiNli+kH7zI8jqM50Au5BzCQbgdlsy0V/3BKm7eqIzgTalICmqkkDgeFsruYzz4pLd2+74SLpXrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A01Oz1k6; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NqktAj5o"
-Message-ID: <ae9f3fe4-65e3-4e37-a480-70d7ceea2ec5@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1739757755;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DyawKvYJRUr2n2pt9f6L7mjmwNFrc2ialABTRZgBMJI=;
-	b=NqktAj5ocZHCO4buGnhHEizZ6Eq8++z00JpJbk42Bfb8tfWojYOG460DglSHphRQIQk0H2
-	Z29Xu56uqA6PTqmLRM6+9ww8DG6F0A6iBA44A7qCOvS5/Bm8bLqlm8gyJMCMNAB5r3xxK0
-	0sLG0e0orf0ye7uOx/+Wvx06aDyRoTo=
-Date: Mon, 17 Feb 2025 10:02:30 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A01Oz1k6"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-471ebfbad4dso6189991cf.3;
+        Sun, 16 Feb 2025 18:12:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739758323; x=1740363123; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BYMzkjPFhu4j+/htejHxz0Ece5HFcsbyGIeX6/xhquU=;
+        b=A01Oz1k6PRxeD7w7OB89uNi7O+yxznbNDvCBUlvENqO2oeeqJYqZdkz/aWGKxl7Zb6
+         97AetXdsa7L0tsSJr5y1p66tIXxO0HFucSEl+KtORdGuPvEQIDwCdgxOPkldUTqxcPjK
+         11O3+gFDowV7RO9TvIwvhCBBJEslrGa7bxoLtEiXY2o5X6tLJNVvLBQ7R5GTzo89vQUK
+         W6+hgxAucUbfv9rhNqegYXGqC/mzMWrfr71CPGD8WlFeKLNuIYnvIZYi+d2/VBnMajF9
+         624m7mElRsLzujxuKCuN8TAWp/z0/vXnyhEgP4PU/lIR/mar4uqBll0wgc7hvoHc9seR
+         Qjmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739758324; x=1740363124;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BYMzkjPFhu4j+/htejHxz0Ece5HFcsbyGIeX6/xhquU=;
+        b=nJEOHxgWS0X7dWr+xfKtJkeEmfxl2Fmb2HI0RRhOg7snEQYPK80wCZlzX9dkldGF5p
+         vPZlgG73HgkzCeK4RRCWTGaPbGz8wpi0WfpCkEQfY64Mp54uDwAMdyHSGcAKeRGycs9m
+         Oz+vAoqI/CDKa8pqhmU5/wV4AqocSjcxFZeJbS9LXDBzsqf7tsYYdEUkeaXY8+P7fE+F
+         8sHutTnmRwaIbNPuRDcWNo7egPyixp4kDahGJSaufeD715il4Xrnm0GCBwtwPdlyhzjo
+         Fd9ngn0PAl9vM1PRK+/WlNiS5q8f+JRU/rwhXqcpcj/fNjzznYcjdVv/T4mbP64zMGPe
+         jR6A==
+X-Forwarded-Encrypted: i=1; AJvYcCW0lu7Q1bKxpG3cPoZ/hAdOys/9V7yYNPM5Dvtr2hCad3IZTXfAwMa7rVAU98MTo9sfMl7LNZeVOGI=@vger.kernel.org, AJvYcCWAX0LeB6I49ousOsp2xGKE+xEyS++5vpIjPBLLRG/KRgddcRqNyu3f8yHhjrGAWG8O5MMM@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPh7jWKJIM7lU6UA9ogE7+YZzrMx27asnMwd4cNVPJh2yBRLYq
+	aB0JiTE5dnncqADDUwR7paum4889KJw6R2sKm6ASMmXdbsBBZm6w
+X-Gm-Gg: ASbGncuipf/GJrj4J/N8jtJnhWJ4UFrrFnRlg92KnoQgUJ8W1izrbVPMlSZF/eIx0D6
+	/DTBKw1qHK3XhmiKhSv84ZxRCurasMef3V+m4xJFewwwDmEiuvOxOfpD7NJJ5lJSDPn23reMD8S
+	SKMQOCURRjHdQTQg4KTng5ov4TS1WmlDerCr+au3yan34Jt3tVYeXYqQm+Ykmh+/MUKir9EZs4Z
+	vAkB2Nyh0uzbJcMtHAyQNVk01AXMhQibvcmfDYD69n8KqllKXMe1h4EKoCErpQGUqCM9Yrr3sGl
+	afH3AqZS8ySJEqdIdD+qefXLRo3hmMWETcAFs/hl1NDDv0eDICz2VZSPtKxV7JDik6u7o7aBOC9
+	PFHTEsg==
+X-Google-Smtp-Source: AGHT+IFfbD1+PJvXob7XWwUPy/dDfSQ1gVpMkghQ7JLkctIDDG2P+iW941sWCzv/RMKHJXsCMOOmjg==
+X-Received: by 2002:ac8:7d01:0:b0:471:bd5e:d5dd with SMTP id d75a77b69052e-471dbd274a6mr100097421cf.16.1739758323607;
+        Sun, 16 Feb 2025 18:12:03 -0800 (PST)
+Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-471c29eb0e4sm41972921cf.10.2025.02.16.18.12.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Feb 2025 18:12:03 -0800 (PST)
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfauth.phl.internal (Postfix) with ESMTP id EBE2B1200043;
+	Sun, 16 Feb 2025 21:12:02 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Sun, 16 Feb 2025 21:12:02 -0500
+X-ME-Sender: <xms:8pqyZ8YxbWwRHOSZpBzQrVZLO2LyfbhwIqo6lvd6ntWlPaqLlkUdJg>
+    <xme:8pqyZ3YxtCNj_f1J5wUXhwmrCYnY_LoRnYb6dU3cWnQhIj63QXSVwhrSO1sDjkKgW
+    I4YDJusvNZI-nuqEA>
+X-ME-Received: <xmr:8pqyZ29rUfwC4yJxEB1jXlQRD67TACaWNuPJVGZl5-7aSgW_X14HI6xSwA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehjeduvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
+    necuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilh
+    drtghomheqnecuggftrfgrthhtvghrnhephfetvdfgtdeukedvkeeiteeiteejieehvdet
+    heduudejvdektdekfeegvddvhedtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhn
+    odhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejje
+    ekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhn
+    rghmvgdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoh
+    eprhhitghhrghrugdrfigvihihrghnghesghhmrghilhdrtghomhdprhgtphhtthhopehp
+    rghulhhmtghksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehfrhgvuggvrhhitgeskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvvghrrghjrdhuphgrughhhigrhieskhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtoheprhgtuhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtohepsghoqhhunhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:8pqyZ2rkZyawUAtRCcCDe3mHvoH42RO_FqWsN6iecQ7oQQvdw0dlyg>
+    <xmx:8pqyZ3pBb2tBuBxLtZ2wmmQowB1Rn4pxQ47CKIYfoPBJN9aThMHQGw>
+    <xmx:8pqyZ0QZkVzsaaKcMAz_rFxPD-z0xsC6yMUdXxMsJVfXV9vJVsg5fQ>
+    <xmx:8pqyZ3pryHt-ixXIl9Ec4nPjDEkzlr78ImsN2CZqnKdzZfTW_vr-RQ>
+    <xmx:8pqyZ84rDq6SZJpTp2T7Ov5MTDAcEIeEaIb17FnhXy17pI6Cfia0kqd_>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 16 Feb 2025 21:12:02 -0500 (EST)
+Date: Sun, 16 Feb 2025 18:12:01 -0800
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	rcu@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc/RCU/listRCU: fix an example code snippets
+Message-ID: <Z7Ka8Z5RS_OwyL_G@Mac.home>
+References: <20250101082306.10404-1-richard.weiyang@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] docs/zh_CN: add few request for Chinese translation
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: alexs@kernel.org, Yanteng Si <siyanteng@loongson.cn>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250213054222.21776-1-alexs@kernel.org>
- <20250213054222.21776-2-alexs@kernel.org>
- <5d35c3f6-a52f-4e63-a972-50ee2898947e@linux.dev>
- <CAD-N9QXhmNBUFPfo11-h0H0Du_JFNX_Qxcs8aoesW8=ABgneaw@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <CAD-N9QXhmNBUFPfo11-h0H0Du_JFNX_Qxcs8aoesW8=ABgneaw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250101082306.10404-1-richard.weiyang@gmail.com>
+
+Hi Wei,
+
+The change loosk good to me, thanks!
+
+I queued the patch for futher reviews and tests with some changes in the
+commit log (for title formating and a bit more explanation), please see
+below.
+
+Regards,
+Boqun
+
+On Wed, Jan 01, 2025 at 08:23:06AM +0000, Wei Yang wrote:
+> The example code for "Eliminating Stale Data" looks not correct:
+> 
+>   * rcu_read_unlock() should put after kstrdup()
+>   * spin_unlock() should be called before return
+> 
+> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+[...]
 
 
-在 2/14/25 11:24 AM, Dongliang Mu 写道:
-> On Thu, Feb 13, 2025 at 6:24 PM Yanteng Si <si.yanteng@linux.dev> wrote:
->>
->> 在 2/13/25 1:42 PM, alexs@kernel.org 写道:
->>> From: Alex Shi <alexs@kernel.org>
->>>
->>> A good checked summit could save much time for linux-doc maintainer.
->>>
->>> Signed-off-by: Alex Shi <alexs@kernel.org>
->>> Cc: Yanteng Si <siyanteng@loongson.cn>
->>> Cc: Jonathan Corbet <corbet@lwn.net>
->>> Cc: linux-doc@vger.kernel.org
->>> Cc: linux-kernel@vger.kernel.org
->> Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
->>
->>
->>
->>> ---
->>>    Documentation/translations/zh_CN/index.rst | 8 +++++++-
->>>    1 file changed, 7 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
->>> index 7574e1673180..cc512ca54172 100644
->>> --- a/Documentation/translations/zh_CN/index.rst
->>> +++ b/Documentation/translations/zh_CN/index.rst
->>> @@ -26,7 +26,13 @@
->>>    顺便说下，中文文档也需要遵守内核编码风格，风格中中文和英文的主要不同就是中文
->>>    的字符标点占用两个英文字符宽度，所以，当英文要求不要超过每行100个字符时，
->>>    中文就不要超过50个字符。另外，也要注意'-'，'='等符号与相关标题的对齐。在将
->>> -补丁提交到社区之前，一定要进行必要的 ``checkpatch.pl`` 检查和编译测试。
->>> +补丁提交到社区之前，一定要进行必要的 ``checkpatch.pl`` 检查和编译测试，确保
->>> +在 ``make htmldocs/pdfdocs`` 中不增加新的告警，最后，安装检查你生成的
->>> +html/pdf 文件，确认它们看起来是正常的。
->>> +
->>> +提交之前请确认你的补丁可以正常提交到中文文档维护库:
->>> +https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git/
->>> +如果你的补丁依赖于其他人的补丁, 可以与其他人商量后由某一个人合并提交。
->> I think this requires a detailed tutorial. Otherwise, it
->>
->> will increase the difficulty for beginners to get started.
->>
->> How about removing it for now? I have a plan to write
->>
->> a translation guidebook. What's your opinion?
-> Good idea. I can help contribute. Our Translation Team has a simple
-> one to guide team members in kernel document translation.
+------------------>8
+Subject: [PATCH] doc/RCU/listRCU: Fix an example code snippets
 
-Good jobs, This is very helpful to me.
+The example code for "Eliminating Stale Data" looks not correct:
 
+*	rcu_read_unlock() should put after kstrdup(), because otherwise
+	entry may get freed while kstrdup() is being called.
 
-In fact, I already had a draft before New Year's Day.
+*	spin_unlock() should be called before return, otherwise the
+	function would return with the lock of the entry held.
 
-The reason I didn't submit it was because, in practice,
+Hence fix these.
 
-I found many deficiencies. I'll try to submit it later this week.
+Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+Link: https://lore.kernel.org/r/20250101082306.10404-1-richard.weiyang@gmail.com
+Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+---
+ Documentation/RCU/listRCU.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-Thanks,
-
-Yanteng
-
+diff --git a/Documentation/RCU/listRCU.rst b/Documentation/RCU/listRCU.rst
+index ed5c9d8c9afe..8df50fcd69fd 100644
+--- a/Documentation/RCU/listRCU.rst
++++ b/Documentation/RCU/listRCU.rst
+@@ -348,9 +348,10 @@ to accomplish this would be to add a ``deleted`` flag and a ``lock`` spinlock to
+ 					rcu_read_unlock();
+ 					return AUDIT_BUILD_CONTEXT;
+ 				}
+-				rcu_read_unlock();
+ 				if (state == AUDIT_STATE_RECORD)
+ 					*key = kstrdup(e->rule.filterkey, GFP_ATOMIC);
++				spin_unlock(&e->lock);
++				rcu_read_unlock();
+ 				return state;
+ 			}
+ 		}
+-- 
