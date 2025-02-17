@@ -1,218 +1,247 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A4714D444
-	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 23:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AF815666D;
+	Mon, 17 Feb 2025 23:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739834795; cv=none; b=emVQFgGerups1eCgEil/9YQqLuaskgnAWiNWpWhKdTxOuW6myT8ncn6hl1xX+JpokMPNzFYNVFEDL6nPfPjFwBzm+1QIRHHst9xgYSpAKAOVDVszw7Y4jT607i+8d0GzKdJQtrX1enYX4WCFnGQKlJJKJgabJ6E++EBXlpFoTbQ=
+	t=1739835399; cv=none; b=MCA6oo57jhhhrneU8Zfmnu2N/oAOCel5w6mI962X4VeyBDnsQhRDuLBC48AsAJVzJ5PkOjWMw8EqG2FLt2cloeoXE18ZvJgiAQXbcg8OnP6F2AGFhp2JVL+loJ5azOmUa2iJmuMLPZS75c71/qcoxIDGqsd1D8Lz1tL+4Xg8PVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739834795; c=relaxed/simple;
-	bh=e15tfvqLJ167hVdakQyut1lmoKwKCOmcthYLadFB7bA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aL7to+04jNjB5XjbCssVIh2RDoduiukDpNkcGbhKELvkvv9nPuTFDWRWasChRC69be3odLRyyfFqVZXps2aHRfBNv10A6QFPrHFzaU8/ci50YaFHlGw8gJ7DHKtGoMqJ6zEwpY2tnrYr1KpDT5na0DmnLO8uzaMzpr2wJlc5oYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LecC7O2I; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1739835399; c=relaxed/simple;
+	bh=b1NMjktdEW4cyABcNC8DJFFrZN0i8dJK7f9UZQsgBQU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=fe4neDXpylDvfED7mU4u4puR24hImxS9kowmQGYdIDf2x6gnBsmtb0gBMs5+CR/WCp2n6TAhfLmJhXeHe1srKFp7WeaSoXvBwyO/NUjlKrYnHJNNhFFn+x0zwSpxYgyApOZ08KIkWoSsdLt8S2+vNM7gkzcN2SxvbT/jDHik0ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=i4xJ/Xei; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LecC7O2I"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-219f6ca9a81so337405ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 15:26:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1739834792; x=1740439592; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LU4/0cDqZHRnh9CiIVcjoIP2zXEWwJkeElU0iysFgw0=;
-        b=LecC7O2IieFQoAYBg7q/bbm5Dy8Tb67Zf5OXCXsND+sGb24jFjPKVJehv79GmtUBCk
-         L0awW9D6t0PYQ9ainmgI1/Gz34G+gCoORp4QpxlthVPeZcVd+eHU3ijayJZqu4jq3zho
-         sqaR9rfFIb1OZXguKLwG89M8uNipG5ZLKGCzLvLiy2By+ndjNu3dcZhu65MlUdQ8pM6s
-         3m/t3Czq82etZ/5OYPaGfcu+moububa7vRhBK5YIfVLscHj8GAUGZLhnW3n39mBCQJ5Y
-         6rMIejebtmVDC37PJPqJD3n0RzYopOytrsmp73hPIYBA64EEfcMqooM/WNu9GztLw2Pq
-         8d3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739834792; x=1740439592;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LU4/0cDqZHRnh9CiIVcjoIP2zXEWwJkeElU0iysFgw0=;
-        b=dvdA0WNAfnw2Ppxhkg0EdVqCMSAMoIwYVetGcIN/g9N/o8yCfKNY/ih7Wlp3unFH1o
-         lvPXvpQZ5PD0IaYYWed4JuphzAkPkNvPx7Ux4wFWf2KruWsb7pna4cYqZROPmOVmWQsV
-         XHfboZ3JJEmzJaIq7KD1l7o7amxYHqBeCCVQlo/2za4Sy1avHdmmdQQVoF5PMbqOulir
-         mV4/U9PiA1qaMwXyMFpGHThc8S95e0hsw3bvF0H850sjIA5DirYPyWIJJ188p4EVZY5N
-         /1iL2E0919vVYf8OjlC/0tO+TC1XIMqTn9cCiVWaYobm8r/jy/jlfAsA3Mlo6D3MSN4w
-         KK4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXybuWWQtIwhrp6wKi+XGKby5zmMZTu7GyAY6DbQMoV5RRgdDwglWweqXBW1OYvwwwU0FrFhf4ZpfA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMZPyJnPUFvnUIpIfrq5wUkgQALKgkwYewViAkSClEfR1a93X3
-	vpzu4QhF3ksQ8v4I24OEOFR7KCV4eut28k5o7blMpMIYLRThaDx3tjXZpes7HRNLklZ/uX43nVd
-	+rox52CxcEt/Lk19hglrRhzgoCN6uAtRHl0V4
-X-Gm-Gg: ASbGncuHTS0jWv5E9SKXaIseT3AdH6EQmyJWSMXbjSaPCeoIv3FIeeCmf7lp7F651ZI
-	i3zLcejI5sPaEMloA7qMl3Q03R/KxDojf4bQQjwbDwir4j6l2MCmitywezJFK9uWinFO+HRPo
-X-Google-Smtp-Source: AGHT+IEz2Vjx4sspzRYyerWy/4H+lWv6VlJ3XI4nEpHd7psvEF5u3oZI0j4vbRhndLp+h57tbEMfk5dYT2aH2zu++aE=
-X-Received: by 2002:a17:903:1cc:b0:21f:40e8:6398 with SMTP id
- d9443c01a7336-22104cf7bf5mr4662555ad.26.1739834791554; Mon, 17 Feb 2025
- 15:26:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="i4xJ/Xei"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51HAUAi7007123;
+	Mon, 17 Feb 2025 23:36:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	bn8aLTOaSFfuTe1I2/VjlP8wLE0nfFKiGqo53Bp2LZA=; b=i4xJ/Xei9wH4mVst
+	VWi5xRtLEkHZnaF7ifzKK/2SDuDN+rB2k/MeO5Uc5zEyctjF776iTCUMxqTWCdfX
+	8Eemjs1HH9pFiURVOcR6BT1/8YtbkXdgqA53CxqCIo2nG6R8is+UG6NDc+Ed9D3N
+	tP+oKQ8q3Wq7s4wD/kUgBbmRhB6CCOqBySjLC5aMCxA4zq3DEhGydHzrWE6kcri4
+	nvLHk7JFs2WY+JHVo7lHtGtdHPRAoCgPwGsMHuYMLrWZUIQjLZkh3wi8TyamMspg
+	Xe38dpT9vkxgpUxrwzGIWEGJAS4jr3fV9eabwKWr7QHQlbzeZrejFlRLmjbheZJ+
+	EiFtAw==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44v3du1p9t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Feb 2025 23:36:32 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51HNaWsA008837
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Feb 2025 23:36:32 GMT
+Received: from [10.4.85.56] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 17 Feb
+ 2025 15:36:29 -0800
+Message-ID: <6594f69e-f4ba-4d2b-a3d6-7eb5c8f95ac4@quicinc.com>
+Date: Tue, 18 Feb 2025 10:36:27 +1100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250203223916.1064540-1-almasrymina@google.com>
- <20250203223916.1064540-6-almasrymina@google.com> <abc22620-d509-4b12-80ac-0c36b08b36d9@gmail.com>
- <CAHS8izNOqaFe_40gFh09vdBz6-deWdeGu9Aky-e7E+Wu2qtfdw@mail.gmail.com>
- <28343e83-6d93-4002-a691-f8273d4d24a8@gmail.com> <CAHS8izOE-JzMszieHEXtYBs7_6D-ngVx2kJyMwp8eCWLK-c0cQ@mail.gmail.com>
- <9210a12c-9adb-46ba-b92c-90fd07e1980f@gmail.com>
-In-Reply-To: <9210a12c-9adb-46ba-b92c-90fd07e1980f@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 17 Feb 2025 15:26:17 -0800
-X-Gm-Features: AWEUYZkNcuzch3JnUQ41m7NwTl507Jdryfd99v6tS9trGnS4pxPErojvBtyR8mY
-Message-ID: <CAHS8izPHtk5x-W05_svxU53X-V4+++PiYErCgfr-3iDGgEaUig@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 5/6] net: devmem: Implement TX path
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Neal Cardwell <ncardwell@google.com>, 
-	David Ahern <dsahern@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
-	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/8] tee: add close_context to TEE driver operation
+To: Jens Wiklander <jens.wiklander@linaro.org>
+CC: Sumit Garg <sumit.garg@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <op-tee@lists.trustedfirmware.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
+ <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-2-297eacd0d34f@quicinc.com>
+ <20250217093546.GA2637163@rayden>
+Content-Language: en-US
+From: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+In-Reply-To: <20250217093546.GA2637163@rayden>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Feb 13, 2025 at 5:17=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.=
-com> wrote:
->
-> On 2/12/25 19:18, Mina Almasry wrote:
-> > On Wed, Feb 12, 2025 at 7:52=E2=80=AFAM Pavel Begunkov <asml.silence@gm=
-ail.com> wrote:
-> >>
-> >> On 2/10/25 21:09, Mina Almasry wrote:
-> >>> On Wed, Feb 5, 2025 at 4:20=E2=80=AFAM Pavel Begunkov <asml.silence@g=
-mail.com> wrote:
-> >>>>
-> >>>> On 2/3/25 22:39, Mina Almasry wrote:
-> >>>> ...
-> >>>>> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> >>>>> index bb2b751d274a..3ff8f568c382 100644
-> >>>>> --- a/include/linux/skbuff.h
-> >>>>> +++ b/include/linux/skbuff.h
-> >>>>> @@ -1711,9 +1711,12 @@ struct ubuf_info *msg_zerocopy_realloc(struc=
-t sock *sk, size_t size,
-> >>>> ...
-> >>>>>     int zerocopy_fill_skb_from_iter(struct sk_buff *skb,
-> >>>>>                                 struct iov_iter *from, size_t lengt=
-h);
-> >>>>> @@ -1721,12 +1724,14 @@ int zerocopy_fill_skb_from_iter(struct sk_b=
-uff *skb,
-> >>>>>     static inline int skb_zerocopy_iter_dgram(struct sk_buff *skb,
-> >>>>>                                           struct msghdr *msg, int l=
-en)
-> >>>>>     {
-> >>>>> -     return __zerocopy_sg_from_iter(msg, skb->sk, skb, &msg->msg_i=
-ter, len);
-> >>>>> +     return __zerocopy_sg_from_iter(msg, skb->sk, skb, &msg->msg_i=
-ter, len,
-> >>>>> +                                    NULL);
-> >>>>
-> >>>> Instead of propagating it all the way down and carving a new path, w=
-hy
-> >>>> not reuse the existing infra? You already hook into where ubuf is
-> >>>> allocated, you can stash the binding in there. And
-> >>>
-> >>> It looks like it's not possible to increase the side of ubuf_info at
-> >>> all, otherwise the BUILD_BUG_ON in msg_zerocopy_alloc() fires.
-> >>>
-> >>> It's asserting that sizeof(ubuf_info_msgzc) <=3D sizeof(skb->cb), and
-> >>> I'm guessing increasing skb->cb size is not really the way to go.
-> >>>
-> >>> What I may be able to do here is stash the binding somewhere in
-> >>> ubuf_info_msgzc via union with fields we don't need for devmem, and/o=
-r
-> >>
-> >> It doesn't need to account the memory against the user, and you
-> >> actually don't want that because dmabuf should take care of that.
-> >> So, it should be fine to reuse ->mmp.
-> >>
-> >> It's also not a real sk_buff, so maybe maintainers wouldn't mind
-> >> reusing some more space out of it, if that would even be needed.
-> >>
-> >
-> > netmem skb are real sk_buff, with the modification that frags are not
->
-> We were discussing ubuf_info allocation, take a look at
-> msg_zerocopy_alloc(), it has nothing to do with netmems and all that.
->
-
-Yes. My response was regarding the suggestion that we can use space in
-devmem skbs however we want though.
-
-> > readable, only in the case that the netmem is unreadable. I would not
-> > approve of considering netmem/devmem skbs "not real skbs", and start
-> > messing with the semantics of skb fields for devmem skbs, and having
-> > to start adding skb_is_devmem() checks through all code in the skb
-> > handlers that touch the fields being overwritten in the devmem case.
-> > No, I don't think we can re-use random fields in the skb for devmem.
-> >
-> >>> stashing the binding in ubuf_info_ops (very hacky). Neither approach
-> >>> seems ideal, but the former may work and may be cleaner.
-> >>>
-> >>> I'll take a deeper look here. I had looked before and concluded that
-> >>> we're piggybacking devmem TX on MSG_ZEROCOPY path, because we need
-> >>> almost all of the functionality there (no copying, send complete
-> >>> notifications, etc), with one minor change in the skb filling. I had
-> >>> concluded that if MSG_ZEROCOPY was never updated to use the existing
-> >>> infra, then it's appropriate for devmem TX piggybacking on top of it
-> >>
-> >> MSG_ZEROCOPY does use the common infra, i.e. passing ubuf_info,
-> >> but doesn't need ->sg_from_iter as zerocopy_fill_skb_from_iter()
-> >> and it's what was there first.
-> >>
-> >
-> > But MSG_ZEROCOPY doesn't set msg->msg_ubuf. And not setting
-> > msg->msg_ubuf fails to trigger msg->sg_from_iter altogether.
-> >
-> > And also currently sg_from_iter isn't set up to take in a ubuf_info.
-> > We'd need that if we stash the binding in the ubuf_info.
->
-> https://github.com/isilence/linux.git sg-iter-ops
->
-> I have old patches for all of that, they even rebased cleanly. That
-> should do it for you, and I need to send then regardless of devmem.
->
->
-
-These patches help a bit, but do not make any meaningful dent in
-addressing the concern I have in the earlier emails.
-
-The concern is that we're piggybacking devmem TX on MSG_ZEROCOPY, and
-currently the MSG_ZEROCOPY code carefully avoids any code paths
-setting msg->[sg_from_iter|msg_ubuf].
-
-If we want devmem to reuse both the MSG_ZEROCOPY mechanisms and the
-msg->[sg_from_iter|ubuf_info] mechanism, I have to dissect the
-MSG_ZEROCOPY code carefully so that it works with and without
-setting msg->[ubuf_info|msg->sg_from_iter]. Having gone through this
-rabbit hole so far I see that it complicates the implementation and
-adds more checks to the fast MSG_ZEROCOPY paths.
-
-The complication could be worth it if there was some upside, but I
-don't see one tbh. Passing the binding down to
-zerocopy_fill_skb_from_devmem seems like a better approach to my eye
-so far
-
-I'm afraid I'm going to table this for now. If there is overwhelming
-consensus that msg->sg_from_iter is the right approach here I will
-revisit, but it seems to me to complicate code without a significant
-upside.
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: b1WFPEjf1AapS7mGgJWW9bwsRUorAjq9
+X-Proofpoint-GUID: b1WFPEjf1AapS7mGgJWW9bwsRUorAjq9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-17_08,2025-02-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502170179
 
 
---
-Thanks,
-Mina
+
+On 2/17/2025 8:35 PM, Jens Wiklander wrote:
+> Hi,
+> 
+> On Sun, Feb 02, 2025 at 06:43:30PM -0800, Amirreza Zarrabi wrote:
+>> The tee_context can be used to manage TEE user resources, including
+>> those allocated by the driver for the TEE on behalf of the user.
+>> The release() callback is invoked only when all resources, such as
+>> tee_shm, are released and there are no references to the tee_context.
+>>
+>> When a user closes the device file, the driver should notify the
+>> TEE to release any resources it may hold and drop the context
+>> references. To achieve this, a close_context() callback is
+>> introduced to initiate resource release in the TEE driver when
+>> the device file is closed.
+>>
+>> Relocate teedev_ctx_get, teedev_ctx_put, tee_device_get, and
+>> tee_device_get functions to tee_drv.h to make them accessible
+>> outside the TEE subsystem.
+>>
+>> Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+>> ---
+>>  drivers/tee/tee_core.c    |  7 +++++++
+>>  drivers/tee/tee_private.h |  6 ------
+>>  include/linux/tee_core.h  | 11 +++++++++--
+>>  include/linux/tee_drv.h   |  6 ++++++
+>>  4 files changed, 22 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+>> index 24edce4cdbaa..721522fe5c63 100644
+>> --- a/drivers/tee/tee_core.c
+>> +++ b/drivers/tee/tee_core.c
+>> @@ -79,6 +79,7 @@ void teedev_ctx_get(struct tee_context *ctx)
+>>  
+>>  	kref_get(&ctx->refcount);
+>>  }
+>> +EXPORT_SYMBOL_GPL(teedev_ctx_get);
+>>  
+>>  static void teedev_ctx_release(struct kref *ref)
+>>  {
+>> @@ -96,11 +97,15 @@ void teedev_ctx_put(struct tee_context *ctx)
+>>  
+>>  	kref_put(&ctx->refcount, teedev_ctx_release);
+>>  }
+>> +EXPORT_SYMBOL_GPL(teedev_ctx_put);
+>>  
+>>  void teedev_close_context(struct tee_context *ctx)
+>>  {
+>>  	struct tee_device *teedev = ctx->teedev;
+>>  
+>> +	if (teedev->desc->ops->close_context)
+>> +		teedev->desc->ops->close_context(ctx);
+>> +
+>>  	teedev_ctx_put(ctx);
+>>  	tee_device_put(teedev);
+>>  }
+>> @@ -1037,6 +1042,7 @@ void tee_device_put(struct tee_device *teedev)
+>>  	}
+>>  	mutex_unlock(&teedev->mutex);
+>>  }
+>> +EXPORT_SYMBOL_GPL(tee_device_put);
+>>  
+>>  bool tee_device_get(struct tee_device *teedev)
+>>  {
+>> @@ -1049,6 +1055,7 @@ bool tee_device_get(struct tee_device *teedev)
+>>  	mutex_unlock(&teedev->mutex);
+>>  	return true;
+>>  }
+>> +EXPORT_SYMBOL_GPL(tee_device_get);
+>>  
+>>  /**
+>>   * tee_device_unregister() - Removes a TEE device
+>> diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
+>> index 9bc50605227c..d3f40a03de36 100644
+>> --- a/drivers/tee/tee_private.h
+>> +++ b/drivers/tee/tee_private.h
+>> @@ -14,12 +14,6 @@
+>>  
+>>  int tee_shm_get_fd(struct tee_shm *shm);
+>>  
+>> -bool tee_device_get(struct tee_device *teedev);
+>> -void tee_device_put(struct tee_device *teedev);
+>> -
+>> -void teedev_ctx_get(struct tee_context *ctx);
+>> -void teedev_ctx_put(struct tee_context *ctx);
+>> -
+>>  struct tee_shm *tee_shm_alloc_user_buf(struct tee_context *ctx, size_t size);
+>>  struct tee_shm *tee_shm_register_user_buf(struct tee_context *ctx,
+>>  					  unsigned long addr, size_t length);
+>> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
+>> index a38494d6b5f4..8a4c9e30b652 100644
+>> --- a/include/linux/tee_core.h
+>> +++ b/include/linux/tee_core.h
+>> @@ -65,8 +65,9 @@ struct tee_device {
+>>  /**
+>>   * struct tee_driver_ops - driver operations vtable
+>>   * @get_version:	returns version of driver
+>> - * @open:		called when the device file is opened
+>> - * @release:		release this open file
+>> + * @open:		called for a context when the device file is opened
+>> + * @close_context:	called when the device file is closed
+>> + * @release:		called to release the context
+>>   * @open_session:	open a new session
+>>   * @close_session:	close a session
+>>   * @system_session:	declare session as a system session
+>> @@ -76,11 +77,17 @@ struct tee_device {
+>>   * @supp_send:		called for supplicant to send a response
+>>   * @shm_register:	register shared memory buffer in TEE
+>>   * @shm_unregister:	unregister shared memory buffer in TEE
+>> + *
+>> + * The context given to @open might last longer than the device file if it is
+>> + * tied to other resources in the TEE driver. @close_context is called when the
+>> + * client closes the device file, even if there are existing references to the
+>> + * context. The TEE driver can use @close_context to start cleaning up.
+>>   */
+>>  struct tee_driver_ops {
+>>  	void (*get_version)(struct tee_device *teedev,
+>>  			    struct tee_ioctl_version_data *vers);
+>>  	int (*open)(struct tee_context *ctx);
+>> +	void (*close_context)(struct tee_context *ctx);
+>>  	void (*release)(struct tee_context *ctx);
+>>  	int (*open_session)(struct tee_context *ctx,
+>>  			    struct tee_ioctl_open_session_arg *arg,
+>> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+>> index a54c203000ed..d5f0c70ac95c 100644
+>> --- a/include/linux/tee_drv.h
+>> +++ b/include/linux/tee_drv.h
+>> @@ -96,6 +96,12 @@ struct tee_param {
+>>  	} u;
+>>  };
+>>  
+>> +bool tee_device_get(struct tee_device *teedev);
+>> +void tee_device_put(struct tee_device *teedev);
+>> +
+>> +void teedev_ctx_get(struct tee_context *ctx);
+>> +void teedev_ctx_put(struct tee_context *ctx);
+>> +
+> 
+> Now that these functions are available to all the backend drivers,
+> please add some documentation for them so it more clear how they are
+> supposed to be used.
+> 
+> Thanks,
+> Jens
+
+Ack.
+
+> 
+>>  /**
+>>   * tee_shm_alloc_kernel_buf() - Allocate kernel shared memory for a
+>>   *                              particular TEE client driver
+>>
+>> -- 
+>> 2.34.1
+>>
+
