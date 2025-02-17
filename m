@@ -1,72 +1,72 @@
-Received: from mail-il1-f225.google.com (mail-il1-f225.google.com [209.85.166.225])
+Received: from mail-pj1-f97.google.com (mail-pj1-f97.google.com [209.85.216.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4054194C78
-	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 07:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BF9199254
+	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 07:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739776740; cv=none; b=OL0tEqTyijiCzmJXM1xthA0b70uCr7IgqNq/jviJnCg1iJ15FESHwir+7j8BtFxvp0WgF0ClWfexdBMB2nOIddncrm5lz4vTehFVn6CxEHJ4m5Ydcbzf0J3VrLHisnzUQKBBbg63xq91SlVQ2yJ50SdxGaluNay+i2FU6ln1ScA=
+	t=1739776741; cv=none; b=sc31vfRNksTIOrNfuLebVI8YZusSaRWVZ+lSdfReFQKrPTtBSgVuenMqoR4BM3cvd19KlbLrItYCjRxAWw1Iw2COqn2WBORlJ8k+LBzv1eITrUoKjRlg1B3odt+MuIqIulCfR9Yss2FS4oCVM0cDm5oq1Orzgk8RQoBussXgJk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739776740; c=relaxed/simple;
-	bh=I4jElsKLO3xjHp4+FGR34gEFeHf8DAoYrFYY9fzZwhI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=EUNDgFCevPcOFdMu8Cy4FewnilKRCAsdFTUtZZPhdUlAoO4x9kqKr0SN8hytGoifPCWs6nhxFMpTwq3y07DtExjOsa70nhZCfQTpwUFD4NSbRURQ0YcVSeUk4h6tpgKl6ctfTuOuhL2R/BeTmjtZQ2eiFaleU+7Jr9NC+aLaQ78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=CHthldAF; arc=none smtp.client-ip=209.85.166.225
+	s=arc-20240116; t=1739776741; c=relaxed/simple;
+	bh=dnDgHpwmNAM4El0fmPzxiQAyrovPX9sKfPKrFaww9hI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=mmeeG31KIuR9Rhr7PGTAtJI6inyQ17ZxQwCNdQ1ORt/e8LiH7E3m5Xo0cY9ZP0CL+DDL4ES1qeS7r9qGctCXoKalaVn5gu0JC9W5fmlI/ksATUpFxwgt0cqqsGqkcI1+uaMOu/F8Q5uUcK65eEXaHC2D8+OhEQ6bGqgmm9Nu1gM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=XoLh2itd; arc=none smtp.client-ip=209.85.216.97
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="CHthldAF"
-Received: by mail-il1-f225.google.com with SMTP id e9e14a558f8ab-3d04932a36cso38062785ab.1
-        for <linux-doc@vger.kernel.org>; Sun, 16 Feb 2025 23:18:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="XoLh2itd"
+Received: by mail-pj1-f97.google.com with SMTP id 98e67ed59e1d1-2fc11834404so5480825a91.0
+        for <linux-doc@vger.kernel.org>; Sun, 16 Feb 2025 23:18:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1739776737; x=1740381537; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gbNYgolpmdlkL880GB4JAqCw8CX2Bv040wvl7gMCZ38=;
-        b=CHthldAFUFjxeHujru+Jvv7nzw4s/Jqs35h1XS1Eyx2mD9bVQh/6MhD3uu11WShvba
-         2onfH7B053q01+iGNcqtE2nmLhb20UFALmYTW4vPlTdl7k1+VbARKNMOdALR4zbLmvwQ
-         XJYk/sv4CdlBsPVcUpKqlees1A/tyRiprQAWi//VwkHWh9EOI9Rt2s+/agK/vzjolrtb
-         FYEZZwL9kJgjWumIEeqzh8CcbFLfJgyOqXzEMouFFHPQPEzMpDbRMPGATJnM2HSlmdOF
-         WFd1rnrShQalAg0WCiH27UWrsxyTazJpxiRV5yMpcbpgNaDxY/x3ujnr2H06nuBD6joY
-         Rp5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739776737; x=1740381537;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=purestorage.com; s=google2022; t=1739776739; x=1740381539; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gbNYgolpmdlkL880GB4JAqCw8CX2Bv040wvl7gMCZ38=;
-        b=FE37LZkQBDWgG8w+iixtEClkhsQl9wyESOdGArVrPIvYNAoj7mwU5XLauQjOdLHWKA
-         rLVCIEFUG9mng2NS3OU0onEqpXoQkxbGl5l12oGGFoayVqPbO5krl53khkhVpJpbK9bn
-         FBJzJG5jMyn1ll9lKEDrqSO1SqouTuQVFiruhU44svX/StG2Ok+pVMwXbVlT6CQE/IyS
-         fndEmfyo15Et+/qrqvruwo3d6uLLWjpTNnwmpP6RsjkPx90zDuN6MM5AcEMnMFRuDaLN
-         ZPSzMvam+IaFoFSMpYYK0YNskhKU/Ras1XgRMDMvXl+d4COE8/PTugODxbZKCJSexLwE
-         Z+fA==
-X-Forwarded-Encrypted: i=1; AJvYcCU49GVUS6IiTSbXMcjIqy6dRr0YQ7w7HKhVHMYHwe4Nq3Jkio8CJXqgjW0YLfogxsfjbXYUkMQ/d7w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNMoNzjwAtbpBAbtSZGix86VLYZLSSdUpkluqiJ9I7BpU54P8Y
-	0gFJ3FehL2FllsidGxt8WQe87OPbzc+pdg++KBNWoz87DyQvxLm6sH2Oqk9K9OQF7JMdCaVysSv
-	yX4no9TdOaLrB1BNrYMB3VTJ075zOlkJO
-X-Gm-Gg: ASbGncsLlJx6WEt6FY/C46VAsoGa2GaCiBuzsiZPRqOJAeC1vDANhFuBBzkDAP+vfOc
-	mFuhg2Ch5CzTRyUVsx1EzaMMjpSoV0jNdJYvCcw0jxU2ylwnEGTZII5Nne4AAOv93Gx7w46GEzY
-	0mkRI1q2fcdKsT44LdVEJCeuhTZLA40b/QDGcVQq/M33QEIPFRWLguK5eFkeX6ziVA3E8k0Xq3w
-	U3IpSfbjHiV+KjIws7Ws931SsgwbHL51fuvhqbWygto9GuQJ7pmFwia3gPm4srD2df6V+bp9ULu
-	65FugXG/bnK0qo9x/+TXbd7/ThpFKnx70Rb98r0=
-X-Google-Smtp-Source: AGHT+IGx14t/coTa0nDHuRYAjHq9TCbFyk7Yy6Dj0apGzi6Dm2S+35KcW2ni8rQ+sOqnrwLIP6VX4564qiy7
-X-Received: by 2002:a05:6e02:1a8b:b0:3cf:c8bf:3b87 with SMTP id e9e14a558f8ab-3d28076c338mr59775375ab.1.1739776736932;
-        Sun, 16 Feb 2025 23:18:56 -0800 (PST)
-Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.128])
-        by smtp-relay.gmail.com with ESMTPS id 8926c6da1cb9f-4ed28171124sm524265173.16.2025.02.16.23.18.55
+        bh=8cBmh37uPVBcmhlXxEMy2GuaEBsjFiFq6M7nLH4l7tQ=;
+        b=XoLh2itderA3sMcYcj1lLrEEPxV/68549ZwNitqYoJ5slUHqym2f6FxFodgfYI/Soc
+         p0b1exURBbKWNgdo1bSNrd5/99+DJoh6BJgKDSyK0GLFUtH/WqpOXRx/kkxxoy3Gv3xX
+         3RXoSI8I8044G7/9Z9ZOkm6JmyTmwztHJ8XnNWpXB/uX1H4D7JjFAsYVOZveOVErt/tD
+         2X7Ta/qrqdIgghs0vJGTUfG/Ogj8Y/R+QVoif+4SjfQppsRzlXl/1OG6Ygzh7+oTR1XG
+         q5q6Zh3XifwmhFeZRTD93s2o68ArWgFNiubXnQPOW71rPKqZ53udrPied4HkXxCZuU1p
+         0GBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739776739; x=1740381539;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8cBmh37uPVBcmhlXxEMy2GuaEBsjFiFq6M7nLH4l7tQ=;
+        b=Oc3ZoTh7j65xqNPt6CHWOts3wcLOhZxu4B3gWrlzlB25D9QTjgoywmZwl+opG2Smly
+         8TdJvI+DZXWR2cfYDx3dS0xlbBEbwcTY464h5BXreQLHu2hAJVCQ7PbZf2pTNxaZocP0
+         qNH+wsT9HtGlNZrrfRGmDtvn4ualaySkfami3OtAI9le+4BnDTwwe+8SGE0bZqdRfm5N
+         +h5eYM19XUizpNWLdnd2Vbp1e+8e6uJ+hZe2bAGzX7bj8pysVjunNkBYGCNqh5z8zAbF
+         J4AI21keCJXLFv5UN6wtMHb5+0LLdBOhtYOKF3TctcIOvPCub0sicstKxLIJhzGSmJWH
+         rnLg==
+X-Forwarded-Encrypted: i=1; AJvYcCXgdlYWlzK9MgbKnXtiQu3KXbBKEAA4+DF+5TGkmXBVrPrqHMwBOTOO8M37MJ4W+weKZgRYIPzjFao=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUX/qKS33L6hJYE6YpM2XNEZfJp31GnBI5ylUrT0XvJqopMK1B
+	mCAtHbrQvafJmFxEgBGP8FkNO/fiBsQ10rGRrcKTMut/hGmijO/0jAEHg/0GVdIA0rFoWEzUYMA
+	NraZsnd0LEXdA4u7NmhRu0IU5/ZwYFbayg/6wnuo64ovcim/A
+X-Gm-Gg: ASbGnctUV+Dc12QKJG3bsomLXvHczk802/lMkArQd7M+cacgL2gmRbE4nlYWEXo8Nko
+	Cz2UeLoi+UinLqBQXtihbvCe4hH6XRKGEjTDRjqk3Zq8QRI4Uy+7GtNxqmACoPoeCyf7tR9Sy3Y
+	d4zPUCTcKJBRmJ/kU6XaFaobelESnHSTtxqxSstsqKfpIcEkzR58oF6lPU8BsKnK0OGq2Lrlx/W
+	s3MBk8OvBQB+80+X21oSNTsmcXeuy+bbGzalLJgoyXRhkIPcbCSE7lpmFgyh772TfHXV2bZ0wlI
+	xJJgs2Y43Jvs09KpShtKAyvi
+X-Google-Smtp-Source: AGHT+IGTZ3Pw8uBs5dET/+qPFQerIYgP72QZp+sbHdWicZ0OeWZxKgm7kdMPv1hA6BlZzyPlOmeJ0DZjY9YI
+X-Received: by 2002:a17:90b:2248:b0:2fa:b8e:3d26 with SMTP id 98e67ed59e1d1-2fc41154ca5mr12278543a91.30.1739776737254;
+        Sun, 16 Feb 2025 23:18:57 -0800 (PST)
+Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-2fbf98d473bsm695853a91.9.2025.02.16.23.18.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Feb 2025 23:18:56 -0800 (PST)
+        Sun, 16 Feb 2025 23:18:57 -0800 (PST)
 X-Relaying-Domain: purestorage.com
-Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [10.7.70.36])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 861D73402B1;
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [IPv6:2620:125:9007:640:7:70:36:0])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 8E6A93406EA;
 	Mon, 17 Feb 2025 00:18:55 -0700 (MST)
 Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
-	id 78229E56B89; Mon, 17 Feb 2025 00:18:55 -0700 (MST)
+	id 7D4AEE40402; Mon, 17 Feb 2025 00:18:55 -0700 (MST)
 From: Uday Shankar <ushankar@purestorage.com>
-Subject: [PATCH net-next v4 0/3] netconsole: allow selection of egress
- interface via MAC address
-Date: Mon, 17 Feb 2025 00:18:43 -0700
-Message-Id: <20250217-netconsole-v4-0-0c681cef71f1@purestorage.com>
+Date: Mon, 17 Feb 2025 00:18:44 -0700
+Subject: [PATCH net-next v4 1/3] net: Add non-RCU dev_getbyhwaddr() helper
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,11 +75,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANTismcC/23NTQ6CMBAF4KuQWVvTHwrqynsYF1in0ERb0mKDI
- dzdsSuNLl/evG8WSBgdJjhUC0TMLrngKdSbCszQ+R6Zu1IGyaXmktfM42SCT+GGrDaN4CjtrhU
- GaDBGtG4u2Anojm7nCc7UDC5NIT7LlyxL/w/MknGm0Wq8aNtw3RzHR8T3tOtxa8K9YFl9AvoLU
- AQIJTslrGjFfv8LrOv6AnJvS+31AAAA
-X-Change-ID: 20250204-netconsole-4c610e2f871c
+Message-Id: <20250217-netconsole-v4-1-0c681cef71f1@purestorage.com>
+References: <20250217-netconsole-v4-0-0c681cef71f1@purestorage.com>
+In-Reply-To: <20250217-netconsole-v4-0-0c681cef71f1@purestorage.com>
 To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
@@ -90,51 +88,114 @@ To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-wireless@vger.kernel.org, linux-doc@vger.kernel.org, 
  Uday Shankar <ushankar@purestorage.com>, kuniyu@amazon.com, 
- Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
+ Kuniyuki Iwashima <kuniyu@amazon.com>
 X-Mailer: b4 0.14.2
 
-This series adds support for selecting a netconsole egress interface by
-specifying the MAC address (in place of the interface name) in the
-boot/module parameter.
+From: Breno Leitao <leitao@debian.org>
 
-Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+Add dedicated helper for finding devices by hardware address when
+holding rtnl_lock, similar to existing dev_getbyhwaddr_rcu(). This prevents
+PROVE_LOCKING warnings when rtnl_lock is held but RCU read lock is not.
+
+Extract common address comparison logic into dev_comp_addr().
+
+The context about this change could be found in the following
+discussion:
+
+Link: https://lore.kernel.org/all/20250206-scarlet-ermine-of-improvement-1fcac5@leitao/
+
+Cc: kuniyu@amazon.com
+Cc: ushankar@purestorage.com
+Suggested-by: Eric Dumazet <edumazet@google.com>
+Signed-off-by: Breno Leitao <leitao@debian.org>
+Reviewed-by: Kuniyuki Iwashima <kuniyu@amazon.com>
 ---
-Changes in v4:
-- Incorporate Breno Leitao's patch to add (non-RCU) dev_getbyhwaddr and
-  use it (Jakub Kicinski)
-- Use MAC_ADDR_STR_LEN in ieee80211_sta_debugfs_add as well (Michal
-  Swiatkowski)
-- Link to v3: https://lore.kernel.org/r/20250205-netconsole-v3-0-132a31f17199@purestorage.com
+ include/linux/netdevice.h |  2 ++
+ net/core/dev.c            | 37 ++++++++++++++++++++++++++++++++++---
+ 2 files changed, 36 insertions(+), 3 deletions(-)
 
-Changes in v3:
-- Rename MAC_ADDR_LEN to MAC_ADDR_STR_LEN (Johannes Berg)
-- Link to v2: https://lore.kernel.org/r/20250204-netconsole-v2-0-5ef5eb5f6056@purestorage.com
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index fccc03cd21646fdff257a4b440d60d44ce575053..d41c5bca896e9f463b539ee8ce6b48d29b656265 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -3276,6 +3276,8 @@ static inline struct net_device *first_net_device_rcu(struct net *net)
+ }
+ 
+ int netdev_boot_setup_check(struct net_device *dev);
++struct net_device *dev_getbyhwaddr(struct net *net, unsigned short type,
++				   const char *hwaddr);
+ struct net_device *dev_getbyhwaddr_rcu(struct net *net, unsigned short type,
+ 				       const char *hwaddr);
+ struct net_device *dev_getfirstbyhwtype(struct net *net, unsigned short type);
+diff --git a/net/core/dev.c b/net/core/dev.c
+index d5ab9a4b318ea4926c200ef20dae01eaafa18c6b..19c3eb015f2a5a19faa0a1afd6c74f7e12546a75 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -1122,6 +1122,12 @@ int netdev_get_name(struct net *net, char *name, int ifindex)
+ 	return ret;
+ }
+ 
++static bool dev_comp_addr(struct net_device *dev, unsigned short type,
++			  const char *ha)
++{
++	return dev->type == type && !memcmp(dev->dev_addr, ha, dev->addr_len);
++}
++
+ /**
+  *	dev_getbyhwaddr_rcu - find a device by its hardware address
+  *	@net: the applicable net namespace
+@@ -1130,7 +1136,7 @@ int netdev_get_name(struct net *net, char *name, int ifindex)
+  *
+  *	Search for an interface by MAC address. Returns NULL if the device
+  *	is not found or a pointer to the device.
+- *	The caller must hold RCU or RTNL.
++ *	The caller must hold RCU.
+  *	The returned device has not had its ref count increased
+  *	and the caller must therefore be careful about locking
+  *
+@@ -1142,14 +1148,39 @@ struct net_device *dev_getbyhwaddr_rcu(struct net *net, unsigned short type,
+ 	struct net_device *dev;
+ 
+ 	for_each_netdev_rcu(net, dev)
+-		if (dev->type == type &&
+-		    !memcmp(dev->dev_addr, ha, dev->addr_len))
++		if (dev_comp_addr(dev, type, ha))
+ 			return dev;
+ 
+ 	return NULL;
+ }
+ EXPORT_SYMBOL(dev_getbyhwaddr_rcu);
+ 
++/**
++ * dev_getbyhwaddr - find a device by its hardware address
++ * @net: the applicable net namespace
++ * @type: media type of device
++ * @ha: hardware address
++ *
++ * Similar to dev_getbyhwaddr_rcu(), but the owner needs to hold
++ * rtnl_lock.
++ *
++ * Context: rtnl_lock() must be held.
++ * Return: pointer to the net_device, or NULL if not found
++ */
++struct net_device *dev_getbyhwaddr(struct net *net, unsigned short type,
++				   const char *ha)
++{
++	struct net_device *dev;
++
++	ASSERT_RTNL();
++	for_each_netdev(net, dev)
++		if (dev_comp_addr(dev, type, ha))
++			return dev;
++
++	return NULL;
++}
++EXPORT_SYMBOL(dev_getbyhwaddr);
++
+ struct net_device *dev_getfirstbyhwtype(struct net *net, unsigned short type)
+ {
+ 	struct net_device *dev, *ret = NULL;
 
----
-Breno Leitao (1):
-      net: Add non-RCU dev_getbyhwaddr() helper
-
-Uday Shankar (2):
-      net, treewide: define and use MAC_ADDR_STR_LEN
-      netconsole: allow selection of egress interface via MAC address
-
- Documentation/networking/netconsole.rst |  6 +++-
- drivers/net/netconsole.c                |  2 +-
- drivers/nvmem/brcm_nvram.c              |  2 +-
- drivers/nvmem/layouts/u-boot-env.c      |  2 +-
- include/linux/if_ether.h                |  3 ++
- include/linux/netdevice.h               |  2 ++
- include/linux/netpoll.h                 |  6 ++++
- lib/net_utils.c                         |  4 +--
- net/core/dev.c                          | 37 ++++++++++++++++++++++--
- net/core/netpoll.c                      | 51 +++++++++++++++++++++++++--------
- net/mac80211/debugfs_sta.c              |  7 +++--
- 11 files changed, 97 insertions(+), 25 deletions(-)
----
-base-commit: 0784d83df3bfc977c13252a0599be924f0afa68d
-change-id: 20250204-netconsole-4c610e2f871c
-
-Best regards,
 -- 
-Uday Shankar <ushankar@purestorage.com>
+2.34.1
 
