@@ -1,119 +1,87 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from pv50p00im-tydg10021701.me.com (pv50p00im-tydg10021701.me.com [17.58.6.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8B0C2EF;
-	Mon, 17 Feb 2025 11:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89958BE8
+	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 12:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739793206; cv=none; b=jWOvN8RbMWMv31HFBfYUHuIlbp/4BEfhBbAm8sWxzERdoZvfxbJGYhK+4ucvce0ivacE9iM8HROxjPo0UMvilSeAwJXfh2MptDGTYHdpGo6g+Ymj38MJsYalWaLPMFil8bE5GnbkIDzrfiH2qT4ji6Gq/Mej7BLlTklBo0ZLMkc=
+	t=1739794014; cv=none; b=fFm4WBriU+AoHxr7aErNFvG8OpXtNjAilBi6KuUh48df7rMEnKoqmk0MDX+QVZfr3xb6PolfjKLJTmBmiJF9YIKPyiXXbxK3POSJUqZyIKLdesGml/Ypfu2aitHXXBMTLMop+LGM6rKSfty7Q3tfnwizOXtm1HZ4MeWNo/5xxyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739793206; c=relaxed/simple;
-	bh=z916Iychd0HXvtnRM3OHyA0sbxakqNjaFWHUwy3J6NY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PNjPtxsfNiizpFItlSMldz4zg4Oe/NlofzUapQm2sYHwVs16T0iMVlDpWGY3QVWeQ+E0IOcXrb1bfaxp5XNSOhBvcXuEIeoMZJiRYUIHwSQFDikJnfXfDD48hcNt+VC5fMxeNF8Y7BJsIPV62mGZStmTNvPd5VK01pcQPEflk8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=jpaey1Ql; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1739794014; c=relaxed/simple;
+	bh=fOR6OeNYk6pjJz3p+ZkVYEPE8eoOb0VsJrdOWY6FW1Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hT3gzaRLGqIw6zhawBhsM6R87r6RQCWxD6wMw+DOXHraL6Dq6wPEtNJ8fbSRZijWkVUXAHU0RDMBLJPRorpi2Fou8HS06hh1BqUPx1nipvbm5kvcFbq2lMA2E3G4ZoqQs9RQlNZGM0JWaWcbVgHhwzozY+TvrAXPpFSvoUz4ZIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=iIAlto/c; arc=none smtp.client-ip=17.58.6.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="jpaey1Ql"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id F216740E020E;
-	Mon, 17 Feb 2025 11:53:22 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 45Y3Va-akyTW; Mon, 17 Feb 2025 11:53:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1739793198; bh=mu2JhVmxy63GluxBqerd8rHfP64lHZxl8HGv85HSA9k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jpaey1Qlofx5B5A6UjTWUEnnX5SODXDyEzBNLUn2O40Rg+E3ikzN3h7wG0JqaC4e8
-	 gavOw+YUzjYaalNtknzHni1KeUgVuWfLVpJ4wGTubd1ihYUin16rHpChPAQbTbSco7
-	 KsuWtvfyAATo7hOxZDffYyQEiLbEJe3pxV4hfq+7mSM+Pbx4pCqzl8AWoQe8hGRID9
-	 ayx0873at2NnfB05sD2YzZIBqvG8ifRo9SYjsUa3g3bp9DsxswcfLGwRPCq1/wDA7C
-	 xmdLmk6dDeARqTX4prObNAH66ps/ybnQmU1sU6oSWQ4x6LXdeto3YhA1jDfj7kXD9t
-	 PENrcWvsIhR8NeY87tW7ZsZGP8LJ4VZc0NbAaSBkWCi9LzA7agnJo360geaFN4NGPf
-	 FZuagVkucd23TJNqgmvz1aF7tfSf4uyC77fhWJZLR+7kMP90R15hBxplNAl319RCgK
-	 P4Dsq2WGZ16UbbIaxh2PqpSEqo2i+5gaTH//+r8MRRmIVXnkzZkp8o27EnO9ycjniE
-	 hgNQuoniRCsG3AX8P6tArOT/1Q8UT0iKOi70FLoZrP/tG2QSscRIrq+RaHiKXDu+DV
-	 W0/mJkMZWAliOkiXqIenfTYcn9R3wxGoKWHIw9w2/nddvYvl9TZJ+j9EmCUS6EH66f
-	 CyM0SBWt1fpffoell8zyDwtk=
-Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D51FC40E0191;
-	Mon, 17 Feb 2025 11:53:07 +0000 (UTC)
-Date: Mon, 17 Feb 2025 12:53:06 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 3/3] x86/cpu: Enable modifying bug flags with
- {clear,set}puid
-Message-ID: <20250217115306.GBZ7MjIoLsvwK3Qqho@fat_crate.local>
-References: <20250129-force-cpu-bug-v2-0-5637b337b443@google.com>
- <20250129-force-cpu-bug-v2-3-5637b337b443@google.com>
- <20250217111029.GIZ7MZJUGJRoeiScgn@fat_crate.local>
- <CA+i-1C2GF=5VE5Bfq_znG1nVU6K5orzhOohBatc64ghX7mW6FA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="iIAlto/c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; bh=gdHE72SWR74/9/CdrLgsgrLo5axD2Xp+SLBtwjszUJM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme;
+	b=iIAlto/cOIj8qQFQUZHC1Tijnvfnu8T9Y3dXbe6M1h3JCoxNEVFMhFM+S0Me/sGWu
+	 QsZ9TtzAfUc7dL0Iaya4TzEIX3Y/IXwLFQ2gAB0U/DP54THORaqZHUBzHsMEkVCn/l
+	 M9/GwZIRSDg4+9OLqnG6gS/yLdTwo3SypoT4X/gXoK2uFAhP+kFkHizX77KzA3AKrS
+	 KZ7OW+VCrJHL/qKFdGkbtLzeHSgQTtql+Tjr2irZcAJ/jdeuIxM4BYXrAk/pRO7m4P
+	 aic7j+X6pVMM/+hmw0AS0qLvuWhTjfFiH4SV/8vlAe607qyBkMIDZKmu5i6IAktdzY
+	 MKmiVdY5rKWxg==
+Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+	by pv50p00im-tydg10021701.me.com (Postfix) with ESMTPSA id 01408CC699F;
+	Mon, 17 Feb 2025 12:06:46 +0000 (UTC)
+Message-ID: <a99e4576-ca9a-4b28-9a5b-242184de852c@icloud.com>
+Date: Mon, 17 Feb 2025 20:06:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+i-1C2GF=5VE5Bfq_znG1nVU6K5orzhOohBatc64ghX7mW6FA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] PCI: endpoint: Remove API devm_pci_epc_destroy()
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+References: <20250210-remove_api-v1-1-8ae6b36e3a5c@quicinc.com>
+ <20250214154007.tg3bzi5berkk45wk@thinkpad>
+Content-Language: en-US
+From: Zijun Hu <zijun_hu@icloud.com>
+In-Reply-To: <20250214154007.tg3bzi5berkk45wk@thinkpad>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: _8OPX240B8Z1D5erMbyUxHevYUZatzB1
+X-Proofpoint-GUID: _8OPX240B8Z1D5erMbyUxHevYUZatzB1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-17_05,2025-02-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=742
+ clxscore=1011 mlxscore=0 suspectscore=0 bulkscore=0 phishscore=0
+ adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2308100000 definitions=main-2502170106
 
-On Mon, Feb 17, 2025 at 12:20:56PM +0100, Brendan Jackman wrote:
-> On Mon, 17 Feb 2025 at 12:10, Borislav Petkov <bp@alien8.de> wrote:
-> >
-> > >  extern const char * const x86_bug_flags[NBUGINTS*32];
-> > > +#define x86_bug_flag(flag) x86_bug_flags[flag]
-> >
-> > Why?
+On 2025/2/14 23:40, Manivannan Sadhasivam wrote:
+> On Mon, Feb 10, 2025 at 08:39:53PM +0800, Zijun Hu wrote:
+>> From: Zijun Hu <quic_zijuhu@quicinc.com>
+>>
+>> Static devm_pci_epc_match() is only invoked by API devm_usb_put_phy(), and
+> devm_usb_put_phy()? Did you mean to say 'devm_pci_epc_destroy()'?
 > 
-> That's just for consistency with x86_cap_flag().
+
+yes. it is devm_pci_epc_destroy().
+my mistake, thank you for pointing out this.
+will correct in v2. (^^)
+
+>> the API has not had callers since 2017-04-10 when it was introduced.
+>>
+>> Remove both the API and the static function.
+>>
+>> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+> With above fixup,
 > 
-> I don't remember seeing any reason why that indirection exists. Maybe
-> it's vestigial. Shall I just remove it?
+> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> 
+> - Mani
 
-Wondering the same. Both arrays are automatically generated into capflags.c as 
-
-const char * const x86_cap_flags[NCAPINTS*32] = {
-const char * const x86_bug_flags[NBUGINTS*32] = {
-
-so it's not like something is going to change them at runtime so what's the
-point of the wrapper I dunno...
-
-/me greps some...
-
-Oh, I know:
-
--#ifdef CONFIG_X86_FEATURE_NAMES
- extern const char * const x86_cap_flags[NCAPINTS*32];
- extern const char * const x86_power_flags[32];
- #define X86_CAP_FMT "%s"
- #define x86_cap_flag(flag) x86_cap_flags[flag]
--#else
--#define X86_CAP_FMT X86_CAP_FMT_NUM
--#define x86_cap_flag x86_cap_flag_num
--#endif
-
-from 7583e8fbdc49a4dbd916d14863cf1deeddb982f9
-
-So yeah, it is a useless leftover now. So please remove.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
