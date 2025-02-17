@@ -1,142 +1,99 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD3F21A459;
-	Mon, 17 Feb 2025 11:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A04B21883C;
+	Mon, 17 Feb 2025 11:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739790045; cv=none; b=Wu56MZUldcf3ORkkol8/FvAWPHf6fQqdAnpQcAu4DTlMM5qRzf0Mwu/uZ7YmYZjGrjXnBD/EDBs3AYDcBRqZU3jlNOWSia6JmktN4HgXb1Hz98iWDIGf53gvog0Of9JbbDdHJO1UpWsTSaAeN2ljAKzBhdQKShPZ0H1dsyiKzEk=
+	t=1739790234; cv=none; b=iDP1j83qbL6ZSEagIKbC7ViUMOgr5s3EUlnHejQ+1dbewottEtxx9V9mVBePl7v77vnig6mS2VIOS4ypALnvBNe4H9xn3bSa+gel32Amx2AjJIIjO/ZswdKPbxcECGIH39aRwIdA3rZosSoueiaT8AWRSd/0yQseLckOEFwy6+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739790045; c=relaxed/simple;
-	bh=qQOtnhqjbowoR++2Gs0vMxIajpjUcYwkX+qFpvXJshM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uaOkBbFlbfhbvyZ9WfH3vplUKo1xY9LEYoLhcgukmRGYptGXLg9ERQ5iMC9fHtvkG1fvLv6Y1oR0T1j/a+UQI098XQxQFQhGZPUg+9i2moet0P8xEPF6JOggFjitjZRnbC+YfLEcE9M0RiGAV3/x7U2XcYJC0n9qMt/TBDdIJ0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ONGDfXut; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gpiIGnMv; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1739790234; c=relaxed/simple;
+	bh=kQ9ahJoLUAa6eg+bXrlnGmnOJsZB6csYPykuKxx+kbA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b620dMeUOzdlyasmDl6upBJivYzeRbIbEEQ13efEVBn8vU0N7sMwDxTTuY6BeR89LBmiuFsxBMQp06HzGIJvsjssdqLI7M2AYKgZRsTCCrRM4wxMosgXmYEwirMlNrH2SjC0x5n5n1xM3qHLBJ7x5Fu50mZmvjdvBkJSJDUoWAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=YQ0WIRqr; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ONGDfXut";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gpiIGnMv"
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1739790042;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aTa8C4WECe/JmINcH8JHCZeuSOeK2AhNliXotOoWH50=;
-	b=ONGDfXutlPsptMbMJv0b3cQ8/AqBbddswe3f1+x5I+gRAK5MzhF3LM1kZHhGC4Itu4AMHv
-	1qQsZud/4g+8aefsYzwvB4a1+7I2wyFDX+do7NyBBmzPWSr45dR3b+DjW+eG/s/hk66TwQ
-	zgFb66by21AaVyXpe4SVtkfTH9G1neC5ugNuOEyhOmg23uMenMUYvvjiKhnm8gPzSc0tpa
-	eGTj7NbAiQ1JF/euCZG+PtfqYD3fwJKmrCGWu8tyOpWbxDY/kI4qyjUtdhmGstpW2gjJ0X
-	9YkQtW4RvwJ5CCQAltlz522O0CRBDmcIEhGN1fF/BWmHttPflwDoyYT/kuwz1A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1739790042;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aTa8C4WECe/JmINcH8JHCZeuSOeK2AhNliXotOoWH50=;
-	b=gpiIGnMvHhcfubZVMnjoD5cDdhQbaLt4iDJKP4AK1UukjjNPLVGGSss/fVS5poF0c6swo5
-	9e5d7oFYs52OAaAA==
-Date: Mon, 17 Feb 2025 11:59:32 +0100
-Subject: [PATCH 12/12] kunit: uapi: Validate usability of /proc
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="YQ0WIRqr"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id DDABE40E0202;
+	Mon, 17 Feb 2025 11:03:48 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id qW0rLXdjDKyi; Mon, 17 Feb 2025 11:03:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1739790225; bh=OOMwHALIFx6ihAv83FsqwxXXoVcZoHEsKhOSw9w7d54=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YQ0WIRqrRtq2km0LeuZ7vUmZd3Xscn4YogsmNsBDI89g43/OynuycHZQdEt73xEpp
+	 5mUehe3lnTOZZLLLtvxcbT+7vi3xBBNJHc4a++tn12HmXQqlX255bIavFci2rqmhQ7
+	 vHJLDKH7To91ex5a+qB/W4ZYwZKdvw4rnKRaelwkbOFdiIwtRT7ej+en1XILKChy2t
+	 ITsydsjJpFlB1oGmmdYgd4ffoMp8pbBO7YYC2BxZ8OIaJ8r+DjrDdD22RfTm4wqdxa
+	 Bl1mDoY3LGXpLcVl8vl0FS7x07InbyG9nsMwx//Q+gFqT3ij4nE6pZpbJ8WmY1GBKE
+	 4LE6fK2yoYuvPcw6qzPUaaqBGc6JEGp/oPWwjM0y4U7FMl8lTsfSMtZZvR7PLGfM6Q
+	 p0XDXj0ow1+9KAqZ91P6/wbq4u1FgNLgNVV+VTz9mBU/TuGjWkAQjauWKp5CYCr8pv
+	 ll/rayEFmE/+hlhS3U0aBzOwxSxFkid8Nka6EMD/14rWjy7EYTAbNu/rM4qkEDdNv4
+	 9GfW6sYuS8hInJ6I4Ov3XkmA6uSknrsvofx0UoWSKAcEgXkwrnl2ZtArDLu4lXTLMc
+	 oJTeSY4hCnibzUcqSQMWEx39IyBh3iOe6P/RRwi8LP5kA9eeJv89SaWTY2A9uO9tWa
+	 1BJMWhHzLO2yJHqSlzVmCxYw=
+Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1932C40E0176;
+	Mon, 17 Feb 2025 11:03:35 +0000 (UTC)
+Date: Mon, 17 Feb 2025 12:03:34 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v2 2/3] x86/cpu: Add setcpuid cmdline param
+Message-ID: <20250217110334.GHZ7MXhq4xNWSkKHCH@fat_crate.local>
+References: <20250129-force-cpu-bug-v2-0-5637b337b443@google.com>
+ <20250129-force-cpu-bug-v2-2-5637b337b443@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250217-kunit-kselftests-v1-12-42b4524c3b0a@linutronix.de>
-References: <20250217-kunit-kselftests-v1-0-42b4524c3b0a@linutronix.de>
-In-Reply-To: <20250217-kunit-kselftests-v1-0-42b4524c3b0a@linutronix.de>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-doc@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739790034; l=1757;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=qQOtnhqjbowoR++2Gs0vMxIajpjUcYwkX+qFpvXJshM=;
- b=Sk0sCINZHEGGMT3LpKGAEPlP2h61lYlX1X63SvD7xk0roo/+/E3TN8tSXGKAQ9vFoBLwYerNC
- F1ffVsrfNBbDlOCbhyxzQCOLAOi/Lv+Jjb4eFxHNIyH8gqu0ziJN4pu
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250129-force-cpu-bug-v2-2-5637b337b443@google.com>
 
-Show that the selftests are executed from a fairly "normal"
-userspace context.
+On Wed, Jan 29, 2025 at 03:35:40PM +0000, Brendan Jackman wrote:
+> In preparation for adding support to fake out CPU bugs, add a general
+> facility to force enablement of CPU flags.
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
- lib/kunit/kunit-uapi-example.c | 40 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
+"... to force-enable ..."
 
-diff --git a/lib/kunit/kunit-uapi-example.c b/lib/kunit/kunit-uapi-example.c
-index 4ec4b924f29b089cce9ca5b2b08a6ee0117b8ae9..f7376e524b4c76a9c6d474e6ace80a8e2517b84b 100644
---- a/lib/kunit/kunit-uapi-example.c
-+++ b/lib/kunit/kunit-uapi-example.c
-@@ -6,13 +6,51 @@
-  * Author: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-  */
- 
-+#ifndef NOLIBC
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <string.h>
-+#endif
-+
- #include "../../tools/testing/selftests/kselftest.h"
- 
-+static void test_procfs(void)
-+{
-+	char buf[256];
-+	ssize_t r;
-+	int fd;
-+
-+	fd = open("/proc/self/comm", O_RDONLY);
-+	if (fd == -1) {
-+		ksft_test_result_fail("procfs: open() failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	r = read(fd, buf, sizeof(buf));
-+	if (r == -1) {
-+		close(fd);
-+		ksft_test_result_fail("procfs: read() failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	close(fd);
-+
-+	if (r > 0 && buf[r - 1] == '\n')
-+		buf[r - 1] = '\0';
-+
-+	if (strncmp("kunit-uapi-exam", buf, sizeof(buf)) != 0) {
-+		ksft_test_result_fail("procfs: incorrect comm: %s\n", buf);
-+		return;
-+	}
-+
-+	ksft_test_result_pass("procfs\n");
-+}
-+
- int main(void)
- {
- 	ksft_print_header();
- 	ksft_set_plan(4);
--	ksft_test_result_pass("userspace test 1\n");
-+	test_procfs();
- 	ksft_test_result_pass("userspace test 2\n");
- 	ksft_test_result_skip("userspace test 3: some reason\n");
- 	ksft_test_result_pass("userspace test 4\n");
+> 
+> The flag taints the kernel and the documentation attempts to be clear
+> that this is highly unsuitable for uses outside of kernel development
+> and platform experimentation.
+> 
+> The new arg is parsed just like clearcpuid, but instead of leading to
+> setup_clear_cpu_cap() it leads to setup_force_cpu_cap().
+> 
+> I've tested this by booting a nested QEMU guest on an Intel host, which
+> with setcpuid=svm will claim that it supports AMD virtualization.
+
+Move this sentence...
+
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+> ---
+
+... here as it doesn't belong in a commit message.
 
 -- 
-2.48.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
