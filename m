@@ -1,107 +1,117 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9EC286A9;
-	Mon, 17 Feb 2025 05:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 662EC137750;
+	Mon, 17 Feb 2025 05:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739769882; cv=none; b=aUZxuYiQsk3jIG/HspSxxCy6KWFHI4RSnGtGYbxp+Z9UeYAQ3uJUzrkanNBt5/irepoFSJEEMEHz1cuwhUvZz6ezgf3KsDDILZcTMbtUKZf6znk/hm4goV0np7OTCcIdsCRB732c/A/Se+XLlnHRReGG/+w6sERi87dtGIrzmxQ=
+	t=1739770983; cv=none; b=aucqgOmA/Rgi+2J638okFkCvhl+N3iDrLCk96Yqe3WZh49wApBu/7+3IH3WJTTmhFBGAzTReGineAQmaWgbwYvm1AzzYaaQvHGhksG1NjNZEUzqODv/Chkhum4QIfgfPnjZFoIXLEhmFK6OpODMQMkCS1oSnuEoDTWYyKe/R7Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739769882; c=relaxed/simple;
-	bh=EpiuTHpy+lhzlv6BfpU6PsMtbvloAlyuxmC7C9PtPC4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XtaJzwiqcRd1beljx5Hn1m2MaUcjWMLFal+fVrwT4UdDmn/mxZhY/Rosg6tpSGE/K9/Vd4GxT7NZw/kv0Hcwon6hCf1jieXJBnPLq+OZ3NXTAdqcZR4gkEugLWNfbHotQBZRbSAFLkh/RKU95zaXCa4HLsX93ygm1q2Nky8lRGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N2HEyxN/; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N2HEyxN/"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-abb75200275so213673466b.3;
-        Sun, 16 Feb 2025 21:24:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739769879; x=1740374679; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Og4gkd6LlM97O1HKuLnn2cCfC/qib/MYrhkHKRgHoFM=;
-        b=N2HEyxN/ixII5b4r0oacfjFNBmQikCyIDUqADNBxtJN9dKFhaNasKFuREXWWsgWOkh
-         aoCvxI+70q9GO1pAGg8klilzep/a8ug2p8dGBQXKMC53KIKZxxTS/R0wfKHDLjByVvN3
-         yc282mKsAVGiUf/EDFTtkvOBcG0Y/85y1UaeJnwCCGgzTTxHCLs1fhJXRFepvLjpkpfM
-         UnTad2cm6E9mI3jvvVdVi6r5k2IUnuPjyNg7cpPlZsXNjTnFmHsHeaesn9F7HFW9IZXL
-         3qaOI9IU61wb2JMSy5IBvI5VLmUKxUu1/Yo8flbW8y6L0YpolaU2NKxFw3xSj2Y7FZbr
-         +NeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739769879; x=1740374679;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Og4gkd6LlM97O1HKuLnn2cCfC/qib/MYrhkHKRgHoFM=;
-        b=aBLbu2MW4xomxskWcZ6VLu0SYPbMrKA6oEqqtIfkqN6VPfxrHffZ+Jj2PFKWaVhjvS
-         0IBQfl5GhDKsxMktOx/fWdOH9HRUG5K/GLUKJMLEV8OAlE+FIJQnfDANRbp06+L88NX0
-         7aOvJ1WURUyC7gBNXj+Bn2iOAOCauiQX0iX9tn5Rgw9/sL0p8uWErZL2AkeH5iAc+VGo
-         gllRwdDUxVOy5EA39vuDnsKDQx8/P+YcKCModOE/XR1OtwqALMkf/iPX6unvyC7yD+8R
-         c7bzjn3MX9+s6w5LVjEApiniK0dziWdPsehZt5rCo7b97AOEuLMrvOKzUbHX9VEfd932
-         +RGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUN8TfjaToX5R0YujDLSmC+OENNXWxIGKM+Y/q8Jl7hlN8HNYRwqPsq8EYM8p1Pus5j+l+j13QXjhTYWK/A@vger.kernel.org, AJvYcCUXAB4GDghem4wMP4jedH7LLNhlqGNP5zTo7FWPYt5cAM0keuK9yVLKME3yJuE1oeB3ff707mMGmfc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsSI7bgKGeZuSICx+iFWAu5Wwr2Kj5OmcpE9U4o0PfZeQlpqzm
-	Himir3ssOvIGPUnEnDnGiE/uuj+sImbTE+Mn5PZgHJlmVF2B6IbHuQVmW/yM3oHG/SSNJWZTTgm
-	BS0hLBfvHG7JBQAPbdg8HznhnZqQot+X50Gc=
-X-Gm-Gg: ASbGncvuH+w2bfNuwb83OwcBgjc9fzKC4JRIUqGWjK2imxpPN8yV6UVLExoyPtP+KIs
-	FiiH/MoS7zLi64PZUx3NA8v6ckjRTqOFhUQhl5z7x68qHvvF2THHVPOXP2nDN+d6vOizyPVLg
-X-Google-Smtp-Source: AGHT+IEKu9BHznm2nWjeltvYW8C2vbeWdIhPrIfCSI2piAnQW2LJVGvulFY9G9DKNTYng4XT+7bt5yspJnXfpDHagUc=
-X-Received: by 2002:a17:906:35cc:b0:abb:9d27:290b with SMTP id
- a640c23a62f3a-abb9d27296emr168081366b.9.1739769878821; Sun, 16 Feb 2025
- 21:24:38 -0800 (PST)
+	s=arc-20240116; t=1739770983; c=relaxed/simple;
+	bh=4V6bQvdIaaUAok6mIVbDTxN7w+jyF/McsOuvycXNvVw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SXJPhuQjbzjkmb+SQZiOQScJ4CSum/Q1Z5lllbfqDRL8LbHlxZwbRrH1rqdxthNbHZLoG6IiE/SPOU8txEcb8LSrrUIOjl5nfnlRdYihSICma8bXxtZn86QcNfaP+rWLQBfbHa0dQTywxwV+D4nM2Cet1XkFTclL/VZ0FWQEv8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF10E1063;
+	Sun, 16 Feb 2025 21:43:18 -0800 (PST)
+Received: from [10.162.16.135] (unknown [10.162.16.135])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC8D23F6A8;
+	Sun, 16 Feb 2025 21:42:55 -0800 (PST)
+Message-ID: <7176be0c-030d-4c2c-9a9d-7b69c2eabe40@arm.com>
+Date: Mon, 17 Feb 2025 11:12:53 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250217043109.3571459-1-dzm91@hust.edu.cn>
-In-Reply-To: <20250217043109.3571459-1-dzm91@hust.edu.cn>
-From: Alex Shi <seakeel@gmail.com>
-Date: Mon, 17 Feb 2025 13:24:02 +0800
-X-Gm-Features: AWEUYZlDOlUL96iDUlmSUNDubCeTxu2w5O8aaGgO2gWO2E26e4nETyN-Z0ZoZbY
-Message-ID: <CAJy-AmmPtqJpw9KeRBQydMyMtnFWW2uqmdsSXFEVm35an6tmuQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: add reviewer for Chinese translations
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 0/7] arm64/boot: Enable EL2 requirements for
+ FEAT_PMUv3p9
+To: linux-arm-kernel@lists.infradead.org
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
+ Mark Rutland <mark.rutland@arm.com>, Mark Brown <robh@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Eric Auger <eric.auger@redhat.com>, kvmarm@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh@kernel.org>
+References: <20250203050828.1049370-1-anshuman.khandual@arm.com>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <20250203050828.1049370-1-anshuman.khandual@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Dongliang Mu <dzm91@hust.edu.cn> =E4=BA=8E2025=E5=B9=B42=E6=9C=8817=E6=97=
-=A5=E5=91=A8=E4=B8=80 12:38=E5=86=99=E9=81=93=EF=BC=9A
->
-> Dongliang Mu has translated a substantial portion of kernel documentation
-> into Chinese, developed scripts/checktransupdate.py utility to automate
-> tracking of translated content updates, and actively reviewed patches.
->
-> Thus, add Dongliang Mu as a reviewer for the translations of
-> Chinese Documentation.
->
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 25c86f47353d..ae45135deb9e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5405,6 +5405,7 @@ F:        Documentation/dev-tools/checkpatch.rst
->  CHINESE DOCUMENTATION
->  M:     Alex Shi <alexs@kernel.org>
->  M:     Yanteng Si <siyanteng@loongson.cn>
-> +R:     Dongliang Mu <dzm91@hust.edu.cn>
->  S:     Maintained
->  F:     Documentation/translations/zh_CN/
->
+On 2/3/25 10:38, Anshuman Khandual wrote:
+> This series adds fine grained trap control in EL2 required for FEAT_PMUv3p9
+> registers like PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1 which are already
+> being used in the kernel. This is required to prevent their EL1 access trap
+> into EL2.
+> 
+> PMZR_EL0 register trap control i.e HDFGWTR2_EL2.nPMZR_EL0 remains unchanged
+> for now as it does not get accessed in the kernel, and there is no plan for
+> its access from user space.
+> 
+> I have taken the liberty to pick up all the review tags for patches related
+> to tools sysreg update from the KVM FGT2 V2 patch series posted earlier.
+> 
+> https://lore.kernel.org/all/20241210055311.780688-1-anshuman.khandual@arm.com/
+> 
+> Rob had earler mentioned about FEAT_FGT2 based trap control requirement for
+> FEAT_PMUv3p9 registers that are currently being used in kernel. The context
+> can be found here.
+> 
+> https://lore.kernel.org/all/20241216234251.GA629562-robh@kernel.org/
+> 
+> This series is based on v6.14-rc1
+> 
+> Changes in V2:
+> 
+> - Rebased on v6.14-rc1
+> - Updated tools sysreg patches with latest DDI0601 2024-12 definitions
+> - Updated document version as DDI0601 2024-12 in all commit messages
+> - Added latest tags from Rob Herring for the last patch
+> 
 
-Welcome! :)
-Reviewed-by: Alex Shi <alexs@kernel.org>
+Hello Catalin/Will/Rob,
 
-> --
-> 2.43.0
->
+I hope this series looks okay. Please do let me know in case anything
+needs changing. Thank you.
+
+- Anshuman
+
+> Changes in V1:
+> 
+> https://lore.kernel.org/all/20241220072240.1003352-1-anshuman.khandual@arm.com/
+> 
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Ryan Roberts <ryan.roberts@arm.com>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Mark Brown <robh@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Oliver Upton <oliver.upton@linux.dev>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: kvmarm@lists.linux.dev
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> 
+> Anshuman Khandual (7):
+>   arm64/sysreg: Update register fields for ID_AA64MMFR0_EL1
+>   arm64/sysreg: Add register fields for HDFGRTR2_EL2
+>   arm64/sysreg: Add register fields for HDFGWTR2_EL2
+>   arm64/sysreg: Add register fields for HFGITR2_EL2
+>   arm64/sysreg: Add register fields for HFGRTR2_EL2
+>   arm64/sysreg: Add register fields for HFGWTR2_EL2
+>   arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
+> 
+>  Documentation/arch/arm64/booting.rst |  18 +++++
+>  arch/arm64/include/asm/el2_setup.h   |  25 +++++++
+>  arch/arm64/tools/sysreg              | 103 +++++++++++++++++++++++++++
+>  3 files changed, 146 insertions(+)
+> 
