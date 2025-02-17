@@ -1,96 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2502206AA;
-	Mon, 17 Feb 2025 14:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0333422257C;
+	Mon, 17 Feb 2025 14:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739802846; cv=none; b=rph7Vdp11KH36Y0+s57ZITRSFQPi/OaAP6uO3fEqabc4EqkM9wcGMurC5QZOi0cxpKlu3LLzR/fnq7ernELOjJGBGrBKHZjknR80WtnZ4h4zfdDut1kl2QrRydV8frNe0XW4hXY1L5PpKopJyT4M8MuJVTsgYt1BG1W8J/1inkg=
+	t=1739804036; cv=none; b=Q3bk2YFLD5jqaDzDkGxdNZOdI4YctGK0OZlYpxavOcf13uNHFahWJxezrGLnSBFSZXOk2vcnNPSY0IQU8d5Bh6bp+acX06IWygtMgQJ/tQktt1RXzE7ZVApZFJ1O2DhUK4jOV1GkyGafKTwGgn804G/qs+tcpbiBIbaAjRZyizA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739802846; c=relaxed/simple;
-	bh=XY2i7Z29CGAJyZKZqHFlYtn1pUICHedIw7cetxRZ664=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=POuXV/D8i7i4d4dYy5hWn3bCJIenmY0yG9/3rEqmSIor2j2DfctZQ9EnQYKsw6TvZh84mOevCydWKoLUE/Hp/8IxwUutMt2CjOzayy/nTOCEyF4lOoswnnrZiISvkRcujPpuAojihstw1iVS/sivcy6OYiuwfLS+mXMZhZP6rac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I4d1Znh9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739804036; c=relaxed/simple;
+	bh=Ln6Pxhrtq08MpslKMH8KjYThuQ2cTovnCdhdR7o2bUY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EA8Ese6puOviXBvjxkl9eYG84hSRjLVnxUYRymxIzAKW7gC2suDT7ybkTrQJTlORio+0fQZgoxWs7bksvDseYoo3KojuMn2Kfov0FGlw8c8bdNMnxJRLSMHuKa2wpqM1ooFG8Gu6exSgRd+n7+HVkxLwaG/yRh23WkjszGs6yac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bJJd+w0S; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I4d1Znh9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 563F9C4CED1;
-	Mon, 17 Feb 2025 14:34:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739802845;
-	bh=XY2i7Z29CGAJyZKZqHFlYtn1pUICHedIw7cetxRZ664=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=I4d1Znh95QpR8t2oVRecTwi1sfhGF8p51KwkAYCHatAqQH4MDa6JXDoMO7QJN+jtb
-	 rYKrw40qNsLEiBA30PhBVaLjaSFgIWBoSk6i/2XJhFtITFE73U5Enc19JKuUNhtTQD
-	 veLLeNB/sB/zpD8rZ1SghjKrVgBBD+gaDb/iQdj1sfBL067jccp2nIfPnumTUbY0sJ
-	 qpTqCK5E5mf4fS80HoAhC937pWgPhFB0w5BKn3W1TwAWWPkp3GeBMfjCdvmROmNfgw
-	 wfs8xNCe983soniHHMzo1uRJ4tRMT9VlQOkOnPwvlRCDkkPvoYtm6dHVNmhl/MdnjT
-	 ltp1jGatypeFQ==
-Date: Mon, 17 Feb 2025 14:33:54 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Robert Budai <robert.budai@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Nuno Sa <nuno.sa@analog.com>, "Ramona
- Gradinariu" <ramona.gradinariu@analog.com>, Antoniu Miclaus
- <antoniu.miclaus@analog.com>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, <linux-iio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [RESEND PATCH v8 0/6] Add support for ADIS16550
-Message-ID: <20250217143354.0d1c4a2d@jic23-huawei>
-In-Reply-To: <20250217105753.605465-1-robert.budai@analog.com>
-References: <20250217105753.605465-1-robert.budai@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bJJd+w0S"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-abb97e15bcbso199894366b.0;
+        Mon, 17 Feb 2025 06:53:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739804033; x=1740408833; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=O5f6aC8BX7oN5H1g5D7i2G+cHIq3J3spwkYV0IVPVEs=;
+        b=bJJd+w0SUeEzvVsXCIsvj9tTorwfF87ld1cCFjju1f6VUtalfphnVLO41ZtWeUzGEc
+         g1NFf89rz8ICpH6g3Fp1duM/hV2QR7rL3Bzdyf/gVzFfEFy/2Rd92rpZP1/4+DooWrO8
+         YjZwxkXSBITrauoS+271/9K6G3Q5LAn7DgqpJ1/yboPCH3Q1sFyAKemmiPLnH7mKxfPw
+         hzz0+bq+l6bYFn1M5eDk7UF3H3VgCfCYX9c+E/VtZqn9JiBQx+3Oupvy4soN1AaZFwgw
+         ba/iEGx52EVb3DZ8sx/evOcYIs2GHynCjKVZMX7amfY6Bw4tbakDZauKOVsXrxCPj5u1
+         L+GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739804033; x=1740408833;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O5f6aC8BX7oN5H1g5D7i2G+cHIq3J3spwkYV0IVPVEs=;
+        b=WNl9i7hW09WcQnCDfLLOALiqu9PEQ5hNHZXWDCAQVKjt39vxaQ/KWqI/FDPs7VpCgT
+         p9Q/EO178Kfjb4WImrQphHpe+IgyY7mgJ5Vs6HdnDobnM9j7OcHu6DRDaaIMKt5DD1LQ
+         7ILEkQoQAZTa5UmcmIrNLiKyXwb+8sVJETRYixMiwN06OFBEMC1gD46ktyFncxBMNcFw
+         iE5PUcPwqgem/QZU0JF+yPdbEfgwguUXMJWnbtk2ipi6xlmxDuwM5BHFKTo6Su0AFcfT
+         HXrKJICs8HWxrj4ywLAOM/8DF++fqiGNQNdCLk7HtqoGLWv9NmM5Jyj8f0P1XYB1vnC0
+         N3xg==
+X-Forwarded-Encrypted: i=1; AJvYcCVL95oqmcqGRazT7ouJyBTju37lDSScURDHYFD6/H5Gt3OWQ6B4YHVmY7tFuq7hfB+L4H0YlGrSCUZf23qi@vger.kernel.org, AJvYcCVYHcIMOdieEa+ddbR12kovuDcXt+Jj9y6r7gkaa+Dt+G0YpFr7QVf8/NnC/8vDPc11Vt43sP0P9EnMPi51d13+@vger.kernel.org, AJvYcCXYxZ4ey9luIFhs/h/qeX9Ceaw6CCxvM6FSkW1il7sc3j8LF44HuEh1Zp5Qf6dy96bdsUcn0Y9wuqE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYI93LJpcXGvi1mUB7GpmLn1QgIJHKf6igoZFWBAcrKfAdPuPM
+	YO73GwTaroiD61ybUmAMPG41300ZEcFqL4KSSv8naTbGl7DFvB26
+X-Gm-Gg: ASbGncsOw3IvKxPW/ECb0BGgJWbrAhEqyxTL7dXM57jGdTKNpZCKemIltH78EOsaFBn
+	BJtNIYFmZa9XT5GiRkU0401NTzf0oTWrCcUpAkLvSwRMuulosckMLoQYc4uXFa81dFAbnT5nMyY
+	zA5za6kWFvHIWPqW3pcw55LI+liJwKXIrzP4xc9VefX0pXb7kIcP5dihrSrvASetbo4M8DQFYD5
+	/ZEt7speHn3RXkdmdjmVnVyl6yGZ3TbiW203kka7N3cf2spGoFl1eKM4Hw763tWLT6wMp3MfdNl
+	SOhUJDY4m4NUjB2VEZilCRkIz320bP3EgmJQXW2XDBHtynDDeo3v0JP0VSUsGA==
+X-Google-Smtp-Source: AGHT+IG4plipIHpvzaykLWrhElfDcSRNym9uzg+ZwIJNV8YkpJeuIWZU7t+CCARAg71Nf/jYOJHtcg==
+X-Received: by 2002:a17:907:2da7:b0:ab7:eff8:f92e with SMTP id a640c23a62f3a-abb70d36233mr933664566b.21.1739804032840;
+        Mon, 17 Feb 2025 06:53:52 -0800 (PST)
+Received: from ?IPV6:2a03:83e0:1126:4:fb:39c9:9a24:d181? ([2620:10d:c092:500::7:6466])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba53376966sm890128366b.112.2025.02.17.06.53.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Feb 2025 06:53:52 -0800 (PST)
+Message-ID: <cd75eafc-e20a-4c32-bd29-7ab2c5c03008@gmail.com>
+Date: Mon, 17 Feb 2025 14:53:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v2 0/5] mm: introduce THP deferred setting
+To: Nico Pache <npache@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org
+Cc: ryan.roberts@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
+ cl@gentwo.org, vbabka@suse.cz, mhocko@suse.com, apopple@nvidia.com,
+ dave.hansen@linux.intel.com, will@kernel.org, baohua@kernel.org,
+ jack@suse.cz, srivatsa@csail.mit.edu, haowenchao22@gmail.com,
+ hughd@google.com, aneesh.kumar@kernel.org, yang@os.amperecomputing.com,
+ peterx@redhat.com, ioworker0@gmail.com, wangkefeng.wang@huawei.com,
+ ziy@nvidia.com, jglisse@google.com, surenb@google.com,
+ vishal.moola@gmail.com, zokeefe@google.com, zhengqi.arch@bytedance.com,
+ jhubbard@nvidia.com, 21cnbao@gmail.com, willy@infradead.org,
+ kirill.shutemov@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ raquini@redhat.com, dev.jain@arm.com, sunnanyong@huawei.com,
+ audra@redhat.com, akpm@linux-foundation.org, rostedt@goodmis.org,
+ mathieu.desnoyers@efficios.com, tiwai@suse.de,
+ baolin.wang@linux.alibaba.com, corbet@lwn.net, shuah@kernel.org
+References: <20250211004054.222931-1-npache@redhat.com>
+Content-Language: en-US
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <20250211004054.222931-1-npache@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 17 Feb 2025 12:57:44 +0200
-Robert Budai <robert.budai@analog.com> wrote:
 
-> The ADIS16550 is a complete inertial system that includes a triaxis gyroscope
-> and a triaxis accelerometer. Each inertial sensor in the ADIS16550 combines
-> industry leading MEMS only technology with signal conditioning that optimizes
-> dynamic performance. The factory calibration characterizes each sensor for
-> sensitivity, bias, and alignment. As a result, each sensor has its own dynamic
-> compensation formulas that provide accurate sensor measurements.
+
+On 11/02/2025 00:40, Nico Pache wrote:
+> This series is a follow-up to [1], which adds mTHP support to khugepaged.
+> mTHP khugepaged support was necessary for the global="defer" and
+> mTHP="inherit" case (and others) to make sense.
 > 
-Hi Robert,
 
-The cover letter of any RESEND should always start with why you are doing so.
-If this was for the tiny fixup you mentioned it should have been v9 and
-not have been sent for a few days at least.  If everything else is fine
-I don't mind making that sort of fixup whilst applying anyway!
+Hi Nico,
 
-Jonathan
+Thanks for the patches!
+
+Why is mTHP khugepaged a prerequisite for THP=defer?
+THP=defer applies to PMD hugepages as well, so they should be independent.
 
 
-> Robert Budai (6):
->   iio: imu: adis: Add custom ops struct
->   iio: imu: adis: Add reset to custom ops
->   iio: imu: adis: Add DIAG_STAT register
->   dt-bindings: iio: Add adis16550 bindings
->   iio: imu: adis16550: add adis16550 support
->   docs: iio: add documentation for adis16550 driver
-> 
->  .../bindings/iio/imu/adi,adis16550.yaml       |   74 ++
->  Documentation/iio/adis16550.rst               |  376 ++++++
->  Documentation/iio/index.rst                   |    1 +
->  MAINTAINERS                                   |   10 +
->  drivers/iio/imu/Kconfig                       |   13 +
->  drivers/iio/imu/Makefile                      |    1 +
->  drivers/iio/imu/adis.c                        |   35 +-
->  drivers/iio/imu/adis16550.c                   | 1149 +++++++++++++++++
->  include/linux/iio/imu/adis.h                  |   34 +-
->  9 files changed, 1680 insertions(+), 13 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
->  create mode 100644 Documentation/iio/adis16550.rst
->  create mode 100644 drivers/iio/imu/adis16550.c
-> 
 
