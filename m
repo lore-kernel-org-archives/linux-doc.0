@@ -1,147 +1,385 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83ADF155321
-	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 10:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B7B217654
+	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 10:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739788025; cv=none; b=X0+T+tEIYrAAFWeT+zrW8QjmvazvvRPOjgKxGtZioLabnDpuwbmMAfLqEw/QdVQc7fxaz6eC+YymeFH/yOWzm9sP4e11uvboeU49wjQ/YyaWnVLwzvg/N0LsSVk1USUgIlsdKdmRzxvhZBWb+bpA5bToTFEWnc23Z11uBNUtwDM=
+	t=1739788102; cv=none; b=msWJ90aoelGgCzpb4zQOZy97MtAHAgCQ7jjR9bVveRHK/RNTB2ZrPQx9gIhIzuzEzKhChIIltFTcX3id0NIylR/k6f2jB5AiLh5uQsE2jFt/I4eKc2TjZdgbWf5qOrEZxfYdYAGadGHMniBk3IuE7RGzHhsHpOdncUYmZYEdQJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739788025; c=relaxed/simple;
-	bh=9k3Ley5on6cNS3Um6E7fX7FSbKjsfoF3+qaejyNgr8E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Av9IhPTl6wpfieR9JR5snusokWr4lHWGQAYSpqCa1EqGOsT6ArLiFGsQ8T75i/T3tFklY62tYSMNgXDtRBfyfFHmb1CE5H/QLRKpGKpcPX+Wi5gyrfacIeiXltUsCZ4iE9vg9jwd4TYyTR87FsgOpquQm3J8FMqZ3zaGu5tOQSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ojEc8Eh3; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1739788102; c=relaxed/simple;
+	bh=l/VNLWskysYtXV8CMrR63if9pa5Zk/FbgUL2cKr4nig=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V9lXzHxvrGCF6rsuX6fSH9dxi6GzwytarIO2S3JgSgZx8S/dMrVzU3/Hzi7Z2mofGmS/Btm3Or4wYTL5oUvqK0yDBPfEpQa6FPySody1HhMEDwhRUuaWVUoVDm5CGiRB+qCnjnuvdUbF7OMmbBOfj2kRp6uQ0/4gzFLO9AMzMTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dvFSH2wB; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ojEc8Eh3"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aaec61d0f65so869955366b.1
-        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 02:27:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dvFSH2wB"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-abb705e7662so334815066b.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 02:28:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1739788022; x=1740392822; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9k3Ley5on6cNS3Um6E7fX7FSbKjsfoF3+qaejyNgr8E=;
-        b=ojEc8Eh3sW9bRQsx7XVj8s74mPFoVsBbPj8bMb9Nb8LznBcXe/l4E03YzsLDfIP5Ok
-         moE6QykfPVp/7T+7bZombbz7QaZRUKuu6vk89cRSFtHL1alJPcMTmWV2zvjnHdU5l1pk
-         glsAZNb3rw9T5jlv59kt7WEVzPh60iEh8sIWyA3I6BKuQcV/rTNfXo4WxMYS8WrO/IES
-         d7rPou/f4S7GEKMqcMHQ85fJkmdyG0ev78iczSSYMP1GpTSIcFx/Z0RXfrwPW1h2Yq7P
-         3NQx2z2voNYpiyuDEtQbR9I08QBOPw6H17domXG+BuxXw9zYD/ro2QDpQ5MLNcfqEPWT
-         EXgw==
+        d=linaro.org; s=google; t=1739788098; x=1740392898; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8eyngJ7nkEPHmdDriI8ss9BNKTlQzJe9o6ktClmVBmM=;
+        b=dvFSH2wB6DTom+bwwRFkJQsqygHE8hXB4bXCBSVw7SQusOd8fvLFHeV8ql8oACtFlY
+         +b1OkaLAbatbz11XnImqxF/QgE1GOuolJmV2nsGx0U5mHoT9mZu2NTZmScr1SytbMrl2
+         Eo0NXfj8aJ1zw4PHL5keb/ad43UoWkGp00dDUiI3TEPBVRZNl0DsoN+S4Wg6A09EM/8Y
+         /5VrJ3QQ1kVnTUlARwJ1dzLonA45K9QmClFWt/0YdJqvMUOjdbBU1Y14+wb090rq37QX
+         vjtDGZ+V/vyR3D8hMQ3v6Rn7SgVQHRwTC7tlETii+QlX7wR+cehnj4srOQitEehTT0Br
+         Zl7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739788022; x=1740392822;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9k3Ley5on6cNS3Um6E7fX7FSbKjsfoF3+qaejyNgr8E=;
-        b=vwhtPA6NT285H0kSIdVaAVF8tgitFUm/ToogPy/bTtoesidQUhJxsjRu8Om9tOvJeS
-         JMcu5mp6WOJ6B8rcKNZMpYPeETZl/pMnX5az26aNTDtGWMAkdF0dCMhFMGKJ/yjGge2J
-         YpaUyHcpEmqxZb5wXqLEcTdyBaXGnyHtJvfQ4wDCiKitUtc8RFKmuXso/LH472Ds+hgr
-         TkJFsPQnPbrkGBD16uwNLjzM2uGEE+ATVBH9pEDUEbyTyB4SfC5TiLINxspzYR3YTGF5
-         MUTCQI2AnOYl+wS8/+VPTg4dnK6As/VG25b+45anuTszS8zoMHCVULtPFm0z1N7Uor2q
-         uLRA==
-X-Forwarded-Encrypted: i=1; AJvYcCW3710g3X6ks2jV5W8m628OaNzzgefN3HsU9wizY64by4F9TMJibYmMrJFuYrbn7UwvbE2r3v49IRY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCo4nEY1WLj8poHcZfkYKxRZXXKtYU6Pd9Ua4Xd4Zj0hsvPz2z
-	4Jll/9BuBpGEwIOerRhwyL20PJauR/GCnS3uOeAZpJJreQaIlRLveq6y+6EPSCI9jK/9fClQS8w
-	GhuL0seMOvjDsdssuuqmwSxGcL0NZxldNnPuV
-X-Gm-Gg: ASbGncsriLttct12QRAF/WRIAUopMgcuCAGM/H3lfItuiPQ6tCjhsEiNWvOrrsuwFP6
-	dhYIXX20OZOjBQ5eTJDf/v8EVGNICNg12lKOJWPDm383EEUgnH3hRvK6QfaX/wjMJLxTCcckQ/E
-	0kGI0DBtmi3qfxG6Pys2mXIwNFU4g=
-X-Google-Smtp-Source: AGHT+IGg1IvKUUc/p89hI5JmJHNwGjCIidYUwflNrBdFIe9/jBuy8aomXpodWq0ngM1ox2M+sGMDDJ33W91g3uOhF/M=
-X-Received: by 2002:a17:907:9494:b0:aba:6385:b46d with SMTP id
- a640c23a62f3a-abb711c8145mr868876766b.50.1739788021652; Mon, 17 Feb 2025
- 02:27:01 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739788098; x=1740392898;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8eyngJ7nkEPHmdDriI8ss9BNKTlQzJe9o6ktClmVBmM=;
+        b=qOKf7Bcayr147ElzaJYFEyKYXuR8cdFXWKbh/JejRDaRS4kvEStY8Rgkj/nYxUqeTF
+         s2/hv+XF+XdK0ztaTPlVusO7ZeHL2VxTxdeU6HTslsjYm1HfHV6sVMyo1NzZQrMdAlSF
+         Ww9BFOoaWSBbntgHQUQdLn3KiYH2g+3jItEFcauvcmZmtschDlsDG4zYHzCJjkAZffv/
+         u1u6AocugUeM8e0NSg8pc2NDRxE4gCYPdKcRpoNmNh+WohKcd6OBQSBX83y/Hm0HBMDz
+         +ksM2pxcKlZxwtODXpsT1ySnVlKWvmlVPR10JTVMoPPAkrVoQhnrrbWWASqHjtcXrhEn
+         rdnw==
+X-Forwarded-Encrypted: i=1; AJvYcCWCp9Ry/s3M9Bwh4AM17ECmJctiC/VhUS42hfB7wnstFim4jAbbpvJnrYU+8T5lQAD8uayb1VPc394=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoELIwNrz0xeNqETeV4CMrxMXfdEbJ+6zoGm38GF9jT6EXLKjZ
+	ZwOVGT70jGkzHIals5o308MNfrce+pbv3JQlkg1gv8BNCwuoiBBS+ckeUH1k7XE=
+X-Gm-Gg: ASbGncspNmSyeIiy6sq5kqLUjqH7BDoIz9wtddiWqlXd9ZeN0midtcnUbDFFM+yv7l3
+	HCMTBwKtYjjlW0RCWeqNqU0kjUn7UOmNREjKPBBO7dx/eVUA23qmd6n8kNHSbhqP1nVJvGra6Z/
+	Il8xuh74crHkzy1EPOqHzQAyJvno328t74kfBL1QQtgrpfP91CoaHFdsVce5vrai5f+hpPGkJye
+	fs95Xn3gzEB0hvMpEMw3vGi9VY5o+ll0xiWKp92XsZahOO4Zseepl1EwVASGeh6h3Qrsc4LnMg5
+	/CjeXQEfLgAwTynq+sTwfDCYAi4bQIN6lrBrTcb0yIEstt+qN896E82vGA==
+X-Google-Smtp-Source: AGHT+IFGDFv3Q/fDJq96jJR3oBpkTYeZFfDo5uJ8GBvW5yBqf9KLhXWrMr5gc489cQ1N+znCBv4z7w==
+X-Received: by 2002:a17:907:60d6:b0:ab6:ed8a:3c14 with SMTP id a640c23a62f3a-abb70c8e70emr869084366b.27.1739788098208;
+        Mon, 17 Feb 2025 02:28:18 -0800 (PST)
+Received: from rayden (h-98-128-140-123.A175.priv.bahnhof.se. [98.128.140.123])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba533bf307sm871580966b.176.2025.02.17.02.28.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2025 02:28:17 -0800 (PST)
+Date: Mon, 17 Feb 2025 11:28:15 +0100
+From: Jens Wiklander <jens.wiklander@linaro.org>
+To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+Cc: Sumit Garg <sumit.garg@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 4/8] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
+Message-ID: <20250217102815.GC2637163@rayden>
+References: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
+ <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-4-297eacd0d34f@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1737577229.git.babu.moger@amd.com> <Z6zeXby8ajh0ax6i@e133380.arm.com>
- <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com> <Z64tw2NbJXbKpLrH@e133380.arm.com>
- <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com> <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
- <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com>
-In-Reply-To: <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com>
-From: Peter Newman <peternewman@google.com>
-Date: Mon, 17 Feb 2025 11:26:50 +0100
-X-Gm-Features: AWEUYZkJWWlGFJQHM3ION9s69WbN6z7O8hPgk5lTi1q7GZyVgca9f_VULlmwWfM
-Message-ID: <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: "Moger, Babu" <bmoger@amd.com>, Dave Martin <Dave.Martin@arm.com>, Babu Moger <babu.moger@amd.com>, 
-	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, tony.luck@intel.com, x86@kernel.org, 
-	hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org, 
-	thuth@redhat.com, rostedt@goodmis.org, xiongwei.song@windriver.com, 
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com, 
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com, 
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com, 
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com, 
-	mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	maciej.wieczor-retman@intel.com, eranian@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-4-297eacd0d34f@quicinc.com>
 
-Hi Reinette,
+Hi,
 
-On Fri, Feb 14, 2025 at 8:18=E2=80=AFPM Reinette Chatre
-<reinette.chatre@intel.com> wrote:
->
-> Hi Babu,
->
-> On 2/14/25 10:31 AM, Moger, Babu wrote:
-> > On 2/14/2025 12:26 AM, Reinette Chatre wrote:
-> >> On 2/13/25 9:37 AM, Dave Martin wrote:
-> >>> On Wed, Feb 12, 2025 at 03:33:31PM -0800, Reinette Chatre wrote:
-> >>>> On 2/12/25 9:46 AM, Dave Martin wrote:
-> >>>>> On Wed, Jan 22, 2025 at 02:20:08PM -0600, Babu Moger wrote:
->
-> (quoting relevant parts with goal to focus discussion on new possible syn=
-tax)
->
-> >>>> I see the support for MPAM events distinct from the support of assig=
-nable counters.
-> >>>> Once the MPAM events are sorted, I think that they can be assigned w=
-ith existing interface.
-> >>>> Please help me understand if you see it differently.
-> >>>>
-> >>>> Doing so would need to come up with alphabetical letters for these e=
-vents,
-> >>>> which seems to be needed for your proposal also? If we use possible =
-flags of:
-> >>>>
-> >>>> mbm_local_read_bytes a
-> >>>> mbm_local_write_bytes b
-> >>>>
-> >>>> Then mbm_assign_control can be used as:
-> >>>> # echo '//0=3Dab;1=3Db' >/sys/fs/resctrl/info/L3_MON/mbm_assign_cont=
-rol
-> >>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_read_bytes
-> >>>> <value>
-> >>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
-> >>>> <sum of mbm_local_read_bytes and mbm_local_write_bytes>
-> >>>>
-> >>>> One issue would be when resctrl needs to support more than 26 events=
- (no more flags available),
-> >>>> assuming that upper case would be used for "shared" counters (unless=
- this interface is defined
-> >>>> differently and only few uppercase letters used for it). Would this =
-be too low of a limit?
->
-> As mentioned above, one possible issue with existing interface is that
-> it is limited to 26 events (assuming only lower case letters are used). T=
-he limit
-> is low enough to be of concern.
+On Sun, Feb 02, 2025 at 06:43:32PM -0800, Amirreza Zarrabi wrote:
+> The TEE subsystem allows session-based access to trusted services,
+> requiring a session to be established to receive a service. This
+> is not suitable for an environment that represents services as objects.
+> An object supports various operations that a client can invoke,
+> potentially generating a result or a new object that can be invoked
+> independently of the original object.
+> 
+> Add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT/OUTPUT/INOUT to represent an
+> object. Objects may reside in either TEE or userspace. To invoke an
+> object in TEE, introduce a new ioctl. Use the existing SUPPL_RECV and
+> SUPPL_SEND to invoke an object in userspace.
+> 
+> Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+> ---
+>  drivers/tee/tee_core.c   | 85 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/tee_core.h |  4 +++
+>  include/linux/tee_drv.h  |  6 ++++
+>  include/uapi/linux/tee.h | 41 +++++++++++++++++++----
+>  4 files changed, 130 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> index 9f4b9a995e16..fe435772688c 100644
+> --- a/drivers/tee/tee_core.c
+> +++ b/drivers/tee/tee_core.c
+> @@ -379,6 +379,7 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+>  		switch (ip.attr & TEE_IOCTL_PARAM_ATTR_TYPE_MASK) {
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
+>  			break;
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
+> @@ -396,6 +397,11 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+>  				return -EFAULT;
+>  
+>  			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
+> +			params[n].u.objref.id = ip.a;
+> +			params[n].u.objref.flags = ip.b;
+> +			break;
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> @@ -469,6 +475,12 @@ static int params_to_user(struct tee_ioctl_param __user *uparams,
+>  			if (put_user((u64)p->u.ubuf.size, &up->b))
+>  				return -EFAULT;
+>  			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
+> +			if (put_user(p->u.objref.id, &up->a) ||
+> +			    put_user(p->u.objref.flags, &up->b))
+> +				return -EFAULT;
+> +			break;
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>  			if (put_user((u64)p->u.memref.size, &up->b))
+> @@ -621,6 +633,66 @@ static int tee_ioctl_invoke(struct tee_context *ctx,
+>  	return rc;
+>  }
+>  
+> +static int tee_ioctl_object_invoke(struct tee_context *ctx,
+> +				   struct tee_ioctl_buf_data __user *ubuf)
+> +{
+> +	int rc;
+> +	size_t n;
+> +	struct tee_ioctl_buf_data buf;
+> +	struct tee_ioctl_object_invoke_arg __user *uarg;
+> +	struct tee_ioctl_object_invoke_arg arg;
+> +	struct tee_ioctl_param __user *uparams = NULL;
+> +	struct tee_param *params = NULL;
+> +
+> +	if (!ctx->teedev->desc->ops->object_invoke_func)
+> +		return -EINVAL;
+> +
+> +	if (copy_from_user(&buf, ubuf, sizeof(buf)))
+> +		return -EFAULT;
+> +
+> +	if (buf.buf_len > TEE_MAX_ARG_SIZE ||
+> +	    buf.buf_len < sizeof(struct tee_ioctl_object_invoke_arg))
+> +		return -EINVAL;
+> +
+> +	uarg = u64_to_user_ptr(buf.buf_ptr);
+> +	if (copy_from_user(&arg, uarg, sizeof(arg)))
+> +		return -EFAULT;
+> +
+> +	if (sizeof(arg) + TEE_IOCTL_PARAM_SIZE(arg.num_params) != buf.buf_len)
+> +		return -EINVAL;
+> +
+> +	if (arg.num_params) {
+> +		params = kcalloc(arg.num_params, sizeof(struct tee_param),
+> +				 GFP_KERNEL);
+> +		if (!params)
+> +			return -ENOMEM;
+> +		uparams = uarg->params;
+> +		rc = params_from_user(ctx, params, arg.num_params, uparams);
+> +		if (rc)
+> +			goto out;
+> +	}
+> +
+> +	rc = ctx->teedev->desc->ops->object_invoke_func(ctx, &arg, params);
+> +	if (rc)
+> +		goto out;
+> +
+> +	if (put_user(arg.ret, &uarg->ret)) {
+> +		rc = -EFAULT;
+> +		goto out;
+> +	}
+> +	rc = params_to_user(uparams, arg.num_params, params);
+> +out:
+> +	if (params) {
+> +		/* Decrease ref count for all valid shared memory pointers */
+> +		for (n = 0; n < arg.num_params; n++)
+> +			if (tee_param_is_memref(params + n) &&
+> +			    params[n].u.memref.shm)
+> +				tee_shm_put(params[n].u.memref.shm);
+> +		kfree(params);
+> +	}
+> +	return rc;
+> +}
+> +
+>  static int tee_ioctl_cancel(struct tee_context *ctx,
+>  			    struct tee_ioctl_cancel_arg __user *uarg)
+>  {
+> @@ -676,6 +748,12 @@ static int params_to_supp(struct tee_context *ctx,
+>  			ip.b = p->u.ubuf.size;
+>  			ip.c = 0;
+>  			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
+> +			ip.a = p->u.objref.id;
+> +			ip.b = p->u.objref.flags;
+> +			ip.c = 0;
+> +			break;
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> @@ -783,6 +861,11 @@ static int params_from_supp(struct tee_param *params, size_t num_params,
+>  			p->u.ubuf.uaddr = u64_to_user_ptr(ip.a);
+>  			p->u.ubuf.size = ip.b;
+>  			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
+> +			p->u.objref.id = ip.a;
+> +			p->u.objref.flags = ip.b;
+> +			break;
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>  			/*
+> @@ -863,6 +946,8 @@ static long tee_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+>  		return tee_ioctl_open_session(ctx, uarg);
+>  	case TEE_IOC_INVOKE:
+>  		return tee_ioctl_invoke(ctx, uarg);
+> +	case TEE_IOC_OBJECT_INVOKE:
+> +		return tee_ioctl_object_invoke(ctx, uarg);
+>  	case TEE_IOC_CANCEL:
+>  		return tee_ioctl_cancel(ctx, uarg);
+>  	case TEE_IOC_CLOSE_SESSION:
+> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
+> index 8a4c9e30b652..ffb04c946c70 100644
+> --- a/include/linux/tee_core.h
+> +++ b/include/linux/tee_core.h
+> @@ -72,6 +72,7 @@ struct tee_device {
+>   * @close_session:	close a session
+>   * @system_session:	declare session as a system session
+>   * @invoke_func:	invoke a trusted function
+> + * @object_invoke_func:	invoke an object
 
-The events which can be monitored by a single counter on ABMC and MPAM
-so far are combinable, so 26 counters per group today means it limits
-breaking down MBM traffic for each group 26 ways. If a user complained
-that a 26-way breakdown of a group's MBM traffic was limiting their
-investigation, I would question whether they know what they're looking
-for.
+invoke a TEE object?
 
--Peter
+>   * @cancel_req:		request cancel of an ongoing invoke or open
+>   * @supp_recv:		called for supplicant to get a command
+>   * @supp_send:		called for supplicant to send a response
+> @@ -97,6 +98,9 @@ struct tee_driver_ops {
+>  	int (*invoke_func)(struct tee_context *ctx,
+>  			   struct tee_ioctl_invoke_arg *arg,
+>  			   struct tee_param *param);
+> +	int (*object_invoke_func)(struct tee_context *ctx,
+> +				  struct tee_ioctl_object_invoke_arg *arg,
+> +				  struct tee_param *param);
+>  	int (*cancel_req)(struct tee_context *ctx, u32 cancel_id, u32 session);
+>  	int (*supp_recv)(struct tee_context *ctx, u32 *func, u32 *num_params,
+>  			 struct tee_param *param);
+> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> index 130782d4d5f6..16dad7a21910 100644
+> --- a/include/linux/tee_drv.h
+> +++ b/include/linux/tee_drv.h
+> @@ -87,6 +87,11 @@ struct tee_param_ubuf {
+>  	size_t size;
+>  };
+>  
+> +struct tee_param_objref {
+> +	u64 id;
+> +	u64 flags;
+> +};
+> +
+>  struct tee_param_value {
+>  	u64 a;
+>  	u64 b;
+> @@ -97,6 +102,7 @@ struct tee_param {
+>  	u64 attr;
+>  	union {
+>  		struct tee_param_memref memref;
+> +		struct tee_param_objref objref;
+>  		struct tee_param_ubuf ubuf;
+>  		struct tee_param_value value;
+>  	} u;
+> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+> index 4a1dcfb4290e..0aef647d4a34 100644
+> --- a/include/uapi/linux/tee.h
+> +++ b/include/uapi/linux/tee.h
+> @@ -48,8 +48,10 @@
+>  #define TEE_GEN_CAP_PRIVILEGED	(1 << 1)/* Privileged device (for supplicant) */
+>  #define TEE_GEN_CAP_REG_MEM	(1 << 2)/* Supports registering shared memory */
+>  #define TEE_GEN_CAP_MEMREF_NULL	(1 << 3)/* NULL MemRef support */
+> +#define TEE_GEN_CAP_OBJREF	(1 << 4)/* Supports generic object reference */
+>  
+> -#define TEE_MEMREF_NULL		(__u64)(-1) /* NULL MemRef Buffer */
+> +#define TEE_MEMREF_NULL		((__u64)(-1)) /* NULL MemRef Buffer */
+> +#define TEE_OBJREF_NULL		((__u64)(-1)) /* NULL ObjRef Object */
+>  
+>  /*
+>   * TEE Implementation ID
+> @@ -158,6 +160,13 @@ struct tee_ioctl_buf_data {
+>  #define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT	9
+>  #define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT	10	/* input and output */
+>  
+> +/*
+> + * These defines object reference parameters.
+> + */
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT	11
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT	12
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT	13
+> +
+>  /*
+>   * Mask for the type part of the attribute, leaves room for more types
+>   */
+> @@ -195,15 +204,16 @@ struct tee_ioctl_buf_data {
+>   * @attr: attributes
+>   * @a: if a memref, offset into the shared memory object,
+>   *     else if a ubuf, address into the user buffer,
+> - *     else a value parameter
+> - * @b: if a memref or ubuf, size of the buffer, else a value parameter
+> + *     else if an objref, object identifier, else a value parameter
+> + * @b: if a memref or ubuf, size of the buffer,
+> + *     else if objref, a flag for object, else a value parameter
+
+flags for the object?
+
+>   * @c: if a memref, shared memory identifier, else a value parameter
+>   *
+>   * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, ubuf, or value is
+>   * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
+> - * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYPE_UBUF_*
+> - * indicates ubuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members
+> - * are used.
+> + * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, TEE_PARAM_ATTR_TYPE_UBUF_*
+> + * indicates ubuf, and TEE_PARAM_ATTR_TYPE_OBJREF_* indicates objref.
+> + * TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members are used.
+>   *
+>   * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
+>   * identifier representing the shared memory object. A memref can reference
+> @@ -411,4 +421,23 @@ struct tee_ioctl_shm_register_data {
+>   * munmap(): unmaps previously shared memory
+>   */
+>  
+> +/**
+> + * struct tee_ioctl_invoke_func_arg - Invokes an object in a Trusted Application.
+
+Please drop the terminating '.'.
+
+Thanks,
+Jens
+
+> + * @object:	[in] Object id
+> + * @op:		[in] Object operation, specific to the object
+> + * @ret:	[out] return value
+> + * @num_params	[in] number of parameters following this struct
+> + */
+> +struct tee_ioctl_object_invoke_arg {
+> +	__u64 object;
+> +	__u32 op;
+> +	__u32 ret;
+> +	__u32 num_params;
+> +	/* num_params tells the actual number of element in params */
+> +	struct tee_ioctl_param params[];
+> +};
+> +
+> +#define TEE_IOC_OBJECT_INVOKE	_IOR(TEE_IOC_MAGIC, TEE_IOC_BASE + 10, \
+> +				     struct tee_ioctl_buf_data)
+> +
+>  #endif /*__TEE_H*/
+> 
+> -- 
+> 2.34.1
+> 
