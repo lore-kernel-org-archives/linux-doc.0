@@ -1,45 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF654229B18;
-	Mon, 17 Feb 2025 18:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0AF187858;
+	Mon, 17 Feb 2025 19:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739816408; cv=none; b=kIk9F1djGtTMiqT0wTH25HcSxZzlq9M693gFOmYVlR7QRVEemX6N4PQIoXCyg/hUS8+FfCNOGHYH4Pn3Rxm+W6l6zgatmwuyLkfSgfYnSRbHtYX3OHWVbWiz05mvN6fEN7dmbQ4adt05WIBIqqRQdbP00UU9RaJQyahYZEMAAlo=
+	t=1739820168; cv=none; b=UveFId8kZuVs3SUbbvnA01CYH0R2sIt3Rc14OSN9FDKtESmlx8kEUrT2E9SZXXC9/SL5U/NKrKcth7dl2DcQl1froAPdJZLbS+4cHt3TvUrWbtIK4IHhLOVEEu92W4CzqLOhxe9xbnM9eaMQghwZN7WstGcVB7fUR+MjHrRYTPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739816408; c=relaxed/simple;
-	bh=7v9JiuvwjKhG5Dg3ZHjNC2SWZm0sNugydy6hsXZgOqo=;
+	s=arc-20240116; t=1739820168; c=relaxed/simple;
+	bh=ijo4pvzem5MMENskXSi+EMmSoU5iA/MGnzwRm8gKSzE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uX1803TV6yNk71bjPyMSQ2CVHdc4oYZmZ2cKR6VsJOsKM+WOS17FuKm2pTSYoBSOHcoEYWo9qfjKooM4rKl3mGPB25AYEcmlYdsPiN+nJeVhaJ77CfEBuv8NtYUHAFA+419D7ZXaJFByfvYWS45olks8gYZR7nu4TQShkle9LTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96C0DC4CED1;
-	Mon, 17 Feb 2025 18:20:03 +0000 (UTC)
-Date: Mon, 17 Feb 2025 18:20:01 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Ionela Voinescu <ionela.voinescu@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Beata Michalska <beata.michalska@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org, will@kernel.org, viresh.kumar@linaro.org,
-	sumitg@nvidia.com, yang@os.amperecomputing.com,
-	vanshikonda@os.amperecomputing.com, lihuisong@huawei.com,
-	zhanjie9@hisilicon.com, ptsm@linux.microsoft.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, Phil Auld <pauld@redhat.com>,
-	x86@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 2/4] cpufreq: Introduce an optional cpuinfo_avg_freq
- sysfs entry
-Message-ID: <Z7N90XZTICfLZCm_@arm.com>
-References: <20250131162439.3843071-1-beata.michalska@arm.com>
- <20250131162439.3843071-3-beata.michalska@arm.com>
- <CAJZ5v0g+yax=pT4m_2MTd9kUwbk5VBp2wkctTYJpFRU3myEjPQ@mail.gmail.com>
- <Z7NOcd3IamyMTjbH@arm.com>
- <Z7NQrBvnfYwXva1W@arm.com>
- <Z7NeTrorAqDxa8QM@bogus>
+	 Content-Type:Content-Disposition:In-Reply-To; b=iXieleRKb7jk19l14XMc169mwn72M59i2+vGYhSpZadCgnfOgIa0NvQodlGdyOLMfq3aHoevSHzemiukBiSBL7y4xbQ9N/HuP0OI3I2wiH2QjlVMXSuwJbjwx1WUfEZW4PEVkuM6dKc0/qiaQRskqJy6WoRtzue5OswWfh/+HpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ZeR7bPUg; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ZeR7bPUg"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CCF1740E01A3;
+	Mon, 17 Feb 2025 19:22:41 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id Cs5sXHgQX4cq; Mon, 17 Feb 2025 19:22:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1739820157; bh=tB7XeNDFmO+IfCmGxJnspw19Z/0mgsdm0DNMxGIAHBY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZeR7bPUg8cK06aQ93Y6dcqO7MwRB9nWkM9+n9luqsHXHR0Esn7fvFvk/GQprtvPNZ
+	 oalxAxjl2rp+rWoV2v2ihIJUb/dy9l3kkx9pv1JzygvqmaNOrAa/pz/leMav82Hpz2
+	 Y/qE7WzIOqV3rkjOqqWFY53eF6oUgu2hjD7Z5ZTB4y+Ltie9zu2XTZ5GJdYyrxFIHb
+	 N80FbBO3NNleMEnm3Kccidy2jpQ3sQvjlN9nQpdo4qQj1PJ2uIeD2sFMxPQLF/3c7J
+	 VsygtWVSV+uz0rZ6FKTE22KH2kSu7xhXSyu89IvhxSNewaHZULq3HATo9+iL986eWm
+	 dBNlMDJKo9cnAr8HgwZDeDYLmcfHPYOXQXyFhLFjaYmB6xeQRz6GnbU5YD9nBs7z6e
+	 u7MS9L2wostEEmp5ZLj/xPVVEdlr1j9PObvi6j17vVVKNf+NxlPE+Gpw7hLj/cHfzc
+	 LPT0RkpXwYEAlvKPVivvuwWFxQ44X+ySrV0WYaTaQnixWvjmN6Gcc49eSypn+a4JSK
+	 U6lX3sJpilrJqk8H92vTjMWZmMa41jU1ZxSa9JAYaTNeEtV8u1rkfqDgRfZw+zjb2I
+	 dmqdj6Uz6JQihFd99w6/tJSC7mihywarpRY0rRObcnPxFb9yDYglqDZfq20912tXMK
+	 0I1ZAJu58OcThhlmBWW0NE7I=
+Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7850540E01AE;
+	Mon, 17 Feb 2025 19:22:27 +0000 (UTC)
+Date: Mon, 17 Feb 2025 20:22:21 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v2 3/3] x86/cpu: Enable modifying bug flags with
+ {clear,set}puid
+Message-ID: <20250217192221.GHZ7OMbf-bgNWZ8coq@fat_crate.local>
+References: <20250129-force-cpu-bug-v2-0-5637b337b443@google.com>
+ <20250129-force-cpu-bug-v2-3-5637b337b443@google.com>
+ <20250217111029.GIZ7MZJUGJRoeiScgn@fat_crate.local>
+ <CA+i-1C3fetiBYVbfpAbQEAnogzdza25pu2DosCiTT9YkXwt0yw@mail.gmail.com>
+ <20250217170817.GGZ7NtAf-mg-zySpdP@fat_crate.local>
+ <CA+i-1C0=tDMpfZqNq0aWns=cj70UOOmCAPOonmJi+MM7B6G9Kg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,64 +71,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z7NeTrorAqDxa8QM@bogus>
+In-Reply-To: <CA+i-1C0=tDMpfZqNq0aWns=cj70UOOmCAPOonmJi+MM7B6G9Kg@mail.gmail.com>
 
-On Mon, Feb 17, 2025 at 04:05:34PM +0000, Sudeep Holla wrote:
-> On Mon, Feb 17, 2025 at 03:07:24PM +0000, Ionela Voinescu wrote:
-> > On Monday 17 Feb 2025 at 14:57:53 (+0000), Catalin Marinas wrote:
-> > > On Mon, Feb 17, 2025 at 12:52:44PM +0100, Rafael J. Wysocki wrote:
-> > > > On Fri, Jan 31, 2025 at 5:25 PM Beata Michalska <beata.michalska@arm.com> wrote:
-> > > > >
-> > > > > Currently the CPUFreq core exposes two sysfs attributes that can be used
-> > > > > to query current frequency of a given CPU(s): namely cpuinfo_cur_freq
-> > > > > and scaling_cur_freq. Both provide slightly different view on the
-> > > > > subject and they do come with their own drawbacks.
-> > > > >
-> > > > > cpuinfo_cur_freq provides higher precision though at a cost of being
-> > > > > rather expensive. Moreover, the information retrieved via this attribute
-> > > > > is somewhat short lived as frequency can change at any point of time
-> > > > > making it difficult to reason from.
-> > > > >
-> > > > > scaling_cur_freq, on the other hand, tends to be less accurate but then
-> > > > > the actual level of precision (and source of information) varies between
-> > > > > architectures making it a bit ambiguous.
-> > > > >
-> > > > > The new attribute, cpuinfo_avg_freq, is intended to provide more stable,
-> > > > > distinct interface, exposing an average frequency of a given CPU(s), as
-> > > > > reported by the hardware, over a time frame spanning no more than a few
-> > > > > milliseconds. As it requires appropriate hardware support, this
-> > > > > interface is optional.
-> > > > >
-> > > > > Note that under the hood, the new attribute relies on the information
-> > > > > provided by arch_freq_get_on_cpu, which, up to this point, has been
-> > > > > feeding data for scaling_cur_freq attribute, being the source of
-> > > > > ambiguity when it comes to interpretation. This has been amended by
-> > > > > restoring the intended behavior for scaling_cur_freq, with a new
-> > > > > dedicated config option to maintain status quo for those, who may need
-> > > > > it.
-> > > > 
-> > > > In case anyone is waiting for my input here
-> > > > 
-> > > > Acked-by: Rafael J. Wysocki <rafael@kernel.org>
-> > > > 
-> > > > for this and the previous patch and please feel free to route them
-> > > > both through ARM64.
-> > > 
-> > > Thanks Rafael. I indeed plan to take them through the arm64 tree.
-> > 
-> > Just a mention that this set depends on the patch that Beata linked at
-> > [6]. That patch applies cleanly on next-20250217 and it still
-> > builds/boots/works as expected.
+On Mon, Feb 17, 2025 at 06:20:33PM +0100, Brendan Jackman wrote:
+> But for bugs, they all have a name. I was thinking that this was
+> because they are defined by the kernel, that's what I meant by "It t
+> doesn't make sense for a bug not to have a name", although now I think
+> about it we could totally have a bug and not give it a user-visible
+> name if we wanted to.
+
+Right.
+
+> Anyway, still think the current logic is what we want here:
 > 
-> Ah I see it is indeed dependent. Just responded on the other thread before
-> reading this. So it is better if Catalin picks up [6] as well. Sorry for
-> the confusion.
+> - The new setcpuid should be consistent with the existing clearcpuid,
+> i.e. accept numbers for the same things clearcpuid does.
+> 
+> - There are currently no bugs without names so for those, require the
+> string for both setcpuid and clearcpuid. If we wanted to we could add
+> number support later.
 
-I picked that one as well. I'll do some tests and push them out later
-today or tomorrow morning.
+Right, let's not make this more than it is - a hacky interface for hacks - not
+to be used in production anyway. :-)
 
-Thanks.
+Thx.
 
 -- 
-Catalin
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
