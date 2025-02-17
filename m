@@ -1,385 +1,132 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B7B217654
-	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 10:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35DC1DE3B6;
+	Mon, 17 Feb 2025 10:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739788102; cv=none; b=msWJ90aoelGgCzpb4zQOZy97MtAHAgCQ7jjR9bVveRHK/RNTB2ZrPQx9gIhIzuzEzKhChIIltFTcX3id0NIylR/k6f2jB5AiLh5uQsE2jFt/I4eKc2TjZdgbWf5qOrEZxfYdYAGadGHMniBk3IuE7RGzHhsHpOdncUYmZYEdQJM=
+	t=1739789537; cv=none; b=W7d42srA2rr6PKRewJdNkvNe4OFVFRnVh9oMFae2TLGntGXlqcSygi0o3l2PMr1ZlzMPFoiBI7Pv8LgC5Zy06v7PboekS3vPqFWgKvXi9Di4gQDTeJzr4gLhf5idccbP9NMQQQXXI/ANlscPpVSGAuO44RvXuSxXfLwQAGx2mcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739788102; c=relaxed/simple;
-	bh=l/VNLWskysYtXV8CMrR63if9pa5Zk/FbgUL2cKr4nig=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V9lXzHxvrGCF6rsuX6fSH9dxi6GzwytarIO2S3JgSgZx8S/dMrVzU3/Hzi7Z2mofGmS/Btm3Or4wYTL5oUvqK0yDBPfEpQa6FPySody1HhMEDwhRUuaWVUoVDm5CGiRB+qCnjnuvdUbF7OMmbBOfj2kRp6uQ0/4gzFLO9AMzMTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dvFSH2wB; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1739789537; c=relaxed/simple;
+	bh=ECFQiigJkucz+54P1vwO33omMVv3zqagABDHOg3hkYA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mxV3wwKM5sn1H9XiXxFki6bRSg8c56KLqSaoSXvZxk1EcCd+/L268Spz1i8noOrtucYRIyGqM6IFKBlCT57BXoA0yldlpmoMLDa7DbjvROrb+Z64Xg3zUi5Rs4SLQur50g6hmahtxW79ZFdl91RP/2Fi7LaBFFkbrb69pfI89Bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GwUfvwnC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dvFSH2wB"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-abb705e7662so334815066b.0
-        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 02:28:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739788098; x=1740392898; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8eyngJ7nkEPHmdDriI8ss9BNKTlQzJe9o6ktClmVBmM=;
-        b=dvFSH2wB6DTom+bwwRFkJQsqygHE8hXB4bXCBSVw7SQusOd8fvLFHeV8ql8oACtFlY
-         +b1OkaLAbatbz11XnImqxF/QgE1GOuolJmV2nsGx0U5mHoT9mZu2NTZmScr1SytbMrl2
-         Eo0NXfj8aJ1zw4PHL5keb/ad43UoWkGp00dDUiI3TEPBVRZNl0DsoN+S4Wg6A09EM/8Y
-         /5VrJ3QQ1kVnTUlARwJ1dzLonA45K9QmClFWt/0YdJqvMUOjdbBU1Y14+wb090rq37QX
-         vjtDGZ+V/vyR3D8hMQ3v6Rn7SgVQHRwTC7tlETii+QlX7wR+cehnj4srOQitEehTT0Br
-         Zl7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739788098; x=1740392898;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8eyngJ7nkEPHmdDriI8ss9BNKTlQzJe9o6ktClmVBmM=;
-        b=qOKf7Bcayr147ElzaJYFEyKYXuR8cdFXWKbh/JejRDaRS4kvEStY8Rgkj/nYxUqeTF
-         s2/hv+XF+XdK0ztaTPlVusO7ZeHL2VxTxdeU6HTslsjYm1HfHV6sVMyo1NzZQrMdAlSF
-         Ww9BFOoaWSBbntgHQUQdLn3KiYH2g+3jItEFcauvcmZmtschDlsDG4zYHzCJjkAZffv/
-         u1u6AocugUeM8e0NSg8pc2NDRxE4gCYPdKcRpoNmNh+WohKcd6OBQSBX83y/Hm0HBMDz
-         +ksM2pxcKlZxwtODXpsT1ySnVlKWvmlVPR10JTVMoPPAkrVoQhnrrbWWASqHjtcXrhEn
-         rdnw==
-X-Forwarded-Encrypted: i=1; AJvYcCWCp9Ry/s3M9Bwh4AM17ECmJctiC/VhUS42hfB7wnstFim4jAbbpvJnrYU+8T5lQAD8uayb1VPc394=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoELIwNrz0xeNqETeV4CMrxMXfdEbJ+6zoGm38GF9jT6EXLKjZ
-	ZwOVGT70jGkzHIals5o308MNfrce+pbv3JQlkg1gv8BNCwuoiBBS+ckeUH1k7XE=
-X-Gm-Gg: ASbGncspNmSyeIiy6sq5kqLUjqH7BDoIz9wtddiWqlXd9ZeN0midtcnUbDFFM+yv7l3
-	HCMTBwKtYjjlW0RCWeqNqU0kjUn7UOmNREjKPBBO7dx/eVUA23qmd6n8kNHSbhqP1nVJvGra6Z/
-	Il8xuh74crHkzy1EPOqHzQAyJvno328t74kfBL1QQtgrpfP91CoaHFdsVce5vrai5f+hpPGkJye
-	fs95Xn3gzEB0hvMpEMw3vGi9VY5o+ll0xiWKp92XsZahOO4Zseepl1EwVASGeh6h3Qrsc4LnMg5
-	/CjeXQEfLgAwTynq+sTwfDCYAi4bQIN6lrBrTcb0yIEstt+qN896E82vGA==
-X-Google-Smtp-Source: AGHT+IFGDFv3Q/fDJq96jJR3oBpkTYeZFfDo5uJ8GBvW5yBqf9KLhXWrMr5gc489cQ1N+znCBv4z7w==
-X-Received: by 2002:a17:907:60d6:b0:ab6:ed8a:3c14 with SMTP id a640c23a62f3a-abb70c8e70emr869084366b.27.1739788098208;
-        Mon, 17 Feb 2025 02:28:18 -0800 (PST)
-Received: from rayden (h-98-128-140-123.A175.priv.bahnhof.se. [98.128.140.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba533bf307sm871580966b.176.2025.02.17.02.28.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 02:28:17 -0800 (PST)
-Date: Mon, 17 Feb 2025 11:28:15 +0100
-From: Jens Wiklander <jens.wiklander@linaro.org>
-To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-Cc: Sumit Garg <sumit.garg@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 4/8] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
-Message-ID: <20250217102815.GC2637163@rayden>
-References: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
- <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-4-297eacd0d34f@quicinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GwUfvwnC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC596C4CED1;
+	Mon, 17 Feb 2025 10:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739789536;
+	bh=ECFQiigJkucz+54P1vwO33omMVv3zqagABDHOg3hkYA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GwUfvwnCZ+788bztR9frQqcjXFuVjAY9NK9RMmQu5y8GLRfFROqW30YiGXXNFI1DB
+	 iQxlNO4AVoe4sNj6JL3YoD2YzEj3YHV0BOm6hWOsNb0QgpSURlDHPaxMBoFpsMbjpi
+	 DubuGS55oUBE+Uv6wjihrWJXWVwdeNcbau2n0P8OStIj9kMI/nofrWCc5wAYpDiwTo
+	 zJLxInywER9Zyoh2zpNWA8GYUnwT8paCBOfOP2PzswETiq8uGXulrMsM3y/q1ojKd8
+	 csmd8UKp1o9Fh+8OG0GliEE9C6yPUrBhSpOqdKI7QsmE08O7yb7J6EH+lKroNzikD4
+	 RbPEv1GrdSaLw==
+Message-ID: <bcadb20f-4867-4b77-ac53-f855b14cd746@kernel.org>
+Date: Mon, 17 Feb 2025 11:52:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-4-297eacd0d34f@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: trivial-devices: add lt3074
+To: "Encarnacion, Cedric justine" <Cedricjustine.Encarnacion@analog.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+References: <20250124-upstream-lt3074-v1-0-7603f346433e@analog.com>
+ <20250124-upstream-lt3074-v1-1-7603f346433e@analog.com>
+ <20250127-outgoing-ibis-of-respect-028c50@krzk-bin>
+ <PH0PR03MB6938B71327DAADC17492A5538EF62@PH0PR03MB6938.namprd03.prod.outlook.com>
+ <5d2b71a9-a62b-418c-91ae-fa2a195aa27c@kernel.org>
+ <PH0PR03MB693845F71D14B21D447D701A8EFB2@PH0PR03MB6938.namprd03.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <PH0PR03MB693845F71D14B21D447D701A8EFB2@PH0PR03MB6938.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On Sun, Feb 02, 2025 at 06:43:32PM -0800, Amirreza Zarrabi wrote:
-> The TEE subsystem allows session-based access to trusted services,
-> requiring a session to be established to receive a service. This
-> is not suitable for an environment that represents services as objects.
-> An object supports various operations that a client can invoke,
-> potentially generating a result or a new object that can be invoked
-> independently of the original object.
+On 17/02/2025 10:30, Encarnacion, Cedric justine wrote:
+>>
+>>> LT7182S. Like other PMBus drivers, its GPIOs are not exposed.
+>>>
+>>> Here are other PMBus regulators/power modules found in trivial-devices
+>>> I also used as reference:
+>>>
+>>> - infineon,irps5401
+>>> - delta,q54sj108a2
+>>
+>>
+>> I don't know these devices so still no clue. Please rather explain in
+>> the terms of the hardware, e.g. what this device has or has not. See
+>> also regulator bindings.
 > 
-> Add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT/OUTPUT/INOUT to represent an
-> object. Objects may reside in either TEE or userspace. To invoke an
-> object in TEE, introduce a new ioctl. Use the existing SUPPL_RECV and
-> SUPPL_SEND to invoke an object in userspace.
+> The device has enable-gpio and status-gpio. It also has registers of
+> similar functionality which the core driver accesses instead for
+> toggling enable and monitoring status of the device.
 > 
-> Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-> ---
->  drivers/tee/tee_core.c   | 85 ++++++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/tee_core.h |  4 +++
->  include/linux/tee_drv.h  |  6 ++++
->  include/uapi/linux/tee.h | 41 +++++++++++++++++++----
->  4 files changed, 130 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> index 9f4b9a995e16..fe435772688c 100644
-> --- a/drivers/tee/tee_core.c
-> +++ b/drivers/tee/tee_core.c
-> @@ -379,6 +379,7 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
->  		switch (ip.attr & TEE_IOCTL_PARAM_ATTR_TYPE_MASK) {
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
->  			break;
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
-> @@ -396,6 +397,11 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
->  				return -EFAULT;
->  
->  			break;
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT:
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
-> +			params[n].u.objref.id = ip.a;
-> +			params[n].u.objref.flags = ip.b;
-> +			break;
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-> @@ -469,6 +475,12 @@ static int params_to_user(struct tee_ioctl_param __user *uparams,
->  			if (put_user((u64)p->u.ubuf.size, &up->b))
->  				return -EFAULT;
->  			break;
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
-> +			if (put_user(p->u.objref.id, &up->a) ||
-> +			    put_user(p->u.objref.flags, &up->b))
-> +				return -EFAULT;
-> +			break;
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
->  			if (put_user((u64)p->u.memref.size, &up->b))
-> @@ -621,6 +633,66 @@ static int tee_ioctl_invoke(struct tee_context *ctx,
->  	return rc;
->  }
->  
-> +static int tee_ioctl_object_invoke(struct tee_context *ctx,
-> +				   struct tee_ioctl_buf_data __user *ubuf)
-> +{
-> +	int rc;
-> +	size_t n;
-> +	struct tee_ioctl_buf_data buf;
-> +	struct tee_ioctl_object_invoke_arg __user *uarg;
-> +	struct tee_ioctl_object_invoke_arg arg;
-> +	struct tee_ioctl_param __user *uparams = NULL;
-> +	struct tee_param *params = NULL;
-> +
-> +	if (!ctx->teedev->desc->ops->object_invoke_func)
-> +		return -EINVAL;
-> +
-> +	if (copy_from_user(&buf, ubuf, sizeof(buf)))
-> +		return -EFAULT;
-> +
-> +	if (buf.buf_len > TEE_MAX_ARG_SIZE ||
-> +	    buf.buf_len < sizeof(struct tee_ioctl_object_invoke_arg))
-> +		return -EINVAL;
-> +
-> +	uarg = u64_to_user_ptr(buf.buf_ptr);
-> +	if (copy_from_user(&arg, uarg, sizeof(arg)))
-> +		return -EFAULT;
-> +
-> +	if (sizeof(arg) + TEE_IOCTL_PARAM_SIZE(arg.num_params) != buf.buf_len)
-> +		return -EINVAL;
-> +
-> +	if (arg.num_params) {
-> +		params = kcalloc(arg.num_params, sizeof(struct tee_param),
-> +				 GFP_KERNEL);
-> +		if (!params)
-> +			return -ENOMEM;
-> +		uparams = uarg->params;
-> +		rc = params_from_user(ctx, params, arg.num_params, uparams);
-> +		if (rc)
-> +			goto out;
-> +	}
-> +
-> +	rc = ctx->teedev->desc->ops->object_invoke_func(ctx, &arg, params);
-> +	if (rc)
-> +		goto out;
-> +
-> +	if (put_user(arg.ret, &uarg->ret)) {
-> +		rc = -EFAULT;
-> +		goto out;
-> +	}
-> +	rc = params_to_user(uparams, arg.num_params, params);
-> +out:
-> +	if (params) {
-> +		/* Decrease ref count for all valid shared memory pointers */
-> +		for (n = 0; n < arg.num_params; n++)
-> +			if (tee_param_is_memref(params + n) &&
-> +			    params[n].u.memref.shm)
-> +				tee_shm_put(params[n].u.memref.shm);
-> +		kfree(params);
-> +	}
-> +	return rc;
-> +}
-> +
->  static int tee_ioctl_cancel(struct tee_context *ctx,
->  			    struct tee_ioctl_cancel_arg __user *uarg)
->  {
-> @@ -676,6 +748,12 @@ static int params_to_supp(struct tee_context *ctx,
->  			ip.b = p->u.ubuf.size;
->  			ip.c = 0;
->  			break;
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT:
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
-> +			ip.a = p->u.objref.id;
-> +			ip.b = p->u.objref.flags;
-> +			ip.c = 0;
-> +			break;
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-> @@ -783,6 +861,11 @@ static int params_from_supp(struct tee_param *params, size_t num_params,
->  			p->u.ubuf.uaddr = u64_to_user_ptr(ip.a);
->  			p->u.ubuf.size = ip.b;
->  			break;
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
-> +		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
-> +			p->u.objref.id = ip.a;
-> +			p->u.objref.flags = ip.b;
-> +			break;
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
->  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
->  			/*
-> @@ -863,6 +946,8 @@ static long tee_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->  		return tee_ioctl_open_session(ctx, uarg);
->  	case TEE_IOC_INVOKE:
->  		return tee_ioctl_invoke(ctx, uarg);
-> +	case TEE_IOC_OBJECT_INVOKE:
-> +		return tee_ioctl_object_invoke(ctx, uarg);
->  	case TEE_IOC_CANCEL:
->  		return tee_ioctl_cancel(ctx, uarg);
->  	case TEE_IOC_CLOSE_SESSION:
-> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-> index 8a4c9e30b652..ffb04c946c70 100644
-> --- a/include/linux/tee_core.h
-> +++ b/include/linux/tee_core.h
-> @@ -72,6 +72,7 @@ struct tee_device {
->   * @close_session:	close a session
->   * @system_session:	declare session as a system session
->   * @invoke_func:	invoke a trusted function
-> + * @object_invoke_func:	invoke an object
+> Upon checking regulator bindings and other related bindings for
+> PMBus devices with regulator support, this indeed should be a
+> separate binding outside of trivial devices. Please let me know
+> what do you suggest.
 
-invoke a TEE object?
+Even the GPIOs are outside of trivial devices, so for that sole reason
+this should not be here but in its own binding.
 
->   * @cancel_req:		request cancel of an ongoing invoke or open
->   * @supp_recv:		called for supplicant to get a command
->   * @supp_send:		called for supplicant to send a response
-> @@ -97,6 +98,9 @@ struct tee_driver_ops {
->  	int (*invoke_func)(struct tee_context *ctx,
->  			   struct tee_ioctl_invoke_arg *arg,
->  			   struct tee_param *param);
-> +	int (*object_invoke_func)(struct tee_context *ctx,
-> +				  struct tee_ioctl_object_invoke_arg *arg,
-> +				  struct tee_param *param);
->  	int (*cancel_req)(struct tee_context *ctx, u32 cancel_id, u32 session);
->  	int (*supp_recv)(struct tee_context *ctx, u32 *func, u32 *num_params,
->  			 struct tee_param *param);
-> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-> index 130782d4d5f6..16dad7a21910 100644
-> --- a/include/linux/tee_drv.h
-> +++ b/include/linux/tee_drv.h
-> @@ -87,6 +87,11 @@ struct tee_param_ubuf {
->  	size_t size;
->  };
->  
-> +struct tee_param_objref {
-> +	u64 id;
-> +	u64 flags;
-> +};
-> +
->  struct tee_param_value {
->  	u64 a;
->  	u64 b;
-> @@ -97,6 +102,7 @@ struct tee_param {
->  	u64 attr;
->  	union {
->  		struct tee_param_memref memref;
-> +		struct tee_param_objref objref;
->  		struct tee_param_ubuf ubuf;
->  		struct tee_param_value value;
->  	} u;
-> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> index 4a1dcfb4290e..0aef647d4a34 100644
-> --- a/include/uapi/linux/tee.h
-> +++ b/include/uapi/linux/tee.h
-> @@ -48,8 +48,10 @@
->  #define TEE_GEN_CAP_PRIVILEGED	(1 << 1)/* Privileged device (for supplicant) */
->  #define TEE_GEN_CAP_REG_MEM	(1 << 2)/* Supports registering shared memory */
->  #define TEE_GEN_CAP_MEMREF_NULL	(1 << 3)/* NULL MemRef support */
-> +#define TEE_GEN_CAP_OBJREF	(1 << 4)/* Supports generic object reference */
->  
-> -#define TEE_MEMREF_NULL		(__u64)(-1) /* NULL MemRef Buffer */
-> +#define TEE_MEMREF_NULL		((__u64)(-1)) /* NULL MemRef Buffer */
-> +#define TEE_OBJREF_NULL		((__u64)(-1)) /* NULL ObjRef Object */
->  
->  /*
->   * TEE Implementation ID
-> @@ -158,6 +160,13 @@ struct tee_ioctl_buf_data {
->  #define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT	9
->  #define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT	10	/* input and output */
->  
-> +/*
-> + * These defines object reference parameters.
-> + */
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT	11
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT	12
-> +#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT	13
-> +
->  /*
->   * Mask for the type part of the attribute, leaves room for more types
->   */
-> @@ -195,15 +204,16 @@ struct tee_ioctl_buf_data {
->   * @attr: attributes
->   * @a: if a memref, offset into the shared memory object,
->   *     else if a ubuf, address into the user buffer,
-> - *     else a value parameter
-> - * @b: if a memref or ubuf, size of the buffer, else a value parameter
-> + *     else if an objref, object identifier, else a value parameter
-> + * @b: if a memref or ubuf, size of the buffer,
-> + *     else if objref, a flag for object, else a value parameter
-
-flags for the object?
-
->   * @c: if a memref, shared memory identifier, else a value parameter
->   *
->   * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, ubuf, or value is
->   * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
-> - * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYPE_UBUF_*
-> - * indicates ubuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members
-> - * are used.
-> + * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, TEE_PARAM_ATTR_TYPE_UBUF_*
-> + * indicates ubuf, and TEE_PARAM_ATTR_TYPE_OBJREF_* indicates objref.
-> + * TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members are used.
->   *
->   * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
->   * identifier representing the shared memory object. A memref can reference
-> @@ -411,4 +421,23 @@ struct tee_ioctl_shm_register_data {
->   * munmap(): unmaps previously shared memory
->   */
->  
-> +/**
-> + * struct tee_ioctl_invoke_func_arg - Invokes an object in a Trusted Application.
-
-Please drop the terminating '.'.
-
-Thanks,
-Jens
-
-> + * @object:	[in] Object id
-> + * @op:		[in] Object operation, specific to the object
-> + * @ret:	[out] return value
-> + * @num_params	[in] number of parameters following this struct
-> + */
-> +struct tee_ioctl_object_invoke_arg {
-> +	__u64 object;
-> +	__u32 op;
-> +	__u32 ret;
-> +	__u32 num_params;
-> +	/* num_params tells the actual number of element in params */
-> +	struct tee_ioctl_param params[];
-> +};
-> +
-> +#define TEE_IOC_OBJECT_INVOKE	_IOR(TEE_IOC_MAGIC, TEE_IOC_BASE + 10, \
-> +				     struct tee_ioctl_buf_data)
-> +
->  #endif /*__TEE_H*/
-> 
-> -- 
-> 2.34.1
-> 
+Best regards,
+Krzysztof
