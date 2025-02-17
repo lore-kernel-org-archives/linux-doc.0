@@ -1,110 +1,129 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7DC21CC79;
-	Mon, 17 Feb 2025 13:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE465215F49
+	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 13:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739797312; cv=none; b=Nc4DW6S9D71XphmA7PHEMKx7/6vUtYqkO5iGn9W22T8gGzJUzDx5AmeHcRF2AnsqivcqoTCyc4lpSlCtDIVhqv5XhxxADEOh9hQz86LGyJaOJWmmx+6KW+gwos0IRnuYPgZ2JlUxSB8gFajhv/gw/pkdWhmeiAUHzSGUtoOEGS4=
+	t=1739797556; cv=none; b=qBU/vygJkE9OozheOPhmzI/1cGN1+DtNvYBKUTQswjWNJUzflBtOVXV1K3iVUPVTg8DTlwNGbAy4QahgMlHhWhMAgxQprtGxEpSixQiMWTxWySwoWOIE9RvdJQYwfVLTxhlXez7MXbNoOaD/6FffQ1UUQz5FAbCOvaXQl46/UWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739797312; c=relaxed/simple;
-	bh=2jD9QuN6VW28G8GTwlxHKo4MVefLSMtcuuBQ7ppj4Do=;
-	h=MIME-Version:Date:From:To:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=jlcA+8vWuG+twyo7o2udT3Z+yScAO21j8RqaWYjjPFwsGGmAUz4/fWdNxyEGwve7OsBpgSK5HeatNwWkfA4E/kYvnh2Gxag6u/hguFlMry+zLjjfPJIFAlMQKk3dWyQoG409XQPZ4OrcHBTAdUh9ePrl2ef1Sj9zb1xqjuOTuPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=m7ovJ0Cq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p/oNoCF6; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1739797556; c=relaxed/simple;
+	bh=ZKAxYYLxdNCr5VowdCBtoLawSOPUB9oQdK09VtVgZeM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=R8x1eY8FzKWzSyEBn1ce+ha6VnzwcCNe8QU44F9aLole5WCV4urDxkFKkg8EWUu1M4CS1U+Ws/IyQbn4BN7LHDtpTtnZzzxAEhQ8qoS/UXxeGPIXHOFmgpQmtZaxrF7IbYRSRtZ0yi4aXF7m8PKfZj0BxWFUb98lSm5ZnIbNm6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f1OsVoB7; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="m7ovJ0Cq";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p/oNoCF6"
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3B76B138098A;
-	Mon, 17 Feb 2025 08:01:49 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-11.internal (MEProxy); Mon, 17 Feb 2025 08:01:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1739797309;
-	 x=1739883709; bh=fGA+ofvv0mZ+MkkWUzOVgJmFJURib3VnJcpnpL+ZHus=; b=
-	m7ovJ0CqOB+FGXNyWezZXR56R+dUPXg6y5/SjLuu+Z77Eyw6oLdhktPa22dnJyAq
-	yZszsehsAJibdRlQQ3b0hBWrx4Aekp6tOEm/kBarmM8x+58Ewc8I8T5vhjgiqP+d
-	Tkyh+51baL+h+SmlorvlQWJ+hb5nceMOegTiO2rCFxMR262XQgLMyuW17leo8SgK
-	u7e9bU4WIs9ldGbq8om4mnP8TWzwzXTp4hGfEvQ27uIQldcwqoG6H55c0LUQIN+I
-	CF+sHtRpHpEGtZMhAO+Wwsdsa81317GPh7ODhe2X5A6m1DUcmvLwdiR9/L8bCwLk
-	vwXymEPs4zjaLRZP2YfNSA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1739797309; x=1739883709; bh=f
-	GA+ofvv0mZ+MkkWUzOVgJmFJURib3VnJcpnpL+ZHus=; b=p/oNoCF6+AG2rsT1U
-	oJoNbzjA2pwiZ6qSDsPpAm+UG3XX0E0me0IOaLb1y4QZes7coe/crzQCAJCjYgAi
-	O3kpT2OHrLtN3uwDpNVAgG+2hf5tT8b+EJpNI/LSJITAOahD9YngzVNtTjIeIqsD
-	CaHug9xQA7KtlZGvP+356t9HYT5JqetoOCu2PY/YKxGp6yAOQcrQSwo8uErfo/pS
-	lMkw7vWWyTnhMsmbUyXokhNnbAIhUq+mwmCMBumUFu2eO0bQfmTy2yRLzY0Cr7w2
-	RQCZR6bPUgd63iTX1s8YizTYbH1u4vjPtKGTtZM7Oa4957KmcSz42QMIKkjG3Adp
-	E3m1g==
-X-ME-Sender: <xms:PDOzZ0DdmgvgEDBJ02HcqB5xjLCi2S8W_eUnp2wxItsJbI8HXsmU3w>
-    <xme:PDOzZ2jQrdI42GeBUxtyjyxZrLXR4Gd2erb7mIdYo-Ex9f9-BucKlU92SiMqn2qff
-    YoRjXlK-eNYE1AQzbU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehkeegiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfekledtffefhffghfetteehuefhgfetgefhtdeu
-    feduueeltefghedtjeeifffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepkedp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhitgholhgrshesfhhjrghslhgvrd
-    gvuhdprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtphht
-    thhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriiihshiith
-    hofhdrkhhoiihlohifshhkiheslhhinhgrrhhordhorhhgpdhrtghpthhtoheptghorhgs
-    vghtsehlfihnrdhnvghtpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhksghuihhlugesvhhgvghrrdhk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrd
-    hkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:PDOzZ3mEfyRqMpos6wPvm0i6GQM0gnYE6rb5Tp63W4Op0L_RT3cCRw>
-    <xmx:PDOzZ6yJv22itZ9lTlorwR4ohb5cZzUIOVnxhKUYz7xpV3o1XsrRMg>
-    <xmx:PDOzZ5TqER8X68IL5Ie85fbeuYGpYQVjqbrSNqWWClkNNHLtETjKwA>
-    <xmx:PDOzZ1Z1uGxPWPR6N3eSKIWV8P7Brtd0Bo6s6a9IRoo3dLUYzxywCw>
-    <xmx:PTOzZ6RETDtBvsZ3WkggEr3Qf7EgZ8b5emkQCq69NMl3ro4FQU6xVbZ3>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 830D72220073; Mon, 17 Feb 2025 08:01:48 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f1OsVoB7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739797553;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kSiOdtiiGo1JzX8LMRCdFTwQjInIJfdLf9Cgv1ZJH3g=;
+	b=f1OsVoB70dTDcOJkkgi2gcwk1vrdjg6FixWGzHrriUOeAiZOu4gRmcWBCCHtvDUNUOxGL8
+	tJ54gFwYOQwmemkNqJD6a7m+PgvZG5/AytNfhrFkyP4Scbc9mhZQxRaFxiTbzoWKDlNw3m
+	zAsFyrHwVaw6sL4fLMFM5j+JHMWtl2Q=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-564-jwFjHbiYNJWEX-0RosMwHQ-1; Mon, 17 Feb 2025 08:05:52 -0500
+X-MC-Unique: jwFjHbiYNJWEX-0RosMwHQ-1
+X-Mimecast-MFC-AGG-ID: jwFjHbiYNJWEX-0RosMwHQ_1739797551
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4393535043bso24881265e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 05:05:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739797551; x=1740402351;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kSiOdtiiGo1JzX8LMRCdFTwQjInIJfdLf9Cgv1ZJH3g=;
+        b=TWqfNFdOLij/A/TIGQTQu07s4bmyRRZDG1KcR1jERj5yeVR+uvVyzVHBq2xlVqytnT
+         CTtjryF9w1McqB0h0tufLViKFYP3c2IKAiwerULk3Zm4JwtbnalxwJmRsp5pdDkLgJtN
+         EzFRUqqprqp+sVs7L36/B/KnZqpqXXpDu7SKsDDGojmko6e92TQLoIH/ylfaKOkfAETV
+         2SbWyARCvxvWIi2rrG6CQcV1ClWpIpNPprA6YDwnvtMrI4RODtciieVSOcnr8IXmWw65
+         k/eIrwh7UK132LtSMYR5UajyzYQn/STSRdomjZGyExw5Mc4NVtOBLabWwGMGhtJLSlkN
+         EBbA==
+X-Forwarded-Encrypted: i=1; AJvYcCV3Ie+dnxEZFWHJlaEz6GOvC4gc11rvyyALL136ddYV6aTG+Ld1Yi3sAHRQzZMnEUomoAzCd1JwQYI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUvq+RmFNDXeSc3ap9xtsXx3xWNGxG6+q9RvPBUTRY2zICVuZL
+	3mU/ebErpDgAfHOu3OQSDB5PcfJP1a17wbw4llfJX0hBONFVqg3pfO2WljnvNrc9jJ1rPxDlFdj
+	ialxtQMELftOkCa4ee1ybPeawhPszSnhWQ3i0DyTHdCMIxUtmPYvoClqRi/a7o9g/wg==
+X-Gm-Gg: ASbGnctF5Oq9wXxDLJ0RZKtgrW4sBCCWZIzVa+TTBAA/20Vjm1EjfCRTu5ImRjmfjUJ
+	RRAVEgT3owt2BB2qiMgfyu8vV9fMsaW0Ro29Jmjop3Av2smxWEEqm2bZO6Zn+CCVvBBaMLH+qoi
+	Iexqz5aOmkBsLCPBcljCfapF+LW6nbA6PlcSZ0sGIFyusOC+80u+neyZgwhAPIerdgUa4e8L+eh
+	MgIjPgVfDxnaRMc6kEReQuqbKpRSMmQDX5IMGcRIcNsQZs2ybpzpHnEbSMMGhIlIu3TEfNKj/yd
+X-Received: by 2002:a05:600d:17:b0:439:5f04:4f8d with SMTP id 5b1f17b1804b1-4396ec7cb7amr75792085e9.12.1739797551153;
+        Mon, 17 Feb 2025 05:05:51 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGSLtEqy93wRPXG9nMCMJ0lRt4GquiQhPG/wEddubWd1+r9Qa8A53oIvQqaL6k/Vn2poTgPqg==
+X-Received: by 2002:a05:600c:4e8d:b0:434:9e17:190c with SMTP id 5b1f17b1804b1-4396e7d3b00mr82441835e9.0.1739797516788;
+        Mon, 17 Feb 2025 05:05:16 -0800 (PST)
+Received: from fedora (g3.ign.cz. [91.219.240.17])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f25915146sm12383958f8f.56.2025.02.17.05.05.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2025 05:05:16 -0800 (PST)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Sean Christopherson <seanjc@google.com>, Nikita Kalyazin
+ <kalyazin@amazon.com>
+Cc: pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ x86@kernel.org, hpa@zytor.com, xiaoyao.li@intel.com, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ roypat@amazon.co.uk, xmarcalx@amazon.com
+Subject: Re: [PATCH 1/2] KVM: x86: async_pf: remove support for
+ KVM_ASYNC_PF_SEND_ALWAYS
+In-Reply-To: <Z6ucl7U79RuBsYJt@google.com>
+References: <20241127172654.1024-1-kalyazin@amazon.com>
+ <20241127172654.1024-2-kalyazin@amazon.com> <Z6ucl7U79RuBsYJt@google.com>
+Date: Mon, 17 Feb 2025 14:05:15 +0100
+Message-ID: <87frkcrab8.fsf@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 17 Feb 2025 14:01:28 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
- "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nicolas@fjasle.eu>, "Jonathan Corbet" <corbet@lwn.net>,
- linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <b1667246-d6e3-46cb-9b76-997e6d6fe052@app.fastmail.com>
-In-Reply-To: <20250217113153.161476-1-krzysztof.kozlowski@linaro.org>
-References: <20250217113153.161476-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v3] docs: kconfig: Mention IS_REACHABLE as way for optional
- dependency
 Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 17, 2025, at 12:31, Krzysztof Kozlowski wrote:
-> Several drivers express optional Kconfig dependency with FOO || !FOO,
-> but for many choices this is not suitable: lack of stubs for !FOO
-> like in HWMON.  Describe the second, less favorable way of optional
-> dependency with IS_REACHABLE by moving the code from "imply" chapter to
-> "Optional dependencies".
+Sean Christopherson <seanjc@google.com> writes:
+
+> On Wed, Nov 27, 2024, Nikita Kalyazin wrote:
+>> 3a7c8fafd1b42adea229fd204132f6a2fb3cd2d9 ("x86/kvm: Restrict
+>> ASYNC_PF to user space") stopped setting KVM_ASYNC_PF_SEND_ALWAYS in
+>> Linux guests.  While the flag can still be used by legacy guests, the
+>> mechanism is best effort so KVM is not obliged to use it.
 >
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> What's the actual motivation to remove it from KVM?  I agreed KVM isn't required
+> to honor KVM_ASYNC_PF_SEND_ALWAYS from a guest/host ABI perspective, but that
+> doesn't mean that dropping a feature has no impact.  E.g. it's entirely possible
+> removing this support could negatively affect a workload running on an old kernel.
+>
+> Looking back at the discussion[*] where Vitaly made this suggestion, I don't see
+> anything that justifies dropping this code.  It costs KVM practically nothing to
+> maintain this code.
+>
+> [*] https://lore.kernel.org/all/20241118130403.23184-1-kalyazin@amazon.com
+>
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+How old is old? :-)
+
+Linux stopped using KVM_ASYNC_PF_SEND_ALWAYS in v5.8: 
+
+commit 3a7c8fafd1b42adea229fd204132f6a2fb3cd2d9
+Author: Thomas Gleixner <tglx@linutronix.de>
+Date:   Fri Apr 24 09:57:56 2020 +0200
+
+    x86/kvm: Restrict ASYNC_PF to user space
+
+and I was under the impression other OSes never used KVM asynchronous
+page-fault in the first place (not sure about *BSDs though but certainly
+not Windows). As Nikita's motivation for the patch was "to avoid the
+overhead ... in case of kernel-originated faults" I suggested we start
+by simplifyign the code to not care about 'send_user_only' at all. 
+
+We can keep the code around, I guess, but with no plans to re-introduce
+KVM_ASYNC_PF_SEND_ALWAYS usage to Linux I still believe it would be good
+to set a deprecation date.
+
+-- 
+Vitaly
+
