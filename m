@@ -1,188 +1,134 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E272619048F;
-	Mon, 17 Feb 2025 07:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C6015382E;
+	Mon, 17 Feb 2025 07:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739778064; cv=none; b=OprjeVvO4NJepRU6y3wi1YbYxJ0ehoPjhNMBrQr43mRmnc0Z2qa4teOsy1tJH6oxLIloHcDHJOOs1RApci6iW8WDI7NO7alMQb/53Q6+vv0Ed43TNgShH1itD1/qIl9bmH3S6bTDWxRv7X6VyLiOH92gY+9ACAId8/h92ZBGe9w=
+	t=1739778735; cv=none; b=NpwIAQMXnwx+RSIisyY4sbqY4octetMOrLWOgFTp99CM5evYRiDO8rTq7h6EO2/X4b07SP/RFgxBgHiLzJUOKyVlKFh5ykMQBoGdabzSjTd1U4FWeTsqbYuornw72drXIH4l1H0TIdV+nKqSz8YSdLAGVirOF1K2fJABpFaN0dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739778064; c=relaxed/simple;
-	bh=VoU6E0WdPE64Io1VqSxCePnL4gVF+u9gsNgh81Je13w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XTkdf0+A+1Fxv/uql33Dd3Ib03O+wfkC2dlmaFzbjiXvQstSW2rCPSsnHJQoHpgB6V2VIj2/nDyTZBGJl3pIadNe9Xn3iPIIrazW3d+V8l8bORR9A4EjV3HMUomejQuPE6AH8ZbF8BRR+ZKJlL9RjsQRgfIy1QwLJtIyNGLEj60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dRBy5t4/; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739778735; c=relaxed/simple;
+	bh=2bqkKJuQYrXDncYh8bA+cxdRKWIaL5fo1RzMSv2km24=;
+	h=MIME-Version:Date:From:To:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Xd1q9uKuKQlQ8ndmNrpsG7v8viFa2SAExgHdxVeR2QZ1nckBwiQUaL1ZEaLiA/+VPO/TzTK7lxGWzFk/0KBud+mrzGf8Nav1kyC5ROVJtEes6l0jncnDX+NUxfivswcD1kXfwOnynzgvxzJSgDSx31vejKZGHZ517LBSc42b0DI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=HY16XWVp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GCzHjQBv; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dRBy5t4/"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-aaedd529ba1so476196466b.1;
-        Sun, 16 Feb 2025 23:41:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739778061; x=1740382861; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pzm/LRbGKENUzuNI+IxhBxnLqSxOmoILk4BSzuWk9EU=;
-        b=dRBy5t4/NC6ZOerrk/9S/0dRWMdK666xPZzk0UQAnw1woyt1QHFopFSJM1gLgCs3+O
-         CC+74NXwjR1gnvi3Ktz6lywx8j5y9wQ7dVZb2O5ZOlklJwNQ/ecY3jqyGgUSKTuKClio
-         4qRtKYrqFBxvKx4B1E1NE9SCBSToP5nhUv+odhzGvYQ1PQhM20eMuqOZBJfKW1GXnvNW
-         WrLYEY56EpmtZIjIjY2VSpzyFw+VSKiKq3zn8tK5h4U+yWfJfn1EkBRueoXHs3A8qCvG
-         3MeMkLOyq9JTRSEYG0liWMgAXTs0wDNaSICqA4B5DzX9t4l5qifmBgcrnGnnuu2A+nv9
-         V2ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739778061; x=1740382861;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pzm/LRbGKENUzuNI+IxhBxnLqSxOmoILk4BSzuWk9EU=;
-        b=g9QFRd6pAsDI2J+DuoxqNBr93z4w+ZsXGieMChRwG4DtsD7o7Q8tiI6aIwHOk9UQVi
-         4nGlK4nurbNX5dx0d3pxS3++VRXl7Gho82IijdU9MdvGrutKll8jFW2rsB1WjVNNkHxb
-         e8JgdbBKSw94CI6PiHpp9ydvngvFl6zTIWTfs2E+++5lrvU1sfSf8oCOdQ9elRvXl0W9
-         dOiQzHLIiayz6l3978c6ShLYb+yZuBM4qzrNQswhcSmM8WDDSurrroZEfAqGTXaq2PSZ
-         VR/fGYIJipmumlQZm95VUYOE+cFhBuj6kSYJy+fHI8QwjN3yweeieECedJGoLMPNn6Vm
-         9d4A==
-X-Forwarded-Encrypted: i=1; AJvYcCXHjFeWDHi0rbB+OTz6CHGYvJ72Qp1lHF6lvLt62vJHlr/vj8yQ4Qd8KPFMGPt7nXhBfF2DncQyUVE=@vger.kernel.org, AJvYcCXHnHJ6iMlJYexQNxtyDXu1CLyiNmjqsnQ0wMB9ryOMt3YLllsJezrOzD3Xhm+Aqo1jhjEO@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEmEHZ1Djymko7xHCyhbyTVvYUjEAdQZI7vYP+WdBtJSvPcsMx
-	8/kfikR6+PlhxJy3zrIvYEKiroTLqGl7eWuqjsSQ7OFQejPK3PaCGVPAeber
-X-Gm-Gg: ASbGncu+YzHLH+BWg6BEM6w0/82kj5qbiccW45TgzLY7N6LhmUPunw1scYaxFrc3y2M
-	Eom/j6floztdJ+kU4Qgc0CGAq6CZaoJadXUzegNoDYXB+5BdnBjXQAiQHFMGOWSZnfqNabtuwob
-	hA2vt0z3qJP+sT09F4fpl4CZbvGfcvSjhw0mCnD4JR8PPVXEAKps79V4bjZTO8fLfjo6b0oo3rJ
-	QrZjMJbk1UjrdZluUHxhznIPOZ8rtyAu+H0kY6etpSmV2tQXB4EO3nEX0kHTDJdymQ6VWn8f9tU
-	4itWaBDMV9a/msU=
-X-Google-Smtp-Source: AGHT+IETS/YYr1RBO5fl70gVw0CWTL6RUYYKxZj05+dv94R3beiRNefTK0Mf6pkYtj2puE6D08pH0Q==
-X-Received: by 2002:a05:6402:510b:b0:5dc:a44e:7644 with SMTP id 4fb4d7f45d1cf-5e035ff9cacmr21077071a12.2.1739778060956;
-        Sun, 16 Feb 2025 23:41:00 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba5337634bsm844028766b.91.2025.02.16.23.41.00
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 16 Feb 2025 23:41:00 -0800 (PST)
-Date: Mon, 17 Feb 2025 07:41:00 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Alan Huang <mmpgouride@gmail.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Wei Yang <richard.weiyang@gmail.com>,
-	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	rcu@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc/RCU/listRCU: fix an example code snippets
-Message-ID: <20250217074100.2wyy6akdr2j464wx@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250101082306.10404-1-richard.weiyang@gmail.com>
- <Z7Ka8Z5RS_OwyL_G@Mac.home>
- <CDB3A2E0-A891-491E-9F7D-F09843F1A3E3@gmail.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="HY16XWVp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GCzHjQBv"
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfout.phl.internal (Postfix) with ESMTP id BF97E1380267;
+	Mon, 17 Feb 2025 02:52:10 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-11.internal (MEProxy); Mon, 17 Feb 2025 02:52:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1739778730;
+	 x=1739865130; bh=T2KHexYfmjD4XCcJqSK9a9i2fLMa/FWpq6BX9aeCb4M=; b=
+	HY16XWVpte/vv3Mm0S1dgDPzOrN/Zj4/8OYMVnXua1S3PTemPR9FJvaiG8j5z/p1
+	Hux8ETGkpjx5rFVSVpW1ISjgFqTSF+3L1Q3K+r1EKeqGhqrQYvPZ34vVRh0mNR2z
+	FGrrAPFoE/8nJtIC1Q0xwZZhWySFB05Z/n6WZS1i0dDru63jxZphwdQThVYAIr3b
+	dYoJWKq9+82CsfM8VUpAMvTauGkH+u3NKb9UDPOXivnd9TX/FaJVvUE1NjP+3+vD
+	3RTU1gPJu8fQhyAOKasabOOs6L8wmj9a/q93gJvK3Y4g8ZpeR3M0ly7J0ASMBHVp
+	4P68/dtRftXqqgNdwFJ81Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1739778730; x=1739865130; bh=T
+	2KHexYfmjD4XCcJqSK9a9i2fLMa/FWpq6BX9aeCb4M=; b=GCzHjQBvV3Abwf5ZK
+	h5aEd1wHWslEIinkwpB8EyuM/IcqbeVS+FD/A6SojFP163uwsrVqGvFcegakLK9a
+	NYG/20HtsLqDwvo1xYhYb3K5ujMQfIpu1Nz9SB0w2WZBCyqZ5A6gu3fc+xL5t7v+
+	KL3xv5qGXEgDT4ez3jGLBBZE+ymswPmx+sdzQZFZNz64dxY6lNbY9GawRly1DR3K
+	LZltyP4MwfSunWpRQ0ZGS0SPW35xHntavNrjymhF4AKQ0V2AYVrOWE7VpBIzb9Gt
+	N/Ym0gNkEqLzCyPmbvbQ5/BPCTZIjHOMt/jnHJaJCgk2DZdDszPLyJvuSGOMHuUJ
+	5xFOw==
+X-ME-Sender: <xms:quqyZzr9ELyujPyjrysTvCuBkmfVTq6BKs_pLByRXzvIfQJKj7Z6Fw>
+    <xme:quqyZ9oJLFxTQJB--gmea_ZCsVz0kUejgjrbLrlAlECxFkPEN1nDJRGCd-qT7nTv7
+    DZXjts4cc8kbLK1zUc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehjeekvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvkfgjfhfutgfgsehtjeertdertddt
+    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
+    guvgeqnecuggftrfgrthhtvghrnhephfekledtffefhffghfetteehuefhgfetgefhtdeu
+    feduueeltefghedtjeeifffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepkedp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhitgholhgrshesfhhjrghslhgvrd
+    gvuhdprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriiihshiith
+    hofhdrkhhoiihlohifshhkiheslhhinhgrrhhordhorhhgpdhrtghpthhtoheptghorhgs
+    vghtsehlfihnrdhnvghtpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhksghuihhlugesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrd
+    hkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:quqyZwNm8ue67guSiweZM5KGbf4wr90FmHsiPr7w13tnwdFtBKnZVA>
+    <xmx:quqyZ26Ng3PwPVjVD3l-OZxAXUOSyzUzy--OhBNLJjsb1yBj_3iKwQ>
+    <xmx:quqyZy7Qv2EfGzlpYsNNmSDDZMmxMYvofOPtQyaM32aazOr8yT-3YQ>
+    <xmx:quqyZ-iTA0PnHwXGeLLFYXQNy49HxTaqI26d865ppbDU3SWBsEMB6Q>
+    <xmx:quqyZ5a-c-hWR7XOGOlOQFXS4VaetMSLZAs0N3ZbfL1gRPIpPOmA8-aE>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 18C5F2220072; Mon, 17 Feb 2025 02:52:09 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CDB3A2E0-A891-491E-9F7D-F09843F1A3E3@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Date: Mon, 17 Feb 2025 08:51:39 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>, "Jonathan Corbet" <corbet@lwn.net>,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <eda7d555-d34d-4418-8fc4-a874dcca91fa@app.fastmail.com>
+In-Reply-To: <20250215131739.220629-1-krzysztof.kozlowski@linaro.org>
+References: <20250215131739.220629-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2] docs: kconfig: Mention IS_REACHABLE as way for optional
+ dependency
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 17, 2025 at 10:22:53AM +0800, Alan Huang wrote:
->On Feb 17, 2025, at 10:12, Boqun Feng <boqun.feng@gmail.com> wrote:
->> 
->> Hi Wei,
->> 
->> The change loosk good to me, thanks!
->> 
->> I queued the patch for futher reviews and tests with some changes in the
->> commit log (for title formating and a bit more explanation), please see
->> below.
->> 
->> Regards,
->> Boqun
->> 
->> On Wed, Jan 01, 2025 at 08:23:06AM +0000, Wei Yang wrote:
->>> The example code for "Eliminating Stale Data" looks not correct:
->>> 
->>>  * rcu_read_unlock() should put after kstrdup()
->>>  * spin_unlock() should be called before return
->>> 
->>> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
->> [...]
->> 
->> 
->> ------------------>8
->> Subject: [PATCH] doc/RCU/listRCU: Fix an example code snippets
->> 
->> The example code for "Eliminating Stale Data" looks not correct:
->> 
->> * rcu_read_unlock() should put after kstrdup(), because otherwise
->> entry may get freed while kstrdup() is being called.
->> 
->> * spin_unlock() should be called before return, otherwise the
->> function would return with the lock of the entry held.
->> 
->> Hence fix these.
->> 
->> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
->> Link: https://lore.kernel.org/r/20250101082306.10404-1-richard.weiyang@gmail.com
->> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
->> ---
->> Documentation/RCU/listRCU.rst | 3 ++-
->> 1 file changed, 2 insertions(+), 1 deletion(-)
->> 
->> diff --git a/Documentation/RCU/listRCU.rst b/Documentation/RCU/listRCU.rst
->> index ed5c9d8c9afe..8df50fcd69fd 100644
->> --- a/Documentation/RCU/listRCU.rst
->> +++ b/Documentation/RCU/listRCU.rst
->> @@ -348,9 +348,10 @@ to accomplish this would be to add a ``deleted`` flag and a ``lock`` spinlock to
->> rcu_read_unlock();
->> return AUDIT_BUILD_CONTEXT;
->> }
->> - rcu_read_unlock();
->> if (state == AUDIT_STATE_RECORD)
->> *key = kstrdup(e->rule.filterkey, GFP_ATOMIC);
->> + spin_unlock(&e->lock);
+On Sat, Feb 15, 2025, at 14:17, Krzysztof Kozlowski wrote:
+> Several drivers express optional Kconfig dependency with FOO || !FOO,
+> but for many choices this is neither suitable (lack of stubs for !FOO
+> like in HWMON) nor really needed and driver can be built in even if FOO
+> is the module.  This is achieved with IS_REACHABLE, so move earlier
+> section from "imply" chapter to "Optional dependencies" and grow the
+> description.
 >
->According to the above quick quiz, we should return with the lock held.
->
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Thanks, I think you have some reason.
+I think this needs to be more strongly worded to heavy discourage
+the use of IS_REACHABLE(). In most cases, anyone trying this has
+just given up on writing correct dependencies and works around
+it in a user-hostile way.
 
-If my understanding is correct, the example here is to emphasize we could
-still access the value out of critical section but with spinlock held.
+> +1. If pre-processor can discard entire optional code or module BAR does not
+> +   provide !BAR stubs then call can be guarded with IS_REACHABLE()::
+> +
+> +	foo_init()
+> +	{
+> +		if (IS_REACHABLE(CONFIG_BAR))
+> +			bar_register(&foo);
+> +		...
+> +	}
+> +
+> +   Drawback: this might lead to run-time debugging, when looking why
+> +   bar_register() was not called.
 
-In current example, we don't return e(struct audit_entry) from
-audit_filter_task(). So no one suppose to release the spinlock again. This
-looks to be a mistake.
+From this description, I wouldn't expect most readers to understand
+what you mean with "run-time debugging". The behavior that users
+are going to see is just a bug -- they turned on CONFIG_BAR=m because
+they wanted to use BAR, but then it doesn't work.
 
-My suggestion is to release the lock after kstrdup() to make the example more
-intact. But with a comment to explain the purpose here.
-
-Also I found we miss the second parameter key here.
-
-diff --git a/Documentation/RCU/listRCU.rst b/Documentation/RCU/listRCU.rst
-index ed5c9d8c9afe..a3e7f8ff3a81 100644
---- a/Documentation/RCU/listRCU.rst
-+++ b/Documentation/RCU/listRCU.rst
-@@ -334,7 +334,7 @@ If the system-call audit module were to ever need to reject stale data, one way
- to accomplish this would be to add a ``deleted`` flag and a ``lock`` spinlock to the
- ``audit_entry`` structure, and modify audit_filter_task() as follows::
- 
--	static enum audit_state audit_filter_task(struct task_struct *tsk)
-+	static enum audit_state audit_filter_task(struct task_struct *tsk, char **key)
- 	{
- 		struct audit_entry *e;
- 		enum audit_state   state;
-@@ -349,8 +349,11 @@ to accomplish this would be to add a ``deleted`` flag and a ``lock`` spinlock to
- 					return AUDIT_BUILD_CONTEXT;
- 				}
- 				rcu_read_unlock();
-+				/* With spinlock held, it is ok to access 'e' out
-+                                 * of critial section */
- 				if (state == AUDIT_STATE_RECORD)
- 					*key = kstrdup(e->rule.filterkey, GFP_ATOMIC);
-+				spin_unlock(&e->lock);
- 				return state;
- 			}
- 		}
-
-Does it make sense to you?
-
-
--- 
-Wei Yang
-Help you, Help me
+      Arnd
