@@ -1,150 +1,159 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A276E22A1D3
-	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 17:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6577822540F;
+	Mon, 17 Feb 2025 17:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739813543; cv=none; b=P0jwE2G030meycJJQmmAvyjLIqvOQ3scUR7DTHyVgXnDzywNE70yd4YwC4P4dIL/YtsO3oA1hWvS+p70xI8ASv8sU2vgHCZIFQoBK9d/cSq8lAdSKcsrFSE0EMpwYHhFidA5nm/Ooe3h3o3KuXPDExzdDEExYRA7m1zGLYHjZxc=
+	t=1739813631; cv=none; b=V50pr+GFomr4m5Xe8KIhg6qAHMtBGMm/7yDtgw1A1VYyoS3h6o/Kg0cmkURPhlHkUIM6CK9tyY3UKwyC+LXI1rhWmCey297DlDmuEptfBfC2bIMqrjRnha/ozCg1izuXYnkyFhv1EPvdgE+EwE2HCwH1/0R3BU8U4qW2AOlk2Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739813543; c=relaxed/simple;
-	bh=fvmuqW/ZJcAD4hBEbeETgZmg0Ls+GSH5bz6gAvA8Kl8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=QttbFiGign+1Z5411I+ei42RScH/0pansSO3JLZldYppRQwGS6eJrMMtbRsj9r3UoDIBsJKi5EUp3aEMqlOWqlRs7nEWi04hfSor1fDWz86U47+gYYisp1wTkPasa+2BpkhaokfD25Xxl25M2zS9kkLylQeGcE3pDWu5jkuEs+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Jj9vFBkG; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1739813631; c=relaxed/simple;
+	bh=EsMTxchL/+qRXxcJQQGMEd1C37/sV2jkPmF5oFcvccw=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=lgLtwqNiFl8n10CMaCE4DKZ0EOMmCG0czUxmFTOmt8vmoWunlCSkEUn4Ppm9RIEnM7BfcUIKicyOUEyRFmh3m1U3pAharZe74w6qqloixn9NKm4hiIl7IfP8b+IZqi/Y5NbyfmmPsIEyVWIMGTwnzxCDU+m8s4LQR9gIWkLjfAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/kgzopK; arc=none smtp.client-ip=209.85.214.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Jj9vFBkG"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4394c0a58e7so34103255e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 09:32:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/kgzopK"
+Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-220ecbdb4c2so86874275ad.3;
+        Mon, 17 Feb 2025 09:33:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1739813540; x=1740418340; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ic6fNEiwqUaErdD71Z2ghM25Q6o0kdjhWc5qDhK+hac=;
-        b=Jj9vFBkG3dFcGvZ3+/S9loRQ1r7eBExmhORc0aZApkv4zWo2Hvxv2MKjY00QC1RpyB
-         qIvvNMPY5UMK//ke8YezsXod5dtEUcrxpQMaINQbl3VVETlOBOPEToRxqFemxoLhPsHd
-         7aLYKU5c2pvuVJf84e3SlKZhvAxRblmvBvXmrbRHlRFJsdW6RaHoD+NmOAm6GNBU5ZZc
-         ycnrRSm1ddo+XRQjZ+i2urrPKjU/bRM1REp7O3p4iu9HEqPldzDyaKmXkXZrEIZ30kZC
-         C9h6XV/gyNGr9uIL8BCp+qqSjYLYk8yizJj5VbAfIG+2AU1h7EPAFJkG29Glu0Oa8zLN
-         CAAw==
+        d=gmail.com; s=20230601; t=1739813629; x=1740418429; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v9P9H3YBcyOxNExufhwVnRqWtrvWAZlTnbL5BKFsIaA=;
+        b=B/kgzopKrDAo9DXzgTcHkforgmjCzdhZkk/+oJkkWLqIXcSPJK+pdykUf8X5NjQKHS
+         nsKquSHy1RNjuQzFeeEHgQ1pb6yZYXtMigkMyLMewrWj6Hj2c20vsqsQeCKu8R2pyTpa
+         yxEIHBkmSroZ14yJ3N+PzSG2RSEk5GvWwST1Vy31srhnpCkse7XKeh9+u2Z49+/MsPcx
+         CGA3mfzRLRthaOVN7cs1GO8VtQRChzm2k9JcNI2NJwCEBVEsGqw+kSj6JeJEBdlvJFm1
+         JRELAdSzQhuNTnxeXbur4jDUxHUvgxydKNrAGLqPyFmYzBy+VSLYwawfRbwrqzf/MFl2
+         nAzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739813540; x=1740418340;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ic6fNEiwqUaErdD71Z2ghM25Q6o0kdjhWc5qDhK+hac=;
-        b=SwptYrr9mxoy40s+48NdvRZU7sZQjbJAsy7TQmFQweC6xfwpU00b0YJJH255kimXeh
-         ZbZf7rMrVgUpfOIXUv3+2pKTXo3mvPKxOpgANJ4utKZdtd8fJpTbSVMu1ofklRBc/+Cg
-         DqflJ2Va6xmDDOmLbUX1bTJSNoW/ZvUzdFCYx1xPy6hJMQWQaZEr9VstvAcEHNykZ4PA
-         2q2ie0VmghZnBnoc5gpbY4m8QG0q/lp/VvAy3udSHK358RWM6/Gy1241nyAhDVOy8+hE
-         AYxgwdZOJD3Ucpxb42Z+HaA6vBTJPUgyS+Hk9SBt85WogSPhf8jA3Pus9+FdcOj61PMC
-         ln+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWVaEiHGwQs4A0DEd670TKh2LuKTtVnRQ/iNOMSPZWtH4omq/ML27UVO7M1RyQ8e8sY+KqRcvQVO7M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YweKA08hvnH1kdgwsUVlqahjsFvIOa1OHUFnahjmPQFofO+JVjr
-	6V3HGm8HegY4oLwNyoUoHeMxXaTNfTJR5wxnETeGkp4X9dm3wJrG3OG6WbANEgiPrkcv2qLWYZM
-	xpWjyovhsAw==
-X-Google-Smtp-Source: AGHT+IEUB5VYAl8bmIXMGqW69eXtwaGsaDWcb614PTtxJRb1TT3XkkKinci/ZFXonR2CvEBlhUlN4vZ1Hw9fow==
-X-Received: from wmbay14.prod.google.com ([2002:a05:600c:1e0e:b0:439:5f8f:6597])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:1906:b0:439:6dba:adfc with SMTP id 5b1f17b1804b1-4396e70a3e0mr100329665e9.13.1739813540086;
- Mon, 17 Feb 2025 09:32:20 -0800 (PST)
-Date: Mon, 17 Feb 2025 17:32:11 +0000
-In-Reply-To: <20250217-checkpatch-ignore-v2-0-ecfb50e03bb0@google.com>
+        d=1e100.net; s=20230601; t=1739813629; x=1740418429;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v9P9H3YBcyOxNExufhwVnRqWtrvWAZlTnbL5BKFsIaA=;
+        b=OaBCGnjdWd8DBJuyo6aoKpgy6B5ucy3yolMeWYoOt0D8QTbvd46a6I3NmoLxfb/ENP
+         Fb6JWvsEQ8muvBlAqwXta7lQMSBPC1xCcUyN6ShIBJVzxC/SZMcO8Wrt/0jrBP1sEjDB
+         r52WRB0lFpi5IFfdWVpE68hhKafRW6TZZcy3nAubKGxAZ2yTZrTaKAEJc5iSReTSRoMW
+         nOW7qg/s6n2o+9y7eDq1PhBetaZMQE1seVn9rslNghi4BkCCsM932dJWB75uKOi93u9K
+         ddSsaYbgKlpoaCchw2wUdAAhCrVSUg87xZR2otLnF0798NKzLW9FQkCoeuyCuTVn1F0w
+         jquA==
+X-Forwarded-Encrypted: i=1; AJvYcCUSAl2PEHXaNDHGTOxgn09ySG5qat/pEtY+451m1GLUZIHisuU8QYfIqzGUg5CQwO6cBPagooRlx98=@vger.kernel.org, AJvYcCW6oz1q5EUSQM9MupZZaivKjoyoVqCYsL5y/a7mStpIlmMVTD2usXwBaqrNLuyxWDIQn49nbhqFRIdb5y4cXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaFSV0K438VtS/SuIHpmzCd67BAGCpt3zBMbdJgFpuUAMf4Gw+
+	BdJFVAQ8CalTIpIRgFwmgJqIzl1Mj+I2NUeLZqMpinapHyRI7gMG8LlxDX1MfNcziA==
+X-Gm-Gg: ASbGncsm4xkVqPHaikYrCzbZEujfgGgEDDICAAgyv5fy9svfISkeBjetUiYG9I1pt4L
+	lB30bVikA3Sy9AWRRPmx4TCbkMPJCjDq881j3fMvFcEfijyxC9q29QWjeWVbnVapZqh2OU5Qrry
+	TC9ljBIUA/OcCb3ReyReoqUBMkO8axfyu7nQ46FCKhANPhODMfOWHg5nHxZcZhs3LeJzN2bO1Nw
+	k/gIy5TeXrYrJ56GpgRKQgl8BNbQf7AufB31+CA+FGw1vWk7LPL+Lwl1r9CGsdh8HVwZtGNcNZD
+	LSqSftGQfPoxVERGBkrM08uWjI527yrCc8z1GOM=
+X-Google-Smtp-Source: AGHT+IFCpkha+YyzDli16uY7DAmxbuU6YfLZLwRKbbDveajyqZ0h54qaNzlBrLduLmU16ZHx+gCmsg==
+X-Received: by 2002:a17:902:dac5:b0:21f:507b:9ada with SMTP id d9443c01a7336-2210405cc66mr168080165ad.31.1739813629392;
+        Mon, 17 Feb 2025 09:33:49 -0800 (PST)
+Received: from localhost.localdomain ([103.49.135.232])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5349203sm74338045ad.29.2025.02.17.09.33.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 Feb 2025 09:33:49 -0800 (PST)
+From: Ruiwu Chen <rwchen404@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	viro@zeniv.linux.org.uk,
+	mcgrof@kernel.org,
+	keescook@chromium.org,
+	zachwade.k@gmail.com,
+	Ruiwu Chen <rwchen404@gmail.com>
+Subject: [PATCH v2] drop_caches: re-enable message after disabling
+Date: Tue, 18 Feb 2025 01:33:33 +0800
+Message-Id: <20250217173333.2448-1-rwchen404@gmail.com>
+X-Mailer: git-send-email 2.18.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250217-checkpatch-ignore-v2-0-ecfb50e03bb0@google.com>
-X-Mailer: b4 0.15-dev
-Message-ID: <20250217-checkpatch-ignore-v2-2-ecfb50e03bb0@google.com>
-Subject: [PATCH RESEND v2 2/2] docs: checkpatch: Document checkpatch-ignore feature
-From: Brendan Jackman <jackmanb@google.com>
-To: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Brendan Jackman <jackmanb@google.com>
-Content-Type: text/plain; charset="utf-8"
 
-If included in patch descriptions, this will function much like the
---ignore flag.
+When 'echo 4 > /proc/sys/vm/drop_caches' the message is disabled,
+but there is no interface to enable the message, only by restarting
+the way, so I want to add the 'echo 0 > /proc/sys/vm/drop_caches'
+way to enabled the message again.
 
-It requires some rather obscure Git features to take advantage of
-this, so provide some examples of how to do that.
-
-Signed-off-by: Brendan Jackman <jackmanb@google.com>
+Signed-off-by: Ruiwu Chen <rwchen404@gmail.com>
 ---
- Documentation/dev-tools/checkpatch.rst | 46 ++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+v2: - updated Documentation/ to note this new API.
+    - renamed the variable.
+ Documentation/admin-guide/sysctl/vm.rst | 11 ++++++++++-
+ fs/drop_caches.c                        |  9 ++++++---
+ kernel/sysctl.c                         |  2 +-
+ 3 files changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index abb3ff6820766ee0c29112b256bcc44ce41fffba..6215b24b25b36709c815cf08de33f1609c80c0c7 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -12,6 +12,49 @@ Checkpatch is not always right. Your judgement takes precedence over checkpatch
- messages.  If your code looks better with the violations, then its probably
- best left alone.
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index f48eaa98d22d..1b9ae9bc6cf9 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -266,7 +266,16 @@ used::
+ 	cat (1234): drop_caches: 3
  
-+Inoring violations
-+==================
+ These are informational only.  They do not mean that anything is wrong
+-with your system.  To disable them, echo 4 (bit 2) into drop_caches.
++with your system.
 +
-+As well as the --ignore flag documented below, violation types can be ignored
-+for a specific patch by including a block after the "---" in the following
-+format::
++To disable informational::
 +
-+  Notes(checkpatch-ignore):
-+    TYPE_1,TYPE_2
-+    TYPE_3
++    echo 4 > /proc/sys/vm/drop_caches
 +
-+If using Git, you can store that information alongside your commit using
-+`notes <https://git-scm.com/docs/git-notes>`_. To set this up:
++To enable informational::
 +
-+1. Configure git to include the `checkpatch-ignore` notes ref in formatted
-+   patches::
++    echo 0 > /proc/sys/vm/drop_caches
 +
-+     git config set format.notes checkpatch-ignore
-+
-+   If you use checkpatch in `--git` mode, this isn't necessary, it will include
-+   the `checkpatch-ignore` note regardless.
-+
-+2. Configure git to persist notes across amends and rebases::
-+
-+     git config set notes.rewriteRef "refs/notes/checkpatch-ignore"
-+
-+   (To enable this behaviour for _all_ notes, set `refs/notes/**` instead).
-+
-+   Also ensure that `notes.rewrite.rebase` and `notes.rewrite.amend` have not
-+   been set to `false`.
-+
-+3. Now, to set the note on the HEAD commit, use a command like::
-+
-+     git notes --ref checkpatch-ignore add -m "TYPE_1,TYPE_2"
-+
-+   Beware that blank lines terminate the `checkpatch-ignore` block, so if you
-+   use `git notes append` to ignore additional types, you'll need to also set
-+   `--no-separator`::
-+
-+     git notes --ref checkpatch-ignore append -m "TYPE_3" --no-separator
-+
-+To see the names of the error type in checkpatch output, set the `--show-types`
-+option.
  
- Options
- =======
-@@ -114,6 +157,9 @@ Available options:
+ enable_soft_offline
+ ===================
+diff --git a/fs/drop_caches.c b/fs/drop_caches.c
+index d45ef541d848..5d02c1d99d9f 100644
+--- a/fs/drop_caches.c
++++ b/fs/drop_caches.c
+@@ -57,7 +57,7 @@ int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
+ 	if (ret)
+ 		return ret;
+ 	if (write) {
+-		static int stfu;
++		static bool silent;
  
-    Checkpatch will not emit messages for the specified types.
- 
-+   Note that violations can also be permanently disabled using the
-+   Checkpatch-ignore patch footer.
-+
-    Example::
- 
-      ./scripts/checkpatch.pl mypatch.patch --ignore EMAIL_SUBJECT,BRACES
-
+ 		if (sysctl_drop_caches & 1) {
+ 			lru_add_drain_all();
+@@ -68,12 +68,15 @@ int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
+ 			drop_slab();
+ 			count_vm_event(DROP_SLAB);
+ 		}
+-		if (!stfu) {
++		if (!silent) {
+ 			pr_info("%s (%d): drop_caches: %d\n",
+ 				current->comm, task_pid_nr(current),
+ 				sysctl_drop_caches);
+ 		}
+-		stfu |= sysctl_drop_caches & 4;
++		if (sysctl_drop_caches == 0)
++			silent = false;
++		else if (sysctl_drop_caches == 4)
++			silent = true;
+ 	}
+ 	return 0;
+ }
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index cb57da499ebb..f2e06e074724 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -2088,7 +2088,7 @@ static const struct ctl_table vm_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0200,
+ 		.proc_handler	= drop_caches_sysctl_handler,
+-		.extra1		= SYSCTL_ONE,
++		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_FOUR,
+ 	},
+ 	{
 -- 
-2.48.1.601.g30ceb7b040-goog
+2.27.0
 
