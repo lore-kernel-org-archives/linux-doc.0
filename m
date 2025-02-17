@@ -1,99 +1,221 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A04B21883C;
-	Mon, 17 Feb 2025 11:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7E88BE8;
+	Mon, 17 Feb 2025 11:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739790234; cv=none; b=iDP1j83qbL6ZSEagIKbC7ViUMOgr5s3EUlnHejQ+1dbewottEtxx9V9mVBePl7v77vnig6mS2VIOS4ypALnvBNe4H9xn3bSa+gel32Amx2AjJIIjO/ZswdKPbxcECGIH39aRwIdA3rZosSoueiaT8AWRSd/0yQseLckOEFwy6+o=
+	t=1739790427; cv=none; b=Fp0NPpXbt0blhAXO/5y/BVdwEDtCVFmTY/0/r+78IKbZs3Qva1dWdZffyk58JXfUhfsHjNsL9jYacU9HeRcebfASBleratbnWConoITywQP9tLeRBZIHetKIw6p+8PwDmSEzgcNG3CouxYUqpLUWk7uVO6FXKMo3fiopVOMrHpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739790234; c=relaxed/simple;
-	bh=kQ9ahJoLUAa6eg+bXrlnGmnOJsZB6csYPykuKxx+kbA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b620dMeUOzdlyasmDl6upBJivYzeRbIbEEQ13efEVBn8vU0N7sMwDxTTuY6BeR89LBmiuFsxBMQp06HzGIJvsjssdqLI7M2AYKgZRsTCCrRM4wxMosgXmYEwirMlNrH2SjC0x5n5n1xM3qHLBJ7x5Fu50mZmvjdvBkJSJDUoWAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=YQ0WIRqr; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1739790427; c=relaxed/simple;
+	bh=isFALg6CXqDl8cu7cPP7y6ryoQs71iJg27uKq5QT0gM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hzF1liwLLfowb1h463+DYc8uoVgBQmH4sV5dmkzgI1fUevqTjahlU02DQh4jV8eBdjr/H34qeXBtypIBZ+Wgfan39Eo0QECrKAPcXLXKOR7CoSmWXDiaaAka+THXu2NChmePhJdskJe0AdSLWr4q2iSR3IBlFC7eW14F7haPuy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hAZdrRvs; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="YQ0WIRqr"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id DDABE40E0202;
-	Mon, 17 Feb 2025 11:03:48 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id qW0rLXdjDKyi; Mon, 17 Feb 2025 11:03:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1739790225; bh=OOMwHALIFx6ihAv83FsqwxXXoVcZoHEsKhOSw9w7d54=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YQ0WIRqrRtq2km0LeuZ7vUmZd3Xscn4YogsmNsBDI89g43/OynuycHZQdEt73xEpp
-	 5mUehe3lnTOZZLLLtvxcbT+7vi3xBBNJHc4a++tn12HmXQqlX255bIavFci2rqmhQ7
-	 vHJLDKH7To91ex5a+qB/W4ZYwZKdvw4rnKRaelwkbOFdiIwtRT7ej+en1XILKChy2t
-	 ITsydsjJpFlB1oGmmdYgd4ffoMp8pbBO7YYC2BxZ8OIaJ8r+DjrDdD22RfTm4wqdxa
-	 Bl1mDoY3LGXpLcVl8vl0FS7x07InbyG9nsMwx//Q+gFqT3ij4nE6pZpbJ8WmY1GBKE
-	 4LE6fK2yoYuvPcw6qzPUaaqBGc6JEGp/oPWwjM0y4U7FMl8lTsfSMtZZvR7PLGfM6Q
-	 p0XDXj0ow1+9KAqZ91P6/wbq4u1FgNLgNVV+VTz9mBU/TuGjWkAQjauWKp5CYCr8pv
-	 ll/rayEFmE/+hlhS3U0aBzOwxSxFkid8Nka6EMD/14rWjy7EYTAbNu/rM4qkEDdNv4
-	 9GfW6sYuS8hInJ6I4Ov3XkmA6uSknrsvofx0UoWSKAcEgXkwrnl2ZtArDLu4lXTLMc
-	 oJTeSY4hCnibzUcqSQMWEx39IyBh3iOe6P/RRwi8LP5kA9eeJv89SaWTY2A9uO9tWa
-	 1BJMWhHzLO2yJHqSlzVmCxYw=
-Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1932C40E0176;
-	Mon, 17 Feb 2025 11:03:35 +0000 (UTC)
-Date: Mon, 17 Feb 2025 12:03:34 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 2/3] x86/cpu: Add setcpuid cmdline param
-Message-ID: <20250217110334.GHZ7MXhq4xNWSkKHCH@fat_crate.local>
-References: <20250129-force-cpu-bug-v2-0-5637b337b443@google.com>
- <20250129-force-cpu-bug-v2-2-5637b337b443@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hAZdrRvs"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2fbffe0254fso7855374a91.3;
+        Mon, 17 Feb 2025 03:07:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739790425; x=1740395225; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WKfNUEOjLl/LJnQn1CB92jCGeCH7231aksnRXVNSbLI=;
+        b=hAZdrRvsI9ZGckTj2v6B/y7q8yIQ+9rj7aorYQDpB+702JAMl2ceDej/E45gJVwB6D
+         ktkf7m9T8BQQYY+DGyOSWBkCrugg3gaZeOmUgi2PgXvwxrN/+Ko9yWIrWohNSfs8iA5j
+         B5sHxL1SXAINPJLj1Pua+EkqsC3mRAFK3YHf9UZrIzOV/PgNaeEyR5McWY/SGNdso9hl
+         T4GXKSLeyj1FUoW8xRB17nvvrmnhZ9Vyul7KKTCvkgCWx1daMUdCITXgGoUbvyRFal14
+         K0JldIu5M4lC+V635HCUT20Lgz+D5V/4tWYybHalmeoPzIJy2wgrsx+Ap5r0sxA9SfDz
+         E0+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739790425; x=1740395225;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WKfNUEOjLl/LJnQn1CB92jCGeCH7231aksnRXVNSbLI=;
+        b=EMBS3w7A+HKbX/1qYZMEtP4/AZaLwzyXYduS6Upp2CzpCJAcqmzh4Uacrcs3EXjHFI
+         yDg4PJvGs/zHsgH64CLZfbtM3PoNIz3ADSdrP4g1qzsaEJ7L1YaXJJ6hG+Xu78YCoEge
+         rbBB69eiWXYphtXBH88i1mdBXsq6olKJGHUNIRslGNbkK8s7hDeRJnUC8Pw2qLVePtw5
+         JYhVG0buytEmtAdJKPO6OShN/U57uwByA2hZ+6KlW4X8eLqYCMgMS2/3b9IyMBQi4WYR
+         Ft1eoM4pKFJX7hZeNfaL50Ui9rgnr3PU+fSUYOxhnEDlkXmWuTf3dQKJ/K71843xXADu
+         dCiA==
+X-Forwarded-Encrypted: i=1; AJvYcCVXyxDRIhEFDY4nTX+g4uCRB61OIzPTfD/yNWMybT6x/VxRSKSQuA+f1uDg3NIKnxHA1m4HxioBC88=@vger.kernel.org, AJvYcCVanH0vFySyBU6Y39zuJTHQfziHPtwSY482EVudWz2ofV7SGIsK1xVVB3/vZPwk3jkwJOaL8Zu+u3Qmu8NfhohhOedU@vger.kernel.org, AJvYcCWl7xp1q6NTeHRI7vyiZWoyLMtxCfa4hcruYHLxzPucjPSZ54dhcki4WXkrpxyumHjTc97yn23dXdvpSOVD@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDl2YuvZ/1VZOaF93dbyjO1f8XXDN4RUGITXX07aIGmxT+WgxK
+	W9V8yORamX3n3Dyw2jUdsVhSjF+ByAz+rC6VS6R0iau+PrGeE3Oh
+X-Gm-Gg: ASbGncsHpJVXXqtzNxZ2fm0f3MG3uKhDtLkrb/Jr0ahkOfDJL79jnOhyybTZIAIt0jT
+	kDVZu8S9vMkSTe4Um9o2bUFhaTvsYE3SkgQAiBQGUQZ3bRiZNkZPwWTA6bgoBya2kPVvXmoOemM
+	2ps2wDWshNLGKJ49CDPRGzJnEPJBmJxrphkmKbSkmwqLC9DUz0e0ez4Ak3cdKXRR2dzVahAPZ1n
+	MF94KtVSRaoK7069awSZ7bfLxnLikeTf/o+OZlSQFIXYBA+803worF39nz9EiAXSBTBkNbYdznC
+	tfqGkdFTzQmVqZG/1dRZ8DT/sJS9ksHVuqvIalMuXzaP2QJ5
+X-Google-Smtp-Source: AGHT+IG7B4sPeRxfvU839YopNnkapoIY0Cc35bbDmNDyP3vYMcMAmVTKblMiHxI+hpJeWLYL+RCgRw==
+X-Received: by 2002:a17:90b:510c:b0:2ee:53b3:3f1c with SMTP id 98e67ed59e1d1-2fc40d14c1emr14088366a91.5.1739790425312;
+        Mon, 17 Feb 2025 03:07:05 -0800 (PST)
+Received: from purva-IdeaPad-Gaming-3-15IHU6.. ([2409:40c0:1035:b6f:a7b9:b8b1:950d:8c7b])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fc13ab1ff2sm7840844a91.8.2025.02.17.03.07.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2025 03:07:04 -0800 (PST)
+From: Purva Yeshi <purvayeshi550@gmail.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Purva Yeshi <purvayeshi550@gmail.com>
+Subject: [PATCH v3] docs: tracing: Refactor index.rst documentation
+Date: Mon, 17 Feb 2025 16:36:37 +0530
+Message-Id: <20250217110637.6640-1-purvayeshi550@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250129-force-cpu-bug-v2-2-5637b337b443@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 29, 2025 at 03:35:40PM +0000, Brendan Jackman wrote:
-> In preparation for adding support to fake out CPU bugs, add a general
-> facility to force enablement of CPU flags.
+Refactor Documentation/trace/index.rst to improve clarity, structure,
+and organization. Reformat sections and add appropriate headings for
+better readability.
 
-"... to force-enable ..."
+Improve section grouping and refine descriptions for better usability.
 
-> 
-> The flag taints the kernel and the documentation attempts to be clear
-> that this is highly unsuitable for uses outside of kernel development
-> and platform experimentation.
-> 
-> The new arg is parsed just like clearcpuid, but instead of leading to
-> setup_clear_cpu_cap() it leads to setup_force_cpu_cap().
-> 
-> I've tested this by booting a nested QEMU guest on an Intel host, which
-> with setcpuid=svm will claim that it supports AMD virtualization.
+Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
+---
+V1 - https://lore.kernel.org/all/20250204133616.27694-1-purvayeshi550@gmail.com/
+V2 - https://lore.kernel.org/lkml/20250206141453.139613-1-purvayeshi550@gmail.com/
+V3 - Improve section grouping and refine descriptions.
 
-Move this sentence...
+ Documentation/trace/index.rst | 94 +++++++++++++++++++++++++++++------
+ 1 file changed, 79 insertions(+), 15 deletions(-)
 
-> Signed-off-by: Brendan Jackman <jackmanb@google.com>
-> ---
-
-... here as it doesn't belong in a commit message.
-
+diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+index 2c991dc96..6b268194f 100644
+--- a/Documentation/trace/index.rst
++++ b/Documentation/trace/index.rst
+@@ -1,39 +1,103 @@
+-==========================
+-Linux Tracing Technologies
+-==========================
++================================
++Linux Tracing Technologies Guide
++================================
++
++Tracing in the Linux kernel is a powerful mechanism that allows
++developers and system administrators to analyze and debug system
++behavior. This guide provides documentation on various tracing
++frameworks and tools available in the Linux kernel.
++
++Introduction to Tracing
++-----------------------
++
++This section provides an overview of Linux tracing mechanisms
++and debugging approaches.
+ 
+ .. toctree::
+    :maxdepth: 2
+ 
+-   ftrace-design
++   debugging
++   tracepoints
+    tracepoint-analysis
++   ring-buffer-map
++
++Core Tracing Frameworks
++-----------------------
++
++The following are the primary tracing frameworks integrated into
++the Linux kernel.
++
++.. toctree::
++   :maxdepth: 2
++
+    ftrace
++   ftrace-design
+    ftrace-uses
+-   fprobe
+    kprobes
+    kprobetrace
+    uprobetracer
+    fprobetrace
+-   tracepoints
++   fprobe
++   ring-buffer-design
++
++Event Tracing and Analysis
++--------------------------
++
++A detailed explanation of event tracing mechanisms and their
++applications.
++
++.. toctree::
++   :maxdepth: 2
++
+    events
+    events-kmem
+    events-power
+    events-nmi
+    events-msr
+-   mmiotrace
++   boottime-trace
+    histogram
+    histogram-design
+-   boottime-trace
+-   debugging
+-   hwlat_detector
+-   osnoise-tracer
+-   timerlat-tracer
++
++Hardware and Performance Tracing
++--------------------------------
++
++This section covers tracing features that monitor hardware
++interactions and system performance.
++
++.. toctree::
++   :maxdepth: 2
++
+    intel_th
+-   ring-buffer-design
+-   ring-buffer-map
+    stm
+    sys-t
+    coresight/index
+-   user_events
+    rv/index
+    hisi-ptt
++   mmiotrace
++   hwlat_detector
++   osnoise-tracer
++   timerlat-tracer
++
++User-Space Tracing
++------------------
++
++These tools allow tracing user-space applications and
++interactions.
++
++.. toctree::
++   :maxdepth: 2
++
++   user_events
++
++Additional Resources
++--------------------
++
++For more details, refer to the respective documentation of each
++tracing tool and framework.
++
++.. only:: subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+\ No newline at end of file
 -- 
-Regards/Gruss,
-    Boris.
+2.34.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
