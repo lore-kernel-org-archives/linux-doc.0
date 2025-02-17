@@ -1,221 +1,144 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7E88BE8;
-	Mon, 17 Feb 2025 11:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59502192B71;
+	Mon, 17 Feb 2025 11:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739790427; cv=none; b=Fp0NPpXbt0blhAXO/5y/BVdwEDtCVFmTY/0/r+78IKbZs3Qva1dWdZffyk58JXfUhfsHjNsL9jYacU9HeRcebfASBleratbnWConoITywQP9tLeRBZIHetKIw6p+8PwDmSEzgcNG3CouxYUqpLUWk7uVO6FXKMo3fiopVOMrHpE=
+	t=1739790649; cv=none; b=eu72kvjb/Rb6fit+TiJ8U6BJI2Af9TBaocTX21f3b3YUywZLkZnD0bJJB0C+8s00Z2qp8M1CLmg4JS1DVmekoRKWTqArjZIFvxadNhLGJ6yaS+xxgXKHL1AEH/b5S3cQ4VbVPMIVppQVovKBA6FTvBpi+W/gnFH1ViRSk5kmAps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739790427; c=relaxed/simple;
-	bh=isFALg6CXqDl8cu7cPP7y6ryoQs71iJg27uKq5QT0gM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hzF1liwLLfowb1h463+DYc8uoVgBQmH4sV5dmkzgI1fUevqTjahlU02DQh4jV8eBdjr/H34qeXBtypIBZ+Wgfan39Eo0QECrKAPcXLXKOR7CoSmWXDiaaAka+THXu2NChmePhJdskJe0AdSLWr4q2iSR3IBlFC7eW14F7haPuy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hAZdrRvs; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739790649; c=relaxed/simple;
+	bh=RaNMkzPUKH55P0ue/TW9YA+vTz4Djw3jHd6XdzluhRY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=riNjWqa80kBNij5/gPcelA43hLykhQ7o1v2hhdeURCuo0AomTphky6gmyLO7RPvsK6THyO3vXPq9lGNrgJPy/113btjLtliK6OHA/nKEZMRMpGYf/YH8i8MRp3T1Ba85FjoyFV7uILs4r7NkBsS+c/BvptUUTd1r4CRhZrnRY1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Co8ZHdfb; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hAZdrRvs"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2fbffe0254fso7855374a91.3;
-        Mon, 17 Feb 2025 03:07:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739790425; x=1740395225; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WKfNUEOjLl/LJnQn1CB92jCGeCH7231aksnRXVNSbLI=;
-        b=hAZdrRvsI9ZGckTj2v6B/y7q8yIQ+9rj7aorYQDpB+702JAMl2ceDej/E45gJVwB6D
-         ktkf7m9T8BQQYY+DGyOSWBkCrugg3gaZeOmUgi2PgXvwxrN/+Ko9yWIrWohNSfs8iA5j
-         B5sHxL1SXAINPJLj1Pua+EkqsC3mRAFK3YHf9UZrIzOV/PgNaeEyR5McWY/SGNdso9hl
-         T4GXKSLeyj1FUoW8xRB17nvvrmnhZ9Vyul7KKTCvkgCWx1daMUdCITXgGoUbvyRFal14
-         K0JldIu5M4lC+V635HCUT20Lgz+D5V/4tWYybHalmeoPzIJy2wgrsx+Ap5r0sxA9SfDz
-         E0+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739790425; x=1740395225;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WKfNUEOjLl/LJnQn1CB92jCGeCH7231aksnRXVNSbLI=;
-        b=EMBS3w7A+HKbX/1qYZMEtP4/AZaLwzyXYduS6Upp2CzpCJAcqmzh4Uacrcs3EXjHFI
-         yDg4PJvGs/zHsgH64CLZfbtM3PoNIz3ADSdrP4g1qzsaEJ7L1YaXJJ6hG+Xu78YCoEge
-         rbBB69eiWXYphtXBH88i1mdBXsq6olKJGHUNIRslGNbkK8s7hDeRJnUC8Pw2qLVePtw5
-         JYhVG0buytEmtAdJKPO6OShN/U57uwByA2hZ+6KlW4X8eLqYCMgMS2/3b9IyMBQi4WYR
-         Ft1eoM4pKFJX7hZeNfaL50Ui9rgnr3PU+fSUYOxhnEDlkXmWuTf3dQKJ/K71843xXADu
-         dCiA==
-X-Forwarded-Encrypted: i=1; AJvYcCVXyxDRIhEFDY4nTX+g4uCRB61OIzPTfD/yNWMybT6x/VxRSKSQuA+f1uDg3NIKnxHA1m4HxioBC88=@vger.kernel.org, AJvYcCVanH0vFySyBU6Y39zuJTHQfziHPtwSY482EVudWz2ofV7SGIsK1xVVB3/vZPwk3jkwJOaL8Zu+u3Qmu8NfhohhOedU@vger.kernel.org, AJvYcCWl7xp1q6NTeHRI7vyiZWoyLMtxCfa4hcruYHLxzPucjPSZ54dhcki4WXkrpxyumHjTc97yn23dXdvpSOVD@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDl2YuvZ/1VZOaF93dbyjO1f8XXDN4RUGITXX07aIGmxT+WgxK
-	W9V8yORamX3n3Dyw2jUdsVhSjF+ByAz+rC6VS6R0iau+PrGeE3Oh
-X-Gm-Gg: ASbGncsHpJVXXqtzNxZ2fm0f3MG3uKhDtLkrb/Jr0ahkOfDJL79jnOhyybTZIAIt0jT
-	kDVZu8S9vMkSTe4Um9o2bUFhaTvsYE3SkgQAiBQGUQZ3bRiZNkZPwWTA6bgoBya2kPVvXmoOemM
-	2ps2wDWshNLGKJ49CDPRGzJnEPJBmJxrphkmKbSkmwqLC9DUz0e0ez4Ak3cdKXRR2dzVahAPZ1n
-	MF94KtVSRaoK7069awSZ7bfLxnLikeTf/o+OZlSQFIXYBA+803worF39nz9EiAXSBTBkNbYdznC
-	tfqGkdFTzQmVqZG/1dRZ8DT/sJS9ksHVuqvIalMuXzaP2QJ5
-X-Google-Smtp-Source: AGHT+IG7B4sPeRxfvU839YopNnkapoIY0Cc35bbDmNDyP3vYMcMAmVTKblMiHxI+hpJeWLYL+RCgRw==
-X-Received: by 2002:a17:90b:510c:b0:2ee:53b3:3f1c with SMTP id 98e67ed59e1d1-2fc40d14c1emr14088366a91.5.1739790425312;
-        Mon, 17 Feb 2025 03:07:05 -0800 (PST)
-Received: from purva-IdeaPad-Gaming-3-15IHU6.. ([2409:40c0:1035:b6f:a7b9:b8b1:950d:8c7b])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fc13ab1ff2sm7840844a91.8.2025.02.17.03.07.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 03:07:04 -0800 (PST)
-From: Purva Yeshi <purvayeshi550@gmail.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Purva Yeshi <purvayeshi550@gmail.com>
-Subject: [PATCH v3] docs: tracing: Refactor index.rst documentation
-Date: Mon, 17 Feb 2025 16:36:37 +0530
-Message-Id: <20250217110637.6640-1-purvayeshi550@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Co8ZHdfb"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B00B740E0191;
+	Mon, 17 Feb 2025 11:10:44 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id vDZTFrYPUGkR; Mon, 17 Feb 2025 11:10:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1739790640; bh=F6JnE8QkoFXQpkAYcY//uc3UNHxxRKBnsdxJosKiaj4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Co8ZHdfbhiBhr1KZpW26veMq+CzcsXJEEp5730iFbHw3wMe062lnUQTC+wE1oiBOS
+	 sEkU77E+NAh0mj/hwMELDIrrufGnqJrEmxqAPPERcbCGAdvu1vpzGzugoPs2yITVqR
+	 Koqg/gmmryoBDvYUWabKP3FWv9aFX8l8GdRFfQzvfXMwW+ty3D/fyEAM2oE95jzaCD
+	 XBBBEPopqEBv7/MHirKbRpV6JLSC18SkTg66ldExc9emEbWjdSosM4tdKVVePChP2T
+	 1TAewfcyRMKRGGOFPTSEI1yp15N9Ej43WGhd33DcHKjbQCfgVRtOg7cNBzrYzWLAvp
+	 j6JEW7Z7n84o2SeL7GdPR0Vt92fc+weOX0RVsAGp7B9H/Y9eU6YY7olhEWiWMM0Uj9
+	 YZuJQI0nNTU3zIxNoRpdBbcQTszNo7uChDomRBnuRNIdee97NOAZTME2mF7PIUdfOv
+	 p/HqUkXC3klVZc1oe//+WSHOCuVKsndIAnZ4eocOyMfxD89pyB/RY7lsZEBSsTkVrL
+	 qZpa6g1syTqsRE4ZU/aCW5WvBSi3cIb4oahq3BRV4F64ziy4wlwfFIayueI8OzU3vY
+	 Hn3nA/jVfTVQGQoKKC0HU0yPtoA4tb8Djbz+L/UyxasaXCi9btqwufzgwn/K2RAA7y
+	 YxLwMyFR7qLJwdVlnYh2WTZo=
+Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A584540E0176;
+	Mon, 17 Feb 2025 11:10:30 +0000 (UTC)
+Date: Mon, 17 Feb 2025 12:10:29 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v2 3/3] x86/cpu: Enable modifying bug flags with
+ {clear,set}puid
+Message-ID: <20250217111029.GIZ7MZJUGJRoeiScgn@fat_crate.local>
+References: <20250129-force-cpu-bug-v2-0-5637b337b443@google.com>
+ <20250129-force-cpu-bug-v2-3-5637b337b443@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250129-force-cpu-bug-v2-3-5637b337b443@google.com>
 
-Refactor Documentation/trace/index.rst to improve clarity, structure,
-and organization. Reformat sections and add appropriate headings for
-better readability.
+On Wed, Jan 29, 2025 at 03:35:41PM +0000, Brendan Jackman wrote:
+> Sometimes it can be very useful to run CPU vulnerability mitigations on
+> systems where they aren't known to mitigate any real-world
+> vulnerabilities. This can be handy for mundane reasons like debugging
+> HW-agnostic logic on whatever machine is to hand, but also for research
+> reasons: while some mitigations are focused on individual vulns and
+> uarches, others are fairly general, and it's strategically useful to
+> have an idea how they'd perform on systems where they aren't currently
+> needed.
+> 
+> As evidence for this being useful, a flag specifically for Retbleed was
+> added in commit 5c9a92dec323 ("x86/bugs: Add retbleed=force").
+> 
+> Since CPU bugs are tracked using the same basic mechanism as features,
+> and there are already parameters for manipulating them by hand, extend
+> that mechanism to support bug as well as capabilities.
+> 
+> With this patch and setcpuid=srso, a QEMU guest running on an Intel host
+> will boot with Safe-RET enabled.
 
-Improve section grouping and refine descriptions for better usability.
+As before. Move that sentence ...
 
-Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
----
-V1 - https://lore.kernel.org/all/20250204133616.27694-1-purvayeshi550@gmail.com/
-V2 - https://lore.kernel.org/lkml/20250206141453.139613-1-purvayeshi550@gmail.com/
-V3 - Improve section grouping and refine descriptions.
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+> ---
 
- Documentation/trace/index.rst | 94 +++++++++++++++++++++++++++++------
- 1 file changed, 79 insertions(+), 15 deletions(-)
+... here.
 
-diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
-index 2c991dc96..6b268194f 100644
---- a/Documentation/trace/index.rst
-+++ b/Documentation/trace/index.rst
-@@ -1,39 +1,103 @@
--==========================
--Linux Tracing Technologies
--==========================
-+================================
-+Linux Tracing Technologies Guide
-+================================
-+
-+Tracing in the Linux kernel is a powerful mechanism that allows
-+developers and system administrators to analyze and debug system
-+behavior. This guide provides documentation on various tracing
-+frameworks and tools available in the Linux kernel.
-+
-+Introduction to Tracing
-+-----------------------
-+
-+This section provides an overview of Linux tracing mechanisms
-+and debugging approaches.
- 
- .. toctree::
-    :maxdepth: 2
- 
--   ftrace-design
-+   debugging
-+   tracepoints
-    tracepoint-analysis
-+   ring-buffer-map
-+
-+Core Tracing Frameworks
-+-----------------------
-+
-+The following are the primary tracing frameworks integrated into
-+the Linux kernel.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-    ftrace
-+   ftrace-design
-    ftrace-uses
--   fprobe
-    kprobes
-    kprobetrace
-    uprobetracer
-    fprobetrace
--   tracepoints
-+   fprobe
-+   ring-buffer-design
-+
-+Event Tracing and Analysis
-+--------------------------
-+
-+A detailed explanation of event tracing mechanisms and their
-+applications.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-    events
-    events-kmem
-    events-power
-    events-nmi
-    events-msr
--   mmiotrace
-+   boottime-trace
-    histogram
-    histogram-design
--   boottime-trace
--   debugging
--   hwlat_detector
--   osnoise-tracer
--   timerlat-tracer
-+
-+Hardware and Performance Tracing
-+--------------------------------
-+
-+This section covers tracing features that monitor hardware
-+interactions and system performance.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-    intel_th
--   ring-buffer-design
--   ring-buffer-map
-    stm
-    sys-t
-    coresight/index
--   user_events
-    rv/index
-    hisi-ptt
-+   mmiotrace
-+   hwlat_detector
-+   osnoise-tracer
-+   timerlat-tracer
-+
-+User-Space Tracing
-+------------------
-+
-+These tools allow tracing user-space applications and
-+interactions.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   user_events
-+
-+Additional Resources
-+--------------------
-+
-+For more details, refer to the respective documentation of each
-+tracing tool and framework.
-+
-+.. only:: subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-\ No newline at end of file
+>  arch/x86/include/asm/cpufeature.h |  1 +
+>  arch/x86/kernel/cpu/common.c      | 16 ++++++++++++----
+>  2 files changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/cpufeature.h b/arch/x86/include/asm/cpufeature.h
+> index 0b9611da6c53f19ae6c45d85d1ee191118ad1895..6e17f47ab0521acadb7db38ce5934c4717d457ba 100644
+> --- a/arch/x86/include/asm/cpufeature.h
+> +++ b/arch/x86/include/asm/cpufeature.h
+> @@ -50,6 +50,7 @@ extern const char * const x86_power_flags[32];
+>   * X86_BUG_<name> - NCAPINTS*32.
+>   */
+>  extern const char * const x86_bug_flags[NBUGINTS*32];
+> +#define x86_bug_flag(flag) x86_bug_flags[flag]
+
+Why?
+
+>  #define test_cpu_cap(c, bit)						\
+>  	 arch_test_bit(bit, (unsigned long *)((c)->x86_capability))
+> diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+> index e26cf8789f0e1a27ad126f531e05afee0fdebbb8..d94d7ebff42dadae30f77af1ef675d1a83ba6c3f 100644
+> --- a/arch/x86/kernel/cpu/common.c
+> +++ b/arch/x86/kernel/cpu/common.c
+> @@ -1492,7 +1492,8 @@ static inline void parse_set_clear_cpuid(char *arg, bool set)
+>  
+>  		/*
+>  		 * Handle naked numbers first for feature flags which don't
+> -		 * have names.
+> +		 * have names. It doesn't make sense for a bug not to have a
+> +		 * name so don't handle bug flags here.
+>  		 */
+>  		if (!kstrtouint(opt, 10, &bit)) {
+>  			if (bit < NCAPINTS * 32) {
+
+It did but after
+
+  7583e8fbdc49 ("x86/cpu: Remove X86_FEATURE_NAMES")
+
+this chunk can be whacked now. Please do that in a pre-patch.
+
+Thx.
+
 -- 
-2.34.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
