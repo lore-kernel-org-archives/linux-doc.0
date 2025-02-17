@@ -1,200 +1,243 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC61F155316;
-	Mon, 17 Feb 2025 09:37:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D3D18FC79
+	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 10:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739785050; cv=none; b=eOF57wjaWMud+R4I8GvA+yfMyNkrVfsCUOG6HniS3v7yzZ0Qy+ZK3y1wu60UFNrYVspc2OFWnc8uirjvDGt/slQKHr3Poo6kljfgS0VURWhOWVm4CCSScWbA5OTYHqU5n9JAqo99vkskuryHKP+rV4efEA5J5AxxCJKMIhACTAM=
+	t=1739787010; cv=none; b=BNr+aLixEuxLe9HVaM9KA6LU2OWFJt06Tv6l3SPxwbRNtyl89Suyd4E4LenKayj/ZMXJHmCUXYVRBvaAYnolR/9IS46ohsU3zb/njOGhYnI2XYbV0kBZNJ53dAeniNHA/ohSZkqBACXoAWQ4tSZisO6+R4b5e2J7ViQNiadJebg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739785050; c=relaxed/simple;
-	bh=AZCs5g8Mralms5Xjea2hMqxAgz+/0HZ4sntHHhpsj9s=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=en1YhjzqeLj/lQXy1IEnSLUv/WjdvMeHQd/A3O0FCY90x+3vJndO6y9PuLORmxh+dp9vrFEo084no5JoJTr+mV7lWfGvps1yQjOL9C1+IKo3pWySoJMUycQCllC6KuUWt+41vbet5DsGFq3V1aNIBvTnx9L+9b3XeIXZdyqFuSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RH6llmNi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739787010; c=relaxed/simple;
+	bh=j32aHlewcxZHgt72stBZMlPca6hXMaSDHk5y3S0Dhak=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LIrnS7urACBTcbb7MdS/OuRDIEKO4wg72OKq82im76rdRF1kPQaPq36E9j8vOw89utfViVNi/uEc/0ZAE+mCojnt1AWmxjnLIwgHq5xO/bd69qGsX+muyHmh7ksVgfxh8ktKyc2yKRjxkQnIo10Oq8u3IB9Rjd+xgTe31W2kSbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K91MX+8h; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RH6llmNi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 258C1C4CED1;
-	Mon, 17 Feb 2025 09:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739785049;
-	bh=AZCs5g8Mralms5Xjea2hMqxAgz+/0HZ4sntHHhpsj9s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RH6llmNifW/GIp1YLSH29+A+9o7u8I2E0W3EyKFXLU1MKdiVZlTSttctViCPDEaJo
-	 MSIIzZbfDvaacMB1GK9oIeii0mbPtrcxYzLiAZOaZRSZdWUnyLm4ByZd3t4CH+U7CU
-	 gsoVw7xBdahqHquX6A0YTxXvsgT5mSVnTGO5uyb0C+aqHQtt8njJ8vi+P6XBxPbAkR
-	 3dgdnwqQ2dQ3CXZDE9IHiEV50BsIu6jt2W/y2pWE6six45KfPb7KAShqDFWq6JNn2L
-	 zlKe+Av4bNn/RPTMlp6lUbfdyMM0xMJxjueXRziyc6atx+8Ki923PlfQ97JSRVrDI7
-	 gl3zTX1ukcHkA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tjxZ8-004zmI-N1;
-	Mon, 17 Feb 2025 09:37:26 +0000
-Date: Mon, 17 Feb 2025 09:37:26 +0000
-Message-ID: <86h64ssyi1.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Dave Martin <Dave.Martin@arm.com>,
-	Fuad Tabba <tabba@google.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 00/27] KVM: arm64: Implement support for SME in non-protected guests
-In-Reply-To: <Z69dsGn1JVWPCqAi@finisterre.sirena.org.uk>
-References: <20250214-kvm-arm64-sme-v4-0-d64a681adcc2@kernel.org>
-	<86pljkswuk.wl-maz@kernel.org>
-	<Z69dsGn1JVWPCqAi@finisterre.sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K91MX+8h"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5ded368fcd9so5188287a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 02:10:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739787007; x=1740391807; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uv151NG0pvPS5npwfEoUptwhovQw5OQ671qB8TdfkUA=;
+        b=K91MX+8h97CtNHY+J6Hcpv3TjveiWPoIsuvYHFjfbsfVFJ96KHJRxALDwc+dNlLKLv
+         jwKBRNkWOSiiA1+TShr2O643K65Uy1hqW725GefzNYyTqIWpic6rb6XyAfXEpJxbAPio
+         rcJiLrasiex4ZjCKyT/JHn2hCFPYcbn/iqecrHTskiukWl/OnAdsirfYbMa04/u0+Rcg
+         UWOF52DAyd30QNH20klAo8T3iN/0jx9dp7qtYVH76rUrWq5WniaJYUQpGGqmDzpd3QyY
+         pG/xTDbNRUR1eqfyRISVVfiTBzfjAVAV+93wdwLJd8WVZT9IEj9t59U3zvBaKUiIDiRg
+         H03w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739787007; x=1740391807;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Uv151NG0pvPS5npwfEoUptwhovQw5OQ671qB8TdfkUA=;
+        b=TmVfQnGsQNiOCOt2m/xL9LQj0O6wQmCpz2SvUCMyjMCsCrQgY3jhH7zSR70GIdK17b
+         9rRIZtPWKL0hGxyRWp0UKdHbBSOa5KsDTXo7ic9b+MKPjIwFUkeQZNwNmzy+aEuz7PgM
+         ZZsNji3ySnbdJdnp70jLiViqxNjFbnb4tx+9u/Uf8wPJm7USTyOklla4hwnMjGibQFD2
+         8YjbjvsCGohxSN9gLk+zUhcZyJvuLs1lADw4TWkcrUoR4zc72HeMqyz1b13/VbCnyWbf
+         NowtBWcZHorIYDXgjEo2UZoCixacmMqKwRmqXfNMGqGKp3tAuj6OY5CX5l0fH+DqicYp
+         Sgiw==
+X-Forwarded-Encrypted: i=1; AJvYcCW3/y6Nq4PPnq3mo8OVYBbbWOWgeKoqVuvZAxVXXxHVgafpq/6r+2zsJnjzZ2/BUnv8Ke9ajdBh0ds=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxj6wtvescnU2Kq9hISuudIh+CR47W+0AUW0+hcJvKv6lmlruOc
+	yn60+rmiPnVyOgSO6WblCcwkk2WQokGv2TQ3z9cpI6V9z0eBVEzWpWYP93N73vk=
+X-Gm-Gg: ASbGnct3U+IROdqzlfnFSc135O4cEXLmrT8/rtwPm5XpUW10ZyX1qxAGnEQGxAJXC99
+	qy25wbbi+lxyg9nC6FhFnBeJthLB9sCXc0NJgedca0MMVhEP5usN7k+6HIo1A3lzJndQzK+lCaq
+	rxxdgzUE44feRE0QbmwwFWCmmj2+cCchuYt70AVT5zMUawQZQlRGQ8Ov3RUu87l77f3T+54ID1a
+	nNREAwCxK3wlLYNqnu+vSxMmKnMSEuvA1LA4a4SaVWpiRCWv9W2H2nRld8E4yp52KstiskjjyPw
+	UCDnn0UhG2N1u675VrAq4C362Tp9g1cVTGyoTgfGFfEwgVJ3F5+36Ui8Wg==
+X-Google-Smtp-Source: AGHT+IGH+62O5WSEtHOlv1+RJOf1VZEfwtFti2ZEDmplBYjZuEVlS2Rl2AjyECic5SaKbQp0V/wtzA==
+X-Received: by 2002:a05:6402:5246:b0:5dc:ad49:ba1a with SMTP id 4fb4d7f45d1cf-5e035f2631bmr10793683a12.0.1739787006494;
+        Mon, 17 Feb 2025 02:10:06 -0800 (PST)
+Received: from rayden (h-98-128-140-123.A175.priv.bahnhof.se. [98.128.140.123])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dece287cebsm6971482a12.74.2025.02.17.02.10.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2025 02:10:05 -0800 (PST)
+Date: Mon, 17 Feb 2025 11:10:03 +0100
+From: Jens Wiklander <jens.wiklander@linaro.org>
+To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+Cc: Sumit Garg <sumit.garg@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 3/8] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+Message-ID: <20250217101003.GB2637163@rayden>
+References: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
+ <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-3-297eacd0d34f@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: broonie@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, catalin.marinas@arm.com, suzuki.poulose@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, Dave.Martin@arm.com, tabba@google.com, mark.rutland@arm.com, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-3-297eacd0d34f@quicinc.com>
 
-On Fri, 14 Feb 2025 15:13:52 +0000,
-Mark Brown <broonie@kernel.org> wrote:
+On Sun, Feb 02, 2025 at 06:43:31PM -0800, Amirreza Zarrabi wrote:
+> For drivers that can transfer data to the TEE without using shared
+> memory from client, it is necessary to receive the user address
+> directly, bypassing any processing by the TEE subsystem. Introduce
+> TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT/OUTPUT/INOUT to represent
+> userspace buffers.
 > 
-> On Fri, Feb 14, 2025 at 09:24:03AM +0000, Marc Zyngier wrote:
-> > Mark Brown <broonie@kernel.org> wrote:
+> Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+> ---
+>  drivers/tee/tee_core.c   | 27 +++++++++++++++++++++++++++
+>  include/linux/tee_drv.h  |  6 ++++++
+>  include/uapi/linux/tee.h | 22 ++++++++++++++++------
+>  3 files changed, 49 insertions(+), 6 deletions(-)
 > 
-> > Just to be clear: I do not intend to review a series that doesn't
-> > cover the full gamut of KVM from day 1. Protected mode is an absolute
-> > requirement. It is the largest KVM deployment, and Android phones the
-> > only commonly available platform with SME. If CCA gets merged prior to
-> > SME support, supporting it will also be a requirement.
-> 
-> OK, no problem.  This is a new requirement and I'd been trying to
-> balance the concerns people have with the size of serieses like this
-> with the need to get everything in, my plan had been to follow up as
-> soon as possible with pKVM.
+> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> index 721522fe5c63..9f4b9a995e16 100644
+> --- a/drivers/tee/tee_core.c
+> +++ b/drivers/tee/tee_core.c
+> @@ -386,6 +386,16 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+>  			params[n].u.value.b = ip.b;
+>  			params[n].u.value.c = ip.c;
+>  			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			params[n].u.ubuf.uaddr = u64_to_user_ptr(ip.a);
+> +			params[n].u.ubuf.size = ip.b;
+> +
+> +			if (!access_ok(params[n].u.ubuf.uaddr, params[n].u.ubuf.size))
 
-If size is an issue, split the UAPI from the core code. But don't
-fragment the overall world switch and exception handling, because
-that's a sure way to end-up with the same sort of problems we ended up
-fixing in SVE. pKVM has a direct influence on what you track, where
-you track it, and implementing it as an afterthought is a very bad
-idea.
+This line is over 80 columns,
+https://docs.kernel.org/process/coding-style.html#breaking-long-lines-and-strings
 
-> 
-> > > Access to the floating point registers follows the architecture:
-> 
-> > >  - When both SVE and SME are present:
-> > >    - If PSTATE.SM == 0 the vector length used for the Z and P registers
-> > >      is the SVE vector length.
-> > >    - If PSTATE.SM == 1 the vector length used for the Z and P registers
-> > >      is the SME vector length.
-> > >  - If only SME is present:
-> > >    - If PSTATE.SM == 0 the Z and P registers are inaccessible and the
-> > >      floating point state accessed via the encodings for the V registers. 
-> > >    - If PSTATE.SM == 1 the vector length used for the Z and P registers
-> > >  - The SME specific ZA and ZT0 registers are only accessible if SVCR.ZA is 1.
-> 
-> > > The VMM must understand this, in particular when loading state SVCR
-> > > should be configured before other state.
-> 
-> > Why SVCR? This isn't a register, just an architected accessor to
-> > PSTATE.{ZA,SM}. Userspace already has direct access to PSTATE, so I
-> > don't understand this requirement.
-> 
-> Could you be more explicit as to what you mean by direct access to
-> PSTATE here?  The direct access to these PSTATE fields is in the form of
-> SVCR register accesses, or writes via SMSTART or SMSTOP instructions
-> when executing code - is there another access mechanism I'm not aware of
-> here?  They don't appear in SPSR.  Or is this a terminology issue with
-> referring to SVCR as the mechanism for configuring PSTATE.{SM,ZA}
-> without explicitly calling out that that's what's happening?
+> +				return -EFAULT;
+> +
+> +			break;
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> @@ -454,6 +464,11 @@ static int params_to_user(struct tee_ioctl_param __user *uparams,
+>  			    put_user(p->u.value.c, &up->c))
+>  				return -EFAULT;
+>  			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			if (put_user((u64)p->u.ubuf.size, &up->b))
+> +				return -EFAULT;
+> +			break;
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>  			if (put_user((u64)p->u.memref.size, &up->b))
+> @@ -654,6 +669,13 @@ static int params_to_supp(struct tee_context *ctx,
+>  			ip.b = p->u.value.b;
+>  			ip.c = p->u.value.c;
+>  			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			ip.a = (u64)p->u.ubuf.uaddr;
+> +			ip.b = p->u.ubuf.size;
+> +			ip.c = 0;
+> +			break;
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> @@ -756,6 +778,11 @@ static int params_from_supp(struct tee_param *params, size_t num_params,
+>  			p->u.value.b = ip.b;
+>  			p->u.value.c = ip.c;
+>  			break;
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+> +		case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+> +			p->u.ubuf.uaddr = u64_to_user_ptr(ip.a);
 
-I'm painfully aware of the architecture limitations.
+Is this needed? Compare with how TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_* is
+handled below. If it's indeed needed, please add an access_ok() check.
 
-However, I don't get your mention of SPSR here. The architecture is
-quite clear that PSTATE is where these bits are held, that they are
-not propagated anywhere else, and that's where userspace should expect
-to find them.
+> +			p->u.ubuf.size = ip.b;
+> +			break;
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>  		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>  			/*
+> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> index d5f0c70ac95c..130782d4d5f6 100644
+> --- a/include/linux/tee_drv.h
+> +++ b/include/linux/tee_drv.h
+> @@ -82,6 +82,11 @@ struct tee_param_memref {
+>  	struct tee_shm *shm;
+>  };
+>  
+> +struct tee_param_ubuf {
+> +	void * __user uaddr;
+> +	size_t size;
+> +};
+> +
+>  struct tee_param_value {
+>  	u64 a;
+>  	u64 b;
+> @@ -92,6 +97,7 @@ struct tee_param {
+>  	u64 attr;
+>  	union {
+>  		struct tee_param_memref memref;
+> +		struct tee_param_ubuf ubuf;
+>  		struct tee_param_value value;
+>  	} u;
+>  };
+> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+> index d0430bee8292..4a1dcfb4290e 100644
+> --- a/include/uapi/linux/tee.h
+> +++ b/include/uapi/linux/tee.h
+> @@ -151,6 +151,13 @@ struct tee_ioctl_buf_data {
+>  #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT	6
+>  #define TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT	7	/* input and output */
+>  
+> +/*
+> + * These defines userspace buffer parameters.
+> + */
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT	8
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT	9
+> +#define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT	10	/* input and output */
+> +
+>  /*
+>   * Mask for the type part of the attribute, leaves room for more types
+>   */
+> @@ -186,14 +193,17 @@ struct tee_ioctl_buf_data {
+>  /**
+>   * struct tee_ioctl_param - parameter
+>   * @attr: attributes
+> - * @a: if a memref, offset into the shared memory object, else a value parameter
+> - * @b: if a memref, size of the buffer, else a value parameter
+> + * @a: if a memref, offset into the shared memory object,
+> + *     else if a ubuf, address into the user buffer,
 
-The fact that SW must use SVCR to alter PSTATE.{ZA,SM} doesn't matter.
-We save/restore registers, not accessors. If this means we need to
-play a dance when the VMM accesses PSTATE to reconciliate KVM's
-internal view with the userspace view, so be it.
+address _of_ the user buffer?
 
-It probably means you need to obtain a clarification of the
-architecture to define *where* these bits are stored in PSTATE,
-because that's not currently defined.
+Thanks,
+Jens
 
->
-> > Isn't it that there is simply a dependency between restoring PSTATE
-> > and any of the vector stuff? Also, how do you preserve the current ABI
-> > that do not have this requirement?
+> + *     else a value parameter
+> + * @b: if a memref or ubuf, size of the buffer, else a value parameter
+>   * @c: if a memref, shared memory identifier, else a value parameter
+>   *
+> - * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref or value is used in
+> - * the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value and
+> - * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref. TEE_PARAM_ATTR_TYPE_NONE
+> - * indicates that none of the members are used.
+> + * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, ubuf, or value is
+> + * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
+> + * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYPE_UBUF_*
+> + * indicates ubuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members
+> + * are used.
+>   *
+>   * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
+>   * identifier representing the shared memory object. A memref can reference
 > 
-> Yes, that's the dependency - I'm spelling out explicitly what changes in
-> the register view when PSTATE.{SM,ZA} are restored.  This ABI is what
-> you appeared to be asking for the last time we discussed this.
-> Previously I had also proposed either:
+> -- 
+> 2.34.1
 > 
->  - Exposing the streaming mode view of the register state as separate
->    registers, selecting between the standard and streaming views for
->    load/save based on the mode when the guest runs and clearing the
->    inactive registers on userspace access.
-> 
->  - Always presenting userspace with the largest available vector length,
->    zero padding when userspace reads and discarding unused high bits
->    when loading into the registers for the guest.  This ends up
->    requiring rewriting between VLs, or to/from FPSIMD format, around
->    periods of userspace access since when normally executing and context
->    switching the guest we want to store the data in the native format
->    for the current PSTATE.SM for performance.
-> 
-> both of which largely avoid the ordering requirements but add complexity
-> to the implementation, and memory overhead in the first case.  I'd
-> originally implemented the second case, that seems the best of the
-> available options to me.  You weren't happy with these options and said
-> that we should not translate register formats and always use the current
-> mode for the vCPU, but given that changing PSTATE.SM changes the
-> register sizes that ends up creating an ordering requirement.  You
-> seemed to agree that it was reasonable to have an ordering requirement
-> with PSTATE.SM so long as it only came when SME had been explicitly
-> enabled.
-> 
-> Would you prefer:
-> 
->  - Changing the register view based on the current value of PSTATE.SM.
->  - Exposing streaming mode Z and P as separate registers.
->  - Exposing the existing Z and P registers with the maximum S?E VL.
-> 
-> or some other option?
-
-My take on this hasn't changed. I want to see something that behaves
-*exactly* like the architecture defines the expected behaviour of a
-CPU.
-
-But you still haven't answered my question: How is the *current* ABI
-preserved? Does it require *not* selecting SME? Does it require
-anything else? I'm expecting simple answers to simple questions, not a
-wall of text describing something that is not emulating the
-architecture.
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
