@@ -1,89 +1,107 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B5F228363;
-	Mon, 17 Feb 2025 17:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3604225A34
+	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 17:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739812126; cv=none; b=SqK7Mrwn9Gr3FidFAQbP3wsPACK+Ja6EKu80iYrMZPTQVCajeGEgSi0Yre1IUj/vhXq24URkFVsUWtLBWZjE7/0k7UqDN9Z/tzRlarfwfGC9tyx8uZv2YAFHrHd3oyi6bslxvy2jPOcDK2NDu0DcTYC1peMzWqt3tv646TLMZk8=
+	t=1739812847; cv=none; b=psYMMESv/kwvztVYV94YHq9Vn9yrlZqhiE7ajRFHK9fzNiye4Zy3xoDv7uBiiPmukEMVhKuwqE7exkHuZ7/KKKiNO8DtfzAn1xJ/BWfr7fwoaFBwpdIIpIFKKkR53U7gcxrhQtbOXgD5+mQowxS3hO6x739kW+v2UrJB9NELFZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739812126; c=relaxed/simple;
-	bh=ZFOdUwWtRNVXzUAoQlEeq/bYzJVm3c2ZgNbB0ZJ4+RA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l0oqvYeAFOd7VMwevB5fZVJ8wTwe5kmJHUa79qyTr8hbYP7EySZESKNdwK3Yc4TPigYFxe5JBvWUqCAGDzffyCl7ZzN28SmoqUa6nluzRaB8yNuzdHSaGn84mFDrlt6Wk6FjMidvClqisUn87GWK5o9TVOHaZPJN6hAw0Ocyspg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ZlEiaGdB; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1739812847; c=relaxed/simple;
+	bh=KitNqb1hNItZph35zvXtWR51tXJ70TMYSOy5bT0CeFE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k4DdC56pgehtve3FJXHnkVGDW2u+mM+vmtFnpPXsuV+z4kHgrDcKLjUkhxTF8FLVvBbUbX8N9OblrbrRTd8lXO12SG5gnQDr310F29Fk2ST00DE0VzRaraFs0BQzI0oaxsgqZ4SU2dV8gWA9ExHjNpRq4SECzavN1X4/d9iB3o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Hqri5vQf; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ZlEiaGdB"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4F2EB40E0212;
-	Mon, 17 Feb 2025 17:08:39 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id iIGhgKGd4JcJ; Mon, 17 Feb 2025 17:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1739812115; bh=HFpDfhLVBPFrfNwHOM1CAXJm8CEHtiyXWsWntdg2e/g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZlEiaGdBO10Xp4uR03NjKAcf3SKMcqFOjvqjU0zef94hS4v8Ra1ImW0U3E9WlOMxR
-	 v6Tx26MHrAStQxnpa47lqyQEG3cPsibNe/vqJpiXU6yKYGQY4wZiCZWG7gl+2kraN3
-	 fInljbzDOY4a+2I8hYzWnQgWPIMDPidYy6cPa1+SsznA6efykeknMgzX26lTSGw1MO
-	 Ws4wmNOyq+uCsnfi3o/tTU3ZFQOF+AzsNujVi/p0jTbVZIQCfeYyIyre4i1cRm6ZiX
-	 m/W2cAHPnadSZ4JdA8umf+CjzvZ+NJk/8n+adeKfDG4sfcGZ1H+1URNCTtRlKmz3bS
-	 OVzvDtMwlvKXNIamtOKuoieHc/zCvxHunuXFxsDSLKuAutmTMHAJBxDKW2Wrwd3edZ
-	 008T6aWrEoBY9iO6eIFm494S0ryZjWWLHgN1cv5PysazJwuCQ7q4+wukAKuVr+0BUG
-	 ooRIuSGOXESE9wesIyRMonYlJUygvJhG9JiXg9atZDNwi6UTkN9cxRuRb6vqyh/frL
-	 GWHvDEX7rpOCvFwbMRcawgiMgveHdXfgGaL5FyiAIfquzA0NgW6yoDcrlExpH6bvZO
-	 PTSbyBTbhmCOcqd1mdEOso/0gMqNzd+XxTxEnRUSqFgL+b0o+5FvrHnYrT99uuXWei
-	 4qhOGa9+4dRDE+fhzrkSqSUY=
-Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DE77E40E0176;
-	Mon, 17 Feb 2025 17:08:24 +0000 (UTC)
-Date: Mon, 17 Feb 2025 18:08:17 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 3/3] x86/cpu: Enable modifying bug flags with
- {clear,set}puid
-Message-ID: <20250217170817.GGZ7NtAf-mg-zySpdP@fat_crate.local>
-References: <20250129-force-cpu-bug-v2-0-5637b337b443@google.com>
- <20250129-force-cpu-bug-v2-3-5637b337b443@google.com>
- <20250217111029.GIZ7MZJUGJRoeiScgn@fat_crate.local>
- <CA+i-1C3fetiBYVbfpAbQEAnogzdza25pu2DosCiTT9YkXwt0yw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Hqri5vQf"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-471fbfe8b89so101081cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 09:20:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1739812845; x=1740417645; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KitNqb1hNItZph35zvXtWR51tXJ70TMYSOy5bT0CeFE=;
+        b=Hqri5vQfE6X4CmbPI+wat/XNcpXNIfrMSsPUyM7hEWS4BjROAc9RDS0INUy9TTmedU
+         Kfmwxny0sh9P6lVvPYW8haRcBySc+mMNNRoSk0e0BY68Z7kjGagTSioTicAgkfh5lSyU
+         10G2BIs/qMWCiVW5IAjWmM55ZfwgMoc2iY3vp4UuzZTHSU0UkvoFAnmai9BUCp/tuUmP
+         Ik7Zc0um6co1yT9/lMneHHpks8agb1WJKnSrTeMZ+HvMGmmZgn+MWeiqp+HqZvrysf/Z
+         PLQ9ZDhhJT3ve12eGid2trM67y5v8QXX+OQ0iIWC5CnE9ifk4vE9ir0wTa5Tb//887Sj
+         PWpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739812845; x=1740417645;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KitNqb1hNItZph35zvXtWR51tXJ70TMYSOy5bT0CeFE=;
+        b=hpw34m5tnyKXKoSUwSj2BTXwmrPaN6d72sfZnziNnOhQvA+9rHH60FFbAqTFZgxZWH
+         ZmHhcX/OwRL/sMQxjlLUufQIinwxPj/1Odbo4/KtM/WNIR1bgAhMshoS+8DXETnxuzv7
+         M2LN3zQbc2pQfir9PyuYD895PeJ6Fysssoj7bJFYTCtRFM61tke/fOWziW9xnqtJhQvz
+         C/xy780JmXkhIANSxnKBXNK8y4O48SCHZAqg6EvXt/XLKChCx2aY7qZ3gIcjLRPPIIVr
+         q5//sOOI1cIei3x5RXR3mJeCfdyT7Y49bf4/nR1SU9fAPOhsk9vHEnM+IIiYhoGFoaFO
+         z/sw==
+X-Forwarded-Encrypted: i=1; AJvYcCX1z33fIB045f2W+YOH4P3QXEMh/lmR+KbRjD7Z6PXery9yjKLlT2a6RkVBIja/+/cUE+aeUN+KQ+w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylqifKFZgdH6FabJmZsOoNQGCVSnCHotLB7AwuhtxDUQGw0A6P
+	7Mti9vqujaKgf3F0dDPc3zYiWSx+ue7bNfKmEX/mI61kzl57bN4U1vCuRnBR5J2ALXp6jq/SW7U
+	ygruuHq+3HIfGfxAXJO+RHqcWJBIKuH53l0XE
+X-Gm-Gg: ASbGncvCD/YXmRX3/TjIDH2jlZjuqoCILAak/mjuhFMQW2qT65r0eGi2LkzZU57FGxH
+	6dRn3OxkR0HZy7Em3oDLxIMEVLeResmXjhJg7mJEryA6pzL6q7wbBnTb40+toiLBxgki3eMVu9/
+	Aw2AOJjiOcuhz8AiCiH31GNhHipmI=
+X-Google-Smtp-Source: AGHT+IHtSBo94EPpnG7ESdGyKa6VP68eV3ZrRwK4VaJPxYG/Im2Y0ZICU1JdsATecA8kZWmkgxucfSYewavfDnZgqnA=
+X-Received: by 2002:a05:622a:22a6:b0:466:8f39:fc93 with SMTP id
+ d75a77b69052e-471dde5f57fmr7315731cf.3.1739812844746; Mon, 17 Feb 2025
+ 09:20:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+i-1C3fetiBYVbfpAbQEAnogzdza25pu2DosCiTT9YkXwt0yw@mail.gmail.com>
+References: <20250129-force-cpu-bug-v2-0-5637b337b443@google.com>
+ <20250129-force-cpu-bug-v2-3-5637b337b443@google.com> <20250217111029.GIZ7MZJUGJRoeiScgn@fat_crate.local>
+ <CA+i-1C3fetiBYVbfpAbQEAnogzdza25pu2DosCiTT9YkXwt0yw@mail.gmail.com> <20250217170817.GGZ7NtAf-mg-zySpdP@fat_crate.local>
+In-Reply-To: <20250217170817.GGZ7NtAf-mg-zySpdP@fat_crate.local>
+From: Brendan Jackman <jackmanb@google.com>
+Date: Mon, 17 Feb 2025 18:20:33 +0100
+X-Gm-Features: AWEUYZlSXLSAfoE9pg28Ca8tCxl2r2aeCJtImtIUaZOuCIeuoNl_kBUKnQ8H2SI
+Message-ID: <CA+i-1C0=tDMpfZqNq0aWns=cj70UOOmCAPOonmJi+MM7B6G9Kg@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 3/3] x86/cpu: Enable modifying bug flags with {clear,set}puid
+To: Borislav Petkov <bp@alien8.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Feb 17, 2025 at 05:56:32PM +0100, Brendan Jackman wrote:
-> Er, hold on, what chunk can be whacked? Do you mean delete the ability
-> to set clearcpuid by number? There are still features with no name.
+On Mon, 17 Feb 2025 at 18:08, Borislav Petkov <bp@alien8.de> wrote:
+>
+> On Mon, Feb 17, 2025 at 05:56:32PM +0100, Brendan Jackman wrote:
+> > Er, hold on, what chunk can be whacked? Do you mean delete the ability
+> > to set clearcpuid by number? There are still features with no name.
+>
+> Really, which ones?
 
-Really, which ones?
+I just mean the ones without a "name" in cpufeatures.h, e.g.
 
-Are you saying you want to turn off *arbitrary* features? Not only what gets
-advertized in /proc/cpuinfo?
+#define X86_FEATURE_MSR_SPEC_CTRL ( 7*32+16) /* MSR SPEC_CTRL is implemented */
 
-Why?
+> Are you saying you want to turn off *arbitrary* features? Not only what gets
+> advertized in /proc/cpuinfo?
 
--- 
-Regards/Gruss,
-    Boris.
+You can already clear arbitrary ones with clearcpuid.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+But for bugs, they all have a name. I was thinking that this was
+because they are defined by the kernel, that's what I meant by "It t
+doesn't make sense for a bug not to have a name", although now I think
+about it we could totally have a bug and not give it a user-visible
+name if we wanted to.
+
+Anyway, still think the current logic is what we want here:
+
+- The new setcpuid should be consistent with the existing clearcpuid,
+i.e. accept numbers for the same things clearcpuid does.
+
+- There are currently no bugs without names so for those, require the
+string for both setcpuid and clearcpuid. If we wanted to we could add
+number support later.
