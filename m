@@ -1,114 +1,102 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A636B42A8B;
-	Mon, 17 Feb 2025 16:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643A22253F7
+	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 16:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739808344; cv=none; b=WVJ34pEk+LzxeVQU8D0hE1CkXziJ08+pmz6gl8oxllqiXMarTEbOdV9JlItLtDTMRFllizPpyVRA0htp6EzWXXRJlrLcxXLLuGmuZy60DPBPY9/pTR1JDaJZXcYdC7MX43tZFu7mhDb7ZZnqtkSK00Ocltfnex/M7lrMDTq91es=
+	t=1739809011; cv=none; b=uVYy0++uLknwowPsslwKV6TDcsLCJKv8OPzA/liRPlemSXsKlYctayJjC2u7TVKgTD2nr9rp4pyrNauZ15pDgKr8gMEFgTu+oyB7dTxP1/flWGHRyZjNL1Jn/ay1+Ob84M64AlfZBle/Zn6T0tOkUlQspckl2oqjN4UOOMz2Pg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739808344; c=relaxed/simple;
-	bh=yqJws6JkW21lN8MpioURnWEVZodpjZJM/x4s2QiNOXU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=seywwFyAPD28a+JeKtP5IPGnMCuE2AwL1EOviDMgSACzK0THCcqfnyoy976NbTXH6QS/hn/YfaGKFTJfuaZ/QK4q9ypJuHPJlSx6lNyvQHLS3jIAOE8G+nHbsOrt/ueqOII2uoovpgC9rz6G4YQ7TLaT5xUjzTQAhDOoEPQdL04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4BE99152B;
-	Mon, 17 Feb 2025 08:06:00 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 561253F5A1;
-	Mon, 17 Feb 2025 08:05:37 -0800 (PST)
-Date: Mon, 17 Feb 2025 16:05:34 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Ionela Voinescu <ionela.voinescu@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Beata Michalska <beata.michalska@arm.com>,
-	<linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-pm@vger.kernel.org>,
-	<will@kernel.org>, <viresh.kumar@linaro.org>, <sumitg@nvidia.com>,
-	<yang@os.amperecomputing.com>, <vanshikonda@os.amperecomputing.com>,
-	<lihuisong@huawei.com>, <zhanjie9@hisilicon.com>,
-	<ptsm@linux.microsoft.com>, Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, Phil Auld <pauld@redhat.com>,
-	<x86@kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v10 2/4] cpufreq: Introduce an optional cpuinfo_avg_freq
- sysfs entry
-Message-ID: <Z7NeTrorAqDxa8QM@bogus>
-References: <20250131162439.3843071-1-beata.michalska@arm.com>
- <20250131162439.3843071-3-beata.michalska@arm.com>
- <CAJZ5v0g+yax=pT4m_2MTd9kUwbk5VBp2wkctTYJpFRU3myEjPQ@mail.gmail.com>
- <Z7NOcd3IamyMTjbH@arm.com>
- <Z7NQrBvnfYwXva1W@arm.com>
+	s=arc-20240116; t=1739809011; c=relaxed/simple;
+	bh=eNm1u1yD/tJFz/hLpTn/D+kXMNvH4H8jyHqOFpKjcAc=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=jNRpENg+EgQYQr85M7RvIH8SHpsaOeX6qlousMiuubbomTX0QutRdwzrLfzzsj0iY22jUMdwLD/WyjSBXAB6YVSGh5mBd+maDQEoAWR2TkV6+CFyma8f7ZiA4d+Ln5TKcwL6vndQmk+Agvlaws0Dn4B145ma/d3YSWZQ3Y2xVzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h9n556lQ; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h9n556lQ"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2fc1e7efdffso12556182a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 08:16:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1739809010; x=1740413810; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5q6MivojjuRSczcqRyW+HMzmo6ZNPyUvZ6S6j+sB8Xw=;
+        b=h9n556lQlUNjCudWJsDPKxD/LFp2onGLCZYcfnt/4koV9JPhQtpgt3swzZeMdOCdiZ
+         A/SlyXKhrnuji+YQJVECsav4NcOazmbtzeiQcueOG2qQwlih32wF+Z8HxSZmtzhyPGgE
+         7ieLA+ZampSZw/3dYgN8JavOuJ5GQp4dF+A3Jr8MMvpSJ/pJomXUhSnkhFAD9sOpEsvJ
+         YrFFMrAYo/pELBDs3a2kLHW9n1niOz+sp6DYPKVaUgfYGUmbNnMGaCis+t1ThOkizJgz
+         jEtHi37idHhvac64gIaQMdrPdQ5a9BGjIiqrU38eJ+rI+diluPsDMivrZLeG+esg8dLf
+         jR1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739809010; x=1740413810;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5q6MivojjuRSczcqRyW+HMzmo6ZNPyUvZ6S6j+sB8Xw=;
+        b=VJu1a4+FyJ3ZFZQixxgXaiXbItdaGh98oAYwi4G4DFQdDWSdDdZCLWErvh6uKJByR0
+         M8xkaYzO44ay1lGiCOPUCTqm5F1Yx/M+jNrH1VlGp95jgMelSaorwhU8uqsoIadAURAx
+         lhOLt2x21cY/nPqtuUSA0FUvT9O8Sxy4rXF4y91VdYpWCWpiY2Zk3L1vuHzXuuEkFAFW
+         JGT2y5SaW7hDDFwHRZ+wfE5RhOWcGiZyFypd59tsIM/ylfXuWpBZUAINBDyqQVwAChAv
+         pv1knZvCheQUt0zUFDptLsRGNy0ilyUuZz0vERK+TUeNWx6XJv5326ly5v3YAc+6JoGW
+         Qugg==
+X-Forwarded-Encrypted: i=1; AJvYcCX15UJ6CYveV73/1FpPIFNW1A2+0HLF9gOHJOtGtFtR8XoO+NEbhS3yVmQFRab7G+g9hqdWhFFOESk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPva4zcnPv+ZmQZbtUtncq7o3NZAUZ5e/k+43wag6UFQbV6+XB
+	jCTlgfA2Ywh2YT4UdR/h2HO+HMULsqvKG/g3ygTbokgz0AHL6d7HIwoeZD2bCbwC/ajPq68Qkoi
+	r8Q==
+X-Google-Smtp-Source: AGHT+IGBglkMg+gN/OfYbI0/G0RB1yR6u09nwC0KxK8TRXKTMyOYGrP0GW8JQQ7P0pyS5IO7JZ2ZKcUkw/o=
+X-Received: from pjd6.prod.google.com ([2002:a17:90b:54c6:b0:2fc:8b7:f422])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:4b84:b0:2ee:9b2c:3253
+ with SMTP id 98e67ed59e1d1-2fc4115060dmr14701220a91.30.1739809009706; Mon, 17
+ Feb 2025 08:16:49 -0800 (PST)
+Date: Mon, 17 Feb 2025 08:16:45 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z7NQrBvnfYwXva1W@arm.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.48.1.601.g30ceb7b040-goog
+Message-ID: <20250217161645.3137927-1-surenb@google.com>
+Subject: [PATCH 1/1] fixup! docs: fix title underlines in refcount-vs-atomic.rst
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: sfr@canb.auug.org.au, surenb@google.com, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Feb 17, 2025 at 03:07:24PM +0000, Ionela Voinescu wrote:
-> Hi Catalin,
-> 
-> On Monday 17 Feb 2025 at 14:57:53 (+0000), Catalin Marinas wrote:
-> > On Mon, Feb 17, 2025 at 12:52:44PM +0100, Rafael J. Wysocki wrote:
-> > > On Fri, Jan 31, 2025 at 5:25 PM Beata Michalska <beata.michalska@arm.com> wrote:
-> > > >
-> > > > Currently the CPUFreq core exposes two sysfs attributes that can be used
-> > > > to query current frequency of a given CPU(s): namely cpuinfo_cur_freq
-> > > > and scaling_cur_freq. Both provide slightly different view on the
-> > > > subject and they do come with their own drawbacks.
-> > > >
-> > > > cpuinfo_cur_freq provides higher precision though at a cost of being
-> > > > rather expensive. Moreover, the information retrieved via this attribute
-> > > > is somewhat short lived as frequency can change at any point of time
-> > > > making it difficult to reason from.
-> > > >
-> > > > scaling_cur_freq, on the other hand, tends to be less accurate but then
-> > > > the actual level of precision (and source of information) varies between
-> > > > architectures making it a bit ambiguous.
-> > > >
-> > > > The new attribute, cpuinfo_avg_freq, is intended to provide more stable,
-> > > > distinct interface, exposing an average frequency of a given CPU(s), as
-> > > > reported by the hardware, over a time frame spanning no more than a few
-> > > > milliseconds. As it requires appropriate hardware support, this
-> > > > interface is optional.
-> > > >
-> > > > Note that under the hood, the new attribute relies on the information
-> > > > provided by arch_freq_get_on_cpu, which, up to this point, has been
-> > > > feeding data for scaling_cur_freq attribute, being the source of
-> > > > ambiguity when it comes to interpretation. This has been amended by
-> > > > restoring the intended behavior for scaling_cur_freq, with a new
-> > > > dedicated config option to maintain status quo for those, who may need
-> > > > it.
-> > > 
-> > > In case anyone is waiting for my input here
-> > > 
-> > > Acked-by: Rafael J. Wysocki <rafael@kernel.org>
-> > > 
-> > > for this and the previous patch and please feel free to route them
-> > > both through ARM64.
-> > 
-> > Thanks Rafael. I indeed plan to take them through the arm64 tree.
-> 
-> Just a mention that this set depends on the patch that Beata linked at
-> [6]. That patch applies cleanly on next-20250217 and it still
-> builds/boots/works as expected.
-> 
+Fix title underlines for newly updated refcount-vs-atomic.rst
 
-Ah I see it is indeed dependent. Just responded on the other thread before
-reading this. So it is better if Catalin picks up [6] as well. Sorry for
-the confusion.
+Fixes: 03b412c8b184 ("refcount: provide ops for cases when object's memory can be reused")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+---
+ Documentation/core-api/refcount-vs-atomic.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/Documentation/core-api/refcount-vs-atomic.rst b/Documentation/core-api/refcount-vs-atomic.rst
+index 9551a7bbfd38..94e628c1eb49 100644
+--- a/Documentation/core-api/refcount-vs-atomic.rst
++++ b/Documentation/core-api/refcount-vs-atomic.rst
+@@ -87,7 +87,7 @@ Memory ordering guarantee changes:
+ 
+ 
+ case 2) - non-"Read/Modify/Write" (RMW) ops with release ordering
+--------------------------------------------
++-----------------------------------------------------------------
+ 
+ Function changes:
+ 
+@@ -139,7 +139,7 @@ Memory ordering guarantees changes:
+ 
+ 
+ case 6) - increment-based RMW ops with acquire ordering that return a value
+------------------------------------------------------
++---------------------------------------------------------------------------
+ 
+ Function changes:
+ 
+
+base-commit: b2a64caeafad6e37df1c68f878bfdd06ff14f4ec
 -- 
-Regards,
-Sudeep
+2.48.1.601.g30ceb7b040-goog
 
-[6] https://lore.kernel.org/all/20240827154818.1195849-1-ionela.voinescu@arm.com/
