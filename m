@@ -1,103 +1,137 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0AF187858;
-	Mon, 17 Feb 2025 19:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8AD158545
+	for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 19:24:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739820168; cv=none; b=UveFId8kZuVs3SUbbvnA01CYH0R2sIt3Rc14OSN9FDKtESmlx8kEUrT2E9SZXXC9/SL5U/NKrKcth7dl2DcQl1froAPdJZLbS+4cHt3TvUrWbtIK4IHhLOVEEu92W4CzqLOhxe9xbnM9eaMQghwZN7WstGcVB7fUR+MjHrRYTPg=
+	t=1739820255; cv=none; b=V2vRu44DneQKEVB9jZ7nKLX3t+N+3E55KMtHyaPgB50IP6LH7C/aF/xoujjpC+Fz9805d/dT6m/CbS2UFutxJe4dek63STgwgtVRqUbWWCAeXBkZSzR4tlMnxpjeuoniYXRhchZDWgUpcV9T8Rb+4lcNgK5PtEJOP+ehAFdgTXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739820168; c=relaxed/simple;
-	bh=ijo4pvzem5MMENskXSi+EMmSoU5iA/MGnzwRm8gKSzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iXieleRKb7jk19l14XMc169mwn72M59i2+vGYhSpZadCgnfOgIa0NvQodlGdyOLMfq3aHoevSHzemiukBiSBL7y4xbQ9N/HuP0OI3I2wiH2QjlVMXSuwJbjwx1WUfEZW4PEVkuM6dKc0/qiaQRskqJy6WoRtzue5OswWfh/+HpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ZeR7bPUg; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1739820255; c=relaxed/simple;
+	bh=rdbMLJJGNPMZE86U034IIF2tHWWv7Jlyf8ALOn6BLhI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=taorotN1D75AMDlEOSV+7tTV+0TjEWyGcbIS3P2kObC7LBzULTdz/OAWc1+3J17AH4pxig7fvCQTvfRPLbWSHlD/HM1kHGxNCHK0qE1xlE+py9SzZl5FmDZUFnDGldCMxbrA/Yw8c7WgJNXLzgeSTmfYhfeFbD57bDykxwtZ4nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HJXuGHRP; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ZeR7bPUg"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CCF1740E01A3;
-	Mon, 17 Feb 2025 19:22:41 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Cs5sXHgQX4cq; Mon, 17 Feb 2025 19:22:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1739820157; bh=tB7XeNDFmO+IfCmGxJnspw19Z/0mgsdm0DNMxGIAHBY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZeR7bPUg8cK06aQ93Y6dcqO7MwRB9nWkM9+n9luqsHXHR0Esn7fvFvk/GQprtvPNZ
-	 oalxAxjl2rp+rWoV2v2ihIJUb/dy9l3kkx9pv1JzygvqmaNOrAa/pz/leMav82Hpz2
-	 Y/qE7WzIOqV3rkjOqqWFY53eF6oUgu2hjD7Z5ZTB4y+Ltie9zu2XTZ5GJdYyrxFIHb
-	 N80FbBO3NNleMEnm3Kccidy2jpQ3sQvjlN9nQpdo4qQj1PJ2uIeD2sFMxPQLF/3c7J
-	 VsygtWVSV+uz0rZ6FKTE22KH2kSu7xhXSyu89IvhxSNewaHZULq3HATo9+iL986eWm
-	 dBNlMDJKo9cnAr8HgwZDeDYLmcfHPYOXQXyFhLFjaYmB6xeQRz6GnbU5YD9nBs7z6e
-	 u7MS9L2wostEEmp5ZLj/xPVVEdlr1j9PObvi6j17vVVKNf+NxlPE+Gpw7hLj/cHfzc
-	 LPT0RkpXwYEAlvKPVivvuwWFxQ44X+ySrV0WYaTaQnixWvjmN6Gcc49eSypn+a4JSK
-	 U6lX3sJpilrJqk8H92vTjMWZmMa41jU1ZxSa9JAYaTNeEtV8u1rkfqDgRfZw+zjb2I
-	 dmqdj6Uz6JQihFd99w6/tJSC7mihywarpRY0rRObcnPxFb9yDYglqDZfq20912tXMK
-	 0I1ZAJu58OcThhlmBWW0NE7I=
-Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7850540E01AE;
-	Mon, 17 Feb 2025 19:22:27 +0000 (UTC)
-Date: Mon, 17 Feb 2025 20:22:21 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 3/3] x86/cpu: Enable modifying bug flags with
- {clear,set}puid
-Message-ID: <20250217192221.GHZ7OMbf-bgNWZ8coq@fat_crate.local>
-References: <20250129-force-cpu-bug-v2-0-5637b337b443@google.com>
- <20250129-force-cpu-bug-v2-3-5637b337b443@google.com>
- <20250217111029.GIZ7MZJUGJRoeiScgn@fat_crate.local>
- <CA+i-1C3fetiBYVbfpAbQEAnogzdza25pu2DosCiTT9YkXwt0yw@mail.gmail.com>
- <20250217170817.GGZ7NtAf-mg-zySpdP@fat_crate.local>
- <CA+i-1C0=tDMpfZqNq0aWns=cj70UOOmCAPOonmJi+MM7B6G9Kg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HJXuGHRP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739820253;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rdbMLJJGNPMZE86U034IIF2tHWWv7Jlyf8ALOn6BLhI=;
+	b=HJXuGHRP55kFxTuu1I9ElP5O+f94fJKpLcNHNok4jxZSIkjd97TYXZpHi7NNo/juWGrp3c
+	sXLMHftbnBFMGiZZIxX6prmFceuOkp0gCIxWojttp3pCTW4N+T2ygM+gjM575aXLgMAgNV
+	GQC9iwGVNrSZGx6CGCXLvH0lf8oj/XA=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-301-ALjxAG-LNsanbygchckogg-1; Mon, 17 Feb 2025 14:24:11 -0500
+X-MC-Unique: ALjxAG-LNsanbygchckogg-1
+X-Mimecast-MFC-AGG-ID: ALjxAG-LNsanbygchckogg_1739820251
+Received: by mail-yb1-f200.google.com with SMTP id 3f1490d57ef6-e5b0f2778d6so5088591276.3
+        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 11:24:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739820251; x=1740425051;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rdbMLJJGNPMZE86U034IIF2tHWWv7Jlyf8ALOn6BLhI=;
+        b=kCXnet7udMQekp8dCwcY0FVDoXcttnMh00nWwlpznT6DZVUB5dnoEZ/pMRRl0zJERr
+         YD6R1fsbvkePLlLMw2Pf/MsIyeQmB7DITLIiPsSm6GKaTxvvKjlbBoKcuCAbsc5bcJkr
+         IRHtX3IF4uvxsiw0aslRiR4pJVD4L7GDX4Jngele6vKkIFNxjG6YUYwGyvqZiuJLX+wH
+         NxGDZtqdVTx1HF/i2JlEzBIqmQ7yhZqSGCxw/8cdMl3gZutXuIMUScv5l/r9BTCVsYYo
+         T8+ZhDdzKGZx5T+6YozHE0mbpqOzerXZmXPSHILEu34mx44o2WgQ7hl7/pf1Gh35ccyi
+         GshA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZ81O6L7RxeUXI1PYEG8ZJ+FzWV4eYXSUTUmBrdhFxesDdyQu0fJcpP5ot0w6GuDtaC4PPkjD2WLc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfxibY+FFk8/cX2DpJFD552XlnyJWqnVJA7cRaa5dm7Uk+N5d3
+	tCOyVtB8ugLUxw7LbZr+vL/zbA1yiUjUwsCMqYtjOWgIdKCSMnDhEF6MiP/MgBK/q8jvkYX51y3
+	dcmMgMUQOg52kzyc4TnY+gEI6qlfFCKivdDB4rxUijBmhaQ4S67Aa1vNlrjCKuKNktgNU5Z4E8o
+	UAu0FJWMJPUsJrAuOMzwuZjcFCmwG2Ohqx
+X-Gm-Gg: ASbGncu0S+t3wGaRtG+6OV5Q54/dDV8S67iuOVxGzk/2Y+Xg+bkEfaIgmdyTsg2I4dE
+	o9luA1OX7KmLZqq7TMmZNpeAtzshHkCs2ZlgGFJtVnsMFN6+Ox9PFUkIcNq6SybpuIJsXK+lJ9U
+	o=
+X-Received: by 2002:a05:6902:707:b0:e58:14b:6f99 with SMTP id 3f1490d57ef6-e5dc901f547mr8915047276.1.1739820251059;
+        Mon, 17 Feb 2025 11:24:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFrYJ+VsXOI7bm6RpW9QE+8ogDjp6XZe+FrO+0Ua+m+u7LfKjMyLDagrscG092+H3ywzM9KEOxGNYAFwBDzmPg=
+X-Received: by 2002:a05:6902:707:b0:e58:14b:6f99 with SMTP id
+ 3f1490d57ef6-e5dc901f547mr8915020276.1.1739820250714; Mon, 17 Feb 2025
+ 11:24:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+i-1C0=tDMpfZqNq0aWns=cj70UOOmCAPOonmJi+MM7B6G9Kg@mail.gmail.com>
+References: <20250211004054.222931-1-npache@redhat.com> <cd75eafc-e20a-4c32-bd29-7ab2c5c03008@gmail.com>
+In-Reply-To: <cd75eafc-e20a-4c32-bd29-7ab2c5c03008@gmail.com>
+From: Nico Pache <npache@redhat.com>
+Date: Mon, 17 Feb 2025 12:23:45 -0700
+X-Gm-Features: AWEUYZnrFfBm_wbf5EFCjaf6bQ2dpqtlNGkqHB1w5LssQl9ZQBUHAWZR74WN2LQ
+Message-ID: <CAA1CXcAK8tMVhWJLO9OrkyBpA6ZdPv7f99igBphLhLxVM5zJxA@mail.gmail.com>
+Subject: Re: [RFC v2 0/5] mm: introduce THP deferred setting
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, ryan.roberts@arm.com, 
+	anshuman.khandual@arm.com, catalin.marinas@arm.com, cl@gentwo.org, 
+	vbabka@suse.cz, mhocko@suse.com, apopple@nvidia.com, 
+	dave.hansen@linux.intel.com, will@kernel.org, baohua@kernel.org, jack@suse.cz, 
+	srivatsa@csail.mit.edu, haowenchao22@gmail.com, hughd@google.com, 
+	aneesh.kumar@kernel.org, yang@os.amperecomputing.com, peterx@redhat.com, 
+	ioworker0@gmail.com, wangkefeng.wang@huawei.com, ziy@nvidia.com, 
+	jglisse@google.com, surenb@google.com, vishal.moola@gmail.com, 
+	zokeefe@google.com, zhengqi.arch@bytedance.com, jhubbard@nvidia.com, 
+	21cnbao@gmail.com, willy@infradead.org, kirill.shutemov@linux.intel.com, 
+	david@redhat.com, aarcange@redhat.com, raquini@redhat.com, dev.jain@arm.com, 
+	sunnanyong@huawei.com, audra@redhat.com, akpm@linux-foundation.org, 
+	rostedt@goodmis.org, mathieu.desnoyers@efficios.com, tiwai@suse.de, 
+	baolin.wang@linux.alibaba.com, corbet@lwn.net, shuah@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 17, 2025 at 06:20:33PM +0100, Brendan Jackman wrote:
-> But for bugs, they all have a name. I was thinking that this was
-> because they are defined by the kernel, that's what I meant by "It t
-> doesn't make sense for a bug not to have a name", although now I think
-> about it we could totally have a bug and not give it a user-visible
-> name if we wanted to.
+On Mon, Feb 17, 2025 at 7:54=E2=80=AFAM Usama Arif <usamaarif642@gmail.com>=
+ wrote:
+>
+>
+>
+> On 11/02/2025 00:40, Nico Pache wrote:
+> > This series is a follow-up to [1], which adds mTHP support to khugepage=
+d.
+> > mTHP khugepaged support was necessary for the global=3D"defer" and
+> > mTHP=3D"inherit" case (and others) to make sense.
+> >
+>
+> Hi Nico,
+>
+> Thanks for the patches!
+Hi Usama,
 
-Right.
+Thank you for the review!
 
-> Anyway, still think the current logic is what we want here:
-> 
-> - The new setcpuid should be consistent with the existing clearcpuid,
-> i.e. accept numbers for the same things clearcpuid does.
-> 
-> - There are currently no bugs without names so for those, require the
-> string for both setcpuid and clearcpuid. If we wanted to we could add
-> number support later.
+>
+> Why is mTHP khugepaged a prerequisite for THP=3Ddefer?
+> THP=3Ddefer applies to PMD hugepages as well, so they should be independe=
+nt.
 
-Right, let's not make this more than it is - a hacky interface for hacks - not
-to be used in production anyway. :-)
+Its not a hard prerequisite, but I explained it a little here:
+https://lore.kernel.org/lkml/CAA1CXcBPt4jHfH0Ggio5ghSYAQAXf08rO8R6b1faHzdjF=
+f_Ajw@mail.gmail.com/
 
-Thx.
+In general, the sysfs didnt really make sense without it, and given
+mTHPs came along right when i was working on defer, I decided to add
+it to mTHP too.
 
--- 
-Regards/Gruss,
-    Boris.
+I worked on and tested these together so it felt right to sync up the
+V2s for both of them.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Cheers,
+-- Nico
+
+
+>
+>
+>
+
