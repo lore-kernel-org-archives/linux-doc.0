@@ -1,127 +1,74 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B82230993;
-	Tue, 18 Feb 2025 14:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F18326B946;
+	Tue, 18 Feb 2025 15:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739890748; cv=none; b=Y6FRlNErTFTUDU+9M10Fgbux54iV3ZQq8vRqGQydD5viGcrRzC0CGAqRLwV9p+wxV3utL0/18TmlLihK2C8DEY2sSKOyy7CiBZwvWdo1NdXHxj0fScNqd67XDQWMpAXPNC2Mi8eu6EmN6cu21nmuMCAb1qnxLd9DO8MVEZoDKgc=
+	t=1739891584; cv=none; b=BY9lqt92CexgNEhVBCCrWjwAoll5PN5Y/1qLuORP+ZbIpy/9iZwAz6HQKIIh1XO5M73/SdsuHRtq/v3XKY0CR7Qi9Xahp+gKKgXfpi4XwK90iL6ek6XknULP114pLKXYyAMyJ6D49Xni3I517yqd9s2nYKYwXlwQ0BMZIs2bCdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739890748; c=relaxed/simple;
-	bh=bnikpV9vWi9NNkaOO5T2BkhMOZejMFIE+U6Sht1hRz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DZBAZl0Mp67VMwHpPGZur1UDUta3Ye6zMe7LupbxP7ZLj23Btoz2c7ydh2vSkeNWqMW69qkzEU2Z3VMTiSm29BrC3wiLFiCvhvvjU4iwg+mp7CH4Gb+Rqw8tIWQBclwIqe1J9jZwFJsRN2eIdSth201/w86yz5FgmUKXLZtapek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J+17lSJJ; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739891584; c=relaxed/simple;
+	bh=yiYQkJmgh5KtX1ybp9e1CiAvqpnog8wemHUJ2Xt488Q=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dbAMU2CJsKQ5RXKXb8TBItNnzQgRiIYo66Fb+952Ukv4UIPJE3j6AzIXBjJe1Dle1HNP/g3BKieDzFAwNV4OrZlebHM8CEjNX89OGJlFlsAbSUEvvFsErLjdWJK7VgzReRwWw+w3SVFvMrFnqg1zfW8OTiWV7qj1dJI3bzNt5yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BSCCx7cK; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J+17lSJJ"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5e033c2f106so4763816a12.3;
-        Tue, 18 Feb 2025 06:59:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739890745; x=1740495545; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oAIrJ/LjqF3PZx6DSjpQeC5ZYl3v6fqCgyrURh3Pa9A=;
-        b=J+17lSJJJZV6XYaNvDoZnUqKennHU25+JAVcQYkAf4xR2ArI7a1+tWfBiabekEN12o
-         2APagjpALlhuvrVSrXVNozP6cag+wB60zWG0v7snREqpVIANSYNBwQtWBOqsZivpr/8E
-         UPnwkvLTd//j+cOexX0GgnagJkB3DYATLwiG1jIPsm1SO8Lx3/vQwh1Rt6L//bbHYjXT
-         dtD4bcfgBDR7kq80QpRH8x9d2Jda7JRtX276BnqiYTZlp3mHw4SMm9pmz7BxwgCBgpOK
-         TPE6YG3211C4g0mdOtTbLsgdIvyvHB6lpx3wKMLZkGd7EZcMkHJm/PgDpB734am2vE/u
-         5a+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739890745; x=1740495545;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=oAIrJ/LjqF3PZx6DSjpQeC5ZYl3v6fqCgyrURh3Pa9A=;
-        b=Q3C+VL2/HqwIkpKibPbak+cQFetupyQKZpLGWmZShgy7BGvF4jvrQkpRyOTXyjWO18
-         uU5eUbankhn7lBzdyL+4Q4TMkWrlM+/JeMOIdeKv+vvw+CZ+YqegN3E5oFLRIeIEU5Q7
-         rJuNUS4ZnQu3/taKLodlDFg5mZJZ6oHmzPn1YjlcMUPn7Hkp/9Bu+IXFWm7cNblOPC6s
-         f/m+aFA+cZlllEto/5JOea4iOr8iWTEVGiX7b/ShCPD3XSRfpzZoILPAPSLjrE1ISvx8
-         bdxgUqTC+0Xsvi/6gD66jsyyuJKnudfqudHoO669fBdsLxyiq+OacuGduH5Dwby813rv
-         cCKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXFDadNpSkTCqeuP64rDNUMIR/tpUvGzkBdD6+frD1rWe/RFgd1rdSF43JxQx4CA945avAR5q42xmbg@vger.kernel.org, AJvYcCXnouf1tAgPE1NaM1dRRZVL80ICcvaXrkr4nejjmK/I1AIXJErpSBGj3MB+Zp7f7k6QzVOUtVVrW+8H@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTTMRqzUEyORSoJFDbktYZSdwtmqtPvaJhxXzhBUNwjuCbiVBe
-	sPwUIj6IZal7N5E59YONm74aMILJ7ILAOTwRwNfwvHwQ8xLYPzVh
-X-Gm-Gg: ASbGncvtIjbh3p0B3CMer00wBTH4tGxKg36Hxr3u5DaSvTgqJVA396a++JtnknzY6I7
-	xZqk8esVW/1FNQ2PSBYpOvC6XJe+bRCNsHfBA3Mf/IxSyIcuwpcoM0/lzh2xhXoot/yh81Ysr1h
-	Bz87DlnveSi/Np2xaQpYXmiaaCpGIxImAFOdNQxuKcz11w+uRr+4H664W9jdk/EfiUW1O5Bqyqw
-	MkDXsQv0sXyo1r27KFxl02wGDsFTdDq0k9TPngP/YZwtc1INLm6MNF9dA0+I4ntL97sQoDiYjm9
-	BVtTOAZ6oiMnE6U=
-X-Google-Smtp-Source: AGHT+IHfGUb6DAP5PY1vAqYBMMTlEpLIKDLmvPxJw/HfikZVPdieC7mOeVaDwsd2Oi5vIHAKZzcd1g==
-X-Received: by 2002:a05:6402:2386:b0:5dc:6e27:e6e8 with SMTP id 4fb4d7f45d1cf-5e036139cb5mr24069087a12.24.1739890745271;
-        Tue, 18 Feb 2025 06:59:05 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abbbc841eb0sm121224966b.128.2025.02.18.06.59.04
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 18 Feb 2025 06:59:04 -0800 (PST)
-Date: Tue, 18 Feb 2025 14:59:04 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pratyush Yadav <ptyadav@amazon.de>,
-	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v4 01/14] mm/mm_init: rename init_reserved_page to
- init_deferred_page
-Message-ID: <20250218145904.x57chhz3whvckzu3@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250206132754.2596694-1-rppt@kernel.org>
- <20250206132754.2596694-2-rppt@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BSCCx7cK"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A136148EB5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1739891575; bh=4gf5JdbgJWegtB585WY5Jp56LsHto1xmDBzp2Fqa8v0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=BSCCx7cK49Kn1pvuV+I9DV34ixb7LKT49Spj38gRNQ2XHyXe+DbirbKJhTPV5Mvgh
+	 Gftaz49wzgWVZ/ykRsKqqJaqAl9QuqYtG++sHCCOVMEl/0qHdU8IMcdhKq3KRtokiT
+	 Wkslxb3+t01SkEl04yCIDqtx6wok895urhwx7gdZBh1L20tsBgTHZqwFFoWlRBpL4v
+	 c4rUaTCk5EKr9qzAY3x5vCljOjnubayb7wPx0bF/I4bmRcfK23B5AaeNQf3ZsYUCli
+	 21zJYAg60egK/qA34n5A8Gfm7t7BnIF4Nf6JvTqI3ey+bDwc20grnad66PsKmTmQU3
+	 XP+xSjEdKmXrQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id A136148EB5;
+	Tue, 18 Feb 2025 15:12:55 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Armin Mahdilou <armin.mahdilou@gmail.com>
+Cc: shuah@kernel.org, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rdunlap@infradead.org
+Subject: Re: [PATCH v2] Documentation: proofreading Documentation
+In-Reply-To: <b45c5b7c1ec72697005afbbf870100cc4a175572.camel@gmail.com>
+References: <87bjv91yi3.fsf@trenco.lwn.net>
+ <20250210192754.30283-1-Armin.Mahdilou@gmail.com>
+ <b45c5b7c1ec72697005afbbf870100cc4a175572.camel@gmail.com>
+Date: Tue, 18 Feb 2025 08:12:54 -0700
+Message-ID: <87tt8rqoax.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250206132754.2596694-2-rppt@kernel.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain
 
-On Thu, Feb 06, 2025 at 03:27:41PM +0200, Mike Rapoport wrote:
->From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Armin Mahdilou <armin.mahdilou@gmail.com> writes:
+
+> On Mon, 2025-02-10 at 20:25 +0100, Armin Mahdilou wrote:
+>> Fixed some spelling issues in documentations.
+>> 
+>> Signed-off-by: Armin Mahdilou <Armin.Mahdilou@gmail.com>
+> Hi all,
 >
->When CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, init_reserved_page()
->function performs initialization of a struct page that would have been
->deferred normally.
->
->Rename it to init_deferred_page() to better reflect what the function does.
+> Just a kind reminder about this patch.
+> I would like to know the status of it and as it's my first patch,
+> I want to know how can I track if it's merged or not.
+> Thanks in advance.
 
-Would it be confused with deferred_init_pages()?
+It's in my queue, please be patient.
 
-And it still calls __init_reserved_page_zone(), even we __SetPageReserved()
-after it. Current logic looks not clear.
+It would have been good for you to add Randy's ack when you reposted it;
+I can fix that when I apply it.
 
+Thanks,
 
--- 
-Wei Yang
-Help you, Help me
+jon
