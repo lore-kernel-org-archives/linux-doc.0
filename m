@@ -1,209 +1,141 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E8B18A6DB
-	for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 09:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB64022FAFD;
+	Tue, 18 Feb 2025 09:55:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739871839; cv=none; b=G1L9wUSXneSeqdfMyLPZeKPD8hbbVoPyhkbdu77WX6Ay5owWum8pWIv13HJ3w47wp/Tu+X88j2/+MQUn5eJ8JOr8ROUOZps5Sd2HagkNmHFquZdvJuQRaEWJbgLnaYyyjZxXixYuYrfN81m8USY9DIJf5JFTj4OR3/hc7lCl1dA=
+	t=1739872554; cv=none; b=nRR25zBr8KSkd/Y8TumVuPZCCbqPoWNnnr1nJgUbVEwgFx/BLR3jtwfhsgbmkXOKbQmjjhgCinh6blEuC7aFTpj2ozHIpCjitaR5qVh3Kvu5lmK82H945tr8vDN45UQC6UW95i7WgjLYQNVoDReEBvHChJbv1hczd0P+A0xiH9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739871839; c=relaxed/simple;
-	bh=j3MZdxCkWh1sLMai3uPuzNCY9K4tIbSU9MkTu0caunk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N+b9JusbpK0LDx3/pphfhqkCoSDVEW1P8qArR9B4sWJcUUcRLN9J1kN8jkRMS2GLBaUvBwXKIWzA00pp/XVjEkCzkXhmKP2qyNb7lJ70jGpHsLod6CCPoTlp9b0LXmVuUzN79Dw17CNgOh9r51tc64OfApBXG0dGdH8/LzrKQc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HLYaJ95P; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1739872554; c=relaxed/simple;
+	bh=rvj0t9+tjvO+0OV9PLc5srj+NlKLO440nNkbXNyfhZs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mmaA84n4f0qh/pH/7ClCDspjNpp6oznnxQsNSvuQN44rmnd2VfGLMchXKNcaMLUtpuxmiAE/oeviABBzvmkNuiK3Fh7Eb2dggQJ7bpVznyHqKqKRRnpI7uij6v9jMBij6gqICtDQpkGjXnNV7aJwCVq7tfs1utxEY6KAoC8XwZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nqmhkQo2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HLYaJ95P"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5452c1daabeso3133105e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 01:43:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1739871835; x=1740476635; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A9j3FDtCSLrxBBi5ynX/ADgMlPdUEwdI7w+vv6UgkLA=;
-        b=HLYaJ95PvE2CK4stS/0rRnxpLNZBt0YoSqObN6IniM1srzw3E45PXE+ghQpnPjVeCp
-         71S/K10Kb4BxpMKZE64RJlB3+wEDeCxhAROoKgEm+q3n7ltXgX4WsmcBKxRctefT8eop
-         bWdt5KO9w57p44xlMY4I81JfVzGve2oBptVIg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739871835; x=1740476635;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A9j3FDtCSLrxBBi5ynX/ADgMlPdUEwdI7w+vv6UgkLA=;
-        b=hBZ4lyGRuziCWsIcwSgOw6OCHDdQPOA8sc7xA5J9XvFttbuFIgtQ887aC320eyGKSt
-         aXteN8c7Cg+B0OyVLh7jOQzz35CHKKrsziYZyD/m+UJFmC6bPtXjlW1VMpOgA/wQ9Jva
-         Lc+WVymJRVjmQy3FtFsNm7IrljGYTax+B5g/tznGagddn0xow9l1LEYQtzc4hd38aJEH
-         OoeV84jbb57hp9Os8tAgimV9koxad+ZDffgTIWCBC2h8jagdMpZOoCKiGL+WF9pESx92
-         t7xta6sUdiBHP9a11jcLxFR+x8Qw+5dNK7OEwXCElBOooRUn7+lCJRo1uu7TMgxdrBtB
-         Gi4w==
-X-Forwarded-Encrypted: i=1; AJvYcCXlW94zmhKrvFxM/C3rkyKE8HQ8+jDI3r0K7gtylyOeq6LUxNYJ/nVe2QQukOuaHDqUAx13XTp0Nl8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/1d1mGp62UryzhY6dv/9DTN5/RyEzPPAtQrfyKysdtA0HWqDx
-	lqLE3AyABxRWah6wbEpVpzFyYJ87c2/k/a2789mDzjJftxck7vTDUaOkpG/mlhKr0oAnueh9L6/
-	N6XLL53QPgJ0Xj6f++aEHD/pOQ+9JAU5rWgYZ
-X-Gm-Gg: ASbGnctsx7GTA5Te3YmuG+pZ3GftCj6pKUmNC/yARQdx+Pe2qG2J+XFzNWh/uXXVJ98
-	R503qsTt+ow/WpF+5/C2Eg4P3khEuINmBlEHRNVyeIr1OOKXZHhQorXazC/FXuUFuvPi3GDtjLI
-	Vf9u93nIt3EnQwSRNDUrtydHLR
-X-Google-Smtp-Source: AGHT+IFlFPI5zREPHuDeV35TrewF5xMFDi2pmIizcSEr1MF1Kyd27IzONQ06Tosq2K+bGbditdWvnMiF3nl6toSE7rk=
-X-Received: by 2002:a05:6512:eaa:b0:540:1a40:ab0d with SMTP id
- 2adb3069b0e04-5452fe65367mr4774141e87.28.1739871835497; Tue, 18 Feb 2025
- 01:43:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nqmhkQo2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E337C4CEE4;
+	Tue, 18 Feb 2025 09:55:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739872552;
+	bh=rvj0t9+tjvO+0OV9PLc5srj+NlKLO440nNkbXNyfhZs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nqmhkQo21p/IwHWW1vn6ppeNmvxU5hEUr+tROAL+/McFaDG+sFe50Rj+/GsweYbuB
+	 gHc1Qd2npna0pnZlbEdqGy9oZVqyYcxOJz21wdqMdBDwmwcdD/s92xKnORETlpD8dr
+	 u5DO1okXMmLpey9ba08Ua9Tu87nuk1H1kptFxzY3xCKA2sYE8uYt7vzFpy6egMcCw4
+	 fJqGWmP8vQNKs0fl7mtBmAL6nEi1XTaeuCHgucvpJpyJub97Yyl9CJz9InOUApmYsa
+	 ZjUuo1/rYIWGaDejRZLeEIqT4CizQMTrKrZmRJ+i2A7IAwTMtuL53BqCNg2+K7zvyJ
+	 D23FMuv2ArjBA==
+Date: Tue, 18 Feb 2025 10:55:49 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Anusha Srivatsa <asrivats@redhat.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Joel Selvaraj <jo@jsfamily.in>, 
+	Ondrej Jirman <megi@xff.cz>, Javier Martinez Canillas <javierm@redhat.com>, 
+	Jianhua Lu <lujianhua000@gmail.com>, Robert Chiras <robert.chiras@nxp.com>, 
+	Artur Weber <aweber.kernel@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Tejas Vipin <tejasvipin76@gmail.com>
+Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
+ variants when available
+Message-ID: <20250218-fabulous-agile-corgi-9a5ee0@houat>
+References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
+ <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
- <20250206-hotplug-drm-bridge-v6-8-9d6f2c9c3058@bootlin.com> <20250210-amusing-bobcat-of-pluck-0d4c09@houat>
-In-Reply-To: <20250210-amusing-bobcat-of-pluck-0d4c09@houat>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 18 Feb 2025 17:43:43 +0800
-X-Gm-Features: AWEUYZnscch0ATD4RPMuHj0VAYHapvvByEnogTVDzdPu_Io7G9wuKVum6WjojR4
-Message-ID: <CAGXv+5GSF=YSiHTgty1J2suAvVYUtOgPShW2mmvuxYiFwK-yeg@mail.gmail.com>
-Subject: Re: [PATCH v6 08/26] drm/bridge: panel: add a panel_bridge to every panel
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, Simona Vetter <simona@ffwll.ch>, 
-	Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Jessica Zhang <quic_jesszhan@quicinc.com>, Paul Kocialkowski <contact@paulk.fr>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, 
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="726nfthqf5wfkq3l"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
+
+
+--726nfthqf5wfkq3l
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
+ variants when available
+MIME-Version: 1.0
 
-On Tue, Feb 11, 2025 at 2:34=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
->
-> On Thu, Feb 06, 2025 at 07:14:23PM +0100, Luca Ceresoli wrote:
-> > Adding a panel does currently not add a panel_bridge wrapping it. Usual=
-ly
-> > the panel_bridge creation happens when some other driver (e.g. the prev=
-ious
-> > bridge or the encoder) calls *_of_get_bridge() and the following elemen=
-t in
-> > the pipeline is a panel.
+On Fri, Feb 14, 2025 at 08:26:02AM -0800, Doug Anderson wrote:
+> Hi,
+>=20
+> On Thu, Feb 13, 2025 at 12:44=E2=80=AFPM Anusha Srivatsa <asrivats@redhat=
+=2Ecom> wrote:
 > >
-> > This has some drawbacks:
+> > A lot of mipi API are deprecated and have a _multi() variant
+> > which is the preferred way forward. This covers  TODO in the
+> > gpu Documentation:[1]
 > >
-> >  * the panel_bridge is not created in the context of the driver of the
-> >    underlying physical device (the panel driver), but of some other dri=
-ver
-> >  * that "other driver" is not aware of whether the returned drm_bridge
-> >    pointer is a panel_bridge created on the fly, a pre-existing
-> >    panel_bridge or a non-panel bridge
-> >  * removal of a panel_bridge requires calling drm_panel_bridge_remove()=
-,
-> >    but the "other driver" doesn't know whether this is needed because i=
-t
-> >    doesn't know whether it has created a panel_bridge or not
-> >
-> > So far this approach has been working because devm and drmm ensure the
-> > panel bridge would be dealloacted at some later point. However with the
-> > upcoming implementation of dynamic bridge lifetime this will get more
-> > complicated.
-> >
-> > Correct removal of a panel_bridge might possibly be obtained by adding =
-more
-> > devm/drmm technology to have it freed correctly at all times. However t=
-his
-> > would add more complexity and not help making lifetime more understanda=
-ble.
-> >
-> > Use a different approach instead: always create a panel_bridge with a
-> > drm_panel, thus matching the lifetime of the drm_panel and the panel_br=
-idge
-> > wrapping it. This makes lifetime much more straightforward to understan=
-d
-> > and to further develop on.
-> >
-> > With the panel_bridge always created, the functions to get a bridge
-> > [devm_drm_of_get_bridge() and drmm_of_get_bridge()] become simpler beca=
-use
-> > the bridge they are looking for exists already (if it can exist at all)=
-. In
-> > turn, this is implemented based on a variant of
-> > drm_of_find_panel_or_bridge() that only looks for panels:
-> > of_drm_find_bridge_by_endpoint(). In the future
-> > drm_of_find_panel_or_bridge() can be progressively removed because ther=
-e
-> > will never be a panel not exposing a bridge.
-> >
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> >
-> > ---
-> >
-> > This patch was added in v6.
-> > ---
-> >  drivers/gpu/drm/bridge/panel.c | 74 +++++++++++++++++++++++++++++++++-=
---------
-> >  include/drm/drm_panel.h        |  8 +++++
-> >  2 files changed, 66 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/pa=
-nel.c
-> > index 58570ff6952ca313b3def084262c9bb3772272ef..6995de605e7317dd1eb153a=
-fd475746ced764712 100644
-> > --- a/drivers/gpu/drm/bridge/panel.c
-> > +++ b/drivers/gpu/drm/bridge/panel.c
-> > @@ -69,6 +69,9 @@ EXPORT_SYMBOL(drm_panel_init);
-> >   */
-> >  void drm_panel_add(struct drm_panel *panel)
-> >  {
-> > +     panel->bridge =3D drm_panel_bridge_add(panel);
-> > +     WARN_ON(!panel->bridge);
-> > +
-> >       mutex_lock(&panel_lock);
-> >       list_add_tail(&panel->list, &panel_list);
-> >       mutex_unlock(&panel_lock);
-> > @@ -86,6 +89,9 @@ void drm_panel_remove(struct drm_panel *panel)
-> >       mutex_lock(&panel_lock);
-> >       list_del_init(&panel->list);
-> >       mutex_unlock(&panel_lock);
-> > +
-> > +     drm_panel_bridge_remove(panel->bridge);
-> > +     panel->bridge =3D NULL;
-> >  }
-> >  EXPORT_SYMBOL(drm_panel_remove);
->
-> Given that drm_panel_add and drm_panel_remove are typically called at
-> probe/remove, it's pretty much equivalent to using devm. Both of these
-> solutions aren't safe, and the drm_panel lifetime is still broken.
+> > An incomplete effort was made in the previous version
+> > to address this[2]. It removed on the mipi_dsi_dcs_write_seq()
+> > and mipi_dsi_generic_write_seq_multi() with the respective
+> > replacemts and not the rest of the API.
+>=20
+> You didn't seem to take most of the suggestions I gave in response to
+> your v1 [3]. Specifically:
+>=20
+> a) I asked that you CC Tejas. I've added him again.
+>=20
+> b) I asked that you CC me on the whole patch series, which you didn't
+> do. I can find them, but I'd find it convenient in this case for them
+> to be in my Inbox.
+>=20
+> The first patch conflicts with what Tejas already landed in
+> drm-misc-next. See commit 8025f23728e9 ("drm/panel:
+> xinpeng-xpp055c272: transition to mipi_dsi wrapped functions"). The
+> second patch _also_ conflicts with what Tejas already landed. See
+> commit f4dd4cb79f9e ("drm/panel: visionox-r66451: transition to
+> mipi_dsi wrapped functions"). Later patches also also conflict. See
+> commit 0d6c9edf9e5b ("drm/panel: ebbg-ft8719: transition to mipi_dsi
+> wrapped functions"), commit ce8c69ec90ca ("drm/panel:
+> samsung-s6e88a0-ams452ef01: transition to mipi_dsi wrapped
+> functions"), and commit 7e3bf00047cd ("drm/panel: sharp-ls060t1sx01:
+> transition to mipi_dsi wrapped functions"). Maybe you should sync up
+> with drm-misc-next before submitting.
 
-FWIW I believe this solves the panel vs panel_bridge lifetime
-inconsistencies we previously reported [1]. Of course, as you rightly
-point out, any pointers to the bridge become stale if the panel gets
-removed.
+Yes, you should definitely work from drm-misc-next there, and sync with
+Tejas.
 
-> I'd rather work on a solution that actually fixes those lifetime issues.
+> I also questioned whether this really made sense to try to do with a
+> Coccinelle script and I still don't think so. It looks like Dmitry has
+> already reviewed the first few of your patches and has repeated my
+> advice. If you want to help with the effort of addressing this TODO
+> item then that's great, but I'll stop reviewing (and start silently
+> deleting) any future submissions of yours that say that they're done
+> entirely with a Coccinelle script unless you address this point and
+> convince me that your Coccinelle script is really smart enough to
+> handle all the corner cases. I'll also assert that you should review
+> Tejas's submissions to see how these conversions are expected to go.
 
-I think that can happen once the bridges are ref-counted?
+I couldn't find that in your first answer though. What corner cases do
+you have in mind, and why do you think coccinelle can't handle them?
 
-Instead of removing the bridge from the list, it can just clear the
-panel pointer and have all the callbacks skip any operations involving
-the panel.
+Also, why do you think ignoring a contributor after a second mistake is
+a reasonable reaction?
 
-The other option is to have the panel itself be ref-counted. I don't
-think that's worth pursuing if the idea is to move everything over to
-panel_bridge and things are somewhat ready.
+Anusha, most of those comments aren't the end of the discussion though.
+If you feel like something's not clear enough or ambiguous, feel free to
+ask for more details and keep the discussion going.
 
-ChenYu
+Maxime
 
-[1] https://lore.kernel.org/dri-devel/20241009052402.411978-1-fshao@chromiu=
-m.org/
+--726nfthqf5wfkq3l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7RZIQAKCRAnX84Zoj2+
+dnx1AYDvs65FcAkxFl9bq1N9OH/nVRFJIYjxboyBi8+tMU6haF4kZySHcec5o4jC
+5PoRUdIBgJqfgW9bYI6cos8FSWZOiPd2kShBBomX9tuNO0LB8BStQui7Vr/uAw9h
+kErY8M7ARw==
+=Z1aQ
+-----END PGP SIGNATURE-----
+
+--726nfthqf5wfkq3l--
