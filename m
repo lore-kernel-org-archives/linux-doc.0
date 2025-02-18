@@ -1,73 +1,67 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2EF286285;
-	Tue, 18 Feb 2025 21:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8536286286;
+	Tue, 18 Feb 2025 21:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739912521; cv=none; b=H4teoX8UTEboGWPSv6TbicISmMxxoUyreWURBsvMomT98XVFUIRGm/tP4Yp+IR/d9A/UP2/Ng3Nq14cTksnkNVOoAwdcLZG2MDgcajQ5DnlU9XAN6mkjoc/d5xV6CHKC1Yu8tAWRkQ8x49mn9cIMW3C6WSLzkqlDf7RBuQO1hj0=
+	t=1739913896; cv=none; b=lSGx1WvvWmDl/QCezQaTj8xi37H0WlOI+nJIUyWu+pC0LmhaPAMByl907GXMy85kEe4WNMuBhpCkYE0LsebuwtoqTqJjoolwKSXN4ZZpHxF56H4M+yZQHYJ8shDC7zsD6wkynVfyDyC0rxgdZS0s+KPTPtIA9G56KTVBmCVHD5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739912521; c=relaxed/simple;
-	bh=7JwAhYXKnTo40zmF4OP05oqM/pSfRo/c9iCMt9/VWvY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=cESNk80J1O/n+GdAMFfIg7hzPojPyG+X2zfnh2APSgqhAI0hygRB7vKyQKIOvjukEwGY+hdJiPBqnavalkyUu6bptLnvUUZU0Ima802P68HaqlKs5XsfzfcbriXTWW/smsBU8N3l1wnIk/Eyjxtn/CD5ss3votwTKHsuDv5dASc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WuTB4fGA; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1739913896; c=relaxed/simple;
+	bh=j1wOK1WtP3hJwN/NmZJ5XR/o3Elun+UHcrO3nEkIDL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sqYBkZLIW8pYgnwLOOG8MaOSf6zfkJOKhjrQkyh9Mr5yY0tkaIsee9vLaEUqzI9rVivNp+FIYZxnhJ/q30iyM6O2gBT19wvYxFYk7T93Rtz9zLw/ApL8i8F5pHBzOh60oRfUx6TrOdm8wmRtj5F/kb4MwmG3v0ZnKYti47S1dk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZVWjkS0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WuTB4fGA"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C96DF411AF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739912520; bh=8+u0BRxAlT+bofMTvxLUc3wbfi6cmZGV9c9V+a5P0rU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=WuTB4fGAfH0IXaluotryfJWJ0YT/VTQm1cb52uppOc7wP/ivZDcnu1M8gf3I3fGXW
-	 W0J2SyOYagz8hoMXTSO/MfJxNb9uw6VybdE2NYBARiGAyt2LigstdkBg/qcCusMWJ4
-	 I9oh11hegwVw4O8M9kuFx7N4Z2f9ZDDAbDP135sWyYpW0YDI7gsaII5clmqKEasVkL
-	 Vpo5eaGcBZBKZMRsMpu01V2Teqys294ZloOYj4UkSceJK+ITb53Ge3t8vYjRbToxaS
-	 Y0bTMpAUUSTrjoyP4i3FPx4w29PfFRam8Br6jkYUiPdJZRyKgbOYdJg374zUAKok8e
-	 iAT3dOiujxKlQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C96DF411AF;
-	Tue, 18 Feb 2025 21:01:59 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Armin Mahdilou <armin.mahdilou@gmail.com>
-Cc: shuah@kernel.org, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Armin Mahdilou <Armin.Mahdilou@gmail.com>
-Subject: Re: [PATCH v2] Documentation: proofreading Documentation
-In-Reply-To: <20250210192754.30283-1-Armin.Mahdilou@gmail.com>
-References: <87bjv91yi3.fsf@trenco.lwn.net>
- <20250210192754.30283-1-Armin.Mahdilou@gmail.com>
-Date: Tue, 18 Feb 2025 14:01:58 -0700
-Message-ID: <87seobm0ft.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZVWjkS0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C693FC4CEE2;
+	Tue, 18 Feb 2025 21:24:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739913896;
+	bh=j1wOK1WtP3hJwN/NmZJ5XR/o3Elun+UHcrO3nEkIDL4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PZVWjkS0Ud5rDE4zqCL5lzSn72OTjLZmFgzuI0yrJ7uij+nJihfklxdbUL14NXgoI
+	 LH671gUdoZtKEDyxbQjrkpBsgiAH42WQdB+4zYDOb6sBZ4o6CUx8ahvZfSW5MQPaLs
+	 WGiivCnwBTnqDZgJ1OGt0Gi+O6LceQH38/ghhhOWV+Y057c96yDWhYwMo87qQfHYd7
+	 MvdzSl2tb2zlXtGtRSEbD+gIVmTtsiXjk5uFM1JpmcgyRfu9+BAZmM1tH5qTnRfW2C
+	 dTnC822uScKhlAisMSO14++3Vfsudg+PUBSwsJTuQifze0pqQ3dVoY18/6itkYchif
+	 gZ3uoSmCYNzWg==
+Date: Tue, 18 Feb 2025 13:24:54 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Gal Pressman <gal@nvidia.com>
+Cc: "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Tony Nguyen
+ <anthony.l.nguyen@intel.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Tariq
+ Toukan <tariqt@nvidia.com>, Edward Cree <ecree.xilinx@gmail.com>, Ahmed
+ Zaki <ahmed.zaki@intel.com>, linux-doc@vger.kernel.org, Nimrod Oren
+ <noren@nvidia.com>
+Subject: Re: [PATCH net-next v3 5/5] selftests: drv-net-hw: Add a test for
+ symmetric RSS hash
+Message-ID: <20250218132454.01345f86@kernel.org>
+In-Reply-To: <9eb3db1a-514b-4fcc-8318-7af0bd0a62df@nvidia.com>
+References: <20250216182453.226325-1-gal@nvidia.com>
+	<20250216182453.226325-6-gal@nvidia.com>
+	<20250217161954.57fd1457@kernel.org>
+	<9eb3db1a-514b-4fcc-8318-7af0bd0a62df@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Armin Mahdilou <armin.mahdilou@gmail.com> writes:
+On Tue, 18 Feb 2025 22:26:25 +0200 Gal Pressman wrote:
+> > Would be good to test both IPv4 and IPv6. I'm going to merge:
+> >   https://lore.kernel.org/all/20250217194200.3011136-4-kuba@kernel.org/
+> > it should make writing the v4 + v6 test combos easier.  
+> 
+> Should I wait for it to get merged?
 
-> Fixed some spelling issues in documentations.
->
-> Signed-off-by: Armin Mahdilou <Armin.Mahdilou@gmail.com>
-> ---
-> Thanks the Ack and Review. This is my first patch for the kernel.
-> Fixed SOB.
->
-> Regards
->
->  Documentation/ABI/testing/configfs-usb-gadget-midi2 | 2 +-
->  Documentation/input/devices/elantech.rst            | 2 +-
->  Documentation/nvme/nvme-pci-endpoint-target.rst     | 2 +-
->  Documentation/sound/soc/machine.rst                 | 2 +-
->  Documentation/usb/gadget-testing.rst                | 2 +-
->  5 files changed, 5 insertions(+), 5 deletions(-)
-
-Applied, thanks.
-
-jon
+Yes, please, I remove the members you'd need to use to test both v4
+and v6 so you patch will stop working once mine is merged. Stan reported
+a problem, I'll repost once again and hopefully the new version goes in
+tomorrow.
