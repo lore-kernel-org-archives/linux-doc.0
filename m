@@ -1,121 +1,66 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF6A1D5AD3;
-	Tue, 18 Feb 2025 05:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6D41AF0CB
+	for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 06:39:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739857567; cv=none; b=tomc0Tgby0AECMPqXarPNSZP5DB4UIu48Qu1CPKxO4Vc8q/XvcvciqgbJQvrMJBigpyOrCCM6I/U8jFxeLoz7uLi58H04c1yrni2bJuXH6r1qJdHUaxiMv/RKSySObK8YBxLdA5e4ftzjuBIAGx0fL5zWzIDgbxAYbzNNL+5u4w=
+	t=1739860785; cv=none; b=Rwld/wsFXl8YxoXar7UudP6lniAOjoVFQAvR4ZV5FNhgQVxmQhMVB4YgnVWjT9nblAC5GLA8Dkk/u8ygazAodsaj/YWxGlxIch7I63yQ9yjc7wu20ESBx3KVhyy34Lf5RBHZhvOiFfZfMs1N5xNtKd6USP/Z78UKJ/dAUj208QE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739857567; c=relaxed/simple;
-	bh=OfWXye8Of8O9FMlyzbA9MTX1oxKIhmqiEz/OMs6hb7I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LXoxJwBMGfW6Z/Z6Grb3dtQaxp88TE0cteyoFiOeRAQ7W/V9xFQKAxoxis4ZceVqJX6VwIcvBmtUQG/IXOjNX59NRl6JcQTHJ9IRNFs2Tw0/D+zj6ETeiu8Mgxlb3yTCFTRIfx5sQeVD91a1Mu1oDJYrb+CyCub8j9aeZJNE21Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W0IXA1wk; arc=none smtp.client-ip=209.85.219.46
+	s=arc-20240116; t=1739860785; c=relaxed/simple;
+	bh=pq9XdkVHFWADXdg25ubbggSQQDOAfo+Tvl8ihs4y+2o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Jml7f5QHlDCK6cBRmNHX2lSqCj9ZEY1jcUixsCrG+uHKDk/eHRgzawIJo9Ab69Ph69Tw0xjg30p6ilX1G8tlRRbtMMlEC/GCBJJsTvS8Ry2UYRSKycFLVVqAFAq2OAq1QVQqHjrWvRP6Pg8+4npKpa43j2xvG/a+NXMIGsQLGzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RJ5R1AVS; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W0IXA1wk"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6e660740061so47300456d6.3;
-        Mon, 17 Feb 2025 21:46:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RJ5R1AVS"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2fc3a14f6fbso4350352a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 22:39:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739857565; x=1740462365; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:feedback-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=KGqcu9I3LwOV/o63af69yARDQi685oRGnRYvxczUj+8=;
-        b=W0IXA1wkxoT6Wflqq3i8fVZmA2ULXfl1K9zUGbilO+n5zaEOk0rMEFda29tTPESNYC
-         h+pOcmKAXIfp/rjjQdIyDH1SLKhKFPqd2tF5c18/1GuvwjTCMWXrUjGzNTebm89CFUKx
-         qyHB1ujhbwBhQ0hPv5/WWZmjcRM8/dPYbyuZkIIaeOb4m0grIlg7mLfod73132V6Pku1
-         TzoFGFg04LmbCrNH9ni2dPPI5EXKkVpdQfxkflpBQ7OONCZw0vba8VVeF6HQtZ19HEH1
-         7mF70k7pOj9CQnomlgMfVqh6EQG29qLBv/rrIcPhrqVtp2RBnd5+WEtOUAqTEDnzzy5q
-         GqKA==
+        d=gmail.com; s=20230601; t=1739860783; x=1740465583; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=T354DsH5/UXQWaU1+Y3gowYWo5275UrIfb+yzWEs+hM=;
+        b=RJ5R1AVSIuopst5ExBm0794pfuVhLxoU+YUb9bXGWUZHAOJx1xfiWTkf+nMYpJcDJN
+         r0uYbsE2CBQlYmR+ZybHEYATgGLTAansp9Far4hIQx7OBe+kDZ2QQYa7UtCk30ijaNYY
+         TkCi1zDWUKqKb10Iwkv5O5ilhF83Ub3+eUiLVfHGC69wdQOtm7g+bhTceXeH5Smgn6qk
+         JxF5VFpesEmMihld2BoAgynM72L5GNGiXpCd4WsoEl5LmyCPRtrXCWnfm238WmWJtsJj
+         GMUN8a14S+lnDy3i37Tn7Od8HyTdhvb+RUElxHFQbhk1YkF6z7cBgEnyl93n7w12VAqM
+         2NbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739857565; x=1740462365;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:feedback-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KGqcu9I3LwOV/o63af69yARDQi685oRGnRYvxczUj+8=;
-        b=Ob6hGWPrQAWqz/AQFjLNVGFkH2o4d29wEd5msr5IgqnyfHzetHZ3wTYBShC4NnmxaT
-         wOOSxIp9QFTCV+BaJHIYE1lWqcwqExHgOukJPGNl/xDUfAw365WlAq3bH7wi8ZTXgT0/
-         V79hWUYJ+1/jGikWWJ7oqUMBLaWfSCHhgA65/rKweAQ1fYylEczSsMud4TiMIzd1+YxD
-         h+/4OzjWX/fcKie4x6F8WiVfrepxQ8TCnsZMvQ/GzHCoWm8aI4x+Y7ySUAkPK06TF3X0
-         jLCXkD/vOIQcGEcRIQ3vF4+HV1hyGc6bdvRpfwxSwhVQ7Arpn6yZlC8kAdtgygWLOpzX
-         bLWw==
-X-Forwarded-Encrypted: i=1; AJvYcCU6SMuKMN3rf84lBNEm9PCxIC2fPO5ysblNiYAAuuXWlRYZX9OAIDCfzMVT3N5XdECaMTRe7mmurwofmfWj@vger.kernel.org, AJvYcCUHgFcdG1gWpfYECypp8jYduhgt3rsq1W7uo+xqWNTDG55jplDTVW/SiQkRQ5iGGQCvfKtL6P+mYkY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfzmOg4wMg+65iPJNT46X3tBA6FbFgLg9rOZaxOJlA8MDR0+Mx
-	5le0UK2kds+DTfBNh7iqBGwMxwsk9qp7tIlMlVaLeCQrdxFqioXK
-X-Gm-Gg: ASbGncum4NQ29ABAKfVKAl4Cujl+JVBijOhB8XxERoODrxPfoUcklAFfMrjPwWItcnf
-	86ZM42L/IDHN+D9scowFwb9BfGffHB7VFa/V/Du1vjvBgFFfqur7eU7eySLuittB/EwM+GKfWcm
-	JbKmxRJxcldcbMru60P5k86o+dFMMTAKk3nFM2hUPh0NVccGDaZV1MtgZOOPtcrGQDosvNgY1Ph
-	2aNWtLA3VRYIdS9gr6JpgFa4igKscNm80819YUiFr6MD9OHlNnaSqjnPX7JG4ftVjVYznCTyIAW
-	1yPG6QOEHtKkI1q5gA6f7HTmgocGKEKgc8AV1BflIVSEVUVzo928RL/XXAL9yQ+SZ4BvYQ1PE0N
-	8lOh+4Q==
-X-Google-Smtp-Source: AGHT+IEAkSg/F5FygsWRs9N3+5vWlJflzbDzp53QeMTt6VL9QsT/DkGXNgp+CdGkt1Y7eFgLZjdrfg==
-X-Received: by 2002:ad4:5ae6:0:b0:6e6:659d:296 with SMTP id 6a1803df08f44-6e66cc86b35mr222749096d6.5.1739857564934;
-        Mon, 17 Feb 2025 21:46:04 -0800 (PST)
-Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e65d7a4430sm60540986d6.65.2025.02.17.21.46.04
+        d=1e100.net; s=20230601; t=1739860783; x=1740465583;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T354DsH5/UXQWaU1+Y3gowYWo5275UrIfb+yzWEs+hM=;
+        b=vfc7sFL14jbATpdZeciI8QDhOQkefF26NMfT5aMZ0Hf1HykD4a9RMXkhjRX8Ws4jY/
+         NSHph15KFGvz19khjI6WwWOO/KEhoWsVRV1mHbGXd1cwbatTvvVQ6EhYgpSiLFIkdg8J
+         EvzCSV/DqSdIS6LUltmb9cd2ZthUflGlheS1/Z+iaSx/yN9Rqj+v/rhgT4xPa2KO8tZI
+         6oiqHoaxyx2zDbR7Ina3MImGCuvKPVHFXoVK6PXhYDGMOvHsTtpepSKgN8k62CVrdbt/
+         H6EtJG05seuZrIVQ+UlDqmbM8lVaQsIienzBqcXDCOMQGBGEGJjYFpNfG/6HsHa+XXXk
+         bbQg==
+X-Gm-Message-State: AOJu0YwPiBrvFY4b89xTsUlifmEekuastUts7vXWY6Dp3BH9V0uhAp+x
+	Hy3JQ8YN9fz3vFZpL8fQyBFM6/s323WSu3U/yrUBBALr5NnbGOaSTQLoFA==
+X-Gm-Gg: ASbGncven9tJ1T11c7grCGKmZYKQut/OU5/6QXUv1+puowB4Jobs4EnsrNoieblmJ1h
+	Vgmpe7w/4tISApVWNToLlTKzQMc+c+fLnPNEafftv1OQXk7szmC3gvDSDf7Qf/uf8UT9/8y8NnI
+	C5HXG0pnNM0q4eMXD/6byilAaaXGwhdKrq/Cu7ysS/UHWVKtmBKSTQglZEUJ3BEagvMCw+zAH8J
+	P6O6V4QW9EzNmFEQ/r5mFbkhf3l0O+DAlUsgQ3D4sqq/QRWmcU+bDWD+AgXam+xoZY+OriwejID
+	lHlokw/qKOz5tNAeMHDQFfnG5fV3WSHpDz9Y8y9vDkSlJV6NnJwX
+X-Google-Smtp-Source: AGHT+IHzYODcMjGCvN37A6kRUe84pQGiqbTkGi7hzYma7bqARxdX35D6FAJyynQb3JAD4eYkUaghRg==
+X-Received: by 2002:a17:90b:3886:b0:2ea:5e0c:2847 with SMTP id 98e67ed59e1d1-2fc41044fb0mr15668477a91.22.1739860783256;
+        Mon, 17 Feb 2025 22:39:43 -0800 (PST)
+Received: from shankari-IdeaPad.www.tendawifi.com ([14.139.108.62])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fc13ba61f1sm9181376a91.42.2025.02.17.22.39.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 21:46:04 -0800 (PST)
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 05CBC1200043;
-	Tue, 18 Feb 2025 00:46:04 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Tue, 18 Feb 2025 00:46:04 -0500
-X-ME-Sender: <xms:mx60Z47Srz2WsHqCXY_6CvD54hI_CUG42919RMuElhhw5hPuQsiJrw>
-    <xme:mx60Z55W5sFmtAMZxVROE9UlyhR3hUyfYspnjzsTgSyePrFKQU2d5fmpNep2aLiji
-    zE-wbIS77vHHBcRDg>
-X-ME-Received: <xmr:mx60Z3ct7VWBiOcy2SSiGhazUberXzI9WETrvEbxTUk4QfPFldMDwgv8dw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeitdeglecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddt
-    necuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilh
-    drtghomheqnecuggftrfgrthhtvghrnhepgeeljeeitdehvdehgefgjeevfeejjeekgfev
-    ffeiueejhfeuiefggeeuheeggefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghl
-    ihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepgh
-    hmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopeduiedpmhho
-    uggvpehsmhhtphhouhhtpdhrtghpthhtoheprhgtuhesvhhgvghrrdhkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehprghulhhmtghksehkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pehfrhgvuggvrhhitgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvvghrrghjrd
-    huphgrughhhigrhieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhovghlsehjohgv
-    lhhfvghrnhgrnhguvghsrdhorhhgpdhrtghpthhtohepjhhoshhhsehjohhshhhtrhhiph
-    hlvghtthdrohhrghdprhgtphhtthhopegsohhquhhnrdhfvghnghesghhmrghilhdrtgho
-    mhdprhgtphhtthhopehurhgviihkihesghhmrghilhdrtghomhdprhgtphhtthhopehroh
-    hsthgvughtsehgohhoughmihhsrdhorhhg
-X-ME-Proxy: <xmx:mx60Z9KxbA3oL6FLO-3py3AqmntsiFUSdlOD40N5OM5-E8AgaeOwkw>
-    <xmx:mx60Z8Im5qQ4YFAmIVY2uxXc3EJpUL7bh5MlDfAO0jMA9CADtK1BDw>
-    <xmx:mx60Z-xoj3SBZuLxNTNSkLyZFBQs1n2ZMs-atXbCLcl1gAb6AN3wCg>
-    <xmx:mx60ZwJGgU3o97eIl-Hq7-ZIGGV1V_BuwJtN5tcy8nBOt40h8mefTA>
-    <xmx:nB60Z7ZneXMZcilSr34l2IGt_06bZo4CP2eYsDKi_ZK-hVNoMVOiwnUR>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 18 Feb 2025 00:46:03 -0500 (EST)
-From: Boqun Feng <boqun.feng@gmail.com>
-To: rcu@vger.kernel.org
-Cc: "Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Joe Perches <joe@perches.com>
-Subject: [PATCH rcu 7/7] rcu: Remove references to old grace-period-wait primitives
-Date: Mon, 17 Feb 2025 21:45:47 -0800
-Message-Id: <20250218054547.7364-8-boqun.feng@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20250218054547.7364-1-boqun.feng@gmail.com>
-References: <20250218054547.7364-1-boqun.feng@gmail.com>
+        Mon, 17 Feb 2025 22:39:42 -0800 (PST)
+From: Shankari02 <shankari.ak0208@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Shankari02 <shankari.ak0208@gmail.com>
+Subject: [PATCH] doc: Fix grammatical errors and highlight code funcs
+Date: Tue, 18 Feb 2025 12:09:29 +0530
+Message-Id: <20250218063929.5110-1-shankari.ak0208@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -124,71 +69,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Paul E. McKenney" <paulmck@kernel.org>
+This patch improves few sentences by correcting their grammatical formation. Some code functions have been highlighted for better readability.
 
-The rcu_barrier_sched(), synchronize_sched(), and synchronize_rcu_bh()
-RCU API members have been gone for many years.  This commit therefore
-removes non-historical instances of them.
-
-Reported-by: Joe Perches <joe@perches.com>
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+Signed-off-by: Shankari <shankari.ak0208@gmail.com>
 ---
- Documentation/RCU/rcubarrier.rst |  5 +----
- include/linux/rcupdate.h         | 17 +++++++----------
- 2 files changed, 8 insertions(+), 14 deletions(-)
+ Documentation/driver-api/fpga/fpga-mgr.rst | 26 +++++++++++-----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/RCU/rcubarrier.rst b/Documentation/RCU/rcubarrier.rst
-index 6da7f66da2a8..12a7b059654f 100644
---- a/Documentation/RCU/rcubarrier.rst
-+++ b/Documentation/RCU/rcubarrier.rst
-@@ -329,10 +329,7 @@ Answer:
- 	was first added back in 2005.  This is because on_each_cpu()
- 	disables preemption, which acted as an RCU read-side critical
- 	section, thus preventing CPU 0's grace period from completing
--	until on_each_cpu() had dealt with all of the CPUs.  However,
--	with the advent of preemptible RCU, rcu_barrier() no longer
--	waited on nonpreemptible regions of code in preemptible kernels,
--	that being the job of the new rcu_barrier_sched() function.
-+	until on_each_cpu() had dealt with all of the CPUs.
+diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
+index 8d2b79f696c1..a53775399bbd 100644
+--- a/Documentation/driver-api/fpga/fpga-mgr.rst
++++ b/Documentation/driver-api/fpga/fpga-mgr.rst
+@@ -76,7 +76,7 @@ parameter syntax is the same, but the call to ``fpga_mgr_unregister()`` should b
+ removed. In the above example, the ``socfpga_fpga_remove()`` function would not be
+ required.
  
- 	However, with the RCU flavor consolidation around v4.20, this
- 	possibility was once again ruled out, because the consolidated
-diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-index 48e5c03df1dd..3bb554723074 100644
---- a/include/linux/rcupdate.h
-+++ b/include/linux/rcupdate.h
-@@ -806,11 +806,9 @@ do {									      \
-  * sections, invocation of the corresponding RCU callback is deferred
-  * until after the all the other CPUs exit their critical sections.
-  *
-- * In v5.0 and later kernels, synchronize_rcu() and call_rcu() also
-- * wait for regions of code with preemption disabled, including regions of
-- * code with interrupts or softirqs disabled.  In pre-v5.0 kernels, which
-- * define synchronize_sched(), only code enclosed within rcu_read_lock()
-- * and rcu_read_unlock() are guaranteed to be waited for.
-+ * Both synchronize_rcu() and call_rcu() also wait for regions of code
-+ * with preemption disabled, including regions of code with interrupts or
-+ * softirqs disabled.
-  *
-  * Note, however, that RCU callbacks are permitted to run concurrently
-  * with new RCU read-side critical sections.  One way that this can happen
-@@ -865,11 +863,10 @@ static __always_inline void rcu_read_lock(void)
-  * rcu_read_unlock() - marks the end of an RCU read-side critical section.
-  *
-  * In almost all situations, rcu_read_unlock() is immune from deadlock.
-- * In recent kernels that have consolidated synchronize_sched() and
-- * synchronize_rcu_bh() into synchronize_rcu(), this deadlock immunity
-- * also extends to the scheduler's runqueue and priority-inheritance
-- * spinlocks, courtesy of the quiescent-state deferral that is carried
-- * out when rcu_read_unlock() is invoked with interrupts disabled.
-+ * This deadlock immunity also extends to the scheduler's runqueue
-+ * and priority-inheritance spinlocks, courtesy of the quiescent-state
-+ * deferral that is carried out when rcu_read_unlock() is invoked with
-+ * interrupts disabled.
-  *
-  * See rcu_read_lock() for more information.
-  */
+-The ops will implement whatever device specific register writes are needed to
++The ops will implement whatever device-specific register writes are needed to
+ do the programming sequence for this particular FPGA.  These ops return 0 for
+ success or negative error codes otherwise.
+ 
+@@ -86,34 +86,34 @@ The programming sequence is::
+  3. .write or .write_sg (may be called once or multiple times)
+  4. .write_complete
+ 
+-The .parse_header function will set header_size and data_size to
++The **.parse_header** function will set header_size and data_size to
+ struct fpga_image_info. Before parse_header call, header_size is initialized
+ with initial_header_size. If flag skip_header of fpga_manager_ops is true,
+ .write function will get image buffer starting at header_size offset from the
+ beginning. If data_size is set, .write function will get data_size bytes of
+-the image buffer, otherwise .write will get data up to the end of image buffer.
+-This will not affect .write_sg, .write_sg will still get whole image in
+-sg_table form. If FPGA image is already mapped as a single contiguous buffer,
++the image buffer; otherwise .write will get data up to the end of image buffer.
++This will not affect .write_sg, .write_sg will still get the whole image in
++sg_table form. If FPGA image is already mapped as a single contiguous buffer, the
+ whole buffer will be passed into .parse_header. If image is in scatter-gather
+ form, core code will buffer up at least .initial_header_size before the first
+-call of .parse_header, if it is not enough, .parse_header should set desired
+-size into info->header_size and return -EAGAIN, then it will be called again
++call of .parse_header, if it is not enough, .parse_header should set the desired
++size into info->header_size and return ``-EAGAIN``, then it will be called again
+ with greater part of image buffer on the input.
+ 
+-The .write_init function will prepare the FPGA to receive the image data. The
++The **.write_init** function will prepare the FPGA to receive the image data. The
+ buffer passed into .write_init will be at least info->header_size bytes long;
+ if the whole bitstream is not immediately available then the core code will
+ buffer up at least this much before starting.
+ 
+-The .write function writes a buffer to the FPGA. The buffer may be contain the
++The **.write** function writes a buffer to the FPGA. The buffer may contain the
+ whole FPGA image or may be a smaller chunk of an FPGA image.  In the latter
+ case, this function is called multiple times for successive chunks. This interface
+ is suitable for drivers which use PIO.
+ 
+-The .write_sg version behaves the same as .write except the input is a sg_table
+-scatter list. This interface is suitable for drivers which use DMA.
++The **.write_sg** version behaves the same as .write except the input is a sg_table
++scatter list. This interface is suitable for drivers that use DMA.
+ 
+-The .write_complete function is called after all the image has been written
++The **.write_complete** function is called after all the image has been written
+ to put the FPGA into operating mode.
+ 
+ The ops include a .state function which will determine the state the FPGA is in
+@@ -126,7 +126,7 @@ API for implementing a new FPGA Manager driver
+ * ``fpga_mgr_states`` -  Values for :c:expr:`fpga_manager->state`.
+ * struct fpga_manager -  the FPGA manager struct
+ * struct fpga_manager_ops -  Low level FPGA manager driver ops
+-* struct fpga_manager_info -  Parameter structure for fpga_mgr_register_full()
++* struct fpga_manager_info -  Parameter structure for ``fpga_mgr_register_full()``
+ * __fpga_mgr_register_full() -  Create and register an FPGA manager using the
+   fpga_mgr_info structure to provide the full flexibility of options
+ * __fpga_mgr_register() -  Create and register an FPGA manager using standard
 -- 
-2.39.5 (Apple Git-154)
+2.34.1
 
