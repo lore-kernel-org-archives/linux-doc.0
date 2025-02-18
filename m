@@ -1,69 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC8D2862B4;
-	Tue, 18 Feb 2025 20:52:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E810D286281;
+	Tue, 18 Feb 2025 20:59:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739911964; cv=none; b=bA7WKtHMCjq1LkTljYn0VnwqRRakl9ESv9yZi0KQUsJAOb8XOpHOUrzhRbdONuaXelFI22eJBersJbP4GIeml11SG6xSIwNnw/EGuHFMb98Mx57eLV7mNGbsjV0VK8McxHniGbOavnIluynE44Cqq1naxiM8qD37162IToMfBEU=
+	t=1739912353; cv=none; b=Xv0n028hoyIqFRC08HzG1nGCGgj3S2fuDPBMHeQgKKZYIrsASf2j4aum9z/UgcQaiicTj9pM+S8vURvalNo0N2odaUBrfaPB24jrjM/K0ypOoZi10R9kGzUdu5B+MPeUtad5fVYxOFIe0S7koYY054A0Sfaw8HezlkpR2YqGTFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739911964; c=relaxed/simple;
-	bh=8jNMU8ip6rBeSpqlISiaPJWQQi8raU32gK6jMCIpWKM=;
+	s=arc-20240116; t=1739912353; c=relaxed/simple;
+	bh=FFcCgxhkRrZf0oO7SvDjg20o6b0gL5z2N8U26yKZW40=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mOzZE91ff0fL7yzajQXFyNNt32ylrN5L0hi9bghGGwUwMKjDweh1Wp4XY629p4/SIGuEnpQKYnyVCbq53D729Iyh79q4ZnHyh9jOGZCY8t2zoMosmg1aDucKIY99lRcLtnTQzN5ZNYmV6+aP8SRPK8phjvSaWbgHZ7JNc84FC1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=RGZ+lDda; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=C0captvVqwdXTZDVYecE1biXzgtQqpOattkBw5kAi2LgExwtsVPUjckP0gD/tMy2WWZmDKBskTnl/i+Oq5Vz7hcz8tQbhS7eTsRgXvN98jgc6ieCb7GHujDmyo4T91QdRbIy1EM8IQJlU5ZbpAXvZ8zfhaUswTlpupZoR+WkYvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=iNmlna4W; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RGZ+lDda"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 41147411AF
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="iNmlna4W"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 03450411AF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739911962; bh=8jNMU8ip6rBeSpqlISiaPJWQQi8raU32gK6jMCIpWKM=;
+	t=1739912351; bh=xob5bPJV+0BIwWpZL0BhJlMQzelJ36QmFOJ8Wa+YI5c=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=RGZ+lDdax8qjIOiB5ZacnAgWnZTgsFpylEbMW51u+P/MIZ4iyhn77FaRGI2dDgZ/7
-	 PSdVV5Ab40gE18mE/GC17G4zDapRXyDnjvtMyLX/X1z8KjuhPso6bXPWo8AreECp1G
-	 98znlH/rTluOQYNBlOJ3zgZgHPpYqLWuZudgxDv3yJkDcFhOdWhqo1YhFEhOHIeY4A
-	 VAIzOxV+UDEcDyE8DFXCRzajUWTxsxZbIOIWZNKLrJ8usY8w0570cRguzaHptPlgAX
-	 T0ovBK0bp9qEs6SV4ZG5qi7exbun4747718D6XGCFauEWi9SsploIuqSqI6XFFY4zS
-	 3PACaipur3xJQ==
+	b=iNmlna4WYoaBHRJGtRyvwiNKLk0ZLSqJriSERXoLLJjWViyDSaslUGE3HcReA3ZH/
+	 QSdsTD3hGP/FHAtOXUKjsZLTPwOI8diQ78Np1cUKwUbOPTKre+YaizfDuUzOMYBtv3
+	 zTOOtKxCBS1JRDZPP7KkAF/+bsPLoAtQWc6i8UxoIrhJ0lwsPVY0X7SeFbAy+6wVve
+	 BNWjvW7zvN+pcyNwCqIFoV65fHElImLXiSj3Udo65H8R0D9iQRtS7cQQ7lBBCj6dvQ
+	 OCMtNHXgvdw45yelT8PSzX+JyejFmb5yQTbNTE0XaxswX/AHF2N33jDxVowVe2HPIP
+	 PJntKSV/BD5YA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 41147411AF;
-	Tue, 18 Feb 2025 20:52:42 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 03450411AF;
+	Tue, 18 Feb 2025 20:59:10 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Bagas Sanjaya
- <bagasdotme@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Andreas Noever <andreas.noever@gmail.com>, Avadhut
- Naik <avadhut.naik@amd.com>, Catalin Marinas <catalin.marinas@arm.com>,
- Eric Dumazet <edumazet@google.com>, Hu Haowen
- <2023002089@link.tyut.edu.cn>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Jamet <michael.jamet@intel.com>, Mika Westerberg
- <mika.westerberg@linux.intel.com>, Paolo Abeni <pabeni@redhat.com>, Sean
- Young <sean@mess.org>, Yanteng Si <si.yanteng@linux.dev>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Michael
- Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>,
- "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, James Morse <james.morse@arm.com>,
- "Nysal Jan K.A" <nysal@linux.ibm.com>, Tom Lendacky
- <thomas.lendacky@amd.com>, Sourabh Jain <sourabhjain@linux.ibm.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>, Frederic Barrat
- <fbarrat@linux.ibm.com>, Andrew Donnellan <ajd@linux.ibm.com>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao
- <naveen@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- workflows@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 0/9] Extend automarkup support for ABI symbols
-In-Reply-To: <20250212135808.58d2f032@foz.lan>
-References: <cover.1739254867.git.mchehab+huawei@kernel.org>
- <Z6yFG_NntQfkwYli@archie.me> <20250212135808.58d2f032@foz.lan>
-Date: Tue, 18 Feb 2025 13:52:41 -0700
-Message-ID: <871pvvnffq.fsf@trenco.lwn.net>
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts/kernel-doc: remove an obscure logic from
+ kernel-doc
+In-Reply-To: <20250214032457.6444ee93@foz.lan>
+References: <fd3b28dec36ba1668325d6770d4c4754414337fc.1739340170.git.mchehab+huawei@kernel.org>
+ <87wmdt6bv5.fsf@trenco.lwn.net> <20250214032457.6444ee93@foz.lan>
+Date: Tue, 18 Feb 2025 13:59:10 -0700
+Message-ID: <87wmdnm0kh.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,16 +53,61 @@ Content-Type: text/plain
 
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
->> WARNING: Documentation/ABI/testing/sysfs-class-cxl not found
+> With regards to the Python transition, since our Makefile allows
+> switching to a different script since ever[1], I'm playing with 
+> the idea of sending a patch series with:
 >
-> I need to double-check verify this one, as it didn't appear on
-> my tests. Are you getting it against docs-next or linux-next?
+> Patch 1: 
+>   - drops Sphinx version check from both kerneldoc 
+>     (-sphinx-version parameter) and the corresponding Sphinx extension;
+>
+> patch 2: 
+>   - renames kerneldoc to kerneldoc.pl
+>   - creates a symlink:
+> 	kerneldoc.pl -> kerneldoc
+>
+> patch 3:
+>   - adds kerneldoc.py:
+>
+> patch 4:
+>   - add info messages on both versions related to the transition,
+>     and instructions about using KERNELDOC=<script> makefile and ask
+>     people to report eventual regressions with new script.
+>
+> patch 5:
+>   - change kerneldoc symlink to point to kerneldoc.py
+>
+> We can then keep both for maybe one Kernel cycle and see how it goes,
+> stop accepting patches to the Perl version, in favor of doing the needed
+> changes at the Python one.
+>
+> If everything goes well, we can remove the venerable Perl version on the 
+> upcoming merge window, and change the Sphinx extension to use the Python
+> classes directly instead of running an external executable code.
+>
+> What do you think?
 
-I get this one too, FWIW.
+Seems like a fine plan in general.  I wonder if we might want to keep
+the old kernel-doc a bit longer just in case, but we can decide that as
+we go.
 
-I've gone ahead and applied the series, but this would be nice to get
-cleaned up.
+> I'm in doubt if I should split the Kernel classes for the Python version
+> into a scripts/lib/kdoc directory on this series or doing such change
+> only after we drop the Perl version.
+>
+> Keeping it on a single file helps to do more complex code adjustments 
+> on a single place, specially if we end renaming/shifting stuff[2].
 
-Thanks,
+Do whatever makes it easiest for you at this point, I'd say.
+
+> On a separate but related issue, perhaps we should start talking about
+> coding style. We don't have anything defined at the Kernel, and
+> different scripts follow different conventions (or most likely
+> don't follow any convention at all). We should probably think having 
+> something defined in the future.
+
+I've generally tried to stick to something that looks as close to the C
+coding style as possible.  Formalizing that might not be a bad idea at
+all.
 
 jon
