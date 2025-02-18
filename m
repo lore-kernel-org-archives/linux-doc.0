@@ -1,149 +1,213 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37138262811
-	for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 15:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739893200; cv=none; b=KctnjZvpDgXflMolT/v1P+Xhz+r/5eqmrb/OwubWVkrMJGZ4CnSGAV0xDtkB/8Ok1w0fTOwv94yUj+bc09lqfcdLKwFK3qdjyh0VJHOI05mJINunbxlIst7PatbCupmnZJyjzr0BNiLNJiQypw59GPcWVd9rNGoq55MBV8gMTi8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739893200; c=relaxed/simple;
-	bh=lAxTRNetQLzqmYxMz17HeFSoRAP9iQc3reaXePWjpro=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fc+xIPcLlUfIXZLaDUo+ym6h9QpHKoR7OU+EXJEEATQwmY3oCRupD9MEdu3IerLzre7jfukRbQpNs7+em1wm5H30lpH0RBb1cSQHGDkrfQ3mNk912cvVIGwTt4dklgiBLmrvqnjoGTIGe4Ua9odvCDHahv7GApXwPZWrSh1qJjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=U8SdoOZk; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9CC23497D;
+	Tue, 18 Feb 2025 15:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739893416; cv=fail; b=Yh9ZKIJDEniBYCEYtHIpBNZ7Adr0KDU688r5lDacVfkmzcS3PX21WLxOiApAY8pQYxnZajzBtxDPnll3ZUJYosZJuAWayaWMd0+ckmGu6c0xjQPDP1/7j/k9NdwmSAlwr1nFhX39//NASK65bMR0NJFaEBqq9psrQsG0Siu+7vg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739893416; c=relaxed/simple;
+	bh=x6vlUzWp9GLiVgpaqZXFZqXJDDT3SRHy4kVSMchrWds=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=oM0MeIW1XkByFUT8fx/Jjz6XcGLUlWFHKfS6b58yIVM2duIGAAAGIj1KP/N+LdTdqyXO6I72dxS0m5BvR/9akeIKgaTf/R8py3+Tz08Z0idL5urShOUttwMC4Pov8i807eoe10TsvcXknG+ePubFM2asm/exUtlDSCNdsJlKs58=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=B70miVz5; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Eo1YYE6U; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="U8SdoOZk"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 38D5648EB5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739893198; bh=uT0m66D3YRgH72G4LuMXmkItG3ZmunqWDViuqUjB+fA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=U8SdoOZkHneWXW5HYKL5GYLQWwgcCgNhmR/G0aR+IGAMoUjLKqQpD8Nv4+gHHv0UH
-	 NLxuKsxHRj04nhZVNeeXl+j+LL9S87yW7c5wCC/LDI2oFhtIxgfwIrD7OhSM4hozp+
-	 F75+mSS91ZLG11qLJSciCCGS2Z91SynUeIxj64njGaiw2u7EUBWlnYINxwdFNB1Kn2
-	 9NbvuNbUQ3Z9SW5etrDDJVBMqAdZ/j7vxIQ6PYefCiQzOpgWl8aKOYPsoJZNc5Lwl4
-	 +qfOc/9oGfGAg3VEDxrqkVRroXGc4vZ24Py6h8NE4M093EuTr+Kxm0+F9NUkaKUNMN
-	 ncY0YylTMmB0A==
-Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 38D5648EB5;
-	Tue, 18 Feb 2025 15:39:58 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Shankari02 <shankari.ak0208@gmail.com>, linux-doc@vger.kernel.org
-Cc: Shankari02 <shankari.ak0208@gmail.com>
-Subject: Re: [PATCH] doc: Fix grammatical errors and highlight code funcs
-In-Reply-To: <20250218063929.5110-1-shankari.ak0208@gmail.com>
-References: <20250218063929.5110-1-shankari.ak0208@gmail.com>
-Date: Tue, 18 Feb 2025 08:39:57 -0700
-Message-ID: <87pljfqn1u.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="B70miVz5";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Eo1YYE6U"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51IEHnEm009446;
+	Tue, 18 Feb 2025 15:43:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=corp-2023-11-20; bh=gXCRYt5/u+KMTAdE
+	hUTm8jyROcGUxa8Z8PAv0SVegAk=; b=B70miVz5qLJ9RfrzRxnC7IxaET8KNgNp
+	GlQyL7870yzrR/Z+x/ybY1fdZxNPGpkHHJnBKTpMALiuSKHy9PajcgJ2RMBUWydy
+	t0BCHlt2TBQMPsDx6Mc6pdhth7zitA2muNS6V3MBdWDhNrTuSWsK0mzFzkxBuWzB
+	N9DZlAoxaOrqNjL/UrRCUlDBsCrdNOACDiBuTeUecfyiDyox2GPWrDkUEEJ5+eTy
+	PxcKOTHDOP4e7q7LyG/pMxgG1CvKMbZLaFQtnCfCyQUa6RM7pijHh75P2AwMuqTd
+	6LTkcQ367wUnnc/9j0WFyA455zorOZT2V26Z2++GUgfvAUaDg3PwNA==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44thbceswk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Feb 2025 15:43:29 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 51IF9tDD028542;
+	Tue, 18 Feb 2025 15:43:28 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2040.outbound.protection.outlook.com [104.47.70.40])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 44thc90420-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Feb 2025 15:43:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eZEnFL5mH6AuLzI/Y0OEd4G+ZNti0qE3vyEVeZGOs0UGVt59Knee/8Pdlhcj2WmWk8866efO9gW6fOKAAfv3w9vavnYsiUWs5jW1zx7OTBL4MQT/f2C4xuvId7dazV5QWJDGDFmMTE9J8WJqK0ZG9t3H6oiMTXHX04fUPIBKR4zY45ZBUWuJmVSQl+FipulaMomqYPXD+8+mbD/80Y/cdxsZrYCI02JabWXm1abuMR7feB57HtdM9RqPO3zTpM6S76vgT1cQ7Od8DHGXe3krHefLXFWcVtLG/DecdjxS3kbAroc0vEgihY+9VBtrgG6Z1tF7U923fkmqBu/iGw/XCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gXCRYt5/u+KMTAdEhUTm8jyROcGUxa8Z8PAv0SVegAk=;
+ b=PBv7KOTqwMB+yum6nxjkWwTkbTH/g4QnorBDsUflMYNiDewSl0/o19/a8PQVVY3nD0mKJOh7S3NHce2MMAzqpFc9HQJU2HCPO3tftvqXn3M4ajFLMe5ZGMQYfosMRvZ8Bk1L3x4spYFXBGFv7RRJfw/mxv6hJIXtjNvBsJntmiFSZAIWjXw0d3cU1AR8aLegJgo5+0XZQu6Oaw+2Su6UZLyNzUrp/acQUL2VOjE3QI7P6m14sUXQEWsAQ2NtEVy/HF8GMXonrxg1Icr/XB/t0/zb0UGysZMy0wr8P7Pe8wHFrcIVV8I/k7nNWOj98ZZavRjbfOG1pk3julejW0L2Qg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gXCRYt5/u+KMTAdEhUTm8jyROcGUxa8Z8PAv0SVegAk=;
+ b=Eo1YYE6UiUKD2KNW2KpV+6yaRrXbR2O2KDstga68I+R8gfgft9PlytvAfQVjuBCrGI99Cb4sttirQ6PRfqFWVlnQDFH1SUYRk0NrmSzWLgpuOTLa9vYYWhG88K8Z6Kor+FTPJSeGNsFhKuYtk+PwRxVlsZJk06ciD8ctHgLKgbs=
+Received: from BYAPR10MB3366.namprd10.prod.outlook.com (2603:10b6:a03:14f::25)
+ by MN6PR10MB7997.namprd10.prod.outlook.com (2603:10b6:208:500::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.14; Tue, 18 Feb
+ 2025 15:43:27 +0000
+Received: from BYAPR10MB3366.namprd10.prod.outlook.com
+ ([fe80::baf2:dff1:d471:1c9]) by BYAPR10MB3366.namprd10.prod.outlook.com
+ ([fe80::baf2:dff1:d471:1c9%5]) with mapi id 15.20.8445.017; Tue, 18 Feb 2025
+ 15:43:27 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Carlos Bilbao <carlos.bilbao@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kernel-docs: Add book to process/kernel-docs.rst
+Date: Tue, 18 Feb 2025 15:43:03 +0000
+Message-ID: <20250218154303.45595-1-lorenzo.stoakes@oracle.com>
+X-Mailer: git-send-email 2.48.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0662.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:316::18) To BYAPR10MB3366.namprd10.prod.outlook.com
+ (2603:10b6:a03:14f::25)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3366:EE_|MN6PR10MB7997:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf3483f2-5823-4e3a-e7b7-08dd5032fc7a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?pWFInMdozFoGOWHDsRIzq5xCP9biVslxcCegOaWkuCdE2AT8pmhVXJqnTqXH?=
+ =?us-ascii?Q?60uqTYsLo2Dn5nSnLYajmq7jNfvIpGiHc+TF5Z5DkaDAdTciv9WamT8Ywo57?=
+ =?us-ascii?Q?VICVkDDoSq0SqMH7i8I5yjQ5Joz+8n46fEKpRJVO6JCwbMi8i6W/ehjEamHW?=
+ =?us-ascii?Q?0Hqu7KFsczNVXIbrHWd7DnzF+sQIgswmmC56vwbeTNXbNJxtmbvmoRYx8i5p?=
+ =?us-ascii?Q?MCl5HvoGCVm5Im+5VKlGp8od9/rs/nCJN3lY5hdQY5fCBeTx4+AxuBdEAeQd?=
+ =?us-ascii?Q?Ony/6NfoWptNXzK7t9Uo+1CICgApchQ1+acnz+u+8wwSC060kxdLtSb+pmO4?=
+ =?us-ascii?Q?bXQA/8DGOwHh6AZXAnlPKtKus/rjHLxYNzkI/u4Jd/XbUvX32J5uE3rliP3k?=
+ =?us-ascii?Q?ImQCbQnmRuuZWY+5xsR0uoOHaZn1N2WF0/RzgbfJC9hb0ulv4wFsXamO9Vz5?=
+ =?us-ascii?Q?b5J7ZkRlVt5a1dHTc2ju5wRpVDTryCOs1A35Qdlx21dN1y05kK1gz/oFE+hS?=
+ =?us-ascii?Q?fNdONw/vQSlNuQ9Y+j5DoAft8Sz88haB79YdFcvA2U5whpipVqh6VWY2e+kF?=
+ =?us-ascii?Q?KBiMq1sZ6bYVjBO7E72tmfUbKKBmAhKKR+RdOsfc7Vg/KkFDu2r50voD3c1I?=
+ =?us-ascii?Q?Q0styJ6/kSkJ0xvM1gYS1Lth+5U+pGScg8OiddoTDPvkaqri0jdsdL5yHjSd?=
+ =?us-ascii?Q?d2SR9Dy+yy1y63U/AuCe5hD1gKWgzTEZOr+xccS02iAIW1bM2a7KduLPwpgb?=
+ =?us-ascii?Q?4Ia3PZiYgXsKWK+lUZx8DjCFc+ZBLR/sjBRAe/1pu97kdIlRK6CsBm3Lx/7T?=
+ =?us-ascii?Q?AEjguYqcaCDIT4CpNRLlezdfvVwisb+PovykBxa3FKGU/y4tPq3RO7e1TAR1?=
+ =?us-ascii?Q?pNQLthbhfRqpSq4+DDro3BnNPRBT1TAOZ/ShxHKBWkcoh4LYKU3w8edZ+PHP?=
+ =?us-ascii?Q?vY222PaCiLDqno1XVMtpasAVewK6+qoqUJrz3N0XkwMlCK/ql3YQXvBnUj8K?=
+ =?us-ascii?Q?N8rScF+PEIKrQNHmR44I/R/c1OK4mVa0jwtWVsanHv6RTAWySPUPpZgv/jmc?=
+ =?us-ascii?Q?8spuATRMqZs23m7ldZ0xx/oy8UQ+8FR3VW7FUyo5ttCw7nHHPlSiVBa6pfSi?=
+ =?us-ascii?Q?D/JdazlFpdhHa4gxfJxiijCK6qXgHMbVQoMfNilzvNeO7JRK6xN3nOY1N9gx?=
+ =?us-ascii?Q?WQHTdK6uR0M44gzgORsyO9ebohRwE+AKZU45DcIPZpEjsPkRJbT5hgoUaJY9?=
+ =?us-ascii?Q?0muKAkLPceWwiM6oj3C3vubBT84DSWxaNVFwQ2ARdzMVeN7OyTsEU8o5CHJp?=
+ =?us-ascii?Q?auGF2Kh1tLNfZiXES7xDfqB7?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB3366.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4yUIBKCnodNW14xlbq8QoCQ0yaT3NCkHzCnxsOwvoAYHWI0N3Cl5Txgj0e6D?=
+ =?us-ascii?Q?33L4joH5+xjXD1CGOtG4lJIjfHKQQ1zvChGtzY3N1K7K/47zN1HnOV8iskZP?=
+ =?us-ascii?Q?QiHpMYLsu7ZU7Pj7pA1jZ00x3ywUbNWkQdnZcdVzjEHqYQnD8GNlG7az9QCW?=
+ =?us-ascii?Q?ucGTHVSy2u7ngAMHOxv3WjYZaJO/e7v6yrVpgrP8Hu+1/Wx/lmG6dRJ8FioP?=
+ =?us-ascii?Q?an9+vz/RoYWuBRRYnW2DVkBE4A9zzTxqg4n18aCmv/DS3Cjw0l5FQX41AQ6m?=
+ =?us-ascii?Q?2jyHOYaSOfj3ldMhecjwzuzovsHMA5n8VpMatXoTJCKk9MtDQkPEgiGCJaVj?=
+ =?us-ascii?Q?jN15JzCDZZPnZiesCgdR0mDJ7JtprEm/hXnwJXTNGERGtX0dLpxdDlSqOuuF?=
+ =?us-ascii?Q?YzYrYWavyUDXYyvaxmpKhBMi07o0Fpqn390qu2eemjjP2Fgg+VQ+0GB5swwn?=
+ =?us-ascii?Q?sHHnG9lj2ZNA6xHiVeAlgrkhMA2s0+nsgGfMriE7QPxd8lHhVwwNNZBwT68a?=
+ =?us-ascii?Q?GaULYa4dCytFsHtgDhyDsLE/JDXK9/1Xs2MpO5rwPu9XtmONed7JBfavK3de?=
+ =?us-ascii?Q?pSfZK4kISQonAjXnMG4VuKMTYXfthoNccoEx+NULe++oNaffR8+Q2WzJQJu2?=
+ =?us-ascii?Q?n7tltKXrK26KKJTap7I5hq8Rf2mUcjoug/a75MzTSnjJrLbl6Ej8VxyQjJ5z?=
+ =?us-ascii?Q?9riBZ3jBUcfLwhyDKokvhdnmhv06wZWU1NpfIZwsE21u0ErEN3GPlXIPH+ke?=
+ =?us-ascii?Q?KlKWdQyMAcEodiYAuBPIHQnMIBYkcrrzJycnnDy770JLVXa1A210eCPduPIN?=
+ =?us-ascii?Q?Ub09+Nx3nPGIFyrxzTIDC3MxM+uyiN7iOQef4s8Sn1lNULC3uUWkFG9UeByw?=
+ =?us-ascii?Q?Os03JPn1DMMw3rmNu/UaepmaCucHrdP6axNbO9nLfxlBlMaQAprdmAjJi4E8?=
+ =?us-ascii?Q?qk4cubVa3ARgui7e0TJD8xWnU6FGi5/l0+TZImJX/C8JIr4OMND14Eha7dVu?=
+ =?us-ascii?Q?AgZ58v9P+hcbnHgz1p/Ql3Nb6wZeyiFfVrA0r5nyIm8JavI2lDef2kwBddNZ?=
+ =?us-ascii?Q?nygFPdsqgI+WjUSUAcOnJcdNQrjl9qO5IMSK9nvHYVRvj7oeNeGtpE5rKULs?=
+ =?us-ascii?Q?JXO7Um/b2DLeAtTNZI8W2aKELyul2oyW/yCqZwFPB6P7mNhByFoJB+/JY7wI?=
+ =?us-ascii?Q?B+FmLRgbqOKZM3IdsSSh5zkkbE9wv2FNJebbr8xHaDRL2r5+7WnHfKWBkvPD?=
+ =?us-ascii?Q?mhGnIpHwJ3PmeXNYyUJf+R0xGeNWd125wEZt72h28axyTyWy34AjrtKk22MP?=
+ =?us-ascii?Q?KWKyRJBxNCNkx5XMOhsTwDIxY2jIdcmhRHmk/QzP+Qb+CLSCS4BZ1WwU1SQ9?=
+ =?us-ascii?Q?+XufD/yk2zX565+nD7t75Cmgr+FyH64HY1rsoIMa0aFeguH+nes+2fAR25ei?=
+ =?us-ascii?Q?pekJCG2L04ZDPPAFf3pu0sYTYIkHEzCgOZjG6HiF6tkWbOg/5wJK9GHyhS+u?=
+ =?us-ascii?Q?NLDdxFcrAHroG535ZaxkabnhUlU2DHdatk+Pmk0887O2fUB+Nh/ZYGHIpvtk?=
+ =?us-ascii?Q?rfXWoNyRKX6cqqQCtEuEKCYyXgUxygfOwU3h1/KkxWNM6KJsOBkE+ufj9V0I?=
+ =?us-ascii?Q?/g=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	TzsxB5IDzCNftMwVWYedE7nZ3eDUXmYKD7WN4I2TVtKoPj8jLsoOWJay7rHOBIdlWoVxgMliW/7E5Cxp5A5ncDBo5mqklbA4WITSD4z6FIVWQ0MHizzuNTsgXvCMOLvE8iqf6ZSfjPdIcuMVXEydJ33Mqvjx7lBQffoMJmsieKMGbcP2u4KXROlclzJPOFe+YPspq/OD7Oy4qmKN5Vws5tpyEWY5YHq9theNOv5lC9ouwIp3ooBDTJ6MMhF/IjMqKFEl9Fa6jCJ2pGkCt8GFHenCQuYzQGWJWjziNVTxEUmmHeFpMgZtHB59W0SBIBZyfQRQ+dK+9DDwq+9bwu8a0OIEps9W+LL956slYTGLxocIguj5moKhW6lKYXa6UDIalbIte8vSf7ZVvbN1pjwX2igyt9pmw9phQg0gwV0YDf6gLw4no/BQTsC6Y+6102M6ps3OEOq86756jo92jgHL3m6sFjfUdIk7Uul4XFyK/nISMwL1PXP9I1B5ENPnVMe79LlbpZn8uqEckn9wgDxkSF7tJH4ecJsrS1MuKfs5kWzBiYN/ciE4m2SWx0m5yVbJvIaa4TD34TPq66Q1ZLeLnQmul0B0BpcN84XrFtoVgbQ=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf3483f2-5823-4e3a-e7b7-08dd5032fc7a
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3366.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 15:43:27.2385
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U0B7w+f8esA4ryMZXV23/u01kGb85ornR+vJu7MGrudhMo+xIt3JAuLJ4yozC/inx1Ev/kYaVuLNjA67y5PfJ53cWrdNYYGkeQhB2AOymgg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR10MB7997
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-18_07,2025-02-18_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ suspectscore=0 phishscore=0 mlxscore=0 bulkscore=0 malwarescore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2501170000 definitions=main-2502180114
+X-Proofpoint-GUID: 0GDX9EIxfDMg6DA7-_j8C2CKllq1YByk
+X-Proofpoint-ORIG-GUID: 0GDX9EIxfDMg6DA7-_j8C2CKllq1YByk
 
-Shankari02 <shankari.ak0208@gmail.com> writes:
+Add a reference to my new book, The Linux Memory Manager, an in-depth
+exploration of the memory management subsystem, to
+process/kernel-docs.rst.
 
-> This patch improves few sentences by correcting their grammatical formation. Some code functions have been highlighted for better readability.
+This is not yet published, but the full draft is available on pre-order, so
+it seems worthwhile adding it here. The situation is made clear in the
+'notes' section.
 
-Please wrap your text to less than 80 columns
+The 'pre-release' was made available in February 2025, and full release is
+scheduled for Fall 2025. The book's ISBN-13 is 978-1718504462.
 
-Some maintainers react strongly to the "this patch" phrasing; better to
-use the imperative tense as described in
-Documentation/process/submitting-patches.rst. 
+The document will be updated upon release to reflect this.
 
-> Signed-off-by: Shankari <shankari.ak0208@gmail.com>
+Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+---
+ Documentation/process/kernel-docs.rst | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Please include your full name in the signoff
+diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
+index 3b5b5983fea8..c67ac12cf789 100644
+--- a/Documentation/process/kernel-docs.rst
++++ b/Documentation/process/kernel-docs.rst
+@@ -75,6 +75,17 @@ On-line docs
+ Published books
+ ---------------
+ 
++    * Title: **The Linux Memory Manager**
++
++      :Author: Lorenzo Stoakes
++      :Publisher: No Starch Press
++      :Date: February 2025
++      :Pages: 1300
++      :ISBN: 978-1718504462
++      :Notes: Memory management. Full draft available as early access for
++              pre-order, full release scheduled for Fall 2025. See
++              https://nostarch.com/linux-memory-manager for further info.
++
+     * Title: **Practical Linux System Administration: A Guide to Installation, Configuration, and Management, 1st Edition**
+ 
+       :Author: Kenneth Hess
+-- 
+2.48.1
 
-> ---
->  Documentation/driver-api/fpga/fpga-mgr.rst | 26 +++++++++++-----------
->  1 file changed, 13 insertions(+), 13 deletions(-)
->
-> diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
-> index 8d2b79f696c1..a53775399bbd 100644
-> --- a/Documentation/driver-api/fpga/fpga-mgr.rst
-> +++ b/Documentation/driver-api/fpga/fpga-mgr.rst
-> @@ -76,7 +76,7 @@ parameter syntax is the same, but the call to ``fpga_mgr_unregister()`` should b
->  removed. In the above example, the ``socfpga_fpga_remove()`` function would not be
->  required.
->  
-> -The ops will implement whatever device specific register writes are needed to
-> +The ops will implement whatever device-specific register writes are needed to
->  do the programming sequence for this particular FPGA.  These ops return 0 for
->  success or negative error codes otherwise.
->  
-> @@ -86,34 +86,34 @@ The programming sequence is::
->   3. .write or .write_sg (may be called once or multiple times)
->   4. .write_complete
->  
-> -The .parse_header function will set header_size and data_size to
-> +The **.parse_header** function will set header_size and data_size to
-
-All of this extra markup does not help, I would not do that.  Functions
-are generally marked using the function() convention instead.
-
->  struct fpga_image_info. Before parse_header call, header_size is initialized
->  with initial_header_size. If flag skip_header of fpga_manager_ops is true,
->  .write function will get image buffer starting at header_size offset from the
->  beginning. If data_size is set, .write function will get data_size bytes of
-> -the image buffer, otherwise .write will get data up to the end of image buffer.
-> -This will not affect .write_sg, .write_sg will still get whole image in
-> -sg_table form. If FPGA image is already mapped as a single contiguous buffer,
-> +the image buffer; otherwise .write will get data up to the end of image buffer.
-> +This will not affect .write_sg, .write_sg will still get the whole image in
-> +sg_table form. If FPGA image is already mapped as a single contiguous buffer, the
->  whole buffer will be passed into .parse_header. If image is in scatter-gather
->  form, core code will buffer up at least .initial_header_size before the first
-> -call of .parse_header, if it is not enough, .parse_header should set desired
-> -size into info->header_size and return -EAGAIN, then it will be called again
-> +call of .parse_header, if it is not enough, .parse_header should set the desired
-> +size into info->header_size and return ``-EAGAIN``, then it will be called again
->  with greater part of image buffer on the input.
->  
-> -The .write_init function will prepare the FPGA to receive the image data. The
-> +The **.write_init** function will prepare the FPGA to receive the image data. The
->  buffer passed into .write_init will be at least info->header_size bytes long;
->  if the whole bitstream is not immediately available then the core code will
->  buffer up at least this much before starting.
->  
-> -The .write function writes a buffer to the FPGA. The buffer may be contain the
-> +The **.write** function writes a buffer to the FPGA. The buffer may contain the
->  whole FPGA image or may be a smaller chunk of an FPGA image.  In the latter
->  case, this function is called multiple times for successive chunks. This interface
->  is suitable for drivers which use PIO.
->  
-> -The .write_sg version behaves the same as .write except the input is a sg_table
-> -scatter list. This interface is suitable for drivers which use DMA.
-> +The **.write_sg** version behaves the same as .write except the input is a sg_table
-> +scatter list. This interface is suitable for drivers that use DMA.
->  
-> -The .write_complete function is called after all the image has been written
-> +The **.write_complete** function is called after all the image has been written
->  to put the FPGA into operating mode.
->  
->  The ops include a .state function which will determine the state the FPGA is in
-> @@ -126,7 +126,7 @@ API for implementing a new FPGA Manager driver
->  * ``fpga_mgr_states`` -  Values for :c:expr:`fpga_manager->state`.
->  * struct fpga_manager -  the FPGA manager struct
->  * struct fpga_manager_ops -  Low level FPGA manager driver ops
-> -* struct fpga_manager_info -  Parameter structure for fpga_mgr_register_full()
-> +* struct fpga_manager_info -  Parameter structure for ``fpga_mgr_register_full()``
-
-This extra markup will actively defeat the automatic markup we already have.
-
->  * __fpga_mgr_register_full() -  Create and register an FPGA manager using the
->    fpga_mgr_info structure to provide the full flexibility of options
->  * __fpga_mgr_register() -  Create and register an FPGA manager using standard
-> -- 
-> 2.34.1
-
-Thanks,
-
-jon
