@@ -1,181 +1,372 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2040.outbound.protection.outlook.com [40.107.96.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D7E158A13
-	for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 02:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739847256; cv=none; b=VYwWMY0KCtUqeTfahHPSyD7G81viJr2mVFfUp9SF+DptNZMFWfBdp3hDvQd5SQV/6QRmr2SmjU1VEvBIuVSmSJoS+67nfegZRxx9OH6IBJXmzr5YExMoFjY91c7SW1bQdRjk9zJbzLgiJ6kWR+0V+awfWt6d2a5DmMyxacfuYQM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739847256; c=relaxed/simple;
-	bh=NqYOf5IRaN93taIPDD+XYrCa/YE8dsjIX4rnRCevGVA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D9PRoSgK20NXHYi9FXlSj/HExTtwdwq0dg0DuHOeEOiAMItXK6asVaUQkDsg7bFuLhkDapCGq2Nc/uetU3lZl97dZdIIj80Kw2XNKZHPNkMPDDM37KZ84UjVMaidC3WbD+BUlRPx0Vx2Teym+LMKakDG/ugTfMcG/xNl94Sgs9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=PdrnrKZD; arc=none smtp.client-ip=209.85.217.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128271D554;
+	Tue, 18 Feb 2025 03:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739850953; cv=fail; b=SDxXLlr8jAO7cm0iiinFCyft5WEOuMiVwoP2TuEbzmlK8yR4KkRC+KeTK9W+v8Ijef3+TrSM17fTHwNaNnaj+nmyBgLslFYg5B2FhNXaMyc5JP23UaV/t9lLYVKxvNkMVoQ9Ye22bRxlbH6XADdThNcEInJ5wTVaT5ChzcBlz2I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739850953; c=relaxed/simple;
+	bh=XCB5JlK6rLnB1dISWbotnOrQNCI+PlaNQMJYgujHN2c=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Pg82EnGyPknTh2ivCsyDUs27JcbyXuqrXwvCXu1aCTvYHHl8e+6SPByy1eeSaUCPLdLFqQ+uZr7RgZ91pXpXo+1MqAy6u85iDErOGQDbaortmg3K7xmB7UNKnNNDvwtEjaCI6tpkTU5LoG8NuEDjikH8RNVT5BuapuxYLr7sOPk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=I5HJ3Lk/; arc=fail smtp.client-ip=40.107.96.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="PdrnrKZD"
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4bd3679279bso1089526137.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 18:54:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1739847253; x=1740452053; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NqYOf5IRaN93taIPDD+XYrCa/YE8dsjIX4rnRCevGVA=;
-        b=PdrnrKZDKmDyevjNz8MgzwoOFGo/D9IXdBOKTrrKqR6dy4YpyNBuo8M2ni02qdY7K3
-         n+6OyRjbxt091EPp8zoma++rXaQEuXH923jGxKm6wdsvOK/e33jc9iamG5/RAz+HAv15
-         a6Zg8nCWrxOTWMVKi84rc9ma8tTgHrdIlUO+8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739847253; x=1740452053;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NqYOf5IRaN93taIPDD+XYrCa/YE8dsjIX4rnRCevGVA=;
-        b=NmD3QUZC6bJd2uCSp2YMmd9IoTvjgxSUVY7hySNPTPgVPKUBalEIZhUznKSWSrUKkU
-         2BxMI9NcSSlKThggiXzQVp8YznwJ0weRxJZPvmbBXYbiZxBhFIXX0wM9fECY02kpap9i
-         fhWnQutfSlKC/pU/BKjaoONwA0frtc97T0piW6FDnDtwE+SRKBLFo3NVODxslZWPaQbV
-         oKlRMfrAtcV4JWlPfpu+Gm02DCAOlnNJg8MZNzaxXEkH+pwRzHxHPIG4mm2N7Kc1mJU8
-         iv8WbkFXSVBW389DIQB0j4IvtwwxwVMZ10RqRrurQmhus1Xalf0cDnIH9qC2XRdxC9Kb
-         8v8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVKuJN3taRzVJPAjB40EvaDgGvG+KfTpn+grV+6mvIlcwTg6o6C9QI+rhyWk/VBaVP4ugOWvbnkS8E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1LmeXB42FMyBT2UVl0UhannWacKtHY/FGAjCV16NSPqTFBvDU
-	eRtYfCfebRtYvj+zF2Eg0fDWvkLlAJmtDfVI55xEYEs7UbCoPvQXqrgnJSDDBFNv9mp9BF4k3Hw
-	Y/QJkH37GA72JQPJ7+FBtqBjNSjUWeJtWTHsg
-X-Gm-Gg: ASbGncvv/tJQZHtEG4/5rVq6IOqujlYbSj7Eotah8HjSzoG1UuIpjEP8ov5FelDf/eR
-	ZcL+KdtaeRH+3EtGUoxlnS7FLbVtJi3YXdm5HMttK9p9Zm/WbIZl8L/4qnDqSzf6orbtjq0KTdA
-	==
-X-Google-Smtp-Source: AGHT+IG9SZUdqysoQhs9EbtkQn933N+Jljou7Uv2SWp4WKMWMSpWxLhiIYWyq05iRYzySsQ0IR1Xy/Kh6+Jn92rNfD4=
-X-Received: by 2002:a05:6102:4410:b0:4bb:dfd8:4177 with SMTP id
- ada2fe7eead31-4bd3fc6c4c9mr5637645137.7.1739847253571; Mon, 17 Feb 2025
- 18:54:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="I5HJ3Lk/"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X1+EGTUPKbtNYSN04gjvTJ4DPFAH0eDT4m5klfrHfHo/Nk7jAlTTMeMwcIVqAjljfj5Bi0yYV05jzdTIEJlUI59RzpZS4EqBT4djR4Z2zZtGzET4lCmusndsZpoYMG+FyZTLCagZUhz+xFFf4LZXNCuLlIZRrTVLS6dZbWFzumpoDRnOgEp4n+anIJ/0psRvMCIXGJkhG6OxqoaMCzAnI+bKc5sgibQz1P2IXpWMgOO77/Qx8s31ql1dBJltJMCsNgJa6BaRXXcATDcZcLmtdjW01XRH+oO0VnSqQg9hj9/rzW4Cp0KNzjYi9iMRSyDKah4aZP5CfiMx3BZWAoHG+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1/VKp2nf1QCgpbd3ASSbmqqYmz6e830auaO4USFstsA=;
+ b=HcU1Q70kow5g+KFsRsN84mF3CwS2mNXODoczi0qtRA1V9NMIeIeLm7yddp6l777jV6xyyTR1OWIeM6/e/MNEkolC0B0QIqknxdVTHahtH2QwDdKzuY99BMZ2o2CEbdocr4wgWwLkJblnRwjjCiBcsjhRFAGKCpajcEv3u6VLR5C4Ubj+LqJ0z1UAAroST9g034KOSwtPes9hgLLtkE0JzNtUH59DH5MhJYADk214V/UXwF7GCzFgoS5i6reyDfkQjAHZR7GJTWxu1grW17CT2RT8+YVa1xixvGUmeisSVc/EGMS4BFg6EfGqZMjbg48v/SMyqlrgUWLbbeWWqzJX1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1/VKp2nf1QCgpbd3ASSbmqqYmz6e830auaO4USFstsA=;
+ b=I5HJ3Lk/pcQrbwS+SmCMxsabpspXwWCEo4FEmb0SPrLHt6JvuoyvUXxsHGPPb4YyUL8N+QNIR1EMQ8EqDhQMHFxqLst62Ohevyk51uGmXz72XvdcflqVUxLto0lnrYHw6dyeiZbdKCFgxDtc6Z/OmbEpd8yH5+cBLvn2QEn5qgf4i+LwOL3KKoBSB5pj3dGWeNUf6epvDiPPwJaqUscvCt0cdaoiFHwXBSzJJBvCzUnneUbbodA+ERJTTfupf2jLrSf0WDQYo2SGHBAqpXpCJIwNaIB0PznARBeGoL1vAeMGwUBdHR+d3JvQgQMGtOUGZpBeaaURd2B8blm/AswJnw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ SN7PR12MB6789.namprd12.prod.outlook.com (2603:10b6:806:26b::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.11; Tue, 18 Feb
+ 2025 03:55:47 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%7]) with mapi id 15.20.8445.017; Tue, 18 Feb 2025
+ 03:55:47 +0000
+From: Alistair Popple <apopple@nvidia.com>
+To: akpm@linux-foundation.org,
+	dan.j.williams@intel.com,
+	linux-mm@kvack.org
+Cc: Alistair Popple <apopple@nvidia.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	lina@asahilina.net,
+	zhang.lyra@gmail.com,
+	gerald.schaefer@linux.ibm.com,
+	vishal.l.verma@intel.com,
+	dave.jiang@intel.com,
+	logang@deltatee.com,
+	bhelgaas@google.com,
+	jack@suse.cz,
+	jgg@ziepe.ca,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	mpe@ellerman.id.au,
+	npiggin@gmail.com,
+	dave.hansen@linux.intel.com,
+	ira.weiny@intel.com,
+	willy@infradead.org,
+	djwong@kernel.org,
+	tytso@mit.edu,
+	linmiaohe@huawei.com,
+	david@redhat.com,
+	peterx@redhat.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	jhubbard@nvidia.com,
+	hch@lst.de,
+	david@fromorbit.com,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	loongarch@lists.linux.dev
+Subject: [PATCH v8 00/20] fs/dax: Fix ZONE_DEVICE page reference counts
+Date: Tue, 18 Feb 2025 14:55:16 +1100
+Message-ID: <cover.a782e309b1328f961da88abddbbc48e5b4579021.1739850794.git-series.apopple@nvidia.com>
+X-Mailer: git-send-email 2.45.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SY5PR01CA0126.ausprd01.prod.outlook.com
+ (2603:10c6:10:246::18) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250213180134.323929-1-tariqt@nvidia.com> <20250213180134.323929-2-tariqt@nvidia.com>
-In-Reply-To: <20250213180134.323929-2-tariqt@nvidia.com>
-From: Kalesh Anakkur Purayil <kalesh-anakkur.purayil@broadcom.com>
-Date: Tue, 18 Feb 2025 08:24:01 +0530
-X-Gm-Features: AWEUYZkCl3MZ70-zouOti4G4AZeLKQHyJr2g3a9mCU2ZxpMjKS8qX9cgJclxrPI
-Message-ID: <CAH-L+nNJsjm9kADTX6YXkAUzsPeKJKJu47ndJ=qqtA5J6uA8_A@mail.gmail.com>
-Subject: Re: [PATCH net-next 01/10] devlink: Remove unused param of devlink_rate_nodes_check
-To: Tariq Toukan <tariqt@nvidia.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Jiri Pirko <jiri@nvidia.com>, 
-	Cosmin Ratiu <cratiu@nvidia.com>, Carolina Jubran <cjubran@nvidia.com>, Gal Pressman <gal@nvidia.com>, 
-	Mark Bloch <mbloch@nvidia.com>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000088161f062e61c19d"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|SN7PR12MB6789:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2dfb6f4d-2f84-410f-5bba-08dd4fd0208a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?G+dt0xGuyInHZh46a2Wv6W+zwzvxKsmZf6dTznnQ4mn0Uvz0GEr7mrD77tup?=
+ =?us-ascii?Q?ntwDjNwX4+ooT4ecGGQ3OL96/Bn9utWagrXPrJ1TsGi45LRO/lv/+jLM1wBC?=
+ =?us-ascii?Q?nQlzSuFCQJr0c7VALBKuJYxCkmMm2/X3mHyl1KRVz5pqRD8VS/JCHEM52Sb2?=
+ =?us-ascii?Q?ceF+cqYYaZsPiUa7EgxspqWhfG3P7Zf+4APfny+ngG9zDgOxYwr6CCmxMN/v?=
+ =?us-ascii?Q?4iBLCcPFNt6TDb24SgJ2ZV3sURI1wX1Ux7Kflj9asfePXQV2e3CSPM0RHWSF?=
+ =?us-ascii?Q?Q8l9CCVOrAptgZrDlsTgnQ3FS/vyZrmJ8NzvsSuMbWSvoZtiAWfuDXOdWQF/?=
+ =?us-ascii?Q?DgrLjoYTNhuVQLDws6PP5/O1trbxfpdDHxAEb8Gd0zpTljeyFNC4M9k3TFDU?=
+ =?us-ascii?Q?1/pJAMECFFcP4cSOOzr+88XhqTTA4mDO4ti49NsKGMhSkYgX/ZQ0SmEtnh5d?=
+ =?us-ascii?Q?poWFAM/qN4LRHkWwUXpuP6gQNeviICIsf0aawmHZ9R+1lzD78MARvjc4g5W+?=
+ =?us-ascii?Q?2hsL6DLbQUo30bEMKexdo1sHthiNnlaVg9qTVqAv/ZY7B7lN6tm7/mS+q7s7?=
+ =?us-ascii?Q?ABBiPdRAHZfnqFsiWLnNtWIEmDTEzMge+xxObaA0YqoakjPF1TkmQnUOdkFN?=
+ =?us-ascii?Q?5wSglvSaY5SCCw5J15QoIwIcixHJGwevrJueT/8NsG09j6LRr6Jj6A2rwz6C?=
+ =?us-ascii?Q?ouJ41EvgECBNHzsGLpLvQSviDGeCmicrp2FmsYYXUk4mz32yue+Mrtd/11YY?=
+ =?us-ascii?Q?cuxc1jDl5yMORaSuw7tNrKlVpC1vdxyBELGL2MZ9rgJsGqnIYMx0DPletlda?=
+ =?us-ascii?Q?gb6YCwNdIh6CPYDDnU0YCfPFME7a1TJUD86WBvCIBls4fy95iHDOe8RpI+xo?=
+ =?us-ascii?Q?whBiegN256ZVJdaxW3iAulph0ggZv8FjgEq/m5cufCH1rLiezPVwI2gC5vo4?=
+ =?us-ascii?Q?EjbfS4prylTsJhl4xEqrokU9b1uUg3VuTJ8YudLN3FCSdh+m34R6LFph1pEB?=
+ =?us-ascii?Q?TP4mpAml8vFVuHq+Iod1bucBRDOn6M1iajLfZGtfyJz5kpVznguLFBe3Lclq?=
+ =?us-ascii?Q?fLggus+DSfMFN7iHletl0dIANEt0W9d+yjz0iJ760yA4b/VwlbGWF5eVLC/9?=
+ =?us-ascii?Q?raJIGXFwcZHWvrl+Cgg7tpXxvr1oeic2w91aw46d0qR0g5HVFQR9TVSefTmS?=
+ =?us-ascii?Q?ShDBeTV3rRhenEYHlujbKqb9xkS1ISVvFvVOJ30svKkIv9IMQKmxDgo/mmgl?=
+ =?us-ascii?Q?ug7igFDCdPbat22+YA4ycM4BjYnPJDeM1E7FHvaPuwWciSeL/ZALR240qRPl?=
+ =?us-ascii?Q?wDLxPZ+kS0oWXdOa5hHM3lXduVV2vs/TXkkzwSZjQ7KisaXOsfJfZQ8a2qPA?=
+ =?us-ascii?Q?FkC629bZOp8BNBAgFTZCBdFyZ1SD?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Y1eU9MS5ShNhCShWDDRdJ8jR8Ccd9YTJ2TeM2MulSr1jcX5K9JHwn1TKeMCJ?=
+ =?us-ascii?Q?ANEnmTbBEQYIVUU3aDBFYCAyjLkzNdBC2BeTwKCiTKRVkd0IrEAgpdDqy7fj?=
+ =?us-ascii?Q?mCElKd8PJcg7Vy2jENRdQiNmLKzlXU0wUh87Vojj+OZ4eFGFyJnJJJxmz6U8?=
+ =?us-ascii?Q?XFr/1Rb+K0MI95w/Vxk3M4LHCAp9dh9iOcIkQIqKoFzlWw7LBiSz5/ZUJoPK?=
+ =?us-ascii?Q?YzZyJtWjemXLrGiw5hGFaNeTlaKcwDrF1Sw2e4kHlkfBCWnjddplimbacfEG?=
+ =?us-ascii?Q?bmmR39T7UPC3Krd9gdl/CIo99aOx6WGhm5UO7WV/GRGZntYfjSR3ozkuGnEz?=
+ =?us-ascii?Q?a2/nMiyR6wRKNZQGAo7QObGmrmGqT4CeH3ZNPo9C7zKhNtb8z8fp7pNn3iQr?=
+ =?us-ascii?Q?n3evnJpSvct4Dwr8Aie0a53Kbliu6iLlGbVXlAmSv8Qa6dIolPW/KgaNMl7P?=
+ =?us-ascii?Q?PEGdkhiHATCS9y0nPOykhzfnUEflDws1xcVS+JrFMVXcC2FNvOBMVZRYwFCH?=
+ =?us-ascii?Q?moOA3+Wmx6vpSe4NA2DQWedw/sq3oynJ2ysJIjr+JToaC6JTU4PnLjG2RqLk?=
+ =?us-ascii?Q?HrzH4R6sanhzR0VDqUZlucU89/4y04KKLURM5pxlFO0dT6thGqaO0oCLahmy?=
+ =?us-ascii?Q?nx448adaPJaQuJm7p6VGH1CeqHDEGNAFS9K+jY3FBO+vbLlBFdUhpeaEKSwt?=
+ =?us-ascii?Q?TNHXb1HQLZMxBqu1/Q6RWB7iMo7xv4yxCp0Pp30Yb7r4WgPFeMmqRXdfNYve?=
+ =?us-ascii?Q?wO1GPSDVLPYd7IFjTXRjL6y0wpKv4xtY90qjp4m8FvkbnABDpu2vZ/ktZf8o?=
+ =?us-ascii?Q?uXwrn2MmvmZ3AAYg8tKWlApm1ygT0z8SbFZwYFz/QnPB3j3Q5Zys5SFuxBxE?=
+ =?us-ascii?Q?Vr+NMFgjYTdOff23eLSRYBo2hKituBIBZzHc1iBQrYPLEVzzQU506j94WVfT?=
+ =?us-ascii?Q?jE9sTZ+/3L4VUS+VKgZmmyWzl7pxbNAii+ytOCvULgI1bb7ap3m7rnQ9SPvM?=
+ =?us-ascii?Q?/I61wB3LraBmleBeYEJNien3/RUZk0IM6xjjNpinRz8eJZl3TXOu7A1ArEKm?=
+ =?us-ascii?Q?08dm6tErHfvRktV8yikRLZBZMOXLBJNRindYJHln96o0S/YBsNlP+vXsGFvu?=
+ =?us-ascii?Q?DbJHtWq9wiD2XcKd060xU2ad/DsfIM91X/6g8ZYiDNwpNhFF4qIlaWjYNIJO?=
+ =?us-ascii?Q?0Uw3zx1pkdrDi7goDUTTDmpR/dgkW+uG0jtbdQZ0G4T5PD5fiUxIsViD/LEr?=
+ =?us-ascii?Q?/ZvNQP+AlyystmLLF+QRS17KeAh+VXo8i0Q3LuXuHSLziIZCcyRgBm2QUzHI?=
+ =?us-ascii?Q?uEWZy3ZYnIbi7DQRZK3NihUCBsY8qzq96nxGbAid7mptdZjZXBhFXSSFqxBf?=
+ =?us-ascii?Q?4P2VO6+BR4bhl8smP4xwk8pReoR6Zgq8DhKG6qd95VZNRHcuV8IqIbaOWCLx?=
+ =?us-ascii?Q?oVW4YC7EYBTqgsk26qHewM73HnmKwaUqwqUySC3XmXZ5O+YJlqnRnnKmRUvc?=
+ =?us-ascii?Q?OnE0ewTZtJTKBGTfmMOFM+Yhus/MVTT8cq8YnfW6XxuYaJ8L4jh4hE6QMyGh?=
+ =?us-ascii?Q?HEirzaKFJbtoC1YGmZhs+k2eG4zHp9dtlo6PTl9v?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dfb6f4d-2f84-410f-5bba-08dd4fd0208a
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 03:55:47.6140
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S9R3O0/l6hI9BhYom8AKTj5BBEokGkCVGONGvX7QvvGR/XY/vJhpag8KCva7wLUmp9uqXDLNE+S+R3z5Nos7pA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6789
 
---00000000000088161f062e61c19d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Main updates since v6:
 
-On Thu, Feb 13, 2025 at 11:34=E2=80=AFPM Tariq Toukan <tariqt@nvidia.com> w=
-rote:
->
-> From: Cosmin Ratiu <cratiu@nvidia.com>
->
-> The 'mode' param is unused so remove it.
->
-> Signed-off-by: Cosmin Ratiu <cratiu@nvidia.com>
-> Reviewed-by: Carolina Jubran <cjubran@nvidia.com>
-> Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
+ - Clean ups and fixes based on feedback from David and Dan.
 
-LGTM,
-Reviewed-by: Kalesh AP <kalesh-anakkur.purayil@broadcom.com>
+ - Rebased from next-20241216 to v6.14-rc1. No conflicts.
 
+ - Dropped the PTE bit removals and clean-ups - will post this as a
+   separate series to be merged after this one as Dan wanted it split
+   up more and this series is already too big.
 
---=20
-Regards,
-Kalesh AP
+Main updates since v5:
 
---00000000000088161f062e61c19d
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+ - Reworked patch 1 based on Dan's feedback.
 
-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
-riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
-QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
-UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
-M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
-Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
-14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
-a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
-XzCCBWowggRSoAMCAQICDDfBRQmwNSI92mit0zANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
-RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
-UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAwODI5NTZaFw0yNTA5MTAwODI5NTZaMIGi
-MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
-BgNVBAoTDUJyb2FkY29tIEluYy4xHzAdBgNVBAMTFkthbGVzaCBBbmFra3VyIFB1cmF5aWwxMjAw
-BgkqhkiG9w0BCQEWI2thbGVzaC1hbmFra3VyLnB1cmF5aWxAYnJvYWRjb20uY29tMIIBIjANBgkq
-hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxnv1Reaeezfr6NEmg3xZlh4cz9m7QCN13+j4z1scrX+b
-JfnV8xITT5yvwdQv3R3p7nzD/t29lTRWK3wjodUd2nImo6vBaH3JbDwleIjIWhDXLNZ4u7WIXYwx
-aQ8lYCdKXRsHXgGPY0+zSx9ddpqHZJlHwcvas3oKnQN9WgzZtsM7A8SJefWkNvkcOtef6bL8Ew+3
-FBfXmtsPL9I2vita8gkYzunj9Nu2IM+MnsP7V/+Coy/yZDtFJHp30hDnYGzuOhJchDF9/eASvE8T
-T1xqJODKM9xn5xXB1qezadfdgUs8k8QAYyP/oVBafF9uqDudL6otcBnziyDBQdFCuAQN7wIDAQAB
-o4IB5DCCAeAwDgYDVR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZC
-aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJj
-YTIwMjAuY3J0MEEGCCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3Iz
-cGVyc29uYWxzaWduMmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcC
-ARYmaHR0cHM6Ly93d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNV
-HR8EQjBAMD6gPKA6hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNp
-Z24yY2EyMDIwLmNybDAuBgNVHREEJzAlgSNrYWxlc2gtYW5ha2t1ci5wdXJheWlsQGJyb2FkY29t
-LmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGP
-zzAdBgNVHQ4EFgQUI3+tdStI+ABRGSqksMsiCmO9uDAwDQYJKoZIhvcNAQELBQADggEBAGfe1o9b
-4wUud0FMjb/FNdc433meL15npjdYWUeioHdlCGB5UvEaMGu71QysfoDOfUNeyO9YKp0h0fm7clvo
-cBqeWe4CPv9TQbmLEtXKdEpj5kFZBGmav69mGTlu1A9KDQW3y0CDzCPG2Fdm4s73PnkwvemRk9E2
-u9/kcZ8KWVeS+xq+XZ78kGTKQ6Wii3dMK/EHQhnDfidadoN/n+x2ySC8yyDNvy81BocnblQzvbuB
-a30CvRuhokNO6Jzh7ZFtjKVMzYas3oo6HXgA+slRszMu4pc+fRPO41FHjeDM76e6P5OnthhnD+NY
-x6xokUN65DN1bn2MkeNs0nQpizDqd0QxggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25h
-bFNpZ24gMiBDQSAyMDIwAgw3wUUJsDUiPdpordMwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcN
-AQkEMSIEIA+CWct3EYyjIIQqYG3Q20uIlMQaRD45UcnA2c5vbQjOMBgGCSqGSIb3DQEJAzELBgkq
-hkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI1MDIxODAyNTQxM1owaQYJKoZIhvcNAQkPMVwwWjAL
-BglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG
-9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBzlE2kWt3l
-DnMwB4b0YrCfZFTO4/QvoZmWI6dgl6eSOpWLsTv1WM6aqsnZoi6nKNuDdnZDT6eHLBiYxhHHldXX
-qde1OtokQquw+bfNhtw1kP+E8k4/qu1ZFPG60eRTkts3yivE/wqOzHZbgXLNFLa31mu7n3QCHl9r
-frA+6Jma7DiCEizCeEHEAQvEKfSXHYaZoBbNGqT+XimzU/iMcrq7zUUX5WzIsEpyR//O72lKrNHC
-JUNOl87lJRTVi0P5mJUTOaPMR2rBdTC2lGTHOeOkVVVFJY8k1nXEU4GSJDLkoJFTOEOXpZO8ZsM4
-JSlsOXNi+yZARAOC2hgMXYt478lU
---00000000000088161f062e61c19d--
+ - Fixed build issues on PPC and when CONFIG_PGTABLE_HAS_HUGE_LEAVES
+   is no defined.
+
+ - Minor comment formatting and documentation fixes.
+
+ - Remove PTE_DEVMAP definitions from Loongarch which were added since
+   this series was initially written.
+
+Main updates since v4:
+
+ - Removed most of the devdax/fsdax checks in fs/proc/task_mmu.c. This
+   means smaps/pagemap may contain DAX pages.
+
+ - Fixed rmap accounting of PUD mapped pages.
+
+ - Minor code clean-ups.
+
+Main updates since v3:
+
+ - Rebased onto next-20241216. The rebase wasn't too difficult, but in
+   the interests of getting this out sooner for Andrew to look at as
+   requested by him I have yet to extensively build/run test this
+   version of the series.
+
+ - Fixed a bunch of build breakages reported by John Hubbard and the
+   kernel test robot due to various combinations of CONFIG options.
+
+ - Split the rmap changes into a separate patch as suggested by David H.
+
+ - Reworded the description for the P2PDMA change.
+
+Main updates since v2:
+
+ - Rename the DAX specific dax_insert_XXX functions to vmf_insert_XXX
+   and have them pass the vmf struct.
+
+ - Separate out the device DAX changes.
+
+ - Restore the page share mapping counting and associated warnings.
+
+ - Rework truncate to require file-systems to have previously called
+   dax_break_layout() to remove the address space mapping for a
+   page. This found several bugs which are fixed by the first half of
+   the series. The motivation for this was initially to allow the FS
+   DAX page-cache mappings to hold a reference on the page.
+
+   However that turned out to be a dead-end (see the comments on patch
+   21), but it found several bugs and I think overall it is an
+   improvement so I have left it here.
+
+Device and FS DAX pages have always maintained their own page
+reference counts without following the normal rules for page reference
+counting. In particular pages are considered free when the refcount
+hits one rather than zero and refcounts are not added when mapping the
+page.
+
+Tracking this requires special PTE bits (PTE_DEVMAP) and a secondary
+mechanism for allowing GUP to hold references on the page (see
+get_dev_pagemap). However there doesn't seem to be any reason why FS
+DAX pages need their own reference counting scheme.
+
+By treating the refcounts on these pages the same way as normal pages
+we can remove a lot of special checks. In particular pXd_trans_huge()
+becomes the same as pXd_leaf(), although I haven't made that change
+here. It also frees up a valuable SW define PTE bit on architectures
+that have devmap PTE bits defined.
+
+It also almost certainly allows further clean-up of the devmap managed
+functions, but I have left that as a future improvment. It also
+enables support for compound ZONE_DEVICE pages which is one of my
+primary motivators for doing this work.
+
+Signed-off-by: Alistair Popple <apopple@nvidia.com>
+Tested-by: Alison Schofield <alison.schofield@intel.com>
+
+---
+
+Cc: lina@asahilina.net
+Cc: zhang.lyra@gmail.com
+Cc: gerald.schaefer@linux.ibm.com
+Cc: dan.j.williams@intel.com
+Cc: vishal.l.verma@intel.com
+Cc: dave.jiang@intel.com
+Cc: logang@deltatee.com
+Cc: bhelgaas@google.com
+Cc: jack@suse.cz
+Cc: jgg@ziepe.ca
+Cc: catalin.marinas@arm.com
+Cc: will@kernel.org
+Cc: mpe@ellerman.id.au
+Cc: npiggin@gmail.com
+Cc: dave.hansen@linux.intel.com
+Cc: ira.weiny@intel.com
+Cc: willy@infradead.org
+Cc: djwong@kernel.org
+Cc: tytso@mit.edu
+Cc: linmiaohe@huawei.com
+Cc: david@redhat.com
+Cc: peterx@redhat.com
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: nvdimm@lists.linux.dev
+Cc: linux-cxl@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-ext4@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
+Cc: jhubbard@nvidia.com
+Cc: hch@lst.de
+Cc: david@fromorbit.com
+Cc: chenhuacai@kernel.org
+Cc: kernel@xen0n.name
+Cc: loongarch@lists.linux.dev
+
+Alistair Popple (19):
+  fuse: Fix dax truncate/punch_hole fault path
+  fs/dax: Return unmapped busy pages from dax_layout_busy_page_range()
+  fs/dax: Don't skip locked entries when scanning entries
+  fs/dax: Refactor wait for dax idle page
+  fs/dax: Create a common implementation to break DAX layouts
+  fs/dax: Always remove DAX page-cache entries when breaking layouts
+  fs/dax: Ensure all pages are idle prior to filesystem unmount
+  fs/dax: Remove PAGE_MAPPING_DAX_SHARED mapping flag
+  mm/gup: Remove redundant check for PCI P2PDMA page
+  mm/mm_init: Move p2pdma page refcount initialisation to p2pdma
+  mm: Allow compound zone device pages
+  mm/memory: Enhance insert_page_into_pte_locked() to create writable mappings
+  mm/memory: Add vmf_insert_page_mkwrite()
+  mm/rmap: Add support for PUD sized mappings to rmap
+  mm/huge_memory: Add vmf_insert_folio_pud()
+  mm/huge_memory: Add vmf_insert_folio_pmd()
+  mm/gup: Don't allow FOLL_LONGTERM pinning of FS DAX pages
+  fs/dax: Properly refcount fs dax pages
+  device/dax: Properly refcount device dax pages when mapping
+
+Dan Williams (1):
+  dcssblk: Mark DAX broken, remove FS_DAX_LIMITED support
+
+ Documentation/filesystems/dax.rst      |   1 +-
+ drivers/dax/device.c                   |  15 +-
+ drivers/gpu/drm/nouveau/nouveau_dmem.c |   3 +-
+ drivers/nvdimm/pmem.c                  |   4 +-
+ drivers/pci/p2pdma.c                   |  19 +-
+ drivers/s390/block/Kconfig             |  12 +-
+ drivers/s390/block/dcssblk.c           |  27 +-
+ fs/dax.c                               | 365 +++++++++++++++++++-------
+ fs/ext4/inode.c                        |  18 +-
+ fs/fuse/dax.c                          |  30 +--
+ fs/fuse/dir.c                          |   2 +-
+ fs/fuse/file.c                         |   4 +-
+ fs/fuse/virtio_fs.c                    |   3 +-
+ fs/xfs/xfs_inode.c                     |  31 +--
+ fs/xfs/xfs_inode.h                     |   2 +-
+ fs/xfs/xfs_super.c                     |  12 +-
+ include/linux/dax.h                    |  28 ++-
+ include/linux/huge_mm.h                |   4 +-
+ include/linux/memremap.h               |  17 +-
+ include/linux/migrate.h                |   4 +-
+ include/linux/mm.h                     |  36 +---
+ include/linux/mm_types.h               |  16 +-
+ include/linux/mmzone.h                 |  12 +-
+ include/linux/page-flags.h             |   6 +-
+ include/linux/rmap.h                   |  15 +-
+ lib/test_hmm.c                         |   3 +-
+ mm/gup.c                               |  14 +-
+ mm/hmm.c                               |   2 +-
+ mm/huge_memory.c                       | 170 ++++++++++--
+ mm/internal.h                          |   2 +-
+ mm/memory-failure.c                    |   6 +-
+ mm/memory.c                            |  69 ++++-
+ mm/memremap.c                          |  59 ++--
+ mm/migrate_device.c                    |   7 +-
+ mm/mlock.c                             |   2 +-
+ mm/mm_init.c                           |  23 +-
+ mm/rmap.c                              |  67 ++++-
+ mm/swap.c                              |   2 +-
+ mm/truncate.c                          |  16 +-
+ 39 files changed, 802 insertions(+), 326 deletions(-)
+
+base-commit: b2a64caeafad6e37df1c68f878bfdd06ff14f4ec
+-- 
+git-series 0.9.1
