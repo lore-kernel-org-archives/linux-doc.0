@@ -1,160 +1,343 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1BC023956B;
-	Tue, 18 Feb 2025 12:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED6F25C6FF
+	for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 12:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739881829; cv=none; b=erUwtPNeQRJijOMgRp2MePLHj665heaoT98KNx8lGrT3yBPXeAzk5pd6p3gDMk3IAvvzqaTFXQY9sjSnFPnSR7sGqNxv7qDs0xuo6vzT7tsBHwmxA9b4M8uGyQVLaGmGw7ZIpIT8qP4u0aoVAtopqwEgItHJs7ljlDDa5ey108U=
+	t=1739881943; cv=none; b=QQtjwO8cIv6z4RwULi+hgNPM2ntxL8nQaS0hZoQxavXmm3VDFg+xqNXVi+xp6BoXOV45zvtCK/4bL8rben+dd7bcwf6hQhhIrvZopYhOn7wVXqZk8pFvGAdE63dGcUGrZgvD9cfNkcN1IP/g7awJHDIjvK/BUQnt2SJe+EerwnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739881829; c=relaxed/simple;
-	bh=50w9gD6DC9COZUV427hx8aS/EN3zeOLz8lNxNdJnek4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EtvVkldNqEigx6rnvQ/8MH4+j9v5S0KvEK/cVKdN1x8CQqkn9HjK2cyu3/v4/L4xdbhBJUSkOrd4wbxX6A1y40yhZJ31KyWpVpWyMVxjdk5y2vqyNRS6/fd47vi9HHNVxoH5VFRE5OQBr9foIAryTSXOzVj37Px0RKDLpReh+6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9FAC1152B;
-	Tue, 18 Feb 2025 04:30:44 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DBEAD3F59E;
-	Tue, 18 Feb 2025 04:30:21 -0800 (PST)
-Date: Tue, 18 Feb 2025 12:30:13 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: "Moger, Babu" <babu.moger@amd.com>
-Cc: Peter Newman <peternewman@google.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	"Moger, Babu" <bmoger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	tony.luck@intel.com, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
-	rostedt@goodmis.org, xiongwei.song@windriver.com,
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Message-ID: <Z7R9VedhOSp64W7X@e133380.arm.com>
-References: <cover.1737577229.git.babu.moger@amd.com>
- <Z6zeXby8ajh0ax6i@e133380.arm.com>
- <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
- <Z64tw2NbJXbKpLrH@e133380.arm.com>
- <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com>
- <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
- <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com>
- <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
- <bdb48b29-92cf-4f98-b375-25ec84f0941a@amd.com>
+	s=arc-20240116; t=1739881943; c=relaxed/simple;
+	bh=IY7DU1BhjQRR5Coi7wNZ7++4LSEJz4/d+wLFVatOJNE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=uvHZEAQZOOvR9fe7VpXTk6O7J5XGPzT1bmY5xfZde082bIV5ECaPKovYjJA/naHz4kUiQABOWvOBW6qdyiooACGCilHNeIbzF1NePRQmOHSgNWN1t7Em/k3MyiivZOg7mroAyPy+V+ZznIkEQMflv+IhgyabreLsMpytGCp9G2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=btO3EBSe; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="btO3EBSe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739881940;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rPPwrQnu9UKt/4NbsUXxMh/AuN498RxwAC9aj1izwuk=;
+	b=btO3EBSeR8KBEEZZagdw+y96nBnbfF7sbiFtXS7VXj7+5qfIy05rxePw8LAoejiWGpFJmK
+	cUVhXo2/rRUg8MWQnysx4eN4qtd8orWBUAP17ywD9spt4xvgfNbAlF86qoXU4K4/CNwO+G
+	u2137KwU48OETKnYZDrSD+Uw4zLY+b0=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-213-vjabKJzEPKK9Pp5aF5HPtw-1; Tue,
+ 18 Feb 2025 07:32:17 -0500
+X-MC-Unique: vjabKJzEPKK9Pp5aF5HPtw-1
+X-Mimecast-MFC-AGG-ID: vjabKJzEPKK9Pp5aF5HPtw_1739881936
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C64B81979057;
+	Tue, 18 Feb 2025 12:32:15 +0000 (UTC)
+Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.44.33.84])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4B5BC180056F;
+	Tue, 18 Feb 2025 12:32:11 +0000 (UTC)
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-doc@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: Gabriele Monaco <gmonaco@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	John Kacur <jkacur@redhat.com>,
+	Clark Williams <williams@redhat.com>
+Subject: [PATCH v4 10/11] Documentation/rv: Add docs for the sched monitors
+Date: Tue, 18 Feb 2025 13:31:15 +0100
+Message-ID: <20250218123121.253551-11-gmonaco@redhat.com>
+In-Reply-To: <20250218123121.253551-1-gmonaco@redhat.com>
+References: <20250218123121.253551-1-gmonaco@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bdb48b29-92cf-4f98-b375-25ec84f0941a@amd.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Mon, Feb 17, 2025 at 10:45:29AM -0600, Moger, Babu wrote:
-> Hi All,
-> 
-> On 2/17/25 04:26, Peter Newman wrote:
-> > Hi Reinette,
-> > 
-> > On Fri, Feb 14, 2025 at 8:18 PM Reinette Chatre
-> > <reinette.chatre@intel.com> wrote:
-> >>
-> >> Hi Babu,
-> >>
-> >> On 2/14/25 10:31 AM, Moger, Babu wrote:
-> >>> On 2/14/2025 12:26 AM, Reinette Chatre wrote:
-> >>>> On 2/13/25 9:37 AM, Dave Martin wrote:
-> >>>>> On Wed, Feb 12, 2025 at 03:33:31PM -0800, Reinette Chatre wrote:
-> >>>>>> On 2/12/25 9:46 AM, Dave Martin wrote:
-> >>>>>>> On Wed, Jan 22, 2025 at 02:20:08PM -0600, Babu Moger wrote:
-> >>
-> >> (quoting relevant parts with goal to focus discussion on new possible syntax)
-> >>
-> >>>>>> I see the support for MPAM events distinct from the support of assignable counters.
-> >>>>>> Once the MPAM events are sorted, I think that they can be assigned with existing interface.
-> >>>>>> Please help me understand if you see it differently.
-> >>>>>>
-> >>>>>> Doing so would need to come up with alphabetical letters for these events,
-> >>>>>> which seems to be needed for your proposal also? If we use possible flags of:
-> >>>>>>
-> >>>>>> mbm_local_read_bytes a
-> >>>>>> mbm_local_write_bytes b
-> >>>>>>
-> >>>>>> Then mbm_assign_control can be used as:
-> >>>>>> # echo '//0=ab;1=b' >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
-> >>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_read_bytes
-> >>>>>> <value>
-> >>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
-> >>>>>> <sum of mbm_local_read_bytes and mbm_local_write_bytes>
-> >>>>>>
-> >>>>>> One issue would be when resctrl needs to support more than 26 events (no more flags available),
-> >>>>>> assuming that upper case would be used for "shared" counters (unless this interface is defined
-> >>>>>> differently and only few uppercase letters used for it). Would this be too low of a limit?
-> >>
-> >> As mentioned above, one possible issue with existing interface is that
-> >> it is limited to 26 events (assuming only lower case letters are used). The limit
-> >> is low enough to be of concern.
-> > 
-> > The events which can be monitored by a single counter on ABMC and MPAM
-> > so far are combinable, so 26 counters per group today means it limits
-> > breaking down MBM traffic for each group 26 ways. If a user complained
-> > that a 26-way breakdown of a group's MBM traffic was limiting their
-> > investigation, I would question whether they know what they're looking
-> > for.
-> 
-> Based on the discussion so far, it felt like it is not a group level
-> breakdown. It is kind of global level breakdown. I could be wrong here.
-> 
-> My understanding so far, MPAM has a number of global counters. It can be
-> assigned to any domain in the system and monitor events.
-> 
-> They also have a way to configure the events (read, write or both).
-> 
-> Both these feature are inline with current resctrl implementation and can
-> be easily adapted.
-> 
-> One thing I am not clear why MPAM implementation plans to create separate
-> files(dynamically) in /sys/fs/resctrl/info/L3_MON/ directory to read the
-> events. We already have files in each group to read the events.
-> 
-> # ls -l /sys/fs/resctrl/mon_data/mon_L3_00/
-> total 0
-> -r--r--r--. 1 root root 0 Feb 17 08:16 llc_occupancy
-> -r--r--r--. 1 root root 0 Feb 17 08:16 mbm_local_bytes
-> -r--r--r--. 1 root root 0 Feb 17 08:16 mbm_total_bytes
+Add man page and kernel documentation for the sched monitors, as sched
+is a container of other monitors, document all in the same page.
+sched is the first nested monitor, also explain what is a nested monitor
+and how enabling containers or children monitors work.
 
+To: Ingo Molnar <mingo@redhat.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: John Kacur <jkacur@redhat.com>
+Cc: Clark Williams <williams@redhat.com>
+Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+---
+ Documentation/tools/rv/rv-mon-sched.rst  |  69 +++++++++
+ Documentation/trace/rv/monitor_sched.rst | 171 +++++++++++++++++++++++
+ 2 files changed, 240 insertions(+)
+ create mode 100644 Documentation/tools/rv/rv-mon-sched.rst
+ create mode 100644 Documentation/trace/rv/monitor_sched.rst
 
-To be clear, we have no current plan to do this from the Arm side.
+diff --git a/Documentation/tools/rv/rv-mon-sched.rst b/Documentation/tools/rv/rv-mon-sched.rst
+new file mode 100644
+index 0000000000000..da0fe4c79ae52
+--- /dev/null
++++ b/Documentation/tools/rv/rv-mon-sched.rst
+@@ -0,0 +1,69 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============
++rv-mon-sched
++============
++-----------------------------
++Scheduler monitors collection
++-----------------------------
++
++:Manual section: 1
++
++SYNOPSIS
++========
++
++**rv mon sched** [*OPTIONS*]
++
++**rv mon <NESTED_MONITOR>** [*OPTIONS*]
++
++**rv mon sched:<NESTED_MONITOR>** [*OPTIONS*]
++
++DESCRIPTION
++===========
++
++The scheduler monitor collection is a container for several monitors to model
++the behaviour of the scheduler. Each monitor describes a specification that
++the scheduler should follow.
++
++As a monitor container, it will enable all nested monitors and set them
++according to OPTIONS.
++Nevertheless nested monitors can also be activated independently both by name
++and by specifying sched: , e.g. to enable only monitor tss you can do any of:
++
++    # rv mon sched:tss
++
++    # rv mon tss
++
++See kernel documentation for further information about this monitor:
++<https://docs.kernel.org/trace/rv/monitor_sched.html>
++
++OPTIONS
++=======
++
++.. include:: common_ikm.rst
++
++NESTED MONITOR
++==============
++
++The available nested monitors are:
++  * scpd: schedule called with preemption disabled
++  * snep: schedule does not enable preempt
++  * sncid: schedule not called with interrupt disabled
++  * snroc: set non runnable on its own context
++  * sco: scheduling context operations
++  * tss: task switch while scheduling
++
++SEE ALSO
++========
++
++**rv**\(1), **rv-mon**\(1)
++
++Linux kernel *RV* documentation:
++<https://www.kernel.org/doc/html/latest/trace/rv/index.html>
++
++AUTHOR
++======
++
++Written by Gabriele Monaco <gmonaco@redhat.com>
++
++.. include:: common_appendix.rst
+diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
+new file mode 100644
+index 0000000000000..24b2c62a3bc26
+--- /dev/null
++++ b/Documentation/trace/rv/monitor_sched.rst
+@@ -0,0 +1,171 @@
++Scheduler monitors
++==================
++
++- Name: sched
++- Type: container for multiple monitors
++- Author: Gabriele Monaco <gmonaco@redhat.com>, Daniel Bristot de Oliveira <bristot@kernel.org>
++
++Description
++-----------
++
++Monitors describing complex systems, such as the scheduler, can easily grow to
++the point where they are just hard to understand because of the many possible
++state transitions.
++Often it is possible to break such descriptions into smaller monitors,
++sharing some or all events. Enabling those smaller monitors concurrently is,
++in fact, testing the system as if we had one single larger monitor.
++Splitting models into multiple specification is not only easier to
++understand, but gives some more clues when we see errors.
++
++The sched monitor is a set of specifications to describe the scheduler behaviour.
++It includes several per-cpu and per-task monitors that work independently to verify
++different specifications the scheduler should follow.
++
++To make this system as straightforward as possible, sched specifications are *nested*
++monitors, whereas sched itself is a *container*.
++From the interface perspective, sched includes other monitors as sub-directories,
++enabling/disabling or setting reactors to sched, propagates the change to all monitors,
++however single monitors can be used independently as well.
++
++It is important that future modules are built after their container (sched, in
++this case), otherwise the linker would not respect the order and the nesting
++wouldn't work as expected.
++To do so, simply add them after sched in the Makefile.
++
++Specifications
++--------------
++
++The specifications included in sched are currently a work in progress, adapting the ones
++defined in by Daniel Bristot in [1].
++
++Currently we included the following:
++
++Monitor tss
++~~~~~~~~~~~
++
++The task switch while scheduling (tss) monitor ensures a task switch happens
++only in scheduling context, that is inside a call to `__schedule`::
++
++                     |
++                     |
++                     v
++                   +-----------------+
++                   |     thread      | <+
++                   +-----------------+  |
++                     |                  |
++                     | schedule_entry   | schedule_exit
++                     v                  |
++    sched_switch                        |
++  +---------------                      |
++  |                       sched         |
++  +-------------->                     -+
++
++Monitor sco
++~~~~~~~~~~~
++
++The scheduling context operations (sco) monitor ensures changes in a task state
++happen only in thread context::
++
++
++                        |
++                        |
++                        v
++    sched_set_state   +------------------+
++  +------------------ |                  |
++  |                   |  thread_context  |
++  +-----------------> |                  | <+
++                      +------------------+  |
++                        |                   |
++                        | schedule_entry    | schedule_exit
++                        v                   |
++                                            |
++                       scheduling_context  -+
++
++Monitor snroc
++~~~~~~~~~~~~~
++
++The set non runnable on its own context (snroc) monitor ensures changes in a
++task state happens only in the respective task's context. This is a per-task
++monitor::
++
++                        |
++                        |
++                        v
++                      +------------------+
++                      |  other_context   | <+
++                      +------------------+  |
++                        |                   |
++                        | sched_switch_in   | sched_switch_out
++                        v                   |
++    sched_set_state                         |
++  +------------------                       |
++  |                       own_context       |
++  +----------------->                      -+
++
++Monitor scpd
++~~~~~~~~~~~~
++
++The schedule called with preemption disabled (scpd) monitor ensures schedule is
++called with preemption disabled::
++
++                       |
++                       |
++                       v
++                     +------------------+
++                     |    cant_sched    | <+
++                     +------------------+  |
++                       |                   |
++                       | preempt_disable   | preempt_enable
++                       v                   |
++    schedule_entry                         |
++    schedule_exit                          |
++  +-----------------      can_sched        |
++  |                                        |
++  +---------------->                      -+
++
++Monitor snep
++~~~~~~~~~~~~
++
++The schedule does not enable preempt (snep) monitor ensures a schedule call
++does not enable preemption::
++
++                        |
++                        |
++                        v
++    preempt_disable   +------------------------+
++    preempt_enable    |                        |
++  +------------------ | non_scheduling_context |
++  |                   |                        |
++  +-----------------> |                        | <+
++                      +------------------------+  |
++                        |                         |
++                        | schedule_entry          | schedule_exit
++                        v                         |
++                                                  |
++                          scheduling_contex      -+
++
++Monitor sncid
++~~~~~~~~~~~~~
++
++The schedule not called with interrupt disabled (sncid) monitor ensures
++schedule is not called with interrupt disabled::
++
++                       |
++                       |
++                       v
++    schedule_entry   +--------------+
++    schedule_exit    |              |
++  +----------------- |  can_sched   |
++  |                  |              |
++  +----------------> |              | <+
++                     +--------------+  |
++                       |               |
++                       | irq_disable   | irq_enable
++                       v               |
++                                       |
++                        cant_sched    -+
++
++References
++----------
++
++[1] - https://bristot.me/linux-task-model
+-- 
+2.48.1
 
-My sketch was just a thought experiment to test whether we would have
-difficulties _if_ a decision were made to extend the interface in that
-direction.
-
-But it looks OK to me: the interface proposed in this series seems to
-leave enough possibilities for extension open that we could do
-something like what I described later in if we decide to.
-
-
-Overall, the interface proposed in this series seems a reasonable way
-to support ABMC systems while keeping the consumer-side interface
-(i.e., reading the mbm_total_bytes files etc.) as similar to the
-classic / Intel RDT situation as possible.
-
-MPAM can fit in with this approach, as demonstrated by James' past
-branches porting the MPAM driver on top of previous versions of the
-ABMC series.
-
-As I understand it, he's almost done with porting onto this v11,
-with no significant issues.
-
-Cheers
----Dave
