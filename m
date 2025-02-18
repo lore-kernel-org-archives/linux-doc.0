@@ -1,196 +1,91 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C78422DFAF;
-	Tue, 18 Feb 2025 08:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BD922FF55;
+	Tue, 18 Feb 2025 09:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739869061; cv=none; b=QFEQye5w/PPua2tZ6BRJan26VlBy+h00IjZzsLMbVpy0B4lKkEBeolmeGemVIPSVUo7hE6CmR78i0p+hkYZ/d7hh8gf0wcsZvztbW3bi7eLTc28pDXZoqq8oAghDdAQdob7DplXgDm7TbygYml88uP6ZesITLXE8Rf9cWG+tEV8=
+	t=1739870305; cv=none; b=dxut68Kv88Z/Eon1OAYWEdBHrwXFR9k2KCEVWFg0/3ftrfgluIkj5p/zBPrpeAis+lqQQipDpBmOvrIAXvIdiRe/VvJyneYZq+MLHAHDHM1zCl416GfXMTJeqjUQPt+bsVkay6zhbhl91fB6R9yExU6MA48QKgJGiy+OQSl3rbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739869061; c=relaxed/simple;
-	bh=7n8w+ERA8pojz2++WaPBKwjwqZFE9/DbJNIdVjRs0gE=;
+	s=arc-20240116; t=1739870305; c=relaxed/simple;
+	bh=vfuQjd/8LgaGZuh/Qvb8dlDpyh9HdnmRmMB5nk3IgHY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SGgrrFsaPnrCLikJXf5WdIK/TpWK2pL2A92db4qa9nOxbVBm0c2bgaATgshiYnZYP6KQqg49pgw/R4s+9XW585YFQC2ljAJ3jI3ATqCnTPuFjkLw6aYsZrSCnGwC3SsRasUw5VONDpxIARhPD1TQMrrhlcaZ7ZwN54G8/t55sMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FUkJ67Mh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IjnGMBZ1; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FUkJ67Mh";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IjnGMBZ1"
-Date: Tue, 18 Feb 2025 09:57:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1739869057;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qi00sFeb7intGV58iU7h9IRHzK7AVG7qi/qdH2z0KQQ=;
-	b=FUkJ67MhPasq8kvXjD/bsAI2FDmaN5qca6uZhURZGkoRKaE3rjjTB+2G+9MQipu9bP24rH
-	5zraI2X4z3gbbV5AAMS28pCNApEGpUEMQKh3amivMb+6PfKkkuSETG9N1g+QoY9T5K6sjL
-	U0pHyPkodErZ7cWF8fcQtolIY5tGm1smQJ8UlhgYv0M5/xroFcGaUFQ7yKNY7N/XHvLGaf
-	UkkgvtX9f6QKIiONuXuY6tf/zB+jYtoPT+aUK2xv4UdkWsOLC/qYoXOsVWPFtR03b7awWD
-	rZmU3F3stUIZKF7OQy1NOf38b9tbtbuP+gOmUHnjxENq6RHDbvjS74K76MC+2g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1739869057;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qi00sFeb7intGV58iU7h9IRHzK7AVG7qi/qdH2z0KQQ=;
-	b=IjnGMBZ17v3aCASnhhz+y8ps26+DBt8gRKH6JNDsUUZehTAkI0aiHpImiua79+zsGbKPT+
-	BiXUzimJpXTAQrBg==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: David Gow <davidgow@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 00/12] kunit: Introduce UAPI testing framework
-Message-ID: <20250218093333-04552bed-4a2e-445d-9966-e1732a1f8b21@linutronix.de>
-References: <20250217-kunit-kselftests-v1-0-42b4524c3b0a@linutronix.de>
- <CABVgOSn5tGDj5rnR=a133ntv3GeoXQLnHRBg9HRf86hWve7T1w@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=KrKkviiJmhZXMKJ46i2dXozrLr3pmGLCy5J7m31eWHcMQg7j8c2wJAFwm0CZfg1V67gIhwmptm6AyAB53CGk0j0wJvG8s8lgTYIbnhzpdpu3NGLw2//506A7IbPixw54dUZhoLNaqtj+GekYrjYy2lLXhx4uoK57cF4xBayHzUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BC84C4CEE4;
+	Tue, 18 Feb 2025 09:18:20 +0000 (UTC)
+Date: Tue, 18 Feb 2025 09:18:18 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Beata Michalska <beata.michalska@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org, ionela.voinescu@arm.com,
+	sudeep.holla@arm.com, will@kernel.org, rafael@kernel.org,
+	viresh.kumar@linaro.org, sumitg@nvidia.com,
+	yang@os.amperecomputing.com, vanshikonda@os.amperecomputing.com,
+	lihuisong@huawei.com, zhanjie9@hisilicon.com,
+	ptsm@linux.microsoft.com, Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>, Phil Auld <pauld@redhat.com>,
+	x86@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v10 0/4] Add support for AArch64 AMUv1-based average freq
+Message-ID: <Z7RQWgLksl4bBksr@arm.com>
+References: <20250131162439.3843071-1-beata.michalska@arm.com>
+ <173982791748.4020779.2848639862581042284.b4-ty@arm.com>
+ <Z7PNlFv2995pDARQ@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABVgOSn5tGDj5rnR=a133ntv3GeoXQLnHRBg9HRf86hWve7T1w@mail.gmail.com>
+In-Reply-To: <Z7PNlFv2995pDARQ@arm.com>
 
-On Tue, Feb 18, 2025 at 04:20:06PM +0800, David Gow wrote:
-> On Mon, 17 Feb 2025 at 19:00, Thomas Weißschuh
-> <thomas.weissschuh@linutronix.de> wrote:
+On Tue, Feb 18, 2025 at 01:00:20AM +0100, Beata Michalska wrote:
+> On Mon, Feb 17, 2025 at 09:32:06PM +0000, Catalin Marinas wrote:
+> > On Fri, 31 Jan 2025 16:24:35 +0000, Beata Michalska wrote:
+> > > This series adds support for obtaining an average CPU frequency based on
+> > > a hardware provided feedback. The average frequency is being exposed via
+> > > dedicated yet optional cpufreq sysfs attribute - cpuinfo_avg_freq.
+> > > The architecture specific bits are being provided for AArch64, caching on
+> > > existing implementation for FIE and AMUv1 support: the frequency scale
+> > > factor, updated on each sched tick, serving as a base for retrieving
+> > > the frequency for a given CPU, representing an average frequency
+> > > reported between the ticks.
+> > > 
+> > > [...]
 > >
-> > Currently testing of userspace and in-kernel API use two different
-> > frameworks. kselftests for the userspace ones and Kunit for the
-> > in-kernel ones. Besides their different scopes, both have different
-> > strengths and limitations:
-> >
-> > Kunit:
-> > * Tests are normal kernel code.
-> > * They use the regular kernel toolchain.
-> > * They can be packaged and distributed as modules conveniently.
-> >
-> > Kselftests:
-> > * Tests are normal userspace code
-> > * They need a userspace toolchain.
-> >   A kernel cross toolchain is likely not enough.
-> > * A fair amout of userland is required to run the tests,
-> >   which means a full distro or handcrafted rootfs.
-> > * There is no way to conveniently package and run kselftests with a
-> >   given kernel image.
-> > * The kselftests makefiles are not as powerful as regular kbuild.
-> >   For example they are missing proper header dependency tracking or more
-> >   complex compiler option modifications.
-> >
-> > Therefore kunit is much easier to run against different kernel
-> > configurations and architectures.
-> > This series aims to combine kselftests and kunit, avoiding both their
-> > limitations. It works by compiling the userspace kselftests as part of
-> > the regular kernel build, embedding them into the kunit kernel or module
-> > and executing them from there. If the kernel toolchain is not fit to
-> > produce userspace because of a missing libc, the kernel's own nolibc can
-> > be used instead.
-> > The structured TAP output from the kselftest is integrated into the
-> > kunit KTAP output transparently, the kunit parser can parse the combined
-> > logs together.
+> Thank you for that.
 > 
-> Wow -- this is really neat! Thanks for putting this together.
+> There is still a (not so) small issue with patch
+> [3/4] arm64: Provide an AMU-based version of arch_freq_get_on_cpu.
+> It did not come up while testing, sadly.
+> No idea how I could have missed that, nor why I made the mistake
+> in the first place.
 > 
-> I haven't had a chance to play with it in detail yet, but here are a
-> few initial / random thoughts:
-> - Having support for running things from userspace within a KUnit test
-> seems like it's something that could be really useful for testing
-> syscalls (and maybe other mm / exec code as well).
+> The fix is pretty straightforward:
+> 
+> diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
+> index 6f0cab8e746b..4bac26d8e29c 100644
+> --- a/arch/arm64/kernel/topology.c
+> +++ b/arch/arm64/kernel/topology.c
+> @@ -268,7 +268,7 @@ int arch_freq_get_on_cpu(int cpu)
+>  
+>                         do {
+>                                 ref_cpu = cpumask_next_wrap(ref_cpu, policy->cpus,
+> -                                                           start_cpu, false);
+> +                                                           start_cpu, true);
+> 
+> Please let me know if you want me to send new version with the fix applied.
 
-That's the target :-)
+Usually we apply another patch on top with a Fixes tag or just fold it
+in if no-one relies on this branch being stable. I'll do the latter, no
+need to resend.
 
-I'm also looking for more descriptive naming ideas.
+Thanks.
 
-> - I don't think we can totally combine kselftests and KUnit for all
-> tests (some of the selftests definitely require more complicated
-> dependencies than I think KUnit would want to reasonably support or
-> require).
-
-Agreed, though I somewhat expect that some complex selftests would be
-simplified to work with this scheme as it should improve test coverage
-from the bots.
-
-> - The in-kernel KUnit framework doesn't have any knowledge of the
-> structure or results of a uapi test. It'd be nice to at least be able
-> to get the process exit status, and bubble up a basic
-> 'passed'/'skipped'/'failed' so that we're not reporting success for
-> failed tests (and so that simple test executables could run without
-> needing to output their own KTAP if they only run one test).
-
-Currently any exitcode != 0 fails the test.
-I'll add some proper handling for exit(KSFT_SKIP).
-
-> - Equally, for some selftests, it's probably a pain to have to write a
-> kernel module if there's nothing that needs to be done in the kernel.
-> Maybe such tests could still be built with nolibc and a kernel
-> toolchain, but be triggered directly from the python tooling (e.g. as
-> the 'init' process).
-
-Some autodiscovery based on linker sections could be done.
-However that would not yet define how to group them into suites.
-Having one explicit reference in a module makes everything easier
-to understand. What about a helper macro for the test case definition:
-KUNIT_CASE_UAPI(symbol)?
-
-All UAPI tests of a subsystem can share the same module,
-so the overhead should be limited.
-I'd like to keep it usable without needing the python tooling.
-
-Note in case it was not clear:
-All test executables are available as normal files in the build directory
-and can also be executed from there.
-
-> - There still seems to be some increased requirements over plain KUnit
-> at the moment: I'm definitely seeing issues from not having the right
-> libgcc installed for all architectures. (Though it's working for most
-> of them, which is very neat!)
-
-I'll look into that.
-
-> - This is a great example of how having standardised result formats is useful!
-
-Indeed, it was surprisingly compatible.
-
-> - If this is going to change or blur the boundary between "this is a
-> ksefltest" and "this is a kunit test", we probably will need to update
-> Documentation/dev-tools/testing-overview.rst -- it probably needs some
-> clarifications there _anyway_, so this is probably a good point to
-> ensure everyone's on the same page.
-
-Agreed.
-
-> Do you have a particular non-example test you'd like to either write
-> or port to use this? I think it'd be great to see some real-world
-> examples of where this'd be most useful.
-
-I want to use it for the vDSO selftests.
-To be usable for that another series is necessary[0].
-I tested the whole thing locally with one selftest and promptly found
-a bug in the selftests [1].
-
-> Either way, I'll keep playing with this a bit over the next few days.
-> I'd love to hear what Shuah and Rae think, as well, as this involves
-> kselftest and KTAP a lot.
-
-Thanks!
-I'm also looking forward to their feedback.
-
-
-Thomas
-
-<snip>
-
-[0] https://lore.kernel.org/lkml/20250203-parse_vdso-nolibc-v1-0-9cb6268d77be@linutronix.de/
-[1] https://lore.kernel.org/lkml/20250217-selftests-vdso-s390-gnu-hash-v2-1-f6c2532ffe2a@linutronix.de/
+-- 
+Catalin
