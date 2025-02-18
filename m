@@ -1,108 +1,182 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889DC1DE2D7;
-	Tue, 18 Feb 2025 22:37:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930811D8A0D;
+	Tue, 18 Feb 2025 22:55:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739918240; cv=none; b=psBl0Wc8lUvJFETv6jpKJQ4rqQ++WFy8pXQEzQwbZtubeVO0J6TOcUIuyfSeyiDId7it8wPU1kxMSY6nPB07+TfI8Pw3lHfecBy8cbQJ9y0SYQ4FMgig7AKLOfDGEprmKahFw4UL2v9FNm8R7LMha5UjAnZ8EPAdZgN9RdtBf7c=
+	t=1739919301; cv=none; b=kbLCz0MTw9i4aK2RbcNaskftyB7Eb5Pypv7jpT8mTOFZnr141vuqt4erjQOHV0SLQHLJ+lwVaTZgOz46MqH40X2mC4b0JRQ29ZZXh3aTT70l8xYY8+j6TCi0pOLOOFIrQKomhlIy7cvqGGXTQ4VariEDJ94Cbnj+8gRArYp+WHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739918240; c=relaxed/simple;
-	bh=vUxLfkCpY88Ji5OMZq0cqa7fD684OUmQSZGkIOTWbog=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hlkEK2yYdj7S4M9JpY1U2bZkzF8ElcMhPRK0RjFHLiVWABj2avSNHh/ucqBwonpJnpMPaIi/PHI2hNBeSdZGtueYq0XrYiZX1Y8y1Ng1XAt3qv5hmAGyDsScUQNxhylQlpEw2lQpS65C6UY0TogA+0p9vbjteP+JsGfVsm/7JBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZBf8IcQ7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739919301; c=relaxed/simple;
+	bh=JfZZ5wVAOe/Y1NihNftjYuYbwLi7XmW8eEZlPrqPMd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AtgLHhWS2qFYesAWal7ExFsAez1OBW0cB1j2SQvKVZCUuTaKFT+IW9DhOw+tGXpqgbmc4Zyqdim5rsGBDwa+09ctw+aDDKCfksoBg8ng1nObxQAWwMQWeIk2045a6WD22wq0nQ636c1L2roOs/ctLY+aTEn4GLpTMZl/bxomZl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aiOZcO7g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZBf8IcQ7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A982C4CEE9;
-	Tue, 18 Feb 2025 22:37:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aiOZcO7g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75F80C4CEE2;
+	Tue, 18 Feb 2025 22:55:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739918240;
-	bh=vUxLfkCpY88Ji5OMZq0cqa7fD684OUmQSZGkIOTWbog=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZBf8IcQ7SBqxOHl6shx9kpwOG8zyvVKn1o0yGS+ABt/RZa37ik+go4oxPnyWKBXXw
-	 xs63aJ2cPumV1wbfLpy7KOFfanMr5BUOgp6V+iHTBkXUjBduRoCWkgxO2bKS31w4LV
-	 4prXRBiq6SBBTjbeBsqH+NOZL+2UCa5bvvkJDplBtndyufgvthbfBo5vnndYsf0OU7
-	 A6sAcK1F1kBuiOv2jGAZ0sowBt24oJigB08yD4BPGBIFJpxShDFlONutU4CXbalMzd
-	 AhDIB54oRkG3FFpDfQtTuc1nMwMTz/lZcZg34sQQ2qeSsrnD5mPVrhZgy7NDXMh2sW
-	 FbdbNMwV+XHlg==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	kernel-team@meta.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 5/5] Docs/mm/damon/design: categorize DAMOS filter types based on handling layer
-Date: Tue, 18 Feb 2025 14:37:08 -0800
-Message-Id: <20250218223708.53437-6-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250218223708.53437-1-sj@kernel.org>
-References: <20250218223708.53437-1-sj@kernel.org>
+	s=k20201202; t=1739919301;
+	bh=JfZZ5wVAOe/Y1NihNftjYuYbwLi7XmW8eEZlPrqPMd4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aiOZcO7gz+YKbzy7UfmkDhU3tc1GP77KXGgqZvo8QBWC5vgpTgTrmRki8TY27KEG9
+	 8HqF/60pEH5UBgtSchm3Se6wqh0dZaDowr6l0b6r0YUl+j0tajI/QC2mEqdWnL1GnL
+	 LiqABVRTk5NWk1BgguBFuStYX4r6uCiugCD746iyvxydi45/2eBqxBVJGd1AGnfWRG
+	 ylD6MnyNRCoHpbpVjxW/FVxP8oPsdm4slgSekZk/4aRmRIPRkFjtlJborqm0BF8/oW
+	 GCSKlZDlRTb1JiQ+9Nn3ndwQV91qYjgd4h0D3IG0l3MLO6jxlYtY1qBAyD9YDZ6pGA
+	 E6dhuaXIuBhyA==
+Date: Tue, 18 Feb 2025 22:54:57 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 00/27] KVM: arm64: Implement support for SME in
+ non-protected guests
+Message-ID: <Z7UPwXVqkaKZDtGk@finisterre.sirena.org.uk>
+References: <20250214-kvm-arm64-sme-v4-0-d64a681adcc2@kernel.org>
+ <86pljkswuk.wl-maz@kernel.org>
+ <Z69dsGn1JVWPCqAi@finisterre.sirena.org.uk>
+ <86h64ssyi1.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="S0+W34M0g75qMnHY"
+Content-Disposition: inline
+In-Reply-To: <86h64ssyi1.wl-maz@kernel.org>
+X-Cookie: Editing is a rewording activity.
 
-On what DAMON layer a DAMOS filter is handled is important to expect in
-what order filters will be evaluated.  Re-organize the DAMOS filter
-types list on the design doc to categorize types based on the handling
-layer, to let users more easily understand the handling order.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/mm/damon/design.rst | 34 ++++++++++++++-----------------
- 1 file changed, 15 insertions(+), 19 deletions(-)
+--S0+W34M0g75qMnHY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index 8b9727d91434..6a66aa0833fd 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -602,25 +602,21 @@ filters-checking overhead.
- 
- Below ``type`` of filters are currently supported.
- 
--- anon
--    - Applied to pages that containing data that not stored in files.
--    - Handled by operations set layer.  Supported by only ``paddr`` set.
--- memcg
--    - Applied to pages that belonging to a given cgroup.
--    - Handled by operations set layer.  Supported by only ``paddr`` set.
--- young
--    - Applied to pages that are accessed after the last access check from the
--      scheme.
--    - Handled by operations set layer.  Supported by only ``paddr`` set.
--- hugepage_size
--    - Applied to pages that managed in a given size range.
--    - Handled by operations set layer.  Supported by only ``paddr`` set.
--- addr
--    - Applied to pages that belonging to a given address range.
--    - Handled by the core logic.
--- target
--    - Applied to pages that belonging to a given DAMON monitoring target.
--    - Handled by the core logic.
-+- Core layer handled
-+    - addr
-+        - Applied to pages that belonging to a given address range.
-+    - target
-+        - Applied to pages that belonging to a given DAMON monitoring target.
-+- Operations layer handled, supported by only ``paddr`` operations set.
-+    - anon
-+        - Applied to pages that containing data that not stored in files.
-+    - memcg
-+        - Applied to pages that belonging to a given cgroup.
-+    - young
-+        - Applied to pages that are accessed after the last access check from the
-+          scheme.
-+    - hugepage_size
-+        - Applied to pages that managed in a given size range.
- 
- To know how user-space can set the filters via :ref:`DAMON sysfs interface
- <sysfs_interface>`, refer to :ref:`filters <sysfs_filters>` part of the
--- 
-2.39.5
+On Mon, Feb 17, 2025 at 09:37:26AM +0000, Marc Zyngier wrote:
+> Mark Brown <broonie@kernel.org> wrote:
+> > On Fri, Feb 14, 2025 at 09:24:03AM +0000, Marc Zyngier wrote:
+
+> > > Why SVCR? This isn't a register, just an architected accessor to
+> > > PSTATE.{ZA,SM}. Userspace already has direct access to PSTATE, so I
+> > > don't understand this requirement.
+
+> > Could you be more explicit as to what you mean by direct access to
+> > PSTATE here?  The direct access to these PSTATE fields is in the form of
+
+> I'm painfully aware of the architecture limitations.
+
+> However, I don't get your mention of SPSR here. The architecture is
+> quite clear that PSTATE is where these bits are held, that they are
+> not propagated anywhere else, and that's where userspace should expect
+> to find them.
+
+> The fact that SW must use SVCR to alter PSTATE.{ZA,SM} doesn't matter.
+> We save/restore registers, not accessors. If this means we need to
+> play a dance when the VMM accesses PSTATE to reconciliate KVM's
+> internal view with the userspace view, so be it.
+
+Could you please clarify what you're referring to as the VMM accessing
+PSTATE here?  The KVM API documentation defines it's concept of PSTATE
+as:
+
+ 0x6030 0000 0010 0042 PSTATE      64  regs.pstate
+
+in api.rst but does not futher elaborate.  Looking at the code the
+values that appear there seem to be mapped fairly directly to SPSR
+values, this is why I was talking about them above.
+
+It's not clear to me that PSTATE in the architecture is a register
+exactly.  DDI0487 L.a D1.4 defines the PSTATE bits as being stored in a
+ProcState pseudocode structure (ProcState is defined in J1.3.3.457, the
+pseudocode maps PSTATE in J1.3.3.454) but has an explicit comment that
+"There is no significace in the field order".  I can't seem to locate an
+architectural definition of the layout of PSTATE as a whole.  I also
+can't find any direct observability of PSTATE as a whole which would
+require a layout definition for PSTATE itself from the architecture. =20
+
+There *is* a statement in R_DQXFW that "The contents of PSTATE
+immediately before the exception was taken are written to SPSR_ELx"
+which is somewhat in conflict with the absence of SM and ZA fields in
+any of SPSR_ELx.  There's also R_BWCFK similarly for exception return,
+though that also already has some additional text for PSTATE.{IT,T} for
+returns to AArch32.  If everything in PSTATE ends up getting written to
+SPSR then we can use SPSR as our representation of PSTATE.
+
+> It probably means you need to obtain a clarification of the
+> architecture to define *where* these bits are stored in PSTATE,
+> because that's not currently defined.
+
+I will raise the issue with R_DQXFW and friends with the architects but
+I'm not convinced that at this point the clarification wouldn't be an
+adjustment to those rules rather than the addition of fields for SM and
+ZA in the SPSRs.  Without any additions the only access we have is via
+SVCR.
+
+> > > Isn't it that there is simply a dependency between restoring PSTATE
+> > > and any of the vector stuff? Also, how do you preserve the current ABI
+> > > that do not have this requirement?
+
+> > Yes, that's the dependency - I'm spelling out explicitly what changes in
+> > the register view when PSTATE.{SM,ZA} are restored.  This ABI is what
+> > you appeared to be asking for the last time we discussed this.
+
+=2E..
+
+> > Would you prefer:
+
+> >  - Changing the register view based on the current value of PSTATE.SM.
+> >  - Exposing streaming mode Z and P as separate registers.
+> >  - Exposing the existing Z and P registers with the maximum S?E VL.
+
+> > or some other option?
+
+> My take on this hasn't changed. I want to see something that behaves
+> *exactly* like the architecture defines the expected behaviour of a
+> CPU.
+
+> But you still haven't answered my question: How is the *current* ABI
+> preserved? Does it require *not* selecting SME? Does it require
+> anything else? I'm expecting simple answers to simple questions, not a
+
+Yes, it requires not selecting SME and only that.  If the VMM does not
+enable SME then it should see no change.
+
+> wall of text describing something that is not emulating the
+> architecture.
+
+I'm not clear what you're referring to as not emulating the architecture
+here, I *think* it's the issues with PSTATE.{SM,ZA} not appearing in
+SPSR_ELx and hence KVM's pstate?
+
+Your general style of interaction means that it is not always altogether
+clear when your intent is to just ask a simple question or when it is to
+point out some problem you have seen.
+
+--S0+W34M0g75qMnHY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme1D8EACgkQJNaLcl1U
+h9Ag7Af9FSno1GEtP2DysLSKInBllL4rhNcN+6z7D0oMeZYX+CbjmeedfMLNVwdd
+quEjDrrV5PN76cyP3s35ABkWOUUUWyrUMYt3sP6vVesfNuMhjb54DETOj71CTEaW
+wt8TicvFuN6erEuz85tgB5CPng+CEGwJRhu6STP7/gBEfPou7y/9dH6xj++i/ueD
+Affm1jdtJAtdk6lDgtqjF0K9Tkawu8SM/0MkoITsCRK3R05LpSLBiCvr3S0e/rUv
+r616LswXOvPnYxuJ3Cr2phgx5ZTGgSo+IH/KQUOdK9lM1E6YkqXDtNQtw5qXldu+
+NYjTRYepfepTBCUZ6GVhkP7IEmi+tQ==
+=qowg
+-----END PGP SIGNATURE-----
+
+--S0+W34M0g75qMnHY--
