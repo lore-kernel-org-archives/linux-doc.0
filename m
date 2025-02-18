@@ -1,149 +1,163 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6D41AF0CB
-	for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 06:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631981E522;
+	Tue, 18 Feb 2025 06:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739860785; cv=none; b=Rwld/wsFXl8YxoXar7UudP6lniAOjoVFQAvR4ZV5FNhgQVxmQhMVB4YgnVWjT9nblAC5GLA8Dkk/u8ygazAodsaj/YWxGlxIch7I63yQ9yjc7wu20ESBx3KVhyy34Lf5RBHZhvOiFfZfMs1N5xNtKd6USP/Z78UKJ/dAUj208QE=
+	t=1739861128; cv=none; b=OH6xF3nynBFnboMVRI6t2UIgRLhAH+Dn0Qq6i+iWQa33XIahwOiG4UqgT7Ax32O6u+baSvI8nuYoFG4HLzyhRtdMKNXmkS4KP8Vmdg1I+xHbNXkFxkQt5HVRa0i5VqqQj56GYm8eVDeKXnYEaAMY8/zhcTjzc2dpZOqdAwuLqCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739860785; c=relaxed/simple;
-	bh=pq9XdkVHFWADXdg25ubbggSQQDOAfo+Tvl8ihs4y+2o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Jml7f5QHlDCK6cBRmNHX2lSqCj9ZEY1jcUixsCrG+uHKDk/eHRgzawIJo9Ab69Ph69Tw0xjg30p6ilX1G8tlRRbtMMlEC/GCBJJsTvS8Ry2UYRSKycFLVVqAFAq2OAq1QVQqHjrWvRP6Pg8+4npKpa43j2xvG/a+NXMIGsQLGzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RJ5R1AVS; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1739861128; c=relaxed/simple;
+	bh=JeV9NGTiS5LreF1qALXiBXoNIsC31R6+99vMmtp8aGA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ctcoQrRl1Z9JB1xuAhCy8Nxa6g9eFogbQbd0KbL8FMVIs+1f+pkkXU8vlGIvllGQLcuyn5kzXtOBKjJVJ2Y3igVqA6OnOQ/JPdyyVHZn8Hsd2bkVsttS0a1+Ka+fFSLVEve0Ogz6il9GTfKjCBhE0ldQo146qr8pQvHEb31ppa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Djvu0DZw; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RJ5R1AVS"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2fc3a14f6fbso4350352a91.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Feb 2025 22:39:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Djvu0DZw"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-543e4bbcd86so5108828e87.1;
+        Mon, 17 Feb 2025 22:45:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739860783; x=1740465583; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=T354DsH5/UXQWaU1+Y3gowYWo5275UrIfb+yzWEs+hM=;
-        b=RJ5R1AVSIuopst5ExBm0794pfuVhLxoU+YUb9bXGWUZHAOJx1xfiWTkf+nMYpJcDJN
-         r0uYbsE2CBQlYmR+ZybHEYATgGLTAansp9Far4hIQx7OBe+kDZ2QQYa7UtCk30ijaNYY
-         TkCi1zDWUKqKb10Iwkv5O5ilhF83Ub3+eUiLVfHGC69wdQOtm7g+bhTceXeH5Smgn6qk
-         JxF5VFpesEmMihld2BoAgynM72L5GNGiXpCd4WsoEl5LmyCPRtrXCWnfm238WmWJtsJj
-         GMUN8a14S+lnDy3i37Tn7Od8HyTdhvb+RUElxHFQbhk1YkF6z7cBgEnyl93n7w12VAqM
-         2NbA==
+        d=gmail.com; s=20230601; t=1739861124; x=1740465924; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SqQUy+TmHlIe2lGS+cxMn2E4zLJa5hzyQ87XCzDVJCw=;
+        b=Djvu0DZw2SVxetINmRH7ELr7tv9S30C6IGu62NM7opgmOq2FyM48HYqqRTIQbRXY3+
+         GNHlZd738gs+cfjBxX9z3An1ldynlbvs0amfI7YHQeuXl6n+u1hfPUO9h7Wj7OWUrClV
+         YkD4EiV/Uk/HQjsf/DJMhcz6LEcVHvaA9qZk2QE3ioDFlYIX1hmhhaOqwkFFXkuv/tMi
+         bui4DHm/j35fAt4T2a5DZs1hmGv9EGgSwYrrFVkErK3zaSsW+qElkatZeeJZwDgxkoVx
+         nId2zlM1g9nJvB6oLjyhbWtRG4N59gulkhkOpUFA5B/lIEGyy6ptD/r92foeGAVcLAPn
+         NinA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739860783; x=1740465583;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=T354DsH5/UXQWaU1+Y3gowYWo5275UrIfb+yzWEs+hM=;
-        b=vfc7sFL14jbATpdZeciI8QDhOQkefF26NMfT5aMZ0Hf1HykD4a9RMXkhjRX8Ws4jY/
-         NSHph15KFGvz19khjI6WwWOO/KEhoWsVRV1mHbGXd1cwbatTvvVQ6EhYgpSiLFIkdg8J
-         EvzCSV/DqSdIS6LUltmb9cd2ZthUflGlheS1/Z+iaSx/yN9Rqj+v/rhgT4xPa2KO8tZI
-         6oiqHoaxyx2zDbR7Ina3MImGCuvKPVHFXoVK6PXhYDGMOvHsTtpepSKgN8k62CVrdbt/
-         H6EtJG05seuZrIVQ+UlDqmbM8lVaQsIienzBqcXDCOMQGBGEGJjYFpNfG/6HsHa+XXXk
-         bbQg==
-X-Gm-Message-State: AOJu0YwPiBrvFY4b89xTsUlifmEekuastUts7vXWY6Dp3BH9V0uhAp+x
-	Hy3JQ8YN9fz3vFZpL8fQyBFM6/s323WSu3U/yrUBBALr5NnbGOaSTQLoFA==
-X-Gm-Gg: ASbGncven9tJ1T11c7grCGKmZYKQut/OU5/6QXUv1+puowB4Jobs4EnsrNoieblmJ1h
-	Vgmpe7w/4tISApVWNToLlTKzQMc+c+fLnPNEafftv1OQXk7szmC3gvDSDf7Qf/uf8UT9/8y8NnI
-	C5HXG0pnNM0q4eMXD/6byilAaaXGwhdKrq/Cu7ysS/UHWVKtmBKSTQglZEUJ3BEagvMCw+zAH8J
-	P6O6V4QW9EzNmFEQ/r5mFbkhf3l0O+DAlUsgQ3D4sqq/QRWmcU+bDWD+AgXam+xoZY+OriwejID
-	lHlokw/qKOz5tNAeMHDQFfnG5fV3WSHpDz9Y8y9vDkSlJV6NnJwX
-X-Google-Smtp-Source: AGHT+IHzYODcMjGCvN37A6kRUe84pQGiqbTkGi7hzYma7bqARxdX35D6FAJyynQb3JAD4eYkUaghRg==
-X-Received: by 2002:a17:90b:3886:b0:2ea:5e0c:2847 with SMTP id 98e67ed59e1d1-2fc41044fb0mr15668477a91.22.1739860783256;
-        Mon, 17 Feb 2025 22:39:43 -0800 (PST)
-Received: from shankari-IdeaPad.www.tendawifi.com ([14.139.108.62])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fc13ba61f1sm9181376a91.42.2025.02.17.22.39.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 22:39:42 -0800 (PST)
-From: Shankari02 <shankari.ak0208@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: Shankari02 <shankari.ak0208@gmail.com>
-Subject: [PATCH] doc: Fix grammatical errors and highlight code funcs
-Date: Tue, 18 Feb 2025 12:09:29 +0530
-Message-Id: <20250218063929.5110-1-shankari.ak0208@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1739861124; x=1740465924;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SqQUy+TmHlIe2lGS+cxMn2E4zLJa5hzyQ87XCzDVJCw=;
+        b=qfBEZj9GaGI8cjOLaoRFjrtz8zIi/bwSD+KLiCxb23PFOx2IH1Rf+OHMl5+F5j5Ux7
+         6nU8dqungxL+OosDwyJvFcbmRXWtL6Q38zO05LkYDmLyR+CrxGr+93jL4g43UMcCmfny
+         LGyCUuYp3XbGWrdsjQL51VQ+AUyzOD+O0SQvcMORjM8KlBr4EGPnV0jTwgbuvyPYMRA5
+         Ha3KgG2bcqgw17oq4G+R8TuIHvEA2F0KML0jbnPYur+Ni8M5Ov3SAcukyOSVJpr0rbiH
+         0yQob5HgZTHNId3LgSf2fcWCY58jgbGoqOAuvclZsUnlL2ACA5qtbnFNW3n80jSgY6xb
+         jqEg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+QXV4m3ez3dUoC2SeWHCLpxcqJpBwaqV8Tfg2eHopBN4RyL20gkmBUr1ZgxiJjL0p3wkKTlt6c/cTX0fxP8w1q+6xDxHR@vger.kernel.org, AJvYcCUbQMLzklNnds7JFWssCGswGuvXTDtRQ3yDYLph+YzwxEypExpMW77uacXVAK+iKwPjOagHAGNLbFos@vger.kernel.org, AJvYcCVA0GnmYKuZ3nq3KN3YcXUCE1X1hLGpOmSLN+PNGppk9jLUSZAYzMjC+MySSKVxwNoOw0TRiixslHoK@vger.kernel.org, AJvYcCXECuciXsZQMl7zJOm0J41J/OLjlGTuAK7kzwlYuwaQMbx6GzwuDjlQyPpyh1xeecSS8p3xPMSbhGA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+h2tFO7JdJSd7S6nYkzzX5c8stuVlE2x00//uTzczlX1jvsew
+	Z9IKZ2DiIchZmLUNM3g548wVf7g0hUYitTgSBAMcuEeTjN8YhLwiObP/jA==
+X-Gm-Gg: ASbGncsBJJzN0zzlLXRZdVgUWqorCS8ChPMiDToPon23MUug1jTklblhtf7GlgMvheQ
+	SvYn/OYJrP86BaLpo+yN/5367lXsQPrqzYREbhSGyqRI+gVxXy7qvJ7MV5zqY/xf5IIqywulpZa
+	ObO9mFsyyE+fMNW+kv7cfKBUrUyM0+LQBhP/M/J1wTI4PMp2JUBJ9c2AGD2BOO6KEwV5JM0odMn
+	JlEjMrHV4UuWBD+L6rGDGAaTkjde6VFyeDwB528fpA4UWuigJPa4UA4EiQbNbk4/Hiwu9+PTy99
+	FHBqEv3AOtu1CeQQtfz2qMHkAYS4chFtCCH6NVqI7RZds+55gTdHD21K1N2l4Y/mHGV55Dxb
+X-Google-Smtp-Source: AGHT+IEj3If62LMKd4zu2mxufSyaNBZmRoYKgPnZLeAis7jJXTrJ3g3nqNEZsiWpXSyAKIM7D7Y5BQ==
+X-Received: by 2002:a05:6512:3ba9:b0:545:2cf5:dc6c with SMTP id 2adb3069b0e04-5452fe8ff00mr3726297e87.51.1739861124087;
+        Mon, 17 Feb 2025 22:45:24 -0800 (PST)
+Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5452de0b2f7sm1330302e87.97.2025.02.17.22.45.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Feb 2025 22:45:23 -0800 (PST)
+Message-ID: <48b3e732-b60d-411c-a519-5e89f87eea7d@gmail.com>
+Date: Tue, 18 Feb 2025 08:45:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/12] reboot: reboot, not shutdown, on
+ hw_protection_reboot timeout
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
+ <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+ chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+ kernel@pengutronix.de
+References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
+ <20250113-hw_protection-reboot-v2-2-161d3fc734f0@pengutronix.de>
+ <7b6d3226-4422-415a-9146-16c421463ac5@gmail.com>
+ <de781a07-d209-4bbe-8945-efcb4490f604@pengutronix.de>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <de781a07-d209-4bbe-8945-efcb4490f604@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-This patch improves few sentences by correcting their grammatical formation. Some code functions have been highlighted for better readability.
+On 17/02/2025 22:22, Ahmad Fatoum wrote:
+> Hello Matti,
+> 
+> On 22.01.25 12:28, Matti Vaittinen wrote:
+>> On 13/01/2025 18:25, Ahmad Fatoum wrote:
+>>> hw_protection_shutdown() will kick off an orderly shutdown and if that
+>>> takes longer than a configurable amount of time, an emergency shutdown
+>>> will occur.
+>>>
+>>> Recently, hw_protection_reboot() was added for those systems that don't
+>>> implement a proper shutdown and are better served by rebooting and
+>>> having the boot firmware worry about doing something about the critical
+>>> condition.
+>>>
+>>> On timeout of the orderly reboot of hw_protection_reboot(), the system
+>>> would go into shutdown, instead of reboot. This is not a good idea, as
+>>> going into shutdown was explicitly not asked for.
+>>>
+>>> Fix this by always doing an emergency reboot if hw_protection_reboot()
+>>> is called and the orderly reboot takes too long.
+>>>
+>>> Fixes: 79fa723ba84c ("reboot: Introduce thermal_zone_device_critical_reboot()")
+>>> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+>>> ---
+>>>    kernel/reboot.c | 70 ++++++++++++++++++++++++++++++++++++++++-----------------
+>>>    1 file changed, 49 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/kernel/reboot.c b/kernel/reboot.c
+>>> index 847ac5d17a659981c6765699eac323f5e87f48c1..222b63dfd31020d0e2bc1b1402dbfa82adc71990 100644
+>>> --- a/kernel/reboot.c
+>>> +++ b/kernel/reboot.c
+>>> @@ -932,48 +932,76 @@ void orderly_reboot(void)
+>>>    }
+>>>    EXPORT_SYMBOL_GPL(orderly_reboot);
+>>>    +static const char *hw_protection_action_str(enum hw_protection_action action)
+>>> +{
+>>> +    switch (action) {
+>>> +    case HWPROT_ACT_SHUTDOWN:
+>>> +        return "shutdown";
+>>> +    case HWPROT_ACT_REBOOT:
+>>> +        return "reboot";
+>>> +    default:
+>>> +        return "undefined";
+>>> +    }
+>>> +}
+>>> +
+>>> +static enum hw_protection_action hw_failure_emergency_action;
+>>
+>> nit: Do we have a (theoretical) possibility that two emergency restarts get scheduled with different actions? Should the action be allocated (maybe not) for each caller, or should there be a check if an operation with conflicting action is already scheduled?
+>>
+>> If this was already considered and thought it is not an issue:
+>>
+>> Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> 
+> __hw_protection_trigger (née __hw_protection_shutdown) has this at its start:
+> 
+>   static atomic_t allow_proceed = ATOMIC_INIT(1);
+> 
+>   /* Shutdown should be initiated only once. */
+>   if (!atomic_dec_and_test(&allow_proceed))
+>           return;
+> 
+> It's thus not possible to have a later emergency restart race against the first.
+> 
 
-Signed-off-by: Shankari <shankari.ak0208@gmail.com>
----
- Documentation/driver-api/fpga/fpga-mgr.rst | 26 +++++++++++-----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+Ah, indeed. I missed this. Thanks for the clarification! :)
 
-diff --git a/Documentation/driver-api/fpga/fpga-mgr.rst b/Documentation/driver-api/fpga/fpga-mgr.rst
-index 8d2b79f696c1..a53775399bbd 100644
---- a/Documentation/driver-api/fpga/fpga-mgr.rst
-+++ b/Documentation/driver-api/fpga/fpga-mgr.rst
-@@ -76,7 +76,7 @@ parameter syntax is the same, but the call to ``fpga_mgr_unregister()`` should b
- removed. In the above example, the ``socfpga_fpga_remove()`` function would not be
- required.
- 
--The ops will implement whatever device specific register writes are needed to
-+The ops will implement whatever device-specific register writes are needed to
- do the programming sequence for this particular FPGA.  These ops return 0 for
- success or negative error codes otherwise.
- 
-@@ -86,34 +86,34 @@ The programming sequence is::
-  3. .write or .write_sg (may be called once or multiple times)
-  4. .write_complete
- 
--The .parse_header function will set header_size and data_size to
-+The **.parse_header** function will set header_size and data_size to
- struct fpga_image_info. Before parse_header call, header_size is initialized
- with initial_header_size. If flag skip_header of fpga_manager_ops is true,
- .write function will get image buffer starting at header_size offset from the
- beginning. If data_size is set, .write function will get data_size bytes of
--the image buffer, otherwise .write will get data up to the end of image buffer.
--This will not affect .write_sg, .write_sg will still get whole image in
--sg_table form. If FPGA image is already mapped as a single contiguous buffer,
-+the image buffer; otherwise .write will get data up to the end of image buffer.
-+This will not affect .write_sg, .write_sg will still get the whole image in
-+sg_table form. If FPGA image is already mapped as a single contiguous buffer, the
- whole buffer will be passed into .parse_header. If image is in scatter-gather
- form, core code will buffer up at least .initial_header_size before the first
--call of .parse_header, if it is not enough, .parse_header should set desired
--size into info->header_size and return -EAGAIN, then it will be called again
-+call of .parse_header, if it is not enough, .parse_header should set the desired
-+size into info->header_size and return ``-EAGAIN``, then it will be called again
- with greater part of image buffer on the input.
- 
--The .write_init function will prepare the FPGA to receive the image data. The
-+The **.write_init** function will prepare the FPGA to receive the image data. The
- buffer passed into .write_init will be at least info->header_size bytes long;
- if the whole bitstream is not immediately available then the core code will
- buffer up at least this much before starting.
- 
--The .write function writes a buffer to the FPGA. The buffer may be contain the
-+The **.write** function writes a buffer to the FPGA. The buffer may contain the
- whole FPGA image or may be a smaller chunk of an FPGA image.  In the latter
- case, this function is called multiple times for successive chunks. This interface
- is suitable for drivers which use PIO.
- 
--The .write_sg version behaves the same as .write except the input is a sg_table
--scatter list. This interface is suitable for drivers which use DMA.
-+The **.write_sg** version behaves the same as .write except the input is a sg_table
-+scatter list. This interface is suitable for drivers that use DMA.
- 
--The .write_complete function is called after all the image has been written
-+The **.write_complete** function is called after all the image has been written
- to put the FPGA into operating mode.
- 
- The ops include a .state function which will determine the state the FPGA is in
-@@ -126,7 +126,7 @@ API for implementing a new FPGA Manager driver
- * ``fpga_mgr_states`` -  Values for :c:expr:`fpga_manager->state`.
- * struct fpga_manager -  the FPGA manager struct
- * struct fpga_manager_ops -  Low level FPGA manager driver ops
--* struct fpga_manager_info -  Parameter structure for fpga_mgr_register_full()
-+* struct fpga_manager_info -  Parameter structure for ``fpga_mgr_register_full()``
- * __fpga_mgr_register_full() -  Create and register an FPGA manager using the
-   fpga_mgr_info structure to provide the full flexibility of options
- * __fpga_mgr_register() -  Create and register an FPGA manager using standard
--- 
-2.34.1
-
+Yours,
+	-- Matti
