@@ -1,47 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3F71B85CC;
-	Tue, 18 Feb 2025 20:24:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E511D1DF73A;
+	Tue, 18 Feb 2025 20:25:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739910279; cv=none; b=XYUrFKyUES2Mk9qEwQk4X1vHB3mkPrSzEuJsT7daHODlk624v6CvIVzg4UTO6SXV4NrUH7Dg6TUDc3eaGwGF17Q/6+P+yf5kfJgh2O2z02WXpi9pem5agAZQaFkYZRuM/KmgT11GT7peeEZXqd0YJimHP2mqKo+wHpBsxfborvw=
+	t=1739910335; cv=none; b=EWi8jflWrvJZEn4VFwmEmDDplEbspC2e/7ZrI9jP0c767uaFL5CUpCzSP/y0rr0k4OWsLlby2QIr86bbqN38zyPagWvEBzSvZL1ePVLKZqGJjBCHGismbtR8QadmAvzVD9aeR/HdBK5NC6u9D+jq2eHgLdHJUsEHM9YHwozVUJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739910279; c=relaxed/simple;
-	bh=4DkPl/uIKWli6sVtAuJSieBXxIdn9s6IGRaS2Pr9ilM=;
+	s=arc-20240116; t=1739910335; c=relaxed/simple;
+	bh=hXOebchP3NPkEm5a7VkktoCK9BvKPQOZTBMqv/ZYAuI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OICD8K0sS1dOoDbajcuVGXvL1nLXPnwtLyLQezKuikXnxdB+/FW4nMnqqv6hZ0Fut/xZtw8Pjl58SGl3Unej+6MOGXiOf6utZ/MHUYkZB8r5IFv4XYYsRylQwHx486uGT1jy8Ajl16vGgODQszrEvMCOsOQ/OT/LCIKmJ2KcUkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ojJkG+AC; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=NSRXyqLotkK/7smbL1aSsuFRhr3wQS+DwH712+HaKOsZ4YjepihuBLrXQz5ZEV5U+uvoQNcleJi7jnKp9a2dufL53VZB9E8AScPyrIeeL8llWnz3Ff4EZZfm6C8xX65K4ckCPFdBebZtqTLWjdf8J+GCrwsU9WEiQtYh4iOzi6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JyPjeumM; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ojJkG+AC"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 52511411AF
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JyPjeumM"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2D370411AF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1739910276; bh=ybkMF4J/vHwO4z2dt7srdkkRKShhkd5wEGE0vV1SgEY=;
+	t=1739910333; bh=U3CSTV77h7wwcu0nijjTlqqSNsH/15U0jQ6w8xe2F6c=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ojJkG+ACpvQ/kuXxSMeCbR/PvjoclHReIf6Y6dPCwa7erzzJ8ZgGeOY6jROB/Yc2v
-	 YgtQf7A2u6DkKokLa3ZiIeM3Hu/aAsvJpL/2GwfbcpHHYZOqi11Y9PVKKjHdIYOqq+
-	 Dx+Yv9Yn1G3WYSShpLbZPq3vbmYT+oCavpuhtQneV7m3TlUtee7UNvBkBTdMGN3DkG
-	 wGc71yY91sGYtuDI8bdijchRg/DWZndFJSR0vm2YZ10QWxdSBTvGUpvmIcg0EgP9HX
-	 wCIKHRZNbEBtYDbUrvVQx26OZVtJNJtZOB7x/10NHkPwSKtoaSHx8E7mFepm1lPGX5
-	 XCEj2VTt6mbFA==
+	b=JyPjeumMlalhwnsE8DnYyRgDTH+l/caE+taL2MZGvhpsARZhDNr1bfSvaJJBCQ98g
+	 kua2sG3MFeAU0J52wjCl9ujHUQq0oiGgjsCQ6qiG8eJxbEcUIkKzIIVsJKld6XLi+X
+	 Qr22GLhpumB/8fmIrZDETr6KUio1WYrzog1SYsEPd3ITrsswLmXeRgZuhzO2RxCq8i
+	 gTnh2n91KzFqyglI3vmqoJAupeKqNd0OjuKEoeHhbSnDspSq++QZNc7LMlXP8kvsfa
+	 uYEGYlNtzg4ddYLdTUt8+JrBPGfj76M7IStGzmzIuCTlUkdVzgm8KavI1KwHrd8LX7
+	 rwL8Z91F2lhNA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 52511411AF;
-	Tue, 18 Feb 2025 20:24:36 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2D370411AF;
+	Tue, 18 Feb 2025 20:25:33 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Carlos Bilbao
- <carlos.bilbao@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-docs: Add book to process/kernel-docs.rst
-In-Reply-To: <20250218154303.45595-1-lorenzo.stoakes@oracle.com>
-References: <20250218154303.45595-1-lorenzo.stoakes@oracle.com>
-Date: Tue, 18 Feb 2025 13:24:35 -0700
-Message-ID: <87y0y3ngqk.fsf@trenco.lwn.net>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Mike Rapoport <rppt@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/kernel-parameters: fix typo in
+ description of reserve_mem
+In-Reply-To: <20250218070845.3769520-1-rppt@kernel.org>
+References: <20250218070845.3769520-1-rppt@kernel.org>
+Date: Tue, 18 Feb 2025 13:25:32 -0700
+Message-ID: <87tt8rngoz.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,25 +50,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Lorenzo Stoakes <lorenzo.stoakes@oracle.com> writes:
+Mike Rapoport <rppt@kernel.org> writes:
 
-> Add a reference to my new book, The Linux Memory Manager, an in-depth
-> exploration of the memory management subsystem, to
-> process/kernel-docs.rst.
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 >
-> This is not yet published, but the full draft is available on pre-order, so
-> it seems worthwhile adding it here. The situation is made clear in the
-> 'notes' section.
+> The format description of reserve_mem uses [KNG] as units, rather than
+> [KMG].
 >
-> The 'pre-release' was made available in February 2025, and full release is
-> scheduled for Fall 2025. The book's ISBN-13 is 978-1718504462.
+> Fix it.
 >
-> The document will be updated upon release to reflect this.
->
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 > ---
->  Documentation/process/kernel-docs.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index fb8752b42ec8..bf00552908bc 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6082,7 +6082,7 @@
+>  			is assumed to be I/O ports; otherwise it is memory.
+>  
+>  	reserve_mem=	[RAM]
+> -			Format: nn[KNG]:<align>:<label>
+> +			Format: nn[KMG]:<align>:<label>
+>  			Reserve physical memory and label it with a name that
 
 Applied, thanks.
 
