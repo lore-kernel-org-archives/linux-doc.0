@@ -1,154 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FFA26E14F;
-	Tue, 18 Feb 2025 15:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45EF198E60;
+	Tue, 18 Feb 2025 16:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739893976; cv=none; b=SW1s9H7QSY8DGLp8JWysCrTKLEFHC0M4sr/9Re63Xx9n7ry3uEv/7lfBcR2fu2dIKGxe2HmpdMAwAbA0KFn7OqkmLv1hzdQC9zGUGUR7Q8fLQZq+vs+RNJ1FZfBKQgLfET/egB759rebYco9hOh0YfP4xhYVRMImgTWvG/rn8hg=
+	t=1739895563; cv=none; b=leoX1xJvbR6WD4C0F8S1+BIJDLMNH0vt9XjlRFu8KUlzh+oUsJ2vifNgYbVFFhcctkPX2R3HwUacgpLnU46ekKB2OAhJq9Naz+nHaNMETtCDBbZH9dWsUSnMXWAIxv/eB7NRjApI3mYtvZC7kkeViL1q+sl4q8IPWrQyghcz+0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739893976; c=relaxed/simple;
-	bh=Lfy3wqOCBbjxg5nNsnZbpi/kGngbJgptpe7heB+ZnUk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YnoN090mLzRwjnheAGrVyIoArtXT8pqG67WXDDmlkcZqsVHDiLutIJzUd5Ch7RfZd0pe/0t19R3FzIG3NKFJSOamCuZHY6zm5LaYxssfgdfyHAFbHeca71ebYWuHdmISWwmV+RrBi/DLPnVRqDqZ5qZd3jsNAYooSrU1YRQdSmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K/Bfy9y9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739895563; c=relaxed/simple;
+	bh=P3/hlFGBUKN2E6uNsjPu4wXSGA9mNXfBrD6OO244ki4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Jcp+jNWpi0NUmbxnH8zTd0+7iUVrs2mTyrd2TQlmCLROFB5+qBpG/JaChEHYp1yqbXj1+IYPd1uhyAmEhi22egX6beNMRbZ58v71ra5+yVPA4GNjhjvVyvz0wcQQKxvPPgbakmBlRXUDCdfbzh9ht0vpfKmDc/kATk9bdpuYGHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZhG8Hg58; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K/Bfy9y9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E116BC4CEE7;
-	Tue, 18 Feb 2025 15:52:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739893976;
-	bh=Lfy3wqOCBbjxg5nNsnZbpi/kGngbJgptpe7heB+ZnUk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K/Bfy9y9GvvUCCcinsoy9LUwBfEUgAY7EsZTD9cvt7fqLwcGpXMHwq4sY1UkKTiHA
-	 IOt9JnV9XpERQg1rywCHuIE/vKBfkunfNpS2djpqLBoeaWRBh82U2QDKTxMXc5B3mW
-	 Q7oy9UqlgveAwOrkGE7vXiyle+mv0YX9s6/N09vGh7dV3Jl/AWWMHMqnJR/ahHeUYh
-	 9j65F3nRQ+eXHK0PEvPrVMs4kxW3alnNZmbi8qYdZ4e3nfzVCHwWX4+dvGPppnO1Pg
-	 MGHv+gjZMUjMjMXQHR+80vhf+4tJgvipE+ZYMIIwE5TWaglnES8eB/VpltrIsFNI+p
-	 NRSYrXILM7zqg==
-Date: Tue, 18 Feb 2025 16:52:53 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Doug Anderson <dianders@chromium.org>, 
-	Anusha Srivatsa <asrivats@redhat.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <quic_jesszhan@quicinc.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Joel Selvaraj <jo@jsfamily.in>, Ondrej Jirman <megi@xff.cz>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Jianhua Lu <lujianhua000@gmail.com>, 
-	Robert Chiras <robert.chiras@nxp.com>, Artur Weber <aweber.kernel@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Tejas Vipin <tejasvipin76@gmail.com>
-Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
- variants when available
-Message-ID: <20250218-primitive-kickass-seagull-008bf2@houat>
-References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
- <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
- <20250218-fabulous-agile-corgi-9a5ee0@houat>
- <ynmxaimdwkwfiryz5le5vpnfh5fzh5se4ebyqzkbnq355me76x@yxtyan3niivb>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZhG8Hg58"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 428C444310;
+	Tue, 18 Feb 2025 16:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1739895553;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+/0HrgwbqBg1tqYj90mQpDYOO09Zph7T3utWKyj8VQg=;
+	b=ZhG8Hg58RjxOlm8/JF87g82qAe53grlcq/fyTkS9LwRW3X4bwc5H0ZGRCgpjE9V3mxPp37
+	byAZbqMrlmFOALxWhnoIVMVPEgbfBOfVktFNBZXrvRbXD43q7t+qBFHMpvBJDqpLa6dQJB
+	9RgxhT+cakzWyLW+cFBYcEMeNDt3hl3yKKVpomW3BodEBlD1vVbYBJuuA1EHrpMubV4Vyz
+	ovnTo4uNsF8vCTxkEKy3Qt2BTMGWjdy+4MP6QxasCRC3HQ7KRMguDMtmWxbUl5fldS0O0A
+	rqAh5C06cLgh3GI185fD+6aUxUqNNkrb7v4Cweeo8YL2XRZ8S/LKxB4l29s/bQ==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net-next v5 00/12] Add support for PSE budget evaluation
+ strategy
+Date: Tue, 18 Feb 2025 17:19:04 +0100
+Message-Id: <20250218-feature_poe_port_prio-v5-0-3da486e5fd64@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="fpteilqt6emhj7js"
-Content-Disposition: inline
-In-Reply-To: <ynmxaimdwkwfiryz5le5vpnfh5fzh5se4ebyqzkbnq355me76x@yxtyan3niivb>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAPiytGcC/3XOwWrDMAwG4FcpPs9Dku047mnvMUbxHGU1bHZwv
+ NBR8u5zA2MbJQcdfn70SVcxc4k8i+PhKgovcY45tWAeDiKcfXpjGYeWBQFpcKjkyL5+Fj5N+Ta
+ lnqYSs/QGPQ9WKeIg2u5UeIyXzX0WiatMfKnipTXnONdcvraDC279zUYA2rEXlCBtb8Ho0Woez
+ NNrzvU9pseQPzZzoT+Ogj2HmuOMcR0Rs7b+3lG/DhLuOao5vSLnRt+5zoZ7R/84BtpDe45uzhA
+ cehUgYG//O+u6fgPAr0WMngEAAA==
+To: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Simon Horman <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ "Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>
+X-Mailer: b4 0.15-dev-8cb71
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeiudejjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtkeertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudfhveduteffgfekvdfhveehgeehtdelgefhffduiefffedvheefgeeiiedvkeetnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddumegtsgdtudemfedtheefmegrvdeiieemlegviegvmeeliegsudemvggsugelmehftdgrgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggstddumeeftdehfeemrgdvieeimeelvgeivgemleeisgdumegvsgguleemfhdtrgegpdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvhedprhgtphhtthhopegrnhgurhgvfidonhgvthguvghvsehluhhnnhdrtghhpdhrtghpthhtohepuggvnhhtphhrohhjvggttheslhhinhhugihfohhunhgurghtihhonhdrohhrg
+ hdprhgtphhtthhopehlihhnuhigsegrrhhmlhhinhhugidrohhrghdruhhkpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvg
+X-GND-Sasl: kory.maincent@bootlin.com
 
+From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
---fpteilqt6emhj7js
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
- variants when available
-MIME-Version: 1.0
+This series brings support for budget evaluation strategy in the PSE
+subsystem. PSE controllers can set priorities to decide which ports should
+be turned off in case of special events like over-current.
 
-On Tue, Feb 18, 2025 at 02:14:43PM +0200, Dmitry Baryshkov wrote:
-> On Tue, Feb 18, 2025 at 10:55:49AM +0100, Maxime Ripard wrote:
-> > On Fri, Feb 14, 2025 at 08:26:02AM -0800, Doug Anderson wrote:
-> > > Hi,
-> > >=20
-> > > On Thu, Feb 13, 2025 at 12:44=E2=80=AFPM Anusha Srivatsa <asrivats@re=
-dhat.com> wrote:
-> > > >
-> > > > A lot of mipi API are deprecated and have a _multi() variant
-> > > > which is the preferred way forward. This covers  TODO in the
-> > > > gpu Documentation:[1]
-> > > >
-> > > > An incomplete effort was made in the previous version
-> > > > to address this[2]. It removed on the mipi_dsi_dcs_write_seq()
-> > > > and mipi_dsi_generic_write_seq_multi() with the respective
-> > > > replacemts and not the rest of the API.
-> > >=20
-> > > You didn't seem to take most of the suggestions I gave in response to
-> > > your v1 [3]. Specifically:
-> > >=20
-> > > a) I asked that you CC Tejas. I've added him again.
-> > >=20
-> > > b) I asked that you CC me on the whole patch series, which you didn't
-> > > do. I can find them, but I'd find it convenient in this case for them
-> > > to be in my Inbox.
-> > >=20
-> > > The first patch conflicts with what Tejas already landed in
-> > > drm-misc-next. See commit 8025f23728e9 ("drm/panel:
-> > > xinpeng-xpp055c272: transition to mipi_dsi wrapped functions"). The
-> > > second patch _also_ conflicts with what Tejas already landed. See
-> > > commit f4dd4cb79f9e ("drm/panel: visionox-r66451: transition to
-> > > mipi_dsi wrapped functions"). Later patches also also conflict. See
-> > > commit 0d6c9edf9e5b ("drm/panel: ebbg-ft8719: transition to mipi_dsi
-> > > wrapped functions"), commit ce8c69ec90ca ("drm/panel:
-> > > samsung-s6e88a0-ams452ef01: transition to mipi_dsi wrapped
-> > > functions"), and commit 7e3bf00047cd ("drm/panel: sharp-ls060t1sx01:
-> > > transition to mipi_dsi wrapped functions"). Maybe you should sync up
-> > > with drm-misc-next before submitting.
-> >=20
-> > Yes, you should definitely work from drm-misc-next there, and sync with
-> > Tejas.
-> >=20
-> > > I also questioned whether this really made sense to try to do with a
-> > > Coccinelle script and I still don't think so. It looks like Dmitry has
-> > > already reviewed the first few of your patches and has repeated my
-> > > advice. If you want to help with the effort of addressing this TODO
-> > > item then that's great, but I'll stop reviewing (and start silently
-> > > deleting) any future submissions of yours that say that they're done
-> > > entirely with a Coccinelle script unless you address this point and
-> > > convince me that your Coccinelle script is really smart enough to
-> > > handle all the corner cases. I'll also assert that you should review
-> > > Tejas's submissions to see how these conversions are expected to go.
-> >=20
-> > I couldn't find that in your first answer though. What corner cases do
-> > you have in mind, and why do you think coccinelle can't handle them?
->=20
-> As can be seen from the reviews:
->=20
-> - sleeps between DSI calls
-> - properly propagating the error at the end of the function
+This patch series adds support for two budget evaluation strategy.
+1. Static Method:
 
-These two are legitimate feedback, but I don't see how coccinelle cannot
-deal with them.
+   This method involves distributing power based on PD classification.
+   It’s straightforward and stable, the PSE core keeping track of the
+   budget and subtracting the power requested by each PD’s class.
 
-> - making decision whether to create the context at the caller or the
->   callee side. E.g. in patch 8 it is better to allocate context in
->   hx8394_enable() and pass it to .init_sequence() instead of keeping
->   some of error handling.
+   Advantages: Every PD gets its promised power at any time, which
+   guarantees reliability.
 
-Yeah, that one is definitely subjective, and is going to need manual
-review.
+   Disadvantages: PD classification steps are large, meaning devices
+   request much more power than they actually need. As a result, the power
+   supply may only operate at, say, 50% capacity, which is inefficient and
+   wastes money.
 
-Maxime
+2. Dynamic Method:
 
---fpteilqt6emhj7js
-Content-Type: application/pgp-signature; name="signature.asc"
+   To address the inefficiencies of the static method, vendors like
+   Microchip have introduced dynamic power budgeting, as seen in the
+   PD692x0 firmware. This method monitors the current consumption per port
+   and subtracts it from the available power budget. When the budget is
+   exceeded, lower-priority ports are shut down.
 
------BEGIN PGP SIGNATURE-----
+   Advantages: This method optimizes resource utilization, saving costs.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7Ss0QAKCRAnX84Zoj2+
-dukDAYDXcF39vpxiWmY6ypqgL/3oHzXWyDI/hPJjKLqlSm/RBJvFdXWqH7cTvsJF
-BGl9h0kBgJTBJ0vvu/UwpgZ/UyHD1S710s4lhY5YyyHuho6JwZzsb+tXPmRgz5E1
-/h560Q3h1w==
-=9vo/
------END PGP SIGNATURE-----
+   Disadvantages: Low-priority devices may experience instability.
 
---fpteilqt6emhj7js--
+The UAPI allows adding support for software port priority mode managed from
+userspace later if needed.
+
+Patches 1-2: Add support for interrupt event report in PSE core, ethtool
+	     and ethtool specs.
+Patch 3: Adds support for interrupt and event report in TPS23881 driver.
+Patches 4,5: Add support for PSE power domain in PSE core and ethtool.
+Patches 6,7: Add support for budget evaluation strategy in PSE core,
+	     ethtool and ethtool specs.
+Patches 8-10: Add support for port priority and power supplies in PD692x0
+	      drivers.
+Patches 11,12: Add support for port priority in TPS23881 drivers.
+
+Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+---
+Changes in v5:
+- Remove the first part of the patch series which tackled PSE
+  improvement and already gets merged:
+  https://lore.kernel.org/netdev/20250110-b4-feature_poe_arrange-v3-0-142279aedb94@bootlin.com/
+- Remove the PSE index support which is useless for now. The PSE power
+  domain ID is sufficient.
+- Add support for PD692x0 power supplies other than Vmain which was already
+  in the patch series.
+- Few other small fixes.
+- Link to v4: https://lore.kernel.org/r/20250103-feature_poe_port_prio-v4-0-dc91a3c0c187@bootlin.com
+
+Changes in v4:
+- Remove disconnection policy.
+- Rename port priority mode to budget evaluation strategy.
+- Add cosmetic changes in PSE core.
+- Add support for port priority in PD692x0 driver.
+- Link to v3: https://lore.kernel.org/r/20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com
+
+Changes in v3:
+- Move power budget to regulator core.
+- Add disconnection policies with PIs using the same priority.
+- Several fixes on the TPS23881 drivers.
+- Several new cosmetic patches.
+- Link to v2: https://lore.kernel.org/r/20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com
+
+Changes in v2:
+- Rethink the port priority management.
+- Add PSE id.
+- Add support for PSE power domains.
+- Add get power budget regulator constraint.
+- Link to v1: https://lore.kernel.org/r/20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com
+
+---
+Kory Maincent (12):
+      net: ethtool: Add support for ethnl_info_init_ntf helper function
+      net: pse-pd: Add support for reporting events
+      net: pse-pd: tps23881: Add support for PSE events and interrupts
+      net: pse-pd: Add support for PSE power domains
+      net: ethtool: Add support for new power domains index description
+      net: pse-pd: Add support for budget evaluation strategies
+      net: ethtool: Add PSE new budget evaluation strategy support feature
+      net: pse-pd: pd692x0: Add support for PSE PI priority feature
+      net: pse-pd: pd692x0: Add support for controller and manager power supplies
+      dt-bindings: net: pse-pd: microchip,pd692x0: Add manager regulator supply
+      net: pse-pd: tps23881: Add support for static port priority feature
+      dt-bindings: net: pse-pd: ti,tps23881: Add interrupt description
+
+ .../bindings/net/pse-pd/microchip,pd692x0.yaml     |  22 +-
+ .../bindings/net/pse-pd/ti,tps23881.yaml           |   8 +
+ Documentation/netlink/specs/ethtool.yaml           |  47 ++
+ Documentation/networking/ethtool-netlink.rst       |  90 +++
+ drivers/net/mdio/fwnode_mdio.c                     |  26 +-
+ drivers/net/pse-pd/pd692x0.c                       | 225 ++++++
+ drivers/net/pse-pd/pse_core.c                      | 865 ++++++++++++++++++++-
+ drivers/net/pse-pd/tps23881.c                      | 364 ++++++++-
+ include/linux/ethtool_netlink.h                    |   9 +
+ include/linux/pse-pd/pse.h                         |  74 +-
+ include/uapi/linux/ethtool.h                       |  54 ++
+ include/uapi/linux/ethtool_netlink_generated.h     |  14 +
+ net/ethtool/common.c                               |  12 +
+ net/ethtool/common.h                               |   2 +
+ net/ethtool/netlink.c                              |   7 +-
+ net/ethtool/netlink.h                              |   2 +
+ net/ethtool/pse-pd.c                               |  86 ++
+ net/ethtool/strset.c                               |   5 +
+ 18 files changed, 1860 insertions(+), 52 deletions(-)
+---
+base-commit: 5791c4c734f26b933e6272a88bbf3753b85292ef
+change-id: 20240913-feature_poe_port_prio-a51aed7332ec
+
+Best regards,
+-- 
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
