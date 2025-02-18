@@ -1,94 +1,127 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68BCC2698AD;
-	Tue, 18 Feb 2025 14:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B82230993;
+	Tue, 18 Feb 2025 14:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739889712; cv=none; b=RAaDuHY6Xhipf+57KVHdJ4mMwodSW+liLQr9pNDhaFRceaw1QTnq+TaijDqU+Q1A9HDea1u7WoZXKl+y6Vw/ak7WKM3hf6cksw/lo8Os1mrFoTnZfE9Dv5f6Nwj6qrVF/4DqKDbAjKYe4awVD4St+hWPENCFVluFewpjVyjsw9U=
+	t=1739890748; cv=none; b=Y6FRlNErTFTUDU+9M10Fgbux54iV3ZQq8vRqGQydD5viGcrRzC0CGAqRLwV9p+wxV3utL0/18TmlLihK2C8DEY2sSKOyy7CiBZwvWdo1NdXHxj0fScNqd67XDQWMpAXPNC2Mi8eu6EmN6cu21nmuMCAb1qnxLd9DO8MVEZoDKgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739889712; c=relaxed/simple;
-	bh=ITyjbYorInb7OznbRdsHM3rzrKeWxNDblHgtrnPmcW0=;
-	h=From:Message-ID:Subject:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=O+oVrmfqa/AWBJhfu22kJ00qResbXmrmYpMJlgkdgp4M+IZjBLXhg6gotgqKR9BXFYsAhptdP5GI2tDpDpgDDZtcV8SoCRcc41jRlINUxfG8ImGEvQxyYUT87yJB2HuZoZ+tJhHjRfjVFMMcxSj1d5A+lMuYiM5cIh4C/kXtMVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EKGuRjY7; arc=none smtp.client-ip=209.85.218.50
+	s=arc-20240116; t=1739890748; c=relaxed/simple;
+	bh=bnikpV9vWi9NNkaOO5T2BkhMOZejMFIE+U6Sht1hRz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DZBAZl0Mp67VMwHpPGZur1UDUta3Ye6zMe7LupbxP7ZLj23Btoz2c7ydh2vSkeNWqMW69qkzEU2Z3VMTiSm29BrC3wiLFiCvhvvjU4iwg+mp7CH4Gb+Rqw8tIWQBclwIqe1J9jZwFJsRN2eIdSth201/w86yz5FgmUKXLZtapek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J+17lSJJ; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EKGuRjY7"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-aaf900cc7fbso834832366b.3;
-        Tue, 18 Feb 2025 06:41:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J+17lSJJ"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5e033c2f106so4763816a12.3;
+        Tue, 18 Feb 2025 06:59:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739889708; x=1740494508; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:subject:message-id:from:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ITyjbYorInb7OznbRdsHM3rzrKeWxNDblHgtrnPmcW0=;
-        b=EKGuRjY7SKkcAR/JPwSvtk+XSjvxST4fUU4QpsCHBYvOQ/xirXCS+kZWjSdPJQVyrW
-         b0mvlNww5E7y/bKD4owgovbY/zBAQXjfCkZJdylMYDP5fzJNHgkj1jJdVa2Tfxem+Czx
-         bU2HI+V/24SQ64L4EAmaKSj+FoirNXZkNdXZbg1Cr/+cZJDXHJi7htZi686zgODeqsjm
-         xuZUEuodyGMXS293AQvhgwbNGZapT+swRuAKcU2HM6Q+vH/L1pL+FqdNo3ASzVWlPI+m
-         71b0fdpoC+um7RVf9OfxmKaMLiP551bCxfTcAUqD27WabBfodp5nXV++N2kq6eXeOYrY
-         /YaQ==
+        d=gmail.com; s=20230601; t=1739890745; x=1740495545; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oAIrJ/LjqF3PZx6DSjpQeC5ZYl3v6fqCgyrURh3Pa9A=;
+        b=J+17lSJJJZV6XYaNvDoZnUqKennHU25+JAVcQYkAf4xR2ArI7a1+tWfBiabekEN12o
+         2APagjpALlhuvrVSrXVNozP6cag+wB60zWG0v7snREqpVIANSYNBwQtWBOqsZivpr/8E
+         UPnwkvLTd//j+cOexX0GgnagJkB3DYATLwiG1jIPsm1SO8Lx3/vQwh1Rt6L//bbHYjXT
+         dtD4bcfgBDR7kq80QpRH8x9d2Jda7JRtX276BnqiYTZlp3mHw4SMm9pmz7BxwgCBgpOK
+         TPE6YG3211C4g0mdOtTbLsgdIvyvHB6lpx3wKMLZkGd7EZcMkHJm/PgDpB734am2vE/u
+         5a+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739889708; x=1740494508;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:subject:message-id:from:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ITyjbYorInb7OznbRdsHM3rzrKeWxNDblHgtrnPmcW0=;
-        b=pXtxPIpGSRQKVr9aiZRl3Ok+d250LMahVi3gvHsf1GTvIc7rao3clX7mXuj2nSWk0x
-         j2JqY05GgySvUpKtN13ct4ykFdO05UKafCI1qkEvL5I+XnVczYYP/Q9RP7eA6AZCUYiL
-         R8RIs7MSr5sQE2ZM7m1KwiVVdJQth7uFFfgEGBjdiA2/k2WcWJA6cvDQtvZ10iNjq5gV
-         4zk9vc+ZX289bjnGFtpu/9zf03lpRx3lbXWufp+q0QUwQrgizRFQmhab6QpkCok6/Rsk
-         eY0L8bddm557vWjd3R+TwkuewULY2Lu4A0TG+dX+8oHTlKJA10ufvD5DGzFh1ZMDcsDT
-         x/lg==
-X-Forwarded-Encrypted: i=1; AJvYcCW+LEhdA9H0VC7+wXEIHGlPogU85R1aDR5ZGWLAUN3F1gQ3ftzuS2UMt0ziJ9EHxebf7tMk5Edidc7oXzMh@vger.kernel.org, AJvYcCWmT4ELyjceM8GLdXx4Raf/mCRc8deoKuaGFQCQ32tpWtqtXoqeQSCFwwwWmz6fjeiIbiTUw0LTOTc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAc1JvRppEJAzSuP1SZlw6sScS6b9AW4fT6teflJ6S1NdIY7Fm
-	96CCrABhlqrc2e5zgri3qOy5M9+9qdcsLBNIKw+4yc6WaVQuPSmPYSZFIMEN
-X-Gm-Gg: ASbGnctHhh8oIs+rU1RMAfta1cUkcfjUXHTOD54qrCBFPeBeJoJjgAAFLbCK2XYPol1
-	qqJcQEPaOzW/rFGPqSlmIsaO8wULbGPPe0k0Exhi7igo20IpWbhODhW+XgOAzBMkipFng3rzcZn
-	OeEvSJfsZID3AOnF68ZpqQgbm8dbNKUqSbjV0kM4DC+H810C3YJL5OxCCtpZmpp9z3JVBu6Ez8S
-	VqfIQvpve54nVdmkTNUE+bIvTFXOAOBN/PGEzBS7nP76rZexAd21nwoLtqseGQR7K47UqqUykMW
-	2jc2hmkeeasgXLfwhNVdVN3IMGTkark=
-X-Google-Smtp-Source: AGHT+IH6i7PubfoI0VxPwiBEI2XGJO3sNuV4rkMcAu6hxu6WANeiFNV7c6fgc7v8xsbF1vHRESeg8g==
-X-Received: by 2002:a17:906:6a0c:b0:ab2:f8e9:5f57 with SMTP id a640c23a62f3a-abb70a957b5mr1237493366b.21.1739889708291;
-        Tue, 18 Feb 2025 06:41:48 -0800 (PST)
-Received: from [192.168.101.162] ([212.123.204.195])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aba9cf8a262sm783983266b.22.2025.02.18.06.41.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 06:41:47 -0800 (PST)
-Sender: Armin M <arminmahdilou@gmail.com>
-From: Armin Mahdilou <armin.mahdilou@gmail.com>
-X-Google-Original-From: Armin Mahdilou <Armin.Mahdilou@gmail.com>
-Message-ID: <b45c5b7c1ec72697005afbbf870100cc4a175572.camel@gmail.com>
-Subject: Re: [PATCH v2] Documentation: proofreading Documentation
-To: corbet@lwn.net
-Cc: shuah@kernel.org, skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rdunlap@infradead.org
-Date: Tue, 18 Feb 2025 15:41:47 +0100
-In-Reply-To: <20250210192754.30283-1-Armin.Mahdilou@gmail.com>
-References: <87bjv91yi3.fsf@trenco.lwn.net>
-	 <20250210192754.30283-1-Armin.Mahdilou@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 
+        d=1e100.net; s=20230601; t=1739890745; x=1740495545;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oAIrJ/LjqF3PZx6DSjpQeC5ZYl3v6fqCgyrURh3Pa9A=;
+        b=Q3C+VL2/HqwIkpKibPbak+cQFetupyQKZpLGWmZShgy7BGvF4jvrQkpRyOTXyjWO18
+         uU5eUbankhn7lBzdyL+4Q4TMkWrlM+/JeMOIdeKv+vvw+CZ+YqegN3E5oFLRIeIEU5Q7
+         rJuNUS4ZnQu3/taKLodlDFg5mZJZ6oHmzPn1YjlcMUPn7Hkp/9Bu+IXFWm7cNblOPC6s
+         f/m+aFA+cZlllEto/5JOea4iOr8iWTEVGiX7b/ShCPD3XSRfpzZoILPAPSLjrE1ISvx8
+         bdxgUqTC+0Xsvi/6gD66jsyyuJKnudfqudHoO669fBdsLxyiq+OacuGduH5Dwby813rv
+         cCKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXFDadNpSkTCqeuP64rDNUMIR/tpUvGzkBdD6+frD1rWe/RFgd1rdSF43JxQx4CA945avAR5q42xmbg@vger.kernel.org, AJvYcCXnouf1tAgPE1NaM1dRRZVL80ICcvaXrkr4nejjmK/I1AIXJErpSBGj3MB+Zp7f7k6QzVOUtVVrW+8H@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTTMRqzUEyORSoJFDbktYZSdwtmqtPvaJhxXzhBUNwjuCbiVBe
+	sPwUIj6IZal7N5E59YONm74aMILJ7ILAOTwRwNfwvHwQ8xLYPzVh
+X-Gm-Gg: ASbGncvtIjbh3p0B3CMer00wBTH4tGxKg36Hxr3u5DaSvTgqJVA396a++JtnknzY6I7
+	xZqk8esVW/1FNQ2PSBYpOvC6XJe+bRCNsHfBA3Mf/IxSyIcuwpcoM0/lzh2xhXoot/yh81Ysr1h
+	Bz87DlnveSi/Np2xaQpYXmiaaCpGIxImAFOdNQxuKcz11w+uRr+4H664W9jdk/EfiUW1O5Bqyqw
+	MkDXsQv0sXyo1r27KFxl02wGDsFTdDq0k9TPngP/YZwtc1INLm6MNF9dA0+I4ntL97sQoDiYjm9
+	BVtTOAZ6oiMnE6U=
+X-Google-Smtp-Source: AGHT+IHfGUb6DAP5PY1vAqYBMMTlEpLIKDLmvPxJw/HfikZVPdieC7mOeVaDwsd2Oi5vIHAKZzcd1g==
+X-Received: by 2002:a05:6402:2386:b0:5dc:6e27:e6e8 with SMTP id 4fb4d7f45d1cf-5e036139cb5mr24069087a12.24.1739890745271;
+        Tue, 18 Feb 2025 06:59:05 -0800 (PST)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abbbc841eb0sm121224966b.128.2025.02.18.06.59.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 18 Feb 2025 06:59:04 -0800 (PST)
+Date: Tue, 18 Feb 2025 14:59:04 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Pratyush Yadav <ptyadav@amazon.de>,
+	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v4 01/14] mm/mm_init: rename init_reserved_page to
+ init_deferred_page
+Message-ID: <20250218145904.x57chhz3whvckzu3@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+ <20250206132754.2596694-2-rppt@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250206132754.2596694-2-rppt@kernel.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Mon, 2025-02-10 at 20:25 +0100, Armin Mahdilou wrote:
-> Fixed some spelling issues in documentations.
->=20
-> Signed-off-by: Armin Mahdilou <Armin.Mahdilou@gmail.com>
-Hi all,
+On Thu, Feb 06, 2025 at 03:27:41PM +0200, Mike Rapoport wrote:
+>From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>
+>When CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, init_reserved_page()
+>function performs initialization of a struct page that would have been
+>deferred normally.
+>
+>Rename it to init_deferred_page() to better reflect what the function does.
 
-Just a kind reminder about this patch.
-I would like to know the status of it and as it's my first patch,
-I want to know how can I track if it's merged or not.
-Thanks in advance.
+Would it be confused with deferred_init_pages()?
 
-Regards,
-Armin
+And it still calls __init_reserved_page_zone(), even we __SetPageReserved()
+after it. Current logic looks not clear.
+
+
+-- 
+Wei Yang
+Help you, Help me
