@@ -1,162 +1,159 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2052.outbound.protection.outlook.com [40.107.236.52])
+Received: from smtp-fw-6002.amazon.com (smtp-fw-6002.amazon.com [52.95.49.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AD226BDBD;
-	Tue, 18 Feb 2025 17:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739898170; cv=fail; b=aMEOSZl951hU/g1demCscAK2HIce9fgJ7hyTi1O54rUEo2TjfsBuuU+LIsBI3nJl2xv+ACAtHjwc2qN8GCeXv4t1bnShBWYuP+X1Zs3FdFWomy+HE8MUq5igVvUE6gJM9542XDnufwdlaWJGJkYqskzEDsJv9qBI1xOzxk7+M84=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739898170; c=relaxed/simple;
-	bh=EQOCMUYxsH9sI3vHHKdGONN/MDRI2Ex3BdaKLMdkmuw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=lOhK9Op9FVfx5ugMme9CfOgtwwov9L0dIFTIT6L/4ENeFjGMEB2q/BdwF5eeSpNTxGxuTvVaseDZI6GqbchqV4aloUjqMq4LvS2OfNgBU4O6xtCXcB2HxqMlzw5jwoEaHSbRm7Txu7mgXvvCVdOtmL6U84gKY2XoKqBJv4nB9E8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qGq1CitW; arc=fail smtp.client-ip=40.107.236.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB51A26F464;
+	Tue, 18 Feb 2025 17:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.95.49.90
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739898432; cv=none; b=bZszXXowE0+8XNp8LJRpRvme2epU/6fAxjS46iS0/H2AVRSIWlAf23Oujt9V5CxDqiaYsy9TgrGohffC4qYAkaROJar/LWDUqi6vsoN5GknKpR8pSlEEojhY37Uu+3UPYh2kBdEI4c1YosL07lTC4dsE0Nwag3voIeCm71FVQA0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739898432; c=relaxed/simple;
+	bh=z2W1klaC4NrqrdesRaJJCmZ5n84Sqox4d0Ii0u9BNx8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=cPg8XuLq1jR4JF/OghlZZdk/PmVQODmUv/G1YKGpYgqBGFofvyMefx9XcQalOTBimyMKOeOBFISYFew02IR6enHrLf2Kej8LhbDgfq6Z1hdF/vrQiWIXm0cplPFrM36vxEnadKQfHFYU3FjgR1lJLclBxbq/G5YlsfmXa3u/Dy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=OqWu0HRh; arc=none smtp.client-ip=52.95.49.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qGq1CitW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wxq90dyD/bu89pV3B5GASOXkQSR8bZBh7q48uFvopyQau08p5pxzyqW28dS3wsXtodd6eHf6ehZ0PliWIi2qQDKwZaK9nBZaLEc6NDe744LD7PrYqtb0Ewfyrcq/i4MR2Bs/1aeqFruAlK3QPkawRujeu40odtV2N8x/Zfmwbq7c46m4eiaNgECb2Qxpnp0RCAJnGFRjjdVix390e1SGoR8qEIWQzp3untpC/5XbWqlcmssqDW0mJlCe7ctvE4bT+H/rIERLgwugdXL1O5GuaMq4sd9IFLdvQapTO0mdf/wlPtybr+OSEY2vIC7pWqrJLHSOcSM53kJTcMPoFWuCfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=40GWVhZbZOSSz6vlLWQhlGNjb30Ttyp1/Q9SFBLrscw=;
- b=cpY74EVbZ8n0dQ/Kg7WetyDtaPxk8ZHIN8SOz1Sy0UYqxPQWF7oL1QIDH6WPvKujgpzIJQzSW1cn6nDhYXEZgF59avEjOL9ZiCu4sVe5pDXY/kKG+tcRruDx3shgwa9NFZ2VX+MkZl374ig5ncrhJATCvuoIXHf+WTzjMHfuPoyVtTatlil12p/73p8gf2I12hkoMa5OeiyFiX1MExcpABHzar7+t2GZoPXF0EdaAB/CNMjO1pJBA2OsgjBzQrBPbdaRdj8UVz4mkd12+ZTUQuzG6tLYae+PcY6c/8SYOuL+UlvOHDZEmsLRBb5nS2I1zJj7TOk6SKMT09TdxrhjPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=40GWVhZbZOSSz6vlLWQhlGNjb30Ttyp1/Q9SFBLrscw=;
- b=qGq1CitWUDHz6/0Ii9v2XEydMJqDy4A0zh+ZSeiQscrK8TunUCua+lAPa/jkQ0L3PyeUjoSOb59LRg2gAOF0IVsff0x9Q2/kFOsimgiUaG+Kc1sOZoxTx3uH/vmt71+crEvgmJk0rBVIoQKdcssbj5NUfvvAy//xcQyeEaG0HmAaCRtT9iFJPJH3fLxwNElMZR5bkUG7CkM9nlbnDU7Vp8MbOzyHxL0/LMXgeqNU9ftBr2q178hJab3h3iXM5Lp3v6ocNtNdM0R20raESutRdWM+B+HoREcMquAds7K1bbda+4fQLwS0jornbTikG3mRvAYsGHawyKHux1DlvKVqKg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by MW5PR12MB5682.namprd12.prod.outlook.com (2603:10b6:303:19f::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Tue, 18 Feb
- 2025 17:02:44 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8445.019; Tue, 18 Feb 2025
- 17:02:42 +0000
-Date: Tue, 18 Feb 2025 13:02:41 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: kevin.tian@intel.com, corbet@lwn.net, will@kernel.org, joro@8bytes.org,
-	suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com, shuah@kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
-	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
-	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v6 11/14] Documentation: userspace-api: iommufd: Update
- FAULT and VEVENTQ
-Message-ID: <20250218170241.GE4099685@nvidia.com>
-References: <cover.1737754129.git.nicolinc@nvidia.com>
- <300d03449b9420d756c1589e1c24bb8b4d508293.1737754129.git.nicolinc@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <300d03449b9420d756c1589e1c24bb8b4d508293.1737754129.git.nicolinc@nvidia.com>
-X-ClientProxiedBy: BL0PR02CA0072.namprd02.prod.outlook.com
- (2603:10b6:207:3d::49) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="OqWu0HRh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1739898432; x=1771434432;
+  h=message-id:date:mime-version:reply-to:subject:to:cc:
+   references:from:in-reply-to:content-transfer-encoding;
+  bh=EkRdFMxzr88qlSnaM0L16SDNRKu0/9NO/91zT99To3c=;
+  b=OqWu0HRhii20JUcXd6ERwSAtOC6ZpOwPkyi4ccQqkUHr3KaruVjrXTBe
+   uCOVNYpwt8D0RisR/N6GwiHldP3kEKGUQYiXQGy8rHq4t/5Py8/mDWltJ
+   slGLx+K2M3r2xyMA4ICUfqnFSGDF6ZZCQqIVZEr1BgEr0yDnaR2jFLWJp
+   Y=;
+X-IronPort-AV: E=Sophos;i="6.13,296,1732579200"; 
+   d="scan'208";a="473228396"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+  by smtp-border-fw-6002.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 17:07:06 +0000
+Received: from EX19MTAEUC001.ant.amazon.com [10.0.17.79:52643]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.23.222:2525] with esmtp (Farcaster)
+ id b9484c5d-2f40-4fcd-8dcf-fd02932115e9; Tue, 18 Feb 2025 17:07:04 +0000 (UTC)
+X-Farcaster-Flow-ID: b9484c5d-2f40-4fcd-8dcf-fd02932115e9
+Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
+ EX19MTAEUC001.ant.amazon.com (10.252.51.155) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.39;
+ Tue, 18 Feb 2025 17:07:02 +0000
+Received: from [192.168.22.162] (10.106.83.18) by
+ EX19D022EUC002.ant.amazon.com (10.252.51.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Tue, 18 Feb 2025 17:07:02 +0000
+Message-ID: <5078ebfd-c81e-4f2f-95a8-5da48c659dc2@amazon.com>
+Date: Tue, 18 Feb 2025 17:07:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MW5PR12MB5682:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81fa1cf1-8b05-4c54-f087-08dd503e0ec7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?CBHJWmKVGjlhb+j7uaoua5iP8iHa4WlWidwhTGOmIpOQOEN75WCwKZevRmf8?=
- =?us-ascii?Q?q+abarcmIMm0Yckz+n31HG6nRlKp7Sc6mgLKbwGk3wvsRpdfmFYveDpbTnGr?=
- =?us-ascii?Q?hF4g6iZUi3XRi41bh51g5mDXXSImtkd7G8VMMK9560NazpPVIFG4lPdFpM6Z?=
- =?us-ascii?Q?ezUX/cYRS4aH4yBYSHBgz4W6+e3Z3fPiNM5kmtqfmvSQbEiyTE98T1M4hm6L?=
- =?us-ascii?Q?slZ+eyPv45r6FXUau3ef66WGOoLWqgn2J2FXck/X3uO28ZrqyXd2MrhQro0F?=
- =?us-ascii?Q?QfqsazRSHmEHOTCvHjlx9r9/J6J1qhT3bWIPfA0B41nstLjLP6AI3xeL4SFs?=
- =?us-ascii?Q?S9nbd+ORqHuBwt43jg9KvZiBR7mmX5neDbzt/guu9PN2KHayvhOZhqQ+i190?=
- =?us-ascii?Q?Kr1hzQSsRGWA/0MoxI3AblIVVrraa2ODXa14kIWj4+eY7rkOl6qojRTdyi46?=
- =?us-ascii?Q?U5lHxrUQvi2nqTAbg5uVHfpXD2lPi/2jI3GraA6qcu8jLSBN6NZ5oSUlj2Nv?=
- =?us-ascii?Q?KsdS1hLJ73MDGOgk/wAIewsyDKk+9b9J82ynI1eDvornMKLw4HQ7kp2pBCE4?=
- =?us-ascii?Q?+WNgxfmzgiPZdiLS0MRPqw6CiIUaDea+FHEAKHrmRVr/intM9NxSA0f74IR4?=
- =?us-ascii?Q?Wz5RfSYHaWDaCWqRzJ0MDxGN4khyWvC3oFDQtsCEhYjORFWC1MDENgTYk/9V?=
- =?us-ascii?Q?g2xtQVIuJyrkwcclc/AMh5YP6J1H2GkXlljmo0mB2kSm77ApObIDxn8Gtvdr?=
- =?us-ascii?Q?mXHc5hOvkOm9IXVKQ5QtyfQqAjnywpQ98nSv7dDAVu++ynuMkLRu81GY9zOv?=
- =?us-ascii?Q?tDevR0N3+N5oODhRmj5GGpW9Dx/DHxV+1cdAGhuWpKAQUJUjeKbNuRySJjrk?=
- =?us-ascii?Q?WGNGvBodQldbPCZLyQP3qM+0KZ09sDv26Tq+6HLq5Ovhce+i1cYD85+Y1XaC?=
- =?us-ascii?Q?50eai04WgyTumehSYw2D6LW8Yf2UrIulY/9SvujbyYup7dpWwj1L1fdEh3eT?=
- =?us-ascii?Q?jhRLAWEmnCN2bd3wWVXOQNN7/K5LuvCCHQOEZx8X69SVQ1DzdPjjUBRKV6U6?=
- =?us-ascii?Q?7EgY/9xgMgKH3p4txn3nG608rhNGCM2VrGYJg2IBtuH5CC2qjl27TLSTNCXb?=
- =?us-ascii?Q?WEDFcOxZrjM6Igzl0g2V8Ri6qKJXu7/J79x30DAcgoKFo7jeC/OcRVc+2p7z?=
- =?us-ascii?Q?B79HE1Od5a0ZOauoK/Q33IiESYKfFGEuUZxjBRQxvlBT85dAkHuJaBLSeKQQ?=
- =?us-ascii?Q?CV2q7paGfqxtIXjAxru5njDCK+ON2VGgWomnPNjBFCGJmMaRRJ2wZvw27fNB?=
- =?us-ascii?Q?F03Ii9fTLo2fcLhrEEt5xglVujLuNOPdfg0MWc3rO2eE3a70KNZt56wJXECw?=
- =?us-ascii?Q?ET32KHwpwTjiqB7e2vNneS+27ad+?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?DgagrtsmXu0G0dcnHr782/waeOoQ1mKQWgJTCJsnGqsFAvLZIiRB+GH7/ONr?=
- =?us-ascii?Q?aqEvUOl6UHxM3VnnONNT57f8kHYw9jnrcmnR+2ExLp6b/QEUDCq+3shPw52F?=
- =?us-ascii?Q?rJ0zD9nWUNvoHxVJB6NJwstK6JWctoJiEP83K4pwvT17XlYXMfwZ0y4TGQJT?=
- =?us-ascii?Q?3UQyCmGt9n+YDsDWuY1fjz/VSYbqtQpX8Q86QKEuRxIDtQnqoArynYH2HvJx?=
- =?us-ascii?Q?8jyfthDGKnoakI17HVXwKNYrvBNI5+pybY+cZuGRn/kZV7es/jbzxIuaZwSP?=
- =?us-ascii?Q?5wptoYMCSMqrMnXm/2uJDOng+KUxJzs9KpkcQa0822rGwr+6z4cB7tDVPHWr?=
- =?us-ascii?Q?hZ+KZaJ2zPMLLZWgbczNoivArSRrernhd/4b7IkigUXvf7WvHjmBJV3w/dVi?=
- =?us-ascii?Q?Wy9eMweHw0WQ3TUNqRJ7uhAsUjMuoIfSzlX903wsk+ScAeP/iE8r8xkqC+Pj?=
- =?us-ascii?Q?pd4AsfckH1HW4yrNLDCpMzbLSA8AuU+ZKdeqfcD4ztIeygv9lBdHUnsf5/46?=
- =?us-ascii?Q?ztGxghErzlJoRYLV0nfleDhiAbsPiJueSldWZy3eewAH5HcR6dZCLSEbBVC1?=
- =?us-ascii?Q?oLwHB/P6qbGBi1VUr6nWkTIGPkT9RWwC5lx3mziiI589hBmRxXqdkTBB4FRw?=
- =?us-ascii?Q?vXZjCc9mmJUCqmkaTSDHDwzvqj1jgUu4tBxLSybOw+/hnFHYFPAh6vIiXMNb?=
- =?us-ascii?Q?vG/7ZkCS5SQM96gkA/zPxgcHnGlKaKmdl1/UBapbh1EZdmtxJH8FCK2tixA0?=
- =?us-ascii?Q?4qYb2nbBDjdUjX73tVaBFQQXbUOVI34loluwwXoyjaIGSbqrwVRIPK2r2EsO?=
- =?us-ascii?Q?lLQqzsGodmI3T1ZM/kCEWWn5pkP7ur5KZynmR8vMCsUQNVsPuj+SfRuif6at?=
- =?us-ascii?Q?wH0JGi+KzvIZOnLwp8jJ2eWRH4lnOL+R6N1LJxzMg/yB7rPbGxARD58TRciS?=
- =?us-ascii?Q?3WGy76guH6vwGmu406AOhUJonXaQkyLcbm4WOoYWW3kNIxD7NPDr08QRYxSH?=
- =?us-ascii?Q?fu+y1s0WpQCe1YMuaU1diFxS0IZgSMHpMs/WgCR5LMtCI6lUUxqFoMBgbp/o?=
- =?us-ascii?Q?A+eD0feimuUJUimcP5Ddn9zMINf8EsB2Epxy5QLez6LI00Ri9LQH8w7sv4lG?=
- =?us-ascii?Q?ZLsQ592E9thVLa16MypYHsnOX/vRB5mdriFOh4kkSwdEPO0ZybFSMKGzsurz?=
- =?us-ascii?Q?LKobdxGbkI2fPQ+ZLebkVB/pTWyFxOdzQc6QHfEwGkKFpeCCQy4RFYHjgShc?=
- =?us-ascii?Q?H/4c+ja8rl5hkmJf0leeNX1chMD1Tmf2qhSxMvmUna135BLN1Lo/4LPLhmj1?=
- =?us-ascii?Q?aSS2gJOVoKseZQkzt++Zu/gDzg0xaNEuVhfxL6nnQHPy2bLheKujmAUt2ZXd?=
- =?us-ascii?Q?ReoqAixCXzONEBznap/tTzSuc7z//KLcC4XX+Zgmq9MNjLvv1lykL+vTaKKa?=
- =?us-ascii?Q?w8pnlnPauV9EuNSIuglHcZ6CaOSg03mYIPLaxB3YFSqvPumR/5PCgwsmV3mr?=
- =?us-ascii?Q?jX4gTLMoPU3jJZRXkYgASl6zb3A/GGb90KD+cwt/DqpVw5DtH34g/t/wAcpj?=
- =?us-ascii?Q?/KSgfg1Rgqu9aRMLWL4=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81fa1cf1-8b05-4c54-f087-08dd503e0ec7
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 17:02:42.5372
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +zIzkAxCk6q/+IYhCLSVCMveXoHcP+sDjAHCExr+Ow48nzVMOhO4uuoSI6rAURfb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5682
+User-Agent: Mozilla Thunderbird
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [PATCH 1/2] KVM: x86: async_pf: remove support for
+ KVM_ASYNC_PF_SEND_ALWAYS
+To: Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov
+	<vkuznets@redhat.com>
+CC: <pbonzini@redhat.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<x86@kernel.org>, <hpa@zytor.com>, <xiaoyao.li@intel.com>,
+	<kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <roypat@amazon.co.uk>, <xmarcalx@amazon.com>
+References: <20241127172654.1024-1-kalyazin@amazon.com>
+ <20241127172654.1024-2-kalyazin@amazon.com> <Z6ucl7U79RuBsYJt@google.com>
+ <87frkcrab8.fsf@redhat.com> <Z7SkfSRsE5hcsrRe@google.com>
+Content-Language: en-US
+From: Nikita Kalyazin <kalyazin@amazon.com>
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJnrNfABQkFps9DAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOpfgD/exazh4C2Z8fNEz54YLJ6tuFEgQrVQPX6nQ/PfQi2+dwBAMGTpZcj9Z9NvSe1
+ CmmKYnYjhzGxzjBs8itSUvWIcMsFzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmes18AFCQWmz0MCGwwACgkQr5LKIKmaZPNTlQEA+q+rGFn7273rOAg+rxPty0M8lJbT
+ i2kGo8RmPPLu650A/1kWgz1AnenQUYzTAFnZrKSsXAw5WoHaDLBz9kiO5pAK
+In-Reply-To: <Z7SkfSRsE5hcsrRe@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D005EUB001.ant.amazon.com (10.252.51.12) To
+ EX19D022EUC002.ant.amazon.com (10.252.51.137)
 
-On Fri, Jan 24, 2025 at 04:30:40PM -0800, Nicolin Chen wrote:
-> With the introduction of the new objects, update the doc to reflect that.
+
+
+On 18/02/2025 15:17, Sean Christopherson wrote:
+> On Mon, Feb 17, 2025, Vitaly Kuznetsov wrote:
+>> Sean Christopherson <seanjc@google.com> writes:
+>>
+>>> On Wed, Nov 27, 2024, Nikita Kalyazin wrote:
+>>>> 3a7c8fafd1b42adea229fd204132f6a2fb3cd2d9 ("x86/kvm: Restrict
+>>>> ASYNC_PF to user space") stopped setting KVM_ASYNC_PF_SEND_ALWAYS in
+>>>> Linux guests.  While the flag can still be used by legacy guests, the
+>>>> mechanism is best effort so KVM is not obliged to use it.
+>>>
+>>> What's the actual motivation to remove it from KVM?  I agreed KVM isn't required
+>>> to honor KVM_ASYNC_PF_SEND_ALWAYS from a guest/host ABI perspective, but that
+>>> doesn't mean that dropping a feature has no impact.  E.g. it's entirely possible
+>>> removing this support could negatively affect a workload running on an old kernel.
+>>>
+>>> Looking back at the discussion[*] where Vitaly made this suggestion, I don't see
+>>> anything that justifies dropping this code.  It costs KVM practically nothing to
+>>> maintain this code.
+>>>
+>>> [*] https://lore.kernel.org/all/20241118130403.23184-1-kalyazin@amazon.com
+>>>
+>>
+>> How old is old? :-)
+>>
+>> Linux stopped using KVM_ASYNC_PF_SEND_ALWAYS in v5.8:
 > 
-> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> ---
->  Documentation/userspace-api/iommufd.rst | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+> 5.8 is practically a baby.  Maybe a toddler :-)
+> 
+>> commit 3a7c8fafd1b42adea229fd204132f6a2fb3cd2d9
+>> Author: Thomas Gleixner <tglx@linutronix.de>
+>> Date:   Fri Apr 24 09:57:56 2020 +0200
+>>
+>>      x86/kvm: Restrict ASYNC_PF to user space
+>>
+>> and I was under the impression other OSes never used KVM asynchronous
+>> page-fault in the first place (not sure about *BSDs though but certainly
+>> not Windows). As Nikita's motivation for the patch was "to avoid the
+>> overhead ... in case of kernel-originated faults" I suggested we start
+>> by simplifyign the code to not care about 'send_user_only' at all.
+> 
+> In practice, I don't think it's a meaningful simplification.  There are other
+> scenarios where KVM shouldn't inject an async #PF, so kvm_can_deliver_async_pf()
+> itself isn't going anywhere.
+> 
+> AFAICT, what Nikita actually wants is a way to disable host-side async #PF, e.g.
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+That's correct.  Just wanted to say that the main intention was to do 
+that for async PF user [1] where the difference in performance is 
+noticeable (at least in my setup).  I'm totally ok with the status quo 
+in the async PF kernel.  If however the mechanism to achieve that turns 
+out to be generic, it's better to support for both, I guess.
 
-Jason
+[1]: 
+https://lore.kernel.org/kvm/20241118123948.4796-1-kalyazin@amazon.com/T/
+
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index f97d4d435e7f..d461e1b5489c 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -13411,7 +13411,8 @@ bool kvm_can_do_async_pf(struct kvm_vcpu *vcpu)
+>                       kvm_is_exception_pending(vcpu)))
+>                  return false;
+> 
+> -       if (kvm_hlt_in_guest(vcpu->kvm) && !kvm_can_deliver_async_pf(vcpu))
+> +       if ((kvm_hlt_in_guest(vcpu->kvm) || kvm_only_pv_async_pf(vcpu->kvm)) &&
+> +           !kvm_can_deliver_async_pf(vcpu))
+>                  return false;
+> 
+>          /*
+> 
+>> We can keep the code around, I guess, but with no plans to re-introduce
+>> KVM_ASYNC_PF_SEND_ALWAYS usage to Linux I still believe it would be good
+>> to set a deprecation date.
+
