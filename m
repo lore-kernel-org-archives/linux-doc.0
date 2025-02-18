@@ -1,361 +1,167 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C8F23FC6A
-	for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 11:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA562417D9
+	for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 12:14:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739878663; cv=none; b=lhAPzT0isltpWbmpx7YfF1NehMiincUZVIy12MAZ5vkvflQOT2s0PpQD2rHP1fFoGIG9I+iUTTFN0gCwdmRFWdwqmbu35VX8Fj4kNukahK8UtCDHiRpBvtCLasopDygX0enebfp7LuHyNqbAEKqgliHtN6MVF2umY6CZ5vvO548=
+	t=1739880890; cv=none; b=IxsMOInf2rt6gl9NkJ826K0S6CrVCFpircHnhqH6v71h7GG/vSh+rlM0giqtHpDZ6LirnT30vCM0sBH3Y6hmaO4qFhPmdnuMweAsl+RgxnN+YRCVLH9ymBLsPuJM4i/qkqkCVaZKCDvAPwzJJ8jmFzAmVQ2vqD/aPN/Mg8h5mts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739878663; c=relaxed/simple;
-	bh=rB+SbcpFCdmiOPV/BM90V5rcqs3Ru/L2xe8wSM+/qS0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jBn6sCDKsCiWcdnysN4Nl+U/eef6ZFI5TRR7HYYTC6L3reo1dDpe/o0OmOxR8gBZBu2E9pA7aGN95r+SKETg7nHJrhKqsBfCpvT/xSPq8vQ3lfgzn78ZvNkrZtAEEOQxqU9jhGXI71GAyccSsNbCbdz3iH9cBdMXv4wnp/R4ZMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dqj0xZYE; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1739880890; c=relaxed/simple;
+	bh=C/Is0xdze+hQVq89VghxK/XTnw4+Y8GKlxKYUALCUWI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=buRow6m0Ik0dD2+0wqKL1sG0rrcGg8DYXIiPOic/J2XDdaMXpCLbU+uv4TClItnt4l4DwR/ODlQs09zBlDtNGp/MnRnWr8rB1pRry4/CUb9Z2y89mTrpfeCLbFNiAKw449KQhtSBWZR2ZrUq7V2qhJsUFehtShfladz1xhb0xFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UDcNjbTD; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dqj0xZYE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739878660;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=3KYEQ9uPTnjY2p/sMmDxtE88/IrnTJfnjpzPNyXQ728=;
-	b=dqj0xZYEV6w1PEWimhHAR07i4UxdUiMYcaB7k6MWlEHUCLa0/LlnOb6KT3SzQ7u7j/z/WJ
-	+rH6rF3eX3kVVbpy7ot/XEiI/wcHx8OTaD3hGAGuotzLTCe8SES3iUShVYmc1N0ixZdTpE
-	cxXWHkuv83n3Jbi30FZe1ej9Ptyf4g8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-245-jId296-jNqOfMEHp1TxSNQ-1; Tue, 18 Feb 2025 06:37:38 -0500
-X-MC-Unique: jId296-jNqOfMEHp1TxSNQ-1
-X-Mimecast-MFC-AGG-ID: jId296-jNqOfMEHp1TxSNQ_1739878653
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4394c489babso28649465e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 03:37:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UDcNjbTD"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-30761be8fa8so59007931fa.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 04:14:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739880886; x=1740485686; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LAbvVw7Ic6dqBTqHKxGeWC/7bVyNwl4nKrDf3x382TY=;
+        b=UDcNjbTDtG7HvbR4I9Son6ej72DyyHVBsxuJx4ZjfDTincO7AVMU3VzF0j/dyvobjU
+         fyzWSITTAqpPJQxgdnZ6RRhQw0qGYupOUAKrG+Kq15pKJ0Wy3R0rDflrrNneG5TzE49s
+         IORceGCoQUug5d/aKxsRFuIMtBzN7+wv0Tz7HjKJW6yJMcu/lTeZznL4gCNSgrSelIVp
+         TJUSO4moomaW2a7mDTe9OkDTrxifcRGS5lgzj6hk8F6CxYmOhO5dp9IAsM1PfTNiLy5C
+         kdPtpmUyXF1pXU7RYIGOj3SGLE0hbErWHQxow+8syCu2jjZyoXtIGQ4NmUs50F6nxFZc
+         uNlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739878653; x=1740483453;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3KYEQ9uPTnjY2p/sMmDxtE88/IrnTJfnjpzPNyXQ728=;
-        b=GjkmAH6jId75XipqHC4ynFE04FrrSju3UysuSOJ5Oxsdg/Js1NnsCGjfY7vBQ5TsvG
-         49zXj9flElnyvM8ZfBFeocmXp++i3elC4mL0BqUpStjBR3mvjbus/VcSWTTm6Apr82U1
-         zEqFoLlofhMBjXjuKRY7SfFMCtQ5U2wCB9rMLwRXpk3p3sfnUZ6PCedcEjP0dg+kPoB0
-         /xrK0tMhFMiDprVZ3xEIb4itLSMHlV8xA4TIsC2dlLCbbOxAIrz8+mAWHKlYOcGChijB
-         b4Tf3iOTqSBcyr90l+3fRbOfnoAMvYGF2fI9X6wnYPD4czTxEoPTIUs5dKYDiZvlwGgS
-         1t6w==
-X-Forwarded-Encrypted: i=1; AJvYcCU8IwgD3F6+SZoiq+0e+fTLyZ8Mk0WP1z6UcZyzqvFs3jEcI6ZVAIlFGffdNqO8F2uq68qcxSbIn0s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTXcToxqim0KjOhSChYsfPwyGXV/snbEMOdX9neYPdPCcxn2Cm
-	JrFLOo5YFogzSuv2unjXFYXRXUYJvUvo/DlWkfubTDv0BwDUddENa5z51VLn4hPc0VUY2Wrd37x
-	PYMffPZALBWR8Z/LNopbgKL/uOzfHzwPB8KerncMo1+oJrefVfdAbhzA5uQ==
-X-Gm-Gg: ASbGnctuZDqIi5wMG8olsFO+G5nWooFsk1E37VJP9kMcvxH8gWrWssEAIcWHsVWxg0z
-	eCgYkwjoYW+R1e7NaTc3wl88YjsawOs7p5Va4oHJb9PTEys2rsmKvq4/Ohmd4qBUJAH4A5lAcWK
-	rfJNeDsmWl+CVy6sXuIea0DsAAQXiT0TvsJ72pc8dy0d4U1gTkZLD/w1Nx1vcHzpRS/HU+LYLeB
-	9Y7lfNr5aP7rbZCtUBIzKS6TLCKvCtHSCaIWotBXXsyOuYVcamMbNu6kLi7CWXnLfBMwhPAxMyN
-	JP0Q2x7F+XUIXr/LD5u90Ih+QphFt4ps1U/xXE+JZA3rPCZ+xdMVxQcOzUC0CE3uvFDWkd22lrn
-	mOVchn3zn+UtsNiU/Xe09l9U8BuLH0ZPK
-X-Received: by 2002:a05:600c:3107:b0:439:98ca:e390 with SMTP id 5b1f17b1804b1-43998cae421mr406165e9.27.1739878653202;
-        Tue, 18 Feb 2025 03:37:33 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEbabLu7vXUCSD0KjrAUx0yqgTTkLbXo6HpuVQb6Cs/Gdy4/wAwG8GKVTrqyk1JHoNpZDyU9w==
-X-Received: by 2002:a05:600c:3107:b0:439:98ca:e390 with SMTP id 5b1f17b1804b1-43998cae421mr405775e9.27.1739878652740;
-        Tue, 18 Feb 2025 03:37:32 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70d:fb00:d3ed:5f44:1b2d:12af? (p200300cbc70dfb00d3ed5f441b2d12af.dip0.t-ipconnect.de. [2003:cb:c70d:fb00:d3ed:5f44:1b2d:12af])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439872b5a46sm47439565e9.32.2025.02.18.03.37.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2025 03:37:31 -0800 (PST)
-Message-ID: <cb29f96f-f222-4c94-9c67-c2d4bffeb654@redhat.com>
-Date: Tue, 18 Feb 2025 12:37:28 +0100
+        d=1e100.net; s=20230601; t=1739880886; x=1740485686;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LAbvVw7Ic6dqBTqHKxGeWC/7bVyNwl4nKrDf3x382TY=;
+        b=Z8W8qFuK7MRc1UbQkXHIuHe6gNIRXNlKwauwdg6FqAf8cb3v2gMvnv7M7yuEJsPKX7
+         kCvqb2WDfCJyolrtgM0/IWRW2bhyE4IjlzOizOWxmEcBxu/t9wAPS/+vqm3ZV0NTlYJm
+         AZWxB/aRWZ0UIuXIMLq3qq0bAekB4g26Nxh3skNozM7EJPZ6zAaoU8mhOgWWgRZqWygD
+         4qovcOfSRguaNBk0jNJvq7MUPmmvHL5IeG0I9PiErz6XLE8f7VuYEkxVZ5OV7/CIUoqe
+         Z851QfpmZTHZJ90FJlUJYUIKDGOEGcn+hW/MDqUc4lE1n2EGKks51L2J/wzUqQCdF/2E
+         QQDg==
+X-Forwarded-Encrypted: i=1; AJvYcCXSLzmGGrb7V1o3jU+YmfeC0Ts4wBM0fi7s+OkjkvZy4rPLjLC0YlD6u4BgJgiFJ8IVVx5l3ACE4GA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5wUk0A8Ydk1CAeFt8LtYeCqI42EdU2qMzZBaHfc+OGO/oj6sy
+	XxHeETOOaV3KDHRSC0pePVDkHsAcDLAusvZd6F57Anl4IsUK5SG1MgSPlSTBBLLqASaxbZ1eofY
+	n
+X-Gm-Gg: ASbGncsR5/W4/BxqL9HwgdVq0l5EGQKpXIQY9dpGbdw2nFautZh3DuzFvC6dQQfBx1m
+	eBOqwBX+Sd6YwXP8Mbe0figI9uKzpdlIZRsa+eiY/JRDyflfmSwpi8MjA+PeFNIFvHvlxx5HkX6
+	ngLy8dXzWDsFhQ3cV/FifMITMW1tUoU+kXpo20iiDKYZIKaJLzRU2CLejBGfTdXyOufK9RZpRPk
+	Og58URvtE309UbXZWNRVoNkR9Zf4XQtRvgrmpHJhhp3ywGKlIrkPstauDx1LXp45qN09kTZHFEH
+	uppfL27MHFBnXiLQjlJLOBiqcTspmPbGcTQt3y8kjKEVSYD7ZCL8rJqf69vSxB5qHhC/ZO0=
+X-Google-Smtp-Source: AGHT+IF6AAq0z6X4U1x73BkyxvJFRwy8V69OthYTxy/w5cJfeaIMCbsxrPSvj127AN4NZvNVoTBUaw==
+X-Received: by 2002:a2e:95d7:0:b0:307:46f3:4e92 with SMTP id 38308e7fff4ca-30927b128d4mr41674151fa.32.1739880886356;
+        Tue, 18 Feb 2025 04:14:46 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a303a659fsm7266191fa.106.2025.02.18.04.14.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Feb 2025 04:14:45 -0800 (PST)
+Date: Tue, 18 Feb 2025 14:14:43 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Doug Anderson <dianders@chromium.org>, 
+	Anusha Srivatsa <asrivats@redhat.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Joel Selvaraj <jo@jsfamily.in>, Ondrej Jirman <megi@xff.cz>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Jianhua Lu <lujianhua000@gmail.com>, 
+	Robert Chiras <robert.chiras@nxp.com>, Artur Weber <aweber.kernel@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Tejas Vipin <tejasvipin76@gmail.com>
+Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
+ variants when available
+Message-ID: <ynmxaimdwkwfiryz5le5vpnfh5fzh5se4ebyqzkbnq355me76x@yxtyan3niivb>
+References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
+ <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
+ <20250218-fabulous-agile-corgi-9a5ee0@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 19/20] fs/dax: Properly refcount fs dax pages
-To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
- dan.j.williams@intel.com, linux-mm@kvack.org
-Cc: Alison Schofield <alison.schofield@intel.com>, lina@asahilina.net,
- zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
- vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
- bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
- will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
- dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org,
- djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
- david@fromorbit.com, chenhuacai@kernel.org, kernel@xen0n.name,
- loongarch@lists.linux.dev
-References: <cover.a782e309b1328f961da88abddbbc48e5b4579021.1739850794.git-series.apopple@nvidia.com>
- <b33a5b2e03ffb6dbcfade84788acdd91d10fbc51.1739850794.git-series.apopple@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
- AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
- 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
- rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
- wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
- 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
- pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
- KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
- BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
- 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
- 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
- M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
- AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
- boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
- 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
- XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
- a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
- Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
- 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
- kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
- th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
- jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <b33a5b2e03ffb6dbcfade84788acdd91d10fbc51.1739850794.git-series.apopple@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250218-fabulous-agile-corgi-9a5ee0@houat>
 
-On 18.02.25 04:55, Alistair Popple wrote:
-> Currently fs dax pages are considered free when the refcount drops to
-> one and their refcounts are not increased when mapped via PTEs or
-> decreased when unmapped. This requires special logic in mm paths to
-> detect that these pages should not be properly refcounted, and to
-> detect when the refcount drops to one instead of zero.
+On Tue, Feb 18, 2025 at 10:55:49AM +0100, Maxime Ripard wrote:
+> On Fri, Feb 14, 2025 at 08:26:02AM -0800, Doug Anderson wrote:
+> > Hi,
+> > 
+> > On Thu, Feb 13, 2025 at 12:44 PM Anusha Srivatsa <asrivats@redhat.com> wrote:
+> > >
+> > > A lot of mipi API are deprecated and have a _multi() variant
+> > > which is the preferred way forward. This covers  TODO in the
+> > > gpu Documentation:[1]
+> > >
+> > > An incomplete effort was made in the previous version
+> > > to address this[2]. It removed on the mipi_dsi_dcs_write_seq()
+> > > and mipi_dsi_generic_write_seq_multi() with the respective
+> > > replacemts and not the rest of the API.
+> > 
+> > You didn't seem to take most of the suggestions I gave in response to
+> > your v1 [3]. Specifically:
+> > 
+> > a) I asked that you CC Tejas. I've added him again.
+> > 
+> > b) I asked that you CC me on the whole patch series, which you didn't
+> > do. I can find them, but I'd find it convenient in this case for them
+> > to be in my Inbox.
+> > 
+> > The first patch conflicts with what Tejas already landed in
+> > drm-misc-next. See commit 8025f23728e9 ("drm/panel:
+> > xinpeng-xpp055c272: transition to mipi_dsi wrapped functions"). The
+> > second patch _also_ conflicts with what Tejas already landed. See
+> > commit f4dd4cb79f9e ("drm/panel: visionox-r66451: transition to
+> > mipi_dsi wrapped functions"). Later patches also also conflict. See
+> > commit 0d6c9edf9e5b ("drm/panel: ebbg-ft8719: transition to mipi_dsi
+> > wrapped functions"), commit ce8c69ec90ca ("drm/panel:
+> > samsung-s6e88a0-ams452ef01: transition to mipi_dsi wrapped
+> > functions"), and commit 7e3bf00047cd ("drm/panel: sharp-ls060t1sx01:
+> > transition to mipi_dsi wrapped functions"). Maybe you should sync up
+> > with drm-misc-next before submitting.
 > 
-> On the other hand get_user_pages(), etc. will properly refcount fs dax
-> pages by taking a reference and dropping it when the page is
-> unpinned.
+> Yes, you should definitely work from drm-misc-next there, and sync with
+> Tejas.
 > 
-> Tracking this special behaviour requires extra PTE bits
-> (eg. pte_devmap) and introduces rules that are potentially confusing
-> and specific to FS DAX pages. To fix this, and to possibly allow
-> removal of the special PTE bits in future, convert the fs dax page
-> refcounts to be zero based and instead take a reference on the page
-> each time it is mapped as is currently the case for normal pages.
+> > I also questioned whether this really made sense to try to do with a
+> > Coccinelle script and I still don't think so. It looks like Dmitry has
+> > already reviewed the first few of your patches and has repeated my
+> > advice. If you want to help with the effort of addressing this TODO
+> > item then that's great, but I'll stop reviewing (and start silently
+> > deleting) any future submissions of yours that say that they're done
+> > entirely with a Coccinelle script unless you address this point and
+> > convince me that your Coccinelle script is really smart enough to
+> > handle all the corner cases. I'll also assert that you should review
+> > Tejas's submissions to see how these conversions are expected to go.
 > 
-> This may also allow a future clean-up to remove the pgmap refcounting
-> that is currently done in mm/gup.c.
+> I couldn't find that in your first answer though. What corner cases do
+> you have in mind, and why do you think coccinelle can't handle them?
+
+As can be seen from the reviews:
+
+- sleeps between DSI calls
+- properly propagating the error at the end of the function
+- making decision whether to create the context at the caller or the
+  callee side. E.g. in patch 8 it is better to allocate context in
+  hx8394_enable() and pass it to .init_sequence() instead of keeping
+  some of error handling.
+
+> Also, why do you think ignoring a contributor after a second mistake is
+> a reasonable reaction?
 > 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> Anusha, most of those comments aren't the end of the discussion though.
+> If you feel like something's not clear enough or ambiguous, feel free to
+> ask for more details and keep the discussion going.
 
-A couple of nits (sorry that I didn't manage to review the whole thing 
-the last time, I am a slow reviewer ...). Likely that can all be 
-adjsuted on top, no need for a full resend IMHO.
-
-> index 6674540..cf96f3d 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -71,6 +71,11 @@ static unsigned long dax_to_pfn(void *entry)
->   	return xa_to_value(entry) >> DAX_SHIFT;
->   }
->   
-> +static struct folio *dax_to_folio(void *entry)
-> +{
-> +	return page_folio(pfn_to_page(dax_to_pfn(entry)));
-
-Nit: return pfn_folio(dax_to_pfn(entry));
-
-> +}
-> +
-
-[...]
-
->   
-> -static inline unsigned long dax_folio_share_put(struct folio *folio)
-> +static inline unsigned long dax_folio_put(struct folio *folio)
->   {
-> -	return --folio->page.share;
-> +	unsigned long ref;
-> +	int order, i;
-> +
-> +	if (!dax_folio_is_shared(folio))
-> +		ref = 0;
-> +	else
-> +		ref = --folio->share;
-> +
-
-out of interest, what synchronizes access to folio->share?
-
-> +	if (ref)
-> +		return ref;
-> +
-> +	folio->mapping = NULL;
-> +	order = folio_order(folio);
-> +	if (!order)
-> +		return 0;
-> +
-> +	for (i = 0; i < (1UL << order); i++) {
-> +		struct dev_pagemap *pgmap = page_pgmap(&folio->page);
-> +		struct page *page = folio_page(folio, i);
-> +		struct folio *new_folio = (struct folio *)page;
-> +
-> +		ClearPageHead(page);
-> +		clear_compound_head(page);
-> +
-> +		new_folio->mapping = NULL;
-> +		/*
-> +		 * Reset pgmap which was over-written by
-> +		 * prep_compound_page().
-> +		 */
-> +		new_folio->pgmap = pgmap;
-> +		new_folio->share = 0;
-> +		WARN_ON_ONCE(folio_ref_count(new_folio));
-> +	}
-> +
-> +	return ref;
-> +}
-> +
-> +static void dax_folio_init(void *entry)
-> +{
-> +	struct folio *folio = dax_to_folio(entry);
-> +	int order = dax_entry_order(entry);
-> +
-> +	/*
-> +	 * Folio should have been split back to order-0 pages in
-> +	 * dax_folio_put() when they were removed from their
-> +	 * final mapping.
-> +	 */
-> +	WARN_ON_ONCE(folio_order(folio));
-> +
-> +	if (order > 0) {
-> +		prep_compound_page(&folio->page, order);
-> +		if (order > 1)
-> +			INIT_LIST_HEAD(&folio->_deferred_list);
-
-Nit: prep_compound_page() -> prep_compound_head() should be taking care 
-of initializing all folio fields already, so this very likely can be 
-dropped.
-
-> +		WARN_ON_ONCE(folio_ref_count(folio));
-> +	}
->   }
-
-
-[...]
-
-
->   }
-> @@ -1808,7 +1843,8 @@ static vm_fault_t dax_fault_iter(struct vm_fault *vmf,
->   	loff_t pos = (loff_t)xas->xa_index << PAGE_SHIFT;
->   	bool write = iter->flags & IOMAP_WRITE;
->   	unsigned long entry_flags = pmd ? DAX_PMD : 0;
-> -	int err = 0;
-> +	struct folio *folio;
-> +	int ret, err = 0;
->   	pfn_t pfn;
->   	void *kaddr;
->   
-> @@ -1840,17 +1876,19 @@ static vm_fault_t dax_fault_iter(struct vm_fault *vmf,
->   			return dax_fault_return(err);
->   	}
->   
-> +	folio = dax_to_folio(*entry);
->   	if (dax_fault_is_synchronous(iter, vmf->vma))
->   		return dax_fault_synchronous_pfnp(pfnp, pfn);
->   
-> -	/* insert PMD pfn */
-> +	folio_ref_inc(folio);
-
-Why is that not a folio_get() ? Could the refcount be 0? Might deserve a 
-comment then.
-
->   	if (pmd)
-> -		return vmf_insert_pfn_pmd(vmf, pfn, write);
-> +		ret = vmf_insert_folio_pmd(vmf, pfn_folio(pfn_t_to_pfn(pfn)),
-> +					write);
-> +	else
-> +		ret = vmf_insert_page_mkwrite(vmf, pfn_t_to_page(pfn), write);
-> +	folio_put(folio);
->   
-> -	/* insert PTE pfn */
-> -	if (write)
-> -		return vmf_insert_mixed_mkwrite(vmf->vma, vmf->address, pfn);
-> -	return vmf_insert_mixed(vmf->vma, vmf->address, pfn);
-> +	return ret;
->   }
->   
->   static vm_fault_t dax_iomap_pte_fault(struct vm_fault *vmf, pfn_t *pfnp,
-> @@ -2089,6 +2127,7 @@ dax_insert_pfn_mkwrite(struct vm_fault *vmf, pfn_t pfn, unsigned int order)
->   {
->   	struct address_space *mapping = vmf->vma->vm_file->f_mapping;
->   	XA_STATE_ORDER(xas, &mapping->i_pages, vmf->pgoff, order);
-> +	struct folio *folio;
->   	void *entry;
->   	vm_fault_t ret;
->   
-> @@ -2106,14 +2145,17 @@ dax_insert_pfn_mkwrite(struct vm_fault *vmf, pfn_t pfn, unsigned int order)
->   	xas_set_mark(&xas, PAGECACHE_TAG_DIRTY);
->   	dax_lock_entry(&xas, entry);
->   	xas_unlock_irq(&xas);
-> +	folio = pfn_folio(pfn_t_to_pfn(pfn));
-> +	folio_ref_inc(folio);
-
-Same thought.
-
-> diff --git a/include/linux/dax.h b/include/linux/dax.h
-> index 2333c30..dcc9fcd 100644
-> --- a/include/linux/dax.h
-> +++ b/include/linux/dax.h
-> @@ -209,7 +209,7 @@ int dax_truncate_page(struct inode *inode, loff_t pos, bool *did_zero,
->   
-
-[...]
-
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index d189826..1a0d6a8 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -2225,7 +2225,7 @@ int zap_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
->   						tlb->fullmm);
->   	arch_check_zapped_pmd(vma, orig_pmd);
->   	tlb_remove_pmd_tlb_entry(tlb, pmd, addr);
-> -	if (vma_is_special_huge(vma)) {
-> +	if (!vma_is_dax(vma) && vma_is_special_huge(vma)) {
-
-I wonder if we actually want to remove the vma_is_dax() check from 
-vma_is_special_huge(), and instead add it to the remaining callers of 
-vma_is_special_huge() that still need it -- if any need it.
-
-Did we sanity-check which callers of vma_is_special_huge() still need 
-it? Is there still reason to have that DAX check in vma_is_special_huge()?
-
-But vma_is_special_huge() is rather confusing from me ... the whole 
-vma_is_special_huge() thing should probably be removed. That's a cleanup 
-for another day, though.
+From my side: feel free to ask for the details if any of the emails is
+not clear enough. At the same time, please review your patches before
+sending them. Returning 0 in case there was an error is an obvious
+issue.
 
 -- 
-Cheers,
-
-David / dhildenb
-
+With best wishes
+Dmitry
