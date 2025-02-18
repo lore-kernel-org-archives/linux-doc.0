@@ -1,343 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED6F25C6FF
-	for <linux-doc@vger.kernel.org>; Tue, 18 Feb 2025 12:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D3023958C;
+	Tue, 18 Feb 2025 14:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739881943; cv=none; b=QQtjwO8cIv6z4RwULi+hgNPM2ntxL8nQaS0hZoQxavXmm3VDFg+xqNXVi+xp6BoXOV45zvtCK/4bL8rben+dd7bcwf6hQhhIrvZopYhOn7wVXqZk8pFvGAdE63dGcUGrZgvD9cfNkcN1IP/g7awJHDIjvK/BUQnt2SJe+EerwnU=
+	t=1739888288; cv=none; b=P5zMAQHeboYrR4iE1P/C5AFtE4MxB3GOXQ+w33hcGx+pxx6pSouwSg9HZXg2x56/Xb/suO40C5er2drqoqRY3kCj6iewjSx0Gczx6EN9EblPMOVfw1+BMXbJ3tHUkl19x9tTpRmik3NvFFppbr8skSESTsIBF7G8HvABFWEeCoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739881943; c=relaxed/simple;
-	bh=IY7DU1BhjQRR5Coi7wNZ7++4LSEJz4/d+wLFVatOJNE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uvHZEAQZOOvR9fe7VpXTk6O7J5XGPzT1bmY5xfZde082bIV5ECaPKovYjJA/naHz4kUiQABOWvOBW6qdyiooACGCilHNeIbzF1NePRQmOHSgNWN1t7Em/k3MyiivZOg7mroAyPy+V+ZznIkEQMflv+IhgyabreLsMpytGCp9G2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=btO3EBSe; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1739888288; c=relaxed/simple;
+	bh=D8kZnHjA1rXfyapCTwJZXFhgI2zAmDfKIad3GOdpWqA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IvJiJH+GafzGa5mbmXAs/9YPA4RjthadnnRn9iJ2c9KygaVlnVh87SsD3t4Q98tFHxKT26s5SZVswPBXHA0zsrYioLAEHeiK+Lhhgnkk01gZu7hkCxG78MveRO/BNXGXDnzdOlMy0bVIZFG3o3vmruMLP+dLG5whIgkmuRstKIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pJR2eL0D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="btO3EBSe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739881940;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rPPwrQnu9UKt/4NbsUXxMh/AuN498RxwAC9aj1izwuk=;
-	b=btO3EBSeR8KBEEZZagdw+y96nBnbfF7sbiFtXS7VXj7+5qfIy05rxePw8LAoejiWGpFJmK
-	cUVhXo2/rRUg8MWQnysx4eN4qtd8orWBUAP17ywD9spt4xvgfNbAlF86qoXU4K4/CNwO+G
-	u2137KwU48OETKnYZDrSD+Uw4zLY+b0=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-213-vjabKJzEPKK9Pp5aF5HPtw-1; Tue,
- 18 Feb 2025 07:32:17 -0500
-X-MC-Unique: vjabKJzEPKK9Pp5aF5HPtw-1
-X-Mimecast-MFC-AGG-ID: vjabKJzEPKK9Pp5aF5HPtw_1739881936
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C64B81979057;
-	Tue, 18 Feb 2025 12:32:15 +0000 (UTC)
-Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.44.33.84])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4B5BC180056F;
-	Tue, 18 Feb 2025 12:32:11 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-doc@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: Gabriele Monaco <gmonaco@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	John Kacur <jkacur@redhat.com>,
-	Clark Williams <williams@redhat.com>
-Subject: [PATCH v4 10/11] Documentation/rv: Add docs for the sched monitors
-Date: Tue, 18 Feb 2025 13:31:15 +0100
-Message-ID: <20250218123121.253551-11-gmonaco@redhat.com>
-In-Reply-To: <20250218123121.253551-1-gmonaco@redhat.com>
-References: <20250218123121.253551-1-gmonaco@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pJR2eL0D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 348F8C4CEE6;
+	Tue, 18 Feb 2025 14:18:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739888288;
+	bh=D8kZnHjA1rXfyapCTwJZXFhgI2zAmDfKIad3GOdpWqA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pJR2eL0DvjA01+7CE7zYyDceU2Zqyou6TZvX9c/+zyYfoFJHbq2zBTFr6N3ODf6ws
+	 g1GopUwmjiNjDBgXwU9ByvlDuciZMbe8H2/mRccrpL7p9W2r3zXaUj65/RrTtBVUST
+	 1uKHaNW6eFDK1qWVRSep/QtMbtLG5p3AyinM5LIdYlk0/05CVIu3rIpSsqMzNPn85j
+	 zuiFQLeD/fLZOBS3m/JkfVyISZ+Q0yP6g/CcTk73oCczf3+NmLVxUtnQMRx+m2eIsd
+	 1BAzUHMlZoxPLSEryMluCuy1Gvp7vGWr0LTVnXzdjxbPC9T/oY9jjlVU6n7CrqIn/3
+	 /q6m4Mx1FRBDg==
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-abb90f68f8cso457440966b.3;
+        Tue, 18 Feb 2025 06:18:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU5pUQ2qsc4VcPgOBWRWcH+YHVs9mn6/J2C/ESePsGMdrePaVYDWtCmx1YTfs8beqD6cwprDQ5Yt83rK7P23ezM8g==@vger.kernel.org, AJvYcCWhc0lygJdWg0T3bHCGLhqC1uiEH47H9Yb7fzJXWeFsYq6g9hFx82Nyi9NSJUk93hLgw3VH6kCgUD0=@vger.kernel.org, AJvYcCX/pWVry6j+oAXRIjXW6QpnqPvKpzGWyUpEdhfw8R3zCSDQLjEh8/9SEGM8EfthpwmO060N0eoCpprokQWp@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyg+gxCmLdVIJFqNJRE68V/GtTs1+R7UGONbvfs/Ekr+fMZouk9
+	omSncjMMA4r0qyRlK4FyzprDk6s1RQEtvmP6uBNPhXYa0YbA8odwA9YSA0OAchXDEp47S9ZxPFH
+	bouncEc0CIYecsYzC2J0uY5L7ow==
+X-Google-Smtp-Source: AGHT+IFQE4oOobZPiWrftCcgo9BjOEPo3oua0op7T6iVGDLGZJBO05pjxcR+PzST0w0ODcyv2rXV4Db+HB2amm1Z//Y=
+X-Received: by 2002:a17:906:395b:b0:abb:b12b:e103 with SMTP id
+ a640c23a62f3a-abbb12be1fbmr459701166b.34.1739888286742; Tue, 18 Feb 2025
+ 06:18:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+References: <20250202-arm-brbe-v19-v19-0-1c1300802385@kernel.org>
+ <20250202-arm-brbe-v19-v19-10-1c1300802385@kernel.org> <20250213170316.GG235556@e132581.arm.com>
+ <CAL_JsqLG4gu6c6=x_wG6XT0WaCC_ahH5eWHk3K9RcF0ZQrDR=A@mail.gmail.com> <20250214095512.GI235556@e132581.arm.com>
+In-Reply-To: <20250214095512.GI235556@e132581.arm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 18 Feb 2025 08:17:54 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK1EThLB3uc+udfOP8cbjMFn_peoW2CBk9D-yRF3sQStg@mail.gmail.com>
+X-Gm-Features: AWEUYZlO5g0ZR9Ma_W5K7w398a_T1PS6uFZonzgnuMJwLsaDJ9E3LMdaxbe1kkA
+Message-ID: <CAL_JsqK1EThLB3uc+udfOP8cbjMFn_peoW2CBk9D-yRF3sQStg@mail.gmail.com>
+Subject: Re: [PATCH v19 10/11] KVM: arm64: nvhe: Disable branch generation in
+ nVHE guests
+To: Leo Yan <leo.yan@arm.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	James Clark <james.clark@linaro.org>, Anshuman Khandual <anshuman.khandual@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add man page and kernel documentation for the sched monitors, as sched
-is a container of other monitors, document all in the same page.
-sched is the first nested monitor, also explain what is a nested monitor
-and how enabling containers or children monitors work.
+On Fri, Feb 14, 2025 at 3:55=E2=80=AFAM Leo Yan <leo.yan@arm.com> wrote:
+>
+> On Thu, Feb 13, 2025 at 05:16:45PM -0600, Rob Herring wrote:
+>
+> [...]
+>
+> > > > +static void __debug_save_brbe(u64 *brbcr_el1)
+> > > > +{
+> > > > +       *brbcr_el1 =3D 0;
+> > > > +
+> > > > +       /* Check if the BRBE is enabled */
+> > > > +       if (!(read_sysreg_el1(SYS_BRBCR) & (BRBCR_ELx_E0BRE | BRBCR=
+_ELx_ExBRE)))
+> > > > +               return;
+> > > > +
+> > > > +       /*
+> > > > +        * Prohibit branch record generation while we are in guest.
+> > > > +        * Since access to BRBCR_EL1 is trapped, the guest can't
+> > > > +        * modify the filtering set by the host.
+> > > > +        */
+> > > > +       *brbcr_el1 =3D read_sysreg_el1(SYS_BRBCR);
+> > > > +       write_sysreg_el1(0, SYS_BRBCR);
+> > > > +}
+> > >
+> > > Should flush branch record and use isb() before exit host kernel?
+> >
+> > I don't think so. The isb()'s in the other cases appear to be related
+> > to ordering WRT memory buffers. BRBE is just registers. I would assume
+> > that there's some barrier before we switch to the guest.
+>
+> Given BRBCR is a system register, my understanding is the followd ISB
+> can ensure the writing BRBCR has finished and take effect.  As a result,
+> it is promised that the branch record has been stopped.
+>
+> However, with isb() it is not necessarily to say the branch records have
+> been flushed to the buffer.  The purpose at here is just to stop record.
+> The BRBE driver will take care the flush issue when it reads records.
+>
+> I agreed that it is likely barriers in the followed switch flow can assur=
+e
+> the writing BRBCR to take effect.  It might be good to add a comment for
+> easier maintenance.
+>
+> > > I see inconsistence between the function above and BRBE's disable
+> > > function. Here it clears E0BRE / ExBRE bits for disabling BRBE, but t=
+he
+> > > BRBE driver sets the PAUSED bit in BRBFCR_EL1 for disabling BRBE.
+> >
+> > Indeed. This works, but the enabled check won't work. I'm going to add
+> > clearing BRBCR to brbe_disable(), and this part will stay the same.
+>
+> Seems to me, a right logic would be:
+>
+> - In BRBE driver, the brbe_disable() function should clear E0BRE and
+>   ExBRE bits in BRBCR.  It can make sure the BRBE is totally disabled
+>   when a perf session is terminated.
+>
+> - For a kvm context switching, it is good to use PAUSED bit.  If a host
+>   is branch record enabled, this is a light way for temporarily pause
+>   branch record for the switched VM.
 
-To: Ingo Molnar <mingo@redhat.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: John Kacur <jkacur@redhat.com>
-Cc: Clark Williams <williams@redhat.com>
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
----
- Documentation/tools/rv/rv-mon-sched.rst  |  69 +++++++++
- Documentation/trace/rv/monitor_sched.rst | 171 +++++++++++++++++++++++
- 2 files changed, 240 insertions(+)
- create mode 100644 Documentation/tools/rv/rv-mon-sched.rst
- create mode 100644 Documentation/trace/rv/monitor_sched.rst
+We have to read BRBCR to see if it is enabled as PAUSED is unknown out
+of reset and the driver may not exist to initialize it. Either way, it
+is a register read and write, so same overhead for both.
 
-diff --git a/Documentation/tools/rv/rv-mon-sched.rst b/Documentation/tools/rv/rv-mon-sched.rst
-new file mode 100644
-index 0000000000000..da0fe4c79ae52
---- /dev/null
-+++ b/Documentation/tools/rv/rv-mon-sched.rst
-@@ -0,0 +1,69 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
-+rv-mon-sched
-+============
-+-----------------------------
-+Scheduler monitors collection
-+-----------------------------
-+
-+:Manual section: 1
-+
-+SYNOPSIS
-+========
-+
-+**rv mon sched** [*OPTIONS*]
-+
-+**rv mon <NESTED_MONITOR>** [*OPTIONS*]
-+
-+**rv mon sched:<NESTED_MONITOR>** [*OPTIONS*]
-+
-+DESCRIPTION
-+===========
-+
-+The scheduler monitor collection is a container for several monitors to model
-+the behaviour of the scheduler. Each monitor describes a specification that
-+the scheduler should follow.
-+
-+As a monitor container, it will enable all nested monitors and set them
-+according to OPTIONS.
-+Nevertheless nested monitors can also be activated independently both by name
-+and by specifying sched: , e.g. to enable only monitor tss you can do any of:
-+
-+    # rv mon sched:tss
-+
-+    # rv mon tss
-+
-+See kernel documentation for further information about this monitor:
-+<https://docs.kernel.org/trace/rv/monitor_sched.html>
-+
-+OPTIONS
-+=======
-+
-+.. include:: common_ikm.rst
-+
-+NESTED MONITOR
-+==============
-+
-+The available nested monitors are:
-+  * scpd: schedule called with preemption disabled
-+  * snep: schedule does not enable preempt
-+  * sncid: schedule not called with interrupt disabled
-+  * snroc: set non runnable on its own context
-+  * sco: scheduling context operations
-+  * tss: task switch while scheduling
-+
-+SEE ALSO
-+========
-+
-+**rv**\(1), **rv-mon**\(1)
-+
-+Linux kernel *RV* documentation:
-+<https://www.kernel.org/doc/html/latest/trace/rv/index.html>
-+
-+AUTHOR
-+======
-+
-+Written by Gabriele Monaco <gmonaco@redhat.com>
-+
-+.. include:: common_appendix.rst
-diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
-new file mode 100644
-index 0000000000000..24b2c62a3bc26
---- /dev/null
-+++ b/Documentation/trace/rv/monitor_sched.rst
-@@ -0,0 +1,171 @@
-+Scheduler monitors
-+==================
-+
-+- Name: sched
-+- Type: container for multiple monitors
-+- Author: Gabriele Monaco <gmonaco@redhat.com>, Daniel Bristot de Oliveira <bristot@kernel.org>
-+
-+Description
-+-----------
-+
-+Monitors describing complex systems, such as the scheduler, can easily grow to
-+the point where they are just hard to understand because of the many possible
-+state transitions.
-+Often it is possible to break such descriptions into smaller monitors,
-+sharing some or all events. Enabling those smaller monitors concurrently is,
-+in fact, testing the system as if we had one single larger monitor.
-+Splitting models into multiple specification is not only easier to
-+understand, but gives some more clues when we see errors.
-+
-+The sched monitor is a set of specifications to describe the scheduler behaviour.
-+It includes several per-cpu and per-task monitors that work independently to verify
-+different specifications the scheduler should follow.
-+
-+To make this system as straightforward as possible, sched specifications are *nested*
-+monitors, whereas sched itself is a *container*.
-+From the interface perspective, sched includes other monitors as sub-directories,
-+enabling/disabling or setting reactors to sched, propagates the change to all monitors,
-+however single monitors can be used independently as well.
-+
-+It is important that future modules are built after their container (sched, in
-+this case), otherwise the linker would not respect the order and the nesting
-+wouldn't work as expected.
-+To do so, simply add them after sched in the Makefile.
-+
-+Specifications
-+--------------
-+
-+The specifications included in sched are currently a work in progress, adapting the ones
-+defined in by Daniel Bristot in [1].
-+
-+Currently we included the following:
-+
-+Monitor tss
-+~~~~~~~~~~~
-+
-+The task switch while scheduling (tss) monitor ensures a task switch happens
-+only in scheduling context, that is inside a call to `__schedule`::
-+
-+                     |
-+                     |
-+                     v
-+                   +-----------------+
-+                   |     thread      | <+
-+                   +-----------------+  |
-+                     |                  |
-+                     | schedule_entry   | schedule_exit
-+                     v                  |
-+    sched_switch                        |
-+  +---------------                      |
-+  |                       sched         |
-+  +-------------->                     -+
-+
-+Monitor sco
-+~~~~~~~~~~~
-+
-+The scheduling context operations (sco) monitor ensures changes in a task state
-+happen only in thread context::
-+
-+
-+                        |
-+                        |
-+                        v
-+    sched_set_state   +------------------+
-+  +------------------ |                  |
-+  |                   |  thread_context  |
-+  +-----------------> |                  | <+
-+                      +------------------+  |
-+                        |                   |
-+                        | schedule_entry    | schedule_exit
-+                        v                   |
-+                                            |
-+                       scheduling_context  -+
-+
-+Monitor snroc
-+~~~~~~~~~~~~~
-+
-+The set non runnable on its own context (snroc) monitor ensures changes in a
-+task state happens only in the respective task's context. This is a per-task
-+monitor::
-+
-+                        |
-+                        |
-+                        v
-+                      +------------------+
-+                      |  other_context   | <+
-+                      +------------------+  |
-+                        |                   |
-+                        | sched_switch_in   | sched_switch_out
-+                        v                   |
-+    sched_set_state                         |
-+  +------------------                       |
-+  |                       own_context       |
-+  +----------------->                      -+
-+
-+Monitor scpd
-+~~~~~~~~~~~~
-+
-+The schedule called with preemption disabled (scpd) monitor ensures schedule is
-+called with preemption disabled::
-+
-+                       |
-+                       |
-+                       v
-+                     +------------------+
-+                     |    cant_sched    | <+
-+                     +------------------+  |
-+                       |                   |
-+                       | preempt_disable   | preempt_enable
-+                       v                   |
-+    schedule_entry                         |
-+    schedule_exit                          |
-+  +-----------------      can_sched        |
-+  |                                        |
-+  +---------------->                      -+
-+
-+Monitor snep
-+~~~~~~~~~~~~
-+
-+The schedule does not enable preempt (snep) monitor ensures a schedule call
-+does not enable preemption::
-+
-+                        |
-+                        |
-+                        v
-+    preempt_disable   +------------------------+
-+    preempt_enable    |                        |
-+  +------------------ | non_scheduling_context |
-+  |                   |                        |
-+  +-----------------> |                        | <+
-+                      +------------------------+  |
-+                        |                         |
-+                        | schedule_entry          | schedule_exit
-+                        v                         |
-+                                                  |
-+                          scheduling_contex      -+
-+
-+Monitor sncid
-+~~~~~~~~~~~~~
-+
-+The schedule not called with interrupt disabled (sncid) monitor ensures
-+schedule is not called with interrupt disabled::
-+
-+                       |
-+                       |
-+                       v
-+    schedule_entry   +--------------+
-+    schedule_exit    |              |
-+  +----------------- |  can_sched   |
-+  |                  |              |
-+  +----------------> |              | <+
-+                     +--------------+  |
-+                       |               |
-+                       | irq_disable   | irq_enable
-+                       v               |
-+                                       |
-+                        cant_sched    -+
-+
-+References
-+----------
-+
-+[1] - https://bristot.me/linux-task-model
--- 
-2.48.1
-
+Rob
