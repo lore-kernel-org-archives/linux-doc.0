@@ -1,169 +1,212 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E8B176ADE;
-	Wed, 19 Feb 2025 02:37:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34889286289;
+	Wed, 19 Feb 2025 04:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739932664; cv=none; b=ZlVC4HjHyYkgr6KQ9cPFswxCopKVVKgM8I+x+RuSKHoGEej84hX2u3FJhcmV0c64LfvxQkW7i4R6IMRCWS944jw04sXNwGu+ZoAimDZnfxUctg0G9WL1269v2sBslRsPQVsjXpB9waJ61Nc6OC4zKa3v0zpjC21GyoJelNq2CKo=
+	t=1739937985; cv=none; b=iRpmwSOx/mDBLHNLHAhz6YU7ueTZCb3N7HR6cVwS61oKF9cnOVXRTra9K5qqek2M8Di174z/WLQVwOjPlZje65qmXALKdYHEpcyCeWRQ0k2UtaaKdDT9IVsEf25Nhd7zpOYmVY5P7fRdUVb8N8kvoCvwupmQz6ZZNAsj5MivpP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739932664; c=relaxed/simple;
-	bh=DcGHeqsUy2uHROhHFtKOp+S7SY8ENUt0wjrAVjyYHuw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D6yq+pOXH7lSvXpSjlD6FuaL/xKtmKq+bj58DI/IVefYbsGvuQ4FcCM7W916tsDFLFkeSuU+1mYteaaCuoodVANJUIsRKdSv7ODcWFmAwWUl+IitqcwyfQpcCm/ODp7JxoKQrjqmEFy7JqPVM7LQ5EUcymcOcVIX24u6aHX06r4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BZU2jeZX; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739937985; c=relaxed/simple;
+	bh=3sEbX9qTc/nvIRxGy6mOXvo4BU0S2rDQMIzkqhfrtDw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G925UaKHIPg1U8a5JRlrACNt36vQKAQ57818z/EJ/XgOIOROCYD6UDimql0TrAEHaSb0z6FT0n3C3d7yEnOa68q9RNNP7GEkzGg+mOCGR8pGHCTWcoiCA/pNe0+8Ov4N8r6SNoiey/hwoAeMBpEriP4y02Ek4AJfwUDHNOFvaWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eo0HPkAw; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BZU2jeZX"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5dedd4782c6so9016755a12.3;
-        Tue, 18 Feb 2025 18:37:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739932661; x=1740537461; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JEY6MtjbNLxMMcfKUmiNohVhypOga6QMxouzG/gHgd8=;
-        b=BZU2jeZXj9APLIkEhL0N2GuuUe+bqEfYJcTa0JPucuwvweUB+xKfQdtKfXGUj/o8fi
-         1uTjtKlayBe8Xr9sRwEnGxrUzMH/Jp40bUVLzosZKZeD+lG6mQ92WNu7X1dh5hm3GHzH
-         h9pr4LGWzNDSPrASKDVUsqD4P8WI+3CIfvrQyIeW10BDL4OJyXa1+8p6baf8y8QYRPds
-         GsaiBqE3nfsp0HWkBl3UXaXgTg/PmH6mNsUIFOWbUm3E4QxPlIPDaeldbpoJ4Id85XLt
-         CMmOXFfcJGDeYlHNE/X1Ai4aGcxkDBwO1c0mgf4/C/Q5WfHA+rAegHAGtZup39bmukJm
-         1rFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739932661; x=1740537461;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JEY6MtjbNLxMMcfKUmiNohVhypOga6QMxouzG/gHgd8=;
-        b=fmtdQUJrRTcoR2ki872q750AMjfyqJiQ3Kwme5wi7TctJLpuSmI/nSCfSDdiuI1Uvc
-         Tcdx/aZLN52tCmOWhex3DU0bl0DPVMhgXW9OzzbXTQtsisbXYXIR0K/v9jq8lqTuIsdw
-         DpMr0H2FsRUCvf1yc68sVVoxVhEmYy8pTMVE9pcUsAo/arvoJMyFS5kJ3IlT+vLZg72l
-         5CNd8+QJLts3VevOg4KPEadWFbIz9N1E1jp3U7shPWho0vPfRiOQ+5PQ8hiDjw3MuSAP
-         SdTW+xIloAYvU3A5gy6IUBbJri+3pm27O1eZfYO2DFtBAnsY2F1thao1hzcJjkYqOs1n
-         t7Aw==
-X-Forwarded-Encrypted: i=1; AJvYcCUAnPQ6AFUIOjNrUN+d3U6gTnTBeAtp6o50RwTRPKilKslCTosVf9dGUF7otw95RuZY/3Nh1tYo@vger.kernel.org, AJvYcCWbKxFkkXSXhbYY3J9sBx36qHAT1c4utQfjZQ0psrsWACdbi8QzDyoWHFI6LxF3UjA7Ibkaq+Pfj+E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDfZZkpfqeeUWsl1CsO4d0MDbhtpfcpwUgloP9nSyfb487Jnfr
-	AbCdT5ybqybAfJsLRIogbYrquHRvHgaIcPZIkrLZbYNWcQz9SWFcYNSNparGQQVdNDnG801LX4K
-	jOgSOd4Ab8Cz8BsYBtIUpCe4Okdg=
-X-Gm-Gg: ASbGncvXlxL6OglDBp2YYcqsTFaF3tauFNoNeW54aHKoFtrDAmElDJ0w22GTO9XOvC6
-	opPpgpHNOY6ENmd/3Mmdroku2K01e3k9Pufo1YLyzGNsruLbCzna6MnnK0x1LKa9/iWrzuN8SRw
-	==
-X-Google-Smtp-Source: AGHT+IHO4fidRunSi+Khs3S6uT928y8mNQm+EryaFoQu3jjOI1mP+zRfPxGFlLVyGwFhryC6j1r/tW7H0aUHSLg4ZUw=
-X-Received: by 2002:a05:6402:26ca:b0:5de:3c29:e834 with SMTP id
- 4fb4d7f45d1cf-5e0361f5a47mr16559936a12.27.1739932661103; Tue, 18 Feb 2025
- 18:37:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eo0HPkAw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739937984; x=1771473984;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3sEbX9qTc/nvIRxGy6mOXvo4BU0S2rDQMIzkqhfrtDw=;
+  b=eo0HPkAwWboO9n2g2Wv3lLfGEMXnvcF0OWq8H6hegmycTQJ/L+NKIFua
+   ex2RMQFF1Vzt+cGlna2iUgi+fWWDOaLuVm+AblQ/haooZmOvGTy1MsJTX
+   zOgm9+UupXW+KHhL1NHpEIz4AmNiBY1JxSd0rC9Efmlo2OLogkBLFsg+r
+   Bgq9JLbx0jR5O4s0Cj3M9mqIYLDseudB3+SayxibqZWumdLervVDJ4hOa
+   DhN0wryTG9PpXzk0TidB8LOzsdUQITuM9YlS7vZI/H+XLy3KnUJnzhsJI
+   da4Cq95txkSVz4/rG8vbJtzEj1Zw21gH43bcUF96L6d017mNxLMRPfxCo
+   A==;
+X-CSE-ConnectionGUID: 4DYQlXYjT5ayp9Pl5Hao8g==
+X-CSE-MsgGUID: 0TQ2f8QdRYaPmf/2+RQVQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="44579137"
+X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
+   d="scan'208";a="44579137"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 20:06:23 -0800
+X-CSE-ConnectionGUID: 6G6vogaASrGDp2ez1bpBEQ==
+X-CSE-MsgGUID: DBs9gAB/R42cvO+9GY6cUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
+   d="scan'208";a="119703797"
+Received: from inlubt0246.iind.intel.com ([10.191.24.87])
+  by fmviesa004.fm.intel.com with ESMTP; 18 Feb 2025 20:06:19 -0800
+From: subramanian.mohan@intel.com
+To: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	andriy.shevchenko@linux.intel.com,
+	giometti@enneenne.com,
+	tglx@linutronix.de,
+	corbet@lwn.net
+Cc: eddie.dong@intel.com,
+	christopher.s.hall@intel.com,
+	pandith.n@intel.com,
+	thejesh.reddy.t.r@intel.com,
+	david.zage@intel.com,
+	srinivasan.chinnadurai@intel.com,
+	subramanian.mohan@intel.com
+Subject: [PATCH v15 0/4] Add support for Intel PPS Generator
+Date: Wed, 19 Feb 2025 09:36:14 +0530
+Message-Id: <20250219040618.70962-1-subramanian.mohan@intel.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241022162359.2713094-1-ap420073@gmail.com> <20241022162359.2713094-9-ap420073@gmail.com>
- <CAHS8izN-PXYC0GspMFPqeACqDTTRK_B8guuXc6+KAXRFaSPG6Q@mail.gmail.com>
- <CAMArcTVY+8rVtnYronP4Ud6T0S1eSgQX3N0TK_BFYjiBxDaSyA@mail.gmail.com> <5e6974f1-3a8f-42c0-8925-22c7e9c44cf0@davidwei.uk>
-In-Reply-To: <5e6974f1-3a8f-42c0-8925-22c7e9c44cf0@davidwei.uk>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Wed, 19 Feb 2025 11:37:29 +0900
-X-Gm-Features: AWEUYZk2jNxBjLgZje1btitH0sPVQJVjjnpsLwhoEKwCdc8be6r48mcKlzcelxU
-Message-ID: <CAMArcTXa+15aQ77HAMx5y4HenV6a4kCHVZkERf=DcfCdC-on1Q@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 8/8] bnxt_en: add support for device memory tcp
-To: David Wei <dw@davidwei.uk>
-Cc: Mina Almasry <almasrymina@google.com>, davem@davemloft.net, kuba@kernel.org, 
-	pabeni@redhat.com, edumazet@google.com, donald.hunter@gmail.com, 
-	corbet@lwn.net, michael.chan@broadcom.com, andrew+netdev@lunn.ch, 
-	hawk@kernel.org, ilias.apalodimas@linaro.org, ast@kernel.org, 
-	daniel@iogearbox.net, john.fastabend@gmail.com, sdf@fomichev.me, 
-	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
-	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 19, 2025 at 9:16=E2=80=AFAM David Wei <dw@davidwei.uk> wrote:
->
-> On 2024-11-01 11:24, Taehee Yoo wrote:
-> > On Fri, Nov 1, 2024 at 11:53=E2=80=AFPM Mina Almasry <almasrymina@googl=
-e.com> wrote:
-> >>
-> >> On Tue, Oct 22, 2024 at 9:25=E2=80=AFAM Taehee Yoo <ap420073@gmail.com=
-> wrote:
-> >>>
-> >>> Currently, bnxt_en driver satisfies the requirements of Device memory
-> >>> TCP, which is tcp-data-split.
-> >>> So, it implements Device memory TCP for bnxt_en driver.
-> >>>
-> >>> From now on, the aggregation ring handles netmem_ref instead of page
-> >>> regardless of the on/off of netmem.
-> >>> So, for the aggregation ring, memory will be handled with the netmem
-> >>> page_pool API instead of generic page_pool API.
-> >>>
-> >>> If Devmem is enabled, netmem_ref is used as-is and if Devmem is not
-> >>> enabled, netmem_ref will be converted to page and that is used.
-> >>>
-> >>> Driver recognizes whether the devmem is set or unset based on the
-> >>> mp_params.mp_priv is not NULL.
-> >>> Only if devmem is set, it passes PP_FLAG_ALLOW_UNREADABLE_NETMEM.
-> >>
-> >> Looks like in the latest version, you pass
-> >> PP_FLAG_ALLOW_UNREADABLE_NETMEM unconditionally, so this line is
-> >> obsolete.
-> >
-> > Okay, I will remove this line.
-> >
-> >>
-> >> However, I think you should only pass PP_FLAG_ALLOW_UNREADABLE_NETMEM
-> >> if hds_thresh=3D=3D0 and tcp-data-split=3D=3D1, because otherwise the =
-driver
-> >> is not configured well enough to handle unreadable netmem, right? I
-> >> know that we added checks in the devmem binding to detect hds_thresh
-> >> and tcp-data-split, but we should keep another layer of protection in
-> >> the driver. The driver should not set PP_FLAG_ALLOW_UNREADABLE_NETMEM
-> >> unless it's configured to be able to handle unreadable netmem.
-> >
-> > Okay, I agree, I will pass PP_FLAG_ALLOW_UNREADABLE_NETMEM
-> > only when hds_thresh=3D=3D0 and tcp-data-split=3D=3D1.
-> >
-> >>
-> >>>
-> >>> Tested-by: Stanislav Fomichev <sdf@fomichev.me>
-> >>> Signed-off-by: Taehee Yoo <ap420073@gmail.com>
-> >>> ---
-> >>>
-> >>> v4:
-> >>>  - Do not select NET_DEVMEM in Kconfig.
-> >>>  - Pass PP_FLAG_ALLOW_UNREADABLE_NETMEM flag unconditionally.
-> >>>  - Add __bnxt_rx_agg_pages_xdp().
-> >>>  - Use gfp flag in __bnxt_alloc_rx_netmem().
-> >>>  - Do not add *offset in the __bnxt_alloc_rx_netmem().
-> >>>  - Do not pass queue_idx to bnxt_alloc_rx_page_pool().
-> >>>  - Add Test tag from Stanislav.
-> >>>  - Add page_pool_recycle_direct_netmem() helper.
-> >>>
-> >>> v3:
-> >>>  - Patch added.
-> >>>
-> >>>  drivers/net/ethernet/broadcom/bnxt/bnxt.c | 182 ++++++++++++++++----=
---
-> >>>  drivers/net/ethernet/broadcom/bnxt/bnxt.h |   2 +-
-> >>>  include/net/page_pool/helpers.h           |   6 +
-> >>>  3 files changed, 142 insertions(+), 48 deletions(-)
->
-> Hi Taehee, what is your plan with this patch? Are you still working on
-> it? I noticed that you dropped it in later versions of this series. With
-> io_uring zero copy Rx now merged I also need bnxt support, but I don't
-> want to duplicate efforts. Please let me know, thanks!
+From: Subramanian Mohan <subramanian.mohan@intel.com>
 
-Hi David,
-Sorry for the late! I'm still working on it.
-I implemented a working patch, but there are several bugs.
-So I'm thinking about how to deal with it.
-And then, I would like to send this patch after fixing bugs.
+The goal of the PPS (Pulse Per Second) hardware/software is to generate a
+signal from the system on a wire so that some third-party hardware can
+observe that signal and judge how close the system's time is to another
+system or piece of hardware.
 
-Thanks a lot!
-Taehee Yoo
+Existing methods (like parallel ports) require software to flip a bit at
+just the right time to create a PPS signal. Many things can prevent
+software from doing this precisely. This (Timed I/O) method is better
+because software only "arms" the hardware in advance and then depends on
+the hardware to "fire" and flip the signal at just the right time.
+
+To generate a PPS signal with this new hardware, the kernel wakes up
+twice a second, once for 1->0 edge and other for the 0->1 edge. It does
+this shortly (~10ms) before the actual change in the signal needs to be
+made. It computes the TSC value at which edge will happen, convert to a
+value hardware understands and program this value to Timed I/O hardware.
+The actual edge transition happens without any further action from the
+kernel.
+
+The result here is a signal coming out of the system that is roughly
+1,000 times more accurate than the old methods. If the system is heavily
+loaded, the difference in accuracy is larger in old methods.
+
+Application Interface:
+The API to use Timed I/O is very simple. It is enabled and disabled by
+writing a '1' or '0' value to the sysfs enable attribute associated with
+the Timed I/O PPS device. Each Timed I/O pin is represented by a PPS
+device. When enabled, a pulse-per-second (PPS) synchronized with the
+system clock is continuously produced on the Timed I/O pin, otherwise it
+is pulled low.
+
+The Timed I/O signal on the motherboard is enabled in the BIOS setup.
+Intel Advanced Menu -> PCH IO Configuration -> Timed I/O <Enable>
+
+References:
+https://en.wikipedia.org/wiki/Pulse-per-second_signal
+https://drive.google.com/file/d/1vkBRRDuELmY8I3FlfOZaEBp-DxLW6t_V/view
+https://youtu.be/JLUTT-lrDqw
+
+Patch 1 Replaced copy of pps-gen info struct with const pointer in
+pps-gen framework..
+Patch 2 adds the pps(pulse per second) generator tio driver to the pps
+subsystem.
+Patch 3 documentation and usage of the pps tio generator module.
+Patch 4 includes documentation for sysfs interface.
+
+These patches are based on the timers/core branch:
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/?h=timers/core
+These changes are dependent on patches that are merged in [1].
+
+Please help to review the changes.
+
+Thanks in advance,
+Subramanian Mohan
+
+Changes from v2:
+ - Split patch 1 to remove the functions in later stages.
+ - Include required headers in pps_gen_tio.
+
+Changes from v3:
+ - Corrections in Documentation.
+ - Introducing non-RFC version of the patch series.
+
+Changes from v4:
+ - Setting id in ice_ptp
+ - Modified conversion logic in convert_base_to_cs.
+ - Included the usage of the APIs in the commit message of 2nd patch.
+
+Changes from v5:
+ - Change nsecs variable to use_nsecs.
+ - Change order of 1&2 patches and modify the commit message.
+ - Add sysfs abi file entry in MAINTAINERS file.
+ - Add check to find if any event is missed and disable hardware
+   accordingly.
+
+Changes from v6:
+ - Split patch 1 into 1&2 patches.
+ - Add check for overflow in convert_ns_to_cs().
+ - Refine commit messages.
+
+Changes from v7:
+ - Split the if condition and return error if current time exceeds
+   expire time.
+ - Update kernel version and month in ABI file.
+
+Changes from v8:
+ - Add function to enable Timed I/O.
+ - Changed the updating of tio->enabled to a centralized place in
+   disable and enable functions.
+
+Changes from v9:
+ - use tio->enabled instead of reading ctrl register.
+ - change error code in enable_store to -ENODEV.
+
+Changes from v10:
+ - Rebased to latest codebase.
+
+Changes from v11:
+ - Rebased to latest codebase.
+
+Changes from v12:
+ - As part of pps-gen framework, Replaced copy of pps-gen info struct
+   with const pointer.
+ - TIO driver adapted to pps-gen framework.
+ - Fixed review comments by Andy.
+ - Rebased to latest codebase.
+
+Changes from v13:
+ - Fixed review comments by Andy.
+ - Rebased to latest codebase.
+
+Changes from v14:
+ - Fixed review comments by Andy.
+ - Rebased to latest codebase.
+
+Subramanian Mohan (4):
+  pps: generators: replace copy of pps-gen info struct with const
+    pointer
+  pps: generators: Add PPS Generator TIO Driver
+  Documentation: driver-api: pps: Add Intel Timed I/O PPS generator
+  ABI: pps: Add ABI documentation for Intel TIO
+
+ Documentation/ABI/testing/sysfs-pps-gen-tio |   6 +
+ Documentation/driver-api/pps.rst            |  27 +-
+ MAINTAINERS                                 |   1 +
+ drivers/pps/generators/Kconfig              |  16 ++
+ drivers/pps/generators/Makefile             |   1 +
+ drivers/pps/generators/pps_gen-dummy.c      |   2 +-
+ drivers/pps/generators/pps_gen.c            |  14 +-
+ drivers/pps/generators/pps_gen_tio.c        | 272 ++++++++++++++++++++
+ drivers/pps/generators/sysfs.c              |   6 +-
+ include/linux/pps_gen_kernel.h              |   4 +-
+ 10 files changed, 334 insertions(+), 15 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-pps-gen-tio
+ create mode 100644 drivers/pps/generators/pps_gen_tio.c
+
+-- 
+2.35.3
+
