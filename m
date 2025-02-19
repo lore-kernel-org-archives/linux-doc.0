@@ -1,123 +1,253 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2089.outbound.protection.outlook.com [40.107.101.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76E521B9C5;
-	Wed, 19 Feb 2025 20:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739998728; cv=none; b=MObXfOAMi8oypJM8LqfavntAQPUoivkGxKpr2TggHQ/kdrIWH+3TUGIIGD6QaZTKn04/RKwVHiIp/BHaBU8fd8gCXc7plqNQB+mDFelfh3+7CePCDYxhqvu3OB+G3KtKPcqibdZGZn/5p7RxzVmm+KcQT3PJr5hBLn9hI5vHHCs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739998728; c=relaxed/simple;
-	bh=1YnkwmqTBrxU2LC4IjJbS9rALrX2MyA+O3NS8Wavzwk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tNHyn74FFbamosXN0ErrD8AFFkEe8GG5fvbEQd7590OOSMxvD9sQLIv4HMIMwAd0eWjDGxM5O1Z36RWB6UHKm2EkV3PfDzJZ5j27SjnEwRyBJwi7WUNt5xxzSZtIUWKHh3p+HEi9WuqPQELLzn+lezAyeuA/pGjdf5JWXKKcl9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FWSowlse; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B01252917;
+	Wed, 19 Feb 2025 21:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.89
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739998839; cv=fail; b=QrFWpcGQjRIccUFo+GDMtrYC3r/Fe+bLhDjj+h1gGlvMAMvFYB9+UF4skf7Zuq2SKPReoEc1/mzWAXrCRrj/fskOvEhy5WyD0PBjHwYPN4AxdgQixzb3eOOOPrm5UGCTmNNMIJH5bXo+PIe0d1jmYc+d+bgs2jLNIs3MsQeVOOI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739998839; c=relaxed/simple;
+	bh=Q0ftO3SaXfuPhHR7/5z7XWdymi5ZL1+Y8/0nl70TiNI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=pdPQgKqoszblbkGhL0hvDYREJISrQCC1rkXEODI1OyshZPNvMK2d5FdOhnGTDNzH9TUkF+oX48wBSypyAf/4ZiOh2GHhZjLuY1whhQZzNA3sVHsmyICwpGjJ1OxgsahZ+ZydBcr927eTxBUXxD7wXkyr+t979SV3b00f4rZMDJ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2zEgMvHg; arc=fail smtp.client-ip=40.107.101.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWSowlse"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30615661f98so1878541fa.2;
-        Wed, 19 Feb 2025 12:58:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739998725; x=1740603525; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=29zpgtmqkMxdyASEnJJCIlnqLj+EywBz14CpRjuAKx4=;
-        b=FWSowlseyT47EW9v6ktzl5vc6swboIOyCQMzh/pauntE4B42MhigCVGrDp55s6oRli
-         rvv2QxHm0zxGCaJiaK075RseSf6ZQZvfVtcq5e/QDWxTKDsTYQRXvigL3blfHmX3nEja
-         sf3uyQTWu32jRrhwijZ7nltNtT3wbtP2ETPb2+EO//ttXjOEO2t82Tke+0Gr8NwvHrTE
-         +VPJqeKRQSNBGuJtuVjNCTiB1/AwVA5NIWZZ1oqigoD99STpD9VBaKwp8Z7+M2XdlDVW
-         bPUN6VGdqsJvAC3ikmb3ziwVrILokxxDLtD9kLSQ1FwXbSoSfsiUwSyEN0/cF7KHD3JV
-         xSAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739998725; x=1740603525;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=29zpgtmqkMxdyASEnJJCIlnqLj+EywBz14CpRjuAKx4=;
-        b=MyDZczhDHQ0txjGcq0fGl26h/GYgeCiptcGdtIRMGW3XGWiIfGip0ZSbCHsSd19T9T
-         l5H93w8oGN/KR7avOaen87KC44a+6GsJk5cBHG763nBaOiFT3lPV+cpShOQu09kdjS9b
-         u1hnlqlNePyHKHDsUjIRDRWcvTf+GJqIoKjP6qKRnjsgBAUoz60QwwqGDnUTVylvpoEa
-         lwy4Ij4QlzGNVoxm10N+Fym3MZiJl0DEHuWbx8G0MPXAVS0BitJPENL/UbLtR0k+wI5/
-         ssCsL3uUtTk47YgHTZbDXjDKk1pfvyl+F5mtLO/ViGMzlu1VeQbm/VqDIEBuR9pfYH9Z
-         u+dA==
-X-Forwarded-Encrypted: i=1; AJvYcCVUlT9AilP68JhPnN9Bolht6oA21c7JvbWTEfuSGFnfN+J/Xj25d0nH5Ul1W2AMd8vFSY3NvAMFlNw/0CDdoz1A@vger.kernel.org, AJvYcCWfOz2ag0raN8CG7STpVfkMhttfN6EXPTci5WuvYTsTjh4Rbmg3Do8LXO1oXjyxrbxFkJk45gsxanjRrXDw@vger.kernel.org, AJvYcCX3U8HviNzjo1Tab3j6KLMUF4WEsWi6tfxU5Yqh4xK4511/NIhjve7+HxXGSHvP8SAUIkDmOn7rSFw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBo05/NwirQtC1poN2asACreQ07tOr0SjezCzk5H27JJaBvL00
-	DJIo1fTCw+l/Dhc/+ClooD+zqaiUdyYBI5MWKi9366TQzqAzFyxTKK5xr9LcJKDH4a2l2BUsK5S
-	7Mj9RirkoxVQJREQ+mIgU29u5opg=
-X-Gm-Gg: ASbGnctLwhtqFb7AqYGClu6ld+VcfWQXetKxifL593OygAz7VWVhYtxkSgBe5FYG8+O
-	i5FQPpyy7mPWHX6SanEvXJFv5Dprlj2mkavGHojDcDtAaoomSRWI+jvxZ0wsBeupCM3AI54+Hpm
-	fBed1CcLp+aU3U
-X-Google-Smtp-Source: AGHT+IGoT3bsf2kdFagKyysGj4sdKTWGjnr/6od8iw5I/qyGVa7OesRWN+3jUei2+ekugunoU+v2tNYtkTv+DDddmPk=
-X-Received: by 2002:a2e:b60e:0:b0:308:f4cc:9505 with SMTP id
- 38308e7fff4ca-30927a577c6mr53587141fa.2.1739998724732; Wed, 19 Feb 2025
- 12:58:44 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2zEgMvHg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=w0NayTiUqoo3gs/nTg9YPFaDg/p0o4JuM6lzXZCesGh18P4/iwWPhNqbODLK0TkoqPWYZwrMqrVmrFClgd3IBq4E353UgQpo56WEOVN4hIv1xo6NcA7dHSTEbevbARndMYhYo+wVw0zQzLFZ1gUkxnxabacwqoq95FCj0aCu+TaBUbTp2SNosUrI3rQrQ8mx1MUEBaB+aCUoo09o2uwWHRqa5AgWvwyEykPhFFKai6uP7RQ4tOCsOd8RaBWOmF/cjQ64GU3WYD5w+8ipo2XjACHriqXZW9e632X12k4Wms0eCERFd5PV0LMrk1GPdBeDqYoYykLCPz3p7CrVuQQQcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v8a+2l5d3uzIPrqBAj+Ctb1TjuJxRZvwZ+LMNXpw4zI=;
+ b=yg0STnb8uJbBDpgDxDP7E+HtaDdi04Tnfs4GfI7mrljnj8YWFVga3/LhQZIHEZs5BYtrEVR8RRZRHpf2AZpDorHZDgNc2JntusdSvpbogaVlldKMn8p1ml5LW+lLHBZiz1E2wwD5pZssQsyEcuz7fj55TTMt9hCgw/IaBmf5657rik3NGFA4razreciG3syxMwERf9Od0LaKxRCW0kbnV/CNDTFC8GChgKVGxu94XfomPMt016858bIFqE3gk40i5R51exanXDSWL1enQFDh8Bzs5xSqJVG+3o93hznaGtP+oA+aVYJot5KLdxi166oF+fb1teSwPqyXdx/7WJIAPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v8a+2l5d3uzIPrqBAj+Ctb1TjuJxRZvwZ+LMNXpw4zI=;
+ b=2zEgMvHgwycfP3GXqZDaqx7y7pSgxoVlVRrqbXjXUJuiIDcYOGrWb8Uj7iO26KsLikhdicSBe3jdbRMEa5R8WnLVVvtWPKviam1PXZ32dufUZ6jS6EOqt6nmnTOaA6r8IJ+2REKzmpPJ8OgeqkkfOGhy8Ze6HUQuFIuoT3x43x8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
+ by SJ0PR12MB6927.namprd12.prod.outlook.com (2603:10b6:a03:483::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Wed, 19 Feb
+ 2025 21:00:34 +0000
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::d22d:666e:be69:117f]) by SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::d22d:666e:be69:117f%2]) with mapi id 15.20.8445.017; Wed, 19 Feb 2025
+ 21:00:34 +0000
+Message-ID: <43c7dc71-3fa6-48ef-89ef-518580996ac8@amd.com>
+Date: Wed, 19 Feb 2025 15:00:31 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v11 14/23] x86/resctrl: Implement
+ resctrl_arch_config_cntr() to assign a counter with ABMC
+To: Dave Martin <Dave.Martin@arm.com>
+Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ tony.luck@intel.com, peternewman@google.com, x86@kernel.org, hpa@zytor.com,
+ paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
+ rostedt@goodmis.org, xiongwei.song@windriver.com,
+ pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
+ jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
+ xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
+ mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ maciej.wieczor-retman@intel.com, eranian@google.com
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <d0bc17f3f5be4175df34011a366136cddc8df6e2.1737577229.git.babu.moger@amd.com>
+ <Z7XdagRzP6cX5yn4@e133380.arm.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <Z7XdagRzP6cX5yn4@e133380.arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN4PR0501CA0103.namprd05.prod.outlook.com
+ (2603:10b6:803:42::20) To SA0PR12MB4557.namprd12.prod.outlook.com
+ (2603:10b6:806:9d::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250214-printf-kunit-convert-v4-0-c254572f1565@gmail.com>
- <20250214-printf-kunit-convert-v4-3-c254572f1565@gmail.com> <CAKwiHFh52-_ssWjC3wdtZ=92AHAw7grnDugZpmf7T962VQrEbQ@mail.gmail.com>
-In-Reply-To: <CAKwiHFh52-_ssWjC3wdtZ=92AHAw7grnDugZpmf7T962VQrEbQ@mail.gmail.com>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 19 Feb 2025 15:58:08 -0500
-X-Gm-Features: AWEUYZllpGxIALFm_VU7C7f0caMYFvyxidAHTXkA2rezSlvudlun8QXj74kF6fQ
-Message-ID: <CAJ-ks9kadHvF3gKjZh-_oFdb1x_qOR6i1=Jamuaw9iq129gOnQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] printf: implicate test line in failure messages
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>, David Gow <davidgow@google.com>, 
-	Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:EE_|SJ0PR12MB6927:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69b91b78-69eb-4a72-6693-08dd51287392
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MEdPcnZtaXNDQUdYeTNneWltVVZzSjVrY0owZGNoM1UwTmQ4ZVd0QXp5b3c0?=
+ =?utf-8?B?cVcrclFoR0ZrQUQyREdKWUY4UloyZ05UbzlBbXNsTENnMlZVVGVsbDUvbzc3?=
+ =?utf-8?B?UU1uVHZNTll1SkxGOTRPWU5ZTjN5UzRQY0t4WEtaQ1pvYjRnaEMxekNIeTky?=
+ =?utf-8?B?cGpka0xRYmJkK0xKNlhyeUE1Mm1UOU15RlFkb0YwcnhTckVtTUhUcElHdlRq?=
+ =?utf-8?B?ZVJ0M3NYTFJlSjZXYm5MZWpzNnR6RlBGT0pmbE9SWXpjYVpHWVk1U0tycHJl?=
+ =?utf-8?B?bll6YlZjWXh2TlFiVE1CQkFYU0FyN3VOVnNlUVpzekJpN2xqblBMTGVyc3NS?=
+ =?utf-8?B?a05TSkxXdklIK2RidnRUN0FTN0ZsYys5NmtWQVZ6cDg1SlM2WW1QSzBqRDdy?=
+ =?utf-8?B?dHA3TDQyRlVSWjNGQU9KdERGeEFiNE9vaHNxUDRQcDZlSEVYTzlXaEppWkJO?=
+ =?utf-8?B?eWNiVU1xK29JT0NQVXhZTE4rK1p5NXJwV21YL2ZXOGR5SlZvdENWZFF0ekJD?=
+ =?utf-8?B?SUhpNFZXMFdzVEttaUVBRWR6REtlNVhlS1AySFZQWVN0ZXRlUXlVRG0wK0Rx?=
+ =?utf-8?B?VjNWQ29kTUYxbVBSclEyTDBMOGVQbFFWdi85K2NtRzRXeFhLR2dnYnF4c2U1?=
+ =?utf-8?B?SGpRTjJIMUxkenNDZjYwanFmcVBKZFg4dzJwSWdSL1ZKYWlkSDdOZVd0Rzdx?=
+ =?utf-8?B?dUhYSkIybVo2alRQcjRBVjdDM3VMSjZNVGk3RVZwWTViY1RmYWxEZS96bDEw?=
+ =?utf-8?B?NW9KOEdFRTRxM0xtazV0a042VjRVSEQweUt3UTh1Z1pZc254aSs1aWovWGZQ?=
+ =?utf-8?B?eDhPcVRjdVhXcE0xUGd4WjBCUm82cEVXNElLUU5haThyNXlOSFpTMjBLOHlB?=
+ =?utf-8?B?ZTQ5K3B5YUhnV05rUXpabEJaWTR4ZFBiTmg5aGp6SFIvSG8xUWNVR3hOY0l5?=
+ =?utf-8?B?QjFleUpxZldLbTBZaDVKRkljb3ZZelhVUVZ1Wi8vYi9UcVkzSkVaUFFmZzhT?=
+ =?utf-8?B?NFBhVVVZV0FnbVZuNGZvbHFRdjNsNVI0amhUOEZpODFYd2xDNWp6Um85bExi?=
+ =?utf-8?B?WW9laFhJRHV4T2xXNzVxRThzL0N5ZjlFaTNwdkt3RythbjFhNWVDOFhLTVhZ?=
+ =?utf-8?B?dWUxM2g3U2ZCSjZOczlrT0xEc1lOc3pVazYwUXVpOFBGZkxUVndIS09LdnI5?=
+ =?utf-8?B?YjY3U3V1eDdQZUNsRlFSQU1ZamV2ck1VbVpKd3dsWE5aZXZQOGhtVWJJL2lX?=
+ =?utf-8?B?c2ZXSmhNLzFoRUdMMi9ya2FZMjN2eDNpclFHQndIS3NJSEMrblZuWVA0bmZt?=
+ =?utf-8?B?Z1pHSnl4Q1pML3V6Q0hoSDVOQ1FMdExvWXVQdStkTzlUUFJlVmFNbHh2bFBl?=
+ =?utf-8?B?OTZJdUE0dUJvT2dpUzcxcWdNempBVmlXWS9sOGx3OXdibHdXWDRMckU2anlX?=
+ =?utf-8?B?NkpsVk14L3dqVUIyMmNXREhocjg5WGpvVU5NUFVocGV0dFFMTGhCWW5HVU5R?=
+ =?utf-8?B?bms4clMyNUlPRUNXMHVTcnRYU01yMHE5dUFCaTIySUYxSERhVTVTbEd4eVB5?=
+ =?utf-8?B?NlV4YUdlQmRhL3pkMDVEb3R5eVRuM0taQjh6S0RSOVRBM2ZSdWNraDdSMFVC?=
+ =?utf-8?B?RUJzTVNXYnJOdzJNd1diNG9oTGFGdVdhelFndytiVXdRVlh4ak0xZzZnVGYw?=
+ =?utf-8?B?TU5qaVM1QUkxTXA1KzEyWllWdG9HMWFwSmtKSy9LN2p1REtBZ3ovcFBWcjJD?=
+ =?utf-8?B?Nlg2SWdzcXRqOW9sd3JZT0l6Wm95eTdkUGVvVDdnTE9ZdVQ0N1l6VGVpTzJI?=
+ =?utf-8?B?NzYyUTM1QWNQT3QxUzZydz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L2dqZmdTY2FqZzB5VUk3TERIVkd1Y0RGRUdpamtOT2p0QndRVHVqTFU1eURu?=
+ =?utf-8?B?R0h1OUhHdjhTNlNjalpXdDdGa0tzcmJhdytQL0M5K0EwM0dTUGx5Sm0zSUhY?=
+ =?utf-8?B?RGdKVlRucDhTcnJwY284cVJMVDQ5SEg1WjY1bnRsY3kraXBCdTVhM1RVd2g4?=
+ =?utf-8?B?ZjQvZHBSNThCSUdKT1lTUDUwT2RWZHVBL0xvOWd2UHNxdktrTzdoUHNLS0ZI?=
+ =?utf-8?B?MG1ZemdpTVJ1NnFXYWlhdVFMa0hyRElLNnhuMWlZTFpuTEhObDdNOXR2VkpM?=
+ =?utf-8?B?K3VTcnFiMW1BMUNrVE1EWENEb3ZWRmIzZE9VdExBS1Y2YytTVGxWQ0J2VDNP?=
+ =?utf-8?B?REcrSGx4clVCTStOc0gyQm00M3Nidkh0dGI4TFdXS1BvQWhpK1E2RVd1UFEy?=
+ =?utf-8?B?dTlWTjVBZjN0eEUyUUdVanFhUmc5SUdyT2ovUldEdStBODlTaVNTU0J3UHp4?=
+ =?utf-8?B?RWxvWGEvOHZTdENqR04xNlBKeHBMNUVFZXowaTVkNFc3Rkh1M1JEa2hNQ2p6?=
+ =?utf-8?B?VUgrRmRtbHRLMUM0SUtDL2huWDhPTlhXNlA0Y2s5Yk1DYyswZWdvMi9lTFlK?=
+ =?utf-8?B?MDF5anpGQ2dtZkVSR1FydFlEM3orTUVnK0JWaThYQmp5MnlpOTFUR3NjQmIv?=
+ =?utf-8?B?R3hNcG53MXRoTUVEbUFVREIxd3o4cG5LTXQreGp0cmlYZmowYmZQL0U2T3p5?=
+ =?utf-8?B?bXJSb1MrVGlZbk5Wb25ZUFRab21Id2hWb0I5U1FUUWdzR3J6THhWZ0RqTkxV?=
+ =?utf-8?B?WnBocThURnNITTRIMmxZR2N2U2dOMHpXMmFMNnVwRlVRVXZSWW9SakYydzF2?=
+ =?utf-8?B?cDRlK1ZpVXJIdHZ3NkdPWDVSVTRJVUdyVEFVdmI0MTdrcWxoWnJQMURnQ0p3?=
+ =?utf-8?B?RjAwNzcvZ2cxejZFSWZVTS9mMlIxVnBpcFliQWd1b200TnpDanJqaU9sd3V6?=
+ =?utf-8?B?d216dDcyRG05cXQ3b3lubXYyL3lPZUo0SUZmcitHZkhRTndxN0p4NlpsRWtW?=
+ =?utf-8?B?bEJOOWF4djcxYmQ0UUVPNmprclY2ZGZPdGwrS1NJS29YaDU5ZDNhc2gvd1Ir?=
+ =?utf-8?B?cUwzckh0ZDJaRDdLbUlaNlNTK1ZDbXhDLzZBalpuRnlLaDRjVnZ4TlFCbXFR?=
+ =?utf-8?B?cUtPc3k0NThmQmtGdjFlT0N2SFZQNWZXTFdPRzVvbVVYTUhpTFJhKzdGcERK?=
+ =?utf-8?B?M1duUlhhOVJMR0QxU2JXWkNPdGV4UnlxUkNJUEgraHRWS2s0N0x6azl3MGFN?=
+ =?utf-8?B?VnlLb053NTJoa215anB1eWMwUXN1NWMyOHJ3cHZtTVRrRVpOWDFEWGlTTEk4?=
+ =?utf-8?B?WW00ckxpSDNlUmU1cjM0alhOOHV5MlBsZFFud0EwYmVKRjc4ckxYaEc1ZE1o?=
+ =?utf-8?B?WkdMbnh5bGdjRmFTQmVNalhUb210VkJBanFoU0dRdkFyb0EyamhhMjJGZWRy?=
+ =?utf-8?B?dVcwNEpmNm95bGtzOHpwWi9LeE9SdjQrS2xLdmxGVWI3ZUJRQXEybGdBbG9v?=
+ =?utf-8?B?RFJabnJBdWd1M1VMSWI5eGJqSnRxVnlpNkJBNDQ2NmJpZEJudEN1cDFnVVhL?=
+ =?utf-8?B?MW9SWVQwRVNKWDJyOGVLZHZLUE1mVWRWVmxDclZjamtuN2FxZmRpOGdGYnVQ?=
+ =?utf-8?B?MDRoNFM5c292cld5RkxyRUVqNzd2dkgyZzJPYXZNYkhXMkhPazJMMi9jTkFr?=
+ =?utf-8?B?RWdiWHN6MXd6TXFMaFVmWmhhRlNIWlZwMEE3VWtWOHZJZTJOQnI4S2swaVFR?=
+ =?utf-8?B?QTVyelVmeDFzVUxldzlKTFFQR1RuUTl5WnlsUTRGd01jcGxYTFNYNk1xSXdY?=
+ =?utf-8?B?SlJUWWpNbE4wVWhXalNUbllUbElYdnQzSVpPc0FtQW1DQnVWWHE1UWd4eVNN?=
+ =?utf-8?B?S3IvUWphMHdPb1Q3NU15QmdpWWRpRm54TUt5RFFXeGgxbmlyVVoxaUI3dWdH?=
+ =?utf-8?B?ejVodnRXWmJNb3FGa2N2TWExWXBYd3dzM1lGaWJEa1RaUmpscE1PM1NPelBq?=
+ =?utf-8?B?TWZlY2VhZlNFTzBicTYvRzd3RUZnODBpRkpmY0lJbHEzQ1F4dDJYb0FTYkx2?=
+ =?utf-8?B?QUw0WjAyZFVNNkgzNEJlNHRjQlRmU0VsNS81bllmTUgvUGJlMzNNVWcranVz?=
+ =?utf-8?Q?saHQ=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69b91b78-69eb-4a72-6693-08dd51287392
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2025 21:00:33.7641
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: obZyOGOe6OZD1DCXsRjNmhpSE8GvLTJyiL7gIFJOl9mxeWX7EGjrKw7hD3TQNuZI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6927
 
-On Wed, Feb 19, 2025 at 3:41=E2=80=AFPM Rasmus Villemoes
-<linux@rasmusvillemoes.dk> wrote:
->
-> On Fri, 14 Feb 2025 at 22:53, Tamir Duberstein <tamird@gmail.com> wrote:
-> >
-> > This improves the failure output by pointing to the failing line at the
-> > top level of the test, e.g.:
-> >       # test_number: EXPECTATION FAILED at lib/printf_kunit.c:103
-> >   lib/printf_kunit.c:167: vsnprintf(buf, 256, "%#-12x", ...) wrote '0x1=
-234abcd  ', expected '0x1234abce  '
-> >       # test_number: EXPECTATION FAILED at lib/printf_kunit.c:142
-> >   lib/printf_kunit.c:167: kvasprintf(..., "%#-12x", ...) returned '0x12=
-34abcd  ', expected '0x1234abce  '
-> >
->
-> Actually, I'm not sure that is an improvement as-is, with the two
-> different line numbers being printed. It takes some thought to
-> recognize which one is relevant and which one is not.
+Hi Dave,
 
-They're both relevant -- `do_test` does a bunch of checks, so you want
-to know which particular check failed, but also which invocation at
-the top level resulted in that check failing.
+On 2/19/25 07:32, Dave Martin wrote:
+> On Wed, Jan 22, 2025 at 02:20:22PM -0600, Babu Moger wrote:
+>> The ABMC feature provides an option to the user to assign a hardware
+>> counter to an RMID, event pair and monitor the bandwidth as long as it
+>> is assigned. The assigned RMID will be tracked by the hardware until the
+>> user unassigns it manually.
+>>
+>> Implement an architecture-specific handler to assign and unassign the
+>> counter. Configure counters by writing to the L3_QOS_ABMC_CFG MSR,
+>> specifying the counter ID, bandwidth source (RMID), and event
+>> configuration.
+>>
+>> The feature details are documented in the APM listed below [1].
+>> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+>>     Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+>>     Monitoring (ABMC).
+>>
+>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> [...]
+> 
+>> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+>> index f2bf5b13465d..ef836bb69b9b 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+>> @@ -1371,3 +1371,45 @@ void resctrl_arch_mon_event_config_set(void *info)
+> 
+> [...]
+> 
+>> +/*
+>> + * Send an IPI to the domain to assign the counter to RMID, event pair.
+>> + */
+>> +int resctrl_arch_config_cntr(struct rdt_resource *r, struct rdt_mon_domain *d,
+>> +			     enum resctrl_event_id evtid, u32 rmid, u32 closid,
+>> +			     u32 cntr_id, bool assign)
+>> +{
+>> +	struct rdt_hw_mon_domain *hw_dom = resctrl_to_arch_mon_dom(d);
+>> +	union l3_qos_abmc_cfg abmc_cfg = { 0 };
+>> +	struct arch_mbm_state *am;
+>> +
+>> +	abmc_cfg.split.cfg_en = 1;
+>> +	abmc_cfg.split.cntr_en = assign ? 1 : 0;
+>> +	abmc_cfg.split.cntr_id = cntr_id;
+>> +	abmc_cfg.split.bw_src = rmid;
+>> +
+>> +	/* Update the event configuration from the domain */
+>> +	if (evtid == QOS_L3_MBM_TOTAL_EVENT_ID)
+>> +		abmc_cfg.split.bw_type = hw_dom->mbm_total_cfg;
+>> +	else
+>> +		abmc_cfg.split.bw_type = hw_dom->mbm_local_cfg;
+>> +
+>> +	smp_call_function_any(&d->hdr.cpu_mask, resctrl_abmc_config_one_amd, &abmc_cfg, 1);
+>> +
+>> +	/*
+>> +	 * Reset the architectural state so that reading of hardware
+>> +	 * counter is not considered as an overflow in next update.
+>> +	 */
+>> +	am = get_arch_mbm_state(hw_dom, rmid, evtid);
+> 
+> Is this necessary when unassigning the counter, or only when assigning?
 
-> Can't we have a variant of KUNIT_FAIL that allows one to pass the
-> file/line info when the caller has better info than the location of
-> the KUNIT_FAIL itself?
->
-> >  static void __printf(5, 0)
-> > -do_test(struct kunit *kunittest, int bufsize, const char *expect, int =
-elen,
-> > -       const char *fmt, va_list ap)
-> > +do_test(struct kunit *kunittest, const char *file, const int line, int=
- bufsize, const char *expect,
-> > +       int elen, const char *fmt, va_list ap)
->
-> This can't be right, the __printf attribute must be updated accordingly.
+Yes. It is only required when assigning. Will add a check. thanks
 
-Good catch. Oddly I'm not able to reproduce any compiler complaints
-here, even with the attribute completely removed.
+
+> 
+>> +	if (am)
+>> +		memset(am, 0, sizeof(*am));
+>> +
+>> +	return 0;
+>> +}
+> 
+> [...]
+> 
+> Cheers
+> ---Dave
+> 
+
+-- 
+Thanks
+Babu Moger
