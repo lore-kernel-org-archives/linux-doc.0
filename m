@@ -1,149 +1,119 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3101FC7CD
-	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 14:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F6E1DE4FA;
+	Wed, 19 Feb 2025 15:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739974189; cv=none; b=nyAWWGDvdOKVGOVYsnxXXkxnM45xeHnFMfkqvDRfIQi/Y7NF3whHzQsiZzAG6PduvxNJlDWfuSd3yuMCC/g21N/dfuvcaF1/X0f0D8dEbYuFhUKYqtwT2Ztw44Cs8DBZweby365P7noumUSTBmifd1ncQSnhs4Lpr4qbotB/JKo=
+	t=1739977822; cv=none; b=OgD4LJswco+BqfLiKITkjPZm4RcxBLytIcPYhuNe06V7ZIF2wb7G1MNKSCeonTG2UYAXIBs81wpZTggdHeYrMV4Cjw4r7488GXmBy+DWxTpN3fR9bB48WbOEFn6S7vNYLUUTkcZL4aiq4qT0WUnijSlgxvCMtR2korp0VkTsV88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739974189; c=relaxed/simple;
-	bh=10jMimjxuVlCFGM2ZCcbo0fe9PRhXfBjVBsvwxGav90=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gtCIzZtR5vcD7Ry4+iLaJ+p7XN+Dj4I3TN6xObtkmYtNWoNpLf5X0k3DyGbl16PPbYRSw38RhqcHMr8AO1qouhZr5uTCe5o9E9dSgdAyCOHZE1q/QU9ncx3NkMEUolzWN6Cgfaxo9c2lhtyEsicInoUW5fdiVaviN/d5q73GlWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bfWKhPSD; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1739977822; c=relaxed/simple;
+	bh=Ku/iOh1I+JqIUUJzjGlO83eI66BgPyPPrV2ZatQegEg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kWE/luIvPZqHjXkGjNQvkrqTjYLiQc858WkAyJt1UX69/W8FN5cHQFGp0jDYZQRRJ3jUiermjhVutKXsUrAXHtMbiNvsDVTEdbake36m+Z+FzaIrVey28uBpTz3ES8YlWr7/Un/5nRnmB/M+4Boh1qQ+lMWb4qK7nqtCYvwzNm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XFtf5HMB; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bfWKhPSD"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ab7430e27b2so1153343166b.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 06:09:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XFtf5HMB"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c0b0ca6742so175782985a.0;
+        Wed, 19 Feb 2025 07:10:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1739974186; x=1740578986; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=10jMimjxuVlCFGM2ZCcbo0fe9PRhXfBjVBsvwxGav90=;
-        b=bfWKhPSDk8e/Tj1SrdFTLWWe5QpJEeMVISVVjF1+oCcweeLf6nd9X/Kxo2dRMFjnNf
-         UpW1eAx4cb/tcvKIIhb3ua+uKsdd+p8Qmvy+IOzEZKj7/h+/iGPiAgicXMu2IRA7dSDa
-         rcNPgKidKV7vXL07YfBbQJ1O8OBlTLRMWL4wg8+FJzfcaPmyRzoNifjvMd5fHQ/imNxn
-         OYKsnbcNP32F3CBvcIXmXR4IIyOAGC0HsguB8nWVo5XXifOQGCw8j77+N1YBgfT02fDF
-         nG9MdtXG3gZSyXDgis9AWWqE1MvKAGZ5JsUFtJ9ZJ17R11WwRr8/uF/jNGsB7lOO4O4m
-         EByg==
+        d=gmail.com; s=20230601; t=1739977820; x=1740582620; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HgXm744upb0XmzQ9hD81TZHuxXyYA2m+MVyAuNGPvsQ=;
+        b=XFtf5HMBHy3xvVbjodAxO+FBMwTi3TQ/1fnBcODEW/LWC/EIEMvopCsk1D+yjJ+r0Y
+         hUHYaFmQblam6O40cnUVSWlxvbtK9P5wtzzS7CTC7wObOE6thco2dBFGdTdHE1Rlyc6s
+         7QhKwiPlQ82ONQY3Xyt96q790WN/4gaw4q9/lTzrinOWYk8+w+iFDSWOMxYtrwNNwTFP
+         W5VzbMWy9TyXvgS5j8eVKPs/Vu0gVOHyoTuPUaX+913/hWYbBnV7NvsdoRwc4pPvLwjN
+         Xjkstepz3VkiBuUr9G84cWr67RBIueQmpOMxZmV/xjkbfxDsK3N7RRcBo8YFLOaPjL3n
+         OOqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739974186; x=1740578986;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=10jMimjxuVlCFGM2ZCcbo0fe9PRhXfBjVBsvwxGav90=;
-        b=glXxrHPUhPYhgkoQuCsb96RxYxau99xdgG7K6O9Eydn9oOGYXs2va6PJz+nQdmz8jt
-         6nFMkMSPts26EjjZhkOtQ9m2S+3k13+Sv2/uBnS9NSPEA2GhfmHq3mZPVt7U5HsSE02J
-         TfDcffpPspVxLsTPtQXIYxQJTY3N/OCeLGFUo/Ak2/HASLm8viQvlzimVuRDxlp/fxV/
-         sQQBT3YYvBYZpRONyQXRF9rj91bnNz7dJCMvTHMkMpaNh/ZKbUEdH2SYcoC7iqI8m7qU
-         wEi0DZGBznjKq6DJ/oC6xfRU+acC+umdjowA/BobwpZSLnBNIEC18CNFTfo27uJ3DhqQ
-         Z/OA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJqL7HIjzqxPry7YwDybpH/b1xQowkCYFSR0Yli4JXx/oSNkF/fZFxvqYj/+xM7VfC2tCw2TNN58c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqvEPOqh1p6AwPCPsnEXOeEqFvC8FSpIUBZPHCSwi8jZW6Gyws
-	ExWuU/7VzS+ZGsm9RxUL2RnXMlsAatodtPG8nHnO3bGVRqxuGlVFxp05AhnMAR6A+UQseytYTFA
-	3NkpUiS6knQ+R6K25PJTYXiUDYBpXiOv2xydSWEHLCwBIRTiAKmMjdK8=
-X-Gm-Gg: ASbGncss+3O03HNN4nF3sjvIGEarzNFyf3dcLAetQNT7dzBVUZN1vyc9ikeOfVmXLjU
-	agom4GSTVbnQc7tAimzWWCs3BqTRaMBAms6LcnvQmpgNFm8Kz2mreh0IpVMohpZ6rUP8Xk7LdJl
-	e35GlJ2E2Duxi/rIbl14SM9Cw2cA==
-X-Google-Smtp-Source: AGHT+IH8Kk8ypOlI+q0204bWOg0K+kei1efTO1AVFOuvMiUq/prv2i2qE+mN7M/RL4ubsnylAhdc2zfoJmjYvSACjtk=
-X-Received: by 2002:a17:906:18b2:b0:ab7:d10b:e200 with SMTP id
- a640c23a62f3a-abb70aa66dfmr1211679466b.22.1739974166997; Wed, 19 Feb 2025
- 06:09:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739977820; x=1740582620;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HgXm744upb0XmzQ9hD81TZHuxXyYA2m+MVyAuNGPvsQ=;
+        b=lY/AKie6TQdeIZR7CGoh2W7a+mcpmSQo6HmLpUfj4evwsadh78pYWyllpXKvo4930D
+         SJinCepvCvcgy+7vmU/CWuLJuhwxCeSJNQALWVeHTwlnVBsbRHjvHV7PBz1GGewk2Yf7
+         bamgF5mfeCfcehMmjaR11kM3Tw/WujYmMFcQwdcXPDPM8k7w3Ox77gTD+RQWzcnx+T3p
+         uskGdrEy7BE29XH/PHheNGXllCVkL1HwQWrp5Wf17gx+0NlkZUpnHBNF1GvRKBathWJn
+         zvbAMW6TFQLZh/xOwkGgW7C1Q6zOnKeLgToEzxv+cIgpufnnYJTkaYbXwB1GLPMcg6E0
+         rLKg==
+X-Forwarded-Encrypted: i=1; AJvYcCVT+z3ZlDC+UnJzO7TH0ikETajRsb65W8isLbVt8PgVr4hP7TQxMhBBO7WM3989q8GBY3HvQAUz6e4=@vger.kernel.org, AJvYcCXkBiVgQZmgefBkj1tHjj5G3KvGl2H8QYg/L1kXnNoybYdE3da/aIt52P6IpT7ArXgrS/rVVo2VKiQxMMtl@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMb9y/E0u9ABFhXqfqwdOBKKXlbf9AsXENDSq16Zop7IUnHm9M
+	dJyroEEEgLPG6WHvVsBl0gzs6Ay3RMeNDHGFPLdHxjZp5ilt90w9
+X-Gm-Gg: ASbGncuRHZpNZxY02kS6144PHVjzNKnyhTke54Nq0Ho3UHGiNfON0mQJrVdLtOZiwZH
+	QgKzvGvnq/XUYCnN67Y3bjXaOP+3VLaD24Mu8sVQlupSik4DLanuC1jUWIrEK8a2UvWqp+SIOqr
+	4ioMEeq+p4FZitZBUxvyGphJXFY8veoZfnn06s6Rgo99Lr5klgdB6TsT6CsnQVa9fHgdup8cmAd
+	2XNlMH5S0ImbP2E0L8i46GCtggSVJBhOS5MGA+j+uefefRglcAuxNtBPwr1hZVV9ZN1XtmRnySS
+	IghsD+vOROz81v2O5rjRkC4j6OOMspKHpK7/6YFUDu6EPWqFvnOniRWxsw098zmVUDcxsQ1DlmL
+	zG9X/JEdQ8jowKDZfcDg+ZRUzJ9Y9KRB+IzI=
+X-Google-Smtp-Source: AGHT+IHEV1pVpKuhM+GFSWTF+zPnmfVbsqQvuz95PcOyRuSEElPJ2CFcOfM4zOh9HqcXIy3nsuYPqA==
+X-Received: by 2002:a05:620a:454d:b0:7c0:7a0b:3727 with SMTP id af79cd13be357-7c0b521e597mr563994685a.16.1739977820342;
+        Wed, 19 Feb 2025 07:10:20 -0800 (PST)
+Received: from SystemsProgramming.mynetworksettings.com (pool-100-1-71-214.nwrknj.fios.verizon.net. [100.1.71.214])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c0ac61574bsm223982585a.112.2025.02.19.07.10.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 07:10:19 -0800 (PST)
+From: Brian Ochoa <brianeochoa@gmail.com>
+To: tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	corbet@lwn.net,
+	x86@kernel.org
+Cc: Brian Ochoa <brianeochoa@gmail.com>,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs: arch/x86/sva: Fix two grammar errors under Background and FAQ
+Date: Wed, 19 Feb 2025 10:09:20 -0500
+Message-Id: <20250219150920.445802-1-brianeochoa@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1737577229.git.babu.moger@amd.com> <2119b76ef8be21b1d8b2deedfab23e8e33ba724c.1737577229.git.babu.moger@amd.com>
- <Z7XfcV05ZZkHm6bc@e133380.arm.com>
-In-Reply-To: <Z7XfcV05ZZkHm6bc@e133380.arm.com>
-From: Peter Newman <peternewman@google.com>
-Date: Wed, 19 Feb 2025 15:09:16 +0100
-X-Gm-Features: AWEUYZmLnt6t_Sm9Rq-kqfE53HCQG6LWj-INsRp5bS0oFoaS6xQL7aEZNuvjSPk
-Message-ID: <CALPaoCiPkjbTf2He2tXsguxHDtGF+YfVUZScL8dseVc6rvAfvA@mail.gmail.com>
-Subject: Re: [PATCH v11 17/23] x86/resctrl: Auto assign/unassign counters when
- mbm_cntr_assign is enabled
-To: Dave Martin <Dave.Martin@arm.com>
-Cc: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, reinette.chatre@intel.com, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, tony.luck@intel.com, fenghua.yu@intel.com, 
-	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org, 
-	thuth@redhat.com, rostedt@goodmis.org, xiongwei.song@windriver.com, 
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com, 
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com, 
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com, 
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com, 
-	mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	maciej.wieczor-retman@intel.com, eranian@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Dave,
+- Correct "in order" to "in order to"
+- Append missing quantifier
 
-On Wed, Feb 19, 2025 at 2:41=E2=80=AFPM Dave Martin <Dave.Martin@arm.com> w=
-rote:
->
-> Hi,
->
-> On Wed, Jan 22, 2025 at 02:20:25PM -0600, Babu Moger wrote:
-> > Assign/unassign counters on resctrl group creation/deletion. Two counte=
-rs
-> > are required per group, one for MBM total event and one for MBM local
-> > event.
-> >
-> > There are a limited number of counters available for assignment. If the=
-se
-> > counters are exhausted, the kernel will display the error message: "Out=
- of
-> > MBM assignable counters". However, it is not necessary to fail the
-> > creation of a group due to assignment failures. Users have the flexibil=
-ity
-> > to modify the assignments at a later time.
->
-> If we are doing this, should turning mbm_cntr_assign mode on also
-> trigger auto-assingment for all extant monitoring groups?
->
-> Either way though, this auto-assignment feels like a potential nuisance
-> for userspace.
->
-> If the userspace use-case requires too many monitoring groups for the
-> available counters, then the kernel will auto-assign counters to a
-> random subset of groups which may or may not be the ones that userspace
-> wanted to monitor; then userspace must manually look for the assigned
-> counters and unassign some of them before they can be assigned where
-> userspace actually wanted them.
->
-> This is not impossible for userspace to cope with, but it feels
-> awkward.
->
-> Is there a way to inhibit auto-assignment?
->
-> Or could automatic assignments be considered somehow "weak", so that
-> new explicit assignments can steal automatically assigned counters
-> without the need to unassign them explicitly?
+Signed-off-by: Brian Ochoa <brianeochoa@gmail.com>
+---
+Changes since v1:
+Reworded commit message
 
-We had an incomplete discussion about this early on[1]. I guess I
-didn't revisit it because I found it was trivial to add a flag that
-inhibits the assignment behavior during mkdir and had moved on to
-bigger issues.
+ Documentation/arch/x86/sva.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-If an agent creating directories isn't coordinated with the agent
-managing counters, a series of creating and destroying a group could
-prevent a monitor assignment from ever succeeding because it's not
-possible to atomically discover the name of the new directory that
-stole the previously-available counter and reassign it.
+diff --git a/Documentation/arch/x86/sva.rst b/Documentation/arch/x86/sva.rst
+index 33cb05005982..6a759984d471 100644
+--- a/Documentation/arch/x86/sva.rst
++++ b/Documentation/arch/x86/sva.rst
+@@ -25,7 +25,7 @@ to cache translations for virtual addresses. The IOMMU driver uses the
+ mmu_notifier() support to keep the device TLB cache and the CPU cache in
+ sync. When an ATS lookup fails for a virtual address, the device should
+ use the PRI in order to request the virtual address to be paged into the
+-CPU page tables. The device must use ATS again in order the fetch the
++CPU page tables. The device must use ATS again in order to fetch the
+ translation before use.
+ 
+ Shared Hardware Workqueues
+@@ -216,7 +216,7 @@ submitting work and processing completions.
+ 
+ Single Root I/O Virtualization (SR-IOV) focuses on providing independent
+ hardware interfaces for virtualizing hardware. Hence, it's required to be
+-almost fully functional interface to software supporting the traditional
++an almost fully functional interface to software supporting the traditional
+ BARs, space for interrupts via MSI-X, its own register layout.
+ Virtual Functions (VFs) are assisted by the Physical Function (PF)
+ driver.
+-- 
+2.34.1
 
-However, if the counter-manager can get all the counters assigned once
-and only move them with atomic reassignments, it will become
-impossible to snatch them with a mkdir.
-
--Peter
-
-[1] https://lore.kernel.org/lkml/CALPaoCihfQ9VtLYzyHB9-PsQzXLc06BW8bzhBXwj9=
--i+Q8RVFQ@mail.gmail.com/
