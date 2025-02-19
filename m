@@ -1,192 +1,266 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8AE22E019;
-	Wed, 19 Feb 2025 21:27:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC961A841F;
+	Wed, 19 Feb 2025 21:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740000478; cv=none; b=Qxv0D8493t7l7FxKx0Jqz2uog2udIS/EDBsSh0tBUAFyWHg9LDp9efCQPdAOlU0beIp47mqnhplVAQ9VtMAojkw8Zckpez/IrmO1mD8QDEcEIcCYxkq9HqFI7woNu4f+LPouu+BUBMV7dc9UMdoFjS4LWRK2cjfIM8hR80zYk1c=
+	t=1740001795; cv=none; b=pAvSBS3eSYb09EUmmGS9J0ijus46KEPb/G+r29/3kpxSF4P8kLnGL/osuW/0KG3r6sr58aqhf/LZGrLwt5OLPcyoe1/cF53IPaYToIKg95VYZnpDLFxkp1q9+Ydd+/Jmbzdiy7goir5LYc8Sc1QTdWPyE6drVQbEf24CiFcGYwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740000478; c=relaxed/simple;
-	bh=+SRVUUI/CLPjYoSRlwt+S9lIzhKegLOApCCjBNCkOp4=;
+	s=arc-20240116; t=1740001795; c=relaxed/simple;
+	bh=3PKt05ljZv8g2rQYsANwxhIafJZUF6GjM/CyQA+RHXc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uxkGjdfpFQa6VgQk+P3yAE9kffUp6FG+fKVQ90Mjm2FyxAHtWWuve4/1N83FtZhNUoPsHzFrI43FIf9M4i6hxuNrR62swci2UJsDL67tHAMESALmtlB32Ge8atHhRZ2xmQ/yv3o5GjORlTXDtkpawv/Nvxljfa/yCtqCEhUVs2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U79KcDWr; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=cafIZsh8mDjxNlMZ2w3N8WxZRuB9kZ5GghczsXTUlManodvoxYxOI5RhRkDYGS8ZLT3f93B1FEo76MLcjuvSKl717HYPI8fW1jSkkRS1fCuHep/JCpP3HQaS6f9N6ZvJTKPkATTjp5fNaGFijIqEeqBu3pH4H3CpGnAx8vfV8Ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P7rDDLg0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U79KcDWr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EC91C4CEE0;
-	Wed, 19 Feb 2025 21:27:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P7rDDLg0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA0D0C4CEDD;
+	Wed, 19 Feb 2025 21:49:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740000478;
-	bh=+SRVUUI/CLPjYoSRlwt+S9lIzhKegLOApCCjBNCkOp4=;
+	s=k20201202; t=1740001794;
+	bh=3PKt05ljZv8g2rQYsANwxhIafJZUF6GjM/CyQA+RHXc=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=U79KcDWr1JlJzM2GIzr9cqRKknlocqgtkz3OWB83pxgliJufWQ+1+jA28gKPUXfAI
-	 YB7tg32tzDhc3tGrib7jH0EbXDhDLDgCFvAnHBrxjekWQSSaHPiTkl1uH60ygX2kFK
-	 wCz5RjB8qJXlPKTBLQTv8DoUN3+uL8Bd9X/q08bw2LhfemPTmGInxxqFU+hI7B5sNP
-	 MLu+EjBVyXbrrzqO/pbyU0lwPQRx1XCRzaeHLHBA07ZBnKIXWO4twXl3us7xNUrije
-	 Cd2D9TW1PsM6hGLmOngQO7kZUr939KkuSRUP8WMaE/Oo92CbHN9MzqbMIIOPRHl94K
-	 d+p4+7nRnloVQ==
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3f410c67037so180459b6e.0;
-        Wed, 19 Feb 2025 13:27:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUdDcz5yTm1tVUa5HMEamybVLQ0Uq1Azzx/7bV7b00nOqzaYv6F460fOt8iRiCJN7w4TNXwGRiSBHk=@vger.kernel.org, AJvYcCX/tMqFILusuKB3MOm6nfe75+5zb2L3dKOYfnzjqBnCIPWwPXB406fE27CYa1bpWeFNRwldCntFmvCF41zl@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQ6OgcHdTk3T26xVcMjhL6hgCr+wbpCWbPVwkZuBaLO6hf6/2b
-	ooE8y9P9Yq5xbww+ovBNIpsj0Pn2vpSeP57b5XJrnXj2KgST1LtVQ2L8lO59QnfKi/5BvIkYFQ0
-	aB0sS9+O3iETVKS72Rop7qqezB9w=
-X-Google-Smtp-Source: AGHT+IG6cr0hEWjXUQhqAK1qz5c7apM9oCnTnsKn/H5xMI3lWq47QIxtmlT516PEoKzSiePVRD9dBx5dno1gQC8rvc0=
-X-Received: by 2002:a05:6808:358a:b0:3f3:fc36:25b7 with SMTP id
- 5614622812f47-3f419f896e7mr499390b6e.19.1740000477482; Wed, 19 Feb 2025
- 13:27:57 -0800 (PST)
+	b=P7rDDLg0/NCf2tquoieOcye6rWhvmASWCW0v3bn+EgkM3XCej1xKVqdLx82TNligb
+	 w+5FiwZkCDxlm1mZ3IDHOEHvt2kffc+yj9RL94rZqsAR1NoAgov/uApR7w1gh+IQy3
+	 LyglBhRh9J3O7Zdygu0kmlpb0TW6uzfiaWe0DW3CK4fOIGcrd4YqIy/0oLqKerIu/T
+	 ZKS/wJSz+sEW1IvHcFDfCaDGEGHIfDUkiKh9OviBg1oBMd8utIa6opI0WTkmj1WhPk
+	 fEYsbuFb8vwZxM6tUf2vptC8L6uzaFCmAzPMkwSbHB+AYgNEbiCmqRfW4kqIJybKOk
+	 Cfo3mjGUjt9YQ==
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6fb8de54da9so1563937b3.3;
+        Wed, 19 Feb 2025 13:49:54 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVHwKh2RMjwPxh6Ttv+sFSG7PcC8cjpwhrHK33Yg81SnpwiaVB/uz7wUyVMrl6ZKYmbELLCJJvWjJwG9wf9@vger.kernel.org, AJvYcCWSfsT4+D6PyRdwpuqZa0v05PDFLfCGIVPS5yeUzPxSc1nYffnLcxUSwMUMIAtYi7sK8Zc9gz9um4s=@vger.kernel.org, AJvYcCXo1NJ91+HPfAFtkQv9/yuOxOi4ONMtEXAP21eSZKTKcZxUOsZ4vyISQB9AYwIVip4M7GeoRAMjc85aTyYmyikf44ZyYhW+@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzh5y/JRi2wflmK6pE1husxms+ceyz73c/oo3u/sKzvkckq+mo+
+	00cb7VNNZjfiaOw/ydRcmujPOPeFIwz/3j5nU7yi8yOHtlJ79thjxT0EG0a7/zpIWEq6nkUrDqg
+	Tx9byMrqEh1Xer7WGgkyEBuPqsFY=
+X-Google-Smtp-Source: AGHT+IFfW/kTsMF3/b5hGSimcnQ5syQeEWvWlsiwfRMqHDODCQa+tqQ8gb1rxKxnSSJM9fZXa3IafkaERJrxgJAwG9A=
+X-Received: by 2002:a05:690c:6405:b0:6ef:4a57:fc98 with SMTP id
+ 00721157ae682-6fb582a192fmr191129947b3.16.1740001794053; Wed, 19 Feb 2025
+ 13:49:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250128141139.2033088-1-darcari@redhat.com> <20250213160741.445351-1-darcari@redhat.com>
-In-Reply-To: <20250213160741.445351-1-darcari@redhat.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 19 Feb 2025 22:27:46 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0gUfp+ueLMr1arwgK0r3WAQmfbb7YB54oZP-ySkD0q6YQ@mail.gmail.com>
-X-Gm-Features: AWEUYZlsh_nh2T1mVOcQQwWbniiICYszafnHJEmUZbHWeCh7PAz-uqb-W87C0vs
-Message-ID: <CAJZ5v0gUfp+ueLMr1arwgK0r3WAQmfbb7YB54oZP-ySkD0q6YQ@mail.gmail.com>
-Subject: Re: [PATCH v4] intel_idle: introduce 'no_native' module parameter
-To: David Arcari <darcari@redhat.com>
-Cc: linux-pm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>, 
-	Artem Bityutskiy <dedekind1@gmail.com>, Prarit Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org, 
+References: <1739569319-22015-1-git-send-email-jasjivsingh@linux.microsoft.com>
+In-Reply-To: <1739569319-22015-1-git-send-email-jasjivsingh@linux.microsoft.com>
+From: Fan Wu <wufan@kernel.org>
+Date: Wed, 19 Feb 2025 13:49:43 -0800
+X-Gmail-Original-Message-ID: <CAKtyLkFg2+8ciy4DM=g+vcTVvuRPNL2SHbN+m9ObErxtYXZYPw@mail.gmail.com>
+X-Gm-Features: AWEUYZl1mRQGqsBn25Luyk_5Z6YcizuwBL9mpTiqYU4QidVils0KwxhFvIM9t4E
+Message-ID: <CAKtyLkFg2+8ciy4DM=g+vcTVvuRPNL2SHbN+m9ObErxtYXZYPw@mail.gmail.com>
+Subject: Re: [RFC PATCH] ipe: add errno field to IPE policy load auditing
+To: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
+Cc: corbet@lwn.net, jmorris@namei.org, serge@hallyn.com, eparis@redhat.com, 
+	paul@paul-moore.com, linux-doc@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-audit@redhat.com, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 13, 2025 at 5:07=E2=80=AFPM David Arcari <darcari@redhat.com> w=
-rote:
+On Fri, Feb 14, 2025 at 1:42=E2=80=AFPM Jasjiv Singh
+<jasjivsingh@linux.microsoft.com> wrote:
 >
-> Since commit 18734958e9bf ("intel_idle: Use ACPI _CST for processor model=
-s
-> without C-state tables") the intel_idle driver has had the ability to use
-> the ACPI _CST to populate C-states when the processor model is not
-> recognized. However, even when the processor model is recognized (native
-> mode) there are cases where it is useful to make the driver ignore the pe=
-r
-> cpu idle states in lieu of ACPI C-states (such as specific application
-> performance). Add the 'no_native' module parameter to provide this
-> functionality.
+...
 >
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Len Brown <lenb@kernel.org>
-> Cc: David Arcari <darcari@redhat.com>
-> Cc: Artem Bityutskiy <dedekind1@gmail.com>
-> Cc: Prarit Bhargava <prarit@redhat.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: David Arcari <darcari@redhat.com>
+> AUDIT_IPE_POLICY_LOAD(1422):
+>
+> audit: AUDIT1422 policy_name=3D"boot_verified" policy_version=3D0.0.0
+>   policy_digest=3Dsha256:820EEA5B40CA42B51F68962354BA083122A20BB846F2676
+>   auid=3D4294967295 ses=3D4294967295 lsm=3Dipe res=3D1 errno=3D0
+> The above record shows a new policy has been successfully loaded into
+> the kernel with the policy name, version, and hash with the errno=3D0.
+>
+> AUDIT_IPE_POLICY_LOAD(1422) with error:
+>
+> audit: AUDIT1422 policy_name=3D"boot_verified" policy_version=3D0.0.0
+>   policy_digest=3Dsha256:820EEA5B40CA42B51F68962354BA083122A20BB846F2676
+>   auid=3D4294967295 ses=3D4294967295 lsm=3Dipe res=3D0 errno=3D-74
+
+This doesn't seem to be right in the error case, I suggest copying a
+real record from a running system.
+
+>
+> The above record shows a policy load failure due to an invalid policy.
+>
+> By adding this error field, we ensure that all policy load attempts,
+> whether successful or failed, are logged, providing a comprehensive
+> audit trail for IPE policy management.
+>
+> Signed-off-by: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
 > ---
-> v4: fix !CONFIG_ACPI_PROCESSOR_CSTATE compilation issue
-> v3: more documentation cleanup
-> v2: renamed parameter, cleaned up documentation
+>  Documentation/admin-guide/LSM/ipe.rst | 17 ++++++++++++-----
+>  security/ipe/audit.c                  | 17 ++++++++++++++---
+>  security/ipe/policy.c                 |  4 +++-
+>  3 files changed, 29 insertions(+), 9 deletions(-)
 >
-> Documentation/admin-guide/pm/intel_idle.rst | 18 +++++++++++++-----
->  drivers/idle/intel_idle.c                   | 16 ++++++++++++++++
->  2 files changed, 29 insertions(+), 5 deletions(-)
+> diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-=
+guide/LSM/ipe.rst
+> index f93a467db628..2143165f48c9 100644
+> --- a/Documentation/admin-guide/LSM/ipe.rst
+> +++ b/Documentation/admin-guide/LSM/ipe.rst
+> @@ -423,7 +423,7 @@ Field descriptions:
 >
-> diff --git a/Documentation/admin-guide/pm/intel_idle.rst b/Documentation/=
-admin-guide/pm/intel_idle.rst
-> index 39bd6ecce7de..5940528146eb 100644
-> --- a/Documentation/admin-guide/pm/intel_idle.rst
-> +++ b/Documentation/admin-guide/pm/intel_idle.rst
-> @@ -192,11 +192,19 @@ even if they have been enumerated (see :ref:`cpu-pm=
--qos` in
->  Documentation/admin-guide/pm/cpuidle.rst).
->  Setting ``max_cstate`` to 0 causes the ``intel_idle`` initialization to =
-fail.
+>  Event Example::
 >
-> -The ``no_acpi`` and ``use_acpi`` module parameters (recognized by ``inte=
-l_idle``
-> -if the kernel has been configured with ACPI support) can be set to make =
-the
-> -driver ignore the system's ACPI tables entirely or use them for all of t=
-he
-> -recognized processor models, respectively (they both are unset by defaul=
-t and
-> -``use_acpi`` has no effect if ``no_acpi`` is set).
-> +The ``no_acpi``, ``use_acpi`` and ``no_native`` module parameters are
-> +recognized by ``intel_idle`` if the kernel has been configured with ACPI
-> +support.  In the case that ACPI is not configured these flags have no im=
-pact
-> +on functionality.
-> +
-> +``no_acpi`` - Do not use ACPI at all.  Only native mode is available, no
-> +ACPI mode.
-> +
-> +``use_acpi`` - No-op in ACPI mode, the driver will consult ACPI tables f=
-or
-> +C-states on/off status in native mode.
-> +
-> +``no_native`` - Work only in ACPI mode, no native mode available (ignore
-> +all custom tables).
+> -   type=3D1422 audit(1653425529.927:53): policy_name=3D"boot_verified" p=
+olicy_version=3D0.0.0 policy_digest=3Dsha256:820EEA5B40CA42B51F68962354BA08=
+3122A20BB846F26765076DD8EED7B8F4DB auid=3D4294967295 ses=3D4294967295 lsm=
+=3Dipe res=3D1
+> +   type=3D1422 audit(1653425529.927:53): policy_name=3D"boot_verified" p=
+olicy_version=3D0.0.0 policy_digest=3Dsha256:820EEA5B40CA42B51F68962354BA08=
+3122A20BB846F26765076DD8EED7B8F4DB auid=3D4294967295 ses=3D4294967295 lsm=
+=3Dipe res=3D1 errno=3D0
+>     type=3D1300 audit(1653425529.927:53): arch=3Dc000003e syscall=3D1 suc=
+cess=3Dyes exit=3D2567 a0=3D3 a1=3D5596fcae1fb0 a2=3Da07 a3=3D2 items=3D0 p=
+pid=3D184 pid=3D229 auid=3D4294967295 uid=3D0 gid=3D0 euid=3D0 suid=3D0 fsu=
+id=3D0 egid=3D0 sgid=3D0 fsgid=3D0 tty=3Dpts0 ses=3D4294967295 comm=3D"pyth=
+on3" exe=3D"/usr/bin/python3.10" key=3D(null)
+>     type=3D1327 audit(1653425529.927:53): PROCTITLE proctitle=3D707974686=
+F6E3300746573742F6D61696E2E7079002D66002E2E
 >
->  The value of the ``states_off`` module parameter (0 by default) represen=
-ts a
->  list of idle states to be disabled by default in the form of a bitmask.
-> diff --git a/drivers/idle/intel_idle.c b/drivers/idle/intel_idle.c
-> index 118fe1d37c22..b0be5ef43ffc 100644
-> --- a/drivers/idle/intel_idle.c
-> +++ b/drivers/idle/intel_idle.c
-> @@ -1695,6 +1695,10 @@ static bool force_use_acpi __read_mostly; /* No ef=
-fect if no_acpi is set. */
->  module_param_named(use_acpi, force_use_acpi, bool, 0444);
->  MODULE_PARM_DESC(use_acpi, "Use ACPI _CST for building the idle states l=
-ist");
+> @@ -436,11 +436,11 @@ Field descriptions:
+>  +----------------+------------+-----------+-----------------------------=
+----------------------+
+>  | Field          | Value Type | Optional? | Description of Value        =
+                      |
+>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+> -| policy_name    | string     | No        | The policy_name             =
+                      |
+> +| policy_name    | string     | Yes       | The policy_name             =
+                      |
+>  +----------------+------------+-----------+-----------------------------=
+----------------------+
+> -| policy_version | string     | No        | The policy_version          =
+                      |
+> +| policy_version | string     | Yes       | The policy_version          =
+                      |
+>  +----------------+------------+-----------+-----------------------------=
+----------------------+
+> -| policy_digest  | string     | No        | The policy hash             =
+                      |
+> +| policy_digest  | string     | Yes       | The policy hash             =
+                      |
+>  +----------------+------------+-----------+-----------------------------=
+----------------------+
+>  | auid           | integer    | No        | The login user ID           =
+                      |
+>  +----------------+------------+-----------+-----------------------------=
+----------------------+
+> @@ -450,7 +450,14 @@ Field descriptions:
+>  +----------------+------------+-----------+-----------------------------=
+----------------------+
+>  | res            | integer    | No        | The result of the audited op=
+eration(success/fail) |
+>  +----------------+------------+-----------+-----------------------------=
+----------------------+
+> -
+> +| errno          | integer    | No        | The result of the policy err=
+or as follows:        |
+> +|                |            |           |                             =
+                      |
+> +|                |            |           | +  0: no error              =
+                      |
+> +|                |            |           | +  -EBADMSG: policy is inval=
+id                    |
+> +|                |            |           | +  -ENOMEM: out of memory (O=
+OM)                   |
+> +|                |            |           | +  -ERANGE: policy version n=
+umber overflow        |
+> +|                |            |           | +  -EINVAL: policy version p=
+arsing error          |
+> ++----------------+------------+-----------+-----------------------------=
+----------------------+
 >
-> +static bool no_native __read_mostly; /* No effect if no_acpi is set. */
-> +module_param_named(no_native, no_native, bool, 0444);
-> +MODULE_PARM_DESC(no_native, "Ignore cpu specific (native) idle states in=
- lieu of ACPI idle states");
-> +
->  static struct acpi_processor_power acpi_state_table __initdata;
+>  1404 AUDIT_MAC_STATUS
+>  ^^^^^^^^^^^^^^^^^^^^^
+> diff --git a/security/ipe/audit.c b/security/ipe/audit.c
+> index f05f0caa4850..f810f7004498 100644
+> --- a/security/ipe/audit.c
+> +++ b/security/ipe/audit.c
+> @@ -21,6 +21,8 @@
 >
->  /**
-> @@ -1834,6 +1838,11 @@ static bool __init intel_idle_off_by_default(unsig=
-ned int flags, u32 mwait_hint)
->         }
->         return true;
->  }
-> +
-> +static inline bool ignore_native(void)
-> +{
-> +       return no_native & !no_acpi;
-> +}
->  #else /* !CONFIG_ACPI_PROCESSOR_CSTATE */
->  #define force_use_acpi (false)
->
-> @@ -1843,6 +1852,7 @@ static inline bool intel_idle_off_by_default(unsign=
-ed int flags, u32 mwait_hint)
+>  #define AUDIT_POLICY_LOAD_FMT "policy_name=3D\"%s\" policy_version=3D%hu=
+.%hu.%hu "\
+>                               "policy_digest=3D" IPE_AUDIT_HASH_ALG ":"
+> +#define AUDIT_POLICY_LOAD_NULL_FMT "policy_name=3D? policy_version=3D? "=
+\
+> +                                  "policy_digest=3D?"
+
+How about AUDIT_POLICY_LOAD_FAIL_FMT instead.
+
+>  #define AUDIT_OLD_ACTIVE_POLICY_FMT "old_active_pol_name=3D\"%s\" "\
+>                                     "old_active_pol_version=3D%hu.%hu.%hu=
+ "\
+>                                     "old_policy_digest=3D" IPE_AUDIT_HASH=
+_ALG ":"
+> @@ -253,6 +255,8 @@ void ipe_audit_policy_activation(const struct ipe_pol=
+icy *const op,
+>   */
+>  void ipe_audit_policy_load(const struct ipe_policy *const p)
 >  {
->         return false;
+> +       int res =3D 0;
+> +       int err =3D 0;
+
+I would try to avoid using these two variables since this function is
+fairly short. Also please use Reverse XMAS tree declarations in
+future.
+
+>         struct audit_buffer *ab;
+>
+>         ab =3D audit_log_start(audit_context(), GFP_KERNEL,
+> @@ -260,10 +264,17 @@ void ipe_audit_policy_load(const struct ipe_policy =
+*const p)
+>         if (!ab)
+>                 return;
+>
+> -       audit_policy(ab, AUDIT_POLICY_LOAD_FMT, p);
+> -       audit_log_format(ab, " auid=3D%u ses=3D%u lsm=3Dipe res=3D1",
+> +       if (!IS_ERR(p)) {
+> +               audit_policy(ab, AUDIT_POLICY_LOAD_FMT, p);
+> +               res =3D 1;
+> +       } else {
+> +               audit_log_format(ab, AUDIT_POLICY_LOAD_NULL_FMT);
+> +               err =3D PTR_ERR(p);
+> +       }
+> +
+> +       audit_log_format(ab, " auid=3D%u ses=3D%u lsm=3Dipe res=3D%d errn=
+o=3D%d",
+>                          from_kuid(&init_user_ns, audit_get_loginuid(curr=
+ent)),
+> -                        audit_get_sessionid(current));
+> +                        audit_get_sessionid(current), res, err);
+>
+>         audit_log_end(ab);
 >  }
-> +static inline bool ignore_native(void) { return false; }
->  #endif /* !CONFIG_ACPI_PROCESSOR_CSTATE */
+> diff --git a/security/ipe/policy.c b/security/ipe/policy.c
+> index b628f696e32b..0f616e9fbe61 100644
+> --- a/security/ipe/policy.c
+> +++ b/security/ipe/policy.c
+> @@ -202,7 +202,9 @@ struct ipe_policy *ipe_new_policy(const char *text, s=
+ize_t textlen,
+>         return new;
+>  err:
+>         ipe_free_policy(new);
+> -       return ERR_PTR(rc);
+> +       new =3D ERR_PTR(rc);
+> +       ipe_audit_policy_load(new);
+> +       return new;
+
+Auditing failure here is not correct. ipe_new_policy() can succeed
+while the following security fs nodes creation can fail. Similarly
+insufficient permission error is not audited.
+I suggest auditing the failure cases in new_policy() and update_policy().
+
+-Fan
+
+>  }
 >
 >  /**
-> @@ -2328,6 +2338,12 @@ static int __init intel_idle_init(void)
->         pr_debug("MWAIT substates: 0x%x\n", mwait_substates);
->
->         icpu =3D (const struct idle_cpu *)id->driver_data;
-> +       if (ignore_native()) {
-> +               if (icpu) {
-> +                       pr_debug("ignoring native cpu idle states\n");
-> +                       icpu =3D NULL;
-> +               }
-> +       }
-
-Why not
-
-+       if (icpu && ignore_native()) {
-+              pr_debug("disregarding built-in CPU idle states table\n");
-+              icpu =3D NULL;
-+       }
-
->         if (icpu) {
->                 if (icpu->state_table)
->                         cpuidle_state_table =3D icpu->state_table;
 > --
+> 2.34.1
+>
+>
