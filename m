@@ -1,143 +1,255 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487201DEFEE
-	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 11:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3A443151
+	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 11:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739964257; cv=none; b=DOR8lqE/ozeuX5XIFCJi+/nou9WJQjXBN5JNPSSnm9ey8xWElGawviSrmjnBE9vLuJJICr3MbjZNtfk+K/XbU+v3fQm2auN40US7J9F50NWVT6h1isIdZDkhCMk+kR6JsM1+ly5+SL2aqvQLTJNtZyltcEb9xfZrZSBmpFDtAhU=
+	t=1739964511; cv=none; b=Y9XD/1du0OxwmYkqMKJn2zqUk4wLFGo2uzJ4KMbacbsKPnN5LTChBUL+tAzyAILHAeSlf5M+cNzlE5Z1unUS5mqNH88WIG1x70SpCJk9yoV7+OkegnrbA0ru1TD6J09z1IYYnBKn0f5tZ7F+H1SEbE/9HEp/XFyVbz2awj/gSrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739964257; c=relaxed/simple;
-	bh=3IlmgeaiPcaakLVe2YScE/woJneyFZcSXJq5bqdngbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q2pvG2sIzykhzk1eKVZsT9NlYvlqd+rMYjr12pSLYSiqND2sh2a5kX3vOoFY0sulf1YnxBcCfhp54onjCrfQFzLfmSWMK1yUu1oDshFhLJR+QSBpn9ge2G3uYzttRR4Huw2bEaonScccd3rI4c9GwmKHSHRhtnNRU/u+AaM+nJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q5vS1YIY; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1739964511; c=relaxed/simple;
+	bh=u04IQISYLjCMofqQ3QpQiAxrQZB8WL69dEdlPjDMpVs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HZAdDP51bXRoxiCwO1+fxJ8b0HMhPn2t7JB2Z+/nD4kRC5XJG0O9lZCHwktZ+6FI/Gdh5AVc2/SwAVez/NFEKR1m0eHRMscJTzAxSXxYS/gRFgjaUvvk/hlmMhjXRNmhBW8YO9pmtfhcls5TRNkCfsJpeftf4AVxKSRZgkJqLEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IEDbgivr; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q5vS1YIY"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4396a4d5e3bso49651755e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 03:24:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IEDbgivr"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ab771575040so141659866b.1
+        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 03:28:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739964253; x=1740569053; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tdPhTPgNb5WdAwuNYkFk04LlQR8UkULvprs/hSb+yyI=;
-        b=Q5vS1YIY7lYTNSNgI7OTgjuJ17bFqhTU5i2mw0UjNn5eVsfe+q6aGOu4g6Oz9Vu2gh
-         VY6etKU1zT+j05fs9hdjdxiuDu8pz6bSLgP+7pMVdi/0PdCzFnksTt+lYOtDAlUnP7Zl
-         pdW1pf598RJC3r9gW87TWDOJUNogkDbvvlYafZzE18MXs3gmS4JjFAklM6Cl8ip4iuMo
-         qeGs/QwfrsyhBkwre2IRRyoSef0qNv36C/aGKSqd9tLTqMVo93reNoghnnAmoUTsRJzL
-         XXjkm0wWzbBNGX48R3C4ABCP1E7fKnBFEzI2BT5Mu83WCbEtdC+XI1A/EKDXDjY9VGGc
-         36xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739964253; x=1740569053;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1739964508; x=1740569308; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tdPhTPgNb5WdAwuNYkFk04LlQR8UkULvprs/hSb+yyI=;
-        b=jmuFWr44GdCW46SPpn1WP3vWTd6INsm/Xj72UtTYbZPT0NpvYQx8jvi+keGFMLrq1f
-         y+WCjv0Pmz3hUrB/CEEvWNQnjIu7TiYHkzUajLiwZQ0EDHZHQWlVeDE5AaphhYu8s/6n
-         qHWxPG7mpJ+I8i4O0lgQuC9OsNRf05fih1X+3oTt1lwODs9h7yQDKkRbjn7PXG16aabk
-         w5wIz/fmUe8nZPDsOiLcZQ8gIVjN6Yj+WgS/kCGxUi93OqRfUuEV/UHTxULzJ2fpqcNU
-         A8Ubtk57NGgLTP81kB8vLt5Nd3bdPFjRAWjaQREYld9Xt6olqCibhqF2IoPGNPTCbidT
-         hfmA==
-X-Forwarded-Encrypted: i=1; AJvYcCV1eVYSPTZCn0Spg/28esTm2BapY+wHd6pNtooPpjrpBHatTWjqH0pC9JshPh3tugMceXw9bD3yZBk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZrhL1SMsQzpNGmy9xpSbk4xRQphvaE+ComQI/thkwBuaAqWB2
-	sDvh1/68srombY7YiSpKPznUGwYo+LfSlU5zXyzrWSBmn6FEygxkQ5yZ6NN0PBE=
-X-Gm-Gg: ASbGnctz41VVEBiSFgK0pTxQvW4RZfSR/WWTywOMmV1i6RQob+XhOGtd6PYTWc8h6W6
-	lOUB8ypX9XEEq67aUtsdEuXyH9I0Y8KuJnrYzz5LN8LAnNclFMii5YpxsBcWnPZt5EJa9AC86SF
-	+6DdAr5HO7NqtSk7AuL1XsS9r5LZDMnjQW/jYDmQNcyiYUV/EstCpSmWqmUjq1DyWI8rEPvRKSM
-	bN8f24T14sIUaL+dI9rC06PsEmJD7/zc6ZU4QJ/peRJsONyJvgl1/Nwg2R924Xi6uXPqNWKJC/M
-	MY39xRGyGKdXhx23wxUHPCfOlWU=
-X-Google-Smtp-Source: AGHT+IHyRalKTLx08DMpyY8D7tJnSYBfCjrsKNqbrlJWe/vLGSVDWGPykiVGFecncMvPPlaiWmLh0w==
-X-Received: by 2002:a05:600c:3b9c:b0:439:967b:46fc with SMTP id 5b1f17b1804b1-43999d8f506mr31097145e9.8.1739964253497;
-        Wed, 19 Feb 2025 03:24:13 -0800 (PST)
-Received: from linaro.org ([2a02:2454:ff21:ef30:6f72:6161:57cf:1c9a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43992ad82cfsm51235505e9.37.2025.02.19.03.24.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 03:24:12 -0800 (PST)
-Date: Wed, 19 Feb 2025 12:24:07 +0100
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>,
-	Greg KH <gregkh@linuxfoundation.org>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, tiwai@suse.com,
-	krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com,
-	Thinh.Nguyen@synopsys.com, robh@kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v35 00/31] Introduce QC USB SND audio offloading support
-Message-ID: <Z7W_Vz_kVDjIcp5N@linaro.org>
-References: <20250219004754.497985-1-quic_wcheng@quicinc.com>
+        bh=u04IQISYLjCMofqQ3QpQiAxrQZB8WL69dEdlPjDMpVs=;
+        b=IEDbgivrUe9oU+qy+QUfrEkxewhOE33ZAueniz6SGvdrhDsjy8cNpOmnoAm36xc+Bu
+         oLq5yO4JgwjaaSRO1bgmoS5bjHo6EFmns+mptetjq6bXWuY0SkK6ITkcyZlTDZnedLLZ
+         Fxi9DfW3MM6kAevmO6PDR1mVnF8LNbhxdQEkT2QPuVKh/bfUqd1qI52FJkcOtGpFLV9q
+         oXCyIQY0Bgx9FVa1A+L0OiUORP2fV2n3oYvjkmz+aOwTjtRtV4f7R1jWBBXOl8WZwkIe
+         wvjQqFvJnulkNDIXmpFnM0dM8vNB42bFAFUG24HtrX2jpJG20oHtbfhbDXgsf5VDcY3W
+         sG2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739964508; x=1740569308;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u04IQISYLjCMofqQ3QpQiAxrQZB8WL69dEdlPjDMpVs=;
+        b=dfmBf5s/Nofi1Tkr9mJQ+kzyQGUZMAgVL90Oh46TZgsR3Ureo5OcsYOxV5iBYp5DPm
+         qqNONHaFwmvt/qrD79eDy84P/ZdDibMCyqHz2n0Z4MzBmKMCzF0S0o/zlDmqL5Uu/XMi
+         q1GpuPLQ+E5PfB2pPulA5slBvd85akgYNA6g3+zXDFndU6aWOBV0cJQqiVijTad63GWQ
+         MzDSLiqMJ4cOe2Ikj5oaTIErwDCTUEgNurjiXl1C2uAzvVLBpMt69A9egLpKKZBEq6cO
+         Dg4v1B6/5OHgIhNP/kaY6sR7+a4HXADRbvSwWSDpgMzMLzdD6yjHF6tGTQzBMEFlV7w0
+         HeDA==
+X-Forwarded-Encrypted: i=1; AJvYcCWfwCRA7Xlw1YYwVURknhmij4L1vWirUUI7649SLoUsd7Pq8q94gG2wX6ea3ClCc712ItS7IE+7GZE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/619/VA2LAOWnWfBDPas9nUKsbUgR8VC4tHI2tslzpUjjdLwv
+	9pJvAhu0yI+z/LPqTst30HgMR8VEmudIGK88T/Gb0pFj1I4FfMo4c/E3V7MXVY1tKzYX0v899pa
+	k30hopFB6X8NFqkhP8GPedICsmPXNM7qxp1/P
+X-Gm-Gg: ASbGncv/qDsQDMSTLhD6O7te3P9mK5qcMdMPKTJ/CQbu/dFBUxsDdX6+bPUNh6vqDbY
+	5SkkGD5GR3B3ARVfGUUs35bXBcd/jUmrhc0/yGujoRO1dHInHNz40iKpUFw3PFz+Obc90zT+adn
+	e3WJa0Chsk+RuMzYE10GJdWDAKkg==
+X-Google-Smtp-Source: AGHT+IFL52lnenWGTW7oL6dts31qk9OG+Soh9kwzHUZQ5Np2XKnPToSu2WGVEC4v36VmQqo5ZuJMvvYrs075LQvqc84=
+X-Received: by 2002:a17:906:318c:b0:ab7:d34a:8f83 with SMTP id
+ a640c23a62f3a-abbcc653f77mr306072566b.17.1739964508215; Wed, 19 Feb 2025
+ 03:28:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250219004754.497985-1-quic_wcheng@quicinc.com>
+References: <cover.1737577229.git.babu.moger@amd.com> <Z6zeXby8ajh0ax6i@e133380.arm.com>
+ <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com> <Z64tw2NbJXbKpLrH@e133380.arm.com>
+ <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com> <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
+ <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com> <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
+ <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com>
+In-Reply-To: <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Wed, 19 Feb 2025 12:28:16 +0100
+X-Gm-Features: AWEUYZmWoH5-nb_-0SCae4RnH3JlkVydGrohy3tJyf8cfqh-Cd4pRJxy2oPdR58
+Message-ID: <CALPaoCj1TH+GN6+dFnt5xuN406u=tB-8mj+UuMRSm5KWPJW2wg@mail.gmail.com>
+Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: "Moger, Babu" <bmoger@amd.com>, Dave Martin <Dave.Martin@arm.com>, Babu Moger <babu.moger@amd.com>, 
+	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, tony.luck@intel.com, x86@kernel.org, 
+	hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org, 
+	thuth@redhat.com, rostedt@goodmis.org, xiongwei.song@windriver.com, 
+	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com, 
+	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com, 
+	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com, 
+	mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	maciej.wieczor-retman@intel.com, eranian@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 18, 2025 at 04:47:23PM -0800, Wesley Cheng wrote:
-> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
-> 
-> Several Qualcomm based chipsets can support USB audio offloading to a
-> dedicated audio DSP, which can take over issuing transfers to the USB
-> host controller.  The intention is to reduce the load on the main
-> processors in the SoC, and allow them to be placed into lower power modes.
-> There are several parts to this design:
->   1. Adding ASoC binding layer
->   2. Create a USB backend for Q6DSP
->   3. Introduce XHCI interrupter support
->   4. Create vendor ops for the USB SND driver
-> 
->       USB                          |            ASoC
-> --------------------------------------------------------------------
->                                    |  _________________________
->                                    | |sm8250 platform card     |
->                                    | |_________________________|
->                                    |         |           |
->                                    |      ___V____   ____V____
->                                    |     |Q6USB   | |Q6AFE    |  
->                                    |     |"codec" | |"cpu"    |
->                                    |     |________| |_________|
->                                    |         ^  ^        ^
->                                    |         |  |________|
->                                    |      ___V____    |
->                                    |     |SOC-USB |   |
->    ________       ________               |        |   |
->   |USB SND |<--->|QC offld|<------------>|________|   |
->   |(card.c)|     |        |<----------                |
->   |________|     |________|___     | |                |
->       ^               ^       |    | |    ____________V_________
->       |               |       |    | |   |APR/GLINK             |
->    __ V_______________V_____  |    | |   |______________________|
->   |USB SND (endpoint.c)     | |    | |              ^
->   |_________________________| |    | |              |
->               ^               |    | |   ___________V___________
->               |               |    | |->|audio DSP              |
->    ___________V_____________  |    |    |_______________________|
->   |XHCI HCD                 |<-    |
->   |_________________________|      |
-> 
+Hi Reinette,
 
-As I noted on v34 [1], this version is still missing instructions and
-changes needed for testing this series. The device tree changes don't
-need to be part of the same series, but there should be at least a link
-provided to give other people the chance to provide Tested-by tags.
+On Tue, Feb 18, 2025 at 6:50=E2=80=AFPM Reinette Chatre
+<reinette.chatre@intel.com> wrote:
+>
+> Hi Peter,
+>
+> On 2/17/25 2:26 AM, Peter Newman wrote:
+> > Hi Reinette,
+> >
+> > On Fri, Feb 14, 2025 at 8:18=E2=80=AFPM Reinette Chatre
+> > <reinette.chatre@intel.com> wrote:
+> >>
+> >> Hi Babu,
+> >>
+> >> On 2/14/25 10:31 AM, Moger, Babu wrote:
+> >>> On 2/14/2025 12:26 AM, Reinette Chatre wrote:
+> >>>> On 2/13/25 9:37 AM, Dave Martin wrote:
+> >>>>> On Wed, Feb 12, 2025 at 03:33:31PM -0800, Reinette Chatre wrote:
+> >>>>>> On 2/12/25 9:46 AM, Dave Martin wrote:
+> >>>>>>> On Wed, Jan 22, 2025 at 02:20:08PM -0600, Babu Moger wrote:
+> >>
+> >> (quoting relevant parts with goal to focus discussion on new possible =
+syntax)
+> >>
+> >>>>>> I see the support for MPAM events distinct from the support of ass=
+ignable counters.
+> >>>>>> Once the MPAM events are sorted, I think that they can be assigned=
+ with existing interface.
+> >>>>>> Please help me understand if you see it differently.
+> >>>>>>
+> >>>>>> Doing so would need to come up with alphabetical letters for these=
+ events,
+> >>>>>> which seems to be needed for your proposal also? If we use possibl=
+e flags of:
+> >>>>>>
+> >>>>>> mbm_local_read_bytes a
+> >>>>>> mbm_local_write_bytes b
+> >>>>>>
+> >>>>>> Then mbm_assign_control can be used as:
+> >>>>>> # echo '//0=3Dab;1=3Db' >/sys/fs/resctrl/info/L3_MON/mbm_assign_co=
+ntrol
+> >>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_read_bytes
+> >>>>>> <value>
+> >>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
+> >>>>>> <sum of mbm_local_read_bytes and mbm_local_write_bytes>
+> >>>>>>
+> >>>>>> One issue would be when resctrl needs to support more than 26 even=
+ts (no more flags available),
+> >>>>>> assuming that upper case would be used for "shared" counters (unle=
+ss this interface is defined
+> >>>>>> differently and only few uppercase letters used for it). Would thi=
+s be too low of a limit?
+> >>
+> >> As mentioned above, one possible issue with existing interface is that
+> >> it is limited to 26 events (assuming only lower case letters are used)=
+. The limit
+> >> is low enough to be of concern.
+> >
+> > The events which can be monitored by a single counter on ABMC and MPAM
+> > so far are combinable, so 26 counters per group today means it limits
+> > breaking down MBM traffic for each group 26 ways. If a user complained
+> > that a 26-way breakdown of a group's MBM traffic was limiting their
+> > investigation, I would question whether they know what they're looking
+> > for.
+>
+> The key here is "so far" as well as the focus on MBM only.
+>
+> It is impossible for me to predict what we will see in a couple of years
+> from Intel RDT, AMD PQoS, and Arm MPAM that now all rely on resctrl inter=
+face
+> to support their users. Just looking at the Intel RDT spec the event regi=
+ster
+> has space for 32 events for each "CPU agent" resource. That does not take=
+ into
+> account the "non-CPU agents" that are enumerated via ACPI. Tony already m=
+entioned
+> that he is working on patches [1] that will add new events and shared the=
+ idea
+> that we may be trending to support "perf" like events associated with RMI=
+D. I
+> expect AMD PQoS and Arm MPAM to provide related enhancements to support t=
+heir
+> customers.
+> This all makes me think that resctrl should be ready to support more even=
+ts than 26.
 
-IMO we shouldn't merge this series without those instructions, otherwise
-we risk that this just ends up being dead code that no one can use.
+I was thinking of the letters as representing a reusable, user-defined
+event-set for applying to a single counter rather than as individual
+events, since MPAM and ABMC allow us to choose the set of events each
+one counts. Wherever we define the letters, we could use more symbolic
+event names.
 
-Can you please share the device tree changes for a board upstream and
-any other changes needed to be able to test this series? E.g. for
-sm8250-mtp.dts, based on the examples in your cover letter.
+In the letters as events model, choosing the events assigned to a
+group wouldn't be enough information, since we would want to control
+which events should share a counter and which should be counted by
+separate counters. I think the amount of information that would need
+to be encoded into mbm_assign_control to represent the level of
+configurability supported by hardware would quickly get out of hand.
 
-Thanks,
-Stephan
+Maybe as an example, one counter for all reads, one counter for all
+writes in ABMC would look like...
 
-[1]: https://lore.kernel.org/linux-arm-msm/Z63B_UE61OdrgEJY@linaro.org/
+(L3_QOS_ABMC_CFG.BwType field names below)
+
+(per domain)
+group 0:
+ counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+ counter 1: VictimBW,LclNTWr,RmtNTWr
+group 1:
+ counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+ counter 3: VictimBW,LclNTWr,RmtNTWr
+...
+
+I assume packing all of this info for a group's desired counter
+configuration into a single line (with 32 domains per line on many
+dual-socket AMD configurations I see) would be difficult to look at,
+even if we could settle on a single letter to represent each
+universally.
+
+>
+> My goal is for resctrl to have a user interface that can as much as possi=
+ble
+> be ready for whatever may be required from it years down the line. Of cou=
+rse,
+> I may be wrong and resctrl would never need to support more than 26 event=
+s per
+> resource (*). The risk is that resctrl *may* need to support more than 26=
+ events
+> and how could resctrl support that?
+>
+> What is the risk of supporting more than 26 events? As I highlighted earl=
+ier
+> the interface I used as demonstration may become unwieldy to parse on a s=
+ystem
+> with many domains that supports many events. This is a concern for me. An=
+y suggestions
+> will be appreciated, especially from you since I know that you are very f=
+amiliar with
+> issues related to large scale use of resctrl interfaces.
+
+It's mainly just the unwieldiness of all the information in one file.
+It's already at the limit of what I can visually look through.
+
+I believe that shared assignments will take care of all the
+high-frequency and performance-intensive batch configuration updates I
+was originally concerned about, so I no longer see much benefit in
+finding ways to textually encode all this information in a single file
+when it would be more manageable to distribute it around the
+filesystem hierarchy.
+
+-Peter
+
+
+>
+> Reinette
+>
+> [1] https://lore.kernel.org/lkml/SJ1PR11MB6083759CCE59FF2FE931471EFCFF2@S=
+J1PR11MB6083.namprd11.prod.outlook.com/
+>
+> (*) There is also the scenario where combined between resources there may=
+ be
+> more than 26 events supported that will require the same one letter flag =
+to be
+> used for different events of different resources. This may potentially be
+> confusing.
