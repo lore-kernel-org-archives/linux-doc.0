@@ -1,173 +1,182 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637091E0487
-	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 09:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478EA176ADE;
+	Wed, 19 Feb 2025 10:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739956300; cv=none; b=S7O05O96a5hqDTfNIzxNz7y/4uHAfSJKLtxC/XcLqdaYesiDhU1YG80e0wvd09ncGK31gFf8kp99nC4klzUPxNBusCGwUq7tYA3/045W/zj3xnplLOOfhrR5tsZVhVDHjQni5wkCoGUtUCB9In4I3owOlAryqWfHEHObb2ZKvzU=
+	t=1739960147; cv=none; b=i8ZVnAQLWKMCVulg6f4UbK8WRwyGdfKY8V6NHVHeH+mXVfXXXOwE9rpVY2zrN3AWWLBHFr9KXQWw9kueMcFWWWTnYr11sMG2b3VWmlCNzBD3J+dNIwl+yOhgOTXL4ju54x9SVFmuXlHNZCh3hH4mMR/tm5ZptjXYikBb94te8E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739956300; c=relaxed/simple;
-	bh=W870LZCRo8vROMZoL7m2LOfZhN0cIZS97vy6KL8pHvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GeGh046hsLY3kZ37xVYVBv8Lv3JdKD9hrG49CNWugzpS/07Tw+ehLQc48uaD2EDy/cZtHwRno5N0vb2M8fAVcmjIdSekbn7dDyFeS7TomXv6oRYnSqWn2akg9Tssf6kxbwWW9j4hyIkvfj9MLeAoHuiKdqYhRoG4Ha+hNtfrX4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=haJX/d7C; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1739960147; c=relaxed/simple;
+	bh=cRfz3fecS+ZzGox7S9ijrv4PWpD4vQo2wXmFuIzrhjg=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WaEPnl46J/JtNy0JdzXXE630Ncf9Dvya9kwNoDArrEcT51teYMtjeYdmBR1htnECcozU9mI8rtU41G3mUTIdfkhpMS5Cj1FKc23BF6VHzQJ4WACbdopcL8WEWmFheK2TJtAveCC5biRH7OAVcCpyMibqEwif50AsV3cGt/0Qfv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXegrAgg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="haJX/d7C"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-54605bfcc72so774508e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 01:11:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739956296; x=1740561096; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Jza03j0MnQGznKWpKvTiC+4+k6GxgwZi0Po40ysUY6w=;
-        b=haJX/d7CFFwL06d3PUTuXk8riyDrSrwREwK/Si2y3dI4MfeNfoZuJi0WbAIaQKEni5
-         CcT0SLvjZGnOHBKvTVIpqOzuk01S+NRN1SFQvUmntc8XxTCVErv7KI6WlwsFKaRIKGnA
-         ciaYF2TYdGWFe2CEzTDXJ2INQC34Ig71w2CiDOX+DuR7aS0V87PriKCI1Eh5c2FXF7ZC
-         TOdVC34xvOzJFh1HiBJdC3B7OZKoeYfOARaVVWsQGUa7osEch9Xloc5SuRV0ffkeJBub
-         c8JvaTEfDH0tp1ZfhKd8FKijjWZFADLS2aSP139XlmfxnGi3FjQGBKuOh0XllJh4/YhT
-         pC6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739956296; x=1740561096;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jza03j0MnQGznKWpKvTiC+4+k6GxgwZi0Po40ysUY6w=;
-        b=XIorsP94zokwQIVUlv+AunaFJRQ1LvURSK4M6zfdaD9x2SEyXHYQsZ6IC/1IjC/J5Q
-         v1h4FYZvDscZ0tO/mu8qZT8fe3O0YYmgf+V9yxXOYj+Y8tUGvZOsl3YmZ/aLii3JQWGL
-         Ds0LueRtYwz4E0iveWcOBfqrD/AWiyGVTGEsMTFioe/V2krOoryvmItXevdVWDj5fqNN
-         Cu6sl3XFPJluj+5T0icMIjjkWtujH2hWJZwAgn8RRLDNLbf7IKzBm/5tGB7wRHLKsGQ8
-         dF9/NJXQmZmwOLTnI+aMQ+DFqFXS2vX1m006pcksNgaYylp+GbIPchIWWhPwoUiDCdHs
-         QJ2g==
-X-Forwarded-Encrypted: i=1; AJvYcCV+9YL1Br+SvE9DMoTnKUrqFsRV3F83qEPFj5AHFJAF9CwSBwKK/7Sh3RUBB9/HFJKt8WAN9corXpc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwO4pQ6Du5Z4tLPb/pPE/LrZGZLUWVilE2w3JUczirTJQymb9hC
-	7w9rszLQhHvhTBhNGVm5G5B0SBGX5X5Hjyz7VF+GEiFLbwv9+nu2coBwfLrffcw=
-X-Gm-Gg: ASbGncu0n06UvR+V1A8+I5lZh1s6emKWRBah2c29MCgdhMk1jfqoR/axpf2MVTX+EjP
-	H27RlEyUHwGggqP4r//8c1fP8ZLdIswGDkjxDq43s80AvGwVkhUh2NHSLxdwlPWZYeg0Cx1WsLd
-	fRYHArbxq+er7/KFN0O+kGs6AA3eym8MFGgds8GoYIJxo832AOeW+FOF5MoxkEzIg7/YYPXkKlP
-	fOOh2+X8Ftv54llJRUrOdVHywGhZfA9O2TNoeWZY0UoFrTrsXgx9jXDoOIHVVBVr2fyGwDzgtea
-	Q74Y/nhbiheR6cFmC3HZZshOe5I7o5F/oJR0GgrIO9+zpKd6ZfUZedeiHg8m6EKf4yX81z0=
-X-Google-Smtp-Source: AGHT+IFa5flmo8YhTuWoDOUEgP1BOmmAOlZ+4HxQtHdeWbJ1wWlQi3XsL8Oh/UDWY10wx8g82SoCHA==
-X-Received: by 2002:a05:6512:281b:b0:544:e:cfea with SMTP id 2adb3069b0e04-5462eaa65c6mr989206e87.6.1739956296217;
-        Wed, 19 Feb 2025 01:11:36 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5462cb28b60sm349095e87.153.2025.02.19.01.11.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 01:11:35 -0800 (PST)
-Date: Wed, 19 Feb 2025 11:11:33 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Doug Anderson <dianders@chromium.org>, 
-	Anusha Srivatsa <asrivats@redhat.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <quic_jesszhan@quicinc.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Joel Selvaraj <jo@jsfamily.in>, Ondrej Jirman <megi@xff.cz>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Jianhua Lu <lujianhua000@gmail.com>, 
-	Robert Chiras <robert.chiras@nxp.com>, Artur Weber <aweber.kernel@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Tejas Vipin <tejasvipin76@gmail.com>
-Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
- variants when available
-Message-ID: <rg4mctlqofydzexa7uwnmcsv66dhx5u2wrmytslpyltraz6p5q@ohvo7ab2ws7q>
-References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
- <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com>
- <20250218-fabulous-agile-corgi-9a5ee0@houat>
- <ynmxaimdwkwfiryz5le5vpnfh5fzh5se4ebyqzkbnq355me76x@yxtyan3niivb>
- <20250218-primitive-kickass-seagull-008bf2@houat>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXegrAgg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40EF8C4CED1;
+	Wed, 19 Feb 2025 10:15:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739960146;
+	bh=cRfz3fecS+ZzGox7S9ijrv4PWpD4vQo2wXmFuIzrhjg=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=VXegrAgg6V1RaMvhCZn3Rjv+M9XVFAfedNtOOaZk3oyIApGRv1m9zs1S6Im3wzmRv
+	 SY3VZNzl3qmYGcp6u/3BFuHEc396InLHbh21fnYu6ptXbX80Bbr7THvgkkr0AUdyJv
+	 paso2yTPorlJtQuFxqsrYAXKg52NUG91ZrQ6/OKpDxEC/ZFiZEg6p7Drlgc1mbs4xJ
+	 6u6vLKzKMan3az9mwNuabpr8dqNJQnztuOvsGIDQ+pZlaOSAvWuSCMjYU+F3iLolrK
+	 /xOh6/R6SAmP4fglaQN8W3e37UTIRI1HdfkVffJ4QXPFWiE0f26dGRaExrcsUulVDx
+	 lHfklGad3HJdA==
+Date: Wed, 19 Feb 2025 11:15:44 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+	Melissa Wen <melissa.srw@gmail.com>, =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
+	Haneen Mohammed <hamohammed.sa@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, rdunlap@infradead.org, 
+	arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>, pekka.paalanen@haloniitty.fi, 
+	Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
+	miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, seanpaul@google.com, 
+	marcheu@google.com, nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
+Message-ID: <20250219-inventive-micro-parrot-c24846@houat>
+References: <20250121-yuv-v16-0-a61f95a99432@bootlin.com>
+ <20250121-yuv-v16-5-a61f95a99432@bootlin.com>
+ <qwym5wty72f6o4dfz2iduamkpuom6jt5txskknovqxzagruusx@zuytk7awe2uw>
+ <Z5dkd3npNtzPWCrP@louis-chauvet-laptop>
+ <20250205-pristine-perch-of-abundance-7abac1@houat>
+ <Z6OEd329pDNRrL5v@louis-chauvet-laptop>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="jan25b3eajgltkcf"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250218-primitive-kickass-seagull-008bf2@houat>
+In-Reply-To: <Z6OEd329pDNRrL5v@louis-chauvet-laptop>
 
-On Tue, Feb 18, 2025 at 04:52:53PM +0100, Maxime Ripard wrote:
-> On Tue, Feb 18, 2025 at 02:14:43PM +0200, Dmitry Baryshkov wrote:
-> > On Tue, Feb 18, 2025 at 10:55:49AM +0100, Maxime Ripard wrote:
-> > > On Fri, Feb 14, 2025 at 08:26:02AM -0800, Doug Anderson wrote:
-> > > > Hi,
-> > > > 
-> > > > On Thu, Feb 13, 2025 at 12:44 PM Anusha Srivatsa <asrivats@redhat.com> wrote:
-> > > > >
-> > > > > A lot of mipi API are deprecated and have a _multi() variant
-> > > > > which is the preferred way forward. This covers  TODO in the
-> > > > > gpu Documentation:[1]
-> > > > >
-> > > > > An incomplete effort was made in the previous version
-> > > > > to address this[2]. It removed on the mipi_dsi_dcs_write_seq()
-> > > > > and mipi_dsi_generic_write_seq_multi() with the respective
-> > > > > replacemts and not the rest of the API.
-> > > > 
-> > > > You didn't seem to take most of the suggestions I gave in response to
-> > > > your v1 [3]. Specifically:
-> > > > 
-> > > > a) I asked that you CC Tejas. I've added him again.
-> > > > 
-> > > > b) I asked that you CC me on the whole patch series, which you didn't
-> > > > do. I can find them, but I'd find it convenient in this case for them
-> > > > to be in my Inbox.
-> > > > 
-> > > > The first patch conflicts with what Tejas already landed in
-> > > > drm-misc-next. See commit 8025f23728e9 ("drm/panel:
-> > > > xinpeng-xpp055c272: transition to mipi_dsi wrapped functions"). The
-> > > > second patch _also_ conflicts with what Tejas already landed. See
-> > > > commit f4dd4cb79f9e ("drm/panel: visionox-r66451: transition to
-> > > > mipi_dsi wrapped functions"). Later patches also also conflict. See
-> > > > commit 0d6c9edf9e5b ("drm/panel: ebbg-ft8719: transition to mipi_dsi
-> > > > wrapped functions"), commit ce8c69ec90ca ("drm/panel:
-> > > > samsung-s6e88a0-ams452ef01: transition to mipi_dsi wrapped
-> > > > functions"), and commit 7e3bf00047cd ("drm/panel: sharp-ls060t1sx01:
-> > > > transition to mipi_dsi wrapped functions"). Maybe you should sync up
-> > > > with drm-misc-next before submitting.
-> > > 
-> > > Yes, you should definitely work from drm-misc-next there, and sync with
-> > > Tejas.
-> > > 
-> > > > I also questioned whether this really made sense to try to do with a
-> > > > Coccinelle script and I still don't think so. It looks like Dmitry has
-> > > > already reviewed the first few of your patches and has repeated my
-> > > > advice. If you want to help with the effort of addressing this TODO
-> > > > item then that's great, but I'll stop reviewing (and start silently
-> > > > deleting) any future submissions of yours that say that they're done
-> > > > entirely with a Coccinelle script unless you address this point and
-> > > > convince me that your Coccinelle script is really smart enough to
-> > > > handle all the corner cases. I'll also assert that you should review
-> > > > Tejas's submissions to see how these conversions are expected to go.
-> > > 
-> > > I couldn't find that in your first answer though. What corner cases do
-> > > you have in mind, and why do you think coccinelle can't handle them?
-> > 
-> > As can be seen from the reviews:
-> > 
-> > - sleeps between DSI calls
-> > - properly propagating the error at the end of the function
-> 
-> These two are legitimate feedback, but I don't see how coccinelle cannot
-> deal with them.
 
-Maybe it can. both issues were pointed out during review of the first
-series, there was no improvement here. I'd really ask to perform
-conversion of a single driver, so that the script (or post-script
-fixups) can be improved. I'd still expect that Anusha actually reviews
-the changed driver before posting it and verifies that there is no
-regression in the logic / error reporting.
+--jan25b3eajgltkcf
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
+MIME-Version: 1.0
 
-> 
-> > - making decision whether to create the context at the caller or the
-> >   callee side. E.g. in patch 8 it is better to allocate context in
-> >   hx8394_enable() and pass it to .init_sequence() instead of keeping
-> >   some of error handling.
-> 
-> Yeah, that one is definitely subjective, and is going to need manual
-> review.
+On Wed, Feb 05, 2025 at 04:32:07PM +0100, Louis Chauvet wrote:
+> On 05/02/25 - 09:55, Maxime Ripard wrote:
+> > On Mon, Jan 27, 2025 at 11:48:23AM +0100, Louis Chauvet wrote:
+> > > On 26/01/25 - 18:06, Maxime Ripard wrote:
+> > > > On Tue, Jan 21, 2025 at 11:48:06AM +0100, Louis Chauvet wrote:
+> > > > > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[]=
+ =3D {
+> > > > > +	/*
+> > > > > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > > > > +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> > > > > +	 *                     in_bits =3D 16,
+> > > > > +	 *                     in_legal =3D False,
+> > > > > +	 *                     in_int =3D True,
+> > > > > +	 *                     out_bits =3D 8,
+> > > > > +	 *                     out_legal =3D False,
+> > > > > +	 *                     out_int =3D True)
+> > > > > +	 *
+> > > > > +	 * Test cases for conversion between YUV BT601 full range and R=
+GB
+> > > > > +	 * using the ITU-R BT.601 weights.
+> > > > > +	 */
+> > > >=20
+> > > > What are the input and output formats?
+> > > >=20
+> > > > Ditto for all the other tests.
+> > >=20
+> > > There is no really "input" and "output" format, they are reference va=
+lues=20
+> > > for conversion, you should be able to use it in both direction. They =
+are=20
+> > > generated by RGB_to_YCbCr (RGB input, YUV output) just because it was=
+=20
+> > > easier to create the colors from RGB values.
+> >=20
+> > RGB and YUV aren't formats, they are color models. XRGB8888 is a format.
+> > NV12 is a format.
+> >
+> > > If you think we should specify what is was used as input and output t=
+o=20
+> > > generate those values, I can modify the comment to:
+> > >=20
+> > > 	Tests cases for color conversion generated by converting RGB=20
+> > > 	values to YUV BT601 full range using the ITU-R BT.601 weights.
+> >=20
+> > My point is that those comments should provide a way to reimplement the
+> > test from scratch, and compare to the actual implementation. It's useful
+> > when you have a test failure and start to wonder if the implementation
+> > or the test is at fault.
+> >=20
+> > By saying only RGB and YUV, you can't possibly do that.
+>=20
+> I understand your concern, but I believe there might be a slight=20
+> misunderstanding. The table in question stores reference values for=20
+> specific color models, not formats. Therefore, it doesn't specify any=20
+> particular format like XRGB8888 or NV12.
+>=20
+> To clarify this, I can rename the format_pair struct to value_pair. This=
+=20
+> should make it clearer that we are dealing with color model values rather=
+=20
+> than formats.
+>=20
+> If you want to test a specific format conversion, such as=20
+> YUV420_to_argbu16, you would need to follow a process like this:
+>=20
+> 	// Recreate a YUV420 data
+> 	plane_1[0] =3D test_case.yuv.y
+> 	plane_2[0] =3D test_case.yuv.u
+> 	plane_2[1] =3D test_case.yuv.v
+>=20
+> 	// convertion to test from YUV420 format to argb_u16
+> 	rgb_u16 =3D convert_YUV420_to_argbu16(plane_1, plane_2)
+>=20
+> 	// ensure the conversion is valid
+> 	assert_eq(rgb_u16, test_case.rgb)
+>=20
+> The current test is not performing this kind of format conversion.=20
+> Instead, it verifies that for given (y, u, v) values, the correct (r, g,=
+=20
+> b, a) values are obtained.
 
--- 
-With best wishes
-Dmitry
+You already stated that you check for the A, R, G, and B components. On
+how many bits are the values you are comparing stored? The YUV values
+you are comparing are stored on how many bits for each channel? With
+subsampling?
+
+If you want to compare values, you need to encode a given color into
+bits, and the way that encoding is done is what the format is about.
+
+You might not compare the memory layout but each component individually,
+but it's still a format.
+
+And then, you have the extra fun on top, like are you comparing
+full-range or limited-range colors?
+
+> In other words, it tests color model conversion, not format conversion.
+
+No, you are testing color encoding, format and model conversions, all at
+once.
+
+Maxime
+
+--jan25b3eajgltkcf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7WvSwAKCRAnX84Zoj2+
+dhuDAYClIAO0bpcjHI1iM+6c+DpGhBNvLscdYkVpYka0U82yzXOLML70cSucGM4d
+VNJ2UpMBf3Rp3k6AJuW7ohwf9o2xAwnQKdrq87QXM+c9VBFfKHW4CIEzXibCURT/
+Rp2Stt/42A==
+=GI86
+-----END PGP SIGNATURE-----
+
+--jan25b3eajgltkcf--
