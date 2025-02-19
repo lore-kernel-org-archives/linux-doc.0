@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC331DC04A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB9C1DBB3A;
 	Wed, 19 Feb 2025 08:32:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739953972; cv=none; b=G+/Lpz9eMqXNCd9f49o6nXBDcLm67Q8Rs2Kon2hPhVE73kk7hHOUNMkf4WvoT6Il0a9PfI69nleDpNNfQRAYZVbJRrbt0Q9bg05YsNv2cYHip/zydNl+R2f0Sx7vBMyS0jtVVDRerqTJAQ51JQAid98IoEKbTxmCtDc9K43a4jU=
+	t=1739953972; cv=none; b=eRBtuhJFFxiravDheqt4fOQWAknJi8gPP0YmnaQqjwn6c9n02bagVhFKEj06gcvMFr606lNWjwPQjK4fO5s3TvU1PEyt/bSEtj3ZimywJ5AF6DOnQBLweUoxDq/Dn/FcmeNfa0MmIfvxz8JJoDIlXi8//vvxWsDu9Oq1K802+VU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739953972; c=relaxed/simple;
-	bh=2+Yr/2kIpnCitwTGtyjeQMnDH8wv+vGuRcW8RKqXkZ0=;
+	bh=06ZoIn6KWo8lW7Vli577BGyd08sXznBzolIIOLad8Zg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GLUlkreF4SexHslc9qLyWjvh6cNaJJajrHWV5jngFxmOZV3V7swgHOWCj9lwVgwRw8Xb41p8Nhzeyrk2CsRN2cxkxxEGSHCm7ZV8ZF3hpnWJaJcpsouz2pdf7G2RyKNNSV2cCQTX7SiMT4gMjfNWWZDwL7ptStmD9gZCu4MpnJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JAv9YyDT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=SFgLu3zmqMowMKsyhKYqNvKJ9msQvKoz94jvQgv+969Wd80Qm+OM7cClmkllAI6vDEJPEIwE4Nh6z/NAVC7TUZMmUJyYkNMDaZ1W7kzw/Ead9TgWHLZ/ptBUrqo+F3KktgJk7Bw7kXwmMhF5R/sMOYsr6PuK7DqgZhrxYJ9p/xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZfzoMqXz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JAv9YyDT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D8D1C4CEFD;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZfzoMqXz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53572C116C6;
 	Wed, 19 Feb 2025 08:32:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1739953972;
-	bh=2+Yr/2kIpnCitwTGtyjeQMnDH8wv+vGuRcW8RKqXkZ0=;
+	bh=06ZoIn6KWo8lW7Vli577BGyd08sXznBzolIIOLad8Zg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JAv9YyDTuiprHRGNMZ1qjSEkGj5oa4aBfrz++fFKJtI/ZIdmEmWythQGKFXJXdmGk
-	 FgZn2VLwTTpIV4cc9f2zHjBQhctoYGHldwnhrM5AMO9u7qiXCTCTtGxBy7/bFIUYNv
-	 qyB//s3GynHuz7+lB4oTJnvAi8JRAZdthit9ARfSGranTS2hEPSaS2AtTOqBMoCaa8
-	 hjkQn87O9EuTexMMa88OYIXlhP4dSicmx52SUag2UuNvitVu+fX7vVewcd3djyS9KX
-	 misqQe3v7ne663QT6uCDeSNtLdUjbjLMsrwIWzcysynzOyJwYlcPguV7xxO0Gvwhzd
-	 PMwhQw88NODKw==
+	b=ZfzoMqXzWl5RMPzeRGbajkpt71oeiDO5OEu1VnuHsUzSvmL5vhYio77WO4tQY7Stj
+	 5ib1HFdR4eCTHtiqOXgMxeSzu+uFD7x821JJFerpqTbp0NVM3XWr7+Dd2of30ZWcrW
+	 Ns0rx2DgKajr/P1IrIpi+Psr0+iN7wNoTpRqJb3fTlSn+olKW1rmwM3J+FqHGFGeKn
+	 LbmSI97Tb5BPwNxXUua4k87Qrb9GvNU1PpENIefiFoH/XDk/Bu9c9WFugGZ2Wemuy6
+	 rEatxO6tij93gD1JLFGJLMZO+3T1j8U/+Z4KN94fsB2k9cu0zofdYoPM+Y8kfRGxK1
+	 u0OWdj9Dc/JJg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tkfVi-0000000Gv5F-1PUT;
+	id 1tkfVi-0000000Gv5Z-1yYk;
 	Wed, 19 Feb 2025 09:32:50 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,9 +36,9 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 15/27] scripts/kernel-doc.py: move KernelFiles class to a separate file
-Date: Wed, 19 Feb 2025 09:32:31 +0100
-Message-ID: <f2e97492fcf32247a8ebe72b90f776d57248f63a.1739952783.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 20/27] scripts/kernel-doc.py: fix line number output
+Date: Wed, 19 Feb 2025 09:32:36 +0100
+Message-ID: <eba44ab196fe7934f124b44af533d8429d3436cf.1739952783.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1739952783.git.mchehab+huawei@kernel.org>
 References: <cover.1739952783.git.mchehab+huawei@kernel.org>
@@ -51,533 +51,186 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The KernelFiles class is the main dispatcher which parses each
-source file.
+With the Pyhton version, the actual output happens after parsing,
+from records stored at self.entries.
 
-In preparation for letting kerneldoc Sphinx extension to import
-Python libraries, move regex ancillary classes to a separate
-file.
+Ensure that line numbers will be properly stored there and
+that they'll produce the desired results at the ReST output.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc.py          | 220 +--------------------------
- scripts/lib/kdoc/kdoc_files.py | 269 +++++++++++++++++++++++++++++++++
- 2 files changed, 270 insertions(+), 219 deletions(-)
- create mode 100755 scripts/lib/kdoc/kdoc_files.py
+ scripts/lib/kdoc/kdoc_output.py | 13 +++++++------
+ scripts/lib/kdoc/kdoc_parser.py | 21 +++++++++++++++++----
+ 2 files changed, 24 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index 193a30fcfb7c..cd79b2c1b746 100755
---- a/scripts/kernel-doc.py
-+++ b/scripts/kernel-doc.py
-@@ -44,6 +44,7 @@ sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
+diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
+index 8729dc58e13c..b9b39bc29463 100755
+--- a/scripts/lib/kdoc/kdoc_output.py
++++ b/scripts/lib/kdoc/kdoc_output.py
+@@ -254,7 +254,8 @@ class RestFormat(OutputFormat):
+     def print_lineno(self, ln):
+         """Outputs a line number"""
  
- from kdoc_parser import KernelDoc, type_param
- from kdoc_re import Re
-+from kdoc_files import KernelFiles
+-        if self.enable_lineno and ln:
++        if self.enable_lineno and ln is not None:
++            ln += 1
+             self.data += f".. LINENO {ln}\n"
  
- function_pointer = Re(r"([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)", cache=False)
+     def output_highlight(self, args):
+@@ -357,7 +358,7 @@ class RestFormat(OutputFormat):
+         parameterdescs = args.get('parameterdescs', {})
+         parameterdesc_start_lines = args.get('parameterdesc_start_lines', {})
  
-@@ -68,225 +69,6 @@ type_member = Re(r"\&([_\w]+)(\.|->)([_\w]+)", cache=False)
- type_fallback = Re(r"\&([_\w]+)", cache=False)
- type_member_func = type_member + Re(r"\(\)", cache=False)
+-        ln = args.get('ln', 0)
++        ln = args.get('declaration_start_line', 0)
  
--class GlobSourceFiles:
--    """
--    Parse C source code file names and directories via an Interactor.
--
--    """
--
--    def __init__(self, srctree=None, valid_extensions=None):
--        """
--        Initialize valid extensions with a tuple.
--
--        If not defined, assume default C extensions (.c and .h)
--
--        It would be possible to use python's glob function, but it is
--        very slow, and it is not interactive. So, it would wait to read all
--        directories before actually do something.
--
--        So, let's use our own implementation.
--        """
--
--        if not valid_extensions:
--            self.extensions = (".c", ".h")
--        else:
--            self.extensions = valid_extensions
--
--        self.srctree = srctree
--
--    def _parse_dir(self, dirname):
--        """Internal function to parse files recursively"""
--
--        with os.scandir(dirname) as obj:
--            for entry in obj:
--                name = os.path.join(dirname, entry.name)
--
--                if entry.is_dir():
--                    yield from self._parse_dir(name)
--
--                if not entry.is_file():
--                    continue
--
--                basename = os.path.basename(name)
--
--                if not basename.endswith(self.extensions):
--                    continue
--
--                yield name
--
--    def parse_files(self, file_list, file_not_found_cb):
--        for fname in file_list:
--            if self.srctree:
--                f = os.path.join(self.srctree, fname)
--            else:
--                f = fname
--
--            if os.path.isdir(f):
--                yield from self._parse_dir(f)
--            elif os.path.isfile(f):
--                yield f
--            elif file_not_found_cb:
--                file_not_found_cb(fname)
--
--
--class KernelFiles():
--
--    def parse_file(self, fname):
--
--        doc = KernelDoc(self.config, fname)
--        doc.run()
--
--        return doc
--
--    def process_export_file(self, fname):
--        try:
--            with open(fname, "r", encoding="utf8",
--                      errors="backslashreplace") as fp:
--                for line in fp:
--                    KernelDoc.process_export(self.config.function_table, line)
--
--        except IOError:
--            print(f"Error: Cannot open fname {fname}", fname=sys.stderr)
--            self.config.errors += 1
--
--    def file_not_found_cb(self, fname):
--        self.config.log.error("Cannot find file %s", fname)
--        self.config.errors += 1
--
--    def __init__(self, files=None, verbose=False, out_style=None,
--                 werror=False, wreturn=False, wshort_desc=False,
--                 wcontents_before_sections=False,
--                 logger=None, modulename=None, export_file=None):
--        """Initialize startup variables and parse all files"""
--
--
--        if not verbose:
--            verbose = bool(os.environ.get("KBUILD_VERBOSE", 0))
--
--        if not modulename:
--            modulename = "Kernel API"
--
--        dt = datetime.now()
--        if os.environ.get("KBUILD_BUILD_TIMESTAMP", None):
--            # use UTC TZ
--            to_zone = tz.gettz('UTC')
--            dt = dt.astimezone(to_zone)
--
--        if not werror:
--            kcflags = os.environ.get("KCFLAGS", None)
--            if kcflags:
--                match = re.search(r"(\s|^)-Werror(\s|$)/", kcflags)
--                if match:
--                    werror = True
--
--            # reading this variable is for backwards compat just in case
--            # someone was calling it with the variable from outside the
--            # kernel's build system
--            kdoc_werror = os.environ.get("KDOC_WERROR", None)
--            if kdoc_werror:
--                werror = kdoc_werror
--
--        # Set global config data used on all files
--        self.config = argparse.Namespace
--
--        self.config.verbose = verbose
--        self.config.werror = werror
--        self.config.wreturn = wreturn
--        self.config.wshort_desc = wshort_desc
--        self.config.wcontents_before_sections = wcontents_before_sections
--        self.config.modulename = modulename
--
--        self.config.function_table = set()
--        self.config.source_map = {}
--
--        if not logger:
--            self.config.log = logging.getLogger("kernel-doc")
--        else:
--            self.config.log = logger
--
--        self.config.kernel_version = os.environ.get("KERNELVERSION",
--                                                    "unknown kernel version'")
--        self.config.src_tree = os.environ.get("SRCTREE", None)
--
--        self.out_style = out_style
--        self.export_file = export_file
--
--        # Initialize internal variables
--
--        self.config.errors = 0
--        self.results = []
--
--        self.file_list = files
--        self.files = set()
--
--    def parse(self):
--        """
--        Parse all files
--        """
--
--        glob = GlobSourceFiles(srctree=self.config.src_tree)
--
--        # Let's use a set here to avoid duplicating files
--
--        for fname in glob.parse_files(self.file_list, self.file_not_found_cb):
--            if fname in self.files:
--                continue
--
--            self.files.add(fname)
--
--            res = self.parse_file(fname)
--            self.results.append((res.fname, res.entries))
--
--        if not self.files:
--            sys.exit(1)
--
--        # If a list of export files was provided, parse EXPORT_SYMBOL*
--        # from the ones not already parsed
--
--        if self.export_file:
--            files = self.files
--
--            glob = GlobSourceFiles(srctree=self.config.src_tree)
--
--            for fname in glob.parse_files(self.export_file,
--                                          self.file_not_found_cb):
--                if fname not in files:
--                    files.add(fname)
--
--                    self.process_export_file(fname)
--
--    def out_msg(self, fname, name, arg):
--        # TODO: filter out unwanted parts
--
--        return self.out_style.msg(fname, name, arg)
--
--    def msg(self, enable_lineno=False, export=False, internal=False,
--            symbol=None, nosymbol=None):
--
--        function_table = self.config.function_table
--
--        if symbol:
--            for s in symbol:
--                function_table.add(s)
--
--        # Output none mode: only warnings will be shown
--        if not self.out_style:
--            return
--
--        self.out_style.set_config(self.config)
--
--        self.out_style.set_filter(export, internal, symbol, nosymbol,
--                                  function_table, enable_lineno)
--
--        for fname, arg_tuple in self.results:
--            for name, arg in arg_tuple:
--                if self.out_msg(fname, name, arg):
--                    ln = arg.get("ln", 0)
--                    dtype = arg.get('type', "")
--
--                    self.config.log.warning("%s:%d Can't handle %s",
--                                            fname, ln, dtype)
--
+         count = 0
+         for parameter in parameterlist:
+@@ -374,11 +375,11 @@ class RestFormat(OutputFormat):
+         if not func_macro:
+             signature += ")"
  
- class OutputFormat:
-     # output mode.
-diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
-new file mode 100755
-index 000000000000..76dd53611c08
---- /dev/null
-+++ b/scripts/lib/kdoc/kdoc_files.py
-@@ -0,0 +1,269 @@
-+#!/usr/bin/env python3
-+# pylint: disable=R0903,R0913,R0914,R0917
-+# Copyright(c) 2025: Mauro Carvalho Chehab <mchehab@kernel.org>.
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# TODO: implement warning filtering
-+
-+"""
-+Parse lernel-doc tags on multiple kernel source files.
-+"""
-+
-+import argparse
-+import logging
-+import os
-+import re
-+import sys
-+from datetime import datetime
-+
-+from dateutil import tz
-+
-+from kdoc_parser import KernelDoc
-+
-+
-+class GlobSourceFiles:
-+    """
-+    Parse C source code file names and directories via an Interactor.
-+    """
-+
-+    def __init__(self, srctree=None, valid_extensions=None):
-+        """
-+        Initialize valid extensions with a tuple.
-+
-+        If not defined, assume default C extensions (.c and .h)
-+
-+        It would be possible to use python's glob function, but it is
-+        very slow, and it is not interactive. So, it would wait to read all
-+        directories before actually do something.
-+
-+        So, let's use our own implementation.
-+        """
-+
-+        if not valid_extensions:
-+            self.extensions = (".c", ".h")
-+        else:
-+            self.extensions = valid_extensions
-+
-+        self.srctree = srctree
-+
-+    def _parse_dir(self, dirname):
-+        """Internal function to parse files recursively"""
-+
-+        with os.scandir(dirname) as obj:
-+            for entry in obj:
-+                name = os.path.join(dirname, entry.name)
-+
-+                if entry.is_dir():
-+                    yield from self._parse_dir(name)
-+
-+                if not entry.is_file():
-+                    continue
-+
-+                basename = os.path.basename(name)
-+
-+                if not basename.endswith(self.extensions):
-+                    continue
-+
-+                yield name
-+
-+    def parse_files(self, file_list, file_not_found_cb):
-+        """
-+        Define an interator to parse all source files from file_list,
-+        handling directories if any
-+        """
-+
-+        for fname in file_list:
-+            if self.srctree:
-+                f = os.path.join(self.srctree, fname)
-+            else:
-+                f = fname
-+
-+            if os.path.isdir(f):
-+                yield from self._parse_dir(f)
-+            elif os.path.isfile(f):
-+                yield f
-+            elif file_not_found_cb:
-+                file_not_found_cb(fname)
-+
-+
-+class KernelFiles():
-+    """
-+    Parse lernel-doc tags on multiple kernel source files.
-+    """
-+
-+    def parse_file(self, fname):
-+        """
-+        Parse a single Kernel source.
-+        """
-+
-+        doc = KernelDoc(self.config, fname)
-+        doc.run()
-+
-+        return doc
-+
-+    def process_export_file(self, fname):
-+        """
-+        Parses EXPORT_SYMBOL* macros from a single Kernel source file.
-+        """
-+        try:
-+            with open(fname, "r", encoding="utf8",
-+                      errors="backslashreplace") as fp:
-+                for line in fp:
-+                    KernelDoc.process_export(self.config.function_table, line)
-+
-+        except IOError:
-+            print(f"Error: Cannot open fname {fname}", fname=sys.stderr)
-+            self.config.errors += 1
-+
-+    def file_not_found_cb(self, fname):
-+        """
-+        Callback to warn if a file was not found.
-+        """
-+
-+        self.config.log.error("Cannot find file %s", fname)
-+        self.config.errors += 1
-+
-+    def __init__(self, files=None, verbose=False, out_style=None,
-+                 werror=False, wreturn=False, wshort_desc=False,
-+                 wcontents_before_sections=False,
-+                 logger=None, modulename=None, export_file=None):
-+        """
-+        Initialize startup variables and parse all files
-+        """
-+
-+        if not verbose:
-+            verbose = bool(os.environ.get("KBUILD_VERBOSE", 0))
-+
-+        if not modulename:
-+            modulename = "Kernel API"
-+
-+        dt = datetime.now()
-+        if os.environ.get("KBUILD_BUILD_TIMESTAMP", None):
-+            # use UTC TZ
-+            to_zone = tz.gettz('UTC')
-+            dt = dt.astimezone(to_zone)
-+
-+        if not werror:
-+            kcflags = os.environ.get("KCFLAGS", None)
-+            if kcflags:
-+                match = re.search(r"(\s|^)-Werror(\s|$)/", kcflags)
-+                if match:
-+                    werror = True
-+
-+            # reading this variable is for backwards compat just in case
-+            # someone was calling it with the variable from outside the
-+            # kernel's build system
-+            kdoc_werror = os.environ.get("KDOC_WERROR", None)
-+            if kdoc_werror:
-+                werror = kdoc_werror
-+
-+        # Set global config data used on all files
-+        self.config = argparse.Namespace
-+
-+        self.config.verbose = verbose
-+        self.config.werror = werror
-+        self.config.wreturn = wreturn
-+        self.config.wshort_desc = wshort_desc
-+        self.config.wcontents_before_sections = wcontents_before_sections
-+        self.config.modulename = modulename
-+
-+        self.config.function_table = set()
-+        self.config.source_map = {}
-+
-+        if not logger:
-+            self.config.log = logging.getLogger("kernel-doc")
-+        else:
-+            self.config.log = logger
-+
-+        self.config.kernel_version = os.environ.get("KERNELVERSION",
-+                                                    "unknown kernel version'")
-+        self.config.src_tree = os.environ.get("SRCTREE", None)
-+
-+        self.out_style = out_style
-+        self.export_file = export_file
-+
-+        # Initialize internal variables
-+
-+        self.config.errors = 0
-+        self.results = []
-+
-+        self.file_list = files
-+        self.files = set()
-+
-+    def parse(self):
-+        """
-+        Parse all files
-+        """
-+
-+        glob = GlobSourceFiles(srctree=self.config.src_tree)
-+
-+        # Let's use a set here to avoid duplicating files
-+
-+        for fname in glob.parse_files(self.file_list, self.file_not_found_cb):
-+            if fname in self.files:
-+                continue
-+
-+            self.files.add(fname)
-+
-+            res = self.parse_file(fname)
-+            self.results.append((res.fname, res.entries))
-+
-+        if not self.files:
-+            sys.exit(1)
-+
-+        # If a list of export files was provided, parse EXPORT_SYMBOL*
-+        # from the ones not already parsed
-+
-+        if self.export_file:
-+            files = self.files
-+
-+            glob = GlobSourceFiles(srctree=self.config.src_tree)
-+
-+            for fname in glob.parse_files(self.export_file,
-+                                          self.file_not_found_cb):
-+                if fname not in files:
-+                    files.add(fname)
-+
-+                    self.process_export_file(fname)
-+
-+    def out_msg(self, fname, name, arg):
-+        """
-+        Output messages from a file name using the output style filtering.
-+
-+        If output type was not handled by the syler, return False.
-+        """
-+
-+        # NOTE: we can add rules here to filter out unwanted parts,
-+        # although OutputFormat.msg already does that.
-+
-+        return self.out_style.msg(fname, name, arg)
-+
-+    def msg(self, enable_lineno=False, export=False, internal=False,
-+            symbol=None, nosymbol=None):
-+        """
-+        Interacts over the kernel-doc results and output messages.
-+        """
-+
-+        function_table = self.config.function_table
-+
-+        if symbol:
-+            for s in symbol:
-+                function_table.add(s)
-+
-+        # Output none mode: only warnings will be shown
-+        if not self.out_style:
-+            return
-+
-+        self.out_style.set_config(self.config)
-+
-+        self.out_style.set_filter(export, internal, symbol, nosymbol,
-+                                  function_table, enable_lineno)
-+
-+        for fname, arg_tuple in self.results:
-+            for name, arg in arg_tuple:
-+                if self.out_msg(fname, name, arg):
-+                    ln = arg.get("ln", 0)
-+                    dtype = arg.get('type', "")
-+
-+                    self.config.log.warning("%s:%d Can't handle %s",
-+                                            fname, ln, dtype)
++        self.print_lineno(ln)
+         if args.get('typedef') or not args.get('functiontype'):
+             self.data += f".. c:macro:: {args['function']}\n\n"
+ 
+             if args.get('typedef'):
+-                self.print_lineno(ln)
+                 self.data += "   **Typedef**: "
+                 self.lineprefix = ""
+                 self.output_highlight(args.get('purpose', ""))
+@@ -433,7 +434,7 @@ class RestFormat(OutputFormat):
+         name = args.get('enum', '')
+         parameterlist = args.get('parameterlist', [])
+         parameterdescs = args.get('parameterdescs', {})
+-        ln = args.get('ln', 0)
++        ln = args.get('declaration_start_line', 0)
+ 
+         self.data += f"\n\n.. c:enum:: {name}\n\n"
+ 
+@@ -463,7 +464,7 @@ class RestFormat(OutputFormat):
+ 
+         oldprefix = self.lineprefix
+         name = args.get('typedef', '')
+-        ln = args.get('ln', 0)
++        ln = args.get('declaration_start_line', 0)
+ 
+         self.data += f"\n\n.. c:type:: {name}\n\n"
+ 
+@@ -483,7 +484,7 @@ class RestFormat(OutputFormat):
+         purpose = args.get('purpose', "")
+         declaration = args.get('definition', "")
+         dtype = args.get('type', "struct")
+-        ln = args.get('ln', 0)
++        ln = args.get('declaration_start_line', 0)
+ 
+         parameterlist = args.get('parameterlist', [])
+         parameterdescs = args.get('parameterdescs', {})
+diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+index 6d6395e32093..633c95164b0c 100755
+--- a/scripts/lib/kdoc/kdoc_parser.py
++++ b/scripts/lib/kdoc/kdoc_parser.py
+@@ -275,7 +275,7 @@ class KernelDoc:
+         self.entry.brcount = 0
+ 
+         self.entry.in_doc_sect = False
+-        self.entry.declaration_start_line = ln
++        self.entry.declaration_start_line = ln + 1
+ 
+     def push_parameter(self, ln, decl_type, param, dtype,
+                        org_arg, declaration_name):
+@@ -805,8 +805,10 @@ class KernelDoc:
+                                 parameterlist=self.entry.parameterlist,
+                                 parameterdescs=self.entry.parameterdescs,
+                                 parametertypes=self.entry.parametertypes,
++                                parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
+                                 sectionlist=self.entry.sectionlist,
+                                 sections=self.entry.sections,
++                                section_start_lines=self.entry.section_start_lines,
+                                 purpose=self.entry.declaration_purpose)
+ 
+     def dump_enum(self, ln, proto):
+@@ -881,8 +883,10 @@ class KernelDoc:
+                                 module=self.config.modulename,
+                                 parameterlist=self.entry.parameterlist,
+                                 parameterdescs=self.entry.parameterdescs,
++                                parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
+                                 sectionlist=self.entry.sectionlist,
+                                 sections=self.entry.sections,
++                                section_start_lines=self.entry.section_start_lines,
+                                 purpose=self.entry.declaration_purpose)
+ 
+     def dump_declaration(self, ln, prototype):
+@@ -1053,8 +1057,10 @@ class KernelDoc:
+                                     parameterlist=self.entry.parameterlist,
+                                     parameterdescs=self.entry.parameterdescs,
+                                     parametertypes=self.entry.parametertypes,
++                                    parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
+                                     sectionlist=self.entry.sectionlist,
+                                     sections=self.entry.sections,
++                                    section_start_lines=self.entry.section_start_lines,
+                                     purpose=self.entry.declaration_purpose,
+                                     func_macro=func_macro)
+         else:
+@@ -1066,8 +1072,10 @@ class KernelDoc:
+                                     parameterlist=self.entry.parameterlist,
+                                     parameterdescs=self.entry.parameterdescs,
+                                     parametertypes=self.entry.parametertypes,
++                                    parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
+                                     sectionlist=self.entry.sectionlist,
+                                     sections=self.entry.sections,
++                                    section_start_lines=self.entry.section_start_lines,
+                                     purpose=self.entry.declaration_purpose,
+                                     func_macro=func_macro)
+ 
+@@ -1111,8 +1119,10 @@ class KernelDoc:
+                                     parameterlist=self.entry.parameterlist,
+                                     parameterdescs=self.entry.parameterdescs,
+                                     parametertypes=self.entry.parametertypes,
++                                    parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
+                                     sectionlist=self.entry.sectionlist,
+                                     sections=self.entry.sections,
++                                    section_start_lines=self.entry.section_start_lines,
+                                     purpose=self.entry.declaration_purpose)
+             return
+ 
+@@ -1135,6 +1145,7 @@ class KernelDoc:
+                                     module=self.entry.modulename,
+                                     sectionlist=self.entry.sectionlist,
+                                     sections=self.entry.sections,
++                                    section_start_lines=self.entry.section_start_lines,
+                                     purpose=self.entry.declaration_purpose)
+             return
+ 
+@@ -1167,7 +1178,7 @@ class KernelDoc:
+             return
+ 
+         # start a new entry
+-        self.reset_state(ln + 1)
++        self.reset_state(ln)
+         self.entry.in_doc_sect = False
+ 
+         # next line is always the function name
+@@ -1280,7 +1291,7 @@ class KernelDoc:
+             if r.match(line):
+                 self.dump_section()
+                 self.entry.section = self.section_default
+-                self.entry.new_start_line = line
++                self.entry.new_start_line = ln
+                 self.entry.contents = ""
+ 
+         if doc_sect.search(line):
+@@ -1618,7 +1629,9 @@ class KernelDoc:
+             self.dump_section()
+             self.output_declaration("doc", None,
+                                     sectionlist=self.entry.sectionlist,
+-                                    sections=self.entry.sections, module=self.config.modulename)
++                                    sections=self.entry.sections,
++                                    section_start_lines=self.entry.section_start_lines,
++                                    module=self.config.modulename)
+             self.reset_state(ln)
+ 
+         elif doc_content.search(line):
 -- 
 2.48.1
 
