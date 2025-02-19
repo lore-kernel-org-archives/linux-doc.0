@@ -1,119 +1,185 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F6E1DE4FA;
-	Wed, 19 Feb 2025 15:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719C615533F
+	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 15:17:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739977822; cv=none; b=OgD4LJswco+BqfLiKITkjPZm4RcxBLytIcPYhuNe06V7ZIF2wb7G1MNKSCeonTG2UYAXIBs81wpZTggdHeYrMV4Cjw4r7488GXmBy+DWxTpN3fR9bB48WbOEFn6S7vNYLUUTkcZL4aiq4qT0WUnijSlgxvCMtR2korp0VkTsV88=
+	t=1739978260; cv=none; b=vE2UTOW9hUV/IZoNdW8O3j/8+jZ1t3BNzL4STNYEcrJDmn23aVf5cA12lGFk08cG4MvjZN8+ucy8uIKow8nnw2jVW638eMVVbU/onpWECNeEXzQ4xUNvPf+to245saD/8uzPSUR/cKZNbuQPIhGjyOeG6Ci7dWreunjPLWu7bfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739977822; c=relaxed/simple;
-	bh=Ku/iOh1I+JqIUUJzjGlO83eI66BgPyPPrV2ZatQegEg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kWE/luIvPZqHjXkGjNQvkrqTjYLiQc858WkAyJt1UX69/W8FN5cHQFGp0jDYZQRRJ3jUiermjhVutKXsUrAXHtMbiNvsDVTEdbake36m+Z+FzaIrVey28uBpTz3ES8YlWr7/Un/5nRnmB/M+4Boh1qQ+lMWb4qK7nqtCYvwzNm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XFtf5HMB; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739978260; c=relaxed/simple;
+	bh=WdGj3mg26niazdgEpCLUBe5M4rDcTiqLPV6+jLJxCFM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=q83XpFuPvtjmNlLYHkQRLnO/p0oDx7UzpygagOATpR5cjwZlB9NBXnNjZ6ptI28ap/udWH7bYo8V6e70RVeqf82KY3hJXOvzAXL25LUwShivDGJww6Z4FQisKV0f/j2w+Tsva1Z3rPYwrB7DJJBcDXkQb8PwazPP6RvSOL3ROmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XRvSHVDE; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XFtf5HMB"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c0b0ca6742so175782985a.0;
-        Wed, 19 Feb 2025 07:10:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XRvSHVDE"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-22114b800f0so117363195ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 07:17:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739977820; x=1740582620; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HgXm744upb0XmzQ9hD81TZHuxXyYA2m+MVyAuNGPvsQ=;
-        b=XFtf5HMBHy3xvVbjodAxO+FBMwTi3TQ/1fnBcODEW/LWC/EIEMvopCsk1D+yjJ+r0Y
-         hUHYaFmQblam6O40cnUVSWlxvbtK9P5wtzzS7CTC7wObOE6thco2dBFGdTdHE1Rlyc6s
-         7QhKwiPlQ82ONQY3Xyt96q790WN/4gaw4q9/lTzrinOWYk8+w+iFDSWOMxYtrwNNwTFP
-         W5VzbMWy9TyXvgS5j8eVKPs/Vu0gVOHyoTuPUaX+913/hWYbBnV7NvsdoRwc4pPvLwjN
-         Xjkstepz3VkiBuUr9G84cWr67RBIueQmpOMxZmV/xjkbfxDsK3N7RRcBo8YFLOaPjL3n
-         OOqQ==
+        d=google.com; s=20230601; t=1739978258; x=1740583058; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lr0FQ+nYVzOkkkQbsOIsH4v20fYzY6BEtN0DQJbkPgo=;
+        b=XRvSHVDEdz5XsuTDNMtGI0NP01Ti8dc3XPgsiwmHhIKEXQI70rixKHjXXZjCE+P8EY
+         RGD2TZPoT6KHufpkILd2BRI8A/8iXbHhNi/exh7Y1Q/fXuTHE8r0cnEejYmg5Yz/llSc
+         wkns5oqZetP5TScABKi3w2kCCpsQq6pYjC0l4tfj7Oun7VM5n+RzhUq9SgHzZRlAdtlk
+         TqLBIZ3HxP9jTK9TU2z8/8qh7ckfSnt/ouXClq4eySgjgsJQ37ZM/eDpqBNzFTOYaVrO
+         Qz95FF9dmtaSs1uq1dW/r/ONBcecGIvaTdzJPAsshGCK7eUvZPklBHR5KIPvBSGFvedi
+         E6qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739977820; x=1740582620;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HgXm744upb0XmzQ9hD81TZHuxXyYA2m+MVyAuNGPvsQ=;
-        b=lY/AKie6TQdeIZR7CGoh2W7a+mcpmSQo6HmLpUfj4evwsadh78pYWyllpXKvo4930D
-         SJinCepvCvcgy+7vmU/CWuLJuhwxCeSJNQALWVeHTwlnVBsbRHjvHV7PBz1GGewk2Yf7
-         bamgF5mfeCfcehMmjaR11kM3Tw/WujYmMFcQwdcXPDPM8k7w3Ox77gTD+RQWzcnx+T3p
-         uskGdrEy7BE29XH/PHheNGXllCVkL1HwQWrp5Wf17gx+0NlkZUpnHBNF1GvRKBathWJn
-         zvbAMW6TFQLZh/xOwkGgW7C1Q6zOnKeLgToEzxv+cIgpufnnYJTkaYbXwB1GLPMcg6E0
-         rLKg==
-X-Forwarded-Encrypted: i=1; AJvYcCVT+z3ZlDC+UnJzO7TH0ikETajRsb65W8isLbVt8PgVr4hP7TQxMhBBO7WM3989q8GBY3HvQAUz6e4=@vger.kernel.org, AJvYcCXkBiVgQZmgefBkj1tHjj5G3KvGl2H8QYg/L1kXnNoybYdE3da/aIt52P6IpT7ArXgrS/rVVo2VKiQxMMtl@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMb9y/E0u9ABFhXqfqwdOBKKXlbf9AsXENDSq16Zop7IUnHm9M
-	dJyroEEEgLPG6WHvVsBl0gzs6Ay3RMeNDHGFPLdHxjZp5ilt90w9
-X-Gm-Gg: ASbGncuRHZpNZxY02kS6144PHVjzNKnyhTke54Nq0Ho3UHGiNfON0mQJrVdLtOZiwZH
-	QgKzvGvnq/XUYCnN67Y3bjXaOP+3VLaD24Mu8sVQlupSik4DLanuC1jUWIrEK8a2UvWqp+SIOqr
-	4ioMEeq+p4FZitZBUxvyGphJXFY8veoZfnn06s6Rgo99Lr5klgdB6TsT6CsnQVa9fHgdup8cmAd
-	2XNlMH5S0ImbP2E0L8i46GCtggSVJBhOS5MGA+j+uefefRglcAuxNtBPwr1hZVV9ZN1XtmRnySS
-	IghsD+vOROz81v2O5rjRkC4j6OOMspKHpK7/6YFUDu6EPWqFvnOniRWxsw098zmVUDcxsQ1DlmL
-	zG9X/JEdQ8jowKDZfcDg+ZRUzJ9Y9KRB+IzI=
-X-Google-Smtp-Source: AGHT+IHEV1pVpKuhM+GFSWTF+zPnmfVbsqQvuz95PcOyRuSEElPJ2CFcOfM4zOh9HqcXIy3nsuYPqA==
-X-Received: by 2002:a05:620a:454d:b0:7c0:7a0b:3727 with SMTP id af79cd13be357-7c0b521e597mr563994685a.16.1739977820342;
-        Wed, 19 Feb 2025 07:10:20 -0800 (PST)
-Received: from SystemsProgramming.mynetworksettings.com (pool-100-1-71-214.nwrknj.fios.verizon.net. [100.1.71.214])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c0ac61574bsm223982585a.112.2025.02.19.07.10.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 07:10:19 -0800 (PST)
-From: Brian Ochoa <brianeochoa@gmail.com>
-To: tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	corbet@lwn.net,
-	x86@kernel.org
-Cc: Brian Ochoa <brianeochoa@gmail.com>,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] docs: arch/x86/sva: Fix two grammar errors under Background and FAQ
-Date: Wed, 19 Feb 2025 10:09:20 -0500
-Message-Id: <20250219150920.445802-1-brianeochoa@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1739978258; x=1740583058;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lr0FQ+nYVzOkkkQbsOIsH4v20fYzY6BEtN0DQJbkPgo=;
+        b=W3qZKgU8qcQqnkDwsleQPxasKPt03G0yZVoR2fib/Tr/m8oDPeQHFyIuF39tdq3hcA
+         DmO95TG6Noty6Km/074dbYTdMs+g+SqNyn7obfHcVpMqrUzc5/T6Gc/hj0FS9Uq7jG6W
+         Yhwqg+5OgInqZavLRq0158sODq0NRrqA+ytNZDLZwbklSNaHKd+YznP++HprfMtCMf8f
+         N9V2RwXNXOWDGDl6A0G25go8lNwvU+p9stvFSky0t2Ic0EC7xH+OdmWPbl64Q6otPXtG
+         JLW6NorfIDC7+SjdJ/RK+MomN2UBn6WZjLfOnj8XHuniE7kteGpY0r2Gv1sMDzlQQRJ7
+         Al+g==
+X-Forwarded-Encrypted: i=1; AJvYcCWVmkRLNA75fuNYnEk339xcS7Pm7fsswV/KPoPX59VaamPXXX98dG5zxZxOWVquE41Oa1QoF1+l3RY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhlMYTb3MI8ecKCj6HHPQaoGkrZs4L34VH08UxfroH3vd8HJgN
+	NjUGBn8OKfNzO3zEdZpP6TkqIOKMXmUClYJQR6qVVrzVMvEqiQV+4zQt94f7luhS+0Og9aAf9AU
+	24w==
+X-Google-Smtp-Source: AGHT+IFm8swAf6amSZphHdCPuf7jq3DdJqtSa9LycPSODogg0yG2aBnIIzAy7tiqpzumfMEInPxKCrl9oII=
+X-Received: from pfbcw22.prod.google.com ([2002:a05:6a00:4516:b0:731:9461:420e])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:d807:b0:1ee:6a20:1778
+ with SMTP id adf61e73a8af0-1ee8cb85299mr28927616637.20.1739978257735; Wed, 19
+ Feb 2025 07:17:37 -0800 (PST)
+Date: Wed, 19 Feb 2025 07:17:36 -0800
+In-Reply-To: <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20241118123948.4796-1-kalyazin@amazon.com> <Z6u-WdbiW3n7iTjp@google.com>
+ <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com>
+Message-ID: <Z7X2EKzgp_iN190P@google.com>
+Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
+From: Sean Christopherson <seanjc@google.com>
+To: Nikita Kalyazin <kalyazin@amazon.com>
+Cc: pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, jthoughton@google.com, david@redhat.com, 
+	peterx@redhat.com, oleg@redhat.com, vkuznets@redhat.com, gshan@redhat.com, 
+	graf@amazon.de, jgowans@amazon.com, roypat@amazon.co.uk, derekmn@amazon.com, 
+	nsaenz@amazon.es, xmarcalx@amazon.com
+Content-Type: text/plain; charset="us-ascii"
 
-- Correct "in order" to "in order to"
-- Append missing quantifier
+On Wed, Feb 12, 2025, Nikita Kalyazin wrote:
+> On 11/02/2025 21:17, Sean Christopherson wrote:
+> > On Mon, Nov 18, 2024, Nikita Kalyazin wrote:
+> > And it's not just the code itself, it's all the structures and concepts.  Off the
+> > top of my head, I can't think of any reason there needs to be a separate queue,
+> > separate lock(s), etc.  The only difference between kernel APF and user APF is
+> > what chunk of code is responsible for faulting in the page.
+> 
+> There are two queues involved:
+>  - "queue": stores in-flight faults. APF-kernel uses it to cancel all works
+> if needed.  APF-user does not have a way to "cancel" userspace works, but it
+> uses the queue to look up the struct by the token when userspace reports a
+> completion.
+>  - "ready": stores completed faults until KVM finds a chance to tell guest
+> about them.
+> 
+> I agree that the "ready" queue can be shared between APF-kernel and -user as
+> it's used in the same way.  As for the "queue" queue, do you think it's ok
+> to process its elements differently based on the "type" of them in a single
+> loop [1] instead of having two separate queues?
 
-Signed-off-by: Brian Ochoa <brianeochoa@gmail.com>
----
-Changes since v1:
-Reworded commit message
+Yes.
 
- Documentation/arch/x86/sva.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> [1] https://elixir.bootlin.com/linux/v6.13.2/source/virt/kvm/async_pf.c#L120
+> 
+> > I suspect a good place to start would be something along the lines of the below
+> > diff, and go from there.  Given that KVM already needs to special case the fake
+> > "wake all" items, I'm guessing it won't be terribly difficult to teach the core
+> > flows about userspace async #PF.
+> 
+> That sounds sensible.  I can certainly approach it in a "bottom up" way by
+> sparingly adding handling where it's different in APF-user rather than
+> adding it side by side and trying to merge common parts.
+> 
+> > I'm also not sure that injecting async #PF for all userfaults is desirable.  For
+> > in-kernel async #PF, KVM knows that faulting in the memory would sleep.  For
+> > userfaults, KVM has no way of knowing if the userfault will sleep, i.e. should
+> > be handled via async #PF.  The obvious answer is to have userspace only enable
+> > userspace async #PF when it's useful, but "an all or nothing" approach isn't
+> > great uAPI.  On the flip side, adding uAPI for a use case that doesn't exist
+> > doesn't make sense either :-/
+> 
+> I wasn't able to locate the code that would check whether faulting would
+> sleep in APF-kernel.  KVM spins APF-kernel whenever it can ([2]). Please let
+> me know if I'm missing something here.
 
-diff --git a/Documentation/arch/x86/sva.rst b/Documentation/arch/x86/sva.rst
-index 33cb05005982..6a759984d471 100644
---- a/Documentation/arch/x86/sva.rst
-+++ b/Documentation/arch/x86/sva.rst
-@@ -25,7 +25,7 @@ to cache translations for virtual addresses. The IOMMU driver uses the
- mmu_notifier() support to keep the device TLB cache and the CPU cache in
- sync. When an ATS lookup fails for a virtual address, the device should
- use the PRI in order to request the virtual address to be paged into the
--CPU page tables. The device must use ATS again in order the fetch the
-+CPU page tables. The device must use ATS again in order to fetch the
- translation before use.
- 
- Shared Hardware Workqueues
-@@ -216,7 +216,7 @@ submitting work and processing completions.
- 
- Single Root I/O Virtualization (SR-IOV) focuses on providing independent
- hardware interfaces for virtualizing hardware. Hence, it's required to be
--almost fully functional interface to software supporting the traditional
-+an almost fully functional interface to software supporting the traditional
- BARs, space for interrupts via MSI-X, its own register layout.
- Virtual Functions (VFs) are assisted by the Physical Function (PF)
- driver.
--- 
-2.34.1
+kvm_can_do_async_pf() will be reached if and only if faulting in the memory
+requires waiting.  If a page is swapped out, but faulting it back in doesn't
+require waiting, e.g. because it's in zswap and can be uncompressed synchronously,
+then the initial __kvm_faultin_pfn() with FOLL_NO_WAIT will succeed.
 
+	/*
+	 * If resolving the page failed because I/O is needed to fault-in the
+	 * page, then either set up an asynchronous #PF to do the I/O, or if
+	 * doing an async #PF isn't possible, retry with I/O allowed.  All
+	 * other failures are terminal, i.e. retrying won't help.
+	 */
+	if (fault->pfn != KVM_PFN_ERR_NEEDS_IO)
+		return RET_PF_CONTINUE;
+
+	if (!fault->prefetch && kvm_can_do_async_pf(vcpu)) {
+		trace_kvm_try_async_get_page(fault->addr, fault->gfn);
+		if (kvm_find_async_pf_gfn(vcpu, fault->gfn)) {
+			trace_kvm_async_pf_repeated_fault(fault->addr, fault->gfn);
+			kvm_make_request(KVM_REQ_APF_HALT, vcpu);
+			return RET_PF_RETRY;
+		} else if (kvm_arch_setup_async_pf(vcpu, fault)) {
+			return RET_PF_RETRY;
+		}
+	}
+
+The conundrum with userspace async #PF is that if userspace is given only a single
+bit per gfn to force an exit, then KVM won't be able to differentiate between
+"faults" that will be handled synchronously by the vCPU task, and faults that
+usersepace will hand off to an I/O task.  If the fault is handled synchronously,
+KVM will needlessly inject a not-present #PF and a present IRQ.
+
+But that's a non-issue if the known use cases are all-or-nothing, i.e. if all
+userspace faults are either synchronous or asynchronous.
+
+> [2] https://elixir.bootlin.com/linux/v6.13.2/source/arch/x86/kvm/mmu/mmu.c#L4360
+> 
+> > Exiting to userspace in vCPU context is also kludgy.  It makes sense for base
+> > userfault, because the vCPU can't make forward progress until the fault is
+> > resolved.  Actually, I'm not even sure it makes sense there.  I'll follow-up in
+> 
+> Even though we exit to userspace, in case of APF-user, userspace is supposed
+> to VM enter straight after scheduling the async job, which is then executed
+> concurrently with the vCPU.
+> 
+> > James' series.  Anyways, it definitely doesn't make sense for async #PF, because
+> > the whole point is to let the vCPU run.  Signalling userspace would definitely
+> > add complexity, but only because of the need to communicate the token and wait
+> > for userspace to consume said token.  I'll think more on that.
+> 
+> By signalling userspace you mean a new non-exit-to-userspace mechanism
+> similar to UFFD?
+
+Yes.
+
+> What advantage can you see in it over exiting to userspace (which already exists
+> in James's series)?
+
+It doesn't exit to userspace :-)
+
+If userspace simply wakes a different task in response to the exit, then KVM
+should be able to wake said task, e.g. by signalling an eventfd, and resume the
+guest much faster than if the vCPU task needs to roundtrip to userspace.  Whether
+or not such an optimization is worth the complexity is an entirely different
+question though.
