@@ -1,178 +1,160 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937921DF980;
-	Wed, 19 Feb 2025 16:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A35D21FDE03;
+	Wed, 19 Feb 2025 16:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739980820; cv=none; b=aPYAZzuo50dn03OmS+PWvZblDGkpPfOhLfFh4l9+dEqHCeSGpXtLj5XcXD2+vrG5f1caHKd6P96HK9p/5xWgIjmYoVtBNCg6naW3T4tmgC+gxxfWvkz4Q8fgIj1Jsb1VI+1/aZeWaZ2OXjJzNoYkpwIWDEAurg0w/dLth5lpyHw=
+	t=1739981262; cv=none; b=FsE18DwfeFVBQSA3ke+/NWZg8D8DktoRXp/LdSYL/Z7seDya8qHzj7X21XtEU1fqqcUz3Y4JMJogr/mb+UhK9iZgo9X0ClI7PnHsaPCskqooejY2AKDvdvxbvvs5WLdN5kVcjUHHfZ8rzocYqYbf/72razpJq7ZHetZ6R4GCsVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739980820; c=relaxed/simple;
-	bh=86FKLdBrRSJU/fb0e9dIY3qBu2HykrBbgvF7eeAGAJs=;
+	s=arc-20240116; t=1739981262; c=relaxed/simple;
+	bh=g0PBpbCAAAIxLvLEUXjbW119WGVJf9Rzrw66OtCteLY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r/WYv/rIVmT785mwVxj7mkdT4gosdSAL3797FwYxSBsZ99eGtYfjwzCSNZLJla/wQReJwT50LHbB8mP00rcCz4V/eoq34szxMGnwJn382F72l2PMYnky4iGIUhcsMv29+i0pQv2S5CVAcP13d5fe0Qk9WEAYdIRD28mcne7Xdy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JwziLFg+; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JwziLFg+"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7be8f281714so695464185a.1;
-        Wed, 19 Feb 2025 08:00:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739980817; x=1740585617; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7xowfHEK7d7ldV64lQxLZTiso3cgJbh7FniDAgbQiTs=;
-        b=JwziLFg+ZBXh28sU+mOPXWVis+8oP1XuaKxVyFsmahlkDXQIgA2q7IvCyzZZ/PGMkn
-         /2tLcsP1m6BfgaurOQLV02t12AcU4XKrPnOcA+5i3eGmowg4UknIAcm8Tw+swHJpuRY6
-         SGV4GFfCqh5Lq1AWPZBEZCrZ1YcjmRkuogTGJAI+xUR1V3aqIjchgSRifaFopDhieMUD
-         a8HEjPNb9EpNJqQSIErEIhl7aagha6Y3xpahX5P3Fxhtil2rNBt8RV+yegb7L4xusgMe
-         v6TXB/cohZjC2WcLSfWVB04Snis+KPgbCqavWgRKtymOa9nCfxfsc9f9J4p8Hj3wZRjj
-         v9aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739980817; x=1740585617;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7xowfHEK7d7ldV64lQxLZTiso3cgJbh7FniDAgbQiTs=;
-        b=k5Ek80mqjKWqJQ3RhnSjYShSLlnoWQZs1j/3HNFMyOZp85yJeTQmWYNmUrTSMQ9qJG
-         p8UtT+4qpgQzp5ho0+2/NkG7CutQE8tNXJ2QoBk90gTToS2qm9IgHYHRbw1WIQs0ljU7
-         OOfZknTuSYP9rmTMMSlFZSV+Ne213Rd47bpOyys792YLecQqZmxdPiEpWxc9OpPnBP+/
-         uLOm1cG0hk1CJGjVlz23w0T12uxNqTMedkJRFjoQAxzA+o3Xq+soS1hFj0ASZDlBpcR6
-         Lez4T6RBbun+xp/0ojHVwxKkqN+Cs8Y4lfVl9AVcOEOEcOVBHaTAljGrahXVcQdKm/a4
-         XcIg==
-X-Forwarded-Encrypted: i=1; AJvYcCWApfZdiuRq4deis8KhJdBASYGPYsodWL5qfeBUGI7SeNU2fnjLuIBIAwFmICUHXdA0ilEF@vger.kernel.org, AJvYcCX6uceZh8rsQ/ubZtMDHKYFL8qYDX8wBb5xzIzjA5UTXVVMa2hIT+63N58jEjLly8cFNFbyoDYd2/M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBdA436TNXR4YhdhvO3kX59lydWCbb1RDsxRQE0pDDSytZMk7j
-	rmKO3yqHu00VMGzLy3MAozBGWynce4ScS28WPWnUAebiS+cYMRqE
-X-Gm-Gg: ASbGnctnnDcPzDMoJb1zgHFbXKV/gJYMGckiNYgvLS18ehrgfjsC9kg4FKMpvJ/7eR/
-	bdKUR71hvk6sQ5d8B6hvUt+AxfYtKPVwLK2cSHvUucBfinIC0wCz9V/QsMMXmSF1TQv9uLYxMoD
-	X/EvAdO8MTCvV4ggZFkE+UYwns0SF8OikGQQm1xkIROKCptNMYHgTG6k8jv4TngGXQ49/a8+Hoj
-	fGrLuuY/fDAwLOs9iJlyIcFRawUd9L3XbBPLk9QWLUGikOQAgF3CWiRLtgLMMe7cKfqxCOX2z2m
-	JHzq+bO6Vpc8zcYCxPpTlpW7fqQgM6uEkzzEGbN4EfNnTDr4u+P0R0cUg+WKem7auICKGVPL2Es
-	VcQXDjQ==
-X-Google-Smtp-Source: AGHT+IFyIZGeMELLxH4+gRuW1ReVl3v5h8RimIqkv7kvlSbY2QsaqnnOsCGVJyfarjyVsCjwH1yNVw==
-X-Received: by 2002:a05:620a:1986:b0:7c0:791a:6faf with SMTP id af79cd13be357-7c08aa74353mr2821854485a.53.1739980816884;
-        Wed, 19 Feb 2025 08:00:16 -0800 (PST)
-Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c0b3bf7374sm136188485a.95.2025.02.19.08.00.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 08:00:15 -0800 (PST)
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 5D6A71200043;
-	Wed, 19 Feb 2025 11:00:15 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Wed, 19 Feb 2025 11:00:15 -0500
-X-ME-Sender: <xms:DwC2Z8mjHQWUXWpZM6CKiApWzYwbNIJAZXWfEskhHrGlJ2tzeLjolw>
-    <xme:DwC2Z71uB2LIlTDG7kHSiqLU_V5rGhgIRdVk1B6HjUICaGVyCGz7jAqJDEzAnta-b
-    AiiJebVaIRZoAfHmg>
-X-ME-Received: <xmr:DwC2Z6pMRF6uXmzNA_Hhb2DhHQiVOt8S0LoMtVH2OuTCxgnaV0_XlxJjJA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigeeikecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
-    necuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilh
-    drtghomheqnecuggftrfgrthhtvghrnhephedugfduffffteeutddvheeuveelvdfhleel
-    ieevtdeguefhgeeuveeiudffiedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghl
-    ihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepgh
-    hmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopeekpdhmohgu
-    vgepshhmthhpohhuthdprhgtphhtthhopehrihgthhgrrhgurdifvghihigrnhhgsehgmh
-    grihhlrdgtohhmpdhrtghpthhtohepphgruhhlmhgtkheskhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtohepfhhrvgguvghrihgtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvg
-    gvrhgrjhdruhhprgguhhihrgihsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrtghu
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvh
-    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmmhhpghhouhhrihguvgesghhm
-    rghilhdrtghomhdprhgtphhtthhopegsohhquhhnsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:DwC2Z4nMkN17pl3TR7llDyhfr1HTcK-c74tcRxPGobjdBPwXjNDDsg>
-    <xmx:DwC2Z63w-QZRtngEnVBWp-XEC3leaxZ8b6y5cWc55rNHBJwRk9jmUQ>
-    <xmx:DwC2Z_uDCe2A3mQar42tGxgq1KNeHExx0vB3gVfJTTZRS2E6HePYHw>
-    <xmx:DwC2Z2VFokEsH_S6ZAT07c5UPuG8Wq_e5fIvAyaTx0jGe5NDcLVWmw>
-    <xmx:DwC2Z90WPVQdSc9jakINUMBMcCqG-zkDrr-LDbezkyZZ2BhMrCsr96Yf>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Feb 2025 11:00:14 -0500 (EST)
-Date: Wed, 19 Feb 2025 08:00:13 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-	Alan Huang <mmpgouride@gmail.com>
-Subject: Re: [Patch v2] doc/RCU/listRCU: refine example code for eliminating
- stale data
-Message-ID: <Z7YADfJ7OEJKB_zk@Mac.home>
-References: <20250218005047.27258-1-richard.weiyang@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=sZ7RIEtO2lvYD9UnJf2g7OW+sB6owYH5IoaE6/rwIl/iLuMol5zCO0rgkK7ezqV7m8nniFMUrrtMdYQRwEUsWvX9E1VM0LxSuMeLWoubN0iSdXiVYcj5EtlfMG8uWrcjaxXSNgnXdX4XqFKlrQ7bx9tooz0KjOdbQewW9J60z00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39FCD1682;
+	Wed, 19 Feb 2025 08:07:58 -0800 (PST)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 202723F6A8;
+	Wed, 19 Feb 2025 08:07:35 -0800 (PST)
+Date: Wed, 19 Feb 2025 16:07:32 +0000
+From: Dave Martin <Dave.Martin@arm.com>
+To: Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	tony.luck@intel.com, peternewman@google.com, fenghua.yu@intel.com,
+	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
+	akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
+	xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
+	daniel.sneddon@linux.intel.com, jpoimboe@kernel.org,
+	perry.yuan@amd.com, sandipan.das@amd.com, kai.huang@intel.com,
+	xiaoyao.li@intel.com, seanjc@google.com, xin3.li@intel.com,
+	andrew.cooper3@citrix.com, ebiggers@google.com,
+	mario.limonciello@amd.com, james.morse@arm.com,
+	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
+	eranian@google.com
+Subject: Re: [PATCH v11 23/23] x86/resctrl: Introduce interface to modify
+ assignment states of the groups
+Message-ID: <Z7YBxNIWb7dqOnfi@e133380.arm.com>
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <fe1c0c4cebd353ccb3e588d7ea2fe9ef3dff0ef2.1737577229.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250218005047.27258-1-richard.weiyang@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fe1c0c4cebd353ccb3e588d7ea2fe9ef3dff0ef2.1737577229.git.babu.moger@amd.com>
 
-On Tue, Feb 18, 2025 at 12:50:47AM +0000, Wei Yang wrote:
-> This patch adjust the example code with following two purpose:
-> 
->   * reduce the confusion on not releasing e->lock
->   * emphasize e is valid and not stale with e->lock held
-> 
-> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
-> CC: Boqun Feng <boqun.feng@gmail.com>
-> CC: Alan Huang <mmpgouride@gmail.com>
-> 
+Hi,
 
-Alan, could you take a look and if all looks reasonable to you, maybe a
-Reviewed-by or Acked-by? Thanks!
+On Wed, Jan 22, 2025 at 02:20:31PM -0600, Babu Moger wrote:
+> When mbm_cntr_assign mode is enabled, users can designate which of the MBM
+> events in the CTRL_MON or MON groups should have counters assigned.
+> 
+> Provide an interface for assigning MBM events by writing to the file:
+> /sys/fs/resctrl/info/L3_MON/mbm_assign_control. Using this interface,
+> events can be assigned or unassigned as needed.
+> 
+> Format is similar to the list format with addition of opcode for the
+> assignment operation.
+>  "<CTRL_MON group>/<MON group>/<domain_id><opcode><flags>"
 
-Regards,
-Boqun
+[...]
 
-> ---
-> v2:
->   * add the missing parameter *key
->   * make function return struct audit_entry
-> ---
->  Documentation/RCU/listRCU.rst | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/RCU/listRCU.rst b/Documentation/RCU/listRCU.rst
-> index ed5c9d8c9afe..d8bb98623c12 100644
-> --- a/Documentation/RCU/listRCU.rst
-> +++ b/Documentation/RCU/listRCU.rst
-> @@ -334,7 +334,7 @@ If the system-call audit module were to ever need to reject stale data, one way
->  to accomplish this would be to add a ``deleted`` flag and a ``lock`` spinlock to the
->  ``audit_entry`` structure, and modify audit_filter_task() as follows::
->  
-> -	static enum audit_state audit_filter_task(struct task_struct *tsk)
-> +	static struct audit_entry *audit_filter_task(struct task_struct *tsk, char **key)
->  	{
->  		struct audit_entry *e;
->  		enum audit_state   state;
-> @@ -346,16 +346,18 @@ to accomplish this would be to add a ``deleted`` flag and a ``lock`` spinlock to
->  				if (e->deleted) {
->  					spin_unlock(&e->lock);
->  					rcu_read_unlock();
-> -					return AUDIT_BUILD_CONTEXT;
-> +					return NULL;
->  				}
->  				rcu_read_unlock();
->  				if (state == AUDIT_STATE_RECORD)
->  					*key = kstrdup(e->rule.filterkey, GFP_ATOMIC);
-> -				return state;
-> +				/* As long as e->lock is held, e is valid and
-> +				 * its value is not stale */
-> +				return e;
->  			}
->  		}
->  		rcu_read_unlock();
-> -		return AUDIT_BUILD_CONTEXT;
-> +		return NULL;
->  	}
->  
->  The ``audit_del_rule()`` function would need to set the ``deleted`` flag under the
-> -- 
-> 2.34.1
-> 
-> 
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> index 6e29827239e0..299839bcf23f 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -1050,6 +1050,244 @@ static int resctrl_mbm_assign_control_show(struct kernfs_open_file *of,
+
+[...]
+
+> +static ssize_t resctrl_mbm_assign_control_write(struct kernfs_open_file *of,
+> +						char *buf, size_t nbytes, loff_t off)
+> +{
+> +	struct rdt_resource *r = of->kn->parent->priv;
+> +	char *token, *cmon_grp, *mon_grp;
+> +	enum rdt_group_type rtype;
+> +	int ret;
+> +
+> +	/* Valid input requires a trailing newline */
+> +	if (nbytes == 0 || buf[nbytes - 1] != '\n')
+> +		return -EINVAL;
+> +
+> +	buf[nbytes - 1] = '\0';
+> +
+> +	cpus_read_lock();
+> +	mutex_lock(&rdtgroup_mutex);
+> +
+> +	rdt_last_cmd_clear();
+> +
+> +	if (!resctrl_arch_mbm_cntr_assign_enabled(r)) {
+> +		rdt_last_cmd_puts("mbm_cntr_assign mode is not enabled\n");
+> +		mutex_unlock(&rdtgroup_mutex);
+> +		cpus_read_unlock();
+> +		return -EINVAL;
+> +	}
+> +
+> +	while ((token = strsep(&buf, "\n")) != NULL) {
+> +		/*
+> +		 * The write command follows the following format:
+> +		 * “<CTRL_MON group>/<MON group>/<domain_id><opcode><flags>”
+> +		 * Extract the CTRL_MON group.
+> +		 */
+> +		cmon_grp = strsep(&token, "/");
+> +
+
+As when reading this file, I think that the data can grow larger than a
+page and get split into multiple write() calls.
+
+I don't currently think the file needs to be redesigned, but there are
+some concerns about how userspace will work with it that need to be
+sorted out.
+
+Every monitoring group can contribute a line to this file:
+
+	CTRL_GROUP / MON_GROUP / DOMAIN = [t][l] [ ; DOMAIN = [t][l] ]* LF
+
+so, 2 * (NAME_MAX + 1) + NUM_DOMAINS * 5 - 1 + 1
+
+NAME_MAX on Linux is 255, so with, say, up to 16 domains, that's about
+600 bytes per monitoring group in the worst case.
+
+We don't need to have many control and monitoring groups for this to
+grow potentially over 4K.
+
+
+We could simply place a limit on how much userspace is allowed to write
+to this file in one go, although this restriction feels difficult for
+userspace to follow -- but maybe this is workable in the short term, on
+current systems (?)
+
+Otherwise, since we expect this interface to be written using scripting
+languages, I think we need to be prepared to accept fully-buffered
+I/O.  That means that the data may be cut at random places, not
+necessarily at newlines.  (For smaller files such as schemata this is
+not such an issue, since the whole file is likely to be small enough to
+fit into the default stdio buffers -- this is how sysfs gets away with
+it IIUC.)
+
+For fully-buffered I/O, we may have to cache an incomplete line in
+between write() calls.  If there is a dangling incomplete line when the
+file is closed then it is hard to tell userspace, because people often
+don't bother to check the return value of close(), fclose() etc.
+However, since it's an ABI violation for userspace to end this file
+with a partial line, I think it's sufficient to report that via
+last_cmd_status.  (Making close() return -EIO still seems a good idea
+though, just in case userspace is listening.)
+
+I hacked up something a bit like this so that schemata could be written
+interactively from the shell, so I can try to port that onto this series
+as an illustration, if it helps.
+
+Cheers
+---Dave
