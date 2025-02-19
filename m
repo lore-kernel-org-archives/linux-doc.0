@@ -1,208 +1,104 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE0622ACC5
-	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 19:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95B823F277
+	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 20:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739992995; cv=none; b=KS002u3eq//kVa+UlUfd3scxCM92QO+0MuvwILiUzJ1IVMMnsabnxl8PimsGipgoquU+ZpG5tsGaiO1i9fj2eIs47JdEgUSnJOhrbLr/GpXFAetUdiVu4rtHZkkIKVw/tjLJUmg8tkjnqKMxpIQeffnvUkY/fFJQnOuJF1O0Ji8=
+	t=1739997686; cv=none; b=LJYkRgzPE2E22l8Fwn9HgJbEZX7PCuBqtTKXifFWF1njUl+/1DA7Ca+li+MbR8XBZG+o/Bta6lS4q/n5+X6vg0y/2yP7kSRirgfTuOyUizpZXGUfy849f4GuV7skmF5W+uefy+MQ6K7qj+B5kN1zdCyx1b6Gjd5M97ApwqFVYew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739992995; c=relaxed/simple;
-	bh=JHEYgoG1KH1S3UQHmBQlyX6BsKlDZ13ITQH81hjLv+Q=;
+	s=arc-20240116; t=1739997686; c=relaxed/simple;
+	bh=yraqLzxeh3b7rHBkfWikDJTuU2Al31V4abfQMTxxX+8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=njZ3r+bKnOYLG6yYzPaI9rFmbNm6Zf/UaTT0AgPwI8tdhvN7yyTuQjIS5zUxHS9AkXr5GZEc6hqfKHDPQDCmI4GGWR33ON/+3YTAf4MoJP6NhRCerbhjmZIDjgLIlK0J1m+QzpbIWwQM7FwU1ympIPTV6IRQ8GIdqmLL0AnKJRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lFD3WiLl; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=p4hwefdXyonCyIVjwrVlq/1URmPsEJ0MJ6OPsHmc7eJIyQSfHOckOeZ7PmqrclSsV2Sfn/bmfdrVg8u+D7d9esjRrk+X5llUuXIEoHPm4+wcEz/G5bmRt//vaKHmGW6Z7715Yg0gz51hEm/XvMgrQUmFkFYBtE91Oe/l5qhRLZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=aFFf5E0T; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lFD3WiLl"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2f2f5e91393so36925a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 11:23:13 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="aFFf5E0T"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5461a485aa2so230290e87.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 12:41:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739992993; x=1740597793; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hRAjz95NI3rbyQapsiIwvuE0ET1X08y61NLMUyCeAq4=;
-        b=lFD3WiLlGkoAX7amjA0mgRbcynRd3RHyg+oMQ4b2yqtBsumFJBwRWRuuiSlJcP27KU
-         H6ACCPzDKnanRB+wrLTtBud6sheqBu5RklrCrOUEfGXgUhYmkMr81LQqezKGECukhQnH
-         mDwYVg6V4bjXtwdGDOnls702IW68VV22sWucPww3yEVJgbHmW+eTu/4W6bFYcxhismYy
-         AsAvPAv3L/i9oAIz0dXpAdsZ38yQ9UDK4KRi9Ao5jpi/Bg39VBQoEkMWb+gQo4qgSsNo
-         53Ag4AXrrFr/dpjJqK7lwwaAADt0/xoey6gujjCtUWixJWq116NRYPXcysO/AxbexsSF
-         DEFg==
+        d=rasmusvillemoes.dk; s=google; t=1739997683; x=1740602483; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uQWKjia1YEhq+PMd/nXG3fmWx8U4DeTtcDG7C2yzBs0=;
+        b=aFFf5E0TbbeY458Z9UzEsHOuY7ODrnElgD0n6dJGfFByXQrWHVGwEpKnfSeszFKsV7
+         AGRksw+ey2P6KIbO5UQnmAUBI85bLyc1XDyEz751AoAX/vFsg0xP+6ThgGmHaW7W+mlM
+         B3QjmiAqzsGijt7WbPI93NjIl/OcsniAGoaYY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739992993; x=1740597793;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hRAjz95NI3rbyQapsiIwvuE0ET1X08y61NLMUyCeAq4=;
-        b=MZwLYgsahlIcKSDZMtjKenbcjOFzbOLA2ZpMDXR+W4HuoIaFx898+z+oI8RN5PTvuk
-         HrdfmtTiaIXNwORVwKxRwGZkatJOwzr7a4lV3/YDK2zv6vVzYs4A5a7UOrD0g+G4I9JT
-         4THqbWMepSlsDhOAehtnMS/hHNCG2IGHcC8TbicwaiXQ/AQTLCriQ/TBksy/aSsrxwDk
-         YeRUlhYeAiGRXAUvfeLYNVLZTXPQcOeEYKsrqmPMZaM45bDvDZuich4mLM8et8QnMFwR
-         4xXIdo2DpsYkFQpqn/2xm9IM/YWU8iAfWLAlaaJDQwMhU2qNvxTzDWC/3I3cIhO45eQX
-         Y5UA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEHOO9fEUUdZ0dloMLSfSU+hcrDmbUahDwXhQk2b91gtIM9Nv+ma/2cUUqmYQmbQjlAAL5ojrdYWo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlnT+V9l4n6bsUcqknlg8P36fxQPU9jsCFIoodmhF5USkpRICH
-	phLrtlGZHtLvNQ30dj8Ekx6Tg7QI/PmzoSwcHTeRtp+f76gkD5CLprcJ7QmsjSUeGHgXYQW/YQd
-	biO2SpK71/AtIofNEfbqjxX5Kbo0=
-X-Gm-Gg: ASbGncvT2j/uRxb/69Lu5AIjmw8VPIiERszG+6OZ5O44M8ASOXeBoSWFo52kUWzKtqE
-	qVH5ULix9n/g1DLvNUUk0bT/2ZZoC9SF0htCU6Euniw+fCX513Yb4ET1cxllLW6Sa3sOVE+cq
-X-Google-Smtp-Source: AGHT+IE1ISuTDXhZ9Y/67eBad6giWuhN/qICM4dTnI5Us9GDw58KYuvgo1GF/ber62sWolWZoZpThcwzPF9Bz5dT5Po=
-X-Received: by 2002:a17:90b:3c4e:b0:2fc:15e8:b499 with SMTP id
- 98e67ed59e1d1-2fc41175957mr11528476a91.8.1739992992760; Wed, 19 Feb 2025
- 11:23:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739997683; x=1740602483;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uQWKjia1YEhq+PMd/nXG3fmWx8U4DeTtcDG7C2yzBs0=;
+        b=nYQAajGr2DucD4UueGC3BakNJQ78vsY5bnCHZRsuc5Rlv7yVsZP6N/sg5KcH8yykk5
+         r7vbL7IaRdO/Tkqm8HTfK2oZWA3Ax7NS3SvYn+jQHK8zBkphYnMIX9RqFS+VK97CbSR5
+         iTeou3VdEfLIkvrxfjJQAz1qWfzqo6oPlWwX7BxfEAdY65sBk+KU7yKeZsN8W0rFXERv
+         n6vgZdTqwFkZYCLL4uAbKPXjZnaeLLOook1g76x750380ZTcGLgNJa4+HE3jIiu+ODtK
+         Q19NAddFk6S6ve9Q3bsDKTBeXbbtWVtXTO0tL9NY33Dd+VBssTsAuY8+8TN+tlda0vlw
+         VqxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXkG6HxDyGTwQI9wXqpmVe0bdpqV4K7/4NnW9b/HDPbVgXYfFPrmiZH/WA8qJ+J/+dw9ad+81ifiHs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywz2Sh5QiGPNgAKzDoBK2OLX4gtuoP9B+0LuhUi2uCfdWnbV4kz
+	8NKfngw8Pev16i+HwIJW7K3Lk0gmi9OSKE7a2qn2jcB1mROS0kxRqYQd17LcPliHWOsNJcLzc1G
+	cXCjXsdcaW5QizEofOr/6mtv0IAb+HQdZFFT8sg==
+X-Gm-Gg: ASbGnctnh2iiFQv9qLpxxTRlc0uBEmcrfgxiSKYFBoKWPX01TM8j6drRfocChU9NrLw
+	ugtoqi1GhO2zd54xmgMYDbhjY3pGEGmQJyfBgn7IlNqRp0lqxXkwsqJOn1AxxmkUCVwIA8y94
+X-Google-Smtp-Source: AGHT+IENNNpeaMlkD/fiQQAYZ6iJNFdOYrpRNg7fkEna3OdCDK3VAQtFcLuzSuMXXgumt+4ZaeEHehD2gwq2A0TLKZo=
+X-Received: by 2002:a05:6512:2398:b0:545:ee3:f3c7 with SMTP id
+ 2adb3069b0e04-5462eef4e56mr2154420e87.30.1739997682815; Wed, 19 Feb 2025
+ 12:41:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250219185415.243896-1-siqueira@igalia.com>
-In-Reply-To: <20250219185415.243896-1-siqueira@igalia.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 19 Feb 2025 14:23:00 -0500
-X-Gm-Features: AWEUYZkJXLydwfQaksWZ4JpKDqM7EYnX3WdKK3w3ScR9Hw7bc2y3LD5GOwWaR4Q
-Message-ID: <CADnq5_MUPph86+JiTZ7PY6_BuDcrc-Kjxmp6Fvp9b+XdSMQb7A@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation/gpu: Add acronyms for some firmware components
-To: Rodrigo Siqueira <siqueira@igalia.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	amd-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	kernel-dev@igalia.com, Mario Limonciello <mario.limonciello@amd.com>
+References: <20250214-printf-kunit-convert-v4-0-c254572f1565@gmail.com> <20250214-printf-kunit-convert-v4-3-c254572f1565@gmail.com>
+In-Reply-To: <20250214-printf-kunit-convert-v4-3-c254572f1565@gmail.com>
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Date: Wed, 19 Feb 2025 21:41:11 +0100
+X-Gm-Features: AWEUYZnPvEz-Qu0Q_eOs4K3mND8N5X48foEj8aBLKco5JWWCbd2AeY_UnbAb5oM
+Message-ID: <CAKwiHFh52-_ssWjC3wdtZ=92AHAw7grnDugZpmf7T962VQrEbQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] printf: implicate test line in failure messages
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Arpitha Raghunandan <98.arpi@gmail.com>, David Gow <davidgow@google.com>, 
+	Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 19, 2025 at 1:55=E2=80=AFPM Rodrigo Siqueira <siqueira@igalia.c=
-om> wrote:
+On Fri, 14 Feb 2025 at 22:53, Tamir Duberstein <tamird@gmail.com> wrote:
 >
-> Users can check the file "/sys/kernel/debug/dri/0/amdgpu_firmware_info"
-> to get information on the firmware loaded in the system. This file has
-> multiple acronyms that are not documented in the glossary. This commit
-> introduces some missing acronyms to the AMD glossary documentation. The
-> meaning of each acronym in this commit was extracted from code
-> documentation available in the following files:
+> This improves the failure output by pointing to the failing line at the
+> top level of the test, e.g.:
+>       # test_number: EXPECTATION FAILED at lib/printf_kunit.c:103
+>   lib/printf_kunit.c:167: vsnprintf(buf, 256, "%#-12x", ...) wrote '0x1234abcd  ', expected '0x1234abce  '
+>       # test_number: EXPECTATION FAILED at lib/printf_kunit.c:142
+>   lib/printf_kunit.c:167: kvasprintf(..., "%#-12x", ...) returned '0x1234abcd  ', expected '0x1234abce  '
 >
-> - drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-> - drivers/gpu/drm/amd/include/amd_shared.h
->
-> Changes since v1:
-> - Expand acronym meanings based on Alex Deucher suggestions.
->
-> Cc: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Rodrigo Siqueira <siqueira@igalia.com>
 
-Applied.  Thanks!
+Actually, I'm not sure that is an improvement as-is, with the two
+different line numbers being printed. It takes some thought to
+recognize which one is relevant and which one is not.
 
-Alex
+Can't we have a variant of KUNIT_FAIL that allows one to pass the
+file/line info when the caller has better info than the location of
+the KUNIT_FAIL itself?
 
-> ---
->  Documentation/gpu/amdgpu/amdgpu-glossary.rst | 45 ++++++++++++++++++--
->  1 file changed, 42 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation=
-/gpu/amdgpu/amdgpu-glossary.rst
-> index 00a47ebb0b0f..1e9283e076ba 100644
-> --- a/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> +++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> @@ -12,6 +12,9 @@ we have a dedicated glossary for Display Core at
->        The number of CUs that are active on the system.  The number of ac=
-tive
->        CUs may be less than SE * SH * CU depending on the board configura=
-tion.
->
-> +    CE
-> +      Constant Engine
-> +
->      CP
->        Command Processor
->
-> @@ -68,6 +71,9 @@ we have a dedicated glossary for Display Core at
->      IB
->        Indirect Buffer
->
-> +    IMU
-> +      Integrated Management Unit (Power Management support)
-> +
->      IP
->          Intellectual Property blocks
->
-> @@ -80,6 +86,12 @@ we have a dedicated glossary for Display Core at
->      KIQ
->        Kernel Interface Queue
->
-> +    MC
-> +      Memory Controller
-> +
-> +    ME
-> +      MicroEngine (Graphics)
-> +
->      MEC
->        MicroEngine Compute
->
-> @@ -92,6 +104,9 @@ we have a dedicated glossary for Display Core at
->      MQD
->        Memory Queue Descriptor
->
-> +    PFP
-> +      Pre-Fetch Parser (Graphics)
-> +
->      PPLib
->        PowerPlay Library - PowerPlay is the power management component.
->
-> @@ -99,7 +114,10 @@ we have a dedicated glossary for Display Core at
->          Platform Security Processor
->
->      RLC
-> -      RunList Controller
-> +      RunList Controller. This name is a remnant of past ages and doesn'=
-t have
-> +      much meaning today. It's a group of general-purpose helper engines=
- for
-> +      the GFX block. It's involved in GFX power management and SR-IOV, a=
-mong
-> +      other things.
->
->      SDMA
->        System DMA
-> @@ -110,14 +128,35 @@ we have a dedicated glossary for Display Core at
->      SH
->        SHader array
->
-> -    SMU
-> -      System Management Unit
-> +    SMU/SMC
-> +      System Management Unit / System Management Controller
-> +
-> +    SRLC
-> +      Save/Restore List Control
-> +
-> +    SRLG
-> +      Save/Restore List GPM_MEM
-> +
-> +    SRLS
-> +      Save/Restore List SRM_MEM
->
->      SS
->        Spread Spectrum
->
-> +    TA
-> +      Trusted Application
-> +
-> +    TOC
-> +      Table of Contents
-> +
-> +    UVD
-> +      Unified Video Decoder
-> +
->      VCE
->        Video Compression Engine
->
->      VCN
->        Video Codec Next
-> +
-> +    VPE
-> +      Video Processing Engine
-> --
-> 2.48.1
->
+>  static void __printf(5, 0)
+> -do_test(struct kunit *kunittest, int bufsize, const char *expect, int elen,
+> -       const char *fmt, va_list ap)
+> +do_test(struct kunit *kunittest, const char *file, const int line, int bufsize, const char *expect,
+> +       int elen, const char *fmt, va_list ap)
+
+This can't be right, the __printf attribute must be updated accordingly.
+
+Rasmus
