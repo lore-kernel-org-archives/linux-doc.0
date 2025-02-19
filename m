@@ -1,104 +1,195 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95B823F277
-	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 20:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049BF24CED5;
+	Wed, 19 Feb 2025 20:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739997686; cv=none; b=LJYkRgzPE2E22l8Fwn9HgJbEZX7PCuBqtTKXifFWF1njUl+/1DA7Ca+li+MbR8XBZG+o/Bta6lS4q/n5+X6vg0y/2yP7kSRirgfTuOyUizpZXGUfy849f4GuV7skmF5W+uefy+MQ6K7qj+B5kN1zdCyx1b6Gjd5M97ApwqFVYew=
+	t=1739998116; cv=none; b=RN7rmDZ4Ycgl+6A2uQKNnah/xVGdzcYIjUNULSOVULkZZl8jicKwUIPqm82QQLVmzAl7DRWmf3zB5sU8E0ymizPWYUqeP9zQeeDdANRUof5jv1T4jy2rjHYwNKeF0/CdiYF48vGZ7k/0+sTxylSu+Hchv4Fkt4TkYkwIqj0Qn+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739997686; c=relaxed/simple;
-	bh=yraqLzxeh3b7rHBkfWikDJTuU2Al31V4abfQMTxxX+8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p4hwefdXyonCyIVjwrVlq/1URmPsEJ0MJ6OPsHmc7eJIyQSfHOckOeZ7PmqrclSsV2Sfn/bmfdrVg8u+D7d9esjRrk+X5llUuXIEoHPm4+wcEz/G5bmRt//vaKHmGW6Z7715Yg0gz51hEm/XvMgrQUmFkFYBtE91Oe/l5qhRLZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=aFFf5E0T; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
+	s=arc-20240116; t=1739998116; c=relaxed/simple;
+	bh=rPURpv5vgBdCwD9dat4BhYNy99e1kMDXzhacqzB6sQI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KFcOsKO0EznHHR9yiksWc34bMGv2b6QAgDEgtkbyDbi/47LuFUwjIJJkeue4OOi0mqbt6SzVF85lRkYKVV0wfa/0f5+3Ti4vxjq/oxHUbDrpmP2rl4BD07n1uuyr0liLQixdZevgHN+YKYugrN4pgLYNioqz0AZCHPSUnShWNsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FRZPRzEM; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="aFFf5E0T"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5461a485aa2so230290e87.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 12:41:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FRZPRzEM"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-220bfdfb3f4so3332155ad.2;
+        Wed, 19 Feb 2025 12:48:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google; t=1739997683; x=1740602483; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uQWKjia1YEhq+PMd/nXG3fmWx8U4DeTtcDG7C2yzBs0=;
-        b=aFFf5E0TbbeY458Z9UzEsHOuY7ODrnElgD0n6dJGfFByXQrWHVGwEpKnfSeszFKsV7
-         AGRksw+ey2P6KIbO5UQnmAUBI85bLyc1XDyEz751AoAX/vFsg0xP+6ThgGmHaW7W+mlM
-         B3QjmiAqzsGijt7WbPI93NjIl/OcsniAGoaYY=
+        d=gmail.com; s=20230601; t=1739998114; x=1740602914; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3rvvkoHBZqca1tBS0H2AmTF8C7cV1cWNOIDwXraLr7E=;
+        b=FRZPRzEMqwdSe3C+1rxXirhtvYM9M0I80q5S4PMCkNczdBFjgylg9AGXsBv17WuVFw
+         fm/j72ht9Y6h/x5b83Z57m6wnJ5DIEszCti/Y9Ce7gnd2C9JpO0DCbNaj7x9upcq+/in
+         1stJhgjAZs6RUDWBsXekAc/QrcFQPQx01WqaBLFNhjwXKWsMZgbqkEekCZYKzUMFndzD
+         hnmaA7BkgphB50jn8gpPPkqBNaayi8VGr42IxQNveVzWwoEbUZ7OYaB5SjYrkvlL19vB
+         ccQjQFW5ECoUG1VAMxjS/CWvwCXXucU5I1h5cpA27HhejPLhPiI0hUFsXhELN+HI+AQr
+         h1Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739997683; x=1740602483;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uQWKjia1YEhq+PMd/nXG3fmWx8U4DeTtcDG7C2yzBs0=;
-        b=nYQAajGr2DucD4UueGC3BakNJQ78vsY5bnCHZRsuc5Rlv7yVsZP6N/sg5KcH8yykk5
-         r7vbL7IaRdO/Tkqm8HTfK2oZWA3Ax7NS3SvYn+jQHK8zBkphYnMIX9RqFS+VK97CbSR5
-         iTeou3VdEfLIkvrxfjJQAz1qWfzqo6oPlWwX7BxfEAdY65sBk+KU7yKeZsN8W0rFXERv
-         n6vgZdTqwFkZYCLL4uAbKPXjZnaeLLOook1g76x750380ZTcGLgNJa4+HE3jIiu+ODtK
-         Q19NAddFk6S6ve9Q3bsDKTBeXbbtWVtXTO0tL9NY33Dd+VBssTsAuY8+8TN+tlda0vlw
-         VqxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXkG6HxDyGTwQI9wXqpmVe0bdpqV4K7/4NnW9b/HDPbVgXYfFPrmiZH/WA8qJ+J/+dw9ad+81ifiHs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywz2Sh5QiGPNgAKzDoBK2OLX4gtuoP9B+0LuhUi2uCfdWnbV4kz
-	8NKfngw8Pev16i+HwIJW7K3Lk0gmi9OSKE7a2qn2jcB1mROS0kxRqYQd17LcPliHWOsNJcLzc1G
-	cXCjXsdcaW5QizEofOr/6mtv0IAb+HQdZFFT8sg==
-X-Gm-Gg: ASbGnctnh2iiFQv9qLpxxTRlc0uBEmcrfgxiSKYFBoKWPX01TM8j6drRfocChU9NrLw
-	ugtoqi1GhO2zd54xmgMYDbhjY3pGEGmQJyfBgn7IlNqRp0lqxXkwsqJOn1AxxmkUCVwIA8y94
-X-Google-Smtp-Source: AGHT+IENNNpeaMlkD/fiQQAYZ6iJNFdOYrpRNg7fkEna3OdCDK3VAQtFcLuzSuMXXgumt+4ZaeEHehD2gwq2A0TLKZo=
-X-Received: by 2002:a05:6512:2398:b0:545:ee3:f3c7 with SMTP id
- 2adb3069b0e04-5462eef4e56mr2154420e87.30.1739997682815; Wed, 19 Feb 2025
- 12:41:22 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739998114; x=1740602914;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3rvvkoHBZqca1tBS0H2AmTF8C7cV1cWNOIDwXraLr7E=;
+        b=HrnNmbOzVtL/Les0c/9XUTwBVwrHyg/nMCkY7yIURGFoKvCgZ+CvCL42MLCxpBp6AB
+         gDjRfb7W33/G5z1t/bWNA12FyiwNqgYaHFQI/GCgalLK6TeG7KlBSo4lcSBQQjTxAaPm
+         mj0vPYYORXteZLKBYjaszbTwlT1M51w6ZYFdRRX0phgDMYjb+okvEw20gNgoN1orsfws
+         9C9nssrkxEmzKnkuR1mhOxpi6vZs0Ui50lD6zK8nDjR/SjivpCcMErnU4Uv2I0gQe+ma
+         autUiLuyu4WhrsDa5VsIEaO2dnbj2IWfu8G5poXdfpjBwEfJbg2Gcf+1Lfd84gd3a28D
+         hgfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV2SCiSnD3sKrnenHUQuo2OzMlwNxfCdOKfri1qlEW76PhHnOwBGTYSnCYM6pFJxF4++onGh7D3fo8H@vger.kernel.org, AJvYcCX224dJ7PON/8OGRKBURD1c2E+GEdbIyDknsPVEH9S1yfY+CzzrK1xAhXv3CSW0HOF5x9kaTfnXrjxZf8QP@vger.kernel.org, AJvYcCXrCp0NHd5/fWkDPQYXxK+9uONfbSFGMoDDrBssSu4zPSicTl4gbulh3aQThm9V+SgTMla4TLW8BKU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1CFLfRkq0bFhDwDwVszmrK/bgvHwq6FC9capEmSBV0oOqzQf4
+	IZHBX8R53DuPN+YecgMXD8QACweWbARKOQHhTr7reDW7KB829TAR
+X-Gm-Gg: ASbGnct6v/Qi3BYoWrm2ugF1obTX47ekXHeIg0zaDPHRnaNczeEaJZKEdtYcXUhrfnM
+	qXTuD3HzxD26Fd7lGIevPTPUD5Q/OHndn/xgWq+84es/Tt4EBNsukYooRNsu7of4ph5LrdnDIu9
+	RRyTaXCYxovFHL2NmKvbQxOq4uQLJ9CBFf0+z0tKVyi5T2rPcg3JKuBKTMD6k2fNBo53fNXknlI
+	sp1mVM8g2ZPOIea9z5IjGkzMBiFBvDbH9bLmNXZa1s0KAbo72NGhRR8Vy1XdV7pzYZxJe1bL75j
+	Vk3D7IZI9+PLQw4a3yesRocqVQ==
+X-Google-Smtp-Source: AGHT+IEuCSjf8eYGI2GnSpolCwQxLMU7Ni89VHflayt+Rt+Bn1K6etIV11qdtPH43Aahy+ZjkDUv+A==
+X-Received: by 2002:a17:902:ce81:b0:220:c4f0:4ed9 with SMTP id d9443c01a7336-221711b749cmr63305385ad.45.1739998112543;
+        Wed, 19 Feb 2025 12:48:32 -0800 (PST)
+Received: from localhost ([2804:30c:1f21:4300:1cf6:c485:6555:b1c5])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2fbf98b3232sm14358927a91.5.2025.02.19.12.48.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 12:48:31 -0800 (PST)
+Date: Wed, 19 Feb 2025 17:49:18 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jic23@kernel.org, lars@metafoo.de, corbet@lwn.net
+Subject: Re: [PATCH v3 1/1] Documentation: iio: Add ADC documentation
+Message-ID: <Z7ZDzg0KHZhfiLo3@debian-BULLSEYE-live-builder-AMD64>
+References: <c21b89367510c3d56d8d17adc24b46c7c63a14b2.1738759798.git.marcelo.schmitt@analog.com>
+ <5084aed7-1b39-4cbd-b136-610bceb05c92@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250214-printf-kunit-convert-v4-0-c254572f1565@gmail.com> <20250214-printf-kunit-convert-v4-3-c254572f1565@gmail.com>
-In-Reply-To: <20250214-printf-kunit-convert-v4-3-c254572f1565@gmail.com>
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Date: Wed, 19 Feb 2025 21:41:11 +0100
-X-Gm-Features: AWEUYZnPvEz-Qu0Q_eOs4K3mND8N5X48foEj8aBLKco5JWWCbd2AeY_UnbAb5oM
-Message-ID: <CAKwiHFh52-_ssWjC3wdtZ=92AHAw7grnDugZpmf7T962VQrEbQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] printf: implicate test line in failure messages
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>, David Gow <davidgow@google.com>, 
-	Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5084aed7-1b39-4cbd-b136-610bceb05c92@baylibre.com>
 
-On Fri, 14 Feb 2025 at 22:53, Tamir Duberstein <tamird@gmail.com> wrote:
->
-> This improves the failure output by pointing to the failing line at the
-> top level of the test, e.g.:
->       # test_number: EXPECTATION FAILED at lib/printf_kunit.c:103
->   lib/printf_kunit.c:167: vsnprintf(buf, 256, "%#-12x", ...) wrote '0x1234abcd  ', expected '0x1234abce  '
->       # test_number: EXPECTATION FAILED at lib/printf_kunit.c:142
->   lib/printf_kunit.c:167: kvasprintf(..., "%#-12x", ...) returned '0x1234abcd  ', expected '0x1234abce  '
->
+A very slow re-spin time from my side but here we go ...
+I addressed most of the suggestions and am about to send a v4.
+Replying inline to the points I disagree with.
 
-Actually, I'm not sure that is an improvement as-is, with the two
-different line numbers being printed. It takes some thought to
-recognize which one is relevant and which one is not.
+Thanks,
+Marcelo
 
-Can't we have a variant of KUNIT_FAIL that allows one to pass the
-file/line info when the caller has better info than the location of
-the KUNIT_FAIL itself?
+On 02/05, David Lechner wrote:
+> On 2/5/25 6:53 AM, Marcelo Schmitt wrote:
+> > ADC inputs can be classified into a few different types according to how
+> > they measure the input signal, how restrained the signal is, and number of
+> > input pins. Even though datasheets tend to provide many details about their
+> > inputs and measurement procedures, it may not always be clear how to model
+> > those inputs into IIO channels.
+> > 
+> > For example, some differential ADCs can have their inputs configured into
+> > pseudo-differential channels. In that configuration, only one input
+> > connects to the signal of interest as opposed to using two inputs of a
+> > differential input configuration. Datasheets sometimes also refer to
+> > pseudo-differential inputs as single-ended inputs even though they have
+> > distinct physical configuration and measurement procedure.
+> > 
+> > Document consolidated ADC input types and how they are usually described
+> > and supported in device tree and IIO, respectively.
+> > 
+> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > ---
+...
+> > +There are three general types of ADC inputs (single-ended, differential,
+> > +pseudo-differential) and two possible polarities (unipolar, bipolar). The input
+> > +type (single-ended, differential, pseudo-differential) is one channel
+> > +characteristic, and is completely independent of the polarity (unipolar,
+> > +bipolar) aspect. A comprehensive article about ADC input types (on which this
+> > +doc is heavily based on) can be found at
+> > +https://www.analog.com/en/resources/technical-articles/sar-adc-input-types.html.
+> 
+> It could be worth reiterating here that although there are 3 different input
+> types, in IIO, differential is only a bool, so there is no special distinction
+> between single-ended and pseduo-differential (other than possibly having a
+> common mode voltage input). And unipolar/bipolar is only considered on the
+> difference between the two inputs and not the individual input, so in IIO there
+> is no special distinction between bipolar and true biploar - they are modeled
+> the same.
+For v4, I'll be mentioning the differential field meaning and the bipolar / true
+bipolar (in)disctinction in other subsections bellow. Hope that will make those
+points more clear.
 
->  static void __printf(5, 0)
-> -do_test(struct kunit *kunittest, int bufsize, const char *expect, int elen,
-> -       const char *fmt, va_list ap)
-> +do_test(struct kunit *kunittest, const char *file, const int line, int bufsize, const char *expect,
-> +       int elen, const char *fmt, va_list ap)
+...
+> > +1.2 Differential channels
+> > +-------------------------
+> > +
+> 
+> Suggest to insert here:
+> 
+> > +A differential voltage measurement,
+> 
+> sometimes also called "fully differential" or "true differential",
 
-This can't be right, the __printf attribute must be updated accordingly.
+I think adding that would make the sentence harder to read and somewhat incorrect.
+The differential measurement has to do with how the ADC takes the input signals
+into account to generate an output code. The "true differential" has to do with
+the expected limits for the input signals. Fully differential input is yet
+another thing that I've been avoiding to describe because I think those can be
+supported as differential bipolar channels.
 
-Rasmus
+> 
+> > digitizes the voltage level at the positive
+> > +input (IN+) relative to the negative input (IN-) over the -VREF to +VREF span.
+> > +In other words, a differential channel measures the potential difference between
+> > +IN+ and IN-, which is often denoted by the IN+ - IN- formula.
+> > +
+...
+> > +1.2.2 Differential Unipolar Channels
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +For **differential unipolar** channels, 
+> 
+> I think it would be nice to have a short first paragraph that just says that
+> this configuration is quite unusual and that the difference would have to always
+> be positive. Then follow with the rest of the info for the curious in a separate
+> paragraph. Then it will be easy for those not interested in the unusual case to
+> skip over that part.
+
+I think, reordering would make the explanation harder to follow.
+Even though currently not using those exact words, it can be inferred that the
+difference is expected to be always positive:
+"IN+ is allowed to swing with the measured analog signal and the input setup must
+guarantee IN+ will not go below IN- (nor IN- will raise above IN+)"
+The last phrase also somewhat hints that the differential unipolar setup is not usual.
+"Thus, differential unipolar setups can often be supported as pseudo-differential
+unipolar channels."
+
+> 
+> > the analog voltage at the positive input
+> > +must also be higher than the voltage at the negative input. Thus, the actual
+> > +input range allowed to a differential unipolar channel is IN- to +VREF. Because
+> > +IN+ is allowed to swing with the measured analog signal and the input setup must
+> > +guarantee IN+ will not go below IN- (nor IN- will raise above IN+), most
+> > +differential unipolar channel setups have IN- fixed to a known voltage that does
+> > +not fall within the voltage range expected for the measured signal. That leads
+> > +to a setup that is equivalent to a pseudo-differential channel. Thus,
+> > +differential unipolar setups can often be supported as pseudo-differential
+> > +unipolar channels.
+> 
+> I think we should just leave out the sentence about being supported as pseudo-
+> differential. There is already a different section that describes that and it
+> would be simpler to just stick with describing the fully differential case here.
+> The differential bipolar section also only describes the fully differential case
+> so mentioning pseduo-differential here seems inconsistent.
+
+I also disagree with that one. A differential unipolar setup is uncommon
+(at least) so the mention of pseduo-differential is to point to what would be
+the usual way of supporting those input configurations. Differential bipolar
+inputs are common so no need to mention other input types when talking about
+differential bipolar.
+
+Though, I'm fine with changing the explanations if Jonathan prefers so.
