@@ -1,65 +1,48 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DE5F1DF98E;
-	Wed, 19 Feb 2025 13:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 379F845C14;
+	Wed, 19 Feb 2025 13:30:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739971731; cv=none; b=Nej74vyS/Ff2GHTRXP0xBvomeUn4hteaMHK8teYJ6RLXeL/iNpD098i8WVacC/xzswVsldvCOZmKN0S7gQs8mC9W1pWXTmt2WsZqaqFMcbDRriuMBUQrwIUSu8mNPd+e8gF3L0WiKa90KZNlEyqPDuB0AwjqwKP2H+rNGsGqmzo=
+	t=1739971830; cv=none; b=sIvgZ9TWcVVfc0N+bH5x5vh4kFLEIzIsRkdpreXu9Qv1eNBCmb+XWw+aDkQZWrJTz3ARJv8L7P6inhC2tMpWS7FEPDvEUWUtQF04tgD8bKFchVNPfWBaDzvLoRgHie53ClStHEe2IBucoZ02eG/n70KAjEZf1lOnebXbDrFOgxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739971731; c=relaxed/simple;
-	bh=uWS+fW47N6wt39dtEOcS7XkDieAQeJAE7zI6AMNgwrA=;
+	s=arc-20240116; t=1739971830; c=relaxed/simple;
+	bh=dFMCeJ7t4DLVGLCE/Oqtjh/QIoS5YYqkSRw7tgjyIks=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r8fdTVr8YJiMNpkjHpSciz6NgbZSoA5gsrk5yNrXFYJQAkzTIm9EPmUsllPPlsNaKMPUiTxmi8Ru+AtBlaV3ojGOIC1z14TXRJbv/g/Cpn+70N0QSvsHHcaR5N5NKf3GYgcp6g1kYjDRxXgTBzm1wXZv4n+cI35CRANXfyhzjW4=
+	 Content-Type:Content-Disposition:In-Reply-To; b=tMt0aGhOdcD8jbFP+/Zy1wNPEcP7gXOk6h2OMthmMsV3IxdzOE21/IMbuNOYBpjcayqyyQ0pz2AusKvV0tv16dZXx1qLuyiyYrc5QSQxhhGQp1vAP9YtJ+mNCGOxptYedUjCWp/pxMHYPouN1yh6ilpIUi8mSwpGOZCjltWhU4Q=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C5B281682;
-	Wed, 19 Feb 2025 05:29:07 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A27311682;
+	Wed, 19 Feb 2025 05:30:46 -0800 (PST)
 Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C67A13F59E;
-	Wed, 19 Feb 2025 05:28:44 -0800 (PST)
-Date: Wed, 19 Feb 2025 13:28:42 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7931E3F59E;
+	Wed, 19 Feb 2025 05:30:23 -0800 (PST)
+Date: Wed, 19 Feb 2025 13:30:20 +0000
 From: Dave Martin <Dave.Martin@arm.com>
 To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>, Babu Moger <babu.moger@amd.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"peternewman@google.com" <peternewman@google.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"paulmck@kernel.org" <paulmck@kernel.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"thuth@redhat.com" <thuth@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"xiongwei.song@windriver.com" <xiongwei.song@windriver.com>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
-	"daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
-	"jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-	"perry.yuan@amd.com" <perry.yuan@amd.com>,
-	"sandipan.das@amd.com" <sandipan.das@amd.com>,
-	"Huang, Kai" <kai.huang@intel.com>,
-	"Li, Xiaoyao" <xiaoyao.li@intel.com>,
-	"seanjc@google.com" <seanjc@google.com>,
-	"Li, Xin3" <xin3.li@intel.com>,
-	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-	"ebiggers@google.com" <ebiggers@google.com>,
-	"mario.limonciello@amd.com" <mario.limonciello@amd.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"tan.shaopeng@fujitsu.com" <tan.shaopeng@fujitsu.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
-	"Eranian, Stephane" <eranian@google.com>
-Subject: Re: [PATCH v11 10/23] x86/resctrl: Remove MSR reading of event
- configuration value
-Message-ID: <Z7XcinJVBKfr7JN7@e133380.arm.com>
+Cc: "Moger, Babu" <bmoger@amd.com>, Babu Moger <babu.moger@amd.com>,
+	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, tony.luck@intel.com,
+	peternewman@google.com, x86@kernel.org, hpa@zytor.com,
+	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
+	rostedt@goodmis.org, xiongwei.song@windriver.com,
+	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
+	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
+	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
+	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
+	mario.limonciello@amd.com, james.morse@arm.com,
+	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
+	eranian@google.com
+Subject: Re: [PATCH v11 11/23] x86/resctrl: Introduce mbm_cntr_cfg to track
+ assignable counters at domain
+Message-ID: <Z7Xc7Oxm9ByWhIEy@e133380.arm.com>
 References: <cover.1737577229.git.babu.moger@amd.com>
- <b4298186c0be8db76be4eb74e1d948fbe5c1de7d.1737577229.git.babu.moger@amd.com>
- <53e104c0-64ee-4191-bddf-3ddb56dca1d5@intel.com>
- <SJ1PR11MB6083C234656AF934E41A7BA8FCF62@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <2a78f9a1-e03a-4e82-836b-26d3175d3f2b@intel.com>
+ <30652061d4a21eb5952a1323b76ca70927412a30.1737577229.git.babu.moger@amd.com>
+ <b88868e1-52b2-4a66-bec2-e0846394b74b@intel.com>
+ <7375cacc-5800-487c-bd8a-7ea11e694598@amd.com>
+ <2f1d5857-7f32-4bde-9b12-77fb2b4464da@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,54 +51,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2a78f9a1-e03a-4e82-836b-26d3175d3f2b@intel.com>
+In-Reply-To: <2f1d5857-7f32-4bde-9b12-77fb2b4464da@intel.com>
 
-On Wed, Feb 05, 2025 at 05:41:53PM -0800, Reinette Chatre wrote:
-> Hi Tony,
+Hi,
+
+On Mon, Feb 10, 2025 at 10:10:26AM -0800, Reinette Chatre wrote:
+> Hi Babu,
 > 
-> On 2/5/25 4:51 PM, Luck, Tony wrote:
-> >> This new arch API has sharp corners because of asymmetry of where resctrl
-> >> runs the arch function. I do not think it is required to change this since we
-> >> can only speculate about how this may be used in the future but I do think
-> >> it will be helpful to add comments that highlight:
+> On 2/7/25 10:23 AM, Moger, Babu wrote:
+> > On 2/5/2025 5:57 PM, Reinette Chatre wrote:
+> >> On 1/22/25 12:20 PM, Babu Moger wrote:
+
+[...]
+
+> >>> MBM events of a monitoring group is tracked by hardware. Such queries
+> >>> are acceptable because of a very small number of assignable counters.
 > >>
-> >> resctrl_arch_mon_event_config_get() ->  May run on CPU that does not belong to domain.
-> >> resctrl_arch_mon_event_config_set() ->  Runs on CPU that belongs to domain.
+> >> It is not obvious what "very small number" means. Is it possible to give
+> >> a range to help reader understand the motivation?
 > > 
-> > Here's a vague data point about the future to help with speculation.
+> > How about?
 > > 
-> > I have something coming along the pipeline that also can run on any CPU.
-> > 
-> > I am contemplating a flag in the rdt_resource structure (in appropriate substructure
-> > resctrl_cache/resctrl_membw) to indicate "domain" vs. "any" for operations.
-> > 
-> > Would something like that be useful here?
+> > MBM events of a monitoring group is tracked by hardware. Such queries
+> > are acceptable because of a very small number of assignable counters(32 to 64).
 > 
-> hmm ... I cannot envision how this may look. Could you please elaborate?
-> 
-> You mention "a" (singular) flag in rdt_resource while this scenario involves
-> different ops having different scope. This makes me think that this flag may
-> have to be per operation that in turn would need additional infrastructure to
-> manage and track operations.
-> 
-> These "arch" functions are evolving as the work to support MPAM is done and
-> so far I think it has been quite ad-hoc to just refactor arch specific code
-> into "arch" helpers instead of keeping track of which scope they are running in.
-> This currently requires any arch implementing an "arch" helper to be well aware 
-> of how resctrl will call it.
+> Yes, thank you. This helps to understand the claim.
 > 
 > Reinette
 
-For MPAM, we must typically do all configuration access from a CPU in a
-power domain that depends on the power domain of the relevant MPAM MSC,
-including reads of the configuration.
+Do these queries only happen when userspace reads an mbm_assign_control
+file?
 
-In the MPAM case, the required topology knowledge is not necessarily
-identical to the resctrl domain topology, so it doesn't feel right to
-have the resctrl core code making the decisions.
+It might be worth documenting somewhere that writing and (especially)
+reading an mbm_assign_control file is not intended to be super-fast.
 
-So, in the interest of keeping the arch interface simple, should cross-
-calling be delegated to the arch code, at least for now?
+It feels like userspace should not generally rely on reading
+mbm_assign_control files except for diagnostic purposes, or occasional
+read-modify-write transformations.  Or do expect some other usage model
+that makes this a hotter path?
 
 Cheers
 ---Dave
