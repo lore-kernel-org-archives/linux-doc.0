@@ -1,101 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBBE17A307;
-	Wed, 19 Feb 2025 07:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775E91BD017;
+	Wed, 19 Feb 2025 07:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739950372; cv=none; b=eaNgB89r4S+bcN5i6xMDkPXrBam/F9zs01Sm03lG5SMB2ymGgifJLCwtkPrgzy8uyuSF0RKra1JojnqA2nEDFS56W8SIwq1fKpcqjGVtb+SVrgtUCbAuGKdvywl4zzoKOgvqBZyggH+nGaA1qpRZkWXpc3RZA7iQecNlyvcf4KI=
+	t=1739950722; cv=none; b=ovonLibIi7wRYjCGRDWCMpd2gse4FTnFXVM0Zq69kWKlBPgY3b7esf1Bc78ycBoIhMGzKMitq3k+Jm1zWvqYdXwS+WeJUBZrvMTyRzAspcUg6uz61pR2gzrqSJFHEks1zJX+A6HY2H2V12kONCGiiU01qwUKdIS2fNdzQoiTEJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739950372; c=relaxed/simple;
-	bh=IU+pHUXldmRuJqluDgSiOT9EDGFnrS7y3gSj3xCGbVo=;
+	s=arc-20240116; t=1739950722; c=relaxed/simple;
+	bh=0/Djs9NrnZFyY7N9MaDIjuxsEsWYadjuwBoMmF+C/+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gE9DRKUH9EoTFMmt3i4S1vkJoinby0DJcKKOzjztUIYF2p08h3Hmr42JAdJR/exQflXrJSkK2yQ1dGyagyLeAn6VBp3/bBDHcAwstg5m5RtqCLlrNahdndreABU0WdDDvMBkJrrk5bLwDvCXCKfHc7cYnZ3tyQKWaaR+ajexXvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bA71nhcL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=m2vCugwAQk9xSK/ox0mPKAU6k6U5mkN+Twwo2P/r30vGK4v7AnTbW6YzR/YGGzoUwJ8LUXPDAFkYe3N/kJuUoQTSyvs2nDFAyMTubH8TDu9YqnVBElRDiNH+j+p5OmQLAIp49qfflwWffDMaut+3orNievCLCIzyHh+tp2wfw3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQXw9Zj8; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bA71nhcL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F07C4CED1;
-	Wed, 19 Feb 2025 07:32:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739950371;
-	bh=IU+pHUXldmRuJqluDgSiOT9EDGFnrS7y3gSj3xCGbVo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bA71nhcLnBv4vVc6bzgMzt4pcW92PdxJcYfbTt8KMC68oKcFO7FfjZsO6EXrZWchl
-	 Nmf7yFEHV+k3l6FR4r5n/w9/dOE/MgAfqavsjDv3Gxl6m2kgk0td6LefolW/tdq4vk
-	 IQGJ71D7cCbtmVBKFWdpdylHgF1T4KHDqMxX/3ifie06MKaZHrdtFXOMHJVsfhd2gu
-	 4P4M5HUSM3yduXdDxCu6tEG4DMvehgF39yoJqdbeJUI5cTCWgLsXZpSwZcWgYKkLNm
-	 FTFZnXtSVFsFSCIsXBBp5pAB1gXIC0M5l2+gRyX7OFT9Mo9AFvCtwqfqTYSiu7XvFT
-	 Ds0vM/Iq+dYLA==
-Date: Wed, 19 Feb 2025 09:32:31 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: RuiRui Yang <ruyang@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pratyush Yadav <ptyadav@amazon.de>,
-	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v4 00/14] kexec: introduce Kexec HandOver (KHO)
-Message-ID: <Z7WJD6eBLuIRnLwk@kernel.org>
-References: <20250206132754.2596694-1-rppt@kernel.org>
- <CALu+AoRMQyRDFS_4L0KQkmrFT_S+yk=uZ-Mqt86JQYKKnj-5Ug@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQXw9Zj8"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-220ecbdb4c2so132396855ad.3;
+        Tue, 18 Feb 2025 23:38:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739950721; x=1740555521; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0/Djs9NrnZFyY7N9MaDIjuxsEsWYadjuwBoMmF+C/+E=;
+        b=bQXw9Zj82mqjhFnBidjc87/5wIwYQXhY9tOzYu36JRo8K9PCdhqw+bXGYUAe4qmoQn
+         uHviieB2U4c5U2PXG4fi4D2mSAeRiJoRYwKjI4PvzQZbmppL/kquv3xfHIN1J2bO22CB
+         yNzxzVT5QWZYCeRvEvYagmPGERDYW/FNTTK75cwsFKxi2Q1yTwckC+db1EBPTlgcNRdT
+         OfPF96R/CanxOwA6dmuXc+3PfrQD7MG4U6xOb4y2wLXfGsW8MZ95mp+q2tbE0OERhfLW
+         1t6ga9se9rw0MCj7OgvR6Ch5r3UrAtn04Ow118uZ0WtDWUowJ78H3cdltirU2XYg+pkJ
+         Vfsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739950721; x=1740555521;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0/Djs9NrnZFyY7N9MaDIjuxsEsWYadjuwBoMmF+C/+E=;
+        b=E75IEYKc5ycWpXyq5OJ4LV2erPoixdPOFwLemMmaiCy78jxC5UluB7gjKzws8cCn7A
+         I+MuKtWXVCcol6Ml9Y9rI0livk8PEpyMXMUc5Im5x4G3nuwCvCcJAcyjo5Bn1oLUjFX1
+         gXF0UbAQClPwU6yU3FAapdDX4ntEdkRXyu+0v15Td2aPf6QhbB/JeDRl6w10L3rCsRs+
+         1zrF5Y2jztU4sCwxqZ+8xiuVrdMyNagWOL3NLkEoUGCbQZbA5gv/x07vHiRe0aEdMLb0
+         uxy4J+mS0J53DGFeknMK7g5Nf+VyiY1ZmT+ELUfS1d8XLktqdI9l1sm8qfauV6TM8EUw
+         64tg==
+X-Forwarded-Encrypted: i=1; AJvYcCUmHHkg5LrlNpRUKqL+SwFNUMJxO8cZaPZwSgxsSWHlIgo+CrtOdgFsAIx5/MJiZ2EB7V7s4nBNDxU=@vger.kernel.org, AJvYcCVK63jRiCLt5jI8chZnLfiOrwpPNtkimzVIfJ0Xnz6EKho2SwaUl6qY1benoi4uAHJzdr/TwRQJb/+yKjUu@vger.kernel.org, AJvYcCVLb35D6pi7AFw+Eh55MiRctqEihbGRPr8EuKN1UhjYFXWdA3NNMpy62+cgiYzY9hLVl3Pi77AujXhd2Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAZRTyTihpDF8eCimtJrgIQUPYIs1mTVgeqF+bQ3DY5j2N6MUl
+	2472cT9M9VFJ3q0Ug9XwDQSKWX7nMCzYvWjVfJHA3uZnbRhT96hlWUCP1w==
+X-Gm-Gg: ASbGncsSN3gyoT5YTgXdOJMuP9KsmahIPZsPaysKeeJ8+jAz1JaMTx6JXId4R1Dn1bi
+	EuD1J1cfad2V3A8h1aa7J2L2BCTjuBUp4FlBzEigu9fR8hRkdEyalmRjnrlM65U0U1EPlu5u08k
+	VE2of6+hVKpb8KXe5mOxGP2Y5HPPEP1L3+rrzuaiOzh0TQ6aj731wqhTmXd+f2u8Wk4r5BxMhjX
+	dtzNxI0rp1tzfx1d8Eyq1qrYPiLLf7hZyoFGcD46f2nGFnXP1OIQZ/Y/9z2G1whGCe5upCRKw3G
+	K0Eug1nWh05Cgqo=
+X-Google-Smtp-Source: AGHT+IEtnJVIN9VtJexIl05tl/mliZYyCnnzp6h8ajkOHvbvDh2lrvbG6zVZXn9JBV/VSoV5bJeUeQ==
+X-Received: by 2002:a17:903:8c8:b0:220:fe5d:f194 with SMTP id d9443c01a7336-221040ced94mr211767065ad.52.1739950720334;
+        Tue, 18 Feb 2025 23:38:40 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d556d468sm98155505ad.167.2025.02.18.23.38.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Feb 2025 23:38:38 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 1BA5B4208F47; Wed, 19 Feb 2025 14:38:34 +0700 (WIB)
+Date: Wed, 19 Feb 2025 14:38:34 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Andrew Donnellan <ajd@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
+Cc: fbarrat@linux.ibm.com, sfr@canb.auug.org.au, linux-next@vger.kernel.org,
+	mchehab+huawei@kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] cxl: Fix cross-reference in documentation and add
+ deprecation warning
+Message-ID: <Z7WKeru0VjEEsBXu@archie.me>
+References: <20250219064807.175107-1-ajd@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kmv7amjBQtNnovnm"
 Content-Disposition: inline
-In-Reply-To: <CALu+AoRMQyRDFS_4L0KQkmrFT_S+yk=uZ-Mqt86JQYKKnj-5Ug@mail.gmail.com>
+In-Reply-To: <20250219064807.175107-1-ajd@linux.ibm.com>
 
-On Mon, Feb 17, 2025 at 11:19:45AM +0800, RuiRui Yang wrote:
-> On Thu, 6 Feb 2025 at 21:34, Mike Rapoport <rppt@kernel.org> wrote:
-> > == Limitations ==
-> >
-> > Currently KHO is only implemented for file based kexec. The kernel
-> > interfaces in the patch set are already in place to support user space
-> > kexec as well, but it is still not implemented it yet inside kexec tools.
-> >
-> 
-> What architecture exactly does this KHO work fine?   Device Tree
-> should be ok on arm*, x86 and power*, but how about s390?
 
-KHO does not use device tree as the boot protocol, it uses FDT as a data
-structure and adds architecture specific bits to the boot structures to
-point to that data, very similar to how IMA_KEXEC works.
+--kmv7amjBQtNnovnm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Currently KHO is implemented on arm64 and x86, but there is no fundamental
-reason why it wouldn't work on any architecture that supports kexec.
- 
-> Thanks
-> Dae
-> 
+On Wed, Feb 19, 2025 at 05:48:07PM +1100, Andrew Donnellan wrote:
+> commit 5731d41af924 ("cxl: Deprecate driver") labelled the cxl driver as
+> deprecated and moved the ABI documentation to the obsolete/ subdirectory,
+> but didn't update cxl.rst, causing a warning once ff7ff6eb4f809 ("docs:
+> media: Allow creating cross-references for RC ABI") was merged.
+>=20
+> Fix the cross-reference, and also add a deprecation warning.
 
--- 
-Sincerely yours,
-Mike.
+Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--kmv7amjBQtNnovnm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ7WKcwAKCRD2uYlJVVFO
+o0jMAQD1Vx3v8OEwLm/orghsOT4E7eZHtXNBKDhk/IYj/kVqKgD/e27EzMa4n+YV
+4zN0IkxY6Adkg/1+JQpYLwXUa/k7EQA=
+=1Bns
+-----END PGP SIGNATURE-----
+
+--kmv7amjBQtNnovnm--
