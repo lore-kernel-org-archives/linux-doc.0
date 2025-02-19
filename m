@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1BA1B6D0F;
-	Wed, 19 Feb 2025 07:13:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0579C1BBBC6;
+	Wed, 19 Feb 2025 07:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739949225; cv=none; b=mWfHALtI4PlYo17sDggwkYEHwMOajGpufFI0NaUoJER8b7UyMn1FSQaTzA+5l7Gfmh9GAgQzpJrty/kP/fpFbEw5xLItQKBnh1k5yv+dkMAsr95oifOeo2voXb3qQz2R0iXWxWN7UHQn0l46ZgBrBHGkBXlL2CmVhaNADHoThoE=
+	t=1739949895; cv=none; b=IY20pb/nVNCAIyFVWgLOJhyjfr9eLoytOCa/yxuxY8tJRTMW2mOQUj+g788ACR8HXEbjGjnP6Fo7QQrAwyVp7w75nbuFKMho6nm38EOwvINLm7hn+4MK2vmVQ/iYL8U2w/eC8CvZz3lCVZ4FsD3GAKryeKbHjBrg12fub34wHbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739949225; c=relaxed/simple;
-	bh=OOkIIvDjmX+t2iEfuOMs0YPPPkHDOiOCixy3iRv3A8o=;
+	s=arc-20240116; t=1739949895; c=relaxed/simple;
+	bh=SRqj9MZLCV8OPtw+RLc/L0/R3k9RqsqUSw55QX9OOlE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xnqo2AsGgbLimvXAjLjOOYyhXTiTqOyOWJwyAI7DSMnhaj4WgsHbXaiocSiKIEHuKQScd7VyVB9baFLU6g35+y/n3CgGijgmznL0aaOcsVqbAgcdqJKkQq0JHNkqVpTwaN2j8Lm/qZpYoiD4VSoOMvNwt9LwycjCTkpVi+QXfLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qduPPg28; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YtPfqFmnY540fizjQvdMLKzY79uMEwbWgyoG8nP+AUei+W+bc5edInd9RytkY6rzc1GKTBjx3X7VwX16g1q+TBSyli2yvA9ZX/jamMqH5+LqF7X8A8FGtlAq+4eb1nXbxChMd7OQf6e21q/X50HcHruXH4B/XLp5p5MnoGtejwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FtKBbQaY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qduPPg28"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC035C4CED1;
-	Wed, 19 Feb 2025 07:13:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FtKBbQaY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1235C4CED1;
+	Wed, 19 Feb 2025 07:24:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739949225;
-	bh=OOkIIvDjmX+t2iEfuOMs0YPPPkHDOiOCixy3iRv3A8o=;
+	s=k20201202; t=1739949894;
+	bh=SRqj9MZLCV8OPtw+RLc/L0/R3k9RqsqUSw55QX9OOlE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qduPPg28qy6v/QB2ER32fPvjQoDtpyv930crMRnp0aN8TEE8OmFoqthIOFykZwRUv
-	 Pu5NZzJrifM/eee11PWKY563kbOVj9pdGQINPO0kLF/ykiEYMlFp8If0rTc0bF+qMH
-	 z4jFYGZUOaph33hZ8GK2cqPKJAyLPh1mo2vjjrA51c1No2p8SQlBkCAgrWnZQda/KS
-	 v6D8f2jjdG79HKjq8kSAwlDcO8BzV7Sa2td93q5On4iUy0BIocozKb6VSGbhwKR88x
-	 Ia27HNWGMlRKtVxcp2oFAUWuILbF8hDquZj1kRt4RWMWLpZKKmNxCS+wn4F23U8iXo
-	 Mew6Mqit71sDA==
-Date: Wed, 19 Feb 2025 09:13:22 +0200
+	b=FtKBbQaYTslR+0p7SefBILIuS73xk2HkHE9X1wi3f1RYXdzexSpsyIrHcPKNtZYjL
+	 BvKiLvIz6tiQbKcH9IhyUrzpRPaTkQMGYuEz3o1+LwRY6+cXJ2ZdV6QYVU7JbUtlYQ
+	 05YBQSpFJ0o9+4PFttNGG2I4B8gyRtwm24/vnas8DwL/rcu9i5Hz/rxhmWxht1y1Dw
+	 wkLpe3ZZgtmacfwPN46ynU8iy+ypPSs9dwF5Tdr7KWenmjNUChafxZkv2PmgFVMNfi
+	 6mdnd8DQM0qYd4dN8GiXu45YvQUX49U1bZ45kTkOBpF0wvbKLl80gJxVUX5K2raMUR
+	 MM9jdOERGv5AQ==
+Date: Wed, 19 Feb 2025 09:24:31 +0200
 From: Mike Rapoport <rppt@kernel.org>
 To: Wei Yang <richard.weiyang@gmail.com>
 Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
@@ -59,12 +59,11 @@ Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
 	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
 	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v4 01/14] mm/mm_init: rename init_reserved_page to
- init_deferred_page
-Message-ID: <Z7WEktyNoCPylytL@kernel.org>
+Subject: Re: [PATCH v4 02/14] memblock: add MEMBLOCK_RSRV_KERN flag
+Message-ID: <Z7WHL_Xqgoln9oLg@kernel.org>
 References: <20250206132754.2596694-1-rppt@kernel.org>
- <20250206132754.2596694-2-rppt@kernel.org>
- <20250218145904.x57chhz3whvckzu3@master>
+ <20250206132754.2596694-3-rppt@kernel.org>
+ <20250218155004.n53fcuj2lrl5rxll@master>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,33 +72,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250218145904.x57chhz3whvckzu3@master>
+In-Reply-To: <20250218155004.n53fcuj2lrl5rxll@master>
 
 Hi,
 
-On Tue, Feb 18, 2025 at 02:59:04PM +0000, Wei Yang wrote:
-> On Thu, Feb 06, 2025 at 03:27:41PM +0200, Mike Rapoport wrote:
+On Tue, Feb 18, 2025 at 03:50:04PM +0000, Wei Yang wrote:
+> On Thu, Feb 06, 2025 at 03:27:42PM +0200, Mike Rapoport wrote:
 > >From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 > >
-> >When CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, init_reserved_page()
-> >function performs initialization of a struct page that would have been
-> >deferred normally.
+> >to denote areas that were reserved for kernel use either directly with
+> >memblock_reserve_kern() or via memblock allocations.
 > >
-> >Rename it to init_deferred_page() to better reflect what the function does.
+> >Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> >---
+> > include/linux/memblock.h | 16 +++++++++++++++-
+> > mm/memblock.c            | 32 ++++++++++++++++++++++++--------
+> > 2 files changed, 39 insertions(+), 9 deletions(-)
+> >
+> >diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+> >index e79eb6ac516f..65e274550f5d 100644
+> >--- a/include/linux/memblock.h
+> >+++ b/include/linux/memblock.h
+> >@@ -50,6 +50,7 @@ enum memblock_flags {
+> > 	MEMBLOCK_NOMAP		= 0x4,	/* don't add to kernel direct mapping */
+> > 	MEMBLOCK_DRIVER_MANAGED = 0x8,	/* always detected via a driver */
+> > 	MEMBLOCK_RSRV_NOINIT	= 0x10,	/* don't initialize struct pages */
+> >+	MEMBLOCK_RSRV_KERN	= 0x20,	/* memory reserved for kernel use */
 > 
-> Would it be confused with deferred_init_pages()?
+> Above memblock_flags, there are comments on explaining those flags.
+> 
+> Seems we miss it for MEMBLOCK_RSRV_KERN.
 
-Why? It initializes a single page, deferred_init_pages() initializes many.
+Right, thanks!
+ 
+> > 
+> > #ifdef CONFIG_HAVE_MEMBLOCK_PHYS_MAP
+> >@@ -1459,14 +1460,14 @@ phys_addr_t __init memblock_alloc_range_nid(phys_addr_t size,
+> > again:
+> > 	found = memblock_find_in_range_node(size, align, start, end, nid,
+> > 					    flags);
+> >-	if (found && !memblock_reserve(found, size))
+> >+	if (found && !__memblock_reserve(found, size, nid, MEMBLOCK_RSRV_KERN))
+> 
+> Maybe we could use memblock_reserve_kern() directly. If my understanding is
+> correct, the reserved region's nid is not used.
 
-> And it still calls __init_reserved_page_zone(), even we __SetPageReserved()
-> after it. Current logic looks not clear.
+We use nid of reserved regions in reserve_bootmem_region() (commit
+61167ad5fecd ("mm: pass nid to reserve_bootmem_region()")) but KHO needs to
+know the distribution of reserved memory among the nodes before
+memmap_init_reserved_pages().
+ 
+> BTW, one question here. How we handle concurrent memblock allocation? If two
+> threads find the same available range and do the reservation, it seems to be a
+> problem to me. Or I missed something?
 
-There's no __init_reserved_page_zone(). Currently init_reserved_page()
-detects the zone of the page and calls __init_single_page(), so essentially
-it initializes one struct page.
-
-And we __SetPageReserved() in reserve_bootmem_region() after call to
-init_reseved_page() because pages there are indeed reserved.
+memblock allocations end before smp_init(), there is no possible concurrency.
  
 > -- 
 > Wei Yang
