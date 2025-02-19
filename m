@@ -1,112 +1,78 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775E91BD017;
-	Wed, 19 Feb 2025 07:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEA91C3C00;
+	Wed, 19 Feb 2025 07:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739950722; cv=none; b=ovonLibIi7wRYjCGRDWCMpd2gse4FTnFXVM0Zq69kWKlBPgY3b7esf1Bc78ycBoIhMGzKMitq3k+Jm1zWvqYdXwS+WeJUBZrvMTyRzAspcUg6uz61pR2gzrqSJFHEks1zJX+A6HY2H2V12kONCGiiU01qwUKdIS2fNdzQoiTEJ4=
+	t=1739950877; cv=none; b=FFukJDdExU2KSlIfjIisJNbf9PdN16uWYFk1GzBz37m0ZQyRRtRVj2Vi8opVqGou/PdiaHBaBw37la3YcvSe14Zuo4aUc/qA2rruedXmo5wDopw5KGHhV5BLTHvIbdtjJqOJf4nh1kwLCVv+w+4/YcQkFzNsGhADhTX9jVDq734=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739950722; c=relaxed/simple;
-	bh=0/Djs9NrnZFyY7N9MaDIjuxsEsWYadjuwBoMmF+C/+E=;
+	s=arc-20240116; t=1739950877; c=relaxed/simple;
+	bh=QHxIJH5epUxZjVu5h2cfuDcM2p1sRKJAbrzZJcGNvMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m2vCugwAQk9xSK/ox0mPKAU6k6U5mkN+Twwo2P/r30vGK4v7AnTbW6YzR/YGGzoUwJ8LUXPDAFkYe3N/kJuUoQTSyvs2nDFAyMTubH8TDu9YqnVBElRDiNH+j+p5OmQLAIp49qfflwWffDMaut+3orNievCLCIzyHh+tp2wfw3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQXw9Zj8; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=BJnwJSYKR3aFyWjNSS9DEw/iIvnKtevh9jk5XJW1ExLM39rCb+EPHYkF9L9YpGVEsIraOaTK2DBTtbdVjruAtZFhM5u8qF+fZli9Ddrj7BHl8TBAnV6jnnfWeuGlCwwpUBHZlrEc3ckDoHqvrMeBSuGjYnWYH8zFzq1y+q+ffAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=acIw1C0C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQXw9Zj8"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-220ecbdb4c2so132396855ad.3;
-        Tue, 18 Feb 2025 23:38:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739950721; x=1740555521; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0/Djs9NrnZFyY7N9MaDIjuxsEsWYadjuwBoMmF+C/+E=;
-        b=bQXw9Zj82mqjhFnBidjc87/5wIwYQXhY9tOzYu36JRo8K9PCdhqw+bXGYUAe4qmoQn
-         uHviieB2U4c5U2PXG4fi4D2mSAeRiJoRYwKjI4PvzQZbmppL/kquv3xfHIN1J2bO22CB
-         yNzxzVT5QWZYCeRvEvYagmPGERDYW/FNTTK75cwsFKxi2Q1yTwckC+db1EBPTlgcNRdT
-         OfPF96R/CanxOwA6dmuXc+3PfrQD7MG4U6xOb4y2wLXfGsW8MZ95mp+q2tbE0OERhfLW
-         1t6ga9se9rw0MCj7OgvR6Ch5r3UrAtn04Ow118uZ0WtDWUowJ78H3cdltirU2XYg+pkJ
-         Vfsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739950721; x=1740555521;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0/Djs9NrnZFyY7N9MaDIjuxsEsWYadjuwBoMmF+C/+E=;
-        b=E75IEYKc5ycWpXyq5OJ4LV2erPoixdPOFwLemMmaiCy78jxC5UluB7gjKzws8cCn7A
-         I+MuKtWXVCcol6Ml9Y9rI0livk8PEpyMXMUc5Im5x4G3nuwCvCcJAcyjo5Bn1oLUjFX1
-         gXF0UbAQClPwU6yU3FAapdDX4ntEdkRXyu+0v15Td2aPf6QhbB/JeDRl6w10L3rCsRs+
-         1zrF5Y2jztU4sCwxqZ+8xiuVrdMyNagWOL3NLkEoUGCbQZbA5gv/x07vHiRe0aEdMLb0
-         uxy4J+mS0J53DGFeknMK7g5Nf+VyiY1ZmT+ELUfS1d8XLktqdI9l1sm8qfauV6TM8EUw
-         64tg==
-X-Forwarded-Encrypted: i=1; AJvYcCUmHHkg5LrlNpRUKqL+SwFNUMJxO8cZaPZwSgxsSWHlIgo+CrtOdgFsAIx5/MJiZ2EB7V7s4nBNDxU=@vger.kernel.org, AJvYcCVK63jRiCLt5jI8chZnLfiOrwpPNtkimzVIfJ0Xnz6EKho2SwaUl6qY1benoi4uAHJzdr/TwRQJb/+yKjUu@vger.kernel.org, AJvYcCVLb35D6pi7AFw+Eh55MiRctqEihbGRPr8EuKN1UhjYFXWdA3NNMpy62+cgiYzY9hLVl3Pi77AujXhd2Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAZRTyTihpDF8eCimtJrgIQUPYIs1mTVgeqF+bQ3DY5j2N6MUl
-	2472cT9M9VFJ3q0Ug9XwDQSKWX7nMCzYvWjVfJHA3uZnbRhT96hlWUCP1w==
-X-Gm-Gg: ASbGncsSN3gyoT5YTgXdOJMuP9KsmahIPZsPaysKeeJ8+jAz1JaMTx6JXId4R1Dn1bi
-	EuD1J1cfad2V3A8h1aa7J2L2BCTjuBUp4FlBzEigu9fR8hRkdEyalmRjnrlM65U0U1EPlu5u08k
-	VE2of6+hVKpb8KXe5mOxGP2Y5HPPEP1L3+rrzuaiOzh0TQ6aj731wqhTmXd+f2u8Wk4r5BxMhjX
-	dtzNxI0rp1tzfx1d8Eyq1qrYPiLLf7hZyoFGcD46f2nGFnXP1OIQZ/Y/9z2G1whGCe5upCRKw3G
-	K0Eug1nWh05Cgqo=
-X-Google-Smtp-Source: AGHT+IEtnJVIN9VtJexIl05tl/mliZYyCnnzp6h8ajkOHvbvDh2lrvbG6zVZXn9JBV/VSoV5bJeUeQ==
-X-Received: by 2002:a17:903:8c8:b0:220:fe5d:f194 with SMTP id d9443c01a7336-221040ced94mr211767065ad.52.1739950720334;
-        Tue, 18 Feb 2025 23:38:40 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d556d468sm98155505ad.167.2025.02.18.23.38.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 23:38:38 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 1BA5B4208F47; Wed, 19 Feb 2025 14:38:34 +0700 (WIB)
-Date: Wed, 19 Feb 2025 14:38:34 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Andrew Donnellan <ajd@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
-Cc: fbarrat@linux.ibm.com, sfr@canb.auug.org.au, linux-next@vger.kernel.org,
-	mchehab+huawei@kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cxl: Fix cross-reference in documentation and add
- deprecation warning
-Message-ID: <Z7WKeru0VjEEsBXu@archie.me>
-References: <20250219064807.175107-1-ajd@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="acIw1C0C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80ACAC4CED1;
+	Wed, 19 Feb 2025 07:41:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739950877;
+	bh=QHxIJH5epUxZjVu5h2cfuDcM2p1sRKJAbrzZJcGNvMM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=acIw1C0CjsMJZs0NxvaNXZEOwph9coDZ00MyuVN+p4ffygEocuFmym4KFUBjB2lUH
+	 6t3btTiLolR9mDjRtbEphLvcoMOXP2Mx+wxKQ9eBC7DyLAuRRgXO2Au1KWAOupAGYE
+	 s03oiYSBHdSnA7j/zANmahH4ncsFs9y8yFhGxhbVVv8vYO+hsmn+3jOydAqZN80AEP
+	 SAg71euKcsel5m+86EEOWXtfawEtEhEGausZHuBKUnwOA1YjLfmYnzCCyrTnO1VHij
+	 R5RnvKhyqnyJsLnInjbxqPVKY8Enww1EyyOJV8y0Q/E3YI0wR5K4CHPwyre44xa5qw
+	 9sKKD7/cWtqhA==
+Date: Wed, 19 Feb 2025 08:41:13 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Simon Horman <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
+	Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v5 10/12] dt-bindings: net: pse-pd:
+ microchip,pd692x0: Add manager regulator supply
+Message-ID: <20250219-wild-denim-dodo-fbfc7d@krzk-bin>
+References: <20250218-feature_poe_port_prio-v5-0-3da486e5fd64@bootlin.com>
+ <20250218-feature_poe_port_prio-v5-10-3da486e5fd64@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kmv7amjBQtNnovnm"
-Content-Disposition: inline
-In-Reply-To: <20250219064807.175107-1-ajd@linux.ibm.com>
-
-
---kmv7amjBQtNnovnm
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250218-feature_poe_port_prio-v5-10-3da486e5fd64@bootlin.com>
 
-On Wed, Feb 19, 2025 at 05:48:07PM +1100, Andrew Donnellan wrote:
-> commit 5731d41af924 ("cxl: Deprecate driver") labelled the cxl driver as
-> deprecated and moved the ABI documentation to the obsolete/ subdirectory,
-> but didn't update cxl.rst, causing a warning once ff7ff6eb4f809 ("docs:
-> media: Allow creating cross-references for RC ABI") was merged.
->=20
-> Fix the cross-reference, and also add a deprecation warning.
+On Tue, Feb 18, 2025 at 05:19:14PM +0100, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> 
+> This patch adds the regulator supply parameter of the managers.
 
-Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
+In the future:
+Please do not use "This commit/patch/change", but imperative mood. See
+longer explanation here:
+https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
 
---=20
-An old man doll... just what I always wanted! - Clara
+> It updates also the example as the regulator supply of the PSE PIs
+> should be the managers itself and not an external regulator.
+> 
+> Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> ---
 
---kmv7amjBQtNnovnm
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+Krzysztof
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ7WKcwAKCRD2uYlJVVFO
-o0jMAQD1Vx3v8OEwLm/orghsOT4E7eZHtXNBKDhk/IYj/kVqKgD/e27EzMa4n+YV
-4zN0IkxY6Adkg/1+JQpYLwXUa/k7EQA=
-=1Bns
------END PGP SIGNATURE-----
-
---kmv7amjBQtNnovnm--
