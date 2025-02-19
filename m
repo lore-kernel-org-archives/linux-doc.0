@@ -1,45 +1,90 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDEBC1DF98E;
-	Wed, 19 Feb 2025 13:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8AD1DDA36
+	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 13:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739971957; cv=none; b=oH1zaDvsoSTTyMvC/r9APLstOiqRh4XWnGC2oTz4IhyaVlaJOSksvGbx7OgpfTzpONZtShBxmNxJbfIea3NfzZX253bkfoHOAST0rXSz7JIDQvm1XLxWu+r6TE8pPA9a/0+FqnfP8m1z5gyaE3Jpma7351hNRrhTLe+uCnUMZyc=
+	t=1739971990; cv=none; b=QiJk6zKykEPpHD5ayZIZ70lL0AGkbjj3gNqApJeSgNyroeI231zoy98fCewlO5b0HKPiK7+thI0PDJM0G4zcM7cgnPeCICl4IrCQJhztYu5GajFc3joqjOZl7pIXUjoU5LJlVuCUeQQjLaQItNCfzKfJ2Wx7c1xXMFZR4zOcpJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739971957; c=relaxed/simple;
-	bh=VVXDF2CD+9FKQpyKUCi3mKUgPfv38CPodgBP4DhnKqc=;
+	s=arc-20240116; t=1739971990; c=relaxed/simple;
+	bh=cjD26/2UAwFHsgSeZprQTMz/5m3GY77SlSgA4q9tIqQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k7jsfENLrsrc40m2i2ihloGaONTmOctsSzYIeyHzPdcqhfV0JVpORKoZLgBSZuOECJG7yTD42ZU6DdKw72dyhXwcl20hH09sMQsp5CjKxi3eOVn88m8C9alEnRlIiPk1ctb1wtoQ/2PNHrCBJLWNsextKpC1ubtcsYtURSIPiU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A61CC1682;
-	Wed, 19 Feb 2025 05:32:52 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 864893F59E;
-	Wed, 19 Feb 2025 05:32:29 -0800 (PST)
-Date: Wed, 19 Feb 2025 13:32:26 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Babu Moger <babu.moger@amd.com>
-Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	tony.luck@intel.com, peternewman@google.com, fenghua.yu@intel.com,
-	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
-	akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
-	xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
-	daniel.sneddon@linux.intel.com, jpoimboe@kernel.org,
-	perry.yuan@amd.com, sandipan.das@amd.com, kai.huang@intel.com,
-	xiaoyao.li@intel.com, seanjc@google.com, xin3.li@intel.com,
-	andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
-Subject: Re: [PATCH v11 14/23] x86/resctrl: Implement
- resctrl_arch_config_cntr() to assign a counter with ABMC
-Message-ID: <Z7XdagRzP6cX5yn4@e133380.arm.com>
-References: <cover.1737577229.git.babu.moger@amd.com>
- <d0bc17f3f5be4175df34011a366136cddc8df6e2.1737577229.git.babu.moger@amd.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YUyiX0RV3hcBHzfecWCz20vXZ1vd1efwd2WVmlYEirzYxOfy3OkcHwuV3QjZDj1blEYQ37KBetsuFipxbKwGNwLMN4S98cMUr2HJggZVP+eIWw3fd6ox8CxUCpBGVQfu/cw/j6dqSvtm5GLNg9APPG8fPK9lef+bKu9cgIFhuPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=ZFUF70SD; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="ZFUF70SD"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-439350f1a0bso5498495e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 05:33:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1739971987; x=1740576787; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qeYnr6jPu3lSIUMnd641DJ0EkSXG3SudMAp417EhFus=;
+        b=ZFUF70SDBKdB1mZKTYT3kAmtiT1kiO7UWJhEXoMZ5KxCqrF7ZuZOMjOVYYtDq+wZlf
+         zbimSHfo6HO6VfC+0PVKYmmrO/AnXcple9aJBiw8v2mBloqhVtSDwfJD4yhPdo7ARHcl
+         Bh2GFpm/TXev1P5l0SICUY1+zNgR3D1nkFgio=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739971987; x=1740576787;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qeYnr6jPu3lSIUMnd641DJ0EkSXG3SudMAp417EhFus=;
+        b=Kq+ypj3LRXaebtJzQx3z7ALB6kBSQXSuFQbIyAJdSHzESjtkYd2JS4JxXIo/FZVcDh
+         D4zsomVE6/xhS01QfF+EIIRJ1rE4gH+Rdxcew8/AJbf+MG+ZeCcqGOgf8UbqX7jXzENf
+         8AVXRD3mIXse39VOez3nWiR/N1JJTjlMzTqmb2iiukdbnZJB+6blKYdUUmCPym3ls4bJ
+         FPMJETXH79mus+qVscpMw2b5euFmYCKZF/Ub0KNW7jG4bQLYvduJTgGjcTtcpeI7JQfR
+         e6ztPcluH/IvqkHENnHy/Gv2CqyIesQNT65scKBlyQHBCdKrUoVxdoFH6jVNA1EtEF1a
+         yJ5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVuA2LVWyAt2HE3GOW54NDwWugMZvGW+wTDXcMJnmoTW8PU2GcDfb1AvNxkkQih62R3I/LhYgqXdrQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYFb4KfcfFRQMuce4YuXQCY3UhHzSNgZS7PJPAJhPpQeNUD0Su
+	PTjBHk0CsWCSjohkUAZP7auiNGY0mGxyvPQVbzrO0KjPpyGPf/UKmZpBat/dpIk=
+X-Gm-Gg: ASbGncuN6utVrKNsJ9GiSFx5d57hmZ1L7aZ+yvrJj5IkrL+nOLdg7x9a9pjhO+KXbFY
+	FIVOiVipc2Zm7Q62Kki6w9t0u0C2lGCN7o/h/j8hIIEFGtpDkX11SZCY1KmnnAWbcj+GMXTcrY8
+	2oo+hXRWt870CEtjK4LaG2+kaj3lP+SAK5lwv2zbqrjST8tOIKuRuzh55PctweyhHqpMyGDGagJ
+	4VUYSZitUZ/Oz+8HUIYpBXxd/baKFrUuwCt/Q9EMTozcnP8h4+fZpE12PWdEedrE9Dz6H4lE849
+	6IJ9mvYBumFlMzZ4J5+AR0nHM7w=
+X-Google-Smtp-Source: AGHT+IEfr4282QBqEmzNfVUxfuk6xB0RBCkHqhW01JOw3jzUDHaoP/nFjPNWk6Jdq6rqr+AuCCpqyA==
+X-Received: by 2002:a05:600c:19ce:b0:439:5fbd:19d2 with SMTP id 5b1f17b1804b1-43999b44505mr33869735e9.10.1739971987073;
+        Wed, 19 Feb 2025 05:33:07 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a04f208sm211702665e9.6.2025.02.19.05.33.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 05:33:06 -0800 (PST)
+Date: Wed, 19 Feb 2025 14:33:04 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Pranav Tyagi <pranav.tyagi03@gmail.com>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
+Message-ID: <Z7XdkAKqlK2KJuq2@phenom.ffwll.local>
+Mail-Followup-To: Bagas Sanjaya <bagasdotme@gmail.com>,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>
+References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
+ <Z6bKR9K16-oYMLFl@archie.me>
+ <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
+ <CAH4c4j+kOYMfzO5QOBg+hGe2zt4kN4f7v+mrri-2GMLzYtCPrw@mail.gmail.com>
+ <Z7WOym9fl8GNPJiO@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,77 +93,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d0bc17f3f5be4175df34011a366136cddc8df6e2.1737577229.git.babu.moger@amd.com>
+In-Reply-To: <Z7WOym9fl8GNPJiO@archie.me>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 
-On Wed, Jan 22, 2025 at 02:20:22PM -0600, Babu Moger wrote:
-> The ABMC feature provides an option to the user to assign a hardware
-> counter to an RMID, event pair and monitor the bandwidth as long as it
-> is assigned. The assigned RMID will be tracked by the hardware until the
-> user unassigns it manually.
+On Wed, Feb 19, 2025 at 02:56:58PM +0700, Bagas Sanjaya wrote:
+> On Thu, Feb 13, 2025 at 11:05:39PM +0530, Pranav Tyagi wrote:
+> > Hi,
+> > 
+> > Just a gentle follow-up on this patch. It has been reviewed but hasn't
+> > been applied yet.
 > 
-> Implement an architecture-specific handler to assign and unassign the
-> counter. Configure counters by writing to the L3_QOS_ABMC_CFG MSR,
-> specifying the counter ID, bandwidth source (RMID), and event
-> configuration.
-> 
-> The feature details are documented in the APM listed below [1].
-> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
->     Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
->     Monitoring (ABMC).
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
+> You may need to resend the patch, but with scripts/get_maintainer.pl
+> output Cc'ed so that DRM maintainers can be notified on the patch.
 
-[...]
+I don't have the patch since it wasn't cc'ed to dri-devel. Can you please
+resend with r-b tag included?
 
-> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-> index f2bf5b13465d..ef836bb69b9b 100644
-> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
-> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-> @@ -1371,3 +1371,45 @@ void resctrl_arch_mon_event_config_set(void *info)
-
-[...]
-
-> +/*
-> + * Send an IPI to the domain to assign the counter to RMID, event pair.
-> + */
-> +int resctrl_arch_config_cntr(struct rdt_resource *r, struct rdt_mon_domain *d,
-> +			     enum resctrl_event_id evtid, u32 rmid, u32 closid,
-> +			     u32 cntr_id, bool assign)
-> +{
-> +	struct rdt_hw_mon_domain *hw_dom = resctrl_to_arch_mon_dom(d);
-> +	union l3_qos_abmc_cfg abmc_cfg = { 0 };
-> +	struct arch_mbm_state *am;
-> +
-> +	abmc_cfg.split.cfg_en = 1;
-> +	abmc_cfg.split.cntr_en = assign ? 1 : 0;
-> +	abmc_cfg.split.cntr_id = cntr_id;
-> +	abmc_cfg.split.bw_src = rmid;
-> +
-> +	/* Update the event configuration from the domain */
-> +	if (evtid == QOS_L3_MBM_TOTAL_EVENT_ID)
-> +		abmc_cfg.split.bw_type = hw_dom->mbm_total_cfg;
-> +	else
-> +		abmc_cfg.split.bw_type = hw_dom->mbm_local_cfg;
-> +
-> +	smp_call_function_any(&d->hdr.cpu_mask, resctrl_abmc_config_one_amd, &abmc_cfg, 1);
-> +
-> +	/*
-> +	 * Reset the architectural state so that reading of hardware
-> +	 * counter is not considered as an overflow in next update.
-> +	 */
-> +	am = get_arch_mbm_state(hw_dom, rmid, evtid);
-
-Is this necessary when unassigning the counter, or only when assigning?
-
-> +	if (am)
-> +		memset(am, 0, sizeof(*am));
-> +
-> +	return 0;
-> +}
-
-[...]
-
-Cheers
----Dave
+Thanks, Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
