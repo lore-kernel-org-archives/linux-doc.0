@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832921D6DB1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8841D6DC5;
 	Wed, 19 Feb 2025 08:32:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739953972; cv=none; b=DlfPWahJZLtgapmj4NTWkSKS1y5djnfrVcehUYDhqIsFanqQo2s8sI+stwXYuIH2cEMTsJyx11jdIWWFhQFVt9jTcT4Al26a/xMwQaYkMNH5+6cJewpEL7hVcwSNCSIA7scujU8TuTt8g9VNkpPopHMlWgYJatBX1tSpf0emsos=
+	t=1739953972; cv=none; b=o6q1yJog+st9N47wFFeBUOLEDeYtvuNNxydhvU+vnCGJN2l3bKzNqPJvkSovivR4HILDyXHfG/foa3qUzkwQs7oVgHqm34stIouRWdHNK4KZYHvSyAaUY5gFM7BokvaG5kyzU1o2O0Kuqkm2xrKVM0FWkx2aufAGuhrpeAg8hL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739953972; c=relaxed/simple;
-	bh=g3yjKUYPJng0/MFnsVcxoDKnYWevbS21H1bMLGz3lcY=;
+	bh=f3hhbbpUGqP6w/O5kQrl+GO4MbXaX4mT/0fXNELBwgs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jrepDbew+aI4sL8WRc8YJ6vTWOymavLI397x38AeB/biG93VWLJa3mzttl76q7IorIDUHa/CQBvgSSJAOOd+j99ELJ5fZBITdhknfb2gl3NYNZmAT7RHEl7NNC9zwWgywgAF7wSnD2Wx1tgj9qG24uWRz0TG2zWzoWqNR8+3FT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pocYnLOh; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=dS7jtoSyiXpetlfc+L/U437Ts3dxHce8nRUZysziLn+IT2U550l24AdTXTNjWlyXAWebsXB1866Kuc+RIgLbme08Fj5KXFXYfI/PAuBR2CcQH/w4wp5raQHpU3Pf4G4VhBDGJF96+w6hT09m5cHeYr6igkR0TpwVqZ3iFmhNqFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U5iyjG86; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pocYnLOh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 351A9C4CEFC;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U5iyjG86"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65FA7C4CEE8;
 	Wed, 19 Feb 2025 08:32:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1739953972;
-	bh=g3yjKUYPJng0/MFnsVcxoDKnYWevbS21H1bMLGz3lcY=;
+	bh=f3hhbbpUGqP6w/O5kQrl+GO4MbXaX4mT/0fXNELBwgs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pocYnLOhrSNnAbRY//C4qPP93xioq+v0SfxjfF/Ra+E+vYPx6tReflGH46n1XO14Z
-	 qtPFMfhiA9fdtfwZ99X0nlaCPM11queFP5k67f2SeGRA5QDU+WD7fKH3FlGQwYLXJf
-	 PbNyTeJZzzBTPN8KocKUh1M2sdIzN0cbRBUD7179O5neDdxew26ysYSkVhYb1ngz97
-	 x8fCqdNDi3bmavaXoTO2viLGAVo1E2fghEGPrKWZ9a5vMwLIh3gMEnEYxmz0QEbmt8
-	 KTr1ScQdthVgSJf26FiCUDmYwQNwH2CsKXf7VPlFSacHijCHCa9i2vYkeTMViKM7KC
-	 u41zIorP7f9+g==
+	b=U5iyjG86twxw56LAXzUw97eNK6TNr2EOJnwhaROTOENZIwQF9ihxtZ8W8p/VXXnk/
+	 NQvdZrHe2l8/P2cXsJLdFIrVB+cqwxIQYKAWji1gvbTpkJTf5FMQizy4KSGM4GvyOE
+	 XHeOKQXHwsuKVBdPYaTmRI1mPCPa/Hb2fWgqSY+/0QdRw2HNOHwAeLlwFCit0nglXa
+	 AhK56Znc3tWGDj0d5v8RCSSIuV3yaIIaoT6/Fiv1SfnoXnQp0QDRIQlxTwUo5Q72R1
+	 l1qGzNJUcJtGH0qqD+fepFyA/S+q869IRYo+2fkdlCRoojFPpn2tlAMrxTYiTZDBQa
+	 53mdjlKkwwTFw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tkfVi-0000000Gv4z-0vWf;
+	id 1tkfVi-0000000Gv5l-2IxC;
 	Wed, 19 Feb 2025 09:32:50 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,9 +36,9 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 11/27] scripts/kernel-doc.py: better handle empty sections
-Date: Wed, 19 Feb 2025 09:32:27 +0100
-Message-ID: <2de0e2ced74c8d57810b83c5efc9e8e1555f0a63.1739952783.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 23/27] scripts/kernel-doc.py: postpone warnings to the output plugin
+Date: Wed, 19 Feb 2025 09:32:39 +0100
+Message-ID: <8aecc23f0c00f69b36ade8be7ceab880b2f26b20.1739952783.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1739952783.git.mchehab+huawei@kernel.org>
 References: <cover.1739952783.git.mchehab+huawei@kernel.org>
@@ -51,82 +51,192 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While doing the conversion, we opted to skip empty sections
-(description, return), but this makes harder to see the differences
-between kernel-doc (Perl) and kernel-doc.py.
-
-Also, the logic doesn't always work properly. So, change the
-way this is done by adding an extra step to remove such
-sections, doing it only for Return and Description.
+We don't want to have warnings displayed for symbols that
+weren't output. So, postpone warnings print to the output
+plugin, where symbol output is validated.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc.py | 31 ++++++++++++++++++++++++++++---
- 1 file changed, 28 insertions(+), 3 deletions(-)
+ scripts/lib/kdoc/kdoc_output.py | 24 +++++++++++++++----
+ scripts/lib/kdoc/kdoc_parser.py | 41 ++++++++++++++++-----------------
+ 2 files changed, 39 insertions(+), 26 deletions(-)
 
-diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index 8bc0470d3720..886256e87692 100755
---- a/scripts/kernel-doc.py
-+++ b/scripts/kernel-doc.py
-@@ -242,6 +242,19 @@ class KernelDoc:
-         name = self.entry.section
-         contents = self.entry.contents
+diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
+index ca21cd856be4..7aeaec884545 100755
+--- a/scripts/lib/kdoc/kdoc_output.py
++++ b/scripts/lib/kdoc/kdoc_output.py
+@@ -115,7 +115,16 @@ class OutputFormat:
  
-+        # TODO: we can prevent dumping empty sections here with:
-+        #
-+        #    if self.entry.contents.strip("\n"):
-+        #       if start_new:
-+        #           self.entry.section = self.section_default
-+        #           self.entry.contents = ""
-+        #
-+        #        return
-+        #
-+        # But, as we want to be producing the same output of the
-+        # venerable kernel-doc Perl tool, let's just output everything,
-+        # at least for now
+         return block
+ 
+-    def check_doc(self, name):
++    def out_warnings(self, args):
++        warnings = args.get('warnings', [])
 +
-         if type_param.match(name):
-             name = type_param.group(1)
- 
-@@ -298,6 +311,19 @@ class KernelDoc:
- 
-         args["type"] = dtype
- 
-+        # TODO: use colletions.OrderedDict
++        for warning, log_msg in warnings:
++            if warning:
++                self.config.log.warning(log_msg)
++            else:
++                self.config.log.info(log_msg)
 +
-+        sections = args.get('sections', {})
-+        sectionlist = args.get('sectionlist', [])
-+
-+        # Drop empty sections
-+        # TODO: improve it to emit warnings
-+        for section in [ "Description", "Return" ]:
-+            if section in sectionlist:
-+                if not sections[section].rstrip():
-+                    del sections[section]
-+                    sectionlist.remove(section)
-+
-         self.entries.append((name, args))
++    def check_doc(self, name, args):
+         """Check if DOC should be output"""
  
-         self.config.log.debug("Output: %s:%s = %s", dtype, name, pformat(args))
-@@ -401,7 +427,7 @@ class KernelDoc:
-         # to ignore "[blah" in a parameter string.
+         if self.no_doc_sections:
+@@ -125,19 +134,22 @@ class OutputFormat:
+             return False
  
-         self.entry.parameterlist.append(param)
--        org_arg = Re(r'\s\s+').sub(' ', org_arg, count=1)
-+        org_arg = Re(r'\s\s+').sub(' ', org_arg)
-         self.entry.parametertypes[param] = org_arg
+         if self.out_mode == self.OUTPUT_ALL:
++            self.out_warnings(args)
+             return True
  
-     def save_struct_actual(self, actual):
-@@ -1309,8 +1335,7 @@ class KernelDoc:
+         if self.out_mode == self.OUTPUT_INCLUDE:
+             if name in self.function_table:
++                self.out_warnings(args)
+                 return True
+ 
+         return False
+ 
+-    def check_declaration(self, dtype, name):
++    def check_declaration(self, dtype, name, args):
+         if name in self.nosymbol:
+             return False
+ 
+         if self.out_mode == self.OUTPUT_ALL:
++            self.out_warnings(args)
+             return True
+ 
+         if self.out_mode in [self.OUTPUT_INCLUDE, self.OUTPUT_EXPORTED]:
+@@ -146,9 +158,11 @@ class OutputFormat:
+ 
+         if self.out_mode == self.OUTPUT_INTERNAL:
+             if dtype != "function":
++                self.out_warnings(args)
+                 return True
+ 
+             if name not in self.function_table:
++                self.out_warnings(args)
+                 return True
+ 
+         return False
+@@ -162,7 +176,7 @@ class OutputFormat:
+             self.out_doc(fname, name, args)
+             return self.data
+ 
+-        if not self.check_declaration(dtype, name):
++        if not self.check_declaration(dtype, name, args):
+             return self.data
+ 
+         if dtype == "function":
+@@ -327,7 +341,7 @@ class RestFormat(OutputFormat):
+         self.data += "\n"
+ 
+     def out_doc(self, fname, name, args):
+-        if not self.check_doc(name):
++        if not self.check_doc(name, args):
              return
+         self.out_section(args, out_docblock=True)
  
-         if doc_end.search(line):
--            if self.entry.contents.strip("\n"):
--                self.dump_section()
-+            self.dump_section()
+@@ -585,7 +599,7 @@ class ManFormat(OutputFormat):
+         sectionlist = args.get('sectionlist', [])
+         sections = args.get('sections', {})
  
-             # Look for doc_com + <text> + doc_end:
-             r = Re(r'\s*\*\s*[a-zA-Z_0-9:\.]+\*/')
+-        if not self.check_doc(name):
++        if not self.check_doc(name, args):
+                 return
+ 
+         self.data += f'.TH "{module}" 9 "{module}" "{self.man_date}" "API Manual" LINUX' + "\n"
+diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+index 116289622f2c..a71145d531f2 100755
+--- a/scripts/lib/kdoc/kdoc_parser.py
++++ b/scripts/lib/kdoc/kdoc_parser.py
+@@ -130,23 +130,23 @@ class KernelDoc:
+         # Place all potential outputs into an array
+         self.entries = []
+ 
+-    def show_warnings(self, dtype, declaration_name):  # pylint: disable=W0613
+-        """
+-        Allow filtering out warnings
+-        """
+-
+-        # TODO: implement it
+-
+-        return True
+-
+     # TODO: rename to emit_message
+     def emit_warning(self, ln, msg, warning=True):
+         """Emit a message"""
+ 
++        log_msg = f"{self.fname}:{ln} {msg}"
++
++        if self.entry:
++            # Delegate warning output to output logic, as this way it
++            # will report warnings/info only for symbols that are output
++
++            self.entry.warnings.append((warning, log_msg))
++            return
++
+         if warning:
+-            self.config.log.warning("%s:%d %s", self.fname, ln, msg)
++            self.config.log.warning(log_msg)
+         else:
+-            self.config.log.info("%s:%d %s", self.fname, ln, msg)
++            self.config.log.info(log_msg)
+ 
+     def dump_section(self, start_new=True):
+         """
+@@ -220,10 +220,9 @@ class KernelDoc:
+         # For now, we're keeping the same name of the function just to make
+         # easier to compare the source code of both scripts
+ 
+-        if "declaration_start_line" not in args:
+-            args["declaration_start_line"] = self.entry.declaration_start_line
+-
++        args["declaration_start_line"] = self.entry.declaration_start_line
+         args["type"] = dtype
++        args["warnings"] = self.entry.warnings
+ 
+         # TODO: use colletions.OrderedDict
+ 
+@@ -256,6 +255,8 @@ class KernelDoc:
+         self.entry.struct_actual = ""
+         self.entry.prototype = ""
+ 
++        self.entry.warnings = []
++
+         self.entry.parameterlist = []
+         self.entry.parameterdescs = {}
+         self.entry.parametertypes = {}
+@@ -327,7 +328,7 @@ class KernelDoc:
+         if param not in self.entry.parameterdescs and not param.startswith("#"):
+             self.entry.parameterdescs[param] = self.undescribed
+ 
+-            if self.show_warnings(dtype, declaration_name) and "." not in param:
++            if "." not in param:
+                 if decl_type == 'function':
+                     dname = f"{decl_type} parameter"
+                 else:
+@@ -867,16 +868,14 @@ class KernelDoc:
+             self.entry.parameterlist.append(arg)
+             if arg not in self.entry.parameterdescs:
+                 self.entry.parameterdescs[arg] = self.undescribed
+-                if self.show_warnings("enum", declaration_name):
+-                    self.emit_warning(ln,
+-                                      f"Enum value '{arg}' not described in enum '{declaration_name}'")
++                self.emit_warning(ln,
++                                  f"Enum value '{arg}' not described in enum '{declaration_name}'")
+             member_set.add(arg)
+ 
+         for k in self.entry.parameterdescs:
+             if k not in member_set:
+-                if self.show_warnings("enum", declaration_name):
+-                    self.emit_warning(ln,
+-                                      f"Excess enum value '%{k}' description in '{declaration_name}'")
++                self.emit_warning(ln,
++                                  f"Excess enum value '%{k}' description in '{declaration_name}'")
+ 
+         self.output_declaration('enum', declaration_name,
+                                 enum=declaration_name,
 -- 
 2.48.1
 
