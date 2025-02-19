@@ -1,123 +1,102 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D511D1E25EF;
-	Wed, 19 Feb 2025 13:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A701CAA95;
+	Wed, 19 Feb 2025 13:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739970082; cv=none; b=P9W926eh4kAfKpCKLcIRNyMdsOlchDh2RGSkPRg0JT3OGhKWg9gUwav0UTzDhV+Jnxj3C9pPWOx1Pcbyfhtf4U5NJppvepSJfCwaYPsYSXFPE183/LSs5rDe4xjK38BpImVvqo37upszmAgm1MOQWVjDGW+Fa1AGrXGeCC03znU=
+	t=1739971706; cv=none; b=ixjwraejhmcI7OZGIbxS+rQn7c3+76xPqHN25NOaUFAxsS2pHdSjzYLgLI/HBS4IGZq6BKQ0oL6u7WJljmZIcqO8WT2Ijl+eiv1gUihJQvZgk0laXPys9uJR2Aq+imtgLu+MmN0oskL8IntwYJnBfJlMzh/f+rZqC/fw8QsAR5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739970082; c=relaxed/simple;
-	bh=QcccMRbXtdO3gmmJTjotleh7lPgIqkwTESnzznTvJvg=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=DHjXB28Spg/XFDXDJOrRbPW5ihfoecSTkSjiGvKWrRR6pDbaPYIbfS/n11AWcx2ZaUCMpNqdV4BdM77H8eS/uB0hVWb4XpViaJLW5qGGy8UDI1nIn9mBhifA28HWdnpHyQEBLz5HPSVEm+dF9vRDAsXPXAqmxH4ulmj3hdKzhMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=c7C0yDME; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="c7C0yDME"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51J8NRbm014898;
-	Wed, 19 Feb 2025 13:01:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	6KgOzMA8ihMoUxGj5Qw6lNE4j2AzNyOH0PA1NQsnhJI=; b=c7C0yDMEnkbIvyRN
-	vctHbQmTt0jo6TD4MK2X2usM2lG8Cos1u6smvWAihNL4HXSkfYzCG+sEcJK0g8mP
-	l5bjb3JahMY0dg1HLck5SARMvzK/+SzWD1ixqcss7ejrHGa8QbgG+1pm0oZFI+iB
-	2bX38gGUCu8E9l9FREoKv6WXNUA3uoW/FgUZkOWAYbUpcAIexP4dCcl9bjTtztNh
-	vP7yyyC3KvHEIGI/2iH8VOK8LU+VIs02PmYLLtEx9i2+JsqTQ7/Il2D4R7oykENz
-	eUd/IiCdFHPpDT5C1sMhZup5v1iFP218A/xV54NcKqysbVBGvd9lf5ecjwg2XBKp
-	MIl2JQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy12kuw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Feb 2025 13:01:03 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51JD1274015906
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Feb 2025 13:01:02 GMT
-Received: from [10.253.35.15] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 19 Feb
- 2025 05:00:55 -0800
-Message-ID: <2aa1c649-6fce-40b1-bbf7-1d6d756dbbec@quicinc.com>
-Date: Wed, 19 Feb 2025 21:00:53 +0800
+	s=arc-20240116; t=1739971706; c=relaxed/simple;
+	bh=lMdWoFAhhwD7FG5rhhx9X3bRO5vHcx7dvb5tK7w1qI0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZWgWosSj9Ye14mhFKG608pcC+t8ntw0ZbHvdvrFenHBUHweMQCwZtYrdmy4AIX9aP4pmEVgG9DSiy/glhHPP48XG7oV7yPjZesTSzFFW5jxMDDglE6NgLuGxm73AronI1futcQ5xhDByaWcWXsIFabCsJcnb+KwQdYR5ckIB+rY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D88541682;
+	Wed, 19 Feb 2025 05:28:42 -0800 (PST)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7DBDD3F59E;
+	Wed, 19 Feb 2025 05:28:20 -0800 (PST)
+Date: Wed, 19 Feb 2025 13:28:18 +0000
+From: Dave Martin <Dave.Martin@arm.com>
+To: Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	tony.luck@intel.com, peternewman@google.com, fenghua.yu@intel.com,
+	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
+	akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
+	xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
+	daniel.sneddon@linux.intel.com, jpoimboe@kernel.org,
+	perry.yuan@amd.com, sandipan.das@amd.com, kai.huang@intel.com,
+	xiaoyao.li@intel.com, seanjc@google.com, xin3.li@intel.com,
+	andrew.cooper3@citrix.com, ebiggers@google.com,
+	mario.limonciello@amd.com, james.morse@arm.com,
+	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
+	eranian@google.com
+Subject: Re: [PATCH v11 01/23] x86/resctrl: Add __init attribute to functions
+ called from resctrl_late_init()
+Message-ID: <Z7Xccob9B2IMiAXy@e133380.arm.com>
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <e946a96a5d161f7b32e84c23c1a0024a31db2898.1737577229.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Jie Luo <quic_luoj@quicinc.com>
-Subject: Re: [PATCH net-next v3 04/14] net: ethernet: qualcomm: Initialize PPE
- buffer management for IPQ9574
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
-        Suruchi Agarwal
-	<quic_suruchia@quicinc.com>,
-        Pavithra R <quic_pavir@quicinc.com>,
-        "Simon
- Horman" <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook
-	<kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        "Philipp
- Zabel" <p.zabel@pengutronix.de>,
-        <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
-        <srinivas.kandagatla@linaro.org>, <bartosz.golaszewski@linaro.org>,
-        <john@phrozen.org>
-References: <20250209-qcom_ipq_ppe-v3-0-453ea18d3271@quicinc.com>
- <20250209-qcom_ipq_ppe-v3-4-453ea18d3271@quicinc.com>
- <17d9f02c-3eb3-4bae-8a2c-0504747de6f2@lunn.ch>
-Content-Language: en-US
-In-Reply-To: <17d9f02c-3eb3-4bae-8a2c-0504747de6f2@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Oqth_QsftGBuhgXf9_XkLsBETwYRHjW8
-X-Proofpoint-ORIG-GUID: Oqth_QsftGBuhgXf9_XkLsBETwYRHjW8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-19_05,2025-02-19_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 clxscore=1015
- suspectscore=0 spamscore=0 mlxlogscore=910 mlxscore=0 bulkscore=0
- malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2502100000 definitions=main-2502190104
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e946a96a5d161f7b32e84c23c1a0024a31db2898.1737577229.git.babu.moger@amd.com>
 
+Hi,
 
-
-On 2/11/2025 9:14 PM, Andrew Lunn wrote:
->> +/* Assign the share buffer number 1550 to group 0 by default. */
->> +static const int ipq9574_ppe_bm_group_config = 1550;
+On Wed, Jan 22, 2025 at 02:20:09PM -0600, Babu Moger wrote:
+> resctrl_late_init() has the __init attribute, but some of the functions
+> called from it do not have the __init attribute.
 > 
-> To a large extent, the comment is useless. What should be in the
-> comment is why, not what.
+> Add the __init attribute to all the functions in the call sequences to
+> maintain consistency throughout.
+
+(BTW, did you just find these cases by inspection, or were you getting
+build warnings?
+
+Even with CONFIG_DEBUG_SECTION_MISMATCH=y, I struggle to get build
+warnings about section mismatches on inlined functions.  Even building
+with -fno-inline doesn't flag them all up (though I don't think this
+suppresses all inlining).
+
+If you have a way of tracking these cases down automatically, I'd be
+interested to know so that I can apply it elsewhere.)
+
+Cheers
+---Dave
+
+
 > 
-> 	Andrew
-> 
+> Fixes: 6a445edce657 ("x86/intel_rdt/cqm: Add RDT monitoring initialization")
+> Fixes: def10853930a ("x86/intel_rdt: Add two new resources for L2 Code and Data Prioritization (CDP)")
+> Fixes: bd334c86b5d7 ("x86/resctrl: Add __init attribute to rdt_get_mon_l3_config()")
+> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
 
-OK, I will improve the comment to describe it better.
+[...]
 
-There are total 2048 buffers available in PPE, out of which some
-buffers are reserved for some specific purposes. The rest of the
-pool of 1550 buffers are assigned to the general 'group0' which
-is shared among all ports of the PPE.
+> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+> index 3d1735ed8d1f..f0a331287979 100644
+> --- a/arch/x86/kernel/cpu/resctrl/core.c
+> +++ b/arch/x86/kernel/cpu/resctrl/core.c
+> @@ -145,7 +145,7 @@ u32 resctrl_arch_system_num_rmid_idx(void)
+>   * is always 20 on hsw server parts. The minimum cache bitmask length
+>   * allowed for HSW server is always 2 bits. Hardcode all of them.
+>   */
+> -static inline void cache_alloc_hsw_probe(void)
+> +static inline __init void cache_alloc_hsw_probe(void)
+>  {
+>  	struct rdt_hw_resource *hw_res = &rdt_resources_all[RDT_RESOURCE_L3];
+>  	struct rdt_resource *r  = &hw_res->r_resctrl;
+> @@ -277,7 +277,7 @@ static __init bool __rdt_get_mem_config_amd(struct rdt_resource *r)
 
+[...]
