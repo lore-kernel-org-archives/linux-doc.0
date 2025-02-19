@@ -1,255 +1,176 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3A443151
-	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 11:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F0AB1DE89D;
+	Wed, 19 Feb 2025 12:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739964511; cv=none; b=Y9XD/1du0OxwmYkqMKJn2zqUk4wLFGo2uzJ4KMbacbsKPnN5LTChBUL+tAzyAILHAeSlf5M+cNzlE5Z1unUS5mqNH88WIG1x70SpCJk9yoV7+OkegnrbA0ru1TD6J09z1IYYnBKn0f5tZ7F+H1SEbE/9HEp/XFyVbz2awj/gSrM=
+	t=1739967896; cv=none; b=FQpgwJzdYpDGfY+972+VJjG8NiHIGmY8JJR1uE6fHJLnmbvdNtNxhLSVER6PoQjOXcxCNmVRMHyMiaPEzu6QEc5uPtnnvaeTCJyAvh19c8dZX7WxPS/0ZrP9hDLlLYowKOCWaS6h7QADhEVTN9OuL9AoKGSRzxXANXZgnKWWvaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739964511; c=relaxed/simple;
-	bh=u04IQISYLjCMofqQ3QpQiAxrQZB8WL69dEdlPjDMpVs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HZAdDP51bXRoxiCwO1+fxJ8b0HMhPn2t7JB2Z+/nD4kRC5XJG0O9lZCHwktZ+6FI/Gdh5AVc2/SwAVez/NFEKR1m0eHRMscJTzAxSXxYS/gRFgjaUvvk/hlmMhjXRNmhBW8YO9pmtfhcls5TRNkCfsJpeftf4AVxKSRZgkJqLEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IEDbgivr; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IEDbgivr"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ab771575040so141659866b.1
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 03:28:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1739964508; x=1740569308; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u04IQISYLjCMofqQ3QpQiAxrQZB8WL69dEdlPjDMpVs=;
-        b=IEDbgivrUe9oU+qy+QUfrEkxewhOE33ZAueniz6SGvdrhDsjy8cNpOmnoAm36xc+Bu
-         oLq5yO4JgwjaaSRO1bgmoS5bjHo6EFmns+mptetjq6bXWuY0SkK6ITkcyZlTDZnedLLZ
-         Fxi9DfW3MM6kAevmO6PDR1mVnF8LNbhxdQEkT2QPuVKh/bfUqd1qI52FJkcOtGpFLV9q
-         oXCyIQY0Bgx9FVa1A+L0OiUORP2fV2n3oYvjkmz+aOwTjtRtV4f7R1jWBBXOl8WZwkIe
-         wvjQqFvJnulkNDIXmpFnM0dM8vNB42bFAFUG24HtrX2jpJG20oHtbfhbDXgsf5VDcY3W
-         sG2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739964508; x=1740569308;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u04IQISYLjCMofqQ3QpQiAxrQZB8WL69dEdlPjDMpVs=;
-        b=dfmBf5s/Nofi1Tkr9mJQ+kzyQGUZMAgVL90Oh46TZgsR3Ureo5OcsYOxV5iBYp5DPm
-         qqNONHaFwmvt/qrD79eDy84P/ZdDibMCyqHz2n0Z4MzBmKMCzF0S0o/zlDmqL5Uu/XMi
-         q1GpuPLQ+E5PfB2pPulA5slBvd85akgYNA6g3+zXDFndU6aWOBV0cJQqiVijTad63GWQ
-         MzDSLiqMJ4cOe2Ikj5oaTIErwDCTUEgNurjiXl1C2uAzvVLBpMt69A9egLpKKZBEq6cO
-         Dg4v1B6/5OHgIhNP/kaY6sR7+a4HXADRbvSwWSDpgMzMLzdD6yjHF6tGTQzBMEFlV7w0
-         HeDA==
-X-Forwarded-Encrypted: i=1; AJvYcCWfwCRA7Xlw1YYwVURknhmij4L1vWirUUI7649SLoUsd7Pq8q94gG2wX6ea3ClCc712ItS7IE+7GZE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/619/VA2LAOWnWfBDPas9nUKsbUgR8VC4tHI2tslzpUjjdLwv
-	9pJvAhu0yI+z/LPqTst30HgMR8VEmudIGK88T/Gb0pFj1I4FfMo4c/E3V7MXVY1tKzYX0v899pa
-	k30hopFB6X8NFqkhP8GPedICsmPXNM7qxp1/P
-X-Gm-Gg: ASbGncv/qDsQDMSTLhD6O7te3P9mK5qcMdMPKTJ/CQbu/dFBUxsDdX6+bPUNh6vqDbY
-	5SkkGD5GR3B3ARVfGUUs35bXBcd/jUmrhc0/yGujoRO1dHInHNz40iKpUFw3PFz+Obc90zT+adn
-	e3WJa0Chsk+RuMzYE10GJdWDAKkg==
-X-Google-Smtp-Source: AGHT+IFL52lnenWGTW7oL6dts31qk9OG+Soh9kwzHUZQ5Np2XKnPToSu2WGVEC4v36VmQqo5ZuJMvvYrs075LQvqc84=
-X-Received: by 2002:a17:906:318c:b0:ab7:d34a:8f83 with SMTP id
- a640c23a62f3a-abbcc653f77mr306072566b.17.1739964508215; Wed, 19 Feb 2025
- 03:28:28 -0800 (PST)
+	s=arc-20240116; t=1739967896; c=relaxed/simple;
+	bh=ppiQj7taOmrkOVW6WhbxT8Jb9kpZcTfAW6XFCQoFOv4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HPgBYHDh9EMEwioOfBMvp5Qjzj76MNIBWXTtKNRVGA/9VxabXHuvHCVSHpqJ1OUmZXkKehgn3oiGc4waA+DWVXEnvroUK4q4ZRC8rY9n2T+kMNkRjLjVxHLMj/EG441UzWl2xDGJifgHr2lOn2e0Bpun/s7unBV/7ZXGhzQL/z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A5CC91682;
+	Wed, 19 Feb 2025 04:25:11 -0800 (PST)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 65B3C3F6A8;
+	Wed, 19 Feb 2025 04:24:48 -0800 (PST)
+Date: Wed, 19 Feb 2025 12:24:42 +0000
+From: Dave Martin <Dave.Martin@arm.com>
+To: "Moger, Babu" <babu.moger@amd.com>
+Cc: "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	"Moger, Babu" <bmoger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	tony.luck@intel.com, x86@kernel.org, hpa@zytor.com,
+	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
+	rostedt@goodmis.org, xiongwei.song@windriver.com,
+	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
+	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
+	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
+	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
+	mario.limonciello@amd.com, james.morse@arm.com,
+	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
+	eranian@google.com
+Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+Message-ID: <Z7XNinHbdsNLZ977@e133380.arm.com>
+References: <Z6zeXby8ajh0ax6i@e133380.arm.com>
+ <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
+ <Z64tw2NbJXbKpLrH@e133380.arm.com>
+ <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com>
+ <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
+ <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com>
+ <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
+ <bdb48b29-92cf-4f98-b375-25ec84f0941a@amd.com>
+ <Z7R9VedhOSp64W7X@e133380.arm.com>
+ <56a48b63-7625-4d90-81bb-29a1eb588871@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1737577229.git.babu.moger@amd.com> <Z6zeXby8ajh0ax6i@e133380.arm.com>
- <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com> <Z64tw2NbJXbKpLrH@e133380.arm.com>
- <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com> <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
- <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com> <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
- <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com>
-In-Reply-To: <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com>
-From: Peter Newman <peternewman@google.com>
-Date: Wed, 19 Feb 2025 12:28:16 +0100
-X-Gm-Features: AWEUYZmWoH5-nb_-0SCae4RnH3JlkVydGrohy3tJyf8cfqh-Cd4pRJxy2oPdR58
-Message-ID: <CALPaoCj1TH+GN6+dFnt5xuN406u=tB-8mj+UuMRSm5KWPJW2wg@mail.gmail.com>
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: "Moger, Babu" <bmoger@amd.com>, Dave Martin <Dave.Martin@arm.com>, Babu Moger <babu.moger@amd.com>, 
-	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, tony.luck@intel.com, x86@kernel.org, 
-	hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org, 
-	thuth@redhat.com, rostedt@goodmis.org, xiongwei.song@windriver.com, 
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com, 
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com, 
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com, 
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com, 
-	mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	maciej.wieczor-retman@intel.com, eranian@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <56a48b63-7625-4d90-81bb-29a1eb588871@amd.com>
 
-Hi Reinette,
+Hi there,
 
-On Tue, Feb 18, 2025 at 6:50=E2=80=AFPM Reinette Chatre
-<reinette.chatre@intel.com> wrote:
->
-> Hi Peter,
->
-> On 2/17/25 2:26 AM, Peter Newman wrote:
-> > Hi Reinette,
-> >
-> > On Fri, Feb 14, 2025 at 8:18=E2=80=AFPM Reinette Chatre
-> > <reinette.chatre@intel.com> wrote:
+On Tue, Feb 18, 2025 at 09:39:43AM -0600, Moger, Babu wrote:
+> Hi All,
+> 
+> On 2/18/25 06:30, Dave Martin wrote:
+> > On Mon, Feb 17, 2025 at 10:45:29AM -0600, Moger, Babu wrote:
+> >> Hi All,
+
+[...]
+
+> >> One thing I am not clear why MPAM implementation plans to create separate
+> >> files(dynamically) in /sys/fs/resctrl/info/L3_MON/ directory to read the
+> >> events. We already have files in each group to read the events.
 > >>
-> >> Hi Babu,
-> >>
-> >> On 2/14/25 10:31 AM, Moger, Babu wrote:
-> >>> On 2/14/2025 12:26 AM, Reinette Chatre wrote:
-> >>>> On 2/13/25 9:37 AM, Dave Martin wrote:
-> >>>>> On Wed, Feb 12, 2025 at 03:33:31PM -0800, Reinette Chatre wrote:
-> >>>>>> On 2/12/25 9:46 AM, Dave Martin wrote:
-> >>>>>>> On Wed, Jan 22, 2025 at 02:20:08PM -0600, Babu Moger wrote:
-> >>
-> >> (quoting relevant parts with goal to focus discussion on new possible =
-syntax)
-> >>
-> >>>>>> I see the support for MPAM events distinct from the support of ass=
-ignable counters.
-> >>>>>> Once the MPAM events are sorted, I think that they can be assigned=
- with existing interface.
-> >>>>>> Please help me understand if you see it differently.
-> >>>>>>
-> >>>>>> Doing so would need to come up with alphabetical letters for these=
- events,
-> >>>>>> which seems to be needed for your proposal also? If we use possibl=
-e flags of:
-> >>>>>>
-> >>>>>> mbm_local_read_bytes a
-> >>>>>> mbm_local_write_bytes b
-> >>>>>>
-> >>>>>> Then mbm_assign_control can be used as:
-> >>>>>> # echo '//0=3Dab;1=3Db' >/sys/fs/resctrl/info/L3_MON/mbm_assign_co=
-ntrol
-> >>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_read_bytes
-> >>>>>> <value>
-> >>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
-> >>>>>> <sum of mbm_local_read_bytes and mbm_local_write_bytes>
-> >>>>>>
-> >>>>>> One issue would be when resctrl needs to support more than 26 even=
-ts (no more flags available),
-> >>>>>> assuming that upper case would be used for "shared" counters (unle=
-ss this interface is defined
-> >>>>>> differently and only few uppercase letters used for it). Would thi=
-s be too low of a limit?
-> >>
-> >> As mentioned above, one possible issue with existing interface is that
-> >> it is limited to 26 events (assuming only lower case letters are used)=
-. The limit
-> >> is low enough to be of concern.
-> >
-> > The events which can be monitored by a single counter on ABMC and MPAM
-> > so far are combinable, so 26 counters per group today means it limits
-> > breaking down MBM traffic for each group 26 ways. If a user complained
-> > that a 26-way breakdown of a group's MBM traffic was limiting their
-> > investigation, I would question whether they know what they're looking
-> > for.
->
-> The key here is "so far" as well as the focus on MBM only.
->
-> It is impossible for me to predict what we will see in a couple of years
-> from Intel RDT, AMD PQoS, and Arm MPAM that now all rely on resctrl inter=
-face
-> to support their users. Just looking at the Intel RDT spec the event regi=
-ster
-> has space for 32 events for each "CPU agent" resource. That does not take=
- into
-> account the "non-CPU agents" that are enumerated via ACPI. Tony already m=
-entioned
-> that he is working on patches [1] that will add new events and shared the=
- idea
-> that we may be trending to support "perf" like events associated with RMI=
-D. I
-> expect AMD PQoS and Arm MPAM to provide related enhancements to support t=
-heir
-> customers.
-> This all makes me think that resctrl should be ready to support more even=
-ts than 26.
+> >> # ls -l /sys/fs/resctrl/mon_data/mon_L3_00/
+> >> total 0
+> >> -r--r--r--. 1 root root 0 Feb 17 08:16 llc_occupancy
+> >> -r--r--r--. 1 root root 0 Feb 17 08:16 mbm_local_bytes
+> >> -r--r--r--. 1 root root 0 Feb 17 08:16 mbm_total_bytes
+> > 
+> > 
+> > To be clear, we have no current plan to do this from the Arm side.
+> > 
+> > My sketch was just a thought experiment to test whether we would have
+> > difficulties _if_ a decision were made to extend the interface in that
+> > direction.
+> > 
+> > But it looks OK to me: the interface proposed in this series seems to
+> > leave enough possibilities for extension open that we could do
+> > something like what I described later in if we decide to.
+> > 
+> > 
+> > Overall, the interface proposed in this series seems a reasonable way
+> > to support ABMC systems while keeping the consumer-side interface
+> > (i.e., reading the mbm_total_bytes files etc.) as similar to the
+> > classic / Intel RDT situation as possible.
+> > 
+> > MPAM can fit in with this approach, as demonstrated by James' past
+> > branches porting the MPAM driver on top of previous versions of the
+> > ABMC series.
+> 
+> Thanks Dave.
+> > 
+> > As I understand it, he's almost done with porting onto this v11,
+> > with no significant issues.
+> > 
+> Good to know. Thanks
+> 
+> I am working on v12 of ABMC with few changes from Reinette's earlier
+> review comments.
+> 
+> Most of the changes are related to commit message update and user
+> documentation update.
+> 
+> Introduced couple of new functions resctrl_reset_rmid_all() and
+> mbm_cntr_free_all() to organize the code better based on the comment.
+> https://lore.kernel.org/lkml/b60b4f72-6245-46db-a126-428fb13b6310@intel.com/
+> 
+> 
+> On top of that I have few comments from from Dave.
+> 
+> 1.  Change "mbm_cntr_assign" to "mbm_counter_assign".
+> 
+> This will require me to search and replace lot of places. There are
+> variables, names like num_mbm_cntrs, mbm_cntr_assignable,
+> resctrl_arch_mbm_cntr_assign_enabled, resctrl_arch_mbm_cntr_assign_set,
+> mbm_cntr_assign_enabled, resctrl_num_mbm_cntrs_show, mbm_cntr_cfg and list
+> goes on.
+> 
+>  This is mostly cosmetic and not much value add. Will drop this change if
+> Dave has no objections.
 
-I was thinking of the letters as representing a reusable, user-defined
-event-set for applying to a single counter rather than as individual
-events, since MPAM and ABMC allow us to choose the set of events each
-one counts. Wherever we define the letters, we could use more symbolic
-event names.
+There is no need to change the names of kernel symbols -- this was just
+about the interface presented to userspace.
 
-In the letters as events model, choosing the events assigned to a
-group wouldn't be enough information, since we would want to control
-which events should share a counter and which should be counted by
-separate counters. I think the amount of information that would need
-to be encoded into mbm_assign_control to represent the level of
-configurability supported by hardware would quickly get out of hand.
+So, if you rename only the affect file names in resctrlfs (I think
+there weren't any others) then I'm happy with that.
 
-Maybe as an example, one counter for all reads, one counter for all
-writes in ABMC would look like...
-
-(L3_QOS_ABMC_CFG.BwType field names below)
-
-(per domain)
-group 0:
- counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
- counter 1: VictimBW,LclNTWr,RmtNTWr
-group 1:
- counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
- counter 3: VictimBW,LclNTWr,RmtNTWr
-...
-
-I assume packing all of this info for a group's desired counter
-configuration into a single line (with 32 domains per line on many
-dual-socket AMD configurations I see) would be difficult to look at,
-even if we could settle on a single letter to represent each
-universally.
-
->
-> My goal is for resctrl to have a user interface that can as much as possi=
-ble
-> be ready for whatever may be required from it years down the line. Of cou=
-rse,
-> I may be wrong and resctrl would never need to support more than 26 event=
-s per
-> resource (*). The risk is that resctrl *may* need to support more than 26=
- events
-> and how could resctrl support that?
->
-> What is the risk of supporting more than 26 events? As I highlighted earl=
-ier
-> the interface I used as demonstration may become unwieldy to parse on a s=
-ystem
-> with many domains that supports many events. This is a concern for me. An=
-y suggestions
-> will be appreciated, especially from you since I know that you are very f=
-amiliar with
-> issues related to large scale use of resctrl interfaces.
-
-It's mainly just the unwieldiness of all the information in one file.
-It's already at the limit of what I can visually look through.
-
-I believe that shared assignments will take care of all the
-high-frequency and performance-intensive batch configuration updates I
-was originally concerned about, so I no longer see much benefit in
-finding ways to textually encode all this information in a single file
-when it would be more manageable to distribute it around the
-filesystem hierarchy.
-
--Peter
+But if you prefer to avoid this inconsistency, the file name can stay
+as-is.  It's not a huge deal.
 
 
->
-> Reinette
->
-> [1] https://lore.kernel.org/lkml/SJ1PR11MB6083759CCE59FF2FE931471EFCFF2@S=
-J1PR11MB6083.namprd11.prod.outlook.com/
->
-> (*) There is also the scenario where combined between resources there may=
- be
-> more than 26 events supported that will require the same one letter flag =
-to be
-> used for different events of different resources. This may potentially be
-> confusing.
+> 2. Change /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs to display per-domain
+> supported counters instead of a single value.
+
+Ack; thanks (we could always add it back in later without an ABI break,
+if people feel strongly about it and it looks feasible).
+
+
+> 3. Use the actual events instead of flags based on the below comment.
+> 
+> https://lore.kernel.org/lkml/a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com/
+> 
+>  Something like this.
+>  # echo '//0={mbm_total_bytes}{mbm_local_bytes};1={mbm_local_bytes}'
+> >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
+> 
+>  Are we ready to go with this approach? I am still not clear on this.
+
+[...]
+
+> -- 
+> Thanks
+> Babu Moger
+
+On this point, I'll defer to discussions elsewhere on the thread.
+
+
+I have a few other minor comments pending to post, but it looks like
+there may be a more serious issue with how the mbm_assign_control file
+is handled in the kernel -- I'll try to post comments on that today.
+
+Cheers
+---Dave
