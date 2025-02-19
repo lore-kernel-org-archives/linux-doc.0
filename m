@@ -1,249 +1,298 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2075.outbound.protection.outlook.com [40.107.243.75])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8386EEEA6;
-	Wed, 19 Feb 2025 16:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739984028; cv=fail; b=Czmf+yDvm8iDqbUwLD6NsqrIcNNDH7Gmwlv63d2VP/a4InrAdzabHvbPpoWVrVP8iZQO6jlvApplmbRLEc4kaKFoefgcc+tQfJUFO8IwNSgEcai4Vcwrj//9IKMPTs77ke1On+Fnle/ZMAe3+lAAuxnv8NOGYnfJLqmG8axSWEM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739984028; c=relaxed/simple;
-	bh=nJu4W7tj8bTghcw56pZZuMeyb3xwOrGN5IpyS3bdxlU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=U1i8E/gjR5NHwdzyHxw5J8Rm30SA+0vitc4JkoclRoDrTMh7k9h0qBP1bDgOzK8c59i3a76fy5tUfg4b8d/kDKbS+XcvhZUS904B8F0tGkHzD5Qx4/s+tz9vyzCk7h3b5AX0LLGkdM1RfieTYNaeDh1A/0sAvalT3Pw5mYLxwxo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vmg/R5yk; arc=fail smtp.client-ip=40.107.243.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CCA189906;
+	Wed, 19 Feb 2025 17:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739985072; cv=none; b=X7IGf+kB1Cwzpz/pozaP1BHR5VfpQyprzRo0ORAuSie703sQw+H4skTcd/NHyz9ljMEisyVh0+onnSjMx9zrneY6WSYwJEOxAnmxkYlLY4hGv7Sf4tw6K8HWOMoXbjRx0tKG3n60wEM1clhBc2SXEQNZ0VhttDU735FTO+6JuFI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739985072; c=relaxed/simple;
+	bh=GoZpE68iA0G0SjysI+X7wQAPkiW1Vzlo0DXzSRuricI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tSkcroNyiCCOIUa/zU+LCA/cNzCUO3Wl9/DGh1aAzDIE6aA2nY7EBENXDn2ZFyzX8dKppq9WuB4Z6K1ytLmcJq1Ey0vzVBmTZ2tIwORCSNHYnwKl2C4NJRYaWqN+vQdKKOOjJlzkQD2rWHOhVbF4RCE/iBblya/3lQeVpD1vKS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz; spf=pass smtp.mailfrom=dxuuu.xyz; dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b=HuEBl+XN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JWmcviSy; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dxuuu.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vmg/R5yk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fpF0+TLcyOv4v6OEfEc96tvmt2/8lsg4QcIs0QktNZn97dptBcSp+ay7dkR35Fds1XNaElTzaXIvvK3r4ZbtQRxnFkNvzjgi37SSMr327YDN7/1S2whA9O+mb9hIcfvUcacQCrYUD3wsomAkYPXA8XS4dFEfqQeSogVTn2URVyAILXpAdBJhiC1Nm8WmxW1h13pdK1i0NHgAWBrtIv0ILu747hP8UnMU7XeyWLnlwaEntQ8C29tm5Se52q+58VvoSgsU3ncAxTBjV1F5b3drv/gVSqV6r8p3f/REfh+Z/QHRT3MJd247tuMzQD/811KZw0O5Ha4UEBo2UtlwezYXng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TVW34MRzHJpu2Dg+z+BTnlKecCvpUn+LBH3aZTDw8Cw=;
- b=IG9lx9Mf0eEbfzbIejGs7DUa49HdMTwL2AYf9N8upvvCozGFTJyJdAxk9UTilRwoQczrUL4UYElg7lNa66P2mvgS/ZCisEl5v/yij6xJCEt6YGNEzbJnuSC47qVbJivPQgLtVdnMp5Jb9ngxxk/2pcJmOzf0gC1aqTsSEFrTTBdc0U6BTIJaj7k0Jp4y5ZRgP+AhDTBHmg8BuOMRfAWK0cwllWvrBGZECPafH5DRgrVCk8pVAlr+ZWMYKh/y9wx48syjaJrpHmP/ko/pMFErPfqjkPZc/zN9EBMvtvFkRsCIkORjrIHZjvDmRjgeuEApIfztHKBh0z9Vr97gAjRl3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TVW34MRzHJpu2Dg+z+BTnlKecCvpUn+LBH3aZTDw8Cw=;
- b=vmg/R5ykhVn/hRoGNobBG2fmqeTpB1AGcUhfq6aAo+jgGzPEOyM9UH1yh2NSURn20RpDk1wXMCFA9Ep9RU0oGRLOF0eYK1HfC1huj6q7eE4fBfhykLoWUbypRPeUalwcV+wve0af8yyN43a5TB1W+19alPkPG8cNNzMu/3XnwF0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
- by DM4PR12MB6664.namprd12.prod.outlook.com (2603:10b6:8:bb::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.15; Wed, 19 Feb
- 2025 16:53:43 +0000
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::d22d:666e:be69:117f]) by SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::d22d:666e:be69:117f%2]) with mapi id 15.20.8445.017; Wed, 19 Feb 2025
- 16:53:43 +0000
-Message-ID: <68cab18c-9a17-45a2-8374-86deccf2664b@amd.com>
-Date: Wed, 19 Feb 2025 10:53:41 -0600
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v11 01/23] x86/resctrl: Add __init attribute to functions
- called from resctrl_late_init()
-To: Dave Martin <Dave.Martin@arm.com>
-Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- tony.luck@intel.com, peternewman@google.com, fenghua.yu@intel.com,
- x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
- akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
- xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
- daniel.sneddon@linux.intel.com, jpoimboe@kernel.org, perry.yuan@amd.com,
- sandipan.das@amd.com, kai.huang@intel.com, xiaoyao.li@intel.com,
- seanjc@google.com, xin3.li@intel.com, andrew.cooper3@citrix.com,
- ebiggers@google.com, mario.limonciello@amd.com, james.morse@arm.com,
- tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
- eranian@google.com
-References: <cover.1737577229.git.babu.moger@amd.com>
- <e946a96a5d161f7b32e84c23c1a0024a31db2898.1737577229.git.babu.moger@amd.com>
- <Z7Xccob9B2IMiAXy@e133380.arm.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <Z7Xccob9B2IMiAXy@e133380.arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR08CA0021.namprd08.prod.outlook.com
- (2603:10b6:805:66::34) To SA0PR12MB4557.namprd12.prod.outlook.com
- (2603:10b6:806:9d::10)
+	dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b="HuEBl+XN";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JWmcviSy"
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 36BCC1140105;
+	Wed, 19 Feb 2025 12:11:09 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Wed, 19 Feb 2025 12:11:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1739985069; x=1740071469; bh=6xRf/SvN2H
+	iaZCi3Y5dfp119ptUp4xBlyXwvvU7S1Os=; b=HuEBl+XNFMKxsRPnh/lkdkbgXY
+	1d0ieOBWxU2Q0Ca4by4GyVwJPknbXzHk06ZWuai7FHPFrP5xAwwIIpF62VBA2OCF
+	42+R2Z9PUCyGUErDa9v1QHZ6t+ib2UDD0IfcYslE66LeyxCwfWfs8WYaLR91l1YR
+	AjcTe1/9CIU8SMOQppAD/fV8L82ocgFUAgl6dvw6+tpvZ09kKER6Z2bD52y0QV0L
+	0Nz52kaBfjKZEBqClBZNnLCEvnaOJx5fu5xsR0mMPVYWjwyDvnWLSKwKPheoADJq
+	nso5JTzUOk0lw3krouLfzvkFvBwv3CPw11ny+9VwG012wjq927gMzG1TSJJw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1739985069; x=1740071469; bh=6xRf/SvN2HiaZCi3Y5dfp119ptUp4xBlyXw
+	vvU7S1Os=; b=JWmcviSyu+R6+p5tIH0/c+teAWq2z6MUEnMCLnIl90sipeKQ71O
+	hikCNtZm7k7XEXIWwyZR7ZqZ99kP+xekqkGYJ81x0giHbYTROxNZqeYqmStJWllq
+	VfFaQQcV/SSvQXobUzKRnaVZ5o8J73nwcbUDyNeVbKpV+7Fkn6YrL2fu9Ie+FRhO
+	9HuAm7Z4hbgs6iaVW0eaP+ZQjwwgnj0UV4nuBpU7yObbZYXYfH6vuD3bNwhL9GS9
+	XBt3GhjSS6cLpO6WCcGMpGsnbpEIE/aL0WdOMJYTFxnRpyjncWLS0lbgq0c14MTb
+	k4mquZK7MfMJ2VCXOgWnQd/AWLLjloBx34w==
+X-ME-Sender: <xms:qxC2Z9fV-qj_8UEn__vhzLrQIlZk29RbJzdEX06vX2F2fq0uqKR8hw>
+    <xme:qxC2Z7NSFiteNR2YDVYHltLB43VWU0TPgom63hHEwXfWkTrEOH1kRU0SJzb8sPg6a
+    zq7pWpSvKVnU3MsrA>
+X-ME-Received: <xmr:qxC2Z2hgMtVyxlUPqVrgmaUwUK5SfvXI9ErhJzdhqE8f41WFGsu7g317uuHk3Mp_8jllJ2ZoqQvFYZ9sEdJYlI0mtrC7XaAXx5LI8txUSsu7ZA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigeekfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenfghrlhcuvffnffculdejtddmnecujfgurhepfffhvfevuffk
+    fhggtggujgesthdtsfdttddtvdenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihuse
+    gugihuuhhurdighiiiqeenucggtffrrghtthgvrhhnpedvfeekteduudefieegtdehfeff
+    keeuudekheduffduffffgfegiedttefgvdfhvdenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegugihusegugihuuhhurdighiiipdhnsggprhgt
+    phhtthhopeegtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghpgedvtddtje
+    efsehgmhgrihhlrdgtohhmpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdr
+    nhgvthdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepph
+    grsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopegvughumhgriigvthesghho
+    ohhglhgvrdgtohhmpdhrtghpthhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrd
+    horhhgpdhrtghpthhtoheprghlmhgrshhrhihmihhnrgesghhoohhglhgvrdgtohhmpdhr
+    tghpthhtohepughonhgrlhgurdhhuhhnthgvrhesghhmrghilhdrtghomhdprhgtphhtth
+    hopegtohhrsggvtheslhifnhdrnhgvth
+X-ME-Proxy: <xmx:qxC2Z2_o011EnyG6iOAVEiDHLQtI07SKCAafxA775JeRWFHuv8J8dw>
+    <xmx:qxC2Z5t1pRq0cODmX9PThi4vE_9lquUYswQu9pMKIyAarTQrjE1qSg>
+    <xmx:qxC2Z1Hx5lVPzNoydma5F87R0co1RmDb6qhfTPnlJ2iLCka4XGyR9g>
+    <xmx:qxC2ZwMXbTedpjj_48DIznglXafNNiYu1Oc3ByyXAsa49hsY7dWTSA>
+    <xmx:rRC2Z3hQrajGlyJZGUFckWVcslBTXBU_CyvHnfIxhq6VKBTuJBj8Y9YV>
+Feedback-ID: i6a694271:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Feb 2025 12:11:03 -0500 (EST)
+Date: Wed, 19 Feb 2025 10:11:01 -0700
+From: Daniel Xu <dxu@dxuuu.xyz>
+To: Taehee Yoo <ap420073@gmail.com>
+Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+	edumazet@google.com, netdev@vger.kernel.org, almasrymina@google.com, 
+	donald.hunter@gmail.com, corbet@lwn.net, michael.chan@broadcom.com, andrew+netdev@lunn.ch, 
+	hawk@kernel.org, ilias.apalodimas@linaro.org, ast@kernel.org, 
+	daniel@iogearbox.net, john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
+	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
+	kory.maincent@bootlin.com, maxime.chevallier@bootlin.com, danieller@nvidia.com, 
+	hengqi@linux.alibaba.com, ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, 
+	hkallweit1@gmail.com, ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, jdamato@fastly.com, 
+	aleksander.lobakin@intel.com, kaiyuanz@google.com, willemb@google.com, daniel.zahka@gmail.com, 
+	Andy Gospodarek <gospo@broadcom.com>
+Subject: Re: [PATCH net-next v9 07/10] bnxt_en: add support for
+ tcp-data-split ethtool command
+Message-ID: <lq62gh5sua72thbwswtodutom44d77nar2pxo7gue4h3w2muoc@tpol55i7vic5>
+References: <20250114142852.3364986-1-ap420073@gmail.com>
+ <20250114142852.3364986-8-ap420073@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:EE_|DM4PR12MB6664:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4016ac8e-8e5e-4f6e-7036-08dd5105f7cb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cXFVcEdObThpYUo2ckxGZ3VXTk9nRjQ1UVFLSkgwVkh3eE1reXVGeHhIRnBK?=
- =?utf-8?B?bjQ5ZXYrdUgvZUgwVzJMT09CMmppaTJZdnBIa20zUXhRUWxpY3BuMVl4ODJw?=
- =?utf-8?B?bXBlNkxOeE5sdTlLeEIyemNLeThMQU5UQkZuNi9rY2pqNnh4bDNoZjdRNS9E?=
- =?utf-8?B?NFp2N0ZqVGJyRy96bzZsNXRveStPRitCV1FMWUpaUG5kWVF1VW5iY2dlOW5u?=
- =?utf-8?B?a2ZVSUNLNHY5cG5tajZLZUF3MGs5Rzc1eFFaSXZUd3psbWF1SWQ2cisvSjAz?=
- =?utf-8?B?dkhmNmoxYUpmR2hKT3o2YTk5NnJnNm5qVXRPaTdqZHcxWlJTMk1WUDNjSjRs?=
- =?utf-8?B?NnhnVkdwSnZhRDFxUkgxWmhoYnpVb0JueHFxdi9RTVVrUHhabVVPSUNBLzZa?=
- =?utf-8?B?d1RlWWwwK3ltNm1OUWw3UFlwZXlsUnBQTjA4VHlvWVYvajgzN0xPdHNpQ05M?=
- =?utf-8?B?eHpQdDJwNE5jWU0xVGxtVjNUN3VBY0FMeTFodm9vMkJwNXREbXU2MVpPK0p2?=
- =?utf-8?B?SkNNbTdwN2lEcUMwMFN3SUtTVFMxRXZRRklZNW9VQW5iVjhTK2xlMWZ0a0xp?=
- =?utf-8?B?czcvcWwwV28yV2paQW9UNHpzV2xNV1ptUnhaK0dGVUZmUFp6aGhKOEsrYk9u?=
- =?utf-8?B?azh6RDVEa3ZmSUVTM3ZHSHhoWk9MYVVJb2E2TXhQOFIzaFQwQzIwRWNoSXNW?=
- =?utf-8?B?bXFFbk82enM2eFZjdWVRUnRqYzFHWk53aUZzNHJGWlBiUTJ1MFBqVUo1RnFJ?=
- =?utf-8?B?UnAzSDlyWlVTcElFaTVZNEMvcS96QUhXSXhYMk16Wkh1OTY3OUhzRll4Wk93?=
- =?utf-8?B?d2h1T2JOak05ejhUTE1CUTRKZFhrVmVkdE1LeTZMK2I1OFY2U0RWYWhUTUt2?=
- =?utf-8?B?OFJXUjJLazRSQ042TkZBRFRpRUkrWDkvYnQ0a3JXT0x3bU5YMHd0R01xTks3?=
- =?utf-8?B?eHErQUtIbHYzTENic3hwYURxTXFkbE1zeUYzcEwxWldmTHp3TjFUdzlPTFU5?=
- =?utf-8?B?d1dvS3VkWEdYcEU2eGdJcTVRME1BVS82MXh2UkhUcGRaQTY2SzdFSmlGT2ND?=
- =?utf-8?B?WDNuRXIzNmVBQ0hMTFI2K1BuckxaU0R4NHRTMjJBS2RaR0hpVVhVaFRlVC9V?=
- =?utf-8?B?aTU2UDRqR1ExaEhTejlCOGhMNEZuejM0UUh4Y1ZBSE9aTEdNTkxnVHIwckNw?=
- =?utf-8?B?OWZ5RHF0dXcraytCV0hhVWlNbWNZTm5aUnMwa1N5clBSa0J5NUxOaDRhdlRw?=
- =?utf-8?B?N2FLKzJTWGxxeUN2SWJlSFh1QkZxbWw2ZjVUMEF1SzdIQmpBbHBNTjVRcFow?=
- =?utf-8?B?VGJCMlF6cUp6QmR3VFFjWlpsUmUybTVQd2l4TlFjWm83RzNqd1RvbllNRHIx?=
- =?utf-8?B?ZytSZFpOM1A5SGVIMVFlN25zS0tHK0ZmZ0xZNThWSExWaGFlRFRxK3JJOWZy?=
- =?utf-8?B?ZTFCNHMvL2JzZVc0NlplbDlmWXpGNFVGWlE3UlFXZDBKamxiOGpmQ1JFN3pz?=
- =?utf-8?B?SWkxRTNVWER0cUp5STgwaDM0MTJzTS92bzFYRFVZcE5TWVpoOENLbGh2L05M?=
- =?utf-8?B?bkhNV2RDVW11TFlPQzM1YzJWekFpU3ptZ29yazdPaGZoQmoxcG9qRTc0RUVr?=
- =?utf-8?B?blJtSWJOblZ0NFNGQzFaUlg3aTVjVUsxME1razJGMXluemNSdTZOdmQ4V1lV?=
- =?utf-8?B?aFd6K0hNMVhkcFg1RjVyajRrVGZ1blJFdDBsTnIxM05sak1Zd0FtSTg5YmFZ?=
- =?utf-8?B?RjZYdDhyRkU3U2JzbUVwTXRhVGFZSmQvVEtzUnY5U2JnNVlBUUV0SWI4cUto?=
- =?utf-8?B?a1B1SnlnRXMyU2lMRi8wNDNBb1J2ejJnVnc3OTRXdm5IRlZla3BqWEdqYVYw?=
- =?utf-8?Q?NXoP51KQqT0Sk?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QWJDTW04V3lmeGY4WHFUWDFHWWZDeVJGWFFWWkRGUStWOGdTK1JFK1Z4QTd0?=
- =?utf-8?B?WVo4VHprVEEzeWRJbk5ubndlUVRTbElMUnVEbW1nNTRVbTBObE9rek1ORHpw?=
- =?utf-8?B?YlpUOWh6N3dkRExQeERqaHV3bUlYMmlJSGxNZHltSmNFcnZhOWhYVVZqOEhn?=
- =?utf-8?B?bis3MUx2S1VyaTAwcFBDcUd1Y3REMVBqY3VNNm9yWjZvcW05M0NIaWVSRXFh?=
- =?utf-8?B?aDUzQmZkOWZtTE9OYnZTWkFjVG5zWkpud2lwaFFCWnJtZE5ySDVnTWNHc2ZQ?=
- =?utf-8?B?RUoyS2JpVmErMnNTQjJPYVRhN1VQclp3VWp4NDVha0dYM3FDWU1vYzJmTkdu?=
- =?utf-8?B?NDdTTGQrZGczdXZGdEJDcHV0bFVlZkJzRFZuWEdpdGFWT3lzUkJwTDNidmJ3?=
- =?utf-8?B?d2xEOU5MUXRGbUd0UFdWNVJxeW5pc1lxRzNVYlRBb0tIb2JaZ2UyVDBEVGM1?=
- =?utf-8?B?Z2JteWtpMHBPQ1R0RGZ4M3EwY1pxYTdoS2g2bHVEYy85K1J3MEVjNUhtcVBP?=
- =?utf-8?B?cWFFcUZRa1UwVVdLZlJDQXN6RUlWNllmU3plRks5Q2dRV0VxTFhZQk45Zm1t?=
- =?utf-8?B?Z3hBc3Btc096K2p2VE5vUUh2Zi9MdlN6UkU5bnp1em0wVEdra1Q0aXJyM2dm?=
- =?utf-8?B?Mnp6eVdYeFVqWG9ZaVBIZ3MwYUJ2QkVEV0ZmeERNbFVNSmJDUU9ndGFUMXNR?=
- =?utf-8?B?UWJCZGhkOUlDMmJXVitSVkhJcGNETWZTVGJQZ2VndGFHSi9iMFBkOElZS1NM?=
- =?utf-8?B?djVpQTBvTnlDd0ltSmJUV2pUTDZ5eE1iN1dmM0hqMS93TDcwTWtId2tTeXUw?=
- =?utf-8?B?WU5DN2lLN0hoWldFdjlKL3MveUN2Y2dJSktDVTdZaTZuQUpzMUt3TU5EOUhQ?=
- =?utf-8?B?RmJWNlVWemxmdTl3QU1sU054TVFqWjBQMjFpNTl0bmlCZXZMNjg2NzQ5ZE1H?=
- =?utf-8?B?Y0lzM3dXTGRBa3NMdC8xS0YxL1plOTk3Qmo4U3I1RWxWb3dkVldxZ0h3VUQ0?=
- =?utf-8?B?ZW1JdXgwdUNySVlWSjFvUG1FWXlaLzZ3cUhzSHNLbGE2WXNJa05TY09ZSEpq?=
- =?utf-8?B?SXBwU2Rxa3JnSUU1SmNsR0tHZ1NZdGNOTDRxTzZWbkV0SlNEM2dVayt2dU95?=
- =?utf-8?B?b2JBcEREaVdVang5VFdtei9kWkphd1lFTXd3OTVRV05NM0tRdm1FMW1lN1RY?=
- =?utf-8?B?RzgrRXFNc0FCSVhRdUJHVnNsY2hIU3hqaVIwa1ErYkxvTkFHaGJmYUxLckR4?=
- =?utf-8?B?UGRTRjBmcUMyUG81MGxRNnNPZjdTSmNRbE5iTWdyMml1bU9CSXJrdndhN2pm?=
- =?utf-8?B?TzJmWnNEYTYyZ1VZUDRoTFZGTFhLYzQ5eUtFVG4vSy95TzRTdGhsNzZkZmxn?=
- =?utf-8?B?THM0QnpWMWl0RGhhV1MwcG5TbU5QcHhFeDFBMW0zNjJWT1hiK054U1lxcFAy?=
- =?utf-8?B?dW0rRWpPSkhuZWszd0d6VWs2V05vR1h5ZlJWZTZRMGIzZDBBMFVoNVR5Tmps?=
- =?utf-8?B?eXFPeTN0N2c0OXdJcm0yTnl1NE5vZVBQU3RhWk5hVkgzcmpwekxOVVovQTd2?=
- =?utf-8?B?SGN1R2QvZVhjNTUzMFB4MmxOa0VCU1hsUGRvMyswaDdYQTQ4ellyRGVZbUdx?=
- =?utf-8?B?RSttMk9YWW9XSEFEbjJ0c0NnUmV3MVdwUXk3ZEVNVGx3bGdpU2QwL2ZsazhP?=
- =?utf-8?B?M3FxMFpQTDZmTGdZVUU3WUZJaXBTSmRLMnYyaldoNEV4THpVQXRWUlQ2VTBN?=
- =?utf-8?B?eWdjWVFtT01IYUc3NjM0NGplbUFGQWM2blhRK00xelZhRUhncFl4NFFyajk0?=
- =?utf-8?B?S1l2ZU1BYU95OU1MRyt4K0ZBRTNmRVpicG1QUDZKU0dXNUl0ME0yY2ZZNWx0?=
- =?utf-8?B?czcvWCthU2ZnUm5hUmpVTE9sR0VCbTZpZTNBakd0b1dHejFqOFIzT1IxWDVW?=
- =?utf-8?B?aDFnRnNyRVErSTIzVjhiRDIxaGgwK3dYRnBNbHlRNGs2QnI4N0hCTUlwV1Fo?=
- =?utf-8?B?WDJqSlk5MWg5dW5WVHRScVp3aDd4Um5Ta09OVlErZll5MVBrd01UeWpia2Zl?=
- =?utf-8?B?Z3cyTzFOcXEwdXVWL0NJczNreHJUczBObXlGRVROK3pmRDRhK0hscXVlRnhZ?=
- =?utf-8?Q?o8yc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4016ac8e-8e5e-4f6e-7036-08dd5105f7cb
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2025 16:53:43.2176
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5Qtk/K8WKdKLSgJmSHMqE0klgxGJj9J9+cKxW66dgR30X/hzJIocdm8nAjScMpbG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6664
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250114142852.3364986-8-ap420073@gmail.com>
 
-Hi Dave,
+Hi Taehee,
 
-On 2/19/25 07:28, Dave Martin wrote:
-> Hi,
+On Tue, Jan 14, 2025 at 02:28:49PM +0000, Taehee Yoo wrote:
+> NICs that uses bnxt_en driver supports tcp-data-split feature by the
+> name of HDS(header-data-split).
+> But there is no implementation for the HDS to enable by ethtool.
+> Only getting the current HDS status is implemented and The HDS is just
+> automatically enabled only when either LRO, HW-GRO, or JUMBO is enabled.
+> The hds_threshold follows rx-copybreak value. and it was unchangeable.
 > 
-> On Wed, Jan 22, 2025 at 02:20:09PM -0600, Babu Moger wrote:
->> resctrl_late_init() has the __init attribute, but some of the functions
->> called from it do not have the __init attribute.
->>
->> Add the __init attribute to all the functions in the call sequences to
->> maintain consistency throughout.
+> This implements `ethtool -G <interface name> tcp-data-split <value>`
+> command option.
+> The value can be <on> and <auto>.
+> The value is <auto> and one of LRO/GRO/JUMBO is enabled, HDS is
+> automatically enabled and all LRO/GRO/JUMBO are disabled, HDS is
+> automatically disabled.
 > 
-> (BTW, did you just find these cases by inspection, or were you getting
-> build warnings?
+> HDS feature relies on the aggregation ring.
+> So, if HDS is enabled, the bnxt_en driver initializes the aggregation ring.
+> This is the reason why BNXT_FLAG_AGG_RINGS contains HDS condition.
 > 
-> Even with CONFIG_DEBUG_SECTION_MISMATCH=y, I struggle to get build
-> warnings about section mismatches on inlined functions.  Even building
-> with -fno-inline doesn't flag them all up (though I don't think this
-> suppresses all inlining).
+> Acked-by: Jakub Kicinski <kuba@kernel.org>
+> Tested-by: Stanislav Fomichev <sdf@fomichev.me>
+> Tested-by: Andy Gospodarek <gospo@broadcom.com>
+> Signed-off-by: Taehee Yoo <ap420073@gmail.com>
+> ---
 > 
-> If you have a way of tracking these cases down automatically, I'd be
-> interested to know so that I can apply it elsewhere.)
+> v9:
+>  - No changes.
+> 
+> v8:
+>  - No changes.
+> 
+> v7:
+>  - Remove hds unrelated changes.
+>  - Return -EINVAL instead of -EOPNOTSUPP;
+> 
+> v6:
+>  - Disallow to attach XDP when HDS is in use.
+>  - Add Test tag from Andy.
+> 
+> v5:
+>  - Do not set HDS if XDP is attached.
+>  - Enable tcp-data-split only when tcp_data_split_mod is true.
+> 
+> v4:
+>  - Do not support disable tcp-data-split.
+>  - Add Test tag from Stanislav.
+> 
+> v3:
+>  - No changes.
+> 
+> v2:
+>  - Do not set hds_threshold to 0.
+> 
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  2 +-
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.h     |  5 +++--
+>  .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 20 +++++++++++++++++++
+>  drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c |  4 ++++
+>  4 files changed, 28 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> index d19c4fb588e5..f029559a581e 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> @@ -4630,7 +4630,7 @@ void bnxt_set_ring_params(struct bnxt *bp)
+>  	bp->rx_agg_ring_size = 0;
+>  	bp->rx_agg_nr_pages = 0;
+>  
+> -	if (bp->flags & BNXT_FLAG_TPA)
+> +	if (bp->flags & BNXT_FLAG_TPA || bp->flags & BNXT_FLAG_HDS)
+>  		agg_factor = min_t(u32, 4, 65536 / BNXT_RX_PAGE_SIZE);
+>  
+>  	bp->flags &= ~BNXT_FLAG_JUMBO;
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.h b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
+> index 7edb92ce5976..7dc06e07bae2 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.h
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
+> @@ -2244,8 +2244,6 @@ struct bnxt {
+>  	#define BNXT_FLAG_TPA		(BNXT_FLAG_LRO | BNXT_FLAG_GRO)
+>  	#define BNXT_FLAG_JUMBO		0x10
+>  	#define BNXT_FLAG_STRIP_VLAN	0x20
+> -	#define BNXT_FLAG_AGG_RINGS	(BNXT_FLAG_JUMBO | BNXT_FLAG_GRO | \
+> -					 BNXT_FLAG_LRO)
+>  	#define BNXT_FLAG_RFS		0x100
+>  	#define BNXT_FLAG_SHARED_RINGS	0x200
+>  	#define BNXT_FLAG_PORT_STATS	0x400
+> @@ -2266,6 +2264,9 @@ struct bnxt {
+>  	#define BNXT_FLAG_ROCE_MIRROR_CAP	0x4000000
+>  	#define BNXT_FLAG_TX_COAL_CMPL	0x8000000
+>  	#define BNXT_FLAG_PORT_STATS_EXT	0x10000000
+> +	#define BNXT_FLAG_HDS		0x20000000
+> +	#define BNXT_FLAG_AGG_RINGS	(BNXT_FLAG_JUMBO | BNXT_FLAG_GRO | \
+> +					 BNXT_FLAG_LRO | BNXT_FLAG_HDS)
+>  
+>  	#define BNXT_FLAG_ALL_CONFIG_FEATS (BNXT_FLAG_TPA |		\
+>  					    BNXT_FLAG_RFS |		\
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> index e9e63d95df17..413007190f50 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> @@ -840,16 +840,35 @@ static int bnxt_set_ringparam(struct net_device *dev,
+>  			      struct kernel_ethtool_ringparam *kernel_ering,
+>  			      struct netlink_ext_ack *extack)
+>  {
+> +	u8 tcp_data_split = kernel_ering->tcp_data_split;
+>  	struct bnxt *bp = netdev_priv(dev);
+> +	u8 hds_config_mod;
+>  
+>  	if ((ering->rx_pending > BNXT_MAX_RX_DESC_CNT) ||
+>  	    (ering->tx_pending > BNXT_MAX_TX_DESC_CNT) ||
+>  	    (ering->tx_pending < BNXT_MIN_TX_DESC_CNT))
+>  		return -EINVAL;
+>  
+> +	hds_config_mod = tcp_data_split != dev->ethtool->hds_config;
+> +	if (tcp_data_split == ETHTOOL_TCP_DATA_SPLIT_DISABLED && hds_config_mod)
+> +		return -EINVAL;
+> +
+> +	if (tcp_data_split == ETHTOOL_TCP_DATA_SPLIT_ENABLED &&
+> +	    hds_config_mod && BNXT_RX_PAGE_MODE(bp)) {
+> +		NL_SET_ERR_MSG_MOD(extack, "tcp-data-split is disallowed when XDP is attached");
+> +		return -EINVAL;
+> +	}
+> +
+>  	if (netif_running(dev))
+>  		bnxt_close_nic(bp, false, false);
+>  
+> +	if (hds_config_mod) {
+> +		if (tcp_data_split == ETHTOOL_TCP_DATA_SPLIT_ENABLED)
+> +			bp->flags |= BNXT_FLAG_HDS;
+> +		else if (tcp_data_split == ETHTOOL_TCP_DATA_SPLIT_UNKNOWN)
+> +			bp->flags &= ~BNXT_FLAG_HDS;
+> +	}
+> +
+>  	bp->rx_ring_size = ering->rx_pending;
+>  	bp->tx_ring_size = ering->tx_pending;
+>  	bnxt_set_ring_params(bp);
+> @@ -5371,6 +5390,7 @@ const struct ethtool_ops bnxt_ethtool_ops = {
+>  				     ETHTOOL_COALESCE_STATS_BLOCK_USECS |
+>  				     ETHTOOL_COALESCE_USE_ADAPTIVE_RX |
+>  				     ETHTOOL_COALESCE_USE_CQE,
+> +	.supported_ring_params	= ETHTOOL_RING_USE_TCP_DATA_SPLIT,
+>  	.get_link_ksettings	= bnxt_get_link_ksettings,
+>  	.set_link_ksettings	= bnxt_set_link_ksettings,
+>  	.get_fec_stats		= bnxt_get_fec_stats,
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c
+> index f88b641533fc..1bfff7f29310 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c
+> @@ -395,6 +395,10 @@ static int bnxt_xdp_set(struct bnxt *bp, struct bpf_prog *prog)
+>  			    bp->dev->mtu, BNXT_MAX_PAGE_MODE_MTU);
+>  		return -EOPNOTSUPP;
+>  	}
+> +	if (prog && bp->flags & BNXT_FLAG_HDS) {
+> +		netdev_warn(dev, "XDP is disallowed when HDS is enabled.\n");
+> +		return -EOPNOTSUPP;
+> +	}
 
-It is mostly by code inspection at this point.
+I think there might be a bug here. On my 6.13 (ish) kernel when I try to
+install an XDP driver mode program, I get:
 
-You can refer to this commit [1].
+    [Tue Feb 18 17:02:14 2025] bnxt_en 0000:01:00.0 eth0: XDP is disallowed when HDS is enabled.
 
-We used to see section mismatch warnings when non-init functions call
-__init functions.
+Setting HDS to auto (seems like off isn't supported?) doesn't seem to
+help either:
 
-MODPOST Module.symvers
-WARNING: modpost: vmlinux: section mismatch in reference:
-rdt_get_mon_l3_config+0x2b5 (section: .text) -> rdt_cpu_has (section:
-.init.text)
-WARNING: modpost: vmlinux: section mismatch in reference:
-rdt_get_mon_l3_config+0x408 (section: .text) -> rdt_cpu_has (section:
-.init.text)
+    # ethtool -g eth0
+    Ring parameters for eth0:
+    Pre-set maximums:
+    RX:                     2047
+    RX Mini:                n/a
+    RX Jumbo:               8191
+    TX:                     2047
+    TX push buff len:       n/a
+    Current hardware settings:
+    RX:                     2047
+    RX Mini:                n/a
+    RX Jumbo:               8188
+    TX:                     2047
+    RX Buf Len:             n/a
+    CQE Size:               n/a
+    TX Push:                off
+    RX Push:                off
+    TX push buff len:       n/a
+    TCP data split:         on
 
+    # ethtool -G eth0 tcp-data-split auto
+    # ethtool -g eth0 | grep "TCP data split"
+    TCP data split:         on
 
-1.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.14-rc3&id=bd334c86b5d70e5d1c6169991802e62c828d6f38
+[..]
 
-> 
-> Cheers
-> ---Dave
-> 
-> 
->>
->> Fixes: 6a445edce657 ("x86/intel_rdt/cqm: Add RDT monitoring initialization")
->> Fixes: def10853930a ("x86/intel_rdt: Add two new resources for L2 Code and Data Prioritization (CDP)")
->> Fixes: bd334c86b5d7 ("x86/resctrl: Add __init attribute to rdt_get_mon_l3_config()")
->> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
-> 
-> [...]
-> 
->> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
->> index 3d1735ed8d1f..f0a331287979 100644
->> --- a/arch/x86/kernel/cpu/resctrl/core.c
->> +++ b/arch/x86/kernel/cpu/resctrl/core.c
->> @@ -145,7 +145,7 @@ u32 resctrl_arch_system_num_rmid_idx(void)
->>   * is always 20 on hsw server parts. The minimum cache bitmask length
->>   * allowed for HSW server is always 2 bits. Hardcode all of them.
->>   */
->> -static inline void cache_alloc_hsw_probe(void)
->> +static inline __init void cache_alloc_hsw_probe(void)
->>  {
->>  	struct rdt_hw_resource *hw_res = &rdt_resources_all[RDT_RESOURCE_L3];
->>  	struct rdt_resource *r  = &hw_res->r_resctrl;
->> @@ -277,7 +277,7 @@ static __init bool __rdt_get_mem_config_amd(struct rdt_resource *r)
-> 
-> [...]
-> 
-
--- 
-Thanks
-Babu Moger
+Thanks,
+Daniel
