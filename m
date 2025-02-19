@@ -1,232 +1,143 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2056.outbound.protection.outlook.com [40.107.100.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85121F3BA6;
-	Wed, 19 Feb 2025 18:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739988460; cv=fail; b=pFWIZXiVmCMXkc6NT/yNHtofI8O4rAweo/Tk9kIIN0mNPsmxON8Lir1m77YpRFi5gKUZp9ZQg3WkS8BSmcZpeQaEg6TMsTnJyRn+fvdUrT3RHfao+a/gZ6p8tQDNyFYNRwHei9qKx0SXaL1t5OcR/2BW/oAHI/C6kzLA3dP0LqA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739988460; c=relaxed/simple;
-	bh=4HpEo9hH80bHLT4AfcdeSr0GyrPjxwB1Xq2tbkHcsEU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=oYK9GEnsCQAv7UOMzG/hBv8dEjunEfr5j4vWBfVjVRJ3Xrgo4V5OUn+RkoqoO8mlqshr7532kPQqHhDdoi/OrNdHKXQREcA4QtK4VFfrc9yLBRx9k4eqFyds0QsPFNq/0Hg/+ldbbjHkKmiNxtwKXxVUS19FKDGWuT7R1Do4xh8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4zPtW9tm; arc=fail smtp.client-ip=40.107.100.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52511FCFD2;
+	Wed, 19 Feb 2025 18:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739989249; cv=none; b=J2VN0DS1azLgWiFPtmynl28WzkO3r9lWbKk9pPEp/dOfWu9QmBuagEtI9lKVomCs5xk5EODc0x3HuGCxvhB3y+Vb0tvRJ9+5a923Ahur6/eHSimqzbtKqyD1T+D0g6smxZHmOvb6CIZYhJZuCK8DEjq37givfuIiYnVjAsbPEys=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739989249; c=relaxed/simple;
+	bh=X14I7mbTIu2+tFsLjHVL5fSZz+NqDimLUr7e8CxbkJQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cRtElYX9UbrDp49aALNwyppUHK3KLlFsf4a4KWDTtMPw4YUzGpArEDaAORA2disPVA3nHW+KgMWHWSAObiACJhpHCKRWEDtgC4BPa5JYoqYMK0Gk3rcNy1z/roBQek6tE7TOZBvh6Cq+7sOWNLKlTeu5+9VY1k0eT+JCyYMf6cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oej0EZNh; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4zPtW9tm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WXRh4mf4OgjVdfmyhtS5DwDRCeMPT6dn4lRFzyC0fZxIf+iP68aGDZJa0z8xgC0KlMAIUjXfQu2wRKnUmMauEbBQzwhAIQqvv2bmISOi3IQb2U1hcM56f69Oexv0NwLVcvmoaZZd9PYzImFPJIQVLmXv0zdRnUx8Sc5X5ICPjcN6EN3p12+04JYCbeYY9sIFY6jrK1Ao4VqyLGjj/z0XN0E0cLF5GevspAefyRRGkFpdkuF5/rQ1XI1m5a22DOOcUDHGR7s2GaG8kFjOQ0LolvAuBTPL0SpRE4876Ycmahpf+NYsUlrzod4pCPmgG/sTyoZSv6/aJJcDVy1mj+vsKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6ZZO2vafYvxE6HdCfzDmLkueWdkvMhgKScjbqBA/p5g=;
- b=TapW8dyDDtcXlb8oJnepYiXyE/8wCHcB/FAw2PKyGbHRBXumCYE/4F7sLe0pLxw3mKeq9Ay8BIF/RTnwalUQTOQDFmOUhgZoSudXIRTU2aUyv7NXzLa3aHZzZSkbL2LvtplRK+T/wZt2UVu5/iOubWKpfYuP2g55VuSAKD5nfFajYu+XtoVSG4EDg6lSWtZ45Z1vPloUZki7z8vv0h6bry8BhTZMityGBRKnXw6zbcdhY+Fcmw9vj77H6Dif3DY/JWy/dE71EQ6R3DnqQ7sPdK7bSiY8Pstz9REg1N69a9bf3zKpoxZoRmDz6QyhEhkO49JAGVKq7W53witC76wuag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6ZZO2vafYvxE6HdCfzDmLkueWdkvMhgKScjbqBA/p5g=;
- b=4zPtW9tmwG4XyH6b+c0WaLdNSug1zP0py8yrcdksEzFeO3pymKP9qCcIoZx6z492b/cKVcemb/j7RhYkfZVgKmucJU0rG/+3y/Y+P6yUecCd9iP0IiTSMwp7vmmkz/DK8xszKQ3sbiWGrI1beV+VUtyk5Fz8SdRd4eim8MW9fFk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
- by DS0PR12MB7927.namprd12.prod.outlook.com (2603:10b6:8:147::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.16; Wed, 19 Feb
- 2025 18:07:32 +0000
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::d22d:666e:be69:117f]) by SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::d22d:666e:be69:117f%2]) with mapi id 15.20.8445.017; Wed, 19 Feb 2025
- 18:07:31 +0000
-Message-ID: <21c911af-d396-411a-abdf-f72dd96d92c0@amd.com>
-Date: Wed, 19 Feb 2025 12:07:30 -0600
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v11 11/23] x86/resctrl: Introduce mbm_cntr_cfg to track
- assignable counters at domain
-To: Dave Martin <Dave.Martin@arm.com>,
- Reinette Chatre <reinette.chatre@intel.com>
-Cc: "Moger, Babu" <bmoger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- tony.luck@intel.com, peternewman@google.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
- rostedt@goodmis.org, xiongwei.song@windriver.com,
- pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
- jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
- kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
- xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
- mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- maciej.wieczor-retman@intel.com, eranian@google.com
-References: <cover.1737577229.git.babu.moger@amd.com>
- <30652061d4a21eb5952a1323b76ca70927412a30.1737577229.git.babu.moger@amd.com>
- <b88868e1-52b2-4a66-bec2-e0846394b74b@intel.com>
- <7375cacc-5800-487c-bd8a-7ea11e694598@amd.com>
- <2f1d5857-7f32-4bde-9b12-77fb2b4464da@intel.com>
- <Z7Xc7Oxm9ByWhIEy@e133380.arm.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <Z7Xc7Oxm9ByWhIEy@e133380.arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7P222CA0009.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:124::34) To SA0PR12MB4557.namprd12.prod.outlook.com
- (2603:10b6:806:9d::10)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oej0EZNh"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-220c2a87378so372225ad.1;
+        Wed, 19 Feb 2025 10:20:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739989247; x=1740594047; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=76EGObTpdOqVLxr8ga99oMSHZxAdsSys7BY3UEvgdGo=;
+        b=Oej0EZNhjzgZcZ80QOQXMavocEt9OUDwGXOWcfj4ihnRPbvq9fkgzSgwE1SKpeFc7N
+         Cz9sc8W4WQMJFe534jm/DvG/yGm2ld0Vars48i3H8N8XJtMVYaqnb9GhRNjnrRe9p8qx
+         sT+j3cx36mXWNMwN93dHXCT0Hm89aoBKhEl3fjw5cYoW1bGTa9R4AVhMwC+2eYggdicT
+         VBlFHalHtLbIBdejW9K8PMshaaUT36AB8dHgEg8JPTvs7kvMCljTtAVAXUO8gwAEiYu+
+         0uI1O5YaoOxgY1BlkrJyuzqbyB4wjhbTrQRHJA38eH1VZaTxODIDXfkT/LAtCcwye/iD
+         pBZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739989247; x=1740594047;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=76EGObTpdOqVLxr8ga99oMSHZxAdsSys7BY3UEvgdGo=;
+        b=n22XBJivSu4RyDFx4XSiEUNDmXfY2dh8q6F/maFFiNT6C2QPbWuxBOy5zgA65M4xvH
+         mWdKCQWtHT+YddABeubbjGUwmUcywDFZb0YE1PHcWHdS3hhwZAQYPoFUMrf64S6RIYyB
+         XyR/i963nk8zv+/6DaYK+Ho9UzJ0bqRoaIZOirZwWrQ43NDG5Srbefc7mSnvlULdekhi
+         yFZs3+Hd5Tp/lntD6MsJBmzq6RE0h6ug11JrMZiT49ft7lcpBCtlPWvQIhRTK62e6EMg
+         +WDyfvhd3IRQTIrf/ygZEbBlWrStfYT2YxH3bpVago6/R+7+O8krr1RSozfkXzYjwtOr
+         RKDg==
+X-Forwarded-Encrypted: i=1; AJvYcCUlwzNSjD5R/5VOaI8Uv5FevfJfVJqFwsu3/x4rnacEyQxLJmp/woOD+JiSGZlPQvSwJmHKGO+mYLB1iHE8gCaM2zDN@vger.kernel.org, AJvYcCWWD+kXo0pjRos1+jm8TLArOLcmvKXlw1k1O9icJkSrd4mpTf2yaBBokoL0w03xgVd6z3SXkFL9AvE=@vger.kernel.org, AJvYcCXB2B9hkBoGLY48AjW0ZDhrKMiRwP70wTikKw0hYJM1FzDW2R5BHw9Lg+1HggZxDDCx9o6fF0GRJ7+EoamS@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqKkPYTS457dF91I1bhCAsYkxpZIeQmU/DJWJkAmn6GLKPq9/Z
+	wC6jXKzk0KuTWfnvM5Xs2DHsj8Phu0Sr314jcsqZwc+AXREIGihA
+X-Gm-Gg: ASbGncthr8k01c6MsNzkxnmlRk33PwTiv72ifF4Y/6QZYY9pSHuKWDVrD1100J6OqM2
+	ZQG+2/2bwXQIbIkz4RC1yvzjc2V4ydAW/rWZHQGVsq9X8fPpdiqwraal3/X6aSwAS8AjlLykmJL
+	t6a342zUz6APJVY9yxs5cm8/anbz2tHHFVpm9floDTQmLKDaCsxITD4zSvJq4xvTOE/olPdO6XA
+	boEaudvvNeaJFV2fvz8iNeOvB0T3E/h69MkuWjCd97+Qz5Dv0TtZo7kvPX9gdO4q5VmqCbCieYq
+	+EtBscJN9p5Oqw==
+X-Google-Smtp-Source: AGHT+IE9woL3cS8LSc84OwEKFZItt18q3T4hIJa4P0EOZXN+eQBRjN/5am8F7oQZrvigsd9J1eVjrg==
+X-Received: by 2002:a05:6a20:3d84:b0:1ee:8922:563 with SMTP id adf61e73a8af0-1ee8cb08f4amr29813280637.16.1739989246845;
+        Wed, 19 Feb 2025 10:20:46 -0800 (PST)
+Received: from jemmy.. ([47.116.124.190])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ade083277b3sm7753218a12.27.2025.02.19.10.20.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 10:20:46 -0800 (PST)
+From: Jemmy Wong <jemmywong512@gmail.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Jemmy Wong <Jemmywong512@gmail.com>
+Subject: [PATCH 0/2] sched: Refine scheduler naming for clarity and specificity
+Date: Thu, 20 Feb 2025 02:20:18 +0800
+Message-ID: <20250219182020.393006-1-jemmywong512@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:EE_|DS0PR12MB7927:EE_
-X-MS-Office365-Filtering-Correlation-Id: a94ca559-8907-4568-b80e-08dd51104768
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZmF6ZjJHTXZqMHJkWDMzeWR5emQxeEJ4anQvY0hDT01TME84R1JBZWRrcnJE?=
- =?utf-8?B?b0R0U0IxVGF3SjR4NlFWTTFtZHkzYUZ3SzNrWlE1STNRSkh5Zi9kQWVVbGgx?=
- =?utf-8?B?d255czlGNjk0WTJieVZDekZ3b04zaTBDY3g5ZFR5NmgxQjIxRktCOVlaVmFu?=
- =?utf-8?B?QVpBYWFIYUtxNWNvbVpFVVJjbE0xalYzallYb2hZUjhFYnNXWjdxdGV2Tkxo?=
- =?utf-8?B?Q1AwVnAyUy9QV0djQm5ZbTAzbUp0Y2FQdzlyNnVub1BJdVI5TEJZZG1OWXFV?=
- =?utf-8?B?VjcwaFNETGltT0hrOGNKc003QW9wR3dEMGkrS2Y1VWRycU5weWt6QkJmKzMv?=
- =?utf-8?B?T0RwWFIzZjBKdGpzRW1RSmNGQU5NUlFQSDlPcyt1bEE5ZUNEdkIwUEhOZEpP?=
- =?utf-8?B?Q05tWVc5cTAvTkFFd0RudUVVT3FuWXRBMWdIKytSbE8ram5KeXhCcWtKQjEw?=
- =?utf-8?B?SzRvWnErR3ZwS2lKeER4dHRENVJjSmwrdi9LVVdBQTN0R1lRd3hCb3BOR1Yz?=
- =?utf-8?B?NkZDUzJkakxZaXcrVGc5TVVYSWNWRVpTWXJ3TGVUWmJSdjhUVEN6UHZIM2hx?=
- =?utf-8?B?YTg1KytDdkhmVnpXN0lIQ3Y0dkxSU2VvM3pCTWIzNVJoZGNxeS9KdERSb2JQ?=
- =?utf-8?B?eDVlczhtR1ROcWZpN3YrNytXOGoyZWRRckFxU0tSbkp1RXJ6azR5cGhSVHRy?=
- =?utf-8?B?NmlNT0QxZFliVm4rN1B0NzFrMkNSWURrVjFER3BVK3g4QzdxRlFkL1YvRGJr?=
- =?utf-8?B?c3d4bnFwbUVCTlMyLzBGZ1ZQMmtocmxmQ2pQRGF0UGptQnIrdVZteHBFekdr?=
- =?utf-8?B?ZjlEeEFQRUtFMktJK0dQSzFodG13dWJxbGFJTk9hZy9KaVFhYTdTVTVja2JB?=
- =?utf-8?B?b1FvQlRJSWhBNU5MVktsUjZCOGlDcjRDMmJZRElsUDQrU280dmY1dSt2RGxt?=
- =?utf-8?B?MURMY0NoQjZLeG5mWXJvMURxMCt0UWRmWFdXTk5FUWZvcFF6L1JQT09na1Y5?=
- =?utf-8?B?U1BCWlVaNW0xSElNMTBQMmZZSVNVRDM4cytsTzU5bkVwM2FCYTk5emdZUzUv?=
- =?utf-8?B?clJJUUUvNm5JUWsyZStNMVUyeWxrT0FoTHFmbGpnMzk5STh5Tm9YWHd6b29S?=
- =?utf-8?B?Rk5RdWlOazEzaDZjMmMxRGcxR2szSmEyMmgxMVQ1VVVGSUxMY0xJMlU0bTZ0?=
- =?utf-8?B?SHUrMDNoeW5tdzZuUFpVSEtSbk9KVUJ6dEtBbUl6am1sYjdQZVdQNGdIcnlU?=
- =?utf-8?B?aEFDZWlaZ29kYUp3VlI2UFFnbzYyS0ZSVG5jTlNIQXo3cE9vSGxGQU1rR016?=
- =?utf-8?B?RXkwc0NzTUdMT1U1NiszZ2VvUHlSSWFLaldjakVvRnpLaVZMTDIxaGpCL0Nt?=
- =?utf-8?B?cGlrSjBCYXZOK01MUzNBdm9aSzMyYlZhVmRMaFBTZFEvMGVUaDdDNm82V0JS?=
- =?utf-8?B?cDA0UTRmOTNoeDJMZ2dNUWhIUTRxd2t3VHgxZy8yT1hXbWg2OEErb3lkYmFL?=
- =?utf-8?B?M0lTOFEyTjl5MUY4M3ZOTVpINTByY2RmQUdtRmQ4cit2Wk5RQWYvcXJVamc4?=
- =?utf-8?B?R1pvdy9mOW5FdTV5UjYvZjZFSHZLVWpaVVhVVWJCUGx6dURLb2p5TndmQW9r?=
- =?utf-8?B?eVNSU0F2QzA2Q0ZnZ28xdWxNckNXZlptcGkrY3l1Ukl4aG5QNUtONzdWclBp?=
- =?utf-8?B?OWpKdFNRZStFdkErdEFQUmRVK1ljc1pVbENKYk41eVRlRTlTZmd0ZEtSNmJr?=
- =?utf-8?B?SHVCUXVXdEFjRkZOdFVlanFWUVpyenZ1MXcrQ3Zkem51M3RKa3FqV3VndC9R?=
- =?utf-8?B?TTNnTkNRSHFyT0xSbzkyQzc2SWpuQXljWW9UOHpxSi9OWlNwTmNwd0ZhMzRZ?=
- =?utf-8?Q?hi/8L1OLYm68t?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Qm4rUTJsMm5mcEpzcjB1UTF5RkovbFliSDBaeXRiOC9XMGJ1SkkzQlIraC9H?=
- =?utf-8?B?RWYwMElmcjlyeHlzUjJ3TEVjL1RaUXlHQXNEakp2Nzl6dStTUlJoUzdsZDRh?=
- =?utf-8?B?anlNZ3RPS0lpaHpnak51dEVqL1hsVUJoNitSLy9iT1laeGNnSVowa3RJbWdI?=
- =?utf-8?B?SlVwT3VySnB0bzJvaTVaZkF5QnBpMTE0ZGI4dFJhK3hxS1o3d2E2SVpOblho?=
- =?utf-8?B?dGRmYmhudjF0a2V5K1NhakpmRVYwdU51OGxiRVZ5T3p3cmprM1dacjhFUkhW?=
- =?utf-8?B?SnZyaFhLNnZTYmdwc1E1SjdBOW4zWG1JN3BmYnIreWR0emRQbkpvSUhIV085?=
- =?utf-8?B?YjRuR04yV09VR2l6Wi93ZnN3dzltbDlPam5xV0tUZjJEbm9TNkRRWm15Z0lY?=
- =?utf-8?B?eTdqbWMvL1ZoaUYrMExkWWc0cXNMWWJoWFJIVGdmM0M1alJ2cTRkby9ka0dj?=
- =?utf-8?B?aEtuZ0NJTXIrZnRSZ1BhT1J3VG1BYlJGM0dVckQ1WFdZZ0hqVDQyVkswUUJk?=
- =?utf-8?B?OG9scWZ3N1lscXlHcWJqTXJZcDlJOXdxSEQvRHhNS1NzV2g1d0xVbGV6dDZL?=
- =?utf-8?B?WFd3K0JQRHppbVZLdGJ3Qkl5WWNHY1FDQ2ZlRFlqdU1VdkRLSndvVmo5ZVlP?=
- =?utf-8?B?RUIxb2JnaGNRME1aNDBwQkI1SEtDY3pBMW94YnVVZTZJN3c5dVdscTZnMVJH?=
- =?utf-8?B?eUtJTTRDSUU3MUR6UkJFeG01VGE1NWdzZXlnajFZazFueXdrQ0lWaHNadW5F?=
- =?utf-8?B?bE9RY1J0UVpEdjhMczRBZ3BtN2s0aUhqY09vODJaVUZGTVFJdDNrVlJUYU5T?=
- =?utf-8?B?alozZk53a2JLamkvWXFFdEJNVklIbHorMzhSWVM2ejBib1ljK3RhTzl6R1Qw?=
- =?utf-8?B?SkJOS3BObW1ESEpkRVdGa2FnRC9JYTJaTVViL3RLMDNac3NYU0NNM1A0enhU?=
- =?utf-8?B?Q0tDOWliRjNGS1NURzlrTUhpYkxEeitjL1JaemdrOXdUWDdjNkRvajdNcHJt?=
- =?utf-8?B?ZG1WbHgwNWlCL0U1MEp0bDVhYVFsTGtlRzhyZ09rM2VVUjBTOEszY0FPdzZi?=
- =?utf-8?B?cVZlTkVmNmRMTzE3czdlWG5qVlR0dGhMQnlWMjlkQUJFTlpxWitsTmZpOXBR?=
- =?utf-8?B?Q1FieWZOVmRvSkhucW14MjdsOUVZcDlvUWtXRDM5UnByaGllcHpzUkxXSExm?=
- =?utf-8?B?THVnUWxGYnp3bTkyOUdxVUh5QlNnM0NFTURWQlRlYk5tZUtXNytHMjk3Z2dt?=
- =?utf-8?B?bitiR0ljSXp4YnJpY3FZQkY2bnFyTmVtd2VIeGpxOGlOMlJiNUJIL0Zndkd4?=
- =?utf-8?B?NHdZNitPUDEvZ0t0Nkt2NmV0ekRzVkFNK29oVFRQWFg3NVdsZ3k0akZrSHF5?=
- =?utf-8?B?TU9YQVY2VTNCNE1ROEhEYjY2eVpVK2duUi9jNk0yRmJyb1BibFlTQWdtVmNK?=
- =?utf-8?B?RnpYaTRhNUFIWUpjZGZBeEJqTHZnVTNTRVRrUnhNcjUwaEhoYjg3YkljZStI?=
- =?utf-8?B?VXVjYWZxVTkrQXhFeXQ4NzkzMUpMVGIwNjg3YlVuTEZhc3RmSDVaNGlEbFhs?=
- =?utf-8?B?cEZ6MDNSa0hPR01TRXBwV3o1VmxvYjdXRlhMaWRsay9aU2pOM1l1UlVESTRq?=
- =?utf-8?B?TnNoTHA3cmxSVzNhVmZ4NlRsVjlKRCtjdk5mK212TG1ZcjJSQnh1NDB0dWtQ?=
- =?utf-8?B?d1UwdmV5b0JJRkVwQmxkQ1phb3huSW1WQnYxc09PN1hEaklGVWRwN0NJRS9K?=
- =?utf-8?B?NDdnWG03YXdONnQ2alZxWmVjNFMxN3U1Ylg1SmZKNWF3cHdRRG13RGhJNU52?=
- =?utf-8?B?MmRwMzdia0UvT3k0L2ZkbzNUTE95VHIwZ05KUDhWVjJvQ0FyR0JRdU95eFdl?=
- =?utf-8?B?a1k5N2xiRzR0aythN1FFOTZLMHpSZWxMMUdrL3VYNEljWDh2Mko3ZENDR0xQ?=
- =?utf-8?B?RkZrTnRqaWdMY2RtbWEwU25GaU44bjdpRnkrZy9aM3BUS2M4a3VuQ3d6NERT?=
- =?utf-8?B?UVNIZE1WZnlJT0ZuZkhiVUhuUTVNNDcwU0t4ZmppbXhtMjNEaXdza21ERUlW?=
- =?utf-8?B?eWlZenRLamZiUEFrczU3NitvM0UxcHhDMTBPMEdkemUwRHRCbXpLd0k2N3I1?=
- =?utf-8?Q?vXbw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a94ca559-8907-4568-b80e-08dd51104768
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2025 18:07:31.7374
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8awKzDXcNk1qGYPkRF8oWFL5PMGEU7OZm5zOIBTTbwBwjkCqTnfmf/fCJsh715jO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7927
+Content-Transfer-Encoding: 8bit
 
-Hi Dave,
+Hi, I'm relatively new to Linux and eager to contribute to the community
+with some foundational work.
 
-On 2/19/25 07:30, Dave Martin wrote:
-> Hi,
-> 
-> On Mon, Feb 10, 2025 at 10:10:26AM -0800, Reinette Chatre wrote:
->> Hi Babu,
->>
->> On 2/7/25 10:23 AM, Moger, Babu wrote:
->>> On 2/5/2025 5:57 PM, Reinette Chatre wrote:
->>>> On 1/22/25 12:20 PM, Babu Moger wrote:
-> 
-> [...]
-> 
->>>>> MBM events of a monitoring group is tracked by hardware. Such queries
->>>>> are acceptable because of a very small number of assignable counters.
->>>>
->>>> It is not obvious what "very small number" means. Is it possible to give
->>>> a range to help reader understand the motivation?
->>>
->>> How about?
->>>
->>> MBM events of a monitoring group is tracked by hardware. Such queries
->>> are acceptable because of a very small number of assignable counters(32 to 64).
->>
->> Yes, thank you. This helps to understand the claim.
->>
->> Reinette
-> 
-> Do these queries only happen when userspace reads an mbm_assign_control
-> file?
+I aim to help improve code readability and maintainability.
+While reading the scheduler code, I found some naming inconsistencies
+that made understanding the code more difficult.
 
-Yes. All these queries are initiated by userspace in the form of
-individual assignments or creating a group(mkdir).
+Specifically:
+1. Some function names do not accurately reflect their purpose.
+2. Certain names are too general, making it unclear what they represent.
+3. Some concepts are ambiguous, leading to potential confusion.
 
-> 
-> It might be worth documenting somewhere that writing and (especially)
-> reading an mbm_assign_control file is not intended to be super-fast.
+- Rename ttwu_do_wakeup to ttwu_set_running:
+    - This function only sets task state to TASK_RUNNING,
+        not performing the actual wakeup.
 
+- Rename update_cfs_group to update_cfs_group_shares:
+    - The name was too generic; specifying "shares" clarifies its purpose.
 
-We can drop the last sentence if it is creating confusion.
+- Rename place_entity to update_entity_sched:
+    - The function does not handle entity placement but updates
+        sched info: vruntime, slice, and deadline.
 
-> 
-> It feels like userspace should not generally rely on reading
-> mbm_assign_control files except for diagnostic purposes, or occasional
-> read-modify-write transformations.  Or do expect some other usage model
-> that makes this a hotter path?
-> 
-> Cheers
-> ---Dave
+- Rename update_load_<set, add, sub> to load_weight_<set, add, sub>:
+    - "load" can refer to either PELT load or load weight, causing ambiguity;
+        "load_weight" specifies it's dealing with weight.
 
-Our earlier interface was intended to query each group separately. After
-the input from Peter, we changed it to batched query. One query from
-userspace can list all the assignments. I am not aware of any other usage
-model.
--- 
-Thanks
-Babu Moger
+- Rename struct sched_avg to struct sched_pelt:
+    - This structure includes not just average statistics
+        but also sums like <load, runnable, util>_sum, last_updae_time,
+        all of which are PELT (Per-Entity Load Tracking) metrics.
+
+- Rename init_entity_runnable_average to init_entity_pelt
+
+This patch aims to improve code readability and reduce confusion by
+ensuring names are more descriptive of their actual functionality or purpose.
+
+Signed-off-by: Jemmy Wong <Jemmywong512@gmail.com>
+---
+Jemmy Wong (2):
+  sched: Refine scheduler naming for clarity and specificity
+  sched: Refine sched_avg naming for clarity and specificity
+
+ Documentation/trace/ftrace.rst | 190 ++++++-------
+ include/linux/sched.h          |   6 +-
+ kernel/sched/core.c            |  18 +-
+ kernel/sched/debug.c           |  36 +--
+ kernel/sched/fair.c            | 478 ++++++++++++++++-----------------
+ kernel/sched/pelt.c            | 100 +++----
+ kernel/sched/pelt.h            |  16 +-
+ kernel/sched/rt.c              |   2 +-
+ kernel/sched/sched.h           |  22 +-
+ 9 files changed, 433 insertions(+), 435 deletions(-)
+
+--
+2.43.0
