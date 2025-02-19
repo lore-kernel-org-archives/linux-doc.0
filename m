@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1501C82F4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0F11C7B62;
 	Wed, 19 Feb 2025 08:32:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739953972; cv=none; b=XKzuzH44PdV1cW2Qtul4619iflqk4Lw6FVL30vbCOiswlbjyvErodnn7PDS71MtlvnzdRwG46Hbw7vz92LaGOVE7Igfsc7Xc9TEmUdg44x6Th+y4Z13eMC0MJrAYrAJlyJFvxLkIrCwQqU/kJddEYvHm4yzZo1GScCfH1eqCVkw=
+	t=1739953972; cv=none; b=fNa+oiVNgjD1clXvXd0VY7zalf2HLVtvm0YzFNBOQorytkndW9iWZlvA65MI7PNtWEUes4W0stwndtveLBoZZL8z+XpxfMYOyAcCh/rQaGHy/LXX6ekwdy3oKBZKhyGVjaBD+dcVA6Rn6StNDYSLF0HIBPOaWmkDntEiJeEolY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739953972; c=relaxed/simple;
-	bh=aeuqk5Ez6XBK1bcBiwdwu3D8K0LeqXVto+XLcOhJeWA=;
+	bh=UcUtD1ZVE/t/e49mIRjHjGIlObJeJfXBstuSw82d2G4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Pxb3khz+0ld4cNb7/f0/cUNbBzOx9+2RO+PExBTSCCnYDOMzjXrGyK+V6iXahixXHg88Ca9en+IBocOovYRfUcRrpi5Zx7nh8W7naMg39bJrgtccguB7xib0Ubx0ByeZESEp5fe5sSTYNv+f/ZEbtMu7kwUr8te2whQyIMzJ2lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J5iNvIEi; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Qm0J3zxm8CXtZcpiDeE0TzBbACmOp7Wrulnl7hqe95ubn81PDKMIZLRx2bG23zI12vdKYOD+foHa4MDnT1WC83T5D3jSLyITzev7OgzNkrrZZ41TwJcYTFI9Vh6nT3VN3291usXQLM3JI0UDtxMnaF6Tb2d38Y5/FJ65pT53voo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H6LRgT6s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J5iNvIEi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1077C4CEEB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H6LRgT6s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A16C4CEE8;
 	Wed, 19 Feb 2025 08:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1739953971;
-	bh=aeuqk5Ez6XBK1bcBiwdwu3D8K0LeqXVto+XLcOhJeWA=;
+	bh=UcUtD1ZVE/t/e49mIRjHjGIlObJeJfXBstuSw82d2G4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=J5iNvIEiipPo7GxZiDEnaXU1XLfO/KSoV40wNgDuzdBkGvyBgTXmcBvD1D9H4vhwn
-	 eed7soqaUQvDVpTJHCn9zzFV3x9eozPWmr6Ce2c1tIgg1hGxS4b501DYJbCIhFszbg
-	 +yZL0LT2qrquT/zsDmWZMD2Avv6noTkW8lv/TS5ALEXuNMr/4KiIYNqZdu/qjRIvS3
-	 i/7AU4GfPTpynn3KfXkfcvkOKsCHKfdUCdb/COfmR691PghSIJu661FtiirymaYc4w
-	 6sP3GdJLqoOsu4orpy2+rskNkvj5N75D5TEMCvxAu9aN9ky1foNW0Fj2B7M0nPCj7q
-	 HZJQsmy2JyBXg==
+	b=H6LRgT6skiHuwnztX0mroM6CF36RVrS/RsNANn8HW+hgqZFCQE6xqRlBntmTN+LqY
+	 qp428kYMxsr6jKytvO1VGV3h3RX6yxQOQO7ZKuCpNG7HA12g/PzC89PUOOa+XLuBf7
+	 ZW2w9FxXDYZ/jh4ACkkOQ6HwnJsIoypXyq8Afnqgy5S2aqqQ/jjHHz8YKdncrSw5IG
+	 AgiNr3ELSehF3Ykl313Bm3Y8xLwoE446AuILHSx0tyoS+yG9pvr0HcVL3vDltaaEBl
+	 xzcVNEo+r1oNptQdZ7DHKDWjtYzcysl9k2xR1jtX3jNxGGWB8pBYQDe/8E9akz1KPX
+	 wAhJ+sDa5b3Ag==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tkfVh-0000000Gv4L-4122;
-	Wed, 19 Feb 2025 09:32:49 +0100
+	id 1tkfVi-0000000Gv4X-097P;
+	Wed, 19 Feb 2025 09:32:50 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-arch@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 01/27] include/asm-generic/io.h: fix kerneldoc markup
-Date: Wed, 19 Feb 2025 09:32:17 +0100
-Message-ID: <53fe92cda720035a5c72bc95a88a3d965bc9b1fc.1739952783.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 04/27] docs: driver-api/infiniband.rst: fix Kerneldoc markup
+Date: Wed, 19 Feb 2025 09:32:20 +0100
+Message-ID: <033bcbcc6edaadda6dae59a66530e1603ae6948a.1739952783.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1739952783.git.mchehab+huawei@kernel.org>
 References: <cover.1739952783.git.mchehab+huawei@kernel.org>
@@ -53,57 +51,46 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Kerneldoc requires a "-" after the name of a function for it
-to be recognized as a function.
+kerneldoc.py extension doesn't handle a "\" character at the end
+of the line: it will just merge it to the cmd line, producing
+this command:
 
-Add it.
+	scripts/kernel-doc -rst -enable-lineno -function iscsi_iser_pdu_alloc -function iser_initialize_task_headers -function \ -function iscsi_iser_task_init -function iscsi_iser_mtask_xmit -function iscsi_iser_task_xmit -function \ -function iscsi_iser_cleanup_task -function iscsi_iser_check_protection -function \ -function iscsi_iser_conn_create -function iscsi_iser_conn_bind -function \ -function iscsi_iser_conn_start -function iscsi_iser_conn_stop -function \ -function iscsi_iser_session_destroy -function iscsi_iser_session_create -function \ -function iscsi_iser_set_param -function iscsi_iser_ep_connect -function iscsi_iser_ep_poll -function \ -function iscsi_iser_ep_disconnect ./drivers/infiniband/ulp/iser/iscsi_iser.c
 
-Fix those kernel-doc warnings:
-
-include/asm-generic/io.h:1215: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * memset_io    Set a range of I/O memory to a constant value
-include/asm-generic/io.h:1227: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * memcpy_fromio        Copy a block of data from I/O memory
-include/asm-generic/io.h:1239: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * memcpy_toio          Copy a block of data into I/O memory
+which may not work as expected.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Acked-by: Arnd Bergmann <arnd@arndb.de>
 ---
- include/asm-generic/io.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/driver-api/infiniband.rst | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/asm-generic/io.h b/include/asm-generic/io.h
-index a5cbbf3e26ec..3c61c29ff6ab 100644
---- a/include/asm-generic/io.h
-+++ b/include/asm-generic/io.h
-@@ -1212,7 +1212,7 @@ static inline void unxlate_dev_mem_ptr(phys_addr_t phys, void *addr)
+diff --git a/Documentation/driver-api/infiniband.rst b/Documentation/driver-api/infiniband.rst
+index 30e142ccbee9..10d8be9e74fe 100644
+--- a/Documentation/driver-api/infiniband.rst
++++ b/Documentation/driver-api/infiniband.rst
+@@ -77,14 +77,14 @@ iSCSI Extensions for RDMA (iSER)
+    :internal:
  
- #ifndef memset_io
- /**
-- * memset_io	Set a range of I/O memory to a constant value
-+ * memset_io -	Set a range of I/O memory to a constant value
-  * @addr:	The beginning of the I/O-memory range to set
-  * @val:	The value to set the memory to
-  * @count:	The number of bytes to set
-@@ -1224,7 +1224,7 @@ void memset_io(volatile void __iomem *addr, int val, size_t count);
+ .. kernel-doc:: drivers/infiniband/ulp/iser/iscsi_iser.c
+-   :functions: iscsi_iser_pdu_alloc iser_initialize_task_headers \
+-	iscsi_iser_task_init iscsi_iser_mtask_xmit iscsi_iser_task_xmit \
+-	iscsi_iser_cleanup_task iscsi_iser_check_protection \
+-	iscsi_iser_conn_create iscsi_iser_conn_bind \
+-	iscsi_iser_conn_start iscsi_iser_conn_stop \
+-	iscsi_iser_session_destroy iscsi_iser_session_create \
+-	iscsi_iser_set_param iscsi_iser_ep_connect iscsi_iser_ep_poll \
+-	iscsi_iser_ep_disconnect
++   :functions: iscsi_iser_pdu_alloc iser_initialize_task_headers
++               iscsi_iser_task_init iscsi_iser_mtask_xmit iscsi_iser_task_xmit
++               iscsi_iser_cleanup_task iscsi_iser_check_protection
++               iscsi_iser_conn_create iscsi_iser_conn_bind
++               iscsi_iser_conn_start iscsi_iser_conn_stop
++               iscsi_iser_session_destroy iscsi_iser_session_create
++               iscsi_iser_set_param iscsi_iser_ep_connect iscsi_iser_ep_poll
++               iscsi_iser_ep_disconnect
  
- #ifndef memcpy_fromio
- /**
-- * memcpy_fromio	Copy a block of data from I/O memory
-+ * memcpy_fromio -	Copy a block of data from I/O memory
-  * @dst:		The (RAM) destination for the copy
-  * @src:		The (I/O memory) source for the data
-  * @count:		The number of bytes to copy
-@@ -1236,7 +1236,7 @@ void memcpy_fromio(void *dst, const volatile void __iomem *src, size_t count);
- 
- #ifndef memcpy_toio
- /**
-- * memcpy_toio		Copy a block of data into I/O memory
-+ * memcpy_toio -	Copy a block of data into I/O memory
-  * @dst:		The (I/O memory) destination for the copy
-  * @src:		The (RAM) source for the data
-  * @count:		The number of bytes to copy
+ .. kernel-doc:: drivers/infiniband/ulp/iser/iser_initiator.c
+    :internal:
 -- 
 2.48.1
 
