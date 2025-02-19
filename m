@@ -1,116 +1,244 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8AD1DDA36
-	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 13:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BA61E378C;
+	Wed, 19 Feb 2025 13:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739971990; cv=none; b=QiJk6zKykEPpHD5ayZIZ70lL0AGkbjj3gNqApJeSgNyroeI231zoy98fCewlO5b0HKPiK7+thI0PDJM0G4zcM7cgnPeCICl4IrCQJhztYu5GajFc3joqjOZl7pIXUjoU5LJlVuCUeQQjLaQItNCfzKfJ2Wx7c1xXMFZR4zOcpJs=
+	t=1739972124; cv=none; b=D41oIR93tfM8TUtMs7DOGJxjlNej0AmckAg7besaySEZJ1+wfyg5tWy6nzRGcxla+MO3dxJbqstllNJuOHzjD5hPyEulTaLF2ZqRp3SuSeQ9XgiIvi5iOop4//ZygUf41xV8PLdbiW5Sh2Vy0Y8kLSLwoTA0f8OCr5PbwEC16Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739971990; c=relaxed/simple;
-	bh=cjD26/2UAwFHsgSeZprQTMz/5m3GY77SlSgA4q9tIqQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YUyiX0RV3hcBHzfecWCz20vXZ1vd1efwd2WVmlYEirzYxOfy3OkcHwuV3QjZDj1blEYQ37KBetsuFipxbKwGNwLMN4S98cMUr2HJggZVP+eIWw3fd6ox8CxUCpBGVQfu/cw/j6dqSvtm5GLNg9APPG8fPK9lef+bKu9cgIFhuPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=ZFUF70SD; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	s=arc-20240116; t=1739972124; c=relaxed/simple;
+	bh=A/dckfyquWQps4kYztwWINKs+R6MQVvGU5K9COsP9Pc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=VR5rh3/q88AM/orCusS6RZlrYoVO1lMVTH84FgsEOWpaOZTghrmBquiWy7JkQaKZSNOb6J35AinGSw7DiUZhZ9/lgL6POXl5rl+Rli7O4s1e3qsTgr3tqzGLPzuxMTy8NrYOMwV5YhwE6m9ydir1I9fodik3+bPULGLeQcTIWyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ncbIjqGi; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="ZFUF70SD"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-439350f1a0bso5498495e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 05:33:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1739971987; x=1740576787; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qeYnr6jPu3lSIUMnd641DJ0EkSXG3SudMAp417EhFus=;
-        b=ZFUF70SDBKdB1mZKTYT3kAmtiT1kiO7UWJhEXoMZ5KxCqrF7ZuZOMjOVYYtDq+wZlf
-         zbimSHfo6HO6VfC+0PVKYmmrO/AnXcple9aJBiw8v2mBloqhVtSDwfJD4yhPdo7ARHcl
-         Bh2GFpm/TXev1P5l0SICUY1+zNgR3D1nkFgio=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739971987; x=1740576787;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qeYnr6jPu3lSIUMnd641DJ0EkSXG3SudMAp417EhFus=;
-        b=Kq+ypj3LRXaebtJzQx3z7ALB6kBSQXSuFQbIyAJdSHzESjtkYd2JS4JxXIo/FZVcDh
-         D4zsomVE6/xhS01QfF+EIIRJ1rE4gH+Rdxcew8/AJbf+MG+ZeCcqGOgf8UbqX7jXzENf
-         8AVXRD3mIXse39VOez3nWiR/N1JJTjlMzTqmb2iiukdbnZJB+6blKYdUUmCPym3ls4bJ
-         FPMJETXH79mus+qVscpMw2b5euFmYCKZF/Ub0KNW7jG4bQLYvduJTgGjcTtcpeI7JQfR
-         e6ztPcluH/IvqkHENnHy/Gv2CqyIesQNT65scKBlyQHBCdKrUoVxdoFH6jVNA1EtEF1a
-         yJ5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVuA2LVWyAt2HE3GOW54NDwWugMZvGW+wTDXcMJnmoTW8PU2GcDfb1AvNxkkQih62R3I/LhYgqXdrQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYFb4KfcfFRQMuce4YuXQCY3UhHzSNgZS7PJPAJhPpQeNUD0Su
-	PTjBHk0CsWCSjohkUAZP7auiNGY0mGxyvPQVbzrO0KjPpyGPf/UKmZpBat/dpIk=
-X-Gm-Gg: ASbGncuN6utVrKNsJ9GiSFx5d57hmZ1L7aZ+yvrJj5IkrL+nOLdg7x9a9pjhO+KXbFY
-	FIVOiVipc2Zm7Q62Kki6w9t0u0C2lGCN7o/h/j8hIIEFGtpDkX11SZCY1KmnnAWbcj+GMXTcrY8
-	2oo+hXRWt870CEtjK4LaG2+kaj3lP+SAK5lwv2zbqrjST8tOIKuRuzh55PctweyhHqpMyGDGagJ
-	4VUYSZitUZ/Oz+8HUIYpBXxd/baKFrUuwCt/Q9EMTozcnP8h4+fZpE12PWdEedrE9Dz6H4lE849
-	6IJ9mvYBumFlMzZ4J5+AR0nHM7w=
-X-Google-Smtp-Source: AGHT+IEfr4282QBqEmzNfVUxfuk6xB0RBCkHqhW01JOw3jzUDHaoP/nFjPNWk6Jdq6rqr+AuCCpqyA==
-X-Received: by 2002:a05:600c:19ce:b0:439:5fbd:19d2 with SMTP id 5b1f17b1804b1-43999b44505mr33869735e9.10.1739971987073;
-        Wed, 19 Feb 2025 05:33:07 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a04f208sm211702665e9.6.2025.02.19.05.33.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 05:33:06 -0800 (PST)
-Date: Wed, 19 Feb 2025 14:33:04 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Pranav Tyagi <pranav.tyagi03@gmail.com>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
-Message-ID: <Z7XdkAKqlK2KJuq2@phenom.ffwll.local>
-Mail-Followup-To: Bagas Sanjaya <bagasdotme@gmail.com>,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>
-References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
- <Z6bKR9K16-oYMLFl@archie.me>
- <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
- <CAH4c4j+kOYMfzO5QOBg+hGe2zt4kN4f7v+mrri-2GMLzYtCPrw@mail.gmail.com>
- <Z7WOym9fl8GNPJiO@archie.me>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ncbIjqGi"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B2F6E204D1;
+	Wed, 19 Feb 2025 13:35:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1739972119;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=BatAYY4Q/qo6xTguZ+6kbDWPJ2CAwSm7b4xhPetFDR4=;
+	b=ncbIjqGivyenB+N+qbvpXVXRFGmmOvvlsJyBW/GkAcSi1hdMpCV2q0yFpEDlQI7NV3mCF3
+	Xa6EM3FDKq7u46PoNQwJC0INLghZs/2pyQI2jgEL+/QTndn0tlKNl4uRwTfDqsl5RTsGO5
+	6k02sj5XKJxp9qAnc/+ChDV05sGavLBm/6t5+KhhuVzrCDevYocXnNcLeLF8goWHYqzYdJ
+	9plDOOeX86qac7zUoaXYz6jwyGnfONExWe3Cc/l0nW5Wpmet7mqStsJWckkiK6g2qJ+hcl
+	A6pOo+sr6FmRSWB9vXhCTFr4LeplDC6doFAtXV/SAr4Ab5KQxsU7CGVRib7yTQ==
+Message-ID: <ce5fb86d-f3bc-4196-9cfd-8af41a83beb1@bootlin.com>
+Date: Wed, 19 Feb 2025 14:35:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7WOym9fl8GNPJiO@archie.me>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
+To: Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ rdunlap@infradead.org, arthurgrillo@riseup.net,
+ Jonathan Corbet <corbet@lwn.net>, pekka.paalanen@haloniitty.fi,
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com, linux-doc@vger.kernel.org,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20250121-yuv-v16-0-a61f95a99432@bootlin.com>
+ <20250121-yuv-v16-5-a61f95a99432@bootlin.com>
+ <qwym5wty72f6o4dfz2iduamkpuom6jt5txskknovqxzagruusx@zuytk7awe2uw>
+ <Z5dkd3npNtzPWCrP@louis-chauvet-laptop>
+ <20250205-pristine-perch-of-abundance-7abac1@houat>
+ <Z6OEd329pDNRrL5v@louis-chauvet-laptop>
+ <20250219-inventive-micro-parrot-c24846@houat>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <20250219-inventive-micro-parrot-c24846@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigeefjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeuvdetgeevkefhiedugfekveejieeiveeigeeiveduffehfffhgeffffetheekgfenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdegpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhoughrihhgohhsihhquhgvihhrrghmvghlohesghhmrghilhdrtghomhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrihhrrggtrghnrghlsehrihhsvghuphdrnhgvthdprhgtphhtt
+ hhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-On Wed, Feb 19, 2025 at 02:56:58PM +0700, Bagas Sanjaya wrote:
-> On Thu, Feb 13, 2025 at 11:05:39PM +0530, Pranav Tyagi wrote:
-> > Hi,
-> > 
-> > Just a gentle follow-up on this patch. It has been reviewed but hasn't
-> > been applied yet.
+
+
+Le 19/02/2025 à 11:15, Maxime Ripard a écrit :
+> On Wed, Feb 05, 2025 at 04:32:07PM +0100, Louis Chauvet wrote:
+>> On 05/02/25 - 09:55, Maxime Ripard wrote:
+>>> On Mon, Jan 27, 2025 at 11:48:23AM +0100, Louis Chauvet wrote:
+>>>> On 26/01/25 - 18:06, Maxime Ripard wrote:
+>>>>> On Tue, Jan 21, 2025 at 11:48:06AM +0100, Louis Chauvet wrote:
+>>>>>> +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+>>>>>> +	/*
+>>>>>> +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+>>>>>> +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
+>>>>>> +	 *                     in_bits = 16,
+>>>>>> +	 *                     in_legal = False,
+>>>>>> +	 *                     in_int = True,
+>>>>>> +	 *                     out_bits = 8,
+>>>>>> +	 *                     out_legal = False,
+>>>>>> +	 *                     out_int = True)
+>>>>>> +	 *
+>>>>>> +	 * Test cases for conversion between YUV BT601 full range and RGB
+>>>>>> +	 * using the ITU-R BT.601 weights.
+>>>>>> +	 */
+>>>>>
+>>>>> What are the input and output formats?
+>>>>>
+>>>>> Ditto for all the other tests.
+>>>>
+>>>> There is no really "input" and "output" format, they are reference values
+>>>> for conversion, you should be able to use it in both direction. They are
+>>>> generated by RGB_to_YCbCr (RGB input, YUV output) just because it was
+>>>> easier to create the colors from RGB values.
+>>>
+>>> RGB and YUV aren't formats, they are color models. XRGB8888 is a format.
+>>> NV12 is a format.
+>>>
+>>>> If you think we should specify what is was used as input and output to
+>>>> generate those values, I can modify the comment to:
+>>>>
+>>>> 	Tests cases for color conversion generated by converting RGB
+>>>> 	values to YUV BT601 full range using the ITU-R BT.601 weights.
+>>>
+>>> My point is that those comments should provide a way to reimplement the
+>>> test from scratch, and compare to the actual implementation. It's useful
+>>> when you have a test failure and start to wonder if the implementation
+>>> or the test is at fault.
+>>>
+>>> By saying only RGB and YUV, you can't possibly do that.
+>>
+>> I understand your concern, but I believe there might be a slight
+>> misunderstanding. The table in question stores reference values for
+>> specific color models, not formats. Therefore, it doesn't specify any
+>> particular format like XRGB8888 or NV12.
+>>
+>> To clarify this, I can rename the format_pair struct to value_pair. This
+>> should make it clearer that we are dealing with color model values rather
+>> than formats.
+>>
+>> If you want to test a specific format conversion, such as
+>> YUV420_to_argbu16, you would need to follow a process like this:
+>>
+>> 	// Recreate a YUV420 data
+>> 	plane_1[0] = test_case.yuv.y
+>> 	plane_2[0] = test_case.yuv.u
+>> 	plane_2[1] = test_case.yuv.v
+>>
+>> 	// convertion to test from YUV420 format to argb_u16
+>> 	rgb_u16 = convert_YUV420_to_argbu16(plane_1, plane_2)
+>>
+>> 	// ensure the conversion is valid
+>> 	assert_eq(rgb_u16, test_case.rgb)
+>>
+>> The current test is not performing this kind of format conversion.
+>> Instead, it verifies that for given (y, u, v) values, the correct (r, g,
+>> b, a) values are obtained.
 > 
-> You may need to resend the patch, but with scripts/get_maintainer.pl
-> output Cc'ed so that DRM maintainers can be notified on the patch.
+> You already stated that you check for the A, R, G, and B components. On
+> how many bits are the values you are comparing stored? The YUV values
+> you are comparing are stored on how many bits for each channel? With
+> subsampling?
+> 
+> If you want to compare values, you need to encode a given color into
+> bits, and the way that encoding is done is what the format is about.
+> 
+> You might not compare the memory layout but each component individually,
+> but it's still a format.
 
-I don't have the patch since it wasn't cc'ed to dri-devel. Can you please
-resend with r-b tag included?
+Sorry, I think I misunderstood what a format really is. But even with 
+this explanation, I don't understand well what you ask me to change. Is 
+this better:
 
-Thanks, Sima
+The values are computed by converting RGB values, with each component 
+stored as u16, to YUV values, with each component stored as u8. The 
+conversion is done from RGB full range to YUV BT601 full range using the 
+ITU-R BT.601 weights.
+
+TBH, I do not understand what you are asking for exactly. Can you please 
+give the sentence you expect directly?
+
+Thanks,
+Louis Chauvet
+
+> And then, you have the extra fun on top, like are you comparing
+> full-range or limited-range colors?
+> 
+>> In other words, it tests color model conversion, not format conversion.
+> 
+> No, you are testing color encoding, format and model conversions, all at
+> once.
+> 
+> Maxime
+
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
