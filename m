@@ -1,47 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107DB1DED63;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108381E8339;
 	Wed, 19 Feb 2025 13:57:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739973480; cv=none; b=Ue4DGvjsYM5owbl+G5WpaDs6LzboL8iLwgS/nHDNy3L9HBbueYPGHoaV5ciENlF3ArmCZzblVWW4jWlAzh/58YoOOMBOXoy+/OpHFBXRsaO4FqTq6YlI96//EQYhlks2Ne1Aj0cpplG1vBNYLZAClBy7RpjX3H6YIG3ipIOL4OM=
+	t=1739973480; cv=none; b=usiiMjHH+nABzX93PSlE8HXToQ2m1R1qKbGnQjBX9LI3Vs7+bG5I3jk9ijHZTtZQ0oKaDcRbKDAILt6yRHoV+t9SMQpwnSMAADjdlvKLff3x5QaTBk3yQSVnX1t+sJrvQ7Yj0X4XhgrqBTTwajHMiibDZmL/B/j4GQZx5yubOXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739973480; c=relaxed/simple;
-	bh=7R366oYKmHOPpm8w8SRMstX38EO00rzyOjDKwrc/HvM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kCLHFxorVDkVxxrCFgZjzqJGpYYdWEHkxBxoQFucbdHktncPMkjAZZPNdS4ceRVDBmFS/xVjlm6IT8abMYvsrqs6wzyrahKgZtTXALA5Nnkrtm+2Gkeg9e9JHAPFdZUEg8vg01jlYpQ8AxytvG3hOtgTkJH7l8Aee9L1rDNd9xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6P5eAMg; arc=none smtp.client-ip=10.30.226.201
+	bh=+zvcJdWEHzoEWzuYCy22rFH0TIPtIrbJ14DEL51h8cI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HXMf8EUQQq2ERQjwx8ON0YmZUyp042qVxEVNdjoViM3aW0TIGvRmArK0TolUoDo4zE9sQNKWmRGKZ51T3BvgXlaIcUstHgClrv4ABYm8xfWW1mRM2p0mYwWWHYAzySXh8F7XET5nw6d7DmCGic+utB08gqqCO56Z6+2qHnb0CkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bGqe8Yj8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6P5eAMg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92AB3C4CED6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bGqe8Yj8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99591C4AF09;
 	Wed, 19 Feb 2025 13:57:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1739973479;
-	bh=7R366oYKmHOPpm8w8SRMstX38EO00rzyOjDKwrc/HvM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=R6P5eAMgEhntbiTEVUOj/hhs4F3GyrUMl49CX5ax4h1XPzEwNoCTKvymaKMt+NSX2
-	 Gzf9N5LIuHTomtvVCIRppzNkDgPsLGGiyft4HWrNbhsFTnjj+LiNCxxueAJBZuroqJ
-	 gWv2Tx3hLGFq5VhzFsVXdAGLKGiM3tUw0wS/mRGi00NjJ+MnJR3I6atPOZBwsuxiNH
-	 yei3iN/meR49MHNSF1Vj6DgUZqP7iUFcQJOsdhIxJNPpRS/kuUigetHmnh6likUC3M
-	 9xJ9A44QJybbXG+xQdLfziwNBCxI0fBxXDL7CWW8LDW5ZSZjcbMHu91SzyQcyiwwrx
-	 8zVW0WUeMVCLg==
+	bh=+zvcJdWEHzoEWzuYCy22rFH0TIPtIrbJ14DEL51h8cI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bGqe8Yj8hiBMUwJXr2i70buhC7NV7XwoEJBPuuiAwYi+1R+Zqx/ufEqSJjnfkRTR5
+	 IGdqaJ93+HXMbfwkzlMNlV+aLHciM0rtaOrCMHE7BQK9ugc7VRqMGAa+mRc7QxxzKn
+	 c2YWuriOQZHJsz8rl2Yt2reAHHSZz7v0rEui9Z6/FaZ4bscVz6vq/jH6J1tSHb6CLs
+	 Q1PGwCb5nBxs82eCebH1WVvZKdWlen+eHK2eF34Sruc99Eocv16SPTalqze7Deqm+B
+	 H+MH6/w7+p2lrL9DGD1U0WXyRqt6Fx/5WQ5kQcTeJd8f+ggQjU37rOuwgKUs2HGzoC
+	 KilevAcHac3ng==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tkkaL-0000000H1jV-11aI;
+	id 1tkkaL-0000000H1jC-0QL8;
 	Wed, 19 Feb 2025 14:57:57 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] scripts/kernel-doc.py: properly handle KBUILD_BUILD_TIMESTAMP
-Date: Wed, 19 Feb 2025 14:57:40 +0100
-Message-ID: <35d0f26f8ab2845245b3c3b7817c1e3ab883f069.1739972906.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 0/6] additional fixes to kernel-doc.py
+Date: Wed, 19 Feb 2025 14:57:35 +0100
+Message-ID: <cover.1739972906.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <cover.1739972906.git.mchehab+huawei@kernel.org>
-References: <cover.1739972906.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,97 +48,49 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The logic that handles KBUILD_BUILD_TIMESTAMP is wrong, and adds
-a dependency of a third party module (dateutil).
+Hi Jon,
 
-Fix it.
+This series comes after:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/lib/kdoc/kdoc_files.py  |  9 ---------
- scripts/lib/kdoc/kdoc_output.py | 28 +++++++++++++++++++++-------
- 2 files changed, 21 insertions(+), 16 deletions(-)
+https://lore.kernel.org/linux-doc/cover.1739952783.git.mchehab+huawei@kernel.org/T/#t
 
-diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
-index a2417cafb1c8..19fe9c6f5352 100755
---- a/scripts/lib/kdoc/kdoc_files.py
-+++ b/scripts/lib/kdoc/kdoc_files.py
-@@ -12,9 +12,6 @@ import logging
- import os
- import re
- import sys
--from datetime import datetime
--
--from dateutil import tz
- 
- from kdoc_parser import KernelDoc
- from kdoc_output import OutputFormat
-@@ -136,12 +133,6 @@ class KernelFiles():
-         if out_style is None:
-             out_style = OutputFormat()
- 
--        dt = datetime.now()
--        if os.environ.get("KBUILD_BUILD_TIMESTAMP", None):
--            # use UTC TZ
--            to_zone = tz.gettz('UTC')
--            dt = dt.astimezone(to_zone)
--
-         if not werror:
-             kcflags = os.environ.get("KCFLAGS", None)
-             if kcflags:
-diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-index 13a74a687f89..166fcabbb4cf 100755
---- a/scripts/lib/kdoc/kdoc_output.py
-+++ b/scripts/lib/kdoc/kdoc_output.py
-@@ -18,8 +18,6 @@ import os
- import re
- from datetime import datetime
- 
--from dateutil import tz
--
- from kdoc_parser import KernelDoc, type_param
- from kdoc_re import Re
- 
-@@ -584,6 +582,15 @@ class ManFormat(OutputFormat):
-     )
-     blankline = ""
- 
-+    date_formats = [
-+        "%a %b %d %H:%M:%S %Z %Y",
-+        "%a %b %d %H:%M:%S %Y",
-+        "%Y-%m-%d",
-+        "%b %d %Y",
-+        "%B %d %Y",
-+        "%m %d %Y",
-+    ]
-+
-     def __init__(self, modulename):
-         """
-         Creates class variables.
-@@ -595,11 +602,18 @@ class ManFormat(OutputFormat):
-         super().__init__()
-         self.modulename = modulename
- 
--        dt = datetime.now()
--        if os.environ.get("KBUILD_BUILD_TIMESTAMP", None):
--            # use UTC TZ
--            to_zone = tz.gettz('UTC')
--            dt = dt.astimezone(to_zone)
-+        dt = None
-+        tstamp = os.environ.get("KBUILD_BUILD_TIMESTAMP")
-+        if tstamp:
-+            for fmt in self.date_formats:
-+                try:
-+                    dt = datetime.strptime(tstamp, fmt)
-+                    break
-+                except ValueError:
-+                    pass
-+
-+        if not dt:
-+            dt = datetime.now()
- 
-         self.man_date = dt.strftime("%B %Y")
- 
+it basically contains:
+
+- a regression fix when -none/--none parameter is used;
+- some backward-compatibility fixes;
+- a fix to KBUILD_BUILD_TIMESTAMP, which also drops
+  importing dateutil (*);
+- a cleanup related to man modulename.
+
+(*) despite almost everybody has it installed, dateutil is actually not
+    part of the official Python libraries, so using it would require an
+    extra dependency check.
+
+While our minimal Python version is 3.9, I opted to make it compatible with
+Python 3.6, as the only issue preventing 3.6 was a single string function
+(removesuffix) that can be also served by rstrip().
+
+After those changes, support for 3.6 on kernel-doc.py comes almost for 
+free: both man and ReST output works with just Python 3.6 installed without
+any additional modules.
+
+So, no need to change any dependencies at scripts/sphinx-pre-install.
+
+Mauro Carvalho Chehab (6):
+  scripts/kernel-doc.py: Set an output format for --none
+  scripts/kernel-doc.py: adjust some coding style issues
+  scripts/lib/kdoc/kdoc_parser.py: fix Python compat with < v3.13
+  scripts/kernel-doc.py: move modulename to man class
+  scripts/kernel-doc.py: properly handle KBUILD_BUILD_TIMESTAMP
+  scripts/lib/kdoc/kdoc_parser.py: remove a python 3.9 dependency
+
+ scripts/kernel-doc.py           |  8 ++-
+ scripts/lib/kdoc/kdoc_files.py  | 19 ++-----
+ scripts/lib/kdoc/kdoc_output.py | 97 ++++++++++++++++++++++++---------
+ scripts/lib/kdoc/kdoc_parser.py | 15 ++---
+ 4 files changed, 83 insertions(+), 56 deletions(-)
+
 -- 
 2.48.1
+
 
