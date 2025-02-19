@@ -1,131 +1,121 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4185B1EDA3E;
-	Wed, 19 Feb 2025 13:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D43286281;
+	Wed, 19 Feb 2025 13:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739973196; cv=none; b=LC4lY7oPzaTNXcjN+PZzLvdHOJyRpHG5j2Mv4BQQ2IBHUWvFyl0TlXiKA0KWAT3FYHiWrAB+0ZnL0oBwS4mt2YOR+fEi91D3agKDztghd8J94abMdp3LLxZZequbTIAlQhy5PY0PqcFpCouanFFjHsgOScsy9DTnFp9j9IkbLMU=
+	t=1739973321; cv=none; b=sy2Bvpu09F93gTgztc5PISLjOUv2Nxuiyqc3Gqn7KqttjQkbikeP1T2j7v2xRsE9YLEzlpG2aNQEcm1u1iUe6NfWQbB5tJQwGyXBguqDwff04KOYNLdQK7Hp0KnUgM/dKKXqhvgV1o2cUVhsvSsN0GeS+dMYJmBo0wmQTi3KyTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739973196; c=relaxed/simple;
-	bh=hed/3XtNqLZMF2TB+dNF2bvrISbRUf1HE0fX3n91muw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lrCSHAK3KdJS5nyNYOfxYR/4PQhy8z/yp6feUfHYnqyS5iwLWzMXYh1K2jDrFeWMHt0gP4oXc+qbfWCMd9CqqHcVjZIrUxHBf4hrayBW18HHOiJktlE1S4wUygfYyz5niJuQwDRIzJrdd0zNQxIJPbRrQM3aWpApcraaatLAAg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CBD2B1682;
-	Wed, 19 Feb 2025 05:53:31 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7533C3F59E;
-	Wed, 19 Feb 2025 05:53:09 -0800 (PST)
-Date: Wed, 19 Feb 2025 13:53:07 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Babu Moger <babu.moger@amd.com>
-Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	tony.luck@intel.com, peternewman@google.com, fenghua.yu@intel.com,
-	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
-	akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
-	xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
-	daniel.sneddon@linux.intel.com, jpoimboe@kernel.org,
-	perry.yuan@amd.com, sandipan.das@amd.com, kai.huang@intel.com,
-	xiaoyao.li@intel.com, seanjc@google.com, xin3.li@intel.com,
-	andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
-Subject: Re: [PATCH v11 22/23] x86/resctrl: Introduce interface to list
- assignment states of all the groups
-Message-ID: <Z7XiQ+u3Pc+uvJCK@e133380.arm.com>
-References: <cover.1737577229.git.babu.moger@amd.com>
- <52c66bf98480c0ab6bb0f0762497e328fcbdeaac.1737577229.git.babu.moger@amd.com>
+	s=arc-20240116; t=1739973321; c=relaxed/simple;
+	bh=Rc0k2hXGgw1uh7x0JIX+uzUH8a98VI2YuRrPPA9zVIw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=DAIrsQZroAIUf6tgFTrgIaov9/G/uZDgwK9Qv/WoF+dYKEWdO0jHqjhX1ZkKZC5kdPfMOvnopsriEL47YLkyyBReK9zkAiZf7AMpt02Ih4lSevHwgxdVsmuu83n85vCHgNYtRj5ykS6Nx2DBwn8vbPcq3KLCdv37anKjan1P7Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=uVXB7M5c; arc=none smtp.client-ip=99.78.197.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="uVXB7M5c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1739973320; x=1771509320;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=57nPLxtLibpkK5qPp8QpRrsWkbDlQlqDET5gkkKYRG8=;
+  b=uVXB7M5cyZLysMGuSVF/79vI9AyRNj63EwEGDaEnRaCPROiolv3BpNqm
+   0xQR3AhHvXUUzDeevCgpSke4aLW1VVOLgLx7o8kkBhNcxw6kOMi/3GULy
+   DCkcnzkMyOdxO0GB8PPKWkEKl8gwp6BKnZTbf+5dY8dR31eN1dUtilv5i
+   M=;
+X-IronPort-AV: E=Sophos;i="6.13,299,1732579200"; 
+   d="scan'208";a="173851478"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 13:55:18 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [10.0.38.20:64466]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.12.97:2525] with esmtp (Farcaster)
+ id 109703bc-b166-4b29-a69a-d899c4750143; Wed, 19 Feb 2025 13:55:17 +0000 (UTC)
+X-Farcaster-Flow-ID: 109703bc-b166-4b29-a69a-d899c4750143
+Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.39;
+ Wed, 19 Feb 2025 13:55:08 +0000
+Received: from [0.0.0.0] (10.253.83.51) by EX19D020UWC004.ant.amazon.com
+ (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14; Wed, 19 Feb 2025
+ 13:55:00 +0000
+Message-ID: <d8c43707-65a2-4176-85e2-acdb4c9d16ad@amazon.com>
+Date: Wed, 19 Feb 2025 14:54:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <52c66bf98480c0ab6bb0f0762497e328fcbdeaac.1737577229.git.babu.moger@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/14] kexec: introduce Kexec HandOver (KHO)
+To: Dave Young <dyoung@redhat.com>, Mike Rapoport <rppt@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@kernel.org>, Anthony Yznaga
+	<anthony.yznaga@oracle.com>, Arnd Bergmann <arnd@arndb.de>, Ashish Kalra
+	<ashish.kalra@amd.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Borislav Petkov <bp@alien8.de>, Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, David Woodhouse
+	<dwmw2@infradead.org>, Eric Biederman <ebiederm@xmission.com>, Ingo Molnar
+	<mingo@redhat.com>, James Gowans <jgowans@amazon.com>, Jonathan Corbet
+	<corbet@lwn.net>, Krzysztof Kozlowski <krzk@kernel.org>, Mark Rutland
+	<mark.rutland@arm.com>, Paolo Bonzini <pbonzini@redhat.com>, Pasha Tatashin
+	<pasha.tatashin@soleen.com>, "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra
+	<peterz@infradead.org>, Pratyush Yadav <ptyadav@amazon.de>, Rob Herring
+	<robh+dt@kernel.org>, Rob Herring <robh@kernel.org>, Saravana Kannan
+	<saravanak@google.com>, Stanislav Kinsburskii
+	<skinsburskii@linux.microsoft.com>, Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Tom Lendacky <thomas.lendacky@amd.com>,
+	Usama Arif <usama.arif@bytedance.com>, Will Deacon <will@kernel.org>,
+	<devicetree@vger.kernel.org>, <kexec@lists.infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-mm@kvack.org>, <x86@kernel.org>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+ <CALu+AoRMQyRDFS_4L0KQkmrFT_S+yk=uZ-Mqt86JQYKKnj-5Ug@mail.gmail.com>
+ <Z7WJD6eBLuIRnLwk@kernel.org>
+ <CALu+AoSaEthfed1NOYPiQgm_g-dhibVMRAp0+=_+9qTT4_x=tg@mail.gmail.com>
+Content-Language: en-US
+From: Alexander Graf <graf@amazon.com>
+In-Reply-To: <CALu+AoSaEthfed1NOYPiQgm_g-dhibVMRAp0+=_+9qTT4_x=tg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D041UWA003.ant.amazon.com (10.13.139.105) To
+ EX19D020UWC004.ant.amazon.com (10.13.138.149)
 
-On Wed, Jan 22, 2025 at 02:20:30PM -0600, Babu Moger wrote:
-> Provide the interface to list the assignment states of all the resctrl
-> groups in mbm_cntr_assign mode.
 
-[...]
+On 19.02.25 13:49, Dave Young wrote:
+> On Wed, 19 Feb 2025 at 15:32, Mike Rapoport <rppt@kernel.org> wrote:
+>> On Mon, Feb 17, 2025 at 11:19:45AM +0800, RuiRui Yang wrote:
+>>> On Thu, 6 Feb 2025 at 21:34, Mike Rapoport <rppt@kernel.org> wrote:
+>>>> == Limitations ==
+>>>>
+>>>> Currently KHO is only implemented for file based kexec. The kernel
+>>>> interfaces in the patch set are already in place to support user space
+>>>> kexec as well, but it is still not implemented it yet inside kexec tools.
+>>>>
+>>> What architecture exactly does this KHO work fine?   Device Tree
+>>> should be ok on arm*, x86 and power*, but how about s390?
+>> KHO does not use device tree as the boot protocol, it uses FDT as a data
+>> structure and adds architecture specific bits to the boot structures to
+>> point to that data, very similar to how IMA_KEXEC works.
+>>
+>> Currently KHO is implemented on arm64 and x86, but there is no fundamental
+>> reason why it wouldn't work on any architecture that supports kexec.
+> Well,  the problem is whether there is a way to  add dtb in the early
+> boot path,  for X86 it is added via setup_data,  if there is no such
+> way I'm not sure if it is doable especially for passing some info for
+> early boot use.  Then the KHO will be only for limited use cases.
 
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 5d305d0ac053..6e29827239e0 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -975,6 +975,81 @@ static ssize_t resctrl_mbm_assign_mode_write(struct kernfs_open_file *of,
 
-[...]
+Every architecture has a platform specific way of passing data into the 
+kernel so it can find its command line and initrd. S390x for example has 
+struct parmarea. To enable s390x, you would remove some of its padding 
+and replace it with a KHO base addr + size, so that the new kernel can 
+find the KHO state tree.
 
-> +static int resctrl_mbm_assign_control_show(struct kernfs_open_file *of,
-> +					   struct seq_file *s, void *v)
-> +{
 
-[...]
+Alex
 
-> +	list_for_each_entry(rdtg, &rdt_all_groups, rdtgroup_list) {
-> +		seq_printf(s, "%s//", rdtg->kn->name);
-> +
-> +		sep = false;
-> +		list_for_each_entry(dom, &r->mon_domains, hdr.list) {
-> +			if (sep)
-> +				seq_puts(s, ";");
-> +
-> +			seq_printf(s, "%d=%s", dom->hdr.id,
-> +				   rdtgroup_mon_state_to_str(r, dom, rdtg, str));
-> +
-> +			sep = true;
-> +		}
-> +		seq_putc(s, '\n');
-> +
-> +		list_for_each_entry(crg, &rdtg->mon.crdtgrp_list, mon.crdtgrp_list) {
-> +			seq_printf(s, "%s/%s/", rdtg->kn->name, crg->kn->name);
-> +
-> +			sep = false;
-> +			list_for_each_entry(dom, &r->mon_domains, hdr.list) {
-> +				if (sep)
-> +					seq_puts(s, ";");
-> +				seq_printf(s, "%d=%s", dom->hdr.id,
-> +					   rdtgroup_mon_state_to_str(r, dom, crg, str));
-
-Unlike the other resctrl files, it looks like the total size of this
-data will scale up with the number of existing monitoring groups
-and the lengths of the group names (in addition to the number of
-monitoring domains).
-
-So, this can easily be more than a page, overflowing internal limits
-in the seq_file and kernfs code.
-
-Do we need to track some state between read() calls?  This can be done
-by overriding the kernfs .open() and .release() methods and hanging
-some state data (or an rdtgroup_file pointer) on of->priv.
-
-Also, if we allow the data to be read out in chunks, then we would
-either have to snapshot all the data in one go and stash the unread
-tail in the kernel, or we would need to move over to RCU-based
-enumeration or similar -- otherwise releasing rdtgroup_mutex in the
-middle of the enumeration in order to return data to userspace is going
-to be a problem...
-
-> +				sep = true;
-> +			}
-> +			seq_putc(s, '\n');
-> +		}
-> +	}
-> +
-> +	mutex_unlock(&rdtgroup_mutex);
-> +	cpus_read_unlock();
-> +	return 0;
-> +}
-
-[...]
-
-Cheers
----Dave
