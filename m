@@ -1,162 +1,249 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2075.outbound.protection.outlook.com [40.107.243.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54311FCCFD;
-	Wed, 19 Feb 2025 16:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739983241; cv=none; b=ONwUfFBDPsARDx7QWbZPLcemznoJPK645VyTK+pdNBuX7LgtXJTeH9gInV2Ip7zKObiw4rB3fZsstgxXpWL84lAqeLeGFEUTZd5EMls5cKAaRI5vDp5rFeAGXV2791M8Hr9jIesVfDimoD12KVKnb2ugNDil2NQw/zkvoghFl4g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739983241; c=relaxed/simple;
-	bh=FIoMuFSQ07R4o7KPNr9JeFn01rMJbvd5w5qUNvpz920=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=RnbM+hShkMHQzMQduwlcFRZ9kcqddhToAk07T/w64IL4yNehEOOZGT6JK4I1en/e+IVLk/cpRVQosMbgrpMh0B8BXiDW++Zr06CQrHJpC0tmfamUUBx0bO6UNRg4faJ5HC/4x3NU2imAV71wtLzH8hXzJ9eIudtUeJmgdqREtHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hawEzdym; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8386EEEA6;
+	Wed, 19 Feb 2025 16:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.75
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739984028; cv=fail; b=Czmf+yDvm8iDqbUwLD6NsqrIcNNDH7Gmwlv63d2VP/a4InrAdzabHvbPpoWVrVP8iZQO6jlvApplmbRLEc4kaKFoefgcc+tQfJUFO8IwNSgEcai4Vcwrj//9IKMPTs77ke1On+Fnle/ZMAe3+lAAuxnv8NOGYnfJLqmG8axSWEM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739984028; c=relaxed/simple;
+	bh=nJu4W7tj8bTghcw56pZZuMeyb3xwOrGN5IpyS3bdxlU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=U1i8E/gjR5NHwdzyHxw5J8Rm30SA+0vitc4JkoclRoDrTMh7k9h0qBP1bDgOzK8c59i3a76fy5tUfg4b8d/kDKbS+XcvhZUS904B8F0tGkHzD5Qx4/s+tz9vyzCk7h3b5AX0LLGkdM1RfieTYNaeDh1A/0sAvalT3Pw5mYLxwxo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vmg/R5yk; arc=fail smtp.client-ip=40.107.243.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hawEzdym"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7c0b9f35dc7so101295285a.2;
-        Wed, 19 Feb 2025 08:40:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739983238; x=1740588038; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xpi4TVSx9yEIiCT1ccXBg1RQMkm0prwwjlpAEx2L3Vs=;
-        b=hawEzdymHHek2vYP07WhbTYSb4N8ZpsWQtP7PYww6Vy1dIfH5h8ghbyrcdTd7NmBfA
-         xVLwJFlNrWS6G11+fJERJFrjo5xAkJ3cd5+khc5svc/FYDGydgFpviATtK5qyb+q1WQJ
-         uKrcbXlEMOKoo/aM67Sgh5KUnp2mGoev02BVMg054Z3b8oH/G5psrMxL7NeQ777vLCH/
-         D9tfI2o2fjA4y/PONjqjy5/CcEYuyeIfC8jiEaak6gkOV2JG6vUKHION2jz3tYTZIQRH
-         HzCCUrTs351Y0kKyeck1WFMg4lYPqXKeNzymYq2E765Hk05iZLWy+i1OhfNsZcS946SF
-         claw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739983238; x=1740588038;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xpi4TVSx9yEIiCT1ccXBg1RQMkm0prwwjlpAEx2L3Vs=;
-        b=LcjdyVCqWiTlNJtHS/wNjrRoAqe0s7ccZ+KYnGgf9jiU+6dGmhWqwzD4T9jD+7hSTR
-         c/K++Pavm35gPRyxi5vvXSWEyY/cHUvMPmjsSx8HUGEhzpLoCkAUQz+d433aH0HacgQ1
-         KZybJUKqTAH4FwDL14oaxtR6SZwKsVogxKn2dOpGAMbgvOytTKbS8/xJD1cjHzbffHEp
-         /d6tFNtc/BaKlUH8mr7OMKueboKpgTIZYGctRoxBmG1O0N1/CXSzEfwSZ2wy2i23gSio
-         79oatH+tUb0DnNFGxV7gfUI6i4zykCZ/WKjnr0EFOvNCYkvgb6d7i34LkFJFfXPDfnM9
-         zf3g==
-X-Forwarded-Encrypted: i=1; AJvYcCWNJzFVDaESI6hJjx80+vA78LvrNNEFtlT7QtJ4JSBC9iARp0YriR4tpgBpx51uEptgMs8+EeKshDo=@vger.kernel.org, AJvYcCWUHWwBy0KInVnJ8VTpHIXeZ0QGDyvSqbrBL3hV6uIaQkjYox2ejIGYS+Nynz8j4Cji0Kkn@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlzSaOtr+2DFC2/4fm0yjA3FMWd1huaHmworbH3jN2qyxNmmuX
-	ZAikucucgl2K/BpiDucsCvWdmfNgZU/1JdW53UdCsvqsmiTStq4k
-X-Gm-Gg: ASbGncuqTwXs6n8hirMW3Yr4rFGdqH8GPNqKnIhVzZiS76dXxxqwFp1bZdaWguN3kHj
-	YA6NMmI6zifnwGC8WvG9xQQnXldN1t/lxVMg9sWhbdcqTMRErFBL9aZ5p8hkDWfcCKMlApz+g2c
-	atTthYShEDMqgr7KnDjoV6u65ksU82QgCQIAYLOT6FNMiQvFtVbjISMesPi8w3DajCFwBBfHOyF
-	pjZmeJq6k8HQMAJ4nWs3XObrcmHmrXSE8fRouoHf86BqwDPU7Ijm23jOpwR6zsW6kOAcU11lHU=
-X-Google-Smtp-Source: AGHT+IEbuLd5HABKsV2aaCeyqHdmc714c4tXv8nksALYv3eJ2MSAwcyoxK6FMyiIX6qmIK88BOOKGA==
-X-Received: by 2002:a05:620a:4591:b0:7c0:b0eb:4fa9 with SMTP id af79cd13be357-7c0b51cde08mr664398285a.5.1739983238153;
-        Wed, 19 Feb 2025 08:40:38 -0800 (PST)
-Received: from smtpclient.apple ([2402:d0c0:11:86::1])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c0af0aceb1sm201588685a.89.2025.02.19.08.40.34
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Feb 2025 08:40:36 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vmg/R5yk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fpF0+TLcyOv4v6OEfEc96tvmt2/8lsg4QcIs0QktNZn97dptBcSp+ay7dkR35Fds1XNaElTzaXIvvK3r4ZbtQRxnFkNvzjgi37SSMr327YDN7/1S2whA9O+mb9hIcfvUcacQCrYUD3wsomAkYPXA8XS4dFEfqQeSogVTn2URVyAILXpAdBJhiC1Nm8WmxW1h13pdK1i0NHgAWBrtIv0ILu747hP8UnMU7XeyWLnlwaEntQ8C29tm5Se52q+58VvoSgsU3ncAxTBjV1F5b3drv/gVSqV6r8p3f/REfh+Z/QHRT3MJd247tuMzQD/811KZw0O5Ha4UEBo2UtlwezYXng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TVW34MRzHJpu2Dg+z+BTnlKecCvpUn+LBH3aZTDw8Cw=;
+ b=IG9lx9Mf0eEbfzbIejGs7DUa49HdMTwL2AYf9N8upvvCozGFTJyJdAxk9UTilRwoQczrUL4UYElg7lNa66P2mvgS/ZCisEl5v/yij6xJCEt6YGNEzbJnuSC47qVbJivPQgLtVdnMp5Jb9ngxxk/2pcJmOzf0gC1aqTsSEFrTTBdc0U6BTIJaj7k0Jp4y5ZRgP+AhDTBHmg8BuOMRfAWK0cwllWvrBGZECPafH5DRgrVCk8pVAlr+ZWMYKh/y9wx48syjaJrpHmP/ko/pMFErPfqjkPZc/zN9EBMvtvFkRsCIkORjrIHZjvDmRjgeuEApIfztHKBh0z9Vr97gAjRl3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TVW34MRzHJpu2Dg+z+BTnlKecCvpUn+LBH3aZTDw8Cw=;
+ b=vmg/R5ykhVn/hRoGNobBG2fmqeTpB1AGcUhfq6aAo+jgGzPEOyM9UH1yh2NSURn20RpDk1wXMCFA9Ep9RU0oGRLOF0eYK1HfC1huj6q7eE4fBfhykLoWUbypRPeUalwcV+wve0af8yyN43a5TB1W+19alPkPG8cNNzMu/3XnwF0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
+ by DM4PR12MB6664.namprd12.prod.outlook.com (2603:10b6:8:bb::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.15; Wed, 19 Feb
+ 2025 16:53:43 +0000
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::d22d:666e:be69:117f]) by SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::d22d:666e:be69:117f%2]) with mapi id 15.20.8445.017; Wed, 19 Feb 2025
+ 16:53:43 +0000
+Message-ID: <68cab18c-9a17-45a2-8374-86deccf2664b@amd.com>
+Date: Wed, 19 Feb 2025 10:53:41 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v11 01/23] x86/resctrl: Add __init attribute to functions
+ called from resctrl_late_init()
+To: Dave Martin <Dave.Martin@arm.com>
+Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ tony.luck@intel.com, peternewman@google.com, fenghua.yu@intel.com,
+ x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
+ akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
+ xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
+ daniel.sneddon@linux.intel.com, jpoimboe@kernel.org, perry.yuan@amd.com,
+ sandipan.das@amd.com, kai.huang@intel.com, xiaoyao.li@intel.com,
+ seanjc@google.com, xin3.li@intel.com, andrew.cooper3@citrix.com,
+ ebiggers@google.com, mario.limonciello@amd.com, james.morse@arm.com,
+ tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
+ eranian@google.com
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <e946a96a5d161f7b32e84c23c1a0024a31db2898.1737577229.git.babu.moger@amd.com>
+ <Z7Xccob9B2IMiAXy@e133380.arm.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <Z7Xccob9B2IMiAXy@e133380.arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN6PR08CA0021.namprd08.prod.outlook.com
+ (2603:10b6:805:66::34) To SA0PR12MB4557.namprd12.prod.outlook.com
+ (2603:10b6:806:9d::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [Patch v2] doc/RCU/listRCU: refine example code for eliminating
- stale data
-From: Alan Huang <mmpgouride@gmail.com>
-In-Reply-To: <20250218005047.27258-1-richard.weiyang@gmail.com>
-Date: Thu, 20 Feb 2025 00:40:20 +0800
-Cc: paulmck@kernel.org,
- frederic@kernel.org,
- neeraj.upadhyay@kernel.org,
- rcu@vger.kernel.org,
- linux-doc@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <AB18BC5D-AD55-46DF-939C-44DFA845D168@gmail.com>
-References: <20250218005047.27258-1-richard.weiyang@gmail.com>
-To: Wei Yang <richard.weiyang@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:EE_|DM4PR12MB6664:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4016ac8e-8e5e-4f6e-7036-08dd5105f7cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cXFVcEdObThpYUo2ckxGZ3VXTk9nRjQ1UVFLSkgwVkh3eE1reXVGeHhIRnBK?=
+ =?utf-8?B?bjQ5ZXYrdUgvZUgwVzJMT09CMmppaTJZdnBIa20zUXhRUWxpY3BuMVl4ODJw?=
+ =?utf-8?B?bXBlNkxOeE5sdTlLeEIyemNLeThMQU5UQkZuNi9rY2pqNnh4bDNoZjdRNS9E?=
+ =?utf-8?B?NFp2N0ZqVGJyRy96bzZsNXRveStPRitCV1FMWUpaUG5kWVF1VW5iY2dlOW5u?=
+ =?utf-8?B?a2ZVSUNLNHY5cG5tajZLZUF3MGs5Rzc1eFFaSXZUd3psbWF1SWQ2cisvSjAz?=
+ =?utf-8?B?dkhmNmoxYUpmR2hKT3o2YTk5NnJnNm5qVXRPaTdqZHcxWlJTMk1WUDNjSjRs?=
+ =?utf-8?B?NnhnVkdwSnZhRDFxUkgxWmhoYnpVb0JueHFxdi9RTVVrUHhabVVPSUNBLzZa?=
+ =?utf-8?B?d1RlWWwwK3ltNm1OUWw3UFlwZXlsUnBQTjA4VHlvWVYvajgzN0xPdHNpQ05M?=
+ =?utf-8?B?eHpQdDJwNE5jWU0xVGxtVjNUN3VBY0FMeTFodm9vMkJwNXREbXU2MVpPK0p2?=
+ =?utf-8?B?SkNNbTdwN2lEcUMwMFN3SUtTVFMxRXZRRklZNW9VQW5iVjhTK2xlMWZ0a0xp?=
+ =?utf-8?B?czcvcWwwV28yV2paQW9UNHpzV2xNV1ptUnhaK0dGVUZmUFp6aGhKOEsrYk9u?=
+ =?utf-8?B?azh6RDVEa3ZmSUVTM3ZHSHhoWk9MYVVJb2E2TXhQOFIzaFQwQzIwRWNoSXNW?=
+ =?utf-8?B?bXFFbk82enM2eFZjdWVRUnRqYzFHWk53aUZzNHJGWlBiUTJ1MFBqVUo1RnFJ?=
+ =?utf-8?B?UnAzSDlyWlVTcElFaTVZNEMvcS96QUhXSXhYMk16Wkh1OTY3OUhzRll4Wk93?=
+ =?utf-8?B?d2h1T2JOak05ejhUTE1CUTRKZFhrVmVkdE1LeTZMK2I1OFY2U0RWYWhUTUt2?=
+ =?utf-8?B?OFJXUjJLazRSQ042TkZBRFRpRUkrWDkvYnQ0a3JXT0x3bU5YMHd0R01xTks3?=
+ =?utf-8?B?eHErQUtIbHYzTENic3hwYURxTXFkbE1zeUYzcEwxWldmTHp3TjFUdzlPTFU5?=
+ =?utf-8?B?d1dvS3VkWEdYcEU2eGdJcTVRME1BVS82MXh2UkhUcGRaQTY2SzdFSmlGT2ND?=
+ =?utf-8?B?WDNuRXIzNmVBQ0hMTFI2K1BuckxaU0R4NHRTMjJBS2RaR0hpVVhVaFRlVC9V?=
+ =?utf-8?B?aTU2UDRqR1ExaEhTejlCOGhMNEZuejM0UUh4Y1ZBSE9aTEdNTkxnVHIwckNw?=
+ =?utf-8?B?OWZ5RHF0dXcraytCV0hhVWlNbWNZTm5aUnMwa1N5clBSa0J5NUxOaDRhdlRw?=
+ =?utf-8?B?N2FLKzJTWGxxeUN2SWJlSFh1QkZxbWw2ZjVUMEF1SzdIQmpBbHBNTjVRcFow?=
+ =?utf-8?B?VGJCMlF6cUp6QmR3VFFjWlpsUmUybTVQd2l4TlFjWm83RzNqd1RvbllNRHIx?=
+ =?utf-8?B?ZytSZFpOM1A5SGVIMVFlN25zS0tHK0ZmZ0xZNThWSExWaGFlRFRxK3JJOWZy?=
+ =?utf-8?B?ZTFCNHMvL2JzZVc0NlplbDlmWXpGNFVGWlE3UlFXZDBKamxiOGpmQ1JFN3pz?=
+ =?utf-8?B?SWkxRTNVWER0cUp5STgwaDM0MTJzTS92bzFYRFVZcE5TWVpoOENLbGh2L05M?=
+ =?utf-8?B?bkhNV2RDVW11TFlPQzM1YzJWekFpU3ptZ29yazdPaGZoQmoxcG9qRTc0RUVr?=
+ =?utf-8?B?blJtSWJOblZ0NFNGQzFaUlg3aTVjVUsxME1razJGMXluemNSdTZOdmQ4V1lV?=
+ =?utf-8?B?aFd6K0hNMVhkcFg1RjVyajRrVGZ1blJFdDBsTnIxM05sak1Zd0FtSTg5YmFZ?=
+ =?utf-8?B?RjZYdDhyRkU3U2JzbUVwTXRhVGFZSmQvVEtzUnY5U2JnNVlBUUV0SWI4cUto?=
+ =?utf-8?B?a1B1SnlnRXMyU2lMRi8wNDNBb1J2ejJnVnc3OTRXdm5IRlZla3BqWEdqYVYw?=
+ =?utf-8?Q?NXoP51KQqT0Sk?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QWJDTW04V3lmeGY4WHFUWDFHWWZDeVJGWFFWWkRGUStWOGdTK1JFK1Z4QTd0?=
+ =?utf-8?B?WVo4VHprVEEzeWRJbk5ubndlUVRTbElMUnVEbW1nNTRVbTBObE9rek1ORHpw?=
+ =?utf-8?B?YlpUOWh6N3dkRExQeERqaHV3bUlYMmlJSGxNZHltSmNFcnZhOWhYVVZqOEhn?=
+ =?utf-8?B?bis3MUx2S1VyaTAwcFBDcUd1Y3REMVBqY3VNNm9yWjZvcW05M0NIaWVSRXFh?=
+ =?utf-8?B?aDUzQmZkOWZtTE9OYnZTWkFjVG5zWkpud2lwaFFCWnJtZE5ySDVnTWNHc2ZQ?=
+ =?utf-8?B?RUoyS2JpVmErMnNTQjJPYVRhN1VQclp3VWp4NDVha0dYM3FDWU1vYzJmTkdu?=
+ =?utf-8?B?NDdTTGQrZGczdXZGdEJDcHV0bFVlZkJzRFZuWEdpdGFWT3lzUkJwTDNidmJ3?=
+ =?utf-8?B?d2xEOU5MUXRGbUd0UFdWNVJxeW5pc1lxRzNVYlRBb0tIb2JaZ2UyVDBEVGM1?=
+ =?utf-8?B?Z2JteWtpMHBPQ1R0RGZ4M3EwY1pxYTdoS2g2bHVEYy85K1J3MEVjNUhtcVBP?=
+ =?utf-8?B?cWFFcUZRa1UwVVdLZlJDQXN6RUlWNllmU3plRks5Q2dRV0VxTFhZQk45Zm1t?=
+ =?utf-8?B?Z3hBc3Btc096K2p2VE5vUUh2Zi9MdlN6UkU5bnp1em0wVEdra1Q0aXJyM2dm?=
+ =?utf-8?B?Mnp6eVdYeFVqWG9ZaVBIZ3MwYUJ2QkVEV0ZmeERNbFVNSmJDUU9ndGFUMXNR?=
+ =?utf-8?B?UWJCZGhkOUlDMmJXVitSVkhJcGNETWZTVGJQZ2VndGFHSi9iMFBkOElZS1NM?=
+ =?utf-8?B?djVpQTBvTnlDd0ltSmJUV2pUTDZ5eE1iN1dmM0hqMS93TDcwTWtId2tTeXUw?=
+ =?utf-8?B?WU5DN2lLN0hoWldFdjlKL3MveUN2Y2dJSktDVTdZaTZuQUpzMUt3TU5EOUhQ?=
+ =?utf-8?B?RmJWNlVWemxmdTl3QU1sU054TVFqWjBQMjFpNTl0bmlCZXZMNjg2NzQ5ZE1H?=
+ =?utf-8?B?Y0lzM3dXTGRBa3NMdC8xS0YxL1plOTk3Qmo4U3I1RWxWb3dkVldxZ0h3VUQ0?=
+ =?utf-8?B?ZW1JdXgwdUNySVlWSjFvUG1FWXlaLzZ3cUhzSHNLbGE2WXNJa05TY09ZSEpq?=
+ =?utf-8?B?SXBwU2Rxa3JnSUU1SmNsR0tHZ1NZdGNOTDRxTzZWbkV0SlNEM2dVayt2dU95?=
+ =?utf-8?B?b2JBcEREaVdVang5VFdtei9kWkphd1lFTXd3OTVRV05NM0tRdm1FMW1lN1RY?=
+ =?utf-8?B?RzgrRXFNc0FCSVhRdUJHVnNsY2hIU3hqaVIwa1ErYkxvTkFHaGJmYUxLckR4?=
+ =?utf-8?B?UGRTRjBmcUMyUG81MGxRNnNPZjdTSmNRbE5iTWdyMml1bU9CSXJrdndhN2pm?=
+ =?utf-8?B?TzJmWnNEYTYyZ1VZUDRoTFZGTFhLYzQ5eUtFVG4vSy95TzRTdGhsNzZkZmxn?=
+ =?utf-8?B?THM0QnpWMWl0RGhhV1MwcG5TbU5QcHhFeDFBMW0zNjJWT1hiK054U1lxcFAy?=
+ =?utf-8?B?dW0rRWpPSkhuZWszd0d6VWs2V05vR1h5ZlJWZTZRMGIzZDBBMFVoNVR5Tmps?=
+ =?utf-8?B?eXFPeTN0N2c0OXdJcm0yTnl1NE5vZVBQU3RhWk5hVkgzcmpwekxOVVovQTd2?=
+ =?utf-8?B?SGN1R2QvZVhjNTUzMFB4MmxOa0VCU1hsUGRvMyswaDdYQTQ4ellyRGVZbUdx?=
+ =?utf-8?B?RSttMk9YWW9XSEFEbjJ0c0NnUmV3MVdwUXk3ZEVNVGx3bGdpU2QwL2ZsazhP?=
+ =?utf-8?B?M3FxMFpQTDZmTGdZVUU3WUZJaXBTSmRLMnYyaldoNEV4THpVQXRWUlQ2VTBN?=
+ =?utf-8?B?eWdjWVFtT01IYUc3NjM0NGplbUFGQWM2blhRK00xelZhRUhncFl4NFFyajk0?=
+ =?utf-8?B?S1l2ZU1BYU95OU1MRyt4K0ZBRTNmRVpicG1QUDZKU0dXNUl0ME0yY2ZZNWx0?=
+ =?utf-8?B?czcvWCthU2ZnUm5hUmpVTE9sR0VCbTZpZTNBakd0b1dHejFqOFIzT1IxWDVW?=
+ =?utf-8?B?aDFnRnNyRVErSTIzVjhiRDIxaGgwK3dYRnBNbHlRNGs2QnI4N0hCTUlwV1Fo?=
+ =?utf-8?B?WDJqSlk5MWg5dW5WVHRScVp3aDd4Um5Ta09OVlErZll5MVBrd01UeWpia2Zl?=
+ =?utf-8?B?Z3cyTzFOcXEwdXVWL0NJczNreHJUczBObXlGRVROK3pmRDRhK0hscXVlRnhZ?=
+ =?utf-8?Q?o8yc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4016ac8e-8e5e-4f6e-7036-08dd5105f7cb
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2025 16:53:43.2176
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5Qtk/K8WKdKLSgJmSHMqE0klgxGJj9J9+cKxW66dgR30X/hzJIocdm8nAjScMpbG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6664
 
-On Feb 18, 2025, at 08:50, Wei Yang <richard.weiyang@gmail.com> wrote:
->=20
-> This patch adjust the example code with following two purpose:
->=20
->  * reduce the confusion on not releasing e->lock
->  * emphasize e is valid and not stale with e->lock held
->=20
-> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
-> CC: Boqun Feng <boqun.feng@gmail.com>
-> CC: Alan Huang <mmpgouride@gmail.com>
->=20
-> ---
-> v2:
->  * add the missing parameter *key
->  * make function return struct audit_entry
-> ---
-> Documentation/RCU/listRCU.rst | 10 ++++++----
-> 1 file changed, 6 insertions(+), 4 deletions(-)
->=20
-> diff --git a/Documentation/RCU/listRCU.rst =
-b/Documentation/RCU/listRCU.rst
-> index ed5c9d8c9afe..d8bb98623c12 100644
-> --- a/Documentation/RCU/listRCU.rst
-> +++ b/Documentation/RCU/listRCU.rst
-> @@ -334,7 +334,7 @@ If the system-call audit module were to ever need =
-to reject stale data, one way
-> to accomplish this would be to add a ``deleted`` flag and a ``lock`` =
-spinlock to the
-> ``audit_entry`` structure, and modify audit_filter_task() as follows::
->=20
-> - static enum audit_state audit_filter_task(struct task_struct *tsk)
-> + static struct audit_entry *audit_filter_task(struct task_struct =
-*tsk, char **key)
-> {
-> struct audit_entry *e;
-> enum audit_state   state;
-> @@ -346,16 +346,18 @@ to accomplish this would be to add a ``deleted`` =
-flag and a ``lock`` spinlock to
-> if (e->deleted) {
-> spin_unlock(&e->lock);
-> rcu_read_unlock();
-> - return AUDIT_BUILD_CONTEXT;
-> + return NULL;
-> }
-> rcu_read_unlock();
-> if (state =3D=3D AUDIT_STATE_RECORD)
-> *key =3D kstrdup(e->rule.filterkey, GFP_ATOMIC);
-> - return state;
-> + /* As long as e->lock is held, e is valid and
-> + * its value is not stale */
-> + return e;
-> }
-> }
-> rcu_read_unlock();
-> - return AUDIT_BUILD_CONTEXT;
-> + return NULL;
-> }
->=20
-> The ``audit_del_rule()`` function would need to set the ``deleted`` =
-flag under the
-> --=20
-> 2.34.1
->=20
+Hi Dave,
 
-I think it=E2=80=99s good enough to illustrate the intention here:
+On 2/19/25 07:28, Dave Martin wrote:
+> Hi,
+> 
+> On Wed, Jan 22, 2025 at 02:20:09PM -0600, Babu Moger wrote:
+>> resctrl_late_init() has the __init attribute, but some of the functions
+>> called from it do not have the __init attribute.
+>>
+>> Add the __init attribute to all the functions in the call sequences to
+>> maintain consistency throughout.
+> 
+> (BTW, did you just find these cases by inspection, or were you getting
+> build warnings?
+> 
+> Even with CONFIG_DEBUG_SECTION_MISMATCH=y, I struggle to get build
+> warnings about section mismatches on inlined functions.  Even building
+> with -fno-inline doesn't flag them all up (though I don't think this
+> suppresses all inlining).
+> 
+> If you have a way of tracking these cases down automatically, I'd be
+> interested to know so that I can apply it elsewhere.)
 
-Reviewed-by: Alan Huang <mmpgouride@gmail.com>
+It is mostly by code inspection at this point.
 
-Boqun, there is an unreviewed doc patch[1] that fixes the section
+You can refer to this commit [1].
 
- =E2=80=9CUsing RCU hlist_nulls to protect list and objects=E2=80=9D
+We used to see section mismatch warnings when non-init functions call
+__init functions.
 
-[1] =
-https://lore.kernel.org/rcu/20240326124431.77430-1-mmpgouride@gmail.com/
-
-: )
+MODPOST Module.symvers
+WARNING: modpost: vmlinux: section mismatch in reference:
+rdt_get_mon_l3_config+0x2b5 (section: .text) -> rdt_cpu_has (section:
+.init.text)
+WARNING: modpost: vmlinux: section mismatch in reference:
+rdt_get_mon_l3_config+0x408 (section: .text) -> rdt_cpu_has (section:
+.init.text)
 
 
+1.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v6.14-rc3&id=bd334c86b5d70e5d1c6169991802e62c828d6f38
 
+> 
+> Cheers
+> ---Dave
+> 
+> 
+>>
+>> Fixes: 6a445edce657 ("x86/intel_rdt/cqm: Add RDT monitoring initialization")
+>> Fixes: def10853930a ("x86/intel_rdt: Add two new resources for L2 Code and Data Prioritization (CDP)")
+>> Fixes: bd334c86b5d7 ("x86/resctrl: Add __init attribute to rdt_get_mon_l3_config()")
+>> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+> 
+> [...]
+> 
+>> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+>> index 3d1735ed8d1f..f0a331287979 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/core.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/core.c
+>> @@ -145,7 +145,7 @@ u32 resctrl_arch_system_num_rmid_idx(void)
+>>   * is always 20 on hsw server parts. The minimum cache bitmask length
+>>   * allowed for HSW server is always 2 bits. Hardcode all of them.
+>>   */
+>> -static inline void cache_alloc_hsw_probe(void)
+>> +static inline __init void cache_alloc_hsw_probe(void)
+>>  {
+>>  	struct rdt_hw_resource *hw_res = &rdt_resources_all[RDT_RESOURCE_L3];
+>>  	struct rdt_resource *r  = &hw_res->r_resctrl;
+>> @@ -277,7 +277,7 @@ static __init bool __rdt_get_mem_config_amd(struct rdt_resource *r)
+> 
+> [...]
+> 
+
+-- 
+Thanks
+Babu Moger
