@@ -1,185 +1,168 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719C615533F
-	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 15:17:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134FB198E81;
+	Wed, 19 Feb 2025 15:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739978260; cv=none; b=vE2UTOW9hUV/IZoNdW8O3j/8+jZ1t3BNzL4STNYEcrJDmn23aVf5cA12lGFk08cG4MvjZN8+ucy8uIKow8nnw2jVW638eMVVbU/onpWECNeEXzQ4xUNvPf+to245saD/8uzPSUR/cKZNbuQPIhGjyOeG6Ci7dWreunjPLWu7bfY=
+	t=1739979585; cv=none; b=RaoXrvGo8hq23G9pmfOCCRx+12bSOnS+NauV6JtWXhgj7hW0g6ATFGx8mqazAJx57GEd3Z4dTMn3heLPxjNrLZky0nXYsarPXF+jJSfiTWJqQY9v6MZqXBXZAcOfJ2qMWjQde4pY+Y9O+rz3pCaHfGpNq2xuUz8CKc1Yl05b2C0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739978260; c=relaxed/simple;
-	bh=WdGj3mg26niazdgEpCLUBe5M4rDcTiqLPV6+jLJxCFM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=q83XpFuPvtjmNlLYHkQRLnO/p0oDx7UzpygagOATpR5cjwZlB9NBXnNjZ6ptI28ap/udWH7bYo8V6e70RVeqf82KY3hJXOvzAXL25LUwShivDGJww6Z4FQisKV0f/j2w+Tsva1Z3rPYwrB7DJJBcDXkQb8PwazPP6RvSOL3ROmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XRvSHVDE; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1739979585; c=relaxed/simple;
+	bh=gOBJQr57HVai1YFd7Xm+S8zGKknWTzs5SQGe41z1lOY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VqfIpUMXa4+QIq7MEvKOo7DR9miJP1vQRiEN6zL4VttT8yIXxMxUpRijkryU6uf7zVRCKBu5bzvwXMI+2Gc4RfVqoANNcS7PIQdQXQCfG2pWgcJhWle+ivTk0JBr+2U1t6xKzFIhS8E/A7A/xjSThZJUl/NCV/Ydvl4aASNS8pA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NFBW21lC; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XRvSHVDE"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-22114b800f0so117363195ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 07:17:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NFBW21lC"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7c0a1677aebso278760885a.0;
+        Wed, 19 Feb 2025 07:39:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1739978258; x=1740583058; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lr0FQ+nYVzOkkkQbsOIsH4v20fYzY6BEtN0DQJbkPgo=;
-        b=XRvSHVDEdz5XsuTDNMtGI0NP01Ti8dc3XPgsiwmHhIKEXQI70rixKHjXXZjCE+P8EY
-         RGD2TZPoT6KHufpkILd2BRI8A/8iXbHhNi/exh7Y1Q/fXuTHE8r0cnEejYmg5Yz/llSc
-         wkns5oqZetP5TScABKi3w2kCCpsQq6pYjC0l4tfj7Oun7VM5n+RzhUq9SgHzZRlAdtlk
-         TqLBIZ3HxP9jTK9TU2z8/8qh7ckfSnt/ouXClq4eySgjgsJQ37ZM/eDpqBNzFTOYaVrO
-         Qz95FF9dmtaSs1uq1dW/r/ONBcecGIvaTdzJPAsshGCK7eUvZPklBHR5KIPvBSGFvedi
-         E6qQ==
+        d=gmail.com; s=20230601; t=1739979583; x=1740584383; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:feedback-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=QOPQIn1fX7GxNW/Oq7e50z1baZmFRs2en+1MYVm0Jko=;
+        b=NFBW21lCXm9CbR81Gum2qoGNYd+hry0EojUdsQC84hMSbg3aqFocCRMFmXMVMvojjf
+         CIqzpm10T9o5l5JmlZ1pTwrLu4PLZ9Tr99jYDaYZ72mcxnG6ZIAWqKgzeirB65cuc6Qn
+         K8stk3ES9XZpQLcjpaMDfNPPjobYOCqeO90CJg6/hRmKQ3JZI2vDe1qElNJUYlxyuQNx
+         ZbW2OS6+WdCtAfWwdh34Kt35ktI3NX9GcbNccAXkcGlm35Z95O4nvzox4mFC2p39VcYP
+         B6MoVmjVLyRdTUXQko642USlixBFiDlh5SHVF7ISMHpeqXH4tPNW4g1mjSompz2wtydy
+         vt/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739978258; x=1740583058;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lr0FQ+nYVzOkkkQbsOIsH4v20fYzY6BEtN0DQJbkPgo=;
-        b=W3qZKgU8qcQqnkDwsleQPxasKPt03G0yZVoR2fib/Tr/m8oDPeQHFyIuF39tdq3hcA
-         DmO95TG6Noty6Km/074dbYTdMs+g+SqNyn7obfHcVpMqrUzc5/T6Gc/hj0FS9Uq7jG6W
-         Yhwqg+5OgInqZavLRq0158sODq0NRrqA+ytNZDLZwbklSNaHKd+YznP++HprfMtCMf8f
-         N9V2RwXNXOWDGDl6A0G25go8lNwvU+p9stvFSky0t2Ic0EC7xH+OdmWPbl64Q6otPXtG
-         JLW6NorfIDC7+SjdJ/RK+MomN2UBn6WZjLfOnj8XHuniE7kteGpY0r2Gv1sMDzlQQRJ7
-         Al+g==
-X-Forwarded-Encrypted: i=1; AJvYcCWVmkRLNA75fuNYnEk339xcS7Pm7fsswV/KPoPX59VaamPXXX98dG5zxZxOWVquE41Oa1QoF1+l3RY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhlMYTb3MI8ecKCj6HHPQaoGkrZs4L34VH08UxfroH3vd8HJgN
-	NjUGBn8OKfNzO3zEdZpP6TkqIOKMXmUClYJQR6qVVrzVMvEqiQV+4zQt94f7luhS+0Og9aAf9AU
-	24w==
-X-Google-Smtp-Source: AGHT+IFm8swAf6amSZphHdCPuf7jq3DdJqtSa9LycPSODogg0yG2aBnIIzAy7tiqpzumfMEInPxKCrl9oII=
-X-Received: from pfbcw22.prod.google.com ([2002:a05:6a00:4516:b0:731:9461:420e])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:d807:b0:1ee:6a20:1778
- with SMTP id adf61e73a8af0-1ee8cb85299mr28927616637.20.1739978257735; Wed, 19
- Feb 2025 07:17:37 -0800 (PST)
-Date: Wed, 19 Feb 2025 07:17:36 -0800
-In-Reply-To: <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com>
+        d=1e100.net; s=20230601; t=1739979583; x=1740584383;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:feedback-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QOPQIn1fX7GxNW/Oq7e50z1baZmFRs2en+1MYVm0Jko=;
+        b=anczp1E7AsvlKm6q89V3Ae1i+t5bbZFF3q9Gbb4kmhYn79SQsR8Obf7s1OXj4KnPOt
+         xfEdIh0vn5bquOikzmF/a+A2k4CYZVkzmwo6YQ8QxVm3VeJcWiUhBRUNAHvctiqsCOpA
+         7crRX1onDMBfEAn6lLaG+lcCRq7uNWk1uH2sIDzHZyAyppsV9NRq3O6/PBkTADfuqArb
+         ja4aMlCvR9MncoFME96HVr1H+11fWYshfTMO4+MuLbFJFSo/R2WEPya+L56wjieDp8Hg
+         ofQdIbtWxlFU0q1X/wHfGanSsGpjOh+nhG7nDW3drx1M4hllzkyHAiuTJVjYbHR+GskO
+         o+HQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU7+ttoQK/z/cMODARS5rp2eQQj2tWemrxkb5DeDn6zgEj2drwkwkC1Kt0diUbc1VAZXmRhpy2e/9AHA+vjp4ywKRFW@vger.kernel.org, AJvYcCUe1GF1r8+g8H9GBctpycToFM8c2Asj4VMTfccPZxM6R1Qzu2yPZGTYBABmEkYvQoD5vgARdBNN/sQ=@vger.kernel.org, AJvYcCXGekreKnEgwPLPQSlNvv1sSYOjEkxNp9jW4hI94Ee8Osbh8ZfasEnbHomNRdO6Me9QFb39oHXvPvIuVe14xmub@vger.kernel.org, AJvYcCXo5+4x3Ln/T2ufPUxxH4OGNVfFtimKGNYzlHEN9BnbJAJrDQ/WnY4J5ykF8A5N+a7hZEPpB1qyr9poyRde@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVXBD8pjYrMxRCbuKlrDudewy368WRpVy9cxQLKuRtavwXX8a/
+	I8CXwEfLTD/lExlXHBikSvHRJP9n7Vu8YH6Q9hsfk+k8B/uofA0g
+X-Gm-Gg: ASbGncuForHTIK7Qb6H6NrJ3wx2MA39lBd+cLJIu49IHjYBOrtryjZZDkF0wdMlp54d
+	tH8OXRFl8uE3XeQNgplhbcssoxsL6lo2Ml6MBkSo6KemXP1O4J4k/7WLEUJEWYeyjHTnnrkoYqx
+	xN5GGtlC9DmXoiKw3C/habEnjY+wko0/U3IvlVhXe74+nq+HD+/y+jqS/YEISAfUWBj2m1VJGFB
+	dad1ZI9piruWoOKTqAczTdh+eAzvxTh0iq7pfIW+2WN1ENN0fdNJ+b9cv5/mc/bQ7iycJ34bF8u
+	DzP8IhNT1fmvihq/zyaM/W2kx9lfqMPyO3h09FPyRbmo4VuNVWMGrup19t0mFMJY7VuZLPEPoFa
+	qPEOCFg==
+X-Google-Smtp-Source: AGHT+IFzvAL5bAZmO7McixMnJtBdygccmJwnnXWUeAxB4tYPWT6bakDwtgNas5txE5kws5pwrRm0PA==
+X-Received: by 2002:a05:620a:6007:b0:7c0:ba6b:b6d2 with SMTP id af79cd13be357-7c0ba6bba2bmr259913385a.38.1739979582828;
+        Wed, 19 Feb 2025 07:39:42 -0800 (PST)
+Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c0abde9fa0sm233481185a.105.2025.02.19.07.39.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 07:39:42 -0800 (PST)
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 8EBEE1200043;
+	Wed, 19 Feb 2025 10:39:41 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Wed, 19 Feb 2025 10:39:41 -0500
+X-ME-Sender: <xms:Pfu1Z_9mOZVtSQlDGI4OZflKd6QOxIceB0nV4d3dPgJC1rRDWcntHA>
+    <xme:Pfu1Z7sQBHkepvrr9SmSFjU-d7AT21r2etUgfqWGZriP5Ny5vY5Y9HpfeMqTahVLg
+    g8d-x6z7KTYddspng>
+X-ME-Received: <xmr:Pfu1Z9B5h7vUujka9GGhE8Bf3WhGUVXJHeSmDGfHYCX9kIfllo-G8Lz-NA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigeeigecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecu
+    hfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtg
+    homheqnecuggftrfgrthhtvghrnhepgeegueekgefhvedukedtveejhefhkeffveeufedu
+    iedvleetledtkeehjefgieevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhm
+    vghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekhe
+    ehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghm
+    vgdpnhgspghrtghpthhtohepvdekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
+    hrtghusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehl
+    fihnrdhnvghtpdhrtghpthhtoheprhhoshhtvgguthesghhoohgumhhishdrohhrghdprh
+    gtphhtthhopehmhhhirhgrmhgrtheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgr
+    thhhihgvuhdruggvshhnohihvghrshesvghffhhitghiohhsrdgtohhmpdhrtghpthhtoh
+    epphgruhhlmhgtkheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfhhrvgguvghrihgt
+    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvggvrhgrjhdruhhprgguhhihrgihse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohgvlhesjhhovghlfhgvrhhnrghnuggv
+    shdrohhrgh
+X-ME-Proxy: <xmx:Pfu1Z7cpw4Bu6SWvRSIB59oWNQCspdHG_i7TfaqabHWq4vhlHNiCFw>
+    <xmx:Pfu1Z0Pxio3WCXYf3Sx3PV2KmeQ62kelDYSrFEf-aJ-Oky1Iw3LJgA>
+    <xmx:Pfu1Z9mHlR3mAQmc8Qt6Ec9foVre3KXoKz2PNpHUNqJgjHVbWLPGrw>
+    <xmx:Pfu1Z-teYc2WLpoA8InXfuhgV3ST4LZv-sgibucN97rb1-0gZOev2w>
+    <xmx:Pfu1Z-tYEUEP1VinV0deYw632B4GKoB0EmNNXPDTxMk1Cnru0V03hWcL>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Feb 2025 10:39:40 -0500 (EST)
+From: Boqun Feng <boqun.feng@gmail.com>
+To: rcu@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Josh Triplett <josh@joshtriplett.org>,	Boqun Feng <boqun.feng@gmail.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang1211@gmail.com>,	Davidlohr Bueso <dave@stgolabs.net>,
+	Shuah Khan <shuah@kernel.org>,	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Huth <thuth@redhat.com>,	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,	Yury Norov <yury.norov@gmail.com>,
+	Valentin Schneider <vschneid@redhat.com>,	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,	linux-trace-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH rcu 00/11] RCU torture changes for v6.15
+Date: Wed, 19 Feb 2025 07:39:27 -0800
+Message-Id: <20250219153938.24966-1-boqun.feng@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241118123948.4796-1-kalyazin@amazon.com> <Z6u-WdbiW3n7iTjp@google.com>
- <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com>
-Message-ID: <Z7X2EKzgp_iN190P@google.com>
-Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
-From: Sean Christopherson <seanjc@google.com>
-To: Nikita Kalyazin <kalyazin@amazon.com>
-Cc: pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, jthoughton@google.com, david@redhat.com, 
-	peterx@redhat.com, oleg@redhat.com, vkuznets@redhat.com, gshan@redhat.com, 
-	graf@amazon.de, jgowans@amazon.com, roypat@amazon.co.uk, derekmn@amazon.com, 
-	nsaenz@amazon.es, xmarcalx@amazon.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 12, 2025, Nikita Kalyazin wrote:
-> On 11/02/2025 21:17, Sean Christopherson wrote:
-> > On Mon, Nov 18, 2024, Nikita Kalyazin wrote:
-> > And it's not just the code itself, it's all the structures and concepts.  Off the
-> > top of my head, I can't think of any reason there needs to be a separate queue,
-> > separate lock(s), etc.  The only difference between kernel APF and user APF is
-> > what chunk of code is responsible for faulting in the page.
-> 
-> There are two queues involved:
->  - "queue": stores in-flight faults. APF-kernel uses it to cancel all works
-> if needed.  APF-user does not have a way to "cancel" userspace works, but it
-> uses the queue to look up the struct by the token when userspace reports a
-> completion.
->  - "ready": stores completed faults until KVM finds a chance to tell guest
-> about them.
-> 
-> I agree that the "ready" queue can be shared between APF-kernel and -user as
-> it's used in the same way.  As for the "queue" queue, do you think it's ok
-> to process its elements differently based on the "type" of them in a single
-> loop [1] instead of having two separate queues?
+Hi,
 
-Yes.
+Please find the upcoming changes in rcutorture for v6.15. The
+changes can also be found at:
 
-> [1] https://elixir.bootlin.com/linux/v6.13.2/source/virt/kvm/async_pf.c#L120
-> 
-> > I suspect a good place to start would be something along the lines of the below
-> > diff, and go from there.  Given that KVM already needs to special case the fake
-> > "wake all" items, I'm guessing it won't be terribly difficult to teach the core
-> > flows about userspace async #PF.
-> 
-> That sounds sensible.  I can certainly approach it in a "bottom up" way by
-> sparingly adding handling where it's different in APF-user rather than
-> adding it side by side and trying to merge common parts.
-> 
-> > I'm also not sure that injecting async #PF for all userfaults is desirable.  For
-> > in-kernel async #PF, KVM knows that faulting in the memory would sleep.  For
-> > userfaults, KVM has no way of knowing if the userfault will sleep, i.e. should
-> > be handled via async #PF.  The obvious answer is to have userspace only enable
-> > userspace async #PF when it's useful, but "an all or nothing" approach isn't
-> > great uAPI.  On the flip side, adding uAPI for a use case that doesn't exist
-> > doesn't make sense either :-/
-> 
-> I wasn't able to locate the code that would check whether faulting would
-> sleep in APF-kernel.  KVM spins APF-kernel whenever it can ([2]). Please let
-> me know if I'm missing something here.
+	git://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git torture.2025.02.05a
 
-kvm_can_do_async_pf() will be reached if and only if faulting in the memory
-requires waiting.  If a page is swapped out, but faulting it back in doesn't
-require waiting, e.g. because it's in zswap and can be uncompressed synchronously,
-then the initial __kvm_faultin_pfn() with FOLL_NO_WAIT will succeed.
+Regards,
+Boqun
 
-	/*
-	 * If resolving the page failed because I/O is needed to fault-in the
-	 * page, then either set up an asynchronous #PF to do the I/O, or if
-	 * doing an async #PF isn't possible, retry with I/O allowed.  All
-	 * other failures are terminal, i.e. retrying won't help.
-	 */
-	if (fault->pfn != KVM_PFN_ERR_NEEDS_IO)
-		return RET_PF_CONTINUE;
+Paul E. McKenney (11):
+  torture: Add get_torture_init_jiffies() for test-start time
+  rcutorture: Add a test_boost_holdoff module parameter
+  rcutorture: Include grace-period sequence numbers in
+    failure/close-call
+  rcutorture: Expand failure/close-call grace-period output
+  rcu: Trace expedited grace-period numbers in hexadecimal
+  rcutorture: Add ftrace-compatible timestamp to GP# failure/close-call
+    output
+  rcutorture: Make cur_ops->format_gp_seqs take buffer length
+  rcutorture: Move RCU_TORTURE_TEST_{CHK_RDR_STATE,LOG_CPU} to bool
+  rcutorture: Complain when invalid SRCU reader_flavor is specified
+  srcu: Add FORCE_NEED_SRCU_NMI_SAFE Kconfig for testing
+  torture: Make SRCU lockdep testing use srcu_read_lock_nmisafe()
 
-	if (!fault->prefetch && kvm_can_do_async_pf(vcpu)) {
-		trace_kvm_try_async_get_page(fault->addr, fault->gfn);
-		if (kvm_find_async_pf_gfn(vcpu, fault->gfn)) {
-			trace_kvm_async_pf_repeated_fault(fault->addr, fault->gfn);
-			kvm_make_request(KVM_REQ_APF_HALT, vcpu);
-			return RET_PF_RETRY;
-		} else if (kvm_arch_setup_async_pf(vcpu, fault)) {
-			return RET_PF_RETRY;
-		}
-	}
+ .../admin-guide/kernel-parameters.txt         |  5 ++
+ include/linux/torture.h                       |  1 +
+ include/trace/events/rcu.h                    |  2 +-
+ kernel/rcu/Kconfig                            | 11 ++++
+ kernel/rcu/Kconfig.debug                      | 18 ++++-
+ kernel/rcu/rcu.h                              |  2 +
+ kernel/rcu/rcutorture.c                       | 65 +++++++++++++++++--
+ kernel/rcu/tiny.c                             | 14 ++++
+ kernel/rcu/tree.c                             | 20 ++++++
+ kernel/torture.c                              | 12 ++++
+ .../selftests/rcutorture/bin/srcu_lockdep.sh  |  2 +-
+ 11 files changed, 144 insertions(+), 8 deletions(-)
 
-The conundrum with userspace async #PF is that if userspace is given only a single
-bit per gfn to force an exit, then KVM won't be able to differentiate between
-"faults" that will be handled synchronously by the vCPU task, and faults that
-usersepace will hand off to an I/O task.  If the fault is handled synchronously,
-KVM will needlessly inject a not-present #PF and a present IRQ.
+-- 
+2.39.5 (Apple Git-154)
 
-But that's a non-issue if the known use cases are all-or-nothing, i.e. if all
-userspace faults are either synchronous or asynchronous.
-
-> [2] https://elixir.bootlin.com/linux/v6.13.2/source/arch/x86/kvm/mmu/mmu.c#L4360
-> 
-> > Exiting to userspace in vCPU context is also kludgy.  It makes sense for base
-> > userfault, because the vCPU can't make forward progress until the fault is
-> > resolved.  Actually, I'm not even sure it makes sense there.  I'll follow-up in
-> 
-> Even though we exit to userspace, in case of APF-user, userspace is supposed
-> to VM enter straight after scheduling the async job, which is then executed
-> concurrently with the vCPU.
-> 
-> > James' series.  Anyways, it definitely doesn't make sense for async #PF, because
-> > the whole point is to let the vCPU run.  Signalling userspace would definitely
-> > add complexity, but only because of the need to communicate the token and wait
-> > for userspace to consume said token.  I'll think more on that.
-> 
-> By signalling userspace you mean a new non-exit-to-userspace mechanism
-> similar to UFFD?
-
-Yes.
-
-> What advantage can you see in it over exiting to userspace (which already exists
-> in James's series)?
-
-It doesn't exit to userspace :-)
-
-If userspace simply wakes a different task in response to the exit, then KVM
-should be able to wake said task, e.g. by signalling an eventfd, and resume the
-guest much faster than if the vCPU task needs to roundtrip to userspace.  Whether
-or not such an optimization is worth the complexity is an entirely different
-question though.
