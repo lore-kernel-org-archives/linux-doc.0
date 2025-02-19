@@ -1,98 +1,143 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833D143151;
-	Wed, 19 Feb 2025 11:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487201DEFEE
+	for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 11:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739964189; cv=none; b=Z3DnkiFQNY6VjJg1BPy1C2UZDex/RjrJy3ftY30BheCJt8/TunsRI9Ik16EQmWL96IEpZfuG2VdhkVBoDTFkQCglaQaXmHVT/DrQQm37OSRaV+1crVE/mT1XRxEnXkjxiU12/cNOB9jigaowjH6UgzScr9Bncc7olwZQ+fWoNSE=
+	t=1739964257; cv=none; b=DOR8lqE/ozeuX5XIFCJi+/nou9WJQjXBN5JNPSSnm9ey8xWElGawviSrmjnBE9vLuJJICr3MbjZNtfk+K/XbU+v3fQm2auN40US7J9F50NWVT6h1isIdZDkhCMk+kR6JsM1+ly5+SL2aqvQLTJNtZyltcEb9xfZrZSBmpFDtAhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739964189; c=relaxed/simple;
-	bh=NrL6ZoW8DJpJUtu6w7iSlxtNi/MMqeTdi8RjmOi3iD0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IMQNZqWoYIMzKZktICTYHvul7Rd27Ogg6j0WtxvAPlPCrrSadfSId7ySRnzTYgUqtC7DvscT53H11cOwpRfNRFgO2DpMRudz06hFS/n2ph4we0wbbDaW3jS/vJ4qJwLzKVdrRAgSpxBUFnTTColYsJLeKmPoRw0CCRrzVIV8drI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gA3SQhHi; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739964257; c=relaxed/simple;
+	bh=3IlmgeaiPcaakLVe2YScE/woJneyFZcSXJq5bqdngbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q2pvG2sIzykhzk1eKVZsT9NlYvlqd+rMYjr12pSLYSiqND2sh2a5kX3vOoFY0sulf1YnxBcCfhp54onjCrfQFzLfmSWMK1yUu1oDshFhLJR+QSBpn9ge2G3uYzttRR4Huw2bEaonScccd3rI4c9GwmKHSHRhtnNRU/u+AaM+nJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q5vS1YIY; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gA3SQhHi"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-220e6028214so114278145ad.0;
-        Wed, 19 Feb 2025 03:23:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q5vS1YIY"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4396a4d5e3bso49651755e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 03:24:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739964188; x=1740568988; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VZm1dJAwKAk/F8vlE+OX9d9jmGJPVXQxsC5N5HXvT/w=;
-        b=gA3SQhHi/PFZ5SKYrHoF+LQflr7M7TZ1lkpIwcDcfhyv2AUcOA6ymUmhMljugIrT7/
-         xK1OfERdqop2gc3lvodVL3umNAbeqtsacAN0aODZEivQJ0Ydl+gOU28Bele9pQ7+gMPF
-         LNs5KdvE/SGPJ8tmsd7s8lBDIBl7DbWbGWQztxFm3ndD36vXK1alHmkPpiOJp8r/4QuO
-         RU5+4KFVQcRFbE/+KJSGj7FFTZO2d/GgZL8GGjp6SDKRdbkBTjgINX5WfTHdSH1r/i9r
-         spR2cVBz5C3ksEW5fwjr64eq328K2HUwVutrRpipjzQo0a9CuvrDIn5g2DAnaiQngBGt
-         2XRw==
+        d=linaro.org; s=google; t=1739964253; x=1740569053; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tdPhTPgNb5WdAwuNYkFk04LlQR8UkULvprs/hSb+yyI=;
+        b=Q5vS1YIY7lYTNSNgI7OTgjuJ17bFqhTU5i2mw0UjNn5eVsfe+q6aGOu4g6Oz9Vu2gh
+         VY6etKU1zT+j05fs9hdjdxiuDu8pz6bSLgP+7pMVdi/0PdCzFnksTt+lYOtDAlUnP7Zl
+         pdW1pf598RJC3r9gW87TWDOJUNogkDbvvlYafZzE18MXs3gmS4JjFAklM6Cl8ip4iuMo
+         qeGs/QwfrsyhBkwre2IRRyoSef0qNv36C/aGKSqd9tLTqMVo93reNoghnnAmoUTsRJzL
+         XXjkm0wWzbBNGX48R3C4ABCP1E7fKnBFEzI2BT5Mu83WCbEtdC+XI1A/EKDXDjY9VGGc
+         36xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739964188; x=1740568988;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VZm1dJAwKAk/F8vlE+OX9d9jmGJPVXQxsC5N5HXvT/w=;
-        b=InCdmBnJdU627Pr/TSmKRdx78Httx2xHr8liexthDdhqNRfpKh4K7alD5BG3fXx28X
-         +ANAj0HTVMZKDOu0zFrMgDQCgqdVbd2QDxNdI0P/nMrx21TbfgImOfLKMHro9/aGlAX2
-         ertzH01RexRENJ1I7aIq7EBxMXOnVo/stFF8tg4kwv2WTFqc0kUEXrahGxbQ7uIiMzNZ
-         VQbYRDTEL366Z+Sa0IeASwuaBhWjUvmSSfYKtsVCmSpEuu2w15MyXZvXlZe0l212Qyhg
-         ckD6FTsFJMtiImBaC8fJDiOBE0iGg0VJ0oFtAfoQn+qaolf/qgmKXu75mleamTrECWB7
-         yGyg==
-X-Forwarded-Encrypted: i=1; AJvYcCX4nTEBsGUI+KfYoQlVQnCK/VbibuUMbsVVcs2OhUk97F281pMbh59NRs5pKBdsvLn/IB/x3q7faUs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9dhTVuXwy/kGcHPA0ECp3R85MZ1KXpXanQlYgYfmULwCpZ1Be
-	Up8GqQANbEGi9sCvAxIk1rcnYivjw9SpGmaIJWCZy91Omrafv603
-X-Gm-Gg: ASbGnctps/2rRFkZjz0TcbqzIwmm2e6B/G4GUwKWTDO3J4VS96CwO50eOXuitpI7mv9
-	2CS6/T50po+E4WvmPZjv/GptNO434Eqf77LaXWfGTFMPWTnSblfv1pDFb5VKz0IN/2/WDN4VYYX
-	TyPbhWQMJFIFbYWZGcPHKu6XhR58Gy2UugX7UYbWMCXU1/3NT4kGZKGoPTR1XfmxrhLVFMHUWLx
-	nqsrbSHdvkRRYdmCnmRlt1/399rhKIhmJkMlODbSPykgYabs5Ni94Y1UEg6r0wWy585Szl0hl8Z
-	e6+Lu8YfNer168jKZzEuwe1I
-X-Google-Smtp-Source: AGHT+IHOhv6/aSNiuotCAFumVgXlWpVdHc0na20KYdVn/2hnOPdXJvK9hfqyYxmMU6iW6Q+ux4gGKw==
-X-Received: by 2002:a17:903:2286:b0:220:fce7:d3a6 with SMTP id d9443c01a7336-2211c551bdcmr224224985ad.23.1739964187571;
-        Wed, 19 Feb 2025 03:23:07 -0800 (PST)
-Received: from archlinux.nitk.ac.in ([2400:4f20:11:c00::101:7e79])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5366242sm103277995ad.87.2025.02.19.03.23.05
+        d=1e100.net; s=20230601; t=1739964253; x=1740569053;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tdPhTPgNb5WdAwuNYkFk04LlQR8UkULvprs/hSb+yyI=;
+        b=jmuFWr44GdCW46SPpn1WP3vWTd6INsm/Xj72UtTYbZPT0NpvYQx8jvi+keGFMLrq1f
+         y+WCjv0Pmz3hUrB/CEEvWNQnjIu7TiYHkzUajLiwZQ0EDHZHQWlVeDE5AaphhYu8s/6n
+         qHWxPG7mpJ+I8i4O0lgQuC9OsNRf05fih1X+3oTt1lwODs9h7yQDKkRbjn7PXG16aabk
+         w5wIz/fmUe8nZPDsOiLcZQ8gIVjN6Yj+WgS/kCGxUi93OqRfUuEV/UHTxULzJ2fpqcNU
+         A8Ubtk57NGgLTP81kB8vLt5Nd3bdPFjRAWjaQREYld9Xt6olqCibhqF2IoPGNPTCbidT
+         hfmA==
+X-Forwarded-Encrypted: i=1; AJvYcCV1eVYSPTZCn0Spg/28esTm2BapY+wHd6pNtooPpjrpBHatTWjqH0pC9JshPh3tugMceXw9bD3yZBk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZrhL1SMsQzpNGmy9xpSbk4xRQphvaE+ComQI/thkwBuaAqWB2
+	sDvh1/68srombY7YiSpKPznUGwYo+LfSlU5zXyzrWSBmn6FEygxkQ5yZ6NN0PBE=
+X-Gm-Gg: ASbGnctz41VVEBiSFgK0pTxQvW4RZfSR/WWTywOMmV1i6RQob+XhOGtd6PYTWc8h6W6
+	lOUB8ypX9XEEq67aUtsdEuXyH9I0Y8KuJnrYzz5LN8LAnNclFMii5YpxsBcWnPZt5EJa9AC86SF
+	+6DdAr5HO7NqtSk7AuL1XsS9r5LZDMnjQW/jYDmQNcyiYUV/EstCpSmWqmUjq1DyWI8rEPvRKSM
+	bN8f24T14sIUaL+dI9rC06PsEmJD7/zc6ZU4QJ/peRJsONyJvgl1/Nwg2R924Xi6uXPqNWKJC/M
+	MY39xRGyGKdXhx23wxUHPCfOlWU=
+X-Google-Smtp-Source: AGHT+IHyRalKTLx08DMpyY8D7tJnSYBfCjrsKNqbrlJWe/vLGSVDWGPykiVGFecncMvPPlaiWmLh0w==
+X-Received: by 2002:a05:600c:3b9c:b0:439:967b:46fc with SMTP id 5b1f17b1804b1-43999d8f506mr31097145e9.8.1739964253497;
+        Wed, 19 Feb 2025 03:24:13 -0800 (PST)
+Received: from linaro.org ([2a02:2454:ff21:ef30:6f72:6161:57cf:1c9a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43992ad82cfsm51235505e9.37.2025.02.19.03.24.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 03:23:07 -0800 (PST)
-From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-To: corbet@lwn.net,
+        Wed, 19 Feb 2025 03:24:12 -0800 (PST)
+Date: Wed, 19 Feb 2025 12:24:07 +0100
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Wesley Cheng <quic_wcheng@quicinc.com>,
+	Greg KH <gregkh@linuxfoundation.org>
+Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
+	broonie@kernel.org, lgirdwood@gmail.com, tiwai@suse.com,
+	krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com,
+	Thinh.Nguyen@synopsys.com, robh@kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: [PATCH] docs: scheduler: fix spelling in sched-bwc documentation
-Date: Wed, 19 Feb 2025 16:52:54 +0530
-Message-ID: <20250219112254.28691-1-suchitkarunakaran@gmail.com>
-X-Mailer: git-send-email 2.48.1
+Subject: Re: [PATCH v35 00/31] Introduce QC USB SND audio offloading support
+Message-ID: <Z7W_Vz_kVDjIcp5N@linaro.org>
+References: <20250219004754.497985-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250219004754.497985-1-quic_wcheng@quicinc.com>
 
-Fix spelling of "interference" in the CFS bandwidth control documentation. 
-The word was misspelled as "interferenece".
+On Tue, Feb 18, 2025 at 04:47:23PM -0800, Wesley Cheng wrote:
+> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
+> 
+> Several Qualcomm based chipsets can support USB audio offloading to a
+> dedicated audio DSP, which can take over issuing transfers to the USB
+> host controller.  The intention is to reduce the load on the main
+> processors in the SoC, and allow them to be placed into lower power modes.
+> There are several parts to this design:
+>   1. Adding ASoC binding layer
+>   2. Create a USB backend for Q6DSP
+>   3. Introduce XHCI interrupter support
+>   4. Create vendor ops for the USB SND driver
+> 
+>       USB                          |            ASoC
+> --------------------------------------------------------------------
+>                                    |  _________________________
+>                                    | |sm8250 platform card     |
+>                                    | |_________________________|
+>                                    |         |           |
+>                                    |      ___V____   ____V____
+>                                    |     |Q6USB   | |Q6AFE    |  
+>                                    |     |"codec" | |"cpu"    |
+>                                    |     |________| |_________|
+>                                    |         ^  ^        ^
+>                                    |         |  |________|
+>                                    |      ___V____    |
+>                                    |     |SOC-USB |   |
+>    ________       ________               |        |   |
+>   |USB SND |<--->|QC offld|<------------>|________|   |
+>   |(card.c)|     |        |<----------                |
+>   |________|     |________|___     | |                |
+>       ^               ^       |    | |    ____________V_________
+>       |               |       |    | |   |APR/GLINK             |
+>    __ V_______________V_____  |    | |   |______________________|
+>   |USB SND (endpoint.c)     | |    | |              ^
+>   |_________________________| |    | |              |
+>               ^               |    | |   ___________V___________
+>               |               |    | |->|audio DSP              |
+>    ___________V_____________  |    |    |_______________________|
+>   |XHCI HCD                 |<-    |
+>   |_________________________|      |
+> 
 
-Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
----
- Documentation/scheduler/sched-bwc.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As I noted on v34 [1], this version is still missing instructions and
+changes needed for testing this series. The device tree changes don't
+need to be part of the same series, but there should be at least a link
+provided to give other people the chance to provide Tested-by tags.
 
-diff --git a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
-index 41ed2ceafc92..e881a945c188 100644
---- a/Documentation/scheduler/sched-bwc.rst
-+++ b/Documentation/scheduler/sched-bwc.rst
-@@ -59,7 +59,7 @@ At the same time, we can say that the worst case deadline miss, will be
- \Sum e_i; that is, there is a bounded tardiness (under the assumption
- that x+e is indeed WCET).
- 
--The interferenece when using burst is valued by the possibilities for
-+The interference when using burst is valued by the possibilities for
- missing the deadline and the average WCET. Test results showed that when
- there many cgroups or CPU is under utilized, the interference is
- limited. More details are shown in:
--- 
-2.48.1
+IMO we shouldn't merge this series without those instructions, otherwise
+we risk that this just ends up being dead code that no one can use.
 
+Can you please share the device tree changes for a board upstream and
+any other changes needed to be able to test this series? E.g. for
+sm8250-mtp.dts, based on the examples in your cover letter.
+
+Thanks,
+Stephan
+
+[1]: https://lore.kernel.org/linux-arm-msm/Z63B_UE61OdrgEJY@linaro.org/
