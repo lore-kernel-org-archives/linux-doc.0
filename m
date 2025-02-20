@@ -1,135 +1,205 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E511B0F33
-	for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 19:03:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4C21F4E47;
+	Thu, 20 Feb 2025 19:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740078230; cv=none; b=T36qJyGar0mKW27IOnj6kZoPi8qjOoCQoOuWysnrJue/+PCjkgeVIdLI7o3xV3MFahh6XEmxXvwFwOIEqlrsaTji4Xw9agjYBoxB9/JZa4BJmB4Bq5DEP8ljYST1vv5B/Yc3i6wRPAmoueaihwbizUTPCst1GocSxss/WdAkfDY=
+	t=1740078601; cv=none; b=k/ThvX8WqLp9NHTMT9fHwbMhnXX8plkHJ/MibhLjXAQLiaB9urWPx3QgnNRiTxf1p9wDyC26hwU/GVdyZ+N6S4zCnPrksD7Pl9lcZ1QN/OHc4HWBJzf2UtSAfzftiXCXr6Gh3mcMldNtM+x7AQnmXQzCu6+qhcAfESPo8LncJ1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740078230; c=relaxed/simple;
-	bh=CMYJVuqdWZQhUoTuE+0FXAVoJqmbZLoa6YqwNgt6M+U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aSEOduhfki/kLIDYaokTdeWlbOtq05Td2+Dw8ZHQ5V0vhELuww3iD+ahQ5YX3A+3vsirObNBb5GHWtd0CV3q4IjAIlm93BLQTSGeNrs/6ARomv4S13DgDy7MibY0/2yz/9xN+KX9pwunyrIuiH8AS81AKQbsGssxwJ59qFmc3Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xwTFnN/N; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1740078601; c=relaxed/simple;
+	bh=mpA/MrEeSlFfQy/SUQZrdZ86KKOSDip+BWmaXv9pjDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Poli8oaH7fQ6KbUlaxC1j0V1utP++VxYvELgUrABGpux27uatG3iVXls4rWFM8M3Kjm/R5MCCvrklAuKLcFVHWY07gBoy5aR4vfLvQftvWQkyNhoHvXRZ0XnVZHB4MmQGMlAQBKq9SmCD9BJO++M0++YpxadgVNnEyiVIgmN7Rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ewzv8ieo; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xwTFnN/N"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-471fbfe8b89so51991cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 11:03:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ewzv8ieo"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-220dc3831e3so38018775ad.0;
+        Thu, 20 Feb 2025 11:09:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740078227; x=1740683027; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VxiQ6wtOwdm+dkAsya9a3cEEzdO1LAZKevXVrkE5I78=;
-        b=xwTFnN/NQ9igU0lmBP9diC0CuX6yamRJ/+Ov+48btUHRN0FVRLgVBtcEqedBi1YV6g
-         hNRURjsRIZgZufevHV/Pbch4MgD2NjEHyuYToOYhh7TyxJKhGNG1hJIz4yP3FfniSijX
-         qrEVHTvnJUc1yQo9D4A5bLtmvZ2fg+RoPApQ6XRln13xULQMK4qAr22An19oiMtxvNAK
-         bH4Ahxzky+VM85tFflb04JBQ88Pgm3nmjWd4Q59e3aoHvZtc6+OEu7IKc5tvTUeyi+MT
-         qXn4+zRQjKwswuXvABA8uG7J5KUlQJvLLny+YiN4aKVU65uetnH8gGY8p8umxZY6yZOy
-         IuTg==
+        d=gmail.com; s=20230601; t=1740078599; x=1740683399; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rQV/ZoI7XcCPA75+erkDe6R94FlXLvLV8fokf9ogYZQ=;
+        b=ewzv8ieo4Vv1N1dc1o9/gFFPozRkVWRodj5+F2bKZ7mLB4htZbhVjji6njRS7xaT5l
+         4m9FjQZKG5NZCLx4S+oTcPwstlJrvSyxRZtuJ0ZBP2uJwYgVm4HLetw9M+REZZVq7kpi
+         lE+M0ykL4hsOpwXIDpPhYK41WM4dbYywQwkxaMmOWe6nL9Wwbc8nFEw1sfmBTq2wq337
+         Mi3DNv+RIPrg2C5NiXVmShXGFGx8tHlrPsXqh+vL9TOoZFoj223XqAXqhPjR1EOkKMCA
+         qZA6W1LfpS8T/jv+ELMAZcgK5iUhryE8gY8G1vSYkBXSysa+C3Lgl9beiwodoiignnjL
+         KPVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740078227; x=1740683027;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VxiQ6wtOwdm+dkAsya9a3cEEzdO1LAZKevXVrkE5I78=;
-        b=jmrscTZ/X9oFqroZdFha+oQtE7gGLP0EIcE6Rv8HXQpwB+K9SbyfHnhS52l190MSYY
-         nAaVf25FOHqwoyCuCcq28yO9vrzrwBIXHUEYobn1Upc0bgn61Rahap0UiJLVfXgMqPAu
-         6QsWkI37eBP6Wk1MFZ5agh718yKq3klqK65haJzPGDmtU1KBxa5oDH+SsBQX1I9cUV60
-         IjuRoKusrzGlMP39FztkhCOqhDQk9mAfTL8003QWmFboN3DozJddfHUKGgTzZ+RrsEw/
-         HRymmamjl1DodjVK64paOwvOvUea63lehejBTVUmh3NacbTT/PQEZV9kN911WmOxObD/
-         FyPA==
-X-Forwarded-Encrypted: i=1; AJvYcCWD+vjyBiW6Y6VzCZmEYmRNLenVx0+ejsD/Fq0obkbW29+SZySzlk6cvANWFuU+CS8bC0f5/tZg4TE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeK6XqYnZeEdecIpqPydzAwiPfm3uusDPIXgnncrQg4HNJvFVw
-	7+IsmzSnqKwrtMzV5lh3UIzmKAbUN+z6QNJp33G07zKtVV4qrx++GKMSCTDwZopvjfTYjHBs3+U
-	B23B9Y4Adz0Eo2B7T7x0BbRNHcpwxMUsUtSzM
-X-Gm-Gg: ASbGncsOk4eIk9xfbftrVyKQO1/GqQCPt+qiDpQp3WtU0gk2PK/FW6XAqaV8Wcr6iUp
-	3Ua2qKaH5ofVtnm1Ypae62vJl6vrpBVTbsTr4DidF6nVUD/GyXHBJLJKOf7FMILswE7VVAOi6
-X-Google-Smtp-Source: AGHT+IESP4lbni9JLo1iujP72rl0UncWhPZ3xqcQGvW9Vo/oQYynNgMZNvVxa6DNjIc9FvD6XgPJibfnmYh6QZ2GyiA=
-X-Received: by 2002:ac8:5fd4:0:b0:46c:7cf2:d7b2 with SMTP id
- d75a77b69052e-472238fc66amr85181cf.18.1740078226855; Thu, 20 Feb 2025
- 11:03:46 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740078599; x=1740683399;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rQV/ZoI7XcCPA75+erkDe6R94FlXLvLV8fokf9ogYZQ=;
+        b=siIAVdnETVVJv4TzDUEsiHRMDNwrnKiRX4uU/YbW/R0wCs+wuCPcbayPBRurWPUOAn
+         ZED9VS+jZ1DmOhvh3UsVJFooPajPIjI+37ZeFfAXskjIZtsE0TOh2iEx+eu0r7O6xj1b
+         HdE1LiLcT0z/6RyEnieyEU4+iZqHevigujhhXKyezlayfrytrxNhnJzvuViEz7d//RPt
+         ErgMeVU5Lk1hCaKyRqPPAvxiuCGmw5ZoIC+mXAUrt5qpADatLr5PEb0bNlSgIAG7/5Xy
+         fEDQg7Y663mvPGDrf/5cZQbruwoASTGo024JVJFxObIig5kE2h6wiWIFh5a+3HUs4E8g
+         DvJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUXifdeXGlbIoCYbasXfZK9XxPUrWTWJbt8TZb0WLi5O1OoGNL1B/B09ORviSY6dF163ngTP2owevfe@vger.kernel.org, AJvYcCVwwULCxjMpB/QSRVk7NFfC73V55cFe2g2QdoxWKA2cBCf0Ht1TREhSxiPE/DGq1Z22shY2yFv+i0CumdrIKFju@vger.kernel.org, AJvYcCWWJtoikBTzuoiGGNjPtjCC54VY+waLYkMN1HuLUgu5orkHqPzOSRo2MH+Zp/hOYwhSr41Gq45Rw9b65Buk@vger.kernel.org, AJvYcCX7LyTZHaf1pxd5wOY+moMR+E/E+/HFHFKBDAtd16fYW73sBFdpNCQSbBysasRMIr4tlmM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlCYm65llLXklFZ1zRdG5YWNMMLo5AqrR0lqKR3Q5mxzZU9D73
+	Q2YlUmY82L9XghFoovfQpw50kUF1EViBt7kWFXUConEf5A1OS68=
+X-Gm-Gg: ASbGncvh04sqJy2yZfLMc8ifeV8Qw73jioO49DNWPaOND/YjH4cXYOLhansApdu0o55
+	1C+TjWiJi9y6JMk0zUHQ/N6p1JF39vXQ77PLGcD4cC3lBfqTvBocChhStLCgBPGJ8q/CacxeKWr
+	qJ/KmikSSQeq2qoQCsc8KpAFA6t6K7MFxG7F1KmgJdWMXTx34RfvnyhauJeD+byj0x01ygmtlAk
+	p96jlm5P8w5waEP/DB2XE4/FsnJPggixz+cga4rqx9F5mPOADcDQ3sfigx1dWGsV9Q8KgpAjD+c
+	wwoFPhXt9E5Fflo=
+X-Google-Smtp-Source: AGHT+IEvQXeZzfRjz714HfRbuoChSJiph3o3vx35z1y6/TWaF62kBH0YqfkLwI1WQdwkSFnjKYBxnA==
+X-Received: by 2002:a05:6a00:8a17:b0:732:6a48:22f6 with SMTP id d2e1a72fcca58-7341410bb54mr6308200b3a.9.1740078597790;
+        Thu, 20 Feb 2025 11:09:57 -0800 (PST)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-7326b5ef448sm10144080b3a.173.2025.02.20.11.09.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 11:09:57 -0800 (PST)
+Date: Thu, 20 Feb 2025 11:09:55 -0800
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>,
+	Shailend Chand <shailend@google.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Willem de Bruijn <willemb@google.com>,
+	David Ahern <dsahern@kernel.org>,
+	Neal Cardwell <ncardwell@google.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
+	asml.silence@gmail.com, dw@davidwei.uk,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Victor Nogueira <victor@mojatatu.com>,
+	Pedro Tammela <pctammela@mojatatu.com>,
+	Samiullah Khawaja <skhawaja@google.com>
+Subject: Re: [PATCH net-next v4 9/9] selftests: ncdevmem: Implement devmem
+ TCP TX
+Message-ID: <Z7d-A7yhzH1t8D_3@mini-arch>
+References: <20250220020914.895431-1-almasrymina@google.com>
+ <20250220020914.895431-10-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250213224655.1680278-1-surenb@google.com> <20250213224655.1680278-13-surenb@google.com>
- <20250220185304.8313A7d-hca@linux.ibm.com>
-In-Reply-To: <20250220185304.8313A7d-hca@linux.ibm.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 20 Feb 2025 11:03:35 -0800
-X-Gm-Features: AWEUYZnhHZmA7CKIk6-rs2tkls49oh6ILCc24Xt36DF6I4s6NBc5M1Lba_eQz4M
-Message-ID: <CAJuCfpFPaVY1EHus1p0SY1=hpiGogdPCkgtft7fNZ4gPPj2TGA@mail.gmail.com>
-Subject: Re: [PATCH v10 12/18] mm: replace vm_lock and detached flag with a
- reference count
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, 
-	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250220020914.895431-10-almasrymina@google.com>
 
-On Thu, Feb 20, 2025 at 10:53=E2=80=AFAM Heiko Carstens <hca@linux.ibm.com>=
- wrote:
->
-> On Thu, Feb 13, 2025 at 02:46:49PM -0800, Suren Baghdasaryan wrote:
-> ...
-> > While this vm_lock replacement does not yet result in a smaller
-> > vm_area_struct (it stays at 256 bytes due to cacheline alignment), it
-> > allows for further size optimization by structure member regrouping
-> > to bring the size of vm_area_struct below 192 bytes.
-> >
-> > Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> > Suggested-by: Matthew Wilcox <willy@infradead.org>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> > Changes since v9 [1]:
-> > - Use __refcount_inc_not_zero_limited_acquire() in vma_start_read(),
-> > per Hillf Danton
-> > - Refactor vma_assert_locked() to avoid vm_refcnt read when CONFIG_DEBU=
-G_VM=3Dn,
-> > per Mateusz Guzik
-> > - Update changelog, per Wei Yang
-> > - Change vma_start_read() to return EAGAIN if vma got isolated and chan=
-ged
-> > lock_vma_under_rcu() back to detect this condition, per Wei Yang
-> > - Change VM_BUG_ON_VMA() to WARN_ON_ONCE() when checking vma detached s=
-tate,
-> > per Lorenzo Stoakes
-> > - Remove Vlastimil's Reviewed-by since code is changed
->
-> This causes crashes (NULL pointer deref) with linux-next when running
-> the ltp test suite; mtest06 (mmap1) test case.
->
-> The bug seems to be quite obvious:
->
-> > @@ -6424,15 +6492,18 @@ struct vm_area_struct *lock_vma_under_rcu(struc=
-t mm_struct *mm,
-> >       if (!vma)
-> >               goto inval;
-> >
-> > -     if (!vma_start_read(vma))
-> > -             goto inval;
-> > +     vma =3D vma_start_read(vma);
-> > +     if (IS_ERR_OR_NULL(vma)) {
->             ^^^^^^^^^^^^^^^^^^^
-> > +             /* Check if the VMA got isolated after we found it */
-> > +             if (PTR_ERR(vma) =3D=3D -EAGAIN) {
-> > +                     vma_end_read(vma);
->                         ^^^^^^^^^^^^^^^^
+On 02/20, Mina Almasry wrote:
+> Add support for devmem TX in ncdevmem.
+> 
+> This is a combination of the ncdevmem from the devmem TCP series RFCv1
+> which included the TX path, and work by Stan to include the netlink API
+> and refactored on top of his generic memory_provider support.
+> 
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
+> 
+> ---
+> 
+> v4:
+> - Add TX test to devmem.py (Paolo).
+> 
+> v3:
+> - Update ncdevmem docs to run validation with RX-only and RX-with-TX.
+> - Fix build warnings (Stan).
+> - Make the validation expect new lines in the pattern so we can have the
+>   TX path behave like netcat (Stan).
+> - Change ret to errno in error() calls (Stan).
+> - Handle the case where client_ip is not provided (Stan).
+> - Don't assume mid is <= 2000 (Stan).
+> 
+> v2:
+> - make errors a static variable so that we catch instances where there
+>   are less than 20 errors across different buffers.
+> - Fix the issue where the seed is reset to 0 instead of its starting
+>   value 1.
+> - Use 1000ULL instead of 1000 to guard against overflow (Willem).
+> - Do not set POLLERR (Willem).
+> - Update the test to use the new interface where iov_base is the
+>   dmabuf_offset.
+> - Update the test to send 2 iov instead of 1, so we get some test
+>   coverage over sending multiple iovs at once.
+> - Print the ifindex the test is using, useful for debugging issues where
+>   maybe the test may fail because the ifindex of the socket is different
+>   from the dmabuf binding.
+> 
+> ---
+>  .../selftests/drivers/net/hw/devmem.py        |  28 +-
+>  .../selftests/drivers/net/hw/ncdevmem.c       | 300 +++++++++++++++++-
+>  2 files changed, 312 insertions(+), 16 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/drivers/net/hw/devmem.py b/tools/testing/selftests/drivers/net/hw/devmem.py
+> index 1223f0f5c10c..3d4f7fc5e63f 100755
+> --- a/tools/testing/selftests/drivers/net/hw/devmem.py
+> +++ b/tools/testing/selftests/drivers/net/hw/devmem.py
+> @@ -1,6 +1,7 @@
+>  #!/usr/bin/env python3
+>  # SPDX-License-Identifier: GPL-2.0
+>  
+> +from os import path
+>  from lib.py import ksft_run, ksft_exit
+>  from lib.py import ksft_eq, KsftSkipEx
+>  from lib.py import NetDrvEpEnv
+> @@ -10,8 +11,7 @@ from lib.py import ksft_disruptive
+>  
+>  def require_devmem(cfg):
+>      if not hasattr(cfg, "_devmem_probed"):
+> -        port = rand_port()
+> -        probe_command = f"./ncdevmem -f {cfg.ifname}"
+> +        probe_command = f"{cfg.bin_local} -f {cfg.ifname}"
+>          cfg._devmem_supported = cmd(probe_command, fail=False, shell=True).ret == 0
+>          cfg._devmem_probed = True
+>  
+> @@ -25,18 +25,36 @@ def check_rx(cfg) -> None:
+>      require_devmem(cfg)
+>  
+>      port = rand_port()
+> -    listen_cmd = f"./ncdevmem -l -f {cfg.ifname} -s {cfg.v6} -p {port}"
+> +    listen_cmd = f"{cfg.bin_local} -l -f {cfg.ifname} -s {cfg.v6} -p {port}"
 
-Doh! Thanks for reporting! I'll post a fix shortly.
+Commit de94e8697405 ("selftests: drv-net: store addresses in dict indexed by
+ipver") just went it, so v6 needs to be addr_v['6'] and remote_v6 needs
+to be remote_addr_v['6'].
+
+>  
+>      with bkg(listen_cmd) as socat:
+>          wait_port_listen(port)
+> -        cmd(f"echo -e \"hello\\nworld\"| socat -u - TCP6:[{cfg.v6}]:{port}", host=cfg.remote, shell=True)
+> +        cmd(f"echo -e \"hello\\nworld\"| socat -u - TCP6:{cfg.v6}:{port},bind={cfg.remote_v6}:{port}", host=cfg.remote, shell=True)
+> +
+
+[..]
+
+> +    ksft_eq(ncdevmem.stdout.strip(), "hello\nworld")
+
+s/ncdevmem/socat/ (or rename socat in the with block above)
+
+> +@ksft_disruptive
+> +def check_tx(cfg) -> None:
+
+[..]
+
+> +    cfg.require_v6()
+
+This is also now require_ipver("6") I think..
+
+Gonna try to run the selftest and see if anything else pops up...
