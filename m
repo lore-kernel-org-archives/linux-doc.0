@@ -1,178 +1,186 @@
-Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750501F76C0;
-	Thu, 20 Feb 2025 13:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F1D1FC0E4
+	for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 14:27:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740059005; cv=none; b=kmxms1c1Y9+/L8x3x6IpnD0bLxAMeqVEM1T1+9FLcRMmfkgKGU3I+OyL5G67li6AstR0XJ7sxsa8IUIXLrVqCkmsqJWpt9RyN47Bo7yGTelo2PVBuJ6K8QBuoso+MGi9ddLrLx/Iu78CuEu7doSpkKNQ+sEKZD8F0jrHB7MonLg=
+	t=1740061636; cv=none; b=jSgBwqUUIE80eT1Bt5eGkygPpSy1VwR2C0AwdRPwr2TDtv24bbG4KmJvNfwCcziEvaUTkoH7ZJOU2WsrYCEKkFIb+M2OJKnzUfGfkJd+mF+PCrVcCwQOoU0GL6rK2Je/+n6kebvCAOpzh4YaH7gv/LanQoSSUGQc9C22yiJV1jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740059005; c=relaxed/simple;
-	bh=D2FcBDeuGwHsiFlE5LsVOdNR9u94mmxTJwaL5dNzU5k=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=paF6lo+cXo3bgyda5UIwFNyqKpIIzT+pMJZN4wxm4LwGMZoHTjY0HvqH3uu6u8g9Som13whXhfOFlG4cIFgJfPFvF4idG7sDbbEkboHia7F+eg4tMrVIoOxaf3t0VNC0eVocKUnXNUNOsumBFa78zCLwGZldt0wNdaMqaBO2H1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=Z9a1EfA0; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1740061636; c=relaxed/simple;
+	bh=D6cKUGAMjY2KP9aAcuVHBx8VTJJeLQ/lOCGq6SoaKoY=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WUBAwsrbqdtuDwVkMEdQjrGSXhE57lXQCoDA2hClvc+HntASMFUyhJwJPU8gZvqLyAZXMeHOR+ikU0k2dmoBIFg8uEMkHkDEfIq3+jnfX8XBPjCb+I+owQoeOqk6qsrAblCBAygwZnN9PD8HvQ+yLZ2Ea8EE5Lj51L2dLTQ8XKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=1m3xmRyk; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="Z9a1EfA0"
-Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51KBLvUC023645;
-	Thu, 20 Feb 2025 08:43:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=D2FcB
-	DeuGwHsiFlE5LsVOdNR9u94mmxTJwaL5dNzU5k=; b=Z9a1EfA0X/b9e7/b6aGNr
-	TT4NbnRtRhX57eUOBU0QQJrPD0g2H6KwCgPx8RHNoDvKauZIZPJY9I8ApCpueO/U
-	d7TaiC5ONlsWe1CH6uFvPhOcy1TMDYtqFKtO08xt/Qs9Rj2RdQrehgWnTvF43rj1
-	izk5RiGT5XX7FQSZxGGnLRVLBW7nlSKCFPinZB2HntGEO5AY5U4fKiUe3Lh2+bWH
-	t6dcxvn6N3VOSKy9Dw7UaQpnVRaVLZ7bss7tNnpeyZONEQ/mW6FeytGZsSVlNW2D
-	FgvsnFPt8HRvawsRoj32Ojbmy64gAcKytru0GvlnueaMx066w+eTEgSr9PT4WBRK
-	g==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 44x3f40fq6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 08:43:06 -0500 (EST)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 51KDh5VN043954
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 20 Feb 2025 08:43:05 -0500
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Thu, 20 Feb
- 2025 08:43:04 -0500
-Received: from ASHBMBX9.ad.analog.com ([fe80::1cb6:4851:5392:54cf]) by
- ASHBMBX9.ad.analog.com ([fe80::1cb6:4851:5392:54cf%20]) with mapi id
- 15.02.0986.014; Thu, 20 Feb 2025 08:43:04 -0500
-From: "Budai, Robert" <Robert.Budai@analog.com>
-To: =?utf-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>,
-        Lars-Peter Clausen
-	<lars@metafoo.de>,
-        "Hennerich, Michael" <Michael.Hennerich@analog.com>,
-        "Sa,
- Nuno" <Nuno.Sa@analog.com>,
-        "Gradinariu, Ramona"
-	<Ramona.Gradinariu@analog.com>,
-        "Miclaus, Antoniu"
-	<Antoniu.Miclaus@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>, "Rob
- Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor
- Dooley" <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [RESEND PATCH v8 5/6] iio: imu: adis16550: add adis16550 support
-Thread-Topic: [RESEND PATCH v8 5/6] iio: imu: adis16550: add adis16550 support
-Thread-Index: AQHbgTvPfw471rqSUk6RU/zKwUC+57NQMlsAgAADUNA=
-Date: Thu, 20 Feb 2025 13:43:04 +0000
-Message-ID: <45d64de8a1074788b7c4bffc29788742@analog.com>
-References: <20250217105753.605465-1-robert.budai@analog.com>
-	 <20250217105753.605465-6-robert.budai@analog.com>
- <aee93ef96e71adf70a48ee5877bd75966d9c78c1.camel@gmail.com>
-In-Reply-To: <aee93ef96e71adf70a48ee5877bd75966d9c78c1.camel@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-dg-rorf: true
-x-adiruleop-newscl: Rule Triggered
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="1m3xmRyk"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30a2f240156so9421831fa.3
+        for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 06:27:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1740061633; x=1740666433; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f4w4pCG0U42bM1eFKeaBN0EiFoNbUjvKtinnx1nWT1E=;
+        b=1m3xmRykIuZhKeySuszDijNS5tRgWKAj3JorvIq88ISoinxUpTQqYJ8kElekvXgTnL
+         hx3K9+bo+Sv40qqPlCkdYWDol0/+UivyxvriNVn3fhfifaYGofdvXCWqpMZd7I9VosKS
+         3/u1NCKXNvaXf7MT8iouYxLoK4kQQ11B14CzKaXb/Y5Pj6eNyuI8tE5aJHefEvMwU1Cq
+         ey4tnWvMGRUdaG92IR9swdufHVZ9gCXUeSJP5ShNYvni6jM6afPTA+MPNoXBdrB4O5Z4
+         KPuwd2G3w2NCe5Cn60iA9aUQSqueXs3suE+J1Pvu23Mt+BBU90emWuV49welFUqCXnuv
+         ZOUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740061633; x=1740666433;
+        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f4w4pCG0U42bM1eFKeaBN0EiFoNbUjvKtinnx1nWT1E=;
+        b=rJ1L8yx6c8LsbsG5CCOfn78yNAXq6kwlrVSbUHApgPNaVUVCyVTZACwwUjJE10jdZf
+         RIbceZ74b6fq4Zu3ThDdejfqQss3pfsc+rvJX2IbAiaxPVcCZE/njKvktUc75YPpGHgx
+         WErczDA9wKYzTEquUkHgHoM4QaL+22qLTiM3FtP9YVeQBI4OohlFhzxmeHUvWFXDucEk
+         DsfflbMLLTVLc4ugkqRQaf3Ltbi+Wh+6aR/n4vHSCC3ataCFbbHNz4UBNfsPRBLHnZvq
+         oqgBHJdWtP+Q0Wg4qf5NKyPMzft5o6mVP3aeyGkz7d18lSAUb3S1qiBavD9t9amUgTm2
+         KEDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWqMAoHBDTaIX7S2Iz0WVfrwp8/VKDK3mjuK2ul1QQR2T0SJQVS1PrHWvxJz/MP/KKP6sAKDFL92Nc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDaGDBu0op8UWNUbfnCCtQfxH2XSC4oc0JMR5FRoaMp6r87YQQ
+	Qjz70QNgRfOsEf2zJHQAM6ZUGu7NsHwLOsdVHFm2ClhCAmx6pDD9+2HIL2IwNHL+FQ3xG9jgmJR
+	uV03/+r5EhIh9fBhCS5VGqOu60rGXRyUTD0aNUA==
+X-Gm-Gg: ASbGnctKgiPpIDIGu+Ok3r1uy64RtF2iR5HMHsf/g4f8/WNDlxa3AeIMracWHa5t6LK
+	ssNDdxsU1+9xyhUZ52mRPrG4TtBjXSwp4FNRlwviSM3HNXECvOZhgES984rHJcZtOkbM83QhwiB
+	u7jH7tHuSm+E2WOdJdUTl8MtU3CBA=
+X-Google-Smtp-Source: AGHT+IFS//uyEFsNocKn2QLBwjZb9V54vS30Ztrpi06h9vM6OhVZ6S9T58uetg7ksyx1gj4KaWKe+Evafv0S+hCPfHg=
+X-Received: by 2002:a2e:900f:0:b0:309:26cd:9304 with SMTP id
+ 38308e7fff4ca-30a45043f96mr31527421fa.26.1740061632696; Thu, 20 Feb 2025
+ 06:27:12 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 20 Feb 2025 15:27:11 +0100
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 20 Feb 2025 15:27:11 +0100
+From: brgl@bgdev.pl
+In-Reply-To: <20250115103004.3350561-1-quic_mdalam@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: 403pa-rlJEkUba881PoH13AW3JLeP6Bj
-X-Proofpoint-GUID: 403pa-rlJEkUba881PoH13AW3JLeP6Bj
-X-Authority-Analysis: v=2.4 cv=DuKs+H/+ c=1 sm=1 tr=0 ts=67b7316a cx=c_pps a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17 a=xqWC_Br6kY4A:10 a=ejxIebdwriEA:10 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=uherdBYGAAAA:8 a=P-IC7800AAAA:8
- a=pGLkceISAAAA:8 a=gAnH3GRIAAAA:8 a=VwQbUJbxAAAA:8 a=07d9gI8wAAAA:8 a=0fo_jfcGDxs3koMwgKEA:9 a=QEXdDO2ut3YA:10 a=d3PnA9EDa4IxuAV0gXij:22 a=oVHKYsEdi7-vN-J5QA_j:22 a=e2CUPOnPG4QKp8I52DXD:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-20_05,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- mlxscore=0 phishscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
- adultscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501
- malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
- definitions=main-2502200099
+References: <20250115103004.3350561-1-quic_mdalam@quicinc.com>
+Date: Thu, 20 Feb 2025 15:27:11 +0100
+X-Gm-Features: AWEUYZnDIRu5h76xjpO3J8aX5TCNfdHy8wWm6gSkGIVob_i8mUp6Yw4WICtLlfY
+Message-ID: <CAMRc=MeW7D+6rUNWBQ61kP-zx9paiLKFF-Y7SbFq+_fRKiq8=w@mail.gmail.com>
+Subject: Re: [PATCH v6 00/12] dmaengine: qcom: bam_dma: add cmd descriptor support
+To: Md Sadre Alam <quic_mdalam@quicinc.com>
+Cc: quic_utiwari@quicinc.com, quic_srichara@quicinc.com, 
+	quic_varada@quicinc.com, vkoul@kernel.org, corbet@lwn.net, 
+	thara.gopinath@gmail.com, herbert@gondor.apana.org.au, davem@davemloft.net, 
+	martin.petersen@oracle.com, enghua.yu@intel.com, u.kleine-koenig@baylibre.com, 
+	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTnVubyBTw6EgPG5vbmFt
-ZS5udW5vQGdtYWlsLmNvbT4NCj4gU2VudDogVGh1cnNkYXksIEZlYnJ1YXJ5IDIwLCAyMDI1IDEw
-OjIyIEFNDQo+IFRvOiBCdWRhaSwgUm9iZXJ0IDxSb2JlcnQuQnVkYWlAYW5hbG9nLmNvbT47IExh
-cnMtUGV0ZXIgQ2xhdXNlbg0KPiA8bGFyc0BtZXRhZm9vLmRlPjsgSGVubmVyaWNoLCBNaWNoYWVs
-IDxNaWNoYWVsLkhlbm5lcmljaEBhbmFsb2cuY29tPjsNCj4gU2EsIE51bm8gPE51bm8uU2FAYW5h
-bG9nLmNvbT47IEdyYWRpbmFyaXUsIFJhbW9uYQ0KPiA8UmFtb25hLkdyYWRpbmFyaXVAYW5hbG9n
-LmNvbT47IE1pY2xhdXMsIEFudG9uaXUNCj4gPEFudG9uaXUuTWljbGF1c0BhbmFsb2cuY29tPjsg
-Sm9uYXRoYW4gQ2FtZXJvbiA8amljMjNAa2VybmVsLm9yZz47IFJvYg0KPiBIZXJyaW5nIDxyb2Jo
-QGtlcm5lbC5vcmc+OyBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprK2R0QGtlcm5lbC5vcmc+OyBD
-b25vcg0KPiBEb29sZXkgPGNvbm9yK2R0QGtlcm5lbC5vcmc+OyBKb25hdGhhbiBDb3JiZXQgPGNv
-cmJldEBsd24ubmV0PjsgbGludXgtDQo+IGlpb0B2Z2VyLmtlcm5lbC5vcmc7IGRldmljZXRyZWVA
-dmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOw0KPiBsaW51eC1k
-b2NAdmdlci5rZXJuZWwub3JnDQo+IFN1YmplY3Q6IFJlOiBbUkVTRU5EIFBBVENIIHY4IDUvNl0g
-aWlvOiBpbXU6IGFkaXMxNjU1MDogYWRkIGFkaXMxNjU1MA0KPiBzdXBwb3J0DQo+IA0KPiBbRXh0
-ZXJuYWxdDQo+IA0KPiBPbiBNb24sIDIwMjUtMDItMTcgYXQgMTI6NTcgKzAyMDAsIFJvYmVydCBC
-dWRhaSB3cm90ZToNCj4gPiBUaGUgQURJUzE2NTUwIGlzIGEgY29tcGxldGUgaW5lcnRpYWwgc3lz
-dGVtIHRoYXQgaW5jbHVkZXMgYSB0cmlheGlzDQo+ID4gZ3lyb3Njb3BlIGFuZCBhIHRyaWF4aXMg
-YWNjZWxlcm9tZXRlci4gRWFjaCBpbmVydGlhbCBzZW5zb3IgaW4gdGhlDQo+ID4gQURJUzE2NTUw
-IGNvbWJpbmVzIGluZHVzdHJ5IGxlYWRpbmcgTUVNUyBvbmx5IHRlY2hub2xvZ3kgd2l0aCBzaWdu
-YWwNCj4gPiBjb25kaXRpb25pbmcgdGhhdCBvcHRpbWl6ZXMgZHluYW1pYyBwZXJmb3JtYW5jZS4g
-VGhlIGZhY3RvcnkgY2FsaWJyYXRpb24NCj4gPiBjaGFyYWN0ZXJpemVzIGVhY2ggc2Vuc29yIGZv
-ciBzZW5zaXRpdml0eSwgYmlhcywgYW5kIGFsaWdubWVudC4gQXMgYQ0KPiA+IHJlc3VsdCwgZWFj
-aCBzZW5zb3IgaGFzIGl0cyBvd24gZHluYW1pYyBjb21wZW5zYXRpb24gZm9ybXVsYXMgdGhhdA0K
-PiA+IHByb3ZpZGUgYWNjdXJhdGUgc2Vuc29yIG1lYXN1cmVtZW50cy4NCj4gPg0KPiA+IENvLWRl
-dmVsb3BlZC1ieTogUmFtb25hIEdyYWRpbmFyaXUgPHJhbW9uYS5ncmFkaW5hcml1QGFuYWxvZy5j
-b20+DQo+ID4gU2lnbmVkLW9mZi1ieTogUmFtb25hIEdyYWRpbmFyaXUgPHJhbW9uYS5ncmFkaW5h
-cml1QGFuYWxvZy5jb20+DQo+ID4gQ28tZGV2ZWxvcGVkLWJ5OiBBbnRvbml1IE1pY2xhdXMgPGFu
-dG9uaXUubWljbGF1c0BhbmFsb2cuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEFudG9uaXUgTWlj
-bGF1cyA8YW50b25pdS5taWNsYXVzQGFuYWxvZy5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogTnVu
-byBTw6EgPG51bm8uc2FAYW5hbG9nLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBSb2JlcnQgQnVk
-YWkgPHJvYmVydC5idWRhaUBhbmFsb2cuY29tPg0KPiA+IC0tLQ0KPiA+DQo+IA0KPiBJIGd1ZXNz
-IGl0IHdvdWxkIG1ha2Ugc2Vuc2UgYSBDby1kZXZlbG9wZWQtYnk6IGZvciBSb2JlcnQ/DQo+IA0K
-PiBBbnl3YXlzLCBhbGwgbG9va3MgZ29vZCBleGNlcHQgZm9yIG9uZSB0aGluZyB0aGF0IEkganVz
-dCBzcG90dGVkLi4uDQo+IA0KPiA+IHY4Og0KPiA+IC0gcmVtb3ZlZCBfX2FsaWduZWQgZnJvbSBz
-dHJ1Y3QgYWRpczE2NTUwLCBhcyBzdWdnZXN0ZWQNCj4gPiAtIGNyYyBidWZmZXIgZXh0cmFjdGlv
-biBpbnRvIHRoZSBjcmMgY2hlY2sgZnVuY3Rpb24NCj4gPiAtIHBhc3NlZCBidWZmZXIgaW50byBj
-cmMgdmFsaWRhdGlvbiBhcyBvcmlnaW5hbCwgX19iZTMyIGFuZCBwZXJmb3JtZWQgY2hlY2sNCj4g
-PiB1c2luZyBiZTMyX3RvX2NwdSBjb252ZXJzaW9uIG9mIHRoZSBidWZmZXINCj4gPiAtIGFkZGVk
-IHRyYWlsaW5nIGNvbW1hIHRvIGxpbmUgOTkzDQo+ID4gLSByZW1vdmVkIHRyYWlsaW5nIGNvbW1h
-IGZyb20gbGluZSA4NzcNCj4gPg0KPiA+IMKgZHJpdmVycy9paW8vaW11L0tjb25maWfCoMKgwqDC
-oCB8wqDCoCAxMyArDQo+ID4gwqBkcml2ZXJzL2lpby9pbXUvTWFrZWZpbGXCoMKgwqAgfMKgwqDC
-oCAxICsNCj4gPiDCoGRyaXZlcnMvaWlvL2ltdS9hZGlzMTY1NTAuYyB8IDExNDkNCj4gKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gPiDCoDMgZmlsZXMgY2hhbmdlZCwgMTE2
-MyBpbnNlcnRpb25zKCspDQo+ID4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9paW8vaW11
-L2FkaXMxNjU1MC5jDQo+ID4NCj4gDQo+IC4uLg0KPiANCj4gPg0KPiA+ICtzdGF0aWMgaW50IGFk
-aXMxNjU1MF9zZXRfZnJlcV9oeihzdHJ1Y3QgYWRpczE2NTUwICpzdCwgdTMyIGZyZXFfaHopDQo+
-ID4gK3sNCj4gPiArCXUxNiBkZWM7DQo+ID4gKwlpbnQgcmV0Ow0KPiA+ICsJdTMyIHNhbXBsZV9y
-YXRlID0gc3QtPmNsa19mcmVxX2h6Ow0KPiA+ICsJLyoNCj4gPiArCSAqIFRoZSBvcHRpbWFsIHNh
-bXBsZSByYXRlIGZvciB0aGUgc3VwcG9ydGVkIElNVXMgaXMgYmV0d2Vlbg0KPiA+ICsJICogaW50
-X2NsayAtIDEwMDAgYW5kIGludF9jbGsgKyA1MDAuDQo+ID4gKwkgKi8NCj4gPiArCXUzMiBtYXhf
-c2FtcGxlX3JhdGUgPSBzdC0+aW5mby0+aW50X2NsayAqIDEwMDAgKyA1MDAwMDA7DQo+ID4gKwl1
-MzIgbWluX3NhbXBsZV9yYXRlID0gc3QtPmluZm8tPmludF9jbGsgKiAxMDAwIC0gMTAwMDAwMDsN
-Cj4gPiArDQo+ID4gKwlpZiAoIWZyZXFfaHopDQo+ID4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+ID4g
-Kw0KPiA+ICsJYWRpc19kZXZfYXV0b19sb2NrKCZzdC0+YWRpcyk7DQo+ID4gKw0KPiA+ICsJaWYg
-KHN0LT5zeW5jX21vZGUgPT0gQURJUzE2NTUwX1NZTkNfTU9ERV9TQ0FMRUQpIHsNCj4gPiArCQl1
-bnNpZ25lZCBsb25nIHNjYWxlZF9yYXRlID0gbGNtKHN0LT5jbGtfZnJlcV9oeiwgZnJlcV9oeik7
-DQo+ID4gKwkJaW50IHN5bmNfc2NhbGU7DQo+ID4gKw0KPiA+ICsJCWlmIChzY2FsZWRfcmF0ZSA+
-IG1heF9zYW1wbGVfcmF0ZSkNCj4gPiArCQkJc2NhbGVkX3JhdGUgPSBtYXhfc2FtcGxlX3JhdGUg
-LyBzdC0+Y2xrX2ZyZXFfaHogKiBzdC0NCj4gPiA+Y2xrX2ZyZXFfaHo7DQo+ID4gKwkJZWxzZQ0K
-PiA+ICsJCQlzY2FsZWRfcmF0ZSA9IG1heF9zYW1wbGVfcmF0ZSAvIHNjYWxlZF9yYXRlICoNCj4g
-PiBzY2FsZWRfcmF0ZTsNCj4gPiArDQo+ID4gKwkJaWYgKHNjYWxlZF9yYXRlIDwgbWluX3NhbXBs
-ZV9yYXRlKQ0KPiA+ICsJCQlzY2FsZWRfcmF0ZSA9IHJvdW5kdXAobWluX3NhbXBsZV9yYXRlLCBz
-dC0NCj4gPiA+Y2xrX2ZyZXFfaHopOw0KPiA+ICsNCj4gDQo+IEkgd291bGQgaW1hZ2luZSB0aGUg
-YWJvdmUgaXMgdGhlIHNhbWUgZGVhbCBhcyBpbiBvdGhlciBkZXZpY2VzIFsxXSBvciBkbyB5b3UN
-Cj4ga25vdyBmb3IgYSBmYWN0IHRoaXMgb25lIGlzIGRpZmZlcmVudD8gTWF5YmUgaXQncyBzaW1w
-bGUgZW5vdWdoIGZvciBKb25hdGhhbiB0bw0KPiB0d2VhayB3aGlsZSBhcHBseWluZy4uLg0KPiAN
-Cj4gWzFdOg0KPiBodHRwczovL3VybGRlZmVuc2UuY29tL3YzL19faHR0cHM6Ly9lbGl4aXIuYm9v
-dGxpbi5jb20vbGludXgvdjYuMTMuMy9zb3VyY2UNCj4gL2RyaXZlcnMvaWlvL2ltdS9hZGlzMTY0
-NzUuYypMMzY0X187SXchIUEzTmk4Q1MweTJZITdZNzF5UGFRQXhWek5SZA0KPiBPX2pUN3dFejRr
-LQ0KPiBzNno0dEpIT2NFUzg0SFlrcThxTkdzZ0pIN3p4d2pmUE5qTEYzT0VHVkluU29sbzFlbm5M
-VV9td3BtRWJvJA0KPiANCj4gLSBOdW5vIFPDoQ0KDQpbUm9iZXJ0IEJ1ZGFpXSANCk5vIGRpZmZl
-cmVuY2VzIHdlcmUgZm91bmQgaW4gdGhlIHNjYWxlZF9zeW5jIGJlaGF2aW9yIG9mIHRoZSBBRElT
-MTY0NzUgYW5kDQpBRElTMTY1NTAuIEl0IGlzIHNhZmUgdG8gYWRkIGZyb20gbXkgc2lkZS4NCg0K
-QmVzdCByZWdhcmRzLA0KUm9iZXJ0IEINCg==
+On Wed, 15 Jan 2025 11:29:52 +0100, Md Sadre Alam
+<quic_mdalam@quicinc.com> said:
+> Requirements:
+>   In QCE crypto driver we are accessing the crypto engine registers
+>   directly via CPU read/write. Trust Zone could possibly to perform some
+>   crypto operations simultaneously, a race condition will be created and
+>   this could result in undefined behavior.
+>
+>   To avoid this behavior we need to use BAM HW LOCK/UNLOCK feature on BAM
+>   pipes, and this LOCK/UNLOCK will be set via sending a command descriptor,
+>   where the HLOS/TZ QCE crypto driver prepares a command descriptor with a
+>   dummy write operation on one of the QCE crypto engine register and pass
+>   the LOCK/UNLOCK flag along with it.
+>
+
+On rb3gen2 I'm seeing the following when running cryptsetup benchmark:
+
+# cryptsetup benchmark
+# Tests are approximate using memory only (no storage IO).
+PBKDF2-sha1      1452321 iterations per second for 256-bit key
+PBKDF2-sha256    2641249 iterations per second for 256-bit key
+PBKDF2-sha512    1278751 iterations per second for 256-bit key
+PBKDF2-ripemd160  760940 iterations per second for 256-bit key
+PBKDF2-whirlpool     N/A
+argon2i       4 iterations, 1008918 memory, 4 parallel threads (CPUs)
+for 256-bit key (requested 2000 ms time)
+argon2id      4 iterations, 1048576 memory, 4 parallel threads (CPUs)
+for 256-bit key (requested 2000 ms time)
+[   43.558496] NET: Registered PF_ALG protocol family
+[   43.570034] arm-smmu 15000000.iommu: Unhandled context fault:
+fsr=0x402, iova=0xfffdf000, fsynr=0x7b0003, cbfrsynra=0x4e4, cb=0
+[   43.582069] arm-smmu 15000000.iommu: FSR    = 00000402 [Format=2
+TF], SID=0x4e4
+[   43.592758] arm-smmu 15000000.iommu: FSYNR0 = 007b0003 [S1CBNDX=123 PLVL=3]
+[   43.608107] Internal error: synchronous external abort:
+0000000096000010 [#1] PREEMPT SMP
+[   43.616509] Modules linked in: algif_skcipher af_alg bluetooth
+ecdh_generic ecc ipv6 snd_soc_hdmi_codec phy_qcom_edp venus_dec
+venus_enc videobuf2_dma_contig videobuf2_memops nb7vpq904m
+lontium_lt9611uxc msm leds_qcom_lpg qcom_battmgr pmic_glink_altmode
+aux_hpd_bridge ocmem qcom_pbs venus_core ucsi_glink drm_exec
+typec_ucsi qcom_pon qcom_spmi_adc5 led_class_multicolor
+qcom_spmi_temp_alarm rtc_pm8xxx gpu_sched v4l2_mem2mem ath11k_ahb
+qcom_vadc_common nvmem_qcom_spmi_sdam drm_dp_aux_bus videobuf2_v4l2
+qcom_stats dispcc_sc7280 drm_display_helper videodev ath11k
+videobuf2_common coresight_stm drm_client_lib camcc_sc7280
+videocc_sc7280 mac80211 mc i2c_qcom_geni phy_qcom_qmp_combo stm_core
+coresight_replicator aux_bridge coresight_tmc coresight_funnel
+llcc_qcom libarc4 gpi icc_bwmon typec phy_qcom_snps_femto_v2 coresight
+qcrypto qcom_q6v5_pas authenc qcom_pil_info qcom_q6v5 gpucc_sc7280
+ufs_qcom libdes qcom_sysmon qcom_common pinctrl_sc7280_lpass_lpi
+qcom_glink_smem mdt_loader phy_qcom_qmp_ufs lpassaudiocc_sc7280
+[   43.616763]  pinctrl_lpass_lpi cfg80211 phy_qcom_qmp_pcie
+icc_osm_l3 rfkill qcom_rng qrtr nvmem_reboot_mode display_connector
+socinfo drm_kms_helper pmic_glink pdr_interface qcom_pdr_msg
+qmi_helpers drm backlight
+[   43.727571] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted
+6.14.0-rc3-next-20250220-00012-g2a8d60663e03-dirty #53
+[   43.738291] Hardware name: Qualcomm Technologies, Inc. Robotics RB3gen2 (DT)
+[   43.745535] pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   43.752685] pc : bam_dma_irq+0x374/0x3b0
+[   43.756736] lr : bam_dma_irq+0x2c8/0x3b0
+[   43.760781] sp : ffff800080003e90
+[   43.764200] x29: ffff800080003e90 x28: ffffd03eaae84880 x27: 000000009edf8000
+[   43.771543] x26: ffff45a746642c80 x25: 0000000a24f8499b x24: ffff45a742dca080
+[   43.778886] x23: ffff45a742df7600 x22: 000000000000006e x21: ffff8000811c3000
+[   43.786228] x20: ffff45a742df7630 x19: ffff45a742eaab80 x18: 0000000000000001
+[   43.793568] x17: ffff75698e7b4000 x16: ffff800080000000 x15: 0000000000000034
+[   43.800902] x14: 0000000000000038 x13: 0000000000010008 x12: 071c71c71c71c71c
+[   43.808244] x11: 0000000000000040 x10: ffff45a74000a230 x9 : ffff45a74000a228
+[   43.815587] x8 : ffff45a7407a1dd0 x7 : 0000000000000000 x6 : 0000000000000000
+[   43.822920] x5 : ffff45a7407a1da8 x4 : 0000000000000000 x3 : 0000000000000018
+[   43.830253] x2 : ffff8000811c0000 x1 : ffff8000811c0018 x0 : 0000000000000002
+[   43.837594] Call trace:
+[   43.840115]  bam_dma_irq+0x374/0x3b0 (P)
+[   43.844163]  __handle_irq_event_percpu+0x48/0x140
+[   43.849006]  handle_irq_event+0x4c/0xb0
+[   43.852961]  handle_fasteoi_irq+0xa0/0x1bc
+[   43.857186]  handle_irq_desc+0x34/0x58
+[   43.861054]  generic_handle_domain_irq+0x1c/0x28
+[   43.865812]  gic_handle_irq+0x4c/0x120
+[   43.869680]  call_on_irq_stack+0x24/0x64
+[   43.873728]  do_interrupt_handler+0x80/0x84
+[   43.878039]  el1_interrupt+0x34/0x68
+[   43.881732]  el1h_64_irq_handler+0x18/0x24
+[   43.885955]  el1h_64_irq+0x6c/0x70
+[   43.889465]  cpuidle_enter_state+0xac/0x320 (P)
+[   43.894133]  cpuidle_enter+0x38/0x50
+[   43.897826]  do_idle+0x1e4/0x260
+[   43.901151]  cpu_startup_entry+0x38/0x3c
+[   43.905195]  rest_init+0xdc/0xe0
+[   43.908531]  console_on_rootfs+0x0/0x6c
+[   43.912490]  __primary_switched+0x88/0x90
+[   43.916621] Code: b9409063 1b047c21 8b030021 8b010041 (b9000020)
+[   43.922881] ---[ end trace 0000000000000000 ]---
+[   43.927633] Kernel panic - not syncing: synchronous external abort:
+Fatal exception in interrupt
+[   43.936653] SMP: stopping secondary CPUs
+[   43.941042] Kernel Offset: 0x503e28e00000 from 0xffff800080000000
+[   43.947306] PHYS_OFFSET: 0xfff0ba59c0000000
+[   43.951615] CPU features: 0x300,00000170,00801250,8200720b
+[   43.957257] Memory Limit: none
+[   43.960405] ---[ end Kernel panic - not syncing: synchronous
+external abort: Fatal exception in interrupt ]---
+
+Bartosz
