@@ -1,132 +1,144 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C19262D31
-	for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 18:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC432135D0;
+	Thu, 20 Feb 2025 18:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740077345; cv=none; b=BPUYeAO8xYEBl55QgmqI1Ss4LEuESK1ltCA0f5ehuGkhHKzg9rCehGZNDvg/5LujDm8KBjb8TuV2LbnViqygehwl87xxmeJpe90poaTBoz9NJpkatlo2E9FLi7y2jirGvtPgFzg7eb77+a9+HEerZH8MNX4zWfmJ4pccguJG1Tw=
+	t=1740077640; cv=none; b=FM5g67/a/JISV4trlHB+pYI5YMEzJrmuRc+QaUeIoD3OMvvNpWy6Bepo3pXFyedRKm/ONIdu0FqiPnS0SFYvuRpwPtxcvELlPNDIP02+7P94OI6e453Cfqr6CNZg+ia24zRpFCqT8dWT4LYW+EWZK4pYBpxitp5FoczgTfPFU2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740077345; c=relaxed/simple;
-	bh=HhmUsnUAA9FXfyyFZW1O/vQBTW1dafCygMEgR1PSV2w=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=UYwWVsntCR3YRiFXGPe8P53IVPPsiGs0l0k9TbFqKcEoFQtbr5NajwlfepBmWINf5ivUBIOYX9SJFMbFbr5N19jqHKHO9+Djnpt7HXTLrd85uAB4CSyqh6LpJitqmWBv3buSEnzje3hkv86juBni5Ou23W3+SJh4bWXRhaNROJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WGmpSk0J; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1740077640; c=relaxed/simple;
+	bh=XNtukd/iR2xFzEJm4rMWbl1qhijVvclvodxQjnS4AR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uLwtrv30TZTCXtumDCbESX+jGT7qjnnU3qy/3UdcZQrabONgWsYxRbUy+WA4NzDC6WnGOgBQdWUklzxJS7lMRJMxtQYOvaW8xccSXtpYYvYFs/Y2ZiaA7792SCOgsyqRFHlVIiH5jtxfaz/lZMrvuf+Ibordi0tPei6NGeVTb6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=cO/HoZGB; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WGmpSk0J"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2fc1a4c14d4so2751774a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 10:49:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740077343; x=1740682143; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nrIXE8v94l6Qz63J0EW6oWgUR3NGdxme+Ofja+voZ/I=;
-        b=WGmpSk0JTG4rZuTDErNhp7zDGK93oHpE2qdZiC2KwW9Pjm/fVHPXObRNy4G/r9ygwI
-         LwWVefCZ+FrWf/MD//EMXRcmwdTQq4s0g/aMIamzf5pGUZu3OkZUKgvavaD91L3Ovai2
-         y0NSspvRMCz0glu3CHPlQ5prwa8I5oAiYxhhVUe3TddmORLnH8Ksat0WVeU+Gb/dNw1y
-         Dxp1jPyRrulCuLsPcm0x8mNw26hDEX88FN7hLr/ul//Q+k/C4g5Y34mo6eai92Ss7DG6
-         d467FSILgsPA4P0Y1rQl9ujj5Kz0RBlwvfcRS9vdZpR3xHs8H+uqoHF2gxp3et64ipBd
-         g3FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740077343; x=1740682143;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nrIXE8v94l6Qz63J0EW6oWgUR3NGdxme+Ofja+voZ/I=;
-        b=HgzYyyMXkHaSK1TDaBfMCLY395TCbIzdJRPRVvD1+ySTSWFKm0nD6LPhZH9xLyE8pc
-         vu2t0CFl6KUNs8BO59TNzn4lKv3mZeOU8AZOc1e4sbhdyBolIFrWxDdFgFeZaI6WRKTi
-         43O6xKrgFnDss9/aPpSD8nVFlhS+S5Xd83IFA43zFT4dXy1pAX/urSglggTweDOG9TaP
-         Koya3LK2+kK+u4iT1Qc+mEl6J6Y3eDlZyGBNnJHNzbsK4W+zknLa+JySTUcDWssuLMXU
-         z2tgy6m/FwwaT+QzbKWVa/kY9HLqviBjLfHc8ao76L5upt87O+jacAYaTRpG1tGjdHyv
-         RrQg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlPlF+CQi9NMi2ncE1HhZyqCkZcqGub8YJTizzErZsNKIZKBNRv/jgLKPEIRSFbOIy3TycBlP0IFk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqQJlDkLH4gtjQl19eSQ1A6ut/xbUaDX2xmTGKEWiZhGAtJs93
-	aBA/rQG2vSrv+fU2licgomXeilBUtGON/Oxp8MjtwQ1ep79r7nfM0/V7PiU7qbq3+TinF9sxV/6
-	m9Q==
-X-Google-Smtp-Source: AGHT+IHkerbpaVTlWjWkXbgwvL2U1KNbZ8XETkgVM++qObug4lOq8hnkxEb0uReFtMabhh0VMSMpaVYDsx0=
-X-Received: from pjboh5.prod.google.com ([2002:a17:90b:3a45:b0:2ef:82c0:cb8d])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3848:b0:2f9:d9fe:e72e
- with SMTP id 98e67ed59e1d1-2fce78d3e37mr429085a91.16.1740077343307; Thu, 20
- Feb 2025 10:49:03 -0800 (PST)
-Date: Thu, 20 Feb 2025 10:49:01 -0800
-In-Reply-To: <6eddd049-7c7a-406d-b763-78fa1e7d921b@amazon.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="cO/HoZGB"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51KH1dWO013458;
+	Thu, 20 Feb 2025 18:53:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=/9sRpAZ9G3ZPyhkT4SYRP5eAvs3Bmr
+	FCqGMSaKHucN4=; b=cO/HoZGBBDgyQ3+wAOCIEngTbBbh+7fO13/1YamnWNXEil
+	u8zaNKFRabvG/FSoNrXbM3nmJitWZ4wTJD/5oHnICYWLfKWYQpfay+B+3UmNLi4a
+	wEEHnsfHIma02MGEG+7IkYImPzHjA9t3R1erwYdh5bW/EPDJf8ctDuhhwnl/IZVC
+	Q1xajmxr5hVEKaSmjFKS6IPrUO1NoFg0s2vDnNaxoBzRz+WMGEV/hL/MJA3zF38Q
+	yVAGP84ZxD8GAzVMcMCs+99x9vl1ngr0vduaVeXoDxxfWXDKhUhLn0RrqKcDupM6
+	TmIY7yfKHiKng16RNt3tfi400kkyxJ7FnoVXJGaA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44wreadapw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Feb 2025 18:53:12 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 51KIrBX4004848;
+	Thu, 20 Feb 2025 18:53:11 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44wreadapt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Feb 2025 18:53:11 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 51KI7x6h005826;
+	Thu, 20 Feb 2025 18:53:10 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 44w02xkn49-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Feb 2025 18:53:10 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 51KIr8gA39846268
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 Feb 2025 18:53:08 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0D4CC20043;
+	Thu, 20 Feb 2025 18:53:08 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3CEE020040;
+	Thu, 20 Feb 2025 18:53:06 +0000 (GMT)
+Received: from osiris (unknown [9.171.52.26])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Thu, 20 Feb 2025 18:53:06 +0000 (GMT)
+Date: Thu, 20 Feb 2025 19:53:04 +0100
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
+        liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
+        david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz,
+        hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
+        mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
+        oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
+        brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
+        hughd@google.com, lokeshgidra@google.com, minchan@google.com,
+        jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
+        pasha.tatashin@soleen.com, klarasmodin@gmail.com,
+        richard.weiyang@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v10 12/18] mm: replace vm_lock and detached flag with a
+ reference count
+Message-ID: <20250220185304.8313A7d-hca@linux.ibm.com>
+References: <20250213224655.1680278-1-surenb@google.com>
+ <20250213224655.1680278-13-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241118123948.4796-1-kalyazin@amazon.com> <Z6u-WdbiW3n7iTjp@google.com>
- <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com> <Z7X2EKzgp_iN190P@google.com>
- <6eddd049-7c7a-406d-b763-78fa1e7d921b@amazon.com>
-Message-ID: <Z7d5HT7FpE-ZsHQ9@google.com>
-Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
-From: Sean Christopherson <seanjc@google.com>
-To: Nikita Kalyazin <kalyazin@amazon.com>
-Cc: pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, jthoughton@google.com, david@redhat.com, 
-	peterx@redhat.com, oleg@redhat.com, vkuznets@redhat.com, gshan@redhat.com, 
-	graf@amazon.de, jgowans@amazon.com, roypat@amazon.co.uk, derekmn@amazon.com, 
-	nsaenz@amazon.es, xmarcalx@amazon.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250213224655.1680278-13-surenb@google.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: M-vGldV3REsWVvBOwJDEiV9dEv7a8khD
+X-Proofpoint-GUID: LuM4Ib9qTs5DatP339mkaUEvtZKh3JTf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-20_08,2025-02-20_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 bulkscore=0 mlxscore=0 adultscore=0
+ spamscore=0 impostorscore=0 phishscore=0 clxscore=1011 lowpriorityscore=0
+ mlxlogscore=842 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2502200128
 
-On Thu, Feb 20, 2025, Nikita Kalyazin wrote:
-> On 19/02/2025 15:17, Sean Christopherson wrote:
-> > On Wed, Feb 12, 2025, Nikita Kalyazin wrote:
-> > The conundrum with userspace async #PF is that if userspace is given only a single
-> > bit per gfn to force an exit, then KVM won't be able to differentiate between
-> > "faults" that will be handled synchronously by the vCPU task, and faults that
-> > usersepace will hand off to an I/O task.  If the fault is handled synchronously,
-> > KVM will needlessly inject a not-present #PF and a present IRQ.
+On Thu, Feb 13, 2025 at 02:46:49PM -0800, Suren Baghdasaryan wrote:
+...
+> While this vm_lock replacement does not yet result in a smaller
+> vm_area_struct (it stays at 256 bytes due to cacheline alignment), it
+> allows for further size optimization by structure member regrouping
+> to bring the size of vm_area_struct below 192 bytes.
 > 
-> Right, but from the guest's point of view, async PF means "it will probably
-> take a while for the host to get the page, so I may consider doing something
-> else in the meantime (ie schedule another process if available)".
+> Suggested-by: Peter Zijlstra <peterz@infradead.org>
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+> Changes since v9 [1]:
+> - Use __refcount_inc_not_zero_limited_acquire() in vma_start_read(),
+> per Hillf Danton
+> - Refactor vma_assert_locked() to avoid vm_refcnt read when CONFIG_DEBUG_VM=n,
+> per Mateusz Guzik
+> - Update changelog, per Wei Yang
+> - Change vma_start_read() to return EAGAIN if vma got isolated and changed
+> lock_vma_under_rcu() back to detect this condition, per Wei Yang
+> - Change VM_BUG_ON_VMA() to WARN_ON_ONCE() when checking vma detached state,
+> per Lorenzo Stoakes
+> - Remove Vlastimil's Reviewed-by since code is changed
 
-Except in this case, the guest never gets a chance to run, i.e. it can't do
-something else.  From the guest point of view, if KVM doesn't inject what is
-effectively a spurious async #PF, the VM-Exiting instruction simply took a (really)
-long time to execute.
+This causes crashes (NULL pointer deref) with linux-next when running
+the ltp test suite; mtest06 (mmap1) test case.
 
-> If we are exiting to userspace, it isn't going to be quick anyway, so we can
-> consider all such faults "long" and warranting the execution of the async PF
-> protocol.  So always injecting a not-present #PF and page ready IRQ doesn't
-> look too wrong in that case.
+The bug seems to be quite obvious:
 
-There is no "wrong", it's simply wasteful.  The fact that the userspace exit is
-"long" is completely irrelevant.  Decompressing zswap is also slow, but it is
-done on the current CPU, i.e. is not background I/O, and so doesn't trigger async
-#PFs.
-
-In the guest, if host userspace resolves the fault before redoing KVM_RUN, the
-vCPU will get two events back-to-back: an async #PF, and an IRQ signalling completion
-of that #PF.
-
-> > > What advantage can you see in it over exiting to userspace (which already exists
-> > > in James's series)?
-> > 
-> > It doesn't exit to userspace :-)
-> > 
-> > If userspace simply wakes a different task in response to the exit, then KVM
-> > should be able to wake said task, e.g. by signalling an eventfd, and resume the
-> > guest much faster than if the vCPU task needs to roundtrip to userspace.  Whether
-> > or not such an optimization is worth the complexity is an entirely different
-> > question though.
-> 
-> This reminds me of the discussion about VMA-less UFFD that was coming up
-> several times, such as [1], but AFAIK hasn't materialised into something
-> actionable.  I may be wrong, but James was looking into that and couldn't
-> figure out a way to scale it sufficiently for his use case and had to stick
-> with the VM-exit-based approach.  Can you see a world where VM-exit
-> userfaults coexist with no-VM-exit way of handling async PFs?
-
-The issue with UFFD is that it's difficult to provide a generic "point of contact",
-whereas with KVM userfault, signalling can be tied to the vCPU, and KVM can provide
-per-vCPU buffers/structures to aid communication.
-
-That said, supporting "exitless" KVM userfault would most definitely be premature
-optimization without strong evidence it would benefit a real world use case.
+> @@ -6424,15 +6492,18 @@ struct vm_area_struct *lock_vma_under_rcu(struct mm_struct *mm,
+>  	if (!vma)
+>  		goto inval;
+>  
+> -	if (!vma_start_read(vma))
+> -		goto inval;
+> +	vma = vma_start_read(vma);
+> +	if (IS_ERR_OR_NULL(vma)) {
+            ^^^^^^^^^^^^^^^^^^^
+> +		/* Check if the VMA got isolated after we found it */
+> +		if (PTR_ERR(vma) == -EAGAIN) {
+> +			vma_end_read(vma);
+                        ^^^^^^^^^^^^^^^^
