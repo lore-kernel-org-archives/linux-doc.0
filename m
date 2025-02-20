@@ -1,134 +1,169 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED7B1A7264;
-	Thu, 20 Feb 2025 08:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9D11E571F;
+	Thu, 20 Feb 2025 08:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740040164; cv=none; b=lOQ2yCMio3Ew2ve2UwkK1M0ljpdXGwupgn8DQLD4plG5c9aBdWApXvUssNrLqX8RqYllKota8i9q7knlWmZ5va0HC70WSnfsTs7lTGZw8rm0IbISBEAAN8ikmkggpizCKohqCKeVNglMOTmY31dnHI/IryUau6MsDLmVy6bsWek=
+	t=1740040566; cv=none; b=CRecd3pIjjYmZIh67jBzj9GuYhodsOyW1Cz0SobDS/aOoXnbOVGpCPZzGK5QFA/Se9RuTNvcTWCvN1sB5q+xmialG+H1YQPyugxCWolJ+z9rDCfdFxowZWSj5RdAZLcJ2Ix+4sHjunIQeT46h1oTipggCu3Xlr1bHEETwbg/55s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740040164; c=relaxed/simple;
-	bh=80cf8zlzFwBqoh821Ay6AOl2kStY62G7PZJrZaBE1w8=;
+	s=arc-20240116; t=1740040566; c=relaxed/simple;
+	bh=stqDS9AX3y7H3mWwV3DJihDNRqA9BbbNBvl1ESip09w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g7Aizzo025AwUf+sjSP0KasWQph8KmD1WtBm+hPhqRYuktxAst4y8g9Sxc9OR1ryoedGlWs9hJSxt+sA32L4BwiIHkELc5ppVZ13/vGuGNb5r/YOirQjeq2S34wrOQT7+IOP0e/iPrOlG5iB1zXfCh2HCcb3AR6CrGzFm4uKH+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gl+bv8Gg; arc=none smtp.client-ip=209.85.214.181
+	 Content-Type:Content-Disposition:In-Reply-To; b=OmZYGYdCzO2NDMKL4tw4Ckzn6icwjYrb0snoRaA2J4rcEv6aWyqd7wtvrKyMoD4b7/N35SspJJ2oTCeTuQnSJ3iHtAwycjFOkNdWJshcaB/fTDb8XBO4ZhLfEbgVQIGgVwpCXlT8dQLd1JO28fcB0dZysduJ9ZlWjVO6MbgTiVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lEBquWKT; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gl+bv8Gg"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-220c8f38febso11584885ad.2;
-        Thu, 20 Feb 2025 00:29:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lEBquWKT"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-aaee2c5ee6eso124767866b.1;
+        Thu, 20 Feb 2025 00:36:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740040162; x=1740644962; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F56dqNOXtbjyXTzhGsxb0Jrv3YT4/cs1TT3uTV3uBp0=;
-        b=gl+bv8GgRzze0pcM0U4Tlfj9GkliBlC/cXt5H9PVx5jCcqKVvU3LO9GsL3sKRxTDSq
-         IOIMJ4aXZF1vG9B9eBYMVW29uMAi5HP5DokL19JcdcAg5nLYu1uaZlHwfmAg4jPOSMCR
-         Gmu86JAJZ42wsW8Tv2+vYiXjPUlHj89tCaD+6dCaalXr5a9gZo2VGtnc20CilRAeHDrE
-         UdOltKrl/T4SbeRMpR15/BKf296sfh4KW2DX849LuesYbY6oYlbv/GEurBPmIWsTLpQJ
-         3bJ6YjBRjUjNCxBFRGxACiKAAb2FFjnTgWTy0RkYnr5ONfDfELRyUPtgWQ0/61wQWZk3
-         ZkxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740040162; x=1740644962;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1740040563; x=1740645363; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F56dqNOXtbjyXTzhGsxb0Jrv3YT4/cs1TT3uTV3uBp0=;
-        b=PNdnbrLklP8rYBQE03E9GTBqMqQK5ru0qJ/a53Xm/IXSZ/PBnvIypTdL8wkb8aJBYu
-         ak+LANAlHi1IL8hcmW9QnosG4b9uoThfFLjD03veWcsmBGIY5MRltFdKMrhV+7uAKH/X
-         JfxJacyg1K2lLziSOGTF5mhg5AnXmX6vgFHWVL75ajQ/qmWKFMPAD4GtZvxQ3oXdrDm/
-         2WSEvNjv18gwEPUcPgkaqg57lBteaFeElX36SvqC/8/Flt2fVTV9BSxjKRVzvdC+0KM7
-         iTwD71lhiD393s5bV/uv/JieAakvNQUbp1zBIoRZgiROU4LkFJHjKhhyMuTZJKG43RHm
-         K+6g==
-X-Forwarded-Encrypted: i=1; AJvYcCVyqBI147iTC4C9cneBgqWhFYHDzlEsNWviL7AcUEWtoF0m2Srbb4rwtGNU6Xv4ZfHEIsI0cz5/prvSoO1M@vger.kernel.org, AJvYcCWdf6oiJKSzyLfdNwg5dWcSagBkzrCIN4ALTzmll8NzIq6vNjhAveygbarF5qJcEFtVGyS8K2mCLUKf@vger.kernel.org, AJvYcCWjalGba73DTVFwYu2VVKZGNV4vgipKTfTu+MvlWUXyT8k/NJ0aAbQw/T4ilpFDu8G+MMJa4pHGOtQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCgnV0qOkGbWJ7u8xHof2AISi0wClwtSGXz3mg8seyWHEPdjhl
-	35/iFveIm9dc4yfMg7+K3ybojNdmdifp4Fds6V0IQnLNmBqU8znY
-X-Gm-Gg: ASbGncsu65TxpLfuRFI8rBBQYXNNjcfIciSYNbcQbCO831nlA0J35tcRbRpnZHB5ytJ
-	YZQyJj+nd7epVq9G8hM0waXnfvDi+vJ+N6CkU6nYZ+pwHjbqAaX5GXvJAxgXuxsofPmO0f6f+np
-	B+Uu/FMukipn9fs5OyyHq5RFgo8BeuDMhB5ddnBomzWnS+Jb25gPZ4N47uJdh3mVvsa0adsRgXM
-	gEVdVd0nyMjz1tn5YgyNl6INK40Jxw2vUzRPFRdBe+DacNSmCjqImdYMkqwkEOnT1EmlmogM2un
-	ws1LI4ZgYORQVe4=
-X-Google-Smtp-Source: AGHT+IEFoRMxUuPJ5Gn8TKY4GqpAz7yGpt5G5frKd4twOqJcw5bSWSYR4ZnKTlEykRD6+ahXb9c8GA==
-X-Received: by 2002:a05:6a00:190e:b0:730:79bf:c893 with SMTP id d2e1a72fcca58-73417248c3emr2609762b3a.4.1740040161695;
-        Thu, 20 Feb 2025 00:29:21 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-732532ce7f1sm11296452b3a.73.2025.02.20.00.29.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 00:29:20 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id B98EA4208FB6; Thu, 20 Feb 2025 15:29:17 +0700 (WIB)
-Date: Thu, 20 Feb 2025 15:29:17 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: jic23@kernel.org, lars@metafoo.de, corbet@lwn.net,
-	dlechner@baylibre.com, marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v4 1/1] Documentation: iio: Add ADC documentation
-Message-ID: <Z7bn3TEC4faXbzEj@archie.me>
-References: <e6ac2a595f06ba2d5ff0eb86e5895479c9dd797f.1739998491.git.marcelo.schmitt@analog.com>
+        bh=SEaHAsDM2MLSNpt7MvRkD4rjd16wxN3bWpPMinYr6Xg=;
+        b=lEBquWKTdixtltA15hhm18jZYNX6B9IlErqxHdkIg35tfxy0MFkhsrRWll8gGs4brv
+         obwSbGZR/GQNZU+O2jLaueBh9wfFRww/SaO8jg0PSuJC5Mxd2rzy7VJZFv2DyeCnNg0j
+         RxUoja5KjrKx3cF7dTUULSFvmGkq0crtIS06T8Sv3uSY2iYVGJw/bttc2Hn6RfMP8yXk
+         Xayomqa90ATbfo2GindG+r8U021pIUAAAcx/WBTdqLv/wQLVTy6r01n/hPZH95puYlgw
+         5jcKdzBjzBGBObZep7PfDP1vxGS4GxRB5OF3kD3vFVzyUavGli1N/zd4bbQ4FnX5D4ct
+         QK1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740040563; x=1740645363;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SEaHAsDM2MLSNpt7MvRkD4rjd16wxN3bWpPMinYr6Xg=;
+        b=UT7zQfin+9oEKDCYXBWMD5ppRLPJVp0AWUaDo6n78yMl4+ceG6UMJEa3ib3UznK6WD
+         xB9dbrqsiGkgVKf/pjkbk7vhgk+j2c7xCDHs6mN0UhmuLFXsmlxXVE5kDBzldSuzAVNA
+         fykeiJib1Jq92ZaizJQgUySUGxv9lqNc4yBXf4cLNMDQR2gLixA503mW7h+fo86UrIgs
+         w38f0n6ZrWe9DTdvmSEpSitCpM7WVRJMPW9SV4yOIC/jIU4oWwxCDaDhDsGTRk6ZJlQj
+         P64igDqvYl5hCQYWZHEDstErYI7lz0GanXLnTLJIsfst886CTyfQrTAZbxuh1akNAQaP
+         URvg==
+X-Forwarded-Encrypted: i=1; AJvYcCWYarqlMvswyZ8tYCuVMkpmAxyO6ag5Tq8nDcR18CgWPMvVlZNOw2YRvy3DKx6D3jT9lSoEe19socEO@vger.kernel.org, AJvYcCWrc0aPjj1UFIloZI4u3uMRWvnHnDmIy2zibWJcN/ZdXqRG7F2JqGhhrdMoPpAG1rgUcPihwOJDFinK7ZRB@vger.kernel.org, AJvYcCXJ5XLnibiGLk6j0zbl5TnH0NDYtAgIHJJsfBZrXoWXGJdihVJ+qMw/jC06W9NHqvuXPFcINrJThxJ7@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiOUS24HGKkDbY4Uc1vb2OXcThBIWiaYho3vNiCEUCYmsPOULx
+	peZr9Nzde7RDj70Jn9GEmXlEvCnk2rpXpBJIk387stSAkBQVmCq8
+X-Gm-Gg: ASbGncukNjSTJO/K3hkgdmEuLm8YKXbYjjL9xsXUYa3WJLEWzLDkZ9e4OdfL04Q6ZNa
+	CqGZ+Mubt1ijNWnI5xOF5pwQfsnN52DPkGz6I9OWFsDrISYznclC9pKmLtGW1G87E0Ku/WsW0FK
+	z7Ry3dCHoHSAgGkJjSj1VgAmGj9BHqMv7YS0ARr2L5c23K4+zp2PnRYXmY4lZE8tD8aPfIOV5Sd
+	WmDUi2QmQmMd9C0MAV8i6bAj5IIAxdrCohEMGHiVJdRGJUelGZdb9GtWNXi62SnAYWj/SjictAP
+	PBuGMo/p/Z+rqxk=
+X-Google-Smtp-Source: AGHT+IE9Q2O6cgNo6w+VEkK3+GcOBd0W7VIAg8ovqvSo1Dx6kdse3rC3i3ABuRQoN+lqO1U9Ke9Kyg==
+X-Received: by 2002:a17:907:60d6:b0:ab7:f0fa:1340 with SMTP id a640c23a62f3a-abbcd0b2d3dmr769569466b.50.1740040562436;
+        Thu, 20 Feb 2025 00:36:02 -0800 (PST)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb86c9320csm915498766b.55.2025.02.20.00.36.01
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 20 Feb 2025 00:36:01 -0800 (PST)
+Date: Thu, 20 Feb 2025 08:36:01 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
+	Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Pratyush Yadav <ptyadav@amazon.de>,
+	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v4 01/14] mm/mm_init: rename init_reserved_page to
+ init_deferred_page
+Message-ID: <20250220083601.4p6ehmfhyvs5q5io@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+ <20250206132754.2596694-2-rppt@kernel.org>
+ <20250218145904.x57chhz3whvckzu3@master>
+ <Z7WEktyNoCPylytL@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fA1JDFFS27HEYYIl"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e6ac2a595f06ba2d5ff0eb86e5895479c9dd797f.1739998491.git.marcelo.schmitt@analog.com>
+In-Reply-To: <Z7WEktyNoCPylytL@kernel.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
+On Wed, Feb 19, 2025 at 09:13:22AM +0200, Mike Rapoport wrote:
+>Hi,
+>
+>On Tue, Feb 18, 2025 at 02:59:04PM +0000, Wei Yang wrote:
+>> On Thu, Feb 06, 2025 at 03:27:41PM +0200, Mike Rapoport wrote:
+>> >From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>> >
+>> >When CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, init_reserved_page()
+>> >function performs initialization of a struct page that would have been
+>> >deferred normally.
+>> >
+>> >Rename it to init_deferred_page() to better reflect what the function does.
+>> 
+>> Would it be confused with deferred_init_pages()?
+>
+>Why? It initializes a single page, deferred_init_pages() initializes many.
+>
 
---fA1JDFFS27HEYYIl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+See below.
 
-On Wed, Feb 19, 2025 at 06:00:56PM -0300, Marcelo Schmitt wrote:
-> +For a **single-ended bipolar** channel, the analog voltage input can go =
-=66rom
-> +-VREF to +VREF (where -VREF is the voltage reference that has the lower
-> +electrical potential while +VREF is the reference with the higher one). =
-Some ADC
-> +chips derive the lower reference from +VREF, others get it from a separa=
-te
-                                                  "... obtain it ..."
-> +input. Often, +VREF and -VREF are symmetric but they don't need to be so=
-=2E When
-> +-VREF is lower than system ground, these inputs are also called single-e=
-nded
-> +true bipolar. Also, while there is a relevant difference between bipolar=
- and
-> +true bipolar from the electrical perspective, IIO makes no explicit dist=
-inction
-> +between them.
-> +
-> <snipped>...
-> +In the ADC driver, ``differential =3D 1`` is set into ``struct iio_chan_=
-spec`` for
-> +the channel. Even though, there are three general input types, ``differe=
-ntial``
-> +is only used to distinguish between differential and not differential (e=
-ither
-                                                   "... non-differential ..=
-=2E"
-> +single-ended or pseudo-differential) input types. See
-> +``include/linux/iio/iio.h`` for more information.
+>> And it still calls __init_reserved_page_zone(), even we __SetPageReserved()
+>> after it. Current logic looks not clear.
+>
+>There's no __init_reserved_page_zone(). Currently init_reserved_page()
+>detects the zone of the page and calls __init_single_page(), so essentially
+>it initializes one struct page.
+>
+>And we __SetPageReserved() in reserve_bootmem_region() after call to
+>init_reseved_page() because pages there are indeed reserved.
+> 
 
-Thanks.
+Hmm... I am not sure we are looking at the same code. I take a look at current
+mm-unstable, this patch set is not included.  So I am looking at previous
+version with this last commit:
 
---=20
-An old man doll... just what I always wanted! - Clara
+  8bf30f9d23eb 2025-02-06 Documentation: KHO: add memblock bindings
 
---fA1JDFFS27HEYYIl
-Content-Type: application/pgp-signature; name="signature.asc"
+Here is what I see for init_deferred_page()'s definition:
 
------BEGIN PGP SIGNATURE-----
+init_deferred_page()
+  __init_deferred_page()
+    __init_reserved_page_zone()   <--- I do see this function, it is removed?
+      __init_single_page()
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ7bn3QAKCRD2uYlJVVFO
-o8LZAQCJ0CV0EgB3xzpRqTrsSdpxkbgQtEVnJBOYnClg5YanjwD9EJheU0XodKN1
-1i648/jd8fjfBIgI+eEMegqo/YXBqA4=
-=fjkf
------END PGP SIGNATURE-----
+What I want to say is __init_deferred_page() calls
+__init_reserved_page_zone(). This sounds imply a deferred page is always
+reserved page. But we know it is not.  deferred_init_pages() initialize the
+pages are not reserved one. Or we want to have this context in
+__init_deferred_page()?
 
---fA1JDFFS27HEYYIl--
+>-- 
+>Sincerely yours,
+>Mike.
+
+-- 
+Wei Yang
+Help you, Help me
