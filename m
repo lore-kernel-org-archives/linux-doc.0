@@ -1,113 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD76F1E2848;
-	Thu, 20 Feb 2025 17:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5602E213E60;
+	Thu, 20 Feb 2025 17:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740072257; cv=none; b=dhEVpfDkQ3q3qqleO+/Q5hY/ZbYzFypNh2kvCbekJDR1Al9K67pcoZMUHNbim3FGjjalUxs7SQn6y37cgov7IxT2pRDNismoLairDrwobUbT2pNuV/s76HUu1nl4K2EOOEzIRw7726pcuXSrTE0O4tV5gv4KxNRnODoKbUR7/b4=
+	t=1740073576; cv=none; b=pKO3wNSSU3Xlss9F+VBI8pBBraDFSlHLKjRqQ4LRkTTw0ckj4yWeFRCYPQnx8Tgx5TmsnTW/j15P4e052sJSnzJlZhGtRnUMJdt/1INEEzKHSD3qDILa+TI7koN54oDLUCgTNmT8b/ZGVORsVsAfx8581dH3ne1qBrUWvS1Nbp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740072257; c=relaxed/simple;
-	bh=0vTN9kKsGessHSXK1lGUwEF13I3IstE4YbEVN7z6DeA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MS+l5GNFXsLdf0nPQIxIPGNORvt/zk4a/I7pf/IxwJqe6mIcL9hG1kLP2cp6tq9J8uDWTceBaB/v2IzTPzwA37BiUl06u/R8s3+93WDo2PGf4ixZmD5Ca2f5zPe7r5DQypWcbSCpuCnDlITiIuQKLtacw9CanNI39WM96QnIGM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F9lrXfLo; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F9lrXfLo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 343D3C4CED1;
-	Thu, 20 Feb 2025 17:24:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740072256;
-	bh=0vTN9kKsGessHSXK1lGUwEF13I3IstE4YbEVN7z6DeA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=F9lrXfLoGKdONQDtLR43hvtGmLom/4cETRb9HKRvYXfvtFGfPuB16JSU+eQDALYlt
-	 D4CkkHb1drhep3lxmYtX80KPSknuY2OlDgVJXUN5cOHSTwYBUsoJNOA8dz3Y0T9HRi
-	 nxfEqVhfKxuJLeNDR1p+nwJ8VxR21jKCDY5p4n12JUT5HnvGyYuDnCVV4d0dSjOz9j
-	 G8KFmasxukad5p+neYT67aQ1OiZ7LEi255kov736QD/de0+sW9+lno55E4djrkX4iV
-	 OmFJCaZEX2cp3y6l5gLt1gJ7LV3pl5jfg6NpIl4IGmvrc3GCS9YF/IRFJbxLWEV/9g
-	 t8LcST/cB8zOw==
-From: SeongJae Park <sj@kernel.org>
-To: Honggyu Kim <honggyu.kim@sk.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	kernel_team@skhynix.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	kernel-team@meta.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 0/2] mm/damon: introduce DAMOS filter type for unmapped pages
-Date: Thu, 20 Feb 2025 09:24:10 -0800
-Message-Id: <20250220172411.41010-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <93792bf7-9507-474f-a8b0-ccd4d59742dc@sk.com>
-References: 
+	s=arc-20240116; t=1740073576; c=relaxed/simple;
+	bh=K8pF/ngKr2xu3Uv+T441vpPH49v2IpaOUXbkcMyrnao=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RkS5ia7ETgJCPU4ypckoQLU7VstyglFtCScKj4f9YxSlNaeZXTCN7CEnUNapKKfiFIgv7VRcMOB6a4ApTssyQppU7YCvObSj+E1JNYAFmhJHnUm7IHVP3ZE7ycbf7tOoxM4cvYi+RMfFMe/dThlL0XrCBLTa8it0Nvbz0WUvtSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 812E116F3;
+	Thu, 20 Feb 2025 09:46:31 -0800 (PST)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C4D8A3F5A1;
+	Thu, 20 Feb 2025 09:46:08 -0800 (PST)
+Date: Thu, 20 Feb 2025 17:46:06 +0000
+From: Dave Martin <Dave.Martin@arm.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Peter Newman <peternewman@google.com>, "Moger, Babu" <bmoger@amd.com>,
+	Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	tony.luck@intel.com, x86@kernel.org, hpa@zytor.com,
+	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
+	rostedt@goodmis.org, xiongwei.song@windriver.com,
+	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
+	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
+	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
+	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
+	mario.limonciello@amd.com, james.morse@arm.com,
+	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
+	eranian@google.com
+Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+Message-ID: <Z7dqXlOMsw7Kb8F2@e133380.arm.com>
+References: <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
+ <Z64tw2NbJXbKpLrH@e133380.arm.com>
+ <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com>
+ <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
+ <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com>
+ <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
+ <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com>
+ <CALPaoCj1TH+GN6+dFnt5xuN406u=tB-8mj+UuMRSm5KWPJW2wg@mail.gmail.com>
+ <2b5a11e3-ee19-47ba-b47e-b7de2818f237@intel.com>
+ <Z7dccLOTPzySYTXL@e133380.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z7dccLOTPzySYTXL@e133380.arm.com>
 
-Hello Honggyu,
+Hi again,
 
-On Thu, 20 Feb 2025 16:45:56 +0900 Honggyu Kim <honggyu.kim@sk.com> wrote:
-
-> Hi SeongJae,
+On Thu, Feb 20, 2025 at 04:46:40PM +0000, Dave Martin wrote:
+> Hi,
 > 
-> On 2/20/2025 7:01 AM, SeongJae Park wrote:
-> > User decides whether their memory will be mapped or unmapped.  It
-> > implies that the two types of memory can have different characteristics
-> > and management requirements.  Provide the DAMON-observaibility
-> > DAMOS-operation capability for the different types by introducing a new
-> > DAMOS filter type for unmapped pages.
+> On Wed, Feb 19, 2025 at 09:56:29AM -0800, Reinette Chatre wrote:
+> > Hi Peter,
+> > 
+> > On 2/19/25 3:28 AM, Peter Newman wrote:
 > 
-> I asked it before at https://github.com/damonitor/damo/issues/13 about
-> monitoring unused paddr area but I see this patch series is related to
-> applying DAMOS action.
-
-My understanding of "unused" memory that you mentioned is memory that not
-allocated for user data.  This memory cannot get accessed by user, so DAMON
-treats this memory as always not accessed.
-
-"unmapped" memory I'm saying about here is memory that not mapped to userspace.
-For example, unmapped pages in pge cache.  This memory can be accessed, for
-eaxmple through page cache using read()/write() like system calls.
-
-So I think this is not really related with the GitHub discussion.  Please let
-me know if I'm missing something.
-
+> [...]
 > 
-> Regarding that, do you think we can skip those unused memory area using
-> this filter before applying DAMOS action?
-
-So, no.
-
+> > > In the letters as events model, choosing the events assigned to a
+> > > group wouldn't be enough information, since we would want to control
+> > > which events should share a counter and which should be counted by
+> > > separate counters. I think the amount of information that would need
+> > > to be encoded into mbm_assign_control to represent the level of
+> > > configurability supported by hardware would quickly get out of hand.
+> > > 
+> > > Maybe as an example, one counter for all reads, one counter for all
+> > > writes in ABMC would look like...
+> > > 
+> > > (L3_QOS_ABMC_CFG.BwType field names below)
+> > > 
+> > > (per domain)
+> > > group 0:
+> > >  counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> > >  counter 1: VictimBW,LclNTWr,RmtNTWr
+> > > group 1:
+> > >  counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> > >  counter 3: VictimBW,LclNTWr,RmtNTWr
+> > > ...
+> > > 
+> > 
+> > I think this may also be what Dave was heading towards in [2] but in that
+> > example and above the counter configuration appears to be global. You do mention
+> > "configurability supported by hardware" so I wonder if per-domain counter
+> > configuration is a requirement?
+> > 
+> > Until now I viewed counter configuration separate from counter assignment,
+> > similar to how AMD's counters can be configured via mbm_total_bytes_config and
+> > mbm_local_bytes_config before they are assigned. That is still per-domain
+> > counter configuration though, not per-counter.
 > 
-> I'm not sure if the current DAMOS tries pageout/migrate action for those
-> unused area because they are detected as cold area although those will
-> be imediately skiped inside action scheme.
+> I hadn't tried to work the design through in any detail: it wasn't
+> intended as a suggestion for something we should definitely do right
+> now; rather, it was just an incomplete sketch of one possible future
+> evolution of the interface.
+> 
+> Either way these feel like future concerns, if the first iteration of
+> ABMC is just to provide the basics so that ABMC hardware can implement
+> resctrl without userspace seeing counters randomly stopping and
+> resetting...
+> 
+> Peter, can you give a view on whether the ABMC as proposed in this series
+> is a useful stepping-stone?  Or are there things that you need that you
+> feel could not be added as a later extension without ABI breakage?
+> 
+> [...]
+> 
+> > > I believe that shared assignments will take care of all the
+> > > high-frequency and performance-intensive batch configuration updates I
+> > > was originally concerned about, so I no longer see much benefit in
+> > > finding ways to textually encode all this information in a single file
+jjjk> > > when it would be more manageable to distribute it around the
+> > > filesystem hierarchy.
+> > 
+> > This is significant. The motivation for the single file was to support
+> > the "high-frequency and performance-intensive" usage. Would "shared assignments"
+> > not also depend on the same files that, if distributed, will require many
+> > filesystem operations? 
+> > Having the files distributed will be significantly simpler while also
+> > avoiding the file size issue that Dave Martin exposed. 
+> > 
+> > Reinette
+> 
+> I still haven't fully understood the "shared assignments" proposal;
+> I need to go back and look at it.
 
-This is the current behavior.  DAMOS will try to do whatever action to whatever
-region if requested, see the action is not applicable to the page, and move on
-to the next page.  Please note that filter-based page level skipping is not
-that different from the page level action applicability checking.
+Having taken a quick look at that now, this all seems to duplicate
+perf's design journey (again).
 
-If you know where "unused" memory located, and you want to make DAMON/S
-entirely ignore it, you could use DAMON target address range, or address range
-type DAMOS filter.  I'm not sure if this is what you're looking for, though.
+"rate" events make some sense.  The perf equivalent is to keep an
+accumulated count of the amount of time a counter has been assigned to
+an event, and another accumulated count of the events counted by the
+counter during assignment.  Only userspace knows what it wants to do
+with this information: perf exposes the raw accumulated counts.
 
-My understanding of your concern about "unused" memory on the GitHub discussion
-was more about adaptive reions adjustment efficiency.  I recently posted[1] some
-ideas to improve the mechanism.  Any feedback about the idea will be welcomed
-and help prioritizing it.
-
-[1] https://lore.kernel.org/20250213222303.244724-1-sj@kernel.org
+Perf events can be also pinned so that they are prioritised for
+assignment to counters; that sounds a lot like the regular, non-shared
+resctrl counters.
 
 
-Thanks,
-SJ
+Playing devil's advocate:
 
-[...]
+It does feel like we are doomed to reinvent perf if we go too far down
+this road...
+
+> If we split the file, it will be more closely aligned with the design
+> of the rest of the resctrlfs interface.
+> 
+> OTOH, the current interface seems workable and I think the file size
+> issue can be addressed without major re-engineering.
+> 
+> So, from my side, I would not consider the current interface design
+> a blocker.
+
+...so, drawing a hard line around the use cases that we intend to
+address with this interface and avoiding feature creep seems desirable.
+
+resctrlfs is already in the wild, so providing reasonable baseline
+compatiblity with that interface for ABMC hardware is a sensible goal.
+The current series does that.
+
+But I wonder how much additional functionality we should really be
+adding via the mbm_assign_control interface, once this series is
+settled.
+
+Cheers
+---Dave
