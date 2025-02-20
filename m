@@ -1,190 +1,174 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2060.outbound.protection.outlook.com [40.107.244.60])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2E11A7264;
-	Thu, 20 Feb 2025 06:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740034143; cv=none; b=SXCn+LnXkQ+jRuh4yu8MTUijTK7ha7rUPV91Y066Nby/j13tKH0QfjDvMnsE29JJt9lf6T0C5slJEnC/PcJVEc2pdHRMIaehacn9Vfyz4Yx18NJDzDwvkzUgWezdjxPZZbVSbSqXnI9VuZ7ZB/m60pgRs3SNqXIlo++Hgrvqlrc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740034143; c=relaxed/simple;
-	bh=RXuv1mNf1i0mGEypE2/C9HcWQKV1YPHTperFuSc9gZo=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=WUzBJiubKqgyAxJNMHvMDLy/O61bsIeBjI1WbjU7nyf7+5bVo66w8YNRkA4qVZANPr6372O4uYM4ly+k8U+JbSQ5wrakd6Adr71Un/O/cG/Gc6sm7DSmqE2f7RPX+TfrV/rJeYMp1pJWYDXGi91GB7Svdvw7T15OXctcHeWNoxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IyYobT8U; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26A81E98F9;
+	Thu, 20 Feb 2025 07:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740035597; cv=fail; b=ZcTBzBmtzu0jT7zPQ+cx5u4e6syqCsBAsn7NCizEvtdWvBhU7zFau3gX2qvWcrpk9QaXopE3QMEfJDZBX+qc1ZXB0OJjdJc2s4H6bcnvWo3WG1lVVlphM1/dizvyaYTWurrzJN5CxkrtjbMNV59qik/VHWn0EFYP18lDJpFgdIU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740035597; c=relaxed/simple;
+	bh=lN2KkDCbVWYS3MtyBC95rm6eIta+GSq2qfH2+HUZAI8=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hRkuQG1D6J4lof23lStYR+eAN9pLBjOhhAjYJT86t4rAGxuiEPQD31sLvu1UWCGxztfK9RXaicl0LJ4KB6e2GU2dYYa8iGsE3FgaCuzk7W/GuH3gCxr9b4Jhf1qaQlY4NUhsatZJEDGygbpCrb8bs1+5JF+Rzcu8NVI+FN2rFLg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=J3mG4KrV; arc=fail smtp.client-ip=40.107.244.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IyYobT8U"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6e66b4607d2so2716246d6.3;
-        Wed, 19 Feb 2025 22:49:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740034140; x=1740638940; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2uKvxt+mJbyazxO0QGo+W1meZjuhFb9UqGB1qlrypOU=;
-        b=IyYobT8U3MJxp6XU2twoNPsGoYe2nU+4FWUeCpdWIKSeBaY+3mA/OO89RqisAllGeT
-         e5Hgu5Vxkw5Ph+2hbLzKsFkx+iwz+7mLyhKDIpC4qzNEl2/vJEbOkYeZVfG95n6XW2Ld
-         a0UpeovrHJ7+BtwohNk/SxCUZ3hL1AJdEaIDUdkZVcccO4ctC8FzodPK6wC/6bthGi+O
-         vchB8iG8/pqamUzQgkMGSpyYwRHdJOa7bYXmDuON8f6VzPJ8aIC7Mt1uj6jsUUfkHAAy
-         /i2qr7ruMgny0SxbpS1HQBVzHlsBTu6k1fwAxYhzV82v15x2TIO7APMUahblGA+gPF41
-         nEzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740034140; x=1740638940;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2uKvxt+mJbyazxO0QGo+W1meZjuhFb9UqGB1qlrypOU=;
-        b=DCxemrRtNGRp7SeebwRi1IADCb68b1Hf0X66sl8MTTE7qvaeNniCRGbA0mAaAwq5z6
-         C4ObF4zgLR9crq1FabI0Y9mIYJ9Z+ZTLv5IF16+lSZEb5KhnFE4EiCrO5hA3fEqL1puT
-         vzQQ8kWoQYkEpyTxTVTJkyrur8SJlxKPiVsRaBRVUuUi/5AI+LEY/SzSbOUXBdfNo5jM
-         0kyahaLtSon9H7MhBsa5Kcya+t1Y+9e59pA9gFZ4uJl9mQCVKZv8fQVMSjCfUYC/jyf1
-         nt2UfLd5A8H3LPNvA0mCvasL2MTcYnyw0FcsFPbBpankthJ3XXajH+nyHZUk0onG+TL8
-         qFTw==
-X-Forwarded-Encrypted: i=1; AJvYcCWfLFYLmzCR5470V3ZUXng57TVFftgn9a3E/KIHxnpIJx64ZtYPd+bQ/OBSeo2cnI8n7EyFVDWd1IzckjjbMIukAHXd@vger.kernel.org, AJvYcCWv/6VnIpU0NHFnhts+/BXUa8nL/EXEOnF0Fd+O0rRq1gBM2gZmwlaTQcthwkz9+fjRR2viK7JfVPrXcMyE@vger.kernel.org, AJvYcCXszV1d3VvnyfDxzb4fyGQCIsKXBIjGpezJrVexMMBirLGP6o3+ycONSy+4ai87gOaX31Dg393HfHM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyy5c99t72N9xT/c7xnn0JujfIHHn3M/yM4cqsH3yVGjV9z8piL
-	WV1YQIL65dtuVYL5MUEKlTqsb8vpeR+5X9L7bNv/yNbBtlPePz06
-X-Gm-Gg: ASbGncsOr+yjAwhWcBzIuVPeKpVwurp6P/dzXZmMp1KW5qE393r3qwN6FKX37I5DaR9
-	g4T6zVNBsFzpu1cBlFyvfX01i/bmdKtmwY0ge6t+NWU5PekDIM8xcZLGgvGHb7mqcEN58A1HTkJ
-	dRzez6R+T9v/nW4uSIODIpWJK89YJ4nAEvOg12eb07vSkDeJtmkDi0N3F3zwu8n0ciC1OSP8DIy
-	Q61Weu4TA8WJErxpxjqCGi+9Y6j5Bv6vQNP2ForOYr6dgnau0bQ9Elib3n0sB8GIVrPh+0kc7WS
-	2dKMC0v7/v2VPy0EIQnelO48
-X-Google-Smtp-Source: AGHT+IGCq/y9+Yj+s8qvVXqp6rh0Jfx2VhsqCqOW8/zizQH9jsIt1c23sdo+f6ZKThqz1A6xS1DRSg==
-X-Received: by 2002:a05:6214:2122:b0:6e6:6417:aacd with SMTP id 6a1803df08f44-6e69752563amr98239486d6.22.1740034140186;
-        Wed, 19 Feb 2025 22:49:00 -0800 (PST)
-Received: from smtpclient.apple ([202.8.105.115])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e660f65c5csm77095846d6.117.2025.02.19.22.48.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Feb 2025 22:48:59 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="J3mG4KrV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OupMGrvggHDBQxDH6HE6PQ8tWW3zUyRiTfb5D/GfQBBjE64omFeFjMWHbNTwCr7Sxp0CIc0Ry09JZ2g4yelbDWctUtu2nQYghVFbTZop58NoeX0HegKlMnwX1/4HgmcBumjRfShcR1DPkuv9prQtURqHpxMxs7Dx7u3TkIH61gkcgEyUobdp68ydCA79T9lUITJx3VfE2lNJ8AE2eNZx+gD6aXvdW8FjxRgPmfFmoGkoF8eOoEcSkPTOpN0roiWSKSzTopffxqoiYiI+r+0212PIY5vVyj4KsA5fBjbUH2dPXlGTQ1Ccc51qCTCh/wj1H7lrAm4aVwxyOlTDYYJe0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7yxK95LnRbROa6bs/D1NakOTn74GT6H8mhuoPMhcoHs=;
+ b=vNQrd3KUmg/bAhv0ZnBG5rATEiyFKnJlwfa4ixvGOgsuiZcp2xUCtBe+mMS22s9pB1OzfVuBGsJExKglxdYJsBlytqY6TKqzGheOwsQnx6fqaoFGy+6bnCesckA8YnhBFgYy0q2Z+vokLFyVYdYYcx2Psceatf+d9uqu1gP7GrNbRoxEy5fYsAV/jaQtZ5O3Ma+HRrkMip2nDG3kYQuIr5y4aJbItCqLmvPTjwqPqJ4Dz3yLSgPzPsHaoMbFSgMlW8uBH+6GmyjHQwx6TWWj5wkeL8WvZGJiCqXysydjh/O5yYu/MLI+bJd085wfUYQZps1qukv5NqEgFL7l/gWi3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7yxK95LnRbROa6bs/D1NakOTn74GT6H8mhuoPMhcoHs=;
+ b=J3mG4KrV95dXB5pbbZe2ooZzS3Xa/2bjqhk3asyb5QqEI4CHMfjxxJNQBIsoy/td1DmtOSDCuLi8Ln2w8aC4ujdhNl1Ux8NQaSpf0bSvRA4ClMSgXPaRPKYJ8RMfA8xz0aBYdvwFH/AOFatyCHlWPMVUooG3s7R2mdSjkI5/r/Th0bqyrGrvrAxKz3qANcbOlK7qIZlsL6/1bLS7UHQ5z98td7N/5HLRJug6tZNxCv+yAOKMA/kVRQrtqHnl8DV2xMZLgRd2T8HpFFluQqNqY1LrxcZ1is8RRJFKZFps5HISwm5OyqTe/bnjDC1RBmQivTSiPsVhqE2rNGnsgVrc4A==
+Received: from SJ0PR03CA0250.namprd03.prod.outlook.com (2603:10b6:a03:3a0::15)
+ by PH7PR12MB6537.namprd12.prod.outlook.com (2603:10b6:510:1f2::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.16; Thu, 20 Feb
+ 2025 07:13:09 +0000
+Received: from MWH0EPF000A6731.namprd04.prod.outlook.com
+ (2603:10b6:a03:3a0:cafe::4a) by SJ0PR03CA0250.outlook.office365.com
+ (2603:10b6:a03:3a0::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.14 via Frontend Transport; Thu,
+ 20 Feb 2025 07:13:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ MWH0EPF000A6731.mail.protection.outlook.com (10.167.249.23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8466.11 via Frontend Transport; Thu, 20 Feb 2025 07:13:09 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 19 Feb
+ 2025 23:12:53 -0800
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 19 Feb
+ 2025 23:12:53 -0800
+Received: from Asurada-Nvidia (10.127.8.10) by mail.nvidia.com (10.129.68.7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Wed, 19 Feb 2025 23:12:51 -0800
+Date: Wed, 19 Feb 2025 23:12:50 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Pranjal Shrivastava <praan@google.com>, "Tian, Kevin"
+	<kevin.tian@intel.com>, "corbet@lwn.net" <corbet@lwn.net>, "will@kernel.org"
+	<will@kernel.org>, "joro@8bytes.org" <joro@8bytes.org>,
+	"suravee.suthikulpanit@amd.com" <suravee.suthikulpanit@amd.com>,
+	"robin.murphy@arm.com" <robin.murphy@arm.com>, "dwmw2@infradead.org"
+	<dwmw2@infradead.org>, "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>,
+	"shuah@kernel.org" <shuah@kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "iommu@lists.linux.dev"
+	<iommu@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "eric.auger@redhat.com" <eric.auger@redhat.com>,
+	"jean-philippe@linaro.org" <jean-philippe@linaro.org>, "mdf@kernel.org"
+	<mdf@kernel.org>, "mshavit@google.com" <mshavit@google.com>,
+	"shameerali.kolothum.thodi@huawei.com"
+	<shameerali.kolothum.thodi@huawei.com>, "smostafa@google.com"
+	<smostafa@google.com>, "ddutile@redhat.com" <ddutile@redhat.com>, "Liu, Yi L"
+	<yi.l.liu@intel.com>, "patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: Re: [PATCH v6 14/14] iommu/arm-smmu-v3: Set MEV bit in nested STE
+ for DoS mitigations
+Message-ID: <Z7bV8q8h5ssgiucv@Asurada-Nvidia>
+References: <cover.1737754129.git.nicolinc@nvidia.com>
+ <436ac2021bb3d75114ca0e45f25a6a8257489d3b.1737754129.git.nicolinc@nvidia.com>
+ <BN9PR11MB5276291C74E2DF0C8821BE718CFA2@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <Z7TOq-gIGPY_ztW7@google.com>
+ <20250218185229.GL4099685@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [PATCH 0/2] sched: Refine scheduler naming for clarity and
- specificity
-From: Jemmy Wong <jemmywong512@gmail.com>
-In-Reply-To: <20250219172443.5a78401d@gandalf.local.home>
-Date: Thu, 20 Feb 2025 14:48:41 +0800
-Cc: Jemmy <jemmywong512@gmail.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Mark Rutland <mark.rutland@arm.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Ingo Molnar <mingo@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>,
- Valentin Schneider <vschneid@redhat.com>,
- linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <EBFD5AF7-8B9D-480E-9A01-74898E4EBC60@gmail.com>
-References: <20250219182020.393006-1-jemmywong512@gmail.com>
- <20250219172443.5a78401d@gandalf.local.home>
-To: Steven Rostedt <rostedt@goodmis.org>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250218185229.GL4099685@nvidia.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6731:EE_|PH7PR12MB6537:EE_
+X-MS-Office365-Filtering-Correlation-Id: d04b840c-62e6-42f8-3303-08dd517e07b6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|82310400026|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?5758ZJEftm8fwVsfK1Gn2dnNq/fSlRW8zzQSxQ7HOP0txiw23IyaVbYlLit4?=
+ =?us-ascii?Q?g6bH+G3k0r/O+PKiqJFelUx3PH0v1FWOTTsnbLBO1Ulu/YoGQ0L3owozGyBm?=
+ =?us-ascii?Q?JSPiH/ePqSo9FrdGjolvPiOVibXbSwPTA34ZyOtQMtIFBOkTa3+TpchZX6Cq?=
+ =?us-ascii?Q?k0SNqRRGdij8aPjKt1xEAiw/2cdxo38u4NKuFNmPMUVddFFDurIZcuAnMsXN?=
+ =?us-ascii?Q?N2PAKW325NngwrOXlOYoDl6S3x5UYOCxBp1s+3hdGumUxwHconT5IsFmQfdy?=
+ =?us-ascii?Q?N4IT8yJLTzPg/ux+fzR9LFnPlabmC3pgE1xGvkbj/VRxeXVMIJAfFrKX5Yro?=
+ =?us-ascii?Q?upsL0QUXZncgzp/SvyWe80EL++Csd9v/VoHRfNgctZt17YvOKtmAOHJ+pKRG?=
+ =?us-ascii?Q?MuMLMXT7Zv5uf/eQZkwIapbbTyzFJud6duhcqE7cDvMGB3ob1NXPPi5xx+WS?=
+ =?us-ascii?Q?OXKJIo+dEDqbx8wM//cWtQwYf8RjLa2MOXigcOPAScHK26AXYMoJ04wyOJjQ?=
+ =?us-ascii?Q?NctMMMLdkhVm3nDYSnK3Hc5p842EaAkf83B1pGm4B54JiMb9q5FPRc8Kqyqw?=
+ =?us-ascii?Q?jg6RXeLS04cS03R9VSeclKDo+nkh6IUAlvUCaGoARI+AsZ/43oweaBymntLc?=
+ =?us-ascii?Q?D3I1LgCumEI1sJjoNe285DUeolQGWX+xzslUqzU20s/U80ctzflcUV6dHEKm?=
+ =?us-ascii?Q?nB4OaSwrkzl0x34eO9tTF+f8Tia9JE+pNT9a8VG4VUCDC8VtF+8THz/ql8LR?=
+ =?us-ascii?Q?oSKJsGAo7FdxjQSe9CRnyNNQro8r/WkFoOu1/1Tz64vlgGfdAoaN362e7bYi?=
+ =?us-ascii?Q?XHnJthapHvoRsId2VMk3guL/j2t7NESWNARB1wiZBkuCjVHG71CO3rUeYQWW?=
+ =?us-ascii?Q?ER/l1tHykYwDPrEb2RSN68ferelqiKWEJfeKDLtTkTpU3yjVcRDXuKk2TjdI?=
+ =?us-ascii?Q?+SflfPkumaTpRYmhWaod94l7Q3wcHcKRisuf9tS0TxO4+yoC7ps/CAJ+B5TU?=
+ =?us-ascii?Q?dr2dWsBwZNxaw+yeM4M+jX5/MPoIze+3/wMFx1KawwwO4xtPN6ze8hHE0Lq8?=
+ =?us-ascii?Q?PJ8SxDA6jHmqKRBfvSsdqiH528NQ5wdgLiNZY1y7QxSNt5uhYxUu8wgNjsw1?=
+ =?us-ascii?Q?t5GtLpTdKPedI25PjzxvqNitOBzBsdzBBFG4x4RPuSnLrGBpv6jtop08bdNA?=
+ =?us-ascii?Q?1jQQyrO0UrQzCzHuKr/65Necy5vdxBaUU5nbZtq8EXe2Cn1HFfcftxuHCsRg?=
+ =?us-ascii?Q?H5lbQ/wGTnAs3nx0Q5sDFY+Bn+ShX5X12ZzSDrUxpUX4qlZx28/HFWYvHlSS?=
+ =?us-ascii?Q?eZv3uU3aoFZO9Wv76uBat/8Z7q8bEYLx/LyJpASYtEvmgsZzx1w3R/shMbjP?=
+ =?us-ascii?Q?53bMr+e2Br9vrJPPO+scX+OpUzeItOxFnRwG63RsfAbrIDZw8iN8w/7b8Jka?=
+ =?us-ascii?Q?LBmD5fdq0lBsD5dHZjcrzLQXGYyvubJi7yybc7MBMAGTc6kThrVCaEQ6jVig?=
+ =?us-ascii?Q?8P1orpTAJ0ez6QE=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 07:13:09.2182
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d04b840c-62e6-42f8-3303-08dd517e07b6
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000A6731.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6537
 
-Thanks for filling me in on the background of the code status
-and the potential consequences of these changes.=20
-I really appreciate the context!=20
+On Tue, Feb 18, 2025 at 02:52:29PM -0400, Jason Gunthorpe wrote:
+> On Tue, Feb 18, 2025 at 06:17:15PM +0000, Pranjal Shrivastava wrote:
+> 
+> > > Is MEV available only in nested mode? Otherwise it perhaps makes
+> > > sense to turn it on in all configurations in IOMMUFD paths...
+> > 
+> > I think the arm-smmu-v3's iommufd implementation only supports nested
+> > which could be the reason.
+> 
+> I think starting with MEV in this limited case is reasonable.
+> 
+> I agree it makes sense to always turn it on from a production
+> perspective..
 
-As Phil Karlton once said:
-There are only two hard things in Computer Science:=20
-cache invalidation and naming things.=20
+Then, I will just add a line to the commit log:
+"In the future, we might want to enable the MEV for non-nested cases too
+ such as domain->type == IOMMU_DOMAIN_UNMANAGED or even IOMMU_DOMAIN_DMA."
 
-A good name makes code easier to read and understand.
-I personally value code readability and maintainability.=20
-However, based on your input and the community=E2=80=99s opinion,
-I agree that these changes could introduce indirection=20
-for git blame and make maintenance even harder.=20
-
-So, I=E2=80=99ll discard the changes.
-
-BR,
-Jemmy =20
-
-> On Feb 20, 2025, at 6:24=E2=80=AFAM, Steven Rostedt =
-<rostedt@goodmis.org> wrote:
->=20
-> On Thu, 20 Feb 2025 02:20:18 +0800
-> Jemmy Wong <jemmywong512@gmail.com> wrote:
->=20
->> Hi, I'm relatively new to Linux and eager to contribute to the =
-community
->> with some foundational work.
->=20
-> Welcome to the community.
->=20
->>=20
->> I aim to help improve code readability and maintainability.
->> While reading the scheduler code, I found some naming inconsistencies
->> that made understanding the code more difficult.
->=20
-> I do plan on updating the scheduler comments soon, so that every =
-function
-> has a purpose. But there's a lot of history to the scheduler code that =
-you
-> really can't just go and rename items. It causes a lot of churn which =
-also
-> causes noise in the git history, where git blame is used a lot to find =
-why
-> things were done. Adding renames causes one more level of indirection =
-that
-> makes it harder on the maintainers to do git forensics.
->=20
->>=20
->> Specifically:
->> 1. Some function names do not accurately reflect their purpose.
->> 2. Certain names are too general, making it unclear what they =
-represent.
->> 3. Some concepts are ambiguous, leading to potential confusion.
->>=20
->> - Rename ttwu_do_wakeup to ttwu_set_running:
->>    - This function only sets task state to TASK_RUNNING,
->>        not performing the actual wakeup.
->>=20
->> - Rename update_cfs_group to update_cfs_group_shares:
->>    - The name was too generic; specifying "shares" clarifies its =
-purpose.
->>=20
->> - Rename place_entity to update_entity_sched:
->>    - The function does not handle entity placement but updates
->>        sched info: vruntime, slice, and deadline.
->>=20
->> - Rename update_load_<set, add, sub> to load_weight_<set, add, sub>:
->>    - "load" can refer to either PELT load or load weight, causing =
-ambiguity;
->>        "load_weight" specifies it's dealing with weight.
->>=20
->> - Rename struct sched_avg to struct sched_pelt:
->>    - This structure includes not just average statistics
->>        but also sums like <load, runnable, util>_sum, =
-last_updae_time,
->>        all of which are PELT (Per-Entity Load Tracking) metrics.
->>=20
->> - Rename init_entity_runnable_average to init_entity_pelt
->>=20
->> This patch aims to improve code readability and reduce confusion by
->> ensuring names are more descriptive of their actual functionality or =
-purpose.
->=20
-> I personally am not against these updates. But as I mentioned, there's =
-a
-> lot of history here and it's really Peter Zijlstra's call (and he's =
-been
-> against changes like this in the past).
->=20
-> So please do not be discourage if this doesn't get much traction.
->=20
-> -- Steve
-
-
+Thanks
+Nicolin
