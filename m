@@ -1,107 +1,53 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8AE20B211;
-	Thu, 20 Feb 2025 16:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEEAE1DEFE1;
+	Thu, 20 Feb 2025 16:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740069881; cv=none; b=VtmhRjP6qgPteJ2pyGMxf/YVbk1ksm8icJnWzDtOP0dBr8Ue1qWcQNM/f9feZgLay/U9VbFXxEV7yvmySgVkAf2Mo7CFZIyAzXK3wKL48a05dCn3Ca5V/MPInErPfMGkKsJoK/cCsa7K1r/8KX7xYbfmXSz7XCkCRdBPfn3BJ/c=
+	t=1740070010; cv=none; b=sufKTBBEvkeELa/alqQrthubmdAvk6uBWTljBMPmsLG7iwDs4+k6Gi/m0zoD/EJnlr6+kIP2ci5Z8UsNdqZWKi0jUDX+BPHw/sQBHOArNSbWS2+zn+2SsNsQa7zRlTjLdfdTnwsgHL9e1TFovra8+3ir9ihFRMMZj5bElj25Zx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740069881; c=relaxed/simple;
-	bh=s+DTl6tU3kF08I2UyldTi/y0xQ6rl5/cP2qUtibkU/w=;
+	s=arc-20240116; t=1740070010; c=relaxed/simple;
+	bh=i++VPGe3JpqhwNQa6BuqC+Ahkz2MVhr+j1/ixd4HO7Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KloeYfNcHB1Bs8B2wbpjYfGlM/qg5KPEa/AJVFv/QjTQDJiV0F9AKZ/R72gRTqUoYuXz2hOUCOI+K5dPBvMfJ05R9nfEscMoIywj67f5+T3Wxq/WhZEmVUeEkphIZ2HKGyrF2Tw1SfV032QwVWkcVrVq5m+q1GuROujqnQLsnZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Fg2ZdEdZ; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Fg2ZdEdZ"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51KBld33001689;
-	Thu, 20 Feb 2025 16:43:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=2phGq1PASew3t0QitT+lz7mcsTOMpz
-	4L7ee8QirsuZU=; b=Fg2ZdEdZwarsWS57pS+/6IXcUxTrTtCLnhG9CBGZ/7HGWi
-	4zAWb3M539K8KPS0Ajmb/PEzTqkGG38Ai+zL1gYVY4anEms/XTxHY28EJ4xlx/AF
-	IUn+cXfqtcI5hv4hzHC4AL7ugPq0hKMuYbyTtcKHIbdd6lb7tMPr95gbVbiNVJH+
-	yzBsnvN0hGYuWJxvHvbXddPIPPhMLHzGJxo+0NEWCwpR/A6b6JLE7YAgE1qftFmU
-	X8qdol1P5giI4dqT57n6qb3N89dOmr8ZV58kAi7tkbB+YnfIhyNfQnGQOLkoz4M2
-	sXSo3k/o/GFXMpo2IP6vEkxcgwZaMd1wbjpTThkQ==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44wtfa4552-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 16:43:55 +0000 (GMT)
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 51KGhsmH028733;
-	Thu, 20 Feb 2025 16:43:54 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44wtfa454x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 16:43:54 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 51KF7PST027113;
-	Thu, 20 Feb 2025 16:43:53 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 44w025b1sh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 16:43:53 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 51KGhnA118088388
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 Feb 2025 16:43:49 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A8F0820043;
-	Thu, 20 Feb 2025 16:43:49 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4888520040;
-	Thu, 20 Feb 2025 16:43:49 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Thu, 20 Feb 2025 16:43:49 +0000 (GMT)
-Date: Thu, 20 Feb 2025 17:43:48 +0100
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Dave Young <dyoung@redhat.com>
-Cc: Alexander Graf <graf@amazon.com>, Mike Rapoport <rppt@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Anthony Yznaga <anthony.yznaga@oracle.com>,
-        Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Eric Biederman <ebiederm@xmission.com>, Ingo Molnar <mingo@redhat.com>,
-        James Gowans <jgowans@amazon.com>, Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Pratyush Yadav <ptyadav@amazon.de>, Rob Herring <robh+dt@kernel.org>,
-        Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
-        Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Usama Arif <usama.arif@bytedance.com>, Will Deacon <will@kernel.org>,
-        devicetree@vger.kernel.org, kexec@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org, Philipp Rudo <prudo@redhat.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
-Subject: Re: [PATCH v4 00/14] kexec: introduce Kexec HandOver (KHO)
-Message-ID: <Z7dbxJNxlW2EA_aa@tuxmaker.boeblingen.de.ibm.com>
-References: <20250206132754.2596694-1-rppt@kernel.org>
- <CALu+AoRMQyRDFS_4L0KQkmrFT_S+yk=uZ-Mqt86JQYKKnj-5Ug@mail.gmail.com>
- <Z7WJD6eBLuIRnLwk@kernel.org>
- <CALu+AoSaEthfed1NOYPiQgm_g-dhibVMRAp0+=_+9qTT4_x=tg@mail.gmail.com>
- <d8c43707-65a2-4176-85e2-acdb4c9d16ad@amazon.com>
- <CALu+AoR0BbmbZeOkLU55OpD8kxGsVnFs+pXgEC9Y_MpB4=GMvQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=aDfY+ratiVLYHo0DCn5dsgxxsstel1dJ6M2I2cedIlzlRM25gb4jBoMacuNQKeXc3cK+wXy66tzv+sBVZbU4V4M/kisRIhzMRboOsg0I7gXRX4SOBy8GgqJ8pIU2rt8H95sNlp5R7irPRal29q0o0IwOHMUjvWW+TAOmzvBIfGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0099116F3;
+	Thu, 20 Feb 2025 08:47:05 -0800 (PST)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 07B2A3F5A1;
+	Thu, 20 Feb 2025 08:46:42 -0800 (PST)
+Date: Thu, 20 Feb 2025 16:46:40 +0000
+From: Dave Martin <Dave.Martin@arm.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Peter Newman <peternewman@google.com>, "Moger, Babu" <bmoger@amd.com>,
+	Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	tony.luck@intel.com, x86@kernel.org, hpa@zytor.com,
+	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
+	rostedt@goodmis.org, xiongwei.song@windriver.com,
+	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
+	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
+	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
+	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
+	mario.limonciello@amd.com, james.morse@arm.com,
+	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
+	eranian@google.com
+Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+Message-ID: <Z7dccLOTPzySYTXL@e133380.arm.com>
+References: <Z6zeXby8ajh0ax6i@e133380.arm.com>
+ <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
+ <Z64tw2NbJXbKpLrH@e133380.arm.com>
+ <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com>
+ <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
+ <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com>
+ <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
+ <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com>
+ <CALPaoCj1TH+GN6+dFnt5xuN406u=tB-8mj+UuMRSm5KWPJW2wg@mail.gmail.com>
+ <2b5a11e3-ee19-47ba-b47e-b7de2818f237@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -110,45 +56,94 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALu+AoR0BbmbZeOkLU55OpD8kxGsVnFs+pXgEC9Y_MpB4=GMvQ@mail.gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 02CmlzRAvH6gUhNjDul_d5grRXN4j5Cf
-X-Proofpoint-GUID: vqtrf0KyRdj5sNl93G5J7u-LcnzQFqNz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-20_07,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=660
- bulkscore=0 phishscore=0 malwarescore=0 mlxscore=0 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2502200116
+In-Reply-To: <2b5a11e3-ee19-47ba-b47e-b7de2818f237@intel.com>
 
-On Thu, Feb 20, 2025 at 09:49:52AM +0800, Dave Young wrote:
-> On Wed, 19 Feb 2025 at 21:55, Alexander Graf <graf@amazon.com> wrote:
-> > >>> What architecture exactly does this KHO work fine?   Device Tree
-> > >>> should be ok on arm*, x86 and power*, but how about s390?
-> > >> KHO does not use device tree as the boot protocol, it uses FDT as a data
-> > >> structure and adds architecture specific bits to the boot structures to
-> > >> point to that data, very similar to how IMA_KEXEC works.
-> > >>
-> > >> Currently KHO is implemented on arm64 and x86, but there is no fundamental
-> > >> reason why it wouldn't work on any architecture that supports kexec.
-> > > Well,  the problem is whether there is a way to  add dtb in the early
-> > > boot path,  for X86 it is added via setup_data,  if there is no such
-> > > way I'm not sure if it is doable especially for passing some info for
-> > > early boot use.  Then the KHO will be only for limited use cases.
-> >
-> >
-> > Every architecture has a platform specific way of passing data into the
-> > kernel so it can find its command line and initrd. S390x for example has
-> > struct parmarea. To enable s390x, you would remove some of its padding
-> > and replace it with a KHO base addr + size, so that the new kernel can
-> > find the KHO state tree.
+Hi,
+
+On Wed, Feb 19, 2025 at 09:56:29AM -0800, Reinette Chatre wrote:
+> Hi Peter,
 > 
-> Ok, thanks for the info,  I cced s390 people maybe they can provide inputs.
+> On 2/19/25 3:28 AM, Peter Newman wrote:
 
-If I understand correctly, the parmarea would be used for passing the
-FDT address - which appears to be fine. However, s390 does not implement
-early_memremap()/early_memunmap(), which KHO needs.
+[...]
 
-Thanks, Dave!
+> > In the letters as events model, choosing the events assigned to a
+> > group wouldn't be enough information, since we would want to control
+> > which events should share a counter and which should be counted by
+> > separate counters. I think the amount of information that would need
+> > to be encoded into mbm_assign_control to represent the level of
+> > configurability supported by hardware would quickly get out of hand.
+> > 
+> > Maybe as an example, one counter for all reads, one counter for all
+> > writes in ABMC would look like...
+> > 
+> > (L3_QOS_ABMC_CFG.BwType field names below)
+> > 
+> > (per domain)
+> > group 0:
+> >  counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >  counter 1: VictimBW,LclNTWr,RmtNTWr
+> > group 1:
+> >  counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >  counter 3: VictimBW,LclNTWr,RmtNTWr
+> > ...
+> > 
+> 
+> I think this may also be what Dave was heading towards in [2] but in that
+> example and above the counter configuration appears to be global. You do mention
+> "configurability supported by hardware" so I wonder if per-domain counter
+> configuration is a requirement?
+> 
+> Until now I viewed counter configuration separate from counter assignment,
+> similar to how AMD's counters can be configured via mbm_total_bytes_config and
+> mbm_local_bytes_config before they are assigned. That is still per-domain
+> counter configuration though, not per-counter.
+
+I hadn't tried to work the design through in any detail: it wasn't
+intended as a suggestion for something we should definitely do right
+now; rather, it was just an incomplete sketch of one possible future
+evolution of the interface.
+
+Either way these feel like future concerns, if the first iteration of
+ABMC is just to provide the basics so that ABMC hardware can implement
+resctrl without userspace seeing counters randomly stopping and
+resetting...
+
+Peter, can you give a view on whether the ABMC as proposed in this series
+is a useful stepping-stone?  Or are there things that you need that you
+feel could not be added as a later extension without ABI breakage?
+
+[...]
+
+> > I believe that shared assignments will take care of all the
+> > high-frequency and performance-intensive batch configuration updates I
+> > was originally concerned about, so I no longer see much benefit in
+> > finding ways to textually encode all this information in a single file
+> > when it would be more manageable to distribute it around the
+> > filesystem hierarchy.
+> 
+> This is significant. The motivation for the single file was to support
+> the "high-frequency and performance-intensive" usage. Would "shared assignments"
+> not also depend on the same files that, if distributed, will require many
+> filesystem operations? 
+> Having the files distributed will be significantly simpler while also
+> avoiding the file size issue that Dave Martin exposed. 
+> 
+> Reinette
+
+I still haven't fully understood the "shared assignments" proposal;
+I need to go back and look at it.
+
+If we split the file, it will be more closely aligned with the design
+of the rest of the resctrlfs interface.
+
+OTOH, the current interface seems workable and I think the file size
+issue can be addressed without major re-engineering.
+
+So, from my side, I would not consider the current interface design
+a blocker.
+
+[...]
+
+Cheers
+---Dave
