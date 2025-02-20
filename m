@@ -1,119 +1,161 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67D6134B0;
-	Thu, 20 Feb 2025 12:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4522F1F5425;
+	Thu, 20 Feb 2025 13:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740055852; cv=none; b=ASK+QlVRB55dU9kdW65TKJ2Ufgw9CfHu190lOJ/543AM0+2bcHudq/+jNUGlPfi41s4eUfZXqqCzNLneRq3Ul8VJfj3Fi5fgfwzzeSfh4pojyXhACfutCrg0oyXatsQN8eYzY+9Ks6q1jVgBVSwZ0pFNXeS4Zq0TnTJCV9GVas8=
+	t=1740057553; cv=none; b=BowxSsQKQgm+Ue5EiarBObx8IkGxWbgkppUbF3Vcg9bUtKsP5oT4soKA/Zt74eL8L4u+8LlDggwA1QVR9zeLZ2G4rJejy1i13v5tzHm85ejI+Wd0tN7jsfSDj4GyYSPTU1DWZqRMgEhJiyVmu74kVPfdTaKcxOoH6LjdBlmkyUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740055852; c=relaxed/simple;
-	bh=5CdqDe6a+TgCmrvpY0A7LzJCD1blyf0ZlG7AQjJyN4E=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XwJ7+IwSEZk+RaDEgJpwHz+5I2wb+dTCmlcIIa8ZWjpSooxE9mfG8/47vAkWA0PSVSEgr+1G4CLn4bXTWjja2D2czcZLSNMCA4EeMGAm7z+G77sUYkppYhEb3mupFMFjl89Ux8DuK6fm1tkrjodFC8+V4TQ7nSDAJYceKmLOZJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a4jCKz9g; arc=none smtp.client-ip=209.85.208.52
+	s=arc-20240116; t=1740057553; c=relaxed/simple;
+	bh=EsMTxchL/+qRXxcJQQGMEd1C37/sV2jkPmF5oFcvccw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=A6Rv4bAA7Zg+K7xVDQi+vbZ0xzg6JjVGWlVgSEUstmKYNOOzzVqGD3+drI7qPypHNtbuUr+V6fo6/hL2duo6+F2URMTa5YENR+YyiSLATRhmpfVuptR9MF4XKTgPaJj3PjxXuykGMXrvuYD86eKW80PJfFNjBZHDQXRP0bDit+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YnpeBoEo; arc=none smtp.client-ip=209.85.214.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a4jCKz9g"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5e050b1491eso3557655a12.0;
-        Thu, 20 Feb 2025 04:50:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YnpeBoEo"
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-21c2f1b610dso24067225ad.0;
+        Thu, 20 Feb 2025 05:19:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740055849; x=1740660649; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:reply-to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5CdqDe6a+TgCmrvpY0A7LzJCD1blyf0ZlG7AQjJyN4E=;
-        b=a4jCKz9g4DtMxh2XdqyZo1+IrgkwVuuM/SZk7M29dl2e7Iypu5gN8z6zwmftrZWerY
-         D9StLxWTSkN9pi9c2ZDgBpFI8WVBj5qzyKu9h9/AOFiyU9HFlnUC1mpjEmMjSM9BKhjE
-         BePuqA6DKi0lN74SiVRwyJVqcsPH9y+C46kuu2SNu1d8C0OiGJoFP3eKq1PtlWlqpP4F
-         V46VLUkOZ/DSDyTpLw9kfO1iEsVfVcd0WFXgshLr1JNUqmiYgrBz+wA15ke+8AURrS6N
-         F+CUN9al8JvIsEevuw0TQhUT3dCmK96i06+emmgzUTpNCcWlRGtH910iI0sKK9B73N9w
-         HPDQ==
+        d=gmail.com; s=20230601; t=1740057551; x=1740662351; darn=vger.kernel.org;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=v9P9H3YBcyOxNExufhwVnRqWtrvWAZlTnbL5BKFsIaA=;
+        b=YnpeBoEoAa5I2hhbMAP6La9qvqhldvWrvpgV7pvrhql/pvF1hAPrfNCKAJ2BaTSQfg
+         JIUcXFi30MxJEUt+h3hw3OaKXCBAp8iCJcKB/H7yio6Blm20Mavbv9Mu6ZbLdVjel7wx
+         eHoQsm7yC7JcYfdJhtaS0i1b/pertQekBoSfTdmQduHMG5vtvt9o+vUkSSMU05RuXb8G
+         1yFi3oJKkkhVdD3H/I8o/CO+KfSAUXGJvtDHGlz+7t8gFcCGUd/HHnAtXQbIpYVhws6o
+         2tnlP0yVqzrBPim1JP2tHtIphC+0CZy/rC+3pDsMtclmpZJDLqTvG5C+cJ90OUgeliVd
+         Z+Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740055849; x=1740660649;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:reply-to:from:subject:message-id
+        d=1e100.net; s=20230601; t=1740057551; x=1740662351;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5CdqDe6a+TgCmrvpY0A7LzJCD1blyf0ZlG7AQjJyN4E=;
-        b=omFuU7uJZEJUOAZkxUtQc/eXQKwa60nQnS4f1nOAd6uA0fj8GyhW+GlEzJO2+I+dkd
-         n8N1OtTs1Jj1EAyu8QYOzviGYBTaupgU69fAXqWxVw3sx5IMQBxH7Pu+XGKr7WHBWF14
-         bBs+qUHWuIpzvK4yvv3Jexv0eGpYvKMg29qVzUuRz1Q9coDMrNNRuKZUNNJ84qyYc4Ei
-         1+YiZsTmHvsgMb7ryV+pCHuyXVbXpjpdaxP75tzxYCn2tz4FuYk1Q2lMj2ybO0CNloUx
-         IWUJ0FqTw+fn3+tO+KCBRRiRnlbR9gYMlWTPfn08R59cBPrZtsJUbJ1JbFlf8k+TjLx2
-         b3QA==
-X-Forwarded-Encrypted: i=1; AJvYcCUzEt3D/ERx0MGQa7pCbY5UT9nRqACsprR5+vbfZIYubqE3C8Q469gzcV+jnAtPoWACKB47evgQMK4yJiyw@vger.kernel.org, AJvYcCX333zdNLfySwDlg6l67jwxBApq4Fe2hGzcwZj6MoktBY8OUqtyIbBslhcyjknkLg6lkPXwe2ib6Jw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOLxcrODnGYeoa7AY+OTretRfwI1FoTEy4/17sewcCJ54K5/3n
-	AUuhLxa2vEpYUFgoFnHvMj00b6Xrz9I0JQUzhto+WvjjaJ14pJNgyMNIn/zoE7A=
-X-Gm-Gg: ASbGncuXWAeoY38ZQRryfqbtREUhDkUIWtBrubvVtBAYvNpzhCC0zsJp85v4FAhmnrV
-	SUau47r6GIm5sNN59v2Pvl9vpwdXdcqPR9Jb0SKkK+USgzd2qPh7hJ9CEWrtvLiKhRDAQfg6PHG
-	YgVoywIPzBuzIZ0X1C+EcNRNY6jJQ1urvXSwOQVQbw3MmsPrqAIGraGk/ztiyL9gaIOdhjgx1BU
-	3DcVNnAbN1zRWOdB1zDQK4EgRdObnr+dOhU2AOaC1dK/OjPZAhNT9meNoRgkLb/bfxRR9ZUd+1y
-	sbqzNyC3hFAiGJygUTOSrIcKz/TNt5W3mU+VjEFkQhfRaw==
-X-Google-Smtp-Source: AGHT+IHtm/rvi3VIjBkWuIExSB85ST7i+4B0cXT1pvysb3E5JpPYV5QDujzd5YmocYgA3XX2V8kIRQ==
-X-Received: by 2002:a17:907:d109:b0:ab3:3b92:8ca5 with SMTP id a640c23a62f3a-abbeddc5984mr305310166b.12.1740055848569;
-        Thu, 20 Feb 2025 04:50:48 -0800 (PST)
-Received: from abityuts-desk1.ger.corp.intel.com ([134.191.196.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb8eea4d65sm874370366b.161.2025.02.20.04.50.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 04:50:47 -0800 (PST)
-Message-ID: <9b67088de0b6a24a67cfe0a1860011d290307c08.camel@gmail.com>
-Subject: Re: [PATCH v4] intel_idle: introduce 'no_native' module parameter
-From: Artem Bityutskiy <dedekind1@gmail.com>
-Reply-To: dedekind1@gmail.com
-To: "Rafael J. Wysocki" <rafael@kernel.org>, David Arcari
- <darcari@redhat.com>
-Cc: linux-pm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Jacob Pan
- <jacob.jun.pan@linux.intel.com>, Len Brown <lenb@kernel.org>, Prarit
- Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Thu, 20 Feb 2025 14:50:44 +0200
-In-Reply-To: <CAJZ5v0g27Sutp_Ww7zGe0xB95kxFh-pzjd5-PpjR==h7-s8MLA@mail.gmail.com>
-References: <20250128141139.2033088-1-darcari@redhat.com>
-	 <20250213160741.445351-1-darcari@redhat.com>
-	 <CAJZ5v0g27Sutp_Ww7zGe0xB95kxFh-pzjd5-PpjR==h7-s8MLA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+        bh=v9P9H3YBcyOxNExufhwVnRqWtrvWAZlTnbL5BKFsIaA=;
+        b=F2dgt8TihC7lEljiwnNulQ0pRCcZIkR8aQtn7HrFqhyrie6E7gF/CHd61WLu558DP7
+         VnXFJ68sTrXiL9hdFlrQW7wy0WJaJh9JuTlCxInpq1gfAp87v5YWrmuaAsKH36XNACpe
+         Al1XDoRRulbs2CEApq482F4QdB5rD3ofvQgK7LGDLAMMDgRHQ1VrvMRnrv3wxc7nE/9s
+         FX109m229WKWE2WFMt718Wd+jPpx4BPJgfqdttPFlIkq0wcNwxMJy1K5pIfdbh7AHagO
+         rHfvYorSn1R+aTvoA/Y16759Goe/sWbFCo7QUy9WsLLs6knHt7ZNFT7ESzm+MycGzDKX
+         9C+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWtX2BzeCwrXN3Lj+DF+iHeIA2+fJq+uT4vyE8XcAHv5J6FOEKP+FIwZ56voO8cBAdk+KMjvxsY71g=@vger.kernel.org, AJvYcCXfDvD/t4vWN+xwmpyC9Y7+VI2bPUCwCWHTLni1UaaGAci1fDSkOiBqWSDR6uAnERAk8X8B6so4Ph8Bp2HT8Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxm8Q7QVRHBNKVY2hdMocRZrxCl4L7gkvb9MUCEpxw/z6S/ucYN
+	ZoAB0S1A7f10ReSoZ8vyMuTRPOqn/c+k+gHcawaLEG6XDQdl4nB8q1/BZEVkwp4BDQ==
+X-Gm-Gg: ASbGncvI0+5X4mn+8KIz+3p0W/MZRN1QkVNZ4GA8yrBVVNYxmZfCcPsUzgW2y95ySCa
+	zy6BLGrvDAPpNmsRPvHHaOElva1m+QoXMxAzPio7nw1kGsHoDrb6HXFYODYTm4GX9Qza0/J5n5X
+	8648XezftSRPsIf7LuNJlQrPMar2KQagM/DX5KK447u4Em38WzQyQSGKGHDhqxhmqg9xHFh654u
+	fdPpEb4D0RJccbQ2MLF4em8oZZtwWxprhtqSHo//O/ZF0wvNxNqoOsiBJTPuG0uAddiU9HkVK4f
+	cmATzuUzutDawMlJnXw51RW9QkgjjyhXGqnlkCk=
+X-Google-Smtp-Source: AGHT+IHV3IxbgmEM1wB7ObFBeZ2yaA43f2JaFF7cUg1ubdEneG9dIov6yvjHeNOJIP6aCRMznDzcmQ==
+X-Received: by 2002:a05:6a20:244c:b0:1ee:d92d:f6f9 with SMTP id adf61e73a8af0-1eed92dfa33mr11913487637.31.1740057551011;
+        Thu, 20 Feb 2025 05:19:11 -0800 (PST)
+Received: from localhost.localdomain ([103.49.135.232])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ade083277b3sm9113400a12.27.2025.02.20.05.19.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 20 Feb 2025 05:19:10 -0800 (PST)
+From: Ruiwu Chen <rwchen404@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	viro@zeniv.linux.org.uk,
+	mcgrof@kernel.org,
+	keescook@chromium.org,
+	zachwade.k@gmail.com,
+	Ruiwu Chen <rwchen404@gmail.com>
+Subject: [PATCH v2] drop_caches: re-enable message after disabling
+Date: Thu, 20 Feb 2025 21:18:38 +0800
+Message-Id: <20250220131838.10564-1-rwchen404@gmail.com>
+X-Mailer: git-send-email 2.18.0.windows.1
+In-Reply-To: <20250216101729.2332-1-rwchen404@gmail.com>
+References: <20250216101729.2332-1-rwchen404@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
 
-On Tue, 2025-02-18 at 20:57 +0100, Rafael J. Wysocki wrote:
-> On Thu, Feb 13, 2025 at 5:07=E2=80=AFPM David Arcari <darcari@redhat.com>=
- wrote:
-> >=20
-> > Since commit 18734958e9bf ("intel_idle: Use ACPI _CST for processor mod=
-els
-> > without C-state tables") the intel_idle driver has had the ability to u=
-se
-> > the ACPI _CST to populate C-states when the processor model is not
-> > recognized. However, even when the processor model is recognized (nativ=
-e
-> > mode) there are cases where it is useful to make the driver ignore the =
-per
-> > cpu idle states in lieu of ACPI C-states (such as specific application
-> > performance). Add the 'no_native' module parameter to provide this
-> > functionality.
-> >=20
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > Cc: Len Brown <lenb@kernel.org>
-> > Cc: David Arcari <darcari@redhat.com>
-> > Cc: Artem Bityutskiy <dedekind1@gmail.com>
-> > Cc: Prarit Bhargava <prarit@redhat.com>
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Signed-off-by: David Arcari <darcari@redhat.com>
-> > ---
-> > v4: fix !CONFIG_ACPI_PROCESSOR_CSTATE compilation issue
->=20
-> Artem, have all of your comments been addressed in this version?
+When 'echo 4 > /proc/sys/vm/drop_caches' the message is disabled,
+but there is no interface to enable the message, only by restarting
+the way, so I want to add the 'echo 0 > /proc/sys/vm/drop_caches'
+way to enabled the message again.
 
-Hi, I was away for few days. Yes, this patch looks good to me. Works, and
-useful. Granted your comment is also addressed:
+Signed-off-by: Ruiwu Chen <rwchen404@gmail.com>
+---
+v2: - updated Documentation/ to note this new API.
+    - renamed the variable.
+ Documentation/admin-guide/sysctl/vm.rst | 11 ++++++++++-
+ fs/drop_caches.c                        |  9 ++++++---
+ kernel/sysctl.c                         |  2 +-
+ 3 files changed, 17 insertions(+), 5 deletions(-)
 
-Reviewed-by: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index f48eaa98d22d..1b9ae9bc6cf9 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -266,7 +266,16 @@ used::
+ 	cat (1234): drop_caches: 3
+ 
+ These are informational only.  They do not mean that anything is wrong
+-with your system.  To disable them, echo 4 (bit 2) into drop_caches.
++with your system.
++
++To disable informational::
++
++    echo 4 > /proc/sys/vm/drop_caches
++
++To enable informational::
++
++    echo 0 > /proc/sys/vm/drop_caches
++
+ 
+ enable_soft_offline
+ ===================
+diff --git a/fs/drop_caches.c b/fs/drop_caches.c
+index d45ef541d848..5d02c1d99d9f 100644
+--- a/fs/drop_caches.c
++++ b/fs/drop_caches.c
+@@ -57,7 +57,7 @@ int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
+ 	if (ret)
+ 		return ret;
+ 	if (write) {
+-		static int stfu;
++		static bool silent;
+ 
+ 		if (sysctl_drop_caches & 1) {
+ 			lru_add_drain_all();
+@@ -68,12 +68,15 @@ int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
+ 			drop_slab();
+ 			count_vm_event(DROP_SLAB);
+ 		}
+-		if (!stfu) {
++		if (!silent) {
+ 			pr_info("%s (%d): drop_caches: %d\n",
+ 				current->comm, task_pid_nr(current),
+ 				sysctl_drop_caches);
+ 		}
+-		stfu |= sysctl_drop_caches & 4;
++		if (sysctl_drop_caches == 0)
++			silent = false;
++		else if (sysctl_drop_caches == 4)
++			silent = true;
+ 	}
+ 	return 0;
+ }
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index cb57da499ebb..f2e06e074724 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -2088,7 +2088,7 @@ static const struct ctl_table vm_table[] = {
+ 		.maxlen		= sizeof(int),
+ 		.mode		= 0200,
+ 		.proc_handler	= drop_caches_sysctl_handler,
+-		.extra1		= SYSCTL_ONE,
++		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_FOUR,
+ 	},
+ 	{
+-- 
+2.27.0
+
