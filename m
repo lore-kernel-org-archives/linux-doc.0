@@ -1,149 +1,121 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEEAE1DEFE1;
-	Thu, 20 Feb 2025 16:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2305521323F
+	for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 16:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740070010; cv=none; b=sufKTBBEvkeELa/alqQrthubmdAvk6uBWTljBMPmsLG7iwDs4+k6Gi/m0zoD/EJnlr6+kIP2ci5Z8UsNdqZWKi0jUDX+BPHw/sQBHOArNSbWS2+zn+2SsNsQa7zRlTjLdfdTnwsgHL9e1TFovra8+3ir9ihFRMMZj5bElj25Zx8=
+	t=1740070215; cv=none; b=e+jYAhSNLMVf3+Eq59Bk/vnmyxVYhu1HGAocBpCXuPW8uCc7ZMso73A3zT0X7IqRfpNvni4mYKVOOnOAYd/CcWGNqCYWGZn5/qqM6hB2WaaEdXBb79Npn9Z4HSlggjv3kNL4cCBoHrv3g92exnQszGjLSbnV4PLxG4b4dDp+ZKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740070010; c=relaxed/simple;
-	bh=i++VPGe3JpqhwNQa6BuqC+Ahkz2MVhr+j1/ixd4HO7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aDfY+ratiVLYHo0DCn5dsgxxsstel1dJ6M2I2cedIlzlRM25gb4jBoMacuNQKeXc3cK+wXy66tzv+sBVZbU4V4M/kisRIhzMRboOsg0I7gXRX4SOBy8GgqJ8pIU2rt8H95sNlp5R7irPRal29q0o0IwOHMUjvWW+TAOmzvBIfGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0099116F3;
-	Thu, 20 Feb 2025 08:47:05 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 07B2A3F5A1;
-	Thu, 20 Feb 2025 08:46:42 -0800 (PST)
-Date: Thu, 20 Feb 2025 16:46:40 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Peter Newman <peternewman@google.com>, "Moger, Babu" <bmoger@amd.com>,
-	Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	tony.luck@intel.com, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
-	rostedt@goodmis.org, xiongwei.song@windriver.com,
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Message-ID: <Z7dccLOTPzySYTXL@e133380.arm.com>
-References: <Z6zeXby8ajh0ax6i@e133380.arm.com>
- <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
- <Z64tw2NbJXbKpLrH@e133380.arm.com>
- <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com>
- <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
- <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com>
- <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
- <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com>
- <CALPaoCj1TH+GN6+dFnt5xuN406u=tB-8mj+UuMRSm5KWPJW2wg@mail.gmail.com>
- <2b5a11e3-ee19-47ba-b47e-b7de2818f237@intel.com>
+	s=arc-20240116; t=1740070215; c=relaxed/simple;
+	bh=efaP8RPJNTtPf2+MD0d2dGXodyx0d/UHarGAgn6cO44=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PAnPBn6hhTwPYGKHdl6KxZHB/uZVuh6mzUYS7eJRAsoF5BDqRCZ2iskWZ/zO18N2di1QNoegI9p6akja+n2d9Pby43Vyh7HXMyHNC1CRgCHFCKoqyJZ9I75XVUHWJXm1Qulf7QJAfK+cCbASeBHRfeDPYUP7qNl71KKwBGt/uA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LWSpkrqM; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LWSpkrqM"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-220c8eb195aso24521885ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 08:50:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740070213; x=1740675013; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3DmhWr2QmVyeGuDS1oXG9gsaDbVa/o2rG7jKNkrjMRs=;
+        b=LWSpkrqMyCgdglmabz0oG+ZDRhBLIE9SCrOr/qxiLFmwA29ttD7BhTbgBx2gQHYoXd
+         yaKmI2g6LKa5NDXS8m0l+H+QMSrpCLcrXwFbakv8zjCUJj9dOSv6LgPCNhoZJh9xc8wJ
+         uk6kxdmGVsi1WtOdYAiENJ5dFpi+ePRozZTnZ+cedTMX+r8HJqnqPhUaacdnteE9CmJ3
+         jlVlqvV6KfdBjCNHDfYjVFZne7fg9/q5+oCIPChhnjX7jrCSuWXUBcv36Gnvgre23BMA
+         wjizfPymoQoWTPDdE5ea7vdMz2Ng90dHh6xkVIp/MnLTbZoI6xh5TzvfekH+En3CZ6m4
+         k/kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740070213; x=1740675013;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3DmhWr2QmVyeGuDS1oXG9gsaDbVa/o2rG7jKNkrjMRs=;
+        b=NfTEC+duvfy8oXc0/ribCLnEsyIXcs4xT7POpDQe4vbkI2Q5TNufhD9JyfHfDJgz9l
+         0zdM8BiPtaFmZqlJpcBNSRGlN+2DfE2eZ+C4FKWMCcQO1QsrSPEzAQoKZVP58qH8KcKD
+         qzOhIcKquDMS8EfsxGiWC4pvF3yYpMv1pL+gTH/9MnZJ6Pw2ar3g/J+jXpvSNIlHJR3L
+         NohckKpkG3ShgaLj7BYr/Jm7EgtfnDIBiEnvTxqXBRP9VV/1wwLm7qcok/tGR+NAotAt
+         DRTGo0009JyZS9rnpPjCHqYQ8ZLVJzyA/zljdIYmhbDw8P2LuyYdEy++Ba6IEO53TUoi
+         SIPw==
+X-Forwarded-Encrypted: i=1; AJvYcCX+Z5GayPv18H13jGRDF1JpUhcpLM+FHRZt9B04OFjXktnXNqBrJYvpC5HStbX+FX6Wcbd9pR26EeM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfElGFOtlNH8wvRwXjO+1+Byfj7WADYks58m5ThF9V0IUPleK/
+	uH25/CHCXUs+79Y6JSei7ur8yxr8VP0eDak3uxJq/+xL7rcmVJwf
+X-Gm-Gg: ASbGnctFM445pT5Z8mPzfTZU64wgDqfxvLgOUXo9RnqwwTZ5te9bf6B+n+Qc9g3fKD7
+	pfqQoQ5DiAu8w4AXEycADkK+dzfo6BIfAzEIXvIfhFo0z+/WYnBFvoEjrE9rk5MHhH9BZb7l1sz
+	Wt/uQqLDcSYDig9PiMyFR9+ZuRNmgm6YIkP1mPSnkPOwJPssT7p9wfNFvMsJcb18gj5LW2nun3U
+	iQnjBpiu43fZNO9057+O5Efm2NofrV9QyF4uEuMWyPhneurxkOc8TrPf7Rb2E6oMnLgVikzwZW3
+	KQFCxStyHw+c3de+PoHDO9XSeckb1LWUsd6A
+X-Google-Smtp-Source: AGHT+IEZEJ5Vx0cDfop6Q20EF8DsuK+QyG7/1ZeIrNw7H+oUSeWhjSyHlDH+GyEOp57VhYxnE3uFtg==
+X-Received: by 2002:a17:902:d2c2:b0:215:5625:885b with SMTP id d9443c01a7336-221711c2866mr129989005ad.52.1740070213205;
+        Thu, 20 Feb 2025 08:50:13 -0800 (PST)
+Received: from localhost.localdomain ([106.207.145.213])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73266fd6438sm10619451b3a.142.2025.02.20.08.50.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 08:50:12 -0800 (PST)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	corbet@lwn.net
+Cc: dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	bagasdotme@gmail.com,
+	skhan@linuxfoundation.org,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH] vgaarbiter: documentation grammar correction 
+Date: Thu, 20 Feb 2025 22:19:46 +0530
+Message-ID: <20250220164946.18007-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2b5a11e3-ee19-47ba-b47e-b7de2818f237@intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Corrects the following grammatical issues in the VGA Arbiter documentation:
+- Fixes subject-verb agreement by changing "co-exists" to "co-exist"
+- Corrects pluralization by changing "server" to "servers"
+- Improves sentence structure for clarity
 
-On Wed, Feb 19, 2025 at 09:56:29AM -0800, Reinette Chatre wrote:
-> Hi Peter,
-> 
-> On 2/19/25 3:28 AM, Peter Newman wrote:
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/gpu/vgaarbiter.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-[...]
+diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
+index bde3c0afb059..d1e953712cc2 100644
+--- a/Documentation/gpu/vgaarbiter.rst
++++ b/Documentation/gpu/vgaarbiter.rst
+@@ -11,9 +11,9 @@ Section 7, Legacy Devices.
+ 
+ The Resource Access Control (RAC) module inside the X server [0] existed for
+ the legacy VGA arbitration task (besides other bus management tasks) when more
+-than one legacy device co-exists on the same machine. But the problem happens
++than one legacy device co-exist on the same machine. But the problem happens
+ when these devices are trying to be accessed by different userspace clients
+-(e.g. two server in parallel). Their address assignments conflict. Moreover,
++(e.g. two servers in parallel). Their address assignments conflict. Moreover,
+ ideally, being a userspace application, it is not the role of the X server to
+ control bus resources. Therefore an arbitration scheme outside of the X server
+ is needed to control the sharing of these resources. This document introduces
+@@ -106,7 +106,7 @@ In-kernel interface
+ libpciaccess
+ ------------
+ 
+-To use the vga arbiter char device it was implemented an API inside the
++To use the vga arbiter char device, an API was implemented inside the
+ libpciaccess library. One field was added to struct pci_device (each device
+ on the system)::
+ 
+-- 
+2.47.1
 
-> > In the letters as events model, choosing the events assigned to a
-> > group wouldn't be enough information, since we would want to control
-> > which events should share a counter and which should be counted by
-> > separate counters. I think the amount of information that would need
-> > to be encoded into mbm_assign_control to represent the level of
-> > configurability supported by hardware would quickly get out of hand.
-> > 
-> > Maybe as an example, one counter for all reads, one counter for all
-> > writes in ABMC would look like...
-> > 
-> > (L3_QOS_ABMC_CFG.BwType field names below)
-> > 
-> > (per domain)
-> > group 0:
-> >  counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
-> >  counter 1: VictimBW,LclNTWr,RmtNTWr
-> > group 1:
-> >  counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
-> >  counter 3: VictimBW,LclNTWr,RmtNTWr
-> > ...
-> > 
-> 
-> I think this may also be what Dave was heading towards in [2] but in that
-> example and above the counter configuration appears to be global. You do mention
-> "configurability supported by hardware" so I wonder if per-domain counter
-> configuration is a requirement?
-> 
-> Until now I viewed counter configuration separate from counter assignment,
-> similar to how AMD's counters can be configured via mbm_total_bytes_config and
-> mbm_local_bytes_config before they are assigned. That is still per-domain
-> counter configuration though, not per-counter.
-
-I hadn't tried to work the design through in any detail: it wasn't
-intended as a suggestion for something we should definitely do right
-now; rather, it was just an incomplete sketch of one possible future
-evolution of the interface.
-
-Either way these feel like future concerns, if the first iteration of
-ABMC is just to provide the basics so that ABMC hardware can implement
-resctrl without userspace seeing counters randomly stopping and
-resetting...
-
-Peter, can you give a view on whether the ABMC as proposed in this series
-is a useful stepping-stone?  Or are there things that you need that you
-feel could not be added as a later extension without ABI breakage?
-
-[...]
-
-> > I believe that shared assignments will take care of all the
-> > high-frequency and performance-intensive batch configuration updates I
-> > was originally concerned about, so I no longer see much benefit in
-> > finding ways to textually encode all this information in a single file
-> > when it would be more manageable to distribute it around the
-> > filesystem hierarchy.
-> 
-> This is significant. The motivation for the single file was to support
-> the "high-frequency and performance-intensive" usage. Would "shared assignments"
-> not also depend on the same files that, if distributed, will require many
-> filesystem operations? 
-> Having the files distributed will be significantly simpler while also
-> avoiding the file size issue that Dave Martin exposed. 
-> 
-> Reinette
-
-I still haven't fully understood the "shared assignments" proposal;
-I need to go back and look at it.
-
-If we split the file, it will be more closely aligned with the design
-of the rest of the resctrlfs interface.
-
-OTOH, the current interface seems workable and I think the file size
-issue can be addressed without major re-engineering.
-
-So, from my side, I would not consider the current interface design
-a blocker.
-
-[...]
-
-Cheers
----Dave
