@@ -1,158 +1,204 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6167B1EE01B;
-	Thu, 20 Feb 2025 09:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740042606; cv=fail; b=RHxxQGf29a5CuBCF3X2GXAkQ5Gq2wKrUW0wk9GPJmMdGChhKG7yLSKy3RjtsQZkM6VeRN2gmOBJpZiq+Kz1sEXkMF7MK/GuJRs9uAyYSBKWjDWPkDaiP1S4NAdwuzXc1oAvD3/+8QLLrNUO+E6ujb2IMfg54OPlkumNsH39mNDg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740042606; c=relaxed/simple;
-	bh=iKr1QiCJn2M4b5KXxUEP47dE5v40W9eWuoTP5rQkHEo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hlWKBSd0s34v4hCOQ8XtEvOuTv+cyPaDwzV/1VHqnj6wUxgKgUnER+be0erkh4FIc7lDTkh2iVKqw+xRzQGHV6IvDvZKpCbDpctjuDPJJZPTestCu68BBN3fTezfsyH/fyAs4+6UVSSyHU2CqcgP3lHo4/AheXjNjDUExnYQ+jY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kZpP3Sc7; arc=fail smtp.client-ip=40.107.93.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6D31F12F8
+	for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 10:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740047772; cv=none; b=c7F26UBpU3qEyP9814/7gIhyI6/Sn5HVy0Mo32muXyFCkX0XvHGJ6Pq5tVhk4tBRUHt8CT9buGxy6zXk5R4wtGvPAP5WEJ8N67g3NVBbLMk11mv8UDRNaxgOYdHGO/xAdXKXNX3eZWOpvdDYhhZc8frS4HZ/cGm3Oj4v58WbtLw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740047772; c=relaxed/simple;
+	bh=OVtD/EtoJew27WP5jzIl6+TqCpTQisXiPbL9BiEUe6Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uj5IBXHiPrp02wuylpVb6gSpkIstNr4mglFn8/ly+AQ8mKG+xXKu9SUEN5lF9sAXRaw5LPW7RzviZrtwMPye72HL2RD6V0TZ0vU/JjoKGOj8d5EiNoWZeUtPVeC4c/BbcybTfbyGXl6UdbmLHrhCLgOvZC8IUWDG9nKqQPpQFww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eIuZMsyp; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kZpP3Sc7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ug9I+Cf9XgmYvEvCiTfoW1yeYFxn081VoBaQwMcvVl9ZIi7rjfFhoisg69ESegeesj43oCMlfh5wj4d3NU7wcMO+lAteerV4iQi1A7CsFNrfns0b986GFFhLCe5nOQFfuM/+Pr5aeb89pfBAcjbgzb7AMUhpakg0dN7FV8yyjHTrGyiauvlw/QCz1UyIVVhAxQqDGfHur7WcbwIe+Uq29uwieVQSofNOJGR5fmEF8Qi/OsARgaPsP4r2DAzK48cJNu06BHKBarTxL6zE3pEYNrdK6TVyWDx/IA/AR5LkLAbMJkKP/yQYU1RvppOP7R8fJkMNVX6mBoSdYT11fsiW7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VB4j2kiWPCZPvw7QqCRGZlMmeb+hsgzcLa/hXzGnXxk=;
- b=FrkuN6cdAa0nw9cPuAB28wrHfJT1OlUJ63rEllN0Zql2RrF91uMNjc4wQKl/9DkoQ/Wz9vIMCgx8wr1UosQ3ahcQqHL7i7OrdgVt+6gLSAaWeqZeCgz+ZOKcWKoit8uCL5VuIGqNV7IDWdzX4GGP7rD8pkMMZ7oxGJ9WgYzS6UZ09oT9zs/LuwNqQLcaFZ/xhvsovdeNhHRgJ9OnL1vOK0uGgr01hsNj+gHlk1RcMCdB56FIgs9kHObVUnjCkwQPf7xnTsxio6JsidrZMQ67WHrMSXUjfbF3H1TPN6GN0fm8xae7enu0VTI8ROTgSmoKsTKdwwC/7/znD7riLlFBBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VB4j2kiWPCZPvw7QqCRGZlMmeb+hsgzcLa/hXzGnXxk=;
- b=kZpP3Sc7XNIbgagW2wLh5rgthVUqVJdb070iDu37UXk+QZf+krwy0n7lo665HnjLRCJ6A6su7PyjXCy+oxljfjn3iiKR4vm+lb9RIFAHmDlYG3QRjgEZD7urwRSfzR8HibRbKsyXnJEr8ICVXsVVhMk0IKGgyPGdGb5MOtAc/7Qt9DJgkIOVWR4treDKeDGSRovu4B1FLvCz+CfQLYI1+E7iBosJzVvBbzSJq+XPiV5WplcEpGlKGBCffMJJZ/KWOu6qhTu4twlWhwLQ6gDHZ9nq2tj72AQGvNs8Xh103uEw+lfBKnEjBz0heOujoKMFFfcaQ0alJs1Kma77Ga5/dQ==
-Received: from CY8P220CA0031.NAMP220.PROD.OUTLOOK.COM (2603:10b6:930:47::17)
- by MN0PR12MB6343.namprd12.prod.outlook.com (2603:10b6:208:3c0::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.14; Thu, 20 Feb
- 2025 09:10:00 +0000
-Received: from CY4PEPF0000E9DA.namprd05.prod.outlook.com
- (2603:10b6:930:47:cafe::5a) by CY8P220CA0031.outlook.office365.com
- (2603:10b6:930:47::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.16 via Frontend Transport; Thu,
- 20 Feb 2025 09:09:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000E9DA.mail.protection.outlook.com (10.167.241.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8466.11 via Frontend Transport; Thu, 20 Feb 2025 09:09:59 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 20 Feb
- 2025 01:09:42 -0800
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 20 Feb
- 2025 01:09:42 -0800
-Received: from Asurada-Nvidia (10.127.8.10) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Thu, 20 Feb 2025 01:09:41 -0800
-Date: Thu, 20 Feb 2025 01:09:39 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
-	<will@kernel.org>
-CC: <joro@8bytes.org>, <suravee.suthikulpanit@amd.com>,
-	<robin.murphy@arm.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
-	<shuah@kernel.org>, <linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <eric.auger@redhat.com>,
-	<jean-philippe@linaro.org>, <mdf@kernel.org>, <mshavit@google.com>,
-	<shameerali.kolothum.thodi@huawei.com>, <smostafa@google.com>,
-	<ddutile@redhat.com>, <yi.l.liu@intel.com>, <patches@lists.linux.dev>
-Subject: Re: [PATCH v6 14/14] iommu/arm-smmu-v3: Set MEV bit in nested STE
- for DoS mitigations
-Message-ID: <Z7bxU3a0bc1i49Ip@Asurada-Nvidia>
-References: <cover.1737754129.git.nicolinc@nvidia.com>
- <436ac2021bb3d75114ca0e45f25a6a8257489d3b.1737754129.git.nicolinc@nvidia.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eIuZMsyp"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5dee1626093so3557423a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 02:36:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1740047768; x=1740652568; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O5iVZZR9foR8lSRa9A1Cz5+1azaBerETQsnQI9/mz00=;
+        b=eIuZMsypK0J2u4UqYKBN/pEMS+IKm2RO0myq55UcCqbhnyXZsMGndAl4RsXDOFtyOa
+         aD+1ZvqZDXkMD7ABbBIrGm8SScYPksRepMewV0gulX/T/HUdnZyndUcyO0rhh41HxFpG
+         kYInDjudwk3iOyW9FOdgC+xp0vUgx0N9lKSWz/7ODb3wv0MtnlbJLFNzhbdQ3x0SekK4
+         tYgeTS9ZXz0RXvMGOzugHfP4KTMd9CY9N39IEfEVnpQI/eRw0lfIBSYAEn0+JWNtCHhg
+         +B5rw7kQ1tZCY5Ig2JINMqiSSN5hYv2+N4A0pnYtA1/IOtnfPTi0JTR0LbRV1ZpwDQ7b
+         wbPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740047768; x=1740652568;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O5iVZZR9foR8lSRa9A1Cz5+1azaBerETQsnQI9/mz00=;
+        b=dJkerWrFCHNLy54MGgc5gg1tyFVlXrMiqZ9iUzqJVhSxX2yLikqpI4cWehsp04D9iq
+         URrSKJJYGJMAALnb3edJHX0uDLtoEJV61Cef76HithAo47QdVUL9ECMPNhQDG0wgprHD
+         zs9d4FjaCj0Isz55lYwcdB1mric1rioi2JhgjAuitBIirg6Exj1p6eHn4iuiYHKXoLJf
+         C+RN51C5mRlP0G6xWPBQ21YlYcyHn+ZJOaYeOsR4ejAykqQunUNUkNg902l5Oa3/3Trl
+         n8Gnadi0K4l05gzCdXBT44jAdLuiJKUcQfsL4RAD1rnZDeoj6isHIGXuo9ulW0TyFbAn
+         /ZOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVsXuwBUh3g6d1gmyrCIMXp0sUtYkNpA/8hbWviotXCCIizf2JRs10smrhuH2a+Lr47XRfAm+0d5Kk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6mi0EasLg/aBVLYlR1DBUPhl/zhLDkKb1TNxsWePZ2bc2lc/I
+	Qe046lMkiJ83Hy9Kr7eNmGTsUmX3h7bbLtU3G4e61TZr5Cks1WTjMcEzML1tUC7FKhOnbrDmJwl
+	opOJV1wn4k3IWHygxqFC/SkLhPSulNF929OLl
+X-Gm-Gg: ASbGncuO1oQ0IMVmVpkC7UW6EkprGqKN+9Q7gHcglghEeYyTA7rTUTOZja3DugLB0lD
+	4Qa6+qCU/UecJofONrWYImL3NvHcB20JU2Ky0mTpQyyu+ApGvlSPssDWDg1pK6lwhBwIqB4QTeF
+	Zbe9rtgIQZ042OF19VancKMM3BWg==
+X-Google-Smtp-Source: AGHT+IGnhZ/N/b1qnxRs2Jsi8Y/50vjnoyO0zfZHcmC9W4l/D2tFMf5bs5KQUF4JBKbo/wh4l5j30kF1MacTF4c+9t8=
+X-Received: by 2002:a17:907:2da1:b0:ab3:9aba:ce7d with SMTP id
+ a640c23a62f3a-abbedd308fcmr258749266b.1.1740047767684; Thu, 20 Feb 2025
+ 02:36:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <436ac2021bb3d75114ca0e45f25a6a8257489d3b.1737754129.git.nicolinc@nvidia.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9DA:EE_|MN0PR12MB6343:EE_
-X-MS-Office365-Filtering-Correlation-Id: f2563b60-df2e-4e19-fe07-08dd518e5a2b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?tXpKN0JgNyvvH1ADrMqnCaR4QGJnw27ywdfKh/8JxNJhMfYpm9zIH6I69sUY?=
- =?us-ascii?Q?AozBNeS03g47yZMrygmCn6IEULJzuqYfkW8rYc2c92cmQolrPzDhd495rWmQ?=
- =?us-ascii?Q?YaH0iB8eyz+/svCVXOHk0Cdu9rPXAwmdrK5lradDtG86s64K13M4QQm1abza?=
- =?us-ascii?Q?XJ68mlgBk+kqqClbRVGd8KooNeUcdNrX8tfltzk3Y/8sz7b+Licakqh6Q2H4?=
- =?us-ascii?Q?Rd39MhqoK0yvbd6vocQlj3OdbHHmjpNvMCmvv4Je2k1nZ7Pw6mZeagRp0ZTl?=
- =?us-ascii?Q?l8pk1SdVQBPunp+8UOpUw1yAKo8HxUJzBAnoz9tmvWsrFmKVjTMhxDnywuyx?=
- =?us-ascii?Q?J0oyCnpb+mGh0PfRaS2AX3G7HnLdk5pDJgRBaUpfI4yiAqzrOxCbhqZeTzaN?=
- =?us-ascii?Q?NflZSV+SmghsLRyyaB/kJ+TTRdCAtTPLfeKGgKUUcRjdAN/bvBY5zuZcJSyj?=
- =?us-ascii?Q?Zw2o/O/WbM4imjiTzlzbuDs4V8NfffOiX0OYmZ6Rii5fSdRSdHy37Bupa5Bh?=
- =?us-ascii?Q?J69qnbaZ0LjlUL92KXliA2u88785jYZVS6waMYjQNBOWa2bmSNmk2A9U6Ikp?=
- =?us-ascii?Q?JZVBJKxRWTMXzQWoW1cQgSUHIuGq1+RU435Fs1CYR8d/yQU9AhXPYV6ANU3B?=
- =?us-ascii?Q?6nReP93NhgPIqj8RSfEIKTMLH+Er3beUrwhRZAKLP+hPAV+WR2/aVFQMnq8N?=
- =?us-ascii?Q?+U/Q7b5B9rGs5Rb81JabQAwYddwbXxTIBXl9i3UuFshBgUW+4X5YqeCfMQDc?=
- =?us-ascii?Q?lUHtWkRjJbUL8+8bJEeEbxUCCd9mGk3MNUbLJn/frUwS3iDVewMmIFKQ1imO?=
- =?us-ascii?Q?cDU9uRovHZtpgRTfySJFjaUNjzrnqsWkoTByA5id9XxxYMJl+dyaKjl0hhah?=
- =?us-ascii?Q?jcB8nn3FgUKXIB9BjXK9WTpPAFy0A5b1mb4w2Gp29QECvwTge0kc+nSIKf6r?=
- =?us-ascii?Q?iI1d/hnqK5ZYm5NesSJVGJuFTfizUFPu1RCBxahVtZHUMQ+MKNf7YIyKErjI?=
- =?us-ascii?Q?fkdVtMss2TmycgZsKFnlsNjNFTann9VLM5R5FI4i+Mm47MmW0ojExgVjwTRW?=
- =?us-ascii?Q?mzz4DxygrvG6d1oIglIPan+QgDv5fw6ohbTBODvSJxHRUR8+cDzvVvSMnZsp?=
- =?us-ascii?Q?xGw9qUXC5xpLNMqfPTpiMcjAj39DJdMcfkp1jsWJzECzNY3b5lQLadmqFtt1?=
- =?us-ascii?Q?IlHT+FaQ4NBYzxP6nZAjtXIXjlGVj4j16j1585HzQE4a84xK9NQPFMldKNPA?=
- =?us-ascii?Q?UKSmSCxZHLMiNhPaXfCXGSSOrqQMjZN/sb1ljFkv/UMgRJ3jvuB5MuOF19o1?=
- =?us-ascii?Q?dPuwvzAv5kE7OErfNXz+ayMKIvtGJPlpUYMcgcqHkCR3nmxVA6X4XxRK7mcQ?=
- =?us-ascii?Q?2vECmqTpbok7xNK8fhzqanpY2vDKI2YDJhjZBXgAoY9V0WBUHQ0YQ4C/9+Li?=
- =?us-ascii?Q?AcGMYzxJgEzUYO0Aw2xDHj2EmlG3xkiw2OtDZ1sqA1TsJd+Gv1KdDU0YV3wz?=
- =?us-ascii?Q?b36mUEk74ncEAHI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 09:09:59.5110
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2563b60-df2e-4e19-fe07-08dd518e5a2b
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9DA.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6343
+References: <cover.1737577229.git.babu.moger@amd.com> <2119b76ef8be21b1d8b2deedfab23e8e33ba724c.1737577229.git.babu.moger@amd.com>
+ <Z7XfcV05ZZkHm6bc@e133380.arm.com> <CALPaoCiPkjbTf2He2tXsguxHDtGF+YfVUZScL8dseVc6rvAfvA@mail.gmail.com>
+ <ac6860d4-92b4-424e-af4f-d6e3d5722232@intel.com>
+In-Reply-To: <ac6860d4-92b4-424e-af4f-d6e3d5722232@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Thu, 20 Feb 2025 11:35:56 +0100
+X-Gm-Features: AWEUYZlXmTvbxaQXEpd1mqvPfLmY_ybKERyUy6C1f7TW_OoIZRNmv47Q6k7qu2s
+Message-ID: <CALPaoCh8siZKjL_3yvOYGL4cF_n_38KpUFgHVGbQ86nD+Q2_SA@mail.gmail.com>
+Subject: Re: [PATCH v11 17/23] x86/resctrl: Auto assign/unassign counters when
+ mbm_cntr_assign is enabled
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: Dave Martin <Dave.Martin@arm.com>, Babu Moger <babu.moger@amd.com>, corbet@lwn.net, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, tony.luck@intel.com, fenghua.yu@intel.com, 
+	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org, 
+	thuth@redhat.com, rostedt@goodmis.org, xiongwei.song@windriver.com, 
+	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com, 
+	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com, 
+	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com, 
+	mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	maciej.wieczor-retman@intel.com, eranian@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 24, 2025 at 04:30:43PM -0800, Nicolin Chen wrote:
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
-> index ceeed907a714..20a0e39d7caa 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
-> @@ -43,6 +43,8 @@ static void arm_smmu_make_nested_cd_table_ste(
->  	target->data[0] |= nested_domain->ste[0] &
->  			   ~cpu_to_le64(STRTAB_STE_0_CFG);
->  	target->data[1] |= nested_domain->ste[1];
-> +	/* Merge events for DoS mitigations on eventq */
-> +	target->data[1] |= STRTAB_STE_1_MEV;
+Hi Reinette,
 
-This should have cpu_to_le64(). Fixed accordingly.
+On Wed, Feb 19, 2025 at 6:55=E2=80=AFPM Reinette Chatre
+<reinette.chatre@intel.com> wrote:
+>
+> Hi Dave and Peter,
+>
+> On 2/19/25 6:09 AM, Peter Newman wrote:
+> > Hi Dave,
+> >
+> > On Wed, Feb 19, 2025 at 2:41=E2=80=AFPM Dave Martin <Dave.Martin@arm.co=
+m> wrote:
+> >>
+> >> Hi,
+> >>
+> >> On Wed, Jan 22, 2025 at 02:20:25PM -0600, Babu Moger wrote:
+> >>> Assign/unassign counters on resctrl group creation/deletion. Two coun=
+ters
+> >>> are required per group, one for MBM total event and one for MBM local
+> >>> event.
+> >>>
+> >>> There are a limited number of counters available for assignment. If t=
+hese
+> >>> counters are exhausted, the kernel will display the error message: "O=
+ut of
+> >>> MBM assignable counters". However, it is not necessary to fail the
+> >>> creation of a group due to assignment failures. Users have the flexib=
+ility
+> >>> to modify the assignments at a later time.
+> >>
+> >> If we are doing this, should turning mbm_cntr_assign mode on also
+> >> trigger auto-assingment for all extant monitoring groups?
+> >>
+> >> Either way though, this auto-assignment feels like a potential nuisanc=
+e
+> >> for userspace.
+>
+> hmmm ... this auto-assignment was created with the goal to help userspace=
+.
+> In mbm_cntr_assign mode the user will only see data when a counter is ass=
+igned
+> to an event. mbm_cntr_assign mode is selected as default on a system that
+> supports ABMC. Without auto assignment a user will thus see different
+> behavior when reading the monitoring events when the user switches to a k=
+ernel with
+> assignable counter support: Before assignable counter support events will=
+ have
+> data, with assignable counter support the events will not have data.
+>
+> I understood that interfaces should not behave differently when user spac=
+e
+> switches kernels and that is what the auto assignment aims to solve.
+>
+> >>
+> >> If the userspace use-case requires too many monitoring groups for the
+> >> available counters, then the kernel will auto-assign counters to a
+> >> random subset of groups which may or may not be the ones that userspac=
+e
+> >> wanted to monitor; then userspace must manually look for the assigned
+> >> counters and unassign some of them before they can be assigned where
+> >> userspace actually wanted them.
+> >>
+> >> This is not impossible for userspace to cope with, but it feels
+> >> awkward.
+> >>
+> >> Is there a way to inhibit auto-assignment?
+> >>
+> >> Or could automatic assignments be considered somehow "weak", so that
+> >> new explicit assignments can steal automatically assigned counters
+> >> without the need to unassign them explicitly?
+> >
+> > We had an incomplete discussion about this early on[1]. I guess I
+> > didn't revisit it because I found it was trivial to add a flag that
+> > inhibits the assignment behavior during mkdir and had moved on to
+> > bigger issues.
+>
+> Could you please remind me how a user will set this flag?
 
-Thanks
-Nicolin
+Quoting my original suggestion[1]:
+
+ "info/L3_MON/mbm_assign_on_mkdir?
+
+  boolean (parsed with kstrtobool()), defaulting to true?"
+
+After mount, any groups that got counters on creation would have to be
+cleaned up, but at least that can be done with forward progress once
+the flag is cleared.
+
+I was able to live with that as long as there aren't users polling for
+resctrl to be mounted and immediately creating groups. For us, a
+single container manager service manages resctrl.
+
+>
+> >
+> > If an agent creating directories isn't coordinated with the agent
+> > managing counters, a series of creating and destroying a group could
+> > prevent a monitor assignment from ever succeeding because it's not
+> > possible to atomically discover the name of the new directory that
+> > stole the previously-available counter and reassign it.
+> >
+> > However, if the counter-manager can get all the counters assigned once
+> > and only move them with atomic reassignments, it will become
+> > impossible to snatch them with a mkdir.
+> >
+>
+> You have many points that makes auto-assignment not be ideal but I
+> remain concerned that not doing something like this will break
+> existing users who are not as familiar with resctrl internals.
+
+I agree auto-assignment should be the default. I just want an official
+way to turn it off.
+
+Thanks!
+-Peter
+
+[1] https://lore.kernel.org/lkml/CALPaoCiJ9ELXkij-zsAhxC1hx8UUR+KMPJH6i8c8A=
+T6_mtXs+Q@mail.gmail.com/
