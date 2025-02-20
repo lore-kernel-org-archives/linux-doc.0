@@ -1,190 +1,131 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994411D5CFB;
-	Thu, 20 Feb 2025 15:21:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A68F14A82;
+	Thu, 20 Feb 2025 15:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740064904; cv=none; b=F6TVKWSpsZk7baisne5kYyCZCvZ5WkDB6TKGvfPPC7/ShGB7AZmZbGNPkoFvID31gwuXulQq3l5NiHQng7x8IQhsWW4mHuhmlIUEfvIJS0pveKWAqsVGJadGstUuCNhGxDUiSvQfrxcYFK4tCTD5rqWbG3QZxf4GBvKA08mR8SY=
+	t=1740066258; cv=none; b=j13d3QmZRtDntcHGe7ritx1aJY3nszj6XVbPKP/0ftCOsE2k6bxNqhmAitDv7xuFGJ3smssexkpQqhVv/Lc6TLC7CBHWLyJRyBGEf4vbPqq/3ZwMxSU+LjIvzJCmpeuVeDB/7cFfKcML0j/SSZ6FT5sv7X0fA70vov5/F4FkBsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740064904; c=relaxed/simple;
-	bh=1BJ3GLEeXmNh1bHUd2EtF6UaEHncLJ80UUAwqY7Rlz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oRVwMgicGKB6Ky3iaJ4lTMGtxUwnPikh1STxJudbw13BLE/hluLBWL7xX912QpOuYQVAYuevVQfw2CMe2i/t9bvNxSuhcZn9n50v7reSPe1CrcEzurjKuhdMpLOTNujXvigLfCr2o+GuUxUFpN2Tcmm5QWargQwqe+iyfEMJoV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE06116F3;
-	Thu, 20 Feb 2025 07:21:58 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 14F8B3F59E;
-	Thu, 20 Feb 2025 07:21:35 -0800 (PST)
-Date: Thu, 20 Feb 2025 15:21:33 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: "Moger, Babu" <bmoger@amd.com>
-Cc: Babu Moger <babu.moger@amd.com>, corbet@lwn.net,
-	reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, tony.luck@intel.com,
-	peternewman@google.com, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
-	rostedt@goodmis.org, xiongwei.song@windriver.com,
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
-Subject: Re: [PATCH v11 23/23] x86/resctrl: Introduce interface to modify
- assignment states of the groups
-Message-ID: <Z7dIfWAk+f4Gc54X@e133380.arm.com>
-References: <cover.1737577229.git.babu.moger@amd.com>
- <fe1c0c4cebd353ccb3e588d7ea2fe9ef3dff0ef2.1737577229.git.babu.moger@amd.com>
- <Z7YBxNIWb7dqOnfi@e133380.arm.com>
- <1ccb907b-e8c9-4997-bc45-4a457ee84494@amd.com>
+	s=arc-20240116; t=1740066258; c=relaxed/simple;
+	bh=vixLLi9/2+puAuThU6rLYYKbOilkcMeTe2mtRtu1ry0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BW60Pla/nSbScETmM70sj98eURxqgMBifhh8Gu5EBeLpaP/k5s9qBckOZtz/j2pdVc/kvvd0rHGvG54YmljDaEPF3NVh+PWfBeDIGM078gcXFVGULiqowrqb1LUrxR31a4sE71XPBcmszjZRYOHnAevhgr2EHBGJc3biescbLmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Aoz/HXuK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=9ZwgEiOj; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Aoz/HXuK";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="9ZwgEiOj"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1740066255;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OHflafuFF2Pw7sS+fLkXEz/wfs4sGDW5pqwQpGcmZvk=;
+	b=Aoz/HXuKARD+BSUAkVRzBBuwn0VC36Uwr4MY7dRAP5Cdkd18jyso/mOxNxzCGtk8pVcMQd
+	p1tHmmKpTB6gpwIn0OOHqbBOgsGnLfGE8UKHAlmd9IJLIgLvYump5xTHKdata51aLD08Zc
+	cqontCvWedLVqSGcOQhE3GT45NzOLy+iACLU+Cf44OUBXpH9QvJPLfYaEp1degZsuvIYv0
+	5EcdubQAVTEsLPMBdyqRpn7RBeWZyvHaLXIsjav2iryghqJUVyNwm+G2aNtmKrNhXv/APm
+	IMpALywQCtZcOBkhoRwdo9gAzmEXFQRfL7egNaHkO6xJxaxHZv1c0sOzlAlulQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1740066255;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OHflafuFF2Pw7sS+fLkXEz/wfs4sGDW5pqwQpGcmZvk=;
+	b=9ZwgEiOjXJyYuSoCDdOXInelSIoDz6uuSh93n06oiFdmwF3oBJeWewP8zMSmezPuReqKyf
+	QP/8TVF43JrsATCA==
+Date: Thu, 20 Feb 2025 16:44:01 +0100
+Subject: [PATCH] kunit: tool: Implement listing of available architectures
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1ccb907b-e8c9-4997-bc45-4a457ee84494@amd.com>
+Message-Id: <20250220-kunit-list-v1-1-40b9d56417ee@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIAMBNt2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDIyMD3ezSvMwS3ZzM4hJdU1OjRIvklGQDQ8NUJaCGgqLUtMwKsGHRsbW
+ 1AHF4kspcAAAA
+X-Change-ID: 20250220-kunit-list-552a8cdc011e
+To: Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740066254; l=2540;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=vixLLi9/2+puAuThU6rLYYKbOilkcMeTe2mtRtu1ry0=;
+ b=vVUhFFM57xUFzYiiVYock3MuTo5MshhsELAJxfl7/MKPQIhRDbL+qYmDqYDUtGr2o07/50sQ0
+ oYpG7/lqXvrDlgydmgcjWLOJ8PIB0LXHFtVXeOH48/8aqpBSLchE2nb
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-Hi,
+To implement custom scripting around kunit.py it is useful to get a list of
+available architectures. While it is possible to manually inspect
+tools/testing/kunit/qemu_configs/, this is annoying to implement and
+introduces a dependency on a kunit.py implementation detail.
 
-On Wed, Feb 19, 2025 at 06:34:42PM -0600, Moger, Babu wrote:
-> Hi Dave,
-> 
-> On 2/19/2025 10:07 AM, Dave Martin wrote:
-> > Hi,
-> > 
-> > On Wed, Jan 22, 2025 at 02:20:31PM -0600, Babu Moger wrote:
+Introduce 'kunit.py run --arch help' which lists all known architectures
+in an easy to parse list. This is equivalent on how QEMU implements
+listing of possible argument values.
 
-> > [...]
-> > 
-> > > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > > index 6e29827239e0..299839bcf23f 100644
-> > > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> > > @@ -1050,6 +1050,244 @@ static int resctrl_mbm_assign_control_show(struct kernfs_open_file *of,
-> > 
-> > [...]
-> > 
-> > > +static ssize_t resctrl_mbm_assign_control_write(struct kernfs_open_file *of,
-> > > +						char *buf, size_t nbytes, loff_t off)
-> > > +{
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+ Documentation/dev-tools/kunit/run_wrapper.rst | 2 ++
+ tools/testing/kunit/kunit_kernel.py           | 8 ++++++++
+ 2 files changed, 10 insertions(+)
 
-[...]
+diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+index 19ddf5e07013314c608b570e297a8ff79a8efe7f..6697c71ee8ca020b8ac7e91b46e29ab082d9dea0 100644
+--- a/Documentation/dev-tools/kunit/run_wrapper.rst
++++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+@@ -182,6 +182,8 @@ via UML. To run tests on qemu, by default it requires two flags:
+   is ignored), the tests will run via UML. Non-UML architectures,
+   for example: i386, x86_64, arm and so on; run on qemu.
+ 
++  ``--arch help`` lists all valid ``--arch`` values.
++
+ - ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
+   same argument as passed to the ``CROSS_COMPILE`` variable used by
+   Kbuild. As a reminder, this will be the prefix for the toolchain
+diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
+index d30f90eae9a4237e85910fd36f7f1c731d952319..e04195b135edc8f1aabe21d094b276e47c4f6848 100644
+--- a/tools/testing/kunit/kunit_kernel.py
++++ b/tools/testing/kunit/kunit_kernel.py
+@@ -14,6 +14,7 @@ import os
+ import shlex
+ import shutil
+ import signal
++import sys
+ import threading
+ from typing import Iterator, List, Optional, Tuple
+ from types import FrameType
+@@ -201,6 +202,13 @@ def _default_qemu_config_path(arch: str) -> str:
+ 		return config_path
+ 
+ 	options = [f[:-3] for f in os.listdir(QEMU_CONFIGS_DIR) if f.endswith('.py')]
++
++	if arch == 'help':
++		print('um')
++		for option in options:
++			print(option)
++		sys.exit()
++
+ 	raise ConfigError(arch + ' is not a valid arch, options are ' + str(sorted(options)))
+ 
+ def _get_qemu_ops(config_path: str,
 
-> > > +	while ((token = strsep(&buf, "\n")) != NULL) {
-> > > +		/*
-> > > +		 * The write command follows the following format:
-> > > +		 * “<CTRL_MON group>/<MON group>/<domain_id><opcode><flags>”
-> > > +		 * Extract the CTRL_MON group.
-> > > +		 */
-> > > +		cmon_grp = strsep(&token, "/");
-> > > +
-> > 
-> > As when reading this file, I think that the data can grow larger than a
-> > page and get split into multiple write() calls.
-> > 
-> > I don't currently think the file needs to be redesigned, but there are
-> > some concerns about how userspace will work with it that need to be
-> > sorted out.
-> > 
-> > Every monitoring group can contribute a line to this file:
-> > 
-> > 	CTRL_GROUP / MON_GROUP / DOMAIN = [t][l] [ ; DOMAIN = [t][l] ]* LF
-> > 
-> > so, 2 * (NAME_MAX + 1) + NUM_DOMAINS * 5 - 1 + 1
-> > 
-> > NAME_MAX on Linux is 255, so with, say, up to 16 domains, that's about
-> > 600 bytes per monitoring group in the worst case.
-> > 
-> > We don't need to have many control and monitoring groups for this to
-> > grow potentially over 4K.
-> > 
-> > 
-> > We could simply place a limit on how much userspace is allowed to write
-> > to this file in one go, although this restriction feels difficult for
-> > userspace to follow -- but maybe this is workable in the short term, on
-> > current systems (?)
-> > 
-> > Otherwise, since we expect this interface to be written using scripting
-> > languages, I think we need to be prepared to accept fully-buffered
-> > I/O.  That means that the data may be cut at random places, not
-> > necessarily at newlines.  (For smaller files such as schemata this is
-> > not such an issue, since the whole file is likely to be small enough to
-> > fit into the default stdio buffers -- this is how sysfs gets away with
-> > it IIUC.)
-> > 
-> > For fully-buffered I/O, we may have to cache an incomplete line in
-> > between write() calls.  If there is a dangling incomplete line when the
-> > file is closed then it is hard to tell userspace, because people often
-> > don't bother to check the return value of close(), fclose() etc.
-> > However, since it's an ABI violation for userspace to end this file
-> > with a partial line, I think it's sufficient to report that via
-> > last_cmd_status.  (Making close() return -EIO still seems a good idea
-> > though, just in case userspace is listening.)
-> 
-> Seems like we can add a check in resctrl_mbm_assign_control_write() to
-> compare nbytes > PAGE_SIZE.
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20250220-kunit-list-552a8cdc011e
 
-This might be a reasonable stopgap approach, if we are confident that the
-number of RMIDs and monitoring domains is small enough on known
-platforms that the problem is unlikely to be hit.  I can't really judge
-on this.
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
-> But do we really need this? I have no way of testing this. Help me
-> understand.
-
-It's easy to demonatrate this using the schemata file (which works in a
-similar way).  Open f in /sys/fs/resctrl/schemata, then:
-
-	int n = 0;
-
-	for (n = 0; n < 1000; n++)
-		if (fputs("MB:0=100;1=100\n", f) == EOF)
-			fprintf(stderr, "Failed on interation %d\n", n);
-
-This will succeed a certain number of times (272, for me) and then fail
-when the stdio buffer for f overflows, triggering a write().
-
-Putting an explicit fflush() after every fputs() call (or doing a
-setlinebuf(f) before the loop) makes it work.  But this is awkward and
-unexpected for the user, and doing the right thing from a scripting
-language may be tricky.
-
-In this example I am doing something a bit artificial -- we don't
-officially say what happens when a pre-opened schemata file handle is
-reused in this way, AFAICT.  But for mbm_assign_control it is
-legitimate to write many lines, and we can hit this kind of problem.
-
-
-I'll leave it to others to judge whether we _need_ to fix this, but it
-feels like a problem waiting to happen.
-
-
-> All these file operations go thru generic call kernfs_fop_write_iter().
-> Doesn't it take care of buffer check and overflow?
-
-No, this is called for each iovec segment (where userspace used one of
-the iovec based I/O syscalls).  But there is no buffering or
-concatenation of the data read in: each segment gets passed down to the
-individual kernfs_file_operations write method for the file:
-
-	len = ops->write(of, buf, len, iocb->ki_pos)
-
-calls down to
-
-	resctrl_mbm_assign_control_write(of, buf, len, iocb->ki_pos).
-
-
-I'll try to port my buffering hack on top of the series -- that should
-help to illustrate what I mean.
-
-Cheers
----Dave
