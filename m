@@ -1,191 +1,186 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5EE421480E;
-	Thu, 20 Feb 2025 20:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C93E264606;
+	Thu, 20 Feb 2025 20:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740081698; cv=none; b=Yz2iCvidgkSL2EkYWgt+K7Pf/MP79OfVAWVH15rhj0fYhyQ6/Cbo5PZCZcLb2MpiO2VEKe8S2ggu0EtGpjXyOv2ooqi8qR0tHOzslszlGyrZm405f0AxtJe2dtm13Bm5i7FL+nlu5P8SUh4U8FCRYiPkO/cUKWfYlr3vPhdiwjU=
+	t=1740081762; cv=none; b=TdDrJfJMU62q2IrClhOuct8GS6ErvKiPBsVv6M1oNqj0KQGvJFxv97LuMeIdsm5Zgnxw5zSZuBJNbaFt2aNq/PWxyCWyt29n6MFGTyipePQTpEHaBfFRmcT5yEcdkZFhY6EIP1sAk4w2rBogwuVY4rPA7V0/zBtgRN4RGiyZetI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740081698; c=relaxed/simple;
-	bh=GXCL6RSUSvS7HAMVCHd+mRQklIK6uRVePTBP+wR/0W4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W/f/rmjp278LRNGJeB9SRVUuIAF6g7Yickb01Qn/KZj5anwN3vMmGhIzbeoFloG97gXm5m/C+yzjhCYA8YYoRDJ2CQaswixR05tVMvv2dk+TzfiWMOL0k3/zfAW8MNcaeXCwcYnWxZ17d0QfDUm8dN4UoEkajH+fNpJD/KjKq94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Km2V4IiK; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740081762; c=relaxed/simple;
+	bh=MEtRL1Z7JIGfjc9N5PY4VR2QlXBUQPig7OqiInxSM14=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lfsLiWzV2PbfJbE2bm5pGDY95EiLTUfiSbgLGDMbA7MtZ9ij33TsS0eAP0V+/E89eyjlJXNUPQuL2bsYkQ6j/8wxy1H8D061WpTZpqyzsxeUi7V1lP+hVUDctHgEUHwAxQpbc5hVaaqy3fOOLPo6Ynf372RiUEOeWFt5TWayRmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Edi3n9/F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Km2V4IiK"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2212a930001so36278175ad.0;
-        Thu, 20 Feb 2025 12:01:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740081696; x=1740686496; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xXVAzd9z1Xkj/FF5pL9lHEU7EIbxtObnzcYt42L9wXI=;
-        b=Km2V4IiKN+8oyygJqnvSkXYk6PSpLi5nQISnNQXbmt4pDA75m2Bglpb7RgqVIiZmey
-         uqHdyrHCO+UM5M+7cn3OGdpseZDSdq1Kl8s6YiX1eLi/S1biySxPGs82ho2HBc9i/cp4
-         tzVSBgu/4bmmy+99leS1bOZMl2Mva84g7CzYLjJ28+UN7l6wDibyrfxcc8KJ1CnZ0rLC
-         rj7UBUxRytZN7QJamk6jTLhjaLXCN6NlABSm8G0Vgbe7CfBS+U+ZP4Kxt494sUTdfHYT
-         V5PcdrPDb1QXDiNLA+sI1wJBZ2xCs9a+LUd+zDDZ3Sg8wuUFP5opxeTooLqk6DV+6bwz
-         +C2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740081696; x=1740686496;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xXVAzd9z1Xkj/FF5pL9lHEU7EIbxtObnzcYt42L9wXI=;
-        b=ggrwfkFScaJLZZfM7Dred98mMpjioxWQxMYUWCnmdNg+AO/Zz4bWZkVb7IryKTw3cP
-         W8dud0r1InXw8EYPVUwOaY7A+ZPSg39AK/joAh/x6xyaNvKJcY/i8YOxBZh89kCkh4K9
-         z8BEkDRxgYu+Cg5WAbUoiIh9j6WMVNmPUOHkjnZkOpTmE4lBCApnjX8jBo3PUMDKs2ZA
-         677cpaywm5z/xDeRWRcY95c4futfuJ07H7w/w0p4LSKKcQ2ZLw87ImjPXYp9tEMZyGvD
-         CrkP40I47taiifAjMAno66sYhteqVRvieKQ8pwGRGJjHc9CV39pmqTzvbEKc1CVVRfT8
-         scEA==
-X-Forwarded-Encrypted: i=1; AJvYcCUrLyze1fS/90yu041bopIDQGnlojVUarAnxKyACb4T/sBfswg98L5GdhQJMZJcpywM3FY=@vger.kernel.org, AJvYcCVv3Aqlec0QOUXlTGdjgcTBREoSpvWeHhCMENi+1jNySCBQ8N+b1J/o9Zn+h5BNAVxQ7WM9J+CAyRHq@vger.kernel.org, AJvYcCWTyVP8hVrPJ92AadN8Ni619TXPtJir+pNAo2px/eZwJhIPr5EXc1ijAjRZSUlzkNKaAZ99zhF4fq0FaMkBTFez@vger.kernel.org, AJvYcCX+STVJ1nC7yjgI88iNsxmu0u8MLZ89M8qGelwEwQO5MpC3XpmCntaH9AqFqT0U5GnFTpDuHY+NfLeP4pu0@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6nnRG8PBW2TiF8r1TAu/MaaE0pXlFSdecfLwwXOVAtmwEkBLP
-	I0G44s2ktTo2qsinPLy68QaVgQpVSYzFm9rzIYgSo5PSl9xQPRM=
-X-Gm-Gg: ASbGnctqEVUbCvKr2i8zX/mfrj4HFyIo/MKJeuU1XhJYm8wm+5gXjWMOn89e9cefeO3
-	kh8HxLvXdndSE7Z/gVG3tbRnPQZU15rsPoI8UR5tRXYgqTW+p5cpUdVzKFM+/QF6vqk3lyWVGnE
-	5MqQVIanUpYa8iGa1lPinU+QJjML87lBKTDXI3ln9fnsGjL5a/xiiifkEh/hrh37WO+KGEMHuD4
-	9lLSoquQJJYQZyn8Xg+kYug4Ok6uSaL+Y/ErO7qiOUjpuc3fQb2hBg8pz3pY5FcLzWIsZNYEVWS
-	oMk+YaswGIQ8BMU=
-X-Google-Smtp-Source: AGHT+IG15zCfEBW31sU+1aRPB26CfUNNJjIKvAOSrUMtD5sMukp+5wmY0Gkb9qUidKnvxdpmpChoZA==
-X-Received: by 2002:a17:902:e5c5:b0:220:cd9a:a177 with SMTP id d9443c01a7336-221a0ec33d8mr457305ad.9.1740081696137;
-        Thu, 20 Feb 2025 12:01:36 -0800 (PST)
-Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-220d556e15esm126564135ad.190.2025.02.20.12.01.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 12:01:35 -0800 (PST)
-Date: Thu, 20 Feb 2025 12:01:34 -0800
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
-	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Shailend Chand <shailend@google.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Willem de Bruijn <willemb@google.com>,
-	David Ahern <dsahern@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
-	asml.silence@gmail.com, dw@davidwei.uk,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Victor Nogueira <victor@mojatatu.com>,
-	Pedro Tammela <pctammela@mojatatu.com>,
-	Samiullah Khawaja <skhawaja@google.com>
-Subject: Re: [PATCH net-next v4 9/9] selftests: ncdevmem: Implement devmem
- TCP TX
-Message-ID: <Z7eKHlA0rCF2Wgxb@mini-arch>
-References: <20250220020914.895431-1-almasrymina@google.com>
- <20250220020914.895431-10-almasrymina@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Edi3n9/F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7ABFC4CEE4;
+	Thu, 20 Feb 2025 20:02:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740081761;
+	bh=MEtRL1Z7JIGfjc9N5PY4VR2QlXBUQPig7OqiInxSM14=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Edi3n9/F5Sqmer9A9JH5DnvCNDuFrfmbH/avLGcrUT3bS/m2dGYhL2lokuu7tRX/9
+	 R5p/w/g4NujlW6gR9iYkNjB4dmSc66LFQ1kS8FAyZj2CasEr4pwlccRHWHy/uWBfQb
+	 d1PUN+bvOtDwZPbVMkBHUNT0evMAKDX1go7pJKZ+6M7uO1O0t31toSmoBRKlJVuJmS
+	 rlDWIPt2OysYsTClolKBTWuIFb6yNUm3Vx879ACNHLXb71oqD2wQ7oOcfbiPOZL4Db
+	 X28hOzgQ1Hd3+GmYBjxTTw5VE5oykgjruoXVOWROHtGaPU4yuZWxwoJ6fQNBeZNZk9
+	 jZUfAn8XaLnWA==
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3f3edbef7d2so412837b6e.2;
+        Thu, 20 Feb 2025 12:02:41 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUgN5/tzukbfehzOlE8dVkYdX/Eu299HdgsZSpzyIKggeVxRpa4MJxyA3lgDIH7r+5qzhX9zsJYbn7y5hJ/@vger.kernel.org, AJvYcCXgzOIH6iQ6JH1Gos2xnyz2pi+H1E+AGr/9LA9qS0vPgIUJ6e9kzO32YXldm1uhC5tqlhWGzxe9aqk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWKJoDxKd0bjf+9Q2GJjl9JI/FkskbP9BMtzFKcQD7iL8wMeue
+	cyLYC0tiB7AzNaZB1haD9QpidmN1KjWLFgzAOyI+3ygZekaS1E4An7cih2GmOsWnRnp4zlKNbPz
+	ralSvjAfaQblYtFUf25lOb8b5atQ=
+X-Google-Smtp-Source: AGHT+IFd4ofgG10nIb4ge4yUIS0Xn3TLKVX9zmKZXE2NDkUTJnyKOJOVT28x87WH+SooSDrKqsftlDw5K0GunUHcBzg=
+X-Received: by 2002:a05:6808:229e:b0:3f3:ff78:e5e4 with SMTP id
+ 5614622812f47-3f4247c1ed5mr561834b6e.38.1740081761081; Thu, 20 Feb 2025
+ 12:02:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250220020914.895431-10-almasrymina@google.com>
+References: <20250128141139.2033088-1-darcari@redhat.com> <20250220151120.1131122-1-darcari@redhat.com>
+In-Reply-To: <20250220151120.1131122-1-darcari@redhat.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 20 Feb 2025 21:02:28 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0jjoZq+cm=jHOJ4hPhXKK5iSRCrpCYh80-6FhdSjYPMUA@mail.gmail.com>
+X-Gm-Features: AWEUYZlnhgw-RkABbxhcGjKUkKJcNFucHCdfxJqeWCJjzmq85_pPtsemizOpRz4
+Message-ID: <CAJZ5v0jjoZq+cm=jHOJ4hPhXKK5iSRCrpCYh80-6FhdSjYPMUA@mail.gmail.com>
+Subject: Re: [PATCH v5] intel_idle: introduce 'no_native' module parameter
+To: David Arcari <darcari@redhat.com>
+Cc: linux-pm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Jacob Pan <jacob.jun.pan@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+	Artem Bityutskiy <dedekind1@gmail.com>, Prarit Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 02/20, Mina Almasry wrote:
-> Add support for devmem TX in ncdevmem.
-> 
-> This is a combination of the ncdevmem from the devmem TCP series RFCv1
-> which included the TX path, and work by Stan to include the netlink API
-> and refactored on top of his generic memory_provider support.
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
-> 
+On Thu, Feb 20, 2025 at 4:11=E2=80=AFPM David Arcari <darcari@redhat.com> w=
+rote:
+>
+> Since commit 18734958e9bf ("intel_idle: Use ACPI _CST for processor model=
+s
+> without C-state tables") the intel_idle driver has had the ability to use
+> the ACPI _CST to populate C-states when the processor model is not
+> recognized. However, even when the processor model is recognized (native
+> mode) there are cases where it is useful to make the driver ignore the pe=
+r
+> cpu idle states in lieu of ACPI C-states (such as specific application
+> performance). Add the 'no_native' module parameter to provide this
+> functionality.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Cc: Len Brown <lenb@kernel.org>
+> Cc: David Arcari <darcari@redhat.com>
+> Cc: Artem Bityutskiy <dedekind1@gmail.com>
+> Cc: Prarit Bhargava <prarit@redhat.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: David Arcari <darcari@redhat.com>
 > ---
-> 
-> v4:
-> - Add TX test to devmem.py (Paolo).
-> 
-> v3:
-> - Update ncdevmem docs to run validation with RX-only and RX-with-TX.
-> - Fix build warnings (Stan).
-> - Make the validation expect new lines in the pattern so we can have the
->   TX path behave like netcat (Stan).
-> - Change ret to errno in error() calls (Stan).
-> - Handle the case where client_ip is not provided (Stan).
-> - Don't assume mid is <= 2000 (Stan).
-> 
-> v2:
-> - make errors a static variable so that we catch instances where there
->   are less than 20 errors across different buffers.
-> - Fix the issue where the seed is reset to 0 instead of its starting
->   value 1.
-> - Use 1000ULL instead of 1000 to guard against overflow (Willem).
-> - Do not set POLLERR (Willem).
-> - Update the test to use the new interface where iov_base is the
->   dmabuf_offset.
-> - Update the test to send 2 iov instead of 1, so we get some test
->   coverage over sending multiple iovs at once.
-> - Print the ifindex the test is using, useful for debugging issues where
->   maybe the test may fail because the ifindex of the socket is different
->   from the dmabuf binding.
-> 
-> ---
->  .../selftests/drivers/net/hw/devmem.py        |  28 +-
->  .../selftests/drivers/net/hw/ncdevmem.c       | 300 +++++++++++++++++-
->  2 files changed, 312 insertions(+), 16 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/drivers/net/hw/devmem.py b/tools/testing/selftests/drivers/net/hw/devmem.py
-> index 1223f0f5c10c..3d4f7fc5e63f 100755
-> --- a/tools/testing/selftests/drivers/net/hw/devmem.py
-> +++ b/tools/testing/selftests/drivers/net/hw/devmem.py
-> @@ -1,6 +1,7 @@
->  #!/usr/bin/env python3
->  # SPDX-License-Identifier: GPL-2.0
->  
-> +from os import path
->  from lib.py import ksft_run, ksft_exit
->  from lib.py import ksft_eq, KsftSkipEx
->  from lib.py import NetDrvEpEnv
-> @@ -10,8 +11,7 @@ from lib.py import ksft_disruptive
->  
->  def require_devmem(cfg):
->      if not hasattr(cfg, "_devmem_probed"):
-> -        port = rand_port()
-> -        probe_command = f"./ncdevmem -f {cfg.ifname}"
-> +        probe_command = f"{cfg.bin_local} -f {cfg.ifname}"
->          cfg._devmem_supported = cmd(probe_command, fail=False, shell=True).ret == 0
->          cfg._devmem_probed = True
->  
-> @@ -25,18 +25,36 @@ def check_rx(cfg) -> None:
->      require_devmem(cfg)
->  
->      port = rand_port()
-> -    listen_cmd = f"./ncdevmem -l -f {cfg.ifname} -s {cfg.v6} -p {port}"
-> +    listen_cmd = f"{cfg.bin_local} -l -f {cfg.ifname} -s {cfg.v6} -p {port}"
->  
->      with bkg(listen_cmd) as socat:
->          wait_port_listen(port)
-> -        cmd(f"echo -e \"hello\\nworld\"| socat -u - TCP6:[{cfg.v6}]:{port}", host=cfg.remote, shell=True)
-> +        cmd(f"echo -e \"hello\\nworld\"| socat -u - TCP6:{cfg.v6}:{port},bind={cfg.remote_v6}:{port}", host=cfg.remote, shell=True)
+> v5: if statement simplication, also add missing '&' to ignore_native()
+> v4: fix !CONFIG_ACPI_PROCESSOR_CSTATE compilation issue
+> v3: more documentation cleanup
+> v2: renamed parameter, cleaned up documentation
+>
+>  Documentation/admin-guide/pm/intel_idle.rst | 18 +++++++++++++-----
+>  drivers/idle/intel_idle.c                   | 14 ++++++++++++++
+>  2 files changed, 27 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/pm/intel_idle.rst b/Documentation/=
+admin-guide/pm/intel_idle.rst
+> index 39bd6ecce7de..5940528146eb 100644
+> --- a/Documentation/admin-guide/pm/intel_idle.rst
+> +++ b/Documentation/admin-guide/pm/intel_idle.rst
+> @@ -192,11 +192,19 @@ even if they have been enumerated (see :ref:`cpu-pm=
+-qos` in
+>  Documentation/admin-guide/pm/cpuidle.rst).
+>  Setting ``max_cstate`` to 0 causes the ``intel_idle`` initialization to =
+fail.
+>
+> -The ``no_acpi`` and ``use_acpi`` module parameters (recognized by ``inte=
+l_idle``
+> -if the kernel has been configured with ACPI support) can be set to make =
+the
+> -driver ignore the system's ACPI tables entirely or use them for all of t=
+he
+> -recognized processor models, respectively (they both are unset by defaul=
+t and
+> -``use_acpi`` has no effect if ``no_acpi`` is set).
+> +The ``no_acpi``, ``use_acpi`` and ``no_native`` module parameters are
+> +recognized by ``intel_idle`` if the kernel has been configured with ACPI
+> +support.  In the case that ACPI is not configured these flags have no im=
+pact
+> +on functionality.
+> +
+> +``no_acpi`` - Do not use ACPI at all.  Only native mode is available, no
+> +ACPI mode.
+> +
+> +``use_acpi`` - No-op in ACPI mode, the driver will consult ACPI tables f=
+or
+> +C-states on/off status in native mode.
+> +
+> +``no_native`` - Work only in ACPI mode, no native mode available (ignore
+> +all custom tables).
+>
+>  The value of the ``states_off`` module parameter (0 by default) represen=
+ts a
+>  list of idle states to be disabled by default in the form of a bitmask.
+> diff --git a/drivers/idle/intel_idle.c b/drivers/idle/intel_idle.c
+> index 118fe1d37c22..d0b23ea03e6f 100644
+> --- a/drivers/idle/intel_idle.c
+> +++ b/drivers/idle/intel_idle.c
+> @@ -1695,6 +1695,10 @@ static bool force_use_acpi __read_mostly; /* No ef=
+fect if no_acpi is set. */
+>  module_param_named(use_acpi, force_use_acpi, bool, 0444);
+>  MODULE_PARM_DESC(use_acpi, "Use ACPI _CST for building the idle states l=
+ist");
+>
+> +static bool no_native __read_mostly; /* No effect if no_acpi is set. */
+> +module_param_named(no_native, no_native, bool, 0444);
+> +MODULE_PARM_DESC(no_native, "Ignore cpu specific (native) idle states in=
+ lieu of ACPI idle states");
+> +
+>  static struct acpi_processor_power acpi_state_table __initdata;
+>
+>  /**
+> @@ -1834,6 +1838,11 @@ static bool __init intel_idle_off_by_default(unsig=
+ned int flags, u32 mwait_hint)
+>         }
+>         return true;
+>  }
+> +
+> +static inline bool ignore_native(void)
+> +{
+> +       return no_native && !no_acpi;
+> +}
+>  #else /* !CONFIG_ACPI_PROCESSOR_CSTATE */
+>  #define force_use_acpi (false)
+>
+> @@ -1843,6 +1852,7 @@ static inline bool intel_idle_off_by_default(unsign=
+ed int flags, u32 mwait_hint)
+>  {
+>         return false;
+>  }
+> +static inline bool ignore_native(void) { return false; }
+>  #endif /* !CONFIG_ACPI_PROCESSOR_CSTATE */
+>
+>  /**
+> @@ -2328,6 +2338,10 @@ static int __init intel_idle_init(void)
+>         pr_debug("MWAIT substates: 0x%x\n", mwait_substates);
+>
+>         icpu =3D (const struct idle_cpu *)id->driver_data;
+> +       if (icpu && ignore_native()) {
+> +               pr_debug("ignoring native cpu idle states\n");
+> +               icpu =3D NULL;
+> +       }
+>         if (icpu) {
+>                 if (icpu->state_table)
+>                         cpuidle_state_table =3D icpu->state_table;
+> --
 
-IPv6 address need to be wrapped into [], so has to be at least:
-	socat -u - TCP6:[{cfg.v6}]:{port},bind=[{cfg.remote_v6}]:{port}
-
-But not sure why we care here about bind address here, let the kernel
-figure out the routing.
-
-Also, seems like "bkg(listen_cmd)" needs to be "bkg(listen_cmd,
-exit_wait=True)", otherwise sometimes I see racy empty result.
+Applied as 6.15 material, thanks!
