@@ -1,193 +1,104 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C581E5B7A
-	for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 07:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22DA31E9B2D;
+	Thu, 20 Feb 2025 07:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740036764; cv=none; b=nPuQUMvxkc9VOCWgaRuKjtEXKNgTfm3ay569GolVc2p6uvmARObR7t2vzbeMR2bCj+c8D1D9hC3gOMM5DTgYqEeoxfgGUp3z9hShXbPG1PCMDerWQ3aKZegtYWF5tpOByhKYNiUzLl3RULxL4KlfVzcS+vd9/wjBabYnF1kkbXQ=
+	t=1740037565; cv=none; b=YGroIZ8VAPNczkM9RS8VMuf5V5/jwt+0umUj4Z45/6/UYf/wfwsQPqnQZnisVVPGP51E/YuduMNe7eX2pbkSVkhMty4YvK7UU8sxgBhqmc7fAvV6Uc/xr1GRMSgI+EQUY6gQsvWM2ypgY+tnG4FSi6yUBBtHs1sFjbQvvyWYktc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740036764; c=relaxed/simple;
-	bh=C8Tn4j9hwJhGXw+grotIFigiArmyVoPGWwRvPe9C9VU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BJN9Ki9cRrihAejJMn92NC5YJpmWQUgF3Si/7Xhr2H/MzWdgE2W5lt9RUs8dWYKKlMzP4pBWihOXPXvmMe7oDkhWBIYh6OWghtj93sy9RkwB9uk7m1FRGfoBMF6BOxfmHfklGqOAGOVnxYMexSKaa9x9N2XGpN1QsVLQuRPdDUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fWOCxFBC; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fWOCxFBC"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-220ecbdb4c2so14808675ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 23:32:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740036762; x=1740641562; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=FXU4R0KmoTFdg8jXRXAwzbIAksqSlYZwJ35KKaCTndE=;
-        b=fWOCxFBCK173rTy2NIzopZ4EYs5Mq2wzkf5dcE+tsErC1+Q1dU7xg+YAGFCmYDJFyI
-         TCTxuW67agORHdvxZPsQ3RZNPeJYCCHYjjeQW6JeU7mBLf/+o84wNSyiz2VJK8TGtf4E
-         aTHiXH102I/1y+lXV4jx4ODg/F0W76ArKg73h8erHfOQUoJSUBx8H5I2ZJ95HR52uXWW
-         /kEyJwAg7IvBpGXQkxqUH6F4a/6g8ZlbhClrS1n9tqmAfzxLOl1gKEEoXPJXT+eT9Xjy
-         /TV/q5kNSmrI5ww432qjK+ege295e5ItnlVHBoi+KhXj32rE28/5a8wVEFLPkyb1PXyo
-         8FMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740036762; x=1740641562;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FXU4R0KmoTFdg8jXRXAwzbIAksqSlYZwJ35KKaCTndE=;
-        b=wfPojgxVddfmN3WZwBX1EwJuGHDo9yRjC0cK1oZOixqE5T0tv8VkoJOH4JYgPWrbsv
-         RQMT2TEFBlpFOsXbvsb2ycOvRtFMv30XLFKOZgYO7IJRDfQf+3tFvi1lsaD+5IhvgKJA
-         sieDS8sp8AHlf2Mx5YQpyfQ+QkCgiFdaHt79btjpZI8csI8dmhiUuh4CqavkGQ5lT2eu
-         360I+VMZdKgkgoK8yvVXFWoULor6X0vzHv75hyT0qK+TVdvoEvxO926bvSye3rhp4C2A
-         TWbK8gHv7Q02Bk6j3uebotuBwTxHaszgAJ8RJcDW+QRcscf554FJx51zHClooaiIu7Tg
-         mqIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdafS9liD6tojlVExhGpZ4+Ku7iJmilafoQ31F7L9J/h+CKDY0ICy7dFDVHEZnzzUE5p9jZLUNCPc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzm7/DeEVmNRT8gcA543Wsw7f+JlN/1z3d7TOuJ8wNofcMC4++5
-	D4dH6HkrdyzWAh1+kgx6OarkeWoFjiw3JcqWpzRgqw7evFrRuF045nph1JCQuQ==
-X-Gm-Gg: ASbGncvLmbjWy6juUJ2gf3ivScuYQGp7X/ZROzixUe0tbnaz8KtoXATeStHfMeKDeT/
-	+mn2Gi0WelWEtZK01aBpiOJnN5sKz6cTB9MniWGf/BjHRvOvZMzchSEKNC7LuBltHA8PYgu/5Eo
-	Sc/OYkzdypvl1q0QaD0o1l5RC/Q9UvDNchyr0RwzZl/bslYcPuLG6kDTqH5TnNr+yFsgmbZ7eX8
-	pmBGWUJiW8Qbh0EIF2Qs3r1AC1r8BYzax3pdx/Zm/HAvs3RT6yq5Mr9Qs1T6aDR6rjdCt/xaZY7
-	R+cX7nTrPHwDjz7ouPBL+03Xmw==
-X-Google-Smtp-Source: AGHT+IFMQZcHUaYDlmCBsNrPBZQlguATymJPy3WC6DYnPVexDEON9gJocUR6d1WJGcmWD6+RVJBkHA==
-X-Received: by 2002:a17:903:27ce:b0:21f:89e5:2712 with SMTP id d9443c01a7336-221040ab970mr246797425ad.39.1740036762268;
-        Wed, 19 Feb 2025 23:32:42 -0800 (PST)
-Received: from thinkpad ([120.60.70.244])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fc13ad2d00sm13127977a91.21.2025.02.19.23.32.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 23:32:41 -0800 (PST)
-Date: Thu, 20 Feb 2025 13:02:37 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Zijun Hu <zijun_hu@icloud.com>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v2] PCI: endpoint: Remove API devm_pci_epc_destroy()
-Message-ID: <20250220073237.6qtryn4itzdtdc2o@thinkpad>
-References: <20250217-remove_api-v2-1-b169c9117045@quicinc.com>
+	s=arc-20240116; t=1740037565; c=relaxed/simple;
+	bh=24E38aGTaxxEzPyzWRerQJnY8HDDXmt8Rkt7nsVgV3w=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=s6KKaK4ZhGufiV5xrmKqYveeu9F0bd+pusGw3fQMGaw1f3wBq5mVtQh+8FNoDzxSl9f5GQsif09O2wY7Qme/ztoLqQRg7GqmAlbhShQJMSlfw86qIBhO03mUhgTbaO5lZT+KbHff1ZKfiGiFyWk4GAzh0CNPV1Z0kHQix1S2PFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-3c9ff7000001d7ae-49-67b6ddb64ed6
+Message-ID: <93792bf7-9507-474f-a8b0-ccd4d59742dc@sk.com>
+Date: Thu, 20 Feb 2025 16:45:56 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250217-remove_api-v2-1-b169c9117045@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Cc: kernel_team@skhynix.com, Jonathan Corbet <corbet@lwn.net>,
+ damon@lists.linux.dev, kernel-team@meta.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 0/2] mm/damon: introduce DAMOS filter type for unmapped
+ pages
+To: SeongJae Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+References: <20250219220146.133650-1-sj@kernel.org>
+Content-Language: ko
+From: Honggyu Kim <honggyu.kim@sk.com>
+In-Reply-To: <20250219220146.133650-1-sj@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrLLMWRmVeSWpSXmKPExsXC9ZZnke62u9vSDVZ+17GYs34Nm8WTA+2M
+	Fk/+/2a12HcRyF3YtoTF4vKuOWwW99b8Z7U4/PUNkwOHx6ZVnWwemz5NYvc4MeM3i8eLzTMZ
+	PRb3TWb1OHexwuPzJrkA9igum5TUnMyy1CJ9uwSujG/vN7AUvOWumHW8jbGBcS1nFyMnh4SA
+	icS398uYYey2h/dZQWxeAUuJ/X9fsoDYLAKqEvvPbGOEiAtKnJz5BCwuKiAvcf/WDHYQm1lg
+	N6PExFZdEFtYIFjiwYRWpi5GDg4RAR+JluWJIGEhAWOJm5d3MkKUi0jM7mwDW8smoCZx5eUk
+	JhCbE+iEHycXMEHUmEl0be2CqpeX2P52DlA9F9CZJ9gk3i3+ywZxs6TEwRU3WCYwCs5Cct4s
+	JDtmIZk1C8msBYwsqxiFMvPKchMzc0z0MirzMiv0kvNzNzECI2VZ7Z/oHYyfLgQfYhTgYFTi
+	4Z3Rui1diDWxrLgy9xCjBAezkghvW/2WdCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8Rt/KU4QE
+	0hNLUrNTUwtSi2CyTBycUg2MrLlbSjQ0Ljjo7nFomXGYcyXPEeY5XvpHT37h3fTF1+P4jNDq
+	MxdWJRQydl5tuMt2/fVaua8Jj9+WNxX8TszPOL6tPkJd4NryXPm469qC2n9crFxmrldeaxK1
+	4MriT/0vzVjE5e585K8y2LN1BsPysjc1X1ZpJNrU/7uefvvBaxbThFL/PflOSizFGYmGWsxF
+	xYkAJwXW+pACAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCLMWRmVeSWpSXmKPExsXCNUNLT3fb3W3pBi97ZSzmrF/DZvHkQDuj
+	xZP/v1kt9l0Ecg/PPclqsbBtCYvF5V1z2CzurfnPanH46xsmB06PTas62Tw2fZrE7nFixm8W
+	jxebZzJ6LO6bzOpx7mKFx+IXH5g8Pm+SC+CI4rJJSc3JLEst0rdL4Mr49n4DS8Fb7opZx9sY
+	GxjXcnYxcnJICJhItD28zwpi8wpYSuz/+5IFxGYRUJXYf2YbI0RcUOLkzCdgcVEBeYn7t2aw
+	g9jMArsZJSa26oLYwgLBEg8mtDJ1MXJwiAj4SLQsTwQJCwkYS9y8vJMRolxEYnZnGzOIzSag
+	JnHl5SQmEJsT6IQfJxcwQdSYSXRt7YKql5fY/nYO8wRGvllIrpiFZNQsJC2zkLQsYGRZxSiS
+	mVeWm5iZY6pXnJ1RmZdZoZecn7uJERj2y2r/TNzB+OWy+yFGAQ5GJR7eB4+3pguxJpYVV+Ye
+	YpTgYFYS4W2r35IuxJuSWFmVWpQfX1Sak1p8iFGag0VJnNcrPDVBSCA9sSQ1OzW1ILUIJsvE
+	wSnVwCh5knHnPTeHmQcX7jmkIy72c5WO3MH9vvFaF/a2dzT+m/H/1JRM5kpHY403+b6/Mj5+
+	sLiTWCJgWFk1xe5q6qdUf5n3PWat8y5eOvH10vZt2WniB+bl+G1U4/8izx3XfP97Utfus+H8
+	aSVS3griWqybHYMuvXxYvUGJnWcT1620rWaxkqoS1UosxRmJhlrMRcWJAEgNI9N3AgAA
+X-CFilter-Loop: Reflected
 
-On Mon, Feb 17, 2025 at 08:26:46PM +0800, Zijun Hu wrote:
-> From: Zijun Hu <quic_zijuhu@quicinc.com>
-> 
-> Static devm_pci_epc_match() is only invoked by API devm_pci_epc_destroy()
-> and the API has not had callers since 2017-04-10 when it was introduced.
-> 
-> Remove both the API and the static function.
-> 
-> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+Hi SeongJae,
 
-Applied to pci/endpoint!
+On 2/20/2025 7:01 AM, SeongJae Park wrote:
+> User decides whether their memory will be mapped or unmapped.  It
+> implies that the two types of memory can have different characteristics
+> and management requirements.  Provide the DAMON-observaibility
+> DAMOS-operation capability for the different types by introducing a new
+> DAMOS filter type for unmapped pages.
 
-- Mani
+I asked it before at https://github.com/damonitor/damo/issues/13 about
+monitoring unused paddr area but I see this patch series is related to
+applying DAMOS action.
 
-> ---
-> Changes in v2:
-> - Correct commit message error pointed out by Manivannan Sadhasivam.
-> - Link to v1: https://lore.kernel.org/r/20250210-remove_api-v1-1-8ae6b36e3a5c@quicinc.com
-> ---
->  Documentation/PCI/endpoint/pci-endpoint.rst |  7 +++----
->  drivers/pci/endpoint/pci-epc-core.c         | 25 -------------------------
->  include/linux/pci-epc.h                     |  1 -
->  3 files changed, 3 insertions(+), 30 deletions(-)
-> 
-> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
-> index 35f82f2d45f5ef155b657e337e1eef51b85e68ac..599763aa01ca9d017b59c2c669be92a850e171c4 100644
-> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
-> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
-> @@ -57,11 +57,10 @@ by the PCI controller driver.
->     The PCI controller driver can then create a new EPC device by invoking
->     devm_pci_epc_create()/pci_epc_create().
->  
-> -* devm_pci_epc_destroy()/pci_epc_destroy()
-> +* pci_epc_destroy()
->  
-> -   The PCI controller driver can destroy the EPC device created by either
-> -   devm_pci_epc_create() or pci_epc_create() using devm_pci_epc_destroy() or
-> -   pci_epc_destroy().
-> +   The PCI controller driver can destroy the EPC device created by
-> +   pci_epc_create() using pci_epc_destroy().
->  
->  * pci_epc_linkup()
->  
-> diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-> index 9e9ca5f8e8f860a57d49ce62597b0f71ef6009ba..cf2e19b80551a2e02136a4411fc61b13e1556d7a 100644
-> --- a/drivers/pci/endpoint/pci-epc-core.c
-> +++ b/drivers/pci/endpoint/pci-epc-core.c
-> @@ -25,13 +25,6 @@ static void devm_pci_epc_release(struct device *dev, void *res)
->  	pci_epc_destroy(epc);
->  }
->  
-> -static int devm_pci_epc_match(struct device *dev, void *res, void *match_data)
-> -{
-> -	struct pci_epc **epc = res;
-> -
-> -	return *epc == match_data;
-> -}
-> -
->  /**
->   * pci_epc_put() - release the PCI endpoint controller
->   * @epc: epc returned by pci_epc_get()
-> @@ -931,24 +924,6 @@ void pci_epc_destroy(struct pci_epc *epc)
->  }
->  EXPORT_SYMBOL_GPL(pci_epc_destroy);
->  
-> -/**
-> - * devm_pci_epc_destroy() - destroy the EPC device
-> - * @dev: device that wants to destroy the EPC
-> - * @epc: the EPC device that has to be destroyed
-> - *
-> - * Invoke to destroy the devres associated with this
-> - * pci_epc and destroy the EPC device.
-> - */
-> -void devm_pci_epc_destroy(struct device *dev, struct pci_epc *epc)
-> -{
-> -	int r;
-> -
-> -	r = devres_release(dev, devm_pci_epc_release, devm_pci_epc_match,
-> -			   epc);
-> -	dev_WARN_ONCE(dev, r, "couldn't find PCI EPC resource\n");
-> -}
-> -EXPORT_SYMBOL_GPL(devm_pci_epc_destroy);
-> -
->  static void pci_epc_release(struct device *dev)
->  {
->  	kfree(to_pci_epc(dev));
-> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-> index e818e3fdcded95ca053db074eb75484a2876ea6b..82a26945d038d3e45e2bbbfe3c60b7ef647f247a 100644
-> --- a/include/linux/pci-epc.h
-> +++ b/include/linux/pci-epc.h
-> @@ -257,7 +257,6 @@ __devm_pci_epc_create(struct device *dev, const struct pci_epc_ops *ops,
->  struct pci_epc *
->  __pci_epc_create(struct device *dev, const struct pci_epc_ops *ops,
->  		 struct module *owner);
-> -void devm_pci_epc_destroy(struct device *dev, struct pci_epc *epc);
->  void pci_epc_destroy(struct pci_epc *epc);
->  int pci_epc_add_epf(struct pci_epc *epc, struct pci_epf *epf,
->  		    enum pci_epc_interface_type type);
-> 
-> ---
-> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-> change-id: 20250210-remove_api-9cf1ea95901e
-> 
-> Best regards,
-> -- 
-> Zijun Hu <quic_zijuhu@quicinc.com>
-> 
+Regarding that, do you think we can skip those unused memory area using
+this filter before applying DAMOS action?
 
--- 
-மணிவண்ணன் சதாசிவம்
+I'm not sure if the current DAMOS tries pageout/migrate action for those
+unused area because they are detected as cold area although those will
+be imediately skiped inside action scheme.
+
+Thanks,
+Honggyu
+
+> 
+> Changes from RFC
+> (https://lore.kernel.org/20241127205624.86986-1-sj@kernel.org)
+> - Rebase on latest mm-unstable
+> - Wordsmith commit message
+> - Add documentation
+> 
+> SeongJae Park (2):
+>    mm/damon: implement a new DAMOS filter type for unmapped pages
+>    Docs/mm/damon/design: document unmapped DAMOS filter type
+> 
+>   Documentation/mm/damon/design.rst | 2 ++
+>   include/linux/damon.h             | 2 ++
+>   mm/damon/paddr.c                  | 3 +++
+>   mm/damon/sysfs-schemes.c          | 1 +
+>   4 files changed, 8 insertions(+)
+> 
+> 
+> base-commit: a2130e89cbd08ddb6f023b0b10eb87ebbc67add1
+
