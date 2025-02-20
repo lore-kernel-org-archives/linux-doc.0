@@ -1,113 +1,116 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D501D5AB9;
-	Thu, 20 Feb 2025 03:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E569A286289;
+	Thu, 20 Feb 2025 05:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740021536; cv=none; b=pjKHzUvmmbISmEfzkhJm84pZSjU/uJQIAIpdWybbY2BrZrLvv14+fpqNO86FX0klH9T61+xvGGN3iAw6Zi1u61pdmDYShEO9yrVlycaO1WS+J/EwHka872zFpRwyqbIxfgQr+qjvgtmwiXesBxgQBFhL6JGN03K4+uFLpqOOJi4=
+	t=1740027801; cv=none; b=Assv0I0dnNYRYXZle9ix4+SjVOn6MpcCDjHkR8K5lSNLoIwVIgyqgxu93KK3HItXCdF3UMIAjJiq4OfvyGWdNU8ZqLUoAVw1IjDPBZJWZ0vpMUGrdc2ZdDSEUL0QXpenLU2HjsGd36qGEVhCqWIFBKhNjiKpKQsB2qcWch/6AIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740021536; c=relaxed/simple;
-	bh=xjrysQy4SMqexJaXH/JywgUVOOdsIMMo4pMZSdVGdLI=;
+	s=arc-20240116; t=1740027801; c=relaxed/simple;
+	bh=UxWcVhMp47jM55dg96qpdOhjqQ5omZLDVdiQxdddyRs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hEevvApkHOPhhSc/BtS8qo7gJBV+QZM2RS4PWVpuTMV5NlnPXodHNHlJlalOeFltcqMPPY6EqVkYBrc0TeTJ/dWOF5A5zdUbA7nhkqw8GkqMwvEWrgUWfWSrEBOAuS+fCYHOhlIbiLND9DjwSaqBQIx9Ulnd6dj9DBtrq6V03w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bzybw0Nk; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=hvxj3AbZjP3FrZjoeEs5rvCysIx1vVLwPf9GtCyKeYBTyQSfLo2/i9fqd7WTIxXXti8moiSHLgcq8goXAYtS1eX2WhTEW0uVMTuwveWXzKj6VecNDal7IRLcy2Q/jgS8QrW7t3hNj2zB20KF/1//XpRK+NfLzvmNb6P1zvBeTuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=Wx7xhbG9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CReqSs3S; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bzybw0Nk"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2fc3027c7aeso953134a91.0;
-        Wed, 19 Feb 2025 19:18:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740021534; x=1740626334; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xjrysQy4SMqexJaXH/JywgUVOOdsIMMo4pMZSdVGdLI=;
-        b=Bzybw0NkQzOSgIKeVQ/ucuXKFT5OwAgwsKIxmboW7YHsMBGvKrcPWmSKr4OFsHZBYo
-         2CTyFGl4rYih9fqpQ+ECoD7ke2FhY5laqJ46MiWnqFi4aDxpvuJYcTVA/uID+HQlLFls
-         kOkP+ySNVm0Il09PgtMmLR45tt//++FJTrv+rHADFkP2LO/zAUvxyRRNzNzLexKs0+HP
-         yFJoSoe+5nlQFmN86BAtwdqn7VksRMAxisdnLQfIVMjSFz3rKHuMIAmRZnfXTpVq4KxR
-         KJhGVwPp4yQS7J8og/h3ywxMCdShYSNrm96FcXbz4YNOVchozDHiLWoiDRFD9LgI4dP7
-         Lclg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740021534; x=1740626334;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xjrysQy4SMqexJaXH/JywgUVOOdsIMMo4pMZSdVGdLI=;
-        b=M/q55kfQzJ2aU2F2Bi5fP2dR9tsD88Yd944gpMRgDl4MWR7AygatONoN0Jjg27RVvw
-         8HSK0pD8aXKb+pg271S5nJ2WG84eKcrTtXxZX69HSFHi/1r2EwhJcAk2ceHuDwtTh+1o
-         aAozs8SK2o/O4xt1jnjhh8W2tm2hOiEb/ZP0dIENH8jM1ftBbwlt36DkS0AhRgzsMLXB
-         h4mr5JXjCS8t5r1egmKULeg9GvrhEjc1+1LWwHvZgFjQahWfxn/yQeo5KvbkkoreXnil
-         pk7wBnjojPRcwa8BKgiDWtSUW/713RpGlhU9vfaN497wVqI+Bj8dI1OuRNH+LADgBzHc
-         Tzuw==
-X-Forwarded-Encrypted: i=1; AJvYcCVfeirRFO4/cK10KQYENQBChfVSI9/U8db7U1Hr5G7fvmmzlgFV+elux2oLXaOfgR0Q739MKerTJQE=@vger.kernel.org, AJvYcCW8mnQ1p68LgGYLgcHruTGribFX48/FukbPVs5qEqxLfEcoxPHGzzVS+tnOQNP55rPmPRG6ZjuqA/kjlU1+r3fzqvOj@vger.kernel.org, AJvYcCWefo/19MElbkmwbcRxq6hQ2cn1POCmwhWo5+RJTlG9qDlkp3Jsrgp6ubdHBPPBAuReMl49Dc4dcgxsJKvm@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnoBOyJ153wIp1jOWfHN+T1Si1C76geyZaTYBUNGFwFIOB2RMq
-	G1C7zvGMBjlnY4PlpJ5tfFCdBA2ddZaqxPjS+BnNlJxfMx2/V2tWoKhkIw==
-X-Gm-Gg: ASbGnctncTZ76+w39z4IDQnv0cmL2jTQoR29aqiu6nYsvRYafSN+yFLRH6wDqeZmPQS
-	0h7UmxFMpTzo6advhtov2wtqeKM4sOQl7n27j2gmKu9+0otCooL6yxu0lTsND4HChDCR1FHdu6D
-	Ji+ecmmpV1ntAY46FUMDrXn84X90p5yNWSIPo24hTvtWXrn/sO4VbAyR8u9h0zx3DJCnM7FOdgf
-	KpfdUB9uwxnBWCdk1xS0by3VsTLX6bS4PE7zZQpT806f54VbjEtlkYfDvY0e71ys8kNQFSVBh0e
-	XTV/azqZgH1zLzg=
-X-Google-Smtp-Source: AGHT+IEJoBfsxRer9lbde6XgogooEbiO0GxRJ3kCGJXLsGzUbktCY3cqONbRUvBeih8D7ChBub6SSA==
-X-Received: by 2002:a05:6a00:a15:b0:730:99cb:7c2f with SMTP id d2e1a72fcca58-7326179e95bmr31619829b3a.6.1740021534094;
-        Wed, 19 Feb 2025 19:18:54 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73275615173sm7299638b3a.168.2025.02.19.19.18.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 19:18:53 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 6BCD94208FB6; Thu, 20 Feb 2025 10:18:50 +0700 (WIB)
-Date: Thu, 20 Feb 2025 10:18:50 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Purva Yeshi <purvayeshi550@gmail.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, corbet@lwn.net
-Cc: skhan@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] docs: tracing: Refactor index.rst documentation
-Message-ID: <Z7afGvIggz4T8Edm@archie.me>
-References: <20250217110637.6640-1-purvayeshi550@gmail.com>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="Wx7xhbG9";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CReqSs3S"
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 941ED11401D9;
+	Thu, 20 Feb 2025 00:03:17 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Thu, 20 Feb 2025 00:03:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1740027797; x=
+	1740114197; bh=9mEVFLUyvs8sEJhryugUBE/GDAB4W49PXkBIcvI6FNI=; b=W
+	x7xhbG98kNkIda0zueRAA+bYV/oItN8qfL5TJHnjIlsSngov5zSVx11AazYS0Ebb
+	Tuq26agL4f/a9teH2CdZbB++MhLNaq2Ldbt+21inEJELzjRTJncvRjmvBGnyGes6
+	2dIClKgNVXAbQGlvjKIo2OFEQFev2L/a8EeEs64JvsBZjVLUqQgq9IxZ04F2pN7s
+	/ZZxDx6upoYRUj4FDKZibbp2kdceqO/jVHmM/k9hIRqZ4pLxQUJRkfJm0yiFZctS
+	Gg8guyeDC5qOhsSzeuxF3FWqYTCcbygWxdyVBgpoW5hXKcHczo4FJIy7ZJuXjp66
+	09f7x58AfADX6WtQkR0Mw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1740027797; x=1740114197; bh=9mEVFLUyvs8sEJhryugUBE/GDAB4W49PXkB
+	IcvI6FNI=; b=CReqSs3SuprWaFjdMrBu9JK1VW5t0AKR6mKfxFIjLsZ78mydGs6
+	kCCaBPWLUAkAIA+O65w0eyjZ6jpZ8bhc5awMHG/sSrzepFucskQzvwFLq9xNKyvw
+	J2Q9qg98PCPHYD/VP0bkeHBr6O+aPe+iqgdZXq/0pcftBctDBzKjTqLxJj/12KoB
+	LuInFvsRmZCbtCqtJMJHSEdw8xKvP3jYXInHNT8BzVS5Lhveu2SNl1lDsinNhxF1
+	W/hC+OBLHvWlT9aRkpZX812m5lWd5OX7wdGsxaa7D6d6AM50dKhqx46mb8E1BAs4
+	iq11jtzIvaMxmy+DP5SGUN2jzC32ddDB4Sg==
+X-ME-Sender: <xms:lbe2ZyK0k166HTEPaOCSUKVT5-x01N_n5InL6-nL6dlFB0n30YY9Pw>
+    <xme:lbe2Z6JaCMw06rexprhcfTXV4GS30m41Ryy8fAbd_RDibEzAQT6AkBIMaYXZD5Wb0
+    DpbXWzNljnKknszxYE>
+X-ME-Received: <xmr:lbe2Zyt7tGEPN2-xIXRCUalf-cpTxD0wYRmVszkVK1YIjn9sPGNHGyf3mE36Jd8wWEOpnduNzps6E78kC16YWd-msgL_I71nyUA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeiiedvjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
+    necuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhise
+    hsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeehhffhteetgfekvdei
+    ueffveevueeftdelhfejieeitedvleeftdfgfeeuudekueenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrghm
+    ohgttghhihdrjhhppdhnsggprhgtphhtthhopeehpdhmohguvgepshhmthhpohhuthdprh
+    gtphhtthhopehmtghhvghhrggsodhhuhgrfigviheskhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehlihhnuhigqdhkvghrnhgv
+    lhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigudefleegqd
+    guvghvvghlsehlihhsthhsrdhsohhurhgtvghfohhrghgvrdhnvght
+X-ME-Proxy: <xmx:lbe2Z3Z_CNuQCw05QISh-QHZm_hkrE5zQCIdD9lgKcLEpqt9c4PrAQ>
+    <xmx:lbe2Z5YNLvbKri0N9Vid6zViII0eoqUJBBJnLSDY0sFyo008PS4tmg>
+    <xmx:lbe2ZzAp_0zsB-Q7Q6AdDo0y7-G0HxA2AITEdka4QdCXoMrz0_QhDQ>
+    <xmx:lbe2Z_Y6gxITF6y6HDV9XwOeojC3p0vEzheNXSf-jGTbA9O5k7VB_A>
+    <xmx:lbe2Z8y2l39_E_p5nU3v5tBTSir8WkJ6UeH1VSkFKG_77zahtd28-vGW>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 20 Feb 2025 00:03:15 -0500 (EST)
+Date: Thu, 20 Feb 2025 14:03:13 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net
+Subject: Re: [PATCH 03/27] drivers: firewire: firewire-cdev.h: fix identation
+ on a kernel-doc markup
+Message-ID: <20250220050313.GA414097@workstation.local>
+Mail-Followup-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net
+References: <cover.1739952783.git.mchehab+huawei@kernel.org>
+ <56d88f897214cbfc4593b4bb4b2a04d0168865d7.1739952783.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fer2Llm/mlj0dA0W"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250217110637.6640-1-purvayeshi550@gmail.com>
+In-Reply-To: <56d88f897214cbfc4593b4bb4b2a04d0168865d7.1739952783.git.mchehab+huawei@kernel.org>
+
+Hi,
+
+On Wed, Feb 19, 2025 at 09:32:19AM +0100, Mauro Carvalho Chehab wrote:
+> The description of @tstamp parameter has one line that starts at the
+> beginning. This moves such line to the description, which is not the
+> intent here.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  include/uapi/linux/firewire-cdev.h | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+
+Applied to for-next branch.
 
 
---fer2Llm/mlj0dA0W
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks
 
-On Mon, Feb 17, 2025 at 04:36:37PM +0530, Purva Yeshi wrote:
-> Refactor Documentation/trace/index.rst to improve clarity, structure,
-> and organization. Reformat sections and add appropriate headings for
-> better readability.
->=20
-> Improve section grouping and refine descriptions for better usability.
->=20
-
-Aside of :maxdepth:, the change LGTM.
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---fer2Llm/mlj0dA0W
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ7afGgAKCRD2uYlJVVFO
-o9nXAQDoKdSnI4quT+RsCT34BYvVReQJRh1lCgS32dg0ZtzlZAEAxsUs5m5N8RT7
-DzyUBEO6MO2itjLkrKBbhTRgMBfubg0=
-=ASIh
------END PGP SIGNATURE-----
-
---fer2Llm/mlj0dA0W--
+Takashi Sakamoto
