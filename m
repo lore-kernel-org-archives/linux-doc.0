@@ -1,186 +1,240 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F1D1FC0E4
-	for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 14:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8F51F76C0;
+	Thu, 20 Feb 2025 14:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740061636; cv=none; b=jSgBwqUUIE80eT1Bt5eGkygPpSy1VwR2C0AwdRPwr2TDtv24bbG4KmJvNfwCcziEvaUTkoH7ZJOU2WsrYCEKkFIb+M2OJKnzUfGfkJd+mF+PCrVcCwQOoU0GL6rK2Je/+n6kebvCAOpzh4YaH7gv/LanQoSSUGQc9C22yiJV1jE=
+	t=1740062063; cv=none; b=pGxpkUMPmvh2ZxlK3ZHjPXOxznbnOz6WPzloGFjGBM8871f68iUk6hu920htpS7HwHm1Ut+fbbhAUYYg1dJS4vyYqSKAB0r0evLBGFyu58p4U6X7KjwE6sWxUKsSOeP1NYJppEsd+lbd8lA1cBLKS3pYCWDp+zABf1n3fNRV1uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740061636; c=relaxed/simple;
-	bh=D6cKUGAMjY2KP9aAcuVHBx8VTJJeLQ/lOCGq6SoaKoY=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WUBAwsrbqdtuDwVkMEdQjrGSXhE57lXQCoDA2hClvc+HntASMFUyhJwJPU8gZvqLyAZXMeHOR+ikU0k2dmoBIFg8uEMkHkDEfIq3+jnfX8XBPjCb+I+owQoeOqk6qsrAblCBAygwZnN9PD8HvQ+yLZ2Ea8EE5Lj51L2dLTQ8XKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=1m3xmRyk; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1740062063; c=relaxed/simple;
+	bh=mCeM6ZuSrmKm5oF0yVYgvsfU9qZcRpt1hmqobG0b78s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R3CF0EqPZhw3k1MLfuA9wQbW777RQUWnbP9F5eRVL6hHiIQaYrYFU63UiMey7VQ8YhRNMHPP4uLzbqtOyP0QJEfyggETW9uAXd3oMRKNks6AcNrseXxCbXTBSuYt0CFVDV8idb4OlA1ipR0c50oC2V1oIBYGh6NkBdebG+R4dXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZTc0ZWIR; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="1m3xmRyk"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30a2f240156so9421831fa.3
-        for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 06:27:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZTc0ZWIR"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-abbec6a0bfeso170734566b.2;
+        Thu, 20 Feb 2025 06:34:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1740061633; x=1740666433; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f4w4pCG0U42bM1eFKeaBN0EiFoNbUjvKtinnx1nWT1E=;
-        b=1m3xmRykIuZhKeySuszDijNS5tRgWKAj3JorvIq88ISoinxUpTQqYJ8kElekvXgTnL
-         hx3K9+bo+Sv40qqPlCkdYWDol0/+UivyxvriNVn3fhfifaYGofdvXCWqpMZd7I9VosKS
-         3/u1NCKXNvaXf7MT8iouYxLoK4kQQ11B14CzKaXb/Y5Pj6eNyuI8tE5aJHefEvMwU1Cq
-         ey4tnWvMGRUdaG92IR9swdufHVZ9gCXUeSJP5ShNYvni6jM6afPTA+MPNoXBdrB4O5Z4
-         KPuwd2G3w2NCe5Cn60iA9aUQSqueXs3suE+J1Pvu23Mt+BBU90emWuV49welFUqCXnuv
-         ZOUA==
+        d=gmail.com; s=20230601; t=1740062059; x=1740666859; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SP8RnIeDpNVsIFAjPLo7muMaD4lYKk7nMDIuTCOWn10=;
+        b=ZTc0ZWIRqr872xIlA7qpob0XC9cAZXYNB07KFutOD7kE7i/NKF9Oa+q3C6iReKvNFn
+         DFiW1vtqY0S4N9FR+I1pb9IXc7VRSfNiIO8Nmo/tv5G8wm/mO8yKE0BgPIDDceKgEmfu
+         XYRut+7CHTCqupLAsbzCMZwVGifcsb8yUB72He4fVcXpVgsi5RvZb8Gy7HGgpWWRjoVx
+         t09IqDKF38DHBnOknz+8qALA4xeNBXFsvNVCs4/JpjblpE4ycrWj6XAn4TsIUYnV6tkr
+         /rMxXrotyg+XTqxSt0dEMNKiGOFIVe06ATg2+DKyJzBB7bvVUTNR5FF3bruh1Cplz0Bl
+         lFiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740061633; x=1740666433;
-        h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f4w4pCG0U42bM1eFKeaBN0EiFoNbUjvKtinnx1nWT1E=;
-        b=rJ1L8yx6c8LsbsG5CCOfn78yNAXq6kwlrVSbUHApgPNaVUVCyVTZACwwUjJE10jdZf
-         RIbceZ74b6fq4Zu3ThDdejfqQss3pfsc+rvJX2IbAiaxPVcCZE/njKvktUc75YPpGHgx
-         WErczDA9wKYzTEquUkHgHoM4QaL+22qLTiM3FtP9YVeQBI4OohlFhzxmeHUvWFXDucEk
-         DsfflbMLLTVLc4ugkqRQaf3Ltbi+Wh+6aR/n4vHSCC3ataCFbbHNz4UBNfsPRBLHnZvq
-         oqgBHJdWtP+Q0Wg4qf5NKyPMzft5o6mVP3aeyGkz7d18lSAUb3S1qiBavD9t9amUgTm2
-         KEDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWqMAoHBDTaIX7S2Iz0WVfrwp8/VKDK3mjuK2ul1QQR2T0SJQVS1PrHWvxJz/MP/KKP6sAKDFL92Nc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDaGDBu0op8UWNUbfnCCtQfxH2XSC4oc0JMR5FRoaMp6r87YQQ
-	Qjz70QNgRfOsEf2zJHQAM6ZUGu7NsHwLOsdVHFm2ClhCAmx6pDD9+2HIL2IwNHL+FQ3xG9jgmJR
-	uV03/+r5EhIh9fBhCS5VGqOu60rGXRyUTD0aNUA==
-X-Gm-Gg: ASbGnctKgiPpIDIGu+Ok3r1uy64RtF2iR5HMHsf/g4f8/WNDlxa3AeIMracWHa5t6LK
-	ssNDdxsU1+9xyhUZ52mRPrG4TtBjXSwp4FNRlwviSM3HNXECvOZhgES984rHJcZtOkbM83QhwiB
-	u7jH7tHuSm+E2WOdJdUTl8MtU3CBA=
-X-Google-Smtp-Source: AGHT+IFS//uyEFsNocKn2QLBwjZb9V54vS30Ztrpi06h9vM6OhVZ6S9T58uetg7ksyx1gj4KaWKe+Evafv0S+hCPfHg=
-X-Received: by 2002:a2e:900f:0:b0:309:26cd:9304 with SMTP id
- 38308e7fff4ca-30a45043f96mr31527421fa.26.1740061632696; Thu, 20 Feb 2025
- 06:27:12 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 20 Feb 2025 15:27:11 +0100
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 20 Feb 2025 15:27:11 +0100
-From: brgl@bgdev.pl
-In-Reply-To: <20250115103004.3350561-1-quic_mdalam@quicinc.com>
+        d=1e100.net; s=20230601; t=1740062059; x=1740666859;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SP8RnIeDpNVsIFAjPLo7muMaD4lYKk7nMDIuTCOWn10=;
+        b=KVmAcxemueNT6U8RrrMSMJTbyyaagXqhfU7v9VsN4qGXvyrhLHdY2fm9kv4c7r+5wt
+         BWevKU0wOaQTDHMaIE8nyQih7KLmBwyJLKuPegKlpUTNeWPGLq8rrwwCzqmXzCydHouj
+         LlSUtPS0aLqRwbvbVM5gJG0vJ3WpAR6RwyEslE9HBd2wdjZqyjTW0B5XkBurAGw8GHWg
+         JasVEF0dujNvBcl+h6bSzA1IDBNcXZLIeGNGZVBTHR32B/l2rtBCMHGDCVigmWz7XRM1
+         CY5WLJakpTBY1c3IyEVgyQf8rYAuCOuwVWDXpExgdWVLwE/ZVf8dCirMMXbV6jPrUane
+         zIZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUHFPJ5TyyWKh6VLwpvBtvQ/bAOR5dmbt1FGraOjYOuqk+8n5ePkdQDYqgrMt45VcfYureacu7r7swjyOao427s@vger.kernel.org, AJvYcCVSZyxnhKmQVu7Y5By9GdKr9xmiltpSrdAwMh4EspvXSWxd9ZbdfgaPHlSych35zbQazXQGsvpWjKQ9@vger.kernel.org, AJvYcCW8yT9WETAm3s0M2akw/STuRWC8tPA2mjSTGewyBwt0S4TUSHWFo99yAdsNwmiz6ZAlOd8=@vger.kernel.org, AJvYcCWDA2bv777Uqmr6cAcF/XbdGi8Wy1LH/uCCqpSm70slFREjAp/lUjHavlr66kLAvRtVkktI+Rn86MHbEXEE@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWezxFh/+A5QZmXaqgOGqxBoGcs21AJZDmpzPhL+nZavePKxuI
+	zaRCbnYiMSZ4TQaatsYOwROM6LrD9wIWdKmpQOjh/MNRCCUg/dLj
+X-Gm-Gg: ASbGnctyptr7NS4ObteBV8PjZFUeHZt/LC+yrn8Gd3eGTymMlPWm6OI2OtALHQXCH3K
+	dbc2pKMd29NWkmLSovPzHz1bJjZmiAUNKX9iTWKsNGZKmN7JY8vtQNru6EjsrOiPpuVkWAUxlsp
+	ykIaErnIQ8oxmxy/EvcVVpDpTungyxTxlXL3uKUTCn/cTIBtrPJaMcR9MUGicfxNNdL4HWQOb9r
+	RNKfI6NX5baMxIb64euhRRVSL+f/PuhYvvKv/ApTv0OlgNiaiWIXchV7zNTyqwuNIWxbGWbhpLE
+	1J1RkuJj/JUZwbVO6hQfg3zFhgUGRIi4H7G0tGTK8lS8Ywbo
+X-Google-Smtp-Source: AGHT+IEUnYvTNKsvY9MrM+eSrclwuFXi6u43e2ImceV18idD0uHP1IUpkxxK3L69vw0GspWuGL/SmA==
+X-Received: by 2002:a17:907:c293:b0:ab7:5fcd:d4de with SMTP id a640c23a62f3a-abbf3d0c598mr285469666b.50.1740062059127;
+        Thu, 20 Feb 2025 06:34:19 -0800 (PST)
+Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:f455])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abbaa56026fsm665714466b.113.2025.02.20.06.34.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Feb 2025 06:34:18 -0800 (PST)
+Message-ID: <e38090b0-f990-4347-b4bf-6f33f36bb851@gmail.com>
+Date: Thu, 20 Feb 2025 14:35:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250115103004.3350561-1-quic_mdalam@quicinc.com>
-Date: Thu, 20 Feb 2025 15:27:11 +0100
-X-Gm-Features: AWEUYZnDIRu5h76xjpO3J8aX5TCNfdHy8wWm6gSkGIVob_i8mUp6Yw4WICtLlfY
-Message-ID: <CAMRc=MeW7D+6rUNWBQ61kP-zx9paiLKFF-Y7SbFq+_fRKiq8=w@mail.gmail.com>
-Subject: Re: [PATCH v6 00/12] dmaengine: qcom: bam_dma: add cmd descriptor support
-To: Md Sadre Alam <quic_mdalam@quicinc.com>
-Cc: quic_utiwari@quicinc.com, quic_srichara@quicinc.com, 
-	quic_varada@quicinc.com, vkoul@kernel.org, corbet@lwn.net, 
-	thara.gopinath@gmail.com, herbert@gondor.apana.org.au, davem@davemloft.net, 
-	martin.petersen@oracle.com, enghua.yu@intel.com, u.kleine-koenig@baylibre.com, 
-	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 5/6] net: devmem: Implement TX path
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org,
+ Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Neal Cardwell <ncardwell@google.com>, David Ahern <dsahern@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
+ <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20250203223916.1064540-1-almasrymina@google.com>
+ <20250203223916.1064540-6-almasrymina@google.com>
+ <abc22620-d509-4b12-80ac-0c36b08b36d9@gmail.com>
+ <CAHS8izNOqaFe_40gFh09vdBz6-deWdeGu9Aky-e7E+Wu2qtfdw@mail.gmail.com>
+ <28343e83-6d93-4002-a691-f8273d4d24a8@gmail.com>
+ <CAHS8izOE-JzMszieHEXtYBs7_6D-ngVx2kJyMwp8eCWLK-c0cQ@mail.gmail.com>
+ <9210a12c-9adb-46ba-b92c-90fd07e1980f@gmail.com>
+ <CAHS8izPHtk5x-W05_svxU53X-V4+++PiYErCgfr-3iDGgEaUig@mail.gmail.com>
+ <4cdfaff8-0623-4d3a-9204-5165ccbb84db@gmail.com>
+ <CAHS8izNHT_VjztrDk6t-OJoX=zB3vV81w2CYZTKA1yGB06tY-Q@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izNHT_VjztrDk6t-OJoX=zB3vV81w2CYZTKA1yGB06tY-Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 15 Jan 2025 11:29:52 +0100, Md Sadre Alam
-<quic_mdalam@quicinc.com> said:
-> Requirements:
->   In QCE crypto driver we are accessing the crypto engine registers
->   directly via CPU read/write. Trust Zone could possibly to perform some
->   crypto operations simultaneously, a race condition will be created and
->   this could result in undefined behavior.
->
->   To avoid this behavior we need to use BAM HW LOCK/UNLOCK feature on BAM
->   pipes, and this LOCK/UNLOCK will be set via sending a command descriptor,
->   where the HLOS/TZ QCE crypto driver prepares a command descriptor with a
->   dummy write operation on one of the QCE crypto engine register and pass
->   the LOCK/UNLOCK flag along with it.
->
+On 2/20/25 01:46, Mina Almasry wrote:
+> On Wed, Feb 19, 2025 at 2:40 PM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>
+>> On 2/17/25 23:26, Mina Almasry wrote:
+>>> On Thu, Feb 13, 2025 at 5:17 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>> ...
+>>>>>>> It's asserting that sizeof(ubuf_info_msgzc) <= sizeof(skb->cb), and
+>>>>>>> I'm guessing increasing skb->cb size is not really the way to go.
+>>>>>>>
+>>>>>>> What I may be able to do here is stash the binding somewhere in
+>>>>>>> ubuf_info_msgzc via union with fields we don't need for devmem, and/or
+>>>>>>
+>>>>>> It doesn't need to account the memory against the user, and you
+>>>>>> actually don't want that because dmabuf should take care of that.
+>>>>>> So, it should be fine to reuse ->mmp.
+>>>>>>
+>>>>>> It's also not a real sk_buff, so maybe maintainers wouldn't mind
+>>>>>> reusing some more space out of it, if that would even be needed.
+>>>>>>
+>>>>>
+>>>>> netmem skb are real sk_buff, with the modification that frags are not
+>>>>
+>>>> We were discussing ubuf_info allocation, take a look at
+>>>> msg_zerocopy_alloc(), it has nothing to do with netmems and all that.
+>>>>
+>>>
+>>> Yes. My response was regarding the suggestion that we can use space in
+>>> devmem skbs however we want though.
+>>
+>> Well, at least I didn't suggest that, assuming "devmem skbs" are skbs
+>> filled with devmem frags. I think the confusion here is thinking
+>> that skb->cb you mentioned above is about "devmem skbs", while it's
+>> special skbs without data used only to piggy back ubuf allocation.
+> 
+> Ah, I see. I still don't see how we can just increase the size of
+> skb->cb when it's shared between these special skbs and regular skbs.
 
-On rb3gen2 I'm seeing the following when running cryptsetup benchmark:
+The approach was not to increase ->cb but rather reuse some other unused
+in the path sk_buff fields. Though, looking at __msg_zerocopy_callback(),
+maybe it's better not to entertain that, as the skb is queued into the
+error queue. But again, not like you need it.
 
-# cryptsetup benchmark
-# Tests are approximate using memory only (no storage IO).
-PBKDF2-sha1      1452321 iterations per second for 256-bit key
-PBKDF2-sha256    2641249 iterations per second for 256-bit key
-PBKDF2-sha512    1278751 iterations per second for 256-bit key
-PBKDF2-ripemd160  760940 iterations per second for 256-bit key
-PBKDF2-whirlpool     N/A
-argon2i       4 iterations, 1008918 memory, 4 parallel threads (CPUs)
-for 256-bit key (requested 2000 ms time)
-argon2id      4 iterations, 1048576 memory, 4 parallel threads (CPUs)
-for 256-bit key (requested 2000 ms time)
-[   43.558496] NET: Registered PF_ALG protocol family
-[   43.570034] arm-smmu 15000000.iommu: Unhandled context fault:
-fsr=0x402, iova=0xfffdf000, fsynr=0x7b0003, cbfrsynra=0x4e4, cb=0
-[   43.582069] arm-smmu 15000000.iommu: FSR    = 00000402 [Format=2
-TF], SID=0x4e4
-[   43.592758] arm-smmu 15000000.iommu: FSYNR0 = 007b0003 [S1CBNDX=123 PLVL=3]
-[   43.608107] Internal error: synchronous external abort:
-0000000096000010 [#1] PREEMPT SMP
-[   43.616509] Modules linked in: algif_skcipher af_alg bluetooth
-ecdh_generic ecc ipv6 snd_soc_hdmi_codec phy_qcom_edp venus_dec
-venus_enc videobuf2_dma_contig videobuf2_memops nb7vpq904m
-lontium_lt9611uxc msm leds_qcom_lpg qcom_battmgr pmic_glink_altmode
-aux_hpd_bridge ocmem qcom_pbs venus_core ucsi_glink drm_exec
-typec_ucsi qcom_pon qcom_spmi_adc5 led_class_multicolor
-qcom_spmi_temp_alarm rtc_pm8xxx gpu_sched v4l2_mem2mem ath11k_ahb
-qcom_vadc_common nvmem_qcom_spmi_sdam drm_dp_aux_bus videobuf2_v4l2
-qcom_stats dispcc_sc7280 drm_display_helper videodev ath11k
-videobuf2_common coresight_stm drm_client_lib camcc_sc7280
-videocc_sc7280 mac80211 mc i2c_qcom_geni phy_qcom_qmp_combo stm_core
-coresight_replicator aux_bridge coresight_tmc coresight_funnel
-llcc_qcom libarc4 gpi icc_bwmon typec phy_qcom_snps_femto_v2 coresight
-qcrypto qcom_q6v5_pas authenc qcom_pil_info qcom_q6v5 gpucc_sc7280
-ufs_qcom libdes qcom_sysmon qcom_common pinctrl_sc7280_lpass_lpi
-qcom_glink_smem mdt_loader phy_qcom_qmp_ufs lpassaudiocc_sc7280
-[   43.616763]  pinctrl_lpass_lpi cfg80211 phy_qcom_qmp_pcie
-icc_osm_l3 rfkill qcom_rng qrtr nvmem_reboot_mode display_connector
-socinfo drm_kms_helper pmic_glink pdr_interface qcom_pdr_msg
-qmi_helpers drm backlight
-[   43.727571] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted
-6.14.0-rc3-next-20250220-00012-g2a8d60663e03-dirty #53
-[   43.738291] Hardware name: Qualcomm Technologies, Inc. Robotics RB3gen2 (DT)
-[   43.745535] pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   43.752685] pc : bam_dma_irq+0x374/0x3b0
-[   43.756736] lr : bam_dma_irq+0x2c8/0x3b0
-[   43.760781] sp : ffff800080003e90
-[   43.764200] x29: ffff800080003e90 x28: ffffd03eaae84880 x27: 000000009edf8000
-[   43.771543] x26: ffff45a746642c80 x25: 0000000a24f8499b x24: ffff45a742dca080
-[   43.778886] x23: ffff45a742df7600 x22: 000000000000006e x21: ffff8000811c3000
-[   43.786228] x20: ffff45a742df7630 x19: ffff45a742eaab80 x18: 0000000000000001
-[   43.793568] x17: ffff75698e7b4000 x16: ffff800080000000 x15: 0000000000000034
-[   43.800902] x14: 0000000000000038 x13: 0000000000010008 x12: 071c71c71c71c71c
-[   43.808244] x11: 0000000000000040 x10: ffff45a74000a230 x9 : ffff45a74000a228
-[   43.815587] x8 : ffff45a7407a1dd0 x7 : 0000000000000000 x6 : 0000000000000000
-[   43.822920] x5 : ffff45a7407a1da8 x4 : 0000000000000000 x3 : 0000000000000018
-[   43.830253] x2 : ffff8000811c0000 x1 : ffff8000811c0018 x0 : 0000000000000002
-[   43.837594] Call trace:
-[   43.840115]  bam_dma_irq+0x374/0x3b0 (P)
-[   43.844163]  __handle_irq_event_percpu+0x48/0x140
-[   43.849006]  handle_irq_event+0x4c/0xb0
-[   43.852961]  handle_fasteoi_irq+0xa0/0x1bc
-[   43.857186]  handle_irq_desc+0x34/0x58
-[   43.861054]  generic_handle_domain_irq+0x1c/0x28
-[   43.865812]  gic_handle_irq+0x4c/0x120
-[   43.869680]  call_on_irq_stack+0x24/0x64
-[   43.873728]  do_interrupt_handler+0x80/0x84
-[   43.878039]  el1_interrupt+0x34/0x68
-[   43.881732]  el1h_64_irq_handler+0x18/0x24
-[   43.885955]  el1h_64_irq+0x6c/0x70
-[   43.889465]  cpuidle_enter_state+0xac/0x320 (P)
-[   43.894133]  cpuidle_enter+0x38/0x50
-[   43.897826]  do_idle+0x1e4/0x260
-[   43.901151]  cpu_startup_entry+0x38/0x3c
-[   43.905195]  rest_init+0xdc/0xe0
-[   43.908531]  console_on_rootfs+0x0/0x6c
-[   43.912490]  __primary_switched+0x88/0x90
-[   43.916621] Code: b9409063 1b047c21 8b030021 8b010041 (b9000020)
-[   43.922881] ---[ end trace 0000000000000000 ]---
-[   43.927633] Kernel panic - not syncing: synchronous external abort:
-Fatal exception in interrupt
-[   43.936653] SMP: stopping secondary CPUs
-[   43.941042] Kernel Offset: 0x503e28e00000 from 0xffff800080000000
-[   43.947306] PHYS_OFFSET: 0xfff0ba59c0000000
-[   43.951615] CPU features: 0x300,00000170,00801250,8200720b
-[   43.957257] Memory Limit: none
-[   43.960405] ---[ end Kernel panic - not syncing: synchronous
-external abort: Fatal exception in interrupt ]---
+>> Functionally speaking, it'd be perfectly fine to get rid of the
+>> warning and allocate it with kmalloc().
+>>
+> 
+> More suggestions to refactor unrelated things to force through a
+> msg->sg_from_iter approach.
 
-Bartosz
+Mina, you're surprising me. Neither I suggested to do that, just
+trying to help with your confusion using analogies, nor I said that
+it'd be welcome, nor it's somehow "unrelated". And "forcing"
+is a misstatement, so far I've been extending a recommendation
+on how to make it better.
+
+...
+>> If you've already done, maybe you can post it as a draft? At least
+>> it'll be obvious why you say it's more complicated.
+>>
+> 
+> I don't have anything worth sharing. Just went down this rabbit hole
+> and saw a bunch of MSG_ZEROCOPY checks (!msg->msg_ubuf checks around
+> MSG_ZEROCOPY code) and restrictions (skb->cb size) need to be
+> addressed and checks to be added. From this thread you seem to be
+> suggesting more changes to force in a msg->sg_from_iter approach
+> adding to the complications.
+
+To sum up, you haven't tried it.
+
+>>> The complication could be worth it if there was some upside, but I
+>>> don't see one tbh. Passing the binding down to
+>>> zerocopy_fill_skb_from_devmem seems like a better approach to my eye
+>>> so far
+>>
+>> The upside is that 1) you currently you add overhead to common
+>> path (incl copy),
+> 
+> You mean the unlikely() check for devmem before delegating to
+> skb_zerocopy_fill_from_devmem? Should be minimal.
+
+Like keeping the binding in tcp_sendmsg_locked(). The point is,
+as you mentioned overhead ("adds more checks to the fast
+MSG_ZEROCOPY paths"), all things included the current approach
+will be adding more of it to MSG_ZEROCOPY and also other users.
+
+>> 2) passing it down through all the function also
+>> have overhead to the zerocopy and MSG_ZEROCOPY path, which I'd
+>> assume is comparable to those extra checks you have.
+> 
+> Complicating/refactoring existing code for devmem TCP to force in a
+> msg->sg_from_iter and save 1 arg passed down a couple of functions
+> doesn't seem like a good tradeoff IMO.
+> 
+>> 3) tcp would
+>> need to know about devmem tcp and its bindings, while it all could
+>> be in one spot under the MSG_ZEROCOPY check.
+> 
+> I don't see why this is binding to tcp somehow. If anything it makes
+
+I don't get what you're saying, but it refers to devmem binding,
+which you add to TCP path, and so tcp now has to know how to work
+with devmem instead of all of it being hidden behind the curtains
+of ubuf_info. And it sticks out not only for tcp, but for all
+zerocopy users by the virtue of dragging it down through all
+helpers.
+
+> the devmem TX implementation follow closely MSG_ZEROCOPY, and existing
+
+Following closely would be passing ubuf just like MSG_ZEROCOPY does,
+and not plumbing devmem all the way through all helpers.
+
+> MSG_ZEROCOPY code would be easily extended for devmem TX without
+> having to also carry refactors to migrate to msg->sg_from_iter
+
+Don't be afraid of refactoring when it makes things better. We're
+talking about minor changes touching only bits in the direct
+vicinity of your set.
+
+> approach (just grab the binding and pass it to
+> skb_zerocopy_iter_stream).
+> 
+>> 4) When you'd want
+>> another protocol to support that, instead of a simple
+>>
+>> ubuf = get_devmem_ubuf();
+>>
+>> You'd need to plumb binding passing through the stack there as
+>> well.
+>>
+> 
+> Similar to above, I think this approach will actually extend easier to
+> any protocol already using MSG_ZEROCOPY, because we follow that
+> closely instead of requiring refactors to force msg->sg_from_iter
+> approach.
+
+-- 
+Pavel Begunkov
+
