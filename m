@@ -1,153 +1,157 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D6A442C
-	for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 07:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840921E9B15;
+	Thu, 20 Feb 2025 08:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740038327; cv=none; b=l/7U9M5ldcJxN1CdINjFwUhGEOY0aQEFBE3+vYSmBeDX4zDuWhNPiY6FPQeb62faZAPLM+L7AwqMWzVMOENkPBT3Zw8PNtbup46U/Y7Rrt0ZubKRdLnpNq9A6ZSEeNAlXMKSZilSsDweQvIYjtYzxbWxQFj0uZ9529IdIgW2Jok=
+	t=1740039221; cv=none; b=fFd+PLov0zswtLL97awYp+oAIw9+l6Nan89h4Tgl4nVYX43ddrnJvl85aUaUufa4SDLAOrG/FjlZQOSOs8aBAXBVzBx6kebvcq86YjSmhaquf7jC4NmwVSiX3cGJ73IHF9u7oqfCWitO5otEWvHvos0gBtRMD85igQpjW0t8sf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740038327; c=relaxed/simple;
-	bh=PpJNYD2lhmYApKCUTFbnIB2Oz9xNpyPKhkXzhRQ1kRc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=UdvfF/Ot1WSzI8LgaKHFviR6uMTOgpFGoTX75uUC0BZFrlxireHsMpkngAGQV4Fb7Mx3C3d5uromKalwauGUcgRVQaKZB1oK7M0AbRGJ7nYMKeb2pDA510Pv3/UsE8/DeuqrVn4BomJrE6MNw5i8jygl12yXqG8OXkvWrgJV5cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VFSBuC1F; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1740039221; c=relaxed/simple;
+	bh=NR1AzEHW3X4hTDfCdv4wws5y6bJ4IHoskvMdZyfEWxQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hBx6E2PMbdkAEpbuHT/p0u9c5tSw6GZi7dbs53iuWm79rWUXiV2Wd3lFwm6+W9Qe9acpqXQAdFPm8FpTcmC2SbJZvCjMA6lD0jMWudB1+m4I1rXDSno9YdhF62ET1dvTB/4Mzl7xRTkIHa1+3HJTWnAA0uueWk3wiLhOro9OjjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=heF0dm3M; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VFSBuC1F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740038324;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PDyq9aCOU4k6/OxS5NyOrQ8zBZnEHt3wS9LzAF8nhU4=;
-	b=VFSBuC1FNe5dS54iLQuHnrjtzZGfOoPGtb1Ckd0DUbg3UorlxUrDE+Pdlbm592SErCvAAD
-	ohJmmfh6YhfHfpOBBJrVXcoI5KlYSR5aHtSto3IX9hWopHrPJBPh5xqcukLCE5R2ZjXtox
-	vYJZjPy/6UizDiVJTj/DdyYI5IbU5Co=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-694-f1KFjXvIMveQIrqskIaJIQ-1; Thu, 20 Feb 2025 02:58:43 -0500
-X-MC-Unique: f1KFjXvIMveQIrqskIaJIQ-1
-X-Mimecast-MFC-AGG-ID: f1KFjXvIMveQIrqskIaJIQ_1740038322
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4394c747c72so2582695e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 19 Feb 2025 23:58:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="heF0dm3M"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-21f2339dcfdso11382835ad.1;
+        Thu, 20 Feb 2025 00:13:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740039220; x=1740644020; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hz/pGvR+evldl5mhlvuI0J68W2mI9FP4/s36oM1FYLQ=;
+        b=heF0dm3MjHXMA7y+n0ZoAaOZzdbNAxYTWs2GjGgDNo/uYJQ6lO2hsvafXPpn7nZ1is
+         T/knW3AAniz+tpZihfOqP0QzRErEyLTZhuOm/CUJFE++/vVhJrxKvTmXFa7VB73am/Bu
+         L6fRTACx215w+S24yeFLoFfAHQQSRaulBQ7Rku0+xRlb8AfhY4oQ+oW0KUOcsVUXCy0q
+         paf3otP6lzxnJyJZ2txSeuZFrbsp0M8/Q6gOreMc0u6YeY3pi5OCt5vp1CQlnjuOK3tL
+         hbZU47/3NsogqWH9eMn41qazt53EZncx89MVf9f7u0j3+x1J2NrHI3s6mkmy6jmtmHQe
+         g0vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740038322; x=1740643122;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PDyq9aCOU4k6/OxS5NyOrQ8zBZnEHt3wS9LzAF8nhU4=;
-        b=LNxHDJUq680BWESxvn43nv69FFDFLmheVAjHnKSHRQu6GOY2UN4Am3bzDLeobaDX3P
-         K9RBbvsHxOrj1bm8gPjuCRgBKTojMfMsVCzmMpJAB0koAA90zQh02dEijwEoM9ChQlhQ
-         H26dLcliBxApTdFklTccIodOHPwwO6GsOzIncUzvjq3zwe5P0NCnMc/YGKxgMlCoOWOR
-         Ye1j+mQx5JrN3RD02rZ1aNX44+6/7VN23tNpbUomvI/7bNlEHtpacCjcDgP534CzZX++
-         fyqqddQP7B7/1tY5/UEc+EJQDmkvEIalEw+TFHqN0S9J4+5JlTeGsk8/fj9CiA6mj3VR
-         pXEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7tnyLILHTnVH/Ef5a2hE3GLo3TJZBohTIeGI0GSmoGNfcZFRc388WabkWl5Qj7T7mduj6Ldq5Bho=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvidaCA3KiDMgDWo9iIQRkTYBEAMWmqWv0zFBAC1SUZMBlQD9E
-	wdEhd7sFfsZoyVf0j78eJOpEXF8OjIiuZ+Ji3uASbuIIu3+XSXwxWq/q43E8WM80QeokAVOdZWu
-	24Nna9+D1MzIFDAZ2XzVD4IndEC3yfMpHLTjao3i3SZWnNOANg0VPr27Z8A==
-X-Gm-Gg: ASbGnctBw1/g5VJRIokgCNrH8XEJn8INmit2AEb3YWvMSAEj5QNFNriK9jlAmaceeMR
-	y07fEtNBr+GWbuIF+fD92YwQv2biPFzUEwdoMBJ+PuC5JZ3IL39fmtbVSYW9fvaULR7pOZWmj/x
-	0/TcBjkz/AlGZr8gp5hDlmrinxqoTlyR6H2wc6OhuQLGNj0VSWmRFc7T2k21pNx+5qvG9JGQGf0
-	WYGJXhj+ZSC132Mns1SDPzclItxHye6w93RQpqZOc873IQAItAtccLO8M2P20sTooMLPIG3N9Y9
-	jl3G8kpEIGpvTUluZkSDFTwItYEH0a/2SPo=
-X-Received: by 2002:a05:600c:1e89:b0:439:9828:c447 with SMTP id 5b1f17b1804b1-439a7b81c85mr5230855e9.17.1740038321787;
-        Wed, 19 Feb 2025 23:58:41 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFMZ/J4mT4eh+w4zVIHYL3J2TeyMMFBaqTsZEuN7XJULLXJfI3m9ZBVAO4oeESyI4i7d0LvUQ==
-X-Received: by 2002:a05:600c:1e89:b0:439:9828:c447 with SMTP id 5b1f17b1804b1-439a7b81c85mr5230655e9.17.1740038321375;
-        Wed, 19 Feb 2025 23:58:41 -0800 (PST)
-Received: from [192.168.88.253] (146-241-89-107.dyn.eolo.it. [146.241.89.107])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a1aa7bcsm232584425e9.28.2025.02.19.23.58.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Feb 2025 23:58:40 -0800 (PST)
-Message-ID: <d4b7f8a0-db50-4b48-b5a3-f60eab76e96b@redhat.com>
-Date: Thu, 20 Feb 2025 08:58:38 +0100
+        d=1e100.net; s=20230601; t=1740039220; x=1740644020;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hz/pGvR+evldl5mhlvuI0J68W2mI9FP4/s36oM1FYLQ=;
+        b=lwZm7CtAYxy1m75x9tC8mhNCbh2FrlEArGk7rmk8JoyM2rLY8lAD5rpdwMAy6VFy3V
+         jv6uJ+0h6lHqFAjPdJ3ltZiTwn3QKR/CY1X5CFiPqP4FJeW/thliTW6oPtW3H+Rn3Gxh
+         yVthrGiF8zQunOARlulL7lOL4BmvJHAlrx3Zp9Tv4XAZoX2TSovXn06xaW+8ycyUfR2/
+         UeoR1Vi4HiwKLw3MAycf5DY7X2TKWZy9ba9tJJc+T38eEwAJVrtAoVQvO++OtsYmSXyB
+         1sG9dveRIRAG7P0XI/inAk+CWvBRI2hEGWU+ch2qtRfTZjKJlCPRaKbZWVEFyzs38zAD
+         dgOw==
+X-Forwarded-Encrypted: i=1; AJvYcCWPr/S2BkV5INySGwSqhG0sY5Nbks7dAafdVTfQMmsfRNFc411joUmKW6hWWyO2tPuk0K74RG9P@vger.kernel.org, AJvYcCWR31zaeVcuEM0bqAnDtUe1iIK2kHlfeuwtOFvgkGehAWptniK/A6TgLzNOflXLBKZ/N9s=@vger.kernel.org, AJvYcCWr4oLApZxYM5iStMQfO4rcDc6InW6ekEb5J/vopmjfAVIU6JlYbLdDLCIL+gL3VVwOG1uCO9R/UqYg@vger.kernel.org, AJvYcCWuC5bV4zUpc49+qC4Fa0eHPFhIoBgS+pUzu7H28Jy3QfvU4kAoB29u1qB/Vw7S6muiX0Vx+TZLF5pJ/Qvg7nA+@vger.kernel.org, AJvYcCXWrZKjCAXN5HOKHUyMl2wUM9dbsFbgNroODSjQpDTlaV+7MSwiD9pesFXJU0YaDiyj9To7I/48Wa15R7gm@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3ydxZhvy+b8PtpCQaTY1VSmt+yEq3kJudHGtprE6dKq9cK7fq
+	lEOCBOk5/aWRrnRm9JWT+7fqCOzN4l/LLiEfBIM2WZK+HqtIJA68
+X-Gm-Gg: ASbGncsdZ241q4QnLQ30TNpK+bwBKY8bq3ekRWjsk9Z1Qi6ztWQ2ZJYWDdu04kcfrMw
+	LihueXm0WPHbWpP832Duih6aV3Iv07gxYlKNRHPVrETjU52ZUupuB//V0+72cSRzMlQSivr4NyE
+	H6caGlD5P3iA0xkfO0aEvCM9nqCaGlTQrbbAln2UOJ2SVeIWtHqD7FzwoQGwaL+QCymnWAOS7C2
+	A1chNYqgwSJndpinPTjFatGvIOmYbXAs5y5lc6myL+W+m4fY1+V5pClGP4TN6CZADKs1BlEMaN3
+	yod3JTm0XeWeHBA=
+X-Google-Smtp-Source: AGHT+IF3zZoqfKWUfFNv+FPNQ0UuIwZSkcWXCgHzMPO8Q84I63xMG6/s+7OLxm4EjnPNFrOg1ROUQQ==
+X-Received: by 2002:a17:903:40cc:b0:215:58be:3349 with SMTP id d9443c01a7336-2218c41f67dmr48108495ad.14.1740039219629;
+        Thu, 20 Feb 2025 00:13:39 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5349634sm114661275ad.31.2025.02.20.00.13.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 00:13:38 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id C04B84208FB6; Thu, 20 Feb 2025 15:13:35 +0700 (WIB)
+Date: Thu, 20 Feb 2025 15:13:35 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	virtualization@lists.linux.dev, kvm@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>,
+	Shailend Chand <shailend@google.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Willem de Bruijn <willemb@google.com>,
+	David Ahern <dsahern@kernel.org>,
+	Neal Cardwell <ncardwell@google.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
+	asml.silence@gmail.com, dw@davidwei.uk,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Victor Nogueira <victor@mojatatu.com>,
+	Pedro Tammela <pctammela@mojatatu.com>,
+	Samiullah Khawaja <skhawaja@google.com>
+Subject: Re: [PATCH net-next v4 5/9] net: add devmem TCP TX documentation
+Message-ID: <Z7bkL7uuy8prxfTe@archie.me>
+References: <20250220020914.895431-1-almasrymina@google.com>
+ <20250220020914.895431-6-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2] tun: Pad virtio headers
-To: Akihiko Odaki <akihiko.odaki@daynix.com>, Jonathan Corbet
- <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>,
- Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
- devel@daynix.com
-References: <20250215-buffers-v2-1-1fbc6aaf8ad6@daynix.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250215-buffers-v2-1-1fbc6aaf8ad6@daynix.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="j3ck8zPX3Nllt0fQ"
+Content-Disposition: inline
+In-Reply-To: <20250220020914.895431-6-almasrymina@google.com>
 
-Hi,
 
-On 2/15/25 7:04 AM, Akihiko Odaki wrote:
-> tun simply advances iov_iter when it needs to pad virtio header,
-> which leaves the garbage in the buffer as is. This will become
-> especially problematic when tun starts to allow enabling the hash
-> reporting feature; even if the feature is enabled, the packet may lack a
-> hash value and may contain a hole in the virtio header because the
-> packet arrived before the feature gets enabled or does not contain the
-> header fields to be hashed. If the hole is not filled with zero, it is
-> impossible to tell if the packet lacks a hash value.
+--j3ck8zPX3Nllt0fQ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Should virtio starting sending packets only after feature negotiation?
-In other words, can the above happen without another bug somewhere else?
+On Thu, Feb 20, 2025 at 02:09:10AM +0000, Mina Almasry wrote:
+> +The user application must use MSG_ZEROCOPY flag when sending devmem TCP.=
+ Devmem
+> +cannot be copied by the kernel, so the semantics of the devmem TX are si=
+milar
+> +to the semantics of MSG_ZEROCOPY.
+> +
+> +	setsockopt(socket_fd, SOL_SOCKET, SO_ZEROCOPY, &opt, sizeof(opt));
+> +
+> +It is also recommended that the user binds the TX socket to the same int=
+erface
+> +the dma-buf has been bound to via SO_BINDTODEVICE.
+> +
+> +	setsockopt(socket_fd, SOL_SOCKET, SO_BINDTODEVICE, ifname, strlen(ifnam=
+e) + 1);
+> +
 
-I guess the following question is mostly for Jason and Michael: could be
-possible (/would it make any sense) to use a virtio_net_hdr `flags` bit
-to explicitly signal the hash fields presence? i.e. making the actual
-virtio_net_hdr size 'dynamic'.
+Wrap both setsockopts above in literal code-block (just like other snippets
+for consistency).
 
-> In theory, a user of tun can fill the buffer with zero before calling
-> read() to avoid such a problem, but leaving the garbage in the buffer is
-> awkward anyway so replace advancing the iterator with writing zeros.
-> 
-> A user might have initialized the buffer to some non-zero value,
-> expecting tun to skip writing it. As this was never a documented
-> feature, this seems unlikely.
-> 
-> The overhead of filling the hole in the header is negligible when the
-> header size is specified according to the specification as doing so will
-> not make another cache line dirty under a reasonable assumption. Below
-> is a proof of this statement:
-> 
-> The first 10 bytes of the header is always written and tun also writes
-> the packet itself immediately after the 
-> packet unless the packet is
+> +The user should create a msghdr where,
+> +
+> +iov_base is set to the offset into the dmabuf to start sending from.
+> +iov_len is set to the number of bytes to be sent from the dmabuf.
 
- ^^^^^ this possibly should be 'virtio header'. Otherwise the sentence
-is hard to follow for me.
+Should above be bullet list?
 
-> empty. This makes a hole between these writes whose size is: sz - 10
-> where sz is the specified header size.
-> 
-> Therefore, we will never make another cache line dirty when:
-> sz < L1_CACHE_BYTES + 10
-> where L1_CACHE_BYTES is the cache line size. Assuming
-> L1_CACHE_BYTES >= 16, this inequation holds when: sz < 26.
-> 
-> sz <= 20 according to the current specification so we even have a
-> margin of 5 bytes in case that the header size grows in a future version
-> of the specification.
+Thanks.
 
-FTR, the upcoming GSO over UDP tunnel support will add other 4 bytes to
-the header. but that will still fit the given boundary.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-/P
+--j3ck8zPX3Nllt0fQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ7bkKQAKCRD2uYlJVVFO
+o2s0AQCqEcmu39fAQOLMTwOYkn6NbqUyjT/e6q34LK5lpFeB7gEAw4iw+0dFGzFm
+S+/rpVCO8Pfw8Mt4Xg/RDLmSlwuOhgs=
+=QlMN
+-----END PGP SIGNATURE-----
+
+--j3ck8zPX3Nllt0fQ--
