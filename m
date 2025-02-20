@@ -1,185 +1,178 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1F521F8BCC;
-	Thu, 20 Feb 2025 13:40:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750501F76C0;
+	Thu, 20 Feb 2025 13:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740058858; cv=none; b=q5NGkrj9IEYXWfaqyXiw5Y53myW3zuciR8q9ODMO2X5kX7Z3wOa01SALT1f2HAMc7kK/TaYmp/s7vcmVI+XTwaJVKuSiY9s/lIZ61dMBsPTPI2WV6zQKx6ZbzOTBgiJ92PuuXjL/8IJKEvdvx+A+HSz5p+FfM0JylE+1g1CFZmI=
+	t=1740059005; cv=none; b=kmxms1c1Y9+/L8x3x6IpnD0bLxAMeqVEM1T1+9FLcRMmfkgKGU3I+OyL5G67li6AstR0XJ7sxsa8IUIXLrVqCkmsqJWpt9RyN47Bo7yGTelo2PVBuJ6K8QBuoso+MGi9ddLrLx/Iu78CuEu7doSpkKNQ+sEKZD8F0jrHB7MonLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740058858; c=relaxed/simple;
-	bh=HfCNOkX/ICg8oeRV+sVzvq8QE4RgVzBR32UtK4AyFVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EFTguZaojybLKTHcC3EsfL9pGIQfiqwyB7wQ9BBg5M049J1Byc7II7lX9V//KvCA+kcp0b9xyOd3WsrWpGwJvZUtfE/zhPXEKS6u4GeL6D5GgMscwfwHGejP6IRw7BSouE7kmN1ekyn4wqxybgKoNqM0PEectqoTQIUnaDGiQzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39D7516F3;
-	Thu, 20 Feb 2025 05:41:13 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CEA093F5A1;
-	Thu, 20 Feb 2025 05:40:50 -0800 (PST)
-Date: Thu, 20 Feb 2025 13:40:48 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Peter Newman <peternewman@google.com>
-Cc: Reinette Chatre <reinette.chatre@intel.com>,
-	Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	tony.luck@intel.com, fenghua.yu@intel.com, x86@kernel.org,
-	hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
-	thuth@redhat.com, rostedt@goodmis.org, xiongwei.song@windriver.com,
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
-Subject: Re: [PATCH v11 17/23] x86/resctrl: Auto assign/unassign counters
- when mbm_cntr_assign is enabled
-Message-ID: <Z7cw4JTp3Hfx/4li@e133380.arm.com>
-References: <cover.1737577229.git.babu.moger@amd.com>
- <2119b76ef8be21b1d8b2deedfab23e8e33ba724c.1737577229.git.babu.moger@amd.com>
- <Z7XfcV05ZZkHm6bc@e133380.arm.com>
- <CALPaoCiPkjbTf2He2tXsguxHDtGF+YfVUZScL8dseVc6rvAfvA@mail.gmail.com>
- <ac6860d4-92b4-424e-af4f-d6e3d5722232@intel.com>
- <CALPaoCh8siZKjL_3yvOYGL4cF_n_38KpUFgHVGbQ86nD+Q2_SA@mail.gmail.com>
+	s=arc-20240116; t=1740059005; c=relaxed/simple;
+	bh=D2FcBDeuGwHsiFlE5LsVOdNR9u94mmxTJwaL5dNzU5k=;
+	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=paF6lo+cXo3bgyda5UIwFNyqKpIIzT+pMJZN4wxm4LwGMZoHTjY0HvqH3uu6u8g9Som13whXhfOFlG4cIFgJfPFvF4idG7sDbbEkboHia7F+eg4tMrVIoOxaf3t0VNC0eVocKUnXNUNOsumBFa78zCLwGZldt0wNdaMqaBO2H1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=Z9a1EfA0; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="Z9a1EfA0"
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51KBLvUC023645;
+	Thu, 20 Feb 2025 08:43:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=D2FcB
+	DeuGwHsiFlE5LsVOdNR9u94mmxTJwaL5dNzU5k=; b=Z9a1EfA0X/b9e7/b6aGNr
+	TT4NbnRtRhX57eUOBU0QQJrPD0g2H6KwCgPx8RHNoDvKauZIZPJY9I8ApCpueO/U
+	d7TaiC5ONlsWe1CH6uFvPhOcy1TMDYtqFKtO08xt/Qs9Rj2RdQrehgWnTvF43rj1
+	izk5RiGT5XX7FQSZxGGnLRVLBW7nlSKCFPinZB2HntGEO5AY5U4fKiUe3Lh2+bWH
+	t6dcxvn6N3VOSKy9Dw7UaQpnVRaVLZ7bss7tNnpeyZONEQ/mW6FeytGZsSVlNW2D
+	FgvsnFPt8HRvawsRoj32Ojbmy64gAcKytru0GvlnueaMx066w+eTEgSr9PT4WBRK
+	g==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 44x3f40fq6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Feb 2025 08:43:06 -0500 (EST)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 51KDh5VN043954
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 20 Feb 2025 08:43:05 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Thu, 20 Feb
+ 2025 08:43:04 -0500
+Received: from ASHBMBX9.ad.analog.com ([fe80::1cb6:4851:5392:54cf]) by
+ ASHBMBX9.ad.analog.com ([fe80::1cb6:4851:5392:54cf%20]) with mapi id
+ 15.02.0986.014; Thu, 20 Feb 2025 08:43:04 -0500
+From: "Budai, Robert" <Robert.Budai@analog.com>
+To: =?utf-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>,
+        Lars-Peter Clausen
+	<lars@metafoo.de>,
+        "Hennerich, Michael" <Michael.Hennerich@analog.com>,
+        "Sa,
+ Nuno" <Nuno.Sa@analog.com>,
+        "Gradinariu, Ramona"
+	<Ramona.Gradinariu@analog.com>,
+        "Miclaus, Antoniu"
+	<Antoniu.Miclaus@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>, "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [RESEND PATCH v8 5/6] iio: imu: adis16550: add adis16550 support
+Thread-Topic: [RESEND PATCH v8 5/6] iio: imu: adis16550: add adis16550 support
+Thread-Index: AQHbgTvPfw471rqSUk6RU/zKwUC+57NQMlsAgAADUNA=
+Date: Thu, 20 Feb 2025 13:43:04 +0000
+Message-ID: <45d64de8a1074788b7c4bffc29788742@analog.com>
+References: <20250217105753.605465-1-robert.budai@analog.com>
+	 <20250217105753.605465-6-robert.budai@analog.com>
+ <aee93ef96e71adf70a48ee5877bd75966d9c78c1.camel@gmail.com>
+In-Reply-To: <aee93ef96e71adf70a48ee5877bd75966d9c78c1.camel@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-dg-rorf: true
+x-adiruleop-newscl: Rule Triggered
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALPaoCh8siZKjL_3yvOYGL4cF_n_38KpUFgHVGbQ86nD+Q2_SA@mail.gmail.com>
+X-Proofpoint-ORIG-GUID: 403pa-rlJEkUba881PoH13AW3JLeP6Bj
+X-Proofpoint-GUID: 403pa-rlJEkUba881PoH13AW3JLeP6Bj
+X-Authority-Analysis: v=2.4 cv=DuKs+H/+ c=1 sm=1 tr=0 ts=67b7316a cx=c_pps a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17 a=xqWC_Br6kY4A:10 a=ejxIebdwriEA:10 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=uherdBYGAAAA:8 a=P-IC7800AAAA:8
+ a=pGLkceISAAAA:8 a=gAnH3GRIAAAA:8 a=VwQbUJbxAAAA:8 a=07d9gI8wAAAA:8 a=0fo_jfcGDxs3koMwgKEA:9 a=QEXdDO2ut3YA:10 a=d3PnA9EDa4IxuAV0gXij:22 a=oVHKYsEdi7-vN-J5QA_j:22 a=e2CUPOnPG4QKp8I52DXD:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-20_05,2025-02-20_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ mlxscore=0 phishscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
+ adultscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2502200099
 
-On Thu, Feb 20, 2025 at 11:35:56AM +0100, Peter Newman wrote:
-> Hi Reinette,
-> 
-> On Wed, Feb 19, 2025 at 6:55 PM Reinette Chatre
-> <reinette.chatre@intel.com> wrote:
-> >
-> > Hi Dave and Peter,
-> >
-> > On 2/19/25 6:09 AM, Peter Newman wrote:
-> > > Hi Dave,
-> > >
-> > > On Wed, Feb 19, 2025 at 2:41 PM Dave Martin <Dave.Martin@arm.com> wrote:
-> > >>
-> > >> Hi,
-> > >>
-> > >> On Wed, Jan 22, 2025 at 02:20:25PM -0600, Babu Moger wrote:
-> > >>> Assign/unassign counters on resctrl group creation/deletion. Two counters
-> > >>> are required per group, one for MBM total event and one for MBM local
-> > >>> event.
-> > >>>
-> > >>> There are a limited number of counters available for assignment. If these
-> > >>> counters are exhausted, the kernel will display the error message: "Out of
-> > >>> MBM assignable counters". However, it is not necessary to fail the
-> > >>> creation of a group due to assignment failures. Users have the flexibility
-> > >>> to modify the assignments at a later time.
-> > >>
-> > >> If we are doing this, should turning mbm_cntr_assign mode on also
-> > >> trigger auto-assingment for all extant monitoring groups?
-> > >>
-> > >> Either way though, this auto-assignment feels like a potential nuisance
-> > >> for userspace.
-> >
-> > hmmm ... this auto-assignment was created with the goal to help userspace.
-> > In mbm_cntr_assign mode the user will only see data when a counter is assigned
-> > to an event. mbm_cntr_assign mode is selected as default on a system that
-> > supports ABMC. Without auto assignment a user will thus see different
-> > behavior when reading the monitoring events when the user switches to a kernel with
-> > assignable counter support: Before assignable counter support events will have
-> > data, with assignable counter support the events will not have data.
-> >
-> > I understood that interfaces should not behave differently when user space
-> > switches kernels and that is what the auto assignment aims to solve.
-> >
-> > >>
-> > >> If the userspace use-case requires too many monitoring groups for the
-> > >> available counters, then the kernel will auto-assign counters to a
-> > >> random subset of groups which may or may not be the ones that userspace
-> > >> wanted to monitor; then userspace must manually look for the assigned
-> > >> counters and unassign some of them before they can be assigned where
-> > >> userspace actually wanted them.
-> > >>
-> > >> This is not impossible for userspace to cope with, but it feels
-> > >> awkward.
-> > >>
-> > >> Is there a way to inhibit auto-assignment?
-> > >>
-> > >> Or could automatic assignments be considered somehow "weak", so that
-> > >> new explicit assignments can steal automatically assigned counters
-> > >> without the need to unassign them explicitly?
-> > >
-> > > We had an incomplete discussion about this early on[1]. I guess I
-> > > didn't revisit it because I found it was trivial to add a flag that
-> > > inhibits the assignment behavior during mkdir and had moved on to
-> > > bigger issues.
-> >
-> > Could you please remind me how a user will set this flag?
-> 
-> Quoting my original suggestion[1]:
-> 
->  "info/L3_MON/mbm_assign_on_mkdir?
-> 
->   boolean (parsed with kstrtobool()), defaulting to true?"
-> 
-> After mount, any groups that got counters on creation would have to be
-> cleaned up, but at least that can be done with forward progress once
-> the flag is cleared.
-> 
-> I was able to live with that as long as there aren't users polling for
-> resctrl to be mounted and immediately creating groups. For us, a
-> single container manager service manages resctrl.
-> 
-> >
-> > >
-> > > If an agent creating directories isn't coordinated with the agent
-> > > managing counters, a series of creating and destroying a group could
-> > > prevent a monitor assignment from ever succeeding because it's not
-> > > possible to atomically discover the name of the new directory that
-> > > stole the previously-available counter and reassign it.
-> > >
-> > > However, if the counter-manager can get all the counters assigned once
-> > > and only move them with atomic reassignments, it will become
-> > > impossible to snatch them with a mkdir.
-> > >
-> >
-> > You have many points that makes auto-assignment not be ideal but I
-> > remain concerned that not doing something like this will break
-> > existing users who are not as familiar with resctrl internals.
-> 
-> I agree auto-assignment should be the default. I just want an official
-> way to turn it off.
-> 
-> Thanks!
-> -Peter
-> 
-> [1] https://lore.kernel.org/lkml/CALPaoCiJ9ELXkij-zsAhxC1hx8UUR+KMPJH6i8c8AT6_mtXs+Q@mail.gmail.com/
-> 
-
-+1
-
-That's basically my position -- the auto-assignment feels like a
-_potential_ nuisance for ABMC-aware users, but it depends on what they
-are trying to do.  Migration of non-ABMC-aware users will be easier for
-basic use cases if auto-assignment occurs by default (as in this
-series).
-
-Having an explicit way to turn this off seems perfectly reasonable
-(and could be added later on, if not provided in this series).
-
-
-What about the question re whether turning mbm_cntr_assign mode on
-should trigger auto-assignment?
-
-Currently turning this mode off and then on again has the effect of
-removing all automatic assignments for extant groups.  This feels
-surprising and/or unintentional (?)
-
-Cheers
----Dave
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTnVubyBTw6EgPG5vbmFt
+ZS5udW5vQGdtYWlsLmNvbT4NCj4gU2VudDogVGh1cnNkYXksIEZlYnJ1YXJ5IDIwLCAyMDI1IDEw
+OjIyIEFNDQo+IFRvOiBCdWRhaSwgUm9iZXJ0IDxSb2JlcnQuQnVkYWlAYW5hbG9nLmNvbT47IExh
+cnMtUGV0ZXIgQ2xhdXNlbg0KPiA8bGFyc0BtZXRhZm9vLmRlPjsgSGVubmVyaWNoLCBNaWNoYWVs
+IDxNaWNoYWVsLkhlbm5lcmljaEBhbmFsb2cuY29tPjsNCj4gU2EsIE51bm8gPE51bm8uU2FAYW5h
+bG9nLmNvbT47IEdyYWRpbmFyaXUsIFJhbW9uYQ0KPiA8UmFtb25hLkdyYWRpbmFyaXVAYW5hbG9n
+LmNvbT47IE1pY2xhdXMsIEFudG9uaXUNCj4gPEFudG9uaXUuTWljbGF1c0BhbmFsb2cuY29tPjsg
+Sm9uYXRoYW4gQ2FtZXJvbiA8amljMjNAa2VybmVsLm9yZz47IFJvYg0KPiBIZXJyaW5nIDxyb2Jo
+QGtlcm5lbC5vcmc+OyBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprK2R0QGtlcm5lbC5vcmc+OyBD
+b25vcg0KPiBEb29sZXkgPGNvbm9yK2R0QGtlcm5lbC5vcmc+OyBKb25hdGhhbiBDb3JiZXQgPGNv
+cmJldEBsd24ubmV0PjsgbGludXgtDQo+IGlpb0B2Z2VyLmtlcm5lbC5vcmc7IGRldmljZXRyZWVA
+dmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOw0KPiBsaW51eC1k
+b2NAdmdlci5rZXJuZWwub3JnDQo+IFN1YmplY3Q6IFJlOiBbUkVTRU5EIFBBVENIIHY4IDUvNl0g
+aWlvOiBpbXU6IGFkaXMxNjU1MDogYWRkIGFkaXMxNjU1MA0KPiBzdXBwb3J0DQo+IA0KPiBbRXh0
+ZXJuYWxdDQo+IA0KPiBPbiBNb24sIDIwMjUtMDItMTcgYXQgMTI6NTcgKzAyMDAsIFJvYmVydCBC
+dWRhaSB3cm90ZToNCj4gPiBUaGUgQURJUzE2NTUwIGlzIGEgY29tcGxldGUgaW5lcnRpYWwgc3lz
+dGVtIHRoYXQgaW5jbHVkZXMgYSB0cmlheGlzDQo+ID4gZ3lyb3Njb3BlIGFuZCBhIHRyaWF4aXMg
+YWNjZWxlcm9tZXRlci4gRWFjaCBpbmVydGlhbCBzZW5zb3IgaW4gdGhlDQo+ID4gQURJUzE2NTUw
+IGNvbWJpbmVzIGluZHVzdHJ5IGxlYWRpbmcgTUVNUyBvbmx5IHRlY2hub2xvZ3kgd2l0aCBzaWdu
+YWwNCj4gPiBjb25kaXRpb25pbmcgdGhhdCBvcHRpbWl6ZXMgZHluYW1pYyBwZXJmb3JtYW5jZS4g
+VGhlIGZhY3RvcnkgY2FsaWJyYXRpb24NCj4gPiBjaGFyYWN0ZXJpemVzIGVhY2ggc2Vuc29yIGZv
+ciBzZW5zaXRpdml0eSwgYmlhcywgYW5kIGFsaWdubWVudC4gQXMgYQ0KPiA+IHJlc3VsdCwgZWFj
+aCBzZW5zb3IgaGFzIGl0cyBvd24gZHluYW1pYyBjb21wZW5zYXRpb24gZm9ybXVsYXMgdGhhdA0K
+PiA+IHByb3ZpZGUgYWNjdXJhdGUgc2Vuc29yIG1lYXN1cmVtZW50cy4NCj4gPg0KPiA+IENvLWRl
+dmVsb3BlZC1ieTogUmFtb25hIEdyYWRpbmFyaXUgPHJhbW9uYS5ncmFkaW5hcml1QGFuYWxvZy5j
+b20+DQo+ID4gU2lnbmVkLW9mZi1ieTogUmFtb25hIEdyYWRpbmFyaXUgPHJhbW9uYS5ncmFkaW5h
+cml1QGFuYWxvZy5jb20+DQo+ID4gQ28tZGV2ZWxvcGVkLWJ5OiBBbnRvbml1IE1pY2xhdXMgPGFu
+dG9uaXUubWljbGF1c0BhbmFsb2cuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEFudG9uaXUgTWlj
+bGF1cyA8YW50b25pdS5taWNsYXVzQGFuYWxvZy5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogTnVu
+byBTw6EgPG51bm8uc2FAYW5hbG9nLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBSb2JlcnQgQnVk
+YWkgPHJvYmVydC5idWRhaUBhbmFsb2cuY29tPg0KPiA+IC0tLQ0KPiA+DQo+IA0KPiBJIGd1ZXNz
+IGl0IHdvdWxkIG1ha2Ugc2Vuc2UgYSBDby1kZXZlbG9wZWQtYnk6IGZvciBSb2JlcnQ/DQo+IA0K
+PiBBbnl3YXlzLCBhbGwgbG9va3MgZ29vZCBleGNlcHQgZm9yIG9uZSB0aGluZyB0aGF0IEkganVz
+dCBzcG90dGVkLi4uDQo+IA0KPiA+IHY4Og0KPiA+IC0gcmVtb3ZlZCBfX2FsaWduZWQgZnJvbSBz
+dHJ1Y3QgYWRpczE2NTUwLCBhcyBzdWdnZXN0ZWQNCj4gPiAtIGNyYyBidWZmZXIgZXh0cmFjdGlv
+biBpbnRvIHRoZSBjcmMgY2hlY2sgZnVuY3Rpb24NCj4gPiAtIHBhc3NlZCBidWZmZXIgaW50byBj
+cmMgdmFsaWRhdGlvbiBhcyBvcmlnaW5hbCwgX19iZTMyIGFuZCBwZXJmb3JtZWQgY2hlY2sNCj4g
+PiB1c2luZyBiZTMyX3RvX2NwdSBjb252ZXJzaW9uIG9mIHRoZSBidWZmZXINCj4gPiAtIGFkZGVk
+IHRyYWlsaW5nIGNvbW1hIHRvIGxpbmUgOTkzDQo+ID4gLSByZW1vdmVkIHRyYWlsaW5nIGNvbW1h
+IGZyb20gbGluZSA4NzcNCj4gPg0KPiA+IMKgZHJpdmVycy9paW8vaW11L0tjb25maWfCoMKgwqDC
+oCB8wqDCoCAxMyArDQo+ID4gwqBkcml2ZXJzL2lpby9pbXUvTWFrZWZpbGXCoMKgwqAgfMKgwqDC
+oCAxICsNCj4gPiDCoGRyaXZlcnMvaWlvL2ltdS9hZGlzMTY1NTAuYyB8IDExNDkNCj4gKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gPiDCoDMgZmlsZXMgY2hhbmdlZCwgMTE2
+MyBpbnNlcnRpb25zKCspDQo+ID4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9paW8vaW11
+L2FkaXMxNjU1MC5jDQo+ID4NCj4gDQo+IC4uLg0KPiANCj4gPg0KPiA+ICtzdGF0aWMgaW50IGFk
+aXMxNjU1MF9zZXRfZnJlcV9oeihzdHJ1Y3QgYWRpczE2NTUwICpzdCwgdTMyIGZyZXFfaHopDQo+
+ID4gK3sNCj4gPiArCXUxNiBkZWM7DQo+ID4gKwlpbnQgcmV0Ow0KPiA+ICsJdTMyIHNhbXBsZV9y
+YXRlID0gc3QtPmNsa19mcmVxX2h6Ow0KPiA+ICsJLyoNCj4gPiArCSAqIFRoZSBvcHRpbWFsIHNh
+bXBsZSByYXRlIGZvciB0aGUgc3VwcG9ydGVkIElNVXMgaXMgYmV0d2Vlbg0KPiA+ICsJICogaW50
+X2NsayAtIDEwMDAgYW5kIGludF9jbGsgKyA1MDAuDQo+ID4gKwkgKi8NCj4gPiArCXUzMiBtYXhf
+c2FtcGxlX3JhdGUgPSBzdC0+aW5mby0+aW50X2NsayAqIDEwMDAgKyA1MDAwMDA7DQo+ID4gKwl1
+MzIgbWluX3NhbXBsZV9yYXRlID0gc3QtPmluZm8tPmludF9jbGsgKiAxMDAwIC0gMTAwMDAwMDsN
+Cj4gPiArDQo+ID4gKwlpZiAoIWZyZXFfaHopDQo+ID4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+ID4g
+Kw0KPiA+ICsJYWRpc19kZXZfYXV0b19sb2NrKCZzdC0+YWRpcyk7DQo+ID4gKw0KPiA+ICsJaWYg
+KHN0LT5zeW5jX21vZGUgPT0gQURJUzE2NTUwX1NZTkNfTU9ERV9TQ0FMRUQpIHsNCj4gPiArCQl1
+bnNpZ25lZCBsb25nIHNjYWxlZF9yYXRlID0gbGNtKHN0LT5jbGtfZnJlcV9oeiwgZnJlcV9oeik7
+DQo+ID4gKwkJaW50IHN5bmNfc2NhbGU7DQo+ID4gKw0KPiA+ICsJCWlmIChzY2FsZWRfcmF0ZSA+
+IG1heF9zYW1wbGVfcmF0ZSkNCj4gPiArCQkJc2NhbGVkX3JhdGUgPSBtYXhfc2FtcGxlX3JhdGUg
+LyBzdC0+Y2xrX2ZyZXFfaHogKiBzdC0NCj4gPiA+Y2xrX2ZyZXFfaHo7DQo+ID4gKwkJZWxzZQ0K
+PiA+ICsJCQlzY2FsZWRfcmF0ZSA9IG1heF9zYW1wbGVfcmF0ZSAvIHNjYWxlZF9yYXRlICoNCj4g
+PiBzY2FsZWRfcmF0ZTsNCj4gPiArDQo+ID4gKwkJaWYgKHNjYWxlZF9yYXRlIDwgbWluX3NhbXBs
+ZV9yYXRlKQ0KPiA+ICsJCQlzY2FsZWRfcmF0ZSA9IHJvdW5kdXAobWluX3NhbXBsZV9yYXRlLCBz
+dC0NCj4gPiA+Y2xrX2ZyZXFfaHopOw0KPiA+ICsNCj4gDQo+IEkgd291bGQgaW1hZ2luZSB0aGUg
+YWJvdmUgaXMgdGhlIHNhbWUgZGVhbCBhcyBpbiBvdGhlciBkZXZpY2VzIFsxXSBvciBkbyB5b3UN
+Cj4ga25vdyBmb3IgYSBmYWN0IHRoaXMgb25lIGlzIGRpZmZlcmVudD8gTWF5YmUgaXQncyBzaW1w
+bGUgZW5vdWdoIGZvciBKb25hdGhhbiB0bw0KPiB0d2VhayB3aGlsZSBhcHBseWluZy4uLg0KPiAN
+Cj4gWzFdOg0KPiBodHRwczovL3VybGRlZmVuc2UuY29tL3YzL19faHR0cHM6Ly9lbGl4aXIuYm9v
+dGxpbi5jb20vbGludXgvdjYuMTMuMy9zb3VyY2UNCj4gL2RyaXZlcnMvaWlvL2ltdS9hZGlzMTY0
+NzUuYypMMzY0X187SXchIUEzTmk4Q1MweTJZITdZNzF5UGFRQXhWek5SZA0KPiBPX2pUN3dFejRr
+LQ0KPiBzNno0dEpIT2NFUzg0SFlrcThxTkdzZ0pIN3p4d2pmUE5qTEYzT0VHVkluU29sbzFlbm5M
+VV9td3BtRWJvJA0KPiANCj4gLSBOdW5vIFPDoQ0KDQpbUm9iZXJ0IEJ1ZGFpXSANCk5vIGRpZmZl
+cmVuY2VzIHdlcmUgZm91bmQgaW4gdGhlIHNjYWxlZF9zeW5jIGJlaGF2aW9yIG9mIHRoZSBBRElT
+MTY0NzUgYW5kDQpBRElTMTY1NTAuIEl0IGlzIHNhZmUgdG8gYWRkIGZyb20gbXkgc2lkZS4NCg0K
+QmVzdCByZWdhcmRzLA0KUm9iZXJ0IEINCg==
