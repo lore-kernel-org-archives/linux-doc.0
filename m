@@ -1,157 +1,170 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840921E9B15;
-	Thu, 20 Feb 2025 08:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5275B1E991B;
+	Thu, 20 Feb 2025 08:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740039221; cv=none; b=fFd+PLov0zswtLL97awYp+oAIw9+l6Nan89h4Tgl4nVYX43ddrnJvl85aUaUufa4SDLAOrG/FjlZQOSOs8aBAXBVzBx6kebvcq86YjSmhaquf7jC4NmwVSiX3cGJ73IHF9u7oqfCWitO5otEWvHvos0gBtRMD85igQpjW0t8sf8=
+	t=1740039718; cv=none; b=q4g4pz5TsS9yyUF4s5ZnxUOplU3GJuwf9DRZrthFIvY2STc+/zB7c8/Zm5dFamAn1rsNJWjOUCZv3hs5gkW5UgNYyUuQoGAEQUwxivKxhfixw4Y4vhIDkkcwtO6QTWSgSEyb5kxsL6nph1No6hyblOhbKeUggFSvtzXGfutyeyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740039221; c=relaxed/simple;
-	bh=NR1AzEHW3X4hTDfCdv4wws5y6bJ4IHoskvMdZyfEWxQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hBx6E2PMbdkAEpbuHT/p0u9c5tSw6GZi7dbs53iuWm79rWUXiV2Wd3lFwm6+W9Qe9acpqXQAdFPm8FpTcmC2SbJZvCjMA6lD0jMWudB1+m4I1rXDSno9YdhF62ET1dvTB/4Mzl7xRTkIHa1+3HJTWnAA0uueWk3wiLhOro9OjjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=heF0dm3M; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1740039718; c=relaxed/simple;
+	bh=SsMajwfrGg3VJCJ6ZPr26vGAegzi7N89NtDYAbZx0IQ=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Bb9DV5xBTMco6lgTwjpgvKYdCBS2c6JoCTryNmHGBDJhjQd6CyhAvK3GRTQuTV1v0q5OScAKy0iYhNVuTWAHIrnO61QcJBginluqYXmFBVAG2/yQwm/EmaR5xom1nARKQlJUr1ngxAW7dw4eCSNk7wPS68pBwmja/2Lx+aHbWuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bDyeySPp; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="heF0dm3M"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-21f2339dcfdso11382835ad.1;
-        Thu, 20 Feb 2025 00:13:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bDyeySPp"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5dedd4782c6so1205033a12.3;
+        Thu, 20 Feb 2025 00:21:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740039220; x=1740644020; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hz/pGvR+evldl5mhlvuI0J68W2mI9FP4/s36oM1FYLQ=;
-        b=heF0dm3MjHXMA7y+n0ZoAaOZzdbNAxYTWs2GjGgDNo/uYJQ6lO2hsvafXPpn7nZ1is
-         T/knW3AAniz+tpZihfOqP0QzRErEyLTZhuOm/CUJFE++/vVhJrxKvTmXFa7VB73am/Bu
-         L6fRTACx215w+S24yeFLoFfAHQQSRaulBQ7Rku0+xRlb8AfhY4oQ+oW0KUOcsVUXCy0q
-         paf3otP6lzxnJyJZ2txSeuZFrbsp0M8/Q6gOreMc0u6YeY3pi5OCt5vp1CQlnjuOK3tL
-         hbZU47/3NsogqWH9eMn41qazt53EZncx89MVf9f7u0j3+x1J2NrHI3s6mkmy6jmtmHQe
-         g0vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740039220; x=1740644020;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1740039714; x=1740644514; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hz/pGvR+evldl5mhlvuI0J68W2mI9FP4/s36oM1FYLQ=;
-        b=lwZm7CtAYxy1m75x9tC8mhNCbh2FrlEArGk7rmk8JoyM2rLY8lAD5rpdwMAy6VFy3V
-         jv6uJ+0h6lHqFAjPdJ3ltZiTwn3QKR/CY1X5CFiPqP4FJeW/thliTW6oPtW3H+Rn3Gxh
-         yVthrGiF8zQunOARlulL7lOL4BmvJHAlrx3Zp9Tv4XAZoX2TSovXn06xaW+8ycyUfR2/
-         UeoR1Vi4HiwKLw3MAycf5DY7X2TKWZy9ba9tJJc+T38eEwAJVrtAoVQvO++OtsYmSXyB
-         1sG9dveRIRAG7P0XI/inAk+CWvBRI2hEGWU+ch2qtRfTZjKJlCPRaKbZWVEFyzs38zAD
-         dgOw==
-X-Forwarded-Encrypted: i=1; AJvYcCWPr/S2BkV5INySGwSqhG0sY5Nbks7dAafdVTfQMmsfRNFc411joUmKW6hWWyO2tPuk0K74RG9P@vger.kernel.org, AJvYcCWR31zaeVcuEM0bqAnDtUe1iIK2kHlfeuwtOFvgkGehAWptniK/A6TgLzNOflXLBKZ/N9s=@vger.kernel.org, AJvYcCWr4oLApZxYM5iStMQfO4rcDc6InW6ekEb5J/vopmjfAVIU6JlYbLdDLCIL+gL3VVwOG1uCO9R/UqYg@vger.kernel.org, AJvYcCWuC5bV4zUpc49+qC4Fa0eHPFhIoBgS+pUzu7H28Jy3QfvU4kAoB29u1qB/Vw7S6muiX0Vx+TZLF5pJ/Qvg7nA+@vger.kernel.org, AJvYcCXWrZKjCAXN5HOKHUyMl2wUM9dbsFbgNroODSjQpDTlaV+7MSwiD9pesFXJU0YaDiyj9To7I/48Wa15R7gm@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3ydxZhvy+b8PtpCQaTY1VSmt+yEq3kJudHGtprE6dKq9cK7fq
-	lEOCBOk5/aWRrnRm9JWT+7fqCOzN4l/LLiEfBIM2WZK+HqtIJA68
-X-Gm-Gg: ASbGncsdZ241q4QnLQ30TNpK+bwBKY8bq3ekRWjsk9Z1Qi6ztWQ2ZJYWDdu04kcfrMw
-	LihueXm0WPHbWpP832Duih6aV3Iv07gxYlKNRHPVrETjU52ZUupuB//V0+72cSRzMlQSivr4NyE
-	H6caGlD5P3iA0xkfO0aEvCM9nqCaGlTQrbbAln2UOJ2SVeIWtHqD7FzwoQGwaL+QCymnWAOS7C2
-	A1chNYqgwSJndpinPTjFatGvIOmYbXAs5y5lc6myL+W+m4fY1+V5pClGP4TN6CZADKs1BlEMaN3
-	yod3JTm0XeWeHBA=
-X-Google-Smtp-Source: AGHT+IF3zZoqfKWUfFNv+FPNQ0UuIwZSkcWXCgHzMPO8Q84I63xMG6/s+7OLxm4EjnPNFrOg1ROUQQ==
-X-Received: by 2002:a17:903:40cc:b0:215:58be:3349 with SMTP id d9443c01a7336-2218c41f67dmr48108495ad.14.1740039219629;
-        Thu, 20 Feb 2025 00:13:39 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5349634sm114661275ad.31.2025.02.20.00.13.37
+        bh=lrrXspfQLmbYxP8R0lXUq4D1w3aPsGzOwm5WY8qSB74=;
+        b=bDyeySPpQHyrwePeh501nuDlvBWXE5ikP8VzZ0jHxqrUcxWSOVe6dS0BCPwI6bQO6K
+         vtBx3Pwv5mYpRXJEIczA0fVlBuWqJIR4j5qPQJ58KZ0kWJI+cguj5KNB5m580WGJva3E
+         mF79L7Yg7a4GmMWBrC8coyKP3BQiviO8FJFUgWkNusUHPjDUg9+EyDD8belC4Uhz6AAm
+         BdpBZ/exrl8qRkY+b99VT+LJtodbxcj4VFeLakkKnTvbDZ2c6pjEL5BAiZRRkQwMNrxU
+         L9KXuypjD2WgwH7MiLsUbJbJdAtYTPhuo3Pfxiax08bVUM9pvNgawKt6J0pHUvfPymcv
+         669Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740039714; x=1740644514;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lrrXspfQLmbYxP8R0lXUq4D1w3aPsGzOwm5WY8qSB74=;
+        b=neDOWuYJAsp9JfkKEany5igUFWK2zUVVEyGIOsNdid3c1Tup8RvFs6yctcQXM7OmIb
+         ojJTisU8/4uWYFlkPovxR/z0HBsM+/kzkt+E6itn0DfFyGVVjV4Wl7O3mXT5loX+LoD4
+         fY0oRz0RJu6BwV5VOwej8zWGCCeXkT0c8bia0RJpiJntKyNI9BNiwf0WpyVaGZydmHB8
+         YoDVRlOidkSEv8Wvl6UKzG/2Y3KiR5oqaL9+FY/2VAM/ndwoMlR9x02ZnBBCqp03GtRy
+         LyCPuTIGdg/U3JJKL2+NV/lxRY8nij1I3DpFhXhvSOBo0L2Hcr5Wsq3N5pjzJoYyCOiE
+         iuJA==
+X-Forwarded-Encrypted: i=1; AJvYcCUTgqQ66o4sDg4T0tE0cToDsnzjo7bg0YsyAuCtZg13rdo3wlnLeqACLAeL57IS2MkvNSYf63Yi+zLdmXFH@vger.kernel.org, AJvYcCV1teXEXV3JldVxMhCwQw4VPS/4NmbKN9CXgt88VIAfaGrBqFmAX1oPRe8g8W13awtJXz8ZX0I5XOpE@vger.kernel.org, AJvYcCVPVUvmsGmhSJ70yimvaLiKE4JrRmIovYJHZGOCCDdZIkh9N++DE6FIQs7+dYQC+NwHxafC4LRH1ZFM@vger.kernel.org, AJvYcCWKbGyBHQcOV+TEnyHogWmQ37k4Pi8QYuX8Xc9DkWFGtY6GZaqy5qkqSqFaKMqyXf6bCldRz+p8r88a@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGsLfRYTkkk6F6HCzYTmj9rjPKHlH8D82Bwn+6ScB6pZLxVmsV
+	u22EUOkq7Dby0TSWI9AgqRoeSjdHSg0467F/nybSa3IpmOoGkbhl
+X-Gm-Gg: ASbGncsYaBSJ7hWNAdtZzhEKiLG1iUE+y2khdLaQQLw5PsSpwCGLV18cwqrugZXyrGu
+	DxvQkrgT+qQlJoua5vvCqKZsGa0LPiy9ING9cQvGSAqIJPZYoWL7tQphhRDhmyx7l6Yzi0QX+eP
+	j9cnIpJbGYSnE3D8qsgrAKDZerRuTK2a1RqODDOP7rOIfisUiGABG8Pz6M/b50TpRi9zBq1dRV1
+	u6UsBSY/v4HhZ2xkcppGfUibB71SFF+dQqNHJxGZK/hkmPFybFr88zP1y0Jr+TTKiqA+Lv2/gVu
+	8byCNdsDToZyG7LMXzOSBviTjp/BtBYdKMnKpdGBIit0+vKTZRYd4t2eSa4dVzU=
+X-Google-Smtp-Source: AGHT+IFnAgs7LaeLetE3gQxqyKpSoHEV10DFP+3zBkEqkOfu+rvETWAhEz7oKNTkMmV3JRW0/TNHwA==
+X-Received: by 2002:a05:6402:278a:b0:5db:f26d:fff8 with SMTP id 4fb4d7f45d1cf-5e0361cbe0amr19369313a12.22.1740039714170;
+        Thu, 20 Feb 2025 00:21:54 -0800 (PST)
+Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dece2721d9sm11937261a12.56.2025.02.20.00.21.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 00:13:38 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id C04B84208FB6; Thu, 20 Feb 2025 15:13:35 +0700 (WIB)
-Date: Thu, 20 Feb 2025 15:13:35 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	virtualization@lists.linux.dev, kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Shailend Chand <shailend@google.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Willem de Bruijn <willemb@google.com>,
-	David Ahern <dsahern@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
-	asml.silence@gmail.com, dw@davidwei.uk,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Victor Nogueira <victor@mojatatu.com>,
-	Pedro Tammela <pctammela@mojatatu.com>,
-	Samiullah Khawaja <skhawaja@google.com>
-Subject: Re: [PATCH net-next v4 5/9] net: add devmem TCP TX documentation
-Message-ID: <Z7bkL7uuy8prxfTe@archie.me>
-References: <20250220020914.895431-1-almasrymina@google.com>
- <20250220020914.895431-6-almasrymina@google.com>
+        Thu, 20 Feb 2025 00:21:53 -0800 (PST)
+Message-ID: <aee93ef96e71adf70a48ee5877bd75966d9c78c1.camel@gmail.com>
+Subject: Re: [RESEND PATCH v8 5/6] iio: imu: adis16550: add adis16550 support
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Robert Budai <robert.budai@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>,  Michael Hennerich <Michael.Hennerich@analog.com>, Nuno
+ Sa <nuno.sa@analog.com>, Ramona Gradinariu	 <ramona.gradinariu@analog.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>,  Jonathan Cameron	
+ <jic23@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet	
+ <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Date: Thu, 20 Feb 2025 08:21:56 +0000
+In-Reply-To: <20250217105753.605465-6-robert.budai@analog.com>
+References: <20250217105753.605465-1-robert.budai@analog.com>
+	 <20250217105753.605465-6-robert.budai@analog.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="j3ck8zPX3Nllt0fQ"
-Content-Disposition: inline
-In-Reply-To: <20250220020914.895431-6-almasrymina@google.com>
 
+On Mon, 2025-02-17 at 12:57 +0200, Robert Budai wrote:
+> The ADIS16550 is a complete inertial system that includes a triaxis
+> gyroscope and a triaxis accelerometer. Each inertial sensor in the
+> ADIS16550 combines industry leading MEMS only technology with signal
+> conditioning that optimizes dynamic performance. The factory calibration
+> characterizes each sensor for sensitivity, bias, and alignment. As a
+> result, each sensor has its own dynamic compensation formulas that
+> provide accurate sensor measurements.
+>=20
+> Co-developed-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> Signed-off-by: Robert Budai <robert.budai@analog.com>
+> ---
+>=20
 
---j3ck8zPX3Nllt0fQ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I guess it would make sense a Co-developed-by: for Robert?
 
-On Thu, Feb 20, 2025 at 02:09:10AM +0000, Mina Almasry wrote:
-> +The user application must use MSG_ZEROCOPY flag when sending devmem TCP.=
- Devmem
-> +cannot be copied by the kernel, so the semantics of the devmem TX are si=
-milar
-> +to the semantics of MSG_ZEROCOPY.
+Anyways, all looks good except for one thing that I just spotted...
+
+> v8:
+> - removed __aligned from struct adis16550, as suggested
+> - crc buffer extraction into the crc check function
+> - passed buffer into crc validation as original, __be32 and performed che=
+ck
+> using be32_to_cpu conversion of the buffer
+> - added trailing comma to line 993
+> - removed trailing comma from line 877
+>=20
+> =C2=A0drivers/iio/imu/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 13 +
+> =C2=A0drivers/iio/imu/Makefile=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 +
+> =C2=A0drivers/iio/imu/adis16550.c | 1149 ++++++++++++++++++++++++++++++++=
++++
+> =C2=A03 files changed, 1163 insertions(+)
+> =C2=A0create mode 100644 drivers/iio/imu/adis16550.c
+>=20
+
+...
+
+>=20
+> +static int adis16550_set_freq_hz(struct adis16550 *st, u32 freq_hz)
+> +{
+> +	u16 dec;
+> +	int ret;
+> +	u32 sample_rate =3D st->clk_freq_hz;
+> +	/*
+> +	 * The optimal sample rate for the supported IMUs is between
+> +	 * int_clk - 1000 and int_clk + 500.
+> +	 */
+> +	u32 max_sample_rate =3D st->info->int_clk * 1000 + 500000;
+> +	u32 min_sample_rate =3D st->info->int_clk * 1000 - 1000000;
 > +
-> +	setsockopt(socket_fd, SOL_SOCKET, SO_ZEROCOPY, &opt, sizeof(opt));
+> +	if (!freq_hz)
+> +		return -EINVAL;
 > +
-> +It is also recommended that the user binds the TX socket to the same int=
-erface
-> +the dma-buf has been bound to via SO_BINDTODEVICE.
+> +	adis_dev_auto_lock(&st->adis);
 > +
-> +	setsockopt(socket_fd, SOL_SOCKET, SO_BINDTODEVICE, ifname, strlen(ifnam=
-e) + 1);
+> +	if (st->sync_mode =3D=3D ADIS16550_SYNC_MODE_SCALED) {
+> +		unsigned long scaled_rate =3D lcm(st->clk_freq_hz, freq_hz);
+> +		int sync_scale;
+> +
+> +		if (scaled_rate > max_sample_rate)
+> +			scaled_rate =3D max_sample_rate / st->clk_freq_hz * st-
+> >clk_freq_hz;
+> +		else
+> +			scaled_rate =3D max_sample_rate / scaled_rate *
+> scaled_rate;
+> +
+> +		if (scaled_rate < min_sample_rate)
+> +			scaled_rate =3D roundup(min_sample_rate, st-
+> >clk_freq_hz);
 > +
 
-Wrap both setsockopts above in literal code-block (just like other snippets
-for consistency).
+I would imagine the above is the same deal as in other devices [1] or do yo=
+u
+know for a fact this one is different? Maybe it's simple enough for Jonatha=
+n to
+tweak while applying...
 
-> +The user should create a msghdr where,
-> +
-> +iov_base is set to the offset into the dmabuf to start sending from.
-> +iov_len is set to the number of bytes to be sent from the dmabuf.
+[1]: https://elixir.bootlin.com/linux/v6.13.3/source/drivers/iio/imu/adis16=
+475.c#L364
 
-Should above be bullet list?
+- Nuno S=C3=A1
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---j3ck8zPX3Nllt0fQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ7bkKQAKCRD2uYlJVVFO
-o2s0AQCqEcmu39fAQOLMTwOYkn6NbqUyjT/e6q34LK5lpFeB7gEAw4iw+0dFGzFm
-S+/rpVCO8Pfw8Mt4Xg/RDLmSlwuOhgs=
-=QlMN
------END PGP SIGNATURE-----
-
---j3ck8zPX3Nllt0fQ--
