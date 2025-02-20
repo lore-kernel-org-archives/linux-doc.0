@@ -1,104 +1,90 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9D11E571F;
-	Thu, 20 Feb 2025 08:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899051B043A
+	for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 08:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740040566; cv=none; b=CRecd3pIjjYmZIh67jBzj9GuYhodsOyW1Cz0SobDS/aOoXnbOVGpCPZzGK5QFA/Se9RuTNvcTWCvN1sB5q+xmialG+H1YQPyugxCWolJ+z9rDCfdFxowZWSj5RdAZLcJ2Ix+4sHjunIQeT46h1oTipggCu3Xlr1bHEETwbg/55s=
+	t=1740041122; cv=none; b=tNRdq4X1ITEsCJVco51drAsOgKvt/RHPRtdC3xMr3FyX3LVp9VadcsIAWfYlyl6BQZYph9F8Mu1oqRy+nn5oVVP34Jw4t4f2Evx6oKl/P1xpm2YXmYDHGekvWMBfTdCs3KnyIT6rptpMLI/6R6DUTMvVYIVHYHWpB8Yfv1F+2e4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740040566; c=relaxed/simple;
-	bh=stqDS9AX3y7H3mWwV3DJihDNRqA9BbbNBvl1ESip09w=;
+	s=arc-20240116; t=1740041122; c=relaxed/simple;
+	bh=0SHhfqD/vA4cGXP3SZz7IhYLrGj9qnR4GeFeMVjfvsU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OmZYGYdCzO2NDMKL4tw4Ckzn6icwjYrb0snoRaA2J4rcEv6aWyqd7wtvrKyMoD4b7/N35SspJJ2oTCeTuQnSJ3iHtAwycjFOkNdWJshcaB/fTDb8XBO4ZhLfEbgVQIGgVwpCXlT8dQLd1JO28fcB0dZysduJ9ZlWjVO6MbgTiVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lEBquWKT; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=XR4wZpA62qajJNRVyzYFdFAznx2RL2GO9i+8NgHHnckdkLkK6662d7oDDgrowUs7f/qMlfWmCf/RhYxSwjOjIAEeuRU30jgSTllqywn1m6dYEvN96zG4U4Rq44qFGbFBkxx3AlzL3mb1oF/ASiaZEh5O9p+9aT8shwsiE/KTbz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HDKSYMxr; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lEBquWKT"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-aaee2c5ee6eso124767866b.1;
-        Thu, 20 Feb 2025 00:36:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740040563; x=1740645363; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SEaHAsDM2MLSNpt7MvRkD4rjd16wxN3bWpPMinYr6Xg=;
-        b=lEBquWKTdixtltA15hhm18jZYNX6B9IlErqxHdkIg35tfxy0MFkhsrRWll8gGs4brv
-         obwSbGZR/GQNZU+O2jLaueBh9wfFRww/SaO8jg0PSuJC5Mxd2rzy7VJZFv2DyeCnNg0j
-         RxUoja5KjrKx3cF7dTUULSFvmGkq0crtIS06T8Sv3uSY2iYVGJw/bttc2Hn6RfMP8yXk
-         Xayomqa90ATbfo2GindG+r8U021pIUAAAcx/WBTdqLv/wQLVTy6r01n/hPZH95puYlgw
-         5jcKdzBjzBGBObZep7PfDP1vxGS4GxRB5OF3kD3vFVzyUavGli1N/zd4bbQ4FnX5D4ct
-         QK1Q==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HDKSYMxr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740041119;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QowQNzpCtCsCtxr+X2Hdu42nsXJZ78IqGs75xqGcCm4=;
+	b=HDKSYMxrL8zXxl/Ph5nORd77ppKkIQX5WuXnf7idofE1RO7wFTKfRWyK/1qiMNu0M/auzj
+	R2SX5X9PMHqYakbhVf2C8AgL3rYTqZfxaEERvQCxgJmyPjsXrsjmjCeTJW2IExefwQYHZi
+	L9eEJNrdn+NpxAVhWkWmfqKLNuBNPNA=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-526-WV6Ao7P4PKCqXMXxM6r3qQ-1; Thu, 20 Feb 2025 03:45:18 -0500
+X-MC-Unique: WV6Ao7P4PKCqXMXxM6r3qQ-1
+X-Mimecast-MFC-AGG-ID: WV6Ao7P4PKCqXMXxM6r3qQ_1740041117
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-abb8e0944bfso84096366b.0
+        for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 00:45:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740040563; x=1740645363;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SEaHAsDM2MLSNpt7MvRkD4rjd16wxN3bWpPMinYr6Xg=;
-        b=UT7zQfin+9oEKDCYXBWMD5ppRLPJVp0AWUaDo6n78yMl4+ceG6UMJEa3ib3UznK6WD
-         xB9dbrqsiGkgVKf/pjkbk7vhgk+j2c7xCDHs6mN0UhmuLFXsmlxXVE5kDBzldSuzAVNA
-         fykeiJib1Jq92ZaizJQgUySUGxv9lqNc4yBXf4cLNMDQR2gLixA503mW7h+fo86UrIgs
-         w38f0n6ZrWe9DTdvmSEpSitCpM7WVRJMPW9SV4yOIC/jIU4oWwxCDaDhDsGTRk6ZJlQj
-         P64igDqvYl5hCQYWZHEDstErYI7lz0GanXLnTLJIsfst886CTyfQrTAZbxuh1akNAQaP
-         URvg==
-X-Forwarded-Encrypted: i=1; AJvYcCWYarqlMvswyZ8tYCuVMkpmAxyO6ag5Tq8nDcR18CgWPMvVlZNOw2YRvy3DKx6D3jT9lSoEe19socEO@vger.kernel.org, AJvYcCWrc0aPjj1UFIloZI4u3uMRWvnHnDmIy2zibWJcN/ZdXqRG7F2JqGhhrdMoPpAG1rgUcPihwOJDFinK7ZRB@vger.kernel.org, AJvYcCXJ5XLnibiGLk6j0zbl5TnH0NDYtAgIHJJsfBZrXoWXGJdihVJ+qMw/jC06W9NHqvuXPFcINrJThxJ7@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiOUS24HGKkDbY4Uc1vb2OXcThBIWiaYho3vNiCEUCYmsPOULx
-	peZr9Nzde7RDj70Jn9GEmXlEvCnk2rpXpBJIk387stSAkBQVmCq8
-X-Gm-Gg: ASbGncukNjSTJO/K3hkgdmEuLm8YKXbYjjL9xsXUYa3WJLEWzLDkZ9e4OdfL04Q6ZNa
-	CqGZ+Mubt1ijNWnI5xOF5pwQfsnN52DPkGz6I9OWFsDrISYznclC9pKmLtGW1G87E0Ku/WsW0FK
-	z7Ry3dCHoHSAgGkJjSj1VgAmGj9BHqMv7YS0ARr2L5c23K4+zp2PnRYXmY4lZE8tD8aPfIOV5Sd
-	WmDUi2QmQmMd9C0MAV8i6bAj5IIAxdrCohEMGHiVJdRGJUelGZdb9GtWNXi62SnAYWj/SjictAP
-	PBuGMo/p/Z+rqxk=
-X-Google-Smtp-Source: AGHT+IE9Q2O6cgNo6w+VEkK3+GcOBd0W7VIAg8ovqvSo1Dx6kdse3rC3i3ABuRQoN+lqO1U9Ke9Kyg==
-X-Received: by 2002:a17:907:60d6:b0:ab7:f0fa:1340 with SMTP id a640c23a62f3a-abbcd0b2d3dmr769569466b.50.1740040562436;
-        Thu, 20 Feb 2025 00:36:02 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb86c9320csm915498766b.55.2025.02.20.00.36.01
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 20 Feb 2025 00:36:01 -0800 (PST)
-Date: Thu, 20 Feb 2025 08:36:01 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
-	Alexander Graf <graf@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
+        d=1e100.net; s=20230601; t=1740041117; x=1740645917;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QowQNzpCtCsCtxr+X2Hdu42nsXJZ78IqGs75xqGcCm4=;
+        b=pLO7xWAwSKfGnBpxU8DVoOH+6+Rv1iUA/7QfccArkcB7fnKWDBKIDVzX8cCnWSzxnW
+         +pKKp6FqNo7SbPaqaly7B60lRLc9w2e9KToXq7uEQC4PbSYmxxAx9lnzir0GpbTal1gp
+         /LW8OslX0nNwXl8zXKtJ1d0aA6OEinCjGDxpHIKsHxBvteTyL8abVPJPpHE3SNHb1KpO
+         LyoYQXLNJOG3xAfq7C0/LhCjwtYng1DVcsga3qYjcyRp8H26XZ50oScNHj5/cdm5GkZl
+         fcPA2zCUQuNEPJgvwRjuwutalU7dBYiHPT/HgMd82Ut6RUYjpXAz7LyWmImASpP5YV4c
+         apbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVwjuVQxHzLqREnFLnfBHq5cdks5OwgSKUsVu/Dw6LdWIEUHLvJuRMfSoIoyNcJhpn5EgxOcKLRvV0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxk84xGFuqeWp2XpbnpneOy2MHTpvIhn/oio2sLgei9z0k09IhC
+	DnvQMPMSVtlJC+rpm7RPi/XKFOEMNMabtSCthmbWn37UnD6hoUpXqsZxu8I3dYW3hcWk9/Hyckw
+	OPNd1/Pv3HLeYvxidywWagiqm4z+H21APYBAqsJfYbXpTlE1DvzU31RSjcA==
+X-Gm-Gg: ASbGncuNQE1iDK82oiF1c9v0pNClLKZwQxhRakxGeQY2qGmhWyUI5ordLcqYXhv3FHy
+	mM9trnT3M0Vjo+dY+RlECxT07cSxsdVxKpfnZFI+JHHfy1gzNyLhQwgzdDkt6nzKCXegg4ou8e6
+	QNxZCpiauEHXt6KyVliF+8S1fdTg3+5Fk+PwGztze0yTlIGfa2ptjLNQ/Hjo/zdJXsuSZXaxDvZ
+	rSafBEa/nKm4uSROyUlvGF+wghk1sGqnaTXz7WYeSe/Ra/rNiejTULEVDplV+/qwU9HoA==
+X-Received: by 2002:a17:906:f5a2:b0:ab7:e3cb:ca81 with SMTP id a640c23a62f3a-abbcce2dce7mr658328366b.30.1740041116655;
+        Thu, 20 Feb 2025 00:45:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE3dogKAU3XJfB97xx6QDkV7Yj2gPqLTO6qgUQYyB3pQmxLIK3jEJkScPsnctuvKKAeoojJDg==
+X-Received: by 2002:a17:906:f5a2:b0:ab7:e3cb:ca81 with SMTP id a640c23a62f3a-abbcce2dce7mr658325866b.30.1740041116195;
+        Thu, 20 Feb 2025 00:45:16 -0800 (PST)
+Received: from redhat.com ([2.55.163.174])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb9bc1c667sm731938266b.131.2025.02.20.00.45.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 00:45:15 -0800 (PST)
+Date: Thu, 20 Feb 2025 03:45:10 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pratyush Yadav <ptyadav@amazon.de>,
-	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v4 01/14] mm/mm_init: rename init_reserved_page to
- init_deferred_page
-Message-ID: <20250220083601.4p6ehmfhyvs5q5io@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250206132754.2596694-1-rppt@kernel.org>
- <20250206132754.2596694-2-rppt@kernel.org>
- <20250218145904.x57chhz3whvckzu3@master>
- <Z7WEktyNoCPylytL@kernel.org>
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowang@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+	linux-kselftest@vger.kernel.org,
+	Yuri Benditovich <yuri.benditovich@daynix.com>,
+	Andrew Melnychenko <andrew@daynix.com>,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	gur.stavi@huawei.com, devel@daynix.com
+Subject: Re: [PATCH net-next v2] tun: Pad virtio headers
+Message-ID: <20250220034042-mutt-send-email-mst@kernel.org>
+References: <20250215-buffers-v2-1-1fbc6aaf8ad6@daynix.com>
+ <d4b7f8a0-db50-4b48-b5a3-f60eab76e96b@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -107,63 +93,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z7WEktyNoCPylytL@kernel.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <d4b7f8a0-db50-4b48-b5a3-f60eab76e96b@redhat.com>
 
-On Wed, Feb 19, 2025 at 09:13:22AM +0200, Mike Rapoport wrote:
->Hi,
->
->On Tue, Feb 18, 2025 at 02:59:04PM +0000, Wei Yang wrote:
->> On Thu, Feb 06, 2025 at 03:27:41PM +0200, Mike Rapoport wrote:
->> >From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
->> >
->> >When CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, init_reserved_page()
->> >function performs initialization of a struct page that would have been
->> >deferred normally.
->> >
->> >Rename it to init_deferred_page() to better reflect what the function does.
->> 
->> Would it be confused with deferred_init_pages()?
->
->Why? It initializes a single page, deferred_init_pages() initializes many.
->
-
-See below.
-
->> And it still calls __init_reserved_page_zone(), even we __SetPageReserved()
->> after it. Current logic looks not clear.
->
->There's no __init_reserved_page_zone(). Currently init_reserved_page()
->detects the zone of the page and calls __init_single_page(), so essentially
->it initializes one struct page.
->
->And we __SetPageReserved() in reserve_bootmem_region() after call to
->init_reseved_page() because pages there are indeed reserved.
+On Thu, Feb 20, 2025 at 08:58:38AM +0100, Paolo Abeni wrote:
+> Hi,
 > 
+> On 2/15/25 7:04 AM, Akihiko Odaki wrote:
+> > tun simply advances iov_iter when it needs to pad virtio header,
+> > which leaves the garbage in the buffer as is. This will become
+> > especially problematic when tun starts to allow enabling the hash
+> > reporting feature; even if the feature is enabled, the packet may lack a
+> > hash value and may contain a hole in the virtio header because the
+> > packet arrived before the feature gets enabled or does not contain the
+> > header fields to be hashed. If the hole is not filled with zero, it is
+> > impossible to tell if the packet lacks a hash value.
+> 
+> Should virtio starting sending packets only after feature negotiation?
+> In other words, can the above happen without another bug somewhere else?
 
-Hmm... I am not sure we are looking at the same code. I take a look at current
-mm-unstable, this patch set is not included.  So I am looking at previous
-version with this last commit:
 
-  8bf30f9d23eb 2025-02-06 Documentation: KHO: add memblock bindings
+Not if this is connected with a guest with the standard virtio driver, no.
+The issue is that tun has no concept of feature negotiation,
+and we don't know who uses the vnet header feature, or why.
 
-Here is what I see for init_deferred_page()'s definition:
+> I guess the following question is mostly for Jason and Michael: could be
+> possible (/would it make any sense) to use a virtio_net_hdr `flags` bit
+> to explicitly signal the hash fields presence? i.e. making the actual
+> virtio_net_hdr size 'dynamic'.
 
-init_deferred_page()
-  __init_deferred_page()
-    __init_reserved_page_zone()   <--- I do see this function, it is removed?
-      __init_single_page()
+But it is dynamic - that is why we have TUNSETVNETHDRSZ.
 
-What I want to say is __init_deferred_page() calls
-__init_reserved_page_zone(). This sounds imply a deferred page is always
-reserved page. But we know it is not.  deferred_init_pages() initialize the
-pages are not reserved one. Or we want to have this context in
-__init_deferred_page()?
 
->-- 
->Sincerely yours,
->Mike.
 
--- 
-Wei Yang
-Help you, Help me
+> > In theory, a user of tun can fill the buffer with zero before calling
+> > read() to avoid such a problem, but leaving the garbage in the buffer is
+> > awkward anyway so replace advancing the iterator with writing zeros.
+> > 
+> > A user might have initialized the buffer to some non-zero value,
+> > expecting tun to skip writing it. As this was never a documented
+> > feature, this seems unlikely.
+> > 
+> > The overhead of filling the hole in the header is negligible when the
+> > header size is specified according to the specification as doing so will
+> > not make another cache line dirty under a reasonable assumption. Below
+> > is a proof of this statement:
+> > 
+> > The first 10 bytes of the header is always written and tun also writes
+> > the packet itself immediately after the 
+> > packet unless the packet is
+> 
+>  ^^^^^ this possibly should be 'virtio header'. Otherwise the sentence
+> is hard to follow for me.
+> 
+> > empty. This makes a hole between these writes whose size is: sz - 10
+> > where sz is the specified header size.
+> > 
+> > Therefore, we will never make another cache line dirty when:
+> > sz < L1_CACHE_BYTES + 10
+> > where L1_CACHE_BYTES is the cache line size. Assuming
+> > L1_CACHE_BYTES >= 16, this inequation holds when: sz < 26.
+> > 
+> > sz <= 20 according to the current specification so we even have a
+> > margin of 5 bytes in case that the header size grows in a future version
+> > of the specification.
+> 
+> FTR, the upcoming GSO over UDP tunnel support will add other 4 bytes to
+> the header. but that will still fit the given boundary.
+> 
+> /P
+
