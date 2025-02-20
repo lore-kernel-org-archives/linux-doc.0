@@ -1,180 +1,218 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5602E213E60;
-	Thu, 20 Feb 2025 17:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D284F2144D6;
+	Thu, 20 Feb 2025 18:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.95.48.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740073576; cv=none; b=pKO3wNSSU3Xlss9F+VBI8pBBraDFSlHLKjRqQ4LRkTTw0ckj4yWeFRCYPQnx8Tgx5TmsnTW/j15P4e052sJSnzJlZhGtRnUMJdt/1INEEzKHSD3qDILa+TI7koN54oDLUCgTNmT8b/ZGVORsVsAfx8581dH3ne1qBrUWvS1Nbp0=
+	t=1740076158; cv=none; b=EzKWnYGEqCK+RMV4zBMJ+oMJ1YGb+vpv/KpGKsBCGPSN7cym2swIN8NgIasnB4734B2b9YAL1VIxUlX+/hqiJILnr91BXWMprockuAFlA/V1Wjtazk1jgSfIBJrg/yVmTZzZ/qFzrtfsm/YSN5QgrIhWAKfvGWTIRQR8z1P0kWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740073576; c=relaxed/simple;
-	bh=K8pF/ngKr2xu3Uv+T441vpPH49v2IpaOUXbkcMyrnao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RkS5ia7ETgJCPU4ypckoQLU7VstyglFtCScKj4f9YxSlNaeZXTCN7CEnUNapKKfiFIgv7VRcMOB6a4ApTssyQppU7YCvObSj+E1JNYAFmhJHnUm7IHVP3ZE7ycbf7tOoxM4cvYi+RMfFMe/dThlL0XrCBLTa8it0Nvbz0WUvtSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 812E116F3;
-	Thu, 20 Feb 2025 09:46:31 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C4D8A3F5A1;
-	Thu, 20 Feb 2025 09:46:08 -0800 (PST)
-Date: Thu, 20 Feb 2025 17:46:06 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Peter Newman <peternewman@google.com>, "Moger, Babu" <bmoger@amd.com>,
-	Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	tony.luck@intel.com, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
-	rostedt@goodmis.org, xiongwei.song@windriver.com,
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Message-ID: <Z7dqXlOMsw7Kb8F2@e133380.arm.com>
-References: <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
- <Z64tw2NbJXbKpLrH@e133380.arm.com>
- <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com>
- <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
- <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com>
- <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
- <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com>
- <CALPaoCj1TH+GN6+dFnt5xuN406u=tB-8mj+UuMRSm5KWPJW2wg@mail.gmail.com>
- <2b5a11e3-ee19-47ba-b47e-b7de2818f237@intel.com>
- <Z7dccLOTPzySYTXL@e133380.arm.com>
+	s=arc-20240116; t=1740076158; c=relaxed/simple;
+	bh=kqVz+1AldbLXOBZVYypP2Ed2J4FtZ20KxmQsr5EG5iA=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
+	 In-Reply-To:Content-Type; b=arM01AogasjTYKlGaJQxFYDt4iCU5u4ht5vazjdTgjyju//snyxF8JE8CqRx2ik+7mNm5L9j0lgrWp6R5j0jZ+24Bwd/JWYCNDz5qyoyBuw43f8hNLe5RalVdzyHO9EdSUc3ce5Jf/9p4kuwQ4memhk89ma8VSyDhD0lUpGzfdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=r8/SFMIz; arc=none smtp.client-ip=52.95.48.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="r8/SFMIz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1740076156; x=1771612156;
+  h=message-id:date:mime-version:from:subject:reply-to:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=ybnQQQJshfjPtf2iD7zzoG7mrZXy9rePM8iGKoPDiY0=;
+  b=r8/SFMIzr3DEIdXGFTGOCPq6ZV6Wy0vl8EshugAVSf0KixQ9/2QZs+54
+   KfKXGkiOaltNK8TqssFFjHBxrSt+/ykeVIc2+gQ/K+vDnYp7ie8d1nmVz
+   f6x5nbxXdVVG+fBaDlq2t9szYsEmfk8aQmG+CRv8aAKbAegH+2dF+7SDN
+   g=;
+X-IronPort-AV: E=Sophos;i="6.13,302,1732579200"; 
+   d="scan'208";a="464360141"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.2])
+  by smtp-border-fw-6001.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 18:29:12 +0000
+Received: from EX19MTAEUB001.ant.amazon.com [10.0.10.100:8297]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.27.214:2525] with esmtp (Farcaster)
+ id dc32c66d-6ddc-49fb-8a7a-c0ff88da8034; Thu, 20 Feb 2025 18:29:10 +0000 (UTC)
+X-Farcaster-Flow-ID: dc32c66d-6ddc-49fb-8a7a-c0ff88da8034
+Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
+ EX19MTAEUB001.ant.amazon.com (10.252.51.26) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.39;
+ Thu, 20 Feb 2025 18:29:10 +0000
+Received: from [192.168.17.147] (10.106.82.15) by
+ EX19D022EUC002.ant.amazon.com (10.252.51.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Thu, 20 Feb 2025 18:29:08 +0000
+Message-ID: <6eddd049-7c7a-406d-b763-78fa1e7d921b@amazon.com>
+Date: Thu, 20 Feb 2025 18:29:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7dccLOTPzySYTXL@e133380.arm.com>
+User-Agent: Mozilla Thunderbird
+From: Nikita Kalyazin <kalyazin@amazon.com>
+Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
+Reply-To: <kalyazin@amazon.com>
+To: Sean Christopherson <seanjc@google.com>
+CC: <pbonzini@redhat.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <jthoughton@google.com>,
+	<david@redhat.com>, <peterx@redhat.com>, <oleg@redhat.com>,
+	<vkuznets@redhat.com>, <gshan@redhat.com>, <graf@amazon.de>,
+	<jgowans@amazon.com>, <roypat@amazon.co.uk>, <derekmn@amazon.com>,
+	<nsaenz@amazon.es>, <xmarcalx@amazon.com>
+References: <20241118123948.4796-1-kalyazin@amazon.com>
+ <Z6u-WdbiW3n7iTjp@google.com>
+ <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com>
+ <Z7X2EKzgp_iN190P@google.com>
+Content-Language: en-US
+In-Reply-To: <Z7X2EKzgp_iN190P@google.com>
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJnrNfABQkFps9DAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOpfgD/exazh4C2Z8fNEz54YLJ6tuFEgQrVQPX6nQ/PfQi2+dwBAMGTpZcj9Z9NvSe1
+ CmmKYnYjhzGxzjBs8itSUvWIcMsFzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmes18AFCQWmz0MCGwwACgkQr5LKIKmaZPNTlQEA+q+rGFn7273rOAg+rxPty0M8lJbT
+ i2kGo8RmPPLu650A/1kWgz1AnenQUYzTAFnZrKSsXAw5WoHaDLBz9kiO5pAK
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D003EUA004.ant.amazon.com (10.252.50.128) To
+ EX19D022EUC002.ant.amazon.com (10.252.51.137)
 
-Hi again,
-
-On Thu, Feb 20, 2025 at 04:46:40PM +0000, Dave Martin wrote:
-> Hi,
+On 19/02/2025 15:17, Sean Christopherson wrote:
+> On Wed, Feb 12, 2025, Nikita Kalyazin wrote:
+>> On 11/02/2025 21:17, Sean Christopherson wrote:
+>>> On Mon, Nov 18, 2024, Nikita Kalyazin wrote:
+>>> And it's not just the code itself, it's all the structures and concepts.  Off the
+>>> top of my head, I can't think of any reason there needs to be a separate queue,
+>>> separate lock(s), etc.  The only difference between kernel APF and user APF is
+>>> what chunk of code is responsible for faulting in the page.
+>>
+>> There are two queues involved:
+>>   - "queue": stores in-flight faults. APF-kernel uses it to cancel all works
+>> if needed.  APF-user does not have a way to "cancel" userspace works, but it
+>> uses the queue to look up the struct by the token when userspace reports a
+>> completion.
+>>   - "ready": stores completed faults until KVM finds a chance to tell guest
+>> about them.
+>>
+>> I agree that the "ready" queue can be shared between APF-kernel and -user as
+>> it's used in the same way.  As for the "queue" queue, do you think it's ok
+>> to process its elements differently based on the "type" of them in a single
+>> loop [1] instead of having two separate queues?
 > 
-> On Wed, Feb 19, 2025 at 09:56:29AM -0800, Reinette Chatre wrote:
-> > Hi Peter,
-> > 
-> > On 2/19/25 3:28 AM, Peter Newman wrote:
+> Yes.
 > 
-> [...]
+>> [1] https://elixir.bootlin.com/linux/v6.13.2/source/virt/kvm/async_pf.c#L120
+>>
+>>> I suspect a good place to start would be something along the lines of the below
+>>> diff, and go from there.  Given that KVM already needs to special case the fake
+>>> "wake all" items, I'm guessing it won't be terribly difficult to teach the core
+>>> flows about userspace async #PF.
+>>
+>> That sounds sensible.  I can certainly approach it in a "bottom up" way by
+>> sparingly adding handling where it's different in APF-user rather than
+>> adding it side by side and trying to merge common parts.
+>>
+>>> I'm also not sure that injecting async #PF for all userfaults is desirable.  For
+>>> in-kernel async #PF, KVM knows that faulting in the memory would sleep.  For
+>>> userfaults, KVM has no way of knowing if the userfault will sleep, i.e. should
+>>> be handled via async #PF.  The obvious answer is to have userspace only enable
+>>> userspace async #PF when it's useful, but "an all or nothing" approach isn't
+>>> great uAPI.  On the flip side, adding uAPI for a use case that doesn't exist
+>>> doesn't make sense either :-/
+>>
+>> I wasn't able to locate the code that would check whether faulting would
+>> sleep in APF-kernel.  KVM spins APF-kernel whenever it can ([2]). Please let
+>> me know if I'm missing something here.
 > 
-> > > In the letters as events model, choosing the events assigned to a
-> > > group wouldn't be enough information, since we would want to control
-> > > which events should share a counter and which should be counted by
-> > > separate counters. I think the amount of information that would need
-> > > to be encoded into mbm_assign_control to represent the level of
-> > > configurability supported by hardware would quickly get out of hand.
-> > > 
-> > > Maybe as an example, one counter for all reads, one counter for all
-> > > writes in ABMC would look like...
-> > > 
-> > > (L3_QOS_ABMC_CFG.BwType field names below)
-> > > 
-> > > (per domain)
-> > > group 0:
-> > >  counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
-> > >  counter 1: VictimBW,LclNTWr,RmtNTWr
-> > > group 1:
-> > >  counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
-> > >  counter 3: VictimBW,LclNTWr,RmtNTWr
-> > > ...
-> > > 
-> > 
-> > I think this may also be what Dave was heading towards in [2] but in that
-> > example and above the counter configuration appears to be global. You do mention
-> > "configurability supported by hardware" so I wonder if per-domain counter
-> > configuration is a requirement?
-> > 
-> > Until now I viewed counter configuration separate from counter assignment,
-> > similar to how AMD's counters can be configured via mbm_total_bytes_config and
-> > mbm_local_bytes_config before they are assigned. That is still per-domain
-> > counter configuration though, not per-counter.
+> kvm_can_do_async_pf() will be reached if and only if faulting in the memory
+> requires waiting.  If a page is swapped out, but faulting it back in doesn't
+> require waiting, e.g. because it's in zswap and can be uncompressed synchronously,
+> then the initial __kvm_faultin_pfn() with FOLL_NO_WAIT will succeed.
 > 
-> I hadn't tried to work the design through in any detail: it wasn't
-> intended as a suggestion for something we should definitely do right
-> now; rather, it was just an incomplete sketch of one possible future
-> evolution of the interface.
+>          /*
+>           * If resolving the page failed because I/O is needed to fault-in the
+>           * page, then either set up an asynchronous #PF to do the I/O, or if
+>           * doing an async #PF isn't possible, retry with I/O allowed.  All
+>           * other failures are terminal, i.e. retrying won't help.
+>           */
+>          if (fault->pfn != KVM_PFN_ERR_NEEDS_IO)
+>                  return RET_PF_CONTINUE;
 > 
-> Either way these feel like future concerns, if the first iteration of
-> ABMC is just to provide the basics so that ABMC hardware can implement
-> resctrl without userspace seeing counters randomly stopping and
-> resetting...
+>          if (!fault->prefetch && kvm_can_do_async_pf(vcpu)) {
+>                  trace_kvm_try_async_get_page(fault->addr, fault->gfn);
+>                  if (kvm_find_async_pf_gfn(vcpu, fault->gfn)) {
+>                          trace_kvm_async_pf_repeated_fault(fault->addr, fault->gfn);
+>                          kvm_make_request(KVM_REQ_APF_HALT, vcpu);
+>                          return RET_PF_RETRY;
+>                  } else if (kvm_arch_setup_async_pf(vcpu, fault)) {
+>                          return RET_PF_RETRY;
+>                  }
+>          }
 > 
-> Peter, can you give a view on whether the ABMC as proposed in this series
-> is a useful stepping-stone?  Or are there things that you need that you
-> feel could not be added as a later extension without ABI breakage?
+> The conundrum with userspace async #PF is that if userspace is given only a single
+> bit per gfn to force an exit, then KVM won't be able to differentiate between
+> "faults" that will be handled synchronously by the vCPU task, and faults that
+> usersepace will hand off to an I/O task.  If the fault is handled synchronously,
+> KVM will needlessly inject a not-present #PF and a present IRQ.
+
+Right, but from the guest's point of view, async PF means "it will 
+probably take a while for the host to get the page, so I may consider 
+doing something else in the meantime (ie schedule another process if 
+available)".  If we are exiting to userspace, it isn't going to be quick 
+anyway, so we can consider all such faults "long" and warranting the 
+execution of the async PF protocol.  So always injecting a not-present 
+#PF and page ready IRQ doesn't look too wrong in that case.
+
+> But that's a non-issue if the known use cases are all-or-nothing, i.e. if all
+> userspace faults are either synchronous or asynchronous.
+
+Yes, pretty much.  The user will be choosing the extreme that is more 
+performant for their specific usecase.
+
+>> [2] https://elixir.bootlin.com/linux/v6.13.2/source/arch/x86/kvm/mmu/mmu.c#L4360
+>>
+>>> Exiting to userspace in vCPU context is also kludgy.  It makes sense for base
+>>> userfault, because the vCPU can't make forward progress until the fault is
+>>> resolved.  Actually, I'm not even sure it makes sense there.  I'll follow-up in
+>>
+>> Even though we exit to userspace, in case of APF-user, userspace is supposed
+>> to VM enter straight after scheduling the async job, which is then executed
+>> concurrently with the vCPU.
+>>
+>>> James' series.  Anyways, it definitely doesn't make sense for async #PF, because
+>>> the whole point is to let the vCPU run.  Signalling userspace would definitely
+>>> add complexity, but only because of the need to communicate the token and wait
+>>> for userspace to consume said token.  I'll think more on that.
+>>
+>> By signalling userspace you mean a new non-exit-to-userspace mechanism
+>> similar to UFFD?
 > 
-> [...]
+> Yes.
 > 
-> > > I believe that shared assignments will take care of all the
-> > > high-frequency and performance-intensive batch configuration updates I
-> > > was originally concerned about, so I no longer see much benefit in
-> > > finding ways to textually encode all this information in a single file
-jjjk> > > when it would be more manageable to distribute it around the
-> > > filesystem hierarchy.
-> > 
-> > This is significant. The motivation for the single file was to support
-> > the "high-frequency and performance-intensive" usage. Would "shared assignments"
-> > not also depend on the same files that, if distributed, will require many
-> > filesystem operations? 
-> > Having the files distributed will be significantly simpler while also
-> > avoiding the file size issue that Dave Martin exposed. 
-> > 
-> > Reinette
+>> What advantage can you see in it over exiting to userspace (which already exists
+>> in James's series)?
 > 
-> I still haven't fully understood the "shared assignments" proposal;
-> I need to go back and look at it.
-
-Having taken a quick look at that now, this all seems to duplicate
-perf's design journey (again).
-
-"rate" events make some sense.  The perf equivalent is to keep an
-accumulated count of the amount of time a counter has been assigned to
-an event, and another accumulated count of the events counted by the
-counter during assignment.  Only userspace knows what it wants to do
-with this information: perf exposes the raw accumulated counts.
-
-Perf events can be also pinned so that they are prioritised for
-assignment to counters; that sounds a lot like the regular, non-shared
-resctrl counters.
-
-
-Playing devil's advocate:
-
-It does feel like we are doomed to reinvent perf if we go too far down
-this road...
-
-> If we split the file, it will be more closely aligned with the design
-> of the rest of the resctrlfs interface.
+> It doesn't exit to userspace :-)
 > 
-> OTOH, the current interface seems workable and I think the file size
-> issue can be addressed without major re-engineering.
-> 
-> So, from my side, I would not consider the current interface design
-> a blocker.
+> If userspace simply wakes a different task in response to the exit, then KVM
+> should be able to wake said task, e.g. by signalling an eventfd, and resume the
+> guest much faster than if the vCPU task needs to roundtrip to userspace.  Whether
+> or not such an optimization is worth the complexity is an entirely different
+> question though.
 
-...so, drawing a hard line around the use cases that we intend to
-address with this interface and avoiding feature creep seems desirable.
+This reminds me of the discussion about VMA-less UFFD that was coming up 
+several times, such as [1], but AFAIK hasn't materialised into something 
+actionable.  I may be wrong, but James was looking into that and 
+couldn't figure out a way to scale it sufficiently for his use case and 
+had to stick with the VM-exit-based approach.  Can you see a world where 
+VM-exit userfaults coexist with no-VM-exit way of handling async PFs?
 
-resctrlfs is already in the wild, so providing reasonable baseline
-compatiblity with that interface for ABMC hardware is a sensible goal.
-The current series does that.
-
-But I wonder how much additional functionality we should really be
-adding via the mbm_assign_control interface, once this series is
-settled.
-
-Cheers
----Dave
+[1]: https://lore.kernel.org/kvm/ZqwKuzfAs7pvdHAN@x1n/
