@@ -1,184 +1,431 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011027.outbound.protection.outlook.com [52.103.67.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA5C2046A2
-	for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2025 11:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740137268; cv=none; b=Vf4lHTFGTN+/ma4w3/nNSoK+ORpNlXCaSQdsDlfl7z8AF5IgttYTT25ypZZTjDJjM/OdEEz4nFBo+J8GGKnDx7FVi3lAH17WKM6Zz55nCVzu5RPFjgbuVAbjfuO7RopuFjIetm4JGRDP6N48jumzFFsZIOFgnyulgVUjOBkVo8A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740137268; c=relaxed/simple;
-	bh=lKtMJV3LrA3jC2WNsEGJ3OuPQIRSrTSmNNkSmaFTCAg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VBqJ6QFSy84eWoSfYp03Dnwzz0sWFFjbLBtz1rlP7KO/TkNCxo98LWvnLDHe9l9/e7H4FFNrl0zWfC/5pl+PwU7Kuc7FMI0qQOqdXEwXqj4Y3jkfgl3Lgirk0HXIjQiDMBmjB3VrIeBG64wRXwW1IpdiJF8PD6YRdfP2g6I+278=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=RZe8zXAr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=8Tu6Hxgg; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=RZe8zXAr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=8Tu6Hxgg; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9AC2040AE;
+	Fri, 21 Feb 2025 11:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.27
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740137775; cv=fail; b=lvSolHZCscvIzLeLGfYP6qZqMAKiwk+8lvxckMedYR5qEQBEMn2Nsgy5OelTNZMISbQMir9UaiUuekDineoTDD1282Ov0iwaIN9MFqKAzXDb2uVcYbH/gdz0La1VdLlcF8jjgi2dZquiu6L/l/bXPfd0hvC9Ap4KfadQrBHasX0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740137775; c=relaxed/simple;
+	bh=DJWVuNP4gzwWQdlBCx9ZiJlsW/XWO4AKzHiOc9Phuno=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=sKAyl88dTRy94EZaIYDuZQK5eiSoUFaAVSKrNqZR4WEw5J06kJHbUwjVx892iOD48fyYWuV5uOEfXLSuaom0WAC3yctHYlhjbKvR6R7A0WWfULvGavGH6hpkHdbA9Dz7fjtrLHO3xeDHEM14WaY1BF6Wd23u1fSyMR9rYkdRQwk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=iniof2yw; arc=fail smtp.client-ip=52.103.67.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="RZe8zXAr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="8Tu6Hxgg";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="RZe8zXAr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="8Tu6Hxgg"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7D3B11FB95;
-	Fri, 21 Feb 2025 11:27:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1740137265; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=81Xe/DRNeFRmRuG1vut9JaUtp7kLnRIO7Lwxob+7oKw=;
-	b=RZe8zXArfiLRSo5thf/ygRGqE7cBCdlPA408wvDNo6PS6at0ftcv4GWU3dU0n69njx/Gj5
-	Lgp0dKFymnRg5QYx0g1GekzJEmAPDNZy+oiUKAHCdSMcTM/LJ16IYAy1N9ZPAx4B/17p1d
-	9qM60WGzAJTs4ZX5GKb71SkzB/PuAcM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1740137265;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=81Xe/DRNeFRmRuG1vut9JaUtp7kLnRIO7Lwxob+7oKw=;
-	b=8Tu6HxggoroR83duFC3BYJRJuRVVWVAAyGc30nyUldGdBdotaKO+MD8+Pkc+wxgPwBGROZ
-	7CuSQyI0u4aooLAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1740137265; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=81Xe/DRNeFRmRuG1vut9JaUtp7kLnRIO7Lwxob+7oKw=;
-	b=RZe8zXArfiLRSo5thf/ygRGqE7cBCdlPA408wvDNo6PS6at0ftcv4GWU3dU0n69njx/Gj5
-	Lgp0dKFymnRg5QYx0g1GekzJEmAPDNZy+oiUKAHCdSMcTM/LJ16IYAy1N9ZPAx4B/17p1d
-	9qM60WGzAJTs4ZX5GKb71SkzB/PuAcM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1740137265;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=81Xe/DRNeFRmRuG1vut9JaUtp7kLnRIO7Lwxob+7oKw=;
-	b=8Tu6HxggoroR83duFC3BYJRJuRVVWVAAyGc30nyUldGdBdotaKO+MD8+Pkc+wxgPwBGROZ
-	7CuSQyI0u4aooLAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 32370136AD;
-	Fri, 21 Feb 2025 11:27:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mALuCzFjuGeOTAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 21 Feb 2025 11:27:45 +0000
-Message-ID: <46163fb7-2bc2-456d-9e1a-02657293037a@suse.cz>
-Date: Fri, 21 Feb 2025 12:27:44 +0100
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="iniof2yw"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CTIgXMyiDgXGdpYRp35Clu2zVlZw8nkWWyCp3XgB1YrwiP+niHYwun3+Szmck+fpC1yvNFsHvayqVuyf9NOLSZWUuRB9uL964+zwj1cHnf/zKGE2Y0jN55OkdKDJ0r3NpgfElyLyN8sHwuln8lOzLIvbnpe6vuw/OUJ0h7WR7NfYXv+CcE7CymXC4+RhWSKz2OY5ye9xVOftTRSidq+ISVqsmlxMB4GrpqPDGtf8b0eTuOcarZJwteMGa7gHrNKtUQGgk0bG5ad4YPiusd6D1YBbq9lH/bgebchKpGxJ/1pVLrabQyYUAZ9G7sJP3+5bTz7vKHc5wfqVUhIFWfBqmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b7YHFu7v/bv/9AABEWj2muQuuwY6ueCX79QT2sAl/Xs=;
+ b=jg42j/u848D4/V5Wd/UhQBScYfOwFo3Oj8OoM1+MkgrJjIk/r+idEdLsGVCyU5viCAwachKsC99gU0UPlB+zrIJ9aQd5EW9F2KiJQeb/ZF/MkqjFLqf8I8b/ynyF/qupIZHMR6REsMmfbV3B7a5CIvaXWFrp7vFq0jKgcuODZEJ7IvrNMk55RAHDGSerXt1RtwXHxtqfF6u+eVXBVuCeC4r//lx+L6uY8BxsDyfcITK2x+eW7ASUdIbNZx2puLmTN3vHmxn8BiDbo/S/RRLVvclT+6iWXQkSsXfdkR+BpzPrQgXaDC3NTTwcWgQOqo65wdEWxO2aibzBogXYnvJVeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b7YHFu7v/bv/9AABEWj2muQuuwY6ueCX79QT2sAl/Xs=;
+ b=iniof2ywYa8QLtE7iVwDPXpW1ga2LEa6II7vZGv2nShytm918w+GHYNJFKoMMhPVo9KrXyt2tICF9z2j2M4ye30MGP0MwMI8m5CGWrahf9JEVYM+aIazA8FEnbM0S7t5Mx4OvuuYsre88sQ0pObG6CKo+kKkFC2MI2K1YH6u5ewKFgekXDSrocJRRQ7s11aLm8nBGdt6WKmP/9yOqEofO5zWb7vMxXGFDqdjAMZ7DB8DlFofmHY4yRFTYaIoDim8WwlvJfw/byNwcoApcaoMBnizUxuuLrM3v5EriO6TJXWrfsdZeuETjhd+1AxGE8W+k7vRz9uFLwgxeeroqjZDpg==
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1d::9)
+ by PN3PR01MB6457.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:84::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.17; Fri, 21 Feb
+ 2025 11:36:01 +0000
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1]) by PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1%3]) with mapi id 15.20.8466.016; Fri, 21 Feb 2025
+ 11:36:00 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: "pmladek@suse.com" <pmladek@suse.com>, Steven Rostedt
+	<rostedt@goodmis.org>, "andriy.shevchenko@linux.intel.com"
+	<andriy.shevchenko@linux.intel.com>, "linux@rasmusvillemoes.dk"
+	<linux@rasmusvillemoes.dk>, "senozhatsky@chromium.org"
+	<senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+	<tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>, Andrew Morton
+	<akpm@linux-foundation.org>, "apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>, "dwaipayanray1@gmail.com"
+	<dwaipayanray1@gmail.com>, "lukas.bulwahn@gmail.com"
+	<lukas.bulwahn@gmail.com>, "sumit.semwal@linaro.org"
+	<sumit.semwal@linaro.org>, "christian.koenig@amd.com"
+	<christian.koenig@amd.com>
+CC: Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>, Atharva Tiwari
+	<evepolonium@gmail.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>, Asahi Linux Mailing List
+	<asahi@lists.linux.dev>, Sven Peter <sven@svenpeter.dev>, Janne Grunau
+	<j@jannau.net>
+Subject: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888 to
+ BGR888
+Thread-Topic: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888
+ to BGR888
+Thread-Index: AQHbhFTIgiDbbKYiw0mijjb2mLA7Rg==
+Date: Fri, 21 Feb 2025 11:36:00 +0000
+Message-ID: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PNZPR01MB4478:EE_|PN3PR01MB6457:EE_
+x-ms-office365-filtering-correlation-id: d2b787ef-e183-4c7c-8b2d-08dd526beaa6
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|8062599003|8060799006|19110799003|7092599003|15080799006|461199028|440099028|3412199025|41001999003|102099032;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?C2SvoPCpfeXgBU9RZLIGmd4Znp07FkaAU0jQNAub2UK/HwTxbnQ5J5eFhwWM?=
+ =?us-ascii?Q?GSMuy4tyBwESmz4/1MQ/TpPZkMtY5uFuhR0KmoGHajBhcJIj4t8w8dILK0tT?=
+ =?us-ascii?Q?kA3QBx6hhbOmdPyjyvLSg4YrraUg3x4ilJHJpBFdG284yneAp5SeCTu/W93i?=
+ =?us-ascii?Q?hOiNtUjfc4UEMcLj4SeNxn4y9d6gH1iJ7qS6yRzJUu1WJt8Qt3QAF35FbQ2+?=
+ =?us-ascii?Q?c+Z69OA5SmEPcIkeBtdPDU9+T7NoImtjNAHbMKz/3+nsPauXUmNQBaXz5t6P?=
+ =?us-ascii?Q?bsmav2cVN/oflVT/URqn8rWZK6A/s+P4KnTr8Kkl2N1exXvYrnKJEJ9EzJOW?=
+ =?us-ascii?Q?CghcYVs7BFkbF+ntTQwUYVwxLtasF7GOdyWcnz3LZ/c3PzcFSmU+S5TfO/G3?=
+ =?us-ascii?Q?+9DO3sQAxFmkDGNRkPjiepWhxtfArLXIK800tF2Zx+gKYPn0v3TF+kNKMLRD?=
+ =?us-ascii?Q?8hHQRrIX0g+125/y/ITasgu7EgUfXlWJZL2gBSVomRnXjDFioSNNp1ePMy7P?=
+ =?us-ascii?Q?/eSTNzT4GORBhBxNB6Bvicc5c/SzVBvQUdCgKe72t1D4KPpXqFTHuNp4gF3+?=
+ =?us-ascii?Q?eL5TNWxZitCpTZR2m5TGFx1J+vi/5bLPX1iDmRJ8O22Ed2AKu1sD67gK9r/4?=
+ =?us-ascii?Q?seJ27lE5IeuEo7K/FMWVzNvrQ1KaJUHocd6CRQ4ljUbaUmT2a2fAa0pGwK/n?=
+ =?us-ascii?Q?GCw6agQlMtVg2jqUskG9YQTe1QQYjbwin+O6dlf2bvyjEHBWYnIZBC+LoA6M?=
+ =?us-ascii?Q?ndZnRSqYWA47P5Za3D6cZqAPe4DVqRaUV3ACvusK8TuCjtcFrCDydZ/tRBSF?=
+ =?us-ascii?Q?y3OKL25b6YU5dpaB8a9tS+NPQkvAh2XI2wG/ytOP8FyQy4agTGd/YLzoSM/X?=
+ =?us-ascii?Q?noyM124A0Y+1zraTuEZLdbCWRTNlKY2b21oIF5ZAEzBo53b94vbuh0YZvRxm?=
+ =?us-ascii?Q?dhsHR1K6C8ecDbU6UJhQPoClheudPbtuwJVRigj9xh8nEKmj6hm9pYNY4lCg?=
+ =?us-ascii?Q?U4uplFVmO+tlTMxiT8S4/tZi4KuK0bycBoiMSj17aMTJtiPAq2/KBpOjZPSU?=
+ =?us-ascii?Q?5mPAKwCnvS13BQb13WXMaCcI+Ot2o99UdrnFGwEKTZ398bbIg+Q=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?NcIoGNLdaqtcHbT6+vOh/R5FntoFhkXj9JmE21TlcxsiRacBdwilbKxCmqxv?=
+ =?us-ascii?Q?i1UgXOOgob0UQqCGY0MJSP0yVnaJZv7QaLLAmWFS7hxTixsF7nBK0cdzYgxs?=
+ =?us-ascii?Q?/ZxD8KTXjK/6RuPPP5cNPGJP5YjBaqoqU4sMqK4vuANPk3H8IkCw3gXr4jWO?=
+ =?us-ascii?Q?mVZpbHQa4W3+hBWTJrtXrrCnu7ImWBtc0V+woQgbOgsW8qBAIHyIBhJhKzJI?=
+ =?us-ascii?Q?PhQyusQc8bhkDClFfo7bJVvyrhj8SUoNEfiDPklQRi6k+5AcyMdFHJcrW/VS?=
+ =?us-ascii?Q?pIEqiJY2mJ9MtKcAwSq+rxxU0EgDLfyqLIw43Pk0Rh5irgppqTGlnNpPonK1?=
+ =?us-ascii?Q?wdBF9QwFBn+lwiGBSUjynDoO/0sfm3TBUVThurEhqinGtNIcwsw7jhx2KUNn?=
+ =?us-ascii?Q?5VyRkDqC5jFzHBi/pkGN1fkT3zK82xdnIiiEZghhBx/qOjEiR2tVJo3/YIBo?=
+ =?us-ascii?Q?1scj+ESCAQM5aTpKofCGGTxMQg0YpSB04tRDav88H3MFpH1gtBCreQgP843o?=
+ =?us-ascii?Q?QgXFH4vAJTLPvCw1JOhidHHu4VQcIx2/YFH9UomU+c4Yw8yZb4Lo0zoNf+Mz?=
+ =?us-ascii?Q?vL2Vs/8ANp9KhmfV3k9leofgsmEHMi4PyuWmEMW9z/IjB5Zbn9S0ZGFZGA9Z?=
+ =?us-ascii?Q?cRilSO9svIvFZ+DN3b6BZFSBbH+yKMAI++s1MaP36B4Od5kHK/HxRTXIOv6K?=
+ =?us-ascii?Q?rkDMSCVSiLYn4R7v3mGiHuVG/B0S5veYywEgnOQ86gM3pGvean9MaurTyhCt?=
+ =?us-ascii?Q?WFvBGPn3r9cmmOOVTrZul3yn7yfv5mmelTKy7YwcUaLuQDSBTMbZQHYiLYRr?=
+ =?us-ascii?Q?G9Quz15osBtGRolk9jOKDjU1cMbXO5Xo0weZ+FhREl4ZUR6tB25j5Xdq4KeC?=
+ =?us-ascii?Q?dG39tz387YkZoD2HJdSqwCFVemrlmIfxKJ8LXVfz0lSgOAZBgwFU4xNq8Yq2?=
+ =?us-ascii?Q?YFFBsv5oaPFGD3zqqcwKCYZ1reBQID4O/jR3uZiqDgoXHw3PThP+V3qdfSkL?=
+ =?us-ascii?Q?mrH52j5po0Q+EPX4Ar6gxQf7cjzjKMSFZvdPM+OG0DCOX3TwlD0CyYnPZKZI?=
+ =?us-ascii?Q?M0OlWA7t9kx+jBLT6FLeJxt4OvrUCjKVT8r09bYCYU2q8mmRl/akwM0E8WBH?=
+ =?us-ascii?Q?jwYvFwb4lVscSZC/C1QqqJUAGtVE7GqbMdmhZIrMohOMt6ZuKiw4Se47gsI0?=
+ =?us-ascii?Q?Fw1cBWmI2FgG1qX7PhqVE4rngpf0bUGFWM2HJd0nfHrlozSbYwjjvAe+a+iE?=
+ =?us-ascii?Q?v8p9YWPPhmakdDg1Tt4l6AkupYu5iZvq/qFwPWHMZqt0VSfDj6D6T16ntdG8?=
+ =?us-ascii?Q?WX6EjgES2jQMUmblqWcbndN2?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <43988FB88197EF40A9C46BAB804BE7F1@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 07/18] mm: allow
- vma_start_read_locked/vma_start_read_locked_nested to fail
-Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
- lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com,
- hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
- mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
- oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
- dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
- lokeshgidra@google.com, minchan@google.com, jannh@google.com,
- shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
- klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kernel-team@android.com
-References: <20250213224655.1680278-1-surenb@google.com>
- <20250213224655.1680278-8-surenb@google.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- EP+ylKVEKb0Q2A==
-In-Reply-To: <20250213224655.1680278-8-surenb@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,oracle.com,gmail.com,suse.com,cmpxchg.org,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.cz:email,suse.cz:mid,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2b787ef-e183-4c7c-8b2d-08dd526beaa6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2025 11:36:00.7880
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB6457
 
-On 2/13/25 23:46, Suren Baghdasaryan wrote:
-> With upcoming replacement of vm_lock with vm_refcnt, we need to handle a
-> possibility of vma_start_read_locked/vma_start_read_locked_nested failing
-> due to refcount overflow. Prepare for such possibility by changing these
-> APIs and adjusting their users.
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Cc: Lokesh Gidra <lokeshgidra@google.com>
+From: Kerem Karabay <kekrby@gmail.com>
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+Add XRGB8888 emulation helper for devices that only support BGR888.
+
+Signed-off-by: Kerem Karabay <kekrby@gmail.com>
+Signed-off-by: Aditya Garg <gargaditya08@live.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+v2 -> Fix incorrect description
+v3 -> No change in this patch
+ drivers/gpu/drm/drm_format_helper.c           | 54 +++++++++++++
+ .../gpu/drm/tests/drm_format_helper_test.c    | 81 +++++++++++++++++++
+ include/drm/drm_format_helper.h               |  3 +
+ 3 files changed, 138 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_form=
+at_helper.c
+index b1be458ed..4f60c8d8f 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -702,6 +702,57 @@ void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, =
+const unsigned int *dst_pi
+ }
+ EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888);
+=20
++static void drm_fb_xrgb8888_to_bgr888_line(void *dbuf, const void *sbuf, u=
+nsigned int pixels)
++{
++	u8 *dbuf8 =3D dbuf;
++	const __le32 *sbuf32 =3D sbuf;
++	unsigned int x;
++	u32 pix;
++
++	for (x =3D 0; x < pixels; x++) {
++		pix =3D le32_to_cpu(sbuf32[x]);
++		/* write red-green-blue to output in little endianness */
++		*dbuf8++ =3D (pix & 0x00ff0000) >> 16;
++		*dbuf8++ =3D (pix & 0x0000ff00) >> 8;
++		*dbuf8++ =3D (pix & 0x000000ff) >> 0;
++	}
++}
++
++/**
++ * drm_fb_xrgb8888_to_bgr888 - Convert XRGB8888 to BGR888 clip buffer
++ * @dst: Array of BGR888 destination buffers
++ * @dst_pitch: Array of numbers of bytes between the start of two consecut=
+ive scanlines
++ *             within @dst; can be NULL if scanlines are stored next to ea=
+ch other.
++ * @src: Array of XRGB8888 source buffers
++ * @fb: DRM framebuffer
++ * @clip: Clip rectangle area to copy
++ * @state: Transform and conversion state
++ *
++ * This function copies parts of a framebuffer to display memory and conve=
+rts the
++ * color format during the process. Destination and framebuffer formats mu=
+st match. The
++ * parameters @dst, @dst_pitch and @src refer to arrays. Each array must h=
+ave at
++ * least as many entries as there are planes in @fb's format. Each entry s=
+tores the
++ * value for the format's respective color plane at the same index.
++ *
++ * This function does not apply clipping on @dst (i.e. the destination is =
+at the
++ * top-left corner).
++ *
++ * Drivers can use this function for BGR888 devices that don't natively
++ * support XRGB8888.
++ */
++void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *=
+dst_pitch,
++			       const struct iosys_map *src, const struct drm_framebuffer *fb,
++			       const struct drm_rect *clip, struct drm_format_conv_state *state=
+)
++{
++	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] =3D {
++		3,
++	};
++
++	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state,
++		    drm_fb_xrgb8888_to_bgr888_line);
++}
++EXPORT_SYMBOL(drm_fb_xrgb8888_to_bgr888);
++
+ static void drm_fb_xrgb8888_to_argb8888_line(void *dbuf, const void *sbuf,=
+ unsigned int pixels)
+ {
+ 	__le32 *dbuf32 =3D dbuf;
+@@ -1035,6 +1086,9 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned=
+ int *dst_pitch, uint32_t d
+ 		} else if (dst_format =3D=3D DRM_FORMAT_RGB888) {
+ 			drm_fb_xrgb8888_to_rgb888(dst, dst_pitch, src, fb, clip, state);
+ 			return 0;
++		} else if (dst_format =3D=3D DRM_FORMAT_BGR888) {
++			drm_fb_xrgb8888_to_bgr888(dst, dst_pitch, src, fb, clip, state);
++			return 0;
+ 		} else if (dst_format =3D=3D DRM_FORMAT_ARGB8888) {
+ 			drm_fb_xrgb8888_to_argb8888(dst, dst_pitch, src, fb, clip, state);
+ 			return 0;
+diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/d=
+rm/tests/drm_format_helper_test.c
+index 08992636e..35cd3405d 100644
+--- a/drivers/gpu/drm/tests/drm_format_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+@@ -60,6 +60,11 @@ struct convert_to_rgb888_result {
+ 	const u8 expected[TEST_BUF_SIZE];
+ };
+=20
++struct convert_to_bgr888_result {
++	unsigned int dst_pitch;
++	const u8 expected[TEST_BUF_SIZE];
++};
++
+ struct convert_to_argb8888_result {
+ 	unsigned int dst_pitch;
+ 	const u32 expected[TEST_BUF_SIZE];
+@@ -107,6 +112,7 @@ struct convert_xrgb8888_case {
+ 	struct convert_to_argb1555_result argb1555_result;
+ 	struct convert_to_rgba5551_result rgba5551_result;
+ 	struct convert_to_rgb888_result rgb888_result;
++	struct convert_to_bgr888_result bgr888_result;
+ 	struct convert_to_argb8888_result argb8888_result;
+ 	struct convert_to_xrgb2101010_result xrgb2101010_result;
+ 	struct convert_to_argb2101010_result argb2101010_result;
+@@ -151,6 +157,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0x00, 0x00, 0xFF },
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
++			.expected =3D { 0xFF, 0x00, 0x00 },
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0xFFFF0000 },
+@@ -217,6 +227,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0x00, 0x00, 0xFF },
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
++			.expected =3D { 0xFF, 0x00, 0x00 },
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0xFFFF0000 },
+@@ -330,6 +344,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 				0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
+ 			},
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
++			.expected =3D {
++				0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
++				0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00,
++				0x00, 0x00, 0xFF, 0xFF, 0x00, 0xFF,
++				0xFF, 0xFF, 0x00, 0x00, 0xFF, 0xFF,
++			},
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D {
+@@ -468,6 +491,17 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+ 			},
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D 15,
++			.expected =3D {
++				0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05, 0xA8, 0xF3, 0x03,
++				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++				0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05,
++				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++				0xA8, 0x03, 0x03, 0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C,
++				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++			},
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D 20,
+ 			.expected =3D {
+@@ -914,6 +948,52 @@ static void drm_test_fb_xrgb8888_to_rgb888(struct kuni=
+t *test)
+ 	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+ }
+=20
++static void drm_test_fb_xrgb8888_to_bgr888(struct kunit *test)
++{
++	const struct convert_xrgb8888_case *params =3D test->param_value;
++	const struct convert_to_bgr888_result *result =3D &params->bgr888_result;
++	size_t dst_size;
++	u8 *buf =3D NULL;
++	__le32 *xrgb8888 =3D NULL;
++	struct iosys_map dst, src;
++
++	struct drm_framebuffer fb =3D {
++		.format =3D drm_format_info(DRM_FORMAT_XRGB8888),
++		.pitches =3D { params->pitch, 0, 0 },
++	};
++
++	dst_size =3D conversion_buf_size(DRM_FORMAT_BGR888, result->dst_pitch,
++				       &params->clip, 0);
++	KUNIT_ASSERT_GT(test, dst_size, 0);
++
++	buf =3D kunit_kzalloc(test, dst_size, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
++	iosys_map_set_vaddr(&dst, buf);
++
++	xrgb8888 =3D cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
++	iosys_map_set_vaddr(&src, xrgb8888);
++
++	/*
++	 * BGR888 expected results are already in little-endian
++	 * order, so there's no need to convert the test output.
++	 */
++	drm_fb_xrgb8888_to_bgr888(&dst, &result->dst_pitch, &src, &fb, &params->c=
+lip,
++				  &fmtcnv_state);
++	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
++
++	buf =3D dst.vaddr; /* restore original value of buf */
++	memset(buf, 0, dst_size);
++
++	int blit_result =3D 0;
++
++	blit_result =3D drm_fb_blit(&dst, &result->dst_pitch, DRM_FORMAT_BGR888, =
+&src, &fb, &params->clip,
++				  &fmtcnv_state);
++
++	KUNIT_EXPECT_FALSE(test, blit_result);
++	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
++}
++
+ static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
+ {
+ 	const struct convert_xrgb8888_case *params =3D test->param_value;
+@@ -1851,6 +1931,7 @@ static struct kunit_case drm_format_helper_test_cases=
+[] =3D {
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb1555, convert_xrgb8888_gen_p=
+arams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgba5551, convert_xrgb8888_gen_p=
+arams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb888, convert_xrgb8888_gen_par=
+ams),
++	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_bgr888, convert_xrgb8888_gen_par=
+ams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_p=
+arams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_ge=
+n_params),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_ge=
+n_params),
+diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helpe=
+r.h
+index 428d81afe..aa1604d92 100644
+--- a/include/drm/drm_format_helper.h
++++ b/include/drm/drm_format_helper.h
+@@ -96,6 +96,9 @@ void drm_fb_xrgb8888_to_rgba5551(struct iosys_map *dst, c=
+onst unsigned int *dst_
+ void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *=
+dst_pitch,
+ 			       const struct iosys_map *src, const struct drm_framebuffer *fb,
+ 			       const struct drm_rect *clip, struct drm_format_conv_state *state=
+);
++void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *=
+dst_pitch,
++			       const struct iosys_map *src, const struct drm_framebuffer *fb,
++			       const struct drm_rect *clip, struct drm_format_conv_state *state=
+);
+ void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int=
+ *dst_pitch,
+ 				 const struct iosys_map *src, const struct drm_framebuffer *fb,
+ 				 const struct drm_rect *clip, struct drm_format_conv_state *state);
+--=20
+2.43.0
 
