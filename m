@@ -1,214 +1,172 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2053.outbound.protection.outlook.com [40.107.237.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF3E208A7;
-	Fri, 21 Feb 2025 13:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740143878; cv=none; b=vBUzaeA5P1d2TyZ8oViZ+TpN/jO6U905sHAJUOpINfpQKytt4JjMCr6TEWKSTW+ktu92EL/6UzR/kLir9m3XZIbzT3mpP+mve/4Vg5vnIYnXB3+7k3qccebQSNvRjzOUUuRnjPREnI2ICN8gtcVbzm1pqPxAp4J+a+0Ythp+Lqc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740143878; c=relaxed/simple;
-	bh=DT9iRaIBL+udRMxD97hQUdsy12XVo3Yu70K5bIC7KA4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ckW4hKsme0nbzzfPK4iZ5DUpEb/MDiZJNcwioddKYAvOouhRpHQZdphRPG8/xzJrDfDKaSgroYR5XL3HxxFIo4IqVXPbf6sTEbtx2tgsDIiiJLB1V/B9eBRb2qSth55neV2XrH3Yg+p8hyT3QTQChUd0H1hVc/5GfhdIEPxJkOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SKYK1koq; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0188F1EEE9;
+	Fri, 21 Feb 2025 13:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740145154; cv=fail; b=dAP3wraDNQBdaaZ8WAfWY4cnG2sWMlrKmAjsw/Vs8NoHX7g6xjigs1Yjb2YxohbTZ3lndDo+AnVxVPVeW/aF0bTNLhnXb/NMkhlPZZN/o17DhJ6a+hXYe/BH6ZpC2+urmyRQMkgvz+mO/pxV6n2+I3gcgiH20jm72R3bVK5x9FY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740145154; c=relaxed/simple;
+	bh=R9WEzvJnynQ3HCe+PvegRLkIEUNEIHRkH2PzCFiuvG4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=klhwn2XPPkk9HHTkGpNeRLJDc/btQ0Rdvuo4st24oprw1emAKVO8QwOrotppYzGPXK/pM2RVFlT2Jsfic/T1rs3omnUhOkEXkcRJCvaLjuZp4Q/BXLINvBpFBNFGdyj2nh2NdzTnSnHFCkjOpimcjaMuIgx8TScf9pzF3e/3IzI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=gqnUTJCU; arc=fail smtp.client-ip=40.107.237.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SKYK1koq"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4399deda38cso12715605e9.1;
-        Fri, 21 Feb 2025 05:17:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740143875; x=1740748675; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pxdkO4eWzOxPQ8e7BEH1y1sIplAqxNP+2Y/WjifVMvg=;
-        b=SKYK1koqKRU8ILVWPCFMz2hFueMQ03hzECDL4lQcHW0vRuK4/+JCpdF6ZnnpbyK3KA
-         1tfrBUMR1jHT1Ks+iiaC3Ljcx2qEEhrPiStNGnD7BQuGTc3Q3plZqbfW9n80/CZQBToG
-         aOi0i/H2xi3yFP3oNqSfVc2Nkv8ivHPiBnRI7rliIaygr7IM6t+rAAeevvtVTB+8Haut
-         q0KsBkMYRQ4PiimrQZnuF8ck1Qy8Q+BRfdZmC9/ez4HSN9IHUkTOlE/zs9KSPV7/NfwL
-         GWSVQkVVwSB93omIFvXebkbdmCot65bIKXcvGd4DWjcefWeS9T1xi7gcwu4PUk4RWDAU
-         gDFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740143875; x=1740748675;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pxdkO4eWzOxPQ8e7BEH1y1sIplAqxNP+2Y/WjifVMvg=;
-        b=dqP6RUcwzh7b2r2O8SD23zHEPau7TUh+ZWQRw2FGy+t2p061Fu/f0IABBr6buRn9Rz
-         BBA991R7f9WPVydm/Y7T6DAIP2uq65EKPrZCnCNqHkcHHzrenPbA//igCosqLjMlqdtx
-         dEb2r/MjCXW/NXFQu+pZeT+UpJ6P3EdVKAhUxSlOrWwddw0szwqelYr2hl1C7x9oFQX5
-         MMcYVvcNA8PUdai+3P1rfiNDEzKKWzh0HAzFFSizy+JqQmKS8/h0D6hDiAIGcpIVKvOh
-         DI1Bt3V1Z50OAhfBg57FC4cbMgUXNEbOi1GSvORu/RGG9t9bq6QDUhVAVMqCiJ76r1Dy
-         DvsA==
-X-Forwarded-Encrypted: i=1; AJvYcCUyaEKhNO4unm+h91uby5erwe+kqZFggUeXL2J58CkRzyk/d+HMEsU82YlVZ9sg8EYXZH+Xpu30@vger.kernel.org, AJvYcCVKhqVpYCSpYv5D5OUpvoOWGKcH9Nhxczl0EjU47tVmLWVNwlPfR7xehF1BBSdLUEuxnI0ps6pO9NP7aZs7@vger.kernel.org, AJvYcCVKzS8qfpEL7pX4SOf3eDaaHh1xpcBO+VwMNEI6YRJ1jV3Gbmng9AUe5i1pHerdVS4UPaluAYDZXmWcGyqqmpM=@vger.kernel.org, AJvYcCVO4iE/aqFoQhB4b9c6BeZpNhNlgIdiHL4p3cx4gG9FjJZu24DJgg0otWiD1amL3FNRfuNaigGu1po=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9KYOC2cknAEkIGj7ciKvKO+amTWTvUBNqcFjYAx9Q5lNyUpL6
-	J/+Vh3Vbu/6uSm5JPOubhJqi4JXUWu1CTok7JW7PDD2T5lolWaV/
-X-Gm-Gg: ASbGnctPwJ6XlH2mrBbJqbvzwFgzTE+4be556F+yRSgW6LdLR9PMKGt7zMSTFDZIBfA
-	5yyNCnh03TXBNyeRY2Yg2Hq98vf0qECGxv/iX8fihB2eMqwmBiBPyhpOgt2LB7pcVWpUBtFG1K3
-	aEZ158Uduj/PE7gqVboBfQ+KDdm3kXAYwSRBufBM4HYcf30oyn1583uMTK6/7kF+oVx1ZNUaqSr
-	2DQi4+51ljRd8rm9+pScFEGnh1Dlmaj5j3w5sEMH+I+mC/5BX/83hQ4x39TRxea/VMjUS41tptL
-	wqDDtsDheArmqbnQBb4jdw76NczBgOEqMpGlwTbNJlf33KuPkkxr41Dyfyx5eRnl
-X-Google-Smtp-Source: AGHT+IFEnb3Uy5SAyhF1sfaPGDZjAZ8t6tjaoxEn8/OFHajHLngrqu73q5GLsLafJuQQBeGZShNTew==
-X-Received: by 2002:a05:600c:458e:b0:439:8340:637 with SMTP id 5b1f17b1804b1-439ae21e4c8mr31896855e9.30.1740143874844;
-        Fri, 21 Feb 2025 05:17:54 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439b02ce685sm17224815e9.2.2025.02.21.05.17.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Feb 2025 05:17:53 -0800 (PST)
-Date: Fri, 21 Feb 2025 13:17:50 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Uday Shankar <ushankar@purestorage.com>
-Cc: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, Simon Horman
- <horms@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Johannes
- Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-doc@vger.kernel.org, Michal
- Swiatkowski <michal.swiatkowski@linux.intel.com>
-Subject: Re: [PATCH net-next v5 1/2] net, treewide: define and use
- MAC_ADDR_STR_LEN
-Message-ID: <20250221131750.0630c720@pumpkin>
-In-Reply-To: <20250220-netconsole-v5-1-4aeafa71debf@purestorage.com>
-References: <20250220-netconsole-v5-0-4aeafa71debf@purestorage.com>
-	<20250220-netconsole-v5-1-4aeafa71debf@purestorage.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gqnUTJCU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=b8iE6xU37RumsET2fwg0R6K/Lt9n/o5tE4rMnkNkSKXGjzz92dAAVeQc+nOZpbe8x1Qt/Z7XqdbsvXY60h2nc7FtCy7bg8ld0XkhN1OWU6CSVS4qiazkh9pS7GuK5gw0+piGbWE7V0IFSdElaHpSd4xtMeJa0Q0GiE4UAkqq5nkI6FCAiq2Kpan1sfMDHTQdyZGHOtYFavVavEnDnFvpK56NtqXodVgreuNbWeb0ac7Uro2Sz9BfzNPnxn3pLzo8KoQscVCe9QbbC+Vg0QX52OiK63hyzs8Z3IHs3ukXQGmGu49H2PmnyqZX51sHA0/TDygkC5p4UL9AiNc63mC6KA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R9WEzvJnynQ3HCe+PvegRLkIEUNEIHRkH2PzCFiuvG4=;
+ b=BJ939lvXp/DDClq6wK1eFEk8IvhxtwvQRyU5iNJqoPM9/OVFo35Za0gzA1bF6/MmBjWiqzJQCRrn0p+tCJqh9+6Ftnymijlvy/cjTlumcbRYHO5TtaLE22ppjsQ/A/ahaxawSGr7jSSYQX97jjObb045dZWPM1F8Ma1TsI6WLs2DliXWbd0+v59Lj5N0M4+s2uRQ8El6uIIaSC6UDsvZSw1nYdfFK68WWQvVFw6MdrAB7ET5dhQ/vosNHgiTUeC3pVMpX2dHTWzXeosiuHAA5SJJqIY8n+n5OVcnQ6dHIx7AetdPBCFbr92t1tyqw6GK150ejqMNSSp+rQX9iUW+mw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R9WEzvJnynQ3HCe+PvegRLkIEUNEIHRkH2PzCFiuvG4=;
+ b=gqnUTJCU1j81A2uICIVJ4lWa3SwgCgnF4eq7Bli35odkYdF3fYoFInRPmOpklfcWhQaQZVFAl2m4T1oLrxgoki8Jbal6R1VlgZbSZ/pByo58whv4PAUTWch5brDpZ2V4Zgn4L6Mh6vYhHSILsHSEC8tUH51qf9SwKwILx6Q/MGi5DkNmZBqnXahR2S8320cURSQTrd88vu2/MWkdM1kKGQ7L5khBwutlj2v3k3fu9J5gcb6iu6j0/WrhjphUhtets3hyHiJlPLHzw2KRNQpLx/EdgaR3rfmjwrZPIZ0W4ZZMXrzUbAwQxmKXu87y3Ca+PtNNiI00dk+wXl0dn7K83A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by PH7PR12MB6978.namprd12.prod.outlook.com (2603:10b6:510:1b8::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.16; Fri, 21 Feb
+ 2025 13:39:09 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8466.015; Fri, 21 Feb 2025
+ 13:39:09 +0000
+Date: Fri, 21 Feb 2025 09:39:07 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Cc: Nicolin Chen <nicolinc@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"will@kernel.org" <will@kernel.org>,
+	"joro@8bytes.org" <joro@8bytes.org>,
+	"suravee.suthikulpanit@amd.com" <suravee.suthikulpanit@amd.com>,
+	"robin.murphy@arm.com" <robin.murphy@arm.com>,
+	"dwmw2@infradead.org" <dwmw2@infradead.org>,
+	"baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>,
+	"shuah@kernel.org" <shuah@kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"eric.auger@redhat.com" <eric.auger@redhat.com>,
+	"jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+	"mdf@kernel.org" <mdf@kernel.org>,
+	"mshavit@google.com" <mshavit@google.com>,
+	"shameerali.kolothum.thodi@huawei.com" <shameerali.kolothum.thodi@huawei.com>,
+	"smostafa@google.com" <smostafa@google.com>,
+	"ddutile@redhat.com" <ddutile@redhat.com>,
+	"Liu, Yi L" <yi.l.liu@intel.com>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: Re: [PATCH v6 07/14] iommufd/viommu: Add iommufd_viommu_report_event
+ helper
+Message-ID: <20250221133907.GJ50639@nvidia.com>
+References: <cover.1737754129.git.nicolinc@nvidia.com>
+ <3d952137a7935608f9cc6b05bd561a58a0c5da16.1737754129.git.nicolinc@nvidia.com>
+ <20250218153541.GD4099685@nvidia.com>
+ <BN9PR11MB52766CE9C579D3EE1CE1A7058CC52@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <Z7ebqtJUwzgOIeSC@Asurada-Nvidia>
+ <BN9PR11MB5276DCBA230A17136BEDB7FE8CC72@BN9PR11MB5276.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BN9PR11MB5276DCBA230A17136BEDB7FE8CC72@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-ClientProxiedBy: LV3P220CA0014.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:408:234::14) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB6978:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c7c3997-f92d-4fe1-f9e6-08dd527d1e43
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ekp9hWBWQ4gHdFtndcCqt9KJ27Padr5X/PpeGF4kfW1uZDfA12umebRpgrsL?=
+ =?us-ascii?Q?+17Y9Caw8wqh2/3ITTOCkZhFx86MT5YCe21Nw7ljMsdRliOyNYmMc4fYIHsA?=
+ =?us-ascii?Q?7S4D2v7MWMzPkHR4ppCRqaH1Onft2AoyiLzYmFPTJdN6L22/FcZczRVwsvyE?=
+ =?us-ascii?Q?oThL8pJWpD+7Kkcnt7V/qxfgEsIas+JCXqr+40ObPI0P3w4Zuhd6gbH4THKF?=
+ =?us-ascii?Q?yIAjSNs7jpEAbDfhWcEcq9cvrqfUcWqp6DaFZJVqOjXWgHu9a4hgB8Qp8LC4?=
+ =?us-ascii?Q?lz6JUtWWNTCbJSPIB3B1CBN61Cs2Ju93gOvp/Mu3e9YMW+sgpfXwmGiL7zKm?=
+ =?us-ascii?Q?c9WuGy6Sey04yeBTdwIL0d2SYvKMIonhXLMV55B402DfteZc/qnE3EIgqgQX?=
+ =?us-ascii?Q?XXyu/GVzzqWeWtLzfWpRkTxXvJaOthr3f2x3h6DPqd4wf64jFgtDfnb3plq3?=
+ =?us-ascii?Q?abDewgjXSYcWncjTxl2k/1yfLMlqvJAjOlFBPLyiotsPfI0xphw4ZsQbUnHv?=
+ =?us-ascii?Q?4jj16yfNoM1Bd3pKBdYlmQGT9zjOJKSJh63O1p6kXoO5+nlqaTViqQu9+k/t?=
+ =?us-ascii?Q?+QjiyqVwmBX0tkIAuQr1PeSKBWjFPtjAp7++ZwhaFiU7yg6zjgpTVcwJuDb6?=
+ =?us-ascii?Q?InZO87mPlex8xZfGEgK5SsZ7XqWWvQUYV+4+JsTd4D1CrC3Mz+Whz3+DsZDn?=
+ =?us-ascii?Q?nTBy/pHCRSN+bN1F0m12oFK79T1qxbaaO5LhSURUyKf+ag5ep1JXLVeuIgEm?=
+ =?us-ascii?Q?lEUfP71Ya2Ogo3Oo0/4o8txeGClx+gKaWVYX1jnv8YpuIAIa1xsDOQo5i0uN?=
+ =?us-ascii?Q?BpiA0q6QdJTPOi5sG1szfhL/6jKjNzLrSCTFrQgzhCASWoSys1XRQgVzl3yA?=
+ =?us-ascii?Q?x3PFvS6RY2irxh4YJHwtCUfz9MY9KPgXf4sSfja309vJ0bBPXct6UhzZji3H?=
+ =?us-ascii?Q?kfQqnCbZ4Aj3pWPKbVEFfXSQLg0g3tbJWb7wMfFEvjsqbj4TZQ7k2l+a/gAz?=
+ =?us-ascii?Q?TbrEKUX28bB/2icuax4aS7qmauU5EA3ZxFdJ2ktJQWaHNOymI3JJxcVKfKqd?=
+ =?us-ascii?Q?NMJsQ47Jne18BAN8UGqCXiFpx8+wcV0rYx8JIlIG/Lunng4AyNpQT3Q78eS+?=
+ =?us-ascii?Q?LXmsDSAFlLA+7/i3ql7MJSAVBVmsqRUq08sHCcgqhYqLKsjM3K9z6qcXsNyf?=
+ =?us-ascii?Q?loNK1auxXeBaHVo3NbfeLxqCFRlhpX7XNCioItCXRez/qGBiVJX2O2Hq1fTp?=
+ =?us-ascii?Q?OmCT3iiD91vKQlPYwXvkMQKHSnXNXqWIQGuUR/tvYj4d250P7Rc5/R+2/YlG?=
+ =?us-ascii?Q?vexv7sre0prIOFHsnbk7g3VFXBp8spc3fS/GTn7za3ju3Olj4ZKA+blOm8ij?=
+ =?us-ascii?Q?XvgkaxPU8vtMQsNAxzXmfvrM+UEj?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?X+uK8PZC9Co3eeQFijFjprSXqPDbbkMvf7XtvEB/a2A0lrAZj61gXnZgaGom?=
+ =?us-ascii?Q?8j5D2sD0v9HK5zxgFStN3za67ga4l63lEyTiI0QGXEe9VZUv9N9sJZx+w4hq?=
+ =?us-ascii?Q?uAaFMa51CzK3jzvKQmqkMkt07Lynh4SuDEADS0vmR8ySvxoT3luFOl0jFz/H?=
+ =?us-ascii?Q?Zt6V4p1wlGeDe5hvTXXLdO2a1Kd1eGGmHqypShcWQiauDv8lOr1B8d8Nb82f?=
+ =?us-ascii?Q?QNGgvIM1EPn34qNVaTCU9ZKKCGkAFIzaLdltu8NGdsOy/17gM+e76PsMdt5C?=
+ =?us-ascii?Q?EobuqvB7/KmSQ2miAH2cTEcm7vI0FbJxJpH2z1j6nxbI9G9ClEJUiXl5Vg3u?=
+ =?us-ascii?Q?xAojR3LCurxMMR4owtEcp4rMHQg2MLJjYHMT7+VQXyFZyrDIgQBeflLK+UbR?=
+ =?us-ascii?Q?R/WqWFKHkwHIfA+82DFOA6/dBGQV1b/PHJViDol4rWxIUDmN1yR/bctPoQRW?=
+ =?us-ascii?Q?6w6J9E0FuWfcTQR3xJAAwY7Cl6DDz85zq57vR9lfZ3Al8sBd+Q3Ybe+/yArZ?=
+ =?us-ascii?Q?nU/tqFltPdeE1XZg1qpPH7yIUup5/vlnATIHasat6XKfuMuhWcbahJHi2PL+?=
+ =?us-ascii?Q?Mx82JzTvX8AbUjDEaOXiMGG1AhYTM8XZIXwKIs/VEFP8vbAekU1iyey7VLw1?=
+ =?us-ascii?Q?JSVFQdRlw6iQyAtiSKDcV1ZhZXFZ+sP2Fwjt4XfFPN6KMqo5yb4oXsmPjqGe?=
+ =?us-ascii?Q?cgUUGl28ZirE7vkM15MJtrv73ydfvr/fjYV1UyeXCIF4HZ2uOpt8V3uF5wqT?=
+ =?us-ascii?Q?T3CcfzD+21LDVNNtmNtRnQhD/4hh/sHfY5J8dXQFHP+O1jkxt64QgmIWlxEw?=
+ =?us-ascii?Q?x/Bg92HHBJnaXJs634ZKFPXxdWCIZWRt/bABOGLm5uS9XOwE30kGO88W/7vm?=
+ =?us-ascii?Q?Tp35ByUih959md56x5mwfPQ/Hw43tk2QLNtdxGd5kmQdXYbuQE8+OY3Pi2QJ?=
+ =?us-ascii?Q?d7Rj2iy+qUbm3SuPds0V6AqLOivrS+TFXd7WN1QjcXrR02chJmKECt9bEbpT?=
+ =?us-ascii?Q?dvJBRmF7aJ0fDDsDIxzuZiEcbMPd+MCQOVR7EELpDMptPpJWpfktx+1uTM14?=
+ =?us-ascii?Q?lL32AiCHfAjOs/sBjYz1lnVc11oDK9SA5TQBDjH0un+iR0zy2KcsyLO5cK9Z?=
+ =?us-ascii?Q?tbbGmSBgqrq4ddV3z6NPxc02fSPmFSqeGm39AVrzEjWTZ7+m0YyyuTaI0wEc?=
+ =?us-ascii?Q?fchEwyhOD6AKZDOy7WZjBXwIwCDcVaK+RnF13/Mfg0IIt9I/hA5528cy9lIz?=
+ =?us-ascii?Q?qWn/CQ1UJmM5mwbjWxMKJdoyCEG6ak/2ecNFde3Jr1Sj+ovpdB6XGDFj2Ore?=
+ =?us-ascii?Q?GpPR6/f1wGtaSWB37MRobKv5CeFfBUgLDrpsDoRrdrYT0f99eesGcFOzs0Mh?=
+ =?us-ascii?Q?JYdy7nXZF7SZKnBt/VmhIX2NewvZhInbEkR9DWH7+J3r09MQY0YsCnnEacKZ?=
+ =?us-ascii?Q?pDaaxBvCU+bxXFRwTZDMchUHqrkt/vy42vTcEgvtrzhw+PET+xVVXCLUF1Vj?=
+ =?us-ascii?Q?v64cZYM3L0g/8kFExWIhKS55KfZ+Sk2CN64XooQNAFv1nm267q6LRa7cB+zy?=
+ =?us-ascii?Q?TUL3Z4NugaUn/W+jdpE=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c7c3997-f92d-4fe1-f9e6-08dd527d1e43
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2025 13:39:09.0611
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: d6fv6g4zAJDC8RPA1EmLkweI8zCFxUQTPFJHIqzixkEJI1S6fj74j+6PkKgjPg3S
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6978
 
-On Thu, 20 Feb 2025 18:29:20 -0700
-Uday Shankar <ushankar@purestorage.com> wrote:
+On Fri, Feb 21, 2025 at 04:27:32AM +0000, Tian, Kevin wrote:
+> With that in mind we don't need provide reason for the static node,
+> and IOMMU_EVENTQ_FLAG_LOST_EVENTS sounds closer to the
+> real intention.
 
-> There are a few places in the tree which compute the length of the
-> string representation of a MAC address as 3 * ETH_ALEN - 1. Define a
-> constant for this and use it where relevant. No functionality changes
-> are expected.
+I also like lost events - it is simple and to the point
 
-The fact that you have to keep adding 1 or 2 is a good indication that
-it really isn't a good idea.
-
-	David
-
-> 
-> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
-> Reviewed-by: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
-> Acked-by: Johannes Berg <johannes@sipsolutions.net>
-> ---
->  drivers/net/netconsole.c           | 2 +-
->  drivers/nvmem/brcm_nvram.c         | 2 +-
->  drivers/nvmem/layouts/u-boot-env.c | 2 +-
->  include/linux/if_ether.h           | 3 +++
->  lib/net_utils.c                    | 4 +---
->  net/mac80211/debugfs_sta.c         | 7 ++++---
->  6 files changed, 11 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-> index f77eddf221850fe2778cd479e49c91ad695aba3c..12699831e3c9fdbafd4862a339aea4ef04cf522b 100644
-> --- a/drivers/net/netconsole.c
-> +++ b/drivers/net/netconsole.c
-> @@ -721,7 +721,7 @@ static ssize_t remote_mac_store(struct config_item *item, const char *buf,
->  
->  	if (!mac_pton(buf, remote_mac))
->  		goto out_unlock;
-> -	if (buf[3 * ETH_ALEN - 1] && buf[3 * ETH_ALEN - 1] != '\n')
-> +	if (buf[MAC_ADDR_STR_LEN] && buf[MAC_ADDR_STR_LEN] != '\n')
->  		goto out_unlock;
->  	memcpy(nt->np.remote_mac, remote_mac, ETH_ALEN);
->  
-> diff --git a/drivers/nvmem/brcm_nvram.c b/drivers/nvmem/brcm_nvram.c
-> index b810df727b446b1762a1851750f743e0de6e8788..b4cf245fb2467d281111001bb7ed8db5993a09b2 100644
-> --- a/drivers/nvmem/brcm_nvram.c
-> +++ b/drivers/nvmem/brcm_nvram.c
-> @@ -100,7 +100,7 @@ static int brcm_nvram_read_post_process_macaddr(void *context, const char *id, i
->  {
->  	u8 mac[ETH_ALEN];
->  
-> -	if (bytes != 3 * ETH_ALEN - 1)
-> +	if (bytes != MAC_ADDR_STR_LEN)
->  		return -EINVAL;
->  
->  	if (!mac_pton(buf, mac))
-> diff --git a/drivers/nvmem/layouts/u-boot-env.c b/drivers/nvmem/layouts/u-boot-env.c
-> index 731e6f4f12b2bf28e4547d128954a095545ad461..436426d4e8f910b51b92f88acddfbb40d374587a 100644
-> --- a/drivers/nvmem/layouts/u-boot-env.c
-> +++ b/drivers/nvmem/layouts/u-boot-env.c
-> @@ -37,7 +37,7 @@ static int u_boot_env_read_post_process_ethaddr(void *context, const char *id, i
->  {
->  	u8 mac[ETH_ALEN];
->  
-> -	if (bytes != 3 * ETH_ALEN - 1)
-> +	if (bytes != MAC_ADDR_STR_LEN)
->  		return -EINVAL;
->  
->  	if (!mac_pton(buf, mac))
-> diff --git a/include/linux/if_ether.h b/include/linux/if_ether.h
-> index 8a9792a6427ad9cf58b50c79cbfe185615800dcb..61b7335aa037c7232a0caa45572043057c02dde3 100644
-> --- a/include/linux/if_ether.h
-> +++ b/include/linux/if_ether.h
-> @@ -19,6 +19,9 @@
->  #include <linux/skbuff.h>
->  #include <uapi/linux/if_ether.h>
->  
-> +/* XX:XX:XX:XX:XX:XX */
-> +#define MAC_ADDR_STR_LEN (3 * ETH_ALEN - 1)
-> +
->  static inline struct ethhdr *eth_hdr(const struct sk_buff *skb)
->  {
->  	return (struct ethhdr *)skb_mac_header(skb);
-> diff --git a/lib/net_utils.c b/lib/net_utils.c
-> index 42bb0473fb22f977409f7a6792bb1340f4e911c3..215cda672fee1b5a029c2b61529c6813c0edab11 100644
-> --- a/lib/net_utils.c
-> +++ b/lib/net_utils.c
-> @@ -7,11 +7,9 @@
->  
->  bool mac_pton(const char *s, u8 *mac)
->  {
-> -	size_t maxlen = 3 * ETH_ALEN - 1;
->  	int i;
->  
-> -	/* XX:XX:XX:XX:XX:XX */
-> -	if (strnlen(s, maxlen) < maxlen)
-> +	if (strnlen(s, MAC_ADDR_STR_LEN) < MAC_ADDR_STR_LEN)
->  		return false;
->  
->  	/* Don't dirty result unless string is valid MAC. */
-> diff --git a/net/mac80211/debugfs_sta.c b/net/mac80211/debugfs_sta.c
-> index a67a9d3160086ac492d77092a0c8a74d2384b28c..a8948f4d983e5edee45d90ad267582657ed38e38 100644
-> --- a/net/mac80211/debugfs_sta.c
-> +++ b/net/mac80211/debugfs_sta.c
-> @@ -457,11 +457,12 @@ static ssize_t link_sta_addr_read(struct file *file, char __user *userbuf,
->  				  size_t count, loff_t *ppos)
->  {
->  	struct link_sta_info *link_sta = file->private_data;
-> -	u8 mac[3 * ETH_ALEN + 1];
-> +	u8 mac[MAC_ADDR_STR_LEN + 2];
->  
->  	snprintf(mac, sizeof(mac), "%pM\n", link_sta->pub->addr);
->  
-> -	return simple_read_from_buffer(userbuf, count, ppos, mac, 3 * ETH_ALEN);
-> +	return simple_read_from_buffer(userbuf, count, ppos, mac,
-> +				       MAC_ADDR_STR_LEN + 1);
->  }
->  
->  LINK_STA_OPS(addr);
-> @@ -1240,7 +1241,7 @@ void ieee80211_sta_debugfs_add(struct sta_info *sta)
->  	struct ieee80211_local *local = sta->local;
->  	struct ieee80211_sub_if_data *sdata = sta->sdata;
->  	struct dentry *stations_dir = sta->sdata->debugfs.subdir_stations;
-> -	u8 mac[3*ETH_ALEN];
-> +	u8 mac[MAC_ADDR_STR_LEN + 1];
->  
->  	if (!stations_dir)
->  		return;
-> 
-
+Jason
