@@ -1,49 +1,80 @@
-Received: from smtp-fw-52004.amazon.com (smtp-fw-52004.amazon.com [52.119.213.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4170B1EB1A6;
-	Fri, 21 Feb 2025 11:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A321FBEA3
+	for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2025 11:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740135749; cv=none; b=LejdgP048zqsHeA88GtAeQ2W+VlGZezFvLVtRmoBPp6hOk5w8GfDGapjzL+1qb7g3iVGIeFLOJPI1QQvycUU43/P5LvG3k4qRtTMIVUWKPB0NYTSMjt91f6KtJlbZcC4HrUustSe+YdSDQmZK5CqHNrl13MeDw6HIdyKdnpHA+I=
+	t=1740136026; cv=none; b=Cuvb7FzPQSMgX1hOBauDJYPzvRBb46asrvuPk5By7ZEXJFSca2T0ECpe+DIgGLl2mxFDp8vU5c0+mpjmhjl4+HoqKsZzVbZ3TVV/j8i+jtX4Nm1ZsM5JVwniJ2eBjWucwE1l3swEftPt1A/3FuZNOqFnIx/DfSza3fbJymWrMiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740135749; c=relaxed/simple;
-	bh=eNLkknFRSmBxOet24bmBXoewQoMVBIWYBNaTmtsnYTE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=WDVmaphPs9J/uLNJpU2pZHJSYRbG4xti8QjLy3fVESJ6KZs7SJNY9YYXmm64fHrx3FRrKWZ6xjZ7Em+G6mj1+g/L7cvei00GX1//oKmZVewM2iN+pwQ245FOMfxcgPSHZcNADRGEgGCWLFr2rMi//rfU6NXcyLeE9IsfqxwI1kM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=MurHizg3; arc=none smtp.client-ip=52.119.213.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1740136026; c=relaxed/simple;
+	bh=2dNkq+if3KctHidNQfTnOgOQrVVn8cf8oDqUjvcxeDU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jcpqLELtOfAEmjvt08HrBjhKND+ummoVpD20jDlghaOshpVIhqjBufNIh3bs137UPdtw/8qrrZX6ZG4Kdw6/2LdajAoVZwQXEm/6mO/Ojb7ZrDzUHTymlE4ZDcQyyp8gf4DFOb599Vn0iYl12MzbJDz4VPAuBRJR6ZKDgl8/6iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=UJWgZfor; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=obwZH9J9; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=UJWgZfor; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=obwZH9J9; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="MurHizg3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1740135748; x=1771671748;
-  h=message-id:date:mime-version:reply-to:subject:to:cc:
-   references:from:in-reply-to:content-transfer-encoding;
-  bh=wVZmmrzgZqCCthLth4G92Wt3dsta5fcgtbs4H+qCwfI=;
-  b=MurHizg3kjSv9jQIf6F8ot4q+OWuloVaFs7XWnSC09xTGkJGTAzXnX21
-   dxymkKDH4NK/gZxwcyIHdm/xMqOI2iboBNbvSXZ9p1hC4Ugnurw3IFy0v
-   YdsCQZGCjnohyPMo7J/erb2NfsKrXFTretxT4Gcxl4Nspii2wNp5YA2rA
-   w=;
-X-IronPort-AV: E=Sophos;i="6.13,304,1732579200"; 
-   d="scan'208";a="273223897"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.43.8.2])
-  by smtp-border-fw-52004.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 11:02:24 +0000
-Received: from EX19MTAEUC002.ant.amazon.com [10.0.10.100:44889]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.35.107:2525] with esmtp (Farcaster)
- id f351c569-4f9b-48af-8480-bb025a5a6c0a; Fri, 21 Feb 2025 11:02:23 +0000 (UTC)
-X-Farcaster-Flow-ID: f351c569-4f9b-48af-8480-bb025a5a6c0a
-Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
- EX19MTAEUC002.ant.amazon.com (10.252.51.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.39;
- Fri, 21 Feb 2025 11:02:23 +0000
-Received: from [192.168.7.129] (10.106.83.15) by EX19D022EUC002.ant.amazon.com
- (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14; Fri, 21 Feb 2025
- 11:02:21 +0000
-Message-ID: <f820b630-13c1-4164-baa8-f5e8231612d1@amazon.com>
-Date: Fri, 21 Feb 2025 11:02:20 +0000
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="UJWgZfor";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="obwZH9J9";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="UJWgZfor";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="obwZH9J9"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 088C81F871;
+	Fri, 21 Feb 2025 11:07:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1740136023; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=JtTNdpQtb3ECji2LJqmg5fq7uQElGxxCPChnqksnsM0=;
+	b=UJWgZfor2ckOSg/3TNm2xRqCL6UvBGHZgIgma72+MbZVhTcQViccy46bbm9POgbgXplPYD
+	nRzzHPFSiiaB5Wbami9NBiS+8uRDRQ8De1mCrxpGy64kMXhLEBfY4oTL6Gx8m2Pa8mtvoe
+	XlSmNdo4UZRoNcTVQfSSpWnHRZcsPNE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1740136023;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=JtTNdpQtb3ECji2LJqmg5fq7uQElGxxCPChnqksnsM0=;
+	b=obwZH9J9a+vAjHmwt+tZn//20bcdiipfGM95epBYcwAjcwBDM/xmTcY6n9kllygPm+Vl+x
+	V0LCIkHvwymLw7Bw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1740136023; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=JtTNdpQtb3ECji2LJqmg5fq7uQElGxxCPChnqksnsM0=;
+	b=UJWgZfor2ckOSg/3TNm2xRqCL6UvBGHZgIgma72+MbZVhTcQViccy46bbm9POgbgXplPYD
+	nRzzHPFSiiaB5Wbami9NBiS+8uRDRQ8De1mCrxpGy64kMXhLEBfY4oTL6Gx8m2Pa8mtvoe
+	XlSmNdo4UZRoNcTVQfSSpWnHRZcsPNE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1740136023;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=JtTNdpQtb3ECji2LJqmg5fq7uQElGxxCPChnqksnsM0=;
+	b=obwZH9J9a+vAjHmwt+tZn//20bcdiipfGM95epBYcwAjcwBDM/xmTcY6n9kllygPm+Vl+x
+	V0LCIkHvwymLw7Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B295F13806;
+	Fri, 21 Feb 2025 11:07:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Xe5AK1ZeuGc0RgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 21 Feb 2025 11:07:02 +0000
+Message-ID: <9854b4f2-3482-415c-8e1b-46cb4a2650b2@suse.cz>
+Date: Fri, 21 Feb 2025 12:07:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,115 +82,116 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Reply-To: <kalyazin@amazon.com>
-Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
-To: Sean Christopherson <seanjc@google.com>
-CC: <pbonzini@redhat.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <rostedt@goodmis.org>, <mhiramat@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <jthoughton@google.com>,
-	<david@redhat.com>, <peterx@redhat.com>, <oleg@redhat.com>,
-	<vkuznets@redhat.com>, <gshan@redhat.com>, <graf@amazon.de>,
-	<jgowans@amazon.com>, <roypat@amazon.co.uk>, <derekmn@amazon.com>,
-	<nsaenz@amazon.es>, <xmarcalx@amazon.com>
-References: <20241118123948.4796-1-kalyazin@amazon.com>
- <Z6u-WdbiW3n7iTjp@google.com>
- <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com>
- <Z7X2EKzgp_iN190P@google.com>
- <6eddd049-7c7a-406d-b763-78fa1e7d921b@amazon.com>
- <Z7d5HT7FpE-ZsHQ9@google.com>
+Subject: Re: [PATCH v10 04/18] mm: introduce vma_iter_store_attached() to use
+ with attached vmas
 Content-Language: en-US
-From: Nikita Kalyazin <kalyazin@amazon.com>
-Autocrypt: addr=kalyazin@amazon.com; keydata=
- xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
- JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
- BjLQwD9FsK+SyiCpmmTzBQJnrNfABQkFps9DAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
- IKmaZPOpfgD/exazh4C2Z8fNEz54YLJ6tuFEgQrVQPX6nQ/PfQi2+dwBAMGTpZcj9Z9NvSe1
- CmmKYnYjhzGxzjBs8itSUvWIcMsFzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
- ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
- ZPMFAmes18AFCQWmz0MCGwwACgkQr5LKIKmaZPNTlQEA+q+rGFn7273rOAg+rxPty0M8lJbT
- i2kGo8RmPPLu650A/1kWgz1AnenQUYzTAFnZrKSsXAw5WoHaDLBz9kiO5pAK
-In-Reply-To: <Z7d5HT7FpE-ZsHQ9@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
+ lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com,
+ hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
+ mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
+ oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
+ dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
+ lokeshgidra@google.com, minchan@google.com, jannh@google.com,
+ shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
+ klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ kernel-team@android.com
+References: <20250213224655.1680278-1-surenb@google.com>
+ <20250213224655.1680278-5-surenb@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ EP+ylKVEKb0Q2A==
+In-Reply-To: <20250213224655.1680278-5-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EX19D013EUB004.ant.amazon.com (10.252.51.92) To
- EX19D022EUC002.ant.amazon.com (10.252.51.137)
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[infradead.org,oracle.com,gmail.com,suse.com,cmpxchg.org,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-On 20/02/2025 18:49, Sean Christopherson wrote:
-> On Thu, Feb 20, 2025, Nikita Kalyazin wrote:
->> On 19/02/2025 15:17, Sean Christopherson wrote:
->>> On Wed, Feb 12, 2025, Nikita Kalyazin wrote:
->>> The conundrum with userspace async #PF is that if userspace is given only a single
->>> bit per gfn to force an exit, then KVM won't be able to differentiate between
->>> "faults" that will be handled synchronously by the vCPU task, and faults that
->>> usersepace will hand off to an I/O task.  If the fault is handled synchronously,
->>> KVM will needlessly inject a not-present #PF and a present IRQ.
->>
->> Right, but from the guest's point of view, async PF means "it will probably
->> take a while for the host to get the page, so I may consider doing something
->> else in the meantime (ie schedule another process if available)".
+On 2/13/25 23:46, Suren Baghdasaryan wrote:
+> vma_iter_store() functions can be used both when adding a new vma and
+> when updating an existing one. However for existing ones we do not need
+> to mark them attached as they are already marked that way. With
+> vma->detached being a separate flag, double-marking a vmas as attached
+> or detached is not an issue because the flag will simply be overwritten
+> with the same value. However once we fold this flag into the refcount
+> later in this series, re-attaching or re-detaching a vma becomes an
+> issue since these operations will be incrementing/decrementing a
+> refcount.
+> Introduce vma_iter_store_new() and vma_iter_store_overwrite() to replace
+> vma_iter_store() and avoid re-attaching a vma during vma update. Add
+> assertions in vma_mark_attached()/vma_mark_detached() to catch invalid
+> usage. Update vma tests to check for vma detached state correctness.
 > 
-> Except in this case, the guest never gets a chance to run, i.e. it can't do
-> something else.  From the guest point of view, if KVM doesn't inject what is
-> effectively a spurious async #PF, the VM-Exiting instruction simply took a (really)
-> long time to execute.
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-Sorry, I didn't get that.  If userspace learns from the 
-kvm_run::memory_fault::flags that the exit is due to an async PF, it 
-should call kvm run immediately, inject the not-present PF and allow the 
-guest to reschedule.  What do you mean by "the guest never gets a chance 
-to run"?
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 
->> If we are exiting to userspace, it isn't going to be quick anyway, so we can
->> consider all such faults "long" and warranting the execution of the async PF
->> protocol.  So always injecting a not-present #PF and page ready IRQ doesn't
->> look too wrong in that case.
-> 
-> There is no "wrong", it's simply wasteful.  The fact that the userspace exit is
-> "long" is completely irrelevant.  Decompressing zswap is also slow, but it is
-> done on the current CPU, i.e. is not background I/O, and so doesn't trigger async
-> #PFs.
-> 
-> In the guest, if host userspace resolves the fault before redoing KVM_RUN, the
-> vCPU will get two events back-to-back: an async #PF, and an IRQ signalling completion
-> of that #PF.
+> ---
+> Changes since v9 [1]:
+> - Change VM_BUG_ON_VMA() to WARN_ON_ONCE() in vma_assert_{attached|detached},
+> per Lorenzo Stoakes
 
-Is this practically likely?  At least in our scenario (Firecracker 
-snapshot restore) and probably in live migration postcopy, if a vCPU 
-hits a fault, it's probably because the content of the page is somewhere 
-remote (eg on the source machine or wherever the snapshot data is 
-stored) and isn't going to be available quickly.  Conversely, if the 
-page content is available, it must have already been prepopulated into 
-guest memory pagecache, the bit in the bitmap is cleared and no exit to 
-userspace occurs.
+Maybe later we can reduce the paranoia to VM_WARN_ON_ONCE()?
 
->>>> What advantage can you see in it over exiting to userspace (which already exists
->>>> in James's series)?
->>>
->>> It doesn't exit to userspace :-)
->>>
->>> If userspace simply wakes a different task in response to the exit, then KVM
->>> should be able to wake said task, e.g. by signalling an eventfd, and resume the
->>> guest much faster than if the vCPU task needs to roundtrip to userspace.  Whether
->>> or not such an optimization is worth the complexity is an entirely different
->>> question though.
->>
->> This reminds me of the discussion about VMA-less UFFD that was coming up
->> several times, such as [1], but AFAIK hasn't materialised into something
->> actionable.  I may be wrong, but James was looking into that and couldn't
->> figure out a way to scale it sufficiently for his use case and had to stick
->> with the VM-exit-based approach.  Can you see a world where VM-exit
->> userfaults coexist with no-VM-exit way of handling async PFs?
-> 
-> The issue with UFFD is that it's difficult to provide a generic "point of contact",
-> whereas with KVM userfault, signalling can be tied to the vCPU, and KVM can provide
-> per-vCPU buffers/structures to aid communication.
-> 
-> That said, supporting "exitless" KVM userfault would most definitely be premature
-> optimization without strong evidence it would benefit a real world use case.
-
-Does that mean that the "exitless" solution for async PF is a long-term 
-one (if required), while the short-term would still be "exitful" (if we 
-find a way to do it sensibly)?
