@@ -1,146 +1,132 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3803270807;
-	Fri, 21 Feb 2025 01:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233CD2AD0F;
+	Fri, 21 Feb 2025 02:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740103143; cv=none; b=XtszO+NbklXXRkGmVV1Wr/cLKnoj4KDctP2tyehRwAYgdmfcIWBxk2Gzk9g9tLlTvJ4LJBbG92FTRe9pwGebSKFsfzdtktlgRpMAhoE1/p7J5fBbK/hEV55m/P1Dh1RuwFYsdTTu3GRYOdi+yIR7y9PIXYdcqmSYqUhZ7Gsfb8w=
+	t=1740103433; cv=none; b=nWWQzYYyB0WZtmOfw3PewJa5ywY+PdAD45Pq71is+dggiWKhIaHyAAwfpm4EtH+UJbELLZcBaMDfQ2GCVF1ULzQxkqfZxCkZycIrxJsVahj2wR+rDTeAG3jlj7NI+37B3V9kmCH0zSt+mbeiTubzCNcjxOrzE3w/GtJoDOu7K8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740103143; c=relaxed/simple;
-	bh=dUz0fpj4eh0Jt7r7t7HQFUH3p+7TbTBQkoQ2o8zwkvw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XGP1htk97Jor2iAeI4eFgHLXzy4cUy5e9QOj1JNYwMYIPA/84TtTXyipcHxsgrOeOsM980Zr3fj5i9YmhNbHRtKa+8zhfSz92NIG8nnp9DawjMv4qGEu5kYlxlAjcFubx3RwLE19GNGZ+BTFZUT9FDtI9mc8iqR96nxtW+kmKXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=VBR0hibT; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1740103433; c=relaxed/simple;
+	bh=rht45uoBqeDV8bCsVQoc0fVIMDOzQd/AYaIBdWP/qDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aD9RtC1x23XVGbFSXf7aIdXm3S/ltFQijlfe2S6eAIoK9KrjP9/2hW8Aka5H5x4vcdH4kIiZzJs7zYrNZlVxPQ8SKlZ8adZIrHhfPhJJwCdEB7bMSU4fCWTGylDOWiTtY2UOJZswMjCRdVH8oKy9SDFKAdBhD0t+P4phi31ZRT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RhwDSDXD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="VBR0hibT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=RE0swP2Wzvc6B+QYeA4rhrnC6HXoz4kWy/36+4IfuYw=; b=VBR0hibTWhUyTxjc
-	pMtwBGTU/TEeatl19chew+QciXIGXH+lnevC4EYQxFxPT9YWlzC92O51zAufRWoNz8gJnWnRIStY9
-	VcXELw/k5+fVInHMuFaM75LBzWwQwsTDpuvvFKr2RkcZAycKNAbYl8KcI6q9Br+yOAfcxeeKd0CTj
-	NKKGdtYGaBEaJuAI0tr3Agq4UALUIPpv/90YfD0uKfQBihbBMMgkzRr+5mRNA//4rUSH7InJ4LKd5
-	DVa6oiqTYlEo6SrdyF61kyA4ZNjyA/9CzjikXKIeRpYzlzOmblzsWJtxdz0vRF/qGNuWunxz4l/ep
-	0v3Rjm4WKevbzxZm4w==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1tlIJP-00HM47-17;
-	Fri, 21 Feb 2025 01:58:43 +0000
-From: linux@treblig.org
-To: srinivas.kandagatla@linaro.org
-Cc: corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 2/3] nvmem: core: Remove nvmem_(add|del)_cell_table
-Date: Fri, 21 Feb 2025 01:58:40 +0000
-Message-ID: <20250221015841.209458-3-linux@treblig.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250221015841.209458-1-linux@treblig.org>
-References: <20250221015841.209458-1-linux@treblig.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RhwDSDXD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE916C4CED1;
+	Fri, 21 Feb 2025 02:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740103432;
+	bh=rht45uoBqeDV8bCsVQoc0fVIMDOzQd/AYaIBdWP/qDI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RhwDSDXDH7bO9y3PQei3q2cm1swTeixfKi/1SV+76IKchkQa53ZxrGk0JtUJ2pgJO
+	 aFGfVps3lmMu3AcSOXJdu7sv6Z5j5H4kZTpijDEIQ4Sl9/GTkkwOpmlnGFvbjvLSp3
+	 5oSvVAXbt7xOpZnYFzUg79t728aqVKf0LKSgwK3MozT66HrWZmCe1FozPWRgp7NK9t
+	 aHll+VYZM3cTyWW20yqa9lvOAdIa6PRxoNEQf7S8Net1DpWVxpv3JIWeKlMR3u1bgR
+	 lM8U74ag4mVb5vcedvBUg2emQLdB+BT+bSBeBbeTLcu3wzI4W+BkW428S8lYT+KP6v
+	 uFWdEd9+0WuAg==
+Date: Thu, 20 Feb 2025 18:03:51 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Gal Pressman <gal@nvidia.com>
+Cc: "David S. Miller" <davem@davemloft.net>, <netdev@vger.kernel.org>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Tony Nguyen
+ <anthony.l.nguyen@intel.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "Tariq
+ Toukan" <tariqt@nvidia.com>, Edward Cree <ecree.xilinx@gmail.com>, Ahmed
+ Zaki <ahmed.zaki@intel.com>, <linux-doc@vger.kernel.org>, Nimrod Oren
+ <noren@nvidia.com>
+Subject: Re: [PATCH net-next v4 5/5] selftests: drv-net-hw: Add a test for
+ symmetric RSS hash
+Message-ID: <20250220180351.7e278ec9@kernel.org>
+In-Reply-To: <20250220113435.417487-6-gal@nvidia.com>
+References: <20250220113435.417487-1-gal@nvidia.com>
+	<20250220113435.417487-6-gal@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On Thu, 20 Feb 2025 13:34:35 +0200 Gal Pressman wrote:
+> +def _get_rand_port(remote):
+> +    for _ in range(1000):
+> +        port = rand_port()
+> +        try:
+> +            check_port_available_remote(port, remote)
+> +            return port
+> +        except:
+> +            continue
+> +
+> +    raise Exception("Can't find any free unprivileged port")
 
-nvmem_del_cell_table() was added in 2018's
-commit b985f4cba6db ("nvmem: add support for cell info")
-but remained unused.
+TCP and UDP port spaces are separate, I think your checking if the
+ports are available on TCP here, and then use them for UDP below.
 
-nvmem_add_cell_table() was also added in that commit, however
-it's last use was removed in 2022 by
-commit 2af4fcc0d357 ("ARM: davinci: remove unused board support")
+We don't really care about the 100% success, I don't think we should 
+be checking the ports. Pick two ports, send a A<>B packet, send a B<>A
+packet, if either fails to connect or doesn't arrive just ignore.
+As long as we can get ~10? successful pairs in 100? ties it's good.
 
-Remove them.
+> +def traffic(cfg, local_port, remote_port, ipver):
+> +    af_inet = socket.AF_INET if ipver == "4" else socket.AF_INET6
+> +    sock = socket.socket(af_inet, socket.SOCK_DGRAM)
+> +    sock.bind(('', local_port))
+> +    sock.connect((cfg.remote_addr_v[ipver], remote_port))
+> +    tgt = f"{ipver}:[{cfg.addr_v[ipver]}]:{local_port},sourceport={remote_port}"
+> +    cmd("echo a | socat - UDP" + tgt, host=cfg.remote)
+> +    sock.recvmsg(100)
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- Documentation/driver-api/nvmem.rst |  2 --
- drivers/nvmem/core.c               | 26 --------------------------
- include/linux/nvmem-provider.h     |  5 -----
- 3 files changed, 33 deletions(-)
+Could you use fd_read_timeout():
+https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/tools/testing/selftests/net/lib/py/utils.py#n20
 
-diff --git a/Documentation/driver-api/nvmem.rst b/Documentation/driver-api/nvmem.rst
-index 595ee207d199..27534d5e8fba 100644
---- a/Documentation/driver-api/nvmem.rst
-+++ b/Documentation/driver-api/nvmem.rst
-@@ -76,8 +76,6 @@ nvmem_cell_table struct::
- 	.ncells			= ARRAY_SIZE(foo_nvmem_cells),
-   };
- 
--  nvmem_add_cell_table(&foo_nvmem_cell_table);
--
- Additionally it is possible to create nvmem cell lookup entries and register
- them with the nvmem framework from machine code as shown in the example below::
- 
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index fd8f148b8aad..90fbfc00950e 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -2069,32 +2069,6 @@ int nvmem_device_write(struct nvmem_device *nvmem,
- }
- EXPORT_SYMBOL_GPL(nvmem_device_write);
- 
--/**
-- * nvmem_add_cell_table() - register a table of cell info entries
-- *
-- * @table: table of cell info entries
-- */
--void nvmem_add_cell_table(struct nvmem_cell_table *table)
--{
--	mutex_lock(&nvmem_cell_mutex);
--	list_add_tail(&table->node, &nvmem_cell_tables);
--	mutex_unlock(&nvmem_cell_mutex);
--}
--EXPORT_SYMBOL_GPL(nvmem_add_cell_table);
--
--/**
-- * nvmem_del_cell_table() - remove a previously registered cell info table
-- *
-- * @table: table of cell info entries
-- */
--void nvmem_del_cell_table(struct nvmem_cell_table *table)
--{
--	mutex_lock(&nvmem_cell_mutex);
--	list_del(&table->node);
--	mutex_unlock(&nvmem_cell_mutex);
--}
--EXPORT_SYMBOL_GPL(nvmem_del_cell_table);
--
- /**
-  * nvmem_add_cell_lookups() - register a list of cell lookup entries
-  *
-diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
-index 515676ebe598..20c9fbd45b24 100644
---- a/include/linux/nvmem-provider.h
-+++ b/include/linux/nvmem-provider.h
-@@ -190,9 +190,6 @@ void nvmem_unregister(struct nvmem_device *nvmem);
- struct nvmem_device *devm_nvmem_register(struct device *dev,
- 					 const struct nvmem_config *cfg);
- 
--void nvmem_add_cell_table(struct nvmem_cell_table *table);
--void nvmem_del_cell_table(struct nvmem_cell_table *table);
--
- int nvmem_add_one_cell(struct nvmem_device *nvmem,
- 		       const struct nvmem_cell_info *info);
- 
-@@ -223,8 +220,6 @@ devm_nvmem_register(struct device *dev, const struct nvmem_config *c)
- 	return nvmem_register(c);
- }
- 
--static inline void nvmem_add_cell_table(struct nvmem_cell_table *table) {}
--static inline void nvmem_del_cell_table(struct nvmem_cell_table *table) {}
- static inline int nvmem_add_one_cell(struct nvmem_device *nvmem,
- 				     const struct nvmem_cell_info *info)
- {
+In case the packet got lost?
+
+> +    return sock.getsockopt(socket.SOL_SOCKET, socket.SO_INCOMING_CPU)
+> +
+> +
+> +def test_rss_input_xfrm(cfg, ipver):
+> +    """
+> +    Test symmetric input_xfrm.
+> +    If symmetric RSS hash is configured, send traffic twice, swapping the
+> +    src/dst UDP ports, and verify that the same queue is receiving the traffic
+> +    in both cases (IPs are constant).
+> +    """
+> +
+> +    input_xfrm = cfg.ethnl.rss_get(
+> +        {'header': {'dev-name': cfg.ifname}}).get('input_xfrm')
+> +
+> +    # Check for symmetric xor/or-xor
+> +    if input_xfrm and (input_xfrm == 1 or input_xfrm == 2):
+> +        cpus = set()
+> +        for _ in range(8):
+> +            port1 = _get_rand_port(cfg.remote)
+> +            port2 = _get_rand_port(cfg.remote)
+> +            cpu1 = traffic(cfg, port1, port2, ipver)
+> +            cpu2 = traffic(cfg, port2, port1, ipver)
+> +            cpus.update([cpu1, cpu2])
+> +
+> +            ksft_eq(
+> +                cpu1, cpu2, comment=f"Received traffic on different cpus ({cpu1} != {cpu2}) with ports ({port1 = }, {port2 = }) while symmetric hash is configured")
+
+the cpu1 cpu2 values will already be printed by the helper, no need 
+to format them in
+
+> +
+> +        ksft_ge(len(cpus), 2, comment=f"Received traffic on less than two cpus")
+> +    else:
+> +        raise KsftSkipEx("Symmetric RSS hash not requested")
+
+Flip the condition, raise the exception right after the if, then the
+rest of the code doesn't have to be indented?
+
+I'd also add a:
+
+	if len(cpus) == 1:
+		raise KsftSkipEx(f"Only one CPU seen traffic: {cpus}")
 -- 
-2.48.1
-
+pw-bot: cr
