@@ -1,140 +1,124 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8177E267B7D
-	for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 23:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1277B2AE99;
+	Fri, 21 Feb 2025 00:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740094210; cv=none; b=ckATTxhkwURozar/o60VKkS1dV9N1Wg3fzKTkGt33cq2kXfl32xbEmH8WFGfDdvQRDyfW9BVa+ljRfWZuwrTcit6S21UaNASvj4moTbts1fLDhDOr9RBf8Qs21prRyNyCADqVq6loAh+4BVBNGA/Qw7GcMWshHMRRN3IV+pOuoY=
+	t=1740098524; cv=none; b=c7ZqXe+r/Mayj2PCt/CCrixfIqNIEscZcEF3r/6jvZpwM2Rn+7MATAVqzg+Y3t4LuCU19yXMsvxC5A/5aigO9N5recB7YMab3lqE097MfNPSCTRmvxehbpnUq2M2tDvdHEmR5Xhv3O604qX38XmEPN3yu5NN0dsXney0tJJrnTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740094210; c=relaxed/simple;
-	bh=mWRk++/bQqQgZy4LEk1jYBf4PCsHJwDN0tHvqsBCXpE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=NQGAlkOFPDTycffZUvuFQGMdGM1wzzxZz/lbFanotQ/bBSo+Q7rI3C3KSCf4DB1RxKFoHgj8tlmGHBVrnHWk3MF/zbJqDp/1X/SCyOWQizlwjRcTzuDnXMs8bE/Mdr8BhdYyFjVLKRg7SgF1mBRM9Xipj11LqHCLyMIoihmHXxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ia1GbXzP; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
+	s=arc-20240116; t=1740098524; c=relaxed/simple;
+	bh=kcq2icssB6LIoGsmOFYQXCXzmXJNE/LKNHOLEMUJmG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g4y5+dc0YPPcDMVZvlIrSeGhb5eECDyu7WqDZ036UB4cAStnWMvHAbi1EsiIogvOb/fsDqD6PBWxbc9WEn2GpqJ+mLkNQJtxxmQQIUXJ6lAFKfpglm0Nzp7DiZtOrBIHBm4pSyTm6bdTmxLBl0bqiI0u64WLBA/jMr1dv70ChVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wgl2orus; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ia1GbXzP"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2fc404aaed5so4983682a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 15:30:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740094208; x=1740699008; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tZY+qAPOicOUq8p2LK8IeikgixBi4lx8HxmpqAWAHnA=;
-        b=Ia1GbXzPQkYnqpRUXSv00oTDw1Z7TgorBuB+rDKsg1oze0neVXL2viJKZ2dBHked1B
-         V3mTwNaHRbCAunS3QCnIBBhUU956LuCx3mvXASnU7I5bBnB8mkv+HsyajH6byxy8lrHQ
-         fee2gzxtqPAjiI7gXaayG61JNHDp4ZS9yNs8AIe0qY6Y8FgHAzo4kwuZOyUy+qhSqgSx
-         rkxkjg663mNrRv9mtirtTjPFOv2M6Unhh4+wISteBqs6C6MOwJ+eusSSLgOSM6LRE7mY
-         NvAQqckkCjmV9ESOAZwA7hemitwXpT17Uwisyjy9agxmgNhTUXXALMrwal4Ah2hxigGQ
-         2Hww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740094208; x=1740699008;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tZY+qAPOicOUq8p2LK8IeikgixBi4lx8HxmpqAWAHnA=;
-        b=GX16AqEDlcRTNHpJq7kzeR00/pdpImvc6uYiv2WxziFboyOA+5QJz80t6sNMUyfaHo
-         Do/V3H8iQyeJvLuRatP2/0KZTugHKrinmVIB/lI+PVLmNfbdiOHewv3Q1v5ns8xC5zwD
-         +oVKZF+iBykjnRCN5DvylT3zRmMD/e/sPJ9GZW3J9U+BOBCbJSJQcPt1loWGHyP+QXAU
-         Wuvig+t9O8hKPiXsCjtosNKYX0KKLvcYjedtFMv810GVRhAbSPtIR0Kbd+31YBR9XjLc
-         Y2Y/RqWaUkNU5fkKZauo6IDUW3mLAsm1tKTt1vEJbejmneABPW+kdbh6OZHO7A93r0+O
-         S5Cg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7swXjhR9mCDksEDmBAYV6zX6Pa8CH6G1QO1U314HfivExfrE8VNmz06r07EbnI0sPCFHqRtnZUbc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxXRmU1dZ5IJnjD3JwYnWGpxRl8mvm+p8LSPd3iYLoWBYjHj0U
-	WZkxVpjA5bKiSwK49440xdRd72ieYgsHoV3KWFrV+bj1lQHW2FHTrCuV9Ny7EEGzGAmNvnvWs72
-	tamQh364H7A==
-X-Google-Smtp-Source: AGHT+IEBaG/uVrgEVEadJS5uoF6GF3zEvxqFSthLZ+KCQQjV/E6qlAa7wWQxBxQYuGn6ZWD8KVd4x5+IgTERjw==
-X-Received: from pjbpt3.prod.google.com ([2002:a17:90b:3d03:b0:2fc:13d6:b4cb])
- (user=jiaqiyan job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:2e4f:b0:2fc:b40:339a with SMTP id 98e67ed59e1d1-2fce78a95d5mr1872440a91.10.1740094207918;
- Thu, 20 Feb 2025 15:30:07 -0800 (PST)
-Date: Thu, 20 Feb 2025 23:29:59 +0000
-In-Reply-To: <20250220232959.247600-1-jiaqiyan@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wgl2orus"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BA96C4CEE4;
+	Fri, 21 Feb 2025 00:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740098523;
+	bh=kcq2icssB6LIoGsmOFYQXCXzmXJNE/LKNHOLEMUJmG0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Wgl2orusA60uthPJd7x08Fm/8mJxOd49NH5ZLUptjH9hzhB2rwbbD5kN7is3OfJOd
+	 nAmt30IoQ23X6MPmh8ZAdSXDHE6a9/ymnDTZ1XA/BFzrJ1hLnXk8A0C2v3eglAdYRb
+	 maQaRxpzV9eo8MlNRExJNIQHH3YM1/YaI68IAN7bxFU6fxprq1xquPhiUQGEnaI11w
+	 753enP6GEo7CyrmvatY4V4TOQAUFD9j4biMUgKpE8hxxq5K3VJrXKoqAbmDHnDkkMN
+	 CO/nyVVluwDxe+FuwZ9TZrIx/vPX4SWTHhJqF5r/p5lFk6MqxkXSOCsHu9VUk21W01
+	 FKZr6ftqHhgPQ==
+Date: Thu, 20 Feb 2025 16:42:01 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Rob Herring
+ <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
+ <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v5 02/12] net: pse-pd: Add support for
+ reporting events
+Message-ID: <20250220164201.469fdf6d@kernel.org>
+In-Reply-To: <20250218-feature_poe_port_prio-v5-2-3da486e5fd64@bootlin.com>
+References: <20250218-feature_poe_port_prio-v5-0-3da486e5fd64@bootlin.com>
+	<20250218-feature_poe_port_prio-v5-2-3da486e5fd64@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250220232959.247600-1-jiaqiyan@google.com>
-X-Mailer: git-send-email 2.48.1.658.g4767266eb4-goog
-Message-ID: <20250220232959.247600-3-jiaqiyan@google.com>
-Subject: [RFC PATCH v3 3/3] Documentation: kvm: new UAPI when arm64 guest
- consumes UER
-From: Jiaqi Yan <jiaqiyan@google.com>
-To: maz@kernel.org, oliver.upton@linux.dev
-Cc: joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, duenwen@google.com, rananta@google.com, 
-	jthoughton@google.com, Jiaqi Yan <jiaqiyan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add the documentation for new UAPI when guest consumes uncorrectable
-but recoverable memory error (UER). This new UAPI enables userspace
-to inject SEA into the guest.
+On Tue, 18 Feb 2025 17:19:06 +0100 Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> 
+> Add support for devm_pse_irq_helper() to register PSE interrupts. This aims
+> to report events such as over-current or over-temperature conditions
+> similarly to how the regulator API handles them but using a specific PSE
+> ethtool netlink socket.
 
-Tested: make htmldocs and proofreading
+I think you should CC HWMON ML on this.
+Avoid any surprises.
 
-Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
----
- Documentation/virt/kvm/api.rst | 38 +++++++++++++++++++++++++++-------
- 1 file changed, 31 insertions(+), 7 deletions(-)
+> diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
+> index 655d8d10fe24..da78c5daf537 100644
+> --- a/Documentation/netlink/specs/ethtool.yaml
+> +++ b/Documentation/netlink/specs/ethtool.yaml
+> @@ -1526,6 +1526,22 @@ attribute-sets:
+>          name: hwtstamp-flags
+>          type: nest
+>          nested-attributes: bitset
+> +  -
+> +    name: pse-ntf
+> +    attr-cnt-name: __ethtool-a-pse-ntf-cnt
+> +    attributes:
+> +      -
+> +        name: unspec
+> +        type: unused
+> +        value: 0
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 2b52eb77e29cb..20c7049508484 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -1288,16 +1288,40 @@ ARM64:
- 
- User space may need to inject several types of events to the guest.
- 
-+Inject SError
-+~~~~~~~~~~~~~
-+
- Set the pending SError exception state for this VCPU. It is not possible to
- 'cancel' an Serror that has been made pending.
- 
--If the guest performed an access to I/O memory which could not be handled by
--userspace, for example because of missing instruction syndrome decode
--information or because there is no device mapped at the accessed IPA, then
--userspace can ask the kernel to inject an external abort using the address
--from the exiting fault on the VCPU. It is a programming error to set
--ext_dabt_pending after an exit which was not either KVM_EXIT_MMIO or
--KVM_EXIT_ARM_NISV. This feature is only available if the system supports
-+Inject SEA
-+~~~~~~~~~~
-+
-+- If the guest performed an access to I/O memory which could not be handled by
-+  userspace, for example because of missing instruction syndrome decode
-+  information or because there is no device mapped at the accessed IPA, then
-+  userspace can ask the kernel to inject an external abort using the address
-+  from the exiting fault on the VCPU.
-+
-+- If the guest consumed an uncorrectable memory error, and RAS extension in
-+  Trusted Firmware choosed to notify PE with SEA, KVM and core kernel may have
-+  to handle the memory poison consumption when host APEI was unable to claim
-+  the SEA. For the following type of faults, KVM sends SIGBUS to current thread
-+  (i.e. VMM in EL0) with si_code=BUS_OBJERR:
-+
-+  - Synchronous external abort
-+
-+  - Synchronous parity or ECC error on memory access
-+
-+  If the memory error's physical address is available, si_addr will be the
-+  error's host virtual address in VM's memory space; otherwise si_addr is zero.
-+  When userspace vCPU thread is interrupted by such SIGBUS, it can ask KVM to
-+  replay an external abort into guest.
-+
-+It is a programming error to set ext_dabt_pending after an exit which was not
-+KVM_EXIT_MMIO, not KVM_EXIT_ARM_NISV, and not interrupted by BUS_OBJERR SIGBUS.
-+
-+This feature is only available if the system supports
- KVM_CAP_ARM_INJECT_EXT_DABT. This is a helper which provides commonality in
- how userspace reports accesses for the above cases to guests, across different
- userspace implementations. Nevertheless, userspace can still emulate all Arm
--- 
-2.48.1.658.g4767266eb4-goog
+Please don't add the unused entries unless your code actually needs
+them. YNL will id real ones from 1 anyway.
+
+> +      -
+> +        name: header
+> +        type: nest
+> +        nested-attributes: header
+> +      -
+> +        name: events
+> +        type: nest
+> +        nested-attributes: bitset
+
+Do we really need a bitset here? Much more manual work to make a bitset
+than just a uint + enum with the bits. enum is much easier to use with
+YNL based user space, and it's more self-documenting than a list of bits
+buried in the source of the kernel.
+
+>  operations:
+>    enum-model: directional
+> @@ -2382,3 +2398,13 @@ operations:
+>            attributes: *tsconfig
+>          reply:
+>            attributes: *tsconfig
+> +    -
+> +      name: pse-ntf
+> +      doc: Notification for pse events.
+
+s/pse/PSE/
+
+> +
+> +      attribute-set: pse-ntf
+> +
+> +      event:
+> +        attributes:
+> +          - header
+> +          - events
 
