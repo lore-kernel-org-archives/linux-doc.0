@@ -1,181 +1,606 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBF21D6DB9
-	for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2025 15:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738921D5166;
+	Fri, 21 Feb 2025 15:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740152646; cv=none; b=a24TlUt9I0f9YtbUvsFGx8bu37CUzf3kxEgEf8+wHODFhUldysYkm3p4WfWzKPVSk1UERBAqPq2quH8fCXkmRX25pdYZKOCv/BcnnBWly9nGnF3OwvQc7XBDyofvm7ZKLnUfXo9SBIdXKKPEafh5Ojb6lYmdP5IIg/jYjk8Gcnw=
+	t=1740152932; cv=none; b=pR6ctoJyeOtY9SlPhPxrtDtJdCZTpZRBsuOJHN26J0PF+5nfjK/WLeTURxVVUt2ATFFhgNw1slYiNrsM0Kb2SH3Ru9Sjk145V74sbWqTLdh3hxi8tQZ/Pew1Gl3V2GUxW8aoxLNU8FdcHfIxyIkFrlzBieCaf9FmmGhIS6GfWP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740152646; c=relaxed/simple;
-	bh=Use1hekEXBWGcCHSVT/HLmfzA+7p4qm5yPPPoYaAO1c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oyCQCtWSXYtRTe9KrM37v0nnibpw6nFO9+9B8ulljG558gzvtFShNqI5bgwaTpoEAEezWdqMJCJLE7nnoWY+NkjD6sIvmPIwYmhwjp5PheZxjMCmwy58+Pv/D/ZW0UII0wBkyfyAXqdFnRTFkwcVtf//t26LUgA4uULAxQQfJ0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=himnq2U3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6pulrKPX; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=18OBlOYu; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=4USuFu1S; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1740152932; c=relaxed/simple;
+	bh=/pQn+untRKOqyYy54U8reIpuQvRJBkEP3a+yT8gAw5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U77Iqn5DrcMyYTaptsflODuDpKGP3Mkc8tUUe1W8UvBvHSAJrkT3kQQ1ld9RQLrPeZ0Cu51VX1YIws/JhkoXBZ2tjk1gMC+3zUu61I5YIbriPcwGe0gMbFXVWUCXtot48vZHD8zDOebgCTAiIMBNttX34KlhUqziz+2WJnktl8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cn1tr9zE; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="himnq2U3";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6pulrKPX";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="18OBlOYu";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="4USuFu1S"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D99261FEE1;
-	Fri, 21 Feb 2025 15:44:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1740152643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=89J+gFzemq6VyVaLWK19tL+TQuU0DSI2KT3Vwx2GxD0=;
-	b=himnq2U3vRGHzWAvSoCDHcKb5erjVBJ5KaUXr431GFnB415j2c/YLC8+xj5sV7WDpW86pC
-	KBY4rlcNxe8SgTXqdyCuS/q/JnAA4rOx3rpWshoLE+J+hpRocQjpt7jvsdByNtGxvdHPRB
-	IIVGcuzl0rfiE5vnNHKqBxBNOtSO9eQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1740152643;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=89J+gFzemq6VyVaLWK19tL+TQuU0DSI2KT3Vwx2GxD0=;
-	b=6pulrKPXlwsIEjlynvvcGntHkW7obmIXjZ2T49XSWBb4QylmjiFnsJLhIM0fBAVDiCi0RP
-	h35sqilj5S4u0WAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1740152642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=89J+gFzemq6VyVaLWK19tL+TQuU0DSI2KT3Vwx2GxD0=;
-	b=18OBlOYuZDKCuyTjmJIYeB7n1gKFH0KoT6chZ/ppRUL9N7Q5++MCh5Nd77xV74hy9EOk9G
-	EKt/a+XsfqGDxM9J3Xr8BUavtN5RLobE5Ln20FLwSuGxNGtE8U4T42sMQqXEQmAL1I9OCM
-	tPYs+VG09CXhGWsF3HgNqPlb1HEDGeE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1740152642;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=89J+gFzemq6VyVaLWK19tL+TQuU0DSI2KT3Vwx2GxD0=;
-	b=4USuFu1SLZPd6UybFwWkJ07tW+y3E+lUC+bHfoxAcs2NHH1wB6gMC6KQ/lrxJ/z6r6EjCq
-	V0XSMvpWh8/ks1AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9698B13806;
-	Fri, 21 Feb 2025 15:44:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iqBmJEKfuGftIQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 21 Feb 2025 15:44:02 +0000
-Message-ID: <7c907246-f634-4c0e-a5f0-6879366c4089@suse.cz>
-Date: Fri, 21 Feb 2025 16:44:02 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cn1tr9zE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740152930; x=1771688930;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/pQn+untRKOqyYy54U8reIpuQvRJBkEP3a+yT8gAw5Q=;
+  b=cn1tr9zEvCebzW+T8vClhDjA4fkWY6m9vgUkaCTjlkpebbHH9xJDmvUG
+   uc233PTyG528UC8zCGHz5buUiU31xDgV+YQkKGcRalhNoq4D0HxsWb8r0
+   epyrOWrlGoON59jnEVz41fK9mtMVC66eehcubeBfiFZn1fiqkcmLvik2z
+   u9JOdEWEwksvdduTP2CcLX5tLZ+IglC8KvFkDxRlG5iLxMhIwHyarShdY
+   GwOy3FxfV1l8GwKHs2W2vi5GH5e3a9899SSQSufywLnBjgMtXZtLQ3qcv
+   U7hsiRfk+joy7s9s7gt0G+dCmdarbiPKvLkwCQKGtqBcR6ab/fv7z9GZF
+   A==;
+X-CSE-ConnectionGUID: uQkMEYffQMy6C2PikRk/ig==
+X-CSE-MsgGUID: BV2DXpGmR2yUC3D1lJ9U4Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="66340633"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="66340633"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 07:48:49 -0800
+X-CSE-ConnectionGUID: aKgu2y0aSXKor3GwjMXldw==
+X-CSE-MsgGUID: +6uVVKDGTmWOVVLDae7rZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="120022214"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 07:48:42 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tlVGY-0000000DgLs-0KyF;
+	Fri, 21 Feb 2025 17:48:38 +0200
+Date: Fri, 21 Feb 2025 17:48:37 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>,
+	Atharva Tiwari <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v3 3/3] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Message-ID: <Z7igVXqvRYTVFpXU@smile.fi.intel.com>
+References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+ <8F522D41-5417-467E-B9D3-7D9FC24AE536@live.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 18/18] docs/mm: document latest changes to vm_lock
-Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
- lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com,
- hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
- mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
- oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
- dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
- lokeshgidra@google.com, minchan@google.com, jannh@google.com,
- shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
- klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kernel-team@android.com
-References: <20250213224655.1680278-1-surenb@google.com>
- <20250213224655.1680278-19-surenb@google.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- EP+ylKVEKb0Q2A==
-In-Reply-To: <20250213224655.1680278-19-surenb@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,oracle.com,gmail.com,suse.com,cmpxchg.org,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8F522D41-5417-467E-B9D3-7D9FC24AE536@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 2/13/25 23:46, Suren Baghdasaryan wrote:
-> Change the documentation to reflect that vm_lock is integrated into vma
-> and replaced with vm_refcnt.
-> Document newly introduced vma_start_read_locked{_nested} functions.
+On Fri, Feb 21, 2025 at 11:37:57AM +0000, Aditya Garg wrote:
+> From: Kerem Karabay <kekrby@gmail.com>
 > 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Reviewed-by: Liam R. Howlett <Liam.Howlett@Oracle.com>
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> The Touch Bars found on x86 Macs support two USB configurations: one
+> where the device presents itself as a HID keyboard and can display
+> predefined sets of keys, and one where the operating system has full
+> control over what is displayed.
+> 
+> This commit adds support for the display functionality of the second
+> configuration. Functionality for the first configuration has been
+> merged in the HID tree.
+> 
+> Note that this driver has only been tested on T2 Macs, and only includes
+> the USB device ID for these devices. Testing on T1 Macs would be
+> appreciated.
+> 
+> Credit goes to Ben (Bingxing) Wang on GitHub [1] for reverse engineering
+> most of the protocol.
+> 
+> [1]: https://github.com/imbushuo/DFRDisplayKm
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+Use Link tag for this.
+
+> +config DRM_APPLETBDRM
+> +	tristate "DRM support for Apple Touch Bars"
+> +	depends on DRM && USB && MMU
+
+I dunno if tiny is not only about SPI panels, would be nice to hear somebody
+from DRM to confirm that USB ones are okay to have.
+
+> +	select DRM_GEM_SHMEM_HELPER
+> +	select DRM_KMS_HELPER
+> +	select HID_APPLETB_BL
+> +	select HID_MULTITOUCH
+> +	help
+> +	  Say Y here if you want support for the display of Touch Bars on x86
+> +	  MacBook Pros.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called appletbdrm.
+
+...
+
+> +/*
+> + * Apple Touch Bar DRM Driver
+> + *
+> + * Copyright (c) 2023 Kerem Karabay <kekrby@gmail.com>
+
+No changes in 2024/2025?
+
+> + */
+
+...
+
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+
+Why? Don't you have a struct device available?
+
+...
+
+> +#include <linux/module.h>
+> +#include <linux/unaligned.h>
+> +#include <linux/usb.h>
+
+This is way too little list of what you are actually using, please consider
+IWYU principle in place.
+
+...
+
+> +#define __APPLETBDRM_MSG_STR4(str4)	((__le32 __force)((str4[0] << 24) | (str4[1] << 16) | (str4[2] << 8) | str4[3]))
+
+Reinventing a wheel from get_unaligned_be32() AFAICS.
+
+...
+
+> +#define drm_to_adev(_drm)		container_of(_drm, struct appletbdrm_device, drm)
+
++ container_of.h
+
+...
+
+> +struct appletbdrm_msg_request_header {
+> +	__le16 unk_00;
+
++ types.h
+
+> +	__le16 unk_02;
+> +	__le32 unk_04;
+> +	__le32 unk_08;
+> +	__le32 size;
+> +} __packed;
+
+Why __packed? Please explain and justify for all the data types that are marked
+with this attribute.
+
+...
+
+> +static int appletbdrm_send_request(struct appletbdrm_device *adev,
+> +				   struct appletbdrm_msg_request_header *request, size_t size)
+> +{
+> +	struct usb_device *udev = adev_to_udev(adev);
+> +	struct drm_device *drm = &adev->drm;
+> +	int ret, actual_size;
+> +
+> +	ret = usb_bulk_msg(udev, usb_sndbulkpipe(udev, adev->out_ep),
+> +			   request, size, &actual_size, APPLETBDRM_BULK_MSG_TIMEOUT);
+> +	if (ret) {
+> +		drm_err(drm, "Failed to send message (%d)\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	if (actual_size != size) {
+> +		drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
+> +			actual_size, size);
+> +		return -EIO;
+> +	}
+> +
+> +	return ret;
+
+	return 0;
+
+Or you are expecting something else here?
+
+> +}
+
+...
+
+> +static int appletbdrm_read_response(struct appletbdrm_device *adev,
+> +				    struct appletbdrm_msg_response_header *response,
+> +				    size_t size, u32 expected_response)
+> +{
+> +	struct usb_device *udev = adev_to_udev(adev);
+> +	struct drm_device *drm = &adev->drm;
+> +	int ret, actual_size;
+> +	bool readiness_signal_received = false;
+> +
+> +retry:
+> +	ret = usb_bulk_msg(udev, usb_rcvbulkpipe(udev, adev->in_ep),
+> +			   response, size, &actual_size, APPLETBDRM_BULK_MSG_TIMEOUT);
+> +	if (ret) {
+> +		drm_err(drm, "Failed to read response (%d)\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	/*
+> +	 * The device responds to the first request sent in a particular
+> +	 * timeframe after the USB device configuration is set with a readiness
+> +	 * signal, in which case the response should be read again
+> +	 */
+> +	if (response->msg == APPLETBDRM_MSG_SIGNAL_READINESS) {
+> +		if (!readiness_signal_received) {
+> +			readiness_signal_received = true;
+> +			goto retry;
+> +		}
+> +
+> +		drm_err(drm, "Encountered unexpected readiness signal\n");
+> +		return -EIO;
+> +	}
+> +
+> +	if (actual_size != size) {
+> +		drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
+> +			actual_size, size);
+> +		return -EIO;
+> +	}
+> +
+> +	if (response->msg != expected_response) {
+> +		drm_err(drm, "Unexpected response from device (expected %p4ch found %p4ch)\n",
+> +			&expected_response, &response->msg);
+> +		return -EIO;
+
+For three different cases the same error code, can it be adjusted more to the
+situation?
+
+> +	}
+> +
+> +	return 0;
+> +}
+
+> +static int appletbdrm_send_msg(struct appletbdrm_device *adev, u32 msg)
+> +{
+> +	struct appletbdrm_msg_simple_request *request;
+> +	int ret;
+> +
+> +	request = kzalloc(sizeof(*request), GFP_KERNEL);
+
++ slab.h
+
+> +	if (!request)
+> +		return -ENOMEM;
+
++ err.h
+
+> +
+> +	request->header.unk_00 = cpu_to_le16(2);
+> +	request->header.unk_02 = cpu_to_le16(0x1512);
+> +	request->header.size = cpu_to_le32(sizeof(*request) - sizeof(request->header));
+> +	request->msg = msg;
+> +	request->size = request->header.size;
+> +
+> +	ret = appletbdrm_send_request(adev, &request->header, sizeof(*request));
+> +
+> +	kfree(request);
+> +
+> +	return ret;
+> +}
+
+...
+
+> +	return drm_rect_width(rect) * drm_rect_height(rect) * (APPLETBDRM_BITS_PER_PIXEL / 8);
+
+BITS_TO_BYTES() ? Will need bits.h IIRC.
+
+...
+
+> +static int appletbdrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
+> +						   struct drm_atomic_state *state)
+> +{
+> +	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
+> +	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
+> +	struct drm_crtc *new_crtc = new_plane_state->crtc;
+> +	struct drm_crtc_state *new_crtc_state = NULL;
+> +	struct appletbdrm_plane_state *appletbdrm_state = to_appletbdrm_plane_state(new_plane_state);
+> +	struct drm_atomic_helper_damage_iter iter;
+> +	struct drm_rect damage;
+> +	size_t frames_size = 0;
+> +	size_t request_size;
+> +	int ret;
+> +
+> +	if (new_crtc)
+> +		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_crtc);
+> +
+> +	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
+> +						  DRM_PLANE_NO_SCALING,
+> +						  DRM_PLANE_NO_SCALING,
+> +						  false, false);
+> +	if (ret)
+> +		return ret;
+
+> +	else if (!new_plane_state->visible)
+
+Why 'else'? It's redundant.
+
+> +		return 0;
+> +
+> +	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, new_plane_state);
+> +	drm_atomic_for_each_plane_damage(&iter, &damage) {
+> +		frames_size += struct_size((struct appletbdrm_frame *)0, buf, rect_size(&damage));
+> +	}
+> +
+> +	if (!frames_size)
+> +		return 0;
+> +
+> +	request_size = ALIGN(sizeof(struct appletbdrm_fb_request) +
+> +		       frames_size +
+> +		       sizeof(struct appletbdrm_fb_request_footer), 16);
+
+Missing header for ALIGN().
+
+But have you checked overflow.h for the possibility of using some helper macros
+from there? This is what should be usually done for k*alloc() in the kernel.
+
+> +	appletbdrm_state->request = kzalloc(request_size, GFP_KERNEL);
+> +
+> +	if (!appletbdrm_state->request)
+> +		return -ENOMEM;
+> +
+> +	appletbdrm_state->response = kzalloc(sizeof(*appletbdrm_state->response), GFP_KERNEL);
+> +
+> +	if (!appletbdrm_state->response)
+> +		return -ENOMEM;
+> +
+> +	appletbdrm_state->request_size = request_size;
+> +	appletbdrm_state->frames_size = frames_size;
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int appletbdrm_flush_damage(struct appletbdrm_device *adev,
+> +				   struct drm_plane_state *old_state,
+> +				   struct drm_plane_state *state)
+> +{
+> +	struct appletbdrm_plane_state *appletbdrm_state = to_appletbdrm_plane_state(state);
+> +	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
+> +	struct appletbdrm_fb_request_response *response = appletbdrm_state->response;
+> +	struct appletbdrm_fb_request_footer *footer;
+> +	struct drm_atomic_helper_damage_iter iter;
+> +	struct drm_framebuffer *fb = state->fb;
+> +	struct appletbdrm_fb_request *request = appletbdrm_state->request;
+> +	struct drm_device *drm = &adev->drm;
+> +	struct appletbdrm_frame *frame;
+> +	u64 timestamp = ktime_get_ns();
+> +	struct drm_rect damage;
+> +	size_t frames_size = appletbdrm_state->frames_size;
+> +	size_t request_size = appletbdrm_state->request_size;
+> +	int ret;
+> +
+> +	if (!frames_size)
+> +		return 0;
+> +
+> +	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+> +	if (ret) {
+> +		drm_err(drm, "Failed to start CPU framebuffer access (%d)\n", ret);
+
+> +		goto end_fb_cpu_access;
+
+Strange. Is it for real that this API requires to be called in both cases for
+success and for an error?
+
+> +	}
+> +
+> +	request->header.unk_00 = cpu_to_le16(2);
+> +	request->header.unk_02 = cpu_to_le16(0x12);
+> +	request->header.unk_04 = cpu_to_le32(9);
+> +	request->header.size = cpu_to_le32(request_size - sizeof(request->header));
+> +	request->unk_10 = cpu_to_le16(1);
+
+> +	request->msg_id = timestamp & 0xff;
+
+Why ' & 0xff'?
+
+> +	frame = (struct appletbdrm_frame *)request->data;
+> +
+> +	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
+> +	drm_atomic_for_each_plane_damage(&iter, &damage) {
+> +		struct drm_rect dst_clip = state->dst;
+> +		struct iosys_map dst = IOSYS_MAP_INIT_VADDR(frame->buf);
+> +		u32 buf_size = rect_size(&damage);
+> +
+> +		if (!drm_rect_intersect(&dst_clip, &damage))
+> +			continue;
+> +
+> +		/*
+> +		 * The coordinates need to be translated to the coordinate
+> +		 * system the device expects, see the comment in
+> +		 * appletbdrm_setup_mode_config
+> +		 */
+> +		frame->begin_x = cpu_to_le16(damage.y1);
+> +		frame->begin_y = cpu_to_le16(adev->height - damage.x2);
+> +		frame->width = cpu_to_le16(drm_rect_height(&damage));
+> +		frame->height = cpu_to_le16(drm_rect_width(&damage));
+> +		frame->buf_size = cpu_to_le32(buf_size);
+> +
+> +		switch (fb->format->format) {
+> +		case DRM_FORMAT_XRGB8888:
+> +			drm_fb_xrgb8888_to_bgr888(&dst, NULL, &shadow_plane_state->data[0], fb, &damage, &shadow_plane_state->fmtcnv_state);
+> +			break;
+> +		default:
+> +			drm_fb_memcpy(&dst, NULL, &shadow_plane_state->data[0], fb, &damage);
+> +			break;
+> +		}
+> +
+> +		frame = (void *)frame + struct_size(frame, buf, buf_size);
+
++ overflow.h
+
+> +	}
+> +
+> +	footer = (struct appletbdrm_fb_request_footer *)&request->data[frames_size];
+> +
+> +	footer->unk_0c = cpu_to_le32(0xfffe);
+> +	footer->unk_1c = cpu_to_le32(0x80001);
+> +	footer->unk_34 = cpu_to_le32(0x80002);
+> +	footer->unk_4c = cpu_to_le32(0xffff);
+> +	footer->timestamp = cpu_to_le64(timestamp);
+> +
+> +	ret = appletbdrm_send_request(adev, &request->header, request_size);
+> +	if (ret)
+> +		goto end_fb_cpu_access;
+> +
+> +	ret = appletbdrm_read_response(adev, &response->header, sizeof(*response),
+> +				       APPLETBDRM_MSG_UPDATE_COMPLETE);
+> +	if (ret)
+> +		goto end_fb_cpu_access;
+> +
+> +	if (response->timestamp != footer->timestamp) {
+> +		drm_err(drm, "Response timestamp (%llu) doesn't match request timestamp (%llu)\n",
+> +			le64_to_cpu(response->timestamp), timestamp);
+> +		goto end_fb_cpu_access;
+> +	}
+> +
+> +end_fb_cpu_access:
+> +	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+> +
+> +	return ret;
+> +}
+
+...
+
+> +static void appletbdrm_primary_plane_reset(struct drm_plane *plane)
+> +{
+> +	struct appletbdrm_plane_state *appletbdrm_state;
+> +
+> +	WARN_ON(plane->state);
+
++ bug.h
+
+> +	appletbdrm_state = kzalloc(sizeof(*appletbdrm_state), GFP_KERNEL);
+> +	if (!appletbdrm_state)
+> +		return;
+> +
+> +	__drm_gem_reset_shadow_plane(plane, &appletbdrm_state->base);
+> +}
+
+...
+
+> +static int appletbdrm_setup_mode_config(struct appletbdrm_device *adev)
+> +{
+> +	struct drm_connector *connector = &adev->connector;
+> +	struct drm_plane *primary_plane;
+> +	struct drm_crtc *crtc;
+> +	struct drm_encoder *encoder;
+> +	struct drm_device *drm = &adev->drm;
+> +	struct device *dev = adev->dev;
+> +	int ret;
+> +
+> +	ret = drmm_mode_config_init(drm);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to initialize mode configuration\n");
+
++ dev_printk.h
+
+> +	primary_plane = &adev->primary_plane;
+> +	ret = drm_universal_plane_init(drm, primary_plane, 0,
+> +				       &appletbdrm_primary_plane_funcs,
+> +				       appletbdrm_primary_plane_formats,
+> +				       ARRAY_SIZE(appletbdrm_primary_plane_formats),
+
++ array_size.h
+
+> +				       NULL,
+> +				       DRM_PLANE_TYPE_PRIMARY, NULL);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to initialize universal plane object\n");
+> +	drm_plane_helper_add(primary_plane, &appletbdrm_primary_plane_helper_funcs);
+> +	drm_plane_enable_fb_damage_clips(primary_plane);
+> +
+> +	crtc = &adev->crtc;
+> +	ret = drm_crtc_init_with_planes(drm, crtc, primary_plane, NULL,
+> +					&appletbdrm_crtc_funcs, NULL);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to initialize CRTC object\n");
+> +	drm_crtc_helper_add(crtc, &appletbdrm_crtc_helper_funcs);
+> +
+> +	encoder = &adev->encoder;
+> +	ret = drm_encoder_init(drm, encoder, &appletbdrm_encoder_funcs,
+> +			       DRM_MODE_ENCODER_DAC, NULL);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to initialize encoder\n");
+> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> +
+> +	/*
+> +	 * The coordinate system used by the device is different from the
+> +	 * coordinate system of the framebuffer in that the x and y axes are
+> +	 * swapped, and that the y axis is inverted; so what the device reports
+> +	 * as the height is actually the width of the framebuffer and vice
+> +	 * versa
+> +	 */
+> +	drm->mode_config.min_width = 0;
+> +	drm->mode_config.min_height = 0;
+> +	drm->mode_config.max_width = max(adev->height, DRM_SHADOW_PLANE_MAX_WIDTH);
+> +	drm->mode_config.max_height = max(adev->width, DRM_SHADOW_PLANE_MAX_HEIGHT);
+> +	drm->mode_config.preferred_depth = APPLETBDRM_BITS_PER_PIXEL;
+> +	drm->mode_config.funcs = &appletbdrm_mode_config_funcs;
+> +
+> +	adev->mode = (struct drm_display_mode) {
+
+Why do you need a compound literal here? Perhaps you want to have that to be
+done directly in DRM_MODE_INIT()?
+
+> +		DRM_MODE_INIT(60, adev->height, adev->width,
+> +			      DRM_MODE_RES_MM(adev->height, 218),
+> +			      DRM_MODE_RES_MM(adev->width, 218))
+> +	};
+> +
+> +	ret = drm_connector_init(drm, connector,
+> +				 &appletbdrm_connector_funcs, DRM_MODE_CONNECTOR_USB);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to initialize connector\n");
+> +
+> +	drm_connector_helper_add(connector, &appletbdrm_connector_helper_funcs);
+> +
+> +	ret = drm_connector_set_panel_orientation(connector,
+> +						  DRM_MODE_PANEL_ORIENTATION_RIGHT_UP);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to set panel orientation\n");
+> +
+> +	connector->display_info.non_desktop = true;
+> +	ret = drm_object_property_set_value(&connector->base,
+> +					    drm->mode_config.non_desktop_property, true);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to set non-desktop property\n");
+> +
+> +	ret = drm_connector_attach_encoder(connector, encoder);
+> +
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to initialize simple display pipe\n");
+> +
+> +	drm_mode_config_reset(drm);
+> +
+> +	return 0;
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
