@@ -1,161 +1,130 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 407251E9905;
-	Fri, 21 Feb 2025 16:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D709244EAD
+	for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2025 17:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740156463; cv=none; b=kq9zkhUa60+R9usAn9c03SDjRKtB6bxTOcgmA85WPAVbMmexnP4mcWsbmo7Q6TBdFHtsDSq171s+F4c1xClb6gL8H2WFJ+N75VJ2gE7r4Zra6dwn9pRpguiw1oIIB3Rg1FfvC3ZSeG+5uBENjJNBdykxMuMo4V3SekxanKbmnAs=
+	t=1740157377; cv=none; b=PV1r9qf3ABjsSF5zEvXtA2R57BK0kssY4NlvgRvOZuRuUk8lrSNnfEj2bZgkVpRIZ5F7+1fmvccvrIF5urY84TGSpJgdLyFnV88CNSpDbBBXZ2/yaJXVlQgS9GOfenfqYJgl+T6peEWJoCsN904N2op7ixUHLDD9ixTsTEqdui0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740156463; c=relaxed/simple;
-	bh=hjZm/lTADPa3gditXKyT4WjZDJVx/vyCEtcp7LAsrGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iW5BL6BkpQylRymDI788ORYZgK8lGQ1Uppja40yCzGOwULmFoshto7zUh2XoQnAE3lOWCkJUMpbHDKo8hDYxt2FFPNlXp0cjkAHZU33NBIJWeu5R3eMIWcf1/8KcBaCWVDPCsdkELXl5OtwdmhUwagKYYNmmiq8TjoL1IErkrZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFAD2168F;
-	Fri, 21 Feb 2025 08:47:57 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2EDB13F5A1;
-	Fri, 21 Feb 2025 08:47:36 -0800 (PST)
-Date: Fri, 21 Feb 2025 16:47:33 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Peter Newman <peternewman@google.com>, "Moger, Babu" <bmoger@amd.com>,
-	Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	tony.luck@intel.com, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
-	rostedt@goodmis.org, xiongwei.song@windriver.com,
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Message-ID: <Z7iuJdfgYNCeytJE@e133380.arm.com>
-References: <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com>
- <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
- <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com>
- <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
- <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com>
- <CALPaoCj1TH+GN6+dFnt5xuN406u=tB-8mj+UuMRSm5KWPJW2wg@mail.gmail.com>
- <2b5a11e3-ee19-47ba-b47e-b7de2818f237@intel.com>
- <Z7dccLOTPzySYTXL@e133380.arm.com>
- <Z7dqXlOMsw7Kb8F2@e133380.arm.com>
- <eb435a64-70d4-4821-908d-686243fec7a6@intel.com>
+	s=arc-20240116; t=1740157377; c=relaxed/simple;
+	bh=CSW10IqiNdAkspr2IgyTQkreJmoj1lkd5Vs5Tjhn4Lk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qB3ItwK1Mz8XuZAHmwFzsfUrpXDB5hFa4SA91LeoYtK7F231H+kO0pQ8wo7L1d0aFlXE+Jd+fFayt5m1k1Bp1HsqdFGC8KhcbSlHxdqucUrYcLHtP7QLK2yhRO7QKDyLUDvLaZoXLk28aalEVCddVCKjxJQCjI9MADFdQj3j3AE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QwFh39Je; arc=none smtp.client-ip=209.85.218.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QwFh39Je"
+Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-abbda4349e9so340026766b.0
+        for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2025 09:02:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1740157373; x=1740762173; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wDByaDv2MeIoDkWDRCtDD68r/JuubevBl9+EY++FX5Y=;
+        b=QwFh39JeqOC/L5XL2f66VTxmJj5cJEme7AAXfK7OIAhcQzpFmYaqe3QFX4KX9mGDFh
+         qbNHWeHSYk6JhstjFSsNC7K6aM04+ogSFIoYYv2WfyvLDN3R0y7RKg46xtpVKtFm3Xue
+         YhexQFdNPaYEasZdUdakA6iFKkyIbOPLzG0JY/pZnB2aD+buf4yRG0IidRVF42tm24Dw
+         TUtZe0CkwRjyZnMzSgxJy2EBRcxkF+V9W/cZoYDVJGAytYxVEMG9s74v/+mUwPc2dXKg
+         TIXRy3MEu+voy5q4afxEUFUvSf8dtozHP/qkecmN7AQigSGElxDfXk444p+C5Dn8zw7O
+         iFGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740157373; x=1740762173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wDByaDv2MeIoDkWDRCtDD68r/JuubevBl9+EY++FX5Y=;
+        b=WObJqZd6Atkc4wmbdptlS16mvu+gFZsJmGWULmTOQw0RsjvGTiQyTAcrrB3HO4IORF
+         vHTtWNr9Sb1oWiwZX5vs18BPHz64L67RylK0wASu0PuGC82UI8ZE7G3F3Lq2/a9VrgTW
+         eN4l2tZ3b6Tsr+KMsJ3X7dQBV2mV0qCMtByPcTHvREtDhlEHwnXafvyqRT7oDgFUawtS
+         hmKLh0A7HbNH6yuBfZOkxqTHnOp5WKzvzu8+mZiGbNydfKP7lUUY6PNDm4jCmPD+x/DQ
+         FvN2GKBxN8XwGnUKgHnoDDssOUIAoFU/h1QkqkTHBouiWsGgZMP88LaGBNdRvcQYu2Hp
+         k0TA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8zHWGpH9/xzlm7zmmUCZhPb+rkqyjqKINR9TMV37C8waSubX259WBhm7XZLuGcVOf5eEqM6Vcr2U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyP7368ZxXkaHf+HQf7qz7rrEqqnEB5qQMZgL7w9JIUjuinOJhZ
+	JwfW0QuTWyQiEOYaGJ88RlD0zSb5bK12coSg6hqKETuA9L+KfBBC/w0wshA/Pbc=
+X-Gm-Gg: ASbGnctcKrvUlNlNON7aVJYwlC8wHlXf5KY0fPEpzceRr0uIpTHyMC1yB8kaUq/qnNC
+	XSNkw72uDn/pZ9vdH8MEHu6Lo0ZVeR03ORS3HYBi3i3xBc0e+CoSXb8CqMM60dC90buqG+VCzC5
+	23njCmAk2mfFCL07+LixjN1+a3JFWaiUKGUbEPXweaPIAZW6ymbSPa0BgyF7ZMg53QRV+4rqePc
+	NQpvnxi2EEEYURIzdA2Zcq8VJaXJrsBkXYikJzxVnk36bnARgHaFjPqI/wExn9tI9r2eHE0HFo4
+	TghgfmQ2Zy0SYs3wsiKwXuyoGHFP
+X-Google-Smtp-Source: AGHT+IGfcJwK8DsLRDynNMYZTxbIxb0l+jqrdkXEpzFnvtKSRwocRJ46u22XwIA9pSi82Z9VX3nCQA==
+X-Received: by 2002:a17:907:7855:b0:abb:b092:dade with SMTP id a640c23a62f3a-abc0de0de6dmr329918266b.38.1740157373377;
+        Fri, 21 Feb 2025 09:02:53 -0800 (PST)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb8eea4d65sm1105668766b.161.2025.02.21.09.02.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Feb 2025 09:02:52 -0800 (PST)
+From: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
+To: Christian Brauner <brauner@kernel.org>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Kees Cook <kees@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Oleg Nesterov <oleg@redhat.com>
+Subject: [PATCH 0/2] Alternative "pid_max" for 32-bit userspace
+Date: Fri, 21 Feb 2025 18:02:47 +0100
+Message-ID: <20250221170249.890014-1-mkoutny@suse.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eb435a64-70d4-4821-908d-686243fec7a6@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Reinette,
+pid_max is sort of a legacy limit (its value and partially the concept
+too, given the existence of pids cgroup controller).
+It is tempting to make the pid_max value part of a pid namespace to
+provide compat environment for 32-bit applications [1].  On the other
+hand, it provides yet another mechanism for limitation of task count.
+Even without namespacing of pid_max value, the configuration of
+conscious limit is confusing for users [2].
 
-On Thu, Feb 20, 2025 at 10:36:18AM -0800, Reinette Chatre wrote:
-> Hi Dave,
-> 
-> On 2/20/25 9:46 AM, Dave Martin wrote:
-> > Hi again,
-> > 
-> > On Thu, Feb 20, 2025 at 04:46:40PM +0000, Dave Martin wrote:
+This series builds upon the idea of restricting the number (amount) of
+tasks by pids controller and ensuring that number (pid) never exceeds
+the amount of tasks. This would not currently work out of the box
+because next-fit pid allocation would continue to assign numbers (pids)
+higher than the actual amount (there would be gaps in the lower range of
+the interval). The patch 2/2 implements this idea by extending semantics
+of ns_last_pid knob to allow first-fit numbering. (The implementation
+has clumsy ifdefery, which can might be dropped since it's too
+x86-centric.)
 
-[...]
+The patch 1/2 is a mere revert to simplify pid_max to one global limit
+only.
 
-> > Having taken a quick look at that now, this all seems to duplicate
-> > perf's design journey (again).
-> > 
-> > "rate" events make some sense.  The perf equivalent is to keep an
-> > accumulated count of the amount of time a counter has been assigned to
-> > an event, and another accumulated count of the events counted by the
-> > counter during assignment.  Only userspace knows what it wants to do
-> > with this information: perf exposes the raw accumulated counts.
-> > 
-> > Perf events can be also pinned so that they are prioritised for
-> > assignment to counters; that sounds a lot like the regular, non-shared
-> > resctrl counters.
-> > 
-> > 
-> > Playing devil's advocate:
-> > 
-> > It does feel like we are doomed to reinvent perf if we go too far down
-> > this road...
-> > 
-> >> If we split the file, it will be more closely aligned with the design
-> >> of the rest of the resctrlfs interface.
-> >>
-> >> OTOH, the current interface seems workable and I think the file size
-> >> issue can be addressed without major re-engineering.
-> >>
-> >> So, from my side, I would not consider the current interface design
-> >> a blocker.
-> > 
-> > ...so, drawing a hard line around the use cases that we intend to
-> > address with this interface and avoiding feature creep seems desirable.
-> 
-> This is exactly what I am trying to do ... to understand what use cases
-> the interface is expected to support.
-> 
-> You have mentioned a couple of times now that this interface is sufficient but
-> at the same time you hinted at some features from MPAM that I do not see
-> possible to accommodate with this interface.
+(I pruned Cc: list from scripts/get_maintainer.pl for better focus, feel
+free to bounce as necessary.)
 
-It's kind of both.
+[1] https://lore.kernel.org/r/20241122132459.135120-1-aleksandr.mikhalitsyn@canonical.com/
+[2] https://lore.kernel.org/r/bnxhqrq7tip6jl2hu6jsvxxogdfii7ugmafbhgsogovrchxfyp@kagotkztqurt/
 
-I think the interface is sufficient to be useful, and therefore has
-value.
+Michal Koutný (2):
+  Revert "pid: allow pid_max to be set per pid namespace"
+  pid: Optional first-fit pid allocation
 
-The problem being addressed here (shortage of counters) is fully
-relevant to MPAM (at last on some hardware).
-
-Any architecture may define new metrics and types of event that can be
-counted, and they're not going to match up exactly between arches -- so
-I don't think we can expect everything to fit perfectly within a
-generic interface.  But having a generic interface is still useful for
-making common features convenient to use.
-
-So the interface is useful but not universal, but that doesn't feel
-like a bug.
-
-Hopefully that makes my position a bit clearer.
-
-> > resctrlfs is already in the wild, so providing reasonable baseline
-> > compatiblity with that interface for ABMC hardware is a sensible goal.
-> > The current series does that.
-> > 
-> > But I wonder how much additional functionality we should really be
-> > adding via the mbm_assign_control interface, once this series is
-> > settled.
-> 
-> Are you speculating that MPAM counters may not make use of this interface?
-> 
-> Reinette
-
-No, I think it makes sense for MPAM to follow this interface, as least
-as far as what has been proposed so far here.
-
-I think James got his updated rebase working. [1]
+ Documentation/admin-guide/sysctl/kernel.rst |   2 +
+ include/linux/pid.h                         |   3 +
+ include/linux/pid_namespace.h               |  11 +-
+ kernel/pid.c                                | 137 +++-----------------
+ kernel/pid_namespace.c                      |  71 +++++-----
+ kernel/sysctl.c                             |   9 ++
+ kernel/trace/pid_list.c                     |   2 +-
+ kernel/trace/trace.h                        |   2 +
+ kernel/trace/trace_sched_switch.c           |   2 +-
+ 9 files changed, 70 insertions(+), 169 deletions(-)
 
 
-perf support would be for the future if we do it, but the ABMC
-interface may be a useful starting point anyway, because it allows
-counters to be assigned explicitly -- that provides a natural way to
-hand over some counters to perf, either because that interface may be a
-more natural fit for what the user is trying to do, or perhaps to count
-weird, platform-specific event types that do not merit the effort of
-integration into resctrlfs proper.
+base-commit: 334426094588f8179fe175a09ecc887ff0c75758
+-- 
+2.48.1
 
-Does that make sense?
-
-Cheers
----Dave
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/log/?h=mpam/abmc/v11
