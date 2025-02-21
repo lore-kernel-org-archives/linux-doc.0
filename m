@@ -1,435 +1,362 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F20B20B7EC;
-	Fri, 21 Feb 2025 15:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740150685; cv=fail; b=Om23tu5WLM29jf/goMsR9LiTgfSTsYkNvmHixcXjbHjHQbzncIj74P1UvUE2hO/36S+03cqfZEE69wZL4i648WqkS5/BUxdXiDiYcl/Uj9Msgcvs8Hz2IcOdzpMMN5Mik6CpETQmjeQnPyk8g7vCg1MdGTOjgwd7P3S5BsPmvf0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740150685; c=relaxed/simple;
-	bh=fd/EUfQzO1MYA5pF2e4MIb/LCkyfuLlGFFcNqZr8pYo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=sNAPnIqNlS3vD03ABqg3hkDVBRXwmTU9foBSG9nd3BCZFeE05wbdkbGZxwjEJXi0IjARTHSLO2us1iWGA8gm3fNRArAr/wdDkrdnV4kF6KieXEv5VasDLflhN+gGkvUHseyWfkk/JzllNSbysX1Tm6QLHuS6XhAi50LnIt8TQiE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcf06MDP; arc=fail smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0942040A3;
+	Fri, 21 Feb 2025 15:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740150911; cv=none; b=i0BkylgG+G3QpeweJ//NjNuwL5GmonnK/Q5n7NgNcJe+AEgda2i8ArCNI5/2lcxPjFjlh7QFr+QT6y+gx8szEndS9a5HrSAAlX4bbT9+vf/vmbTxotk5G6dHYMx4QmcPJFh91loqNI7hwRt8c1DfKh0AaKFczVlDg244Ngsbtmk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740150911; c=relaxed/simple;
+	bh=LZZDIn882+du5zwGJiIkefHV1QQaICX9MW9PEMXgods=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HKazK1uDm+VVV98U5tdXlWILSGWlDj2upFkLdNcWVfhhUOGPnDdiFPxcEEqmZgY3y7RcMgF6gpoi8gDqH7G4lygSujeYL+pKpH6/SwEEGdqYVuy3m8Jt0Un1AwvoSwEkx3jU2xu/h3Hbt1uM7QHXCYUwU3VjQstAa7Dq5AgdHaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLG7Jsfh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcf06MDP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740150684; x=1771686684;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=fd/EUfQzO1MYA5pF2e4MIb/LCkyfuLlGFFcNqZr8pYo=;
-  b=jcf06MDPyktQI3KXEG5pgHvqnbFQWLFXiNwNrXdCrlp1NtmHmtyWHy31
-   KEwz09ougwD1pkimGJQGr1L5QU2IoWZ19NEvreRAQU/u8kY5k0t2j3qDM
-   /QVpvxOF6R63ecfjqOp3eVVRoAvIdFiqUyVjD5pdWn8BzvN5ZqmXrwudk
-   q9TnZZVBV/6fAav44K9uPTK27PDPa1scjN5fabGoDiqQSk3YiQbdMFBxE
-   WebOsP1/lNsphnzuC9y276R0+hxBDkfFdvQS23azSKiyDJFw7no1zqnGV
-   grM15867dex9xHBiDDE3GQp8lAFqNb+XpohhUqCfloexnMNdaPkY5Hk5/
-   w==;
-X-CSE-ConnectionGUID: xLVEDkH7RDumB+XBAIsgcw==
-X-CSE-MsgGUID: qvBI0qCxRzmBL0kqh4gb5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41175743"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="41175743"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 07:11:22 -0800
-X-CSE-ConnectionGUID: nnu17HrDTymJEDfzMMjVbQ==
-X-CSE-MsgGUID: 9N36K1q/QNKPo2RLpqz8QQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="120375167"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 07:11:20 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Fri, 21 Feb 2025 07:11:18 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Fri, 21 Feb 2025 07:11:18 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.170)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Fri, 21 Feb 2025 07:11:16 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ac1wYruhWL5F7Xw93BpoA0giuSGPLpjJXl2rohcOysnAcw8AmN4RckTrIwGER4ijwG7+jJ/bfVmKJbUgOj7BO6xF9CDJgxfbUJkDO4UiU3lbUb+KmYm/QoJrwaK99Raz1XYTSy1nSzo6KnFxFB8XFuwnmo3hW8/lzNndJo2g5oUReSWES5aZihl6mBVWPSqaArUkcXQyPMtd/icz6r67vOr8nt77zDdyYuc0WgWLIIRE+JBteRmj2SUdhfGYAInYNpayQD3RmkktEd2GDzIVvA9X9v5fzQRtpJkPpXa+0B3OypLHNzn2BWgpG/qY31CUzimMtwFezO1aXhUVnFDn+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=br7WMH+i5lpWuD59nMIsHjIWzgKipYvc2sChV/WbIfw=;
- b=jB3SH+oVhbG7YVGZLT+7nvy43uYNEozjYaYuneUES/YFFQEFw42R3NVw2Q8X+GWNjJ7q6yoDXzbZJYUE0QRaAnK8bgqMEkQMhmeG+iOnuzmt1YXg6HMyJz8bPmamK4IJCx0oH4Go3epr3JXSzTliRHZN+X5CAt95lutTLrplLcV+JiaC9IbE79GXzGw0e98h181fzRqNyWFx/yzE9eSLBxJ+PJQN8fMEk8Kq1rc2EC5Z+o0NoHCiff1u0wmx67cKmaBd2YXF1rFN0QCmb7mb650ORXJAsdrDbPSXQOFWGqIvzdZU3MgLZjFCVjLUvicH1Q82S8wUk2+yXG6Bpiv/XA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
- by MW6PR11MB8338.namprd11.prod.outlook.com (2603:10b6:303:247::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.15; Fri, 21 Feb
- 2025 15:11:08 +0000
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::a137:ffd0:97a3:1db4]) by MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::a137:ffd0:97a3:1db4%4]) with mapi id 15.20.8466.015; Fri, 21 Feb 2025
- 15:11:07 +0000
-Date: Fri, 21 Feb 2025 16:10:54 +0100
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-CC: <kees@kernel.org>, <julian.stecklina@cyberus-technology.de>,
-	<kevinloughlin@google.com>, <peterz@infradead.org>, <tglx@linutronix.de>,
-	<justinstitt@google.com>, <catalin.marinas@arm.com>,
-	<wangkefeng.wang@huawei.com>, <bhe@redhat.com>, <ryabinin.a.a@gmail.com>,
-	<kirill.shutemov@linux.intel.com>, <will@kernel.org>, <ardb@kernel.org>,
-	<jason.andryuk@amd.com>, <dave.hansen@linux.intel.com>,
-	<pasha.tatashin@soleen.com>, <ndesaulniers@google.com>,
-	<guoweikang.kernel@gmail.com>, <dwmw@amazon.co.uk>, <mark.rutland@arm.com>,
-	<broonie@kernel.org>, <apopple@nvidia.com>, <bp@alien8.de>,
-	<rppt@kernel.org>, <kaleshsingh@google.com>, <richard.weiyang@gmail.com>,
-	<luto@kernel.org>, <glider@google.com>, <pankaj.gupta@amd.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <kuan-ying.lee@canonical.com>,
-	<tony.luck@intel.com>, <tj@kernel.org>, <jgross@suse.com>,
-	<dvyukov@google.com>, <baohua@kernel.org>, <samuel.holland@sifive.com>,
-	<dennis@kernel.org>, <akpm@linux-foundation.org>,
-	<thomas.weissschuh@linutronix.de>, <surenb@google.com>,
-	<kbingham@kernel.org>, <ankita@nvidia.com>, <nathan@kernel.org>,
-	<ziy@nvidia.com>, <xin@zytor.com>, <rafael.j.wysocki@intel.com>,
-	<andriy.shevchenko@linux.intel.com>, <cl@linux.com>, <jhubbard@nvidia.com>,
-	<hpa@zytor.com>, <scott@os.amperecomputing.com>, <david@redhat.com>,
-	<jan.kiszka@siemens.com>, <vincenzo.frascino@arm.com>, <corbet@lwn.net>,
-	<maz@kernel.org>, <mingo@redhat.com>, <arnd@arndb.de>, <ytcoode@gmail.com>,
-	<xur@google.com>, <morbo@google.com>, <thiago.bauermann@linaro.org>,
-	<linux-doc@vger.kernel.org>, <kasan-dev@googlegroups.com>,
-	<linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>, <linux-mm@kvack.org>,
-	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>
-Subject: Re: [PATCH v2 13/14] x86: runtime_const used for KASAN_SHADOW_END
-Message-ID: <lcbigfjrgkckybimqx6cjoogon7nwyztv2tbet62wxbkm7hsyr@nyssicid3kwb>
-References: <cover.1739866028.git.maciej.wieczor-retman@intel.com>
- <2a2f08bc8118b369610d34e4d190a879d44f76b8.1739866028.git.maciej.wieczor-retman@intel.com>
- <CA+fCnZdtJj7VcEJfsjkjr3UhmkcKS25SEPTs=dB9k3cEFvfX2g@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+fCnZdtJj7VcEJfsjkjr3UhmkcKS25SEPTs=dB9k3cEFvfX2g@mail.gmail.com>
-X-ClientProxiedBy: DU2P251CA0007.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:10:230::9) To MN0PR11MB6231.namprd11.prod.outlook.com
- (2603:10b6:208:3c4::15)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLG7Jsfh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B624AC4CED6;
+	Fri, 21 Feb 2025 15:15:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740150910;
+	bh=LZZDIn882+du5zwGJiIkefHV1QQaICX9MW9PEMXgods=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kLG7JsfhD0qxdw5xct1tz48UF/iCjnWGHyEsfnOdw9ihXeGctJIQPKO56bW1hAiyl
+	 heT0OgEyl3Eu7Jom05MuCyUQxH58IfaySwLuhBr1egJ6/XoZz6obieqiZR/xu9Ch95
+	 RS55yKoktF8o6Vwh1visCh/cZaGBywRUQ3RssR0UQuLS88MDKKTAYUH4//yUFaCmcF
+	 Hk5TvlEjKrqg3Ohz1anSvLehBFJQNRuIuu3c1P3rHnBm+xSu7R+COz3vQuTRUG7NEc
+	 d0TQSsGSvPDnANthLRjKWnWPUFUDTEuhVtl8LkgsueA/Ji1tsPh8x/PmI92Oz6FCaN
+	 Fw43JGqHKJxsg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tlUk8-006cla-7o;
+	Fri, 21 Feb 2025 15:15:08 +0000
+Date: Fri, 21 Feb 2025 15:15:07 +0000
+Message-ID: <86pljbqqh0.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Jiaqi Yan <jiaqiyan@google.com>
+Cc: oliver.upton@linux.dev,
+	joey.gouly@arm.com,
+	suzuki.poulose@arm.com,
+	yuzenghui@huawei.com,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	pbonzini@redhat.com,
+	corbet@lwn.net,
+	kvm@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	duenwen@google.com,
+	rananta@google.com,
+	jthoughton@google.com
+Subject: Re: [RFC PATCH v3 1/3] KVM: arm64: SIGBUS VMM for SEA guest abort
+In-Reply-To: <20250220232959.247600-1-jiaqiyan@google.com>
+References: <20250220232959.247600-1-jiaqiyan@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|MW6PR11MB8338:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce383990-bc09-4ba6-5fc7-08dd5289f786
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QURjU3Y3L1RwVWowK1lDcUpHYktFMWdESHJrMmhWNW9GckRwTHlFZUJCRXVC?=
- =?utf-8?B?eDJxNVNkQVVQTktBT1A3cGE5Zm9rS1Noa2Q4bWFXUkNsZDh5eDJ1bTBXcW5G?=
- =?utf-8?B?Zit4Q3hzSUs5ZjBTVXFrdGZvbU8vTTdsN0JhVWlFeTVhZGx5MW9mZ2owRXQx?=
- =?utf-8?B?K1YwWGRKSWNNQ2xKSFpaTzh2TEZaWGpvei9WeW5RYjhiQ3ZVTnhzUmUvc1du?=
- =?utf-8?B?Ujc3bEp1bUJFUjZTaldQQnNrdGFzdEtxdVA3VnVkWGU5SVVPOU1aNmxKUS9S?=
- =?utf-8?B?RjFnSGIweVFpMVBpT21DaSs2ZnI0Wnhvb3UvdzJadEcwcFYraFBFZUh5c1Nt?=
- =?utf-8?B?UUlOQS9sQ0pJaXRPTDJWdmFOd3M3UlNoV0FueVJCY21wNVhIVkhHem9waHVv?=
- =?utf-8?B?ZFZrekhIdUFqUmEycjlRN1R6UGdXWlloU3RGcmtuLzMwTU5mZU9Qc3psWXdY?=
- =?utf-8?B?UGhJTWw0TmdKTHA1VnBEZFF1OG9GWkF6cFBkOWRRRTZldlBjWjIyUVFZejlB?=
- =?utf-8?B?SS9qSkJZdlhtUjNoQnlFTTEwMEM5U2ZCczJHN1BQdjFzemIvV3o1dVp1azc5?=
- =?utf-8?B?WTlUdEtKOXhOcTlJbnVveWVyR05jaUhhT3drMXpTNENnSnhBaDd0TFFkbUYv?=
- =?utf-8?B?dlhLT1ZLZ3g1cnlKN2I5bEZJQllFUjVlL1ZHLytnQWY1NFFxL3pqSHc4T25U?=
- =?utf-8?B?eGlnZ1k4Z0VlMDh6elpBZ3ZuWEJoUTN6NkI4bnllMjFBZms2WEU2VTR2RlVM?=
- =?utf-8?B?ZW5IZDgvQzBOcjU5Z3hBOENBV2FuSjRxeVFGa2o2SzYrcDJTeHo5UXpDOW42?=
- =?utf-8?B?WkFWSXd2UE5JbDdKSFpqZWN3aUNPdlVLUXBWK3M5NWgxdjg2UEFuSHNTNTJp?=
- =?utf-8?B?WVoxZFhkeEJiRHUxVHpSNUtZdUNTaG9ZTFBSRXUwZERwU2xScDltYXhHTTRK?=
- =?utf-8?B?ajJmblRkUlpyUW15TzZpcUxIODVhT1hQd3E4R1R3ZVpDUWpZdVdUaDk2M1NM?=
- =?utf-8?B?a1N4d3FtMkxLMHdHc3FyT3FzdElsV2FkQXVYeVh2RlZPdi9hS2RxQVVwQngw?=
- =?utf-8?B?S3B0TEE3YUVCKy9jNVg3K1FBdmVCUURCVWl2Y0JoM0l4eDlJYzl0YUhLbWZL?=
- =?utf-8?B?c0tpNnY4M0tCQWl6VmEzNXZoUTNVcjdFT1pscjd6TUJOVk14RlJsREFqWkxi?=
- =?utf-8?B?RVZKcnJHbGdkeVNkQW5aYlM1UVgvamVjWHZCcW11NUNRYWJCbkovZ3RwSTg3?=
- =?utf-8?B?bmcwRkJQTnhYcmtlL094cWhFVzU2MlZFUDkrZFFXbk05d0FmRWlXbXk4RTFo?=
- =?utf-8?B?NnhhZlBhdENySlJGdjBYenJrYVljMjI1UGw1RnRkMUJLSGV2N0J2d2tzUi95?=
- =?utf-8?B?aTdsUDJmYndnVm9Fb25QUGJWVUVyM1grcTdsL2dWMVNVd2RkNGhlUkdKSitI?=
- =?utf-8?B?bHhweXZOamF2WnUwNE1FbUx6MjkxTnh0VHNMQmt1K3BVWExURVFXNlpCalhm?=
- =?utf-8?B?VXdESGJGa2U0Z2ZjWFpRZlk5WUJGbFU0VlRNK0FTYjUwVUszWERaWlRRRUZw?=
- =?utf-8?B?RWxvMmRCQ2UwVnVsQmM4R09nK2s2bStXRU1sTFRMM3ZjSGZOcnpYZzBwYkY1?=
- =?utf-8?B?Uis2dTFFeWJLelY0K04vb1RZT0Zteko0OW9nQnN3aXd5b1JIYTFDVEd2RWIw?=
- =?utf-8?B?NDlHMjk4dG93Vmdzbit4RVZISS9DNmJQVjN1K3Jib0cvVTRmMXRVelhTY2J6?=
- =?utf-8?B?T2dWODFRY3o2bHUzbWdySkFrU3I2VEtuZ3hRQmM2a1ArMTJUWmYrNXFsUng5?=
- =?utf-8?B?YUt3RlFTU0UvRmwzdFpIeWl5NGNtbGlYOURRWlhvdE45RkZLaDVsQnQ0dTJv?=
- =?utf-8?Q?C0ZzH7r/YcR3x?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VWZvRE9FNmVSYzdIVURSVkxsZ0ZFaGZqOXdYTkxVenNjSnlGM0dvcXBQNTZa?=
- =?utf-8?B?MkNZSEUzZUF1M2Z2RzlPdTVBV0dMdDZrR2hsWm5LSmh2RElLbHUwTW1XcFlt?=
- =?utf-8?B?MXROR2ZCdHdYUnJBZytobG5pQVVjNDN0aitJeWhGZ2Z3R0dnbHk2ZllNUHNF?=
- =?utf-8?B?WGpCZ3VQNGxFNTVyajJtdno1WFpzL1pOZm1uSEZOUXNOdzlIbmlnMWUxeThj?=
- =?utf-8?B?bkpITDQxQkltT09TVXlHV0VJajZBSktkSzRobnljcTBCbjJ4Q0gwR1d6VTFq?=
- =?utf-8?B?UkFPNEpJY3RvWE9OWUl3ZnBjRGYxSGFYcGVhRUNDSFF6TVlQeDd5Ulo3WUZK?=
- =?utf-8?B?bnUxVlRRWCtQdHRqMFc3MHVaMWl0WENnWU9yaGhjV3VHQkdTdUpvV1UvVmRC?=
- =?utf-8?B?dEY1amtYaUZ3TlNpckJCdG5maDAyQnc1Ukt3UE1vT2RMcVNzM21CSGk5R0R2?=
- =?utf-8?B?bW51blVRTjVkQ0orY3h2V2xBOWthcGtSaFprL1JPZTdlWldEYkYyNWt5bGpR?=
- =?utf-8?B?TTZPc3ZSb1ViOTQyTG1pWHpEb2hiUi9HWlptZTZ4U2F6RXhqbldpMXJlZkc0?=
- =?utf-8?B?TTgxZWhtVTEvT3piU2FpMnJ0MUZEUlZKSXdicEx5d0t6ekp3R0ZvYmthclFo?=
- =?utf-8?B?UGlFQlRndmgwNk1TeTIybVdjZmlJaEZPKzZLNXFWSDQxQUpoVzVpeTRaRXdJ?=
- =?utf-8?B?cHRqRDI3blpBU01hUlIvY2dYOFVzanZNMWljVHFGNjNzejVZSFZFMS9lQkRH?=
- =?utf-8?B?SXBkdGxsckJTeWVSczlxd1Y1eVhpT0VrRzZqOU5FbWJzeXN3TC9mekZITGNU?=
- =?utf-8?B?ZnVnblNlWWdpQUJSajAxSzZxcEsrM0xEb2tBc3hiSnhBc0c0aGJraTd3UVBm?=
- =?utf-8?B?ZHdEL1pkZmZQbjRPWkNtYUd0bkFTNGtEVHZmRWpKbzJMS3p5cFY3ODNjVFlm?=
- =?utf-8?B?WEJuRHFhb0xnSkxlWkR6dnlDWnhjdWtFN2YrT1gvUGszKzJ1enMxeHVqQU1H?=
- =?utf-8?B?M01ndDhVNEQ2VzFWMmp5aVJWZXRaV3RHSXRIT3NpRldSZUtrbEpjcHpETHFI?=
- =?utf-8?B?NWRSbERrTlJHVkhCdWdOMGNITXNHZzdUUTN3VWNRRDROSVlnZitnYWZZMFFH?=
- =?utf-8?B?dW9zQzZsZXpQaDlTUFVFVFRtYnRJSFRBVENBbzZIcjJ1Z1ppS3lCdmtIVDM3?=
- =?utf-8?B?Z08vRFQ1VmloVEpobW8xaCtVQjVZeTl4OUhGcEsyVXdnTmdxSG1XcGFhb0FR?=
- =?utf-8?B?eGxmUDdqWmZaUnpoeDRhSE5LTzJpclo0OUNQWDkrekxtZXZOS1VjMFB4THJ4?=
- =?utf-8?B?WlZ1SDdqWXp2ZXAvTndraUhQbDlhWExJcGxhTDV1RlQ5bW1rZ050eHZ3ZS93?=
- =?utf-8?B?UUhtaS9BT3BQK0FtdmowTmNYOUgxYSswbHE3em9DaUQyUm9tb1hjeUcvSjZx?=
- =?utf-8?B?ZTZaSnNVN3VxWGxlbjRYd3VlZjRYNENEU0RvNmhXQVkrcXhJd1lkMUVOa28x?=
- =?utf-8?B?bzFUWXVFcGlTZHVjVmxOWDZyWDNpSG9Pak1obUpFSlp6M3pMWmxCVnhxMWlx?=
- =?utf-8?B?TVpPbFFiTnI1aXN2S1J2alFQbWdRMDZRcXhUYjZsRXlnYVRkSmIvZVZEZ0ZS?=
- =?utf-8?B?eVdnVjlQMUtkL2p2STJ4TXZLVVdOcXh5dlhhV2NsQ0JCY3J6UDk2U0UwZzd3?=
- =?utf-8?B?SU5nWG9DbVFjV3pqYklrNWF6WXNCTTFjZnpqRG9jSndtb0FGTWtiY1RQMWlX?=
- =?utf-8?B?NGZLZ0RSbG5FanNxTHh4ZWFkem5JMHljcUs2cVNRNEU4aWRhWVp5WndFM01N?=
- =?utf-8?B?OHhnRVA1Rjl1ZzRVVitqNmdKSGxTczVnTit5YnRVNXppQUYrd2FmQWFBWGla?=
- =?utf-8?B?TGprTEFaOWt0NlRFdTRudGZuZ2xUSGJsakg1N3pVd0llYUhsMU5udU82anlk?=
- =?utf-8?B?UjYvRXo0MHdBT1IzbVUzSGN4aTNJUVUzRm1YUzhKcGh2N3l6WnFWTUk3VjBU?=
- =?utf-8?B?WEJjU2h6UUwvLy9HS2Vtc3FJUm01NjhybGpab3pLb0NFdUs0ZWhwb0RUVTgw?=
- =?utf-8?B?T1NEYnZrNkphWU5QVFhDVGFhYU1qVTBKVm56M1doODcwS2plaTBTMzU0ZEpU?=
- =?utf-8?B?aDlicWFpWjBpSnpCbzRjMGE4dU1FSVkwc0xsdWxCUnJGOXFnVjFJaWtkZEY0?=
- =?utf-8?Q?v/6gpebIwANEAEE07eaokUM=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce383990-bc09-4ba6-5fc7-08dd5289f786
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2025 15:11:07.6263
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d9d+7QOOfzO4ZnZ/W8dOlKTThaGlArmoMULwK/itOaC3+5wW5+MZ+mS2/AXopISi+daqnlxQelAJUDylDnCmP/VqeM/8yujahfXGj58GbT4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR11MB8338
-X-OriginatorOrg: intel.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: jiaqiyan@google.com, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, kvm@vger.kernel.org, kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, duenwen@google.com, rananta@google.com, jthoughton@google.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 2025-02-20 at 00:31:08 +0100, Andrey Konovalov wrote:
->On Tue, Feb 18, 2025 at 9:20 AM Maciej Wieczor-Retman
-><maciej.wieczor-retman@intel.com> wrote:
->>
->> On x86, generic KASAN is setup in a way that needs a single
->> KASAN_SHADOW_OFFSET value for both 4 and 5 level paging. It's required
->> to facilitate boot time switching and it's a compiler ABI so it can't be
->> changed during runtime.
->>
->> Software tag-based mode doesn't tie shadow start and end to any linear
->> addresses as part of the compiler ABI so it can be changed during
->> runtime.
->
->KASAN_SHADOW_OFFSET is passed to the compiler via
->hwasan-mapping-offset, see scripts/Makefile.kasan (for the INLINE
->mode). So while we can change its value, it has to be known at compile
->time. So I don't think using a runtime constant would work.
+Honestly, please drop this RFC thing.  At v3, either you think this is
+in a good enough shape to be merged, or you simply don't post it. I
+assume you're in the former camp.
 
-I don't know about arm64, but this doesn't seem to work right now on x86. I
-think I recall that hwasan-mapping-offset isn't implemented on the x86 LLVM or
-something like that? I'm sure I saw some note about it a while ago on the
-internet but I couldn't find it today.
+On Thu, 20 Feb 2025 23:29:57 +0000,
+Jiaqi Yan <jiaqiyan@google.com> wrote:
+> 
+> When APEI is unable claim or handles synchronous external abort (SEA)
+> today KVM handles SEA for guest by injecting an async SError into the
+> guest directly, bypassing VMM, usually results in guest kernel panic.
+> 
+> One major situation of guest SEA is when vCPU consumes uncorrectable
+> memory error on the physical memory. Although SError and guest kernel
+> panic effectively stops the propagation of corrupted memory, it is not
+> easy for VMM and guest to recover from memory error in a more graceful
+> manner.
+> 
+> This patch teaches KVM to send a SIGBUS BUS_OBJERR to VMM/vCPU, like
 
-Anyway if KASAN_SHADOW_OFFSET is not set at compile time it defaults to nothing
-and just doesn't get passed into kasan-params a few lines below. I assume that
-result seems a little too makeshift for runtime const to make sense here?
+https://elixir.bootlin.com/linux/v6.13/source/Documentation/process/submitting-patches.rst#L95
+
+> how core kernel signals SIGBUS BUS_OBJERR to a gernal poison consuming
+> userspace thread when APEI is unable to claim the SEA. In addition to
+> the benifit that KVM's handling for SEA becomes aligned with core
+> kernel's behavior:
+> - VMM can inject SEA to guest. Compared to SError, the blast radius in
+>   VM is possible to be limited to only the consuming thread in guest,
+>   instead of the entire guest kernel (unless the poison consumption is
+>   from guest kernel).
+
+But that would be equally possible for this SEA to be delivered from
+the host kernel, without involving userspace at all, right? Why
+mandate a userspace round trip?
+
+> - VMM usually tracks the poisoned guest pages. Together with [1], if
+>   guest consumes again the already poisoned guest pages, VMM can protect
+>   itself and the host by stopping the consumption at software level, by
+>   intercepting guest's access to poisoned pages, and again injecting
+>   SEA to guest.
+
+How does this interact with the userfault thingy? I'd expect the VMM
+to simply removing the poisoned page from the memslot, which doesn't
+require anything on top of what we have today.
+
+Overall, most of the above belongs to a cover letter, which is
+crucially missing in this series.
+
+> 
+> KVM now handles SEA as follows:
+> 1. Delegate to APEI and GHES to see if SEA can be claimed by them.
+> 2. If APEI failed to claim the SEA, send current thread (i.e. VMM in EL0)
+>    a si_code=BUS_OBJERR SIGBUS signal. If the DIMM error's physical
+>    address is available from FAR_EL2, si_addr will be the DIMM error's
+>    host virtual address in VMM/vCPU's memory space.
+
+VMM *or* vcpu? The vcpu address space is the guest's. The VMM address
+space is the in userspace.
+
+Also, I'm still not fond of the signal horror. I still feel this is a
+broken abstraction, at odds with the rest of the KVM API which relies
+on vcpu exit codes. Signals are the perfect recipe to trigger subtle,
+potentially exploitable VMM bugs. I'm sure your VMM is perfect (Ah!),
+but think of the children! ;-)
 
 >
->Which means that KASAN_SHADOW_OFFSET has to have such a value that
->works for both 4 and 5 level page tables. This possibly means we might
->need something different than the first patch in this series.
+> Tested on a machine running Siryn AmpereOne processor. A dummy application
+> in VM allocated some memory buffer. The test used EINJ to inject an
 
-I'll think again about doing one offset for both paging levels so that it's as
-optimal as possible.
+How? Do we allow error injection from a guest?
 
->
->But in case I'm wrong, I left comments for the current code below.
->
->> This notion, for KASAN purposes, allows to optimize out macros
->> such us pgtable_l5_enabled() which would otherwise be used in every
->> single KASAN related function.
->>
->> Use runtime_const infrastructure with pgtable_l5_enabled() to initialize
->> the end address of KASAN's shadow address space. It's a good choice
->> since in software tag based mode KASAN_SHADOW_OFFSET and
->> KASAN_SHADOW_END refer to the same value and the offset in
->> kasan_mem_to_shadow() is a signed negative value.
->>
->> Setup KASAN_SHADOW_END values so that they're aligned to 4TB in 4-level
->> paging mode and to 2PB in 5-level paging mode. Also update x86 memory
->> map documentation.
->>
->> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
->> ---
->> Changelog v2:
->> - Change documentation kasan start address to non-dense values.
->>
->>  Documentation/arch/x86/x86_64/mm.rst |  6 ++++--
->>  arch/x86/Kconfig                     |  3 +--
->>  arch/x86/include/asm/kasan.h         | 14 +++++++++++++-
->>  arch/x86/kernel/vmlinux.lds.S        |  1 +
->>  arch/x86/mm/kasan_init_64.c          |  5 ++++-
->>  5 files changed, 23 insertions(+), 6 deletions(-)
->>
->> diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x86/x86_64/mm.rst
->> index f2db178b353f..5014ec322e19 100644
->> --- a/Documentation/arch/x86/x86_64/mm.rst
->> +++ b/Documentation/arch/x86/x86_64/mm.rst
->> @@ -60,7 +60,8 @@ Complete virtual memory map with 4-level page tables
->>     ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused hole
->>     ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual memory map (vmemmap_base)
->>     ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused hole
->> -   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shadow memory
->> +   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shadow memory (generic mode)
->> +   fffff40000000000 |   -8    TB | fffffc0000000000 |    8 TB | KASAN shadow memory (software tag-based mode)
->>    __________________|____________|__________________|_________|____________________________________________________________
->>                                                                |
->>                                                                | Identical layout to the 56-bit one from here on:
->> @@ -130,7 +131,8 @@ Complete virtual memory map with 5-level page tables
->>     ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused hole
->>     ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual memory map (vmemmap_base)
->>     ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused hole
->> -   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shadow memory
->> +   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shadow memory (generic mode)
->> +   ffe0000000000000 |   -6    PB | fff0000000000000 |    4 PB | KASAN shadow memory (software tag-based mode)
->>    __________________|____________|__________________|_________|____________________________________________________________
->>                                                                |
->>                                                                | Identical layout to the 47-bit one from here on:
->> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
->> index 6df7779ed6da..f4ef64bf824a 100644
->> --- a/arch/x86/Kconfig
->> +++ b/arch/x86/Kconfig
->> @@ -400,8 +400,7 @@ config AUDIT_ARCH
->>
->>  config KASAN_SHADOW_OFFSET
->>         hex
->> -       depends on KASAN
->> -       default 0xdffffc0000000000
->> +       default 0xdffffc0000000000 if KASAN_GENERIC
->
->Let's put a comment here explaining what happens if !KASAN_GENERIC.
->
->Also, as I mentioned in the first patch, we need to figure out what to
->do with scripts/gdb/linux/kasan.py.
+> uncorrectable recoverable memory error at a page in the allocated memory
+> buffer. The dummy application then consumed the memory error. Some hack
+> was done to make core kernel's memory_failure triggered by poison
+> generation to fail, so KVM had to deal with the SEA guest abort due to
+> poison consumption. vCPU thread in VMM received SIGBUS BUS_OBJERR with
+> valid host virtual address of the poisoned page. VMM then injected a SEA
+> into guest using KVM_SET_VCPU_EVENTS with ext_dabt_pending=1. At last
+> the dummy application in guest was killed by SIGBUS BUS_OBJERR, while the
+> guest survived and continued to run.
 
-I'll look through the scripts. Maybe it's possible to figure out if 5-level
-paging is enabled from there and setup the kasan offset based on that.
+This has nothing to do in this patch's commit message. But it would
+have its place for a selftest doing exactly what you describe.
 
->
->>
->>  config HAVE_INTEL_TXT
->>         def_bool y
->> diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
->> index a75f0748a4b6..4bfd3641af84 100644
->> --- a/arch/x86/include/asm/kasan.h
->> +++ b/arch/x86/include/asm/kasan.h
->> @@ -5,7 +5,7 @@
->>  #include <linux/const.h>
->>  #include <linux/kasan-tags.h>
->>  #include <linux/types.h>
->> -#define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
->> +
->>  #define KASAN_SHADOW_SCALE_SHIFT 3
->>
->>  /*
->> @@ -14,6 +14,8 @@
->>   * for kernel really starts from compiler's shadow offset +
->>   * 'kernel address space start' >> KASAN_SHADOW_SCALE_SHIFT
->>   */
->> +#ifdef CONFIG_KASAN_GENERIC
->> +#define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
->>  #define KASAN_SHADOW_START      (KASAN_SHADOW_OFFSET + \
->>                                         ((-1UL << __VIRTUAL_MASK_SHIFT) >> \
->>                                                 KASAN_SHADOW_SCALE_SHIFT))
->> @@ -24,12 +26,22 @@
->>  #define KASAN_SHADOW_END        (KASAN_SHADOW_START + \
->>                                         (1ULL << (__VIRTUAL_MASK_SHIFT - \
->>                                                   KASAN_SHADOW_SCALE_SHIFT)))
->> +#endif
->> +
->>
->>  #ifndef __ASSEMBLY__
->> +#include <asm/runtime-const.h>
->>  #include <linux/bitops.h>
->>  #include <linux/bitfield.h>
->>  #include <linux/bits.h>
->>
->> +#ifdef CONFIG_KASAN_SW_TAGS
->> +extern unsigned long KASAN_SHADOW_END_RC;
->> +#define KASAN_SHADOW_END       runtime_const_ptr(KASAN_SHADOW_END_RC)
->> +#define KASAN_SHADOW_OFFSET    KASAN_SHADOW_END
->> +#define KASAN_SHADOW_START     (KASAN_SHADOW_END - ((UL(1)) << (__VIRTUAL_MASK_SHIFT - KASAN_SHADOW_SCALE_SHIFT)))
->
->Any reason these are under __ASSEMBLY__? They seem to belong better
->together with the CONFIG_KASAN_GENERIC definitions above.
+> 
+> [1] https://lpc.events/event/18/contributions/1757/attachments/1442/3073/LPC_%20KVM%20Userfault.pdf
+> 
+> Changelog
+> 
+> RFC V3 -> RFC v2
+> - SEA or ECC error at all levels of TTW can be handled by SIGBUS EL0,
+>   and no case to inject SError to guest anymore.
+> - move #include from kvm_ras.h to kvm_ras.c.
+> 
+> RFC v2 -> RFC v1
+> - reword commit msg
+> - drop unused parameters from kvm_delegate_guest_sea
+> - remove KVM_CAP_ARM_SIGBUS_ON_SEA and its opt in code
+> - set FnV bit in vcpu's ESR_ELx if host ESR_EL2's FnV is set
+> - add documentation for this new SIGBUS feature
 
-I remember getting a wall of odd looking compile errors when this wasn't under
-assembly. But I'll recheck.
+Please talk to your colleagues on how to write a cover letter. None of
+that should be here.
 
->
->> +#endif
->> +
->>  #define arch_kasan_set_tag(addr, tag)  __tag_set(addr, tag)
->>  #define arch_kasan_reset_tag(addr)     __tag_reset(addr)
->>  #define arch_kasan_get_tag(addr)       __tag_get(addr)
->> diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
->> index 0deb4887d6e9..df6c85f8f48f 100644
->> --- a/arch/x86/kernel/vmlinux.lds.S
->> +++ b/arch/x86/kernel/vmlinux.lds.S
->> @@ -353,6 +353,7 @@ SECTIONS
->>
->>         RUNTIME_CONST_VARIABLES
->>         RUNTIME_CONST(ptr, USER_PTR_MAX)
->> +       RUNTIME_CONST(ptr, KASAN_SHADOW_END_RC)
->>
->>         . = ALIGN(PAGE_SIZE);
->>
->> diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
->> index 299a2144dac4..5ca5862a5cd6 100644
->> --- a/arch/x86/mm/kasan_init_64.c
->> +++ b/arch/x86/mm/kasan_init_64.c
->> @@ -358,6 +358,9 @@ void __init kasan_init(void)
->>         int i;
->>
->>         memcpy(early_top_pgt, init_top_pgt, sizeof(early_top_pgt));
->> +       unsigned long KASAN_SHADOW_END_RC = pgtable_l5_enabled() ? 0xfff0000000000000 : 0xfffffc0000000000;
->
->I think defining these constants in arch/x86/include/asm/kasan.h is
->cleaner than hardcoding them here.
->
+> 
+> Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
+> ---
+>  arch/arm64/include/asm/kvm_ras.h | 29 +++++++-------
+>  arch/arm64/kvm/Makefile          |  2 +-
+>  arch/arm64/kvm/kvm_ras.c         | 65 ++++++++++++++++++++++++++++++++
+>  arch/arm64/kvm/mmu.c             |  8 +---
+>  4 files changed, 83 insertions(+), 21 deletions(-)
+>  create mode 100644 arch/arm64/kvm/kvm_ras.c
+> 
+> diff --git a/arch/arm64/include/asm/kvm_ras.h b/arch/arm64/include/asm/kvm_ras.h
+> index 87e10d9a635b5..bacae54013b4e 100644
+> --- a/arch/arm64/include/asm/kvm_ras.h
+> +++ b/arch/arm64/include/asm/kvm_ras.h
+> @@ -4,22 +4,25 @@
+>  #ifndef __ARM64_KVM_RAS_H__
+>  #define __ARM64_KVM_RAS_H__
+>  
+> -#include <linux/acpi.h>
+> -#include <linux/errno.h>
+> -#include <linux/types.h>
+> -
+> -#include <asm/acpi.h>
+> +#include <linux/kvm_host.h>
+>  
+>  /*
+> - * Was this synchronous external abort a RAS notification?
+> - * Returns '0' for errors handled by some RAS subsystem, or -ENOENT.
+> + * For synchrnous external abort taken to KVM at EL2, not on translation
 
-Okay, I'll change that.
+synchronous
 
->
->
->
->
->
->
->> +
->> +       runtime_const_init(ptr, KASAN_SHADOW_END_RC);
->>
->>         /*
->>          * We use the same shadow offset for 4- and 5-level paging to
->> @@ -372,7 +375,7 @@ void __init kasan_init(void)
->>          * bunch of things like kernel code, modules, EFI mapping, etc.
->>          * We need to take extra steps to not overwrite them.
->>          */
->> -       if (pgtable_l5_enabled()) {
->> +       if (pgtable_l5_enabled() && !IS_ENABLED(CONFIG_KASAN_SW_TAGS)) {
->>                 void *ptr;
->>
->>                 ptr = (void *)pgd_page_vaddr(*pgd_offset_k(KASAN_SHADOW_END));
->> --
->> 2.47.1
->>
+> + * table walk or hardware update of translation table, is FAR_EL2 valid?
+
+Do we need all these conditions spelled out? Isn't the goal of such a
+helper to *abstract* the complexity of the architecture?
+
+>   */
+> -static inline int kvm_handle_guest_sea(phys_addr_t addr, u64 esr)
+> -{
+> -	/* apei_claim_sea(NULL) expects to mask interrupts itself */
+> -	lockdep_assert_irqs_enabled();
+> +bool kvm_vcpu_sea_far_valid(const struct kvm_vcpu *vcpu);
+>  
+> -	return apei_claim_sea(NULL);
+> -}
+> +/*
+> + * Handle synchronous external abort (SEA) in the following order:
+> + * 1. Delegate to APEI/GHES to see if they can claim SEA. If so, all done.
+> + * 2. Send SIGBUS to current with si_code=BUS_OBJERR and si_addr set to
+> + *    the poisoned host virtual address. When accurate HVA is unavailable,
+> + *    si_addr will be 0.
+
+How do you disambiguate this with 0 being a valid address? See vm.mmap_min_addr.
+
+> + *
+> + * Note this applies to both instruction and data abort (ESR_ELx_EC_IABT_*
+> + * and ESR_ELx_EC_DABT_*). As the name suggests, KVM must be taking the SEA
+> + * when calling into this function, e.g. kvm_vcpu_abt_issea == true.
+
+Again, this is pointlessly verbose. I'd rather we keep the original
+comment here.
+
+> + */
+> +void kvm_handle_guest_sea(struct kvm_vcpu *vcpu);
+>  
+>  #endif /* __ARM64_KVM_RAS_H__ */
+> diff --git a/arch/arm64/kvm/Makefile b/arch/arm64/kvm/Makefile
+> index 3cf7adb2b5038..c4a3a6d4870e6 100644
+> --- a/arch/arm64/kvm/Makefile
+> +++ b/arch/arm64/kvm/Makefile
+> @@ -23,7 +23,7 @@ kvm-y += arm.o mmu.o mmio.o psci.o hypercalls.o pvtime.o \
+>  	 vgic/vgic-v3.o vgic/vgic-v4.o \
+>  	 vgic/vgic-mmio.o vgic/vgic-mmio-v2.o \
+>  	 vgic/vgic-mmio-v3.o vgic/vgic-kvm-device.o \
+> -	 vgic/vgic-its.o vgic/vgic-debug.o
+> +	 vgic/vgic-its.o vgic/vgic-debug.o kvm_ras.o
+>  
+>  kvm-$(CONFIG_HW_PERF_EVENTS)  += pmu-emul.o pmu.o
+>  kvm-$(CONFIG_ARM64_PTR_AUTH)  += pauth.o
+> diff --git a/arch/arm64/kvm/kvm_ras.c b/arch/arm64/kvm/kvm_ras.c
+> new file mode 100644
+> index 0000000000000..47531ed378910
+> --- /dev/null
+> +++ b/arch/arm64/kvm/kvm_ras.c
+> @@ -0,0 +1,65 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/types.h>
+> +
+> +#include <asm/acpi.h>
+> +#include <asm/kvm_emulate.h>
+> +#include <asm/kvm_ras.h>
+> +#include <asm/system_misc.h>
+> +
+> +bool kvm_vcpu_sea_far_valid(const struct kvm_vcpu *vcpu)
+> +{
+> +	/*
+> +	 * FnV is valid only for Data/Instruction aborts and if DFSC/IFSC
+> +	 * is ESR_ELx_FSC_EXTABT(0b010000).
+
+This is a terrible sentence. FnV stands for "FAR not Valid". Do you
+see the problem? Yes, the same verbiage exists in the spec, but I
+don't think we need to sink that low...
+
+> +	 */
+> +	if (kvm_vcpu_trap_get_fault(vcpu) == ESR_ELx_FSC_EXTABT)
+> +		return !(vcpu->arch.fault.esr_el2 & ESR_ELx_FnV);
+> +
+> +	/* Other exception classes or aborts don't care about FnV field. */
+
+They absolutely do care. But FnV is RES0 in this case. So the real
+question is why don't you simply return the negated bit in all cases?
+
+> +	return true;
+> +}
+> +
+> +/*
+> + * Was this synchronous external abort a RAS notification?
+> + * Returns '0' for errors handled by some RAS subsystem, or -ENOENT.
+> + */
+> +static int kvm_delegate_guest_sea(void)
+> +{
+> +	/* apei_claim_sea(NULL) expects to mask interrupts itself */
+> +	lockdep_assert_irqs_enabled();
+> +	return apei_claim_sea(NULL);
+> +}
+> +
+> +void kvm_handle_guest_sea(struct kvm_vcpu *vcpu)
+> +{
+> +	int idx;
+> +	u64 vcpu_esr = kvm_vcpu_get_esr(vcpu);
+> +	phys_addr_t fault_ipa = kvm_vcpu_get_fault_ipa(vcpu);
+> +	gfn_t gfn = fault_ipa >> PAGE_SHIFT;
+> +	unsigned long hva = 0UL;
+> +
+> +	/*
+> +	 * For RAS the host kernel may handle this abort.
+> +	 * There is no need to SIGBUS VMM, or pass the error into the guest.
+> +	 */
+> +	if (kvm_delegate_guest_sea() == 0)
+> +		return;
+> +
+> +	if (kvm_vcpu_sea_far_valid(vcpu)) {
+> +		idx = srcu_read_lock(&vcpu->kvm->srcu);
+> +		hva = gfn_to_hva(vcpu->kvm, gfn);
+> +		srcu_read_unlock(&vcpu->kvm->srcu, idx);
+> +	}
+> +
+> +	/*
+> +	 * When FAR is not valid, or GFN to HVA translation failed, send 0
+> +	 * as si_addr like what do_sea() does.
+> +	 */
+> +	if (kvm_is_error_hva(hva))
+> +		hva = 0UL;
+
+See my earlier comment about 0 being a valid VA.
+
+> +
+> +	arm64_notify_die("synchronous external abort",
+> +			 current_pt_regs(), SIGBUS, BUS_OBJERR, hva, vcpu_esr);
+> +}
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index 1f55b0c7b11d9..ef6127d0bf24f 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -1808,13 +1808,7 @@ int kvm_handle_guest_abort(struct kvm_vcpu *vcpu)
+>  
+>  	/* Synchronous External Abort? */
+>  	if (kvm_vcpu_abt_issea(vcpu)) {
+> -		/*
+> -		 * For RAS the host kernel may handle this abort.
+> -		 * There is no need to pass the error into the guest.
+> -		 */
+> -		if (kvm_handle_guest_sea(fault_ipa, kvm_vcpu_get_esr(vcpu)))
+> -			kvm_inject_vabt(vcpu);
+> -
+> +		kvm_handle_guest_sea(vcpu);
+
+But this is an ABI change. My userspace is not ready, willing nor able
+to handle this, and yet you're forcing it on me?
+
+	M.
 
 -- 
-Kind regards
-Maciej Wieczór-Retman
+Without deviation from the norm, progress is not possible.
