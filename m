@@ -1,35 +1,43 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198761876;
-	Fri, 21 Feb 2025 01:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DCA1C3C08;
+	Fri, 21 Feb 2025 01:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740102010; cv=none; b=sfEAn5Z0Bf6Lg5C30SxrHKeod7X2v9xl3py4VBkm2vLFPkyejQVkIURwqCegpjynZwznIZGmkVR24ieXgs33CzELtqG+4IGKQH2qegveq+NRly4ppqO3Lu9Hh+YRHOs3RpFgb5qGGynO01nXjHNhMmCwrcd0Pz/wDVZD4nqCR5w=
+	t=1740103134; cv=none; b=kr/1ykBoEwfg5BEDue80wQ5lJ0EmF8PSza+4cx58lp3cu5RX6qyD7Bv+60XSPebmZ7nhRClAHkmIMHhc4WhRxN4Zx8ycbq+DAcVBtL/KDAVqoWdv2NLMjLPW77JB5O4Sqg0dPqHdkrtT1UBBhpvXQgbO6E7XU/aQxEE/iWR1uAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740102010; c=relaxed/simple;
-	bh=btDMxeNfHBPNti2EoCCt/T314QWXygFwMOmYrLNf9ro=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=djo5vOACBqzafSV1s+YdL2Mj3wYJFF+LnQ0SxzfuXuBGz2O0m0QvPAOYdXeyIu5vModFjzeU6uQZPmFJb732Jg74KUE957mhi2O6w+1YqREr3cWEN2nit5oY394768Lp0UYJfn3Uhg6qdtVwXOa+lHEODjZhKd21oRkTBUUJ248=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MXepqXaR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740103134; c=relaxed/simple;
+	bh=YKzB9LlS+hz9zHtYRIJ5VBIMcp4B9hLVUYeSJF2x+4c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GUPS1vWqlt03IZNF7g20dbj1QRxtnuLATjsNkCb3e6+enDTg5yIXQeNt29hobJPf5RgfH4asjTo06C9Ln89S4t/5fsEaJBhEhrgjTkGmm9jT6LibMDHgSVUTLdR3bOuWIQyS1VH/Y0cxA7JzNRJjruurzRXd8Di7HqfxTU3VECk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=qeXA+tnk; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MXepqXaR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72347C4CED1;
-	Fri, 21 Feb 2025 01:40:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740102009;
-	bh=btDMxeNfHBPNti2EoCCt/T314QWXygFwMOmYrLNf9ro=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=MXepqXaRM4dVPsZFOEB7ouyCJSGm2Meq4q/xIOE+jd15D6NGJv5MlJ11lOtELov26
-	 vb6Qo/vCHwGaWuM6j+aECkThrTXqJuj9n4Co8AF/jGKjsrhioPuVmOveu2YTkIbu8Q
-	 wk8fBvXTzPE9xVv3mHz9ZKEHZsm4VYbRYMV3C/tftMDf4OyJPnoTk9+/nJmJOcmIN5
-	 qTPKkOO8pMG98R/rr+JkAKcE2wHkRz5SR+PgOMhg28NxWpGz07teN/RQ+DsvRHUrxj
-	 JHI03CieeTQBe9pXC9MrKEU1Ekw0EKKEd1dz/sbBXjosAXPCXyksjvP1fO+R97RMjj
-	 Gwyk8ilUJvQFA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 71AB6380CEE2;
-	Fri, 21 Feb 2025 01:40:41 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="qeXA+tnk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=8PnzCTyZw6paCch4lbu5zV0UA8a6YCbFLxHKnS85TRs=; b=qeXA+tnkY/r5Sifr
+	hXlECacakS7zd8TnqWIm13DoahDn0sjQkLKbmizrY56EwFyzlqi5aXxwUe5yiL0l77Fil4pRdyEtH
+	srJkfROQQSlIlk/16vUxCiXtYnAVb4LG/qwRcrBf5rmBwgdpj76mB7q+8H/L4xLHtqANlt7tle2uo
+	DDZRCFEgxQGvMpCdHVVoiQBPIf4cSEVHDx5klC0BjLbzSH9FH7gLw4D3z91nLF1pT/b9jbQueX3Pp
+	VM33CYvEu4wum+ycRhLupjUs3FMJTXh0o84zfBf/YMnBzZtKPBw0k9pRyPQOEmIi16cwwUARCQESM
+	csdLdQm4w3stVcbIOQ==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1tlIJN-00HM47-2y;
+	Fri, 21 Feb 2025 01:58:41 +0000
+From: linux@treblig.org
+To: srinivas.kandagatla@linaro.org
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH 0/3] Remove nvmem deadcode
+Date: Fri, 21 Feb 2025 01:58:38 +0000
+Message-ID: <20250221015841.209458-1-linux@treblig.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,68 +45,42 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next v12 0/5] xsk: TX metadata Launch Time support
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <174010204026.1539943.5735764109259382582.git-patchwork-notify@kernel.org>
-Date: Fri, 21 Feb 2025 01:40:40 +0000
-References: <20250216093430.957880-1-yoong.siang.song@intel.com>
-In-Reply-To: <20250216093430.957880-1-yoong.siang.song@intel.com>
-To: Song Yoong Siang <yoong.siang.song@intel.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, willemb@google.com,
- florian.bezdeka@siemens.com, donald.hunter@gmail.com, corbet@lwn.net,
- bjorn@kernel.org, magnus.karlsson@intel.com, maciej.fijalkowski@intel.com,
- jonathan.lemon@gmail.com, andrew+netdev@lunn.ch, ast@kernel.org,
- daniel@iogearbox.net, hawk@kernel.org, john.fastabend@gmail.com,
- jdamato@fastly.com, sdf@fomichev.me, xuanzhuo@linux.alibaba.com,
- almasrymina@google.com, danielj@nvidia.com, andrii@kernel.org,
- eddyz87@gmail.com, mykolal@fb.com, martin.lau@linux.dev, song@kernel.org,
- yonghong.song@linux.dev, kpsingh@kernel.org, haoluo@google.com,
- jolsa@kernel.org, shuah@kernel.org, alexandre.torgue@foss.st.com,
- joabreu@synopsys.com, mcoquelin.stm32@gmail.com, anthony.l.nguyen@intel.com,
- przemyslaw.kitszel@intel.com, faizal.abdul.rahim@linux.intel.com,
- yong.liang.choong@linux.intel.com, zdenek.bouska@siemens.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
- xdp-hints@xdp-project.net
 
-Hello:
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-This series was applied to bpf/bpf-next.git (net)
-by Martin KaFai Lau <martin.lau@kernel.org>:
+Hi,
+  This series removes some uncalled deadcode in nvmem.
+The third patch probably deserves a bit closer inspection.
 
-On Sun, 16 Feb 2025 17:34:25 +0800 you wrote:
-> This series expands the XDP TX metadata framework to allow user
-> applications to pass per packet 64-bit launch time directly to the kernel
-> driver, requesting launch time hardware offload support. The XDP TX
-> metadata framework will not perform any clock conversion or packet
-> reordering.
-> 
-> Please note that the role of Tx metadata is just to pass the launch time,
-> not to enable the offload feature. Users will need to enable the launch
-> time hardware offload feature of the device by using the respective
-> command, such as the tc-etf command.
-> 
-> [...]
+The first one removes nvmem_device_cell_read/write functions
+that haven't been used in ~10 years.
 
-Here is the summary with links:
-  - [bpf-next,v12,1/5] xsk: Add launch time hardware offload support to XDP Tx metadata
-    https://git.kernel.org/bpf/bpf-next/c/ca4419f15abd
-  - [bpf-next,v12,2/5] selftests/bpf: Add launch time request to xdp_hw_metadata
-    https://git.kernel.org/bpf/bpf-next/c/6164847e5403
-  - [bpf-next,v12,3/5] net: stmmac: Add launch time support to XDP ZC
-    https://git.kernel.org/bpf/bpf-next/c/04f64dea1364
-  - [bpf-next,v12,4/5] igc: Refactor empty frame insertion for launch time support
-    https://git.kernel.org/bpf/bpf-next/c/f9b53bb13923
-  - [bpf-next,v12,5/5] igc: Add launch time support to XDP ZC
-    https://git.kernel.org/bpf/bpf-next/c/d7c3a7ff7502
+The second removes nvmem_add/del_cell_table - again this is
+removing uncalled functions; nvmem_add_cell_table is unused
+after the removal of the Davinci machines.
 
-You are awesome, thank you!
+The third one removes the remaining nvmem_cell_table code - including
+a function that's called ( nvmem_add_cells_from_table ) - but
+my reading is that from the previous patch there's no way for this
+function to do anything active any more since the list it walks is
+empty.
+
+Build tested only.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+
+
+Dr. David Alan Gilbert (3):
+  nvmem: core: Remove unused nvmem_device_cell_(read|write)
+  nvmem: core: Remove nvmem_(add|del)_cell_table
+  nvmem: core: Remove remains of nvmem_cell_table
+
+ Documentation/driver-api/nvmem.rst |  23 ------
+ drivers/nvmem/core.c               | 126 -----------------------------
+ include/linux/nvmem-consumer.h     |   4 -
+ include/linux/nvmem-provider.h     |  24 ------
+ 4 files changed, 177 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.48.1
 
