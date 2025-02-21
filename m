@@ -1,132 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233CD2AD0F;
-	Fri, 21 Feb 2025 02:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071F93C2F;
+	Fri, 21 Feb 2025 02:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740103433; cv=none; b=nWWQzYYyB0WZtmOfw3PewJa5ywY+PdAD45Pq71is+dggiWKhIaHyAAwfpm4EtH+UJbELLZcBaMDfQ2GCVF1ULzQxkqfZxCkZycIrxJsVahj2wR+rDTeAG3jlj7NI+37B3V9kmCH0zSt+mbeiTubzCNcjxOrzE3w/GtJoDOu7K8g=
+	t=1740105384; cv=none; b=YLNBKYRgzI0OqW7DI9FpGZAv/x8yhia0E2EQQKco2F0LqkzLeGzw8qSoZ/OBj0rKLuAajWwunNyTX793hsUFAhYUxUs8Ofa6xfDe1+hhk3UJsUw0zqtq71kPj5a9bTBq9oT09OvOuOlUR/Tv4AYeaBtWVufr+pRwNE6GiWDIYvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740103433; c=relaxed/simple;
-	bh=rht45uoBqeDV8bCsVQoc0fVIMDOzQd/AYaIBdWP/qDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aD9RtC1x23XVGbFSXf7aIdXm3S/ltFQijlfe2S6eAIoK9KrjP9/2hW8Aka5H5x4vcdH4kIiZzJs7zYrNZlVxPQ8SKlZ8adZIrHhfPhJJwCdEB7bMSU4fCWTGylDOWiTtY2UOJZswMjCRdVH8oKy9SDFKAdBhD0t+P4phi31ZRT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RhwDSDXD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740105384; c=relaxed/simple;
+	bh=bZK0D6NskJV20GTUtw762wIucpi7jyCaWV4efMBFBJw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G72ityn/Td9vgN15llGRztZjQOww5vlWJ5ldggcOZqV9vpvb4kQbvMZAL1nlQcgbbNa7zEl+ioZNDkVAbp/YSx3wZz1fGz5WGaLpz1+cXnYj5W2I4y+Sk4gCrZHOKvPX1dtlysn4m/ucns63bXIVxCgA94kRwiD3eh7AYVFSrRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=a71xTtDu; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RhwDSDXD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE916C4CED1;
-	Fri, 21 Feb 2025 02:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740103432;
-	bh=rht45uoBqeDV8bCsVQoc0fVIMDOzQd/AYaIBdWP/qDI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RhwDSDXDH7bO9y3PQei3q2cm1swTeixfKi/1SV+76IKchkQa53ZxrGk0JtUJ2pgJO
-	 aFGfVps3lmMu3AcSOXJdu7sv6Z5j5H4kZTpijDEIQ4Sl9/GTkkwOpmlnGFvbjvLSp3
-	 5oSvVAXbt7xOpZnYFzUg79t728aqVKf0LKSgwK3MozT66HrWZmCe1FozPWRgp7NK9t
-	 aHll+VYZM3cTyWW20yqa9lvOAdIa6PRxoNEQf7S8Net1DpWVxpv3JIWeKlMR3u1bgR
-	 lM8U74ag4mVb5vcedvBUg2emQLdB+BT+bSBeBbeTLcu3wzI4W+BkW428S8lYT+KP6v
-	 uFWdEd9+0WuAg==
-Date: Thu, 20 Feb 2025 18:03:51 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Gal Pressman <gal@nvidia.com>
-Cc: "David S. Miller" <davem@davemloft.net>, <netdev@vger.kernel.org>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Tony Nguyen
- <anthony.l.nguyen@intel.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "Tariq
- Toukan" <tariqt@nvidia.com>, Edward Cree <ecree.xilinx@gmail.com>, Ahmed
- Zaki <ahmed.zaki@intel.com>, <linux-doc@vger.kernel.org>, Nimrod Oren
- <noren@nvidia.com>
-Subject: Re: [PATCH net-next v4 5/5] selftests: drv-net-hw: Add a test for
- symmetric RSS hash
-Message-ID: <20250220180351.7e278ec9@kernel.org>
-In-Reply-To: <20250220113435.417487-6-gal@nvidia.com>
-References: <20250220113435.417487-1-gal@nvidia.com>
-	<20250220113435.417487-6-gal@nvidia.com>
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="a71xTtDu"
+Received: from pps.filterd (m0431383.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51KLpI4X019253;
+	Thu, 20 Feb 2025 18:36:06 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pfpt0220; bh=yrGSGxFZaPyMAX/abbQYP6Y
+	xMutI6bHyx5LFZnAqtuc=; b=a71xTtDu5NQM6q5GRDyuBKOtLvldojJzSZlQl8S
+	ux2GtvKRxWp/ggH4g0GIxj/7ZZ3y4qiBoXVsvqAdqjhOFIB1n/0dJreXaFYWeSia
+	eRXlHFrxxpxFBCG+VDKO5M/Jp0y1Vy942okcUXtUi2c467QjvlyIUXfN8s5KOxrp
+	LSDuXP6zEh2g4E2TU+XNx+V0Fs30zMDpFPhSqJ0dElzM0hC8fNbtZKD7YxH2tGO8
+	Uem8yvgG/nIxEnUmsdZQ/Q2Fj4BKT/bJAOLYybZ7ilOiwggaR/MOWjh9GWojFU5h
+	7oP1wyWZs+eSDq6StDpVwByU2prbfqFqLjqbf4QS0/6lf+Q==
+Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 44wu8pb3u9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Feb 2025 18:36:06 -0800 (PST)
+Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
+ DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Thu, 20 Feb 2025 18:36:05 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
+ (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Thu, 20 Feb 2025 18:36:05 -0800
+Received: from tx2-sever.caveonetworks.com (unknown [10.110.141.15])
+	by maili.marvell.com (Postfix) with ESMTP id 221A53F708C;
+	Thu, 20 Feb 2025 18:36:05 -0800 (PST)
+From: George Cherian <george.cherian@marvell.com>
+To: <wim@linux-watchdog.org>, <linux@roeck-us.net>, <corbet@lwn.net>
+CC: <linux-watchdog@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        George Cherian <george.cherian@marvell.com>
+Subject: [PATCH 1/2] drivers: watchdog: Add support for panic notifier callback
+Date: Fri, 21 Feb 2025 02:35:49 +0000
+Message-ID: <20250221023550.2092232-1-george.cherian@marvell.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: jaxOC1g25aDZTmy-Cop8rA6vdyl7fdW5
+X-Proofpoint-GUID: jaxOC1g25aDZTmy-Cop8rA6vdyl7fdW5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-20_09,2025-02-20_02,2024-11-22_01
 
-On Thu, 20 Feb 2025 13:34:35 +0200 Gal Pressman wrote:
-> +def _get_rand_port(remote):
-> +    for _ in range(1000):
-> +        port = rand_port()
-> +        try:
-> +            check_port_available_remote(port, remote)
-> +            return port
-> +        except:
-> +            continue
-> +
-> +    raise Exception("Can't find any free unprivileged port")
+Watchdog is not turned off in kernel panic situation.
+In certain systems this might prevent the successful loading
+of kdump kernel. The kdump kernel might hit a watchdog reset
+while it is booting.
 
-TCP and UDP port spaces are separate, I think your checking if the
-ports are available on TCP here, and then use them for UDP below.
+To avoid such scenarios add a panic notifier call back function
+which can stop the watchdog. This provision can be enabled on per
+driver basis if the user wishes to by setting the flag
+WDOG_STOP_ON_PANIC from respective drivers.
 
-We don't really care about the 100% success, I don't think we should 
-be checking the ports. Pick two ports, send a A<>B packet, send a B<>A
-packet, if either fails to connect or doesn't arrive just ignore.
-As long as we can get ~10? successful pairs in 100? ties it's good.
+Signed-off-by: George Cherian <george.cherian@marvell.com>
+---
+ drivers/watchdog/watchdog_core.c | 31 +++++++++++++++++++++++++++++++
+ include/linux/watchdog.h         |  8 ++++++++
+ 2 files changed, 39 insertions(+)
 
-> +def traffic(cfg, local_port, remote_port, ipver):
-> +    af_inet = socket.AF_INET if ipver == "4" else socket.AF_INET6
-> +    sock = socket.socket(af_inet, socket.SOCK_DGRAM)
-> +    sock.bind(('', local_port))
-> +    sock.connect((cfg.remote_addr_v[ipver], remote_port))
-> +    tgt = f"{ipver}:[{cfg.addr_v[ipver]}]:{local_port},sourceport={remote_port}"
-> +    cmd("echo a | socat - UDP" + tgt, host=cfg.remote)
-> +    sock.recvmsg(100)
-
-Could you use fd_read_timeout():
-https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/tools/testing/selftests/net/lib/py/utils.py#n20
-
-In case the packet got lost?
-
-> +    return sock.getsockopt(socket.SOL_SOCKET, socket.SO_INCOMING_CPU)
-> +
-> +
-> +def test_rss_input_xfrm(cfg, ipver):
-> +    """
-> +    Test symmetric input_xfrm.
-> +    If symmetric RSS hash is configured, send traffic twice, swapping the
-> +    src/dst UDP ports, and verify that the same queue is receiving the traffic
-> +    in both cases (IPs are constant).
-> +    """
-> +
-> +    input_xfrm = cfg.ethnl.rss_get(
-> +        {'header': {'dev-name': cfg.ifname}}).get('input_xfrm')
-> +
-> +    # Check for symmetric xor/or-xor
-> +    if input_xfrm and (input_xfrm == 1 or input_xfrm == 2):
-> +        cpus = set()
-> +        for _ in range(8):
-> +            port1 = _get_rand_port(cfg.remote)
-> +            port2 = _get_rand_port(cfg.remote)
-> +            cpu1 = traffic(cfg, port1, port2, ipver)
-> +            cpu2 = traffic(cfg, port2, port1, ipver)
-> +            cpus.update([cpu1, cpu2])
-> +
-> +            ksft_eq(
-> +                cpu1, cpu2, comment=f"Received traffic on different cpus ({cpu1} != {cpu2}) with ports ({port1 = }, {port2 = }) while symmetric hash is configured")
-
-the cpu1 cpu2 values will already be printed by the helper, no need 
-to format them in
-
-> +
-> +        ksft_ge(len(cpus), 2, comment=f"Received traffic on less than two cpus")
-> +    else:
-> +        raise KsftSkipEx("Symmetric RSS hash not requested")
-
-Flip the condition, raise the exception right after the if, then the
-rest of the code doesn't have to be indented?
-
-I'd also add a:
-
-	if len(cpus) == 1:
-		raise KsftSkipEx(f"Only one CPU seen traffic: {cpus}")
+diff --git a/drivers/watchdog/watchdog_core.c b/drivers/watchdog/watchdog_core.c
+index d46d8c8c01f2..cce29d54535c 100644
+--- a/drivers/watchdog/watchdog_core.c
++++ b/drivers/watchdog/watchdog_core.c
+@@ -34,6 +34,7 @@
+ #include <linux/idr.h>		/* For ida_* macros */
+ #include <linux/err.h>		/* For IS_ERR macros */
+ #include <linux/of.h>		/* For of_get_timeout_sec */
++#include <linux/panic_notifier.h>
+ #include <linux/suspend.h>
+ 
+ #include "watchdog_core.h"	/* For watchdog_dev_register/... */
+@@ -155,6 +156,23 @@ int watchdog_init_timeout(struct watchdog_device *wdd,
+ }
+ EXPORT_SYMBOL_GPL(watchdog_init_timeout);
+ 
++static int watchdog_panic_notify(struct notifier_block *nb,
++				 unsigned long action, void *data)
++{
++	struct watchdog_device *wdd;
++
++	wdd = container_of(nb, struct watchdog_device, panic_nb);
++	if (watchdog_active(wdd)) {
++		int ret;
++
++		ret = wdd->ops->stop(wdd);
++		if (ret)
++			return NOTIFY_BAD;
++	}
++
++	return NOTIFY_DONE;
++}
++
+ static int watchdog_reboot_notifier(struct notifier_block *nb,
+ 				    unsigned long code, void *data)
+ {
+@@ -334,6 +352,16 @@ static int ___watchdog_register_device(struct watchdog_device *wdd)
+ 				wdd->id, ret);
+ 	}
+ 
++	if (test_bit(WDOG_STOP_ON_PANIC, &wdd->status)) {
++		if (!wdd->ops->stop) {
++			pr_warn("watchdog%d: stop_on_panic not supported\n", wdd->id);
++		} else {
++			wdd->panic_nb.notifier_call = watchdog_panic_notify;
++			atomic_notifier_chain_register(&panic_notifier_list,
++						       &wdd->panic_nb);
++		}
++	}
++
+ 	return 0;
+ }
+ 
+@@ -390,6 +418,9 @@ static void __watchdog_unregister_device(struct watchdog_device *wdd)
+ 	if (test_bit(WDOG_STOP_ON_REBOOT, &wdd->status))
+ 		unregister_reboot_notifier(&wdd->reboot_nb);
+ 
++	if (test_bit(WDOG_STOP_ON_PANIC, &wdd->status))
++		atomic_notifier_chain_unregister(&panic_notifier_list,
++						 &wdd->panic_nb);
+ 	watchdog_dev_unregister(wdd);
+ 	ida_free(&watchdog_ida, wdd->id);
+ }
+diff --git a/include/linux/watchdog.h b/include/linux/watchdog.h
+index 99660197a36c..3c21b527ede9 100644
+--- a/include/linux/watchdog.h
++++ b/include/linux/watchdog.h
+@@ -108,6 +108,7 @@ struct watchdog_device {
+ 	struct notifier_block reboot_nb;
+ 	struct notifier_block restart_nb;
+ 	struct notifier_block pm_nb;
++	struct notifier_block panic_nb;
+ 	void *driver_data;
+ 	struct watchdog_core_data *wd_data;
+ 	unsigned long status;
+@@ -118,6 +119,7 @@ struct watchdog_device {
+ #define WDOG_HW_RUNNING		3	/* True if HW watchdog running */
+ #define WDOG_STOP_ON_UNREGISTER	4	/* Should be stopped on unregister */
+ #define WDOG_NO_PING_ON_SUSPEND	5	/* Ping worker should be stopped on suspend */
++#define WDOG_STOP_ON_PANIC	6	/* Should be stopped on panic for loading kdump kernels */
+ 	struct list_head deferred;
+ };
+ 
+@@ -146,6 +148,12 @@ static inline void watchdog_set_nowayout(struct watchdog_device *wdd, bool noway
+ 		set_bit(WDOG_NO_WAY_OUT, &wdd->status);
+ }
+ 
++/* Use the following function to stop the watchdog on panic */
++static inline void watchdog_stop_on_panic(struct watchdog_device *wdd)
++{
++	set_bit(WDOG_STOP_ON_PANIC, &wdd->status);
++}
++
+ /* Use the following function to stop the watchdog on reboot */
+ static inline void watchdog_stop_on_reboot(struct watchdog_device *wdd)
+ {
 -- 
-pw-bot: cr
+2.34.1
+
