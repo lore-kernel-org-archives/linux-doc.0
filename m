@@ -1,129 +1,140 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f225.google.com (mail-pl1-f225.google.com [209.85.214.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E128635F
-	for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2025 01:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049FB38F80
+	for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2025 01:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740100513; cv=none; b=luA22FADHbyULRjx+ZTlsLo9QLcVnfvRdnYQe1P3AsNi6++TrkzXjKAGLK82mjuSG1R+L0niNeeIqDl3QJPIXpR4ljwyb8+7K2aBLCvckC+swXrmoTN0qguGPo9FtDYdQzEbhbuqtAsYL4/b1BzA75SBAbQ0mQPsUfH2myfPft8=
+	t=1740101372; cv=none; b=R4SMVQA3PqP2Y32hiPcHdR7FEYLSyvJqdFFGm7sLyJs5L02jRKW42GYLdiNXVs+obnAgY2RwgG0NoWr7JKid15evb7F5Mvcbq3a3h1uia+wl6ygtiIN5qQ8Hfmil6Xk7MxgN4ekELTrXj9j4Xd9rHla86I0PreRTFvuR7ljthO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740100513; c=relaxed/simple;
-	bh=/bGiavS8jq7e1a/UcoH9zlpN1YkLl+PW6P8a+yl2sIA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qN6+beNP7DdBIeImGXcIA6/R5pBYAvbUcR5dsC6ow+bthvcnJGxJu1vzTVh0aM7s16+/oRGW1AXaGOlxhsQamAeS9Zrl1yEqWJwxZ/8FPvwE9ymp+sjwxrFhNHzJwedioIXPvKzYVDFreVfWK15A4rjHD6Hn2v+wCulGiBiwhbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O0o4AW0S; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1740101372; c=relaxed/simple;
+	bh=OxL4DZJqt64PUiQXYxlTRUZr/x1LfFZisrvwzPOc5DA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=QpFxUnFS2pfyHtsDECL0kMMm/SFGSVDB2DfxEHOCftwIluSdFiQS1Q/BKAcqRVWE1snQvkJwIJlOtilHPqYFHfDyqbgBHSG/lVTrv7sP4iBo51/ugMwbc6ATAPJ7Oo2FHBkKIRP1Ef4myk9Za/3WOmmyZIPwr5ZVwk68XjrPL0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=S7NzPIqN; arc=none smtp.client-ip=209.85.214.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O0o4AW0S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740100510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/bGiavS8jq7e1a/UcoH9zlpN1YkLl+PW6P8a+yl2sIA=;
-	b=O0o4AW0S4KF4+1E1qQeOtCSp2vnpW40WlgKXQMJhSXp3bg0QIKJXbPSOAq9abp8GrjmZuE
-	kuWSpIZwxH3rHfGeuadNJ/MYs9oDmap3VGg0sC5SyiXxgGcyge6fGqoRar3vRx7WKswtci
-	auH4iWwP1TuLpGulNsdYEKkNT+W4S4Y=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-85-xIUohYYeN6uUIV8T526xjw-1; Thu, 20 Feb 2025 20:15:09 -0500
-X-MC-Unique: xIUohYYeN6uUIV8T526xjw-1
-X-Mimecast-MFC-AGG-ID: xIUohYYeN6uUIV8T526xjw_1740100508
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-220ec5c16e9so34480435ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 17:15:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="S7NzPIqN"
+Received: by mail-pl1-f225.google.com with SMTP id d9443c01a7336-219f8263ae0so33975225ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 20 Feb 2025 17:29:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1740101370; x=1740706170; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WpUJdoMAs8bzYIcG1jnoru7eUeYOX5eR6ASAPS5wK3I=;
+        b=S7NzPIqNNYpFfenN8jLYCZpiN4jTAPcYTG2vvjHqHHDb29dEPdljEt/smx0YtcbJo+
+         vd6xosEVzDHR0mAnzrJP0ZW//goBcZ676PprhbS7DcWCYE/sL7DpBhNAd7cm6ObHPMIv
+         Dv+RujRiTM/Vp0JhLZpOZLH4FOfObZr2IJ4PfpjkwgdhAkkqfZ0xYgrT+YDoUPFnCqzC
+         H55Usv8C9BEQ9iBOZMXadiwUXgdKVXULXg88O2kQKnZOH1mfw+oM2OGfpvE8sknkKRaM
+         RthjMD2yeFZAFmbBGajLBriZxamKtwLUxBfFpqXuL8bG0JUGjp8Ez+jPStkHU4x+1L4b
+         ttFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740100508; x=1740705308;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/bGiavS8jq7e1a/UcoH9zlpN1YkLl+PW6P8a+yl2sIA=;
-        b=KRqGtOum+/HUa8dc+kHAkTQchjXJQeP3a47PbECrRtmgkKaTxeDR1Cok7J9FO1tKPJ
-         QSDrQd1MXhiIOCkkZ2dBoSzqHUNqT1vPaJrsTZ9iRJ6e8xjA+fihrJKNF7dIs2rdpi55
-         EiqzZgrJVS2zQLaHG0+1H3iYj8CCikK8wB633ww5AtMU7jQFXUt8HdrYQlN05qo4Np1r
-         8TTn9yCSXNn69EWDhdXhFwGa/W2C0d7PIon0xRgvh6ox7YHIHgFtgDpWin+HoRQv3/Uj
-         xdaa8EfMNEt2EY4MDJf6SAo6wIQsu5amK5BH4MwIbSzq9FaXcLr0pEXoEKJ07Y9ukpQW
-         DD1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUUcCzlFli9AYuZ45ZooGklHyvf1f6M5vz+KGxIGilfsrlmd+5axnAA5QmotlJvwSGkhfkIgtk7OVk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwybzCWHv8Bw+ALoIOpSUeXrn9+91BD/n6KyexvKgFmZSI3etpW
-	Bp7R7uvN2EqKWMFpCvRFEAPorROjcnxtybZeqhDw+ZxVSmZWTg2tLeUrWh6bQEQqBlDblGGxlLY
-	iFXo1Yh4eoPrLAm/dYES0aHfeBF7SZj4NGVZ4eyn8Z+uU2sS5lkk6P/yQD3fd7Qp6kNctHmrlv5
-	o7hs/s5KJFa4cNgCiWfIWUkApdNgax6THk
-X-Gm-Gg: ASbGncsO5YqGBacLh/LAYaaCHe/vELc9sI/dwIRSTLSWY3PPzQVJCP1xYdmEWkDFIa5
-	3kZWfXhjxN1JzmgWMjBJAsblA+u+JgMFhNGv6ovLC9+qf4EwoqHwglWiAGgLRLEw=
-X-Received: by 2002:a17:902:fc44:b0:215:bb50:6a05 with SMTP id d9443c01a7336-221a0ec944cmr13551825ad.9.1740100508433;
-        Thu, 20 Feb 2025 17:15:08 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHNUoAtdLLCDrmQ4E0KhxP1/v8E8OjE3hwAErurd7Thltd/lsB3alr0YyGDAyw/Vnr52MolQRVxcb5jecipEJY=
-X-Received: by 2002:a17:902:fc44:b0:215:bb50:6a05 with SMTP id
- d9443c01a7336-221a0ec944cmr13551285ad.9.1740100507900; Thu, 20 Feb 2025
- 17:15:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740101370; x=1740706170;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WpUJdoMAs8bzYIcG1jnoru7eUeYOX5eR6ASAPS5wK3I=;
+        b=hKx7XXcaTrl7WdM2tAktmFCS1jF0BiUJdsl/rsZgp4SVTOwbmGNGYa3hrKoebBl6AE
+         rkgXfl353kl9FazA2AEmVW2Lks7bFHwRFjXJHgEdsmaholRHv956RE/U3lmWqtr56nyt
+         nkdTXLX3fxpGXRT9mV2gno58kSGTmXY+wWK7/CwuL32GlJtIjswL+fAQfC9ZpBckCFll
+         obvvgcFtOgr0T+K9qZk01weFx3k72X1hwLYEjZCbQ78DARWSJwxmAP1O363/F3SGIgLD
+         zarbt7oiufF95fyErZ4ORrCRYo2+lLu3ul7kOlFBgRKSwpFuXyIdKuwAJ68cOmfNxhUn
+         QXew==
+X-Forwarded-Encrypted: i=1; AJvYcCWTuVo2I4VSjLhkTNCIWxcLnJhXcAkwffFrTl1A9bj30aNeCFY3XSsdw0ZqkQsyo9uMJ2Uti/tCNkI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxt7P632MVtIQnSAw0y/7oYG+ExE5rZ1t5rHvxZFEKdoDB18fx8
+	2V6aAmjo8ksB2t1R/7fnhdjaH0gEt1D9UZ4bFY3R4isktUPuQF+/jfoYdALw6zA+oUwEF4ohB0t
+	7jaubT0JrrLLOfo9Wnw4HlQLIa7W3h/C1j7RMkHmcxCYn/db3
+X-Gm-Gg: ASbGncvqqsSGyL272UhYimOcHFUC+rLVVYXLfMO7lkkUtBLCE94jCZfJl01h4mv1ZcY
+	HOUn1mhqGJ4igAQ29woEuu+F7Zyx7ObBGYu5B3zV9ZV2eXojLETDQLq0pTFCQ6Nh/yIuls1UNmV
+	s7SZgnYAOHXBtWzo1bAGt+8oFtQ9e261ODRdV0IkvFsi3yjtgcUWPOBAwzv0h6ekdap7siDj1hS
+	s+k9qa4c2Tkbtj5dlR2ZnIrT7q5BIlNMYfJBcB1IkvFpjh90ZfTDUqm/AeyfsOP1M1ZwmURUAIl
+	gKl/mbIZcpOQzxuGwcYGwe30zrTLVOc+VRU=
+X-Google-Smtp-Source: AGHT+IHDRB0yDjEQFnLo/EI0eL8zlxPAZQ5lMijLpnpnvBm2FYJm4DfnbRgn46L0BNyHiwblb1kMWXysVRC5
+X-Received: by 2002:a17:902:cf08:b0:216:2259:a4bd with SMTP id d9443c01a7336-221a11d9943mr14062845ad.52.1740101370325;
+        Thu, 20 Feb 2025 17:29:30 -0800 (PST)
+Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
+        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-220d53fa1f4sm7697295ad.94.2025.02.20.17.29.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 17:29:30 -0800 (PST)
+X-Relaying-Domain: purestorage.com
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [IPv6:2620:125:9007:640:7:70:36:0])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 7DE1B340216;
+	Thu, 20 Feb 2025 18:29:29 -0700 (MST)
+Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
+	id 6FD29E42CBB; Thu, 20 Feb 2025 18:29:29 -0700 (MST)
+From: Uday Shankar <ushankar@purestorage.com>
+Subject: [PATCH net-next v5 0/2] netconsole: allow selection of egress
+ interface via MAC address
+Date: Thu, 20 Feb 2025 18:29:19 -0700
+Message-Id: <20250220-netconsole-v5-0-4aeafa71debf@purestorage.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250215-buffers-v2-1-1fbc6aaf8ad6@daynix.com>
- <d4b7f8a0-db50-4b48-b5a3-f60eab76e96b@redhat.com> <20250220034042-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20250220034042-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 21 Feb 2025 09:14:56 +0800
-X-Gm-Features: AWEUYZk12eKYMoRdAhOr_VqKFdK71rl0l2JCQtxsCVicbAIDmOs5Fp4sSGUmfl4
-Message-ID: <CACGkMEtN1K7jRVmZwxah1vET=p5k_Nd0cpov=R0B8sP=bjC-sA@mail.gmail.com>
-Subject: Re: [PATCH net-next v2] tun: Pad virtio headers
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Paolo Abeni <pabeni@redhat.com>, Akihiko Odaki <akihiko.odaki@daynix.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, kvm@vger.kernel.org, 
-	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
-	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
-	Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, devel@daynix.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO/Wt2cC/23NTQ6CMBAF4KuQrq3pDy3oynsYF1in0EQpabHBE
+ O7u2BVEli9v3jcziRAcRHIuZhIgueh8j0EdCmK6pm+BugdmIphQTLCS9jAa30f/BFoazRkIW1f
+ cEBwMAaybMnYleIe300hu2HQujj588pckcr8HJkEZVWAV3JXVTOnL8A7wmzYtHI1/ZSzJNaA2g
+ ESAS9FIbnnFT6d9oFwBvNoAJQLM6JobsBUi/8CyLF9xmm4mNgEAAA==
+X-Change-ID: 20250204-netconsole-4c610e2f871c
+To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
+ Simon Horman <horms@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+ Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Uday Shankar <ushankar@purestorage.com>, 
+ Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
+X-Mailer: b4 0.14.2
 
-On Thu, Feb 20, 2025 at 4:45=E2=80=AFPM Michael S. Tsirkin <mst@redhat.com>=
- wrote:
->
-> On Thu, Feb 20, 2025 at 08:58:38AM +0100, Paolo Abeni wrote:
-> > Hi,
-> >
-> > On 2/15/25 7:04 AM, Akihiko Odaki wrote:
-> > > tun simply advances iov_iter when it needs to pad virtio header,
-> > > which leaves the garbage in the buffer as is. This will become
-> > > especially problematic when tun starts to allow enabling the hash
-> > > reporting feature; even if the feature is enabled, the packet may lac=
-k a
-> > > hash value and may contain a hole in the virtio header because the
-> > > packet arrived before the feature gets enabled or does not contain th=
-e
-> > > header fields to be hashed. If the hole is not filled with zero, it i=
-s
-> > > impossible to tell if the packet lacks a hash value.
-> >
-> > Should virtio starting sending packets only after feature negotiation?
-> > In other words, can the above happen without another bug somewhere else=
-?
->
->
-> Not if this is connected with a guest with the standard virtio driver, no=
-.
-> The issue is that tun has no concept of feature negotiation,
-> and we don't know who uses the vnet header feature, or why.
->
-> > I guess the following question is mostly for Jason and Michael: could b=
-e
-> > possible (/would it make any sense) to use a virtio_net_hdr `flags` bit
-> > to explicitly signal the hash fields presence? i.e. making the actual
-> > virtio_net_hdr size 'dynamic'.
->
-> But it is dynamic - that is why we have TUNSETVNETHDRSZ.
+This series adds support for selecting a netconsole egress interface by
+specifying the MAC address (in place of the interface name) in the
+boot/module parameter.
 
-Yes, tun currently only recognizes a subset of the whole virtio-net header.
+Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+---
+Changes in v5:
+- Drop Breno Leitao's patch to add (non-RCU) dev_getbyhwaddr from this
+  set since it has landed on net-next (Jakub Kicinski)
+- Link to v4: https://lore.kernel.org/r/20250217-netconsole-v4-0-0c681cef71f1@purestorage.com
 
-Thanks
+Changes in v4:
+- Incorporate Breno Leitao's patch to add (non-RCU) dev_getbyhwaddr and
+  use it (Jakub Kicinski)
+- Use MAC_ADDR_STR_LEN in ieee80211_sta_debugfs_add as well (Michal
+  Swiatkowski)
+- Link to v3: https://lore.kernel.org/r/20250205-netconsole-v3-0-132a31f17199@purestorage.com
+
+Changes in v3:
+- Rename MAC_ADDR_LEN to MAC_ADDR_STR_LEN (Johannes Berg)
+- Link to v2: https://lore.kernel.org/r/20250204-netconsole-v2-0-5ef5eb5f6056@purestorage.com
+
+---
+Uday Shankar (2):
+      net, treewide: define and use MAC_ADDR_STR_LEN
+      netconsole: allow selection of egress interface via MAC address
+
+ Documentation/networking/netconsole.rst |  6 +++-
+ drivers/net/netconsole.c                |  2 +-
+ drivers/nvmem/brcm_nvram.c              |  2 +-
+ drivers/nvmem/layouts/u-boot-env.c      |  2 +-
+ include/linux/if_ether.h                |  3 ++
+ include/linux/netpoll.h                 |  6 ++++
+ lib/net_utils.c                         |  4 +--
+ net/core/netpoll.c                      | 51 +++++++++++++++++++++++++--------
+ net/mac80211/debugfs_sta.c              |  7 +++--
+ 9 files changed, 61 insertions(+), 22 deletions(-)
+---
+base-commit: 1340461e5168f8a33b2b3e0ed04557742664bee1
+change-id: 20250204-netconsole-4c610e2f871c
+
+Best regards,
+-- 
+Uday Shankar <ushankar@purestorage.com>
 
