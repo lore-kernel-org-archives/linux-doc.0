@@ -1,256 +1,248 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42346253F07;
-	Fri, 21 Feb 2025 20:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498411DC985;
+	Fri, 21 Feb 2025 20:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740170085; cv=none; b=DaZlOzpQ6eXh3TWTs7j9hKuno/Hthxfb/73iV+Z7Wrpdl/M0VKyircvanl9wrgOOyDdezID35eCBbs0BG4rE+EChAg4+IzSJFhlXsF9TyJY5/uDI5BERp45xE2CgumVpW8gKW0yMyuXp2K9e3eNfvpkqn10i3/jqy9ZWXSJ/vJE=
+	t=1740170569; cv=none; b=HolJ8G2OqIGFFddV/QYjvAPvHJJVx7f3RBlcgj1VX6PnkKevXtKOLncDsP2Q1mRR+jCA65mzkWvKGShQOAcwDAbw33+OgvVtZ3UtoQznIrlk5AZBjSFCHQWm7LoTwdUbB3UwzDfhC16Zx8EzjlDjFiIayM27Acy2aJgmpQD5tyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740170085; c=relaxed/simple;
-	bh=rviAPBtUobspkNDwfOwDylqUb3/l41NbO4AFds2nZuY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rhGOap6A7DVfBMP4vXZhihR9G55GMM0MPp6FrKWHjDrI4pBEj00+61v14SNb/bw8gCT8nwAXX2A1j0g+8nbkyY6EmZ8l42cl3fNSDhJXc20Y74Mjr13+ipyMx+cymA58p7d0BhQFooMb+AZ4wpyHymrxfiMU4vTM+NMD31ZB+BY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fa02rRWu; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740170569; c=relaxed/simple;
+	bh=WDe+to5rRRq7lsLv9P59RikBY/hODwqoknD2e2l+CDo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ArvN0S6tsm0mw1p5pfPCYXN1+UHMkgh/Kv6n5tQZnMj3LxNRsVYKjM/rttuwu7qB/PIoRhxONEQVK2qAzizaCdLIl3/sxMCedT3ITsI84RnARign2RmWkpmq0j1otDlFetnKB/VVzZHqdeYEvdj22SaLbloaiv+Tqig+W+GYfZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ONeIxLb+; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fa02rRWu"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6e66b4607d2so11546856d6.3;
-        Fri, 21 Feb 2025 12:34:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740170081; x=1740774881; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Eoi45DrFExaeO8JTjw8qgTrj/TOzu6Gqxn36YdKMoVM=;
-        b=Fa02rRWu565WCJyFnY9mqr1/7OJW9D+YDnFk36IF8HteIz2U0nNdrAz0qJxrMZuXiq
-         uK9AfALH5blT+nIoW+PeUSzTsglNChKobXi6GhaQd/PRA7gJ9ExTHyPRziDS7CXdKsjF
-         n4HY6QPxYXtIqNqij+wpqle6N2iivw2yQAFGiLELWCbzlO5jT5LgFadYxumPHXwxWUrB
-         wb/BwvOOfD/U0cNg7n5IZ0bnOgJsBnwnchiuxvc0Ye57kAE9elsVDVKz3k/Br42G45vV
-         ImG98SwY35+U8GnBlbGra8CwQsH5cNwNmsnmho137AK9JIL3RMdY7m969gb0KsxShSTS
-         iOkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740170081; x=1740774881;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Eoi45DrFExaeO8JTjw8qgTrj/TOzu6Gqxn36YdKMoVM=;
-        b=fYIG2bRZLK0Qg2JQDWRruuM5YhGgAvyABvdD2nef4aztSzR5Py0a9oNw5fNQFjmIIK
-         fjsZMEVDShSE1vC46nBJXhQzX6FmCLe34IdhI69XOCeoMnh/rIxbZ91MzxHJrC3NYttl
-         bEX+LAneHddCgoLcV21NhpLVszgfZOoQJnvi+a5G2BtSkeP3yh6jxL12QOVcNydrasMC
-         Qpi+fX+29u60SJqGc82/EmHXZO/mqZcMPU3aeJBh3G9HaGjhCIOc9cpbKaKWGAQnLuDB
-         TTkspKVtkAhdoqHr0ZLRaJ220T2yvElU6lRdK4t7402qseayBeMZu1Uzc307d+tqM5EP
-         LPLA==
-X-Forwarded-Encrypted: i=1; AJvYcCWfpCBxBZ5rjaddfB8dpFHt3VjSKSUezwgC0wCC0nFQM0WsU1Bgh8sloPbnEuxS9x9hXVcqURl3vp4=@vger.kernel.org, AJvYcCXqzSktyFzvTgEbmS26c2IpxuwZsRVUr0y/cwxgh1INjSn69uyQuH2cFLp3wnX1uIhelwqYUmsW9+AvUqU/tk54@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwuMbeaDUYunvCFBStEk2X3IbB9WcKvhXdHHuCuH4AUAWUp5Cp
-	C1ljQU803yCyx6SnAQyMIy58sck8TTQ86dd7apeXWcLLZK/us047pIwshV0EvhI=
-X-Gm-Gg: ASbGncu8tTFcvkZjFsM2jgkP2KYgqIg7miGCCSl8oKAsOoWtgGPERYmLumDA/m+PHWS
-	7Lb4O4uVZ/fl37AfKpwW+Sk4nSOK0jLP8yP4jvOrVcsKSVV7ZGg1JjIUQrDTq6WzhpdgRHwO5Zx
-	5akB2Yl2XUNjCkNvI0NaAmYR+DHoeEsW2MeJXGl0eZRDFdCgiaIZiq212rA84exgJRM7MKb9Y/+
-	DOaA0hEAtA1sLYVWHDI6SyTssil9Eaeyy2+AekGYT2fUCVQMqsiZajdCnBEIiiFGChdCiYiJKMh
-	5sT/8djGqPBW3rC16B5L92JRO9BQkbZbGSnkqpVCTXziMbZmlw==
-X-Google-Smtp-Source: AGHT+IHZk626/PCbkUmvjSlL6T9hQUoiEhcd/cjugAXTLDwX+GAde7Djl8OMDd5sudOZWoO2zG+F+w==
-X-Received: by 2002:a05:6214:2422:b0:6d8:9a85:5b44 with SMTP id 6a1803df08f44-6e6ae9959bdmr52539466d6.29.1740170081234;
-        Fri, 21 Feb 2025 12:34:41 -0800 (PST)
-Received: from tamird-mac.local ([2600:4041:5be7:7c00:880f:47d4:56c6:b852])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e65d9f36easm101677546d6.74.2025.02.21.12.34.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Feb 2025 12:34:40 -0800 (PST)
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Fri, 21 Feb 2025 15:34:32 -0500
-Subject: [PATCH v5 3/3] printf: implicate test line in failure messages
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ONeIxLb+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740170567; x=1771706567;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=WDe+to5rRRq7lsLv9P59RikBY/hODwqoknD2e2l+CDo=;
+  b=ONeIxLb+QY68H/f+MVNnKKc1+ghZHbxI9aTiv4ql71iT3tacqrX371OI
+   c/DYt9B0utm5iF3Xgn4/RH3KPxBNiQKkdO6mkvFpZyIU9894tssztSLqJ
+   V0kyXq+T3+JGWIWfKq+eXOQxbBQWwuSqLMfpgG+O54Fmm5zIJ/mzGdEQA
+   wmRpztoXqlhLNoqBpOUJcqcDobKR87vf5sowUz3e+avIxfx1SGrItOUPP
+   mogNqScPpVEcGkfVNBoMkC1S32agJyfowFJtHVkTJP8B+zR4stWoA3vyB
+   rCGK+O+mRgaac9fdnhlGwTNp9+o5f/WATZ1E+EyTG1T+xrmri5D1Qum8J
+   g==;
+X-CSE-ConnectionGUID: BrKZ3BCATom6HTFo9aIJJA==
+X-CSE-MsgGUID: 41NCCJEMTYav/cZS10ks7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="40922583"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="40922583"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 12:42:47 -0800
+X-CSE-ConnectionGUID: zC+uNe1dTIO9JBrdJOTyTw==
+X-CSE-MsgGUID: swnSrLXlTzum+CJRrwvp1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="115308379"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 12:42:39 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tlZr0-0000000DkDP-0Fwy;
+	Fri, 21 Feb 2025 22:42:34 +0200
+Date: Fri, 21 Feb 2025 22:42:33 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>,
+	Atharva Tiwari <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v3 3/3] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Message-ID: <Z7jlORk0MiMFTmp6@smile.fi.intel.com>
+References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+ <8F522D41-5417-467E-B9D3-7D9FC24AE536@live.com>
+ <Z7igVXqvRYTVFpXU@smile.fi.intel.com>
+ <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250221-printf-kunit-convert-v5-3-5db840301730@gmail.com>
-References: <20250221-printf-kunit-convert-v5-0-5db840301730@gmail.com>
-In-Reply-To: <20250221-printf-kunit-convert-v5-0-5db840301730@gmail.com>
-To: Arpitha Raghunandan <98.arpi@gmail.com>, 
- David Gow <davidgow@google.com>, Petr Mladek <pmladek@suse.com>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Geert Uytterhoeven <geert@linux-m68k.org>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Naveen N Rao <naveen@kernel.org>, 
- Brendan Higgins <brendan.higgins@linux.dev>
-Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
- linuxppc-dev@lists.ozlabs.org, Tamir Duberstein <tamird@gmail.com>
-X-Mailer: b4 0.15-dev
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-This improves the failure output by pointing to the failing line at the
-top level of the test, e.g.:
-      # test_number: EXPECTATION FAILED at lib/printf_kunit.c:103
-  lib/printf_kunit.c:167: vsnprintf(buf, 256, "%#-12x", ...) wrote '0x1234abcd  ', expected '0x1234abce  '
-      # test_number: EXPECTATION FAILED at lib/printf_kunit.c:142
-  lib/printf_kunit.c:167: kvasprintf(..., "%#-12x", ...) returned '0x1234abcd  ', expected '0x1234abce  '
+On Fri, Feb 21, 2025 at 07:13:06PM +0000, Aditya Garg wrote:
+> > On Fri, Feb 21, 2025 at 11:37:57AM +0000, Aditya Garg wrote:
 
-Signed-off-by: Tamir Duberstein <tamird@gmail.com>
----
- lib/tests/printf_kunit.c | 62 ++++++++++++++++++++++++++----------------------
- 1 file changed, 34 insertions(+), 28 deletions(-)
+...
 
-diff --git a/lib/tests/printf_kunit.c b/lib/tests/printf_kunit.c
-index 013df6f6dd49..ed6e708ddb61 100644
---- a/lib/tests/printf_kunit.c
-+++ b/lib/tests/printf_kunit.c
-@@ -38,9 +38,9 @@ static unsigned int total_tests;
- static char *test_buffer;
- static char *alloced_buffer;
- 
--static void __printf(5, 0)
--do_test(struct kunit *kunittest, int bufsize, const char *expect, int elen,
--	const char *fmt, va_list ap)
-+static void __printf(7, 0)
-+do_test(struct kunit *kunittest, const char *file, const int line, int bufsize, const char *expect,
-+	int elen, const char *fmt, va_list ap)
- {
- 	va_list aq;
- 	int ret, written;
-@@ -53,21 +53,24 @@ do_test(struct kunit *kunittest, int bufsize, const char *expect, int elen,
- 	va_end(aq);
- 
- 	if (ret != elen) {
--		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) returned %d, expected %d",
--			   bufsize, fmt, ret, elen);
-+		KUNIT_FAIL(kunittest,
-+			   "%s:%d: vsnprintf(buf, %d, \"%s\", ...) returned %d, expected %d",
-+			   file, line, bufsize, fmt, ret, elen);
- 		return;
- 	}
- 
- 	if (memchr_inv(alloced_buffer, FILL_CHAR, PAD_SIZE)) {
--		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) wrote before buffer",
--			   bufsize, fmt);
-+		KUNIT_FAIL(kunittest,
-+			   "%s:%d: vsnprintf(buf, %d, \"%s\", ...) wrote before buffer",
-+			   file, line, bufsize, fmt);
- 		return;
- 	}
- 
- 	if (!bufsize) {
- 		if (memchr_inv(test_buffer, FILL_CHAR, BUF_SIZE + PAD_SIZE)) {
--			KUNIT_FAIL(kunittest, "vsnprintf(buf, 0, \"%s\", ...) wrote to buffer",
--				   fmt);
-+			KUNIT_FAIL(kunittest,
-+				   "%s:%d: vsnprintf(buf, 0, \"%s\", ...) wrote to buffer",
-+				   file, line, fmt);
- 		}
- 		return;
- 	}
-@@ -75,33 +78,36 @@ do_test(struct kunit *kunittest, int bufsize, const char *expect, int elen,
- 	written = min(bufsize-1, elen);
- 	if (test_buffer[written]) {
- 		KUNIT_FAIL(kunittest,
--			   "vsnprintf(buf, %d, \"%s\", ...) did not nul-terminate buffer",
--			   bufsize, fmt);
-+			   "%s:%d: vsnprintf(buf, %d, \"%s\", ...) did not nul-terminate buffer",
-+			   file, line, bufsize, fmt);
- 		return;
- 	}
- 
- 	if (memchr_inv(test_buffer + written + 1, FILL_CHAR, bufsize - (written + 1))) {
- 		KUNIT_FAIL(kunittest,
--			   "vsnprintf(buf, %d, \"%s\", ...) wrote beyond the nul-terminator",
--			   bufsize, fmt);
-+			   "%s:%d: vsnprintf(buf, %d, \"%s\", ...) wrote beyond the nul-terminator",
-+			   file, line, bufsize, fmt);
- 		return;
- 	}
- 
- 	if (memchr_inv(test_buffer + bufsize, FILL_CHAR, BUF_SIZE + PAD_SIZE - bufsize)) {
--		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) wrote beyond buffer",
--			   bufsize, fmt);
-+		KUNIT_FAIL(kunittest,
-+			   "%s:%d: vsnprintf(buf, %d, \"%s\", ...) wrote beyond buffer",
-+			   file, line, bufsize, fmt);
- 		return;
- 	}
- 
- 	if (memcmp(test_buffer, expect, written)) {
--		KUNIT_FAIL(kunittest, "vsnprintf(buf, %d, \"%s\", ...) wrote '%s', expected '%.*s'",
--			   bufsize, fmt, test_buffer, written, expect);
-+		KUNIT_FAIL(kunittest,
-+			   "%s:%d: vsnprintf(buf, %d, \"%s\", ...) wrote '%s', expected '%.*s'",
-+			   file, line, bufsize, fmt, test_buffer, written, expect);
- 		return;
- 	}
- }
- 
--static void __printf(4, 0)
--__test(struct kunit *kunittest, const char *expect, int elen, const char *fmt, ...)
-+static void __printf(6, 0)
-+__test(struct kunit *kunittest, const char *file, const int line, const char *expect, int elen,
-+	const char *fmt, ...)
- {
- 	va_list ap;
- 	int rand;
-@@ -109,8 +115,8 @@ __test(struct kunit *kunittest, const char *expect, int elen, const char *fmt, .
- 
- 	if (elen >= BUF_SIZE) {
- 		KUNIT_FAIL(kunittest,
--			   "error in test suite: expected length (%d) >= BUF_SIZE (%d). fmt=\"%s\"",
--			   elen, BUF_SIZE, fmt);
-+			   "%s:%d: error in test suite: expected length (%d) >= BUF_SIZE (%d). fmt=\"%s\"",
-+			   file, line, elen, BUF_SIZE, fmt);
- 		return;
- 	}
- 
-@@ -122,19 +128,19 @@ __test(struct kunit *kunittest, const char *expect, int elen, const char *fmt, .
- 	 * enough and 0), and then we also test that kvasprintf would
- 	 * be able to print it as expected.
- 	 */
--	do_test(kunittest, BUF_SIZE, expect, elen, fmt, ap);
-+	do_test(kunittest, file, line, BUF_SIZE, expect, elen, fmt, ap);
- 	rand = get_random_u32_inclusive(1, elen + 1);
- 	/* Since elen < BUF_SIZE, we have 1 <= rand <= BUF_SIZE. */
--	do_test(kunittest, rand, expect, elen, fmt, ap);
--	do_test(kunittest, 0, expect, elen, fmt, ap);
-+	do_test(kunittest, file, line, rand, expect, elen, fmt, ap);
-+	do_test(kunittest, file, line, 0, expect, elen, fmt, ap);
- 
- 	p = kvasprintf(GFP_KERNEL, fmt, ap);
- 	if (p) {
- 		total_tests++;
- 		if (memcmp(p, expect, elen+1)) {
- 			KUNIT_FAIL(kunittest,
--				   "kvasprintf(..., \"%s\", ...) returned '%s', expected '%s'",
--				   fmt, p, expect);
-+				   "%s:%d: kvasprintf(..., \"%s\", ...) returned '%s', expected '%s'",
-+				   file, line, fmt, p, expect);
- 		}
- 		kfree(p);
- 	}
-@@ -142,7 +148,7 @@ __test(struct kunit *kunittest, const char *expect, int elen, const char *fmt, .
- }
- 
- #define test(expect, fmt, ...)					\
--	__test(kunittest, expect, strlen(expect), fmt, ##__VA_ARGS__)
-+	__test(kunittest, __FILE__, __LINE__, expect, strlen(expect), fmt, ##__VA_ARGS__)
- 
- static void
- test_basic(struct kunit *kunittest)
-@@ -153,7 +159,7 @@ test_basic(struct kunit *kunittest)
- 	test("", &nul);
- 	test("100%", "100%%");
- 	test("xxx%yyy", "xxx%cyyy", '%');
--	__test(kunittest, "xxx\0yyy", 7, "xxx%cyyy", '\0');
-+	__test(kunittest, __FILE__, __LINE__, "xxx\0yyy", 7, "xxx%cyyy", '\0');
- }
- 
- static void
+> >> +} __packed;
+> > 
+> > Why __packed? Please explain and justify for all the data types that are marked
+> > with this attribute.
+> 
+> Just following the original Windows driver here (#pragma pack) :
+> 
+> https://github.com/imbushuo/DFRDisplayKm/blob/master/src/DFRDisplayKm/include/DFRHostIo.h
+> 
+> IMO these structures are used for communication with the Touch Bar over USB.
+> The hardware expects a very specific layout for the data it receives and
+> sends. If the compiler were to insert padding for alignment, it would break
+> the communication protocol because the fields would not be in the expected
+> positions.
+
+What padding, please? Why TCP UAPI headers do not have these attributes?
+Think about it, and think about what actually __packed does and how it affects
+(badly) the code generation. Otherwise it looks like a cargo cult.
+
+> I tried removing __packed btw and driver no longer works.
+
+So, you need to find a justification why. But definitely not due to padding in
+many of them. They can go without __packed as they are naturally aligned.
+
+...
+
+> >> + if (response->msg == APPLETBDRM_MSG_SIGNAL_READINESS) {
+> >> + if (!readiness_signal_received) {
+> >> + readiness_signal_received = true;
+> >> + goto retry;
+> >> + }
+> >> +
+> >> + drm_err(drm, "Encountered unexpected readiness signal\n");
+> >> + return -EIO;
+> >> + }
+> >> +
+> >> + if (actual_size != size) {
+> >> + drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
+> >> + actual_size, size);
+> >> + return -EIO;
+> >> + }
+> >> +
+> >> + if (response->msg != expected_response) {
+> >> + drm_err(drm, "Unexpected response from device (expected %p4ch found %p4ch)\n",
+> >> + &expected_response, &response->msg);
+> >> + return -EIO;
+> > 
+> > For three different cases the same error code, can it be adjusted more to the
+> > situation?
+> 
+> All these are I/O errors, you got any suggestion?
+
+Your email client mangled the code so badly that it's hard to read. But I would
+suggest to use -EINTR in the first case, and -EBADMSG. But also you may consider
+-EPROTO.
+
+> >> + }
+
+...
+
+> >> + if (ret)
+> >> + return ret;
+> > 
+> >> + else if (!new_plane_state->visible)
+> > 
+> > Why 'else'? It's redundant.
+> 
+> I’ve just followed what other drm drivers are doing here:
+> 
+> https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/tiny/bochs.c#L436
+> https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/tiny/cirrus.c#L363
+> 
+> And plenty more
+
+A bad example is still a bad example. 'else' is simply redundant in this
+case and add a noisy to the code.
+
+> I won’t mind removing else. You want that?
+
+Sure.
+
+...
+
+> >> + request_size = ALIGN(sizeof(struct appletbdrm_fb_request) +
+> >> +        frames_size +
+> >> +        sizeof(struct appletbdrm_fb_request_footer), 16);
+> > 
+> > Missing header for ALIGN().
+> > 
+> > But have you checked overflow.h for the possibility of using some helper macros
+> > from there? This is what should be usually done for k*alloc() in the kernel.
+> 
+> I don’t really think we need a macro here.
+
+Hmm... is frames_size known to be in a guaranteed range to make sure no
+potential overflow happens?
+
+> >> + appletbdrm_state->request = kzalloc(request_size, GFP_KERNEL);
+> >> +
+> >> + if (!appletbdrm_state->request)
+> >> + return -ENOMEM;
+
+...
+
+> >> + request->msg_id = timestamp & 0xff;
+> > 
+> > Why ' & 0xff'?
+> 
+> https://github.com/imbushuo/DFRDisplayKm/blob/master/src/DFRDisplayKm/DfrDisplay.c#L147
+
+This is not an answer.
+Why do you need this here? Isn't the type of msg_id enough?
+
+...
+
+> >> + adev->mode = (struct drm_display_mode) {
+> > 
+> > Why do you need a compound literal here? Perhaps you want to have that to be
+> > done directly in DRM_MODE_INIT()?
+> 
+> I really don’t find this as an issue. You want me to declare another structure, basically this?:
+
+Nope, I'm asking if the DRM_MODE_INIT() is done in a way that it only can be
+used for the static data. Seems like the case. Have you tried to convert
+DRM_MODE_INIT() to be always a compound literal? Does it break things?
+
+> struct drm_display_mode mode = {
+> DRM_MODE_INIT(60, adev->height, adev->width,
+> DRM_MODE_RES_MM(adev->height, 218),
+> DRM_MODE_RES_MM(adev->width, 218))
+> };
+> adev->mode = mode;
+> 
+> >> + DRM_MODE_INIT(60, adev->height, adev->width,
+> >> +       DRM_MODE_RES_MM(adev->height, 218),
+> >> +       DRM_MODE_RES_MM(adev->width, 218))
+> >> + };
 
 -- 
-2.48.1
+With Best Regards,
+Andy Shevchenko
+
 
