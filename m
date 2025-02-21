@@ -1,106 +1,89 @@
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4492512C5;
-	Fri, 21 Feb 2025 18:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 606C31CAA90;
+	Fri, 21 Feb 2025 18:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740160920; cv=none; b=pyTbH2HLhAkNG1GMh4nFKk401LvVw1q3VWJ+jHtEwve2RYSydcqEkgatG2k3WjuurFjYTa3F4vnwuAcDlpHr3X3BIcVYsYUYncHR9rpDxGHRNyZK8rlcHgBWrItSTa7kEBH0QHu7jk1nQpKFdNwSSvI4GbtemOv1aGDKdPhgxjw=
+	t=1740161131; cv=none; b=B85xRf/QpUYUopDvMQDAERX2I+q1Hoc88buTRvo/dQmNzPljGU1JpT14/ilJ+dRNjnzPh2Me5Ur1WWDUdD1q1xkdoB8lN+zMUfWKkPAIhhxYqUC30gzHPlBin1A4I7FLYUQbg0x16x4ENNhgvUFVkRMBSB/BMG3qpOrBPS2SruQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740160920; c=relaxed/simple;
-	bh=rexFOKZk7nV6hdLxR64ZAg5o1zfqmBgtgEH2CKQdy6s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KwZatPO6lEX2QDKG/FjEufCtlSM6P6thi3pbp+Lm3/61+c6g5BDKPDVzGtHLvBEWxmc4yuS6lpVUeP6E6FOL7JN6ouYpgMQXzJcYBzIf03DrojceiLkPW/tfJK1amtxHq0ZMG4/dF4OnIDL6sM5OU5bva0zBxeYy4YA2jp6fXRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=ZYstkXJ6; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="ZYstkXJ6"
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 0FC811C01BF; Fri, 21 Feb 2025 18:53:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1740160390;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xZKV0gdI6JcsxJVNqTtpVRNnu7/xZJaruDWLEcjiObA=;
-	b=ZYstkXJ60/3bY4uI9WHjiibaJshEoH0958bThx829OxFt/vJ5o8lFoHtKp2mnD40JAU/1a
-	FSLVK/ha8kjefeNarzg2ZWgGXNrynU0cZKCaVqJerydxgFcz9jMvEtwplUhbFrssSY0Gbo
-	1mxBFY8hT6dxRRvIjVOYb67qNEgCxXM=
-Date: Fri, 21 Feb 2025 18:53:09 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: trace: decode_msr.py: make it compatible with
- python 3
-Message-ID: <Z7i9hY7347X4P6bq@duo.ucw.cz>
-References: <88bb0d47100feaa3cda215e68bf6500dc67da7b3.1739257245.git.mchehab+huawei@kernel.org>
- <87frkh6bd9.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1740161131; c=relaxed/simple;
+	bh=axA6tnd1XCiBHxILTIvjnho1a8aiw4DtSi//aa0JOLg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WiShggcoNELonM4dnxMLzN3Qh9XM6YyyImIH7yxVFEbUh5ml2bz0qUx7Ns0o8ZxNnzjOwwe+fzEG7IEAsBdR8wmjR9NzMpnaQj4HVfMNF98ia9z43zW+I3TJvVpcEs17MN5RAqAyx8SOHE9nZGL5lZIDVCfsDNO3Uz6mKzoNfyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6559169C;
+	Fri, 21 Feb 2025 10:05:39 -0800 (PST)
+Received: from [10.1.197.49] (eglon.cambridge.arm.com [10.1.197.49])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D4063F59E;
+	Fri, 21 Feb 2025 10:05:17 -0800 (PST)
+Message-ID: <797bb878-8049-47dc-b1c9-193158b9ba45@arm.com>
+Date: Fri, 21 Feb 2025 18:05:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4ptuCB/fv5QLZeqa"
-Content-Disposition: inline
-In-Reply-To: <87frkh6bd9.fsf@trenco.lwn.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 06/23] x86/resctrl: Add support to enable/disable AMD
+ ABMC feature
+To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net,
+ reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, tony.luck@intel.com,
+ peternewman@google.com
+Cc: fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
+ akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
+ xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
+ daniel.sneddon@linux.intel.com, jpoimboe@kernel.org, perry.yuan@amd.com,
+ sandipan.das@amd.com, kai.huang@intel.com, xiaoyao.li@intel.com,
+ seanjc@google.com, xin3.li@intel.com, andrew.cooper3@citrix.com,
+ ebiggers@google.com, mario.limonciello@amd.com, tan.shaopeng@fujitsu.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ maciej.wieczor-retman@intel.com, eranian@google.com
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <920cafec1920358ad0c8af2e78a8f8bbd8c0b77d.1737577229.git.babu.moger@amd.com>
+Content-Language: en-GB
+From: James Morse <james.morse@arm.com>
+In-Reply-To: <920cafec1920358ad0c8af2e78a8f8bbd8c0b77d.1737577229.git.babu.moger@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Hi Babu,
+
+On 22/01/2025 20:20, Babu Moger wrote:
+> Add the functionality to enable/disable AMD ABMC feature.
+> 
+> AMD ABMC feature is enabled by setting enabled bit(0) in MSR
+> L3_QOS_EXT_CFG. When the state of ABMC is changed, the MSR needs
+> to be updated on all the logical processors in the QOS Domain.
+> 
+> Hardware counters will reset when ABMC state is changed.
+> 
+> The ABMC feature details are documented in APM listed below [1].
+> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+> Monitoring (ABMC).
 
 
---4ptuCB/fv5QLZeqa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+> index 05358e78147b..ca69f2e0909f 100644
+> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+> @@ -658,4 +663,6 @@ void resctrl_file_fflags_init(const char *config, unsigned long fflags);
+>  void rdt_staged_configs_clear(void);
+>  bool closid_allocated(unsigned int closid);
+>  int resctrl_find_cleanest_closid(void);
+> +int resctrl_arch_mbm_cntr_assign_set(struct rdt_resource *r, bool enable);
+> +bool resctrl_arch_mbm_cntr_assign_enabled(struct rdt_resource *r);
+>  #endif /* _ASM_X86_RESCTRL_INTERNAL_H */
 
-On Thu 2025-02-13 09:46:42, Jonathan Corbet wrote:
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
->=20
-> > This script uses print <foo> instead of print(foo), which is
-> > incompatible with Python 3.
-> >
-> > Fix it.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/trace/postprocess/decode_msr.py | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/trace/postprocess/decode_msr.py b/Documentat=
-ion/trace/postprocess/decode_msr.py
-> > index aa9cc7abd5c2..f5609b16f589 100644
-> > --- a/Documentation/trace/postprocess/decode_msr.py
-> > +++ b/Documentation/trace/postprocess/decode_msr.py
-> > @@ -32,6 +32,6 @@ for j in sys.stdin:
-> >  					break
-> >  		if r:
-> >  			j =3D j.replace(" " + m.group(2), " " + r + "(" + m.group(2) + ")")
-> > -	print j,
-> > +	print(j)
->=20
-> This does make me wonder when this script was last used ... it hasn't
-> seen a real change since it was added in 2015.  Oh well, it should at
-> least work with current Python ... applied, thanks.
+A minor nit - but could these be added to include/linux/resctrl.h instead?
+This is where they need to end up after the arch/fs split, and its harmless to do it from
+the beginning.
 
-This conversion is wrong, AFACIT. Old code one avoids adding \n, new
-adds it.
 
-BR,
-								Pavel
+Thanks,
 
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---4ptuCB/fv5QLZeqa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZ7i9hQAKCRAw5/Bqldv6
-8q9lAJ44P27RM3T3jX92Mz8pxyJXBA96wwCdGMfVDh9huWOAG+GG3YVXAhP6Vbc=
-=5k+I
------END PGP SIGNATURE-----
-
---4ptuCB/fv5QLZeqa--
+James
