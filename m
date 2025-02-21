@@ -1,32 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CD951E3DFC;
-	Fri, 21 Feb 2025 15:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7EC31F3D31;
+	Fri, 21 Feb 2025 16:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740153229; cv=none; b=Nb4B/T9Ed1al1k8q1MaHRr59C0VJ3mnikB0k+kFW4P+q0fRMlCkETa/+ehzo3smb0HU45+ubyLmqI4Ls6vHyxUUIg07hfEQORFKVz49ZmXRcNSSumLgD05W+rcx1tNWOuTBa4VKFwujEJSzd3gjZdYhZ2xP5JuQG8k31c7l3ggI=
+	t=1740153668; cv=none; b=NJ6FqmKmXxssh7nUr97tPI19G2t8oczFvWKjlAAw6SKeGim8Pzo7CH2NqBzgoAKujeWZk4HnXDhkz2MuPRAmb6eylCkFklpI163HgABgItVL4IA82d70msCsTtaXi9SrhGFwZevLYKZugWgjMhQPVxPtmB+pAiwJD3MCXMrNYtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740153229; c=relaxed/simple;
-	bh=OH75syadtmqJ/zqZ424brvsuAGnOABDXDTeYXWKzwIQ=;
+	s=arc-20240116; t=1740153668; c=relaxed/simple;
+	bh=RMa4BUecR5GYwSWEYE3fngk+ccDPuCm2p2dZu8+mFPs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JJplI2l8xEwqYRZmx5Z1Z1FzcXhlSoDrSHiLiWUii2aZTkF21bOhyfBUl0WJPZl5J7nauEoFIRey9+ZxLKw20fZAtnFsx6uRy8UEXvidBHaUi3HD0MQQsLZ3qZsXEgGTQ0SW7v95OB9X4h0Ep6DueDAZ/NQZNFlcwGYTn/9d98w=
+	 Content-Type:Content-Disposition:In-Reply-To; b=OKxJIb0LkQc1ujk1Jc2brHOu0ad7OObQTYmaisy9fk8S1Q2oN91speylizEsRb2eVqWqg5xZ9dexbSp+Uw3dznUplHDL921hBA7sTY3q2TFXjFx1We4Y3Goaz5Y5AI6iiYBn0B3sZR1ieZA3ELWJM5uIkdbuqFV6b1D2i8happE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41893168F;
-	Fri, 21 Feb 2025 07:54:04 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D088168F;
+	Fri, 21 Feb 2025 08:01:22 -0800 (PST)
 Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7BA713F5A1;
-	Fri, 21 Feb 2025 07:53:42 -0800 (PST)
-Date: Fri, 21 Feb 2025 15:53:35 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3C6093F5A1;
+	Fri, 21 Feb 2025 08:00:55 -0800 (PST)
+Date: Fri, 21 Feb 2025 16:00:49 +0000
 From: Dave Martin <Dave.Martin@arm.com>
 To: "Moger, Babu" <babu.moger@amd.com>
-Cc: "Moger, Babu" <bmoger@amd.com>, corbet@lwn.net,
-	reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, tony.luck@intel.com,
-	peternewman@google.com, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
-	rostedt@goodmis.org, xiongwei.song@windriver.com,
+Cc: corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	tony.luck@intel.com, peternewman@google.com, x86@kernel.org,
+	hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+	thuth@redhat.com, rostedt@goodmis.org, xiongwei.song@windriver.com,
 	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
 	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
 	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
@@ -35,15 +34,15 @@ Cc: "Moger, Babu" <bmoger@amd.com>, corbet@lwn.net,
 	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
 	eranian@google.com
-Subject: Re: [PATCH v11 23/23] x86/resctrl: Introduce interface to modify
- assignment states of the groups
-Message-ID: <Z7ihOkYhQoymphB1@e133380.arm.com>
+Subject: Re: [PATCH v11 22/23] x86/resctrl: Introduce interface to list
+ assignment states of all the groups
+Message-ID: <Z7ijCphcSM58AqA6@e133380.arm.com>
 References: <cover.1737577229.git.babu.moger@amd.com>
- <fe1c0c4cebd353ccb3e588d7ea2fe9ef3dff0ef2.1737577229.git.babu.moger@amd.com>
- <Z7YBxNIWb7dqOnfi@e133380.arm.com>
- <1ccb907b-e8c9-4997-bc45-4a457ee84494@amd.com>
- <Z7dIfWAk+f4Gc54X@e133380.arm.com>
- <fdfe13ae-1fb1-417c-88f5-6b0973338c34@amd.com>
+ <52c66bf98480c0ab6bb0f0762497e328fcbdeaac.1737577229.git.babu.moger@amd.com>
+ <Z7XiQ+u3Pc+uvJCK@e133380.arm.com>
+ <45a0a88a-b31e-447e-9d62-bc0cdedf06f7@amd.com>
+ <Z7dN2KpsQjVUb3KR@e133380.arm.com>
+ <7802f9e9-9a63-463d-a51e-e9ad0e60f77f@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,123 +51,68 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fdfe13ae-1fb1-417c-88f5-6b0973338c34@amd.com>
+In-Reply-To: <7802f9e9-9a63-463d-a51e-e9ad0e60f77f@amd.com>
 
-Hi,
-
-On Thu, Feb 20, 2025 at 02:57:31PM -0600, Moger, Babu wrote:
+On Thu, Feb 20, 2025 at 03:29:12PM -0600, Moger, Babu wrote:
 > Hi Dave,
+> 
+> On 2/20/25 09:44, Dave Martin wrote:
+> > Hi,
+> > 
+> > On Wed, Feb 19, 2025 at 03:09:51PM -0600, Moger, Babu wrote:
 
 [...]
 
-> Created the problem using this code using a "test" group.
+> >> Good catch.
+> >>
+> >> I see similar buffer overflow is handled by calling seq_buf_clear()
+> >> (look at process_durations() or in show_user_instructions()).
+> >>
+> >> How about handling this by calling rdt_last_cmd_clear() before printing
+> >> each group?
+> > 
+> > Does this work?
+> > 
+> > Once seq_buf_has_overflowed() returns nonzero, data has been lost, no?
+> > So far as I can see, show_user_instructions() just gives up on printing
+> > the affected line, while process_durations() tries to anticipate
+> > overflow and prints out the accumulated text to dmesg before clearing
+> > the buffer.
 > 
-> include <stdio.h>
-> #include <errno.h>
-> #include <string.h>
+> Yea. Agree,
 > 
-> int main()
-> {
->         FILE *file;
->         int n;
+> > 
+> > In our case, we cannot send more data to userspace than was requested
+> > in the read() call, so we might have nowhere to drain the seq_buf
+> > contents to in order to free up space.
+> > 
+> > sysfs "expects" userspace to do a big enough read() that this problem
+> > doesn't happen.  In practice this is OK because people usually read
+> > through a buffered I/O layer like stdio, and in realistic
+> > implementations the user-side I/O buffer is large enough to hide this
+> > issue.
+> > 
+> > But mbm_assign_control data is dynamically generated and potentially
+> > much bigger than a typical sysfs file.
 > 
->         file = fopen("/sys/fs/resctrl/info/L3_MON/mbm_assign_control", "w");
-> 
->         if (file == NULL) {
->                 printf("Error opening file!\n");
->                 return 1;
->         }
-> 
->         printf("File opened successfully.\n");
-> 
->         for (n = 0; n < 100; n++)
->                 if
-> (fputs("test//0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;9=tl;10=tl;11=tl\n", file) == EOF)
->                         fprintf(stderr, "Failed on interation %d error
-> %s\n ", n, strerror(errno));
-> 
->         if (fclose(file) == 0) {
->                 printf("File closed successfully.\n");
->         } else {
->                 printf("Error closing file!\n");
->         }
-> }
+> I have no idea how to handle this case. We may have to live with this
+> problem. Let us know if there are any ideas.
 
-Right.
-
-> When the buffer overflow happens the newline will not be there. I have
-> added this error via rdt_last_cmd_puts. At least user knows there is an error.
-> 
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 484d6009869f..70a96976e3ab 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -1250,8 +1252,10 @@ static ssize_t
-> resctrl_mbm_assign_control_write(struct kernfs_open_file *of,
->         int ret;
-> 
->         /* Valid input requires a trailing newline */
-> -       if (nbytes == 0 || buf[nbytes - 1] != '\n')
-> +       if (nbytes == 0 || buf[nbytes - 1] != '\n') {
-> +               rdt_last_cmd_puts("mbm_cntr_assign: buffer invalid\n");
->                 return -EINVAL;
-> +       }
-> 
->         buf[nbytes - 1] = '\0';
-> 
-> 
-> 
-> I am open to other ideas to handle this case.
-
-Reinette, what do you think about this as a stopgap approach?
-
-The worst that happens is that userspace gets an unexpected failure in
-scenarios that seem unlikely in the near future (i.e., where there are
-a lot of RMIDs available, and at the same time groups have been given
-stupidly long names).
-
-Since this is an implementation issue rather than an interface issue,
-we could fix it later on.
+I think the current implication is that this will work for now provided
+that the generated text fits in a page.
 
 
-Longer term, we may want to define some stuff along the lines of
+Reinette, what's your view on accepting this limitation in the interest
+of stabilising this series, and tidying up this corner case later?
 
-	struct rdtgroup_file {
-		/* persistent data for an rdtgroup open file instance */
-	};
+As for writes to this file, we're unlikely to hit the limit unless
+there are a lot of RMIDs available and many groups with excessively
+long names.
 
-	static int rdtgroup_file_open(struct kernfs_open_file *of)
-	{
-		struct rdtgroup_file *rf;
+This looks perfectly fixable, but it might be better to settle the
+design of this series first before we worry too much about it.
 
-		rf = kzalloc(sizeof(*rf), GFP_KERNEL);
-		if (!rf)
-			return -ENOMEM;
-
-		of->priv;
-	}
-
-	static void rdtgroup_file_release(struct kernfs_open_file *of)
-	{
-		/*
-		 * Deal with dangling data and do cleanup appropriate
-		 * for whatever kind of file this is, then:
-		 */
-		kfree(of->priv);
-	}
-
-
-Then we'd have somewhere to stash data that needs to be carried over
-from one read/write call to the next.
-
-I tried to port my schemata buffering hack over, but the requirements
-are not exactly the same as for mbm_assign_control, so it wasn't
-trivial.  It feels do-able, but it might be better to stabilise this
-series before going down that road.
-
-(I'm happy to spend some time trying to wire this up if it would be
-useful, though.)
+[...]
 
 Cheers
----Dave 
+---Dave
