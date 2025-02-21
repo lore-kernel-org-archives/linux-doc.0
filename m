@@ -1,158 +1,187 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8498C24CED2;
-	Fri, 21 Feb 2025 17:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740158085; cv=none; b=Qo7COE8D0ras3GpXRhwHxjI7zNWqn2CeeShncWJCTye4x0obLDklmiQg6So2JFeFlzj+L+RBiFLWldagTGd/SIkUkrs5CYh/IL2QprkoQXMrXAdn11MpGl/S1KO70BhKNf0kEyEon20jBSVEWseHrwND7rArnaYl6NgeGNSlZt4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740158085; c=relaxed/simple;
-	bh=h9885pvKDZGby9aBH7gp4Ywh3BHGtvtlKGQHhiyxVPA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IfkFppOs6mh14174/mXT29W9Ve5KwlybsjKyjBXxEAO+Z93ueBthSJUe5DMTdxecnFXr+JOIvvwBSqbkiWmvYuP/c2xnEQJdyOfE5csc5cQqQleZCUXwmY7wa4KhAxjWkKeUYhL9d+Kfti54sx1wueJOxRcpLrHY3aXX2Xd0WIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3452B168F;
-	Fri, 21 Feb 2025 09:15:00 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CC15C3F5A1;
-	Fri, 21 Feb 2025 09:14:37 -0800 (PST)
-Date: Fri, 21 Feb 2025 17:14:34 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Peter Newman <peternewman@google.com>, Babu Moger <babu.moger@amd.com>,
-	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, tony.luck@intel.com,
-	fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
-	rostedt@goodmis.org, xiongwei.song@windriver.com,
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
-Subject: Re: [PATCH v11 17/23] x86/resctrl: Auto assign/unassign counters
- when mbm_cntr_assign is enabled
-Message-ID: <Z7i0etOZcZ9jM/ZU@e133380.arm.com>
-References: <cover.1737577229.git.babu.moger@amd.com>
- <2119b76ef8be21b1d8b2deedfab23e8e33ba724c.1737577229.git.babu.moger@amd.com>
- <Z7XfcV05ZZkHm6bc@e133380.arm.com>
- <CALPaoCiPkjbTf2He2tXsguxHDtGF+YfVUZScL8dseVc6rvAfvA@mail.gmail.com>
- <ac6860d4-92b4-424e-af4f-d6e3d5722232@intel.com>
- <CALPaoCh8siZKjL_3yvOYGL4cF_n_38KpUFgHVGbQ86nD+Q2_SA@mail.gmail.com>
- <Z7cw4JTp3Hfx/4li@e133380.arm.com>
- <2889da50-b654-403c-910e-13b9144596fd@intel.com>
+Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010012.outbound.protection.outlook.com [52.103.67.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A266D24FC1A;
+	Fri, 21 Feb 2025 17:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740158481; cv=fail; b=K4Qw+lPqcJtziD9woYxED9wVd+sTRrzN/S0XgJbKnUIZOo+rns76ULwzrLx4yynzKJR0bMB8WNuVZwAzCWhOPkhgE7/7EUOt/eFbWDSD94ISwUUS2PQYzoHnGrfwPJ64yngMPtTwIpNT1sdBwEdFQK9zw9r/EPt42i0XOCoEfKA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740158481; c=relaxed/simple;
+	bh=PVA58dv8F5hhp4P2XQy0/98+eX4WUUmQyztE4a/vmhI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=MoqIFaUSOM53oi9Ld3wVvmYfllvWgWC7EL07kyHooB54XKkiolCzQRR7UC5XYr4qLBlp04/HKVtIm0+GzLvOuyWTpI77vGfk7DmILQXT4Ow1FhjSBOvjQQP6Jynrtf2NNesVUmtwKaEN4JR5Nxq1OonzuZ9sg6++uv20U2F+8jg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=JjthWdk2; arc=fail smtp.client-ip=52.103.67.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="JjthWdk2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tOtG3lC6DuQo2ZLrbSQSPIit9GYD1iTDH4xllSGAKKgXYOWjl+7PmVDAXW8/DEG3dW82YNts3z4dnrRsCkW6YwcLD73p3YSMPKzCz4slCmEFWy58CitulakE6h1bMgcbW9gX44QPwp4Cc90G5fJ1Dd4pNumrtIUgfM5wbGkWi7maf6xdeuAtoVweFC+nErcqfRdGYsVkAdep5+sdifX5M8Jf2vWABib4DhJfqpbPtHFaZMO1KJ2o/Yw6ET4D+MSWKZQVAmOsP8UY0hc4RBqQ/k6u0vfhu/wronAikOxW0Lg9RLMomJWj5ExeO5pEhtmEeNryzeqE8Tc9MGfXZmZ+sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PVA58dv8F5hhp4P2XQy0/98+eX4WUUmQyztE4a/vmhI=;
+ b=MoJ11nfwrLCJpu0VZAeoFhtvp/CA55MiC+dvanAiQeqiNXde6QEeKHBcrmfofhvYdzyr5dmu5JAf0GI8s56zV7xzi4iOLn57+oHL1PfFHnk3uYba/tcQTFAnj46MFYX8Zi4OHujDtwJd2xd5QrAQrue0PA9Hjybl2QnSzM5BUG8+e2gfaz1iPcIXkdYWFcVuwmRCn9wfPprl/12fhao3yxLdQcI9jUz5Cf4a7TwOzNCZuViehAJwUw9Rq9vj/9W6otHj+s978xrsmsIxE1MhnRRdkAkkcVAsawH9uVjlQ0YVNqR1Fpu6p77rB3umAki/2AfZywRqqW1EIdldTIa/Ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PVA58dv8F5hhp4P2XQy0/98+eX4WUUmQyztE4a/vmhI=;
+ b=JjthWdk2FFnQ/dXJ5WFLoeIFsJgnsnhiBy41NypiXiaZnWYmgpASbQSvEhAQNmcSh04t4iYSSbEvcM5gDq+TNFcLCVwwuUudWLrWBkKe8nzoPMbBrD6MmvyDG0hoflVb7WooSVOyKHYDXlMusWM878vLPQDUtvEfuHn+tgRESjH92+Cu7pvCiFcqNgaQoL4boZQTZ3E4VxgrsPFI8QWyrvZBQYQYt2r//eMghH+NVRhjcCNd9nYbTr02BHZi7LpG9Ldj+oM7K7ID19dhMACTHY/N3uiazZUhpLvKRKl4yp+2/OUi0KJ4wrWpSFMtf0//BQR5TevD511qp58Lqm+CGQ==
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1d::9)
+ by PN3PR01MB6292.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:83::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.17; Fri, 21 Feb
+ 2025 17:21:08 +0000
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1]) by PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1%3]) with mapi id 15.20.8466.016; Fri, 21 Feb 2025
+ 17:21:08 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+CC: "pmladek@suse.com" <pmladek@suse.com>, Steven Rostedt
+	<rostedt@goodmis.org>, "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>, Jonathan Corbet
+	<corbet@lwn.net>, "maarten.lankhorst@linux.intel.com"
+	<maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
+	<mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
+	Andrew Morton <akpm@linux-foundation.org>, "apw@canonical.com"
+	<apw@canonical.com>, "joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>, Kerem Karabay
+	<kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>, Orlando Chamberlain
+	<orlandoch.dev@gmail.com>, Atharva Tiwari <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Linux Kernel Mailing
+ List <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>, Asahi Linux Mailing List
+	<asahi@lists.linux.dev>, Sven Peter <sven@svenpeter.dev>, Janne Grunau
+	<j@jannau.net>
+Subject: Re: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888 to
+ BGR888
+Thread-Topic: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888
+ to BGR888
+Thread-Index: AQHbhFTIObWDiH99WU6+/IlqdSWkt7NR6DMAgAAZEgA=
+Date: Fri, 21 Feb 2025 17:21:08 +0000
+Message-ID: <6623056D-2107-48FB-B18D-2DB90D8F78A2@live.com>
+References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+ <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
+In-Reply-To: <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PNZPR01MB4478:EE_|PN3PR01MB6292:EE_
+x-ms-office365-filtering-correlation-id: 551b1068-fb4e-42af-9a92-08dd529c2133
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|8062599003|8060799006|19110799003|15080799006|461199028|7092599003|440099028|3412199025|10035399004|102099032;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?aFJQb1RnVGZ4RGY5QWZUcmRvRjl4WWh5S1lENWszYkl4WWpseU5tMUExWXBD?=
+ =?utf-8?B?ekxyd0JxM243a0VWblhBTVlVSkxrOUdnblZwdDIxTkFrWDJZeDB1N0JJMHRl?=
+ =?utf-8?B?YUxneGxQM09NN25UQTF2WGVWcFdpUU1VTjdlVWRBV3hiSXlHYjVuZ2xLbWlE?=
+ =?utf-8?B?WFlqb25rMUg4czlva09tRERwTzY1SWxTUHpGUW1taFVEaUhvVS8ydDhuN3Nw?=
+ =?utf-8?B?c1AzWFJkdFcvWVN5UlV3b1VQdVF6eU5CUDd3MEhKTmFucFV6bU5OUDJZQUdw?=
+ =?utf-8?B?ZGl3RkF2aDNidk5RZG5BdVZGNW1CeGhYZXpmR1FuQTdUTTdkdzJ5V0pXTEpV?=
+ =?utf-8?B?c0xkbFhVV0dTWG9Yd2JzYkFIM1ozaWI2RElCSms3bWZFcVpZTFdmbWZlYTRG?=
+ =?utf-8?B?Ym5oWGhmb2wySGR0bDY5QkJ0NUtCdUUwbElZcVRsYjNXcHp5R2Ftd1RkSmd4?=
+ =?utf-8?B?ZlpiQXZKNnFYekZnenhveWZkZloyNlpMN1BiWlEvb1RCbHZzc0FEQkNSV3Ri?=
+ =?utf-8?B?QkhPQkNXeEkzTzkwdG1DM0hJUFlVSmNmS1NGZmVmMTg1VkVxTE9DYXdvamlJ?=
+ =?utf-8?B?b0Z2K0l1bktvcjEzdWEzZTFWa3dQbWxXMUhuVGhGUGJqd3o1SDRwZVNTRGJG?=
+ =?utf-8?B?OWVNK1pSSkh0cnZFM2h2dXArUjRwM0FSaFpQUnNDRExxbXZTK3Z3dE9HOXpQ?=
+ =?utf-8?B?Q1krMG1USUJsMTlpWnhER0hUVnR6bjNNNklQY0lrSWdyUE50TWhiWWZKa1E2?=
+ =?utf-8?B?Y1Y4QlBHcXRNbUM5Mnd6a3dpMFFOS00yd3pJMEdDVzVxSFg3WW9IRndWbnFv?=
+ =?utf-8?B?bjJ4dmxlL0N6dEovZG5iNjJyMVJrNG1lRzRDb2ZyNmZ4anFxT05KOGNKd3lU?=
+ =?utf-8?B?czA4bGROb29oMzJUWkVEcFIwM1VQaVAyRWkyOHRaWnVZWlhsT0tES0tTK3BG?=
+ =?utf-8?B?bHYxYVRKdnlqUlRGQVlZTzJZN3diQWorR0diUEtXd3RqVldxWTZQWUllaE1k?=
+ =?utf-8?B?dElVdWM1QXhmSjc3d3ZlNTN6Sno4WU1KVHlCYUJjam5UM0t4d3VsSzRWUXlW?=
+ =?utf-8?B?SE9VeERWZDlLRTQ4SGRnNmYvT0k2V1FJb0NRRm55a05OY1hEa1ZYZFFIZDhQ?=
+ =?utf-8?B?MkRXYWF5T0gwQ2ZTbXlZRW96dVpST0tKKzhuSGJUZzVtV0NXU1JadDJML2pl?=
+ =?utf-8?B?ZEozcnNHTzljQVpsdUs3R1FHc0NtUDNlLzNicjdrSEs3aEw0WjllM1FDanY5?=
+ =?utf-8?B?MFRIQW5Dc1JjVlpPUFVHR1IwdWFCVFAxYUpjZC9tck5yOHNzc2xZcWw4eDhm?=
+ =?utf-8?B?cDBVb3BRQUk3V3pwcWRXMjhFVUx6Q2xVWHA3WmZJamZkWjNNcERMT21aUmhi?=
+ =?utf-8?B?dEk4UEtwNHJPbm5aeHNwU0ZsVFVlRnd2c2Fodks5WS9yM0EyUHdpYWgvRTN3?=
+ =?utf-8?B?N1gwdWJENnlIZjhsUzRheTdDbWZKclNpV1BaSGl0NXM0ZmJ0aDBZUnloV0tL?=
+ =?utf-8?B?M3NORHNxTjJ4dnJCY0NIK243cHRUa0NWU0hrWEFUV3MwajN3SWQ0bjRoaVBW?=
+ =?utf-8?Q?71+iTFZ4oNX6OMHq/0ZRWd/LY8kh32fo6nAYzrDWQJz7AL?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Q3ZrUUo3UnRUbWIxSTlJVDFwYlgrZHg3NkYremZqbXl4cnpGYWt4MkpZL2wz?=
+ =?utf-8?B?NktKVXQwalhxaXc2WFV0T1V1c1pGNUg3Nm11V3NVVkN4NGNpU2JZZGRmSFls?=
+ =?utf-8?B?K2F6dkdQNGRrVVV1ZEpDdHN5OXRQSCs0Z1FOVUpFQlBsdW04Y3dwSUFOazJj?=
+ =?utf-8?B?Zi9QWDh5dmpnVUhJcm9aQ2VXMlVBdS9Kc2V6czhpS2ZOcXBpb3ZKVWZFVnVM?=
+ =?utf-8?B?ckJGQVNEZXdibk9pZmUvWnBmYmRBaG1iSmplYjFsTklnWGIrb3ZyM2tXenRU?=
+ =?utf-8?B?YjV1R3E2KzF0cm0zckg5QjdxMzdQVlYxQk02LzVLdDA2NHZ5UzZFSllRZlRw?=
+ =?utf-8?B?bVA0ZlFuc0RRVVhyaDRSbGdPdzZndWM4Z2V4ZUl2NWM0dVdXMGF3Mm5aMFRK?=
+ =?utf-8?B?d0duRVZ3RlBLOGdZS3JVazNqNEN0RmZRS0NtWi84Qm9iZWVybFJIT1hsTElB?=
+ =?utf-8?B?MmFSTVpMVVpVUVhsU3JkWG5DWjZ1aVVYSXFJUk9KanVYTXczanBHVW5MWFNr?=
+ =?utf-8?B?Q1RrV29VUTdCMlM4MzNjeDR2b2tGalJkOUV2SGtvV21jTjlQNzlvQzNMdmRi?=
+ =?utf-8?B?RWJsKzdUWldGY2RPYnU2ZmtjNThjN1BRWWd2UTBQWXN1TjVtb3BpQjdsRHFj?=
+ =?utf-8?B?Q1pjNE03aVpwVjA0cXJXeTdSY2NkT1NwcmhVN0pjU3laay83eGIzRGkzN0NS?=
+ =?utf-8?B?aGR4aGtCYVY1MGhhSERGM05OTzJqRVRxWm5zNWgwekxhYzJtY3E2UWxLaDJh?=
+ =?utf-8?B?ZkYzNElxUi9WYm5vZUdES09oNU12L2diVUZKMUV1eVVTbjhzSEFhaHFXQXdr?=
+ =?utf-8?B?d1ZqU1NTa0IvQ2NqWldEUCtzbUxrTTJ2UisxWUQwUFlZb1hrL09Jc1VycHRa?=
+ =?utf-8?B?TEhWTC9kQVRqNDFFRTJyaXU5YWk1aE02eDBidHhxYzZZNU0zbk5UZXpjTjNi?=
+ =?utf-8?B?clphY1RYdzZWWEhMOGh3NzRsZnM3Yk5aTzJpSkJpcFdVZEJvQy9RdUM1ZjZJ?=
+ =?utf-8?B?MjNzaEw2YnlwVGV3Qm5yaXF1VDRlYXNIRlhoTHJKdnlrcE5QNk15RHVPdmRD?=
+ =?utf-8?B?NDNGYXk3c0tZa3RmUFBEYi9PYVozSlBvcTA2aDdlRGQ3YWRicXJJNGplMmw3?=
+ =?utf-8?B?QXprTXBBWVpHQWFKRzhRR2daNWZiOEtFL2Q0b1ZOMTJBcFh5dEZCbjdnd0Rp?=
+ =?utf-8?B?bzlwQmxyR2JWOWNoYmludDVOU2JXTml1aWRaUlB6ZXVlZDA2MU1URzdtQTFG?=
+ =?utf-8?B?NVBoUE5yNllsU0xSMU5sVU1OV2JSeWt4a00vMG1Ta0xwRXlvOUFRRXJSRzJ0?=
+ =?utf-8?B?eWNYRnV5V0RlUlU1Mzd2R1lIUmR4SlZRTUowNzkrTTN4VWVnSEFuaWxyYUMr?=
+ =?utf-8?B?Q1Q1c2EvTUE2YTFqT28yYmozYlQrcG9xeXNwaTZHbHVmdzNsQWwwMXVtMzJh?=
+ =?utf-8?B?NjRiUjZ1MXk4aEFENXdiZ2VpT0hRd1lpUk9velAzNlovRithd1VTL1NWN3BY?=
+ =?utf-8?B?UWNpb1VjZHM1UkhtTHdKaElvcXU1eVJwaDlJdmlBajlXMUtCSE5QY2FLaWZu?=
+ =?utf-8?B?MTVIMzR2NGJFRUM4N3ZSR2Q4eU5uOElFbTFLVzlyZTNIc3lXSTdhR0pudzgv?=
+ =?utf-8?B?QmZhWUpoMXp1TkFWZWNaOHkyN1llVzBzc3lCaW9mRmtEUGliWDhwb016cUNr?=
+ =?utf-8?B?cjBrQmZ5d0gvVFhsMyt3RUlRNERuVEQ3aXNJWHFtVHZBYXZDckMycWVIckFC?=
+ =?utf-8?Q?C+X0BwMWzCksD+pkTfVfQE9GrlbXnFLKeHVsF53?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <954B3BDFC934DB46A001BF60D943D891@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2889da50-b654-403c-910e-13b9144596fd@intel.com>
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 551b1068-fb4e-42af-9a92-08dd529c2133
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2025 17:21:08.1789
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB6292
 
-Hi,
-
-On Thu, Feb 20, 2025 at 09:08:17AM -0800, Reinette Chatre wrote:
-> Hi Dave,
-> 
-> On 2/20/25 5:40 AM, Dave Martin wrote:
-> > On Thu, Feb 20, 2025 at 11:35:56AM +0100, Peter Newman wrote:
-> >> Hi Reinette,
-> >>
-> >> On Wed, Feb 19, 2025 at 6:55 PM Reinette Chatre
-> >> <reinette.chatre@intel.com> wrote:
-
-[...]
-
-> >>> Could you please remind me how a user will set this flag?
-> >>
-> >> Quoting my original suggestion[1]:
-> >>
-> >>  "info/L3_MON/mbm_assign_on_mkdir?
-> >>
-> >>   boolean (parsed with kstrtobool()), defaulting to true?"
-> >>
-> >> After mount, any groups that got counters on creation would have to be
-> >> cleaned up, but at least that can be done with forward progress once
-> >> the flag is cleared.
-> >>
-> >> I was able to live with that as long as there aren't users polling for
-> >> resctrl to be mounted and immediately creating groups. For us, a
-> >> single container manager service manages resctrl.
-
-[...]
-
-> > +1
-> > 
-> > That's basically my position -- the auto-assignment feels like a
-> > _potential_ nuisance for ABMC-aware users, but it depends on what they
-> > are trying to do.  Migration of non-ABMC-aware users will be easier for
-> > basic use cases if auto-assignment occurs by default (as in this
-> > series).
-> > 
-> > Having an explicit way to turn this off seems perfectly reasonable
-> > (and could be added later on, if not provided in this series).
-> > 
-> > 
-> > What about the question re whether turning mbm_cntr_assign mode on
-> > should trigger auto-assignment?
-> > 
-> > Currently turning this mode off and then on again has the effect of
-> > removing all automatic assignments for extant groups.  This feels
-> > surprising and/or unintentional (?)
-> 
-> Connecting to what you start off by saying I also see auto-assignment
-> as the way to provide a smooth transition for "non-ABMC-aware" users.
-
-I agree, and having this on by default also helps non-ABMC-aware users.
-
-> To me a user that turns this mode off and then on again can be
-> considered as a user that is "ABMC-aware" and turning it "off and then
-> on again" seems like an intuitive way to get to a "clean slate"
-> wrt counter assignments. This may also be a convenient way for
-> an "ABMC-aware" user space to unassign all counters and thus also
-> helpful if resctrl supports the flag that Peter proposed. The flag
-> seems to already keep something like this in its context with
-> a name of "mbm_assign_on_mkdir" that could be interpreted as
-> "only auto assign on mkdir"?
-
-Yes, that's reasonable.  It could be a good idea to document this
-behaviour of switching the mbm_cntr_assign mode, if we think it is
-useful and people are likely to rely on it.
-
-Since mkdir is an implementation detail of the resctrl interface, I'd
-be tempted to go for a more generic name, say,
-"mbm_assign_new_mon_groups".  But that's just bikeshedding.
-The proposed behaviour seems fine.
-
-Either way, if this is not included in this series, it could be added
-later without breaking anything.
-
-
-> I am not taking a stand for one or the other approach but instead
-> trying to be more specific about pros/cons. Could you please provide
-> more insight in the use case you have in mind so that we can see how
-> resctrl could behave with few surprises? 
-> 
-> Reinette
-
-I don't have a strong view either.
-
-I don't have a concrete use case here -- I was just trying to imagine
-the experience of an ABMC-aware user who wants full control over what
-counters get assigned.
-
-I agree that the convenience of the non-ABMC-aware user should probably
-take priority over that of the ABMC-aware user, at least in situations
-where the expected behaviour is achievable (i.e., where we didn't run
-out of counters to auto-assign.)
-
-Cheers
----Dave
+SGkgQW5keQ0KDQo+IE9uIDIxIEZlYiAyMDI1LCBhdCA5OjIx4oCvUE0sIGFuZHJpeS5zaGV2Y2hl
+bmtvQGxpbnV4LmludGVsLmNvbSB3cm90ZToNCj4gDQo+IE9uIEZyaSwgRmViIDIxLCAyMDI1IGF0
+IDExOjM2OjAwQU0gKzAwMDAsIEFkaXR5YSBHYXJnIHdyb3RlOg0KPj4gRnJvbTogS2VyZW0gS2Fy
+YWJheSA8a2VrcmJ5QGdtYWlsLmNvbT4NCj4+IA0KPj4gQWRkIFhSR0I4ODg4IGVtdWxhdGlvbiBo
+ZWxwZXIgZm9yIGRldmljZXMgdGhhdCBvbmx5IHN1cHBvcnQgQkdSODg4Lg0KPiANCj4gLi4uDQo+
+IA0KPj4gKyBmb3IgKHggPSAwOyB4IDwgcGl4ZWxzOyB4KyspIHsNCj4+ICsgcGl4ID0gbGUzMl90
+b19jcHUoc2J1ZjMyW3hdKTsNCj4+ICsgLyogd3JpdGUgcmVkLWdyZWVuLWJsdWUgdG8gb3V0cHV0
+IGluIGxpdHRsZSBlbmRpYW5uZXNzICovDQo+PiArICpkYnVmOCsrID0gKHBpeCAmIDB4MDBmZjAw
+MDApID4+IDE2Ow0KPj4gKyAqZGJ1ZjgrKyA9IChwaXggJiAweDAwMDBmZjAwKSA+PiA4Ow0KPj4g
+KyAqZGJ1ZjgrKyA9IChwaXggJiAweDAwMDAwMGZmKSA+PiAwOw0KPiANCj4gcHV0X3VuYWxpZ25l
+ZF9iZTI0KCkNCj4gDQo+PiArIH0NCj4gDQo+IC4uLg0KPiANCj4+ICsgc3RhdGljIGNvbnN0IHU4
+IGRzdF9waXhzaXplW0RSTV9GT1JNQVRfTUFYX1BMQU5FU10gPSB7DQo+PiArIDMsDQo+PiArIH07
+DQo+IA0KPiBPbmUgbGluZT8NCj4gDQo+IHN0YXRpYyBjb25zdCB1OCBkc3RfcGl4c2l6ZVtEUk1f
+Rk9STUFUX01BWF9QTEFORVNdID0geyAzIH07DQoNCldydCBhbGwgdGhlIGFib3ZlIHJlc3BlY3Rp
+dmUgY2hhbmdlcywgdGhlIGZvcm1hdHRpbmcgaGFzIGJlZW4gZG9uZSBleGFjdGx5IGxpa2Ugd2hh
+dCBvdGhlciBlbXVsYXRpb24gaGVscHMgZG8gaW4gdGhlIHVwc3RyZWFtIHBhdGNoLg0KDQpJIGRv
+dWJ0IFRob21hcyB3b3VsZCB3YW50IHRoZXNlIGNoYW5nZXMgdG8gYmUgZG9uZSwgb3Igd291bGQg
+d2FudCB0aGVzZSBjaGFuZ2VzIHRvIGJlIGRvbmUgZm9yIHRoZSB1cHN0cmVhbSBlbXVsYXRpb24g
+aGVscGVycyBhcyB3ZWxsLg0KDQpGb3IgcmVmZXJlbmNlOiBodHRwczovL2dpdGh1Yi5jb20vdG9y
+dmFsZHMvbGludXgvYmxvYi9tYXN0ZXIvZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVy
+LmMNCg0KUmVnYXJkcw0KQWRpdHlh
