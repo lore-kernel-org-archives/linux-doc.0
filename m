@@ -1,75 +1,131 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C1A1FBC86
-	for <linux-doc@vger.kernel.org>; Fri, 21 Feb 2025 20:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B841FBC86;
+	Fri, 21 Feb 2025 20:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740169297; cv=none; b=PC/fR+pF3OEXXegvVmI0D8KyKXjqrbmKFtFXCjDgCFCeHbkfiLOylFpZwDo56IKk1qHaemNdrwktlElvjIzddz5e709MpgXwvkLLdKzOjrIV/eXp9WW74+XhTwCdfJ2ZRPJ7nGGDG458KNUmqXiQ9nR19yNOtNLkafWEo4yjbPc=
+	t=1740169335; cv=none; b=SR/Tauqj/q+5HHMpaqjeH9A06FcaoxA0CrrELWJVi2gvkSXE5ChkTmZFOAshEyyKk5Nz+SIh/q4YI1to2EzigvP4B2UaDUqp8a2D31RFMhIH00+XGZPGzSIVNjthBg9ECyrLz2oHX8dgkVc35JFCftHTPGe1iHuNexjJ3gkOOMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740169297; c=relaxed/simple;
-	bh=6a21aRy9aL3ShnWtX9g5AiMxR61q6Xe1QTGDN2WHhqw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HibQHE5LwRIhHTYtHwbdemNKSFSSLCwaKm0Al/NTLf193YrmDbM0rBsa1lZ0gFbVypEy7bbVa4v3cfaOMiv7Eei/CAlRM2UN5SCV18H+q0I4APtqhlUv8Tp+4AcI7gbPD7+o2LyQxtwQr/n6vOS0c7f0vJpQtFwXHIB5gO9kLiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bXNHQPsm; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1740169335; c=relaxed/simple;
+	bh=AUzvSnv84EpX4e4E79CiVNx0gt1v4fC+4XcCV1madfA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A0IvfgKS7cQWF5RFJ/EsULw6St1/x+VsVkM7K+Dfz0ZwJpf/dl84nfwEW6vRg8rY2HtkV47bmyGsFjSliS/3ff8Eaw2HuS3PlQE6t5ZHnmuvn1ZZxRaPWiHk1/RMJu8zoV6J39uFjjFD/b2HFIjwro3rRJwiOLN/nVhCbyIzvh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8eI8Dba; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bXNHQPsm"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0619A404E4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1740169285; bh=PU/SwfBa85h+HLRw99vDkvdGq/5DCYk+ej3ps660cEQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=bXNHQPsm00KZW9AceWRarNUjTQRF0Yyi1z6FGZ+5axT0ojB6YyZJ6UGxdDfxjNSW3
-	 j/+aM2kgoLIrTzmEx7w0uo2qwxrI5i+3i8oHeVQAKvBjTJFMgjw2bSnFdpLthwPok4
-	 /43wJfylP2JDtVTHLinnBM7O/s8+TggSXg0B4w4MzfCGHdHSS5W5eZstv11CEtRSxG
-	 +Tvy8LBLRD//EpqPYfND2CiZb0qDlaFQTEMSXxrkRKOL1ZdphrCeJt40sNYttF5fWW
-	 W55oQfqGoGbgNgQTTTb/W1PsLngQg1iYrGG/SmvjZqizDZIEqHpoheXCcqGN3sVYiT
-	 6/EHr9MFxF3cQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0619A404E4;
-	Fri, 21 Feb 2025 20:21:24 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Tsugikazu
- Shibata <shibata@linuxfoundation.org>
-Subject: Re: [PATCH v2] docs/ja_JP: Convert SubmitChecklist into reST with
- belated updates
-In-Reply-To: <20250217060132.64670-1-akiyks@gmail.com>
-References: <20250217060132.64670-1-akiyks@gmail.com>
-Date: Fri, 21 Feb 2025 13:21:24 -0700
-Message-ID: <87r03rgibf.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8eI8Dba"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740169334; x=1771705334;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=AUzvSnv84EpX4e4E79CiVNx0gt1v4fC+4XcCV1madfA=;
+  b=D8eI8DbaaoqdX4FxvOfTqKOJMVJ++A6wRQDicgr/BEnuAtznRbux1qKT
+   D9NZSJ/nNSAPslCmyo79RVIQpV0dHweRKJHIzNUVV/ev5r0lEbcXQBBKq
+   tsZ7fAbi/YcMmv7AGh13EifM21IiBd8fAOvhD5Q52OhuoMxQFKY0ojqeF
+   GN/A9Eui/+2LoNAOCyXcD+y61JO+6Uum0HLq4IqZB3ACipQRuH851WD+L
+   0GSbjyohnpFPZR6bbTWXVPr/lHVk3MEC3QBSz1icD1J4PFWc1OVwlXYZj
+   byYsssaRfPDtLrDxCaRDLGfRI9lLDx4Ghrd5FPuWZQFxrjLWC9kwVK00u
+   w==;
+X-CSE-ConnectionGUID: fn/OUDdORsCpyYs2OSyNLw==
+X-CSE-MsgGUID: 6tfSuU1wQ1iJa0elppgN2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="44650206"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="44650206"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 12:22:13 -0800
+X-CSE-ConnectionGUID: X3EO2ExMQRaPtqTxAjtKxw==
+X-CSE-MsgGUID: ztBA2dFsRaKo1BmM0ylV9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="120442343"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 12:22:06 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tlZX6-0000000Djvj-2poe;
+	Fri, 21 Feb 2025 22:22:00 +0200
+Date: Fri, 21 Feb 2025 22:22:00 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>,
+	Atharva Tiwari <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v3 2/3] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Z7jgaL0u8VzN-12X@smile.fi.intel.com>
+References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+ <98289BC4-D5E1-41B8-AC89-632DBD2C2789@live.com>
+ <Z7ib8uH91rKdoyjP@smile.fi.intel.com>
+ <ED4B4FD3-CD26-4200-97E0-BC01B3408A4C@live.com>
+ <Z7jfiKNt-bThVr_-@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z7jfiKNt-bThVr_-@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+On Fri, Feb 21, 2025 at 10:18:16PM +0200, andriy.shevchenko@linux.intel.com wrote:
+> On Fri, Feb 21, 2025 at 07:37:17PM +0000, Aditya Garg wrote:
+> > > On 21 Feb 2025, at 8:59 PM, andriy.shevchenko@linux.intel.com wrote:
+> > > On Fri, Feb 21, 2025 at 11:37:13AM +0000, Aditya Garg wrote:
+> 
+> > > First of all, I do not see the cover letter. Is it only an issue on my side?
+> > 
+> > These are literally 3 patches that are self explanatory.
+> 
+> So what? Anybody will be puzzled with the simple question (and probably not the
+> only one): Why are these in the series? Do they dependent or independent? What's
+> the goal and how they should be routed? (You see, there are already 4).
+> 
+> > Is this a hard and fast rule that a cover letter MUST be there?
+> 
+> Cover letter SHOULD be there if there are more than one patch.
+> Yes, there are exceptions, but this is the idea for the series.
 
-> This is a brand-new translation against
-> commit 2783096fb1dd ("docs: submit-checklist: Expand on build tests
-> against different word sizes"), rather than an update of
-> ja_JP/SubmitChecklist, which has never updated since 2008 except for
-> trivial changes not involving translation.
->
-> As we now have two reST contents under the ja_JP translation,
-> to avoid duplicated boiler plates, split out ja_JP's own disclaimer
-> part into a new section and put a reference to it at the beginning of
-> each doc.
->
-> As there is no prospect of ja_JP to have a lot of translated docs,
-> keep those .rst files in the toctree of ja_JP/index.rst.
->
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+FWIW, two more points:
+1) yes, it's a MUST for some subsystems (BPF has this even documented);
+2) there are tools (`b4`) that rely on the cover letter (shazam feature
+or multiplying trailers if it/they was/were given against the cover letter).
 
-Applied, thanks.  It's good to see the Japanese translations getting
-some attention.
+> Use your common sense, if there is no documented thingy.
 
-jon
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
