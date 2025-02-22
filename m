@@ -1,122 +1,179 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2D2202C40;
-	Sat, 22 Feb 2025 10:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACA16FC3;
+	Sat, 22 Feb 2025 11:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740218798; cv=none; b=SLQ2KJb//vZSNHUpyc4X4r8vZA9UHNFBR+7J9DRUVizBS6Y4SFRmjGwVtA872b78dUtuy/8caTw7dVUscb3mf3D1Tl48jBxiZmd3194kOtcNYaha+4JXOBCbS89QJaqe1hgN6xNP8Z2xM7qus+1oLlrL/3M7Iq7Ket6DUV3zRac=
+	t=1740223880; cv=none; b=k5b4/urrsD2j8wbpbTYKhNnVCu3wAt+XBgGS44+rftBtxvso3xKqD1F04z/ztMTJyemtDZa91wpfvi2zHuaD3L9a8c+TWhS8uK+rJCHAMohqmqgnnuFEhda6d7KM53hn3hg9UWpo5rNAlz7zLDRpK1nUcMIM/UnXuKtzwCQRmLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740218798; c=relaxed/simple;
-	bh=Lv2voLQK6jHaJMOKYmw7WUiLwYV7+E67yPAzbTONFmo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Qq+/UjicFKfYyxRRS5XF6En6jsydKEu2cvC+vJS7xGmHlDTnJO6GSDV6kJcf5Df3Rk8r/d4UsAELP29ak9taR8zQ8WjPja9uzMnQntAQTVM02UBpK487651RWV8fmzM63iBxWkSyjiuxhKFDV7UEXuKOSx+oVwAFwJibCtRnupw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.112])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Z0N0C0bJ5z1HJhc;
-	Sat, 22 Feb 2025 18:04:59 +0800 (CST)
-Received: from kwepemh100008.china.huawei.com (unknown [7.202.181.93])
-	by mail.maildlp.com (Postfix) with ESMTPS id 452991406AC;
-	Sat, 22 Feb 2025 18:06:32 +0800 (CST)
-Received: from [10.67.121.90] (10.67.121.90) by kwepemh100008.china.huawei.com
- (7.202.181.93) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Sat, 22 Feb
- 2025 18:06:31 +0800
-Message-ID: <da5d18c7-cf09-4956-ad9c-231b12cc0267@huawei.com>
-Date: Sat, 22 Feb 2025 18:06:30 +0800
+	s=arc-20240116; t=1740223880; c=relaxed/simple;
+	bh=cSwTYLOvKfcUp265iaxx2WMETmG/vPuRTNnqNn2a1Ec=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rAa/csuDH5nwiHN5q5WQ7KnJ3YZrnl2crN0ruNgILbLqHM/SmgWI/k7PeqiI5Sey/3sjkDM/HDwWeHXb0yCC0xCZWqeSF23drmYRmGC9C2iBxnMuz217+mVmnzKu80i8sZSSCrdqLj9sH2NKYLD3r0v6S4kh5z97EFVhOunTHZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XLklE7wg; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XLklE7wg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869EAC4CED1;
+	Sat, 22 Feb 2025 11:31:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740223880;
+	bh=cSwTYLOvKfcUp265iaxx2WMETmG/vPuRTNnqNn2a1Ec=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XLklE7wgVc28ln6v7NmWTimdBKKVmCp8Z+Pdx7my2rjmHseqgRUnTzj+PUR93fP9g
+	 WivrgtGpbFsr/+7ioyPY1HbokDCeaFuDDJ/Ar/qua1RbwsOlx/X4bbWoDyyVpoxNM7
+	 DeBUCN2grvMXcLv1NMKioWQ0WzH10CC3E8P4/jbf+NixiQ6WvDbobyxHcbfwJHOeJJ
+	 Rkyw03yR09FUz7cWeRQrxlojPdm7sRDcslZi1Sq62fkKjb2mfJK5ZxIkFm096Odp37
+	 MrXvPe7RKAqpa+K5e6HmsLw9iiYv4gSRQnkXhvDp+hfpXW+4WRyAuUjyhaFH3/gZEs
+	 QCPVahq/ySZVQ==
+Date: Sat, 22 Feb 2025 11:31:11 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>, Marcelo Schmitt
+ <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, lars@metafoo.de,
+ corbet@lwn.net
+Subject: Re: [PATCH v3 1/1] Documentation: iio: Add ADC documentation
+Message-ID: <20250222113111.4886d3e7@jic23-huawei>
+In-Reply-To: <Z7ZDzg0KHZhfiLo3@debian-BULLSEYE-live-builder-AMD64>
+References: <c21b89367510c3d56d8d17adc24b46c7c63a14b2.1738759798.git.marcelo.schmitt@analog.com>
+	<5084aed7-1b39-4cbd-b136-610bceb05c92@baylibre.com>
+	<Z7ZDzg0KHZhfiLo3@debian-BULLSEYE-live-builder-AMD64>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch 0/5] Support Autonomous Selection mode in cppc_cpufreq
-To: Sumit Gupta <sumitg@nvidia.com>, "Rafael J. Wysocki" <rafael@kernel.org>
-CC: Viresh Kumar <viresh.kumar@linaro.org>, <lenb@kernel.org>,
-	<robert.moore@intel.com>, <corbet@lwn.net>, <linux-pm@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>,
-	<sashal@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
-	<sanjayc@nvidia.com>, <bbasu@nvidia.com>
-References: <20250211103737.447704-1-sumitg@nvidia.com>
- <20250211104428.dibsnxmkiluzixvz@vireshk-i7>
- <b45d0d81-e4f7-474e-a146-0075a6145cc2@huawei.com>
- <868d4c2a-583a-4cbb-a572-d884090a7134@nvidia.com>
- <8d5e0035-d8fe-49ef-bda5-f5881ff96657@huawei.com>
- <94bdab73-adc4-4b43-9037-5639f23e3d1e@nvidia.com>
- <CAJZ5v0iAg6HFROHctYQwW=V9XiV8p3XVYgeKUcX4qBgfwQK6Ow@mail.gmail.com>
- <e58a20f8-e8bf-409c-a878-af2bd3c7d243@nvidia.com>
-From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-In-Reply-To: <e58a20f8-e8bf-409c-a878-af2bd3c7d243@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemh100008.china.huawei.com (7.202.181.93)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 2025/2/21 21:14, Sumit Gupta wrote:
-> 
-> 
-> On 19/02/25 00:53, Rafael J. Wysocki wrote:
->>
->> There seems to be some quite fundamental disagreement on how this
->> should be done, so I'm afraid I cannot do much about it ATM.
->>
->> Please agree on a common approach and come back to me when you are ready.
->>
->> Sending two concurrent patchsets under confusingly similar names again
->> and again isn't particularly helpful.
->>
->> Thanks!
-> 
-> Hi Rafael,
-> 
-> Thank you for looking into this.
-> 
-> Hi Lifeng,
-> 
-> As per the discussion, we can make the driver future extensible and
-> also can optimize the register read/write access.
-> 
-> I gave some thought and below is my proposal.
-> 
-> 1) Pick 'Patch 1-7' from your patch series [1] which optimize API's
->    to read/write a cpc register.
+On Wed, 19 Feb 2025 17:49:18 -0300
+Marcelo Schmitt <marcelo.schmitt1@gmail.com> wrote:
 
-'patch 1-7' in [1] doesn't conflicts with [2], so can be reviewed and
-applied separately. I would follow this up in that series.
-
+> A very slow re-spin time from my side but here we go ...
+> I addressed most of the suggestions and am about to send a v4.
+> Replying inline to the points I disagree with.
 > 
-> 2) Pick my patches in [2]:
->    - Patch 1-4: Keep all cpc registers together under acpi_cppc sysfs.
->                 Also, update existing API's to read/write regs in batch.
->    - Patch 5: Creates 'cppc_cpufreq_epp_driver' instance for booting
->      all CPU's in Auto mode and set registers with right values.
->      They can be updated after boot from sysfs to change hints to HW.
->      I can use the optimized API's from [1] where required in [2].
+> Thanks,
+> Marcelo
 > 
-> Let me know if you are okay with this proposal.
-> I can also send an updated patch series with all the patches combined?
-
-As mentioned above, 'patch 1-7' in [1] can be reviewed and applied
-separately. No need to be combined with other patches.
-
-About how to support auto selection mode in cppc_cpufreq, I think we need
-to sort out usecases, scenarios, and requirements from both of us before we
-disscus and agree on a design to implement. I am currently working on it
-and will sent out my thoughts later.
-
-Regards,
-Lifeng
-
+> On 02/05, David Lechner wrote:
+> > On 2/5/25 6:53 AM, Marcelo Schmitt wrote:  
+> > > ADC inputs can be classified into a few different types according to how
+> > > they measure the input signal, how restrained the signal is, and number of
+> > > input pins. Even though datasheets tend to provide many details about their
+> > > inputs and measurement procedures, it may not always be clear how to model
+> > > those inputs into IIO channels.
+> > > 
+> > > For example, some differential ADCs can have their inputs configured into
+> > > pseudo-differential channels. In that configuration, only one input
+> > > connects to the signal of interest as opposed to using two inputs of a
+> > > differential input configuration. Datasheets sometimes also refer to
+> > > pseudo-differential inputs as single-ended inputs even though they have
+> > > distinct physical configuration and measurement procedure.
+> > > 
+> > > Document consolidated ADC input types and how they are usually described
+> > > and supported in device tree and IIO, respectively.
+> > > 
+> > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > > ---  
+> ...
+> > > +There are three general types of ADC inputs (single-ended, differential,
+> > > +pseudo-differential) and two possible polarities (unipolar, bipolar). The input
+> > > +type (single-ended, differential, pseudo-differential) is one channel
+> > > +characteristic, and is completely independent of the polarity (unipolar,
+> > > +bipolar) aspect. A comprehensive article about ADC input types (on which this
+> > > +doc is heavily based on) can be found at
+> > > +https://www.analog.com/en/resources/technical-articles/sar-adc-input-types.html.  
+> > 
+> > It could be worth reiterating here that although there are 3 different input
+> > types, in IIO, differential is only a bool, so there is no special distinction
+> > between single-ended and pseduo-differential (other than possibly having a
+> > common mode voltage input). And unipolar/bipolar is only considered on the
+> > difference between the two inputs and not the individual input, so in IIO there
+> > is no special distinction between bipolar and true biploar - they are modeled
+> > the same.  
+> For v4, I'll be mentioning the differential field meaning and the bipolar / true
+> bipolar (in)disctinction in other subsections bellow. Hope that will make those
+> points more clear.
 > 
-> [1] https://lore.kernel.org/all/20250206131428.3261578-1-zhenglifeng1@huawei.com/
-> [2] https://lore.kernel.org/lkml/20250211103737.447704-1-sumitg@nvidia.com/
+> ...
+> > > +1.2 Differential channels
+> > > +-------------------------
+> > > +  
+> > 
+> > Suggest to insert here:
+> >   
+> > > +A differential voltage measurement,  
+> > 
+> > sometimes also called "fully differential" or "true differential",  
 > 
-> Regards,
-> Sumit Gupta
+> I think adding that would make the sentence harder to read and somewhat incorrect.
+> The differential measurement has to do with how the ADC takes the input signals
+> into account to generate an output code. The "true differential" has to do with
+> the expected limits for the input signals. Fully differential input is yet
+> another thing that I've been avoiding to describe because I think those can be
+> supported as differential bipolar channels.
 > 
+> >   
+> > > digitizes the voltage level at the positive
+> > > +input (IN+) relative to the negative input (IN-) over the -VREF to +VREF span.
+> > > +In other words, a differential channel measures the potential difference between
+> > > +IN+ and IN-, which is often denoted by the IN+ - IN- formula.
+> > > +  
+> ...
+> > > +1.2.2 Differential Unipolar Channels
+> > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > +
+> > > +For **differential unipolar** channels,   
+> > 
+> > I think it would be nice to have a short first paragraph that just says that
+> > this configuration is quite unusual and that the difference would have to always
+> > be positive. Then follow with the rest of the info for the curious in a separate
+> > paragraph. Then it will be easy for those not interested in the unusual case to
+> > skip over that part.  
+> 
+> I think, reordering would make the explanation harder to follow.
+> Even though currently not using those exact words, it can be inferred that the
+> difference is expected to be always positive:
+> "IN+ is allowed to swing with the measured analog signal and the input setup must
+> guarantee IN+ will not go below IN- (nor IN- will raise above IN+)"
+> The last phrase also somewhat hints that the differential unipolar setup is not usual.
+> "Thus, differential unipolar setups can often be supported as pseudo-differential
+> unipolar channels."
+> 
+> >   
+> > > the analog voltage at the positive input
+> > > +must also be higher than the voltage at the negative input. Thus, the actual
+> > > +input range allowed to a differential unipolar channel is IN- to +VREF. Because
+> > > +IN+ is allowed to swing with the measured analog signal and the input setup must
+> > > +guarantee IN+ will not go below IN- (nor IN- will raise above IN+), most
+> > > +differential unipolar channel setups have IN- fixed to a known voltage that does
+> > > +not fall within the voltage range expected for the measured signal. That leads
+> > > +to a setup that is equivalent to a pseudo-differential channel. Thus,
+> > > +differential unipolar setups can often be supported as pseudo-differential
+> > > +unipolar channels.  
+> > 
+> > I think we should just leave out the sentence about being supported as pseudo-
+> > differential. There is already a different section that describes that and it
+> > would be simpler to just stick with describing the fully differential case here.
+> > The differential bipolar section also only describes the fully differential case
+> > so mentioning pseduo-differential here seems inconsistent.  
+> 
+> I also disagree with that one. A differential unipolar setup is uncommon
+> (at least) so the mention of pseduo-differential is to point to what would be
+> the usual way of supporting those input configurations. Differential bipolar
+> inputs are common so no need to mention other input types when talking about
+> differential bipolar.
+> 
+> Though, I'm fine with changing the explanations if Jonathan prefers so.
+
+Generally I'm of the view that getting some good docs in place is more important
+than necessarily getting the perfect ones.  So where I don't feel strongly
+(which I think applies to the remaining discussion) I go with the author choice.
+
+Jonathan
+
 
