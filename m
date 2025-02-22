@@ -1,60 +1,122 @@
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27F3D202C3D;
-	Sat, 22 Feb 2025 09:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=163.172.96.212
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2D2202C40;
+	Sat, 22 Feb 2025 10:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740217516; cv=none; b=kX5BYGjwZll49dRz993c8OuOuyBfVv8UtaX6I1/gG8z8nH4LrdTf8kekTTPGtWMdnQdmz++XVz81ZmVcrmXJodGfPmVYVciZD0mdHTQzfAdbCnCHd5qrV9rADG9UetWzHJHzIlB+dNb7BllOTuN7abNpxeQduBhv6bJjCwIx7fE=
+	t=1740218798; cv=none; b=SLQ2KJb//vZSNHUpyc4X4r8vZA9UHNFBR+7J9DRUVizBS6Y4SFRmjGwVtA872b78dUtuy/8caTw7dVUscb3mf3D1Tl48jBxiZmd3194kOtcNYaha+4JXOBCbS89QJaqe1hgN6xNP8Z2xM7qus+1oLlrL/3M7Iq7Ket6DUV3zRac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740217516; c=relaxed/simple;
-	bh=x+IPeiDLCu0ehvKt7As1lm2Be8HxA1Uyzn0RpCxOApo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FQVKcxDV4mLPs9awyt+gXzSP8nldM1vMh8GTG5Wb87yGz+/rPOe+RNrHByABLZLE6X0otWAxyv9dazXdipikiL6tmogHeCJcJE1Ax5g5KnROaei9O8Pmf8oZJKnA360Kdtcvb5/Ut2OY652j866rI2GTdRxiIbU19+VvMZcpW0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; arc=none smtp.client-ip=163.172.96.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
-Received: (from willy@localhost)
-	by pcw.home.local (8.15.2/8.15.2/Submit) id 51M9ierc013314;
-	Sat, 22 Feb 2025 10:44:40 +0100
-Date: Sat, 22 Feb 2025 10:44:40 +0100
-From: Willy Tarreau <w@1wt.eu>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 04/12] kbuild: userprogs: add nolibc support
-Message-ID: <20250222094440.GB13258@1wt.eu>
-References: <20250217-kunit-kselftests-v1-0-42b4524c3b0a@linutronix.de>
- <20250217-kunit-kselftests-v1-4-42b4524c3b0a@linutronix.de>
+	s=arc-20240116; t=1740218798; c=relaxed/simple;
+	bh=Lv2voLQK6jHaJMOKYmw7WUiLwYV7+E67yPAzbTONFmo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Qq+/UjicFKfYyxRRS5XF6En6jsydKEu2cvC+vJS7xGmHlDTnJO6GSDV6kJcf5Df3Rk8r/d4UsAELP29ak9taR8zQ8WjPja9uzMnQntAQTVM02UBpK487651RWV8fmzM63iBxWkSyjiuxhKFDV7UEXuKOSx+oVwAFwJibCtRnupw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Z0N0C0bJ5z1HJhc;
+	Sat, 22 Feb 2025 18:04:59 +0800 (CST)
+Received: from kwepemh100008.china.huawei.com (unknown [7.202.181.93])
+	by mail.maildlp.com (Postfix) with ESMTPS id 452991406AC;
+	Sat, 22 Feb 2025 18:06:32 +0800 (CST)
+Received: from [10.67.121.90] (10.67.121.90) by kwepemh100008.china.huawei.com
+ (7.202.181.93) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Sat, 22 Feb
+ 2025 18:06:31 +0800
+Message-ID: <da5d18c7-cf09-4956-ad9c-231b12cc0267@huawei.com>
+Date: Sat, 22 Feb 2025 18:06:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Patch 0/5] Support Autonomous Selection mode in cppc_cpufreq
+To: Sumit Gupta <sumitg@nvidia.com>, "Rafael J. Wysocki" <rafael@kernel.org>
+CC: Viresh Kumar <viresh.kumar@linaro.org>, <lenb@kernel.org>,
+	<robert.moore@intel.com>, <corbet@lwn.net>, <linux-pm@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-tegra@vger.kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>,
+	<sashal@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
+	<sanjayc@nvidia.com>, <bbasu@nvidia.com>
+References: <20250211103737.447704-1-sumitg@nvidia.com>
+ <20250211104428.dibsnxmkiluzixvz@vireshk-i7>
+ <b45d0d81-e4f7-474e-a146-0075a6145cc2@huawei.com>
+ <868d4c2a-583a-4cbb-a572-d884090a7134@nvidia.com>
+ <8d5e0035-d8fe-49ef-bda5-f5881ff96657@huawei.com>
+ <94bdab73-adc4-4b43-9037-5639f23e3d1e@nvidia.com>
+ <CAJZ5v0iAg6HFROHctYQwW=V9XiV8p3XVYgeKUcX4qBgfwQK6Ow@mail.gmail.com>
+ <e58a20f8-e8bf-409c-a878-af2bd3c7d243@nvidia.com>
+From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
+In-Reply-To: <e58a20f8-e8bf-409c-a878-af2bd3c7d243@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250217-kunit-kselftests-v1-4-42b4524c3b0a@linutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemh100008.china.huawei.com (7.202.181.93)
 
-On Mon, Feb 17, 2025 at 11:59:24AM +0100, Thomas Wei�schuh wrote:
-> Userprogs are built with the regular kernel compiler $CC.
-> A kernel compiler does not necessarily contain a libc which is required
-> for a normal userspace application.
-> However the kernel tree does contain a minimal libc implementation
-> "nolibc" which can be used to build userspace applications.
+On 2025/2/21 21:14, Sumit Gupta wrote:
 > 
-> Introduce support to build userprogs against nolibc instead of the
-> default C of the compiler, which may not exist.
-          ^^^
-"C library" or maybe "libc" I guess here.
+> 
+> On 19/02/25 00:53, Rafael J. Wysocki wrote:
+>>
+>> There seems to be some quite fundamental disagreement on how this
+>> should be done, so I'm afraid I cannot do much about it ATM.
+>>
+>> Please agree on a common approach and come back to me when you are ready.
+>>
+>> Sending two concurrent patchsets under confusingly similar names again
+>> and again isn't particularly helpful.
+>>
+>> Thanks!
+> 
+> Hi Rafael,
+> 
+> Thank you for looking into this.
+> 
+> Hi Lifeng,
+> 
+> As per the discussion, we can make the driver future extensible and
+> also can optimize the register read/write access.
+> 
+> I gave some thought and below is my proposal.
+> 
+> 1) Pick 'Patch 1-7' from your patch series [1] which optimize API's
+>    to read/write a cpc register.
 
-Willy
+'patch 1-7' in [1] doesn't conflicts with [2], so can be reviewed and
+applied separately. I would follow this up in that series.
+
+> 
+> 2) Pick my patches in [2]:
+>    - Patch 1-4: Keep all cpc registers together under acpi_cppc sysfs.
+>                 Also, update existing API's to read/write regs in batch.
+>    - Patch 5: Creates 'cppc_cpufreq_epp_driver' instance for booting
+>      all CPU's in Auto mode and set registers with right values.
+>      They can be updated after boot from sysfs to change hints to HW.
+>      I can use the optimized API's from [1] where required in [2].
+> 
+> Let me know if you are okay with this proposal.
+> I can also send an updated patch series with all the patches combined?
+
+As mentioned above, 'patch 1-7' in [1] can be reviewed and applied
+separately. No need to be combined with other patches.
+
+About how to support auto selection mode in cppc_cpufreq, I think we need
+to sort out usecases, scenarios, and requirements from both of us before we
+disscus and agree on a design to implement. I am currently working on it
+and will sent out my thoughts later.
+
+Regards,
+Lifeng
+
+> 
+> [1] https://lore.kernel.org/all/20250206131428.3261578-1-zhenglifeng1@huawei.com/
+> [2] https://lore.kernel.org/lkml/20250211103737.447704-1-sumitg@nvidia.com/
+> 
+> Regards,
+> Sumit Gupta
+> 
+
