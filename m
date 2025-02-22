@@ -1,93 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2105C14A095
-	for <linux-doc@vger.kernel.org>; Sat, 22 Feb 2025 20:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EE518EB0
+	for <linux-doc@vger.kernel.org>; Sat, 22 Feb 2025 22:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740257314; cv=none; b=U167VWEHWTe9747Glbw9Ur0U3qJoSuyDybfhnIfilknyv+IYW5sqA+tYM5C4DlCFAY4bo918kdfre/frM+nGG62AswDXJlfJ1EwBN7YoebMvwcT2Pyr9gcvg8515O05Ne2Tm6zdqNzYn0x9NxYo5q2BxMnPiaXD97mLPvG/STLU=
+	t=1740265196; cv=none; b=EJF8+MTr5wouCRPr9pVUB+iHA/Hogp5j/d/0OWfFSqXcmv1BK8iYnIUemL9nq5IULhCXCCm6PU8nEmWxXzAOjWLMxRWifTfsQwrLFM9WYk+AybDK6+ADUF4DH08FbuJqZjH5KBGcEdpKeY9MdtU4TpqoIrkLolWJrnxOhofGAnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740257314; c=relaxed/simple;
-	bh=ehtXDBx/vImVTA6q8WwVpRGBvW6F79wISa0A0C4C4mY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uBwz6+Z8EYm+P09Kp6RCObNM6rabltA50mYoqJfYiZjFCX4o4+uJEn9y9C0orxeYZu3SrggMBLRect355HbjzzExHat4ov6kPLBH3hgkOqkOB4DqTjjQkSsT8jH4XXoYCCadQvJCWV6nnqEPIxJ0tTc8dkVarciZdaVRVsdKgFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcxU2hDH; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740265196; c=relaxed/simple;
+	bh=JGONQCy7gcEKBoSFWgAtInJYVCHXtZ0XDYqR6Fylt+E=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Ptex3Nn7wYuvN5hWiY31vKUq3BTkM3Z+8BuHgawWwhvo6emlZFL6PSQ40T05wltmWyGrKwfplUgvVP3Qjb+tUGJ6Z5m5/j4rJLLDSl//YG+Tvt3Lve9n84G5tJ5MXWu+4ZMPxF5pL/M47kvU6rR4WVa14AzQRMHbrlmn+Vufd1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jp-hosting.net; spf=pass smtp.mailfrom=jp-hosting.net; dkim=pass (2048-bit key) header.d=jp-hosting.net header.i=@jp-hosting.net header.b=d94UP90+; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jp-hosting.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jp-hosting.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcxU2hDH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740257313; x=1771793313;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ehtXDBx/vImVTA6q8WwVpRGBvW6F79wISa0A0C4C4mY=;
-  b=jcxU2hDHIRsdIjmQfnvTzOtIVWD4S9THuer3+HhdahFtw/ddhhhx9nwC
-   BwYZUgsLiR0aSt947KNNCeyc25iCD4baqmUkPAF6oRYfjZQQA0C5zkZVk
-   9rhE9dqjnldx4VIN0wtNZlL/sPHFBmXXr152v63MxK9QNR+hcfyuxcfYM
-   2km7BuNjqbF/+3FZm43OrV8hP2VmyRT3cjrZX5GxISF1Fy0Bn0A7tilvG
-   iFi30yhpDz43WLzM4+CdpYGcDq7rva2J2jFrBg5+eaL4o0in0xSrIrBdE
-   fb2Pggo6LIIXo+UxzZKYtKKqAB3BemXomVlY69k+C5jq0V3VO6fPErngv
-   w==;
-X-CSE-ConnectionGUID: BS/eb+q8QOCcV84ITL6hIA==
-X-CSE-MsgGUID: XPvLPF6ySMauHXbqTjjhlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="51692678"
-X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="51692678"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 12:48:33 -0800
-X-CSE-ConnectionGUID: f6whQmsnT1yInTg+lNZ1XA==
-X-CSE-MsgGUID: n6M7EmzRSeK3wQbIdltRog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="120778785"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Feb 2025 12:48:31 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tlwQH-0006u9-08;
-	Sat, 22 Feb 2025 20:48:29 +0000
-Date: Sun, 23 Feb 2025 04:47:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Tsugikazu Shibata <shibata@linuxfoundation.org>
-Subject: [lwn:docs-next 66/70] htmldocs: Warning:
- Documentation/translations/ja_JP/process/submit-checklist.rst references a
- file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
-Message-ID: <202502230433.CqluCtW0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=jp-hosting.net header.i=@jp-hosting.net header.b="d94UP90+"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ab7483b9bf7so526170366b.3
+        for <linux-doc@vger.kernel.org>; Sat, 22 Feb 2025 14:59:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jp-hosting.net; s=google; t=1740265192; x=1740869992; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=J9tMt+EK0YudwF9jtS4SHJ6SYGeHMC+PbFfRXfW/kVY=;
+        b=d94UP90+Etv5Gyfy2yol3q0XKFCE/w9LfsEeuFOes4p6/cbv4IDN0lgdzoGCT5SiP2
+         f4vdDHuT8I0vstNVHWux/Iyk49LSdtqxDNTV4G6jOTskwlXYAzzGlhh+hKz1js7jEQY3
+         Mg3W+JKgNtDno9q+LdtQxv+CEhoyQQoe0SAnMXW+nrIJJsgnT66u48cfxoai7wxJu+BJ
+         /Ek1ecH2U0uxNsH9nVfwho8vOf0oeAKQ78bPe5WbvKLLnIeHoe0T6TS1+cmgPpObn2Js
+         HFYFKnfvAH3Ouneq1s8DPuekGtzNGl/x0mEdrj+ysz4xALs41lAMdjlN0swJjB9tLwqN
+         DDjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740265192; x=1740869992;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=J9tMt+EK0YudwF9jtS4SHJ6SYGeHMC+PbFfRXfW/kVY=;
+        b=bbhm/4bqrLrp78gBL6Mlg+koOCY/SakRpcwaM7c51ERwv58nb06OPVNLZrFHdcEJLp
+         NLNrHkZnQv33wAirnadZlJJeaGic7IwBiCPxTxdJ8slfP6kDYV343oJhiS7t5BohLvwZ
+         ou5tqTCSIdsoU2V6Nriu2+FKxrb1FvGTPa+/uNXPpfuf5OV1dUqTRsLz2aabmW3oi3Ek
+         Qc0s/soSYeBhVEAm6holovjWVXNIHkRt7efd70F8rhapD5eY6IZ9KUNTeNhoTOQz00PF
+         bEO/xR3ln77UkO9QdGLoB+FHFJxfRsdW+b/UEydBxPkkb4pUSitbbhIyJbkVxUV5NGRD
+         JFJQ==
+X-Gm-Message-State: AOJu0YzNZfbTbVLO14WYiFEfrKQMv+k4ymqcF+/VUuHCIoAYrF9j45H0
+	Qh9Pymwsty2biSF2UdWFVxagSATwMydGBvCoabEymnZkPZ2Uz63P6eiC3xvMn+t5kOAKfN80+xp
+	bS/hnE69eOwaKLsC7ciyQppN42gty2Xaz6FV4VskJ6x3HZZu+sA==
+X-Gm-Gg: ASbGnctpL5d9AxWWsjdHStvFEPyOPLTaK2C9w5B2g9UvhIXegCz/SPVsXf6gQR6Z1mq
+	PHVoY5lI8ysFqDRaWx6T6jWMT9XEN1mO8KDgwxQHw2L2H27v0hXSasRcWo8RZDY8frI2zAxQrgl
+	Ioc7rx8CA=
+X-Google-Smtp-Source: AGHT+IFFPvW8oWXAKklOTm83otWUHT9MLutAFS+B4mGgpjA17vTFVD2A9ce1SWHUZzodKUrgNx2V+OAQADv1Vr8Cg5g=
+X-Received: by 2002:a17:907:2daa:b0:ab7:10e1:8779 with SMTP id
+ a640c23a62f3a-abc09a9c58emr946437566b.27.1740265191502; Sat, 22 Feb 2025
+ 14:59:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: James Addison <jay@jp-hosting.net>
+Date: Sat, 22 Feb 2025 22:59:39 +0000
+X-Gm-Features: AWEUYZlESqP7mPxYkQtdvBORqFNysiXSlHm_X4fH0yOl4sa2mGVUN61igMriRes
+Message-ID: <CALDQ5NyCpKKgoaphoV+aM+s6U7Y=iA-umO9LfuUXAM0oi=x5XA@mail.gmail.com>
+Subject: [PATCH] docs: Disambiguate a pair of rST labels
+To: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   git://git.lwn.net/linux.git docs-next
-head:   76a6782284dff53a08b688fdead3e46f22236e71
-commit: 991dabb24232d94c04053955af8e85df72a1e2b9 [66/70] docs/ja_JP: Convert SubmitChecklist into reST with belated updates
-reproduce: (https://download.01.org/0day-ci/archive/20250223/202502230433.CqluCtW0-lkp@intel.com/reproduce)
+Because reStructuredText does not provide lexical scoping rules for
+labels, resolution of targets that have duplicate declarations is
+ambiguous and produces nondeterministic output.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502230433.CqluCtW0-lkp@intel.com/
+To improve the reproducibility of the HTML documentation,
+disambiguate two labels both previously titled "submit_improvements".
 
-All warnings (new ones prefixed by >>):
+Link: https://github.com/sphinx-doc/sphinx/issues/13383
+Signed-off-by: James Addison <jay@jp-hosting.net>
+---
+ Documentation/admin-guide/quickly-build-trimmed-linux.rst     | 4 ++--
+ .../admin-guide/verify-bugs-and-bisect-regressions.rst        | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-   Warning: Documentation/arch/powerpc/cxl.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-cxl
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
->> Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
-   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+diff --git a/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+index 07cfd8863..2d1b6f750 100644
+--- a/Documentation/admin-guide/quickly-build-trimmed-linux.rst
++++ b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
+@@ -347,7 +347,7 @@ again.
 
+    [:ref:`details<uninstall>`]
+
+-.. _submit_improvements:
++.. _submit_trimmed_build_improvements:
+
+ Did you run into trouble following any of the above steps that is not
+cleared up
+ by the reference section below? Or do you have ideas how to improve the text?
+@@ -1070,7 +1070,7 @@ complicated, and harder to follow.
+
+ That being said: this of course is a balancing act. Hence, if you think an
+ additional use-case is worth describing, suggest it to the maintainers of this
+-document, as :ref:`described above <submit_improvements>`.
++document, as :ref:`described above <submit_trimmed_build_improvements>`.
+
+
+ ..
+diff --git a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+index 03c551513..1b246d8a8 100644
+--- a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
++++ b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+@@ -267,7 +267,7 @@ culprit might be known already. For further
+details on what actually qualifies
+ as a regression check out Documentation/admin-guide/reporting-regressions.rst.
+
+ If you run into any problems while following this guide or have ideas how to
+-improve it, :ref:`please let the kernel developers know <submit_improvements>`.
++improve it, :ref:`please let the kernel developers know
+<submit_regression_tracing_improvements>`.
+
+ .. _introprep_bissbs:
+
+@@ -1055,7 +1055,7 @@ follow these instructions.
+
+ [:ref:`details <introoptional_bisref>`]
+
+-.. _submit_improvements:
++.. _submit_regression_tracing_improvements:
+
+ Conclusion
+ ----------
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.47.2
