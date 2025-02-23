@@ -1,118 +1,112 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056582F3B
-	for <linux-doc@vger.kernel.org>; Sun, 23 Feb 2025 09:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9DE205AD2;
+	Sun, 23 Feb 2025 11:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740301682; cv=none; b=rMgapUzo1Koki+Nb09+H70hjXScvQt9LFWGywbIm7TGgJ+lkjG2kgXWTv295AaTbFUTRunEWSm/J+x+ZUwmTC48xDD0Q5fmAExp+gwguPUimqVf4oW9cl8REufu+Rj7sFKV7wgmrYleHrU/LQgBwrKmaY/ZPo1qWFBj0GOzI7UE=
+	t=1740311103; cv=none; b=JBRwCjMwuvugJqCwi1d+Mj1T88QQxJFmB9/bKxYQxUNBhNYXzB8dfws599iDbya0gBG/b3jUimuB5gtToNyvQDGIuWVIihd/mR5QA3EfbnavVR6GmkhiGo3rekVkC7Rp+hRDJvYAeLMeveuhyhTXHhBOzErc3MwsvKGgO9GFHeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740301682; c=relaxed/simple;
-	bh=VqlJmcbfEDDmn+uC7FWWHm5L+HA2EJxVEoUQ4ytkw5o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c4dadojYeL5aA4GQ695Jsk82IRZGFr4PYqFJMM0q+NAQeRlJ28uUGdBu3/4IL6Oj+jh76N5u7HI2Z/rX1Syc03SitwhDPdWTLrXxUdRNyBdqHXk7PrGxQRUoBGYZioQ5JoAro38MNLZmfGHK6U0+CYlV5D5MhDru53wdk4l6rZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YygqMWZs; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1740311103; c=relaxed/simple;
+	bh=WtQLiUtxlY7jOBkqMlKxzFRYp9wU0OtHvKBwlhSt9RE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=pVrqD6uJyBz4/XFh+j0BGKQxehGfcXsHJc6tJ1bUoMUl08Nvf3/3sZ7S7lJ6gPKxfDvqE8zGbyC5T6I9xq279el5ie1RGEF5AF0Z77jOtpU3TJY1JiHtFzW10hh2MzSw3zn3tQOArMtoNLBgsjJBZtanvOYzSi+QA+WsK4qmoOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V7p8377r; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YygqMWZs"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2fc0026eb79so7178811a91.0
-        for <linux-doc@vger.kernel.org>; Sun, 23 Feb 2025 01:08:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V7p8377r"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-545284eac3bso3494078e87.0;
+        Sun, 23 Feb 2025 03:45:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740301680; x=1740906480; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6W8L9CRiINNthqFQgrLMYgv6sq4JyTMIrgxBSAZWdHU=;
-        b=YygqMWZsu7vBQXJZWHKK7xZhUMB6crIr/a7NTh0YBRJ9GC0Cai8h1NghcWF+kX0vDf
-         +zZ+GlIsrHCDeMiPk1R/w8vBJjSZsVo9wZofy3ZLRarJw7kVpOy81GagC5iWc3x5yyYi
-         L+j5mG13KoZrTpFHMN/vSHmdFq8slBxanJxLEoYUUahw4PLk8kKVoD0Pgeu9cF58gLy8
-         MeENHOqn4pjN1ndbvZEpvOgaTr7TgoImZ9YAeSWgOee6mjNzHqNcX373Ry18F2h5QDIT
-         uiqLLL7a7UPpa7a2ZBp9ESr1EFnKot+m5SYBP75q2d0RVm9XD43jCNkzoN5Gvt2ypa6Z
-         hplw==
+        d=gmail.com; s=20230601; t=1740311100; x=1740915900; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WtQLiUtxlY7jOBkqMlKxzFRYp9wU0OtHvKBwlhSt9RE=;
+        b=V7p8377rhaXWieG/1uY2pvkPre/QdJCbS6K87V3F42lqxD9iIabrF9m3SRKmbKRjPH
+         1LB4/4BVvt5IEwYXKDHshUDi4j1w6gaAFOHTkQ2laDPx8FyW2E8lMR84WOY0jDW3F6G+
+         LlgXUo4q+pRpTWQa8EYBYm9HSh04dvwzGKI/ZnJ61OQ7OX+0stJL93BUX10/x1xLwN2a
+         BYnTotsfgS262jJonf3NSpf6WPosiDLgyLAdVo5mB4BiaoQ1AG2tpVRubrveGAgB9y0/
+         qRaiN2kfvKKJ898sBv13qXur7IIKD8kK108BERosL6LGS3AZBG4vG9qPqCS1cDSVUVhl
+         p2ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740301680; x=1740906480;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6W8L9CRiINNthqFQgrLMYgv6sq4JyTMIrgxBSAZWdHU=;
-        b=i0h1r59rEcLU9YDFUu6v1Hu2EYXncrXHiM55ZWd4hSH3mEl9ptdQCGM8JuCXp+VPxX
-         3YtDI1KbRyv2MWV34vhXd6/fQxK26dzM/Xf311HZozTXSaQkRXvRNhk2CNtnjp8W1fMM
-         VxAsJ2U+0UkirS0EzLz+uWpqvGJ92mGD/2JNADV8b0W1LSJGJaXjR1NLLIBFpvlttDQh
-         ssypSoLUoU6K4pu5u+qE0OKT2m6hNjS5CJ0I7wJlEYmqAqeLtaEtTEimIpEdNv0YmOOo
-         G3kiqKjfx0lfZ1MObpKRPlza1FAbWW7g0bmDx+d5taiEiJ7FCoMz+9eTyxD40I7nRpms
-         AWnw==
-X-Gm-Message-State: AOJu0YzPU0xcSq4gMSaNHTZET/SUsdWoHeY7Om6oyf2QRpzZ5nkaXmFH
-	zF4IfrQWmARVotHMotOPFxA2V6JZfuFV28V8EnmoCzMh8RKe4JEA9md6Gg==
-X-Gm-Gg: ASbGncun6MMsaT+SyB30QxDWH6ZiRHPol7Ow9QXS8/HYjavZOIuNususm+bkVvzLI0W
-	26ItzjJjiMerGlwywzNzJHgNfiLHHIOnk2w6QlqsE9UnOTrBAJ/RLXQlBtjP+u/Ni+Ake1VLgMy
-	sQlquL6YKRJP+F3SqGIAyZkyA0dEmFzJFQc7kEf8WlbhcOWCTsHX4327LycU6nVuvKeeZOoXyCN
-	w5qHTP+w1o19IsyxbYGRvnu3hPtWIOD2Lca+jlu2CSBQARFlHM1RBWnieSBYOjHVnI3AS1eQbLm
-	Sb1fNuS6bX1Qya2fmSwzf/fxKnYlAx6thUiA97SSOcEyBOS6VX4KZ88TxoN2LKkfyXG/QpmE
-X-Google-Smtp-Source: AGHT+IF2M+Ag99oIu3aQ7tanh5w4ssLdEXAopT4xTf9dso1YQG/zg6u4lJ4W3mTsul0QnGrhZZLmWw==
-X-Received: by 2002:a17:90a:da87:b0:2fa:1e3e:9be0 with SMTP id 98e67ed59e1d1-2fce78c9247mr14487806a91.19.1740301680075;
-        Sun, 23 Feb 2025 01:08:00 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fceb12dc27sm4366754a91.45.2025.02.23.01.07.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Feb 2025 01:07:59 -0800 (PST)
-Message-ID: <b464e845-a83e-421b-aeeb-6a9ee36afbbf@gmail.com>
-Date: Sun, 23 Feb 2025 17:56:26 +0900
+        d=1e100.net; s=20230601; t=1740311100; x=1740915900;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WtQLiUtxlY7jOBkqMlKxzFRYp9wU0OtHvKBwlhSt9RE=;
+        b=I3YZpxg9AJrIetKJ93A23r6n+4j2uFmTSrXKGHNLcqNerGSHj/uYVQZJWVQHKQp9Gp
+         rAz8m2hl/Om3zl9eCz6MfPr7HLh8Zp6jSyzVlKjR93KQdnkvmLjNv/J6ycT8slvbYIgg
+         qUUT+QLbFXXz8wVBw8xPN3ZKQ3AjFJQBpiy+WHNvxBnamFI/6zbAdD46vp4ZFiE/k8Dd
+         BK8UeXh7WlYPefJyli81tBxmaC32RXyaiS74YOORxD30YwbNw9+xX02/nYWfvZJ/1DX/
+         BRGE7XuPshALYqlPqY/YUTn0oTj7vmqNMRwcKBbzClXk4soRFyTAxFoNJt9Rv09Q/uzK
+         AgZA==
+X-Forwarded-Encrypted: i=1; AJvYcCX4wzlEIJRA7JlFdj7LsJkjDV/H3udEm+Z4ImOlVkHTwDf7KU21c/bcSo0ANTyPpriVzlzYqBw964cabovf@vger.kernel.org, AJvYcCX7QOgbEuiH6SFCK2HZWLd5rHkUP7c7tSlEmjmg/mjt8Qr5KwFWni5grOnAlWWpUM4AAwIAvMOQ0tI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5CtJsrYSf9jBJPArvFQIEm/1Mk9sJbPrK19UjAafOdR4Cfhbt
+	B1s4cEElEzi6nh9jamukTzC+HCOrA6JUD8wtXqXoXJH2mO7MZl1/93QcDCp1Z5AFtyaH3ye5PXW
+	UTWz0zzslZdLa2U/DSSkzIZzqS30=
+X-Gm-Gg: ASbGncuMqpTQHNt5bYvea0gfih5ciqaw/i+dawSnMdCr++LVmhj653mSrTVBqSUUHIO
+	vHe8Ib3XLt84QSBYeB1dZekKSdLMxaTrXHhKZ4lrTeGG+1oCMvzKd4AMCIgAgyr6Phemw+PgSkb
+	zVXY7dKDQ1gMfnB4bqVNK49gjYWLyn2dQYiOMJMUIt
+X-Google-Smtp-Source: AGHT+IFXdyTaLGb71sdwhuFPbKFfl6zs87BcvN+nBv/3PAoR+eNgHv2zos0UpogzeCxvv45FfKaCGezUok3jmbH90U8=
+X-Received: by 2002:a05:6512:3f05:b0:542:2e09:639a with SMTP id
+ 2adb3069b0e04-54838edddd1mr3320418e87.10.1740311099559; Sun, 23 Feb 2025
+ 03:44:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/ja_JP/submit-checklist: Catch up update related to
- automarkup changes
-To: Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-doc@vger.kernel.org, Tsugikazu Shibata <shibata@linuxfoundation.org>
-References: <20250223054625.37240-1-akiyks@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250223054625.37240-1-akiyks@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
+ <Z6bKR9K16-oYMLFl@archie.me> <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
+ <CAH4c4j+kOYMfzO5QOBg+hGe2zt4kN4f7v+mrri-2GMLzYtCPrw@mail.gmail.com>
+ <Z7WOym9fl8GNPJiO@archie.me> <Z7XdkAKqlK2KJuq2@phenom.ffwll.local>
+In-Reply-To: <Z7XdkAKqlK2KJuq2@phenom.ffwll.local>
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Date: Sun, 23 Feb 2025 17:14:48 +0530
+X-Gm-Features: AWEUYZlGbGI477Musg_0U1Z8C_cUlMEZdld-9_O8sc0I-75qlnom3khRJkDC8B8
+Message-ID: <CAH4c4jKhXn=EhoLJLYhD1jro_KM0TemNnVjokSFRR55oUVuPjA@mail.gmail.com>
+Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Pranav Tyagi <pranav.tyagi03@gmail.com>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, 
+	Linux DRI Development <dri-devel@lists.freedesktop.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-kernel-mentees@lists.linux.dev, 
+	skhan@linuxfoundation.org, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[+To: Mauro]
+On Wed, Feb 19, 2025 at 7:03=E2=80=AFPM Simona Vetter <simona.vetter@ffwll.=
+ch> wrote:
+>
+> On Wed, Feb 19, 2025 at 02:56:58PM +0700, Bagas Sanjaya wrote:
+> > On Thu, Feb 13, 2025 at 11:05:39PM +0530, Pranav Tyagi wrote:
+> > > Hi,
+> > >
+> > > Just a gentle follow-up on this patch. It has been reviewed but hasn'=
+t
+> > > been applied yet.
+> >
+> > You may need to resend the patch, but with scripts/get_maintainer.pl
+> > output Cc'ed so that DRM maintainers can be notified on the patch.
+>
+> I don't have the patch since it wasn't cc'ed to dri-devel. Can you please
+> resend with r-b tag included?
+>
+> Thanks, Sima
+> --
+> Simona Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-On Sun, 23 Feb 2025 14:46:25 +0900, Akira Yokosawa wrote:
-> Reflect the change made in commit fb12098d8ee4 ("docs: submit-checklist:
-> Allow creating cross-references for ABI README").
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
->  Documentation/translations/ja_JP/process/submit-checklist.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/translations/ja_JP/process/submit-checklist.rst b/Documentation/translations/ja_JP/process/submit-checklist.rst
-> index 20a952cf82f9..c5b919ea985b 100644
-> --- a/Documentation/translations/ja_JP/process/submit-checklist.rst
-> +++ b/Documentation/translations/ja_JP/process/submit-checklist.rst
-> @@ -76,7 +76,7 @@ Kconfig 変更のレビュー
->     されている。
->  
->  5) 新規ユーザースペース・インターフェースが、すべて ``Documentaion/ABI/``
-> -   以下に記載されている。詳しくは、 ``Documentation/ABI/README`` を参照。
-> +   以下に記載されている。詳しくは、 Documentation/ABI/README を参照。
+Hi,
 
-Mauro, this change does not result in cross reference to the README page.
-Not only here, but the change in Documentation/process/submit-checklist.rst
-does not work either.
+I have sent the patch again to you with the r-b tag included and cc'ed
+it to dri-devel aswell.
 
-What was your intention of commit fb12098d8ee4 ("docs: submit-checklist:
-Allow creating cross-references for ABI README")?
-
-Can you please clarify?
-
-        Thanks, Akira
-
->     ユーザースペース・インターフェースを変更するパッチは、
->     linux-api@vger.kernel.org にも CC すべし。
->  
-> 
-> base-commit: 76a6782284dff53a08b688fdead3e46f22236e71
-
+Regards
+Pranav Tyagi
