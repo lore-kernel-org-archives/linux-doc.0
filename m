@@ -1,106 +1,101 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6616BFC0
-	for <linux-doc@vger.kernel.org>; Sun, 23 Feb 2025 04:43:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570A810A3E
+	for <linux-doc@vger.kernel.org>; Sun, 23 Feb 2025 05:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740285833; cv=none; b=B4/jcM5PBB4itLBgK/PDIUI9T5+kmTNO1kHZAUPOq+8OYNy0QJefbWR0TLWn1ioPIAEF4aFlNohw8o4N7NTmJO1lARq4vlaZr2GXaJtBDTAn32zgtLBLFjxuytdMDSRz1gaO5x3XDlk/T/ZwginunuwoO2FqgMh7QbvsHSgbyKo=
+	t=1740290291; cv=none; b=QzhnQ9OOdrcHLG0ZHYLxFdq8XzeXZ0BbxkqRB1BV4PeThtyMrEuv1aydHFwRZKoXCz1z5yxpV52l9JV35ADhhgtF2KhLr+rOcGwcPaLC58WMkJNxgg5EaByjj5Eqp8R2az37iYmm0dJSi0KS70rX0eUPvfcXpxdmgzmmLTJdezY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740285833; c=relaxed/simple;
-	bh=i9tHIKyqmu0Q7kpPH0LVIjeCVdtrwPNfa6arnASFBz4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gotUlSC2fqZF7s4MxhB2P4wisX1hre6a5ZKhLlahlTX4VVz50ejNY/wc7+AlWVW3qDN31rQgQYc6Pq6tl3JA65Slx79JM6WfIs+EC9VVnqI6VPTb1eCVCXWw3dRrLF0fPr6ByZkt2a6hAXX98PUDaHmqSXSA0ydONEAkF3nLrf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hztEzTdd; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1740290291; c=relaxed/simple;
+	bh=qFRi4M7V67ySNuY18rHC2RXx0WpJjfkOFV0gMB8ofmg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=V7M5nLLH6U4Fm2+vXxiq26hEa/7foqbbNibm+qZkMHuChNUxGwmfq3m+PitPaeHoeVO4ZgWh+gc/uD7sgIBCQ+dIjzEZX69pJZbTTbKd+BTdrZFg+QcrWyq1oedchNTaToYSNpS+lC4B2OW6F7HQgnBMj1HV00a9FzvwyZfFqqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P2meNibo; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hztEzTdd"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-22128b7d587so64418815ad.3
-        for <linux-doc@vger.kernel.org>; Sat, 22 Feb 2025 20:43:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P2meNibo"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-220d28c215eso51777185ad.1
+        for <linux-doc@vger.kernel.org>; Sat, 22 Feb 2025 21:58:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740285832; x=1740890632; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2+tMJ1ZcQLlSRLqu/hmuLSa31oLRYWLyKNWd9xYEiwU=;
-        b=hztEzTddYJKFl/051ATaXKmQV78gm1xrARE6Fi2113xUgbv7/n0ZmNHkHcBwEjFi8u
-         mwqxOUYvtFq/xYhkrMpGPmoX2nQmb1q2mZJ47Ph1Qm30ZT3cQ4MO4sK8BT9xPZWrb71B
-         gbuHrtW1ojlzNi1epoLwn9xiwGtvZDm8XcWonvDUV0OXhYOE++3oo2qPcYwOmAfXF2f+
-         8yp4ptb8yfcmesFHXCLz0leo6UszuT3XzGrFGakLrC6zkUJGK3fWjn0hiegtRtnLfHbQ
-         ua/xu3Xapt7BwIj6iDN6XLnSlCeko2Hb/YF76OmMneurZGm0g6NwAqn0HcLG9mRU3quf
-         zV3A==
+        d=gmail.com; s=20230601; t=1740290289; x=1740895089; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aCJ2gk3h0vKKDZ8JBdPo26R5AN3lou4nzDQuioAPK7c=;
+        b=P2meNiboBR58OFvnR0URigWo5Pa2czkg4DU5KSsixanc4TusCUCOP2pR4jRsw4n2vF
+         qFUI7+7ftVQ19gcuBBaW5Y+hRdjeZcoEDpZ+8c9YKWkm3nwRF7CF/Ld/5F+wZeddgUMl
+         H8eOFpRnycGU54AGYvJWKoM8CAs+z2w9yKHowuXbjjDykzLOFyKCF3egiphTxeskq6kQ
+         q2/S9rvq8PO7WWHU/VSKn98mv2ITEvNZO69JAQzEKWnI9msp7oMuOeIMvqPNqvmreQzv
+         6hjCVRLeOkUBdrPwXZvyvRro8NcfcAJYP3+ESnn6p9qxiiimBbBKbwZZtPDVMGgGz8p6
+         mQ/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740285832; x=1740890632;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2+tMJ1ZcQLlSRLqu/hmuLSa31oLRYWLyKNWd9xYEiwU=;
-        b=Z0fKreRP5jiXDMNrG/tEsEDiRZ9YSfzgp636y9BY51MHK2HxCYFmb3wVUUopUBLkss
-         H2eQt7AwniqAxIMWJr1wQytxGPOk9k98R77nKZYF2iJYqzpkIuAvgIMjJMDd8MSQny2m
-         +6RbygYbrg2Hr4K7tSS/piLBHfQZE81li0Iku0PcTZiSQuU8qPN2/T29BM/xYzChN/sB
-         s2ICt0N4vxN8LWa45hWp/K6pJPwTIQlOb1Qignmn+I5OG0d8N9meKcOJMqnrdnwt3RyN
-         O585MvacMCarRmbch2xrrCK48CtCOl/ZZ5ti+UrsR1kRibeiyB1iqZ3ppc4C0orKGBcs
-         3c5A==
-X-Forwarded-Encrypted: i=1; AJvYcCV68x6pLBmfxzmcJRRXGy1IrZ7O3n0r4VWOpJH7ume47NRPhybcQMFmm96BddqKSHHDY1qYkgoM8hM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHyAi9GKXKUYSieutjey4kfClL4jXHJGMu74mic2gLWY4Mkijk
-	H1r5nSWBAEQ4Bsx5xiMDm7ATeZInP0hoc5AYqEWIAH1mXbthaEHl
-X-Gm-Gg: ASbGncv/YNRhlCc6qyeeFZLNqYlk9OD2T/o/F7o17I7vmzcpkE2gvUoSpY0U9dfgBNJ
-	m5VgRyNYe51Uz55CBLeRTRe6VEFHh4A3yOBTsS12PyhFZ1GW3ZBKb2gsYBbsroWzbKLaNrh7UMn
-	hkIEoz3WkQWq76M6I79RlNbjAqknPNM3CHE4RD/X4FstLvkDV6tQ4AI6WYIq70fvyLp2NqcQ8Cq
-	UVvKVFtbrBIlbf7TnPVXB+A5z51kVOMDBp8vhXb/iWfEUJjpbpt2ESLWB/JE5NijRtwuMHhzWaN
-	8SZ9gfvuiT8AWOjbUgrUYS2u1oi2RF3M5zxqIB2odotof5j5dMHdxO+kcSnz3pGwOz6huy5y
-X-Google-Smtp-Source: AGHT+IHW0UWNrtPqy+uW3vUwFT6Cz5UXiypn/MgMNrqL9tryxo0RgH/IXZyhOQm2aOmk7QgXSNwIyQ==
-X-Received: by 2002:a05:6a00:ccb:b0:72f:590f:2859 with SMTP id d2e1a72fcca58-73426ceba37mr14386101b3a.13.1740285831611;
-        Sat, 22 Feb 2025 20:43:51 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73261ca7831sm14959437b3a.104.2025.02.22.20.43.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Feb 2025 20:43:51 -0800 (PST)
-Message-ID: <22a3bb4b-e21f-42e8-918c-aa841afb3c73@gmail.com>
-Date: Sun, 23 Feb 2025 13:43:51 +0900
+        d=1e100.net; s=20230601; t=1740290289; x=1740895089;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aCJ2gk3h0vKKDZ8JBdPo26R5AN3lou4nzDQuioAPK7c=;
+        b=HB8JwlRYzCEfjH+GLpEAM7yCVo6hv+YhnhETxo4ogVOA28QKKwwEWUz8rObvS3HqD/
+         0AITo5M9lU3zur73y9vnX4UOqbWRo+cBeL9TlhwusiOHu6eIfXj8tOJ8eC4DRVFz5F/w
+         5LCK1ScTIFqG4M9nP1A37g3+1evNVpNs1/OVbZblMT75NzbbWSO5TJy4n1Y9GaEj8erv
+         bld4aoj9k+gMgu2ONEL/cpWkJ3pEKsbfcOiSdeYJPJDOpTe2oU/ehkYCPSN4LXIDvr93
+         Ku0drRj7xe5UkACZtD663at6+BfKmy5By22P7k4qcpZLnWNSCqaIs5W0Wqb3MQSIv5bb
+         ghAw==
+X-Gm-Message-State: AOJu0YwCyjtNi6r7mAsVPZuTWVGsBDGL9yZmwa2xe+FVdCjI91dkSC0/
+	jyujnygyQikfjI5iNtMR2oeNUDeGicY29ir7WumMo3UHq4Jc4c+X
+X-Gm-Gg: ASbGncsCp1J090B/+E/vYi6JevvMgfbVko4hyIh2Odx0ZSM8yGF+nqdktRcOdEidWSM
+	gniRvSokioMz6/PdeYp2Dsi5kt8+JT8SrMPfg5gTuPZBJ2drw9WciobK7hhTjHGyNFkRZ6beR2g
+	7CH7KpnzTpGD34avbbPsTg7FPQ15rxonKC02ca6hJGg59rWRgQdYRt7fnfaiygJR6bJ7H7FUvDA
+	RCZSbi4PWOP2mBMCZ4rbq3Y9M91uWNaif2bCnBWmE+oyUwlSTtexzL2/DKQfVyEl+2Z0NtHnoLJ
+	0PGlUJnFeM4XXLGkdQtzdLoTlN85s+35OUJ7NouXF4/eMcwdU2yFW/tJB2+Yf8/TIuXvXphx1Vc
+	=
+X-Google-Smtp-Source: AGHT+IHYvTXr7DMbp/h9ZMHWv+byxtXZL4vEQ1cpozodo4w/TFJ1Zxl71AbZxknCL6/OGJjE9ypPUQ==
+X-Received: by 2002:a05:6a00:1812:b0:732:6223:552 with SMTP id d2e1a72fcca58-73426c9006amr13095351b3a.1.1740290289548;
+        Sat, 22 Feb 2025 21:58:09 -0800 (PST)
+Received: from ubuntu-2204.. (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7324254685csm17881301b3a.4.2025.02.22.21.58.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Feb 2025 21:58:09 -0800 (PST)
+From: Akira Yokosawa <akiyks@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	Tsugikazu Shibata <shibata@linuxfoundation.org>,
+	Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs/ja_JP/submit-checklist: Catch up update related to automarkup changes
+Date: Sun, 23 Feb 2025 14:46:25 +0900
+Message-Id: <20250223054625.37240-1-akiyks@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [lwn:docs-next 66/70] htmldocs: Warning:
- Documentation/translations/ja_JP/process/submit-checklist.rst references a
- file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>,
- Tsugikazu Shibata <shibata@linuxfoundation.org>
-References: <202502230433.CqluCtW0-lkp@intel.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <202502230433.CqluCtW0-lkp@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Reflect the change made in commit fb12098d8ee4 ("docs: submit-checklist:
+Allow creating cross-references for ABI README").
 
-kernel test robot wrote:
-> tree:   git://git.lwn.net/linux.git docs-next
-> head:   76a6782284dff53a08b688fdead3e46f22236e71
-> commit: 991dabb24232d94c04053955af8e85df72a1e2b9 [66/70] docs/ja_JP: Convert SubmitChecklist into reST with belated updates
-> reproduce: (https://download.01.org/0day-ci/archive/20250223/202502230433.CqluCtW0-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502230433.CqluCtW0-lkp@intel.com/
-> 
-[...]
->>> Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ Documentation/translations/ja_JP/process/submit-checklist.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The obsolete path is in the comment block at the beginning of the file
-crediting the prior translation effort.  So the warning is false positive
-and I don't think there is anything I can do about it.
+diff --git a/Documentation/translations/ja_JP/process/submit-checklist.rst b/Documentation/translations/ja_JP/process/submit-checklist.rst
+index 20a952cf82f9..c5b919ea985b 100644
+--- a/Documentation/translations/ja_JP/process/submit-checklist.rst
++++ b/Documentation/translations/ja_JP/process/submit-checklist.rst
+@@ -76,7 +76,7 @@ Kconfig 変更のレビュー
+    されている。
+ 
+ 5) 新規ユーザースペース・インターフェースが、すべて ``Documentaion/ABI/``
+-   以下に記載されている。詳しくは、 ``Documentation/ABI/README`` を参照。
++   以下に記載されている。詳しくは、 Documentation/ABI/README を参照。
+    ユーザースペース・インターフェースを変更するパッチは、
+    linux-api@vger.kernel.org にも CC すべし。
+ 
 
-        Thanks, Akira        
-
-[...]
+base-commit: 76a6782284dff53a08b688fdead3e46f22236e71
+-- 
+2.34.1
 
