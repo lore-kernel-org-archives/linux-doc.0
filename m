@@ -1,339 +1,317 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C7E1DDC18
-	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 21:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB3B1C8630
+	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 21:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740432928; cv=none; b=QR7OudF/+NZvHoyhMIg6g9P7+c1smXlnyHoZ31zA3ROObazfowb3RNRUTFzZWjSd26SnfRQc3tbfzQxLYj2GdjEL0OU6V2V2EWD4IWlAlYw36e3rKBiPTi4Foduz8i6xJonTYIdTaWpvLwQDWAFuTHgABROFfp2NdkMc7ZyCaOQ=
+	t=1740433375; cv=none; b=rqaZRV2DPjLrfm+ljwEigzdGVkp3jmDsI5vnoh2j3tBMddJogRXb+w0vW12hqTMqSnCNIaRym2SThHXIxjSjOrvqJdJoS08SqwBwjRenDd0VVTy7aG4GLOV7I6pz7WsVaKFx8++Xt8Agdgm/9/QHN7advc2ViAuttbX5YTgMGEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740432928; c=relaxed/simple;
-	bh=CklY92L/luBbyXKHUyxRozag9ZBDMc/0NOvwGO8rZRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OionDXTWMMh4vkv9fvOPGxoK8eXv6RrKi/HTaOZj8RLpJoJFbRwlhWAwax9I/vv5BtwffVAi9shC8D45aLYtPBmUNPWI75tWspHkOOuZkZTCEbgrXQjzEj0oHPsKinP1DpZMzUjqNixoSiQCcA2oKCM+2vCa9FNJcTByNqaDz8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yIo4sNmB; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1740433375; c=relaxed/simple;
+	bh=ekkAEapecpumjjiwkGzpz44LQrXMuL5VpfcbknyWX6M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JhVPZhM5RiAF17+D7ZAwXUtur4QhBvLYQYKRhp+RetIJwjPXVON5BHnekdo8zMOQE/JqZpCDqYDnCOqU91X5PMjQ0lmerGrXXbR1HyY+XoRT9PmGRERtTsqy7JqbJaSpCqVob+kj6yS2HU3C/1q4f8+Bc10on2kkScabWcIBzCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IPFEea1Y; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yIo4sNmB"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22117c396baso12625ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 13:35:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740432926; x=1741037726; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=B6MDLYjLn+ocuz7r4vs09MXpA233UNWx/xCnRJqXepo=;
-        b=yIo4sNmBhoj13Cj4WSyFIsmJiJDR5FV6ogljpf0d/N8bR30aVMl9Ch0r5JP19BE3XJ
-         IbuMWX61NRAuB/09oCK2Bc6dYlMB9k5EIX/rY0cxh3BM7DFIN3D7zvHIMG5/Hk5wPwx9
-         dro926fQ1y5OaywNdOpCV9uzzpHjBlK78cCO/qzP30OTeplObvliCVAIAOzbFaPqIh17
-         tQaXrmZixHfDKnJ6pHo6c0E17Y0VWgx6sL4dmhKvTkh9Le17Kic/mjY86LhTPbKGDLea
-         Z49eSwUIx1w1q2xqKKkDpA2QbKpccGOvfCnAUOJPnqpq6LJ/cxv3NCr8Rly7C41Nj4XP
-         JgSA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IPFEea1Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740433372;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=rJdaIppcAF+FxsFQkO0OqCCOm0uBPZoLqjFlhCs6lzk=;
+	b=IPFEea1YA1qy2BW5NbgN7NQHNrXFygYVK9DAsqvdC5rF9s/7f6ETEZUqq2axa0s7T4QKho
+	opuZl62z2F9ytP+mfH1ctuwzJ1RLoKD5ZIUrY7Mm4PK6mgi/MYv/j/vazVxUSwTMun/lJu
+	dq8bNSjkta9jw8TijCkIzsfsv0KGtVU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-122-fVsxbH4EONyNpg4IVLl9ZA-1; Mon, 24 Feb 2025 16:42:51 -0500
+X-MC-Unique: fVsxbH4EONyNpg4IVLl9ZA-1
+X-Mimecast-MFC-AGG-ID: fVsxbH4EONyNpg4IVLl9ZA_1740433370
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4398e841963so40513345e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 13:42:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740432926; x=1741037726;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B6MDLYjLn+ocuz7r4vs09MXpA233UNWx/xCnRJqXepo=;
-        b=YBR4zaNQtJk2GrbixqIbL8bJzoQVKykp74UgxB4e6uW5MB5KAFjqMqpVqrl5K1MSWe
-         r2HWESR5d6hmMQ88LFQjjicLraugh3JxyTDpu1QJFVKdffyZOWCkZ8nnKP+ipx2RlHVu
-         mBjQc/OuGXG0wLjEPcvySOdshQKm1oGtg+LZjtTPn1nQgkwRSjNH7j2y2RVszhVG123A
-         Zve4eETTw1hRqQloXK+lL7weV32grLDl/Qv894FHd/uTowlecKutCt0lPAHYJ0OJc3Q1
-         M9czqGQ2HcIU17fTPfyTGBxauyqG6pP76z5fguUEBiMZlKi3tyCV7319VKjEW1Bi4ioM
-         wSNA==
-X-Forwarded-Encrypted: i=1; AJvYcCXvwX3yV1EuUXqtuXxJ9KJLVlLEevfwFNXz5ny7N5/KJQIy2lWVm9Kio0bTTSpzVBa2deBpAnnREsg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+Syf3Kc0ixOZCnZa9zn1gOqd2MASRltYswjE6qoPq9MbmKVjw
-	LknWAX1NYxbwA/jsuvsaN594SVd5NrnPqqmwSmZadswvBNo0Vb0hw3pWr2s+GQ==
-X-Gm-Gg: ASbGncu6qi+MfWRFWm/lypEA8eLK0hXh3lJIDI8lp+V2WgPNpwZ5eP1Z5lCEb1uza8K
-	XvMibQ1J4fBhVpFVPCIwTXmf4kDfwiet15S1nzVNzdg9oSMN33wUdZ0wRhGKhx54MD0H8ntyl6t
-	i108J44rpKqhOGiKwR5Q634wFPeadE4YkgYjSSL8aRbLbmbYmxLRmxn4grzgxIGSuolMVvU8Qoz
-	NhZPL6n7IxgQYC/mVh0yfpFcUnsvTvsoju+N+AX3A4GKQxCuAKMtmoh0juQO0iea72vJXGGNQBU
-	0B5TsTEmF6/J+Pq7O5V0ipiapdj5pbY1YG3HNTOAf1L2Usq7tas38kttVbQOdJs=
-X-Google-Smtp-Source: AGHT+IEvbtSCavbWzJzTUhgymYrP41u+KdaH4TpPZexQDV04gmMsaPcW7ZdSgqeE7hyABwizrzsr3A==
-X-Received: by 2002:a17:903:234c:b0:21f:2ded:bfc5 with SMTP id d9443c01a7336-22307aab886mr1036055ad.28.1740432925555;
-        Mon, 24 Feb 2025 13:35:25 -0800 (PST)
-Received: from google.com (169.224.198.35.bc.googleusercontent.com. [35.198.224.169])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2230a0a3ca8sm730145ad.169.2025.02.24.13.35.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 13:35:25 -0800 (PST)
-Date: Mon, 24 Feb 2025 21:35:14 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
-	joro@8bytes.org, suravee.suthikulpanit@amd.com,
-	robin.murphy@arm.com, dwmw2@infradead.org, baolu.lu@linux.intel.com,
-	shuah@kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
-	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
-	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v7 13/14] iommu/arm-smmu-v3: Report events that belong to
- devices attached to vIOMMU
-Message-ID: <Z7zmErar4YvQSSxw@google.com>
-References: <cover.1740238876.git.nicolinc@nvidia.com>
- <b1930038cf828dc13c080e2b46b3003a8c98ef24.1740238876.git.nicolinc@nvidia.com>
+        d=1e100.net; s=20230601; t=1740433370; x=1741038170;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rJdaIppcAF+FxsFQkO0OqCCOm0uBPZoLqjFlhCs6lzk=;
+        b=NtYGX8Dq1AznycpPnIWxmaDALl3TvMBm6wJDkq78AA6yO78G37HCgjbNIik1AxtBKe
+         /Ja0MJQXptXBs343Eu/1fFwLSmoUC5X7+odFVCYa3Bv1IdZsBxZUodpuUWevNURLOro/
+         LDT9UTkEb3+BijDGY8TqouBJ07005dHQCKtCIpaDiN5iMtkue8eB88zS6AJvlH7hgjDZ
+         3PG9737BDvGx4jJFPsW+bVJq9ttRLZKLmJGUoP6QNlUsn3qE12NvvCYJafJEK1bbvrG5
+         g0i9Av7ME4r0Ji53RVtm2z9C2nK/7yH9+DdMMUAVkEnRPUf9dM8pYveOzlAIpli/IvMq
+         DWfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWqFciCwPxU/fITAMckDYVd2qsYEBmfN2Ym5jtqQxDqgHAhWXec6elQmVequxIPOrTu3Hm3LSVWj2E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8yIG9tBkdec++TIrQPHY/CJxiseMOLu4qYIyVoMgo1WNf0yBb
+	lRpt+ZW38z2jimAIlSMai/j2H33C9gV927tNwi3ic+rTJi65yPu8DwHp1JhfirI1hL1BRttRNSf
+	eGiJuXVhSzqZG54qkHAbzJeiIW43mqbxgCXgr0kVgV07UYLwMCsbMDuI/nQ==
+X-Gm-Gg: ASbGnctxodENlC67uIY48yly3htw4WJjijPza/ks6Wti2SeXREQhcAp6LnXyxqwc8al
+	z4t/lyg1pNL6FUpRsm7ZSsgC4ETSKcBxpziHED8xeDHSkWZ4QqE1fAT2Hf0MnuobmL7Z9ucIpD4
+	kPwE1OUzf2KlesBHbZad9tbETvvJBEl2fAVfe+I3jUzEq7S/9a80Gvllaz7Aplt10cXGv8XRTgP
+	2ysgsh+SneC1UN7DmpONy9VrWoSfhkdjLR3+tpSP731g9UXNca+8nGE6P6eFPqYqWFhHVV7mM94
+	tB/CL7kdct+CVOcNOaPp7YjBoUaUz3CZurQMNQqG6MiBP+YIAs6RuxG+S+cifAg7edMB2q4OABy
+	0+ORUkSqUlLN/Us36ZBbdhhEP1lIf/Ofn+Hdbg10+7sA=
+X-Received: by 2002:a05:600c:3b91:b0:439:9e13:2dd7 with SMTP id 5b1f17b1804b1-43aa7a63c45mr41135045e9.2.1740433369805;
+        Mon, 24 Feb 2025 13:42:49 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGoC4d2j9rOE4cUzpqqA+7hSEc5qzv5dgNmeVhVNJED4tEkT5V3b2VPb/OWSe0Z/WHiHe1vcw==
+X-Received: by 2002:a05:600c:3b91:b0:439:9e13:2dd7 with SMTP id 5b1f17b1804b1-43aa7a63c45mr41134845e9.2.1740433369369;
+        Mon, 24 Feb 2025 13:42:49 -0800 (PST)
+Received: from ?IPV6:2003:cb:c735:1900:ac8b:7ae5:991f:54fc? (p200300cbc7351900ac8b7ae5991f54fc.dip0.t-ipconnect.de. [2003:cb:c735:1900:ac8b:7ae5:991f:54fc])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ab155eb61sm3615755e9.29.2025.02.24.13.42.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2025 13:42:48 -0800 (PST)
+Message-ID: <3f6b7e66-3412-4af2-97d9-6d31d6373079@redhat.com>
+Date: Mon, 24 Feb 2025 22:42:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b1930038cf828dc13c080e2b46b3003a8c98ef24.1740238876.git.nicolinc@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 16/20] fs/proc/page: remove per-page mapcount
+ dependency for /proc/kpagecount (CONFIG_NO_PAGE_MAPCOUNT)
+To: Zi Yan <ziy@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ cgroups@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Muchun Song <muchun.song@linux.dev>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
+References: <20250224165603.1434404-1-david@redhat.com>
+ <20250224165603.1434404-17-david@redhat.com>
+ <D80YSXJPTL7M.2GZLUFXVP2ZCC@nvidia.com>
+ <8a5e94a2-8cd7-45f5-a2be-525242c0cd16@redhat.com>
+ <9010E213-9FC5-4900-B971-D032CB879F2E@nvidia.com>
+ <567b02b0-3e39-4e3c-ba41-1bc59217a421@redhat.com>
+ <30C2A030-7438-4298-87D8-287BED1EA473@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <30C2A030-7438-4298-87D8-287BED1EA473@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Feb 22, 2025 at 07:54:10AM -0800, Nicolin Chen wrote:
-> Aside from the IOPF framework, iommufd provides an additional pathway to
-> report hardware events, via the vEVENTQ of vIOMMU infrastructure.
+On 24.02.25 22:23, Zi Yan wrote:
+> On 24 Feb 2025, at 16:15, David Hildenbrand wrote:
 > 
-> Define an iommu_vevent_arm_smmuv3 uAPI structure, and report stage-1 events
-> in the threaded IRQ handler. Also, add another four event record types that
-> can be forwarded to a VM.
+>> On 24.02.25 22:10, Zi Yan wrote:
+>>> On 24 Feb 2025, at 16:02, David Hildenbrand wrote:
+>>>
+>>>> On 24.02.25 21:40, Zi Yan wrote:
+>>>>> On Mon Feb 24, 2025 at 11:55 AM EST, David Hildenbrand wrote:
+>>>>>> Let's implement an alternative when per-page mapcounts in large folios
+>>>>>> are no longer maintained -- soon with CONFIG_NO_PAGE_MAPCOUNT.
+>>>>>>
+>>>>>> For large folios, we'll return the per-page average mapcount within the
+>>>>>> folio, except when the average is 0 but the folio is mapped: then we
+>>>>>> return 1.
+>>>>>>
+>>>>>> For hugetlb folios and for large folios that are fully mapped
+>>>>>> into all address spaces, there is no change.
+>>>>>>
+>>>>>> As an alternative, we could simply return 0 for non-hugetlb large folios,
+>>>>>> or disable this legacy interface with CONFIG_NO_PAGE_MAPCOUNT.
+>>>>>>
+>>>>>> But the information exposed by this interface can still be valuable, and
+>>>>>> frequently we deal with fully-mapped large folios where the average
+>>>>>> corresponds to the actual page mapcount. So we'll leave it like this for
+>>>>>> now and document the new behavior.
+>>>>>>
+>>>>>> Note: this interface is likely not very relevant for performance. If
+>>>>>> ever required, we could try doing a rather expensive rmap walk to collect
+>>>>>> precisely how often this folio page is mapped.
+>>>>>>
+>>>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>>>> ---
+>>>>>>     Documentation/admin-guide/mm/pagemap.rst |  7 +++++-
+>>>>>>     fs/proc/internal.h                       | 31 ++++++++++++++++++++++++
+>>>>>>     fs/proc/page.c                           | 19 ++++++++++++---
+>>>>>>     3 files changed, 53 insertions(+), 4 deletions(-)
+>>>>>>
+>>>>>> diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
+>>>>>> index caba0f52dd36c..49590306c61a0 100644
+>>>>>> --- a/Documentation/admin-guide/mm/pagemap.rst
+>>>>>> +++ b/Documentation/admin-guide/mm/pagemap.rst
+>>>>>> @@ -42,7 +42,12 @@ There are four components to pagemap:
+>>>>>>        skip over unmapped regions.
+>>>>>>       * ``/proc/kpagecount``.  This file contains a 64-bit count of the number of
+>>>>>> -   times each page is mapped, indexed by PFN.
+>>>>>> +   times each page is mapped, indexed by PFN. Some kernel configurations do
+>>>>>> +   not track the precise number of times a page part of a larger allocation
+>>>>>> +   (e.g., THP) is mapped. In these configurations, the average number of
+>>>>>> +   mappings per page in this larger allocation is returned instead. However,
+>>>>>> +   if any page of the large allocation is mapped, the returned value will
+>>>>>> +   be at least 1.
+>>>>>>      The page-types tool in the tools/mm directory can be used to query the
+>>>>>>     number of times a page is mapped.
+>>>>>> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+>>>>>> index 1695509370b88..16aa1fd260771 100644
+>>>>>> --- a/fs/proc/internal.h
+>>>>>> +++ b/fs/proc/internal.h
+>>>>>> @@ -174,6 +174,37 @@ static inline int folio_precise_page_mapcount(struct folio *folio,
+>>>>>>     	return mapcount;
+>>>>>>     }
+>>>>>>    +/**
+>>>>>> + * folio_average_page_mapcount() - Average number of mappings per page in this
+>>>>>> + *				   folio
+>>>>>> + * @folio: The folio.
+>>>>>> + *
+>>>>>> + * The average number of present user page table entries that reference each
+>>>>>> + * page in this folio as tracked via the RMAP: either referenced directly
+>>>>>> + * (PTE) or as part of a larger area that covers this page (e.g., PMD).
+>>>>>> + *
+>>>>>> + * Returns: The average number of mappings per page in this folio. 0 for
+>>>>>> + * folios that are not mapped to user space or are not tracked via the RMAP
+>>>>>> + * (e.g., shared zeropage).
+>>>>>> + */
+>>>>>> +static inline int folio_average_page_mapcount(struct folio *folio)
+>>>>>> +{
+>>>>>> +	int mapcount, entire_mapcount;
+>>>>>> +	unsigned int adjust;
+>>>>>> +
+>>>>>> +	if (!folio_test_large(folio))
+>>>>>> +		return atomic_read(&folio->_mapcount) + 1;
+>>>>>> +
+>>>>>> +	mapcount = folio_large_mapcount(folio);
+>>>>>> +	entire_mapcount = folio_entire_mapcount(folio);
+>>>>>> +	if (mapcount <= entire_mapcount)
+>>>>>> +		return entire_mapcount;
+>>>>>> +	mapcount -= entire_mapcount;
+>>>>>> +
+>>>>>> +	adjust = folio_large_nr_pages(folio) / 2;
+>>>>
+>>>> Thanks for the review!
+>>>>
+>>>>>
+>>>>> Is there any reason for choosing this adjust number? A comment might be
+>>>>> helpful in case people want to change it later, either with some reasoning
+>>>>> or just saying it is chosen empirically.
+>>>>
+>>>> We're dividing by folio_large_nr_pages(folio) (shifting by folio_large_order(folio)), so this is not a magic number at all.
+>>>>
+>>>> So this should be "ordinary" rounding.
+>>>
+>>> I thought the rounding would be (mapcount + 511) / 512.
+>>
+>> Yes, that's "rounding up".
+>>
+>>> But
+>>> that means if one subpage is mapped, the average will be 1.
+>>> Your rounding means if at least half of the subpages is mapped,
+>>> the average will be 1. Others might think 1/3 is mapped,
+>>> the average will be 1. That is why I think adjust looks like
+>>> a magic number.
+>>
+>> I think all callers could tolerate (or benefit) from folio_average_page_mapcount() returning at least 1 in case any page is mapped.
+>>
+>> There was a reason why I decided to round to the nearest integer instead.
+>>
+>> Let me think about this once more, I went back and forth a couple of times on this.
 > 
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> ---
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  7 +++
->  include/uapi/linux/iommufd.h                  | 23 +++++++
->  .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     | 17 ++++++
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 60 +++++++++++--------
->  4 files changed, 82 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> index 85352504343b..c8574969e700 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> @@ -1067,6 +1067,7 @@ int arm_smmu_attach_prepare_vmaster(struct arm_smmu_attach_state *state,
->  				    struct iommu_domain *domain);
->  void arm_smmu_attach_commit_vmaster(struct arm_smmu_attach_state *state);
->  void arm_smmu_master_clear_vmaster(struct arm_smmu_master *master);
-> +int arm_vmaster_report_event(struct arm_smmu_vmaster *vmaster, u64 *evt);
->  #else
->  #define arm_smmu_hw_info NULL
->  #define arm_vsmmu_alloc NULL
-> @@ -1085,6 +1086,12 @@ arm_smmu_attach_commit_vmaster(struct arm_smmu_attach_state *state)
->  static inline void arm_smmu_master_clear_vmaster(struct arm_smmu_master *master)
->  {
->  }
-> +
-> +static inline int arm_vmaster_report_event(struct arm_smmu_vmaster *vmaster,
-> +					   u64 *evt)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
->  #endif /* CONFIG_ARM_SMMU_V3_IOMMUFD */
->  
->  #endif /* _ARM_SMMU_V3_H */
-> diff --git a/include/uapi/linux/iommufd.h b/include/uapi/linux/iommufd.h
-> index 2ade4839880d..5fc7e27804b7 100644
-> --- a/include/uapi/linux/iommufd.h
-> +++ b/include/uapi/linux/iommufd.h
-> @@ -1054,9 +1054,32 @@ struct iommufd_vevent_header {
->  /**
->   * enum iommu_veventq_type - Virtual Event Queue Type
->   * @IOMMU_VEVENTQ_TYPE_DEFAULT: Reserved for future use
-> + * @IOMMU_VEVENTQ_TYPE_ARM_SMMUV3: ARM SMMUv3 Virtual Event Queue
->   */
->  enum iommu_veventq_type {
->  	IOMMU_VEVENTQ_TYPE_DEFAULT = 0,
-> +	IOMMU_VEVENTQ_TYPE_ARM_SMMUV3 = 1,
-> +};
-> +
-> +/**
-> + * struct iommu_vevent_arm_smmuv3 - ARM SMMUv3 Virtual Event
-> + *                                  (IOMMU_VEVENTQ_TYPE_ARM_SMMUV3)
-> + * @evt: 256-bit ARM SMMUv3 Event record, little-endian.
-> + *       Reported event records: (Refer to "7.3 Event records" in SMMUv3 HW Spec)
-> + *       - 0x04 C_BAD_STE
-> + *       - 0x06 F_STREAM_DISABLED
-> + *       - 0x08 C_BAD_SUBSTREAMID
-> + *       - 0x0a C_BAD_CD
-> + *       - 0x10 F_TRANSLATION
-> + *       - 0x11 F_ADDR_SIZE
-> + *       - 0x12 F_ACCESS
-> + *       - 0x13 F_PERMISSION
-> + *
-> + * StreamID field reports a virtual device ID. To receive a virtual event for a
-> + * device, a vDEVICE must be allocated via IOMMU_VDEVICE_ALLOC.
-> + */
-> +struct iommu_vevent_arm_smmuv3 {
-> +	__aligned_le64 evt[4];
->  };
->  
->  /**
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
-> index 364d8469a480..42c7daf4c8c7 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
-> @@ -445,4 +445,21 @@ struct iommufd_viommu *arm_vsmmu_alloc(struct device *dev,
->  	return &vsmmu->core;
->  }
->  
-> +int arm_vmaster_report_event(struct arm_smmu_vmaster *vmaster, u64 *evt)
-> +{
-> +	struct iommu_vevent_arm_smmuv3 vevt;
-> +	int i;
-> +
-> +	lockdep_assert_held(&vmaster->vsmmu->smmu->streams_mutex);
-> +
-> +	vevt.evt[0] = cpu_to_le64((evt[0] & ~EVTQ_0_SID) |
-> +				  FIELD_PREP(EVTQ_0_SID, vmaster->vsid));
-> +	for (i = 1; i < EVTQ_ENT_DWORDS; i++)
-> +		vevt.evt[i] = cpu_to_le64(evt[i]);
+> Sure. Your current choice might be good enough for now. My intend of
+> adding a comment here is just to let people know the adjust can be
+> changed in the future. :)
 
-Just thinking out loud here:
-I understand the goal here is to "emulate" an IOMMU. But I'm just
-wondering if we could report struct events instead of the raw event?
+The following will make the callers easier to read, while keeping
+the rounding to the next integer for the other cases untouched.
 
-For example, can't we have something like arm_smmu_event here with the
-sid changed to vsid? 
++/**
++ * folio_average_page_mapcount() - Average number of mappings per page in this
++ *                                folio
++ * @folio: The folio.
++ *
++ * The average number of present user page table entries that reference each
++ * page in this folio as tracked via the RMAP: either referenced directly
++ * (PTE) or as part of a larger area that covers this page (e.g., PMD).
++ *
++ * The average is calculated by rounding to the nearest integer; however,
++ * if at least a single page is mapped, the average will be at least 1.
++ *
++ * Returns: The average number of mappings per page in this folio.
++ */
++static inline int folio_average_page_mapcount(struct folio *folio)
++{
++       int mapcount, entire_mapcount, avg;
++
++       if (!folio_test_large(folio))
++               return atomic_read(&folio->_mapcount) + 1;
++
++       mapcount = folio_large_mapcount(folio);
++       if (unlikely(mapcount <= 0))
++               return 0;
++       entire_mapcount = folio_entire_mapcount(folio);
++       if (mapcount <= entire_mapcount)
++               return entire_mapcount;
++       mapcount -= entire_mapcount;
++
++       /* Round to closest integer ... */
++       avg = (mapcount + folio_large_nr_pages(folio) / 2) >> folio_large_order(folio);
++       avg += entire_mapcount;
++       /* ... but return at least 1. */
++       return max_t(int, avg, 1);
++}
 
-Are we taking the raw event since we want to keep the `u64 event_data[]`
-field within `struct iommufd_vevent` generic to all architectures?
 
-> +
-> +	return iommufd_viommu_report_event(&vmaster->vsmmu->core,
-> +					   IOMMU_VEVENTQ_TYPE_ARM_SMMUV3, &vevt,
-> +					   sizeof(vevt));
-> +}
-> +
->  MODULE_IMPORT_NS("IOMMUFD");
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index 9e50bcee69d1..fdf8bba14303 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -1813,8 +1813,8 @@ static void arm_smmu_decode_event(struct arm_smmu_device *smmu, u64 *raw,
->  	mutex_unlock(&smmu->streams_mutex);
->  }
->  
-> -static int arm_smmu_handle_event(struct arm_smmu_device *smmu,
-> -			       struct arm_smmu_event *event)
-> +static int arm_smmu_handle_event(struct arm_smmu_device *smmu, u64 *evt,
-> +				 struct arm_smmu_event *event)
->  {
->  	int ret = 0;
->  	u32 perm = 0;
-> @@ -1823,6 +1823,10 @@ static int arm_smmu_handle_event(struct arm_smmu_device *smmu,
->  	struct iommu_fault *flt = &fault_evt.fault;
->  
->  	switch (event->id) {
-> +	case EVT_ID_BAD_STE_CONFIG:
-> +	case EVT_ID_STREAM_DISABLED_FAULT:
-> +	case EVT_ID_BAD_SUBSTREAMID_CONFIG:
-> +	case EVT_ID_BAD_CD_CONFIG:
->  	case EVT_ID_TRANSLATION_FAULT:
->  	case EVT_ID_ADDR_SIZE_FAULT:
->  	case EVT_ID_ACCESS_FAULT:
-> @@ -1832,31 +1836,30 @@ static int arm_smmu_handle_event(struct arm_smmu_device *smmu,
->  		return -EOPNOTSUPP;
->  	}
->  
-> -	if (!event->stall)
-> -		return -EOPNOTSUPP;
-> -
-> -	if (event->read)
-> -		perm |= IOMMU_FAULT_PERM_READ;
-> -	else
-> -		perm |= IOMMU_FAULT_PERM_WRITE;
-> +	if (event->stall) {
-> +		if (event->read)
-> +			perm |= IOMMU_FAULT_PERM_READ;
-> +		else
-> +			perm |= IOMMU_FAULT_PERM_WRITE;
->  
-> -	if (event->instruction)
-> -		perm |= IOMMU_FAULT_PERM_EXEC;
-> +		if (event->instruction)
-> +			perm |= IOMMU_FAULT_PERM_EXEC;
->  
-> -	if (event->privileged)
-> -		perm |= IOMMU_FAULT_PERM_PRIV;
-> +		if (event->privileged)
-> +			perm |= IOMMU_FAULT_PERM_PRIV;
->  
-> -	flt->type = IOMMU_FAULT_PAGE_REQ;
-> -	flt->prm = (struct iommu_fault_page_request) {
-> -		.flags = IOMMU_FAULT_PAGE_REQUEST_LAST_PAGE,
-> -		.grpid = event->stag,
-> -		.perm = perm,
-> -		.addr = event->iova,
-> -	};
-> +		flt->type = IOMMU_FAULT_PAGE_REQ;
-> +		flt->prm = (struct iommu_fault_page_request){
-> +			.flags = IOMMU_FAULT_PAGE_REQUEST_LAST_PAGE,
-> +			.grpid = event->stag,
-> +			.perm = perm,
-> +			.addr = event->iova,
-> +		};
->  
-> -	if (event->ssv) {
-> -		flt->prm.flags |= IOMMU_FAULT_PAGE_REQUEST_PASID_VALID;
-> -		flt->prm.pasid = event->ssid;
-> +		if (event->ssv) {
-> +			flt->prm.flags |= IOMMU_FAULT_PAGE_REQUEST_PASID_VALID;
-> +			flt->prm.pasid = event->ssid;
-> +		}
->  	}
->  
->  	mutex_lock(&smmu->streams_mutex);
-> @@ -1866,7 +1869,14 @@ static int arm_smmu_handle_event(struct arm_smmu_device *smmu,
->  		goto out_unlock;
->  	}
->  
-> -	ret = iommu_report_device_fault(master->dev, &fault_evt);
-> +	if (event->stall) {
-> +		ret = iommu_report_device_fault(master->dev, &fault_evt);
-> +	} else {
-> +		if (master->vmaster && !event->s2)
-> +			ret = arm_vmaster_report_event(master->vmaster, evt);
-> +		else
-> +			ret = -EFAULT; /* Unhandled events should be pinned */
-> +	}
+-- 
+Cheers,
 
-Nit:
-I don't see the `arm_smmu_handle_event` being called elsewhere, is there
-a reason to return -EFAULT instead of -EOPNOTSUPP here?
+David / dhildenb
 
-I think the current behavior here is to return -EOPNOTSUPP if (!event->stall).
-Whereas, what we're doing here is:
-	if (event->stall) {
-	...
-	/* do legacy stuff */
-	...
-	}
-
-	else {
-		if (master->vmaster && !event->s2)
-			arm_vmaster_report_event(vmaster, evt);
-		else
-			ret = -EFAULT
-	}
-
-	mutex_unlock(&smmu->streams_mutex);
-	return ret;
-
-Thus, we end up returning -EFAULT instead of -EOPNOTSUPP in case
-event->stall == false. I agree that we aren't really checking the return
-value in the evtq_thread handler, but I'm wondering if we should ensure
-that we end up retaining the same behaviour as we have right now?
-
->  out_unlock:
->  	mutex_unlock(&smmu->streams_mutex);
->  	return ret;
-> @@ -1944,7 +1954,7 @@ static irqreturn_t arm_smmu_evtq_thread(int irq, void *dev)
->  	do {
->  		while (!queue_remove_raw(q, evt)) {
->  			arm_smmu_decode_event(smmu, evt, &event);
-> -			if (arm_smmu_handle_event(smmu, &event))
-> +			if (arm_smmu_handle_event(smmu, evt, &event))
->  				arm_smmu_dump_event(smmu, evt, &event, &rs);
->  
->  			put_device(event.dev);
-> -- 
-> 2.43.0
-> 
-
-Thanks,
-Praan
