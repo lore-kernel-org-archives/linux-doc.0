@@ -1,250 +1,163 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEA1255E25
-	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 10:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4512566C3;
+	Mon, 24 Feb 2025 10:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740393452; cv=none; b=A4/AZUqbr6b+JjA4KOxtoF2KG6SyS0vtdUVqCdzrgAEuFhQWTlwyFoUwE11AYIg0O7ns2l0IwS04RUdfMMHJt7zLKlJ9DMq+0paOUsuIyP7q+ppIJTQOgDsEODkY/0I4hL2NY7cLG/KbEcHp3EW2Sb4A1erBr+v6j2ccJpNcwS4=
+	t=1740393670; cv=none; b=GDQwPmlPl1et6J/sfo5jJD1l/f2Lk9cJ7t64alKUAKWXN0U+90Xo+ZmwMv/t1dVYbIKlNojKwXkTeCLKgNw5PirTP8O9dLtsPHtJ1gygP6bNeuUWLCYwC4x7XFnxwKy7s8KNjKZlbZbTjpthndO8fUcfTNqbKlrxgnC4HUwMu58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740393452; c=relaxed/simple;
-	bh=/gRrSz2yXs4vsslQWzBNjKON7715ulGmHecZwULZHRY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mN4XnC1fdurFqOzZJiK98dL/fGer/jSANvavvCV2G5MQQfo6s4c6dHDOEG8PihqwTiMPnSQemOsDo+1rKxaKj2gH/Zg2haAiNq/guf7RvQPqG3L2xdhWP1wrAuFk0EJZuK1ANv53bUkM0o6X67fkGAZ3wfjt8tC0pVqL1EO9uj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VqKIy7Bo; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1740393670; c=relaxed/simple;
+	bh=NeAGyiZOTYfejHkjFw04X6rdOVkivoeAsk4c/Mc/y2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iHLZZrDHKaMnXMGxnvi9Cf42GtmQZX604qdgsVXkM3YDttvjQxD7QlXBIy5Ev+vjdcclUVF8aI+EKik5DuYPtfDrqr5zR4CbDcvSEVz5qLOIrQB3UwIpe3AnXMVkobF/Fr2tFqmWUwt76JEdwIvkjpL9Wu14K95UXVUdvAz4Nl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUtbff7j; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VqKIy7Bo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740393449;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=rO8lIKV122u8A8FjTVOg2+ZxmXBOIm46qqiWIzi0zUY=;
-	b=VqKIy7BohXMJyEIVjDyPFPJDllk01lKm7ll2uMH0j/t1uNycuRg/Lj6HxkWR8pQ3cp1BpJ
-	CdAcqd5IeVKuQzXikYvhd9l2txunKaxlv2w0aJZKM/ASOV51JlXnsunTOF4SjmfbGR/Zag
-	dT/IYTBn0Q77xdyaSHbei4C0iwomqBE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-597-bLb9-8dsOvyKIRYz3XOCQg-1; Mon, 24 Feb 2025 05:37:28 -0500
-X-MC-Unique: bLb9-8dsOvyKIRYz3XOCQg-1
-X-Mimecast-MFC-AGG-ID: bLb9-8dsOvyKIRYz3XOCQg_1740393447
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4399a5afc72so21864325e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 02:37:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740393447; x=1740998247;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rO8lIKV122u8A8FjTVOg2+ZxmXBOIm46qqiWIzi0zUY=;
-        b=u640gHh0bG+AKUDS/hnNajWHVch98GfyMkfY8ZwfojKpOwH7bjPvtHDYlDKPzli1Dc
-         BtF4ZUPFp4gTlpt29N2Ae763c5GdNDBVreAW+o1jAJP/LyaCgDNbkgUdASIYeveEZdS8
-         Pjr2sn/vuf8trTn9FspbyIeZPdzYZnPByhwrWGPxPhkzblIIMkdxv6g4CCKh6AAsr9UL
-         H+bF/Zbv/WbPOxJL/kU6WRPZBWPqci4Gd/nrvzIFegbHKJRsnnivcicQfyfl3daRu5Uv
-         uHP5SxuG82nx5nlj07cmTBXYgbR+2mrAg0bSbC+R3VwElDmqXXsvR7RQ9dpi9d5M0nvV
-         8ozQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJ+qr/C35Glb3TKYZ3lwkJxmoAhG5c6EKHm0mKCiibXb654L8uLkqLUa/ZQucn1dNfRaNgl5mCIQM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+PBXatx29sWx5Ihxw1PzZe03c2QFUccdcQqKew5HNt3cOXw8T
-	30+TUbvS7ucAfKXxju7Bpnt/UdrKmrVnBCxAfK/Ky1lgoK+VP3SbA4CBsPuT772YNmEoBfjEWvJ
-	C8QiC1yQoFaC6MGT77Q18OaDgenmuAE0FQHeiyRt48QUNIMnNsReCShvLSw==
-X-Gm-Gg: ASbGncsfX6OKuZ2IbiDyKBrkbMNeLygIpFwmWGqFwf4EUFlXXUTzTTxxsdnqq8/bWLm
-	4OztrVfNLH/qscAL0owFO6mZb7k6040xn3HF1r6O9pItaswUYNZssPJ/KHpAwbTy/eD0BESG3NV
-	HjQwbimEE08uBdDUS2JQIcfr1EHeRT22BbCXorF+XjPu98sZWVlet5FbgD7MvecN9ZuM3oOfW2N
-	wvJz6AsGeKSlJngGcLyfuCyGqOEHWIdwDnhvf9ZMWqXb2Jt32Q84opCABGVxvPOgCyyUTIQNgSf
-	U5RStigigXa6q5OxZYQV2FxfdfnClOcs5ZiEbCJGBlDGJs0lCLEOT1hdpIHpGDe1OmA4BWJItgw
-	KHEVR28a8ZKci8TcZjfnKdC3Axi4SESgQ8KzwHAPm0CQ=
-X-Received: by 2002:a05:6000:1789:b0:38f:3de0:d16 with SMTP id ffacd0b85a97d-38f7085dc1dmr7386620f8f.52.1740393446877;
-        Mon, 24 Feb 2025 02:37:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHYBbwlOwYkjd2sSmfgkM5zkQutF43Ts1I4C5qCYdEua9tWy0/1u+3jppjIwy2SkS/Xjj4zJw==
-X-Received: by 2002:a05:6000:1789:b0:38f:3de0:d16 with SMTP id ffacd0b85a97d-38f7085dc1dmr7386582f8f.52.1740393446413;
-        Mon, 24 Feb 2025 02:37:26 -0800 (PST)
-Received: from ?IPV6:2003:cb:c735:1900:ac8b:7ae5:991f:54fc? (p200300cbc7351900ac8b7ae5991f54fc.dip0.t-ipconnect.de. [2003:cb:c735:1900:ac8b:7ae5:991f:54fc])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258ddba7sm31622272f8f.38.2025.02.24.02.37.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2025 02:37:25 -0800 (PST)
-Message-ID: <09d7ca19-e6cc-4aa9-8474-8975373bdebd@redhat.com>
-Date: Mon, 24 Feb 2025 11:37:24 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUtbff7j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740393668; x=1771929668;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=NeAGyiZOTYfejHkjFw04X6rdOVkivoeAsk4c/Mc/y2w=;
+  b=lUtbff7jg62FH8P2+VBPUChMvf3LwXff0k7wSB+U0/qxb5ARNPS7Dqu8
+   5sOe+dl0Sh04BieJwDGUOnQf/9LobfyciOudHL6pOhn5JzPZJXjrLBk94
+   GO/N2Pcm09L7ZPcPkujtidqYrdyXA6bYwtY7CQPbLU/wL92dMukruRujp
+   IQ7+h3lKjMRU+b8QrroUbzb17NVETq6vg8u/Vpwe0ZKmdN2oy/popmf2o
+   HNZfq0XQP8+yuQBwaos/gDLRrvqDwO8KM97llalgBNiU3Uri6Vf83rDZQ
+   WfCVcg5cgBuAK5fwnNXZBeyjgTrvfXqv53NeAy+xw7QhovUiONHMZ2yvf
+   w==;
+X-CSE-ConnectionGUID: BOCiEdzGRLO1yZUUHWFMbw==
+X-CSE-MsgGUID: ZDvuUXGlQYe4I46TgJORcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="51781404"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="51781404"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:41:07 -0800
+X-CSE-ConnectionGUID: 6KaaqqqiSfyRszbE2a4Y5A==
+X-CSE-MsgGUID: Yabe8xd7SOilahRgO+AwGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="121107100"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:41:01 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tmVtP-0000000EfTz-3Zey;
+	Mon, 24 Feb 2025 12:40:55 +0200
+Date: Mon, 24 Feb 2025 12:40:55 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"kekrby@gmail.com" <kekrby@gmail.com>,
+	"admin@kodeit.net" <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>,
+	"evepolonium@gmail.com" <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Z7xMt2Kp1pFuMar2@smile.fi.intel.com>
+References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
+ <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
+ <6CB20172-906F-4D13-B5E4-100A9CF74F02@live.com>
+ <Z7xCr4iPmIkPoWGC@smile.fi.intel.com>
+ <PN3PR01MB9597CF2907CBBD6ED43D5E62B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z7xIxFT-eB_OTGzm@smile.fi.intel.com>
+ <PN3PR01MB9597FA2077E6FD498E8CDDD9B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] fs/proc/task_mmu: add guard region bit to pagemap
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Kalesh Singh
- <kaleshsingh@google.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
- "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>,
- Juan Yescas <jyescas@google.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-api@vger.kernel.org
-References: <cover.1740139449.git.lorenzo.stoakes@oracle.com>
- <521d99c08b975fb06a1e7201e971cc24d68196d1.1740139449.git.lorenzo.stoakes@oracle.com>
- <857b2c3f-7be7-44e8-a825-82a7353665fb@redhat.com>
- <cd57ed04-c6b1-4df3-a5cb-a33078a08e74@lucifer.local>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <cd57ed04-c6b1-4df3-a5cb-a33078a08e74@lucifer.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN3PR01MB9597FA2077E6FD498E8CDDD9B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 24.02.25 11:18, Lorenzo Stoakes wrote:
-> On Mon, Feb 24, 2025 at 10:27:28AM +0100, David Hildenbrand wrote:
->> On 21.02.25 13:05, Lorenzo Stoakes wrote:
->>> Currently there is no means by which users can determine whether a given
->>> page in memory is in fact a guard region, that is having had the
->>> MADV_GUARD_INSTALL madvise() flag applied to it.
->>>
->>> This is intentional, as to provide this information in VMA metadata would
->>> contradict the intent of the feature (providing a means to change fault
->>> behaviour at a page table level rather than a VMA level), and would require
->>> VMA metadata operations to scan page tables, which is unacceptable.
->>>
->>> In many cases, users have no need to reflect and determine what regions
->>> have been designated guard regions, as it is the user who has established
->>> them in the first place.
->>>
->>> But in some instances, such as monitoring software, or software that relies
->>> upon being able to ascertain the nature of mappings within a remote process
->>> for instance, it becomes useful to be able to determine which pages have
->>> the guard region marker applied.
->>>
->>> This patch makes use of an unused pagemap bit (58) to provide this
->>> information.
->>>
->>> This patch updates the documentation at the same time as making the change
->>> such that the implementation of the feature and the documentation of it are
->>> tied together.
->>>
->>> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>> ---
->>
->>
->> Acked-by: David Hildenbrand <david@redhat.com>
+On Mon, Feb 24, 2025 at 10:32:27AM +0000, Aditya Garg wrote:
+> > On 24 Feb 2025, at 3:54 PM, andriy.shevchenko@linux.intel.com wrote:
+> > ﻿On Mon, Feb 24, 2025 at 10:18:48AM +0000, Aditya Garg wrote:
+> >>>> On 24 Feb 2025, at 3:28 PM, andriy.shevchenko@linux.intel.com wrote:
+> >>> ﻿On Sat, Feb 22, 2025 at 03:46:03PM +0000, Aditya Garg wrote:
+> >>>>>> On 20 Feb 2025, at 10:09 PM, Aditya Garg <gargaditya08@live.com> wrote:
+
+...
+
+> >>>>> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> >>>>> it's useful to be able to print generic 4-character codes formatted as
+> >>>>> an integer. Extend it to add format specifiers for printing generic
+> >>>>> 32-bit FOURCCs with various endian semantics:
+> >>>>> 
+> >>>>> %p4ch   Host-endian
+> >>>>> %p4cl Little-endian
+> >>>>> %p4cb Big-endian
+> >>>>> %p4cr Reverse-endian
+> >>>>> 
+> >>>>> The endianness determines how bytes are interpreted as a u32, and the
+> >>>>> FOURCC is then always printed MSByte-first (this is the opposite of
+> >>>>> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> >>>>> allow printing LSByte-first FOURCCs stored in host endian order
+> >>>>> (other than the hex form being in character order, not the integer
+> >>>>> value).
+> >>> 
+> >>> ...
+> >>> 
+> >>>> BTW, after looking at the comments by Martin [1], its actually better to use
+> >>>> existing specifiers for the appletbdrm driver.  The driver needs the host
+> >>>> endian as proposed by this patch, so instead of that, we can use %.4s
+> >>> 
+> >>> Do you mean this patch will not be needed? If this a case, that would be the
+> >>> best solution.
+> >> 
+> >> I tested with %4pE, and the results are different from expected. So this
+> >> would be preferred. Kindly see my latest email with a proposed workaround for
+> >> the sparse warnings.
+> > 
+> > %.4s sounded okay, but %4pE is always about escaping and the result may occupy
+> > %4x memory (octal escaping of non-printable characters). Of course, you may vary
+> > the escaping classes, but IIRC the octal or hex escaping is unconditional.
 > 
-> Thanks! :)
->>
->> Something that might be interesting is also extending the PAGEMAP_SCAN
->> ioctl.
-> 
-> Yeah, funny you should mention that, I did see that, but on reading the man
-> page it struck me that it requires the region to be uffd afaict? All the
-> tests seem to establish uffd, and the man page implies it:
-> 
->         To start tracking the written state (flag) of a page or range of
->         memory, the UFFD_FEATURE_WP_ASYNC must be enabled by UFFDIO_API
->         ioctl(2) on userfaultfd and memory range must be registered with
->         UFFDIO_REGISTER ioctl(2) in UFFDIO_REGISTER_MODE_WP mode.
-> 
-> It would be a bit of a weird edge case to add support there. I was excited
-> when I first saw this ioctl, then disappointed afterwards... but maybe I
-> got it wrong?
-> 
+> %.4s is used for unsigned int iirc, here it's __le32.
 
-I never managed to review that fully, but I thing that 
-UFFD_FEATURE_WP_ASYNC thingy is only required for PM_SCAN_CHECK_WPASYNC 
-and PM_SCAN_WP_MATCHING.
+No, it's used to 'char *'. in case one may guarantee that it at least is
+four characters long.
 
-See pagemap_scan_test_walk().
-
-I do recall that it works on any VMA.
-
-Ah yes, tools/testing/selftests/mm/vm_util.c ends up using it for 
-pagemap_is_swapped() and friends via page_entry_is() to sanity check 
-that what pagemap gives us is consistent with what pagemap_scan gives us.
-
-So it should work independent of the uffd magic.
-I might be wrong, though ...
-
->>
->>
->> See do_pagemap_scan().
->>
->> The benefit here might be that one could effectively search/filter for guard
->> regions without copying 64bit per base-page to user space.
->>
->> But the idea would be to indicate something like PAGE_IS_GUARD_REGION as a
->> category when we hit a guard region entry in pagemap_page_category().
->>
->> (the code is a bit complicated, and I am not sure why we indicate
->> PAGE_IS_SWAPPED for non-swap entries, likely wrong ...)
-> 
-> Yeah, I could go on here about how much I hate how uffd does a 'parallel
-> implementation' of a ton of stuff and then chucks in if (uffd) { go do
-> something weird + wonderful } but I'll resist the urge :P :))
-> 
-> Do you think, if it were uffd-specific, this would be useful?
-
-If it really is completely uffd-specific for now, I agree that we should 
-rather leave it alone.
-
-> 
-> At any rate, I'm not sure it's _hugely_ beneficial in this form as pagemap
-> is binary in any case so you're not having to deal with overhead of parsing
-> a text file at least!
-
-My thinking was, that if you have a large VMA, with ordinary pagemap you 
-have to copy 8byte per entry (and have room for that somewhere in user 
-space). In theory, with the scanning feature, you can leave that ... 
-scanning to the kernel and don't have to do any copying/allocate space 
-for it in user space etc.
+> >>>> [1]: https://lore.kernel.org/asahi/E753B391-D2CB-4213-AF82-678ADD5A7644@cutebit.org/
+> >>>> 
+> >>>> Alternatively we could add a host endian only. Other endians are not really
+> >>>> used by any driver AFAIK. The host endian is being used by appletbdrm and
+> >>>> Asahi Linux’ SMC driver only.
 
 -- 
-Cheers,
+With Best Regards,
+Andy Shevchenko
 
-David / dhildenb
 
