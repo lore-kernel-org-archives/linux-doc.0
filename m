@@ -1,108 +1,200 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805261078F
-	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 00:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C047D79D0;
+	Mon, 24 Feb 2025 01:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740357800; cv=none; b=PCd7cAH1SU06Bx/tbb6WaHn4uHjDQxsXPqjdy+Ealo/G3543QjLSzhnlthGbZ1sIsc54s6jjVcxyxPCC9ty+MFceZlFEWT6RshWoHSnkxrEom23QcS0lu8ialF6PigjS+RoleVB7e25lz7gJ9RqHfxyC1LMPFRXfW8jzlBo7+FY=
+	t=1740360696; cv=none; b=c0e4lBoQJqgmdS48d4n4WXXH8f4cgTGIAAbDZLk72B4GHmGhKKF7SlGpqZ7RM8STS1Stk8BMyt9j0GRE0jYycfTPbB9tRnIFwqzMFAIQlM1ZrSb+kfgVvNxtqJNGbEvZqn5Fv0RdJyM7QtGCLGLdVl9oN9FHUgipDdin1Ll6D3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740357800; c=relaxed/simple;
-	bh=M6RnLG5GFoz7fVUOXsQ/7PMY4Ccerrx/ARqhzO+YlEE=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=odE9/ujrHqLYxW1lDmaDEkkFEntnAgDb4ECo8zlWvPE7HNmvwer+JpAYni4C8y5YBTXZ3wV9ef97Iqrb07R0EmK0c8W3IF70+stf2Z38JiymdDfkUMWAhpYEnQZYJ//YNAfJWMWJIjSpSkvPavuU4+9hzL8PIgg7ylVHXxjyUS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RKfoKjO+; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1740360696; c=relaxed/simple;
+	bh=HH1VhpeXUzaXQ0Tnx3JnZiaBDP06XYWOmRyOevkR9Ro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tQSVjpokG1XDXwkibfY5cp/UMfRMxq9INdvuLeP94TX2EGSdrtEH39XTE/3GECH/SKBLIZEW8z1c5WomMI59pWwmLKYrvsKiT9D568yf9hSevBjgGTtfgTzXQIKLwWN7w12w3s4v27YGfAMVfo8OprD7sJLhVIGd7ZvMNMOmlno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZYhXnwmq; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RKfoKjO+"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-220c665ef4cso63944465ad.3
-        for <linux-doc@vger.kernel.org>; Sun, 23 Feb 2025 16:43:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZYhXnwmq"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5e04861e7a6so7371941a12.1;
+        Sun, 23 Feb 2025 17:31:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740357799; x=1740962599; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=M6RnLG5GFoz7fVUOXsQ/7PMY4Ccerrx/ARqhzO+YlEE=;
-        b=RKfoKjO+ZOxsq1Eh7bl1a7egiMRF9MPrszul7hyo2qCjUqSs3T820BFOten6FzmcBD
-         AT99RKwL4gAopHs7LNelU9IVHBWRa3UhjZxzzgWNXxPRlRjMewJNlQyi6CJO258jZV9+
-         7lNwBI3uDQiFSadfYfWtpTF1aaoZ5dU9g26nJ04a0kjHP++s1EPvkw9nHs7wg4Fk+fIG
-         bQRvibxXCxCeGmFnjQKANRXWBLyseLxtXWl4Wy72FJmZp4TnkF1qjQJH5bTreFpetuTF
-         3W4eP+ci0eHizZMQd7KLbYO+ZjezM4kN7lD/FHxZA7h3SOD2wUP1c/OrnHs1HIxViH7H
-         xyEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740357799; x=1740962599;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1740360693; x=1740965493; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M6RnLG5GFoz7fVUOXsQ/7PMY4Ccerrx/ARqhzO+YlEE=;
-        b=KABR5SYvLjDjRsviRnmmys9eFnOsLXZXWgy8cCpW/eOvxaucyzap1VRq1R8o+t8kT1
-         EYOD0AZIRyQDzz3NvgUcKzxmv5A72AwIsH45f9UfU0kNmcTNRQnDWId97VwYKOE1fqc5
-         /7BKafnKMbycysYibRc/sgeq8E0UR7kumq6xB+SEPyq7X/3K1GIu6wl5eU1JWtF2dLMR
-         X/Y52F56nuHEiw1AegpD8GERbn1qSO2cFphsiAAqFLUuDfVx/3FSM7rrOhmLyJtH+8wc
-         ctmUnX+BVDhQM1jPcPFFCnpgWne7sHCZl4EYLIj+cEw2+q/EDkWSxCjYVLJxwJM0s1b7
-         Xu2w==
-X-Forwarded-Encrypted: i=1; AJvYcCVFkca20l6sMhyr4dDQUyY60HnatCD30NZLGlSwffGZYbACj5LWZPoO5w+hP/4wMRCjRNzadl6TMrk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzV+XBaZGKxGq1RpEmIx320UPTmHvARMvJWFAajQRlCp26KcsVE
-	nMmccJzeXG5lSJif4dW6orFsfcYTpexmUNtFYhwCbQEG1DpL6BeMMxEp0w==
-X-Gm-Gg: ASbGncsp/3J2ZaCjGps4sP8zZHrm4tbBMcQebNdOuUjGf6g295jIhRIld+fu3EaKDfU
-	bSKkEiEORJZzQuOAQb5A+LN1To19sAzbK08cglDaOwrlhFY2ejRwq2f80BwZ3PexJwRTGKnxAmD
-	9exw+EjcbICp3gwGjwIpaM7bh9YSOoDb34u+jIX/S/nUTklIPSoLBMb6tXyWDeXHsMgg3akAQvG
-	zBmd3g5ZggZq7aDbjnRWBBvcGsR9S6UX1MdT6DZinIl/rGLGxrZz4QHrL114qoZSHwKmjGfCoOM
-	jEw02lTJ4L5QVMks8wBtSE237w==
-X-Google-Smtp-Source: AGHT+IEhUWBAfg/KxcK8BX7ZDWMtBtNFNRXd+Ckvnq7KEsa079bEr1BTLiOxZBo2yG0FujjoL6h3fw==
-X-Received: by 2002:a17:903:41d2:b0:21f:33:ad2 with SMTP id d9443c01a7336-221a003892emr166429405ad.52.1740357798510;
-        Sun, 23 Feb 2025 16:43:18 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d53666dasm169870815ad.89.2025.02.23.16.43.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Feb 2025 16:43:17 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 5CF424241846; Mon, 24 Feb 2025 07:43:15 +0700 (WIB)
-Date: Mon, 24 Feb 2025 07:43:15 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: James Addison <jay@jp-hosting.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: Disambiguate a pair of rST labels
-Message-ID: <Z7vAoyqMRPFHiDox@archie.me>
-References: <CALDQ5NyCpKKgoaphoV+aM+s6U7Y=iA-umO9LfuUXAM0oi=x5XA@mail.gmail.com>
+        bh=A4GvaqVIL/hNKQlnj0DT9cN3mMKxJVdcE+NJpBmVvb8=;
+        b=ZYhXnwmqvccmxL4PYtSvsHUQnN5yCaoi/1tWm1UvDJTLOhMEJ7zXUZ2hlCDl7mK0ne
+         X9RpZhN3Gzdx3HGrZD2BlENhtSuxntoL83lBc1s6Yj1izNgFeJbp/wCGYXZb64IoUhe1
+         jetaWzEu291HaUMPlpaaSn01jNIS3lw+fF4kEigg8hwqrgGQrc24AogbQy0IpkKBel8W
+         o7W4PHgElVIkTUwVaVYGKqTZ9kUbx4c49Dv20FpSTYrfQY3fvv8HNohzgGu3GuCPkBNL
+         4e9RFqyraZ+gWolgGfK2tZiJr76sqCjTILggEQC/RKeP4+CKgjbkmyhbdUCei2wXmK6C
+         vYqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740360693; x=1740965493;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=A4GvaqVIL/hNKQlnj0DT9cN3mMKxJVdcE+NJpBmVvb8=;
+        b=aCOgw8/uvOfEFHjFU7TTbTWfO+zA704LAyK+JVVOb4MElYm/vrtx7aJ4fhn2XbrhvN
+         /IPits+ibw1zfT9GF7QZWpOe75IqPQEGnA8rzjIqs4Q+Qrb4/KZDFbNUdL9puRJ1n7dQ
+         4cMNuQeE4HT7jvzeLMhpZQQpgXzKURRF2ccxVVaS6LAS+YjdwmIPV+jGCIT99zJLx0h9
+         LhlzZ1uumisMDECuoK0P2nh3y1FJEKOPTAszpuaelWbhwpShY99RMH1M7HLMDOl1g8g3
+         Gci6iCxWggf9H796fLVnLRljAMUCYkk5iRXR+c9GzXlE31YUxPPF99MAXC/kdsSe8jz4
+         o8Dw==
+X-Forwarded-Encrypted: i=1; AJvYcCUGCtHlmGsyJF9fvPQMddpiB0zdM2kPSc1b3W/Emz2vCXA6GwLNinBzWldyNA3eK8ITqr6p8IiSvqXq@vger.kernel.org, AJvYcCV2XiFA9oSkTrHRBA/qPsoyeCIaKZ1uFQYeZy+j3H/Od2+RsvPLrwbVGB7UdYn5zPoBLSDGIDfK+qjv@vger.kernel.org, AJvYcCWbP2gEv036iBpugyy6En3FSt2XLGtSrqFDUpntIjMk8016kG6vYc5p9dfKyoZWuiPltrFlc0daR4P6bSno@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQO3Iq/0XDDNybHuz3mZDnjs5DlxRKkKd/ad1AoRKB08oR2QVf
+	hNOpa/RxguowdzL8gj8bz9rH28OQ7zo2nmdcvQZvHCYLM3P8/MbMUMHSNnAz1d0=
+X-Gm-Gg: ASbGncscaQTYmqZmW6pKdqcipHp5jia6a0odAMOVZWQ7Am/bPFzLTYizmqsaxIReauz
+	G43er+FthMY9ctm2LMGG/BHv62rLNqX80hmKELqR6AwDqcXLG0KxWKUBGF0AkVg2CHtRuX7bSn2
+	4di2oz2SOkTVyMs21qoLYLLejyMJm8NN6HzhO3w9R3T0ouNcVMS3gZXrft/lUNBT9QDS/JoftWy
+	QWV42sO/9hC9Ec8QC9SBnH3g2J3VkSLkbP3XYkv5kikDA5+HLAyd9rDcTkEPJPXyU12/EIqaV7s
+	roL9RbHmf47jFiDWHgXY0UDLYg==
+X-Google-Smtp-Source: AGHT+IHSNuXjvZ6j34bY7irzKgYOPZ2Pc9eRXhFT7vf6gvwUpLsnEqOodUyWWZF1htL/xJzW8ObUNw==
+X-Received: by 2002:a05:6402:4313:b0:5de:4b81:d3fd with SMTP id 4fb4d7f45d1cf-5e0b70fa0efmr10728444a12.13.1740360692719;
+        Sun, 23 Feb 2025 17:31:32 -0800 (PST)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dece1c43a0sm17589157a12.28.2025.02.23.17.31.31
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 23 Feb 2025 17:31:31 -0800 (PST)
+Date: Mon, 24 Feb 2025 01:31:31 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
+	Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Pratyush Yadav <ptyadav@amazon.de>,
+	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v4 02/14] memblock: add MEMBLOCK_RSRV_KERN flag
+Message-ID: <20250224013131.fzz552bn7fs64umq@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+ <20250206132754.2596694-3-rppt@kernel.org>
+ <20250218155004.n53fcuj2lrl5rxll@master>
+ <Z7WHL_Xqgoln9oLg@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5v1X+TKslsSwCawB"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CALDQ5NyCpKKgoaphoV+aM+s6U7Y=iA-umO9LfuUXAM0oi=x5XA@mail.gmail.com>
+In-Reply-To: <Z7WHL_Xqgoln9oLg@kernel.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
+On Wed, Feb 19, 2025 at 09:24:31AM +0200, Mike Rapoport wrote:
+>Hi,
+>
+>On Tue, Feb 18, 2025 at 03:50:04PM +0000, Wei Yang wrote:
+>> On Thu, Feb 06, 2025 at 03:27:42PM +0200, Mike Rapoport wrote:
+>> >From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>> >
+>> >to denote areas that were reserved for kernel use either directly with
+>> >memblock_reserve_kern() or via memblock allocations.
+>> >
+>> >Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>> >---
+>> > include/linux/memblock.h | 16 +++++++++++++++-
+>> > mm/memblock.c            | 32 ++++++++++++++++++++++++--------
+>> > 2 files changed, 39 insertions(+), 9 deletions(-)
+>> >
+>> >diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+>> >index e79eb6ac516f..65e274550f5d 100644
+>> >--- a/include/linux/memblock.h
+>> >+++ b/include/linux/memblock.h
+>> >@@ -50,6 +50,7 @@ enum memblock_flags {
+>> > 	MEMBLOCK_NOMAP		= 0x4,	/* don't add to kernel direct mapping */
+>> > 	MEMBLOCK_DRIVER_MANAGED = 0x8,	/* always detected via a driver */
+>> > 	MEMBLOCK_RSRV_NOINIT	= 0x10,	/* don't initialize struct pages */
+>> >+	MEMBLOCK_RSRV_KERN	= 0x20,	/* memory reserved for kernel use */
+>> 
+>> Above memblock_flags, there are comments on explaining those flags.
+>> 
+>> Seems we miss it for MEMBLOCK_RSRV_KERN.
+>
+>Right, thanks!
+> 
+>> > 
+>> > #ifdef CONFIG_HAVE_MEMBLOCK_PHYS_MAP
+>> >@@ -1459,14 +1460,14 @@ phys_addr_t __init memblock_alloc_range_nid(phys_addr_t size,
+>> > again:
+>> > 	found = memblock_find_in_range_node(size, align, start, end, nid,
+>> > 					    flags);
+>> >-	if (found && !memblock_reserve(found, size))
+>> >+	if (found && !__memblock_reserve(found, size, nid, MEMBLOCK_RSRV_KERN))
+>> 
+>> Maybe we could use memblock_reserve_kern() directly. If my understanding is
+>> correct, the reserved region's nid is not used.
+>
+>We use nid of reserved regions in reserve_bootmem_region() (commit
+>61167ad5fecd ("mm: pass nid to reserve_bootmem_region()")) but KHO needs to
+>know the distribution of reserved memory among the nodes before
+>memmap_init_reserved_pages().
+> 
+>> BTW, one question here. How we handle concurrent memblock allocation? If two
+>> threads find the same available range and do the reservation, it seems to be a
+>> problem to me. Or I missed something?
+>
+>memblock allocations end before smp_init(), there is no possible concurrency.
+> 
 
---5v1X+TKslsSwCawB
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks, I still have one question here.
 
-On Sat, Feb 22, 2025 at 10:59:39PM +0000, James Addison wrote:
-> diff --git a/Documentation/admin-guide/quickly-build-trimmed-linux.rst
-> b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
-> index 07cfd8863..2d1b6f750 100644
+Below is a simplified call flow.
 
-Looks like your email client mangles the patch (the header above should
-not split). Please resend, preferably with git-send-email(1).
+    mm_core_init()
+        mem_init()
+            memblock_free_all()
+                free_low_memory_core_early()
+                    memmap_init_reserved_pages()
+                        memblock_set_node(..., memblock.reserved, )   --- (1)
+                    __free_memory_core()
+        kmem_cache_init()
+            slab_state = UP;                                          --- (2)
 
-Thanks.
+And memblock_allloc_range_nid() is not supposed to be called after
+slab_is_available(). Even someone do dose it, it will get memory from slab
+instead of reserve region in memblock.
 
---=20
-An old man doll... just what I always wanted! - Clara
+From the above call flow and background, there are three cases when
+memblock_alloc_range_nid() would be called:
 
---5v1X+TKslsSwCawB
-Content-Type: application/pgp-signature; name=signature.asc
+  * If it is called before (1), memblock.reserved's nid would be adjusted correctly.
+  * If it is called after (2), we don't touch memblock.reserved.
+  * If it happens between (1) and (2), it looks would break the consistency of
+    nid information in memblock.reserved. Because when we use
+    memblock_reserve_kern(), NUMA_NO_NODE would be stored in region.
 
------BEGIN PGP SIGNATURE-----
+So my question is if the third case happens, would it introduce a bug? If it
+won't happen, seems we don't need to specify the nid here?
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ7vAngAKCRD2uYlJVVFO
-ozIWAQCCwWfVHPYA/1iTuSKEx+OLHCz62t5V5LOltr6ayecoJAD/YytZm5IeIORk
-dq+x9XOPaU/5esaMDgnt1viFeV3BaQ0=
-=7CVD
------END PGP SIGNATURE-----
-
---5v1X+TKslsSwCawB--
+-- 
+Wei Yang
+Help you, Help me
