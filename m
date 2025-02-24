@@ -1,266 +1,272 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2080.outbound.protection.outlook.com [40.107.92.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBE51C84A4
-	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 21:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740431879; cv=none; b=AjY401pDr2dWGF6GbbSrlJzi85CvQKhNkeBcdogE/w9ZbOA0N/r4t+YTgHbloLZS1/fbyS305st8AtEK0zmZAObhqe90UTWFVf9QqUq0uLZ4skEg9TJNNNsPPiMGXZnz/Rp9XCiysGWd9lDIAGPytV6tsaBijpuRMlZM5eJkucQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740431879; c=relaxed/simple;
-	bh=GVIyCVAC1uYQBZ7YvMgFAfuCk2SCyHk+Rx5O1L7KI4U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pR8hAGeUutNf81QuqpaxsWgvGi6VVi2bdufERn2fbL9ItKE8iU/omUf/qvDHuL4qUKQhvx8hJdhlHdDEP/U8gr5Vmrznj7lIB2Rd8MRGxjkzCB6a02KNUvKqHYBszpgZGE3ugF2tnlRFni/WeWTArLHd5g3dQAIxjZ5mr7/elSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c3cm3Inz; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC2A1DDC37;
+	Mon, 24 Feb 2025 21:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.80
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740431948; cv=fail; b=ILi5m27+p1pw0UiABrraOBnk2BuiGK3Fofe1aD6fD9qGH3r2/1EnHGqZA9FKWALwqFwLEzb4oWIaPWMhcEW72qQmSdFniaCosS8C6vIJwIIS3m5Uv2hgNcVeH4mTgZBLMAKpC/b0DO3OT5mBu8v2H4jUUUYCMdP5yPNcJzs9jmA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740431948; c=relaxed/simple;
+	bh=hWekRJ+JulXamDNyXNAzZO3QmFk6MoNZ1ZxWxKIGJh4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Hq8qRaUWmWEiWYs7N2okdc26ENEDG12rYQ/edcgttuzVcOvqZ8QxOza3HErGst9kfd/y4r78P+O2FkFhdMhlkP5PKDAlW/BJYj5mja7ZPwxEEvTy8s+9gBdM80phsDrm2rh+Khg8/tX8+F1mahUQDC7j5YKu5CFGRrY/TW7pvbo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=nw5xK0XD; arc=fail smtp.client-ip=40.107.92.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c3cm3Inz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740431875;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=+pfaFYnZrGg4aP81g3fvxtKUOG+gZ00codvuI9HyJP4=;
-	b=c3cm3Inzgsr8oTu1cCFtNOA68R1D/3SHPzuFwdHfHZCgBWWtNui9mUxmKnjmWWV4mIs8iI
-	AxYKz7eQz23LUtuSQiYGMLlZuy380rnG71b8khHvbR3p4m2XRIu0DRfaV0kL7zZW1xAYwv
-	P0j2Te0ZRrg/WbGmEp/W/Sx7+uWIWEI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-501-zHUTf9nQNlCTkrsLJEHK1w-1; Mon, 24 Feb 2025 16:17:50 -0500
-X-MC-Unique: zHUTf9nQNlCTkrsLJEHK1w-1
-X-Mimecast-MFC-AGG-ID: zHUTf9nQNlCTkrsLJEHK1w_1740431869
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-38f44be93a8so2573089f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 13:17:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740431869; x=1741036669;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=+pfaFYnZrGg4aP81g3fvxtKUOG+gZ00codvuI9HyJP4=;
-        b=ElR7NvdIgCNA8ilYO4KgstzV6NOhPeHzlvvYkQs/EMoNHCTxw2aZKwD4YP3Kxvub+5
-         VIIrh2JlthiYdesVtP2hcPYZW33aBOFELSJfOq0Ea6YDA8UAg+BkdHYqJjmSXLFFfxsG
-         cNNnQNr2v0QOctLns/pUav5Cn/zGpPuf5mTjCgZy/pq1LH0OLsOVqH+afkr4sgE1Yg2N
-         bcI26h89XJh8xUsbZX6BEr4MHUbQ0tK+oU6SsfiIMaRUl9gPLr5strp659o9vquHy473
-         CbnC+mouCVsBL2mXeIeQaSXaANYGVYY6hEInsOdnze9GLLFx78tsc+076Lt7TIUDEoxQ
-         GNHA==
-X-Gm-Message-State: AOJu0YyHcXW04/HaakSUHRlhC891qbUKSHfgz+DMWjPTlrlaluxGx9Vh
-	XrCzz8kmphMZ9JXV2bKNA4ptrmfB3P3QbxhLy2lhP92qf/vjeo3ij6pt7ECAvWM3vLLw+ovqhuC
-	Lybs3TBQ4BxetaP89ZmXWzt1744qnhm+coI9HDwuaNxLcnWErqAmU+7idzddJ71Mow9Cn
-X-Gm-Gg: ASbGncsX467sqselov1u084OGr/Hxlfmsl/UDjCBzDpGctTQQ8cJZDEaDAjOPW4qvHL
-	rtdmwh1T2qfRpbqwtMZC416cOPUDTTc2Vq7YDjWFlRwlDAAkppPclQz8s75hEBAai38LhLn+gRJ
-	dvRxUQWojpYNDEO9lLJ8OhAkYfwkH32nNNe2f6y3VAaxQjFIDApolzU6QklxKZq855uQRK+FmCz
-	qSC2ISmbYV1vmxNpgXh8tQ0NEfdPHq1JxAAP1ZAjD/4jnxXpzAk/WvcfYq0B0tW8X/3jwj2o07Y
-	C5T4QuOuYOD0AAJ99IlGfUCMlxGiSfXXbydDhFKTVL4AwAt9KofowrhTr+7jyJ1cS9rnrJkbtpw
-	xesVGVf4mLWkG1WnP4lJscAZS1q/wrKWG9rrq7jfU3Xo=
-X-Received: by 2002:a05:6000:186c:b0:38d:eaee:3b32 with SMTP id ffacd0b85a97d-38f6e977bb1mr11433801f8f.26.1740431868853;
-        Mon, 24 Feb 2025 13:17:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG33QLU4MJ0xSM0Xmwfzw/OZoX0OLRfIElZNAkzclFnmmRRtf6dMGVpb0BdzzxB/d4Ljuls4Q==
-X-Received: by 2002:a05:6000:186c:b0:38d:eaee:3b32 with SMTP id ffacd0b85a97d-38f6e977bb1mr11433771f8f.26.1740431868431;
-        Mon, 24 Feb 2025 13:17:48 -0800 (PST)
-Received: from ?IPV6:2003:cb:c735:1900:ac8b:7ae5:991f:54fc? (p200300cbc7351900ac8b7ae5991f54fc.dip0.t-ipconnect.de. [2003:cb:c735:1900:ac8b:7ae5:991f:54fc])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390cd86cb08sm150988f8f.29.2025.02.24.13.17.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2025 13:17:48 -0800 (PST)
-Message-ID: <cca2a98f-b6bc-44d6-a34d-c840f34dfd11@redhat.com>
-Date: Mon, 24 Feb 2025 22:17:46 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="nw5xK0XD"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a7leJpl08vnBTQAuf0hT8UUVLuJP91/k4yWlE9AVsW0CHZBuO+A2rcUB93sFmR/O0xPvQCV0tp8+X5BL/BPwqLdv4Jj3dBKWZ7+WzoHwJa01sGx1z8uyRO6Q9LWakdIrjBtjO64ZTsJHuL2uPTVBCQonpFdDFR+dWPSAwCC9IkICtWuI3TqLcC1nCYfSljUlWRkFcr92CpRDTMhvte5eWjaZI1tHbYjGt2KtQlsC3H04s8NFOPoPtS8WHLuoOgCvtHf5+i6D5CqHxfxHhTpE1rGZSBD+b5klBnW6yp45lmV86lgrM3SLZ/cwMzcHoAuSlfnBpHtY/Nb8oDLRMXhJYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qwRjz5JG5ekhMgAagTzvUq8Atlh4cXmfATmIJ32HjqM=;
+ b=fPeRqexwzaWumIN0h30bjVXFhcNmVnrSl/ijHFFbzH7DrgbxTzUVjAbQQaOltGMFSlJDuEAOt5o7w/HaXqN5W62UzcTLP8GKmAkqV1Wk0DOLwZXuluMYAYLKeuJF4D/iha3eDDsSCUl7AdLtM5CvoFhBxdRCcfWcE4xOizHffZpO9QiQzj3KcItlL/sov/Uzifmno1X1D5kYXyYNl+c1t9eqrYI9+aMRiWjkwkac89k3gQRjdpt8zP3FSshRG8B7rdB8xyZM2Kjyvdfoz5+GG4GGoNVQx2ntbUmokcbqMhPpAl00zzSXntbuHtCZz9xdZMmI0jW7shE2uj4tNJPZgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qwRjz5JG5ekhMgAagTzvUq8Atlh4cXmfATmIJ32HjqM=;
+ b=nw5xK0XDXaKvXVME+aqDAo9Li3Jrc/2yrjN6UYsNaTQFyAB28v/Jvg/SRKXNr6DdR3Nuf/7pno4GSG4NAZwAXAeejH48MnRchuFdsQaoLPzK4I2pTt5mQ/qeYnXDhxd8ILlobi9xEgBlwRrqYI35cJD6agzvmWW1OHDltSKaLwk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by MN0PR12MB5882.namprd12.prod.outlook.com (2603:10b6:208:37a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.20; Mon, 24 Feb
+ 2025 21:18:59 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8466.015; Mon, 24 Feb 2025
+ 21:18:59 +0000
+Message-ID: <c866ffa5-0a4e-49a2-bd11-86c94360b7bf@amd.com>
+Date: Mon, 24 Feb 2025 15:18:55 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v11 20/23] x86/resctrl: Configure mbm_cntr_assign mode if
+ supported
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ James Morse <james.morse@arm.com>, corbet@lwn.net, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+ tony.luck@intel.com, peternewman@google.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
+ akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
+ xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
+ daniel.sneddon@linux.intel.com, jpoimboe@kernel.org, perry.yuan@amd.com,
+ sandipan.das@amd.com, kai.huang@intel.com, xiaoyao.li@intel.com,
+ seanjc@google.com, xin3.li@intel.com, andrew.cooper3@citrix.com,
+ ebiggers@google.com, mario.limonciello@amd.com, tan.shaopeng@fujitsu.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ maciej.wieczor-retman@intel.com, eranian@google.com
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <4a48aabf502897bec1e015305d7b0b826bb20841.1737577229.git.babu.moger@amd.com>
+ <b3dc2fc5-4ee6-414d-90bb-97baa0d67dc5@arm.com>
+ <7b3d18e3-1f7d-42cd-bc32-fda4a81dfc82@amd.com>
+ <3fb20135-1b8a-42df-b670-5fbf29acfa85@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <3fb20135-1b8a-42df-b670-5fbf29acfa85@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA9PR13CA0117.namprd13.prod.outlook.com
+ (2603:10b6:806:24::32) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 19/20] fs/proc/task_mmu: remove per-page mapcount
- dependency for smaps/smaps_rollup (CONFIG_NO_PAGE_MAPCOUNT)
-To: Zi Yan <ziy@nvidia.com>, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Muchun Song <muchun.song@linux.dev>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
-References: <20250224165603.1434404-1-david@redhat.com>
- <20250224165603.1434404-20-david@redhat.com>
- <D80Z3H6NZARU.1HP5EKXOJ68QH@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <D80Z3H6NZARU.1HP5EKXOJ68QH@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MN0PR12MB5882:EE_
+X-MS-Office365-Filtering-Correlation-Id: abcdc6ea-0711-4e9d-b05e-08dd5518da9f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?K3lldjdHSTNtam45YjRlZkxiMFV6R0x0YVZoeHQwUGZqSWFIQzBzOTFTUEpQ?=
+ =?utf-8?B?cVd4bjZHbVpnMkZJOWp0MlZPck8xbmppTzZhSW1sYW5IaEwxZzRGYmVPQTM1?=
+ =?utf-8?B?TzBjRXhHLzBnbkJMQVkyVW5Ga1RpZkEycjdDYUNZN09LSzZ1NitWZ1EveUo3?=
+ =?utf-8?B?UmxyNkJzU21sUzFEaE9hQ2lTMXNraWV6c2tYRWdvVmYwaXV1ay8yMk05QXVj?=
+ =?utf-8?B?OHg0MHhpVEtyVnJ5aHFEZW9TdWxYaFBtbFR6YjZWS1hvZjVoSXFMb0gvYXcx?=
+ =?utf-8?B?MUMyNktwVGt1QWVvNWJrUExuN0xDRjJKZUxycStybnF1bklEZGtDdFpHdWtJ?=
+ =?utf-8?B?dlkzVld5WlVENnJOVDNXOHA2YlFjSHF3ckY0L1k4QXVBZTlGaCszenZYaXNM?=
+ =?utf-8?B?L1lLeUd1K0ErdTBwVTZhbjh5c052c2lhekQ0ZVdYbkZxcVBDR2JRNnQ1VzFS?=
+ =?utf-8?B?Rk1RdVN2MCtUVjJUa0Q4MTlOa0lSay9hdWUvQzBPbCt4eEJmWU5VQ0ZlMkNS?=
+ =?utf-8?B?Q3ptVVBsdzV3SS9mbGpyTmpSMnhBajU2dFVQdTZ2TG5iYXpybVVYQ1poM2RI?=
+ =?utf-8?B?UWp0WDlzUTlXM2UvKyszK0pueWNHVXl1ME9mNVJab29WUDZuYlVER1k3bVE5?=
+ =?utf-8?B?Rkx5V3dnSSs5SEYwUWpHZHFMTEJ2Ukp2NkNQWkVaS2s5cWVUMXBBU24wUEM2?=
+ =?utf-8?B?cy9zMy95RTJuanQ2RmV3MUM3QjlGVWJNS3NsMXBiUXlWMEJEOFFRNm9sOFlR?=
+ =?utf-8?B?Z0JXZXhYUUgySFprNWJFQis4MlUyWUx0c0VRNkg2Vi9nV21Xc05Ra2cyUi9U?=
+ =?utf-8?B?TDBJa1NIN21uQ1hqR2pwcGlDalRTLzA4L0xZaFM3QlJDV0JPNjNOWGRHSUw4?=
+ =?utf-8?B?UXBUdUppMXZ3UnFuRnhNcEYzd0svZ2ZONVppcGxoM2pmWDdsUnNKRDdBUXZB?=
+ =?utf-8?B?bmptVVArcFFtWXJOZEFkTVNmbzZzbDdkbmdoK3ArOHlEa2hwb2RRN21lclVr?=
+ =?utf-8?B?Y28zbVNUVTVaU09SUHg2TmxKNHpQazY4QUc3TzFkWWZvOVhLenhOWE5rWTVB?=
+ =?utf-8?B?TVZRWjBMcmJ0S3pTcW1BbERjVXBWblpLRUJYTnBGT1AxMGVIR2JsQkxaRTVM?=
+ =?utf-8?B?SUZlK0hPbEVKclJWdmh6SWVMTWROWnFwUG9rdFR0eWdkYUxYSGdtbXZEQ2Q5?=
+ =?utf-8?B?cHhSeSswUzg5NXZPd2VNdFVTYU96Rk1SK1B5Nitya3RLS2svai90Q1VMTG1J?=
+ =?utf-8?B?MWE2NDR4TzIzTVREMU44V05XSkg3OTVnV2dmWk1DNXB2NTR4YWNhOG8xTmxs?=
+ =?utf-8?B?bm1HQUFiTDhZWjY5emo3QlBJU0J1NENNVVYvYjZsVnVWeWRKeFZMRXA2U3hW?=
+ =?utf-8?B?c2lCaFhRcVdnaC9jakwxWVRnVTNoamgvM1dXNTlrc0hGQ0MzYWpmNFdidFJY?=
+ =?utf-8?B?U1ppcmNxMEZkVlhKUXNPYStPVW1RQkxpS20rdCtWM1VzZ3hkL2F2NGtldHpW?=
+ =?utf-8?B?MSt6SEc2TmFITnN3NDN5U3R3eFBrQkx1N1BSZldPTHp2d3V0YTdycjVxbkdC?=
+ =?utf-8?B?RlRneWxxUkRHdUZWRHR5bk5MNnVCVlUrcmRqMStZMXQzeXN4TjRzSXYrQUZG?=
+ =?utf-8?B?K0ZXQkU5NnBKYUNleVNSM3lvNE52ZXYvSVM5OGVLSDg1OXBNNktZZUFTUUFp?=
+ =?utf-8?B?ODBmVHFHdTg5MHRidDIzMXc5dHM4RUUvVmxiUVFheGxuN0R0ck1tYjRkY2Ro?=
+ =?utf-8?B?WnpZZml6eFZBaXFZQjB0WldKVENvbVZtY0VCcmU2Vml3YWNsMTBwS0VyWEpM?=
+ =?utf-8?B?U0V3NkluUmlzUzAyUU5WVnFtNXU1em95OCtRZTFENTBvUTZZRE5iKzlONHJZ?=
+ =?utf-8?Q?CaBaapgQDN5sE?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Nk04bzhsTzlPMkx1anpWQnZ3c1l2ak81VS90RzlYbk5RNHpIdXhVcGlqK1Ba?=
+ =?utf-8?B?Yk4yYWFDMWFVYnR6NVE0MlcwVkgyT3h1K0JxMFFSMFo5S2UvR0tLWnNPWEl6?=
+ =?utf-8?B?SnJFNWh2YUtxcUppK2pGbHBaNmIxS2MyUUJ5bWZKVGM4aW1vaGx2MVVJR2pL?=
+ =?utf-8?B?THZNZlk5YVRFYy9maHJ1d3FXdzZycGMySjN6TmxrTVhJNDQ4MThjT1ZCeDZP?=
+ =?utf-8?B?OFBnVGRlNkp0aXlWSy9ZbFdkM2FuUldKWnR6ZU1uTFhBUVVlbHhCWUpYbHIx?=
+ =?utf-8?B?bDFmYzNEY3lrNVN2Z0lPdmpmVmJoZEJiaDlYbXlzQVdzMGEvNTY4NzgvUVZ3?=
+ =?utf-8?B?MFI0QjZ1V3dsQWJsL2tMWmRmSk1OMC9scVJFcEtxZmtTSTFzUEtnaitITzNG?=
+ =?utf-8?B?amZvZkR3eXN0aUpCRHh3aytsemNvczhqUVN6U20zK0liZnVoQjVXYjY5ckZE?=
+ =?utf-8?B?QVhJeEpQUFI2OWlhdmFNeFVRU21UTWlWRTI3YVZnUHI0eFNnaHFjR1lNdDZ0?=
+ =?utf-8?B?TnB5V2c3VkN4ZGhUbFlUVTFFaXhqQlM2SmlvWDRuZlVsb1Z0ZnlBRDI1YU1w?=
+ =?utf-8?B?RURzTU1TeHU3QzZhdlhkZHVqSExQb1ZJMG5yaTBhWFJ5SWFSUEpvcjJ6WTFU?=
+ =?utf-8?B?bndmQ1QrdGNVNGVQYmRhelE3N0J6d3BaQWFPeU9KSjZsVENPa1M0YXlGTENW?=
+ =?utf-8?B?R1paSVdsUkpMcnRaNEpVWi85enJxWHdRUXgwWjZ3NDU1TnNjcFVmKzN1T3U2?=
+ =?utf-8?B?Q0V3T1Q3MTFuSDRJTVA0dGdTWU90K3dDNnhvTzZqaU43b3hSQy9sYVRYT2hk?=
+ =?utf-8?B?eUJSYk05Ui9NMTFLbU5Eby9BQjVodWV1OG9tTU9jaHQ1ODM3N0wvVjdNZHhX?=
+ =?utf-8?B?aUhKYnpaa1VxSWRqckh2T0RDdlpQc25mcUxXT0lXZGdSUlJTVFNpeUtycFdn?=
+ =?utf-8?B?VVhGeXZDWVVtSnVwVXc5WWtjbDEvMk9GOFg1azZUWDlncmR6QUsybjVSUXE2?=
+ =?utf-8?B?RkxrdURIMjFMRGdiakFHck5yc09nMXB1NlRzWU9sQ0Y0dFR3ZmtSZGNwNzgr?=
+ =?utf-8?B?T0V4TzhPQXZ6TnhpN1FNOElteHg5aElIQi9SeHRlVWFTVUdaS0NCZU1IQUtT?=
+ =?utf-8?B?NmowamFja0lXU3duUFRQQWx6dFl6SXoxSTRPRzI0L2tSWGZ6RzRhVUdkbXhm?=
+ =?utf-8?B?RlBlRGJiam5UcWlBTy92R0ZCYUVSZWJGSGpMUk1VcWtjY29vdGhONlpEQzQr?=
+ =?utf-8?B?SlZ1VFdKdTVQY0xqVkFuQ3hKR2tkQk9BSnNCU2lSeWxIbGI3VEJrU20vUkxi?=
+ =?utf-8?B?YjBMZWM4enhPTmZpUzFLK1pnSlYxd1QxL1liL0NkT3VKZzJuQzNiRG9lTjlw?=
+ =?utf-8?B?OTdHWktDVjc1UU1vSHhRcXRMUXc0eEgxV2NHY2w4T2VOYk0wdFFLWlMrcGh4?=
+ =?utf-8?B?MTlJeGdpdmZJbG1YYzVFajhaa3ltK1pUMGNTdUN3ZnVzUVp2MnpxdHIvSEt0?=
+ =?utf-8?B?bmNBbWVsb0JuNVowNk1QVCtNdHd0eHJIWkdiUUQ3Y2R4NXVJVlIva1dpKzJF?=
+ =?utf-8?B?ZFArT0lHc1R3eFJmWlpOSlJQcFBvQjhXZjZoWmNJMW1jblV6TlQrZWFzSVpi?=
+ =?utf-8?B?R1BwOXBTMzkxcjlMZkMrbXNBcUZ3OGg4Wlk3K0JMSzFqUHFzbHd1VHVCREVU?=
+ =?utf-8?B?cktlSE11Q1BTR2RvYjIxOXNGL0I4VFlOTVhiTS9wNHdKcyt1QkdJVTV0TC9T?=
+ =?utf-8?B?ME1Ibmg1aHE1d2I5RFdYTFBMeXQrYjZqSWhLQ1dqeU1DUUJYRTZJUDBUUlhM?=
+ =?utf-8?B?YWxQOVN0dUlDWDB3MVU0UHo1VHpuanB5amhvUFQ4MmgwWm1qcG0xT3pBaXJ6?=
+ =?utf-8?B?L3FibXBRTmhHaXZsdHdPVTZZaGNxMVNIWWhlZkZUWStvYnV3aW53UVFkb0Iw?=
+ =?utf-8?B?Vkl4K2VOSlBwOFh5NkFrRVczaTgwWXRtQUZTc1BiK2hWQ01UeTJXOW91QkNL?=
+ =?utf-8?B?R1ZueGdCakFFcGdwc2xrN2tLQkdjeWpOTHVYVHhvdElPWEZPRktvVmRDeWgz?=
+ =?utf-8?B?OHl4eGxGT3pOZlFFV2U4UUdHaVZOWU5yek40TXpIVXlrY3UwdHFnQWUyK2Nw?=
+ =?utf-8?Q?ouA4=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: abcdc6ea-0711-4e9d-b05e-08dd5518da9f
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 21:18:59.3774
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z/tWCH15x0iU10ldazisy5/m0qcLg8vLx3+kNxxq24g6nZfvFZX0CShRa24rc2hP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5882
 
-On 24.02.25 21:53, Zi Yan wrote:
-> On Mon Feb 24, 2025 at 11:56 AM EST, David Hildenbrand wrote:
->> Let's implement an alternative when per-page mapcounts in large folios are
->> no longer maintained -- soon with CONFIG_NO_PAGE_MAPCOUNT.
->>
->> When computing the output for smaps / smaps_rollups, in particular when
->> calculating the USS (Unique Set Size) and the PSS (Proportional Set Size),
->> we still rely on per-page mapcounts.
->>
->> To determine private vs. shared, we'll use folio_likely_mapped_shared(),
->> similar to how we handle PM_MMAP_EXCLUSIVE. Similarly, we might now
->> under-estimate the USS and count pages towards "shared" that are
->> actually "private" ("exclusively mapped").
->>
->> When calculating the PSS, we'll now also use the average per-page
->> mapcount for large folios: this can result in both, an over-estimation
->> and an under-estimation of the PSS. The difference is not expected to
->> matter much in practice, but we'll have to learn as we go.
->>
->> We can now provide folio_precise_page_mapcount() only with
->> CONFIG_PAGE_MAPCOUNT, and remove one of the last users of per-page
->> mapcounts when CONFIG_NO_PAGE_MAPCOUNT is enabled.
->>
->> Document the new behavior.
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   Documentation/filesystems/proc.rst | 13 +++++++++++++
->>   fs/proc/internal.h                 |  8 ++++++++
->>   fs/proc/task_mmu.c                 | 17 +++++++++++++++--
->>   3 files changed, 36 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
->> index 1aa190017f796..57d55274a1f42 100644
->> --- a/Documentation/filesystems/proc.rst
->> +++ b/Documentation/filesystems/proc.rst
->> @@ -506,6 +506,19 @@ Note that even a page which is part of a MAP_SHARED mapping, but has only
->>   a single pte mapped, i.e.  is currently used by only one process, is accounted
->>   as private and not as shared.
->>   
->> +Note that in some kernel configurations, all pages part of a larger allocation
->> +(e.g., THP) might be considered "shared" if the large allocation is
->> +considered "shared": if not all pages are exclusive to the same process.
->> +Further, some kernel configurations might consider larger allocations "shared",
->> +if they were at one point considered "shared", even if they would now be
->> +considered "exclusive".
->> +
->> +Some kernel configurations do not track the precise number of times a page part
->> +of a larger allocation is mapped. In this case, when calculating the PSS, the
->> +average number of mappings per page in this larger allocation might be used
->> +as an approximation for the number of mappings of a page. The PSS calculation
->> +will be imprecise in this case.
->> +
->>   "Referenced" indicates the amount of memory currently marked as referenced or
->>   accessed.
->>   
->> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
->> index 16aa1fd260771..70205425a2daa 100644
->> --- a/fs/proc/internal.h
->> +++ b/fs/proc/internal.h
->> @@ -143,6 +143,7 @@ unsigned name_to_int(const struct qstr *qstr);
->>   /* Worst case buffer size needed for holding an integer. */
->>   #define PROC_NUMBUF 13
->>   
->> +#ifdef CONFIG_PAGE_MAPCOUNT
->>   /**
->>    * folio_precise_page_mapcount() - Number of mappings of this folio page.
->>    * @folio: The folio.
->> @@ -173,6 +174,13 @@ static inline int folio_precise_page_mapcount(struct folio *folio,
->>   
->>   	return mapcount;
->>   }
->> +#else /* !CONFIG_PAGE_MAPCOUNT */
->> +static inline int folio_precise_page_mapcount(struct folio *folio,
->> +		struct page *page)
->> +{
->> +	BUILD_BUG();
->> +}
->> +#endif /* CONFIG_PAGE_MAPCOUNT */
->>   
->>   /**
->>    * folio_average_page_mapcount() - Average number of mappings per page in this
->> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
->> index d7ee842367f0f..7ca0bc3bf417d 100644
->> --- a/fs/proc/task_mmu.c
->> +++ b/fs/proc/task_mmu.c
->> @@ -707,6 +707,8 @@ static void smaps_account(struct mem_size_stats *mss, struct page *page,
->>   	struct folio *folio = page_folio(page);
->>   	int i, nr = compound ? compound_nr(page) : 1;
->>   	unsigned long size = nr * PAGE_SIZE;
->> +	bool exclusive;
->> +	int mapcount;
->>   
->>   	/*
->>   	 * First accumulate quantities that depend only on |size| and the type
->> @@ -747,18 +749,29 @@ static void smaps_account(struct mem_size_stats *mss, struct page *page,
->>   				      dirty, locked, present);
->>   		return;
->>   	}
->> +
->> +	if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT)) {
->> +		mapcount = folio_average_page_mapcount(folio);
+Hi Reinette,
+
+
+On 2/24/25 11:01, Reinette Chatre wrote:
+> Hi James and Babu,
 > 
-> This seems inconsistent with how folio_average_page_mapcount() is used
-> in patch 16 and 18.
+> On 2/24/25 7:49 AM, Moger, Babu wrote:
+>> Hi James,
+>>
+>> On 2/21/25 12:06, James Morse wrote:
+>>> Hi Babu,
+>>>
+>>> On 22/01/2025 20:20, Babu Moger wrote:
+> 
+>>> This sequence has me confused:
+>>>
+>>>> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>>> index 3d748fdbcb5f..a9a5dc626a1e 100644
+>>>> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+>>>> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>>> @@ -1233,6 +1233,7 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
+>>>>  			r->mon.mbm_cntr_assignable = true;
+>>>>  			cpuid_count(0x80000020, 5, &eax, &ebx, &ecx, &edx);
+>>>>  			r->mon.num_mbm_cntrs = (ebx & GENMASK(15, 0)) + 1;
+>>>
+>>>> +			hw_res->mbm_cntr_assign_enabled = true;
+>>>
+>>> Here the arch code sets ABMC to be enabled by default at boot.
+>>>
+>>>
+>>>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>>> index 6922173c4f8f..515969c5f64f 100644
+>>>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>>> @@ -4302,9 +4302,13 @@ int resctrl_online_mon_domain(struct rdt_resource *r, struct rdt_mon_domain *d)
+>>>>  
+>>>>  void resctrl_online_cpu(unsigned int cpu)
+>>>>  {
+>>>> +	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+>>>> +
+>>>>  	mutex_lock(&rdtgroup_mutex);
+>>>>  	/* The CPU is set in default rdtgroup after online. */
+>>>>  	cpumask_set_cpu(cpu, &rdtgroup_default.cpu_mask);
+>>>> +	if (r->mon_capable && r->mon.mbm_cntr_assignable)
+>>>> +		resctrl_arch_mbm_cntr_assign_set_one(r);
+>>>>  	mutex_unlock(&rdtgroup_mutex);
+>>>>  }
+>>>
+>>> But here, resctrl has to call back to the arch code to make sure the hardware is in the
+>>> same state as hw_res->mbm_cntr_assign_enabled.
+> 
+> Another scenario needing to be supported by this flow is when CPUs come online later ...
+> after resctrl is mounted and potentially after the user modified the assignable counter
+> mode.
 
-It only looks that way. Note that the code below only does
+If the user modifies the assignable counter mode. It is recorded in
+mbm_cntr_assign_enabled already. When the new CPU comes online, the
+hotplug handler(resctrl_arch_online_cpu) is will update the CPU to the new
+mode after checking mbm_cntr_assign_enabled.
 
->>   		if (mapcount >= 2)
->>   			pss /= mapcount;
+Are you talking about different case here? Please elaborate.
 
-Having it as 0 or 1 doesn't matter in that regard.
+> 
+>>>
+>>> Could this be done in resctrl_arch_online_cpu() instead? That way resctrl doesn't get CPUs
+>>> in an inconsistent state that it has to fix up...
+> 
+> Could you please elaborate the inconsistent state that would need to be fixed up?
+> 
+>>>
+>>
+>> Sure. Here is the diff.
+>>
+>> diff --git a/arch/x86/kernel/cpu/resctrl/core.c
+>> b/arch/x86/kernel/cpu/resctrl/core.c
+>> index 22399f19810f..f48b298413bc 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/core.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/core.c
+>> @@ -771,6 +771,12 @@ static int resctrl_arch_online_cpu(unsigned int cpu)
+>>                 domain_add_cpu(cpu, r);
+>>         mutex_unlock(&domain_list_lock);
+>>
+>> +       r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+>> +       mutex_lock(&rdtgroup_mutex);
+>> +       if (r->mon_capable && r->mon.mbm_cntr_assignable)
+>> +               resctrl_arch_mbm_cntr_assign_set_one(r);
+>> +       mutex_unlock(&rdtgroup_mutex);
+>> +
+>>         clear_closid_rmid(cpu);
+>>         resctrl_online_cpu(cpu);
+> 
+> This would require every architecture to duplicate the above, no?
+> 
+> Also, please note there is more appropriate domain_add_cpu_mon().
 
-Thanks!
-
+Yes. This may be better place to add this code. Will wait once James
+clarifies on "inconsistent state".
 -- 
-Cheers,
-
-David / dhildenb
-
+Thanks
+Babu Moger
