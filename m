@@ -1,133 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AAB4257ACA;
-	Mon, 24 Feb 2025 10:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF86F2586C8;
+	Mon, 24 Feb 2025 11:02:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740394648; cv=none; b=ljza60MH58/Xo4DauZNIR9IvVUiFVP5lARnnMddivy0ZsBSDphvapXN0HE60KpEbopSGB95Q/213fOgokQfeMoDt5m4QuVDDDdwzzE8sLGAqPNKNFF6XUxbTNeMd0o5E1MkKGDaE3XfM1ahhsx7n4E0RptclRZYGpyfNHG26BaE=
+	t=1740394956; cv=none; b=aZeZcsoBMqE1Ayzxpk73EtjZUmSDklnqziQCMHWMHIMC0GUxS+KpiWL76nWLTzKnw2XG3LRyjvr+zE0NK4uuOLSDGo5Hw2LRoANf4dXFHWcwIr35IbpZC46ZiY0uyzlm55gKaI0qk2IkgWrglsN+XvjWZQNGq+hP5SHyMQ9/90s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740394648; c=relaxed/simple;
-	bh=7hfsHgL/INpLXjgYIikKyfu88EoC0IKBjD6nLFbtgU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VzGs/eHpQdSNfnPx23x3TimU7BDwpgsHtpoSqbA8a/dfYeBlJ4j8mNL2xXMG+jdXttyrAwbIltbk0OWislGffZbWcrU+Af9qLiy76dLyJrl0XcHlMIbZmijC6fZsWdl04OH99oudgLU/F54kyGl0kkDUfS/K+St9V+XbDKS3ATk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y1k8JJGX; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1740394956; c=relaxed/simple;
+	bh=4h5Vn63f6Fe+g51YvuC9s4LnHdlrSh7w3OTHz6xuoCQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=S6zvFlWi5BRHwCsbSSE/l9K2UdChh4zgvAtmwy2D/6BojCMKMxZChZy/3f1N1nPGGJsYYlm/Dec6BAXHQUiAF+1BPxuXiXD5Xvfw5cjdgjwkxT0RFuEQ3XmruTmzmzI4w1p1kRZcAtEUbBx0hC2gxEf6/Yo40HbPGPaVGcNomIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jNPKYatd; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1k8JJGX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740394647; x=1771930647;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=7hfsHgL/INpLXjgYIikKyfu88EoC0IKBjD6nLFbtgU0=;
-  b=Y1k8JJGXvhH60fmOXf3tkJZb6hPjCFRbh6Lx6alXqrUWsipwPrjc53E8
-   aL7CFcrcbjjUf9o5p2WPqGuxIGNH8uEUthUPuSoVIGdU+shxXQ7u9oHr9
-   UkRhXf8tBDopN5jI2Oqy4ntDt1kQDqGxFsKYlXn1vBtqBZdK64sCMyVgv
-   2P4/fwErlfxocZPD1MOsO4nEzP0BYpnJeOSjY+WqwMxVk5osNxLA0Qza1
-   ahz4Jp3tEZjxBfwSibrJ1+vLUlhiJAl0mrp6A/Pzm7NE3gSB4RfiXbbBQ
-   aEAcQH8tTItTwv2yQQIJObX3ewQ1M20CX/MgEXoP0uBgdWlGlDOhXVabm
-   g==;
-X-CSE-ConnectionGUID: 4JoCJs8WTBCtCQLx6FPysA==
-X-CSE-MsgGUID: vzl46NoPT6K2z9Pv/IvOJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="41282466"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="41282466"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:57:26 -0800
-X-CSE-ConnectionGUID: ES+jTAJtSXKQ2sETxQyyEQ==
-X-CSE-MsgGUID: BpUwIM6JRqagnvcwet6SMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="120150992"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:57:20 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tmW9D-0000000Efl5-0aOo;
-	Mon, 24 Feb 2025 12:57:15 +0200
-Date: Mon, 24 Feb 2025 12:57:14 +0200
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "pmladek@suse.com" <pmladek@suse.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
-	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-	"mripard@kernel.org" <mripard@kernel.org>,
-	"tzimmermann@suse.de" <tzimmermann@suse.de>,
-	"airlied@gmail.com" <airlied@gmail.com>,
-	"simona@ffwll.ch" <simona@ffwll.ch>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>,
-	"kekrby@gmail.com" <kekrby@gmail.com>,
-	"admin@kodeit.net" <admin@kodeit.net>,
-	Orlando Chamberlain <orlandoch.dev@gmail.com>,
-	"evepolonium@gmail.com" <evepolonium@gmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	Hector Martin <marcan@marcan.st>,
-	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Message-ID: <Z7xQikQeHLOHb1G8@smile.fi.intel.com>
-References: <16F819E8-E866-4552-BB08-31486D2BA8C5@live.com>
- <4DA18DF6-4C41-4D45-9DD4-B82E043B3320@live.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jNPKYatd"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6145B441B0;
+	Mon, 24 Feb 2025 11:02:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740394951;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YlMYiWhNWjllG+4m2VbMgy0URpmB5UKN6+mVfUuELF4=;
+	b=jNPKYatdKYpX0w8cf1KMzvCyrMN2jGJjZW20cKTgfAZXnYnbSg8juSaOz2mATMrwIuGO5t
+	StH/bCTj3skEjD6go/TDhCzm48sElq9Zt87aCZGBuEQs6rbG+G2ZMrXAm3I30RHy1hRmXB
+	KE9Wv2aXceEmLGMnaFGEZomY3BABKdXPw3/7a0BSGa0bTw1bHn3fEN7t5AE1NnDFWN2H6C
+	Yh496qsvn4uBHEbJwLBacumVEhQ3fQfR7SngbNb2LrfjDFbCswGLP/0Wi0gFbu6RAdooSl
+	h4jbfmFzTj8cEucPRzZqN2sVMyc+QMqkE7vcU7vjk12DZUt86QI14O+AaHiNQg==
+Date: Mon, 24 Feb 2025 12:02:28 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v5 02/12] net: pse-pd: Add support for
+ reporting events
+Message-ID: <20250224120228.62531319@kmaincent-XPS-13-7390>
+In-Reply-To: <Z7g-WYQNpVp5w7my@pengutronix.de>
+References: <20250218-feature_poe_port_prio-v5-0-3da486e5fd64@bootlin.com>
+	<20250218-feature_poe_port_prio-v5-2-3da486e5fd64@bootlin.com>
+	<Z7g-WYQNpVp5w7my@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4DA18DF6-4C41-4D45-9DD4-B82E043B3320@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejkeeitdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqfedtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefhjeevfeeggeeghffgudfhhedvvedvueekleevjeduvddutefhvddugedtfeeludenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghlohepkhhmrghinhgtvghnthdqigfrufdqudefqdejfeeltddpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvgedprhgtphhtthhopehordhrvghmphgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtoheprghnughrvgifsehluhhnnhdrtghhpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepkhhus
+ ggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepughonhgrlhgurdhhuhhnthgvrhesghhmrghilhdrtghomh
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Sun, Feb 23, 2025 at 03:16:28PM +0000, Aditya Garg wrote:
+Hello Oleksij,
 
-> > Looking at the header files, it looks like doing cpu_to_le32 on that variable and doing le32_to_cpu will actually reverse the order twice, on big endian systems, thus technically all way would not swap the order at all.
-> > 
-> > I'm not really sure how to manage the sparse warnings here.
-> 
-> Not sure whether the maintainers would like it, but we can do something like this:
+On Fri, 21 Feb 2025 09:50:33 +0100
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-This is not what we want, I believe. And this looks like a reinventing a wheel
-of cpu_to_*() and *_to_cpu() or similar macros.
+> Hi Kory,
+>=20
+> On Tue, Feb 18, 2025 at 05:19:06PM +0100, Kory Maincent wrote:
+> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> >=20
+> > Add support for devm_pse_irq_helper() to register PSE interrupts. This =
+aims
+> > to report events such as over-current or over-temperature conditions
+> > similarly to how the regulator API handles them but using a specific PSE
+> > ethtool netlink socket. =20
+>=20
+> Thank you for your work. Here some comments.
+>=20
+> ...
+>=20
+> > --- a/drivers/net/mdio/fwnode_mdio.c
+> > +++ b/drivers/net/mdio/fwnode_mdio.c
+> > @@ -18,7 +18,8 @@ MODULE_LICENSE("GPL");
+> >  MODULE_DESCRIPTION("FWNODE MDIO bus (Ethernet PHY) accessors");
+> > =20
+> >  static struct pse_control *
+> > -fwnode_find_pse_control(struct fwnode_handle *fwnode)
+> > +fwnode_find_pse_control(struct fwnode_handle *fwnode,
+> > +			struct phy_device *phydev)
+> >  { =20
+>=20
+> This change seems to be not directly related to the commit message.
+> Is it the preparation for the multi-phy support?
 
-> 	case 'l’:
-> #ifdef __LITTLE_ENDIAN
-> 		val = orig;
-> #else
-> 		orig = swab32(orig);
-> 		val = orig;
-> #endif
-> 		break;
-> 
-> 	case 'b’:
-> #ifdef __LITTLE_ENDIAN
-> 		orig = swab32(orig);
-> 		val = orig;
-> #else
-> 		val = orig;
-> #endif
-> 		break;
+I need to save the phy_device related to PSE control to use the right netwo=
+rk
+interface for the ethtool notification. (ethnl_pse_send_ntf())
+Indeed I have not described this in the commit message.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> ...
+>=20
+> > +/**
+> > + * pse_to_regulator_notifs - Convert PSE notifications to Regulator
+> > + *			     notifications
+> > + * @notifs: PSE notifications
+> > + *
+> > + * Return: Regulator notifications
+> > + */
+> > +static unsigned long pse_to_regulator_notifs(unsigned long notifs) =20
+>=20
+> I prefer converting it the other way around to make it reusable for
+> plain regulator-based PSEs. For example, the podl-pse-regulator driver
+> won=E2=80=99t have its own interrupt handler but will instead use
+> devm_regulator_register_notifier().
 
+The driver PIs part send PSE notifications which will be converted to regul=
+ator
+events from the core. It is posting events.
+If you use devm_regulator_register_notifier() you will registers a listener=
+ for
+the regulator events. It is two distinct things.
 
+> Even full-fledged PSE controllers like the PD692x0 are just one part of
+> a larger chain of regulators. An overcurrent event may originate from a
+> downstream regulator that is not part of the PD692x0 itself. In this
+> case, we need to process the event from the downstream regulator,
+> convert it into an ethtool event, and forward it to the user.
+
+If you want to do something in case of downstream regulator events you will=
+ deal
+with regulator events not PSE events. I think you want to disable PIs in ca=
+se of
+event like downstream regulator over current.
+What policy should we use? Should we disable all the PIs or only disabled t=
+he
+low priority like the budget evaluation strategy of this series? As it is o=
+ver
+current event not related to budget we don't know how many PIs we should
+disable.
+
+Still as said before it is a distinct development that could be tackled lat=
+er.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
