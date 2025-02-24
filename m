@@ -1,68 +1,68 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A64F263F52
-	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 16:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E789E2641F6
+	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 16:56:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740416172; cv=none; b=rgdON/jfpp7e1Zqqg2jGotLTkzTUR1MuEWwxX1pQsVSRzvEWoBxW2D5MZJbIYwzUArqdbLvDXj2Xu7qvv5x0XEI/Zr4LWmlVzh8YO7tk+GkXZggDRQI3GWYLT+7JfqR4FiP62k2zTnjxOtCjKQczsBsDnsE6v+UziuWyw4tjTsQ=
+	t=1740416176; cv=none; b=lJ4RskcmvJXSxP1sm4yiAN8D94VzAVqBOxjGMxEAqKua5maWQGwMo+UTFm7WtXsParkApqM1/cG8OB7bM5T+15D7346hNkdEg9zJQCR+wWphLsswiE1EwR3R6bbOKqFFUzOLzrs1lIJXQJyQGtbVDcuCwcwY6svgOXRwh2HVtmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740416172; c=relaxed/simple;
-	bh=VmpdZSRRUc/hbRQ4rkKLLuRh8r6J0srT0ICzqEnE21Q=;
+	s=arc-20240116; t=1740416176; c=relaxed/simple;
+	bh=+NZ/1EFzSZLxmiTEzceGSJVCP7MjSwgxhuOimjZWqPI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ah9xdTstY6B8N14kw2gSlx5yCoQWkgiCO8kd5Tbdut9zjFe8Qby6mTe/xDg4V9Is1YYC5X64PAAAOTRPe2I8QBw1WpCVYVb47UrJo4L+Rmv4OroKZI8QT71QFKGINecdWGpKVsLt2dBeO7xmFAMyqzq1FdrYgrx6/m6agm2oKmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jT2VXVDV; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=q9DDIFrtuzTmlb/B3789IO7x1QfJ25kxjj+E68qitQ9PqE3fTzmM7jb/z8cAE3n/LxQ4FPKZzUN12XnTYylJZrUSA0mLrhSlA9A26Q5rGHodWYKyOASaylofZl7+oJYr5GYwj3HAC/fgiZIAzbGh22XqGhbB77orvvm4q1OZ8Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZhH06oWl; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jT2VXVDV"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZhH06oWl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740416170;
+	s=mimecast20190719; t=1740416173;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8Yy4w/XZlsv8uxY4mojETBma8CfgELpSYNnd4DKCaPQ=;
-	b=jT2VXVDVNp0WrvCETXgM47QZ8N1JeIqSkNhFs1CkuqmWLzLZNbx4GtMVK0YECYI2je3ehX
-	Hc1QfgzcnLU4Hf6VI2PxzPQwu0lq2kzDfrModrcnBa+6J6E2kmJ993/+G4FUyErGLA+gsM
-	FhbGjMHYwC9oobmcIga1KWlDUzm38yc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=uW/SnbGZfnRd/ZrL3KWYJ9GZqWtDH7XgQk5JORWTALU=;
+	b=ZhH06oWlzAdPP+fbULUpx1LGopAE7DTH79Dd4GNG9WqS817eeuxV7R038KP7atLUWjex4Z
+	9oE3HegwjSvKLTDYCgGg/uRLAu+w3rMk3tUwamK7jIhk5EAqUFNmiswQQdQIkotv52Vr1p
+	5VSZpH5yKgBeN86WU5rLOeXObM6V8Lc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-80-0c1xhfVsN4e09p9s5EF4Rg-1; Mon, 24 Feb 2025 11:56:08 -0500
-X-MC-Unique: 0c1xhfVsN4e09p9s5EF4Rg-1
-X-Mimecast-MFC-AGG-ID: 0c1xhfVsN4e09p9s5EF4Rg_1740416168
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-38f2726c0faso4653884f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 08:56:08 -0800 (PST)
+ us-mta-206-smFM9SunOH-LRLEbTUpr6w-1; Mon, 24 Feb 2025 11:56:11 -0500
+X-MC-Unique: smFM9SunOH-LRLEbTUpr6w-1
+X-Mimecast-MFC-AGG-ID: smFM9SunOH-LRLEbTUpr6w_1740416170
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4399a5afc95so19851615e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 08:56:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740416167; x=1741020967;
+        d=1e100.net; s=20230601; t=1740416170; x=1741020970;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8Yy4w/XZlsv8uxY4mojETBma8CfgELpSYNnd4DKCaPQ=;
-        b=OE4zSHX3TpEGFCTOQOd1yqq08U97tG4HDqBpYY5F7wJ1anOFrGQOpPNBqtFMjQ9vg5
-         l6fYNVieNnFtH7jdczWUNnD4QxXhmRG5H2Ix3/KaM0VLd7liUxxHJ7+S+KT3OCfbu9A6
-         FR82xWUyb7vgFzvHjEFHt+/xB6jzSLHBbHsaiu3UeVANOio3u4jcsnpJAMIo067SgJCi
-         vnKvIODonkUfDK+35+B8mASp70kMqksE51wTVsydAJXXdj8aadzGzijeORZJ5VhxU4FR
-         xMwWI5cgQlvYKj+5LtpNmRfVx33V4Tfb6oYlh5mBSPsheK/Yc7xX+ZTv/yrXMQ672V1e
-         GbXg==
-X-Gm-Message-State: AOJu0YymlQsYWrEhzNXCqeSkhU6Tj9QxlYmucxB8Hnvx5tEP+crT+89M
-	LxiqrTNQzM0bdL7KWhDTDCnUYe0XpdfRmipl0vDbcusvEjdSltw3ryBNag14UVKVrGUt6bMx1dV
-	rQy5VB8prZW+rNjx2Sj3Ws2E34fbaC/a1/do79l9KVORGo4mFN/B1KMvZcQ==
-X-Gm-Gg: ASbGncsWsNkutgadbml095lsTH0rijNt5Jk4xOZz+ty4i4EI7FQp1U0gp76XK7aghOt
-	II6jqQo2RToY96Ob74lZ/po/dUTJ5/3gshNJTSTF9nIZrxd3y6To28UQGX6FwRpJKG6KOTchZV/
-	DOsJuUiRjsAHqVOeT6oi31QVBEYAJy+h1IaMdXeyYIYe5/fNw7gciDU2wUaCPorQ+D3pyG071HV
-	kaW5D1njyV7uLlEqlTNGFbDr3qsKQRsuIN5rnQUUnesb9aZV+scAYPpR/sBDN5WT3cvfL5E7FVs
-	UH5+DEtdCVeh+6JfWxPtUXdYtJvwGsh9rYW19keLHA==
-X-Received: by 2002:a05:6000:1ac7:b0:38f:2a99:b377 with SMTP id ffacd0b85a97d-38f6f0c4523mr13709705f8f.53.1740416167619;
-        Mon, 24 Feb 2025 08:56:07 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHrYsCtuTnI9EW4wn4ZrbygGJqAwQI73Wf+OvRO5jakiYr702W8tJwU3BfJXILKECpWzIC3lQ==
-X-Received: by 2002:a05:6000:1ac7:b0:38f:2a99:b377 with SMTP id ffacd0b85a97d-38f6f0c4523mr13709656f8f.53.1740416167205;
-        Mon, 24 Feb 2025 08:56:07 -0800 (PST)
+        bh=uW/SnbGZfnRd/ZrL3KWYJ9GZqWtDH7XgQk5JORWTALU=;
+        b=VdPJDznwKnpdl6qx78cyUk2cQWD9wJfk+/4P+Ag8Wfc3EHDp94cprRt8aZDP1sMgno
+         zhOmN9bU4SrUuIn2Ff2l0p5WRHE47Xe4JnicPOPS6xJ70FbVOm8sJ+NzqMBcuuargDMy
+         9sy8UWoAUVymYcf0YfPnIDY1XlMQtpEDIMv4okK6mwLaoQf7WTZJhdk/MLncPZO9tAG2
+         b428o9BgkxdEF5woo1I3Nl+zdni18nWK9Vz6Bpz3wHHVQA46on6SBVXBfHKwXwz/+qrb
+         E0s9AxK7xIT656NKHpNepbpXlnMuFXv5BLBFFJGR2mieRnRqSqX4APrjssm285QVq+Qu
+         oQBg==
+X-Gm-Message-State: AOJu0YxlZnrTyeoi1lSjz2OJ/x0CTZzYcIshiMQTypHsSLg0U8my/zzj
+	rG5mjI6Blefnur1HTM1/xtzcTrL2csNleIMhvdjrd4V7/PgLk73if2/Ft/RUQz9qqloHBP5dd32
+	1nP56OJfkkWjSasew62JnqWwHmxZJ5jcMszeCqP9JTTYMfXlPmp9D28oR5w==
+X-Gm-Gg: ASbGncuZ2TvQI/kSdyOSzHwJ/sR/HvXIDkNlZJHirngKR6f0mEeQmMfhFuJcmqLwNhC
+	mGRTtmL8fEXaUUodAhocl+jIV+8/BztM1FdMUVFAY6akh/UcUAo01iNpuuK91MpmiX+YLQBqh6l
+	UdMcIZ5VpcXdmYL3NwTRTLV98TnCerhpe1BPbFgEY3J8A4OQtM79utxuuJyoyVd+1kwsd0S1QAC
+	W8Tuf0wzNDulXwqSn/2UmpTuZO+WJh47UmBi0Hp/56fRnlOMcWFoSQTJtK7WvdUUS+lHayofDa4
+	db9AYoekDpXq29xqst8615MXVYowK56pi/bipKfArQ==
+X-Received: by 2002:a05:600c:34c2:b0:439:9828:c447 with SMTP id 5b1f17b1804b1-439aecf1426mr121409325e9.17.1740416169805;
+        Mon, 24 Feb 2025 08:56:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFMOxvVak9cDaBV2o8+q98fYh3JQOIg7zVYXNoNjPQAK1ZeuqEa4rOOZBLfaDjBIQaJ00l68A==
+X-Received: by 2002:a05:600c:34c2:b0:439:9828:c447 with SMTP id 5b1f17b1804b1-439aecf1426mr121408975e9.17.1740416169419;
+        Mon, 24 Feb 2025 08:56:09 -0800 (PST)
 Received: from localhost (p4ff234b6.dip0.t-ipconnect.de. [79.242.52.182])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38f259d5e92sm32611493f8f.66.2025.02.24.08.56.05
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-439b02f3eaesm111237045e9.24.2025.02.24.08.56.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2025 08:56:06 -0800 (PST)
+        Mon, 24 Feb 2025 08:56:08 -0800 (PST)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -88,11 +88,10 @@ Cc: linux-doc@vger.kernel.org,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Vlastimil Babka <vbabka@suse.cz>,
 	Jann Horn <jannh@google.com>,
-	Lance Yang <ioworker0@gmail.com>,
 	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: [PATCH v2 01/20] mm: factor out large folio handling from folio_order() into folio_large_order()
-Date: Mon, 24 Feb 2025 17:55:43 +0100
-Message-ID: <20250224165603.1434404-2-david@redhat.com>
+Subject: [PATCH v2 02/20] mm: factor out large folio handling from folio_nr_pages() into folio_large_nr_pages()
+Date: Mon, 24 Feb 2025 17:55:44 +0100
+Message-ID: <20250224165603.1434404-3-david@redhat.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250224165603.1434404-1-david@redhat.com>
 References: <20250224165603.1434404-1-david@redhat.com>
@@ -108,69 +107,85 @@ Let's factor it out into a simple helper function. This helper will
 also come in handy when working with code where we know that our
 folio is large.
 
-Maybe in the future we'll have the order readily available for small and
-large folios; in that case, folio_large_order() would simply translate to
-folio_order().
+While at it, let's consistently return a "long" value from all these
+similar functions. Note that we cannot use "unsigned int" (even though
+_folio_nr_pages is of that type), because it would break some callers
+that do stuff like "-folio_nr_pages()". Both "int" or "unsigned long"
+would work as well.
 
-Reviewed-by: Lance Yang <ioworker0@gmail.com>
+Maybe in the future we'll have the nr_pages readily available for all
+large folios, maybe even for small folios, or maybe for none.
+
 Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/mm.h | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ include/linux/mm.h | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
 diff --git a/include/linux/mm.h b/include/linux/mm.h
-index d82feabbe44f8..d00214e22a174 100644
+index d00214e22a174..7c5a8fd29cfcd 100644
 --- a/include/linux/mm.h
 +++ b/include/linux/mm.h
-@@ -1194,6 +1194,11 @@ struct inode;
+@@ -1199,6 +1199,18 @@ static inline unsigned int folio_large_order(const struct folio *folio)
+ 	return folio->_flags_1 & 0xff;
+ }
  
- extern void prep_compound_page(struct page *page, unsigned int order);
- 
-+static inline unsigned int folio_large_order(const struct folio *folio)
++#ifdef CONFIG_64BIT
++static inline long folio_large_nr_pages(const struct folio *folio)
 +{
-+	return folio->_flags_1 & 0xff;
++	return folio->_folio_nr_pages;
 +}
++#else
++static inline long folio_large_nr_pages(const struct folio *folio)
++{
++	return 1L << folio_large_order(folio);
++}
++#endif
 +
  /*
   * compound_order() can be called without holding a reference, which means
   * that niceties like page_folio() don't work.  These callers should be
-@@ -1207,7 +1212,7 @@ static inline unsigned int compound_order(struct page *page)
+@@ -2141,11 +2153,7 @@ static inline long folio_nr_pages(const struct folio *folio)
+ {
+ 	if (!folio_test_large(folio))
+ 		return 1;
+-#ifdef CONFIG_64BIT
+-	return folio->_folio_nr_pages;
+-#else
+-	return 1L << folio_large_order(folio);
+-#endif
++	return folio_large_nr_pages(folio);
+ }
+ 
+ /* Only hugetlbfs can allocate folios larger than MAX_ORDER */
+@@ -2160,24 +2168,20 @@ static inline long folio_nr_pages(const struct folio *folio)
+  * page.  compound_nr() can be called on a tail page, and is defined to
+  * return 1 in that case.
+  */
+-static inline unsigned long compound_nr(struct page *page)
++static inline long compound_nr(struct page *page)
+ {
+ 	struct folio *folio = (struct folio *)page;
  
  	if (!test_bit(PG_head, &folio->flags))
- 		return 0;
--	return folio->_flags_1 & 0xff;
-+	return folio_large_order(folio);
+ 		return 1;
+-#ifdef CONFIG_64BIT
+-	return folio->_folio_nr_pages;
+-#else
+-	return 1L << folio_large_order(folio);
+-#endif
++	return folio_large_nr_pages(folio);
  }
  
  /**
-@@ -1223,7 +1228,7 @@ static inline unsigned int folio_order(const struct folio *folio)
+  * thp_nr_pages - The number of regular pages in this huge page.
+  * @page: The head page of a huge page.
+  */
+-static inline int thp_nr_pages(struct page *page)
++static inline long thp_nr_pages(struct page *page)
  {
- 	if (!folio_test_large(folio))
- 		return 0;
--	return folio->_flags_1 & 0xff;
-+	return folio_large_order(folio);
+ 	return folio_nr_pages((struct folio *)page);
  }
- 
- #include <linux/huge_mm.h>
-@@ -2139,7 +2144,7 @@ static inline long folio_nr_pages(const struct folio *folio)
- #ifdef CONFIG_64BIT
- 	return folio->_folio_nr_pages;
- #else
--	return 1L << (folio->_flags_1 & 0xff);
-+	return 1L << folio_large_order(folio);
- #endif
- }
- 
-@@ -2164,7 +2169,7 @@ static inline unsigned long compound_nr(struct page *page)
- #ifdef CONFIG_64BIT
- 	return folio->_folio_nr_pages;
- #else
--	return 1L << (folio->_flags_1 & 0xff);
-+	return 1L << folio_large_order(folio);
- #endif
- }
- 
 -- 
 2.48.1
 
