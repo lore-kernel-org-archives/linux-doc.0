@@ -1,116 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B7223BCFC;
-	Mon, 24 Feb 2025 12:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A312571B6;
+	Mon, 24 Feb 2025 12:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740401209; cv=none; b=kKO2lYeSm0mVArH3RJd7RzK93bYv7LGVjoAzQqa1kKITEqPahupa8TRiwpZGJN/bOYd+r9hzHenoKJi9QPbQebwXxk5/niCAwP3gPqOWF6bWvNVM+8ojXuCBlI+7zZFGz63x5UDVGyAM4kxuZ1Y9qbk+rV3dLoLa9yIbSghd59M=
+	t=1740401393; cv=none; b=eHb0q/quEAtpzxyFbcYcLiCLjefNs32LLuujx7eV54DoKb9CEVS7eKPPxOJpm5W+PNKLxCtFrUFBvGyXx8jyMQm84tIk8SnwyJkPDfxPDJBv5QyByaQk/LhvKmwySYOcIIk42vEcGs+ByAbUt5WqPA+rpnLHXUbFpdNlnDUe85w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740401209; c=relaxed/simple;
-	bh=0B0CsThfPjGTpaa60Jmv4WtnpWqz89tZ838PBLhiS1M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E5a4pq6kAexPkGDrA78l/D/mV1CT7orIs3rmHgzyzcQpMH6WJpox5z6A1Z7oTVdHWbTsCGf95ERbWm17Mdqhm65imlnuKsGoljT4zDPjWnucKrtbNBdQCFetd47a0uH7maIOnZNzorc4c2csYIDah8XKN952GPUyMrEsaAIN5C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKYjXcHv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740401393; c=relaxed/simple;
+	bh=artm3sYYZO++B9Dib2JcPiWfNmKPwS/KGkd1oxsTrP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PDCJQ/pURbC+Yujw/W+kDfvFevdDl0QeAWjbYIB9nnmoJ/90Cto5st9QCxkJY1F03cxYkWfe+d7yT6mHk0G+bNK7EjkG8UbxdTMExD1vz9IxQlBuKOlcypQMHpHyjrIpX4PedY6+TDCAzmdxLWdHqKzpKhfbp8KF0BBJD4HUld0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=crk26qRa; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKYjXcHv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32F8BC4CEE8;
-	Mon, 24 Feb 2025 12:46:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740401209;
-	bh=0B0CsThfPjGTpaa60Jmv4WtnpWqz89tZ838PBLhiS1M=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HKYjXcHvXoCFVXB33ypRTMi+qhyXXBGo35E/k5RKPWwJtemmIWmE54meLKFZs/EvJ
-	 3Sj5yokM+60rAF5eOEJsXxZUsRSJTL9gieVYI7odceLW7YtFOAtpJ1f1jaiAT5QvF6
-	 VdQYXKDiyS7Zsl9VeINxjotnJc2NhNY+pDqCZkUmoZowSL5okxpWuO9JuO5gDF7z8q
-	 uEETt/7G+YPbqpb1AkdCI3osV8Gl0Qlpu2b4EY1Ebr+060OKuJkXRzM4z/5klxtS2w
-	 kOZLWvJ8qoeFPZNxulPgsx3CZktIrjFRwFMc/itwI46QhFscpfyp6fY0sOMoWH7yPx
-	 68tHEOSFVsICQ==
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e033c2f106so5752131a12.3;
-        Mon, 24 Feb 2025 04:46:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU1snL8XXmri7I1NfbPSU0phd3YvTUJ77HALIWaIuk3sWeabj25TmpTUBEUJDiFWdvt638vDuUjX57PP9q1@vger.kernel.org, AJvYcCV4oLoJILvFQvRMNjGf0s6dG2mvlG+9eNSCj5SNv46LAdfO8FLmsejF4HVKKwjdakIsAXR7ZXpuWBGWpYjqC3DiRQ==@vger.kernel.org, AJvYcCWQHJ21eEWs+mvwO6XWy07w9sWThtfRCatAOtSy/EzCbsuxHQDLV5jj3IDDt0kAUzB6cHx706RI2OM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnxdV5EPDjT3hdCj/WMo5hCdUgBMpX2sUfLr6KGkZ75t/qTGbD
-	d9gcJVSdV4ZbWFE/MLPcDKPVrz/4HeB5M31v4mLJqeOw/BPnF27JWMX730hI8iThsSkZcjFY1es
-	gHQ92Hf6g5VJ2CNNubi9kQtrF1Q==
-X-Google-Smtp-Source: AGHT+IFSrlzVDhPG7lgCi1VU8B1AxKksGxiI/QFAwg0k5D4fCtrCiSkO61qkvx8HAbvnWUGOsp8xAAa6cceHz1Shh+I=
-X-Received: by 2002:a05:6402:278e:b0:5dc:cf9b:b04a with SMTP id
- 4fb4d7f45d1cf-5e0b70bfd22mr30104043a12.1.1740401207751; Mon, 24 Feb 2025
- 04:46:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="crk26qRa"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=hJylRD8fzAq3eOuue35FX0OJEQQRNNr5WEQuWoBz8dI=; b=crk26qRaBe6Jax9eNVfq+d5M7I
+	fKReB9gELCq0M7QRT2mRtHODhnfaFYp/cX54b/LqnCx59ypdK1/fw8AQuGKJtMFNN4eblc14CRGOQ
+	F66q9y6ombCeIYf5Afbo4kAcx/qkGpgeDLyjPMwjFAmmMFeC4AZn71rmEvdYEbVH+gQ4nCK6GosD2
+	/f5dPE8zzIO+8zCIw97f983HpA9OQ6dR0ZldLedO+oGJjRJF6dUnGcrKI+PUIduNFWu7KA0ObtaOK
+	6Vfe3QB14s9F89+J9pyy7f9E3Q3Uf4bMqmwItzrcNyR6tQ21Sdi6zIQAF4LXXarVu4R3dTxno9+jX
+	d6R80/Dg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:49744)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1tmXtn-0006Gq-2H;
+	Mon, 24 Feb 2025 12:49:27 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1tmXtf-00050L-1T;
+	Mon, 24 Feb 2025 12:49:19 +0000
+Date: Mon, 24 Feb 2025 12:49:19 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: Kory Maincent <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v5 09/12] net: pse-pd: pd692x0: Add support for
+ controller and manager power supplies
+Message-ID: <Z7xqz-Z5UhqBQXnc@shell.armlinux.org.uk>
+References: <20250218-feature_poe_port_prio-v5-0-3da486e5fd64@bootlin.com>
+ <20250218-feature_poe_port_prio-v5-9-3da486e5fd64@bootlin.com>
+ <20250224134222.358b28d8@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org>
- <20250218-arm-brbe-v19-v20-11-4e9922fc2e8e@kernel.org> <20250224122507.GE8144@e132581.arm.com>
-In-Reply-To: <20250224122507.GE8144@e132581.arm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 24 Feb 2025 06:46:35 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+0fZ2uasgAam7qGTdCeDBQxXeyL-J1_suyxy6GE_ERTg@mail.gmail.com>
-X-Gm-Features: AWEUYZlK0yq7SIgMIaSVRny1cLnFGm1k0eFBcoGHQEZGYoT0-XXIWWwS_6M-XJc
-Message-ID: <CAL_Jsq+0fZ2uasgAam7qGTdCeDBQxXeyL-J1_suyxy6GE_ERTg@mail.gmail.com>
-Subject: Re: [PATCH v20 11/11] perf: arm_pmuv3: Add support for the Branch
- Record Buffer Extension (BRBE)
-To: Leo Yan <leo.yan@arm.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	James Clark <james.clark@linaro.org>, Anshuman Khandual <anshuman.khandual@arm.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250224134222.358b28d8@fedora>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Mon, Feb 24, 2025 at 6:25=E2=80=AFAM Leo Yan <leo.yan@arm.com> wrote:
->
-> On Tue, Feb 18, 2025 at 02:40:06PM -0600, Rob Herring (Arm) wrote:
-> >
-> > From: Anshuman Khandual <anshuman.khandual@arm.com>
->
-> [...]
->
-> > BRBE records are invalidated whenever events are reconfigured, a new
-> > task is scheduled in, or after recording is paused (and the records
-> > have been recorded for the event). The architecture allows branch
-> > records to be invalidated by the PE under implementation defined
-> > conditions. It is expected that these conditions are rare.
->
-> [...]
->
-> > +static void armv8pmu_sched_task(struct perf_event_pmu_context *pmu_ctx=
-, bool sched_in)
-> > +{
-> > +       struct arm_pmu *armpmu =3D *this_cpu_ptr(&cpu_armpmu);
-> > +       struct pmu_hw_events *hw_events =3D this_cpu_ptr(armpmu->hw_eve=
-nts);
-> > +
-> > +       if (!hw_events->branch_users)
-> > +               return;
-> > +
-> > +       if (sched_in)
-> > +               brbe_invalidate();
-> > +}
->
-> Just a minor concern.  I don't see any handling for task migration.
-> E.g., for a task is migrated from one CPU to another CPU, I expect we
-> need to save and restore branch records based on BRBE injection.  So
-> far, the driver simply invalidates all records.
->
-> I think this topic is very likely discussed before.  If this is the
-> case, please ignore my comment.  Except this, the code looks good
-> to me.
+On Mon, Feb 24, 2025 at 01:42:22PM +0100, Maxime Chevallier wrote:
+> On Tue, 18 Feb 2025 17:19:13 +0100
+> Kory Maincent <kory.maincent@bootlin.com> wrote:
+> > diff --git a/drivers/net/pse-pd/pd692x0.c b/drivers/net/pse-pd/pd692x0.c
+> > index 44ded2aa6fca..c9fa60b314ce 100644
+> > --- a/drivers/net/pse-pd/pd692x0.c
+> > +++ b/drivers/net/pse-pd/pd692x0.c
+> > @@ -976,8 +976,10 @@ pd692x0_register_managers_regulator(struct pd692x0_priv *priv,
+> >  	reg_name_len = strlen(dev_name(dev)) + 23;
+> >  
+> >  	for (i = 0; i < nmanagers; i++) {
+> > +		static const char * const regulators[] = { "vaux5", "vaux3p3" };
+> 
+> Looks like the 'static' is not needed here :)
 
-Not really discussed on the list, but that was present in v18 (though
-not functional because .sched_task() hook wasn't actually enabled) and
-Mark removed it. His work is here[1].The only comment was:
+Have you checked the compiler output before saying that?
 
-Note: saving/restoring at context-switch doesn't interact well with
-event rotation (e.g. if filters change)
+I've seen plenty of instances where "static" should be there but isn't,
+leading to the compiler generating inline code to create the
+array/struct on the stack.
 
-Rob
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?=
-h=3Darm64/brbe&id=3D642985af34d2d6f54e76995380cf24d512078c56
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
