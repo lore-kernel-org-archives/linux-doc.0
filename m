@@ -1,124 +1,134 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2154438DEC;
-	Mon, 24 Feb 2025 18:30:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826FC233709
+	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 18:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740421855; cv=none; b=uTkJdB1gAO8M86LdUFh/9D9pmFYn8ca9oLVDoQjs+CjNmhaOf39L6pE+bfF0hD2vja11BFYVFpIqqvSVLNp5OwkaWxDSSunodIAAbTc7c49SozuoDU+OYPX1f07ljW/0Fvo3zySohjNDLykh/EK6qHpYpHDER9VAt/8au4itslU=
+	t=1740422453; cv=none; b=IfUSpRSeNI+fM5bDrgFpacaYPt3LJMEYqQXS0EqAXVDumAX5pLclfwTjlB7Fm7j/4XDllBXku6Qy39qdv84szDUyRXi01rO2IpCAK34qgsa8qbMQPfQWS+mw954Dlq3wfh4VOp+8aQO4gD3BYBx3jZhRoqV6bDBFwAFIRaHOMww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740421855; c=relaxed/simple;
-	bh=tEtVvuwWHlDXcAj0n/08mNkgMs0+lM9v7CgaWRalZ9A=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=BW7tsmmZCEThH5zzrt79gRAOTvQLZJ5pp9j9LxXrCsMSI/qXVGZvLeu0AUndHLr0ofTxwx/g0CopyUvfdPENVJYNlV6L2FAgW+mQlmMCYn6gLu/Zb2wgKwSddOuV+QHu7xMt6N5cH8JnfuecZn/++G5DFdRPLP1VRjVyB8CZUB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Z1q3m4wqkz6M4ny;
-	Tue, 25 Feb 2025 02:28:04 +0800 (CST)
-Received: from frapeml100007.china.huawei.com (unknown [7.182.85.133])
-	by mail.maildlp.com (Postfix) with ESMTPS id B6424140B63;
-	Tue, 25 Feb 2025 02:30:48 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (7.182.85.172) by
- frapeml100007.china.huawei.com (7.182.85.133) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 24 Feb 2025 19:30:48 +0100
-Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
- frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
- Mon, 24 Feb 2025 19:30:48 +0100
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Borislav Petkov <bp@alien8.de>
-CC: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>,
-	"rafael@kernel.org" <rafael@kernel.org>, "lenb@kernel.org" <lenb@kernel.org>,
-	"mchehab@kernel.org" <mchehab@kernel.org>, "dan.j.williams@intel.com"
-	<dan.j.williams@intel.com>, "dave@stgolabs.net" <dave@stgolabs.net>,
-	"Jonathan Cameron" <jonathan.cameron@huawei.com>, "dave.jiang@intel.com"
-	<dave.jiang@intel.com>, "alison.schofield@intel.com"
-	<alison.schofield@intel.com>, "vishal.l.verma@intel.com"
-	<vishal.l.verma@intel.com>, "ira.weiny@intel.com" <ira.weiny@intel.com>,
-	"david@redhat.com" <david@redhat.com>, "Vilas.Sridharan@amd.com"
-	<Vilas.Sridharan@amd.com>, "leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "rientjes@google.com"
-	<rientjes@google.com>, "jiaqiyan@google.com" <jiaqiyan@google.com>,
-	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
-	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
-	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
-	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, tanxiaofei
-	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
- Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>,
-	Linuxarm <linuxarm@huawei.com>
-Subject: RE: [PATCH v20 00/15] EDAC: Scrub: introduce generic EDAC RAS control
- feature driver + CXL/ACPI-RAS2 drivers
-Thread-Topic: [PATCH v20 00/15] EDAC: Scrub: introduce generic EDAC RAS
- control feature driver + CXL/ACPI-RAS2 drivers
-Thread-Index: AQHbfVuaekLsP7SN9UOZsd1dS/TdhbNWWP4AgAB+X0A=
-Date: Mon, 24 Feb 2025 18:30:48 +0000
-Message-ID: <71ad0c8c6a304b2d9a62f49983c3d787@huawei.com>
-References: <20250212143654.1893-1-shiju.jose@huawei.com>
- <20250224115002.GCZ7xc6o3yA1Q2j85i@fat_crate.local>
-In-Reply-To: <20250224115002.GCZ7xc6o3yA1Q2j85i@fat_crate.local>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1740422453; c=relaxed/simple;
+	bh=UCTg3g/tkcfH1gJmx3kVcTsAp9a72p1V4y77QyBKanE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Mialpt1dA1eVAC9usPZl1yBdj/44J3kO/psvsHXukVyPIZhV2LvPx8OM3WIbuAU5vgetOFtq9v31YX+bNqu6SFfNpjqgJ2Ea2dcnHVisMwTnxszgnGB+iOHHINOgEx3AmwBHapzCUdFtGc1751EJdmdk5rYJ8m8dVjQJoTuQsRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=b/tjjrmw; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="b/tjjrmw"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-54622940ef7so5398379e87.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 10:40:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1740422445; x=1741027245; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UCTg3g/tkcfH1gJmx3kVcTsAp9a72p1V4y77QyBKanE=;
+        b=b/tjjrmwpk36KA2YMgdOk4Em707MMUEtELL6rmsRb3D27pMbNbAYNHuq3CHSmeDgPF
+         wPtni3wI0Yg79yt7G1C+rZZnzFsuNLUOD7ts6Fw1xrpkPDn28aYkPZNndOLNExkJiNes
+         ldlXoO4xEH5b+YkyZjxTWeEVJGFAxz264p8o0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740422445; x=1741027245;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UCTg3g/tkcfH1gJmx3kVcTsAp9a72p1V4y77QyBKanE=;
+        b=pLfieYeOpzKXUJdYUHVXSorPDZyQwFDRp48QCZuTVwJjAGvELmNSs9oOUGWmg1/J7i
+         +3+/Sd3h0SHcZZxS/kVW24VrCJ9nihHTUHCyr3Q0IUTtDS8SMlIEvyUflZlARIC1LgkH
+         RqbNUgSFPL3hu6H8OEQO+mQJEVkFA6cw1IL6No6papPxXRpWW9BnwTcobQ/wSjED07GC
+         nlyAGdEW1KQrWwPjh2iUz4wKC4t6wWAm4RzqrM8tTuI6RSkEU9QjQSiX6ns1q1BpIP6q
+         RXUqBA3e83U2B4iHKAACh9gtgcx7hS/w4RrWViU8OvqowCmhKJzRvmpDxoMQGDcuQzfq
+         ePpA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3BETaMo5NZ91B78nWy13XO4WcLUzFF+HlOyMqZzcMUlLmFtl1nt89LVCuzX+D/jg0dOf9jHoYFNg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSQJGH1j7BHL/sNAbFzW1sySCexGvjSLRA3opQkZMUPtVxBiJH
+	dTSkqNSGMY+6YjbEoQWjk0hPkKrptfTkqLr8LTWeyUSXv2znX8/PrPZNTxXi/adcWBo1UVE3o4D
+	Vag==
+X-Gm-Gg: ASbGncsq4FkWmwmZbtiQDbcExowYmWQpSZRFpDV/dKVeJlpOnU8YOnh9my/02UXFet2
+	zsapr1BWQ8a/vaHY2vVGr/5dAYBr7pLk6TaTP6hYMqIU+1wxVzY3Y8rQZ4y9d0tazabyuq1Ugh2
+	MNvTS2UmhhuNWDtF4piV+7ow/KlYcXBRTs8t972ZfhTLUD/pcN53F7CgfH5JcxPlSCTHri6OOot
+	k6or26LZmpk/1LFDmeKGymLW7r8gOQirI/ZgSv/EYS3x8LwCpzuRJmDq3YQcovxdqqt+i1A4yiH
+	wVHYnNAXPfCum3E2XzRHFZluRORP0ZxyXhcUdxsHup7316Px8M7ONt8UlaaOC9wjpA==
+X-Google-Smtp-Source: AGHT+IHjsvsZZxRe1SRgPKYDo2YMPjaEJ+ZA/AoBPrGo0s5itVhK1dTanDxzyjShb3ZFNQRkya3Mug==
+X-Received: by 2002:a05:6512:2347:b0:542:6d01:f55c with SMTP id 2adb3069b0e04-54838ede909mr5539729e87.3.1740422444551;
+        Mon, 24 Feb 2025 10:40:44 -0800 (PST)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a819ebe4fsm62981fa.34.2025.02.24.10.40.41
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2025 10:40:43 -0800 (PST)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5462ea9691cso5278628e87.2
+        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 10:40:41 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUTa1a+rz3pBmDw/JjdM0Ue6d4Z7dnyI93ggbmuiar5mZTDyYwazH13m/ExpvMkVTEng53DqVuxFkY=@vger.kernel.org
+X-Received: by 2002:a05:6512:e99:b0:545:c51:4a0f with SMTP id
+ 2adb3069b0e04-54838edd8e6mr6201702e87.4.1740422441508; Mon, 24 Feb 2025
+ 10:40:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250213-mipi_cocci_multi-v1-0-67d94ff319cc@redhat.com>
+ <CAD=FV=Vyx8vAeRohw3W11Tuv26_-zi-GV__G2cXFxF+e76MJkw@mail.gmail.com> <20250218-fabulous-agile-corgi-9a5ee0@houat>
+In-Reply-To: <20250218-fabulous-agile-corgi-9a5ee0@houat>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 24 Feb 2025 10:40:29 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UPY-VGr0qWnHcmdJpVGo-xqJyT81FxqJVp3qcrhcii2A@mail.gmail.com>
+X-Gm-Features: AWEUYZn5kJ7jvupKGMyzFLJ3TnjjiDiS2fSx64zjhWAkyHi1oX6mHN7o3rYIme8
+Message-ID: <CAD=FV=UPY-VGr0qWnHcmdJpVGo-xqJyT81FxqJVp3qcrhcii2A@mail.gmail.com>
+Subject: Re: [PATCH 00/20] drm/panel: Move to using mipi_dsi_*_multi()
+ variants when available
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Anusha Srivatsa <asrivats@redhat.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Joel Selvaraj <jo@jsfamily.in>, 
+	Ondrej Jirman <megi@xff.cz>, Javier Martinez Canillas <javierm@redhat.com>, Jianhua Lu <lujianhua000@gmail.com>, 
+	Robert Chiras <robert.chiras@nxp.com>, Artur Weber <aweber.kernel@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Tejas Vipin <tejasvipin76@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBh
-bGllbjguZGU+DQo+U2VudDogMjQgRmVicnVhcnkgMjAyNSAxMTo1MA0KPlRvOiBTaGlqdSBKb3Nl
-IDxzaGlqdS5qb3NlQGh1YXdlaS5jb20+DQo+Q2M6IGxpbnV4LWVkYWNAdmdlci5rZXJuZWwub3Jn
-OyBsaW51eC1jeGxAdmdlci5rZXJuZWwub3JnOyBsaW51eC0NCj5hY3BpQHZnZXIua2VybmVsLm9y
-ZzsgbGludXgtbW1Aa3ZhY2sub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOw0KPmxp
-bnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc7IHRvbnkubHVja0BpbnRlbC5jb207IHJhZmFlbEBrZXJu
-ZWwub3JnOw0KPmxlbmJAa2VybmVsLm9yZzsgbWNoZWhhYkBrZXJuZWwub3JnOyBkYW4uai53aWxs
-aWFtc0BpbnRlbC5jb207DQo+ZGF2ZUBzdGdvbGFicy5uZXQ7IEpvbmF0aGFuIENhbWVyb24gPGpv
-bmF0aGFuLmNhbWVyb25AaHVhd2VpLmNvbT47DQo+ZGF2ZS5qaWFuZ0BpbnRlbC5jb207IGFsaXNv
-bi5zY2hvZmllbGRAaW50ZWwuY29tOyB2aXNoYWwubC52ZXJtYUBpbnRlbC5jb207DQo+aXJhLndl
-aW55QGludGVsLmNvbTsgZGF2aWRAcmVkaGF0LmNvbTsgVmlsYXMuU3JpZGhhcmFuQGFtZC5jb207
-DQo+bGVvLmR1cmFuQGFtZC5jb207IFlhemVuLkdoYW5uYW1AYW1kLmNvbTsgcmllbnRqZXNAZ29v
-Z2xlLmNvbTsNCj5qaWFxaXlhbkBnb29nbGUuY29tOyBKb24uR3JpbW1AYW1kLmNvbTsgZGF2ZS5o
-YW5zZW5AbGludXguaW50ZWwuY29tOw0KPm5hb3lhLmhvcmlndWNoaUBuZWMuY29tOyBqYW1lcy5t
-b3JzZUBhcm0uY29tOyBqdGhvdWdodG9uQGdvb2dsZS5jb207DQo+c29tYXN1bmRhcmFtLmFAaHBl
-LmNvbTsgZXJkZW1ha3Rhc0Bnb29nbGUuY29tOyBwZ29uZGFAZ29vZ2xlLmNvbTsNCj5kdWVud2Vu
-QGdvb2dsZS5jb207IGd0aGVsZW5AZ29vZ2xlLmNvbTsNCj53c2Nod2FydHpAYW1wZXJlY29tcHV0
-aW5nLmNvbTsgZGZlcmd1c29uQGFtcGVyZWNvbXB1dGluZy5jb207DQo+d2JzQG9zLmFtcGVyZWNv
-bXB1dGluZy5jb207IG5pZmFuLmN4bEBnbWFpbC5jb207IHRhbnhpYW9mZWkNCj48dGFueGlhb2Zl
-aUBodWF3ZWkuY29tPjsgWmVuZ3RhbyAoQikgPHByaW1lLnplbmdAaGlzaWxpY29uLmNvbT47IFJv
-YmVydG8NCj5TYXNzdSA8cm9iZXJ0by5zYXNzdUBodWF3ZWkuY29tPjsga2FuZ2thbmcuc2hlbkBm
-dXR1cmV3ZWkuY29tOw0KPndhbmdodWlxaWFuZyA8d2FuZ2h1aXFpYW5nQGh1YXdlaS5jb20+OyBM
-aW51eGFybQ0KPjxsaW51eGFybUBodWF3ZWkuY29tPg0KPlN1YmplY3Q6IFJlOiBbUEFUQ0ggdjIw
-IDAwLzE1XSBFREFDOiBTY3J1YjogaW50cm9kdWNlIGdlbmVyaWMgRURBQyBSQVMNCj5jb250cm9s
-IGZlYXR1cmUgZHJpdmVyICsgQ1hML0FDUEktUkFTMiBkcml2ZXJzDQo+DQo+T24gV2VkLCBGZWIg
-MTIsIDIwMjUgYXQgMDI6MzY6MzhQTSArMDAwMCwgc2hpanUuam9zZUBodWF3ZWkuY29tIHdyb3Rl
-Og0KPj4gRnJvbTogU2hpanUgSm9zZSA8c2hpanUuam9zZUBodWF3ZWkuY29tPg0KPj4NCj4+IFRo
-ZSBDWEwgcGF0Y2hlcyBvZiB0aGlzIHNlcmllcyBoYXMgZGVwZW5kZW5jeSBvbiBEYXZlJ3MgQ1hM
-IGZ3Y3RsDQo+PiBzZXJpZXMgWzFdLg0KPg0KPkZpcnN0IDUgcGF0Y2hlcyBtYXNzYWdlZCBhbmQg
-cXVldWVkIGhlcmU6DQo+DQo+aHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tl
-cm5lbC9naXQvYnAvYnAuZ2l0L2xvZy8/aD1lZGFjLWN4bA0KPg0KPlBsZWFzZSBydW4gdGhlbSB3
-aXRoIHRoZSByZXN0IG9mIHlvdXIgdGVzdCBjYXNlcyB0byBtYWtlIHN1cmUgSSBoYXZlbid0IGZh
-dC0NCj5maW5nZXJlZCBhbnl0aGluZy4NCg0KSGkgQm9yaXMsDQoNClRoYW5rcyBmb3Igc2hhcmlu
-ZyB0aGUgdXBkYXRlZCBicmFuY2guDQoNClRlc3RpbmcgcmVzdCBvZiB0aGUgcGF0Y2hlcyBmb3Ig
-Q1hMIFJBUyBmZWF0dXJlcyBhbmQgQUNQSSBSQVMyIHNjcnViIGZlYXR1cmUNCmluIHRoaXMgYnJh
-bmNoIGFyZSB3b3JrZWQgZmluZS4NCg0KVGhhbmtzLA0KU2hpanUNCg0KPg0KPlRoeC4NCj4NCj4t
-LQ0KPlJlZ2FyZHMvR3J1c3MsDQo+ICAgIEJvcmlzLg0KPg0KPmh0dHBzOi8vcGVvcGxlLmtlcm5l
-bC5vcmcvdGdseC9ub3Rlcy1hYm91dC1uZXRpcXVldHRlDQo=
+Hi,
+
+On Tue, Feb 18, 2025 at 1:55=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> > I also questioned whether this really made sense to try to do with a
+> > Coccinelle script and I still don't think so. It looks like Dmitry has
+> > already reviewed the first few of your patches and has repeated my
+> > advice. If you want to help with the effort of addressing this TODO
+> > item then that's great, but I'll stop reviewing (and start silently
+> > deleting) any future submissions of yours that say that they're done
+> > entirely with a Coccinelle script unless you address this point and
+> > convince me that your Coccinelle script is really smart enough to
+> > handle all the corner cases. I'll also assert that you should review
+> > Tejas's submissions to see how these conversions are expected to go.
+>
+> I couldn't find that in your first answer though. What corner cases do
+> you have in mind, and why do you think coccinelle can't handle them?
+
+My gut says that it is a difficult problem to make this kind of change
+purely with Coccinelle. That's not to say I couldn't be convinced if
+someone gave some good evidence showing some amazing patches generated
+by a Cocinelle script. To show this, I would expect someone to
+understand what Tejas has been doing and then compare that to what the
+script can produce. In theory, you could even run the script on an old
+version of panels (before Tejas's fixes) and compare what the script
+does. If you can make the results nearly the same then that's amazing.
+
+
+> Also, why do you think ignoring a contributor after a second mistake is
+> a reasonable reaction?
+
+Just to be clear, I said that "unless you address this point and
+convince me...". My problem was that I brought up the questions of the
+suitability of Cocinelle for this problem in response to v1. Then I
+saw v2 posted without any reply to my concerns and with the same types
+of problems. I was simply saying that if a v3 was posted in the same
+vein then I would ignore it. I'm more than happy to have a
+conversation, but if I start getting new versions that ignore previous
+feedback and no response saying why feedback was ignored then I will
+start ignoring new versions. That feels pretty reasonable to me.
