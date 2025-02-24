@@ -1,312 +1,245 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2078.outbound.protection.outlook.com [40.107.237.78])
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2040.outbound.protection.outlook.com [40.107.96.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D3D1F5FA;
-	Mon, 24 Feb 2025 21:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BCB1DF993;
+	Mon, 24 Feb 2025 21:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.40
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740432202; cv=fail; b=uz7E5MdapfN2WnYYIrN0WTGryy2/3e7b/PZgjxGZjR81py6noJIWLnT3WAcS6ZLV2eY7cKk79PBV7oqA9xeMCTqdeyOKkOdSzQ1P8iZbRZT2ejfQgDX5qWRBYfCTnleABZPT61l64TLrl4gOFMn0WkakdGl2pgJ963H5fmFWmd4=
+	t=1740432705; cv=fail; b=E2ewqwPM3XJMdellXx326LRSc4bpBqFEvH9AlkRX80pUMLei670DRzMvMfaZmYrksFUQng4WPvI+jphpxZxmMkKyl7uiqkurM20o589eC5vyvuYKv37vcUrW1G61RkSJWs7RINKKl+vNFAvUtvFRbjWPXyAPZVCFOFd05RbIeMg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740432202; c=relaxed/simple;
-	bh=T8Jwos1KEp6nca82UIXlz6b0zXggw4YkeyfsmeUpJAE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bDQ9uTd5FtajAB0auINU/bEkIRadNx8fwpUfU+kBLhaJ3N/Oow2Vq/CrnPfnn9ze1+FbywLWiVuuQAhx8NqLl8XPObm8ru2XmIyDa/ahDn5Xjs6LO5nA6UuixaX7ozxlYTmQBoUPGMONtAcApf8W6qJFQp6EsR34wY+sPHpn818=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=f9eu0B6n; arc=fail smtp.client-ip=40.107.237.78
+	s=arc-20240116; t=1740432705; c=relaxed/simple;
+	bh=xm9CqLOxqDMtLAq9jomPyNricHkeUtd0aDxyZvmdhFU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hY4+hwf8Tsxr59y+FLnfTm5Y6SwT33ffsZUHjROT96mfXgcZqfr80g/qT7diuDgxcxfFy5oCSjKixJMLlCQWkMeZEgYbfp/W5kVB4/mVbfsptBRvbsy7R/r+F25QxC6zTZrRnGL9H4OFQFPPeBzU76JFuHImmrbXu/Kvlb3Io0g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=X1ES2uCo; arc=fail smtp.client-ip=40.107.96.40
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="f9eu0B6n"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="X1ES2uCo"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XVet1Smf/fP0qwfCMT2urstPhk3WM5mcjumkkq/BkuuibrD7STfhIm1XtSekACMX1Fd+coDBXY+KMn+E76hsBl/5wyKU3AHi9v8ASJYRmt+2uZd64Bz5Az91hK1M9CL7KQHIKqEZOAY60rKTPcX/91RYylrLXTgVUezI9ajvDG46WO55ipI+/VE4UWxc0BC9kb7H5VeAQ7vUB0gQxeXVCFegUfDF8W5qinOsULGRV7DgHJRdrC4HeLg3pDNwp/R5F1ue7bSXOx/mDVz+R/EeJdilCuEFGjPrf+OTPoRdVYbz8v4kABIO07yYAv7M81B3KfUWen0Jx0njJBCFHVkUDg==
+ b=dXCrrYCRXRBXL/2ho1JBXYSaqO8wEz2aTaZ+tYFKrBNPnsYZFE3YUWAcoWhZxThadF84UbfHhOMD0n+9ahTVJy3krzn+nl80NKfJYQsWEtXcMb/BH1V9Ory28Vc7kCcK0uFWkrralJ4fSZy7ATiYgtNsJcU1Cy1nQnvbeZfpW7Gt7BwQjti/l3cXAVyL0o+ZQ5QjtylYh0xavncO5v51DE37Y9NKiz32LikBdRJZDkIL2OWIbnkI36QjXPnIGhk8mxT1L98YJ5aTCJdwkL8/k14Ioibt6mR7hN3iop4KxqaIyA9HrHon6uVH2keB/Ir7HSs2M1r0naLHrnCxTNvpgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bug8cDQ7ep0eULDmXuFD5tjgNFtvu+WaP1h6K1fjGv8=;
- b=cC4KnAywXlDJBzYENVStsD6PcwT23TFHCoROtHB8t8BogkZ52g5lNBL+qOIF6Xkz+oXz4ze1wIhzXaXMQj3ePB5CQHYatGqg0lJU1Zdp5oNpncLIEbqLh9eOKeiuWzsZxiTVKowkY9LnWnNvlmGcuNM0ZGvPBD4nsely0ajSTc8uGJvK/PAclSgwL5GnKOzHd3rLKxiv+gElSMAysDbe5UcOehRGpgjDu6Lwbwe5Vr9w/14w3xlv3cYz3T7HstZkvg30NO8Snfbuj2HP8zxNbxTlIvlks1t6KPa+SsUih3YntXptWmGs4ouZVEvEsuMOsOKJwzK1nycAaG3LDCbuPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
+ bh=P6ZrUb22burVSUKNy57tvHG3cx695UgynvFf7erlMfA=;
+ b=gK1N9+zs4MaH1+eIGIUgv/L8Bs+x5ItVhLKwSJG039cLunuKngJXKk2JWy0EBIz+wdoCsItfKxuY9WIwt1u4IHmLHhD+M+OsFrThrwWlkDcPX8ieIr/j3VVOB1luOrm4+v59OSPQI/VDmiSeUWNusB7kbCjAQR9ZQR9ftumyMecJ+sBH79LCNZDiHq1lwk+6uLcbXTHfgL2dFT3Gi5wjeeGMWgn5fzs5YNTv0/lJReRQewC+67hYgDH/hbwv53rv+kwBKRPqqsfpw5ri4lj5hy+baF+Yurb/lZDffSpDa7O6icM1LJqB/Otxldg8jf/Mz48NLKHgOqdp3n+P7ywNMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bug8cDQ7ep0eULDmXuFD5tjgNFtvu+WaP1h6K1fjGv8=;
- b=f9eu0B6n0w3UMj79uxAepE4bjNcRzZPJue11DN+557lSPSMY+XxnGxIbjJNF304WWuur1z+hidITosxT7TwZ05sHmnzCWX9jQLaE2XYAwxSUoDY3U8ZPLjf2UELATv//4pcNJ1RfsJf28eHmVxboe0Jp7LYYD8dbK/SxPDacSqzXAF2M4iuAV5FIS6wQsinoAaGzoMpZbl09ftkERKrMFrgYJu5bQhI11FcElkBXEiECXYq93/dRSBx11LEYFruZYImyOkMQlUSmiuYMHBAfatCWPO5XTGo+LRcAocNisp2ERUqst4cb5ObdNKgQ67h2zx6xEqtNcBOrfu86dy31tw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- IA1PR12MB6354.namprd12.prod.outlook.com (2603:10b6:208:3e2::11) with
+ bh=P6ZrUb22burVSUKNy57tvHG3cx695UgynvFf7erlMfA=;
+ b=X1ES2uCokVdBBw1BF0jK7sMo9H9AAG5qy7DD+UqHp7zwNsRUeeyXgR7T2vDDQV0fpXz4GQuJ1i4AYGxp139CaRjIYvlskbkjNDEodz7f578YIBqzJvCYtX41Lp5H4hFzPXLkOblvHJNb63n5M4fZBc46qRnTKAwGUeMl5v7ofCrucsTB2IzCO3wVt5wf59hpcsOqT7hBoHC8VSKIeIocoPnUpTOhPQbDUOCb9tnUES/hg+MEtdx8OykRC05cAjSeGjS+9HC5yEXpu7Xo0kHHWEXozNkffQPXhH/tGmy3JMmsdANl/3R297qgHSNr4qQ3cUphHZvgUrFM+1fzjnlqXA==
+Received: from MN2PR16CA0015.namprd16.prod.outlook.com (2603:10b6:208:134::28)
+ by PH7PR12MB9256.namprd12.prod.outlook.com (2603:10b6:510:2fe::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.20; Mon, 24 Feb
- 2025 21:23:16 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
- 21:23:16 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- cgroups@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Muchun Song <muchun.song@linux.dev>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
-Subject: Re: [PATCH v2 16/20] fs/proc/page: remove per-page mapcount
- dependency for /proc/kpagecount (CONFIG_NO_PAGE_MAPCOUNT)
-Date: Mon, 24 Feb 2025 16:23:14 -0500
-X-Mailer: MailMate (2.0r6222)
-Message-ID: <30C2A030-7438-4298-87D8-287BED1EA473@nvidia.com>
-In-Reply-To: <567b02b0-3e39-4e3c-ba41-1bc59217a421@redhat.com>
-References: <20250224165603.1434404-1-david@redhat.com>
- <20250224165603.1434404-17-david@redhat.com>
- <D80YSXJPTL7M.2GZLUFXVP2ZCC@nvidia.com>
- <8a5e94a2-8cd7-45f5-a2be-525242c0cd16@redhat.com>
- <9010E213-9FC5-4900-B971-D032CB879F2E@nvidia.com>
- <567b02b0-3e39-4e3c-ba41-1bc59217a421@redhat.com>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: MN2PR11CA0012.namprd11.prod.outlook.com
- (2603:10b6:208:23b::17) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+ 2025 21:31:30 +0000
+Received: from BL02EPF0001A0FC.namprd03.prod.outlook.com
+ (2603:10b6:208:134:cafe::2f) by MN2PR16CA0015.outlook.office365.com
+ (2603:10b6:208:134::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.20 via Frontend Transport; Mon,
+ 24 Feb 2025 21:31:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BL02EPF0001A0FC.mail.protection.outlook.com (10.167.242.103) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8489.16 via Frontend Transport; Mon, 24 Feb 2025 21:31:30 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 24 Feb
+ 2025 13:31:14 -0800
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 24 Feb
+ 2025 13:31:13 -0800
+Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com (10.129.68.6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Mon, 24 Feb 2025 13:31:12 -0800
+Date: Mon, 24 Feb 2025 13:31:11 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Pranjal Shrivastava <praan@google.com>
+CC: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
+	<will@kernel.org>, <joro@8bytes.org>, <suravee.suthikulpanit@amd.com>,
+	<robin.murphy@arm.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+	<shuah@kernel.org>, <linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <eric.auger@redhat.com>,
+	<jean-philippe@linaro.org>, <mdf@kernel.org>, <mshavit@google.com>,
+	<shameerali.kolothum.thodi@huawei.com>, <smostafa@google.com>,
+	<ddutile@redhat.com>, <yi.l.liu@intel.com>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v7 12/14] iommu/arm-smmu-v3: Introduce struct
+ arm_smmu_vmaster
+Message-ID: <Z7zlH74/orq9HF7Q@Asurada-Nvidia>
+References: <cover.1740238876.git.nicolinc@nvidia.com>
+ <be799951a817557ac093ac3e18d02a631306aa35.1740238876.git.nicolinc@nvidia.com>
+ <Z7zYLBLZGKim-5UL@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Z7zYLBLZGKim-5UL@google.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|IA1PR12MB6354:EE_
-X-MS-Office365-Filtering-Correlation-Id: 96df20c6-f2b9-463b-fb59-08dd55197420
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FC:EE_|PH7PR12MB9256:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69e6464b-7925-41d5-dd63-08dd551a9a4f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007;
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|7416014|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?KC/5vZGFIibSGxYZKLc5veAA9v/QbAkAsTCeYRYpvYtJOMJBciF068ODB38/?=
- =?us-ascii?Q?8V7Jj4NYvtfd/SFVoJ8VrC9nuJu0cN0Kh4SyWGCuJhzg86iCnpsfkMwuzhDr?=
- =?us-ascii?Q?sWA1JzlkL6HDL0xImUsrTH1+tcNgTB1XfX2gAc1gjh2x2RHQ4YPCa0jtR89x?=
- =?us-ascii?Q?KTHihQ3B383v/bJAl3/Pqk57V+M8ZCJh5OXIuUWZit9kvIISSYwRN4iqmBNL?=
- =?us-ascii?Q?+ZAfkkEfeZqNJzOMF0hZb5sCz3JVRtyiFtmRJoiMXmnjt74pSENLxym/lmo8?=
- =?us-ascii?Q?cKxavKqKA1I4UY+KLN7pIhfzH+iTGu9QySrObBH4ZBZIjl4L7xK63cM5w3aG?=
- =?us-ascii?Q?8CpTykg6hH/sQVu2L0Oeasfc09hYXOpMHH/OkwZVXlf7CrIYV1Y/004zhQU5?=
- =?us-ascii?Q?psLwjOmTPHrt12mlfAGmbQSMxjutRC8G9gUhXc6jf5Oxueqf1PmI1yrre2g+?=
- =?us-ascii?Q?gYlI1IHIm+6VjYZZzUjoGzq0/riV/0XSHsa4h3ULft2Se8esKrKRe0tjSWy6?=
- =?us-ascii?Q?E6IGLYyczbELf1OKH27plbePWX6tynUIXWqAhGymt6Mh9BjgLPvFpgm6k7Oy?=
- =?us-ascii?Q?+dBBxEe5MEHC3/yA7NxXvakN9htZJMxablwQgRMmSGdLAGQrzyHLLfWSn1kA?=
- =?us-ascii?Q?TcGH4w8Jd6QW58181IDTtHk/Y/NDvG2lK8AUcuAY8hGrDh27qQrCNytBRfGN?=
- =?us-ascii?Q?yjcUcGR2fkdQYlNVc3LBG2eK9Mm6VhH2HXmv2ghr+zS+TiqAML5Ck5srF0hm?=
- =?us-ascii?Q?UXYTflqAFJkE5Bz3hmJhs81bULXzOUUrgkA23ZVFnuyG2PUKwRVIH+GbdGRp?=
- =?us-ascii?Q?tY+jP3TzwwlYv17OFlJt5gY+wvl1LG9rVAJA81k2NPD0FU2zmd9uVzcAklgw?=
- =?us-ascii?Q?DW4ZOfcV7+aBiGHaTBkP4qUOEoOxUSAKLDihHEanWcPIFQrQd3kEqWzoOGOu?=
- =?us-ascii?Q?wfuqs+9oDS5yHs3dwJWLKb90PS8/It/9My4JBOQWbfGWgxMDlLEf5BnUljpD?=
- =?us-ascii?Q?AJjowTp6SpJKp70Jk/FvSdGiAHtQgcl6uBOFWDCEq0dTxkR6XgPdXE5qwK/+?=
- =?us-ascii?Q?k8PNbcu4e24eOXV/alLArsB0GWt58GxnVe3CJpjTwgJbrwQCEv8kEpQbiND2?=
- =?us-ascii?Q?/QhPGU7SDjKdjbpb8IDUvQKCr8hOFiBmEK6PdO3yLfHMMIH0vcKISHeZOcWU?=
- =?us-ascii?Q?Mfj0MjF4E2WcuF7bkFItXBTJ/tLX4wi04aXlJ7afoOOcS+BsMwkqQ1MUA+A4?=
- =?us-ascii?Q?VU5LFXlRD5J8wLF63J0tHGBOttWQQIvx/RfNjpXcs3u8gT/x6YSalQa50J9/?=
- =?us-ascii?Q?VEqHkDdQ1PlYYgga4y5AYL4i2bUDlu0SUolAA/Rr45HcSwecQ+iquiKZCoRV?=
- =?us-ascii?Q?BFp6G/Rp1HlDxrtamnN1eiy08/cT?=
+	=?us-ascii?Q?NMM33Cb1mljFXv85AhXR/JU9o7eHy3+8+mxC8L48gBHyfln1AKy+6pH+2HAf?=
+ =?us-ascii?Q?ggwQQOOTqRYTr+zE8wkUObDJaAPhdlggd3HHMiYgNF29tVqJIfI6ZnvB2CJF?=
+ =?us-ascii?Q?SA2OHz46K7zfNn2W3WOjECfgpO3HbZqacs+atd/Q7FlVL1BzYgzDeryBFDJ3?=
+ =?us-ascii?Q?FbbocTP5aVhXgqeOVwQkgFIbBE4hXEt1sFro/sB3/OJ5yb+W7VSIiWtD5EW7?=
+ =?us-ascii?Q?70Lb7gUOFcv7eEYZ9IG+W2ujP520J2e/goMQRJ+THq0enJXt8zJcXx/g2LWN?=
+ =?us-ascii?Q?xYRvgEmLwCXdigs/pbMFWPkQICQAYubUlZUMZ/mCS3ehdOgZYtRVt3GH8/Vk?=
+ =?us-ascii?Q?TJ5kvDTmhbEuRx115XA33QLyy/B4eXbZYrMmyyGlUPzf5rTt12pqvd/INsGL?=
+ =?us-ascii?Q?RMvyCu+rdKyibh1qEkJNtWHDZmDu8a2X1PQjxn5xDljD86zRUxoc3c84Vtco?=
+ =?us-ascii?Q?7OCrWP6lOp1ch3sYN0enLFc6qg2LwnSnTGgjQzhH7HJ0tFYOg+gl3yLkm96v?=
+ =?us-ascii?Q?3WbGxIBZjGJ/Z6yklE1rQ1FvsJyFnEQRITrfyiPVcvCXEcZnUTGOKjXhE8jA?=
+ =?us-ascii?Q?tkecnRBoonvNSMhRQ40HxujJ/fzP0OrWNhWVXSwLE6hB2oB989xs6/TgXODA?=
+ =?us-ascii?Q?56fOPrJbQXEx9eJWrr6PsJST811PPJ1kavZnqxaez1Fm8P2pTd98S1QqEFdy?=
+ =?us-ascii?Q?Ownla04RFP1EU7IAK5Pqz5wyywA43e4sbrhvn/5zkretJddmGqhRk124Wkki?=
+ =?us-ascii?Q?cPsqapUFFOuh63zmAKj4DpoXlN657Akjv7uhmeL4dtr3IC0znCo6fY2aVoej?=
+ =?us-ascii?Q?qb1BjZjE/uGbWVoMlwan3GnLhzvwOeNaPQgXvi8Z95lk82HMVOIFPBsCwspt?=
+ =?us-ascii?Q?cJdjop2iSakDIgL+V2uIk/+02qLE/YO7q4OQ9rqGEIQO6Tir7pkVtR8qUgPV?=
+ =?us-ascii?Q?D+HfJTPjVPfS2DeGOfkKgMZ362z5us7SiJlHLWw6KQORGG2XWvtUfRX8Q8EI?=
+ =?us-ascii?Q?8Apo6RxxBagCu65ozPDxNR1CpTHsc+mIPqzl/L1JQQC1If0pDzRRRqafDfqb?=
+ =?us-ascii?Q?8DwD68AIafxXQHWloMJ/7Bp/TZemIfweS/cwV4RDqqHJqASuycuc1P4KSqXz?=
+ =?us-ascii?Q?W0+prIzXtzzvJqJ4yR1Vn8ymUB2kMAu/I/d53tI0DywwRXq0KPV2yyup1ke+?=
+ =?us-ascii?Q?B9W9vcIc0H1PsFh0AyDkuTknvbUhO0czxSOE+5mSAB8NjwcRzdNJtZ7u+GTx?=
+ =?us-ascii?Q?5sawysJlhFKoZVZth8xF4xuEjAXhVFmBejS5Y5rTBOA0ezXLU4BI2iJFxev1?=
+ =?us-ascii?Q?zcCuSbuViQNF/QGs+hJHYxaH6FJnC7yeK3Xh14QxcioNVc/0WN61/k/NxotA?=
+ =?us-ascii?Q?k0GT9msAZa5WTAumdwSlkmQ4oP7rlBBvLJyQ+HMDDFcdZi7hNvhPbAbDPjra?=
+ =?us-ascii?Q?v8Hqg9qMzEPlRfX6FyEpDeGFrwRX5sFuijNtLHhXkeZonpcZTZSz1ZFCKuYo?=
+ =?us-ascii?Q?a5s7WtM08z6rKZI=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xgSbEeGyu58OcV/G5qx3Rwgu8RqiSQbFGWc5Co8h7PFDbqwqtquH7XCFRuYG?=
- =?us-ascii?Q?Tv5oCw/FXaZD5+So9ZOjY6WRTRVzf9oABVK3Ne6NFN8OMhw98g19707ZsUZb?=
- =?us-ascii?Q?eLO+uTjctOpAuVo/e7eupfmnxoUuVRcm/gXcntEj+zInIH0fzMBG7OOxPrQE?=
- =?us-ascii?Q?U/W9jhI0d7vA1/6nEd8vgNKGFxlit0imih4nXlewBBqbkPLJYivoCqhtUV8z?=
- =?us-ascii?Q?Z4xlb174bDIMLMNpZQlrVQYv2Efx6bZyG1myi/O16isax7SKrBL5xY/SnRSo?=
- =?us-ascii?Q?5eOQ3GE2X4ZkThV4kRl5yBRa/TmWKkVMasGdPvReYK0gDV+zzRbC76cbJJJ0?=
- =?us-ascii?Q?9Mx0hMkRjkRNEbn6SC5zXkGYhT6hRp7+6wQwF6m1vkIs74ymgueKyJN1XMSc?=
- =?us-ascii?Q?zR05WNjSOaqX7ka+Y4+LFRqYvGePVzWClEEthbkhofzzu2N2XK0QRCPinPKU?=
- =?us-ascii?Q?WOXwV637OG37qLvfyiJMCZpHGKbNIQ1RCPvupKYEUL2oy/Lvbw0sM+19JFel?=
- =?us-ascii?Q?uqUm3MnoCSDr70kvP0J8HTlqaL6akEkoR9R3dBqMGlo71KdF06glCaVJ/Bkq?=
- =?us-ascii?Q?bRJ+Y7Mg9uZWesWiWswGojRWoSHDkw09d/p2L5YlJm4n22oBip+wYu8QDput?=
- =?us-ascii?Q?mhQvucfObC9o9OBsEmNHlsjz3GKQQkLGQmP7np8uBCMTgYnSVqvhCtIyBI2I?=
- =?us-ascii?Q?hArkizaxL+n8KfmBDa5rvPPwRR19Vqs0YS1k5b7WMvLDnVXGvjF1YmSPbWB0?=
- =?us-ascii?Q?svh64WZdUOa/tyCX34r7NmTRYAh4+6CZvQXSA56pZNR57gkTLeFn9rUWwYsh?=
- =?us-ascii?Q?7IF75zw5EpuPAeCupns0f/F9+BB7NaePgZfIF7rEnMkTMUm/T1o7hltJVmSe?=
- =?us-ascii?Q?/KMBtDVPwZdvrFE++yoPZ98uIqJe36hJ07oRytEj59v7g5VaNPI31UlAux9w?=
- =?us-ascii?Q?CmYcqOOhWHSCAXfb+gKsG9h769Z7Dxzj7ZZWHQATETKUhq2nRse+lAwI6DeO?=
- =?us-ascii?Q?1EJjz5wSFDcFTwQUm5IahB5F/ymiSXal0hW9vNYlrL+3/kOU/Q/BzU0xWEtB?=
- =?us-ascii?Q?k9ubh6Bi86P0TiHXbFySOG3FA5yb9y9HHLWdO/EwR85ifEVrhihWnMilAXcs?=
- =?us-ascii?Q?KfXPPlXLpSw3f0bhlmJaXSEGzWV9fdqretnRnSHdr3RF4xKtK1sxjb7vZ8Z8?=
- =?us-ascii?Q?uxkv6fMbZsaJQo6xFJDGijW7i4peN/UbCwXd6s/MnT4JIlf3RpKAZHF5/lQN?=
- =?us-ascii?Q?HqCloCFx/FY18d52ioAU0H22ZE/NjuHFdhwNd7c67A3LX6xOI+WM4LE3ln0H?=
- =?us-ascii?Q?q/BqfWDq9U7UT10amoNySC4yEwTEIeGHEnYK0rNHcl863nHV/zmSk4lvXXVN?=
- =?us-ascii?Q?flA7dCcw6zihxQQCUZz1j/adgS5BTTaiZi9GgIBlTWrK0C69NsXtPjIumRRu?=
- =?us-ascii?Q?jDrp3hBu7/wDsKvEUC/Pzo8ldV+rXJa2fqmm8EuMr4Zub1Mu4lLV4DTRMzlq?=
- =?us-ascii?Q?B3SABJI1JoPXF/DjGY/45ZO3DC1Pr0FWqlxQpkaUbFyjJ6HnB5XLG5k5ZDtt?=
- =?us-ascii?Q?eheOLxUPbG/CfN3UHlaJ+6GmbGIndnXi13Hj6vXV?=
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96df20c6-f2b9-463b-fb59-08dd55197420
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 21:23:16.8417
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 21:31:30.0883
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69e6464b-7925-41d5-dd63-08dd551a9a4f
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z87/DJuvwnaKud1+LUHoDHdaJZkxzLzaa9azKd85rlJ7I4cUwLhZCvDvkBDoWiFr
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6354
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0001A0FC.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9256
 
-On 24 Feb 2025, at 16:15, David Hildenbrand wrote:
+On Mon, Feb 24, 2025 at 08:35:56PM +0000, Pranjal Shrivastava wrote:
+> oN sAt, Feb 22, 2025 at 07:54:09AM -0800, Nicolin Chen wrote:
+> > diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
+> > index 5aa2e7af58b4..364d8469a480 100644
+> > --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
+> > +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
+> > @@ -85,6 +85,59 @@ static void arm_smmu_make_nested_domain_ste(
+> >  	}
+> >  }
+> >  
+> > +int arm_smmu_attach_prepare_vmaster(struct arm_smmu_attach_state *state,
+> > +				    struct iommu_domain *domain)
+> > +{
+> > +	struct arm_smmu_nested_domain *nested_domain;
+> > +	struct arm_smmu_vmaster *vmaster;
+> > +	unsigned long vsid;
+> > +	int ret;
+> > +
+> > +	iommu_group_mutex_assert(state->master->dev);
+> > +
+> > +	if (domain->type != IOMMU_DOMAIN_NESTED)
+> > +		return 0;
+> > +	nested_domain = to_smmu_nested_domain(domain);
+> > +
+> > +	/* Skip invalid vSTE */
+> > +	if (!(nested_domain->ste[0] & cpu_to_le64(STRTAB_STE_0_V)))
+> > +		return 0;
+> > +
+> > +	ret = iommufd_viommu_get_vdev_id(&nested_domain->vsmmu->core,
+> > +					 state->master->dev, &vsid);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	vmaster = kzalloc(sizeof(*vmaster), GFP_KERNEL);
+> > +	if (!vmaster)
+> > +		return -ENOMEM;
+> > +	vmaster->vsmmu = nested_domain->vsmmu;
+> > +	vmaster->vsid = vsid;
+> > +	state->vmaster = vmaster;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +void arm_smmu_attach_commit_vmaster(struct arm_smmu_attach_state *state)
+> > +{
+> > +	struct arm_smmu_master *master = state->master;
+> > +
+> > +	mutex_lock(&master->smmu->streams_mutex);
+> > +	if (state->vmaster != master->vmaster) {
+> > +		kfree(master->vmaster);
+> > +		master->vmaster = state->vmaster;
+> > +	}
+> 
+> Does this condition suggest that we might end up calling
+> `arm_smmu_attach_prepare_vmaster()` multiple times before __actually__
+> commiting to a vmaster?
 
-> On 24.02.25 22:10, Zi Yan wrote:
->> On 24 Feb 2025, at 16:02, David Hildenbrand wrote:
->>
->>> On 24.02.25 21:40, Zi Yan wrote:
->>>> On Mon Feb 24, 2025 at 11:55 AM EST, David Hildenbrand wrote:
->>>>> Let's implement an alternative when per-page mapcounts in large fol=
-ios
->>>>> are no longer maintained -- soon with CONFIG_NO_PAGE_MAPCOUNT.
->>>>>
->>>>> For large folios, we'll return the per-page average mapcount within=
- the
->>>>> folio, except when the average is 0 but the folio is mapped: then w=
-e
->>>>> return 1.
->>>>>
->>>>> For hugetlb folios and for large folios that are fully mapped
->>>>> into all address spaces, there is no change.
->>>>>
->>>>> As an alternative, we could simply return 0 for non-hugetlb large f=
-olios,
->>>>> or disable this legacy interface with CONFIG_NO_PAGE_MAPCOUNT.
->>>>>
->>>>> But the information exposed by this interface can still be valuable=
-, and
->>>>> frequently we deal with fully-mapped large folios where the average=
+No. prepare() and commit() are 1:1. How is it interpreted to have
+"multiple times"?
 
->>>>> corresponds to the actual page mapcount. So we'll leave it like thi=
-s for
->>>>> now and document the new behavior.
->>>>>
->>>>> Note: this interface is likely not very relevant for performance. I=
-f
->>>>> ever required, we could try doing a rather expensive rmap walk to c=
-ollect
->>>>> precisely how often this folio page is mapped.
->>>>>
->>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>>> ---
->>>>>    Documentation/admin-guide/mm/pagemap.rst |  7 +++++-
->>>>>    fs/proc/internal.h                       | 31 ++++++++++++++++++=
-++++++
->>>>>    fs/proc/page.c                           | 19 ++++++++++++---
->>>>>    3 files changed, 53 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentati=
-on/admin-guide/mm/pagemap.rst
->>>>> index caba0f52dd36c..49590306c61a0 100644
->>>>> --- a/Documentation/admin-guide/mm/pagemap.rst
->>>>> +++ b/Documentation/admin-guide/mm/pagemap.rst
->>>>> @@ -42,7 +42,12 @@ There are four components to pagemap:
->>>>>       skip over unmapped regions.
->>>>>      * ``/proc/kpagecount``.  This file contains a 64-bit count of =
-the number of
->>>>> -   times each page is mapped, indexed by PFN.
->>>>> +   times each page is mapped, indexed by PFN. Some kernel configur=
-ations do
->>>>> +   not track the precise number of times a page part of a larger a=
-llocation
->>>>> +   (e.g., THP) is mapped. In these configurations, the average num=
-ber of
->>>>> +   mappings per page in this larger allocation is returned instead=
-=2E However,
->>>>> +   if any page of the large allocation is mapped, the returned val=
-ue will
->>>>> +   be at least 1.
->>>>>     The page-types tool in the tools/mm directory can be used to qu=
-ery the
->>>>>    number of times a page is mapped.
->>>>> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
->>>>> index 1695509370b88..16aa1fd260771 100644
->>>>> --- a/fs/proc/internal.h
->>>>> +++ b/fs/proc/internal.h
->>>>> @@ -174,6 +174,37 @@ static inline int folio_precise_page_mapcount(=
-struct folio *folio,
->>>>>    	return mapcount;
->>>>>    }
->>>>>   +/**
->>>>> + * folio_average_page_mapcount() - Average number of mappings per =
-page in this
->>>>> + *				   folio
->>>>> + * @folio: The folio.
->>>>> + *
->>>>> + * The average number of present user page table entries that refe=
-rence each
->>>>> + * page in this folio as tracked via the RMAP: either referenced d=
-irectly
->>>>> + * (PTE) or as part of a larger area that covers this page (e.g., =
-PMD).
->>>>> + *
->>>>> + * Returns: The average number of mappings per page in this folio.=
- 0 for
->>>>> + * folios that are not mapped to user space or are not tracked via=
- the RMAP
->>>>> + * (e.g., shared zeropage).
->>>>> + */
->>>>> +static inline int folio_average_page_mapcount(struct folio *folio)=
+> > +	mutex_unlock(&master->smmu->streams_mutex);
+> > +}
+> > +
+> > +void arm_smmu_master_clear_vmaster(struct arm_smmu_master *master)
+> > +{
+> > +	mutex_lock(&master->smmu->streams_mutex);
+> > +	kfree(master->vmaster);
+> > +	master->vmaster = NULL;
+> > +	mutex_unlock(&master->smmu->streams_mutex);
+> > +}
+> > +
+> >  static int arm_smmu_attach_dev_nested(struct iommu_domain *domain,
+> >  				      struct device *dev)
+> >  {
+> > diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> > index 358072b4e293..9e50bcee69d1 100644
+> > --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> > +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> > @@ -2803,6 +2803,7 @@ int arm_smmu_attach_prepare(struct arm_smmu_attach_state *state,
+> >  	struct arm_smmu_domain *smmu_domain =
+> >  		to_smmu_domain_devices(new_domain);
+> >  	unsigned long flags;
+> > +	int ret;
+> >  
+> >  	/*
+> >  	 * arm_smmu_share_asid() must not see two domains pointing to the same
+> > @@ -2832,9 +2833,15 @@ int arm_smmu_attach_prepare(struct arm_smmu_attach_state *state,
+> >  	}
+> >  
+> >  	if (smmu_domain) {
+> > +		ret = arm_smmu_attach_prepare_vmaster(state, new_domain);
+> 
+> IMO, this adds a little confusion for folks not using iommufd.
+> 
+> I guess it'd be cleaner if we invoke this below within the:
+> `if (new_domain->type == IOMMU_DOMAIN_NESTED)` condition instead of
+> simply returning from the function if the new_domain->type isn't NESTED.
 
->>>>> +{
->>>>> +	int mapcount, entire_mapcount;
->>>>> +	unsigned int adjust;
->>>>> +
->>>>> +	if (!folio_test_large(folio))
->>>>> +		return atomic_read(&folio->_mapcount) + 1;
->>>>> +
->>>>> +	mapcount =3D folio_large_mapcount(folio);
->>>>> +	entire_mapcount =3D folio_entire_mapcount(folio);
->>>>> +	if (mapcount <=3D entire_mapcount)
->>>>> +		return entire_mapcount;
->>>>> +	mapcount -=3D entire_mapcount;
->>>>> +
->>>>> +	adjust =3D folio_large_nr_pages(folio) / 2;
->>>
->>> Thanks for the review!
->>>
->>>>
->>>> Is there any reason for choosing this adjust number? A comment might=
- be
->>>> helpful in case people want to change it later, either with some rea=
-soning
->>>> or just saying it is chosen empirically.
->>>
->>> We're dividing by folio_large_nr_pages(folio) (shifting by folio_larg=
-e_order(folio)), so this is not a magic number at all.
->>>
->>> So this should be "ordinary" rounding.
->>
->> I thought the rounding would be (mapcount + 511) / 512.
->
-> Yes, that's "rounding up".
->
->> But
->> that means if one subpage is mapped, the average will be 1.
->> Your rounding means if at least half of the subpages is mapped,
->> the average will be 1. Others might think 1/3 is mapped,
->> the average will be 1. That is why I think adjust looks like
->> a magic number.
->
-> I think all callers could tolerate (or benefit) from folio_average_page=
-_mapcount() returning at least 1 in case any page is mapped.
->
-> There was a reason why I decided to round to the nearest integer instea=
-d.
->
-> Let me think about this once more, I went back and forth a couple of ti=
-mes on this.
+But the arm_smmu_attach_commit_vmaster() still has to be
+unconditional as !NESTED domain should clean the vamster away..
 
-Sure. Your current choice might be good enough for now. My intend of
-adding a comment here is just to let people know the adjust can be
-changed in the future. :)
-
-
-Best Regards,
-Yan, Zi
+Nicolin
