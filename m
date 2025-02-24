@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D065B24A066;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF8924A04E;
 	Mon, 24 Feb 2025 09:09:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740388143; cv=none; b=b8+EA7rm8izNn34gP5YNDh7CpsNcdhs+hwMYd8EYOkwy4JBURy2ATv7wPtCE8Up2Dix6uCJ0M6mNSs6h6x3lWcfEI5dik7l4CTpPgQ1+ez9Q1fnmu+zYWv3Odh18oipM4Fj9yyDGP8wcGiURZ5+NtVOzeBLH0JSbJdHjeahrFr0=
+	t=1740388143; cv=none; b=ZPRUPh6RCCaLPrK1LQ2RDslRdfNf2y9WAqg7qVey3YPPumA1W9xyGh2W+rHOncu1fBWj9yH0+EVJiqyy5fBBg2h2unrErrVhWj23BgjxRcbNMJ7sk2LQjprivQGI3cSx01Vg93Yh6ZC2s+wD/W+p1G4hjhQTeFNIB1QTWE7CoAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1740388143; c=relaxed/simple;
-	bh=+233tNh0yGNXfYZxQx+uxFiZ7ugw73yF3W1jWprPI1A=;
+	bh=2to40pLeg8q0+VRpVnj4qXIaza6aM03uTe1Bu/KQtIo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hbEUk0TfUaXfRkCSpKh7lRDmIqSkOj/3llBeOZmpPiyZOidxofJhqqkhgJT20unX9Fi8MFTVvcigldAfvCDlztvKRsTQtzMBc96Gatx1y1x3Qnwz4L8AnvNt9rORkW000/V8o0himmS0wbN7fWna0HHFmWq2U+2un0ZCislGXmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ao+6ySxy; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=u9q6CvFVWtndt530iLM3yazInw6KUUIBTpEJLeWmo14FEsj784mFFzHA//c9bthCowxd7cCiLRbu3KI5PbxJWGK8+Nh0P5Vvnw9zCuKPTud80xRTHek5Yxu5VFS/6R94KcANvm8TNXHKagzej74PZbbV5lcenG+FeMlhDrJWYKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kbzxkpIl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ao+6ySxy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0096FC113CF;
-	Mon, 24 Feb 2025 09:09:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kbzxkpIl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9606C4CEFA;
+	Mon, 24 Feb 2025 09:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1740388143;
-	bh=+233tNh0yGNXfYZxQx+uxFiZ7ugw73yF3W1jWprPI1A=;
+	bh=2to40pLeg8q0+VRpVnj4qXIaza6aM03uTe1Bu/KQtIo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ao+6ySxy2zzGXgZD5+bRUiuFjIt4gIU67lH3Cnkw2+Hgzm2kHOClv7YkHaKyKuatd
-	 YPMfrjhEKuztSCohG59M4AxWSr2xNHwyB7O4hhWCiVbogD31ZyeKgLZ0MwaCzcwYFF
-	 16q3a3aK/5k89B0pXIC+jZpMTL52tnPBZU1gXtwoytF3OfKhRSdb86qdeUZhyJmsQB
-	 wPH31iLtnc4RifEPHc3P7T9PjCRZHrxtM2UCz89lTmM+1ianlvJz4V02oPvzWcV+/F
-	 yHL2pIHi9i2pOt9Sk2P/E/PZeJqTR4SDL5Mnz5iTaG1RnPcTwt+GyEVMvNISXGrk5T
-	 q0s8rhHAMerNA==
+	b=kbzxkpIl2YAxrMBEIRj9dDBT5nYy4iHyG2gAOsC1LYNfGnarih3L4Dv4UE7iF/YlJ
+	 vESgy27JopNcQUSF6FpbEI0nGVnaiJ/quFGV309RP0b2Dizd0VRmTCY3GX5REL/EAv
+	 DZ6fYmyA78xcehuIBcWVovc8dL8ydIOZMa2lqUFcH4rseqVm7y7q4j18yxqWQb1rEd
+	 DYf/n3m3JbR0Ltaxk5Iu65H5HKpiKo4f8+P9aFV7FJvoLS982DNc8XaHspXxS8GuJ6
+	 hiJTLVSASwi1La3cg73Cn7VWLTL2o/U8bqpdyQ//oV9aol0n5OtR8i7UU67zSYYb7m
+	 z6B4r5lNlLk1A==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tmUST-00000003p4W-15Mq;
+	id 1tmUST-00000003p4G-0bAo;
 	Mon, 24 Feb 2025 10:09:01 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,9 +36,9 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 17/39] scripts/kernel-doc.py: convert message output to an interactor
-Date: Mon, 24 Feb 2025 10:08:23 +0100
-Message-ID: <2b5ecc8328cdb8a37e7ff084dae89a82a532e49a.1740387599.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 13/39] scripts/kernel-doc.py: move regex methods to a separate file
+Date: Mon, 24 Feb 2025 10:08:19 +0100
+Message-ID: <c57e97b6f4bc4c743c56ea529a501f494efa5cb1.1740387599.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1740387599.git.mchehab+huawei@kernel.org>
 References: <cover.1740387599.git.mchehab+huawei@kernel.org>
@@ -51,531 +51,533 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Instead of directly printing output messages, change kdoc classes
-to return an interactor with the output message, letting the
-actual display to happen at the command-line command.
+In preparation for letting kerneldoc Sphinx extension to import
+Python libraries, move regex ancillary classes to a separate
+file.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc.py           |   9 +-
- scripts/lib/kdoc/kdoc_files.py  |  15 ++-
- scripts/lib/kdoc/kdoc_output.py | 171 ++++++++++++++++----------------
- 3 files changed, 104 insertions(+), 91 deletions(-)
+ scripts/kernel-doc.py       | 223 +----------------------------
+ scripts/lib/kdoc/kdoc_re.py | 272 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 277 insertions(+), 218 deletions(-)
+ create mode 100755 scripts/lib/kdoc/kdoc_re.py
 
 diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index 0596c711d448..6c3179a2da65 100755
+index 3decc94edb1e..faae66aa6ead 100755
 --- a/scripts/kernel-doc.py
 +++ b/scripts/kernel-doc.py
-@@ -208,9 +208,12 @@ def main():
+@@ -35,228 +35,15 @@ from pprint import pformat
  
-     kfiles.parse()
+ from dateutil import tz
  
--    kfiles.msg(enable_lineno=args.enable_lineno, export=args.export,
--               internal=args.internal, symbol=args.symbol,
--               nosymbol=args.nosymbol)
-+    for t in kfiles.msg(enable_lineno=args.enable_lineno, export=args.export,
-+                          internal=args.internal, symbol=args.symbol,
-+                          nosymbol=args.nosymbol):
-+        msg = t[1]
-+        if msg:
-+            print(msg)
+-# Local cache for regular expressions
+-re_cache = {}
++# Import Python modules
  
++LIB_DIR = "lib/kdoc"
++SRC_DIR = os.path.dirname(os.path.realpath(__file__))
  
- # Call main method
-diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
-index 76dd53611c08..434fc66a9dad 100755
---- a/scripts/lib/kdoc/kdoc_files.py
-+++ b/scripts/lib/kdoc/kdoc_files.py
-@@ -228,9 +228,10 @@ class KernelFiles():
+-class Re:
+-    """
+-    Helper class to simplify regex declaration and usage,
++sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
  
-     def out_msg(self, fname, name, arg):
-         """
--        Output messages from a file name using the output style filtering.
-+        Return output messages from a file name using the output style
-+        filtering.
+-    It calls re.compile for a given pattern. It also allows adding
+-    regular expressions and define sub at class init time.
++from kdoc_re import Re, NestedMatch
  
--        If output type was not handled by the syler, return False.
-+        If output type was not handled by the syler, return None.
-         """
+-    Regular expressions can be cached via an argument, helping to speedup
+-    searches.
+-    """
+-
+-    def _add_regex(self, string, flags):
+-        if string in re_cache:
+-            self.regex = re_cache[string]
+-        else:
+-            self.regex = re.compile(string, flags=flags)
+-
+-            if self.cache:
+-                re_cache[string] = self.regex
+-
+-    def __init__(self, string, cache=True, flags=0):
+-        self.cache = cache
+-        self.last_match = None
+-
+-        self._add_regex(string, flags)
+-
+-    def __str__(self):
+-        return self.regex.pattern
+-
+-    def __add__(self, other):
+-        return Re(str(self) + str(other), cache=self.cache or other.cache,
+-                  flags=self.regex.flags | other.regex.flags)
+-
+-    def match(self, string):
+-        self.last_match = self.regex.match(string)
+-        return self.last_match
+-
+-    def search(self, string):
+-        self.last_match = self.regex.search(string)
+-        return self.last_match
+-
+-    def findall(self, string):
+-        return self.regex.findall(string)
+-
+-    def split(self, string):
+-        return self.regex.split(string)
+-
+-    def sub(self, sub, string, count=0):
+-        return self.regex.sub(sub, string, count=count)
+-
+-    def group(self, num):
+-        return self.last_match.group(num)
+-
+-class NestedMatch:
+-    """
+-    Finding nested delimiters is hard with regular expressions. It is
+-    even harder on Python with its normal re module, as there are several
+-    advanced regular expressions that are missing.
+-
+-    This is the case of this pattern:
+-
+-            '\\bSTRUCT_GROUP(\\(((?:(?>[^)(]+)|(?1))*)\\))[^;]*;'
+-
+-    which is used to properly match open/close parenthesis of the
+-    string search STRUCT_GROUP(),
+-
+-    Add a class that counts pairs of delimiters, using it to match and
+-    replace nested expressions.
+-
+-    The original approach was suggested by:
+-        https://stackoverflow.com/questions/5454322/python-how-to-match-nested-parentheses-with-regex
+-
+-    Although I re-implemented it to make it more generic and match 3 types
+-    of delimiters. The logic checks if delimiters are paired. If not, it
+-    will ignore the search string.
+-    """
+-
+-    # TODO:
+-    # Right now, regular expressions to match it are defined only up to
+-    #       the start delimiter, e.g.:
+-    #
+-    #       \bSTRUCT_GROUP\(
+-    #
+-    # is similar to: STRUCT_GROUP\((.*)\)
+-    # except that the content inside the match group is delimiter's aligned.
+-    #
+-    # The content inside parenthesis are converted into a single replace
+-    # group (e.g. r`\1').
+-    #
+-    # It would be nice to change such definition to support multiple
+-    # match groups, allowing a regex equivalent to.
+-    #
+-    #   FOO\((.*), (.*), (.*)\)
+-    #
+-    # it is probably easier to define it not as a regular expression, but
+-    # with some lexical definition like:
+-    #
+-    #   FOO(arg1, arg2, arg3)
+-
+-
+-    DELIMITER_PAIRS = {
+-        '{': '}',
+-        '(': ')',
+-        '[': ']',
+-    }
+-
+-    RE_DELIM = re.compile(r'[\{\}\[\]\(\)]')
+-
+-    def _search(self, regex, line):
+-        """
+-        Finds paired blocks for a regex that ends with a delimiter.
+-
+-        The suggestion of using finditer to match pairs came from:
+-        https://stackoverflow.com/questions/5454322/python-how-to-match-nested-parentheses-with-regex
+-        but I ended using a different implementation to align all three types
+-        of delimiters and seek for an initial regular expression.
+-
+-        The algorithm seeks for open/close paired delimiters and place them
+-        into a stack, yielding a start/stop position of each match  when the
+-        stack is zeroed.
+-
+-        The algorithm shoud work fine for properly paired lines, but will
+-        silently ignore end delimiters that preceeds an start delimiter.
+-        This should be OK for kernel-doc parser, as unaligned delimiters
+-        would cause compilation errors. So, we don't need to rise exceptions
+-        to cover such issues.
+-        """
+-
+-        stack = []
+-
+-        for match_re in regex.finditer(line):
+-            start = match_re.start()
+-            offset = match_re.end()
+-
+-            d = line[offset -1]
+-            if d not in self.DELIMITER_PAIRS:
+-                continue
+-
+-            end = self.DELIMITER_PAIRS[d]
+-            stack.append(end)
+-
+-            for match in self.RE_DELIM.finditer(line[offset:]):
+-                pos = match.start() + offset
+-
+-                d = line[pos]
+-
+-                if d in self.DELIMITER_PAIRS:
+-                    end = self.DELIMITER_PAIRS[d]
+-
+-                    stack.append(end)
+-                    continue
+-
+-                # Does the end delimiter match what it is expected?
+-                if stack and d == stack[-1]:
+-                    stack.pop()
+-
+-                    if not stack:
+-                        yield start, offset, pos + 1
+-                        break
+-
+-    def search(self, regex, line):
+-        """
+-        This is similar to re.search:
+-
+-        It matches a regex that it is followed by a delimiter,
+-        returning occurrences only if all delimiters are paired.
+-        """
+-
+-        for t in self._search(regex, line):
+-
+-            yield line[t[0]:t[2]]
+-
+-    def sub(self, regex, sub, line, count=0):
+-        """
+-        This is similar to re.sub:
+-
+-        It matches a regex that it is followed by a delimiter,
+-        replacing occurrences only if all delimiters are paired.
+-
+-        if r'\1' is used, it works just like re: it places there the
+-        matched paired data with the delimiter stripped.
+-
+-        If count is different than zero, it will replace at most count
+-        items.
+-        """
+-        out = ""
+-
+-        cur_pos = 0
+-        n = 0
+-
+-        found = False
+-        for start, end, pos in self._search(regex, line):
+-            out += line[cur_pos:start]
+-
+-            # Value, ignoring start/end delimiters
+-            value = line[end:pos - 1]
+-
+-            # replaces \1 at the sub string, if \1 is used there
+-            new_sub = sub
+-            new_sub = new_sub.replace(r'\1', value)
+-
+-            out += new_sub
+-
+-            # Drop end ';' if any
+-            if line[pos] == ';':
+-                pos += 1
+-
+-            cur_pos = pos
+-            n += 1
+-
+-            if count and count >= n:
+-                break
+-
+-        # Append the remaining string
+-        l = len(line)
+-        out += line[cur_pos:l]
+-
+-        return out
  
-         # NOTE: we can add rules here to filter out unwanted parts,
-@@ -241,7 +242,8 @@ class KernelFiles():
-     def msg(self, enable_lineno=False, export=False, internal=False,
-             symbol=None, nosymbol=None):
-         """
--        Interacts over the kernel-doc results and output messages.
-+        Interacts over the kernel-doc results and output messages,
-+        returning kernel-doc markups on each interaction
-         """
- 
-         function_table = self.config.function_table
-@@ -260,10 +262,15 @@ class KernelFiles():
-                                   function_table, enable_lineno)
- 
-         for fname, arg_tuple in self.results:
-+            msg = ""
-             for name, arg in arg_tuple:
--                if self.out_msg(fname, name, arg):
-+                msg += self.out_msg(fname, name, arg)
+ #
+ # Regular expressions used to parse kernel-doc markups at KernelDoc class.
+diff --git a/scripts/lib/kdoc/kdoc_re.py b/scripts/lib/kdoc/kdoc_re.py
+new file mode 100755
+index 000000000000..45ddba8090e5
+--- /dev/null
++++ b/scripts/lib/kdoc/kdoc_re.py
+@@ -0,0 +1,272 @@
++#!/usr/bin/env python3
++# Copyright(c) 2025: Mauro Carvalho Chehab <mchehab@kernel.org>.
++# SPDX-License-Identifier: GPL-2.0
 +
-+                if msg is None:
-                     ln = arg.get("ln", 0)
-                     dtype = arg.get('type', "")
- 
-                     self.config.log.warning("%s:%d Can't handle %s",
-                                             fname, ln, dtype)
-+            if msg:
-+                yield fname, msg
-diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-index d080440caa1c..91f6e356d03d 100755
---- a/scripts/lib/kdoc/kdoc_output.py
-+++ b/scripts/lib/kdoc/kdoc_output.py
-@@ -70,6 +70,8 @@ class OutputFormat:
-         self.function_table = set()
-         self.config = None
- 
-+        self.data = ""
++"""
++Regular expression ancillary classes.
 +
-     def set_config(self, config):
-         self.config = config
- 
-@@ -156,37 +158,38 @@ class OutputFormat:
-         return True
- 
-     def msg(self, fname, name, args):
-+        self.data = ""
- 
-         dtype = args.get('type', "")
- 
-         if dtype == "doc":
-             self.out_doc(fname, name, args)
--            return False
-+            return self.data
- 
-         if not self.check_declaration(dtype, name):
--            return False
-+            return self.data
- 
-         if dtype == "function":
-             self.out_function(fname, name, args)
--            return False
-+            return self.data
- 
-         if dtype == "enum":
-             self.out_enum(fname, name, args)
--            return False
-+            return self.data
- 
-         if dtype == "typedef":
-             self.out_typedef(fname, name, args)
--            return False
-+            return self.data
- 
-         if dtype in ["struct", "union"]:
-             self.out_struct(fname, name, args)
--            return False
-+            return self.data
- 
-         # Warn if some type requires an output logic
-         self.config.log.warning("doesn't now how to output '%s' block",
-                                 dtype)
- 
--        return True
-+        return None
- 
-     # Virtual methods to be overridden by inherited classes
-     def out_doc(self, fname, name, args):
-@@ -247,7 +250,7 @@ class RestFormat(OutputFormat):
-         """Outputs a line number"""
- 
-         if self.enable_lineno and ln:
--            print(f".. LINENO {ln}")
-+            self.data += f".. LINENO {ln}\n"
- 
-     def output_highlight(self, args):
-         input_text = args
-@@ -294,7 +297,7 @@ class RestFormat(OutputFormat):
- 
-         # Print the output with the line prefix
-         for line in output.strip("\n").split("\n"):
--            print(self.lineprefix + line)
-+            self.data += self.lineprefix + line + "\n"
- 
-     def out_section(self, args, out_reference=False):
-         """
-@@ -316,15 +319,15 @@ class RestFormat(OutputFormat):
- 
-             if not self.out_mode == self.OUTPUT_INCLUDE:
-                 if out_reference:
--                    print(f".. _{section}:\n")
-+                    self.data += f".. _{section}:\n\n"
- 
-                 if not self.symbol:
--                    print(f'{self.lineprefix}**{section}**\n')
-+                    self.data += f'{self.lineprefix}**{section}**\n\n'
- 
-             self.print_lineno(section_start_lines.get(section, 0))
-             self.output_highlight(sections[section])
--            print()
--        print()
-+            self.data += "\n"
-+        self.data += "\n"
- 
-     def out_doc(self, fname, name, args):
-         if not self.check_doc(name):
-@@ -367,42 +370,42 @@ class RestFormat(OutputFormat):
-             signature += ")"
- 
-         if args.get('typedef') or not args.get('functiontype'):
--            print(f".. c:macro:: {args['function']}\n")
-+            self.data += f".. c:macro:: {args['function']}\n\n"
- 
-             if args.get('typedef'):
-                 self.print_lineno(ln)
--                print("   **Typedef**: ", end="")
-+                self.data += "   **Typedef**: "
-                 self.lineprefix = ""
-                 self.output_highlight(args.get('purpose', ""))
--                print("\n\n**Syntax**\n")
--                print(f"  ``{signature}``\n")
-+                self.data += "\n\n**Syntax**\n\n"
-+                self.data += f"  ``{signature}``\n\n"
-             else:
--                print(f"``{signature}``\n")
-+                self.data += f"``{signature}``\n\n"
-         else:
--            print(f".. c:function:: {signature}\n")
-+            self.data += f".. c:function:: {signature}\n\n"
- 
-         if not args.get('typedef'):
-             self.print_lineno(ln)
-             self.lineprefix = "   "
-             self.output_highlight(args.get('purpose', ""))
--            print()
-+            self.data += "\n"
- 
-         # Put descriptive text into a container (HTML <div>) to help set
-         # function prototypes apart
-         self.lineprefix = "  "
- 
-         if parameterlist:
--            print(".. container:: kernelindent\n")
--            print(f"{self.lineprefix}**Parameters**\n")
-+            self.data += ".. container:: kernelindent\n\n"
-+            self.data += f"{self.lineprefix}**Parameters**\n\n"
- 
-         for parameter in parameterlist:
-             parameter_name = Re(r'\[.*').sub('', parameter)
-             dtype = args['parametertypes'].get(parameter, "")
- 
-             if dtype:
--                print(f"{self.lineprefix}``{dtype}``")
-+                self.data += f"{self.lineprefix}``{dtype}``\n"
-             else:
--                print(f"{self.lineprefix}``{parameter}``")
-+                self.data += f"{self.lineprefix}``{parameter}``\n"
- 
-             self.print_lineno(parameterdesc_start_lines.get(parameter_name, 0))
- 
-@@ -411,9 +414,9 @@ class RestFormat(OutputFormat):
-                parameterdescs[parameter_name] != KernelDoc.undescribed:
- 
-                 self.output_highlight(parameterdescs[parameter_name])
--                print()
-+                self.data += "\n"
-             else:
--                print(f"{self.lineprefix}*undescribed*\n")
-+                self.data += f"{self.lineprefix}*undescribed*\n\n"
-             self.lineprefix = "  "
- 
-         self.out_section(args)
-@@ -427,26 +430,26 @@ class RestFormat(OutputFormat):
-         parameterdescs = args.get('parameterdescs', {})
-         ln = args.get('ln', 0)
- 
--        print(f"\n\n.. c:enum:: {name}\n")
-+        self.data += f"\n\n.. c:enum:: {name}\n\n"
- 
-         self.print_lineno(ln)
-         self.lineprefix = "  "
-         self.output_highlight(args.get('purpose', ''))
--        print()
-+        self.data += "\n"
- 
--        print(".. container:: kernelindent\n")
-+        self.data += ".. container:: kernelindent\n\n"
-         outer = self.lineprefix + "  "
-         self.lineprefix = outer + "  "
--        print(f"{outer}**Constants**\n")
-+        self.data += f"{outer}**Constants**\n\n"
- 
-         for parameter in parameterlist:
--            print(f"{outer}``{parameter}``")
-+            self.data += f"{outer}``{parameter}``\n"
- 
-             if parameterdescs.get(parameter, '') != KernelDoc.undescribed:
-                 self.output_highlight(parameterdescs[parameter])
-             else:
--                print(f"{self.lineprefix}*undescribed*\n")
--            print()
-+                self.data += f"{self.lineprefix}*undescribed*\n\n"
-+            self.data += "\n"
- 
-         self.lineprefix = oldprefix
-         self.out_section(args)
-@@ -457,14 +460,14 @@ class RestFormat(OutputFormat):
-         name = args.get('typedef', '')
-         ln = args.get('ln', 0)
- 
--        print(f"\n\n.. c:type:: {name}\n")
-+        self.data += f"\n\n.. c:type:: {name}\n\n"
- 
-         self.print_lineno(ln)
-         self.lineprefix = "   "
- 
-         self.output_highlight(args.get('purpose', ''))
- 
--        print()
-+        self.data += "\n"
- 
-         self.lineprefix = oldprefix
-         self.out_section(args)
-@@ -481,7 +484,7 @@ class RestFormat(OutputFormat):
-         parameterdescs = args.get('parameterdescs', {})
-         parameterdesc_start_lines = args.get('parameterdesc_start_lines', {})
- 
--        print(f"\n\n.. c:{dtype}:: {name}\n")
-+        self.data += f"\n\n.. c:{dtype}:: {name}\n\n"
- 
-         self.print_lineno(ln)
- 
-@@ -489,20 +492,20 @@ class RestFormat(OutputFormat):
-         self.lineprefix += "  "
- 
-         self.output_highlight(purpose)
--        print()
-+        self.data += "\n"
- 
--        print(".. container:: kernelindent\n")
--        print(f"{self.lineprefix}**Definition**::\n")
-+        self.data += ".. container:: kernelindent\n\n"
-+        self.data += f"{self.lineprefix}**Definition**::\n\n"
- 
-         self.lineprefix = self.lineprefix + "  "
- 
-         declaration = declaration.replace("\t", self.lineprefix)
- 
--        print(f"{self.lineprefix}{dtype} {name}" + ' {')
--        print(f"{declaration}{self.lineprefix}" + "};\n")
-+        self.data += f"{self.lineprefix}{dtype} {name}" + ' {' + "\n"
-+        self.data += f"{declaration}{self.lineprefix}" + "};\n\n"
- 
-         self.lineprefix = "  "
--        print(f"{self.lineprefix}**Members**\n")
-+        self.data += f"{self.lineprefix}**Members**\n\n"
-         for parameter in parameterlist:
-             if not parameter or parameter.startswith("#"):
-                 continue
-@@ -514,15 +517,15 @@ class RestFormat(OutputFormat):
- 
-             self.print_lineno(parameterdesc_start_lines.get(parameter_name, 0))
- 
--            print(f"{self.lineprefix}``{parameter}``")
-+            self.data += f"{self.lineprefix}``{parameter}``\n"
- 
-             self.lineprefix = "    "
-             self.output_highlight(parameterdescs[parameter_name])
-             self.lineprefix = "  "
- 
--            print()
-+            self.data += "\n"
- 
--        print()
-+        self.data += "\n"
- 
-         self.lineprefix = oldprefix
-         self.out_section(args)
-@@ -575,19 +578,19 @@ class ManFormat(OutputFormat):
-             line = Re(r"^\s*").sub("", line)
- 
-             if line and line[0] == ".":
--                print("\\&" + line)
-+                self.data += "\\&" + line + "\n"
-             else:
--                print(line)
-+                self.data += line + "\n"
- 
-     def out_doc(self, fname, name, args):
-         module = args.get('module')
-         sectionlist = args.get('sectionlist', [])
-         sections = args.get('sections', {})
- 
--        print(f'.TH "{module}" 9 "{module}" "{self.man_date}" "API Manual" LINUX')
-+        self.data += f'.TH "{module}" 9 "{module}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         for section in sectionlist:
--            print(f'.SH "{section}"')
-+            self.data += f'.SH "{section}"' + "\n"
-             self.output_highlight(sections.get(section))
- 
-     def out_function(self, fname, name, args):
-@@ -598,16 +601,16 @@ class ManFormat(OutputFormat):
-         sectionlist = args.get('sectionlist', [])
-         sections = args.get('sections', {})
- 
--        print(f'.TH "{args['function']}" 9 "{args['function']}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX')
-+        self.data += f'.TH "{args['function']}" 9 "{args['function']}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX' + "\n"
- 
--        print(".SH NAME")
--        print(f"{args['function']} \\- {args['purpose']}")
-+        self.data += ".SH NAME\n"
-+        self.data += f"{args['function']} \\- {args['purpose']}\n"
- 
--        print(".SH SYNOPSIS")
-+        self.data += ".SH SYNOPSIS\n"
-         if args.get('functiontype', ''):
--            print(f'.B "{args['functiontype']}" {args['function']}')
-+            self.data += f'.B "{args['functiontype']}" {args['function']}' + "\n"
-         else:
--            print(f'.B "{args['function']}')
-+            self.data += f'.B "{args['function']}' + "\n"
- 
-         count = 0
-         parenth = "("
-@@ -620,25 +623,25 @@ class ManFormat(OutputFormat):
-             dtype = args['parametertypes'].get(parameter, "")
-             if function_pointer.match(dtype):
-                 # Pointer-to-function
--                print(f'".BI "{parenth}{function_pointer.group(1)}" " ") ({function_pointer.group(2)}){post}"')
-+                self.data += f'".BI "{parenth}{function_pointer.group(1)}" " ") ({function_pointer.group(2)}){post}"' + "\n"
-             else:
-                 dtype = Re(r'([^\*])$').sub(r'\1 ', dtype)
- 
--                print(f'.BI "{parenth}{dtype}"  "{post}"')
-+                self.data += f'.BI "{parenth}{dtype}"  "{post}"' + "\n"
-             count += 1
-             parenth = ""
- 
-         if parameterlist:
--            print(".SH ARGUMENTS")
-+            self.data += ".SH ARGUMENTS\n"
- 
-         for parameter in parameterlist:
-             parameter_name = re.sub(r'\[.*', '', parameter)
- 
--            print(f'.IP "{parameter}" 12')
-+            self.data += f'.IP "{parameter}" 12' + "\n"
-             self.output_highlight(parameterdescs.get(parameter_name, ""))
- 
-         for section in sectionlist:
--            print(f'.SH "{section.upper()}"')
-+            self.data += f'.SH "{section.upper()}"' + "\n"
-             self.output_highlight(sections[section])
- 
-     def out_enum(self, fname, name, args):
-@@ -648,33 +651,33 @@ class ManFormat(OutputFormat):
-         sectionlist = args.get('sectionlist', [])
-         sections = args.get('sections', {})
- 
--        print(f'.TH "{args['module']}" 9 "enum {args['enum']}" "{self.man_date}" "API Manual" LINUX')
-+        self.data += f'.TH "{args['module']}" 9 "enum {args['enum']}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
--        print(".SH NAME")
--        print(f"enum {args['enum']} \\- {args['purpose']}")
-+        self.data += ".SH NAME\n"
-+        self.data += f"enum {args['enum']} \\- {args['purpose']}\n"
- 
--        print(".SH SYNOPSIS")
--        print(f"enum {args['enum']}" + " {")
-+        self.data += ".SH SYNOPSIS\n"
-+        self.data += f"enum {args['enum']}" + " {\n"
- 
-         count = 0
-         for parameter in parameterlist:
--            print(f'.br\n.BI "    {parameter}"')
-+            self.data += f'.br\n.BI "    {parameter}"' + "\n"
-             if count == len(parameterlist) - 1:
--                print("\n};")
-+                self.data += "\n};\n"
-             else:
--                print(", \n.br")
-+                self.data += ", \n.br\n"
- 
-             count += 1
- 
--        print(".SH Constants")
-+        self.data += ".SH Constants\n"
- 
-         for parameter in parameterlist:
-             parameter_name = Re(r'\[.*').sub('', parameter)
--            print(f'.IP "{parameter}" 12')
-+            self.data += f'.IP "{parameter}" 12' + "\n"
-             self.output_highlight(args['parameterdescs'].get(parameter_name, ""))
- 
-         for section in sectionlist:
--            print(f'.SH "{section}"')
-+            self.data += f'.SH "{section}"' + "\n"
-             self.output_highlight(sections[section])
- 
-     def out_typedef(self, fname, name, args):
-@@ -684,13 +687,13 @@ class ManFormat(OutputFormat):
-         sectionlist = args.get('sectionlist', [])
-         sections = args.get('sections', {})
- 
--        print(f'.TH "{module}" 9 "{typedef}" "{self.man_date}" "API Manual" LINUX')
-+        self.data += f'.TH "{module}" 9 "{typedef}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
--        print(".SH NAME")
--        print(f"typedef {typedef} \\- {purpose}")
-+        self.data += ".SH NAME\n"
-+        self.data += f"typedef {typedef} \\- {purpose}\n"
- 
-         for section in sectionlist:
--            print(f'.SH "{section}"')
-+            self.data += f'.SH "{section}"' + "\n"
-             self.output_highlight(sections.get(section))
- 
-     def out_struct(self, fname, name, args):
-@@ -704,20 +707,20 @@ class ManFormat(OutputFormat):
-         sections = args.get('sections', {})
-         parameterdescs = args.get('parameterdescs', {})
- 
--        print(f'.TH "{module}" 9 "{struct_type} {struct_name}" "{self.man_date}" "API Manual" LINUX')
-+        self.data += f'.TH "{module}" 9 "{struct_type} {struct_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
--        print(".SH NAME")
--        print(f"{struct_type} {struct_name} \\- {purpose}")
-+        self.data += ".SH NAME\n"
-+        self.data += f"{struct_type} {struct_name} \\- {purpose}\n"
- 
-         # Replace tabs with two spaces and handle newlines
-         declaration = definition.replace("\t", "  ")
-         declaration = Re(r"\n").sub('"\n.br\n.BI "', declaration)
- 
--        print(".SH SYNOPSIS")
--        print(f"{struct_type} {struct_name} " + "{" + "\n.br")
--        print(f'.BI "{declaration}\n' + "};\n.br\n")
-+        self.data += ".SH SYNOPSIS\n"
-+        self.data += f"{struct_type} {struct_name} " + "{" + "\n.br\n"
-+        self.data += f'.BI "{declaration}\n' + "};\n.br\n\n"
- 
--        print(".SH Members")
-+        self.data += ".SH Members\n"
-         for parameter in parameterlist:
-             if parameter.startswith("#"):
-                 continue
-@@ -727,9 +730,9 @@ class ManFormat(OutputFormat):
-             if parameterdescs.get(parameter_name) == KernelDoc.undescribed:
-                 continue
- 
--            print(f'.IP "{parameter}" 12')
-+            self.data += f'.IP "{parameter}" 12' + "\n"
-             self.output_highlight(parameterdescs.get(parameter_name))
- 
-         for section in sectionlist:
--            print(f'.SH "{section}"')
-+            self.data += f'.SH "{section}"' + "\n"
-             self.output_highlight(sections.get(section))
++Those help caching regular expressions and do matching for kernel-doc.
++"""
++
++import re
++
++# Local cache for regular expressions
++re_cache = {}
++
++
++class Re:
++    """
++    Helper class to simplify regex declaration and usage,
++
++    It calls re.compile for a given pattern. It also allows adding
++    regular expressions and define sub at class init time.
++
++    Regular expressions can be cached via an argument, helping to speedup
++    searches.
++    """
++
++    def _add_regex(self, string, flags):
++        """
++        Adds a new regex or re-use it from the cache.
++        """
++
++        if string in re_cache:
++            self.regex = re_cache[string]
++        else:
++            self.regex = re.compile(string, flags=flags)
++
++            if self.cache:
++                re_cache[string] = self.regex
++
++    def __init__(self, string, cache=True, flags=0):
++        """
++        Compile a regular expression and initialize internal vars.
++        """
++
++        self.cache = cache
++        self.last_match = None
++
++        self._add_regex(string, flags)
++
++    def __str__(self):
++        """
++        Return the regular expression pattern.
++        """
++        return self.regex.pattern
++
++    def __add__(self, other):
++        """
++        Allows adding two regular expressions into one.
++        """
++
++        return Re(str(self) + str(other), cache=self.cache or other.cache,
++                  flags=self.regex.flags | other.regex.flags)
++
++    def match(self, string):
++        """
++        Handles a re.match storing its results
++        """
++
++        self.last_match = self.regex.match(string)
++        return self.last_match
++
++    def search(self, string):
++        """
++        Handles a re.search storing its results
++        """
++
++        self.last_match = self.regex.search(string)
++        return self.last_match
++
++    def findall(self, string):
++        """
++        Alias to re.findall
++        """
++
++        return self.regex.findall(string)
++
++    def split(self, string):
++        """
++        Alias to re.split
++        """
++
++        return self.regex.split(string)
++
++    def sub(self, sub, string, count=0):
++        """
++        Alias to re.sub
++        """
++
++        return self.regex.sub(sub, string, count=count)
++
++    def group(self, num):
++        """
++        Returns the group results of the last match
++        """
++
++        return self.last_match.group(num)
++
++
++class NestedMatch:
++    """
++    Finding nested delimiters is hard with regular expressions. It is
++    even harder on Python with its normal re module, as there are several
++    advanced regular expressions that are missing.
++
++    This is the case of this pattern:
++
++            '\\bSTRUCT_GROUP(\\(((?:(?>[^)(]+)|(?1))*)\\))[^;]*;'
++
++    which is used to properly match open/close parenthesis of the
++    string search STRUCT_GROUP(),
++
++    Add a class that counts pairs of delimiters, using it to match and
++    replace nested expressions.
++
++    The original approach was suggested by:
++        https://stackoverflow.com/questions/5454322/python-how-to-match-nested-parentheses-with-regex
++
++    Although I re-implemented it to make it more generic and match 3 types
++    of delimiters. The logic checks if delimiters are paired. If not, it
++    will ignore the search string.
++    """
++
++    # TODO:
++    # Right now, regular expressions to match it are defined only up to
++    #       the start delimiter, e.g.:
++    #
++    #       \bSTRUCT_GROUP\(
++    #
++    # is similar to: STRUCT_GROUP\((.*)\)
++    # except that the content inside the match group is delimiter's aligned.
++    #
++    # The content inside parenthesis are converted into a single replace
++    # group (e.g. r`\1').
++    #
++    # It would be nice to change such definition to support multiple
++    # match groups, allowing a regex equivalent to.
++    #
++    #   FOO\((.*), (.*), (.*)\)
++    #
++    # it is probably easier to define it not as a regular expression, but
++    # with some lexical definition like:
++    #
++    #   FOO(arg1, arg2, arg3)
++
++    DELIMITER_PAIRS = {
++        '{': '}',
++        '(': ')',
++        '[': ']',
++    }
++
++    RE_DELIM = re.compile(r'[\{\}\[\]\(\)]')
++
++    def _search(self, regex, line):
++        """
++        Finds paired blocks for a regex that ends with a delimiter.
++
++        The suggestion of using finditer to match pairs came from:
++        https://stackoverflow.com/questions/5454322/python-how-to-match-nested-parentheses-with-regex
++        but I ended using a different implementation to align all three types
++        of delimiters and seek for an initial regular expression.
++
++        The algorithm seeks for open/close paired delimiters and place them
++        into a stack, yielding a start/stop position of each match  when the
++        stack is zeroed.
++
++        The algorithm shoud work fine for properly paired lines, but will
++        silently ignore end delimiters that preceeds an start delimiter.
++        This should be OK for kernel-doc parser, as unaligned delimiters
++        would cause compilation errors. So, we don't need to rise exceptions
++        to cover such issues.
++        """
++
++        stack = []
++
++        for match_re in regex.finditer(line):
++            start = match_re.start()
++            offset = match_re.end()
++
++            d = line[offset - 1]
++            if d not in self.DELIMITER_PAIRS:
++                continue
++
++            end = self.DELIMITER_PAIRS[d]
++            stack.append(end)
++
++            for match in self.RE_DELIM.finditer(line[offset:]):
++                pos = match.start() + offset
++
++                d = line[pos]
++
++                if d in self.DELIMITER_PAIRS:
++                    end = self.DELIMITER_PAIRS[d]
++
++                    stack.append(end)
++                    continue
++
++                # Does the end delimiter match what it is expected?
++                if stack and d == stack[-1]:
++                    stack.pop()
++
++                    if not stack:
++                        yield start, offset, pos + 1
++                        break
++
++    def search(self, regex, line):
++        """
++        This is similar to re.search:
++
++        It matches a regex that it is followed by a delimiter,
++        returning occurrences only if all delimiters are paired.
++        """
++
++        for t in self._search(regex, line):
++
++            yield line[t[0]:t[2]]
++
++    def sub(self, regex, sub, line, count=0):
++        """
++        This is similar to re.sub:
++
++        It matches a regex that it is followed by a delimiter,
++        replacing occurrences only if all delimiters are paired.
++
++        if r'\1' is used, it works just like re: it places there the
++        matched paired data with the delimiter stripped.
++
++        If count is different than zero, it will replace at most count
++        items.
++        """
++        out = ""
++
++        cur_pos = 0
++        n = 0
++
++        for start, end, pos in self._search(regex, line):
++            out += line[cur_pos:start]
++
++            # Value, ignoring start/end delimiters
++            value = line[end:pos - 1]
++
++            # replaces \1 at the sub string, if \1 is used there
++            new_sub = sub
++            new_sub = new_sub.replace(r'\1', value)
++
++            out += new_sub
++
++            # Drop end ';' if any
++            if line[pos] == ';':
++                pos += 1
++
++            cur_pos = pos
++            n += 1
++
++            if count and count >= n:
++                break
++
++        # Append the remaining string
++        l = len(line)
++        out += line[cur_pos:l]
++
++        return out
 -- 
 2.48.1
 
