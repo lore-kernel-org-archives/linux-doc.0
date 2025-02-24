@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2045D24BBF7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2236A24BBFC;
 	Mon, 24 Feb 2025 09:09:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740388144; cv=none; b=C4kuJiO3UDkCmSIkEQ21xQRR2wcMykTmHWP7MuKuPwqjm0SGaUYk1uqQe+9XSLEcbUfMVyErEWyzXHy199KCIPIfI7SDbKNPjD8AcR+nQJUTTGFLsFP+pdpRngsTdxGEEcMPKpLqVBbPDYumFU0DPZasjK1wDk7ORsU1e+GYWyU=
+	t=1740388144; cv=none; b=OiTGVb9O6rkfIPd6wSQBhGWWVBwufMkk5KCv19WP7DRFc95EIyP1u64zRuZaLxNecYfw2a7IoUMJRLgDtP1+2R6z1/kfVwAUiqKh0LqFJTM0HK/bgh+vbEtRwE3katYHybLlrSd3PtgsG4KxWzY6b9EGaOPDNaVD7njT2crHbm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1740388144; c=relaxed/simple;
-	bh=eT42PMb7NLIYUy+TPfhbrtIZmR9In4PQ32hCJ1qwQcU=;
+	bh=4i9tMFsRvYQf8CGO56ooCSwnWGYo0A/a2tTzIVmQWtE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p9FfP7Qyyhf8H1hZZ8pt1WEV/4FLQ32/mCFdHHjQs3WhAFlAGtI1nwCo0XKXEdKeUI7nYrX01Uyfz8CBmzOQA7sKw/OTecatCWVcUd4utSDqT0aPA0hpKLT7pk7pDkHEs1oLhmIcOhUZtLuNH/AkgWcIfx70Ddpe9GWTNC3fy1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EN+i1Vkq; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=cCcxY3sHq+k6qZC/JmYmv5zeFP9wBtiYtlOqoKzUHU2lCGcFjESnbPmN5yyG1nBOnDWtsnq9Qt0GlL5qiPC31O2VfZXvXvUe/q6/tH6x2GMAoU8lYrPm32dUSsaXq6NIpBdxQPb3AZ7AsCGEDBRYR4LaFfrgNDBiyAEGkmBWN/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ms3OBXsq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EN+i1Vkq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A197DC4CEEC;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ms3OBXsq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FFB0C4CEF9;
 	Mon, 24 Feb 2025 09:09:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1740388143;
-	bh=eT42PMb7NLIYUy+TPfhbrtIZmR9In4PQ32hCJ1qwQcU=;
+	bh=4i9tMFsRvYQf8CGO56ooCSwnWGYo0A/a2tTzIVmQWtE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EN+i1Vkqf8dNxWk55wQuKMixRCxBwXjO1eYvgWzToAqoFqaWa9a/MhWCnRgpgl+JR
-	 rNYTQwyDhJgQvI4Z1I8yRw234yiw8unXvy/Y4peeOheNBXsVedjT4inn4mk0HrHsRM
-	 uFUclJK8LQLbfUS8XNCoqmcfKDTGY5wrovx6rB2QZl1++VVJArzei2EA3PQ+2uNVyd
-	 yVOVDTpOFa4B0wzF+8vsKagc/XRCb/yznKmt/NnhRcL0AsQSFfCaLKlRTnZ/o4lRwX
-	 FpGiqHDXmUjYYCFzXpvqy6kQomh4OcycYhFtraZp8nPfdHV63kkSt/lPLZ2GyygKXs
-	 8AxsLi9/QN5zQ==
+	b=ms3OBXsqm2yisM/rJhvonJ1uqy3UA5V+Dicp/c47x5pE11GmIp/b/Ycws+BTedQzb
+	 k8u61FIA8ScasigdqiWTJFvdKBRpjzy7ImvDVo0xNmCrn0NBPiLCA9Z9vjApeQE69z
+	 aj7giQ5NrcZcyp4hfYm58jV2uLjlty0lVnmTw5eMaHowlz6eXppdYwVG/m8sFWzUNM
+	 1HT/+1pK/bEGDpP8tNHZAjTXJlz+ZW7eVgLCIukbM3yhVUVxU8m3H3yWLE76h8rtH/
+	 s1PBU5ARD+XceaVeAKsusoLGGBI0JWXsTUurpM/fqsD56G+14mQ4JDrfe84x9i/INF
+	 7YQmkjJsOveCQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tmUST-00000003p5r-3J3e;
+	id 1tmUST-00000003p5S-2dft;
 	Mon, 24 Feb 2025 10:09:01 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,9 +36,9 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 37/39] scripts/lib/kdoc/kdoc_files.py: allow filtering output per fname
-Date: Mon, 24 Feb 2025 10:08:43 +0100
-Message-ID: <89c8d2f9f3afc56cde2132bc073cbc71b5ad64c1.1740387599.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 31/39] scripts/kernel-doc.py: move modulename to man class
+Date: Mon, 24 Feb 2025 10:08:37 +0100
+Message-ID: <096291e4eaddd666de7a6178d340f575d60ed9d9.1740387599.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1740387599.git.mchehab+huawei@kernel.org>
 References: <cover.1740387599.git.mchehab+huawei@kernel.org>
@@ -51,79 +51,205 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-For kerneldoc Sphinx extension, it is useful to display
-parsed results only from a single file. Change the logic at
-KernelFiles.msg() to allow such usage.
+Only man output requires a modulename. Move its definition
+to the man class.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/lib/kdoc/kdoc_files.py | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ scripts/kernel-doc.py           |  6 +++---
+ scripts/lib/kdoc/kdoc_files.py  |  6 +-----
+ scripts/lib/kdoc/kdoc_output.py | 12 ++++++------
+ scripts/lib/kdoc/kdoc_parser.py |  9 +--------
+ 4 files changed, 11 insertions(+), 22 deletions(-)
 
+diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
+index daae2b4f3307..064106c18d8b 100755
+--- a/scripts/kernel-doc.py
++++ b/scripts/kernel-doc.py
+@@ -111,6 +111,7 @@ def main():
+                         help="Enable debug messages")
+ 
+     parser.add_argument("-M", "-modulename", "--modulename",
++                        default="Kernel API",
+                         help="Allow setting a module name at the output.")
+ 
+     parser.add_argument("-l", "-enable-lineno", "--enable_lineno",
+@@ -198,7 +199,7 @@ def main():
+     logger.addHandler(handler)
+ 
+     if args.man:
+-        out_style = ManFormat()
++        out_style = ManFormat(modulename=args.modulename)
+     elif args.none:
+         out_style = None
+     else:
+@@ -207,8 +208,7 @@ def main():
+     kfiles = KernelFiles(verbose=args.verbose,
+                          out_style=out_style, werror=args.werror,
+                          wreturn=args.wreturn, wshort_desc=args.wshort_desc,
+-                         wcontents_before_sections=args.wcontents_before_sections,
+-                         modulename=args.modulename)
++                         wcontents_before_sections=args.wcontents_before_sections)
+ 
+     kfiles.parse(args.files, export_file=args.export_file)
+ 
 diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
-index fc14bd6f9863..8935a8603b44 100755
+index e1ed2f6dae94..a2417cafb1c8 100755
 --- a/scripts/lib/kdoc/kdoc_files.py
 +++ b/scripts/lib/kdoc/kdoc_files.py
-@@ -94,7 +94,7 @@ class KernelFiles():
-         doc = KernelDoc(self.config, fname)
-         doc.run()
- 
--        return doc
-+        return doc.entries
- 
-     def process_export_file(self, fname):
+@@ -125,7 +125,7 @@ class KernelFiles():
+     def __init__(self, verbose=False, out_style=None,
+                  werror=False, wreturn=False, wshort_desc=False,
+                  wcontents_before_sections=False,
+-                 logger=None, modulename=None):
++                 logger=None):
          """
-@@ -172,7 +172,7 @@ class KernelFiles():
-         # Initialize internal variables
- 
-         self.config.errors = 0
--        self.results = []
-+        self.results = {}
- 
-         self.files = set()
-         self.export_files = set()
-@@ -188,13 +188,9 @@ class KernelFiles():
-         # avoid reporting errors multiple times
- 
-         for fname in glob.parse_files(file_list, self.file_not_found_cb):
--            if fname in self.files:
--                continue
--
--            res = self.parse_file(fname)
--
--            self.results.append((res.fname, res.entries))
--            self.files.add(fname)
-+            if fname not in self.files:
-+                self.results[fname] = self.parse_file(fname)
-+                self.files.add(fname)
- 
-         # If a list of export files was provided, parse EXPORT_SYMBOL*
-         # from files that weren't fully parsed
-@@ -225,7 +221,8 @@ class KernelFiles():
-         return self.out_style.msg(fname, name, arg)
- 
-     def msg(self, enable_lineno=False, export=False, internal=False,
--            symbol=None, nosymbol=None, no_doc_sections=False):
-+            symbol=None, nosymbol=None, no_doc_sections=False,
-+            filenames=None):
+         Initialize startup variables and parse all files
          """
-         Interacts over the kernel-doc results and output messages,
-         returning kernel-doc markups on each interaction
-@@ -247,9 +244,12 @@ class KernelFiles():
-                                   function_table, enable_lineno,
-                                   no_doc_sections)
+@@ -133,9 +133,6 @@ class KernelFiles():
+         if not verbose:
+             verbose = bool(os.environ.get("KBUILD_VERBOSE", 0))
  
--        for fname, arg_tuple in self.results:
-+        if not filenames:
-+            filenames = sorted(self.results.keys())
-+
-+        for fname in filenames:
-             msg = ""
--            for name, arg in arg_tuple:
-+            for name, arg in self.results[fname]:
-                 msg += self.out_msg(fname, name, arg)
+-        if not modulename:
+-            modulename = "Kernel API"
+-
+         if out_style is None:
+             out_style = OutputFormat()
  
-                 if msg is None:
+@@ -167,7 +164,6 @@ class KernelFiles():
+         self.config.wreturn = wreturn
+         self.config.wshort_desc = wshort_desc
+         self.config.wcontents_before_sections = wcontents_before_sections
+-        self.config.modulename = modulename
+ 
+         self.config.function_table = set()
+         self.config.source_map = {}
+diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
+index df3c15bb1c10..13a74a687f89 100755
+--- a/scripts/lib/kdoc/kdoc_output.py
++++ b/scripts/lib/kdoc/kdoc_output.py
+@@ -584,7 +584,7 @@ class ManFormat(OutputFormat):
+     )
+     blankline = ""
+ 
+-    def __init__(self):
++    def __init__(self, modulename):
+         """
+         Creates class variables.
+ 
+@@ -593,6 +593,7 @@ class ManFormat(OutputFormat):
+         """
+ 
+         super().__init__()
++        self.modulename = modulename
+ 
+         dt = datetime.now()
+         if os.environ.get("KBUILD_BUILD_TIMESTAMP", None):
+@@ -624,14 +625,13 @@ class ManFormat(OutputFormat):
+                 self.data += line + "\n"
+ 
+     def out_doc(self, fname, name, args):
+-        module = args.get('module')
+         sectionlist = args.get('sectionlist', [])
+         sections = args.get('sections', {})
+ 
+         if not self.check_doc(name, args):
+             return
+ 
+-        self.data += f'.TH "{module}" 9 "{module}" "{self.man_date}" "API Manual" LINUX' + "\n"
++        self.data += f'.TH "{self.modulename}" 9 "{self.modulename}" "{self.man_date}" "API Manual" LINUX' + "\n"
+ 
+         for section in sectionlist:
+             self.data += f'.SH "{section}"' + "\n"
+@@ -695,7 +695,7 @@ class ManFormat(OutputFormat):
+         sectionlist = args.get('sectionlist', [])
+         sections = args.get('sections', {})
+ 
+-        self.data += f'.TH "{args["module"]}" 9 "enum {args["enum"]}" "{self.man_date}" "API Manual" LINUX' + "\n"
++        self.data += f'.TH "{self.modulename}" 9 "enum {args["enum"]}" "{self.man_date}" "API Manual" LINUX' + "\n"
+ 
+         self.data += ".SH NAME\n"
+         self.data += f"enum {args['enum']} \\- {args['purpose']}\n"
+@@ -725,7 +725,7 @@ class ManFormat(OutputFormat):
+             self.output_highlight(sections[section])
+ 
+     def out_typedef(self, fname, name, args):
+-        module = args.get('module')
++        module = self.modulename
+         typedef = args.get('typedef')
+         purpose = args.get('purpose')
+         sectionlist = args.get('sectionlist', [])
+@@ -741,7 +741,7 @@ class ManFormat(OutputFormat):
+             self.output_highlight(sections.get(section))
+ 
+     def out_struct(self, fname, name, args):
+-        module = args.get('module')
++        module = self.modulename
+         struct_type = args.get('type')
+         struct_name = args.get('struct')
+         purpose = args.get('purpose')
+diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+index 51ac2d69a587..0c0fa10b942b 100755
+--- a/scripts/lib/kdoc/kdoc_parser.py
++++ b/scripts/lib/kdoc/kdoc_parser.py
+@@ -801,7 +801,6 @@ class KernelDoc:
+ 
+         self.output_declaration(decl_type, declaration_name,
+                                 struct=declaration_name,
+-                                module=self.entry.modulename,
+                                 definition=declaration,
+                                 parameterlist=self.entry.parameterlist,
+                                 parameterdescs=self.entry.parameterdescs,
+@@ -879,7 +878,6 @@ class KernelDoc:
+ 
+         self.output_declaration('enum', declaration_name,
+                                 enum=declaration_name,
+-                                module=self.config.modulename,
+                                 parameterlist=self.entry.parameterlist,
+                                 parameterdescs=self.entry.parameterdescs,
+                                 parameterdesc_start_lines=self.entry.parameterdesc_start_lines,
+@@ -1051,7 +1049,6 @@ class KernelDoc:
+             self.output_declaration(decl_type, declaration_name,
+                                     function=declaration_name,
+                                     typedef=True,
+-                                    module=self.config.modulename,
+                                     functiontype=return_type,
+                                     parameterlist=self.entry.parameterlist,
+                                     parameterdescs=self.entry.parameterdescs,
+@@ -1066,7 +1063,6 @@ class KernelDoc:
+             self.output_declaration(decl_type, declaration_name,
+                                     function=declaration_name,
+                                     typedef=False,
+-                                    module=self.config.modulename,
+                                     functiontype=return_type,
+                                     parameterlist=self.entry.parameterlist,
+                                     parameterdescs=self.entry.parameterdescs,
+@@ -1113,7 +1109,6 @@ class KernelDoc:
+             self.output_declaration(decl_type, declaration_name,
+                                     function=declaration_name,
+                                     typedef=True,
+-                                    module=self.entry.modulename,
+                                     functiontype=return_type,
+                                     parameterlist=self.entry.parameterlist,
+                                     parameterdescs=self.entry.parameterdescs,
+@@ -1141,7 +1136,6 @@ class KernelDoc:
+ 
+             self.output_declaration('typedef', declaration_name,
+                                     typedef=declaration_name,
+-                                    module=self.entry.modulename,
+                                     sectionlist=self.entry.sectionlist,
+                                     sections=self.entry.sections,
+                                     section_start_lines=self.entry.section_start_lines,
+@@ -1630,8 +1624,7 @@ class KernelDoc:
+             self.output_declaration("doc", self.entry.identifier,
+                                     sectionlist=self.entry.sectionlist,
+                                     sections=self.entry.sections,
+-                                    section_start_lines=self.entry.section_start_lines,
+-                                    module=self.config.modulename)
++                                    section_start_lines=self.entry.section_start_lines)
+             self.reset_state(ln)
+ 
+         elif doc_content.search(line):
 -- 
 2.48.1
 
