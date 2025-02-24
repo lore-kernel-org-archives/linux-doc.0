@@ -1,163 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4512566C3;
-	Mon, 24 Feb 2025 10:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E18A924E4CA;
+	Mon, 24 Feb 2025 10:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740393670; cv=none; b=GDQwPmlPl1et6J/sfo5jJD1l/f2Lk9cJ7t64alKUAKWXN0U+90Xo+ZmwMv/t1dVYbIKlNojKwXkTeCLKgNw5PirTP8O9dLtsPHtJ1gygP6bNeuUWLCYwC4x7XFnxwKy7s8KNjKZlbZbTjpthndO8fUcfTNqbKlrxgnC4HUwMu58=
+	t=1740393712; cv=none; b=lU74cZzs8Irxl+wmWul9z6EIxGz4rGlGxiLMOI5N13bxaL7gvaujK98dFGnyqMhp4tsZBJyeNStPDM4sp+sWDRDnduD4fMHIsqBx62bMI9gJgG1UWZo0c4Wir2e7IOYp02I5og6p55NuhaYj6rpHLBMGLKdLYJCeO7DUqDU8hDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740393670; c=relaxed/simple;
-	bh=NeAGyiZOTYfejHkjFw04X6rdOVkivoeAsk4c/Mc/y2w=;
+	s=arc-20240116; t=1740393712; c=relaxed/simple;
+	bh=3Y3ZOO9s+/mYUog6IBL0uyGuQRaI25SQd5ojDRezSZ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iHLZZrDHKaMnXMGxnvi9Cf42GtmQZX604qdgsVXkM3YDttvjQxD7QlXBIy5Ev+vjdcclUVF8aI+EKik5DuYPtfDrqr5zR4CbDcvSEVz5qLOIrQB3UwIpe3AnXMVkobF/Fr2tFqmWUwt76JEdwIvkjpL9Wu14K95UXVUdvAz4Nl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUtbff7j; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUtbff7j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740393668; x=1771929668;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=NeAGyiZOTYfejHkjFw04X6rdOVkivoeAsk4c/Mc/y2w=;
-  b=lUtbff7jg62FH8P2+VBPUChMvf3LwXff0k7wSB+U0/qxb5ARNPS7Dqu8
-   5sOe+dl0Sh04BieJwDGUOnQf/9LobfyciOudHL6pOhn5JzPZJXjrLBk94
-   GO/N2Pcm09L7ZPcPkujtidqYrdyXA6bYwtY7CQPbLU/wL92dMukruRujp
-   IQ7+h3lKjMRU+b8QrroUbzb17NVETq6vg8u/Vpwe0ZKmdN2oy/popmf2o
-   HNZfq0XQP8+yuQBwaos/gDLRrvqDwO8KM97llalgBNiU3Uri6Vf83rDZQ
-   WfCVcg5cgBuAK5fwnNXZBeyjgTrvfXqv53NeAy+xw7QhovUiONHMZ2yvf
-   w==;
-X-CSE-ConnectionGUID: BOCiEdzGRLO1yZUUHWFMbw==
-X-CSE-MsgGUID: ZDvuUXGlQYe4I46TgJORcA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="51781404"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="51781404"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:41:07 -0800
-X-CSE-ConnectionGUID: 6KaaqqqiSfyRszbE2a4Y5A==
-X-CSE-MsgGUID: Yabe8xd7SOilahRgO+AwGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="121107100"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:41:01 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tmVtP-0000000EfTz-3Zey;
-	Mon, 24 Feb 2025 12:40:55 +0200
-Date: Mon, 24 Feb 2025 12:40:55 +0200
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "pmladek@suse.com" <pmladek@suse.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
-	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-	"mripard@kernel.org" <mripard@kernel.org>,
-	"tzimmermann@suse.de" <tzimmermann@suse.de>,
-	"airlied@gmail.com" <airlied@gmail.com>,
-	"simona@ffwll.ch" <simona@ffwll.ch>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>,
-	"kekrby@gmail.com" <kekrby@gmail.com>,
-	"admin@kodeit.net" <admin@kodeit.net>,
-	Orlando Chamberlain <orlandoch.dev@gmail.com>,
-	"evepolonium@gmail.com" <evepolonium@gmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	Hector Martin <marcan@marcan.st>,
-	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Message-ID: <Z7xMt2Kp1pFuMar2@smile.fi.intel.com>
-References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
- <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
- <6CB20172-906F-4D13-B5E4-100A9CF74F02@live.com>
- <Z7xCr4iPmIkPoWGC@smile.fi.intel.com>
- <PN3PR01MB9597CF2907CBBD6ED43D5E62B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <Z7xIxFT-eB_OTGzm@smile.fi.intel.com>
- <PN3PR01MB9597FA2077E6FD498E8CDDD9B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lf5xPnQb6vbFsSwTmI6R972WIPK50HIBWNJMaGmKSfu2P0d7Og3UR9wZ7hUr1ui5EuAXMj4PTlGgjVugraq44e6LMMUx8XwrQRqu0DvoJFNJ5U/Ok1KyX5MRGB4U5orGmPIO47JZiWWfKsOiRXm2sYPa7lzPJKUVFJGUaaIX+PI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 07D9D1FCD;
+	Mon, 24 Feb 2025 02:42:07 -0800 (PST)
+Received: from localhost (e132581.arm.com [10.2.76.71])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DB8713F673;
+	Mon, 24 Feb 2025 02:41:49 -0800 (PST)
+Date: Mon, 24 Feb 2025 10:41:47 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v20 10/11] KVM: arm64: nvhe: Disable branch generation in
+ nVHE guests
+Message-ID: <20250224104147.GD8144@e132581.arm.com>
+References: <20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org>
+ <20250218-arm-brbe-v19-v20-10-4e9922fc2e8e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3PR01MB9597FA2077E6FD498E8CDDD9B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250218-arm-brbe-v19-v20-10-4e9922fc2e8e@kernel.org>
 
-On Mon, Feb 24, 2025 at 10:32:27AM +0000, Aditya Garg wrote:
-> > On 24 Feb 2025, at 3:54 PM, andriy.shevchenko@linux.intel.com wrote:
-> > ﻿On Mon, Feb 24, 2025 at 10:18:48AM +0000, Aditya Garg wrote:
-> >>>> On 24 Feb 2025, at 3:28 PM, andriy.shevchenko@linux.intel.com wrote:
-> >>> ﻿On Sat, Feb 22, 2025 at 03:46:03PM +0000, Aditya Garg wrote:
-> >>>>>> On 20 Feb 2025, at 10:09 PM, Aditya Garg <gargaditya08@live.com> wrote:
-
-...
-
-> >>>>> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
-> >>>>> it's useful to be able to print generic 4-character codes formatted as
-> >>>>> an integer. Extend it to add format specifiers for printing generic
-> >>>>> 32-bit FOURCCs with various endian semantics:
-> >>>>> 
-> >>>>> %p4ch   Host-endian
-> >>>>> %p4cl Little-endian
-> >>>>> %p4cb Big-endian
-> >>>>> %p4cr Reverse-endian
-> >>>>> 
-> >>>>> The endianness determines how bytes are interpreted as a u32, and the
-> >>>>> FOURCC is then always printed MSByte-first (this is the opposite of
-> >>>>> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
-> >>>>> allow printing LSByte-first FOURCCs stored in host endian order
-> >>>>> (other than the hex form being in character order, not the integer
-> >>>>> value).
-> >>> 
-> >>> ...
-> >>> 
-> >>>> BTW, after looking at the comments by Martin [1], its actually better to use
-> >>>> existing specifiers for the appletbdrm driver.  The driver needs the host
-> >>>> endian as proposed by this patch, so instead of that, we can use %.4s
-> >>> 
-> >>> Do you mean this patch will not be needed? If this a case, that would be the
-> >>> best solution.
-> >> 
-> >> I tested with %4pE, and the results are different from expected. So this
-> >> would be preferred. Kindly see my latest email with a proposed workaround for
-> >> the sparse warnings.
-> > 
-> > %.4s sounded okay, but %4pE is always about escaping and the result may occupy
-> > %4x memory (octal escaping of non-printable characters). Of course, you may vary
-> > the escaping classes, but IIRC the octal or hex escaping is unconditional.
+On Tue, Feb 18, 2025 at 02:40:05PM -0600, Rob Herring (Arm) wrote:
 > 
-> %.4s is used for unsigned int iirc, here it's __le32.
+> From: Anshuman Khandual <anshuman.khandual@arm.com>
+> 
+> While BRBE can record branches within guests, the host recording
+> branches in guests is not supported by perf (though events are).
+> Support for BRBE in guests will supported by providing direct access
+> to BRBE within the guests. That is how x86 LBR works for guests.
+> Therefore, BRBE needs to be disabled on guest entry and restored on
+> exit.
+> 
+> For nVHE, this requires explicit handling for guests. Before
+> entering a guest, save the BRBE state and disable the it. When
+> returning to the host, restore the state.
+> 
+> For VHE, it is not necessary. We initialize
+> BRBCR_EL1.{E1BRE,E0BRE}=={0,0} at boot time, and HCR_EL2.TGE==1 while
+> running in the host. We configure BRBCR_EL2.{E2BRE,E0HBRE} to enable
+> branch recording in the host. When entering the guest, we set
+> HCR_EL2.TGE==0 which means BRBCR_EL1 is used instead of BRBCR_EL2.
+> Consequently for VHE, BRBE recording is disabled at EL1 and EL0 when
+> running a guest.
+> 
+> Should recording in guests (by the host) ever be desired, the perf ABI
+> will need to be extended to distinguish guest addresses (struct
+> perf_branch_entry.priv) for starters. BRBE records would also need to be
+> invalidated on guest entry/exit as guest/host EL1 and EL0 records can't
+> be distinguished.
+> 
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> Signed-off-by: Mark Rutland <mark.rutland@arm.com>
+> Co-developed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-No, it's used to 'char *'. in case one may guarantee that it at least is
-four characters long.
-
-> >>>> [1]: https://lore.kernel.org/asahi/E753B391-D2CB-4213-AF82-678ADD5A7644@cutebit.org/
-> >>>> 
-> >>>> Alternatively we could add a host endian only. Other endians are not really
-> >>>> used by any driver AFAIK. The host endian is being used by appletbdrm and
-> >>>> Asahi Linux’ SMC driver only.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Leo Yan <leo.yan@arm.com>
