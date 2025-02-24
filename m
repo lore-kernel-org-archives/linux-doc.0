@@ -1,295 +1,451 @@
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011028.outbound.protection.outlook.com [52.103.67.28])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8A824EF78;
-	Mon, 24 Feb 2025 16:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.28
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740413872; cv=fail; b=CG7MdFOC+cFbQ90qPBONKivuyJKXIY3Pak5J/EZjSPMfkm2HpL7yf9pY6r5AUnRmX3VEThcoBCwe7ccTTK3DGZpxMp6Rrrxw6lnQLeRg8k3dmxcqM+88XqUP//ihBY3VgztbNNfGaLZbneTQ2PsFEFAIXi6qfDlPTORFJyCDKHs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740413872; c=relaxed/simple;
-	bh=ZXyVKJ1fuHQRroKAPje4wDu9RMfSS3V/8KedG/dFjyM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=n275w7Ydjg29e+1Y/OxqEvnkgzkcWngC7eCo7pOBJX+Q0Tb/0ZHx4vHeoXmb085w+TtP5WyN3OYgPL6QQ/oSmBPLNLhKrFwysQi20ZvSdXMqkrNHnp1wzY1KY/QrvU4SiD0NFuJRU6OggDSoFqXg3y5bx0QSzIK+IAakGCMm3cM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=AfO6HReZ; arc=fail smtp.client-ip=52.103.67.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716681A3176
+	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 16:56:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740416171; cv=none; b=Dc0u4MDb7wYWi2KTCGx6kYc/w733TBY3boxlZhdkM7zzMto6VUYxuxHTcPlFqY4CAipsKx1tmM6qV0FUwbdsQhhkNwfnNHRoErFsGEhAfiSHDykdVe9+F0wkR32afgC4mtd6rYnMCrekoJ+j9qORzfXDGBHwBu5gspSSmwcKho0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740416171; c=relaxed/simple;
+	bh=Ny8n8bARUVf8JItxY4j22UnzS9WTtRZSxSuYtNP+Jc0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J3+TSITbyDcyNid9z3Waw+u658X+GKNeaeluRotLOLYD5DpFwgXJUiL3kKpZ2wnGoymCgPcYhR4X2JkdvW6HzLBuJFBhC7Ppn3p8ijM5tD3haFSuODPQDKfBLoi+Yf4cMXoSYBFmo7vzmFHRNndAHJd+ENXcqm4wCWYc9jPiH1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Njy4c4rB; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="AfO6HReZ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FdP2tU1oilGtAOGTGiGOUYWS4y2PWuxFZtyFS+np51pS2n+1R9hq3tGvovU3LYfBRxmjMFGWMX4CN+ySczfx+HcI/gtFLhuhsSEJ9bCXFvShqAXR8QFYqKGoC7Vvf/bbVbaJneDCU6hiFx4n6tAekmxrfJQ6DKiU3FCl/SQJoRF2cMJvJeuToow9y8XAJSH2hRU1b1XJ+5s/2SN+Vc0zrcZTcTaBOTNjFuFAIi9kzYMmHO+A/FFRnCwePl47J0aYS9DnsPLkbEYij+2zD24UHqEUnegre4Nsqlo6SPENx5h60jLZG/Ckzcx5kTLOJE/8Gc7qVkMZKg2dSP546nD9vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZXyVKJ1fuHQRroKAPje4wDu9RMfSS3V/8KedG/dFjyM=;
- b=MrJpkNn4233dvEYyCLy17cew07QLDfz0Q6qHmvmPkkFAah1kC/ks/oYRyvg+GSihFNPM3HfeQe1FqjfHaJeOutFIOxQhS8cKjnxelmm+5sHL0r7WM3kQXL1NCGAOqMmrlnpyibvwl/9zXEwdJ8HHWDxFS+6aDq8rLMLP15Dp80oMS888QLKlW/3n0rZrqWB3HLcjF0RwU9EZRSOrUl1euzi8ANFrlUAgDI35WbzgRyQWlfn0BGWRRUNEqRxZ2bfWfT6KUknU/2DehiM2gJ4kuSnddzWbJrqVC3ak7eoPSJuhg7ZqqBKb0c6fKwpVnQ/whte2761MdmSaO5DWH7Ql/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZXyVKJ1fuHQRroKAPje4wDu9RMfSS3V/8KedG/dFjyM=;
- b=AfO6HReZMRwsNXcGpqsG8jyrvnbP7+AQH3AcFgu/8lpNkTAwN4aFWTzBdZEw6HFQW+Zt4c3AUdDgn1krWqPb3J3TLz0FULNIDTMBx07/8bRHhuFeoCzpick7IkxGNOAXA9ziSNpGFDT8qVWXVp5ay8BWZ2kr88PXMgz1iXvGeLO4MwlYyAIyBHv8TM0Xfozxa4JH65U4ufu4AJfBPRZHyeVxVZ63VABuX7GzgYrWL7mYV5STr9TtMAb0LZqB7Vf8SPVJlZQIccqsghjSnXV2wbORtyW5W0lAlUq+nAlbFbvdmmDxQA3uBz82nHHaKjPQj0+zC5HlHpaNiIOFp8HZww==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PNXPR01MB7074.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:c5::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.20; Mon, 24 Feb
- 2025 16:17:38 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
- 16:17:38 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: "pmladek@suse.com" <pmladek@suse.com>, "rostedt@goodmis.org"
-	<rostedt@goodmis.org>, "andriy.shevchenko@linux.intel.com"
-	<andriy.shevchenko@linux.intel.com>, "linux@rasmusvillemoes.dk"
-	<linux@rasmusvillemoes.dk>, "senozhatsky@chromium.org"
-	<senozhatsky@chromium.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-	"mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
-	<tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
-	"simona@ffwll.ch" <simona@ffwll.ch>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>, "dwaipayanray1@gmail.com"
-	<dwaipayanray1@gmail.com>, "lukas.bulwahn@gmail.com"
-	<lukas.bulwahn@gmail.com>, "sumit.semwal@linaro.org"
-	<sumit.semwal@linaro.org>, "christian.koenig@amd.com"
-	<christian.koenig@amd.com>
-CC: "kekrby@gmail.com" <kekrby@gmail.com>, "admin@kodeit.net"
-	<admin@kodeit.net>, Orlando Chamberlain <orlandoch.dev@gmail.com>,
-	"evepolonium@gmail.com" <evepolonium@gmail.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
-	<linaro-mm-sig@lists.linaro.org>, Hector Martin <marcan@marcan.st>,
-	"linux@armlinux.org.uk" <linux@armlinux.org.uk>, "asahi@lists.linux.dev"
-	<asahi@lists.linux.dev>, Sven Peter <sven@svenpeter.dev>, Janne Grunau
-	<j@jannau.net>
-Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Thread-Topic: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Thread-Index: AQHbg7X/VQv9Od0O+UavMLVdMg72b7NWp9L1
-Date: Mon, 24 Feb 2025 16:17:38 +0000
-Message-ID:
- <PN3PR01MB95971110670F02685E6AF519B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
- <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
-In-Reply-To: <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-IN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|PNXPR01MB7074:EE_
-x-ms-office365-filtering-correlation-id: 66ac91ae-0ac4-4f14-c43a-08dd54eec1d2
-x-microsoft-antispam:
- BCL:0;ARA:14566002|15080799006|6072599003|7092599003|461199028|19110799003|8062599003|8060799006|102099032|3412199025|440099028|41001999003;
-x-microsoft-antispam-message-info:
- =?utf-8?B?UkxOR29pWWo0aDdvN2Ird2R4Rmw3NEo0OHJNS2lxSWpIM09OMDBYUXlGSy9x?=
- =?utf-8?B?TDM4bUdNSEgxNVVaZm9mY2FCM2ZuYktRNTB5Zm9tbWdobExKSkxzcytYOHBx?=
- =?utf-8?B?ckVteDRycXkvczhqYmMwRldlYkNBNlNuOXdYc1U0cm1TQjgvU0lkT05sbG50?=
- =?utf-8?B?WkFrcXlJZUJkNVNWZXppdldPT1VEMXhUbTUzaHpENDNOUXdseHdnOTZxNVV2?=
- =?utf-8?B?TWliY3oxWUdvSk4xRGJ2b0xvcXJYcHc1TVR0dEVRQlhHV29NUE1FeGNEQWlo?=
- =?utf-8?B?Y2NjM3Z2Z1pJbDFzcGdjQ2Vxak41SUdaQkdLU1VOKzkxdThpa3VmRUxDdGJy?=
- =?utf-8?B?djRncTd4cVJacHp5cDBZTmF2Rm02R00zaWdMVS9VcFFSWTFIdGFBSCtjZFJP?=
- =?utf-8?B?eDRRd0dGZVB3cUt6cTU2R3RRV0xEaG5maHRCTGw1R2hTeElma2xzaDI3cXBJ?=
- =?utf-8?B?NUF2b1ptMXFVTVNIdUs3bk5WZzI1R2kwOUN5c2ZtN1ZXS2RZVHV1ZkFuR1Ar?=
- =?utf-8?B?ck9GWkNheThMSmpTMTFBbFZYMzdpdk5yYXZVMnJaMkVjdDdZU1ZYcVlSUUJi?=
- =?utf-8?B?SEhXYmpEWXBJd3Q5eVdUVmg2RzNrZkpobXNPc3JEemVhbzF2bnZFNVdQbjFR?=
- =?utf-8?B?cTMxUWx6VFUxYWcxOThHQ09GNHQ0NjBFaG0vbVdTZjlUMmJTcGpDaWU3Zzhx?=
- =?utf-8?B?dEZWL0t0Wk9oTmVJYTdZN3hxOFFNclI4SjJhRjRoZmNyeWZBTXlNeWlzMElz?=
- =?utf-8?B?RjFlREVYbGlQckZ0TE91NTFHTGZGdk1MOWNLcVBQNVRRZ2VoRVFVdVdnY1Nr?=
- =?utf-8?B?Zk5DWUJqQ3g0WVdOU2kvNysyRi94WTVqY3NxK0JTRWg2WXZaZ25MNnExRUli?=
- =?utf-8?B?a3VvY0VmT2NMckU3dWVKOXZNMjVnUlljOFY3QnkyS3BaeTliTENPVE1WM2dS?=
- =?utf-8?B?YVRBQWF6ODFNV3hVNUEvdHFReUU1SU1ub3RRVjZFMmV1aVZjK0MzQlBBa0dx?=
- =?utf-8?B?ZTlNaGQrb29MZ0VjU1hISmRSVkRwYnhncWwvVjhEa1hGSWZSVnlnaEZhc29Z?=
- =?utf-8?B?OXorUzA0UzhNM0U4aE01cVFzUVpQaE82dkluRHRkU0IwOEtQc2tlY215Zk1C?=
- =?utf-8?B?QUdEYUVkekp3aWxkZkRVanNoSFczdHptcmtYbHNUakJqdWNwU0VJeTlOYTkr?=
- =?utf-8?B?SnJRZUR2WXNKTlEvcFdIeVY5SHU5RW54YkRCa1BURGRBL1BFWnlYaStOK3Qx?=
- =?utf-8?B?dHU1SG5xRjlra0U5YzZNcTZ2SFlOc1BWMEhzVmY1aXQrNkJUdUVCNTRCakcw?=
- =?utf-8?B?cUxGdXdXVGRkTXlGbEtqdDVtemt6OENLUzkwSW5qOFZZRHNIS3ZUSjFUZmNV?=
- =?utf-8?B?Ry9HZzRabG9tUTF5aUcwZENHdjhQK0ZXeWgxSnFyRGxFendkWUZCaEMvOGhX?=
- =?utf-8?B?Ui91Qlg2Z1dlYy9BK1o2YTFVaXEyZkphY3ZjQTIwYW1WczByTGFqT2cvVlRa?=
- =?utf-8?Q?mWlzcN2wriaLs2wb2yiBkjLl8+H?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?QjlzTmtwQ3BoNitZWS82L1ZKejc5Tjd6cisxUkNuUkw2K3JrVHJVaUo3bnVF?=
- =?utf-8?B?MTg0dzIzSTNpRERtV0RSandFdmNHS2Y1YjdtSjYyOHJQUUhiNGxTWGNBdWFq?=
- =?utf-8?B?SWs1dGNNUy9MamEvY3ZhOC9BMG9nbmFNNUQySlF2NW0wT3hRNHJ2UUQrUCsz?=
- =?utf-8?B?WlhHRXVhbCtnNUdhNHBDbWJpQ2M2UW1tUmpkeW1kRHE0b0RpVExMZU1wL2R3?=
- =?utf-8?B?NGNiUzZyazMzZy9RalVHSEt3SUY3RXVZLzdaQTVmNTg1M3ZmSWtTUlRSTldv?=
- =?utf-8?B?VnRBcEhqUGdtQjJkM0x0TjRkbWhYbG1HVG5GSXhUV3lxU0dIbU1mV3VOS0xq?=
- =?utf-8?B?MDFMTEtvQWRWZ1Q3MnBjZGtrK09MTUxtL01Kb0g5SVpFbThJVmYvcWNMblZv?=
- =?utf-8?B?VURZSUJ4WSt0Q0J5dWo2QTVPWlN4QTIybkZUTE54Vm15WWcrNTZDNVVxNThm?=
- =?utf-8?B?dTRwdFFqZDZOUlZvUW52d3hVOXF1MXlwWmFudW1qWHp0RXhrYWIyeDJvdTkr?=
- =?utf-8?B?bU1FNVRjY1l1aXlUTjhYdS9vZ25LYzYwOHpLem83ZGJMKzdUOVdRUG1RL2lK?=
- =?utf-8?B?Vld3dVNORzRUL3dXVjlrYnpTRkl3bDhQK3U5dHZqVkN6SGFUMW9BQnVaUXBp?=
- =?utf-8?B?VzgrWWh0YktNSTNjRTRmWkVacVZQUU5VckM3eks0OHdHK1ZRa3hIeGlmZkJ6?=
- =?utf-8?B?dzNFWFhFNjJGNHl5ekx3SVlGRTlldUZPdWR1ZDlhOWNyQ25Rd1NvR2JJd3Ri?=
- =?utf-8?B?b0xHaGxwU2lyc3FpTUJBWnZHZWFvaVBxVllmNGYrRjNqelJneHVtQlo1d0RT?=
- =?utf-8?B?S2VzVGhWcG5zM000ekNiZkZmREIva05vOFhHNXFXNXd5cGVsRk1RbWRHcTdw?=
- =?utf-8?B?ejRGRmoxR2Qwa09TZkwwTy82ZW1qclphRmQ3MUp5UjlCek5NVjVBR2wrSjVH?=
- =?utf-8?B?U0puczhuN25EbzhNcjZSTkFOK2FmbFRveW01MklMT2U5QUZoQW5ycGlUcm1i?=
- =?utf-8?B?eTBFYmUvU2RiYjVyY2FBcWZONDFjRzlqVzZGcnhoSmxvckJ4NlZkMTA0ZXov?=
- =?utf-8?B?RFhXZTBOeWFmRmZrWWlYcm9nZGdjbXg1bnpYb2hBWG4yZ294d2t3MDkvRFUv?=
- =?utf-8?B?a3Zhb1FYcW4wQytJL3BRcHdDa2NjWS9sdnB2Y2dianhZNEs5SkM4OUJNbklJ?=
- =?utf-8?B?RGRITEx3TVF0SUhJT0hmendVQlRXT3dGamF4dHRkTCsvMGpYMmIrN1dlempK?=
- =?utf-8?B?MStYd1lMQmxhbXJvV1RzU1pSZndnTEQ1bzVpc0NSZzZrQmZVaEl4TzNkcTNa?=
- =?utf-8?B?azcvMGc4ZEVOeXRyTnU2ckpmU3ZSWStLLytOSlFDM0dLdkFjSmpkeTNCM2pK?=
- =?utf-8?B?MzB5RHR3UW5oSmFDTU9IMkJTdkw4eUhVa1ZrOFlpWUhGdDJYUFc2TGJITmlR?=
- =?utf-8?B?akhlMHR1bnczN2R3V0VZamtWZHBma3BGRmF5TjNKVklneWd6QTBpd0FSMCs3?=
- =?utf-8?B?U1BMMmZHNFArS0V3R3FGTmtiQVpISS9tRGtkM0d0L3JJRVFmZnBaU1B1N0Zo?=
- =?utf-8?B?OXNLOWZSM0lBYWtTNE0rRFlLbUgvemQwbmZmMFVjem5TSkNRclFJd2tBZnNH?=
- =?utf-8?Q?KvzpAvNVdSK4tzIKrdQcSG88O6dLbwblje0PWduvNXVc=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Njy4c4rB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740416168;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vIgm4H2uHMHo4+m66r/a3CG1jRNxOBryy+RTgVgshV8=;
+	b=Njy4c4rBy3FanG/Eg22Fz9YrEoTTQQpnxgd2dHgb+PyoWOBlAhl7xJufkGGJDZn1X72zh3
+	rB9MvbTZK/8MUiKw465WjxpWEQmaUA0P+R3wmYRNCq9oLalQVeVpPtzKjH6oV3PUTEMTSG
+	fzWAFxUlFginx1463RG/75FNqxw/4CY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-576-9ddJwKnpNeCAXMCH5tg8Vw-1; Mon, 24 Feb 2025 11:56:07 -0500
+X-MC-Unique: 9ddJwKnpNeCAXMCH5tg8Vw-1
+X-Mimecast-MFC-AGG-ID: 9ddJwKnpNeCAXMCH5tg8Vw_1740416166
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-38f4cce15c8so2207622f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 08:56:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740416166; x=1741020966;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vIgm4H2uHMHo4+m66r/a3CG1jRNxOBryy+RTgVgshV8=;
+        b=NX/Js/llKkt9c3m6LyapyLsgJWCjLtVQqYX+IuPEniiPYkC3bdAU87ftW48wIj561O
+         bISCF2surqXi+XXBCr18XCmH7/DrHtpPU+kVT5cLbvRCIgyyfCL+YsS6AQPFFYfalXKW
+         81GFD7ofKlt18hkqGrLpZexYvg7zyHvP+Vd4oX7/37LAEIT/kBIFym3JGjuKn8ChWgVF
+         EqgnSwarQ2lHgNf0oiuEwIEr4m083bpuZ79N3CtbZ6/GIpyKYGcyP0PyLhoXlRg8PRFa
+         cVFD0GXgHMbPb9+s/bSngM5RCYb4TKMB/ITEMPFsu5z8H91bbEbqJ0VmBiatD75FRiPT
+         Ibxg==
+X-Gm-Message-State: AOJu0YzXXy0o+Q+LJy00HfyJe7JP9ZCQVP80LCy8wJ6QxhbSndoLndla
+	lUcDEOogfWICNWNeLOqahU2Wa8GthPzzVsaUSm76zgLb1lgZMaoqN77Rb5HLva0zwgteajQI3Y0
+	KMEhTX/8kWAomFHfhLJUkYfsiMKb4tWGolkDYN4w4kbI0NUfzNb6dAmk9Ug==
+X-Gm-Gg: ASbGnctqMCNpQrsEIu5fHc5zO6JOTJ9cXEjl5a5UResQKwVgRIkXzGE5haTW6V3PVY5
+	KkxcTvUETNVNgLsAX8hOpIeYDYMVmC7jGk5W2Ks0yiql8bGPGDAt7TK1+ilU0rDFiMyliLoOK9b
+	wKMZ0k+qRldA/i6048xC5VVsTnurqTiiZO+YebrksddhjcgcowTzzT5soouUk6+jVJBLXdIpMXm
+	aox+AMcZPhWCuaLgJ3TZZqhbyBeVYfw5WfINXtXMdxE4yPTSpLnbQaQXaXIUZVS+34zSIFquTY8
+	kUyxTFRRODsSDZQ5FttHKj72snfYvQAmnubbWl2Lvw==
+X-Received: by 2002:a5d:6d84:0:b0:38d:e61a:bc7 with SMTP id ffacd0b85a97d-38f6f097d06mr13544007f8f.40.1740416165596;
+        Mon, 24 Feb 2025 08:56:05 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHN8OH3n9WE23Lc4kXfIlxiOxHRhk72tX7EnWl0S28OyqBX37h81SgW+6HH/Zw+hw7Pg1sjOg==
+X-Received: by 2002:a5d:6d84:0:b0:38d:e61a:bc7 with SMTP id ffacd0b85a97d-38f6f097d06mr13543976f8f.40.1740416165076;
+        Mon, 24 Feb 2025 08:56:05 -0800 (PST)
+Received: from localhost (p4ff234b6.dip0.t-ipconnect.de. [79.242.52.182])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-439b031b954sm111060545e9.37.2025.02.24.08.56.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2025 08:56:04 -0800 (PST)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Jann Horn <jannh@google.com>
+Subject: [PATCH v2 00/20] mm: MM owner tracking for large folios (!hugetlb) + CONFIG_NO_PAGE_MAPCOUNT
+Date: Mon, 24 Feb 2025 17:55:42 +0100
+Message-ID: <20250224165603.1434404-1-david@redhat.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66ac91ae-0ac4-4f14-c43a-08dd54eec1d2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2025 16:17:38.6825
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNXPR01MB7074
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-SSByZXF1ZXN0IHRoZSBwcmludGsgbWFpbnRhaW5lcnMgZm9yIHRoZWlyIHZpZXdzIG9uIHdoZXRo
-ZXIgaWYgdGhleSBhcmUgb2sgd2l0aCB0aGUgc3BhcnNlIGVycm9ycyBpbiB0aGlzIG9yaWdpbmFs
-IHBhdGNoLg0KDQo+IE9uIDIwIEZlYiAyMDI1LCBhdCAxMDowOeKAr1BNLCBBZGl0eWEgR2FyZyA8
-Z2FyZ2FkaXR5YTA4QGxpdmUuY29tPiB3cm90ZToNCj4gDQo+IO+7v0Zyb206IEhlY3RvciBNYXJ0
-aW4gPG1hcmNhbkBtYXJjYW4uc3Q+DQo+IA0KPiAlcDRjYyBpcyBkZXNpZ25lZCBmb3IgRFJNL1Y0
-TDIgRk9VUkNDcyB3aXRoIHRoZWlyIHNwZWNpZmljIHF1aXJrcywgYnV0DQo+IGl0J3MgdXNlZnVs
-IHRvIGJlIGFibGUgdG8gcHJpbnQgZ2VuZXJpYyA0LWNoYXJhY3RlciBjb2RlcyBmb3JtYXR0ZWQg
-YXMNCj4gYW4gaW50ZWdlci4gRXh0ZW5kIGl0IHRvIGFkZCBmb3JtYXQgc3BlY2lmaWVycyBmb3Ig
-cHJpbnRpbmcgZ2VuZXJpYw0KPiAzMi1iaXQgRk9VUkNDcyB3aXRoIHZhcmlvdXMgZW5kaWFuIHNl
-bWFudGljczoNCj4gDQo+ICVwNGNoICAgSG9zdC1lbmRpYW4NCj4gJXA0Y2wgICAgTGl0dGxlLWVu
-ZGlhbg0KPiAlcDRjYiAgICBCaWctZW5kaWFuDQo+ICVwNGNyICAgIFJldmVyc2UtZW5kaWFuDQo+
-IA0KPiBUaGUgZW5kaWFubmVzcyBkZXRlcm1pbmVzIGhvdyBieXRlcyBhcmUgaW50ZXJwcmV0ZWQg
-YXMgYSB1MzIsIGFuZCB0aGUNCj4gRk9VUkNDIGlzIHRoZW4gYWx3YXlzIHByaW50ZWQgTVNCeXRl
-LWZpcnN0ICh0aGlzIGlzIHRoZSBvcHBvc2l0ZSBvZg0KPiBWNEwvRFJNIEZPVVJDQ3MpLiBUaGlz
-IGNvdmVycyBtb3N0IHByYWN0aWNhbCBjYXNlcywgZS5nLiAlcDRjciB3b3VsZA0KPiBhbGxvdyBw
-cmludGluZyBMU0J5dGUtZmlyc3QgRk9VUkNDcyBzdG9yZWQgaW4gaG9zdCBlbmRpYW4gb3JkZXIN
-Cj4gKG90aGVyIHRoYW4gdGhlIGhleCBmb3JtIGJlaW5nIGluIGNoYXJhY3RlciBvcmRlciwgbm90
-IHRoZSBpbnRlZ2VyDQo+IHZhbHVlKS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEhlY3RvciBNYXJ0
-aW4gPG1hcmNhbkBtYXJjYW4uc3Q+DQo+IFNpZ25lZC1vZmYtYnk6IEFkaXR5YSBHYXJnIDxnYXJn
-YWRpdHlhMDhAbGl2ZS5jb20+DQo+IC0tLQ0KPiB2MiAtPiBBZGQgdGhpcyBwYXRjaA0KPiBEb2N1
-bWVudGF0aW9uL2NvcmUtYXBpL3ByaW50ay1mb3JtYXRzLnJzdCB8IDMyICsrKysrKysrKysrKysr
-KysrKysNCj4gbGliL3Rlc3RfcHJpbnRmLmMgICAgICAgICAgICAgICAgICAgICAgICAgfCAzOSAr
-KysrKysrKysrKysrKysrKysrLS0tLQ0KPiBsaWIvdnNwcmludGYuYyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB8IDM4ICsrKysrKysrKysrKysrKysrKy0tLS0NCj4gc2NyaXB0cy9jaGVja3Bh
-dGNoLnBsICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQ0KPiA0IGZpbGVzIGNoYW5nZWQsIDk3
-IGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL0RvY3Vt
-ZW50YXRpb24vY29yZS1hcGkvcHJpbnRrLWZvcm1hdHMucnN0IGIvRG9jdW1lbnRhdGlvbi9jb3Jl
-LWFwaS9wcmludGstZm9ybWF0cy5yc3QNCj4gaW5kZXggZWNjY2MwNDczLi45OTgyODYxZmEgMTAw
-NjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vY29yZS1hcGkvcHJpbnRrLWZvcm1hdHMucnN0DQo+
-ICsrKyBiL0RvY3VtZW50YXRpb24vY29yZS1hcGkvcHJpbnRrLWZvcm1hdHMucnN0DQo+IEBAIC02
-NDgsNiArNjQ4LDM4IEBAIEV4YW1wbGVzOjoNCj4gICAgJXA0Y2MgICAgWTEwICBsaXR0bGUtZW5k
-aWFuICgweDIwMzAzMTU5KQ0KPiAgICAlcDRjYyAgICBOVjEyIGJpZy1lbmRpYW4gKDB4YjIzMTU2
-NGUpDQo+IA0KPiArR2VuZXJpYyBGb3VyQ0MgY29kZQ0KPiArLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
-PiArDQo+ICs6Og0KPiArICAgICVwNGNbaHJibF0gICAgZ1AwMCAoMHg2NzUwMzAzMCkNCj4gKw0K
-PiArUHJpbnQgYSBnZW5lcmljIEZvdXJDQyBjb2RlLCBhcyBib3RoIEFTQ0lJIGNoYXJhY3RlcnMg
-YW5kIGl0cyBudW1lcmljYWwNCj4gK3ZhbHVlIGFzIGhleGFkZWNpbWFsLg0KPiArDQo+ICtUaGUg
-YWRkaXRpb25hbCBgYGhgYCwgYGByYGAsIGBgYmBgLCBhbmQgYGBsYGAgc3BlY2lmaWVycyBhcmUg
-dXNlZCB0byBzcGVjaWZ5DQo+ICtob3N0LCByZXZlcnNlZCwgYmlnIG9yIGxpdHRsZSBlbmRpYW4g
-b3JkZXIgZGF0YSByZXNwZWN0aXZlbHkuIEhvc3QgZW5kaWFuDQo+ICtvcmRlciBtZWFucyB0aGUg
-ZGF0YSBpcyBpbnRlcnByZXRlZCBhcyBhIDMyLWJpdCBpbnRlZ2VyIGFuZCB0aGUgbW9zdA0KPiAr
-c2lnbmlmaWNhbnQgYnl0ZSBpcyBwcmludGVkIGZpcnN0OyB0aGF0IGlzLCB0aGUgY2hhcmFjdGVy
-IGNvZGUgYXMgcHJpbnRlZA0KPiArbWF0Y2hlcyB0aGUgYnl0ZSBvcmRlciBzdG9yZWQgaW4gbWVt
-b3J5IG9uIGJpZy1lbmRpYW4gc3lzdGVtcywgYW5kIGlzIHJldmVyc2VkDQo+ICtvbiBsaXR0bGUt
-ZW5kaWFuIHN5c3RlbXMuDQo+ICsNCj4gK1Bhc3NlZCBieSByZWZlcmVuY2UuDQo+ICsNCj4gK0V4
-YW1wbGVzIGZvciBhIGxpdHRsZS1lbmRpYW4gbWFjaGluZSwgZ2l2ZW4gJih1MzIpMHg2NzUwMzAz
-MDo6DQo+ICsNCj4gKyAgICAlcDRjaCAgICBnUDAwICgweDY3NTAzMDMwKQ0KPiArICAgICVwNGNy
-ICAgIDAwUGcgKDB4MzAzMDUwNjcpDQo+ICsgICAgJXA0Y2IgICAgMDBQZyAoMHgzMDMwNTA2NykN
-Cj4gKyAgICAlcDRjbCAgICBnUDAwICgweDY3NTAzMDMwKQ0KPiArDQo+ICtFeGFtcGxlcyBmb3Ig
-YSBiaWctZW5kaWFuIG1hY2hpbmUsIGdpdmVuICYodTMyKTB4Njc1MDMwMzA6Og0KPiArDQo+ICsg
-ICAgJXA0Y2ggICAgZ1AwMCAoMHg2NzUwMzAzMCkNCj4gKyAgICAlcDRjciAgICAwMFBnICgweDMw
-MzA1MDY3KQ0KPiArICAgICVwNGNiICAgIGdQMDAgKDB4Njc1MDMwMzApDQo+ICsgICAgJXA0Y2wg
-ICAgMDBQZyAoMHgzMDMwNTA2NykNCj4gKw0KPiBSdXN0DQo+IC0tLS0NCj4gDQo+IGRpZmYgLS1n
-aXQgYS9saWIvdGVzdF9wcmludGYuYyBiL2xpYi90ZXN0X3ByaW50Zi5jDQo+IGluZGV4IDU5ZGJl
-NGY5YS4uZWU4NjAzMjdlIDEwMDY0NA0KPiAtLS0gYS9saWIvdGVzdF9wcmludGYuYw0KPiArKysg
-Yi9saWIvdGVzdF9wcmludGYuYw0KPiBAQCAtNzc2LDIxICs3NzYsNDYgQEAgc3RhdGljIHZvaWQg
-X19pbml0IGZ3bm9kZV9wb2ludGVyKHZvaWQpDQo+ICAgIHNvZnR3YXJlX25vZGVfdW5yZWdpc3Rl
-cl9ub2RlX2dyb3VwKGdyb3VwKTsNCj4gfQ0KPiANCj4gK3N0cnVjdCBmb3VyY2Nfc3RydWN0IHsN
-Cj4gKyAgICB1MzIgY29kZTsNCj4gKyAgICBjb25zdCBjaGFyICpzdHI7DQo+ICt9Ow0KPiArDQo+
-ICtzdGF0aWMgdm9pZCBfX2luaXQgZm91cmNjX3BvaW50ZXJfdGVzdChjb25zdCBzdHJ1Y3QgZm91
-cmNjX3N0cnVjdCAqZmMsIHNpemVfdCBuLA0KPiArICAgICAgICAgICAgICAgICAgICAgICBjb25z
-dCBjaGFyICpmbXQpDQo+ICt7DQo+ICsgICAgc2l6ZV90IGk7DQo+ICsNCj4gKyAgICBmb3IgKGkg
-PSAwOyBpIDwgbjsgaSsrKQ0KPiArICAgICAgICB0ZXN0KGZjW2ldLnN0ciwgZm10LCAmZmNbaV0u
-Y29kZSk7DQo+ICt9DQo+ICsNCj4gc3RhdGljIHZvaWQgX19pbml0IGZvdXJjY19wb2ludGVyKHZv
-aWQpDQo+IHsNCj4gLSAgICBzdHJ1Y3Qgew0KPiAtICAgICAgICB1MzIgY29kZTsNCj4gLSAgICAg
-ICAgY2hhciAqc3RyOw0KPiAtICAgIH0gY29uc3QgdHJ5W10gPSB7DQo+ICsgICAgc3RydWN0IGZv
-dXJjY19zdHJ1Y3QgY29uc3QgdHJ5X2NjW10gPSB7DQo+ICAgICAgICB7IDB4MzIzMTU2NGUsICJO
-VjEyIGxpdHRsZS1lbmRpYW4gKDB4MzIzMTU2NGUpIiwgfSwNCj4gICAgICAgIHsgMHhiMjMxNTY0
-ZSwgIk5WMTIgYmlnLWVuZGlhbiAoMHhiMjMxNTY0ZSkiLCB9LA0KPiAgICAgICAgeyAweDEwMTEx
-MjEzLCAiLi4uLiBsaXR0bGUtZW5kaWFuICgweDEwMTExMjEzKSIsIH0sDQo+ICAgICAgICB7IDB4
-MjAzMDMxNTksICJZMTAgIGxpdHRsZS1lbmRpYW4gKDB4MjAzMDMxNTkpIiwgfSwNCj4gICAgfTsN
-Cj4gLSAgICB1bnNpZ25lZCBpbnQgaTsNCj4gKyAgICBzdHJ1Y3QgZm91cmNjX3N0cnVjdCBjb25z
-dCB0cnlfY2ggPSB7DQo+ICsgICAgICAgIDB4NDE0MjQzNDQsICJBQkNEICgweDQxNDI0MzQ0KSIs
-DQo+ICsgICAgfTsNCj4gKyAgICBzdHJ1Y3QgZm91cmNjX3N0cnVjdCBjb25zdCB0cnlfY3IgPSB7
-DQo+ICsgICAgICAgIDB4NDE0MjQzNDQsICJEQ0JBICgweDQ0NDM0MjQxKSIsDQo+ICsgICAgfTsN
-Cj4gKyAgICBzdHJ1Y3QgZm91cmNjX3N0cnVjdCBjb25zdCB0cnlfY2wgPSB7DQo+ICsgICAgICAg
-IGxlMzJfdG9fY3B1KDB4NDE0MjQzNDQpLCAiQUJDRCAoMHg0MTQyNDM0NCkiLA0KPiArICAgIH07
-DQo+ICsgICAgc3RydWN0IGZvdXJjY19zdHJ1Y3QgY29uc3QgdHJ5X2NiID0gew0KPiArICAgICAg
-ICBiZTMyX3RvX2NwdSgweDQxNDI0MzQ0KSwgIkFCQ0QgKDB4NDE0MjQzNDQpIiwNCj4gKyAgICB9
-Ow0KPiANCj4gLSAgICBmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRSh0cnkpOyBpKyspDQo+IC0g
-ICAgICAgIHRlc3QodHJ5W2ldLnN0ciwgIiVwNGNjIiwgJnRyeVtpXS5jb2RlKTsNCj4gKyAgICBm
-b3VyY2NfcG9pbnRlcl90ZXN0KHRyeV9jYywgQVJSQVlfU0laRSh0cnlfY2MpLCAiJXA0Y2MiKTsN
-Cj4gKyAgICBmb3VyY2NfcG9pbnRlcl90ZXN0KCZ0cnlfY2gsIDEsICIlcDRjaCIpOw0KPiArICAg
-IGZvdXJjY19wb2ludGVyX3Rlc3QoJnRyeV9jciwgMSwgIiVwNGNyIik7DQo+ICsgICAgZm91cmNj
-X3BvaW50ZXJfdGVzdCgmdHJ5X2NsLCAxLCAiJXA0Y2wiKTsNCj4gKyAgICBmb3VyY2NfcG9pbnRl
-cl90ZXN0KCZ0cnlfY2IsIDEsICIlcDRjYiIpOw0KPiB9DQo+IA0KPiBzdGF0aWMgdm9pZCBfX2lu
-aXQNCj4gZGlmZiAtLWdpdCBhL2xpYi92c3ByaW50Zi5jIGIvbGliL3ZzcHJpbnRmLmMNCj4gaW5k
-ZXggNTZmZTk2MzE5Li4xMzczM2E0ZGEgMTAwNjQ0DQo+IC0tLSBhL2xpYi92c3ByaW50Zi5jDQo+
-ICsrKyBiL2xpYi92c3ByaW50Zi5jDQo+IEBAIC0xNzgxLDI3ICsxNzgxLDUzIEBAIGNoYXIgKmZv
-dXJjY19zdHJpbmcoY2hhciAqYnVmLCBjaGFyICplbmQsIGNvbnN0IHUzMiAqZm91cmNjLA0KPiAg
-ICBjaGFyIG91dHB1dFtzaXplb2YoIjAxMjMgbGl0dGxlLWVuZGlhbiAoMHgwMTIzNDU2NykiKV07
-DQo+ICAgIGNoYXIgKnAgPSBvdXRwdXQ7DQo+ICAgIHVuc2lnbmVkIGludCBpOw0KPiArICAgIGJv
-b2wgcGl4ZWxfZm10ID0gZmFsc2U7DQo+ICAgIHUzMiBvcmlnLCB2YWw7DQo+IA0KPiAtICAgIGlm
-IChmbXRbMV0gIT0gJ2MnIHx8IGZtdFsyXSAhPSAnYycpDQo+ICsgICAgaWYgKGZtdFsxXSAhPSAn
-YycpDQo+ICAgICAgICByZXR1cm4gZXJyb3Jfc3RyaW5nKGJ1ZiwgZW5kLCAiKCVwND8pIiwgc3Bl
-Yyk7DQo+IA0KPiAgICBpZiAoY2hlY2tfcG9pbnRlcigmYnVmLCBlbmQsIGZvdXJjYywgc3BlYykp
-DQo+ICAgICAgICByZXR1cm4gYnVmOw0KPiANCj4gICAgb3JpZyA9IGdldF91bmFsaWduZWQoZm91
-cmNjKTsNCj4gLSAgICB2YWwgPSBvcmlnICYgfkJJVCgzMSk7DQo+ICsgICAgc3dpdGNoIChmbXRb
-Ml0pIHsNCj4gKyAgICBjYXNlICdoJzoNCj4gKyAgICAgICAgdmFsID0gb3JpZzsNCj4gKyAgICAg
-ICAgYnJlYWs7DQo+ICsgICAgY2FzZSAncic6DQo+ICsgICAgICAgIG9yaWcgPSBzd2FiMzIob3Jp
-Zyk7DQo+ICsgICAgICAgIHZhbCA9IG9yaWc7DQo+ICsgICAgICAgIGJyZWFrOw0KPiArICAgIGNh
-c2UgJ2wnOg0KPiArICAgICAgICBvcmlnID0gbGUzMl90b19jcHUob3JpZyk7DQo+ICsgICAgICAg
-IHZhbCA9IG9yaWc7DQo+ICsgICAgICAgIGJyZWFrOw0KPiArICAgIGNhc2UgJ2InOg0KPiArICAg
-ICAgICBvcmlnID0gYmUzMl90b19jcHUob3JpZyk7DQo+ICsgICAgICAgIHZhbCA9IG9yaWc7DQo+
-ICsgICAgICAgIGJyZWFrOw0KPiArICAgIGNhc2UgJ2MnOg0KPiArICAgICAgICAvKiBQaXhlbCBm
-b3JtYXRzIGFyZSBwcmludGVkIExTQi1maXJzdCAqLw0KPiArICAgICAgICB2YWwgPSBzd2FiMzIo
-b3JpZyAmIH5CSVQoMzEpKTsNCj4gKyAgICAgICAgcGl4ZWxfZm10ID0gdHJ1ZTsNCj4gKyAgICAg
-ICAgYnJlYWs7DQo+ICsgICAgZGVmYXVsdDoNCj4gKyAgICAgICAgcmV0dXJuIGVycm9yX3N0cmlu
-ZyhidWYsIGVuZCwgIiglcDQ/KSIsIHNwZWMpOw0KPiArICAgIH0NCj4gDQo+ICAgIGZvciAoaSA9
-IDA7IGkgPCBzaXplb2YodTMyKTsgaSsrKSB7DQo+IC0gICAgICAgIHVuc2lnbmVkIGNoYXIgYyA9
-IHZhbCA+PiAoaSAqIDgpOw0KPiArICAgICAgICB1bnNpZ25lZCBjaGFyIGMgPSB2YWwgPj4gKCgz
-IC0gaSkgKiA4KTsNCj4gDQo+ICAgICAgICAvKiBQcmludCBub24tY29udHJvbCBBU0NJSSBjaGFy
-YWN0ZXJzIGFzLWlzLCBkb3Qgb3RoZXJ3aXNlICovDQo+ICAgICAgICAqcCsrID0gaXNhc2NpaShj
-KSAmJiBpc3ByaW50KGMpID8gYyA6ICcuJzsNCj4gICAgfQ0KPiANCj4gLSAgICAqcCsrID0gJyAn
-Ow0KPiAtICAgIHN0cmNweShwLCBvcmlnICYgQklUKDMxKSA/ICJiaWctZW5kaWFuIiA6ICJsaXR0
-bGUtZW5kaWFuIik7DQo+IC0gICAgcCArPSBzdHJsZW4ocCk7DQo+ICsgICAgaWYgKHBpeGVsX2Zt
-dCkgew0KPiArICAgICAgICAqcCsrID0gJyAnOw0KPiArICAgICAgICBzdHJjcHkocCwgb3JpZyAm
-IEJJVCgzMSkgPyAiYmlnLWVuZGlhbiIgOiAibGl0dGxlLWVuZGlhbiIpOw0KPiArICAgICAgICBw
-ICs9IHN0cmxlbihwKTsNCj4gKyAgICB9DQo+IA0KPiAgICAqcCsrID0gJyAnOw0KPiAgICAqcCsr
-ID0gJygnOw0KPiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9jaGVja3BhdGNoLnBsIGIvc2NyaXB0cy9j
-aGVja3BhdGNoLnBsDQo+IGluZGV4IDdiMjhhZDMzMS4uMjE1MTZmNzUzIDEwMDc1NQ0KPiAtLS0g
-YS9zY3JpcHRzL2NoZWNrcGF0Y2gucGwNCj4gKysrIGIvc2NyaXB0cy9jaGVja3BhdGNoLnBsDQo+
-IEBAIC02OTA0LDcgKzY5MDQsNyBAQCBzdWIgcHJvY2VzcyB7DQo+ICAgICAgICAgICAgICAgICAg
-ICAgICAgKCRleHRlbnNpb24gZXEgImYiICYmDQo+ICAgICAgICAgICAgICAgICAgICAgICAgIGRl
-ZmluZWQgJHF1YWxpZmllciAmJiAkcXVhbGlmaWVyICF+IC9edy8pIHx8DQo+ICAgICAgICAgICAg
-ICAgICAgICAgICAgKCRleHRlbnNpb24gZXEgIjQiICYmDQo+IC0gICAgICAgICAgICAgICAgICAg
-ICAgICAgZGVmaW5lZCAkcXVhbGlmaWVyICYmICRxdWFsaWZpZXIgIX4gL15jYy8pKSB7DQo+ICsg
-ICAgICAgICAgICAgICAgICAgICAgICAgZGVmaW5lZCAkcXVhbGlmaWVyICYmICRxdWFsaWZpZXIg
-IX4gL15jW2NobGJyXS8pKSB7DQo+ICAgICAgICAgICAgICAgICAgICAgICAgJGJhZF9zcGVjaWZp
-ZXIgPSAkc3BlY2lmaWVyOw0KPiAgICAgICAgICAgICAgICAgICAgICAgIGxhc3Q7DQo+ICAgICAg
-ICAgICAgICAgICAgICB9DQo+IC0tDQo+IDIuNDMuMA0KPiANCg==
+This patch series is about to haunt me in my dreams, and the time spent
+on this is ridiculous ... anyhow, here goes a new version that now also
+supports 32bit (I wish we would have dynamically allocated "struct folio"
+already ...) and always enables the new tracking with
+CONFIG_TRANSPARENT_HUGEPAGE.
+
+Let's add an "easy" way to decide -- without false positives, without
+page-mapcounts and without page table/rmap scanning -- whether a large
+folio is "certainly mapped exclusively" into a single MM, or whether it
+"maybe mapped shared" into multiple MMs.
+
+Use that information to implement Copy-on-Write reuse, to convert
+folio_likely_mapped_shared() to folio_maybe_mapped_share(), and to
+introduce a kernel config option that let's us not use+maintain
+per-page mapcounts in large folios anymore.
+
+The bigger picture was presented at LSF/MM [1].
+
+This series is effectively a follow-up on my early work [2], which
+implemented a more precise, but also more complicated, way to identify
+whether a large folio is "mapped shared" into multiple MMs or
+"mapped exclusively" into a single MM.
+
+
+1 Patch Organization
+====================
+
+Patch #1 -> #6: make more room in order-1 folios, so we have two
+                "unsigned long" available for our purposes
+
+Patch #7 -> #11: preparations
+
+Patch #12: MM owner tracking for large folios
+
+Patch #13: COW reuse for PTE-mapped anon THP
+
+Patch #14: folio_maybe_mapped_shared()
+
+Patch #15 -> #20: introduce and implement CONFIG_NO_PAGE_MAPCOUNT
+
+
+2 MM owner tracking
+===================
+
+We assign each MM a unique ID ("MM ID"), to be able to squeeze more
+information in our folios. On 32bit we use 15-bit IDs, on 64bit we use
+31-bit IDs.
+
+For each large folios, we now store two MM-ID+mapcount ("slot")
+combinations:
+* mm0_id + mm0_mapcount
+* mm1_id + mm1_mapcount
+
+On 32bit, we use a 16-bit per-MM mapcount, on 64bit an ordinary 32bit
+mapcount. This way, we require 2x "unsigned long" on 32bit and 64bit for
+both slots.
+
+Paired with the large mapcount, we can reliably identify whether one
+of these MMs is the current owner (-> owns all mappings) or even holds
+all folio references (-> owns all mappings, and all references are from
+mappings).
+
+As long as only two MMs map folio pages at a time, we can reliably and
+precisely identify whether a large folio is "mapped shared" or
+"mapped exclusively".
+
+Any additional MM that starts mapping the folio while there are no free
+slots becomes an "untracked MM". If one such "untracked MM" is the last
+one mapping a folio exclusively, we will *not* detect the folio as
+"mapped exclusively" but instead as "maybe mapped shared". (exception:
+only a single mapping remains)
+
+So that's where the approach gets imprecise.
+
+For now, we use a bit-spinlock to sync the large mapcount + slots, and
+make sure we do keep the machinery fast, to not degrade (un)map performance
+drastically: for example, we make sure to only use a single atomic (when
+grabbing the bit-spinlock), like we would already perform when updating
+the large mapcount.
+
+
+3 CONFIG_NO_PAGE_MAPCOUNT
+=========================
+
+patch #15 -> #20 spell out and document what exactly is affected when
+not maintaining the per-page mapcounts in large folios anymore.
+
+Most importantly, as we cannot maintain folio->_nr_pages_mapped anymore when
+(un)mapping pages, we'll account a complete folio as mapped if a
+single page is mapped. In addition, we'll not detect partially mapped
+anonymous folios as such in all cases yet.
+
+Likely less relevant changes include that we might now under-estimate the
+USS (Unique Set Size) of a process, but never over-estimate it.
+
+The goal is to make CONFIG_NO_PAGE_MAPCOUNT the default at some point,
+to then slowly make it the only option, as we learn about real-life
+impacts and possible ways to mitigate them.
+
+
+4 Performance
+=============
+
+Detailed performance numbers were included in v1 [4], and not that much
+changed between v1 and v2.
+
+I did plenty of measurements on different systems in the meantime, that
+all revealed slightly different results.
+
+The pte-mapped-folio micro-benchmarks are fairly sensitive to code layout
+changes on some systems. Especially the fork() benchmark started being
+more-shaky-than-before on recent kernels for some reason.
+
+In summary, with my micro-benchmarks:
+
+* Small folios are not impacted.
+
+* CoW performance seems to be mostly unchanged across all folios sizes.
+
+* CoW reuse performance of large folios now matches CoW reuse performance
+  of small folios, because we now actually implement the CoW reuse
+  optimization. On an Intel Xeon Silver 4210R I measured a ~65% reduction
+  in runtime, on an arm64 system I measured ~54% reduction.
+
+* munmap() performance improves with CONFIG_NO_PAGE_MAPCOUNT. I saw
+  double-digit % reduction (up to ~30% on an Intel Xeon Silver 4210R
+  and up to ~70% on an AmpereOne A192-32X) with larger folios. The
+  larger the folios, the larger the performance improvement.
+
+* munmao() performance very slightly (couple percent) degrades without
+  CONFIG_NO_PAGE_MAPCOUNT for smaller folios. For larger folios, there
+  seems to be no change at all.
+
+* fork() performance improves with CONFIG_NO_PAGE_MAPCOUNT. I saw
+  double-digit % reduction (up to ~20% on an Intel Xeon Silver 4210R
+  and up to ~10% on an AmpereOne A192-32X) with larger folios. The larger
+  the folios, the larger the performance improvement.
+
+* While fork() performance without CONFIG_NO_PAGE_MAPCOUNT seems to be
+  almost unchanged on some systems, I saw some degradation for
+  smaller folios on the AmpereOne A192-32X. I did not investigate the
+  details yet, but I suspect code layout changes or suboptimal code
+  placement / inlining.
+
+I'm not to worried about the fork() micro-benchmarks for smaller folios
+given how shaky the results are lately and by how much we improved fork()
+performance recently.
+
+I also ran case-anon-cow-rand and case-anon-cow-seq part of vm-scalability,
+to assess the scalability and the impact of the bit-spinlock.
+My measurements on a two 2-socket 10-core Intel Xeon Silver 4210R CPU
+revealed no significant changes.
+
+Similarly, running these benchmarks with 2 MiB THPs enabled on the
+AmpereOne A192-32X with 192 cores, I got < 1% difference with < 1% stdev,
+which is nice.
+
+So far, I did not get my hands on a similarly large system with multiple
+sockets.
+
+I found no other fitting scalability benchmarks that seem to really hammer
+on concurrent mapping/unmapping of large folio pages like case-anon-cow-seq
+does.
+
+
+5 Concerns
+==========
+
+5.1 Bit spinlock
+----------------
+
+I'm not quite happy about the bit-spinlock, but so far it does not seem to
+affect scalability in my measurements.
+
+If it ever becomes a problem we could either investigate improving the
+locking, or simply stopping the MM tracking once there are "too many
+mappings" and simply assume that the folio is "mapped shared" until it
+was freed.
+
+This would be similar (but slightly different) to the "0,1,2,stopped"
+counting idea Willy had at some point. Adding that logic to "stop tracking"
+adds more code to the hot path, so I avoided that for now.
+
+
+5.2 folio_maybe_mapped_shared()
+-------------------------------
+
+I documented the change from folio_likely_mapped_shared() to
+folio_maybe_mapped_shared() quite extensively. If we run into surprises,
+I have some ideas on how to resolve them. For now, I think we should
+be fine.
+
+
+5.3 Added code to map/unmap hot path
+------------------------------------
+
+So far, it looks like the added code on the rmap hot path does not
+really seem to matter much in the bigger picture. I'd like to further
+reduce it (and possibly improve fork() performance further), but I don't
+easily see how right now. Well, and I am out of puff :)
+
+Having that said, alternatives I considered (e.g., per-MM per-folio
+mapcount) would add a lot more overhead to these hot paths.
+
+
+6 Future Work
+=============
+
+6.1 Large mapcount
+------------------
+
+It would be very handy if the large mapcount would count how often folio
+pages are actually mapped into page tables: a PMD on x86-64 would count
+512 times. Calculating the average per-page mapcount will be easy, and
+remapping (PMD->PTE) folios would get even faster.
+
+That would also remove the need for the entire mapcount (except for
+PMD-sized folios for memory statistics reasons ...), and allow for mapping
+folios larger than PMDs (e.g., 4 MiB) easily.
+
+The downside is that we maybe would also have to take the same number of
+folio references to make our folio_mapcount() == folio_ref_count() work. I
+think it should be possible (user space could trigger many PTE mappings
+already), but we be a bit more careful about possible mapcount/refcount
+overflows. (e.g., fail mapping a folio if the mapcount exceeds a certain
+threshold)
+
+Maybe some day we'll have a 64bit refcount+mapcount.
+
+6.2 hugetlb
+-----------
+
+I'd love to make use of the same tracking also for hugetlb.
+
+The real problem is PMD table sharing: getting a page mapped by MM X and
+unmapped by MM Y will not work. With mshare, that problem should not exist
+(all mapping/unmapping will be routed through the mshare MM).
+
+
+7 Version Updates
+=================
+
+I did a bunch of cross-compiles and quite some testing on i386, x86-64 and
+arm64. The build bots were very helpful as well.
+
+To keep the CC list short, adding only relevant subsystem maintainers
+(CCed on all patches, sorry :) ).
+
+v1 -> v2:
+* 32bit support. It would all be easier if we would already allocate
+  "struct folio" dynamically, but fortunately when we manage to do that,
+  it will just clean that part up again. For now, we have to relocate in
+  "struct folio" the _pincount and _entire_mapcount on 32bit, and the
+  hugetlb data  unconditionally.
+* "mm/rmap: basic MM owner tracking for large folios (!hugetlb)"
+ -> Now unconditionally enabled with CONFIG_TRANSPARENT_HUGEPAGE
+ -> Some changes to slot handling to handle some edge cases in a better
+    way.
+ -> Reworked the way flags are stored, in light of 32bit support.
+* "mm: convert folio_likely_mapped_shared() to folio_maybe_mapped_shared()"
+ -> Use the new logic always such that we can rename the function
+* A bunch of cleanups/simplifications
+
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Zefan Li <lizefan.x@bytedance.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: "Michal Koutný" <mkoutny@suse.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Muchun Song <muchun.song@linux.dev>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Jann Horn <jannh@google.com>
+
+
+David Hildenbrand (20):
+  mm: factor out large folio handling from folio_order() into
+    folio_large_order()
+  mm: factor out large folio handling from folio_nr_pages() into
+    folio_large_nr_pages()
+  mm: let _folio_nr_pages overlay memcg_data in first tail page
+  mm: move hugetlb specific things in folio to page[3]
+  mm: move _pincount in folio to page[2] on 32bit
+  mm: move _entire_mapcount in folio to page[2] on 32bit
+  mm/rmap: pass dst_vma to folio_dup_file_rmap_pte() and friends
+  mm/rmap: pass vma to __folio_add_rmap()
+  mm/rmap: abstract large mapcount operations for large folios
+    (!hugetlb)
+  bit_spinlock: __always_inline (un)lock functions
+  mm/rmap: use folio_large_nr_pages() in add/remove functions
+  mm/rmap: basic MM owner tracking for large folios (!hugetlb)
+  mm: Copy-on-Write (COW) reuse support for PTE-mapped THP
+  mm: convert folio_likely_mapped_shared() to
+    folio_maybe_mapped_shared()
+  mm: CONFIG_NO_PAGE_MAPCOUNT to prepare for not maintain per-page
+    mapcounts in large folios
+  fs/proc/page: remove per-page mapcount dependency for /proc/kpagecount
+    (CONFIG_NO_PAGE_MAPCOUNT)
+  fs/proc/task_mmu: remove per-page mapcount dependency for
+    PM_MMAP_EXCLUSIVE (CONFIG_NO_PAGE_MAPCOUNT)
+  fs/proc/task_mmu: remove per-page mapcount dependency for "mapmax"
+    (CONFIG_NO_PAGE_MAPCOUNT)
+  fs/proc/task_mmu: remove per-page mapcount dependency for
+    smaps/smaps_rollup (CONFIG_NO_PAGE_MAPCOUNT)
+  mm: stop maintaining the per-page mapcount of large folios
+    (CONFIG_NO_PAGE_MAPCOUNT)
+
+ .../admin-guide/cgroup-v1/memory.rst          |   4 +
+ Documentation/admin-guide/cgroup-v2.rst       |  10 +-
+ Documentation/admin-guide/mm/pagemap.rst      |  16 +-
+ Documentation/filesystems/proc.rst            |  28 +-
+ Documentation/mm/transhuge.rst                |  39 ++-
+ fs/proc/internal.h                            |  39 +++
+ fs/proc/page.c                                |  19 +-
+ fs/proc/task_mmu.c                            |  39 ++-
+ include/linux/bit_spinlock.h                  |   8 +-
+ include/linux/mm.h                            |  93 +++---
+ include/linux/mm_types.h                      | 110 +++++--
+ include/linux/page-flags.h                    |   4 +
+ include/linux/rmap.h                          | 270 ++++++++++++++++--
+ kernel/fork.c                                 |  36 +++
+ mm/Kconfig                                    |  22 ++
+ mm/debug.c                                    |  10 +-
+ mm/gup.c                                      |   8 +-
+ mm/huge_memory.c                              |  20 +-
+ mm/hugetlb.c                                  |   1 -
+ mm/internal.h                                 |  20 +-
+ mm/khugepaged.c                               |   8 +-
+ mm/madvise.c                                  |   6 +-
+ mm/memory.c                                   |  96 ++++++-
+ mm/mempolicy.c                                |   8 +-
+ mm/migrate.c                                  |   7 +-
+ mm/mprotect.c                                 |   2 +-
+ mm/page_alloc.c                               |  50 +++-
+ mm/page_owner.c                               |   2 +-
+ mm/rmap.c                                     | 118 ++++++--
+ 29 files changed, 903 insertions(+), 190 deletions(-)
+
+
+base-commit: f7ed46277aaa8f848f18959ff68469f5186ba87c
+-- 
+2.48.1
+
