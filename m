@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27F63594C;
-	Mon, 24 Feb 2025 21:45:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED8F1632C8;
+	Mon, 24 Feb 2025 21:47:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740433524; cv=none; b=bCx0BofVNxbq3CqqR9/f+cELaBtboQehZUeGD/BQvEx3le5eBH/z77QYlMqib0qK+9t3Y252jZuFEJpd5Pfp8LXVnsYInTMlkHIi5EXMyDsdZYoHcWnIzQu5PeVq71afBLxfk0LR2H46wrI3dmR+craWS7U1rFoY+grcXqCPoIk=
+	t=1740433672; cv=none; b=JPBoeeki4GmGa8Mzhn/6fDzxoodGo6TBquyfo7ezcHccy28+2sVToWNF90iapjlxzAvF7yMJf7Z3TFYKMzgq5BGJDx3cmFnLqGihW/QgG0QHWGaJkaP+8aVZIvHk/yStBhCPjjzLf1zC/Spt/NHJeaMl6yVg0BSmLKIqqk1cn4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740433524; c=relaxed/simple;
-	bh=iU6990wlaBJJjMr2f7k4zDhaWpcZuf267xoOSP2xCXI=;
+	s=arc-20240116; t=1740433672; c=relaxed/simple;
+	bh=/cPxEnTLYXsaaucWazF7HgCjLVnxBn/DHB1hHwTB25g=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ebXE2DgOSqFGRe7wffuSkN4GwSgSV47C9o5u6EoLULKn+1F99Pinv+5dCi1JSuRf6RNMvi6oRXzcdJCJvGsJuT2HiRKF8mponmVhSQzlimc18d3bofo+Jc5md57s1M9k1MtRe60q6GBLz++0JbeJY4TFevprhneD5lV2hanVTWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cIB7i5RP; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=nBzQqu6eV9Z5tEKJ49It7c2sd3qSfSlxLAAyCocX26vAy9dcqEAs0g0OTC3cUSw/9OahonLNhCmIL+8bl4TaJTQS9ovOYohGHWl+8ja6mv5z9vZg0+8wyw6PtKScekMEOvVrESDGAI3a5kkmaTNOudPVsRjElunX4/g4HWpYmMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=inVCMONi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cIB7i5RP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 539BBC4CED6;
-	Mon, 24 Feb 2025 21:45:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="inVCMONi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78E6DC4CED6;
+	Mon, 24 Feb 2025 21:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740433524;
-	bh=iU6990wlaBJJjMr2f7k4zDhaWpcZuf267xoOSP2xCXI=;
+	s=k20201202; t=1740433672;
+	bh=/cPxEnTLYXsaaucWazF7HgCjLVnxBn/DHB1hHwTB25g=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cIB7i5RPAUqejYq0sQFEv3FZ3ys8Y59jbT2Ai+7PtJHLEAKK0RhzRAGUtVZottdEM
-	 h0YSvFWD4WcvecIlmZBknnM3E8SicNiiTpQGJx5uGgdyj349Ls9jS+g8fi35LsYXdz
-	 85p9uUSPDWcb62QtOHej6/TLls/4rXL6Rwm3E344DtD0d8Sz4i1WQmusDpzNMsiUaV
-	 hqGUjSqW+tulEByCm0rdYOxQiRCwDbNeo30bnV00PjPc2gCVOPipJvRzh+n8s4pY50
-	 GpEV5GSkVedPLYcqU7NOKjifltPK3ZtN7cl4XkXqbcrG2n3FTq7SlnucbDyLitLgOT
-	 P9AnkoO3oD9RA==
-Date: Mon, 24 Feb 2025 13:45:22 -0800
+	b=inVCMONi+jMuKAn81hV6DVYa/3fvOsSOHt4VZz0rsCiYPJDKneDNSVzE4PS8Ayxxt
+	 XdTgbBENGy+oTK3PMJmrVaDyKoLv6CXz5mHbIZQIbB8zvAb2Vlj4KvbBJJQrSofL8U
+	 4YZeZDVuH7ozu4iJgW6YOz/0oCn+tbsacQIAboX/J7bPfmZxePZBEsafsZww+Xpvyv
+	 M8g0NhiyNcfB+L0FtLe2piRdQPDI87vtgYbw5PQsQC69C6wDjo0XDvDH6bs55KjyXJ
+	 yL7BMm4vNzsd3pi2YRXqWu7G1DuT8MmS+4yQmurNPKiPP1dnq7YFAVivaULdMAzKxP
+	 iRGhFrzt9UwgA==
+Date: Mon, 24 Feb 2025 13:47:50 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Kory Maincent <kory.maincent@bootlin.com>
 Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
@@ -42,14 +42,14 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
  Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
  Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v5 06/12] net: pse-pd: Add support for budget
- evaluation strategies
-Message-ID: <20250224134522.1cc36aa3@kernel.org>
-In-Reply-To: <20250224141037.1c79122b@kmaincent-XPS-13-7390>
+Subject: Re: [PATCH net-next v5 02/12] net: pse-pd: Add support for
+ reporting events
+Message-ID: <20250224134750.5e502a4c@kernel.org>
+In-Reply-To: <20250224133312.008291bc@kmaincent-XPS-13-7390>
 References: <20250218-feature_poe_port_prio-v5-0-3da486e5fd64@bootlin.com>
-	<20250218-feature_poe_port_prio-v5-6-3da486e5fd64@bootlin.com>
-	<20250220165129.6f72f51a@kernel.org>
-	<20250224141037.1c79122b@kmaincent-XPS-13-7390>
+	<20250218-feature_poe_port_prio-v5-2-3da486e5fd64@bootlin.com>
+	<20250220164201.469fdf6d@kernel.org>
+	<20250224133312.008291bc@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,11 +59,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 24 Feb 2025 14:10:37 +0100 Kory Maincent wrote:
-> > The "methods" can be mixed for ports in a single "domain" ?  
+On Mon, 24 Feb 2025 13:33:12 +0100 Kory Maincent wrote:
+> > On Tue, 18 Feb 2025 17:19:06 +0100 Kory Maincent wrote:  
+> > > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> > > 
+> > > Add support for devm_pse_irq_helper() to register PSE interrupts. This aims
+> > > to report events such as over-current or over-temperature conditions
+> > > similarly to how the regulator API handles them but using a specific PSE
+> > > ethtool netlink socket.    
+> > 
+> > I think you should CC HWMON ML on this.
+> > Avoid any surprises.  
 > 
-> No they can't for now. Even different PSE power domains within the same PSE
-> controller. I will make it explicit.
+> You mean regulator maintainers right?
 
-Sounds like the property is placed at the wrong level of the hierarchy,
-then.
+Fair point, I'm not sure who's responsible for reporting over-current
+on a regulator. My intuition would be HWMON, but no idea if it was ever
+discussed. So maybe CC both lists?
