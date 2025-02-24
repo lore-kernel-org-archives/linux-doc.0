@@ -1,130 +1,165 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB36F263F4C;
-	Mon, 24 Feb 2025 17:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77B7526618E;
+	Mon, 24 Feb 2025 18:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740419659; cv=none; b=GYDiw8SP3uC98TM38DwyhSB/L+86lRCTajp79CZFVLDu/kW0dqYnsQ0x33QJg/BpElp5ure3h6I0sMDt5fzUuP0W4Tfam/bgQSXZj3l+rNHeRcIzIHh7yDR8K1CxOrn+JBWdyu4dnR49XTivj2Yb6fsPz4I5+2N81cb8BlqznPw=
+	t=1740420189; cv=none; b=HHS3qDYB8Wt7RaNNEe2dK5hitLlJvIr/T5ulcOAgEOuIq4C8MELz7llkYntZX1y1Id+DM4GOx591px5rGn9RpbZTXCjHGxYKrvafmmn3gu/60jvdxVIbspEHOVZvzOjIkzHjQnBkxo9CRNjHWlPsA6I8MNHAOr3xPLu9AWZvriQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740419659; c=relaxed/simple;
-	bh=XnnclfgnjJGNnAA52fTfntiaxNx9k5+h16ZPEYb+gJU=;
+	s=arc-20240116; t=1740420189; c=relaxed/simple;
+	bh=rUE/hQROradH9urjwJ+EoCG+n0ZEi4vngN2fnKmbyOg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UnkrsjpBMJuMMw1b0ObZ5gaqXG8e8QOHI7QjkpRB5J0QlwgIc2Y5+jHFKeO2IYQyspbK/BFo0vNbzhLa1hQjyswKRjzDxNGkx044bIZLAMdmk/0Al9GCSqCaUYyQ8S7T91cXtIgkhkJz2CV5LFk8mMdqeIcu4OQqImo+EyZbBCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QRxdA9Qm; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QRxdA9Qm"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-220ca204d04so76249705ad.0;
-        Mon, 24 Feb 2025 09:54:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740419657; x=1741024457; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=49hFWAS6BPi17cq0UX9zIx62B0WnB3kN7+csrm3gvss=;
-        b=QRxdA9QmLXriQ978u1EiPntVJye3dlz3vsW1rUeVem0xCR66nt0R7Tn2VCl8PukbyC
-         l1fcTf/IHJfUVHW45cOoiI166SSIcBFnMwDuaBHuaJsbrvrchjSgWZj4n9aInLUqGIY4
-         TgavKTO2j938hLTSTEzupqWMHoE2YWVm4h8SNcZUWCfwim+3x33NSX2QGTSuTevIVifq
-         /RTXOPhYottEemC3sc4IbMW9aEswHo+kla1Dij/6ZsUk6kJ7gKYskEDZEvBHd6nTaEXq
-         wc7/AwbZS5NOv8uAZCfsdgxXFXESmErX+HPrB/5WU7njZ+4MNgTlXs5jCmf4KJB3p3B6
-         rPHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740419657; x=1741024457;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=49hFWAS6BPi17cq0UX9zIx62B0WnB3kN7+csrm3gvss=;
-        b=CcppDVcrK7DKLR8CfPwxTVDdrxhv8wZDiXWwWntxDdo99sOH8bwaad9YuOxqpkmCDW
-         dMvictKtoHi0OlIaYs3Xk58T+aCl9sX5ORor+jhgU9cteeUt4Mu3HU1519Ih3YHMLmc5
-         OgroHrJ3sdgnlyNFHlQEto9I1v862N32xb+nZvNArnWRe7STdcTB1Rh+n+a9L5tQ0a0h
-         8CUD3bFXAYNwGtcm4s6tYSYVowLm+JPb8EHp18ax68G3kspMlv470DH78m3c4auwDn3j
-         K8T/RvoFQ4azG9ghV/L6EYFLnV5YOt3KMFvOCQ4Cx7kTWia6+zlLYYTh9dUOqKqsqp3e
-         Qprg==
-X-Forwarded-Encrypted: i=1; AJvYcCUC2hyB2FQCprkTEMqETGLZjia6Q9AcMivneFWo26T7C4HIQdXBQ1jfO7cIsxAj13Iiu02Koonu3faW4eCz@vger.kernel.org, AJvYcCWj38ePJkVc+U7JOWIgRJUNbr7FhJ2lvu0cX1Y6pnQcIojwGEd1YZ+/TivKX724c/Qycaz6g5A46CnMX1K0GD1i@vger.kernel.org, AJvYcCWsmCU4+RO/PUddcFlejuePQnVBLoEghA4jbSEW1vNWihydLbv2tbjs5H0t4cH8y49XHXvYHCUIgA2I@vger.kernel.org, AJvYcCXDaoR6un+a6kIVh36rRnaQBbBxMURQmPdNNojuuS1WTTrgPRB2wePi3ltYPhqoiLIs7d8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwB5NTJK8sJF5kvTYLoAs0tdqxFAdXSQGp0uDRliNl1TB5owNfi
-	d65PRcBGMAMl7BPl3yVlEFOmhchkxHD+5kt+nuVys3r8bCGORvmqrstyb4s=
-X-Gm-Gg: ASbGnctq/CuqI+xhHZrzGFb6g2koIGEVCf98EckgyHEUmssLIXRB5btwzHXXGYmXfhP
-	hjkYUo2fTYI54snGvQExfiBDbUOYOGwC7wZG8dScTuS0tqvNif8y1ocE1SbZJnvrSymAV0HmwyH
-	HQMQV6TEJj1N7Ej2vpfCvd5uceNf42wVfy5czHm7mN5lOchahtCOFvhE7ToD5OeZpr6iPMkTrHe
-	3J/nFTGkrlbTL5D09fFH/KFjqebSo7vNRTRcd1zQD3KQV82/Okyxg0r3gPhydCyWIdSih6ac4cF
-	U00nO7qqQCbOH2PLRuxgnB1wJQ==
-X-Google-Smtp-Source: AGHT+IEo+qn0GrfRoEoT6iMqO7/d+JhNhLZkzb0haVeC/Qk31b9/5jQycW3R+yfCTVCSg4EuX/UngA==
-X-Received: by 2002:a17:903:2343:b0:220:fb23:48df with SMTP id d9443c01a7336-2219ffa759bmr230045575ad.36.1740419656914;
-        Mon, 24 Feb 2025 09:54:16 -0800 (PST)
-Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-732581df0bbsm18607889b3a.156.2025.02.24.09.54.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 09:54:16 -0800 (PST)
-Date: Mon, 24 Feb 2025 09:54:15 -0800
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
-	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Willem de Bruijn <willemb@google.com>,
-	David Ahern <dsahern@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
-	asml.silence@gmail.com, dw@davidwei.uk,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Victor Nogueira <victor@mojatatu.com>,
-	Pedro Tammela <pctammela@mojatatu.com>,
-	Samiullah Khawaja <skhawaja@google.com>
-Subject: Re: [PATCH net-next v5 9/9] selftests: ncdevmem: Implement devmem
- TCP TX
-Message-ID: <Z7yyR9oRhHXv9a9z@mini-arch>
-References: <20250222191517.743530-1-almasrymina@google.com>
- <20250222191517.743530-10-almasrymina@google.com>
- <Z7ypMjORvm99q6L0@mini-arch>
- <CAHS8izM9xMqWnJB5Cm=DMMBV1BuUemFjKSv9So8V_xQ8ToTRqA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LvxtVtmIqcda6U3Jw+eAu00UlzjFolPB/81wpKxUFNe9uEqdAWqQYR6oNPqeGWPqHvbrN+DjJkctcAK4NMH0CFY8o+CVCioHOb4HGiPJsKQQJ6qcxzKF1/vnyt7EbYL9dDIn+XJcAeHOb9/cPe/AXIFTQIRlwvooXtlLV9kBk+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A498152B;
+	Mon, 24 Feb 2025 10:03:23 -0800 (PST)
+Received: from localhost (e132581.arm.com [10.2.76.71])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 654EE3F5A1;
+	Mon, 24 Feb 2025 10:03:06 -0800 (PST)
+Date: Mon, 24 Feb 2025 18:03:01 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v20 11/11] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+Message-ID: <20250224180301.GI8144@e132581.arm.com>
+References: <20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org>
+ <20250218-arm-brbe-v19-v20-11-4e9922fc2e8e@kernel.org>
+ <20250224122507.GE8144@e132581.arm.com>
+ <CAL_Jsq+0fZ2uasgAam7qGTdCeDBQxXeyL-J1_suyxy6GE_ERTg@mail.gmail.com>
+ <20250224140317.GF8144@e132581.arm.com>
+ <Z7yY19UtSnND5KTl@J2N7QTR9R3.cambridge.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHS8izM9xMqWnJB5Cm=DMMBV1BuUemFjKSv9So8V_xQ8ToTRqA@mail.gmail.com>
+In-Reply-To: <Z7yY19UtSnND5KTl@J2N7QTR9R3.cambridge.arm.com>
 
-On 02/24, Mina Almasry wrote:
-> On Mon, Feb 24, 2025 at 9:15 AM Stanislav Fomichev <stfomichev@gmail.com> wrote:
-> >
-> > On 02/22, Mina Almasry wrote:
-> > > Add support for devmem TX in ncdevmem.
-> > >
-> > > This is a combination of the ncdevmem from the devmem TCP series RFCv1
-> > > which included the TX path, and work by Stan to include the netlink API
-> > > and refactored on top of his generic memory_provider support.
-> > >
-> > > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> > > Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
-> >
-> > Acked-by: Stanislav Fomichev <sdf@fomichev.me>
-> >
-> > We need exit_wait=True for check_rx as well, but I'll send this change
-> > separately.
+On Mon, Feb 24, 2025 at 04:05:43PM +0000, Mark Rutland wrote:
+
+[...]
+
+> > > > Just a minor concern.  I don't see any handling for task migration.
+> > > > E.g., for a task is migrated from one CPU to another CPU, I expect we
+> > > > need to save and restore branch records based on BRBE injection.  So
+> > > > far, the driver simply invalidates all records.
+> > > >
+> > > > I think this topic is very likely discussed before.  If this is the
+> > > > case, please ignore my comment.  Except this, the code looks good
+> > > > to me.
+> > > 
+> > > Not really discussed on the list, but that was present in v18 (though
+> > > not functional because .sched_task() hook wasn't actually enabled) and
+> > > Mark removed it. His work is here[1].The only comment was:
+> > > 
+> > > Note: saving/restoring at context-switch doesn't interact well with
+> > > event rotation (e.g. if filters change)
+> > 
+> > In the brbe_enable() function, it "Merge the permitted branch filters
+> > of all events".  Based on current implementation, all events share the
+> > same branch filter.
 > 
-> Yes, I discovered the same thing, and I have that change locally along
-> with some other fix ups I'm readying up for review in a separate
-> series.
+> Critically, the brbe_enable() function merges the filters of all
+> *active* events which have been installed into hardware. It does not
+> track all events which can be rotated, and the resulting filter is not
+> the same -- it can change as a result of rotation.
 
-Perfect, then I'll wait for you to address it separately!
+In a perf session has multiple events, and events have different branch
+filters, seems to me, a simple way is to return error for this case.
+
+I would argue BRBE is an IP for recording branches per CPU wise, it does
+not support recording for event wise.  If we can unify branch filter
+within a perf session, would this be much easier for handling?
+
+> > When event rotation happens, if without context switch, in theory we
+> > should can directly use the branch record (no invalidation, no injection)
+> > for all events.
+> 
+> No; that only works in *some* cases, and will produce incorrect results
+> in others.
+> 
+> For example, consider filtering. Imagine a PMU with a single counter,
+> and two events, where event-A filters for calls-and-returns and event-B
+> filters for calls-only. When switching from event-A to event-B, it's
+> theoretically possible to keep the existing records around, knowing that
+> the returns can be filtered out later. When switching from event-B to
+> event-A we cannot keep the existing records, since there are gaps
+> whenever a return should have been recorded.
+
+Seems to me, the problem is not caused by event rotation.  We need to
+calculate a correct filter in the first place - the BRBE driver should
+calculate a superset for all filters of events for a session.  Then,
+generate branch record based event's specific filter.
+
+> There are a number of cases of that shape given the set of configurable
+> filters. In theory it's possible to retain those in some cases, but I
+> don't think that the complexity is justified.
+> 
+> Similarly, whenever kernel branches are recorded it's necessary to drop
+> the stale branches whenever branch recording is paused, as there's
+> necessarily a blackout period and hence a gap in the records.
+
+If we save BRBE record when a process is switched out and then restore
+the record when a process is switched in, should we can keep a decent
+branch record for performance profiling?
+
+I understand it might be many things happen in the middle of a task
+switching or migration, but it is fine for not recording branches during
+the blackout period.  The missed branch records are not very helpful for
+forming a flow for a profiled program itself, especially, if we
+consider we will optimize userspace program in many cases.
+
+> Do you think that you have a case where losing branches across rotation
+> *really* matters?
+
+I agreed that event rotation case might be rare and complex.  Please see
+a comment below.
+
+> > For a context-switch case, we need to save and re-inject branch record.
+> > BRBE record sticks to a process context, no matter what events have been
+> > enabled.
+> 
+> I had originally wanted to keep per-event records around, but it doesn't
+> work in all cases. One reason events get discarded at context-switch
+> time is that CPU-bound events can sample branches, and would
+> mis-attribute stale userspace branches to the wrong context when
+> switching tasks. There are explicit comments about this in
+> amd_pmu_brs_sched_task() and intel_pmu_lbr_sched_task().
+> 
+> Given we discard records when reprogramming events, we *could* try to
+> preserve events in some cases, but I suspect that as with the rotation
+> case this'll be a lot of complexity for little gain. Note that as we
+> discard events when enabling the PMU, we'd throw some task-bound records
+> away anyway, and practically the gain would be limited to cpu-bound
+> records.
+> 
+> Do you have a reason why you think we *must* keep events around?
+
+Here I am really concerned are cases when a process is preempted or
+migrated.  The driver doesn't save and restore branch records for these
+cases, it just invalidates all records when a task is scheduled in.
+
+As a result, if an event overflow is close to context switch, it is
+likely to capture incomplete branch records.  For a userspace-only
+tracing, it is risk to capture empty branch record after preemption
+and migrations.
+
+Thanks,
+Leo
