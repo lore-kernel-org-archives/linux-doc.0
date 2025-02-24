@@ -1,276 +1,130 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2067.outbound.protection.outlook.com [40.107.244.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F0E264A92;
-	Mon, 24 Feb 2025 17:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740419104; cv=fail; b=j0+ExFdci1dlulgNHwK0RcNR5eb5Dq0o2k8lrPd52L7fmu9UZihj+3IeNbZH1E9C6R5DcEOJJzbojyGtfkBfwxi+znOq3pL7mnz5oj6hM2iTKmUILVTP0BkQ3mvNL6xejQGbe230PurHOB+TvyuwA+CljFV1tcMBaaY0EGRvpbc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740419104; c=relaxed/simple;
-	bh=xGq92Mu+/vSg1P4lor7rQfhrIgEmuS9tub1yrI/vEVQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dqLrg0mptiXgyf4QTrdj9WFpYQStP6V4VGWNImrbvYlCUiExdDAhOzipBhHg+8jWFIdro8f8UYC1oDOuJms2bBiMHilaNJwRzOU1HLsCWbaf1qWZphTAv9w2sT2fSm1zWCdGjUR65u6hTrCEGTpzjbHw189q7xMHKy8UBrPCb64=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MmeiSniP; arc=fail smtp.client-ip=40.107.244.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB36F263F4C;
+	Mon, 24 Feb 2025 17:54:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740419659; cv=none; b=GYDiw8SP3uC98TM38DwyhSB/L+86lRCTajp79CZFVLDu/kW0dqYnsQ0x33QJg/BpElp5ure3h6I0sMDt5fzUuP0W4Tfam/bgQSXZj3l+rNHeRcIzIHh7yDR8K1CxOrn+JBWdyu4dnR49XTivj2Yb6fsPz4I5+2N81cb8BlqznPw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740419659; c=relaxed/simple;
+	bh=XnnclfgnjJGNnAA52fTfntiaxNx9k5+h16ZPEYb+gJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UnkrsjpBMJuMMw1b0ObZ5gaqXG8e8QOHI7QjkpRB5J0QlwgIc2Y5+jHFKeO2IYQyspbK/BFo0vNbzhLa1hQjyswKRjzDxNGkx044bIZLAMdmk/0Al9GCSqCaUYyQ8S7T91cXtIgkhkJz2CV5LFk8mMdqeIcu4OQqImo+EyZbBCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QRxdA9Qm; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MmeiSniP"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K+/P8zOLuoCjSne0l673BJrno1+Sxu2+qp8CTQf5esrRZwquCggO6mN3TC8QYWnJaixdHcBMEKyrQRbFHJs8NTQdlqfHpaAt/L6nCtGnvO5dbgVHCVa9a2lchpYJd74cNdN5+x221XzR0jQvj+CnJiB0SM88f7/mv128eFFzYhyv3bUXiHKS3hWdPs4dDLzQvqefZfZkq8NCHB7c4SqjkATUX4lU02AlfFyTtbcZbUgBTJPMMKFW80iX2YBQu7JNYXhBVx9mvL5x7M3dZCuJoWvx7BCjNaS0pekNZHQmSU/bInfU8Z2lJ64Ihngv7KeHNMwyxedPSUJgorSab7k4pA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TZseUKxTOpe3hZZqHE8ThX8bdEcUrDh2kgS5SWwXbtw=;
- b=qwBzrYcNoWav28UX18DO1fIyb1+bjdULczT/zq/YV4TgyBVCd4qh2zROkRLjrK2Mxf+2S8QOPwrsLCTxfGT3YhcRcSQ01EV9Pp02hCCNGAQM/y2tsFOLzmuJ4lEnrqoNP7dc6YMLFB1VFxDpb6QhUgAzaGJIIxbRzsEAF/PKSFen302mjx9SvW4t98hGFGjiL2OxwevYBJNoGASAEgglZt+dGJMk26zXXOjp2GLKlZFhVNQYoWh753MxlVJyVonOXwmqPNXbppOiY/oBUdOI6ZrgUgU2KISQLHHo3rE5YwQjQCepwmAHIYEQC8LAjZd3uUjJYSFJn3hYssdP4E/npQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=davemloft.net smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TZseUKxTOpe3hZZqHE8ThX8bdEcUrDh2kgS5SWwXbtw=;
- b=MmeiSniP6F4M5K2RFOpXfDg6KzaBO65oeYvPmG5k/MHFFyYYsojWKljTOf+n80/OwgCf4Pn0i2VqdKEbmosBZbgAsl96hGBETzcDv4RlGHIsJhF3/LCjM8Ue5mlC28QIYB9cKifkp9vxC3cL0i+D3Dp8cagqxHBL8un7HifJ7nZsCQN7+t/Ur9h7VQdJBXmJCx3gp3da+VFEB+bOLg6JonOYmzznkQCWi/kS8r6yYLRp2piBm/s9brx5DMWSfqbsZACdOB1D+CSDr6YI7iWa6xsAbsL8jEj0oP7zdTCqPAg0aDUbvmSPqR57LuHJZ7RUQBvCrEzwXEMyTwO25hj+hQ==
-Received: from BL1PR13CA0258.namprd13.prod.outlook.com (2603:10b6:208:2ba::23)
- by MN0PR12MB6245.namprd12.prod.outlook.com (2603:10b6:208:3c3::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.19; Mon, 24 Feb
- 2025 17:44:52 +0000
-Received: from BN3PEPF0000B36E.namprd21.prod.outlook.com
- (2603:10b6:208:2ba:cafe::76) by BL1PR13CA0258.outlook.office365.com
- (2603:10b6:208:2ba::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8489.15 via Frontend Transport; Mon,
- 24 Feb 2025 17:44:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BN3PEPF0000B36E.mail.protection.outlook.com (10.167.243.165) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8511.0 via Frontend Transport; Mon, 24 Feb 2025 17:44:52 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 24 Feb
- 2025 09:44:38 -0800
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 24 Feb
- 2025 09:44:37 -0800
-Received: from vdi.nvidia.com (10.127.8.12) by mail.nvidia.com (10.129.68.7)
- with Microsoft SMTP Server id 15.2.1544.14 via Frontend Transport; Mon, 24
- Feb 2025 09:44:33 -0800
-From: Gal Pressman <gal@nvidia.com>
-To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-CC: <netdev@vger.kernel.org>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
-	<przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "Tariq
- Toukan" <tariqt@nvidia.com>, Edward Cree <ecree.xilinx@gmail.com>, Ahmed Zaki
-	<ahmed.zaki@intel.com>, <linux-doc@vger.kernel.org>, Gal Pressman
-	<gal@nvidia.com>, Nimrod Oren <noren@nvidia.com>
-Subject: [PATCH net-next v5 4/4] selftests: drv-net-hw: Add a test for symmetric RSS hash
-Date: Mon, 24 Feb 2025 19:44:16 +0200
-Message-ID: <20250224174416.499070-5-gal@nvidia.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20250224174416.499070-1-gal@nvidia.com>
-References: <20250224174416.499070-1-gal@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QRxdA9Qm"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-220ca204d04so76249705ad.0;
+        Mon, 24 Feb 2025 09:54:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740419657; x=1741024457; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=49hFWAS6BPi17cq0UX9zIx62B0WnB3kN7+csrm3gvss=;
+        b=QRxdA9QmLXriQ978u1EiPntVJye3dlz3vsW1rUeVem0xCR66nt0R7Tn2VCl8PukbyC
+         l1fcTf/IHJfUVHW45cOoiI166SSIcBFnMwDuaBHuaJsbrvrchjSgWZj4n9aInLUqGIY4
+         TgavKTO2j938hLTSTEzupqWMHoE2YWVm4h8SNcZUWCfwim+3x33NSX2QGTSuTevIVifq
+         /RTXOPhYottEemC3sc4IbMW9aEswHo+kla1Dij/6ZsUk6kJ7gKYskEDZEvBHd6nTaEXq
+         wc7/AwbZS5NOv8uAZCfsdgxXFXESmErX+HPrB/5WU7njZ+4MNgTlXs5jCmf4KJB3p3B6
+         rPHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740419657; x=1741024457;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=49hFWAS6BPi17cq0UX9zIx62B0WnB3kN7+csrm3gvss=;
+        b=CcppDVcrK7DKLR8CfPwxTVDdrxhv8wZDiXWwWntxDdo99sOH8bwaad9YuOxqpkmCDW
+         dMvictKtoHi0OlIaYs3Xk58T+aCl9sX5ORor+jhgU9cteeUt4Mu3HU1519Ih3YHMLmc5
+         OgroHrJ3sdgnlyNFHlQEto9I1v862N32xb+nZvNArnWRe7STdcTB1Rh+n+a9L5tQ0a0h
+         8CUD3bFXAYNwGtcm4s6tYSYVowLm+JPb8EHp18ax68G3kspMlv470DH78m3c4auwDn3j
+         K8T/RvoFQ4azG9ghV/L6EYFLnV5YOt3KMFvOCQ4Cx7kTWia6+zlLYYTh9dUOqKqsqp3e
+         Qprg==
+X-Forwarded-Encrypted: i=1; AJvYcCUC2hyB2FQCprkTEMqETGLZjia6Q9AcMivneFWo26T7C4HIQdXBQ1jfO7cIsxAj13Iiu02Koonu3faW4eCz@vger.kernel.org, AJvYcCWj38ePJkVc+U7JOWIgRJUNbr7FhJ2lvu0cX1Y6pnQcIojwGEd1YZ+/TivKX724c/Qycaz6g5A46CnMX1K0GD1i@vger.kernel.org, AJvYcCWsmCU4+RO/PUddcFlejuePQnVBLoEghA4jbSEW1vNWihydLbv2tbjs5H0t4cH8y49XHXvYHCUIgA2I@vger.kernel.org, AJvYcCXDaoR6un+a6kIVh36rRnaQBbBxMURQmPdNNojuuS1WTTrgPRB2wePi3ltYPhqoiLIs7d8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwB5NTJK8sJF5kvTYLoAs0tdqxFAdXSQGp0uDRliNl1TB5owNfi
+	d65PRcBGMAMl7BPl3yVlEFOmhchkxHD+5kt+nuVys3r8bCGORvmqrstyb4s=
+X-Gm-Gg: ASbGnctq/CuqI+xhHZrzGFb6g2koIGEVCf98EckgyHEUmssLIXRB5btwzHXXGYmXfhP
+	hjkYUo2fTYI54snGvQExfiBDbUOYOGwC7wZG8dScTuS0tqvNif8y1ocE1SbZJnvrSymAV0HmwyH
+	HQMQV6TEJj1N7Ej2vpfCvd5uceNf42wVfy5czHm7mN5lOchahtCOFvhE7ToD5OeZpr6iPMkTrHe
+	3J/nFTGkrlbTL5D09fFH/KFjqebSo7vNRTRcd1zQD3KQV82/Okyxg0r3gPhydCyWIdSih6ac4cF
+	U00nO7qqQCbOH2PLRuxgnB1wJQ==
+X-Google-Smtp-Source: AGHT+IEo+qn0GrfRoEoT6iMqO7/d+JhNhLZkzb0haVeC/Qk31b9/5jQycW3R+yfCTVCSg4EuX/UngA==
+X-Received: by 2002:a17:903:2343:b0:220:fb23:48df with SMTP id d9443c01a7336-2219ffa759bmr230045575ad.36.1740419656914;
+        Mon, 24 Feb 2025 09:54:16 -0800 (PST)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-732581df0bbsm18607889b3a.156.2025.02.24.09.54.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2025 09:54:16 -0800 (PST)
+Date: Mon, 24 Feb 2025 09:54:15 -0800
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Willem de Bruijn <willemb@google.com>,
+	David Ahern <dsahern@kernel.org>,
+	Neal Cardwell <ncardwell@google.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
+	asml.silence@gmail.com, dw@davidwei.uk,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Victor Nogueira <victor@mojatatu.com>,
+	Pedro Tammela <pctammela@mojatatu.com>,
+	Samiullah Khawaja <skhawaja@google.com>
+Subject: Re: [PATCH net-next v5 9/9] selftests: ncdevmem: Implement devmem
+ TCP TX
+Message-ID: <Z7yyR9oRhHXv9a9z@mini-arch>
+References: <20250222191517.743530-1-almasrymina@google.com>
+ <20250222191517.743530-10-almasrymina@google.com>
+ <Z7ypMjORvm99q6L0@mini-arch>
+ <CAHS8izM9xMqWnJB5Cm=DMMBV1BuUemFjKSv9So8V_xQ8ToTRqA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B36E:EE_|MN0PR12MB6245:EE_
-X-MS-Office365-Filtering-Correlation-Id: 55ee584e-6caa-440d-88c4-08dd54faf151
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|82310400026|1800799024|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+bgG7BWK6NPMWW3yAdLteyYBDpxDBEZ2Xo+YDX3+HJMMW3dZznZuXZb6Pnp5?=
- =?us-ascii?Q?ftTeKc/Ddgdw1UvjRbcX2OtLj+qjdbZpksRHtkIr30ZVxFZXSkV/x7CNp4f/?=
- =?us-ascii?Q?5Tgrc2uXsWisgFz/JWzSbMYtRbWekkz0mNZYHxXxD/fvnkPbIbi29PaJAY2Z?=
- =?us-ascii?Q?u4zwUmQAmxdlNdJWk8p/aad6kwCMO1JV519A9dO9K5qQ6SeKGfzd1Z+9OdiQ?=
- =?us-ascii?Q?YW5mXa0MZKBJqEdiqmB2pE+NIeXs9zS3PALRvAfyYsR0hhGMOqqyoRswqnRr?=
- =?us-ascii?Q?blW6YpSLznB2UzpnEMTxl2QwWqgXw0ClIkqhzdP8pOFu02aZdFlMeSxST/Od?=
- =?us-ascii?Q?u076dTUjAZwaU2ZELpe6cfc5ps7NZXkkm0AmZyfTHNdWgFWeblnT9xh5a6S2?=
- =?us-ascii?Q?PZTCSaTET0CFhC+GAGwBCVDqZXvl2mAnzAEkCbPlqxuOsoHOERy+BP8RBfTW?=
- =?us-ascii?Q?gkB32XKAofELEtXrY28iq11mbqrs8bjMevVrvGDvBuf7oZE8evhxflWweyoK?=
- =?us-ascii?Q?/h+p37QSgRVKB0er6SmYkEtgVGxT5IsxNiCBhXC0Mu3Tok4LrggaKMmlkBqO?=
- =?us-ascii?Q?NGr/HcrN+h0vM1BK8r+I39d8TWf1YSEBXIvPXN9mL4sCfsAEhen+5p2GrXth?=
- =?us-ascii?Q?wT6sr5M3Z1MBMz6Odlo52X5domCl4xFTC15n9o20VpV4Iua5+Sd3etxGq/Uy?=
- =?us-ascii?Q?/WtMLmXXEh2lsjwv9M5AWVW9KlbX30aOorM2HaNNvEUmsShd3rLB3KJEEGeg?=
- =?us-ascii?Q?A/r6atdcxdFvFcUllyGPjr6kipUY4TA6XIS3bQ0tLy2eRJF2KWMmMN6JAqIf?=
- =?us-ascii?Q?paSuOI8cH8y70NieIfW7EoJzz9/5i55o2TiCU2B7HVwVgqmLigHwrSFJpyzG?=
- =?us-ascii?Q?sSpriN0PkF4kVhEZwGaei+gsyJ80ITbI8WsMdIL8MhwU/CP0EYeSu9DonSuL?=
- =?us-ascii?Q?X2kn/R4zPsweguXAwZ7Do6YZLq/4fwI+A2HOCeEYXavIfZMCrxE7v7G4D2Gj?=
- =?us-ascii?Q?9t+IryYtoAWXpV7FSKpDJ29E2/jNva/85h81m29liSnpP7qs/LiFcMSSEts9?=
- =?us-ascii?Q?5qBuhuMGItlUKWaWUyAMxH+COI8lpnDjGMMnIzzwepAvpW0+y3djxhWmvxTx?=
- =?us-ascii?Q?0WRmeY3p9LBlxIfnLqcfPLXZAp5Lwl0HDKKvLp8Bfv8nGmED98hCIh2AufVQ?=
- =?us-ascii?Q?b663ZZdHYPA2bVfUVoBV3ijOk/raEK1tclgE5Ax7fpGFcrfx1lDl6TkFuKQt?=
- =?us-ascii?Q?TcS34VEZ7BkbvI07tmvJKDXzz+FWGrdKLJKGHUZlWS3AimgJYJYqmEfCmZX0?=
- =?us-ascii?Q?UAgLDaT8eVLxEOC4chFQ18HxQCVjs4Fsd9iJL7KbreYE2wVXiL4OAiFDP8t7?=
- =?us-ascii?Q?niGE/jD3taPkm67dWjSjnaMpmzCO2hQdv0fueqdQkaIqR9rtbLynEAnIsmBh?=
- =?us-ascii?Q?OwwqeoyrxoZPPHtkdOAD2rq6X9a+lX3F98LHoRPdMiwBx4ttVrVCIg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(1800799024)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 17:44:52.1969
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55ee584e-6caa-440d-88c4-08dd54faf151
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B36E.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6245
+In-Reply-To: <CAHS8izM9xMqWnJB5Cm=DMMBV1BuUemFjKSv9So8V_xQ8ToTRqA@mail.gmail.com>
 
-Add a selftest that verifies symmetric RSS hash is working as intended.
-The test runs iterations of traffic, swapping the src/dst UDP ports, and
-verifies that the same RX queue is receiving the traffic in both cases.
+On 02/24, Mina Almasry wrote:
+> On Mon, Feb 24, 2025 at 9:15 AM Stanislav Fomichev <stfomichev@gmail.com> wrote:
+> >
+> > On 02/22, Mina Almasry wrote:
+> > > Add support for devmem TX in ncdevmem.
+> > >
+> > > This is a combination of the ncdevmem from the devmem TCP series RFCv1
+> > > which included the TX path, and work by Stan to include the netlink API
+> > > and refactored on top of his generic memory_provider support.
+> > >
+> > > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> > > Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
+> >
+> > Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+> >
+> > We need exit_wait=True for check_rx as well, but I'll send this change
+> > separately.
+> 
+> Yes, I discovered the same thing, and I have that change locally along
+> with some other fix ups I'm readying up for review in a separate
+> series.
 
-Reviewed-by: Nimrod Oren <noren@nvidia.com>
-Signed-off-by: Gal Pressman <gal@nvidia.com>
----
- .../testing/selftests/drivers/net/hw/Makefile |  1 +
- .../drivers/net/hw/rss_input_xfrm.py          | 87 +++++++++++++++++++
- tools/testing/selftests/net/lib/py/utils.py   |  4 +-
- 3 files changed, 90 insertions(+), 2 deletions(-)
- create mode 100755 tools/testing/selftests/drivers/net/hw/rss_input_xfrm.py
-
-diff --git a/tools/testing/selftests/drivers/net/hw/Makefile b/tools/testing/selftests/drivers/net/hw/Makefile
-index ae783e18be83..b2be14d0cc56 100644
---- a/tools/testing/selftests/drivers/net/hw/Makefile
-+++ b/tools/testing/selftests/drivers/net/hw/Makefile
-@@ -15,6 +15,7 @@ TEST_PROGS = \
- 	nic_performance.py \
- 	pp_alloc_fail.py \
- 	rss_ctx.py \
-+	rss_input_xfrm.py \
- 	tso.py \
- 	#
- 
-diff --git a/tools/testing/selftests/drivers/net/hw/rss_input_xfrm.py b/tools/testing/selftests/drivers/net/hw/rss_input_xfrm.py
-new file mode 100755
-index 000000000000..53bb08cc29ec
---- /dev/null
-+++ b/tools/testing/selftests/drivers/net/hw/rss_input_xfrm.py
-@@ -0,0 +1,87 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import multiprocessing
-+import socket
-+from lib.py import ksft_run, ksft_exit, ksft_eq, ksft_ge, cmd, fd_read_timeout
-+from lib.py import NetDrvEpEnv
-+from lib.py import EthtoolFamily, NetdevFamily
-+from lib.py import KsftSkipEx, KsftFailEx
-+from lib.py import rand_port
-+
-+
-+def traffic(cfg, local_port, remote_port, ipver):
-+    af_inet = socket.AF_INET if ipver == "4" else socket.AF_INET6
-+    sock = socket.socket(af_inet, socket.SOCK_DGRAM)
-+    sock.bind(("", local_port))
-+    sock.connect((cfg.remote_addr_v[ipver], remote_port))
-+    tgt = f"{ipver}:[{cfg.addr_v[ipver]}]:{local_port},sourceport={remote_port}"
-+    cmd("echo a | socat - UDP" + tgt, host=cfg.remote)
-+    fd_read_timeout(sock.fileno(), 5)
-+    return sock.getsockopt(socket.SOL_SOCKET, socket.SO_INCOMING_CPU)
-+
-+
-+def test_rss_input_xfrm(cfg, ipver):
-+    """
-+    Test symmetric input_xfrm.
-+    If symmetric RSS hash is configured, send traffic twice, swapping the
-+    src/dst UDP ports, and verify that the same queue is receiving the traffic
-+    in both cases (IPs are constant).
-+    """
-+
-+    if multiprocessing.cpu_count() < 2:
-+        raise KsftSkipEx("Need at least two CPUs to test symmetric RSS hash")
-+
-+    input_xfrm = cfg.ethnl.rss_get(
-+        {'header': {'dev-name': cfg.ifname}}).get('input_xfrm')
-+
-+    # Check for symmetric xor/or-xor
-+    if not input_xfrm or (input_xfrm != 1 and input_xfrm != 2):
-+        raise KsftSkipEx("Symmetric RSS hash not requested")
-+
-+    cpus = set()
-+    successful = 0
-+    for _ in range(100):
-+        try:
-+            port1 = rand_port(socket.SOCK_DGRAM)
-+            port2 = rand_port(socket.SOCK_DGRAM)
-+            cpu1 = traffic(cfg, port1, port2, ipver)
-+            cpu2 = traffic(cfg, port2, port1, ipver)
-+            cpus.update([cpu1, cpu2])
-+            ksft_eq(
-+                cpu1, cpu2, comment=f"Received traffic on different cpus with ports ({port1 = }, {port2 = }) while symmetric hash is configured")
-+
-+            successful += 1
-+            if successful == 10:
-+                break
-+        except:
-+            continue
-+    else:
-+        raise KsftFailEx("Failed to run traffic")
-+
-+    ksft_ge(len(cpus), 2,
-+            comment=f"Received traffic on less than two cpus {cpus = }")
-+
-+
-+def test_rss_input_xfrm_ipv4(cfg):
-+    cfg.require_ipver("4")
-+    test_rss_input_xfrm(cfg, "4")
-+
-+
-+def test_rss_input_xfrm_ipv6(cfg):
-+    cfg.require_ipver("6")
-+    test_rss_input_xfrm(cfg, "6")
-+
-+
-+def main() -> None:
-+    with NetDrvEpEnv(__file__, nsim_test=False) as cfg:
-+        cfg.ethnl = EthtoolFamily()
-+        cfg.netdevnl = NetdevFamily()
-+
-+        ksft_run([test_rss_input_xfrm_ipv4, test_rss_input_xfrm_ipv6],
-+                 args=(cfg, ))
-+    ksft_exit()
-+
-+
-+if __name__ == "__main__":
-+    main()
-diff --git a/tools/testing/selftests/net/lib/py/utils.py b/tools/testing/selftests/net/lib/py/utils.py
-index a6af97c7e283..34470d65d871 100644
---- a/tools/testing/selftests/net/lib/py/utils.py
-+++ b/tools/testing/selftests/net/lib/py/utils.py
-@@ -185,11 +185,11 @@ def ethtool(args, json=None, ns=None, host=None):
-     return tool('ethtool', args, json=json, ns=ns, host=host)
- 
- 
--def rand_port():
-+def rand_port(type=socket.SOCK_STREAM):
-     """
-     Get a random unprivileged port.
-     """
--    with socket.socket(socket.AF_INET6, socket.SOCK_STREAM) as s:
-+    with socket.socket(socket.AF_INET6, type) as s:
-         s.bind(("", 0))
-         return s.getsockname()[1]
- 
--- 
-2.40.1
-
+Perfect, then I'll wait for you to address it separately!
