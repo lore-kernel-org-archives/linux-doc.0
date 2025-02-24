@@ -1,76 +1,74 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2065.outbound.protection.outlook.com [40.107.94.65])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2081.outbound.protection.outlook.com [40.107.92.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2284C1DDC37;
-	Mon, 24 Feb 2025 20:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3597D2512D3;
+	Mon, 24 Feb 2025 20:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.81
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740430168; cv=fail; b=SW83mgnQsC1k4CKA/bOpoCDq8CsW0AbViMNeWxSu1B2YZf1WHWp27Rj0KZK89//QLGEjwux6NjWP9Ov+3GcOg+2dd2geOq3Q+ufN/lWL2SFF0oEDJArmOBF/eXuS6WQa//GSz1GoajZza+DL6Gqoppkl/bpNMbnf6BxibZ6sOV0=
+	t=1740430440; cv=fail; b=ZHJmBxHAQOsBwLZLol9LQ56a3dS6GkTAjtK6uW6TtYiKsqBH4OPJ35wzG5U/YY5ouljy68M/aFFubpeGgDrPJjt+hx6nk9KHoYAeqKSkvYyrXccIdfrQe/kcQtij/lCA2MVHvlSRKSO0/ZMJuCG7LLRdyqFIhNyboSsq0+N27xY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740430168; c=relaxed/simple;
-	bh=ZGwsGLrKA6F+8zABP/qPgd+SjVHWznfeQoKws7hzSUM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mIflQRgcahekLw2uNlLFtyUFTGi3ZFpqaHg9zmv2vynfBSHCP9hcjjcHFG9H7DnmkCk+EKJF3Spi0R67MP/v29a07Z1BicxHHpIaqlZ4FEAo1AxdDgAQ1yMDiaq9+nnru9PYFVfilJsnUUvIdY8gLd0HGg8HBLc+C/McQKDll9s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GepeN1xN; arc=fail smtp.client-ip=40.107.94.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1740430440; c=relaxed/simple;
+	bh=iTYIZltomIrv+2LnUIdW2g7VTFrS1zgqPz6pbUCiIuo=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=YLdymWr4a3lnT7rPRB9Eri+5pWjRx2hlm+P+/TG1YC/MKKbt8+cM9eh3NQmIboHIrfqNTCH1DwhuoeDDAVoomBfnmIPjRIFtOxfC71rcxlaYeDjeKCc4nax5snctTAcevi31EXGTqvm4nM4wTfnOgFPGApAb05fb3XylERpXj/Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=i3el/lmX; arc=fail smtp.client-ip=40.107.92.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GepeN1xN"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="i3el/lmX"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AtmioM6/id6kE/40u7OlEqEY8M1U6Q5NrKUh9RrPl2hWD8swfr4CiGO0lcpmvrlrSeiTebIfWUT3DCU8DRqmOM5Ym9FM8vFzI2n5WTWlzWKWSXM8uFWy+7EbLfMVVF5wCI1lqls6MOmPTxA16yfw3Wa7rkcsA/y3ZF+83F/kAyS4lQVakcuiLuwusrCMyLJKIOuPqWzW25jsgxk5IQPlVNRYAmrkQqg6Q2UFrlWeeRlrTS54yDZIJ51o9f4inKiOFKrMKMSXt0keY3Z9oskEqB/058h3wRww7GfqcamRgg3fKEn4VCL3CEyaHtvyljnfu/gHuHUXtHydIG9Mt7Nu3Q==
+ b=r93aYHPPvGnmvtDb6rRZ2J0z+sGO9tRuhPymbHMKqn576RMy5ecR5p18wrbTKFra+BpYLTtCmCHSPNdonNJsa1BY1o8wENVboqYpKH1d7dUgYqwJIhi21EoPao28kAQSal20fYPjU+2LEegGaRGI8YA5vAmNvHm6TcRbePRgO+f7ex+uP4NmY80mV0sICvVQ0qZc5nIscI1XI1YKnDHrRwtbFl6aMXMoBPjJg+se3W/MXtCzcGgErgdS/MvGe6HHFyQVFSzla+zPN8npzv5qPvLp+kVTNQ+gPekfwSaqYktaJ6uw4yp9nJdoqjontT5ufnC//GqTR7dqOy3Nl/x37Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oOgB9WmTswSbO3Nky37d2VT+5B7JJxZZKrkSkkZBpyI=;
- b=gh4doYzHT62WtHy5/QWRI3l+TEgVxiroTs/YCDtg6Mlv9HQEpeS+J4CxwME6xi98m6+UQj0P1/eSLabVSqGyhwuGfETsGvs3W7XqWJ0aEevGxQlfEnaA+UemOQ8f7sE6wxlYP8OSTwqOz04jmEPcr0iJf4CIoAYjRIbeadi/t5SkRbjFF3k7+1xN8fmGGLD59sAwPJzbh4s5X2HFsTd0dbVixPR1L7a66H6w2X1Kr4CM2wVE573ZI9cvQSUEznR7Z17WlUNTWAsZBwkUT8FQFMuRsIxVAuCOMpaFLraNgGgRnmXosywONXgYrUZeR+IARlaFboMqAYJjdfiZ86pr5A==
+ bh=DBgDXppHFvblf16VOUB6Y5vJzUXX/uNP5zwrqd3oykA=;
+ b=o6I5XUHNWneAuB7SjPREsgJZC47Jh1SZC7o9OuyZ/2ezBzEyZ8aobdvayIv8A8szEMRTlN5bOHBHfaOlGRYnUQH/tRW7PKnLDzEjNcL/qkQoDXDgoPTJOvts3H1Ojo6dbuxQGAnVZB+823m3ymVlgpANHagyEZ5rgwvkeC9nwqX2c/vA1wM5/S1oCxVMz2kJCLgYVTEr989PNjv0NDEhCVGew+pX1FNyMyBXNWnLLcbvodvU6eoDlLe/WV0UqBH2oEZJxQ65Q4SLHk9QZInyLsNv22Wjj6DoIHxuyIPVd807wsWeLwZqn2IDJZaqcKoYnNsof0N4BOd1v9sepkVKpA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oOgB9WmTswSbO3Nky37d2VT+5B7JJxZZKrkSkkZBpyI=;
- b=GepeN1xNo/JBAIp4hY6XdlVYSv+8W2AlUufavi5ygm/uBsI4rI05p+28UNi+tKnAs+eo4ttRQHQlu/d09yONmssgX+zgQD8Zn+o85qpMIyhwikoL0Mo30AcHQGLl/xSGLFm6AqlWiWNC4ADLgLwXcG7eVHGQ7/9u1y9BOxvPjw0=
+ bh=DBgDXppHFvblf16VOUB6Y5vJzUXX/uNP5zwrqd3oykA=;
+ b=i3el/lmXBNsmIjzuD1rFjOPhJF0RUCPnmGEFcrQ9ANa5ay0OwHSJNYq5cqmfKqaaKvN6s1E0OTTDMdYI+TjiZ1TKPSEJRSXn+P1VJugxYC5mz6LclkL2Cxwn40BUveaWkqz2K04puOv54tNiKI9sugzTDeGyy9qgWB4GKtsJbzU1vPyXl1RRybf/JqNX9DgCjIyj7BW5T7DeKV3GxBa/FYBa/pYjw+TETqWLJCyQAi8oJng01gHiIG5ryfcEcaBZZKo6EkatiqC0HgBRz5M38kCntOWSjPshg00VF3pocIUhYkkBygHES/VxTTZ7IV2vwsYkjjRH6ovWgT+LrQZG3g==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by MN2PR12MB4488.namprd12.prod.outlook.com (2603:10b6:208:24e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.19; Mon, 24 Feb
- 2025 20:49:20 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8466.015; Mon, 24 Feb 2025
- 20:49:19 +0000
-Message-ID: <f51e9718-df4a-4a94-811c-24f56fca696a@amd.com>
-Date: Mon, 24 Feb 2025 14:49:15 -0600
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v11 23/23] x86/resctrl: Introduce interface to modify
- assignment states of the groups
-To: James Morse <james.morse@arm.com>, corbet@lwn.net,
- reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com, tony.luck@intel.com,
- peternewman@google.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
- akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
- xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
- daniel.sneddon@linux.intel.com, jpoimboe@kernel.org, perry.yuan@amd.com,
- sandipan.das@amd.com, kai.huang@intel.com, xiaoyao.li@intel.com,
- seanjc@google.com, xin3.li@intel.com, andrew.cooper3@citrix.com,
- ebiggers@google.com, mario.limonciello@amd.com, tan.shaopeng@fujitsu.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- maciej.wieczor-retman@intel.com, eranian@google.com
-References: <cover.1737577229.git.babu.moger@amd.com>
- <fe1c0c4cebd353ccb3e588d7ea2fe9ef3dff0ef2.1737577229.git.babu.moger@amd.com>
- <8f783170-feb4-4819-bbdc-cdf0a7c25dd0@arm.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <8f783170-feb4-4819-bbdc-cdf0a7c25dd0@arm.com>
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ CY5PR12MB6384.namprd12.prod.outlook.com (2603:10b6:930:3c::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8466.18; Mon, 24 Feb 2025 20:53:50 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
+ 20:53:50 +0000
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1P222CA0090.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:35e::22) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+Date: Mon, 24 Feb 2025 15:53:48 -0500
+Message-Id: <D80Z3H6NZARU.1HP5EKXOJ68QH@nvidia.com>
+Subject: Re: [PATCH v2 19/20] fs/proc/task_mmu: remove per-page mapcount
+ dependency for smaps/smaps_rollup (CONFIG_NO_PAGE_MAPCOUNT)
+Cc: <linux-doc@vger.kernel.org>, <cgroups@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-api@vger.kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, "Tejun Heo"
+ <tj@kernel.org>, "Zefan Li" <lizefan.x@bytedance.com>, "Johannes Weiner"
+ <hannes@cmpxchg.org>, =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Andy Lutomirski" <luto@kernel.org>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, "Muchun Song" <muchun.song@linux.dev>, "Liam
+ R. Howlett" <Liam.Howlett@oracle.com>, "Lorenzo Stoakes"
+ <lorenzo.stoakes@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>, "Jann
+ Horn" <jannh@google.com>
+To: "David Hildenbrand" <david@redhat.com>, <linux-kernel@vger.kernel.org>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.20.0
+References: <20250224165603.1434404-1-david@redhat.com>
+ <20250224165603.1434404-20-david@redhat.com>
+In-Reply-To: <20250224165603.1434404-20-david@redhat.com>
+X-ClientProxiedBy: MN2PR15CA0061.namprd15.prod.outlook.com
+ (2603:10b6:208:237::30) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,304 +76,249 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MN2PR12MB4488:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1df8f302-8229-4a23-afd0-08dd5514b589
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|CY5PR12MB6384:EE_
+X-MS-Office365-Filtering-Correlation-Id: 34e369da-6e2c-4eef-e323-08dd55155771
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VTN0bXV5bUI3QVBaZ3p6OUU1RFEwTFdZM1RDTjdtSEJuNFNFMDJsY3VESHU5?=
- =?utf-8?B?eGI2TXRsUXVFYk45b0lTN0NESVBlVUVtcVcyaFpVK2srYkJCVEYzTXBQTU5h?=
- =?utf-8?B?YU4yR0ZEeFJxa1Byc3RxUmlhUGgvUDltVElZelhVTVphMlE1TS8xQTk5cWdX?=
- =?utf-8?B?OVpOejdFeHh0eWIxcWV6RC9HZDRBclorYmpIK09saGdXZEtnMWJwckRiOVVV?=
- =?utf-8?B?UFBEd0F3YktzRGRwenZTc0t3VnFMUDFMYXkzeHZocHB3MktTWWtNTkNhNDNN?=
- =?utf-8?B?UnNLa1dZVElTVzN4c3BBcWRPS0p1RWJVRnBNRlZ5S21tR3lvRkJRSUY3YkpX?=
- =?utf-8?B?amhvTU9HK0Rsb1k3YTRFQ1dQSndpZWQraTJkQmFPbkwzMjM1a0hzSFdlVmZy?=
- =?utf-8?B?RUxNVjF3US9XNmtRY2hLUnYva2tWYUorTXlEVkE0RklXODlpbXBBTUZETEUx?=
- =?utf-8?B?eStIeWJzcHZmeElEMmphbXZMbEVzNXZ5bU5XK3NUVUFIMTB3L0FkYk1XUmh3?=
- =?utf-8?B?SW1wZGRKTUpSMG80VHRVOUVLOVdZMHNQWHNqb2pVNWZXcUt3Q1FkeUIvZWtG?=
- =?utf-8?B?UE5OR2JvdmMxcjFZdTRNcENvd05Qd1ZNaHUrMHdXbDI0TCtaR1BKREJQRWtl?=
- =?utf-8?B?VmYvQ1ZNMFNVSmVGSURLUGZtR2NnVkxTb2dvc3ZqSi8xOVJ2aUNOc2o3bnhq?=
- =?utf-8?B?OHpvTDFzR2Vybzd4SVZoRTZ2aW56Q1Jna2pCeCtNOUVqQ3l2bXdxNEJQcTB3?=
- =?utf-8?B?UHVDTnpDTTJGZkVRQ1d0eXhzbVNvaWZVcjEyNXVIcC9jb0M4QjF1YWFSZmNW?=
- =?utf-8?B?dmIraCtiWGszbDA1cUhEdVA5cUN5VDNMcjJSOUw3dG13WDV6dUpkbU51Vitm?=
- =?utf-8?B?ZDVpcFloSzBURlIxSkVvanAwM3NKUk4xWGNzNlhpVGdZRFRLSUJ3VkpTLzh5?=
- =?utf-8?B?K0ZZVE5NejE5eXVRZVlITE42YUhUamYxby8wL3lWMXNTeFhBYmlIRHdtdVNO?=
- =?utf-8?B?OHVEbmgrVlNYL1daODhZZUZyMUFTT3oyRmxLYzczWkZaODFzeDQycnNtVDJm?=
- =?utf-8?B?TFpLWjRWWTVZbGFMUWxwaTNTWTljZ0ZsMDQrb1h0YTc1aElZa1krcjBMYVlU?=
- =?utf-8?B?ZUlXWmFNc0kvUlZPaEJneVRDUlMzOCtsR2Y4TUdwbDNCM21TOFZTSEtiVHZN?=
- =?utf-8?B?T2thZHZjczRhM2JtOVIrZ3JGcm1pUHJCWjVZbllydXNpakhlc1RNNDhUdXNI?=
- =?utf-8?B?VzMwL2cxUUpGTGZQa0JlQW5YVXdESVJzQmI3bmhSUXh4MitzVGE3T0ZUUXZX?=
- =?utf-8?B?RXk3aHBYcVZEL3kwYWJ6NkhOMGJpcUpwSGJVUzJjK2duTDR1S1pkL1V5c0xG?=
- =?utf-8?B?c2hGbkNRbVJVWjJMdDFOSHBYTWI0Tzh5bWNhdHRjdnJsMTJNK1I5SnZoMk1W?=
- =?utf-8?B?OWhnOEhYVyt0TDlod2pubHpVamdDYnZwYk9USDNSQkpyNHFlV3lDMFF0YnpJ?=
- =?utf-8?B?YWZicFVoaDNaNFpYRjVlWTRUb3IxRHc4cFpVRUNUKzhOMUwvZlcwTXpZODBr?=
- =?utf-8?B?U2tHR2VTK0ZqZVc1enhaelpBZ3FuNEVwZDBPT3RaSTFlb1BvN2VnRG10K2Zl?=
- =?utf-8?B?dHhWYkN5MzhIYzBQTzY1ODZYWTMzVEZLSzRIUXhHWmhJWWIxSitUVGJaam5y?=
- =?utf-8?B?RDl6YUZUZDlLOHQ1NlhZOUNQdWZoL0pyeEw0czY2enVhOGlDZnNaTFh6TE1n?=
- =?utf-8?B?cDdOMGY4dnVvVHdOOE5ZdHVzUWEyMTJmZVh0YWhzNE9tYnVzVE81UDAwOFp6?=
- =?utf-8?B?cmxKYStURFg2Ly9QZzBXYm1aRk1SbEtlWmVhb3gwcldZZTJiREplQk0zVW5C?=
- =?utf-8?Q?mWiWcrlMAW8SE?=
+	=?utf-8?B?cyt6ZGhOOEE1UCtoQW45N3BQWEs2QTN0RmdBM3BJUGNZbXlSVnRaUGtlcXpP?=
+ =?utf-8?B?bjA5d08zc2crRTUwMTV4S1JzT2wrbjQyZ0g0dWNEK1Y0V1FzRzM3ZkhINjJX?=
+ =?utf-8?B?WFVvcEh0eWVOdjZWVHVLYVdsRkI1d1FERDVEbmJoRFlNQlZ3aGZJL0xLaTIr?=
+ =?utf-8?B?UUZJemJQSUR6K3JEdGs0eVM2TkFJem0waTJ0SVBGQTFGNkgvUjNBMEJKTFlD?=
+ =?utf-8?B?a0srOG1QOXdXcXlpOHF5bUk4bTNBZy9RWmV1d2ViTHdGejJ2ZENiSVhEM205?=
+ =?utf-8?B?ZklBSzVXNjJzQ0hVMmcvci9FS1ljWVJDYUxCRVNZVDBhUlcyUGpLcFN2c1Zk?=
+ =?utf-8?B?aU9RdkpHNmJwc3FBaG1idWxGYmQyMTdUUWJpWTRoQ1ZGSFhmdlR1SlEvOGs0?=
+ =?utf-8?B?WVpkdmVNNGRYaFY3aEJxWS85RE4wVGFuWVBUZU5lTmlaNWhiNFdrcmVOUzZ5?=
+ =?utf-8?B?QzIzcHp4a1ZJYzN5d1h1aVJORHd3V1NBam5HRGJ6anA3b3ZGWUZ3VUVCaDdr?=
+ =?utf-8?B?WlVMUlV1TnBqMDBybndabUhaTFlWY0REZFE5dDYrVVJHZEgvUWhsclBzRkw2?=
+ =?utf-8?B?YS9SNUVrbks5U3M3dWozWTVtN01BTjNKY3poQjVPWEw1RHlQMkZzK0s2ZENx?=
+ =?utf-8?B?SFlqbTFldjhVbWhCcjFDYm9Kd3pDVWNlK3owZ0IrYTNtQ1hsOUsrbytld081?=
+ =?utf-8?B?a1o2Y0h2MWhQYzh2M2ZwSXlBZnBkcjhLenJuWFlNSDRIR2d2S0JMWUtpTGVz?=
+ =?utf-8?B?eGkxQ09SQjVjdnI3NXNIRjZhSms4V1JGbkdseWgxMnZsN2RxN1c0MHRHSjFY?=
+ =?utf-8?B?WkZYUUxEeCszaFpudllSTFlTU04zVTVJWXZEb3RKMGtpd0xTaGhGbmlubC9w?=
+ =?utf-8?B?NC91eHQxMExEQk1USnZkMGUzam1jNXdQZkp5TzBMcXJPcmNRN0E4WjZXNnov?=
+ =?utf-8?B?ZE5IRFQrb1FSaCsxS3JEaklYZnkzU2hxbmRrQWtPczhWTGtjZ2RRbE9JZURp?=
+ =?utf-8?B?WGlhL3BUdGpyVFJEbzYrS2lsTHJJa1krbkpMamFQeFZqM3pDL2xEdzgxSHZQ?=
+ =?utf-8?B?OGtOSnJRdTRpN3REOVZBcjBsZ09LeE1GV0plakFXY2FsMXV0SjFPWDh2RG9U?=
+ =?utf-8?B?NkFodThDUUxJMGJYcWtYbWhjc2ptOGhDSzh1V0tJN3RBRVdUajh4VTVzZDJB?=
+ =?utf-8?B?cE9MVzlVY2dWL1JDMWVlQVk0VHhxV0huOW0ybllicDkxcHExbGc4dzhjWnJI?=
+ =?utf-8?B?SXlYMGVRKy9oelhaZ1NNTHY0RHc3WlhKNGlNUy9sMmhNc0M2R24yM1IxVDB4?=
+ =?utf-8?B?SjYyNnBrUHNTL3QrUmJ5RjZia3ZEWmwvVGdKa3h2NVArRDlreHAxV1NHSHZt?=
+ =?utf-8?B?L1RwVWZFeDdsWjE1TFU5cHhsR0ZrMnI1aVRNYnBWNm1lQ1VZSFc2QnZEUUZw?=
+ =?utf-8?B?SStRODE4YzRYMGpMVFpUbTBFdS9FTWlRNkxWOE9uR1RsbGlXWERzb3VSeUVQ?=
+ =?utf-8?B?TkIzQ0NJTEwxUm5NdGN2NHovZTY1RnBicUhTL1ZCRDZKUVJndGZzM0xUbUJs?=
+ =?utf-8?B?V2tZRmVaeWtWajRFeHpUcXR1R1ZQSXREaUlZcTJCTlFzRldhTG9iUFQrUkR1?=
+ =?utf-8?B?VmZraHh5ay9VYnZjRGRTY2NxK1JXa1lnQlE4MlZpSDY3ajlJTGsvSFYwY3lw?=
+ =?utf-8?B?YzBTTjRrZXZTVDFSaXVnL2FYdmVXeDZ1Vk9IN1pid1VPUVNKYTA3bHNUMkpr?=
+ =?utf-8?B?MXpQblllWnh4U09uR2R3MFkxSHV4TjhKZ3JuTTA1bWFweXdmWnpLKzVNMGYr?=
+ =?utf-8?B?QmV5VTg1M1RFQnJkN0JyckRpMXJPN2tvMkJzekMxcnp3MWwwS1I4OE82MEQz?=
+ =?utf-8?Q?TZJ+zcL00buYB?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eHo2RVNGR3dGRU5EVVFCd0MwYW1iVHkyQVFEOWJNd2hOUnordGJQN095SnpI?=
- =?utf-8?B?NlBTY0FHWjh0Yk5sM0x4KzNqMm5lYXF3VDB5S3VyQmkxRFRUencwUS9ZUlRv?=
- =?utf-8?B?SzVuOUIrcEM5SWRDREdvWXNPMGJJbWJUT08vUko4WHVtcDgzbEJ6ZEhwNHds?=
- =?utf-8?B?dFRXUlJkWVllSHdQV1RYeXk3cW5Wc3ZyUmU3SmNjcGhNVkpCTUZVVGJrOGNZ?=
- =?utf-8?B?YXhWeURzR2ZFZEJJM0lFMWNYZTZBazVGWTB5bjlyUHhyRWtESG5YQlB6dytk?=
- =?utf-8?B?SmVLMkxURmFoRERkbTcrY2VrZHFXaWFNZk9RRFRzbmN3QTR3UkZMdWJtOFhm?=
- =?utf-8?B?RjJQVGszazhHQkRlbDZ5YXBqSUhsR3ZHWVRLODYxeEwwQmVVZG9oQ3RERVZq?=
- =?utf-8?B?K091MlR5ZWs5UnFrT3FlNk9DS2hJQW83QzZLWTdxR2VhcHEvRFJwRG1GbnJH?=
- =?utf-8?B?ZFBsblN3TVIveTJha2VFOGxWYUNhdDZ2WnAyUmFDUjc0RlV6LzdHdzUvc3R3?=
- =?utf-8?B?TjdzYkR5QTlaaXB0V3RINW5JRjcrTGw2YlhNOHByUjR6YUJTbllHdUx4eUhu?=
- =?utf-8?B?QWtpQ2E3NzBGbndFcEpLeGVXaFFmdmlBQU10Qmw2cDloS3hycTZtSFVneGEw?=
- =?utf-8?B?REg4eWk4QTNMQStQQURFUENJZkRSWWJZbmZQMHY1NUl1MXppMlVrTDlMWEY2?=
- =?utf-8?B?UEhUa1I4N2hweXkrem1xakFiSWtmam41MkplWjdxSWIvZUJtQ012ZU1sM1Rr?=
- =?utf-8?B?OFVyVk50bmFhWHBQVWk0RUI3MW9nK0dzYmdxY1BFRlZvcjg0U3IvSysrcFNa?=
- =?utf-8?B?RFoxbURRclNINm9VRkVnMzlLWEwyQUx5V29MTTNvQmZnUW85YVBHY0ttUUd2?=
- =?utf-8?B?MzEzelBzOUVENHQwVFlSZEFlS2JERkkxS0RRWnFaVG1pbFlPRVMzZXVEcEVh?=
- =?utf-8?B?UEJtSUxNNWpXOG5TWmM4M1cvMWs5UnJOTkU1RUpLNm5HSXprWER2alB0c0U2?=
- =?utf-8?B?RjBIVjBkcnZ3OXhaT2JOaTUwUU9kUDRRMkh6UG1ZenlLTkF3NWVpQTdsREp0?=
- =?utf-8?B?TzhwYXdkQTc5SkJnUGk3S1Y2N0Zabm1vcTYwenViaWk4RExNa3dIbVhRbkdJ?=
- =?utf-8?B?OTlyUEhmaUswaWM5R1IydERDaFNIZ01IVVpIdXpVVDVMckFlS2ErOW1XQ1JW?=
- =?utf-8?B?T2FpcXdXRXA0R3BtQzBNMUZBVnJaVUNOSmJEVTB2dmlFWFVtc3prMzVpR01L?=
- =?utf-8?B?RGZOdzNndmo5RkdycUtMMXBubVFWczVhNG9oSVFFVjNBcUVac1k3SjluZzhr?=
- =?utf-8?B?WGJ4TXZQODROcTJ3eGYzM1p0a0dJTkZxcFIyQ0gwSmRnTUV1cGw1SjUvUGlG?=
- =?utf-8?B?S3NnNlBSV1VlRDJLRDJ2RStvSmszSUhQVXNXQWpIeGZsMW4zMmJQTDJweDZW?=
- =?utf-8?B?SmtxSEx1bzZVWnFVZ2RQdE1BMWNrMWZGWDMxNThaNmUxYVRvQ0ZGclp6cEwx?=
- =?utf-8?B?VkpyZ3hBZWVHTWV4bVJiYlV1b2s1b212K3FTMEpYK1EyejFkclR3ZmJlUEh1?=
- =?utf-8?B?VkVLYjM5cHlvM1lEbEx6MnJndnVsZ1pPZFg0R1EzbG5Xd3F6Yk9uTlpXQ3hw?=
- =?utf-8?B?enA2L09IeTFWN291L0FRS2kvUWpNUk9SeThJQ1ozQ0VWb2NIMDNxclhuNVlW?=
- =?utf-8?B?Uk5OeHZ5QVhHZ2lNYWpCbVpFOVJrUHJnTHVsUnhhYlBUWnYzRXdLSVRRNXd3?=
- =?utf-8?B?cUZTUGlvYWpKSTNCSjIwT056SWRZS0NrOEM1akNiREZoWHRBY0JqVTFXL2JL?=
- =?utf-8?B?VllFUnlUdHhDamdoNHQ1aHV3bUlCaC9jOHdvSk5XNUFnWHkyZGNnTit4MGpo?=
- =?utf-8?B?bXZrWmVvTlFQcWVMbTFCN2ZUU28zNlQvb1pTNmorN29CR0xmamM2M1NZam5H?=
- =?utf-8?B?cG5vejl4MVNDdVNBYTNkVFhSOUUxc0tXbDllM1Y3cmg0RVRQRytzbFpxMlZp?=
- =?utf-8?B?dndSdnNzRkRuSEhWVDd0TVRaODMzR09CRzlBSVdPVjVqaHlGY0YwSlVobEg2?=
- =?utf-8?B?cndQT05kOUZVN2c0UEpvMm9XVkk2VEE5cVdSbng5T0JodVRMWjZhdVZyb3ZQ?=
- =?utf-8?Q?hoFU=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1df8f302-8229-4a23-afd0-08dd5514b589
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+	=?utf-8?B?LzhZTHhpK0xlVzBmQzNHTUxNU2xWc1ZoMEw4RDA2Z0VaY1ZDQllnSHJXcFps?=
+ =?utf-8?B?MTI3K0FHaFlwZHRWRUFyZDRNVzBPc3hXSm1WbDVQeGh1UE9NTjRYZmVKN1Vl?=
+ =?utf-8?B?aHZRZjFDOUE5KzlPUGRmWVpsMHFUU1lsZ0tEZ2tUbkNxY0d2UWhvQnNUMmVj?=
+ =?utf-8?B?OWJTOFpjRHl2WXpsT1JNL0UyR25kSG5zU1VteWo1Tm0wZXcwTEVtVGNTdXpq?=
+ =?utf-8?B?Wi90NDJ2Z2RzRWplZ3hwNWIwUURhSGFpN0owczZpTzdpTDF2czJMSUNWRXdy?=
+ =?utf-8?B?TW1EK0tBU28za1Rnem9vQUVwZG03UkpNak5HMDl0TTZjNTFWYnhHai93WFBr?=
+ =?utf-8?B?cUhQWCtVK2dZdFdRUndQYXZ6cEFSZkkzRkF1SWZ2NldjcUNvOGxtc2NTdnM2?=
+ =?utf-8?B?NzI3NXVtZDF5Q2t3R0hNNGMrbHdIZ2lWZTRrMG9pUVJ6Tmo0UjZ4Z0xYQlo5?=
+ =?utf-8?B?THp5cXBHdzVHMkJhWjBUOFNPdnpsdzVoT1lPWDRBSTRWRzhuay9mVlFsU2hC?=
+ =?utf-8?B?eFRXbHBMaEtRNVJlR2hUWGhuc25iaUxUay9WUzVuWm8wdFpnQUlFUURqdW1W?=
+ =?utf-8?B?VWRkV0NqNFkvQTErWUZUNXkycitoRjdhNjRjQWtORVVuMklVRWpMVXk4Q3d2?=
+ =?utf-8?B?YUIxTjVTMms1eWJ0S24xYUVpWDlnWnpXdWZLbjJUN3N2WWM5akM4d0dkenph?=
+ =?utf-8?B?TEU1UEN4aGJmREVZZWNPZ0ZsTFU2d2N1RktCTUVWalQ0WjVpRkxWV1ZRV09P?=
+ =?utf-8?B?SHlQME1SYldSUE5RekVpdGpoUUd0ZVFhVG5YV3hYRkhMS2w0NG1nRkRTTnp3?=
+ =?utf-8?B?TWxOQVpGWHN1MkhLT0RGMTFpTS90UjdaMTNKWFc1Mkt1Y2dQcENWQitXVVhn?=
+ =?utf-8?B?Z2w0dmVMSU9SS1FSUjhUdWNFbElKOWg4a1M0R2plZTNGU1R0VHhTZjJHdUhM?=
+ =?utf-8?B?dWtTbUhXd0dwSW41Qml4anU5bE9rR0RRUEF6RnlTSWRvazFMMHZaRzFaeGkw?=
+ =?utf-8?B?dGRsb1BETmVKZTN1cGZvZjArT3dmOWxVQ0tidm1DR2tXbDVGWDZQSlBWNk9s?=
+ =?utf-8?B?WmlHNTRYcW5NZHNpWExwZnVvMHo3VDB2UkNLeHhXN2JzaUdzY096WTFLV0Nq?=
+ =?utf-8?B?K2RxL21XUUFLTmFKRmhjNGhGcUI2cEsxZmhJSWJYNTRiOEVBSDBGZWYwTkFm?=
+ =?utf-8?B?WDczR1JlcHFJZG96MzdMUXhzQUFvMFNOTkhMM1JSUENWb0k2RHF0NVVZZVBl?=
+ =?utf-8?B?N1dsU0trNkhzSGhHN3Q2ek5tcUpldnNJQTlOenM1Y0lJb0VUMjlQVkVBOUgv?=
+ =?utf-8?B?V0REaHFBdTlqeCsyUmtlZ3R2TzZIYm00OVNxWU5NN2tCREdNQm9pMXhTdXRW?=
+ =?utf-8?B?OEh6MUFrL3BXOVpDU2QvQ0pBSnpQaUpNekR4U3JGYVdEMWhmTmJMNnF1dUdt?=
+ =?utf-8?B?Nkg2eHdzRTlFb1NCc29TOTFnNktMTHNHN29SRjk5UmY1MVNLYi9HZUpVb21n?=
+ =?utf-8?B?R3R1elN4OWhFT3FtSitjaFRId25TQkNJeW0wZ2xmMGdncHZEWXZBcERQL245?=
+ =?utf-8?B?VDlZS2t0QzJPMHV3ejkzVkQ0ZGp3VDZwVHhRODBKQzB1YUxma29jSG94U0tK?=
+ =?utf-8?B?SnNEZmt5VHUxQU1KamJzajQrQUN2NGNCLzRuQlA0WWR2MmZWcTR4ZHlJblYy?=
+ =?utf-8?B?Vk1BZ0o1RXI5aHMxMDBrQ25iQXNKWkpsNDdZSFl4QnJvQy9FOXNPYTZlNVp2?=
+ =?utf-8?B?b1FtVGdKN0JUb29Hd0M4eXl4RHh1bzk1RTBaeHR3QjY4SmhjTEhTd3RIeGJQ?=
+ =?utf-8?B?Y1o3RU5pdFpiWDVXOTRoZFozaVVoMGd2UmJmbitBdU9kNGxBWHJUbDNZWHpJ?=
+ =?utf-8?B?UTRDNTFaWE5Td1hqRDBUREcrdHNpQXRsV3dDckpwMTVwYUQ3SHo3b1NtU0hM?=
+ =?utf-8?B?VjBMN0NFZGRhNThNcjczR0FoZTRBaVNXYnN5NGdiUGtJZWRkU0VWU3JoWCtR?=
+ =?utf-8?B?a3IyeDZKMm0rQjdPcW5BRS9VRFJ3MzF3ZXhnKzkxVWFJZm8vaGhFWXZQc2lx?=
+ =?utf-8?B?TitSNmNqaHIrSzlsTTdQTkllL3RTUG5HaWxpZm1aTk9odElSY0laczBHV2Vi?=
+ =?utf-8?Q?W9Qqela0Ti7hG3ibIM54dRSgD?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34e369da-6e2c-4eef-e323-08dd55155771
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 20:49:19.2095
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 20:53:50.7441
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J0/DDw26S13PJTaZtSLzfP05JO2KP1uFSLcR4fNmHC8MYMIvaWN1NtT7j63OIBTC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4488
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9GFR748p+Liz80aeilu/2vq+vTyWbmc+cpSQ5pnEEgdnKxv/7PW9Em1z4MBqxauh
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6384
 
-Hi James,
+On Mon Feb 24, 2025 at 11:56 AM EST, David Hildenbrand wrote:
+> Let's implement an alternative when per-page mapcounts in large folios ar=
+e
+> no longer maintained -- soon with CONFIG_NO_PAGE_MAPCOUNT.
+>
+> When computing the output for smaps / smaps_rollups, in particular when
+> calculating the USS (Unique Set Size) and the PSS (Proportional Set Size)=
+,
+> we still rely on per-page mapcounts.
+>
+> To determine private vs. shared, we'll use folio_likely_mapped_shared(),
+> similar to how we handle PM_MMAP_EXCLUSIVE. Similarly, we might now
+> under-estimate the USS and count pages towards "shared" that are
+> actually "private" ("exclusively mapped").
+>
+> When calculating the PSS, we'll now also use the average per-page
+> mapcount for large folios: this can result in both, an over-estimation
+> and an under-estimation of the PSS. The difference is not expected to
+> matter much in practice, but we'll have to learn as we go.
+>
+> We can now provide folio_precise_page_mapcount() only with
+> CONFIG_PAGE_MAPCOUNT, and remove one of the last users of per-page
+> mapcounts when CONFIG_NO_PAGE_MAPCOUNT is enabled.
+>
+> Document the new behavior.
+>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  Documentation/filesystems/proc.rst | 13 +++++++++++++
+>  fs/proc/internal.h                 |  8 ++++++++
+>  fs/proc/task_mmu.c                 | 17 +++++++++++++++--
+>  3 files changed, 36 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesyste=
+ms/proc.rst
+> index 1aa190017f796..57d55274a1f42 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -506,6 +506,19 @@ Note that even a page which is part of a MAP_SHARED =
+mapping, but has only
+>  a single pte mapped, i.e.  is currently used by only one process, is acc=
+ounted
+>  as private and not as shared.
+> =20
+> +Note that in some kernel configurations, all pages part of a larger allo=
+cation
+> +(e.g., THP) might be considered "shared" if the large allocation is
+> +considered "shared": if not all pages are exclusive to the same process.
+> +Further, some kernel configurations might consider larger allocations "s=
+hared",
+> +if they were at one point considered "shared", even if they would now be
+> +considered "exclusive".
+> +
+> +Some kernel configurations do not track the precise number of times a pa=
+ge part
+> +of a larger allocation is mapped. In this case, when calculating the PSS=
+, the
+> +average number of mappings per page in this larger allocation might be u=
+sed
+> +as an approximation for the number of mappings of a page. The PSS calcul=
+ation
+> +will be imprecise in this case.
+> +
+>  "Referenced" indicates the amount of memory currently marked as referenc=
+ed or
+>  accessed.
+> =20
+> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+> index 16aa1fd260771..70205425a2daa 100644
+> --- a/fs/proc/internal.h
+> +++ b/fs/proc/internal.h
+> @@ -143,6 +143,7 @@ unsigned name_to_int(const struct qstr *qstr);
+>  /* Worst case buffer size needed for holding an integer. */
+>  #define PROC_NUMBUF 13
+> =20
+> +#ifdef CONFIG_PAGE_MAPCOUNT
+>  /**
+>   * folio_precise_page_mapcount() - Number of mappings of this folio page=
+.
+>   * @folio: The folio.
+> @@ -173,6 +174,13 @@ static inline int folio_precise_page_mapcount(struct=
+ folio *folio,
+> =20
+>  	return mapcount;
+>  }
+> +#else /* !CONFIG_PAGE_MAPCOUNT */
+> +static inline int folio_precise_page_mapcount(struct folio *folio,
+> +		struct page *page)
+> +{
+> +	BUILD_BUG();
+> +}
+> +#endif /* CONFIG_PAGE_MAPCOUNT */
+> =20
+>  /**
+>   * folio_average_page_mapcount() - Average number of mappings per page i=
+n this
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index d7ee842367f0f..7ca0bc3bf417d 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -707,6 +707,8 @@ static void smaps_account(struct mem_size_stats *mss,=
+ struct page *page,
+>  	struct folio *folio =3D page_folio(page);
+>  	int i, nr =3D compound ? compound_nr(page) : 1;
+>  	unsigned long size =3D nr * PAGE_SIZE;
+> +	bool exclusive;
+> +	int mapcount;
+> =20
+>  	/*
+>  	 * First accumulate quantities that depend only on |size| and the type
+> @@ -747,18 +749,29 @@ static void smaps_account(struct mem_size_stats *ms=
+s, struct page *page,
+>  				      dirty, locked, present);
+>  		return;
+>  	}
+> +
+> +	if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT)) {
+> +		mapcount =3D folio_average_page_mapcount(folio);
 
-On 2/21/25 12:07, James Morse wrote:
-> Hi Babu,
-> 
-> On 22/01/2025 20:20, Babu Moger wrote:
->> When mbm_cntr_assign mode is enabled, users can designate which of the MBM
->> events in the CTRL_MON or MON groups should have counters assigned.
->>
->> Provide an interface for assigning MBM events by writing to the file:
->> /sys/fs/resctrl/info/L3_MON/mbm_assign_control. Using this interface,
->> events can be assigned or unassigned as needed.
->>
->> Format is similar to the list format with addition of opcode for the
->> assignment operation.
->>  "<CTRL_MON group>/<MON group>/<domain_id><opcode><flags>"
->>
->> Format for specific type of groups:
->>
->>  * Default CTRL_MON group:
->>          "//<domain_id><opcode><flags>"
->>
->>  * Non-default CTRL_MON group:
->>          "<CTRL_MON group>//<domain_id><opcode><flags>"
->>
->>  * Child MON group of default CTRL_MON group:
->>          "/<MON group>/<domain_id><opcode><flags>"
->>
->>  * Child MON group of non-default CTRL_MON group:
->>          "<CTRL_MON group>/<MON group>/<domain_id><opcode><flags>"
->>
->> Domain_id '*' will apply the flags on all the domains.
->>
->> Opcode can be one of the following:
->>
->>  = Update the assignment to match the flags
->>  + Assign a new MBM event without impacting existing assignments.
->>  - Unassign a MBM event from currently assigned events.
->>
->> Assignment flags can be one of the following:
->>  t  MBM total event
->>  l  MBM local event
->>  tl Both total and local MBM events
->>  _  None of the MBM events. Valid only with '=' opcode. This flag cannot
->>     be combined with other flags.
-> 
->> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> index 6e29827239e0..299839bcf23f 100644
->> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> @@ -1050,6 +1050,244 @@ static int resctrl_mbm_assign_control_show(struct kernfs_open_file *of,
-> 
->> +static int resctrl_process_flags(struct rdt_resource *r,
->> +				 enum rdt_group_type rtype,
->> +				 char *p_grp, char *c_grp, char *tok)
->> +{
->> +	unsigned int op, mon_state, assign_state, unassign_state;
->> +	char *dom_str, *id_str, *op_str;
->> +	struct rdt_mon_domain *d;
->> +	unsigned long dom_id = 0;
->> +	struct rdtgroup *rdtgrp;
->> +	char domain[10];
->> +	bool found;
->> +	int ret;
->> +
->> +	rdtgrp = rdtgroup_find_grp_by_name(rtype, p_grp, c_grp);
->> +
->> +	if (!rdtgrp) {
->> +		rdt_last_cmd_puts("Not a valid resctrl group\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +next:
->> +	if (!tok || tok[0] == '\0')
->> +		return 0;
->> +
->> +	/* Start processing the strings for each domain */
->> +	dom_str = strim(strsep(&tok, ";"));
->> +
->> +	op_str = strpbrk(dom_str, "=+-");
->> +
->> +	if (op_str) {
->> +		op = *op_str;
->> +	} else {
->> +		rdt_last_cmd_puts("Missing operation =, +, - character\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	id_str = strsep(&dom_str, "=+-");
->> +
->> +	/* Check for domain id '*' which means all domains */
->> +	if (id_str && *id_str == '*') {
->> +		d = NULL;
->> +		goto check_state;
->> +	} else if (!id_str || kstrtoul(id_str, 10, &dom_id)) {
->> +		rdt_last_cmd_puts("Missing domain id\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	/* Verify if the dom_id is valid */
->> +	found = false;
->> +	list_for_each_entry(d, &r->mon_domains, hdr.list) {
->> +		if (d->hdr.id == dom_id) {
->> +			found = true;
->> +			break;
->> +		}
->> +	}
->> +
->> +	if (!found) {
->> +		rdt_last_cmd_printf("Invalid domain id %ld\n", dom_id);
->> +		return -EINVAL;
->> +	}
->> +
->> +check_state:
->> +	mon_state = resctrl_str_to_mon_state(dom_str);
->> +
->> +	if (mon_state == ASSIGN_INVALID) {
->> +		rdt_last_cmd_puts("Invalid assign flag\n");
->> +		goto out_fail;
->> +	}
->> +
->> +	assign_state = 0;
->> +	unassign_state = 0;
->> +
->> +	switch (op) {
->> +	case '+':
->> +		if (mon_state == ASSIGN_NONE) {
->> +			rdt_last_cmd_puts("Invalid assign opcode\n");
->> +			goto out_fail;
->> +		}
->> +		assign_state = mon_state;
->> +		break;
->> +	case '-':
->> +		if (mon_state == ASSIGN_NONE) {
->> +			rdt_last_cmd_puts("Invalid assign opcode\n");
->> +			goto out_fail;
->> +		}
->> +		unassign_state = mon_state;
->> +		break;
->> +	case '=':
->> +		assign_state = mon_state;
->> +		unassign_state = (ASSIGN_TOTAL | ASSIGN_LOCAL) & ~assign_state;
->> +		break;
->> +	default:
->> +		break;
->> +	}
-> 
-> 
->> +	if (unassign_state & ASSIGN_TOTAL) {
->> +		ret = resctrl_unassign_cntr_event(r, d, rdtgrp, QOS_L3_MBM_TOTAL_EVENT_ID);
->> +		if (ret)
->> +			goto out_fail;
->> +	}
->> +
->> +	if (unassign_state & ASSIGN_LOCAL) {
->> +		ret = resctrl_unassign_cntr_event(r, d, rdtgrp, QOS_L3_MBM_LOCAL_EVENT_ID);
->> +		if (ret)
->> +			goto out_fail;
->> +	}
->> +
->> +	if (assign_state & ASSIGN_TOTAL) {
->> +		ret = resctrl_assign_cntr_event(r, d, rdtgrp, QOS_L3_MBM_TOTAL_EVENT_ID);
->> +		if (ret)
->> +			goto out_fail;
->> +	}
->> +
->> +	if (assign_state & ASSIGN_LOCAL) {
->> +		ret = resctrl_assign_cntr_event(r, d, rdtgrp, QOS_L3_MBM_LOCAL_EVENT_ID);
->> +		if (ret)
->> +			goto out_fail;
->> +	}
-> 
-> This sequence of if's allows the helpers to be called on platforms that doesn't support
-> both local and total. Could we reject such misconfiguration here in the parsing code?
-> You have these checks in rdtgroup_assign_cntrs() added in patch 17.
-> 
+This seems inconsistent with how folio_average_page_mapcount() is used
+in patch 16 and 18.
 
-Yes. Added the check is_mbm_total_enabled() and is_mbm_local_enabled().
-
-> 
-> What do you think to trying to group these four by event type, and passing the event type
-> in as an argument? ... it ends up with a helper that takes a large number of arguments,
-> (both assign_state and unassign_state), but there is less repetition...
-
-Added a new helper function resctrl_process_cntr_event(). I could not
-avoid the repetitions.
+> +		exclusive =3D !folio_maybe_mapped_shared(folio);
+> +	}
+> +
+>  	/*
+>  	 * We obtain a snapshot of the mapcount. Without holding the folio lock
+>  	 * this snapshot can be slightly wrong as we cannot always read the
+>  	 * mapcount atomically.
+>  	 */
+>  	for (i =3D 0; i < nr; i++, page++) {
+> -		int mapcount =3D folio_precise_page_mapcount(folio, page);
+>  		unsigned long pss =3D PAGE_SIZE << PSS_SHIFT;
+> +
+> +		if (IS_ENABLED(CONFIG_PAGE_MAPCOUNT)) {
+> +			mapcount =3D folio_precise_page_mapcount(folio, page);
+> +			exclusive =3D mapcount < 2;
+> +		}
+> +
+>  		if (mapcount >=3D 2)
+>  			pss /=3D mapcount;
+>  		smaps_page_accumulate(mss, folio, PAGE_SIZE, pss,
+> -				dirty, locked, mapcount < 2);
+> +				dirty, locked, exclusive);
+>  	}
+>  }
+> =20
 
 
 
-> 
-> 
-> Thanks,
-> 
-> James
-> 
->> +	goto next;
->> +
->> +out_fail:
->> +	sprintf(domain, d ? "%ld" : "*", dom_id);
->> +
->> +	rdt_last_cmd_printf("Assign operation '%s%c%s' failed on the group %s/%s/\n",
->> +			    domain, op, dom_str, p_grp, c_grp);
->> +
->> +	return -EINVAL;
->> +}
->> +
-> 
 
--- 
-Thanks
-Babu Moger
+--=20
+Best Regards,
+Yan, Zi
+
