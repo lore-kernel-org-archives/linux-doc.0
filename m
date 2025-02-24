@@ -1,151 +1,345 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4A518E377;
-	Mon, 24 Feb 2025 07:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C629B21CC53
+	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 08:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740381239; cv=none; b=E75O0X0AMUlt1+pNKG0SKogaBNSqc7uoMXfMUEF4aa/GOyF3i0qhZO94b4xEuCUiX9vEpXhz85/Y4LkTtaipJeuH9RbrhyVL0zaY3XDAnYS/r6yM36jnNwww8RdvKYsk8SMghMYe3pfXZhbeu8KYjhw7mBa5+sHXOf1Ky/eiq1Q=
+	t=1740386508; cv=none; b=ZYcb4InL5N3Qhuk9ehItqhvKu9fi/KjRxeABhN+nNpt048H6JgP4w44esh9ieyZA/KeAshJU2Ss7/mipF4cQbv4PITk8inWzD8Qk5u1ZBCZ6K+eYFnrcZhGM+7+Cqfy0Ne819JJgL8UX6R76EzVrsc6m5ewzE81OFtzkJcYpnIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740381239; c=relaxed/simple;
-	bh=bQb2/dc1WzW2BE++gvgsOTmck7L6Nvf4DdHExnkKCCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GQItS5JxsX0RjbknyaG64b+bhrHsVV/iBuzYvOrKJS1onmjfxJlF/9EMpFYCot8cgJmX+wFFDEa/hizuFjKTi+5pbBSuibz9m2bZ9l3q5TRYMh1DLdtenQqqYCen+3o3Rxhm7mUV5V0GacBTt/pRhUkFsGDxY03DXUPkrwuQ36c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=if8lQvhE; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740386508; c=relaxed/simple;
+	bh=2cs9plzoE2x7ePym9KVH7tcquElTyc2JfDsGYLSQZfs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TzARUa9Pvk0mcQTuyuKVTihDH3En7eW4/Hg4ihQxWnyqqLg8nUsCpu+p7V1N8cBWaO1BEKn8mgJF5ItNa+ra3IuYswsJ3inXTAXVwMZd500CR5/pUzCQFw5GWp+GZXNeCRqKEZaeUA5VVgtPT0Zz27RwJ22i8B+0fOKspefVJso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2Vg3z+uB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5/HWi+iG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2Vg3z+uB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5/HWi+iG; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="if8lQvhE"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-abb81285d33so779239366b.0;
-        Sun, 23 Feb 2025 23:13:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740381236; x=1740986036; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AhJ1T/fwWWXZEiEbcn+HPev6I/zpx52m+r3y5yvwxno=;
-        b=if8lQvhE8okM+fuHSrY8eK39/VGmeaUcFJrAx40FA4YzbZ6TV7vToKIgU4l23coK/Q
-         VrzWqn21m6/dctQNLrxMp4LcDkQz765JfhmMteSiMx6SCL4EKkmDdTVuzC1Gu2z8nBCN
-         tKiXkowgKLPe0Lni9Z8I69SyYEtZc+tKYTYUJ7oZpuVV3HkOMGWBoZdmYB91P86sh1lg
-         LZpZJodjbKP8Z9aZir9XDgkB+6lRft+JSOFr33rmGbIOhxndwj2XvMJxAhELMcSdrkBC
-         +6J1udlYb0ElWU1ZK/7zJ+HD9HN7ExmRYm/uGJYTPaweCWknBVw/nxVr2/JISmvS8IoN
-         AtAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740381236; x=1740986036;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AhJ1T/fwWWXZEiEbcn+HPev6I/zpx52m+r3y5yvwxno=;
-        b=ZJTbiE8vByRsWdeg1sNDN5vdOsFl9ptOxR40G3gypNrqSWhNoNwgmlTWRTF5Yj4i47
-         Cy6GpWPuPpRgcnGfkGaKVbcaTvAL5+RotJzm4h3Naw9WapmlOMWs+vsy8LXEYU7gYeIG
-         6dmLgqaqTNH8bX33uQmcONLqqkAIYsBFxGAg54p7V2j6gTUQZMe9jwWNLKO21XCOanNI
-         GdXmszUVgsWyhsP9UCv7lNtZXsqy5cPUFqJy4qfjJXw+UyVdOFnTG6wGMhvxgJx106fI
-         /k4lf3AogfkFoa2Z5FN8VGM5Cy/TKYG3vD8S4UrmTC3Hh3bC+cEbvYmxZrwDCEujydv7
-         bYLw==
-X-Forwarded-Encrypted: i=1; AJvYcCUAGs33thR+1rGjZbMInSttBDQF4Rn5nY+chXFVLxXNpiu1/UhSl2G4VMJYTYwTPOGEdQUU8jTPHVv3@vger.kernel.org, AJvYcCV76yqCjfKyycTLXq4ta3cb0s2AvUlllcUlRW8/Jdc4bFbtnnXOOn4Y/YpFhiVhrAPF9WvydtucVYWq@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWA1EV3LsOP1LcWRrcoap2jtonB9WhJxnovLd6igmi6zczhkxQ
-	V9vrohrjhNlNbqKm4bgJdn1j2uCuxnRr7OU8GXmDjL1exSu0D6bY
-X-Gm-Gg: ASbGnctQCLMj6W9X3KBWwhn022xzBNMyuyI/7aCrqsbj6SIpKXh+p2bDRU5nq9ET410
-	w9Dhj6mRc2kHnCTMxnkm8Ev5fUIb+AUrzr46sZY7hbYspc/Bdg09eUv7Upn7HazVBM1MSn9GCIM
-	+FEAwt+xurcxE+Uw/lZ3mQZU8XZM4eEhAEq4uKVr/hJiN5YGV4qUwJnaIPMoqY2k0UfYO1zCXZm
-	Q1S1F8Q8y18+y+ht4CWLL9DonS5VusTDuuzJ3GAuAMZ+lESaY8X3S9elFwsotYegvW4WT2kws70
-	WRPGYqBDWy9H02i46uI/z5ZgqQ==
-X-Google-Smtp-Source: AGHT+IFTl/OJwiOMCrQwp/6jVuRvgGddWSjPDFK5GMI5evFJFlBu1ePwDd5puvr/8TxFgsTqVzZxSQ==
-X-Received: by 2002:a17:907:7ea0:b0:ab7:d361:11b4 with SMTP id a640c23a62f3a-abc099b7f3fmr1362031766b.7.1740381235930;
-        Sun, 23 Feb 2025 23:13:55 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abbda707e3dsm1034964866b.106.2025.02.23.23.13.55
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 23 Feb 2025 23:13:55 -0800 (PST)
-Date: Mon, 24 Feb 2025 07:13:55 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pratyush Yadav <ptyadav@amazon.de>,
-	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v4 12/14] x86: Add KHO support
-Message-ID: <20250224071355.xsl2dbupda4dhfzl@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250206132754.2596694-1-rppt@kernel.org>
- <20250206132754.2596694-13-rppt@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2Vg3z+uB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5/HWi+iG";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2Vg3z+uB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5/HWi+iG"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 03CAF21170;
+	Mon, 24 Feb 2025 08:41:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1740386505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Q0q0OFhnReu4nyG1O8BohYY6LE6BcFtozBowaB0rVrI=;
+	b=2Vg3z+uBOa9ZlLVULS4UP8fCjNyWJybxsK37iUOSJwx/roH8dg8KWMN7TO49M+zreqiHtE
+	in9LcfQ/1065C+7LvX+Lptz8mSaLOG7dRTzJS/En7s1xdVxdVYI0cTBc0YQbltiMtCKomm
+	7oxyXDEbKVWmfxmcqs7h6XChfx34vTQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1740386505;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Q0q0OFhnReu4nyG1O8BohYY6LE6BcFtozBowaB0rVrI=;
+	b=5/HWi+iGK2xtm2UCHvyvFDbwkJlzHbTrwG05DZgDeNpYdTCtr/ETRJVsOrAxgaqEa5VEBC
+	cL39gNQcOsMpgqCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1740386505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Q0q0OFhnReu4nyG1O8BohYY6LE6BcFtozBowaB0rVrI=;
+	b=2Vg3z+uBOa9ZlLVULS4UP8fCjNyWJybxsK37iUOSJwx/roH8dg8KWMN7TO49M+zreqiHtE
+	in9LcfQ/1065C+7LvX+Lptz8mSaLOG7dRTzJS/En7s1xdVxdVYI0cTBc0YQbltiMtCKomm
+	7oxyXDEbKVWmfxmcqs7h6XChfx34vTQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1740386505;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Q0q0OFhnReu4nyG1O8BohYY6LE6BcFtozBowaB0rVrI=;
+	b=5/HWi+iGK2xtm2UCHvyvFDbwkJlzHbTrwG05DZgDeNpYdTCtr/ETRJVsOrAxgaqEa5VEBC
+	cL39gNQcOsMpgqCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3173C13332;
+	Mon, 24 Feb 2025 08:41:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OXG/CsgwvGcoVgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 24 Feb 2025 08:41:44 +0000
+Message-ID: <6f7b0886-5f31-4ba9-b82e-e9d3614b504f@suse.de>
+Date: Mon, 24 Feb 2025 09:41:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250206132754.2596694-13-rppt@kernel.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+To: Aditya Garg <gargaditya08@live.com>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ "linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+ "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
+ <simona@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
+ "apw@canonical.com" <apw@canonical.com>, "joe@perches.com"
+ <joe@perches.com>, "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+ "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+ Orlando Chamberlain <orlandoch.dev@gmail.com>,
+ Atharva Tiwari <evepolonium@gmail.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ Hector Martin <marcan@marcan.st>,
+ "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>,
+ Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+ <8F522D41-5417-467E-B9D3-7D9FC24AE536@live.com>
+ <Z7igVXqvRYTVFpXU@smile.fi.intel.com>
+ <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
+ <Z7jlORk0MiMFTmp6@smile.fi.intel.com>
+ <E8256A03-5D13-4B8B-932D-70E734E580FE@live.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <E8256A03-5D13-4B8B-932D-70E734E580FE@live.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,live.com];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[32];
+	TAGGED_RCPT(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.com,goodmis.org,rasmusvillemoes.dk,chromium.org,lwn.net,linux.intel.com,kernel.org,gmail.com,ffwll.ch,linux-foundation.org,canonical.com,perches.com,linaro.org,amd.com,kodeit.net,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,marcan.st,armlinux.org.uk,lists.linux.dev,svenpeter.dev,jannau.net];
+	FREEMAIL_TO(0.00)[live.com,linux.intel.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	R_RATELIMIT(0.00)[to_ip_from(RLk1j8fm6pferx3phn9ndszqb3)]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-On Thu, Feb 06, 2025 at 03:27:52PM +0200, Mike Rapoport wrote:
->From: Alexander Graf <graf@amazon.com>
-[...]
->diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
->index 82b96ed9890a..0b81cd70b02a 100644
->--- a/arch/x86/kernel/e820.c
->+++ b/arch/x86/kernel/e820.c
->@@ -1329,6 +1329,24 @@ void __init e820__memblock_setup(void)
-> 		memblock_add(entry->addr, entry->size);
-> 	}
-> 
->+	/*
->+	 * At this point with KHO we only allocate from scratch memory.
->+	 * At the same time, we configure memblock to only allow
->+	 * allocations from memory below ISA_END_ADDRESS which is not
->+	 * a natural scratch region, because Linux ignores memory below
->+	 * ISA_END_ADDRESS at runtime. Beside very few (if any) early
->+	 * allocations, we must allocate real-mode trapoline below
->+	 * ISA_END_ADDRESS.
->+	 *
->+	 * To make sure that we can actually perform allocations during
->+	 * this phase, let's mark memory below ISA_END_ADDRESS as scratch
->+	 * so we can allocate from there in a scratch-only world.
->+	 *
->+	 * After real mode trampoline is allocated, we clear scratch
->+	 * marking from the memory below ISA_END_ADDRESS
->+	 */
->+	memblock_mark_kho_scratch(0, ISA_END_ADDRESS);
->+
+Hi
 
-At the beginning of e820__memblock_setup() we call memblock_allow_resize(),
-which means during adding memory region it could double the array. And the
-memory used here is from some region just added.
+Am 22.02.25 um 10:07 schrieb Aditya Garg:
+>> What padding, please? Why TCP UAPI headers do not have these attributes?
+>> Think about it, and think about what actually __packed does and how it affects
+>> (badly) the code generation. Otherwise it looks like a cargo cult.
+>>
+>>> I tried removing __packed btw and driver no longer works.
+>> So, you need to find a justification why. But definitely not due to padding in
+>> many of them. They can go without __packed as they are naturally aligned.
+> Alright, I did some debugging, basically printk sizeof(struct). Did it for both packed and unpacked with the following results:
+>
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_request_header is 16
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_request_header_unpacked is 16
+>
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_response_header is 20
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_response_header_unpacked is 20
+>
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_simple_request is 32
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_simple_request_unpacked is 32
+>
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_information is 65
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_msg_information_unpacked is 68
 
-But with KHO, I am afraid it would fail?
+In the unpacked version, there is a 3-byte gap after the 
+'bits_per_pixel' to align the next field. Using __packed removes those 
+gaps at the expense of runtime overhead.
+>
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_frame is 12
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_frame_unpacked is 12
+>
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_footer is 80
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_footer_unpacked is 80
+>
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request is 48
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_unpacked is 48
+>
+> Feb 22 13:02:03 MacBook kernel: size of struct appletbdrm_fb_request_response is 40
+> Feb 22 13:02:04 MacBook kernel: size of struct appletbdrm_fb_request_response_unpacked is 40
+>
+> So, the difference in sizeof in unpacked and packed is only in appletbdrm_msg_information. So, I kept this packed, and removed it from others. The Touch Bar still works.
+>
+> So maybe keep just this packed?
 
-> 	/* Throw away partial pages: */
-> 	memblock_trim_memory(PAGE_SIZE);
-> 
+The fields in the TCP header are aligned by design. Unfortunately, this 
+hardware's protocol is not. And there's no way of fixing this now. Just 
+keep all of them packed if you want. At least it's clear then what 
+happens. And if your hardware requires this, you can't do much anyway.
+
+Best regards
+Thomas
+
+
+>>
+>>
+>> ...
+>>
+>>>>> + if (response->msg == APPLETBDRM_MSG_SIGNAL_READINESS) {
+>>>>> + if (!readiness_signal_received) {
+>>>>> + readiness_signal_received = true;
+>>>>> + goto retry;
+>>>>> + }
+>>>>> +
+>>>>> + drm_err(drm, "Encountered unexpected readiness signal\n");
+>>>>> + return -EIO;
+>>>>> + }
+>>>>> +
+>>>>> + if (actual_size != size) {
+>>>>> + drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
+>>>>> + actual_size, size);
+>>>>> + return -EIO;
+>>>>> + }
+>>>>> +
+>>>>> + if (response->msg != expected_response) {
+>>>>> + drm_err(drm, "Unexpected response from device (expected %p4ch found %p4ch)\n",
+>>>>> + &expected_response, &response->msg);
+>>>>> + return -EIO;
+>>>> For three different cases the same error code, can it be adjusted more to the
+>>>> situation?
+>>> All these are I/O errors, you got any suggestion?
+>> Your email client mangled the code so badly that it's hard to read. But I would
+>> suggest to use -EINTR in the first case, and -EBADMSG. But also you may consider
+>> -EPROTO.
+> Thanks
+>>>>> + }
+>> ...
+>>
+>>>>> + if (ret)
+>>>>> + return ret;
+>>>>> + else if (!new_plane_state->visible)
+>>>> Why 'else'? It's redundant.
+>>> I’ve just followed what other drm drivers are doing here:
+>>>
+>>> https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/tiny/bochs.c#L436
+>>> https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/tiny/cirrus.c#L363
+>>>
+>>> And plenty more
+>> A bad example is still a bad example. 'else' is simply redundant in this
+>> case and add a noisy to the code.
+>>
+>>> I won’t mind removing else. You want that?
+>> Sure.
+>>
+>> ...
+>>
+>>>>> + request_size = ALIGN(sizeof(struct appletbdrm_fb_request) +
+>>>>> +        frames_size +
+>>>>> +        sizeof(struct appletbdrm_fb_request_footer), 16);
+>>>> Missing header for ALIGN().
+>>>>
+>>>> But have you checked overflow.h for the possibility of using some helper macros
+>>>> from there? This is what should be usually done for k*alloc() in the kernel.
+>>> I don’t really think we need a macro here.
+>> Hmm... is frames_size known to be in a guaranteed range to make sure no
+>> potential overflow happens?
+> I don’t really find any cause of potential overflow.
+>
+>
+>>>>> + appletbdrm_state->request = kzalloc(request_size, GFP_KERNEL);
+>>>>> +
+>>>>> + if (!appletbdrm_state->request)
+>>>>> + return -ENOMEM;
+>> ...
+>>
+>>>>> + request->msg_id = timestamp & 0xff;
+>>>> Why ' & 0xff'?
+>>> https://github.com/imbushuo/DFRDisplayKm/blob/master/src/DFRDisplayKm/DfrDisplay.c#L147
+>> This is not an answer.
+>> Why do you need this here? Isn't the type of msg_id enough?
+> Hmm, I double checked this. msg_id is u8 in the Linux port so would anyways never exceed 0xff. I’ll remove this.
+> Its different in the Windows driver.
+>> ...
+>>
+>>>>> + adev->mode = (struct drm_display_mode) {
+>>>> Why do you need a compound literal here? Perhaps you want to have that to be
+>>>> done directly in DRM_MODE_INIT()?
+>>> I really don’t find this as an issue. You want me to declare another structure, basically this?:
+>> Nope, I'm asking if the DRM_MODE_INIT() is done in a way that it only can be
+>> used for the static data. Seems like the case. Have you tried to convert
+>> DRM_MODE_INIT() to be always a compound literal? Does it break things?
+> Seems to be breaking things.
+>>> struct drm_display_mode mode = {
+>>> DRM_MODE_INIT(60, adev->height, adev->width,
+>>> DRM_MODE_RES_MM(adev->height, 218),
+>>> DRM_MODE_RES_MM(adev->width, 218))
+>>> };
+>>> adev->mode = mode;
+>>>
+>>>>> + DRM_MODE_INIT(60, adev->height, adev->width,
+>>>>> +       DRM_MODE_RES_MM(adev->height, 218),
+>>>>> +       DRM_MODE_RES_MM(adev->width, 218))
+>>>>> + };
+>> -- 
+>> With Best Regards,
+>> Andy Shevchenko
+>>
+>>
 
 -- 
-Wei Yang
-Help you, Help me
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
