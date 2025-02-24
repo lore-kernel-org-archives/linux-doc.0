@@ -1,63 +1,63 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475DA1624EB;
-	Mon, 24 Feb 2025 02:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02474400;
+	Mon, 24 Feb 2025 03:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740365440; cv=none; b=Icrqn6h0pOALeO122QF8vq3atcDook5W9ie1UCQb1pXheAAKY4r+ENJwdUiKdvjEFreVEmwUyAtj3tOhFAxJV7zUFZNxb/F4gFkLHEQtshJz1OBgXj27kQ26gGtSSSTVm2wBlDj7XCqJ/nFCd/NhRdtds3zjougypkOY33/xQvU=
+	t=1740366167; cv=none; b=iqK2fDixKEpVow/qVzKlMVB7fnD5hW6Lj0tVceDmMCjSpOLNHN4djefHExb8gl7xaI61PnhX7dl1sJj2Z5QpaJz50zYodMEBEfR5GkPOtHP1Ksy977RNJEexLThrUuAKLQFabIR2EbtOa0pmtpkI7RCMXWOGNWoqcpRxOxE2ikM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740365440; c=relaxed/simple;
-	bh=9JffjOzzcbHGXeqyKxjOYJbbmsB4a1Au97yRsFSOW9w=;
+	s=arc-20240116; t=1740366167; c=relaxed/simple;
+	bh=okLaKNQi/XaGBc2dOZo/598nX5rCudsKpkSc1bgNRSY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cEIEqdeWTjPuIQj8PSLb61jKg46r2ftot8iyawPkRtHphXXX4S22Xt4MhALzbXRRn0Dlq+z8cpOo+XDROFR3qYgIgHKUTE7mBInxxwYQMNSCPygVJEN5CsaTFX+MokkO/W7s6FxxcvtRboy37V68sI5eNIlQdwfrM7YaTP0PYUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AzNg+v+o; arc=none smtp.client-ip=209.85.208.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=INqUKcY8wlkX+9zttJa4woMlVs1QWDSYuROzmCcsbBIm86WViR/wkDNhRjN4JFB26dUohw3aFOcW84LV16PNpNLLPrFUWIQ4XNOIasS49HaoE24pEy6qkyvtQtIizWXCj/AV++vUbLutrevqf/kbDMtXSMqJ+bfRPcm6clYdABM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HZd+7qTP; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AzNg+v+o"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5dca468c5e4so7021908a12.1;
-        Sun, 23 Feb 2025 18:50:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HZd+7qTP"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ab7430e27b2so624606866b.3;
+        Sun, 23 Feb 2025 19:02:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740365437; x=1740970237; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1740366164; x=1740970964; darn=vger.kernel.org;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iOnUhudnk/ghJ69v1pIjycejO9QGM71BCF3/L9nVTWg=;
-        b=AzNg+v+oLda4nvtf98teqN4Ul7vCnJTyXCRVxXFSDqpTN/2c+wb213iX5hgX5nxdXa
-         7mxkDfVAu20p3XXuyqVxWBsiQ5Rf1qQPOvmzGCsuevykTEeupuDHep7HWzXd6CtLApu2
-         eRiZQvKNXFtji0QH5xl4p6LZyl19hosRJvTXeC3txvx5Dni9Y3Tfm6d8klvTAmvJpH9f
-         MwZq9M6HuFvlS5bXlO3K77Q+VuqZQssP0uyu3f2rp/ioNSy317VwSf7EfVfsYr8IzHRA
-         mWn8mIQYo5qtmBc+q43v4YXVnKL+2UVIK8iimBU9fiuQAw5lFnNNB9SYjnFFeFVH0mvk
-         VjUA==
+        bh=SjsUMYFp+Mx49YvN7hD/3KWP7s9neIA8zwh6iIzC7CU=;
+        b=HZd+7qTPSzqmnxAzmjX9yjCjW302VONxiL2jwHpjcjLI/MsR0fPRrPaf8AcVfRqO52
+         vqOvvrRs/1orxyXXQXu7foHOuiNAUOOiabu29gJwy97cExjU2wh38VKfclg7dVNZVFnI
+         Aufil20b7Rk9wsQf5Sk8B/2dPsB3EkC9HciVhUPeXqV6hognuRPT0ozmT1BPnPkoQHsV
+         ToGNDd/UopqI50yRmnzjt/ek0ZHwm9RTUFlVpukkuhRuHh3KoWRbL6Qg+pVK+C5m1eXO
+         dTvzOdp5U5K/vPBqxHk6yFDnfjEjrWlDi4iL0WHdnK7KJfGVOZK6CUV/qURa27K3vkIT
+         Tfqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740365437; x=1740970237;
+        d=1e100.net; s=20230601; t=1740366164; x=1740970964;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=iOnUhudnk/ghJ69v1pIjycejO9QGM71BCF3/L9nVTWg=;
-        b=jkBaQUU1bS3ge9NSnX/pw+6EigE3KXUUrNfQqJVsejqK18v2axIQP7qBPmkTi3OI49
-         VVmvW8Wgi5cApyx8RFyLvSzA0Ron8r5tDnRYqcgu4i9TMzf9YR75EOEbeGzkQmteDbtb
-         gUYEctl0dzl70MyIHEZsHvEjSPtZdzxai+yI+ExUtHnZWclxaEErWXjKEC1wG1Ig3TGD
-         DyTl7HLsDTxtOCdoxxroBFoquqFuJCgPVy4m+Eb82ABvdOIKcVkLZQ8V7VHeZBZPDlRc
-         3l4yvOM6aOPAMp7nw1LQUHIL+wUZ1N3sdGx+LOsKN7cbhzXagLD94guvv+V0O70l8yvS
-         SRaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUM8QrxvWz7F1nLQKVG7y1/Z1n2+30z3VYkHJ1rg1ZxvXm7qG64Uh4sfjyNz7JGmOzcIOreFiweiM9l@vger.kernel.org, AJvYcCX9DDxiocNXg8BvkNbiBiHBuPZInpuW5fQVvP+34RergTUEtRoGwdaU9li9H4SSj5bm4xHRr2O88vL3@vger.kernel.org
-X-Gm-Message-State: AOJu0YyP7eV0XYco0W7eQtsy7fCnS1wNbk68UoITBoul7Bp4Gkxq3XYC
-	aBGdSPcfI7lY5iBjD2ZsjOgsvrzuwuZ20cRHqM02ETVhnc2+JgMF
-X-Gm-Gg: ASbGnctLOhTzXJmUG8m87Wq4SW7nvXAUqNjGrUtvBElAxGtMHzeW1nm+D8haRikyU9R
-	kVbDucry7VkiqqnBx/A9Ka2d8cdNytrKVIezgSqJdd+7ByDMjLbU9ECYxrzNSHHY9CJ5cIwU7yn
-	6JKfZQ8MvOFoKmCeIy/jXpbw0ZavSMflTyMQTBidqFwhkSN3IXGyNEk6Du12GiWLZcM+5OaHaO8
-	tbstQ1orbqCoB69OA9U/fz0BHLtIMX+55Vtc6pRcsOnuWkTrpoRhpvuU7+d3Xif9o28XyAtvLnb
-	j4lfAkddKEBchxmVf+PgfPBykw==
-X-Google-Smtp-Source: AGHT+IEiyHF/bof5atxJYJ1aq+nUThhjZS2+A2L49uqXPzE/BpL2M9HK5ZwzhlgRX2ZUqUt6sCy6Hw==
-X-Received: by 2002:a17:907:72c8:b0:abb:eec3:3930 with SMTP id a640c23a62f3a-abc09aed093mr1341918666b.31.1740365436292;
-        Sun, 23 Feb 2025 18:50:36 -0800 (PST)
+        bh=SjsUMYFp+Mx49YvN7hD/3KWP7s9neIA8zwh6iIzC7CU=;
+        b=NBQguMgnAoaGO7n7FwDffTsUFJtBJAiHIN3rKGw6Lp0nQieXUlYfjHTcJoy5dz3qWX
+         XqRBaFPtNc/T0rqGR1+gR1+4Q+TzYHvm2lAjcgKzYG2NJk1vmy7TbE4m2UbxljUQm1CI
+         vlglZEQi/w9FathWFtJCoqMlsc8VBUtyv0ECcwrKTuenrGnoTcNRt5LuFKUt+sK6AURU
+         BVVwTY6ICxqfYr6ZLSQMVYw9KNOq9ZaNx2VPog3FwJalIeh8tkx0AKagFcKPzHKtU28H
+         MTGopPwVO396H7nEeY+yYv387MldJBXfSDvPjNSgo6TgowQhdhQat92CVh06AToOiaEb
+         /1ww==
+X-Forwarded-Encrypted: i=1; AJvYcCWHoI3QN3BiZHbLLRUbVpJ0+ZdvFpoi19hK8S9kAnZNg2xxinJv9OM0AB2WYFOqSiKEe3T+03dRYlu8@vger.kernel.org, AJvYcCX1edPPMKF60onEggA8WXUpuxXOZVBwFwAUNsMcoWfZqmHpWHUH7vVnh1KN8r/A96Ab4SmlvYVHgp3u@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmnRegnPIt7Ai3faXg7hXgREAN2jDyd4S0ZrAs+hBMFUdnaTIl
+	EWXNyilvDaH+HGTJh7x5ETuiU5WdBuRf8wgVn9lfUKHfbYqmsaLL
+X-Gm-Gg: ASbGncsNXeIop9gTofn6EDFd7sWU0yREARDTsRt2iBokHtR18W5TlgZb+Tb9BFmeXiB
+	IYka2Y5WG8+nTXjzna/olziOvo0CzmvxVjEn+uT6qwY3tP3k4FguZZpId4kn5ZAq8VTsFZn2/Kr
+	r3p+3a0goFvKnmXKKU0OAfzXOgO6qboz2mj25hTvjgvhzOa5Nshf8Y9pkMJPNf/hOEmVuzTTghl
+	jr1CBGWmtdmZgEzsdywE/ss0Ul7bJ+LfiFhad7qzkhX+QbE/ToesP7tf7YS2wcwR9f93y6i8Nqo
+	S1TAfCi5qjLR5iuG2jJHDEilMA==
+X-Google-Smtp-Source: AGHT+IHzUc14TKjsGWWce5aAn1HH4tsAMVuHoPc6eeAzqtQVN04INfU1hh5sqPpMyJ9gzD/SRveTag==
+X-Received: by 2002:a17:906:c148:b0:ab7:b250:aaa with SMTP id a640c23a62f3a-abc0df5a73cmr933979066b.54.1740366163994;
+        Sun, 23 Feb 2025 19:02:43 -0800 (PST)
 Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abec0324d4bsm13923266b.108.2025.02.23.18.50.35
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb961594absm1510893366b.111.2025.02.23.19.02.42
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 23 Feb 2025 18:50:35 -0800 (PST)
-Date: Mon, 24 Feb 2025 02:50:34 +0000
+        Sun, 23 Feb 2025 19:02:43 -0800 (PST)
+Date: Mon, 24 Feb 2025 03:02:42 +0000
 From: Wei Yang <richard.weiyang@gmail.com>
 To: Mike Rapoport <rppt@kernel.org>
 Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
@@ -90,11 +90,11 @@ Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
 	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
 	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v4 03/14] memblock: Add support for scratch memory
-Message-ID: <20250224025034.g4htzqgm3r3ja4yy@master>
+Subject: Re: [PATCH v4 04/14] memblock: introduce memmap_init_kho_scratch()
+Message-ID: <20250224030242.rdmzcdrth6qmlims@master>
 Reply-To: Wei Yang <richard.weiyang@gmail.com>
 References: <20250206132754.2596694-1-rppt@kernel.org>
- <20250206132754.2596694-4-rppt@kernel.org>
+ <20250206132754.2596694-5-rppt@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -103,43 +103,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250206132754.2596694-4-rppt@kernel.org>
+In-Reply-To: <20250206132754.2596694-5-rppt@kernel.org>
 User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Thu, Feb 06, 2025 at 03:27:43PM +0200, Mike Rapoport wrote:
->From: Alexander Graf <graf@amazon.com>
+On Thu, Feb 06, 2025 at 03:27:44PM +0200, Mike Rapoport wrote:
+>From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 >
->With KHO (Kexec HandOver), we need a way to ensure that the new kernel
->does not allocate memory on top of any memory regions that the previous
->kernel was handing over. But to know where those are, we need to include
->them in the memblock.reserved array which may not be big enough to hold
->all ranges that need to be persisted across kexec. To resize the array,
->we need to allocate memory. That brings us into a catch 22 situation.
+>With deferred initialization of struct page it will be necessary to
+>initialize memory map for KHO scratch regions early.
 >
->The solution to that is limit memblock allocations to the scratch regions:
->safe regions to operate in the case when there is memory that should remain
->intact across kexec.
->
->KHO provides several "scratch regions" as part of its metadata. These
->scratch regions are contiguous memory blocks that known not to contain any
->memory that should be persisted across kexec. These regions should be large
->enough to accommodate all memblock allocations done by the kexeced kernel.
->
->We introduce a new memblock_set_scratch_only() function that allows KHO to
+>Add memmap_init_kho_scratch() method that will allow such initialization
 
-memblock_set_kho_scratch_only?
+memmap_init_kho_scratch_pages ?
 
->indicate that any memblock allocation must happen from the scratch regions.
->
->Later, we may want to perform another KHO kexec. For that, we reuse the
->same scratch regions. To ensure that no eventually handed over data gets
->allocated inside a scratch region, we flip the semantics of the scratch
->region with memblock_clear_scratch_only(): After that call, no allocations
-
-memblock_clear_kho_scratch_only?
-
->may happen from scratch memblock regions. We will lift that restriction
->in the next patch.
+>in upcoming patches.
 >
 
 -- 
