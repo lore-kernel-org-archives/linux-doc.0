@@ -1,218 +1,265 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E081537C8;
-	Mon, 24 Feb 2025 17:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740417797; cv=fail; b=E8IQwyKNU41zKiSQS0Qhjn+5LQ1doc9m4A4mMpedTjsrVwbyOx03d5F6jDtS/EGqwj7xjS3/GRcWjydjVGXxtViD8sXmU2INDABhHmi42Naor18skS59Md71NkTLuLMNKiwgCvFNaj1aZ20b7HZP2pm4flY34jCdzvTrCBEQVMI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740417797; c=relaxed/simple;
-	bh=rgGXUoixunNWGRLMhr6PdhS/Bq3cNriS/zpFr9AUj1I=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=RTfvia3OvOhv4AEr0kgpnXAUHRrNxi810V7ZNZA+zO9A1nW/aMQVFAU1fg5RJy4hQYxH4uguS8nQ2b/NwBWGZrXi2NxGFNUUnMYA8lKjSPQkg8QZ+ZDF3fOclBaIAwxgvGF5XDzpSZ1tL5feAwO4F45TEuLapxvfSFgJof0kadU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lX5AOCWF; arc=fail smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82786264FAA
+	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 17:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740418687; cv=none; b=QsJ4A9XAZdBFI6ah3wjLUoQXm53GIw7/8Ogfpz9EbvOZkLUjx9+4d4S2IlQNQbA1AnvYwq2KpvC6XdHHEw+Xtwz26VGmZv5ua9Xpl3xsb3MA67DQKKPGZscqcidVEhJuaYxzC5nvXXvl6DKPv0XIgIJUdcj/jsTjPjH3GL3+i3I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740418687; c=relaxed/simple;
+	bh=hn62BCty7GQyDPb08bGnE6rYl/WWjbeHu5GYY+luZiE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Koijtjb6AUu0J7pjHl87hXPYfyCSPsUQEF7vjuBJ7rLGtkbVqFjYyjwBSlOe9YBIslqTaQNTzIVM7xSA8kWQ0cgaEl3EOv5IdwN1HHLs/63xA5IT5Kyi9/7eNXgZgFGzGiP6L6IxYU2kYr3nmUMqatyGLaf16ipLUjnUcLLqU+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=q037XNes; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lX5AOCWF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740417796; x=1771953796;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=rgGXUoixunNWGRLMhr6PdhS/Bq3cNriS/zpFr9AUj1I=;
-  b=lX5AOCWFdVjhaZBUb4o/MsMQ5kzJ8iQ55gYUIp4+t0Lq/+aIIjUlfzyz
-   rbTNrmndi26Y6Eb7+bA4NsBT/KRNNw55jwZrogAiOjjiyOUBzMJfeHMJQ
-   4LZzsnlZjH+4uDFztN3kH7HX2ZnpDp9BKtVulRBBu0WpxDBy5MmMOD85f
-   emYuvCXEvnQY46e5Bn+BJgTpMRv583JJZQO3HA7QixsiFvyI8+iKpqJH8
-   etZ0sruEMj2IDp4PxGrk5AK2dN/puzRJdy6jV6C4kpnHaFb799W2mBhk/
-   dPbTF+REyuv1qjZp5QhAiwTdt0s9ieBittTEb825soz+CvnpoOXGxWFP5
-   g==;
-X-CSE-ConnectionGUID: GYa1XwHcQvGjPb4Ujs9mRQ==
-X-CSE-MsgGUID: wpfxKJA/SU+kcG7c5eSH1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="58731632"
-X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="58731632"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 09:23:14 -0800
-X-CSE-ConnectionGUID: GREZt6zyR8Wh2SklIegMhg==
-X-CSE-MsgGUID: aTq5kwsUQ7CoRs6ok0IZYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="153334079"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 09:23:14 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.14; Mon, 24 Feb 2025 09:23:13 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Mon, 24 Feb 2025 09:23:13 -0800
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 24 Feb 2025 09:23:13 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lxW9CoWTzTwkYkw+6pKedgGPZQlhRazawSUhQILSB9B6nSD3fA1Ga0gt83wPVjJq4eAUSu1eW2KdK64S13nYeaRS5sCqEneZhOv/1zOD73PN01mcpC6y2vCjNQcaFOkqY/AnD1w+aX9F5VQuYNts++sdLgCuj4/e7sFq7mNXeb1YjTBs/ug5Zj8n3yWusgXJ2v6ZrA/8+WaOo4V5cyVi0YKgzwksuBryjTscAxDHDjithlCiQn0iuvoGP4JpelpLDz3ZFsdnIY+jogzUrmOtgCm5pcW8B9h0aB+CbTMgsGBF8yj0oC/r5SMzwG2vfPOMs4LHWxGczyAJDYmtXpmxJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YQtH6qRGNDOlJxFmAuIuQ2EMTxYyYRw9ZrXsj4VBM2c=;
- b=ucRknbSgDSagFXdlyEichxee4/AVD8nIYMWHpxFq+UBVjdBK9+8DKaJDZXHYOTV3usnJSXY6N35XqIwffYnADxS7CwjTveEJQOFugkKHXSBRXkX9KdX+9FA7/+1f3iWvChpOgkVVtHDqBX4aSpwMhMH/0xWofuVXBLYWnuxOr7ZtE86E/jzbJ4cHG/DeDJNyDXRjmbnSWRKGofRLUA2nPQYxNHRBVqGQzeDQPe/C6wWx9lRu8GP7BxgL3kb1goBquHtPC0jW5lbMraWXsp0m5y0CKjUnH77kwHMNHwXhALu0Y18FrhcRN+6ZvXBv6Ef3zbK7u+exuNwbLG8bL46QMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by PH0PR11MB4999.namprd11.prod.outlook.com (2603:10b6:510:37::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.20; Mon, 24 Feb
- 2025 17:23:06 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::acfd:b7e:b73b:9361%7]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
- 17:23:06 +0000
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Dave Martin <Dave.Martin@arm.com>, "Chatre, Reinette"
-	<reinette.chatre@intel.com>
-CC: "Moger, Babu" <babu.moger@amd.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
-	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"peternewman@google.com" <peternewman@google.com>, "x86@kernel.org"
-	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "paulmck@kernel.org"
-	<paulmck@kernel.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "thuth@redhat.com" <thuth@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>, "xiongwei.song@windriver.com"
-	<xiongwei.song@windriver.com>, "pawan.kumar.gupta@linux.intel.com"
-	<pawan.kumar.gupta@linux.intel.com>, "daniel.sneddon@linux.intel.com"
-	<daniel.sneddon@linux.intel.com>, "jpoimboe@kernel.org"
-	<jpoimboe@kernel.org>, "perry.yuan@amd.com" <perry.yuan@amd.com>,
-	"sandipan.das@amd.com" <sandipan.das@amd.com>, "Huang, Kai"
-	<kai.huang@intel.com>, "Li, Xiaoyao" <xiaoyao.li@intel.com>,
-	"seanjc@google.com" <seanjc@google.com>, "Li, Xin3" <xin3.li@intel.com>,
-	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-	"ebiggers@google.com" <ebiggers@google.com>, "mario.limonciello@amd.com"
-	<mario.limonciello@amd.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"tan.shaopeng@fujitsu.com" <tan.shaopeng@fujitsu.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>, "Eranian,
- Stephane" <eranian@google.com>
-Subject: RE: [PATCH v11 22/23] x86/resctrl: Introduce interface to list
- assignment states of all the groups
-Thread-Topic: [PATCH v11 22/23] x86/resctrl: Introduce interface to list
- assignment states of all the groups
-Thread-Index: AQHbbQuX8YqJ+kbnJkKujoWHd7glMbNO0R2AgAB6BoCAATdnAIAAYFYAgAE2lYCAAEXTAIAEhrUAgAAAnXA=
-Date: Mon, 24 Feb 2025 17:23:06 +0000
-Message-ID: <SJ1PR11MB608377BD540169FF3B0FF82DFCC02@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <cover.1737577229.git.babu.moger@amd.com>
- <52c66bf98480c0ab6bb0f0762497e328fcbdeaac.1737577229.git.babu.moger@amd.com>
- <Z7XiQ+u3Pc+uvJCK@e133380.arm.com>
- <45a0a88a-b31e-447e-9d62-bc0cdedf06f7@amd.com>
- <Z7dN2KpsQjVUb3KR@e133380.arm.com>
- <7802f9e9-9a63-463d-a51e-e9ad0e60f77f@amd.com>
- <Z7ijCphcSM58AqA6@e133380.arm.com>
- <09f2f512-0428-4649-b8ef-33e5a03d5dcb@intel.com>
- <Z7ydx6vfuw8OdJzL@e133380.arm.com>
-In-Reply-To: <Z7ydx6vfuw8OdJzL@e133380.arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|PH0PR11MB4999:EE_
-x-ms-office365-filtering-correlation-id: 5dfb2785-4356-4a42-e0c5-08dd54f7e6c5
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?hFFy/mG0tNWo0YyFhv4yd9zM6Xjy8ayRQoMOFnva/UBhx7kSBxCxQ3kAG7k9?=
- =?us-ascii?Q?KN3SgpMkH4Hu1bLBcg+6KU4QtxQ67j6Zl1P40HpPXNLIDDs7ObXqur+y0Qzv?=
- =?us-ascii?Q?eLfIj9z4nyrUgWhWW/We/qrKd3kmqP5ZeT0EtSJaOA5dIfsfk0MYjRoH8LUc?=
- =?us-ascii?Q?I4c8tOVgGPsdyStPwFvIsL438i+6kEqIdFi7R6xhY27miEjeufi1QQ5dgxsW?=
- =?us-ascii?Q?tDmHQszbmdiWKC80WEduf0G3itLZ3Y2Np0LyWHgbRJslFJ2L7B/wBkSaG8Fl?=
- =?us-ascii?Q?t3foOTb3Ik9Rwopb400NxiXK91MEsZI1nbNA3gJWnYTHAjYLlpjvmcnxtMQS?=
- =?us-ascii?Q?iqdvZR/ly/7MT28HghiRVGx64AbRk8P8YnMxl0aVvvLTzfOKFDD9SMS4bl55?=
- =?us-ascii?Q?ixEVHI6xw9jbYz1EElo/HTWRBe8fvx7JbkYlgC6jOd3LSfH1RpP2fLN+C4D/?=
- =?us-ascii?Q?U4lq/O6XFOdWM7l5I8n1hinwYkVlGc6JPrE02UZaBBj65qkYbTn4GOlrYz69?=
- =?us-ascii?Q?brXP3bRvhO00W3jJMogpRQZOKXAh6rbGEJxyO0stsaqnUe23XL8afBe5wkM/?=
- =?us-ascii?Q?Vw9VTX+16K57YKOqRwtvfEVSYaYU4U1+RCve9CF+5PbkdA05I7BJRwMvEf7h?=
- =?us-ascii?Q?LFXu8SRSl1EkLJtQMfu1MBvMq/64LLZP/TeKn/LXtJb/TrsB9lk9A0r9FUH2?=
- =?us-ascii?Q?2bAOqYorFe9xh5kNNzvB8WoRzSItIgf/23/Kz/tM93UjFvb+QGFEkqup+TOv?=
- =?us-ascii?Q?Fli4fuuAKP0ZdPfOCsJOK8xGJKOg/p4JQr8+mdFQZ4ciHxXkBr3Wt6bVRvLs?=
- =?us-ascii?Q?uPtE1QuoO06mWFdcxf+rww3NHkuVI5JtaYdSzAjG8aq+dxKRz7+kN3inqR/b?=
- =?us-ascii?Q?nFmZ0D3YE4JLLr3yHNC2wY9EGpNI/aZGk+Y0h+PuZdlCJHBcbMD3eTQw+zHM?=
- =?us-ascii?Q?0DEbY1Z+v1vmKaoH86U1D3RMLvKKue4/E2lM8dYTMa+FNH3eNhKZhGRZyJt1?=
- =?us-ascii?Q?In0PO8fP7e25SgnjF/ti7jFpEDxJWmOaLUHs1RCH0RGqVtX5ffhB298rBd2+?=
- =?us-ascii?Q?hUFN6W+xF/DQT8l5z/Ad7IrszxUzMXxFfAJDitfWHvYjidzL86m1Ur1cMz+z?=
- =?us-ascii?Q?I9GQ/ZmZDzpAETY5O441Iq2Ybv05VAucjRgT8Iu4sAJcfNi5pRVqSwU7NlPs?=
- =?us-ascii?Q?2f2F5f3qEjCb55d6esTXHwtcxcZsWgpiO6F0FS+QDP3yg/QD6HSx/GVT9+9x?=
- =?us-ascii?Q?drEDSyPZ5lxp/7X1jkWzJyUgwcSJ7oguGb8Bzc2nyl9LMO1IfzsTcvDTpqTi?=
- =?us-ascii?Q?ZDH2rV3dpYTbssmIkfaDzZCuw5fEp1Lms0g3U0hwLNFqR0NgAYrdp3UDYduj?=
- =?us-ascii?Q?NPTv/s5I1JKyugMdywX4JAnns1Z0A67QXuSOFWsJmQW3h65QPfS0TiuLEYlh?=
- =?us-ascii?Q?1j7pT9CqZxym4aRwImtqtuauC43qXOaJ?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?w1keVdhKyzgMzge8BZfyRlXSa6JQKYLaPctMBS5C1agZv8NkLmt1pmkN8pk4?=
- =?us-ascii?Q?6yaf5+d++YyzjwspiI+z2YCUp6SJfs+wrwBaXuYCXvMBCpMhMZJg7+wYeg9U?=
- =?us-ascii?Q?PDU+WtGd63b5W/K8PBoALEf/SzvAkRNasVRfsLQGvfLk5ru65j+qDCZQ3obM?=
- =?us-ascii?Q?qdEFIrhuMqWCiDK9AGfT1yPluPIwq8jw0G3EEx0a4N/tygnBcOneW6Yzp5JT?=
- =?us-ascii?Q?CXZwxNJ/Yo8SQxbsWAU1d3N95NBeW/c0x0EqjYAiLawhVgUrndl8EqUDfJlr?=
- =?us-ascii?Q?vM0SfudAC6JxRK/vkO19woFD4eMDlqs7pz7v8VElxlCtYC3KACtqZMdjrjOE?=
- =?us-ascii?Q?oVBGSnX5WHEOyH6/A42zBfXe7/nY2ovUQnC8H9u6WjkIqxRtYPZWmgQ/9LSn?=
- =?us-ascii?Q?6aCqSbtUqRrPl/emTAuRe9luM0pvbselsc/AJSDJZbF0St8SJHoG9v6Z44NY?=
- =?us-ascii?Q?FdCmqUC7y8V+0UQFkJ/ngtnxGSL01ZP7jxAIkpikQYjqAJdGwYE8fgKFRvpn?=
- =?us-ascii?Q?Ns9pHVV4bgryal8Iqigs7viGhnK6GkDOZMgQqm8AkhguEXg5YQ3oF9NYv+rQ?=
- =?us-ascii?Q?T7hCnA758RdCHaArTGSHfByt2sJ2+pa03z7jrpAabOQ/J0SIwnqiSj6Lin96?=
- =?us-ascii?Q?hxBA+ieq+xKCEns2yJptcGrOV4kv3l4wIpA/iuNqYuF+HWNlWYruPW5f623N?=
- =?us-ascii?Q?asHM8KJqZ7Fi0SDpz/sVl/znPgtIuzk1CxduASmbOvul5mylU/ZxYBi5VscT?=
- =?us-ascii?Q?ORUWv/Mt8GjX5+o6wDRyiYV/GrUnuLoTbALUAyecAOpR0zXu7xYxgYdkQQ6+?=
- =?us-ascii?Q?kFAOrgXC4zA3KkunNhKXem3Fw9qgDDFPCk735mjWFlH59RA5bVd+AIpAu1Ds?=
- =?us-ascii?Q?9P0bfpnFudJzWIiiECiG45rS22lty9f5TMsUPzHh6gtWxTnh/rmTbIKBN7dP?=
- =?us-ascii?Q?OrrZ84iJffF701IOEgItL5f2p5iEpayoXmfgxLgaCJ7HUUBMqnuUWWi24Lbv?=
- =?us-ascii?Q?FNSa8VPkAZGYyhXhuoNPNcQpXc9vgDEREKW38HuO0cQXYRhPnPV9DZaoi6qg?=
- =?us-ascii?Q?0wj3e8cGYCZgwfp2x916Rwvf+KTDYPsqLunXdXDl+EKPMNEAPzC2Xl6Mt6gv?=
- =?us-ascii?Q?lsdKUirOXixXVNlKLc4gCE1xgx/mnGP+t4XWxD5ZGN4giD5fSkDQeCBeynbB?=
- =?us-ascii?Q?DlLYvqFn7uRKoChuVjrKbdF2XRAHZvxtQLHIquR5lpyI3cvMLUNCNV0FZSDU?=
- =?us-ascii?Q?Zh0Teae2v1q7ZYy8g7VZOpsrXd6nZ2vn8zFpLf+GPbotRtKcBk/PiTqGJq56?=
- =?us-ascii?Q?RJmUtLQ2Lo+d7c0NeACHS18eO8GibgobMkz/9Z1IZJoqyFkZ8iuuekIuCa7d?=
- =?us-ascii?Q?Iya25qbWpbrhik3/ULGO9X7CKiZ9G6gqvWAZjplmlsyLDPnO4SA41l5BStoN?=
- =?us-ascii?Q?NpO8dJztvk6nffRx4baoxLRnJNEe5JUqr+1Mpd6uaFzOSmleX8XBYf7K/xgJ?=
- =?us-ascii?Q?ApL/XMc55lIp6+GgeMewMEHSSD1/GXIPhUhOlL15c4+0to3oFHqB8KtTI+Dj?=
- =?us-ascii?Q?M7ZNVtc5CpcF/JyekRGrF6CcCXOu4TGW5tPtLHF0?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="q037XNes"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-471fbfe8b89so6231cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 09:38:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1740418684; x=1741023484; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m/O0vbrO92duvYr6F7i3L1H8Ny2GEtGfhV4xH02ux58=;
+        b=q037XNes3HEGRyAYjkB6XXqUH6lsXxFu6wLOPbutnaov4qOIiHtmH3sVQ/oqVcGaei
+         YeMCSJcMdk+PnY42e5uuELXoh/Edcrw5ctvu7FqmyGpdTH65Ap949Cxjmn0SlyDTpprY
+         JUfiSiPA3gNLdLQM/ruTvi+mboiRuSAkRO4P3W2O7Yl5sNOE3aS55V7VnRein96x2YR6
+         hMZ5hUojUO50Qhuqv3hQzBBnOnv2zX6ZLWjzdKhn8g9R+6CVVNiRr8C4XvlSp/EbXrZa
+         9P5zYjzsNPOXXbWhCTvRoqfx0xEINKz73dsAYeItGZlbLFmtszEF/cF9/Q6ZzXMcQfwA
+         tnvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740418684; x=1741023484;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m/O0vbrO92duvYr6F7i3L1H8Ny2GEtGfhV4xH02ux58=;
+        b=bEj5QVsrRGIIEo+8Rou87QniDCNyEcfrT3B4a+QIaNUAiKfZ7XWWVUFCggfk/yRgOP
+         e3IvcJtSRIRWC56oU70ca5pQHSDdfJTcF/B6tkZmzFCl40IN0AxAMKayxDs3Zotc9JdM
+         mm4Q6V8s5zDNfor79mMhOQamzSu3d+/HCYU7DZezwypwuAiPO+69Qaed9qnW0Ly62cz/
+         0m6ypt6HhsbCK7Ztl1oJC7Ytx3QhexO49XBoEaL/ZGN0r8AH/lytc798Vat6N13SU9/z
+         Tr67ONVu2A1UyxEG6cJMfsHwld/dkYPOa71sfInPXbfAV5yN5MyFfp4hNaxXAFOTZPGg
+         JG4A==
+X-Forwarded-Encrypted: i=1; AJvYcCUl+oKxPjGnIQyy93lD1cqbRl6A7kFV7kEvb8jJNJW1ttCHxW7ZIo5tyKtrHkUI1JjlzFQuDVFphlY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YykMEbrj2OND77H8sLLCJOfNqfrdrMoIsDSod3f5et3Kx4UdGMt
+	mcxrl11mR43x0KftEmiUVONzIyNDDM9RLBJQXY13ci//bU4kPfgHCZSfZhwx5EhsW16jVm1gOiN
+	l4ISIwMN83XLRa1WS1t2WFml+grYOmKzhhGQl
+X-Gm-Gg: ASbGnct/2kBrqm93oxRJGwfK5cnN+wUDqxqwdJ82J3blnoUogsdx4pU5TwJwjvtLUk3
+	1jI4cBVfkg8iJR2rHocTCTxbnFJ1jN7/6AL9xBavNszxtPy0PpEmQJCBXuds/B10CHs7mlpptBx
+	QAB8mN
+X-Google-Smtp-Source: AGHT+IH3iTdeqfq4jur2rjKozlveokHS0xXgOXYk6eu+6erAuMQ+D8KPGLkRByg6hsOrf2mAtKqTssMrL/1wfcTtqtE=
+X-Received: by 2002:a05:622a:13ca:b0:466:861a:f633 with SMTP id
+ d75a77b69052e-47376e5d9bdmr232651cf.5.1740418684082; Mon, 24 Feb 2025
+ 09:38:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5dfb2785-4356-4a42-e0c5-08dd54f7e6c5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2025 17:23:06.1230
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BMyq7TYs6AxTYTk8YKA621KAB7wxTEXQXLSYeu45l3jHLfwDByb9K6sp4z974YMHv8D51z1Jxe4xBjcK8Z7z7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4999
-X-OriginatorOrg: intel.com
+References: <20250221-hugepage-parameter-v1-0-fa49a77c87c8@cyberus-technology.de>
+ <20250221-hugepage-parameter-v1-1-fa49a77c87c8@cyberus-technology.de>
+In-Reply-To: <20250221-hugepage-parameter-v1-1-fa49a77c87c8@cyberus-technology.de>
+From: Frank van der Linden <fvdl@google.com>
+Date: Mon, 24 Feb 2025 09:37:52 -0800
+X-Gm-Features: AQ5f1Jo9ImB_9IaphJKYV-I3Hv0ey8xUJZJhhhQp9XGv1YVwKjURQJn1eQch93I
+Message-ID: <CAPTztWaRDD9v+-yk_DJAb9FzZDyQF93B_BawxcmSSUitRp1a5w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] mm: hugetlb: add hugetlb_alloc_threads cmdline option
+To: thomas.prescher@cyberus-technology.de
+Cc: Jonathan Corbet <corbet@lwn.net>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> It has just occurred to be that ftrace has large, multi-line text files
-> in sysfs, so I'll try to find out how they handle that there.  Maybe
-> there is some infrastructure we can re-use.
+On Fri, Feb 21, 2025 at 5:49=E2=80=AFAM Thomas Prescher via B4 Relay
+<devnull+thomas.prescher.cyberus-technology.de@kernel.org> wrote:
+>
+> From: Thomas Prescher <thomas.prescher@cyberus-technology.de>
+>
+> Add a command line option that enables control of how many
+> threads per NUMA node should be used to allocate huge pages.
+>
+> Allocating huge pages can take a very long time on servers
+> with terabytes of memory even when they are allocated at
+> boot time where the allocation happens in parallel.
+>
+> The kernel currently uses a hard coded value of 2 threads per
+> NUMA node for these allocations.
+>
+> This patch allows to override this value.
+>
+> Signed-off-by: Thomas Prescher <thomas.prescher@cyberus-technology.de>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  7 ++++
+>  Documentation/admin-guide/mm/hugetlbpage.rst    |  9 ++++-
+>  mm/hugetlb.c                                    | 50 +++++++++++++++++--=
+------
+>  3 files changed, 49 insertions(+), 17 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index fb8752b42ec8582b8750d7e014c4d76166fa2fc1..812064542fdb0a5c0ff7587aa=
+aba8da81dc234a9 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1882,6 +1882,13 @@
+>                         Documentation/admin-guide/mm/hugetlbpage.rst.
+>                         Format: size[KMG]
+>
+> +       hugepage_alloc_threads=3D
+> +                       [HW] The number of threads per NUMA node that sho=
+uld
+> +                       be used to allocate hugepages during boot.
+> +                       This option can be used to improve system bootup =
+time
+> +                       when allocating a large amount of huge pages.
+> +                       The default value is 2 threads per NUMA node.
+> +
+>         hugetlb_cma=3D    [HW,CMA,EARLY] The size of a CMA area used for =
+allocation
+>                         of gigantic hugepages. Or using node format, the =
+size
+>                         of a CMA area per node can be specified.
+> diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation=
+/admin-guide/mm/hugetlbpage.rst
+> index f34a0d798d5b533f30add99a34f66ba4e1c496a3..c88461be0f66887d532ac4ef2=
+0e3a61dfd396be7 100644
+> --- a/Documentation/admin-guide/mm/hugetlbpage.rst
+> +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
+> @@ -145,7 +145,14 @@ hugepages
+>
+>         It will allocate 1 2M hugepage on node0 and 2 2M hugepages on nod=
+e1.
+>         If the node number is invalid,  the parameter will be ignored.
+> -
+> +hugepage_alloc_threads
+> +       Specify the number of threads per NUMA node that should be used t=
+o
+> +       allocate hugepages during boot. This parameter can be used to imp=
+rove
+> +       system bootup time when allocating a large amount of huge pages.
+> +       The default value is 2 threads per NUMA node. Example to use 8 th=
+reads
+> +       per NUMA node::
+> +
+> +               hugepage_alloc_threads=3D8
+>  default_hugepagesz
+>         Specify the default huge page size.  This parameter can
+>         only be specified once on the command line.  default_hugepagesz c=
+an
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 163190e89ea16450026496c020b544877db147d1..b7d24c41e0f9d22f5b86c253e=
+29a2eca28460026 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -68,6 +68,7 @@ static unsigned long __initdata default_hstate_max_huge=
+_pages;
+>  static bool __initdata parsed_valid_hugepagesz =3D true;
+>  static bool __initdata parsed_default_hugepagesz;
+>  static unsigned int default_hugepages_in_node[MAX_NUMNODES] __initdata;
+> +static unsigned long allocation_threads_per_node __initdata =3D 2;
+>
+>  /*
+>   * Protects updates to hugepage_freelists, hugepage_activelist, nr_huge_=
+pages,
+> @@ -3432,26 +3433,23 @@ static unsigned long __init hugetlb_pages_alloc_b=
+oot(struct hstate *h)
+>         job.size        =3D h->max_huge_pages;
+>
+>         /*
+> -        * job.max_threads is twice the num_node_state(N_MEMORY),
+> +        * job.max_threads is twice the num_node_state(N_MEMORY) by defau=
+lt.
+>          *
+> -        * Tests below indicate that a multiplier of 2 significantly impr=
+oves
+> -        * performance, and although larger values also provide improveme=
+nts,
+> -        * the gains are marginal.
+> +        * On large servers with terabytes of memory, huge page allocatio=
+n
+> +        * can consume a considerably amount of time.
+>          *
+> -        * Therefore, choosing 2 as the multiplier strikes a good balance=
+ between
+> -        * enhancing parallel processing capabilities and maintaining eff=
+icient
+> -        * resource management.
+> +        * Tests below show how long it takes to allocate 1 TiB of memory=
+ with 2MiB huge pages.
+> +        * 2MiB huge pages. Using more threads can significantly improve =
+allocation time.
+>          *
+> -        * +------------+-------+-------+-------+-------+-------+
+> -        * | multiplier |   1   |   2   |   3   |   4   |   5   |
+> -        * +------------+-------+-------+-------+-------+-------+
+> -        * | 256G 2node | 358ms | 215ms | 157ms | 134ms | 126ms |
+> -        * | 2T   4node | 979ms | 679ms | 543ms | 489ms | 481ms |
+> -        * | 50G  2node | 71ms  | 44ms  | 37ms  | 30ms  | 31ms  |
+> -        * +------------+-------+-------+-------+-------+-------+
+> +        * +--------------------+-------+-------+-------+-------+-------+
+> +        * | threads per node   |   2   |   4   |   8   |   16  |    32 |
+> +        * +--------------------+-------+-------+-------+-------+-------+
+> +        * | skylake 4node      |   44s |   22s |   16s |   19s |   20s |
+> +        * | cascade lake 4node |   39s |   20s |   11s |   10s |    9s |
+> +        * +--------------------+-------+-------+-------+-------+-------+
+>          */
+> -       job.max_threads =3D num_node_state(N_MEMORY) * 2;
+> -       job.min_chunk   =3D h->max_huge_pages / num_node_state(N_MEMORY) =
+/ 2;
+> +       job.max_threads =3D num_node_state(N_MEMORY) * allocation_threads=
+_per_node;
+> +       job.min_chunk   =3D h->max_huge_pages / num_node_state(N_MEMORY) =
+/ allocation_threads_per_node;
+>         padata_do_multithreaded(&job);
+>
+>         return h->nr_huge_pages;
+> @@ -4764,6 +4762,26 @@ static int __init default_hugepagesz_setup(char *s=
+)
+>  }
+>  __setup("default_hugepagesz=3D", default_hugepagesz_setup);
+>
+> +/* hugepage_alloc_threads command line parsing
+> + * When set, use this specific number of threads per NUMA node for the b=
+oot
+> + * allocation of hugepages.
+> + */
+> +static int __init hugepage_alloc_threads_setup(char *s)
+> +{
+> +       unsigned long threads_per_node;
+> +
+> +       if (kstrtoul(s, 0, &threads_per_node) !=3D 0)
+> +               return 1;
+> +
+> +       if (threads_per_node =3D=3D 0)
+> +               return 1;
+> +
+> +       allocation_threads_per_node =3D threads_per_node;
+> +
+> +       return 1;
+> +}
+> +__setup("hugepage_alloc_threads=3D", hugepage_alloc_threads_setup);
+> +
+>  static unsigned int allowed_mems_nr(struct hstate *h)
+>  {
+>         int node;
+>
+> --
+> 2.48.1
+>
+>
+>
 
-Resctrl was built on top of "kernfs" because that was a simple base
-that met needs at the time.
+Maybe mention that this does not apply to 'gigantic' hugepages (e.g.
+hugetlb pages of an order > MAX_PAGE_ORDER). Those are allocated
+earlier in boot by memblock, in a single-threaded environment.
 
-Do we need to look at either extending capabilities of kernfs? Or
-move to sysfs?
+Not your fault that this distinction between these types of hugetlb
+pages isn't clear in the Docs, of course. Only hugetlb_cma mentions
+that it is for gigantic pages. But it's probably best to mention that
+the threads parameter is for non-gigantic hugetlb pages only.
 
--Tony
+- Frank
