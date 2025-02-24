@@ -1,583 +1,290 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B1326869B
-	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 16:56:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740416214; cv=none; b=PEkVNLHsWzFHBnaWdKID/IMxmqSpRvzHr/XWq4dpdUnm/tSsMgqj5l1xxzp56KjNXH1lSAKCPKjP3wppatkVXIL2LLlRTwcsc7zdHAB1RQxxzDP4GeWQHUV8XyvbkRkx0bXOYr/+GI5J+AJLdn9M5j9uLuiqRv5RvVpgN5mCzns=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740416214; c=relaxed/simple;
-	bh=67pl9UOJ1GSYqL4a9JTWXCi0kA+lyx/GKrrnunY2cdA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=niyTVk2L0dn/l+e6xOggqe+PXBFMrt65MAmcxNitmKh5CidujmPxPQFRbYAGnd7c4y4Z1dfZnK1iPKbx1U+QEqgyGSmAY+D9eVVHBIB2BVrrGT6tpB68ndSGOmLlySfD+DV9MlgWUPWN7C51tcEa02NIRKvsJEzn39HC6cA45y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y9rq7iQQ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C62264A8B;
+	Mon, 24 Feb 2025 17:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740416535; cv=fail; b=P9lFuDh2L0sQcJwMN3zr+tgZrGmNlYsQnu4NDeR4MzrWKmX75ArVi+Dfdoyjd3HgL2YfZH8+HAaN1ut/JlMI42L8S9P3WddgiDsIWfv6cz5Id94EllbfoQYcqVqy6hzugJ0na29uNCv4AzcDDm+Ur7Jrs8jnSsEQUetF0adVr6E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740416535; c=relaxed/simple;
+	bh=5Sb7Lvrq6rVa7XXn+W2vbFUI5wTpRYYJzWjfpHKNWY8=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=rX2kmwYuUl8f+o2RlwfWMovEL0BhVVFBPYHQ5ofuV4/E6B7pZcpV7dz87EoB9VKAEu2n8jDEr+wTK0SfJcllIdCL1AGP4uXfUu4MBtU01HT4CciJ36b77Y6K8DQ71vqSgrJJ6LGDBdUPueyUGguGQYjDZLw+eK+AgDHpGlxjBaI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gL8mI7Qp; arc=fail smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y9rq7iQQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740416211;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MgdgCkfQT710L4EQa1Wd5rppib0ue2uPYRNKLBnKmzg=;
-	b=Y9rq7iQQP70ohkPzt4jOUx+DGbi8OfTclsmk8p89QG3hEWJEDPEucTD5p/ZNLMyctJ3iw5
-	pPo0YRMn3rs5t3Bg9SPF19DMJ1HoQp9C+gGrpv3MLnw+FPSaDK8jrz7yBTyAy+Qd12fwYL
-	1mz/NzpomGayEZWDTyi98gGw42yeIMk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-515-R53zjSiRMFWKTkvywEhg1w-1; Mon, 24 Feb 2025 11:56:49 -0500
-X-MC-Unique: R53zjSiRMFWKTkvywEhg1w-1
-X-Mimecast-MFC-AGG-ID: R53zjSiRMFWKTkvywEhg1w_1740416208
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-43935e09897so32831435e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 08:56:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740416208; x=1741021008;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MgdgCkfQT710L4EQa1Wd5rppib0ue2uPYRNKLBnKmzg=;
-        b=KdoASzMCxjqZrXQkn9cODtUvcahzqaZXmRO9mFmaylBu+50fmzDz+4RmzFaDfyegQr
-         xt2WX2jG9SXSYS75Hsskw3XhdvnZVEj7uiG+O5XaXRFxNpVEEJiRPGPhpB7hqF1D+sdR
-         zigyQXYfAyFAj6CewaUqPZn9cMcBqtW/agOLZKi2LQCoJZQnSZD3QIo/7MUR08OnG+si
-         zIfu/IYb7xULCvP4l29JqICtQL9KB7uvh6qwXfYtEgE/8hbSt9VzhvA2kl8kfDocqf7G
-         xFzsLwZ+ihRJTs2x2O+vSu4pQayalkmWkF6VSVrho+BbnDGjWXMH7lPB+vwhQyoHYtGz
-         +JqA==
-X-Gm-Message-State: AOJu0Yx2S+Dsx9KYu8BjYJPv/nqZ6/d99NdJLi1/cFU1/vqEKI3xsi73
-	YRY1z+eSQs3WZ+4AivBxpKBlDyGHdQNQAbIe9ffG58JMsp9cU0jPdOZENllVZAScxmKT9ZJdeiY
-	Lh8kNYePH0oKSSQTLhh1aRaaNOFsI9AkhSAsLhXlwZ6DyBeX8BcjQpmvpJg==
-X-Gm-Gg: ASbGncu/yPxSz28zOhM/RLjJ9f0CrRanbmAYvsVsEsyidueTiL5mQhEpa5dtr4tXoi9
-	qIdZ0RXZKV8o5gYe40j+K8htUgpaJ5GXp60nCQ30OU+LqSCTezkNCK5lJKBROh6M4TVJ7UWrfrB
-	806yyuuCPpTdoRSoyW5mqBLMczgmLjuNschan9Cx+0EZ4tbcISgtuJMs/IidJfyaFzBM9iRiwYg
-	5YQeDrb0o01Km/8ICHHHucwHvigyQ63Bs+8/aVd9OEtkX6DKtYuxZlK7PiuzbhnswDsL294pP1i
-	E884zrzIwmvxL1sGH5nddpiRMO+1B9ApgRR04YACxQ==
-X-Received: by 2002:a05:600c:5112:b0:434:a781:f5d5 with SMTP id 5b1f17b1804b1-43aa4ee1f53mr49951355e9.30.1740416208228;
-        Mon, 24 Feb 2025 08:56:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEkH/GtVfiPSlmNTBjcB5VCGgkWNht+vToPEPB5qduC+IDFH5nKzmUcOLgdLr6vKVUyR6uQ9w==
-X-Received: by 2002:a05:600c:5112:b0:434:a781:f5d5 with SMTP id 5b1f17b1804b1-43aa4ee1f53mr49951055e9.30.1740416207692;
-        Mon, 24 Feb 2025 08:56:47 -0800 (PST)
-Received: from localhost (p4ff234b6.dip0.t-ipconnect.de. [79.242.52.182])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-439b02ce41dsm115554595e9.1.2025.02.24.08.56.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2025 08:56:47 -0800 (PST)
-From: David Hildenbrand <david@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Jann Horn <jannh@google.com>
-Subject: [PATCH v2 20/20] mm: stop maintaining the per-page mapcount of large folios (CONFIG_NO_PAGE_MAPCOUNT)
-Date: Mon, 24 Feb 2025 17:56:02 +0100
-Message-ID: <20250224165603.1434404-21-david@redhat.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250224165603.1434404-1-david@redhat.com>
-References: <20250224165603.1434404-1-david@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gL8mI7Qp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740416535; x=1771952535;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=5Sb7Lvrq6rVa7XXn+W2vbFUI5wTpRYYJzWjfpHKNWY8=;
+  b=gL8mI7QpKygBkVPowPrEiLB0LjvAjYQ9TtoKA4ZUBSlluJDTah8tz9R5
+   YAW7xrwTl/RpnmJw2KMzYbQzTGwMLtao3EMYEtGA3Aoou3YfuZ3wcKKVg
+   W5bZXs8IzSNFJYkZLor0J1eXk9Gc2ahqxDhI0o3c6y9Y2ZcAjD9iB9Vkk
+   urAixixnSDV+fxF+bz6fJIrz6VONt2T+Va3BUXk3yLwly/nuKhHbUyiZU
+   0LXldFmD+3TuUh+vpxD3UtFQmMigXUwrSuVXieByGTX77LDNEkF8kbIoW
+   s3QM6vUosiio2S42z3IskKrcOw3VwbjZtN3mKBrbLi6kiitr8ZjrUMMwj
+   w==;
+X-CSE-ConnectionGUID: rLysdvI7Q1yN4BVm2nGCvg==
+X-CSE-MsgGUID: GW7fuoO6Q6akDsfynJJWtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="44961652"
+X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
+   d="scan'208";a="44961652"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 09:02:14 -0800
+X-CSE-ConnectionGUID: QiGyCoOnR4uN7w9JNdcAZw==
+X-CSE-MsgGUID: xlTuy0oxSrOR2II7zYuNOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
+   d="scan'208";a="116742480"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 09:02:12 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Mon, 24 Feb 2025 09:02:11 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Mon, 24 Feb 2025 09:02:11 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.46) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Mon, 24 Feb 2025 09:02:11 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dwPplmECe1iUDcsMG5t3VsiiaZPYWjKZH20gyNIy7lRFMXfBMp/cbjJiYqeEZ21RctAGSJJDBJD2H9tc58m+XugMX512eKd/T1tSUjkuY7kEn3yQdRLNRYPzPdbY1KjGoQi7CggpMt3otZvUjjkgGUMnf2eIoTp6nw0NepciFbHmEJ0TVSZQwGDp86Ypsp8uC33oiOQT56xHCMEH2GtwqETa7S2Jb/y2uuhx5frHRc7/Nf9qMxhjxoYE99zHi3J/GeWjaHu9Qvc3Qg5d0wzpb5QYmQmW0qlHjRlvZ9vwwWd27CELM/HVV+/UY/NA0D8AQwO/qrDtadYXkb8ud6b/2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vWcH4S+IxKs8lPO8VxhwM8pFg4uIai3p6th9HgUwOgM=;
+ b=vqNO29sapmE5Xdg7G4h9MDn7AALBPqXnr/2cp0BZc1RIVepmLl7sHYJyLnAB7aeReMOGLQ+BoEGuZP34gqB9Ig7Xr5BNc2/n8kf7WXfTMIvxApZudMON4pjKGendxgDEGe9WOSCyeJivL+JEzuM/duS/Iq5WwotVQSyUYaD79cAoKC/p6e+Y3CsF3P4ptBZP8GrMAhY0lPLyqdJjrYWdk7fUQOqQFDmr8/M75Lsu/EkrFE55BD5XkD/y0s5CxvCZLoalpxGJf8ZHu+v6hUhmccJxxHNj0V8bRdl7zprMo6iSU7IcOE0ZYvMiyFl0aUpIl+pJPmRoDU7FgqW5D1kRRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by PH0PR11MB4854.namprd11.prod.outlook.com (2603:10b6:510:35::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.19; Mon, 24 Feb
+ 2025 17:02:03 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.8466.016; Mon, 24 Feb 2025
+ 17:02:02 +0000
+Message-ID: <3fb20135-1b8a-42df-b670-5fbf29acfa85@intel.com>
+Date: Mon, 24 Feb 2025 09:01:59 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 20/23] x86/resctrl: Configure mbm_cntr_assign mode if
+ supported
+To: <babu.moger@amd.com>, James Morse <james.morse@arm.com>, <corbet@lwn.net>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <tony.luck@intel.com>,
+	<peternewman@google.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<akpm@linux-foundation.org>, <thuth@redhat.com>, <rostedt@goodmis.org>,
+	<xiongwei.song@windriver.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<daniel.sneddon@linux.intel.com>, <jpoimboe@kernel.org>,
+	<perry.yuan@amd.com>, <sandipan.das@amd.com>, <kai.huang@intel.com>,
+	<xiaoyao.li@intel.com>, <seanjc@google.com>, <xin3.li@intel.com>,
+	<andrew.cooper3@citrix.com>, <ebiggers@google.com>,
+	<mario.limonciello@amd.com>, <tan.shaopeng@fujitsu.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<maciej.wieczor-retman@intel.com>, <eranian@google.com>
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <4a48aabf502897bec1e015305d7b0b826bb20841.1737577229.git.babu.moger@amd.com>
+ <b3dc2fc5-4ee6-414d-90bb-97baa0d67dc5@arm.com>
+ <7b3d18e3-1f7d-42cd-bc32-fda4a81dfc82@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <7b3d18e3-1f7d-42cd-bc32-fda4a81dfc82@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0069.namprd04.prod.outlook.com
+ (2603:10b6:303:6b::14) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|PH0PR11MB4854:EE_
+X-MS-Office365-Filtering-Correlation-Id: e289d22c-c5be-437e-37a1-08dd54f4f59c
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?d3dXdHZoWDY5cE9nVGJIZkxZRjRUZnkrQ3ZFa0ZEUXlNMjZxdHhlczFZLzQ2?=
+ =?utf-8?B?dSs0VnI0MWVWYnBKc2EwcU4xVlBKKzR4UlAwMEg2ekl4QVoyeFNQbnF1dVpD?=
+ =?utf-8?B?SnNEMWJkNFNwKzNVeVBDZ3Rnb0lhb0Nqa0JQa3kvQ0d4NDY3a3gyUi9yeGRv?=
+ =?utf-8?B?MERyczdMei9RQlF3N2tKNXY0YUFXQ0dZeU1tZkpFdGtQYktUdE8xZCtaMWVK?=
+ =?utf-8?B?VVF5SlB6T25qMXRTTUNtMjlCZDhSTDhaU3hOQ1VucGpDenA2cGNzTEJ1UDVx?=
+ =?utf-8?B?WGVFWUhPNmllaXZleTB3eDJOQWZOeDVvaGt4RjQ5a2YzWFhoZW5vcjdZaFIw?=
+ =?utf-8?B?eHJOYjUvY2ZtUkNuOXdiRmxVeWpFQkFEZXNzQjZ4MVl6aSs1b1ZaczYyUURk?=
+ =?utf-8?B?R0x4TWk5Ukd0dHhWZGZFSytGdjc2NUowTkVmaEl0ckdzTitYeDFqbzMvaC9j?=
+ =?utf-8?B?SnNaQThpU3BsaDh0MXJYbjM5QlFzelczWjFjdzZqbjFjZzZDMzdFd2tWM2RS?=
+ =?utf-8?B?VUhyMGMrVldoN1p5dWpvTCtyWnp1TzRqUDgvMUpLOS85dXk3cTVzQnN3THE3?=
+ =?utf-8?B?MGtKMTJ3RFBLZXdvaldSRm5OVG9VZzJMR0VGeGZRLytvUmJMMHh4NDVadnNN?=
+ =?utf-8?B?TFF4eURVY3hJUWhTeVZiV0taQW5Mc0cwbFBmSFMrOHFsd2FwOXptTnhVbVBi?=
+ =?utf-8?B?a0o3TGV0dVd6NkdjS0VqMlJxSDk3RXR3Z2ZPR243azZUeG0zaldDMnAzd1do?=
+ =?utf-8?B?QlFHaG1qSHFEbUdHQXRFenNCM3BJVlhFd0xVYSsyaWl6bE1OMDIrTUpqZk1Z?=
+ =?utf-8?B?NENaUUh1Vnp0MXZWQzhMcUpVblVNdzBhKzV0d1M0cVJob1pObmtGQ24vTCta?=
+ =?utf-8?B?UGxtaytmZFE0S3U5TmpyT2xDZThIK1NQODBRUWx4VVVmYmQ0c1BNZnFPd0RB?=
+ =?utf-8?B?aEFsTjVxdmZuMC9DUGgvdC9rT0c0eTF4Tkxvcktobk4vTmtPaUlxTmJqa0dM?=
+ =?utf-8?B?QmRsUVRlb2dMM2NQT2Fwc0t2WHo1bldCelJuMHZ1bjcvOVJ5WWxLVlNEdnE5?=
+ =?utf-8?B?NnUrU3ZHYTJOei9XdFEvRk5adXplQXVPUXRYcmIxSGM5ejY4S1hqTnV4T0lO?=
+ =?utf-8?B?Yy9VbzhLYjlWN09EbWdDVjVuemRZR3JmbVJVdDRmTmRHZmFUTFZ5N1RBZ0JN?=
+ =?utf-8?B?SjBhSFZNUkFMYnUwN1p5czhObkZzVlJrdHlZYUp6Tnd1VjdMWUwxcjFkU0h6?=
+ =?utf-8?B?dFBaa0pZaGY1bUdZZCtvZEhNWkFMTU5RVWhGT1FMWjlYNVZoNFBpN2hnZ1pT?=
+ =?utf-8?B?ZVJZaC9MSzBzekRqRDRRbjZ5V1FpZGM3RDBPWm5ZbDRzR3lTblFUTnVDR1NX?=
+ =?utf-8?B?YXFxazdqV2czS0ppQkc3bXlNNG91OGs0aGFLNVIxWlREN21KQ1Z1aTlCaUgx?=
+ =?utf-8?B?NGo3bjFmZUNwNlpwSG9IVTltRFI5MWNxWW92RkVuVW5JTy9wek52RXlJVHFY?=
+ =?utf-8?B?RElPY3ZSWTNxekVXb1prb1ZLRVNXM3JLU1pDWDhQZHQ4TVl3bDJWeXJ5bUtK?=
+ =?utf-8?B?czZRYXE5bEVMd09UQk1PTTE3anVWMzlFS2RrU1pxa1J1NDZlS00rei9iME5w?=
+ =?utf-8?B?alI1VW1mcVVUWS9hY0ZjM2RXY1NLZkRKbFFaM2p3THRVMHI5WmUvb3dtaUE1?=
+ =?utf-8?B?bjhGNytONUh5bE5YMHJzY08zd1FmWklmZ0toUFJqVVc3aU1hVURVZVhaVjVC?=
+ =?utf-8?B?eXhwVllnRTg2RDJwc2laS1BlWG9FMjVpZDB5Rk5PZk5wUk54THQ3clUrdXBv?=
+ =?utf-8?B?Y2tzL3Npc05hbVFMWldzNytWQ2hzSnpOK0lTNVdWM253cTM2SzBzSWNzSkRM?=
+ =?utf-8?Q?tljSkwTHTEAVY?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V1RhRmtKT0M4c0lITEJyNWRZT1dnc29IMWd2S3RXZWJ0SE1ISHl0RG83Zkhw?=
+ =?utf-8?B?cUE5VUtHQ3pNN3V4eEd0SXJVUXlxYU0zOGVpcnFUcWEwVWtzRnAvd0ZJOTBO?=
+ =?utf-8?B?QWpETnNSSWpzeWQ0VVZRaERFUmJtRjZzbk8wU2JNOUZyZEcxU2dpcGVpWEdp?=
+ =?utf-8?B?QmtaRVhIL2c3blRYWEZSTCtlUkNJNjFrb1pNRmxKL1hQTXhUQ0lINUViNmh1?=
+ =?utf-8?B?L05ES0pwbUg1cTNITHpNdkN2M0l5a2l3U24rMnhkODEzTm5wbGt4WnNJYU1m?=
+ =?utf-8?B?UUtSWWJjMUY5bWwrT25wOHZWcXFBMHRVUTNtNGxOeGc4UDUwQllPOGozekI1?=
+ =?utf-8?B?QkxWajg0cmFJd0QvOWhMRmNqaERNQjAvVSs1L3pNWVdRMDg5bHpRSHFsS3Ru?=
+ =?utf-8?B?Sm9qSGtpVE9oWS9SUXZrZnlRcXMxOXJIb2gyNkN4cHVMK3lQKzljT0R4S2dO?=
+ =?utf-8?B?TEtCajJDQjlBUGxBa2U5RnBQNVI5SW5FcmZGRkpzZVRVRG81WW0vM1I5VGFs?=
+ =?utf-8?B?NmpOcmhCc3Y4SVJ0eTRBTmUvQkhuekk1MHV5TjFqVExBamE3bWxqVHZqcE93?=
+ =?utf-8?B?RDllcWMzQVkxWWRFMVN3SGxiUGtGVTY0RjhTTXdqV3Jtdk05cm5hSXlSRkRn?=
+ =?utf-8?B?Rk9WWGNDd0lEZFZFdW9rVnRNU3JLTGlua3BlYkNNNG5RbHkxVjhJZnpyMUZH?=
+ =?utf-8?B?UFV4S2RuUVJ1MGtzSkVEd1U2Y2NwK1MzTTdqL3NTZkFFZkJWMUI3Q1BGQVIr?=
+ =?utf-8?B?OFh0a0lsTWZzUngzOHMwVlBtR0h3YWdXakhOaWRURTlIejV6cUtUYkNsekZN?=
+ =?utf-8?B?Yk9LVEQ2V0JmVXVpNEJHdHlCcVFwQlNEK2JiaElGd1h2YVZUOG1PQkJlcGV4?=
+ =?utf-8?B?TmtwNU5SZmM4bmNwTTdyeXFyaHFYeTFoOGVRaFh1VThlRUZpaEx0c0FCdU96?=
+ =?utf-8?B?cnZVZU54U3lOcXJMUWk0R1NyVkwrclM0OVZZdnVGRmNtK3NIUnpveEhSRjhx?=
+ =?utf-8?B?TEo4WUIwRkhMMC8xR3J2c0V1SlJHeW5LRlgxa3RHc3d1dWt4ZmlQR04wbXk2?=
+ =?utf-8?B?SXJQVU5ETDRrK0s1Um5tS0hWemdmOFg1Y2RsSzE5NExCbzBrUDloV2I0ejZ3?=
+ =?utf-8?B?T3F3T1hwWHExcXN0VW54N0Rrem13NnhELzZRcmI2cEthQjRaT21SR2U0emJI?=
+ =?utf-8?B?eHN4eHpBbXRPTGtDdEJKaWVldkpLMkZUbEhWODIwVlczS1ZlT05JcDJlazlm?=
+ =?utf-8?B?M0RDL0JpSzlZb2VQajBrK0tTNXc3ZnNBd1NqOEdUMGU3MjEvUWs1STcwTFBk?=
+ =?utf-8?B?L0kyV0F2ZjRLT2dDdzlQc2NtQ1NWdmVwcnAyRzNaVDdMV2pmQUlsTEZWaEV3?=
+ =?utf-8?B?Z21TR1BJMFZlNGoyRHNlL2FEZXVpaDF1K0pNWUZQeWdzbTVrVTY4U2o4WC95?=
+ =?utf-8?B?czNsRytsejZEM1lPMWVJRlJsN3E5OFhqQ052U2srRDdDalFkRWxCV1EweWFz?=
+ =?utf-8?B?NUpNek5KWFlWM3pvRVdXQm5XT0pmRDBKejFsYTR4ZWV0QTB6b3hkOWowQzc1?=
+ =?utf-8?B?TFVyVDI1V3h6NEljVmFyeUtCR1JwYisyZGJFRDRKeU15UFpPcTE4NDgzZEpo?=
+ =?utf-8?B?WE9OUFlyZ252Vk5Eb2NTMGxCS2JydElvNzJ6ekJlcU9Ha1lwMTQ0SGtTdHky?=
+ =?utf-8?B?UWdQbHdKNHJvcVg4NVZVYktjT01FOEtYTDZDdmd6NSsyWHVWMkM5cytnbWlv?=
+ =?utf-8?B?K0N3TDdjcXJYYURidFJua2QxbzVPZzhtYlNJQUZLbnJBR2NvNDFJK2dmZTRD?=
+ =?utf-8?B?RFl6Tkk2OGh0RDREMUxvVE4zOXlxd21sY3lXdkJUcUlYT01GN3htTWVqSHBm?=
+ =?utf-8?B?UFZmOHRnZFJaaE13NTFnVVAyV0FLdjZsVkZIUktjeXg3ZVhNdGdwUi9rQW4w?=
+ =?utf-8?B?V1FtTTBPOUpMcXo4b0FOVEpJZnVON2VQVlF6UjNXQ0h5Q3ZKV3VzMkNBZTdS?=
+ =?utf-8?B?UHNaS1l3WWFBVk4wczQ4SGxvM0JJamJGTmpRT1hSZDZuS2ZEUzk2ZVkzbWV3?=
+ =?utf-8?B?aksxc1NndmVSOWpkRG1QSjFXTHkrczFIa3B4V29lNklwNGt5OGxSYmdvZkZa?=
+ =?utf-8?B?M1FTWUM2anJUa1NrcUZtQ1RCMitvNjUyMkdhaVpsZU5JN1ZRZENGNGRzWTFP?=
+ =?utf-8?B?d2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e289d22c-c5be-437e-37a1-08dd54f4f59c
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2025 17:02:02.8454
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Nr9zxaeo4RR3W5yFGeGPluJCxqnFJ7xnDD9fJefnH6Q6kM0Q0YxO+eFi20lIW6utrkzoPvgTN3LcZnKaQq4YXbTdeXHrVk7RLt0vuBE4o80=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4854
+X-OriginatorOrg: intel.com
 
-Everything is in place to stop using the per-page mapcounts in large
-folios: the mapcount of tail pages will always be logically 0 (-1 value),
-just like it currently is for hugetlb folios already, and the page
-mapcount of the head page is either 0 (-1 value) or contains a page type
-(e.g., hugetlb).
+Hi James and Babu,
 
-Maintaining _nr_pages_mapped without per-page mapcounts is impossible,
-so that one also has to go with CONFIG_NO_PAGE_MAPCOUNT.
+On 2/24/25 7:49 AM, Moger, Babu wrote:
+> Hi James,
+> 
+> On 2/21/25 12:06, James Morse wrote:
+>> Hi Babu,
+>>
+>> On 22/01/2025 20:20, Babu Moger wrote:
 
-There are two remaining implications:
+>> This sequence has me confused:
+>>
+>>> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> index 3d748fdbcb5f..a9a5dc626a1e 100644
+>>> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+>>> @@ -1233,6 +1233,7 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
+>>>  			r->mon.mbm_cntr_assignable = true;
+>>>  			cpuid_count(0x80000020, 5, &eax, &ebx, &ecx, &edx);
+>>>  			r->mon.num_mbm_cntrs = (ebx & GENMASK(15, 0)) + 1;
+>>
+>>> +			hw_res->mbm_cntr_assign_enabled = true;
+>>
+>> Here the arch code sets ABMC to be enabled by default at boot.
+>>
+>>
+>>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>> index 6922173c4f8f..515969c5f64f 100644
+>>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>> @@ -4302,9 +4302,13 @@ int resctrl_online_mon_domain(struct rdt_resource *r, struct rdt_mon_domain *d)
+>>>  
+>>>  void resctrl_online_cpu(unsigned int cpu)
+>>>  {
+>>> +	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+>>> +
+>>>  	mutex_lock(&rdtgroup_mutex);
+>>>  	/* The CPU is set in default rdtgroup after online. */
+>>>  	cpumask_set_cpu(cpu, &rdtgroup_default.cpu_mask);
+>>> +	if (r->mon_capable && r->mon.mbm_cntr_assignable)
+>>> +		resctrl_arch_mbm_cntr_assign_set_one(r);
+>>>  	mutex_unlock(&rdtgroup_mutex);
+>>>  }
+>>
+>> But here, resctrl has to call back to the arch code to make sure the hardware is in the
+>> same state as hw_res->mbm_cntr_assign_enabled.
 
-(1) Per-node, per-cgroup and per-lruvec stats of "NR_ANON_MAPPED"
-    ("mapped anonymous memory") and "NR_FILE_MAPPED"
-    ("mapped file memory"):
+Another scenario needing to be supported by this flow is when CPUs come online later ...
+after resctrl is mounted and potentially after the user modified the assignable counter
+mode.
 
-    As soon as any page of the folio is mapped -- folio_mapped() -- we
-    now account the complete folio as mapped. Once the last page is
-    unmapped -- !folio_mapped() -- we account the complete folio as
-    unmapped.
+>>
+>> Could this be done in resctrl_arch_online_cpu() instead? That way resctrl doesn't get CPUs
+>> in an inconsistent state that it has to fix up...
 
-    This implies that ...
+Could you please elaborate the inconsistent state that would need to be fixed up?
 
-    * "AnonPages" and "Mapped" in /proc/meminfo and
-      /sys/devices/system/node/*/meminfo
-    * cgroup v2: "anon" and "file_mapped" in "memory.stat" and
-      "memory.numa_stat"
-    * cgroup v1: "rss" and "mapped_file" in "memory.stat" and
-      "memory.numa_stat
+>>
+> 
+> Sure. Here is the diff.
+> 
+> diff --git a/arch/x86/kernel/cpu/resctrl/core.c
+> b/arch/x86/kernel/cpu/resctrl/core.c
+> index 22399f19810f..f48b298413bc 100644
+> --- a/arch/x86/kernel/cpu/resctrl/core.c
+> +++ b/arch/x86/kernel/cpu/resctrl/core.c
+> @@ -771,6 +771,12 @@ static int resctrl_arch_online_cpu(unsigned int cpu)
+>                 domain_add_cpu(cpu, r);
+>         mutex_unlock(&domain_list_lock);
+> 
+> +       r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+> +       mutex_lock(&rdtgroup_mutex);
+> +       if (r->mon_capable && r->mon.mbm_cntr_assignable)
+> +               resctrl_arch_mbm_cntr_assign_set_one(r);
+> +       mutex_unlock(&rdtgroup_mutex);
+> +
+>         clear_closid_rmid(cpu);
+>         resctrl_online_cpu(cpu);
 
-    ... can now appear higher than before. But note that these folios do
-    consume that memory, simply not all pages are actually currently
-    mapped.
+This would require every architecture to duplicate the above, no?
 
-    It's worth nothing that other accounting in the kernel (esp. cgroup
-    charging on allocation) is not affected by this change.
+Also, please note there is more appropriate domain_add_cpu_mon().
 
-    [why oh why is "anon" called "rss" in cgroup v1]
-
- (2) Detecting partial mappings
-
-     Detecting whether anon THPs are partially mapped gets a bit more
-     unreliable. As long as a single MM maps such a large folio
-     ("exclusively mapped"), we can reliably detect it. Especially before
-     fork() / after a short-lived child process quit, we will detect
-     partial mappings reliably, which is the common case.
-
-     In essence, if the average per-page mapcount in an anon THP is < 1,
-     we know for sure that we have a partial mapping.
-
-     However, as soon as multiple MMs are involved, we might miss detecting
-     partial mappings: this might be relevant with long-lived child
-     processes. If we have a fully-mapped anon folio before fork(), once
-     our child processes and our parent all unmap (zap/COW) the same pages
-     (but not the complete folio), we might not detect the partial mapping.
-     However, once the child processes quit we would detect the partial
-     mapping.
-
-     How relevant this case is in practice remains to be seen.
-     Swapout/migration will likely mitigate this.
-
-     In the future, RMAP walkers could check for that for that case
-     (e.g., when collecting access bits during reclaim) and simply flag
-     them for deferred-splitting.
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- .../admin-guide/cgroup-v1/memory.rst          |  4 +
- Documentation/admin-guide/cgroup-v2.rst       | 10 ++-
- Documentation/filesystems/proc.rst            | 10 ++-
- Documentation/mm/transhuge.rst                | 31 +++++--
- include/linux/rmap.h                          | 35 ++++++--
- mm/internal.h                                 |  5 +-
- mm/page_alloc.c                               |  3 +-
- mm/rmap.c                                     | 80 +++++++++++++++++--
- 8 files changed, 150 insertions(+), 28 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documentation/admin-guide/cgroup-v1/memory.rst
-index 286d16fc22ebb..53cf081b22e81 100644
---- a/Documentation/admin-guide/cgroup-v1/memory.rst
-+++ b/Documentation/admin-guide/cgroup-v1/memory.rst
-@@ -609,6 +609,10 @@ memory.stat file includes following statistics:
- 
- 	'rss + mapped_file" will give you resident set size of cgroup.
- 
-+	Note that some kernel configurations might account complete larger
-+	allocations (e.g., THP) towards 'rss' and 'mapped_file', even if
-+	only some, but not all that memory is mapped.
-+
- 	(Note: file and shmem may be shared among other cgroups. In that case,
- 	mapped_file is accounted only when the memory cgroup is owner of page
- 	cache.)
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 175e9435ad5c1..53ada5c2620a7 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1448,7 +1448,10 @@ The following nested keys are defined.
- 
- 	  anon
- 		Amount of memory used in anonymous mappings such as
--		brk(), sbrk(), and mmap(MAP_ANONYMOUS)
-+		brk(), sbrk(), and mmap(MAP_ANONYMOUS). Note that
-+		some kernel configurations might account complete larger
-+		allocations (e.g., THP) if only some, but not all the
-+		memory of such an allocation is mapped anymore.
- 
- 	  file
- 		Amount of memory used to cache filesystem data,
-@@ -1491,7 +1494,10 @@ The following nested keys are defined.
- 		Amount of application memory swapped out to zswap.
- 
- 	  file_mapped
--		Amount of cached filesystem data mapped with mmap()
-+		Amount of cached filesystem data mapped with mmap(). Note
-+		that some kernel configurations might account complete
-+		larger allocations (e.g., THP) if only some, but not
-+		not all the memory of such an allocation is mapped.
- 
- 	  file_dirty
- 		Amount of cached filesystem data that was modified but
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 57d55274a1f42..c5052acfa0747 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1150,9 +1150,15 @@ Dirty
- Writeback
-               Memory which is actively being written back to the disk
- AnonPages
--              Non-file backed pages mapped into userspace page tables
-+              Non-file backed pages mapped into userspace page tables. Note that
-+              some kernel configurations might consider all pages part of a
-+              larger allocation (e.g., THP) as "mapped", as soon as a single
-+              page is mapped.
- Mapped
--              files which have been mmapped, such as libraries
-+              files which have been mmapped, such as libraries. Note that some
-+              kernel configurations might consider all pages part of a larger
-+              allocation (e.g., THP) as "mapped", as soon as a single page is
-+              mapped.
- Shmem
-               Total memory used by shared memory (shmem) and tmpfs
- KReclaimable
-diff --git a/Documentation/mm/transhuge.rst b/Documentation/mm/transhuge.rst
-index baa17d718a762..0e7f8e4cd2e33 100644
---- a/Documentation/mm/transhuge.rst
-+++ b/Documentation/mm/transhuge.rst
-@@ -116,23 +116,28 @@ pages:
-     succeeds on tail pages.
- 
-   - map/unmap of a PMD entry for the whole THP increment/decrement
--    folio->_entire_mapcount, increment/decrement folio->_large_mapcount
--    and also increment/decrement folio->_nr_pages_mapped by ENTIRELY_MAPPED
--    when _entire_mapcount goes from -1 to 0 or 0 to -1.
-+    folio->_entire_mapcount and folio->_large_mapcount.
- 
-     We also maintain the two slots for tracking MM owners (MM ID and
-     corresponding mapcount), and the current status ("maybe mapped shared" vs.
-     "mapped exclusively").
- 
-+    With CONFIG_PAGE_MAPCOUNT, we also increment/decrement
-+    folio->_nr_pages_mapped by ENTIRELY_MAPPED when _entire_mapcount goes
-+    from -1 to 0 or 0 to -1.
-+
-   - map/unmap of individual pages with PTE entry increment/decrement
--    page->_mapcount, increment/decrement folio->_large_mapcount and also
--    increment/decrement folio->_nr_pages_mapped when page->_mapcount goes
--    from -1 to 0 or 0 to -1 as this counts the number of pages mapped by PTE.
-+    folio->_large_mapcount.
- 
-     We also maintain the two slots for tracking MM owners (MM ID and
-     corresponding mapcount), and the current status ("maybe mapped shared" vs.
-     "mapped exclusively").
- 
-+    With CONFIG_PAGE_MAPCOUNT, we also increment/decrement
-+    page->_mapcount and increment/decrement folio->_nr_pages_mapped when
-+    page->_mapcount goes from -1 to 0 or 0 to -1 as this counts the number
-+    of pages mapped by PTE.
-+
- split_huge_page internally has to distribute the refcounts in the head
- page to the tail pages before clearing all PG_head/tail bits from the page
- structures. It can be done easily for refcounts taken by page table
-@@ -159,8 +164,8 @@ clear where references should go after split: it will stay on the head page.
- Note that split_huge_pmd() doesn't have any limitations on refcounting:
- pmd can be split at any point and never fails.
- 
--Partial unmap and deferred_split_folio()
--========================================
-+Partial unmap and deferred_split_folio() (anon THP only)
-+========================================================
- 
- Unmapping part of THP (with munmap() or other way) is not going to free
- memory immediately. Instead, we detect that a subpage of THP is not in use
-@@ -175,3 +180,13 @@ a THP crosses a VMA boundary.
- The function deferred_split_folio() is used to queue a folio for splitting.
- The splitting itself will happen when we get memory pressure via shrinker
- interface.
-+
-+With CONFIG_PAGE_MAPCOUNT, we reliably detect partial mappings based on
-+folio->_nr_pages_mapped.
-+
-+With CONFIG_NO_PAGE_MAPCOUNT, we detect partial mappings based on the
-+average per-page mapcount in a THP: if the average is < 1, an anon THP is
-+certainly partially mapped. As long as only a single process maps a THP,
-+this detection is reliable. With long-running child processes, there can
-+be scenarios where partial mappings can currently not be detected, and
-+might need asynchronous detection during memory reclaim in the future.
-diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-index c131b0efff0fa..6b82b618846ee 100644
---- a/include/linux/rmap.h
-+++ b/include/linux/rmap.h
-@@ -240,7 +240,7 @@ static __always_inline void folio_set_large_mapcount(struct folio *folio,
- 	folio_set_mm_id(folio, 0, vma->vm_mm->mm_id);
- }
- 
--static __always_inline void folio_add_large_mapcount(struct folio *folio,
-+static __always_inline int folio_add_return_large_mapcount(struct folio *folio,
- 		int diff, struct vm_area_struct *vma)
- {
- 	const mm_id_t mm_id = vma->vm_mm->mm_id;
-@@ -286,9 +286,11 @@ static __always_inline void folio_add_large_mapcount(struct folio *folio,
- 		folio->_mm_ids |= FOLIO_MM_IDS_SHARED_BIT;
- 	}
- 	folio_unlock_large_mapcount(folio);
-+	return new_mapcount_val + 1;
- }
-+#define folio_add_large_mapcount folio_add_return_large_mapcount
- 
--static __always_inline void folio_sub_large_mapcount(struct folio *folio,
-+static __always_inline int folio_sub_return_large_mapcount(struct folio *folio,
- 		int diff, struct vm_area_struct *vma)
- {
- 	const mm_id_t mm_id = vma->vm_mm->mm_id;
-@@ -331,7 +333,9 @@ static __always_inline void folio_sub_large_mapcount(struct folio *folio,
- 		folio->_mm_ids &= ~FOLIO_MM_IDS_SHARED_BIT;
- out:
- 	folio_unlock_large_mapcount(folio);
-+	return new_mapcount_val + 1;
- }
-+#define folio_sub_large_mapcount folio_sub_return_large_mapcount
- #else /* !CONFIG_MM_ID */
- /*
-  * See __folio_rmap_sanity_checks(), we might map large folios even without
-@@ -350,17 +354,33 @@ static inline void folio_add_large_mapcount(struct folio *folio,
- 	atomic_add(diff, &folio->_large_mapcount);
- }
- 
-+static inline int folio_add_return_large_mapcount(struct folio *folio,
-+		int diff, struct vm_area_struct *vma)
-+{
-+	BUILD_BUG();
-+}
-+
- static inline void folio_sub_large_mapcount(struct folio *folio,
- 		int diff, struct vm_area_struct *vma)
- {
- 	atomic_sub(diff, &folio->_large_mapcount);
- }
-+
-+static inline int folio_sub_return_large_mapcount(struct folio *folio,
-+		int diff, struct vm_area_struct *vma)
-+{
-+	BUILD_BUG();
-+}
- #endif /* CONFIG_MM_ID */
- 
- #define folio_inc_large_mapcount(folio, vma) \
- 	folio_add_large_mapcount(folio, 1, vma)
-+#define folio_inc_return_large_mapcount(folio, vma) \
-+	folio_add_return_large_mapcount(folio, 1, vma)
- #define folio_dec_large_mapcount(folio, vma) \
- 	folio_sub_large_mapcount(folio, 1, vma)
-+#define folio_dec_return_large_mapcount(folio, vma) \
-+	folio_sub_return_large_mapcount(folio, 1, vma)
- 
- /* RMAP flags, currently only relevant for some anon rmap operations. */
- typedef int __bitwise rmap_t;
-@@ -538,9 +558,11 @@ static __always_inline void __folio_dup_file_rmap(struct folio *folio,
- 			break;
- 		}
- 
--		do {
--			atomic_inc(&page->_mapcount);
--		} while (page++, --nr_pages > 0);
-+		if (IS_ENABLED(CONFIG_PAGE_MAPCOUNT)) {
-+			do {
-+				atomic_inc(&page->_mapcount);
-+			} while (page++, --nr_pages > 0);
-+		}
- 		folio_add_large_mapcount(folio, orig_nr_pages, dst_vma);
- 		break;
- 	case RMAP_LEVEL_PMD:
-@@ -638,7 +660,8 @@ static __always_inline int __folio_try_dup_anon_rmap(struct folio *folio,
- 		do {
- 			if (PageAnonExclusive(page))
- 				ClearPageAnonExclusive(page);
--			atomic_inc(&page->_mapcount);
-+			if (IS_ENABLED(CONFIG_PAGE_MAPCOUNT))
-+				atomic_inc(&page->_mapcount);
- 		} while (page++, --nr_pages > 0);
- 		folio_add_large_mapcount(folio, orig_nr_pages, dst_vma);
- 		break;
-diff --git a/mm/internal.h b/mm/internal.h
-index 7303ddd9dac04..7a4f81a6edd66 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -84,6 +84,8 @@ void page_writeback_init(void);
-  */
- static inline int folio_nr_pages_mapped(const struct folio *folio)
- {
-+	if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT))
-+		return -1;
- 	return atomic_read(&folio->_nr_pages_mapped) & FOLIO_PAGES_MAPPED;
- }
- 
-@@ -721,7 +723,8 @@ static inline void prep_compound_head(struct page *page, unsigned int order)
- 
- 	folio_set_order(folio, order);
- 	atomic_set(&folio->_large_mapcount, -1);
--	atomic_set(&folio->_nr_pages_mapped, 0);
-+	if (IS_ENABLED(CONFIG_PAGE_MAPCOUNT))
-+		atomic_set(&folio->_nr_pages_mapped, 0);
- 	if (IS_ENABLED(CONFIG_MM_ID)) {
- 		folio->_mm_ids = 0;
- 		folio->_mm_id_mapcount[0] = -1;
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 08caa92553998..4402672b5d838 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -951,7 +951,8 @@ static int free_tail_page_prepare(struct page *head_page, struct page *page)
- 			bad_page(page, "nonzero large_mapcount");
- 			goto out;
- 		}
--		if (unlikely(atomic_read(&folio->_nr_pages_mapped))) {
-+		if (IS_ENABLED(CONFIG_PAGE_MAPCOUNT) &&
-+		    unlikely(atomic_read(&folio->_nr_pages_mapped))) {
- 			bad_page(page, "nonzero nr_pages_mapped");
- 			goto out;
- 		}
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 8de415157bc8d..67bb273dfb80d 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -1258,6 +1258,16 @@ static __always_inline unsigned int __folio_add_rmap(struct folio *folio,
- 			break;
- 		}
- 
-+		if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT)) {
-+			nr = folio_add_return_large_mapcount(folio, orig_nr_pages, vma);
-+			if (nr == orig_nr_pages)
-+				/* Was completely unmapped. */
-+				nr = folio_large_nr_pages(folio);
-+			else
-+				nr = 0;
-+			break;
-+		}
-+
- 		do {
- 			first += atomic_inc_and_test(&page->_mapcount);
- 		} while (page++, --nr_pages > 0);
-@@ -1271,6 +1281,18 @@ static __always_inline unsigned int __folio_add_rmap(struct folio *folio,
- 	case RMAP_LEVEL_PMD:
- 	case RMAP_LEVEL_PUD:
- 		first = atomic_inc_and_test(&folio->_entire_mapcount);
-+		if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT)) {
-+			if (level == RMAP_LEVEL_PMD && first)
-+				*nr_pmdmapped = folio_large_nr_pages(folio);
-+			nr = folio_inc_return_large_mapcount(folio, vma);
-+			if (nr == 1)
-+				/* Was completely unmapped. */
-+				nr = folio_large_nr_pages(folio);
-+			else
-+				nr = 0;
-+			break;
-+		}
-+
- 		if (first) {
- 			nr = atomic_add_return_relaxed(ENTIRELY_MAPPED, mapped);
- 			if (likely(nr < ENTIRELY_MAPPED + ENTIRELY_MAPPED)) {
-@@ -1436,13 +1458,23 @@ static __always_inline void __folio_add_anon_rmap(struct folio *folio,
- 			break;
- 		}
- 	}
-+
-+	VM_WARN_ON_FOLIO(!folio_test_large(folio) && PageAnonExclusive(page) &&
-+			 atomic_read(&folio->_mapcount) > 0, folio);
- 	for (i = 0; i < nr_pages; i++) {
- 		struct page *cur_page = page + i;
- 
--		/* While PTE-mapping a THP we have a PMD and a PTE mapping. */
--		VM_WARN_ON_FOLIO((atomic_read(&cur_page->_mapcount) > 0 ||
--				  (folio_test_large(folio) &&
--				   folio_entire_mapcount(folio) > 1)) &&
-+		VM_WARN_ON_FOLIO(folio_test_large(folio) &&
-+				 folio_entire_mapcount(folio) > 1 &&
-+				 PageAnonExclusive(cur_page), folio);
-+		if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT))
-+			continue;
-+
-+		/*
-+		 * While PTE-mapping a THP we have a PMD and a PTE
-+		 * mapping.
-+		 */
-+		VM_WARN_ON_FOLIO(atomic_read(&cur_page->_mapcount) > 0 &&
- 				 PageAnonExclusive(cur_page), folio);
- 	}
- 
-@@ -1548,20 +1580,23 @@ void folio_add_new_anon_rmap(struct folio *folio, struct vm_area_struct *vma,
- 		for (i = 0; i < nr; i++) {
- 			struct page *page = folio_page(folio, i);
- 
--			/* increment count (starts at -1) */
--			atomic_set(&page->_mapcount, 0);
-+			if (IS_ENABLED(CONFIG_PAGE_MAPCOUNT))
-+				/* increment count (starts at -1) */
-+				atomic_set(&page->_mapcount, 0);
- 			if (exclusive)
- 				SetPageAnonExclusive(page);
- 		}
- 
- 		folio_set_large_mapcount(folio, nr, vma);
--		atomic_set(&folio->_nr_pages_mapped, nr);
-+		if (IS_ENABLED(CONFIG_PAGE_MAPCOUNT))
-+			atomic_set(&folio->_nr_pages_mapped, nr);
- 	} else {
- 		nr = folio_large_nr_pages(folio);
- 		/* increment count (starts at -1) */
- 		atomic_set(&folio->_entire_mapcount, 0);
- 		folio_set_large_mapcount(folio, 1, vma);
--		atomic_set(&folio->_nr_pages_mapped, ENTIRELY_MAPPED);
-+		if (IS_ENABLED(CONFIG_PAGE_MAPCOUNT))
-+			atomic_set(&folio->_nr_pages_mapped, ENTIRELY_MAPPED);
- 		if (exclusive)
- 			SetPageAnonExclusive(&folio->page);
- 		nr_pmdmapped = nr;
-@@ -1665,6 +1700,19 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
- 			break;
- 		}
- 
-+		if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT)) {
-+			nr = folio_sub_return_large_mapcount(folio, nr_pages, vma);
-+			if (!nr) {
-+				/* Now completely unmapped. */
-+				nr = folio_nr_pages(folio);
-+			} else {
-+				partially_mapped = nr < folio_large_nr_pages(folio) &&
-+						   !folio_entire_mapcount(folio);
-+				nr = 0;
-+			}
-+			break;
-+		}
-+
- 		folio_sub_large_mapcount(folio, nr_pages, vma);
- 		do {
- 			last += atomic_add_negative(-1, &page->_mapcount);
-@@ -1678,6 +1726,22 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
- 		break;
- 	case RMAP_LEVEL_PMD:
- 	case RMAP_LEVEL_PUD:
-+		if (IS_ENABLED(CONFIG_NO_PAGE_MAPCOUNT)) {
-+			last = atomic_add_negative(-1, &folio->_entire_mapcount);
-+			if (level == RMAP_LEVEL_PMD && last)
-+				nr_pmdmapped = folio_large_nr_pages(folio);
-+			nr = folio_dec_return_large_mapcount(folio, vma);
-+			if (!nr) {
-+				/* Now completely unmapped. */
-+				nr = folio_large_nr_pages(folio);
-+			} else {
-+				partially_mapped = last &&
-+						   nr < folio_large_nr_pages(folio);
-+				nr = 0;
-+			}
-+			break;
-+		}
-+
- 		folio_dec_large_mapcount(folio, vma);
- 		last = atomic_add_negative(-1, &folio->_entire_mapcount);
- 		if (last) {
--- 
-2.48.1
+Reinette
 
