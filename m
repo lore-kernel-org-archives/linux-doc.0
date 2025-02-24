@@ -1,102 +1,96 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A312571B6;
-	Mon, 24 Feb 2025 12:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D4A802
+	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 13:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740401393; cv=none; b=eHb0q/quEAtpzxyFbcYcLiCLjefNs32LLuujx7eV54DoKb9CEVS7eKPPxOJpm5W+PNKLxCtFrUFBvGyXx8jyMQm84tIk8SnwyJkPDfxPDJBv5QyByaQk/LhvKmwySYOcIIk42vEcGs+ByAbUt5WqPA+rpnLHXUbFpdNlnDUe85w=
+	t=1740402522; cv=none; b=TP3Qp0A0YMNFqwX35JzdtOAp6vXZW7060GPzmwTTfy30x6uLQO2xpGWHQQ1NYHU9G3L6HwuS1gg5qycT48l41Q7AB3Ycik9Q8P2q4xed64FgcEgTyX3JuUOWj3jhLIIX2SnHbVKF3+Z0VlZ0uo+boixr3kl3z8RTSQObFOdK1kY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740401393; c=relaxed/simple;
-	bh=artm3sYYZO++B9Dib2JcPiWfNmKPwS/KGkd1oxsTrP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PDCJQ/pURbC+Yujw/W+kDfvFevdDl0QeAWjbYIB9nnmoJ/90Cto5st9QCxkJY1F03cxYkWfe+d7yT6mHk0G+bNK7EjkG8UbxdTMExD1vz9IxQlBuKOlcypQMHpHyjrIpX4PedY6+TDCAzmdxLWdHqKzpKhfbp8KF0BBJD4HUld0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=crk26qRa; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1740402522; c=relaxed/simple;
+	bh=vFkgNlL2GRBYdnYTlALNbz0T+xDskFNaLNfE7IOTpyk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=snQ8JX26RhhPLIlISuq3wQgk89r3E3NvvOOurvAYPZ8wdOyFHIeSXhSU9ii/xgynBUgLIthZXQabdZcTY8fUeY6g3HO/YTXT4nIUI+tl7Jbe7WYOVvZAC0h3S8K7b4NF4+sRmb1lDyo/PiZrd0PW46bb/0biDM9FkK4vZLxddys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jomUHJSj; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="crk26qRa"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=hJylRD8fzAq3eOuue35FX0OJEQQRNNr5WEQuWoBz8dI=; b=crk26qRaBe6Jax9eNVfq+d5M7I
-	fKReB9gELCq0M7QRT2mRtHODhnfaFYp/cX54b/LqnCx59ypdK1/fw8AQuGKJtMFNN4eblc14CRGOQ
-	F66q9y6ombCeIYf5Afbo4kAcx/qkGpgeDLyjPMwjFAmmMFeC4AZn71rmEvdYEbVH+gQ4nCK6GosD2
-	/f5dPE8zzIO+8zCIw97f983HpA9OQ6dR0ZldLedO+oGJjRJF6dUnGcrKI+PUIduNFWu7KA0ObtaOK
-	6Vfe3QB14s9F89+J9pyy7f9E3Q3Uf4bMqmwItzrcNyR6tQ21Sdi6zIQAF4LXXarVu4R3dTxno9+jX
-	d6R80/Dg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:49744)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1tmXtn-0006Gq-2H;
-	Mon, 24 Feb 2025 12:49:27 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1tmXtf-00050L-1T;
-	Mon, 24 Feb 2025 12:49:19 +0000
-Date: Mon, 24 Feb 2025 12:49:19 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: Kory Maincent <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v5 09/12] net: pse-pd: pd692x0: Add support for
- controller and manager power supplies
-Message-ID: <Z7xqz-Z5UhqBQXnc@shell.armlinux.org.uk>
-References: <20250218-feature_poe_port_prio-v5-0-3da486e5fd64@bootlin.com>
- <20250218-feature_poe_port_prio-v5-9-3da486e5fd64@bootlin.com>
- <20250224134222.358b28d8@fedora>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jomUHJSj"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-220e6028214so92308495ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 05:08:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740402520; x=1741007320; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=b2lSJcTp72gnLdpPPLaeDu8bB/b/7dW2hbSTJFsMqt4=;
+        b=jomUHJSj7VnyR8Z4vYc9WbxWVFVrbL3O+YRXRmAvDpw0D5AZpHWzg28jZxteFwajdI
+         QuSUPy5fuCr40QHuyYOTws3mreAtKgoMz77PyDDN6mdl5mtruTfEkz9vQPpyJKL51Jja
+         wc+/FY65QCnqugk3ALsBadTS0yHTvvW2gFuNM7ss54LJA2RGvnab1PviKGABLtnUmAGP
+         5C3V6rL97ocSRiuoqDpr0Xgft8whEnahEXkbe9p2ss0GQngz4KNV/atfekbpZdFT2l88
+         5UcA3OhjN159C/luBMaAzfYPYTYL/nnHtGnSBtOPp5/5hwYewxDvZZ5iHPRxYXkdWTrF
+         XwLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740402520; x=1741007320;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b2lSJcTp72gnLdpPPLaeDu8bB/b/7dW2hbSTJFsMqt4=;
+        b=P95H35HSrF2eRH2YLLRSglxZhAWoilc+xeHTMP/+vkTjllkvPBjVa9epYSiup2IIVC
+         i8dCkblbsnxty6r9kkEpJJvVnRFVHXAH7Lhp/r2KXPxTicdQB43uOG2MhW4PZc5PApeJ
+         5xlKdnlIAM/CXjf7XLB1OuWaMe3l9c2ZCjS5GmKnf1xPbk6RgRKkxnPJ5Y2bIe6NaFQT
+         FLknhWfHOPgqs2Hbba4VwUeBaKMd9oOpU5MYpRoItZbIFADTGC6bXsDvJl+5mxiGbX83
+         yg/3j7CCOYJRn4A/lxJfXtnVjkumUeVVHcgTULITyX8iYXbIljOVq7KDp7v9htSsci+B
+         X3pg==
+X-Forwarded-Encrypted: i=1; AJvYcCXlgXf3a6HdO5s0a9qXetOmoGsmzGI5E/FzLsbrVlVVsT8fDdNmTHCEG301vlRyWpZZFahKnztelEs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK4m+BZVi7dEOdWCTMyUXHSnuN+RnlS4QJRvskIZFbdLJwgVRO
+	1l3HlLtQcLxYjA/2PXMZVU4HgfUmh0vTx+4M3ljk5awk/ehAtXQsVdH7mA==
+X-Gm-Gg: ASbGncsOJ5XA3B1laHiMYSJ74w++HRpybV9GqFaW8xbnT236qu9NDCzxgOv1sRg4tRF
+	heh3cEIe9SsahleQfKZI4uk3tQtHmtxds0awbCSKUkeB505GQsRneD/ab1HnIn/plAjI+Yzd/bx
+	8C+B1LeONgMTH98Jsd6XbCrEtyoo3yieVVMCkVBqvIcWedH031WVn0XTHrd/Ed9FWF3fsDh8vg5
+	R6CZLx4p4J66ZiluVbs70YePUu9s7pnP6d8WX2LH5oX+rZo4FyvxUAhNS/JKlJaalLQEP/baTN5
+	6Oz8PmsXYSMh6vPQB9A2F/YKhYQ5BsQn5Q==
+X-Google-Smtp-Source: AGHT+IF/DOeCCNghlFS1MFPQzcFBIxVcZ05fkRyF/HZ0gEeGfFNK9v+cWyriDW13OthC0lhXd6206Q==
+X-Received: by 2002:a17:903:32c2:b0:220:d1c3:2511 with SMTP id d9443c01a7336-2219ffb8514mr180904305ad.26.1740402519887;
+        Mon, 24 Feb 2025 05:08:39 -0800 (PST)
+Received: from [192.168.0.150] ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5366729sm180140585ad.79.2025.02.24.05.08.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2025 05:08:39 -0800 (PST)
+Message-ID: <905e5a4a-7e67-43fb-849b-d85dbafd7f56@gmail.com>
+Date: Mon, 24 Feb 2025 20:08:34 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250224134222.358b28d8@fedora>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: Disambiguate a pair of rST labels
+To: James Addison <jay@jp-hosting.net>, linux-doc@vger.kernel.org
+References: <CALDQ5Nz+O13EOSi6RYHbFXTqJKB-S8BBs6K+MBO7-vPgquJYAw@mail.gmail.com>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <CALDQ5Nz+O13EOSi6RYHbFXTqJKB-S8BBs6K+MBO7-vPgquJYAw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 24, 2025 at 01:42:22PM +0100, Maxime Chevallier wrote:
-> On Tue, 18 Feb 2025 17:19:13 +0100
-> Kory Maincent <kory.maincent@bootlin.com> wrote:
-> > diff --git a/drivers/net/pse-pd/pd692x0.c b/drivers/net/pse-pd/pd692x0.c
-> > index 44ded2aa6fca..c9fa60b314ce 100644
-> > --- a/drivers/net/pse-pd/pd692x0.c
-> > +++ b/drivers/net/pse-pd/pd692x0.c
-> > @@ -976,8 +976,10 @@ pd692x0_register_managers_regulator(struct pd692x0_priv *priv,
-> >  	reg_name_len = strlen(dev_name(dev)) + 23;
-> >  
-> >  	for (i = 0; i < nmanagers; i++) {
-> > +		static const char * const regulators[] = { "vaux5", "vaux3p3" };
+On 2/24/25 19:05, James Addison wrote:
+> Because reStructuredText does not provide lexical scoping rules for
+> labels, resolution of targets that have duplicate declarations is
+> ambiguous and produces nondeterministic output.
 > 
-> Looks like the 'static' is not needed here :)
+> To improve the reproducibility of the HTML documentation,
+> disambiguate two labels both previously titled "submit_improvements".
+> 
+> Version 2 of this patch is logically unchanged; a base-commit ref is
+> added, and unintended word-wrapping is removed.
+> 
 
-Have you checked the compiler output before saying that?
+Your patch did not make it to LKML because you sent it as HTML email.
+Please resend (better use git send-email).
 
-I've seen plenty of instances where "static" should be there but isn't,
-leading to the compiler generating inline code to create the
-array/struct on the stack.
+Thanks.
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+An old man doll... just what I always wanted! - Clara
