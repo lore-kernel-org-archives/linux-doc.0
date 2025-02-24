@@ -1,146 +1,191 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9D7155CB3
-	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 19:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AA51EA7E9;
+	Mon, 24 Feb 2025 19:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740424148; cv=none; b=Dc5Z34IqTuM0+rO67MopDXplP34qOcatNVS3FaVxaY8X+GFD4izrUx1HlAatsBMnsZqu6/RlJK4ppWEZMJdhLlu/weVLeOSEItZYpnD4ZSrRgjWllfGqHL8c9Qczt1FWKcQX2up4g9DIKjRP785tEldSMfbt9jnyZjaTvSsOc68=
+	t=1740425833; cv=none; b=Ez5oSGUDLBiaqR39alpK8hB7ANJXWzVHyUiTdLykBSZc7UTI/WTk2e3ohmUIlfBQv7jJrMe0l8HeALe+r/P9CKH6SUL0eAlHHrl5q0ZgWXeGrP7V1ZLx/0ypVBhTFQntLZrjEIfUAACD26quCEegb51B0VkLFMdgXk9Kk9yf9cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740424148; c=relaxed/simple;
-	bh=bCr8vR9eIpvmjDP2ky0jg3Mz8hl842I/M1iMYHRf9/s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eGHhVCgDPLDeQ/fctKlrEaSs3ahNWLSN4u8FA1g1opx1XZ+Z46e5QC0piETZk+FtiW3hS2ULsFRmqiODzMZLpVjrDXrBxZ92dogbBLqL/61XIhCoo1glV+21Bzy+yU6BQ3KpDLg2TlQY6WcslN/bpyg9xBNnObZt6M9u0H1/fX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ie63vOzC; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1740425833; c=relaxed/simple;
+	bh=CBPhLQED/x0eN0K2QJEk8i3hB7wXgz7VneaB0fejGrk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aQ2jQU3EyNCbrnnvifJLiT9MyteW7fDfC1Fe9XulHo3iap8QmFyvCWyK6gF46duBXg++i6BxxjyRmdKDMTiUn9iylLfq7bXeXPmTlDbzd9qfv5QhQxg4qkOLx5NbfdQQlVAY0Xd/GUq2ESwSvK2BvFuxt1xL7cEleWNn5j0QUxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=kT18x0Hk reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ie63vOzC"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51OFv3Nd012871
-	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 19:09:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	zavfbH1zR/1Hpjz69wllzxoWL+BaXWGYetefdcl5eoY=; b=ie63vOzCZ1O5web1
-	y34A/gcZOBLTWM7sX+71F1kllAlZ/z9IBPx1gEE0nLWuvnv8vjJH2wrkJAk3SXJY
-	vkqLeaCz3/GQQWxWF1WflBTpyX+ajBn/b3R/ihGAKumaf3ANILsmYDFwWmQLYxqc
-	TJnu9gMPKHHur543bb/rKNJLGaYLmQGhZgDsiizpcFkGwOdHszHoKBkWMEApGuAw
-	23z5lAGZ5J59dC98p/fOdPs0BAmYeQRIxMjQdKnj3uxrcntScJOHS5MXWzYq2HCF
-	6xGV5bfp2Z7AzkRjGMXzU6swerVk9rTx6Ax4j6FyZOUmhNTivqSyor/nayogqNLA
-	1oKpCA==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44y6t2p676-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 19:09:05 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-221063a808dso90249255ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Feb 2025 11:09:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740424145; x=1741028945;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zavfbH1zR/1Hpjz69wllzxoWL+BaXWGYetefdcl5eoY=;
-        b=t7RCjWBLPADmUEKwYXVWmnbCQVmHgpVI+f08XM+1A4BNLFrImTvZwodwuyhz1F8yBa
-         x/TsMCd3HkFRpAKyZ8PkbUyqy4dKsoKFpqHQhwapyRzquYavmClGsiR2qAakmFxclPo6
-         ozSX4auVw1f8tGQYUsg+HZZ40tlw+w/+HFFrAtsQl7EblhUmsdheP2M4OIYwMWevtlrJ
-         vHVHsuMc/DxL1OMb7sG68w6DMs3ymNfBzH5krqqVaCVNXVuH9fAwi5IBKv3FxOkvvTwp
-         gB9P4UQoPeTpHSHYtDm0e6hY0CVPdOb818QacsXsKbjLY6Ob8jeXa6r8HpNtsducmiTS
-         3uuA==
-X-Forwarded-Encrypted: i=1; AJvYcCXwSnVGeq9m5eQL5mVb6AYfJnEY6ZD9K4EGpkyhGMvjp0hrFAgBmhG/cEHJuJnYnHL2OlJHpi1v81E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoRmiU1VWRu+RBQUud/1srfuFpeX/QR8LpvoSpRbkhVrxPqCyf
-	4V1ngfkGHIRSJveu2VVT1aRlraFfDb4bOSs7Vywkh1xpxGVj1ZAoSw2c9LfzIC449R8tl3JYajY
-	qRZQyJdiTOiwownR8wjN3XknLtELQRExCxw2mx5U5HFzC7h405as4ykPLbGZ1oI8O4dw=
-X-Gm-Gg: ASbGncsMp/W9ISm7ElyLQyUlYUq1f9dPIuF9fAzgQKVHnSIkQvv/JBrf8lTcJaAobEy
-	sax7b28XMBg2dlukmdP6KE6BD1vhA68AanCPJxyqsG+LHsNaj5ZIdaRsXxqwr/Wipl7Wmd7Atfr
-	sNqBvfec72kjO6S/RFPUOmLqybvrvKNF0cYOKcaI1VkwbD7ip7tpoX5Ibn9Qf8rTI6aR9OV5JDc
-	pTgrWNISWSBLrjmNa/oAFUXBXnx55kYLoLbbAjKF2/uA/QZ4p+5k8061U1SqPtMnBpR/FHuHJnW
-	wMWZt/trLQgeNppu0Onx5IwCLDd85Mq5BGyyANlh8p5BP+PhtZ+wnRo5Ncxz045B9adVWp4B/mA
-	Fdg9FlBM1
-X-Received: by 2002:a17:902:d485:b0:216:4c88:d939 with SMTP id d9443c01a7336-221a001566bmr251110775ad.38.1740424144833;
-        Mon, 24 Feb 2025 11:09:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGcdxrqY3Lyk9CkgTZBMPvmDZreZBBgsyz9s8m4CzkH23FajmfKJsLRld5cYoHmaSFvTzGfDw==
-X-Received: by 2002:a17:902:d485:b0:216:4c88:d939 with SMTP id d9443c01a7336-221a001566bmr251110365ad.38.1740424144434;
-        Mon, 24 Feb 2025 11:09:04 -0800 (PST)
-Received: from [192.168.1.111] (c-73-202-227-126.hsd1.ca.comcast.net. [73.202.227.126])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d6fa9b75sm181348775ad.199.2025.02.24.11.09.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2025 11:09:04 -0800 (PST)
-Message-ID: <763bd905-6f1a-42a9-9f81-acecd98131a4@oss.qualcomm.com>
-Date: Mon, 24 Feb 2025 11:09:02 -0800
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="kT18x0Hk"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D6FCF40E01A3;
+	Mon, 24 Feb 2025 19:37:05 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id IKUAZOsL-R_7; Mon, 24 Feb 2025 19:37:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1740425820; bh=/I7UvVp78GuoiFfwU5oCzidB3aFWz97s8y37YiINiW0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kT18x0HkzoNNjITX7Y1H0zFXAeJC8KhjcBMlzgogcFebS6uSQ+xMy8b+fFWJvMXFY
+	 oNQia6JMcQJSYF8qZ/IF2iWa8futXxRutYl3f/A/k/+lDKCVL7hmeY71ucQ9OmcQaY
+	 LFxA6X+deIT3WzSiiIvoi1Dt96SLEoEFSgG0AN/i0tboUcO9wLn1g8sTIASRQG5FCU
+	 bHDvd2HDpeCYEjr/AFBcGu0XhqUkg4DCnwJo0FXT252RwT7683tKcgaUDy7n7VmXRb
+	 cxFfdFcfOal/qwylPkPoB0oNXnKUhNfdHFaKdxbAidqZsEWtAWuJSN9FVoqNjeloT9
+	 Wwp6PYYYvlIqwiCuRhRnBkdqfwuktKmsn6RChjFEYP4bQVZJZIXXhgs3HZivPM1apA
+	 FIoDR7VdJA7lxRMIObtNg5zsnb9sq6f4A3KNV+slNi3KuVqeU10c3UVaHKYvfHpTJX
+	 FD6QWc30VS7dvbycZMUoDD69NQWFO5B3MUhjDCjp/SOlT8brQ27qIWtyEa0fmYDWVm
+	 AixotFlxrj05ky+j2KUgKwIOR5MRxV4XCz/cmfBFiGlKEBDdkb9RBGQ+Tu+2lBeD88
+	 dYFiS+jNw3bi6h90zMz7v4vXeAqb8JZkiHcGs2iHdnEET2VQ1C/8o+/fJqSEPd3VsQ
+	 +0uJXgy5nBAcPn9NDNHEFRu8=
+Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9CBA140E0184;
+	Mon, 24 Feb 2025 19:36:15 +0000 (UTC)
+Date: Mon, 24 Feb 2025 20:36:08 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Shiju Jose <shiju.jose@huawei.com>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"tony.luck@intel.com" <tony.luck@intel.com>,
+	"rafael@kernel.org" <rafael@kernel.org>,
+	"lenb@kernel.org" <lenb@kernel.org>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"dan.j.williams@intel.com" <dan.j.williams@intel.com>,
+	"dave@stgolabs.net" <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	"dave.jiang@intel.com" <dave.jiang@intel.com>,
+	"alison.schofield@intel.com" <alison.schofield@intel.com>,
+	"vishal.l.verma@intel.com" <vishal.l.verma@intel.com>,
+	"ira.weiny@intel.com" <ira.weiny@intel.com>,
+	"david@redhat.com" <david@redhat.com>,
+	"Vilas.Sridharan@amd.com" <Vilas.Sridharan@amd.com>,
+	"leo.duran@amd.com" <leo.duran@amd.com>,
+	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
+	"rientjes@google.com" <rientjes@google.com>,
+	"jiaqiyan@google.com" <jiaqiyan@google.com>,
+	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"jthoughton@google.com" <jthoughton@google.com>,
+	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>,
+	"erdemaktas@google.com" <erdemaktas@google.com>,
+	"pgonda@google.com" <pgonda@google.com>,
+	"duenwen@google.com" <duenwen@google.com>,
+	"gthelen@google.com" <gthelen@google.com>,
+	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
+	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
+	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
+	tanxiaofei <tanxiaofei@huawei.com>,
+	"Zengtao (B)" <prime.zeng@hisilicon.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>,
+	wanghuiqiang <wanghuiqiang@huawei.com>,
+	Linuxarm <linuxarm@huawei.com>
+Subject: Re: [PATCH v20 00/15] EDAC: Scrub: introduce generic EDAC RAS
+ control feature driver + CXL/ACPI-RAS2 drivers
+Message-ID: <20250224193608.GBZ7zKKAumB312YZnA@fat_crate.local>
+References: <20250212143654.1893-1-shiju.jose@huawei.com>
+ <20250224115002.GCZ7xc6o3yA1Q2j85i@fat_crate.local>
+ <71ad0c8c6a304b2d9a62f49983c3d787@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] checkpatch: Add support for checkpatch-ignore note
-To: Brendan Jackman <jackmanb@google.com>, Andy Whitcroft
- <apw@canonical.com>,
-        Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20250115-checkpatch-ignore-v2-0-8467750bf713@google.com>
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20250115-checkpatch-ignore-v2-0-8467750bf713@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: Y4cOvmjMYlpBvJ1I6GeLPUOBzmdcKiRW
-X-Proofpoint-GUID: Y4cOvmjMYlpBvJ1I6GeLPUOBzmdcKiRW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-24_09,2025-02-24_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 phishscore=0 malwarescore=0
- adultscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2502240124
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <71ad0c8c6a304b2d9a62f49983c3d787@huawei.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 1/15/2025 7:33 AM, Brendan Jackman wrote:
-> Checkpatch sometimes has false positives. This makes it less useful for
-> automatic usage: tools like b4 [0] can run checkpatch on all of your
-> patches and give you a quick overview. When iterating on a branch, it's
-> tiresome to manually re-check that any errors are known false positives.
-> 
-> This patch adds a feature to record in the patch "graveyard" (after the
-> "---" that a patch might produce a certain checkpatch error, and that
-> this is an expected false positive.
-> 
-> Note, for Git users this will require some configuration changes to
-> adopt (see documentation patch), and not all tools that wrap Checkpatch
-> will automatically be able to take advantage. Changes are required for
-> `b4 prep --check` to work [0], I'll send that separately if this patch
-> is accepted.
-> 
-> [0] https://github.com/bjackman/b4/tree/checkpatch-ignore
+On Mon, Feb 24, 2025 at 06:30:48PM +0000, Shiju Jose wrote:
+> Testing rest of the patches for CXL RAS features and ACPI RAS2 scrub fe=
+ature
+> in this branch are worked fine.
 
-While this addresses one issue with checkpatch, it doesn't solve what I
-consider to be a bigger issue, namely to have a way for checkpatch to ignore
-false positives (or deliberate use of non-compliant code) when run with the -f
-flag.
+Thanks.
 
-I don't know how many times I've seen new kernel contributors try to "fix"
-checkpatch issues as their first commit, and contribute broken code in the
-process. This is especially true when trying to "fix" macros.
+Unfortunately, my randbuild tests trigger issues:
 
-So IMO what would be more useful is to have some way to document these
-overrides in the tree so that they could be honored both when processing
-patches as well as when processing files.
+In file included from drivers/edac/mem_repair.c:12:
+In file included from ./include/linux/edac.h:16:
+In file included from ./include/linux/device.h:15:
+In file included from ./include/linux/dev_printk.h:16:
+In file included from ./include/linux/ratelimit.h:6:
+In file included from ./include/linux/sched.h:13:
+In file included from ./arch/x86/include/asm/processor.h:19:
+In file included from ./arch/x86/include/asm/cpuid.h:71:
+In file included from ./arch/x86/include/asm/paravirt.h:21:
+In file included from ./include/linux/cpumask.h:12:
+In file included from ./include/linux/bitmap.h:13:
+In file included from ./include/linux/string.h:392:
+./include/linux/fortify-string.h:571:4: error: call to '__write_overflow_=
+field' declared with 'warning' attribute: detected write beyond size of f=
+ield (1st parameter); maybe use struct_group()? [-Werror,-Wattribute-warn=
+ing]
+  571 |                         __write_overflow_field(p_size_field, size=
+);
+      |                         ^
+1 error generated.
+make[4]: *** [scripts/Makefile.build:207: drivers/edac/mem_repair.o] Erro=
+r 1
+make[4]: *** Waiting for unfinished jobs....
+make[3]: *** [scripts/Makefile.build:465: drivers/edac] Error 2
+make[3]: *** Waiting for unfinished jobs....
+make[2]: *** [scripts/Makefile.build:465: drivers] Error 2
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/home/amd/kernel/linux/Makefile:1989: .] Error 2
+make: *** [Makefile:251: __sub-make] Error 2
 
-Note that thanks to Kalle's work, the wireless/ath drivers have their own way
-of doing this, but of course that only works if you run the scripts.
-checkpatch run normally would still flag the issues.
+That's a allmodconfig-x86_64-clang build.
 
-more surgical:
-<https://github.com/qca/qca-swiss-army-knife/blob/master/tools/scripts/ath12k/ath12k-check>
+gcc triggers it too:
 
-less surgical:
-<https://github.com/qca/qca-swiss-army-knife/blob/master/tools/scripts/ath11k/ath11k-check>
-<https://github.com/qca/qca-swiss-army-knife/blob/master/tools/scripts/ath10k/ath10k-check>
+In file included from ./include/linux/string.h:392,
+                 from ./include/linux/bitmap.h:13,
+                 from ./include/linux/cpumask.h:12,
+                 from ./arch/x86/include/asm/paravirt.h:21,
+                 from ./arch/x86/include/asm/cpuid.h:71,
+                 from ./arch/x86/include/asm/processor.h:19,
+                 from ./include/linux/sched.h:13,
+                 from ./include/linux/ratelimit.h:6,
+                 from ./include/linux/dev_printk.h:16,
+                 from ./include/linux/device.h:15,
+                 from ./include/linux/edac.h:16,
+                 from drivers/edac/mem_repair.c:12:
+In function =E2=80=98fortify_memcpy_chk=E2=80=99,
+    inlined from =E2=80=98mem_repair_create_desc=E2=80=99 at drivers/edac=
+/mem_repair.c:325:3:
+./include/linux/fortify-string.h:571:25: error: call to =E2=80=98__write_=
+overflow_field=E2=80=99 declared with attribute warning: detected write b=
+eyond size of field (1st parameter); maybe use struct_group()? [-Werror=3D=
+attribute-warning]
+  571 |                         __write_overflow_field(p_size_field, size=
+);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~
+cc1: all warnings being treated as errors
+make[4]: *** [scripts/Makefile.build:207: drivers/edac/mem_repair.o] Erro=
+r 1
+make[3]: *** [scripts/Makefile.build:465: drivers/edac] Error 2
+make[3]: *** Waiting for unfinished jobs....
+make[2]: *** [scripts/Makefile.build:465: drivers] Error 2
+make[1]: *** [/home/amd/kernel/linux/Makefile:1989: .] Error 2
+make: *** [Makefile:251: __sub-make] Error 2
+11-22-09-allmodconfig-x86_64-20849.log (END)
 
-/jeff
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
