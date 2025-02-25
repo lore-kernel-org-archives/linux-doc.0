@@ -1,142 +1,161 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F04A2690CF;
-	Tue, 25 Feb 2025 13:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A055268FDB;
+	Tue, 25 Feb 2025 13:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740489167; cv=none; b=HwzfMwe1XQfxvhzSsPLwXrzhJA7cFb2+XY8dbWkCLsVTYHOjWgiELypYjffrMz3NQafct3KYu5SSEf34pe6wmJnf5wF4+wEadvCGf0GJj6+Uqzk552ags41clIJZzWN+sdQ+nT//CGr5YTzHqw3S5PTRkJ71bF71IGgHFCFA3iw=
+	t=1740489249; cv=none; b=Q1ryTaQ/Y5ct/hPA04oQysfIwlGS6DANebokKWWgeFsFAasTWcrhD67lzjZVaO9nFWz136eE/Ej9fVGNNS+pvJ+1hnmSZGJx/RroVnlcKgxxeL2eSnDmp6TOS1ht4KtifcE4KnksWsXKx5m9Mf5tHJVJ1shNkOgXzH2WI8u/KPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740489167; c=relaxed/simple;
-	bh=3WjxgzbN4yGK9NfJVETwPvCEg4jcFsjHzAIqxYBtDuE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nFMv6WAHpFhEJ33ir+wgF5WZ8QAA2i7bobvtpjrMtZI7pBZzt7zmD3T9eCB+u2bIt5w9WmyNDipFgcwZy44sFfCDqbD+c7gzGpYjuKPyszusdhyiAVOfvrzakmlwp5K651l0ZKfBsWmt10aQMS6clS/6di23reWorpEgcBHZm4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+	s=arc-20240116; t=1740489249; c=relaxed/simple;
+	bh=v1iIaERknrbs8eqWlTOb/MgMkMtkVDqJt5teF3ovGX0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ni/nOR2w9cufLLaYiKdJInU3yDd263CR5GEZvABJDEqWk5XOmLNV2Edv96WYMGTAFpsgbIw1t9Q4iPkKPJ6V2koB9j1+VCOKZZs/5uIAHrH+xVYJYBBn1IQzMW2llsIRJjtkCU9ZCav4ncn7rC0WNUkdaZVwzkqQW53hLbr3jHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QWkh7cpj; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5e05780509dso7873066a12.2;
-        Tue, 25 Feb 2025 05:12:45 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QWkh7cpj"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-222e8d07dc6so37664805ad.1;
+        Tue, 25 Feb 2025 05:14:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740489247; x=1741094047; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=sYLcWu+xpfN0lDdZpNbKgmtUozIU0xde+CMOHsFz2oM=;
+        b=QWkh7cpjXk9zH33ZTrEVDc7sskl4Epabbf7Lh0AA/204wbWWuIdntPI2Hm6nz4IVLx
+         WAQ3eP3+kzj67hCvHsmvoimZWTeFsmJwoseuqjudjyAUHl66yT+cKLY51W3lfZFWdSkK
+         cZosshd+vW09EEL7n6w/p60fqk5S1bkv1ongwoPbfxLBwbU2LpKXWaS16BQV8Olqw6Zc
+         +kS10e4tFrXuh1ng0iFgn+V+ernPWaCMSLmeL7/v4G1YyB8Y9gozul9d6Da59LmIa9Vb
+         PtcMgM+NfD8F7ek4/6ZN32ktLuSaDS2O+lCA+M7COjjmWudndORSahxRdn4EFq2Eg5bk
+         y+lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740489164; x=1741093964;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1740489247; x=1741094047;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=huyKeKicvAsO+vZpf8pNQmuBsQVHWr+7B6dkrLsJZHE=;
-        b=i5SPtjS29YKjSK3A6OFokznpbkHo88irxGwV2KMKqRNHW6Xsi6TCha2P2KcrSNVn+6
-         qZt6KhxKoeJy8ZqM7RKdyCTi9VDESOagQOiI43RnKZOTJOVlVTGM6Mm/oz3epBoMBhRo
-         Dz1Lc4qRLu0LjewD4Ki0j9vHePqueWfb9Co/IgOMfdyhqwL6b0Mv/L3wneaDDKYoxm6J
-         8PAa9ixGJwj5FFqrpSPfXdwztazida1SVhbTlZY12bN8ZppTdrfo83tTMbYPHSPb4Gq8
-         /bc62AIEzwLF8oaM7VkP6LhYagskPxPNDWvsk4PWoZ9ZZBmGoqNSdKdt6s2xUCkilsmD
-         vXAA==
-X-Forwarded-Encrypted: i=1; AJvYcCVk/Cx1TZM/8mJLHKvNo8nHT/U8lY4KC3lmOWCfO9KLggpv8duUrcfjgSHtuoAWBkI8jzbsdd/ujvuyfJ7wwdte@vger.kernel.org, AJvYcCWE3MEufr8X7nqLAfXqucsWHl6PjVf1KaITgmGjqvT04prE1H0ld/7OfqaHaXWyBs/G+IAwhVHKcug=@vger.kernel.org, AJvYcCWU8aOL0Q25dqUxnSSSu2lcI1c4dfTaQ2RNSC/fNfhWvwLgfec1kQLgATjJSbV/8gnUmQ5eCCyrEh/o/3V2@vger.kernel.org, AJvYcCWbTB0ja6xLPkJSeuEpnnGuBJlt6vRKhUG/W4GPlwyQqGRYMfNoC40pHNq/QsPHwErY9NfCBFhj@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJNji9mVw7T2REL8gzj0MBKtr0hT+dm/nDBo05Xb5vcy++LMLd
-	K61vXykTyxxBJlJm3BgCs41BHL4+TiUaJs8kOlwydwhx50hMQQzd
-X-Gm-Gg: ASbGncuOWxnNdd2UfSyt3ch3ETgV3TjvGVs0T34imt6HO7c9X7y5NOmNyDOu9y1t6EP
-	bWHtHSd570Tvu1fkkETMokjnYxvs74v8qIV5cDafmQAPY3TKJl+dAlmyAi8A/+1p9tHLAeDBtnx
-	gfySrcY2cbf83/cpgGqk1UHfmWvLaceEyYC4xpKaII7/TZn5z0jHRV91ZBrj/7hGt99nCyxkQMm
-	nfj4VSGqdsbOZqLbRkLTR7z1YPZQvEbv+ccnv+ptcEwpjU1v+BBV2ZBBNChOkRv3J/3Xif12ibF
-	NJLLHbWvQwn5k7Oe
-X-Google-Smtp-Source: AGHT+IFlxa/+8iEwcPmxNR8k8h8OkLnc2bi5Cian4c/8JlV7dVrkWbU9Bfqx1Ids2urTRQbj+bOtvg==
-X-Received: by 2002:a17:907:7d8e:b0:ab7:ef48:1668 with SMTP id a640c23a62f3a-abed10feb98mr355246166b.57.1740489163680;
-        Tue, 25 Feb 2025 05:12:43 -0800 (PST)
-Received: from gmail.com ([2a03:2880:30ff:6::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abed1cdbe0asm139551366b.36.2025.02.25.05.12.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 05:12:43 -0800 (PST)
-Date: Tue, 25 Feb 2025 05:12:40 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH net-next 4/7] netconsole: add configfs controls for
- taskname sysdata feature
-Message-ID: <20250225-persimmon-narwhal-of-management-41bafb@leitao>
-References: <20250221-netcons_current-v1-0-21c86ae8fc0d@debian.org>
- <20250221-netcons_current-v1-4-21c86ae8fc0d@debian.org>
- <7309e760-63b0-4b58-ad33-2fb8db361141@redhat.com>
+        bh=sYLcWu+xpfN0lDdZpNbKgmtUozIU0xde+CMOHsFz2oM=;
+        b=YfsParCCH/mg6wwfeXldOn8ZccNOFfZ2gzsMeCTTh5LJVtjsWnW1RhucRsFCFS78Ke
+         ho5iH++vJirf4CyLAkQAd0mfGStUG8vkm6yCIniCL3LtH+QGb7ZaRMh8IYbmwx3WewuR
+         hFPkhq8x4XQBKJR3tQPWSNDUQgaY9c+9QBgzeYk0SlgkfpAhRlQwI6/Oa/zCeSByiSAW
+         kqGKOslHIQD5/Qe9WDQSzuhSuuAbf5Oeq75VHHD1RH3jV4331WuQVLr15XdrfQlJhQZa
+         hLTweJFHDtD/r3GKsB7SEMVmqInoh4HEbEZXMpuiQ5Tl9jOjadK9DrfSR8jNyvwkVWtx
+         fWYw==
+X-Forwarded-Encrypted: i=1; AJvYcCVMC/jEiKPw/7Ev3z9zF/3ueOtXRq+poxzhtjPqAaQ/RBSnb/+PJoqSM8LPoIZ1SgtJicHJARKDFjfgRQED@vger.kernel.org, AJvYcCWsxQNq9gTrODK9zvofZSDZjx+Q+RrT5gbQmrn9ksiKng8GMY9DlA1cF9NwlkoJ8K2Q5lq4NztSieA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPHH/oQR2OuBYEGvZcjNfGS8Qfd3ZSWpCAy1eR9z/lUAKY6hOG
+	cJLmxdH6UX0Muidi5WVLBMdU0vFxgaDFanP6vNMsOyFH2TY64hXW
+X-Gm-Gg: ASbGncuJqJIYB7Nz824AK/cIGCazUOYKZic4oasLLLvn/4i0wKwMzTgmNLKpLrD9qXd
+	SSTUnRk117xycTtKT3pW8HYMBQjPVs21cDFj7pcRvVEdJ9B8nvahsQNTSbpFURJDRKxy/zJnp05
+	kM8U++aYFarNF5qrqGODxEwkY2FlBNoSlXBTrjSV8+/YIgyrU/RwgaEn1mSnk9ZEGfeZkK6yRUC
+	iOUx1RIxIJbOiZXUDFPeT4sLJfg/Es3UWMjKgBBqsypd0o5xZJzfEkd7lD8u8fNwKnJEkbfSJ5u
+	kbFSm4Dvrcj21ELuvrs8VnNrT3d6YzSWb6lWhaKrbQU+XCjDBki10EhFfQ3yGX2Sy3B6uzkkS3M
+	=
+X-Google-Smtp-Source: AGHT+IF9xSVNNuEnu6Nb7s+MD3IYoAuPzopICChiSlU5gJPgycSfrX2OtQiuNgsgcv93eNwA8suD2w==
+X-Received: by 2002:a17:903:32c7:b0:215:5600:18cc with SMTP id d9443c01a7336-221a0010c3amr294829325ad.22.1740489246673;
+        Tue, 25 Feb 2025 05:14:06 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2230a0aec2dsm13697015ad.221.2025.02.25.05.14.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Feb 2025 05:14:06 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <3308b190-b639-4aff-a1f8-3ad9761dd991@roeck-us.net>
+Date: Tue, 25 Feb 2025 05:14:05 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7309e760-63b0-4b58-ad33-2fb8db361141@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drivers: watchdog: Add support for panic notifier
+ callback
+To: George Cherian <george.cherian@marvell.com>, wim@linux-watchdog.org,
+ corbet@lwn.net
+Cc: linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250225095203.2139482-1-george.cherian@marvell.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20250225095203.2139482-1-george.cherian@marvell.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 25, 2025 at 12:41:50PM +0100, Paolo Abeni wrote:
-> On 2/21/25 2:52 PM, Breno Leitao wrote:
-> > Add configfs interface to enable/disable the taskname sysdata feature.
-> > This adds the following functionality:
-> > 
-> > The implementation follows the same pattern as the existing CPU number
-> > feature, ensuring consistent behavior and error handling across sysdata
-> > features.
-> > 
-> > Signed-off-by: Breno Leitao <leitao@debian.org>
-> > ---
-> >  drivers/net/netconsole.c | 50 ++++++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 50 insertions(+)
-> > 
-> > diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-> > index 1b109f46512ffb7628c6b34c6efdfc301376dd53..5a29144ae37ee7b487b1a252b0f2ce8574f9cefa 100644
-> > --- a/drivers/net/netconsole.c
-> > +++ b/drivers/net/netconsole.c
-> > @@ -426,6 +426,20 @@ static ssize_t sysdata_cpu_nr_enabled_show(struct config_item *item, char *buf)
-> >  	return sysfs_emit(buf, "%d\n", cpu_nr_enabled);
-> >  }
-> >  
-> > +/* configfs helper to display if taskname sysdata feature is enabled */
-> > +static ssize_t sysdata_taskname_enabled_show(struct config_item *item,
-> > +					     char *buf)
-> > +{
-> > +	struct netconsole_target *nt = to_target(item->ci_parent);
-> > +	bool taskname_enabled;
-> > +
-> > +	mutex_lock(&dynamic_netconsole_mutex);
-> > +	taskname_enabled = !!(nt->sysdata_fields & SYSDATA_TASKNAME);
-> > +	mutex_unlock(&dynamic_netconsole_mutex);
-> > +
-> > +	return sysfs_emit(buf, "%d\n", taskname_enabled);
-> > +}
-> > +
-> >  /*
-> >   * This one is special -- targets created through the configfs interface
-> >   * are not enabled (and the corresponding netpoll activated) by default.
-> > @@ -841,6 +855,40 @@ static void disable_sysdata_feature(struct netconsole_target *nt,
-> >  	nt->extradata_complete[nt->userdata_length] = 0;
-> >  }
-> >  
-> > +static ssize_t sysdata_taskname_enabled_store(struct config_item *item,
-> > +					      const char *buf, size_t count)
-> > +{
-> > +	struct netconsole_target *nt = to_target(item->ci_parent);
-> > +	bool taskname_enabled, curr;
-> > +	ssize_t ret;
-> > +
-> > +	ret = kstrtobool(buf, &taskname_enabled);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	mutex_lock(&dynamic_netconsole_mutex);
-> > +	curr = nt->sysdata_fields & SYSDATA_TASKNAME;
+On 2/25/25 01:52, George Cherian wrote:
+> Watchdog is not turned off in kernel panic situation.
+> In certain systems this might prevent the successful loading
+> of kdump kernel. The kdump kernel might hit a watchdog reset
+> while it is booting.
 > 
-> Minor nit:
-> 	curr = !!(nt->sysdata_fields & SYSDATA_TASKNAME);
+> To avoid such scenarios add a panic notifier call back function
+> which can stop the watchdog. This provision can be enabled by
+> passing watchdog.stop_on_panic=1 via kernel command-line parameter.
 > 
-> would be preferable, and more robust if later on other SYSDATA_ bits are
-> added, 'moving down' SYSDATA_TASKNAME definition.
-> 
-> Also it would be more consistent with previous usage in
-> `sysdata_taskname_enabled_show()`
+> Signed-off-by: George Cherian <george.cherian@marvell.com>
+> ---
+> Changelog:
+> v1 -> v2
+> - Remove the per driver flag setting option
 
-Good point, in fact. I will update!
+You didn't actually remove it.
 
-Thanks for the review,
---breno
+> diff --git a/drivers/watchdog/watchdog_core.c b/drivers/watchdog/watchdog_core.c
+> index d46d8c8c01f2..8cbebe38b7dd 100644
+> --- a/drivers/watchdog/watchdog_core.c
+> +++ b/drivers/watchdog/watchdog_core.c
+...>
+> +/* Use the following function to stop the watchdog on panic */
+> +static inline void watchdog_stop_on_panic(struct watchdog_device *wdd)
+> +{
+> +	set_bit(WDOG_STOP_ON_PANIC, &wdd->status);
+> +}
+
+Under what circumstance could or would a _driver_ request this ?
+I do not see the use case, sorry.
+
+Guenter
+
