@@ -1,135 +1,196 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2059.outbound.protection.outlook.com [40.107.102.59])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A3514830F
-	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 16:01:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740499288; cv=none; b=Hal9zUYFi1u5S5+/mA+Q7qalgux4K8jEU+5z2BFrVgs9yJo202FfWYXt17Od4Wh4SmgyyFjnhvTzQ/TRmEyMFkWooezxb3ZkJffatMagSwDYt5Ni4uTlwRxYVAkllWfgP8Ag2uKVB/C2eBtrlfsl7gqLduIxUJMo7MQryg0MxfQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740499288; c=relaxed/simple;
-	bh=p7TD3Go22x7b2dc7NZP8nHVeDDYqMnRGFaDWmNw/XHs=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=UY/5f51dwEDz6y9U082/rLEo98HTGpptO8fvaH3PHM2yphRucFnrHefqPVJ/n/66pNUVMurwZeeAk3SgBDZYdoUnAydR9CImLUIZs87vTDj4nCF6pHzieA5GcBJeCQeVbWuLPaa4TMGOp0c99vwzHkJjxhXNSFuFGvEYL+vcjoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c/6l+hEt; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD68B2FB2;
+	Tue, 25 Feb 2025 16:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740499354; cv=fail; b=nnykBCHXgVxYmMI0H1Ae0ii/J8b0kGjByVfrjEqFFemSmK1qrcdO0Wo7KgD+rqsylAfF9svT9goj6MYeXY1h0TGr8Z59dc6A+9qD+JpPr611GmwoArclIdkRy9eTH5TZsCj37WzEHBQHSt4sR6Fgroou2y5qA03VcQvinsKP6Hk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740499354; c=relaxed/simple;
+	bh=UMXEncrRz0G/lPpoMWqf8G8Po6JU06tGYdNsievbdlc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=WMBnZ1ZDgaOLYzN7fP3d+9yEqtZP6qPoDNxFSvd+Z+pIVQZB1njMz1DCQksEBEMVMWBllON/vVMSp2LGBPcDqdiaxu53qc5ozEvGaOS5VB+B51d5s3o53qy4iqeMEKbRtAiQU78SgDUJrRlccTsHsw0kyAT6PQC7+NuZbm/Hd7c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=gPRxgt7u; arc=fail smtp.client-ip=40.107.102.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c/6l+hEt"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-220cad2206eso125713875ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 08:01:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740499285; x=1741104085; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1LxD0tQorOHIkEX1Wne9NF5WWRrn54kUL0zS9HrlpVk=;
-        b=c/6l+hEtrexqRLjIibdArlV4tq23vAQDhIhQeB7fa1VY2FLyTIoxRHtg3TWcCAUqqz
-         WOJ1RC6hXflwL2AMaMui98Wih3LcqFQuCHT7NvwPjr/CE50BjeLyREcC3RzIysK6pfN4
-         91JIiEsDHgwOnG8/ahRKb+LXFpDBuZgFg9AzuTMgvbMUrGEk/jdvM5bKjRzqcXv+Gke0
-         ceINbRwG4y+bQ46ClVFzJqeNW8kc1/KTI87SNr+U0zcvztyzQ/mkjqvmqnJobpu3k2XX
-         0YRHiNneOuHBCk/sQqcYYRx3mPCy3y1v4LsL7uaQh17pUFPAQ0qg1tyhGuIqsTS6W2UL
-         hdKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740499285; x=1741104085;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1LxD0tQorOHIkEX1Wne9NF5WWRrn54kUL0zS9HrlpVk=;
-        b=WO5Z3O4RrHg3ysxZmd1j0EgHzECdHIb5zw9+XK8sY8Ce9QvTyRrpwFs00aEh7nZpjB
-         SlWeXlqcGFkRuh1dgTeGVcWEecVoLpR9JXxWgVeGEBKFrowhSP7nTN7woDWgJk0iZBIc
-         oIkADJ5UIvCG6xRooGab/QgsTF6F5f2y0lPicX2K6mDcZsEyY95aN3O5WI6D2qzyeSlP
-         Yf8vqYgWinWdrrAmNXAolNItXBJ+K7ZLhPGoG9lkkXw5INZSN1awTiXxjxyUkJDtN7wZ
-         D7spX1N+B+lu/AKmyI8ACN+ALhnyX77q/XLaoEzc0a06kqSQTas7L6H3z1SKLFv6p7Vr
-         XQDw==
-X-Forwarded-Encrypted: i=1; AJvYcCValNjxYRmR4BYRkx7VTAOo8B6uuqGqb64VYdRIZvM0OYNY/8V9s2acX0nJYpPA+HGqVIEFgzKDa9U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy54s8TPR5EpYv0Wuo7as5R0+LoU5obw9vAokkrpQZDDrWXpQFb
-	jApl+mFCnaB5Se3j75VdxdZ0XBERhcBkbUxhmQrmaJhXrfziQbBfArnv4yUwx9xnDwW3QGGqR89
-	4ig==
-X-Google-Smtp-Source: AGHT+IEBXqMORvCpUqsfkZoTABv8DWEBYtiJakKmy5X9+czevxUoPIQVz54F8dk3PSNGmGOA4AqRgSPCRVw=
-X-Received: from pjbsy7.prod.google.com ([2002:a17:90b:2d07:b0:2ea:5084:5297])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f542:b0:220:d909:1734
- with SMTP id d9443c01a7336-22307b52281mr68919445ad.14.1740499284799; Tue, 25
- Feb 2025 08:01:24 -0800 (PST)
-Date: Tue, 25 Feb 2025 08:01:23 -0800
-In-Reply-To: <edcdad12-bbb7-46b9-8914-9bbb36b44597@zytor.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gPRxgt7u"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YG2k6BSSqneo+G7tKMPUt4AIlMuimDn/jsvY2NrDoH0YrSFrETKY6aeHU03yZ1k85xm5bowHrNnL+6Me1RCap2mD4ld8Yj8jbT55/4XGTCOf3O4wB8LgJTECgrXrZx3RM5nZdR6NlgdwJjouu/PQvUfMhsZEESpgerqam1mtJPCtTdrnGsAkTPa2BtCeJFxW5lVl66fuFmJ1awyHDo5zPh061p4KhK8Y7lBDuVdH/Z560wv2S7quLS27LRk6XQ2RGHP63ZTXwi79odXifrobUN8XGdA9eH/l/ySkFnnS4SeEy7w4zSN8nimXtVQHqB43F5l1jJthYDepcZzxn0o+mQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kt0wyMm5mtRkTJIkzmi0YmxumgHO0TnodGz3OdNHh0A=;
+ b=DUsohGcyozlRvzU33gihE2iEoftzee1h7WtCdd5S3km4rqscxaLJxuHvAp1M3kaSgzCbavnPwG6OhfNXlwXK1MoNmWhpgiis16sXCZApQIOf1E9+oGAnPBr89P2gkjaNECz2R9TEY/pc5uO5k7eGTOC4WWyJkpwMMcw8zXkqaDO71HC5EgL5m3Q8wDqtMVgUdDxWwd1frP9bgrIR3w+vk1BjNqZ9YvIf81cm+O+qTR0yolt1mg9dI2yOT4ua+QK5jnidg9f/8kFiHtFYc6JK0GdDAtQUjiFl70woIOOd1RXEZ+rBxSZcx1KfLwz3eLBdnLGu4T2TkmDQp4OqvMkABg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kt0wyMm5mtRkTJIkzmi0YmxumgHO0TnodGz3OdNHh0A=;
+ b=gPRxgt7uPjlO2UHPM0ygRP/XTODEVwrLF8GsC7XZj1JW7AUb7mreKNcpC0UChG+yV+YSlSZ+Pr6sP/iPghrkbK+TxCRpIEFuw16ui98hNTDC57Za3gAFVVNENwLtKGYxJy/EUYaXK0TGmqUnXfC2p5vKnHiBE1Ufpad9MSRIihk7RJ3N1P7yzSxmwCbi//LbCxEHMsspsMvlyRhab3v5YPr8mb07WImymMHHShQ1VrsLXc4ZKhjpy7kDqmGGXVLyBXr5wMExEm29bpptwfW18O3874aZPs2oxr8DH9QsXDJDUhZuSDpVsWDhEAmjrYotuS3irTCGPQr94zgcl2RExw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by SA1PR12MB8643.namprd12.prod.outlook.com (2603:10b6:806:387::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.21; Tue, 25 Feb
+ 2025 16:02:27 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8466.016; Tue, 25 Feb 2025
+ 16:02:26 +0000
+Date: Tue, 25 Feb 2025 12:02:25 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: Pranjal Shrivastava <praan@google.com>, kevin.tian@intel.com,
+	corbet@lwn.net, will@kernel.org, joro@8bytes.org,
+	suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
+	dwmw2@infradead.org, baolu.lu@linux.intel.com, shuah@kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
+	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
+	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v7 12/14] iommu/arm-smmu-v3: Introduce struct
+ arm_smmu_vmaster
+Message-ID: <20250225160225.GA593877@nvidia.com>
+References: <cover.1740238876.git.nicolinc@nvidia.com>
+ <be799951a817557ac093ac3e18d02a631306aa35.1740238876.git.nicolinc@nvidia.com>
+ <Z7zYLBLZGKim-5UL@google.com>
+ <Z7zlH74/orq9HF7Q@Asurada-Nvidia>
+ <Z7zqdrQn7Q8yXfcn@google.com>
+ <Z7zxsbJsOFp41Dzd@Asurada-Nvidia>
+ <Z70EnQ5CXacc4ysT@Asurada-Nvidia>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z70EnQ5CXacc4ysT@Asurada-Nvidia>
+X-ClientProxiedBy: YQBPR01CA0054.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:2::26) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241001050110.3643764-1-xin@zytor.com> <20241001050110.3643764-22-xin@zytor.com>
- <Zxn8BX6vxQKY+YNF@intel.com> <edcdad12-bbb7-46b9-8914-9bbb36b44597@zytor.com>
-Message-ID: <Z73pU45jzA8e2i0S@google.com>
-Subject: Re: [PATCH v3 21/27] KVM: VMX: Invoke vmx_set_cpu_caps() before
- nested setup
-From: Sean Christopherson <seanjc@google.com>
-To: Xin Li <xin@zytor.com>
-Cc: Chao Gao <chao.gao@intel.com>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
-	peterz@infradead.org, andrew.cooper3@citrix.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SA1PR12MB8643:EE_
+X-MS-Office365-Filtering-Correlation-Id: c5e0985a-09b8-4292-b4ab-08dd55b5cc93
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?UI4jVIF17AynCVCBN1HWR5hBooiFRHNPDjF2k5xtAa/3EVPaIKdnIE+mzUZU?=
+ =?us-ascii?Q?uB8zfeWjZVYFvhG4mlxuXZZlDaVU2mBJuB4uiXYaPhO8qKBbJN9BYNsLxsMO?=
+ =?us-ascii?Q?bMXs9jpK2gB4zs6nc8misw39UC9Pgd8DyO86qGypPUR//17lCFkthdkkKzXt?=
+ =?us-ascii?Q?nC50k92MSjQx6yHNtwkRpPsgDljRMhXYypec8CSHLmX6ccnjkiyet3RUBJ3W?=
+ =?us-ascii?Q?YHIGuDl18fhYP9MYUqLvIkSc6eqEUxQT4b2A+MlSIK4TAaskKILIQCPTJxm9?=
+ =?us-ascii?Q?aG/fu308ec1tSbWL1zE/Y8LjuFkK1v5bL4BOYLWr8+jKg0fHwIKy/MyWJQ93?=
+ =?us-ascii?Q?TQkwElJL82KDhBD9im5EwKGVyueZFe3XMDOxV8QHPO2OaIi8u/6hfYZYIGch?=
+ =?us-ascii?Q?FLfnRjb8xQp7rSkgcKgG+upgI1shUvc1VyYfYXPiyAwNMIjWFQ5DjW0jkv8P?=
+ =?us-ascii?Q?o0tQYtOEmUA+3fYSXpzHCN0QlTRvraXvYGktvtsoApGJ+Yg1Eh95AIlw1mDZ?=
+ =?us-ascii?Q?EepSI7WwxZsrEyTx5oE+Bv08H7mbEDBUitZXAJtgoE7MTWkuNA8kmCB9QhXL?=
+ =?us-ascii?Q?FD2MCFMGwulBR1ouYSdOOLxbbuzd3hM1+TJDISWeWZJbBN6HocR3Zy+A3TRL?=
+ =?us-ascii?Q?3lYIbgRlenAyK4F5Z9JRHjmu4XfboYYI/EAzjcz8SZnEQodD5Whc951Muaw+?=
+ =?us-ascii?Q?b2/4wN9rtjVQ7c45GlRfAjvAe9y43/iWJeEuMzAwiUVhxp4zHxmgXQdnW/J6?=
+ =?us-ascii?Q?b/7GK8y2zo9J2YGB/E8gl8nIz9dMywv1LW3brC2jYegWooLnKAPRz3rSBrqe?=
+ =?us-ascii?Q?i31tNhdKGYPX8GNdR4kfbO+57xskyUHQW7/PAXt7pcqbw3fDp4hgq0wu/z+j?=
+ =?us-ascii?Q?ynJ6KaA9oyLn8b5XhBeb4nFLPQt+IxpE7UJbJS6XbkQ0N0sEq4jBNdpP58KF?=
+ =?us-ascii?Q?ieaN/HxQAVvPB2ZXp22NkI1BTX2ybMMO40VjSToXhRVBARPb9StXGDKnLuwN?=
+ =?us-ascii?Q?+R1JXigEpOEellCwAvt91aHzKgJHc0P8LAR8KqTZCZCpBr66qfGpUbLfxtUb?=
+ =?us-ascii?Q?3ktHi36Xa9wJ4DD8Dg9sxD9VJ17FLCMGX57Tnp6EP/Kyr7DM2g3SncKg2E4N?=
+ =?us-ascii?Q?W+t6t0hCViZy204rwbnJzGnsvXdkWPyjYSRwncN5FCbaA2HyCPWVo8Dq/KKQ?=
+ =?us-ascii?Q?WrXlfH0LGyKWI3sOTi3QV6V+QeSJUWVSPH34RW9G71UfFTkBkWHgG7a+cnqJ?=
+ =?us-ascii?Q?4RZbJL2NNXadSNf2BPlt0hAtSbns3BBB3jUgfxh4sMsTS3APYyvwyOoZu+yT?=
+ =?us-ascii?Q?N1AO202wRsPBYA4qRLzDJ88vjzH8ossSdw17+E18VoUbfoMBacMvr0NAROdg?=
+ =?us-ascii?Q?9DC4IIhrg3thX7G5pOKd7U5HbS6C?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?QkUSKvjoKvonR9gpv2FiQNtuGP5zWnf0+r9K9CPNJfdf+o548SZNs35vsHzu?=
+ =?us-ascii?Q?wZeHsfbtkhL4DS3jRNALgW5hEO9g5//V/+u7vg26B/rGnDfj3ske/7UsrQX0?=
+ =?us-ascii?Q?OinprwJqEXBdUpCohrXezPKI7dQcFykj2iCWH/A7heQMVSlFCTiVZ3OCVuCH?=
+ =?us-ascii?Q?UXtMiNSn9l8fOzCub65hhf9CwXRzJnAoBikHkpgTyidJ1taEga0eNwEFEzJa?=
+ =?us-ascii?Q?MrmFLTT1u6ADu2LSrXWKqWu5o0CMmIjlF8Z7SaLFO/K4k7GBrcgQQrkBOXHc?=
+ =?us-ascii?Q?LrpoLsoND3EmUK4pfwJxDqFwQfW87DTWKtqxcH6q4T7C40PKZewyLuQ9WYNF?=
+ =?us-ascii?Q?ydidahqk2P4/E/yV1btkRWPjCT705FfiHrX1o2+/53ImxTJ8Qx/okRItuwDV?=
+ =?us-ascii?Q?zGkohRaQqx5Exy2phIckOG2TnbkRXHAX6+PAmr75GasrTQ2F+bUMG/fvokkD?=
+ =?us-ascii?Q?phOfaLlN0Nd+ghDzLNAhVto0+ALEwJIG7T8KUJL1lp6A5UG5KZGS72KLgUBR?=
+ =?us-ascii?Q?0R3+zC6JDJpu2vAulX+UmAqSCIlaw/HIODRBuIEBAceYjH3tnldOBAaX3EOf?=
+ =?us-ascii?Q?N+0Uq87rG9uh67LubwfQAWx8fC6DtAainF/Y9MKWWdVvRimhTt5Zr4iVFsr9?=
+ =?us-ascii?Q?4awAMkONa6KBKjfWASl7oklPHIgj4+gNn6VmuGQoyskLdtuDxRi8QhBTok4D?=
+ =?us-ascii?Q?onvxVXEFWyVo32vm26BaRhVYj9K+e/LwsdaEEgjh+z9J56LQ/0Ro88CGUZgB?=
+ =?us-ascii?Q?tjoVsMW9bLGKj0LfhhgtucfMiO0FP+WDQhuVknwljxcqGk0J/aXkTQZblBMf?=
+ =?us-ascii?Q?1tYgLv+rm/TkZNsDtayotYmNwi/RLNBosgY97AfAcanCODUoTwEXxn1tzb43?=
+ =?us-ascii?Q?EXaWRBNGkwCgdC1vPOe00fKKPYdFfiHZ4zd9wK9U23UPwJSX9mkR9k6e1Pvu?=
+ =?us-ascii?Q?Q5dMc2JkTsMoZMagBw8ER4ql3pK1vdAt6NyuUsASN7wRTIwFnKuRvA9yBei6?=
+ =?us-ascii?Q?kZj75qn7tLKH+wEMcSq9gvAUvVQVjGhyujM7XEl93LJXIyiVUEt8dycNMuig?=
+ =?us-ascii?Q?COH7uxnot8zWz5HmEdmHb1SK56htMoO+U/3KzJOz7V5tZsW4KA+a2n0H3T4+?=
+ =?us-ascii?Q?YE1VV7WJQQ6T+qZOT5dL95qiM1XncxIMjjDSoWj0QOUZDb4V1ZvocOtnLH/s?=
+ =?us-ascii?Q?RwK2ejTH/Km5T+ZfoDKuH/hXbvIto5MJEgyELQK0FbukDE5kYKVMbH+CgaXs?=
+ =?us-ascii?Q?oiabGERuMbd2n1jv3rB17El16xFCqd2DzLzZQ0oXcbuxUNIiFKw4r1M7qo1h?=
+ =?us-ascii?Q?S2sEdxGXpscoUOE6QDkNVbDFkNGzYZK+vSseNRRd1WmmAAB/6w2ED7sYWZES?=
+ =?us-ascii?Q?2ONxhac4t0V6OrzViIMHoyxigQFneKgbHkQ3LBLpY/1IVyAlT+zq349N8lYh?=
+ =?us-ascii?Q?mREmEPPyoui1MEI7u6NsGoIi/aJvKRo/k8o8yKJXlqqwxaZydWi+p4XMi0z8?=
+ =?us-ascii?Q?feJhkt+y2EfUQEZzUBeLWLI3OxunoASepwRXBf5bhod+XrEK4PJDXqwqapjZ?=
+ =?us-ascii?Q?r4ilWBiky+V7vvUEdibwLfkJl7mZSfiV5AtkoP4a?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5e0985a-09b8-4292-b4ab-08dd55b5cc93
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 16:02:26.8656
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bIvS/qmdTJRvjIWKMHqv/cHg7On6DNpf5mfMo9NZh8jOX3Y8vWOJAN1WZg9yg1ln
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8643
 
-On Fri, Oct 25, 2024, Xin Li wrote:
-> On 10/24/2024 12:49 AM, Chao Gao wrote:
-> > On Mon, Sep 30, 2024 at 10:01:04PM -0700, Xin Li (Intel) wrote:
-> > > From: Xin Li <xin3.li@intel.com>
-> > > 
-> > > Set VMX CPU capabilities before initializing nested instead of after,
-> > > as it needs to check VMX CPU capabilities to setup the VMX basic MSR
-> > > for nested.
-> > 
-> > Which VMX CPU capabilities are needed? after reading patch 25, I still
-> > don't get that.
+On Mon, Feb 24, 2025 at 03:45:33PM -0800, Nicolin Chen wrote:
 
-Heh, I had the same question.  I was worried this was fixing a bug.
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
+> @@ -95,8 +95,6 @@ int arm_smmu_attach_prepare_vmaster(struct arm_smmu_attach_state *state,
+>  
+>  	iommu_group_mutex_assert(state->master->dev);
+>  
+> -	if (domain->type != IOMMU_DOMAIN_NESTED)
+> -		return 0;
+>  	nested_domain = to_smmu_nested_domain(domain);
+>  
+>  	/* Skip invalid vSTE */
+> @@ -122,19 +120,9 @@ void arm_smmu_attach_commit_vmaster(struct arm_smmu_attach_state *state)
+>  {
+>  	struct arm_smmu_master *master = state->master;
+>  
+> -	mutex_lock(&master->smmu->streams_mutex);
+> -	if (state->vmaster != master->vmaster) {
+> -		kfree(master->vmaster);
+> -		master->vmaster = state->vmaster;
+> -	}
+> -	mutex_unlock(&master->smmu->streams_mutex);
+> -}
+> -
+> -void arm_smmu_master_clear_vmaster(struct arm_smmu_master *master)
+> -{
+>  	mutex_lock(&master->smmu->streams_mutex);
+>  	kfree(master->vmaster);
+> -	master->vmaster = NULL;
+> +	master->vmaster = state->vmaster;
+>  	mutex_unlock(&master->smmu->streams_mutex);
+>  }
 
-> Sigh, in v2 I had 'if (kvm_cpu_cap_has(X86_FEATURE_FRED))' in
-> nested_vmx_setup_basic(), which is changed to 'if (cpu_has_vmx_fred())'
-> in v3.  So the reason for the change is gone.  But I think logically
-> the change is still needed; nested setup should be after VMX setup.
+I'd leave the clear_vmaster just for clarity. Commit should not be
+unpaired with prepare in the other functions.
 
-Hmm, no, I don't think we want to allow nested_vmx_setup_ctls_msrs() to consume
-any "output" from vmx_set_cpu_caps().  vmx_set_cpu_caps() is called only on the
-CPU that loads kvm-intel.ko, whereas nested_vmx_setup_ctls_msrs() is called on
-all CPUs to check for consistency between CPUs.
+It looks fine with this on top too
 
-And thinking more about the relevant flows, there's a flaw with kvm_cpu_caps and
-vendor module reload.  KVM zeroes kvm_cpu_caps during init, but not until
-kvm_set_cpu_caps() is called, i.e. quite some time after KVM has started doing
-setup.  If KVM had a bug where it checked a feature kvm_set_cpu_caps(), the bug
-could potentially go unnoticed until just the "right" combination of hardware,
-module params, and/or Kconfig exposed semi-uninitialized data.
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-I'll post the below (assuming it actually works) to guard against that.  Ideally,
-kvm_cpu_cap_get() would WARN if it's used before caps are finalized, but I don't
-think the extra protection would be worth the increase in code footprint.
-
---
-diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index 97a90689a9dc..8fd48119bd41 100644
---- a/arch/x86/kvm/cpuid.c
-+++ b/arch/x86/kvm/cpuid.c
-@@ -817,7 +817,8 @@ do {                                                                        \
- 
- void kvm_set_cpu_caps(void)
- {
--       memset(kvm_cpu_caps, 0, sizeof(kvm_cpu_caps));
-+       WARN_ON_ONCE(!bitmap_empty((void *)kvm_cpu_caps,
-+                                  sizeof(kvm_cpu_caps) * BITS_PER_BYTE));
- 
-        BUILD_BUG_ON(sizeof(kvm_cpu_caps) - (NKVMCAPINTS * sizeof(*kvm_cpu_caps)) >
-                     sizeof(boot_cpu_data.x86_capability));
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index f5685f153e08..075a07412893 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -9737,6 +9737,7 @@ int kvm_x86_vendor_init(struct kvm_x86_init_ops *ops)
-        }
- 
-        memset(&kvm_caps, 0, sizeof(kvm_caps));
-+       memset(kvm_cpu_caps, 0, sizeof(kvm_cpu_caps));
- 
-        x86_emulator_cache = kvm_alloc_emulator_cache();
-        if (!x86_emulator_cache) {
+Jason
