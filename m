@@ -1,96 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7744A15445D;
-	Tue, 25 Feb 2025 18:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C26221ABBB;
+	Tue, 25 Feb 2025 18:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740506610; cv=none; b=qh447+iMZhDHmNpTqYZ/UlC7DTg15GO4WRMevk59h1h2kdwmc2yXE/33j1BLvIO2tV45u2WENNj+JYHgjq7MsNJCvalXYNvEMZEks8Cwv9BM1UmrSEGL9Jt5OPhMSlctFCewoYf/zv+t4s0W2zy4RHTgJqL5QQqYGc8hO8auaWw=
+	t=1740507222; cv=none; b=R93lH2D3D6uvAYlpifFoActXJpx2bZ6vEnSYmg0Q9Cn+hBtU09Ss89n64FI4fMOWoB65K6fTXjy6uO47aDeXovcq3xO+Q3MB5Fqj5Y1SijQD5eNcbiz034kpzLqr1U0HkfgjotGWydpsvkWXgdQT2BUkJIaE/ArwCFlp0hTRnH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740506610; c=relaxed/simple;
-	bh=DCOUoVzVNSydpQ/dS03bguPxoI1g9gTndpvRpxQgL5U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=srth9ON8cS7uxndXqUHBDmn9wpykmuZ+mn7qV5y1maA+YtJAU7Mx5QyF9K42QD+sYLEzHKYXXrKvvBHfDdlWluSJXAAjFEUWGE4kfCHe+cmYGfhPAAriq6CXlhiglvjXI6Kyz3mZz7vnDLrb/bQAo2hyrHwRrDrs4TgY5lwEF94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gVmnxV6o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740507222; c=relaxed/simple;
+	bh=Bk0u/iGHXg9Ki1eeZ9mntntqXtE97d+Kic6DcoUWm8Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=lAxOLznIpZZV6p3Wze/4xFZaqYxsyRe03RIKW55v92uKnxSFvLNAW2/0v6li4UXP2A35mz6rijpH8OsC/3xGm8wzsl2vWA/lHGgWB0vRwHsJ3MmNtlJVYFzUzPT034xv+j0XtUgqxcWcqJ91ao9X6DM+dPOwSnncCnAc+AUDndw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DSL/nSIo; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVmnxV6o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 989D2C4CEDD;
-	Tue, 25 Feb 2025 18:03:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740506610;
-	bh=DCOUoVzVNSydpQ/dS03bguPxoI1g9gTndpvRpxQgL5U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gVmnxV6oNNkD0+ncPquUaGL++hfjCkZTHvhFuvpdtUabzc6pemipfQ4iZYzu83xon
-	 pRwkkf5xh/DVcSTsBOX65vog+SrmsoUmcy6ISp3y3vPCDVurmE28vRuAbOA/+Ya32A
-	 JKlciHKttoak86VlLAj2HyuQbfVQNMDQmXlqq6l7ILI7CC/yt2TIsGXOa7JBex7k9t
-	 65QZV1j/M3zjdFuI0UtXgEQwMl9DrT46m6rptwZ/UblGoodb8aOozG/rzaulK2Gabh
-	 4Pk7Gy6R/BzrOashE02ihMAjxNzjWR1VF0rYixW9TLQ5/hZRNb8Zwm8AQ0/nOtbqBq
-	 3Lfft0A1FtP7A==
-Message-ID: <a003b144-0abf-4274-abff-a6e391a3e20b@kernel.org>
-Date: Tue, 25 Feb 2025 11:03:27 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DSL/nSIo"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5FCA348EBA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1740507219; bh=Gwb7WVKf5nB6J5KPNqOALeQvZiHduU+S0+mZMtNtu+o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=DSL/nSIo3z/y2GPq+/eOpF7S0Q/YhDnPCtzjxYWKHe8hQ1jUlueP64QUz88Oq8xLN
+	 kCH91O5dLlphWlu69lSVqx/RfWizWT1qTHKM1//h8WbL0wrzJwhXNMYXqRCdnyzS+h
+	 +YV4ghglrAGNY8pEp5kzON2AIJBH4XNVcqhZhN9j/iVqLrbsKbl+WidJymcWpwXNZ4
+	 M41x036ecicgpjb2a3adMLaKm+8zJ+45InGla87DpbkMl41s+G0wiRhGHC53xRAFMv
+	 pm2uIgtahGhmQ4/bF/ykPKIcEaNFEpDpCIOsVPlQ7sdL+7ZA6dbTuF9ZIaHszZaHK+
+	 BMEd3l6WGrxBw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5FCA348EBA;
+	Tue, 25 Feb 2025 18:13:39 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: jiang.kun2@zte.com.cn, alexs@kernel.org, si.yanteng@linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: xu.xin16@zte.com.cn, yang.yang29@zte.com.cn, wang.yaxin@zte.com.cn,
+ fan.yu9@zte.com.cn, he.peilin@zte.com.cn, tu.qiang35@zte.com.cn,
+ qiu.yutan@zte.com.cn, zhang.yunkai@zte.com.cn, ye.xingchen@zte.com.cn
+Subject: Re: [PATCH linux next] Docs/zh_CN: Translate msg_zerocopy.rst to
+ Simplified Chinese
+In-Reply-To: <20250225194456879v1ipo2r4_8PJZn1s1J9Ge@zte.com.cn>
+References: <20250225194456879v1ipo2r4_8PJZn1s1J9Ge@zte.com.cn>
+Date: Tue, 25 Feb 2025 11:13:38 -0700
+Message-ID: <87cyf5zyct.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 3/9] net: devmem: Implement TX path
-Content-Language: en-US
-To: Mina Almasry <almasrymina@google.com>, Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
- kvm@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Jeroen de Borst <jeroendb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn
- <willemb@google.com>, Neal Cardwell <ncardwell@google.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
- asml.silence@gmail.com, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
- Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
- <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20250222191517.743530-1-almasrymina@google.com>
- <20250222191517.743530-4-almasrymina@google.com>
- <a814c41a-40f9-4632-a5bb-ad3da5911fb6@redhat.com>
- <CAHS8izNfNJLrMtdR0je3DsXDAvP2Hs8HfKf5Jq7_kQJsVUbrzg@mail.gmail.com>
-From: David Ahern <dsahern@kernel.org>
-In-Reply-To: <CAHS8izNfNJLrMtdR0je3DsXDAvP2Hs8HfKf5Jq7_kQJsVUbrzg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 2/25/25 10:41 AM, Mina Almasry wrote:
-> On Tue, Feb 25, 2025 at 5:04 AM Paolo Abeni <pabeni@redhat.com> wrote:
->>
->> On 2/22/25 8:15 PM, Mina Almasry wrote:
->> [...]
->>> @@ -119,6 +122,13 @@ void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
->>>       unsigned long xa_idx;
->>>       unsigned int rxq_idx;
->>>
->>> +     xa_erase(&net_devmem_dmabuf_bindings, binding->id);
->>> +
->>> +     /* Ensure no tx net_devmem_lookup_dmabuf() are in flight after the
->>> +      * erase.
->>> +      */
->>> +     synchronize_net();
->>
->> Is the above statement always true? can the dmabuf being stuck in some
->> qdisc? or even some local socket due to redirect?
->>
-> 
-> Yes, we could have have netmems in the TX path in the qdisc or waiting
-> for retransmits that still have references to the dmabuf, and that's
-> fine here I think.
+<jiang.kun2@zte.com.cn> writes:
 
-skbs with references to netmem from a dmabuf can get stuck in retransmit
-queues for a long time. The comment should at least acknowledge that.
+> From: Wang Yaxin <wang.yaxin@zte.com.cn>
+>
+> translate the "msg_zerocopy.rst" into Simplified Chinese
+>
+> Update to commit bac2cac12c26("docs: net: description of
+> MSG_ZEROCOPY for AF_VSOCK")
+>
+> Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
+> Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+> Reviewed-by: xu xin <xu.xin16@zte.com.cn>
+> Reviewed-by: He Peilin <he.peilin@zte.com.cn>
 
+So how did these reviews happen?  I have certainly not seen them on the
+public lists...
 
+Thanks,
+
+jon
