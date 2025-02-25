@@ -1,205 +1,158 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516DF267AE2
-	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 10:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A99264A7C;
+	Tue, 25 Feb 2025 11:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740481021; cv=none; b=gkDvNzCCBmHDHht3651RU7XbED5o/yVbz3oUdjYVB98u+XmWu56kXf0xy3oUBSUCvBj92gG2Uf3Nz1Qci7Ip7pmRkqheCwHOOw2bjHEG3KhxOb8Yudh6vcctXsVDagNx4Ovwl/xbuva6Y66fpfeV8Nv2JtSCKkUbXSlsdRRNgtU=
+	t=1740481766; cv=none; b=LT/QYMEF5T0uUEdtDC4PTPvUkZN9KRYKYi3nlNpO3Gu4nzANIDMlKoc3jIY9U56BwjZNjcjgLCnqOKZ6YbHZsKqj5OXgGVkldsOghVlbn+jEilAq2SS/5XNKceK4eZDC3CtcuRTN2vladxadJrjY5O7tY1TNwoApLZ5QcJz62a4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740481021; c=relaxed/simple;
-	bh=9q4cs9uEBdO4R2hDf9yXRHC8PAzNjxSOOBtTkoVzNrs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dlldw8jDgQEct5pGXy4rmPx54rzg5tWNCHF5LBP1d2hXjkyz/h/ypwvjEajQTyNUMlSGH/nr+jzCQEeBfoiIzlYwEj7YVjTFf/qrKu0MJhFaepFQfUG8FEf3X5sQrdIGAtmK8hyG1pd64wkP8fPkpukkSyktmsYaBLacCJmMee0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZFhRz3D5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZFhRz3D5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740481018;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=KHznIi52/FgGQYw2G9QY1Aa3XRPiRKbnQIO5wwNLKYY=;
-	b=ZFhRz3D5ijKHnI+0B5jYyIXxheP70TGDyWq6K9o/wO5OhAKTV58LzC+tLEqEnrAYg7jg4Y
-	24YQJN5Jbu2TYjm01F+sKv5sWY+hWeCNvgVQFOnLalC4KjBvupLwgEy1rvw3HowODX86qd
-	0BxiYQNoZkQWNZlvsP9p7c3cN6c6hKs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-392-JRb4XDJ2PpCfF3AOxiqCLg-1; Tue, 25 Feb 2025 05:56:54 -0500
-X-MC-Unique: JRb4XDJ2PpCfF3AOxiqCLg-1
-X-Mimecast-MFC-AGG-ID: JRb4XDJ2PpCfF3AOxiqCLg_1740481014
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-43943bd1409so37756015e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 02:56:54 -0800 (PST)
+	s=arc-20240116; t=1740481766; c=relaxed/simple;
+	bh=TtBQCEIEL2mTq/30X9Qjp4A9+mPF9QER9TihXX7Hng8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VkZjVI8VevC0q3mehy8jhSptuadGIvwpsI8TSMIISDAhahO6u7n1cPS1nzC1Ns2Jp+0T659EvgoqFAi+lCNCchY+XFtvsLFoAMAhFi5N/lwgliV6BxlQud8d/WDHMkRhYqCm3RTnMCnl/0LlK5aCVtfy8U6Aq1OL7zCMXwb0JwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5dee1626093so11670170a12.1;
+        Tue, 25 Feb 2025 03:09:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740481013; x=1741085813;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=KHznIi52/FgGQYw2G9QY1Aa3XRPiRKbnQIO5wwNLKYY=;
-        b=Ys15cxvDRrAYMG3yHC3qp/pln3Q4f8bTOwbS9hfkK6P1Z8Cs6lyZLr7U29p5LGx+uI
-         githWu6yTZeCIl30WbYGFIK4zWomDfqWvJLKFc6009BL6dCtvbS+dw2B8QoWu7zFLKLp
-         iY3WcthY2KnH2cHx4q/g1ZcCGvaMPml3X1OmEJsLX9+YY9kt0oH9R2IOmKTQtqwviVvv
-         VeB3di0XBQqDe5Lyw9ItC44Ufo8pNxCCVI0FNSIoD1WKVctTQv0tyTChUVakSlz4HR1/
-         6hJBUEmFxwTaVRBOJG14T+jq87nE4infb3XFpC7v3DocaBebCS0MJNARmcX+0e+s4JjE
-         yyFw==
-X-Gm-Message-State: AOJu0Yzb58leiDyHfy1yxMu8jrsWSWUU9K+9lZ3519Dvy+UV/MLYAZYf
-	IW6U934EdMOG4eYnrhKfT5V4z6Oq+3Q6mQRQ/dBJG6GNre2JCuGjskK/MRRPNhtgrD5feb8j3AE
-	ZvErEyCx4BcwE1hV2sCRzDRoQQu8TjPyp3p1wv4hkj4zBiEHzoYL8/cFT0g==
-X-Gm-Gg: ASbGncuNGPI6u5ffqULQILhInC7S0XfZ/9kD40AWYoxx+dCiRsXgpUtYPmr/bct4R6K
-	lxoATVwbKjfLMnR+PPrxghCrrQ45zmqx0oonjL6t8CyvDmpP56nluZQeYvzBRcNVpeZHzhe7iZB
-	hiO062DyHSYDmeLVOFIDHfctgca2wyPn3THOvZZrCcmumkgkWrhODlGA6uujTf2JmuY8qHYmQ9K
-	gtk4Swnls+IgXSVmnEttZ+HWTR3B/+z3jnmI2QJlUJVCmw3mV8A96evVgJwaBM3a700qLjO+oFk
-	24i3pHUSJXGdPxT8epaoK4iQ17ByNA8aA2ScUPf4FDDGRWv6Sfao046Pvb7GNNzqM3ogxy7Wn0M
-	Wn0qXSy0jhzNQcsj/my47e6I7rKdQSHHCIoTnh4ytl1U=
-X-Received: by 2002:a05:600c:19c9:b0:439:331b:e34f with SMTP id 5b1f17b1804b1-439ae1f2f86mr146822905e9.17.1740481013593;
-        Tue, 25 Feb 2025 02:56:53 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFGW3mMOogekUIK13+DQ2ZUntepuE1eAIIBacqwgCVYjSJPleAtrr9tg3z2f4jLkg6/quOTcA==
-X-Received: by 2002:a05:600c:19c9:b0:439:331b:e34f with SMTP id 5b1f17b1804b1-439ae1f2f86mr146822585e9.17.1740481013125;
-        Tue, 25 Feb 2025 02:56:53 -0800 (PST)
-Received: from ?IPV6:2003:cb:c73e:aa00:c9db:441d:a65e:6999? (p200300cbc73eaa00c9db441da65e6999.dip0.t-ipconnect.de. [2003:cb:c73e:aa00:c9db:441d:a65e:6999])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439b02d5700sm138556775e9.9.2025.02.25.02.56.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Feb 2025 02:56:52 -0800 (PST)
-Message-ID: <c41ddeb7-ddf3-4465-8567-bde5f8d3aaec@redhat.com>
-Date: Tue, 25 Feb 2025 11:56:51 +0100
+        d=1e100.net; s=20230601; t=1740481763; x=1741086563;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/HP9OZuJ6AU1JfkSYo6B6srazy0msILW/CieEyyhb2E=;
+        b=JpYnkp+cLzs8KSyOIghHt1J/SsOOobj9vE3UHHAo4/zPPSdMjAoBMH+UomrAEXZBsn
+         KPTrf3qOEC4qfy73VjJR/Xb4qWI4Qn0Fnef4kqiM6giFQR9iszgtkpm0KSETtxubpDn/
+         bRGFtEx1BkwhheizlyPwG5MtnaRoHDrN+ZZYBnbNuu1qLBj6naG/5lCuK+1Je7pPgDDB
+         AK+YQAqNYYmyIdXjxJZTn9+av73Kfeh/eFvKFI6Vpjn+EoNC1D1L9XwWu0u8h2Ft7tHb
+         bDkhX6d7hL5h+f3Gg6P85sVxb4opUDKmLck77GPQLnrymdl7VWam8D/FRli+JW4Di3oc
+         q46g==
+X-Forwarded-Encrypted: i=1; AJvYcCV0ORY8thReyEB6FIchyHbWm8MA0XQ1WVXSFNHePJR1dyS4+l1nkgeoL05OUzFxGpAwTy54C3zHmHWvHAAK@vger.kernel.org, AJvYcCVd0ehRGZfRl2JmPIJxfAYhwEh6AfAjY/+VfKV4LHoqYMlLM7zLpqn3VrYzMXU5JzURv/WmNRUE/HA=@vger.kernel.org, AJvYcCVeQIoJxIykyLvNBN2+MkRAuAf3muGexVmKjx7Q2DRmceokiJhF5ZPa2Jr8hBmMww+VnVLdEZTx@vger.kernel.org, AJvYcCXJ37uYE0BzcDu2pSIpPDVrmP5HJAUxvwzAM42UvgX904r0mdFbzabc9IbmrHHgZH10mSiHiZdA9CkeNfqoICXa@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRi6Mprtmx8COUiTPVdmvhgV1OFlKodl8rySTfWKLbeLyRUqmW
+	Egv9nkrr7ts/N1LO+YhWv7woxqOAT+0zb5dwbfdfPCz4//hl4BIg
+X-Gm-Gg: ASbGncu0a+XLLERzJmy53fPfMwayQJqQOiNpW7u03gMpx2c22arD7fz3p51SCSSB9wM
+	BzVqIprA0j6LsfQdQCGuBMyoVUntr08VZsAKDR7G1llCmcQDqBGUcKdnrcfL2RwvJPtDcyO5PST
+	jJgmYOtPS7R+az0mc7OTUnIaonH9GmRota+dx+ujJAZjk7uPnmUSiGcsarhUpT8NAgku1de9p8o
+	ahaGcy0sA1vcCRkb+6+z04ZD19VlZ7PLfIDkzdbtuOdpz7NlgzAvi/M//UDbREhJSWuuHceT5tW
+	713IInsuoNUZJt8m
+X-Google-Smtp-Source: AGHT+IFtEU/qbtI5q4s+/3i4tDPt/bCCUO0KkhYar0f3IBw5ANItfNk//tImV+wtlwslPGilHyVkQQ==
+X-Received: by 2002:a17:907:c015:b0:abb:61b0:faa5 with SMTP id a640c23a62f3a-abbeda27eacmr2004055666b.4.1740481763220;
+        Tue, 25 Feb 2025 03:09:23 -0800 (PST)
+Received: from gmail.com ([2a03:2880:30ff:4::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abed20b81a0sm120938266b.180.2025.02.25.03.09.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2025 03:09:22 -0800 (PST)
+Date: Tue, 25 Feb 2025 03:09:20 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Simon Horman <horms@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH net-next 2/7] netconsole: refactor CPU number formatting
+ into separate function
+Message-ID: <20250225-diamond-gaur-of-anger-b0f77e@leitao>
+References: <20250221-netcons_current-v1-0-21c86ae8fc0d@debian.org>
+ <20250221-netcons_current-v1-2-21c86ae8fc0d@debian.org>
+ <20250225101748.GL1615191@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 17/20] fs/proc/task_mmu: remove per-page mapcount
- dependency for PM_MMAP_EXCLUSIVE (CONFIG_NO_PAGE_MAPCOUNT)
-To: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, cgroups@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Muchun Song <muchun.song@linux.dev>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
-References: <20250224165603.1434404-1-david@redhat.com>
- <20250224165603.1434404-18-david@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20250224165603.1434404-18-david@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250225101748.GL1615191@kernel.org>
 
-On 24.02.25 17:55, David Hildenbrand wrote:
-> Let's implement an alternative when per-page mapcounts in large folios are
-> no longer maintained -- soon with CONFIG_NO_PAGE_MAPCOUNT.
+Hello Simon,
+
+On Tue, Feb 25, 2025 at 10:17:48AM +0000, Simon Horman wrote:
+> On Fri, Feb 21, 2025 at 05:52:07AM -0800, Breno Leitao wrote:
+> > Extract CPU number formatting logic from prepare_extradata() into a new
+> > append_cpu_nr() function.
+> > 
+> > This refactoring improves code organization by isolating CPU number
+> > formatting into its own function while reducing the complexity of
+> > prepare_extradata().
+> > 
+> > The change prepares the codebase for the upcoming taskname feature by
+> > establishing a consistent pattern for handling sysdata features.
+> > 
+> > The CPU number formatting logic itself remains unchanged; only its
+> > location has moved to improve maintainability.
+> > 
+> > Signed-off-by: Breno Leitao <leitao@debian.org>
+> > ---
+> >  drivers/net/netconsole.c | 18 +++++++++++-------
+> >  1 file changed, 11 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
+> > index c086e2fe51f874812379e6f89c421d7d32980f91..26ff2ed4de16bce58e9eeaf8b5b362dfaafaca0a 100644
+> > --- a/drivers/net/netconsole.c
+> > +++ b/drivers/net/netconsole.c
+> > @@ -1117,13 +1117,21 @@ static void populate_configfs_item(struct netconsole_target *nt,
+> >  	init_target_config_group(nt, target_name);
+> >  }
+> >  
+> > +static int append_cpu_nr(struct netconsole_target *nt, int offset)
+> > +{
+> > +	/* Append cpu=%d at extradata_complete after userdata str */
+> > +	return scnprintf(&nt->extradata_complete[offset],
+> > +			 MAX_EXTRADATA_ENTRY_LEN, " cpu=%u\n",
+> > +			 raw_smp_processor_id());
+> > +}
+> > +
+> >  /*
+> >   * prepare_extradata - append sysdata at extradata_complete in runtime
+> >   * @nt: target to send message to
+> >   */
+> >  static int prepare_extradata(struct netconsole_target *nt)
+> >  {
+> > -	int sysdata_len, extradata_len;
+> > +	int extradata_len;
+> >  
+> >  	/* userdata was appended when configfs write helper was called
+> >  	 * by update_userdata().
+> > @@ -1133,12 +1141,8 @@ static int prepare_extradata(struct netconsole_target *nt)
+> >  	if (!(nt->sysdata_fields & SYSDATA_CPU_NR))
+> >  		goto out;
+> >  
+> > -	/* Append cpu=%d at extradata_complete after userdata str */
+> > -	sysdata_len = scnprintf(&nt->extradata_complete[nt->userdata_length],
+> > -				MAX_EXTRADATA_ENTRY_LEN, " cpu=%u\n",
+> > -				raw_smp_processor_id());
+> > -
+> > -	extradata_len += sysdata_len;
+> > +	if (nt->sysdata_fields & SYSDATA_CPU_NR)
+> > +		extradata_len += append_cpu_nr(nt, nt->userdata_length);
 > 
-> PM_MMAP_EXCLUSIVE will now be set if folio_likely_mapped_shared() is
-> true -- when the folio is considered "mapped shared", including when
-> it once was "mapped shared" but no longer is, as documented.
+> Hi Breno,
 > 
-> This might result in and under-indication of "exclusively mapped", which
-> is considered better than over-indicating it: under-estimating the USS
-> (Unique Set Size) is better than over-estimating it.
-> 
-> As an alternative, we could simply remove that flag with
-> CONFIG_NO_PAGE_MAPCOUNT completely, but there might be value to it. So,
-> let's keep it like that and document the behavior.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->   Documentation/admin-guide/mm/pagemap.rst |  9 +++++++++
->   fs/proc/task_mmu.c                       | 11 +++++++++--
->   2 files changed, 18 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
-> index 49590306c61a0..131c86574c39a 100644
-> --- a/Documentation/admin-guide/mm/pagemap.rst
-> +++ b/Documentation/admin-guide/mm/pagemap.rst
-> @@ -37,6 +37,15 @@ There are four components to pagemap:
->      precisely which pages are mapped (or in swap) and comparing mapped
->      pages between processes.
->   
-> +   Note that in some kernel configurations, all pages part of a larger
-> +   allocation (e.g., THP) might be considered "mapped shared" if the large
-> +   allocation is considered "mapped shared": if not all pages are exclusive to
-> +   the same process. Further, some kernel configurations might consider larger
-> +   allocations "mapped shared", if they were at one point considered
-> +   "mapped shared", even if they would now be considered "exclusively mapped".
-> +   Consequently, in these kernel configurations, bit 56 might be set although
-> +   the page is actually "exclusively mapped"
+> As this is the only caller of append_cpu_nr() I'm wondering
+> if it would be nicer if nt was the only argument to append_cpu_nr().
 
-I rewrote this yet another time to maybe make it clearer ...
+Yes, I can do it. I just kept both functions the same:
 
-+   Traditionally, bit 56 indicates that a page is mapped exactly once and bit
-+   56 is clear when a page is mapped multiple times, even when mapped in the
-+   same process multiple times. In some kernel configurations, the semantics
-+   for pages part of a larger allocation (e.g., THP) differ: bit 56 is set if
-+   all pages part of the corresponding large allocation are *certainly* mapped
-+   in the same process, even if the page is mapped multiple times in that
-+   process. Bit 56 is clear when any page page of the larger allocation
-+   is *maybe* mapped in a different process. In some cases, a large allocation
-+   might be treated as "maybe mapped by multiple processes" even though this
-+   is no longer the case.
+  static int append_taskname(struct netconsole_target *nt, int offset)
+  static int append_cpu_nr(struct netconsole_target *nt, int offset)
 
-(talking about "process" is not completely correct, it's actually "MMs"; but
-that might add more confusion here)
+Another option is to use extradata_len as the second argument, instead
+of nt->userdata_length. That might(?) make the code easier to read? it
+would look like the following:
 
--- 
-Cheers,
+          extradata_len = nt->userdata_length;
+          if (nt->sysdata_fields & SYSDATA_CPU_NR)
+                  extradata_len += append_cpu_nr(nt, extradata_len);
+          if (nt->sysdata_fields & SYSDATA_TASKNAME)
+                  extradata_len += append_taskname(nt, extradata_len);
 
-David / dhildenb
+What would you write yourself?
 
+Thank you very much for the review,
+--breno
