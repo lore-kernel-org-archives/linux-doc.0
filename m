@@ -1,488 +1,275 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACCD21ABC6;
-	Tue, 25 Feb 2025 19:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740510719; cv=none; b=Q0LveKkwxz+x6bEdnWl5TUd6ESpF8fGimJDvL+MyW0doVNbPXWfc1FdkBhnruPivLceB/bunR/Qve9HnZwh62qsUNOv8yJH3bZSz7gpMYQl908Igi9r+t2JP1iHCzAu4avZcFXpeFHUzr0emUkFMBqd/5YaDvx/137Ix9Q81bZc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740510719; c=relaxed/simple;
-	bh=MUX52mLrc9tAzehVSU27yGUahedRxwTwQS/B41HkVUA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jGkWug2sv7mUcDSPjZBVmFHKrdMGWdzkY9vSkZ1dpaDXFhH50anpxVf3YnX2KBluxZjTL/bPacbyjU21SWl4BHFPZ4XV+938cptnIUEcyoeVrV54xUlxnMBOfiYWHdxYLQCBQzpldgivzJw51YNTlkQy892qJZBoqRJMnruQe4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RcdO49Dl; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FEF1ACEAF;
+	Tue, 25 Feb 2025 19:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740510785; cv=fail; b=PbA5D0q7+pmGwjtnNpItLmoAYO7F/1sNnzGFASCvtnMmoAyIfUIbqq+tgGBwC8U5OBlMtXCa7wgu2UJjICPqw+1mOGRsnkrkd4dDieYZYlKCrz2p2jjAKpGZ/MG/JcGm/zKhGfjE/xMwaMUJzsRxFuE1TR6s7OXz6VZeaR5Y8FA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740510785; c=relaxed/simple;
+	bh=796i5716ka9/7YQfp5k5F1IRgOLjv4qvpf43zlH3o+o=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=bXgQXJEqMuW29hYpL6Ofu/UHnZGYCfAOZ87Spivoy+W3mvMvyLXtbr44oSCeMBX7LHr6c6iooZaC5zAkB0tbY2I20ujOk/o8X7cZ1yDPiRUw2V+Q7BlHUYn/ljZU0/d+xjsQh9qDjDt2hjnp6nG9swJArL+tU5fh0LPevzOX/DU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEnrmMXO; arc=fail smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RcdO49Dl"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ab7430e27b2so936158366b.3;
-        Tue, 25 Feb 2025 11:11:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740510715; x=1741115515; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SNTMaZPxHxVjFYDVf/mtPKH9G4p1SDbuEUdw5G3mAak=;
-        b=RcdO49Dluldk+/U2kvPpykyNMPWJ0+JPXYos7Lnh35XEsCW5IqnaVyhmFooWHHEvG1
-         w+uBoyQ4FWHppGRk5HmKhjjYG+320H7QcBTu3zHWMjm8APOB+TkQo5mbQ9cqrr421kpG
-         Fk8GFmadI0jFis89mHljgfifONultjUIFf2MElnEe1uhSG5/rtxvlAGTJE1BmYp+mJzb
-         SQM/1Ia5HKsG5+koH4H20n3SOuM3xaEcgpWkYvBPvbYpbdeyudWm6gpuRL2VRG2H29mQ
-         v5PA1HPh3r088fqkbjMl+x5Ne9aa03KjfjzAkDdXqZXZYgCYqXwBmx5+erb7DCFDJ91t
-         DhAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740510715; x=1741115515;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SNTMaZPxHxVjFYDVf/mtPKH9G4p1SDbuEUdw5G3mAak=;
-        b=JggnC5XpM174Nd1CrJWi21T4yfT5Me4/m10UwxPYJGBBZ3bXMNxl4+ebneMYW3H603
-         4ny46ayPTs4XV5xrDxrbps/DLXwX3pr+rLtsGvCiG2UEk3vTGFqfEslEWvYijFP2M71V
-         uDq8sYPc4W7lFfrMBphaMDgbC8Ch6rUSwTxNRINMAG9YFqLYd6+LJpiGJoYpWje0pp0M
-         eWqiM2lvwR5XI4Rt4I1VYlR7wjNmeRhy0rgElyA7cq5lovf/1TjSRTH7h5MW/KtuH2vZ
-         5KHgCMc5G/F5Xz183vblYAMQFpkrw2rIaXu36cv3SP52cGL206iqUWLnPSHdJb7HpN4F
-         uVbg==
-X-Forwarded-Encrypted: i=1; AJvYcCUnPjr7i+GwrR6lfBVdC8dkmrRKECG+tCszTzQ8PRAOYAoM5teJQ5lbWWtfMZmX1SNTPIIQjzHFOyU=@vger.kernel.org, AJvYcCVuXyKaculkcYqHWFK2W6Ugp8rHLRtpvcahlF6msC7tmZ7bBPS9WaRT9EZvSV/vY7npOU5ytjZqgUG+Iq4A@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbKsXtqNIL34g03mGiMA7MxSCLMiRqYkILNKiojxmPNjjkel0+
-	JDzM+XChyWbhK2lMPO8OBbiGzLMWHW9kUIKaIhKTE0mkNjgtZvtQBx3U/dK6
-X-Gm-Gg: ASbGncuIJV/E8jwXjdAPT1OYdu0IX3Gic5CX6Gy2PiEn33FcwzfybcnAlEAr2nPGyb/
-	vVyhXLmQuJgCFfWjjT++4+8J370M96tYDdLC0GMZyfpy45MRTmQ9mBEJqtl7VpMP8+iOhkhGVrq
-	GmLOWV5inD89zL0UGxnfojVGr3+f72aFxmpb1IEhJfS0Se03Dp2wXXmJzKuXt5S70vDgPKNrE9V
-	kIbM0rVNtyO1RMbsgmkRU1cQ4RLVU2DXbWIv5b4sS/Si+jsD4OROTs39Eisq1n3gt3Xhh142+4d
-	o3UVxJuHOgOqewBUj8/bQwJ4
-X-Google-Smtp-Source: AGHT+IEqmZ/zw/2RYAb/i5OhbSJ5JrlYwM3gww/+dRFqbYgXrwVkj6qJ6V8F3Z30APjy+N/Ji+N1ew==
-X-Received: by 2002:a17:906:3296:b0:abb:b1ae:173b with SMTP id a640c23a62f3a-abc0d994e4emr1665532466b.11.1740510714491;
-        Tue, 25 Feb 2025 11:11:54 -0800 (PST)
-Received: from [127.0.1.1] ([46.53.242.22])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-abed2010d58sm187491366b.88.2025.02.25.11.11.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 11:11:54 -0800 (PST)
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Tue, 25 Feb 2025 22:11:46 +0300
-Subject: [PATCH] hwmon: (max77705) add initial support
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEnrmMXO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740510785; x=1772046785;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=796i5716ka9/7YQfp5k5F1IRgOLjv4qvpf43zlH3o+o=;
+  b=IEnrmMXOud66C+qPDm3UkGJuG3IQpQXZ0qqVdnQaiAAsoYVwJkuGherc
+   Tw/WlhzwutqQ+fwkb/ApetMvEt8MR9iY8WPLzoawW78IVCmqdXNhmLb3r
+   bvGiZY95/N6v8KpiGxMQr77ou44NM2cZpOoLgaWRGdMKKsE7nrhlb3XHk
+   CHRyYPLyeYhg4L5N2sBVGJZaml3/xoziD3l4RLsqKjLafH/YVAMewa7GT
+   QBkLGh9581KHMz8Umcz7oiHQ/vn1gpasnBPZ4bernRL9fW6baP9fid/R9
+   ADf2vpfuucl63NZSyCyNAUMAoNeq+nDGwwARF6gKscR2lIafnBLQsNN+4
+   w==;
+X-CSE-ConnectionGUID: 3uPl4C9tRA2nqOUTMIIA2Q==
+X-CSE-MsgGUID: 42+8sv6kRYmQeV2sviw8+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41462627"
+X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; 
+   d="scan'208";a="41462627"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 11:13:04 -0800
+X-CSE-ConnectionGUID: 69ZdoVgYTFyirXmu8OLSng==
+X-CSE-MsgGUID: kSlMhdiNTBmgvvmwtWa4gQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="117407065"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 11:13:03 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Tue, 25 Feb 2025 11:13:02 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Tue, 25 Feb 2025 11:13:02 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 25 Feb 2025 11:13:00 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=j6vZ+bgvQFUf16iWc+XwSR/AbG5vILf+3TRN8KfSIt8CdyXltXOPc/Gy0zEByG0suvI2kvVPbbnzU1nDJ59bKWcPNbwQwhJvJlHNbXF3O/IO1WTnzE4hAgoFlwPNROZfMVIQ6RpjxJk/jC/jmyUqCdkzboozJ099fKcRGBEur6u1xPnueCNHboQrRZtyrr39H8hSCIGgClIjyNpbyA5iFuWqLBldPswCnTXW1wzR/ZekbaNEdGW7Zgny8u7DsZFUio3ye9r2pNWifeNq3knYmhGWiK4pJNKrqjXs0wxbvMroBSHtLr+iIje1UBwZL5+/1vn4Lk4aILEilfVIloTg/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BtyYDsWDAPxhsk//OJHdSQJlC3bHQmXLR9yPtJnMP34=;
+ b=qRT276tlB1iuKT6VlWIHKlwJ/dc+IATVBcX0Y9U0JVfYKfwjeLjTHbfNmrr4fZwNVudUyP1MfZlqBz3ahUkp2VUYW96UMeIXiUi1Bwld17e1z1KgKintj+HLjKFVjubTws1TmJDShTVZCTySgjs/nfzRRUXEGo9dL9mMPDY0o8HWoe9do/8NotY2QeDDf/W5VD5sDXo+Q9fK1iyK6xuX/P6lXNxbJrXHLpE3vSyAjRAETHR/84iV4UPhcL8sUNfKxeAyTNq94z0xJwSy9zJCtO7tybUR6tgeH8XGbi9vX4BTHihf/Taw1RHQoMSNwa3u70kAyCa9cGKgGp5R/tl7kQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
+ by SN7PR11MB7140.namprd11.prod.outlook.com (2603:10b6:806:2a3::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.17; Tue, 25 Feb
+ 2025 19:12:53 +0000
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::a137:ffd0:97a3:1db4]) by MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::a137:ffd0:97a3:1db4%4]) with mapi id 15.20.8466.016; Tue, 25 Feb 2025
+ 19:12:53 +0000
+Date: Tue, 25 Feb 2025 20:12:40 +0100
+From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+To: Andrey Konovalov <andreyknvl@gmail.com>
+CC: <kees@kernel.org>, <julian.stecklina@cyberus-technology.de>,
+	<kevinloughlin@google.com>, <peterz@infradead.org>, <tglx@linutronix.de>,
+	<justinstitt@google.com>, <catalin.marinas@arm.com>,
+	<wangkefeng.wang@huawei.com>, <bhe@redhat.com>, <ryabinin.a.a@gmail.com>,
+	<kirill.shutemov@linux.intel.com>, <will@kernel.org>, <ardb@kernel.org>,
+	<jason.andryuk@amd.com>, <dave.hansen@linux.intel.com>,
+	<pasha.tatashin@soleen.com>, <guoweikang.kernel@gmail.com>,
+	<dwmw@amazon.co.uk>, <mark.rutland@arm.com>, <broonie@kernel.org>,
+	<apopple@nvidia.com>, <bp@alien8.de>, <rppt@kernel.org>,
+	<kaleshsingh@google.com>, <richard.weiyang@gmail.com>, <luto@kernel.org>,
+	<glider@google.com>, <pankaj.gupta@amd.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <kuan-ying.lee@canonical.com>,
+	<tony.luck@intel.com>, <tj@kernel.org>, <jgross@suse.com>,
+	<dvyukov@google.com>, <baohua@kernel.org>, <samuel.holland@sifive.com>,
+	<dennis@kernel.org>, <akpm@linux-foundation.org>,
+	<thomas.weissschuh@linutronix.de>, <surenb@google.com>,
+	<kbingham@kernel.org>, <ankita@nvidia.com>, <nathan@kernel.org>,
+	<ziy@nvidia.com>, <xin@zytor.com>, <rafael.j.wysocki@intel.com>,
+	<andriy.shevchenko@linux.intel.com>, <cl@linux.com>, <jhubbard@nvidia.com>,
+	<hpa@zytor.com>, <scott@os.amperecomputing.com>, <david@redhat.com>,
+	<jan.kiszka@siemens.com>, <vincenzo.frascino@arm.com>, <corbet@lwn.net>,
+	<maz@kernel.org>, <mingo@redhat.com>, <arnd@arndb.de>, <ytcoode@gmail.com>,
+	<xur@google.com>, <morbo@google.com>, <thiago.bauermann@linaro.org>,
+	<linux-doc@vger.kernel.org>, <kasan-dev@googlegroups.com>,
+	<linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>, <linux-mm@kvack.org>,
+	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>
+Subject: Re: [PATCH v2 01/14] kasan: sw_tags: Use arithmetic shift for shadow
+ computation
+Message-ID: <gisttijkccu6pynsdhvv3lpyxx7bxpvqbni43ybsa5axujr7qj@7feqy5fy2kgt>
+References: <cover.1739866028.git.maciej.wieczor-retman@intel.com>
+ <168f775c4587f3a1338271390204a9fe16b150dd.1739866028.git.maciej.wieczor-retman@intel.com>
+ <CA+fCnZcVSwUAC9_xtVAHvO6+RWDzt6wOzWN623m=dT-3G=NnTQ@mail.gmail.com>
+ <cik7z3nwspdabtw5n2sfoyrq5nqfhuqcsnm42iet5azibsf4rs@jx3qkqwhf6z2>
+ <CA+fCnZd6O0_fc1U-D_i2shcF4Td-6389F3Q=fDkdYYXQupX1NA@mail.gmail.com>
+ <uup72ceniis544hgfaojy5omctzf7gs4qlydyv2szkr5hqia32@t6fgaxcaw2oi>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <uup72ceniis544hgfaojy5omctzf7gs4qlydyv2szkr5hqia32@t6fgaxcaw2oi>
+X-ClientProxiedBy: DB7PR02CA0025.eurprd02.prod.outlook.com
+ (2603:10a6:10:52::38) To MN0PR11MB6231.namprd11.prod.outlook.com
+ (2603:10b6:208:3c4::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-initial-support-for-max77705-sensors-v1-1-2be6467628b0@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAPEVvmcC/y3NQQrCMBCF4auUWTuQpISAVxEXIZ3qgCZxJi2F0
- rs3qMvvLd6/g5IwKVyHHYRWVi65w14GSM+YH4Q8dYMzzhvrRuTMjeMLdam1SMO5CL7jFkIwHpW
- yFlGMk7HBxGQpeehXVWjm7Zu53X8W+iy91v7jcZwY+tbIiwAAAA==
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740510713; l=11128;
- i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
- bh=MUX52mLrc9tAzehVSU27yGUahedRxwTwQS/B41HkVUA=;
- b=wSbpoMAXVidnW1lel99HXq7bllZF+eNL2/kUHW7joXzoTo84MU1HrCQpF+pqkgl1lGn35eYRz
- 5t9AooMYg+cD+1PqRQYGXFJBOch/XwVDjdCgZ3hIQw1whpWV/CQyViE
-X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
- pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|SN7PR11MB7140:EE_
+X-MS-Office365-Filtering-Correlation-Id: b59f1399-874f-48a9-fe93-08dd55d066f9
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aU5kcy9hQmRENHZZaWhGQ09LNUxFdjZYSWszZDV3TzZuSThLK09XVCtiK3Jw?=
+ =?utf-8?B?Skwrb1Y0a2M3V3N3VGhwRkxtRW9aUUtUN0Z0MVZNWTJZVmsyYjZOWEJJMlFl?=
+ =?utf-8?B?T2lKR2tKUU1MNEJkNk5WYXVhUkF4MWE1aFFKMFhxZjlaS1NWZ0phSnZraWVT?=
+ =?utf-8?B?S1BaYlNwZmtod0lSdG0zbkNHdjRCZDhzSVZ3c1JQV2x2NW02TVZTZnVJRzBR?=
+ =?utf-8?B?WU41QjB4Z3ZGWHlNRm12NGhDaCt2cmhqNFMwTTFyOWU2bEM1RERzeTMyNTll?=
+ =?utf-8?B?bHNSdTdnZ29xb3NVdi81cDg1dlNhWFlpTENUbXZMY1hCTjEvd1pObVMwLzY2?=
+ =?utf-8?B?U1hhV1lVOTJxL0UwdlVJUWFCLzlEazVJQzZFYmt4RlZGYTRVWTRsTGVoYml6?=
+ =?utf-8?B?YUR2NTlYUG9Od0hZL1FocFAyaVRNVEVXVEVlL3dOUHR4UTdETUlNeGoyT3Jk?=
+ =?utf-8?B?dGVlVGhZWHJ2RUJ1czQ3Mk1IdnRBWnJlbUEwL2tGSFZVZHBUOWJTeFdLclMz?=
+ =?utf-8?B?QUJtM254RG9uMjRSMmtTR1ZtRWlvRUtWOHN5TWlVZGJKOEp2cmdkYUdiK1lE?=
+ =?utf-8?B?MmhROFgwZVliTTlGRlZMcmtxMjJITmZsOUlEVXZTQkR4QS9kYzk4c0RuRllp?=
+ =?utf-8?B?cVE0NHMxVVNsZTFraWxTUVJxTlE3RWNZdDd2dHlMZkc3WUVBTVhSOUZNYk9B?=
+ =?utf-8?B?Z3BRV2k0ZHloTXdYYzdVQmxrSnBld2dXM2xYc1BqYXFSUWdyU3ZUN1BuZEZO?=
+ =?utf-8?B?MWlkSDlUNVIrM3JnVlVFK3RLNDdXd2hrWVltK2xiZCtnZiszRnlkbnV6bnhr?=
+ =?utf-8?B?WWZZcVU2NVVvbHJhRGlRS0JJdjBRNGdWMWZqQWJoWnBwVHEzUGxjelh1OXdD?=
+ =?utf-8?B?ZkRCTi9rY0ZjdHliQzVrZS85alVmajM2NmtZMGczOGl1WklIZlhuTGRTbmo4?=
+ =?utf-8?B?R2hsckJndzZlZ0kzVXovczk4U0JRU0lLbThZT3lkUWRrUmQ2cno3YXBobzFv?=
+ =?utf-8?B?bWIzcWhUdU5CbStwWXc1aEg5dVFHOXFVZncrNjY0UHk0bHlHREdpUnR2RHU3?=
+ =?utf-8?B?ZWdMOHloalQzOTdTZk5iY3RtNWRpQVBOdWlwQUpwUDFnNklvNUxYSm9vQ0VD?=
+ =?utf-8?B?YXRhSlhyY2tIckl0ZEVVTWdZakRjLzhxVHBDeEd3a3ludnRsdEJlU2lUN2JX?=
+ =?utf-8?B?NTBiOU1WZTFseGY2R1ZvU2E0dU1MekJJWUw2eC92RTRVMEU4U1dWdkF5ekVQ?=
+ =?utf-8?B?NzRMSTRTRnBXRldxQkZNOWNCbXM1UzVieFdCejR5S2xMaEw3L0k4RmdPQVdk?=
+ =?utf-8?B?WlZ4anhzb0Q2VTZtOWphSVBFeXdpbnlPVnltQmtyMFgvbStxRlZCc0hXNElp?=
+ =?utf-8?B?SFBQNVRZTitXbTNCeSt6UGw5cjN1M2ZpTTQ0WTdWQ29iTjJES21KVlhsVzJY?=
+ =?utf-8?B?a1BqSW5lVWNCWUVyYmJrZDZaWk5uaVV1Ry9VKzFmQXdJUHVHQk04R0ZhN1N1?=
+ =?utf-8?B?T1FYSnFzdlZxQ2kzOUdpaDJQQWwzM1Q5TzNMSzc2QnJWTlM4a1dtb1E2TERI?=
+ =?utf-8?B?VG84QVRNay9CaHJKSVBYNEtiTElpU0h3Y1RZOG1yYnhBTlRiOWd4N3JwZnhY?=
+ =?utf-8?B?bDdnRVY3MkxKQndSdHdNNVF4b09LZEVNbXpkU0R1cXI2RHBsM091Nk5XYWt5?=
+ =?utf-8?B?WHNVVVU3TC9PeGxvRUZFVmV2TWNqVVRLbWgzaDVpcVFaMXcxZ3NXYmpYQWU1?=
+ =?utf-8?B?cFh2cnVCTStVOVBkbUU0Uk9nWERsY205T0JoRmFtMjYyclE1SHZCcUNRYnZ5?=
+ =?utf-8?B?WXVHTFlzbjlUYmtHeWJ0QT09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bTcybWdBTDQ3cGYyRXFyUWdXMk5nd1lBc09DTGIyeDZPSWtNQTIxbTdCVXdo?=
+ =?utf-8?B?dnduaVJFRjYyYWllQzgyeVo0V1FPcFF3WHdyVGFtQ3FnZXV0VFdqQ2VVU2po?=
+ =?utf-8?B?Q1lwZGdMLzZqVW4xMlBRcTFFUG1ta05ob0F1clR1bTB1b1ZoVnVpUTcxVUFh?=
+ =?utf-8?B?NEs5MDdmT0lsNWhBQ1RpbmNFQm1oa1FOaExSSE0wS3ozcFRMTzBraGZpQ0pw?=
+ =?utf-8?B?RjZpc21xV1h0SzZ6bC9CUEl1ckpVSE91OXhHYmRHZk80WWRXYUc2SUVDdnQ1?=
+ =?utf-8?B?cEF3cklMMjBwZGRXbTVqcHZFNWNqb3AzSEJKNjJUM3ZZL1NyVys4UjE3dEda?=
+ =?utf-8?B?M3B0alNTN3VNMVRnamdFUUJWMXZUWXhRRkgrbFFXOHUrWUtUVUwxVDhBWDNX?=
+ =?utf-8?B?UFZpWnN1QlNtNjArL3NhN3pJVlMyeUwvOEgzYU53MDZoSC9IbGNkT1NHMDkv?=
+ =?utf-8?B?cVBydklKaCs5MmRNa3FrWURlV1pKZUUrUGRHMXFPeVIxVUFsWVZTWTVMYmt6?=
+ =?utf-8?B?OXArSndObTYvVFNycFRxNlpEdm0ybzdBUXlmY0lydHliRlJiby83V3JNN0tL?=
+ =?utf-8?B?ZEpWZUZQbU05eG1MeGNDNnZhZVdsNS80c29Ib1RhNEs1dEtMeDBmSmdYU3Jr?=
+ =?utf-8?B?RU80czZYQmZSTDJ4K0VxdUZtQkVjcnhLV3Vaai9yNlhxVXYrRFdPZHRJQ1Ax?=
+ =?utf-8?B?TmtkWE56OWVka2F4eWZQZ3c1bGpCT08wUXl2NkFOMkFFcDRQRWtuY3puMGV0?=
+ =?utf-8?B?OUpwK0lXU3JvM0p1SkVFbWM4Y1VRd3JFUXN4bERER2VPb1lwd3ZPRXd3eW5t?=
+ =?utf-8?B?U0hLTmg1ZEZoQXUvdjhMZEw3ckVMZ21RcEo1ait1NWprSEV0K0Z3TXNSMzRu?=
+ =?utf-8?B?UGtxMG5oVUNUMTFzc3dSVTBOb04xQ25mRTdxUVRhb0RWa3Z2c0M5dFp6L2hq?=
+ =?utf-8?B?V29mNVVGWVUweEJHekN5UndkbXZEMS9TeU9hb0RQQ3ZTOGdaN0VVUEZxcWZu?=
+ =?utf-8?B?NzBwZ3ljT1VoSVlKOGlsRkxkTTFvZGVubkRTdXpTTi81NmlnWkRUZ0U0OXJL?=
+ =?utf-8?B?NlZUbWJJMk9lamZyNkpIellkcEJmcWxTQ2ZGWGw1bGRlYkp2ZVdhWFBSNEcw?=
+ =?utf-8?B?MEVIVytBUGMzb2R2b3dGU1RUTHQ4V0ErRUxVOCtkbitaZzIxMmRDWnhvVVIw?=
+ =?utf-8?B?M01EQVRWekxKT1ZCaDhHOU9hNVlkRnU2MTRnVDdhb2srazRwcFFhUUFnbGxH?=
+ =?utf-8?B?ZTNQUW1nbWRrcDBQNC9RbkgrNkRqRUM2R0JQK3pWSXR1Y1p6bG5pa1ZVZjFI?=
+ =?utf-8?B?TEdwQ0tkMExMTDhpNVlFSFJNbFdYdDNlZktDMXp3cjJaYjBOOHRNejVVSUV6?=
+ =?utf-8?B?aC8wNHIvb04vWmp5QXhKOVJNUForakM0UlFjak9CVlNaNU92MWI1Nk96U05i?=
+ =?utf-8?B?Q2RhdU82cGJHWXlheGJaRTZVV2hMZzhaSlBhQy9TYnh0d2NpampTQldva091?=
+ =?utf-8?B?YVlydkxaWTRUbFB4NmNDaitqRUxRT1ZyaU83aG5Dd3B1NlZpVU1SeFc0ZjdS?=
+ =?utf-8?B?dE1paSt0eDczVStOZ3MzbysrUHNxd0tmYVVHckhwWDc4bVpOWlBxVHR3RVhK?=
+ =?utf-8?B?OTBBVkZIb2FtRDJpRTdJL25YNmE1MTdVRnpOeEhZV2UwZVpRVmZad3Nsdko2?=
+ =?utf-8?B?RXdPQkNSTUlYblZ2SlI2Nk1kTllLWVU5ZjlDWTNrV1dxQS9jUnZDRE82TVMy?=
+ =?utf-8?B?aks3NFZCam9sOFphaGJCTHI4VStyRVJIeHRrUFdtdGRTaXh5TkdHNDlhTmF3?=
+ =?utf-8?B?YWN1QTFYTEZGaVVtblUxbEhnV1NucW1OQjV2bEhuNWora1ltVytpd2Q4UjYw?=
+ =?utf-8?B?SnhjUk45SEFyQXlCREIxU282cENJL1FWaUFvdmhvbG1QVnVCamZ2dGt3ZUpR?=
+ =?utf-8?B?VUtQc0dUd2MrTXV3Zmc5UjIva1JjZkZJVXdzeUlhMWpzcStPUm9KV3ppUWtj?=
+ =?utf-8?B?bmJ2Z2F6UnlzbDExMFFsZ2lZcjFiajZBNmZXUS9XM0xTUzdSQmNjR0J2SlNs?=
+ =?utf-8?B?TDBJQzJnMW4yZXFPWGJJeUFZc1VqRXpsQ3ZDMS94MEtIazd4bWpWVmRyNUZi?=
+ =?utf-8?B?cUdhVzQ4bjFGV1BVWGhMbzJ2OWhma3p4WThaTmhaWW1GYUFZRWg3VFpiNmo4?=
+ =?utf-8?Q?4UcdFWDzjpK1C7/Bw30dMuo=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b59f1399-874f-48a9-fe93-08dd55d066f9
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 19:12:53.0361
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Poyfx4e1BL1wDoDAth6RQSnJKNbeJdnVxhhrnJ+vMkCYPJdY4Nh3TNZTxM8KsT8dAse+E4gvhxOG5k0dbwfZKV8BO9j/dBeXAWRbS6VflS8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7140
+X-OriginatorOrg: intel.com
 
-Add support for max77705 hwmon. Includes charger input, system bus, and
-vbyp measurements.
+On 2025-02-25 at 18:20:08 +0100, Maciej Wieczor-Retman wrote:
+>On 2025-02-22 at 16:06:02 +0100, Andrey Konovalov wrote:
+>>On Fri, Feb 21, 2025 at 2:12 PM Maciej Wieczor-Retman
+>><maciej.wieczor-retman@intel.com> wrote:
+>>>
+>>> >Is there any reason we need this change for x86 SW_TAGS besides the
+>>> >optimization benefits?
+>>>
+>>> I wanted to have the shadow memory boundries aligned properly, to not waste page
+>>> table entries, so the memory map is more straight forward. This patch helps with
+>>> that, I don't think it would have worked without it.
+>>
+>>Ok, I see - let's add this info into the commit message then.
+>
+>Sure, but if you like the 0xffeffc0000000000 offset I'll just drop this part.
+>
+>>
+>>> >However, I just realized that this check is not entirely precise. When
+>>> >doing the memory-to-shadow mapping, the memory address always has its
+>>> >top byte set to 0xff: both the inlined compiler code and the outline
+>>> >KASAN code do this
+>>>
+>>> Do you mean that non-canonical addresses passed to kasan_mem_to_shadow() will
+>>> map to the same space that the canonical version would map to?
+>>
+>>No, but non-canonical address are never passed to
+>>kasan_mem_to_shadow(): KASAN always resets the tag before calling this
+>>function.
+>>
+>>> What does that? Does the compiler do something more than is in
+>>> kasan_mem_to_shadow() when instrumenting functions?
+>>
+>>Same for the compiler, it always untags the pointer first [1].
+>>
+>>[1] https://github.com/llvm/llvm-project/blob/llvmorg-20-init/llvm/lib/Transforms/Instrumentation/HWAddressSanitizer.cpp#L922
+>>
+>>> >                   Thus, the possible values a shadow address can
+>>> >take are the result of the memory-to-shadow mapping applied to
+>>> >[0xff00000000000000, 0xffffffffffffffff], not to the whole address
+>>> >space. So we can make this check more precise.
+>>>
+>>> In case my question above didn't lead to this: what happens to the rest of the
+>>> values if they get plugged into kasan_mem_to_shadow()?
+>>
+>>We will get some invalid addresses. But this should never happen in
+>>the first place.
+>
+>Thanks for letting me know about the tag resets, that should make changing the
+>check in kasan_non_canonical_hook() easier.
 
-Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
----
-Maxim MAX77705 is a Companion Power Management and Type-C interface IC.
-It includes charger and fuel gauge blocks, and is capable of measuring
-charger input current, system bus volatage and current, and bypass
-voltage.
+Ah, but the [0xff00000000000000, 0xffffffffffffffff] won't be true for x86
+right? Here the tag reset function only resets bits 60:57. So I presume
+[0x3e00000000000000, 0xffffffffffffffff] would be the range?
 
-This patch add support for mentioned measurements.
----
- Documentation/hwmon/index.rst    |   1 +
- Documentation/hwmon/max77705.rst |  39 +++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                      |   7 +++++++
- drivers/hwmon/Kconfig            |  10 ++++++++++
- drivers/hwmon/Makefile           |   1 +
- drivers/hwmon/max77705-hwmon.c   | 260 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 318 insertions(+)
-
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 874f8fd26325..444c7865f74f 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -158,6 +158,7 @@ Hardware Monitoring Kernel Drivers
-    max6639
-    max6650
-    max6697
-+   max77705
-    max8688
-    mc13783-adc
-    mc34vr500
-diff --git a/Documentation/hwmon/max77705.rst b/Documentation/hwmon/max77705.rst
-new file mode 100644
-index 000000000000..9037226c50b9
---- /dev/null
-+++ b/Documentation/hwmon/max77705.rst
-@@ -0,0 +1,39 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver max77705
-+====================
-+
-+Supported chips:
-+
-+  * Maxim Integrated MAX77705
-+
-+    Prefix: 'max77705'
-+
-+    Addresses scanned: none
-+
-+    Datasheet: Not available
-+
-+Authors:
-+      - Dzmitry Sankouski <dsankouski@gmail.com>
-+
-+Description
-+-----------
-+
-+The MAX77705 PMIC provides current and voltage measurements besides fuelgauge:
-+- chip input current
-+- system bus current and voltage
-+- VBYP voltage
-+
-+Sysfs Attributes
-+----------------
-+
-+================= ========================================
-+in1_label         "vbyp"
-+in1_input         Measured chip vbyp voltage
-+in2_label         "vsys"
-+in2_input         Measured chip system bus voltage
-+curr1_label       "iin"
-+curr1_input       Measured chip input current.
-+curr2_label       "isys"
-+curr2_input       Measured chip system bus current.
-+================= ========================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f076360ce3c6..b6e970731928 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18025,6 +18025,13 @@ S:	Maintained
- F:	Documentation/hwmon/pc87427.rst
- F:	drivers/hwmon/pc87427.c
- 
-+MAX77705 HARDWARE MONITORING DRIVER
-+M:	Dzmitry Sankouski <dsankouski@gmail.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/max77705.rst
-+F:	drivers/hwmon/max77705-hwmon.c
-+
- PCA9532 LED DRIVER
- M:	Riku Voipio <riku.voipio@iki.fi>
- S:	Maintained
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index f114d0c55d78..17b2e1b535eb 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1287,6 +1287,16 @@ config SENSORS_MAX31790
- 	  This driver can also be built as a module. If so, the module
- 	  will be called max31790.
- 
-+config SENSORS_MAX77705
-+	tristate "MAX77705 current and voltage sensor"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  If you say yes here you get support for MAX77705 sensors connected with I2C.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called max77705-hwmon.
-+
- config SENSORS_MC34VR500
- 	tristate "NXP MC34VR500 hardware monitoring driver"
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index b7ef0f0562d3..ff69f45eca50 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -159,6 +159,7 @@ obj-$(CONFIG_SENSORS_MAX6650)	+= max6650.o
- obj-$(CONFIG_SENSORS_MAX6697)	+= max6697.o
- obj-$(CONFIG_SENSORS_MAX31790)	+= max31790.o
- obj-$(CONFIG_MAX31827) += max31827.o
-+obj-$(CONFIG_SENSORS_MAX77705) += max77705-hwmon.o
- obj-$(CONFIG_SENSORS_MC13783_ADC)+= mc13783-adc.o
- obj-$(CONFIG_SENSORS_MC34VR500)	+= mc34vr500.o
- obj-$(CONFIG_SENSORS_MCP3021)	+= mcp3021.o
-diff --git a/drivers/hwmon/max77705-hwmon.c b/drivers/hwmon/max77705-hwmon.c
-new file mode 100644
-index 000000000000..3218e9f5a726
---- /dev/null
-+++ b/drivers/hwmon/max77705-hwmon.c
-@@ -0,0 +1,260 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ *  MAX77705 voltage and current hwmon driver.
-+ *
-+ *  Copyright (C) 2025 Dzmitry Sankouski <dsankouski@gmail.com>
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/platform_device.h>
-+#include <linux/mfd/max77705-private.h>
-+#include <linux/hwmon.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/regmap.h>
-+#include <linux/jiffies.h>
-+#include <linux/slab.h>
-+#include <linux/i2c.h>
-+#include <linux/err.h>
-+
-+struct max77705_hwmon {
-+	struct regmap *regmap;
-+};
-+
-+struct channel_desc {
-+	u8 reg;
-+	u8 avg_reg;
-+	const char *const label;
-+	// register resolution. nano Volts for voltage, nano Amperes for current
-+	u64 resolution;
-+};
-+
-+static const struct channel_desc current_channel_desc[] = {
-+	{
-+		.reg = IIN_REG,
-+		.label = "IIN_REG",
-+		.resolution = 125000
-+	},
-+	{
-+		.reg = ISYS_REG,
-+		.avg_reg = AVGISYS_REG,
-+		.label = "ISYS_REG",
-+		.resolution = 312500
-+	}
-+};
-+
-+static const struct channel_desc voltage_channel_desc[] = {
-+	{
-+		.reg = VBYP_REG,
-+		.label = "VBYP_REG",
-+		.resolution = 427246
-+	},
-+	{
-+		.reg = VSYS_REG,
-+		.label = "VSYS_REG",
-+		.resolution = 156250
-+	}
-+};
-+
-+static const struct regmap_range max77705_hwmon_readable_ranges[] = {
-+	regmap_reg_range(AVGISYS_REG,	AVGISYS_REG + 1),
-+	regmap_reg_range(IIN_REG,	IIN_REG + 1),
-+	regmap_reg_range(ISYS_REG,	ISYS_REG + 1),
-+	regmap_reg_range(VBYP_REG,	VBYP_REG + 1),
-+	regmap_reg_range(VSYS_REG,	VSYS_REG + 1),
-+};
-+
-+static const struct regmap_access_table max77705_hwmon_readable_table = {
-+	.yes_ranges = max77705_hwmon_readable_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(max77705_hwmon_readable_ranges),
-+};
-+
-+static const struct regmap_config max77705_hwmon_regmap_config = {
-+	.name = "max77705_hwmon",
-+	.reg_bits = 8,
-+	.val_bits = 16,
-+	.rd_table = &max77705_hwmon_readable_table,
-+	.max_register = MAX77705_FG_END,
-+	.val_format_endian = REGMAP_ENDIAN_LITTLE
-+};
-+
-+static umode_t max77705_is_visible(const void *data,
-+		enum hwmon_sensor_types type,
-+		u32 attr, int channel)
-+{
-+	switch (type) {
-+	case hwmon_in:
-+		if (channel >= ARRAY_SIZE(voltage_channel_desc))
-+			return 0;
-+
-+		switch (attr) {
-+		case hwmon_in_input:
-+		case hwmon_in_label:
-+			return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	case hwmon_curr:
-+		if (channel >= ARRAY_SIZE(current_channel_desc))
-+			return 0;
-+
-+		switch (attr) {
-+		case hwmon_curr_input:
-+		case hwmon_in_label:
-+			return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+	return 0;
-+}
-+
-+static int max77705_read_string(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-+		int channel, const char **buf)
-+{
-+	switch (type) {
-+	case hwmon_curr:
-+		switch (attr) {
-+		case hwmon_in_label:
-+			*buf = current_channel_desc[channel].label;
-+			return 0;
-+		default:
-+			return -EOPNOTSUPP;
-+		}
-+
-+	case hwmon_in:
-+		switch (attr) {
-+		case hwmon_in_label:
-+			*buf = voltage_channel_desc[channel].label;
-+			return 0;
-+		default:
-+			return -EOPNOTSUPP;
-+		}
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int max77705_read(struct device *dev, enum hwmon_sensor_types type,
-+		u32 attr, int channel, long *val)
-+{
-+	struct max77705_hwmon *drv_data = dev_get_drvdata(dev);
-+	struct regmap *regmap = drv_data->regmap;
-+	u8 reg;
-+	u32 regval;
-+	u64 res;
-+	int ret;
-+
-+	switch (type) {
-+	case hwmon_curr:
-+		switch (attr) {
-+		case hwmon_curr_input:
-+			reg = current_channel_desc[channel].reg;
-+			res = current_channel_desc[channel].resolution;
-+			ret = regmap_read(regmap, reg, &regval);
-+			if (ret < 0)
-+				return ret;
-+			*val = mult_frac((long) regval, res, 1000000);
-+			return 0;
-+		case hwmon_curr_average:
-+			reg = current_channel_desc[channel].avg_reg;
-+			res = current_channel_desc[channel].resolution;
-+			if (reg) {
-+				ret = regmap_read(regmap, reg, &regval);
-+				if (ret < 0)
-+					return ret;
-+				*val = mult_frac((long) regval, res, 1000000);
-+			}
-+			return 0;
-+
-+		default:
-+			return -EOPNOTSUPP;
-+		}
-+
-+	case hwmon_in:
-+		switch (attr) {
-+		case hwmon_in_input:
-+			reg = voltage_channel_desc[channel].reg;
-+			res = voltage_channel_desc[channel].resolution;
-+			ret = regmap_read(regmap, reg, &regval);
-+			if (ret < 0)
-+				return ret;
-+			*val = mult_frac((long) regval, res, 1000000);
-+			return 0;
-+		default:
-+			return -EOPNOTSUPP;
-+		}
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct hwmon_ops max77705_hwmon_ops = {
-+	.is_visible = max77705_is_visible,
-+	.read = max77705_read,
-+	.read_string = max77705_read_string,
-+};
-+
-+static const struct hwmon_channel_info *max77705_info[] = {
-+	HWMON_CHANNEL_INFO(in,
-+			HWMON_I_INPUT | HWMON_I_LABEL,
-+			HWMON_I_INPUT | HWMON_I_LABEL
-+			),
-+	HWMON_CHANNEL_INFO(curr,
-+			HWMON_C_INPUT | HWMON_C_AVERAGE | HWMON_C_LABEL,
-+			HWMON_C_INPUT | HWMON_C_LABEL
-+			),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info max77705_chip_info = {
-+	.ops = &max77705_hwmon_ops,
-+	.info = max77705_info,
-+};
-+
-+static int max77705_hwmon_probe(struct platform_device *pdev)
-+{
-+	struct i2c_client *i2c;
-+	struct device *hwmon_dev;
-+	struct max77705_hwmon *drv_data;
-+
-+	drv_data = devm_kzalloc(&pdev->dev, sizeof(struct max77705_hwmon),
-+			GFP_KERNEL);
-+	if (!drv_data)
-+		return -ENOMEM;
-+
-+	i2c = to_i2c_client(pdev->dev.parent);
-+	drv_data->regmap = devm_regmap_init_i2c(i2c, &max77705_hwmon_regmap_config);
-+	if (IS_ERR(drv_data->regmap))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(drv_data->regmap),
-+				"Failed to register max77705 hwmon regmap\n");
-+
-+	hwmon_dev = devm_hwmon_device_register_with_info(&pdev->dev, "max77705", drv_data,
-+			&max77705_chip_info, NULL);
-+	if (IS_ERR(hwmon_dev)) {
-+		return dev_err_probe(&i2c->dev, PTR_ERR(hwmon_dev),
-+				"Unable to register hwmon device\n");
-+	}
-+
-+	return 0;
-+};
-+
-+static struct platform_driver max77705_hwmon_driver = {
-+	.driver = {
-+		.name = "max77705-hwmon",
-+	},
-+	.probe = max77705_hwmon_probe,
-+};
-+
-+module_platform_driver(max77705_hwmon_driver);
-+
-+MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
-+MODULE_DESCRIPTION("MAX77705 monitor driver");
-+MODULE_LICENSE("GPL");
-+
-
----
-base-commit: d4b0fd87ff0d4338b259dc79b2b3c6f7e70e8afa
-change-id: 20250123-initial-support-for-max77705-sensors-ad0170ac1ec5
-
-Best regards,
 -- 
-Dzmitry Sankouski <dsankouski@gmail.com>
-
+Kind regards
+Maciej Wieczór-Retman
