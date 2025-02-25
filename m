@@ -1,49 +1,49 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A99264A7C;
-	Tue, 25 Feb 2025 11:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2670B1A239E;
+	Tue, 25 Feb 2025 11:17:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740481766; cv=none; b=LT/QYMEF5T0uUEdtDC4PTPvUkZN9KRYKYi3nlNpO3Gu4nzANIDMlKoc3jIY9U56BwjZNjcjgLCnqOKZ6YbHZsKqj5OXgGVkldsOghVlbn+jEilAq2SS/5XNKceK4eZDC3CtcuRTN2vladxadJrjY5O7tY1TNwoApLZ5QcJz62a4=
+	t=1740482260; cv=none; b=TvQViiDLZIeJlGsnApVsY9pBxLhVYWuA1GQfo9qFsGh1tN5VyE0KzjSb+zUysklgXTOl28ar1feUq/cUaKJJ0yUrwSR7WLWPMNdOBcaVXczOw90ihht3AgwnNmErJ2pBxtC1FakbaLg0Wr9rPr46MVGk4Pb1YuJbWgnGWhmYtTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740481766; c=relaxed/simple;
-	bh=TtBQCEIEL2mTq/30X9Qjp4A9+mPF9QER9TihXX7Hng8=;
+	s=arc-20240116; t=1740482260; c=relaxed/simple;
+	bh=Y4qrHsZ4YlKYiMw1liY09TYi5suU2srUrdPV71CkQiE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VkZjVI8VevC0q3mehy8jhSptuadGIvwpsI8TSMIISDAhahO6u7n1cPS1nzC1Ns2Jp+0T659EvgoqFAi+lCNCchY+XFtvsLFoAMAhFi5N/lwgliV6BxlQud8d/WDHMkRhYqCm3RTnMCnl/0LlK5aCVtfy8U6Aq1OL7zCMXwb0JwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=dTxMbz0RPtPbdbYhm/sYFzh34FU0LxdJ1OgGLQQEjcaBjWMLxyJQ2h02lq+SCfu4llqH32+g0BuRcDZ2HQua2MSV8ccvbyrLrPWRSSm6KN+MrvPskXrC0BSbk/J09mAOd+7YPH2j+aQUpmyijD9QCiFK6tllxZ8sM+6SmtYDmvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5dee1626093so11670170a12.1;
-        Tue, 25 Feb 2025 03:09:24 -0800 (PST)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-abb999658fbso681915766b.3;
+        Tue, 25 Feb 2025 03:17:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740481763; x=1741086563;
+        d=1e100.net; s=20230601; t=1740482257; x=1741087057;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/HP9OZuJ6AU1JfkSYo6B6srazy0msILW/CieEyyhb2E=;
-        b=JpYnkp+cLzs8KSyOIghHt1J/SsOOobj9vE3UHHAo4/zPPSdMjAoBMH+UomrAEXZBsn
-         KPTrf3qOEC4qfy73VjJR/Xb4qWI4Qn0Fnef4kqiM6giFQR9iszgtkpm0KSETtxubpDn/
-         bRGFtEx1BkwhheizlyPwG5MtnaRoHDrN+ZZYBnbNuu1qLBj6naG/5lCuK+1Je7pPgDDB
-         AK+YQAqNYYmyIdXjxJZTn9+av73Kfeh/eFvKFI6Vpjn+EoNC1D1L9XwWu0u8h2Ft7tHb
-         bDkhX6d7hL5h+f3Gg6P85sVxb4opUDKmLck77GPQLnrymdl7VWam8D/FRli+JW4Di3oc
-         q46g==
-X-Forwarded-Encrypted: i=1; AJvYcCV0ORY8thReyEB6FIchyHbWm8MA0XQ1WVXSFNHePJR1dyS4+l1nkgeoL05OUzFxGpAwTy54C3zHmHWvHAAK@vger.kernel.org, AJvYcCVd0ehRGZfRl2JmPIJxfAYhwEh6AfAjY/+VfKV4LHoqYMlLM7zLpqn3VrYzMXU5JzURv/WmNRUE/HA=@vger.kernel.org, AJvYcCVeQIoJxIykyLvNBN2+MkRAuAf3muGexVmKjx7Q2DRmceokiJhF5ZPa2Jr8hBmMww+VnVLdEZTx@vger.kernel.org, AJvYcCXJ37uYE0BzcDu2pSIpPDVrmP5HJAUxvwzAM42UvgX904r0mdFbzabc9IbmrHHgZH10mSiHiZdA9CkeNfqoICXa@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRi6Mprtmx8COUiTPVdmvhgV1OFlKodl8rySTfWKLbeLyRUqmW
-	Egv9nkrr7ts/N1LO+YhWv7woxqOAT+0zb5dwbfdfPCz4//hl4BIg
-X-Gm-Gg: ASbGncu0a+XLLERzJmy53fPfMwayQJqQOiNpW7u03gMpx2c22arD7fz3p51SCSSB9wM
-	BzVqIprA0j6LsfQdQCGuBMyoVUntr08VZsAKDR7G1llCmcQDqBGUcKdnrcfL2RwvJPtDcyO5PST
-	jJgmYOtPS7R+az0mc7OTUnIaonH9GmRota+dx+ujJAZjk7uPnmUSiGcsarhUpT8NAgku1de9p8o
-	ahaGcy0sA1vcCRkb+6+z04ZD19VlZ7PLfIDkzdbtuOdpz7NlgzAvi/M//UDbREhJSWuuHceT5tW
-	713IInsuoNUZJt8m
-X-Google-Smtp-Source: AGHT+IFtEU/qbtI5q4s+/3i4tDPt/bCCUO0KkhYar0f3IBw5ANItfNk//tImV+wtlwslPGilHyVkQQ==
-X-Received: by 2002:a17:907:c015:b0:abb:61b0:faa5 with SMTP id a640c23a62f3a-abbeda27eacmr2004055666b.4.1740481763220;
-        Tue, 25 Feb 2025 03:09:23 -0800 (PST)
-Received: from gmail.com ([2a03:2880:30ff:4::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abed20b81a0sm120938266b.180.2025.02.25.03.09.22
+        bh=1j29+YwywkVdnOwJpODDXLXoxVQ80C41eZ3nGoHPbf4=;
+        b=Df+K/BVTSZ/FqgrWjulI3eyLIxO3aIZSwXCw7zluU+nT/HVEYg/RgauJAOlO3VdhBs
+         4EuASt3XFlhFLici9PYpIDVpDmx/AwFiGdoMQWsN7jywrlHs4SE0N9Fc9akwzhYeqgTy
+         Aa7n0u7ykIIHlN1H3CFaCIUekzXRoKthjz2jdvqFFSIA9CCGe14q6AaeON07tZRpmvfr
+         lOuDsw98ERZqM4wpqDYk/wxb1uAa4jhjy/R6AiA6US9hoEgrVDHxTwoQ6YO20qtrZOkC
+         ypvR2v9wXeLJtJVgAm0Kwx8SR06+JqQivFSRPlCVyd3w7VojSkR+MqzLWPpooAFG3H8k
+         TFZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUP7juvDNcZzQZiHBW78+8HwecbW/lnEA9GsQBn/Waem2Nw+gN7P2RKvUk/n0cIYLVC3GOYiRFI@vger.kernel.org, AJvYcCW4CTCPWntj3TpSgI8TVXiAJePaiuYuk5E+JEGEDOxI+E3WFoinpGjdiZQ3tGhXV66Or45djW8zJjU=@vger.kernel.org, AJvYcCWmt3hUi4jRx8f+ECaUOkHXx23MegENHGHMoIo3rHPqvRKZIeaypcTsPXGeIxIi8CbjjnAQy9tii+vCjeM2@vger.kernel.org, AJvYcCXLDJOa2USegPdllpZWmNmd61QVJnq8KYV6pzzpKQC7iEa9wsnY6MkW2iH+LlT7N7b0ZEx1n0p5vm3/LbEUK3Ho@vger.kernel.org
+X-Gm-Message-State: AOJu0YyO4EXn6N/vDmUSKbK1BPoylpZwMMy/U39h+RNo9rZqv2gPKsx7
+	qy8XiCfqTUHDCX2qNBYaaA2uJSk+Fvbkr7jZor4aZFwSQpqNC1pw
+X-Gm-Gg: ASbGncsrBl0ISsRmfKyFlDO1sPyve6HKgiNSWNjMl4L4idsaRs9CMyUMCWXhEcv/Mwp
+	4OOfGFn/ZyP+9Ouq+46hQ2KPnsVKBS+lJhYHNxvAVpldQqN9K7KlyG9DSghM6PJxzsiEfe1vsA9
+	Lt7AzD9uHE3vF77CQEEzXYPg2SJHnY5gRh/J1RYmkNP2OnywQrg/7HMGVugSwGnoVnWJ5p4h04t
+	hpn4pfCFvCn1Q5lPQqqchXN5hcXUoZyRLFoJRbAYreGFJWU+jO6llSGidlHqmvWX2dtIxTlZfwp
+	6xcyvglItCaqEFugGA==
+X-Google-Smtp-Source: AGHT+IF9N08H7jTMLFCvTUzvTml6TjwoMntNUKf+GwIhdyS7gvhSXa+0EhXsIhy4Y/1NGXa86oTn0A==
+X-Received: by 2002:a05:6402:34d0:b0:5e0:818a:5f4d with SMTP id 4fb4d7f45d1cf-5e44bb36997mr7209455a12.28.1740482257036;
+        Tue, 25 Feb 2025 03:17:37 -0800 (PST)
+Received: from gmail.com ([2a03:2880:30ff:73::])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e45a8b8b48sm1069172a12.20.2025.02.25.03.17.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 03:09:22 -0800 (PST)
-Date: Tue, 25 Feb 2025 03:09:20 -0800
+        Tue, 25 Feb 2025 03:17:35 -0800 (PST)
+Date: Tue, 25 Feb 2025 03:17:33 -0800
 From: Breno Leitao <leitao@debian.org>
 To: Simon Horman <horms@kernel.org>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -54,12 +54,12 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	kernel-team@meta.com
-Subject: Re: [PATCH net-next 2/7] netconsole: refactor CPU number formatting
- into separate function
-Message-ID: <20250225-diamond-gaur-of-anger-b0f77e@leitao>
+Subject: Re: [PATCH net-next 5/7] netconsole: add task name to extra data
+ fields
+Message-ID: <20250225-doberman-of-scientific-champagne-640c69@leitao>
 References: <20250221-netcons_current-v1-0-21c86ae8fc0d@debian.org>
- <20250221-netcons_current-v1-2-21c86ae8fc0d@debian.org>
- <20250225101748.GL1615191@kernel.org>
+ <20250221-netcons_current-v1-5-21c86ae8fc0d@debian.org>
+ <20250225101910.GM1615191@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,91 +68,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250225101748.GL1615191@kernel.org>
+In-Reply-To: <20250225101910.GM1615191@kernel.org>
 
 Hello Simon,
 
-On Tue, Feb 25, 2025 at 10:17:48AM +0000, Simon Horman wrote:
-> On Fri, Feb 21, 2025 at 05:52:07AM -0800, Breno Leitao wrote:
-> > Extract CPU number formatting logic from prepare_extradata() into a new
-> > append_cpu_nr() function.
+On Tue, Feb 25, 2025 at 10:19:10AM +0000, Simon Horman wrote:
+> On Fri, Feb 21, 2025 at 05:52:10AM -0800, Breno Leitao wrote:
+> > This is the core patch for this whole patchset. Add support for
+> > including the current task's name in netconsole's extra data output.
+> > This adds a new append_taskname() function that writes the task name
+> > (from current->comm) into the target's extradata buffer, similar to how
+> > CPU numbers are handled.
 > > 
-> > This refactoring improves code organization by isolating CPU number
-> > formatting into its own function while reducing the complexity of
-> > prepare_extradata().
-> > 
-> > The change prepares the codebase for the upcoming taskname feature by
-> > establishing a consistent pattern for handling sysdata features.
-> > 
-> > The CPU number formatting logic itself remains unchanged; only its
-> > location has moved to improve maintainability.
+> > The task name is included when the SYSDATA_TASKNAME field is set,
+> > appearing in the format "taskname=<name>" in the output. This additional
+> > context can help with debugging by showing which task generated each
+> > console message.
 > > 
 > > Signed-off-by: Breno Leitao <leitao@debian.org>
 > > ---
-> >  drivers/net/netconsole.c | 18 +++++++++++-------
-> >  1 file changed, 11 insertions(+), 7 deletions(-)
+> >  drivers/net/netconsole.c | 14 +++++++++++++-
+> >  1 file changed, 13 insertions(+), 1 deletion(-)
 > > 
 > > diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-> > index c086e2fe51f874812379e6f89c421d7d32980f91..26ff2ed4de16bce58e9eeaf8b5b362dfaafaca0a 100644
+> > index 5a29144ae37ee7b487b1a252b0f2ce8574f9cefa..625f4c0be11d8deb454139b1c526abc842697219 100644
 > > --- a/drivers/net/netconsole.c
 > > +++ b/drivers/net/netconsole.c
-> > @@ -1117,13 +1117,21 @@ static void populate_configfs_item(struct netconsole_target *nt,
-> >  	init_target_config_group(nt, target_name);
+> > @@ -1179,12 +1179,22 @@ static int append_cpu_nr(struct netconsole_target *nt, int offset)
+> >  			 raw_smp_processor_id());
 > >  }
 > >  
-> > +static int append_cpu_nr(struct netconsole_target *nt, int offset)
+> > +static int append_taskname(struct netconsole_target *nt, int offset)
 > > +{
-> > +	/* Append cpu=%d at extradata_complete after userdata str */
-> > +	return scnprintf(&nt->extradata_complete[offset],
-> > +			 MAX_EXTRADATA_ENTRY_LEN, " cpu=%u\n",
-> > +			 raw_smp_processor_id());
-> > +}
-> > +
-> >  /*
-> >   * prepare_extradata - append sysdata at extradata_complete in runtime
-> >   * @nt: target to send message to
-> >   */
-> >  static int prepare_extradata(struct netconsole_target *nt)
-> >  {
-> > -	int sysdata_len, extradata_len;
-> > +	int extradata_len;
-> >  
-> >  	/* userdata was appended when configfs write helper was called
-> >  	 * by update_userdata().
-> > @@ -1133,12 +1141,8 @@ static int prepare_extradata(struct netconsole_target *nt)
-> >  	if (!(nt->sysdata_fields & SYSDATA_CPU_NR))
-> >  		goto out;
-> >  
-> > -	/* Append cpu=%d at extradata_complete after userdata str */
-> > -	sysdata_len = scnprintf(&nt->extradata_complete[nt->userdata_length],
-> > -				MAX_EXTRADATA_ENTRY_LEN, " cpu=%u\n",
-> > -				raw_smp_processor_id());
-> > -
-> > -	extradata_len += sysdata_len;
-> > +	if (nt->sysdata_fields & SYSDATA_CPU_NR)
-> > +		extradata_len += append_cpu_nr(nt, nt->userdata_length);
+> > +	if (WARN_ON_ONCE(!current))
+> > +		return 0;
 > 
 > Hi Breno,
 > 
-> As this is the only caller of append_cpu_nr() I'm wondering
-> if it would be nicer if nt was the only argument to append_cpu_nr().
+> I gather that theoretically this could occur, but it isn't expected
+> to happen in practice. Is that right?
 
-Yes, I can do it. I just kept both functions the same:
+That's correct. `current` isn't expected to be NULL in practice.
+I've been running this code on several servers for days and have never
+encountered this warning. 
 
-  static int append_taskname(struct netconsole_target *nt, int offset)
-  static int append_cpu_nr(struct netconsole_target *nt, int offset)
+While the taskname feature isn't enabled during early boot, netconsole
+might be active at that time, which is why I exercised extra caution
+here.
 
-Another option is to use extradata_len as the second argument, instead
-of nt->userdata_length. That might(?) make the code easier to read? it
-would look like the following:
+If you also think this is safe, I am more than happy to remove this
+check.
 
-          extradata_len = nt->userdata_length;
-          if (nt->sysdata_fields & SYSDATA_CPU_NR)
-                  extradata_len += append_cpu_nr(nt, extradata_len);
-          if (nt->sysdata_fields & SYSDATA_TASKNAME)
-                  extradata_len += append_taskname(nt, extradata_len);
-
-What would you write yourself?
-
-Thank you very much for the review,
+Thanks for the review,
 --breno
