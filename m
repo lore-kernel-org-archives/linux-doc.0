@@ -1,184 +1,94 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C65FD205AB6;
-	Tue, 25 Feb 2025 19:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E47D19B5A3;
+	Tue, 25 Feb 2025 20:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740513505; cv=none; b=cpNE5Y+vgqb/YOVvmQCUFNIrHGxTaAKI/a1Wz42L0Br7iotb1Od1MwygkF5yGfWk58TaH/fkOjCbDU3+bzc7jEw/DfP3iymu8y6KmkijbMErcBtwo+GK9+YADcEWhPYeQURn1MySzcTtC/fpSfVItReajT9BO4eQG9yKBdjaMTM=
+	t=1740514223; cv=none; b=VV7JHWgNrjnzvkxa0kIUjpw2LpoeDO8vEUoZVuEt+yizf0Jmx0Z5lYZVaY+W66CMkBuUuD+ngSbUNUR3JKiiqiS+CPvXrZO2P7Ge8cI8QALk0YDEvvPOa4P01Le/s6d/26zwiE3UBAjdTS+N0wgBkxXUTxrw5O3y/wt0fy+olnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740513505; c=relaxed/simple;
-	bh=TauguYtmPWqQDsCynGgZIXK+z1cbbQZwXFdW9dEVRF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eLSn1UgxhDAmvSoRTjAHpgFQAxC1D25bsHHptqi2GroKSw2IFdScxXs/B9GhJMRUK6K3TK9HSaO+2eJJEP9jQswwl7/IdgHNK+Z3z4qX8SnMapSC7yqH0lZE0K9FFAD14ODPUsaVZJtvfUf1PFY/LrsvDZApOsqgDvAzCDPP3OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 427E6152B;
-	Tue, 25 Feb 2025 11:58:39 -0800 (PST)
-Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DD9303F6A8;
-	Tue, 25 Feb 2025 11:58:20 -0800 (PST)
-Date: Tue, 25 Feb 2025 19:58:18 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: Leo Yan <leo.yan@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	James Clark <james.clark@linaro.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v20 11/11] perf: arm_pmuv3: Add support for the Branch
- Record Buffer Extension (BRBE)
-Message-ID: <Z74g2vUT9-KtlIvo@J2N7QTR9R3.cambridge.arm.com>
-References: <20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org>
- <20250218-arm-brbe-v19-v20-11-4e9922fc2e8e@kernel.org>
- <20250224122507.GE8144@e132581.arm.com>
- <CAL_Jsq+0fZ2uasgAam7qGTdCeDBQxXeyL-J1_suyxy6GE_ERTg@mail.gmail.com>
- <20250224140317.GF8144@e132581.arm.com>
- <Z7yY19UtSnND5KTl@J2N7QTR9R3.cambridge.arm.com>
- <20250224180301.GI8144@e132581.arm.com>
- <Z72xMLsd37I6X_5-@J2N7QTR9R3>
- <20250225174803.GB1821331@e132581.arm.com>
+	s=arc-20240116; t=1740514223; c=relaxed/simple;
+	bh=9Sikho32R619XOFYLt/q+5TkXxnLWtEEZEAnylAOoGs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ewzLvcPsCuWfVu914tC3vS89s7oPdMziEQjy7nJnV3B50JPiyr6Z3qLszkX4Y0vVLhgICJFuWTuVqY9Dx8eg9IPjhJbUvny7TO1ga6ZG9aEgZdHgLmvZTJyVm/tGaSO4OL+B5VZ3TcevwPoT1V4HG+Kw0F8L3srGZW2GKlhHCKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=obGn1mYL; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="obGn1mYL"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2FE5748EC1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1740514220; bh=slRgZF0YUGBpz++3WDLE3bOeRLCVZObJIeYEzYOIpCc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=obGn1mYLsYj0Td+2DDjCeU5YLxeiAW2kMrjnQxi7v/Wa4GRvnuTSspJUZnShbImxB
+	 Q2SkDVdcrD9X9ivjbPRE6P6QSc952yqQ9o70c4hP1+zQRyCF6cGk7ptjQsBKJY1nX9
+	 /A0pi3oHnK9cJQmdIw+g19qkIHirm/++2WQHG0BJCjip93wmVmvb1uxKORgw7gfaWZ
+	 95Pmz7+UGqG58IBC1Xn5zg+PTTyAdenWFvaQEzds/tf/7IGuzgdJmvrRDKdkMy3i6Y
+	 RFXDlXlkgIQV4HPWHS3UqrsYAaJuj1qzsikZcAzM/ODaYRM96mSmuMkoLOGXKi73l/
+	 SDUVGmKvSErRg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2FE5748EC1;
+	Tue, 25 Feb 2025 20:10:20 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 09/39] scripts/kernel-doc.py: add a Python parser
+In-Reply-To: <20250225083814.51975742@foz.lan>
+References: <cover.1740387599.git.mchehab+huawei@kernel.org>
+ <3905b7386d5f1bfa76639cdf1108a46f0bccbbea.1740387599.git.mchehab+huawei@kernel.org>
+ <87v7sy29rh.fsf@trenco.lwn.net> <20250225083814.51975742@foz.lan>
+Date: Tue, 25 Feb 2025 13:10:19 -0700
+Message-ID: <87tt8hyedw.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250225174803.GB1821331@e132581.arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 25, 2025 at 05:48:03PM +0000, Leo Yan wrote:
-> On Tue, Feb 25, 2025 at 12:01:52PM +0000, Mark Rutland wrote:
-> 
-> [...]
-> 
-> > > > Critically, the brbe_enable() function merges the filters of all
-> > > > *active* events which have been installed into hardware. It does not
-> > > > track all events which can be rotated, and the resulting filter is not
-> > > > the same -- it can change as a result of rotation.
-> > > 
-> > > In a perf session has multiple events, and events have different branch
-> > > filters, seems to me, a simple way is to return error for this case.
-> > 
-> > FWIW, I'd generally prefer to do that since it avoids a number of
-> > horrible edge-cases and gets rid of the need to do SW filtering, which
-> > falls somewhere between "tricky" and "not entirely possible". However,
-> > that's not what LBR and others do, which is why we went with filter
-> > merging.
-> > 
-> > If folk on the tools side are happy with the kernel rejecting
-> > conflicting events, then I'd be more than happy to do that. What I don't
-> > want is that we start off with that approach and people immediately
-> > start to complain that the BRBE driver rejects events that the LBR
-> > driver accepts.
-> > 
-> > See the last time this came up.
-> 
-> Thanks for the shared links.  Based on the info, let's say we can have two
-> cases:
-> 
->   Case 1: set different branch filters in a single perf session:
-> 
->     perf record -e armv8_pmuv3_0/r03,branch_type=any_call/u \
->                 -e armv8_pmuv3_0/r04,branch_type=any_ret/k ...
-> 
->   Case 2: set different branch filters in multiple perf sessions:
-> 
->     perf record -e armv8_pmuv3_0/r03,branch_type=any_call/u ...
-> 
->     perf record -e armv8_pmuv3_0/r04,branch_type=any_ret/k ...
-> 
-> In my previous reply, I was suggesting that we should reject the case 1.
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-Do you mean that the kernel should reject that, or that userspace should
-reject that.
+> Em Mon, 24 Feb 2025 16:38:58 -0700
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+>
+>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>>=20
+>>=20
+>> I also think you should give consideration to preserving the other
+>> copyright notices in the Perl version.  A language translation doesn't
+>> remove existing copyrights...who knows how much creativity went into
+>> some of those regexes?
+>
+> Makes sense, but the copyrights at kernel-doc.pl:
+>
+> 	## Copyright (c) 1998 Michael Zucchi, All Rights Reserved        ##
+> 	## Copyright (C) 2000, 1  Tim Waugh <twaugh@redhat.com>          ##
+> 	## Copyright (C) 2001  Simon Huggins                             ##
+> 	## Copyright (C) 2005-2012  Randy Dunlap                         ##
+> 	## Copyright (C) 2012  Dan Luedtke                               ##
+> 	##                                                               ##
+> 	## #define enhancements by Armin Kuster <akuster@mvista.com>     ##
+> 	## Copyright (c) 2000 MontaVista Software, Inc.                  ##
+> 	#
+> 	# Copyright (C) 2022 Tomasz Warnie=C5=82=C5=82o (POD)
+>
+> Also doesn't preserve all copyrights from people that worked hard to
+> maintain it all over those years.
 
-As mentioned earlier, I am ok with the idea that we reject *scheduling*
-events with mismatched filters, as we do for other resource conflicts.
-That would necessarily mean rejecting *groups* of events with
-inconsistent filters at open time.
+Agreed ... and I'm not sure what we can do about that.  But *removing*
+existing copyright notices is a bit of a different story; that is
+generally considered to be fairly bad form.
 
-However, I do not think that we should reject indepenent events which
-happen to have mismatched filters, regardless of whether they're opened
-by the same "session".
+I don't have a problem with adding a longer credits area, I guess, if we
+want to do that (though it's not normal for other source files).  But
+I'm not sure we need to.
 
-> IMO, it is not quite useful to configure different filters for events in
-> the same session, especially if this leads complexity in the driver due
-> to the hardware limitation.
+Thanks,
 
-I generally agree, but IIRC userspace does this today.
-
-> For case 2, when create a new session, if the perf tool can read out the
-> current branch filter setting (e.g. via sysfs node) and give suggestion
-> what branch filter is compabile with existed sessions, seems to me, this
-> is a feasible solution.  My understanding this is a rare case, and a
-> clear guidance for users would be sufficient if this happens.  (Maybe
-> we can give recommendation for how to use BRBE in the perf doc).
-
-No. We are not going to expose *dynamic* information about the PMU
-hardware via sysfs. This is not as simple as you make it out to be.
-At any point in time there can be an arbitrary number of events open,
-and some arbitrary subset currently scheduled.
-
-I agree that ideally this should be rare, though, and hence either of
-the two options I have suggested thus far should handle that acceptably.
-
-> To be clear, an important factor is the trace modes with modifier 'u'
-> (user) and 'k' (kernel) should be supported for different events and for
-> different sessions.  In a mixed cases (some events are userspace only
-> and some are kernel only), the BRBE driver needs to filter out branch
-> records for specific mode when taking a sample.
-
-I hate to repeat myself, but the driver has *no concept whatsoever* of a
-"session". It only knows:
-
-* Which events are currently active in hardware.
-
-* Which events have been grouped together.
-
-* Which events have been opened for a given task or CPU context.
-
-... and *NONE* of those correspond directly to a "session" managed by
-the userspace perf tool.
-
-> > > If we can unify branch filter within a perf session, would this be
-> > > much easier for handling?
-> > 
-> > Do you mean if the perf tool ensured that all events in a given session
-> > had the same filter? From the kernel's PoV there's no such thing as a
-> > "perf session", and I'm not sure whether you're suggesting doing that in
-> > userspace or withing the kernel.
-> 
-> My understanding is this would be not difficult to do such kind checking
-> in the tool.  E.g., the perf tool can iterate every event and check the
-> branch filter and detect incompabile issue.
-
-Cool, sounds like we could do that then!
-
-> > Doing that in the perf tool would certianly make a stronger argument for
-> > the kernel taking the "reject conflicting branch filters" option.
-> > 
-> > Doing that within the kernel isn't really possible.
-> 
-> As said above, if the BRBE driver can provide a knob in sysfs to indicate
-> what is the current branch filter in the existed sessions, this would be
-> helpful for the tool to do the checking and remind users.
-
-Sorry, as above, that is not going to happen. It is not practical and
-will cause many other problems.
-
-> I haven't done any experiments for this. If you think this is the way
-> to move forward, I might do a prototype and get back to you to ensure we
-> don't run into any unexpected issues.
-
-What specifically are you proposing to prototype?
-
-Mark.
+jon
