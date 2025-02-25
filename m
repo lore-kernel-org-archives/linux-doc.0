@@ -1,181 +1,269 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazolkn19011027.outbound.protection.outlook.com [52.103.43.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EBCEEA9;
-	Tue, 25 Feb 2025 04:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.43.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740457518; cv=fail; b=RAyVRE7wjrlSEbzyUDdzmlh3qWNkZiOu1DXxI0rlKzcN1RbvcvkosC84oGk/cbUz2db2M58nPNipq5t+8H3k//fJNPRwQrk94ymxtotCk+c3B1U0d7pRFVoC9i6Rgr9daEEK771vixoGfQ5kwyiteCWWXJIexdAF2q53VbuGYqY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740457518; c=relaxed/simple;
-	bh=AX77UlsrEg+ZxN7un4sVt/+vTpblCt96AQWkc0GY7MU=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=l1V7O7uSL9/IXDUVXEay46GWwQFVpUc6ugAzPGHJZTkvyG9qX5mHCXXAtKdXaA93V0L5L/rdcHA5PWOmX/ntDZF3qLOoYcv4tapa0Ve1jKuqXGwo6h+OxWZdfkENwtZXRKyTnugFyk9iebNEAlrJj9nEdyElJ6JAjUZwhLNeb80=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=UcnN/8t7; arc=fail smtp.client-ip=52.103.43.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="UcnN/8t7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YdKcXqqvjVi2ejyK+lDUR0Vo05MSKjNxvwaBH5t5gYnnsCPoqsW43AbYF1zsu/T/zrzaGPl3xpTH9PFKxgQoeSHHkErIZYJr8sjo0QTtg2R1KI+JwnHbC+hjo0rhE27+rsp4ABV+FLbx57zMiCI670OKcUFnpuqvOQfKsfwLUT6kWJKKGjkzkpyMMx4MkL5QSB9t6ersU+7ZKENR8T9uvqvPSDVNTJ/LjLdWhA172lff1ioGizI77L9tG7e1h2y1Eu5QfLYsjroaHqWs9SVilS6e5WwEADOGyjBVYZ4YCXc6d9M9GcY6pepCWZj397s03gyy3x9+xNEu57l1yua8mQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9b5SmgOeYNihswM0NVFd7PxRc8zfPUHjUt9fli4wlIA=;
- b=FGu6cfZWXA+PU8VSUr06694bl2Qw6efH6j4bSavtc9aUaUotbjEbZZVBULFOXuXJbQ6RHvflPLETF+oS9cmud6B9gYqJW0ReNr9S6OetJCN1djceY6xglSbmHznNd4O6ST1/C5ySERMuxUf+c25YCNJO4bkW+XGKQ4vnfhOA5MNaL/AD84/TgNhw7eaXkqqbAqvMRfqT5QTODwFbJPGpMp5djPdgrxzQ1ww9DPe+uffKzGGaml1q5gYFZZUU/jnikOJhVMbeBMfZPVSYBDgIr7ZO9j6+R2srKFvYQpTV2MLwbKeb65DnHiyauqeiZtxazhbMLLV10A0qCEWj8k1eOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9b5SmgOeYNihswM0NVFd7PxRc8zfPUHjUt9fli4wlIA=;
- b=UcnN/8t7o16LzLC8knNb0d8Ryikjnz3sRIJVArHp5p+V/0H6Wyh5w1IYAO5k5JbolRJoHM1rkAcgH+wfCjfmxkNOEowf7SCcM1/Ha7sGjpDmaq4SqVix695p77AKNNyvbfEsp1qvKlaN85D/5LaapveTLw8w4ENSVNUnzy/osh76Q2assu/GOodkZQ3TTiERw6iyRTXjRnKWJVcnDU9Cocm03k2M2HGk6LTkayVwdrWYEuBjKaed++q76U+r/DW4fThPdQ8OM2BSOye9t4dsinqm4yTwbqhs/Qwz8310uBJi9Nt+dtF0bF3rBC5XZ42yk07Qhw+ITnDSWZbRhWcWOg==
-Received: from TYCPR01MB8437.jpnprd01.prod.outlook.com (2603:1096:400:156::5)
- by TYWPR01MB9575.jpnprd01.prod.outlook.com (2603:1096:400:1a5::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.20; Tue, 25 Feb
- 2025 04:25:13 +0000
-Received: from TYCPR01MB8437.jpnprd01.prod.outlook.com
- ([fe80::83e7:751f:f3af:768f]) by TYCPR01MB8437.jpnprd01.prod.outlook.com
- ([fe80::83e7:751f:f3af:768f%5]) with mapi id 15.20.8466.016; Tue, 25 Feb 2025
- 04:25:13 +0000
-From: Shengyu Qu <wiagn233@outlook.com>
-To: jdelvare@suse.com,
-	linux@roeck-us.net,
-	corbet@lwn.net,
-	eugene.shalygin@gmail.com,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Shengyu Qu <wiagn233@outlook.com>
-Subject: [PATCH v1] hwmon: (asus-ec-sensors) add PRIME X670E-PRO WIFI
-Date: Tue, 25 Feb 2025 12:25:06 +0800
-Message-ID:
- <TYCPR01MB84377BEADF97E8E7554EF0CF98C32@TYCPR01MB8437.jpnprd01.prod.outlook.com>
-X-Mailer: git-send-email 2.48.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TPYP295CA0060.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:7d0:8::19) To TYCPR01MB8437.jpnprd01.prod.outlook.com
- (2603:1096:400:156::5)
-X-Microsoft-Original-Message-ID: <20250225042506.9957-1-wiagn233@outlook.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAD20254B11;
+	Tue, 25 Feb 2025 06:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740464249; cv=none; b=GYijM3bm+qgEPl45ekiLxfJNcNBZQKhxpF2r7zwS80HB/h+QCkcUv9B0HtQEPidC/Q3rjcomDxNMeiNv7DKS0Cv2Y8h+tkGmzMchc5+L6lKXGpB7dZ8+KySsqCaYF7EXd3SRJ39Hyoep0/mpWJQDcIAuAmVOubRfiKjNxcEjvRs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740464249; c=relaxed/simple;
+	bh=2shgGogTgLVnF/xDRmIJLUbUkEMcbxDsqRJUV2lIt5s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VfMeSWGediMpM2L0D1rmYTHpr/WevqPkebCGlvjD93pskINmUTQkTa5+ZUgG0+EAIun1bga/ejT4fJLp3vrIJLjZDThKhuDpCpM5fl/IKvOspsqvC/D19c9yKa2yVSvYMKCK0rBNUfv9GtPhHnKuzjAHbuq6ucR9SP0HRJenzQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 731C0152B;
+	Mon, 24 Feb 2025 22:17:36 -0800 (PST)
+Received: from [10.162.40.21] (a077893.blr.arm.com [10.162.40.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C42A73F673;
+	Mon, 24 Feb 2025 22:17:15 -0800 (PST)
+Message-ID: <2ca1dc13-cd5a-4597-9733-2343e05f53b3@arm.com>
+Date: Tue, 25 Feb 2025 11:47:12 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB8437:EE_|TYWPR01MB9575:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12233d1e-6efb-4b5b-2134-08dd55546594
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|8060799006|5072599009|7092599003|19110799003|15080799006|461199028|5062599005|440099028|3412199025|41001999003|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ponirtIPFm7lhs74HvaL/WhUkz/eIMzfKmVQoLmcCDN4p9z8A2lkgeDgNctk?=
- =?us-ascii?Q?JRTUJXDOHuLU+ltHT5r7FbaPQwmoYOfXWIzgp/welzc+mCRFcnoN2/9NCbSm?=
- =?us-ascii?Q?5g8qA9D79htadBTpZBU5qa8a3otmB3v+QNhi7VDuWxKg1quLg1F7IiVZH4wE?=
- =?us-ascii?Q?8uecfdPSWZq5de3fuduJw7W8LYkzFt+OOo2NmeQaqBDg8uatF++FfejhAS70?=
- =?us-ascii?Q?Yzlm6PJFXcGIVosNmxA54rhA5RqUcNs5atzyNdTCS3uDRtccwweMIWPPBYxV?=
- =?us-ascii?Q?osQ8vA83Y4qX6OneOh1qPdRYUiOLhhZr5SUKgVp2V6ms2FbaQy9fGNJSyMge?=
- =?us-ascii?Q?e7BdzJx+YLPLvgM61+yI/6TL91KCMDup43znOIyHO7gLwq+qPRe/9hSLYp47?=
- =?us-ascii?Q?eNfuDr08XjmtRJKkG6gUtdQRyDkJMAC9D54/QpX98zgCUfzF0MHe/Q6EawgA?=
- =?us-ascii?Q?7zj1lgOoEAvf45zKRaNnuBg2oO3vwL9x1eexhsM0LL0vMBFWz2iXL2oitWPe?=
- =?us-ascii?Q?YjSoZTKvv2TUWgfaf4NvWex0gZ5nG09iPYidJ78ddQeglUl63FTUZaemLmbY?=
- =?us-ascii?Q?pzrHXmmeIXljfkf1fT5Re/euS7NqEj0DcvSt1rMovfxoX98GXJiGpubxYM9n?=
- =?us-ascii?Q?PqbaSP2TKKIn79CmMUGP4fJ6C8WCGczC7pwy+P/G976mPDwLWLXBzWLCbAfD?=
- =?us-ascii?Q?eCyOQxVi+YGofSCpjH4PU7gBKPJvgV5FxXS8FvUr28iOCYWQ/zsghbBWWhAl?=
- =?us-ascii?Q?9BZysQeXShwi0biB/aiVvISVgrBZzob4uVtfu9rZ9yCoImsiDZ+DKSSRJoJh?=
- =?us-ascii?Q?yckp5Ozj2QoYeITdwCLHpjgoOLym4LFqQcCH3X4j+KwyAgSMj/XfPPEFHZXF?=
- =?us-ascii?Q?TDjU1mET0l4UZaauZCR7DY3g4mAQt9FE5hTFTHr9t8q2lixSDSpv6wAuaKSb?=
- =?us-ascii?Q?okMcAg4UkXvvLgtp+vDHo4ZiZ4m4+zAagryul9uFmgNQhyXPHLxT5zM/v8Uw?=
- =?us-ascii?Q?S2oX8f4X/Z+YrZpzZgsgpPOdAhobOlGT6aWar3jhJvkkasQ/xDD/o5VcY82H?=
- =?us-ascii?Q?pg1/5bvQvLGp4/Y8YulNfvgDbJM/j45Pi72P+jT68i1JpwOneQ77VeUEaQPr?=
- =?us-ascii?Q?D5NNIUOlwHg8kpp2jsSKXKTMXwpxRawbCiGlnOzWdut7p058T60wzGU=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9OFDcEVxUX1OmPQ7N8pqB9dzqqfg4109au8DHfyLDFAOw3MJCddlbaKie7BK?=
- =?us-ascii?Q?XrSiflbtoS0T0bYYt/Vw3jr+88HHKYrRB3HxSZwj+9ZPtiytMQi+bK9lLimv?=
- =?us-ascii?Q?LMNhwrgZdtXQdPxMYkxmnTHAoBWWiYwUPayy6o5+ypbz6PjgB9OQ6t2qPhKY?=
- =?us-ascii?Q?oHiI0c+ufRFioJ8gKCCRkdtsndz4ilHeyKRnWqvpCEyq9zpIxlZ9T4Kk3vIj?=
- =?us-ascii?Q?eXU4liyHWe29mdhA4M1yf14zP+wuEMt75bQNvfICZpl4q2vtPthpAgVNh7m7?=
- =?us-ascii?Q?nD7d/m/Te4hOKnT9HVhEjeokqGqSazxNhl+hwf+d+bWhEDNHiJVgdcJq+227?=
- =?us-ascii?Q?cMqZfkqkE741LzLIhvnhB6k19UgPtsSiL2NbREWDs+gdT3ImCO7oDULzsCO9?=
- =?us-ascii?Q?GAZViuyTrs2GSA0x9jyzfgARJkYxNZnRUlcvcTG0Q7+e0k/s85Gi+wxZ/Gvr?=
- =?us-ascii?Q?RqoQgGqBOuZQ1IQp6R+szOybFvP/eUVICXSd2cvmiFnasJ9OZSKWgzSemGp8?=
- =?us-ascii?Q?sddByvGEr92+EefOEAjEk/tBWVYXoyGP9TbfNPhGZMx7KR5jWWHPZfAC9Iz9?=
- =?us-ascii?Q?4lg1s+US6dPNasMIEwk/Wxn/9FcuJA6sml0j44VkbxGE2pjoql3L96JckOQV?=
- =?us-ascii?Q?vW49MIvVj8ogKfG3ikGASxuxXPSLELXu/2RzL8qX1x/a/bpNKkZFZS7Pg1eP?=
- =?us-ascii?Q?qxGOKTBeRYe0qNt7vQiAuTwBZOz2uMNpfxU6bcrFlI8/iqLwM0Oati77DfVU?=
- =?us-ascii?Q?fhvt20jLSZ/D6cZDasdiStM6jZW0yBr9/Rj1o4XhjD0fGDkun16Xa50CvyV3?=
- =?us-ascii?Q?PgSXNlsvsjNxPPeZGDthwgQRk2oRR8Ov/qfcBGM5fPgJEa4XqQHGZW4mamz7?=
- =?us-ascii?Q?pZRE9e6cVoRK4QtYHWHAksq23a+KQwV/+5pw+8qoPBY3ZemeKZhYSq09psNG?=
- =?us-ascii?Q?ViNx37GhBNx9GcXp1u5lFXDvqnOYd8D9jY9GAEbyS+6ApNoTqWjrdLgMu9ZT?=
- =?us-ascii?Q?7VcoPtYnSPAX5agNLS2/6oqEQYH2dt0EtDZc3s//rvkxYQq2h/9b2mxQpUDz?=
- =?us-ascii?Q?+aN2R6e5cTqjfRjVLyckL4laTscxRZdpxWj/iQPUuLG+wmFr8yisbdbj/Dze?=
- =?us-ascii?Q?A6b/KQcq4Y3RauKFVwmAXkaQichQv9pNaOW1upKhMY+3EKUk4GwazQ39L0J8?=
- =?us-ascii?Q?NO71CeNvQj2Bb1EkZz4qUVo1C4tG3F1hmPi8fVFkTvNH8mWFcDw6zqRGxwbF?=
- =?us-ascii?Q?WsgBr+RMikOKPicl0VBxIxgALhUSBcKuZWuulC2E+aF2bZyvLnauHHtkZqlg?=
- =?us-ascii?Q?d6U=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12233d1e-6efb-4b5b-2134-08dd55546594
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB8437.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 04:25:13.1703
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB9575
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 7/7] arm64/boot: Enable EL2 requirements for
+ FEAT_PMUv3p9
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
+ Mark Brown <robh@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Eric Auger <eric.auger@redhat.com>,
+ kvmarm@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250203050828.1049370-1-anshuman.khandual@arm.com>
+ <20250203050828.1049370-8-anshuman.khandual@arm.com>
+ <Z7x-EDH9QP7g4lC6@J2N7QTR9R3.cambridge.arm.com>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <Z7x-EDH9QP7g4lC6@J2N7QTR9R3.cambridge.arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add support for PRIME X670E-PRO WIFI.
 
-Signed-off-by: Shengyu Qu <wiagn233@outlook.com>
----
- Documentation/hwmon/asus_ec_sensors.rst |  1 +
- drivers/hwmon/asus-ec-sensors.c         | 10 ++++++++++
- 2 files changed, 11 insertions(+)
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index 739636cf7994..d2be9db29614 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -6,6 +6,7 @@ Kernel driver asus_ec_sensors
- Supported boards:
-  * PRIME X470-PRO
-  * PRIME X570-PRO
-+ * PRIME X670E-PRO WIFI
-  * Pro WS X570-ACE
-  * ProArt X570-CREATOR WIFI
-  * ProArt X670E-CREATOR WIFI
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index 43e54dc513da..006ced5ab6e6 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -316,6 +316,14 @@ static const struct ec_board_info board_info_prime_x570_pro = {
- 	.family = family_amd_500_series,
- };
+On 2/24/25 19:41, Mark Rutland wrote:
+> On Mon, Feb 03, 2025 at 10:38:28AM +0530, Anshuman Khandual wrote:
+>> FEAT_PMUv3p9 registers such as PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1
+>> access from EL1 requires appropriate EL2 fine grained trap configuration
+>> via FEAT_FGT2 based trap control registers HDFGRTR2_EL2 and HDFGWTR2_EL2.
+>> Otherwise such register accesses will result in traps into EL2.
+>>
+>> Add a new helper __init_el2_fgt2() which initializes FEAT_FGT2 based fine
+>> grained trap control registers HDFGRTR2_EL2 and HDFGWTR2_EL2 (setting the
+>> bits nPMICNTR_EL0, nPMICFILTR_EL0 and nPMUACR_EL1) to enable access into
+>> PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1 registers.
+>>
+>> Also update booting.rst with SCR_EL3.FGTEn2 requirement for all FEAT_FGT2
+>> based registers to be accessible in EL2.
+>>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will@kernel.org>
+>> Cc: Mark Rutland <mark.rutland@arm.com>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Marc Zyngier <maz@kernel.org>
+>> Cc: Oliver Upton <oliver.upton@linux.dev>
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: linux-kernel@vger.kernel.org
+>> Cc: kvmarm@lists.linux.dev
+>> Tested-by: Rob Herring (Arm) <robh@kernel.org>
+>> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>> ---
+>>  Documentation/arch/arm64/booting.rst | 18 ++++++++++++++++++
+>>  arch/arm64/include/asm/el2_setup.h   | 25 +++++++++++++++++++++++++
+>>  2 files changed, 43 insertions(+)
+> 
+> Three things to note here:
+> 
+> (1) I think this is missing some other necessary register configuration.
+> 
+>     From a quick scan, we also require MDCR_EL3.EnPM2 (bit [7]) to be
+>     configured, which is not described in mainline nor here. If that
+
+Will update the Documentation/arch/arm64/booting.rst.
+
+>     resets to 0, then EL{2,1,0} accesses to a number of registers such
+>     as PMUACR_EL1 may trap to EL3> 
+>     AFAICT the boot-wrapper resets that bit to 0, so have we actually
+>     tested all of this with the boot-wrapper? Does TF-A set this bit?
+
+Right, boot wrapper resets the bit to 0. We will need the following changes
+to set that up when PMUv3p9 is available. MDCR_EL3.EnPM2 also needs to be
+set when FEAT_SPMU, FEAT_EBEP, FEAT_PMUv3_SS or FEAT_SPMU2 are implemented.
+Should those features be checked here as well ?
+
+--- a/arch/aarch64/include/asm/cpu.h
++++ b/arch/aarch64/include/asm/cpu.h
+@@ -56,6 +56,7 @@
+ #define MDCR_EL3_SBRBE_NOTRAP_NOPROHIBIT       (UL(3) << 32)
+ #define MDCR_EL3_ENPMSN                                BIT(36)
+ #define MDCR_EL3_EBWE                          BIT(43)
++#define MDCR_EL3_EnPM2                         BIT(7)
  
-+static const struct ec_board_info board_info_prime_x670e_pro_wifi = {
-+	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
-+		SENSOR_TEMP_MB | SENSOR_TEMP_VRM |
-+		SENSOR_TEMP_T_SENSOR | SENSOR_FAN_CPU_OPT,
-+	.mutex_path = ACPI_GLOBAL_LOCK_PSEUDO_PATH,
-+	.family = family_amd_600_series,
-+};
+ #define SCR_EL3_RES1                   BITS(5, 4)
+ #define SCR_EL3_NS                     BIT(0)
+@@ -87,6 +88,7 @@
+ #define ID_AA64DFR0_EL1_PMSVER         BITS(35, 32)
+ #define ID_AA64DFR0_EL1_TRACEBUFFER    BITS(47, 44)
+ #define ID_AA64DFR0_EL1_BRBE           BITS(55, 52)
++#define ID_AA64DFR0_EL1_PMUVER         BITS(11, 8)
+ #define ID_AA64DFR0_EL1_DEBUGVER       BITS(3, 0)
+ 
+ #define ID_AA64ISAR0_EL1_TME           BITS(27, 24)
+diff --git a/arch/aarch64/init.c b/arch/aarch64/init.c
+index 54e4cc4..fe7ed5f 100644
+--- a/arch/aarch64/init.c
++++ b/arch/aarch64/init.c
+@@ -152,6 +152,9 @@ static void cpu_init_el3(void)
+        if (mrs_field(ID_AA64DFR0_EL1, DEBUGVER) >= 11)
+                mdcr |= MDCR_EL3_EBWE;
+ 
++       if (mrs_field(ID_AA64DFR0_EL1, PMUVER) >= 0b1001)
++               mdcr |= MDCR_EL3_EnPM2;
 +
- static const struct ec_board_info board_info_pro_art_x570_creator_wifi = {
- 	.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB | SENSOR_TEMP_VRM |
- 		SENSOR_TEMP_T_SENSOR | SENSOR_FAN_CPU_OPT |
-@@ -503,6 +511,8 @@ static const struct dmi_system_id dmi_table[] = {
- 					&board_info_prime_x470_pro),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("PRIME X570-PRO",
- 					&board_info_prime_x570_pro),
-+	DMI_EXACT_MATCH_ASUS_BOARD_NAME("PRIME X670E-PRO WIFI",
-+					&board_info_prime_x670e_pro_wifi),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ProArt X570-CREATOR WIFI",
- 					&board_info_pro_art_x570_creator_wifi),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ProArt X670E-CREATOR WIFI",
--- 
-2.48.1
+        msr(MDCR_EL3, mdcr);
+ 
+        if (mrs_field(ID_AA64PFR0_EL1, SVE)) {
 
+MDCR_EL2.EnPM2 does not seem to be set on TFA either, will double check and
+get it enabled.
+
+> 
+>     Are we sure we've cpatured *all* requirements for FEAT_PMUv3p9? i.e.
+>     is there anything else that we've missed?
+
+
+> 
+> (2) This is a fix for !VHE support for PMUACR and ICNTR, where the host
+>     may run at EL1 and consequently will be affected by fine grained
+>     traps.
+> 
+>     So this probably needs a CC stable and/or fixes tag, and backport.
+
+Fixes: 0bbff9ed8165 ("perf/arm_pmuv3: Add PMUv3.9 per counter EL0 access control")
+Fixes: d8226d8cfbaf ("perf: arm_pmuv3: Add support for Armv9.4 PMU instruction counter")
+Cc: stable@vger.kernel.org
+
+But is there a particular stable tree this patch should be addressed ?
+
+> 
+> (3) As there's no KVM changes, this is only safe provided that the
+>     registers affected by these fine grained traps are already
+>     unconditionally trapped by other traps when running a vCPU.
+> 
+>     It looks like PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1 are all
+>     trapped by MDCR_EL2.TPM, so that should work as long as we emulate
+>     the PMU. For direct access, FGT2 support will be a prerequisite.
+> 
+> Ideally, we'd have added support for FGT2 before the PMU functionality
+> that implicitly depends upon it. We should pay more attention to trap
+> controls in future.
+> 
+> Given (1) and (2) I think someone needs to look into this a bit more and
+> figure out if this needs a fixup or a respin.
+
+To summarize
+
+- Update arm64/booting.rst regarding MDCR_EL3.EnPM2
+- Add above mentioned "Fixes:" tag and "CC: stable"
+- But should respin this patch or send a fix up instead ?
+
+- Boot wrapper patch setting MDCR_EL3.EnPM2
+- TFA patch setting MDCR_EL3.EnPM2
+
+Is there anything else missing ?
+
+> 
+> Mark.
+> 
+>> diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
+>> index cad6fdc96b98..04d97a1d5ffa 100644
+>> --- a/Documentation/arch/arm64/booting.rst
+>> +++ b/Documentation/arch/arm64/booting.rst
+>> @@ -288,6 +288,12 @@ Before jumping into the kernel, the following conditions must be met:
+>>  
+>>      - SCR_EL3.FGTEn (bit 27) must be initialised to 0b1.
+>>  
+>> +  For CPUs with the Fine Grained Traps 2 (FEAT_FGT2) extension present:
+>> +
+>> +  - If EL3 is present and the kernel is entered at EL2:
+>> +
+>> +    - SCR_EL3.FGTEn2 (bit 59) must be initialised to 0b1.
+>> +
+>>    For CPUs with support for HCRX_EL2 (FEAT_HCX) present:
+>>  
+>>    - If EL3 is present and the kernel is entered at EL2:
+>> @@ -382,6 +388,18 @@ Before jumping into the kernel, the following conditions must be met:
+>>  
+>>      - SMCR_EL2.EZT0 (bit 30) must be initialised to 0b1.
+>>  
+>> +  For CPUs with the Performance Monitors Extension (FEAT_PMUv3p9):
+>> +
+>> + - If the kernel is entered at EL1 and EL2 is present:
+>> +
+>> +    - HDFGRTR2_EL2.nPMICNTR_EL0 (bit 2) must be initialised to 0b1.
+>> +    - HDFGRTR2_EL2.nPMICFILTR_EL0 (bit 3) must be initialised to 0b1.
+>> +    - HDFGRTR2_EL2.nPMUACR_EL1 (bit 4) must be initialised to 0b1.
+>> +
+>> +    - HDFGWTR2_EL2.nPMICNTR_EL0 (bit 2) must be initialised to 0b1.
+>> +    - HDFGWTR2_EL2.nPMICFILTR_EL0 (bit 3) must be initialised to 0b1.
+>> +    - HDFGWTR2_EL2.nPMUACR_EL1 (bit 4) must be initialised to 0b1.
+>> +
+>>    For CPUs with Memory Copy and Memory Set instructions (FEAT_MOPS):
+>>  
+>>    - If the kernel is entered at EL1 and EL2 is present:
+>> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+>> index 25e162651750..1a0071faf57e 100644
+>> --- a/arch/arm64/include/asm/el2_setup.h
+>> +++ b/arch/arm64/include/asm/el2_setup.h
+>> @@ -233,6 +233,30 @@
+>>  .Lskip_fgt_\@:
+>>  .endm
+>>  
+>> +.macro __init_el2_fgt2
+>> +	mrs	x1, id_aa64mmfr0_el1
+>> +	ubfx	x1, x1, #ID_AA64MMFR0_EL1_FGT_SHIFT, #4
+>> +	cmp	x1, #ID_AA64MMFR0_EL1_FGT_FGT2
+>> +	b.lt	.Lskip_fgt2_\@
+>> +
+>> +	mov	x0, xzr
+>> +	mrs	x1, id_aa64dfr0_el1
+>> +	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMUVer_SHIFT, #4
+>> +	cmp	x1, #ID_AA64DFR0_EL1_PMUVer_V3P9
+>> +	b.lt	.Lskip_pmuv3p9_\@
+>> +
+>> +	orr	x0, x0, #HDFGRTR2_EL2_nPMICNTR_EL0
+>> +	orr	x0, x0, #HDFGRTR2_EL2_nPMICFILTR_EL0
+>> +	orr	x0, x0, #HDFGRTR2_EL2_nPMUACR_EL1
+>> +.Lskip_pmuv3p9_\@:
+>> +	msr_s   SYS_HDFGRTR2_EL2, x0
+>> +	msr_s   SYS_HDFGWTR2_EL2, x0
+>> +	msr_s   SYS_HFGRTR2_EL2, xzr
+>> +	msr_s   SYS_HFGWTR2_EL2, xzr
+>> +	msr_s   SYS_HFGITR2_EL2, xzr
+>> +.Lskip_fgt2_\@:
+>> +.endm
+>> +
+>>  .macro __init_el2_gcs
+>>  	mrs_s	x1, SYS_ID_AA64PFR1_EL1
+>>  	ubfx	x1, x1, #ID_AA64PFR1_EL1_GCS_SHIFT, #4
+>> @@ -283,6 +307,7 @@
+>>  	__init_el2_nvhe_idregs
+>>  	__init_el2_cptr
+>>  	__init_el2_fgt
+>> +	__init_el2_fgt2
+>>          __init_el2_gcs
+>>  .endm
+>>  
+>> -- 
+>> 2.25.1
+>>
