@@ -1,111 +1,101 @@
-Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A0F267B9E;
-	Tue, 25 Feb 2025 08:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4644C80;
+	Tue, 25 Feb 2025 09:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740473870; cv=none; b=Ofoh7SFobBcU9kJJuID0kSJF2ed733A8mlY87tNJUDV3OJOOjXDB3SQoO30RnEFpzGm89f8rOoqjUbToG3mA0OxJ7h7ZQDotyt0Fml6FYC1bosn5iymAOdha29bhtLxHJ63IjjTpGv81YgzaBA66NRTk7znH02m+c7FlGfulcP0=
+	t=1740475571; cv=none; b=HRnx14dK6tAUJZwFn73Y37CLob8YvU4ZS3aZogOEAm/66kzq46JfKZIkRp6AmjJOAAZkNGlB6AmxAMwpb9u0ZRQIEG3JC7FN1SzlbU2Y6T0BV5AUzOcnZCgV9eIOwU9fukB1G5iXRb80E9ucFxAKfqDHy+zy2iqiik3PBwuLT1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740473870; c=relaxed/simple;
-	bh=eYZp9i5fVrw5bx7U2Td0qHV1PiM1BEYZra34O9ZwKMA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vEa4YgMOBgJdf/jiGhbWiBBeOC9NpVbF1hf3FdpsbYmwnB2QE3IhxlUqqRGGOuCK5EJ1QmbeTDjtYxzZo4gDmyY6xoJBv0JGFw5nnMEcSjMFx0B2YcMhpvDQPxmnxGqhcCOqL+MU+MXwBo+rijSi0gH5Ak75xuATyNlGPoeQvgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=O884BqCB; arc=none smtp.client-ip=62.96.220.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
+	s=arc-20240116; t=1740475571; c=relaxed/simple;
+	bh=oSSm2Bj/9pPO/bqZuCZ2bbaPFZ8yEX3jYdNJxrGtFNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=e8Q/ja4jp9KkfP5rCR3UtwqCYs1JAN66YsXLV5PUYZxn6C1ibulg1M5oWqqxJ5G+yBIG01+81ZgT8KsIEouiHsC9GSba3NKaelsr3B59q+Ovz5bqhamyuCYoxWkb961szam/xoeCGTiWV3vXph0FweerQV3CWRISipf+ELPMabQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=azZPTycN; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="O884BqCB"
-Received: from localhost (localhost [127.0.0.1])
-	by mx1.secunet.com (Postfix) with ESMTP id 6477B20799;
-	Tue, 25 Feb 2025 09:57:45 +0100 (CET)
-X-Virus-Scanned: by secunet
-Received: from mx1.secunet.com ([127.0.0.1])
- by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2Xi-FHaOAzru; Tue, 25 Feb 2025 09:57:44 +0100 (CET)
-Received: from cas-essen-02.secunet.de (rl2.secunet.de [10.53.40.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mx1.secunet.com (Postfix) with ESMTPS id 8DFC32050A;
-	Tue, 25 Feb 2025 09:57:44 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com 8DFC32050A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
-	s=202301; t=1740473864;
-	bh=KO8QT1Iud2j7VddE/JgWZ6zVDpqfkHfxQ9iGzJdyXlA=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To:From;
-	b=O884BqCB+2PDt7/FG+IfXb4WPIOnChiGWm5WWq+2pT+Rqlscx5O7PCQNReE6yHd+t
-	 wVUcFru8nNgtg9SCQPFh3Q+13UNXJ1bWkPTI6h2B3nP01iSw3AY89yd4tagjbTLRXs
-	 Sc9amBwHuomP2H4FXE9Ir/89yOFheh98Yu4pfP2sShIbKXDpggGQYGRbpUI1U3GydN
-	 uNeLSwvDk7AOb04jwK3ouTeVvOQGL31nXhWNvcPS60c1/mw8BmV5b4d1h8dWBvZWF8
-	 nU0rGs4im59pTYSOEqWM0oErNGY3SATZQK6RnHO4SjY2whOmEd/6lC+P3obB1Yy3+D
-	 0IRRrKP9gVtDg==
-Received: from mbx-essen-02.secunet.de (10.53.40.198) by
- cas-essen-02.secunet.de (10.53.40.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 25 Feb 2025 09:57:44 +0100
-Received: from gauss2.secunet.de (10.182.7.193) by mbx-essen-02.secunet.de
- (10.53.40.198) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 25 Feb
- 2025 09:57:43 +0100
-Received: by gauss2.secunet.de (Postfix, from userid 1000)
-	id 4C09F3182E64; Tue, 25 Feb 2025 09:57:43 +0100 (CET)
-Date: Tue, 25 Feb 2025 09:57:43 +0100
-From: Steffen Klassert <steffen.klassert@secunet.com>
-To: Leon Romanovsky <leon@kernel.org>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>, Ayush Sawal
-	<ayush.sawal@chelsio.com>, Bharat Bhushan <bbhushan2@marvell.com>, "Eric
- Dumazet" <edumazet@google.com>, Geetha sowjanya <gakula@marvell.com>,
-	hariprasad <hkelam@marvell.com>, Herbert Xu <herbert@gondor.apana.org.au>,
-	<intel-wired-lan@lists.osuosl.org>, Jakub Kicinski <kuba@kernel.org>, "Jay
- Vosburgh" <jv@jvosburgh.net>, Jonathan Corbet <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Louis Peens
-	<louis.peens@corigine.com>, <netdev@vger.kernel.org>,
-	<oss-drivers@corigine.com>, Paolo Abeni <pabeni@redhat.com>, "Potnuri Bharat
- Teja" <bharat@chelsio.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Saeed Mahameed <saeedm@nvidia.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
-	Sunil Goutham <sgoutham@marvell.com>, Tariq Toukan <tariqt@nvidia.com>, "Tony
- Nguyen" <anthony.l.nguyen@intel.com>, Zhu Yanjun <yanjun.zhu@linux.dev>,
-	Bharat Bhushan <bharatb.linux@gmail.com>
-Subject: Re: [PATCH ipsec-next v1 0/5] Support PMTU in tunnel mode for packet
- offload
-Message-ID: <Z72GB6wIUgDqunsQ@gauss3.secunet.de>
-References: <cover.1739972570.git.leon@kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="azZPTycN"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3DC7C4328A;
+	Tue, 25 Feb 2025 09:25:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740475560;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mV3cehY1GxgAILAv178GKa2jcX2i7pQTnmswZvAfL+Q=;
+	b=azZPTycNcKWAmSO4gNOl0NlryS9eh6MsVogc/zDwfqc0OW4L0dAEy5ZmJyKlaweI5TR/ZF
+	ZaucNvgDspZFecCuyLhAjhOblAlCoGi1fBJ6qjFmwcdyRqb3Hb4M8uD2YDfS1e9det3hB9
+	xyWhvWxMt6oNO7KdBLViEq/A3BVVyUMbn+118bYrJsek8ev2j+HK8uuX67zTD/TOM/jrXj
+	PSg+i1Xc170Da1io8g294kAS92PjCGnlu/GBNW/91zxTFaCiZs7TswgwcXS+yNq8OsChVk
+	Oag40wzCNDuLy3kKZ4dro4HP1V/KxHgaAfaRhSaQhWbRKtzcEJAqc6iIh4TA0A==
+Date: Tue, 25 Feb 2025 10:25:58 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Rob Herring
+ <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
+ <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v5 06/12] net: pse-pd: Add support for budget
+ evaluation strategies
+Message-ID: <20250225102558.2cf3d8a5@kmaincent-XPS-13-7390>
+In-Reply-To: <20250224134522.1cc36aa3@kernel.org>
+References: <20250218-feature_poe_port_prio-v5-0-3da486e5fd64@bootlin.com>
+	<20250218-feature_poe_port_prio-v5-6-3da486e5fd64@bootlin.com>
+	<20250220165129.6f72f51a@kernel.org>
+	<20250224141037.1c79122b@kmaincent-XPS-13-7390>
+	<20250224134522.1cc36aa3@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <cover.1739972570.git.leon@kernel.org>
-X-ClientProxiedBy: cas-essen-01.secunet.de (10.53.40.201) To
- mbx-essen-02.secunet.de (10.53.40.198)
-X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekudefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefguddtfeevtddugeevgfevtdfgvdfhtdeuleetffefffffhffgteekvdefudeiieenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghlohepkhhmrghinhgtvghnthdqigfrufdqudefqdejfeeltddpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvgedprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughrvgifsehluhhnnhdrtghhpdhrtghpthhtohepohdrrhgvmhhpvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiiv
+ ghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepughonhgrlhgurdhhuhhnthgvrhesghhmrghilhdrtghomh
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Wed, Feb 19, 2025 at 03:50:56PM +0200, Leon Romanovsky wrote:
-> Changelog:
-> v1:
->  * Changed signature and names of functions which set and clear type_offload
->  * Fixed typos
->  * Add Zhu's ROB tag
-> v0: https://lore.kernel.org/all/cover.1738778580.git.leon@kernel.org
-> 
-> Hi,
-> 
-> This series refactors the xdo_dev_offload_ok() to be global place for
-> drivers to check if their offload can perform encryption for xmit
-> packets.
-> 
-> Such common place gives us an option to check MTU and PMTU at one place.
-> 
-> Thanks
-> 
-> Leon Romanovsky (5):
->   xfrm: delay initialization of offload path till its actually requested
->   xfrm: simplify SA initialization routine
->   xfrm: rely on XFRM offload
->   xfrm: provide common xdo_dev_offload_ok callback implementation
->   xfrm: check for PMTU in tunnel mode for packet offload
+On Mon, 24 Feb 2025 13:45:22 -0800
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-Series applied, thanks a lot Leon!
+> On Mon, 24 Feb 2025 14:10:37 +0100 Kory Maincent wrote:
+> > > The "methods" can be mixed for ports in a single "domain" ?   =20
+> >=20
+> > No they can't for now. Even different PSE power domains within the same=
+ PSE
+> > controller. I will make it explicit. =20
+>=20
+> Sounds like the property is placed at the wrong level of the hierarchy,
+> then.
+
+When a PSE controller appears to be able to support mixed budget strategy a=
+nd
+could switch between them it will be better to have it set at the PSE power
+domain level. As the budget is per PSE power domain, its strategy should al=
+so
+be per PSE power domain.
+For now, it is simply not configurable and can't be mixed. It is hard-coded=
+ by
+the PSE driver.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
