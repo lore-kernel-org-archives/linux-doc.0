@@ -1,211 +1,146 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44ED197A67
-	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 17:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0320919992C;
+	Tue, 25 Feb 2025 17:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740505317; cv=none; b=opaXuFH3K4wbLwm26I43J9DJ4tzhhwfTnAm9B3xV8RQK1n9C3sPqRa+EEtUsFEN4FFTxif7McPnrTy/4jRLaQxG9rko1+q1JPY638B1RzBGVgOeGKgGOhfCPVxR0e9MrAOa3s9omRFnZeA34qtnighKSWwV/m+i0uT5XTVcnSdg=
+	t=1740505691; cv=none; b=K1ypQcVKgJRLQW+71nahLEXOWMnwhTLpz8tml+hyHU/3YuTNPldb9pZ9+M38sqDJAx0PBdYW4ZewJWNxfhVKtTCAla7imKnw9TwHzpAp/WIyzIIzhYR7lxcq+Djx/SFRZ4bgOqPRJ0AMDN4MPq1mUYHbDYvAu+PhHo1hy67FoMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740505317; c=relaxed/simple;
-	bh=iCX+nG23CjC2fxQmPixSN8EXGqI2yLXhnVoBGQ220Lk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hts3Ff0xkI0DHOroRwEdNUVC4KmL+HL6G/tCoCTJ03BhG7Aa4DPuGH2zgJZhxyWDtmcpY+4HZQsoc+/FlrDA7zjm0ECGSRrAmKe1VUG3nT8+qv3VJhswcQ8dLFId67MwsUCpBZVGRPuTG+OjRycMcKhCog4guZTNeVG+Lwjh1Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fhpO8Rmx; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fhpO8Rmx"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2212222d4cdso3525ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 09:41:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740505315; x=1741110115; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vqjq5AFXxwlxfq4VPVA6M5Ee2CpyweWj+2y/hfe9AzE=;
-        b=fhpO8RmxBeBGKT/5ZKbYywJBbdjJlmt3ng8Wjc4s/xgU+uY7xS01nlIK/TUBh6YfxA
-         dMg04rKf1e6n12Aq9NXmheY6VKIokCil6E/Cn6Dt1d0bsyOlT8ODB/9XEAm4JcQPT3ZB
-         Dhto1cUSl6rI9dZly5XAVVQSDEkOlMNtfNbF1AxgMbSmatvMLQR7mpKdD+6Mq4hv+D/6
-         Rktp688V8SegHs1CqB2RF1hNZjq2TgXtIQt6bAXicdTVTn4MHN42Ds++qsKdCkYASL2E
-         q0s7RUrtkkIkdmIabrI68/KioDWhOPMPpFp2Ig6fRmct79NFZedPvxpDISLltrLfgb91
-         c9+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740505315; x=1741110115;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vqjq5AFXxwlxfq4VPVA6M5Ee2CpyweWj+2y/hfe9AzE=;
-        b=Gu/nMIf3ySElY0MzmJoxgectlpTq+jtz1DdIy2xfJNCsIa0lJL5AN5ZLXlFuHchLTE
-         ENhRV1lUDDCJuUiU/4zwz5Rsuwx8NqQNJ8+EjmX8JTj/4a2tPhLfYWA6Kh4Ulbbmz2fN
-         KPUUM+ddYROoYcnKbUdbGUpJKrHCsL0nMevq4g4jhJbZON7e9sgNoDrX8Cz+E1Smf9tD
-         ives8MoB2Lu7uxYUTzqAWI9k0jYnoDq636OztzKzCrSVc/AkSVZ01DRF1syDCbbTi4nu
-         REmtqnybSGXCzgU528xdSiZmlUIHsZepl62s/giyLziFVo3kSYiTHmCNrYLUjsNeQhhc
-         GUQw==
-X-Forwarded-Encrypted: i=1; AJvYcCV1sM4dr0LKwkLI6oXpPBCmOK2YySHj/J/fTuZ68Amw3wWctC7Isamqw09cjp5QwPYX5WQkl1De0hU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyj7EGgGPH8MWqu866o+8soypgeM5K0lUiEVH9M9JwrkYpKLEBT
-	Rl2Nd1cDg1Way0qmeoASuerqmzTV9Qn2olZY9TfUsKvlu1LNdslA/ls58iV3KALjHXxEpeB8zAc
-	eXc8GR8vyxp/xPfueOajSbwrzSZp5DuQJg2+W
-X-Gm-Gg: ASbGnctXYnq+4PmMY8dFCaE8y4FzbzK7SLujDIsP/TiBZt5gkjBjDj0H9tPSmmiVj00
-	VC5/xEa9n0JHYacGo+ol5rE/KlB28q0jTRX49JLZBh3l22Lu4FWTvmqlhXqgIZeQrISkO7Bowqu
-	3f/+PVFo0=
-X-Google-Smtp-Source: AGHT+IHPa/zeMhv5rS+FoFIXRfGiR3W5Ojq1INXwGU+EkhH1BWbASSdZ3ThN+JgVulgi4m91g+jKNlJGa8ARq6KoZcI=
-X-Received: by 2002:a17:902:d50a:b0:21f:3e29:9cd4 with SMTP id
- d9443c01a7336-22307a98cbcmr3805795ad.20.1740505314655; Tue, 25 Feb 2025
- 09:41:54 -0800 (PST)
+	s=arc-20240116; t=1740505691; c=relaxed/simple;
+	bh=UlYAL7cYAm+wK2/XoBjCh1V7JGWLMwEiAoOcbv3rOHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=soajJz4vkG6+huhPtdgGwBth8p2XGT/Dvro9orb402SK0U0HqVVxJqscrbfsn3NL98esqc4CP7n/DdjHBdbt9uArhBwfCXEsCVS2NNtoC8FyXBj9o9UM89TtOHPshw7vH5zo/PJdgRCltsad5uAGk6/FkWgBmqhSK83Q4Cu9WUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 806481BCB;
+	Tue, 25 Feb 2025 09:48:24 -0800 (PST)
+Received: from localhost (e132581.arm.com [10.2.76.71])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D48783F5A1;
+	Tue, 25 Feb 2025 09:48:07 -0800 (PST)
+Date: Tue, 25 Feb 2025 17:48:03 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v20 11/11] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+Message-ID: <20250225174803.GB1821331@e132581.arm.com>
+References: <20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org>
+ <20250218-arm-brbe-v19-v20-11-4e9922fc2e8e@kernel.org>
+ <20250224122507.GE8144@e132581.arm.com>
+ <CAL_Jsq+0fZ2uasgAam7qGTdCeDBQxXeyL-J1_suyxy6GE_ERTg@mail.gmail.com>
+ <20250224140317.GF8144@e132581.arm.com>
+ <Z7yY19UtSnND5KTl@J2N7QTR9R3.cambridge.arm.com>
+ <20250224180301.GI8144@e132581.arm.com>
+ <Z72xMLsd37I6X_5-@J2N7QTR9R3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250222191517.743530-1-almasrymina@google.com>
- <20250222191517.743530-4-almasrymina@google.com> <a814c41a-40f9-4632-a5bb-ad3da5911fb6@redhat.com>
-In-Reply-To: <a814c41a-40f9-4632-a5bb-ad3da5911fb6@redhat.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 25 Feb 2025 09:41:41 -0800
-X-Gm-Features: AWEUYZlYYSHH7_9N4ByWFALTxxtUrWQmHLefEElJbkJw4zmyNRZgN3GST52xcig
-Message-ID: <CAHS8izNfNJLrMtdR0je3DsXDAvP2Hs8HfKf5Jq7_kQJsVUbrzg@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 3/9] net: devmem: Implement TX path
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, virtualization@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn <willemb@google.com>, David Ahern <dsahern@kernel.org>, 
-	Neal Cardwell <ncardwell@google.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk, 
-	Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, 
-	Pedro Tammela <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z72xMLsd37I6X_5-@J2N7QTR9R3>
 
-On Tue, Feb 25, 2025 at 5:04=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wro=
-te:
->
-> On 2/22/25 8:15 PM, Mina Almasry wrote:
-> [...]
-> > @@ -119,6 +122,13 @@ void net_devmem_unbind_dmabuf(struct net_devmem_dm=
-abuf_binding *binding)
-> >       unsigned long xa_idx;
-> >       unsigned int rxq_idx;
-> >
-> > +     xa_erase(&net_devmem_dmabuf_bindings, binding->id);
-> > +
-> > +     /* Ensure no tx net_devmem_lookup_dmabuf() are in flight after th=
-e
-> > +      * erase.
-> > +      */
-> > +     synchronize_net();
->
-> Is the above statement always true? can the dmabuf being stuck in some
-> qdisc? or even some local socket due to redirect?
->
+On Tue, Feb 25, 2025 at 12:01:52PM +0000, Mark Rutland wrote:
 
-Yes, we could have have netmems in the TX path in the qdisc or waiting
-for retransmits that still have references to the dmabuf, and that's
-fine here I think.
+[...]
 
-What is happening here is that tcp_sendmsg_locked() will look for a
-binding in net_devmem_dmabuf_bindings with binding->id =3D=3D
-sockc.dmabuf_id, and then grab a reference on it.
+> > > Critically, the brbe_enable() function merges the filters of all
+> > > *active* events which have been installed into hardware. It does not
+> > > track all events which can be rotated, and the resulting filter is not
+> > > the same -- it can change as a result of rotation.
+> > 
+> > In a perf session has multiple events, and events have different branch
+> > filters, seems to me, a simple way is to return error for this case.
+> 
+> FWIW, I'd generally prefer to do that since it avoids a number of
+> horrible edge-cases and gets rid of the need to do SW filtering, which
+> falls somewhere between "tricky" and "not entirely possible". However,
+> that's not what LBR and others do, which is why we went with filter
+> merging.
+> 
+> If folk on the tools side are happy with the kernel rejecting
+> conflicting events, then I'd be more than happy to do that. What I don't
+> want is that we start off with that approach and people immediately
+> start to complain that the BRBE driver rejects events that the LBR
+> driver accepts.
+> 
+> See the last time this came up.
 
-In parallel, net_devmem_unbind_dmabuf will remove the binding from
-net_devmem_dmabuf_bindings, and then drop its refcount (which may be
-the last one if the 'get' in tcp_sendmsg_locked has not yet executed,
-triggering the binding to be freed).
+Thanks for the shared links.  Based on the info, let's say we can have two
+cases:
 
-I need to make sure the lookup + get of the dmabuf in
-net_devmem_lookup_dmabuf() doesn't race with the erase + put in
-net_devmem_unbind_dmabuf() in a way that causes UAF, and I use
-rcu_read_lock for that coupled with synchronize_net().
+  Case 1: set different branch filters in a single perf session:
 
-Note that net_devmem_dmabuf_binding_put() won't free the dmabuf unless
-we put the last ref, so any netmems stuck in retransmit paths or qdisc
-will still pin the underlying dmabuf.
+    perf record -e armv8_pmuv3_0/r03,branch_type=any_call/u \
+                -e armv8_pmuv3_0/r04,branch_type=any_ret/k ...
 
-Let me know if you still see an issue here.
+  Case 2: set different branch filters in multiple perf sessions:
 
+    perf record -e armv8_pmuv3_0/r03,branch_type=any_call/u ...
 
-> > @@ -252,13 +261,23 @@ net_devmem_bind_dmabuf(struct net_device *dev, un=
-signed int dmabuf_fd,
-> >        * binding can be much more flexible than that. We may be able to
-> >        * allocate MTU sized chunks here. Leave that for future work...
-> >        */
-> > -     binding->chunk_pool =3D
-> > -             gen_pool_create(PAGE_SHIFT, dev_to_node(&dev->dev));
-> > +     binding->chunk_pool =3D gen_pool_create(PAGE_SHIFT,
-> > +                                           dev_to_node(&dev->dev));
-> >       if (!binding->chunk_pool) {
-> >               err =3D -ENOMEM;
-> >               goto err_unmap;
-> >       }
-> >
-> > +     if (direction =3D=3D DMA_TO_DEVICE) {
-> > +             binding->tx_vec =3D kvmalloc_array(dmabuf->size / PAGE_SI=
-ZE,
-> > +                                              sizeof(struct net_iov *)=
-,
-> > +                                              GFP_KERNEL);
-> > +             if (!binding->tx_vec) {
-> > +                     err =3D -ENOMEM;
-> > +                     goto err_free_chunks;
->
-> Possibly my comment on v3 has been lost:
->
-> """
-> It looks like the later error paths (in the for_each_sgtable_dma_sg()
-> loop) could happen even for 'direction =3D=3D DMA_TO_DEVICE', so I guess =
-an
-> additional error label is needed to clean tx_vec on such paths.
-> """
->
+    perf record -e armv8_pmuv3_0/r04,branch_type=any_ret/k ...
 
-I think I fixed the issue pointed to in v3, but please correct me if I
-missed anything. I added kvfree(), but we don't really need an
-additional error label.
+In my previous reply, I was suggesting that we should reject the case 1.
+IMO, it is not quite useful to configure different filters for events in
+the same session, especially if this leads complexity in the driver due
+to the hardware limitation.
 
-If we hit any of the error paths conditions in
-for_each_sgtable_dma_sg, we will `goto err_free_chunks;`, which will
-free all the genpool chunks, destroy the gen pool, then do
-`kvfree(binding->tx_vec);` to free the memory allocated for tx_vec.
+For case 2, when create a new session, if the perf tool can read out the
+current branch filter setting (e.g. via sysfs node) and give suggestion
+what branch filter is compabile with existed sessions, seems to me, this
+is a feasible solution.  My understanding this is a rare case, and a
+clear guidance for users would be sufficient if this happens.  (Maybe
+we can give recommendation for how to use BRBE in the perf doc).
 
-> [...]
-> > @@ -1071,6 +1072,16 @@ int tcp_sendmsg_locked(struct sock *sk, struct m=
-sghdr *msg, size_t size)
-> >
-> >       flags =3D msg->msg_flags;
-> >
-> > +     sockc =3D (struct sockcm_cookie){ .tsflags =3D READ_ONCE(sk->sk_t=
-sflags),
-> > +                                     .dmabuf_id =3D 0 };
-> > +     if (msg->msg_controllen) {
-> > +             err =3D sock_cmsg_send(sk, msg, &sockc);
-> > +             if (unlikely(err)) {
-> > +                     err =3D -EINVAL;
-> > +                     goto out_err;
-> > +             }
-> > +     }
->
-> I'm unsure how much that would be a problem, but it looks like that
-> unblocking sendmsg(MSG_FASTOPEN) with bad msg argument will start to
-> fail on top of this patch, while they should be successful (EINPROGRESS)
-> before.
->
+To be clear, an important factor is the trace modes with modifier 'u'
+(user) and 'k' (kernel) should be supported for different events and for
+different sessions.  In a mixed cases (some events are userspace only
+and some are kernel only), the BRBE driver needs to filter out branch
+records for specific mode when taking a sample.
 
-Thanks for catching indeed. I guess what I can do here is record that
-the cmsg is invalid, then process up to MSG_FASTOPEN, and return
-EINVAL after that.
+> > If we can unify branch filter within a perf session, would this be
+> > much easier for handling?
+> 
+> Do you mean if the perf tool ensured that all events in a given session
+> had the same filter? From the kernel's PoV there's no such thing as a
+> "perf session", and I'm not sure whether you're suggesting doing that in
+> userspace or withing the kernel.
 
-Although that complicates this already complicated function a bit. Let
-me know if you have a better/different solution in mind.
+My understanding is this would be not difficult to do such kind checking
+in the tool.  E.g., the perf tool can iterate every event and check the
+branch filter and detect incompabile issue.
 
---
+> Doing that in the perf tool would certianly make a stronger argument for
+> the kernel taking the "reject conflicting branch filters" option.
+> 
+> Doing that within the kernel isn't really possible.
+
+As said above, if the BRBE driver can provide a knob in sysfs to indicate
+what is the current branch filter in the existed sessions, this would be
+helpful for the tool to do the checking and remind users.
+
+I haven't done any experiments for this. If you think this is the way
+to move forward, I might do a prototype and get back to you to ensure we
+don't run into any unexpected issues.
+
+[...]
+
+To make the discussion easier, I would like reply separately regarding
+the branch record save and restore issue.
+
 Thanks,
-Mina
+Leo
