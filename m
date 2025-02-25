@@ -1,173 +1,210 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2058.outbound.protection.outlook.com [40.107.94.58])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722C926B95B;
-	Tue, 25 Feb 2025 15:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740497373; cv=fail; b=r81a4b49QuHv0a9BcDg2AzazEabaUcV3i9bSB7PokfZ+/Lum9COORHj3N29dM4vdkttPXA3PKg/55ptiPSqfoIINM+Xd8eYSBAPUZ65Xza4o+2VCmu1p6P0MlpUEwhFWgs62b4HKzvVOdCmLdvVmSR76bkjOkqa1k+vuBOh9BRs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740497373; c=relaxed/simple;
-	bh=5AiiOQQ5Gqe7DWGQkEWknbyy+XSTfF9jHZCI3B7QvgY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=qko5eftAk98Pu0yb13xDAO7FB+gXPF96ohkA1xIytl0I/wJw3aYzWrx2OY4uLy26xCCZUpLI6cTiybnqs5oQgXvOiQvRhYtSvRi6tVE8I+as4PnA/yS8IJguixrztn3gyaV4TnZqyRtitEv215x+kY9yxNrH1KpDiJfwZezuZRc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UVr8JUil; arc=fail smtp.client-ip=40.107.94.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A716B1624DD;
+	Tue, 25 Feb 2025 15:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740497723; cv=none; b=cKCgYT5ZcM4W9nNlmJ7n9TGd7afHBU1TTFi/2F0N3ChTQkOu+v6+veAcqKHWFn++Lh2ebQR8InXeNgRoRFLKgchtmrKf/OAqb167Gnm2xdsDkBDN6BOeta8AUeSKIjHog9RdK8I1RW5rvLO55w4+HD+8nhj0fTe147hZfWt40v8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740497723; c=relaxed/simple;
+	bh=XItyUEZepBSi+iNDaSIT9S/Mq6Xh426aEX3xchTQv4s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e640nWYMQIlVmhhvLjHNatdTXM380s2YxiyB3RkxWUy704Xb3Py8LvRDaxQIfn7VsaVDXUMPu3BgwyLP6BxQN1JuRHEIZ4oeMxbxTxQYYKX4SdEeh4F0nxE5vlxQYg6T0kCfM4xIO7yGZomzq/Ww5RxK6iKVPsFp7DN+UROCZfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MacJrO2+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UVr8JUil"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R6/dyGrcFpHV6n1zizGhHPMq2srLX3eUVWkFMIaDF8djz0NURe4vpJgetUlSiSjk+01cEmYVE1huMjmufIsKLq24v2Vbrw7ZQjcdDLnhgaF1GrfBtTgZSr7NHO/8BWXQASbdj8WrT83oueHzkF5PmEAlv284AfmiDVlT96jSDDepnho9BW+EMcWQatrW+6sNGABxgx7txrX0KNQhunbcWpnBaH5hBhC7vDVGTTLYHQRxBMP5qTUAAM6CpggvWjmopPtTJj5QEa81pQ41Wbe+q0F3aFl1qFA/Ik98g5fQhkQJ8MizFCIi6c67rkIngLqQD9cvmd+PhFMScP8Tv06+eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GDB93IlLYsRfI0tBPFBSDv9S+dIan6jPsEbu+dhAzsU=;
- b=ZLsWZrc+2u7h4NCJwfUqy7NlA/kprcK8DllJWJS9gKfAXb0Vu2NbMHkLgifUfX45vVM0wvXiJuCsfDfrIr2MTpNzA0gr6+iHEAOyjUXULvzM3XQmBGyP9O81lEiUHPpc10b/pN+HgUFkdDyEPYBYwcEVSkkYgyIa7pvHGzB0un2rT7Rt6K6WWYQnKeGK/B+O/80v9YiLOH48A6H91PurTRQj/pOZ300rLeD+OiuNgyiCS02/n5/rNL/EeqKssXdDPXjxIUTDNOjh0cxuh0I8ZiF/iJ9zLfpwTdEwRjkrlpd61nC2TKSXDvUg/aNYNgPADpDZph5OGS7H3xIUECYU5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GDB93IlLYsRfI0tBPFBSDv9S+dIan6jPsEbu+dhAzsU=;
- b=UVr8JUilwDZCPc0xQyXVw41ObqEicfO4cJC+X0QZbn8wGRNXzysJHJYdBUswZXRJR8ZK95npktfV/ssUQhW8Ynf1XviMau72RLziHtXXk/vtuyhVhdwhyVcu7KmH/9W/Z2a7lBNHjS2ReoYoRPecnio7SGvx57hhEg3J/vc3/s50WYWXkBQJd77kUOBjCeEL1pDTEJp1QKcfGiy5uMahmwMOFdubdMCkmv6JQVZYMRz4idaHzFnlTMC7GAk1CD/1GZdpOqvEDAoSSm4hrs0E19cET5caYhDcQVxlaF8GqtEG71zyo5v+nThh5E9tVLaoDYaX/iGBheMbC3vW0BUznw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by SA1PR12MB6797.namprd12.prod.outlook.com (2603:10b6:806:259::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.18; Tue, 25 Feb
- 2025 15:29:19 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8466.016; Tue, 25 Feb 2025
- 15:29:19 +0000
-Date: Tue, 25 Feb 2025 11:29:17 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: kevin.tian@intel.com, corbet@lwn.net, will@kernel.org, joro@8bytes.org,
-	suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com, shuah@kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
-	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
-	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
-	praan@google.com, patches@lists.linux.dev
-Subject: Re: [PATCH v7 05/14] iommufd: Add IOMMUFD_OBJ_VEVENTQ and
- IOMMUFD_CMD_VEVENTQ_ALLOC
-Message-ID: <20250225152917.GB587949@nvidia.com>
-References: <cover.1740238876.git.nicolinc@nvidia.com>
- <69b6beab203b3546c066fee5e0c9ebe0ee1988de.1740238876.git.nicolinc@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <69b6beab203b3546c066fee5e0c9ebe0ee1988de.1740238876.git.nicolinc@nvidia.com>
-X-ClientProxiedBy: YQXP288CA0024.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:c00:41::32) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MacJrO2+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F2C7C4CEEB;
+	Tue, 25 Feb 2025 15:35:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740497723;
+	bh=XItyUEZepBSi+iNDaSIT9S/Mq6Xh426aEX3xchTQv4s=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=MacJrO2+ftUHpyu1YUk3rA0JXXCu9Qww0QjDsWQIY2Eg5Z3EJ+uYMDEcIMLXjRY8z
+	 yS5ELmu5jINaiK0034HiA131r2iKw6sCPKLB9vKr+XkcT1h/z9z2ZrSdLtfJEN/dxV
+	 tvJJLTlJwglsFIKrLbNV9UPnfgF7Yy1IQXT3Jjn0Uo2c+elJvM+/IDeKgf7mfgtov7
+	 L7TqPtFDJvZF1DPMoDnmVqfYwRl3vDg/gE0xt6mLfdNX7E5wxNw6terDqAeMAu2QWr
+	 9WpIDLcIFeMGRx7QTH+nmEQODtBCovzodoZhl/dGfNrKj+dqRgpaeDWtAkJgqRRaLT
+	 mE/HtNPBy+j1Q==
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5dca468c5e4so10276814a12.1;
+        Tue, 25 Feb 2025 07:35:23 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWNVZlQLxPHTdjREUckPmGLshVrspfcRiXaWUURWphtXreu7xBB9t3hbvcS5xpsdlkOPE8vdQb08tRAOVG4@vger.kernel.org, AJvYcCWlU7CV152kWwNFPJfqZOrm5i3DdZp3bLv4c+t/CIaACsXOFqPQAVx6pkuiUyR/Ah6LDUZf8r5eiVA=@vger.kernel.org, AJvYcCWnxiTHrgNUjratomYnbiydHVTZsCXfYzCxWSDE9RDm3DGmSG2deC5bPztfqeybzpyhjcka265ld1vG9rnKzDwBBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAiIdiQo68a4wp5N/v73PHSyItuSN8UIYmQgnaPgfExTkBcy5c
+	GbUtVUWmw6nZry+mmliBKO883f83N1VjNTIVLingEFoZiHcfQ/RuJ/ONCTvBj/CjfZfew1Yn4hN
+	bRAuQL5PCrsgoUS6jDcqj1t7LXg==
+X-Google-Smtp-Source: AGHT+IG3W78BIijkWq7Fyxr+xyyGetXy3PWKs3KsePxUk1BA+35b6sqYHWgJT8HK9oC/8GAmOY2QdyNYtk6IUss22yk=
+X-Received: by 2002:a05:6402:3587:b0:5de:3c29:e834 with SMTP id
+ 4fb4d7f45d1cf-5e44b7635damr3926277a12.27.1740497721673; Tue, 25 Feb 2025
+ 07:35:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SA1PR12MB6797:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12890ab2-3432-4a1f-c92a-08dd55b12c12
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0+tbk+SMull2dtqKtb073oY1gLA3StwlTxsw7d1wcRrGW4nhs0GHyngH8L42?=
- =?us-ascii?Q?J5TUaKTcA0i1sJjajZ8mt5grUwLd/DNB3DXK3bDZmL6YdrMaq1mYvC30o57C?=
- =?us-ascii?Q?GMZ4lo3qt2VU8WZ00Bx5sjmSqSnNUEpJvfpc159nEeSXFlNQ5lcn6BLaEF54?=
- =?us-ascii?Q?1d3yYZlPLbaicrBId/S9aNg/qSfnp4opRhxFCHUJlw3/gz0Z/D+uC1UrIhS/?=
- =?us-ascii?Q?aTHJkYvk3zg+hVlgJWuyZ3Bu6Zx1t/oyM7zCNL2+7jTs9vs+pAzxQmB7UUW5?=
- =?us-ascii?Q?m+XTRKlRvLlI8gzhiElOFbm3F78JcaEQQ/93tHL0k+CatLPnzMpEAEny7fGI?=
- =?us-ascii?Q?jCu+bJelf98p/3SLvWPAAXEUBP8glmS4fZVgjigXC5QqUJKFzr2ncDxxuF5F?=
- =?us-ascii?Q?dsaAaU7C7SwVXcBN854mKY2e0k85m2w+t3+xhmY1bNpAiGy8dt1vC9AufmK2?=
- =?us-ascii?Q?lh/ZLPRJZQArAbHQmL33MdIpj1IQP44hGCTh78a2xLHPkU6XDimeUdOL8eU3?=
- =?us-ascii?Q?PQ9GePdelnETEY0vPqi4ZNZIgmtjBSbVRQJjn5sKSWBNSE/cYbwq25CWiZOK?=
- =?us-ascii?Q?ZpNOdoZY+KFsWFLjPaN++wFPx83dCIJAJZ02TTjUwBfY3smDAHY1w8HXFYTn?=
- =?us-ascii?Q?5a5Nl9ydkBtHGh9P/Vyw8pIC0+8EvIe+fwt07L3SgLgjfOPc8uWe013IPdi/?=
- =?us-ascii?Q?7GmZ2fLqcHtvqc3lkKemWyQp8g0AxXnB7qTTaPC3fLQvsyztINPhBUnXjp6R?=
- =?us-ascii?Q?+UZy0SMgf1j6D/9TYBKXd7scXLt5UJWLs7uNz1En3H24rFSAE0Wdo2xGS1PV?=
- =?us-ascii?Q?cnchHq9tm+4+DChNPB8igRFkextp6Qk0MAstb0i4hXuNs9HOyQXNkYwyREqa?=
- =?us-ascii?Q?c6WOVz2qwBfVA/lj78nex23PyP0rs+UG8UMu2nmL5lbvPVTvvz/wlr8NyUj7?=
- =?us-ascii?Q?L42j4E27klXq+DZEJq0q9yqWRsjkShnTFnQZ+rg/Cfroi72xunCMmFJlWUop?=
- =?us-ascii?Q?YAITOYr5Mvmm7efBtemPDDsPPiIm8Cf05f30Q6uIYbj5FTqCDso62HEXdbn5?=
- =?us-ascii?Q?QP3YLH3cKMHwNoWl7ZNclp1TUO231W6uAMlWGmcMQI1pbJdMRikA0tDqjc9V?=
- =?us-ascii?Q?gGFCrx18RbQ7v8Aw5WJs4OY3umbYMQUYvKvyYzR57s3cswxjcBgsx15h2QVd?=
- =?us-ascii?Q?/FBE1B3+HfSYoY9vD3+USgDEQ6pFr+TqJe/NrxRDIci4m+bJSXG75eD3ig3Y?=
- =?us-ascii?Q?/5ddz+/r+WpLSfOkXxRuj/8nqsueiLA+pVxXjZt0Jv7WufbhSm1R3zmURUnL?=
- =?us-ascii?Q?k2iKAbyGkVpo7TMOt3UXMmS/CmgFcR2lY2GuJVpLFd9Y8xr1Du5a9QXIFHW/?=
- =?us-ascii?Q?/3Q6d5dZjV1JXRjclYMaWvcImNQo?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7VzLXee+RZgIzMsTy9chVqEKEuRcdAkO8EHu7cITj+bAVrczgC6PnskG3foO?=
- =?us-ascii?Q?NyJ1wauVNNcFPU0VXqdwWVBypaor5ni/e0gbH6OLHMaUVv9emHioICoBTA0n?=
- =?us-ascii?Q?5bggQWHPVWNU/xXyaBg31URcpsuwV42RterznktHmyOw45w+g08p4rOBGdjD?=
- =?us-ascii?Q?msE3ZZ2xEO1JVekgBHBnYMMZHSlrP9RqApPefnUa5pdcAvD04njLwOP1MwGC?=
- =?us-ascii?Q?9X6LDVe/1PW3OI4+wvxigOX+SNc2PhG8mKO815tIf3dI7r3yaEaxvX2OEWtw?=
- =?us-ascii?Q?2Qo3RCGKwvYnI7GEiALe4XeP050XRLZrTp+eOVstunhIXNTrQGeLM7DkLO78?=
- =?us-ascii?Q?X7YTmlUmqmRnVRJGYNICZ97hXZWSMSB6/lc50M6lmaYZ6Es9DW+FzWh2GifT?=
- =?us-ascii?Q?WCB/5GQYayrEsN+xnzuLF19hWtW553omKeso/2bySkLDg+cni1rT3kct9pJ4?=
- =?us-ascii?Q?LdhMCgSBK1nrMfgB59vKaO08B5ptAmD/GgUsuNudy/GTGEJDA7AgG1BOYrty?=
- =?us-ascii?Q?jzJLRy0AskNZOBRPmdBMfsJw/3qv58RBVXSGcZNxd3MhPlhpnSihET2qpKwy?=
- =?us-ascii?Q?rIOvj28MfVQPFO61MxQNIn2/bmm+4jhOUb0Q9f7PSfL1j1jhWGm5Jom9hyGF?=
- =?us-ascii?Q?qNEsdjy3hoOqhTIhrBQRQiNT5RyjV2zkyN5WqoHY+f9Rqzh7GbYYaurmmf2p?=
- =?us-ascii?Q?I+LiF9MJ0vSNPKfCSu7zs7nf7fgjuqRThOWYqLqBAAqgxCOOwt3Lhre7Pgmg?=
- =?us-ascii?Q?vF8US0SkKHmplldmPDIHuWDoCg6tRftEdQK3AhcY9zmGS6d7BJT9XaD967Ys?=
- =?us-ascii?Q?BermEL5yMFgz11Fi4USHx8xp8d01A9wuRfY6V/wuOMuUy+xUs+pWF7W5n7Lg?=
- =?us-ascii?Q?CmomeQx7UVrVxNFRfEoKrJm979XSvYm8N2fvT8AHHUgnaz29Dd3gNECYpfqh?=
- =?us-ascii?Q?g4e/z+aBAdZXPAUtFW9xXXX/ai0e2XCHO3oU7scEMrOopo+BI6W0igSiHgBb?=
- =?us-ascii?Q?/kpJo/RFKAM10+JcP29ovZJ/d4gXi5bGvPJFiTsOD/bB5HZ65woWRR4EqioQ?=
- =?us-ascii?Q?mFliXA/HXU1jnNKV+y1mCAgJmKIWKXDOylCk9DZnl2wZlUa90iI+cgvUxJPk?=
- =?us-ascii?Q?DXiZ2vsd5zvpkm4jBHd38fn5JZLY08XR+UDADw0pmv0wqM6j7ayqEvO1GOp2?=
- =?us-ascii?Q?DfEbNETLSbZpB7yJ2yNUNTWwQah6mbyzZX9gAbqC1OMPsfmtEZV++FQrN5bm?=
- =?us-ascii?Q?trTUJAGDK55GUCMtP738aVu9IXMpINTNdk7ZvNI5m63UGVcSClU+ZTW9+mD3?=
- =?us-ascii?Q?K82UIjE/5XRfA3hxvoJESaxhdsk2/ooxbM6ZGcAVCIUjPFIpnRb27ZfDzvK5?=
- =?us-ascii?Q?QGn++b45lJmpSuMS5pysYsVUBwz5ly5jKcT/AGlgOZGVv8/C4AIE1wnIsHSL?=
- =?us-ascii?Q?6M/75U7DqDIu04ze/1isJJ4VBnfaPIfA6DcB6BstWTM4loCFjxy8qid/XeBY?=
- =?us-ascii?Q?zTMf7+HYyKNEnKe13PiLmi/r5KHTiveuKr9CsyvYYvQX1IsR1qaxZ2aiWR6L?=
- =?us-ascii?Q?aE2S0yO6WV6vQ/Zy2taHlzeuwgZdkS1Z+mPb7L+0?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12890ab2-3432-4a1f-c92a-08dd55b12c12
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 15:29:19.5859
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rq0XssK1E3F/Cdyomb7Z5SzTj335rjc+U0YLnUao8f0Y6U04W77kpTW6IRox2f0V
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6797
+References: <20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org>
+ <20250218-arm-brbe-v19-v20-11-4e9922fc2e8e@kernel.org> <20250224122507.GE8144@e132581.arm.com>
+ <CAL_Jsq+0fZ2uasgAam7qGTdCeDBQxXeyL-J1_suyxy6GE_ERTg@mail.gmail.com>
+ <20250224140317.GF8144@e132581.arm.com> <Z7yY19UtSnND5KTl@J2N7QTR9R3.cambridge.arm.com>
+ <20250224180301.GI8144@e132581.arm.com> <CAL_JsqKNad6eEBerUOco=SDWxdp6dgRD3FDrSt5OpGQYwwstSg@mail.gmail.com>
+ <20250225123813.GA1821331@e132581.arm.com>
+In-Reply-To: <20250225123813.GA1821331@e132581.arm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 25 Feb 2025 09:35:09 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJ4cSGVjkBqU9uZdB2gjF6FyfQaD=jmcqEamEoqWLYGaQ@mail.gmail.com>
+X-Gm-Features: AQ5f1Jo1RJnU8UBv-NkgDA5mYeZ3KtlYf8lNMthdII-jEnwh4DVqd7qs9q-S8Hk
+Message-ID: <CAL_JsqJ4cSGVjkBqU9uZdB2gjF6FyfQaD=jmcqEamEoqWLYGaQ@mail.gmail.com>
+Subject: Re: [PATCH v20 11/11] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+To: Leo Yan <leo.yan@arm.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	James Clark <james.clark@linaro.org>, Anshuman Khandual <anshuman.khandual@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 22, 2025 at 07:54:02AM -0800, Nicolin Chen wrote:
-> Introduce a new IOMMUFD_OBJ_VEVENTQ object for vIOMMU Event Queue that
-> provides user space (VMM) another FD to read the vIOMMU Events.
-> 
-> Allow a vIOMMU object to allocate vEVENTQs, with a condition that each
-> vIOMMU can only have one single vEVENTQ per type.
-> 
-> Add iommufd_veventq_alloc() with iommufd_veventq_ops for the new ioctl.
-> 
-> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> ---
->  drivers/iommu/iommufd/iommufd_private.h |  82 ++++++++++
->  include/linux/iommufd.h                 |   3 +
->  include/uapi/linux/iommufd.h            |  82 ++++++++++
->  drivers/iommu/iommufd/eventq.c          | 209 +++++++++++++++++++++++-
->  drivers/iommu/iommufd/main.c            |   7 +
->  drivers/iommu/iommufd/viommu.c          |   2 +
->  6 files changed, 384 insertions(+), 1 deletion(-)
+On Tue, Feb 25, 2025 at 6:38=E2=80=AFAM Leo Yan <leo.yan@arm.com> wrote:
+>
+> On Mon, Feb 24, 2025 at 07:31:52PM -0600, Rob Herring wrote:
+>
+> [...]
+>
+> > > > > When event rotation happens, if without context switch, in theory=
+ we
+> > > > > should can directly use the branch record (no invalidation, no in=
+jection)
+> > > > > for all events.
+> > > >
+> > > > No; that only works in *some* cases, and will produce incorrect res=
+ults
+> > > > in others.
+> > > >
+> > > > For example, consider filtering. Imagine a PMU with a single counte=
+r,
+> > > > and two events, where event-A filters for calls-and-returns and eve=
+nt-B
+> > > > filters for calls-only. When switching from event-A to event-B, it'=
+s
+> > > > theoretically possible to keep the existing records around, knowing=
+ that
+> > > > the returns can be filtered out later. When switching from event-B =
+to
+> > > > event-A we cannot keep the existing records, since there are gaps
+> > > > whenever a return should have been recorded.
+> > >
+> > > Seems to me, the problem is not caused by event rotation.  We need to
+> > > calculate a correct filter in the first place - the BRBE driver shoul=
+d
+> > > calculate a superset for all filters of events for a session.  Then,
+> > > generate branch record based event's specific filter.
+> >
+> > The driver doesn't have enough information. If it is told to schedule
+> > event A, it doesn't know anything about event B. It could in theory
+> > try to remember event B if event B had already been scheduled, but it
+> > never knows when event B is gone.
+>
+> E.g., I tried below command for enabling 10 events in a perf session:
+>
+>   perf record -e armv9_nevis/r04/ -e armv9_nevis/r05/ \
+>               -e armv9_nevis/r06/ -e armv9_nevis/r07/ \
+>               -e armv9_nevis/r08/ -e armv9_nevis/r09/ \
+>               -e armv9_nevis/r10/ -e armv9_nevis/r11/ \
+>               -e armv9_nevis/r12/ -e armv9_nevis/r13/ \
+>               -- sleep 1
+>
+> For Arm PMU, the flow below is invoked for every event on every
+> affinied CPU in initialization phase:
+>
+>   armpmu_event_init() {
+>     armv8pmu_set_event_filter();
+>   }
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+That function is passed *1* event. It is not intended to go looking at
+all events or muck with any global state. Could we go poking around
+all the data structures? Probably, it's C and data structures are
+often not opaque when they should be, so that wouldn't be a good idea.
+If you think it is, I'd recommend you stay away from Rust.
 
-Jason
+Furthermore, an event here may not actually be enabled. A user could
+open 2 events and handle them as mutually exclusive continuously
+disabling one and enabling the other. If the branch filters that they
+want are not overlapping, we'd be reducing our effective branch record
+size. Maximizing the size seems much more important to me than keeping
+some branches in a few corner cases.
+
+> Shouldn't we calculate a superset branch filter for all events, store
+> it into a per-CPU data structure and then apply the filter on BRBE?
+
+Suppose we do that, what happens when a 2nd session (as Mark pointed
+out, sessions only exist in the perf tool, not the kernel) adds more
+events. We configured the filters and now we have to change them
+again. So we have to invalidate the branch record. It's the same thing
+with event rotation (though less frequent (probably)).
+
+> > > > There are a number of cases of that shape given the set of configur=
+able
+> > > > filters. In theory it's possible to retain those in some cases, but=
+ I
+> > > > don't think that the complexity is justified.
+> > > >
+> > > > Similarly, whenever kernel branches are recorded it's necessary to =
+drop
+> > > > the stale branches whenever branch recording is paused, as there's
+> > > > necessarily a blackout period and hence a gap in the records.
+> > >
+> > > If we save BRBE record when a process is switched out and then restor=
+e
+> > > the record when a process is switched in, should we can keep a decent
+> > > branch record for performance profiling?
+> >
+> > Keep in mind that there's only 64 branches recorded at most. How many
+> > branches in a context switch plus reconfiguring the PMU? Not a small
+> > percentage of 64 I think. In traces where freeze on overflow was not
+> > working (there's an example in v18), just the interrupt entry until
+> > BRBE was stopped was a significant part of the trace. A context switch
+> > is going to be similar.
+>
+> That is true for kernel mode enabled tracing.  But we will have no
+> such kind noises for userspace only mode tracing.
+>
+> [...]
+>
+> > > > Do you have a reason why you think we *must* keep events around?
+> > >
+> > > Here I am really concerned are cases when a process is preempted or
+> > > migrated.  The driver doesn't save and restore branch records for the=
+se
+> > > cases, it just invalidates all records when a task is scheduled in.
+> > >
+> > > As a result, if an event overflow is close to context switch, it is
+> > > likely to capture incomplete branch records.  For a userspace-only
+> > > tracing, it is risk to capture empty branch record after preemption
+> > > and migrations.
+> >
+> > There's the same risk if something else is recording kernel branches
+> > when you are recording userspace only. I think the user has to be
+> > aware if other things like context switches are perturbing their data.
+>
+> I am confused for the decription above.  Does it refer to branch
+> recording cross different sessions?  It is fine for me that the branch
+> data is interleaved by different sessions (e.g. one is global tracing
+> and another is only per-thread tracing).
+>
+> We might need to consider an intact branch record for the single perf
+> session case.  E.g. if userspace program calls:
+>
+>     func_a -> func_b -> func_c
+>
+> In a case for only userspace tracing, we will have no chance to preserve
+> the call sequence of these functions after the program is switched out.
+
+So you miss the few times that happens in a context switch. But we are
+sampling and all/most of the other samples are going to be fine. How
+much is that really going to affect your profile?
+
+Rob
