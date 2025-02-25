@@ -1,93 +1,115 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B5D155C8C
-	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 15:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C446D199B9;
+	Tue, 25 Feb 2025 15:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740498077; cv=none; b=J4wQuv4VMaKBS80IVOFKxsA6W9s8GuMaTipISFI+dwX3m8dlHYpZ1svlP2JDhH2Zqhb7vfeYoAXhOL8eTR0iOXejPu6i6vwqr7Q5WGVqhuDqxCjLvaTkU4CiPba14kPEqP0mvUmhkkiKy4/tu2D4KKS3L6Nf3UTeUsstpJK0w/g=
+	t=1740498389; cv=none; b=QmoY/w4KU15hzDmtMcoRvKmpFZPlHxQdB+0La2SurEfjymDyQaTNv5BuQvNrpW/k0KyE6NgKja3HLJ2GL9LcmJDusYO8OWC5O3r417Fdmny3UcloqrBdI0SxBNTZExHR6L85rgaNUUFPrT1Qr+z9mGukQqwxG0jyKRZf4tv0Nks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740498077; c=relaxed/simple;
-	bh=h0k6Bw8oebc5YQIbZ75hirrCib3mxXfTLg5zcaiUPQU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ezeq8L2k8CcahKqsVzDXTSS/eL9lrrQXMwXM9OkbkL/iXvY6CxTJtI2vcykKHcJRFXRD4ZV51a+9YWrKjQiZxuxe2Mbznk/q+modkYiq3HNadCwQPe8aw4V3mMnzPZxs/UpUV33MEcDfBKUrpdU9ktnTHZOMTaoMzA2pGeAvFJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lvpEHwrX; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1740498389; c=relaxed/simple;
+	bh=MFvmP9LovArK9OERLzzbnLEOunRvxAUL0nHnW9lN2zc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Qe9utyhhaUZ/ErQtDb5OYCbL/FToo3dp6708ekrQnBeqEgbeDHvO75HPS9BkSQqpj1MtBV0RsZyG8FOZHkfkCu5xaynFOCIGFNftWRVBUIF5RAC3aT/DvtF6P0Ve7Im6Z2zUVqENgq5ftAtj9W/qeVjgMtqxuU0bzYkPxcgSqjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JB8OjMCt; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lvpEHwrX"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2fbff6426f5so11987990a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 07:41:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740498075; x=1741102875; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9gith30kTBfPn10AwyFeCKv7JIoJKUJTfhcaJAgn5H8=;
-        b=lvpEHwrXZMafR5bjJMMb/R0J7wbSws4Ye2WMk1fS+rUsdeN7iGm8r7jJsWa+4G+xoU
-         Sz5T5bjLekDkQtOPdVnzZSHB96XbjTGvPeuQOv0BkT9rg3A2RejXPFEHNzp5zKaGhZEE
-         ai+QMEI0cNmJwsv7CcO7O9wMkLRTBt9TCVAFqt9DibPPwcadBut8WasGHIZAejgbEiv1
-         eQ2z10bP+q9CDsnLIoPnS2VwmEwIQ5HxaW+s2TD/YvXzk+94xLq70MyfJmeL4R6/l/Vf
-         qRd64KdU5RGPoXUkqEXVzeF5bvhWqWHqTZFyF4IH0ohtDAvkmXo9oLsLxssjMFTlIPz8
-         ABDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740498075; x=1741102875;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9gith30kTBfPn10AwyFeCKv7JIoJKUJTfhcaJAgn5H8=;
-        b=t6GJBTbcqgLPtstiAFiItdT7Xw+a1yiEi+Xntrx7cHPBLClSgb+P7eqWQAzhQpWP/o
-         m0OSReFW/hge6ZC4xB+bBwB3k+admfZb66ErwdIoL/fXPFigT9S5pb0Z57DSjElpneod
-         CiJ0MU/Yhavncy9yac+nXQQcO+47uhPBRvSfOJKg+ptgBkjITSjcVm9gGo6NcfUwXCXp
-         ETBtoyIheK6t0cH9cQEELSvetZzU3vxi4YFMj6rLksbVJE3ltS/rVxW+ps8gC5S/Qlcm
-         p0hN4CdNv/wGLMMHBaa9LnWhuT3+ao7B3HBz13MihRo5h5NJYSLzEzLRLtpDIlbDgSED
-         Tf7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUHx0SMYcFi5FxOmxgfAPpNg8ef7J2moKBe+vRy7Nn2GwwNs6Jd0fhC/SPyito4oM78X6NXNyASurY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGpj5UXSZiNl0Ox0BNJGIAvfgsQoHh6GEgh6ahLnEGp+WsnKCx
-	qukE9/kVdjYBLKP3Xnw1GhDjmiaRbPwHb5jNlStzZU9sJGBpA2l6wGmuZjXxicLU23TS87HelWR
-	rhw==
-X-Google-Smtp-Source: AGHT+IGZkp+roO0TVp3rz40ka6O9p/N9EvFel5/ggMinuedWjO6jtk5+r13X1rdCPxFnx16CfV0N9Na/IiI=
-X-Received: from pjbpv16.prod.google.com ([2002:a17:90b:3c90:b0:2fc:11a0:c53f])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:2e4f:b0:2f1:3355:4a8f
- with SMTP id 98e67ed59e1d1-2fe68ac94a8mr5754618a91.4.1740498074970; Tue, 25
- Feb 2025 07:41:14 -0800 (PST)
-Date: Tue, 25 Feb 2025 07:41:13 -0800
-In-Reply-To: <20241001050110.3643764-21-xin@zytor.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JB8OjMCt"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D59644429F;
+	Tue, 25 Feb 2025 15:46:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740498385;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0QMFPn7v0dvtqEnFRRWaHTTHu3sj+oRLzfepMtxanK8=;
+	b=JB8OjMCtCzJ1YInn4tNfeR0v0PbEPGZGOGVlzbzrit48JNQTeiTdt+9vYx4sh+wmawS/6N
+	CETWdosaxauFkwlusUa9edkiZgRA6Ds9BO18Zl/y2+e36l0G7BDMOGrYrL+wG0xPiz6kvh
+	NdCEI9zw1kowE2dr151TWTPB2obKNZHjLQsEqqALDY4IBajPhsJh8KGxAekJtz2SszH+ra
+	P9Cv91kFMMvIoKx0qeykfMlaoVZSoamphKkqkcGwSiatDie1PU6n+6jTGQN1TvfxkqrFaX
+	2IbDUk+L0Evph8E7rEmZiInCnG2QeentPxoE4AE7iwU5AZ8q75g5aRQAGmX7Ew==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Date: Tue, 25 Feb 2025 16:46:22 +0100
+Subject: [PATCH] drm/vkms: Add "hardware limitation" emulation TODO
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241001050110.3643764-1-xin@zytor.com> <20241001050110.3643764-21-xin@zytor.com>
-Message-ID: <Z73kmRwZFJJAVkiZ@google.com>
-Subject: Re: [PATCH v3 20/27] KVM: x86: Allow WRMSRNS to be advertised to guests
-From: Sean Christopherson <seanjc@google.com>
-To: "Xin Li (Intel)" <xin@zytor.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
-	peterz@infradead.org, andrew.cooper3@citrix.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250225-vkms-update-todo-v1-1-afb1e6f7d714@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAM3lvWcC/zWMQQrCMBBFr1Jm7WAaGpVeRbpIk1EHSVIzaSmU3
+ t1gcfffh/c2EMpMAn2zQaaFhVOs0J4acC8bn4TsK4NW2iitDS7vIDhP3hbCknxCo66q1d1ldP4
+ GVZsyPXj9Je/DwZk+cy2X44TRCqFLIXDpG58DBhZ3/g+MtBYY9v0LdOQsTJwAAAA=
+X-Change-ID: 20250225-vkms-update-todo-50701246bcd8
+To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>, 
+ David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1429;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=MFvmP9LovArK9OERLzzbnLEOunRvxAUL0nHnW9lN2zc=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnveXPQ2q8V3VeN1NbMRQPdRMMaL4QjQAynIylm
+ AUfAMv05wWJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ73lzwAKCRAgrS7GWxAs
+ 4t5VEACUFayeAdbvJqZBoi1QRKlqceU3JOBr31o/wBKDiJ1qzS2UbREIJvAB+a1RFRfgaNByGFB
+ qDaAN6Af8AbAkWVEu7MWzsUwelIPNlKCB9jm6GZCTiGBi21qUicgPWN/4jlAmx6BQ0Lpjg+ICBC
+ sqzNO9Rg7oUx0zMnh8JquaWLKrqOf68L/mKA7auEA2eXmqOlxbdJFmsDWwLwCZPJ+9wgobGzjr8
+ jETrvKjGZMIUIdJb1d5AjcLlqcWdb9Dn1rOUHDFfie+M5mRWSdk2w+1njLp1qTYjmefWF6Uqq8o
+ xmkdirueb4RhqN09hCI9vREVFdBJGgwuTTDsoQx2g0JhMlVQlllWvtibZv47yzzh41a0wD9tVDp
+ aT+7GEAXDHR3I3C+TY8rMm9plPimKKE9OwympO+6AWdAcOgtYK/HFYej+ilLmTZcgVgc7n7qLJJ
+ qctsn8kr43fmptBxeWt6OMUtdE6eEj8+/llY20vqK25HY1hTonNusLSaJ6L2CQkTJl+qjWF6dkr
+ DGMtcJ+Ieze+qYFErhzTDnwIpbOnYjiSAwd3CWyWgVfdT+MYD3yEJP1ShVpA/GXtK56Z+XQJ8ax
+ YaP406FvqC6KPgq1XzlIMmmcp121MBO/+JFKlLXw9t+yVJ7FH2cOVXLHMCl/7y65RECPD7oktku
+ ZYCZrvKztktDC7w==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekvddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepueetjeeggeffvdegkeetudekjeevkeehheduledtgeejhfduvdeuleehleffgefgnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludejvddrudekrddtrddungdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedufedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhouhhis
+ hdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthh
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-On Mon, Sep 30, 2024, Xin Li (Intel) wrote:
-> From: Xin Li <xin3.li@intel.com>
-> 
-> Allow WRMSRNS to be advertised to guests.
+Add the hardware limitation todo.
 
-The shortlog and this sentence are incorrect.  Assuming there are no controls for
-WRMSRNS, then KVM isn't allowing anything.  Userspace can advertise WRMSRNS support
-whenever it wants, and the guest can cleanly execute WRMSRNS regardless of whether
-or not it's advertised in CPUID.  KVM is simply advertising support to userspace.
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+ Documentation/gpu/vkms.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-> WRMSRNS behaves exactly like WRMSR with the only difference being
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index ba04ac7c2167..d5bc602547e7 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -147,6 +147,15 @@ module. Use/Test-cases:
+ - Change output configuration: Plug/unplug screens, change EDID, allow changing
+   the refresh rate.
+ 
++- Emulating Hardware Limitations with eBPF for MST and Atomic Checks
++  Hardware limitations can often prevent valid DRM configurations during
++  atomic checks. Examples of such limitations include bandwidth constraints in
++  MST and limited clock signals for multiple CRTCs.
++  These limitations are dynamic and require extensive checks, making them
++  difficult to describe statically. To address this, we propose creating an
++  eBPF interface for atomic checks. This interface will allow userspace applications
++  to simulate and enforce custom hardware limitations.
++
+ The currently proposed solution is to expose vkms configuration through
+ configfs. All existing module options should be supported through configfs
+ too.
 
-Nope, not the only difference.
+---
+base-commit: acf3256160bdabcb5c07032f3bf6eb5a21f5b95f
+change-id: 20250225-vkms-update-todo-50701246bcd8
 
-  WRMSR and WRMSRNS use the same basic exit reason (see Appendix C). For WRMSR,
-  the exit qualification is 0, while for WRMSRNS it is 1.
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
 
-And the whole reaosn I went spelunking was to verify that WRMSRNS honors all MSR
-exiting controls and generates the same exits.  That information needs to be
-explicitly stated.
-
-I'll rewrite the shortlog and changelog when applying.
