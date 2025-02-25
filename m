@@ -1,54 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2870E17A597;
-	Tue, 25 Feb 2025 16:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6E818B475;
+	Tue, 25 Feb 2025 16:04:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740499373; cv=none; b=YD0saJss20nuuVlQxj8ZZTVdjQ1NiWKJfCyWOT8S/OPU+jBScFxmaj4nM+3CMApE1MpMPxfFdLjyblMDQz8N02EWnQpyDMgxBfuFIx0afzKhkYAjDoo+zwIO/NNHjRUsfzLF0ao/H8SHyQS62das11U7lo+H1nVFVmlUkVascfw=
+	t=1740499489; cv=none; b=PUosQCV4DTTDJlFoU3mPOCAjR28epcdE6+2tkMitdtDWEDNEwJD0+ABPs/anfZQjzK9tDi1Rb6a/6o/Ml7+4fny/aarDNf7D2CIQeDpXoIIFagrXsuq6RVsYN2raOfkr40RlOfCDp1xJcXV62o0cDPFbBnyu9XTAaSTFGvEAzTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740499373; c=relaxed/simple;
-	bh=NKncxX/f4OhZjM586JgqScppgEm06MohF+FhDmQBvJA=;
+	s=arc-20240116; t=1740499489; c=relaxed/simple;
+	bh=Cssv3O9deygNopTJWPD44unAzs/rt53XfRmlY8D0JAg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mz+EBbvpRHXY91ZIMXXTQBhmMWeS2CPZIgqa1hKJN4mxbnrEC5QRmxI5+t4G5cbwKegBo/wqpnPbLHEoWqIcOgGBq6BXNwQUbiKazhrwnN+urnKzoo4RCuYWpufzJy4soZSbIVOUkRKqSJJNLKcRbS7cj/3UaaHGxt6kveAVYzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aayJ+tLx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fiddOpLo+HvNzRomLEWGIas1dhKWPGHqzRSDjsMNegY43ArHqeVL+DEom3LbO3qMldMvnlfEMUevXR0m+AGldWLzp7yWN7QzXTFRvCVniHVmErv0Qbfc83MX90yaKrCcf42qlYKEvOlg+BQ0aYiBsrwGshrjOqvLZNxwERJEdaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+lbSHnu; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aayJ+tLx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263E1C4CEDD;
-	Tue, 25 Feb 2025 16:02:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740499371;
-	bh=NKncxX/f4OhZjM586JgqScppgEm06MohF+FhDmQBvJA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aayJ+tLxA6sG7cTVHHP4hUNez7LShHiaUnSSJzHetMr0TTsIqSW1PvC+ZUJ9IylE7
-	 XlWq5aGz/7ZLsFiIKCGQ+pWmDERxvEmBdfgcQNT73hLMRjK/aWv1nxDQ9Be+WUtb/9
-	 IxLLTAq02Rm+/M6N3AyMn3uwkw/UY1hMjCSoMBjMSIaePE/L+Qt01+v17wK+HsdLta
-	 yuvJmFvmc3hkC+asYqMSqPc7TAUKOm/snWXAHGGLreTeuo2+hfnTYI6e9APTZJVd+T
-	 8oKTWtP4n5A+GLUUHGhO38M0u90xZ/OY0/wrimn3qWuhSur6TavIPSH36oLHQA9CbG
-	 WLKmVFAGQ+l4A==
-Date: Tue, 25 Feb 2025 10:02:48 -0600
-From: Rob Herring <robh@kernel.org>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: npu: rockchip,rknn: Add bindings
-Message-ID: <20250225160248.GA2563229-robh@kernel.org>
-References: <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
- <20250225-6-10-rocket-v2-1-d4dbcfafc141@tomeuvizoso.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+lbSHnu"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-220e6028214so127566285ad.0;
+        Tue, 25 Feb 2025 08:04:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740499487; x=1741104287; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nfC4yU0nUtrxnIRRLUVwOoOOnizoCUAoie4Fblmw1ow=;
+        b=B+lbSHnu2Zx726ASecpXlGVGi91RA0xFm0h72ehzihvkXYlsH04pquuGNKNtXJyJPK
+         8nEsy17YWP21NAbN+IBS+CF2zspoWaTWoFRsh+xiMnchiu8xqW0BynyhJsFaEjTO3SzG
+         ajRaI5SwxXVlfUQZ9Jnn0Nghvem/efnYCTltLgOCsoEZoszy9ttAgg6iA0THLdb5+RvU
+         VSJVL0lM4UfsJLmMydHSOOPWAiovQ/oKv3EKduQ948BX/GSW7AMobrfln15Q0Fzy9+8k
+         LVk6v04otSvDRBJ6YUUrA0DaCnLqy4dLcKwvv6VF4dhg9fkpuDAzgKm3TO3QsgiNO8GL
+         2IGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740499487; x=1741104287;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nfC4yU0nUtrxnIRRLUVwOoOOnizoCUAoie4Fblmw1ow=;
+        b=rFNewLTprhvnw1xytnfK3GDcD/LKbPYNx16oW+JrCKJ5FTvtClEbqbNvI4aXQhu7k+
+         Dv5zDX+Od6IWGqROG+DfyOCiWUacIQH7Cl4hgMUxtCsgx+dAdTwwfF+YVLN2YAI0Jr8S
+         /bUKgJn/EAlFJaaYvQbEVzl2/1Vb+uhiTPj+3n+O2snbP9DjMYpWe+NycnB9HpYrOCfz
+         N0Tuj856d6fIzRgN9gwQDVS6NLL7V4X27l8c7S/35nNbGTREjdz5B8mIQvOSPa9ZDRvB
+         sOIBhc6D64VFGOqva7JhFugQbjgLDJJWBkIKUiWPVcSVt3QjZN33dHe+VVIv/4kgpzcr
+         8/Ug==
+X-Forwarded-Encrypted: i=1; AJvYcCU03wQZe+ZfweZmfPoCE9q9xq2iN00/HbQ7035u8BZGa4l4iicxJV3BxXkIGejQzTPQlpIdMrtCCStKusaOCQs=@vger.kernel.org, AJvYcCUQq8UoKF3JupCkJMbWcpRlqgoOW/udC8qXYNpgx1yXqdHa2h/zfG1A05cZn1PzxABMZixsCMfyOX+4c+z2@vger.kernel.org, AJvYcCWo4cHK4lH2r5Fnr4lGGF28aosQwVMwDSDmQeRbXMARSHTHBIvG4phXQhXXM9ik905r0NVo9PnLPDA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YybK+JPRyCBW5ZKPpxQLtR+SjRZVEOqQAqEAd+EXdmocGK9LS5Y
+	E7GYusMuIJ+iubL6kOdl4LVOGU3hSEh2YPTmaPj6bm1QU456abiffwziTw==
+X-Gm-Gg: ASbGncsHhW/r7dw6Dwwkc64xjiTBQ6LN5+HurDS2MJyBf+JEdtBIT85HULIZ6/lGZ2f
+	eAN0OTWb0qdw0Ja3G3GQuxAie4UORo5zh/5BXCrFIXwdGsHZWZiV9hfCR+Z4XkdRFdN1OVQJGRC
+	7eX/zXr+vv4L9jNBktYc20Wv/zJozwiiSZk1f/mlgNpSHmNfVVMpIzvomaeYlcWzsrAoKf+QL6O
+	7d0hK/+KCl87giW0Zv5mQUPymFOiy0DMMXjg9mIBS8i7ZKv6K85VLfTGdwbs/HkGlvArIj1hi0H
+	wJTJh4J19XNNY+LTtuGeYfui8oUemQXuf5Y/c1E=
+X-Google-Smtp-Source: AGHT+IGkE+gW8A5hUQrZyr2X9IDG8DRjjSSNdNAFCdIreEChLZj609zabpm5mLXa8Bqxjvjfv4DSmA==
+X-Received: by 2002:a17:902:e74c:b0:220:cd13:d0ec with SMTP id d9443c01a7336-221a00274d7mr287259265ad.48.1740499486466;
+        Tue, 25 Feb 2025 08:04:46 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2230a0ad903sm15922925ad.217.2025.02.25.08.04.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2025 08:04:46 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 25 Feb 2025 08:04:44 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: George Cherian <george.cherian@marvell.com>
+Cc: wim@linux-watchdog.org, corbet@lwn.net, linux-watchdog@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] drivers: watchdog: Add support for panic notifier
+ callback
+Message-ID: <85d99af3-a3ee-41dc-96df-0b9903a6f516@roeck-us.net>
+References: <20250225140615.2141119-1-george.cherian@marvell.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,200 +75,136 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250225-6-10-rocket-v2-1-d4dbcfafc141@tomeuvizoso.net>
+In-Reply-To: <20250225140615.2141119-1-george.cherian@marvell.com>
 
-On Tue, Feb 25, 2025 at 08:55:47AM +0100, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
+On Tue, Feb 25, 2025 at 02:06:15PM +0000, George Cherian wrote:
+> Watchdog is not turned off in kernel panic situation.
+> In certain systems this might prevent the successful loading
+> of kdump kernel. The kdump kernel might hit a watchdog reset
+> while it is booting.
 > 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
+> To avoid such scenarios add a panic notifier call back function
+> which can stop the watchdog. This provision can be enabled by
+> passing watchdog.stop_on_panic=1 via kernel command-line parameter.
 > 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: George Cherian <george.cherian@marvell.com>
 > ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 152 +++++++++++++++++++++
->  1 file changed, 152 insertions(+)
+> Changelog:
+> v1 -> v2
+> - Remove the per driver flag setting option
+> - Take the parameter via kernel command-line parameter to watchdog_core.
 > 
-> diff --git a/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..e8d0afe4a7d1c4f166cf13a9f4aa7c1901362a3f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> @@ -0,0 +1,152 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Neural Processing Unit IP from Rockchip
-> +
-> +maintainers:
-> +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> +
-> +description:
-> +  Rockchip IP for accelerating inference of neural networks, based on NVIDIA's
-> +  open source NVDLA IP.
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: '^npu-core@[a-f0-9]+$'
-> +
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - rockchip,rk3588-rknn-core-top
-> +          - const: rockchip,rknn-core-top
-
-Drop the fallbacks unless you have some evidence that the IP is the 
-same across a lot of SoCs. If you don't, then 
-rockchip,rk3588-rknn-core-top can be the fallback whenever there are 
-more compatible SoCs.
-
-Or if there's version/feature registers that otherwise make it 
-discoverable, then a common compatible is fine.
-
-> +      - items:
-> +          - enum:
-> +              - rockchip,rk3588-rknn-core
-> +          - const: rockchip,rknn-core
-
-I don't understand the difference between core and core-top. That needs 
-to be explained in the top-level description.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 4
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aclk
-> +      - const: hclk
-> +      - const: npu
-> +      - const: pclk
-> +    minItems: 2
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  npu-supply: true
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    items:
-> +      - const: srst_a
-> +      - const: srst_h
-> +
-> +  sram-supply: true
-
-Group supply properties together
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - iommus
-> +  - npu-supply
-> +  - power-domains
-> +  - resets
-> +  - reset-names
-> +  - sram-supply
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - rockchip,rknn-core-top
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 4
-> +
-> +        clock-names:
-> +          minItems: 4
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - rockchip,rknn-core
-> +    then:
-> +      properties:
-> +        clocks:
-> +          maxItems: 2
-> +        clock-names:
-> +          maxItems: 2
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/rk3588-power.h>
-> +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
-> +
-> +    bus {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +
-> +      rknn_core_top: npu-core@fdab0000 {
-
-npu@...
-
-> +        compatible = "rockchip,rk3588-rknn-core-top", "rockchip,rknn-core-top";
-> +        reg = <0x0 0xfdab0000 0x0 0x9000>;
-> +        assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
-> +        assigned-clock-rates = <200000000>;
-> +        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
-> +                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
-> +        clock-names = "aclk", "hclk", "npu", "pclk";
-> +        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
-> +        iommus = <&rknn_mmu_top>;
-> +        npu-supply = <&vdd_npu_s0>;
-> +        power-domains = <&power RK3588_PD_NPUTOP>;
-> +        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
-> +        reset-names = "srst_a", "srst_h";
-> +        sram-supply = <&vdd_npu_mem_s0>;
-> +      };
-> +
-> +      rknn_core_1: npu-core@fdac0000 {
-> +        compatible = "rockchip,rk3588-rknn-core", "rockchip,rknn-core";
-> +        reg = <0x0 0xfdac0000 0x0 0x9000>;
-> +        clocks = <&cru ACLK_NPU1>, <&cru HCLK_NPU1>;
-> +        clock-names = "aclk", "hclk";
-> +        interrupts = <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>;
-> +        iommus = <&rknn_mmu_1>;
-> +        npu-supply = <&vdd_npu_s0>;
-> +        power-domains = <&power RK3588_PD_NPU1>;
-> +        resets = <&cru SRST_A_RKNN1>, <&cru SRST_H_RKNN1>;
-> +        reset-names = "srst_a", "srst_h";
-> +        sram-supply = <&vdd_npu_mem_s0>;
-> +      };
-> +    };
-> +...
+> v2 -> v3
+> - Remove the helper function watchdog_stop_on_panic() from watchdog.h.
+> - There are no users for this. 
 > 
-> -- 
-> 2.48.1
+>  drivers/watchdog/watchdog_core.c | 42 ++++++++++++++++++++++++++++++++
+>  include/linux/watchdog.h         |  2 ++
+>  2 files changed, 44 insertions(+)
 > 
+> diff --git a/drivers/watchdog/watchdog_core.c b/drivers/watchdog/watchdog_core.c
+> index d46d8c8c01f2..8cbebe38b7dd 100644
+> --- a/drivers/watchdog/watchdog_core.c
+> +++ b/drivers/watchdog/watchdog_core.c
+> @@ -34,6 +34,7 @@
+>  #include <linux/idr.h>		/* For ida_* macros */
+>  #include <linux/err.h>		/* For IS_ERR macros */
+>  #include <linux/of.h>		/* For of_get_timeout_sec */
+> +#include <linux/panic_notifier.h> /* For panic handler */
+>  #include <linux/suspend.h>
+>  
+>  #include "watchdog_core.h"	/* For watchdog_dev_register/... */
+> @@ -47,6 +48,9 @@ static int stop_on_reboot = -1;
+>  module_param(stop_on_reboot, int, 0444);
+>  MODULE_PARM_DESC(stop_on_reboot, "Stop watchdogs on reboot (0=keep watching, 1=stop)");
+>  
+> +static int stop_on_panic = -1;
+> +module_param(stop_on_panic, int, 0444);
+
+This can now be bool.
+
+> +MODULE_PARM_DESC(stop_on_panic, "Stop watchdogs on panic (0=keep watching, 1=stop)");
+>  /*
+>   * Deferred Registration infrastructure.
+>   *
+> @@ -155,6 +159,23 @@ int watchdog_init_timeout(struct watchdog_device *wdd,
+>  }
+>  EXPORT_SYMBOL_GPL(watchdog_init_timeout);
+>  
+> +static int watchdog_panic_notify(struct notifier_block *nb,
+> +				 unsigned long action, void *data)
+> +{
+> +	struct watchdog_device *wdd;
+> +
+> +	wdd = container_of(nb, struct watchdog_device, panic_nb);
+> +	if (watchdog_active(wdd)) {
+> +		int ret;
+> +
+> +		ret = wdd->ops->stop(wdd);
+> +		if (ret)
+> +			return NOTIFY_BAD;
+> +	}
+> +
+> +	return NOTIFY_DONE;
+> +}
+> +
+>  static int watchdog_reboot_notifier(struct notifier_block *nb,
+>  				    unsigned long code, void *data)
+>  {
+> @@ -299,6 +320,14 @@ static int ___watchdog_register_device(struct watchdog_device *wdd)
+>  			clear_bit(WDOG_STOP_ON_REBOOT, &wdd->status);
+>  	}
+>  
+> +	/* Module parameter to force watchdog policy on panic. */
+> +	if (stop_on_panic != -1) {
+> +		if (stop_on_panic &&  !test_bit(WDOG_NO_WAY_OUT, &wdd->status))
+> +			set_bit(WDOG_STOP_ON_PANIC, &wdd->status);
+> +		else
+> +			clear_bit(WDOG_STOP_ON_PANIC, &wdd->status);
+> +	}
+> +
+
+No longer needed here. See below.
+
+>  	if (test_bit(WDOG_STOP_ON_REBOOT, &wdd->status)) {
+>  		if (!wdd->ops->stop)
+>  			pr_warn("watchdog%d: stop_on_reboot not supported\n", wdd->id);
+> @@ -334,6 +363,16 @@ static int ___watchdog_register_device(struct watchdog_device *wdd)
+>  				wdd->id, ret);
+>  	}
+>  
+> +	if (test_bit(WDOG_STOP_ON_PANIC, &wdd->status)) {
+> +		if (!wdd->ops->stop) {
+> +			pr_warn("watchdog%d: stop_on_panic not supported\n", wdd->id);
+> +		} else {
+> +			wdd->panic_nb.notifier_call = watchdog_panic_notify;
+> +			atomic_notifier_chain_register(&panic_notifier_list,
+> +						       &wdd->panic_nb);
+> +		}
+> +	}
+
+Simplify to
+	if (stop_on_panic) {
+		if (!wdd->ops->stop) {
+			pr_warn("watchdog%d: stop_on_panic not supported\n", wdd->id);
+		} else {
+			wdd->panic_nb.notifier_call = watchdog_panic_notify;
+			atomic_notifier_chain_register(&panic_notifier_list,
+						       &wdd->panic_nb);
+			set_bit(WDOG_STOP_ON_PANIC, &wdd->status);
+		}
+	}
+
+This also fixes the bug where the unregistration function is called
+even if the notifier was not actually registered.
+
+One thing I just realized is that we'll have to figure out if atomic
+notifiers can be used here unconditionally. Unless I am missing
+something, watchdog stop functions can sleep. Of course, sleeping
+while panic isn't a good idea. That means we _may_ need a driver
+flag indicating either that the stop function can sleep or that it
+won't. If we need that, I suggest we add WDIOF_STOP_MAYSLEEP or
+similar to the watchdog_info options field.
+
+Thanks,
+Guenter
