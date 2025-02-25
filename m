@@ -1,537 +1,211 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F04019E998
-	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 17:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44ED197A67
+	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 17:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740505016; cv=none; b=ZYrMxv1CUXLhItYRhdhlTMYZOO5KMA1CUFsKDwkf6XHV4VjJIpXexcDCl5ZAKbEWsk/TtjxEATTf/aOsMwYu/QcM4A1GISZvPhMvrVfj50zgsVqJcJnqpVsaJTBYtoVfG6lqS+YDIZztGj6onWMgyUl0oe2DMrWgNamTdJ4Dwgk=
+	t=1740505317; cv=none; b=opaXuFH3K4wbLwm26I43J9DJ4tzhhwfTnAm9B3xV8RQK1n9C3sPqRa+EEtUsFEN4FFTxif7McPnrTy/4jRLaQxG9rko1+q1JPY638B1RzBGVgOeGKgGOhfCPVxR0e9MrAOa3s9omRFnZeA34qtnighKSWwV/m+i0uT5XTVcnSdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740505016; c=relaxed/simple;
-	bh=D77701LRLaOOKnyAHEl7TtKq/YsD0uP2H8B6chFtW3k=;
+	s=arc-20240116; t=1740505317; c=relaxed/simple;
+	bh=iCX+nG23CjC2fxQmPixSN8EXGqI2yLXhnVoBGQ220Lk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aZ0TTmG56PnYFzTqer+TRD+t9B0WVQvJ4dJ8xPYAE+XlCkSqcm12i/hZgyCLP5mAy2d0/OedeIZXK94nGmxCVTOizJkXoH5j4ydn5zmL0PI9kOZxrUfzTqAsarUsxwoqDfhR/HpOs7tLHsmH+w2Oj9tMXHxHUnlXWZz17De0JvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com; spf=pass smtp.mailfrom=mihalicyn.com; dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b=VuSovidw; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mihalicyn.com
+	 To:Cc:Content-Type; b=hts3Ff0xkI0DHOroRwEdNUVC4KmL+HL6G/tCoCTJ03BhG7Aa4DPuGH2zgJZhxyWDtmcpY+4HZQsoc+/FlrDA7zjm0ECGSRrAmKe1VUG3nT8+qv3VJhswcQ8dLFId67MwsUCpBZVGRPuTG+OjRycMcKhCog4guZTNeVG+Lwjh1Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fhpO8Rmx; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b="VuSovidw"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54529eeb38aso5001821e87.2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 09:36:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fhpO8Rmx"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2212222d4cdso3525ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 09:41:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mihalicyn.com; s=mihalicyn; t=1740505011; x=1741109811; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1740505315; x=1741110115; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Msex6yCsWlgaVfBs19G7jgsagoME7+ZXdQHDX2hOeFM=;
-        b=VuSovidwGQBn8Hh0EX1ljUBkObN1w4PdOXfGcseglmSFsHGK+41i+u5Ffv2NLM0a2c
-         4TCsJpkwQZ/9+l1ef1QkneI6OnROg6ThXb395nOdMbC0kyvlG4as54GkJFW8BEqm3Sto
-         RfP7SfjDe/jzWCiQMtMZOYSnRaX12HslVoTq0=
+        bh=Vqjq5AFXxwlxfq4VPVA6M5Ee2CpyweWj+2y/hfe9AzE=;
+        b=fhpO8RmxBeBGKT/5ZKbYywJBbdjJlmt3ng8Wjc4s/xgU+uY7xS01nlIK/TUBh6YfxA
+         dMg04rKf1e6n12Aq9NXmheY6VKIokCil6E/Cn6Dt1d0bsyOlT8ODB/9XEAm4JcQPT3ZB
+         Dhto1cUSl6rI9dZly5XAVVQSDEkOlMNtfNbF1AxgMbSmatvMLQR7mpKdD+6Mq4hv+D/6
+         Rktp688V8SegHs1CqB2RF1hNZjq2TgXtIQt6bAXicdTVTn4MHN42Ds++qsKdCkYASL2E
+         q0s7RUrtkkIkdmIabrI68/KioDWhOPMPpFp2Ig6fRmct79NFZedPvxpDISLltrLfgb91
+         c9+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740505011; x=1741109811;
+        d=1e100.net; s=20230601; t=1740505315; x=1741110115;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Msex6yCsWlgaVfBs19G7jgsagoME7+ZXdQHDX2hOeFM=;
-        b=XQhNfXh2QCqR7X547tTEDFIFRl8r3SFFNzbSg8Nm6cW5uqJei02Ih1U/kFOx3b0jji
-         wJmp+D0iTd1snDqp+pst/UMp9+gUHcqsoc7tAAReKSYm02RLrf71OVxKlzO0VJC668g5
-         uLJgBzF1dudd/RDmxNN8DuJNs3Tjyvyefz5hFouH0zZKJ2fN+rd4nNhGOWoiiEWqt2OV
-         DkVJDc8sH5W0Ppbqe3OTzvaHal1e4wIHr7tMzgmoyvwDq5wCGYgP2mzhF+mH9iNni95e
-         HQsMLBh0NB+P/kv7I4nzw8kY1LBtHHu/eYseaStZXqUxZmrFP+Y2JlukgBu+3Es1tB6P
-         2rsg==
-X-Forwarded-Encrypted: i=1; AJvYcCX4fCn7FgJ3rEP3e75mQO3wZ1AwHk0Qlrm3NBp2VaXVdPrqliUCGlF9InJ2lRISEd1OKry39708qeQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyemJ5+CLVTReLWcrDmPnmTerhdhDHjTWTvWg19MqmDvWgOCmOf
-	4aemfswfTUtUtNaPNX7lf/1bGaO0r1h6RDjl5N8rsK5qsykwCvdxVU3oJBE6iqrrKGwK4xdTa5R
-	tFnlq36LfAqr1/oMP0bBYG5s12U+193baCUqEew==
-X-Gm-Gg: ASbGncvtJhrm9suWeKZKpjHeTDve7OeGJIEoVZnMN28NHV9Uuo+8ZWAZtrtIr78iwul
-	dFAt6Rsm/7WPzJKMi0EKDQm4o65T/yrYbrYYbknVLgghT1FqGhx5dYAKyDkuNkAg8+ilq85zaAZ
-	zMhAOUqz4a
-X-Google-Smtp-Source: AGHT+IEIT7QJ3ck7w7rERWt6WrEciKE9hk04HlX37PjngzwmwdHve4peqnsrJx+9xAXaYXn7MPTLGeipdO4WecKw2o4=
-X-Received: by 2002:a05:6512:3984:b0:545:2efc:745d with SMTP id
- 2adb3069b0e04-5493c5b6683mr145249e87.46.1740505011137; Tue, 25 Feb 2025
- 09:36:51 -0800 (PST)
+        bh=Vqjq5AFXxwlxfq4VPVA6M5Ee2CpyweWj+2y/hfe9AzE=;
+        b=Gu/nMIf3ySElY0MzmJoxgectlpTq+jtz1DdIy2xfJNCsIa0lJL5AN5ZLXlFuHchLTE
+         ENhRV1lUDDCJuUiU/4zwz5Rsuwx8NqQNJ8+EjmX8JTj/4a2tPhLfYWA6Kh4Ulbbmz2fN
+         KPUUM+ddYROoYcnKbUdbGUpJKrHCsL0nMevq4g4jhJbZON7e9sgNoDrX8Cz+E1Smf9tD
+         ives8MoB2Lu7uxYUTzqAWI9k0jYnoDq636OztzKzCrSVc/AkSVZ01DRF1syDCbbTi4nu
+         REmtqnybSGXCzgU528xdSiZmlUIHsZepl62s/giyLziFVo3kSYiTHmCNrYLUjsNeQhhc
+         GUQw==
+X-Forwarded-Encrypted: i=1; AJvYcCV1sM4dr0LKwkLI6oXpPBCmOK2YySHj/J/fTuZ68Amw3wWctC7Isamqw09cjp5QwPYX5WQkl1De0hU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyj7EGgGPH8MWqu866o+8soypgeM5K0lUiEVH9M9JwrkYpKLEBT
+	Rl2Nd1cDg1Way0qmeoASuerqmzTV9Qn2olZY9TfUsKvlu1LNdslA/ls58iV3KALjHXxEpeB8zAc
+	eXc8GR8vyxp/xPfueOajSbwrzSZp5DuQJg2+W
+X-Gm-Gg: ASbGnctXYnq+4PmMY8dFCaE8y4FzbzK7SLujDIsP/TiBZt5gkjBjDj0H9tPSmmiVj00
+	VC5/xEa9n0JHYacGo+ol5rE/KlB28q0jTRX49JLZBh3l22Lu4FWTvmqlhXqgIZeQrISkO7Bowqu
+	3f/+PVFo0=
+X-Google-Smtp-Source: AGHT+IHPa/zeMhv5rS+FoFIXRfGiR3W5Ojq1INXwGU+EkhH1BWbASSdZ3ThN+JgVulgi4m91g+jKNlJGa8ARq6KoZcI=
+X-Received: by 2002:a17:902:d50a:b0:21f:3e29:9cd4 with SMTP id
+ d9443c01a7336-22307a98cbcmr3805795ad.20.1740505314655; Tue, 25 Feb 2025
+ 09:41:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250221170249.890014-1-mkoutny@suse.com> <20250221170249.890014-2-mkoutny@suse.com>
-In-Reply-To: <20250221170249.890014-2-mkoutny@suse.com>
-From: Alexander Mikhalitsyn <alexander@mihalicyn.com>
-Date: Tue, 25 Feb 2025 18:36:37 +0100
-X-Gm-Features: AQ5f1JrN8pkHqnXfS84QMJIHeoOE-NkguSHJdWcXncitet9kEMSWYpxUBbAy90Q
-Message-ID: <CAJqdLrry4HaHpsWGH_YUUr_mWetCCogOxnw1SMRW-XcWE_FXcg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Revert "pid: allow pid_max to be set per pid namespace"
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Eric W . Biederman" <ebiederm@xmission.com>, Oleg Nesterov <oleg@redhat.com>
+References: <20250222191517.743530-1-almasrymina@google.com>
+ <20250222191517.743530-4-almasrymina@google.com> <a814c41a-40f9-4632-a5bb-ad3da5911fb6@redhat.com>
+In-Reply-To: <a814c41a-40f9-4632-a5bb-ad3da5911fb6@redhat.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 25 Feb 2025 09:41:41 -0800
+X-Gm-Features: AWEUYZlYYSHH7_9N4ByWFALTxxtUrWQmHLefEElJbkJw4zmyNRZgN3GST52xcig
+Message-ID: <CAHS8izNfNJLrMtdR0je3DsXDAvP2Hs8HfKf5Jq7_kQJsVUbrzg@mail.gmail.com>
+Subject: Re: [PATCH net-next v5 3/9] net: devmem: Implement TX path
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, virtualization@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn <willemb@google.com>, David Ahern <dsahern@kernel.org>, 
+	Neal Cardwell <ncardwell@google.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+	Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk, 
+	Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, 
+	Pedro Tammela <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Am Fr., 21. Feb. 2025 um 18:02 Uhr schrieb Michal Koutn=C3=BD <mkoutny@suse=
-.com>:
+On Tue, Feb 25, 2025 at 5:04=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wro=
+te:
 >
-> This reverts commit 7863dcc72d0f4b13a641065670426435448b3d80.
+> On 2/22/25 8:15 PM, Mina Almasry wrote:
+> [...]
+> > @@ -119,6 +122,13 @@ void net_devmem_unbind_dmabuf(struct net_devmem_dm=
+abuf_binding *binding)
+> >       unsigned long xa_idx;
+> >       unsigned int rxq_idx;
+> >
+> > +     xa_erase(&net_devmem_dmabuf_bindings, binding->id);
+> > +
+> > +     /* Ensure no tx net_devmem_lookup_dmabuf() are in flight after th=
+e
+> > +      * erase.
+> > +      */
+> > +     synchronize_net();
+>
+> Is the above statement always true? can the dmabuf being stuck in some
+> qdisc? or even some local socket due to redirect?
+>
 
-If we revert this one, then we should also revert a corresponding kselftest=
-:
-https://github.com/torvalds/linux/commit/615ab43b838bb982dc234feff75ee9ad35=
-447c5d
+Yes, we could have have netmems in the TX path in the qdisc or waiting
+for retransmits that still have references to the dmabuf, and that's
+fine here I think.
 
+What is happening here is that tcp_sendmsg_locked() will look for a
+binding in net_devmem_dmabuf_bindings with binding->id =3D=3D
+sockc.dmabuf_id, and then grab a reference on it.
+
+In parallel, net_devmem_unbind_dmabuf will remove the binding from
+net_devmem_dmabuf_bindings, and then drop its refcount (which may be
+the last one if the 'get' in tcp_sendmsg_locked has not yet executed,
+triggering the binding to be freed).
+
+I need to make sure the lookup + get of the dmabuf in
+net_devmem_lookup_dmabuf() doesn't race with the erase + put in
+net_devmem_unbind_dmabuf() in a way that causes UAF, and I use
+rcu_read_lock for that coupled with synchronize_net().
+
+Note that net_devmem_dmabuf_binding_put() won't free the dmabuf unless
+we put the last ref, so any netmems stuck in retransmit paths or qdisc
+will still pin the underlying dmabuf.
+
+Let me know if you still see an issue here.
+
+
+> > @@ -252,13 +261,23 @@ net_devmem_bind_dmabuf(struct net_device *dev, un=
+signed int dmabuf_fd,
+> >        * binding can be much more flexible than that. We may be able to
+> >        * allocate MTU sized chunks here. Leave that for future work...
+> >        */
+> > -     binding->chunk_pool =3D
+> > -             gen_pool_create(PAGE_SHIFT, dev_to_node(&dev->dev));
+> > +     binding->chunk_pool =3D gen_pool_create(PAGE_SHIFT,
+> > +                                           dev_to_node(&dev->dev));
+> >       if (!binding->chunk_pool) {
+> >               err =3D -ENOMEM;
+> >               goto err_unmap;
+> >       }
+> >
+> > +     if (direction =3D=3D DMA_TO_DEVICE) {
+> > +             binding->tx_vec =3D kvmalloc_array(dmabuf->size / PAGE_SI=
+ZE,
+> > +                                              sizeof(struct net_iov *)=
+,
+> > +                                              GFP_KERNEL);
+> > +             if (!binding->tx_vec) {
+> > +                     err =3D -ENOMEM;
+> > +                     goto err_free_chunks;
 >
-> It is already difficult for users to troubleshoot which of multiple pid
-> limits restricts their workload. I'm afraid making pid_max
-> per-(hierarchical-)NS will contribute to confusion.
-> Also, the implementation copies the limit upon creation from
-> parent, this pattern showed cumbersome with some attributes in legacy
-> cgroup controllers -- it's subject to race condition between parent's
-> limit modification and children creation and once copied it must be
-> changed in the descendant.
+> Possibly my comment on v3 has been lost:
 >
-> This is very similar to what pids.max of a cgroup (already) does that
-> can be used as an alternative.
+> """
+> It looks like the later error paths (in the for_each_sgtable_dma_sg()
+> loop) could happen even for 'direction =3D=3D DMA_TO_DEVICE', so I guess =
+an
+> additional error label is needed to clean tx_vec on such paths.
+> """
 >
-> Link: https://lore.kernel.org/r/bnxhqrq7tip6jl2hu6jsvxxogdfii7ugmafbhgsog=
-ovrchxfyp@kagotkztqurt/
-> Signed-off-by: Michal Koutn=C3=BD <mkoutny@suse.com>
-> ---
->  include/linux/pid.h               |   3 +
->  include/linux/pid_namespace.h     |  10 +--
->  kernel/pid.c                      | 125 ++----------------------------
->  kernel/pid_namespace.c            |  43 +++-------
->  kernel/sysctl.c                   |   9 +++
->  kernel/trace/pid_list.c           |   2 +-
->  kernel/trace/trace.h              |   2 +
->  kernel/trace/trace_sched_switch.c |   2 +-
->  8 files changed, 35 insertions(+), 161 deletions(-)
+
+I think I fixed the issue pointed to in v3, but please correct me if I
+missed anything. I added kvfree(), but we don't really need an
+additional error label.
+
+If we hit any of the error paths conditions in
+for_each_sgtable_dma_sg, we will `goto err_free_chunks;`, which will
+free all the genpool chunks, destroy the gen pool, then do
+`kvfree(binding->tx_vec);` to free the memory allocated for tx_vec.
+
+> [...]
+> > @@ -1071,6 +1072,16 @@ int tcp_sendmsg_locked(struct sock *sk, struct m=
+sghdr *msg, size_t size)
+> >
+> >       flags =3D msg->msg_flags;
+> >
+> > +     sockc =3D (struct sockcm_cookie){ .tsflags =3D READ_ONCE(sk->sk_t=
+sflags),
+> > +                                     .dmabuf_id =3D 0 };
+> > +     if (msg->msg_controllen) {
+> > +             err =3D sock_cmsg_send(sk, msg, &sockc);
+> > +             if (unlikely(err)) {
+> > +                     err =3D -EINVAL;
+> > +                     goto out_err;
+> > +             }
+> > +     }
 >
-> diff --git a/include/linux/pid.h b/include/linux/pid.h
-> index 98837a1ff0f33..fe575fcdb4afa 100644
-> --- a/include/linux/pid.h
-> +++ b/include/linux/pid.h
-> @@ -108,6 +108,9 @@ extern void exchange_tids(struct task_struct *task, s=
-truct task_struct *old);
->  extern void transfer_pid(struct task_struct *old, struct task_struct *ne=
-w,
->                          enum pid_type);
+> I'm unsure how much that would be a problem, but it looks like that
+> unblocking sendmsg(MSG_FASTOPEN) with bad msg argument will start to
+> fail on top of this patch, while they should be successful (EINPROGRESS)
+> before.
 >
-> +extern int pid_max;
-> +extern int pid_max_min, pid_max_max;
-> +
->  /*
->   * look up a PID in the hash table. Must be called with the tasklist_loc=
-k
->   * or rcu_read_lock() held.
-> diff --git a/include/linux/pid_namespace.h b/include/linux/pid_namespace.=
-h
-> index 7c67a58111998..f9f9931e02d6a 100644
-> --- a/include/linux/pid_namespace.h
-> +++ b/include/linux/pid_namespace.h
-> @@ -30,7 +30,6 @@ struct pid_namespace {
->         struct task_struct *child_reaper;
->         struct kmem_cache *pid_cachep;
->         unsigned int level;
-> -       int pid_max;
->         struct pid_namespace *parent;
->  #ifdef CONFIG_BSD_PROCESS_ACCT
->         struct fs_pin *bacct;
-> @@ -39,14 +38,9 @@ struct pid_namespace {
->         struct ucounts *ucounts;
->         int reboot;     /* group exit code if this pidns was rebooted */
->         struct ns_common ns;
-> -       struct work_struct      work;
-> -#ifdef CONFIG_SYSCTL
-> -       struct ctl_table_set    set;
-> -       struct ctl_table_header *sysctls;
-> -#if defined(CONFIG_MEMFD_CREATE)
-> +#if defined(CONFIG_SYSCTL) && defined(CONFIG_MEMFD_CREATE)
->         int memfd_noexec_scope;
->  #endif
-> -#endif
->  } __randomize_layout;
->
->  extern struct pid_namespace init_pid_ns;
-> @@ -123,8 +117,6 @@ static inline int reboot_pid_ns(struct pid_namespace =
-*pid_ns, int cmd)
->  extern struct pid_namespace *task_active_pid_ns(struct task_struct *tsk)=
-;
->  void pidhash_init(void);
->  void pid_idr_init(void);
-> -int register_pidns_sysctls(struct pid_namespace *pidns);
-> -void unregister_pidns_sysctls(struct pid_namespace *pidns);
->
->  static inline bool task_is_in_init_pid_ns(struct task_struct *tsk)
->  {
-> diff --git a/kernel/pid.c b/kernel/pid.c
-> index 924084713be8b..aa2a7d4da4555 100644
-> --- a/kernel/pid.c
-> +++ b/kernel/pid.c
-> @@ -61,8 +61,10 @@ struct pid init_struct_pid =3D {
->         }, }
->  };
->
-> -static int pid_max_min =3D RESERVED_PIDS + 1;
-> -static int pid_max_max =3D PID_MAX_LIMIT;
-> +int pid_max =3D PID_MAX_DEFAULT;
-> +
-> +int pid_max_min =3D RESERVED_PIDS + 1;
-> +int pid_max_max =3D PID_MAX_LIMIT;
->
->  /*
->   * PID-map pages start out as NULL, they get allocated upon
-> @@ -81,7 +83,6 @@ struct pid_namespace init_pid_ns =3D {
->  #ifdef CONFIG_PID_NS
->         .ns.ops =3D &pidns_operations,
->  #endif
-> -       .pid_max =3D PID_MAX_DEFAULT,
->  #if defined(CONFIG_SYSCTL) && defined(CONFIG_MEMFD_CREATE)
->         .memfd_noexec_scope =3D MEMFD_NOEXEC_SCOPE_EXEC,
->  #endif
-> @@ -190,7 +191,6 @@ struct pid *alloc_pid(struct pid_namespace *ns, pid_t=
- *set_tid,
->
->         for (i =3D ns->level; i >=3D 0; i--) {
->                 int tid =3D 0;
-> -               int pid_max =3D READ_ONCE(tmp->pid_max);
->
->                 if (set_tid_size) {
->                         tid =3D set_tid[ns->level - i];
-> @@ -644,118 +644,17 @@ SYSCALL_DEFINE2(pidfd_open, pid_t, pid, unsigned i=
-nt, flags)
->         return fd;
->  }
->
-> -#ifdef CONFIG_SYSCTL
-> -static struct ctl_table_set *pid_table_root_lookup(struct ctl_table_root=
- *root)
-> -{
-> -       return &task_active_pid_ns(current)->set;
-> -}
-> -
-> -static int set_is_seen(struct ctl_table_set *set)
-> -{
-> -       return &task_active_pid_ns(current)->set =3D=3D set;
-> -}
-> -
-> -static int pid_table_root_permissions(struct ctl_table_header *head,
-> -                                     const struct ctl_table *table)
-> -{
-> -       struct pid_namespace *pidns =3D
-> -               container_of(head->set, struct pid_namespace, set);
-> -       int mode =3D table->mode;
-> -
-> -       if (ns_capable(pidns->user_ns, CAP_SYS_ADMIN) ||
-> -           uid_eq(current_euid(), make_kuid(pidns->user_ns, 0)))
-> -               mode =3D (mode & S_IRWXU) >> 6;
-> -       else if (in_egroup_p(make_kgid(pidns->user_ns, 0)))
-> -               mode =3D (mode & S_IRWXG) >> 3;
-> -       else
-> -               mode =3D mode & S_IROTH;
-> -       return (mode << 6) | (mode << 3) | mode;
-> -}
-> -
-> -static void pid_table_root_set_ownership(struct ctl_table_header *head,
-> -                                        kuid_t *uid, kgid_t *gid)
-> -{
-> -       struct pid_namespace *pidns =3D
-> -               container_of(head->set, struct pid_namespace, set);
-> -       kuid_t ns_root_uid;
-> -       kgid_t ns_root_gid;
-> -
-> -       ns_root_uid =3D make_kuid(pidns->user_ns, 0);
-> -       if (uid_valid(ns_root_uid))
-> -               *uid =3D ns_root_uid;
-> -
-> -       ns_root_gid =3D make_kgid(pidns->user_ns, 0);
-> -       if (gid_valid(ns_root_gid))
-> -               *gid =3D ns_root_gid;
-> -}
-> -
-> -static struct ctl_table_root pid_table_root =3D {
-> -       .lookup         =3D pid_table_root_lookup,
-> -       .permissions    =3D pid_table_root_permissions,
-> -       .set_ownership  =3D pid_table_root_set_ownership,
-> -};
-> -
-> -static const struct ctl_table pid_table[] =3D {
-> -       {
-> -               .procname       =3D "pid_max",
-> -               .data           =3D &init_pid_ns.pid_max,
-> -               .maxlen         =3D sizeof(int),
-> -               .mode           =3D 0644,
-> -               .proc_handler   =3D proc_dointvec_minmax,
-> -               .extra1         =3D &pid_max_min,
-> -               .extra2         =3D &pid_max_max,
-> -       },
-> -};
-> -#endif
-> -
-> -int register_pidns_sysctls(struct pid_namespace *pidns)
-> -{
-> -#ifdef CONFIG_SYSCTL
-> -       struct ctl_table *tbl;
-> -
-> -       setup_sysctl_set(&pidns->set, &pid_table_root, set_is_seen);
-> -
-> -       tbl =3D kmemdup(pid_table, sizeof(pid_table), GFP_KERNEL);
-> -       if (!tbl)
-> -               return -ENOMEM;
-> -       tbl->data =3D &pidns->pid_max;
-> -       pidns->pid_max =3D min(pid_max_max, max_t(int, pidns->pid_max,
-> -                            PIDS_PER_CPU_DEFAULT * num_possible_cpus()))=
-;
-> -
-> -       pidns->sysctls =3D __register_sysctl_table(&pidns->set, "kernel",=
- tbl,
-> -                                                ARRAY_SIZE(pid_table));
-> -       if (!pidns->sysctls) {
-> -               kfree(tbl);
-> -               retire_sysctl_set(&pidns->set);
-> -               return -ENOMEM;
-> -       }
-> -#endif
-> -       return 0;
-> -}
-> -
-> -void unregister_pidns_sysctls(struct pid_namespace *pidns)
-> -{
-> -#ifdef CONFIG_SYSCTL
-> -       const struct ctl_table *tbl;
-> -
-> -       tbl =3D pidns->sysctls->ctl_table_arg;
-> -       unregister_sysctl_table(pidns->sysctls);
-> -       retire_sysctl_set(&pidns->set);
-> -       kfree(tbl);
-> -#endif
-> -}
-> -
->  void __init pid_idr_init(void)
->  {
->         /* Verify no one has done anything silly: */
->         BUILD_BUG_ON(PID_MAX_LIMIT >=3D PIDNS_ADDING);
->
->         /* bump default and minimum pid_max based on number of cpus */
-> -       init_pid_ns.pid_max =3D min(pid_max_max, max_t(int, init_pid_ns.p=
-id_max,
-> -                                 PIDS_PER_CPU_DEFAULT * num_possible_cpu=
-s()));
-> +       pid_max =3D min(pid_max_max, max_t(int, pid_max,
-> +                               PIDS_PER_CPU_DEFAULT * num_possible_cpus(=
-)));
->         pid_max_min =3D max_t(int, pid_max_min,
->                                 PIDS_PER_CPU_MIN * num_possible_cpus());
-> -       pr_info("pid_max: default: %u minimum: %u\n", init_pid_ns.pid_max=
-, pid_max_min);
-> +       pr_info("pid_max: default: %u minimum: %u\n", pid_max, pid_max_mi=
-n);
->
->         idr_init(&init_pid_ns.idr);
->
-> @@ -766,16 +665,6 @@ void __init pid_idr_init(void)
->                         NULL);
->  }
->
-> -static __init int pid_namespace_sysctl_init(void)
-> -{
-> -#ifdef CONFIG_SYSCTL
-> -       /* "kernel" directory will have already been initialized. */
-> -       BUG_ON(register_pidns_sysctls(&init_pid_ns));
-> -#endif
-> -       return 0;
-> -}
-> -subsys_initcall(pid_namespace_sysctl_init);
-> -
->  static struct file *__pidfd_fget(struct task_struct *task, int fd)
->  {
->         struct file *file;
-> diff --git a/kernel/pid_namespace.c b/kernel/pid_namespace.c
-> index 8f6cfec87555a..0f23285be4f92 100644
-> --- a/kernel/pid_namespace.c
-> +++ b/kernel/pid_namespace.c
-> @@ -70,8 +70,6 @@ static void dec_pid_namespaces(struct ucounts *ucounts)
->         dec_ucount(ucounts, UCOUNT_PID_NAMESPACES);
->  }
->
-> -static void destroy_pid_namespace_work(struct work_struct *work);
-> -
->  static struct pid_namespace *create_pid_namespace(struct user_namespace =
-*user_ns,
->         struct pid_namespace *parent_pid_ns)
->  {
-> @@ -107,27 +105,17 @@ static struct pid_namespace *create_pid_namespace(s=
-truct user_namespace *user_ns
->                 goto out_free_idr;
->         ns->ns.ops =3D &pidns_operations;
->
-> -       ns->pid_max =3D parent_pid_ns->pid_max;
-> -       err =3D register_pidns_sysctls(ns);
-> -       if (err)
-> -               goto out_free_inum;
-> -
->         refcount_set(&ns->ns.count, 1);
->         ns->level =3D level;
->         ns->parent =3D get_pid_ns(parent_pid_ns);
->         ns->user_ns =3D get_user_ns(user_ns);
->         ns->ucounts =3D ucounts;
->         ns->pid_allocated =3D PIDNS_ADDING;
-> -       INIT_WORK(&ns->work, destroy_pid_namespace_work);
-> -
->  #if defined(CONFIG_SYSCTL) && defined(CONFIG_MEMFD_CREATE)
->         ns->memfd_noexec_scope =3D pidns_memfd_noexec_scope(parent_pid_ns=
-);
->  #endif
-> -
->         return ns;
->
-> -out_free_inum:
-> -       ns_free_inum(&ns->ns);
->  out_free_idr:
->         idr_destroy(&ns->idr);
->         kmem_cache_free(pid_ns_cachep, ns);
-> @@ -149,28 +137,12 @@ static void delayed_free_pidns(struct rcu_head *p)
->
->  static void destroy_pid_namespace(struct pid_namespace *ns)
->  {
-> -       unregister_pidns_sysctls(ns);
-> -
->         ns_free_inum(&ns->ns);
->
->         idr_destroy(&ns->idr);
->         call_rcu(&ns->rcu, delayed_free_pidns);
->  }
->
-> -static void destroy_pid_namespace_work(struct work_struct *work)
-> -{
-> -       struct pid_namespace *ns =3D
-> -               container_of(work, struct pid_namespace, work);
-> -
-> -       do {
-> -               struct pid_namespace *parent;
-> -
-> -               parent =3D ns->parent;
-> -               destroy_pid_namespace(ns);
-> -               ns =3D parent;
-> -       } while (ns !=3D &init_pid_ns && refcount_dec_and_test(&ns->ns.co=
-unt));
-> -}
-> -
->  struct pid_namespace *copy_pid_ns(unsigned long flags,
->         struct user_namespace *user_ns, struct pid_namespace *old_ns)
->  {
-> @@ -183,8 +155,15 @@ struct pid_namespace *copy_pid_ns(unsigned long flag=
-s,
->
->  void put_pid_ns(struct pid_namespace *ns)
->  {
-> -       if (ns && ns !=3D &init_pid_ns && refcount_dec_and_test(&ns->ns.c=
-ount))
-> -               schedule_work(&ns->work);
-> +       struct pid_namespace *parent;
-> +
-> +       while (ns !=3D &init_pid_ns) {
-> +               parent =3D ns->parent;
-> +               if (!refcount_dec_and_test(&ns->ns.count))
-> +                       break;
-> +               destroy_pid_namespace(ns);
-> +               ns =3D parent;
-> +       }
->  }
->  EXPORT_SYMBOL_GPL(put_pid_ns);
->
-> @@ -295,7 +274,6 @@ static int pid_ns_ctl_handler(const struct ctl_table =
-*table, int write,
->         next =3D idr_get_cursor(&pid_ns->idr) - 1;
->
->         tmp.data =3D &next;
-> -       tmp.extra2 =3D &pid_ns->pid_max;
->         ret =3D proc_dointvec_minmax(&tmp, write, buffer, lenp, ppos);
->         if (!ret && write)
->                 idr_set_cursor(&pid_ns->idr, next + 1);
-> @@ -303,6 +281,7 @@ static int pid_ns_ctl_handler(const struct ctl_table =
-*table, int write,
->         return ret;
->  }
->
-> +extern int pid_max;
->  static const struct ctl_table pid_ns_ctl_table[] =3D {
->         {
->                 .procname =3D "ns_last_pid",
-> @@ -310,7 +289,7 @@ static const struct ctl_table pid_ns_ctl_table[] =3D =
-{
->                 .mode =3D 0666, /* permissions are checked in the handler=
- */
->                 .proc_handler =3D pid_ns_ctl_handler,
->                 .extra1 =3D SYSCTL_ZERO,
-> -               .extra2 =3D &init_pid_ns.pid_max,
-> +               .extra2 =3D &pid_max,
->         },
->  };
->  #endif /* CONFIG_CHECKPOINT_RESTORE */
-> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> index cb57da499ebb1..bb739608680f2 100644
-> --- a/kernel/sysctl.c
-> +++ b/kernel/sysctl.c
-> @@ -1803,6 +1803,15 @@ static const struct ctl_table kern_table[] =3D {
->                 .proc_handler   =3D proc_dointvec,
->         },
->  #endif
-> +       {
-> +               .procname       =3D "pid_max",
-> +               .data           =3D &pid_max,
-> +               .maxlen         =3D sizeof(int),
-> +               .mode           =3D 0644,
-> +               .proc_handler   =3D proc_dointvec_minmax,
-> +               .extra1         =3D &pid_max_min,
-> +               .extra2         =3D &pid_max_max,
-> +       },
->         {
->                 .procname       =3D "panic_on_oops",
->                 .data           =3D &panic_on_oops,
-> diff --git a/kernel/trace/pid_list.c b/kernel/trace/pid_list.c
-> index c62b9b3cfb3d8..4966e6bbdf6f3 100644
-> --- a/kernel/trace/pid_list.c
-> +++ b/kernel/trace/pid_list.c
-> @@ -414,7 +414,7 @@ struct trace_pid_list *trace_pid_list_alloc(void)
->         int i;
->
->         /* According to linux/thread.h, pids can be no bigger that 30 bit=
-s */
-> -       WARN_ON_ONCE(init_pid_ns.pid_max > (1 << 30));
-> +       WARN_ON_ONCE(pid_max > (1 << 30));
->
->         pid_list =3D kzalloc(sizeof(*pid_list), GFP_KERNEL);
->         if (!pid_list)
-> diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
-> index 9c21ba45b7af6..46c65402ad7e5 100644
-> --- a/kernel/trace/trace.h
-> +++ b/kernel/trace/trace.h
-> @@ -732,6 +732,8 @@ extern unsigned long tracing_thresh;
->
->  /* PID filtering */
->
-> +extern int pid_max;
-> +
->  bool trace_find_filtered_pid(struct trace_pid_list *filtered_pids,
->                              pid_t search_pid);
->  bool trace_ignore_this_task(struct trace_pid_list *filtered_pids,
-> diff --git a/kernel/trace/trace_sched_switch.c b/kernel/trace/trace_sched=
-_switch.c
-> index cb49f7279dc80..573b5d8e8a28e 100644
-> --- a/kernel/trace/trace_sched_switch.c
-> +++ b/kernel/trace/trace_sched_switch.c
-> @@ -442,7 +442,7 @@ int trace_alloc_tgid_map(void)
->         if (tgid_map)
->                 return 0;
->
-> -       tgid_map_max =3D init_pid_ns.pid_max;
-> +       tgid_map_max =3D pid_max;
->         map =3D kvcalloc(tgid_map_max + 1, sizeof(*tgid_map),
->                        GFP_KERNEL);
->         if (!map)
-> --
-> 2.48.1
->
+
+Thanks for catching indeed. I guess what I can do here is record that
+the cmsg is invalid, then process up to MSG_FASTOPEN, and return
+EINVAL after that.
+
+Although that complicates this already complicated function a bit. Let
+me know if you have a better/different solution in mind.
+
+--
+Thanks,
+Mina
