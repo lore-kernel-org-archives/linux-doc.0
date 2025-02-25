@@ -1,173 +1,158 @@
-Received: from pv50p00im-ztdg10011201.me.com (pv50p00im-ztdg10011201.me.com [17.58.6.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29AE267B8A
-	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 12:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.39
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A12712054F1;
+	Tue, 25 Feb 2025 12:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740486809; cv=none; b=HUJe0KuefG8ir7nx0J14HnRBgwV8a37ISjSiBQVFgNSRMen/el4ILFUlOfANR3HUiAzlPwadEGhDnINBDmntybZKimJvfU9QfSuWR18d6DJUuVTz2+CrD64CTQxsVwvUOd0LqAXHFw+DcUFffiFZOJw7GBNcYLdnVvnwk3fLa38=
+	t=1740487102; cv=none; b=oETUi+U+IfV04W38IpTJFl+B/MJZEjqJqYIoqFurN0WLdcGvAbW+RWGkNyOeQs8c1veZvfZPg4cxEy1/7qTHNyR0DB1L609PbqF0GrCveWhmmBlsQadfLn4KBvXg5Y+N5Ah7ZobxaUJDxoe34oqyQq+z/luWs8AmHQTftwE5qc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740486809; c=relaxed/simple;
-	bh=oxeNg/3kTTYdWOP+m0MjbWQatWl1xtjweDH0uB/M8o0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=snisbc4723tsrMtKTJAVPP2waq6BcWv5OXt4kKaMjJulL03WjWMAjL4FTDPEm7bcSrvqw9OfDiOeIvyEWgZ7P+0S6k0Jy3orEua5pbws4z46SpFeXeKjnG1ezuh89TM9HietH8RHe3lH3+0Nl903bn9pdLMMM58wOOUuXAs/R8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=iK9cS+Yv; arc=none smtp.client-ip=17.58.6.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="iK9cS+Yv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; bh=tfkcqBi0ou5N+iPlIoNtZJvvEZ4xTbBbnOJsMG5xchk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:x-icloud-hme;
-	b=iK9cS+Yv3SeyUoWcFPENdzP+BUb/qiZOQ3e6yjJto3o2tW9q0Inf7gw1nwR6TiMl0
-	 Y7N1lTA1bQniIn+rT3FnYxouFVUBGrgfVR8JqGkY5YhRsUIBap6Lp6JUsF7PfRXjZ5
-	 KZfR8yUER992Zm6ykzRH/jaB8ertUDOhHg8WA4ym76ZXtpSVYUnw6JH7CoFhKwLJs1
-	 9dM7PX7Zkab0iuwacWMdGyBOl22d2Rf1VY60MEr9FwtPxJrSPY2FNvg0smJykXwQzZ
-	 PvbRJj3rkz/OAsaCjQ1Sf8hD9Dz66uG1F3W/Y0JK23p6E9niVHrQoEsblcf1EB8h+4
-	 aYGklqoEKINSQ==
-Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-ztdg10011201.me.com (Postfix) with ESMTPSA id ED3F168035B;
-	Tue, 25 Feb 2025 12:33:20 +0000 (UTC)
-From: Zijun Hu <zijun_hu@icloud.com>
-Date: Tue, 25 Feb 2025 20:32:39 +0800
-Subject: [PATCH RESEND 2/2] phy: core: Remove API devm_phy_destroy()
+	s=arc-20240116; t=1740487102; c=relaxed/simple;
+	bh=cJZ5YmdR1SNkMG2yDAirWyRRhI6uMk/du0JqcX+TaQo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rSy4Z9VRPlR0+tgCLfe1kFR0KfcjtqIQGh3soNYCYMLYyfQTSNggsqgBA3CJlAjOvQFlRnO8KmAi+gD7wiCCNuWqlCSS6TWJGYlBKznVE5Sej9ayACuy1NhsWihPBL9Jprduc97jem8E51rqps0Bly3I+5fBwHAiSZFhDuqdq60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3FAB3152B;
+	Tue, 25 Feb 2025 04:38:35 -0800 (PST)
+Received: from localhost (e132581.arm.com [10.2.76.71])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 813053F6A8;
+	Tue, 25 Feb 2025 04:38:18 -0800 (PST)
+Date: Tue, 25 Feb 2025 12:38:13 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v20 11/11] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+Message-ID: <20250225123813.GA1821331@e132581.arm.com>
+References: <20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org>
+ <20250218-arm-brbe-v19-v20-11-4e9922fc2e8e@kernel.org>
+ <20250224122507.GE8144@e132581.arm.com>
+ <CAL_Jsq+0fZ2uasgAam7qGTdCeDBQxXeyL-J1_suyxy6GE_ERTg@mail.gmail.com>
+ <20250224140317.GF8144@e132581.arm.com>
+ <Z7yY19UtSnND5KTl@J2N7QTR9R3.cambridge.arm.com>
+ <20250224180301.GI8144@e132581.arm.com>
+ <CAL_JsqKNad6eEBerUOco=SDWxdp6dgRD3FDrSt5OpGQYwwstSg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250225-remove-apis-v1-2-e49b4a1941fd@quicinc.com>
-References: <20250225-remove-apis-v1-0-e49b4a1941fd@quicinc.com>
-In-Reply-To: <20250225-remove-apis-v1-0-e49b4a1941fd@quicinc.com>
-To: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, 
- Yanteng Si <si.yanteng@linux.dev>, Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>
-Cc: Zijun Hu <zijun_hu@icloud.com>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
- Zijun Hu <quic_zijuhu@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: Nn6owD0_M8syBbjLW7GXmAtZeTfeyw_R
-X-Proofpoint-GUID: Nn6owD0_M8syBbjLW7GXmAtZeTfeyw_R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-25_04,2025-02-25_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0 bulkscore=0
- adultscore=0 spamscore=0 malwarescore=0 phishscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2502250088
-X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqKNad6eEBerUOco=SDWxdp6dgRD3FDrSt5OpGQYwwstSg@mail.gmail.com>
 
-From: Zijun Hu <quic_zijuhu@quicinc.com>
+On Mon, Feb 24, 2025 at 07:31:52PM -0600, Rob Herring wrote:
 
-API devm_phy_destroy() has not had callers since 2013-09-27
-when it was introduced.
+[...]
 
-Remove the API.
+> > > > When event rotation happens, if without context switch, in theory we
+> > > > should can directly use the branch record (no invalidation, no injection)
+> > > > for all events.
+> > >
+> > > No; that only works in *some* cases, and will produce incorrect results
+> > > in others.
+> > >
+> > > For example, consider filtering. Imagine a PMU with a single counter,
+> > > and two events, where event-A filters for calls-and-returns and event-B
+> > > filters for calls-only. When switching from event-A to event-B, it's
+> > > theoretically possible to keep the existing records around, knowing that
+> > > the returns can be filtered out later. When switching from event-B to
+> > > event-A we cannot keep the existing records, since there are gaps
+> > > whenever a return should have been recorded.
+> >
+> > Seems to me, the problem is not caused by event rotation.  We need to
+> > calculate a correct filter in the first place - the BRBE driver should
+> > calculate a superset for all filters of events for a session.  Then,
+> > generate branch record based event's specific filter.
+> 
+> The driver doesn't have enough information. If it is told to schedule
+> event A, it doesn't know anything about event B. It could in theory
+> try to remember event B if event B had already been scheduled, but it
+> never knows when event B is gone.
 
-Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
----
- Documentation/driver-api/phy/phy.rst                    |  6 ++----
- Documentation/translations/zh_CN/driver-api/phy/phy.rst |  7 ++-----
- drivers/phy/phy-core.c                                  | 17 -----------------
- include/linux/phy/phy.h                                 |  5 -----
- 4 files changed, 4 insertions(+), 31 deletions(-)
+E.g., I tried below command for enabling 10 events in a perf session:
 
-diff --git a/Documentation/driver-api/phy/phy.rst b/Documentation/driver-api/phy/phy.rst
-index be3687a2a11bbf84e6e5561b11931ea6db984434..cae03d8a4812b3c4cfca64272cc6b8f83a81d1c8 100644
---- a/Documentation/driver-api/phy/phy.rst
-+++ b/Documentation/driver-api/phy/phy.rst
-@@ -173,13 +173,11 @@ Destroying the PHY
- ==================
- 
- When the driver that created the PHY is unloaded, it should destroy the PHY it
--created using one of the following 2 APIs::
-+created using the following API::
- 
- 	void phy_destroy(struct phy *phy);
--	void devm_phy_destroy(struct device *dev, struct phy *phy);
- 
--Both these APIs destroy the PHY and devm_phy_destroy destroys the devres
--associated with this PHY.
-+The API destroys the PHY.
- 
- PM Runtime
- ==========
-diff --git a/Documentation/translations/zh_CN/driver-api/phy/phy.rst b/Documentation/translations/zh_CN/driver-api/phy/phy.rst
-index 2d3f98deb92035c44fcb1ff0e3dc8543053140f6..37c23fcebf11f397d0dc502bbba11a74c525f085 100644
---- a/Documentation/translations/zh_CN/driver-api/phy/phy.rst
-+++ b/Documentation/translations/zh_CN/driver-api/phy/phy.rst
-@@ -164,14 +164,11 @@ PHY 关联的设备资源。
- 销毁 PHY
- ========
- 
--当创建 PHY 的驱动程序被卸载时，它应该使用以下 2 个 API 之一销毁其创
--建的 PHY::
-+当创建 PHY 的驱动程序被卸载时，它应该使用以下 API 销毁其创建的 PHY::
- 
- 	void phy_destroy(struct phy *phy);
--	void devm_phy_destroy(struct device *dev, struct phy *phy);
- 
--这两个 API 都会销毁 PHY，并且 devm_phy_destroy 会销毁与此 PHY 关
--联的 devres。
-+这个 API 会销毁 PHY。
- 
- PM Runtime
- ==========
-diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
-index dd6302dfd14d2ec060857fc019268096c33e37a2..8e0e11553e369e06f5ee4cdbb111b4ddb1b34e74 100644
---- a/drivers/phy/phy-core.c
-+++ b/drivers/phy/phy-core.c
-@@ -1107,23 +1107,6 @@ void phy_destroy(struct phy *phy)
- }
- EXPORT_SYMBOL_GPL(phy_destroy);
- 
--/**
-- * devm_phy_destroy() - destroy the PHY
-- * @dev: device that wants to release this phy
-- * @phy: the phy returned by devm_phy_get()
-- *
-- * destroys the devres associated with this phy and invokes phy_destroy
-- * to destroy the phy.
-- */
--void devm_phy_destroy(struct device *dev, struct phy *phy)
--{
--	int r;
--
--	r = devres_release(dev, devm_phy_consume, devm_phy_match, phy);
--	dev_WARN_ONCE(dev, r, "couldn't find PHY resource\n");
--}
--EXPORT_SYMBOL_GPL(devm_phy_destroy);
--
- /**
-  * __of_phy_provider_register() - create/register phy provider with the framework
-  * @dev: struct device of the phy provider
-diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
-index 06037a7eefc4b0319008065d142c9f1caba2c74d..66eb664249ddaa6635bf80d8db115cb21473ceb8 100644
---- a/include/linux/phy/phy.h
-+++ b/include/linux/phy/phy.h
-@@ -278,7 +278,6 @@ struct phy *phy_create(struct device *dev, struct device_node *node,
- struct phy *devm_phy_create(struct device *dev, struct device_node *node,
- 			    const struct phy_ops *ops);
- void phy_destroy(struct phy *phy);
--void devm_phy_destroy(struct device *dev, struct phy *phy);
- struct phy_provider *__of_phy_provider_register(struct device *dev,
- 	struct device_node *children, struct module *owner,
- 	struct phy * (*of_xlate)(struct device *dev,
-@@ -521,10 +520,6 @@ static inline void phy_destroy(struct phy *phy)
- {
- }
- 
--static inline void devm_phy_destroy(struct device *dev, struct phy *phy)
--{
--}
--
- static inline struct phy_provider *__of_phy_provider_register(
- 	struct device *dev, struct device_node *children, struct module *owner,
- 	struct phy * (*of_xlate)(struct device *dev,
+  perf record -e armv9_nevis/r04/ -e armv9_nevis/r05/ \
+              -e armv9_nevis/r06/ -e armv9_nevis/r07/ \
+              -e armv9_nevis/r08/ -e armv9_nevis/r09/ \
+              -e armv9_nevis/r10/ -e armv9_nevis/r11/ \
+              -e armv9_nevis/r12/ -e armv9_nevis/r13/ \
+              -- sleep 1
 
--- 
-2.34.1
+For Arm PMU, the flow below is invoked for every event on every
+affinied CPU in initialization phase:
 
+  armpmu_event_init() {
+    armv8pmu_set_event_filter();
+  }
+
+Shouldn't we calculate a superset branch filter for all events, store
+it into a per-CPU data structure and then apply the filter on BRBE?
+
+> > > There are a number of cases of that shape given the set of configurable
+> > > filters. In theory it's possible to retain those in some cases, but I
+> > > don't think that the complexity is justified.
+> > >
+> > > Similarly, whenever kernel branches are recorded it's necessary to drop
+> > > the stale branches whenever branch recording is paused, as there's
+> > > necessarily a blackout period and hence a gap in the records.
+> >
+> > If we save BRBE record when a process is switched out and then restore
+> > the record when a process is switched in, should we can keep a decent
+> > branch record for performance profiling?
+> 
+> Keep in mind that there's only 64 branches recorded at most. How many
+> branches in a context switch plus reconfiguring the PMU? Not a small
+> percentage of 64 I think. In traces where freeze on overflow was not
+> working (there's an example in v18), just the interrupt entry until
+> BRBE was stopped was a significant part of the trace. A context switch
+> is going to be similar.
+
+That is true for kernel mode enabled tracing.  But we will have no
+such kind noises for userspace only mode tracing.
+
+[...]
+
+> > > Do you have a reason why you think we *must* keep events around?
+> >
+> > Here I am really concerned are cases when a process is preempted or
+> > migrated.  The driver doesn't save and restore branch records for these
+> > cases, it just invalidates all records when a task is scheduled in.
+> >
+> > As a result, if an event overflow is close to context switch, it is
+> > likely to capture incomplete branch records.  For a userspace-only
+> > tracing, it is risk to capture empty branch record after preemption
+> > and migrations.
+> 
+> There's the same risk if something else is recording kernel branches
+> when you are recording userspace only. I think the user has to be
+> aware if other things like context switches are perturbing their data.
+
+I am confused for the decription above.  Does it refer to branch
+recording cross different sessions?  It is fine for me that the branch
+data is interleaved by different sessions (e.g. one is global tracing
+and another is only per-thread tracing).
+
+We might need to consider an intact branch record for the single perf
+session case.  E.g. if userspace program calls:
+
+    func_a -> func_b -> func_c
+
+In a case for only userspace tracing, we will have no chance to preserve
+the call sequence of these functions after the program is switched out.
+
+Thanks,
+Leo
