@@ -1,145 +1,119 @@
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB73420E6E0
-	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 13:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9462310A1F
+	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 13:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740490034; cv=none; b=SYMWc7TxiLMF93zf+D33SdLjmX6NCMWV2PYDwtHplxhFw97hoQN5OhWpbVop1bdRlIvhSeLc0rUHKN6LfEe7m6CWjX8ylcO2PxTidZLw/2jVwtriJg4ji0x4xlLAPMo/WA053glRFYBjHSF+L0tIijDLbnCPYBNWhm/bPwwRM7k=
+	t=1740490574; cv=none; b=EPoLMvhcqcwkoRWLVb2PqlAXvzGOBFhzj78Wrsl99MQKG11P/I6LxkBTcmZBl54JxmOVjv+aJzcNFJYF9pYDCrxrnMfve5bYBNYXoR+DB1hb9qwhKeyHZRTsVNOhpttg7yZ/0A2CpFHdmMitp6y5sfbTVJ7ZVjhq+FF6fxglbLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740490034; c=relaxed/simple;
-	bh=II9MWiGisWH/BazFUrcH1O4fvwrPAe3UCEwVGwyXy4o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cUvaeTVqhUgkgChBLkq3t+TdHmxTJZpShsuWAFLPIKx24+jRqBVXXtJQ+As61vC9Ea+wxb2ZyJNLfx67sluRhJp/bJRikciGhfSHNBLDs20hDyASFUE2YEfTUw3mmFGlNS1INQiUU36dJVquYP5M5mktjNFyLDET3Ql7eYlknwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Ex3vM2lc; arc=none smtp.client-ip=209.85.161.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1740490574; c=relaxed/simple;
+	bh=6zIDGY7o8wonG5XSWfvfNzMNhLDCQ4e5sFlmf6YJhHg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZTL1T6VKnnvRVSitzriIURu7JnRwYGvWdEt3ETX3DqIyvWfVnsytLoHhr4/GSvSbUQ2WL7+endbLOimL+1Vsrkb3HftVhgH+S10nEWY9wEFKhaYgf3X/mYZKMz1CSs6JAimCB4VJIZ43OrVA3SQ6k/BIO3rTm2Oe1vrzUpq2+uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=zKBcbCuE; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Ex3vM2lc"
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5fcd61e9bcdso2335885eaf.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 05:27:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="zKBcbCuE"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5deb956aa5eso7667668a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 05:36:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1740490032; x=1741094832; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AJ2IplcBO6Wt9ORsHg89Jo3ShjOFNhdLXDKK/XmSsr8=;
-        b=Ex3vM2lcSX0vTF/SNpFlxdHauaALbbRsXUKPAeM0JDaul4gXn7iHyPkZaSoXtkDM2s
-         O/JXerLC9gvYgxuhOUsLfa9tH11Plkux33R0qscs6uMk9b4fcrDoBJi0vfHqcQQ20GpQ
-         khDI1ajuoUgYw7DOj03XZYany8MTQm9GptQ2gES00fRD08RGoKH2CY72xJrNH96sL48b
-         gDmmKmSHotl2lpavNgupCi919AGwei4Wy4g+bq/f4W4COJ0WbYwVTe2dCQl088N+HrIb
-         8Ct7T1rtLbZ6flIF1QlAYC5byCiAf5exEWRLcWo/+k7xQk8cbTVLt2YYI7DXgqEihCgG
-         mk8A==
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1740490571; x=1741095371; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=AZPYRoqfrPagvwL/VaIj4ZSda7O5NYpHMyVSIETeVto=;
+        b=zKBcbCuET1NBYuwsZqMtPPNWwln0LKbAGf9DiFhMvxHo3ePFgv2ZRwHQ1m+/X3IXF0
+         /0SyQqa7PogVHz8goMiWLt/TcbuRvjr61hXI6Yae2IYtOQ8Qc2PTJ6GeOKMcJm07Lj1S
+         7OKvrE31v1Jg1a7dgnH6XD2udWEbDnBhB3JWSufEr3izLLu6QVF4woo+GD4kOay2Dbxx
+         6+6LshdWjmMXJiGBnp8jmvL4CP1ppPdxBwzFEiVr32IaTGIAk0VIHGawXnTF4Ng7F7Mp
+         Nv8dajrEdryY97lRYRzVO5k7lLkXEGcYFFF+DloGD19YYuiCmIjxymramJBqepcGpBQY
+         zHOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740490032; x=1741094832;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AJ2IplcBO6Wt9ORsHg89Jo3ShjOFNhdLXDKK/XmSsr8=;
-        b=XD06oC5dcVbhD3vcOWsf8hdozO3bkpb3x9wnauI0r6u5bIHDmMhWp7ZueMaxJUwZ0A
-         t6v46gkiQ1T8zd9DICQTb2UFjcolt1TZupgsyF7+Yl8xwtsgOUDhQeidQ0IGMVss1/Lp
-         5y5rgVESVP9EUEjIJ0et6Zfk5ndyR+uau6/5YbVGmopcuHDx/YjrigbCc2jHQsmSkuOE
-         /HhqC9HiIJPotx65dDv1p3d5gcz053yMJTXi6TID+bLP4uSDvt5/6GBIAQInjGOw8cpn
-         OvAwvZCkJ7buSrrR4RdC1MYm4jLVjIhHsv25jhcvwPvpM6Ob3chGIbTAVu/z2C4KzCkw
-         yjmw==
-X-Forwarded-Encrypted: i=1; AJvYcCVyiNb2jtQ+V0R92kbqHky4N0EUsNSGnRL3PFVQ9nDuMMd7fzvtWCaqk7KH/iQy1NPhiCJ9T7nDuYA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7fqiizZ3/1FGLhgub7mnIp/+WbarmWA4wkdgSXqhydKD8vaTX
-	frkfNTdrBwxB0TSlbS1xS8F7nK56pgy/tKQtaU3au3X347xU28omh9r9xYqYOGy1xFV/4TXqx3f
-	UdOXnQ2scOtWNLdsuAU4fItTViQ9sQprgV4WeqA==
-X-Gm-Gg: ASbGncvSP5zT7RIryF1kgA7rOUuJZgaEQIJz5OYFgqaN/aWlR32lNrJhDx9NEOy8VNW
-	VBlXX48jIY/+qlGZ2zeLQ/rKzfZH0f0vWrzULhAOEIjXH4dpFcUUAGYZR/p2fpoTLyZ4Edi3QYO
-	zsFaIg3Y1+gA==
-X-Google-Smtp-Source: AGHT+IGCYFeFsD7WGV356badMoylqjRk/7L+ck4H3fwlwJNvLiJ10J44Ay/xWN6OXmGF8Zq2ohZYK5fZI2twS/y+Qxs=
-X-Received: by 2002:a05:6808:3a06:b0:3f4:1738:f804 with SMTP id
- 5614622812f47-3f425a5a053mr14822684b6e.4.1740490031753; Tue, 25 Feb 2025
- 05:27:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740490571; x=1741095371;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AZPYRoqfrPagvwL/VaIj4ZSda7O5NYpHMyVSIETeVto=;
+        b=nd7qiWReu52ORZrn561XS67SKHWDVMc6pJuuDhR13lSq0c77hmzwccr8U7ofYAvj/C
+         QZqFrEnYxOLvBArXk41bBovFoNpsTsyEnm3bTGBmuCadkRcgoVKtgTMeYddNHb7XDPRC
+         uw22d06iTfWwC403VjIfK0of1L4JkYzd2dlsQp/wBCLRmVjRZBvdCaY3i3gUG4mJoo5r
+         NIwy3nsmyOQYAheA5gkgxW1GIZbPbJcbcjoc9NthiXj6N5kp91LWymMAzHrXpVqsHdpQ
+         6WBxzizbHPx6HfIPhZPd33YZO69RQkxPkD4McLPjLS4igvbH/iQer/GnnKyE+AEb6Gyb
+         zONA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFHT8SvYNNzjGZkKMI/kJA+c30ofm3p07oLOh8dgMFYv/DyXgGKmY8SwRMZZpMi9W6H3PUJ/s8DIw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwH+XpqhJO6w2/oLi4DYr2kd5vOoWeJbr1hVm3BoSUr1ySrDoLT
+	HdWEddOSrbj63c729T7ys+jC5zv6MBnNRUUtzQdgt7tN+P4yVNWyvwQGQvoXp07aUJr0xc9Iygn
+	m
+X-Gm-Gg: ASbGncux7c0595ln2rZ1WDv8uvoIBgPeVs/ULadO3BOdTzd5jwZsAjwxT4cz8pdSao4
+	FcIVVg74AJOvUAl5MeVGteD89IRR4tKBowUi4kekPYvuW5qK2lpu4wf1KHidWNAj0zzyiPiZOCk
+	fKIfj2oMijxfpthdoRphdGH3lhCkDO6ZiZ7NrkKqriXtpL8sDaIa+/s+E3LE/LeRQHdnHfPE2S2
+	L60PFkrNZSNuK1MRwei4Y7Qg97REUJEQsdI4HSR9SAZOS+YwCJGkk9FMevdCurfWYscUBNmbvVf
+	QsqgXyYTuZxysQ86KfTLEZ4XkqrqeNb4WJpqN9b2hje+KUJlhpmA6g==
+X-Google-Smtp-Source: AGHT+IGwZxstsJgbZbrGjWctQYTkmnZEeqGMf6YIvXycHvPmwGPJt3l7AO/RiG5BKR9nAP88NqhdmQ==
+X-Received: by 2002:a05:6402:4604:b0:5e0:7cc4:ec57 with SMTP id 4fb4d7f45d1cf-5e44bb37281mr6445272a12.31.1740490570625;
+        Tue, 25 Feb 2025 05:36:10 -0800 (PST)
+Received: from jiri-mlt.client.nvidia.com ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abed2057276sm143453466b.142.2025.02.25.05.36.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2025 05:36:10 -0800 (PST)
+Date: Tue, 25 Feb 2025 14:36:07 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Tariq Toukan <tariqt@nvidia.com>, 
+	"David S. Miller" <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, 
+	Eric Dumazet <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jiri Pirko <jiri@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, 
+	Carolina Jubran <cjubran@nvidia.com>, Gal Pressman <gal@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH net-next 03/10] devlink: Serialize access to rate domains
+Message-ID: <qaznnl77zg24zh72axtv7vhbfdbxnzmr73bqr7qir5wu2r6n52@ob25uqzyxytm>
+References: <20250213180134.323929-1-tariqt@nvidia.com>
+ <20250213180134.323929-4-tariqt@nvidia.com>
+ <ieeem2dc5mifpj2t45wnruzxmo4cp35mbvrnsgkebsqpmxj5ib@hn7gphf6io7x>
+ <20250218182130.757cc582@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250115024024.84365-1-cuiyunhui@bytedance.com> <CAHVXubhapunBD_+cZ=WeEp9GPJec795xOWSnMKmh_iSH09r2Yw@mail.gmail.com>
-In-Reply-To: <CAHVXubhapunBD_+cZ=WeEp9GPJec795xOWSnMKmh_iSH09r2Yw@mail.gmail.com>
-From: yunhui cui <cuiyunhui@bytedance.com>
-Date: Tue, 25 Feb 2025 21:27:00 +0800
-X-Gm-Features: AWEUYZnBrHwWk1-NR_0_zzRZ-hclxJae0XrHpGmrq4kc_cdvQEhDUpQ2xjlpHLE
-Message-ID: <CAEEQ3wkeLrTFVqVZEAYSsROSLHzkC-EeKvuPHmW=qH3CxamwhA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v5 0/3] Enable Zicbom in usermode
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: ajones@ventanamicro.com, andybnac@gmail.com, aou@eecs.berkeley.edu, 
-	charlie@rivosinc.com, cleger@rivosinc.com, conor.dooley@microchip.com, 
-	conor@kernel.org, corbet@lwn.net, evan@rivosinc.com, jesse@rivosinc.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	palmer@dabbelt.com, paul.walmsley@sifive.com, samuel.holland@sifive.com, 
-	shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250218182130.757cc582@kernel.org>
 
-Hi Alex,
+Wed, Feb 19, 2025 at 03:21:30AM +0100, kuba@kernel.org wrote:
+>On Fri, 14 Feb 2025 13:54:43 +0100 Jiri Pirko wrote:
+>> For the record, I'm still not convinced that introducing this kind of
+>> shared inter-devlink lock is good idea. We spent quite a bit of painful
+>> times getting rid of global devlink_mutex and making devlink locking
+>> scheme nice and simple as it currently is.
+>> 
+>> But at the same time I admit I can't think of any other nicer solution
+>> to the problem this patchset is trying to solve.
+>> 
+>> Jakub, any thoughts?
+>
+>The problem comes from having a devlink instance per function /
+>port rather than for the ASIC. Spawn a single instance and the
+>problem will go away 🤷️
 
-On Tue, Feb 25, 2025 at 9:21=E2=80=AFPM Alexandre Ghiti <alexghiti@rivosinc=
-.com> wrote:
->
-> Hi Yunhui,
->
-> On Wed, Jan 15, 2025 at 3:40=E2=80=AFAM Yunhui Cui <cuiyunhui@bytedance.c=
-om> wrote:
-> >
-> > v1/v2:
-> > There is only the first patch: RISC-V: Enable cbo.clean/flush in usermo=
-de,
-> > which mainly removes the enabling of cbo.inval in user mode.
-> >
-> > v3:
-> > Add the functionality of Expose Zicbom and selftests for Zicbom.
-> >
-> > v4:
-> > Modify the order of macros, The test_no_cbo_inval function is added
-> > separately.
-> >
-> > v5:
-> > 1. Modify the order of RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE in hwprobe.r=
-st
-> > 2. "TEST_NO_ZICBOINVAL" -> "TEST_NO_CBO_INVAL"
-> >
-> > Yunhui Cui (3):
-> >   RISC-V: Enable cbo.clean/flush in usermode
-> >   RISC-V: hwprobe: Expose Zicbom extension and its block size
-> >   RISC-V: selftests: Add TEST_ZICBOM into CBO tests
-> >
-> >  Documentation/arch/riscv/hwprobe.rst        |  6 ++
-> >  arch/riscv/include/asm/hwprobe.h            |  2 +-
-> >  arch/riscv/include/uapi/asm/hwprobe.h       |  2 +
-> >  arch/riscv/kernel/cpufeature.c              |  8 +++
-> >  arch/riscv/kernel/sys_hwprobe.c             |  6 ++
-> >  tools/testing/selftests/riscv/hwprobe/cbo.c | 66 +++++++++++++++++----
-> >  6 files changed, 78 insertions(+), 12 deletions(-)
-> >
-> > --
-> > 2.39.2
-> >
->
-> So a v6 needs to be sent with:
->
-> - the fix for hwprobe_ext0_has() reported by kernel test robot
-> - a rebase on top of 6.14 since patch 2 will conflict with
-> RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0
+Yeah, we currently have VF devlink ports created under PF devlink instance.
+That is aligned with PCI geometry. If we have a single per-ASIC parent
+devlink, this does not change and we still need to configure cross
+PF devlink instances.
 
-Thank you for the reminder. In fact, version 6 was sent out almost a
-month ago. Reference:
-https://lore.kernel.org/lkml/20250124035959.45499-1-cuiyunhui@bytedance.com=
-/
+The only benefit I see is that we don't need rate domain, but
+we can use parent devlink instance lock instead. The locking ordering
+might be a bit tricky to fix though.
+
 
 >
-> Do you think you can do that soon so that it gets merged in 6.15? The
-> patchset received a lot of RB so it would be too bad to miss this
-> release.
->
-> Thanks,
->
-> Alex
-
-Thanks,
-Yunhui
+>I think we talked about this multiple times, I think at least
+>once with Jake, too. Not that I remember all the details now..
+>-- 
+>pw-bot: cr
