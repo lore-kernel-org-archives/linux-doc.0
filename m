@@ -1,291 +1,273 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCD9199E88
-	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 17:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DD0197A67
+	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 17:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740504531; cv=none; b=bOawgjHcXLNYv3i+wH0KA7rvf6mjSICFyjmEkr0XHQvtLLvpI2HuPKtnI3+pNqz8N6Jz9XMbAc/8oEJlMgGX1dcjb3irbGZzpMoPECGet9PPoLbBetPROf4uu7d2HYrQns/Cg5J3Ol9GB80DVwPkpDUiCZX/4z5Z7+WjXouQHjY=
+	t=1740504672; cv=none; b=kj20ATkpYZE0vtK0w4gv0n3Cm1VO7T/LJofBCbGCiZDv4AAc2R6PrOW2QsRRDauQd4Op3Jdp+A/UrvdgqFpRkvAXUKMjns1NpIAlS+0ZZxsj28Ywo53RHE14b9yjv01foJy1jwga0Add8UekMCR0UvcFA+GgyoY7ELCxWsM5M7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740504531; c=relaxed/simple;
-	bh=xssk7r6GD77nVJokw+O90QXNptvnUYuZqjKgbyfdpCk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tQSh4WSW+Z3W486ySIoFEZzf42+10B6vSxYzo6O78eYwQxy/PNq4Q7AurNiSbx3+Ailu6uetU01gdVsazllATFXIB/iA+gwEwFFLHt2+7L7aM4wzkAVLs3BQxRSnTfzTJRPFAgLxEddPvAIkVwrdh9wizjmmMFYeiJCt7ipKZVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0j7GZOTS; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1740504672; c=relaxed/simple;
+	bh=MmVKquil6mmQ3xpk1eRUf/E0TrskgYszVWtL0BZFMDw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ASiI1zPCyz5V0n3mdlaAjd5/eWkdtVekWbkWnKuprGjcxpASHOQRsBppTEFXdIEPJBBi4+5C6OAHoPiFtem1QrgSKlBE1M/3/1w/COXcjR734KstA+8/r14V1gjl8qU4ishsXJbQ/KcLd5cWiemVyTmIf1DO9O2pUzcZ39rWodI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com; spf=pass smtp.mailfrom=mihalicyn.com; dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b=MjFXpwVj; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mihalicyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0j7GZOTS"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2fc43be27f8so19417818a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 09:28:49 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b="MjFXpwVj"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5452efeb87aso5901795e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 09:31:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740504529; x=1741109329; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kp/kK8Nq6EAHPL6vafMzGhBPqvyWvzwjvBM1N34P0S0=;
-        b=0j7GZOTSjM7IjeSUDXLznQZBeCvPZZyBkFEjH9I53mT8S0swA5LZMBqlfbe8cGbcmY
-         sY7FYXh60SQHOauNyobNLAK8WEnXrOuML59Y8jYYPqrlt1Bkp/8UaGYD0RJolmVcBYSV
-         Y8EO5e2jyM7TkLZTiuBXf7Iet90L0xDIKiu4CloX9/kZsZTE2ttLr2pGc84nzXF6Pgmi
-         tqqYwaXwEqkBB6gbeXrCq7ATXzP7CB3/ePjM9EYaqd+CUp7SyzsryUrpKDf5mhMuEx1G
-         plgOKJZaqvadKc3gasJ1+Fa3RyuU1la7dQodtgrSx4RDij0NuDxFE3nx55PZPkSZoy2E
-         RKWQ==
+        d=mihalicyn.com; s=mihalicyn; t=1740504667; x=1741109467; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sr0lGKah3/e1a4myY+vuvPqjngZ6J7nGdFvX+CNC6oA=;
+        b=MjFXpwVj8s41TDtH4gisFRuZnTOZRd0XxJrh33e81HJtWyfbghfaz0Bsqg0OXw5Iv1
+         1WI6Pjk6X/HR+p6JdMrI35C0Irz5uycG/fSj5vgaJR6sW5xdyTDiGQyYKZVufLprBAHj
+         eqy4vwrWKcnBoCgTzuLL7ZpnLYLkNurNg1JZA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740504529; x=1741109329;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kp/kK8Nq6EAHPL6vafMzGhBPqvyWvzwjvBM1N34P0S0=;
-        b=mRy+aSg6exgAOJsO7oz5qPVnr4n062bmKsg2Z+zoYAxV+XRhMoU0tpByUJ41yWNOM1
-         gUVgEdkr+HOZX6phUZt/OH/7NC255RxItYio0Aae02D0ML0F4w4GbSfMlZPBjOci7Isn
-         O/IRYYD98OZfeB5h1SV+2WZSo7fxwiJHxffc1PBsPZP4eYYeyZApeJVhjAcAw24mw1ic
-         06AgwarJE9bYWEzMp/Dz5KsouMWQq9A92Oj/t3PFc4je2DFyJBk+7iu/osK26yySex4W
-         g54biY2JLzqqjw4+G1BDU47cEmezeFx/G/vVcwvtKX1yHkkP+ymRf7Pzl1NnrWaAdpwh
-         pmGg==
-X-Forwarded-Encrypted: i=1; AJvYcCXBS2gU9LCCKHCFvfofuuLAfs1c0GfvGVWiMjNqX4TWuGHWX8nnpfO5BYqz6WWA1DklbYDUy8AEXQ4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYrW3Y3h0nz97bXnb42mblxiMjBQJc4GvmESSZrgmfbRivffhh
-	4Dt/or5o9+oi+oDWv8M2qnSr8ccaY0OchofOOyTLquEJGHrThDFeRjbRqlQSS/0HtQ0MgcKc4gQ
-	6vA==
-X-Google-Smtp-Source: AGHT+IGTvcRUA6OpnNrnqKRmtujbXTgGf5Jtp8a1i0NXeuvpsdxCzwhvJ/m9zCtVPFCeAGo5v7x+9YDTpxg=
-X-Received: from pjbtb12.prod.google.com ([2002:a17:90b:53cc:b0:2ea:9d23:79a0])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:350e:b0:2ee:9902:18b4
- with SMTP id 98e67ed59e1d1-2fe7e39f1bbmr248876a91.27.1740504529279; Tue, 25
- Feb 2025 09:28:49 -0800 (PST)
-Date: Tue, 25 Feb 2025 09:28:33 -0800
-In-Reply-To: <5582cf56-0b22-4603-b8e2-6b652c09b4fa@zytor.com>
+        d=1e100.net; s=20230601; t=1740504667; x=1741109467;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sr0lGKah3/e1a4myY+vuvPqjngZ6J7nGdFvX+CNC6oA=;
+        b=beyZuwFfNk8W8XLDE+bhJN3kERZWxvXleX4oVIoyy3Vfq77Zh/gHMHOqUWhuJCAc0N
+         GB4rSK+0GKHYOu8v01hf3P73N3PguseQlXWhGsN9SgMgTKDZfX13Galh/gWEuD30bUTH
+         da8VX0l9pHbSv/Xz3fYTci17mXyt09iunTJ+kzBCvk0nw7D/vmitn3MJ0HrhKJo7zo6w
+         cTYCWplMeiiQcuXsZowvpf99Kbp8utX94NWKz3qXTKZAQNQ6AHcVCFMB3KhadsCgU0e0
+         7p+xxnfsKW36oU/hFSIjScjCsZKJiYMOTfwKfJUtKOdFZbpsOeyPKgHwxgfUJPanUXQl
+         y3pA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNPI5H1+0o3nRXng6AOZ4DxsX85Vr6sFRf/kMGmvNVncMei5eA8HItZEy00/xvociuMirg4x1W/l0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJ7tly7pQUxaYCHzaXCtJf3QDgIZ0UxB06Klz8/kP7a27A8Ixu
+	RRPphC67cnEAo4ic0jrI1DHN7Y/Ek3jGgibH1kw+6XeWtCAOklwB9AbEn4uPgbaVZ1+CE+JG6bs
+	i2QH8E90sM/2EEtoFZJ+CHgLl3guD9ZYl+0HCGA==
+X-Gm-Gg: ASbGncsYJfAV7dSctrLlgJaydO7eaRPi4BqJBodmATmyIX+EnQGQayVQnDFWY/mCd06
+	SbanlF2SH6IzfAvDUv4tps63IXFhJcaEC2YNmI529P+sXnBADjIDwutuBB0noyK3VOoz0i21ijd
+	uFOgrrOKR0
+X-Google-Smtp-Source: AGHT+IHKA343AalMF74L8JxUwbWM37GE3WpO7wyx52fYQdPhMdvql53UVqLAYK+QW17iKHLscQ29ybGBGuJOAlqGu2s=
+X-Received: by 2002:a05:6512:230c:b0:545:721:b7d1 with SMTP id
+ 2adb3069b0e04-5493c57a8bemr166377e87.15.1740504666804; Tue, 25 Feb 2025
+ 09:31:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241001050110.3643764-1-xin@zytor.com> <20241001050110.3643764-4-xin@zytor.com>
- <ZxYQvmc9Ke+PYGkQ@intel.com> <10aa42de-a448-40d4-a874-514c9deb56a3@zytor.com>
- <ZxcSPpuBHO8Y1jfG@intel.com> <5582cf56-0b22-4603-b8e2-6b652c09b4fa@zytor.com>
-Message-ID: <Z739wdGmk4ZuWJ8v@google.com>
-Subject: Re: [PATCH v3 03/27] KVM: VMX: Add support for the secondary VM exit controls
-From: Sean Christopherson <seanjc@google.com>
-To: Xin Li <xin@zytor.com>
-Cc: Chao Gao <chao.gao@intel.com>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
-	peterz@infradead.org, andrew.cooper3@citrix.com
-Content-Type: multipart/mixed; charset="UTF-8"; boundary="6p5+kLFLXaqTdVYq"
+MIME-Version: 1.0
+References: <20250221170249.890014-1-mkoutny@suse.com> <20250221170249.890014-3-mkoutny@suse.com>
+In-Reply-To: <20250221170249.890014-3-mkoutny@suse.com>
+From: Alexander Mikhalitsyn <alexander@mihalicyn.com>
+Date: Tue, 25 Feb 2025 18:30:55 +0100
+X-Gm-Features: AQ5f1Jox-7JY9Yq2cjjD4WYD_GzEdOQ4l8mmUecA8Ynp2bchP3f7oX2UthEQhrQ
+Message-ID: <CAJqdLrpjx6nRRMO+349T8W4xFyoYav7N+ys+AvLGWFsOLfsHeg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] pid: Optional first-fit pid allocation
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Eric W . Biederman" <ebiederm@xmission.com>, Oleg Nesterov <oleg@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Am Fr., 21. Feb. 2025 um 18:02 Uhr schrieb Michal Koutn=C3=BD <mkoutny@suse=
+.com>:
+>
+> Noone would need to use this allocation strategy (it's slower, pid
+> numbers collide sooner). Its primary purpose are pid namespaces in
+> conjunction with pids.max cgroup limit which keeps (virtual) pid numbers
+> below the given limit. This is for 32-bit userspace programs that may
+> not work well with pid numbers above 65536.
+>
+> Link: https://lore.kernel.org/r/20241122132459.135120-1-aleksandr.mikhali=
+tsyn@canonical.com/
+> Signed-off-by: Michal Koutn=C3=BD <mkoutny@suse.com>
 
---6p5+kLFLXaqTdVYq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Dear Michal,
 
-On Tue, Oct 22, 2024, Xin Li wrote:
-> > > > > 		_vmentry_control &= ~n_ctrl;
-> > > > > 		_vmexit_control &= ~x_ctrl;
-> > > > 
-> > > > w/ patch 4, VM_EXIT_ACTIVATE_SECONDARY_CONTROLS is cleared if FRED fails in the
-> > > > consistent check. this means, all features in the secondary vm-exit controls
-> > > > are removed. it is overkill.
-> > > 
-> > > Good catch!
-> > > 
-> > > > 
-> > > > I prefer to maintain a separate table for the secondary VM-exit controls:
-> > > > 
-> > > >    	struct {
-> > > >    		u32 entry_control;
-> > > >    		u64 exit2_control;
-> > > > 	} const vmcs_entry_exit2_pairs[] = {
-> > > > 		{ VM_ENTRY_LOAD_IA32_FRED, SECONDARY_VM_EXIT_SAVE_IA32_FRED |
-> > > > 					   SECONDARY_VM_EXIT_LOAD_IA32_FRED},
-> > > > 	};
-> > > > 
-> > > > 	for (i = 0; i < ARRAY_SIZE(vmcs_entry_exit2_pairs); i++) {
-> > > > 	...
-> > > > 	}
-> > > 
-> > > Hmm, I prefer one table, as it's more straight forward.
+sorry for such a long delay with reply on your patches.
 
-Heh, that's debatable.  Also, calling these triplets is *very* misleading.
+> ---
+>  Documentation/admin-guide/sysctl/kernel.rst |  2 ++
+>  include/linux/pid_namespace.h               |  3 +++
+>  kernel/pid.c                                | 12 +++++++--
+>  kernel/pid_namespace.c                      | 28 +++++++++++++++------
+>  4 files changed, 36 insertions(+), 9 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/=
+admin-guide/sysctl/kernel.rst
+> index a43b78b4b6464..f5e68d1c8849f 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -1043,6 +1043,8 @@ The last pid allocated in the current (the one task=
+ using this sysctl
+>  lives in) pid namespace. When selecting a pid for a next task on fork
+>  kernel tries to allocate a number starting from this one.
+>
+> +When set to -1, first-fit pid numbering is used instead of the next-fit.
+> +
+>
+>  powersave-nap (PPC only)
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/include/linux/pid_namespace.h b/include/linux/pid_namespace.=
+h
+> index f9f9931e02d6a..10bf66ca78590 100644
+> --- a/include/linux/pid_namespace.h
+> +++ b/include/linux/pid_namespace.h
+> @@ -41,6 +41,9 @@ struct pid_namespace {
+>  #if defined(CONFIG_SYSCTL) && defined(CONFIG_MEMFD_CREATE)
+>         int memfd_noexec_scope;
+>  #endif
+> +#ifdef CONFIG_IA32_EMULATION
 
-> > One table is fine if we can fix the issue and improve readability. The three
-> > nested if() statements hurts readability.
-> 
-> You're right!  Let's try to make it clearer.
+Unfortunately, this does not work for our use case as it's x86-specific.
 
-I agree with Chao, two tables provides better separation, which makes it easier
-to follow what's going on, and avoids "polluting" every entry with empty fields.
+In the original cover letter [1] it was written:
 
-If it weren't for the new controls supporting 64 unique bits, and the need to
-clear bits in KVM's controls, it'd be trivial to extract processing to a helper
-function.  But, it's easy enough to solve that conundrum by using a macro instead
-of a function.  And as a bonus, a macro allows for adding compile-time assertions
-to detect typos, e.g. can detect if KVM passes in secondary controls (u64) pairs
-with the primary controls (u32) variable.
+>In any case, there are workloads that have expections about how large
+>pid numbers they accept. Either for historical reasons or architectural
+>reasons. One concreate example is the 32-bit version of Android's bionic
+>libc which requires pid numbers less than 65536. There are workloads
+>where it is run in a 32-bit container on a 64-bit kernel. If the host
 
-I'll post the attached patch shortly.  I verified it works as expected with a
-simulated "bad" FRED CPU.
+And I have just confirmed with folks from Canonical, who work on Anbox
+(Android in container project),
+that they use Arm machines (both armhf/arm64). And one of the reasons
+to add this feature is to
+make legacy 32-bit Android Bionic libc to work [2].
 
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index c9e5576d99d0..4717d48eabe8 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2621,6 +2621,7 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
-        u32 _vmentry_control = 0;
-        u64 basic_msr;
-        u64 misc_msr;
-+       u64 _vmexit2_control = BIT_ULL(1);
- 
-        /*
-         * LOAD/SAVE_DEBUG_CONTROLS are absent because both are mandatory.
-@@ -2638,6 +2639,13 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
-                { VM_ENTRY_LOAD_IA32_RTIT_CTL,          VM_EXIT_CLEAR_IA32_RTIT_CTL },
-        };
- 
-+       struct {
-+               u32 entry_control;
-+               u64 exit_control;
-+       } const vmcs_entry_exit2_pairs[] = {
-+               { 0x00800000,                           BIT_ULL(0) | BIT_ULL(1) },
-+       };
-+
-        memset(vmcs_conf, 0, sizeof(*vmcs_conf));
- 
-        if (adjust_vmx_controls(KVM_REQUIRED_VMX_CPU_BASED_VM_EXEC_CONTROL,
-@@ -2728,6 +2736,12 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
-                                       _vmentry_control, _vmexit_control))
-                return -EIO;
- 
-+       if (vmx_check_entry_exit_pairs(vmcs_entry_exit2_pairs,
-+                                      _vmentry_control, _vmexit2_control))
-+               return -EIO;
-+
-+       WARN_ON_ONCE(_vmexit2_control);
-+
-        /*
-         * Some cpus support VM_{ENTRY,EXIT}_IA32_PERF_GLOBAL_CTRL but they
-         * can't be used due to an errata where VM Exit may incorrectly clear
+[1] https://lore.kernel.org/all/20241122132459.135120-1-aleksandr.mikhalits=
+yn@canonical.com/
+[2] https://android.googlesource.com/platform/bionic.git/+/HEAD/docs/32-bit=
+-abi.md#is-too-small-for-large-pids
 
---6p5+kLFLXaqTdVYq
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-KVM-VMX-Extract-checks-on-entry-exit-control-pairs-t.patch"
+Kind regards,
+Alex
 
-From b1def684c93990d1a62c169bb23706137b96b727 Mon Sep 17 00:00:00 2001
-From: Sean Christopherson <seanjc@google.com>
-Date: Tue, 25 Feb 2025 09:10:32 -0800
-Subject: [PATCH] KVM: VMX: Extract checks on entry/exit control pairs to a
- helper macro
-
-Extract the checking of entry/exit pairs to a helper macro so that the
-code can be reused to process the upcoming "secondary" exit controls (the
-primary exit controls field is out of bits).  Use a macro instead of a
-function to support different sized variables (all secondary exit controls
-will be optional and so the MSR doesn't have the fixed-0/fixed-1 split).
-Taking the largest size as input is trivial, but handling the modification
-of KVM's to-be-used controls is much trickier, e.g. would require bitmap
-games to clear bits from a 32-bit bitmap vs. a 64-bit bitmap.
-
-Opportunistically add sanity checks to ensure the size of the controls
-match (yay, macro!), e.g. to detect bugs where KVM passes in the pairs for
-primary exit controls, but its variable for the secondary exit controls.
-
-To help users triage mismatches, print the control bits that are checked,
-not just the actual value.  For the foreseeable future, that provides
-enough information for a user to determine which fields mismatched.  E.g.
-until secondary entry controls comes along, all entry bits and thus all
-error messages are guaranteed to be unique.
-
-To avoid returning from a macro, which can get quite dangerous, simply
-process all pairs even if error_on_inconsistent_vmcs_config is set.  The
-speed at which KVM rejects module load is not at all interesting.
-
-Keep the error message a "once" printk, even though it would be nice to
-print out all mismatching pairs.  In practice, the most likely scenario is
-that a single pair will be mismatch on all CPUs.  Printing all mismatches
-generates redundant messages in that situation, and can be extremely noisy
-on systems with large numbers of CPUs.  If a CPU has multiple mismatches,
-not printing every bad pair is the least of the user's concerns.
-
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- arch/x86/kvm/vmx/vmx.c | 48 +++++++++++++++++++++++++++---------------
- 1 file changed, 31 insertions(+), 17 deletions(-)
-
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index b71392989609..c9e5576d99d0 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2582,6 +2582,34 @@ static u64 adjust_vmx_controls64(u64 ctl_opt, u32 msr)
- 	return  ctl_opt & allowed;
- }
- 
-+#define vmx_check_entry_exit_pairs(pairs, entry_controls, exit_controls)	\
-+({										\
-+	int i, r = 0;								\
-+										\
-+	BUILD_BUG_ON(sizeof(pairs[0].entry_control) != sizeof(entry_controls));	\
-+	BUILD_BUG_ON(sizeof(pairs[0].exit_control)  != sizeof(exit_controls));	\
-+										\
-+	for (i = 0; i < ARRAY_SIZE(pairs); i++) {				\
-+		typeof(entry_controls) n_ctrl = pairs[i].entry_control;		\
-+		typeof(exit_controls) x_ctrl = pairs[i].exit_control;		\
-+										\
-+		if (!(entry_controls & n_ctrl) == !(exit_controls & x_ctrl))	\
-+			continue;						\
-+										\
-+		pr_warn_once("Inconsistent VM-Entry/VM-Exit pair, " 		\
-+			     "entry = %llx (%llx), exit = %llx (%llx)\n",	\
-+			    (u64)(entry_controls & n_ctrl), (u64)n_ctrl,	\
-+			    (u64)(exit_controls & x_ctrl), (u64)x_ctrl);	\
-+										\
-+		if (error_on_inconsistent_vmcs_config)				\
-+			r = -EIO;						\
-+										\
-+		entry_controls &= ~n_ctrl;					\
-+		exit_controls &= ~x_ctrl;					\
-+	}									\
-+	r;									\
-+})
-+
- static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 			     struct vmx_capability *vmx_cap)
- {
-@@ -2593,7 +2621,6 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 	u32 _vmentry_control = 0;
- 	u64 basic_msr;
- 	u64 misc_msr;
--	int i;
- 
- 	/*
- 	 * LOAD/SAVE_DEBUG_CONTROLS are absent because both are mandatory.
-@@ -2697,22 +2724,9 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 				&_vmentry_control))
- 		return -EIO;
- 
--	for (i = 0; i < ARRAY_SIZE(vmcs_entry_exit_pairs); i++) {
--		u32 n_ctrl = vmcs_entry_exit_pairs[i].entry_control;
--		u32 x_ctrl = vmcs_entry_exit_pairs[i].exit_control;
--
--		if (!(_vmentry_control & n_ctrl) == !(_vmexit_control & x_ctrl))
--			continue;
--
--		pr_warn_once("Inconsistent VM-Entry/VM-Exit pair, entry = %x, exit = %x\n",
--			     _vmentry_control & n_ctrl, _vmexit_control & x_ctrl);
--
--		if (error_on_inconsistent_vmcs_config)
--			return -EIO;
--
--		_vmentry_control &= ~n_ctrl;
--		_vmexit_control &= ~x_ctrl;
--	}
-+	if (vmx_check_entry_exit_pairs(vmcs_entry_exit_pairs,
-+				       _vmentry_control, _vmexit_control))
-+		return -EIO;
- 
- 	/*
- 	 * Some cpus support VM_{ENTRY,EXIT}_IA32_PERF_GLOBAL_CTRL but they
-
-base-commit: fed48e2967f402f561d80075a20c5c9e16866e53
--- 
-2.48.1.658.g4767266eb4-goog
-
-
---6p5+kLFLXaqTdVYq--
+> +       bool pid_noncyclic;
+> +#endif
+>  } __randomize_layout;
+>
+>  extern struct pid_namespace init_pid_ns;
+> diff --git a/kernel/pid.c b/kernel/pid.c
+> index aa2a7d4da4555..e9da1662b8821 100644
+> --- a/kernel/pid.c
+> +++ b/kernel/pid.c
+> @@ -191,6 +191,10 @@ struct pid *alloc_pid(struct pid_namespace *ns, pid_=
+t *set_tid,
+>
+>         for (i =3D ns->level; i >=3D 0; i--) {
+>                 int tid =3D 0;
+> +               bool pid_noncyclic =3D 0;
+> +#ifdef CONFIG_IA32_EMULATION
+> +               pid_noncyclic =3D READ_ONCE(tmp->pid_noncyclic);
+> +#endif
+>
+>                 if (set_tid_size) {
+>                         tid =3D set_tid[ns->level - i];
+> @@ -235,8 +239,12 @@ struct pid *alloc_pid(struct pid_namespace *ns, pid_=
+t *set_tid,
+>                          * Store a null pointer so find_pid_ns does not f=
+ind
+>                          * a partially initialized PID (see below).
+>                          */
+> -                       nr =3D idr_alloc_cyclic(&tmp->idr, NULL, pid_min,
+> -                                             pid_max, GFP_ATOMIC);
+> +                       if (likely(!pid_noncyclic))
+> +                               nr =3D idr_alloc_cyclic(&tmp->idr, NULL, =
+pid_min,
+> +                                                     pid_max, GFP_ATOMIC=
+);
+> +                       else
+> +                               nr =3D idr_alloc(&tmp->idr, NULL, pid_min=
+,
+> +                                                     pid_max, GFP_ATOMIC=
+);
+>                 }
+>                 spin_unlock_irq(&pidmap_lock);
+>                 idr_preload_end();
+> diff --git a/kernel/pid_namespace.c b/kernel/pid_namespace.c
+> index 0f23285be4f92..ceda94a064294 100644
+> --- a/kernel/pid_namespace.c
+> +++ b/kernel/pid_namespace.c
+> @@ -113,6 +113,9 @@ static struct pid_namespace *create_pid_namespace(str=
+uct user_namespace *user_ns
+>         ns->pid_allocated =3D PIDNS_ADDING;
+>  #if defined(CONFIG_SYSCTL) && defined(CONFIG_MEMFD_CREATE)
+>         ns->memfd_noexec_scope =3D pidns_memfd_noexec_scope(parent_pid_ns=
+);
+> +#endif
+> +#ifdef CONFIG_IA32_EMULATION
+> +       ns->pid_noncyclic =3D READ_ONCE(parent_pid_ns->pid_noncyclic);
+>  #endif
+>         return ns;
+>
+> @@ -260,7 +263,7 @@ void zap_pid_ns_processes(struct pid_namespace *pid_n=
+s)
+>         return;
+>  }
+>
+> -#ifdef CONFIG_CHECKPOINT_RESTORE
+> +#if defined(CONFIG_CHECKPOINT_RESTORE) || defined(CONFIG_IA32_EMULATION)
+>  static int pid_ns_ctl_handler(const struct ctl_table *table, int write,
+>                 void *buffer, size_t *lenp, loff_t *ppos)
+>  {
+> @@ -271,12 +274,23 @@ static int pid_ns_ctl_handler(const struct ctl_tabl=
+e *table, int write,
+>         if (write && !checkpoint_restore_ns_capable(pid_ns->user_ns))
+>                 return -EPERM;
+>
+> -       next =3D idr_get_cursor(&pid_ns->idr) - 1;
+> +       next =3D -1;
+> +#ifdef CONFIG_IA32_EMULATION
+> +       if (!pid_ns->pid_noncyclic)
+> +#endif
+> +               next +=3D idr_get_cursor(&pid_ns->idr);
+>
+>         tmp.data =3D &next;
+>         ret =3D proc_dointvec_minmax(&tmp, write, buffer, lenp, ppos);
+> -       if (!ret && write)
+> -               idr_set_cursor(&pid_ns->idr, next + 1);
+> +       if (!ret && write) {
+> +               if (next > -1)
+> +                       idr_set_cursor(&pid_ns->idr, next + 1);
+> +               else if (!IS_ENABLED(CONFIG_IA32_EMULATION))
+> +                       ret =3D -EINVAL;
+> +#ifdef CONFIG_IA32_EMULATION
+> +               WRITE_ONCE(pid_ns->pid_noncyclic, next =3D=3D -1);
+> +#endif
+> +       }
+>
+>         return ret;
+>  }
+> @@ -288,11 +302,11 @@ static const struct ctl_table pid_ns_ctl_table[] =
+=3D {
+>                 .maxlen =3D sizeof(int),
+>                 .mode =3D 0666, /* permissions are checked in the handler=
+ */
+>                 .proc_handler =3D pid_ns_ctl_handler,
+> -               .extra1 =3D SYSCTL_ZERO,
+> +               .extra1 =3D SYSCTL_NEG_ONE,
+>                 .extra2 =3D &pid_max,
+>         },
+>  };
+> -#endif /* CONFIG_CHECKPOINT_RESTORE */
+> +#endif /* CONFIG_CHECKPOINT_RESTORE || CONFIG_IA32_EMULATION */
+>
+>  int reboot_pid_ns(struct pid_namespace *pid_ns, int cmd)
+>  {
+> @@ -449,7 +463,7 @@ static __init int pid_namespaces_init(void)
+>  {
+>         pid_ns_cachep =3D KMEM_CACHE(pid_namespace, SLAB_PANIC | SLAB_ACC=
+OUNT);
+>
+> -#ifdef CONFIG_CHECKPOINT_RESTORE
+> +#if defined(CONFIG_CHECKPOINT_RESTORE) || defined(CONFIG_IA32_EMULATION)
+>         register_sysctl_init("kernel", pid_ns_ctl_table);
+>  #endif
+>
+> --
+> 2.48.1
+>
