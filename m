@@ -1,173 +1,217 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BF34C8E;
-	Tue, 25 Feb 2025 00:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6276B367;
+	Tue, 25 Feb 2025 01:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740441653; cv=none; b=JZBbZpKAQFIYN9avcB6YvqVYkRJKx3IG0F8AkNdOvapIeziXlfzA1y7Unw0TPte93kgaEZ+KpJ1gOD/5yAnPgXPR51z9pwf1BFMbjcNiD6BDEXNy2TYwuahF2qgFl4AOIPU/7FOyA1Jv4SYnBDNtURJuSsqM8C9RtucgXlBf18I=
+	t=1740447125; cv=none; b=RHqROmJpffURQ3viUOBsUx8UMSKSWol5qHpKYq2NNqprL40mQ8vRj7vYa8gAxjzcA+BVyvyO0/S/cxhZioCIEO0dE8oc2DDwPIRpfI8VZ66qX72auPWi9B0pbR0KB6s6fT3hBOUmF4eF8NDpY5F9rS42u803Bue98cTbctrX7Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740441653; c=relaxed/simple;
-	bh=aKy6zvZJPH22QLCWeZbB/gNhRbgPuueVPnEq9aawybU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bwd9HNkxag0EeTjEh2P3HIlbAfwJpBKwQyHw3nemUXqgsbGEJwEL0/++O9nEurK+JNaBC3pUDpq3xDUM5wi0C6y7rNn/1RphOMnnDk8pL53Q16dVvwAS63F/HPKL593pxLQAHXdPCedprZui6jia69ZR8mSblQOZ7cGnBxhEOB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WS2UVq9d; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740447125; c=relaxed/simple;
+	bh=oNFRiRu3B+1F4rETWzHu87g8+8lxN2QQ/bwEbS8L5/E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DQZaBROrzrtOqAGbz1rrmnI/Ru6DbniiLlr5oEozyWSwC2rImPQ47uytIzxhGaFbFu0UpsRlWsx/oIVPiDvk9x0SItsh1B7R853Tm/HwaFXk6wHcMsbF3NMDo3Kh5UNfHpqVaaewK3fWs0qowkL6/BfkTRv38T24x0fuutwlgIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bbxO/luO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WS2UVq9d"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-abb7a6ee2deso771610566b.0;
-        Mon, 24 Feb 2025 16:00:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740441650; x=1741046450; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zwmz29OaB4anSC3HDaaMnvvDxasPenPirxVhby3n1zg=;
-        b=WS2UVq9dLFPY7WEDatruuANg07CKYkTiyUD065bXwojU+AHYSyX//UkZg4Mhweb3gX
-         UL1EKcVlMa5SnHLCEvJlcDZLAk1fwegDprVotOPckY42XaMoBV1N6PIJc8acYEwLIgXS
-         utbN3k1oEXU+ydrnGVzH5g4Rq2baPiMbtDcyjsC4SJ5jTQS2d8JgnJCNYQgU/0Irg7Fa
-         VzitNnST4lAB1NkIgfA8f6mFJQyEMP4BRfIPnRTo7ue/OVne++e2QXwEnUvef7vOSdzT
-         i8NsI1gOKqax6uSAH5RoMH2WdQJHdJjEZtK4U3Gaap/icJmDaLec5GOzc9H5Yhlb2LX5
-         LdGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740441650; x=1741046450;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Zwmz29OaB4anSC3HDaaMnvvDxasPenPirxVhby3n1zg=;
-        b=IFl9g318BxZSUGj5JdbzCxPn9P3KzKXRXfhelE7R7kgLD0C917NHDTE1AGK1ALHiqA
-         LzaWnIQzlbVM4giSDP7JkvbRMr+LX8zh8a83kEN/I1b6Kg43fQt+tKIT/11mQAPAIRDY
-         6A+tkcbfUPHJsrJC9fowRWoYU1XVqHEq260WWvXmw+qpwuV+4hQjiZWmjT2OCItgAXEC
-         NkE7MwJKbBTf8n31G4W8UTPVZ0P6NXx6F4t6TQ0QsWorKziWYMoj7uXdnEg1KhLfXmoy
-         /Vzsp377rJJ0tkq8yqhUw1u8oxo3OgOAt2aTGEr3EKPRgmQya6LXEpbVciAs2sbzCc8Z
-         mZvw==
-X-Forwarded-Encrypted: i=1; AJvYcCUIiY9UubOISFJ87Wnq28FxAwVYeZBM1s0irb3mnINk2+n2UNPop1rtkVcFbTxPpPY5WABo+jo0y0Pb@vger.kernel.org, AJvYcCVURJCCr8hNhTFmUL2+QDYuxlzqUmjrVI45s8HGw1ibuo6DXWfKbGqPZATbWECDbJu9bPLTRtI6bK4H@vger.kernel.org, AJvYcCXsvkSpZBK1V23t6nSWGPYj61waIaOO2BbZM8S11BhsAAFFY1knzwB/5XrLpyb6Zk7Vo6Pf+5CeYt9pDczD@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoojhWSVQGVsUEfJ5ESfQcwsD5ncWx9Js046hgCHBZkpusy9Tl
-	3woqDF8NdvI0guGnU5Ar35Wtoq4ZExQrc0MRtF1gP4ivqfpvacMv
-X-Gm-Gg: ASbGnctN/GojWrLyJPKKtbtKbjDRdwF6+Jgj5ktsXKFACHgHEd91xkmS3bwPqdBhjBQ
-	fdOc8ckTHdEKKyG9umPAWdkBwWGBcTV60dkEMQ+0cBtzk2XoqEhjbaM74/gvFsI5ma130siH0ko
-	qL4LQLn2LwPoCEqkS9Pkp1rn8kEELQZSTWtD5qLGrvRuc3VxBuYHEyetSMLUvHFbWsoSlDMZZSn
-	rXW6VE2mKSZX22bGq0jLaPv/a0Qx6UQeiIIqZ5k4XdALy5DGSecrHKs6wuDcao/SnBFy5avGRaq
-	d8Opw4v5oQP0QYI/83E62T5Y/w==
-X-Google-Smtp-Source: AGHT+IHCiDeg8iTtlMHBTT+8rsM3bDbDCpBQksJY/HtiteE5vEuZdMawubgKL7nC7L+KAJkK6uv0bg==
-X-Received: by 2002:a17:906:2c4b:b0:abe:bfdd:e68c with SMTP id a640c23a62f3a-abebfdde8f5mr390505766b.4.1740441650101;
-        Mon, 24 Feb 2025 16:00:50 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abed1da4892sm42880766b.82.2025.02.24.16.00.48
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 24 Feb 2025 16:00:49 -0800 (PST)
-Date: Tue, 25 Feb 2025 00:00:48 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
-	Alexander Graf <graf@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pratyush Yadav <ptyadav@amazon.de>,
-	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v4 12/14] x86: Add KHO support
-Message-ID: <20250225000048.f2nmfn5isuh3fn6s@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250206132754.2596694-1-rppt@kernel.org>
- <20250206132754.2596694-13-rppt@kernel.org>
- <20250224071355.xsl2dbupda4dhfzl@master>
- <Z7yD9g1AgtUUfKr0@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bbxO/luO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8441C4CEE8;
+	Tue, 25 Feb 2025 01:32:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740447124;
+	bh=oNFRiRu3B+1F4rETWzHu87g8+8lxN2QQ/bwEbS8L5/E=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=bbxO/luOYTPR1YgMrZi0dz+o/Ag9v3NdrvsC1/fabzUkPRMuQbWnqBQyw09RuDZLw
+	 n7hqUskxHaGVIDXX491Yk9EVkngF+m116C06SoiPpZ9aCQc/dgdDYxxWjhFHH4WVbZ
+	 c2Tymn9RJVoc7HM9AsJeJL+3tALxsDOOdzwfoyK326E+jLSQszg71owGshnIY7ZTIP
+	 5xy65PXhjBi7MAfFRQE4sE1wYyUDDbJUEaNzwZELEzsKDfCC9Z/JVi0MWjBr/U6cZ+
+	 cd7S3GS8HTcclu0WIwF4/Q+PoJi/OQKqzUlAWtan0BFT9Wo711jV23OdjFCGq/UsLJ
+	 JOXweqkByieTg==
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5dc89df7eccso9057897a12.3;
+        Mon, 24 Feb 2025 17:32:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW6Nw/QSwiRvbdvbihVSZo8ykHssDFrrSeAhtGvEyPnzfCg9Y+a80UcmuF6DxSc3CVrSLFshnf3BNo=@vger.kernel.org, AJvYcCWFliYZ++OXeCLFilff+nQyMA4XIl10M3ZH3YF2sp0HfcGIKL945X+cBf5XkNdigs8J+LeEr5snaG+DfCHl@vger.kernel.org, AJvYcCXL4IYliGw7be33VJLcJqpbXlfLSckBv3kLo2/jbeWpHT33Teqp4CkQlpxltUryq+wrJcH83LldnYcfV29M7hskzg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy097r33X80N7ZJ9pynZm7FDZFGcLb6PDCmGI4PzKQiAkSPxmyW
+	o/Od2AirNirNxae+byXEpE2ievoMGkAmenduwvV2ghgt2aRNcVpGyp8ISnhbwtLaCjvpEUK6HV1
+	QFRVSXzPVcYN2aJSXTr6Kv3eMAw==
+X-Google-Smtp-Source: AGHT+IF0oZCxiK/ZFsFb1hIDiizkSgWxjFTx6kKn+fuvN2qWJh20NtQly1HcVhyy6wmhgmp9semm1fTOfMZcyER0TDM=
+X-Received: by 2002:a05:6402:440b:b0:5de:aa54:dc30 with SMTP id
+ 4fb4d7f45d1cf-5e444481387mr1053029a12.5.1740447123387; Mon, 24 Feb 2025
+ 17:32:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z7yD9g1AgtUUfKr0@kernel.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org>
+ <20250218-arm-brbe-v19-v20-11-4e9922fc2e8e@kernel.org> <20250224122507.GE8144@e132581.arm.com>
+ <CAL_Jsq+0fZ2uasgAam7qGTdCeDBQxXeyL-J1_suyxy6GE_ERTg@mail.gmail.com>
+ <20250224140317.GF8144@e132581.arm.com> <Z7yY19UtSnND5KTl@J2N7QTR9R3.cambridge.arm.com>
+ <20250224180301.GI8144@e132581.arm.com>
+In-Reply-To: <20250224180301.GI8144@e132581.arm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 24 Feb 2025 19:31:52 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKNad6eEBerUOco=SDWxdp6dgRD3FDrSt5OpGQYwwstSg@mail.gmail.com>
+X-Gm-Features: AQ5f1JpZnmkKohlVKFAFaoTDPyBucm92D6dTQtNc_f9Z3M6ImuFJVuDiTExv_eA
+Message-ID: <CAL_JsqKNad6eEBerUOco=SDWxdp6dgRD3FDrSt5OpGQYwwstSg@mail.gmail.com>
+Subject: Re: [PATCH v20 11/11] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+To: Leo Yan <leo.yan@arm.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	James Clark <james.clark@linaro.org>, Anshuman Khandual <anshuman.khandual@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 24, 2025 at 04:36:38PM +0200, Mike Rapoport wrote:
->On Mon, Feb 24, 2025 at 07:13:55AM +0000, Wei Yang wrote:
->> On Thu, Feb 06, 2025 at 03:27:52PM +0200, Mike Rapoport wrote:
->> >From: Alexander Graf <graf@amazon.com>
->> [...]
->> >diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
->> >index 82b96ed9890a..0b81cd70b02a 100644
->> >--- a/arch/x86/kernel/e820.c
->> >+++ b/arch/x86/kernel/e820.c
->> >@@ -1329,6 +1329,24 @@ void __init e820__memblock_setup(void)
->> > 		memblock_add(entry->addr, entry->size);
->> > 	}
->> > 
->> >+	/*
->> >+	 * At this point with KHO we only allocate from scratch memory.
->> >+	 * At the same time, we configure memblock to only allow
->> >+	 * allocations from memory below ISA_END_ADDRESS which is not
->> >+	 * a natural scratch region, because Linux ignores memory below
->> >+	 * ISA_END_ADDRESS at runtime. Beside very few (if any) early
->> >+	 * allocations, we must allocate real-mode trapoline below
->> >+	 * ISA_END_ADDRESS.
->> >+	 *
->> >+	 * To make sure that we can actually perform allocations during
->> >+	 * this phase, let's mark memory below ISA_END_ADDRESS as scratch
->> >+	 * so we can allocate from there in a scratch-only world.
->> >+	 *
->> >+	 * After real mode trampoline is allocated, we clear scratch
->> >+	 * marking from the memory below ISA_END_ADDRESS
->> >+	 */
->> >+	memblock_mark_kho_scratch(0, ISA_END_ADDRESS);
->> >+
->> 
->> At the beginning of e820__memblock_setup() we call memblock_allow_resize(),
->> which means during adding memory region it could double the array. And the
->> memory used here is from some region just added.
+On Mon, Feb 24, 2025 at 12:03=E2=80=AFPM Leo Yan <leo.yan@arm.com> wrote:
 >
->There are large KHO scratch areas that will be used for most allocations.
->Marking the memory below ISA_END_ADDRESS as KHO scratch is required to
->satisfy allocations that explicitly limit the allocation to ISA_END_ADDRESS,
->e.g the real time trampoline.
-> 
-
-Thanks, I see you point. We would add memory region during kho_populate() and
-mark it scratch.
-
->> But with KHO, I am afraid it would fail?
->> 
->> > 	/* Throw away partial pages: */
->> > 	memblock_trim_memory(PAGE_SIZE);
->> > 
->> 
->> -- 
->> Wei Yang
->> Help you, Help me
+> On Mon, Feb 24, 2025 at 04:05:43PM +0000, Mark Rutland wrote:
 >
->-- 
->Sincerely yours,
->Mike.
+> [...]
+>
+> > > > > Just a minor concern.  I don't see any handling for task migratio=
+n.
+> > > > > E.g., for a task is migrated from one CPU to another CPU, I expec=
+t we
+> > > > > need to save and restore branch records based on BRBE injection. =
+ So
+> > > > > far, the driver simply invalidates all records.
+> > > > >
+> > > > > I think this topic is very likely discussed before.  If this is t=
+he
+> > > > > case, please ignore my comment.  Except this, the code looks good
+> > > > > to me.
+> > > >
+> > > > Not really discussed on the list, but that was present in v18 (thou=
+gh
+> > > > not functional because .sched_task() hook wasn't actually enabled) =
+and
+> > > > Mark removed it. His work is here[1].The only comment was:
+> > > >
+> > > > Note: saving/restoring at context-switch doesn't interact well with
+> > > > event rotation (e.g. if filters change)
+> > >
+> > > In the brbe_enable() function, it "Merge the permitted branch filters
+> > > of all events".  Based on current implementation, all events share th=
+e
+> > > same branch filter.
+> >
+> > Critically, the brbe_enable() function merges the filters of all
+> > *active* events which have been installed into hardware. It does not
+> > track all events which can be rotated, and the resulting filter is not
+> > the same -- it can change as a result of rotation.
+>
+> In a perf session has multiple events, and events have different branch
+> filters, seems to me, a simple way is to return error for this case.
+>
+> I would argue BRBE is an IP for recording branches per CPU wise, it does
+> not support recording for event wise.  If we can unify branch filter
+> within a perf session, would this be much easier for handling?
 
--- 
-Wei Yang
-Help you, Help me
+And the PMU is an IP for recording events per CPU, but that is not
+perf (only)...
+
+>
+> > > When event rotation happens, if without context switch, in theory we
+> > > should can directly use the branch record (no invalidation, no inject=
+ion)
+> > > for all events.
+> >
+> > No; that only works in *some* cases, and will produce incorrect results
+> > in others.
+> >
+> > For example, consider filtering. Imagine a PMU with a single counter,
+> > and two events, where event-A filters for calls-and-returns and event-B
+> > filters for calls-only. When switching from event-A to event-B, it's
+> > theoretically possible to keep the existing records around, knowing tha=
+t
+> > the returns can be filtered out later. When switching from event-B to
+> > event-A we cannot keep the existing records, since there are gaps
+> > whenever a return should have been recorded.
+>
+> Seems to me, the problem is not caused by event rotation.  We need to
+> calculate a correct filter in the first place - the BRBE driver should
+> calculate a superset for all filters of events for a session.  Then,
+> generate branch record based event's specific filter.
+
+The driver doesn't have enough information. If it is told to schedule
+event A, it doesn't know anything about event B. It could in theory
+try to remember event B if event B had already been scheduled, but it
+never knows when event B is gone.
+
+> > There are a number of cases of that shape given the set of configurable
+> > filters. In theory it's possible to retain those in some cases, but I
+> > don't think that the complexity is justified.
+> >
+> > Similarly, whenever kernel branches are recorded it's necessary to drop
+> > the stale branches whenever branch recording is paused, as there's
+> > necessarily a blackout period and hence a gap in the records.
+>
+> If we save BRBE record when a process is switched out and then restore
+> the record when a process is switched in, should we can keep a decent
+> branch record for performance profiling?
+
+Keep in mind that there's only 64 branches recorded at most. How many
+branches in a context switch plus reconfiguring the PMU? Not a small
+percentage of 64 I think. In traces where freeze on overflow was not
+working (there's an example in v18), just the interrupt entry until
+BRBE was stopped was a significant part of the trace. A context switch
+is going to be similar.
+
+> I understand it might be many things happen in the middle of a task
+> switching or migration, but it is fine for not recording branches during
+> the blackout period.  The missed branch records are not very helpful for
+> forming a flow for a profiled program itself, especially, if we
+> consider we will optimize userspace program in many cases.
+
+We can't really not record during a blackout period. The only way we
+can is with freeze on overflow.
+
+> > Do you think that you have a case where losing branches across rotation
+> > *really* matters?
+>
+> I agreed that event rotation case might be rare and complex.  Please see
+> a comment below.
+>
+> > > For a context-switch case, we need to save and re-inject branch recor=
+d.
+> > > BRBE record sticks to a process context, no matter what events have b=
+een
+> > > enabled.
+> >
+> > I had originally wanted to keep per-event records around, but it doesn'=
+t
+> > work in all cases. One reason events get discarded at context-switch
+> > time is that CPU-bound events can sample branches, and would
+> > mis-attribute stale userspace branches to the wrong context when
+> > switching tasks. There are explicit comments about this in
+> > amd_pmu_brs_sched_task() and intel_pmu_lbr_sched_task().
+> >
+> > Given we discard records when reprogramming events, we *could* try to
+> > preserve events in some cases, but I suspect that as with the rotation
+> > case this'll be a lot of complexity for little gain. Note that as we
+> > discard events when enabling the PMU, we'd throw some task-bound record=
+s
+> > away anyway, and practically the gain would be limited to cpu-bound
+> > records.
+> >
+> > Do you have a reason why you think we *must* keep events around?
+>
+> Here I am really concerned are cases when a process is preempted or
+> migrated.  The driver doesn't save and restore branch records for these
+> cases, it just invalidates all records when a task is scheduled in.
+>
+> As a result, if an event overflow is close to context switch, it is
+> likely to capture incomplete branch records.  For a userspace-only
+> tracing, it is risk to capture empty branch record after preemption
+> and migrations.
+
+There's the same risk if something else is recording kernel branches
+when you are recording userspace only. I think the user has to be
+aware if other things like context switches are perturbing their data.
+
+Rob
