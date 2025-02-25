@@ -1,73 +1,39 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2735F1991CB
-	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 16:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C6021ABC6;
+	Tue, 25 Feb 2025 17:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740502563; cv=none; b=KjI0VzuPK2Z2w5OUJhwAAQpKcEhCCme8afdNUPFVsFi4AaIiiAJoQxi8npgfp9+UUuxTVu5n35FhdD/vMF5cw+byKsJpGrYbS340Po7peNUr35ot/wxtq40lJJKyEEPoh/kgu5JsbI7hjoy3/VemSgOwet2EJeff1Zsj+JsSWbY=
+	t=1740503084; cv=none; b=pk7qhEzS1Mt4v3DhRV0TH2/JRRG3im2JVhXyMqh8Y1h0VnF7y81Q42Ec18aqgD9lBZJoIG0sAMM9FX1LbaOZBPH4tMs7ysNvZFf6nQLsWQjPsf94yTZKBwC0A5B6dfPM0/c+6d0zpRSZ+Fj9kfXZ8hIGNHCsLOOkobzb6GfBETA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740502563; c=relaxed/simple;
-	bh=nQ44Bzpza4hhTa9otIjinjm0k/20MprTjt+HR8ATJQU=;
+	s=arc-20240116; t=1740503084; c=relaxed/simple;
+	bh=wrlipsiZZjYsoy8gKMde6E5ZGT5GjgE+1/Jv+3wci9E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JZRULtnRYgp42bz2+6icyn1paM+G8528qg3IO7KgZqiDqGuZ/te9QPimYIlx3jb7tAvv4tD0mDcN6BAlXqknwWvO0R4tVhJd4ROBjtNiB3l8toygIuApItw5riUEQtHQHwn5AfBJDfY8yf914WPBbPBRJ2x4nzyxBUrqSOX6dm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fv5CDFMc; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=Xf17j7X6QfTFdIAtWVKYjCSncDLtbLEWurr1P4tkTT5vHwUWKXOghr/NlZi8sI/2xTDqjl965qze7YQtxfdScwWBG6foDOdKjBB3ZVLR4VcibVA6AQgRmnWc/j8m+KoyZo8bFJ8W5dQdTQf+9WkWOkDnBbkGmC/n4HvwW5MW8ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=KTHbfxfH; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fv5CDFMc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740502561;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=gc6nQtNUWZYE/MaGMWTUUIeNQ1kSqCMg8WjpiOLHoso=;
-	b=Fv5CDFMc4dI0JoJI8J9c3uJ1HojVNAI9eUZCKNUTnSNLaOoDwfMb/Q+8gFWzWM46Eto6TH
-	Sc13yPaO1XhhF6a7j1+I0Fb5QlRt2sOJSLmDGAZjRZLviTo1gGRjDfTSYlbrNPEeXSIs+z
-	GzXtbAV6H/Rn3lPumwUEzwK5ETbA5FI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-615-5PdA0M_HP-eDSoQRZnRkjw-1; Tue, 25 Feb 2025 11:55:57 -0500
-X-MC-Unique: 5PdA0M_HP-eDSoQRZnRkjw-1
-X-Mimecast-MFC-AGG-ID: 5PdA0M_HP-eDSoQRZnRkjw_1740502557
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4393b6763a3so25428685e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 08:55:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740502557; x=1741107357;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gc6nQtNUWZYE/MaGMWTUUIeNQ1kSqCMg8WjpiOLHoso=;
-        b=f4xTN4/2HMPQcMtSKu163O+IswXrP4sIQFx+k6VXP8dVNJuThrq2ub2c0ElnxeC5/C
-         wvFY9rjneUKGPGWjK3qjNSR5U0FO0OAzkLf3w1Zo12lGmhd6tDL7q68YdJvoSeGUyC4i
-         fKPg8Ai+sbQdfyv+suqsJKOekiWcsTIPLDZkhwxGIcZ52vw2Om52ws2bTI5VOwVmFJbq
-         S+WP6C1HQLe34Vu1W68TID9uqjTXMvDfGjgh7+wkqm5NOKIU7/rBmzewrMLagXCwsnaW
-         h0lbooymcRwi9ywhrDd1h7Z/IerqARSX00ttRbTMbtR0E6A9p/t/9OZ7gx6sjQJ/L3Ml
-         n3PA==
-X-Forwarded-Encrypted: i=1; AJvYcCX0KW8f4pRo+BrqKkCkAb4prMCLWN8vgHvugjGPGKPtyctFEsuXE8Q3MGfPSbTtIwzJCaZp4YssvTI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPBeSx2LC7/RjjsXuoDpuqxF/k035h9FpHIH9GwRkFvLcLsdgl
-	PVXi+41FwGtJZTfjkzZb0CxVY5caDWLEAmJFQCKcfgjhPcCw1pXFWbKIyA0f9xt1YBoXdnvYIpY
-	MBNVKKXXkSTDXxBRYgVqrzk/+OLBNgMfbfpl5okp0fgcTjATtKV/0CiW89A==
-X-Gm-Gg: ASbGncsCJs8GU2Ur9RHaABhbMaWfmcuU5N4t9Z2XWxwoSo2ChrC/e3Xq5bd1vlwn/1t
-	N6qnIL8fDx3wKDsE5lMP86QaIwc33fOqgAYAikBooh5npIE564Ji39agkye4GUiysbVZx1BBmZ0
-	v2EzCLg/lfh6Bfy9bdhJP0uMgMoczKmpmO9ioCiJwvk/g9oGZcP0PZTeXsVGdbIV9MiJXHyVJeF
-	Icob5eA5yI5FE58/BZaH/8LCyeFZ4O9pvrg0liUs9OBtpGzUbMeNSKstsSaMwUyrl4n6M4/B+yZ
-	DDyvWiykVbaPbiZXmVjZD7r55HacnDNik0l7PX/AeHqOJtV1tnVWMkbEbNo4yNHKNbzVMh3YI1K
-	EECDw5cGWwbeqvCbZzMXfax/9yC9gUpZ7BUjwCpkQVaI=
-X-Received: by 2002:a05:600c:1396:b0:439:88bb:d02d with SMTP id 5b1f17b1804b1-439ae1d9a2dmr164242715e9.2.1740502556786;
-        Tue, 25 Feb 2025 08:55:56 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEzE/g/wzyX4nO+TszgBSun1B7uE43oREDnV0UH0oQHkzl3BhbsKqcoCLgqarg7oHx6lgcPEw==
-X-Received: by 2002:a05:600c:1396:b0:439:88bb:d02d with SMTP id 5b1f17b1804b1-439ae1d9a2dmr164242175e9.2.1740502556358;
-        Tue, 25 Feb 2025 08:55:56 -0800 (PST)
-Received: from ?IPV6:2003:cb:c73e:aa00:c9db:441d:a65e:6999? (p200300cbc73eaa00c9db441da65e6999.dip0.t-ipconnect.de. [2003:cb:c73e:aa00:c9db:441d:a65e:6999])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439b02ce60asm149821775e9.7.2025.02.25.08.55.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Feb 2025 08:55:55 -0800 (PST)
-Message-ID: <ce3ce109-f38a-4053-808b-5cc75257f3f7@redhat.com>
-Date: Tue, 25 Feb 2025 17:55:53 +0100
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="KTHbfxfH"
+Received: from [192.168.7.202] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51PH46bx1358733
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 25 Feb 2025 09:04:06 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51PH46bx1358733
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025021701; t=1740503048;
+	bh=BvjjSxkdSG588SGDq663b5zgI3A2wVYCsffSGqh15mo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KTHbfxfH1WLXIAc0WPB5ZGGR//14iUV+4iehEsJ3HZEjn0Zb3xlHeW9MjJpko8qqA
+	 7JFYo96FeqJnm0VptIEAaG0ntvzMf6GNcTCYjspwKt5+WuYUQiC6yWNVugT9WndX2G
+	 7fnmqq8Fg8UScSHeJ7MkPi4Z02c1NQTicNPtAE861FP4eT5mL5PAHQe6n2MdfWWx6V
+	 9EhE8CezjUi4wEEFVjeuenRHTRgpU8l8oM9HSi9MxSHBPL9keYSXDbR4l7xLZBJq8g
+	 6Atm5sIXT8Whgete15Y7jvVLoL0HKVu2YuyCHlFOzqvsZZwEHTstqpgUvIjCmIF5w8
+	 sYCG8Ylu0bXsg==
+Message-ID: <b1f0f8f3-515f-4fde-b779-43ef93484ab3@zytor.com>
+Date: Tue, 25 Feb 2025 09:04:05 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,91 +41,290 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 04/12] KVM: Add capability to discover
- KVM_GMEM_NO_DIRECT_MAP support
-To: Patrick Roy <roypat@amazon.co.uk>, rppt@kernel.org, seanjc@google.com
-Cc: pbonzini@redhat.com, corbet@lwn.net, willy@infradead.org,
- akpm@linux-foundation.org, song@kernel.org, jolsa@kernel.org,
- ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, eddyz87@gmail.com, yonghong.song@linux.dev,
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
- haoluo@google.com, Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com,
- vbabka@suse.cz, jannh@google.com, shuah@kernel.org, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, tabba@google.com, jgowans@amazon.com,
- graf@amazon.com, kalyazin@amazon.com, xmarcalx@amazon.com,
- derekmn@amazon.com, jthoughton@google.com
-References: <20250221160728.1584559-1-roypat@amazon.co.uk>
- <20250221160728.1584559-5-roypat@amazon.co.uk>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v3 00/27] Enable FRED with KVM VMX
+To: Sean Christopherson <seanjc@google.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Chao Gao <chao.gao@intel.com>,
+        pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
+        andrew.cooper3@citrix.com
+References: <20241001050110.3643764-1-xin@zytor.com>
+ <22d4574b-7e2d-4cd8-91bd-f5208e82369e@zytor.com>
+ <Z73gxklugkYpwJiZ@google.com>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20250221160728.1584559-5-roypat@amazon.co.uk>
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ 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
+ l75w1xInsg==
+In-Reply-To: <Z73gxklugkYpwJiZ@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 21.02.25 17:07, Patrick Roy wrote:
-> Add a capability to let userspace discover whether guest_memfd supports
-> removing its folios from the direct map. Support depends on guest_memfd
-> itself being supported, but also on whether KVM can manipulate the
-> direct map at page granularity at all (possible most of the time, just
-> arm64 is a notable outlier where its impossible if the direct map has
-> been setup using hugepages, as arm64 cannot break these apart due to
-> break-before-make semantics).
+On 2/25/2025 7:24 AM, Sean Christopherson wrote:
+> On Tue, Feb 18, 2025, Xin Li wrote:
+>> On 9/30/2024 10:00 PM, Xin Li (Intel) wrote:
+>> While I'm waiting for the CET patches for native Linux and KVM to be
+>> upstreamed, do you think if it's worth it for you to take the cleanup
+>> and some of the preparation patches first?
 > 
-> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
-> ---
+> Yes, definitely.  I'll go through the series and see what I can grab now.
 
-Not sure how KVM folks handle that, but I suspect we would just want to 
-squash that into the previous commit,
+I planned to do a rebase and fix the conflicts due to the reordering.
+But I'm more than happy you do a first round.
 
--- 
-Cheers,
+BTW, if you plan to take
+	KVM: VMX: Virtualize nested exception tracking
+Then as Gao Chao suggested we also need a patch to Save/restore the
+nested flag of an exception (obviously a corresponding host patch is
+needed).  Following is a version that I have.
 
-David / dhildenb
+Thanks!
+     Xin
+
+---
+KVM: x86: Save/restore the nested flag of an exception
+
+Save/restore the nested flag of an exception during VM save/restore
+and live migration to ensure a correct event stack level is chosen
+when a nested exception is injected through FRED event delivery.
+
+Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+---
+
+Change since v3:
+* Add live migration support for exception nested flag (Chao Gao).
+---
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 2b52eb77e29c..ed171fa6926f 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -1180,6 +1180,10 @@ The following bits are defined in the flags field:
+    fields contain a valid state. This bit will be set whenever
+    KVM_CAP_EXCEPTION_PAYLOAD is enabled.
+
++- KVM_VCPUEVENT_VALID_NESTED_FLAG may be set to inform that the
++  exception is a nested exception. This bit will be set whenever
++  KVM_CAP_EXCEPTION_NESTED_FLAG is enabled.
++
+  - KVM_VCPUEVENT_VALID_TRIPLE_FAULT may be set to signal that the
+    triple_fault_pending field contains a valid state. This bit will
+    be set whenever KVM_CAP_X86_TRIPLE_FAULT_EVENT is enabled.
+@@ -1279,6 +1283,10 @@ can be set in the flags field to signal that the
+  exception_has_payload, exception_payload, and exception.pending fields
+  contain a valid state and shall be written into the VCPU.
+
++If KVM_CAP_EXCEPTION_NESTED_FLAG is enabled, 
+KVM_VCPUEVENT_VALID_NESTED_FLAG
++can be set in the flags field to inform that the exception is a nested
++exception and exception_is_nested shall be written into the VCPU.
++
+  If KVM_CAP_X86_TRIPLE_FAULT_EVENT is enabled, 
+KVM_VCPUEVENT_VALID_TRIPLE_FAULT
+  can be set in flags field to signal that the triple_fault field contains
+  a valid state and shall be written into the VCPU.
+@@ -8258,6 +8266,17 @@ KVM exits with the register state of either the 
+L1 or L2 guest
+  depending on which executed at the time of an exit. Userspace must
+  take care to differentiate between these cases.
+
++7.37 KVM_CAP_EXCEPTION_NESTED_FLAG
++----------------------------------
++
++:Architectures: x86
++:Parameters: args[0] whether feature should be enabled or not
++
++With this capability enabled, an exception is save/restored with the
++additional information of whether it was nested or not. FRED event
++delivery uses this information to ensure a correct event stack level
++is chosen when a VM entry injects a nested exception.
++
+  8. Other capabilities.
+  ======================
+
+diff --git a/arch/x86/include/asm/kvm_host.h 
+b/arch/x86/include/asm/kvm_host.h
+index 4cfe1b8f4547..ede2319cee45 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -1441,6 +1441,7 @@ struct kvm_arch {
+
+  	bool guest_can_read_msr_platform_info;
+  	bool exception_payload_enabled;
++	bool exception_nested_flag_enabled;
+
+  	bool triple_fault_event;
+
+diff --git a/arch/x86/include/uapi/asm/kvm.h 
+b/arch/x86/include/uapi/asm/kvm.h
+index 9e75da97bce0..f5167e3a7d0f 100644
+--- a/arch/x86/include/uapi/asm/kvm.h
++++ b/arch/x86/include/uapi/asm/kvm.h
+@@ -326,6 +326,7 @@ struct kvm_reinject_control {
+  #define KVM_VCPUEVENT_VALID_SMM		0x00000008
+  #define KVM_VCPUEVENT_VALID_PAYLOAD	0x00000010
+  #define KVM_VCPUEVENT_VALID_TRIPLE_FAULT	0x00000020
++#define KVM_VCPUEVENT_VALID_NESTED_FLAG	0x00000040
+
+  /* Interrupt shadow states */
+  #define KVM_X86_SHADOW_INT_MOV_SS	0x01
+@@ -363,7 +364,8 @@ struct kvm_vcpu_events {
+  	struct {
+  		__u8 pending;
+  	} triple_fault;
+-	__u8 reserved[26];
++	__u8 reserved[25];
++	__u8 exception_is_nested;
+  	__u8 exception_has_payload;
+  	__u64 exception_payload;
+  };
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 01c945b27f01..80a9fa6ab720 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -4675,6 +4675,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, 
+long ext)
+  	case KVM_CAP_GET_MSR_FEATURES:
+  	case KVM_CAP_MSR_PLATFORM_INFO:
+  	case KVM_CAP_EXCEPTION_PAYLOAD:
++	case KVM_CAP_EXCEPTION_NESTED_FLAG:
+  	case KVM_CAP_X86_TRIPLE_FAULT_EVENT:
+  	case KVM_CAP_SET_GUEST_DEBUG:
+  	case KVM_CAP_LAST_CPU:
+@@ -5401,6 +5402,7 @@ static void 
+kvm_vcpu_ioctl_x86_get_vcpu_events(struct kvm_vcpu *vcpu,
+  	events->exception.error_code = ex->error_code;
+  	events->exception_has_payload = ex->has_payload;
+  	events->exception_payload = ex->payload;
++	events->exception_is_nested = ex->nested;
+
+  	events->interrupt.injected =
+  		vcpu->arch.interrupt.injected && !vcpu->arch.interrupt.soft;
+@@ -5426,6 +5428,8 @@ static void 
+kvm_vcpu_ioctl_x86_get_vcpu_events(struct kvm_vcpu *vcpu,
+  			 | KVM_VCPUEVENT_VALID_SMM);
+  	if (vcpu->kvm->arch.exception_payload_enabled)
+  		events->flags |= KVM_VCPUEVENT_VALID_PAYLOAD;
++	if (vcpu->kvm->arch.exception_nested_flag_enabled)
++		events->flags |= KVM_VCPUEVENT_VALID_NESTED_FLAG;
+  	if (vcpu->kvm->arch.triple_fault_event) {
+  		events->triple_fault.pending = 
+kvm_test_request(KVM_REQ_TRIPLE_FAULT, vcpu);
+  		events->flags |= KVM_VCPUEVENT_VALID_TRIPLE_FAULT;
+@@ -5440,7 +5444,8 @@ static int 
+kvm_vcpu_ioctl_x86_set_vcpu_events(struct kvm_vcpu *vcpu,
+  			      | KVM_VCPUEVENT_VALID_SHADOW
+  			      | KVM_VCPUEVENT_VALID_SMM
+  			      | KVM_VCPUEVENT_VALID_PAYLOAD
+-			      | KVM_VCPUEVENT_VALID_TRIPLE_FAULT))
++			      | KVM_VCPUEVENT_VALID_TRIPLE_FAULT
++			      | KVM_VCPUEVENT_VALID_NESTED_FLAG))
+  		return -EINVAL;
+
+  	if (events->flags & KVM_VCPUEVENT_VALID_PAYLOAD) {
+@@ -5455,6 +5460,13 @@ static int 
+kvm_vcpu_ioctl_x86_set_vcpu_events(struct kvm_vcpu *vcpu,
+  		events->exception_has_payload = 0;
+  	}
+
++	if (events->flags & KVM_VCPUEVENT_VALID_NESTED_FLAG) {
++		if (!vcpu->kvm->arch.exception_nested_flag_enabled)
++			return -EINVAL;
++	} else {
++		events->exception_is_nested = 0;
++	}
++
+  	if ((events->exception.injected || events->exception.pending) &&
+  	    (events->exception.nr > 31 || events->exception.nr == NMI_VECTOR))
+  		return -EINVAL;
+@@ -5486,6 +5498,7 @@ static int 
+kvm_vcpu_ioctl_x86_set_vcpu_events(struct kvm_vcpu *vcpu,
+  	vcpu->arch.exception.error_code = events->exception.error_code;
+  	vcpu->arch.exception.has_payload = events->exception_has_payload;
+  	vcpu->arch.exception.payload = events->exception_payload;
++	vcpu->arch.exception.nested = events->exception_is_nested;
+
+  	vcpu->arch.interrupt.injected = events->interrupt.injected;
+  	vcpu->arch.interrupt.nr = events->interrupt.nr;
+@@ -6609,6 +6622,10 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+  		kvm->arch.exception_payload_enabled = cap->args[0];
+  		r = 0;
+  		break;
++	case KVM_CAP_EXCEPTION_NESTED_FLAG:
++		kvm->arch.exception_nested_flag_enabled = cap->args[0];
++		r = 0;
++		break;
+  	case KVM_CAP_X86_TRIPLE_FAULT_EVENT:
+  		kvm->arch.triple_fault_event = cap->args[0];
+  		r = 0;
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 45e6d8fca9b9..b79f3c10a887 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -929,6 +929,7 @@ struct kvm_enable_cap {
+  #define KVM_CAP_PRE_FAULT_MEMORY 236
+  #define KVM_CAP_X86_APIC_BUS_CYCLES_NS 237
+  #define KVM_CAP_X86_GUEST_MODE 238
++#define KVM_CAP_EXCEPTION_NESTED_FLAG 239
+
+  struct kvm_irq_routing_irqchip {
+  	__u32 irqchip;
+
+
+> 
+> Thanks!
+> 
+>> Top of my mind are:
+>>      KVM: x86: Use a dedicated flow for queueing re-injected exceptions
+>>      KVM: VMX: Don't modify guest XFD_ERR if CR0.TS=1
+>>      KVM: VMX: Pass XFD_ERR as pseudo-payload when injecting #NM
+>>      KVM: nVMX: Add a prerequisite to existence of VMCS fields
+>>      KVM: nVMX: Add a prerequisite to SHADOW_FIELD_R[OW] macros
+>>
+>> Then specially, the nested exception tracking patch seems a good one as
+>> Chao Gao suggested to decouple the nested tracking from FRED:
+>>      KVM: VMX: Virtualize nested exception tracking
+>>
+>> Lastly the patches to add support for the secondary VM exit controls might
+>> go in early as well:
+>>      KVM: VMX: Add support for the secondary VM exit controls
+>>      KVM: nVMX: Add support for the secondary VM exit controls
+>>
+>> But if you don't like the idea please just let me know.
+>>
+>> Thanks!
+>>      Xin
+> 
+
 
