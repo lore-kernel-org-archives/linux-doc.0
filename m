@@ -1,304 +1,238 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA89267F7B;
-	Tue, 25 Feb 2025 11:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=58.251.27.85
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AF081FC7ED;
+	Tue, 25 Feb 2025 12:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740484468; cv=none; b=o347qZ8JXrZLQEJC217TeM6BI1+JDl9gD8Iwdh6I+sz7rzcQZ0knYWbxhpsv6sgjNwYxClyVIUl9bxIEDM8YSVdHcYNZndx8/5iF0+7Vo/HOmDtBcDgz7MbMK0X0gB/3BqDOqKMMV8rRWQqvuUG+vg21GIjkvJNUYadGIUdQYR8=
+	t=1740484920; cv=none; b=ngS6c9GYJVEc2NrpLWunEJASZvFDPwN7asJ2ae7BlTGC8AR5qywZVCJT5BTa3CvaVYHIMvGV/OGWmNMgirvfhd8QTRaunDCnd0UzVV3d37yriNAA13M+BlSt9ndCDpgPRuiequEna4ivYMBJhMt6Fg0D63HinrX5Kyu0hMBUXwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740484468; c=relaxed/simple;
-	bh=8uqSU9g/Z7TXfxQDqugu98jENClfSwtOsnky93zJkPE=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=ClRmQZN/TcpLIX1zXcYvZHhi3FzoKagB+oXZLAEG8zlDBicXWxkBnZoQGInIoN5Tx1TlZ7VhtXEj/YJtJkL1y+XCdseniDTbclIp2wBGKY8nED8FnuxcCvkt1gNnOL7Rvp3sDwd97avdydfR/J/bPzgd58UpWO2X99F+CzEmQiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=58.251.27.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mxde.zte.com.cn (unknown [10.35.20.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4Z2G4Y1G8KzKhl;
-	Tue, 25 Feb 2025 19:45:17 +0800 (CST)
-Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mxde.zte.com.cn (FangMail) with ESMTPS id 4Z2G4S0TC6zBRHKT;
-	Tue, 25 Feb 2025 19:45:12 +0800 (CST)
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4Z2G4G1qwNz5B1LX;
-	Tue, 25 Feb 2025 19:45:02 +0800 (CST)
-Received: from njb2app07.zte.com.cn ([10.55.22.95])
-	by mse-fl1.zte.com.cn with SMTP id 51PBirfO019687;
-	Tue, 25 Feb 2025 19:44:53 +0800 (+08)
-	(envelope-from jiang.kun2@zte.com.cn)
-Received: from mapi (njb2app06[null])
-	by mapi (Zmail) with MAPI id mid204;
-	Tue, 25 Feb 2025 19:44:56 +0800 (CST)
-Date: Tue, 25 Feb 2025 19:44:56 +0800 (CST)
-X-Zmail-TransId: 2afe67bdad38ffffffffd53-28c3b
-X-Mailer: Zmail v1.0
-Message-ID: <20250225194456879v1ipo2r4_8PJZn1s1J9Ge@zte.com.cn>
+	s=arc-20240116; t=1740484920; c=relaxed/simple;
+	bh=SWp3WrvX79X3ktWHCJ8Pf4Tx4DFOq4UVMg8Vp0BxCOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gncTZqGPycuIcM4wTiVTA2KiOYxzC+m27rx5F3+g9UF9efktjJnhH+C/xq27l9jMYnpFZySEoYY2Je3YOXxBuNlm20IWiZSc6j9MiUwQuaeGop+zendegZZhpSfNBYq6OJa5VXUVwU/n4KT+2IYE4aQYNcq+F2cX3hP08X95SAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F372D152B;
+	Tue, 25 Feb 2025 04:02:14 -0800 (PST)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 730B23F6A8;
+	Tue, 25 Feb 2025 04:01:55 -0800 (PST)
+Date: Tue, 25 Feb 2025 12:01:52 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Leo Yan <leo.yan@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v20 11/11] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+Message-ID: <Z72xMLsd37I6X_5-@J2N7QTR9R3>
+References: <20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org>
+ <20250218-arm-brbe-v19-v20-11-4e9922fc2e8e@kernel.org>
+ <20250224122507.GE8144@e132581.arm.com>
+ <CAL_Jsq+0fZ2uasgAam7qGTdCeDBQxXeyL-J1_suyxy6GE_ERTg@mail.gmail.com>
+ <20250224140317.GF8144@e132581.arm.com>
+ <Z7yY19UtSnND5KTl@J2N7QTR9R3.cambridge.arm.com>
+ <20250224180301.GI8144@e132581.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <jiang.kun2@zte.com.cn>
-To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Cc: <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>, <wang.yaxin@zte.com.cn>,
-        <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
-        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>,
-        <ye.xingchen@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIGxpbnV4IG5leHRdIERvY3MvemhfQ046IFRyYW5zbGF0ZSBtc2dfemVyb2NvcHkucnN0IHRvClNpbXBsaWZpZWQgQ2hpbmVzZQ==?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 51PBirfO019687
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 67BDAD4B.005/4Z2G4Y1G8KzKhl
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250224180301.GI8144@e132581.arm.com>
 
-From: Wang Yaxin <wang.yaxin@zte.com.cn>
+On Mon, Feb 24, 2025 at 06:03:01PM +0000, Leo Yan wrote:
+> On Mon, Feb 24, 2025 at 04:05:43PM +0000, Mark Rutland wrote:
+> 
+> [...]
+> 
+> > > > > Just a minor concern.  I don't see any handling for task migration.
+> > > > > E.g., for a task is migrated from one CPU to another CPU, I expect we
+> > > > > need to save and restore branch records based on BRBE injection.  So
+> > > > > far, the driver simply invalidates all records.
+> > > > >
+> > > > > I think this topic is very likely discussed before.  If this is the
+> > > > > case, please ignore my comment.  Except this, the code looks good
+> > > > > to me.
+> > > > 
+> > > > Not really discussed on the list, but that was present in v18 (though
+> > > > not functional because .sched_task() hook wasn't actually enabled) and
+> > > > Mark removed it. His work is here[1].The only comment was:
+> > > > 
+> > > > Note: saving/restoring at context-switch doesn't interact well with
+> > > > event rotation (e.g. if filters change)
+> > > 
+> > > In the brbe_enable() function, it "Merge the permitted branch filters
+> > > of all events".  Based on current implementation, all events share the
+> > > same branch filter.
+> > 
+> > Critically, the brbe_enable() function merges the filters of all
+> > *active* events which have been installed into hardware. It does not
+> > track all events which can be rotated, and the resulting filter is not
+> > the same -- it can change as a result of rotation.
+> 
+> In a perf session has multiple events, and events have different branch
+> filters, seems to me, a simple way is to return error for this case.
 
-translate the "msg_zerocopy.rst" into Simplified Chinese
+FWIW, I'd generally prefer to do that since it avoids a number of
+horrible edge-cases and gets rid of the need to do SW filtering, which
+falls somewhere between "tricky" and "not entirely possible". However,
+that's not what LBR and others do, which is why we went with filter
+merging.
 
-Update to commit bac2cac12c26("docs: net: description of
-MSG_ZEROCOPY for AF_VSOCK")
+If folk on the tools side are happy with the kernel rejecting
+conflicting events, then I'd be more than happy to do that. What I don't
+want is that we start off with that approach and people immediately
+start to complain that the BRBE driver rejects events that the LBR
+driver accepts.
 
-Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
-Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
-Reviewed-by: xu xin <xu.xin16@zte.com.cn>
-Reviewed-by: He Peilin <he.peilin@zte.com.cn>
+See the last time this came up:
 
----
- .../zh_CN/networking/msg_zerocopy.rst         | 218 ++++++++++++++++++
- 1 file changed, 218 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/networking/msg_zerocopy.rst
+  https://lore.kernel.org/linux-arm-kernel/Zli6Ot0TwK3Qy-ee@J2N7QTR9R3/
+  https://lore.kernel.org/linux-arm-kernel/ZlnKFFwv9612V81h@J2N7QTR9R3/
 
-diff --git a/Documentation/translations/zh_CN/networking/msg_zerocopy.rst b/Documentation/translations/zh_CN/networking/msg_zerocopy.rst
-new file mode 100644
-index 000000000000..80c4da5efae4
---- /dev/null
-+++ b/Documentation/translations/zh_CN/networking/msg_zerocopy.rst
-@@ -0,0 +1,218 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/networking/msg_zerocopy.rst
-+
-+:翻译:
-+
-+   王亚鑫 Wang Yaxin <wang.yaxin@zte.com.cn>
-+
-+============
-+MSG_ZEROCOPY
-+============
-+
-+简介
-+====
-+
-+MSG_ZEROCOPY 标志用于启用套接字发送调用的免拷贝功能。该功能目前适用于 TCP、UDP 和 VSOCK
-+（使用 virtio 传输）套接字。
-+
-+机遇与注意事项
-+--------------
-+
-+在用户进程与内核之间拷贝大型缓冲区可能会消耗大量资源。Linux 支持多种免拷贝的接口，如sendfile
-+和 splice。MSG_ZEROCOPY 标志将底层的拷贝避免机制扩展到了常见的套接字发送调用中。
-+
-+免拷贝并非毫无代价。在实现上，它通过页面固定（page pinning）将按字节拷贝的成本替换为页面统计
-+（page accounting）和完成通知的开销。因此，MSG_ZEROCOPY 通常仅在写入量超过大约 10 KB 时
-+才有效。
-+
-+页面固定还会改变系统调用的语义。它会暂时在进程和网络堆栈之间共享缓冲区。与拷贝不同，进程在系统
-+调用返回后不能立即覆盖缓冲区，否则可能会修改正在传输中的数据。内核的完整性不会受到影响，但有缺
-+陷的程序可能会破坏自己的数据流。
-+
-+当内核返回数据可以安全修改的通知时，进程才可以修改数据。因此，将现有应用程序转换为使用
-+MSG_ZEROCOPY 并非总是像简单地传递该标志那样容易。
-+
-+更多信息
-+--------
-+
-+本文档的大部分内容是来自于 netdev 2.1 上发表的一篇长篇论文。如需更深入的信息，请参阅该论文和
-+演讲，或者浏览 LWN.net 上的精彩报道，也可以直接阅读源码。
-+
-+  论文、幻灯片、视频：
-+    https://netdevconf.org/2.1/session.html?debruijn
-+
-+  LWN 文章：
-+    https://lwn.net/Articles/726917/
-+
-+  补丁集：
-+    [PATCH net-next v4 0/9] socket sendmsg MSG_ZEROCOPY
-+    https://lore.kernel.org/netdev/20170803202945.70750-1-willemdebruijn.kernel@gmail.com
-+
-+接口
-+====
-+
-+传递 MSG_ZEROCOPY 标志是启用免拷贝功能的最明显步骤，但并非唯一的步骤。
-+
-+套接字设置
-+----------
-+
-+当应用程序向 send 系统调用传递未定义的标志时，内核通常会宽容对待。默认情况下，它会简单地忽略
-+这些标志。为了避免为那些偶然传递此标志的遗留进程启用免拷贝模式，进程必须首先通过设置套接字选项
-+来表明意图：
-+
-+::
-+
-+    if (setsockopt(fd, SOL_SOCKET, SO_ZEROCOPY, &one, sizeof(one)))
-+        error(1, errno, "setsockopt zerocopy");
-+
-+传输
-+----
-+
-+对 send（或 sendto、sendmsg、sendmmsg）本身的改动非常简单。只需传递新的标志即可。
-+
-+::
-+
-+    ret = send(fd, buf, sizeof(buf), MSG_ZEROCOPY);
-+
-+如果零拷贝操作失败，将返回 -1，并设置 errno 为 ENOBUFS。这种情况可能发生在套接字超出其
-+optmem 限制，或者用户超出其锁定页面的 ulimit 时。
-+
-+混合使用免拷贝和拷贝
-+~~~~~~~~~~~~~~~~~~~~
-+
-+许多工作负载同时包含大型和小型缓冲区。由于对于小数据包来说，免拷贝的成本高于拷贝，因此该
-+功能是通过标志实现的。带有标志的调用和没有标志的调用可以安全地混合使用。
-+
-+通知
-+----
-+
-+当内核认为可以安全地重用之前传递的缓冲区时，它必须通知进程。完成通知在套接字的错误队列上
-+排队，类似于传输时间戳接口。
-+
-+通知本身是一个简单的标量值。每个套接字都维护一个内部的无符号 32 位计数器。每次带有
-+MSG_ZEROCOPY 标志的 send 调用成功发送数据时，计数器都会增加。如果调用失败或长度为零，
-+则计数器不会增加。该计数器统计系统调用的调用次数，而不是字节数。在 UINT_MAX 次调用后，
-+计数器会循环。
-+
-+通知接收
-+~~~~~~~~
-+
-+下面的代码片段展示了 API 的使用。在最简单的情况下，每次 send 系统调用后，都会对错误队列
-+进行轮询和 recvmsg 调用。
-+
-+从错误队列读取始终是一个非阻塞操作。poll 调用用于阻塞，直到出现错误。它会在其输出标志中
-+设置 POLLERR。该标志不需要在 events 字段中设置。错误会无条件地发出信号。
-+
-+::
-+
-+    pfd.fd = fd;
-+    pfd.events = 0;
-+    if (poll(&pfd, 1, -1) != 1 || pfd.revents & POLLERR == 0)
-+        error(1, errno, "poll");
-+
-+    ret = recvmsg(fd, &msg, MSG_ERRQUEUE);
-+    if (ret == -1)
-+        error(1, errno, "recvmsg");
-+
-+    read_notification(msg);
-+
-+
-+这个示例仅用于演示目的。在实际应用中，不等待通知，而是每隔几次 send 调用就进行一次非阻塞
-+读取会更高效。
-+
-+零拷贝通知可以与其他套接字操作乱序处理。通常，拥有错误队列套接字会阻塞其他操作，直到错误
-+被读取。然而，零拷贝通知具有零错误代码，因此不会阻塞 send 和 recv 调用。
-+
-+通知批处理
-+~~~~~~~~~~~~
-+
-+可以使用 recvmmsg 调用来一次性读取多个未决的数据包。这通常不是必需的。在每条消息中，内核
-+返回的不是一个单一的值，而是一个范围。当错误队列上有一个通知正在等待接收时，它会将连续的通
-+知合并起来。
-+
-+当一个新的通知即将被排队时，它会检查队列尾部的通知的范围是否可以扩展以包含新的值。如果是这
-+样，它会丢弃新的通知数据包，并增大未处理通知的范围上限值。
-+
-+对于按顺序确认数据的协议（如 TCP），每个通知都可以合并到前一个通知中，因此在任何时候在等待
-+的通知都不会超过一个。
-+
-+有序交付是常见的情况，但不能保证。在重传和套接字拆除时，通知可能会乱序到达。
-+
-+通知解析
-+~~~~~~~~
-+
-+下面的代码片段演示了如何解析控制消息：前面代码片段中的 read_notification() 调用。通知
-+以标准错误格式 sock_extended_err 编码。
-+
-+控制数据中的级别和类型字段是协议族特定的，对于 TCP 或 UDP 套接字，分别为 IP_RECVERR 或
-+IPV6_RECVERR。对于 VSOCK 套接字，cmsg_level 为 SOL_VSOCK，cmsg_type 为 VSOCK_RECVERR。
-+
-+错误来源是新的类型 SO_EE_ORIGIN_ZEROCOPY。如前所述，ee_errno 为零，以避免在套接字上
-+阻塞地读取和写入系统调用。
-+
-+32 位通知范围编码为 [ee_info, ee_data]。这个范围是包含边界值的。除了下面讨论的 ee_code
-+字段外，结构中的其他字段应被视为未定义的。
-+
-+::
-+
-+    struct sock_extended_err *serr;
-+    struct cmsghdr *cm;
-+
-+    cm = CMSG_FIRSTHDR(msg);
-+    if (cm->cmsg_level != SOL_IP &&
-+        cm->cmsg_type != IP_RECVERR)
-+        error(1, 0, "cmsg");
-+
-+    serr = (void *) CMSG_DATA(cm);
-+    if (serr->ee_errno != 0 ||
-+        serr->ee_origin != SO_EE_ORIGIN_ZEROCOPY)
-+        error(1, 0, "serr");
-+
-+    printf("completed: %u..%u\n", serr->ee_info, serr->ee_data);
-+
-+
-+延迟拷贝
-+~~~~~~~~
-+
-+传递标志 MSG_ZEROCOPY 是向内核发出的一个提示，让内核采用免拷贝的策略，同时也是一种约
-+定，即内核会对完成通知进行排队处理。但这并不保证拷贝操作一定会被省略。
-+
-+拷贝避免不总是适用的。不支持分散/聚集 I/O 的设备无法发送由内核生成的协议头加上零拷贝用户
-+数据组成的数据包。数据包可能需要在协议栈底层转换为一份私有数据副本，例如用于计算校验和。
-+
-+在所有这些情况下，当内核释放对共享页面的持有权时，它会返回一个完成通知。该通知可能在（已
-+拷贝）数据完全传输之前到达。因此。零拷贝完成通知并不是传输完成通知。
-+
-+如果数据不在缓存中，延迟拷贝可能会比立即在系统调用中拷贝开销更大。进程还会因通知处理而产
-+生成本，但却没有带来任何好处。因此，内核会在返回时通过在 ee_code 字段中设置标志
-+SO_EE_CODE_ZEROCOPY_COPIED 来指示数据是否以拷贝的方式完成。进程可以利用这个信号，在
-+同一套接字上后续的请求中停止传递 MSG_ZEROCOPY 标志。
-+
-+实现
-+====
-+
-+环回
-+----
-+
-+对于 TCP 和 UDP：
-+如果接收进程不读取其套接字，发送到本地套接字的数据可能会无限期排队。无限期的通知延迟是不
-+可接受的。因此，所有使用 MSG_ZEROCOPY 生成并环回到本地套接字的数据包都将产生延迟拷贝。
-+这包括环回到数据包套接字（例如，tcpdump）和 tun 设备。
-+
-+对于 VSOCK：
-+发送到本地套接字的数据路径与非本地套接字相同。
-+
-+测试
-+====
-+
-+更具体的示例代码可以在内核源码的 tools/testing/selftests/net/msg_zerocopy.c 中找到。
-+
-+要留意环回约束问题。该测试可以在一对主机之间进行。但如果是在本地的一对进程之间运行，例如当使用
-+msg_zerocopy.sh 脚本在跨命名空间的虚拟以太网（veth）对之间运行时，测试将不会显示出任何性能
-+提升。为了便于测试，可以通过让 skb_orphan_frags_rx 与 skb_orphan_frags 相同，来暂时放宽
-+环回限制。
-+
-+对于 VSOCK 类型套接字的示例可以在 tools/testing/vsock/vsock_test_zerocopy.c 中找到。
--- 
-2.25.1
+> I would argue BRBE is an IP for recording branches per CPU wise, it does
+> not support recording for event wise.
+
+Yes, there is a mismatch between the hardware and the perf ABI.
+
+> If we can unify branch filter within a perf session, would this be
+> much easier for handling?
+
+Do you mean if the perf tool ensured that all events in a given session
+had the same filter? From the kernel's PoV there's no such thing as a
+"perf session", and I'm not sure whether you're suggesting doing that in
+userspace or withing the kernel.
+
+Doing that in the perf tool would certianly make a stronger argument for
+the kernel taking the "reject conflicting branch filters" option.
+
+Doing that within the kernel isn't really possible.
+
+> > > When event rotation happens, if without context switch, in theory we
+> > > should can directly use the branch record (no invalidation, no injection)
+> > > for all events.
+> > 
+> > No; that only works in *some* cases, and will produce incorrect results
+> > in others.
+> > 
+> > For example, consider filtering. Imagine a PMU with a single counter,
+> > and two events, where event-A filters for calls-and-returns and event-B
+> > filters for calls-only. When switching from event-A to event-B, it's
+> > theoretically possible to keep the existing records around, knowing that
+> > the returns can be filtered out later. When switching from event-B to
+> > event-A we cannot keep the existing records, since there are gaps
+> > whenever a return should have been recorded.
+> 
+> Seems to me, the problem is not caused by event rotation.  We need to
+> calculate a correct filter in the first place - the BRBE driver should
+> calculate a superset for all filters of events for a session.  Then,
+> generate branch record based event's specific filter.
+
+From the kernel's PoV there is no such thing as a perf session, and the
+branch filters are per-event per the perf ABI.
+
+We only really have two options:
+
+(1) Reject conflicting filters when scheduling events. At event open
+    time we have ot check whether an entire group is actually
+    schedulable.
+
+(2) Merge filters when scheduling events, and then filter out
+    branches which don't match a particular event's filters when reading
+    the branches.
+
+> > There are a number of cases of that shape given the set of configurable
+> > filters. In theory it's possible to retain those in some cases, but I
+> > don't think that the complexity is justified.
+> > 
+> > Similarly, whenever kernel branches are recorded it's necessary to drop
+> > the stale branches whenever branch recording is paused, as there's
+> > necessarily a blackout period and hence a gap in the records.
+> 
+> If we save BRBE record when a process is switched out and then restore
+> the record when a process is switched in, should we can keep a decent
+> branch record for performance profiling?
+
+I cannot parse this question. What are you trying to suggest here?
+
+> I understand it might be many things happen in the middle of a task
+> switching or migration, but it is fine for not recording branches during
+> the blackout period.  The missed branch records are not very helpful for
+> forming a flow for a profiled program itself, especially, if we
+> consider we will optimize userspace program in many cases.
+
+Just to be clear, you're talking about userspace specifically, right?
+
+There are users that want a contiguous set of branches, which is what
+hardware tries to guarantee, and that's what LBR tries to gaurantee
+today, so I don't think that we can say gaps are always fine.
+
+If we want a "give me as many arbitrary samples branches as possible,
+with arbitrary potential gaps" option, I'm not necessarily opposed to
+that, but I do not think that should be the default behaviour.
+
+> > Do you think that you have a case where losing branches across rotation
+> > *really* matters?
+> 
+> I agreed that event rotation case might be rare and complex.  Please see
+> a comment below.
+> 
+> > > For a context-switch case, we need to save and re-inject branch record.
+> > > BRBE record sticks to a process context, no matter what events have been
+> > > enabled.
+> > 
+> > I had originally wanted to keep per-event records around, but it doesn't
+> > work in all cases. One reason events get discarded at context-switch
+> > time is that CPU-bound events can sample branches, and would
+> > mis-attribute stale userspace branches to the wrong context when
+> > switching tasks. There are explicit comments about this in
+> > amd_pmu_brs_sched_task() and intel_pmu_lbr_sched_task().
+> > 
+> > Given we discard records when reprogramming events, we *could* try to
+> > preserve events in some cases, but I suspect that as with the rotation
+> > case this'll be a lot of complexity for little gain. Note that as we
+> > discard events when enabling the PMU, we'd throw some task-bound records
+> > away anyway, and practically the gain would be limited to cpu-bound
+> > records.
+> > 
+> > Do you have a reason why you think we *must* keep events around?
+> 
+> Here I am really concerned are cases when a process is preempted or
+> migrated.  The driver doesn't save and restore branch records for these
+> cases, it just invalidates all records when a task is scheduled in.
+> 
+> As a result, if an event overflow is close to context switch, it is
+> likely to capture incomplete branch records.  For a userspace-only
+> tracing, it is risk to capture empty branch record after preemption
+> and migrations.
+
+Yes, and I was initially concerned about that, but is that really a
+problem? So long as the event period doesn't *always* coincide with
+preemption you'll get records from other samples anyway.
+
+While I agree this is a theoretical concern, I don't think its of
+practical importance. This discarding happens on x86 *today* with LBR,
+and (AFAICT) there hav been no complaints. Note that the LBR logic to
+save/restore records for task contexts is only done for user callstack
+recording, which BRBE does not support.
+
+Regardless, there's still the problematic interaction with event
+rotation; you cannot save/restore the records safely here if events (and
+the relevant filters) can change between the save and restore.
+
+Discarding here is significantly simpler, and correct.
+
+Mark.
