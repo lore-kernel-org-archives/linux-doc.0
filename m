@@ -1,238 +1,85 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AF081FC7ED;
-	Tue, 25 Feb 2025 12:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from pv50p00im-ztdg10011201.me.com (pv50p00im-ztdg10011201.me.com [17.58.6.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AF920C477
+	for <linux-doc@vger.kernel.org>; Tue, 25 Feb 2025 12:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740484920; cv=none; b=ngS6c9GYJVEc2NrpLWunEJASZvFDPwN7asJ2ae7BlTGC8AR5qywZVCJT5BTa3CvaVYHIMvGV/OGWmNMgirvfhd8QTRaunDCnd0UzVV3d37yriNAA13M+BlSt9ndCDpgPRuiequEna4ivYMBJhMt6Fg0D63HinrX5Kyu0hMBUXwQ=
+	t=1740486794; cv=none; b=gzTr92CFrzau5+pZ2epAloiS5Ui9JVZGO76IrPfSzH2jXVOmGeVoA2Ok4AmAmExiOeq0lbmK7UBeTBPQ8nre84dChwwGlYzu3SNgcFv6R5ycEPw2WVY0sm2tJf5jwkAdBFp88hoMvpEdI566VkMH86n8exXWLVwNXo5ssafoHpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740484920; c=relaxed/simple;
-	bh=SWp3WrvX79X3ktWHCJ8Pf4Tx4DFOq4UVMg8Vp0BxCOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gncTZqGPycuIcM4wTiVTA2KiOYxzC+m27rx5F3+g9UF9efktjJnhH+C/xq27l9jMYnpFZySEoYY2Je3YOXxBuNlm20IWiZSc6j9MiUwQuaeGop+zendegZZhpSfNBYq6OJa5VXUVwU/n4KT+2IYE4aQYNcq+F2cX3hP08X95SAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F372D152B;
-	Tue, 25 Feb 2025 04:02:14 -0800 (PST)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 730B23F6A8;
-	Tue, 25 Feb 2025 04:01:55 -0800 (PST)
-Date: Tue, 25 Feb 2025 12:01:52 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: Leo Yan <leo.yan@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	James Clark <james.clark@linaro.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v20 11/11] perf: arm_pmuv3: Add support for the Branch
- Record Buffer Extension (BRBE)
-Message-ID: <Z72xMLsd37I6X_5-@J2N7QTR9R3>
-References: <20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org>
- <20250218-arm-brbe-v19-v20-11-4e9922fc2e8e@kernel.org>
- <20250224122507.GE8144@e132581.arm.com>
- <CAL_Jsq+0fZ2uasgAam7qGTdCeDBQxXeyL-J1_suyxy6GE_ERTg@mail.gmail.com>
- <20250224140317.GF8144@e132581.arm.com>
- <Z7yY19UtSnND5KTl@J2N7QTR9R3.cambridge.arm.com>
- <20250224180301.GI8144@e132581.arm.com>
+	s=arc-20240116; t=1740486794; c=relaxed/simple;
+	bh=flqKRrG+cUbNuOxatPRrz3/xQCwHu4Csd5h3eiZGLzI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=B1pSWyx2zTqChAi6x2AKmRlbkVmmuN+vJtrN3i3VdyxCiiaH1hX6I4tFuMLwGgfCX5FV4/ikzEJKfYR1J2erw42C/1z+LYuSRghKPeMdymb1UYVCIjugo8k7nAyTjtadK/yDItUYA4Q7qteHTFyZpbA3wBDEpy6ymUqs80Itn/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=s7zLi+W5; arc=none smtp.client-ip=17.58.6.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="s7zLi+W5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; bh=b2KIEz2420Bb2pMgV6oZ8yidp4SHbkJXc5kwpa6Ezmw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:x-icloud-hme;
+	b=s7zLi+W5e6GuO2xN4gm26yNFYJzhl8upFxKnD6eKHIf03zgJfuIaJqOqMu6hU7D00
+	 aMbPQ8hGa6cIOxWXZ1Jgbl0GtNTPSDbLrk3mUeubUL4w3rnW5mLCRIM374CKVc52ku
+	 wkEuuXmZdAM+ItF/mlgZDxDWKB7ePq0y0ulQNa1pK3XiY0v22PyUtlxvU5M/4+NCWq
+	 C2udzH6dgZwHB3kIDx6wzNzwDBdQB6CzMlDozxqTaOolbdCEILaurlGiPJVxXGu1BR
+	 OkdJjy8KCAr1Xit61DpG7g74Sv0JfaLti+/JdDbOVquFHvWGLDXR6q1FBGOd7Pld2Q
+	 Ua/nqjTQjVInQ==
+Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+	by pv50p00im-ztdg10011201.me.com (Postfix) with ESMTPSA id DBA9E6803DD;
+	Tue, 25 Feb 2025 12:33:05 +0000 (UTC)
+From: Zijun Hu <zijun_hu@icloud.com>
+Subject: [PATCH RESEND 0/2] phy: core: Remove 2 APIs
+Date: Tue, 25 Feb 2025 20:32:37 +0800
+Message-Id: <20250225-remove-apis-v1-0-e49b4a1941fd@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250224180301.GI8144@e132581.arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+To: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, 
+ Yanteng Si <si.yanteng@linux.dev>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: Zijun Hu <zijun_hu@icloud.com>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
+ Zijun Hu <quic_zijuhu@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Proofpoint-ORIG-GUID: 4yt0iayngGT9xwSqldJKZ_x5gqqXu5m-
+X-Proofpoint-GUID: 4yt0iayngGT9xwSqldJKZ_x5gqqXu5m-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-25_04,2025-02-25_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=557 mlxscore=0 bulkscore=0
+ adultscore=0 spamscore=0 malwarescore=0 phishscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2502250088
+X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
 
-On Mon, Feb 24, 2025 at 06:03:01PM +0000, Leo Yan wrote:
-> On Mon, Feb 24, 2025 at 04:05:43PM +0000, Mark Rutland wrote:
-> 
-> [...]
-> 
-> > > > > Just a minor concern.  I don't see any handling for task migration.
-> > > > > E.g., for a task is migrated from one CPU to another CPU, I expect we
-> > > > > need to save and restore branch records based on BRBE injection.  So
-> > > > > far, the driver simply invalidates all records.
-> > > > >
-> > > > > I think this topic is very likely discussed before.  If this is the
-> > > > > case, please ignore my comment.  Except this, the code looks good
-> > > > > to me.
-> > > > 
-> > > > Not really discussed on the list, but that was present in v18 (though
-> > > > not functional because .sched_task() hook wasn't actually enabled) and
-> > > > Mark removed it. His work is here[1].The only comment was:
-> > > > 
-> > > > Note: saving/restoring at context-switch doesn't interact well with
-> > > > event rotation (e.g. if filters change)
-> > > 
-> > > In the brbe_enable() function, it "Merge the permitted branch filters
-> > > of all events".  Based on current implementation, all events share the
-> > > same branch filter.
-> > 
-> > Critically, the brbe_enable() function merges the filters of all
-> > *active* events which have been installed into hardware. It does not
-> > track all events which can be rotated, and the resulting filter is not
-> > the same -- it can change as a result of rotation.
-> 
-> In a perf session has multiple events, and events have different branch
-> filters, seems to me, a simple way is to return error for this case.
+This patch series is to remove the following 2 APIs:
 
-FWIW, I'd generally prefer to do that since it avoids a number of
-horrible edge-cases and gets rid of the need to do SW filtering, which
-falls somewhere between "tricky" and "not entirely possible". However,
-that's not what LBR and others do, which is why we went with filter
-merging.
+devm_of_phy_provider_unregister()
+devm_phy_destroy()
 
-If folk on the tools side are happy with the kernel rejecting
-conflicting events, then I'd be more than happy to do that. What I don't
-want is that we start off with that approach and people immediately
-start to complain that the BRBE driver rejects events that the LBR
-driver accepts.
+Both APIs have not had callers for more than 10 years.
 
-See the last time this came up:
+Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+---
+Zijun Hu (2):
+      phy: core: Remove API devm_of_phy_provider_unregister()
+      phy: core: Remove API devm_phy_destroy()
 
-  https://lore.kernel.org/linux-arm-kernel/Zli6Ot0TwK3Qy-ee@J2N7QTR9R3/
-  https://lore.kernel.org/linux-arm-kernel/ZlnKFFwv9612V81h@J2N7QTR9R3/
+ Documentation/driver-api/phy/phy.rst               | 11 ++-----
+ .../translations/zh_CN/driver-api/phy/phy.rst      | 12 ++------
+ drivers/phy/phy-core.c                             | 36 ----------------------
+ include/linux/phy/phy.h                            | 11 -------
+ 4 files changed, 6 insertions(+), 64 deletions(-)
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20250210-remove-apis-b4e48d4c4712
 
-> I would argue BRBE is an IP for recording branches per CPU wise, it does
-> not support recording for event wise.
+Best regards,
+-- 
+Zijun Hu <quic_zijuhu@quicinc.com>
 
-Yes, there is a mismatch between the hardware and the perf ABI.
-
-> If we can unify branch filter within a perf session, would this be
-> much easier for handling?
-
-Do you mean if the perf tool ensured that all events in a given session
-had the same filter? From the kernel's PoV there's no such thing as a
-"perf session", and I'm not sure whether you're suggesting doing that in
-userspace or withing the kernel.
-
-Doing that in the perf tool would certianly make a stronger argument for
-the kernel taking the "reject conflicting branch filters" option.
-
-Doing that within the kernel isn't really possible.
-
-> > > When event rotation happens, if without context switch, in theory we
-> > > should can directly use the branch record (no invalidation, no injection)
-> > > for all events.
-> > 
-> > No; that only works in *some* cases, and will produce incorrect results
-> > in others.
-> > 
-> > For example, consider filtering. Imagine a PMU with a single counter,
-> > and two events, where event-A filters for calls-and-returns and event-B
-> > filters for calls-only. When switching from event-A to event-B, it's
-> > theoretically possible to keep the existing records around, knowing that
-> > the returns can be filtered out later. When switching from event-B to
-> > event-A we cannot keep the existing records, since there are gaps
-> > whenever a return should have been recorded.
-> 
-> Seems to me, the problem is not caused by event rotation.  We need to
-> calculate a correct filter in the first place - the BRBE driver should
-> calculate a superset for all filters of events for a session.  Then,
-> generate branch record based event's specific filter.
-
-From the kernel's PoV there is no such thing as a perf session, and the
-branch filters are per-event per the perf ABI.
-
-We only really have two options:
-
-(1) Reject conflicting filters when scheduling events. At event open
-    time we have ot check whether an entire group is actually
-    schedulable.
-
-(2) Merge filters when scheduling events, and then filter out
-    branches which don't match a particular event's filters when reading
-    the branches.
-
-> > There are a number of cases of that shape given the set of configurable
-> > filters. In theory it's possible to retain those in some cases, but I
-> > don't think that the complexity is justified.
-> > 
-> > Similarly, whenever kernel branches are recorded it's necessary to drop
-> > the stale branches whenever branch recording is paused, as there's
-> > necessarily a blackout period and hence a gap in the records.
-> 
-> If we save BRBE record when a process is switched out and then restore
-> the record when a process is switched in, should we can keep a decent
-> branch record for performance profiling?
-
-I cannot parse this question. What are you trying to suggest here?
-
-> I understand it might be many things happen in the middle of a task
-> switching or migration, but it is fine for not recording branches during
-> the blackout period.  The missed branch records are not very helpful for
-> forming a flow for a profiled program itself, especially, if we
-> consider we will optimize userspace program in many cases.
-
-Just to be clear, you're talking about userspace specifically, right?
-
-There are users that want a contiguous set of branches, which is what
-hardware tries to guarantee, and that's what LBR tries to gaurantee
-today, so I don't think that we can say gaps are always fine.
-
-If we want a "give me as many arbitrary samples branches as possible,
-with arbitrary potential gaps" option, I'm not necessarily opposed to
-that, but I do not think that should be the default behaviour.
-
-> > Do you think that you have a case where losing branches across rotation
-> > *really* matters?
-> 
-> I agreed that event rotation case might be rare and complex.  Please see
-> a comment below.
-> 
-> > > For a context-switch case, we need to save and re-inject branch record.
-> > > BRBE record sticks to a process context, no matter what events have been
-> > > enabled.
-> > 
-> > I had originally wanted to keep per-event records around, but it doesn't
-> > work in all cases. One reason events get discarded at context-switch
-> > time is that CPU-bound events can sample branches, and would
-> > mis-attribute stale userspace branches to the wrong context when
-> > switching tasks. There are explicit comments about this in
-> > amd_pmu_brs_sched_task() and intel_pmu_lbr_sched_task().
-> > 
-> > Given we discard records when reprogramming events, we *could* try to
-> > preserve events in some cases, but I suspect that as with the rotation
-> > case this'll be a lot of complexity for little gain. Note that as we
-> > discard events when enabling the PMU, we'd throw some task-bound records
-> > away anyway, and practically the gain would be limited to cpu-bound
-> > records.
-> > 
-> > Do you have a reason why you think we *must* keep events around?
-> 
-> Here I am really concerned are cases when a process is preempted or
-> migrated.  The driver doesn't save and restore branch records for these
-> cases, it just invalidates all records when a task is scheduled in.
-> 
-> As a result, if an event overflow is close to context switch, it is
-> likely to capture incomplete branch records.  For a userspace-only
-> tracing, it is risk to capture empty branch record after preemption
-> and migrations.
-
-Yes, and I was initially concerned about that, but is that really a
-problem? So long as the event period doesn't *always* coincide with
-preemption you'll get records from other samples anyway.
-
-While I agree this is a theoretical concern, I don't think its of
-practical importance. This discarding happens on x86 *today* with LBR,
-and (AFAICT) there hav been no complaints. Note that the LBR logic to
-save/restore records for task contexts is only done for user callstack
-recording, which BRBE does not support.
-
-Regardless, there's still the problematic interaction with event
-rotation; you cannot save/restore the records safely here if events (and
-the relevant filters) can change between the save and restore.
-
-Discarding here is significantly simpler, and correct.
-
-Mark.
