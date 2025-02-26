@@ -1,285 +1,471 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2BE214A67;
-	Wed, 26 Feb 2025 13:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CF821B9F6
+	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 13:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740575142; cv=none; b=tn7hY08VhIJYJZze4tqi1nj4egnHcBnttwuEDOrbDzwlp7YbR6AXOcJHhSBC6h32kjafoG8jMUu8xLPggReZNjSi2duboJzWFQyXtguaS1+q88DWYYcFaQePZoBtJMV1gMTTw8QdPmw+O+OL5Td1v0lLFVP/DVZ87K/sgbAZyvo=
+	t=1740576449; cv=none; b=U+UoiFHoFDYfqylOD9Qc8xlpBAgURS0cfeuwpbVHdYhkNre1SPfyeQc24qpG5ETwyWDP2UKZEmP5JZ1zkvH+6jNi6v1dkp93+OLKIdJU4upJaMGgJyYYVXBxNmisNgtCMSTphWQp9LyBaI5oXhn0KJLI1oye+WmNXPVMzPjIaHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740575142; c=relaxed/simple;
-	bh=1GWAwJbeJ27racJs1CBNgOb3G6k5EODN4zwLmay7JBc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rdCFTHQj/j40Kgk7Cn1bd6KqR3ET7efssloC6gTPEtJ6qL0RzwFLu+EQcmU4EQuRWGVRCAaWmv7Ry6BSLU0J7Hk6JQE6oRGemTwuwroOxvvMyaHr8i7iYMiVJLVScosRN9egYAcz3ls16lAmmYDJVWrIV0k/Qsdf7pk1WY7paOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SdSfU5kN; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740576449; c=relaxed/simple;
+	bh=4N7dtnKCn25G5CAmFNqtjbE0R23Rvt2fJ2eWDWvxrME=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VSflkxaNjS1mXNQFASSWced9Q8Hxn15aETAxK22/Y41YjWqdtHCOuuq42WT4QbpRQkWJsJwn3u81vX2IH0VOAuEjq7bUF5nTZxUU/8/k3PCMyYocFvVhv3WuI0cevNZinkUe9VkGsPEgAHdGPewTvDwHjl7AmbwLiO/Zt6Iptbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hLu3w03s; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SdSfU5kN"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-220c665ef4cso118332675ad.3;
-        Wed, 26 Feb 2025 05:05:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hLu3w03s"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5e05717755bso10321545a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 05:27:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740575139; x=1741179939; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=kUPJYq5MrOZuiXFR7HsmKdUOXvIR5gBlSfyG8uvBxWA=;
-        b=SdSfU5kN3n06L2qhoZPRh0/Ihx2eJMAEGuErQ7fS/Srtty2t8/H5z17pUYEA/yIfPj
-         MVJumxMnq0uMY4liQEn0jXRerLmsYlk3ZLWybO/gfMjDY8wgz4uOVX+vPUacmbyNVKUS
-         xiaRxf05UFAOwa5i2N8DZEFMy0kyyXNlKy/363QdORtizuwZ8aAYX6fvJQ2TwJAX+n1I
-         4KtZUU/4lDq9rrrzR+jib+Dgz2gxdhXvJXo5ONzJdge/i+TSJIGAKt2Q6hJ5ckH8TS37
-         91XaVzf5paXThlfF0TwLpdCAuV/cJwCPA5Za4WzCBlrphoUM9bgM7Y20Q6M4ASitmvdW
-         EcoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740575139; x=1741179939;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1740576446; x=1741181246; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kUPJYq5MrOZuiXFR7HsmKdUOXvIR5gBlSfyG8uvBxWA=;
-        b=Hyd+xDhhMPWWETECNUfxCYgoVIyIUJRV8z87ozsX/FkXikgXY92cI060lvOP+SRk6i
-         kMKCHhhzv4bMEIMgTgGidtsRx4IPQcFATurmmH1oxIGe/yvPlq/jC5O/oVXmLNRvtu26
-         5sJWgS0DrVzdQ7Ky4w8I/OExM/tEzKfpfPaXh7xWU4Ccr3PI7wlhro7vq/ySR4tPla67
-         IZeTObG9ZEM0LJnOAZEGlVCPujIRt4DHBB+4Oigl3mh0jrMcM/TxtAeLlWZIqWWX7cg/
-         IbLeHZxTGS3i0xgkskwpP25lnS56waYWreFxf7diTOkmBQLaoh51u2jdLrKSnUQJFzgO
-         0ZVA==
-X-Forwarded-Encrypted: i=1; AJvYcCUbZLIEq1n9YWFQ3zSzOSK7vHBkMY2aqxqID2oVMOFBKEwlpo0aL+K6Pl+ZPnyNVhbiuBw/0aaMsv4gE922@vger.kernel.org, AJvYcCV3vfVSbJJ0b+2LJ8qOrBZSmB4B9GrJlT2j3OEJrIkr9ut575OEmBS6WYjEwSSdY3W21YYPOqY67vE=@vger.kernel.org, AJvYcCWfucVP67ojJn5j/7zZe2TQcZ5agIUkVk1Q0glxwtwZpA0K/YR8nmQmt9kxBfxxH/Y9GNjfmQLdYGzCcm504lk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRYvIt2RtxDCzmoOokZU2xt+v4lkmNdufu2YSnWprva9AI0tGh
-	ctoWFjejgwv3Ldv+VUUypVdbjIHarkRmNVrC8MctpPpkwclu7Bm3
-X-Gm-Gg: ASbGncv4OY7g5WLGzJkFzfvyAnqUH+i3HvtkdpzzwvicuOD0j/45bYMpOsJ2oNbcT6G
-	L+/An1Vu1wCUgSKFt1Tzpo/OGYm2kqeH2m08ZJlIwnf6aomeUSaDbtJ6LqAYiSa+aOn4HYJVecC
-	MYz8X6dE/MnegWP+uAUP94a+rO/Hcp+oeRAi0sSAIfyEE9Ca+xwpvg09xyEURxg7tb6ii88G5L1
-	oXu0Z0rB8ajEFTnxUlznVk2wyL406xiWhyMlxTBpFyespuRv+Ni1RHr1SGLXoXzhlSe+ZyiEFow
-	X4XgaiwueG9lpcUQdGJxQupdnH0CEN9I0hwjRKWNfxbPV7RFrA3KUzBulM0mrBRMSP9IQhnn83Q
-	=
-X-Google-Smtp-Source: AGHT+IF52Tf/01cGLG+xCIoFZ0NjGuMjfXvwIbTsVAazBV62ZHuWTYw7OgubBrzI8FDcQXOYRpeNyA==
-X-Received: by 2002:a05:6a00:1810:b0:727:3fd5:b530 with SMTP id d2e1a72fcca58-73426d77f98mr29955779b3a.15.1740575139335;
-        Wed, 26 Feb 2025 05:05:39 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a6abb0dsm3413704b3a.11.2025.02.26.05.05.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Feb 2025 05:05:38 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <ca040804-3b04-4852-af14-8be1d4becf3f@roeck-us.net>
-Date: Wed, 26 Feb 2025 05:05:37 -0800
+        bh=w5pEQ5VhFC4gUMpU/bvl/X0X3nFac0XRXhUEfAP6LDw=;
+        b=hLu3w03sIj5dzF9ec27MuPVFROsQP75ChHndC+tYSgV2UK/lQbJCpoCRGZCrG++mVd
+         hJgx4oegZt5eSZO07xVQbZ3Q7DtePpN72i1jvD2Da7OsSRft6SA6TGzrnLuTLLnanU/B
+         lwK/kZreGRZjQiSOjnr2MAmw+zjl2TqPEPhc/JB0IUEvVHP46o8LFJIgGbxlaO+XVeKb
+         Oslt8vXdgJuXN/0TFk3E/pqvI9N8ocmRAiWwJjoj+doZK0mDXB6XA2xK+Wxk45NFgdKK
+         XPT+5afLYXuJXQHfpzm0FCZJD1mc+QL5jxBzq50G/GP46zxg5nFzgQFJceIKXj/RwUOA
+         s2PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740576446; x=1741181246;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w5pEQ5VhFC4gUMpU/bvl/X0X3nFac0XRXhUEfAP6LDw=;
+        b=hD3vsTHOQNKbhPO+8EljGQMjBwtuqFBSw9xTgKyvZcb2N9nMoFFhfVvEn6Zo0ndLeD
+         sezxx0y98rkUfVZKZw9TFVbf9Txm83U330uHcs6q1gmr56L6q2bqV33PxFA8wT2CBpn1
+         zC3sfAMvZSD+vjl+c8N8da+lOjRCzvgUkxu5RZCgIP6/QpPIqNPeoUem9ItU5GeQTsiH
+         IqEsRoVo0JTadmkBp7w+s78rw/w3csjLHHoJZ1DPtfFl412FiYFhPVuctcYVp75044ct
+         MvXpH0y1JxD57RrTKkDFR0DIy6ALOPGKNvS9PLagCPc/F9nNuRbuud9Bt4WU2AQaTdAN
+         pYuA==
+X-Forwarded-Encrypted: i=1; AJvYcCUhOxouRMLawdtSV3Nm6Z0sGIsq/LKcUf0isL4mPLkxnjb4moWzWkfW/DhxF1vRYE9B6b3TnFrWsco=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznwamQHDOabFtDwdoIXJ8gq5GeBCMpQ+I4Kk+f/hM9DDfF6aSr
+	4Y/UsQ3G8JaYRFdyPUmQNRKDt+xDunmCSj8qybpjmT01t8Qby+6bjnQIx7q5qCE3PObWCFJOybp
+	S+W5agEipUE784ae+ZicPXUggkh4L9NOu4WdL
+X-Gm-Gg: ASbGncuDwy4hQiumpMFEIBqYrY46LnCXZzh1ERqJMgqhWb1gxplVw9tamvi3m/4oTpE
+	zPfm0UmTgKfbQ0Xn4lU7utTBFvUr8Qkfm+dlGQw/gZGP91eGe1VV2yEfdTT2NCfFK+Wy0ZboaZg
+	bw66PZ2/N+p0Ju05SZYRv9vWzBekhUQdQ+nYU8Ww==
+X-Google-Smtp-Source: AGHT+IHb0sZG1UKIjmmh98VqtWyhn0qnIigjT71KOofLIqA5cGitXDnAcKH56RGgWtoqWE/zs2/HObflyy8ztwkX1IY=
+X-Received: by 2002:a17:907:97cf:b0:abe:c84e:2ae6 with SMTP id
+ a640c23a62f3a-abed0ce5d76mr738834266b.14.1740576445372; Wed, 26 Feb 2025
+ 05:27:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXTERNAL] Re: [PATCH v3] drivers: watchdog: Add support for
- panic notifier callback
-To: George Cherian <gcherian@marvell.com>
-Cc: "wim@linux-watchdog.org" <wim@linux-watchdog.org>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250225140615.2141119-1-george.cherian@marvell.com>
- <85d99af3-a3ee-41dc-96df-0b9903a6f516@roeck-us.net>
- <PH8PR18MB53811DA4CD7BAAFE7C8857CBC5C22@PH8PR18MB5381.namprd18.prod.outlook.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <PH8PR18MB53811DA4CD7BAAFE7C8857CBC5C22@PH8PR18MB5381.namprd18.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <cover.1737577229.git.babu.moger@amd.com> <Z6zeXby8ajh0ax6i@e133380.arm.com>
+ <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com> <Z64tw2NbJXbKpLrH@e133380.arm.com>
+ <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com> <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
+ <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com> <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
+ <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com> <CALPaoCj1TH+GN6+dFnt5xuN406u=tB-8mj+UuMRSm5KWPJW2wg@mail.gmail.com>
+ <2b5a11e3-ee19-47ba-b47e-b7de2818f237@intel.com> <CALPaoChXvLNMg240C7RyBvg0SxXfGf_ozKC6X7Qe4OxyEcL2tw@mail.gmail.com>
+ <a3b46f6f-a844-4648-905e-53d662e5715f@intel.com> <CALPaoCi0mFZ9TycyNs+SCR+2tuRJovQ2809jYMun4HtC64hJmA@mail.gmail.com>
+ <fc3a67ee-6e97-4b9f-88d9-c24c6dab20c3@intel.com> <CALPaoCg97cLVVAcacnarp+880xjsedEWGJPXhYpy4P7=ky4MZw@mail.gmail.com>
+ <a9078e7d-9ce6-4096-a2da-b2c6aae1e3ed@amd.com>
+In-Reply-To: <a9078e7d-9ce6-4096-a2da-b2c6aae1e3ed@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Wed, 26 Feb 2025 14:27:14 +0100
+X-Gm-Features: AQ5f1Jor_KqYzQk1qN0Fe2eFfB0MOdzVlOuTZZK5SJm2SNzUCE2BAUjDRmAveU8
+Message-ID: <CALPaoCgN+oGgdp40TOJ9NgF9WYPdN0cG8A8BtOOMXOP6iMVfzw@mail.gmail.com>
+Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: babu.moger@amd.com
+Cc: Reinette Chatre <reinette.chatre@intel.com>, "Moger, Babu" <bmoger@amd.com>, 
+	Dave Martin <Dave.Martin@arm.com>, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, tony.luck@intel.com, 
+	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org, 
+	thuth@redhat.com, rostedt@goodmis.org, xiongwei.song@windriver.com, 
+	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com, 
+	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com, 
+	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com, 
+	mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	maciej.wieczor-retman@intel.com, eranian@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/26/25 01:14, George Cherian wrote:
-> 
-> 
-> ________________________________________
-> From: Guenter Roeck <groeck7@gmail.com> on behalf of Guenter Roeck <linux@roeck-us.net>
-> Sent: Tuesday, February 25, 2025 21:34
-> To: George Cherian
-> Cc: wim@linux-watchdog.org; corbet@lwn.net; linux-watchdog@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: [EXTERNAL] Re: [PATCH v3] drivers: watchdog: Add support for panic notifier callback
-> 
-> 
->>> On Tue, Feb 25, 2025 at 02:06:15PM +0000, George Cherian wrote:
->>> Watchdog is not turned off in kernel panic situation.
->>> In certain systems this might prevent the successful loading
->>> of kdump kernel. The kdump kernel might hit a watchdog reset
->>> while it is booting.
->>>
->>> To avoid such scenarios add a panic notifier call back function
->>> which can stop the watchdog. This provision can be enabled by
->>> passing watchdog.stop_on_panic=1 via kernel command-line parameter.
->>>
-> v> Signed-off-by: George Cherian <george.cherian@marvell.com>
->>> ---
->>> Changelog:
->>> v1 -> v2
->>> - Remove the per driver flag setting option
->>> - Take the parameter via kernel command-line parameter to watchdog_core.
->>>
->>> v2 -> v3
->>> - Remove the helper function watchdog_stop_on_panic() from watchdog.h.
->>> - There are no users for this.
->>>
->>>   drivers/watchdog/watchdog_core.c | 42 ++++++++++++++++++++++++++++++++
->>>   include/linux/watchdog.h         |  2 ++
->>>   2 files changed, 44 insertions(+)
->>>
->>> diff --git a/drivers/watchdog/watchdog_core.c b/drivers/watchdog/watchdog_core.c
->>> index d46d8c8c01f2..8cbebe38b7dd 100644
->>> --- a/drivers/watchdog/watchdog_core.c
->>> +++ b/drivers/watchdog/watchdog_core.c
->>> @@ -34,6 +34,7 @@
->>>   #include <linux/idr.h>               /* For ida_* macros */
->>>   #include <linux/err.h>               /* For IS_ERR macros */
->>>   #include <linux/of.h>                /* For of_get_timeout_sec */
->>> +#include <linux/panic_notifier.h> /* For panic handler */
->>>   #include <linux/suspend.h>
->>>
->>>   #include "watchdog_core.h"   /* For watchdog_dev_register/... */
->>> @@ -47,6 +48,9 @@ static int stop_on_reboot = -1;
->>>   module_param(stop_on_reboot, int, 0444);
->>>   MODULE_PARM_DESC(stop_on_reboot, "Stop watchdogs on reboot (0=keep watching, 1=stop)");
->>>
->>> +static int stop_on_panic = -1;
->>> +module_param(stop_on_panic, int, 0444);
-> 
->> This can now be bool.
-> Ack.
->>> +MODULE_PARM_DESC(stop_on_panic, "Stop watchdogs on panic (0=keep watching, 1=stop)");
->>>   /*
->>>    * Deferred Registration infrastructure.
->>>    *
->>> @@ -155,6 +159,23 @@ int watchdog_init_timeout(struct watchdog_device *wdd,
->>>   }
->>>   EXPORT_SYMBOL_GPL(watchdog_init_timeout);
->>>
->>> +static int watchdog_panic_notify(struct notifier_block *nb,
->>> +                              unsigned long action, void *data)
->>> +{
->>> +     struct watchdog_device *wdd;
->>> +
->>> +     wdd = container_of(nb, struct watchdog_device, panic_nb);
->>> +     if (watchdog_active(wdd)) {
->>> +             int ret;
->>> +
->>> +             ret = wdd->ops->stop(wdd);
->>> +             if (ret)
->>> +                     return NOTIFY_BAD;
->>> +     }
->>> +
->>> +     return NOTIFY_DONE;
->>> +}
->>> +
->>>   static int watchdog_reboot_notifier(struct notifier_block *nb,
->>>                                    unsigned long code, void *data)
->>>   {
->>> @@ -299,6 +320,14 @@ static int ___watchdog_register_device(struct watchdog_device *wdd)
->>>                        clear_bit(WDOG_STOP_ON_REBOOT, &wdd->status);
->>>        }
->>>
->>> +     /* Module parameter to force watchdog policy on panic. */
->>> +     if (stop_on_panic != -1) {
->>> +             if (stop_on_panic &&  !test_bit(WDOG_NO_WAY_OUT, &wdd->status))
->>> +                     set_bit(WDOG_STOP_ON_PANIC, &wdd->status);
->>> +             else
->>> +                     clear_bit(WDOG_STOP_ON_PANIC, &wdd->status);
->>> +     }
->>> +
-> 
->> No longer needed here. See below.
->>
-> Ack Got it.
->>>        if (test_bit(WDOG_STOP_ON_REBOOT, &wdd->status)) {
->>>                if (!wdd->ops->stop)
->>>                        pr_warn("watchdog%d: stop_on_reboot not supported\n", wdd->id);
->>> @@ -334,6 +363,16 @@ static int ___watchdog_register_device(struct watchdog_device *wdd)
->>>                                wdd->id, ret);
->>>        }
->>>
->>> +     if (test_bit(WDOG_STOP_ON_PANIC, &wdd->status)) {
->>> +             if (!wdd->ops->stop) {
->>> +                     pr_warn("watchdog%d: stop_on_panic not supported\n", wdd->id);
->>> +             } else {
->>> +                     wdd->panic_nb.notifier_call = watchdog_panic_notify;
->>> +                     atomic_notifier_chain_register(&panic_notifier_list,
->>> +                                                    &wdd->panic_nb);
->>> +             }
->>> +     }
->>
->> Simplify to
->>        if (stop_on_panic) {
->>                 if (!wdd->ops->stop) {
->>                       pr_warn("watchdog%d: stop_on_panic not supported\n", wdd->id);
->>                 } else {
->>                         wdd->panic_nb.notifier_call = watchdog_panic_notify;
->>                         atomic_notifier_chain_register(&panic_notifier_list,
->>                                                        &wdd->panic_nb);
->>                         set_bit(WDOG_STOP_ON_PANIC, &wdd->status);
->>                 }
->>         }
-> Okay will update to this.
-> 
->> This also fixes the bug where the unregistration function is called
->> even if the notifier was not actually registered.
-> 
->> One thing I just realized is that we'll have to figure out if atomic
->> notifiers can be used here unconditionally. Unless I am missing
->> something, watchdog stop functions can sleep. Of course, sleeping
->> while panic isn't a good idea. That means we _may_ need a driver
->> flag indicating either that the stop function can sleep or that it
->> won't. If we need that, I suggest we add WDIOF_STOP_MAYSLEEP or
->> similar to the watchdog_info options field.
-> 
-> Yes, that is correct there are certain .stop implementations which can sleep.
-> I will add a new WDIOF_STOP_MAYSLEEP  flag and enable the drivers with
-> this new flag. Only those drivers which have non-sleeping stop function will
-> be able to have this feature.
-> 
-> I hope this is what you are expecting.
+Hi Babu,
 
-Yes, that would be great. Please add the flag in a separate patch.
+On Tue, Feb 25, 2025 at 10:31=E2=80=AFPM Moger, Babu <babu.moger@amd.com> w=
+rote:
+>
+> Hi Peter,
+>
+> On 2/25/25 11:11, Peter Newman wrote:
+> > Hi Reinette,
+> >
+> > On Fri, Feb 21, 2025 at 11:43=E2=80=AFPM Reinette Chatre
+> > <reinette.chatre@intel.com> wrote:
+> >>
+> >> Hi Peter,
+> >>
+> >> On 2/21/25 5:12 AM, Peter Newman wrote:
+> >>> On Thu, Feb 20, 2025 at 7:36=E2=80=AFPM Reinette Chatre
+> >>> <reinette.chatre@intel.com> wrote:
+> >>>> On 2/20/25 6:53 AM, Peter Newman wrote:
+> >>>>> On Wed, Feb 19, 2025 at 7:21=E2=80=AFPM Reinette Chatre
+> >>>>> <reinette.chatre@intel.com> wrote:
+> >>>>>> On 2/19/25 3:28 AM, Peter Newman wrote:
+> >>>>>>> On Tue, Feb 18, 2025 at 6:50=E2=80=AFPM Reinette Chatre
+> >>>>>>> <reinette.chatre@intel.com> wrote:
+> >>>>>>>> On 2/17/25 2:26 AM, Peter Newman wrote:
+> >>>>>>>>> On Fri, Feb 14, 2025 at 8:18=E2=80=AFPM Reinette Chatre
+> >>>>>>>>> <reinette.chatre@intel.com> wrote:
+> >>>>>>>>>> On 2/14/25 10:31 AM, Moger, Babu wrote:
+> >>>>>>>>>>> On 2/14/2025 12:26 AM, Reinette Chatre wrote:
+> >>>>>>>>>>>> On 2/13/25 9:37 AM, Dave Martin wrote:
+> >>>>>>>>>>>>> On Wed, Feb 12, 2025 at 03:33:31PM -0800, Reinette Chatre w=
+rote:
+> >>>>>>>>>>>>>> On 2/12/25 9:46 AM, Dave Martin wrote:
+> >>>>>>>>>>>>>>> On Wed, Jan 22, 2025 at 02:20:08PM -0600, Babu Moger wrot=
+e:
+> >>>>>>>>>>
+> >>>>>>>>>> (quoting relevant parts with goal to focus discussion on new p=
+ossible syntax)
+> >>>>>>>>>>
+> >>>>>>>>>>>>>> I see the support for MPAM events distinct from the suppor=
+t of assignable counters.
+> >>>>>>>>>>>>>> Once the MPAM events are sorted, I think that they can be =
+assigned with existing interface.
+> >>>>>>>>>>>>>> Please help me understand if you see it differently.
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> Doing so would need to come up with alphabetical letters f=
+or these events,
+> >>>>>>>>>>>>>> which seems to be needed for your proposal also? If we use=
+ possible flags of:
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> mbm_local_read_bytes a
+> >>>>>>>>>>>>>> mbm_local_write_bytes b
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> Then mbm_assign_control can be used as:
+> >>>>>>>>>>>>>> # echo '//0=3Dab;1=3Db' >/sys/fs/resctrl/info/L3_MON/mbm_a=
+ssign_control
+> >>>>>>>>>>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_read_by=
+tes
+> >>>>>>>>>>>>>> <value>
+> >>>>>>>>>>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
+> >>>>>>>>>>>>>> <sum of mbm_local_read_bytes and mbm_local_write_bytes>
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> One issue would be when resctrl needs to support more than=
+ 26 events (no more flags available),
+> >>>>>>>>>>>>>> assuming that upper case would be used for "shared" counte=
+rs (unless this interface is defined
+> >>>>>>>>>>>>>> differently and only few uppercase letters used for it). W=
+ould this be too low of a limit?
+> >>>>>>>>>>
+> >>>>>>>>>> As mentioned above, one possible issue with existing interface=
+ is that
+> >>>>>>>>>> it is limited to 26 events (assuming only lower case letters a=
+re used). The limit
+> >>>>>>>>>> is low enough to be of concern.
+> >>>>>>>>>
+> >>>>>>>>> The events which can be monitored by a single counter on ABMC a=
+nd MPAM
+> >>>>>>>>> so far are combinable, so 26 counters per group today means it =
+limits
+> >>>>>>>>> breaking down MBM traffic for each group 26 ways. If a user com=
+plained
+> >>>>>>>>> that a 26-way breakdown of a group's MBM traffic was limiting t=
+heir
+> >>>>>>>>> investigation, I would question whether they know what they're =
+looking
+> >>>>>>>>> for.
+> >>>>>>>>
+> >>>>>>>> The key here is "so far" as well as the focus on MBM only.
+> >>>>>>>>
+> >>>>>>>> It is impossible for me to predict what we will see in a couple =
+of years
+> >>>>>>>> from Intel RDT, AMD PQoS, and Arm MPAM that now all rely on resc=
+trl interface
+> >>>>>>>> to support their users. Just looking at the Intel RDT spec the e=
+vent register
+> >>>>>>>> has space for 32 events for each "CPU agent" resource. That does=
+ not take into
+> >>>>>>>> account the "non-CPU agents" that are enumerated via ACPI. Tony =
+already mentioned
+> >>>>>>>> that he is working on patches [1] that will add new events and s=
+hared the idea
+> >>>>>>>> that we may be trending to support "perf" like events associated=
+ with RMID. I
+> >>>>>>>> expect AMD PQoS and Arm MPAM to provide related enhancements to =
+support their
+> >>>>>>>> customers.
+> >>>>>>>> This all makes me think that resctrl should be ready to support =
+more events than 26.
+> >>>>>>>
+> >>>>>>> I was thinking of the letters as representing a reusable, user-de=
+fined
+> >>>>>>> event-set for applying to a single counter rather than as individ=
+ual
+> >>>>>>> events, since MPAM and ABMC allow us to choose the set of events =
+each
+> >>>>>>> one counts. Wherever we define the letters, we could use more sym=
+bolic
+> >>>>>>> event names.
+> >>>>>>
+> >>>>>> Thank you for clarifying.
+> >>>>>>
+> >>>>>>>
+> >>>>>>> In the letters as events model, choosing the events assigned to a
+> >>>>>>> group wouldn't be enough information, since we would want to cont=
+rol
+> >>>>>>> which events should share a counter and which should be counted b=
+y
+> >>>>>>> separate counters. I think the amount of information that would n=
+eed
+> >>>>>>> to be encoded into mbm_assign_control to represent the level of
+> >>>>>>> configurability supported by hardware would quickly get out of ha=
+nd.
+> >>>>>>>
+> >>>>>>> Maybe as an example, one counter for all reads, one counter for a=
+ll
+> >>>>>>> writes in ABMC would look like...
+> >>>>>>>
+> >>>>>>> (L3_QOS_ABMC_CFG.BwType field names below)
+> >>>>>>>
+> >>>>>>> (per domain)
+> >>>>>>> group 0:
+> >>>>>>>  counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>>>>  counter 1: VictimBW,LclNTWr,RmtNTWr
+> >>>>>>> group 1:
+> >>>>>>>  counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>>>>  counter 3: VictimBW,LclNTWr,RmtNTWr
+> >>>>>>> ...
+> >>>>>>>
+> >>>>>>
+> >>>>>> I think this may also be what Dave was heading towards in [2] but =
+in that
+> >>>>>> example and above the counter configuration appears to be global. =
+You do mention
+> >>>>>> "configurability supported by hardware" so I wonder if per-domain =
+counter
+> >>>>>> configuration is a requirement?
+> >>>>>
+> >>>>> If it's global and we want a particular group to be watched by more
+> >>>>> counters, I wouldn't want this to result in allocating more counter=
+s
+> >>>>> for that group in all domains, or allocating counters in domains wh=
+ere
+> >>>>> they're not needed. I want to encourage my users to avoid allocatin=
+g
+> >>>>> monitoring resources in domains where a job is not allowed to run s=
+o
+> >>>>> there's less pressure on the counters.
+> >>>>>
+> >>>>> In Dave's proposal it looks like global configuration means
+> >>>>> globally-defined "named counter configurations", which works becaus=
+e
+> >>>>> it's really per-domain assignment of the configurations to however
+> >>>>> many counters the group needs in each domain.
+> >>>>
+> >>>> I think I am becoming lost. Would a global configuration not break y=
+our
+> >>>> view of "event-set applied to a single counter"? If a counter is con=
+figured
+> >>>> globally then it would not make it possible to support the full conf=
+igurability
+> >>>> of the hardware.
+> >>>> Before I add more confusion, let me try with an example that builds =
+on your
+> >>>> earlier example copied below:
+> >>>>
+> >>>>>>> (per domain)
+> >>>>>>> group 0:
+> >>>>>>>  counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>>>>  counter 1: VictimBW,LclNTWr,RmtNTWr
+> >>>>>>> group 1:
+> >>>>>>>  counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>>>>  counter 3: VictimBW,LclNTWr,RmtNTWr
+> >>>>>>> ...
+> >>>>
+> >>>> Since the above states "per domain" I rewrite the example to highlig=
+ht that as
+> >>>> I understand it:
+> >>>>
+> >>>> group 0:
+> >>>>  domain 0:
+> >>>>   counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>   counter 1: VictimBW,LclNTWr,RmtNTWr
+> >>>>  domain 1:
+> >>>>   counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>   counter 1: VictimBW,LclNTWr,RmtNTWr
+> >>>> group 1:
+> >>>>  domain 0:
+> >>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
+> >>>>  domain 1:
+> >>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
+> >>>>
+> >>>> You mention that you do not want counters to be allocated in domains=
+ that they
+> >>>> are not needed in. So, let's say group 0 does not need counter 0 and=
+ counter 1
+> >>>> in domain 1, resulting in:
+> >>>>
+> >>>> group 0:
+> >>>>  domain 0:
+> >>>>   counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>   counter 1: VictimBW,LclNTWr,RmtNTWr
+> >>>> group 1:
+> >>>>  domain 0:
+> >>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
+> >>>>  domain 1:
+> >>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
+> >>>>
+> >>>> With counter 0 and counter 1 available in domain 1, these counters c=
+ould
+> >>>> theoretically be configured to give group 1 more data in domain 1:
+> >>>>
+> >>>> group 0:
+> >>>>  domain 0:
+> >>>>   counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>   counter 1: VictimBW,LclNTWr,RmtNTWr
+> >>>> group 1:
+> >>>>  domain 0:
+> >>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
+> >>>>  domain 1:
+> >>>>   counter 0: LclFill,RmtFill
+> >>>>   counter 1: LclNTWr,RmtNTWr
+> >>>>   counter 2: LclSlowFill,RmtSlowFill
+> >>>>   counter 3: VictimBW
+> >>>>
+> >>>> The counters are shown with different per-domain configurations that=
+ seems to
+> >>>> match with earlier goals of (a) choose events counted by each counte=
+r and
+> >>>> (b) do not allocate counters in domains where they are not needed. A=
+s I
+> >>>> understand the above does contradict global counter configuration th=
+ough.
+> >>>> Or do you mean that only the *name* of the counter is global and the=
+n
+> >>>> that it is reconfigured as part of every assignment?
+> >>>
+> >>> Yes, I meant only the *name* is global. I assume based on a particula=
+r
+> >>> system configuration, the user will settle on a handful of useful
+> >>> groupings to count.
+> >>>
+> >>> Perhaps mbm_assign_control syntax is the clearest way to express an e=
+xample...
+> >>>
+> >>>  # define global configurations (in ABMC terms), not necessarily in t=
+his
+> >>>  # syntax and probably not in the mbm_assign_control file.
+> >>>
+> >>>  r=3DLclFill,RmtFill,LclSlowFill,RmtSlowFill
+> >>>  w=3DVictimBW,LclNTWr,RmtNTWr
+> >>>
+> >>>  # legacy "total" configuration, effectively r+w
+> >>>  t=3DLclFill,RmtFill,LclSlowFill,RmtSlowFill,VictimBW,LclNTWr,RmtNTWr
+> >>>
+> >>>  /group0/0=3Dt;1=3Dt
+> >>>  /group1/0=3Dt;1=3Dt
+> >>>  /group2/0=3D_;1=3Dt
+> >>>  /group3/0=3Drw;1=3D_
+> >>>
+> >>> - group2 is restricted to domain 0
+> >>> - group3 is restricted to domain 1
+> >>> - the rest are unrestricted
+> >>> - In group3, we decided we need to separate read and write traffic
+> >>>
+> >>> This consumes 4 counters in domain 0 and 3 counters in domain 1.
+> >>>
+> >>
+> >> I see. Thank you for the example.
+> >>
+> >> resctrl supports per-domain configurations with the following possible=
+ when
+> >> using mbm_total_bytes_config and mbm_local_bytes_config:
+> >>
+> >> t(domain 0)=3DLclFill,RmtFill,LclSlowFill,RmtSlowFill,VictimBW,LclNTWr=
+,RmtNTWr
+> >> t(domain 1)=3DLclFill,RmtFill,VictimBW,LclNTWr,RmtNTWr
+> >>
+> >>    /group0/0=3Dt;1=3Dt
+> >>    /group1/0=3Dt;1=3Dt
+> >>
+> >> Even though the flags are identical in all domains, the assigned count=
+ers will
+> >> be configured differently in each domain.
+> >>
+> >> With this supported by hardware and currently also supported by resctr=
+l it seems
+> >> reasonable to carry this forward to what will be supported next.
+> >
+> > The hardware supports both a per-domain mode, where all groups in a
+> > domain use the same configurations and are limited to two events per
+> > group and a per-group mode where every group can be configured and
+> > assigned freely. This series is using the legacy counter access mode
+> > where only counters whose BwType matches an instance of QOS_EVT_CFG_n
+> > in the domain can be read. If we chose to read the assigned counter
+> > directly (QM_EVTSEL[ExtendedEvtID]=3D1, QM_EVTSEL[EvtID]=3DL3CacheABMC)
+> > rather than asking the hardware to find the counter by RMID, we would
+> > not be limited to 2 counters per group/domain and the hardware would
+> > have the same flexibility as on MPAM.
+>
+> In extended mode, the contents of a specific counter can be read by
+> setting the following fields in QM_EVTSEL: [ExtendedEvtID]=3D1,
+> [EvtID]=3DL3CacheABMC and setting [RMID] to the desired counter ID. Readi=
+ng
+> QM_CTR will then return the contents of the specified counter.
+>
+> It is documented below.
+> https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/prog=
+rammer-references/24593.pdf
+>  Section: 19.3.3.3 Assignable Bandwidth Monitoring (ABMC)
+>
+> We previously discussed this with you (off the public list) and I
+> initially proposed the extended assignment mode.
+>
+> Yes, the extended mode allows greater flexibility by enabling multiple
+> counters to be assigned to the same group, rather than being limited to
+> just two.
+>
+> However, the challenge is that we currently lack the necessary interfaces
+> to configure multiple events per group. Without these interfaces, the
+> extended mode is not practical at this time.
+>
+> Therefore, we ultimately agreed to use the legacy mode, as it does not
+> require modifications to the existing interface, allowing us to continue
+> using it as is.
+>
+> >
+> > (I might have said something confusing in my last messages because I
+> > had forgotten that I switched to the extended assignment mode when
+> > prototyping with soft-ABMC and MPAM.)
+> >
+> > Forcing all groups on a domain to share the same 2 counter
+> > configurations would not be acceptable for us, as the example I gave
+> > earlier is one I've already been asked about.
+>
+> I don=E2=80=99t see this as a blocker. It should be considered an extensi=
+on to the
+> current ABMC series. We can easily build on top of this series once we
+> finalize how to configure the multiple event interface for each group.
 
-Thanks,
-Guenter
+I don't think it is, either. Only being able to use ABMC to assign
+counters is fine for our use as an incremental step. My longer-term
+concern is the domain-scoped mbm_total_bytes_config and
+mbm_local_bytes_config files, but they were introduced with BMEC, so
+there's already an expectation that the files are present when BMEC is
+supported.
 
+On ABMC hardware that also supports BMEC, I'm concerned about enabling
+ABMC when only the BMEC-style event configuration interface exists.
+The scope of my issue is just whether enabling "full" ABMC support
+will require an additional opt-in, since that could remove the BMEC
+interface. If it does, it's something we can live with.
+
+-Peter
