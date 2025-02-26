@@ -1,177 +1,116 @@
-Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDBF321D3FE;
-	Wed, 26 Feb 2025 14:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D176A218AAB
+	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 14:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740580972; cv=none; b=kwHM3vWvW4A3NPsH2r5Lo6jR7+SZafK7nnnNqlOCPGRRPTuYJHPFlK7vWMo9ZVNYHpppoUb0eC+TVTjKIbk6rEy1Gm2SiQpmhmobJMI/xAZnjM8Tjbvxr6qGDP64LL+UVktCkZzTiRsqG5VphLLJyR+R2Dg38g9HCH1FWzLhO7Y=
+	t=1740581082; cv=none; b=ODcd1J3n6kaC8VVQuE3jAwE3iZWsySKShOrTMmaWgvkYd4iY1SZ+0r2peqKxIx6zHEDcSIUfq5HaIfKHoz/2dhAe73Xc9A5mIa9xtui9leMV/xRS9whPZUbe7cGEa0ah7SSZRdGVGBOAkygKjwY2bU3YhveWmqOeBF63ubqpaUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740580972; c=relaxed/simple;
-	bh=L80fYVFGV8j/KWuiRZ66wUrLJVUXLJ2i31oOoMautDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pyEgVsIK7rb8JpqwXT4p/DzgOX6y0nMOQ6B5Yt4F5dFVeN1k7zfh8TIIwPCR+h4L45ZqJdraXhtXE5nGqZhN20AqEcgWPYGLk3zreW8NnSKKMwhVj8v1ZdixQLsKieV/xjNb3b6rZxxu19Py2n0vxh24nnEz/WSmNNavL8PYJY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YVmqFcjk; arc=none smtp.client-ip=217.70.178.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1740581082; c=relaxed/simple;
+	bh=kU/v7wqnqnL/CUwnJwMJlEh59FgkJ8snU821pG4Y7vI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hhs/wy5MYC086kPMmfC7aWNsDnGWAWlvLZz1on7xbv7ZSj+z6Na3nuJnApiTKbCeblbFjMc5TRYsrOCQdKyMzPJZ0ohQecm31GRSq6vkML5vdHCN46rXQH7rGWsj++WrRKPxdeVV3xn72X9nTaTCuRtV4ks6L4TL/dpLIR/ngwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=HKTP/rEo; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YVmqFcjk"
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	by mslow3.mail.gandi.net (Postfix) with ESMTP id B39B558146B;
-	Wed, 26 Feb 2025 14:28:27 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 85F5844279;
-	Wed, 26 Feb 2025 14:28:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1740580100;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=srlQpvYJmp4WGJbQ2gOhstlghcIxLLDbBOH3Hms1G1E=;
-	b=YVmqFcjk0U4E+e7zKuj6Rpt4rxnNlmQ/mknWE7cS2QlmyRYYG1pX0skomC3EzGSFK0+D0F
-	LofQCcAcczK0rToLqkgTL6IcBlrchx6Td+Em78I4vSLNbZiWK81HGy3XvZ4r9UK2BY2m+s
-	t4y9WnK03LesL2wCljRBBavDBr7cQcUGTVz+SqalkLwcf72W6+PuUyj9YfmeNtygDQ7AL2
-	mQM1gdT5t/e1zEh2tTHsacPJtCQUZfENXAk/U235HEbS8uFItYZ5vSwAM2o94jAhPbDzwS
-	EC5ezudhpnVxZ2B1Yw5qFD9iXvELunSAI9SqyWyf+7aI5kLws9yeteiVn2k+6w==
-Date: Wed, 26 Feb 2025 15:28:13 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
- Teki <jagan@amarulasolutions.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Paul Kocialkowski
- <contact@paulk.fr>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?B?SGVy?=
- =?UTF-8?B?dsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
- bridges
-Message-ID: <20250226152813.4a1ad218@booty>
-In-Reply-To: <20250211-merciful-nyala-of-justice-a4fabb@houat>
-References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
-	<20250206-hotplug-drm-bridge-v6-14-9d6f2c9c3058@bootlin.com>
-	<20250207-ingenious-daffodil-dugong-51be57@houat>
-	<20250210181252.5ee028d4@booty>
-	<20250211-merciful-nyala-of-justice-a4fabb@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="HKTP/rEo"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5e04064af07so11025781a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 06:44:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1740581079; x=1741185879; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=t3lgX5xVuREpMskRYofLOpLEr+lAUcsjQpUjCM0xtcE=;
+        b=HKTP/rEol4MUDaKRuNqYBS4LAinMV1RbRDy5AIFnFpP37rJ+cHLPKFoxE4Ke7fga3d
+         luty92mDw39JL/6RPiQBQPc3Bvs1SuICsdL5bpjQ9fcnTtpH2eZoNrRE+ltjdz/hWdlj
+         UPUDUSwMsajcdFOH8jap2vAQWwZnok1dzcB8N5U7sZcCKLzlarGMd5czaF49V2e9XyKx
+         4pGkGTY1YctwNcH7/IOFozPvwB61T57iRHASXEcLxRU87haPmok09+FmGT0oN5MOF50T
+         3BRlq7tmgeeQVEDMHBkeSDe6R2UeaSfYrQ1NBP6aJGe35I37yZUnZZjEbCXhm8CLgqEM
+         /yRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740581079; x=1741185879;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t3lgX5xVuREpMskRYofLOpLEr+lAUcsjQpUjCM0xtcE=;
+        b=ifIqUvO4aojohNbImHDIRUxIRANPjQshZNeFrNxsm5NKLsXe4Ia2iEbpadlsl9S1Nq
+         mYwZR7YFNt1csryHSt3454GdUIDVEgUMb8grFq5n2I+AOES0lbUSxfQ8Sa3kCrt8ROHv
+         Y5BVoXxTTiCeIc791uZKn930ZXeLrjpDCMcYqj5e9sCNAQIsntqscQgbnSi93ZzeQYPB
+         NvVdMDvWxhGnh4EYglca5sVANX6ORVe9/ft0GB9HP4ynOfP1T2+prvh3AXic6FG6DcPo
+         AH+WY4LX/4uWPHcg3muqCsX76LuVsL/Xzv+8K/wYCLmTYh4Pec2r0g+HKDGp73iDFXCK
+         0ltQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUxM3liVlnRVQMMER/aQgzLSRQ0D0g6xz2m/4bz1YWXLg+Bo7QXulCD06vryzwgwtAHMROWxUziwg0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJXxLxspipQo8giqgdYT14z310Ny1Is8En7oR9fcTX1mUnoVnG
+	q8YSckv0iI0nrTD8sUT8hyfZ1+j3Sp9ojMgfosTfZY7KBlLpaXEh2F3PAyHaLd8=
+X-Gm-Gg: ASbGnctYZxZqhyZ6ypD5rrI4UClD6remi+YAOA12Y7OsgoKcJI4mEqZxxi/nZgCd084
+	QpDACIz40KVtCDS4rVPmbBo6vrAVrCH1YBEoCGATT/D6Uze7gzZJ2Isp/QNgcQn0W2viV8Fr1V0
+	njFQThHBi1muJIMdUeOsiWa2bgJrUZPnFFK5wZLiB2oKNRxCBzrIbpwg0588WMk54VD4cItsNaK
+	PMGgm8ws2PumV8OTpEyaB7bMCby0Zwsw0Jb6TWTiptD527Dhuni46Ro9U2MWlbNb6PjwEVWnYhY
+	4v2WCFU+EZ/u9BdEFZ59zQKZZnEdwTeYRGCWH4RKSiCWtPUacMXumA==
+X-Google-Smtp-Source: AGHT+IHIRtlrHZVjf/hDRjPSID8OLFIzIelRBHIadTGYyg2MUE07spOk+sYZauxSRswyF+7Ev7Qp5w==
+X-Received: by 2002:a17:906:c147:b0:ab6:d575:3c4c with SMTP id a640c23a62f3a-abed0cc511bmr827247366b.17.1740581078919;
+        Wed, 26 Feb 2025 06:44:38 -0800 (PST)
+Received: from jiri-mlt.client.nvidia.com ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abed205c7efsm340987766b.149.2025.02.26.06.44.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Feb 2025 06:44:38 -0800 (PST)
+Date: Wed, 26 Feb 2025 15:44:35 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Tariq Toukan <tariqt@nvidia.com>, 
+	"David S. Miller" <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, 
+	Eric Dumazet <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jiri Pirko <jiri@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, 
+	Carolina Jubran <cjubran@nvidia.com>, Gal Pressman <gal@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH net-next 03/10] devlink: Serialize access to rate domains
+Message-ID: <wgbtvsogtf4wgxyz7q4i6etcvlvk6oi3xyckie2f7mwb3gyrl4@m7ybivypoojl>
+References: <20250213180134.323929-1-tariqt@nvidia.com>
+ <20250213180134.323929-4-tariqt@nvidia.com>
+ <ieeem2dc5mifpj2t45wnruzxmo4cp35mbvrnsgkebsqpmxj5ib@hn7gphf6io7x>
+ <20250218182130.757cc582@kernel.org>
+ <qaznnl77zg24zh72axtv7vhbfdbxnzmr73bqr7qir5wu2r6n52@ob25uqzyxytm>
+ <20250225174005.189f048d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekgeekvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefjedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepj
- hgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250225174005.189f048d@kernel.org>
 
-Hi Maxime,
+Wed, Feb 26, 2025 at 02:40:05AM +0100, kuba@kernel.org wrote:
+>On Tue, 25 Feb 2025 14:36:07 +0100 Jiri Pirko wrote:
+>> >The problem comes from having a devlink instance per function /
+>> >port rather than for the ASIC. Spawn a single instance and the
+>> >problem will go away 🤷️  
+>> 
+>> Yeah, we currently have VF devlink ports created under PF devlink instance.
+>> That is aligned with PCI geometry. If we have a single per-ASIC parent
+>> devlink, this does not change and we still need to configure cross
+>> PF devlink instances.
+>
+>Why would there still be PF instances? I'm not suggesting that you
+>create a hierarchy of instances.
 
-On Tue, 11 Feb 2025 14:10:50 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+I'm not sure how you imagine getting rid of them. One PCI PF
+instantiates one devlink now. There are lots of configuration (e.g. params)
+that is per-PF. You need this instance for that, how else would you do
+per-PF things on shared ASIC instance?
+Creating SFs is per-PF operation for example. I didn't to thorough
+analysis, but I'm sure there are couple of per-PF things like these.
+Also not breaking the existing users may be an argument to keep per-PF
+instances.
 
-> On Mon, Feb 10, 2025 at 06:12:52PM +0100, Luca Ceresoli wrote:
-> > Hello Maxime,
-> > 
-> > On Fri, 7 Feb 2025 12:47:51 +0100
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >   
-> > > > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> > > > index ad7ba444a13e5ecf16f996de3742e4ac67dc21f1..43cef0f6ccd36034f64ad2babfebea62db1d9e43 100644
-> > > > --- a/include/drm/drm_bridge.h
-> > > > +++ b/include/drm/drm_bridge.h
-> > > > @@ -31,6 +31,7 @@
-> > > >  #include <drm/drm_encoder.h>
-> > > >  #include <drm/drm_mode_object.h>
-> > > >  #include <drm/drm_modes.h>
-> > > > +#include <drm/drm_print.h>
-> > > >  
-> > > >  struct device_node;
-> > > >  
-> > > > @@ -863,6 +864,22 @@ struct drm_bridge {
-> > > >  	const struct drm_bridge_timings *timings;
-> > > >  	/** @funcs: control functions */
-> > > >  	const struct drm_bridge_funcs *funcs;
-> > > > +
-> > > > +	/**
-> > > > +	 * @container_offset: Offset of this struct within the container
-> > > > +	 * struct embedding it. Used for refcounted bridges to free the
-> > > > +	 * embeddeing struct when the refcount drops to zero. Unused on
-> > > > +	 * legacy bridges.
-> > > > +	 */
-> > > > +	size_t container_offset;    
-> > > 
-> > > This shouldn't be in there. You can create an intermediate structure and
-> > > store both pointers for the action to consume.  
-> > 
-> > You mean to store container_offset + refcount + is_refcounted?  
-> 
-> No, I meant for the private structure pointer and the drm_bridge
-> pointer. refcount should be in drm_bridge, and I think is_refcounted
-> should be dropped.
-
-Storing the container pointer instead of the offset is a good idea, it
-will allow to get rid of is_refcounted: drm_bridge_is_refcounted() can
-just return "container != NULL" instead of "bridge->is_refcounted". So
-far so good.
-
-I'm not sure about the intermediate struct you have in mind though.
-
-Do you mean:
-
-struct drm_bridge_pointers {
-    struct drm_bridge *bridge;
-    void              *container;
-}
-
-?
-
-If that's what you mean, should it be embedded in drm_struct or
-allocated separately?
-
-If you mean to embed that struct in drm_bridge, then I the drm_bridge
-pointer inside the intermediate struct would be useless.
-
-If instead you mean to embed it in drm_struct: I'm not sure I see much
-benefit except maybe not exposing the container pointer to drm_bridge
-users, but I see a drawbacks: at the last put we need to find the
-container pointer to free from a struct kref pointer, which can work
-only if the container pointer is in the same struct as struct kref.
-
-Additionally, the consuming action for that struct just needs a
-drm_bridge pointer:
-
-     static void drm_bridge_put_void(void *data)
-     {
-	struct drm_bridge *bridge = (struct drm_bridge *)data;
-
-	drm_bridge_put(bridge);
-     }
-
-Can you clarify this? I'd love to have this cleanup in the next
-iteration.
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+>
+>> The only benefit I see is that we don't need rate domain, but
+>> we can use parent devlink instance lock instead. The locking ordering
+>> might be a bit tricky to fix though.
