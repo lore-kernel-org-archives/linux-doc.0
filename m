@@ -1,281 +1,236 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38B12222CF;
-	Wed, 26 Feb 2025 17:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740589438; cv=fail; b=qlBEa+EVID79smPjW+7QL4Zg6OCRzVB34t86hXOXL20ZYLUYvgL5uC4cHrqgMtYsJi2zlWh+hw64O5or4HeJV43bqyiiptMf9eycZJmFe0T7wNfnF6clzxOdXTUh9izXx2uavbnjEe2d8Fz1P39asYb1Xqd+h73V381lnxgGThw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740589438; c=relaxed/simple;
-	bh=5FWmCxPHqC9OeCfWEdoSvWjWVFNIUH/HXqeugK5TLog=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Frbzbid7jc/Q3V4FsOJThKwr6B1imBNfeHyg9qMMj5K/9fGhG+3f02qkNz/VQtuc3/vWFjbCI8kwTyGPV+J4ZjA0tD3Bk61GxUdRQxNobHhCDh9gPLJkawvL/dYJu4INfquDuWuHtJrChWbWWznga3l/9rsR/kYUrIHHp5AzTwk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NU0QCBSi; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0697E223716;
+	Wed, 26 Feb 2025 17:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.220
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740589679; cv=none; b=Yml/XPT2drIyUZvaC7h70FB/I/RTAXukznAmdGpiBNexbLYnGO8T2hHF+tD7SGsFYJ/OSHc+pst/kM4jcO8+OVML3cBb7kYglZeKX1unBZwkf4VXE19N0QpV32wrC33U0CKIYhl8Awu3QhUhig7nzLTAfpj5j9bjKr16TDFL+9M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740589679; c=relaxed/simple;
+	bh=cBaG+oS7JYdfqzVyKfbb8rgJ131fRZ/Hoj95YqdcdI8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YX60Egk4dH2+Sy1PzIB3VWwshdZqZxmz6UHHEU6isriOx/0z/UjpA5u4oVyxN2kyUIgu368x/+YCkW+hCHOP9X9RI6IGeONvAckEKKI3S8rt8zSzlxnNIGFX5l0EScFv3GUqYrU0uWUBCeR1Og/g9i6mIK/fmt5yHm9wVSNsmOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=dvHIUUlO; arc=none smtp.client-ip=99.78.197.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NU0QCBSi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740589437; x=1772125437;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=5FWmCxPHqC9OeCfWEdoSvWjWVFNIUH/HXqeugK5TLog=;
-  b=NU0QCBSizFiZs0o2vaZ1cg03em4z9ndXDtvHmRzQEJHW9mPv0vik1XT/
-   yvedvaTnHijy7Znkc7AvJzRDf+lHBBAgga/fx8eEhtf258oOimhR5gbKc
-   p+9gljrEifdC4WPLDlQv/wV5804zrA27ChmMAQjmMH2j6MbfU8fOajIjn
-   isvmMPejq3s0sxoLjYY4DAr2SCbijPJovWmMw2JJcBFDqjOzMk2fbDnML
-   KBkgCajqBReiqkz7w/BEO5ApAyJY+1AkZ62d/CXQjZnSt/NfKStxtzgIs
-   RezfnwfIjRCVL7jYDct2u2SaLB7uUuq32P2rGf6PN7lSJO+cTJcvBwLcN
-   w==;
-X-CSE-ConnectionGUID: b8KxFhqaRFijPbHXz8fMXQ==
-X-CSE-MsgGUID: Eqz4BihFRZmoNgOF/x5ZlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41578274"
-X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
-   d="scan'208";a="41578274"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 09:03:54 -0800
-X-CSE-ConnectionGUID: R6865C4kTbKdOavgqf37Bw==
-X-CSE-MsgGUID: 8vW5Rq2LTBWWnr5gdbFGMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
-   d="scan'208";a="121754660"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 09:03:54 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.14; Wed, 26 Feb 2025 09:03:53 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Wed, 26 Feb 2025 09:03:53 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 26 Feb 2025 09:03:51 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V4eE8SnRWe8q7738SrmNp+Qsw6tCsSUi2P8V5MIpXTENxgGcbeESMapRclPthk1aL9/5Cw+tFVydnBpyhE2cIlwm+Fhez+PUNjaDngPpGX96xyGcT789O2k70kkbrQfg6Ew5MLirGIWJBznZOCR/2BCJIfT3Uo0ixXz+In7BLD2+KwjFkuQ955wKs1f7svkcwvAM3TOv03aOCjNb1jgpAIbYYPD0hL+zEarfiVsvUNOf7Jip7c+MHbrdWrgTTaEDQPAq6yLiptONRUP6VE5/zYl8jsOUcdJgqYs+i/ZrRp8gpnJaa63+E1Uu5fmsRz91/KgYJAKfQYIIk6aN/glyXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sgEWTsO4voBv6EkabzeQB852Ch5LbS1/FdNtaXf/YIg=;
- b=jM4f7sVaOxbf2Nst5RQ87skN2R171h8PSu4SKFD6bLn2zkEymoP2EcieUSIwhryBEzlSTCoteh+npW/NkCq8KpETaJeduN51rREo9uzf7tP4l47/OYGvWpGMjAGwDs0aVT4d19lnSXsaYJ5IrhAu/kQKUm310+B+1caY63TOd2jPJto9xiILiETwl+MqPbb9JNXfWhxs5cFjOj2xZphw1Tutkz7tMqh+YQY9Km066dHMhjR72gudlDL+gC0l/QNm2Q0RyU0B+ZobRbOyymqAhE0Blt4x008FF3vHOsxysdcvhiZpZSRfde61UZPJKTMkHrYib8J1V8LCfhVyT8o0Fw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
- by DS0PR11MB7382.namprd11.prod.outlook.com (2603:10b6:8:131::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.21; Wed, 26 Feb
- 2025 17:03:45 +0000
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::a137:ffd0:97a3:1db4]) by MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::a137:ffd0:97a3:1db4%4]) with mapi id 15.20.8489.018; Wed, 26 Feb 2025
- 17:03:45 +0000
-Date: Wed, 26 Feb 2025 18:03:07 +0100
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-CC: Florian Mayer <fmayer@google.com>, Vitaly Buka <vitalybuka@google.com>,
-	<kees@kernel.org>, <julian.stecklina@cyberus-technology.de>,
-	<kevinloughlin@google.com>, <peterz@infradead.org>, <tglx@linutronix.de>,
-	<justinstitt@google.com>, <catalin.marinas@arm.com>,
-	<wangkefeng.wang@huawei.com>, <bhe@redhat.com>, <ryabinin.a.a@gmail.com>,
-	<kirill.shutemov@linux.intel.com>, <will@kernel.org>, <ardb@kernel.org>,
-	<jason.andryuk@amd.com>, <dave.hansen@linux.intel.com>,
-	<pasha.tatashin@soleen.com>, <ndesaulniers@google.com>,
-	<guoweikang.kernel@gmail.com>, <dwmw@amazon.co.uk>, <mark.rutland@arm.com>,
-	<broonie@kernel.org>, <apopple@nvidia.com>, <bp@alien8.de>,
-	<rppt@kernel.org>, <kaleshsingh@google.com>, <richard.weiyang@gmail.com>,
-	<luto@kernel.org>, <glider@google.com>, <pankaj.gupta@amd.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <kuan-ying.lee@canonical.com>,
-	<tony.luck@intel.com>, <tj@kernel.org>, <jgross@suse.com>,
-	<dvyukov@google.com>, <baohua@kernel.org>, <samuel.holland@sifive.com>,
-	<dennis@kernel.org>, <akpm@linux-foundation.org>,
-	<thomas.weissschuh@linutronix.de>, <surenb@google.com>,
-	<kbingham@kernel.org>, <ankita@nvidia.com>, <nathan@kernel.org>,
-	<ziy@nvidia.com>, <xin@zytor.com>, <rafael.j.wysocki@intel.com>,
-	<andriy.shevchenko@linux.intel.com>, <cl@linux.com>, <jhubbard@nvidia.com>,
-	<hpa@zytor.com>, <scott@os.amperecomputing.com>, <david@redhat.com>,
-	<jan.kiszka@siemens.com>, <vincenzo.frascino@arm.com>, <corbet@lwn.net>,
-	<maz@kernel.org>, <mingo@redhat.com>, <arnd@arndb.de>, <ytcoode@gmail.com>,
-	<xur@google.com>, <morbo@google.com>, <thiago.bauermann@linaro.org>,
-	<linux-doc@vger.kernel.org>, <kasan-dev@googlegroups.com>,
-	<linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>, <linux-mm@kvack.org>,
-	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>
-Subject: Re: [PATCH v2 13/14] x86: runtime_const used for KASAN_SHADOW_END
-Message-ID: <2bhtxd4vrkyx26wczp25adpg6wqr6pq4j63ez42zjoxbl7inn6@4mnmpat7uve5>
-References: <cover.1739866028.git.maciej.wieczor-retman@intel.com>
- <2a2f08bc8118b369610d34e4d190a879d44f76b8.1739866028.git.maciej.wieczor-retman@intel.com>
- <CA+fCnZdtJj7VcEJfsjkjr3UhmkcKS25SEPTs=dB9k3cEFvfX2g@mail.gmail.com>
- <lcbigfjrgkckybimqx6cjoogon7nwyztv2tbet62wxbkm7hsyr@nyssicid3kwb>
- <CA+fCnZcOjyFrT7HKeSEvAEW05h8dFPMJKMB=PC_11h2W6g5eMw@mail.gmail.com>
- <uov3nar7yt7p3gb76mrmtw6fjfbxm5nmurn3hl72bkz6qwsfmv@ztvxz235oggw>
- <CA+fCnZcsg13eoaDJpueZ=erWjosgLDeTrjXVaifA305qAFEYDQ@mail.gmail.com>
- <ffr673gcremzfvcmjnt5qigfjfkrgchipgungjgnzqnf6kc7y6@n4kdu7nxoaw4>
- <CA+fCnZejp4YKT0-9Ak_8kauXDg5MsTLy0CVNQzzvtP29rqQ6Bw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+fCnZejp4YKT0-9Ak_8kauXDg5MsTLy0CVNQzzvtP29rqQ6Bw@mail.gmail.com>
-X-ClientProxiedBy: DUZP191CA0063.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:10:4fa::7) To MN0PR11MB6231.namprd11.prod.outlook.com
- (2603:10b6:208:3c4::15)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="dvHIUUlO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1740589675; x=1772125675;
+  h=message-id:date:mime-version:reply-to:subject:to:cc:
+   references:from:in-reply-to:content-transfer-encoding;
+  bh=BPwWo87sDuI7usZUdxHnOOz0ofoKPOJ/UoJEVKcIEVA=;
+  b=dvHIUUlOBNo4GgWcl7FyIGPqQDJrgfqHS3tZxYLwuk4fcLq71PdgqETE
+   lprAPuIWnTeZnAwfccI4Dcmb3v87Fq5LU1ueJ8cicRVsF2ru9GlRu5Psg
+   d4WfppAtjGrKsDERCkm+07q3FNvPAqx1hjSoCxOt4+A3lJ3AYjl55Aa4h
+   k=;
+X-IronPort-AV: E=Sophos;i="6.13,317,1732579200"; 
+   d="scan'208";a="176232161"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 17:07:44 +0000
+Received: from EX19MTAEUC002.ant.amazon.com [10.0.17.79:25271]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.36.78:2525] with esmtp (Farcaster)
+ id 9ef91057-2ea6-4f6a-bc79-4520280e04df; Wed, 26 Feb 2025 17:07:43 +0000 (UTC)
+X-Farcaster-Flow-ID: 9ef91057-2ea6-4f6a-bc79-4520280e04df
+Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
+ EX19MTAEUC002.ant.amazon.com (10.252.51.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Wed, 26 Feb 2025 17:07:39 +0000
+Received: from [192.168.22.24] (10.106.83.21) by EX19D022EUC002.ant.amazon.com
+ (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14; Wed, 26 Feb 2025
+ 17:07:38 +0000
+Message-ID: <946fc0f5-4306-4aa9-9b63-f7ccbaff8003@amazon.com>
+Date: Wed, 26 Feb 2025 17:07:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|DS0PR11MB7382:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01feab03-d904-4436-b8c7-08dd5687877a
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SlhQVGZnTDNIcWNLcmlaK2V4WUFRdU9LZVpNbGsxKzZRMkh0SzAxY0VWSTc3?=
- =?utf-8?B?MzFHRkJzNU1mSm9NNnNGbTUxdGlWa3lQSS9KU1pxRVBlUDZLYWlCclBMa2xZ?=
- =?utf-8?B?b2NjenhtbDJZSWdIdzJRZXFESHo2VWJBdXdpVkJVNUU3ZXZnYmRaa3d4c0s1?=
- =?utf-8?B?a0s4UVBEaEc0a21OSThyLzZDSitaMVl5UjBiemMzK0dFVW81c2lpdm1OcXo0?=
- =?utf-8?B?NTlDREFoeHJZb0R6MzExbFFPNzJRdk54ZDN1Ykg4cFRXRWphZllMQW9Ud1hx?=
- =?utf-8?B?bmYrdEJuZXBpbVpqazZXNkpKeXMrank2YVVxYUxjbVpWaWJWb2dsM2REdy9T?=
- =?utf-8?B?SHg1ZU9HSkZONWp5R1lzaFdQT0MvY3FBZnZKSTBvU0IzUThqQUxuUkx6dHZD?=
- =?utf-8?B?eVhPZ2xHYnc0OGZUYUFQRUY3d0R3QzRNd1lCN2dDMmJxNk1ncWVmZGpZTHpC?=
- =?utf-8?B?a0t0dDJkUWNaWjd4bStub1k4aGZ0ZFRNdFlwRFMvcm54RDlKK1h5SHZwZDdi?=
- =?utf-8?B?Q2U2eFZqcVVYbWxXYTlLMGRQNDBJa1NPQTdDNEh0dlFad01QQ1MrbllwRHFK?=
- =?utf-8?B?eG1Qc2JScCs5ZlA4WjUxMzRRN3lROWVEN0s4bjNZWHIrQXlUZjd0VnlGNlFY?=
- =?utf-8?B?VmQ4dVAzQjhlRlBYWHU4Q2FKMll6VXMzZnRqaUZMbVA0QkpzYnlpL0dqamUw?=
- =?utf-8?B?NStwOFMvWUFza0xOc2FON3gzTEw3bEFOTm5KUG1BSXY4b2JMdkw5R3ppRDB6?=
- =?utf-8?B?UjNGOVhxcDZ4ZnB1SXZwL3FiV2hjc1BiS2pBWlNTQzE3ZG0wMkNwVTdNeFZs?=
- =?utf-8?B?ZU1zd0JZZHZZZk5LVmZIYUF6b3ZRQ01iZWI5a3E0Q3N2OEJMOEFEWGtkMWxr?=
- =?utf-8?B?SjRZSU5iTWZNbDczeGdDRCtlUkVpVjZlSnNaWkxHK051M1NmMU9GZWkvUHdK?=
- =?utf-8?B?S2FtbFprNlhLV0NDcmNlcE5FWTROSm8rM1NHdnZqUmNCTXkraXZVQ2piTW85?=
- =?utf-8?B?aGRZa1JONjBoTTYwdlc5RjFsVHV4Y1M0SG85UnF5NWxZUldMWlBTazNTZ1Bj?=
- =?utf-8?B?SjVCQ3Jtei96eEdSL0Rmb3duV0xZLzBNZVlZd1ZDLzhVZ0Q5T3hERjNLc2d2?=
- =?utf-8?B?RFY2TEg0Ujg2ODBTMzBrSkJVMm9pTWlwSU0xNWJ6L3NNZHAzQVNSNGZJa0NU?=
- =?utf-8?B?M0MvUTh1SXBPK3J4eHk0bVhJOWwxSDhybHhscmpiU0hMdWtzYUphOU1nNGNR?=
- =?utf-8?B?U2l3M1lnMkpvNUxDZ3UyMVZBQ2JvVzRPUmlQckR4RkNPZFVtb3ZpM29hazRF?=
- =?utf-8?B?Vi9hdkhUQlpsNWE3cVd3YnFsdlIwKzZRMkwzM1ZVSERBdFdQVmN5aWljNlU0?=
- =?utf-8?B?YndNTTZzWjRZd0tEK3pzYjA3TjdMdWZyVlF3NWtNWjBuV0xINzRQL0pMMHpR?=
- =?utf-8?B?VTlDOWZOdEVjQlBLRUlVZHVCVEQ1QjE3akM0KzFrckYzVVZpRHZxcmtDNkQz?=
- =?utf-8?B?TUIwV2szdjcyVVpWU1FJNC9NdkdUSW9nZUd4Z0R1MUNaZGJBY3dMNXB6VitR?=
- =?utf-8?B?a3dJNlhQYks5TUR6RTVWQWxya1VwOVVqYkRtbWY2Q094WFc2a0RFeUlIaU5K?=
- =?utf-8?B?VmF1SEFlRnh0ZjNnNnNPQTV0T3pMcGRMNlZIUmNHRHQ1N0FVSXpMWlgyWkYv?=
- =?utf-8?B?V1ZXR2s2ZmVrT0tJL3NuVmpQRGNjenBacjNHa2p6Smp3T3VacVgxZENsM3RL?=
- =?utf-8?B?anpYY2N5TXMrVktiQnpIZ1k3QVNYZkNURVlxUEtnZitBQ3BZTTFzY2N5SHFM?=
- =?utf-8?B?djZBTE5wMksxMkpvQXRYc2UrU2RmcksxNDhnbUpiWDFsYkVsK2UrOE1pSmlV?=
- =?utf-8?Q?anO/KKKN/Q9oY?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eU5xUGlzTFBtbkJaaGMzYldEU1EvRHI3K09yWDM0RXoyUXlOZ2FtQlMxYWtG?=
- =?utf-8?B?MGZ3ekR1RUFOY2RjbjdpdVdmQ2o2QWpmUWVrWi83ZW9keE1XNXBtSGhuRktR?=
- =?utf-8?B?VEY3UUo5eUxLcE4zNCtjQWRwV1ZQalhSb2REUHdteE5mMU5jcHVkOU53NTZq?=
- =?utf-8?B?eXhhTk80dGJRZEhOSTFYdll6ZkdiN2l5WE9Qb3V0RjB4ZVkxeCtBeU1HbEgx?=
- =?utf-8?B?b2FJeGJnajNWOEhpYVQ4VS9seXVPWEpZbWd5RTRLNjdIdGdNeGhpTk5rOXU5?=
- =?utf-8?B?T3NVam85TllwOWg1aFNHNGQxQkJFMk1RT3ordndOcFY1QnlpRVRIczNTTnFx?=
- =?utf-8?B?VUpZWXRPR3VDQVBYcU5nQnhDbHFwbTFkZjY2cHJWVnE2RWlwczFRb1BmVHdV?=
- =?utf-8?B?UHp4SndOazIzU1ZZZGYveG1rVVlZU1lVakVaaFQ5MGd1bUcwVFJHYzFTVTVs?=
- =?utf-8?B?OWc4c1ErM2xIempSNEwxbjQwZjl1VlEyRkNHVHE3ZW5GNWlGZDhEMkcyQ2Zy?=
- =?utf-8?B?clhuZlNSY2FMZnZ2TWZEVTljM1ZpTmlScW01TUY4dWE2c1JxS2dUdkZvb0Jw?=
- =?utf-8?B?SUVGbndOZGdRRlpIWjJlNVQrSEUyejJ5YnVtUnBsZ0lCeFk4MWxScDNscloz?=
- =?utf-8?B?ZG1vWEM3OFJMeitjZmRpWmtzT3k0bHBvak9xT3phVVZ0dm8yelhBY0VkaTJx?=
- =?utf-8?B?NnFjMmtObXVIblZ2angwUzl4TFVVbFZTamowN0xaNTN2RzJTZGhKK3FKMmN2?=
- =?utf-8?B?SWovZEJRdFpXa0JwaGJ4VG52bDVVYmZDT3ZmdmJ6Rm1nL1l4ZHg1L1pSeldS?=
- =?utf-8?B?Rk9STEsrQzdhbGRpWWgwWmpnNWlSZEpWenNwZnQ0cmRuN2lRN2xTU1piYTNG?=
- =?utf-8?B?bFR2Y0RQY2tMS1NUdVNqN1dRWHJhWm9BRVhTQzVLaENYVkZwRWhyclV3SThE?=
- =?utf-8?B?dXA2encvRGJOTHltZlNKL1RJaUdCRDdPSzNqS0lBY0lzcHdTVzRaRFgyallv?=
- =?utf-8?B?MWNFeFd5L2NJNngwYzZ2S3k1Z3k5OXRCSmpUSk91TUhESHZuOU1ybXdrYy9K?=
- =?utf-8?B?bzNLaTZLdW53QUZnVk02VlhHZ0s0U1MyYjltaUNBaXgreXp5YVNyYUJsdGk4?=
- =?utf-8?B?aUh4bG04eFBveEtUZG1pKzBnN0podmZnTTlnUGxDc3h6ZHE4VE1XdnQ5ZU9W?=
- =?utf-8?B?VHFKdzZxUDg3NXplT0ZmS1BCc1pUMjJpbnU5NXZ2NG54ZVJ1dCtJUE9ta1J3?=
- =?utf-8?B?eUhCbEpBbTBXYm1LeHdhMFEyMXZNQ1RJMjByWDZWQ3kvMDl1ejcvY1k5NFh5?=
- =?utf-8?B?NlBDUEMwT1UwZU1IUkhiVkY3VTVyOG4xcFRlL25qaTYwek5leGI0OEJtcTUr?=
- =?utf-8?B?elVHdnUrbXZRTmRlQVZNS2pXQThIVVZvYi9LYUVTWGwxWXZMcnJqMkN4UHdy?=
- =?utf-8?B?N3NzZ2g1YW9peSsxWE5jZE5XZ0h6dkJFbElCM21nZG9YMEkxenJHUWgzZGtG?=
- =?utf-8?B?U2pyWTF6SFQydjhnNVd2VXJmM3B6em00NnNlQ1I4dVlweFk0ZFh4TlJnZFBz?=
- =?utf-8?B?QUZ3Unpic3FLMWFqU1kxOWpzbHFKelJqRWNnbTc1bFJkY1pJbCtvdFE5RENP?=
- =?utf-8?B?QlpHTVdXQXd0UnpIVUZYMWhzMHpiNTY0NVdqNVFIUkYxdm9oaU5LVXJJZy9m?=
- =?utf-8?B?akhNYkhkcFpXeVFuaXFCSE5CQm41Y2c2RDkzdmFPWWV2OGNHM1Y5L3MzbDgv?=
- =?utf-8?B?Yk1jdDhjNnJsU1dab1lxTVFQNmtKd29KbTVONE16RjhmK1Vtck5RRDJDV3Fa?=
- =?utf-8?B?NW0zS0RuUkdiZm8wZU95ZDd5V0dXUk0yTjc4MDNDL0NaaXFEcW5QcDQ5Y00r?=
- =?utf-8?B?TUZrbkxJYXpWcHJvWnFqNFZoaTVscDd1UnppcXd2Sm5sa25yZ1lLS0xNMDdn?=
- =?utf-8?B?SndiQXUwR1k5SHZVUDhxMnBaUFlJTTBER3IwZ3hoaGdmSmpuUVFsblhFZFU1?=
- =?utf-8?B?enMzajVxZUVieTVBQ0Rua1FDRXZxYi83MnNwM0pwZFdETXN2MlB4Nm0vYUtX?=
- =?utf-8?B?RlhSdkRQRlFVWXREdUtJbnV0K1hCMGFacnk3N3R3dlZKUkZaY1Rlak5ob0gr?=
- =?utf-8?B?Wno3M0hjL0owOVI1YVV1czhPTy9NMExtem9wcXpVVTVtdElwWlFrSXJSZ1Nk?=
- =?utf-8?Q?9GdW3/EpgJC+8wOWO0MpOM0=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01feab03-d904-4436-b8c7-08dd5687877a
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2025 17:03:45.3363
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0N6EAlhrSQO5Q7n7PNZjx41FJbgy2QlelOuFe4pyXJ5rOAY1sUaY0UIJ2IQOSHVVibgARWqENCm2jXTMcth4QX0EnH443MZaJi5mJm58HWU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7382
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
+To: Sean Christopherson <seanjc@google.com>
+CC: <pbonzini@redhat.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <jthoughton@google.com>,
+	<david@redhat.com>, <peterx@redhat.com>, <oleg@redhat.com>,
+	<vkuznets@redhat.com>, <gshan@redhat.com>, <graf@amazon.de>,
+	<jgowans@amazon.com>, <roypat@amazon.co.uk>, <derekmn@amazon.com>,
+	<nsaenz@amazon.es>, <xmarcalx@amazon.com>
+References: <20241118123948.4796-1-kalyazin@amazon.com>
+ <Z6u-WdbiW3n7iTjp@google.com>
+ <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com>
+ <Z7X2EKzgp_iN190P@google.com>
+ <6eddd049-7c7a-406d-b763-78fa1e7d921b@amazon.com>
+ <Z7d5HT7FpE-ZsHQ9@google.com>
+ <f820b630-13c1-4164-baa8-f5e8231612d1@amazon.com>
+ <Z75nRwSBxpeMwbsR@google.com>
+Content-Language: en-US
+From: Nikita Kalyazin <kalyazin@amazon.com>
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJnrNfABQkFps9DAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOpfgD/exazh4C2Z8fNEz54YLJ6tuFEgQrVQPX6nQ/PfQi2+dwBAMGTpZcj9Z9NvSe1
+ CmmKYnYjhzGxzjBs8itSUvWIcMsFzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmes18AFCQWmz0MCGwwACgkQr5LKIKmaZPNTlQEA+q+rGFn7273rOAg+rxPty0M8lJbT
+ i2kGo8RmPPLu650A/1kWgz1AnenQUYzTAFnZrKSsXAw5WoHaDLBz9kiO5pAK
+In-Reply-To: <Z75nRwSBxpeMwbsR@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D006EUC001.ant.amazon.com (10.252.51.203) To
+ EX19D022EUC002.ant.amazon.com (10.252.51.137)
 
-On 2025-02-26 at 16:24:28 +0100, Andrey Konovalov wrote:
->On Wed, Feb 26, 2025 at 12:53 PM Maciej Wieczor-Retman
-><maciej.wieczor-retman@intel.com> wrote:
+On 26/02/2025 00:58, Sean Christopherson wrote:
+> On Fri, Feb 21, 2025, Nikita Kalyazin wrote:
+>> On 20/02/2025 18:49, Sean Christopherson wrote:
+>>> On Thu, Feb 20, 2025, Nikita Kalyazin wrote:
+>>>> On 19/02/2025 15:17, Sean Christopherson wrote:
+>>>>> On Wed, Feb 12, 2025, Nikita Kalyazin wrote:
+>>>>> The conundrum with userspace async #PF is that if userspace is given only a single
+>>>>> bit per gfn to force an exit, then KVM won't be able to differentiate between
+>>>>> "faults" that will be handled synchronously by the vCPU task, and faults that
+>>>>> usersepace will hand off to an I/O task.  If the fault is handled synchronously,
+>>>>> KVM will needlessly inject a not-present #PF and a present IRQ.
+>>>>
+>>>> Right, but from the guest's point of view, async PF means "it will probably
+>>>> take a while for the host to get the page, so I may consider doing something
+>>>> else in the meantime (ie schedule another process if available)".
+>>>
+>>> Except in this case, the guest never gets a chance to run, i.e. it can't do
+>>> something else.  From the guest point of view, if KVM doesn't inject what is
+>>> effectively a spurious async #PF, the VM-Exiting instruction simply took a (really)
+>>> long time to execute.
 >>
->> After adding
->>         kasan_params += hwasan-instrument-with-calls=0
->> to Makefile.kasan just under
->>         kasan_params += hwasan-mapping-offset=$(KASAN_SHADOW_OFFSET)
->> inline works properly in x86. I looked into assembly and before there were just
->> calls to __hwasan_load/store. After adding the the
->> hwasan-instrument-with-calls=0 I can see no calls and the KASAN offset is now
->> inlined, plus all functions that were previously instrumented now have the
->> kasan_check_range inlined in them.
+>> Sorry, I didn't get that.  If userspace learns from the
+>> kvm_run::memory_fault::flags that the exit is due to an async PF, it should
+>> call kvm run immediately, inject the not-present PF and allow the guest to
+>> reschedule.  What do you mean by "the guest never gets a chance to run"?
+> 
+> What I'm saying is that, as proposed, the API doesn't precisely tell userspace
+> an exit happened due to an "async #PF".  KVM has absolutely zero clue as to
+> whether or not userspace is going to do an async #PF, or if userspace wants to
+> intercept the fault for some entirely different purpose.
+
+Userspace is supposed to know whether the PF is async from the dedicated 
+flag added in the memory_fault structure: 
+KVM_MEMORY_EXIT_FLAG_ASYNC_PF_USER.  It will be set when KVM managed to 
+inject page-not-present.  Are you saying it isn't sufficient?
+
+@@ -4396,6 +4412,35 @@ static int __kvm_faultin_pfn(struct kvm_vcpu 
+*vcpu, struct kvm_page_fault *fault
+  {
+  	bool async;
+
++	/* Pre-check for userfault and bail out early. */
++	if (gfn_has_userfault(fault->slot->kvm, fault->gfn)) {
++		bool report_async = false;
++		u32 token = 0;
++
++		if (vcpu->kvm->arch.vm_type == KVM_X86_SW_PROTECTED_VM &&
++			!fault->prefetch && kvm_can_do_async_pf(vcpu)) {
++			trace_kvm_try_async_get_page(fault->addr, fault->gfn, 1);
++			if (kvm_find_async_pf_gfn(vcpu, fault->gfn)) {
++				trace_kvm_async_pf_repeated_fault(fault->addr, fault->gfn, 1);
++				kvm_make_request(KVM_REQ_APF_HALT, vcpu);
++				return RET_PF_RETRY;
++			} else if (kvm_can_deliver_async_pf(vcpu) &&
++				kvm_arch_setup_async_pf_user(vcpu, fault, &token)) {
++				report_async = true;
++			}
++		}
++
++		fault->pfn = KVM_PFN_ERR_USERFAULT;
++		kvm_mmu_prepare_memory_fault_exit(vcpu, fault);
++
++		if (report_async) {
++			vcpu->run->memory_fault.flags |= KVM_MEMORY_EXIT_FLAG_ASYNC_PF_USER;
++			vcpu->run->memory_fault.async_pf_user_token = token;
++		}
++
++		return -EFAULT;
++	}
++
+
+>>>> If we are exiting to userspace, it isn't going to be quick anyway, so we can
+>>>> consider all such faults "long" and warranting the execution of the async PF
+>>>> protocol.  So always injecting a not-present #PF and page ready IRQ doesn't
+>>>> look too wrong in that case.
+>>>
+>>> There is no "wrong", it's simply wasteful.  The fact that the userspace exit is
+>>> "long" is completely irrelevant.  Decompressing zswap is also slow, but it is
+>>> done on the current CPU, i.e. is not background I/O, and so doesn't trigger async
+>>> #PFs.
+>>>
+>>> In the guest, if host userspace resolves the fault before redoing KVM_RUN, the
+>>> vCPU will get two events back-to-back: an async #PF, and an IRQ signalling completion
+>>> of that #PF.
 >>
->> My LLVM investigation lead me to
->>         bool shouldInstrumentWithCalls(const Triple &TargetTriple) {
->>           return optOr(ClInstrumentWithCalls, TargetTriple.getArch() == Triple::x86_64);
->>         }
->> which I assume defaults to "1" on x86? So even with inline mode it doesn't care
->> and still does an outline version.
->
->Ah, indeed. Weird discrepancy between x86 and arm.
->
->Florian, Vitaly, do you recall why this was implemented like this?
->
->To account for this, let's then set hwasan-instrument-with-calls=0
->when CONFIG_KASAN_INLINE is enabled. And also please add a comment
->explaining why this is done.
+>> Is this practically likely?
+> 
+> Yes, I think's it's quite possible.
+> 
+>> At least in our scenario (Firecracker snapshot restore) and probably in live
+>> migration postcopy, if a vCPU hits a fault, it's probably because the content
+>> of the page is somewhere remote (eg on the source machine or wherever the
+>> snapshot data is stored) and isn't going to be available quickly.
+> 
+> Unless the remote page was already requested, e.g. by a different vCPU, or by a
+> prefetching algorithim.
+> 
+>> Conversely, if the page content is available, it must have already been
+>> prepopulated into guest memory pagecache, the bit in the bitmap is cleared
+>> and no exit to userspace occurs.
+> 
+> But that doesn't happen instantaneously.  Even if the VMM somehow atomically
+> receives the page and marks it present, it's still possible for marking the page
+> present to race with KVM checking the bitmap.
 
-Sure, will do :)
+That looks like a generic problem of the VM-exit fault handling.  Eg 
+when one vCPU exits, userspace handles the fault and races setting the 
+bitmap with another vCPU that is about to fault the same page, which may 
+cause a spurious exit.
 
->
->[...]
->
->> >What do you mean by "The alignment doesn't fit the shadow memory size"?
+On the other hand, is it malignant?  The only downside is additional 
+overhead of the async PF protocol, but if the race occurs infrequently, 
+it shouldn't be a problem.
+
+>>>>>> What advantage can you see in it over exiting to userspace (which already exists
+>>>>>> in James's series)?
+>>>>>
+>>>>> It doesn't exit to userspace :-)
+>>>>>
+>>>>> If userspace simply wakes a different task in response to the exit, then KVM
+>>>>> should be able to wake said task, e.g. by signalling an eventfd, and resume the
+>>>>> guest much faster than if the vCPU task needs to roundtrip to userspace.  Whether
+>>>>> or not such an optimization is worth the complexity is an entirely different
+>>>>> question though.
+>>>>
+>>>> This reminds me of the discussion about VMA-less UFFD that was coming up
+>>>> several times, such as [1], but AFAIK hasn't materialised into something
+>>>> actionable.  I may be wrong, but James was looking into that and couldn't
+>>>> figure out a way to scale it sufficiently for his use case and had to stick
+>>>> with the VM-exit-based approach.  Can you see a world where VM-exit
+>>>> userfaults coexist with no-VM-exit way of handling async PFs?
+>>>
+>>> The issue with UFFD is that it's difficult to provide a generic "point of contact",
+>>> whereas with KVM userfault, signalling can be tied to the vCPU, and KVM can provide
+>>> per-vCPU buffers/structures to aid communication.
+>>>
+>>> That said, supporting "exitless" KVM userfault would most definitely be premature
+>>> optimization without strong evidence it would benefit a real world use case.
 >>
->> Maybe that's the wrong way to put it. I meant that KASAN_SHADOW_END and
->> KASAN_SHADOW_END aren't aligned to the size of shadow memory.
->
->I see. And the negative side-effect of this would be that we'll need
->extra page table entries to describe the shadow region?
+>> Does that mean that the "exitless" solution for async PF is a long-term one
+>> (if required), while the short-term would still be "exitful" (if we find a
+>> way to do it sensibly)?
+> 
+> My question on exitless support was purely exploratory, just ignore it for now.
 
-I think so, yes. But I guess it's not a big issue, and anyway right now I'm not
-sure how to change it so other necessary parts don't break :b
-
->
->[...]
->
->> I think this was a false alarm, sorry. I asked Kirill about turning
->> pgtable_l5_enabled() into a runtime_const value but it turns out it's already
->> patched by alternative code during boot. I just saw a bunch more stuff there
->> because I was looking at the assembly output and the code isn't patched there
->> yet.
->
->Great!
-
--- 
-Kind regards
-Maciej Wieczór-Retman
