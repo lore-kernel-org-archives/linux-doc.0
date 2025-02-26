@@ -1,90 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23CE2222CB;
-	Wed, 26 Feb 2025 14:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942A1221739
+	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 14:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740581303; cv=none; b=V0bRN+qdZC2UKLtihRWITOdkurUw55rZqhCZZhkCT3DkJZqOAnQ7cE+DvLbT5JG6kBuz0VK8w3fPsU+egiBOOy0kX8RXAh/inVIvRPVMBV8ZRgm/0ng3xck/HqsLVwOUQ+t4k1KRcxpd/JoUgSc1mt5ttZUqjgmJiojv0+7e2/g=
+	t=1740581426; cv=none; b=UJoDQItkBhQJiLIhgVPTy01w7Blc70Jv5g7autVlpq2T7Q13NJ4LtctN8J944NPG4qaYrGukESHqGrEm/JoxguQdS3we8aGatewQ+SKxq9cDvBfBoSmjtvz306xVxHqOOeJjutT2HzVVqBVS1UJqM2wu5ICz3JrupkjQEHvS7FI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740581303; c=relaxed/simple;
-	bh=0kWYmB/zokqmJ9Xk1NaO2fJR2wQi5MCDrrTHi5pb4GI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Q+morXbJe87ZDMvCMgZwsjBRPVAU06hWtRa4UgRXkMQzWP3izYQvdI4JjIVfT1FYcpRqwKsF9CJEAv/ACxhXujqeyG98qo0lUcpcSwfjp6iThnReeyNgi9jbDCyZKV38i/em9oB95DgVYs/adC60ML/NLJDs2YcrWIPWb1vnKjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ei0b9YtU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740581426; c=relaxed/simple;
+	bh=EQukQFpoy1bCTquTWJ0f97VwpieDtmlOfkC2xmR08G0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=GREvNOh+ebZ8mMHksS4JAz1PmmVJ5gdXx1sTGHA3kxW68NF2nYVCVzw+LDoueu9D2ZZjXeUQ5RtBhwj7V3cilrQ9FlWdPGs+wAfyu4g62OuRqbblEufBRleEOdq/DmmnF848NOkI2VrrnqvgUJeUx+GiWD3D2uPSxOCbHF+eGU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=jtp8KYmC; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ei0b9YtU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89C32C4CEEC;
-	Wed, 26 Feb 2025 14:48:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740581303;
-	bh=0kWYmB/zokqmJ9Xk1NaO2fJR2wQi5MCDrrTHi5pb4GI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ei0b9YtUHY3RZh/d2khLUG5C74xzOhBX1EAlmeWMT3qMtUbccY5JK3IHd5f+69Tjn
-	 U5AGfaZbZo/+Q8ZOiDWEORqcb7vBkCRsvsn4sUS9qG7d9vyDXFu//LUkIU0gcse6o0
-	 FU8irzW9zoTkpDzXPXiyNzuoo/5F0b+UP0Jdp3P1cykHscDpzEyDZhDqFcxErlGDP4
-	 QfFuISqvCfQIerRJk7hKmAkB8r3Y7CBPKWFklXXrxZmX2YHYp6wPuh2rgHo/aoDwwS
-	 moSj0GKQWflQP2QWx/b8IwaOrbXv3R+W2+A+4x0mJEFkQdC3GI4BTonmi0LyRp4GoB
-	 55upu3YK9Edkg==
-From: Maxime Ripard <mripard@kernel.org>
-To: Joel Stanley <joel@jms.id.au>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Stefan Agner <stefan@agner.ch>,
-	Alison Wang <alison.wang@nxp.com>,
-	Xinliang Liu <xinliang.liu@linaro.org>,
-	Tian Tao <tiantao6@hisilicon.com>,
-	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Yongqin Liu <yongqin.liu@linaro.org>,
-	John Stultz <jstultz@google.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Marek Vasut <marex@denx.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Raphael Gallais-Pou <rgallaispou@gmail.com>,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Anusha Srivatsa <asrivats@redhat.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	linux-aspeed@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	imx@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-tegra@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: (subset) [PATCH RESEND 11/12] drm/vc4: move to devm_platform_ioremap_resource() usage
-Date: Wed, 26 Feb 2025 15:47:57 +0100
-Message-ID: <174058126147.2737122.5690208783260352743.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250225-memory-drm-misc-next-v1-11-9d0e8761107a@redhat.com>
-References: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com> <20250225-memory-drm-misc-next-v1-11-9d0e8761107a@redhat.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="jtp8KYmC"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-38f3ee8a119so3470560f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 06:50:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740581422; x=1741186222; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V0cS3BjCebiH0oU2houUoLjoPQfGa9B9aygJMIYRWyk=;
+        b=jtp8KYmCWn3mlTrZGmz3vgEnsu4A5ytnbT6sGZ+i0gGbtbH9P5b/eNBe07als1yGcb
+         CGTEl/PqKl4qEN6ogsM2oUdrZSkQItlaCe5U2XcFLTgxelNzTxLP9h6JJ+brKoLK1YX7
+         CFbS4xoeXaedKKNcovarRIfmaRhPmYcMk0pLI2VqUZFgYn9pYSeybkPgg5Xp7LBgCZod
+         3rEAImEMtmj4KA4NaNzgrR0cPiDwRvwZh+6Dzep8WHn9yvQeVPdCj8w5TH27QZ2yQ8Vc
+         XwWlDsLLXXBZUW8/XKCZDAhMnNqunlSIQ+HU9Up6MGJB7FODq9q2spQDjpEBDx8mRHu8
+         rUMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740581422; x=1741186222;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V0cS3BjCebiH0oU2houUoLjoPQfGa9B9aygJMIYRWyk=;
+        b=cWdxomPzF6z7JP3uxi4qJyKzC28XG2iU8jE4gybeuhCrp3hgtxkC/m/dvFpcwnlVyi
+         5Tu46x6u03mRjsQi+Aao58OR3jOpYOheHTAIxIudTZY5nBzM0kGxmryVmBZXGivBQjQ0
+         Tcs5PxfIRbkv5YnFZlKfg+307/cS3vugF0ct1KhplfRgfr+q1YV/690W9Ec+0OKLvDGY
+         qApocb8jEbXabQbvYkrXQFzrrkpxDLOXP47zulVyxRjIne9S/OJDaFldXXNrgRplolt3
+         STqtFgTedKmJ5zBy1wDu+VZyawNHAmgkLMqpEE80eYv/7LCntS5BPLqeRBYWYhv7xlLd
+         XVow==
+X-Forwarded-Encrypted: i=1; AJvYcCW95Y56hP/hDvFVrZ5nbKHuwiOZratZUPNG4fYKazC/kz/yKFzpzv1eJqWuTZ4g9GB/oXNmz2jlsv0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEHhSnmEJSoYa96Lnju3BKwU7neS+kgetWc0LF24qkBEwCH1ua
+	fSXpkfWWROUYubzJENynwovsPw7AgebXtXBTWwo2MIk0bKkubYCRU+rNUe5YK7c=
+X-Gm-Gg: ASbGncvErqdLNn1eswiOiSDxVMAofNLGWKJZKjAO+Ke71WoLo866n4PRZngi20Qg0nN
+	sfyfavkNAUgx4V9CP7T/hQhUgXpfpUY2GXQD9Xe/A3DPjU+SaxZUBdlPB+x+9f4xGH2mL5Pedie
+	KoKt911aYHcIP3VEYApap1mdoc0vk94QBYQIkQFavZIwGmeqvIBD8eqFWmkDsZGipELwszBIecL
+	pCBFVyeaTidjf0RFqxYiPtlzk2MRuBZLFUDceQAcjWAPICLxEpSIdmHOwwzXC0iHo9uTRhl2h6c
+	itkvQhr5RVK+udgiepL8Kz/2ow/BH0a1rJPO4rRx8tFuuIIhG+1Y0u2SgOWcM7LL4vqwqhb8Tuh
+	I7LZuSy7hRo96S9Igo+mjBxI=
+X-Google-Smtp-Source: AGHT+IEJjM76VpVo0v7/LMiu5gepvuHca6Q+JK6FVucSfxbZMKesqh+xseFSt6OsHtbewKkv0+M5Vg==
+X-Received: by 2002:a5d:4bc7:0:b0:38f:338e:3cf0 with SMTP id ffacd0b85a97d-38f707aa445mr11160894f8f.32.1740581421934;
+        Wed, 26 Feb 2025 06:50:21 -0800 (PST)
+Received: from jstephan-bl.local (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43aba549d6asm23747965e9.36.2025.02.26.06.50.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Feb 2025 06:50:21 -0800 (PST)
+From: Julien Stephan <jstephan@baylibre.com>
+Subject: [PATCH 0/3] ad7380: add adaq4381-4 support
+Date: Wed, 26 Feb 2025 15:50:02 +0100
+Message-Id: <20250226-ad7380-add-adaq4381-4-support-v1-0-f350ab872d37@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -92,37 +67,43 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABoqv2cC/x2MQQqDMBAAvyJ77kKyWhP6leIhJqvuRdOkFUH8u
+ 0sPwzCXOaFyEa7wak4ovEuVbdWwjwbiEtaZUZI2kKGnIeoxJNd6o0pK+HStt9hh/eW8lS96S26
+ KLoxj7EEfufAkx///Hq7rBlprY3dvAAAA
+X-Change-ID: 20250226-ad7380-add-adaq4381-4-support-8127fc7abbc6
+To: Michael Hennerich <michael.hennerich@analog.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ David Lechner <dlechner@baylibre.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Julien Stephan <jstephan@baylibre.com>
+X-Mailer: b4 0.14.2
 
-On Tue, 25 Feb 2025 17:20:52 -0500, Anusha Srivatsa wrote:
-> Replace platform_get_resource_byname + devm_ioremap_resource
-> with just devm_platform_ioremap_resource()
-> 
-> Used Coccinelle to do this change. SmPl patch:
-> //rule s/(devm_)platform_get_resource_byname +
-> //(devm_)ioremap/devm_platform_ioremap_resource.
-> @rule_3@
-> identifier res;
-> expression ioremap;
-> identifier pdev;
-> constant mem;
-> expression name;
-> @@
-> -struct resource *res;
-> <+...
-> -res = platform_get_resource_byname(pdev,mem,name);
-> <...
-> -if (!res) {
-> -...
-> -}
-> ...>
-> -ioremap = devm_ioremap(...);
-> +ioremap = devm_platform_ioremap_resource_byname(pdev,name);
-> ...+>
-> 
-> [...]
+ADAQ4381-4 is the 14 bits version of the ADAQ4380-4. It is compatible
+with the ad7380 driver, so add its support and documentation, in driver,
+doc, and bindings.
 
-Applied to misc/kernel.git (drm-misc-next).
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+---
+Julien Stephan (3):
+      iio: adc: ad7380: add adaq4381-4 support
+      dt-bindings: iio: adc: ad7380: add adaq4381-4 compatible parts
+      docs: iio: ad7380: add adaq4381-4
 
-Thanks!
-Maxime
+ .../devicetree/bindings/iio/adc/adi,ad7380.yaml         |  4 ++++
+ Documentation/iio/ad7380.rst                            |  5 +++--
+ drivers/iio/adc/ad7380.c                                | 17 +++++++++++++++++
+ 3 files changed, 24 insertions(+), 2 deletions(-)
+---
+base-commit: faeaa1ec6c63b6676679f321601471772f2a0c9b
+change-id: 20250226-ad7380-add-adaq4381-4-support-8127fc7abbc6
+
+Best regards,
+-- 
+Julien Stephan <jstephan@baylibre.com>
+
