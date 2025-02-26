@@ -1,230 +1,391 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40EF12459EC
-	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 09:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294CF1E1DE8
+	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 09:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740560935; cv=none; b=PctJVzLROx8JL7KZ8tbxLh6nrpof/Tw13IcpaWwNAuwXLwpVs0t5vyuKdSAyKW1s3MTKMSartPJ52l3R7yQm+pMTk0yCPGVENzMgtUbbG7zcxLIag346dkK1dsTJZIrRCrb5s9oYCtfQq3EYFrzsdW1l3s6jSEaIHNoSGgjzlTY=
+	t=1740561126; cv=none; b=KkEBDazVNQj38Xx8xmLVW5OZvo662CMjZtPGgpCbDYH7GHLgDlF4mXCKIhQb8fX1YuDq/ZbIGUiHVcSLyq4/9Fuha4vhW1fIEi4mUdRKXb2qTolIf4sx6FtgJk4Zw+0C/0LmIrDAjJZlnZfp8dPePnXlmZA6U7/IifFBf0z00+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740560935; c=relaxed/simple;
-	bh=bJLY51LMKbmoPhaSC4QSOluS/yMA3KmLEs2qtXmVmaw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A6w9NnTulsc5Z4btAM7dadbzjZUz+qxttNWWx+JB2HNZd07qlkweEwSdVi9UFMhESXznQMUEGHwY/SX+KnrxD+X1Q0fiELvnXkinmOl3OgwVfF1q3AcH+c75OC7g/5PrhJMNIeW9qRuepnJbCLvaHAcjCyRbDgu4gphiM/zAMAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QQDKAvVk; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1740561126; c=relaxed/simple;
+	bh=HHA95h2sgKScK5n2KTp9DBK5lx3xmYIlpm84+SnRE3g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eg40mlxHa4BACepsoCX4idH+xkx93CuKWNXwC5y4BwTa8M3j13+wLBdeV+KfwjJdkgC/quaOBUT9uzfSKMw/5PgWRoMWMc2/diZJUbmDV6JADaGHqVCSnoD31EO1x9Om9mv/wYcfRdyV11+3BOTSIHzW1vUJLfHHAfWFs6XfT4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sgjHHOwu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QQDKAvVk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740560933;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=O8TE1MQFrJ10owitDy4Sd/FdbR2Se527RsQmy+KP7OE=;
-	b=QQDKAvVkRPy/FgpauTP8kOcUh29sOAxy9IF06nfm+W8GYrWrwOw+Nk24Hc400GH4DyUgXo
-	UYk14DGmZUgzUxch22V4JmrMYytRCnilWDltM7trHs2QdukD1qZXfBbQ1Q3bGpamuNkLuw
-	ZehmCdoJ2cs6hhv3rbpXOnLgHpqdI2c=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-558-RgWxstO_NQKAhi7wFTvwmg-1; Wed, 26 Feb 2025 04:08:47 -0500
-X-MC-Unique: RgWxstO_NQKAhi7wFTvwmg-1
-X-Mimecast-MFC-AGG-ID: RgWxstO_NQKAhi7wFTvwmg_1740560924
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-43947a0919aso60022185e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 01:08:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740560924; x=1741165724;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=O8TE1MQFrJ10owitDy4Sd/FdbR2Se527RsQmy+KP7OE=;
-        b=X7QaZsjzU8PxBclYo3MfugOTzermknYfumF/vEp/pJQb/JJ/SuyfHBb4MHtA2X890k
-         LU/FTI4cE6QATzY5aIRjf8zqweOer8KFHOx1wLZbgkjUMuPKIPvqXYzPQUu7zGeB1PHy
-         dsCO2bXYuF2a5kROAmvcfEU5fL5zWZroNbTJFOLmdfqZyFlDSbSXLQArGKHR2za3OYu2
-         QQoMfUsrCbNAnHoj+idEWrH+hjiCPAB8sM4BgjNreC8cfto9Q3rVbANo1aeUpwFqkIRO
-         9but2WT7kE3V5y0CNWuPm61KJgRm+gnA24396c/3Cnsqseo9wEenRLzoTxPmJiopy5oV
-         LDqA==
-X-Forwarded-Encrypted: i=1; AJvYcCXGzr3cthokqWwZ14E11lxx2j5t1OhlmYQxPfyaCctOTvnlB6KZANbQ4ovtShj0kloP9Q0BaSmPVUk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxxb4qzfrjNKYyRVjZawWK/B+n+XKam8wdMCCndGv7sWSZb3Caa
-	/gxXvxMWFnW8UU9E8ItrQH8LnNFHbtUIn4cZj4xTV+ksxPnsypasc7xgj8Nbk/ao4KmxlaHfJyE
-	p+Mg9xbkpDOWUtsMKRN8j3+LZODlxuhnNoYBnrUO4eRI6ssHSe6kdYjNO3g==
-X-Gm-Gg: ASbGncsDJnLmHEWkhAihDDUhUmtF1Tk7CZzniflQ/ePsp0GCAXk5SjVOfGHwAwfD03R
-	MPQP+6LirRAJUf7/qUGd7JK4AbrCNrezpVJVRcnFyvyi0/tPxMUDHr8YSMKqhMM6xkcTHYXyeN3
-	/T6G79g3pku4rEjSpcWSiD6Qhl9OmILgGBXcgYV6DYrXSsvhEJk0yWeknTaMtvnegJ0ZlOnhILN
-	iw9j+ItZoH4YkwCzcZnUYKBbt/mDBuLGfYvc/yTYsDuz+ZEuk7td/XJw7bg61XojIxmdoqHrg2u
-	uA+b3ppBI5OnoHxO23o1a0lSQc2kNkJGJ0rT23I0vFaP8J7p7Wib6GoyF+0ksOtoDGepu0JBm8F
-	dwSG1wIfFDDWkWOn5VLZhX4HVFHnL806GrD93e4haoHA=
-X-Received: by 2002:a05:600c:1d15:b0:439:88bb:d023 with SMTP id 5b1f17b1804b1-43abcdbc490mr5762105e9.11.1740560924389;
-        Wed, 26 Feb 2025 01:08:44 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGzCgV6uzLeA5R9rGGNcz1AqCTL7vjwN5EkwLdrel31QMyKpsknZsMvxZpzMpDk7Hfkg937Gw==
-X-Received: by 2002:a05:600c:1d15:b0:439:88bb:d023 with SMTP id 5b1f17b1804b1-43abcdbc490mr5761555e9.11.1740560923961;
-        Wed, 26 Feb 2025 01:08:43 -0800 (PST)
-Received: from ?IPV6:2003:cb:c747:ff00:9d85:4afb:a7df:6c45? (p200300cbc747ff009d854afba7df6c45.dip0.t-ipconnect.de. [2003:cb:c747:ff00:9d85:4afb:a7df:6c45])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43aba543fdfsm14027565e9.31.2025.02.26.01.08.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Feb 2025 01:08:42 -0800 (PST)
-Message-ID: <bfe43591-66b6-4fb9-bf6c-df79ddeffb17@redhat.com>
-Date: Wed, 26 Feb 2025 10:08:40 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sgjHHOwu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39F48C4CED6;
+	Wed, 26 Feb 2025 09:12:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740561125;
+	bh=HHA95h2sgKScK5n2KTp9DBK5lx3xmYIlpm84+SnRE3g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sgjHHOwurn8F6CN3bVvsPhFJYOt/Tm6+tidXh5TOYpSMxKFkIK3IqC4c1irEz74x3
+	 RCEUnaGZfMHVbj0v2Fg4Ku9+SNFmZZRbeJu6U3YcFGWjmfT9NEYJwJOSEp+jUPD7bZ
+	 5WapufQWoAkB660avLuWBGbqdBZVW+o3wrb7iHfQG3wUdQkof2aNb7rbszV1GbkWmD
+	 WreEonxip5km3qEkqgJJpnJx3u3dqP4D9df9mJSovxEJAAEolOJM66ARCCJPA22lK5
+	 PO/7MvL8Vebve5VA2eRLrztIziuKjKJF4lNONLR49w6pNFi2vKQDT75pTQ/yzD+tTf
+	 lgRupUgtig58A==
+Date: Wed, 26 Feb 2025 11:11:53 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Jiwen Qi <jiwen7.qi@gmail.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs/mm: Physical Memory: Populate the "Zones" section
+Message-ID: <Z77a2dP9BbiN9MWQ@kernel.org>
+References: <20250223185359.338647-1-jiwen7.qi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 03/12] KVM: guest_memfd: Add flag to remove from direct
- map
-To: Patrick Roy <roypat@amazon.co.uk>, rppt@kernel.org, seanjc@google.com
-Cc: pbonzini@redhat.com, corbet@lwn.net, willy@infradead.org,
- akpm@linux-foundation.org, song@kernel.org, jolsa@kernel.org,
- ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, eddyz87@gmail.com, yonghong.song@linux.dev,
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
- haoluo@google.com, Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com,
- vbabka@suse.cz, jannh@google.com, shuah@kernel.org, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, tabba@google.com, jgowans@amazon.com,
- graf@amazon.com, kalyazin@amazon.com, xmarcalx@amazon.com,
- derekmn@amazon.com, jthoughton@google.com
-References: <20250221160728.1584559-1-roypat@amazon.co.uk>
- <20250221160728.1584559-4-roypat@amazon.co.uk>
- <a3178c50-2e76-4743-8008-9a33bd0af93f@redhat.com>
- <8642de57-553a-47ec-81af-803280a360ec@amazon.co.uk>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
- AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
- 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
- rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
- wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
- 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
- pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
- KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
- BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
- 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
- 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
- M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
- AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
- boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
- 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
- XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
- a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
- Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
- 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
- kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
- th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
- jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <8642de57-553a-47ec-81af-803280a360ec@amazon.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250223185359.338647-1-jiwen7.qi@gmail.com>
 
-On 26.02.25 09:48, Patrick Roy wrote:
-> 
-> 
-> On Tue, 2025-02-25 at 16:54 +0000, David Hildenbrand wrote:> On 21.02.25 17:07, Patrick Roy wrote:
->>> Add KVM_GMEM_NO_DIRECT_MAP flag for KVM_CREATE_GUEST_MEMFD() ioctl. When
->>> set, guest_memfd folios will be removed from the direct map after
->>> preparation, with direct map entries only restored when the folios are
->>> freed.
->>>
->>> To ensure these folios do not end up in places where the kernel cannot
->>> deal with them, set AS_NO_DIRECT_MAP on the guest_memfd's struct
->>> address_space if KVM_GMEM_NO_DIRECT_MAP is requested.
->>>
->>> Note that this flag causes removal of direct map entries for all
->>> guest_memfd folios independent of whether they are "shared" or "private"
->>> (although current guest_memfd only supports either all folios in the
->>> "shared" state, or all folios in the "private" state if
->>> !IS_ENABLED(CONFIG_KVM_GMEM_SHARED_MEM)). The usecase for removing
->>> direct map entries of also the shared parts of guest_memfd are a special
->>> type of non-CoCo VM where, host userspace is trusted to have access to
->>> all of guest memory, but where Spectre-style transient execution attacks
->>> through the host kernel's direct map should still be mitigated.
->>>
->>> Note that KVM retains access to guest memory via userspace
->>> mappings of guest_memfd, which are reflected back into KVM's memslots
->>> via userspace_addr. This is needed for things like MMIO emulation on
->>> x86_64 to work. Previous iterations attempted to instead have KVM
->>> temporarily restore direct map entries whenever such an access to guest
->>> memory was needed, but this turned out to have a significant performance
->>> impact, as well as additional complexity due to needing to refcount
->>> direct map reinsertion operations and making them play nicely with gmem
->>> truncations.
->>>
->>> This iteration also doesn't have KVM perform TLB flushes after direct
->>> map manipulations. This is because TLB flushes resulted in a up to 40x
->>> elongation of page faults in guest_memfd (scaling with the number of CPU
->>> cores), or a 5x elongation of memory population. On the one hand, TLB
->>> flushes are not needed for functional correctness (the virt->phys
->>> mapping technically stays "correct",  the kernel should simply to not it
->>> for a while), so this is a correct optimization to make. On the other
->>> hand, it means that the desired protection from Spectre-style attacks is
->>> not perfect, as an attacker could try to prevent a stale TLB entry from
->>> getting evicted, keeping it alive until the page it refers to is used by
->>> the guest for some sensitive data, and then targeting it using a
->>> spectre-gadget.
->>>
->>> Signed-off-by: Patrick Roy <roypat@amazon.co.uk>
->>
->> ...
->>
->>>
->>> +static bool kvm_gmem_test_no_direct_map(struct inode *inode)
->>> +{
->>> +     return ((unsigned long) inode->i_private) & KVM_GMEM_NO_DIRECT_MAP;
->>> +}
->>> +
->>>    static inline void kvm_gmem_mark_prepared(struct folio *folio)
->>>    {
->>> +     struct inode *inode = folio_inode(folio);
->>> +
->>> +     if (kvm_gmem_test_no_direct_map(inode)) {
->>> +             int r = set_direct_map_valid_noflush(folio_page(folio, 0), folio_nr_pages(folio),
->>> +                                                  false);
->>
->> Will this work if KVM is built as a module, or is this another good
->> reason why we might want guest_memfd core part of core-mm?
-> 
-> mh, I'm admittedly not too familiar with the differences that would come
-> from building KVM as a module vs not. I do remember something about the
-> direct map accessors not being available for modules, so this would
-> indeed not work. Does that mean moving gmem into core-mm will be a
-> pre-requisite for the direct map removal stuff?
+(adding Lorenzo as well)
 
-Likely, we'd need some shim.
+On Sun, Feb 23, 2025 at 06:53:59PM +0000, Jiwen Qi wrote:
+> Briefly describe what zones are and the fields of struct zone.
+> 
+> Signed-off-by: Jiwen Qi <jiwen7.qi@gmail.com>
+> ---
+>  Documentation/mm/physical_memory.rst | 259 ++++++++++++++++++++++++++-
+>  1 file changed, 257 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
+> index 71fd4a6acf42..227997694851 100644
+> --- a/Documentation/mm/physical_memory.rst
+> +++ b/Documentation/mm/physical_memory.rst
+> @@ -338,10 +338,265 @@ Statistics
+>  
+>  Zones
+>  =====
+> +As we have mentioned, each zone in memory is described by a ``struct zone``
+> +which is an element of the ``node_zones`` field of the node it belongs to. A
 
-Maybe for the time being it could be fenced using #if IS_BUILTIN() ... 
-but that sure won't win in a beauty contest.
+node_zones array or list rather than field
+
+> +zone represents a range of physical memory. A zone may have holes. The
+
+I believe it's important to mention that struct zone is the core data
+structure of the page allocator.
+
+> +``spanned_pages`` field represents the total pages spanned by the zone,
+> +the ``present_pages`` field represents the physical pages existing within the
+> +zone and the managed_page field represents the pages managed by the buddy system.
+
+I don't think these belong here, they are anyway described below.
+
+> +
+> +Linux uses the GFP flags, see ``include/linux/gfp_types.h``, specified by
+
+As Bagas suggested, a link to Documentation/core-api/mm-api.rst
+<mm-api-gfp-flags> would be better here.
+
+> +a memory allocation to determine the highest zone in a node from which
+> +the memory allocation can allocate memory. Linux first allocates memory from
+> +that zone, if Linux can't allocate the requested amount of memory from the zone,
+> +it will allocate memory from the next lower zone in the node, the process
+> +continues up to and including the lowest zone. For example, if a node contains
+> +``ZONE_DMA32``, ``ZONE_NORMAL`` and ``ZONE_MOVABLE`` and the highest zone of a
+> +memory allocation is ``ZONE_MOVABLE``, the order of the zones from which Linux
+> +allocates memory is ``ZONE_MOVABLE`` > ``ZONE_NORMAL`` > ``ZONE_DMA32``.
+
+In this paragraph I'd replace Linux with page allocator. 
+
+> +
+> +At runtime, free pages in a zone are in the Per-CPU Pagesets (PCP) or free areas
+> +of the zone. The Per-CPU Pagesets is pointed by the ``per_cpu_pageset`` filed.
+> +The free areas is pointed by the ``free_area`` field. The Per-CPU Pagesets are
+
+No need to mention fields here, IMO
+
+> +a vital mechanism in the Linux kernel's memory management system. By handling
+> +most frequent allocations and frees locally on each CPU, the Per-CPU Pagesets
+> +improve performance and scalability, especially on systems with many cores. The
+> +page allocator in the Linux kernel employs a two-step strategy for memory
+> +allocation, starting with the Per-CPU Pagesets before falling back to the buddy
+> +allocator. Pages are transferred between the Per-CPU Pagesets and the global
+> +free areas (managed by the buddy allocator) in batches. This minimizes the
+> +overhead of frequent interactions with the global buddy allocator. Free areas in
+> +a zone are represented by an array of ``free_area``, where each element
+> +corresponds to a specific order which is a power of two."
+> +
+> +Architecture specific code calls free_area_init() to initializes zones.
+> +
+> +Zone structure
+> +--------------
+>  
+> -.. admonition:: Stub
+> +The zones structure ``struct zone`` is declared in ``include/linux/mmzone.h``.
+> +Here we briefly describe fields of this structure:
+>  
+> -   This section is incomplete. Please list and describe the appropriate fields.
+> +General
+> +~~~~~~~
+> +
+> +``_watermark``
+> +  The watermarks for this zone. The min watermark is the point where boosting is
+> +  ignored and an allocation may trigger direct reclaim and direct compaction.
+
+I afraid it's not clear what "min watermark is the point" means. 
+
+A watermark by itself does not trigger events, it's rather a threshold
+value for amount of free pages for some events to happen.
+
+I'd phrase this as 
+
+  When amount of free pages in a zone is below min watermark, boosting is
+  ignored ...
+
+The same applies to other watermark descriptions below.
+
+> +  It is also used to throttle direct reclaim. The low watermark is the point
+> +  where kswapd is woken up. The high watermark is the point where kswapd stops
+> +  reclaiming (a zone is balanced) when the ``NUMA_BALANCING_MEMORY_TIERING``
+> +  bit of ``sysctl_numa_balancing_mode`` is not set. The promo watermark is used
+> +  for memory tiering and NUMA balancing. It is the point where kswapd stops
+> +  reclaiming when the ``NUMA_BALANCING_MEMORY_TIERING`` bit of
+> +  ``sysctl_numa_balancing_mode`` is set. The watermarks are set by
+> +  ``__setup_per_zone_wmarks()``. the min watermark is calculated according to
+
+I don't think it's important to mention which function sets the watermarks.
+This also applies to "initialized in foo()" and "setup in bar()" below.
+
+> +  ``vm.min_free_kbytes`` sysctl. The other three watermarks are set according
+> +  to the distance between two watermarks. The distance is caculated according
+> +  to ``vm.watermark_scale_factor`` sysctl.
+> +
+> +``watermark_boost``
+> +  The number of pages which are used to boost watermarks to increase reclaim
+> +  pressure to reduce the likelihood of future fallbacks and wake kswapd now
+> +  as the node may be balanced overall and kswapd will not wake naturally.
+> +
+> +``nr_reserved_highatomic``
+> +  The number of pages which are reserved for high-order atomic allocations.
+> +
+> +``nr_free_highatomic``
+> +  The number of free pages in reserved highatomic pageblocks
+> +
+> +``lowmem_reserve``
+> +  The array of the amounts of the memory reserved in this zone for memory
+> +  allocations. For example, if the highest zone a memory allocation can
+> +  allocate memory from is ``ZONE_MOVABLE``, the amount of memory reserved in
+> +  this zone for this allocation is ``lowmem_reserve[ZONE_MOVABLE]`` when
+> +  attempting to allocate memory from this zone. The reason is that we don't know
+> +  if the memory that we're going to allocate will be freeable or/and it will be
+> +  released eventually, so to avoid totally wasting several GB of ram we must
+> +  reserve some of the lower zone memory (otherwise we risk to run OOM on the
+> +  lower zones despite there being tons of freeable ram on the higher zones).
+
+I realize that it's copied from comment in include/linux/mmzone.h, but I
+really fail to parse the description of this field. 
+
+I believe lowmem_reserve_ratio in Documentation/admin-guide/sysctl/vm.rst
+gives much better description of how this field is used and it should be
+the basic of the text here.
+
+> +  This array is recalculated by ``setup_per_zone_lowmem_reserve()`` at runtime
+> +  if ``vm.lowmem_reserve_ratio`` sysctl changes.
+> +
+> +``node``
+> +  The index of the node this zone belongs to. Available only when
+> +  ``CONFIG_NUMA`` is enabled because there is only one zone in a UMA system.
+> +
+> +``zone_pgdat``
+> +  Pointer to the pglist_data of the node this zone belongs to.
+
+                  ^ ``struct pglist_data``
+> +
+> +``per_cpu_pageset``
+> +  Pointer to the Per-CPU Pagesets (PCP) allocated and initialized by
+> +  ``setup_zone_pageset()``. By handling most frequent allocations and frees
+> +  locally on each CPU, the Per-CPU Pagesets improve performance and scalability
+> +  on systems with many cores.
+> +
+> +``pageset_high_min``
+> +  Copied to the ``high_min`` of the Per-CPU Pagesets for faster access.
+> +
+> +``pageset_high_max``
+> +  Copied to the ``high_max`` of the Per-CPU Pagesets for faster access.
+> +
+> +``pageset_batch``
+> +  Copied to the ``batch`` of the Per-CPU Pagesets for faster access. The
+> +  ``batch``, ``high_min`` and ``high_max`` of the Per-CPU Pagesets are used to
+> +  calculate the number of elements the Per-CPU Pagesets obtain from the buddy
+> +  allocator under a single hold of the lock for efficiency. They are also used
+> +  to decide if the Per-CPU Pagesets return pages to the buddy allocator in page
+> +  free process.
+> +
+> +``pageblock_flags``
+> +  The pointer to the flags for the pageblocks in the system. See
+
+                                                ^ in the zone
+
+> +  ``include/linux/pageblock-flags.h``. The memory is allocated in
+> +  ``setup_usemap()``. Each pageblock occupies ``NR_PAGEBLOCK_BITS`` bits.
+> +  Defined only when ``CONFIG_FLATMEM`` is enabled. The flags is stored in
+> +  ``mem_section`` when ``CONFIG_SPARSEMEM`` is enabled.
+> +
+> +``zone_start_pfn``
+> +  The start pfn of the zone. It is initialized by
+> +  ``calculate_node_totalpages()``.
+> +
+> +``managed_pages``
+> +  The present pages managed by the buddy system, which is calculated as:
+> +  ``managed_pages`` = ``present_pages`` - ``reserved_pages``, ``reserved_pages``
+> +  includes pages allocated by the memblock allocator. It should be used by page
+> +  allocator and vm scanner to calculate all kinds of watermarks and thresholds.
+> +  It is accessed using ``atomic_long_xxx()`` functions. It is initialized in
+> +  ``free_area_init_core()`` and then is reinitialized when memblock allocator
+> +  frees pages into buddy system.
+> +
+> +``spanned_pages``
+> +  The total pages spanned by the zone, including holes, which is calculated as:
+> +  ``spanned_pages`` = ``zone_end_pfn`` - ``zone_start_pfn``. It is initialized
+> +  by ``calculate_node_totalpages()``.
+> +
+> +``present_pages``
+> +  The physical pages existing within the zone, which is calculated as:
+> +  ``present_pages`` = ``spanned_pages`` - ``absent_pages`` (pages in holes). It
+> +  may be used by memory hotplug or memory power management logic to figure out
+> +  unmanaged pages by checking (``present_pages`` - ``managed_pages``). Write
+> +  access to ``present_pages`` at runtime should be protected by
+> +  ``mem_hotplug_begin/done()``. Any reader who can't tolerant drift of
+> +  ``present_pages`` should use ``get_online_mems()`` to get a stable value. It
+> +  is initialized by ``calculate_node_totalpages()``.
+> +
+> +``present_early_pages``
+> +  The present pages existing within the zone located on memory available since
+> +  early boot, excluding hotplugged memory. Defined only when
+> +  ``CONFIG_MEMORY_HOTPLUG`` is enabled and initialized by
+> +  ``calculate_node_totalpages()``.
+> +
+> +``cma_pages``
+> +  The pages reserved for CMA use. These pages behave like ``ZONE_MOVABLE`` when
+> +  they are not used for CMA. Defined only when ``CONFIG_CMA`` is enabled.
+> +
+> +``name``
+> +  The name of the zone. It is a pointer to the corresponding element of
+> +  the ``zone_names`` array.
+> +
+> +``nr_isolate_pageblock``
+> +  Number of isolated pageblocks. It is used to solve incorrect freepage counting
+> +  problem due to racy retrieving migratetype of pageblock. Protected by
+> +  ``zone->lock``. Defined only when ``CONFIG_MEMORY_ISOLATION`` is enabled.
+> +
+> +``span_seqlock``
+> +  The seqlock to protect ``zone_start_pfn`` and ``spanned_pages``. It is a
+> +  seqlock because it has to be read outside of ``zone->lock``, and it is done in
+> +  the main allocator path.  But, it is written quite infrequently. Defined only
+> +  when ``CONFIG_MEMORY_HOTPLUG`` is enabled.
+> +
+> +``initialized``
+> +  The flag indicating if the zone is initialized. Set by
+> +  ``init_currently_empty_zone()`` during boot.
+> +
+> +``free_area``
+> +  Free areas of different sizes. It is initialized by ``zone_init_free_lists()``.
+
+Here I'd love to see more details about what free area is.
+
+> +
+> +``unaccepted_pages``
+> +  The list of pages to be accepted. All pages on the list are ``MAX_PAGE_ORDER``.
+> +  Defined only when ``CONFIG_UNACCEPTED_MEMORY`` is enabled.
+> +
+> +``flags``
+> +  The zone flags. The least three bits are used and defined by
+> +  ``enum zone_flags``. ``ZONE_BOOSTED_WATERMARK`` (bit 0): zone recently boosted
+> +  watermarks. Cleared when kswapd is woken. ``ZONE_RECLAIM_ACTIVE`` (bit 1):
+> +  kswapd may be scanning the zone. ``ZONE_BELOW_HIGH`` (bit 2): zone is below
+> +  high watermark.
+> +
+> +``lock``
+> +  The main lock that protects the internal data structures of the page allocator
+> +  specific to the zone, especially protects ``free_area``.
+> +
+> +``percpu_drift_mark``
+> +  When free pages are below this point, additional steps are taken when reading
+> +  the number of free pages to avoid per-cpu counter drift allowing watermarks
+> +  to be breached. It is updated in ``refresh_zone_stat_thresholds()``.
+> +
+> +Compaction control
+> +~~~~~~~~~~~~~~~~~~
+> +
+> +``compact_cached_free_pfn``
+> +  The PFN where compaction free scanner should start in the next scan.
+> +
+> +``compact_cached_migrate_pfn``
+> +  The PFNs where compaction migration scanner should start in the next scan.
+> +  This array has two elements, the first one is used in ``MIGRATE_ASYNC`` mode,
+> +  the other is used in ``MIGRATE_SYNC`` mode.
+> +
+> +``compact_init_migrate_pfn``
+> +  The initial migration PFN which is initialized to 0 at boot time, and to the
+> +  first pageblock with migratable pages in the zone after a full compaction
+> +  finishes. It is used to check if a scan is a whole zone scan or not.
+> +
+> +``compact_init_free_pfn``
+> +  The initial free PFN which is initialized to 0 at boot time and to the last
+> +  pageblock with free ``MIGRATE_MOVABLE`` pages in the zone. It is used to check
+> +  if it is the start of a scan.
+> +
+> +``compact_considered``
+> +  The number of compactions attempted since last failure. It is reset in
+> +  ``defer_compaction()`` when a compaction fails to result in a page allocation
+> +  success. It is increased by 1 in ``compaction_deferred()`` when a compaction
+> +  should be skipped. ``compaction_deferred()`` is called before
+> +  ``compact_zone()`` is called, ``compaction_defer_reset()`` is called when
+> +  ``compact_zone()`` returns ``COMPACT_SUCCESS``, ``defer_compaction()`` is
+> +  called when ``compact_zone()`` returns ``COMPACT_PARTIAL_SKIPPED`` or
+> +  ``COMPACT_COMPLETE``.
+> +
+> +``compact_defer_shift``
+> +  The number of compactions skipped before trying again is
+> +  ``1<<compact_defer_shift``. It is increased by 1 in ``defer_compaction()``.
+> +  It is reset in ``compaction_defer_reset()`` when a direct compaction results
+> +  in a page allocation success. Its maximum value is ``COMPACT_MAX_DEFER_SHIFT``.
+> +
+> +``compact_order_failed``
+> +  The minimum compaction failed order. It is set in ``compaction_defer_reset()``
+> +  when a compaction succeeds and in ``defer_compaction()`` when a compaction
+> +  fails to result in a page allocation success.
+> +
+> +``compact_blockskip_flush``
+> +  Set to true when compaction migration scanner and free scanner meet, which
+> +  means the ``PB_migrate_skip`` bits should be cleared.
+> +
+> +``contiguous``
+> +  Set to true when the zone is contiguous (there is no hole).
+> +
+> +Statistics
+> +~~~~~~~~~~
+> +
+> +``vm_stat``
+> +  VM statistics for the zone. The items tracked are defined by
+> +  ``enum zone_stat_item``.
+> +
+> +``vm_numa_event``
+> +  VM NUMA event statistics for the zone. The items tracked are defined by
+> +  ``enum numa_stat_item``.
+> +
+> +``per_cpu_zonestats``
+> +  Per-CPU VM statistics for the zone. It records VM statistics and VM NUMA event
+> +  statistics on a per-CPU basis. It reduces updates to the global ``vm_stat``
+> +  and ``vm_numa_event`` fields of the zone to improve performance.
+>  
+>  .. _pages:
+>  
+> 
+> base-commit: 0ad2507d5d93f39619fc42372c347d6006b64319
+> -- 
+> 2.34.1
+> 
 
 -- 
-Cheers,
-
-David / dhildenb
-
+Sincerely yours,
+Mike.
