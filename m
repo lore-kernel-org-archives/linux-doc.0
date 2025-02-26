@@ -1,106 +1,83 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EDD25485A
-	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 20:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103932755FD
+	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 20:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740601469; cv=none; b=BSrnfre5oJXvtjENwYFMkpJkQzWB5MNPyonIZnsHONGDdwqAKVidrIYqd8pX7U2Rf/+S3dN/d6Sn7aSRvLtC2D/QPNW5zFpoFY2abN1hwhs7x2VLMox9OJKoq0FXgL0+rFP3j8pdhBjtut5cOVGt3i9WGEPVovVCdVJV+6xJAjI=
+	t=1740602167; cv=none; b=EW4aWP07BgS9V34tKpVWoCRQce6kpsaczKnsYZOaUyyyIwYghZNuzRF8ouNnYGkyZFMLn85orEfoGvAteyjQCMrA6bbEq3uv0DtARBftSq74fqxILgTBEaFcjxsWw5OA1fwGOhbJxTwwqm/8gRLTWHr9IkNbxP9ZG5J6fciHwkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740601469; c=relaxed/simple;
-	bh=iFWhRPyJmvvsiybpf94Dpp37+uigPtTulNHGuHIzrH4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=RuYNKQ22UgIAeZo8qtFdXCWalfN3M02h1gDq8680AZJA+kdaXTrvU6CjcdY3eBGTNF2AkqcKJKdWYnLzr95ac9WfcQa88OXpPgly0mxNip+NJz1U1jqWuMZaiqN/0DvKV71jtOldDR28CzFN2s1qcrOXSP6Oxaijh3FqBIOv484=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--gnoack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0QgPtlq+; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--gnoack.bounces.google.com
+	s=arc-20240116; t=1740602167; c=relaxed/simple;
+	bh=Jg3FHaMtnDrlmcebcInUMAYOKcOKdf88iZTvreX17pY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gEsSD9oiYxis1MX6PLmPtP7l6dNoDrQKQHAZnlidP4tYOLepOnY5Up6J3yjYxzg0HwI5kq6c2lrEfgebasFpPc1cwTRZytzJqZnr4Ls6elEWlIcY+J5UpiVyU+X8x8Arm8vTBlY0vV3FxDgLQCySwF+NBU+qUMT6Opev2RIFlvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VyrbsEVY; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0QgPtlq+"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-5ded4b4ff88so147316a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 12:24:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740601466; x=1741206266; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j5HjEmf6zI3uVsACPtj0IDjnQzDbyRsoOFTng7ArnK4=;
-        b=0QgPtlq+1UdG1JnAIh9hqFwBlpM2kCzoX+08VRt1+6CNUxV/F/wWJOj3b2Ufh5mQAz
-         L5vTiFlOuMVvRRs8iF3hRRITPemKT/AB1reBKFezUIAL8jM3NzwmP3i6LhRSLO1+MKbB
-         64nervXaaYp6eJL+JYncsi65VMzU7bNzhDem1gOolkKaQD9SzoDvrOgO+9Xuu3FSRILY
-         c+NbWIjUBe2K9WCGB8P4aUpODHq1l0VIHCHdz0+wxzydjdSieezEAYp6v51HClyTXoTs
-         2NrHi8+a8/FSChtNFCuiVBUdeIQtCIXGI2+vpik1+CnG93wZol07rAUt2CSmhoaHYzDG
-         ASJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740601466; x=1741206266;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=j5HjEmf6zI3uVsACPtj0IDjnQzDbyRsoOFTng7ArnK4=;
-        b=TDY6i7TufqD8sroOI/xHg/B32pYZYbIucphjIgH1IhdzcNJZgmJJNbVqz7/LDRimw+
-         5bFtgkieLOCMrHEXXK3F8T6u4fLrLrQpnignsXcjDUL+E4XQD1d1oiuHE9Zd3HntZ5Tu
-         rROK2HebljF/6sFHIQs8o0fZGUUEFgAlOIy6HKdUyJfTTjStYSVqpDDxe4nnb0p7pBQd
-         ban6DGuX/ZQ7yg1WPrjyFqq7PmeKnnN6x6B2FuavKpMFQao7I4V8IMnwU6KUeuAQgVjH
-         MTUSXe0FN/jj+/YUDx+sXmabz37dcY7CyeVk43Cs3j6IR6Xe3/lJYqyC4Kt7QwdmV3Fw
-         D2Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCXokQzoHDyfs3FIGAPJXq2eikZrmROSX2Fjd6f19V49+ZkKdAFROnXw9zhHU37Ztr+fHxFpc8l1Z+o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVfWOFr6aN7THuv9pAKDND6Yyu/q1H9dcDmrJ8zjGrg1dfAEU/
-	xLnIYrnLTkhZOiwomyHyCcK1MNXU7OGVsua5HeIf1bvORkYVVowt52JHgFvv42ubGS3P3jouGOx
-	YsQ==
-X-Google-Smtp-Source: AGHT+IFrxoll1MD7UHqls7EiRvzGp8NMB0IfiuwW4ozw145cHL5lQA37kDHTx8jx1EQOGS0Jj44sXGKknIY=
-X-Received: from edben26.prod.google.com ([2002:a05:6402:529a:b0:5e0:40e5:1607])
- (user=gnoack job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:40ce:b0:5de:dc08:9cc5
- with SMTP id 4fb4d7f45d1cf-5e4a0d46bccmr6357700a12.7.1740601465988; Wed, 26
- Feb 2025 12:24:25 -0800 (PST)
-Date: Wed, 26 Feb 2025 20:24:22 +0000
-In-Reply-To: <7vl6uylhzgkokl42bz36d5g3krcusqf7mdy4bd7tblcjckatrw@ullu2kblovji>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VyrbsEVY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740602164;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tu+bvA1U5SFUfY4MnrH4mZeqLgVlTLAczTVqxjp2aec=;
+	b=VyrbsEVYZbog0dy72I+OXvOOYihEseFdZcmopJvU9c12mh/do25uQ00JaEILMBpxd1eiM8
+	Mp26NTwZPT5U8y5p46StjAGqGCtHSpb9yJrvVLpkXQpVxeTxe80YXln+avyJ+EbJVJfqiQ
+	Zo7SLejVRwHgrhfnafi3/eDcXdqjAFM=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-695-oEGyXHu9PyKcocYmw376Ag-1; Wed,
+ 26 Feb 2025 15:36:03 -0500
+X-MC-Unique: oEGyXHu9PyKcocYmw376Ag-1
+X-Mimecast-MFC-AGG-ID: oEGyXHu9PyKcocYmw376Ag_1740602162
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A53571801A1B
+	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 20:36:02 +0000 (UTC)
+Received: from carbon.redhat.com (unknown [10.44.32.49])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D58971800358;
+	Wed, 26 Feb 2025 20:36:00 +0000 (UTC)
+From: Jelle van der Waa <jvanderw@redhat.com>
+To: linux-doc@vger.kernel.org
+Cc: Jelle van der Waa <jvanderwaa@redhat.com>
+Subject: [v2 0/1] reproducible sphinx docs
+Date: Wed, 26 Feb 2025 21:34:50 +0100
+Message-ID: <20250226203516.334067-1-jvanderw@redhat.com>
+In-Reply-To: <CALDQ5NyCpKKgoaphoV+aM+s6U7Y=iA-umO9LfuUXAM0oi=x5XA@mail.gmail.com>
+References: <CALDQ5NyCpKKgoaphoV+aM+s6U7Y=iA-umO9LfuUXAM0oi=x5XA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250124154445.162841-1-gnoack@google.com> <20250211.Ree5bu6Eph2p@digikod.net>
- <22olfm76rcgjfs4vrr3adtbznsnz47kaehlr3ljn6e5jkc6waq@ue7azstxlwfv>
- <20250211.ieSoo7Phe5oh@digikod.net> <3unkhxarmiddobfjvojx4sdpgitjld26udcagka2ocgrb6c2jc@dcg4w5yk5mut>
- <20250211.oavooPhap9OX@digikod.net> <7vl6uylhzgkokl42bz36d5g3krcusqf7mdy4bd7tblcjckatrw@ullu2kblovji>
-Message-ID: <Z794dm_xmViQ_lFF@google.com>
-Subject: Re: [PATCH 1/2] landlock: Minor typo and grammar fixes in IPC scoping documentation
-From: "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack@google.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: "=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?=" <mic@digikod.net>, linux-security-module@vger.kernel.org, 
-	Tahera Fahimi <fahimitahera@gmail.com>, Tanya Agarwal <tanyaagarwal25699@gmail.com>, 
-	Daniel Burgener <dburgener@linux.microsoft.com>, tools@kernel.org, linux-doc@vger.kernel.org, 
-	linux-man@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Hello!
+From: Jelle van der Waa <jvanderwaa@redhat.com>
 
-On Wed, Feb 12, 2025 at 04:06:06PM +0100, Alejandro Colomar wrote:
-> So you could really use man9 for internal Landlock stuff.  Even if I
-> think generated documentation isn't ideal, it's better than nothing.
-> Being able to use man(1) for reading kernel documentation would still be
-> a nice feature.
->=20
-> And while I can't run all the linters that I run on hand-written docs on
-> generated pages (because generated source necessarily triggers many
-> false positives), I could still run some, which would trigger some
-> accidents in the docs, and would also detect bugs in the software
-> translating the docs from one language to another.
->=20
-> So, I'd still recommend you considering man9.
+James Addison brought up this patch regarding reproducible kernel
+documentation and I volunteered to re-send it as they have issues
+setting up a MTA.
 
-This is different to the BPF helpers; Landlock's existing man pages documen=
-t
-user space APIs, and the largest part of the kernel-side .rst documentation=
- for
-Landlock also covers only user space. Only a small part of the .rst
-documentation is about kernel internals.
+With this patch Arch Linux is able to succesfully when building on the
+same machine, without this patch it is currently not reproducible see
+the link below:
 
-If I understood that correctly, section 9 is supposed to be document things=
- that
-are relevant to kernel developers, right?  So it doesn't sound like the rig=
-ht
-place for the documentation that we have?
+https://reproducible.archlinux.org/api/v0/builds/742727/diffoscope
 
-=E2=80=94G=C3=BCnther
+James Addison (1):
+  docs: Disambiguate a pair of rST labels
+
+ Documentation/admin-guide/quickly-build-trimmed-linux.rst     | 4 ++--
+ .../admin-guide/verify-bugs-and-bisect-regressions.rst        | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+-- 
+2.48.1
+
