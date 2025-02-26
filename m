@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7063022A1C5;
-	Wed, 26 Feb 2025 14:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC8522171D;
+	Wed, 26 Feb 2025 14:18:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740579468; cv=none; b=f1TOTSvPYZQ5+09rdBxP3J/wjJhKK4NdNfATeaOL5+cGhm70GPEq+m3eXg18Z+v4ixNT5oM65xwOaWDgxgtr6bmndFwhllRLf52O46KRtOR9zj0nAiZiUt3AH2Qn599Uu5EF0sBriJDU/2EyHMUyUnZ1TosebKDyalLaFAz4Oww=
+	t=1740579491; cv=none; b=ogYCEw7gnN0CFIrZ/V7t1eIk5Xp+Ox89RSCvqZOmckCKroSahVqcWT6UHBo1Cr0eebZWmMwfdclSHLwQS8qpnZc5MCOiIWCLtimavGsS+G7SJd2kSu7wrDK1aLqWyGtgbLTM/bEi7/Rz3NZFYvTIZaJBwNpxgV6+7xzfbwEGAnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740579468; c=relaxed/simple;
-	bh=048124pTYbVIZJiv9XG1+VmzSgOqnJf8lUUPOOZdDrQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ikrs0VGKdAToDwy9X+ByEnBbQohv6Xd7PXxlPEfXvcJd6XLJ+ybMtiML1Sf0Cc+BFxcPgEd/APFToYaxL5O6zOg5gATUKW6DdwtcS398EqTV8EwNcHeDShIfOqwmwL3xzx4IYQywU4U+vQs4YREOFmd/oICcjvEEMW85TQHMEIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+YCSgWH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740579491; c=relaxed/simple;
+	bh=4TNlmV4WiESdLqnmWqz+l+1OpeFDoosOidqN+VhVqhw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dyR5yC3K6YypO6LskoeiRz4GCY9/eqkXD0JrjGo0BA/xZRphc0LPu5/+4hwByYH2vFyR4np6sKHGFVW+/ZxC+jXXQmifL7sIkTNFEzTkDXvrEq1LeQf0hiEElQ8O4KHM4RM5/3BzweHfsX+Wdu2ikFGpi4N03MIZFYBHDxtJzTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iGv3PfbE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+YCSgWH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC8DC4CED6;
-	Wed, 26 Feb 2025 14:17:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iGv3PfbE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91DCCC4CED6;
+	Wed, 26 Feb 2025 14:18:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740579467;
-	bh=048124pTYbVIZJiv9XG1+VmzSgOqnJf8lUUPOOZdDrQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=D+YCSgWHRqGAw6O/JiB2Aqg70g5ZNOmYxfduK32VJXaq9Uci3fzE4AqoMw02sBIAK
-	 bWvuCFSU7NZucy4yjArMHcMqzPXcCIOaa1YMWJlIrCTTQzpgiQaAZ02A55E1Ct+WG1
-	 Jwmp9fUcOsd5SxnSf6JqXPaGYAEFSEsZLy5xwq4RH4+Dg4oiYyjP0R6noEbH40eQ0q
-	 H/p3F/d6EQLNAsvdZIRv/VHAJjaDro1m2vc5vpCLUSYnJRCl84ttyOqcZE/rvqXAP8
-	 zFc/ai45g/onQJhKq8aR6Db7gsCruPr4Xr2AzcxHPo4yepE1t7GYBWDvxyMOJfC/gk
-	 vXBbsc/ZfVLpw==
+	s=k20201202; t=1740579491;
+	bh=4TNlmV4WiESdLqnmWqz+l+1OpeFDoosOidqN+VhVqhw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=iGv3PfbE06PlNPnvVcKYUA2B5hdr8goRDXqswRbzCWj0alLbCjs3MxnteTpMOGztR
+	 RxCbRt93zI8HyzhHN444G+rlVX4CzmWPj9wUtIuCu5MT4NLFMPpQNA5xjB1aUKVLpY
+	 afcxY9ubhCTWmmoJhsHSprWZB+XbK4+pYvkgZklktwKezxTZijjebKPLMvLDLT9vJM
+	 uzJuG6qEUatssGjUxuwyRhCnNUGjiBySdXgbH1bdui1QghkIaLzqbjhsNXpI5Un4Hb
+	 zbK96+RX44TSayj0f1fISEuP1ufkO3/ojMEx13NypaGdRG05asGUKXmED969Uks2SP
+	 RJm1So55MksQw==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Chiara Meiohas <cmeiohas@nvidia.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
 	linux-rdma@vger.kernel.org,
-	Mark Bloch <mbloch@nvidia.com>,
-	Patrisious Haddad <phaddad@nvidia.com>,
 	Yishai Hadas <yishaih@nvidia.com>
-Subject: [PATCH rdma-next 0/6] Introduce UCAP API and usage in mlx5
-Date: Wed, 26 Feb 2025 16:17:26 +0200
-Message-ID: <cover.1740574943.git.leon@kernel.org>
+Subject: [PATCH rdma-next 6/6] docs: infiniband: document the UCAP API
+Date: Wed, 26 Feb 2025 16:17:32 +0200
+Message-ID: <56c1bbf06f10d6b352b59ebbb9bf31dc6be3a03e.1740574943.git.leon@kernel.org>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <cover.1740574943.git.leon@kernel.org>
+References: <cover.1740574943.git.leon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,55 +47,108 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series introduces the User CAPability (UCAP) API that allows
-creating user contexts with various firmware privileges.
+From: Chiara Meiohas <cmeiohas@nvidia.com>
 
-The UCAP API provides fine-grained control over specific firmware
-features by representing each capability as a character device with root
-read-write access. Root processes can grant users special privileges by
-allowing access to these character devices. User contexts created using
-a file descriptor of a UCAP will have specific UCAP privileges.
+Add an explanation on the newly added UCAP API.
 
-Two UCAP character devices are created for mlx5, and user contexts
-opened with at least one of these UCAPs are considered privileged. To
-ensure that privileged commands can always proceed, non-privileged
-commands are limited when a privileged user is present on the device.
-
-Thanks
-
-Chiara Meiohas (5):
-  RDMA/uverbs: Introduce UCAP (User CAPabilities) API
-  RDMA/mlx5: Create UCAP char devices for supported device capabilities
-  RDMA/uverbs: Add support for UCAPs in context creation
-  RDMA/mlx5: Check enabled UCAPs when creating ucontext
-  docs: infiniband: document the UCAP API
-
-Patrisious Haddad (1):
-  RDMA/mlx5: Expose RDMA TRANSPORT flow table types to userspace
-
- Documentation/infiniband/index.rst            |   1 +
- Documentation/infiniband/ucaps.rst            |  71 +++++
- drivers/infiniband/core/Makefile              |   3 +-
- drivers/infiniband/core/ucaps.c               | 255 ++++++++++++++++++
- drivers/infiniband/core/uverbs_cmd.c          |  19 ++
- drivers/infiniband/core/uverbs_main.c         |   2 +
- .../infiniband/core/uverbs_std_types_device.c |   4 +
- drivers/infiniband/hw/mlx5/devx.c             |  31 ++-
- drivers/infiniband/hw/mlx5/devx.h             |   5 +-
- drivers/infiniband/hw/mlx5/fs.c               | 154 ++++++++++-
- drivers/infiniband/hw/mlx5/fs.h               |   2 +
- drivers/infiniband/hw/mlx5/main.c             |  77 +++++-
- drivers/infiniband/hw/mlx5/mlx5_ib.h          |   3 +
- include/rdma/ib_ucaps.h                       |  25 ++
- include/rdma/ib_verbs.h                       |   1 +
- include/uapi/rdma/ib_user_ioctl_cmds.h        |   1 +
- include/uapi/rdma/mlx5_user_ioctl_cmds.h      |   1 +
- include/uapi/rdma/mlx5_user_ioctl_verbs.h     |   2 +
- 18 files changed, 635 insertions(+), 22 deletions(-)
+Signed-off-by: Chiara Meiohas <cmeiohas@nvidia.com>
+Reviewed-by: Yishai Hadas <yishaih@nvidia.com>
+Signed-off-by: Leon Romanovsky <leon@kernel.org>
+---
+ Documentation/infiniband/index.rst |  1 +
+ Documentation/infiniband/ucaps.rst | 71 ++++++++++++++++++++++++++++++
+ 2 files changed, 72 insertions(+)
  create mode 100644 Documentation/infiniband/ucaps.rst
- create mode 100644 drivers/infiniband/core/ucaps.c
- create mode 100644 include/rdma/ib_ucaps.h
 
+diff --git a/Documentation/infiniband/index.rst b/Documentation/infiniband/index.rst
+index 9cd7615438b9..5b4c24125f66 100644
+--- a/Documentation/infiniband/index.rst
++++ b/Documentation/infiniband/index.rst
+@@ -12,6 +12,7 @@ InfiniBand
+    opa_vnic
+    sysfs
+    tag_matching
++   ucaps
+    user_mad
+    user_verbs
+ 
+diff --git a/Documentation/infiniband/ucaps.rst b/Documentation/infiniband/ucaps.rst
+new file mode 100644
+index 000000000000..b8b6927742f4
+--- /dev/null
++++ b/Documentation/infiniband/ucaps.rst
+@@ -0,0 +1,71 @@
++=================================
++Infiniband Userspace Capabilities
++=================================
++
++   User CAPabilities (UCAPs) provide fine-grained control over specific
++   firmware features in Infiniband (IB) devices. This approach offers
++   more granular capabilities than the existing Linux capabilities,
++   which may be too generic for certain FW features.
++
++   Each user capability is represented as a character device with root
++   read-write access. Root processes can grant users special privileges
++   by allowing access to these character devices (e.g., using chown).
++
++Usage
++=====
++
++   UCAPs allow control over specific features of an IB device using file
++   descriptors of UCAP character devices. Here is how a user enables
++   specific features of an IB device:
++
++      * A root process grants the user access to the UCAP files that
++        represents the capabilities (e.g., using chown).
++      * The user opens the UCAP files, obtaining file descriptors.
++      * When opening an IB device, include an array of the UCAP file
++        descriptors as an attribute.
++      * The ib_uverbs driver recognizes the UCAP file descriptors and enables
++        the corresponding capabilities for the IB device.
++
++Creating UCAPs
++==============
++
++   To create a new UCAP, drivers must first define a type in the
++   rdma_user_cap enum in rdma/ib_ucaps.h. The name of the UCAP character
++   device should be added to the ucap_names array in
++   drivers/infiniband/core/ucaps.c. Then, the driver can create the UCAP
++   character device by calling the ib_create_ucap API with the UCAP
++   type.
++
++   A reference count is stored for each UCAP to track creations and
++   removals of the UCAP device. If multiple creation calls are made with
++   the same type (e.g., for two IB devices), the UCAP character device
++   is created during the first call and subsequent calls increment the
++   reference count.
++
++   The UCAP character device is created under /dev/infiniband, and its
++   permissions are set to allow root read and write access only.
++
++Removing UCAPs
++==============
++
++   Each removal decrements the reference count of the UCAP. The UCAP
++   character device is removed from the filesystem only when the
++   reference count is decreased to 0.
++
++/dev and /sys/class files
++=========================
++
++   The class::
++
++      /sys/class/infiniband_ucaps
++
++   is created when the first UCAP character device is created.
++
++   The UCAP character device is created under /dev/infiniband.
++
++   For example, if mlx5_ib adds the rdma_user_cap
++   RDMA_UCAP_MLX5_CTRL_LOCAL with name "mlx5_perm_ctrl_local", this will
++   create the device node::
++
++      /dev/infiniband/mlx5_perm_ctrl_local
++
 -- 
 2.48.1
 
