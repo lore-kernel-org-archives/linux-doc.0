@@ -1,66 +1,67 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536562222A1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9CA212D8D
 	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 14:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740581427; cv=none; b=uif5mFHxWA5b8MhxYqCzZ8Jr6Uk0RroApRWdQCAFXujNqHbBYdMcrMzzFgn8Qia5NGmQe8x4D830Dtp/rrqfdhnRHTQHNM2NLbvxkxnDzcD4/8rhHtFWPN/uuPQO0Iu+PsUTtKICMpymc2BrPUngLqTvOzXDoM0WUJ1pIgCqSdU=
+	t=1740581428; cv=none; b=ok1zcEC+LHWPb0l119YHurU4Sij5nwlLSJqsLDJYDGqvYqVuH0yN6OPiX4B0y/1BFgvhFkqHMdueUTyHO0gA9xnJs1PQBf9nRBZoyHLE5gRoxWnwweHfr9OR+9Pvgoa+7pMnhnHELrtbHlXJMJpfnXBfUDqlXQCardktgxsUwW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740581427; c=relaxed/simple;
-	bh=Lzx3CAaQiC8wlZS9M5mT2Yt2uq9rPwqTrQ3zqkOC5JQ=;
+	s=arc-20240116; t=1740581428; c=relaxed/simple;
+	bh=0+XUfchGDBDlyNgsEJQ6+K6kAggRr99F0prHzXAA7Jo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sq6XL04cDrWUc1t3z8McEmq0pv5TEXD+tqWS5iQRmVatQZls/Hewpl44yN+vkfTOmExyr5ca6xJat6qNHBUej4u5UyqS0jyh4PMb31/1u3arMrd0sztSEN9mbwTAO58YfGQhLWEV92MV+ijFbia8dtebM6h8VR7Cub058CDoR5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=IbfhcDJ3; arc=none smtp.client-ip=209.85.128.44
+	 In-Reply-To:To:Cc; b=LrPq/ht5bKEKnHQL2IjPYpGXMo1N/vuuu4bDTZ/OPt3BmoFCeidE/d4G9YMLHMYQ4UenarEKu79mbQP1Fq4sK9ZNmpzDtnGfNFG4umBX5jUhJOrnnVObncEv3kEngyJC4AJZpfjhclQjzCyyS5Hr/yuoyMjenXkQqp55Ph9kIjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=fIvdXugX; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="IbfhcDJ3"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43994ef3872so43212675e9.2
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fIvdXugX"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4398e3dfc66so60818395e9.0
         for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 06:50:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740581423; x=1741186223; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740581424; x=1741186224; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YPdx7XAkaj1yG9dpdBhO/1wk2oAfUm8FihdFBSOr8GE=;
-        b=IbfhcDJ3DVOhiipZTDMrODB8tBq3ufnSau4UAtMAkMeSowrlL5CFYWcReo2byYrn2U
-         VqCUf3TkChTqpoAsgRBdJnoz4xS9Lb96eRfyZNRTLaYhyMfIRaYYSELLoeTNOWnALTEF
-         VgmkXoQDIk0O3TCpN+jZHXF6WrfXaC4VjeqPxGXOT3Km9h0sa924LBSlXwldAz+Ng4D8
-         V1AhOu0RL1OwNiazXqLDCHcTtAeEQnXS98q4DW0MvTpcmDvWX3e9QcF9AF+0YpfJtBks
-         SF9gcvd23eTmlYI4m0Q3uMeSfOQI551jHeD71xY3WVNftaKS/sE2CNPpS9gXw1IHBzvW
-         79tg==
+        bh=lS52Mn/qM2k2l7VX8UfktBsw1uLX5sdsUF4ydhQ29IY=;
+        b=fIvdXugXsS/+oioZqUopDCPM3QaZraeqGmItnE/xEypLkrxWEmyqn5GBVZkWq3QIOM
+         e2+4hit3wVMmUXRNRYsnX9TC4CSg9gMOcBUunGk70fGQJ/rkrJJbLDBJ9D9Vk46IN0DZ
+         HHbpS2WCrY9j+y0P+3HH3CDhg/P4vyvdq127cVRkKpABfkydsjCk0U5XXjKFDDrikkgQ
+         /D7MZxtKLOEHcQYSnS/SfE+tq3Z0KZm00e18G9KpJZDQKf+MTaBobiWKIbvUL6sLz4CY
+         CYh6TVFHKukgJtR5tw3PBBx0b5YJixOFVqt/B5yB54neCDt8b2qLq4BoIKD6K54u2cXq
+         cAMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740581423; x=1741186223;
+        d=1e100.net; s=20230601; t=1740581424; x=1741186224;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YPdx7XAkaj1yG9dpdBhO/1wk2oAfUm8FihdFBSOr8GE=;
-        b=FwVI/X4QAPWHq5MVFUMRDeTtnT9mPbTzmDqDa5b32hbuqAXKPMxKrOhQ6MVFNYfoU0
-         qqZnE6TTzLlEAyPhWzIW1pRE+9rpicEHlo8c/aDoAKaV2clPOceP9T49o1Qzc9KvgfzN
-         vKgx5rxZukob2W31AH51QnNF93SOtTRfxw2IaoOAh+IMPgoFzjFtlajKEICdEDny9lNr
-         3RGlQRO0FE9rHXhcY0Z5TGrZu5E5YIbMbiZmPCiTfRpKSKdccs3L+A/i/eUxcQRDi99K
-         4UqFU/HGjvfCyfSas8nJa01+NtIHJfMKyl4aXy7CVmxrpwjdTpX/3hGRCmf8SIp3C74F
-         gUuw==
-X-Forwarded-Encrypted: i=1; AJvYcCWmqsmgUvNxyIbExTwfCLBNJmClwNgJ6Ksw9EqAQuW4O2JpVnO6WR51z4q8yfsMREggnPhJcoB2Ru8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyf+rINuNhfMt/y7RoimzXsXYubgEIhCkJNgsjj0UFyzdoUP8xb
-	Yw1EEg+3zvUYwIjitUcK9TOKUi3vSXBLD3BfOOGX2gpauPd0faSQr9CAgA79KoA=
-X-Gm-Gg: ASbGncs07pK4dSsYtxawmn1hNiW0hn+wZoKKTtFYhYuHdwxjHY6GyE4L7nYmspXShVw
-	21dIv2LcQ4rTyM2n9QIGc85gmrRZQuRSwgp43AVsZLp88Eb/pLAD1Kb7pshY2xdpJfeMJSpbtLl
-	scuHOFlvEO8ETSJLv2BmXRAeRg7b779ymeWgMGSiqxwR5Gv7TWxOB7/HmvcmRVtzq2WJ07YLTgS
-	PCsgyhsDvPYfBaJsNn57IJMyxRoHVjPjTvD8T2wFLVEteF1OxQvibWbNlGowLpS2+83mKgDQu/b
-	fI5N1p8ZIah3qrYE6xa/M5DVmMiRyorKIZyidz3YL5/i98ou/X4CyAAS2Sd8V8J+6qL/+KlOKtr
-	LRuuX2zAjp4ezZJu/IF5SCiQ=
-X-Google-Smtp-Source: AGHT+IGvJMtPWFu7X3FYb/KUfGdGrzxdvYsV3KXmwMuSWdG1U/6djg+AF57pmGPwqA4QzHENbBngYg==
-X-Received: by 2002:a05:600c:5123:b0:439:88bb:d035 with SMTP id 5b1f17b1804b1-43ab0f2887dmr73969585e9.5.1740581423465;
-        Wed, 26 Feb 2025 06:50:23 -0800 (PST)
+        bh=lS52Mn/qM2k2l7VX8UfktBsw1uLX5sdsUF4ydhQ29IY=;
+        b=WjwOdFBrxE9w2znx+TZhx/vLs0PP2mULsxO5KzyC8Z1EaCcdA5LoEJGCeVzJ3WBvV3
+         ldcd0NvbympHBlDtu0xtNnSza0MeQI3egt/L93mUdEJ+qV1kDKyK7Kpi/J5uMpwG8TYD
+         zFgL5FWe6mqQbi1T8TqcnJeEdhOk0opsUKelB+cLz3pHkbMkyXcTSCOS1oJBrroLzLh1
+         8ax5Wj9e7s5htaHRSIFB6zt5hb61LDmMuQoamVcS3mtfxRaFhMVYVikIGfTLyr8RMus9
+         YAZM+5ALpMpco8Bcv0wxybh/f9HQwjrntH+2RSICFRTyRFLNEk1WBQFZDBnQAluYrpoh
+         L8EQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWPo/RhuB6iCoU59VpGsjTUsseMA29Ah0zSW+iztffVju5GBh5sdDlkw8wvSRVuQ8nDIdHerSGaKTs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxpwqp8oDOGopb01ZWe0soMuRJb/+l5KWLKAw3p2uIiewnVOfLz
+	FMHPr93ZgchLpBtyFFI2zZw3sabk6wZqy7Jm06kA/OHBDrPEFxC32LWTxUEefAw=
+X-Gm-Gg: ASbGncsVIRbDDWGLtQwXmCvkh1NHs8pckgxRfb8MWwu5UGg25eP4iaDPcjAtSJGj0vT
+	yGul/Cfxl4DPlD85R5i7N/N02kon8kTk7kx0ZJUlyrAl6t/SBrXZ9XP8mRNAwRn9J5SszNsYJ1D
+	jXtfzQ1uqg0mS2qmDS2LAa37IpA+2jmkGs08ufTkwCo6VbZdANhQNbxQgsiBt+cD4YNkUSmYsK2
+	X7pvT+YJjfXfpRqlpr/mTqHnS95PjpOiDKfoelVMGQkODSyTh/C8ozLPFDNGhBhG8ld+kzJnpVy
+	DdRczkBUl9x35ICB3GFKlnVEAGjgtHdNO1eUmXKz0ClMCMZVGHtwLJ3h85MZqquZyXZ2O0il+Ul
+	ezVyyhchbfzIYRCet609bDf4=
+X-Google-Smtp-Source: AGHT+IGhXvt5BENLR9FHTRRWS32zA9Au7LcKHN1yHbaUpiSXl/h3VJo56DcHYz28lKEiLlwueTwZGg==
+X-Received: by 2002:a05:600c:4506:b0:439:6e12:fdb4 with SMTP id 5b1f17b1804b1-43ab8fe90camr38158175e9.14.1740581424358;
+        Wed, 26 Feb 2025 06:50:24 -0800 (PST)
 Received: from jstephan-bl.local (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43aba549d6asm23747965e9.36.2025.02.26.06.50.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43aba549d6asm23747965e9.36.2025.02.26.06.50.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2025 06:50:22 -0800 (PST)
+        Wed, 26 Feb 2025 06:50:23 -0800 (PST)
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Wed, 26 Feb 2025 15:50:03 +0100
-Subject: [PATCH 1/3] iio: adc: ad7380: add adaq4381-4 support
+Date: Wed, 26 Feb 2025 15:50:04 +0100
+Subject: [PATCH 2/3] dt-bindings: iio: adc: ad7380: add adaq4381-4
+ compatible parts
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250226-ad7380-add-adaq4381-4-support-v1-1-f350ab872d37@baylibre.com>
+Message-Id: <20250226-ad7380-add-adaq4381-4-support-v1-2-f350ab872d37@baylibre.com>
 References: <20250226-ad7380-add-adaq4381-4-support-v1-0-f350ab872d37@baylibre.com>
 In-Reply-To: <20250226-ad7380-add-adaq4381-4-support-v1-0-f350ab872d37@baylibre.com>
 To: Michael Hennerich <michael.hennerich@analog.com>, 
@@ -89,65 +90,45 @@ it.
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- drivers/iio/adc/ad7380.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
-index f232ad1a49634baeedc655916bc7a967604a1206..407930f1f5dd107154a6c34c6afd4429ebb69826 100644
---- a/drivers/iio/adc/ad7380.c
-+++ b/drivers/iio/adc/ad7380.c
-@@ -15,6 +15,7 @@
-  * ad7386/7/8-4 : https://www.analog.com/media/en/technical-documentation/data-sheets/ad7386-4-7387-4-7388-4.pdf
-  * adaq4370-4 : https://www.analog.com/media/en/technical-documentation/data-sheets/adaq4370-4.pdf
-  * adaq4380-4 : https://www.analog.com/media/en/technical-documentation/data-sheets/adaq4380-4.pdf
-+ * adaq4381-4 : https://www.analog.com/media/en/technical-documentation/data-sheets/adaq4381-4.pdf
-  */
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
+index ada08005b3cd1ce7ba13f96484a33fdee0e83a1c..ff4f5c21c5482b77ee2774b01ad6d426e68cf207 100644
+--- a/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml
+@@ -27,6 +27,7 @@ description: |
+   * https://www.analog.com/en/products/ad7388-4.html
+   * https://www.analog.com/en/products/adaq4370-4.html
+   * https://www.analog.com/en/products/adaq4380-4.html
++  * https://www.analog.com/en/products/adaq4381-4.html
  
- #include <linux/align.h>
-@@ -287,6 +288,7 @@ DEFINE_AD7380_2_CHANNEL(ad7381_channels, 14, 1, s);
- DEFINE_AD7380_4_CHANNEL(ad7380_4_channels, 16, 1, s);
- DEFINE_AD7380_4_CHANNEL(ad7381_4_channels, 14, 1, s);
- DEFINE_ADAQ4380_4_CHANNEL(adaq4380_4_channels, 16, 1, s);
-+DEFINE_ADAQ4380_4_CHANNEL(adaq4381_4_channels, 14, 1, s);
- /* pseudo differential */
- DEFINE_AD7380_2_CHANNEL(ad7383_channels, 16, 0, s);
- DEFINE_AD7380_2_CHANNEL(ad7384_channels, 14, 0, s);
-@@ -599,6 +601,19 @@ static const struct ad7380_chip_info adaq4380_4_chip_info = {
- 	.timing_specs = &ad7380_4_timing,
- };
  
-+static const struct ad7380_chip_info adaq4381_4_chip_info = {
-+	.name = "adaq4381-4",
-+	.channels = adaq4381_4_channels,
-+	.num_channels = ARRAY_SIZE(adaq4381_4_channels),
-+	.num_simult_channels = 4,
-+	.supplies = adaq4380_supplies,
-+	.num_supplies = ARRAY_SIZE(adaq4380_supplies),
-+	.adaq_internal_ref_only = true,
-+	.has_hardware_gain = true,
-+	.available_scan_masks = ad7380_4_channel_scan_masks,
-+	.timing_specs = &ad7380_4_timing,
-+};
-+
- struct ad7380_state {
- 	const struct ad7380_chip_info *chip_info;
- 	struct spi_device *spi;
-@@ -1582,6 +1597,7 @@ static const struct of_device_id ad7380_of_match_table[] = {
- 	{ .compatible = "adi,ad7388-4", .data = &ad7388_4_chip_info },
- 	{ .compatible = "adi,adaq4370-4", .data = &adaq4370_4_chip_info },
- 	{ .compatible = "adi,adaq4380-4", .data = &adaq4380_4_chip_info },
-+	{ .compatible = "adi,adaq4381-4", .data = &adaq4381_4_chip_info },
- 	{ }
- };
+ $ref: /schemas/spi/spi-peripheral-props.yaml#
+@@ -50,6 +51,7 @@ properties:
+       - adi,ad7388-4
+       - adi,adaq4370-4
+       - adi,adaq4380-4
++      - adi,adaq4381-4
  
-@@ -1602,6 +1618,7 @@ static const struct spi_device_id ad7380_id_table[] = {
- 	{ "ad7388-4", (kernel_ulong_t)&ad7388_4_chip_info },
- 	{ "adaq4370-4", (kernel_ulong_t)&adaq4370_4_chip_info },
- 	{ "adaq4380-4", (kernel_ulong_t)&adaq4380_4_chip_info },
-+	{ "adaq4381-4", (kernel_ulong_t)&adaq4381_4_chip_info },
- 	{ }
- };
- MODULE_DEVICE_TABLE(spi, ad7380_id_table);
+   reg:
+     maxItems: 1
+@@ -201,6 +203,7 @@ allOf:
+             - adi,ad7380-4
+             - adi,adaq4370-4
+             - adi,adaq4380-4
++            - adi,adaq4381-4
+     then:
+       properties:
+         refio-supply: false
+@@ -218,6 +221,7 @@ allOf:
+           enum:
+             - adi,adaq4370-4
+             - adi,adaq4380-4
++            - adi,adaq4381-4
+     then:
+       required:
+         - vs-p-supply
 
 -- 
 2.47.1
