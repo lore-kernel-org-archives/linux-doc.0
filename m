@@ -1,112 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F70446426;
-	Wed, 26 Feb 2025 08:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A6E46426;
+	Wed, 26 Feb 2025 08:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740558044; cv=none; b=RI8JthibhhUA+JwPX1swNcXd0a4Rzq2t+p94St7pqS+v3t7u87AvVKztjLKwcVSWBk09AEDd6+slh3x+70uG/SCrX2RnJ2vEh9kdZfvsHwTkVvbnsRSZpg5QdgunD2430Y9Xqtpy5Lv8QwWS2eKLdB5wMcTZ/HAhItLsRUYycN0=
+	t=1740558262; cv=none; b=Nzvlhm80mhRtdZcLgz9Dasfcl+Boiy5jfjIREcHZJYKEn9sDNt4wytPGTyyhKyMIZjU4NFKNjvoCUKvJjLj/ZUNyFQZ6wiPhH/Kb8tdQP9hEhJDwo1l+NBp0k1Q9GmORAm53F0kru69pA1eIcwDMjdjQD6hjzbPW5Sc1mbvUL9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740558044; c=relaxed/simple;
-	bh=4Pe8SdHpMNion2K2A1gVO1ETNWDlPyE6kIyEGg2L6M0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IVRs7/qZXefsjpr2k9YtZyujNmZAguigpQIDTfQ/IzOP690P/V4lsligxIekh/RvHAyTH1CV+h7DttsdvWLPpInDLKe8+085XsZbeYWYI2HwHUMTvvzN+MzQIOY74lVgC0/LQSeX1dKoLSK02KBGMdJPq72mbhELfO5f1VDz6n0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiIm1eue; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiIm1eue"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B91C4CED6;
-	Wed, 26 Feb 2025 08:20:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740558043;
-	bh=4Pe8SdHpMNion2K2A1gVO1ETNWDlPyE6kIyEGg2L6M0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YiIm1eueQybrvNRsuNh8H8qRFgt8iHMrY1eUb0Gn83kdwU35X8kuTonpjSy3fIA93
-	 oVOzTsR5oNN5Kniu/v3KeNVmg1Bh4DJ64S/GhHIViumtsLjV2PIYdDV0yBNAelZkKw
-	 JnJst47qH/M7Sm7+ZtORetxKK+ptFMd1SiPLeZB1tI29tiZvjEtCYKyvVyxJrPvGbS
-	 l5AsyBJ9PLYeqnrBNXZOFc1RWntYlfS2vCFNy6YGex2DNVYBg1ovbmPqINPZ3hLqqI
-	 10RxbDM5YgxNit/zXBSQqJ3ghCbCIh6opv8NXkhfteFs5wDQDLgoymGvuuP98ISZPl
-	 PNA/bEBabI9dw==
-Date: Wed, 26 Feb 2025 09:20:40 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add lt3074
-Message-ID: <20250226-gentle-spicy-jacamar-2dd36a@krzk-bin>
-References: <20250225-upstream-lt3074-v2-0-18ad10ba542e@analog.com>
- <20250225-upstream-lt3074-v2-1-18ad10ba542e@analog.com>
+	s=arc-20240116; t=1740558262; c=relaxed/simple;
+	bh=c8H8rdd6EqpekwRsXzHBZUQjED7TQMef11mcwfcOceY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=d1hlEQmY934uIrH3U+al8B+8CidU75aPczeMK+QGKfOoGsLiK3yPKZJwZGEODBuG74AKksl/ppHV3L0LMvSsml7GNXYexVP1nstLVtbN2gyShrZ98RrS33PmDY3NkjQZV7SHZN1epoBw162PPEISmCo8cXXaA2fWzQGYiuwg7JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Z2nWw6kHNz6K94s;
+	Wed, 26 Feb 2025 16:22:20 +0800 (CST)
+Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0BDBB14097D;
+	Wed, 26 Feb 2025 16:24:16 +0800 (CST)
+Received: from china (10.200.201.82) by frapeml500005.china.huawei.com
+ (7.182.85.13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 26 Feb
+ 2025 09:24:04 +0100
+From: Gur Stavi <gur.stavi@huawei.com>
+To: <jdamato@fastly.com>
+CC: <andrew+netdev@lunn.ch>, <cai.huoqing@linux.dev>, <corbet@lwn.net>,
+	<davem@davemloft.net>, <edumazet@google.com>, <gongfan1@huawei.com>,
+	<guoxin09@huawei.com>, <gur.stavi@huawei.com>, <helgaas@kernel.org>,
+	<horms@kernel.org>, <kuba@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
+	<meny.yossefi@huawei.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
+	<przemyslaw.kitszel@intel.com>, <shenchenyang1@hisilicon.com>,
+	<shijing34@huawei.com>, <sumang@marvell.com>, <wulike1@huawei.com>,
+	<zhoushuai28@huawei.com>
+Subject: Re: [PATCH net-next v06 1/1] hinic3: module initialization and tx/rx logic
+Date: Wed, 26 Feb 2025 10:41:24 +0200
+Message-ID: <20250226084124.650275-1-gur.stavi@huawei.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <Z73pMXNsYprCcbmk@LQ3V64L9R2>
+References: <Z73pMXNsYprCcbmk@LQ3V64L9R2>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250225-upstream-lt3074-v2-1-18ad10ba542e@analog.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ frapeml500005.china.huawei.com (7.182.85.13)
 
-On Tue, Feb 25, 2025 at 09:01:13PM +0800, Cedric Encarnacion wrote:
-> Add Analog Devices LT3074 Ultralow Noise, High PSRR Dropout Linear
-> Regulator.
-> 
-> Signed-off-by: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
-> ---
->  .../bindings/hwmon/pmbus/adi,lt3074.yaml           | 64 ++++++++++++++++++++++
->  MAINTAINERS                                        |  7 +++
->  2 files changed, 71 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/adi,lt3074.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/adi,lt3074.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..714426fd655a8daa96e15e1f789743f36001ac7a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/adi,lt3074.yaml
-> @@ -0,0 +1,64 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/pmbus/adi,lt3074.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analog Devices LT3074 voltage regulator
-> +
-> +maintainers:
-> +  - Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
-> +
-> +description: |
-> +  The LT3074 is a low voltage, ultra-low noise and ultra-fast transient
-> +  response linear regulator. It allows telemetry for input/output voltage,
-> +  output current and temperature through the PMBus serial interface.
-> +
-> +  Datasheet:
-> +    https://www.analog.com/en/products/lt3074.html
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - adi,lt3074
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  regulators:
-> +    type: object
-> +    description: |
-> +      list of regulators provided by this controller.
+> On Tue, Feb 25, 2025 at 04:53:30PM +0200, Gur Stavi wrote:
+> > From: Fan Gong <gongfan1@huawei.com>
+> >
+> > This is [1/3] part of hinic3 Ethernet driver initial submission.
+> > With this patch hinic3 is a valid kernel module but non-functional
+> > driver.
+>
+> IMHO, there's a huge amount of code so it makes reviewing pretty
+> difficult.
+>
+> Is there no way to split this into multiple smaller patches? I am
+> sure his was asked and answered in a previous thread that I missed.
+>
+> I took a quick pass over the code, but probably missed many things
+> due to the large amount of code in a single patch.
 
-You have only one regulator, so drop the "regulators". vout could be
-here, but since you do not have any other resources, I doubt it stands
-on its own either. This is even visible in your DTS - you named the
-device as regulator, so logically this is the regulator. Regulator does
-not have regulators (otherwise they could also have regulators... so
-triple regulator).
 
-hwmon code might need some changes, but that's not really relevant for
-proper hardware description.
+>
+> Doesn't this function need to re-enable hw IRQs? Maybe it does
+> somewhere in one of the helpers and I missed it?
+>
+> Even so, it should probably be checking napi_complete_done before
+> re-enabling IRQs and I don't see a call to that anywhere, but maybe
+> I missed it?
+>
+> I also don't see any calls to netif_napi_add, so I'm not sure if
+> this code needs to be included in this patch ?
+>
 
-Best regards,
-Krzysztof
+Hi Joe, thanks for the review.
 
+There was a discussion during our initial submission where we were required to
+limit submission size to 4k LoC.
+https://lore.kernel.org/netdev/cover.1730290527.git.gur.stavi@huawei.com
+
+After removing almost anything optional from the driver we reached ~12K LoC
+and broke it into 3 submissions of 4K LoC that compile. This is the 1st
+submission.
+
+The rational for patch ordering was to start with the code that have lots of
+interaction with Linux interfaces and therefore is of more interest to the
+community and keep the code that deals with proprietary HW interfaces for later.
+We also try to make the patches incremental and avoid introducing ad-hoc code
+that is being deleted or modified in later submission.
+
+The actual calls to rx/tx poll and napi require IRQs that require hw management
+interfaces.
+I can try to pull these functions from later submission (without breaking the 4K
+limit) into this patch. They are currently static functions so I will have to
+un-static them to avoid compilation errors and then re-static them at a later
+submission.
+
+As for breaking the 4K submission into smaller patches, I will try to find
+some finer granularity that makes sense. When I studied the mailing list,
+there were conflicting opinions about the right way for initial driver
+submission. For example:
+https://lore.kernel.org/netdev/20170817.220343.905568389038615738.davem@davemloft.net
