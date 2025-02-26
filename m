@@ -1,236 +1,579 @@
-Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2065.outbound.protection.outlook.com [40.107.223.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0697E223716;
-	Wed, 26 Feb 2025 17:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.220
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740589679; cv=none; b=Yml/XPT2drIyUZvaC7h70FB/I/RTAXukznAmdGpiBNexbLYnGO8T2hHF+tD7SGsFYJ/OSHc+pst/kM4jcO8+OVML3cBb7kYglZeKX1unBZwkf4VXE19N0QpV32wrC33U0CKIYhl8Awu3QhUhig7nzLTAfpj5j9bjKr16TDFL+9M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740589679; c=relaxed/simple;
-	bh=cBaG+oS7JYdfqzVyKfbb8rgJ131fRZ/Hoj95YqdcdI8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=YX60Egk4dH2+Sy1PzIB3VWwshdZqZxmz6UHHEU6isriOx/0z/UjpA5u4oVyxN2kyUIgu368x/+YCkW+hCHOP9X9RI6IGeONvAckEKKI3S8rt8zSzlxnNIGFX5l0EScFv3GUqYrU0uWUBCeR1Og/g9i6mIK/fmt5yHm9wVSNsmOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=dvHIUUlO; arc=none smtp.client-ip=99.78.197.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18767224AE6;
+	Wed, 26 Feb 2025 17:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740589939; cv=fail; b=dL1TTijBePUB5uhXzx3hTbiOfV9YbAyP6QCk4Hl7iWiKkfO2qyDQjeu1FFLEuX5z7jPbbtx4SqELIji6GAZrOnmcHwEL9lCQ9zKj8TLtuLTIHmDCBxFQl0rjobCmwdku3MrYlWfq6Ep9NAqIGb1rUq2E+bmInNsDnT8Jbwn0eCU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740589939; c=relaxed/simple;
+	bh=r7aCqZu4FoM47kl8D355kOYKXrc1J0tCB+TBh/eGlpE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=j7+Umft0kg3H+z4u1naJTeJhsw3F7i0v4iNBrETK348RMhZ4GMQS6HOVgwbakW6+kjMHNr1aFcxcJZ5eTcW3R7vHbmgLvnHT1kU5eOFfIj6wVbvZsuzEO+Cq6Lz7g72wYyw70Cit2AkIub4CPQwmYC4HsHuXDyj9nIIKGahysWg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pfiNHHHD; arc=fail smtp.client-ip=40.107.223.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="dvHIUUlO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1740589675; x=1772125675;
-  h=message-id:date:mime-version:reply-to:subject:to:cc:
-   references:from:in-reply-to:content-transfer-encoding;
-  bh=BPwWo87sDuI7usZUdxHnOOz0ofoKPOJ/UoJEVKcIEVA=;
-  b=dvHIUUlOBNo4GgWcl7FyIGPqQDJrgfqHS3tZxYLwuk4fcLq71PdgqETE
-   lprAPuIWnTeZnAwfccI4Dcmb3v87Fq5LU1ueJ8cicRVsF2ru9GlRu5Psg
-   d4WfppAtjGrKsDERCkm+07q3FNvPAqx1hjSoCxOt4+A3lJ3AYjl55Aa4h
-   k=;
-X-IronPort-AV: E=Sophos;i="6.13,317,1732579200"; 
-   d="scan'208";a="176232161"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 17:07:44 +0000
-Received: from EX19MTAEUC002.ant.amazon.com [10.0.17.79:25271]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.36.78:2525] with esmtp (Farcaster)
- id 9ef91057-2ea6-4f6a-bc79-4520280e04df; Wed, 26 Feb 2025 17:07:43 +0000 (UTC)
-X-Farcaster-Flow-ID: 9ef91057-2ea6-4f6a-bc79-4520280e04df
-Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
- EX19MTAEUC002.ant.amazon.com (10.252.51.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Wed, 26 Feb 2025 17:07:39 +0000
-Received: from [192.168.22.24] (10.106.83.21) by EX19D022EUC002.ant.amazon.com
- (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14; Wed, 26 Feb 2025
- 17:07:38 +0000
-Message-ID: <946fc0f5-4306-4aa9-9b63-f7ccbaff8003@amazon.com>
-Date: Wed, 26 Feb 2025 17:07:36 +0000
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pfiNHHHD"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rsNRwIYvlTEMeW/HNuywpQbKc5pUhNPwX9Br0mTmJmjMFfvNFi54IHYUJKoIMVKG1tNsy8aN5vJwphCed+uAg7Fx3Jh/84ux0GNAxKYUXYkqvYjoY6kBGZixoSCACuKbUpIzwEU02moe0RYppZHdGdzhyWdkOHsqPVEj7g/7ep4eUdJC+FhLrlIZaJzz6cW+cmCOBW2W+2DtpC+3eBlNMcT2Jhy0FlsvlHySzzwz/xps5nG8ZNUnybqzQm/Dqro7Dfp5iuMXip0zkCjkbkwQDzmXxlTZO6XF1MUVktDwzcsxQk4Gqdxxy5rFqqb6ZAW8mCRtM61M4OH/YoJRtqYSFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DYl6HGu/XWocBsR4CfvESjko6oSILmQ6fQKd/lzqg/g=;
+ b=P+uZ9CBmeMmD2uFIHAgNa0EUvyKei64ZDgzTvSBY52j0d5v5vuNqFnDvjJjOm2SWvDOItGGrukjQk8kfjOtp48pZItYkeHiJA1qKHHuyQp3r1/rzR7G2UIhpNprbeZF0UYf2IGRTdIPdLGYULxxGDGqg2J1y8gA7JhVqo1g4C7TXlcy2oZ38vlXfrSOU8WehERQ9pEF1ncUPv4ejc0gFbI08m2kYLJvKUoTomOFEclMbVi+SJ1Gcd/2ScvgNL0bGiXBSnM0ZeaaMSZ1c2t2NZ73f3JpqjmMv3e2bqyiX6e0qPibpb3pkSH49fC3F7QpwfuoYFdBJ8PMIfVRQoN/z3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DYl6HGu/XWocBsR4CfvESjko6oSILmQ6fQKd/lzqg/g=;
+ b=pfiNHHHDnF46PVza26D2me3+Lt6k+PIF9lPVIz9g73V6dHP2rsr6vnrR4EC5FZF9TO8OGfI5O5KCUqABxRYmiNPrre/SLPE0XFfevZYqMshwx8KVpNCI1N6oeLUXJ2f23Fn6vEwRE1ZQzoQfmiXs1kN7J0zFLn1rWLDS/VrMq+Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by CH3PR12MB9431.namprd12.prod.outlook.com (2603:10b6:610:1c1::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.21; Wed, 26 Feb
+ 2025 17:12:14 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8466.015; Wed, 26 Feb 2025
+ 17:12:14 +0000
+Message-ID: <1122252b-55b9-4337-8e95-a95d3be95503@amd.com>
+Date: Wed, 26 Feb 2025 11:12:07 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Peter Newman <peternewman@google.com>
+Cc: "Moger, Babu" <bmoger@amd.com>, Dave Martin <Dave.Martin@arm.com>,
+ corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, tony.luck@intel.com, x86@kernel.org,
+ hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+ thuth@redhat.com, rostedt@goodmis.org, xiongwei.song@windriver.com,
+ pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
+ jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
+ xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
+ mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ maciej.wieczor-retman@intel.com, eranian@google.com
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <9e849476-7c4b-478b-bd2a-185024def3a3@intel.com>
+ <Z64tw2NbJXbKpLrH@e133380.arm.com>
+ <76b02daf-1b45-473e-9d75-5988a11c6887@intel.com>
+ <8ef51f28-e01a-4a7d-ba86-059437edb60b@amd.com>
+ <a07fca4c-c8fa-41a6-b126-59815b9a58f9@intel.com>
+ <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
+ <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com>
+ <CALPaoCj1TH+GN6+dFnt5xuN406u=tB-8mj+UuMRSm5KWPJW2wg@mail.gmail.com>
+ <2b5a11e3-ee19-47ba-b47e-b7de2818f237@intel.com>
+ <CALPaoChXvLNMg240C7RyBvg0SxXfGf_ozKC6X7Qe4OxyEcL2tw@mail.gmail.com>
+ <a3b46f6f-a844-4648-905e-53d662e5715f@intel.com>
+ <CALPaoCi0mFZ9TycyNs+SCR+2tuRJovQ2809jYMun4HtC64hJmA@mail.gmail.com>
+ <fc3a67ee-6e97-4b9f-88d9-c24c6dab20c3@intel.com>
+ <CALPaoCg97cLVVAcacnarp+880xjsedEWGJPXhYpy4P7=ky4MZw@mail.gmail.com>
+ <a9078e7d-9ce6-4096-a2da-b2c6aae1e3ed@amd.com>
+ <CALPaoCgN+oGgdp40TOJ9NgF9WYPdN0cG8A8BtOOMXOP6iMVfzw@mail.gmail.com>
+ <eb62be12-3a1f-4aad-b50f-bf71188ced75@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <eb62be12-3a1f-4aad-b50f-bf71188ced75@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1P222CA0184.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c4::29) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: <kalyazin@amazon.com>
-Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
-To: Sean Christopherson <seanjc@google.com>
-CC: <pbonzini@redhat.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <rostedt@goodmis.org>, <mhiramat@kernel.org>,
-	<mathieu.desnoyers@efficios.com>, <kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-trace-kernel@vger.kernel.org>, <jthoughton@google.com>,
-	<david@redhat.com>, <peterx@redhat.com>, <oleg@redhat.com>,
-	<vkuznets@redhat.com>, <gshan@redhat.com>, <graf@amazon.de>,
-	<jgowans@amazon.com>, <roypat@amazon.co.uk>, <derekmn@amazon.com>,
-	<nsaenz@amazon.es>, <xmarcalx@amazon.com>
-References: <20241118123948.4796-1-kalyazin@amazon.com>
- <Z6u-WdbiW3n7iTjp@google.com>
- <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com>
- <Z7X2EKzgp_iN190P@google.com>
- <6eddd049-7c7a-406d-b763-78fa1e7d921b@amazon.com>
- <Z7d5HT7FpE-ZsHQ9@google.com>
- <f820b630-13c1-4164-baa8-f5e8231612d1@amazon.com>
- <Z75nRwSBxpeMwbsR@google.com>
-Content-Language: en-US
-From: Nikita Kalyazin <kalyazin@amazon.com>
-Autocrypt: addr=kalyazin@amazon.com; keydata=
- xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
- JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
- BjLQwD9FsK+SyiCpmmTzBQJnrNfABQkFps9DAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
- IKmaZPOpfgD/exazh4C2Z8fNEz54YLJ6tuFEgQrVQPX6nQ/PfQi2+dwBAMGTpZcj9Z9NvSe1
- CmmKYnYjhzGxzjBs8itSUvWIcMsFzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
- ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
- ZPMFAmes18AFCQWmz0MCGwwACgkQr5LKIKmaZPNTlQEA+q+rGFn7273rOAg+rxPty0M8lJbT
- i2kGo8RmPPLu650A/1kWgz1AnenQUYzTAFnZrKSsXAw5WoHaDLBz9kiO5pAK
-In-Reply-To: <Z75nRwSBxpeMwbsR@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EX19D006EUC001.ant.amazon.com (10.252.51.203) To
- EX19D022EUC002.ant.amazon.com (10.252.51.137)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CH3PR12MB9431:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7fdb8dbb-3f9b-481c-d2fd-08dd5688b6c3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?NnQyTVNoNjJGQlFOdFBmdE9ES2ZNbE9PSDR2T0NLaDZ0RU56OVppVUxudy9M?=
+ =?utf-8?B?VFJidmpYdWtNdmRDRjZkYUxQaFdoR2JBL3B6ZTArSk5EcVFFVWNYc1hoem1q?=
+ =?utf-8?B?aXBWQ2pyb2xWZ1BtWUdTSFFHMDMvenZqbU1GNzBXYUZRTGhRYkxsY09ROG05?=
+ =?utf-8?B?SGNjMkNhWlVKTFc3UFErUkZMaFR4a0ltL0ptcGhtZStEOG1WUE1Ec1E3M0g0?=
+ =?utf-8?B?R0NWN28zbnR1dm05NjNsVkxJUWxybXN0YTJLUERNbVVId1JlK3VOWTlhTmFl?=
+ =?utf-8?B?WDFsK3ozTVNNVC82ZGZuWmlUSElYU0hmeHkxK3BvSU9pa2xWb2Fob3FXOUVN?=
+ =?utf-8?B?ZTFnWUNLYTI0UjA3R1c5ZXpjeGtxT2dkdUhyYVBEbThTYStzNVNLczFLRFZB?=
+ =?utf-8?B?MEZEQ1NuTGhSZWlxZWhtUDZRWlVXNFJYNjlNSnZRaWtiQkQ2SHRKYStNMkhj?=
+ =?utf-8?B?bm9xT24zNkNUc2c2cndFODdWTjV5Zi94RVJnTm9jaG1ROTBjamRhaGdRcTlJ?=
+ =?utf-8?B?SGQ1MGVnV21KblQxM3NsQ3lMcXhCb0ozdXd1TUg1SDh3aDdFQloxQnovckFT?=
+ =?utf-8?B?NFFRRkRzTzdoSjBZOGJKM25EVUxXREYrM3prR0tHN3RIOGs3L28yTnM5YVZr?=
+ =?utf-8?B?NXhHVzYzcDdZTlp2MUJUQjlnQVlENXhBWEFBaFNZTEI2dFdXaldBMElqaS9I?=
+ =?utf-8?B?ZDh0ejBIMFZnV0ovTTl1bUxmUk4zV2FxaGlBNlh5SmJTVlFsTGk4OHdVbkJa?=
+ =?utf-8?B?RUY2T2JDUC9UcEVIdFJpbWQzNU5ZdW9UelRqT3VZMW5YemJuL0lRUDZzb3k1?=
+ =?utf-8?B?RnZZbmlHbWVwL3k3OWRkTmRVYUVMbGVaT3RUU3FranM5bUhVWHpJVVY5SHRW?=
+ =?utf-8?B?amh1NzdVZFBsK1lGT2FhMXdobEVZZ0FxdkRXNW5wdDNOaEZOZ29MaU04a0hX?=
+ =?utf-8?B?QlNQSys1eUQ1N1d6bHEyYktEajFMYm1zN0Z2WW0wclNqRHM2N2JIOEZVSThV?=
+ =?utf-8?B?SVg4OEFVdEpHYkRjR00xNWN1ZEZTVGN6QkJaRlY5YVlmWm15Q0hlQys0SS9R?=
+ =?utf-8?B?NDNPYWRLTlJwb2dlUktSUzJmVzdHV2pQUXJRYU5HS0RnRHdxY2t6bmNuQmZj?=
+ =?utf-8?B?R1F6T1ZhcElJWjJkZllYRE1lMS9qVkdDSlZCdVpXR3VsbG1KYVI3RVFvTDlD?=
+ =?utf-8?B?RTJYbzl0YytKdWxibUlaVENOT1NwcFBSMWxqdWN6NlgwT29BaVRGc2F1OEMz?=
+ =?utf-8?B?NHRaQ2ZCR2NlZnF5SnBOUzVyRWhOaER5Y1lKSEgxSnYySmZqU1EvbStxMUJR?=
+ =?utf-8?B?cFQ4SDUxMlovT0N0dXB0QlpiZUg0ejE1eE9VUXptMWM2T08xcytkUXVqWFRB?=
+ =?utf-8?B?SUlQY1Rsb0JHRGFQMGpMdWc2NFVGU1UyZGwzMXcyWTlDdnpra2JCaGh0WXRm?=
+ =?utf-8?B?MUhhZlJZTEF6bFRpdmhtTnNPQTdZUHVITzM2d1h4Z3RZS0hqWUtJMUZ6NEVj?=
+ =?utf-8?B?MG9nOFVQSHA1SjA1Skl0UXU0TG5zclFYRkR0bW15MnFQUldLZkF3UlNucGd4?=
+ =?utf-8?B?Z0hrU2JCQ1VYa0lVak9YaVJnaUFlSlBiZUhxSWVkK0ZDcEdEZ0M1cStuaXhv?=
+ =?utf-8?B?Mmp3WXZia3RDU25lMkFQU2tuR3pGV3RGcE1SMk1oUUI4MGk2aFY2dU1rekRl?=
+ =?utf-8?B?R3Vlb2xqRWMrVis4eklYS2NoaUp4TmpFRTVlVmkycm1iUFQ4Y25lVWRWOXdB?=
+ =?utf-8?B?dE5uZ1dRMUNrOVhzYjcxMmZibWk1VnRYcFlBb2prMTd2ZFpUeFhzNlM0dTdR?=
+ =?utf-8?B?bmVWRVZyN3NDdnMxNU1paWtEdEhOUmlIaDl0MjhhK05BSU14SnNLcHRBeGN0?=
+ =?utf-8?B?YWVJZjcwVTVlaXlsZWNFUFlydFlOeHRxMzBNa1ZhQ3BZSEE9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MnVzNUp6REsxZVowZTBvRktzczFjUzE0NWs5MVErWTB6VDgvZktsNFlUUWp0?=
+ =?utf-8?B?czJET3dtOVgwOWZzdmtaMlRoeWFXK08vdTJ5akJwNzBLbUx3V0ZCbXlvK0xl?=
+ =?utf-8?B?L3lMY1NqUEROeklKWHFmeWNnZkV2eDNzWjYydzFTclIvZ3FQMEpMam1PRnRl?=
+ =?utf-8?B?d3JjekxxbG9NRkg3WjRjL0FsbTk0aFRHSmNMditwdnRwK3IwKzFjZllYbmNx?=
+ =?utf-8?B?QjQwZVBMZE5xUkIvZDBaOW14cUZPWFNIUFVMU3BrWE05R2pqSTlDdFpsNlBC?=
+ =?utf-8?B?bFR4dGkxQ1FTTmZPZWlvYTZJTHJ4R3lFcTA2VmhOM3piKzY5a0ZwRlFyaDBN?=
+ =?utf-8?B?dGpKaUhncC9KZjdPRGhGMFpYTlNybzF2YVc0eXFJYjZVNXM5OXBFNFlqWGtH?=
+ =?utf-8?B?elNLUVUzeXJSNXNMU3N4aGd4RExCVjMzT3ZObzU2Qm1XUXJ3Ujl4UHVlaFVj?=
+ =?utf-8?B?cFVrbDF4ZDFuYlZVSktzbTdwSHVadmpvZHBDV3ZCU3lIeG9STlhsYjFVUit1?=
+ =?utf-8?B?Q1ZQSllCc1RBcU1kTUxSRWZSWERETlJEVzFXSUUrUGlEbkdzZDc0QmVjRWZo?=
+ =?utf-8?B?RHF0U2VxKzhLbEhYcEt6WkloSjlYSk01OGM3N3N1M3Fwa3dwR0Uwam5pWTJC?=
+ =?utf-8?B?a1d0ajFUbjdkRXdPa3I5Z1NEYTRtbVlnaXMvQVJaeWRxTzlFWVhMRlFSdWls?=
+ =?utf-8?B?Ti8rOU92R09KbDBGVUxCSFA1YmFOdGZucVM4RE1xVllnNm40eUp6WEx0N3dm?=
+ =?utf-8?B?Ylk2WUdKZ1VJOHVJM3VpVGVNbjEzUVhiYmxXUXlydlg5UTVUaGh0cnpjL1FU?=
+ =?utf-8?B?MUdHNDREZlZMeXV1cXdhVzhlL1FqMzZsREx1dXJEcEc0WGxLeVhzSGEvYjhi?=
+ =?utf-8?B?Zk9UWVRycURFNGlvNEg0UFpCUm5nMkZ6TlVQZlMzS1dhQk5uVk9SWlhTWE9u?=
+ =?utf-8?B?bVZBVjFHNnF0VU1EMzNodjZXcmFNN09OSkFYSHJkMVZndk9yNUxpY2dMVnhU?=
+ =?utf-8?B?TEFSOTUzVkp5YU5rTklabkFiUDlKeGFoV2lvOGpQelQyV2lEL21ZdFQvT1VP?=
+ =?utf-8?B?bHQzcEVZWGI3alBrbkJZRTNWa0xCZU01OUt1U2YvaHZPNWl5Q1Q3anVpNjQy?=
+ =?utf-8?B?SGR2WURGY1c0MUZRakZtNFRpY0NnMFJpZnNBTDZSaXZOU2NqSi9nQ3MyajM5?=
+ =?utf-8?B?WE5ScXlUSC85SjFyZSthTHErWDByWDdoZzdRQzkrZVloVmF5Q0RFR2NWNjlk?=
+ =?utf-8?B?YjY5SHQzT3RJZ2FMVWZRNUZPQ3dveUo4TnBFYlVwc1ZyWENDdjR1NE5VTnhP?=
+ =?utf-8?B?akJlcmt2RkVmVG0yclorYnRzSld1enVCRTZCbGQzNXBGNEFxRWh3TGl3YURR?=
+ =?utf-8?B?VVQ2MkJBN3ZKc1U5cWV1bFVCUXZBQmsxNGJrT0RkdFRhZlppSTY0dEVYeHRP?=
+ =?utf-8?B?dDZEcndybEVqTHkrWnlwNWgvdzBCNmZoeUZmcDJKRnJjRmhDNFJ2RTFlNTht?=
+ =?utf-8?B?OXZORGhJZnc0ejl3U1VLQUV0YjBDTkI2bU1LOFVPa3g3NmRNNTc2ZXJWeEcv?=
+ =?utf-8?B?ayt6dVpuMFJpYWJ5b0R3WGhBOG9iczBQTjBCTmpKanByRnZkdTBRTzA5SWlV?=
+ =?utf-8?B?S1Q4U2dkL3FoL1k1ZDZnMXFsbjBVbVExUTNqTFl3OFVuZHNSbzY3ejg1Umwr?=
+ =?utf-8?B?VkZwRTRreDVNM3l4eXpzbU5PbnArQmdTNFdhb240UitXaUN6cEhsZ3REbmZw?=
+ =?utf-8?B?bDRsVkhFcWkwd2ZneHJJRzc5QVNVeEJ0QlZSYWVSc29vK0pLeEFLTDdSdUhC?=
+ =?utf-8?B?dThzdHBhTkc1YXVTYXhoVW8rVmY2OWxTSit6dHUybVlUaGVERTJHSlNpSWxl?=
+ =?utf-8?B?ZGdXVW10NUlUQjVwN0JHK1RacWkzVGtMQXR3bzdCT0Z6RTBZNWdnbEdnYmdB?=
+ =?utf-8?B?V1YrWGlHeU5MMUlKcVgyT3ArdWJWWHNwREJaMHJSZTdNTUpVaEFUaS9EMDFi?=
+ =?utf-8?B?SzN6cTZTRmIzNjVnVU51alR1TzU5dzkzSThMZWtIZFJ2L0ZtT1ZRd2RSbXQz?=
+ =?utf-8?B?M1BielhObnZIcndSM3ZyV1gwcWNnUXVFVFBZMU5laVB1OTFLRUxtSDAzRFZH?=
+ =?utf-8?Q?hzhY=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fdb8dbb-3f9b-481c-d2fd-08dd5688b6c3
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2025 17:12:13.9989
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0CTPByOM10kT3cFuGQjVgUvODLxXs/Kl/yPBQnzSEC1ekw6nxD1WBoSsiI3xFvhb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9431
 
-On 26/02/2025 00:58, Sean Christopherson wrote:
-> On Fri, Feb 21, 2025, Nikita Kalyazin wrote:
->> On 20/02/2025 18:49, Sean Christopherson wrote:
->>> On Thu, Feb 20, 2025, Nikita Kalyazin wrote:
->>>> On 19/02/2025 15:17, Sean Christopherson wrote:
->>>>> On Wed, Feb 12, 2025, Nikita Kalyazin wrote:
->>>>> The conundrum with userspace async #PF is that if userspace is given only a single
->>>>> bit per gfn to force an exit, then KVM won't be able to differentiate between
->>>>> "faults" that will be handled synchronously by the vCPU task, and faults that
->>>>> usersepace will hand off to an I/O task.  If the fault is handled synchronously,
->>>>> KVM will needlessly inject a not-present #PF and a present IRQ.
+Hi Peter/Reinette,
+
+On 2/26/25 10:25, Reinette Chatre wrote:
+> Hi Peter,
+> 
+> On 2/26/25 5:27 AM, Peter Newman wrote:
+>> Hi Babu,
+>>
+>> On Tue, Feb 25, 2025 at 10:31 PM Moger, Babu <babu.moger@amd.com> wrote:
+>>>
+>>> Hi Peter,
+>>>
+>>> On 2/25/25 11:11, Peter Newman wrote:
+>>>> Hi Reinette,
 >>>>
->>>> Right, but from the guest's point of view, async PF means "it will probably
->>>> take a while for the host to get the page, so I may consider doing something
->>>> else in the meantime (ie schedule another process if available)".
->>>
->>> Except in this case, the guest never gets a chance to run, i.e. it can't do
->>> something else.  From the guest point of view, if KVM doesn't inject what is
->>> effectively a spurious async #PF, the VM-Exiting instruction simply took a (really)
->>> long time to execute.
->>
->> Sorry, I didn't get that.  If userspace learns from the
->> kvm_run::memory_fault::flags that the exit is due to an async PF, it should
->> call kvm run immediately, inject the not-present PF and allow the guest to
->> reschedule.  What do you mean by "the guest never gets a chance to run"?
-> 
-> What I'm saying is that, as proposed, the API doesn't precisely tell userspace
-> an exit happened due to an "async #PF".  KVM has absolutely zero clue as to
-> whether or not userspace is going to do an async #PF, or if userspace wants to
-> intercept the fault for some entirely different purpose.
-
-Userspace is supposed to know whether the PF is async from the dedicated 
-flag added in the memory_fault structure: 
-KVM_MEMORY_EXIT_FLAG_ASYNC_PF_USER.  It will be set when KVM managed to 
-inject page-not-present.  Are you saying it isn't sufficient?
-
-@@ -4396,6 +4412,35 @@ static int __kvm_faultin_pfn(struct kvm_vcpu 
-*vcpu, struct kvm_page_fault *fault
-  {
-  	bool async;
-
-+	/* Pre-check for userfault and bail out early. */
-+	if (gfn_has_userfault(fault->slot->kvm, fault->gfn)) {
-+		bool report_async = false;
-+		u32 token = 0;
-+
-+		if (vcpu->kvm->arch.vm_type == KVM_X86_SW_PROTECTED_VM &&
-+			!fault->prefetch && kvm_can_do_async_pf(vcpu)) {
-+			trace_kvm_try_async_get_page(fault->addr, fault->gfn, 1);
-+			if (kvm_find_async_pf_gfn(vcpu, fault->gfn)) {
-+				trace_kvm_async_pf_repeated_fault(fault->addr, fault->gfn, 1);
-+				kvm_make_request(KVM_REQ_APF_HALT, vcpu);
-+				return RET_PF_RETRY;
-+			} else if (kvm_can_deliver_async_pf(vcpu) &&
-+				kvm_arch_setup_async_pf_user(vcpu, fault, &token)) {
-+				report_async = true;
-+			}
-+		}
-+
-+		fault->pfn = KVM_PFN_ERR_USERFAULT;
-+		kvm_mmu_prepare_memory_fault_exit(vcpu, fault);
-+
-+		if (report_async) {
-+			vcpu->run->memory_fault.flags |= KVM_MEMORY_EXIT_FLAG_ASYNC_PF_USER;
-+			vcpu->run->memory_fault.async_pf_user_token = token;
-+		}
-+
-+		return -EFAULT;
-+	}
-+
-
->>>> If we are exiting to userspace, it isn't going to be quick anyway, so we can
->>>> consider all such faults "long" and warranting the execution of the async PF
->>>> protocol.  So always injecting a not-present #PF and page ready IRQ doesn't
->>>> look too wrong in that case.
->>>
->>> There is no "wrong", it's simply wasteful.  The fact that the userspace exit is
->>> "long" is completely irrelevant.  Decompressing zswap is also slow, but it is
->>> done on the current CPU, i.e. is not background I/O, and so doesn't trigger async
->>> #PFs.
->>>
->>> In the guest, if host userspace resolves the fault before redoing KVM_RUN, the
->>> vCPU will get two events back-to-back: an async #PF, and an IRQ signalling completion
->>> of that #PF.
->>
->> Is this practically likely?
-> 
-> Yes, I think's it's quite possible.
-> 
->> At least in our scenario (Firecracker snapshot restore) and probably in live
->> migration postcopy, if a vCPU hits a fault, it's probably because the content
->> of the page is somewhere remote (eg on the source machine or wherever the
->> snapshot data is stored) and isn't going to be available quickly.
-> 
-> Unless the remote page was already requested, e.g. by a different vCPU, or by a
-> prefetching algorithim.
-> 
->> Conversely, if the page content is available, it must have already been
->> prepopulated into guest memory pagecache, the bit in the bitmap is cleared
->> and no exit to userspace occurs.
-> 
-> But that doesn't happen instantaneously.  Even if the VMM somehow atomically
-> receives the page and marks it present, it's still possible for marking the page
-> present to race with KVM checking the bitmap.
-
-That looks like a generic problem of the VM-exit fault handling.  Eg 
-when one vCPU exits, userspace handles the fault and races setting the 
-bitmap with another vCPU that is about to fault the same page, which may 
-cause a spurious exit.
-
-On the other hand, is it malignant?  The only downside is additional 
-overhead of the async PF protocol, but if the race occurs infrequently, 
-it shouldn't be a problem.
-
->>>>>> What advantage can you see in it over exiting to userspace (which already exists
->>>>>> in James's series)?
+>>>> On Fri, Feb 21, 2025 at 11:43 PM Reinette Chatre
+>>>> <reinette.chatre@intel.com> wrote:
 >>>>>
->>>>> It doesn't exit to userspace :-)
+>>>>> Hi Peter,
 >>>>>
->>>>> If userspace simply wakes a different task in response to the exit, then KVM
->>>>> should be able to wake said task, e.g. by signalling an eventfd, and resume the
->>>>> guest much faster than if the vCPU task needs to roundtrip to userspace.  Whether
->>>>> or not such an optimization is worth the complexity is an entirely different
->>>>> question though.
+>>>>> On 2/21/25 5:12 AM, Peter Newman wrote:
+>>>>>> On Thu, Feb 20, 2025 at 7:36 PM Reinette Chatre
+>>>>>> <reinette.chatre@intel.com> wrote:
+>>>>>>> On 2/20/25 6:53 AM, Peter Newman wrote:
+>>>>>>>> On Wed, Feb 19, 2025 at 7:21 PM Reinette Chatre
+>>>>>>>> <reinette.chatre@intel.com> wrote:
+>>>>>>>>> On 2/19/25 3:28 AM, Peter Newman wrote:
+>>>>>>>>>> On Tue, Feb 18, 2025 at 6:50 PM Reinette Chatre
+>>>>>>>>>> <reinette.chatre@intel.com> wrote:
+>>>>>>>>>>> On 2/17/25 2:26 AM, Peter Newman wrote:
+>>>>>>>>>>>> On Fri, Feb 14, 2025 at 8:18 PM Reinette Chatre
+>>>>>>>>>>>> <reinette.chatre@intel.com> wrote:
+>>>>>>>>>>>>> On 2/14/25 10:31 AM, Moger, Babu wrote:
+>>>>>>>>>>>>>> On 2/14/2025 12:26 AM, Reinette Chatre wrote:
+>>>>>>>>>>>>>>> On 2/13/25 9:37 AM, Dave Martin wrote:
+>>>>>>>>>>>>>>>> On Wed, Feb 12, 2025 at 03:33:31PM -0800, Reinette Chatre wrote:
+>>>>>>>>>>>>>>>>> On 2/12/25 9:46 AM, Dave Martin wrote:
+>>>>>>>>>>>>>>>>>> On Wed, Jan 22, 2025 at 02:20:08PM -0600, Babu Moger wrote:
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> (quoting relevant parts with goal to focus discussion on new possible syntax)
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>> I see the support for MPAM events distinct from the support of assignable counters.
+>>>>>>>>>>>>>>>>> Once the MPAM events are sorted, I think that they can be assigned with existing interface.
+>>>>>>>>>>>>>>>>> Please help me understand if you see it differently.
+>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>> Doing so would need to come up with alphabetical letters for these events,
+>>>>>>>>>>>>>>>>> which seems to be needed for your proposal also? If we use possible flags of:
+>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>> mbm_local_read_bytes a
+>>>>>>>>>>>>>>>>> mbm_local_write_bytes b
+>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>> Then mbm_assign_control can be used as:
+>>>>>>>>>>>>>>>>> # echo '//0=ab;1=b' >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>>>>>>>>>>>>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_read_bytes
+>>>>>>>>>>>>>>>>> <value>
+>>>>>>>>>>>>>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
+>>>>>>>>>>>>>>>>> <sum of mbm_local_read_bytes and mbm_local_write_bytes>
+>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>> One issue would be when resctrl needs to support more than 26 events (no more flags available),
+>>>>>>>>>>>>>>>>> assuming that upper case would be used for "shared" counters (unless this interface is defined
+>>>>>>>>>>>>>>>>> differently and only few uppercase letters used for it). Would this be too low of a limit?
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> As mentioned above, one possible issue with existing interface is that
+>>>>>>>>>>>>> it is limited to 26 events (assuming only lower case letters are used). The limit
+>>>>>>>>>>>>> is low enough to be of concern.
+>>>>>>>>>>>>
+>>>>>>>>>>>> The events which can be monitored by a single counter on ABMC and MPAM
+>>>>>>>>>>>> so far are combinable, so 26 counters per group today means it limits
+>>>>>>>>>>>> breaking down MBM traffic for each group 26 ways. If a user complained
+>>>>>>>>>>>> that a 26-way breakdown of a group's MBM traffic was limiting their
+>>>>>>>>>>>> investigation, I would question whether they know what they're looking
+>>>>>>>>>>>> for.
+>>>>>>>>>>>
+>>>>>>>>>>> The key here is "so far" as well as the focus on MBM only.
+>>>>>>>>>>>
+>>>>>>>>>>> It is impossible for me to predict what we will see in a couple of years
+>>>>>>>>>>> from Intel RDT, AMD PQoS, and Arm MPAM that now all rely on resctrl interface
+>>>>>>>>>>> to support their users. Just looking at the Intel RDT spec the event register
+>>>>>>>>>>> has space for 32 events for each "CPU agent" resource. That does not take into
+>>>>>>>>>>> account the "non-CPU agents" that are enumerated via ACPI. Tony already mentioned
+>>>>>>>>>>> that he is working on patches [1] that will add new events and shared the idea
+>>>>>>>>>>> that we may be trending to support "perf" like events associated with RMID. I
+>>>>>>>>>>> expect AMD PQoS and Arm MPAM to provide related enhancements to support their
+>>>>>>>>>>> customers.
+>>>>>>>>>>> This all makes me think that resctrl should be ready to support more events than 26.
+>>>>>>>>>>
+>>>>>>>>>> I was thinking of the letters as representing a reusable, user-defined
+>>>>>>>>>> event-set for applying to a single counter rather than as individual
+>>>>>>>>>> events, since MPAM and ABMC allow us to choose the set of events each
+>>>>>>>>>> one counts. Wherever we define the letters, we could use more symbolic
+>>>>>>>>>> event names.
+>>>>>>>>>
+>>>>>>>>> Thank you for clarifying.
+>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> In the letters as events model, choosing the events assigned to a
+>>>>>>>>>> group wouldn't be enough information, since we would want to control
+>>>>>>>>>> which events should share a counter and which should be counted by
+>>>>>>>>>> separate counters. I think the amount of information that would need
+>>>>>>>>>> to be encoded into mbm_assign_control to represent the level of
+>>>>>>>>>> configurability supported by hardware would quickly get out of hand.
+>>>>>>>>>>
+>>>>>>>>>> Maybe as an example, one counter for all reads, one counter for all
+>>>>>>>>>> writes in ABMC would look like...
+>>>>>>>>>>
+>>>>>>>>>> (L3_QOS_ABMC_CFG.BwType field names below)
+>>>>>>>>>>
+>>>>>>>>>> (per domain)
+>>>>>>>>>> group 0:
+>>>>>>>>>>  counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>>>>  counter 1: VictimBW,LclNTWr,RmtNTWr
+>>>>>>>>>> group 1:
+>>>>>>>>>>  counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>>>>  counter 3: VictimBW,LclNTWr,RmtNTWr
+>>>>>>>>>> ...
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> I think this may also be what Dave was heading towards in [2] but in that
+>>>>>>>>> example and above the counter configuration appears to be global. You do mention
+>>>>>>>>> "configurability supported by hardware" so I wonder if per-domain counter
+>>>>>>>>> configuration is a requirement?
+>>>>>>>>
+>>>>>>>> If it's global and we want a particular group to be watched by more
+>>>>>>>> counters, I wouldn't want this to result in allocating more counters
+>>>>>>>> for that group in all domains, or allocating counters in domains where
+>>>>>>>> they're not needed. I want to encourage my users to avoid allocating
+>>>>>>>> monitoring resources in domains where a job is not allowed to run so
+>>>>>>>> there's less pressure on the counters.
+>>>>>>>>
+>>>>>>>> In Dave's proposal it looks like global configuration means
+>>>>>>>> globally-defined "named counter configurations", which works because
+>>>>>>>> it's really per-domain assignment of the configurations to however
+>>>>>>>> many counters the group needs in each domain.
+>>>>>>>
+>>>>>>> I think I am becoming lost. Would a global configuration not break your
+>>>>>>> view of "event-set applied to a single counter"? If a counter is configured
+>>>>>>> globally then it would not make it possible to support the full configurability
+>>>>>>> of the hardware.
+>>>>>>> Before I add more confusion, let me try with an example that builds on your
+>>>>>>> earlier example copied below:
+>>>>>>>
+>>>>>>>>>> (per domain)
+>>>>>>>>>> group 0:
+>>>>>>>>>>  counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>>>>  counter 1: VictimBW,LclNTWr,RmtNTWr
+>>>>>>>>>> group 1:
+>>>>>>>>>>  counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>>>>  counter 3: VictimBW,LclNTWr,RmtNTWr
+>>>>>>>>>> ...
+>>>>>>>
+>>>>>>> Since the above states "per domain" I rewrite the example to highlight that as
+>>>>>>> I understand it:
+>>>>>>>
+>>>>>>> group 0:
+>>>>>>>  domain 0:
+>>>>>>>   counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>   counter 1: VictimBW,LclNTWr,RmtNTWr
+>>>>>>>  domain 1:
+>>>>>>>   counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>   counter 1: VictimBW,LclNTWr,RmtNTWr
+>>>>>>> group 1:
+>>>>>>>  domain 0:
+>>>>>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
+>>>>>>>  domain 1:
+>>>>>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
+>>>>>>>
+>>>>>>> You mention that you do not want counters to be allocated in domains that they
+>>>>>>> are not needed in. So, let's say group 0 does not need counter 0 and counter 1
+>>>>>>> in domain 1, resulting in:
+>>>>>>>
+>>>>>>> group 0:
+>>>>>>>  domain 0:
+>>>>>>>   counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>   counter 1: VictimBW,LclNTWr,RmtNTWr
+>>>>>>> group 1:
+>>>>>>>  domain 0:
+>>>>>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
+>>>>>>>  domain 1:
+>>>>>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
+>>>>>>>
+>>>>>>> With counter 0 and counter 1 available in domain 1, these counters could
+>>>>>>> theoretically be configured to give group 1 more data in domain 1:
+>>>>>>>
+>>>>>>> group 0:
+>>>>>>>  domain 0:
+>>>>>>>   counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>   counter 1: VictimBW,LclNTWr,RmtNTWr
+>>>>>>> group 1:
+>>>>>>>  domain 0:
+>>>>>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
+>>>>>>>  domain 1:
+>>>>>>>   counter 0: LclFill,RmtFill
+>>>>>>>   counter 1: LclNTWr,RmtNTWr
+>>>>>>>   counter 2: LclSlowFill,RmtSlowFill
+>>>>>>>   counter 3: VictimBW
+>>>>>>>
+>>>>>>> The counters are shown with different per-domain configurations that seems to
+>>>>>>> match with earlier goals of (a) choose events counted by each counter and
+>>>>>>> (b) do not allocate counters in domains where they are not needed. As I
+>>>>>>> understand the above does contradict global counter configuration though.
+>>>>>>> Or do you mean that only the *name* of the counter is global and then
+>>>>>>> that it is reconfigured as part of every assignment?
+>>>>>>
+>>>>>> Yes, I meant only the *name* is global. I assume based on a particular
+>>>>>> system configuration, the user will settle on a handful of useful
+>>>>>> groupings to count.
+>>>>>>
+>>>>>> Perhaps mbm_assign_control syntax is the clearest way to express an example...
+>>>>>>
+>>>>>>  # define global configurations (in ABMC terms), not necessarily in this
+>>>>>>  # syntax and probably not in the mbm_assign_control file.
+>>>>>>
+>>>>>>  r=LclFill,RmtFill,LclSlowFill,RmtSlowFill
+>>>>>>  w=VictimBW,LclNTWr,RmtNTWr
+>>>>>>
+>>>>>>  # legacy "total" configuration, effectively r+w
+>>>>>>  t=LclFill,RmtFill,LclSlowFill,RmtSlowFill,VictimBW,LclNTWr,RmtNTWr
+>>>>>>
+>>>>>>  /group0/0=t;1=t
+>>>>>>  /group1/0=t;1=t
+>>>>>>  /group2/0=_;1=t
+>>>>>>  /group3/0=rw;1=_
+>>>>>>
+>>>>>> - group2 is restricted to domain 0
+>>>>>> - group3 is restricted to domain 1
+>>>>>> - the rest are unrestricted
+>>>>>> - In group3, we decided we need to separate read and write traffic
+>>>>>>
+>>>>>> This consumes 4 counters in domain 0 and 3 counters in domain 1.
+>>>>>>
+>>>>>
+>>>>> I see. Thank you for the example.
+>>>>>
+>>>>> resctrl supports per-domain configurations with the following possible when
+>>>>> using mbm_total_bytes_config and mbm_local_bytes_config:
+>>>>>
+>>>>> t(domain 0)=LclFill,RmtFill,LclSlowFill,RmtSlowFill,VictimBW,LclNTWr,RmtNTWr
+>>>>> t(domain 1)=LclFill,RmtFill,VictimBW,LclNTWr,RmtNTWr
+>>>>>
+>>>>>    /group0/0=t;1=t
+>>>>>    /group1/0=t;1=t
+>>>>>
+>>>>> Even though the flags are identical in all domains, the assigned counters will
+>>>>> be configured differently in each domain.
+>>>>>
+>>>>> With this supported by hardware and currently also supported by resctrl it seems
+>>>>> reasonable to carry this forward to what will be supported next.
 >>>>
->>>> This reminds me of the discussion about VMA-less UFFD that was coming up
->>>> several times, such as [1], but AFAIK hasn't materialised into something
->>>> actionable.  I may be wrong, but James was looking into that and couldn't
->>>> figure out a way to scale it sufficiently for his use case and had to stick
->>>> with the VM-exit-based approach.  Can you see a world where VM-exit
->>>> userfaults coexist with no-VM-exit way of handling async PFs?
+>>>> The hardware supports both a per-domain mode, where all groups in a
+>>>> domain use the same configurations and are limited to two events per
+>>>> group and a per-group mode where every group can be configured and
+>>>> assigned freely. This series is using the legacy counter access mode
+>>>> where only counters whose BwType matches an instance of QOS_EVT_CFG_n
+>>>> in the domain can be read. If we chose to read the assigned counter
+>>>> directly (QM_EVTSEL[ExtendedEvtID]=1, QM_EVTSEL[EvtID]=L3CacheABMC)
+>>>> rather than asking the hardware to find the counter by RMID, we would
+>>>> not be limited to 2 counters per group/domain and the hardware would
+>>>> have the same flexibility as on MPAM.
 >>>
->>> The issue with UFFD is that it's difficult to provide a generic "point of contact",
->>> whereas with KVM userfault, signalling can be tied to the vCPU, and KVM can provide
->>> per-vCPU buffers/structures to aid communication.
+>>> In extended mode, the contents of a specific counter can be read by
+>>> setting the following fields in QM_EVTSEL: [ExtendedEvtID]=1,
+>>> [EvtID]=L3CacheABMC and setting [RMID] to the desired counter ID. Reading
+>>> QM_CTR will then return the contents of the specified counter.
 >>>
->>> That said, supporting "exitless" KVM userfault would most definitely be premature
->>> optimization without strong evidence it would benefit a real world use case.
+>>> It is documented below.
+>>> https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/programmer-references/24593.pdf
+>>>  Section: 19.3.3.3 Assignable Bandwidth Monitoring (ABMC)
+>>>
+>>> We previously discussed this with you (off the public list) and I
+>>> initially proposed the extended assignment mode.
+>>>
+>>> Yes, the extended mode allows greater flexibility by enabling multiple
+>>> counters to be assigned to the same group, rather than being limited to
+>>> just two.
+>>>
+>>> However, the challenge is that we currently lack the necessary interfaces
+>>> to configure multiple events per group. Without these interfaces, the
+>>> extended mode is not practical at this time.
+>>>
+>>> Therefore, we ultimately agreed to use the legacy mode, as it does not
+>>> require modifications to the existing interface, allowing us to continue
+>>> using it as is.
+>>>
+>>>>
+>>>> (I might have said something confusing in my last messages because I
+>>>> had forgotten that I switched to the extended assignment mode when
+>>>> prototyping with soft-ABMC and MPAM.)
+>>>>
+>>>> Forcing all groups on a domain to share the same 2 counter
+>>>> configurations would not be acceptable for us, as the example I gave
+>>>> earlier is one I've already been asked about.
+>>>
+>>> I don’t see this as a blocker. It should be considered an extension to the
+>>> current ABMC series. We can easily build on top of this series once we
+>>> finalize how to configure the multiple event interface for each group.
 >>
->> Does that mean that the "exitless" solution for async PF is a long-term one
->> (if required), while the short-term would still be "exitful" (if we find a
->> way to do it sensibly)?
-> 
-> My question on exitless support was purely exploratory, just ignore it for now.
+>> I don't think it is, either. Only being able to use ABMC to assign
+>> counters is fine for our use as an incremental step. My longer-term
+>> concern is the domain-scoped mbm_total_bytes_config and
+>> mbm_local_bytes_config files, but they were introduced with BMEC, so
+>> there's already an expectation that the files are present when BMEC is
+>> supported.
 
+It's good that we at least know about this concern now. Let's take a step
+back and figure out how we can address it.
+
+>>
+>> On ABMC hardware that also supports BMEC, I'm concerned about enabling
+>> ABMC when only the BMEC-style event configuration interface exists.
+> 
+> ABMC currently depends on BMEC making the current implementation the
+> one you are concerned about?
+> https://lore.kernel.org/lkml/e4111779ebb0e7004dbedc258eeae2677f578ab1.1737577229.git.babu.moger@amd.com/
+
+I think it is more than that.
+
+The ABMC feature allows event configuration by writing to L3_QOS_ABMC_CFG,
+where we can set cntr_id, RMID, and event configuration. Currently, we
+derive event configuration from BMEC settings (either
+mbm_total_bytes_config or mbm_local_bytes_config).
+
+If we don’t use BMEC values, we would need to require users to manually
+specify event configuration settings.
+
+struct mbm_cntr_cfg {
+        enum resctrl_event_id   evtid;
+        struct rdtgroup         *rdtgrp;
+};
+
+Currently, we determine the RMID from the rdtgroup and the event type,
+while event configuration relies on BMEC:
+
+
+To make event configuration independent of BMEC, we can include an
+explicit event configuration field:
+
+struct mbm_cntr_cfg {
+        enum resctrl_event_id   evtid;
+        u32                     evt_cfg;  // User-provided config value
+        struct rdtgroup         *rdtgrp;
+};
+
+Key Considerations
+
+1.  Counter Management: Managing counters globally (like CLOSID
+management) would be simpler than handling them at the domain level,
+though domain-level management is feasible.
+
+2. User Input: Users will need to specify event configuration when
+assigning events.
+
+
+Here is the quick example using our current interface:
+a. List the group.
+
+#cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+//0=t:0x1F,l:0x15;1=t:0x1F,l:0x15
+
+b. Unassign an Event:
+
+#echo "//0-l" > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+
+#cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+//0=t:0x1F;1=t:0x1F,l:0x15
+
+c. Assign an Event:
+
+#echo "//0+l:0x15" > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+
+Note that I dont want to rush here.
+
+Peter, Can you please spend some time and propose the interface you are
+thinking of based on both ABMC and MPAM.
+
+> 
+>> The scope of my issue is just whether enabling "full" ABMC support
+>> will require an additional opt-in, since that could remove the BMEC
+>> interface. If it does, it's something we can live with.
+> 
+> 
+> Reinette
+> 
+> 
+
+-- 
+Thanks
+Babu Moger
