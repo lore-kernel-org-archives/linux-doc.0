@@ -1,117 +1,175 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADE825D551
-	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 21:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11A225E46D
+	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 21:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740605890; cv=none; b=dvF5RB6jQEeY6ZUZOqOiAmSeNwok5iaZTuw8Uc83LtfLy96lJ9oMuVAVbonypKy8H4uKtl/BXuGh8qe8U9mQuz4W7Ij1pLICr1Yfafj1bcfJ/dObomIZ2enn2EW4AgNJ4CPAu89lUEIKg85vtfyqsQ52vmHe2F6BV7RWaBHtj7g=
+	t=1740606389; cv=none; b=HsrltJyC1CmNcxEFj9S5q4wLH6zX2gxrP1fU7xBsTsUbPebdx1hXNeC4mNbtumogYM68evtrZjYIEHGSQbdXhwGlTRd9psHEIpMqU7VECkU/j3rqkqvU6jJykBp3QvG44dbbTq+kdEyZ7uQ3C9TxkYyN2YgnxmkEXwAbYiqglMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740605890; c=relaxed/simple;
-	bh=ZqBestMUPFwTqZdVmhC1VxizcqbeFwZ7xmoJVpNXomU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=SMTV/NnNvZhlObbQCHzcv+1ialsOvApJj1SdlppH/+E//b3X5IhroYjeAGBfRiSCNlK8wXjXs1GMJiSQsWUJSDzdOZftL4Mgx2Co/s004O7wJEkHjU49PSMLsU5tmW/6A5mwWDG6PkIQcpqa7T1fyWxRj4GS7TmpvNM6LgZtw/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--gnoack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tCjBSDSS; arc=none smtp.client-ip=209.85.218.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--gnoack.bounces.google.com
+	s=arc-20240116; t=1740606389; c=relaxed/simple;
+	bh=ThhmSY4jBoAA9rtbe8PZn8mnnG6PPQqSANknf1zTY5U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=geWs2kqWq7zA/3ttyYP5mfwLN6fgYjeU3KCQJGTJqzBbKe+6J8fRy9BYXQhO5sgvMKZMmZuUp3kipjnRsY9+NT9l3ahUa0QFBScyG49YYy+o1OOtwbe9nrqDM4Zy0J0HbIM/vG5nI1bS4JhnhzbU+W0ktsVF8O3TI1sOwRGicAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qQJKFzsB; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tCjBSDSS"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-abbb44abae6so21110066b.1
-        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 13:38:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qQJKFzsB"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-439a7d9a87bso347515e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 13:46:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740605887; x=1741210687; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mGqPzZNS1V+n4kBOnix0o1ofeCkSUT4nSjjh84WDIMU=;
-        b=tCjBSDSScsAJZnWQMLIv3orWGISk7pf8yoN5yvwmQt0gohbtxgzUx4Jjyg5wtWMp3p
-         mywwNiHe1fqwpkjL9rF5Lh50tT01YFnp99M1W9P5gjyH/CpXa9BvFTje1bISIpVQIydH
-         8dcT9J909fxu3uG5QmmZZZBuD3flT6sOwc1cub/wJFXt+A+AHzxiN4uXA6rB84WBHoJz
-         tXoAuQcnbnLYcPLyvyS4UQTDwtkN+LvtUmsrItEqNsXM9siokneRowpy+/XyWmbQ9apC
-         HH10/bjhgpBw4AtAfqtXFe6c5axxYEMraWHvyQzMr3lqq5ixVr7aurnYKayzqSe1lFh6
-         SYXw==
+        d=linaro.org; s=google; t=1740606386; x=1741211186; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=YFbakQilfrCFdJzAsEkSswfsOnqR/LYLZZiUe3xWbCI=;
+        b=qQJKFzsBm7rjcJZxCasCpW8J0NTG8JYt+fYUs1y2l0hC+COhFjmXz/FDL+8WNdLQDm
+         R4K7sgIAZxzuju7c0Sr7SJJNQ1hl8nWxbNUfcUq0xS+Sw/uXW7rl6GhfLZ4+R7WYDuc/
+         xubKzb6R7G2jZVrgoPunwmSDZv2IyEN9uHDkjpqwGGSClC6zBBBTX99pquLhWLaX5vkZ
+         F5BSSfGEB8Y3OLsnpJl+mTo2VkHg60mFrevFBPrCwSSDBcH0XeYJVYcT4kJuI0x8O3O+
+         Wk3bWJGbWm5M6t0av5hiU7MGOG75KAIylwdmwlSv94WcpqAZVTp6bknGDUrCwKl4AS9j
+         cyXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740605887; x=1741210687;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=mGqPzZNS1V+n4kBOnix0o1ofeCkSUT4nSjjh84WDIMU=;
-        b=geZ9VuzmN6HIRadbgnE5RUpweLrLPifBV5bgBB7S9JhYJB55Zrg8n0nJDH22MSt3hg
-         z8pujiD1FNjEPfkdxLUoJFn6ztS7ZXIgYdYDM767tH/b9hkXjBnH4xYqxgojIt4VpALX
-         FH5QkHMfmFhyYgs+Vh0LQ3/IG3xb1LXEYxnK3ckP+lDS8xOj7wZ3ZJs72DosfzVjqoW2
-         H2maulXt+jgT0LI/qxQOawQntZIlT1f9QHcpV/kSOk6yZqXf3iL2qmqzNiar1zx1mBLT
-         s9TDxuktNx4VSFu7vn6STDnbyTqf6gkhua7g6Si3tqlUTrkRmjn2TfK56i4ADt6Cb+31
-         pjeA==
-X-Forwarded-Encrypted: i=1; AJvYcCUebT5l3mkcM+FEqbL0gcyijQ+ZWb9oVe/Z7MWz1oQGwCxaIe0vP1H/jVIZFgfmX0WK9QywNxUQ/bY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlJ1Xj9AuaoCdZD+o7YnGYEtr1TUjKJC22/X4ATYJkdMqnptvJ
-	ElKzQYhXPHfilY2O8RIn+1ptPCyjyektNI8sIdiOAdPQVk1tYhO65TtlTwIytak2rP7tWXtoE5u
-	Vog==
-X-Google-Smtp-Source: AGHT+IHLcGqlDtLI8Hl2GI2lBKNlphlk5lHlGNFGlyXSH6D0Fyvmh2EVwHw6XlBi6AYMqakwrDecEE1k1u8=
-X-Received: from edat28.prod.google.com ([2002:a05:6402:241c:b0:5e0:9ff2:9ffd])
- (user=gnoack job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:2347:b0:5e0:8064:b42e
- with SMTP id 4fb4d7f45d1cf-5e0b7223106mr23870685a12.25.1740605887315; Wed, 26
- Feb 2025 13:38:07 -0800 (PST)
-Date: Wed, 26 Feb 2025 22:38:05 +0100
-In-Reply-To: <5xijgm2hkedx2tu6fjt67ozf2rmvjz6z4zvvcvokymc3hlc6of@xqpnvf23ia2s>
+        d=1e100.net; s=20230601; t=1740606386; x=1741211186;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YFbakQilfrCFdJzAsEkSswfsOnqR/LYLZZiUe3xWbCI=;
+        b=S2cLAg2oPJRjf8e5Cwg+NtYFh5+K+K0/lam7HdmBUJuC/o1D80adnjy8TPoXgXwf3U
+         5XW3Zb7G+z/sxcUbeawYVKHOjjS8K2deCg4zYFbCcmC3TPPq1/cYBPakKnDkxaUaw3sG
+         26AnGOlNf8gMszNU7wX6QBvId8I/WpcglqDpxzxPg09XGMb7HLdomLWXa4gb88GXHdN+
+         /g4SvQuHDBUyMdF+nFJTFTQSGszUhTfU0P8pGgE0bRS2sf4GafaKEstC05nGtmo3CiK5
+         Bd8UBvEfDw6WbBVchwvYkLGSuDZIxpCC5H6yK+7r8MSOjmuU6neSp8G4ZRYQi6xvQYsY
+         EGFA==
+X-Forwarded-Encrypted: i=1; AJvYcCUCyNwjVliwzQBR3pV8I9USxFmoYeE4ur9JYt+hqkFKrVvwZ/m9qZ7b0EDdyMGci/XXMLWkAArU4xw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9RsO93N4bsT7FqWHfVk+atTFFyZ0J9N8wvsJhJ+juHSr16bQy
+	jGHaILZamSfXXYEauxbBkqzmI4tSlp49cduA1zFS/rgn0/cSHl3kVxJtoYpYPh8=
+X-Gm-Gg: ASbGnctmES/Ti/k7bYcwY//7CBWlSHPrv9dEh4DkB65ahDhxWfo2Xf/I71HPg5NI74I
+	CAw/bm2P81NTMLLn/7qaTc9nm+FkvX0nh13jvRsYBLEg44f38tRYWhNW+LaZhUEDaxGpnOO1kwG
+	X1zDJJOUMpUj/6np1/pknkb8NhcpU1kxEXkMNlSWsXKSO2ASSXn8izAJQM8M58Wmq6YKtgrYSdf
+	D1oilCHQh5VtindFf9GIJTpA5PIqp/yFDau20jjcYHxv+IukYwIkOWGHs/rPGH2dLL12DYUhTFb
+	MCCHM9icN0iIbVAODMEZEqy4Zv60c2OdLmRh1UTvNO93/Q==
+X-Google-Smtp-Source: AGHT+IEtK1mvKfE+Jrb2eiE9/ZRmv/XDdzfXvcs10OfwXomz3dm8J+yPkFC2Jsa9R+dhNmzu86YwxA==
+X-Received: by 2002:a05:600c:4f02:b0:439:930a:589b with SMTP id 5b1f17b1804b1-439ae21e0fdmr78223425e9.3.1740606386090;
+        Wed, 26 Feb 2025 13:46:26 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.206.225])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43aba5329besm33666575e9.15.2025.02.26.13.46.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Feb 2025 13:46:25 -0800 (PST)
+Message-ID: <455e8796-bf53-40d2-b3dc-13f583af0865@linaro.org>
+Date: Wed, 26 Feb 2025 22:46:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250124154445.162841-1-gnoack@google.com> <20250211.Ree5bu6Eph2p@digikod.net>
- <22olfm76rcgjfs4vrr3adtbznsnz47kaehlr3ljn6e5jkc6waq@ue7azstxlwfv>
- <20250211.ieSoo7Phe5oh@digikod.net> <3unkhxarmiddobfjvojx4sdpgitjld26udcagka2ocgrb6c2jc@dcg4w5yk5mut>
- <20250211.oavooPhap9OX@digikod.net> <7vl6uylhzgkokl42bz36d5g3krcusqf7mdy4bd7tblcjckatrw@ullu2kblovji>
- <Z794dm_xmViQ_lFF@google.com> <5xijgm2hkedx2tu6fjt67ozf2rmvjz6z4zvvcvokymc3hlc6of@xqpnvf23ia2s>
-Message-ID: <Z7-JvY4DP-CswCyF@google.com>
-Subject: Re: [PATCH 1/2] landlock: Minor typo and grammar fixes in IPC scoping documentation
-From: "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack@google.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: "=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?=" <mic@digikod.net>, linux-security-module@vger.kernel.org, 
-	Tahera Fahimi <fahimitahera@gmail.com>, Tanya Agarwal <tanyaagarwal25699@gmail.com>, 
-	Daniel Burgener <dburgener@linux.microsoft.com>, tools@kernel.org, linux-doc@vger.kernel.org, 
-	linux-man@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] docs: process: maintainer-soc-clean-dts: linux-next
+ is decisive
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ soc@lists.linux.dev, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250225184822.213296-1-krzysztof.kozlowski@linaro.org>
+ <20250225184822.213296-2-krzysztof.kozlowski@linaro.org>
+ <20250226152910.GA2447540-robh@kernel.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20250226152910.GA2447540-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello!
+On 26/02/2025 16:29, Rob Herring wrote:
+> On Tue, Feb 25, 2025 at 07:48:22PM +0100, Krzysztof Kozlowski wrote:
+>> Devicetree bindings patches go usually via driver subsystem tree, so
+>> obviously testing only SoC branches would result in new dtbs_check
+>> warnings.  Mention that linux-next branch is decisice for zero-warnings
+>> rule.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> ---
+>>  Documentation/process/maintainer-soc-clean-dts.rst | 5 +++--
+>>  1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/process/maintainer-soc-clean-dts.rst b/Documentation/process/maintainer-soc-clean-dts.rst
+>> index 1b32430d0cfc..5423fb7d6047 100644
+>> --- a/Documentation/process/maintainer-soc-clean-dts.rst
+>> +++ b/Documentation/process/maintainer-soc-clean-dts.rst
+>> @@ -17,8 +17,9 @@ Strict DTS DT Schema and dtc Compliance
+>>  No changes to the SoC platform Devicetree sources (DTS files) should introduce
+>>  new ``make dtbs_check W=1`` warnings.  Warnings in a new board DTS, which are
+>>  results of issues in an included DTSI file, are considered existing, not new
+>> -warnings.  The platform maintainers have automation in place which should point
+>> -out any new warnings.
+>> +warnings.  For series split between different trees (DT bindings go via driver
+>> +subsystem tree), warnings on linux-next are decisive.  The platform maintainers
+>> +have automation in place which should point out any new warnings.
+> 
+> I see a lot of warnings due to dependencies (both bindings and other dts 
+> changes) not be applied yet (or applied but not in linux-next). I've 
+> been filtering those out, but maybe they're useful? Some are things like 
+> missing labels, so dtc fails. I think that gets run enough a failure 
+> report on it isn't too useful.
+Maintainer-soc-clean-dts is an opt-in and so far only two guys in kernel
+opted-in: for Arm/Arm64 one Samsung dude and for other archs only the
+Risc-v guy.
 
-On Wed, Feb 26, 2025 at 09:57:58PM +0100, Alejandro Colomar wrote:
-> On Wed, Feb 26, 2025 at 08:24:22PM +0000, G=C3=BCnther Noack wrote:
-> > On Wed, Feb 12, 2025 at 04:06:06PM +0100, Alejandro Colomar wrote:
-> > > So you could really use man9 for internal Landlock stuff.  Even if I
-> > > think generated documentation isn't ideal, it's better than nothing.
-> > > Being able to use man(1) for reading kernel documentation would still=
- be
-> > > a nice feature.
-> > >=20
-> > > And while I can't run all the linters that I run on hand-written docs=
- on
-> > > generated pages (because generated source necessarily triggers many
-> > > false positives), I could still run some, which would trigger some
-> > > accidents in the docs, and would also detect bugs in the software
-> > > translating the docs from one language to another.
-> > >=20
-> > > So, I'd still recommend you considering man9.
-> >=20
-> > This is different to the BPF helpers; Landlock's existing man pages doc=
-ument
-> > user space APIs, and the largest part of the kernel-side .rst documenta=
-tion for
-> > Landlock also covers only user space.
->=20
-> Huh!  Why does the kernel duplicate what's already in the manual pages?
+Total coincidence is that these two do the DT bindings reviews...
 
-That duplication is *precisely* the problem we have in Landlock. :)
+I would say most of such warnings are very useful, just the question is
+how much of false positives you have. For example LKP (Kernel test
+robot) was sending reports on maintainer branches, but that had too many
+false reports due to missing bindings going via different tree, e.g.
+driver subsystem tree.
 
-(If you look at the patch series I've been sending with both the patches se=
-nt to
-linux-security-modules@ and linux-man@, you'll see the duplication,
-e.g. https://lore.kernel.org/all/20250226211814.31420-2-gnoack@google.com/)
-
-Documentation of user space APIs is not unusual in the kernel documentation=
-,
-there is the entire subdirectory Documentation/userspace-api for it.
-
-=E2=80=94G=C3=BCnther
+Best regards,
+Krzysztof
