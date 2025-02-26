@@ -1,76 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A6519994F;
-	Wed, 26 Feb 2025 01:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6354689;
+	Wed, 26 Feb 2025 01:47:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740534008; cv=none; b=Kme4QWEQNJAFSp+svlA7VufsnMhb6D3sWVpZgT2pR+GDmevdcdjhwzMO6h0Q9q+0gkpxnua/6bShyZgKLB2z6qe5J3IxRR4bfr17xggAcyHPe/SJ+BDAXd5eDx/2baJhRT/Ubikt08ZcxHJTCrYPAJHD84EVkrsCHI2dkJ8JLjA=
+	t=1740534476; cv=none; b=qIPV01bvrN+yP/t7FxyD6Prh7lKz7GWI5AgbPQm9hdRwh+SB/1GqiO6PxiPcaOanXu8Ly10d8B0lcnEkxBjcy6Hx2C15Z+s9X/keZ0vlyl7FiuW2ydB6S+dI+K88ZYm85iP5T3qTaq96vKpK2zHEVUO6aYDsBiPclum+ZlLx87g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740534008; c=relaxed/simple;
-	bh=qgHwa1uTYGNlZs1FSdv5nNpP+wTaMz+y1Oe8SjywQLI=;
+	s=arc-20240116; t=1740534476; c=relaxed/simple;
+	bh=V3CB8LY1DGZbWMpcmpZd8j50hGMDpnu5UssYkcrx0sQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GPtFExNRdXAM6ZCDM7pmZSPg1014UULUVHqC4eHHOGpukYbX3zl0kjR8gsU6adcvIZ4rruQ9sL8l1fwHihc6JlZLCEA8QwgcYgFgG3RAz5vqCEdkalo9lD+EBViQNqXvglfd3g38CsbqkoJVIIf6tef+Tw+ajYzHfMxRj2ywXLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uphFgnPo; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=j5GrPYkLRLcC2pB0awWPRbAn2DDE9vpeceH2foaCz9KLv71iehi3xfuGwYnE8VWDgFiRo6mdhT0ezscs4xJAiFPfNOLkSAn/w46KUYumFFOYgggjF5Oh+aTq2HeeqSQN87k5lNn+LkA6HoBte5V2EcFNPOQpFC09ehHkBnOm6p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kmh5HbcD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uphFgnPo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABA80C4CEDD;
-	Wed, 26 Feb 2025 01:40:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kmh5HbcD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4361C4CEDD;
+	Wed, 26 Feb 2025 01:47:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740534007;
-	bh=qgHwa1uTYGNlZs1FSdv5nNpP+wTaMz+y1Oe8SjywQLI=;
+	s=k20201202; t=1740534474;
+	bh=V3CB8LY1DGZbWMpcmpZd8j50hGMDpnu5UssYkcrx0sQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uphFgnPovfymgldeHUGro1jxgiPCTC0ckwkZ5B7XmddbxY5yJh5GGb7Y0ma8C/+Fc
-	 2jH+Bd2/9aucGnV0bcNFpIA3y/8eJMNmoVXmNV70xoWkHr19Ht0a/PMIAk/gMDcUpS
-	 ejjI5yMWLqLv5FmElWjcYfHW5dDMo3k4HuOKW3ahHdadE4m9pUzugGnfqlX2FSkqL3
-	 +KkcUmSFiODbvsQM2rFhaW78kTqVkurJjK5k6DfOt/7AHvX2Ery5+0Gqf3JjQBHjOs
-	 PIcMUFZ+anoAuQQvvnJ0/QvxMGnSAo6d5CtAOc0/TscpSYOPf6IidRp6DkByEThdQR
-	 BHglpIkEsIBAQ==
-Date: Tue, 25 Feb 2025 17:40:05 -0800
+	b=Kmh5HbcDs82upshjPAyIwCjyAkA1oin6SLySK+vyk9WO0zOaYqhbbYWGt+/ol1zY3
+	 A/K20xkQeUiXRw/rwjAp5cFIpYT75QGpUca6iwsrw6uHZ8QzEqasRaX/Csws7c8j0Z
+	 YQQrI+O1ZXbY8jO0j9iLtOdEkF81tQahQFuQRxU3Ch7cLZ7h73tDcm3ERv9sRSbhkj
+	 e5hs+Z0KZuMJtjoONRvOp61iZ8Zy98ooCHeoSZAxMiW/XvV0O9Dx2kxNZ2iSpicC95
+	 eHy83tqMBMDkgu4NkPd1Q4rJkd/7nuNcuGc09SWEbBbcL5JThcBQ/dIm1V2PiQs7oh
+	 IEEArVJDAgf0g==
+Date: Tue, 25 Feb 2025 17:47:52 -0800
 From: Jakub Kicinski <kuba@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Tariq Toukan <tariqt@nvidia.com>, "David S. Miller"
- <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
- <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jiri Pirko
- <jiri@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Carolina Jubran
- <cjubran@nvidia.com>, Gal Pressman <gal@nvidia.com>, Mark Bloch
- <mbloch@nvidia.com>, Donald Hunter <donald.hunter@gmail.com>, Jonathan
- Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, Leon
- Romanovsky <leon@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-rdma@vger.kernel.org
-Subject: Re: [PATCH net-next 03/10] devlink: Serialize access to rate
- domains
-Message-ID: <20250225174005.189f048d@kernel.org>
-In-Reply-To: <qaznnl77zg24zh72axtv7vhbfdbxnzmr73bqr7qir5wu2r6n52@ob25uqzyxytm>
-References: <20250213180134.323929-1-tariqt@nvidia.com>
-	<20250213180134.323929-4-tariqt@nvidia.com>
-	<ieeem2dc5mifpj2t45wnruzxmo4cp35mbvrnsgkebsqpmxj5ib@hn7gphf6io7x>
-	<20250218182130.757cc582@kernel.org>
-	<qaznnl77zg24zh72axtv7vhbfdbxnzmr73bqr7qir5wu2r6n52@ob25uqzyxytm>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Rob Herring
+ <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
+ <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v5 06/12] net: pse-pd: Add support for budget
+ evaluation strategies
+Message-ID: <20250225174752.5dbf65e2@kernel.org>
+In-Reply-To: <20250225102558.2cf3d8a5@kmaincent-XPS-13-7390>
+References: <20250218-feature_poe_port_prio-v5-0-3da486e5fd64@bootlin.com>
+	<20250218-feature_poe_port_prio-v5-6-3da486e5fd64@bootlin.com>
+	<20250220165129.6f72f51a@kernel.org>
+	<20250224141037.1c79122b@kmaincent-XPS-13-7390>
+	<20250224134522.1cc36aa3@kernel.org>
+	<20250225102558.2cf3d8a5@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, 25 Feb 2025 14:36:07 +0100 Jiri Pirko wrote:
-> >The problem comes from having a devlink instance per function /
-> >port rather than for the ASIC. Spawn a single instance and the
-> >problem will go away =F0=9F=A4=B7=EF=B8=8F =20
->=20
-> Yeah, we currently have VF devlink ports created under PF devlink instanc=
-e.
-> That is aligned with PCI geometry. If we have a single per-ASIC parent
-> devlink, this does not change and we still need to configure cross
-> PF devlink instances.
+On Tue, 25 Feb 2025 10:25:58 +0100 Kory Maincent wrote:
+> On Mon, 24 Feb 2025 13:45:22 -0800
+> Jakub Kicinski <kuba@kernel.org> wrote:
+> 
+> > > No they can't for now. Even different PSE power domains within the same PSE
+> > > controller. I will make it explicit.    
+> > 
+> > Sounds like the property is placed at the wrong level of the hierarchy,
+> > then.  
+> 
+> When a PSE controller appears to be able to support mixed budget strategy and
+> could switch between them it will be better to have it set at the PSE power
+> domain level. As the budget is per PSE power domain, its strategy should also
+> be per PSE power domain.
+> For now, it is simply not configurable and can't be mixed. It is hard-coded by
+> the PSE driver.
 
-Why would there still be PF instances? I'm not suggesting that you
-create a hierarchy of instances.
-
-> The only benefit I see is that we don't need rate domain, but
-> we can use parent devlink instance lock instead. The locking ordering
-> might be a bit tricky to fix though.
+Yes, but uAPI is forever. We will have to live with those domain
+attributes duplicated on each port. Presumably these port attributes
+will never support a SET operation, since the set should be towards 
+the domain? The uAPI does not inspire confidence. If we need more
+drivers to define a common API maybe a local sysfs API in the driver
+will do?
