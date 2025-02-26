@@ -1,121 +1,125 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590C52222CF
-	for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 14:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A9D2222A5;
+	Wed, 26 Feb 2025 14:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740581429; cv=none; b=BQrBwIU3cIj6v8S8+yxZorA7jEfNRpwrPZfGbY47kXdAbl/JaUIQ9HL3L+62/xfbEiZ2Bg0ffKH9rUBciAxnngpf7bM0IcBQVvwIl/hctuYaMaNTuBBtTYHitz2bbvNat24HLY5Kdislb0rG7OBiQxp4xToSuhFPgeCLtGDWD3U=
+	t=1740581975; cv=none; b=FerRNsvwv6bb8fpA5keIoyIJl/4N9W3N4JcT2f8FP/zazUr8OgHS8H4VgKLmn8gaEIi3avBUIEau//HGSlvmEw7ibdDT3gRddGpkaTDVDvAspuvcyP95/FDlfP1mYqxOWxww94Wwpp43DFeFmnnMrAwpN52syhPLeyESd3QITRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740581429; c=relaxed/simple;
-	bh=AiBtlkpcTdJmU62MyZVlruSSe6cY2MOj4UoJW00/I1A=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OBpHFROp1Bv4AAiZ6WConlsx1C41yvza3E2ioDB+34Jert8vexaZiZqCV80vRmNr9v3OWmMCfIZq6I+gtjsisEtPAmPRsAALe0jX9Jajj3VDVnQury072CN721cwRLYeKApk9N/ObEHM8ZTXxIercjh+b2KAmf6YAEBL9pIUIoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mMKkrk1U; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1740581975; c=relaxed/simple;
+	bh=fSYcTa92gedbLZbsaWA/digY3oZKW/7+btr68YyooGA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tev0DJpoB6LcgndKSKjHvEQh5KFcMaAdr60XG10v6uks2Z33kwVBgdMvjj94p7M6rNOtrS7+LlX9Q7FdooDFbQNvJ8eViKy2NygW5UnJefkno6O4A50T+VT236T0zOGNiFzihVWdJOfrqK5D8VIRLH7c5Q3rHyx44HFZcpLWcqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CLXaNz+9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mMKkrk1U"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43948f77f1aso43364185e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 26 Feb 2025 06:50:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740581425; x=1741186225; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K0B5DTNgvnwka6JhdG1RxKRZQdylIuRKT1s0mr36XMI=;
-        b=mMKkrk1U4oAhvNgDUXYB7mPOhiLokBNta9dqDUjYUUB7apPrvr5pJLEGFpXHP+eRYx
-         qQrXSYLKGoz1HEHE82a/WLNRAefDTAp2VJHeagpuswD/LRMdHq+zvX1RPJMmSL6WHePO
-         ptYLh6xM9IBB1Y2ADb5wASqH/mnJnd1DjwoHkRBZdHXZjDc85Uxskgws9vjLnCUj9RsK
-         D1rNDJHtaiLgdCGeCQV/LdmkWWRR3dQ1FwMIiHMJ85H4PuioXu27clsdu5ZWAl+/UGQ4
-         9p8pNMUmZlnQJLGhMDOHRVdaYHbztPMwRPMjZW3jGMad2Q40Pq9zP8+5xFu5jlPzU7ZK
-         5Yrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740581425; x=1741186225;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K0B5DTNgvnwka6JhdG1RxKRZQdylIuRKT1s0mr36XMI=;
-        b=F5wCNk6BF7n1IpY70TGuJ936D8qnIg4jwl46oyDhQRbdoJaGpNiY++B9rZzhQytHg8
-         C8v2FK3UAP/kXorMJFyoabe3NFzcGKBQT97kdsJ9DCjL1gRIOp+eoNFp+70WZUKU9gIW
-         xFHe9VLwyk+vdWbWHpTBj889+1+tovO7IYl1eYMyGbrFiAjd1Tf3cr3c0ZzZHuEdm8fc
-         tK5TwqmzvcNKqzS4odQ2sO0+joSQUdOCiTVaTqE6mCP++Xnmxac5T0U2DrYZpB1H5Mlf
-         kZ/K61p3NB0gSiEtowv1dU5FP9bF+lfgN+mf5IzQMT24MHJlwQh6rkXV9uoUddGm2ekL
-         odvw==
-X-Forwarded-Encrypted: i=1; AJvYcCXLmjVXY+M+JFEE2eE/WHQhYNGgQ4KBAuGR/Y6hI2sT8s+3frfFq5vWIBl7IytyJJJTNhqQ6xvG5Zk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdWiEb6/UjOwP/2ne867MCJuHoPcEr778wn8LPQRXYmdFQW4Gj
-	h0jlz5rRuv7YS5eRJGL63Pf2q65gkJT9qd1VYqFP9h27FJ920ayLKcgyVmsSMd4=
-X-Gm-Gg: ASbGncuUMbvWRy9ZwyuAkZzl4gLQ+7qYo3L+YyPyvVVe5m840wJzjZw+bqvnf29S9dU
-	9oXRhTYwdLpC4eclQzsR5FRuoyAWBXvn0jUpkbZCcxtkG9wPbO9b2STad25yw+8ttylbQEZ3CwW
-	T/v3uDgVjkfsXfa85ItYHezmUm/9ae1YztVtnLygZAjgAAGx1ZT8/RC4c4eerSVUYWoKKIiuM/6
-	gbUBD7GALd/D2GMTXFf+ZZsPqWggsAVSCJcSmWpR8Mxvs9M/z6xfKN5IjKeZ78dzQnEjCsRIH6q
-	Uw9vf0INpTlONbE8ILu2AreuWCxM/hkDLG2bVo3xQEqWHjtDJ04pSb9LUAo8QXCTMchVzaaueGM
-	8qz7r3LKm2d1GQx2TsGi3h54=
-X-Google-Smtp-Source: AGHT+IF606LkuiMsDjoxoFUsY5Gw5UF42U3bEMG+pWqETROOOXt9np0boII9VXCYLUynJeWaadJIDg==
-X-Received: by 2002:a05:600c:5123:b0:439:88bb:d035 with SMTP id 5b1f17b1804b1-43ab0f2887dmr73970795e9.5.1740581425531;
-        Wed, 26 Feb 2025 06:50:25 -0800 (PST)
-Received: from jstephan-bl.local (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43aba549d6asm23747965e9.36.2025.02.26.06.50.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2025 06:50:24 -0800 (PST)
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Wed, 26 Feb 2025 15:50:05 +0100
-Subject: [PATCH 3/3] docs: iio: ad7380: add adaq4381-4
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CLXaNz+9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72363C4CED6;
+	Wed, 26 Feb 2025 14:59:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740581973;
+	bh=fSYcTa92gedbLZbsaWA/digY3oZKW/7+btr68YyooGA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CLXaNz+9fiGhVU/Os3/4wVX9iVEd0qlx8laIAWKvboTDdkQ+FlZxUOorv7344CVQz
+	 hBxBMN5GCKfdDFTRQxFE/b3VTQblG0fHnQX9dPHAOvq3ucnSdOFkh9ITuh+1Zo4FSP
+	 eAYOhUyqTNWGTzNJ3I5bKtDpUpW/p7aHCDRiNgyoOXkLLPUA/bB9KKtNgEULWNq65S
+	 hVCkbg8ArGA4TEqIX/qOLr7fKAo00W9IErursQtj75YezqnlR2uOkKRdUxndxhSLJC
+	 3enBX1Bb0h509rgLd8IgPkvSY3TOx9q8Cjo2ou2hNSiqDFVMdlLITOl8NRd5SZrHos
+	 kCdL56lE2P0rA==
+Date: Wed, 26 Feb 2025 08:59:31 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add lt3074
+Message-ID: <20250226145931.GA2314060-robh@kernel.org>
+References: <20250225-upstream-lt3074-v2-0-18ad10ba542e@analog.com>
+ <20250225-upstream-lt3074-v2-1-18ad10ba542e@analog.com>
+ <20250226-gentle-spicy-jacamar-2dd36a@krzk-bin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250226-ad7380-add-adaq4381-4-support-v1-3-f350ab872d37@baylibre.com>
-References: <20250226-ad7380-add-adaq4381-4-support-v1-0-f350ab872d37@baylibre.com>
-In-Reply-To: <20250226-ad7380-add-adaq4381-4-support-v1-0-f350ab872d37@baylibre.com>
-To: Michael Hennerich <michael.hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- David Lechner <dlechner@baylibre.com>, Lars-Peter Clausen <lars@metafoo.de>, 
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Julien Stephan <jstephan@baylibre.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250226-gentle-spicy-jacamar-2dd36a@krzk-bin>
 
-adaq4381-4 is the 14 bits version of adaq4380-1 chip. Add it to the
-documentation.
+On Wed, Feb 26, 2025 at 09:20:40AM +0100, Krzysztof Kozlowski wrote:
+> On Tue, Feb 25, 2025 at 09:01:13PM +0800, Cedric Encarnacion wrote:
+> > Add Analog Devices LT3074 Ultralow Noise, High PSRR Dropout Linear
+> > Regulator.
+> > 
+> > Signed-off-by: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+> > ---
+> >  .../bindings/hwmon/pmbus/adi,lt3074.yaml           | 64 ++++++++++++++++++++++
+> >  MAINTAINERS                                        |  7 +++
+> >  2 files changed, 71 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/adi,lt3074.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/adi,lt3074.yaml
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..714426fd655a8daa96e15e1f789743f36001ac7a
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/hwmon/pmbus/adi,lt3074.yaml
+> > @@ -0,0 +1,64 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/hwmon/pmbus/adi,lt3074.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Analog Devices LT3074 voltage regulator
+> > +
+> > +maintainers:
+> > +  - Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+> > +
+> > +description: |
+> > +  The LT3074 is a low voltage, ultra-low noise and ultra-fast transient
+> > +  response linear regulator. It allows telemetry for input/output voltage,
+> > +  output current and temperature through the PMBus serial interface.
+> > +
+> > +  Datasheet:
+> > +    https://www.analog.com/en/products/lt3074.html
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - adi,lt3074
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  regulators:
+> > +    type: object
+> > +    description: |
+> > +      list of regulators provided by this controller.
+> 
+> You have only one regulator, so drop the "regulators". vout could be
+> here, but since you do not have any other resources, I doubt it stands
+> on its own either. This is even visible in your DTS - you named the
+> device as regulator, so logically this is the regulator. Regulator does
+> not have regulators (otherwise they could also have regulators... so
+> triple regulator).
+> 
+> hwmon code might need some changes, but that's not really relevant for
+> proper hardware description.
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- Documentation/iio/ad7380.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Normally, I would agree, but it seems generic pmbus code expects this 
+structure. This just came up with changing another binding maintained by 
+'Not Me' to follow this structure. We're stuck with the existing way, so 
+I don't know that it is worth supporting 2 ways forever. OTOH, is it 
+guaranteed that these devices will only ever be pmbus devices or that 
+other regulator devices which are not handled as pmbus devices currently 
+will be in the future. If so, more flexibility in the bindings will be 
+needed.
 
-diff --git a/Documentation/iio/ad7380.rst b/Documentation/iio/ad7380.rst
-index cff688bcc2d9601a9faf42d5e9c217486639ca66..35232a0e3ad730c19b5201b74280bdb6deaa9667 100644
---- a/Documentation/iio/ad7380.rst
-+++ b/Documentation/iio/ad7380.rst
-@@ -29,6 +29,7 @@ The following chips are supported by this driver:
- * `AD7388-4 <https://www.analog.com/en/products/ad7388-4.html>`_
- * `ADAQ4370-4 <https://www.analog.com/en/products/adaq4370-4.html>`_
- * `ADAQ4380-4 <https://www.analog.com/en/products/adaq4380-4.html>`_
-+* `ADAQ4381-4 <https://www.analog.com/en/products/adaq4381-4.html>`_
- 
- 
- Supported features
-@@ -52,8 +53,8 @@ declared in the device tree as ``refin-supply``.
- ADAQ devices
- ~~~~~~~~~~~~
- 
--adaq4370-4 and adaq4380-4 don't have an external reference, but use a 3.3V
--internal reference derived from one of its supplies (``refin-supply``)
-+ADAQ devices don't have an external reference, but use a 3.3V internal reference
-+derived from one of its supplies (``refin-supply``)
- 
- All other devices from ad738x family
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
--- 
-2.47.1
-
+Rob
