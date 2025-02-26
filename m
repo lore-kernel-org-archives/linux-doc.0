@@ -1,746 +1,282 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D88B20FA9C;
-	Wed, 26 Feb 2025 06:47:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E357E267B77;
+	Wed, 26 Feb 2025 06:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740552462; cv=none; b=SQ7N5yzhDV6MXQnfe9chskeJslnNBfv/AU944nHOE3TqrjzkGeNGDbkxGfVN2RmVtMRQ0lwZDyhX651yPt7OOswmk1ScRWlIM7NxXSBIUFyeWcMegNu7BJ6Qf39tuT97WAepYDVDKGDJv18m5Kt5hBR0dkoUpXtqE14zMhzid1k=
+	t=1740553014; cv=none; b=IeUylUzRjMhRYzcAy0EuSUK5J9K7WVvfs7ky3bfPcBechKnugpNsWloeSX1ga7wdcE8sfmYHGZ6CYt+1vBAeMK+Da+X3ZI+JrJo9I68AUcAss3WDGVebOCsCFqRYsAyDC7kZP+CaHrKLuS0Skjt7bAx0rzfdr/m5WGwYeqqfmbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740552462; c=relaxed/simple;
-	bh=WAxm5cGXezoPwJBJl2akKX8aWHeN3L/KASAR4WPjaXs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QH4otIY6T7jlMtcsdpSRJtp2BOy55N2Kql06haTb45CgUXqT8gdbsLBwFiIYN7u+3AdegiSznPE99mZr8yOJ0sDniuQW9mSNR/rJokDgrEjdpP2GLTwUG1JxXcVfEPeCZS408eeb/w+RfizbYxN3XCOrTG4AkQjVJOkTMKeHLzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=um0pUr8f; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740553014; c=relaxed/simple;
+	bh=oC8X1r5Bp9u4Te+gPu5p4PdHDO2o2swwbII27w2F7Q4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XW4QUl9Eju6UhIcLdiDQsluMv44Xg8sUfKaiydlfdQtukJGPqHz9ZsMeUkpoxuQm06Znjruw1+gJk/X2R3P3G+2Dh22TTSHtffuqYJNkyoGSeT5VTroLyk0FasK/6QIZQEWQ+qUihNPpwmxXCT+1HLydzAi+ZtUaXRgQ+RlFO7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vCVOpUqK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="um0pUr8f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BBFFC4CED6;
-	Wed, 26 Feb 2025 06:47:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vCVOpUqK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59D16C4CED6;
+	Wed, 26 Feb 2025 06:56:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740552461;
-	bh=WAxm5cGXezoPwJBJl2akKX8aWHeN3L/KASAR4WPjaXs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=um0pUr8fbUHjA6mRexUWar/W9DPBqQAOwpfnC5mS4FHwDo5gpn7bhdxUpq3ZifVxm
-	 17VoY89xCLGN8HzEpcr7r6xaGyk8bpr113BHAJYVaRxJ7gHDOqlSeQ4Gx+eANva4KO
-	 mMflzTD9V48Or56Nx1t/A5un2E+go1H5qICec3+WgaVEKR1cHjM56sZoWHvfqM2zEH
-	 e9NlbwpcGVFM1R0WgrFbs/BM176000MsZ/62XIPrNLjzgOhbRcKhmsKDYQawSLFMSR
-	 bzWqfA5rCM+zdt6gnUWu0vA3vxu+dy0LIDu0WP1dHG8awdyqyKGdqUXKrqEDgkXf4d
-	 4zjBD57F2IarA==
-Message-ID: <52523dec-0bd4-493f-a855-7fcfe19cde45@kernel.org>
-Date: Tue, 25 Feb 2025 22:47:39 -0800
+	s=k20201202; t=1740553013;
+	bh=oC8X1r5Bp9u4Te+gPu5p4PdHDO2o2swwbII27w2F7Q4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=vCVOpUqKGHIYoLt6mA2ejxvK/qJ5K3ocbUovRZmIOEH1cKuB+WBbAPpDLYsbmyzKE
+	 tQQ3NzWaT1SlVW/8CBI/AJkLEY8oWJHE8idDJXbFN5zyYv8L9VJvQmg8nxUkpE/bVI
+	 yJQg0YKD64V4qvxJnKDkviXBXeQLlDqbbUH5sBTztWP1338BtkbeDe4cRAcHzYkNf/
+	 maDHYtEZlpT20C2VakJm8wp76UFO3lzYWcFdtIdRycoFVnORL5z4qaAZsDGUN+x0ia
+	 cG92woJr9xh2mJt/VHcbnyp8o8JprDOVq8gvgWa4GugXFOXuoR/NOyunR0M2VhTZRY
+	 6xm1T3jbFH9yQ==
+Date: Wed, 26 Feb 2025 07:56:47 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 09/39] scripts/kernel-doc.py: add a Python parser
+Message-ID: <20250226075647.5de4c7b0@foz.lan>
+In-Reply-To: <87tt8hyedw.fsf@trenco.lwn.net>
+References: <cover.1740387599.git.mchehab+huawei@kernel.org>
+	<3905b7386d5f1bfa76639cdf1108a46f0bccbbea.1740387599.git.mchehab+huawei@kernel.org>
+	<87v7sy29rh.fsf@trenco.lwn.net>
+	<20250225083814.51975742@foz.lan>
+	<87tt8hyedw.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] platform/x86: Add Lenovo Other Mode WMI Driver
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Armin Wolf <W_Armin@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
- Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
- Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- "Cody T . -H . Chiu" <codyit@gmail.com>, John Martens <johnfanv2@gmail.com>,
- platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250225220037.16073-1-derekjohn.clark@gmail.com>
- <20250225220037.16073-5-derekjohn.clark@gmail.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20250225220037.16073-5-derekjohn.clark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2/25/2025 13:59, Derek J. Clark wrote:
-> Adds lenovo-wmi-other.c which provides a driver for the Lenovo
-> "Other Mode" WMI interface that comes on some Lenovo "Gaming
-> Series" hardware. Provides a firmware-attributes class which
-> enables the use of tunable knobs for SPL, SPPT, and FPPT.
-> 
-> v3:
-> - Add notifier block and store result for getting the Gamezone interface
->    profile changes.
-> - Add driver as master component of capdata01 driver.
-> - Use FIELD_PREP where appropriate.
-> - Move macros and associated functions out of lemovo-wmi.h that are only
->    used by this driver.
-> v2:
-> - Use devm_kmalloc to ensure driver can be instanced, remove global
->    reference.
-> - Ensure reverse Christmas tree for all variable declarations.
-> - Remove extra whitespace.
-> - Use guard(mutex) in all mutex instances, global mutex.
-> - Use pr_fmt instead of adding the driver name to each pr_err.
-> - Remove noisy pr_info usage.
-> - Rename other_method_wmi to lenovo_wmi_om_priv and om_wmi to priv.
-> - Use list to get the lenovo_wmi_om_priv instance in some macro
->    called functions as the data provided by the macros that use it
->    doesn't pass a member of the struct for use in container_of.
-> - Do not rely on GameZone interface to grab the current fan mode.
-> 
-> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
-> ---
->   MAINTAINERS                             |   1 +
->   drivers/platform/x86/Kconfig            |  14 +
->   drivers/platform/x86/Makefile           |   1 +
->   drivers/platform/x86/lenovo-wmi-other.c | 549 ++++++++++++++++++++++++
->   drivers/platform/x86/lenovo-wmi.h       |  13 +
->   5 files changed, 578 insertions(+)
->   create mode 100644 drivers/platform/x86/lenovo-wmi-other.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f6d3e79e50ce..f6e16b2346a2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13159,6 +13159,7 @@ F:	Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->   F:	Documentation/wmi/devices/lenovo-wmi-other.rst
->   F:	drivers/platform/x86/lenovo-wmi-capdata01.c
->   F:	drivers/platform/x86/lenovo-wmi-gamezone.c
-> +F:	drivers/platform/x86/lenovo-wmi-other.c
->   F:	drivers/platform/x86/lenovo-wmi.c
->   F:	drivers/platform/x86/lenovo-wmi.h
->   
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index 56336dc3c2d0..017ecdfad8ce 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -480,6 +480,20 @@ config LENOVO_WMI_DATA01
->   	depends on ACPI_WMI
->   	select LENOVO_WMI
->   
-> +config LENOVO_WMI_TUNING
-> +	tristate "Lenovo Other Mode WMI Driver"
-> +	depends on ACPI_WMI
-> +	select FW_ATTR_CLASS
-> +	select LENOVO_WMI
-> +	select LENOVO_WMI_DATA01
-> +	help
-> +	  Say Y here if you have a WMI aware Lenovo Legion device and would like to use the
-> +	  firmware_attributes API to control various tunable settings typically exposed by
-> +	  Lenovo software in Windows.
-> +
-> +	  To compile this driver as a module, choose M here: the module will
-> +	  be called lenovo-wmi-other.
-> +
->   config IDEAPAD_LAPTOP
->   	tristate "Lenovo IdeaPad Laptop Extras"
->   	depends on ACPI
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-> index be9031bea090..28ce39631a6d 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -71,6 +71,7 @@ obj-$(CONFIG_LENOVO_WMI)	+= lenovo-wmi.o
->   obj-$(CONFIG_LENOVO_WMI_CAMERA)	+= lenovo-wmi-camera.o
->   obj-$(CONFIG_LENOVO_WMI_GAMEZONE)	+= lenovo-wmi-gamezone.o
->   obj-$(CONFIG_LENOVO_WMI_DATA01)	+= lenovo-wmi-capdata01.o
-> +obj-$(CONFIG_LENOVO_WMI_TUNING)	+= lenovo-wmi-other.o
->   
->   # Intel
->   obj-y				+= intel/
-> diff --git a/drivers/platform/x86/lenovo-wmi-other.c b/drivers/platform/x86/lenovo-wmi-other.c
-> new file mode 100644
-> index 000000000000..cd04ead94ba3
-> --- /dev/null
-> +++ b/drivers/platform/x86/lenovo-wmi-other.c
-> @@ -0,0 +1,549 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Lenovo Other Mode WMI interface driver. This driver uses the fw_attributes
-> + * class to expose the various WMI functions provided by the "Other Mode" WMI
-> + * interface. This enables CPU and GPU power limit as well as various other
-> + * attributes for devices that fall under the "Gaming Series" of Lenovo laptop
-> + * devices. Each attribute exposed by the "Other Mode"" interface has a
-> + * corresponding LENOVO_CAPABILITY_DATA_01 struct that allows the driver to
-> + * probe details about the attribute such as set/get support, step, min, max,
-> + * and default value. Each attibute has multiple pages, one for each of the
-> + * fan profiles managed by the Gamezone interface.
-> + *
-> + * These attributes typically don't fit anywhere else in the sysfs and are set
-> + * in Windows using one of Lenovo's multiple user applications.
-> + *
-> + * Copyright(C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/cleanup.h>
-> +#include <linux/component.h>
-> +#include <linux/container_of.h>
-> +#include <linux/device.h>
-> +#include <linux/kobject.h>
-> +#include <linux/notifier.h>
-> +#include <linux/types.h>
-> +#include <linux/wmi.h>
-> +#include "lenovo-wmi.h"
-> +#include "firmware_attributes_class.h"
-> +
-> +/* Interface GUIDs */
-> +#define LENOVO_OTHER_METHOD_GUID "DC2A8805-3A8C-41BA-A6F7-092E0089CD3B"
-> +
-> +/* Device IDs */
-> +#define WMI_DEVICE_ID_CPU 0x01
-> +
-> +/* WMI_DEVICE_ID_CPU feature IDs */
-> +#define WMI_FEATURE_ID_CPU_SPPT 0x01 /* Short Term Power Limit */
-> +#define WMI_FEATURE_ID_CPU_FPPT 0x03 /* Long Term Power Limit */
-> +#define WMI_FEATURE_ID_CPU_SPL 0x02 /* Peak Power Limit */
-> +
-> +/* Type IDs*/
-> +#define WMI_TYPE_ID_NONE 0x00
-> +
-> +/* Method IDs */
-> +#define WMI_FAN_TABLE_GET 5 /* Other Mode FAN_METHOD Getter */
-> +#define WMI_FAN_TABLE_SET 6 /* Other Mode FAN_METHOD Setter */
-> +#define WMI_FEATURE_VALUE_GET 17 /* Other Mode Getter */
-> +#define WMI_FEATURE_VALUE_SET 18 /* Other Mode Setter */
-> +
-> +/* Attribute ID bitmasks */
-> +#define ATTR_DEV_ID_MASK GENMASK(31, 24)
-> +#define ATTR_FEAT_ID_MASK GENMASK(23, 16)
-> +#define ATTR_MODE_ID_MASK GENMASK(15, 8)
-> +#define ATTR_TYPE_ID_MASK GENMASK(7, 0)
-> +
-> +enum attribute_property {
-> +	DEFAULT_VAL,
-> +	MAX_VAL,
-> +	MIN_VAL,
-> +	STEP_VAL,
-> +	SUPPORTED,
-> +};
-> +
-> +/* Tunable attribute that uses LENOVO_CAPABILITY_DATA_01 */
-> +struct tunable_attr_01 {
-> +	u32 type_id;
-> +	u32 device_id;
-> +	u32 feature_id;
-> +	u32 store_value;
-> +	struct device *dev;
-> +	struct capdata01 *capdata;
-> +};
-> +
-> +/* Tunable Attributes */
-> +struct tunable_attr_01 ppt_pl1_spl = { .device_id = WMI_DEVICE_ID_CPU,
-> +				       .feature_id = WMI_FEATURE_ID_CPU_SPL,
-> +				       .type_id = WMI_TYPE_ID_NONE };
-> +struct tunable_attr_01 ppt_pl2_sppt = { .device_id = WMI_DEVICE_ID_CPU,
-> +					.feature_id = WMI_FEATURE_ID_CPU_SPPT,
-> +					.type_id = WMI_TYPE_ID_NONE };
-> +struct tunable_attr_01 ppt_pl3_fppt = { .device_id = WMI_DEVICE_ID_CPU,
-> +					.feature_id = WMI_FEATURE_ID_CPU_FPPT,
-> +					.type_id = WMI_TYPE_ID_NONE };
-> +
-> +struct capdata01_attr_group {
-> +	const struct attribute_group *attr_group;
-> +	struct tunable_attr_01 *tunable_attr;
-> +};
-> +
-> +#define FW_ATTR_FOLDER "lenovo-wmi-other"
-> +
-> +/**
-> + * int_type_show() - Emit the data type for an integer attribute
-> + * @kobj: Pointer to the driver object.
-> + * @kobj_attribute: Pointer to the attribute calling this function.
-> + * @buf: The buffer to write to.
-> + *
-> + * Returns: Number of characters written to buf.
-> + */
-> +static ssize_t int_type_show(struct kobject *kobj, struct kobj_attribute *kattr,
-> +			     char *buf)
-> +{
-> +	return sysfs_emit(buf, "integer\n");
-> +}
-> +
-> +/**                                      .
-> + * attr_capdata01_get - Get the data of the specified attribute
-> + * from lenovo_wmi_om->cd01.
-> + * @tunable_attr: The attribute to be populated.
-> + *
-> + * Returns: Either 0 or an error.
-> + */
-> +static struct capdata01 *
-> +attr_capdata01_get_data(struct lenovo_wmi_om *om,
-> +			struct tunable_attr_01 *tunable_attr,
-> +			enum thermal_mode mode)
-> +{
-> +	u32 attribute_id =
-> +		FIELD_PREP(ATTR_DEV_ID_MASK, tunable_attr->device_id) |
-> +		FIELD_PREP(ATTR_FEAT_ID_MASK, tunable_attr->feature_id) |
-> +		FIELD_PREP(ATTR_MODE_ID_MASK, mode) |
-> +		FIELD_PREP(ATTR_TYPE_ID_MASK, tunable_attr->type_id);
-> +	int idx;
-> +
-> +	if (!om->cd01)
-> +		return NULL;
-> +
-> +	for (idx = 0; idx < om->cd01->instance_count; idx++) {
-> +		if (om->cd01->capdata[idx]->id != attribute_id)
-> +			continue;
-> +		return om->cd01->capdata[idx];
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * attr_capdata01_show() - Get the value of the specified attribute property
-> + * from LENOVO_CAPABILITY_DATA_01.
-> + * @kobj: Pointer to the driver object.
-> + * @kobj_attribute: Pointer to the attribute calling this function.
-> + * @buf: The buffer to write to.
-> + * @tunable_attr: The attribute to be read.
-> + * @prop: The property of this attribute to be read.
-> + *
-> + * This function is intended to be generic so it can be called from any "_show"
-> + * attribute which works only with integers.
-> + *
-> + * If the WMI is success, then the sysfs attribute is notified.
-> + *
-> + * Returns: Either number of characters written to buf, or an error.
-> + */
-> +static ssize_t attr_capdata01_show(struct kobject *kobj,
-> +				   struct kobj_attribute *kattr, char *buf,
-> +				   struct tunable_attr_01 *tunable_attr,
-> +				   enum attribute_property prop)
-> +{
-> +	struct lenovo_wmi_om *om = dev_get_drvdata(tunable_attr->dev);
-> +	struct capdata01 *capdata;
-> +	int value;
-> +
-> +	if (!om)
-> +		return -ENODEV;
-> +
-> +	capdata = attr_capdata01_get_data(om, tunable_attr,
-> +					  SMARTFAN_MODE_CUSTOM);
-> +
-> +	if (!capdata)
-> +		return -ENODEV;
-> +
-> +	switch (prop) {
-> +	case DEFAULT_VAL:
-> +		value = capdata->default_value;
-> +		break;
-> +	case MAX_VAL:
-> +		value = capdata->max_value;
-> +		break;
-> +	case MIN_VAL:
-> +		value = capdata->min_value;
-> +		break;
-> +	case STEP_VAL:
-> +		value = capdata->step;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +	return sysfs_emit(buf, "%d\n", value);
-> +}
-> +
-> +/* Simple attribute creation */
-> +
-> +/*
-> + * att_current_value_store() - Set the current value of the given attribute
-> + * @kobj: Pointer to the driver object.
-> + * @kobj_attribute: Pointer to the attribute calling this function.
-> + * @buf: The buffer to read from, this is parsed to `int` type.
-> + * @count: Required by sysfs attribute macros, pass in from the callee attr.
-> + * @tunable_attr: The attribute to be stored.
-> + *
-> + * This function is intended to be generic so it can be called from any
-> + * attribute's "current_value_store" which works only with integers. The
-> + * integer to be sent to the WMI method is range checked and an error returned
-> + * if out of range.
-> + *
-> + * If the value is valid and WMI is success, then the sysfs attribute is
-> + * notified.
-> + *
-> + * Returns: Either count, or an error.
-> + */
-> +static ssize_t attr_current_value_store(struct kobject *kobj,
-> +					struct kobj_attribute *kattr,
-> +					const char *buf, size_t count,
-> +					struct tunable_attr_01 *tunable_attr)
-> +{
-> +	struct lenovo_wmi_om *om = dev_get_drvdata(tunable_attr->dev);
-> +	struct capdata01 *capdata;
-> +	u32 attribute_id;
-> +	u32 value;
-> +	int err;
-> +
-> +	if (!om)
-> +		return -ENODEV;
-> +
-> +	capdata = attr_capdata01_get_data(om, tunable_attr,
-> +					  SMARTFAN_MODE_CUSTOM);
-> +
-> +	if (!capdata)
-> +		return -ENODEV;
-> +
-> +	attribute_id = FIELD_PREP(ATTR_DEV_ID_MASK, tunable_attr->device_id) |
-> +		       FIELD_PREP(ATTR_FEAT_ID_MASK, tunable_attr->feature_id) |
-> +		       FIELD_PREP(ATTR_MODE_ID_MASK, SMARTFAN_MODE_CUSTOM) |
-> +		       FIELD_PREP(ATTR_TYPE_ID_MASK, tunable_attr->type_id);
-> +
-> +	err = kstrtouint(buf, 10, &value);
-> +	if (err)
-> +		return err;
-> +
-> +	if (value < capdata->min_value || value > capdata->max_value)
-> +		return -EINVAL;
-> +
-> +	err = lenovo_wmidev_evaluate_method_2(om->wdev, 0x0,
-> +					      WMI_FEATURE_VALUE_SET,
-> +					      attribute_id, value, NULL);
-> +
-> +	if (err)
-> +		return err;
-> +
-> +	tunable_attr->store_value = value;
-> +	return count;
-> +};
-> +
-> +/*
-> + * attr_current_value_show() - Get the current value of the given attribute
-> + * @kobj: Pointer to the driver object.
-> + * @kobj_attribute: Pointer to the attribute calling this function.
-> + * @buf: The buffer to write to.
-> + * @tunable_attr: The attribute to be read.
-> + *
-> + * This function is intended to be generic so it can be called from any "_show"
-> + * attribute which works only with integers.
-> + *
-> + * If the WMI is success, then the sysfs attribute is notified.
-> + *
-> + * Returns: Either number of characters written to buf, or an error.
-> + */
-> +static ssize_t attr_current_value_show(struct kobject *kobj,
-> +				       struct kobj_attribute *kattr, char *buf,
-> +				       struct tunable_attr_01 *tunable_attr)
-> +{
-> +	struct lenovo_wmi_om *om = dev_get_drvdata(tunable_attr->dev);
-> +	u32 attribute_id;
-> +	int retval;
-> +	int err;
-> +
-> +	if (!om)
-> +		return -ENODEV;
-> +
-> +	attribute_id = FIELD_PREP(ATTR_DEV_ID_MASK, tunable_attr->device_id) |
-> +		       FIELD_PREP(ATTR_FEAT_ID_MASK, tunable_attr->feature_id) |
-> +		       FIELD_PREP(ATTR_MODE_ID_MASK, om->mode) |
-> +		       FIELD_PREP(ATTR_TYPE_ID_MASK, tunable_attr->type_id);
-> +
-> +	err = lenovo_wmidev_evaluate_method_1(om->wdev, 0x0, WMI_FEATURE_VALUE_GET,
-> +					      attribute_id, &retval);
-> +
-> +	if (err)
-> +		return err;
-> +
-> +	return sysfs_emit(buf, "%d\n", retval);
-> +}
-> +
-> +/* Attribute macros */
-> +#define __LL_ATTR_RO(_func, _name)                                    \
-> +	{                                                             \
-> +		.attr = { .name = __stringify(_name), .mode = 0444 }, \
-> +		.show = _func##_##_name##_show,                       \
-> +	}
-> +
-> +#define __LL_ATTR_RO_AS(_name, _show)                                 \
-> +	{                                                             \
-> +		.attr = { .name = __stringify(_name), .mode = 0444 }, \
-> +		.show = _show,                                        \
-> +	}
-> +
-> +#define __LL_ATTR_RW(_func, _name) \
-> +	__ATTR(_name, 0644, _func##_##_name##_show, _func##_##_name##_store)
-> +
-> +/* Shows a formatted static variable */
-> +#define __ATTR_SHOW_FMT(_prop, _attrname, _fmt, _val)                          \
-> +	static ssize_t _attrname##_##_prop##_show(                             \
-> +		struct kobject *kobj, struct kobj_attribute *kattr, char *buf) \
-> +	{                                                                      \
-> +		return sysfs_emit(buf, _fmt, _val);                            \
-> +	}                                                                      \
-> +	static struct kobj_attribute attr_##_attrname##_##_prop =              \
-> +		__LL_ATTR_RO(_attrname, _prop)
-> +
-> +/* Attribute current value read/write */
-> +#define __LL_TUNABLE_CURRENT_VALUE_CAP01(_attrname)                            \
-> +	static ssize_t _attrname##_current_value_store(                        \
-> +		struct kobject *kobj, struct kobj_attribute *kattr,            \
-> +		const char *buf, size_t count)                                 \
-> +	{                                                                      \
-> +		return attr_current_value_store(kobj, kattr, buf, count,       \
-> +						&_attrname);                   \
-> +	}                                                                      \
-> +	static ssize_t _attrname##_current_value_show(                         \
-> +		struct kobject *kobj, struct kobj_attribute *kattr, char *buf) \
-> +	{                                                                      \
-> +		return attr_current_value_show(kobj, kattr, buf, &_attrname);  \
-> +	}                                                                      \
-> +	static struct kobj_attribute attr_##_attrname##_current_value =        \
-> +		__LL_ATTR_RW(_attrname, current_value)
-> +
-> +/* Attribute property read only */
-> +#define __LL_TUNABLE_RO_CAP01(_prop, _attrname, _prop_type)                    \
-> +	static ssize_t _attrname##_##_prop##_show(                             \
-> +		struct kobject *kobj, struct kobj_attribute *kattr, char *buf) \
-> +	{                                                                      \
-> +		return attr_capdata01_show(kobj, kattr, buf, &_attrname,       \
-> +					   _prop_type);                        \
-> +	}                                                                      \
-> +	static struct kobj_attribute attr_##_attrname##_##_prop =              \
-> +		__LL_ATTR_RO(_attrname, _prop)
-> +
-> +#define ATTR_GROUP_LL_TUNABLE_CAP01(_attrname, _fsname, _dispname)     \
-> +	__LL_TUNABLE_CURRENT_VALUE_CAP01(_attrname);                   \
-> +	__LL_TUNABLE_RO_CAP01(default_value, _attrname, DEFAULT_VAL);  \
-> +	__ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);   \
-> +	__LL_TUNABLE_RO_CAP01(max_value, _attrname, MAX_VAL);          \
-> +	__LL_TUNABLE_RO_CAP01(min_value, _attrname, MIN_VAL);          \
-> +	__LL_TUNABLE_RO_CAP01(scalar_increment, _attrname, STEP_VAL);  \
-> +	static struct kobj_attribute attr_##_attrname##_type =         \
-> +		__LL_ATTR_RO_AS(type, int_type_show);                  \
-> +	static struct attribute *_attrname##_attrs[] = {               \
-> +		&attr_##_attrname##_current_value.attr,                \
-> +		&attr_##_attrname##_default_value.attr,                \
-> +		&attr_##_attrname##_display_name.attr,                 \
-> +		&attr_##_attrname##_max_value.attr,                    \
-> +		&attr_##_attrname##_min_value.attr,                    \
-> +		&attr_##_attrname##_scalar_increment.attr,             \
-> +		&attr_##_attrname##_type.attr,                         \
-> +		NULL,                                                  \
-> +	};                                                             \
-> +	static const struct attribute_group _attrname##_attr_group = { \
-> +		.name = _fsname, .attrs = _attrname##_attrs            \
-> +	}
-> +
-> +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl1_spl, "ppt_pl1_spl",
-> +			    "Set the CPU sustained power limit");
-> +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl2_sppt, "ppt_pl2_sppt",
-> +			    "Set the CPU slow package power tracking limit");
-> +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl3_fppt, "ppt_pl3_fppt",
-> +			    "Set the CPU fast package power tracking limit");
-> +
-> +static struct capdata01_attr_group capdata01_attr_groups[] = {
-> +	{ &ppt_pl1_spl_attr_group, &ppt_pl1_spl },
-> +	{ &ppt_pl2_sppt_attr_group, &ppt_pl2_sppt },
-> +	{ &ppt_pl3_fppt_attr_group, &ppt_pl3_fppt },
-> +	{},
-> +};
-> +
-> +static int lenovo_wmi_om_fw_attr_add(struct lenovo_wmi_om *om)
-> +{
-> +	int err, i;
-> +
-> +	om->fw_attr_dev = device_create(&firmware_attributes_class, NULL,
-> +					MKDEV(0, 0), NULL, "%s",
-> +					FW_ATTR_FOLDER);
-> +	if (IS_ERR(om->fw_attr_dev)) {
-> +		err = PTR_ERR(om->fw_attr_dev);
-> +		return err;
+Em Tue, 25 Feb 2025 13:10:19 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-I'd say just combine these two in this case and
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>=20
+> > Em Mon, 24 Feb 2025 16:38:58 -0700
+> > Jonathan Corbet <corbet@lwn.net> escreveu:
+> > =20
+> >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> >>=20
+> >>=20
+> >> I also think you should give consideration to preserving the other
+> >> copyright notices in the Perl version.  A language translation doesn't
+> >> remove existing copyrights...who knows how much creativity went into
+> >> some of those regexes? =20
+> >
+> > Makes sense, but the copyrights at kernel-doc.pl:
+> >
+> > 	## Copyright (c) 1998 Michael Zucchi, All Rights Reserved        ##
+> > 	## Copyright (C) 2000, 1  Tim Waugh <twaugh@redhat.com>          ##
+> > 	## Copyright (C) 2001  Simon Huggins                             ##
+> > 	## Copyright (C) 2005-2012  Randy Dunlap                         ##
+> > 	## Copyright (C) 2012  Dan Luedtke                               ##
+> > 	##                                                               ##
+> > 	## #define enhancements by Armin Kuster <akuster@mvista.com>     ##
+> > 	## Copyright (c) 2000 MontaVista Software, Inc.                  ##
+> > 	#
+> > 	# Copyright (C) 2022 Tomasz Warnie=C5=82=C5=82o (POD)
+> >
+> > Also doesn't preserve all copyrights from people that worked hard to
+> > maintain it all over those years. =20
+>=20
+> Agreed ... and I'm not sure what we can do about that.  But *removing*
+> existing copyright notices is a bit of a different story; that is
+> generally considered to be fairly bad form.
 
-	return PTR_ERR();
+I'm with you: we shall not remove copyrights.
 
-> +	}
-> +
-> +	om->fw_attr_kset =
-> +		kset_create_and_add("attributes", NULL, &om->fw_attr_dev->kobj);
-> +	if (!om->fw_attr_kset) {
-> +		err = -ENOMEM;
-> +		goto err_destroy_classdev;
-> +	}
-> +
-> +	for (i = 0; i < ARRAY_SIZE(capdata01_attr_groups) - 1; i++) {
-> +		err = sysfs_create_group(&om->fw_attr_kset->kobj,
-> +					 capdata01_attr_groups[i].attr_group);
-> +		if (err) {
-> +			pr_debug("Failed to create sysfs-group for %s: %d\n",
-> +				 capdata01_attr_groups[i].attr_group->name,
-> +				 err);
-> +			goto err_remove_groups;
-> +		}
-> +		capdata01_attr_groups[i].tunable_attr->dev = &om->wdev->dev;
-> +	}
-> +	return 0;
-> +
-> +err_remove_groups:
-> +	while (i-- > 0) {
+Yet, copyrights were originally developed for artwork (paintings, music
+and such). So I guess we can borrow an analogy from there to try=20
+understanding what a conversion like that would mean. At least for me,
+it sounds like having two paintings of the same image: they both
+reflect the same picture, but they have different brush strokes. They
+also may have different painting styles that may look similar but are
+different.
 
-Are these boundaries right for cleanup?
+Using such analogy, let's say someone draws a new painting while looking
+at a famous painting like Monalisa. Surely the painter should give credits
+to Leonardo Da Vinci  for his brilliant artwork, but, on the other hand,
+he cannot and should not sign that his painting was authored by Leonardo
+Da Vinci.=20
 
-Let's say that sysfs_create_group() fails on the second iteration (i = 1).
+This is the same here: the Python code, while derivated from the
+Perl version, doesn't have the same coding style ("brush strokes") nor
+we can say that it were authored by the original writers. IMO, all we
+can do is to give credits for the original authors and preserve GPLv2
+license, which explicitly allows derivative work.=20
 
-i-- will make it zero and then you never clear the group from the first 
-iteration.
+That's why I think we could give such credits with some preamble
+note to distinguish it from the Python copyrights.=20
 
-> +		sysfs_remove_group(&om->fw_attr_kset->kobj,
-> +				   capdata01_attr_groups[i].attr_group);
-> +	}
-> +	kset_unregister(om->fw_attr_kset);
-> +
-> +err_destroy_classdev:
-> +	device_unregister(om->fw_attr_dev);
-> +	return err;
-> +}
-> +
-> +static int lenovo_wmi_om_notifier(struct notifier_block *nb, unsigned long cmd,
-> +				  void *data)
-> +{
-> +	struct lenovo_wmi_om *om = container_of(nb, struct lenovo_wmi_om, nb);
-> +
-> +	if (!om)
-> +		NOTIFY_BAD;
+It could be something like:
 
-Presumably you meant:
+	# Converted from the kernel-doc script originally written in Perl
+	# under GPLv2, copyrighted since 1998 by the following authors:
 
-return NOTIFY_BAD;
+Followed by a list of the contributors, or it could be mentioning the
+original script and how people could browse to see the developers
+who wrote/modified kernel-doc.
 
-> +
-> +	if (cmd != THERMAL_MODE_EVENT)
-> +		NOTIFY_OK;
+Feel free to suggest a better text if you think the above won't fit.
 
-Presumably you meant:
+> I don't have a problem with adding a longer credits area, I guess, if we
+> want to do that (though it's not normal for other source files).  But
+> I'm not sure we need to.
 
-return NOTIFY_OK;
+I have the same doubts, but on the other hand, looking at the
+copyrights written on kernel-doc.pl since 2005 (git version), I can see=20
+records for just 3 persons:
 
-> +
-> +	om->mode = *((enum thermal_mode *)data);
-> +
-> +	return NOTIFY_OK;
-> +}
-> +
-> +static int lenovo_wmi_om_master_bind(struct device *dev)
-> +{
-> +	struct lenovo_wmi_om *om = dev_get_drvdata(dev);
-> +
-> +	int ret;
-> +
-> +	ret = component_bind_all(dev, om);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return lenovo_wmi_om_fw_attr_add(om);
-> +}
-> +
-> +static void lenovo_wmi_om_master_unbind(struct device *dev)
-> +{
-> +	component_unbind_all(dev, NULL);
-> +}
-> +
-> +static const struct component_master_ops lenovo_wmi_om_master_ops = {
-> +	.bind = lenovo_wmi_om_master_bind,
-> +	.unbind = lenovo_wmi_om_master_unbind,
-> +};
-> +
-> +static int lenovo_wmi_other_probe(struct wmi_device *wdev, const void *context)
-> +{
-> +	struct notifier_block lenovo_wmi_om_notifier_block = {
-> +		.notifier_call = lenovo_wmi_om_notifier,
-> +	};
-> +	struct component_match *master_match = NULL;
-> +	struct lenovo_wmi_om *om;
-> +	int ret;
-> +
-> +	om = devm_kzalloc(&wdev->dev, sizeof(*om), GFP_KERNEL);
-> +	if (!om) {
-> +		ret = -ENOMEM;
-> +		goto err_exit;
-> +	}
-> +
-> +	om->wdev = wdev;
-> +	om->nb = lenovo_wmi_om_notifier_block;
-> +	om->mode = SMARTFAN_MODE_CUSTOM; /* fallback */
-> +
-> +	dev_set_drvdata(&wdev->dev, om);
-> +
-> +	ret = devm_lenovo_wmi_gz_register_notifier(&wdev->dev, &om->nb);
-> +	if (ret) {
-> +		pr_err("Failed to register notifier_block\n");
-> +		goto err_exit;
-> +	}
-> +
-> +	component_match_add(&wdev->dev, &master_match, lenovo_wmi_cd01_match,
-> +			    NULL);
-> +	if (IS_ERR_OR_NULL(master_match)) {
-> +		ret = -ENOMEM;
-> +		goto err_exit;
-> +	}
-> +
-> +	ret = component_master_add_with_match(&wdev->dev,
-> +					      &lenovo_wmi_om_master_ops,
-> +					      master_match);
-> +	if (ret < 0) {
-> +		dev_err(&wdev->dev, "Master comp add failed %d\n", ret);
-> +		goto err_exit;
-> +	}
-> +
-> +	return 0;
-> +err_exit:
-> +	kfree(om);
-> +	return ret;
-> +}
-> +
-> +static void lenovo_wmi_other_remove(struct wmi_device *wdev)
-> +{
-> +	struct lenovo_wmi_om *om = dev_get_drvdata(&wdev->dev);
-> +
-> +	kset_unregister(om->fw_attr_kset);
-> +	device_destroy(&firmware_attributes_class, MKDEV(0, 0));
-> +	component_master_del(&wdev->dev, &lenovo_wmi_om_master_ops);
-> +}
-> +
-> +static const struct wmi_device_id lenovo_wmi_other_id_table[] = {
-> +	{ LENOVO_OTHER_METHOD_GUID, NULL },
-> +	{}
-> +};
-> +
-> +static struct wmi_driver lenovo_wmi_other_driver = {
-> +	.driver = {
-> +		.name = "lenovo_wmi_other",
-> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-> +	},
-> +	.id_table = lenovo_wmi_other_id_table,
-> +	.probe = lenovo_wmi_other_probe,
-> +	.remove = lenovo_wmi_other_remove,
-> +	.no_singleton = true,
-> +};
-> +
-> +module_wmi_driver(lenovo_wmi_other_driver);
-> +
-> +MODULE_IMPORT_NS("CAPDATA_WMI");
-> +MODULE_IMPORT_NS("GZ_WMI");
-> +MODULE_IMPORT_NS("LENOVO_WMI");
-> +MODULE_DEVICE_TABLE(wmi, lenovo_wmi_other_id_table);
-> +MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
-> +MODULE_DESCRIPTION("Lenovo Other Mode WMI Driver");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/platform/x86/lenovo-wmi.h b/drivers/platform/x86/lenovo-wmi.h
-> index 07fa67ed89d6..40b6418fbf02 100644
-> --- a/drivers/platform/x86/lenovo-wmi.h
-> +++ b/drivers/platform/x86/lenovo-wmi.h
-> @@ -61,6 +61,19 @@ struct capdata01 {
->   	u32 max_value;
->   };
->   
-> +/* other method structs */
-> +struct lenovo_wmi_om {
-> +	struct component_master_ops *ops;
-> +	struct lenovo_wmi_cd01 *cd01;
-> +	struct capdata01 **capdata;
-> +	struct device *fw_attr_dev;
-> +	struct kset *fw_attr_kset;
-> +	struct notifier_block nb;
-> +	struct wmi_device *wdev;
-> +	enum thermal_mode mode;
-> +	int instance_count;
-> +};
-> +
->   /* wmidev_evaluate_method helper functions */
->   int lenovo_wmidev_evaluate_method_2(struct wmi_device *wdev, u8 instance,
->   				    u32 method_id, u32 arg0, u32 arg1,
+- Dan Luedtke: a single patch adding html5 support
+  1b40c1944db4 ("scripts/kernel-doc: added support for html5")
 
+  We didn't port html5 to Python - and html output was already removed
+  from kernel-doc a long time ago. Maybe there might have some small
+  pieces of his original work that could have been ported. I dunno.
+
+- Tomasz Warnie=C5=82=C5=82o: basically, changes at the help/man part of th=
+e script
+
+  2b306ecaf57b scripts: kernel-doc: Refresh the copyright lines
+  258092a89085 scripts: kernel-doc: Drop obsolete comments
+  252b47da9fd9 scripts: kernel-doc: Replace the usage function
+  834cf6b9039e scripts: kernel-doc: Translate the "Other parameters" subsec=
+tion of OPTIONS
+  c15de5a19a28 scripts: kernel-doc: Translate the "Output selection modifie=
+rs" subsection of OPTIONS
+  9c77f108f43a scripts: kernel-doc: Translate the "Output selection" subsec=
+tion of OPTIONS
+  dd803b04b0a0 scripts: kernel-doc: Translate the "Output format selection =
+modifier" subsection of OPTIONS
+  2875f7870821 scripts: kernel-doc: Translate the "Output format selection"=
+ subsection of OPTIONS
+  f1583922bf93 scripts: kernel-doc: Translate the DESCRIPTION section
+  43caf1a6823d scripts: kernel-doc: Relink argument parsing error handling =
+to pod2usage
+  a5cdaea525c3 scripts: kernel-doc: Add the basic POD sections
+
+  Parts of the text used at the POD sections were preserved at the=20
+  Python version. I didn't check if the texts we're using were
+  authored by him.
+
+- Randy Dunlap: 64 patches fixing things and improving the script
+
+  I'm pretty sure I ported lots of stuff from Randy to the Python
+  version.
+
+At least for me, while it sounds right to give credits for the above
+3 developers and also for Michael, Simon and Armin, who collaborated
+and authored it before git time, it doesn't sound right to not mention=20
+any but one of the several developers that have been maintaining it=20
+since 2005. Now, the list, ordered by the number of patches is:
+
+     65 Randy Dunlap
+     57 Mauro Carvalho Chehab
+     32 Jani Nikula
+     20 Jonathan Corbet
+     11 Tomasz Warnie=C5=82=C5=82o
+     11 Johannes Berg
+      7 Kees Cook
+      6 Vegard Nossum
+      6 Aditya Srivastava
+      5 Paolo Bonzini
+      5 Martin Waitz
+      4 Matthew Wilcox
+      4 Daniel Vetter
+      3 Mike Rapoport
+      3 Danilo Cesar Lemes de Paula
+      3 Daniel Santos
+      3 Conch=C3=BAr Navid
+      3 Borislav Petkov
+      3 Ben Hutchings
+      3 Andy Shevchenko
+      3 Andr=C3=A9 Almeida
+      3 Akira Yokosawa
+      2 Yujie Liu
+      2 Yacine Belkadi
+      2 Sakari Ailus
+      2 Pavel Pisa
+      2 Pavan Kumar Linga
+      2 Markus Heiser
+      2 Jonathan Neusch=C3=A4fer
+      2 Jason Baron
+      2 Jakub Kicinski
+      2 Ilya Dryomov
+      1 Will Deacon
+      1 valdis.kletnieks@vt.edu
+      1 Utkarsh Tripathi
+      1 Silvio Fricke
+      1 Rolf Eike Beer
+      1 Rich Walker
+      1 Richard Kennedy
+      1 Randy.Dunlap
+      1 Pierre-Louis Bossart
+      1 Peter Maydell
+      1 Nishanth Menon
+      1 Niklas S=C3=B6derlund
+      1 Michal Wajdeczko
+      1 Masahiro Yamada
+      1 Mark Rutland
+      1 Lucas De Marchi
+      1 Linus Torvalds
+      1 Levin, Alexander (Sasha Levin)
+      1 Laurent Pinchart
+      1 Kamil Rytarowski
+      1 Jonathan Cameron
+      1 Johannes Weiner
+      1 J=C3=A9r=C3=A9my Bobbio
+      1 Jason Gunthorpe
+      1 Horia Geanta
+      1 Harvey Harrison
+      1 Greg Kroah-Hartman
+      1 Gabriel Krisman Bertazi
+      1 Donald Hunter
+      1 Dan Luedtke
+      1 Coco Li
+      1 Chen-Yu Tsai
+      1 Bart Van Assche
+      1 Anna-Maria Behnsen
+      1 Alexander Lobakin
+      1 Alexander A. Klimov
+
+If you think the list is too long, one option would be to draw a line
+(for instance picking developers with more than 2 patches or something
+like that) and add an "and others" to not forget about the others.
+
+We might analyze each individual contribution to see what was relevant
+or not, ignoring for instance single-line authors that did changes like
+this one:
+
+	diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+	index 28b761567815..f565536a2bef 100755
+	--- a/scripts/kernel-doc
+	+++ b/scripts/kernel-doc
+	@@ -2082 +2081,0 @@ sub dump_function($$) {
+	-    $prototype =3D~ s/__devinit +//;
+
+which almost certainly doesn't affect copyrights, which doesn't add any new
+code to it, while preserving credits for single-patch authors that did=20
+regex changes like this one:
+
+	diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+	index 3982d47048a7..724528f4b7d6 100755
+	--- a/scripts/kernel-doc
+	+++ b/scripts/kernel-doc
+	@@ -1086 +1086 @@ sub dump_struct($$) {
+	-    if ($x =3D~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned=
+|____cacheline_aligned_in_smp|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/=
+) {
+	+    if ($x =3D~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned=
+|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-=
+z0-9,_\s\(\)]*\)\)))*/) {
+	@@ -1101,0 +1102 @@ sub dump_struct($$) {
+	+       $members =3D~ s/\s*____cacheline_aligned/ /gos;
+
+
+but for me it sounds a waste of our time to analyze all patches, and
+we may risk of get things wrong, so I prefer to place the complete list.
+
+Thanks,
+Mauro
