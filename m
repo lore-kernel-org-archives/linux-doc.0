@@ -1,176 +1,227 @@
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010009.outbound.protection.outlook.com [52.103.67.9])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F94322C35C;
-	Thu, 27 Feb 2025 11:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740655289; cv=fail; b=FOH9yI5Qy3c4hK/1HoQ5A4n+VBAy0zyQOATjc0a+8zKpQjWqUUqFvQFhFkoCKysC78GkRGsuX25N5H9HBQ6/nHzaqNDPb1boLjg900Mzit2NeMLEhZNwl/XggkHUSKt9JCgzyYbAKJPNuhJ60QOvswzlkUjGC76dAEZGcj15zsQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740655289; c=relaxed/simple;
-	bh=V0dff4W7QAa5pBoAGs2VQgeDMU9Ytj5DH81c8vHxCao=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=onH1Y3XYjslJWRenVmVikwUaIsPkTI1JIiU2RTrVpyWPCsTzv7KP8JSvuKal7OhyKh9dUOk0cTNJ3quSPlPqjshEiCwQN23tnPyR8QQYNXbG4I50FJMY3RCHjMBPLEH6vZ5J7SdnJd7Nb4GlDxtKrxbDqnDVzbla6km9KVtqx80=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=mBXpKbZ0; arc=fail smtp.client-ip=52.103.67.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E13226863;
+	Thu, 27 Feb 2025 11:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740655920; cv=none; b=ROrHbgxX8wB7YmNa21k8LKUztcHBg9c2c9nYLjFQ/cp/ih4gjEfWGumtQuIc+mIGJSMLcXPDMWaIYlN3VqBKx2M6S5FL+uFKBoOcFrIZSO0D0nC5Vk81wK6z5RFzpyibdQuHdh5xXWTz8wC32w+va99GFfXui8QZdiG/nT8N21w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740655920; c=relaxed/simple;
+	bh=dwk+dUdvYMJppRqBBQrg4KWqyxQsjXd18+c9mLlp/BE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tM/qF6DO3GEGDfEwDhykLt5CCK2cI+e0DAs683WERx84Xj7xKL8ylMlEUtTj97VY7zPMhtpvNML8vBq55VSeDVpKdTt0U+SB1jh/xNrIwq4GnlQ7eRa6qtT6SaRWc/4MRadMGDaqtzY33QnDVa8iE5UV11RfdKIVe9Kw2zBES6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=gOf3RlVD; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="mBXpKbZ0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RpT8nSt+KEG9AAWLsciceKyoY+xERQ8U43A17ci4fYH2ZpefmlW4DIHGndkIvK0I2ZrnSN8axCtyrPrpnnmZY2RlCqRa2yMuA3V/OwP4dyN421SfLwhQr0+5zRcOB4AiL8lZVJgmPkDnNGcD3ukZ9bh8Y8pxSieXv7fQeVH5/+x3CBnBnig6Cw5w+OMlpKrLcu7voaysUpiDy2k9ltl4cuciCLcf421qE0UiVmYOHlpGmUXqFlnb9pyiewZxQihf7lwEy4Hdg9ZcXxXyCq/usFIT06i04v3MyzyArkXRgGvRu5CbjQ+/H5UkC0ZdfDOGH9Mm2sfD6Tvh93lZNCiRTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V0dff4W7QAa5pBoAGs2VQgeDMU9Ytj5DH81c8vHxCao=;
- b=kLBKdHGqY4IpYFsi6+e8VhH1W7m3xswNybh/y7vYvTiukvDPGMNKiHemDtFL6zzBEGExZQblDOjRfghbiDn0IvqaF0wmnuSvlDiBYreXJIWXIEBRLF+K5XIfDPVrXWhkj5bsk4ybJbJXKgmF5ZcSbd6TqcVTkWubIy2hlcES5RUbysyaAD90mlDjW5MdYJBqvXS17ok0C7HRIYEt/WqbUQL/cPuN71ZKVrV90Hb+g2XVtPzjuxxttt7+EmdO1UwUAzj3nmlSx5Zxz1W1U1pQ1yacmGj/NC70kjsj/Ae4ji+flR1aDHANtYL4x+buCurddhMVZcCfew212Pn+X4fjnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V0dff4W7QAa5pBoAGs2VQgeDMU9Ytj5DH81c8vHxCao=;
- b=mBXpKbZ0pGwirNlQW6Jxbz34UAxHG1lnV/x9KXWIXTEiee6RhVWf6EFRtQxughnAY95rzviWm/0lXzaaNMHUNP1y/BJv88MVDsR1BzigoYHm/Lure5795oWSJOUTp1pvgJ5p9YCtonFYkrP7F0HZ8SC9gTH9SkYsU2Wr9UaV5bGOzEIiEHunDicX3jQ4aZK9yLnXNoRU55HcZ97DdULrcgU33XxoJc8hfDoTi3BXmY7RYfphQvt2Gr5LrdxYeGuLMa0aECz/zRhB/sIRW9e94ZUYzpP9InnnKhlEL447NFVhAsFcEt+mJSYj50NG/vpQLfMEsUpG9ktEyL7U/eFXYg==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN0PR01MB10207.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1ef::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.21; Thu, 27 Feb
- 2025 11:21:18 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8489.021; Thu, 27 Feb 2025
- 11:21:18 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: "pmladek@suse.com" <pmladek@suse.com>, "rostedt@goodmis.org"
-	<rostedt@goodmis.org>, "andriy.shevchenko@linux.intel.com"
-	<andriy.shevchenko@linux.intel.com>, "linux@rasmusvillemoes.dk"
-	<linux@rasmusvillemoes.dk>, "senozhatsky@chromium.org"
-	<senozhatsky@chromium.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "apw@canonical.com"
-	<apw@canonical.com>, "joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>
-CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, Hector
- Martin <marcan@marcan.st>, "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>, Sven Peter
-	<sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Thread-Topic: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Thread-Index: AQHbg7X/VQv9Od0O+UavMLVdMg72b7NWp9L1gARkMq8=
-Date: Thu, 27 Feb 2025 11:21:18 +0000
-Message-ID:
- <PN3PR01MB95974209DC2F3AD757EBE40CB8CD2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
- <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
- <PN3PR01MB95971110670F02685E6AF519B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-In-Reply-To:
- <PN3PR01MB95971110670F02685E6AF519B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Accept-Language: en-IN, en-US
-Content-Language: en-IN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|PN0PR01MB10207:EE_
-x-ms-office365-filtering-correlation-id: 705878a4-8306-4c82-5ed3-08dd5720db5b
-x-microsoft-antispam:
- BCL:0;ARA:14566002|6072599003|19110799003|15080799006|8060799006|461199028|7092599003|8062599003|3412199025|440099028|102099032;
-x-microsoft-antispam-message-info:
- =?utf-8?B?eVk0WCtYZnV1N2ZKUW1mdDlqc05Jc0sxcFdjeHdDMlA2cG9DcmMxazV6NkFx?=
- =?utf-8?B?akRWYTlKNE1mUmIyREJjMjNub1MyRlRhMlBmUmlUOWxGYzAvdHoyY2xuTUFn?=
- =?utf-8?B?bjJYcHNkSGhkYUlMeXNaUE1pUDZJTEo4bklGaUd0SlFJVXBnU0ZXc3VlODZt?=
- =?utf-8?B?S0FpeG43bmJ3NjVvSXRZSXJ5cERyM3RrTUYrU0Y4RitldktUdkY4M3JSc1Fn?=
- =?utf-8?B?d0ZCcFpEVzJMN01DRGhYN1A3NDRHT05YMEIybVRiQWNVSmVwT2tLamEvd2o2?=
- =?utf-8?B?bngzN2ZOVi9za1J0eThXTXcyR1VTb05hNnlaVkNPd1FDVnA4WEw1dzVhaVFH?=
- =?utf-8?B?elhXQzNHMFJKcEpIL090MHRUbDNGWmpLdnBody9paXR0LzFZMGlvOTlJcFZl?=
- =?utf-8?B?L0x3bzc5ckJvSGU2SzVxZ2krSWw0WHBIYjdKREtxMzhIZHZuZmlJTW1WRmxH?=
- =?utf-8?B?bEhrOExaclJ6REtpQ2lRYi84eUwyTmtVUkkzVWFUd1pHK1FRdGJPdUFzN3M2?=
- =?utf-8?B?R2JvZHpVUE15NGMzV3JTK043eTFaTEpjcWVhQklHamp6bHEzRlNpV2hTNm1S?=
- =?utf-8?B?d2FUK3NudVFTVloya0dac1VqZ3A0bDB1cE84Z2RCQlBuVmtNU1h5d2ZDSmF6?=
- =?utf-8?B?cWVNdmVTbFlyWWdiRjM4U2Y0VGZsTnNyQkpOcUlwdXlSeVJWNnM2QVZ1em9X?=
- =?utf-8?B?QW5LRlIwYzhFQTRrSzg2YWdTR25yY084cUZIOEtyaUZiMlVPelBKa1NWQWc3?=
- =?utf-8?B?Qm5Eb1pjdmpCYnpyaTZ3d1gxNjRNQmhGSmU4MkxhWG9FN0twdXRiWnpnL2RU?=
- =?utf-8?B?V3VtY1NCQVVoSnMvRGZjelkvOEorclNBU0hucU1ncjdvdDRTRDZ2YTYxOG83?=
- =?utf-8?B?QzRLa0U2MnUyTld3ZmdOYWFBQWZQcHAweXh4SlZ6bjFMa2ZtK3FyZGR4QTN2?=
- =?utf-8?B?UWpsVnpzcy9UaFhkc0F2NHFXVUpTeVVrNGxJK0E4M3prbmJVK2QyU2ZUZ3By?=
- =?utf-8?B?N09ocms4bHNmMEtEektEUVZrbElDU2d5WXlDQmQvdzU3ZUJJc2NYMW9qSytl?=
- =?utf-8?B?MnQ2bVB5Y3JHd2xRd1M4NVVtRU5uSmkwYTVBRG84T3NRK3dBZFRhNXp4UWJh?=
- =?utf-8?B?TlRkWm9TdVN5L09LK0RPSjBQNTIydDRMd0xpSWJYNTB3OWQyN3Qxb096QVJX?=
- =?utf-8?B?dEVmTlM0elNGUW9jOW1EU0NkQkwzdFZUVGdUVW9WK2oxSWk2YXFiYmR0YTNU?=
- =?utf-8?B?dzdYQXg4OFc5cWJLZG9VMTk5MS9MZk5wMDdrNWdLeFFpcndaVUNNY2szeHRK?=
- =?utf-8?B?M2ZFazFyMlMwVy9DNFpuZ3BKdmRoeFdWb2FVcWlhcVplMnNYY0JmelBCTUpx?=
- =?utf-8?B?alZXQnF0VHllSWo4SDVvbFpCRFlRbXMwQ0s0d09nOUE4RVY2YmR0bkF0dWFB?=
- =?utf-8?B?TU1xYzByeEJKemdrQjlpbE9nQTQ2REFMVk1RV0FHYUpVNVAybEZPOUJlOHcw?=
- =?utf-8?Q?JvpI1o=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?cHhUeW5wSE56Tm5BZHF3OGZVOStVaDlFNnlIZ2xXMGR1a2thYnFUcTF1eW1C?=
- =?utf-8?B?NXoycVp6ZUs2bjNmM1lVY0xmZlU5MHM3a293SXdNOFgvOGdVdVY2ODFzd0dr?=
- =?utf-8?B?dVhySXRidTI1dk9ycmsvQjQ1ZGk2ODE5SEFDUUNTZDJQemhGc0NxTGdPVllo?=
- =?utf-8?B?c3BsQlJ1RGNhbCtNd1laSCtBNmtEck9yU08rWFZLUGRIVk5Ta0U0T2t4R0N4?=
- =?utf-8?B?eWF0OUZyNkttYlMyRE82RTFhMDFSSlozUEM5RUtkU3Q0UGVKMGxwL3ZxT2dQ?=
- =?utf-8?B?SlVOSXZGcEpSRS8vb1BMWXJacVE0OExSK2pKOWxheXVqTUx5VzVHcjJFL21G?=
- =?utf-8?B?R1gzKy9OdzJCYkY5QVF5aE5wYVVyTVBVbXhPRDAvbXljUVJWaWNYYzdpdEpB?=
- =?utf-8?B?V2QyMlF1ekdmZFlZOVdUY245WDkrZUVrbngyaDFjWGlNNW51VVl6c1JLeEdo?=
- =?utf-8?B?MmtvYlhiQTZhK091cFVCaDRlOXQyS1hLSHBZVzBzVFNpc2JIcHU4c21lSklE?=
- =?utf-8?B?ZDlSMjg0YXFTMXI3ZXJSc3VIdVJBcDRoemVmODdZQTF6L1VNV0FETzVDMFJs?=
- =?utf-8?B?UCtSOEZ1aDdjcCtlQjJmRTEvV1doQlZ3Z1hwZXFoWFM5eXo3QXhjMDJ3R2pj?=
- =?utf-8?B?MFYzRnM1RkpLVS9oTHhpZzVmWXU0dloxOE1zek0xVnVmdnVEamVlRGROZ1pv?=
- =?utf-8?B?WVNrTDRZSDM4eHcwbkdyczd3SzNSdXIySUhZOFhGWktoVklHMzAyTzFWT0c0?=
- =?utf-8?B?dm1Raldvdm9GMWFLVFZqaGFDMy96bWswRHM0OGJlSk1uUUxnWk5FWEQ3N1E5?=
- =?utf-8?B?cmZGZVFOdHZ5eTN6dklScmo5b0U5Y3BaR1RSQjBUdFQzbm8yYWZlWGR1MklB?=
- =?utf-8?B?M2hQWmZzTTN4Q1RhaWFEcytUSUlsRmZJaER0QVlVTVFodlY1ME1JM3QzTjdG?=
- =?utf-8?B?Uk1SRHlQclBoa1IvRmVhZFl5SFFHMWlQTUlDWnF2MHpXWmxQUlhoSy9TZFR0?=
- =?utf-8?B?bVBaS0hFL0c5UFdIbjJOWVZiWUN0cktBdExuNXBuUmRVQ2dRc3pJSnhSam5n?=
- =?utf-8?B?NVBWOGYwTlVRaXIzRit6Rm1qZWJIeG41d1JwZjVNNmdoSkx1SEZTL2E3NHQy?=
- =?utf-8?B?SkxXUGxhcnppUU5OYWhYTVhYV2VYeFhoeFZYRTVCOUk1bTRlWDlEUENrblAy?=
- =?utf-8?B?QUpDRmNYR255aG9nVC9WcHR2NlVpSmgyb1NpelFha3NNVGYyV3dPOUdjUVB4?=
- =?utf-8?B?bVNKN0dnbWFZNEMzbDdSWTlvQm9xMDA3U250ZHhHdVlFaTNKY0FFZmVHZDFV?=
- =?utf-8?B?eEpjbjdOUlJtMXhZVGh5blkrWXAyc2UrMHdtQlB5ZDBWRDlhbHNCUmtaMjEy?=
- =?utf-8?B?OUJJcDhtYU1LWHd1cTJJSGtWY2R1bUd3UjlwNUJlTnBSL3VGMWJzQVJJQ29s?=
- =?utf-8?B?cGh4dENjbldiNGYrQzdVb2pYdkdqZ2FXSkFxQW95YncyTHN4clpKT3BDdEFh?=
- =?utf-8?B?LzM4WE5UUllZbDBhNWRma1hMRzVkWWR0bkpWZnA4Y1pUaGM2bjdCWW9GRGdZ?=
- =?utf-8?B?QmtaWW1mVDZJME95bWNZdUV5aW5uakRqZEhjUE16L3lrNUxhWjBxRnBLYnpC?=
- =?utf-8?B?dXZ6NjE1MEJ0OC9FRlIyOWdPRFhjVmlGRWQ5SkpVVjI0MmRuRmxpcWg3bUo3?=
- =?utf-8?B?TGlXaUR3TEVraC9BS3Q2UXEvNURkNWJkOGJaSUFlZEs3VjZoODMvRVNQN0tm?=
- =?utf-8?Q?OhSZVsyGqMrurSWA8Q=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gOf3RlVD"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7D9ED444D9;
+	Thu, 27 Feb 2025 11:31:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740655909;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wQBR1fbUgTFIGJuy0ZeL6bl5jhpsm/4S7x+eKQJsjW8=;
+	b=gOf3RlVDCB0iEix51gKo+4FwCbxqsZApCYSTE84rSmrTUvz0CR4ce3C4zNz+Apic0q76S4
+	INXSesy1PzmMyNhwDPtnN9zs+S+J4WbGk3LMatBS/D2rCiyrZJKYrGI3TOraCOBoKKeTlz
+	6epNfKEzRIRqj72t8uGakHHHI+tciLaeL7otJ5GwyLWdE8fhQDyrtQ0tPq3XQLnjJI2mFc
+	3ut3NMiotZto/rOnF+Huzj7z1jj8QPjYw7xAJwTUVafk7nVmHQm+UTii+zmy8Z5jG/hqZk
+	BFtnPOESGHIPZWiJQmEc6P98Gy25oH0UC3xHMdTQa48pWatoLTbasb58tFAwOA==
+Date: Thu, 27 Feb 2025 12:31:43 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Paul Kocialkowski
+ <contact@paulk.fr>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?B?SGVy?=
+ =?UTF-8?B?dsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
+ bridges
+Message-ID: <20250227123143.54d4aa03@booty>
+In-Reply-To: <20250227-savvy-monumental-toucan-edffe2@houat>
+References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
+	<20250206-hotplug-drm-bridge-v6-14-9d6f2c9c3058@bootlin.com>
+	<20250207-ingenious-daffodil-dugong-51be57@houat>
+	<20250210181252.5ee028d4@booty>
+	<20250211-merciful-nyala-of-justice-a4fabb@houat>
+	<20250226152813.4a1ad218@booty>
+	<20250227-savvy-monumental-toucan-edffe2@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 705878a4-8306-4c82-5ed3-08dd5720db5b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2025 11:21:18.6753
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB10207
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekjeefhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefjedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepj
+ hgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-DQoNCj4gT24gMjQgRmViIDIwMjUsIGF0IDk6NDfigK9QTSwgQWRpdHlhIEdhcmcgPGdhcmdhZGl0
-eWEwOEBsaXZlLmNvbT4gd3JvdGU6DQo+IA0KPiDvu79JIHJlcXVlc3QgdGhlIHByaW50ayBtYWlu
-dGFpbmVycyBmb3IgdGhlaXIgdmlld3Mgb24gd2hldGhlciBpZiB0aGV5IGFyZSBvayB3aXRoIHRo
-ZSBzcGFyc2UgZXJyb3JzIGluIHRoaXMgb3JpZ2luYWwgcGF0Y2guDQoNCkZXSVcsIEkgcmVhZCBh
-IGJpdCBhYm91dCBGT1VSQ0MgYW5kIGFsc28gaW52ZXN0aWdhdGVkIHRoZSBjcHVfdG9fbGUzMiBh
-bmQgc2ltaWxhciBtYWNyb3MuIEkgdGhpbmsgdGhlIHY0IEkgc2VudCBzaG91bGQgd29yayB3ZWxs
-LCB3aXRob3V0IHRoZSBzcGFyc2Ugd2FybmluZ3MuIEkndmUgYWxzbyBtYWRlIHRoZSB2NCBzZXBh
-cmF0ZSBmcm9tIHRoZSBEUk0gcGF0Y2ggc2V0LCBzbyBhcyB0byBhdm9pZCBtdWx0aXBsZSB0cmVl
-IGNvbXBsaWNhdGlvbnMgYW5kIGhpbmRlcmluZyB0aGUgRFJNIGRyaXZlciB1cHN0cmVhbSBwcm9j
-ZXNzLiBGb3Igbm93ICVwNGNjIHdhcyB0aGUgYmVzdCBmb3JtYXQgaGVscGVyIEkgY291bGQgZmlu
-ZCB1cHN0cmVhbSwgYnV0IEkgd291bGQgcHJlZmVyIHVzaW5nICVwNGNsIChsaXR0bGUgZW5kaWFu
-KSBpbnN0ZWFkIGZvciBhcHBsZXRiZHJtLiBBbmQgdGhpcyBwYXRjaCBpbW8gaXMgbmVlZGVkIHNp
-bXBseSBiZWNhdXNlIHdlIG5lZWQgYmV0dGVyIGZvcm1hdCBoZWxwZXJzLCByYXRoZXIgdGhhbiB1
-c2luZyB3b3JrYXJvdW5kcyB0byBzd2FwIGJpdHMgYW5kIHVzaW5nIG90aGVyIGZvcm1hdCBoZWxw
-ZXJzLg==
+Hi Maxime,
+
+On Thu, 27 Feb 2025 10:32:20 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
+
+> On Wed, Feb 26, 2025 at 03:28:13PM +0100, Luca Ceresoli wrote:
+> > On Tue, 11 Feb 2025 14:10:50 +0100
+> > Maxime Ripard <mripard@kernel.org> wrote:  
+> > > On Mon, Feb 10, 2025 at 06:12:52PM +0100, Luca Ceresoli wrote:  
+> > > > On Fri, 7 Feb 2025 12:47:51 +0100
+> > > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > >     
+> > > > > > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> > > > > > index ad7ba444a13e5ecf16f996de3742e4ac67dc21f1..43cef0f6ccd36034f64ad2babfebea62db1d9e43 100644
+> > > > > > --- a/include/drm/drm_bridge.h
+> > > > > > +++ b/include/drm/drm_bridge.h
+> > > > > > @@ -31,6 +31,7 @@
+> > > > > >  #include <drm/drm_encoder.h>
+> > > > > >  #include <drm/drm_mode_object.h>
+> > > > > >  #include <drm/drm_modes.h>
+> > > > > > +#include <drm/drm_print.h>
+> > > > > >  
+> > > > > >  struct device_node;
+> > > > > >  
+> > > > > > @@ -863,6 +864,22 @@ struct drm_bridge {
+> > > > > >  	const struct drm_bridge_timings *timings;
+> > > > > >  	/** @funcs: control functions */
+> > > > > >  	const struct drm_bridge_funcs *funcs;
+> > > > > > +
+> > > > > > +	/**
+> > > > > > +	 * @container_offset: Offset of this struct within the container
+> > > > > > +	 * struct embedding it. Used for refcounted bridges to free the
+> > > > > > +	 * embeddeing struct when the refcount drops to zero. Unused on
+> > > > > > +	 * legacy bridges.
+> > > > > > +	 */
+> > > > > > +	size_t container_offset;      
+> > > > > 
+> > > > > This shouldn't be in there. You can create an intermediate structure and
+> > > > > store both pointers for the action to consume.    
+> > > > 
+> > > > You mean to store container_offset + refcount + is_refcounted?    
+> > > 
+> > > No, I meant for the private structure pointer and the drm_bridge
+> > > pointer. refcount should be in drm_bridge, and I think is_refcounted
+> > > should be dropped.  
+> > 
+> > Storing the container pointer instead of the offset is a good idea, it
+> > will allow to get rid of is_refcounted: drm_bridge_is_refcounted() can
+> > just return "container != NULL" instead of "bridge->is_refcounted". So
+> > far so good.  
+> 
+> Again, I don't think the whole is_refcounted thing is a good idea. Once
+> we have the right API, we should convert all bridges to the new
+> allocation and assume that they are refcounted.
+
+Ah, thanks for clarifying, now I understand the reason you'd remove
+is_refecounted while I didn't. In my plan it's for a transition phase
+where not all bridges are converted yet. I should have added a note
+about that, indeed.
+
+While I obviously think all bridges should be converted to dynamic
+lifetime, I'm not sure it can happen all in a single run, however.
+Converting bridges to refcounting is mostly easy, but before we should
+switch all bridge users to put the pointers they have, or the bridges
+will never be freed. But the users are more in number and harder to
+convert. However I still haven't tried a real conversion of all of
+them, so it I'm going to reconsider this after I'll have tried.
+
+Generally speaking, would you be OK with having is_refcounted in a
+transition phase, or do you think we absolutely must convert all bridge
+drivers and users at once?
+
+> > I'm not sure about the intermediate struct you have in mind though.
+> > 
+> > Do you mean:
+> > 
+> > struct drm_bridge_pointers {
+> >     struct drm_bridge *bridge;
+> >     void              *container;
+> > }
+> > 
+> > ?  
+> 
+> Yes
+> 
+> > If that's what you mean, should it be embedded in drm_struct or
+> > allocated separately?  
+> 
+> Separately, but still as part of the bridge allocation function.
+> 
+> > If you mean to embed that struct in drm_bridge, then I the drm_bridge
+> > pointer inside the intermediate struct would be useless.
+> > 
+> > If instead you mean to embed it in drm_struct: I'm not sure I see much
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+For the records, I (obviously?) meant "allocated separately" here.
+
+> > benefit except maybe not exposing the container pointer to drm_bridge
+> > users, but I see a drawbacks: at the last put we need to find the
+> > container pointer to free from a struct kref pointer, which can work
+> > only if the container pointer is in the same struct as struct kref.  
+> 
+> Yeah, that's true. Storing the container pointer in drm_bridge makes
+> sense to solve this.
+
+OK, so when moving the container pointer to drm_bridge, the
+drm_bridge_pointers struct will be left with the drm_bridge pointer
+only:
+
+struct drm_bridge_pointer {
+    struct drm_bridge *bridge;
+}
+
+So while it would work, I still don't see the added value. We'd have
+one more allocation, we'd need to free both structs at the same time
+(correct?) and drm_bridge_put_void() would have an extra indirection
+step:
+
+     static void drm_bridge_put_void(void *data)
+     {
+        struct drm_bridge_pointer *bridge_pointer = (struct drm_bridge_pointers *)data;
+	struct drm_bridge *bridge = bridge_pointer->bridge;
+
+	drm_bridge_put(bridge);
+     }
+
+Can you elaborate on the gain in having such struct, or point me to
+some code using the same pattern?
+
+> I'm still not sure why we need the container offset though: if we have a
+> bridge and container pointer, then the offset is bridge - container, so
+> there's no point in storing it, right?
+
+We need either the container_offset or the container pointer, not both.
+I had chosen the offset in v6, I'm going to convert to the pointer in
+v7.
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
