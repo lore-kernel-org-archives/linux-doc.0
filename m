@@ -1,245 +1,134 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34732777F0;
-	Thu, 27 Feb 2025 22:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131D5277817;
+	Thu, 27 Feb 2025 23:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740696392; cv=none; b=fZRVUkxL0uVMXT+3N8673swZoQFpui0ZIYG0Td0wVlAJ66buOlYTLVLC6iVYpzWMQCyBwNsVuqV5YkpxKC+IN/RcOIpX61Mni3xUked7VKCcQ7zjJwECIXUWDRMUcnHYxI+500D0/eIogkHhI6ncixcrTymtT069WFU9Hs442WM=
+	t=1740697332; cv=none; b=hmE+l/Fo/MkHsECRyeUswuzN74AyKnigIc3qMtZrS2oJ6cxNT5mJfY6/SdnYYBQQVmoNbPWPz1qwAZmgJDjj0FPIz+Hq2Al9ajx0PZI/O2ziGCD9XUuvzHHiGbdtYG6P02qHgquAWciXAwdeN9gMlpzeurkHppIlOBosN/xZLgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740696392; c=relaxed/simple;
-	bh=Q6Pa0KhEvlHtwBQPvl7cH5V19cFDAgMxXJL/DJvUHCE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=DYwWZGAt8YGiF6FZTra8ae69WYheXPRlNaiJ6cUn28yfRCspvZmDyCprjgi734oeeeTkoZIwUFP0YbluAgh88zBCDNSHCEjY4VWy/d3I/E5iK6CexKSUSx+JDmuOSM8nHpP2DGVRUkA8lJse9rLJqOnozaLghldODgnyXJZd8Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=lGVeiR+E; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1740697332; c=relaxed/simple;
+	bh=77mfKSU/7bUid7o9jDTk0QDdNak1HyZH2KPQxoAjUqg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=d9BH9bgwyvVywy88GFTpe4+mkGhjsGnxKdylSZH7BlhApjsF+UWxZBZYYxdxPUzjzbTDJPMvb1UKpz1vE88lrTkVJAINITgBKiKcmDh6DzRgKwZQJkkZhQW92Fgj8wUZLU21TygY14TZPpSpDzJaj4vbVRChIO/3phS9xMqADTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kJ5VjVad; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="lGVeiR+E"
-Received: by linux.microsoft.com (Postfix, from userid 1212)
-	id 7133E210D0F2; Thu, 27 Feb 2025 14:46:30 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7133E210D0F2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1740696390;
-	bh=aqBCcjB1GK85ZkCy3eKDq7vjs8P7hOhb3Um+ZUwqHwU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lGVeiR+EmAAjP23a2cMbYaJvaa52eX7lDcBNK530Z/qjh+OgbQCPGO+GBwkePJJIv
-	 sRekI3vtPozpaqqLxu0ar47xgem/MoE5SfVVkidjhVlp3IczOUsC5AA+m/cnC1wCr9
-	 oFglWIUtRtych1UOaEmbzyNy34PNtqAayX0ryTpQ=
-From: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
-To: wufan@kernel.org
-Cc: audit@vger.kernel.org,
-	corbet@lwn.net,
-	eparis@redhat.com,
-	jasjivsingh@linux.microsoft.com,
-	jmorris@namei.org,
-	linux-audit@redhat.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	paul@paul-moore.com
-Subject: [PATCH v2] ipe: add errno field to IPE policy load auditing
-Date: Thu, 27 Feb 2025 14:46:17 -0800
-Message-Id: <1740696377-3986-1-git-send-email-jasjivsingh@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <CAKtyLkFg2+8ciy4DM=g+vcTVvuRPNL2SHbN+m9ObErxtYXZYPw@mail.gmail.com>
-References: <CAKtyLkFg2+8ciy4DM=g+vcTVvuRPNL2SHbN+m9ObErxtYXZYPw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kJ5VjVad"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 89D81C4CEDD;
+	Thu, 27 Feb 2025 23:02:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740697331;
+	bh=77mfKSU/7bUid7o9jDTk0QDdNak1HyZH2KPQxoAjUqg=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=kJ5VjVadIYH14WN9A7Eo5CMk1ngHf+2Z7d2tCXlwfE2L8N9egHE9Lv0Wyd04syAyZ
+	 GQiGjCMmvjOzeEAi3BCH0FGEfUjnffDrk/65fwucI2axX2enL34QMb0swYthZDQQpy
+	 oY5pRB224vAN7JWaxEwZnrUXQ6uWpktxxWCKIENzzEDQJGYWGnTvg+zb+bJoRd0xjl
+	 yyJyocKpv8oQ7qvs2gIkDzKkB5SxrIcWgNldwji/zAjI4mtZ6aekr0PVySCd/COpx1
+	 YLcpPK/P/oYa9edlLnkJBdMtPgVXSjrWs/C7F26S/ymHltJUwNIxGtpPB/wTrlahp6
+	 fIOrN8/LoeAWQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDFFC197BF;
+	Thu, 27 Feb 2025 23:02:11 +0000 (UTC)
+From: Thomas Prescher via B4 Relay <devnull+thomas.prescher.cyberus-technology.de@kernel.org>
+Subject: [PATCH v3 0/3] Add a command line option that enables control of
+ how many threads should be used to allocate huge pages.
+Date: Fri, 28 Feb 2025 00:02:09 +0100
+Message-Id: <20250228-hugepage-parameter-v3-0-2628e9b2b5c0@cyberus-technology.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPHuwGcC/33NQQ6CMBAF0KuQrq0pBSy68h7GRZlOaROlTQuNh
+ HB3CysXajKb/5P/ZiERg8VILsVCAiYbrRtyqA4FASOHHqlVORPOeMM4L6mZevQy914G+cQRA8W
+ 2qblWGphEkoc+oLavHb3dczY2ji7M+49Ubu1fLpWUUS3rsxQC2nxXmDsMU6Qjghncw/XzUSHZ6
+ MQ/OfGV45kTqmvhpIDVTfWLW9f1DRVYK/QPAQAA
+X-Change-ID: 20250221-hugepage-parameter-e8542fdfc0ae
+To: Jonathan Corbet <corbet@lwn.net>, Muchun Song <muchun.song@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, Thomas Prescher <thomas.prescher@cyberus-technology.de>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740697330; l=2949;
+ i=thomas.prescher@cyberus-technology.de; s=20250221;
+ h=from:subject:message-id;
+ bh=77mfKSU/7bUid7o9jDTk0QDdNak1HyZH2KPQxoAjUqg=;
+ b=9MUeqnBuqLbrQS5045xPrHI4IgCVsWVTUBuVD3OAtqS7we6JJlqgxV8uvskTuQNoPESsrgYVm
+ o84ZIPyr5GTBHpV7LiQWNLpUR+QEgJaYo3w7hpJzfrKF5Aw7i/+vbWK
+X-Developer-Key: i=thomas.prescher@cyberus-technology.de; a=ed25519;
+ pk=T5MVdLVCc/0UUyv5IcSqGVvGcVkgWW/KtuEo2RRJwM8=
+X-Endpoint-Received: by B4 Relay for
+ thomas.prescher@cyberus-technology.de/20250221 with auth_id=345
+X-Original-From: Thomas Prescher <thomas.prescher@cyberus-technology.de>
+Reply-To: thomas.prescher@cyberus-technology.de
 
-Thanks for reviewing it. Here's the example generated from real logs:
+Allocating huge pages can take a very long time on servers
+with terabytes of memory even when they are allocated at
+boot time where the allocation happens in parallel.
 
-AUDIT_IPE_POLICY_LOAD(1422):
-audit:  AUDIT1422 policy_name="Test_Policy" policy_version=0.0.1 
-policy_digest =sha256:84EFBA8FA71E62AE0A537FAB962F8A2BD1053964C4
-299DCA92BFFF4DB82E86D3 auid=1000 ses=3 lsm=ipe res=1 errno=0
+Before this series, the kernel used a hard coded value of 2 threads per
+NUMA node for these allocations. This value might have been good
+enough in the past but it is not sufficient to fully utilize
+newer systems.
 
-The above record shows a new policy has been successfully loaded into
-the kernel with the policy name, version, and hash with the errno=0.
+This series changes the default so the kernel uses 25% of the available
+hardware threads for these allocations. In addition, we allow the user
+that wish to micro-optimize the allocation time to override this value
+via a new kernel parameter.
 
-AUDIT_IPE_POLICY_LOAD(1422) with error:
+We tested this on 2 generations of Xeon CPUs and the results
+show a big improvement of the overall allocation time.
 
-audit: AUDIT1422 policy_name=? policy_version=? policy_digest=?
-auid=1000 ses=3 lsm=ipe res=0 errno=-74
++-----------------------+-------+-------+-------+-------+-------+
+| threads               |   8   |   16  |   32  |   64  |   128 |
++-----------------------+-------+-------+-------+-------+-------+
+| skylake      144 cpus |   44s |   22s |   16s |   19s |   20s |
+| cascade lake 192 cpus |   39s |   20s |   11s |   10s |    9s |
++-----------------------+-------+-------+-------+-------+-------+
 
-The above record shows a policy load failure due to an invalid policy.
+On skylake, we see an improvment of 2.75x when using 32 threads,
+on cascade lake we can get even better at 4.3x when we use
+128 threads.
 
-I have updated the failure cases in new_policy() and update_policy(),
-which covers each case as well.
- 
-Signed-off-by: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
+This speedup is quite significant and users of large machines
+like these should have the option to make the machines boot
+as fast as possible.
+
+Signed-off-by: Thomas Prescher <thomas.prescher@cyberus-technology.de>
 ---
- Documentation/admin-guide/LSM/ipe.rst |  2 ++
- security/ipe/audit.c                  | 10 ++++------
- security/ipe/fs.c                     | 17 ++++++++++++-----
- security/ipe/policy.c                 |  4 +---
- security/ipe/policy_fs.c              | 24 +++++++++++++++++++-----
- 5 files changed, 38 insertions(+), 19 deletions(-)
+Changes in v3:
+- Fix log message (the name of the parameter was incorrect)
+- Link to v2: https://lore.kernel.org/r/20250227-hugepage-parameter-v2-0-7db8c6dc0453@cyberus-technology.de
 
-diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-guide/LSM/ipe.rst
-index 2143165f48c9..5dbf54471fab 100644
---- a/Documentation/admin-guide/LSM/ipe.rst
-+++ b/Documentation/admin-guide/LSM/ipe.rst
-@@ -453,6 +453,8 @@ Field descriptions:
- | errno          | integer    | No        | The result of the policy error as follows:        |
- |                |            |           |                                                   |
- |                |            |           | +  0: no error                                    |
-+|                |            |           | +  -EPERM: Insufficient permission                |
-+|                |            |           | +  -EEXIST: Same name policy already deployed     |
- |                |            |           | +  -EBADMSG: policy is invalid                    |
- |                |            |           | +  -ENOMEM: out of memory (OOM)                   |
- |                |            |           | +  -ERANGE: policy version number overflow        |
-diff --git a/security/ipe/audit.c b/security/ipe/audit.c
-index f810f7004498..8df307bb2bab 100644
---- a/security/ipe/audit.c
-+++ b/security/ipe/audit.c
-@@ -21,7 +21,7 @@
- 
- #define AUDIT_POLICY_LOAD_FMT "policy_name=\"%s\" policy_version=%hu.%hu.%hu "\
- 			      "policy_digest=" IPE_AUDIT_HASH_ALG ":"
--#define AUDIT_POLICY_LOAD_NULL_FMT "policy_name=? policy_version=? "\
-+#define AUDIT_POLICY_LOAD_FAIL_FMT "policy_name=? policy_version=? "\
- 				   "policy_digest=?"
- #define AUDIT_OLD_ACTIVE_POLICY_FMT "old_active_pol_name=\"%s\" "\
- 				    "old_active_pol_version=%hu.%hu.%hu "\
-@@ -255,9 +255,8 @@ void ipe_audit_policy_activation(const struct ipe_policy *const op,
-  */
- void ipe_audit_policy_load(const struct ipe_policy *const p)
- {
--	int res = 0;
--	int err = 0;
- 	struct audit_buffer *ab;
-+	int err = 0;
- 
- 	ab = audit_log_start(audit_context(), GFP_KERNEL,
- 			     AUDIT_IPE_POLICY_LOAD);
-@@ -266,15 +265,14 @@ void ipe_audit_policy_load(const struct ipe_policy *const p)
- 
- 	if (!IS_ERR(p)) {
- 		audit_policy(ab, AUDIT_POLICY_LOAD_FMT, p);
--		res = 1;
- 	} else {
--		audit_log_format(ab, AUDIT_POLICY_LOAD_NULL_FMT);
-+		audit_log_format(ab, AUDIT_POLICY_LOAD_FAIL_FMT);
- 		err = PTR_ERR(p);
- 	}
- 
- 	audit_log_format(ab, " auid=%u ses=%u lsm=ipe res=%d errno=%d",
- 			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
--			 audit_get_sessionid(current), res, err);
-+			 audit_get_sessionid(current), !err, err);
- 
- 	audit_log_end(ab);
- }
-diff --git a/security/ipe/fs.c b/security/ipe/fs.c
-index 5b6d19fb844a..40805b13ee2c 100644
---- a/security/ipe/fs.c
-+++ b/security/ipe/fs.c
-@@ -141,12 +141,16 @@ static ssize_t new_policy(struct file *f, const char __user *data,
- 	char *copy = NULL;
- 	int rc = 0;
- 
--	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
--		return -EPERM;
-+	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN)) {
-+		rc = -EPERM;
-+		goto out;
-+	}
- 
- 	copy = memdup_user_nul(data, len);
--	if (IS_ERR(copy))
--		return PTR_ERR(copy);
-+	if (IS_ERR(copy)) {
-+		rc = PTR_ERR(copy);
-+		goto out;
-+	}
- 
- 	p = ipe_new_policy(NULL, 0, copy, len);
- 	if (IS_ERR(p)) {
-@@ -161,8 +165,11 @@ static ssize_t new_policy(struct file *f, const char __user *data,
- 	ipe_audit_policy_load(p);
- 
- out:
--	if (rc < 0)
-+	if (rc < 0) {
- 		ipe_free_policy(p);
-+		p = ERR_PTR(rc);
-+		ipe_audit_policy_load(p);
-+	}
- 	kfree(copy);
- 	return (rc < 0) ? rc : len;
- }
-diff --git a/security/ipe/policy.c b/security/ipe/policy.c
-index 0f616e9fbe61..b628f696e32b 100644
---- a/security/ipe/policy.c
-+++ b/security/ipe/policy.c
-@@ -202,9 +202,7 @@ struct ipe_policy *ipe_new_policy(const char *text, size_t textlen,
- 	return new;
- err:
- 	ipe_free_policy(new);
--	new = ERR_PTR(rc);
--	ipe_audit_policy_load(new);
--	return new;
-+	return ERR_PTR(rc);
- }
- 
- /**
-diff --git a/security/ipe/policy_fs.c b/security/ipe/policy_fs.c
-index 3bcd8cbd09df..74f4e7288331 100644
---- a/security/ipe/policy_fs.c
-+++ b/security/ipe/policy_fs.c
-@@ -12,6 +12,7 @@
- #include "policy.h"
- #include "eval.h"
- #include "fs.h"
-+#include "audit.h"
- 
- #define MAX_VERSION_SIZE ARRAY_SIZE("65535.65535.65535")
- 
-@@ -288,25 +289,38 @@ static ssize_t getactive(struct file *f, char __user *data,
- static ssize_t update_policy(struct file *f, const char __user *data,
- 			     size_t len, loff_t *offset)
- {
-+	const struct ipe_policy *p = NULL;
- 	struct inode *root = NULL;
- 	char *copy = NULL;
- 	int rc = 0;
- 
--	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
--		return -EPERM;
-+	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN)) {
-+		rc = -EPERM;
-+		goto out;
-+	}
- 
- 	copy = memdup_user(data, len);
--	if (IS_ERR(copy))
--		return PTR_ERR(copy);
-+	if (IS_ERR(copy)) {
-+		rc = PTR_ERR(copy);
-+		goto out;
-+	}
- 
- 	root = d_inode(f->f_path.dentry->d_parent);
- 	inode_lock(root);
- 	rc = ipe_update_policy(root, NULL, 0, copy, len);
-+	if (rc < 0) {
-+		inode_unlock(root);
-+		goto out;
-+	}
- 	inode_unlock(root);
- 
-+out:
- 	kfree(copy);
--	if (rc)
-+	if (rc) {
-+		p = ERR_PTR(rc);
-+		ipe_audit_policy_load(p);
- 		return rc;
-+	}
- 
- 	return len;
- }
+Changes in v2:
+- the default thread value has been changed from 2 threads per node to
+  25% of the available hardware threads
+- the hugepage_alloc_threads parameter now specifies the total number of
+  threads being used instead of threads per node
+- the kernel now logs the time needed to allocate the huge pages and the
+  number of threads being used
+- update the documentation so that users are aware that this does not
+  apply to gigantic huge pages
+- Link to v1: https://lore.kernel.org/r/20250221-hugepage-parameter-v1-0-fa49a77c87c8@cyberus-technology.de
+
+---
+Thomas Prescher (3):
+      mm: hugetlb: improve parallel huge page allocation time
+      mm: hugetlb: add hugetlb_alloc_threads cmdline option
+      mm: hugetlb: log time needed to allocate hugepages
+
+ Documentation/admin-guide/kernel-parameters.txt |  9 ++++
+ Documentation/admin-guide/mm/hugetlbpage.rst    | 10 ++++
+ mm/hugetlb.c                                    | 67 +++++++++++++++++++------
+ 3 files changed, 70 insertions(+), 16 deletions(-)
+---
+base-commit: dd83757f6e686a2188997cb58b5975f744bb7786
+change-id: 20250221-hugepage-parameter-e8542fdfc0ae
+
+Best regards,
 -- 
-2.34.1
+Thomas Prescher <thomas.prescher@cyberus-technology.de>
+
 
