@@ -1,84 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D430542A8F;
-	Thu, 27 Feb 2025 02:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2203F17A300;
+	Thu, 27 Feb 2025 03:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740624793; cv=none; b=HEbK25Qxa9HmlqXivGTX49jSMiNOwrGDPEiUTYoSx1U32lB9o1wTKcsvdw3vYJaq75oX+XDg/4o/jwxeoEsfVgnJ9VKYc6vlxcQbMl/JLn9duZkrXNjlXwDMutpBOeXVjQaQ/oRZ8ExYeslzc6vwLS7WhmxnuBzpcgNdcgdLBJ8=
+	t=1740628299; cv=none; b=nKlr8CuBaisKzf1pASEmdvcYqdEZRW1xDSIq1HJtS+wVMQ7+WkU2Rj3J5r4bFgxsFYDlkNHSl3q7d5WGll/jB2wTQwlOeAHTqHxxyBL+hP/TdcH9cO5fVi1nZAhEeQhmUKmjQUT8KKwvI3JQ8snaYrJYVTJX65DyNBtZsg8nGs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740624793; c=relaxed/simple;
-	bh=HQn3kFyIyqvH4epxW53yWGH/1SfObMrTDpgmVoEPrqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L/u3G8OWXwbYMw3Phyc8i6lnhjuJVNucgTIPRFIUeqDgTh+1iqtPore8PhK/zo96Dgb0+/gVQxlNT5L+iRKcN+b8YvBRQqvYwxo/CVZcylVKqwmW6mrf9oEFgG2iIoyMVTR7Izr2jGTpJQdU/CvQhPuSgj7Fmzyx4xw33+Kvn3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dm72vgPE; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dm72vgPE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A49E4C4CEE2;
-	Thu, 27 Feb 2025 02:53:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740624792;
-	bh=HQn3kFyIyqvH4epxW53yWGH/1SfObMrTDpgmVoEPrqk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dm72vgPEzDhxvXsgbDuBab5q4/HSlANu+hcSMiVek6Dli7PMo6Ut2OyQ8JRZJId/+
-	 l9oINZuu8w9LBLepUw0hj3uA40e2waZT4+0dFHGLsgMqR54gX7T51FxPZpJKI5Ah19
-	 NnQctRX3OJOkL63XXn+CXkEYC7GC1f8N1X5t5kMTgD8TQeBz0F24EjgQcRA+rSB2JZ
-	 bfau5kfi0old55RcolHdlHhebS1OpD0lTTOUMu1O8UR7EhOa0evwNThttf4EIuXmef
-	 oRfDDLCQ47Kl7rRQI//1SALuvxXiDDUJnqYaB/Gls5xgg1NVOzjv2f9+Nbxp2DS4NE
-	 JSoRWsGM5jn+Q==
-Date: Wed, 26 Feb 2025 18:53:10 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Tariq Toukan <tariqt@nvidia.com>, "David S. Miller"
- <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
- <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jiri Pirko
- <jiri@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Carolina Jubran
- <cjubran@nvidia.com>, Gal Pressman <gal@nvidia.com>, Mark Bloch
- <mbloch@nvidia.com>, Donald Hunter <donald.hunter@gmail.com>, Jonathan
- Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, Leon
- Romanovsky <leon@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-rdma@vger.kernel.org
-Subject: Re: [PATCH net-next 03/10] devlink: Serialize access to rate
- domains
-Message-ID: <20250226185310.42305482@kernel.org>
-In-Reply-To: <wgbtvsogtf4wgxyz7q4i6etcvlvk6oi3xyckie2f7mwb3gyrl4@m7ybivypoojl>
-References: <20250213180134.323929-1-tariqt@nvidia.com>
-	<20250213180134.323929-4-tariqt@nvidia.com>
-	<ieeem2dc5mifpj2t45wnruzxmo4cp35mbvrnsgkebsqpmxj5ib@hn7gphf6io7x>
-	<20250218182130.757cc582@kernel.org>
-	<qaznnl77zg24zh72axtv7vhbfdbxnzmr73bqr7qir5wu2r6n52@ob25uqzyxytm>
-	<20250225174005.189f048d@kernel.org>
-	<wgbtvsogtf4wgxyz7q4i6etcvlvk6oi3xyckie2f7mwb3gyrl4@m7ybivypoojl>
+	s=arc-20240116; t=1740628299; c=relaxed/simple;
+	bh=3oh9lEpSsnhMJBwfR+eU55Pw3Lvex7Rob+/9aI21bmA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tEYnqkNEwYkifibfo/M/4cs0xL/AZBNLYWhavUSkRUe/ESlDeLKrsXVGxnhOF7bxjuKYWEzkfUUSeQC/EGspiVR5uj2L+cDyw8MKjRn3TA8+VeTGD7IYO94i5CWiLyT2nfFDWkgzVm/nZ42zFI4JmqnOiSsmOj9+Z3Gp5TCdvnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 078241515;
+	Wed, 26 Feb 2025 19:51:51 -0800 (PST)
+Received: from a077893.blr.arm.com (a077893.blr.arm.com [10.162.40.21])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AEA443F6A8;
+	Wed, 26 Feb 2025 19:51:30 -0800 (PST)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: linux-arm-kernel@lists.infradead.org,
+	catalin.marinas@arm.com,
+	mark.rutland@arm.com,
+	robh@kernel.org
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH V3] arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
+Date: Thu, 27 Feb 2025 09:21:19 +0530
+Message-Id: <20250227035119.2025171-1-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 26 Feb 2025 15:44:35 +0100 Jiri Pirko wrote:
-> > Why would there still be PF instances? I'm not suggesting that you
-> > create a hierarchy of instances.  
-> 
-> I'm not sure how you imagine getting rid of them. One PCI PF
-> instantiates one devlink now. There are lots of configuration (e.g. params)
-> that is per-PF. You need this instance for that, how else would you do
-> per-PF things on shared ASIC instance?
+FEAT_PMUv3p9 registers such as PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1
+access from EL1 requires appropriate EL2 fine grained trap configuration
+via FEAT_FGT2 based trap control registers HDFGRTR2_EL2 and HDFGWTR2_EL2.
+Otherwise such register accesses will result in traps into EL2.
 
-There are per-PF ports, right?
+Add a new helper __init_el2_fgt2() which initializes FEAT_FGT2 based fine
+grained trap control registers HDFGRTR2_EL2 and HDFGWTR2_EL2 (setting the
+bits nPMICNTR_EL0, nPMICFILTR_EL0 and nPMUACR_EL1) to enable access into
+PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1 registers.
 
-> Creating SFs is per-PF operation for example. I didn't to thorough
-> analysis, but I'm sure there are couple of per-PF things like these.
+Also update booting.rst with SCR_EL3.FGTEn2 requirement for all FEAT_FGT2
+based registers to be accessible in EL2.
 
-Seems like adding a port attribute to SF creation would be a much
-smaller extension than adding a layer of objects.
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Oliver Upton <oliver.upton@linux.dev>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kvmarm@lists.linux.dev
+Fixes: 0bbff9ed8165 ("perf/arm_pmuv3: Add PMUv3.9 per counter EL0 access control")
+Fixes: d8226d8cfbaf ("perf: arm_pmuv3: Add support for Armv9.4 PMU instruction counter")
+Cc: stable@vger.kernel.org
+Tested-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+Changes in V3:
 
-> Also not breaking the existing users may be an argument to keep per-PF
-> instances.
+- Added 'MDCR_EL3.EnPM2 = 0b1' as a booting requirement per Mark
+- Added 'Fixes:' and 'CC: stable' tags per Mark
 
-We're talking about multi-PF devices only. Besides pretty sure we 
-moved multiple params and health reporters to be per port, so IDK 
-what changed now.
+Changes in V2:
+
+https://lore.kernel.org/all/20250203050828.1049370-8-anshuman.khandual@arm.com/
+
+ Documentation/arch/arm64/booting.rst | 22 ++++++++++++++++++++++
+ arch/arm64/include/asm/el2_setup.h   | 25 +++++++++++++++++++++++++
+ 2 files changed, 47 insertions(+)
+
+diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
+index cad6fdc96b98..dee7b6de864f 100644
+--- a/Documentation/arch/arm64/booting.rst
++++ b/Documentation/arch/arm64/booting.rst
+@@ -288,6 +288,12 @@ Before jumping into the kernel, the following conditions must be met:
+ 
+     - SCR_EL3.FGTEn (bit 27) must be initialised to 0b1.
+ 
++  For CPUs with the Fine Grained Traps 2 (FEAT_FGT2) extension present:
++
++  - If EL3 is present and the kernel is entered at EL2:
++
++    - SCR_EL3.FGTEn2 (bit 59) must be initialised to 0b1.
++
+   For CPUs with support for HCRX_EL2 (FEAT_HCX) present:
+ 
+   - If EL3 is present and the kernel is entered at EL2:
+@@ -382,6 +388,22 @@ Before jumping into the kernel, the following conditions must be met:
+ 
+     - SMCR_EL2.EZT0 (bit 30) must be initialised to 0b1.
+ 
++  For CPUs with the Performance Monitors Extension (FEAT_PMUv3p9):
++
++ - If EL3 is present:
++
++    - MDCR_EL3.EnPM2 (bit 7) must be initialised to 0b1.
++
++ - If the kernel is entered at EL1 and EL2 is present:
++
++    - HDFGRTR2_EL2.nPMICNTR_EL0 (bit 2) must be initialised to 0b1.
++    - HDFGRTR2_EL2.nPMICFILTR_EL0 (bit 3) must be initialised to 0b1.
++    - HDFGRTR2_EL2.nPMUACR_EL1 (bit 4) must be initialised to 0b1.
++
++    - HDFGWTR2_EL2.nPMICNTR_EL0 (bit 2) must be initialised to 0b1.
++    - HDFGWTR2_EL2.nPMICFILTR_EL0 (bit 3) must be initialised to 0b1.
++    - HDFGWTR2_EL2.nPMUACR_EL1 (bit 4) must be initialised to 0b1.
++
+   For CPUs with Memory Copy and Memory Set instructions (FEAT_MOPS):
+ 
+   - If the kernel is entered at EL1 and EL2 is present:
+diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+index 25e162651750..1a0071faf57e 100644
+--- a/arch/arm64/include/asm/el2_setup.h
++++ b/arch/arm64/include/asm/el2_setup.h
+@@ -233,6 +233,30 @@
+ .Lskip_fgt_\@:
+ .endm
+ 
++.macro __init_el2_fgt2
++	mrs	x1, id_aa64mmfr0_el1
++	ubfx	x1, x1, #ID_AA64MMFR0_EL1_FGT_SHIFT, #4
++	cmp	x1, #ID_AA64MMFR0_EL1_FGT_FGT2
++	b.lt	.Lskip_fgt2_\@
++
++	mov	x0, xzr
++	mrs	x1, id_aa64dfr0_el1
++	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMUVer_SHIFT, #4
++	cmp	x1, #ID_AA64DFR0_EL1_PMUVer_V3P9
++	b.lt	.Lskip_pmuv3p9_\@
++
++	orr	x0, x0, #HDFGRTR2_EL2_nPMICNTR_EL0
++	orr	x0, x0, #HDFGRTR2_EL2_nPMICFILTR_EL0
++	orr	x0, x0, #HDFGRTR2_EL2_nPMUACR_EL1
++.Lskip_pmuv3p9_\@:
++	msr_s   SYS_HDFGRTR2_EL2, x0
++	msr_s   SYS_HDFGWTR2_EL2, x0
++	msr_s   SYS_HFGRTR2_EL2, xzr
++	msr_s   SYS_HFGWTR2_EL2, xzr
++	msr_s   SYS_HFGITR2_EL2, xzr
++.Lskip_fgt2_\@:
++.endm
++
+ .macro __init_el2_gcs
+ 	mrs_s	x1, SYS_ID_AA64PFR1_EL1
+ 	ubfx	x1, x1, #ID_AA64PFR1_EL1_GCS_SHIFT, #4
+@@ -283,6 +307,7 @@
+ 	__init_el2_nvhe_idregs
+ 	__init_el2_cptr
+ 	__init_el2_fgt
++	__init_el2_fgt2
+         __init_el2_gcs
+ .endm
+ 
+-- 
+2.25.1
+
