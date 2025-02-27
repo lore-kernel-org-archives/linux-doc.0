@@ -1,150 +1,79 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6BB1A841B;
-	Thu, 27 Feb 2025 16:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90CE1CAA67;
+	Thu, 27 Feb 2025 16:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740673985; cv=none; b=D6PlT0uGrnM2YTd0HUUd6QOpmXd4WcVJ8oNZW+XAuk9iIEgBxmvLMbDJu2d9Xxk8bTZclYqUHgk+HC49M1TmJdQiVC+wQgHfn057vXohCj73B2fVqsxZTHz1GwOnk/GrhVF7rzICG696+HfJZwKGoAdO33+30jXmbIvdI2doBJY=
+	t=1740674230; cv=none; b=U+O5DevncJo3U+8DwL4Fkyrrs5zYsKof5g4kgA3JiR28xrbQcJPtIaH/MiUklyHF/mApn6aNzyy8AbC/zHwNZTZNlmr+GqlOOp8oIv2laTvxDn1q22Wf7oFwbMtLk1Lj7xNsdnkHXPfNrrnwNA2pgQk2XkUxMHD8vzq8m8cHiuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740673985; c=relaxed/simple;
-	bh=htxGHHxhBnqS/PiOOodAxjqduRBO1zsgesj2f6zMYUw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=asiIWFdOQGEHqW/iF13aID6C1k/6sw9mqe6GaCUARYOU7EdE2NFqR9eltHI4UW6eRIIJF502RJjWxBVhNUeLqUxMWlrdgZohQi5nbeTjUz81G96nj8ckmf74eOecMH1VFE2Wlokj5V7km7Qd5JJ/VYqJx9xUWZeqdeZ3L2fERJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WGemtPQv; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740674230; c=relaxed/simple;
+	bh=mGXlY8Y4+2ktLSM48BY/ejBNuYKNdXAC/jN5iHT7UpQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QfVmxsDD440yHqbBgGjCYNu3ZDyoViIFcRdtGvLIntvHtZkTBkjIfhDvt819WyDySd/0bbCYRh3dXgYUiTitIeGAJx0+joGOZ/9UNulrKKVdLGcCgxBiiEPSXsA3ZpkxY6EHIVhzHvUehxa4BoUu6q3O2YBoQQGCGIRVJXcyC3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=apCUKdjI; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WGemtPQv"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2234bec7192so31202695ad.2;
-        Thu, 27 Feb 2025 08:33:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740673983; x=1741278783; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Nwj0laHmdnBpGeTss6hHTN09yzjnmF6JdEEMkifswPE=;
-        b=WGemtPQv6x4hHGb+HHO+P2ewjWxT020gARWeO18xI0ZOa4oTS0TTZKgru81ECN2Am+
-         UBlTQccuCr/kEkE8VfPUlfLBiLVPUkcyQC9H8fVq8wzJvRZJ26uXBG/sSLUql94PZ4w5
-         ta4WKObpHCRbikstN2QZh5z3cqhOKO+ERYjvWtye/E2hr3APaCL5eZ0E7e4m8z5Ss54l
-         JQdvvCdyR7DsOLsSWP4D/PeRkAbuP14BNPt6n2u6G3j05RHPF/YJuwJwq7dHHbW5o6sN
-         F9lrVLtP9N2TNVLRaga0/zFQlB8MoAi4q3ERVtszZJOU8IANcnvlhSuL09p6docxcTQK
-         Ua/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740673983; x=1741278783;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Nwj0laHmdnBpGeTss6hHTN09yzjnmF6JdEEMkifswPE=;
-        b=Jb80ER3tMGWyu4+bqtgpWaTA4ZNKZ0Ovwy+OSIYOQ5UsYJSnaBdh3R9iXNjUKnlDzZ
-         sA4Kwte4X/IZRBTIO/JTkq/jDIvE0UZKSY5JPS4IABSoKm8uomkQXvkVaPUEbSjNKEcx
-         36Lu6JmemRvJU88Bh8oL0OLYkcH0m0jr2fIUNZ5CfZ6OG4a+6+GIyz/njGmGum0azojg
-         aLW71zgeoEkLc1iP/xjSDz8qOa1Scw6NXpRuGm1WSHRjHnIn193Hp4WrKN55CnOsiTW0
-         KPxyfE6bm4tn337+qHSzwzhgF7IIbT+HcoMQ9ELxisTIu5PI7J4xPhycQ5iW+HuOvq3Q
-         2hCg==
-X-Forwarded-Encrypted: i=1; AJvYcCVzEv5hKM5LRa2kA+XOR3S1XfyAa94y/c0p9eK2zyP/G/APRFn6sa2rnclKYZYlLFz8nsGDz76v6F3i@vger.kernel.org, AJvYcCWKXA1zfejB09X8/VfbrnnJ/lxiQS9KETl6yBV74t/2nXGndfGxbwcAcbISFpxwyY8Odk9rWVsuJYW1Nbc=@vger.kernel.org, AJvYcCWRgorViqSEubya2BAQPw5NNeU+qU3iEzXsY+iHx6js9462dEsn6Sdj2iLkt/3KZySv6o/AWNCwhJZPel+T@vger.kernel.org, AJvYcCWrCVDaUYsV/VwAVIR/NFSX8NgC4zCsrBORFD9fBniq0W69d1S3uHvG+2CI4ml14m/o/8/oHTr1dgfi@vger.kernel.org, AJvYcCXswHC2vw6kPaWKamNRlZABicU7EFvXbTc4yevQqSGLqmsnVDmsdPDph9NP85aempkaFxcWQkjTwago@vger.kernel.org
-X-Gm-Message-State: AOJu0YwP40mKdSqRpgk6VgDEzVSkHJes0jaDvHzIszXpbs1XlRxUMRvJ
-	4fI5CbfqsIitBviKBp/UheNXqQo8pEZUKtvay0m/aQbIuhgY75VI
-X-Gm-Gg: ASbGncv/R2WcF1gKHIqdUKwxyrerMmbr/OS88+MDK+/7au6sZ0WbsCDbfbKeo5uW2ab
-	pFNYSw3kQSdbrEfSzQjsUBbxkrp2ONO2LrS1QAeQElyH+cNnXYMZmDf61Kh6BrlV30QtgyVQ/uJ
-	qSPirCRwOkiUEl2/+56SSt7tb6NA60vA/G+IJc0pCxvfTfB7fVSwvpHwaQSsfyctBOJcM7eePiZ
-	S4IjHdT7pqh4C2De06t8pwMLg9T6AIrYOVR99wtQcG8rJGRVVYj4KUMNr1oagyvvEZGgUN44aZo
-	ZzTpqHIqFApCrvWf9PAjDl+syxVcy4CmMUx+A1c=
-X-Google-Smtp-Source: AGHT+IHHq3zVV18mec1i1Yu/d1DvzKyXvMhaq+OgPUS3dyBp1OnowQQMhu7Ma17jRECN4fjMyC7XBQ==
-X-Received: by 2002:a05:6a00:cce:b0:732:1bad:e245 with SMTP id d2e1a72fcca58-734ac34dc5emr117245b3a.7.1740673982747;
-        Thu, 27 Feb 2025 08:33:02 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7349fe487c1sm1819453b3a.45.2025.02.27.08.32.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2025 08:33:01 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 27 Feb 2025 08:32:58 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add lt3074
-Message-ID: <dbd9cc84-a0b6-4323-b343-6e80aaaf2d14@roeck-us.net>
-References: <20250225-upstream-lt3074-v2-0-18ad10ba542e@analog.com>
- <20250225-upstream-lt3074-v2-1-18ad10ba542e@analog.com>
- <20250226-gentle-spicy-jacamar-2dd36a@krzk-bin>
- <20250226145931.GA2314060-robh@kernel.org>
- <3f7b031d-7b83-4a00-996d-aabb26278b67@roeck-us.net>
- <20250227-sceptical-phenomenal-wolverine-56e3cf@krzk-bin>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="apCUKdjI"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B65B448EC3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1740674221; bh=NGDGB8ov4zHVTiTCdNIsPZK64Vkv7UhrWBdFCn8zWPg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=apCUKdjIAR4wg+LFY5B0idwA8u29aq2ZEhLWCusptlUAnNmZ/W7vsdaoK3/qk5j6I
+	 3enxR1pdJNz6NyNV67/G7w4APlDitOEkp10/ITvPsa0eWidcTQ45TrMQIRsRZJiEka
+	 ZXswgUUkJPcRXbTWwjvY1k843xR2Oc0jzU8t9U3wOsRv7xm83x0vRpe6blP8e20ric
+	 SfbXER+cew+sGv0vfuOQxanN0yTsq8Sa7BlF71lZwWpGb9m7WEu5cThqhddjzwS7kZ
+	 lEum8QEwjmu7ZR5BcIem5eajHb14hOmJGuGSLBj+Zq0owYEuSsY4W2YEBKQLMCoqQC
+	 LjhO0JZnsGHkQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id B65B448EC3;
+	Thu, 27 Feb 2025 16:37:01 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: David Jander <david@protonic.nl>, linux-kernel@vger.kernel.org
+Cc: linux-iio@vger.kernel.org, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Nuno Sa
+ <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, Oleksij Rempel
+ <o.rempel@pengutronix.de>, David Jander <david@protonic.nl>
+Subject: Re: [RFC PATCH 4/7] Documentation: Add Linux Motion Control
+ documentation
+In-Reply-To: <20250227162823.3585810-5-david@protonic.nl>
+References: <20250227162823.3585810-1-david@protonic.nl>
+ <20250227162823.3585810-5-david@protonic.nl>
+Date: Thu, 27 Feb 2025 09:37:00 -0700
+Message-ID: <87y0xrpcnn.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250227-sceptical-phenomenal-wolverine-56e3cf@krzk-bin>
+Content-Type: text/plain
 
-On Thu, Feb 27, 2025 at 09:50:23AM +0100, Krzysztof Kozlowski wrote:
-> > > > 
-> > > > hwmon code might need some changes, but that's not really relevant for
-> > > > proper hardware description.
-> > > 
-> > > Normally, I would agree, but it seems generic pmbus code expects this
-> > > structure. This just came up with changing another binding maintained by
-> > > 'Not Me' to follow this structure. We're stuck with the existing way, so
-> > > I don't know that it is worth supporting 2 ways forever. OTOH, is it
-> > > guaranteed that these devices will only ever be pmbus devices or that
-> > > other regulator devices which are not handled as pmbus devices currently
-> > > will be in the future. If so, more flexibility in the bindings will be
-> > > needed.
-> > > 
-> > 
-> > I would appreciate if someone would explain to me what the problems with
-> > the current PMBus code actually are. I have seen several comments claiming
-> 
-> Not exactly a problem but missing feature. pmbus code (at least one of
-> macros I looked at) expects regulator node and some sort of child of it
-> (vout), while such simple devices should be:
-> 
-> regulator {
-> 	compatible = "adi,lt3074";
-> 	regulator-name = "vout";
-> 	regulator-min-microvolt = "100000";
-> 	regulator-max-microvolt = "100000";
-> };
-> 
-> so without any of regulators and regulators/vout subnodes.
-> 
-> > that the code should be changed, but I have no idea what the expected changes
-> > actually are or, in other words, what the PMBus code should be doing
-> > differently.
-> 
-> I did not investigate much into pmbus code, but this might be as simple
-> as accepting arguments for .of_match and .regulators_node and then
-> accepting NULLs as them as well. Or a new macro which assigns NULLs
-> there.
-> 
+David Jander <david@protonic.nl> writes:
 
-Unless I am missing something, the following should do the trick.
+> Add general- and UAPI documentation for the Linux Motion Control
+> subsystem.
+>
+> Signed-off-by: David Jander <david@protonic.nl>
+> ---
+>  Documentation/motion/index.rst       |  18 +
+>  Documentation/motion/motion-uapi.rst | 555 +++++++++++++++++++++++++++
+>  Documentation/subsystem-apis.rst     |   1 +
+>  3 files changed, 574 insertions(+)
+>  create mode 100644 Documentation/motion/index.rst
+>  create mode 100644 Documentation/motion/motion-uapi.rst
 
-diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
-index ddb19c9726d6..289767e5d599 100644
---- a/drivers/hwmon/pmbus/pmbus.h
-+++ b/drivers/hwmon/pmbus/pmbus.h
-@@ -512,7 +512,6 @@ int pmbus_regulator_init_cb(struct regulator_dev *rdev,
- 	{							\
- 		.name = (_name),				\
- 		.of_match = of_match_ptr(_name),		\
--		.regulators_node = of_match_ptr("regulators"),	\
- 		.ops = &pmbus_regulator_ops,			\
- 		.type = REGULATOR_VOLTAGE,			\
- 		.owner = THIS_MODULE,				\
-
-Maybe someone can check if that works.
+I am glad to see this feature coming with documentation!  Please,
+though, do not create a top-level "motion" directory for it - that is
+just the kind of organization I've been trying to get us away from for a
+while.  This document is clearly aimed at user-space developers, and
+thus should be part of the userspace-api book ... please?
 
 Thanks,
-Guenter
+
+jon
