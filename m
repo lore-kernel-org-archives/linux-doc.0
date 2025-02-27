@@ -1,787 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429BF1E3DD7;
-	Thu, 27 Feb 2025 19:57:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1951DE4C8;
+	Thu, 27 Feb 2025 20:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740686258; cv=none; b=JpF82kjE5J3RpNPpzbKaP10OHsrm/DsKWag9aMQGYxwZqLSxWmPm12vAetYwyMx2TGLUllbZttAodjkTEoQuv5lGAxi858pvQe4un58GRKFU3tXTMvl28r3WEGOh15kDKkcbLgzkrOWzhF9A31Cavkx8zuDSRpRC91PZzlO0L1A=
+	t=1740689231; cv=none; b=ngv66roNM1AniIGa4ZesLtaANj2SA7X+7Jrr8150XfuqGgQ6s9UiZJMabKVpASqPFPqEGJvRIUt259nTtAVACrR+p67zb2uAURCwCbN4LrVaDBxFS1vYWdnTfpqAvdFrZEICREFQFlo4Hk/+5xCouFUCR2jqBOePucE+b0qVcew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740686258; c=relaxed/simple;
-	bh=CYuIBFzruE465D6ssZ/mRQuEjm8WuxyCS8ndlaDiJTk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nlvKqdy40Lk2ijZmq3yrw8sv8EGo86sV2uwj7eYjMk1+zjLgz//VjmWbst7HE0Ac1DX2r2m4VnUzLJHV3WkdMjW+TxdFskNP/yFF+380mXZDbqNA7laj/+sDoWqmYZ76F4ekes9JZtKEnW+0jXd9j0g5TL0nyqwm25aZvMFFTKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=htSDLamC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740689231; c=relaxed/simple;
+	bh=utQVCfMq3XX4+WH1ud4ZibztAqFiiIfTgmuA4Y+wqLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pwt0gPGk+xvlKcc9KN9opMWgo0jjd9YLXyEwm1yalkLdpPU2gLocq+n6APgSPAhAiKp06bAlZrWXVkq4lkM2H3NlDhGMCm/1l4N6PyyI68ySiLvoa8658qBiqFczXNpphcD6qvfux4OD1G6EUaAtlJjdZ9BwRKEXEiJRWS7mVXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FHMEHhIL; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="htSDLamC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7441CC4CEE8;
-	Thu, 27 Feb 2025 19:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740686257;
-	bh=CYuIBFzruE465D6ssZ/mRQuEjm8WuxyCS8ndlaDiJTk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=htSDLamCkAjsN18KfzPPEtxcXXoTletJ3yrcBD41yebAoJe/r3QNae41LVN6YlaUA
-	 Mtpv/nDGHucBVZMv0zIsGkbpwMDN58zLphK5hPXHL8wvyprZWD0v4MeWPHelR/OKAi
-	 suf5I+E6qKjZf6XPZQaafSbjlb2ktTp/U9exP49SfO9ltncOeMBnCN1rl2thHtD4FM
-	 W3kDAv+ZB6qnDbmNj2HprUuMbe5f9Xo6tkvrGfFZ+x2DnkPLe0cBa/p24peJ4+l0Us
-	 fj1vgoto7CyF/VF0uGMI4z04Q1vfRy7EwQRSsPdwNM9uA6gfoe3olRUKqesPPpBUGC
-	 pUerTFkv+aGFA==
-Message-ID: <002e6797-a658-4368-b7e1-76636e141310@kernel.org>
-Date: Thu, 27 Feb 2025 13:57:35 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FHMEHhIL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740689229; x=1772225229;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=utQVCfMq3XX4+WH1ud4ZibztAqFiiIfTgmuA4Y+wqLA=;
+  b=FHMEHhIL+4WQIZcNE7nb2fe7Ohcr53/hcOhl6cnBDSOJGeWwt2YnYAuj
+   bY4CNP5mSr3ZvYLJY7tFjDBob5CFr6M81rjd+JUN74mFqcSfPPcIA7lii
+   e9YAH8KrBqPea0tSSLvICGvNVR8P+ptQ6xCe/LY/v0JX3zC36xBuWSBlT
+   /09Bjf+T3SZIbhLpkxaEtChz8Z5HCt/NC730XB74j/2hyiGbm0Dtjo/Jd
+   lE0XA2wNYAk9zeSGlssCeiNyorxJRxt7tDQxuTDzb2ZL1CUFolr33ADMo
+   Y5l1+WezXiY6RasquuXnZRYztdkeLOY5JJU0UMlCCkQ7/N0jq2jXVH99+
+   Q==;
+X-CSE-ConnectionGUID: osap7yFDS164lmwIYAnmmw==
+X-CSE-MsgGUID: s4dX6GsqT8OGb+cCHKR3bw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="40844740"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="40844740"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 12:47:08 -0800
+X-CSE-ConnectionGUID: rGYSMAJhT1+XTk4WV27ENA==
+X-CSE-MsgGUID: SM0f+tdaRo2Ez/7u3JP6Sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="117160740"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 27 Feb 2025 12:47:01 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tnkmV-000E14-1N;
+	Thu, 27 Feb 2025 20:46:56 +0000
+Date: Fri, 28 Feb 2025 04:46:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Li Li <dualli@chromium.org>, dualli@google.com, corbet@lwn.net,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, donald.hunter@gmail.com,
+	gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
+	maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
+	cmllamas@google.com, surenb@google.com, omosnace@redhat.com,
+	shuah@kernel.org, arnd@arndb.de, masahiroy@kernel.org,
+	bagasdotme@gmail.com, horms@kernel.org, tweek@google.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org, selinux@vger.kernel.org, hridya@google.com
+Cc: oe-kbuild-all@lists.linux.dev, smoreland@google.com, ynaffit@google.com,
+	kernel-team@android.com
+Subject: Re: [PATCH v15 2/3] binder: report txn errors via generic netlink
+Message-ID: <202502280430.x785GFat-lkp@intel.com>
+References: <20250226192047.734627-3-dualli@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] platform/x86: Add Lenovo Other Mode WMI Driver
-To: Derek John Clark <derekjohn.clark@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Armin Wolf <W_Armin@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
- Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
- Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- "Cody T . -H . Chiu" <codyit@gmail.com>, John Martens <johnfanv2@gmail.com>,
- platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250225220037.16073-1-derekjohn.clark@gmail.com>
- <20250225220037.16073-5-derekjohn.clark@gmail.com>
- <52523dec-0bd4-493f-a855-7fcfe19cde45@kernel.org>
- <CAFqHKTm56JbApnPxRo=0Aq9V_vTH1UVtLdsDWt9oE0_4uF42EQ@mail.gmail.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <CAFqHKTm56JbApnPxRo=0Aq9V_vTH1UVtLdsDWt9oE0_4uF42EQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250226192047.734627-3-dualli@chromium.org>
 
-On 2/26/2025 18:56, Derek John Clark wrote:
-> On Tue, Feb 25, 2025 at 10:47 PM Mario Limonciello <superm1@kernel.org> wrote:
->>
->> On 2/25/2025 13:59, Derek J. Clark wrote:
->>> Adds lenovo-wmi-other.c which provides a driver for the Lenovo
->>> "Other Mode" WMI interface that comes on some Lenovo "Gaming
->>> Series" hardware. Provides a firmware-attributes class which
->>> enables the use of tunable knobs for SPL, SPPT, and FPPT.
->>>
->>> v3:
->>> - Add notifier block and store result for getting the Gamezone interface
->>>     profile changes.
->>> - Add driver as master component of capdata01 driver.
->>> - Use FIELD_PREP where appropriate.
->>> - Move macros and associated functions out of lemovo-wmi.h that are only
->>>     used by this driver.
->>> v2:
->>> - Use devm_kmalloc to ensure driver can be instanced, remove global
->>>     reference.
->>> - Ensure reverse Christmas tree for all variable declarations.
->>> - Remove extra whitespace.
->>> - Use guard(mutex) in all mutex instances, global mutex.
->>> - Use pr_fmt instead of adding the driver name to each pr_err.
->>> - Remove noisy pr_info usage.
->>> - Rename other_method_wmi to lenovo_wmi_om_priv and om_wmi to priv.
->>> - Use list to get the lenovo_wmi_om_priv instance in some macro
->>>     called functions as the data provided by the macros that use it
->>>     doesn't pass a member of the struct for use in container_of.
->>> - Do not rely on GameZone interface to grab the current fan mode.
->>>
->>> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
->>> ---
->>>    MAINTAINERS                             |   1 +
->>>    drivers/platform/x86/Kconfig            |  14 +
->>>    drivers/platform/x86/Makefile           |   1 +
->>>    drivers/platform/x86/lenovo-wmi-other.c | 549 ++++++++++++++++++++++++
->>>    drivers/platform/x86/lenovo-wmi.h       |  13 +
->>>    5 files changed, 578 insertions(+)
->>>    create mode 100644 drivers/platform/x86/lenovo-wmi-other.c
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index f6d3e79e50ce..f6e16b2346a2 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -13159,6 +13159,7 @@ F:    Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->>>    F:  Documentation/wmi/devices/lenovo-wmi-other.rst
->>>    F:  drivers/platform/x86/lenovo-wmi-capdata01.c
->>>    F:  drivers/platform/x86/lenovo-wmi-gamezone.c
->>> +F:   drivers/platform/x86/lenovo-wmi-other.c
->>>    F:  drivers/platform/x86/lenovo-wmi.c
->>>    F:  drivers/platform/x86/lenovo-wmi.h
->>>
->>> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
->>> index 56336dc3c2d0..017ecdfad8ce 100644
->>> --- a/drivers/platform/x86/Kconfig
->>> +++ b/drivers/platform/x86/Kconfig
->>> @@ -480,6 +480,20 @@ config LENOVO_WMI_DATA01
->>>        depends on ACPI_WMI
->>>        select LENOVO_WMI
->>>
->>> +config LENOVO_WMI_TUNING
->>> +     tristate "Lenovo Other Mode WMI Driver"
->>> +     depends on ACPI_WMI
->>> +     select FW_ATTR_CLASS
->>> +     select LENOVO_WMI
->>> +     select LENOVO_WMI_DATA01
->>> +     help
->>> +       Say Y here if you have a WMI aware Lenovo Legion device and would like to use the
->>> +       firmware_attributes API to control various tunable settings typically exposed by
->>> +       Lenovo software in Windows.
->>> +
->>> +       To compile this driver as a module, choose M here: the module will
->>> +       be called lenovo-wmi-other.
->>> +
->>>    config IDEAPAD_LAPTOP
->>>        tristate "Lenovo IdeaPad Laptop Extras"
->>>        depends on ACPI
->>> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
->>> index be9031bea090..28ce39631a6d 100644
->>> --- a/drivers/platform/x86/Makefile
->>> +++ b/drivers/platform/x86/Makefile
->>> @@ -71,6 +71,7 @@ obj-$(CONFIG_LENOVO_WMI)    += lenovo-wmi.o
->>>    obj-$(CONFIG_LENOVO_WMI_CAMERA)     += lenovo-wmi-camera.o
->>>    obj-$(CONFIG_LENOVO_WMI_GAMEZONE)   += lenovo-wmi-gamezone.o
->>>    obj-$(CONFIG_LENOVO_WMI_DATA01)     += lenovo-wmi-capdata01.o
->>> +obj-$(CONFIG_LENOVO_WMI_TUNING)      += lenovo-wmi-other.o
->>>
->>>    # Intel
->>>    obj-y                               += intel/
->>> diff --git a/drivers/platform/x86/lenovo-wmi-other.c b/drivers/platform/x86/lenovo-wmi-other.c
->>> new file mode 100644
->>> index 000000000000..cd04ead94ba3
->>> --- /dev/null
->>> +++ b/drivers/platform/x86/lenovo-wmi-other.c
->>> @@ -0,0 +1,549 @@
->>> +// SPDX-License-Identifier: GPL-2.0-or-later
->>> +/*
->>> + * Lenovo Other Mode WMI interface driver. This driver uses the fw_attributes
->>> + * class to expose the various WMI functions provided by the "Other Mode" WMI
->>> + * interface. This enables CPU and GPU power limit as well as various other
->>> + * attributes for devices that fall under the "Gaming Series" of Lenovo laptop
->>> + * devices. Each attribute exposed by the "Other Mode"" interface has a
->>> + * corresponding LENOVO_CAPABILITY_DATA_01 struct that allows the driver to
->>> + * probe details about the attribute such as set/get support, step, min, max,
->>> + * and default value. Each attibute has multiple pages, one for each of the
->>> + * fan profiles managed by the Gamezone interface.
->>> + *
->>> + * These attributes typically don't fit anywhere else in the sysfs and are set
->>> + * in Windows using one of Lenovo's multiple user applications.
->>> + *
->>> + * Copyright(C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
->>> + */
->>> +
->>> +#include <linux/bitfield.h>
->>> +#include <linux/cleanup.h>
->>> +#include <linux/component.h>
->>> +#include <linux/container_of.h>
->>> +#include <linux/device.h>
->>> +#include <linux/kobject.h>
->>> +#include <linux/notifier.h>
->>> +#include <linux/types.h>
->>> +#include <linux/wmi.h>
->>> +#include "lenovo-wmi.h"
->>> +#include "firmware_attributes_class.h"
->>> +
->>> +/* Interface GUIDs */
->>> +#define LENOVO_OTHER_METHOD_GUID "DC2A8805-3A8C-41BA-A6F7-092E0089CD3B"
->>> +
->>> +/* Device IDs */
->>> +#define WMI_DEVICE_ID_CPU 0x01
->>> +
->>> +/* WMI_DEVICE_ID_CPU feature IDs */
->>> +#define WMI_FEATURE_ID_CPU_SPPT 0x01 /* Short Term Power Limit */
->>> +#define WMI_FEATURE_ID_CPU_FPPT 0x03 /* Long Term Power Limit */
->>> +#define WMI_FEATURE_ID_CPU_SPL 0x02 /* Peak Power Limit */
->>> +
->>> +/* Type IDs*/
->>> +#define WMI_TYPE_ID_NONE 0x00
->>> +
->>> +/* Method IDs */
->>> +#define WMI_FAN_TABLE_GET 5 /* Other Mode FAN_METHOD Getter */
->>> +#define WMI_FAN_TABLE_SET 6 /* Other Mode FAN_METHOD Setter */
->>> +#define WMI_FEATURE_VALUE_GET 17 /* Other Mode Getter */
->>> +#define WMI_FEATURE_VALUE_SET 18 /* Other Mode Setter */
->>> +
->>> +/* Attribute ID bitmasks */
->>> +#define ATTR_DEV_ID_MASK GENMASK(31, 24)
->>> +#define ATTR_FEAT_ID_MASK GENMASK(23, 16)
->>> +#define ATTR_MODE_ID_MASK GENMASK(15, 8)
->>> +#define ATTR_TYPE_ID_MASK GENMASK(7, 0)
->>> +
->>> +enum attribute_property {
->>> +     DEFAULT_VAL,
->>> +     MAX_VAL,
->>> +     MIN_VAL,
->>> +     STEP_VAL,
->>> +     SUPPORTED,
->>> +};
->>> +
->>> +/* Tunable attribute that uses LENOVO_CAPABILITY_DATA_01 */
->>> +struct tunable_attr_01 {
->>> +     u32 type_id;
->>> +     u32 device_id;
->>> +     u32 feature_id;
->>> +     u32 store_value;
->>> +     struct device *dev;
->>> +     struct capdata01 *capdata;
->>> +};
->>> +
->>> +/* Tunable Attributes */
->>> +struct tunable_attr_01 ppt_pl1_spl = { .device_id = WMI_DEVICE_ID_CPU,
->>> +                                    .feature_id = WMI_FEATURE_ID_CPU_SPL,
->>> +                                    .type_id = WMI_TYPE_ID_NONE };
->>> +struct tunable_attr_01 ppt_pl2_sppt = { .device_id = WMI_DEVICE_ID_CPU,
->>> +                                     .feature_id = WMI_FEATURE_ID_CPU_SPPT,
->>> +                                     .type_id = WMI_TYPE_ID_NONE };
->>> +struct tunable_attr_01 ppt_pl3_fppt = { .device_id = WMI_DEVICE_ID_CPU,
->>> +                                     .feature_id = WMI_FEATURE_ID_CPU_FPPT,
->>> +                                     .type_id = WMI_TYPE_ID_NONE };
->>> +
->>> +struct capdata01_attr_group {
->>> +     const struct attribute_group *attr_group;
->>> +     struct tunable_attr_01 *tunable_attr;
->>> +};
->>> +
->>> +#define FW_ATTR_FOLDER "lenovo-wmi-other"
->>> +
->>> +/**
->>> + * int_type_show() - Emit the data type for an integer attribute
->>> + * @kobj: Pointer to the driver object.
->>> + * @kobj_attribute: Pointer to the attribute calling this function.
->>> + * @buf: The buffer to write to.
->>> + *
->>> + * Returns: Number of characters written to buf.
->>> + */
->>> +static ssize_t int_type_show(struct kobject *kobj, struct kobj_attribute *kattr,
->>> +                          char *buf)
->>> +{
->>> +     return sysfs_emit(buf, "integer\n");
->>> +}
->>> +
->>> +/**                                      .
->>> + * attr_capdata01_get - Get the data of the specified attribute
->>> + * from lenovo_wmi_om->cd01.
->>> + * @tunable_attr: The attribute to be populated.
->>> + *
->>> + * Returns: Either 0 or an error.
->>> + */
->>> +static struct capdata01 *
->>> +attr_capdata01_get_data(struct lenovo_wmi_om *om,
->>> +                     struct tunable_attr_01 *tunable_attr,
->>> +                     enum thermal_mode mode)
->>> +{
->>> +     u32 attribute_id =
->>> +             FIELD_PREP(ATTR_DEV_ID_MASK, tunable_attr->device_id) |
->>> +             FIELD_PREP(ATTR_FEAT_ID_MASK, tunable_attr->feature_id) |
->>> +             FIELD_PREP(ATTR_MODE_ID_MASK, mode) |
->>> +             FIELD_PREP(ATTR_TYPE_ID_MASK, tunable_attr->type_id);
->>> +     int idx;
->>> +
->>> +     if (!om->cd01)
->>> +             return NULL;
->>> +
->>> +     for (idx = 0; idx < om->cd01->instance_count; idx++) {
->>> +             if (om->cd01->capdata[idx]->id != attribute_id)
->>> +                     continue;
->>> +             return om->cd01->capdata[idx];
->>> +     }
->>> +
->>> +     return NULL;
->>> +}
->>> +
->>> +/**
->>> + * attr_capdata01_show() - Get the value of the specified attribute property
->>> + * from LENOVO_CAPABILITY_DATA_01.
->>> + * @kobj: Pointer to the driver object.
->>> + * @kobj_attribute: Pointer to the attribute calling this function.
->>> + * @buf: The buffer to write to.
->>> + * @tunable_attr: The attribute to be read.
->>> + * @prop: The property of this attribute to be read.
->>> + *
->>> + * This function is intended to be generic so it can be called from any "_show"
->>> + * attribute which works only with integers.
->>> + *
->>> + * If the WMI is success, then the sysfs attribute is notified.
->>> + *
->>> + * Returns: Either number of characters written to buf, or an error.
->>> + */
->>> +static ssize_t attr_capdata01_show(struct kobject *kobj,
->>> +                                struct kobj_attribute *kattr, char *buf,
->>> +                                struct tunable_attr_01 *tunable_attr,
->>> +                                enum attribute_property prop)
->>> +{
->>> +     struct lenovo_wmi_om *om = dev_get_drvdata(tunable_attr->dev);
->>> +     struct capdata01 *capdata;
->>> +     int value;
->>> +
->>> +     if (!om)
->>> +             return -ENODEV;
->>> +
->>> +     capdata = attr_capdata01_get_data(om, tunable_attr,
->>> +                                       SMARTFAN_MODE_CUSTOM);
->>> +
->>> +     if (!capdata)
->>> +             return -ENODEV;
->>> +
->>> +     switch (prop) {
->>> +     case DEFAULT_VAL:
->>> +             value = capdata->default_value;
->>> +             break;
->>> +     case MAX_VAL:
->>> +             value = capdata->max_value;
->>> +             break;
->>> +     case MIN_VAL:
->>> +             value = capdata->min_value;
->>> +             break;
->>> +     case STEP_VAL:
->>> +             value = capdata->step;
->>> +             break;
->>> +     default:
->>> +             return -EINVAL;
->>> +     }
->>> +     return sysfs_emit(buf, "%d\n", value);
->>> +}
->>> +
->>> +/* Simple attribute creation */
->>> +
->>> +/*
->>> + * att_current_value_store() - Set the current value of the given attribute
->>> + * @kobj: Pointer to the driver object.
->>> + * @kobj_attribute: Pointer to the attribute calling this function.
->>> + * @buf: The buffer to read from, this is parsed to `int` type.
->>> + * @count: Required by sysfs attribute macros, pass in from the callee attr.
->>> + * @tunable_attr: The attribute to be stored.
->>> + *
->>> + * This function is intended to be generic so it can be called from any
->>> + * attribute's "current_value_store" which works only with integers. The
->>> + * integer to be sent to the WMI method is range checked and an error returned
->>> + * if out of range.
->>> + *
->>> + * If the value is valid and WMI is success, then the sysfs attribute is
->>> + * notified.
->>> + *
->>> + * Returns: Either count, or an error.
->>> + */
->>> +static ssize_t attr_current_value_store(struct kobject *kobj,
->>> +                                     struct kobj_attribute *kattr,
->>> +                                     const char *buf, size_t count,
->>> +                                     struct tunable_attr_01 *tunable_attr)
->>> +{
->>> +     struct lenovo_wmi_om *om = dev_get_drvdata(tunable_attr->dev);
->>> +     struct capdata01 *capdata;
->>> +     u32 attribute_id;
->>> +     u32 value;
->>> +     int err;
->>> +
->>> +     if (!om)
->>> +             return -ENODEV;
->>> +
->>> +     capdata = attr_capdata01_get_data(om, tunable_attr,
->>> +                                       SMARTFAN_MODE_CUSTOM);
->>> +
->>> +     if (!capdata)
->>> +             return -ENODEV;
->>> +
->>> +     attribute_id = FIELD_PREP(ATTR_DEV_ID_MASK, tunable_attr->device_id) |
->>> +                    FIELD_PREP(ATTR_FEAT_ID_MASK, tunable_attr->feature_id) |
->>> +                    FIELD_PREP(ATTR_MODE_ID_MASK, SMARTFAN_MODE_CUSTOM) |
->>> +                    FIELD_PREP(ATTR_TYPE_ID_MASK, tunable_attr->type_id);
->>> +
->>> +     err = kstrtouint(buf, 10, &value);
->>> +     if (err)
->>> +             return err;
->>> +
->>> +     if (value < capdata->min_value || value > capdata->max_value)
->>> +             return -EINVAL;
->>> +
->>> +     err = lenovo_wmidev_evaluate_method_2(om->wdev, 0x0,
->>> +                                           WMI_FEATURE_VALUE_SET,
->>> +                                           attribute_id, value, NULL);
->>> +
->>> +     if (err)
->>> +             return err;
->>> +
->>> +     tunable_attr->store_value = value;
->>> +     return count;
->>> +};
->>> +
->>> +/*
->>> + * attr_current_value_show() - Get the current value of the given attribute
->>> + * @kobj: Pointer to the driver object.
->>> + * @kobj_attribute: Pointer to the attribute calling this function.
->>> + * @buf: The buffer to write to.
->>> + * @tunable_attr: The attribute to be read.
->>> + *
->>> + * This function is intended to be generic so it can be called from any "_show"
->>> + * attribute which works only with integers.
->>> + *
->>> + * If the WMI is success, then the sysfs attribute is notified.
->>> + *
->>> + * Returns: Either number of characters written to buf, or an error.
->>> + */
->>> +static ssize_t attr_current_value_show(struct kobject *kobj,
->>> +                                    struct kobj_attribute *kattr, char *buf,
->>> +                                    struct tunable_attr_01 *tunable_attr)
->>> +{
->>> +     struct lenovo_wmi_om *om = dev_get_drvdata(tunable_attr->dev);
->>> +     u32 attribute_id;
->>> +     int retval;
->>> +     int err;
->>> +
->>> +     if (!om)
->>> +             return -ENODEV;
->>> +
->>> +     attribute_id = FIELD_PREP(ATTR_DEV_ID_MASK, tunable_attr->device_id) |
->>> +                    FIELD_PREP(ATTR_FEAT_ID_MASK, tunable_attr->feature_id) |
->>> +                    FIELD_PREP(ATTR_MODE_ID_MASK, om->mode) |
->>> +                    FIELD_PREP(ATTR_TYPE_ID_MASK, tunable_attr->type_id);
->>> +
->>> +     err = lenovo_wmidev_evaluate_method_1(om->wdev, 0x0, WMI_FEATURE_VALUE_GET,
->>> +                                           attribute_id, &retval);
->>> +
->>> +     if (err)
->>> +             return err;
->>> +
->>> +     return sysfs_emit(buf, "%d\n", retval);
->>> +}
->>> +
->>> +/* Attribute macros */
->>> +#define __LL_ATTR_RO(_func, _name)                                    \
->>> +     {                                                             \
->>> +             .attr = { .name = __stringify(_name), .mode = 0444 }, \
->>> +             .show = _func##_##_name##_show,                       \
->>> +     }
->>> +
->>> +#define __LL_ATTR_RO_AS(_name, _show)                                 \
->>> +     {                                                             \
->>> +             .attr = { .name = __stringify(_name), .mode = 0444 }, \
->>> +             .show = _show,                                        \
->>> +     }
->>> +
->>> +#define __LL_ATTR_RW(_func, _name) \
->>> +     __ATTR(_name, 0644, _func##_##_name##_show, _func##_##_name##_store)
->>> +
->>> +/* Shows a formatted static variable */
->>> +#define __ATTR_SHOW_FMT(_prop, _attrname, _fmt, _val)                          \
->>> +     static ssize_t _attrname##_##_prop##_show(                             \
->>> +             struct kobject *kobj, struct kobj_attribute *kattr, char *buf) \
->>> +     {                                                                      \
->>> +             return sysfs_emit(buf, _fmt, _val);                            \
->>> +     }                                                                      \
->>> +     static struct kobj_attribute attr_##_attrname##_##_prop =              \
->>> +             __LL_ATTR_RO(_attrname, _prop)
->>> +
->>> +/* Attribute current value read/write */
->>> +#define __LL_TUNABLE_CURRENT_VALUE_CAP01(_attrname)                            \
->>> +     static ssize_t _attrname##_current_value_store(                        \
->>> +             struct kobject *kobj, struct kobj_attribute *kattr,            \
->>> +             const char *buf, size_t count)                                 \
->>> +     {                                                                      \
->>> +             return attr_current_value_store(kobj, kattr, buf, count,       \
->>> +                                             &_attrname);                   \
->>> +     }                                                                      \
->>> +     static ssize_t _attrname##_current_value_show(                         \
->>> +             struct kobject *kobj, struct kobj_attribute *kattr, char *buf) \
->>> +     {                                                                      \
->>> +             return attr_current_value_show(kobj, kattr, buf, &_attrname);  \
->>> +     }                                                                      \
->>> +     static struct kobj_attribute attr_##_attrname##_current_value =        \
->>> +             __LL_ATTR_RW(_attrname, current_value)
->>> +
->>> +/* Attribute property read only */
->>> +#define __LL_TUNABLE_RO_CAP01(_prop, _attrname, _prop_type)                    \
->>> +     static ssize_t _attrname##_##_prop##_show(                             \
->>> +             struct kobject *kobj, struct kobj_attribute *kattr, char *buf) \
->>> +     {                                                                      \
->>> +             return attr_capdata01_show(kobj, kattr, buf, &_attrname,       \
->>> +                                        _prop_type);                        \
->>> +     }                                                                      \
->>> +     static struct kobj_attribute attr_##_attrname##_##_prop =              \
->>> +             __LL_ATTR_RO(_attrname, _prop)
->>> +
->>> +#define ATTR_GROUP_LL_TUNABLE_CAP01(_attrname, _fsname, _dispname)     \
->>> +     __LL_TUNABLE_CURRENT_VALUE_CAP01(_attrname);                   \
->>> +     __LL_TUNABLE_RO_CAP01(default_value, _attrname, DEFAULT_VAL);  \
->>> +     __ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);   \
->>> +     __LL_TUNABLE_RO_CAP01(max_value, _attrname, MAX_VAL);          \
->>> +     __LL_TUNABLE_RO_CAP01(min_value, _attrname, MIN_VAL);          \
->>> +     __LL_TUNABLE_RO_CAP01(scalar_increment, _attrname, STEP_VAL);  \
->>> +     static struct kobj_attribute attr_##_attrname##_type =         \
->>> +             __LL_ATTR_RO_AS(type, int_type_show);                  \
->>> +     static struct attribute *_attrname##_attrs[] = {               \
->>> +             &attr_##_attrname##_current_value.attr,                \
->>> +             &attr_##_attrname##_default_value.attr,                \
->>> +             &attr_##_attrname##_display_name.attr,                 \
->>> +             &attr_##_attrname##_max_value.attr,                    \
->>> +             &attr_##_attrname##_min_value.attr,                    \
->>> +             &attr_##_attrname##_scalar_increment.attr,             \
->>> +             &attr_##_attrname##_type.attr,                         \
->>> +             NULL,                                                  \
->>> +     };                                                             \
->>> +     static const struct attribute_group _attrname##_attr_group = { \
->>> +             .name = _fsname, .attrs = _attrname##_attrs            \
->>> +     }
->>> +
->>> +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl1_spl, "ppt_pl1_spl",
->>> +                         "Set the CPU sustained power limit");
->>> +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl2_sppt, "ppt_pl2_sppt",
->>> +                         "Set the CPU slow package power tracking limit");
->>> +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl3_fppt, "ppt_pl3_fppt",
->>> +                         "Set the CPU fast package power tracking limit");
->>> +
->>> +static struct capdata01_attr_group capdata01_attr_groups[] = {
->>> +     { &ppt_pl1_spl_attr_group, &ppt_pl1_spl },
->>> +     { &ppt_pl2_sppt_attr_group, &ppt_pl2_sppt },
->>> +     { &ppt_pl3_fppt_attr_group, &ppt_pl3_fppt },
->>> +     {},
->>> +};
->>> +
->>> +static int lenovo_wmi_om_fw_attr_add(struct lenovo_wmi_om *om)
->>> +{
->>> +     int err, i;
->>> +
->>> +     om->fw_attr_dev = device_create(&firmware_attributes_class, NULL,
->>> +                                     MKDEV(0, 0), NULL, "%s",
->>> +                                     FW_ATTR_FOLDER);
->>> +     if (IS_ERR(om->fw_attr_dev)) {
->>> +             err = PTR_ERR(om->fw_attr_dev);
->>> +             return err;
->>
->> I'd say just combine these two in this case and
->>
->>          return PTR_ERR();
-> 
-> Acked.
-> 
->>> +     }
->>> +
->>> +     om->fw_attr_kset =
->>> +             kset_create_and_add("attributes", NULL, &om->fw_attr_dev->kobj);
->>> +     if (!om->fw_attr_kset) {
->>> +             err = -ENOMEM;
->>> +             goto err_destroy_classdev;
->>> +     }
->>> +
->>> +     for (i = 0; i < ARRAY_SIZE(capdata01_attr_groups) - 1; i++) {
->>> +             err = sysfs_create_group(&om->fw_attr_kset->kobj,
->>> +                                      capdata01_attr_groups[i].attr_group);
->>> +             if (err) {
->>> +                     pr_debug("Failed to create sysfs-group for %s: %d\n",
->>> +                              capdata01_attr_groups[i].attr_group->name,
->>> +                              err);
->>> +                     goto err_remove_groups;
->>> +             }
->>> +             capdata01_attr_groups[i].tunable_attr->dev = &om->wdev->dev;
->>> +     }
->>> +     return 0;
->>> +
->>> +err_remove_groups:
->>> +     while (i-- > 0) {
->>
->> Are these boundaries right for cleanup?
->>
->> Let's say that sysfs_create_group() fails on the second iteration (i = 1).
->>
->> i-- will make it zero and then you never clear the group from the first
->> iteration.
->>
-> 
-> If sysfs_create_group() fails I'm not sure we would want to call
-> sysfs_remove_group() on it. Couldn't that be a null pointer? I'm open
-> to being wrong here, but I'm just not sure what the expectation of the
-> create function is in a failure.
+Hi Li,
 
-Well what you've got right now is an unwind routine where if you say 
-have 5 attributes and the 5th (0-indexed so "4th") fails, you try to 
-free 3rd, 2nd, 1st.
+kernel test robot noticed the following build errors:
 
-The only problem is the boundary doesn't free the 0th index attribute.
+[auto build test ERROR on 8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad]
 
-I think that just changing the loop to (i-- >= 0) would solve it.
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-Li/lsm-selinux-Add-setup_report-permission-to-binder/20250227-032351
+base:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
+patch link:    https://lore.kernel.org/r/20250226192047.734627-3-dualli%40chromium.org
+patch subject: [PATCH v15 2/3] binder: report txn errors via generic netlink
+config: arm-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250228/202502280430.x785GFat-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280430.x785GFat-lkp@intel.com/reproduce)
 
-> 
->>> +             sysfs_remove_group(&om->fw_attr_kset->kobj,
->>> +                                capdata01_attr_groups[i].attr_group);
->>> +     }
->>> +     kset_unregister(om->fw_attr_kset);
->>> +
->>> +err_destroy_classdev:
->>> +     device_unregister(om->fw_attr_dev);
->>> +     return err;
->>> +}
->>> +
->>> +static int lenovo_wmi_om_notifier(struct notifier_block *nb, unsigned long cmd,
->>> +                               void *data)
->>> +{
->>> +     struct lenovo_wmi_om *om = container_of(nb, struct lenovo_wmi_om, nb);
->>> +
->>> +     if (!om)
->>> +             NOTIFY_BAD;
->>
->> Presumably you meant:
->>
->> return NOTIFY_BAD;
->>
-> 
-> You are correct. Same for the next one. Acked
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502280430.x785GFat-lkp@intel.com/
 
-As another simplifiction you can also do something like this.
+All errors (new ones prefixed by >>):
 
-if (cmd == THERMAL_MODE_EVENT) {
-	if (!om || !om->mode)
-		return NOTIFY_BAD;
-	om->mode = *((enum thermal_mode *)data);
-}
+   drivers/android/binder.c: In function 'binder_nl_report_setup_doit':
+>> drivers/android/binder.c:6479:15: error: implicit declaration of function 'security_binder_setup_report' [-Wimplicit-function-declaration]
+    6479 |         ret = security_binder_setup_report(current_cred());
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-return NOTIFY_OK;
 
-> 
-> Thanks,
-> 
-> - Derek
->>> +
->>> +     if (cmd != THERMAL_MODE_EVENT)
->>> +             NOTIFY_OK;
->>
->> Presumably you meant:
->>
->> return NOTIFY_OK;
->>
->>> +
->>> +     om->mode = *((enum thermal_mode *)data);
->>> +
->>> +     return NOTIFY_OK;
->>> +}
->>> +
->>> +static int lenovo_wmi_om_master_bind(struct device *dev)
->>> +{
->>> +     struct lenovo_wmi_om *om = dev_get_drvdata(dev);
->>> +
->>> +     int ret;
->>> +
->>> +     ret = component_bind_all(dev, om);
->>> +     if (ret)
->>> +             return ret;
->>> +
->>> +     return lenovo_wmi_om_fw_attr_add(om);
->>> +}
->>> +
->>> +static void lenovo_wmi_om_master_unbind(struct device *dev)
->>> +{
->>> +     component_unbind_all(dev, NULL);
->>> +}
->>> +
->>> +static const struct component_master_ops lenovo_wmi_om_master_ops = {
->>> +     .bind = lenovo_wmi_om_master_bind,
->>> +     .unbind = lenovo_wmi_om_master_unbind,
->>> +};
->>> +
->>> +static int lenovo_wmi_other_probe(struct wmi_device *wdev, const void *context)
->>> +{
->>> +     struct notifier_block lenovo_wmi_om_notifier_block = {
->>> +             .notifier_call = lenovo_wmi_om_notifier,
->>> +     };
->>> +     struct component_match *master_match = NULL;
->>> +     struct lenovo_wmi_om *om;
->>> +     int ret;
->>> +
->>> +     om = devm_kzalloc(&wdev->dev, sizeof(*om), GFP_KERNEL);
->>> +     if (!om) {
->>> +             ret = -ENOMEM;
->>> +             goto err_exit;
->>> +     }
->>> +
->>> +     om->wdev = wdev;
->>> +     om->nb = lenovo_wmi_om_notifier_block;
->>> +     om->mode = SMARTFAN_MODE_CUSTOM; /* fallback */
->>> +
->>> +     dev_set_drvdata(&wdev->dev, om);
->>> +
->>> +     ret = devm_lenovo_wmi_gz_register_notifier(&wdev->dev, &om->nb);
->>> +     if (ret) {
->>> +             pr_err("Failed to register notifier_block\n");
->>> +             goto err_exit;
->>> +     }
->>> +
->>> +     component_match_add(&wdev->dev, &master_match, lenovo_wmi_cd01_match,
->>> +                         NULL);
->>> +     if (IS_ERR_OR_NULL(master_match)) {
->>> +             ret = -ENOMEM;
->>> +             goto err_exit;
->>> +     }
->>> +
->>> +     ret = component_master_add_with_match(&wdev->dev,
->>> +                                           &lenovo_wmi_om_master_ops,
->>> +                                           master_match);
->>> +     if (ret < 0) {
->>> +             dev_err(&wdev->dev, "Master comp add failed %d\n", ret);
->>> +             goto err_exit;
->>> +     }
->>> +
->>> +     return 0;
->>> +err_exit:
->>> +     kfree(om);
->>> +     return ret;
->>> +}
->>> +
->>> +static void lenovo_wmi_other_remove(struct wmi_device *wdev)
->>> +{
->>> +     struct lenovo_wmi_om *om = dev_get_drvdata(&wdev->dev);
->>> +
->>> +     kset_unregister(om->fw_attr_kset);
->>> +     device_destroy(&firmware_attributes_class, MKDEV(0, 0));
->>> +     component_master_del(&wdev->dev, &lenovo_wmi_om_master_ops);
->>> +}
->>> +
->>> +static const struct wmi_device_id lenovo_wmi_other_id_table[] = {
->>> +     { LENOVO_OTHER_METHOD_GUID, NULL },
->>> +     {}
->>> +};
->>> +
->>> +static struct wmi_driver lenovo_wmi_other_driver = {
->>> +     .driver = {
->>> +             .name = "lenovo_wmi_other",
->>> +             .probe_type = PROBE_PREFER_ASYNCHRONOUS,
->>> +     },
->>> +     .id_table = lenovo_wmi_other_id_table,
->>> +     .probe = lenovo_wmi_other_probe,
->>> +     .remove = lenovo_wmi_other_remove,
->>> +     .no_singleton = true,
->>> +};
->>> +
->>> +module_wmi_driver(lenovo_wmi_other_driver);
->>> +
->>> +MODULE_IMPORT_NS("CAPDATA_WMI");
->>> +MODULE_IMPORT_NS("GZ_WMI");
->>> +MODULE_IMPORT_NS("LENOVO_WMI");
->>> +MODULE_DEVICE_TABLE(wmi, lenovo_wmi_other_id_table);
->>> +MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
->>> +MODULE_DESCRIPTION("Lenovo Other Mode WMI Driver");
->>> +MODULE_LICENSE("GPL");
->>> diff --git a/drivers/platform/x86/lenovo-wmi.h b/drivers/platform/x86/lenovo-wmi.h
->>> index 07fa67ed89d6..40b6418fbf02 100644
->>> --- a/drivers/platform/x86/lenovo-wmi.h
->>> +++ b/drivers/platform/x86/lenovo-wmi.h
->>> @@ -61,6 +61,19 @@ struct capdata01 {
->>>        u32 max_value;
->>>    };
->>>
->>> +/* other method structs */
->>> +struct lenovo_wmi_om {
->>> +     struct component_master_ops *ops;
->>> +     struct lenovo_wmi_cd01 *cd01;
->>> +     struct capdata01 **capdata;
->>> +     struct device *fw_attr_dev;
->>> +     struct kset *fw_attr_kset;
->>> +     struct notifier_block nb;
->>> +     struct wmi_device *wdev;
->>> +     enum thermal_mode mode;
->>> +     int instance_count;
->>> +};
->>> +
->>>    /* wmidev_evaluate_method helper functions */
->>>    int lenovo_wmidev_evaluate_method_2(struct wmi_device *wdev, u8 instance,
->>>                                    u32 method_id, u32 arg0, u32 arg1,
->>
-> 
+vim +/security_binder_setup_report +6479 drivers/android/binder.c
 
+  6462	
+  6463	/**
+  6464	 * binder_nl_report_setup_doit() - netlink .doit handler
+  6465	 * @skb:	the metadata struct passed from netlink driver
+  6466	 * @info:	the generic netlink struct passed from netlink driver
+  6467	 *
+  6468	 * Implements the .doit function to process binder netlink commands.
+  6469	 */
+  6470	int binder_nl_report_setup_doit(struct sk_buff *skb, struct genl_info *info)
+  6471	{
+  6472		struct binder_context *context = NULL;
+  6473		struct binder_device *device;
+  6474		struct binder_proc *proc;
+  6475		u32 flags, pid;
+  6476		void *hdr;
+  6477		int ret;
+  6478	
+> 6479		ret = security_binder_setup_report(current_cred());
+  6480		if (ret < 0) {
+  6481			NL_SET_ERR_MSG(info->extack, "Permission denied");
+  6482			return ret;
+  6483		}
+  6484	
+  6485		hlist_for_each_entry(device, &binder_devices, hlist) {
+  6486			if (!nla_strcmp(info->attrs[BINDER_A_CMD_CONTEXT],
+  6487					device->context.name)) {
+  6488				context = &device->context;
+  6489				break;
+  6490			}
+  6491		}
+  6492	
+  6493		if (!context) {
+  6494			NL_SET_ERR_MSG(info->extack, "Unknown binder context");
+  6495			return -EINVAL;
+  6496		}
+  6497	
+  6498		pid = nla_get_u32(info->attrs[BINDER_A_CMD_PID]);
+  6499		flags = nla_get_u32(info->attrs[BINDER_A_CMD_FLAGS]);
+  6500	
+  6501		if (!pid) {
+  6502			/* Set the global flags for the whole binder context */
+  6503			context->report_flags = flags;
+  6504		} else {
+  6505			/* Set the per-process flags */
+  6506			proc = binder_find_proc(pid);
+  6507			if (!proc) {
+  6508				NL_SET_ERR_MSG_FMT(info->extack,
+  6509						   "Invalid binder report pid %u",
+  6510						   pid);
+  6511				ret = -EINVAL;
+  6512				goto err_exit;
+  6513			}
+  6514	
+  6515			proc->report_flags = flags;
+  6516		}
+  6517	
+  6518		skb = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+  6519		if (!skb) {
+  6520			pr_err("Failed to alloc binder netlink reply message\n");
+  6521			ret = -ENOMEM;
+  6522			goto err_exit;
+  6523		}
+  6524	
+  6525		hdr = genlmsg_iput(skb, info);
+  6526		if (!hdr)
+  6527			goto free_skb;
+  6528	
+  6529		if (nla_put_string(skb, BINDER_A_CMD_CONTEXT, context->name) ||
+  6530		    nla_put_u32(skb, BINDER_A_CMD_PID, pid) ||
+  6531		    nla_put_u32(skb, BINDER_A_CMD_FLAGS, flags))
+  6532			goto cancel_skb;
+  6533	
+  6534		genlmsg_end(skb, hdr);
+  6535	
+  6536		if (genlmsg_reply(skb, info)) {
+  6537			pr_err("Failed to send binder netlink reply message\n");
+  6538			ret = -EFAULT;
+  6539			goto err_exit;
+  6540		}
+  6541	
+  6542		return 0;
+  6543	
+  6544	cancel_skb:
+  6545		pr_err("Failed to add reply attributes to binder netlink message\n");
+  6546		genlmsg_cancel(skb, hdr);
+  6547	free_skb:
+  6548		pr_err("Free binder netlink reply message on error\n");
+  6549		nlmsg_free(skb);
+  6550		ret = -EMSGSIZE;
+  6551	err_exit:
+  6552		return ret;
+  6553	}
+  6554	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
