@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA4927781E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABADA1AB6D8;
 	Thu, 27 Feb 2025 22:45:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740696312; cv=none; b=nTpNfdKbbmtaF0rHe/yh73wd9F8QbOxZKJ2ctiQW++1Ozg2FCb+j5vJshSp8FfHttwFcrgenNl+o4AU/jmNosnkebsQKbdoIsaqfvZ7f1vozviFUVg1ZifDBJZriNy9DLDYjeyUsFEgo66G+8xW2dFb/OrzJd4UaucBP87U76A8=
+	t=1740696312; cv=none; b=qOwkmD73cYIyIgQVDRWe2eVFxlb6IfFa/ZmH/F9ffxcoi8h1B9QtIBUmqp5V0u6Rw/Cvqapyd0wPe65H3LNFXDOYUzyACPL9leu/9omt4/4NkKzP92kcN9zGHZ7T5fHwQlQwGFvuLGF1i490uo1512a6LEPUXtyMa9VobbeFWUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1740696312; c=relaxed/simple;
-	bh=grcGQ/+arIlEAKZaRyhVKHEzoTjlNo07p6Orhu/Q7Hc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fbTscX5nIvuRKx3jYyfg9o6TUabHKy716OOOZe3aRXLZt9Dszq0ldPhVIOw+0OUlxoOe1Bvj/hRBYh2WxqhJMIjoKXOjM2MbpnhCMROIGWt5YyQ42b1F0IFFmNGsqMiQmB1uLKXQ5r1QSblGTRcP0XfffhqB37UBCDqV0eY0oWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yu/GEZ61; arc=none smtp.client-ip=10.30.226.201
+	bh=vyI324UstKdb+sPeA7ZVxzdeYYc4q0ETxwlx7afOJj0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ac585BN8+ZU5T/9SIt/B7GBqlGLTrRcs7wKvjqlQ5YHmUKzLiyLqq1hI0nmpdLK36moBIboj97rdBSh/HXANdOQm9ATKJBaLp8h8XEOqP8Q3cis3ESbEtALva4NwwJ2vTHrmlGrojhygqjoBoUo8FCRiti8CptfUdLOnIUvKKNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JVRoFttn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yu/GEZ61"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 54A56C4CEE4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JVRoFttn"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 348F5C4CEDD;
 	Thu, 27 Feb 2025 22:45:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1740696312;
-	bh=grcGQ/+arIlEAKZaRyhVKHEzoTjlNo07p6Orhu/Q7Hc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Yu/GEZ618qIdVI9fNOp4LWX9V7t/yjYm1X/HvO72knF+KqiNnVdNVrMtnLprDzrQb
-	 QqeFYBPHiDFFcAc24JUyd7VyEKnL+IheGZZ/Tcb3Mcic05lmFC4y/tY5bOxyvhzGy7
-	 PSGzcDLhgNMUYtQhv9xqxOwYXBvOJ2o4yXOXL0zUlnEUJhFwM5IQD3PgsmAPc6ECfA
-	 UxkIJSfGxcrsF3JW2mRmqwlSDB3MeUXMpIaWEdSEY+IQgfwF9aE+uswx7ANJHTpSs2
-	 odFzmHlR+YwQI/UU3cQRWzVnay86gl+aYULTzIOaWFwsZNsNhKKRzVzM094RBHEcGU
-	 rkxhxqlmKbBYg==
+	bh=vyI324UstKdb+sPeA7ZVxzdeYYc4q0ETxwlx7afOJj0=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=JVRoFttntSy8BDnASQm2Yt1yzazAUyUMO7LKX5HhXubbciovrtvH1IAbPjqLTr82m
+	 aSoZF56CuEPseFzy3X98MbqtU7zwqTr3+jbEQSr7s2AqF3vjgUpjeOBZ6MYK9yTHD4
+	 rTg+S241JSg+9lLgASju6UVJIEr6E+cyS4SeYmq9evTBOHUuESZAN2BLKmsN2OCKyw
+	 +NrO3GKqMDbcs3bYVeF+WJkaJHr6s5olZwihbLFV6bbcrAdiD1PW1FswPgRaNjfnIF
+	 /YOS1oP2Pq79S38BTTjB3B8q0WEvLCOLyEX5jsm2Uktzt4DA2LOMAECJbS659qobHP
+	 JZUzg6OcIuF5A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4923CC197BF;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24195C19F32;
 	Thu, 27 Feb 2025 22:45:12 +0000 (UTC)
 From: Thomas Prescher via B4 Relay <devnull+thomas.prescher.cyberus-technology.de@kernel.org>
-Date: Thu, 27 Feb 2025 23:45:06 +0100
-Subject: [PATCH v2 2/3] mm: hugetlb: add hugetlb_alloc_threads cmdline
- option
+Subject: [PATCH v2 0/3] Add a command line option that enables control of
+ how many threads should be used to allocate huge pages.
+Date: Thu, 27 Feb 2025 23:45:04 +0100
+Message-Id: <20250227-hugepage-parameter-v2-0-7db8c6dc0453@cyberus-technology.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,20 +41,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250227-hugepage-parameter-v2-2-7db8c6dc0453@cyberus-technology.de>
-References: <20250227-hugepage-parameter-v2-0-7db8c6dc0453@cyberus-technology.de>
-In-Reply-To: <20250227-hugepage-parameter-v2-0-7db8c6dc0453@cyberus-technology.de>
+X-B4-Tracking: v=1; b=H4sIAPDqwGcC/32NQQqDMBREr1L+uikxKNqueo/i4jdOTKA18qNSE
+ e/e1AMUZvMG5s1GCRKQ6HbaSLCEFOKQwZxPZD0PPVToMpPRptLGFMrPPUbO/cjCb0wQhaYqjeu
+ c1QzKw1HgwueQPtrMPqQpynp8LMWv/atbCqWV4/LKdW2bnLtdn5A5qQnWD/EV+/XSgdp937/Dc
+ nztwAAAAA==
+X-Change-ID: 20250221-hugepage-parameter-e8542fdfc0ae
 To: Jonathan Corbet <corbet@lwn.net>, Muchun Song <muchun.song@linux.dev>, 
  Andrew Morton <akpm@linux-foundation.org>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-mm@kvack.org, Thomas Prescher <thomas.prescher@cyberus-technology.de>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740696310; l=4838;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740696310; l=2765;
  i=thomas.prescher@cyberus-technology.de; s=20250221;
  h=from:subject:message-id;
- bh=/OuX4vllZ9DrhNgACxdiUGULgJjK6Nnwd9N61kSfqhA=;
- b=phN1XnqYkdqDin5Z8AuIutKHz9rkc22/78FuumN1xbawpdcPxzrzUFrB3Ztmu9nN7DoTG9aKM
- lNG0g3p9CpAAFn2gED78eQwXk7spRaq5UfjPCafLAHZmvdmRglb2Clf
+ bh=vyI324UstKdb+sPeA7ZVxzdeYYc4q0ETxwlx7afOJj0=;
+ b=2E9xalrcukB26zkYXKEmd8MK9+5Hm2Nw6sahJY/gUgW5omPB2dru8Oglq0//8NXb4plBesUQX
+ Ph+Ustmqi3KACr2cGPCLtUBNkcDy/KHnj7Nr7nZ54anKrENwDPbHKsa
 X-Developer-Key: i=thomas.prescher@cyberus-technology.de; a=ed25519;
  pk=T5MVdLVCc/0UUyv5IcSqGVvGcVkgWW/KtuEo2RRJwM8=
 X-Endpoint-Received: by B4 Relay for
@@ -62,126 +64,67 @@ X-Endpoint-Received: by B4 Relay for
 X-Original-From: Thomas Prescher <thomas.prescher@cyberus-technology.de>
 Reply-To: thomas.prescher@cyberus-technology.de
 
-From: Thomas Prescher <thomas.prescher@cyberus-technology.de>
+Allocating huge pages can take a very long time on servers
+with terabytes of memory even when they are allocated at
+boot time where the allocation happens in parallel.
 
-Add a command line option that enables control of how many
-threads should be used to allocate huge pages.
+Before this series, the kernel used a hard coded value of 2 threads per
+NUMA node for these allocations. This value might have been good
+enough in the past but it is not sufficient to fully utilize
+newer systems.
+
+This series changes the default so the kernel uses 25% of the available
+hardware threads for these allocations. In addition, we allow the user
+that wish to micro-optimize the allocation time to override this value
+via a new kernel parameter.
+
+We tested this on 2 generations of Xeon CPUs and the results
+show a big improvement of the overall allocation time.
+
++-----------------------+-------+-------+-------+-------+-------+
+| threads               |   8   |   16  |   32  |   64  |   128 |
++-----------------------+-------+-------+-------+-------+-------+
+| skylake      144 cpus |   44s |   22s |   16s |   19s |   20s |
+| cascade lake 192 cpus |   39s |   20s |   11s |   10s |    9s |
++-----------------------+-------+-------+-------+-------+-------+
+
+On skylake, we see an improvment of 2.75x when using 32 threads,
+on cascade lake we can get even better at 4.3x when we use
+128 threads.
+
+This speedup is quite significant and users of large machines
+like these should have the option to make the machines boot
+as fast as possible.
 
 Signed-off-by: Thomas Prescher <thomas.prescher@cyberus-technology.de>
 ---
- Documentation/admin-guide/kernel-parameters.txt |  9 +++++++
- Documentation/admin-guide/mm/hugetlbpage.rst    | 10 ++++++++
- mm/hugetlb.c                                    | 31 +++++++++++++++++++++----
- 3 files changed, 46 insertions(+), 4 deletions(-)
+Changes in v2:
+- the default thread value has been changed from 2 threads per node to
+  25% of the available hardware threads
+- the hugepage_alloc_threads parameter now specifies the total number of
+  threads being used instead of threads per node
+- the kernel now logs the time needed to allocate the huge pages and the
+  number of threads being used
+- update the documentation so that users are aware that this does not
+  apply to non-gigantic huge pages
+- Link to v1: https://lore.kernel.org/r/20250221-hugepage-parameter-v1-0-fa49a77c87c8@cyberus-technology.de
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index fb8752b42ec8582b8750d7e014c4d76166fa2fc1..1937ee02c1f883ecd910bab33cdb9194bddbd9b1 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1882,6 +1882,15 @@
- 			Documentation/admin-guide/mm/hugetlbpage.rst.
- 			Format: size[KMG]
- 
-+	hugepage_alloc_threads=
-+			[HW] The number of threads that should be used to
-+			allocate hugepages during boot. This option can be
-+			used to improve system bootup time when allocating
-+			a large amount of huge pages.
-+			The default value is 25% of the available hardware threads.
-+
-+			Note that this parameter only applies to non-gigantic huge pages.
-+
- 	hugetlb_cma=	[HW,CMA,EARLY] The size of a CMA area used for allocation
- 			of gigantic hugepages. Or using node format, the size
- 			of a CMA area per node can be specified.
-diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
-index f34a0d798d5b533f30add99a34f66ba4e1c496a3..67a941903fd2231e6c082cffb4c9179ee094b208 100644
---- a/Documentation/admin-guide/mm/hugetlbpage.rst
-+++ b/Documentation/admin-guide/mm/hugetlbpage.rst
-@@ -145,7 +145,17 @@ hugepages
- 
- 	It will allocate 1 2M hugepage on node0 and 2 2M hugepages on node1.
- 	If the node number is invalid,  the parameter will be ignored.
-+hugepage_alloc_threads
-+	Specify the number of threads that should be used to allocate hugepages
-+	during boot. This parameter can be used to improve system bootup time
-+	when allocating a large amount of huge pages.
- 
-+	The default value is 25% of the available hardware threads.
-+	Example to use 8 allocation threads::
-+
-+		hugepage_alloc_threads=8
-+
-+	Note that this parameter only applies to non-gigantic huge pages.
- default_hugepagesz
- 	Specify the default huge page size.  This parameter can
- 	only be specified once on the command line.  default_hugepagesz can
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index e9b1b3e2b9d467f067d54359e1401a03f9926108..98dbfa18bee01d01b40cc7c650cd3eca5eae2457 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -70,6 +70,7 @@ static unsigned long __initdata default_hstate_max_huge_pages;
- static bool __initdata parsed_valid_hugepagesz = true;
- static bool __initdata parsed_default_hugepagesz;
- static unsigned int default_hugepages_in_node[MAX_NUMNODES] __initdata;
-+static unsigned long hugepage_allocation_threads __initdata;
- 
- /*
-  * Protects updates to hugepage_freelists, hugepage_activelist, nr_huge_pages,
-@@ -3429,8 +3430,6 @@ static unsigned long __init hugetlb_pages_alloc_boot(struct hstate *h)
- 		.numa_aware	= true
- 	};
- 
--	unsigned int num_allocation_threads = max(num_online_cpus() / 4, 1);
--
- 	job.thread_fn	= hugetlb_pages_alloc_boot_node;
- 	job.start	= 0;
- 	job.size	= h->max_huge_pages;
-@@ -3451,9 +3450,13 @@ static unsigned long __init hugetlb_pages_alloc_boot(struct hstate *h)
- 	 * | cascade lake 192 cpus |   39s |   20s |   11s |   10s |    9s |
- 	 * +-----------------------+-------+-------+-------+-------+-------+
- 	 */
-+	if (hugepage_allocation_threads == 0) {
-+		hugepage_allocation_threads = num_online_cpus() / 4;
-+		hugepage_allocation_threads = max(hugepage_allocation_threads, 1);
-+	}
- 
--	job.max_threads	= num_allocation_threads;
--	job.min_chunk	= h->max_huge_pages / num_allocation_threads;
-+	job.max_threads	= hugepage_allocation_threads;
-+	job.min_chunk	= h->max_huge_pages / hugepage_allocation_threads;
- 	padata_do_multithreaded(&job);
- 
- 	return h->nr_huge_pages;
-@@ -4766,6 +4769,26 @@ static int __init default_hugepagesz_setup(char *s)
- }
- __setup("default_hugepagesz=", default_hugepagesz_setup);
- 
-+/* hugepage_alloc_threads command line parsing
-+ * When set, use this specific number of threads for the boot
-+ * allocation of hugepages.
-+ */
-+static int __init hugepage_alloc_threads_setup(char *s)
-+{
-+	unsigned long allocation_threads;
-+
-+	if (kstrtoul(s, 0, &allocation_threads) != 0)
-+		return 1;
-+
-+	if (allocation_threads == 0)
-+		return 1;
-+
-+	hugepage_allocation_threads = allocation_threads;
-+
-+	return 1;
-+}
-+__setup("hugepage_alloc_threads=", hugepage_alloc_threads_setup);
-+
- static unsigned int allowed_mems_nr(struct hstate *h)
- {
- 	int node;
+---
+Thomas Prescher (3):
+      mm: hugetlb: improve parallel huge page allocation time
+      mm: hugetlb: add hugetlb_alloc_threads cmdline option
+      mm: hugetlb: log time needed to allocate hugepages
 
+ Documentation/admin-guide/kernel-parameters.txt |  9 ++++
+ Documentation/admin-guide/mm/hugetlbpage.rst    | 10 ++++
+ mm/hugetlb.c                                    | 67 +++++++++++++++++++------
+ 3 files changed, 70 insertions(+), 16 deletions(-)
+---
+base-commit: dd83757f6e686a2188997cb58b5975f744bb7786
+change-id: 20250221-hugepage-parameter-e8542fdfc0ae
+
+Best regards,
 -- 
-2.48.1
+Thomas Prescher <thomas.prescher@cyberus-technology.de>
 
 
