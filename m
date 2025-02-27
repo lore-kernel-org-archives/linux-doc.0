@@ -1,202 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1951DE4C8;
-	Thu, 27 Feb 2025 20:47:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA884438B;
+	Thu, 27 Feb 2025 22:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740689231; cv=none; b=ngv66roNM1AniIGa4ZesLtaANj2SA7X+7Jrr8150XfuqGgQ6s9UiZJMabKVpASqPFPqEGJvRIUt259nTtAVACrR+p67zb2uAURCwCbN4LrVaDBxFS1vYWdnTfpqAvdFrZEICREFQFlo4Hk/+5xCouFUCR2jqBOePucE+b0qVcew=
+	t=1740696312; cv=none; b=BG+/akimBgEfNrUktyj5tjIjA9/6Z574Yx/KfpbhOqSbiINYBgRYFcqnd9bOgq/6ilpWb3ANfrklJOYPlTwSKkkwPCu4yx11kiSNyOSIdB4M6C1SLYeNPM9ysIUSE/4pATuGEPfDHlifdFwWB/8ZthbCh3MYWMZorN1Ep3AEwxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740689231; c=relaxed/simple;
-	bh=utQVCfMq3XX4+WH1ud4ZibztAqFiiIfTgmuA4Y+wqLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pwt0gPGk+xvlKcc9KN9opMWgo0jjd9YLXyEwm1yalkLdpPU2gLocq+n6APgSPAhAiKp06bAlZrWXVkq4lkM2H3NlDhGMCm/1l4N6PyyI68ySiLvoa8658qBiqFczXNpphcD6qvfux4OD1G6EUaAtlJjdZ9BwRKEXEiJRWS7mVXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FHMEHhIL; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740696312; c=relaxed/simple;
+	bh=oJkzUc1eO6G6pDf5SWNcF21d4R6h8JEKsl5niSERdXM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=qGCNRVHQitHEAhsJ/pvlTZFpYjnJgI+fNggK4LBuzDELhk0x5OUXHjyxGyZIounUxUvPaJoA6FmaJ7ZzbPRgFNhXgOsYvWTN+39mZdD3QSJeWjPLbYg5u+4KizaTKkOPAqTWW9bjOpS00SeVfqzT2m+OgfveLRW1fvbJPWvZWAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ReviaM9y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FHMEHhIL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740689229; x=1772225229;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=utQVCfMq3XX4+WH1ud4ZibztAqFiiIfTgmuA4Y+wqLA=;
-  b=FHMEHhIL+4WQIZcNE7nb2fe7Ohcr53/hcOhl6cnBDSOJGeWwt2YnYAuj
-   bY4CNP5mSr3ZvYLJY7tFjDBob5CFr6M81rjd+JUN74mFqcSfPPcIA7lii
-   e9YAH8KrBqPea0tSSLvICGvNVR8P+ptQ6xCe/LY/v0JX3zC36xBuWSBlT
-   /09Bjf+T3SZIbhLpkxaEtChz8Z5HCt/NC730XB74j/2hyiGbm0Dtjo/Jd
-   lE0XA2wNYAk9zeSGlssCeiNyorxJRxt7tDQxuTDzb2ZL1CUFolr33ADMo
-   Y5l1+WezXiY6RasquuXnZRYztdkeLOY5JJU0UMlCCkQ7/N0jq2jXVH99+
-   Q==;
-X-CSE-ConnectionGUID: osap7yFDS164lmwIYAnmmw==
-X-CSE-MsgGUID: s4dX6GsqT8OGb+cCHKR3bw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="40844740"
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="40844740"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 12:47:08 -0800
-X-CSE-ConnectionGUID: rGYSMAJhT1+XTk4WV27ENA==
-X-CSE-MsgGUID: SM0f+tdaRo2Ez/7u3JP6Sw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="117160740"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 27 Feb 2025 12:47:01 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnkmV-000E14-1N;
-	Thu, 27 Feb 2025 20:46:56 +0000
-Date: Fri, 28 Feb 2025 04:46:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Li Li <dualli@chromium.org>, dualli@google.com, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, donald.hunter@gmail.com,
-	gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
-	maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
-	cmllamas@google.com, surenb@google.com, omosnace@redhat.com,
-	shuah@kernel.org, arnd@arndb.de, masahiroy@kernel.org,
-	bagasdotme@gmail.com, horms@kernel.org, tweek@google.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org, selinux@vger.kernel.org, hridya@google.com
-Cc: oe-kbuild-all@lists.linux.dev, smoreland@google.com, ynaffit@google.com,
-	kernel-team@android.com
-Subject: Re: [PATCH v15 2/3] binder: report txn errors via generic netlink
-Message-ID: <202502280430.x785GFat-lkp@intel.com>
-References: <20250226192047.734627-3-dualli@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ReviaM9y"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 47134C4CEE5;
+	Thu, 27 Feb 2025 22:45:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740696312;
+	bh=oJkzUc1eO6G6pDf5SWNcF21d4R6h8JEKsl5niSERdXM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=ReviaM9yL+36eqR29e6Vy+s7kRMgf6UR2DuPXer6kYpF66TbEH8IrrMV/pIKDRZgQ
+	 uxWGq/oaUO4smsW4N8sgNwJ/kzKWuFe4PgYWKM3M4ej2Sx4u8qSjwULkJ6zQSil0Su
+	 aJM49uQc/djfCltKu3NRTkStM8oA4D4PFi+OmLa4zdy2awpUtnW+9dexgdg74yqjxo
+	 J+/rKLyJQKOclSVXJY/mYx3y8Gzc0GIZrJlf7K0VD92zPA8i2Y0ztc06GfaVrAQFLE
+	 fcltTlj2HA+NqTuf5Mv7QneE6o4IcWlPDAcROIahDrHFUWQeobE2Icb9mV6YuVj9gX
+	 VdCaZ5LiAT0ag==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 376BAC282C5;
+	Thu, 27 Feb 2025 22:45:12 +0000 (UTC)
+From: Thomas Prescher via B4 Relay <devnull+thomas.prescher.cyberus-technology.de@kernel.org>
+Date: Thu, 27 Feb 2025 23:45:05 +0100
+Subject: [PATCH v2 1/3] mm: hugetlb: improve parallel huge page allocation
+ time
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226192047.734627-3-dualli@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250227-hugepage-parameter-v2-1-7db8c6dc0453@cyberus-technology.de>
+References: <20250227-hugepage-parameter-v2-0-7db8c6dc0453@cyberus-technology.de>
+In-Reply-To: <20250227-hugepage-parameter-v2-0-7db8c6dc0453@cyberus-technology.de>
+To: Jonathan Corbet <corbet@lwn.net>, Muchun Song <muchun.song@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, Thomas Prescher <thomas.prescher@cyberus-technology.de>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740696310; l=3225;
+ i=thomas.prescher@cyberus-technology.de; s=20250221;
+ h=from:subject:message-id;
+ bh=J38/TB8riQAZ4fzuSMdQ3k6+xa/EprG/GBf8GbXV050=;
+ b=N4v8H7XB40hwjOeVzS9b78vwFut9BRoOByegtj+ANmDvtJNJUb0+/dyY3IgOtGis0NqPG1rj7
+ K9li2G7PWLgD7gQQ4vqzz3BzxbBK12dZtF1nd1XSS1XJkld/sxlzqqQ
+X-Developer-Key: i=thomas.prescher@cyberus-technology.de; a=ed25519;
+ pk=T5MVdLVCc/0UUyv5IcSqGVvGcVkgWW/KtuEo2RRJwM8=
+X-Endpoint-Received: by B4 Relay for
+ thomas.prescher@cyberus-technology.de/20250221 with auth_id=345
+X-Original-From: Thomas Prescher <thomas.prescher@cyberus-technology.de>
+Reply-To: thomas.prescher@cyberus-technology.de
 
-Hi Li,
+From: Thomas Prescher <thomas.prescher@cyberus-technology.de>
 
-kernel test robot noticed the following build errors:
+Before this patch, the kernel currently used a hard coded
+value of 2 threads per NUMA node for these allocations.
 
-[auto build test ERROR on 8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad]
+This patch changes this policy and the kernel now uses 25%
+of the available hardware threads for the allocations.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-Li/lsm-selinux-Add-setup_report-permission-to-binder/20250227-032351
-base:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
-patch link:    https://lore.kernel.org/r/20250226192047.734627-3-dualli%40chromium.org
-patch subject: [PATCH v15 2/3] binder: report txn errors via generic netlink
-config: arm-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250228/202502280430.x785GFat-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280430.x785GFat-lkp@intel.com/reproduce)
+Signed-off-by: Thomas Prescher <thomas.prescher@cyberus-technology.de>
+---
+ mm/hugetlb.c | 34 ++++++++++++++++++----------------
+ 1 file changed, 18 insertions(+), 16 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502280430.x785GFat-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/android/binder.c: In function 'binder_nl_report_setup_doit':
->> drivers/android/binder.c:6479:15: error: implicit declaration of function 'security_binder_setup_report' [-Wimplicit-function-declaration]
-    6479 |         ret = security_binder_setup_report(current_cred());
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/security_binder_setup_report +6479 drivers/android/binder.c
-
-  6462	
-  6463	/**
-  6464	 * binder_nl_report_setup_doit() - netlink .doit handler
-  6465	 * @skb:	the metadata struct passed from netlink driver
-  6466	 * @info:	the generic netlink struct passed from netlink driver
-  6467	 *
-  6468	 * Implements the .doit function to process binder netlink commands.
-  6469	 */
-  6470	int binder_nl_report_setup_doit(struct sk_buff *skb, struct genl_info *info)
-  6471	{
-  6472		struct binder_context *context = NULL;
-  6473		struct binder_device *device;
-  6474		struct binder_proc *proc;
-  6475		u32 flags, pid;
-  6476		void *hdr;
-  6477		int ret;
-  6478	
-> 6479		ret = security_binder_setup_report(current_cred());
-  6480		if (ret < 0) {
-  6481			NL_SET_ERR_MSG(info->extack, "Permission denied");
-  6482			return ret;
-  6483		}
-  6484	
-  6485		hlist_for_each_entry(device, &binder_devices, hlist) {
-  6486			if (!nla_strcmp(info->attrs[BINDER_A_CMD_CONTEXT],
-  6487					device->context.name)) {
-  6488				context = &device->context;
-  6489				break;
-  6490			}
-  6491		}
-  6492	
-  6493		if (!context) {
-  6494			NL_SET_ERR_MSG(info->extack, "Unknown binder context");
-  6495			return -EINVAL;
-  6496		}
-  6497	
-  6498		pid = nla_get_u32(info->attrs[BINDER_A_CMD_PID]);
-  6499		flags = nla_get_u32(info->attrs[BINDER_A_CMD_FLAGS]);
-  6500	
-  6501		if (!pid) {
-  6502			/* Set the global flags for the whole binder context */
-  6503			context->report_flags = flags;
-  6504		} else {
-  6505			/* Set the per-process flags */
-  6506			proc = binder_find_proc(pid);
-  6507			if (!proc) {
-  6508				NL_SET_ERR_MSG_FMT(info->extack,
-  6509						   "Invalid binder report pid %u",
-  6510						   pid);
-  6511				ret = -EINVAL;
-  6512				goto err_exit;
-  6513			}
-  6514	
-  6515			proc->report_flags = flags;
-  6516		}
-  6517	
-  6518		skb = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
-  6519		if (!skb) {
-  6520			pr_err("Failed to alloc binder netlink reply message\n");
-  6521			ret = -ENOMEM;
-  6522			goto err_exit;
-  6523		}
-  6524	
-  6525		hdr = genlmsg_iput(skb, info);
-  6526		if (!hdr)
-  6527			goto free_skb;
-  6528	
-  6529		if (nla_put_string(skb, BINDER_A_CMD_CONTEXT, context->name) ||
-  6530		    nla_put_u32(skb, BINDER_A_CMD_PID, pid) ||
-  6531		    nla_put_u32(skb, BINDER_A_CMD_FLAGS, flags))
-  6532			goto cancel_skb;
-  6533	
-  6534		genlmsg_end(skb, hdr);
-  6535	
-  6536		if (genlmsg_reply(skb, info)) {
-  6537			pr_err("Failed to send binder netlink reply message\n");
-  6538			ret = -EFAULT;
-  6539			goto err_exit;
-  6540		}
-  6541	
-  6542		return 0;
-  6543	
-  6544	cancel_skb:
-  6545		pr_err("Failed to add reply attributes to binder netlink message\n");
-  6546		genlmsg_cancel(skb, hdr);
-  6547	free_skb:
-  6548		pr_err("Free binder netlink reply message on error\n");
-  6549		nlmsg_free(skb);
-  6550		ret = -EMSGSIZE;
-  6551	err_exit:
-  6552		return ret;
-  6553	}
-  6554	
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 163190e89ea16450026496c020b544877db147d1..e9b1b3e2b9d467f067d54359e1401a03f9926108 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -14,9 +14,11 @@
+ #include <linux/pagemap.h>
+ #include <linux/mempolicy.h>
+ #include <linux/compiler.h>
++#include <linux/cpumask.h>
+ #include <linux/cpuset.h>
+ #include <linux/mutex.h>
+ #include <linux/memblock.h>
++#include <linux/minmax.h>
+ #include <linux/sysfs.h>
+ #include <linux/slab.h>
+ #include <linux/sched/mm.h>
+@@ -3427,31 +3429,31 @@ static unsigned long __init hugetlb_pages_alloc_boot(struct hstate *h)
+ 		.numa_aware	= true
+ 	};
+ 
++	unsigned int num_allocation_threads = max(num_online_cpus() / 4, 1);
++
+ 	job.thread_fn	= hugetlb_pages_alloc_boot_node;
+ 	job.start	= 0;
+ 	job.size	= h->max_huge_pages;
+ 
+ 	/*
+-	 * job.max_threads is twice the num_node_state(N_MEMORY),
++	 * job.max_threads is 25% of the available cpu threads by default.
+ 	 *
+-	 * Tests below indicate that a multiplier of 2 significantly improves
+-	 * performance, and although larger values also provide improvements,
+-	 * the gains are marginal.
++	 * On large servers with terabytes of memory, huge page allocation
++	 * can consume a considerably amount of time.
+ 	 *
+-	 * Therefore, choosing 2 as the multiplier strikes a good balance between
+-	 * enhancing parallel processing capabilities and maintaining efficient
+-	 * resource management.
++	 * Tests below show how long it takes to allocate 1 TiB of memory with 2MiB huge pages.
++	 * 2MiB huge pages. Using more threads can significantly improve allocation time.
+ 	 *
+-	 * +------------+-------+-------+-------+-------+-------+
+-	 * | multiplier |   1   |   2   |   3   |   4   |   5   |
+-	 * +------------+-------+-------+-------+-------+-------+
+-	 * | 256G 2node | 358ms | 215ms | 157ms | 134ms | 126ms |
+-	 * | 2T   4node | 979ms | 679ms | 543ms | 489ms | 481ms |
+-	 * | 50G  2node | 71ms  | 44ms  | 37ms  | 30ms  | 31ms  |
+-	 * +------------+-------+-------+-------+-------+-------+
++	 * +-----------------------+-------+-------+-------+-------+-------+
++	 * | threads               |   8   |   16  |   32  |   64  |   128 |
++	 * +-----------------------+-------+-------+-------+-------+-------+
++	 * | skylake      144 cpus |   44s |   22s |   16s |   19s |   20s |
++	 * | cascade lake 192 cpus |   39s |   20s |   11s |   10s |    9s |
++	 * +-----------------------+-------+-------+-------+-------+-------+
+ 	 */
+-	job.max_threads	= num_node_state(N_MEMORY) * 2;
+-	job.min_chunk	= h->max_huge_pages / num_node_state(N_MEMORY) / 2;
++
++	job.max_threads	= num_allocation_threads;
++	job.min_chunk	= h->max_huge_pages / num_allocation_threads;
+ 	padata_do_multithreaded(&job);
+ 
+ 	return h->nr_huge_pages;
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.48.1
+
+
