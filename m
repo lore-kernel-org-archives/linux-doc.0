@@ -1,96 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFE825E82D;
-	Wed, 26 Feb 2025 22:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 667F2A47;
+	Thu, 27 Feb 2025 00:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740610518; cv=none; b=HoXE9lFT83GW/nf5SySzNqKZqMAgtXfnJRbi9vdOrmlxNmndwV3g2eL3Uu3QVq/O6WNHVU2gO9oOmQ6gWU3LNBuFfdSVICKRXRsDJjJmF+h7e+koUVoprLuj+wezpC177INNOUOHnPutIG/m1VX4lgzAhsTIckVWjAVScmxvaGo=
+	t=1740614795; cv=none; b=KDgFylJJ0INcmwtz20TaGHKDOo2JNKrg8zzm3TLn8tVhI0JasAjwePZrxzlGoCtSvYiZ15j1Q/TdbeOiSqCFXon3HXTxGI13KC4bpX6yDS97B7p2bGGUT3xjrXGrnkFfMiucWiOr7B/v2KO/aCMTUyGI4fYBSwjQU3uVaieIR+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740610518; c=relaxed/simple;
-	bh=3rualdVsZ0rnSLUknJnwEmuB93Nt/mrluRr78WdEdIM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UYpBLJJGHXb1qobUzcTlmwpWucUnzt4MSjdIxUDDv+NDOr38r3Fa/JKaQRE5xgHeQQYfOjKVpxRPsdjUXmyFnwENPjIkA/c8bsveLo9FAvYr2q0t+O2fQBC6J5yiepbp0osAJfEexhIBEFFSaYzvy3LzJqlgu6GbEYRdyrFoxBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UE4RPiIm; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UE4RPiIm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CAF4C4CED6;
-	Wed, 26 Feb 2025 22:55:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740610517;
-	bh=3rualdVsZ0rnSLUknJnwEmuB93Nt/mrluRr78WdEdIM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UE4RPiImGNejxCgGvcmt+qoRUzr6PSyoLUkPypdhGaXcKaVH67Z+ogZJ1cvqtZ17H
-	 q4O2UtzyGkJA25bOgFBPVWd9MEuva8LWVqRqiYqMlB9nyXGSvdhypCElfmOqt1FgFS
-	 yZwQD+OFIRr0PdLIL8DrumvaZ5fc2lLIvqufKydh9zHcW2f8QaT1Davb+8b7erL5K+
-	 q14iwyqgXnwdb6Pf8SukIe6AJJ2ISWRUyKFYjbYZvTiPRLeGe+GhQAiOemBEUBr6Xz
-	 XTOeRc8fWokBq1l++rJElbPNZw93bc78zvhxOBuOgAml3aBHxj50A6Fv0Np67VfAJt
-	 GohZrtUQ8jvFQ==
-Date: Wed, 26 Feb 2025 22:55:10 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Fabio Estevam <festevam@denx.de>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: Re: [PATCH v3 08/12] regulator: allow user configuration of hardware
- protection action
-Message-ID: <f3a1ae24-6ee0-43d7-8648-cf25ac139960@sirena.org.uk>
-References: <20250217-hw_protection-reboot-v3-0-e1c09b090c0c@pengutronix.de>
- <20250217-hw_protection-reboot-v3-8-e1c09b090c0c@pengutronix.de>
+	s=arc-20240116; t=1740614795; c=relaxed/simple;
+	bh=ZV07Gpz815P4h6/dASi/XClt914gSIOcYIvsY0gmk7g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bl6kZixHzwvRR49Yibtd8tUbQzOp1k8Bu8TO/duWVo4TDsdMyoY1xeqAjWNFN36lccRaKZyvzz7F1+4n3lXX8xdJwhc0La/4fIuGLWJphvLDp68HTS3tBMx5CE7iRvZOPgPQJqN9sZfCWqqUEl5Ayqdnq4LtwiE62qSWDoqNNL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5564812FC;
+	Wed, 26 Feb 2025 16:06:48 -0800 (PST)
+Received: from [10.163.39.237] (unknown [10.163.39.237])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F2DD63F5A1;
+	Wed, 26 Feb 2025 16:06:25 -0800 (PST)
+Message-ID: <39986b7d-7a82-4f28-9289-5620a2bec2b5@arm.com>
+Date: Thu, 27 Feb 2025 05:36:25 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="69+QFFE4FM9qynJX"
-Content-Disposition: inline
-In-Reply-To: <20250217-hw_protection-reboot-v3-8-e1c09b090c0c@pengutronix.de>
-X-Cookie: I've been there.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 5/5] mm: Rename GENERIC_PTDUMP and PTDUMP_CORE
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, kvmarm@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <maz@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>
+References: <20250226122404.1927473-1-anshuman.khandual@arm.com>
+ <20250226122404.1927473-6-anshuman.khandual@arm.com>
+ <Z79xK3xJWm0vH5jH@arm.com>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <Z79xK3xJWm0vH5jH@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+ 
 
---69+QFFE4FM9qynJX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 2/27/25 01:23, Catalin Marinas wrote:
+> On Wed, Feb 26, 2025 at 05:54:04PM +0530, Anshuman Khandual wrote:
+>> diff --git a/arch/arm64/include/asm/ptdump.h b/arch/arm64/include/asm/ptdump.h
+>> index 6cf4aae05219..b2931d1ae0fb 100644
+>> --- a/arch/arm64/include/asm/ptdump.h
+>> +++ b/arch/arm64/include/asm/ptdump.h
+>> @@ -7,7 +7,7 @@
+>>  
+>>  #include <linux/ptdump.h>
+>>  
+>> -#ifdef CONFIG_PTDUMP_CORE
+>> +#ifdef CONFIG_PTDUMP
+> 
+> Do we need this #ifdef at all? I haven't tried but usually, if the
+> feature is not enabled, the header file on its own should be harmless.
 
-On Mon, Feb 17, 2025 at 09:39:48PM +0100, Ahmad Fatoum wrote:
-> When the core detects permanent regulator hardware failure or imminent
-> power failure of a critical supply, it will call hw_protection_shutdown
-> in an attempt to do a limited orderly shutdown followed by powering off
-> the system.
+With or without the #ifdef CONFIG_PTDUMP in place here, this does not cause
+any build warnings even without CONFIG_PTDUMP enabled. But dropping #ifdef
+while renaming the config option itself, might have caused unrelated code
+churn. So probably if required we could drop this later on.
 
-Not that it matters at this point but
-
-Reviewed-by: Mark Brown <broonie@kernel.org>
-
---69+QFFE4FM9qynJX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAme/m80ACgkQJNaLcl1U
-h9BMTQf9EPlgFM5IHJeDldbatcC7CEidjNZXpHX8EVgKK1b4TRFL1eAxjG0TbxD2
-uMRhc02ghjwIGueCDC/fq7Ziivq6rpmWNQc3RBZMXP499VIVnBvSEFYCryeohXkj
-kKdWMjGH468A5J4qa6IiCdzpRJB/lyhyiU0Rjup9YKdpC+LFhjvWR7N4oqAUmzss
-k16nd/Nw3lEs23Kd3FoJ+TfQImtUm3QQ2doQyWcFgbpoO2uOI4X40LXVb6RKLq39
-RtuDh+WWEFjQeByjIrHjQ9HHn4aTpYKE4aqVKRGpwHlWr5pQqfIcyg2NDjUfrBGT
-bdyJw53DkC0StS3yRxrJo3Yp5iQqhg==
-=zpJM
------END PGP SIGNATURE-----
-
---69+QFFE4FM9qynJX--
+> 
+> For arm64:
+> 
+> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
