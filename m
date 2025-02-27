@@ -1,213 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E069223A9BA;
-	Thu, 27 Feb 2025 14:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C798725E837;
+	Thu, 27 Feb 2025 14:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740667423; cv=none; b=hYr1ccT62A2GFLshX5zpaz6WUALFnUQknDihkgxi2WlGWXwDMuGsiBJWwkcc76NCSTugiKuEtWp7w1u5sDtQg644f3Kf52DLjq+6yPRaeAi2HG0tVanY+U0FklcWwz05fyJgxtv/kgbqPi0IyXlIvi2E71Rjqcsvgtu48YWpVPI=
+	t=1740668254; cv=none; b=YNvlKj46bgFZy5MxADQAeFdJtMWChojKFycg9+Td/1xiaw8h9JYmGUzmpZjL+OlqEIFCGnHohm5OT4V8mO5HOaEa4EVSAQzTlMwC6VwyiJaHiTNaquY0m4x8rAV8+afYfAi12nBM1BZ8Yhk5byvMaXkHHr7jLPJR2G6asVzaV20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740667423; c=relaxed/simple;
-	bh=PKuqM641cYDMmskSgB/xhgz4dLSt0mry+F0+ufVbEKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MSFppLP9/ntOFApbqrGIF2goqfruz3P8+9+WQL0/ZtPgERQWE1cgOr/rRSvlr7ECgGu7UIv3teW3kzMuf4+q0s85yRqMmR6Su/ogwHU95+1vNvlKmBvkIjImDcJLKQXAl9sZd2oBqyTIjbAIGSW3Kyv6Phl6mjKFa2K8zBNQ1tM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IHRuQi8y; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1740668254; c=relaxed/simple;
+	bh=RlenwtE5mxdv5cb/MEos3p+JmVXLB2yGNlafSdQiqDk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cLyWgsw9GpWkWlBV0fP6KEFQ9dKbc4WTPbCG9tziODZ7bSKLwuoH39ZmJ8L5zApPXs21Imhjal+SfThgKmCworNmo6kuiHejXqTxPLFaGfb3pD9b2sggEO49cmL5FFoYh+uIA6x45Yks+nGKzRi1VnT8nJNNbdFrc9sASDFvyXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BU7cRs5O; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IHRuQi8y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740667422; x=1772203422;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PKuqM641cYDMmskSgB/xhgz4dLSt0mry+F0+ufVbEKM=;
-  b=IHRuQi8yjDU5/HnMMB7WMUKabPu68IbOzH7f5m/qL96v2egKIphZfWQD
-   gn8Ng8c0+SMoRLPuGBEWCCS701et9K5tUy30GPxcsm6tfHonJGgmjXZTo
-   tGeAufYPub1ROJ/MuT6SmrQZ+lxew2laAAWGj9yy2T9nPXKSNpDRmw8X0
-   PW+pVRkxUl6GILSfHcIlC+YX92DxsR0WlH9WJgmeV9SbmB+af1XUV5E5w
-   oXbMZH9W0qecGC8FUwqzpNnXmo2Me4J0SmCxMyJO7f3U4AOxz4SMRiaJ6
-   Ryg2U33UOoS+GCuxY26rIgsJf24oTEhGLiNT/5nDdHXb48qJim5Pky1kl
-   Q==;
-X-CSE-ConnectionGUID: UkQq+PJSSJ+8Z4gbpkHh3w==
-X-CSE-MsgGUID: Z0lYpalQQkWiTwfVIFYcMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="44384154"
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="44384154"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:43:38 -0800
-X-CSE-ConnectionGUID: kzNVvKU3RTmfNsZxGFknug==
-X-CSE-MsgGUID: ImErlco9RJ6Ujqi/CBDfqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117558281"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:43:31 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tnf6l-0000000FcjH-3wGS;
-	Thu, 27 Feb 2025 16:43:27 +0200
-Date: Thu, 27 Feb 2025 16:43:27 +0200
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "pmladek@suse.com" <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	"sven@svenpeter.dev" <sven@svenpeter.dev>,
-	Janne Grunau <j@jannau.net>,
-	"alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
-	Asahi Linux Mailing List <asahi@lists.linux.dev>
-Subject: Re: [PATCH v4] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Message-ID: <Z8B6DwcRbV-8D8GB@smile.fi.intel.com>
-References: <DB7F502D-1477-49C9-A36D-1DEE408ED23C@live.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BU7cRs5O"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 79B34441AB;
+	Thu, 27 Feb 2025 14:57:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740668250;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vxxXj7qHDUKOxFYzmRI0KA+MFriKrU/fu0NUeDhbg/4=;
+	b=BU7cRs5OtfDkPDMGdgZwKTlTc5pmwx2JLI94bxKT/RK1ESGqwqZbYREl5ZEO0xxobAguDz
+	x7xX8uP5TrtRexTxHHMTjKle1BcWMPnoc2QV4gsf6L1tOTjiBe99bbZmYl2eDU9hG33LmO
+	uZENFBdzrcafa1Ebx9BYhNcXQTREL/ysPxNnvq5ubwzpKms1OxOWUKERpcgoSYZZ7ELn5g
+	IpuVo5M0I6ZKPbwz/EjjfTkxxpim5QMKhaXw/+uEeycd7JNmlSlKcrsa3eutNxMEbZFxPE
+	qb/+97DCYh0XjqGadp/wzZD6ysAsOrz1HLEbNnW7c912m2EAo70YLJQf2qy9pw==
+Date: Thu, 27 Feb 2025 15:57:27 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v5 06/12] net: pse-pd: Add support for budget
+ evaluation strategies
+Message-ID: <20250227155727.7bdc069f@kmaincent-XPS-13-7390>
+In-Reply-To: <Z8AW6S2xmzGZ0y9B@pengutronix.de>
+References: <20250218-feature_poe_port_prio-v5-0-3da486e5fd64@bootlin.com>
+	<20250218-feature_poe_port_prio-v5-6-3da486e5fd64@bootlin.com>
+	<20250220165129.6f72f51a@kernel.org>
+	<20250224141037.1c79122b@kmaincent-XPS-13-7390>
+	<20250224134522.1cc36aa3@kernel.org>
+	<20250225102558.2cf3d8a5@kmaincent-XPS-13-7390>
+	<20250225174752.5dbf65e2@kernel.org>
+	<Z76t0VotFL7ji41M@pengutronix.de>
+	<Z76vfyv5XoMKmyH_@pengutronix.de>
+	<20250226184257.7d2187aa@kernel.org>
+	<Z8AW6S2xmzGZ0y9B@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB7F502D-1477-49C9-A36D-1DEE408ED23C@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekjeejiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedukeejleefheelgeevffdugfeggeduudekgeelgfdviedvkedugefhffekudetvdenucffohhmrghinhephhhpvgdrtghomhdptghishgtohdrtghomhdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghlohepkhhmrghinhgtvghnthdqigfrufdqudefqdejfeeltddpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvgedprhgtphhtthhopehordhrvghmphgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtr
+ dhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepughonhgrlhgurdhhuhhnthgvrhesghhmrghilhdrtghomh
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Thu, Feb 27, 2025 at 06:30:48AM +0000, Aditya Garg wrote:
-> From: Hector Martin <marcan@marcan.st>
-> 
-> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+On Thu, 27 Feb 2025 08:40:25 +0100
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-FourCC (as Four is not an acronym itself).
+> On Wed, Feb 26, 2025 at 06:42:57PM -0800, Jakub Kicinski wrote:
+> > On Wed, 26 Feb 2025 07:06:55 +0100 Oleksij Rempel wrote: =20
+> > > Here is one example how it is done by HP switches:
+> > > https://arubanetworking.hpe.com/techdocs/AOS-CX/10.08/HTML/monitoring=
+_6200/Content/Chp_PoE/PoE_cmds/pow-ove-eth-all-by.htm
+> > >=20
+> > > switch(config)# interface 1/1/1    <---- per interface
+> > > switch(config-if)# power-over-ethernet allocate-by usage
+> > > switch(config-if)# power-over-ethernet allocate-by class
+> > >=20
+> > > Cisco example:
+> > > https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/s=
+w/93x/power-over-ethernet/configuration/configuring-power-over-ethernet/m-c=
+onfiguring-power-over-ethernet.html
+> > >=20
+> > > switch(config)# interface ethernet1/1   <---- per interface
+> > > switch(config-if)# power inline auto =20
+> >=20
+> > I don't see any mention of a domain in these docs.
+> > This patchset is creating a concept of "domain" but does=20
+> > not expose it as an object. =20
+>=20
+> Ok, I see. @K=C3=B6ry, can you please provide regulator_summary with some
+> inlined comments to regulators related to the PSE components and PSE
+> related outputs of ethtool (or what ever tool you are using).
+>=20
+> I wont to use this examples to answer.
 
-> it's useful to be able to print generic 4-character codes formatted as
-> an integer. Extend it to add format specifiers for printing generic
-> 32-bit FOURCCs with various endian semantics:
-> 
-> %p4ch   Host-endian
+On my side, I am not close to using sysfs. As we do all configurations thro=
+ugh
+ethtool I have assumed we should continue with ethtool.
+I think we should set the port priority through ethtool, but indeed the PSE
+power domain method get and set could be moved to sysfs as it is not someth=
+ing
+relative to the port but to a group of ports. Ethtool should still report t=
+he
+PSE power domain ID of a port to know which domain the port is.
 
-Too many spaces :-)
+@Oleksij here it is:
 
-> %p4cl	Little-endian
-> %p4cb	Big-endian
-> %p4cr	Reverse-endian
+# cat /sys/kernel/debug/regulator/regulator_summary
+ regulator                      use open bypass  opmode voltage current    =
+ min     max
+---------------------------------------------------------------------------=
+------------
+ regulator-dummy                  5    4      0 unknown     0mV     0mA    =
+ 0mV     0mV=20
+    d00e0000.sata-target          1                                 0mA    =
+ 0mV     0mV
+    d00e0000.sata-phy             1                                 0mA    =
+ 0mV     0mV
+    d00e0000.sata-ahci            1                                 0mA    =
+ 0mV     0mV
+    spi0.0-vcc                    1                                 0mA    =
+ 0mV     0mV
+ pse-reg                          1    4      0 unknown     0mV     0mA    =
+ 0mV     0mV=20
+    pse-0-0020_pi0                0    1      0 unknown 53816mV  2369mA    =
+ 0mV     0mV=20
+       0-0020-pse-0-0020_pi0      0                                 0mA    =
+ 0mV     0mV
+    pse-0-0020_pi2                0    1      0 unknown 53816mV  2369mA    =
+ 0mV     0mV=20
+       0-0020-pse-0-0020_pi2      0                                 0mA    =
+ 0mV     0mV
+    pse-0-0020_pi7                0    1      0 unknown 53816mV  2369mA    =
+ 0mV     0mV=20
+       0-0020-pse-0-0020_pi7      0                                 0mA    =
+ 0mV     0mV
+ pse-reg2                         1    2      0 unknown     0mV     0mA    =
+ 0mV     0mV=20
+    pse-0-0020_pi1                0    0      0 unknown 53816mV  4738mA    =
+ 0mV     0mV=20
+ vcc_sd1                          2    1      0 unknown  1800mV     0mA  18=
+00mV  3300mV=20
+    d00d0000.mmc-vqmmc            1                                 0mA  18=
+00mV  1950mV
 
-> The endianness determines how bytes are interpreted as a u32, and the
-> FOURCC is then always printed MSByte-first (this is the opposite of
-> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
-> allow printing LSByte-first FOURCCs stored in host endian order
-> (other than the hex form being in character order, not the integer
-> value).
+# ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-get -=
+-json
+ '{"header":{"dev-name":"wan"}}'
+{'c33-pse-admin-state': 2,
+ 'c33-pse-avail-pw-limit': 127500,
+ 'c33-pse-pw-d-status': 2,
+ 'c33-pse-pw-limit-ranges': [{'max': 99900, 'min': 2000}],
+ 'header': {'dev-index': 4, 'dev-name': 'wan'},
+ 'pse-budget-eval-strat': 2,
+ 'pse-prio': 0,
+ 'pse-prio-max': 8,
+ 'pse-pw-d-id': 1}
 
-...
+# ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-set -=
+-json
+ '{"header":{"dev-name":"wan"}, "pse-prio":1}'
+None
+# ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-set -=
+-json
+'{"header":{"dev-name":"wan"}, "c33-pse-avail-pw-limit":15000}'
+None
 
-> +Generic FourCC code
-> +-------------------
-> +
-> +::
-> +	%p4c[hrbl]	gP00 (0x67503030)
-> +
-> +Print a generic FourCC code, as both ASCII characters and its numerical
-> +value as hexadecimal.
-> +
-> +The additional ``h``, ``r``, ``b``, and ``l`` specifiers are used to specify
-> +host, reversed, big or little endian order data respectively. Host endian
-> +order means the data is interpreted as a 32-bit integer and the most
-> +significant byte is printed first; that is, the character code as printed
-> +matches the byte order stored in memory on big-endian systems, and is reversed
-> +on little-endian systems.
-
-Btw, this sounds to me that 'h' should be accompanied with 'n', otherwise it's
-confusing why BE is the host order out of the blue.
-so, it needs more information that this mimics htonl() / ntohl() for networking.
-
-Does 'r' actually should be 'n'?
-
-> +Passed by reference.
-> +
-> +Examples for a little-endian machine, given &(u32)0x67503030::
-> +
-> +	%p4ch	gP00 (0x67503030)
-> +	%p4cr	00Pg (0x30305067)
-> +	%p4cb	00Pg (0x30305067)
-> +	%p4cl	gP00 (0x67503030)
-> +
-> +Examples for a big-endian machine, given &(u32)0x67503030::
-> +
-> +	%p4ch	gP00 (0x67503030)
-> +	%p4cr	00Pg (0x30305067)
-> +	%p4cb	gP00 (0x67503030)
-> +	%p4cl	00Pg (0x30305067)
-> +
-
-...
-
-> +	switch (fmt[2]) {
-> +	case 'h':
-> +		val = orig;
-> +		break;
-> +	case 'r':
-> +		orig = swab32(orig);
-> +		val = orig;
-> +		break;
-> +	case 'l':
-> +		orig = (__force u32)cpu_to_le32(orig);
-> +		val = orig;
-> +		break;
-> +	case 'b':
-> +		orig = (__force u32)cpu_to_be32(orig);
-> +		val = orig;
-> +		break;
-> +	case 'c':
-> +		/* Pixel formats are printed LSB-first */
-> +		val = swab32(orig & ~BIT(31));
-> +		pixel_fmt = true;
-> +		break;
-> +	default:
-> +		return error_string(buf, end, "(%p4?)", spec);
-> +	}
-
-Actually you can replace all these orig copies by introducing a new boolean, pixel_be.
-
-Will become
-
-	switch (fmt[2]) {
-	case 'h':
-		val = orig;
-		break;
-	case 'r': // or 'n' ?
-		val = swab32(orig);
-		break;
-	case 'l':
-		val = (__force u32)cpu_to_le32(orig);
-		break;
-	case 'b':
-		val = (__force u32)cpu_to_be32(orig);
-		break;
-	case 'c':
-		pixel_fmt = true;
-		pixel_be = orig & BIT(31);
-		/* Pixel formats are printed LSB-first */
-		val = swab32(orig & ~BIT(31));
-		break;
-	default:
-		return error_string(buf, end, "(%p4?)", spec);
-	}
-
-And with this the existence of 'val' now becomes doubtful, we may reuse 'orig',
-just name it 'val' everywhere, no?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
