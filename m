@@ -1,139 +1,218 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AA91B21B5
-	for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2025 16:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E071B21AC
+	for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2025 16:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740674377; cv=none; b=Jq4C4LC3Ej7SRLlEjGV310c2k0vMZbuoqioXgZUrNn0+vwrm0Ll0BTRd7y2mTMlWjwwnxtPrGN4yKosC+T4Rh7M52WfjkDhSwqp9mw5UNnCX22n+8IiPTkQiTwz15Rpfta3yz/Xa4Smo+XeCHJDmWB5QVtiWVgUmRv9GnVgldqs=
+	t=1740674486; cv=none; b=CWGKNr+bXeSmzCJ4tAv1dAJtcccDHfKMPeckNTZqU4F3D4wFc41gSBvtiAG5YTVSTASJFbPEZP6mmNEbDX1Es0MbJFBSvEkLBi636NfVHWhhFisCZBdN1jnQtUAhGNNrY+8+CLaRaZAbmq4lRRMvn1bryK3/z1XnGQFb0G2IqN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740674377; c=relaxed/simple;
-	bh=64o8j6cVEr9JbVAK2DAuDX0P8B2k0DQFx3sNT2u0wnU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fPfTIyPc/fPnnL5kkiet+xYlMGm+vrSa/jH6rhP04y/U3Dogrl163s/UdQOH1YkdjkKctspsGI0/8ehzxjFkn5bgzmPC2Bljxmv1BA+gN48HRVsIrLW4w3jIugN7X+cdt/gPaUTdnKI0vFYnW3giT5VzAC5L+baOM34nVw03tXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=Ph8oWogX; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=pJlstLFH; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Ph8oWogX";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="pJlstLFH"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5BB7F1F38A;
-	Thu, 27 Feb 2025 16:39:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1740674374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=13okJ43oCKHgKKB8RsUnHCLh7BL/drDJTLZToPO9fPk=;
-	b=Ph8oWogXkPo5WUr9R3rgvnl0I7dxDrOf5Jg5kr0HKMi3hVVygeFPqLO3JEf0IZMVplnq7g
-	Wcl7lO2yy2oD8qafeccxapdXwdDSduftN7ixPwqpbSijm0r31ysammZ0e7KVdRNzl7qBPA
-	Z3BgzCF1zE5+qwJUyo8DaAwpQ/LUDt8=
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1740674373; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=13okJ43oCKHgKKB8RsUnHCLh7BL/drDJTLZToPO9fPk=;
-	b=pJlstLFH16KY+cAt4l2WfHCuvKck3c71JaQM/Yuz4I+MUYmOUUEQzLq244qt+59EbQTSP0
-	dlluK4h/XrHSfonBXuAPzs24vol5RaMVELKWb6oVh98DD/+t55q48ZXmmCuLvVduowveAp
-	LG0M0DpHMHYjgRRr/Fl8+2N+mdgUxxU=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 06AB91376A;
-	Thu, 27 Feb 2025 16:39:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Aj9AAEWVwGcNJQAAD6G6ig
-	(envelope-from <vincenzo.mezzela@suse.com>); Thu, 27 Feb 2025 16:39:33 +0000
-From: Vincenzo MEZZELA <vincenzo.mezzela@suse.com>
-To: live-patching@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: jpoimboe@kernel.org,
-	jikos@kernel.org,
-	mbenes@suse.cz,
-	pmladek@suse.com,
-	joe.lawrence@redhat.com,
-	corbet@lwn.net,
-	Vincenzo MEZZELA <vincenzo.mezzela@suse.com>
-Subject: [PATCH v2] docs: livepatch: move text out of code block
-Date: Thu, 27 Feb 2025 17:39:29 +0100
-Message-ID: <20250227163929.141053-1-vincenzo.mezzela@suse.com>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1740674486; c=relaxed/simple;
+	bh=QRz2GR01hMpu7P7aMvh4cB65ZqdVrSDqQqVZTdvDRCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VFhjiutMniW6qI/1g/ZEGSJAKSNaYtk76XkmHdeA39fbHzxBNQhsoH6yLPn+u3eDk5H2txnLlpfPlbNdIzsFqk8N0u/JDMwYQVLbvGsDwcHV7DL2g9eVQsVg8LFYIxrPe8G1b1Xu0pz9rn9sJaJTtFBO6bjXhPt8k/TJlDa2fKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tngwH-0007ld-79; Thu, 27 Feb 2025 17:40:45 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tngwE-0039ik-2j;
+	Thu, 27 Feb 2025 17:40:42 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tngwE-003TkQ-2I;
+	Thu, 27 Feb 2025 17:40:42 +0100
+Date: Thu, 27 Feb 2025 17:40:42 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v5 06/12] net: pse-pd: Add support for budget
+ evaluation strategies
+Message-ID: <Z8CVimyMj261wc7w@pengutronix.de>
+References: <20250220165129.6f72f51a@kernel.org>
+ <20250224141037.1c79122b@kmaincent-XPS-13-7390>
+ <20250224134522.1cc36aa3@kernel.org>
+ <20250225102558.2cf3d8a5@kmaincent-XPS-13-7390>
+ <20250225174752.5dbf65e2@kernel.org>
+ <Z76t0VotFL7ji41M@pengutronix.de>
+ <Z76vfyv5XoMKmyH_@pengutronix.de>
+ <20250226184257.7d2187aa@kernel.org>
+ <Z8AW6S2xmzGZ0y9B@pengutronix.de>
+ <20250227155727.7bdc069f@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.994];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:mid,suse.com:email];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
+In-Reply-To: <20250227155727.7bdc069f@kmaincent-XPS-13-7390>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Part of the documentation text is included in the readelf output code
-block. Hence, split the code block and move the affected text outside.
+On Thu, Feb 27, 2025 at 03:57:27PM +0100, Kory Maincent wrote:
+> On Thu, 27 Feb 2025 08:40:25 +0100
+> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+> 
+> > On Wed, Feb 26, 2025 at 06:42:57PM -0800, Jakub Kicinski wrote:
+> > > On Wed, 26 Feb 2025 07:06:55 +0100 Oleksij Rempel wrote:  
+> > > > Here is one example how it is done by HP switches:
+> > > > https://arubanetworking.hpe.com/techdocs/AOS-CX/10.08/HTML/monitoring_6200/Content/Chp_PoE/PoE_cmds/pow-ove-eth-all-by.htm
+> > > > 
+> > > > switch(config)# interface 1/1/1    <---- per interface
+> > > > switch(config-if)# power-over-ethernet allocate-by usage
+> > > > switch(config-if)# power-over-ethernet allocate-by class
+> > > > 
+> > > > Cisco example:
+> > > > https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/sw/93x/power-over-ethernet/configuration/configuring-power-over-ethernet/m-configuring-power-over-ethernet.html
+> > > > 
+> > > > switch(config)# interface ethernet1/1   <---- per interface
+> > > > switch(config-if)# power inline auto  
+> > > 
+> > > I don't see any mention of a domain in these docs.
+> > > This patchset is creating a concept of "domain" but does 
+> > > not expose it as an object.  
+> > 
+> > Ok, I see. @Köry, can you please provide regulator_summary with some
+> > inlined comments to regulators related to the PSE components and PSE
+> > related outputs of ethtool (or what ever tool you are using).
+> > 
+> > I wont to use this examples to answer.
+> 
+> On my side, I am not close to using sysfs. As we do all configurations
+> through ethtool I have assumed we should continue with ethtool.
 
-Signed-off-by: Vincenzo MEZZELA <vincenzo.mezzela@suse.com>
----
-Changes in v2:
-- Fixed usage of "::" in literal blocks
+Yes, I agree. But it won't be possible to do it for all components.
 
- Documentation/livepatch/module-elf-format.rst | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+> I think we should set the port priority through ethtool.
 
-diff --git a/Documentation/livepatch/module-elf-format.rst b/Documentation/livepatch/module-elf-format.rst
-index a03ed02ec57e..5d48778d4dfc 100644
---- a/Documentation/livepatch/module-elf-format.rst
-+++ b/Documentation/livepatch/module-elf-format.rst
-@@ -217,16 +217,19 @@ livepatch relocation section refer to their respective symbols with their symbol
- indices, and the original symbol indices (and thus the symtab ordering) must be
- preserved in order for apply_relocate_add() to find the right symbol.
- 
--For example, take this particular rela from a livepatch module:::
-+For example, take this particular rela from a livepatch module::
- 
-   Relocation section '.klp.rela.btrfs.text.btrfs_feature_attr_show' at offset 0x2ba0 contains 4 entries:
-       Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
-   000000000000001f  0000005e00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.printk,0 - 4
- 
--  This rela refers to the symbol '.klp.sym.vmlinux.printk,0', and the symbol index is encoded
--  in 'Info'. Here its symbol index is 0x5e, which is 94 in decimal, which refers to the
--  symbol index 94.
--  And in this patch module's corresponding symbol table, symbol index 94 refers to that very symbol:
-+This rela refers to the symbol '.klp.sym.vmlinux.printk,0', and the symbol
-+index is encoded in 'Info'. Here its symbol index is 0x5e, which is 94 in
-+decimal, which refers to the symbol index 94.
-+
-+And in this patch module's corresponding symbol table, symbol index 94 refers
-+to that very symbol::
-+
-   [ snip ]
-   94: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.printk,0
-   [ snip ]
+ack
+
+> but indeed the PSE  power domain method get and set could be moved to
+> sysfs as it is not something  relative to the port but to a group of
+> ports.
+
+I would prefer to have it in the for of devlink or use regulator netlink
+interface. But, we do not need to do this discussion right now.
+
+> Ethtool should still report the  PSE power domain ID of a port to know
+> which domain the port is.
+
+Exactly.
+
+@Jakub, at current implementation stage, user need to know the domain
+id, because ports (and priorities) are grouped by the top level
+regulators (pse-regX in the regulator_summary), they are our top-level
+bottlenecks.
+
+HP and Cisco switch either use different PSE controllers, or just didn't
+exposed this nuance to the user. Let's assume, they have only one
+global power domain.
+
+So, in current patch set I would expect (not force :) ) implementation for
+following fields:
+- per port:
+  - priority (valid within the power domain)
+  - power reservation/allocation methods. First of all, because all
+    already supported controllers have different implemented/default
+    methods: microchip - dynamic, TI - static, regulator-pse - fixed (no
+    classification is supported).
+    At same time, in the future, we will need be able switch between
+    (static or dynamic) and fixed for LLPD or manual configuration.
+    Yes, at this point all ports show the same information and it seems
+    to be duplicated.
+  - power domain ID.
+
+@Jakub, did I answered you question, or missed the point? :)
+
+> @Oleksij here it is:
+
+Thank you!
+
+I do not expect it to be the primer user interface, but it can provide
+additional diagnostic information. I wonted to see how it is aligns
+with current ethtool UAPI implementation and if it possible to combine
+it for diagnostics.
+
+> # cat /sys/kernel/debug/regulator/regulator_summary
+>  regulator                      use open bypass  opmode voltage current     min     max
+> ---------------------------------------------------------------------------------------
+>  regulator-dummy                  5    4      0 unknown     0mV     0mA     0mV     0mV 
+>     d00e0000.sata-target          1                                 0mA     0mV     0mV
+>     d00e0000.sata-phy             1                                 0mA     0mV     0mV
+>     d00e0000.sata-ahci            1                                 0mA     0mV     0mV
+>     spi0.0-vcc                    1                                 0mA     0mV     0mV
+>  pse-reg                          1    4      0 unknown     0mV     0mA     0mV     0mV 
+
+pse-regX should be attached to the main supply regulator for better full
+picture. And use different name to be better identified as PSE power domains with ID?
+
+>     pse-0-0020_pi0                0    1      0 unknown 53816mV  2369mA     0mV     0mV 
+>        0-0020-pse-0-0020_pi0      0                                 0mA     0mV     0mV
+>     pse-0-0020_pi2                0    1      0 unknown 53816mV  2369mA     0mV     0mV 
+>        0-0020-pse-0-0020_pi2      0                                 0mA     0mV     0mV
+>     pse-0-0020_pi7                0    1      0 unknown 53816mV  2369mA     0mV     0mV 
+>        0-0020-pse-0-0020_pi7      0                                 0mA     0mV     0mV
+>  pse-reg2                         1    2      0 unknown     0mV     0mA     0mV     0mV 
+>     pse-0-0020_pi1                0    0      0 unknown 53816mV  4738mA     0mV     0mV 
+>  vcc_sd1                          2    1      0 unknown  1800mV     0mA  1800mV  3300mV 
+>     d00d0000.mmc-vqmmc            1                                 0mA  1800mV  1950mV
+> 
+> # ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-get --json
+>  '{"header":{"dev-name":"wan"}}'
+> {'c33-pse-admin-state': 2,
+>  'c33-pse-avail-pw-limit': 127500,
+>  'c33-pse-pw-d-status': 2,
+>  'c33-pse-pw-limit-ranges': [{'max': 99900, 'min': 2000}],
+>  'header': {'dev-index': 4, 'dev-name': 'wan'},
+>  'pse-budget-eval-strat': 2,
+>  'pse-prio': 0,
+>  'pse-prio-max': 8,
+>  'pse-pw-d-id': 1}
+> 
+> # ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-set --json
+>  '{"header":{"dev-name":"wan"}, "pse-prio":1}'
+> None
+> # ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-set --json
+> '{"header":{"dev-name":"wan"}, "c33-pse-avail-pw-limit":15000}'
+
+
+Best Regards,
+Oleksij
 -- 
-2.48.1
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
