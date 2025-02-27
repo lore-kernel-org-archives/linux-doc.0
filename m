@@ -1,218 +1,163 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E071B21AC
-	for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2025 16:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818B11B2EF2
+	for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2025 16:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740674486; cv=none; b=CWGKNr+bXeSmzCJ4tAv1dAJtcccDHfKMPeckNTZqU4F3D4wFc41gSBvtiAG5YTVSTASJFbPEZP6mmNEbDX1Es0MbJFBSvEkLBi636NfVHWhhFisCZBdN1jnQtUAhGNNrY+8+CLaRaZAbmq4lRRMvn1bryK3/z1XnGQFb0G2IqN8=
+	t=1740674646; cv=none; b=aJX2XEpEZlQ6OLGVPCMV70FfrC7stOkXhk8svsHN8uW7T9kjFPyj98zp6UtBMOwC+GU49aMpv8X9R4xnxJpd5Gs9Fd6uHa3VYv2jTwN7BqA8QwhnA5n1m1eJjof3BPFYiOh6Q9ybdFHfwkVS1kmOyfNWH08HuP1KEvIGjudh5Q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740674486; c=relaxed/simple;
-	bh=QRz2GR01hMpu7P7aMvh4cB65ZqdVrSDqQqVZTdvDRCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VFhjiutMniW6qI/1g/ZEGSJAKSNaYtk76XkmHdeA39fbHzxBNQhsoH6yLPn+u3eDk5H2txnLlpfPlbNdIzsFqk8N0u/JDMwYQVLbvGsDwcHV7DL2g9eVQsVg8LFYIxrPe8G1b1Xu0pz9rn9sJaJTtFBO6bjXhPt8k/TJlDa2fKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tngwH-0007ld-79; Thu, 27 Feb 2025 17:40:45 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tngwE-0039ik-2j;
-	Thu, 27 Feb 2025 17:40:42 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tngwE-003TkQ-2I;
-	Thu, 27 Feb 2025 17:40:42 +0100
-Date: Thu, 27 Feb 2025 17:40:42 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v5 06/12] net: pse-pd: Add support for budget
- evaluation strategies
-Message-ID: <Z8CVimyMj261wc7w@pengutronix.de>
-References: <20250220165129.6f72f51a@kernel.org>
- <20250224141037.1c79122b@kmaincent-XPS-13-7390>
- <20250224134522.1cc36aa3@kernel.org>
- <20250225102558.2cf3d8a5@kmaincent-XPS-13-7390>
- <20250225174752.5dbf65e2@kernel.org>
- <Z76t0VotFL7ji41M@pengutronix.de>
- <Z76vfyv5XoMKmyH_@pengutronix.de>
- <20250226184257.7d2187aa@kernel.org>
- <Z8AW6S2xmzGZ0y9B@pengutronix.de>
- <20250227155727.7bdc069f@kmaincent-XPS-13-7390>
+	s=arc-20240116; t=1740674646; c=relaxed/simple;
+	bh=fB6w7SixAEXD/myhXo99GjY8ysGqb9qy7aUzN37BOJI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=h3Goe9g4jzgROr3Oa1LU/sVDrj38sUZ9NEO0asTzJWda6WTKETUwJO14TGLj1bPaDAIKEttuV13AgoGkpnIMfFMPR6lnn9MCOslQteIIwjHA5MAzq/1R7G5aWDm7CALEUn3lY1cLIc7GfXu0M1vh4GEd9wCsqrR5RKKXuvr/v3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x482BqLZ; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x482BqLZ"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2feb8d29740so388744a91.1
+        for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2025 08:44:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1740674644; x=1741279444; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/JYB8oqoHOpfjOcYGs25VQ09uupMqax+pANsHT7Jb3g=;
+        b=x482BqLZyPKSGWjcglkFMBPoIlsxJh07Snt13o4k3Pwhl8RVg505zudpSjD/aTfL8j
+         3N0B2UoSpN4BfKVDujWIE4MfGvweHmArgnf1RSpBh/mOC++qnprLiGo6q4zO0NIOJceF
+         xIFJWt6MbRk0zvjgS20X33KhF7dpIhM8UGmH4rjJmKoLrxRRgs8wZgDWdiqZvttZjumN
+         WklV64yWJ/TofGfjrmelG2Vu8JTx9xbSEMF8/+orb+00l8Gg2rMNqy0U3L9hTtMHSvCr
+         CrldZxfFS7S0fTdLNQxkdrFFTtBNJGJyOJTdSk+dPk6juja/HYPdJtoCNhANbDZsD6PO
+         iwhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740674644; x=1741279444;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/JYB8oqoHOpfjOcYGs25VQ09uupMqax+pANsHT7Jb3g=;
+        b=B/KZeN8pe2GPM4OwpdLTuAzI2dgIK5IRCrOmVYAGydyqRgcqDBVNO6it/Unu92M4dA
+         wEIq/p5IejFvZrtz32LQk7nN59HMuwzn/faeJwaBjgThRIo+gZjgY3tbndPMLUsqLCFL
+         +rpPKtEHavEc5oSlddEjulEmCpbBmRG/mmGB14z60dL4IqRFBreRRnCeGLTSY9cZsJEE
+         xe31bHQuCsKci76ARWTx2NQKp6dheBZbbeXe3UQu+mxH42HxAzpTurnn3bAJ6fdkdCY8
+         wF0o46mrofAwpWgZuRIIU8T7hZ6HcHb2SEJy/1VKgsURtDxSlXNAQiFHh3qTSmGj23O5
+         0aDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVMFH4/fPMXRSSUrVWReMUYnXJ7Eqaim1pfCeG7lKA6razlN6wNcmXkBtLnL+jRByL5UmdN6m32Zyw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPpUZKpc1tgZ8iN1BmZSXAYJQ5w5go+8ZKBp+JiaZFSRKKTk+E
+	qKwLycHoIIPfSAREeMJS2+TE86++xmL+3Xt3fvUnVHyYvrbOH+NlHeL7YVQDuAHPgLKOuP1PY6a
+	gTw==
+X-Google-Smtp-Source: AGHT+IGw5yzNreu/xypo2hwjbTNx8tGBWmfy+nhlosdcH+FG5or9oFqBfp6TM2HlecegwTm2+w+cuJ+tpv4=
+X-Received: from pjbsd5.prod.google.com ([2002:a17:90b:5145:b0:2fc:3022:36b4])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90a:d008:b0:2ea:3f34:f18f
+ with SMTP id 98e67ed59e1d1-2fe7e33d416mr11321462a91.19.1740674643568; Thu, 27
+ Feb 2025 08:44:03 -0800 (PST)
+Date: Thu, 27 Feb 2025 08:44:02 -0800
+In-Reply-To: <946fc0f5-4306-4aa9-9b63-f7ccbaff8003@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250227155727.7bdc069f@kmaincent-XPS-13-7390>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Mime-Version: 1.0
+References: <20241118123948.4796-1-kalyazin@amazon.com> <Z6u-WdbiW3n7iTjp@google.com>
+ <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com> <Z7X2EKzgp_iN190P@google.com>
+ <6eddd049-7c7a-406d-b763-78fa1e7d921b@amazon.com> <Z7d5HT7FpE-ZsHQ9@google.com>
+ <f820b630-13c1-4164-baa8-f5e8231612d1@amazon.com> <Z75nRwSBxpeMwbsR@google.com>
+ <946fc0f5-4306-4aa9-9b63-f7ccbaff8003@amazon.com>
+Message-ID: <Z8CWUiAYVvNKqzfK@google.com>
+Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
+From: Sean Christopherson <seanjc@google.com>
+To: Nikita Kalyazin <kalyazin@amazon.com>
+Cc: pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, jthoughton@google.com, david@redhat.com, 
+	peterx@redhat.com, oleg@redhat.com, vkuznets@redhat.com, gshan@redhat.com, 
+	graf@amazon.de, jgowans@amazon.com, roypat@amazon.co.uk, derekmn@amazon.com, 
+	nsaenz@amazon.es, xmarcalx@amazon.com
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Feb 27, 2025 at 03:57:27PM +0100, Kory Maincent wrote:
-> On Thu, 27 Feb 2025 08:40:25 +0100
-> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-> 
-> > On Wed, Feb 26, 2025 at 06:42:57PM -0800, Jakub Kicinski wrote:
-> > > On Wed, 26 Feb 2025 07:06:55 +0100 Oleksij Rempel wrote:  
-> > > > Here is one example how it is done by HP switches:
-> > > > https://arubanetworking.hpe.com/techdocs/AOS-CX/10.08/HTML/monitoring_6200/Content/Chp_PoE/PoE_cmds/pow-ove-eth-all-by.htm
+On Wed, Feb 26, 2025, Nikita Kalyazin wrote:
+> On 26/02/2025 00:58, Sean Christopherson wrote:
+> > On Fri, Feb 21, 2025, Nikita Kalyazin wrote:
+> > > On 20/02/2025 18:49, Sean Christopherson wrote:
+> > > > On Thu, Feb 20, 2025, Nikita Kalyazin wrote:
+> > > > > On 19/02/2025 15:17, Sean Christopherson wrote:
+> > > > > > On Wed, Feb 12, 2025, Nikita Kalyazin wrote:
+> > > > > > The conundrum with userspace async #PF is that if userspace is given only a single
+> > > > > > bit per gfn to force an exit, then KVM won't be able to differentiate between
+> > > > > > "faults" that will be handled synchronously by the vCPU task, and faults that
+> > > > > > usersepace will hand off to an I/O task.  If the fault is handled synchronously,
+> > > > > > KVM will needlessly inject a not-present #PF and a present IRQ.
+> > > > > 
+> > > > > Right, but from the guest's point of view, async PF means "it will probably
+> > > > > take a while for the host to get the page, so I may consider doing something
+> > > > > else in the meantime (ie schedule another process if available)".
 > > > > 
-> > > > switch(config)# interface 1/1/1    <---- per interface
-> > > > switch(config-if)# power-over-ethernet allocate-by usage
-> > > > switch(config-if)# power-over-ethernet allocate-by class
-> > > > 
-> > > > Cisco example:
-> > > > https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/sw/93x/power-over-ethernet/configuration/configuring-power-over-ethernet/m-configuring-power-over-ethernet.html
-> > > > 
-> > > > switch(config)# interface ethernet1/1   <---- per interface
-> > > > switch(config-if)# power inline auto  
+> > > > Except in this case, the guest never gets a chance to run, i.e. it can't do
+> > > > something else.  From the guest point of view, if KVM doesn't inject what is
+> > > > effectively a spurious async #PF, the VM-Exiting instruction simply took a (really)
+> > > > long time to execute.
 > > > 
-> > > I don't see any mention of a domain in these docs.
-> > > This patchset is creating a concept of "domain" but does 
-> > > not expose it as an object.  
+> > > Sorry, I didn't get that.  If userspace learns from the
+> > > kvm_run::memory_fault::flags that the exit is due to an async PF, it should
+> > > call kvm run immediately, inject the not-present PF and allow the guest to
+> > > reschedule.  What do you mean by "the guest never gets a chance to run"?
 > > 
-> > Ok, I see. @Köry, can you please provide regulator_summary with some
-> > inlined comments to regulators related to the PSE components and PSE
-> > related outputs of ethtool (or what ever tool you are using).
+> > What I'm saying is that, as proposed, the API doesn't precisely tell userspace
+                                                                         ^^^^^^^^^
+                                                                         KVM
+> > an exit happened due to an "async #PF".  KVM has absolutely zero clue as to
+> > whether or not userspace is going to do an async #PF, or if userspace wants to
+> > intercept the fault for some entirely different purpose.
+> 
+> Userspace is supposed to know whether the PF is async from the dedicated
+> flag added in the memory_fault structure:
+> KVM_MEMORY_EXIT_FLAG_ASYNC_PF_USER.  It will be set when KVM managed to
+> inject page-not-present.  Are you saying it isn't sufficient?
+
+Gah, sorry, typo.  The API doesn't tell *KVM* that userfault exit is due to an
+async #PF.
+
+> > Unless the remote page was already requested, e.g. by a different vCPU, or by a
+> > prefetching algorithim.
 > > 
-> > I wont to use this examples to answer.
+> > > Conversely, if the page content is available, it must have already been
+> > > prepopulated into guest memory pagecache, the bit in the bitmap is cleared
+> > > and no exit to userspace occurs.
+> > 
+> > But that doesn't happen instantaneously.  Even if the VMM somehow atomically
+> > receives the page and marks it present, it's still possible for marking the page
+> > present to race with KVM checking the bitmap.
 > 
-> On my side, I am not close to using sysfs. As we do all configurations
-> through ethtool I have assumed we should continue with ethtool.
+> That looks like a generic problem of the VM-exit fault handling.  Eg when
 
-Yes, I agree. But it won't be possible to do it for all components.
+Heh, it's a generic "problem" for faults in general.  E.g. modern x86 CPUs will
+take "spurious" page faults on write accesses if a PTE is writable in memory but
+the CPU has a read-only mapping cached in its TLB.
 
-> I think we should set the port priority through ethtool.
+It's all a matter of cost.  E.g. pre-Nehalem Intel CPUs didn't take such spurious
+read-only faults as they would re-walk the in-memory page tables, but that ended
+up being a net negative because the cost of re-walking for all read-only faults
+outweighed the benefits of avoiding spurious faults in the unlikely scenario the
+fault had already been fixed.
 
-ack
+For a spurious async #PF + IRQ, the cost could be signficant, e.g. due to causing
+unwanted context switches in the guest, in addition to the raw overhead of the
+faults, interrupts, and exits.
 
-> but indeed the PSE  power domain method get and set could be moved to
-> sysfs as it is not something  relative to the port but to a group of
-> ports.
-
-I would prefer to have it in the for of devlink or use regulator netlink
-interface. But, we do not need to do this discussion right now.
-
-> Ethtool should still report the  PSE power domain ID of a port to know
-> which domain the port is.
-
-Exactly.
-
-@Jakub, at current implementation stage, user need to know the domain
-id, because ports (and priorities) are grouped by the top level
-regulators (pse-regX in the regulator_summary), they are our top-level
-bottlenecks.
-
-HP and Cisco switch either use different PSE controllers, or just didn't
-exposed this nuance to the user. Let's assume, they have only one
-global power domain.
-
-So, in current patch set I would expect (not force :) ) implementation for
-following fields:
-- per port:
-  - priority (valid within the power domain)
-  - power reservation/allocation methods. First of all, because all
-    already supported controllers have different implemented/default
-    methods: microchip - dynamic, TI - static, regulator-pse - fixed (no
-    classification is supported).
-    At same time, in the future, we will need be able switch between
-    (static or dynamic) and fixed for LLPD or manual configuration.
-    Yes, at this point all ports show the same information and it seems
-    to be duplicated.
-  - power domain ID.
-
-@Jakub, did I answered you question, or missed the point? :)
-
-> @Oleksij here it is:
-
-Thank you!
-
-I do not expect it to be the primer user interface, but it can provide
-additional diagnostic information. I wonted to see how it is aligns
-with current ethtool UAPI implementation and if it possible to combine
-it for diagnostics.
-
-> # cat /sys/kernel/debug/regulator/regulator_summary
->  regulator                      use open bypass  opmode voltage current     min     max
-> ---------------------------------------------------------------------------------------
->  regulator-dummy                  5    4      0 unknown     0mV     0mA     0mV     0mV 
->     d00e0000.sata-target          1                                 0mA     0mV     0mV
->     d00e0000.sata-phy             1                                 0mA     0mV     0mV
->     d00e0000.sata-ahci            1                                 0mA     0mV     0mV
->     spi0.0-vcc                    1                                 0mA     0mV     0mV
->  pse-reg                          1    4      0 unknown     0mV     0mA     0mV     0mV 
-
-pse-regX should be attached to the main supply regulator for better full
-picture. And use different name to be better identified as PSE power domains with ID?
-
->     pse-0-0020_pi0                0    1      0 unknown 53816mV  2369mA     0mV     0mV 
->        0-0020-pse-0-0020_pi0      0                                 0mA     0mV     0mV
->     pse-0-0020_pi2                0    1      0 unknown 53816mV  2369mA     0mV     0mV 
->        0-0020-pse-0-0020_pi2      0                                 0mA     0mV     0mV
->     pse-0-0020_pi7                0    1      0 unknown 53816mV  2369mA     0mV     0mV 
->        0-0020-pse-0-0020_pi7      0                                 0mA     0mV     0mV
->  pse-reg2                         1    2      0 unknown     0mV     0mA     0mV     0mV 
->     pse-0-0020_pi1                0    0      0 unknown 53816mV  4738mA     0mV     0mV 
->  vcc_sd1                          2    1      0 unknown  1800mV     0mA  1800mV  3300mV 
->     d00d0000.mmc-vqmmc            1                                 0mA  1800mV  1950mV
+> one vCPU exits, userspace handles the fault and races setting the bitmap
+> with another vCPU that is about to fault the same page, which may cause a
+> spurious exit.
 > 
-> # ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-get --json
->  '{"header":{"dev-name":"wan"}}'
-> {'c33-pse-admin-state': 2,
->  'c33-pse-avail-pw-limit': 127500,
->  'c33-pse-pw-d-status': 2,
->  'c33-pse-pw-limit-ranges': [{'max': 99900, 'min': 2000}],
->  'header': {'dev-index': 4, 'dev-name': 'wan'},
->  'pse-budget-eval-strat': 2,
->  'pse-prio': 0,
->  'pse-prio-max': 8,
->  'pse-pw-d-id': 1}
-> 
-> # ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-set --json
->  '{"header":{"dev-name":"wan"}, "pse-prio":1}'
-> None
-> # ./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do pse-set --json
-> '{"header":{"dev-name":"wan"}, "c33-pse-avail-pw-limit":15000}'
+> On the other hand, is it malignant?  The only downside is additional
+> overhead of the async PF protocol, but if the race occurs infrequently, it
+> shouldn't be a problem.
 
+When it comes to uAPI, I want to try and avoid statements along the lines of
+"IF 'x' holds true, then 'y' SHOULDN'T be a problem".  If this didn't impact uAPI,
+I wouldn't care as much, i.e. I'd be much more willing iterate as needed.
 
-Best Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+I'm not saying we should go straight for a complex implementation.  Quite the
+opposite.  But I do want us to consider the possible ramifications of using a
+single bit for all userfaults, so that we can at least try to design something
+that is extensible and won't be a pain to maintain.
