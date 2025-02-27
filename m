@@ -1,88 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com [52.119.213.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53841D63CF;
-	Thu, 27 Feb 2025 17:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98831B424D;
+	Thu, 27 Feb 2025 18:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740677898; cv=none; b=SDMwQOkizJNp16+UBlh3vo/Sb94Yy4JLeX9o3ozaIcqN6XQyGGr3Op8qUcOs2FUQJbaR5BolphBAAuyCyxcc68h8684fCQYOak5pHmtWBLEFZXWd768gI6ZxU81yNm5pM3lINVepxBNNksWBjiWX72OFkT5pWlnqOQcf72rZIPs=
+	t=1740680655; cv=none; b=IAQzqka42/KsxeK8w11pbhtw1AAzWqHwSFYxP4VpEAsjwc/KbUxVCpeJebWfhXu3akz8h4RWJkftNFN0h+kK/8FFlh/HbHCHEPAvbN7A7pTmxY7tnycFFczsE//9FMTO83y9ZXfWx/4QxDbBXkA8B/gGmb1ahUIJj6d4LxyiMIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740677898; c=relaxed/simple;
-	bh=RA1QCuzgKgwXPghID0OGHA2+esZ2iW7fQoMQ1vyhONM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=i5pP7rubYn2yO0w6x2GbURiJcRRi+YRRctcUYapycMZgb+5R06DxGE4IcWSThoSK9IdJubTsXN/UIm++RtH3U8rBHYRRz1KhAkuUP5j/RmHUJj+aH7jSzN5h+RcHQEoeaNn0YvlGBMaXJOP8YhmAXRLAsI5jkldABhKBqG9L1Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LejJ4EyE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740680655; c=relaxed/simple;
+	bh=I1CbooREzLYn9AAlLO5H4sUKHJxW7EPg7nEEHpyFmNQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=FFWuTyj8wYmrxXFj150GVeZijiDkf2/ls5hy3WKQPM1CYAZAQDivcgg0BiJGNSCm6FujP44nrXNASqqaqd//MVmGnH7OWWGKGJnxADAz4td94Zw6B1ADugjappO5nuTQXu2YzDqPx81cKIQwmCVeIimaXVT6GB9IUZ6I82VD3yE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=G3/XvC/X; arc=none smtp.client-ip=52.119.213.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LejJ4EyE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A6E6C4CEDD;
-	Thu, 27 Feb 2025 17:38:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740677897;
-	bh=RA1QCuzgKgwXPghID0OGHA2+esZ2iW7fQoMQ1vyhONM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=LejJ4EyEdNEqWG4d1ddZ6tQvkUyXGBUVMW+qynxk4Vvf9hNOJlo+mj4oicPptljBV
-	 QMAJ+29KuZtCMdML9MwwYOOm1vQf+GXP+KvNN7ZcEe1tqhg7/SafILvs2M+EFX5xNu
-	 KVQ1Cc01ymatqaKVaZRYK807ezwGq6MsbKMZ9HadNFZ+93eicwQLZLmAaCCndch0Co
-	 3PkIOXzpiAYq+Jtz1cXjaplZC9PVZlWZPHgy3TIFlFVygAT19oeamW+N0HTctpIzQc
-	 XKdXwbAWnwh9FDU5cz5IYxt5ucM0FCHIpJBlU9mRuJC+KLxFweN2BPycbH/jS2jXpX
-	 2XIMQuuvhrx7w==
-Date: Thu, 27 Feb 2025 11:38:15 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="G3/XvC/X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1740680653; x=1772216653;
+  h=message-id:date:mime-version:reply-to:subject:to:cc:
+   references:from:in-reply-to:content-transfer-encoding;
+  bh=j3OPBGuyioaxsCKCSnyqb+F4cY9H+pA8vNbT+Ls4f/A=;
+  b=G3/XvC/X20YPL2O+wFXBQjsinccl8Xrr8olD/DNvb4u9vyeruoSySQ6O
+   j2XE1DuRKasNrTmRWGl4HI4hV/kULyXW60nyLoBj62xFDeO1k0AhNIZal
+   Q2Bk5rO+fxMlNcLuG1XSiVin7/Ci8M97xlPAKA9SzeoIkc+659CB2Jrff
+   g=;
+X-IronPort-AV: E=Sophos;i="6.13,320,1732579200"; 
+   d="scan'208";a="69833984"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 18:24:10 +0000
+Received: from EX19MTAEUC002.ant.amazon.com [10.0.43.254:43332]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.1.85:2525] with esmtp (Farcaster)
+ id a2951172-87b8-49fe-bd0f-813ab7bbf005; Thu, 27 Feb 2025 18:24:08 +0000 (UTC)
+X-Farcaster-Flow-ID: a2951172-87b8-49fe-bd0f-813ab7bbf005
+Received: from EX19D022EUC002.ant.amazon.com (10.252.51.137) by
+ EX19MTAEUC002.ant.amazon.com (10.252.51.245) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Thu, 27 Feb 2025 18:24:08 +0000
+Received: from [192.168.19.93] (10.106.83.21) by EX19D022EUC002.ant.amazon.com
+ (10.252.51.137) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14; Thu, 27 Feb 2025
+ 18:24:07 +0000
+Message-ID: <7f2b25c9-c92b-4b0a-bfd9-dda8b0b7a244@amazon.com>
+Date: Thu, 27 Feb 2025 18:24:05 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
- Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>, 
- linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
- Jonathan Cameron <jic23@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- linux-kernel@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>
-To: David Jander <david@protonic.nl>
-In-Reply-To: <20250227162823.3585810-8-david@protonic.nl>
-References: <20250227162823.3585810-1-david@protonic.nl>
- <20250227162823.3585810-8-david@protonic.nl>
-Message-Id: <174067789501.3590925.9341174952615049139.robh@kernel.org>
-Subject: Re: [RFC PATCH 7/7] dt-bindings: motion: Add motion-simple-pwm
- bindings
+User-Agent: Mozilla Thunderbird
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
+To: Sean Christopherson <seanjc@google.com>
+CC: <pbonzini@redhat.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<mathieu.desnoyers@efficios.com>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <jthoughton@google.com>,
+	<david@redhat.com>, <peterx@redhat.com>, <oleg@redhat.com>,
+	<vkuznets@redhat.com>, <gshan@redhat.com>, <graf@amazon.de>,
+	<jgowans@amazon.com>, <roypat@amazon.co.uk>, <derekmn@amazon.com>,
+	<nsaenz@amazon.es>, <xmarcalx@amazon.com>
+References: <20241118123948.4796-1-kalyazin@amazon.com>
+ <Z6u-WdbiW3n7iTjp@google.com>
+ <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com>
+ <Z7X2EKzgp_iN190P@google.com>
+ <6eddd049-7c7a-406d-b763-78fa1e7d921b@amazon.com>
+ <Z7d5HT7FpE-ZsHQ9@google.com>
+ <f820b630-13c1-4164-baa8-f5e8231612d1@amazon.com>
+ <Z75nRwSBxpeMwbsR@google.com>
+ <946fc0f5-4306-4aa9-9b63-f7ccbaff8003@amazon.com>
+ <Z8CWUiAYVvNKqzfK@google.com>
+Content-Language: en-US
+From: Nikita Kalyazin <kalyazin@amazon.com>
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJnrNfABQkFps9DAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOpfgD/exazh4C2Z8fNEz54YLJ6tuFEgQrVQPX6nQ/PfQi2+dwBAMGTpZcj9Z9NvSe1
+ CmmKYnYjhzGxzjBs8itSUvWIcMsFzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmes18AFCQWmz0MCGwwACgkQr5LKIKmaZPNTlQEA+q+rGFn7273rOAg+rxPty0M8lJbT
+ i2kGo8RmPPLu650A/1kWgz1AnenQUYzTAFnZrKSsXAw5WoHaDLBz9kiO5pAK
+In-Reply-To: <Z8CWUiAYVvNKqzfK@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D006EUA002.ant.amazon.com (10.252.50.65) To
+ EX19D022EUC002.ant.amazon.com (10.252.51.137)
 
-
-On Thu, 27 Feb 2025 17:28:23 +0100, David Jander wrote:
-> Add device-tree bindings for simple Linux Motion Control devices that
-> are based on 1 or 2 PWM outputs.
+On 27/02/2025 16:44, Sean Christopherson wrote:
+> On Wed, Feb 26, 2025, Nikita Kalyazin wrote:
+>> On 26/02/2025 00:58, Sean Christopherson wrote:
+>>> On Fri, Feb 21, 2025, Nikita Kalyazin wrote:
+>>>> On 20/02/2025 18:49, Sean Christopherson wrote:
+>>>>> On Thu, Feb 20, 2025, Nikita Kalyazin wrote:
+>>>>>> On 19/02/2025 15:17, Sean Christopherson wrote:
+>>>>>>> On Wed, Feb 12, 2025, Nikita Kalyazin wrote:
+>>>>>>> The conundrum with userspace async #PF is that if userspace is given only a single
+>>>>>>> bit per gfn to force an exit, then KVM won't be able to differentiate between
+>>>>>>> "faults" that will be handled synchronously by the vCPU task, and faults that
+>>>>>>> usersepace will hand off to an I/O task.  If the fault is handled synchronously,
+>>>>>>> KVM will needlessly inject a not-present #PF and a present IRQ.
+>>>>>>
+>>>>>> Right, but from the guest's point of view, async PF means "it will probably
+>>>>>> take a while for the host to get the page, so I may consider doing something
+>>>>>> else in the meantime (ie schedule another process if available)".
+>>>>>
+>>>>> Except in this case, the guest never gets a chance to run, i.e. it can't do
+>>>>> something else.  From the guest point of view, if KVM doesn't inject what is
+>>>>> effectively a spurious async #PF, the VM-Exiting instruction simply took a (really)
+>>>>> long time to execute.
+>>>>
+>>>> Sorry, I didn't get that.  If userspace learns from the
+>>>> kvm_run::memory_fault::flags that the exit is due to an async PF, it should
+>>>> call kvm run immediately, inject the not-present PF and allow the guest to
+>>>> reschedule.  What do you mean by "the guest never gets a chance to run"?
+>>>
+>>> What I'm saying is that, as proposed, the API doesn't precisely tell userspace
+>                                                                           ^^^^^^^^^
+>                                                                           KVM
+>>> an exit happened due to an "async #PF".  KVM has absolutely zero clue as to
+>>> whether or not userspace is going to do an async #PF, or if userspace wants to
+>>> intercept the fault for some entirely different purpose.
+>>
+>> Userspace is supposed to know whether the PF is async from the dedicated
+>> flag added in the memory_fault structure:
+>> KVM_MEMORY_EXIT_FLAG_ASYNC_PF_USER.  It will be set when KVM managed to
+>> inject page-not-present.  Are you saying it isn't sufficient?
 > 
-> Signed-off-by: David Jander <david@protonic.nl>
-> ---
->  .../bindings/motion/motion-simple-pwm.yaml    | 55 +++++++++++++++++++
->  1 file changed, 55 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/motion/motion-simple-pwm.yaml
+> Gah, sorry, typo.  The API doesn't tell *KVM* that userfault exit is due to an
+> async #PF.
 > 
+>>> Unless the remote page was already requested, e.g. by a different vCPU, or by a
+>>> prefetching algorithim.
+>>>
+>>>> Conversely, if the page content is available, it must have already been
+>>>> prepopulated into guest memory pagecache, the bit in the bitmap is cleared
+>>>> and no exit to userspace occurs.
+>>>
+>>> But that doesn't happen instantaneously.  Even if the VMM somehow atomically
+>>> receives the page and marks it present, it's still possible for marking the page
+>>> present to race with KVM checking the bitmap.
+>>
+>> That looks like a generic problem of the VM-exit fault handling.  Eg when
+> 
+> Heh, it's a generic "problem" for faults in general.  E.g. modern x86 CPUs will
+> take "spurious" page faults on write accesses if a PTE is writable in memory but
+> the CPU has a read-only mapping cached in its TLB.
+> 
+> It's all a matter of cost.  E.g. pre-Nehalem Intel CPUs didn't take such spurious
+> read-only faults as they would re-walk the in-memory page tables, but that ended
+> up being a net negative because the cost of re-walking for all read-only faults
+> outweighed the benefits of avoiding spurious faults in the unlikely scenario the
+> fault had already been fixed.
+> 
+> For a spurious async #PF + IRQ, the cost could be signficant, e.g. due to causing
+> unwanted context switches in the guest, in addition to the raw overhead of the
+> faults, interrupts, and exits.
+> 
+>> one vCPU exits, userspace handles the fault and races setting the bitmap
+>> with another vCPU that is about to fault the same page, which may cause a
+>> spurious exit.
+>>
+>> On the other hand, is it malignant?  The only downside is additional
+>> overhead of the async PF protocol, but if the race occurs infrequently, it
+>> shouldn't be a problem.
+> 
+> When it comes to uAPI, I want to try and avoid statements along the lines of
+> "IF 'x' holds true, then 'y' SHOULDN'T be a problem".  If this didn't impact uAPI,
+> I wouldn't care as much, i.e. I'd be much more willing iterate as needed.
+> 
+> I'm not saying we should go straight for a complex implementation.  Quite the
+> opposite.  But I do want us to consider the possible ramifications of using a
+> single bit for all userfaults, so that we can at least try to design something
+> that is extensible and won't be a pain to maintain.
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/motion/motion-simple-pwm.example.dtb: motion-simple-pwm0: 'motion,acceleration-conv-div', 'motion,acceleration-conv-mul', 'motion,pwm-inverted', 'motion,speed-conv-div', 'motion,speed-conv-mul' do not match any of the regexes: '^#.*', '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|gpmc|hdmi|i2c-gpio),.*', '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', '^(pinctrl-single|#pinctrl-single|PowerPC),.*', '^(pl022|pxa-mmc|rcar_sound|rotary-encoder|s5m8767|sdhci),.*', '^(simple-audio-card|st-plgpio|st-spics|ts),.*', '^100ask,.*', '^70mai,.*', '^8dev,.*', '^GEFanuc,.*', '^IBM,.*', '^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA-Z0-9+\\-._@]{0,63}$', '^[a-zA-Z0-9+\\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^abilis,.*', '^abracon,.*', '^abt,.*', '^acbel,.*', '^acelink,.*', '^acer,.*', '^acme,.*', '^actions,.*', '^active-semi,.*', '^ad,.*', '^adafruit,.*', '^adapteva,.*', '^adaptrum,.*', '^adh,.*', '^adi,.*', '^adieng,.*', '^admatec,.*', '^advantech,.*', '^aeroflexgaisler,.*', '^aesop,.*', '^airoha,.*', '^al,.*', '^alcatel,.*', '^aldec,.*', '^alfa-network,.*', '^allegro,.*', '^allegromicro,.*', '^alliedvision,.*', '^allo,.*', '^allwinner,.*', '^alphascale,.*', '^alps,.*', '^alt,.*', '^altr,.*', '^amarula,.*', '^amazon,.*', '^amcc,.*', '^amd,.*', '^amediatech,.*', '^amlogic,.*', '^ampere,.*', '^amphenol,.*', '^ampire,.*', '^ams,.*', '^amstaos,.*', '^analogix,.*', '^anbernic,.*', '^andestech,.*', '^anvo,.*', '^aosong,.*', '^apm,.*', '^apple,.*', '^aptina,.*', '^arasan,.*', '^archermind,.*', '^arcom,.*', '^arctic,.*', '^arcx,.*', '^aries,.*', '^arm,.*', '^armadeus,.*', '^armsom,.*', '^arrow,.*', '^artesyn,.*', '^asahi-kasei,.*', '^asc,.*', '^asix,.*', '^aspeed,.*', '^asrock,.*', '^asteralabs,.*', '^asus,.*', '^atheros,.*', '^atlas,.*', '^atmel,.*', '^auo,.*', '^auvidea,.*', '^avago,.*', '^avia,.*', '^avic,.*', '^avnet,.*', '^awinic,.*', '^axentia,.*', '^axis,.*', '^azoteq,.*', '^azw,.*', '^baikal,.*', '^bananapi,.*', '^beacon,.*', '^beagle,.*', '^belling,.*', '^bhf,.*', '^bigtreetech,.*', '^bitmain,.*', '^blaize,.*', '^blutek,.*', '^boe,.*', '^bosch,.*', '^boundary,.*', '^brcm,.*', '^broadmobi,.*', '^bsh,.*', '^bticino,.*', '^buffalo,.*', '^bur,.*', '^bytedance,.*', '^calamp,.*', '^calao,.*', '^calaosystems,.*', '^calxeda,.*', '^cameo,.*', '^canaan,.*', '^caninos,.*', '^capella,.*', '^cascoda,.*', '^catalyst,.*', '^cavium,.*', '^cct,.*', '^cdns,.*', '^cdtech,.*', '^cellwise,.*', '^ceva,.*', '^chargebyte,.*', '^checkpoint,.*', '^chefree,.*', '^chipidea,.*', '^chipone,.*', '^chipspark,.*', '^chongzhou,.*', '^chrontel,.*', '^chrp,.*', '^chunghwa,.*', '^chuwi,.*', '^ciaa,.*', '^cirrus,.*', '^cisco,.*', '^clockwork,.*', '^cloos,.*', '^cloudengines,.*', '^cnm,.*', '^cnxt,.*', '^colorfly,.*', '^compulab,.*', '^comvetia,.*', '^congatec,.*', '^coolpi,.*', '^coreriver,.*', '^corpro,.*', '^cortina,.*', '^cosmic,.*', '^crane,.*', '^creative,.*', '^crystalfontz,.*', '^csky,.*', '^csq,.*', '^ctera,.*', '^ctu,.*', '^cubietech,.*', '^cudy,.*', '^cui,.*', '^cypress,.*', '^cyx,.*', '^cznic,.*', '^dallas,.*', '^dataimage,.*', '^davicom,.*', '^deepcomputing,.*', '^dell,.*', '^delta,.*', '^densitron,.*', '^denx,.*', '^devantech,.*', '^dfi,.*', '^dfrobot,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '^digilent,.*', '^dimonoff,.*', '^diodes,.*', '^dioo,.*', '^dlc,.*', '^dlg,.*', '^dlink,.*', '^dmo,.*', '^domintech,.*', '^dongwoon,.*', '^dptechnics,.*', '^dragino,.*', '^dream,.*', '^ds,.*', '^dserve,.*', '^dynaimage,.*', '^ea,.*', '^ebang,.*', '^ebbg,.*', '^ebs-systart,.*', '^ebv,.*', '^eckelmann,.*', '^edgeble,.*', '^edimax,.*', '^edt,.*', '^ees,.*', '^eeti,.*', '^einfochips,.*', '^eink,.*', '^elan,.*', '^element14,.*', '^elgin,.*', '^elida,.*', '^elimo,.*', '^elpida,.*', '^embedfire,.*', '^embest,.*', '^emcraft,.*', '^emlid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emtrion,.*', '^enclustra,.*', '^endless,.*', '^ene,.*', '^energymicro,.*', '^engicam,.*', '^engleder,.*', '^epcos,.*', '^epfl,.*', '^epson,.*', '^esp,.*', '^est,.*', '^ettus,.*', '^eukrea,.*', '^everest,.*', '^everspin,.*', '^evervision,.*', '^exar,.*', '^excito,.*', '^exegin,.*', '^ezchip,.*', '^facebook,.*', '^fairchild,.*', '^fairphone,.*', '^faraday,.*', '^fascontek,.*', '^fastrax,.*', '^fcs,.*', '^feixin,.*', '^feiyang,.*', '^fii,.*', '^firefly,.*', '^focaltech,.*', '^forlinx,.*', '^freebox,.*', '^freecom,.*', '^frida,.*', '^friendlyarm,.*', '^fsl,.*', '^fujitsu,.*', '^fxtec,.*', '^galaxycore,.*', '^gameforce,.*', '^gardena,.*', '^gateway,.*', '^gateworks,.*', '^gcw,.*', '^ge,.*', '^geekbuying,.*', '^gef,.*', '^gehc,.*', '^gemei,.*', '^gemtek,.*', '^genesys,.*', '^genexis,.*', '^geniatech,.*', '^giantec,.*', '^giantplus,.*', '^glinet,.*', '^globalscale,.*', '^globaltop,.*', '^gmt,.*', '^goldelico,.*', '^goodix,.*', '^google,.*', '^goramo,.*', '^gplus,.*', '^grinn,.*', '^grmn,.*', '^gumstix,.*', '^gw,.*', '^hannstar,.*', '^haochuangyi,.*', '^haoyu,.*', '^hardkernel,.*', '^hechuang,.*', '^hideep,.*', '^himax,.*', '^hirschmann,.*', '^hisi,.*', '^hisilicon,.*', '^hit,.*', '^hitex,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeywell,.*', '^hoperf,.*', '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*', '^htc,.*', '^huawei,.*', '^hugsun,.*', '^hwacom,.*', '^hxt,.*', '^hycon,.*', '^hydis,.*', '^hynitron,.*', '^hynix,.*', '^hyundai,.*', '^i2se,.*', '^ibm,.*', '^icplus,.*', '^idt,.*', '^iei,.*', '^ifi,.*', '^ilitek,.*', '^imagis,.*', '^img,.*', '^imi,.*', '^inanbo,.*', '^incircuit,.*', '^indiedroid,.*', '^inet-tek,.*', '^infineon,.*', '^inforce,.*', '^ingenic,.*', '^ingrasys,.*', '^injoinic,.*', '^innocomm,.*', '^innolux,.*', '^inside-secure,.*', '^insignal,.*', '^inspur,.*', '^intel,.*', '^intercontrol,.*', '^invensense,.*', '^inventec,.*', '^inversepath,.*', '^iom,.*', '^irondevice,.*', '^isee,.*', '^isil,.*', '^issi,.*', '^ite,.*', '^itead,.*', '^itian,.*', '^ivo,.*', '^iwave,.*', '^jadard,.*', '^jasonic,.*', '^jdi,.*', '^jedec,.*', '^jenson,.*', '^jesurun,.*', '^jethome,.*', '^jianda,.*', '^jide,.*', '^joz,.*', '^kam,.*', '^karo,.*', '^keithkoep,.*', '^keymile,.*', '^khadas,.*', '^kiebackpeter,.*', '^kinetic,.*', '^kingdisplay,.*', '^kingnovel,.*', '^kionix,.*', '^kobo,.*', '^kobol,.*', '^koe,.*', '^kontron,.*', '^kosagi,.*', '^kvg,.*', '^kyo,.*', '^lacie,.*', '^laird,.*', '^lamobo,.*', '^lantiq,.*', '^lattice,.*', '^lckfb,.*', '^lctech,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*', '^lenovo,.*', '^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*', '^linaro,.*', '^lincolntech,.*', '^lineartechnology,.*', '^linksprite,.*', '^linksys,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^liteon,.*', '^litex,.*', '^lltc,.*', '^logicpd,.*', '^logictechno,.*', '^longcheer,.*', '^lontium,.*', '^loongmasses,.*', '^loongson,.*', '^lsi,.*', '^lunzn,.*', '^luxul,.*', '^lwn,.*', '^lxa,.*', '^m5stack,.*', '^macnica,.*', '^mantix,.*', '^mapleboard,.*', '^marantec,.*', '^marvell,.*', '^maxbotix,.*', '^maxim,.*', '^maxlinear,.*', '^mbvl,.*', '^mcube,.*', '^meas,.*', '^mecer,.*', '^mediatek,.*', '^megachips,.*', '^mele,.*', '^melexis,.*', '^melfas,.*', '^mellanox,.*', '^memsensing,.*', '^memsic,.*', '^menlo,.*', '^mentor,.*', '^meraki,.*', '^merrii,.*', '^methode,.*', '^micrel,.*', '^microchip,.*', '^microcrystal,.*', '^micron,.*', '^microsoft,.*', '^microsys,.*', '^microtips,.*', '^mikroe,.*', '^mikrotik,.*', '^milkv,.*', '^miniand,.*', '^minix,.*', '^mips,.*', '^miramems,.*', '^mitsubishi,.*', '^mitsumi,.*', '^mixel,.*', '^miyoo,.*', '^mntre,.*', '^mobileye,.*', '^modtronix,.*', '^moortec,.*', '^mosaixtech,.*', '^motorcomm,.*', '^motorola,.*', '^moxa,.*', '^mpl,.*', '^mps,.*', '^mqmaker,.*', '^mrvl,.*', '^mscc,.*', '^msi,.*', '^mstar,.*', '^mti,.*', '^multi-inno,.*', '^mundoreader,.*', '^murata,.*', '^mxic,.*', '^mxicy,.*', '^myir,.*', '^national,.*', '^neardi,.*', '^nec,.*', '^neofidelity,.*', '^neonode,.*', '^netgear,.*', '^netlogic,.*', '^netron-dy,.*', '^netronix,.*', '^netxeon,.*', '^neweast,.*', '^newhaven,.*', '^newvision,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^nintendo,.*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^nothing,.*', '^novatek,.*', '^novtech,.*', '^numonyx,.*', '^nutsboard,.*', '^nuvoton,.*', '^nvd,.*', '^nvidia,.*', '^nxp,.*', '^oceanic,.*', '^ocs,.*', '^oct,.*', '^okaya,.*', '^oki,.*', '^olimex,.*', '^olpc,.*', '^oneplus,.*', '^onie,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^opalkelly,.*', '^openailab,.*', '^opencores,.*', '^openembed,.*', '^openpandora,.*', '^openrisc,.*', '^openwrt,.*', '^option,.*', '^oranth,.*', '^orisetech,.*', '^ortustech,.*', '^osddisplays,.*', '^osmc,.*', '^ouya,.*', '^overkiz,.*', '^ovti,.*', '^oxsemi,.*', '^ozzmaker,.*', '^panasonic,.*', '^parade,.*', '^parallax,.*', '^pda,.*', '^pericom,.*', '^pervasive,.*', '^phicomm,.*', '^phytec,.*', '^picochip,.*', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '^plantower,.*', '^plathome,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pni,.*', '^pocketbook,.*', '^polaroid,.*', '^polyhex,.*', '^portwell,.*', '^poslab,.*', '^pov,.*', '^powertip,.*', '^powervr,.*', '^powkiddy,.*', '^primeview,.*', '^primux,.*', '^probox2,.*', '^prt,.*', '^pulsedlight,.*', '^purism,.*', '^puya,.*', '^qca,.*', '^qcom,.*', '^qemu,.*', '^qi,.*', '^qiaodian,.*', '^qihua,.*', '^qishenglong,.*', '^qnap,.*', '^quanta,.*', '^radxa,.*', '^raidsonic,.*', '^ralink,.*', '^ramtron,.*', '^raspberrypi,.*', '^raydium,.*', '^rda,.*', '^realtek,.*', '^relfor,.*', '^remarkable,.*', '^renesas,.*', '^rervision,.*', '^revotics,.*', '^rex,.*', '^richtek,.*', '^ricoh,.*', '^rikomagic,.*', '^riot,.*', '^riscv,.*', '^rockchip,.*', '^rocktech,.*', '^rohm,.*', '^ronbo,.*', '^roofull,.*', '^roseapplepi,.*', '^rve,.*', '^saef,.*', '^samsung,.*', '^samtec,.*', '^sancloud,.*', '^sandisk,.*', '^satoz,.*', '^sbs,.*', '^schindler,.*', '^schneider,.*', '^sciosense,.*', '^seagate,.*', '^seeed,.*', '^seirobotics,.*', '^semtech,.*', '^senseair,.*', '^sensirion,.*', '^sensortek,.*', '^sercomm,.*', '^sff,.*', '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^sharp,.*', '^shift,.*', '^shimafuji,.*', '^shineworld,.*', '^shiratech,.*', '^si-en,.*', '^si-linux,.*', '^siemens,.*', '^sifive,.*', '^siflower,.*', '^sigma,.*', '^sii,.*', '^sil,.*', '^silabs,.*', '^silan,.*', '^silead,.*', '^silergy,.*', '^silex-insight,.*', '^siliconfile,.*', '^siliconmitus,.*', '^silvaco,.*', '^simtek,.*', '^sinlinx,.*', '^sinovoip,.*', '^sinowealth,.*', '^sipeed,.*', '^sirf,.*', '^sis,.*', '^sitronix,.*', '^skov,.*', '^skyworks,.*', '^smartlabs,.*', '^smartrg,.*', '^smi,.*', '^smsc,.*', '^snps,.*', '^sochip,.*', '^socionext,.*', '^solidrun,.*', '^solomon,.*', '^sony,.*', '^sophgo,.*', '^sourceparts,.*', '^spacemit,.*', '^spansion,.*', '^sparkfun,.*', '^spinalhdl,.*', '^sprd,.*', '^square,.*', '^ssi,.*', '^sst,.*', '^sstar,.*', '^st,.*', '^st-ericsson,.*', '^starfive,.*', '^starry,.*', '^startek,.*', '^starterkit,.*', '^ste,.*', '^stericsson,.*', '^storlink,.*', '^storm,.*', '^storopack,.*', '^summit,.*', '^sunchip,.*', '^sundance,.*', '^sunplus,.*', '^supermicro,.*', '^swir,.*', '^syna,.*', '^synology,.*', '^synopsys,.*', '^tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*', '^tcs,.*', '^tdo,.*', '^team-source-display,.*', '^technexion,.*', '^technologic,.*', '^techstar,.*', '^techwell,.*', '^teejet,.*', '^teltonika,.*', '^tempo,.*', '^terasic,.*', '^tesla,.*', '^test,.*', '^tfc,.*', '^thead,.*', '^thine,.*', '^thingyjp,.*', '^thundercomm,.*', '^thwc,.*', '^ti,.*', '^tianma,.*', '^tlm,.*', '^tmt,.*', '^topeet,.*', '^topic,.*', '^topland,.*', '^toppoly,.*', '^topwise,.*', '^toradex,.*', '^toshiba,.*', '^toumaz,.*', '^tpk,.*', '^tplink,.*', '^tpo,.*', '^tq,.*', '^transpeed,.*', '^traverse,.*', '^tronfy,.*', '^tronsmart,.*', '^truly,.*', '^tsd,.*', '^turing,.*', '^tyan,.*', '^tyhx,.*', '^u-blox,.*', '^u-boot,.*', '^ubnt,.*', '^ucrobotics,.*', '^udoo,.*', '^ufispace,.*', '^ugoos,.*', '^uni-t,.*', '^uniwest,.*', '^upisemi,.*', '^urt,.*', '^usi,.*', '^usr,.*', '^utoo,.*', '^v3,.*', '^vaisala,.*', '^vamrs,.*', '^variscite,.*', '^vdl,.*', '^vertexcom,.*', '^via,.*', '^vialab,.*', '^vicor,.*', '^videostrong,.*', '^virtio,.*', '^virtual,.*', '^vishay,.*', '^visionox,.*', '^vitesse,.*', '^vivante,.*', '^vivax,.*', '^vocore,.*', '^voipac,.*', '^voltafield,.*', '^vot,.*', '^vscom,.*', '^vxt,.*', '^wacom,.*', '^wanchanglong,.*', '^wand,.*', '^waveshare,.*', '^wd,.*', '^we,.*', '^welltech,.*', '^wetek,.*', '^wexler,.*', '^whwave,.*', '^wi2wi,.*', '^widora,.*', '^wiligear,.*', '^willsemi,.*', '^winbond,.*', '^wingtech,.*', '^winlink,.*', '^winstar,.*', '^wirelesstag,.*', '^wits,.*', '^wlf,.*', '^wm,.*', '^wobo,.*', '^wolfvision,.*', '^x-powers,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', '^xillybus,.*', '^xingbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*', '^xnano,.*', '^xunlong,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-optoelectronics,.*', '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones-toptech,.*', '^ys,.*', '^ysoft,.*', '^zarlink,.*', '^zealz,.*', '^zeitec,.*', '^zidoo,.*', '^zii,.*', '^zinitix,.*', '^zkmagic,.*', '^zte,.*', '^zyxel,.*', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/vendor-prefixes.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250227162823.3585810-8-david@protonic.nl
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+So you would've liked more the "two-bit per gfn" approach as in: provide 
+2 interception points, for sync and async exits, with the former chosen 
+by userspace when it "knows" that the content is already in memory? 
+What makes it a conundrum then?  It looks like an incremental change to 
+what has already been proposed.  There is a complication that 2-bit 
+operations aren't atomic, but even 1 bit is racy between KVM and userspace.
