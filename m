@@ -1,179 +1,101 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC0C1F94A;
-	Thu, 27 Feb 2025 01:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E6DE545;
+	Thu, 27 Feb 2025 01:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740621164; cv=none; b=BHcFUiJ7qo9ACuuF6cMNsgQCp4z0pqd+cQ1++X6qlIfcROwQ4YKN54VkTgFu6sp/s6Zv5xtklBisbSdBE6UkqpWis4w5o0+mQ701FEWv0TyQpzNSHPUex5rVjB8jogm5XhKlcVBOzQwlctQinETUTzBa0tJAzECFpBGu2vEGT3w=
+	t=1740621481; cv=none; b=aXXZYS1XHeEGlVJum2+nUQXtY1sd06CzmoYGR3W7B3pbn1MMq72g3Br/49u1HN6cRW7oMV492YchwxcxdlKed99GXXZW90N2TxD73czxs6KPb9MYfJPpUAFpzmywB9klcxFTIaCgQplcMlgG2WpzcavTBm/3Rb5jbUiFnQMclw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740621164; c=relaxed/simple;
-	bh=YjKKT691QN0DPGRmJjP9TtTEtKQK38mNUGvDi7DJwQo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JABDbWDHgVdHYZqAPFDiakf4z2ZG0HOnWMzlu0nkNzPhmbgEdvqnQFKQRCVm+FrION8Ishg2OmztiNsbotO1gFgiYi9o9uUr07mO3llINkLU29WI7eN7aTm+YCMN9ut9UvDTOGL16SeCMavgJhS+5vG73lDdCE3rP76zfzZfXQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UuEyTT0v; arc=none smtp.client-ip=209.85.161.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740621481; c=relaxed/simple;
+	bh=hgqh7MqdmJvWtdbx5/3KdrWV/dWlcpuONqHSz/QzEfo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FAVsZz9UnkQnOZftzAYWNXfYUj3LZ2wofSuMFAN3kmL5vrIbFWCsC5EyVFnQRRlQSTLlXZQor3/pOrNDw7PpJcdyzHDuCIafwsq0pF6EGAv+K9fBlsw+NXGT1F20+qBpEat9KaESgjIFU+wXXzOUcTL4c3lpaQlMvluc4Rpnnsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fOWpGXfk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UuEyTT0v"
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5fcd665af4eso121891eaf.2;
-        Wed, 26 Feb 2025 17:52:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740621162; x=1741225962; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ixz4rke/Pu4MIs/yXHWsa0RBvJ804N4RrG8GmiSG7vE=;
-        b=UuEyTT0v8+Mk09j7UCoiPg5J7oJZrIxYJBTDJ5bM9YpyUAbE2Z/uxXhyx1QNd4Bh8I
-         1X/TpEoUnVQxohtkUA5uMRqDWLFqAcUoTQ7eIH4j8fNFabOVU44wI7X2rv5rICxYRC00
-         joRH9zLGRX76/d2ybBQJtkUcoZnbJdu6zMA8LjEY2m1E+qWNbFmeYIi9v/9tfdttgg5u
-         /QZa/AdPqmbjThk4xRaq8n4V7+MkLA5S5Z/Q9iarnIayupwENeZ06/f52ZecS8PwTgbp
-         nszg3LVVTqzbS3xDDt6GEyq577mv0sS6vSYlyjZn0qxeBk32k1NAsEUhjFumGTvC6Sf9
-         6otg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740621162; x=1741225962;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ixz4rke/Pu4MIs/yXHWsa0RBvJ804N4RrG8GmiSG7vE=;
-        b=YEGC4G0+y8s4FnRJX1iaTNRUjcG03aX8LqcukaPcYqAF4cA/BZ1pT5HpU8wbil0iR4
-         1dl4j8rKjOo78t0peFmWE7/f3EkXnxQMzymEy+id5V+6DwMu/HKdpX5GZihF939+Les4
-         udkt3F8ZB0+tgx3GTsDewFXoX67+DAD9NI7f87yvUWO9kANGbpPd5N4mtnH6MsxOnHfN
-         raNcU7e9Ywv8hS/03rTTz89yPWJIXhH2i6EyMNB+XpygvlRzJMZqLxYtCqHyBJvnWyg8
-         fa4+bCKPNIB/+VAVS6/NNMu9SxdPCrFwwZIlNHR5sTk8H/BKTLvSC62JLI1l97Yr6yxm
-         PqPg==
-X-Forwarded-Encrypted: i=1; AJvYcCVKqmr9pocXnstzQAgn3j0y0f6QcEq4hgliW/MqjcUyJczBKEff+Jo9HwiRm+gLA2Ah6BUKQrx8yLRJUL0=@vger.kernel.org, AJvYcCWdqYBNidbeObLlE0EpvKkGbAxKPww89z4wnpJH0fUVAXI/GkX0z7mtGm1qBiMyuUZPkvCkJtwaXpc=@vger.kernel.org, AJvYcCXYoBLS3/YVTu8iWlB4KEgJhc3XeHSBtJPEiqGBAeS0akuAGqoHyTtG6ISU0Va535qpTJzgHd9AXzlIzzSW@vger.kernel.org
-X-Gm-Message-State: AOJu0YyR6UvJFsTs0TQb2Vbul9nSm4NRzrA8bhI/v8Z3dau6gmzKO/IX
-	WR+YLwtOZ7c7qklKwpwxoUhDyVIKCzB8wZmZdqfXwgMPs/Ijnu2GYOeYksbPCLdBe/EG3TS9yTI
-	DLo8sMKbZvGvFaLGMJLGzJ3vAjrSHB/fpABM=
-X-Gm-Gg: ASbGnctbRN8fc8w9F2Nr0PWj9NPgeDK3oh6at4rBu9YSI/yYhSL5wfrHq4zk+GPCgTL
-	j/bAG0bpudEHrMdu3OaxPj8r/TayBwjIK5AiDJ+GJF/JR14cohIc9dCSREPamei4W1MmtDfEJy7
-	F36YdzKpozQAWhcxuFmPEnsbtgA876GOIKoi8KRUk=
-X-Google-Smtp-Source: AGHT+IGqnXgTmRNVtKjZ/iy4Us2fHmhfpIjxOOKmUbGHr3+Ih8p+w6kJGd3DiiswHNSoSt374klMkalELnpHhT8BfD0=
-X-Received: by 2002:a05:6808:1513:b0:3f3:f90b:f1b3 with SMTP id
- 5614622812f47-3f425a658admr16487647b6e.5.1740621162105; Wed, 26 Feb 2025
- 17:52:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fOWpGXfk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D83F4C4CEE8;
+	Thu, 27 Feb 2025 01:58:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740621481;
+	bh=hgqh7MqdmJvWtdbx5/3KdrWV/dWlcpuONqHSz/QzEfo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fOWpGXfkoLZyZD7fvCkVwTdLF4AyoJjQstCIhsp2akHnGStTiIW8ZSXL2L03VJpmr
+	 hl19ZU0jWtzk83/hQww3kfrjin3xxI0jvLLbyoPU3xFrBdlfvcZ8CjkurZRxiCbd3i
+	 2I0dwPkndla3FJzgMxf32FoldIj1yNK7JTHvwilHBKC4/iKJC5tsy0Vjtdp9rL77CW
+	 Zi8kh4Dy+6AiqjyVhdAS+zqBq1+63Sc/gXKgD7wXzLN+gyLCsE+Jr42Q/ALlzo/e9R
+	 Gh2hWni6iJNuHUFHa70MKqTkqzIVWBgGcF4LBxpsD0YwCHjNnpIsAPir8c5NWtpOz3
+	 P2lbgO+MS/5xA==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v2 0/9] mm/damon: make allow filters after reject filters useful and intuitive
+Date: Wed, 26 Feb 2025 17:57:45 -0800
+Message-Id: <20250227015754.38789-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com> <20250225-memory-drm-misc-next-v1-6-9d0e8761107a@redhat.com>
-In-Reply-To: <20250225-memory-drm-misc-next-v1-6-9d0e8761107a@redhat.com>
-From: Chunyan Zhang <zhang.lyra@gmail.com>
-Date: Thu, 27 Feb 2025 09:52:06 +0800
-X-Gm-Features: AQ5f1Jo4V-x_aMe6cNu_t6bm5DyuMpmkfFoBZmOQ95iqLbLXuNwjk8JtAQUipWI
-Message-ID: <CAAfSe-vGC2bA10yNRjSkLo3Y=2K8HJvssuM8qLeB=57vQk1eZg@mail.gmail.com>
-Subject: Re: [PATCH RESEND 06/12] drm/sprd: move to devm_platform_ioremap_resource()
- usage
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Joel Stanley <joel@jms.id.au>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>, 
-	Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>, 
-	Tian Tao <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
-	John Stultz <jstultz@google.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Marek Vasut <marex@denx.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, 
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
-	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	=?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 26 Feb 2025 at 06:22, Anusha Srivatsa <asrivats@redhat.com> wrote:
->
-> Replace platform_get_resource + devm_ioremap
-> with just devm_platform_ioremap_resource()
->
-> Used Coccinelle to do this change. SmPl patch:
-> @rule_2@
-> identifier res;
-> expression ioremap;
-> identifier pdev;
-> @@
-> -struct resource *res;
-> ...
-> -res = platform_get_resource(pdev,...);
-> <...
-> -if (!res) {
-> -...
-> -}
-> ...>
-> -ioremap = devm_ioremap(...);
-> +ioremap = devm_platform_ioremap_resource(pdev,0);
->
-> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+DAMOS filters do allow or reject elements of memory for given DAMOS
+scheme only if those match the filter criterias.  For elements that
+don't match any DAMOS filter, 'allowing' is the default behavior.  This
+makes allow-filters that don't have any reject-filter after them
+meaningless sources of overhead.  The decision was made to keep the
+behavior consistent with that before the introduction of allow-filters.
+This, however, makes usage of DAMOS filters confusing and inefficient.
+There is an apparently more intuitive behavior for the case.  If there
+is no filter at all or the last filter is a reject filter, allowing by
+default.
 
-Reviewed-by: Chunyan Zhang <zhang.lyra@gmail.com>
+Update the filtering logic to work in the way.  Decide the default
+behavior as the opposite of the last isntalled filter.  If it is an
+allow filter, reject by default.  If it is a reject filter or no filter
+is installed at all, allow by default.
 
-> ---
->  drivers/gpu/drm/sprd/sprd_dpu.c | 9 +--------
->  drivers/gpu/drm/sprd/sprd_dsi.c | 9 +--------
->  2 files changed, 2 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
-> index cb2816985305fd19eac27413c214681a5a1e9ffa..65cd5aa1634eee5a6735ccffa4ee3979844d92ce 100644
-> --- a/drivers/gpu/drm/sprd/sprd_dpu.c
-> +++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-> @@ -784,16 +784,9 @@ static int sprd_dpu_context_init(struct sprd_dpu *dpu,
->  {
->         struct platform_device *pdev = to_platform_device(dev);
->         struct dpu_context *ctx = &dpu->ctx;
-> -       struct resource *res;
->         int ret;
->
-> -       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       if (!res) {
-> -               dev_err(dev, "failed to get I/O resource\n");
-> -               return -EINVAL;
-> -       }
-> -
-> -       ctx->base = devm_ioremap(dev, res->start, resource_size(res));
-> +       ctx->base = devm_platform_ioremap_resource(pdev, 0);
->         if (!ctx->base) {
->                 dev_err(dev, "failed to map dpu registers\n");
->                 return -EFAULT;
-> diff --git a/drivers/gpu/drm/sprd/sprd_dsi.c b/drivers/gpu/drm/sprd/sprd_dsi.c
-> index 8fc26479bb6bce0aa94914f49d0986a7e19326c1..1668bb4166ab0ad3812c5654244544a9caf249a6 100644
-> --- a/drivers/gpu/drm/sprd/sprd_dsi.c
-> +++ b/drivers/gpu/drm/sprd/sprd_dsi.c
-> @@ -901,15 +901,8 @@ static int sprd_dsi_context_init(struct sprd_dsi *dsi,
->  {
->         struct platform_device *pdev = to_platform_device(dev);
->         struct dsi_context *ctx = &dsi->ctx;
-> -       struct resource *res;
->
-> -       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       if (!res) {
-> -               dev_err(dev, "failed to get I/O resource\n");
-> -               return -EINVAL;
-> -       }
-> -
-> -       ctx->base = devm_ioremap(dev, res->start, resource_size(res));
-> +       ctx->base = devm_platform_ioremap_resource(pdev, 0);
->         if (!ctx->base) {
->                 drm_err(dsi->drm, "failed to map dsi host registers\n");
->                 return -ENXIO;
->
-> --
-> 2.48.1
->
+Note that this is changing the old behavior.  But the old behavior for
+the problematic filter combination was definitely confusing, inefficient
+and anyway useless.  Also, the behavior has relatively recently
+introduced.  It is difficult to anticipate any user that depends on the
+behavior.  Hence this is not a user-breaking behavior change but an
+obvious improvement.
+
+Changes from RFC v1
+(https://lore.kernel.org/20250220193509.36379-1-sj@kernel.org)
+- Set default behavior on core layer filtering stage as allow if any ops
+  layer filter exists.
+- Wordsmith commit messages
+- Rebase on latest mm-unstable
+
+SeongJae Park (9):
+  mm/damon/core: introduce damos->ops_filters
+  mm/damon/paddr: support ops_filters
+  mm/damon/core: support committing ops_filters
+  mm/damon/core: put ops-handled filters to damos->ops_filters
+  mm/damon/paddr: support only damos->ops_filters
+  mm/damon: add default allow/reject behavior fields to struct damos
+  mm/damon/core: set damos_filter default allowance behavior based on
+    installed filters
+  mm/damon/paddr: respect ops_filters_default_reject
+  Docs/mm/damon/design: update for changed filter-default behavior
+
+ Documentation/mm/damon/design.rst | 10 ++--
+ include/linux/damon.h             | 11 ++++
+ mm/damon/core.c                   | 90 +++++++++++++++++++++++++++++--
+ mm/damon/paddr.c                  |  8 +--
+ 4 files changed, 105 insertions(+), 14 deletions(-)
+
+
+base-commit: d5c41979a39f18ccd660b25eb79e805eb5442e18
+-- 
+2.39.5
