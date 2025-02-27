@@ -1,234 +1,292 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0F2276D23;
-	Thu, 27 Feb 2025 23:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE5D276D23;
+	Thu, 27 Feb 2025 23:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740699306; cv=none; b=B4OGldiRbSGunqNCYI5DezEiffPPDOj0kuu6aAPnjENBWazc+nfzcKrRHjVSffL1mNsyRqLf4mG8mPV9PzR7igixb3qKhBm16pSEMXUpxfJo5+f53kFRtrw8sVOrVQ7+szZfi5aMkQ+mFE0p7oRKHbO8NQDqjRxetULhKzOs+oY=
+	t=1740699699; cv=none; b=boH3IrsMC6OjrVQlTUxAv+xM2TyQ/Gk8nY3k7KMaHBi1WvCh4j+gQqxtFUaRXUYk/EG12Rtpc6hL04TFgNQP0BHAgc5EhbHuNkpe4k+Eb70/fWWmbtsZ5AguGbO0H+wrmT2LseOCsr4/SGw533y2k5Q8CpPvz3Lu85MAeIzEy7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740699306; c=relaxed/simple;
-	bh=bkqOxOWQQQCLGRepn5os0rxwFT8Ja2Tsk0+nPgxMF3k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MasEG80N0P8W1UGez0uTclmyq7LL0eeVp/iMbOnOPAJh3YaZDUFLkIt61w7H51ULfwFsYdAQCEh92lVP9gzBzTwwmMShumaatpMN/e3YGWQAgHGUF0z7efGdcRe6ISaTQUrBh5hegrlwG4rs5EmVuT+KwuF5soBXqa6Q6+giyZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OVxnFCrQ; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740699699; c=relaxed/simple;
+	bh=1tU3+ozNm3RX5VFE1YDJZ+W2QGdJ4V27XWteIDBhW7o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mYmCcx3u52uqq1ioMzjnfbVy+zUwnTSsxoBXJhIKXgnZLJrqzRLEe7R41MDrw1olXIVjDlOeBimSPxiG2vmBu+J649hGO1/qUoqdptoYRowqAoNRs85KFGcpj0Y+kU5aMVI+7ESJxzXotxCadE6G/joJl7e8+w03iNaB6N7CjN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TArWM/v3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OVxnFCrQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740699303; x=1772235303;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bkqOxOWQQQCLGRepn5os0rxwFT8Ja2Tsk0+nPgxMF3k=;
-  b=OVxnFCrQi5VuGZdkGCfVWiXvhNtab/f9aoizkV3migDpg+6W80C9cFEv
-   lIfmPizXCSxhfRlxZrvX84Xv2pOTipP3jA1wulhrNeKnqVtfMslQW3ipN
-   bgTXnDNljGwv37G8vp+WrsZmePuE43jor5cgnQZmchmmZGFvxluf5v+5C
-   RZTB+5IkQsGa+LHsJNeXIaMTHjdd7W6HMJildbJJTYxP9X6HmubTe4vps
-   PuyN+FsT7d6pKibyaHwfRsryl3C9Jq+wQ/Udfeog3H0KSUL2rHaeW4Qq/
-   8GssrL8dYb/CFdhXHSuH6/cWuKZT/C4CZosJta4ULDVaayNzjM/asXZe0
-   w==;
-X-CSE-ConnectionGUID: tTGGOBKcRpKm59+wFWRXTA==
-X-CSE-MsgGUID: /VBeWWvOQRGxbl0+8YKmew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41317907"
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="41317907"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 15:35:02 -0800
-X-CSE-ConnectionGUID: LZ4CqSA+TDGa2Oiwl5QCwQ==
-X-CSE-MsgGUID: 2bABavt/QpyPKQ46ixT8Eg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="117356118"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Feb 2025 15:34:59 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnnP6-000EB8-1f;
-	Thu, 27 Feb 2025 23:34:56 +0000
-Date: Fri, 28 Feb 2025 07:34:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alisa-Dariana Roman <alisadariana@gmail.com>,
-	Alisa-Dariana Roman <alisa.roman@analog.com>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
-	David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v5 2/3] iio: adc: ad7191: add AD7191
-Message-ID: <202502280702.31rbuGw8-lkp@intel.com>
-References: <20250226115451.249361-3-alisa.roman@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TArWM/v3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34DDBC4CEE4;
+	Thu, 27 Feb 2025 23:41:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740699699;
+	bh=1tU3+ozNm3RX5VFE1YDJZ+W2QGdJ4V27XWteIDBhW7o=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=TArWM/v3Pf/blJdR0NTf+xz1pAKb/H4mbhsPRg30GAfLq3Vnj/s3O0KQ/BBm+OK8a
+	 Kx9u0/J4hlD6MoZwu7c595U4kswy8eayuNoWGhQXIc4pRM9lIJOzYa+8c7mZ1MWjAt
+	 JIq7gRZ1B3bi39cvQ40QZuXRKQmsyxDc+o4J7+jwUj5KAZRse4PGC3aJESH5LQHQ31
+	 nBwbTBTRQ9Sl/LGti7dkGv9hXAHpTbYz0u6Q91Hq+8ps1RzFdbWimx3k8eihVHakD5
+	 YVbhn4I9aGthGKmPf4MhQaCfIIq4iBhyJjGYZoSNoRDIUE51VcEY9UWconF02RtNOn
+	 XlWr6yEI6KeTw==
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6f88509dad2so15220997b3.3;
+        Thu, 27 Feb 2025 15:41:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUi/IRK64LskCGKNRbvgI4VnpuY/s74etwHFbeQKGahfxDJS/5c5hnlwzHkSzj89Gs2Y3DOQnhvxubdkBEK@vger.kernel.org, AJvYcCVkkvnBGYEuITSsz8Dr/Fd1X/vY8CyN2gnwsFcUsbYtzYPbxNjrd7sh6zCtGrUHWwaXSYWRTw==@vger.kernel.org, AJvYcCW9UFWvuf4Csde2ZKE/UREjwMW657b0GJKMDuGPbuVKFGsXDzp6TJAT+ugRffHFzaP+j8Ig7xClvNoQvejG+pD9TjbNlKep@vger.kernel.org, AJvYcCWTUZYekdNJtHdUd8Zxz8XFAQN/aFOyp4t2IUOTp/NqHYYHKG5dykKNZQQAlgV4izUgbWPkvkKLAi24@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdX9ngZCibW7DsB86MBXB8ZWDgv/+CbJQbY4EuROjlDGos45Ti
+	VUxGcsysaYBAeS/l2rAfYrix1g5Lq5jmhwH/NQAhbwBayYAaXokiT7f+ToZfnp5FsQn3OZkkk/C
+	Ym6h4PFcwpgHCy+a+ZVPvEauGFzg=
+X-Google-Smtp-Source: AGHT+IGtxSEgYIBq4gfvypTDq1mQ6f9IWC8rh1ZC5QmPUpe8DTHZIh0DiGqiSCJdarqXBnLu1IxgJ6NYxSfIJNtsqpU=
+X-Received: by 2002:a05:690c:9989:b0:6ef:5013:bfd9 with SMTP id
+ 00721157ae682-6fd4a04b3demr18394197b3.10.1740699698422; Thu, 27 Feb 2025
+ 15:41:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226115451.249361-3-alisa.roman@analog.com>
+References: <CAKtyLkFg2+8ciy4DM=g+vcTVvuRPNL2SHbN+m9ObErxtYXZYPw@mail.gmail.com>
+ <1740696377-3986-1-git-send-email-jasjivsingh@linux.microsoft.com>
+In-Reply-To: <1740696377-3986-1-git-send-email-jasjivsingh@linux.microsoft.com>
+From: Fan Wu <wufan@kernel.org>
+Date: Thu, 27 Feb 2025 15:41:26 -0800
+X-Gmail-Original-Message-ID: <CAKtyLkFyqFCcqUi7TPn9niUwYcHwv8nVq-joKc8kd8tFg58p-Q@mail.gmail.com>
+X-Gm-Features: AQ5f1Jpyw71LHr7qE8c6RnzWmXjrG76Ce4qwZD2HcZmcYYWARRgof66mCoQDUHQ
+Message-ID: <CAKtyLkFyqFCcqUi7TPn9niUwYcHwv8nVq-joKc8kd8tFg58p-Q@mail.gmail.com>
+Subject: Re: [PATCH v2] ipe: add errno field to IPE policy load auditing
+To: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
+Cc: wufan@kernel.org, audit@vger.kernel.org, corbet@lwn.net, eparis@redhat.com, 
+	jmorris@namei.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, paul@paul-moore.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alisa-Dariana,
+On Thu, Feb 27, 2025 at 2:46=E2=80=AFPM Jasjiv Singh
+<jasjivsingh@linux.microsoft.com> wrote:
+>
+> Thanks for reviewing it. Here's the example generated from real logs:
+>
+> AUDIT_IPE_POLICY_LOAD(1422):
+> audit:  AUDIT1422 policy_name=3D"Test_Policy" policy_version=3D0.0.1
+> policy_digest =3Dsha256:84EFBA8FA71E62AE0A537FAB962F8A2BD1053964C4
+> 299DCA92BFFF4DB82E86D3 auid=3D1000 ses=3D3 lsm=3Dipe res=3D1 errno=3D0
+>
+> The above record shows a new policy has been successfully loaded into
+> the kernel with the policy name, version, and hash with the errno=3D0.
+>
+> AUDIT_IPE_POLICY_LOAD(1422) with error:
+>
+> audit: AUDIT1422 policy_name=3D? policy_version=3D? policy_digest=3D?
+> auid=3D1000 ses=3D3 lsm=3Dipe res=3D0 errno=3D-74
+>
+> The above record shows a policy load failure due to an invalid policy.
+>
+> I have updated the failure cases in new_policy() and update_policy(),
+> which covers each case as well.
+>
+> Signed-off-by: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
 
-kernel test robot noticed the following build warnings:
+Please merge the old and new changes into one single patch. Also the
+commit message is supposed to be used to describe the code change.
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.14-rc4 next-20250227]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> ---
+>  Documentation/admin-guide/LSM/ipe.rst |  2 ++
+>  security/ipe/audit.c                  | 10 ++++------
+>  security/ipe/fs.c                     | 17 ++++++++++++-----
+>  security/ipe/policy.c                 |  4 +---
+>  security/ipe/policy_fs.c              | 24 +++++++++++++++++++-----
+>  5 files changed, 38 insertions(+), 19 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-=
+guide/LSM/ipe.rst
+> index 2143165f48c9..5dbf54471fab 100644
+> --- a/Documentation/admin-guide/LSM/ipe.rst
+> +++ b/Documentation/admin-guide/LSM/ipe.rst
+> @@ -453,6 +453,8 @@ Field descriptions:
+>  | errno          | integer    | No        | The result of the policy err=
+or as follows:        |
+>  |                |            |           |                             =
+                      |
+>  |                |            |           | +  0: no error              =
+                      |
+> +|                |            |           | +  -EPERM: Insufficient perm=
+ission                |
+> +|                |            |           | +  -EEXIST: Same name policy=
+ already deployed     |
+>  |                |            |           | +  -EBADMSG: policy is inval=
+id                    |
+>  |                |            |           | +  -ENOMEM: out of memory (O=
+OM)                   |
+>  |                |            |           | +  -ERANGE: policy version n=
+umber overflow        |
+> diff --git a/security/ipe/audit.c b/security/ipe/audit.c
+> index f810f7004498..8df307bb2bab 100644
+> --- a/security/ipe/audit.c
+> +++ b/security/ipe/audit.c
+> @@ -21,7 +21,7 @@
+>
+>  #define AUDIT_POLICY_LOAD_FMT "policy_name=3D\"%s\" policy_version=3D%hu=
+.%hu.%hu "\
+>                               "policy_digest=3D" IPE_AUDIT_HASH_ALG ":"
+> -#define AUDIT_POLICY_LOAD_NULL_FMT "policy_name=3D? policy_version=3D? "=
+\
+> +#define AUDIT_POLICY_LOAD_FAIL_FMT "policy_name=3D? policy_version=3D? "=
+\
+>                                    "policy_digest=3D?"
+>  #define AUDIT_OLD_ACTIVE_POLICY_FMT "old_active_pol_name=3D\"%s\" "\
+>                                     "old_active_pol_version=3D%hu.%hu.%hu=
+ "\
+> @@ -255,9 +255,8 @@ void ipe_audit_policy_activation(const struct ipe_pol=
+icy *const op,
+>   */
+>  void ipe_audit_policy_load(const struct ipe_policy *const p)
+>  {
+> -       int res =3D 0;
+> -       int err =3D 0;
+>         struct audit_buffer *ab;
+> +       int err =3D 0;
+>
+>         ab =3D audit_log_start(audit_context(), GFP_KERNEL,
+>                              AUDIT_IPE_POLICY_LOAD);
+> @@ -266,15 +265,14 @@ void ipe_audit_policy_load(const struct ipe_policy =
+*const p)
+>
+>         if (!IS_ERR(p)) {
+>                 audit_policy(ab, AUDIT_POLICY_LOAD_FMT, p);
+> -               res =3D 1;
+>         } else {
+> -               audit_log_format(ab, AUDIT_POLICY_LOAD_NULL_FMT);
+> +               audit_log_format(ab, AUDIT_POLICY_LOAD_FAIL_FMT);
+>                 err =3D PTR_ERR(p);
+>         }
+>
+>         audit_log_format(ab, " auid=3D%u ses=3D%u lsm=3Dipe res=3D%d errn=
+o=3D%d",
+>                          from_kuid(&init_user_ns, audit_get_loginuid(curr=
+ent)),
+> -                        audit_get_sessionid(current), res, err);
+> +                        audit_get_sessionid(current), !err, err);
+>
+>         audit_log_end(ab);
+>  }
+> diff --git a/security/ipe/fs.c b/security/ipe/fs.c
+> index 5b6d19fb844a..40805b13ee2c 100644
+> --- a/security/ipe/fs.c
+> +++ b/security/ipe/fs.c
+> @@ -141,12 +141,16 @@ static ssize_t new_policy(struct file *f, const cha=
+r __user *data,
+>         char *copy =3D NULL;
+>         int rc =3D 0;
+>
+> -       if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
+> -               return -EPERM;
+> +       if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN)) {
+> +               rc =3D -EPERM;
+> +               goto out;
+> +       }
+>
+>         copy =3D memdup_user_nul(data, len);
+> -       if (IS_ERR(copy))
+> -               return PTR_ERR(copy);
+> +       if (IS_ERR(copy)) {
+> +               rc =3D PTR_ERR(copy);
+> +               goto out;
+> +       }
+>
+>         p =3D ipe_new_policy(NULL, 0, copy, len);
+>         if (IS_ERR(p)) {
+> @@ -161,8 +165,11 @@ static ssize_t new_policy(struct file *f, const char=
+ __user *data,
+>         ipe_audit_policy_load(p);
+>
+>  out:
+> -       if (rc < 0)
+> +       if (rc < 0) {
+>                 ipe_free_policy(p);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alisa-Dariana-Roman/dt-bindings-iio-adc-add-AD7191/20250226-195853
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250226115451.249361-3-alisa.roman%40analog.com
-patch subject: [PATCH v5 2/3] iio: adc: ad7191: add AD7191
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250228/202502280702.31rbuGw8-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280702.31rbuGw8-lkp@intel.com/reproduce)
+> +               p =3D ERR_PTR(rc);
+> +               ipe_audit_policy_load(p);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502280702.31rbuGw8-lkp@intel.com/
+How about ipe_audit_policy_load(ERR_PTR(rc));
 
-All warnings (new ones prefixed by >>):
+> +       }
+>         kfree(copy);
+>         return (rc < 0) ? rc : len;
+>  }
+> diff --git a/security/ipe/policy.c b/security/ipe/policy.c
+> index 0f616e9fbe61..b628f696e32b 100644
+> --- a/security/ipe/policy.c
+> +++ b/security/ipe/policy.c
+> @@ -202,9 +202,7 @@ struct ipe_policy *ipe_new_policy(const char *text, s=
+ize_t textlen,
+>         return new;
+>  err:
+>         ipe_free_policy(new);
+> -       new =3D ERR_PTR(rc);
+> -       ipe_audit_policy_load(new);
+> -       return new;
+> +       return ERR_PTR(rc);
+>  }
+>
+>  /**
+> diff --git a/security/ipe/policy_fs.c b/security/ipe/policy_fs.c
+> index 3bcd8cbd09df..74f4e7288331 100644
+> --- a/security/ipe/policy_fs.c
+> +++ b/security/ipe/policy_fs.c
+> @@ -12,6 +12,7 @@
+>  #include "policy.h"
+>  #include "eval.h"
+>  #include "fs.h"
+> +#include "audit.h"
+>
+>  #define MAX_VERSION_SIZE ARRAY_SIZE("65535.65535.65535")
+>
+> @@ -288,25 +289,38 @@ static ssize_t getactive(struct file *f, char __use=
+r *data,
+>  static ssize_t update_policy(struct file *f, const char __user *data,
+>                              size_t len, loff_t *offset)
+>  {
+> +       const struct ipe_policy *p =3D NULL;
 
->> drivers/iio/adc/ad7191.c:217:15: warning: variable 'pga_index' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
-     217 |                 for (i = 0; i < ARRAY_SIZE(gain); i++) {
-         |                             ^~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ad7191.c:224:35: note: uninitialized use occurs here
-     224 |                 st->scale_avail = &scale_buffer[pga_index];
-         |                                                 ^~~~~~~~~
-   drivers/iio/adc/ad7191.c:217:15: note: remove the condition if it is always true
-     217 |                 for (i = 0; i < ARRAY_SIZE(gain); i++) {
-         |                             ^~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ad7191.c:160:48: note: initialize the variable 'pga_index' to silence this warning
-     160 |         int odr_value, odr_index, pga_value, pga_index, i, ret;
-         |                                                       ^
-         |                                                        = 0
->> drivers/iio/adc/ad7191.c:179:15: warning: variable 'odr_index' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
-     179 |                 for (i = 0; i < ARRAY_SIZE(samp_freq); i++) {
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ad7191.c:186:36: note: uninitialized use occurs here
-     186 |                 st->samp_freq_avail = &samp_freq[odr_index];
-         |                                                  ^~~~~~~~~
-   drivers/iio/adc/ad7191.c:179:15: note: remove the condition if it is always true
-     179 |                 for (i = 0; i < ARRAY_SIZE(samp_freq); i++) {
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ad7191.c:160:26: note: initialize the variable 'odr_index' to silence this warning
-     160 |         int odr_value, odr_index, pga_value, pga_index, i, ret;
-         |                                 ^
-         |                                  = 0
-   drivers/iio/adc/ad7191.c:553:18: error: expected ';' after top level declarator
-     553 | MODULE_IMPORT_NS(IIO_AD_SIGMA_DELTA);
-         |                  ^
-   2 warnings and 1 error generated.
+This var can be avoided.
 
+>         struct inode *root =3D NULL;
+>         char *copy =3D NULL;
+>         int rc =3D 0;
+>
+> -       if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
+> -               return -EPERM;
+> +       if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN)) {
+> +               rc =3D -EPERM;
+> +               goto out;
+> +       }
+>
+>         copy =3D memdup_user(data, len);
+> -       if (IS_ERR(copy))
+> -               return PTR_ERR(copy);
+> +       if (IS_ERR(copy)) {
+> +               rc =3D PTR_ERR(copy);
+> +               goto out;
+> +       }
+>
+>         root =3D d_inode(f->f_path.dentry->d_parent);
+>         inode_lock(root);
+>         rc =3D ipe_update_policy(root, NULL, 0, copy, len);
+> +       if (rc < 0) {
+> +               inode_unlock(root);
+> +               goto out;
+> +       }
 
-vim +217 drivers/iio/adc/ad7191.c
+This part seems unnecessary.
 
-   150	
-   151	static int ad7191_config_setup(struct iio_dev *indio_dev)
-   152	{
-   153		struct ad7191_state *st = iio_priv(indio_dev);
-   154		struct device *dev = &st->sd.spi->dev;
-   155		/* Sampling frequencies in Hz, see Table 5 */
-   156		static const u32 samp_freq[4] = { 120, 60, 50, 10 };
-   157		/* Gain options, see Table 7 */
-   158		const u32 gain[4] = { 1, 8, 64, 128 };
-   159		static u32 scale_buffer[4][2];
-   160		int odr_value, odr_index, pga_value, pga_index, i, ret;
-   161		u64 scale_uv;
-   162	
-   163		st->samp_freq_index = 0;
-   164		st->scale_index = 0;
-   165	
-   166		ret = device_property_read_u32(dev, "adi,odr-value", &odr_value);
-   167		if (ret && ret != -EINVAL)
-   168			return dev_err_probe(dev, ret, "Failed to get odr value.\n");
-   169	
-   170		if (ret == -EINVAL) {
-   171			st->odr_gpios = devm_gpiod_get_array(dev, "odr", GPIOD_OUT_LOW);
-   172			if (IS_ERR(st->odr_gpios))
-   173				return dev_err_probe(dev, PTR_ERR(st->odr_gpios),
-   174						     "Failed to get odr gpios.\n");
-   175	
-   176			st->samp_freq_avail = samp_freq;
-   177			st->samp_freq_avail_size = ARRAY_SIZE(samp_freq);
-   178		} else {
- > 179			for (i = 0; i < ARRAY_SIZE(samp_freq); i++) {
-   180				if (odr_value != samp_freq[i])
-   181					continue;
-   182				odr_index = i;
-   183				break;
-   184			}
-   185	
-   186			st->samp_freq_avail = &samp_freq[odr_index];
-   187			st->samp_freq_avail_size = 1;
-   188	
-   189			st->odr_gpios = NULL;
-   190		}
-   191	
-   192		mutex_lock(&st->lock);
-   193	
-   194		for (i = 0; i < ARRAY_SIZE(scale_buffer); i++) {
-   195			scale_uv = ((u64)st->int_vref_mv * NANO) >>
-   196				(indio_dev->channels[0].scan_type.realbits - 1);
-   197			do_div(scale_uv, gain[i]);
-   198			scale_buffer[i][1] = do_div(scale_uv, NANO);
-   199			scale_buffer[i][0] = scale_uv;
-   200		}
-   201	
-   202		mutex_unlock(&st->lock);
-   203	
-   204		ret = device_property_read_u32(dev, "adi,pga-value", &pga_value);
-   205		if (ret && ret != -EINVAL)
-   206			return dev_err_probe(dev, ret, "Failed to get pga value.\n");
-   207	
-   208		if (ret == -EINVAL) {
-   209			st->pga_gpios = devm_gpiod_get_array(dev, "pga", GPIOD_OUT_LOW);
-   210			if (IS_ERR(st->pga_gpios))
-   211				return dev_err_probe(dev, PTR_ERR(st->pga_gpios),
-   212						     "Failed to get pga gpios.\n");
-   213	
-   214			st->scale_avail = scale_buffer;
-   215			st->scale_avail_size = ARRAY_SIZE(scale_buffer);
-   216		} else {
- > 217			for (i = 0; i < ARRAY_SIZE(gain); i++) {
-   218				if (pga_value != gain[i])
-   219					continue;
-   220				pga_index = i;
-   221				break;
-   222			}
-   223	
-   224			st->scale_avail = &scale_buffer[pga_index];
-   225			st->scale_avail_size = 1;
-   226	
-   227			st->pga_gpios = NULL;
-   228		}
-   229	
-   230		st->temp_gpio = devm_gpiod_get(dev, "temp", GPIOD_OUT_LOW);
-   231		if (IS_ERR(st->temp_gpio))
-   232			return dev_err_probe(dev, PTR_ERR(st->temp_gpio),
-   233					     "Failed to get temp gpio.\n");
-   234	
-   235		st->chan_gpio = devm_gpiod_get(dev, "chan", GPIOD_OUT_LOW);
-   236		if (IS_ERR(st->chan_gpio))
-   237			return dev_err_probe(dev, PTR_ERR(st->chan_gpio),
-   238					     "Failed to get chan gpio.\n");
-   239	
-   240		return 0;
-   241	}
-   242	
+>         inode_unlock(root);
+>
+> +out:
+>         kfree(copy);
+> -       if (rc)
+> +       if (rc) {
+> +               p =3D ERR_PTR(rc);
+> +               ipe_audit_policy_load(p);
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+p can be avoided, see the above comments.
+
+Also please update function documentation if it has a significant change.
+
+-Fan
