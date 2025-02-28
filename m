@@ -1,157 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28FA6277005;
-	Fri, 28 Feb 2025 18:47:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBF2A27CCE4;
+	Fri, 28 Feb 2025 19:54:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740768481; cv=none; b=WA18uRwKqXLQmU6uVSbJ6Jea6Dw3UO1rbWuCWMWJqdXnPkGFV/cnuvNY0QJgqu/ViY0AOYsyWa3K73bR/Nx85RqHYe0EcVT8abgoFIf/UuO/FChbw/HZYk1eBnsuK0gM0Cmh3E2QJ5/YbZ20cX9SZvS2Nt0ueWNoJ6khD9rctkM=
+	t=1740772460; cv=none; b=bTh0z0Us2A43lhUHFqOb8gmOd/umFsk/1qK8giDQkAE41HecBz7jt290zVaw2LVHO6BhWFxsFOfdIDb9eL0KYfumIuNwPC/9MEKmTqPM1zqR1C7wsSjgFolg+Zi4XqJZUpl9IdFZczfdDvz4eCidVOSMIVokV99Z4xB8sAo67o8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740768481; c=relaxed/simple;
-	bh=sjccjNRDhW5cSMFd28Q8pm//au0XHsNKas9BxsXZWSk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ffYCyVeBNH1NLyjUwOptGaiCpLtLvu0R3SLcZTjhG4L1QNLDzWNj+6OeeKP9HOeT14W5+j5Zsi0vDbswgVPbbaYSpFXZXBNIOIY1IIPYw1tTW39TiTldZB7kbNQOIqEqCiDoa3gzYGbviTOGVOBcAi+1f8DHDczV6bXLRiA0s2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AIM4SHUF; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIM4SHUF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740768480; x=1772304480;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sjccjNRDhW5cSMFd28Q8pm//au0XHsNKas9BxsXZWSk=;
-  b=AIM4SHUFh3kZciOi4zgsZOu/6B0GkxrtMXiBQRVPM2+lKvFPmzV34Kes
-   LzLJmL/6jIxcOEjV0qIawUyrIqgQ3ag+zFnCIHy4tuVDcTY64J8A+AIKS
-   iRCggY7TLTJPTuYOMmcGyHrlMMbIy0GlMJHpx/sTXtv1ZFJwCdRR80no5
-   VJw0XjB4ouDA5yO07TlNYbhi/6rTjbuknb078SedWmHckulrRoGenTYZm
-   kMk/azmeMiQUhxUBIftJsX9QNNW6I+peBgSkdYAzwYrmNH9fEIo5HRaGv
-   aWFrnXXIfA7JeN4PeGE7kkAJidClLOR7tE4tOFMogGW+kN+NcqGCwEq6M
-   Q==;
-X-CSE-ConnectionGUID: fIKk2cM1QmmP00gpnmB4cw==
-X-CSE-MsgGUID: cPvOTjwNS7ufPLi85bjXuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="52349871"
-X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="52349871"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 10:47:59 -0800
-X-CSE-ConnectionGUID: jbTsohC5QoqbJW5f0yiN5Q==
-X-CSE-MsgGUID: Qg72W58CSCq/VdtSuV77hA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117934373"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 10:47:54 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1to5Oo-0000000G3kA-3NNX;
-	Fri, 28 Feb 2025 20:47:50 +0200
-Date: Fri, 28 Feb 2025 20:47:50 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Asahi Linux Mailing List <asahi@lists.linux.dev>
-Subject: Re: [PATCH v5] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Message-ID: <Z8IE1jIni50OeKaE@smile.fi.intel.com>
-References: <2C9622E6-A2DB-4681-A971-604C79F9955E@live.com>
+	s=arc-20240116; t=1740772460; c=relaxed/simple;
+	bh=4GkfnwNsKbq/mr/Mi22ZRxvnkRGN0lE29AmS6GLzr1M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CYkmiscU+rREnarNSDMsqQ/T2WS9+lBP/0A5XHgNuMyv4UZrorpRqTRpsHyZa3kABXgKOEpomrHXyhhU0RoiwmUFfA7lI8Zl/DDcOIcvfyaFnunZFlVlWz+h+UXoCNExg4brBPpnaJn/qpxE5GGR2Z4/1YEe/VDhKHHE9b8smP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1DD0F150C;
+	Fri, 28 Feb 2025 11:54:32 -0800 (PST)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 53B2F3F7D8;
+	Fri, 28 Feb 2025 11:54:13 -0800 (PST)
+Message-ID: <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+Date: Fri, 28 Feb 2025 19:54:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2C9622E6-A2DB-4681-A971-604C79F9955E@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
+To: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <cover.1738765879.git.leonro@nvidia.com>
+ <20250220124827.GR53094@unreal>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250220124827.GR53094@unreal>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 28, 2025 at 04:29:12PM +0000, Aditya Garg wrote:
-> From: Hector Martin <marcan@marcan.st>
+On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
+> On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
+>> From: Leon Romanovsky <leonro@nvidia.com>
+>>
+>> Changelog:
+>> v7:
+>>   * Rebased to v6.14-rc1
 > 
-> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
-> it's useful to be able to print generic 4-character codes formatted as
-> an integer. Extend it to add format specifiers for printing generic
-> 32-bit FourCCs with various endian semantics:
-
-> %p4ch	Host-endian
-> %p4cn	Reverse-endian
-
-Call them Host order, Network order as they are very established endianesses.
-
-
-> %p4cl   Little-endian
-
-You have extra spaces here
-
-> %p4cb	Big-endian
+> <...>
 > 
-> The endianness determines how bytes are interpreted as a u32, and the
-> FourCC is then always printed MSByte-first (this is the opposite of
-> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
-> allow printing LSByte-first FourCCs stored in host endian order
-> (other than the hex form being in character order, not the integer
-> value).
+>> Christoph Hellwig (6):
+>>    PCI/P2PDMA: Refactor the p2pdma mapping helpers
+>>    dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+>>    iommu: generalize the batched sync after map interface
+>>    iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+>>    dma-mapping: add a dma_need_unmap helper
+>>    docs: core-api: document the IOVA-based API
+>>
+>> Leon Romanovsky (11):
+>>    iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
+>>    dma-mapping: Provide an interface to allow allocate IOVA
+>>    dma-mapping: Implement link/unlink ranges API
+>>    mm/hmm: let users to tag specific PFN with DMA mapped bit
+>>    mm/hmm: provide generic DMA managing logic
+>>    RDMA/umem: Store ODP access mask information in PFN
+>>    RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+>>      linkage
+>>    RDMA/umem: Separate implicit ODP initialization from explicit ODP
+>>    vfio/mlx5: Explicitly use number of pages instead of allocated length
+>>    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+>>    vfio/mlx5: Enable the DMA link API
+>>
+>>   Documentation/core-api/dma-api.rst   |  70 ++++
+>   drivers/infiniband/core/umem_odp.c   | 250 +++++---------
+>>   drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+>>   drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+>>   drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+>>   drivers/iommu/dma-iommu.c            | 468 +++++++++++++++++++++++----
+>>   drivers/iommu/iommu.c                |  84 ++---
+>>   drivers/pci/p2pdma.c                 |  38 +--
+>>   drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
+>>   drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+>>   drivers/vfio/pci/mlx5/main.c         |  87 +++--
+>>   include/linux/dma-map-ops.h          |  54 ----
+>>   include/linux/dma-mapping.h          |  85 +++++
+>>   include/linux/hmm-dma.h              |  33 ++
+>>   include/linux/hmm.h                  |  21 ++
+>>   include/linux/iommu.h                |   4 +
+>>   include/linux/pci-p2pdma.h           |  84 +++++
+>>   include/rdma/ib_umem_odp.h           |  25 +-
+>>   kernel/dma/direct.c                  |  44 +--
+>>   kernel/dma/mapping.c                 |  18 ++
+>>   mm/hmm.c                             | 264 +++++++++++++--
+>>   21 files changed, 1435 insertions(+), 693 deletions(-)
+>>   create mode 100644 include/linux/hmm-dma.h
+> 
+> Kind reminder.
 
-...
+...that you've simply reposted the same thing again? Without doing 
+anything to address the bugs, inconsistencies, fundamental design flaws 
+in claiming to be something it cannot possibly be, the egregious abuse 
+of DMA_ATTR_SKIP_CPU_SYNC proudly highlighting how unfit-for-purpose the 
+most basic part of the whole idea is, nor *still* the complete lack of 
+any demonstrable justification of how callers who supposedly can't use 
+the IOMMU API actually benefit from adding all the complexity of using 
+the IOMMU API in a hat but also still the streaming DMA API as well?
 
-> +Generic FourCC code
-> +-------------------
-> +
-> +::
-> +	%p4c[hnlb]	gP00 (0x67503030)
-> +
-> +Print a generic FourCC code, as both ASCII characters and its numerical
-> +value as hexadecimal.
-> +
-> +The generic FourCC code is always printed in the big-endian format,
-> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
-> +
-> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
-> +endianness is used to load the stored bytes. The data might be interpreted
-> +using the host-endian, reverse-host-endian, little-endian, or big-endian.
-
-host order, network order
-
-> +Passed by reference.
-> +
-> +Examples for a little-endian machine, given &(u32)0x67503030::
-> +
-> +	%p4ch	gP00 (0x67503030)
-> +	%p4cn	00Pg (0x30305067)
-> +	%p4cl	gP00 (0x67503030)
-> +	%p4cb	00Pg (0x30305067)
-> +
-> +Examples for a big-endian machine, given &(u32)0x67503030::
-> +
-> +	%p4ch	gP00 (0x67503030)
-> +	%p4cn	00Pg (0x30305067)
-> +	%p4cl	00Pg (0x30305067)
-> +	%p4cb	gP00 (0x67503030)
+Yeah, consider me reminded.
 
 
-For the reference on the terms:
-https://www.ibm.com/docs/ja/zvm/7.2?topic=domains-network-byte-order-host-byte-order
 
-Otherwise LGTM. With the above addressed, FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+In case I need to make it any more explicit, NAK to this not-generic 
+not-DMA-mapping API, until you can come up with either something which 
+*can* actually work in any kind of vaguely generic manner as claimed, or 
+instead settle on a reasonable special-case solution for justifiable 
+special cases. Bikeshedding and rebasing through half a dozen versions, 
+while ignoring fundamental issues I've been pointing out from the very 
+beginning, has not somehow magically made this series mature and 
+acceptable to merge.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Honestly, given certain other scenarios we may also end up having to 
+deal with, if by the time everything broken is taken away, it were to 
+end up stripped all the way back to something well-reasoned like:
 
+"Some drivers want more control of their DMA buffer layout than the 
+general-purpose IOVA allocator is able to provide though the DMA mapping 
+APIs, but also would rather not have to deal with managing an entire 
+IOMMU domain and address space, making MSIs work, etc. Expose 
+iommu_dma_alloc_iova() and some trivial IOMMU API wrappers to allow 
+drivers of coherent devices to claim regions of the default domain 
+wherein they can manage their own mappings directly."
 
+...I wouldn't necessarily disagree.
+
+Thanks,
+Robin.
