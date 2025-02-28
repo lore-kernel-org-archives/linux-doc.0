@@ -1,95 +1,149 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABF3276D13
-	for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2025 23:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02228125B2;
+	Fri, 28 Feb 2025 02:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740700027; cv=none; b=bbCovDYOr4lj5vwh3/IGv8f1mCd47WoSKkTUDAPU/7ZFpWsS4hhxwGyyg4IkwOO08OHL9MZCXIGEQs88L7xv+GDidJ3/80qAeasjCFGY1+1iU5U5JY4j1zA8NyJuQsm4zF1ngyAPs0n981+Qs7jwtpk/tjnQMpbmo5DJDd0LFL8=
+	t=1740708256; cv=none; b=vBX6DKFgiW99WwnwiyvqmlVRkbvk0CV8KUNm0owmALyxAFW4hMnnX9nTO1OgYVjGH5nMs7xEh0CF/Md4gI6XC82gL1KicPa97AqDVLZXuBnhfsI42tLhUQ8lQ0VK17ruXR5rXclUvKrzz/7NJegvKOb3bBxRUnzAHqfVBx6KTSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740700027; c=relaxed/simple;
-	bh=riHV1seuhU1QdFaRL1G/6dr2DRR6gYV8e9VC0evPPeE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=rD09kwyfwTLI38ruy9DENiN+bMbY0UCJ998HqMpxJBRpYuDyDRQoth7WUgrtgMgYq+tAptgkRuc3/m1uiJvi/wUzi1M3j7q1XcFk/HoIEoDn7CpbUFuWJvR6ie9qVhImU+868NLB/TXeTTDtzMsxdDtQCKjldl9KBShRGKBupM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LNNo4/4S; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1740708256; c=relaxed/simple;
+	bh=pttPMi2OGMYeRMexHzwLllEh+UDP/eVvvhW58rJRU6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MORUua00A+oWUwH7eH2mNDnVULcjCNLSNSvtmG+ZdxyldiRnhb4kSpYic6kJDmpTSxgB/VxFNJG4/KonXwdJdPvVFRx8fAqnv5px8B5/1Rez/PZ47VXEyjC0rzHawyrYdAkykM4tJmEvdTjA4hNljVdsjRrfhNZxiDoHbRlwj8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h2MJx2+R; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LNNo4/4S"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2fe916ba298so3236651a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Feb 2025 15:47:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h2MJx2+R"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-22355618fd9so24792915ad.3;
+        Thu, 27 Feb 2025 18:04:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740700025; x=1741304825; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nCWfQ233PSWAs37mz2wPN/QFa/6k1QMX79a/XCJWF9g=;
-        b=LNNo4/4SxGoo4rspUheqP7rIDlwmrzx4g3SnThgVCwAqZEmcBCD5+CAwghpShTwSGr
-         BwWIz82zkCX53x2WE/kUtW+v2rMzFXynW2+VVEjidyuZjwd/c5YpI6V23LFO1zKo+Hsp
-         Qsdg0TNHv+RXQ8Ksvi1vu0cURqT83bqS2qtR+T8avINIrDBgSVykLN1sN437TBSt0Ftq
-         L39bsEh5guRboe8zQIkUBGB2z2ezCE7lUMEqcipVa/0AgDuLMadfwCxSJF/tDahUzXpJ
-         nEViEZkgtCLOKn6mfbSfi38Y1/0N1avTSnaaEZwkbzEzczxH8etvb4d/rZjzQpixsYfH
-         UKfg==
+        d=gmail.com; s=20230601; t=1740708254; x=1741313054; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DO4u9Pvzwx6HigYVezagh1f5xC7V2c+sTGulXIlhhlg=;
+        b=h2MJx2+RH02CP1NQ1QbVMFUz7FA4FR+jaAFGvBK9LxPpeOV6LaHSH5IUyHrMTvXJS0
+         GocK6YlZhxLQZGhYzVeONqOq4ONDS8OnytcN0MVsaj+9Caikxh0/SfmlqlnPtCdKi8QX
+         nPI/mQ96OiURxPbUfK6RpG0BH9cYqBrmhvro10XT/JgqO1i83ikTMTZTP1/gXoXxXFdp
+         D2O4BSLbkIk2ruJooHRbwR7vV58nveG0JYjbIxKOlxOXIzpNjyDVHbuqd6SSO8PaoctZ
+         Myo29GJXBoD8sV4Z+JDLlf5+d0oJpj8I8SE8ZlU0yrLd1mPBgK2LCrX5nN2zwtW4lB7Y
+         uebg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740700025; x=1741304825;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nCWfQ233PSWAs37mz2wPN/QFa/6k1QMX79a/XCJWF9g=;
-        b=siMvEU5mDcgnHJoUJSPx9VnOOnohO1+bX/iLT+qRh8dBmob5VXVMbnwoAWe9txImgP
-         DZJrXZdl+FSw5xFxwYV2mN+Cc0tAGks53JPnRftMMZ+zMpbyPetZCPARzJktpN5e+DE8
-         WvOC0RjmB2GZ5asjuDrRPqiE0KMQF4aXV4K7gPOmXN9iMwJWRIob2Fb2k73SIU7BeGi+
-         QGqWHW5Afq2KimJoAHbuTuvaMInraV5oAJ/1EgqRG4jvxqOcpbj6xbmn6UTvGxUZcClP
-         q1cJHA5qnK4h+sm1EhSp++MsoPo6HSiQVDq4CWTZOi1SpNIHrC/UyuMH9C1y7irnZLlK
-         dzPA==
-X-Forwarded-Encrypted: i=1; AJvYcCWIWmwoluV+LywDzQD9ILAteT1pcY3eFpPjV6fck0PYWuJwciLr7wwfkhxdbFjGu87jMDcW5KnGPdo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPMAMSIkx6iy4w43x9ji+uDvVaV+F/8z+c/bx45s1IZ2/PrJ+N
-	9DeA8kNnfPPL6+sJE58vrT4NdfpEAGGAuN9Y5oq92lQYmswd+GT29eme02G1nm8aqfWF1Z1n2Pm
-	3Jw==
-X-Google-Smtp-Source: AGHT+IHuJhugLoOALKL+bBHU8dYmihquWXJgCeAnlxsMLGlSruW3vsfZyq9aR+pdE7QTJi2WhpCLVWh7qaw=
-X-Received: from pjbpd10.prod.google.com ([2002:a17:90b:1dca:b0:2fa:15aa:4d1e])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:1d46:b0:2f5:88bb:118
- with SMTP id 98e67ed59e1d1-2febabf19bemr1619311a91.22.1740700025364; Thu, 27
- Feb 2025 15:47:05 -0800 (PST)
-Date: Thu, 27 Feb 2025 15:47:03 -0800
-In-Reply-To: <7f2b25c9-c92b-4b0a-bfd9-dda8b0b7a244@amazon.com>
+        d=1e100.net; s=20230601; t=1740708254; x=1741313054;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DO4u9Pvzwx6HigYVezagh1f5xC7V2c+sTGulXIlhhlg=;
+        b=Oiwi3O1wUgxIrptMzsaL1CAXshfhH0Eapm+PCSpZQM8KtoCarlZxHPZGRaZvu/zPsE
+         KPmp9uPhvrkK8N9SUGNEMOI2EtNGXPaAreI9ibqfIRlFtNnpnQHqUKirZdJnir2FLbk1
+         zlfIuNgQV1r/cEoC6Y8BBGTXC5zQCg23333VOPXIIVuVGaQ+/VRUdji6T3an7A0qtvYM
+         H3h1YXAXvQ6Npii1BZJPgRp5NQOyc2L8PLTkFp2lSsQ9AcCEESHzlopjNsuDry0lK/ET
+         4TcGtrig/34ow6+uMGtCo1v1eW6Hov42+XGDY60RXPTugxs1eySEBv4efiIDfPscJB4V
+         UYzw==
+X-Forwarded-Encrypted: i=1; AJvYcCUawoFH82tbQIFOg/WC09eoRUn5iRv/FApvOM3qywE/7+QN8071VJddlqOgxunYRTbg1Zy1erWMpxg=@vger.kernel.org, AJvYcCXJVJajBou5q0UNHM4jyOLq30zRbj6RxDNYXVyLh7DTUhiNLhm/rav55qyI/R4TxCkQaruYry9uFWtR13uOmw==@vger.kernel.org, AJvYcCXodkh5JFBg0O2gZ0dSGmKMusNaUxNz3GdCnR55m0Cr7EyckXhEh2f58SCQAXo/R8MqZwseDILMFOA+daQM@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxh6gtEvt/Zjcvhs1CHGxWcaqGndUxgJyANotG1nsVsV+UavpZD
+	Nj4/9wnK9laN4hsO84ePY+IEl3H9R5bvYhlAkyHfRDO2xN+hihbARbxQLw==
+X-Gm-Gg: ASbGncusA3Ojdr1IrOSudKrlHAyDX7a/XKfYgBCPDkCSBfXnecfgxdFn/GqLB4jN6sE
+	ZC5sLsMf1lC4lEboEBwxV3rTIYXAsPZk6343SRc5DOtsi7CxPBHzAKOuoawNWZthcwwdEn+c+K4
+	sJcfkk5+y2cG61/QOkekwL67C4AM0rafbqVkxFr13g4MWdh7eVPPyjk4YF0E73fxUscgx3zc2lW
+	As08HDmHLvRrDDUoijK5gfd7ohDauUWKd2OfW3p7Kxou9eI33ZI3AMQ/BR5YJa/z3ih73Ed5Cjh
+	PL3+UtFgJ/C6ffkGbGn/0eKmEA==
+X-Google-Smtp-Source: AGHT+IF7AKdsmEQqtj6UYHITURHyn9gUthf6RS67BxodfjGc0ZQH4wboAO5Vc51/FxngbDwVPS+EzQ==
+X-Received: by 2002:a17:902:e750:b0:220:e9ac:e746 with SMTP id d9443c01a7336-2236927f595mr28831515ad.53.1740708254010;
+        Thu, 27 Feb 2025 18:04:14 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-223501fa95asm22582245ad.73.2025.02.27.18.04.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Feb 2025 18:04:13 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 6366F412B0AC; Fri, 28 Feb 2025 09:04:11 +0700 (WIB)
+Date: Fri, 28 Feb 2025 09:04:11 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Vincenzo MEZZELA <vincenzo.mezzela@suse.com>,
+	live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: jpoimboe@kernel.org, jikos@kernel.org, mbenes@suse.cz, pmladek@suse.com,
+	joe.lawrence@redhat.com, corbet@lwn.net
+Subject: Re: [PATCH v2] docs: livepatch: move text out of code block
+Message-ID: <Z8EZm2CXB6yVRoue@archie.me>
+References: <20250227163929.141053-1-vincenzo.mezzela@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <Z6u-WdbiW3n7iTjp@google.com> <a7080c07-0fc5-45ce-92f7-5f432a67bc63@amazon.com>
- <Z7X2EKzgp_iN190P@google.com> <6eddd049-7c7a-406d-b763-78fa1e7d921b@amazon.com>
- <Z7d5HT7FpE-ZsHQ9@google.com> <f820b630-13c1-4164-baa8-f5e8231612d1@amazon.com>
- <Z75nRwSBxpeMwbsR@google.com> <946fc0f5-4306-4aa9-9b63-f7ccbaff8003@amazon.com>
- <Z8CWUiAYVvNKqzfK@google.com> <7f2b25c9-c92b-4b0a-bfd9-dda8b0b7a244@amazon.com>
-Message-ID: <Z8D5d85N3LJBJ2LD@google.com>
-Subject: Re: [RFC PATCH 0/6] KVM: x86: async PF user
-From: Sean Christopherson <seanjc@google.com>
-To: Nikita Kalyazin <kalyazin@amazon.com>
-Cc: pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, jthoughton@google.com, david@redhat.com, 
-	peterx@redhat.com, oleg@redhat.com, vkuznets@redhat.com, gshan@redhat.com, 
-	graf@amazon.de, jgowans@amazon.com, roypat@amazon.co.uk, derekmn@amazon.com, 
-	nsaenz@amazon.es, xmarcalx@amazon.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tKj0ZzgmyVi1MADl"
+Content-Disposition: inline
+In-Reply-To: <20250227163929.141053-1-vincenzo.mezzela@suse.com>
 
-On Thu, Feb 27, 2025, Nikita Kalyazin wrote:
-> On 27/02/2025 16:44, Sean Christopherson wrote:
-> > When it comes to uAPI, I want to try and avoid statements along the lines of
-> > "IF 'x' holds true, then 'y' SHOULDN'T be a problem".  If this didn't impact uAPI,
-> > I wouldn't care as much, i.e. I'd be much more willing iterate as needed.
-> > 
-> > I'm not saying we should go straight for a complex implementation.  Quite the
-> > opposite.  But I do want us to consider the possible ramifications of using a
-> > single bit for all userfaults, so that we can at least try to design something
-> > that is extensible and won't be a pain to maintain.
-> 
-> So you would've liked more the "two-bit per gfn" approach as in: provide 2
-> interception points, for sync and async exits, with the former chosen by
-> userspace when it "knows" that the content is already in memory? 
 
-No, all I'm saying is I want people think about what the future will look like,
-to minimize the chances of ending up with a mess.
+--tKj0ZzgmyVi1MADl
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Feb 27, 2025 at 05:39:29PM +0100, Vincenzo MEZZELA wrote:
+> diff --git a/Documentation/livepatch/module-elf-format.rst b/Documentatio=
+n/livepatch/module-elf-format.rst
+> index a03ed02ec57e..5d48778d4dfc 100644
+> --- a/Documentation/livepatch/module-elf-format.rst
+> +++ b/Documentation/livepatch/module-elf-format.rst
+> @@ -217,16 +217,19 @@ livepatch relocation section refer to their respect=
+ive symbols with their symbol
+>  indices, and the original symbol indices (and thus the symtab ordering) =
+must be
+>  preserved in order for apply_relocate_add() to find the right symbol.
+> =20
+> -For example, take this particular rela from a livepatch module:::
+> +For example, take this particular rela from a livepatch module::
+> =20
+>    Relocation section '.klp.rela.btrfs.text.btrfs_feature_attr_show' at o=
+ffset 0x2ba0 contains 4 entries:
+>        Offset             Info             Type               Symbol's Va=
+lue  Symbol's Name + Addend
+>    000000000000001f  0000005e00000002 R_X86_64_PC32          000000000000=
+0000 .klp.sym.vmlinux.printk,0 - 4
+> =20
+> -  This rela refers to the symbol '.klp.sym.vmlinux.printk,0', and the sy=
+mbol index is encoded
+> -  in 'Info'. Here its symbol index is 0x5e, which is 94 in decimal, whic=
+h refers to the
+> -  symbol index 94.
+> -  And in this patch module's corresponding symbol table, symbol index 94=
+ refers to that very symbol:
+> +This rela refers to the symbol '.klp.sym.vmlinux.printk,0', and the symb=
+ol
+> +index is encoded in 'Info'. Here its symbol index is 0x5e, which is 94 in
+> +decimal, which refers to the symbol index 94.
+> +
+> +And in this patch module's corresponding symbol table, symbol index 94 r=
+efers
+> +to that very symbol::
+> +
+>    [ snip ]
+>    94: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym=
+=2Evmlinux.printk,0
+>    [ snip ]
+
+LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--tKj0ZzgmyVi1MADl
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ8EZmwAKCRD2uYlJVVFO
+ownAAQDyLeqKMUb6Yuhq8W/qmxH1ELSo4SEB64yCA4NSt88epQEAlF8kXX7FR59i
+DIs8FAedjxwBYTmqlS/jpOZMpnPSkwo=
+=5LGe
+-----END PGP SIGNATURE-----
+
+--tKj0ZzgmyVi1MADl--
