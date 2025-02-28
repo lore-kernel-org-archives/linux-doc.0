@@ -1,42 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp16.bhosted.nl (smtp16.bhosted.nl [94.124.121.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046211EF360;
-	Fri, 28 Feb 2025 15:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611921EF36A
+	for <linux-doc@vger.kernel.org>; Fri, 28 Feb 2025 15:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740754957; cv=none; b=VK6fbv1fo6sPtZJQv7lCzLATnf4v/AsIU6cDq9irXfQqdfLUcPMCIfm5rOcry+mUkNSRwUalz4R8Jp8evGWxaYAVSyetCZQvTiFjswSOUPzEkcSv6thPDY9qEViAoYWsiVyL9Vak9eK/Hmr0K9hRxM0hfguvEmsAcFvujhZQVuc=
+	t=1740755204; cv=none; b=r3ZnGglUWOTlrGYM60pj/gvmB96TAtIdRrvWwYqtX+uy+Qs3JHWDrl8QXyRpv2AHPDZjp0g5k5PasDtoPf6Vvc4QppElVQF/CmWiYiow0KODHIhVHY7/88C3iJLpddyJbNgeOsLxdb72tSw4uiACsUeeSokqwn7q97Z6iuyiYC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740754957; c=relaxed/simple;
-	bh=6nrJ9zZe3Dfp9Hs287X+B1HADF4QbPQlhsZlZF/7tM4=;
+	s=arc-20240116; t=1740755204; c=relaxed/simple;
+	bh=/EnYDBM43aGOMy0gb/gP024p3K1H5Tcoj+xs0GY9U0s=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dSFksvyNv5wZZSH/o9Ld4RCM5sXTjesULasau/cQ/PpSw0ATscVfjmeTITaBWc9lYzAh4Z8ZI6sVqfIo0yOF8F5XS6nCLvz8OwFCZK23pVjDqErK92UNQkUa/SEnFa+VbeJECxMZS+W/rnOxUwhoYn/Hw80rD6TdWA27z1zcLWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85CDFC4CED6;
-	Fri, 28 Feb 2025 15:02:34 +0000 (UTC)
-Date: Fri, 28 Feb 2025 10:03:19 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "pmladek@suse.com" <pmladek@suse.com>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, "senozhatsky@chromium.org"
- <senozhatsky@chromium.org>, "corbet@lwn.net" <corbet@lwn.net>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "apw@canonical.com" <apw@canonical.com>, "joe@perches.com"
- <joe@perches.com>, "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
- "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Hector
- Martin <marcan@marcan.st>, "sven@svenpeter.dev" <sven@svenpeter.dev>, Janne
- Grunau <j@jannau.net>, "alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
- "asahi@lists.linux.dev" <asahi@lists.linux.dev>
-Subject: Re: [PATCH v4] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Message-ID: <20250228100319.10f6bb9e@gandalf.local.home>
-In-Reply-To: <PN3PR01MB95972518DA57C43F01769B83B8CC2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-References: <DB7F502D-1477-49C9-A36D-1DEE408ED23C@live.com>
-	<PN3PR01MB95972518DA57C43F01769B83B8CC2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	 MIME-Version:Content-Type; b=YemsHwXI+Hw1j/3vVvnlYA7wow/8/LMsBLpj/HlhZvCOZVTb7zBz/kTj5mXFyfRDqZI8Y4fveuXB3nn+/IGk3JTC3mu+9g91y+tz1gC8irWuoOl3u80jEEmHcAj8q+3KyTD3MCLinYfiyzKOu3upRomQRvVv41fmgCQOhn1c1Oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl; spf=pass smtp.mailfrom=protonic.nl; dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b=UTOThQgm; arc=none smtp.client-ip=94.124.121.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonic.nl
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b="UTOThQgm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=protonic.nl; s=202111;
+	h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
+	 message-id:subject:cc:to:from:date:from;
+	bh=amr6wHzMs21hH/h1n2S3SIc2uEDDyL/a/R2Sg8zENXQ=;
+	b=UTOThQgmeCgfDhFa1zO58gVsXxXm2SDJv0G1oLfx2xPrMSclq6mQU7A4lfRFK4zYdQvpLrbrypsi/
+	 8aZ52/O+qiZDrvNCOLOBDYuIJUB0Xuu5KhyQDuVFEZKsDZzw1aK4q/pUllWC1eaxnvsXCKvWX7cJ35
+	 xPpJLAhbWPa2WrwgACmtNcN00xipj57p76QH9+2yJqwVOrXOKK2gKFvPDVSQKuBKkMG0mem5qDhPrI
+	 71MtRsW6zmqYx3h7m3ASOSxxNdjaH+BH+zZobTmrpaPIYZhKvP8qy5rICeJYR7+mgBgbzdtbi0v9Zx
+	 nAktYIvbs7Yydl31kq+Lujcb1JA3xxQ==
+X-MSG-ID: 9c1ba14f-f5e5-11ef-8b43-005056817704
+Date: Fri, 28 Feb 2025 16:06:38 +0100
+From: David Jander <david@protonic.nl>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, Nuno Sa <nuno.sa@analog.com>, Jonathan Cameron
+ <jic23@kernel.org>, Oleksij Rempel <o.rempel@pengutronix.de>
+Subject: Re: [RFC PATCH 4/7] Documentation: Add Linux Motion Control
+ documentation
+Message-ID: <20250228160638.1a35944c@erd003.prtnl>
+In-Reply-To: <87o6ymnna8.fsf@trenco.lwn.net>
+References: <20250227162823.3585810-1-david@protonic.nl>
+	<20250227162823.3585810-5-david@protonic.nl>
+	<87y0xrpcnn.fsf@trenco.lwn.net>
+	<20250228140212.346c4ef5@erd003.prtnl>
+	<87o6ymnna8.fsf@trenco.lwn.net>
+Organization: Protonic Holland
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,23 +55,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 28 Feb 2025 14:09:48 +0000
-Aditya Garg <gargaditya08@live.com> wrote:
+On Fri, 28 Feb 2025 07:42:39 -0700
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> > -    *p++ = ' ';
-> > -    strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
-> > -    p += strlen(p);
-> > +    if (pixel_fmt) {
-> > +        *p++ = ' ';
-> > +        strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");  
+> David Jander <david@protonic.nl> writes:
 > 
-> Do we need strscpy here?
+> > What I am unsure of is the rest of the documentation (which arguably still
+> > needs to be written). I initially selected this place because of
+> > Documentation/subsystem-apis.rst. LMC being a new "subsystem", made me think it
+> > was the right thing to follow the structure of the contents there.
+> > What I mean to put there is documentation of the driver API for motion
+> > control drivers. I understand that while it doesn't really exist yet, I should
+> > leave it out of this patch set, but when I am going to write it, should it
+> > still go there, or is there now a better place?  
+> 
+> I've really been pushing to organize our documentation by the audience
+> it is addressing, rather than by the developers who write it.  So
+> driver-api documentation is best put into ... the driver-api book,
+> Documentation/driver-api.
 
-Why? The size of what p points to has already been calculated to hold this:
+Sounds reasonable. I will put the driver api docs there once I come around to
+writing them (I have the code commented already so that could be a start).
 
-	char output[sizeof("0123 little-endian (0x01234567)")];
-	char *p = output;
+> My plan, that I haven't yet acted on, is to create Documentation/devices
+> for device-specific docs that don't go anywhere else, then move a lot of
+> stuff into it.  Much like what was done with Documentation/arch.  But
+> anything that can go into the existing audience-focused manuals should
+> go there.
 
-Unless you changed something, it will not overflow.
+Ok, I'll keep that in mind. Thanks.
 
--- Steve
+Best regards,
+
+-- 
+David Jander
