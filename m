@@ -1,212 +1,414 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5431DE4FE
-	for <linux-doc@vger.kernel.org>; Fri, 28 Feb 2025 22:41:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24BD1DF721;
+	Fri, 28 Feb 2025 23:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740782494; cv=none; b=q0E4e9c2BHlaTyywGJ42IiXxi39P5NnOzZNdZwEIgkEyxB31p//ymahxm9B5L2ghLzbZdoQ2zcXfrLZamsQTupyu8bJke2NaFB6W3f+AtaatEbDIJbyukN8RLMic0R4C6N16R2n49LY8RMBaOrQpuHLjrg+MhSR6oU3pmaPGgBE=
+	t=1740783895; cv=none; b=GC76eKIXWRMORGAzVK4M1E45pTFbpajffmHL1dq4wQt2P42NXWXTQ0lpRSYPBkPGTKPMIUWOsIDYJUTHiPgByx/S5YXdPttqtMJXNNR28mUCxetq3Ff3jGdFX+KUKH2SrNQmOXgueYYuBeTQHWj40k5l7mHBjyBb4FMjVOwny90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740782494; c=relaxed/simple;
-	bh=FLBHwO+nFllKVwfKJACF4L2HeRUbXtlCor+SO7tOf+w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rd5DxX13IsHUGauNj36iD74luMcR9iKI7v0q9stkChVW5DIcgB3dqguMd3SqU2mKRbTTzeUcHRo2tsuAphdvdUS/o3cxUF/8tQMDKj2paqmNdCaHx+IduDqoygNYK1qS4bXaiz+pWCdgecnr1iFqqKjuxuXlAEJuwZEUEOdjWzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=kL77e3Mw; arc=none smtp.client-ip=209.85.161.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1740783895; c=relaxed/simple;
+	bh=bA1SeYq0uRhSNDzRBykluJ8k7uxE4IauQ2wa6QWB3TY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WOYI6DHv/6TfAs5W8JEpvCEp9TgC46ZpWQXPb/Er9oxGh1/MWehJAbX6SHT1xlOA81yiOZfSKxlVIoaYietsg1UsiYZk9RPwuAD5DmSXiGNzsA4CbXfxR7B6BYNCxA5OHVtfg7hAHgQev7OZobnHT2xHxqS2XUimrQI1A+W23cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r5fSwAi1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="kL77e3Mw"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5fd28093334so1333336eaf.3
-        for <linux-doc@vger.kernel.org>; Fri, 28 Feb 2025 14:41:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740782492; x=1741387292; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y9VA0oblCg0Xc+d3Sx56RfFjCCmOWiRbgOPbTv313JQ=;
-        b=kL77e3MwsaRLeH+6oezvDPr6jgHY9ZebP82Heqs0OFRIMLkftOrqlbaSAPnA3sxwQd
-         6+ic/j2xMkY3a4uVmOViPSAzAtXXZdYFuY9FzwBge3/3OqM67PMAhUTaJvpW25DVwAiS
-         PMj/PNA8pRhxQdjd6N4UgJYQ+FOR7JZ2Bg6fZDXpAh640wxXx59lWq7qQ9U6N2b3SoSL
-         cdyzvTAfjWh+/OzmCcyhhJ2PvJbU6xtL49/niJYuCRd7/RQNEi0jnU9lGghh9ohwG7gx
-         6S7WC7x0uFc/JF23M+tf9r7aO7i9NR85zZWcUfiMRNYSqTn4qkedhEv/GElu5pKGoQun
-         slDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740782492; x=1741387292;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y9VA0oblCg0Xc+d3Sx56RfFjCCmOWiRbgOPbTv313JQ=;
-        b=MGC2xKmszKIG23OT0Uh9hHVeuOHWh/8wBCygEuz84TMDQIpbrxiY5W9QlsRdwxWr/W
-         XPibE9L5OQ2rgGtIrN9pyJvSniBHuQVJH6azRbnp4oX/gCb1WFcHPNjq0lw3Ln6GBqas
-         NETiIjxYKRLm3+eDlq9RPFFfGq5ZZuMuAHB0KVQ6okPC2IRgiSYGylufFlSel/OJcPjc
-         93jYSaUaUCuKx4ifoTsnD+X8B4WQHvNCy/oWoYlDoTlH8NkhAiVEC9K4zYT2Ie6j10lT
-         kpUWRQ7e0n7MsdNiG0B5cTRc/aUMEd0baT6qop/sgf/K/C0EKOnw1ysCV/0Wl9ikaIvI
-         ad2w==
-X-Forwarded-Encrypted: i=1; AJvYcCXXYD4ehtxx7Ppsrbm3n9ZahNzgitJC5n/1su5wNp2OEpB41S5QUQzIJp/04VFqtKvpmjnLLClib7I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzN6RBDR29BZLtjVUHUWSMtcqzOUUphXqXA7ncgMsSnakfRWVyE
-	Ml+Ji4c4T3sQLcIETXeIEjjvMIAKOnaOg0vxAfMFKEpYnL8e4Jx//Pgrj6URa+Q=
-X-Gm-Gg: ASbGncv+9qgDKpyWCB6b9t6unxJN6mNl3EJ/y6xrnAT47iyS0bxsS8T4mAzA0WValNY
-	Fznp7DBmiRC+dHZMIuQU7CONoP5krHJwNcZOw3LFpM4glAMJiWOTuoZlunz67p7LX2RqXlLRBjq
-	juG91lgZQNza7DI3Fh0vS58y5AVU4qiIbKl7xor9UZHBIehD7BmiRfmz+n2dRtF+Jy/plnljy9D
-	jufqXBBpyJHUPaT2gZcoZ5vKqpTKD2QYRDEJqRNGg35Ii6nTa+S/GUqLngghQsFj6mf6E6V6NH4
-	Oo936w/I4/MElaOml/g+HbHrAK9EkxbxyMeaWU6ysHWfYeEWhgR3Aq1THnRcN0PulxT0IrC7xiV
-	5mXxqww==
-X-Google-Smtp-Source: AGHT+IEceEwYejaDDNX0Vuw40LNIKav7t/w6trGAq65H0rdXXXH9+Wnxu7YXOtX/U2cJOjXP8F/3TQ==
-X-Received: by 2002:a05:6820:151a:b0:5fd:a01:4834 with SMTP id 006d021491bc7-5feb3668d88mr3486224eaf.7.1740782491972;
-        Fri, 28 Feb 2025 14:41:31 -0800 (PST)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5feaad43e80sm788380eaf.35.2025.02.28.14.41.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Feb 2025 14:41:30 -0800 (PST)
-Message-ID: <8db96db5-c258-4c42-a70a-56fdf24ecdc6@baylibre.com>
-Date: Fri, 28 Feb 2025 16:41:29 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r5fSwAi1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17839C4CED6;
+	Fri, 28 Feb 2025 23:04:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740783895;
+	bh=bA1SeYq0uRhSNDzRBykluJ8k7uxE4IauQ2wa6QWB3TY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=r5fSwAi1rVi46JYX3hu8vAhU+Yr8cA+CAvSeuCy3Bs+vWDRn5XjUSH/AxSAKKQ4hC
+	 sPDzKl4sz0IsTnU2SbgHuoG8PHrBEZYq8Fd99RTlQczGv2BZVEe8U1zv+x1nwTbDXu
+	 eqUXlfLpSgIEdTs5WzmQIczaLIAs956ctQCx6I6fGYJ8TCcAevocAkci3qONxq5ysK
+	 iWOMGQx08t6IZFOfVG7ok+5kuJj8vnKW3S1KGaOLNLoLY1QFhQxaaDWJY6Nv002pjf
+	 GQnEL/putV9FDS9KE8BHwTJrGBPCrVhhxUWCH5QSAuHLdjjUC8hD51oNUC6PXrWeKH
+	 VwJ7UMOS1SrmQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  linux-kernel@vger.kernel.org,
+  Alexander Graf <graf@amazon.com>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Andy Lutomirski <luto@kernel.org>,  Anthony
+ Yznaga <anthony.yznaga@oracle.com>,  Arnd Bergmann <arnd@arndb.de>,
+  Ashish Kalra <ashish.kalra@amd.com>,  Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>,  Borislav Petkov <bp@alien8.de>,  Catalin
+ Marinas <catalin.marinas@arm.com>,  Dave Hansen
+ <dave.hansen@linux.intel.com>,  David Woodhouse <dwmw2@infradead.org>,
+  Eric Biederman <ebiederm@xmission.com>,  Ingo Molnar <mingo@redhat.com>,
+  James Gowans <jgowans@amazon.com>,  Jonathan Corbet <corbet@lwn.net>,
+  Krzysztof Kozlowski <krzk@kernel.org>,  Mark Rutland
+ <mark.rutland@arm.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Pasha
+ Tatashin <pasha.tatashin@soleen.com>,  "H. Peter Anvin" <hpa@zytor.com>,
+  Peter Zijlstra <peterz@infradead.org>,  Rob Herring <robh+dt@kernel.org>,
+  Rob Herring <robh@kernel.org>,  Saravana Kannan <saravanak@google.com>,
+  Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,  Steven Rostedt
+ <rostedt@goodmis.org>,  Thomas Gleixner <tglx@linutronix.de>,  Tom
+ Lendacky <thomas.lendacky@amd.com>,  Usama Arif
+ <usama.arif@bytedance.com>,  Will Deacon <will@kernel.org>,
+  devicetree@vger.kernel.org,  kexec@lists.infradead.org,
+  linux-arm-kernel@lists.infradead.org,  linux-doc@vger.kernel.org,
+  linux-mm@kvack.org,  x86@kernel.org
+Subject: Re: [PATCH v4 00/14] kexec: introduce Kexec HandOver (KHO)
+In-Reply-To: <Z8Iah6FgrhSzApwf@kernel.org>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+	<mafs0cyf4ii4k.fsf@kernel.org> <Z8Iah6FgrhSzApwf@kernel.org>
+Date: Fri, 28 Feb 2025 23:04:48 +0000
+Message-ID: <mafs0h64dk6wf.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 7/7] dt-bindings: motion: Add motion-simple-pwm
- bindings
-To: David Jander <david@protonic.nl>, linux-kernel@vger.kernel.org
-Cc: linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, Nuno Sa <nuno.sa@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Oleksij Rempel <o.rempel@pengutronix.de>
-References: <20250227162823.3585810-1-david@protonic.nl>
- <20250227162823.3585810-8-david@protonic.nl>
-From: David Lechner <dlechner@baylibre.com>
-Content-Language: en-US
-In-Reply-To: <20250227162823.3585810-8-david@protonic.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 2/27/25 10:28 AM, David Jander wrote:
-> Add device-tree bindings for simple Linux Motion Control devices that
-> are based on 1 or 2 PWM outputs.
-> 
-> Signed-off-by: David Jander <david@protonic.nl>
-> ---
->  .../bindings/motion/motion-simple-pwm.yaml    | 55 +++++++++++++++++++
->  1 file changed, 55 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/motion/motion-simple-pwm.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/motion/motion-simple-pwm.yaml b/Documentation/devicetree/bindings/motion/motion-simple-pwm.yaml
-> new file mode 100644
-> index 000000000000..409e3aef6f3f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/motion/motion-simple-pwm.yaml
-> @@ -0,0 +1,55 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/motion/motion-simple-pwm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Simple PWM based motor controller
+On Fri, Feb 28 2025, Mike Rapoport wrote:
 
-I think it has been said many times before, in DT, there is no such thing as
-a simple device! It will be much more future-proof if we write bindings for
-actual individual motor controller chips than try to generalize all in a single
-binding. The chip you gave as an example is far from the simplest H-bridge I
-have seen!
+> Hi Pratyush,
+>
+> On Wed, Feb 26, 2025 at 08:08:27PM +0000, Pratyush Yadav wrote:
+>> Hi Mike,
+>> 
+>> On Thu, Feb 06 2025, Mike Rapoport wrote:
+>> 
+>> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>> >
+>> > Hi,
+>> >
+>> > This a next version of Alex's "kexec: Allow preservation of ftrace buffers"
+>> > series (https://lore.kernel.org/all/20240117144704.602-1-graf@amazon.com),
+>> > just to make things simpler instead of ftrace we decided to preserve
+>> > "reserve_mem" regions.
+>> [...]
+>> 
+>> I applied the patches on top of v6.14-rc1 and tried them out on an x86
+>> qemu machine . When I do a plain KHO activate and kexec, I get the below
+>> errors on boot. This causes networking to fail on the VM. The errors are
+>> consistent and happen every kexec-reboot, though fairly late in boot
+>> after systemd tries to bring up network. The same setup has worked fine
+>> with Alex's v3 of KHO patches.
+>> 
+>> Do you see anything obvious that might cause this? I can try to debug
+>> this tomorrow, but if it rings any loud bells it would be nice to know.
+>
+> Thanks for the report!
+> It didn't ring any bells, but after I've found the issue and a
+> fast-and-dirty fix.
+>
+> The scratch areas are allocated from high addresses and there is no scratch
+> memory to satisfy memblock_alloc_low() in swiotb, so second kernel produces
+> a couple of 
+>
+> software IO TLB: swiotlb_memblock_alloc: Failed to allocate 67108864 bytes for tlb structure
 
-> +
-> +maintainers:
-> +  - David Jander <david@protonic>
-> +
-> +description: |
-> +   Simple motor control device based on 1 or 2 PWM outputs
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - motion-simple-pwm
+I also did some digging today and ended up finding the same thing out
+but it seems you got there before me :-)
 
-This should be e.g. ti,drv8873-q1. This device has much more pins that is given
-in these bindings.
+>
+> and without those buffers e1000 can't dma :(
+>
+> A quick fix would be to add another scratch area in the lower memory
+> (below). I'll work on a better fix.
 
-If we find more devices that have similar functionality/pinout we can add them
-to the same bindings, but we will likely find that trying to cram all H-bridges
-into a single binding is too much.
+I have already written a less-quick fix (patch pasted below) so I
+suppose we can use that to review the idea instead. It adds a dedicated
+scratch area for lowmem, similar to your patch, and adds some tracking
+to calculate the size.
 
-For starters, every H-bridge chip is going to have one or more power supplies.
-ti,drv8873-q1 would need dvdd-supply and vm-supply properties for the DVDD and
-VM pins.
+I am not sure if the size estimation is completely right though, since
+it is possible that allocations that don't _need_ to be in lowmem end up
+being there, causing the scratch area to be too big (or perhaps even
+causing allocation failures if the scale is big enough). Maybe we would
+be better off tracking lowmem allocation requests separately?
 
-Many have inputs for disabling the chip, e.g. for power management. And some
-have outputs to indicate faults.
+----- 8< -----
+From d60aeb2c4a1c0eea05e1a13b48b268d6192a615e Mon Sep 17 00:00:00 2001
+From: Pratyush Yadav <ptyadav@amazon.de>
+Date: Fri, 28 Feb 2025 22:36:06 +0000
+Subject: [PATCH] KHO: always have a lowmem scratch region
 
-The TI DRV8873 in particular has an nSLEEP, DISABLE, nOL, SR, MODE and nITRIP
-inputs in addition to the IN1 and IN2 that would be connected to the PWMs.
-So we would have properties for all of these to either say how the pin is
-hardwired or a *-gpios property if it needs to be controlled by the driver.
+During initialization, some callers need to allocate low memory from
+memblock. One such caller is swiotlb_memblock_alloc() on x86. The global
+and per-node scratch regions are allocated without any constraints on
+the range. This can lead to having no scratch region in lowmem. If that
+happens, the lowmem allocations can fail, leading to failures during
+boot or later down the line.
 
-The fault output would generally be an interrupts property.
+Always ensure there is some scratch memory available in low memory by
+having a separate scratch area for it, along with the global and
+per-node ones, and allow specifying its size via the command line.
 
-The IPROPI1 and IPROPI2 output pins look like they would be connected to an
-ADC, so it would make sense to have an io-channels property show that
-connection.
+To more accurately guess suitable scratch sizes, add
+memblock_reserved_kern_lowmem_size() and
+memblock_reserved_kern_highmem_size() which calculate how much memory
+was allocated in low and high memory, along with some helper functions
+to calculate scratch sizes.
 
-This chip also has a SPI interface. So it needs to have the possibility of
-being a SPI peripheral node.
+Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
+---
+ .../admin-guide/kernel-parameters.txt         |  9 +-
+ Documentation/kho/usage.rst                   | 10 +--
+ include/linux/memblock.h                      |  2 +
+ kernel/kexec_handover.c                       | 83 ++++++++++++++-----
+ mm/memblock.c                                 | 28 +++++++
+ 5 files changed, 103 insertions(+), 29 deletions(-)
 
-And even if the Linux driver doesn't implement all of these features, we still
-want the DT bindings to be as complete as possible, so we shouldn't be leaving
-these out, at least for the trivial ones where there is an obvious correct
-binding (which I think is the case for most of what I suggested).
-
-> +
-> +  pwms:
-> +    maxItems: 2
-> +
-> +  pwm-names:
-> +    maxItems: 2
-
-Specifying what is wired up to the IN pins can be tricky. Using two PWMs is
-the most sensible. But I've also seen devices where there was a single PWM
-gated by two gpios. And for very basic H-bridges, there might not even be a
-PWM. Just gpios to turn it on or off.
-
-> +
-> +  motion,pwm-inverted:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description:
-> +      If present, this flag indicates that the PWM signal should be inverted.
-> +      The duty-cycle will be scaled from 100% down to 0% instead 0% to 100%.
-> +
-> +required:
-> +  - compatible
-> +  - pwms
-> +
-> +allOf:
-> +  - $ref: /schemas/motion/common.yaml#
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    // This example shows how to use the TI DRV8873 or similar motor controllers
-> +    // with this driver
-> +    motion-simple-pwm0 {
-> +      compatible = "motion-simple-pwm";
-> +      pwms = <&hpdcm0_pwm 0 50000 0>,
-> +             <&hpdcm0_pwm 1 50000 0>;
-> +      pwm-names = "left", "right";
-> +      motion,pwm-inverted;
-
-
-> +      motion,speed-conv-mul = <3600>;
-> +      motion,speed-conv-div = <100000>;
-> +      motion,acceleration-conv-mul = <3600>;
-> +      motion,acceleration-conv-div = <100000>;
-
-This H-bridge controller doesn't have any kind of speed sensors that I can see
-so these properties don't make sense to me. The H-bridge can control the voltage
-sent to the motor, but there are more variables involved to convert voltage to
-speed. It isn't a constant.
-
-> +    };
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index ed656e2fb05ef..7c5afd45ad9dc 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2705,7 +2705,7 @@
+ 			"1" | "on" | "y" - kexec handover is enabled
+ 
+ 	kho_scratch=	[KEXEC,EARLY]
+-			Format: nn[KMG],mm[KMG] | nn%
++			Format: ll[KMG],nn[KMG],mm[KMG] | nn%
+ 			Defines the size of the KHO scratch region. The KHO
+ 			scratch regions are physically contiguous memory
+ 			ranges that can only be used for non-kernel
+@@ -2715,9 +2715,10 @@
+ 			bootstrap itself.
+ 
+ 			It is possible to specify the exact amount of
+-			memory in the form of "nn[KMG],mm[KMG]" where the
+-			first parameter defines the size of a global
+-			scratch area and the second parameter defines the
++			memory in the form of "ll[KMG],nn[KMG],mm[KMG]" where the
++			first parameter defines the size of a low memory scratch
++			area, the second parameter defines the size of a global
++			scratch area and the third parameter defines the
+ 			size of additional per-node scratch areas.
+ 			The form "nn%" defines scale factor (in percents)
+ 			of memory that was used during boot.
+diff --git a/Documentation/kho/usage.rst b/Documentation/kho/usage.rst
+index e7300fbb309c1..6a6011809795d 100644
+--- a/Documentation/kho/usage.rst
++++ b/Documentation/kho/usage.rst
+@@ -19,11 +19,11 @@ at compile time. Every KHO producer may have its own config option that you
+ need to enable if you would like to preserve their respective state across
+ kexec.
+ 
+-To use KHO, please boot the kernel with the ``kho=on`` command line
+-parameter. You may use ``kho_scratch`` parameter to define size of the
+-scratch regions. For example ``kho_scratch=512M,512M`` will reserve a 512
+-MiB for a global scratch region and 512 MiB per NUMA node scratch regions
+-on boot.
++To use KHO, please boot the kernel with the ``kho=on`` command line parameter.
++You may use ``kho_scratch`` parameter to define size of the scratch regions. For
++example ``kho_scratch=128M,512M,512M`` will reserve a 128 MiB low memory scratch
++region, a 512 MiB global scratch region and 512 MiB per NUMA node scratch
++regions on boot.
+ 
+ Perform a KHO kexec
+ -------------------
+diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+index 20887e199cdbd..9f5c5aec4b1d4 100644
+--- a/include/linux/memblock.h
++++ b/include/linux/memblock.h
+@@ -504,6 +504,8 @@ static inline __init_memblock bool memblock_bottom_up(void)
+ phys_addr_t memblock_phys_mem_size(void);
+ phys_addr_t memblock_reserved_size(void);
+ phys_addr_t memblock_reserved_kern_size(int nid);
++phys_addr_t memblock_reserved_kern_lowmem_size(void);
++phys_addr_t memblock_reserved_kern_highmem_size(void);
+ unsigned long memblock_estimated_nr_free_pages(void);
+ phys_addr_t memblock_start_of_DRAM(void);
+ phys_addr_t memblock_end_of_DRAM(void);
+diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
+index c26753d613cbc..29eeed09ceb31 100644
+--- a/kernel/kexec_handover.c
++++ b/kernel/kexec_handover.c
+@@ -547,20 +547,21 @@ late_initcall(kho_init);
+  *
+  * kho_scratch=N%
+  *
+- * It is also possible to explicitly define size for a global and per-node
+- * scratch areas:
++ * It is also possible to explicitly define size for a lowmem, a global and
++ * per-node scratch areas:
+  *
+- * kho_scratch=n[KMG],m[KMG]
++ * kho_scratch=l[KMG],n[KMG],m[KMG]
+  *
+  * The explicit size definition takes precedence over scale definition.
+  */
+ static unsigned int scratch_scale __initdata = 200;
+ static phys_addr_t scratch_size_global __initdata;
+ static phys_addr_t scratch_size_pernode __initdata;
++static phys_addr_t scratch_size_lowmem __initdata;
+ 
+ static int __init kho_parse_scratch_size(char *p)
+ {
+-	unsigned long size, size_pernode;
++	unsigned long size, size_pernode, size_global;
+ 	char *endptr, *oldp = p;
+ 
+ 	if (!p)
+@@ -578,15 +579,25 @@ static int __init kho_parse_scratch_size(char *p)
+ 		if (*p != ',')
+ 			return -EINVAL;
+ 
++		oldp = p;
++		size_global = memparse(p + 1, &p);
++		if (!size_global || p == oldp)
++			return -EINVAL;
++
++		if (*p != ',')
++			return -EINVAL;
++
+ 		size_pernode = memparse(p + 1, &p);
+ 		if (!size_pernode)
+ 			return -EINVAL;
+ 
+-		scratch_size_global = size;
++		scratch_size_lowmem = size;
++		scratch_size_global = size_global;
+ 		scratch_size_pernode = size_pernode;
+ 		scratch_scale = 0;
+ 
+-		pr_notice("scratch areas: global: %lluMB pernode: %lldMB\n",
++		pr_notice("scratch areas: lowmem: %lluMB global: %lluMB pernode: %lldMB\n",
++			  (u64)(scratch_size_lowmem >> 20),
+ 			  (u64)(scratch_size_global >> 20),
+ 			  (u64)(scratch_size_pernode >> 20));
+ 	}
+@@ -595,18 +606,38 @@ static int __init kho_parse_scratch_size(char *p)
+ }
+ early_param("kho_scratch", kho_parse_scratch_size);
+ 
+-static phys_addr_t __init scratch_size(int nid)
++static phys_addr_t __init scratch_size_low(void)
++{
++	phys_addr_t size;
++
++	if (scratch_scale)
++		size = memblock_reserved_kern_lowmem_size() * scratch_scale / 100;
++	else
++		size = scratch_size_lowmem;
++
++	return round_up(size, CMA_MIN_ALIGNMENT_BYTES);
++}
++
++static phys_addr_t __init scratch_size_high(void)
++{
++	phys_addr_t size;
++
++	if (scratch_scale)
++		size = memblock_reserved_kern_highmem_size() * scratch_scale / 100;
++	else
++		size = scratch_size_global;
++
++	return round_up(size, CMA_MIN_ALIGNMENT_BYTES);
++}
++
++static phys_addr_t __init scratch_size_node(int nid)
+ {
+ 	phys_addr_t size;
+ 
+-	if (scratch_scale) {
++	if (scratch_scale)
+ 		size = memblock_reserved_kern_size(nid) * scratch_scale / 100;
+-	} else {
+-		if (numa_valid_node(nid))
+-			size = scratch_size_pernode;
+-		else
+-			size = scratch_size_global;
+-	}
++	else
++		size = scratch_size_pernode;
+ 
+ 	return round_up(size, CMA_MIN_ALIGNMENT_BYTES);
+ }
+@@ -623,29 +654,41 @@ static phys_addr_t __init scratch_size(int nid)
+ static void kho_reserve_scratch(void)
+ {
+ 	phys_addr_t addr, size;
+-	int nid, i = 1;
++	int nid, i = 0;
+ 
+ 	if (!kho_enable)
+ 		return;
+ 
+ 	/* FIXME: deal with node hot-plug/remove */
+-	kho_scratch_cnt = num_online_nodes() + 1;
++	kho_scratch_cnt = num_online_nodes() + 2;
+ 	size = kho_scratch_cnt * sizeof(*kho_scratch);
+ 	kho_scratch = memblock_alloc(size, PAGE_SIZE);
+ 	if (!kho_scratch)
+ 		goto err_disable_kho;
+ 
+-	/* reserve large contiguous area for allocations without nid */
+-	size = scratch_size(NUMA_NO_NODE);
+-	addr = memblock_phys_alloc(size, CMA_MIN_ALIGNMENT_BYTES);
++	/* reserve area for lowmem allocations. */
++	size = scratch_size_low();
++	addr = memblock_phys_alloc_range(size, CMA_MIN_ALIGNMENT_BYTES, 0,
++					 ARCH_LOW_ADDRESS_LIMIT);
+ 	if (!addr)
+ 		goto err_free_scratch_desc;
+ 
+ 	kho_scratch[0].addr = addr;
+ 	kho_scratch[0].size = size;
++	i++;
++
++	/* reserve large contiguous area for allocations without nid */
++	size = scratch_size_high();
++	addr = memblock_phys_alloc(size, CMA_MIN_ALIGNMENT_BYTES);
++	if (!addr)
++		goto err_free_scratch_areas;
++
++	kho_scratch[1].addr = addr;
++	kho_scratch[1].size = size;
++	i++;
+ 
+ 	for_each_online_node(nid) {
+-		size = scratch_size(nid);
++		size = scratch_size_node(nid);
+ 		addr = memblock_alloc_range_nid(size, CMA_MIN_ALIGNMENT_BYTES,
+ 						0, MEMBLOCK_ALLOC_ACCESSIBLE,
+ 						nid, true);
+diff --git a/mm/memblock.c b/mm/memblock.c
+index fdb08b60efc17..da7abf5e5e504 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -1837,6 +1837,34 @@ phys_addr_t __init_memblock memblock_reserved_size(void)
+ 	return memblock.reserved.total_size;
+ }
+ 
++phys_addr_t __init_memblock memblock_reserved_kern_lowmem_size(void)
++{
++	struct memblock_region *r;
++	phys_addr_t total = 0;
++
++	for_each_reserved_mem_region(r) {
++		if ((r->flags & MEMBLOCK_RSRV_KERN) &&
++		    (r->base + r->size <= ARCH_LOW_ADDRESS_LIMIT))
++			total += r->size;
++	}
++
++	return total;
++}
++
++phys_addr_t __init_memblock memblock_reserved_kern_highmem_size(void)
++{
++	struct memblock_region *r;
++	phys_addr_t total = 0;
++
++	for_each_reserved_mem_region(r) {
++		if ((r->flags & MEMBLOCK_RSRV_KERN) &&
++		    (r->base + r->size > ARCH_LOW_ADDRESS_LIMIT))
++			total += r->size;
++	}
++
++	return total;
++}
++
+ phys_addr_t __init_memblock memblock_reserved_kern_size(int nid)
+ {
+ 	struct memblock_region *r;
+-- 
+Regards,
+Pratyush Yadav
