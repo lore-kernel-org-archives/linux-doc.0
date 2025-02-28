@@ -1,84 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64BC224CC;
-	Fri, 28 Feb 2025 14:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2AA26B970;
+	Fri, 28 Feb 2025 14:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740752989; cv=none; b=AD1vAKwuKQ5dD9Yk76YhhCYBcw7r6L2xd0E0NB8Qpb+OIsKryggwyLP9RrWW2WAFFvwXT1vYWDtAP2eE8m+pOs6Wlq7zZnjkAbOW39b6ZwIGBUwZOS7f5jQ5eBvw2F+/o1u5Z1EaXiXvaAd1XgNgMDx4XmjbH3QpIAWrSniHLPc=
+	t=1740753762; cv=none; b=FwmyqiUUDT8ySCQTN1eIx/OAEeRZ079gTc76CS5jeCUTDiaeCWaV5s/0QXjXF+H2o04FVSNJJ3t5TGYyVQQsvcjHFWz53DTuDltkI7yD/17sZxQsoXca6uzyyMnHUp217blIDRPaT7+yw3zyuO1+VApnsSoOo6KzKlw6Zx2qs44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740752989; c=relaxed/simple;
-	bh=AY6KTggfG+2NZyh4MNhPng9mblge+5h8fWPaN9vRs4g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=raBUJCK0Fs5oguwjNAmtMr2OilU/4lVJ7YY7eiZUlno0ryqA2VmLgvSmXucvl2Z6YJ+u8UHIQWm9mGPZOm8vJilQlvS9QjMFTgK3RyBfqZsgOMrIcBHwf8yo2zO1/hbiJiLMYOnRu+oeRNbgruXOuSuu/q0enuC37bmnYPx8nT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PY5O/cwx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740753762; c=relaxed/simple;
+	bh=3fsvnjXaM/CzbH4hRdFI5Frl6zZPizu0LaHFPeLi1PQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WDlnixffmmsaIMkGopX13FtV7Vry31wwVsVNyMsBIoG6ifWH3W7183TXotp5trWH328fFZPnFbhPS9G7S0G42Ws+SFjrBnnUw29UBvom6YxEtUFVQ1V8l4CZM3VaNkx9FI5TdDtnhbFr6KeOoFcg/1GNIhXFnzPhbb8B8+wgj6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Yya9l4ou; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PY5O/cwx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6891EC4CED6;
-	Fri, 28 Feb 2025 14:29:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740752989;
-	bh=AY6KTggfG+2NZyh4MNhPng9mblge+5h8fWPaN9vRs4g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PY5O/cwxqxGLSaoACpfVg8SBBsGU7X8sCCbwt2WaNaSJM188KFrQ1NJlA1llaK1h5
-	 W8+lMdcP7Ed0rrxJ9K8q68rCEeFhpCBYO+rCwVYvY2pXkef3HQSjICnUnoh0I6VLlp
-	 YNERk5kXkPB0RyuYIQedzL61nc49kcQq897Ga/IiFWrWPnwwcZeU45v1m9wFelEktG
-	 PCfg1foDNZykiybW+k42CR878DQ85frAgVgDbj41geD2PWGYKSMmbYCLxSxP0L1M3p
-	 m07ouhO/PQ/yMy7+FB5N5jlDEoHo8SzaoBh3AV5576HyXpb2G2Ponp5l53ssIqcTXk
-	 93Cj4wOH1T+PA==
-Date: Fri, 28 Feb 2025 06:29:47 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowang@redhat.com>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko
- <andrew@daynix.com>, Stephen Hemminger <stephen@networkplumber.org>,
- gur.stavi@huawei.com, Lei Yang <leiyang@redhat.com>
-Subject: Re: [PATCH net-next v7 5/6] selftest: tun: Add tests for virtio-net
- hashing
-Message-ID: <20250228062947.7864a59c@kernel.org>
-In-Reply-To: <20250228-rss-v7-5-844205cbbdd6@daynix.com>
-References: <20250228-rss-v7-0-844205cbbdd6@daynix.com>
-	<20250228-rss-v7-5-844205cbbdd6@daynix.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Yya9l4ou"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 08422404E4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1740753760; bh=VuBD/Hdy0DzyuJe4EYfZHrvz2Ap2tI9MnSTHTevxMIo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Yya9l4ouvsltCpyExs0Vm+yj8+3lAtgjiC/564uxQOraDn3vFydGnLtkUnrEnqEPM
+	 f8kEGY278WBShvSNd+6ZUn1i3o3oS5mMxdgNBgW5p3kXuPU0yrbCSb+VnysUfiyYaL
+	 V44maLEfOvHp/I5wKjfhrPVS+gYxTHJnFUdTeTWKxQIsnTovmoS33dvVLpSmG71HTL
+	 dAJ1c97l2goGAeebgrMuyBytXp4UfzK7YYTQMGZ0ZhGfALHNK4qlN/yOxKchr5wY3b
+	 THMPmmiH4NDnxgNjzeEbd6RMqzXhstLx26VodXjpbeF71dL24RFukiXdGPO6EW1fgj
+	 0Ofu6pdz88o/w==
+Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 08422404E4;
+	Fri, 28 Feb 2025 14:42:39 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: David Jander <david@protonic.nl>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, Nuno Sa <nuno.sa@analog.com>, Jonathan Cameron
+ <jic23@kernel.org>, Oleksij Rempel <o.rempel@pengutronix.de>
+Subject: Re: [RFC PATCH 4/7] Documentation: Add Linux Motion Control
+ documentation
+In-Reply-To: <20250228140212.346c4ef5@erd003.prtnl>
+References: <20250227162823.3585810-1-david@protonic.nl>
+ <20250227162823.3585810-5-david@protonic.nl>
+ <87y0xrpcnn.fsf@trenco.lwn.net> <20250228140212.346c4ef5@erd003.prtnl>
+Date: Fri, 28 Feb 2025 07:42:39 -0700
+Message-ID: <87o6ymnna8.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Fri, 28 Feb 2025 16:58:51 +0900 Akihiko Odaki wrote:
-> The added tests confirm tun can perform RSS and hash reporting, and
-> reject invalid configurations for them.
+David Jander <david@protonic.nl> writes:
 
-The tests may benefit from using FIXTURE_VARIANT(), up to you.
+> What I am unsure of is the rest of the documentation (which arguably still
+> needs to be written). I initially selected this place because of
+> Documentation/subsystem-apis.rst. LMC being a new "subsystem", made me think it
+> was the right thing to follow the structure of the contents there.
+> What I mean to put there is documentation of the driver API for motion
+> control drivers. I understand that while it doesn't really exist yet, I should
+> leave it out of this patch set, but when I am going to write it, should it
+> still go there, or is there now a better place?
 
-The IPv4 tests fail reliably on a VM with a debug kernel
-(kernel/configs/debug.config included in the config):
+I've really been pushing to organize our documentation by the audience
+it is addressing, rather than by the developers who write it.  So
+driver-api documentation is best put into ... the driver-api book,
+Documentation/driver-api.
 
-# 5.90 [+0.00] ok 14 tun_vnet_hash.unclassified
-# 5.90 [+0.00] #  RUN           tun_vnet_hash.ipv4 ...
-# 6.18 [+0.28] # tun.c:669:ipv4:Expected 0 (0) != tun_vnet_hash_check(self->source_fd, self->dest_fds, &packet, sizeof(packet), 0, VIRTIO_NET_HASH_REPORT_IPv4, 0x6e45d952) (0)
-# 15.09 [+8.92] # ipv4: Test failed
-# 15.10 [+0.00] #          FAIL  tun_vnet_hash.ipv4
-# 15.10 [+0.00] not ok 15 tun_vnet_hash.ipv4
-# 15.10 [+0.00] #  RUN           tun_vnet_hash.tcpv4 ...
-# 15.36 [+0.26] # tun.c:689:tcpv4:Expected 0 (0) != tun_vnet_hash_check(self->source_fd, self->dest_fds, &packet, sizeof(packet), VIRTIO_NET_HDR_F_DATA_VALID, VIRTIO_NET_HASH_REPORT_TCPv4, 0xfb63539a) (0)
-# 24.76 [+9.40] # tcpv4: Test failed
-# 24.76 [+0.00] #          FAIL  tun_vnet_hash.tcpv4
-# 24.76 [+0.00] not ok 16 tun_vnet_hash.tcpv4
-# 24.77 [+0.00] #  RUN           tun_vnet_hash.udpv4 ...
-# 25.05 [+0.28] # tun.c:710:udpv4:Expected 0 (0) != tun_vnet_hash_check(self->source_fd, self->dest_fds, &packet, sizeof(packet), VIRTIO_NET_HDR_F_DATA_VALID, VIRTIO_NET_HASH_REPORT_UDPv4, 0xfb63539a) (0)
-# 32.11 [+7.06] # udpv4: Test failed
-# 32.11 [+0.00] #          FAIL  tun_vnet_hash.udpv4
-# 32.11 [+0.00] not ok 17 tun_vnet_hash.udpv4
--- 
-pw-bot: cr
+My plan, that I haven't yet acted on, is to create Documentation/devices
+for device-specific docs that don't go anywhere else, then move a lot of
+stuff into it.  Much like what was done with Documentation/arch.  But
+anything that can go into the existing audience-focused manuals should
+go there.
+
+Thanks,
+
+jon
