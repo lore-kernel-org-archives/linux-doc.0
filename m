@@ -1,151 +1,161 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBF2A27CCE4;
-	Fri, 28 Feb 2025 19:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC404202981;
+	Fri, 28 Feb 2025 20:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740772460; cv=none; b=bTh0z0Us2A43lhUHFqOb8gmOd/umFsk/1qK8giDQkAE41HecBz7jt290zVaw2LVHO6BhWFxsFOfdIDb9eL0KYfumIuNwPC/9MEKmTqPM1zqR1C7wsSjgFolg+Zi4XqJZUpl9IdFZczfdDvz4eCidVOSMIVokV99Z4xB8sAo67o8=
+	t=1740774045; cv=none; b=aSLVzjtqLbbBlVY92gA7V1Em10FTkJab+8b/dJQMbCxJWzqWs7hTspGlwGW6/eV52ECwEscIcEiNBdkqTmDXu1R5HQahEbhvSH5Qrwx3gUlpg08L2I09gWdUtj9Yh5QMyZfxmJM/14bdv1yLSbXDkkQooYemoIpv6oLKMU+9IAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740772460; c=relaxed/simple;
-	bh=4GkfnwNsKbq/mr/Mi22ZRxvnkRGN0lE29AmS6GLzr1M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CYkmiscU+rREnarNSDMsqQ/T2WS9+lBP/0A5XHgNuMyv4UZrorpRqTRpsHyZa3kABXgKOEpomrHXyhhU0RoiwmUFfA7lI8Zl/DDcOIcvfyaFnunZFlVlWz+h+UXoCNExg4brBPpnaJn/qpxE5GGR2Z4/1YEe/VDhKHHE9b8smP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1DD0F150C;
-	Fri, 28 Feb 2025 11:54:32 -0800 (PST)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 53B2F3F7D8;
-	Fri, 28 Feb 2025 11:54:13 -0800 (PST)
-Message-ID: <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
-Date: Fri, 28 Feb 2025 19:54:11 +0000
+	s=arc-20240116; t=1740774045; c=relaxed/simple;
+	bh=bbzE7bwrYKBUNI91akgimXhe+iLOXIRvjnh9wKEiBG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BLE6wZqFMjSWG+2pp5iL0WexeayMOC1rEdwEhkG0cMAzc0Mhob6fNqJKR/LSkavyByQSBErm48ChG4qtWCVipZWt93UHVT9Hf8Xp97K/Ys0ic8HbMDJmhwwI72/YlJOSKPDQ1qWRTP/+YdMFvLSIIVSdLzCbEvVO1sAjIysHQsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfFIn91K; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfFIn91K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5A39C4CED6;
+	Fri, 28 Feb 2025 20:20:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740774045;
+	bh=bbzE7bwrYKBUNI91akgimXhe+iLOXIRvjnh9wKEiBG0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kfFIn91KSNHhn07yKT9l2oOU8euWhSQeLxxD1+CP5Lmkt8N8i6O/Zn9pEs4NGiCJj
+	 qJEjrvhzqZMOIYECg3O0McklsQMWurW5bICaO6Eqlily54ppx+yXiPrIfcDSkbmmEy
+	 mgA+RTO662SeKhJ/BeytWpw2yGPCMjmkdX2P8FuJVAKh+rj8Ay73HcAZ8F0mxABP/0
+	 t/Etv53LQUPDT8LDrOxXxcp5ZTSXxggaTWVIPD4REQMGOIcj+m3X88aLIXEmmDQWmj
+	 830FksBD61RtpQPNDjonn0bpZ2XqD0baA3+sDkYSi8hDY+Sf6kIPnRC3EZcEYLP+NU
+	 hO0vT2n2HTtbg==
+Date: Fri, 28 Feb 2025 22:20:23 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v4 00/14] kexec: introduce Kexec HandOver (KHO)
+Message-ID: <Z8Iah6FgrhSzApwf@kernel.org>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+ <mafs0cyf4ii4k.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
-To: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
- Randy Dunlap <rdunlap@infradead.org>
-References: <cover.1738765879.git.leonro@nvidia.com>
- <20250220124827.GR53094@unreal>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250220124827.GR53094@unreal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mafs0cyf4ii4k.fsf@kernel.org>
 
-On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
-> On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
->> From: Leon Romanovsky <leonro@nvidia.com>
->>
->> Changelog:
->> v7:
->>   * Rebased to v6.14-rc1
+Hi Pratyush,
+
+On Wed, Feb 26, 2025 at 08:08:27PM +0000, Pratyush Yadav wrote:
+> Hi Mike,
 > 
-> <...>
+> On Thu, Feb 06 2025, Mike Rapoport wrote:
 > 
->> Christoph Hellwig (6):
->>    PCI/P2PDMA: Refactor the p2pdma mapping helpers
->>    dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
->>    iommu: generalize the batched sync after map interface
->>    iommu/dma: Factor out a iommu_dma_map_swiotlb helper
->>    dma-mapping: add a dma_need_unmap helper
->>    docs: core-api: document the IOVA-based API
->>
->> Leon Romanovsky (11):
->>    iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
->>    dma-mapping: Provide an interface to allow allocate IOVA
->>    dma-mapping: Implement link/unlink ranges API
->>    mm/hmm: let users to tag specific PFN with DMA mapped bit
->>    mm/hmm: provide generic DMA managing logic
->>    RDMA/umem: Store ODP access mask information in PFN
->>    RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
->>      linkage
->>    RDMA/umem: Separate implicit ODP initialization from explicit ODP
->>    vfio/mlx5: Explicitly use number of pages instead of allocated length
->>    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
->>    vfio/mlx5: Enable the DMA link API
->>
->>   Documentation/core-api/dma-api.rst   |  70 ++++
->   drivers/infiniband/core/umem_odp.c   | 250 +++++---------
->>   drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
->>   drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
->>   drivers/infiniband/hw/mlx5/umr.c     |  12 +-
->>   drivers/iommu/dma-iommu.c            | 468 +++++++++++++++++++++++----
->>   drivers/iommu/iommu.c                |  84 ++---
->>   drivers/pci/p2pdma.c                 |  38 +--
->>   drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
->>   drivers/vfio/pci/mlx5/cmd.h          |  35 +-
->>   drivers/vfio/pci/mlx5/main.c         |  87 +++--
->>   include/linux/dma-map-ops.h          |  54 ----
->>   include/linux/dma-mapping.h          |  85 +++++
->>   include/linux/hmm-dma.h              |  33 ++
->>   include/linux/hmm.h                  |  21 ++
->>   include/linux/iommu.h                |   4 +
->>   include/linux/pci-p2pdma.h           |  84 +++++
->>   include/rdma/ib_umem_odp.h           |  25 +-
->>   kernel/dma/direct.c                  |  44 +--
->>   kernel/dma/mapping.c                 |  18 ++
->>   mm/hmm.c                             | 264 +++++++++++++--
->>   21 files changed, 1435 insertions(+), 693 deletions(-)
->>   create mode 100644 include/linux/hmm-dma.h
+> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> >
+> > Hi,
+> >
+> > This a next version of Alex's "kexec: Allow preservation of ftrace buffers"
+> > series (https://lore.kernel.org/all/20240117144704.602-1-graf@amazon.com),
+> > just to make things simpler instead of ftrace we decided to preserve
+> > "reserve_mem" regions.
+> [...]
 > 
-> Kind reminder.
+> I applied the patches on top of v6.14-rc1 and tried them out on an x86
+> qemu machine . When I do a plain KHO activate and kexec, I get the below
+> errors on boot. This causes networking to fail on the VM. The errors are
+> consistent and happen every kexec-reboot, though fairly late in boot
+> after systemd tries to bring up network. The same setup has worked fine
+> with Alex's v3 of KHO patches.
+> 
+> Do you see anything obvious that might cause this? I can try to debug
+> this tomorrow, but if it rings any loud bells it would be nice to know.
 
-...that you've simply reposted the same thing again? Without doing 
-anything to address the bugs, inconsistencies, fundamental design flaws 
-in claiming to be something it cannot possibly be, the egregious abuse 
-of DMA_ATTR_SKIP_CPU_SYNC proudly highlighting how unfit-for-purpose the 
-most basic part of the whole idea is, nor *still* the complete lack of 
-any demonstrable justification of how callers who supposedly can't use 
-the IOMMU API actually benefit from adding all the complexity of using 
-the IOMMU API in a hat but also still the streaming DMA API as well?
+Thanks for the report!
+It didn't ring any bells, but after I've found the issue and a
+fast-and-dirty fix.
 
-Yeah, consider me reminded.
+The scratch areas are allocated from high addresses and there is no scratch
+memory to satisfy memblock_alloc_low() in swiotb, so second kernel produces
+a couple of 
 
+software IO TLB: swiotlb_memblock_alloc: Failed to allocate 67108864 bytes for tlb structure
 
+and without those buffers e1000 can't dma :(
 
-In case I need to make it any more explicit, NAK to this not-generic 
-not-DMA-mapping API, until you can come up with either something which 
-*can* actually work in any kind of vaguely generic manner as claimed, or 
-instead settle on a reasonable special-case solution for justifiable 
-special cases. Bikeshedding and rebasing through half a dozen versions, 
-while ignoring fundamental issues I've been pointing out from the very 
-beginning, has not somehow magically made this series mature and 
-acceptable to merge.
+A quick fix would be to add another scratch area in the lower memory
+(below). I'll work on a better fix.
 
-Honestly, given certain other scenarios we may also end up having to 
-deal with, if by the time everything broken is taken away, it were to 
-end up stripped all the way back to something well-reasoned like:
+diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
+index c26753d613cb..37bb54cdb130 100644
+--- a/kernel/kexec_handover.c
++++ b/kernel/kexec_handover.c
+@@ -623,13 +623,13 @@ static phys_addr_t __init scratch_size(int nid)
+ static void kho_reserve_scratch(void)
+ {
+ 	phys_addr_t addr, size;
+-	int nid, i = 1;
++	int nid, i = 2;
+ 
+ 	if (!kho_enable)
+ 		return;
+ 
+ 	/* FIXME: deal with node hot-plug/remove */
+-	kho_scratch_cnt = num_online_nodes() + 1;
++	kho_scratch_cnt = num_online_nodes() + 2;
+ 	size = kho_scratch_cnt * sizeof(*kho_scratch);
+ 	kho_scratch = memblock_alloc(size, PAGE_SIZE);
+ 	if (!kho_scratch)
+@@ -644,6 +644,15 @@ static void kho_reserve_scratch(void)
+ 	kho_scratch[0].addr = addr;
+ 	kho_scratch[0].size = size;
+ 
++	addr = 	memblock_phys_alloc_range(size, CMA_MIN_ALIGNMENT_BYTES,
++					  MEMBLOCK_LOW_LIMIT,
++					  ARCH_LOW_ADDRESS_LIMIT);
++	if (!addr)
++		goto err_free_scratch_areas;
++
++	kho_scratch[1].addr = addr;
++	kho_scratch[1].size = size;
++
+ 	for_each_online_node(nid) {
+ 		size = scratch_size(nid);
+ 		addr = memblock_alloc_range_nid(size, CMA_MIN_ALIGNMENT_BYTES,
 
-"Some drivers want more control of their DMA buffer layout than the 
-general-purpose IOVA allocator is able to provide though the DMA mapping 
-APIs, but also would rather not have to deal with managing an entire 
-IOMMU domain and address space, making MSIs work, etc. Expose 
-iommu_dma_alloc_iova() and some trivial IOMMU API wrappers to allow 
-drivers of coherent devices to claim regions of the default domain 
-wherein they can manage their own mappings directly."
+> -- 
+> Regards,
+> Pratyush Yadav
+> 
 
-...I wouldn't necessarily disagree.
-
-Thanks,
-Robin.
+-- 
+Sincerely yours,
+Mike.
