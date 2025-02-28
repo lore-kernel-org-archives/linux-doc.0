@@ -1,97 +1,130 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B80D1F09B3
-	for <linux-doc@vger.kernel.org>; Fri, 28 Feb 2025 17:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF1261F4CB1;
+	Fri, 28 Feb 2025 17:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740762414; cv=none; b=o4Vyphy9uutguEY9GZsOwv5t5uZfUP09v4oj+Aq0+rTy7y0utJddWhSlw9MpyNgw8CHglQbVJnb1TML/F/SPasGBah2srpx5DyxPDAzr5qFyT2vmF1kXzdPiUAEC8Ks3zscA90op/K2YDmEQ/aYaBXIqfwDyQiEJ/D8gHqX0BYk=
+	t=1740765051; cv=none; b=sRnZzCW0FNxNCikXh66Wd0PQ4854mLl2lRm/p+zZXGCuOZ102XMNVrOMOPFVEKEi6ZZLFIlvw0e1C/kDdPQqh/nj7HpSAU5BuOobV0elzFBavCzExgxY9/xPNHvOX9rWI/FjmTE6BZUn6KbwDlcDYzMqQSunb5w0E5O0a9oTXTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740762414; c=relaxed/simple;
-	bh=GhxfjYTlO7PQcwgsyQ90b3skm9cvQU1MOfFdjK9ntnc=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=kXK4CbCakQWc3UcUO3S9CF8qBYps0MLSj4cFEA1boTKjCTlW4XpwZQA/eXMTed0nJa02bMUxFfCwF7AgLTYyKwpQzuVS5i6FnevpEPx0g9Q07aCXcNFQYQ2ku1If2lfv9JALQGwGMWqonhIZgyPT1DnCF6vTOiQq9ig2W9o6BnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=am4UwQYp; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="am4UwQYp"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2feb019b13aso5932328a91.3
-        for <linux-doc@vger.kernel.org>; Fri, 28 Feb 2025 09:06:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740762412; x=1741367212; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NiD5Cq6lH6pig3uaUeBMc6Aen3xtXFlOq/Rx/GGAE8M=;
-        b=am4UwQYpoaoyEJDcpI+XbDgS6/tviKXCnmR1VN5+u8THBMn8idqYjPkDyaGOhYBOIO
-         SmcJPptnTi3B18qIwUp8EoSwQETagS9CBZNcnx19QUBrBc2Lf+ZiGTTvKFGwXniDiaeJ
-         S7IXYkxr3cCTDTbWNbzp71h59oc+T/Q3ByA1HqKBG2bvPaH2QYadui6jRhGoUkBNervc
-         s6w3M17Q5WWWp69v3Hb93y9r72JBAwwFJ7SR1AzQBkEo5IjL+uCWaF0+mo5KnmDTcPzg
-         76dIxu6u/I3PMfX8SpMosvIsYdpr7jeX5wkri9lbxo9lMSc5nd+dfbpG0JoGDGAaICtO
-         eW0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740762412; x=1741367212;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NiD5Cq6lH6pig3uaUeBMc6Aen3xtXFlOq/Rx/GGAE8M=;
-        b=CYvD8Pcx/LckyN+jzgLxChXxEry7+u4TcK+K3x3wXWMv+IsatLPzvlkLi7vj2FhHf+
-         2QnMM7tX+GibyMtxai1sD5lbS0dw/JllgmctnBrWleZR/gtKEqq6fDrtsA34hxFQTWYK
-         2uGLWZ7qSy2McfOLpJhZgyzuNlrYjG/XafRfWhTuueVNvzVgttmcKFE/GDhYJgLkp+7a
-         66juP8HT8Y1JER3yGCnFWgJuvCgV+PDoqCsswsxm/9WqLjet4i/ytcEQShPbSsMh2/Ve
-         vVygYOAqxWtnIxwY0ABTEpCQ2KkUQLQxNOIM4uPZFROfCvbIYgRMxNsZKJaI7EYhZLyd
-         4MEw==
-X-Forwarded-Encrypted: i=1; AJvYcCWAG/7wblMstq+iRhaSY3Z6Zyzdfjj648Pj01QT+HK+0EbpXfMAan9LyAl9yooWHKtggN6VJdsu4Fw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRI9jaQWOEvzFb0gzh0d9AQK5ZjyJNdluwGQ9SK9u9sFqyp4Ed
-	AOBqKhREWY1KdIZS4OKMmqkKbKBR3s5QhSW+yzK5IRrO4S6jJj5tLSFzROzvsKAuD5FXBxjyksy
-	Hcg==
-X-Google-Smtp-Source: AGHT+IEO4OQkgM+IUhtTj2siheuh3+5J9XXD5K0QE0gxXSk5KvQNCy9VBxx6kh2EerS8p7ugyt/FmeViB5Q=
-X-Received: from pjn3.prod.google.com ([2002:a17:90b:5703:b0:2fa:e9b:33b7])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:4990:b0:2fa:2252:f438
- with SMTP id 98e67ed59e1d1-2febabf892cmr6764957a91.30.1740762412656; Fri, 28
- Feb 2025 09:06:52 -0800 (PST)
-Date: Fri, 28 Feb 2025 09:06:28 -0800
-In-Reply-To: <20241001050110.3643764-1-xin@zytor.com>
+	s=arc-20240116; t=1740765051; c=relaxed/simple;
+	bh=gvgDQfQOoR9DJ8Xxv+7hfNCvtch+faulE4Wc/MB7u1Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition; b=Z14Ga3GbzKR3VM4pojmFte3VkkwPG1bmtGzy6IRTyToeL9y6K5rhRGkyz64fBYrh7vqAPhMAyISpp27Fqf7JrbY7NzHQDgR/fJEiQ10SZEaAZ9jPofu4EoNGH58h8m8ErtbujOCHJ2aG4++JiZ5MAzOdNmFDBzUV4Kf+kOL/ppk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 51EC5150C;
+	Fri, 28 Feb 2025 09:51:04 -0800 (PST)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.51])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A3B6F3F6A8;
+	Fri, 28 Feb 2025 09:50:44 -0800 (PST)
+Date: Fri, 28 Feb 2025 17:50:36 +0000
+From: Dave Martin <Dave.Martin@arm.com>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "Chatre, Reinette" <reinette.chatre@intel.com>,
+	"Moger, Babu" <babu.moger@amd.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"peternewman@google.com" <peternewman@google.com>,
+	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+	"paulmck@kernel.org" <paulmck@kernel.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"thuth@redhat.com" <thuth@redhat.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"xiongwei.song@windriver.com" <xiongwei.song@windriver.com>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"daniel.sneddon@linux.intel.com" <daniel.sneddon@linux.intel.com>,
+	"jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+	"perry.yuan@amd.com" <perry.yuan@amd.com>,
+	"sandipan.das@amd.com" <sandipan.das@amd.com>,
+	"Huang, Kai" <kai.huang@intel.com>,
+	"Li, Xiaoyao" <xiaoyao.li@intel.com>,
+	"seanjc@google.com" <seanjc@google.com>,
+	"Li, Xin3" <xin3.li@intel.com>,
+	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+	"ebiggers@google.com" <ebiggers@google.com>,
+	"mario.limonciello@amd.com" <mario.limonciello@amd.com>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"tan.shaopeng@fujitsu.com" <tan.shaopeng@fujitsu.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"Wieczor-Retman, Maciej" <maciej.wieczor-retman@intel.com>,
+	"Eranian, Stephane" <eranian@google.com>
+Subject: Re: [PATCH v11 22/23] x86/resctrl: Introduce interface to list
+ assignment states of all the groups
+Message-ID: <Z8H3bKmTKQr7N2wG@e133380.arm.com>
+References: <cover.1737577229.git.babu.moger@amd.com>
+ <52c66bf98480c0ab6bb0f0762497e328fcbdeaac.1737577229.git.babu.moger@amd.com>
+ <Z7XiQ+u3Pc+uvJCK@e133380.arm.com>
+ <45a0a88a-b31e-447e-9d62-bc0cdedf06f7@amd.com>
+ <Z7dN2KpsQjVUb3KR@e133380.arm.com>
+ <7802f9e9-9a63-463d-a51e-e9ad0e60f77f@amd.com>
+ <Z7ijCphcSM58AqA6@e133380.arm.com>
+ <09f2f512-0428-4649-b8ef-33e5a03d5dcb@intel.com>
+ <Z7ydx6vfuw8OdJzL@e133380.arm.com>
+ <SJ1PR11MB608377BD540169FF3B0FF82DFCC02@SJ1PR11MB6083.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241001050110.3643764-1-xin@zytor.com>
-X-Mailer: git-send-email 2.48.1.711.g2feabab25a-goog
-Message-ID: <174050797241.2702151.11096228988534371837.b4-ty@google.com>
-Subject: Re: [PATCH v3 00/27] Enable FRED with KVM VMX
-From: Sean Christopherson <seanjc@google.com>
-To: Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, "Xin Li (Intel)" <xin@zytor.com>
-Cc: pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 30 Sep 2024 22:00:43 -0700, Xin Li (Intel) wrote:
-> This patch set enables the Intel flexible return and event delivery
-> (FRED) architecture with KVM VMX to allow guests to utilize FRED.
+Hi,
+
+On Tue, Feb 25, 2025 at 12:39:04PM +0000, Dave Martin wrote:
+> Hi Tony,
 > 
-> The FRED architecture defines simple new transitions that change
-> privilege level (ring transitions). The FRED architecture was
-> designed with the following goals:
+> On Mon, Feb 24, 2025 at 05:23:06PM +0000, Luck, Tony wrote:
+> > > It has just occurred to be that ftrace has large, multi-line text files
+> > > in sysfs, so I'll try to find out how they handle that there.  Maybe
+> > > there is some infrastructure we can re-use.
+> > 
+> > Resctrl was built on top of "kernfs" because that was a simple base
+> > that met needs at the time.
+> > 
+> > Do we need to look at either extending capabilities of kernfs? Or
+> > move to sysfs?
+> > 
+> > -Tony
 > 
-> [...]
+> I took a look at what ftrace does: it basically rolls its own buffering
+> implementation, sufficient for its needs.
+> 
+> The ftrace code is internal and not trivial to pick up and plonk into
+> resctrl.  We also have another possible requirement that ftrace doesn't
+> have (whole-file atomicity).  But ftrace's example at least confirms
+> that there is probably no off-the-shelf implementation for this in the
+> kernel.
 
-Applied
+[...]
 
-[01/27] KVM: x86: Use a dedicated flow for queueing re-injected exceptions
-        https://github.com/kvm-x86/linux/commit/b50cb2b1555d
+After having spent a bit of time looking into this, I think we are probably
+OK, at least for reading these files.
 
-to kvm-x86 misc, and
+seq_file will loop over the file's show() callback, growing the seq_file
+buffer until show() can run without overrunning the buffer.
 
-[02/27] KVM: VMX: Don't modify guest XFD_ERR if CR0.TS=1
-        https://github.com/kvm-x86/linux/commit/3ef0df3f760f
-[14/27] KVM: VMX: Pass XFD_ERR as pseudo-payload when injecting #NM
-        https://github.com/kvm-x86/linux/commit/d62c02af7a96k
+This means that the show() callback receives a buffer that is magically big
+enough, but there may be some "speculative" calls whose output never goes
+to userspace.  Once seq_file has the data, it deals with the userspace-
+facing I/O buffering internally, so we shouldn't have to worry about that.
 
-to kvm-x86 vmx.
+I'll try to hack up a test next week to confirm that this works.
 
---
-https://github.com/kvm-x86/linux/tree/next
+The seq_file approach appears sound, but may be inefficient if the initial
+guess at the buffer size (= PAGE_SIZE) is frequently too small.  (There is
+single_open_size() though, which allows the buffer to be preallocated with
+a specified size and may be useful.)
+
+
+seq_file doesn't help with the write side at all, but I think we agreed
+that handling large file writes properly is less urgent.
+
+Cheers
+---Dave
