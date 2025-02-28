@@ -1,583 +1,97 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67365274248
-	for <linux-doc@vger.kernel.org>; Fri, 28 Feb 2025 16:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B80D1F09B3
+	for <linux-doc@vger.kernel.org>; Fri, 28 Feb 2025 17:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740761074; cv=none; b=R0wCgEjvFSfEl8FQLGvKJimLY1nB4XHTTmD6RTLy80O/isEY/tz728few7Gs0B7yuhZ7B8214sg+GHfRpkQTIHsgnQvlAtAy4yec9JIx9eKl+ZlSyp/xxHWYGgB6TOZdZXpzRVenJ0SGnBLj3txl8LGa53w/icSB4x4e5F8O4hw=
+	t=1740762414; cv=none; b=o4Vyphy9uutguEY9GZsOwv5t5uZfUP09v4oj+Aq0+rTy7y0utJddWhSlw9MpyNgw8CHglQbVJnb1TML/F/SPasGBah2srpx5DyxPDAzr5qFyT2vmF1kXzdPiUAEC8Ks3zscA90op/K2YDmEQ/aYaBXIqfwDyQiEJ/D8gHqX0BYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740761074; c=relaxed/simple;
-	bh=qXA0c1IR/us4lTUTlJHNdr8KlfNpmil6daBUR0/wFb0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NU20AUZnQ/aWg4WhGg0yeL60Vsr12KrBtd8GShniVJQ90rMMe4dgMLUPWwN+JNP3NveuZPNLSRSc5a8sinHNYJdmVppWU7MOoAlTJqKYIUf2eN6KGlazpp8RCsRoPMI2nb5bD0HW+pRAD9k072+eWPZ5ESPU7qMgKvGT8R4xE6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=asT9qXR7; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1740762414; c=relaxed/simple;
+	bh=GhxfjYTlO7PQcwgsyQ90b3skm9cvQU1MOfFdjK9ntnc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=kXK4CbCakQWc3UcUO3S9CF8qBYps0MLSj4cFEA1boTKjCTlW4XpwZQA/eXMTed0nJa02bMUxFfCwF7AgLTYyKwpQzuVS5i6FnevpEPx0g9Q07aCXcNFQYQ2ku1If2lfv9JALQGwGMWqonhIZgyPT1DnCF6vTOiQq9ig2W9o6BnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=am4UwQYp; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="asT9qXR7"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-abec8c122e4so341535666b.1
-        for <linux-doc@vger.kernel.org>; Fri, 28 Feb 2025 08:44:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="am4UwQYp"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2feb019b13aso5932328a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 28 Feb 2025 09:06:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1740761070; x=1741365870; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o/pohaoVOYa7MLiqI6t3X8roTJn1qw8ViB7ehkN63Og=;
-        b=asT9qXR7U3JZzYhRdsraoh14R6etU1THQJOuMlvLFxdXCJZm8yPoHxceEW+bFcZMSs
-         CpOjK4UXGq3nz8u0kwuTxSMXsexLDIiss7ClwkVC1E5PfArkDqyEcvVv+GjC9N9ezMR6
-         wm8Btsu/XDo4l+av7VuXrt7WvfuoHCdkZgT+v/cEmufbte6BxtMP3+nE0n+LegLEkoXy
-         e3N8Vh3kHl/coMy1CNrzlqL5OqJNquLKvds0O2UmTIihKYRsWj4S6pKMDpwp3luIpcFq
-         u1p+3eu0UN9A4SlzJ32tkCPda16Do0UNC3wqG6G0luZh0Om9GP3i1dD1WnMLDiDPY1Ut
-         HGGw==
+        d=google.com; s=20230601; t=1740762412; x=1741367212; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NiD5Cq6lH6pig3uaUeBMc6Aen3xtXFlOq/Rx/GGAE8M=;
+        b=am4UwQYpoaoyEJDcpI+XbDgS6/tviKXCnmR1VN5+u8THBMn8idqYjPkDyaGOhYBOIO
+         SmcJPptnTi3B18qIwUp8EoSwQETagS9CBZNcnx19QUBrBc2Lf+ZiGTTvKFGwXniDiaeJ
+         S7IXYkxr3cCTDTbWNbzp71h59oc+T/Q3ByA1HqKBG2bvPaH2QYadui6jRhGoUkBNervc
+         s6w3M17Q5WWWp69v3Hb93y9r72JBAwwFJ7SR1AzQBkEo5IjL+uCWaF0+mo5KnmDTcPzg
+         76dIxu6u/I3PMfX8SpMosvIsYdpr7jeX5wkri9lbxo9lMSc5nd+dfbpG0JoGDGAaICtO
+         eW0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740761070; x=1741365870;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o/pohaoVOYa7MLiqI6t3X8roTJn1qw8ViB7ehkN63Og=;
-        b=NAysquI3pWtKpe5DsJOjW54TD17ECObeejuqJZJWC5jlPCnm4d8KrJQhhUeUI4DsH3
-         I7+yKOkzCqKLHFO1zii94esjg0ESbA+8x/Yfj7gIinJASwhEqetc5B/R4dZLaT5sACFO
-         A+SPQKe9cD3nioFsHhtnArnCcypayWaOBSz8nY7ssreuz3mC4T5B8ht2X34/BNJgJ9Rj
-         emPiPPLY+HCMMdJ63tm0xYC8/GMHZ4E7gtD0tck3G6992UHIbPYU7pstrJjQVqTiOgLu
-         1NtkbnzVVEsoREzS0DuB8SNe87lAU/hU8hUBtaeAvPQUgLimYfBCp1bZswOSiNrOC5yJ
-         0MUg==
-X-Forwarded-Encrypted: i=1; AJvYcCUNnR2B+/8O/s9bFLst7EUK/gXezq9felkMF5Fy7IYvw70kGKBrYq28YjbuSEtrbqMgny9NZdMYNNo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxh81RFLNIEnG5S1E+NIko/U+BI5Q+2HiGUd6b1csy8bsBwDzfP
-	9eZRzXn11KLh/STfTtW3U7ZlRNi8d8FUvKbfMqKxcwloWfAuaYwOBjwELVFf4FQ=
-X-Gm-Gg: ASbGncuowXXMu13OkFiuyIrE9et0CSypKJJjFb9qgGZ6jQymdCla9At5TcP77YZsreS
-	hXwNANMqYuJ6Z0isiQGn0Rm9Lx7emeO2PqWCyaWnVQLLOeUX+i25Vghe1g4ob5xCtwDISvMAtIn
-	o0M8pA0fJkTmq445f8JjXNKQM0wec2c62zQ8rkyqeidVXgP1XOgMun4MJKY93fABjjoFR1NGKVI
-	mPZsidggziqlPB89RnyH4o9wqbHBl6wbGe/5Ur9/BQvo48Mnvr2lHAIJxSpOeMiYKNYLd+q9VtY
-	V8/fWj5uLM7CyN1HwIA7jq51OVe4N3iZwxg0QuHj6xbbJl37fWvJgcpKwUlDyXAp
-X-Google-Smtp-Source: AGHT+IG+DO6MXCnzc/DlUfglyLe/ZcGADst0PEmKnrvnBgpbBQ4AnIFQT1EaCSqAAz8kPgNagFnWhg==
-X-Received: by 2002:a17:906:7310:b0:abf:13cb:c411 with SMTP id a640c23a62f3a-abf25fabbaemr476729066b.18.1740761069411;
-        Fri, 28 Feb 2025 08:44:29 -0800 (PST)
-Received: from localhost (p200300f65f2c000400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f2c:4::1b9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abf0c0b92d3sm319704866b.12.2025.02.28.08.44.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2025 08:44:28 -0800 (PST)
-Date: Fri, 28 Feb 2025 17:44:27 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: David Jander <david@protonic.nl>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Nuno Sa <nuno.sa@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Oleksij Rempel <o.rempel@pengutronix.de>
-Subject: Re: [RFC PATCH 1/7] drivers: Add motion control subsystem
-Message-ID: <6c6cqaxmsy7miesel4ghdeiea6nrpe4gti4xf5enfyg4uqro5u@vpmtd2t7gydi>
-References: <20250227162823.3585810-1-david@protonic.nl>
- <20250227162823.3585810-2-david@protonic.nl>
+        d=1e100.net; s=20230601; t=1740762412; x=1741367212;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NiD5Cq6lH6pig3uaUeBMc6Aen3xtXFlOq/Rx/GGAE8M=;
+        b=CYvD8Pcx/LckyN+jzgLxChXxEry7+u4TcK+K3x3wXWMv+IsatLPzvlkLi7vj2FhHf+
+         2QnMM7tX+GibyMtxai1sD5lbS0dw/JllgmctnBrWleZR/gtKEqq6fDrtsA34hxFQTWYK
+         2uGLWZ7qSy2McfOLpJhZgyzuNlrYjG/XafRfWhTuueVNvzVgttmcKFE/GDhYJgLkp+7a
+         66juP8HT8Y1JER3yGCnFWgJuvCgV+PDoqCsswsxm/9WqLjet4i/ytcEQShPbSsMh2/Ve
+         vVygYOAqxWtnIxwY0ABTEpCQ2KkUQLQxNOIM4uPZFROfCvbIYgRMxNsZKJaI7EYhZLyd
+         4MEw==
+X-Forwarded-Encrypted: i=1; AJvYcCWAG/7wblMstq+iRhaSY3Z6Zyzdfjj648Pj01QT+HK+0EbpXfMAan9LyAl9yooWHKtggN6VJdsu4Fw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRI9jaQWOEvzFb0gzh0d9AQK5ZjyJNdluwGQ9SK9u9sFqyp4Ed
+	AOBqKhREWY1KdIZS4OKMmqkKbKBR3s5QhSW+yzK5IRrO4S6jJj5tLSFzROzvsKAuD5FXBxjyksy
+	Hcg==
+X-Google-Smtp-Source: AGHT+IEO4OQkgM+IUhtTj2siheuh3+5J9XXD5K0QE0gxXSk5KvQNCy9VBxx6kh2EerS8p7ugyt/FmeViB5Q=
+X-Received: from pjn3.prod.google.com ([2002:a17:90b:5703:b0:2fa:e9b:33b7])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:4990:b0:2fa:2252:f438
+ with SMTP id 98e67ed59e1d1-2febabf892cmr6764957a91.30.1740762412656; Fri, 28
+ Feb 2025 09:06:52 -0800 (PST)
+Date: Fri, 28 Feb 2025 09:06:28 -0800
+In-Reply-To: <20241001050110.3643764-1-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3afczumwzxjy3taw"
-Content-Disposition: inline
-In-Reply-To: <20250227162823.3585810-2-david@protonic.nl>
+Mime-Version: 1.0
+References: <20241001050110.3643764-1-xin@zytor.com>
+X-Mailer: git-send-email 2.48.1.711.g2feabab25a-goog
+Message-ID: <174050797241.2702151.11096228988534371837.b4-ty@google.com>
+Subject: Re: [PATCH v3 00/27] Enable FRED with KVM VMX
+From: Sean Christopherson <seanjc@google.com>
+To: Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, "Xin Li (Intel)" <xin@zytor.com>
+Cc: pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com
+Content-Type: text/plain; charset="utf-8"
 
-
---3afczumwzxjy3taw
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [RFC PATCH 1/7] drivers: Add motion control subsystem
-MIME-Version: 1.0
-
-Hello David,
-
-just a few highlevel review comments inline.
-
-On Thu, Feb 27, 2025 at 05:28:17PM +0100, David Jander wrote:
-> diff --git a/drivers/motion/motion-core.c b/drivers/motion/motion-core.c
-> new file mode 100644
-> index 000000000000..2963f1859e8b
-> --- /dev/null
-> +++ b/drivers/motion/motion-core.c
-> @@ -0,0 +1,823 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Motion Control Subsystem - Core
-> + *
-> + * Copyright (C) 2024 Protonic Holland
-> + *                    David Jander <david@protonic.nl>
-> + */
-> +
-> +#include <asm-generic/bitops/builtin-fls.h>
-> +#include <asm-generic/errno-base.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/irqreturn.h>
-> +#include <linux/container_of.h>
-> +#include <linux/hrtimer_types.h>
-> +#include <linux/gfp_types.h>
-> +#include <linux/module.h>
-> +
-> +#include <linux/fs.h>
-> +#include <linux/errno.h>
-> +#include <linux/kernel.h>
-> +#include <linux/major.h>
-> +#include <linux/init.h>
-> +#include <linux/device.h>
-> +#include <linux/kmod.h>
-> +#include <linux/motion.h>
-> +#include <linux/poll.h>
-> +#include <linux/ptrace.h>
-> +#include <linux/ktime.h>
-> +#include <linux/iio/trigger.h>
-> +#include <linux/gpio/consumer.h>
-> +
-> +#include "motion-core.h"
-> +#include "motion-helpers.h"
-> +#include <linux/time.h>
-> +#include <linux/uaccess.h>
-> +#include <linux/string.h>
-> +#include <linux/math64.h>
-> +#include <linux/mutex.h>
-> +#include <linux/math.h>
-> +#include <linux/math64.h>
-
-Order all <...> includes over the "..." ones.
-
-> +#define MOTION_PROFILE_VALID BIT(31)
-> +
-> +static LIST_HEAD(motion_list);
-> +static DEFINE_MUTEX(motion_mtx);
-> +static int motion_major;
-> +static DEFINE_IDA(motion_minors_ida);
-> +
-> +struct iio_motion_trigger_info {
-> +	unsigned int minor;
-> +};
-> +
-> +static int motion_minor_alloc(void)
-> +{
-> +	int ret;
-> +
-> +	ret = ida_alloc_range(&motion_minors_ida, 0, MINORMASK, GFP_KERNEL);
-> +	return ret;
-
-This could be a one-liner.
-
-> +}
-> +
-> +static void motion_minor_free(int minor)
-> +{
-> +	ida_free(&motion_minors_ida, minor);
-> +}
-> +
-> +static int motion_open(struct inode *inode, struct file *file)
-> +{
-> +	int minor = iminor(inode);
-> +	struct motion_device *mdev = NULL, *iter;
-> +	int err;
-> +
-> +	mutex_lock(&motion_mtx);
-
-If you use guard(), error handling gets a bit easier.
-
-> +	list_for_each_entry(iter, &motion_list, list) {
-> +		if (iter->minor != minor)
-> +			continue;
-> +		mdev = iter;
-> +		break;
-> +	}
-
-This should be easier. If you use a cdev you can just do
-container_of(inode->i_cdev, ...);
-
-> +	if (!mdev) {
-> +		err = -ENODEV;
-> +		goto fail;
-> +	}
-> +
-> +	dev_info(mdev->dev, "MOTION: open %d\n", mdev->minor);
-
-degrade to dev_dbg.
-
-> +	file->private_data = mdev;
-> +
-> +	if (mdev->ops.device_open)
-> +		err = mdev->ops.device_open(mdev);
-> +	else
-> +		err = 0;
-> +fail:
-> +	mutex_unlock(&motion_mtx);
-> +	return err;
-> +}
-> +
-> +static int motion_release(struct inode *inode, struct file *file)
-> +{
-> +	struct motion_device *mdev = file->private_data;
-> +	int i;
-> +
-> +	if (mdev->ops.device_release)
-> +		mdev->ops.device_release(mdev);
-> +
-> +	for (i = 0; i < mdev->num_gpios; i++) {
-> +		int irq;
-> +		struct motion_gpio_input *gpio = &mdev->gpios[i];
-> +
-> +		if (gpio->function == MOT_INP_FUNC_NONE)
-> +			continue;
-> +		irq = gpiod_to_irq(gpio->gpio);
-> +		devm_free_irq(mdev->dev, irq, gpio);
-
-It seems devm is just overhead here if you release by hand anyhow.
-
-> +		gpio->function = MOT_INP_FUNC_NONE;
-> +	}
-> +
-> +	if (!kfifo_is_empty(&mdev->events))
-> +		kfifo_reset(&mdev->events);
-> +
-> +	/* FIXME: Stop running motions? Probably not... */
-> +
-> +	return 0;
-> +}
-> +
-> +static ssize_t motion_read(struct file *file, char __user *buffer,
-> +			  size_t count, loff_t *ppos)
-> +{
-> +	struct motion_device *mdev = file->private_data;
-> +	unsigned int copied = 0L;
-> +	int ret;
-> +
-> +	if (!mdev->dev)
-> +		return -ENODEV;
-> +
-> +	if (count < sizeof(struct mot_event))
-> +		return -EINVAL;
-> +
-> +	do {
-> +		if (kfifo_is_empty(&mdev->events)) {
-> +			if (file->f_flags & O_NONBLOCK)
-> +				return -EAGAIN;
-> +
-> +			ret = wait_event_interruptible(mdev->wait,
-> +					!kfifo_is_empty(&mdev->events) ||
-> +					mdev->dev == NULL);
-> +			if (ret)
-> +				return ret;
-> +			if (mdev->dev == NULL)
-> +				return -ENODEV;
-> +		}
-> +
-> +		if (mutex_lock_interruptible(&mdev->read_mutex))
-> +			return -ERESTARTSYS;
-> +		ret = kfifo_to_user(&mdev->events, buffer, count, &copied);
-> +		mutex_unlock(&mdev->read_mutex);
-> +
-> +		if (ret)
-> +			return ret;
-> +	} while (!copied);
-> +
-> +	return copied;
-> +}
-> +
-> +static __poll_t motion_poll(struct file *file, poll_table *wait)
-> +{
-> +	struct motion_device *mdev = file->private_data;
-> +	__poll_t mask = 0;
-> +
-> +	poll_wait(file, &mdev->wait, wait);
-> +	if (!kfifo_is_empty(&mdev->events))
-> +		mask = EPOLLIN | EPOLLRDNORM;
-> +	dev_info(mdev->dev, "Obtained POLL events: 0x%08x\n", mask);
-
-dev_dbg
-
-> +
-> +	return mask;
-> +}
-> +
+On Mon, 30 Sep 2024 22:00:43 -0700, Xin Li (Intel) wrote:
+> This patch set enables the Intel flexible return and event delivery
+> (FRED) architecture with KVM VMX to allow guests to utilize FRED.
+> 
+> The FRED architecture defines simple new transitions that change
+> privilege level (ring transitions). The FRED architecture was
+> designed with the following goals:
+> 
 > [...]
-> +
-> +static long motion_start_locked(struct motion_device *mdev, struct mot_start *s)
-> +{
-> +	long ret = 0L;
-> +	mot_time_t conv_duration;
-> +
-> +	lockdep_assert_held(&mdev->mutex);
-> +
-> +	if (s->reserved1 || s->reserved2)
-> +		return -EINVAL;
-> +	if (s->channel >= mdev->capabilities.num_channels)
-> +		return -EINVAL;
-> +	if ((s->index >= MOT_MAX_PROFILES) || (s->direction > MOT_DIRECTION_RIGHT))
-> +		return -EINVAL;
-> +	if (!(mdev->profiles[s->index].index & MOTION_PROFILE_VALID))
-> +		return -EINVAL;
-> +	if (s->when >= MOT_WHEN_NUM_WHENS)
-> +		return -EINVAL;
-> +	if (s->duration && s->distance)
-> +		return -EINVAL;
-> +	if (!mdev->ops.motion_distance && !mdev->ops.motion_timed)
-> +		return -EOPNOTSUPP;
 
-I would add empty lines between these ifs to improve readability. Maybe
-thats subjective though.
+Applied
 
-> +	if (s->duration) {
-> +		if (!mdev->ops.motion_timed)
-> +			return -EOPNOTSUPP;
-> +		/* FIXME: Implement time to distance conversion? */
-> +		return mdev->ops.motion_timed(mdev, s->channel, s->index,
-> +				s->direction, s->duration, s->when);
-> +	}
-> +	if (!mdev->ops.motion_distance) {
-> +		ret = motion_distance_to_time(mdev, s->index, s->distance,
-> +				&conv_duration);
-> +		if (ret)
-> +			return ret;
-> +		return mdev->ops.motion_timed(mdev, s->channel, s->index,
-> +				s->direction, conv_duration, s->when);
-> +	}
-> +	ret = mdev->ops.motion_distance(mdev, s->channel, s->index,
-> +			s->distance, s->when);
-> +
-> +	return ret;
-> +}
-> [...]
-> +
-> +static long motion_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-> +{
-> +	struct motion_device *mdev = file->private_data;
-> +	void __user *argp = (void __user *)arg;
-> +	long ret;
-> +
-> +	switch (cmd) {
-> +	case MOT_IOCTL_APIVER:
-> +		force_successful_syscall_return();
-> +		return MOT_UAPI_VERSION;
+[01/27] KVM: x86: Use a dedicated flow for queueing re-injected exceptions
+        https://github.com/kvm-x86/linux/commit/b50cb2b1555d
 
-force_successful_syscall_return() is only needed if the return value is
-negative but no error.
+to kvm-x86 misc, and
 
-> +	case MOT_IOCTL_BASIC_RUN: {
-> +		struct mot_speed_duration spd;
-> +
-> +		if (copy_from_user(&spd, argp, sizeof(spd)))
-> +			return -EFAULT;
-> +		if (!mdev->ops.basic_run)
-> +			return -EINVAL;
-> [...]
-> +
-> +static const struct class motion_class = {
-> +	.name		= "motion",
-> +	.devnode	= motion_devnode,
+[02/27] KVM: VMX: Don't modify guest XFD_ERR if CR0.TS=1
+        https://github.com/kvm-x86/linux/commit/3ef0df3f760f
+[14/27] KVM: VMX: Pass XFD_ERR as pseudo-payload when injecting #NM
+        https://github.com/kvm-x86/linux/commit/d62c02af7a96k
 
-IIRC it's recommended to not create new classes, but a bus.
+to kvm-x86 vmx.
 
-> +};
-> +
-> +static const struct file_operations motion_fops = {
-> +	.owner		= THIS_MODULE,
-> +	.read		= motion_read,
-> +	.poll		= motion_poll,
-> +	.unlocked_ioctl = motion_ioctl,
-> +	.open		= motion_open,
-> +	.llseek		= noop_llseek,
-> +	.release	= motion_release,
-> +};
-> +
-> +static int motion_of_parse_gpios(struct motion_device *mdev)
-> +{
-> +	int ngpio, i;
-> +
-> +	ngpio = gpiod_count(mdev->parent, "motion,input");
-> +	if (ngpio < 0) {
-> +		if (ngpio == -ENOENT)
-> +			return 0;
-> +		return ngpio;
-> +	}
-> +
-> +	if (ngpio >= MOT_MAX_INPUTS)
-> +		return -EINVAL;
-> +
-> +	for (i = 0; i < ngpio; i++) {
-> +		mdev->gpios[i].gpio = devm_gpiod_get_index(mdev->parent,
-> +				"motion,input", i, GPIOD_IN);
-> +		if (IS_ERR(mdev->gpios[i].gpio))
-> +			return PTR_ERR(mdev->gpios[i].gpio);
-> +		mdev->gpios[i].function = MOT_INP_FUNC_NONE;
-> +		mdev->gpios[i].chmask = 0;
-> +		mdev->gpios[i].index = i;
-> +	}
-> +
-> +	mdev->num_gpios = ngpio;
-> +	mdev->capabilities.num_ext_triggers += ngpio;
-> +
-> +	return 0;
-> +}
-> +
-> +static void motion_trigger_work(struct irq_work *work)
-> +{
-> +	struct motion_device *mdev = container_of(work, struct motion_device,
-> +							iiowork);
-> +	iio_trigger_poll(mdev->iiotrig);
-> +}
-> +
-> +/**
-> + * motion_register_device - Register a new Motion Device
-> + * @mdev: description and handle of the motion device
-> + *
-> + * Register a new motion device with the motion subsystem core.
-> + * It also handles OF parsing of external trigger GPIOs and registers an IIO
-> + * trigger device if IIO support is configured.
-> + *
-> + * Return: 0 on success, negative errno on failure.
-> + */
-> +int motion_register_device(struct motion_device *mdev)
-> +{
-> +	dev_t devt;
-> +	int err = 0;
-> +	struct iio_motion_trigger_info *trig_info;
-> +
-> +	if (!mdev->capabilities.num_channels)
-> +		mdev->capabilities.num_channels = 1;
-> +	if (mdev->capabilities.features | MOT_FEATURE_PROFILE)
-> +		mdev->capabilities.max_profiles = MOT_MAX_PROFILES;
-> +	if (!mdev->capabilities.speed_conv_mul)
-> +		mdev->capabilities.speed_conv_mul = 1;
-> +	if (!mdev->capabilities.speed_conv_div)
-> +		mdev->capabilities.speed_conv_div = 1;
-> +	if (!mdev->capabilities.accel_conv_mul)
-> +		mdev->capabilities.accel_conv_mul = 1;
-> +	if (!mdev->capabilities.accel_conv_div)
-> +		mdev->capabilities.accel_conv_div = 1;
-> +
-> +	mutex_init(&mdev->mutex);
-> +	mutex_init(&mdev->read_mutex);
-> +	INIT_KFIFO(mdev->events);
-> +	init_waitqueue_head(&mdev->wait);
-> +
-> +	err = motion_of_parse_gpios(mdev);
-> +	if (err)
-> +		return err;
-> +
-> +	mdev->minor = motion_minor_alloc();
-> +
-> +	mdev->iiotrig = iio_trigger_alloc(NULL, "mottrig%d", mdev->minor);
-> +	if (!mdev->iiotrig) {
-> +		err = -ENOMEM;
-> +		goto error_free_minor;
-> +	}
-> +
-> +	trig_info = kzalloc(sizeof(*trig_info), GFP_KERNEL);
-> +	if (!trig_info) {
-> +		err = -ENOMEM;
-> +		goto error_free_trigger;
-> +	}
-> +
-> +	iio_trigger_set_drvdata(mdev->iiotrig, trig_info);
-> +
-> +	trig_info->minor = mdev->minor;
-> +	err = iio_trigger_register(mdev->iiotrig);
-> +	if (err)
-> +		goto error_free_trig_info;
-> +
-> +	mdev->iiowork = IRQ_WORK_INIT_HARD(motion_trigger_work);
-> +
-> +	INIT_LIST_HEAD(&mdev->list);
-> +
-> +	mutex_lock(&motion_mtx);
-> +
-> +	devt = MKDEV(motion_major, mdev->minor);
-> +	mdev->dev = device_create_with_groups(&motion_class, mdev->parent,
-> +				devt, mdev, mdev->groups, "motion%d", mdev->minor);
-
-What makes sure that mdev doesn't go away while one of the attributes is
-accessed?
-
-> +	if (IS_ERR(mdev->dev)) {
-> +		dev_err(mdev->parent, "Error creating motion device %d\n",
-> +				mdev->minor);
-> +		mutex_unlock(&motion_mtx);
-> +		goto error_free_trig_info;
-> +	}
-> +	list_add_tail(&mdev->list, &motion_list);
-> +	mutex_unlock(&motion_mtx);
-> +
-> +	return 0;
-> +
-> +error_free_trig_info:
-> +	kfree(trig_info);
-> +error_free_trigger:
-> +	iio_trigger_free(mdev->iiotrig);
-> +error_free_minor:
-> +	motion_minor_free(mdev->minor);
-> +	dev_info(mdev->parent, "Registering motion device err=%d\n", err);
-> +	return err;
-> +}
-> +EXPORT_SYMBOL(motion_register_device);
-> [...]
-> +struct mot_capabilities {
-> +	__u32 features;
-> +	__u8 type;
-> +	__u8 num_channels;
-> +	__u8 num_int_triggers;
-> +	__u8 num_ext_triggers;
-> +	__u8 max_profiles;
-> +	__u8 max_vpoints;
-> +	__u8 max_apoints;
-> +	__u8 reserved1;
-> +	__u32 subdiv; /* Position unit sub-divisions, microsteps, etc... */
-> +	/*
-> +	 * Coefficients for converting to/from controller time <--> seconds.
-> +	 * Speed[1/s] = Speed[controller_units] * conv_mul / conv_div
-> +	 * Accel[1/s^2] = Accel[controller_units] * conv_mul / conv_div
-> +	 */
-> +	__u32 speed_conv_mul;
-> +	__u32 speed_conv_div;
-> +	__u32 accel_conv_mul;
-> +	__u32 accel_conv_div;
-> +	__u32 reserved2;
-> +};
-
-https://docs.kernel.org/gpu/imagination/uapi.html (which has some
-generic bits that apply here, too) has: "The overall struct must be
-padded to 64-bit alignment." If you drop reserved2 the struct is
-properly sized (or I counted wrongly).
-
-> +struct mot_speed_duration {
-> +	__u32 channel;
-> +	speed_raw_t speed;
-
-What is the unit here?
-
-> +	mot_time_t duration;
-
-duration_ns? That makes usage much more ideomatic and there should be no
-doubts what the unit is.
-
-> +	pos_raw_t distance;
-
-What is the unit here?
-
-> +	__u32 reserved[3];
-
-Again the padding is wrong here.
-
-> +};
-
-Best regards
-Uwe
-
---3afczumwzxjy3taw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmfB5+gACgkQj4D7WH0S
-/k5C1wf+IR16wHxTa97rqqBTKhKSRqGGyRlmIbst2s3km2q+yRD9ko9pEaBdJX/4
-zsJnADhNXYnrU+ZIi08XShlMK88pz9J3Vbm53B1fLjCNSxUTOdNtIz6ARic4+XtY
-PzaOtt7Zp56yD4mOdiogAO1ZMll5E1Ol/Qsx/0b8zHBznzL1AuNpHb0vGazQlpYC
-55a4XT3ZBdMeFmEHtrazlwEGrYNb2d9YXe5TkA5sYBZAouwdUX8JVTWrbbnzAHAm
-DE0FdbBhSQmgPalQXOoxwaWDwH0IDJd6JiDblZlawwb02vKUajAdpyl1lndEoUcs
-fkBSnJnFK/COPjbcavaZ5PEke+raTg==
-=z/7b
------END PGP SIGNATURE-----
-
---3afczumwzxjy3taw--
+--
+https://github.com/kvm-x86/linux/tree/next
