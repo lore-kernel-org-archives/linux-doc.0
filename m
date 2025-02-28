@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A95255E23;
-	Fri, 28 Feb 2025 09:35:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644C3257435;
+	Fri, 28 Feb 2025 09:37:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740735344; cv=none; b=YHsxc1ga7wBtOjER5rjc1sdD4X5Ohg+S7eFSzhEAsri/7zOhDBkgyIwTNo75iGhogHq+0o/y60psfgM/ykn4//UIq0WvXvVsDNs5xoKh4G4VG6OtzGorBmt1Qy2EJ+k2x4v830bD0wOSGueHoyQaIzawkkMkBjZotsiU2m/t+sU=
+	t=1740735473; cv=none; b=kBOFgKiYMX8vsI5sktZ/9PLhoHeOq3xHPnahX7MP8CuGToltroHu9D3DGcC5VizVXQ5N2b7qR/HPxu7TLTKpF/Wcljcif60zX6BATjIgqHbAhpxsZsL87xJdN0iOPIekzNxYHa+9hIB4/ZHQUU+wuvKV23GyfjoTS0d73E5kFDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740735344; c=relaxed/simple;
-	bh=yabPPPhBSb7U866s4OO5WFcpHLHB73EZYfzg0V0ZDTM=;
+	s=arc-20240116; t=1740735473; c=relaxed/simple;
+	bh=MesbCbhKEj9BqEr6KvxmuGCoLPsEFMe1GTNccjHPAOo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ubt+tGXCQOrQf1+mnnb/sybJyvcRCXqsvlRPISpvyutgAuMZnKtwoQ7cUEfoUnnO94NLuH174Z+srxETh9p5xc9F7XNHFPO4mrodjZJn1snD1VpC74YUilo444FUTUrNn7fuGhHR+53GNJB6KP0X/YYBInyycKnzrP2A/aW33Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JOJAru6x; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=WRH0p8/Ai0YB91zcL1Ynn26M8MUdLaGbo6OfOl8eFUN+rp9eYO1EnqkolArRHk6chEIpRL/2vGHKfrLdZOcmmc8ZJu1cYmWJCaO9SMVEAtqsD6uR3p/StXatGbKBu6mhFs95AlFkabzZdJ+hNXARCVtcq3nMDDO8vzEh3dOsouk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZI0sv0pX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JOJAru6x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5BDDC4CED6;
-	Fri, 28 Feb 2025 09:35:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZI0sv0pX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BE9FC4CED6;
+	Fri, 28 Feb 2025 09:37:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740735343;
-	bh=yabPPPhBSb7U866s4OO5WFcpHLHB73EZYfzg0V0ZDTM=;
+	s=k20201202; t=1740735473;
+	bh=MesbCbhKEj9BqEr6KvxmuGCoLPsEFMe1GTNccjHPAOo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JOJAru6xMNSK7CjFBF3aSILu3sYiOQBoKfTkaV1wwYtVICSVttzgdi5GQnBSV3LKL
-	 xW3b8FNdaSYlGNdZbO7FBuZ+c1QWQiMm/l5Dw1EGPyjV+9q41weq50FPKQirmSlJyV
-	 0i+m3X4v/cE6HQbultsf4h8vvpT4rtd318OMXHQ6ama7ijebbBTeoKukm9hbLxMdeT
-	 BIJ/NCg8u2e+D6EoazQUoQf1ylBxj/unywiHkpkeNnRvxjjN0uhoqNdEaUm7RqpA9S
-	 28PrGiTWATkY7AHvvu0x8F5zmpqyptP7FoU7BOe6iYPXejjowbzyzK+L+HyAV6NTIN
-	 iasnTDlZhq/nw==
-Message-ID: <99c437db-6341-4d56-b99e-3ed3f2b8219d@kernel.org>
-Date: Fri, 28 Feb 2025 10:35:38 +0100
+	b=ZI0sv0pXCAcIbcSCyzdvICk+0GsANMCV/gWIXq3dyw5TX5Uh1c7E7SV9NqCxGU1W+
+	 YExHLRX5tamw43b2v1j09eqYxZtti6thE27XP/ugqmNTpf9eB+5prx+F+S6i9kPJ4A
+	 aV3D2+WxgKiZQsAL8y/0zW5RpoFqmtCR1Y4u0YCv7RJMGCnJDZoyXB9k7GwchdEsDX
+	 daYHts+dCkEW2xWcEmX40Dr4hYwZz0UMpCXvcAmKhnnbFm14pJ39RRZnEv//kQLYjX
+	 3ZUz1auUl6OGekoMmz7PcrtSoCC74PC3Zg4zIeghApRiikkRgSF+eC5BuxQAXfIirC
+	 RlqlrkcEIfaoQ==
+Message-ID: <9a1d75a2-66c0-46b6-91a1-4922b892dfb1@kernel.org>
+Date: Fri, 28 Feb 2025 10:37:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 6/7] dt-bindings: motion: Add adi,tmc5240 bindings
+Subject: Re: [RFC PATCH 7/7] dt-bindings: motion: Add motion-simple-pwm
+ bindings
 To: David Jander <david@protonic.nl>
 Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
  Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
@@ -44,9 +45,9 @@ Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
  linux-doc@vger.kernel.org, Nuno Sa <nuno.sa@analog.com>,
  Jonathan Cameron <jic23@kernel.org>, Oleksij Rempel <o.rempel@pengutronix.de>
 References: <20250227162823.3585810-1-david@protonic.nl>
- <20250227162823.3585810-7-david@protonic.nl>
- <20250228-groovy-lyrical-skunk-751ee3@krzk-bin>
- <20250228094818.0aad5491@erd003.prtnl>
+ <20250227162823.3585810-8-david@protonic.nl>
+ <20250228-wonderful-python-of-resistance-d5b662@krzk-bin>
+ <20250228102201.590b4be6@erd003.prtnl>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -92,97 +93,25 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250228094818.0aad5491@erd003.prtnl>
+In-Reply-To: <20250228102201.590b4be6@erd003.prtnl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/02/2025 09:48, David Jander wrote:
+On 28/02/2025 10:22, David Jander wrote:
 > 
-> Dear Krzysztof,
-> 
-> Thanks for reviewing...
-> 
-> On Fri, 28 Feb 2025 08:11:04 +0100
-> Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> 
->> On Thu, Feb 27, 2025 at 05:28:22PM +0100, David Jander wrote:
->> [...]
 >>> +
->>> +  enable-supply:
->>> +    description: Optional external enable supply to control SLEEPn pin. Can  
+>>> +  motion,pwm-inverted:
+>>> +    $ref: /schemas/types.yaml#/definitions/flag  
 >>
->> That's odd. regular pins are not supplies. This must be named after
->> physical supplies. There is vdd18, vcc, vcp but nothing about enable
->> supply in datasheet.
->>
->>> +      be shared between several controllers.  
->>
->> Second sentence is both redundant and really not relevant to this
->> binding. It's not this binding which decides about sharing.
+>> And PWM flag does not work?
 > 
-> Good point. I think I should drop the whole property, since it is indeed
-> irrelevant. If extra supplies need to be specified, they always can be, right?
-
-You should specify all supplies now, because hardware should be fully
-described by binding and DTS.
-
-What's more, the necessary supplies (according to datasheet) should be
-required, not optional.
-
-> 
->>> +
->>> +  clocks:
->>> +    maxItems: 1
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - interrupts
->>> +  - clocks
->>> +
->>> +allOf:
->>> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
->>> +  - $ref: /schemas/motion/common.yaml#
->>> +
->>> +unevaluatedProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    spi {
->>> +        #address-cells = <1>;
->>> +        #size-cells = <0>;
->>> +
->>> +        motor@0 {
->>> +            compatible = "adi,tmc5240";
->>> +            reg = <0>;
->>> +            interrupts-extended = <&gpiok 7 0>;  
->>
->> Include header and use standard defines for flags.
-> 
-> Thanks. I didn't know I could include them here... will fix this.
-> 
->>
->>> +            clocks = <&clock_tmc5240>;
->>> +            enable-supply = <&stpsleepn>;
->>> +            spi-max-frequency = <1000000>;  
->>
->> Where are any other properties from common schema?
-> 
-> The properties in common.yaml are optional. Do I need to explicitly specify
-> this somehow (they are not listed under "required:")?
-
-The common says default=1, so it is fine to skip them if that default
-makes sense here.
-
-Anyway, it's fine.
+> I have seen PWM controllers that don't seem to support the
+> PWM_POLARITY_INVERTED flag and those where it just doesn't work. Should all
 
 
-> In fact, the tmc5240 driver has its own known constants for these properties
-> that it fills in. One can overrule them here if needed, but I suppose in the
-> case of the tmc5240 the regular use-case is not to do that. Should I maybe add
-> a second example that overrules the defaults?
+Shouldn't the controllers be fixed? Or let's rephrase the question: why
+only this PWM consumer needs this property and none of others need it?
 
-Not necessarily, one real-world, complete example is enough.
 
 Best regards,
 Krzysztof
