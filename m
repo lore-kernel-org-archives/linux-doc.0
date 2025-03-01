@@ -1,79 +1,110 @@
-Received: from smtpgw-2-2.nogo.comp.nus.edu.sg (84-20.comp.nus.edu.sg [137.132.84.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DC41C5D67;
-	Sat,  1 Mar 2025 13:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=137.132.84.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA90F179BC;
+	Sat,  1 Mar 2025 14:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740835590; cv=none; b=fgNZOjmc9s8v/qgHoaOM7W48OmeYLZQ3rcpvOG7lkhksf3pxsjVeo+2i+CKgcDkZgp2kbw52DP0XYIEgbFQexx/ospQm5I9e8NcyrLcvrAbcMpjur2Dsj9H8gQPLoLoQ1LlaoxQNRvuuojttubXdQ4pJg37FFCGKwydvoqrX7SQ=
+	t=1740839564; cv=none; b=c11DrQkHjV2r8l/aPbDg5Au97iEePf6G2o9JilaVZsV+ItudYHzBUtV6ginyz5Jgb77DFOwIBlrqz8qtTNYtKGyh4FSY1upm/bHM6z/kK58RBXqahqwIoZ0d1sYwxUMYqznfQpF2zOaULbkKnHZ0uZj3gq6MGqIg4LqRJoL9bVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740835590; c=relaxed/simple;
-	bh=oUjnzuhEao4BzN4TSkRJH53moXLBMpaiWrg4HzhM5hk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C1yeRcudLDrIP8Cadn70J3Qv7TBOe9dOqnTlDn5ZexyF91zbJEDK1W33Ab8EZR/iBOec8Az9aiNFwMsJR67R/iy7US5P7sBksfc4IFPUK8ds9qU55DSGFoB8Orco/cNG7U2AvmqDQQfX4bUPztul8dUqEBOubuvHyfGvulU/X38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=comp.nus.edu.sg; spf=pass smtp.mailfrom=comp.nus.edu.sg; arc=none smtp.client-ip=137.132.84.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=comp.nus.edu.sg
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=comp.nus.edu.sg
-Received: from localhost (localhost [127.0.0.1])
-	by smtpgw-2-2.nogo.comp.nus.edu.sg (Postfix) with ESMTP id 154198D021;
-	Sat,  1 Mar 2025 21:19:51 +0800 (+08)
-X-Virus-Scanned: Debian amavisd-new at 
-X-Spam-Flag: NO
-X-Spam-Score: -102.909
-X-Spam-Level:
-Received: from smtpgw-2-2.nogo.comp.nus.edu.sg ([127.0.0.1])
-	by localhost (smtpgw-2-2.comp.nus.edu.sg [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 12u8i_Io-vVj; Sat,  1 Mar 2025 21:19:50 +0800 (+08)
-Received: from smtpauth-2-1.comp.nus.edu.sg (smtpauth-2-1.comp.nus.edu.sg [192.168.21.30])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtpgw-2-2.nogo.comp.nus.edu.sg (Postfix) with ESMTPS;
-	Sat,  1 Mar 2025 21:19:50 +0800 (+08)
-Received: from localhost.localdomain (unknown [202.73.41.222])
-	(using TLSv1.3 with cipher TLS_CHACHA20_POLY1305_SHA256 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	(Authenticated sender: e0446373)
-	by smtpauth-2-1.comp.nus.edu.sg (Postfix) with ESMTPSA id 740CA120875;
-	Sat,  1 Mar 2025 21:19:50 +0800 (+08)
-From: Shen Jiamin <shen_jiamin@comp.nus.edu.sg>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Shen Jiamin <shen_jiamin@comp.nus.edu.sg>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] docs: fix incorrect header file reference
-Date: Sat,  1 Mar 2025 21:19:33 +0800
-Message-Id: <20250301131933.90467-1-shen_jiamin@comp.nus.edu.sg>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	s=arc-20240116; t=1740839564; c=relaxed/simple;
+	bh=bLqzk0hZGh7JUidUtBf7joPxGae5Rem2KwHG3iQ/B5o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kd4kXoB6Rnu2Y29ng3fl6pvOEKvObLmEafH06hZV0h+hXkSnO19RqxwX97Ukg2fOyuTIxo34A8vQCiteniHs3vEy4/Q13dVlvYHMT1seOri6FauqVif8PahAP0RTCz6tom3lNGxMNFCbZ7eWEid4qJ0qr9Nrm6YkrwjREy3rDgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OAoiW8o1; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OAoiW8o1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740839563; x=1772375563;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bLqzk0hZGh7JUidUtBf7joPxGae5Rem2KwHG3iQ/B5o=;
+  b=OAoiW8o1X74ULXwoVLtFsw3Gr5RI7x0p8j2GjMKFqSUi3UDsun0Ob8zM
+   QXpZsWd0sjGz5RXsA24iuynPmNwwR+tpLd2e6TF7SNymvsVuQ7768CN3H
+   dVbacf90lIBi5B3iPmHe4NIaGc4Bdn0cxN7UiWMCg49RoYHj3zZkYGAz6
+   REpRceUGNz+0bQDhrcD8aNfcK8DDOQCWfIh6n6DzD7+dPd4HIboxQhMPC
+   Cx1PfdX28qC8ZEkJAl9KyErEGdPX36sGW7L9eXKKvtJx0jr1+1o+YPu7M
+   8UqeFlPxfejMQth1OpwqeeA3+koFvNe6Ji5hFCJDJA/c+IWaHyLDKpt/U
+   g==;
+X-CSE-ConnectionGUID: A22VN2dmRi+UwSU1gRt47Q==
+X-CSE-MsgGUID: /D1bdRd5SdScxkq/eSWtFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="45676808"
+X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
+   d="scan'208";a="45676808"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 06:32:42 -0800
+X-CSE-ConnectionGUID: 6t94cAUDRsy77tuNTdIZRw==
+X-CSE-MsgGUID: R9SOZY+fQTi+Kcp+lGgBnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
+   d="scan'208";a="118089574"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 01 Mar 2025 06:32:39 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1toNss-000GKE-2g;
+	Sat, 01 Mar 2025 14:32:12 +0000
+Date: Sat, 1 Mar 2025 22:31:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Antheas Kapenekakis <lkml@antheas.dev>, linux-hwmon@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
+	Derek J Clark <derekjohn.clark@gmail.com>,
+	Kevin Greenberg <kdgreenberg234@protonmail.com>,
+	Joshua Tam <csinaction@pm.me>,
+	Parth Menon <parthasarathymenon@gmail.com>,
+	Eileen <eileen@one-netbook.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: Re: [PATCH v2 11/12] platform/x86: oxpec: Move hwmon/oxp-sensors to
+ platform/x86
+Message-ID: <202503012254.EtBZW7gW-lkp@intel.com>
+References: <20250222161824.172511-12-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250222161824.172511-12-lkml@antheas.dev>
 
-The paragraph describing /proc/PID/maps
-incorrectly referred to "linus/fs.h", which should
-be "linux/fs.h".
+Hi Antheas,
 
-Signed-off-by: Shen Jiamin <shen_jiamin@comp.nus.edu.sg>
----
- Documentation/filesystems/proc.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 09f0aed5a..64ece8c75 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -449,7 +449,7 @@ ioctl()-based API that gives ability to flexibly and efficiently query and
- filter individual VMAs. This interface is binary and is meant for more
- efficient and easy programmatic use. `struct procmap_query`, defined in
- linux/fs.h UAPI header, serves as an input/output argument to the
--`PROCMAP_QUERY` ioctl() command. See comments in linus/fs.h UAPI header for
-+`PROCMAP_QUERY` ioctl() command. See comments in linux/fs.h UAPI header for
- details on query semantics, supported flags, data returned, and general API
- usage information.
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on sre-power-supply/for-next amd-pstate/linux-next amd-pstate/bleeding-edge rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.14-rc4 next-20250228]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---
-2.43.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/hwmon-oxp-sensors-Distinguish-the-X1-variants/20250223-003148
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250222161824.172511-12-lkml%40antheas.dev
+patch subject: [PATCH v2 11/12] platform/x86: oxpec: Move hwmon/oxp-sensors to platform/x86
+config: x86_64-randconfig-078-20250301 (https://download.01.org/0day-ci/archive/20250301/202503012254.EtBZW7gW-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503012254.EtBZW7gW-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503012254.EtBZW7gW-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: devm_hwmon_device_register_with_info
+   >>> referenced by oxpec.c:1051 (drivers/platform/x86/oxpec.c:1051)
+   >>>               vmlinux.o:(oxp_platform_probe)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
