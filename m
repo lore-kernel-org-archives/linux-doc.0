@@ -1,894 +1,544 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C0A41F181F;
-	Mon,  3 Mar 2025 10:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp15.bhosted.nl (smtp15.bhosted.nl [94.124.121.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0590C1F4193
+	for <linux-doc@vger.kernel.org>; Mon,  3 Mar 2025 10:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740996948; cv=none; b=VNU2Tat2JP5WCKD6yT0ObsBFM5zCRE+40mCBgeKxTBKWyRD+GcVNZkIGlyF5z20i9BOmMamCnQua6AsAZmFu731El6creJgV+E5u/w4OHiINMyV7p1capPD89itogeXuuz/TTrZsPbf7bTR8QQbT6TbQK7tvcFO6DhtmZxuy48s=
+	t=1740998723; cv=none; b=XZua+YmI4OUDq9kRDbTF0w31ilzpUwMyyCyDmkWnr+43xzcj2ArNGlXLZNclN189XUttd+HMkNCC6VyVDx20phOe6q3Z3Iy2/TlYYe2fXX6mpjqO9n7oW2UKenGFZv2bfYMWgofuvBkt6bMro8Ba3HbRCBnFbzrtc2aePOaZWdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740996948; c=relaxed/simple;
-	bh=cYgyBvI7t2reOVFZV3bdIZoKFHwec9DizLKovWZuRQA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=A+vVfQQyJCAZhLt20j01aF2z26Xin5sBVHnhw+ssuhIzcoWkL+GiJYr4Bpp5UjKFhEyh5XxL93tprJ8r62ska85qkL+YTkeUBUR80iXSZICG1UsoDYwNmujSObwpyTc5P9YSBOc0uB11liC60gROAd+6qeBKbWWDCGZLu9tqaBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.2.10.34])
-	by gateway (Coremail) with SMTP id _____8AxWXFPgcVnQxOJAA--.37906S3;
-	Mon, 03 Mar 2025 18:15:43 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.10.34])
-	by front1 (Coremail) with SMTP id qMiowMCxLcVIgcVn0pYzAA--.57593S4;
-	Mon, 03 Mar 2025 18:15:41 +0800 (CST)
-From: Tianyang Zhang <zhangtianyang@loongson.cn>
-To: chenhuacai@kernel.org,
-	kernel@xen0n.name,
-	corbet@lwn.net,
-	alexs@kernel.org,
-	si.yanteng@linux.dev,
-	tglx@linutronix.de,
-	jiaxun.yang@flygoat.com,
-	peterz@infradead.org,
-	wangliupu@loongson.cn,
-	lvjianmin@loongson.cn,
-	maobibo@loongson.cn,
-	siyanteng@cqsoftware.com.cn,
-	gaosong@loongson.cn,
-	yangtiezhu@loongson.cn
-Cc: loongarch@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tianyang Zhang <zhangtianyang@loongson.cn>
-Subject: [PATCH 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
-Date: Mon,  3 Mar 2025 18:15:33 +0800
-Message-Id: <20250303101533.31462-3-zhangtianyang@loongson.cn>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20250303101533.31462-1-zhangtianyang@loongson.cn>
-References: <20250303101533.31462-1-zhangtianyang@loongson.cn>
+	s=arc-20240116; t=1740998723; c=relaxed/simple;
+	bh=pynGxo4XXmEs7yOlWDF8XBGKq+XhR05TaEZa28BkT+0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t3HiWeSvqGNa/kU+OvvarYlKD7c2AL9GUp9shhZppGa1oEtm0B2LAqKJrx2w+cq14sTJZ57YZPERu96tJH3DzpZahGzLiwvzGXk7jg4Hc6WjLGDrRvGpbf1pnV2eNEmxfRmCzQ97ljPJ+yInQ4xrGY3r/aCVmhlcjXxvTTjS7dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl; spf=pass smtp.mailfrom=protonic.nl; dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b=FAgTM+AD; arc=none smtp.client-ip=94.124.121.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonic.nl
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b="FAgTM+AD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=protonic.nl; s=202111;
+	h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
+	 message-id:subject:cc:to:from:date:from;
+	bh=Qv3LQFoyzeVaS+B1CyxR62OcrtYUFb1G+ImO7n/MAEM=;
+	b=FAgTM+AD9/uZHGNzyeo7ropgMTrjWuN6tajamIaeZY+HqtdOIyS+14xZKDu1CbAjgTJ9A4vSlZRf+
+	 4dYG6I5yt9Lc9EyKXpxRVGyHnNFMtF3WUs64UxqLwu3pOIJeRl4Me1PqvwXycuDZbv0by7iLAxXH4T
+	 NEzGyOH4mSc2LNFO0bW+P/5WGzse69Rqrf7HVKug/tzKQmMG2Sr3QXaNAp6MM5o1so3Kfl/s14mCEd
+	 7PRM+vKtUU7iWa831fLLt4vpZiCCyY6pm8kNbwM1RwhF9RUI3eqMTNjhaDGsRDkxvM6b3DRPYqZEkP
+	 v40bH4XPP2GK8tC2PZc0K92PvO9TmfA==
+X-MSG-ID: 93bddd82-f81c-11ef-a39b-00505681446f
+Date: Mon, 3 Mar 2025 11:45:08 +0100
+From: David Jander <david@protonic.nl>
+To: Pavel Pisa <ppisa@pikron.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, Jonathan Corbet
+ <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Nuno Sa
+ <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, Oleksij Rempel
+ <o.rempel@pengutronix.de>, Carsten Emde <c.emde@osadl.org>
+Subject: Re: [RFC PATCH 0/7] Add Linux Motion Control subsystem
+Message-ID: <20250303114508.311c28f6@erd003.prtnl>
+In-Reply-To: <202502281623.33695.ppisa@pikron.com>
+References: <20250227162823.3585810-1-david@protonic.nl>
+	<202502281035.57489.ppisa@pikron.com>
+	<20250228125727.7f892552@erd003.prtnl>
+	<202502281623.33695.ppisa@pikron.com>
+Organization: Protonic Holland
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMCxLcVIgcVn0pYzAA--.57593S4
-X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj9fXoWfWr17KF4DZFWrKFW7urW8Xwc_yoW5JrW7Ao
-	WfJFs3G34rWr18CrW5Ka17tFyxZ3yrGr4rAw1fuFZ7Z3ZFvr45KrW7G3yavFy2gF1vqFsx
-	Aay0gwn3GFWxtr93l-sFpf9Il3svdjkaLaAFLSUrUUUU5b8apTn2vfkv8UJUUUU8wcxFpf
-	9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
-	UjIYCTnIWjp_UUUYW7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
-	8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
-	Y2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14
-	v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAF
-	wI0_GcCE3s1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-	6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-	vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4YLvDUUUU
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The main function of the Redirected interrupt controller is to manage the
-redirected-interrupt table, which consists of many redirected entries.
-When MSI interrupts are requested, the driver creates a corresponding
-redirected entry that describes the target CPU/vector number and the
-operating mode of the interrupt. The redirected interrupt module has an
-independent cache, and during the interrupt routing process, it will
-prioritize the redirected entries that hit the cache. The driver
-invalidates certain entry caches via a command queue.
 
-Co-developed-by: Liupu Wang <wangliupu@loongson.cn>
-Signed-off-by: Liupu Wang <wangliupu@loongson.cn>
-Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
----
- arch/loongarch/include/asm/cpu-features.h |   1 +
- arch/loongarch/include/asm/cpu.h          |   2 +
- arch/loongarch/include/asm/loongarch.h    |   7 +
- arch/loongarch/kernel/cpu-probe.c         |   2 +
- drivers/irqchip/Makefile                  |   2 +-
- drivers/irqchip/irq-loongarch-avec.c      |  24 +-
- drivers/irqchip/irq-loongarch-ir.c        | 576 ++++++++++++++++++++++
- drivers/irqchip/irq-loongson.h            |  12 +
- include/linux/cpuhotplug.h                |   1 +
- 9 files changed, 612 insertions(+), 15 deletions(-)
- create mode 100644 drivers/irqchip/irq-loongarch-ir.c
+Hi Pavel,
 
-diff --git a/arch/loongarch/include/asm/cpu-features.h b/arch/loongarch/include/asm/cpu-features.h
-index fc83bb32f9f0..03f7e93e81e0 100644
---- a/arch/loongarch/include/asm/cpu-features.h
-+++ b/arch/loongarch/include/asm/cpu-features.h
-@@ -68,5 +68,6 @@
- #define cpu_has_ptw		cpu_opt(LOONGARCH_CPU_PTW)
- #define cpu_has_lspw		cpu_opt(LOONGARCH_CPU_LSPW)
- #define cpu_has_avecint		cpu_opt(LOONGARCH_CPU_AVECINT)
-+#define cpu_has_redirectint	cpu_opt(LOONGARCH_CPU_REDIRECTINT)
+On Fri, 28 Feb 2025 16:23:33 +0100
+Pavel Pisa <ppisa@pikron.com> wrote:
+
+> Hello David,
+> 
+> On Friday 28 of February 2025 12:57:27 David Jander wrote:
+> > Dear Pavel,
+> >
+> > Thanks a lot for starting the discussion...
+> >
+> > On Fri, 28 Feb 2025 10:35:57 +0100
+> >
+> > Pavel Pisa <ppisa@pikron.com> wrote:  
+> > > Hello David and others
+> > >
+> > > On Thursday 27 of February 2025 17:28:16 David Jander wrote:  
+> > > > Request for comments on: adding the Linux Motion Control subsystem to
+> > > > the kernel.  
+> > >
+> > > I have noticed on Phoronix, that the new system is emerging.  
+> >
+> > Being featured on Phoronix on day one wasn't on my bingo card for this
+> > year, to be honest... :-)
+> >  
+> > > This is area where I have lot (more than 30 years) of experience
+> > > at my company and I have done even lot with my studnets at university.
+> > > I have big interest that this interface fits our use neeeds
+> > > and offers for future integration of our already open-source
+> > > systems/components.  
+> >
+> > This is very impressive and I am honored to have gotten your attention. I
+> > am looking forward to discussing this, although I am not sure whether all
+> > of this should happen here on LKML?  
+> 
+> We should move somewhere else and invite people from Linux
+> CNC etc...
+
+I agree.
+
+> GitHub project would work well if there is not some reluctance
+> to commercially controlled and closed environment.
+
+I am open to suggestions. I just happen to have a github account and also have
+my code there:
+
+https://github.com/yope/linux/tree/mainline-lmc-preparation
+
+> Gitlab even in Gitlab.com case has option to move to own
+> infrastructure in the future. We have Gitlab at university,
+> companies I work with has Gitlab instances. But I think that
+> we should stay on neutral ground.
+> 
+> The critical is some central hub where links to specific
+> mailinglist etc. can be placed. May it be we can ask
+> Linux foundation to provide wiki space for Linux Motion Control
+> Subsystem same as it is for RT
+> 
+>   https://wiki.linuxfoundation.org/realtime/start
+> 
+> We can ask OSADL.org as likely neutral space...
+
+That sounds really great. We were bronze members of OSADL, so maybe that's a
+good idea. I see you added Carsten Emde in CC ;-)
+
+> Or wiki at kernel.org, may it the most neutral...
+> 
+>  https://www.wiki.kernel.org/
+
+Yes, that may be even a better place than OSADL.
+
+> I am not in the core teams but may it be there on LKLM
+> somebody would suggest the direction. I can ask people
+> from OSADL, CIPS, RT projects etc. directly...
+> 
+> But I am not the authority and would be happy if somebody
+> steers us.
+> 
+> To not load others, if there is no response then I suggest
+> to limit followup e-mails only to linux-iio and those
+> who already communicated in this thread.
+
+Agree. This will probably be my last reply to this thread with LMKL in CC.
+
+Is there anybody here willing to help with contact information?
+
+> > > This is preliminary reply, I want to find time for more discussion
+> > > and analysis (which is quite hard during summer term where I have
+> > > lot of teaching and even ongoing project now).
+> > >
+> > > I would like to discuse even future subsystem evolution
+> > > which would allow coordinates axes groups creation, smooth
+> > > segments based on N-th order splines incremental attachment,
+> > > the path planning and re-planning if the target changes
+> > > as reaction to camera or other sensor needs etc.  
+> >
+> > Right now LMC should be able to support hardware that has multiple channels
+> > (axes) per device. Its UAPI can describe position-based movements and
+> > time-based movements along any arbitrary combination of those channels
+> > using a pre-defined speed/acceleration profile.
+> >
+> > The profiles can be specified as an arbitrary number of speed and
+> > acceleration values. The idea is to describe a segmented profile with
+> > different acceleration values for segments between two different speed
+> > values. Simple examples are trapezoidal (accelerate from (near-)zero to
+> > Vmax with A1, and decelerate from Vmax back to zero with D1), dual-slope or
+> > S-curve, but the UAPI in theory permits an arbitrary number of segments if
+> > the underlying hardware supports it.  
+> 
+> Yes, when I have read that it reminded me my API between non-RT
+> and RT control task in Linux and IRQs in sysless case of our system.
+>
+> > I have some ideas for future extensions to the API that make coordinated
+> > multi-channel movements a bit easier, but that will not be in the initial
+> > push of LMC: For example torque-limit profiles for controlled torque
+> > movements, usable for example in sliding door controllers with AC machines
+> > or BLDC motors; or an ioctl to send a distance vector to a selected number
+> > of channels at once and apply a motion profile to the whole coordinated
+> > movement. In the current version you have to set up the distances and
+> > profiles for the individual channels and then trigger the start of the
+> > motion, which is more cumbersome. You can already use the finish event of a
+> > preceding motion to trigger the next one though.  
+> 
+> It would worth to have some commands queue for specified
+> (prefigured/setup) xis group.
+
+I thought about this, and while queuing commands for a 3D printer seems like a
+great idea, since it is strictly feed-forward for the most part, queuing
+commands in the kernel is complicating things a lot when you also want to be
+able to react to real-time events in user-space, like end-stop switches and
+such. I think the current GPIO UAPI with support for epoll events is
+fantastic, and people should use it. :-)
+
+OTOH, I think that the speed and timing accuracy with which one would send
+individual movement commands (vectors or splines) to a motion controller is
+perfectly adequate for user-space, specially if you have the option of a
+1-deep queue like this mechanism of triggering the next movement when the
+current one finishes, which basically gives you the time the current movement
+takes as latency-slack for user-space. I think that is enough, but let me know
+if you disagree. Maybe it is possible to make the N-dimensional vector
+interface (optionally) queued?
+
+> Our system allows to add segments to the group queue but the
+> timing for segment only specifies shortest time in which it can
+> be executed.
+> 
+> Then there is three passes optimization then.
+> 
+> The first pass is performed at the insertion time. It checks and
+> finds normalized change of speeds  (divided by maximal accel/deccel
+> of given axis) at vertex and finds limiting exes, one which accelerates
+> the most and another which needs to decelerate the most. Then it
+> computes speed discontinuity at the given sample period and it limits
+> maximal final speed of the preceding segment such way, that the speed
+> change is kept under COORDDISCONT multiple of accel/decel step. This
+> way, if the straight segments are almost in line, the small change
+> of the direction is not limiting the speed. The discontinuity is
+> computed same way for the vertex between two N-order spline segments,
+> but optimally computed spline segments can be joint with such
+> discontinuity near to zero. This non RT computation as well as all
+> non-RT a RT one on the control unit side is done in the fixed
+> math (the most 32-bits, sometime 64-bits). Actual code of this
+> pass are the functions pxmc_coordmv_seg_add(), pxmc_coordmv_seg_add_line()
+> and pxmc_coordmv_seg_add_spline()
+
+Yes, this maps very well with what I had in mind when designing LMC. I haven't
+thought about supporting engines capable of real-time spline interpolation
+because I hadn't seen one before. I thought that just dividing a spline into
+(many) linear segments would be good enough, but if there are motion engines
+that can handle spline parameters, I guess we should try to support that.
+
+The motion profiles LMC supports have 2 extra parameters for limiting speed
+discontinuities which can be found in many common motion engines: tvmax and
+tvzero.
+
+https://github.com/yope/linux/blob/mainline-lmc-preparation/include/uapi/linux/motion.h#L146
+
+Tvmax is important for situations where the maximum speed of a given profile
+is not reached because the distance is too short. It will make sure there is
+at least some period of constant speed before decelerating again.
+
+Tvzero is important for motions that starts accelerating into an opposite
+direction of a preceding motion, to insert a minimum time at zero velocity.
+
+But I guess you are more than familiar with these, since they are pretty
+common concepts. ;-)
+
+>   https://gitlab.com/pikron/sw-base/pxmc/-/blob/master/libs4c/pxmc_coordmv/coordmv_base.c?ref_type=heads#L394
+> 
+> The new segment final vertex limiting speed and planned speed are
+> set to zero.
+> 
+> In the second pass, the queue of segments is examined from the last
+> added one and its initial planned vertex/edge speed is updated,
+> increased up to the minimum of limit give by discontinuity and
+> the limit to decelerate over segment to the planned final speed
+> of the segment. If the start vertex limit is increased then
+> the algorithm proceeds with previous segment
+
+AFAICS, these are all motion planning tasks that should be done in user-space,
+right?
+
+>  https://gitlab.com/pikron/sw-base/pxmc/-/blob/master/libs4c/pxmc_coordmv/coordmv_base.c?ref_type=heads#L682
+> 
+> There are some rules and trick to do that long free in the respect
+> to the IRQ executor etc...
+> 
+> Then the actual execution at the sampling frequency advances
+> the normalized parameter going through segment from 0 to 2^32
+> in 2^32 modulo arithmetic. The increase is limited by smallest
+> maximal speed of the axes recomputed over distance to parameter
+> change and maximal allowed accelerations recomputed to the parameter
+> change. Then the final speed is limited by to final deceleration
+> to the end of the segment the pxmc_coordmv_upda() in
+> 
+>   https://gitlab.com/pikron/sw-base/pxmc/-/blob/master/libs4c/pxmc_coordmv/coordmv_base.c?ref_type=heads#L351
+
+AFAICS, this is probably better done in the controller itself, right?
+
+The most complex math I feel comfortable doing in kernel space is converting a
+distance-based motion given a trapezoidal acceleration profile (whith its
+limiting factors tvmin and tvmax, see above) into a time based motion:
+
+https://github.com/yope/linux/blob/mainline-lmc-preparation/drivers/motion/motion-helpers.c#L515
+
+This is a helper function for drivers that want to use the internal time-based
+ramp generator.
+
+>[...]
+> > Another idea that has been floating in my head is to make a "virtual"
+> > motion device driver that combines individual "real" single-channel
+> > hardware drivers into one multi-channel device, but I am unsure whether it
+> > is really needed. It all depends on the latency limit differences between
+> > kernel-space and user-space whether there is something to gain.  
+> 
+> In the fact this is the similar idea programmed and in use 25 years
+> already. All computation is in 32-bit units specific for the each axis
+> and only in fixed arithmetic. Some problem was fast 64-bit root square
+> at that time.  All has been computed on 21 MHz CPU with 16-bit bus with
+> no caches with instrauctions taking from 2 to many cycles. It was capable
+> to do that for all eight axes plus some other control tasks as flashing
+> lights at specific positions for example for gems inspections by camera
+> connected to PC and then cotrolling their sorting to the right pocket by air
+> streams by MARS 8 control unit when it advanced to given location etc.
+> So some parts of the code has been rewritten to assembly. But today,
+> even on not so fast LPC4088 it can do this and D-Q PMSM motors
+> control without need of assembly optimizations.
+
+I think that if we support different kinds of profiles on N-dimensions with
+support for spline parameters if the hardware supports it, we could solve for
+any use-case without much complexity in the kernel.
+
+> > I think it is best to keep this initial version more limited in scope
+> > though, as long as the needed extensions are possible in the future without
+> > breaking existing UAPI.  
+> 
+> Yes, but I would be happy if the API is designed such way, that
+> it is not obstacle when it would be extended and I have idea
+> what would be such further goal for these applications
+> I have already solved and running for decades at industry
+> level.
+
+That's great. I am confident that with your help, we can make this API as
+universally usable as possible, while still keeping it simple and generic.
+
+> > So I propose: Let's craft a draft UAPI (in a different place, not on LKML)
+> > that can do everything we can come up with and then reduce it to the basics
+> > for the first version. Otherwise it will get too complex to review, I'm
+> > afraid.  
+> 
+> Yes, I agree.
+> 
+> To have some idea of the command set of our system, there is documentation
+> in English for our older system which was capable to control three
+> axes by 8-bit 80552
+> 
+>    http://cmp.felk.cvut.cz/~pisa/mars/mars_man_en.pdf
+
+This API looks pretty straight-forward, and should be easy to implement with
+LMC. Controller specific settings in LMC are set using a sysfs attributes
+interface. An example of the settings for the TMC5240:
+
+https://github.com/yope/linux/blob/mainline-lmc-preparation/drivers/motion/tmc5240.c#L311
+
+> > > At this moment I have interrest if there is site which
+> > > would start to collect these ideas and where can be
+> > > some references added.  
+> >
+> > I may put this on github and create a wiki there if you think that's a good
+> > enough place to discuss?  
+> 
+> If there is no feedback with better place to my initial
+> list of options, I am OK with project group on GitHub
+> where the initial project will be located with Wiki
+> and issue tracker to start the communication
+> and I would be happy to participate (as my time, teaching,
+> projects allows).
+
+Sounds good. Let's see if we can get some attention from OSADL or Linux
+Foundation. If you have some contacts there, I'd be great if you could help
+get something set up. If not, we just use github or maybe even gitlab for now.
+
+> > > I think that I have quite some stuff to offer.  
+> >
+> > That would be great! Looking forward to it :-)
+> >  
+> > > To have idea about my direction of thinking and needs
+> > > of interface I would provide some references even
+> > > to our often commercially sold but mostly conceived
+> > > as hobby projects.  
+> >
+> > I'll have to take some time to look into those more closely. My own
+> > experience as far as FOSS or OSHW concerns includes the reprap Kamaq
+> > project:
+> >
+> > https://reprap.org/wiki/Kamaq  
+> 
+> OK, nice target but I would like to support 5 D CNCs with
+> precise machining, haptic human machine systems etc...
+
+Sure!
+
+> with DC, stepper and PMSM motors with vector control
+> high resolution positional feedback etc. We control for
+> example up to 30 kg spherical lenses positioning in
+> the interferometric system with precision of micro fractions.
+> The system allows inspection which thanks to multiple
+> angles reaches lens surface reconstruction at level of
+> nanometres 
+> 
+>   https://toptec.eu/export/sites/toptec/.content/projects/finished/measuring-instrument.pdf
+> 
+> We use optical linear sensors combined with 10k per revolution
+> incremental sensors on the cheap stepper motor actuators and
+> precise mechanics.. and more tricks... And I can see use
+> of some cheap linux board, i.e. Zynq, Beagle-V Fire,
+> which I have on my table, there in future...
+
+Yes, this sounds really awesome. It sounds like a great challenge for getting
+LMC into a good enough shape for that sort of applications. It is exactly what
+I had in mind.
+
+>[...]
+> As I referenced above, the spines are interpreted at sampling frequency
+> all parameters are represented as 32-bit signed numbers etc...
+> So no conversion to the straight segments. The precise postions
+> are recomputed with even high resolution over IKT, then some
+> intervals of these points are interpolated by spline segments
+> with controlled error and these segments are send to the unit
+> to keep command FIFO full but not overflow it. Unit reports
+> how much space is left...
+> 
+> > LMC will try to limit math operations in kernel space as much as possible,
+> > so hopefully all the calculations can be done in user-space (or on the
+> > controller if that is the case).  
+> 
+> All computation is fixed point only so no problem for the kernel
+> even for interrupt. But yes, on fully preemptive kernel where
+> user space task can be guaranteed to achieve 5 kHz sampling even
+> on cheaper ARM hardware, the interface to the kernel can be
+> only on D-Q PWM command and actual IRC and currents readback.
+> 
+> But if you have API for more intelligent controllers then there
+> s no problem to put there "SoftMAC" to represent dumb ones the
+> same way to userspace.
+
+That's exactly what I thought of. Thanks for the analogy, I am going to
+shamelessly steal it from you if you don't mind ;-)
+
+That's also why I included 2 different drivers as example for LMC: One that
+does all the fast computations in hardware, and one that uses a "SoftMAC", in
+motion-helpers.c to generate time-based speed ramps from acceleration profiles.
+
+But I think we should limit the "SoftMAC" device capabilities to basic
+trapezoidal motion profiles, since it is not the main purpose of LMC to
+convert the Linux kernel into a high-resolution, hard-RT motion-planning
+engine... even if it is a tempting technical challenge to do so ;-)
+
+> > Right now, my way of thinking was that of regular 3D printers which usually
+> > only implement G0/G1 G-codes (linear interpolation). G2/G3 (circular
+> > interpolation) doesn't sound practically very useful since it is special
+> > but not very flexible. Something like generalized spline interpolation
+> > sounds more valuable, but I hadn't seen any hardware that can do it.
+> >  
+> > > The related python application is there
+> > >
+> > >   https://github.com/cvut/pyrocon
+> > >
+> > > In the far future, I can imagine that it can connect
+> > > to proposed LMC API and achieve the same results.  
+> >
+> > Let's make it so!
+> >  
+> > >[...]
+> > > which uses our PXMC motion control library
+> > >
+> > >   https://gitlab.com/pikron/sw-base/pxmc
+> > >
+> > > There is basic documentation for it on its site
+> > >
+> > >   https://pxmc.org/
+> > >   https://pxmc.org/files/pxmc.pdf  
+> >
+> > At first glance, this looks like a piece of hardware that would fit as a
+> > LMC device. What needs to be determined is where the boundaries lie between
+> > controller firmware, kernel-space and user-space code.  
+> 
+> I propose to have that boundary fully configurable.
+> So all can be implemented by software emulation
+> in the kernel if the sampling is under 5 or 10 kHz.
+> The interface from GNU/Linux system to hardware
+> is set PWM A, B, C, read actual IRC and currents.
+
+5-10kHz in the kernel is quite demanding already, although I agree that it is
+possible with many modern SoC's. The question is whether we really want to
+go that far. It is starting to get to levels of stress where really a small
+microcontroller of FPGA would be more adequate, don't you agree?
+
+And also, for what purpose do you want to read currents in real-time in the
+kernel? Isn't that something for closed-loop control inside a uC or FPGA?
+Or do you mean just to report to user-space as a filtered average?
+IRC (encoder feedback) could be implemented with timers that support
+quadrature decoding, and I can certainly envision reading them out in the
+kernel in order to have a simple PID controller adjust duty-cycle setpoint to
+match a motion profile at a lower sample rate (1kHz or lower), but isn't that
+more something for the controller hardware to do? Especially if done at even
+higher sample-rates?
  
- #endif /* __ASM_CPU_FEATURES_H */
-diff --git a/arch/loongarch/include/asm/cpu.h b/arch/loongarch/include/asm/cpu.h
-index 98cf4d7b4b0a..33cd96e569d8 100644
---- a/arch/loongarch/include/asm/cpu.h
-+++ b/arch/loongarch/include/asm/cpu.h
-@@ -102,6 +102,7 @@ enum cpu_type_enum {
- #define CPU_FEATURE_PTW			27	/* CPU has hardware page table walker */
- #define CPU_FEATURE_LSPW		28	/* CPU has LSPW (lddir/ldpte instructions) */
- #define CPU_FEATURE_AVECINT		29	/* CPU has AVEC interrupt */
-+#define CPU_FEATURE_REDIRECTINT		30      /* CPU has interrupt remmap */
+> Or some part can be moved to external controller
+> or FPGA with coprocessor (the commutation fits
+> in 2 kB of RISC-V C programmed firmware). 
+> I.e. 20  kHz or even faster Park, Clarke
+> transformations. In this case 4 to 10 kHz
+> command port would be D-Q PWM or current set points
+> and back IRC position, D-Q currents.
+> 
+> Or your proposed LMC interface can be delivered
+> allmost directly to more complex controller
+> which would realize whole segments processing.
+
+I think the latter is more suitable for Linux.
+
+Although, given the fact that many embedded Linux SoC's nowadays incorporate
+small microcontroller cores that support the linux remoteproc interface, maybe
+some drivers could make use of that for the hard-RT part. On a STM32MP15x SoC
+for example there are advanced timers and ADC's that are very well suited for
+motor-control applications. They can be used directly from Linux for
+not-so-hard-and-fast RT applications, but potentially also for microsecond
+work in the M4 core.
+Let's first focus on the UAPI, and make the interface able to deal with these
+kind of engines.
+
+> > Generally speaking, as a rough guideline, microsecond work is better done
+> > in the controller firmware if possible. millisecond work can be done in the
+> > kernel and 10's or more millisecond work can be done in user-space,
+> > notwithstanding latency limit requirements of course.  
+> 
+> OK, I agree, the RT_PREEMPT is requiremet and no broken
+> SMI on x86 HW. 1 kHz is enough for DC motors controller
+> robots to go all on Linux. 5 kHz for PMSM D-Q can be
+> done in kernel or even userspace with platform
+> suitable for PREEMPT_RT if without some issues.
+> 
+> Above 10 kHz should go to FPGA or external HW.
+
+Yes, I agree. Although I'd lower the limits a bit to not make the drivers too
+dependent on very specific hardware platforms.
+
+> > >[...]
+> > > So in general, I think that we have large portfolio
+> > > of building blocks which would allow to build motion,
+> > > robotic controllers, communications etc. and I would be happy
+> > > if they are reused and even some project conceived
+> > > together with others to join the forces.  
+> >
+> > This sounds very interesting. Ideally one would end up with LMC capable of
+> > interfacing all of those devices.  
+> 
+> Yes.
+
+Good. Let's do it ;-)
  
- #define LOONGARCH_CPU_CPUCFG		BIT_ULL(CPU_FEATURE_CPUCFG)
- #define LOONGARCH_CPU_LAM		BIT_ULL(CPU_FEATURE_LAM)
-@@ -133,5 +134,6 @@ enum cpu_type_enum {
- #define LOONGARCH_CPU_PTW		BIT_ULL(CPU_FEATURE_PTW)
- #define LOONGARCH_CPU_LSPW		BIT_ULL(CPU_FEATURE_LSPW)
- #define LOONGARCH_CPU_AVECINT		BIT_ULL(CPU_FEATURE_AVECINT)
-+#define LOONGARCH_CPU_REDIRECTINT	BIT_ULL(CPU_FEATURE_REDIRECTINT)
- 
- #endif /* _ASM_CPU_H */
-diff --git a/arch/loongarch/include/asm/loongarch.h b/arch/loongarch/include/asm/loongarch.h
-index 52651aa0e583..3a27a5f6e460 100644
---- a/arch/loongarch/include/asm/loongarch.h
-+++ b/arch/loongarch/include/asm/loongarch.h
-@@ -1130,6 +1130,7 @@
- #define  IOCSRF_FLATMODE		BIT_ULL(10)
- #define  IOCSRF_VM			BIT_ULL(11)
- #define  IOCSRF_AVEC			BIT_ULL(15)
-+#define  IOCSRF_REDIRECTINT		BIT_ULL(16)
- 
- #define LOONGARCH_IOCSR_VENDOR		0x10
- 
-@@ -1142,6 +1143,7 @@
- #define  IOCSR_MISC_FUNC_TIMER_RESET	BIT_ULL(21)
- #define  IOCSR_MISC_FUNC_EXT_IOI_EN	BIT_ULL(48)
- #define  IOCSR_MISC_FUNC_AVEC_EN	BIT_ULL(51)
-+#define  IOCSR_MISC_FUNC_REDIRECT_EN	IOCSR_MISC_FUNC_AVEC_EN
- 
- #define LOONGARCH_IOCSR_CPUTEMP		0x428
- 
-@@ -1189,6 +1191,11 @@
- 
- #define LOONGARCH_IOCSR_EXTIOI_NODEMAP_BASE	0x14a0
- #define LOONGARCH_IOCSR_EXTIOI_IPMAP_BASE	0x14c0
-+#define LOONGARCH_IOCSR_REDIRECT_CFG		0x15e0
-+#define LOONGARCH_IOCSR_REDIRECT_TBR		0x15e8  /* IRT BASE REG*/
-+#define LOONGARCH_IOCSR_REDIRECT_CQB		0x15f0  /* IRT CACHE QUEUE BASE */
-+#define LOONGARCH_IOCSR_REDIRECT_CQH		0x15f8  /* IRT_CACHE_QUEUE_HEAD 32bit */
-+#define LOONGARCH_IOCSR_REDIRECT_CQT		0x15fc  /* IRT_CACHE_QUEUE_TAIL 32bit */
- #define LOONGARCH_IOCSR_EXTIOI_EN_BASE		0x1600
- #define LOONGARCH_IOCSR_EXTIOI_BOUNCE_BASE	0x1680
- #define LOONGARCH_IOCSR_EXTIOI_ISR_BASE		0x1800
-diff --git a/arch/loongarch/kernel/cpu-probe.c b/arch/loongarch/kernel/cpu-probe.c
-index fedaa67cde41..543474fd1399 100644
---- a/arch/loongarch/kernel/cpu-probe.c
-+++ b/arch/loongarch/kernel/cpu-probe.c
-@@ -289,6 +289,8 @@ static inline void cpu_probe_loongson(struct cpuinfo_loongarch *c, unsigned int
- 		c->options |= LOONGARCH_CPU_EIODECODE;
- 	if (config & IOCSRF_AVEC)
- 		c->options |= LOONGARCH_CPU_AVECINT;
-+	if (config & IOCSRF_REDIRECTINT)
-+		c->options |= LOONGARCH_CPU_REDIRECTINT;
- 	if (config & IOCSRF_VM)
- 		c->options |= LOONGARCH_CPU_HYPERVISOR;
- }
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index 25e9ad29b8c4..5dd7d6b151d9 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -113,7 +113,7 @@ obj-$(CONFIG_LS1X_IRQ)			+= irq-ls1x.o
- obj-$(CONFIG_TI_SCI_INTR_IRQCHIP)	+= irq-ti-sci-intr.o
- obj-$(CONFIG_TI_SCI_INTA_IRQCHIP)	+= irq-ti-sci-inta.o
- obj-$(CONFIG_TI_PRUSS_INTC)		+= irq-pruss-intc.o
--obj-$(CONFIG_IRQ_LOONGARCH_CPU)		+= irq-loongarch-cpu.o irq-loongarch-avec.o
-+obj-$(CONFIG_IRQ_LOONGARCH_CPU)		+= irq-loongarch-cpu.o irq-loongarch-avec.o irq-loongarch-ir.o
- obj-$(CONFIG_LOONGSON_LIOINTC)		+= irq-loongson-liointc.o
- obj-$(CONFIG_LOONGSON_EIOINTC)		+= irq-loongson-eiointc.o
- obj-$(CONFIG_LOONGSON_HTPIC)		+= irq-loongson-htpic.o
-diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
-index 80e55955a29f..101bae6f981c 100644
---- a/drivers/irqchip/irq-loongarch-avec.c
-+++ b/drivers/irqchip/irq-loongarch-avec.c
-@@ -24,7 +24,6 @@
- #define VECTORS_PER_REG		64
- #define IRR_VECTOR_MASK		0xffUL
- #define IRR_INVALID_MASK	0x80000000UL
--#define AVEC_MSG_OFFSET		0x100000
- 
- #ifdef CONFIG_SMP
- struct pending_list {
-@@ -47,15 +46,6 @@ struct avecintc_chip {
- 
- static struct avecintc_chip loongarch_avec;
- 
--struct avecintc_data {
--	struct list_head	entry;
--	unsigned int		cpu;
--	unsigned int		vec;
--	unsigned int		prev_cpu;
--	unsigned int		prev_vec;
--	unsigned int		moving;
--};
--
- static inline void avecintc_enable(void)
- {
- 	u64 value;
-@@ -85,7 +75,7 @@ static inline void pending_list_init(int cpu)
- 	INIT_LIST_HEAD(&plist->head);
- }
- 
--static void avecintc_sync(struct avecintc_data *adata)
-+void avecintc_sync(struct avecintc_data *adata)
- {
- 	struct pending_list *plist;
- 
-@@ -109,7 +99,7 @@ static int avecintc_set_affinity(struct irq_data *data, const struct cpumask *de
- 			return -EBUSY;
- 
- 		if (cpu_online(adata->cpu) && cpumask_test_cpu(adata->cpu, dest))
--			return 0;
-+			return IRQ_SET_MASK_OK_DONE;
- 
- 		cpumask_and(&intersect_mask, dest, cpu_online_mask);
- 
-@@ -121,7 +111,8 @@ static int avecintc_set_affinity(struct irq_data *data, const struct cpumask *de
- 		adata->cpu = cpu;
- 		adata->vec = vector;
- 		per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = irq_data_to_desc(data);
--		avecintc_sync(adata);
-+		if (!cpu_has_redirectint)
-+			avecintc_sync(adata);
- 	}
- 
- 	irq_data_update_effective_affinity(data, cpumask_of(cpu));
-@@ -136,7 +127,8 @@ static int avecintc_cpu_online(unsigned int cpu)
- 
- 	guard(raw_spinlock)(&loongarch_avec.lock);
- 
--	avecintc_enable();
-+	if (!cpu_has_redirectint)
-+		avecintc_enable();
- 
- 	irq_matrix_online(loongarch_avec.vector_matrix);
- 
-@@ -242,6 +234,7 @@ static void avecintc_irq_dispatch(struct irq_desc *desc)
- 		d = this_cpu_read(irq_map[vector]);
- 		if (d) {
- 			generic_handle_irq_desc(d);
-+
- 		} else {
- 			spurious_interrupt();
- 			pr_warn("Unexpected IRQ occurs on CPU#%d [vector %ld]\n", smp_processor_id(), vector);
-@@ -412,6 +405,9 @@ static int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
- 
- static inline int __init acpi_cascade_irqdomain_init(void)
- {
-+	if (cpu_has_redirectint)
-+		return loongarch_irq_redirect_init(loongarch_avec.domain);
-+
- 	return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
- }
- 
-diff --git a/drivers/irqchip/irq-loongarch-ir.c b/drivers/irqchip/irq-loongarch-ir.c
-new file mode 100644
-index 000000000000..d3c664d6f98e
---- /dev/null
-+++ b/drivers/irqchip/irq-loongarch-ir.c
-@@ -0,0 +1,576 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2020 Loongson Technologies, Inc.
-+ */
-+
-+#include <linux/cpuhotplug.h>
-+#include <linux/init.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/irq.h>
-+#include <linux/irqchip.h>
-+#include <linux/irqdomain.h>
-+#include <linux/spinlock.h>
-+#include <linux/msi.h>
-+
-+#include <asm/irq.h>
-+#include <asm/loongarch.h>
-+#include <asm/setup.h>
-+#include <larchintrin.h>
-+
-+#include "irq-loongson.h"
-+#include "irq-msi-lib.h"
-+
-+#define IRD_ENTRIES			65536
-+
-+/* redirect entry size 128bits */
-+#if (defined(CONFIG_PAGE_SIZE_4KB))
-+#define IRD_PAGE_ORDER			8
-+#elif (defined(CONFIG_PAGE_SIZE_16KB))
-+#define IRD_PAGE_ORDER			6
-+#endif
-+
-+/* irt cache invalid queue */
-+#define	INVALID_QUEUE_SIZE		4096
-+
-+#if (defined(CONFIG_PAGE_SIZE_4KB))
-+#define INVALID_QUEUE_PAGE_ORDER	4
-+#elif (defined(CONFIG_PAGE_SIZE_16KB))
-+#define INVALID_QUEUE_PAGE_ORDER	2
-+#endif
-+
-+#define GPID_ADDR_MASK			0x3ffffffffffULL
-+#define GPID_ADDR_SHIFT			6
-+
-+#define CQB_SIZE_SHIFT			0
-+#define CQB_SIZE_MASK			0xf
-+#define CQB_ADDR_SHIFT			12
-+#define CQB_ADDR_MASK			(0xfffffffffULL)
-+
-+#define CFG_DISABLE_IDLE		2
-+#define INVALID_INDEX			0
-+
-+#define MAX_IR_ENGINES			16
-+
-+struct irq_domain *redirect_domain;
-+struct redirect_entry {
-+	struct  {
-+		__u64	valid	: 1,
-+			res1	: 5,
-+			gpid	: 42,
-+			res2	: 8,
-+			vector	: 8;
-+	} lo;
-+	__u64 hi;
-+};
-+
-+struct redirect_gpid {
-+	u64	pir[4];      /* Pending interrupt requested */
-+	u8	en	: 1, /* doorbell */
-+		res0	: 7;
-+	u8	irqnum;
-+	u16	res1;
-+	u32	dst;
-+	u32	rsvd[6];
-+} __aligned(64);
-+
-+struct irde_inv_cmd {
-+	union {
-+		__u64 cmd_info;
-+		struct {
-+			__u64	res1		: 4,
-+				type		: 1,
-+				need_notice	: 1,
-+				pad		: 2,
-+				index		: 16,
-+				pad2		: 40;
-+		} index;
-+	};
-+	__u64 notice_addr;
-+};
-+
-+struct redirect_item {
-+	int index;
-+	struct redirect_entry *entry;
-+	struct redirect_gpid *gpid;
-+	struct redirect_table *table;
-+};
-+
-+struct redirect_table {
-+	int node;
-+	struct redirect_entry *table;
-+	unsigned long	*bitmap;
-+	unsigned int	nr_ird;
-+	struct page	*page;
-+	raw_spinlock_t	lock;
-+};
-+
-+struct redirect_queue {
-+	int node;
-+	u64 base;
-+	u32 max_size;
-+	int head;
-+	int tail;
-+	struct page *page;
-+	raw_spinlock_t	lock;
-+};
-+
-+struct la_irde_desc {
-+	struct redirect_table ird_table;
-+	struct redirect_queue inv_queue;
-+};
-+
-+struct smp_invalid_arg {
-+	struct redirect_queue *queue;
-+	struct irde_inv_cmd *cmd;
-+};
-+
-+static struct la_irde_desc irde_descs[MAX_IR_ENGINES];
-+static phys_addr_t msi_base_addr;
-+
-+static inline void redirect_enable(int node)
-+{
-+	u64 value;
-+
-+	if (redirect_domain) {
-+		value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
-+		value |= IOCSR_MISC_FUNC_REDIRECT_EN;
-+		iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
-+	}
-+}
-+
-+static inline bool invalid_queue_is_full(int node_id, u32 *tail)
-+{
-+	u32 head;
-+
-+	head = iocsr_read32(LOONGARCH_IOCSR_REDIRECT_CQH);
-+	*tail = iocsr_read32(LOONGARCH_IOCSR_REDIRECT_CQT);
-+
-+	return !!(head == ((*tail + 1) % INVALID_QUEUE_SIZE));
-+}
-+
-+static void invalid_enqueue(struct redirect_queue *rqueue, struct irde_inv_cmd *cmd)
-+{
-+	struct irde_inv_cmd *inv_addr;
-+	u32 tail;
-+
-+	guard(raw_spinlock_irqsave)(&rqueue->lock);
-+
-+	while (invalid_queue_is_full(rqueue->node, &tail))
-+		cpu_relax();
-+
-+	inv_addr = (struct irde_inv_cmd *)(rqueue->base + tail * sizeof(struct irde_inv_cmd));
-+	memcpy(inv_addr, cmd, sizeof(struct irde_inv_cmd));
-+	tail = (tail + 1) % INVALID_QUEUE_SIZE;
-+
-+	wmb();
-+
-+	iocsr_write32(tail, LOONGARCH_IOCSR_REDIRECT_CQT);
-+}
-+
-+static void smp_call_invalid_enqueue(void *arg)
-+{
-+	struct smp_invalid_arg *s_arg = (struct smp_invalid_arg *)arg;
-+
-+	invalid_enqueue(s_arg->queue, s_arg->cmd);
-+}
-+
-+static void irde_invlid_entry_node(struct redirect_item *item)
-+{
-+	struct redirect_queue *rqueue;
-+	struct smp_invalid_arg arg;
-+	struct irde_inv_cmd cmd;
-+	volatile u64 raddr = 0;
-+	int node = item->table->node, cpu;
-+
-+	rqueue = &(irde_descs[node].inv_queue);
-+	cmd.cmd_info = 0;
-+	cmd.index.type = INVALID_INDEX;
-+	cmd.index.need_notice = 1;
-+	cmd.index.index = item->index;
-+	cmd.notice_addr = (u64)(__pa(&raddr));
-+
-+	if (cpu_to_node(smp_processor_id()) == node)
-+		invalid_enqueue(rqueue, &cmd);
-+	else {
-+		for_each_cpu(cpu, cpumask_of_node(node)) {
-+			if (cpu_online(cpu))
-+				break;
-+		}
-+		arg.queue = rqueue;
-+		arg.cmd = &cmd;
-+		smp_call_function_single(cpu, smp_call_invalid_enqueue, &arg, 0);
-+	}
-+
-+	while (!raddr)
-+		cpu_relax();
-+
-+}
-+
-+static inline struct avecintc_data *irq_data_get_avec_data(struct irq_data *data)
-+{
-+	return data->parent_data->chip_data;
-+}
-+
-+static int redirect_table_alloc(struct redirect_item *item, struct redirect_table *ird_table)
-+{
-+	int index;
-+
-+	guard(raw_spinlock_irqsave)(&ird_table->lock);
-+
-+	index = find_first_zero_bit(ird_table->bitmap, IRD_ENTRIES);
-+	if (index > IRD_ENTRIES) {
-+		pr_err("No redirect entry to use\n");
-+		return -ENOMEM;
-+	}
-+
-+	__set_bit(index, ird_table->bitmap);
-+
-+	item->index = index;
-+	item->entry = &ird_table->table[index];
-+	item->table = ird_table;
-+
-+	return 0;
-+}
-+
-+static int redirect_table_free(struct redirect_item *item)
-+{
-+	struct redirect_table *ird_table;
-+	struct redirect_entry *entry;
-+	unsigned long flags;
-+
-+	ird_table = item->table;
-+
-+	entry = item->entry;
-+	memset(entry, 0, sizeof(struct redirect_entry));
-+
-+	raw_spin_lock_irqsave(&ird_table->lock, flags);
-+	bitmap_release_region(ird_table->bitmap, item->index, 0);
-+	raw_spin_unlock_irqrestore(&ird_table->lock, flags);
-+
-+	kfree(item->gpid);
-+
-+	irde_invlid_entry_node(item);
-+
-+	return 0;
-+}
-+
-+static inline void redirect_domain_prepare_entry(struct redirect_item *item, struct avecintc_data *adata)
-+{
-+	struct redirect_entry *entry = item->entry;
-+
-+	item->gpid->en = 1;
-+	item->gpid->irqnum = adata->vec;
-+	item->gpid->dst = adata->cpu;
-+
-+	entry->lo.valid = 1;
-+	entry->lo.gpid = ((long)item->gpid >> GPID_ADDR_SHIFT) & (GPID_ADDR_MASK);
-+	entry->lo.vector = 0xff;
-+	wmb();
-+}
-+
-+static int loongarch_redirect_set_affinity(struct irq_data *data, const struct cpumask *dest, bool force)
-+{
-+	struct redirect_item *item = data->chip_data;
-+	struct avecintc_data *adata;
-+	int ret;
-+
-+	ret = irq_chip_set_affinity_parent(data, dest, force);
-+	if (ret == IRQ_SET_MASK_OK_DONE)
-+		return IRQ_SET_MASK_OK;
-+	else if (ret) {
-+		pr_err("IRDE:set_affinity error %d\n", ret);
-+		return ret;
-+	}
-+
-+	adata = irq_data_get_avec_data(data);
-+
-+	redirect_domain_prepare_entry(item, adata);
-+
-+	irde_invlid_entry_node(item);
-+
-+	avecintc_sync(adata);
-+	return IRQ_SET_MASK_OK;
-+}
-+
-+static void loongarch_redirect_compose_msg(struct irq_data *d, struct msi_msg *msg)
-+{
-+	struct redirect_item *item;
-+
-+	item = irq_data_get_irq_chip_data(d);
-+	msg->address_lo = (msi_base_addr | 1 << 2 | ((item->index & 0xffff) << 4));
-+	msg->address_hi = 0x0;
-+	msg->data = 0x0;
-+}
-+
-+static inline void loongarch_redirect_ack_irq(struct irq_data *d)
-+{
-+}
-+
-+static inline void loongarch_redirect_unmask_irq(struct irq_data *d)
-+{
-+}
-+
-+static inline void loongarch_redirect_mask_irq(struct irq_data *d)
-+{
-+}
-+
-+static struct irq_chip loongarch_redirect_chip = {
-+	.name = "redirect",
-+	.irq_ack		= loongarch_redirect_ack_irq,
-+	.irq_mask		= loongarch_redirect_mask_irq,
-+	.irq_unmask		= loongarch_redirect_unmask_irq,
-+	.irq_set_affinity	= loongarch_redirect_set_affinity,
-+	.irq_compose_msi_msg	= loongarch_redirect_compose_msg,
-+};
-+
-+static void loongarch_irq_redirect_free_resources(struct irq_domain *domain,
-+						unsigned int virq, unsigned int nr_irqs)
-+{
-+	struct irq_data *irq_data;
-+	struct redirect_item *item;
-+
-+	for (int i = 0; i < nr_irqs; i++) {
-+		irq_data = irq_domain_get_irq_data(domain, virq  + i);
-+		if (irq_data && irq_data->chip_data) {
-+			item = irq_data->chip_data;
-+			redirect_table_free(item);
-+			kfree(item);
-+		}
-+	}
-+}
-+
-+static int loongarch_irq_redirect_alloc(struct irq_domain *domain,
-+					unsigned int virq, unsigned int nr_irqs,
-+					 void *arg)
-+{
-+	struct redirect_table *ird_table;
-+	struct avecintc_data *avec_data;
-+	struct irq_data *irq_data;
-+	int ret, i, node;
-+
-+	node = ((msi_alloc_info_t *)arg)->desc->dev->numa_node;
-+	ird_table = &irde_descs[node].ird_table;
-+	ret = irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, arg);
-+	if (ret < 0)
-+		return ret;
-+
-+	for (i = 0; i < nr_irqs; i++) {
-+		struct redirect_item *item;
-+
-+		item = kzalloc(sizeof(struct redirect_item), GFP_KERNEL);
-+		if (!item) {
-+			pr_err("Alloc redirect descriptor failed\n");
-+			goto out_free_resources;
-+		}
-+
-+		irq_data = irq_domain_get_irq_data(domain, virq + i);
-+
-+		avec_data = irq_data_get_avec_data(irq_data);
-+		ret = redirect_table_alloc(item, ird_table);
-+		if (ret) {
-+			pr_err("Alloc redirect table entry failed\n");
-+			goto out_free_resources;
-+		}
-+
-+		item->gpid = kzalloc_node(sizeof(struct redirect_gpid), GFP_KERNEL, node);
-+		if (!item->gpid) {
-+			pr_err("Alloc redirect GPID failed\n");
-+			goto out_free_resources;
-+		}
-+
-+		irq_data->chip_data = item;
-+		irq_data->chip = &loongarch_redirect_chip;
-+		redirect_domain_prepare_entry(item, avec_data);
-+	}
-+	return 0;
-+
-+out_free_resources:
-+	loongarch_irq_redirect_free_resources(domain, virq, nr_irqs);
-+	irq_domain_free_irqs_common(domain, virq, nr_irqs);
-+
-+	return -EINVAL;
-+}
-+
-+static void loongarch_irq_redirect_free(struct irq_domain *domain,
-+				     unsigned int virq, unsigned int nr_irqs)
-+{
-+	loongarch_irq_redirect_free_resources(domain, virq, nr_irqs);
-+	return irq_domain_free_irqs_common(domain, virq, nr_irqs);
-+}
-+
-+static const struct irq_domain_ops loongarch_redirect_domain_ops = {
-+	.alloc = loongarch_irq_redirect_alloc,
-+	.free = loongarch_irq_redirect_free,
-+	.select	= msi_lib_irq_domain_select,
-+};
-+
-+static int redirect_queue_init(int node)
-+{
-+	struct redirect_queue *rqueue = &(irde_descs[node].inv_queue);
-+	struct page *pages;
-+
-+	pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
-+	if (!pages) {
-+		pr_err("Node [%d] Invalid Queue alloc pages failed!\n", node);
-+		return -ENOMEM;
-+	}
-+
-+	rqueue->page = pages;
-+	rqueue->base = (u64)page_address(pages);
-+	rqueue->max_size = INVALID_QUEUE_SIZE;
-+	rqueue->head = 0;
-+	rqueue->tail = 0;
-+	rqueue->node = node;
-+	raw_spin_lock_init(&rqueue->lock);
-+
-+	iocsr_write32(0, LOONGARCH_IOCSR_REDIRECT_CQH);
-+	iocsr_write32(0, LOONGARCH_IOCSR_REDIRECT_CQT);
-+	iocsr_write64(((rqueue->base & (CQB_ADDR_MASK << CQB_ADDR_SHIFT)) |
-+				(CQB_SIZE_MASK << CQB_SIZE_SHIFT)), LOONGARCH_IOCSR_REDIRECT_CQB);
-+	return 0;
-+}
-+
-+static int redirect_table_init(int node)
-+{
-+	struct redirect_table *ird_table = &(irde_descs[node].ird_table);
-+	struct page *pages;
-+	unsigned long *bitmap;
-+
-+	pages = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, IRD_PAGE_ORDER);
-+	if (!pages) {
-+		pr_err("Node [%d] redirect table alloc pages failed!\n", node);
-+		return -ENOMEM;
-+	}
-+	ird_table->page = pages;
-+	ird_table->table = page_address(pages);
-+
-+	bitmap = bitmap_zalloc(IRD_ENTRIES, GFP_KERNEL);
-+	if (!bitmap) {
-+		pr_err("Node [%d] redirect table bitmap alloc pages failed!\n", node);
-+		return -ENOMEM;
-+	}
-+
-+	ird_table->bitmap = bitmap;
-+	ird_table->nr_ird = IRD_ENTRIES;
-+	ird_table->node = node;
-+
-+	raw_spin_lock_init(&ird_table->lock);
-+
-+	if (redirect_queue_init(node))
-+		return -EINVAL;
-+
-+	iocsr_write64(CFG_DISABLE_IDLE, LOONGARCH_IOCSR_REDIRECT_CFG);
-+	iocsr_write64(__pa(ird_table->table), LOONGARCH_IOCSR_REDIRECT_TBR);
-+
-+	return 0;
-+}
-+
-+static void redirect_table_fini(int node)
-+{
-+	struct redirect_table *ird_table = &(irde_descs[node].ird_table);
-+	struct redirect_queue *rqueue = &(irde_descs[node].inv_queue);
-+
-+	if (ird_table->page) {
-+		__free_pages(ird_table->page, IRD_PAGE_ORDER);
-+		ird_table->table = NULL;
-+		ird_table->page = NULL;
-+	}
-+
-+	if (ird_table->page) {
-+		bitmap_free(ird_table->bitmap);
-+		ird_table->bitmap = NULL;
-+	}
-+
-+	if (rqueue->page) {
-+		__free_pages(rqueue->page, INVALID_QUEUE_PAGE_ORDER);
-+		rqueue->page = NULL;
-+		rqueue->base = 0;
-+	}
-+
-+	iocsr_write64(0, LOONGARCH_IOCSR_REDIRECT_CQB);
-+	iocsr_write64(0, LOONGARCH_IOCSR_REDIRECT_TBR);
-+}
-+
-+static int redirect_cpu_online(unsigned int cpu)
-+{
-+	int ret, node = cpu_to_node(cpu);
-+
-+	if (cpu != cpumask_first(cpumask_of_node(node)))
-+		return 0;
-+
-+	ret = redirect_table_init(node);
-+	if (ret) {
-+		redirect_table_fini(node);
-+		return -EINVAL;
-+	}
-+
-+	redirect_enable(node);
-+	return 0;
-+}
-+
-+#if defined(CONFIG_ACPI)
-+static int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
-+		const unsigned long end)
-+{
-+	struct acpi_madt_msi_pic *pchmsi_entry = (struct acpi_madt_msi_pic *)header;
-+
-+	msi_base_addr = pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
-+
-+	return pch_msi_acpi_init_avec(redirect_domain);
-+}
-+
-+static int __init acpi_cascade_irqdomain_init(void)
-+{
-+	return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
-+}
-+
-+int __init loongarch_irq_redirect_init(struct irq_domain *parent)
-+{
-+	struct fwnode_handle *fwnode;
-+	struct irq_domain *domain;
-+	int ret;
-+
-+	fwnode = irq_domain_alloc_named_fwnode("redirect");
-+	if (!fwnode) {
-+		pr_err("Unable to alloc redirect domain handle\n");
-+		goto fail;
-+	}
-+
-+	domain = irq_domain_create_hierarchy(parent, 0, IRD_ENTRIES, fwnode,
-+			&loongarch_redirect_domain_ops, irde_descs);
-+	if (!domain) {
-+		pr_err("Unable to alloc redirect domain\n");
-+		goto out_free_fwnode;
-+	}
-+
-+	redirect_domain = domain;
-+
-+	ret = redirect_table_init(0);
-+	if (ret)
-+		goto out_free_table;
-+
-+	ret = acpi_cascade_irqdomain_init();
-+	if (ret < 0) {
-+		pr_err("Failed to cascade IRQ domain, ret=%d\n", ret);
-+		goto out_free_table;
-+	}
-+
-+	cpuhp_setup_state_nocalls(CPUHP_AP_IRQ_REDIRECT_STARTING,
-+				  "irqchip/loongarch/redirect:starting",
-+				  redirect_cpu_online, NULL);
-+
-+	pr_info("loongarch irq redirect modules init succeeded\n");
-+	redirect_enable(0);
-+	return 0;
-+
-+out_free_table:
-+	redirect_table_fini(0);
-+	irq_domain_remove(redirect_domain);
-+	redirect_domain = NULL;
-+out_free_fwnode:
-+	irq_domain_free_fwnode(fwnode);
-+fail:
-+	return -EINVAL;
-+}
-+#endif
-diff --git a/drivers/irqchip/irq-loongson.h b/drivers/irqchip/irq-loongson.h
-index 11fa138d1f44..f29ab8ec368e 100644
---- a/drivers/irqchip/irq-loongson.h
-+++ b/drivers/irqchip/irq-loongson.h
-@@ -5,6 +5,15 @@
- 
- #ifndef _DRIVERS_IRQCHIP_IRQ_LOONGSON_H
- #define _DRIVERS_IRQCHIP_IRQ_LOONGSON_H
-+#define AVEC_MSG_OFFSET		0x100000
-+struct avecintc_data {
-+	struct list_head        entry;
-+	unsigned int            cpu;
-+	unsigned int            vec;
-+	unsigned int            prev_cpu;
-+	unsigned int            prev_vec;
-+	unsigned int            moving;
-+};
- 
- int find_pch_pic(u32 gsi);
- 
-@@ -24,4 +33,7 @@ int pch_msi_acpi_init(struct irq_domain *parent,
- 					struct acpi_madt_msi_pic *acpi_pchmsi);
- int pch_msi_acpi_init_avec(struct irq_domain *parent);
- 
-+int loongarch_irq_redirect_init(struct irq_domain *parent);
-+
-+void avecintc_sync(struct avecintc_data *adata);
- #endif /* _DRIVERS_IRQCHIP_IRQ_LOONGSON_H */
-diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
-index 6cc5e484547c..2fd5531fa378 100644
---- a/include/linux/cpuhotplug.h
-+++ b/include/linux/cpuhotplug.h
-@@ -146,6 +146,7 @@ enum cpuhp_state {
- 	CPUHP_AP_IRQ_MIPS_GIC_STARTING,
- 	CPUHP_AP_IRQ_EIOINTC_STARTING,
- 	CPUHP_AP_IRQ_AVECINTC_STARTING,
-+	CPUHP_AP_IRQ_REDIRECT_STARTING,
- 	CPUHP_AP_IRQ_SIFIVE_PLIC_STARTING,
- 	CPUHP_AP_IRQ_THEAD_ACLINT_SSWI_STARTING,
- 	CPUHP_AP_IRQ_RISCV_IMSIC_STARTING,
+Best regards,
+
 -- 
-2.43.0
-
+David Jander
