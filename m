@@ -1,439 +1,230 @@
-Received: from mx-8.mail.web4u.cz (smtp7.web4u.cz [81.91.87.87])
+Received: from smtp28.bhosted.nl (smtp28.bhosted.nl [94.124.121.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5001EDA37;
-	Mon,  3 Mar 2025 11:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.91.87.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB9E1F1905
+	for <linux-doc@vger.kernel.org>; Mon,  3 Mar 2025 11:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740999694; cv=none; b=J/W7F8yByk27nAiMUxvnwDX5OnnzC2LGkFnvWvS6YYobjjGFPfrz9fOaecSbNLq/0UTMXYd6pyUh6L/SfGCY9PbHlTHxEqYFSxxNbSBsbcEBYDpN7JiAeQAgNalWDJ9+b2M+Go55U3X+nqBfLqFsaKCXLgQiaW8qeFi2MN/8U0A=
+	t=1741000986; cv=none; b=HNZyUj+OJAte+NTF8mlgT/vL6/pIPmUriyUzT/23UjH03LHMgoisDZRkQQBI/6GPxFKJHdCX5rQY31zi7PSfktK7+gzoK1CLUAcg7VARGmQ9DvpbonZ9SlizZM8J+sHju2/eGBdZynNDUj0QMFEO1Ejzt7s4hEuv+SxMqcYY9NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740999694; c=relaxed/simple;
-	bh=rp41BOFtQ7C7me3CYdJaPDZTzEvF2oNKglulTnCRJf0=;
-	h=From:To:Subject:Date:Cc:References:In-Reply-To:MIME-Version:
-	 Content-Type:Content-Disposition:Message-Id; b=Xdk4AVwxvcPE0BvRgZ4ewp87sT55lN82UrcElY6tYGAC8OUZqE3TXbSd5mVen/kfwtDIOGrNdP2bkUk+xcapYznqbO1zr23NcbmIFQuc85XKZ5eppt6CHToZrFExoDR/1ig60bPsXRW1vLWgLWeSU4FWTPjuJTG/f+FEZ0Z7QK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pikron.com; spf=pass smtp.mailfrom=pikron.com; dkim=pass (2048-bit key) header.d=pikron.com header.i=@pikron.com header.b=fkw75lrZ; arc=none smtp.client-ip=81.91.87.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pikron.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pikron.com
+	s=arc-20240116; t=1741000986; c=relaxed/simple;
+	bh=T2/0vtnTHd+jEFQfmJdgjKR4ED0aLjzFr+5YOFGUjfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mBWIPbmaoxhQt8l5X5HdusvfFlyHJgEP13LPhLnLUJW25xGICf/iHsOgILSI1F4nAjne/fhHbn/1dXrzHpZHBc3MxSvcpfEn0Rc5mLbGJe30JCFEYKKoFCdNPOfSLBoDj717hS9lLEnVPKsrM9cT0VJE9txzde0ToQ1bZI7M4z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl; spf=pass smtp.mailfrom=protonic.nl; dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b=mdDLG9XM; arc=none smtp.client-ip=94.124.121.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonic.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pikron.com header.i=@pikron.com header.b="fkw75lrZ"
-Received: from mx-8.mail.web4u.cz (localhost [127.0.0.1])
-	by mx-8.mail.web4u.cz (Postfix) with ESMTP id 4399E200E91;
-	Mon,  3 Mar 2025 12:01:17 +0100 (CET)
-Received: from baree.pikron.com (unknown [84.242.78.234])
-	(Authenticated sender: ppisa@pikron.com)
-	by mx-8.mail.web4u.cz (Postfix) with ESMTPA id BD8C7200B79;
-	Mon,  3 Mar 2025 12:01:16 +0100 (CET)
-From: Pavel Pisa <ppisa@pikron.com>
-Organization: PiKRON Ltd.
-To: David Jander <david@protonic.nl>
-Subject: Re: [RFC PATCH 1/7] drivers: Add motion control subsystem
-Date: Mon, 3 Mar 2025 12:01:33 +0100
-User-Agent: KMail/1.9.10
-Cc: David Lechner <dlechner@baylibre.com>,
- linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org,
- Nuno Sa <nuno.sa@analog.com>,
- Jonathan Cameron <jic23@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>,
- Carsten Emde <c.emde@osadl.org>,
- Jan Kiszka <jan.kiszka@siemens.com>,
- Pavel Machek <pavel@ucw.cz>
-References: <20250227162823.3585810-1-david@protonic.nl> <7fb93572-3ef4-47f2-b505-669af742dee5@baylibre.com> <20250303093611.325b4fb6@erd003.prtnl>
-In-Reply-To: <20250303093611.325b4fb6@erd003.prtnl>
-X-KMail-QuotePrefix: > 
+	dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b="mdDLG9XM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=protonic.nl; s=202111;
+	h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
+	 message-id:subject:cc:to:from:date:from;
+	bh=aYFQrbEXcXVk/RpIHRvcbpzo0ainO+2MV7BBazpXsNM=;
+	b=mdDLG9XM0xS9qj5ouZGMgE2pJs8KIO/BmCLOeQMwUL/EXNFTiOwgcmHWoIXfe3uRIpD1NwN9ln3OF
+	 suxAAa8B6RWYwQt0AuquyhZUvUNwseS5QGFqvCfCy3xbMtfrMEzRvKSfcM3kYguX+ehQljA2AIva79
+	 nSsb0ildy3B/CED0f3d8EltoRBaNIVoRm+JfVgmh61D8zOpmy9Na1hRV/UAloxOHguJD34xyZ2DCiU
+	 XB6CwcWvgb/yy5I89E0NjS5dohCWASUkfhBpPO6+cltyv4mRvL2HUrObBqA8dHu/778elJk48WCk8d
+	 78w71JpZw8fQ3Gtl7e1x30RqWWOy9Zg==
+X-MSG-ID: d9a8e41c-f821-11ef-b5ca-0050568164d1
+Date: Mon, 3 Mar 2025 12:22:53 +0100
+From: David Jander <david@protonic.nl>
+To: David Lechner <dlechner@baylibre.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, Jonathan Corbet
+ <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Nuno Sa
+ <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, Oleksij Rempel
+ <o.rempel@pengutronix.de>
+Subject: Re: [RFC PATCH 6/7] dt-bindings: motion: Add adi,tmc5240 bindings
+Message-ID: <20250303122253.26fec335@erd003.prtnl>
+In-Reply-To: <7b2a8d71-9d83-4d40-903b-ba7ef1c686f3@baylibre.com>
+References: <20250227162823.3585810-1-david@protonic.nl>
+	<20250227162823.3585810-7-david@protonic.nl>
+	<7b2a8d71-9d83-4d40-903b-ba7ef1c686f3@baylibre.com>
+Organization: Protonic Holland
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-Message-Id: <202503031201.33686.ppisa@pikron.com>
-X-Pylter4U-dkim-type: user
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=pikron.com;
-	i=@pikron.com; q=dns/txt; s=w4u; t=1740999677; h=from : date : to :
-	subject; bh=rp41BOFtQ7C7me3CYdJaPDZTzEvF2oNKglulTnCRJf0=;
-	b=fkw75lrZqGMof2+pt7nRzKQOuM2FrXLo603MoXmpPOxXOemvPoBpWxdzI0RBII6oe6tJd
-	5xR5biHF81yl2lycSLr+yq/uYvAUl6qpqvuz6/xokaaklfz5/KLgJHMhPn0ErWQlGHw9kyW
-	PILfcYxCyvf7z7cDdKd1aiTr1WrSwGTZu6m9XW33qpOVpz4hDJ0agNeseE9oXuP7MJD2Cxx
-	2FuaGGgGEX8SXdl3pMdYnIniOeEWItVESk9Cb1dQ6XH9Qu3MA19IW0UR2Zy3dF/jS1GxZ+s
-	cHIo+mjfLArauWxNgklKjtvv+0AgbOpYqJUuWRuLSo9vt+OSFwY299fnkT9A==
-X-W4U-Auth: 6d837edb5481f0a52c30bdd377b5c8816508d003
 
-Hello Davids,
 
-On Monday 03 of March 2025 09:36:11 David Jander wrote:
-> On Fri, 28 Feb 2025 16:36:41 -0600
->
-> David Lechner <dlechner@baylibre.com> wrote:
-> > On 2/27/25 10:28 AM, David Jander wrote:
-> > > The Linux Motion Control subsystem (LMC) is a new driver subsystem for
-> > > peripheral devices that control mechanical motion in some form or
-> > > another. This could be different kinds of motors (stepper, DC, AC, SRM,
-> > > BLDC...) or even linear actuators.
-> > > The subsystem presents a unified UAPI for those devices, based on char
-> > > devices with ioctl's.
-> > > It can make use of regular gpio's to function as trigger inputs, like
-> > > end-stops, fixed position- or motion start triggers and also generate
-> > > events not only to user-space but also to the IIO subsystem in the form
-> > > of IIO triggers.
-> > >
-> > > Signed-off-by: David Jander <david@protonic.nl>
-> > > ---
-> > >  MAINTAINERS                     |   8 +
-> > >  drivers/Kconfig                 |   2 +
-> > >  drivers/Makefile                |   2 +
-> > >  drivers/motion/Kconfig          |  19 +
-> > >  drivers/motion/Makefile         |   3 +
-> > >  drivers/motion/motion-core.c    | 823 ++++++++++++++++++++++++++++++++
-> > >  drivers/motion/motion-core.h    | 172 +++++++
-> > >  drivers/motion/motion-helpers.c | 590 +++++++++++++++++++++++
-> > >  drivers/motion/motion-helpers.h |  23 +
-> > >  include/uapi/linux/motion.h     | 229 +++++++++
-> > >  10 files changed, 1871 insertions(+)
-> >
-> > Ooof, this is really a lot for one patch. Makes it hard to review. 500
-> > lines in a patch is much easier to digest.
->
-> Sorry for that. I wouldn't know how to split up this patch to make it any
-> easier. It's just a complete new subsystem, and I think it is the bare
-> minimum to start and also to give a good idea of what it is supposed to be
-> able to do.
->
-> > But before commenting on the details of the code I have some more
-> > high-level comments. As I mentioned in my reply to the cover letter, I've
-> > gone through the exercise of writing some motor control divers in the
-> > Linux kernel that have been used by 1000s of people that used them to
-> > build everything imaginable using LEGO robotics over the last 10+ years.
-> >
-> > From what I see here (I didn't have time to really get into the details
-> > of it yet, so maybe missed some important details), it looks like you are
-> > trying to do motor control stuff in the kernel so that the interface for
-> > a basic H-bridge will be close to the same as a fancy stepper motor
-> > controller. We tried doing something very similar because it sounds like
-> > a really nice thing to do. The kernel does everything and makes it really
-> > easy for the users. But what we actually found is that it is not possible
-> > to make a solution in the kernel that can handle every possible use case.
-> > In the end, we wished that we had a much more low-level interface to the
-> > motor controllers to give us more flexibility for the many different
-> > types of applications this ended up getting used for. Having to modify
-> > the kernel for your use case is too high of a bar for most users and not
-> > practical even if you are a kernel hacker.
->
-> The idea for LMC is to be able to support hardware that realistically can
-> be used by an OS as complex as the Linux kernel. There are a lot of motor
-> controllers out there that suit that category, like the TMC5240 chip for
-> example. But also many bigger systems, like the ones Pavel Pisa works with.
-> That said, I think the Linux kernel on modestly modern SoC's, like the
-> STM32MP1xx is pretty capable of doing more than that, but we have to draw
-> the line somewhere. Like I hinted in the cover letter, I think it might
-> even be possible to do crazy stuff like bit-banging STEP/DIR type
-> controllers in the kernel, possibly aided by PREEMPT_RT, but that is not
-> the main purpose of LMC.
+Dear David,
 
-I look even to take into account these options for the hobbyist projects.
-But stepper motors drivers step, dir interface is really demanding
-case. With microstepping it can require pulse control with frequency
-100 kHz or even MHz and corresponding jitter demand. So that is really
-not area for PREEMPT_RT in userspace nor kernel space.
+On Fri, 28 Feb 2025 16:38:51 -0600
+David Lechner <dlechner@baylibre.com> wrote:
 
-On the other hand, I can imagine that some SoftMAC like controller
-for Raspberry Pi 1 to 4 to combine its specific DMA and GPIO
-capabilities could be good target for some LMC like abstraction.
-Doing DMA from userspace is pain for regular users, yes we use
-that for Marek Peca's Zlogan https://github.com/eltvor/zlogan
-and other projects, but that is not for users which I see
-between our studnets to attempt to stepper motors by step, dir
-from RPi without previous RT knowledge. The question is if the
-API to RPi and its DMA should be covered by kernel LMC
-or some more generic DMA interface.
+> On 2/27/25 10:28 AM, David Jander wrote:
+> > Add device-tree bindings for Analog Devices TMC5240 stepper controllers.
+> > 
+> > Signed-off-by: David Jander <david@protonic.nl>
+> > ---
+> >  .../bindings/motion/adi,tmc5240.yaml          | 60 +++++++++++++++++++
+> >  1 file changed, 60 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/motion/adi,tmc5240.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/motion/adi,tmc5240.yaml b/Documentation/devicetree/bindings/motion/adi,tmc5240.yaml
+> > new file mode 100644
+> > index 000000000000..3364f9dfccb1
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/motion/adi,tmc5240.yaml
+> > @@ -0,0 +1,60 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/motion/adi,tmc5240.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Analog Devices TMC5240 Stepper Motor controller
+> > +
+> > +maintainers:
+> > +  - David Jander <david@protonic>
+> > +
+> > +description: |
+> > +   Stepper motor controller with motion engine and SPI interface.  
+> 
+> Please include a link to the datasheet.
 
-I have found some links for students working on the
-project (it is project led by my colleagues not mine,
+Will do.
 
-  https://github.com/hzeller/rpi-gpio-dma-demo
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - adi,tmc5240
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1  
+> 
+> I assume that this is the overvoltage output (OV pin). Would be nice to have
+> a description here saying that. There are also NAO and DIAG0/1 output pins, so
+> it's a bit ambiguous otherwise.
 
-  https://github.com/innot/AdvPiStepper
+This is the DIAG0 output pin which on this chip has a dual function as either
+a STEP output or an interrupt output. The pin name is a bit misleading, but it
+is the "interrupt" function that is meant here. The datasheet documents all
+the different events that can trigger this interrupt.
+I will add a description to clarify this.
 
-  https://github.com/richardghirst/PiBits/tree/master/ServoBlaster
+> > +
+> > +  enable-supply:
+> > +    description: Optional external enable supply to control SLEEPn pin. Can
+> > +      be shared between several controllers.
+> > +  
+> 
+> This doesn't look like a supply, but krzk already discussed that. But there
+> should be actual power supplies: vs-supply, vdd1v8-supply, vcc-io-supply. And
+> a reference voltage supply: iref-supply
 
-I would be happy for pointers for alive and newwer project
-if somebody has some more links for these kind of users.
+I have added vs-supply and vcc-io-supply to the binding. These are the only
+supply pins that can be connected to the outside world or otherwise be of
+concern to the software.
 
-I prefer other approaches myself, i.e. small RTOS based
-solution with background and IRQ tasks and D/Q control
-where the risk to lose step is much smaller, because you
-control at sin, cos level, so you have more time at high
-speeds where current control is not realized on these MHz
-periods required by dumb step, dir driver with microstepping.
-Se my previously reported project SaMoCon project for
-idea. It has four outputs per each axis and can drive
-PMSM, DC, stepper etc... 
+vdd1v8-supply is an internal power rail that must not have a connection to the
+outside of the chip (besides an external filtering capacitor) and also doesn't
+have any bearing to the software at all. It cannot be disabled, adjusted or
+anything, so I don't think it needs to be mentioned.
 
-  https://gitlab.fel.cvut.cz/otrees/motion/samocon
+IREF isn't a supply pin. It is merely a pin for connecting an external
+reference resistor that is used internally for current scaling and it too has
+no interaction with the software in any way.
 
-The PID or even D-Q DC, PMSM and may it be stepper
-motors at something like 5 kHz is achievable
-in userspace or kernel RT_REEMPT therad. May it be
-even with commutation for stepper, but 20 kHz
-is probably only for kernel and not for professional
-use according to my taste. If the commutation
-is pushed even to small FPGA, then some interface
-as NuttX FOC
+The resistor connected to the IREF pin (Rref) OTOH does have an implication to
+the software, as it sets the full-range current of the output stage.
 
-  https://nuttx.apache.org/docs/12.1.0/components/drivers/character/foc.html
+How should we specify that? Is it adequate to add an optional DT property
+"rref" or "rref-ohm" with an int32 value in Ohm? The default value if
+unspecified is 12000 Ohm.
 
-is good match and yes, proposed LMC pushes much more
-complexity into the kernel. 
+> And if there are any pins would make sense to connect to a gpio, we can add
+> those even if the driver doesn't use it currently.
+> 
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > +  - $ref: /schemas/motion/common.yaml#  
+> 
+> If we need to know about what is connected to the output of a motor controller
+> I would expect it to be done with child node for each output. That way each
+> output can be unique, if needed. Basically, similar to iio/adc.yaml is used to
+> provide common properties for channel@ child nodes on iio devices.
 
-But for these people who want to stuck on step, dir
-because it is like that should be done in 3D printers
-and other hobbits world could profit a lot from
-some segments list controlled motion and I can image
-to combine it with that RPi or some simple FPGA
-block on Zynq, Beagle or iCE40 connected to SPI.
+This controller chip only has one single output for one stepper motor (4
+wires). While technically you could connect something else to those 4 wires, I
+don't think it is the scope of LMC to support that. The chip itself isn't
+designed for that purpose and it would clearly go far beyond the intended
+purpose of this device.
 
-So I see value of some unification under LMC  
+That being said, your suggestion of supporting child nodes may actually be a
+good idea. Right now, we specify the type of motor (basically nominal- and hold
+current settings) in user-space and set the IRUN/IHOLD parameters from
+user-space via the sysfs attributes interface. It might make sense to have a DT
+child node to specify this, although in our current application this is not
+very practical, since there are many motor controllers on one board, and it is
+configurable in software (runtime) which motor is connected to which output.
 
-> The main purpose is to talk to controllers that 
-> can receive motion profiles and execute movements (semi-)autonomously.
-> Going just one step lower is the simple PWM based driver in this patch set:
-> It takes the execution of the profile into the kernel by using a HRTIMER to
-> sample the profile curve using a sample period of 20ms, which is fast
-> enough for most applications while not imposing a high CPU load on the
-> kernel on slower CPU cores.
-> motion-helper.c contains the trapezoidal ramp generator code that can be
-> used by any LMC driver that can work with speed information but doesn't
-> have its own ramp generator in hardware. It could be extended to support
-> other type of profiles if needed in the future, which would automatically
-> upgrade all drivers that use it.
+But I can imagine a situation where it may be fixed and thus can be described
+in the DT of a board.
 
-I agree, but on the other hand, the optimal combination of HW and matching 
-upper abstraction level is extremely variable, and finding a good API for 
-LMC, which would not be a root to stumble upon in the future, is a really 
-demanding task. On the other hand, if some, even suboptimal, solution is 
-available in staging drivers kernel area without guarantee of having fixed 
-API forever, then it can evolve slowly to something valuable. There would be 
-incompatible changes, but the transition can be smooth. 
+Then again I don't know if it would be over-complicating things with something
+like this:
 
-So may it be some COMEDI like approach. And there should be matching
-userspace library which could choose between APIs at different level
-of abstraction according to the target HW and some these APIs can
-be emulated by SoftMAC approach in the kernel. Usually for there
-more hobbits like solutions.
+	motor-controller@0 {
+		...
+		motor@0 {
+			compatible = "nanotec,st4118s1006";
+			irun-ma = <1800>;
+			ihold-ma = <270>;
+		};
+	};
 
-I would personally tend to something like our PXMC at these API
-level but I am predetermined/skewed as author and its 25 years
-use and connection to older assembly API with more than 30 years
-history.
+where we'd possibly have a stepper-motors.c file with a lot of structs and
+matching tables for the different motor types.... sounds like overkill to me,
+but maybe not?
 
-But I hope I am critical enough to be able to say what is problematic
-on our design and what can be designed better today. I.e. there
-is compromise to keep all positions 32 bits, sometimes even
-reduced to allows IRC sensors position subdivision on ramps
-generators side, some there is often range reduced to +/-2^23
-bits. On the other hand, all is computed in modulo arithmetic,
-so there is no problem to control speed for infinite time...
-For very precise and slow syringe piston control in infusion
-systems, we have used 32 bits position where 8 bits have been
-fractions and in generators another short extended fractions
-to 24 bits. It has been able to run with this precision
-even on 16-bit MSP430. But if that is ported and used in our
-solutions on 32-bit ARMs or even 64-bit chips like PoalFire,
-then it loses purpose... So it would worth to reinvent/redefine
-APIs...
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    spi {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        motor@0 {  
+> 
+> motor-controller@ or actuator-controller@
+> 
+> The chip is the controller/driver, it is not a motor.
 
-But I would tend to this userspace lib and multiple API levels
-approach... 
+Make sense. Will change this.
 
-> > When writing kernel drivers for this sort of thing, I think the rule of
-> > thumb should be to keep the driver as "thin" as possible. If the hardware
-> > doesn't provide a feature, the kernel should not be trying to emulate it.
->
-> In general I would agree with this, but in this case some limited
-> "emulation" seems adequate. As a rule of thumb, code is better placed in an
-> FPGA/uC, the kernel or in user-space according to its latency requirements.
-> Microsecond stuff shouldn't be done on the application SoC at all,
+> > +            compatible = "adi,tmc5240";
+> > +            reg = <0>;
+> > +            interrupts-extended = <&gpiok 7 0>;
+> > +            clocks = <&clock_tmc5240>;
+> > +            enable-supply = <&stpsleepn>;
+> > +            spi-max-frequency = <1000000>;
+> > +        };
+> > +    };
 
-Sure
+Best regards,
 
-> millisecond stuff (or maybe 100s of microseconds if you like) can be done
-> in the kernel, 10s of milliseconds or slower is good for user-space. A very
-> general guideline.
-
-I would be open to higher frequencies in userspace with PREEMPT_RT
-on Zynq, iMX6,7,8,9 or AM3,4,... industrial targetting hardware.
-We have run complex Simulik generated models on x86 at 30 kHz
-many years ago without missing code. But with our Simulink RT
-target https://github.com/aa4cc/ert_linux not with Mathwork's
-offer. But even serious, rich company came to us to solve their
-problems on RPi with CAN controller on SPI with sticking
-on Mathwork's delivered Windows supported target and it has been
-problem
-
-https://dspace.cvut.cz/bitstream/handle/10467/68605/F3-DP-2017-Prudek-Martin-Dp_2017_prudek_martin.pdf
-
-So if we speak about enthusiasts with common x86 without
-SMI interrupt checking before buying the motherboard or even
-attempting to use laptops or sticking on Raspberry Pi where
-some versions have used FIQ to solve HW deficiencies, then
-I would agree to stay even with PREEMP_RT on safe side
-i.e. under 1 kHz... 
-
-> So if you have a device that can take a speed-setpoint but doesn't have a
-> ramp generator, that is not a device that LMC is made for in the first
-> place, but still pretty usable if we do the ramp generator in the kernel.
-> To steal Pavel's analogy: Think of the TMC5240 driver as a FullMAC Wifi
-> device and the simple PWM driver as a SoftMAC Wifi device.
-> For an LMC device, same as for a wifi interface, we want to talk TCP/IP to
-> it from user-space, not radio-packets. ;-)
-
-Somebody mentioned to me ASICy Nova MCX314 or NPM PCD4541
-as reaction to my discussion, I am not sure about their API,
-but may it be some segmented API with fast, guaranteed,
-IRQ driven switch/preparation of next segment would support
-for LMC API.
-
-> > So for an
-> > H-bridge I would want something that just provides a way to tell it I
-> > want fast-decay mode with some normalized duty cycle between -1 and 1
-> > (obviously we will have to multiply this by some factor since the kernel
-> > doesn't do floating point). A duty cycle of 0 will "brake" the motor. And
-> > then we would need one more control parameter to tell it to remove power
-> > completely to "coast" the motor. I guess this is what the "basic_run" and
-> > "basic_stop" are other than the run seems to have speed instead of duty
-> > cycle? The kernel shouldn't be trying to convert this duty cycle to speed
-> > or have a background task that tries to provide an acceleration profile
-> > or turn off the power after some time. Just let the kernel provide
-> > direct, low-level access to the hardware and let userspace handle all of
-> > the rest in a way that makes the most sense for the specific application.
-> > Sometimes they might not even be connected to a motor! With the LEGO
-> > MINDSTORMS and BeableBone Blue, the H-bridge outputs are hot-pluggable,
-> > so they can even be connected to things like LEDs or used as a general
-> > power supply. (A reason to call this subsystem "actuation" rather than
-> > "motion".)
->
-> LMC aims to offer a common interface to different sorts of motion devices
-> (think different types of motors), so offering access to the lowest level
-> of each device is kinda defeating of that purpose. Nevertheless, all of the
-> things you mention are possible with LMC. The relationship between speed
-> and the PWM duty-cycle of a simple DC motor H-bridge for example, is
-> determined by the speed_conv* and accel_conv* parameters. If you want a 1:1
-> relation, just make them 1 in your device tree.
-
-But you need full PID or even current D-Q multiple PI and procession,
-sines, cosines for commutation etc. to connect higher level with lower
-level. We have all these in fixed point and focused on processing
-not only in RTOSes kernel but even in IRQs. So it can be done
-in Linux kernel as we ported, demonstrated it in GNU/Linux userspace...
-
-> OTOH, if you had only a duty-cycle setting from user-space, you would need
-> to have code that generates an acceleration profile in user-space, which
-> would be a much higher CPU load and have a much higher latency jitter, much
-> more likely to cause mechanical and audible effects than if done in the
-> kernel. It's still possible though.
-> And talking about mis-using a motor driver for something else, that's
-> exactly what one of our customers is doing with a DC motor H-bridge via
-> LMC. They just set each output to 0% or 100% duty-cycle (max speed without
-> profile) to control 2 warning lights.
->
-> > Another way of putting this is that it was very tempting to model the
-> > actual motor in the kernel. But that didn't work well because there are
-> > so many different kinds of motors and related mechanical systems that you
-> > can connect to the same motor driver chip.
->
-> Yes, but on the other side, you have many different driver chips that all
-> control motors that do the same thing: move in different directions with
-> different speeds and different acceleration profiles. As a user, I want to
-> be able to tell that to the motor in the same sense as I want to send a
-> data through an ethernet interface without having to know what kind of
-> interface I have to an extend reasonably possible. Of course each
-> motor/driver has different limitations (just as different network
-> interfaces have), and more often than not I will have to know some of those
-> in user-space, but the whole idea of a subsystem UAPI is to abstract as
-> much as possible of that from user-space.
->
-> With LMC I could easily swap a stepper motor for a BLDC or DC motor for
-> example. If they have an encoder to provide accurate position feedback, it
-> could even work as well as a stepper for many applications. No changes in
-> user-space code required.
->
-> > So the driver really should just be for the
-> > H-bridge chip itself and not care about the motor. And the rest can be
-> > put in a libmotion userspace library and have that be the convenient API
-> > for users that want to get something up and running quickly.
->
-> I get your point, and from the standpoint of Lego hardware and hobby
-> tinkerers doing all sorts of stuff with it, I can understand the desire to
-> have low-level access from user-space to the H-bridge. It is similar to how
-> Raspberry-pi exposes direct access to their GPIO controllers to user-space.
-> It is nice for tinkerers, but it is inadequate for anything else, not to
-> mention potentially unsafe. I remember when I first installed Linux on my
-> PC in 1994, we had the X server access the video card directly from
-> user-space. That was a really bad idea. ;-)
-
-It is questionable, some solution where kernel is RT, allows fast delivery
-of data and events between kernel and userspace memory contexts,
-like IO-uring and DRI, shared memory, PRIME buffers etc. is often
-better than push of all into kernel. In the fact, today lot of graphic
-stack is pushed directly into applications through acceleration API
-libraries which talks directly with allocated context in GPUs
-and the result is combined by compositor, again in userspace.
-
-So this is not so convicing argument. But SoftMAC and 802.11
-is the case which supports push of more levels of LMC
-into kernel.
-
-Anyway, the motion control is really broad area, there are companies
-with experience with Linux in their highest range of CNC machines,
-laser cutters, welding robots etc... So there is lot of prior
-experience. Question is, how much they are willing to share.
-
-But preparing some common guidelines and collect information
-to not reinvent wheel again and again and then proposing
-some more generally reusable APIs and drivers etc. would be
-great win for all and would make GNU/Linux much easier
-and cheaper usable in the are in future.
-
-So my actual vote is to find location where the already
-available knowledge and projects could be collected
-and where input even from PREEMP_RT and other professionals
-can be obtained...
-
-May it be somebody from LinuxCNC should step in and may it
-be there are such resources collected. Linux Foundation
-or similar body should be contacted to check if such
-project is already there. I am adding some PREEMP_RT
-experts which I am in contact with, if they have idea
-about right place for motion control on Linux discussion,
-coordination.
-
-Best wishes,
-
-                Pavel
--
-                Pavel Pisa
-
-    phone:      +420 603531357
-    e-mail:     pisa@cmp.felk.cvut.cz
-    Department of Control Engineering FEE CVUT
-    Karlovo namesti 13, 121 35, Prague 2
-    university: http://control.fel.cvut.cz/
-    personal:   http://cmp.felk.cvut.cz/~pisa
-    company:    https://pikron.com/ PiKRON s.r.o.
-    Kankovskeho 1235, 182 00 Praha 8, Czech Republic
-    projects:   https://www.openhub.net/accounts/ppisa
-    social:     https://social.kernel.org/ppisa
-    CAN related:http://canbus.pages.fel.cvut.cz/
-    RISC-V education: https://comparch.edu.cvut.cz/
-    Open Technologies Research Education and Exchange Services
-    https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
+-- 
+David Jander
