@@ -1,47 +1,53 @@
-Received: from smtp28.bhosted.nl (smtp28.bhosted.nl [94.124.121.40])
+Received: from smtp15.bhosted.nl (smtp15.bhosted.nl [94.124.121.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB9E1F1905
-	for <linux-doc@vger.kernel.org>; Mon,  3 Mar 2025 11:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FF320102F
+	for <linux-doc@vger.kernel.org>; Mon,  3 Mar 2025 11:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741000986; cv=none; b=HNZyUj+OJAte+NTF8mlgT/vL6/pIPmUriyUzT/23UjH03LHMgoisDZRkQQBI/6GPxFKJHdCX5rQY31zi7PSfktK7+gzoK1CLUAcg7VARGmQ9DvpbonZ9SlizZM8J+sHju2/eGBdZynNDUj0QMFEO1Ejzt7s4hEuv+SxMqcYY9NE=
+	t=1741002039; cv=none; b=akcIzpIasZpnpd61PdZNTbo4iBwhXCrv0YD4xnaV91IJbExMW2Bd/kWSU0yO6tXJSdKxna/4YcC0/JzsHY9idt/+PhP6xECJ+NfIQc4ITmI3ArRntpMaPjr2i/Vo6IXMAT+JrJH6MMPICVwxc8ck00ctmPXyvByMjLBCP1CTJE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741000986; c=relaxed/simple;
-	bh=T2/0vtnTHd+jEFQfmJdgjKR4ED0aLjzFr+5YOFGUjfc=;
+	s=arc-20240116; t=1741002039; c=relaxed/simple;
+	bh=xjKhMtLA9tK9j8SX+seT9UK5BSImtLHPUuXRUCeDyBc=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mBWIPbmaoxhQt8l5X5HdusvfFlyHJgEP13LPhLnLUJW25xGICf/iHsOgILSI1F4nAjne/fhHbn/1dXrzHpZHBc3MxSvcpfEn0Rc5mLbGJe30JCFEYKKoFCdNPOfSLBoDj717hS9lLEnVPKsrM9cT0VJE9txzde0ToQ1bZI7M4z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl; spf=pass smtp.mailfrom=protonic.nl; dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b=mdDLG9XM; arc=none smtp.client-ip=94.124.121.40
+	 MIME-Version:Content-Type; b=AWULaN5Ll8LqoxdqPjmwU3t3VugyIlHTRkOCw4Gqw8CauUau8SqlRIMjRa0QNdEjhxKkERz9h01PluX9sRWybJ0HwE71gw3JrZLzN5m0q0qqeSCV1GM/ya2CB9BKWV7sQVkWlAtaN6r4FkkiXp9RkJK8rStO39FVDOj8Phn+Wr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl; spf=pass smtp.mailfrom=protonic.nl; dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b=qphRwrCN; arc=none smtp.client-ip=94.124.121.26
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonic.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b="mdDLG9XM"
+	dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b="qphRwrCN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=protonic.nl; s=202111;
 	h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
 	 message-id:subject:cc:to:from:date:from;
-	bh=aYFQrbEXcXVk/RpIHRvcbpzo0ainO+2MV7BBazpXsNM=;
-	b=mdDLG9XM0xS9qj5ouZGMgE2pJs8KIO/BmCLOeQMwUL/EXNFTiOwgcmHWoIXfe3uRIpD1NwN9ln3OF
-	 suxAAa8B6RWYwQt0AuquyhZUvUNwseS5QGFqvCfCy3xbMtfrMEzRvKSfcM3kYguX+ehQljA2AIva79
-	 nSsb0ildy3B/CED0f3d8EltoRBaNIVoRm+JfVgmh61D8zOpmy9Na1hRV/UAloxOHguJD34xyZ2DCiU
-	 XB6CwcWvgb/yy5I89E0NjS5dohCWASUkfhBpPO6+cltyv4mRvL2HUrObBqA8dHu/778elJk48WCk8d
-	 78w71JpZw8fQ3Gtl7e1x30RqWWOy9Zg==
-X-MSG-ID: d9a8e41c-f821-11ef-b5ca-0050568164d1
-Date: Mon, 3 Mar 2025 12:22:53 +0100
+	bh=W7xQaIM8KUgQYXUjWEz/yyKUU3dOwVVtoiKveZse1LQ=;
+	b=qphRwrCNarcdXMc+8nT9gMvUDncjj28vFRItzfiNE/jdOd2yOkJll/C0YqOI+M2Lv7xxVV69I4kDC
+	 EabyatzTV4QIi2a/uhHtenSOQTvgnl5afF0HzFmvDBTlBx3REPp83KwvYQxLaqXi/7tk4a3czrMRSI
+	 xgOPVkiNuzqBXgPhGvTeLVEAHDwWVaCBb56qs9Zz5cVnGinA1MkMCkialX23Gp8qC6Mdum9rxl4KCu
+	 3VMeU0juaMaLuz2lcY4aa2AjD6nutiVQVBifdXvBV3CXO1CKO+e2ypMhFdH54HYn4n/U6bDSNx7C9U
+	 Zxl8AX8zA0VD+Ja7BOpB/LKmPsgqzqQ==
+X-MSG-ID: 51c43871-f824-11ef-a39b-00505681446f
+Date: Mon, 3 Mar 2025 12:40:34 +0100
 From: David Jander <david@protonic.nl>
-To: David Lechner <dlechner@baylibre.com>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, Jonathan Corbet
- <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Nuno Sa
- <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, Oleksij Rempel
- <o.rempel@pengutronix.de>
-Subject: Re: [RFC PATCH 6/7] dt-bindings: motion: Add adi,tmc5240 bindings
-Message-ID: <20250303122253.26fec335@erd003.prtnl>
-In-Reply-To: <7b2a8d71-9d83-4d40-903b-ba7ef1c686f3@baylibre.com>
+To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, Nuno Sa <nuno.sa@analog.com>, Jonathan Cameron
+ <jic23@kernel.org>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ linux-pwm@vger.kernel.org
+Subject: Re: [RFC PATCH 7/7] dt-bindings: motion: Add motion-simple-pwm
+ bindings
+Message-ID: <20250303124034.726ba698@erd003.prtnl>
+In-Reply-To: <tm57fsmijq4t4y4dpmtss63ekzpm5oefir5tz4aioxq5dx4or6@lgoqjpxc3axh>
 References: <20250227162823.3585810-1-david@protonic.nl>
-	<20250227162823.3585810-7-david@protonic.nl>
-	<7b2a8d71-9d83-4d40-903b-ba7ef1c686f3@baylibre.com>
+	<20250227162823.3585810-8-david@protonic.nl>
+	<20250228-wonderful-python-of-resistance-d5b662@krzk-bin>
+	<20250228102201.590b4be6@erd003.prtnl>
+	<9a1d75a2-66c0-46b6-91a1-4922b892dfb1@kernel.org>
+	<20250228110931.7bdae7fd@erd003.prtnl>
+	<tm57fsmijq4t4y4dpmtss63ekzpm5oefir5tz4aioxq5dx4or6@lgoqjpxc3axh>
 Organization: Protonic Holland
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -50,181 +56,112 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
 
-Dear David,
+Dear Uwe,
 
-On Fri, 28 Feb 2025 16:38:51 -0600
-David Lechner <dlechner@baylibre.com> wrote:
+Thanks for chiming in!
 
-> On 2/27/25 10:28 AM, David Jander wrote:
-> > Add device-tree bindings for Analog Devices TMC5240 stepper controllers.
-> > 
-> > Signed-off-by: David Jander <david@protonic.nl>
-> > ---
-> >  .../bindings/motion/adi,tmc5240.yaml          | 60 +++++++++++++++++++
-> >  1 file changed, 60 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/motion/adi,tmc5240.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/motion/adi,tmc5240.yaml b/Documentation/devicetree/bindings/motion/adi,tmc5240.yaml
-> > new file mode 100644
-> > index 000000000000..3364f9dfccb1
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/motion/adi,tmc5240.yaml
-> > @@ -0,0 +1,60 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/motion/adi,tmc5240.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Analog Devices TMC5240 Stepper Motor controller
-> > +
-> > +maintainers:
-> > +  - David Jander <david@protonic>
-> > +
-> > +description: |
-> > +   Stepper motor controller with motion engine and SPI interface.  
-> 
-> Please include a link to the datasheet.
+On Fri, 28 Feb 2025 16:18:05 +0100
+Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org> wrote:
 
-Will do.
+> Hey David,
+>=20
+> On Fri, Feb 28, 2025 at 11:09:31AM +0100, David Jander wrote:
+> > On Fri, 28 Feb 2025 10:37:48 +0100
+> > Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >  =20
+> > > On 28/02/2025 10:22, David Jander wrote: =20
+> > > >    =20
+> > > >>> +
+> > > >>> +  motion,pwm-inverted:
+> > > >>> +    $ref: /schemas/types.yaml#/definitions/flag     =20
+> > > >>
+> > > >> And PWM flag does not work?   =20
+> > > >=20
+> > > > I have seen PWM controllers that don't seem to support the
+> > > > PWM_POLARITY_INVERTED flag and those where it just doesn't work. Sh=
+ould all   =20
+> > >=20
+> > >=20
+> > > Shouldn't the controllers be fixed? Or let's rephrase the question: w=
+hy
+> > > only this PWM consumer needs this property and none of others need it=
+? =20
+> >=20
+> > CCing Uwe Kleine-Koenig and linux-pwm mailing list.
+> >=20
+> > I know that at least in kernel 6.11 the pwm-stm32.c PWM driver doesn't
+> > properly invert the PWM signal when specifying PWM_POLARITY_INVERTED. I=
+ agree
+> > this is a probably bug that needs fixing if still present in 6.14-rc. B=
+esides
+> > that, if linux-pwm agrees that every single PWM driver _must_ properly =
+support
+> > this flag, I will drop this consumer flag an start fixing broken PWM dr=
+ivers
+> > that I encounter. I agree that it makes more sense this way, but I want=
+ed to
+> > be sure. =20
+>=20
+> Some hardwares cannot support PWM_POLARITY_INVERTED. Affected drivers
+> include:
+>=20
+> 	pwm-adp5585
+> 	pwm-ntxec
+> 	pwm-raspberrypi-poe
+> 	pwm-rz-mtu3 (software limitation only)
+> 	pwm-sunplus
+> 	pwm-twl-led (not completely sure, that one is strange)
+>=20
+> . ISTR that there is a driver that does only support inverted polarity,
+> but I don't find it. For an overview I recommend reading through the
+> output of:
+>=20
+> 	for f in drivers/pwm/pwm-*; do
+> 		echo $f;
+> 		sed -rn '/Limitations:/,/\*\/?$/p' $f;
+> 		echo;
+> 	done | less
+>=20
+> . (Note not all drivers have commentary in the right format to unveil
+> their limitations.)
+>=20
+> For most use-cases you can just do
+>=20
+> 	.duty_cycle =3D .period - .duty_cycle
 
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - adi,tmc5240
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1  
-> 
-> I assume that this is the overvoltage output (OV pin). Would be nice to have
-> a description here saying that. There are also NAO and DIAG0/1 output pins, so
-> it's a bit ambiguous otherwise.
+Yes, that is exactly what the relevant code in motion/simple-pwm.c does when
+the "pwm-inverted" flag is present in the DT node.
 
-This is the DIAG0 output pin which on this chip has a dual function as either
-a STEP output or an interrupt output. The pin name is a bit misleading, but it
-is the "interrupt" function that is meant here. The datasheet documents all
-the different events that can trigger this interrupt.
-I will add a description to clarify this.
+> instead of inverting polarity, but there is no abstraction in the PWM
+> bindings for that and also no helpers in the PWM framework. The problem
+> is more or less ignored, so if you have a device with
+>=20
+> 	pwms =3D <&pwm0 0 PWM_POLARITY_INVERTED>;
+>=20
+> and the PWM chip in question doesn't support that, the pwm API functions
+> will fail. So the system designer better makes sure that the PWM
+> hardware can cope with the needed polarity.
 
-> > +
-> > +  enable-supply:
-> > +    description: Optional external enable supply to control SLEEPn pin. Can
-> > +      be shared between several controllers.
-> > +  
-> 
-> This doesn't look like a supply, but krzk already discussed that. But there
-> should be actual power supplies: vs-supply, vdd1v8-supply, vcc-io-supply. And
-> a reference voltage supply: iref-supply
+Thanks for clarifying this!
 
-I have added vs-supply and vcc-io-supply to the binding. These are the only
-supply pins that can be connected to the outside world or otherwise be of
-concern to the software.
+@Krzysztof, do you think that given this situation it is acceptable to incl=
+ude
+the "pwm-inverted" flag in the dt-schema of the simple PWM motor driver?
 
-vdd1v8-supply is an internal power rail that must not have a connection to the
-outside of the chip (besides an external filtering capacitor) and also doesn't
-have any bearing to the software at all. It cannot be disabled, adjusted or
-anything, so I don't think it needs to be mentioned.
-
-IREF isn't a supply pin. It is merely a pin for connecting an external
-reference resistor that is used internally for current scaling and it too has
-no interaction with the software in any way.
-
-The resistor connected to the IREF pin (Rref) OTOH does have an implication to
-the software, as it sets the full-range current of the output stage.
-
-How should we specify that? Is it adequate to add an optional DT property
-"rref" or "rref-ohm" with an int32 value in Ohm? The default value if
-unspecified is 12000 Ohm.
-
-> And if there are any pins would make sense to connect to a gpio, we can add
-> those even if the driver doesn't use it currently.
-> 
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > +  - $ref: /schemas/motion/common.yaml#  
-> 
-> If we need to know about what is connected to the output of a motor controller
-> I would expect it to be done with child node for each output. That way each
-> output can be unique, if needed. Basically, similar to iio/adc.yaml is used to
-> provide common properties for channel@ child nodes on iio devices.
-
-This controller chip only has one single output for one stepper motor (4
-wires). While technically you could connect something else to those 4 wires, I
-don't think it is the scope of LMC to support that. The chip itself isn't
-designed for that purpose and it would clearly go far beyond the intended
-purpose of this device.
-
-That being said, your suggestion of supporting child nodes may actually be a
-good idea. Right now, we specify the type of motor (basically nominal- and hold
-current settings) in user-space and set the IRUN/IHOLD parameters from
-user-space via the sysfs attributes interface. It might make sense to have a DT
-child node to specify this, although in our current application this is not
-very practical, since there are many motor controllers on one board, and it is
-configurable in software (runtime) which motor is connected to which output.
-
-But I can imagine a situation where it may be fixed and thus can be described
-in the DT of a board.
-
-Then again I don't know if it would be over-complicating things with something
-like this:
-
-	motor-controller@0 {
-		...
-		motor@0 {
-			compatible = "nanotec,st4118s1006";
-			irun-ma = <1800>;
-			ihold-ma = <270>;
-		};
-	};
-
-where we'd possibly have a stepper-motors.c file with a lot of structs and
-matching tables for the different motor types.... sounds like overkill to me,
-but maybe not?
-
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    spi {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        motor@0 {  
-> 
-> motor-controller@ or actuator-controller@
-> 
-> The chip is the controller/driver, it is not a motor.
-
-Make sense. Will change this.
-
-> > +            compatible = "adi,tmc5240";
-> > +            reg = <0>;
-> > +            interrupts-extended = <&gpiok 7 0>;
-> > +            clocks = <&clock_tmc5240>;
-> > +            enable-supply = <&stpsleepn>;
-> > +            spi-max-frequency = <1000000>;
-> > +        };
-> > +    };
+The need for an inverted PWM signal is something very common in the case of
+H-bridge motor drivers, where the PWM signal represents the actual logical
+output level of each of the two halves of the bridge. Often the high-side
+switches are used as the free-wheel position, so that 100% duty-cycle on bo=
+th
+channels is actually standstill, while 0% duty-cycle on one channel is full
+speed in either direction. This isn't always the case though, hence the
+importance for this to be able to be selected.
 
 Best regards,
 
--- 
+--=20
 David Jander
