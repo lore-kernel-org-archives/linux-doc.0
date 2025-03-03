@@ -1,128 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A2C23E333;
-	Mon,  3 Mar 2025 22:17:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D2E1F130C;
+	Mon,  3 Mar 2025 22:33:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741040261; cv=none; b=tIqhL5hY/ZWcNd+kQd9ekoO2xwUnEyuD9X85xDhYgy60K7/74MLxYm11N6EDIAryKu7OzeWqt+bsUAsA4inhW2IwMUJ6lqPlkmoC+wPI3PwJaBH+NBCj+4z2w0qL/y/QGiLmoeuNJTjyEbJoxhX0/25GXh3oM8Mj1Y83zqfpmwg=
+	t=1741041235; cv=none; b=FkSOutIlqKgJSM/3+HCu1F3QaFvG6XC3LOYBi/NxApbPOOrGnl9XuwUVMSy0VTBh46s7cqS5dTj6GnsxQOZctAuUH3uOmoKJ/v5LqdXEa9pcFR7n6tGv1ZtCiijm+f9wu/Q1sXkfRqsHelgGFKJ8HWr9o3wPqCvBCaYhkXd1H4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741040261; c=relaxed/simple;
-	bh=ki10B3zR5mixA9j/A7CWQx5SObRymhGEPj5DgsDuWCo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GqBYZcrzvszUsrovCJWOnvPX5V5wEAu3eWwW6O3l8WXsVhjnnkbgiFUXPef4wQQ3Xp+SW7L6JStyaW/PbE7EhXT0v5+Y0tksgT+C2v04LLWd8y6mDC15rYMYoI+zlM1JpszSCdux+7EfCIhMzX6FHSISJScVA2s1PCgDxzbqRaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bSqjdJHA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741041235; c=relaxed/simple;
+	bh=mXqIacAC3RLc1tYiomnB+ph7/jwRad1h/08sQbaQrKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AP5aAmSQe3wnswQYvLf19s6//bekqg8CE/Kq1damqXCd06cVLytIsktzq3HqzSyhADk64w2fcp0hzmgmjRvCj8pywhTK9DQzbGIrS9mbAIQon6EoeK0c56UrA0od1RFo1OYoB1MFHJw/F4/mPAzbW+xS8oQVIfanNHJiKA8mQaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nzCGyc0A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bSqjdJHA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CD32C4CED6;
-	Mon,  3 Mar 2025 22:17:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nzCGyc0A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E73E9C4CED6;
+	Mon,  3 Mar 2025 22:33:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741040261;
-	bh=ki10B3zR5mixA9j/A7CWQx5SObRymhGEPj5DgsDuWCo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bSqjdJHAWbCdKV26S5QgEbhmE/6LeicMKJ+wZON2b3jtP32CDTJN8OUy8U8OY7syH
-	 u64jhcgK91le676PO9VA6Vmk32Jv73Zy0spDofUVWFUwh2KV8KoZboLwh4F6Y6sG/X
-	 QwDCblpotBaH8hZrUKCgm2GFZ44sTsxbteMzd0GqOgDDRQ/oGMOA3PQIqpNybb8FBs
-	 ByTkVeW2FI03SCLnn4RHpRyQWXT0Gb0iJVGQgzf83PjqR72I2Xenb45FltOLWcHJ72
-	 E8/IRa4wDv4/hKWWK4PC9qEBkIo41NxYaGiEmj/Os9LLrGNPdmIMzh8+RXyjPPnf8e
-	 jpAtHzLHxn7Rg==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	kernel-team@meta.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 8/8] Docs/admin-guide/mm/damon/usage: add intervals_goal directory on the hierarchy
-Date: Mon,  3 Mar 2025 14:17:26 -0800
-Message-Id: <20250303221726.484227-9-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250303221726.484227-1-sj@kernel.org>
-References: <20250303221726.484227-1-sj@kernel.org>
+	s=k20201202; t=1741041234;
+	bh=mXqIacAC3RLc1tYiomnB+ph7/jwRad1h/08sQbaQrKg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=nzCGyc0ACZ4YdrUHbJuOX/zRI9wJJHe9tJrLmln3cGv7f5a4ExHBkfa6nyB0NA4/T
+	 05CadXsIjbbLOjIDu7qJIfi+7SlFPB7Dvyf0gTAYG7NMTPzooHI6WQKaQJeOAtSWVQ
+	 7xckCLhk5n7rPFK/iz1cQ640OhIOfPjdnP85lVp986kRIK6Osx36Oi/l+P2skCcrvQ
+	 iUqTWLdMcwbuBy4H7/YsekYHSoIV4TBphHWU2yHOKUHlI5c952/hZwAWE0KFEfBloj
+	 iiDAljQ5a/aM4CFvHvANKyLa+vibaunMplD1jcsef+oMYzGkf0nGd8w3Vemt8xIdmf
+	 tzzvYxHgeg5Zw==
+Date: Mon, 3 Mar 2025 14:33:53 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowang@redhat.com>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko
+ <andrew@daynix.com>, Stephen Hemminger <stephen@networkplumber.org>,
+ gur.stavi@huawei.com, Lei Yang <leiyang@redhat.com>
+Subject: Re: [PATCH net-next v7 5/6] selftest: tun: Add tests for virtio-net
+ hashing
+Message-ID: <20250303143353.42219664@kernel.org>
+In-Reply-To: <0ec77558-bdfb-4471-a44b-0a37a9422f72@daynix.com>
+References: <20250228-rss-v7-0-844205cbbdd6@daynix.com>
+	<20250228-rss-v7-5-844205cbbdd6@daynix.com>
+	<20250228062947.7864a59c@kernel.org>
+	<0ec77558-bdfb-4471-a44b-0a37a9422f72@daynix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Document DAMON sysfs interface usage for DAMON sampling and aggregation
-intervals auto-tuning.
+On Mon, 3 Mar 2025 15:20:33 +0900 Akihiko Odaki wrote:
+> > # 5.90 [+0.00] ok 14 tun_vnet_hash.unclassified
+> > # 5.90 [+0.00] #  RUN           tun_vnet_hash.ipv4 ...
+> > # 6.18 [+0.28] # tun.c:669:ipv4:Expected 0 (0) != tun_vnet_hash_check(self->source_fd, self->dest_fds, &packet, sizeof(packet), 0, VIRTIO_NET_HASH_REPORT_IPv4, 0x6e45d952) (0)
+> > # 15.09 [+8.92] # ipv4: Test failed
+> > # 15.10 [+0.00] #          FAIL  tun_vnet_hash.ipv4
+> > # 15.10 [+0.00] not ok 15 tun_vnet_hash.ipv4
+> > # 15.10 [+0.00] #  RUN           tun_vnet_hash.tcpv4 ...
+> > # 15.36 [+0.26] # tun.c:689:tcpv4:Expected 0 (0) != tun_vnet_hash_check(self->source_fd, self->dest_fds, &packet, sizeof(packet), VIRTIO_NET_HDR_F_DATA_VALID, VIRTIO_NET_HASH_REPORT_TCPv4, 0xfb63539a) (0)
+> > # 24.76 [+9.40] # tcpv4: Test failed
+> > # 24.76 [+0.00] #          FAIL  tun_vnet_hash.tcpv4
+> > # 24.76 [+0.00] not ok 16 tun_vnet_hash.tcpv4
+> > # 24.77 [+0.00] #  RUN           tun_vnet_hash.udpv4 ...
+> > # 25.05 [+0.28] # tun.c:710:udpv4:Expected 0 (0) != tun_vnet_hash_check(self->source_fd, self->dest_fds, &packet, sizeof(packet), VIRTIO_NET_HDR_F_DATA_VALID, VIRTIO_NET_HASH_REPORT_UDPv4, 0xfb63539a) (0)
+> > # 32.11 [+7.06] # udpv4: Test failed
+> > # 32.11 [+0.00] #          FAIL  tun_vnet_hash.udpv4
+> > # 32.11 [+0.00] not ok 17 tun_vnet_hash.udpv4  
+> 
+> I cannot reproduce the failure. What commit did you apply this patch 
+> series on? What architecture did the kernel run on?
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 25 ++++++++++++++++++++
- Documentation/mm/damon/design.rst            |  4 ++++
- 2 files changed, 29 insertions(+)
+x86 inside vng, see this for exact details:
+https://github.com/linux-netdev/nipa/wiki/How-to-run-netdev-selftests-CI-style
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index dc37bba96273..de549dd18107 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -64,6 +64,7 @@ comma (",").
-     │ │ │ │ :ref:`0 <sysfs_context>`/avail_operations,operations
-     │ │ │ │ │ :ref:`monitoring_attrs <sysfs_monitoring_attrs>`/
-     │ │ │ │ │ │ intervals/sample_us,aggr_us,update_us
-+    │ │ │ │ │ │ │ intervals_goal/access_bp,aggrs,min_sample_us,max_sample_us
-     │ │ │ │ │ │ nr_regions/min,max
-     │ │ │ │ │ :ref:`targets <sysfs_targets>`/nr_targets
-     │ │ │ │ │ │ :ref:`0 <sysfs_target>`/pid_target
-@@ -132,6 +133,11 @@ Users can write below commands for the kdamond to the ``state`` file.
- - ``off``: Stop running.
- - ``commit``: Read the user inputs in the sysfs files except ``state`` file
-   again.
-+- ``update_tuned_intervals``: Update the contents of ``sample_us`` and
-+  ``aggr_us`` files of the kdamond with the auto-tuning applied ``sampling
-+  interval`` and ``aggregation interval`` for the files.  Please refer to
-+  :ref:`intervals_goal section <damon_usage_sysfs_monitoring_intervals_goal>`
-+  for more details.
- - ``commit_schemes_quota_goals``: Read the DAMON-based operation schemes'
-   :ref:`quota goals <sysfs_schemes_quota_goals>`.
- - ``update_schemes_stats``: Update the contents of stats files for each
-@@ -213,6 +219,25 @@ writing to and rading from the files.
- For more details about the intervals and monitoring regions range, please refer
- to the Design document (:doc:`/mm/damon/design`).
- 
-+.. _damon_usage_sysfs_monitoring_intervals_goal:
-+
-+contexts/<N>/monitoring_attrs/intervals/intervals_goal/
-+-------------------------------------------------------
-+
-+Under the ``intervals`` directory, one directory for automated tuning of
-+``sample_us`` and ``aggr_us``, namely ``intervals_goal`` directory also exists.
-+Under the directory, four files for the auto-tuning control, namely
-+``access_bp``, ``aggrs``, ``min_sample_us`` and ``max_sample_us`` exist.
-+Please refer to  the :ref:`design document of the feature
-+<damon_design_monitoring_intervals_autotuning>` for the internal of the tuning
-+mechanism.  Reading and writing the four files under ``intervals_goal``
-+directory shows and updates the tuning parameters that described in the
-+:ref:design doc <damon_design_monitoring_intervals_autotuning>` with the same
-+names.  The tuning starts with the user-set ``sample_us`` and ``aggr_us``.  The
-+tuning-applied current values of the two intervals can be read from the
-+``sample_us`` and ``aggr_us`` files after writing ``update_tuned_intervals`` to
-+the ``state`` file.
-+
- .. _sysfs_targets:
- 
- contexts/<N>/targets/
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index cb388d791ff7..26c9ab10daf7 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -366,6 +366,10 @@ is recommended.  Note that Parreto principle (80/20 rule) has applied twice.
- That is, assumes 4% (20% of 20%) DAMON-observed access events ratio (source)
- to capture 64% (80% multipled by 80%) real access events (outcomes).
- 
-+To know how user-space can use this feature via :ref:`DAMON sysfs interface
-+<sysfs_interface>`, refer to :ref:`intervals_goal <sysfs_scheme>` part of
-+the documentation.
-+
- 
- .. _damon_design_damos:
- 
--- 
-2.39.5
+The tests are run on top of net-next + net (the two networking trees
+merged together).
