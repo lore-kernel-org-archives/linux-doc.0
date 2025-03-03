@@ -1,69 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E969420E038;
-	Mon,  3 Mar 2025 13:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8037D20DD62;
+	Mon,  3 Mar 2025 13:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741009069; cv=none; b=qdcJtH7WS6R/jedpCvGRdUUt8aeMougproYMYqGjNeApfnowzIJFtz2ncLRrNo9BzlEQqaLJm05HYBY4b4qhozjXTOytj7XwZW7TCKS8GEKXlGF4sFc3tJ7T2XWQYw3ktOJ4yPWD7+JGB2dHrbK9o+ea5oDSvB8r4S6b0UDqbqA=
+	t=1741009266; cv=none; b=g5qLwuTSuE5GFIGLLXldrNg7zJQyb6hqmnuW699PJqts3afwQHlS0NA/ml++xgomsTP5vyJmDhmwDO3pwv2jz8iceNUTtWJLIhAdtIwsohZT4UNb61VOzx9FCdS1nXYCcA3lUiprlGpraj8ft4qphx/a4PVJzXjpUG/IGiXzptY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741009069; c=relaxed/simple;
-	bh=jo6vlqskkA4n/Zd9WatoKb05WTQUZKDUoVA6evKvyeY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EdUXtW2WmKFLZkZrKaTajVrT9z62XkeBvRKpPHO6U7i4zqZSZMm/94tqLn3qtMxDWR5d98P9gMDNXznvji330l4fwAHlOcTETp1QBSGAsmmOWxUabsJUgF7CSA8Rllrgk73BrdTi2mhQ3mw+p28xeqOdih7BxBjM/AFXyhQKz3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EKwcppA5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741009266; c=relaxed/simple;
+	bh=z4i8udCT/ZfEevZGKBvDxxzaszOTpIOByQJPMKtGeNs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uiCWC8lI+rEXmVvdDUSEk/wiNhmtU/bt96TX+afhdvkVCz3+eCH8VW4Od3rsWg+LuxRK81BpsENwHsfDXi3Ybay+U1YzKs9ovkz3/ehIXzMpJAmFg+7Nji5dszq8cHlecMx403zLbWRhVLoxJlllDcWCQhj0aBMXq0JJY3TuK3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hh9Xbh/R; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EKwcppA5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12B42C4CED6;
-	Mon,  3 Mar 2025 13:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741009068;
-	bh=jo6vlqskkA4n/Zd9WatoKb05WTQUZKDUoVA6evKvyeY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EKwcppA5UvVUNc7YR9EBxqgNjyHmb2Ow/1qo2E1ERLEoCdwnGt7EGfU2aLa6DUHM4
-	 ndfl8CC7yHZj6KD2v+ppE14tTUDLdkQT6ZoYIrosn9GnOn0WXQztmFnggsdf3M9T+6
-	 VY7cS6CzeFwiSiIAESCxUwXy05jlZymVbOLfrIi9K01yl8jd/OPMJr6wTjoHyEd13N
-	 qER37sEhE66radYKe1bw9P/BEgY3n+7+dklMkpzjFPvQ3Z4biqdebywxiplR9vFRPL
-	 2BlSu+qSRGfpFdUCbfRPSTxkuWM09kWR0HLjy3P8Nlkb3A2oxYvjkGxiiop4boR/dj
-	 6q9IeKsB4ug1Q==
-Date: Mon, 3 Mar 2025 07:37:46 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: linux-doc@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lars-Peter Clausen <lars@metafoo.de>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	linux-kernel@vger.kernel.org, David Lechner <dlechner@baylibre.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Subject: Re: [PATCH 2/3] dt-bindings: iio: adc: ad7380: add adaq4381-4
- compatible parts
-Message-ID: <174100906603.1708729.13990347133129513724.robh@kernel.org>
-References: <20250226-ad7380-add-adaq4381-4-support-v1-0-f350ab872d37@baylibre.com>
- <20250226-ad7380-add-adaq4381-4-support-v1-2-f350ab872d37@baylibre.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hh9Xbh/R"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 909C344262;
+	Mon,  3 Mar 2025 13:40:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1741009254;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nl/1wzHduxVzKeGZ515j0lRor1Gx/DhlgaVPUGMQYoo=;
+	b=hh9Xbh/R7+cqL6kO3EUvJrLcd0D99wSBACUMwxd3PfoMb86Em+iQyXzmftNd5I5ZEj9MAF
+	gq0YraAvXdyywhq2rOVhiYSMRYUH+EuGCLS0qfRzA8WREZjjfw5G8gnRWaYlEtncKDH+ck
+	GaqrXuWkxYZZsdPNnNl1rDMtMVv/C21VtNp8CKn18BcGu2UtEjA2VIN4EXNLVnintGCZyq
+	ShgVkTDvEF5GmxULVcFdZ0C0SPulan8WTDOaplGT9KxHETHzUICistCK5/VdLs1jG+1zwK
+	0DJdkJfIx0Vi6OiBU9UtdCya3aVOwiO0EKeeQT0FQ1lEedI5+bML5+Mz0pyeHQ==
+Date: Mon, 3 Mar 2025 14:40:51 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v5 06/12] net: pse-pd: Add support for budget
+ evaluation strategies
+Message-ID: <20250303144051.2503fb43@kmaincent-XPS-13-7390>
+In-Reply-To: <Z8ME-90Xg46-pNhA@pengutronix.de>
+References: <20250224134522.1cc36aa3@kernel.org>
+	<20250225102558.2cf3d8a5@kmaincent-XPS-13-7390>
+	<20250225174752.5dbf65e2@kernel.org>
+	<Z76t0VotFL7ji41M@pengutronix.de>
+	<Z76vfyv5XoMKmyH_@pengutronix.de>
+	<20250226184257.7d2187aa@kernel.org>
+	<Z8AW6S2xmzGZ0y9B@pengutronix.de>
+	<20250227155727.7bdc069f@kmaincent-XPS-13-7390>
+	<Z8CVimyMj261wc7w@pengutronix.de>
+	<20250227192640.20df155d@kmaincent-XPS-13-7390>
+	<Z8ME-90Xg46-pNhA@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226-ad7380-add-adaq4381-4-support-v1-2-f350ab872d37@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdelledvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefguddtfeevtddugeevgfevtdfgvdfhtdeuleetffefffffhffgteekvdefudeiieenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghlohepkhhmrghinhgtvghnthdqigfrufdqudefqdejfeeltddpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvhedprhgtphhtthhopehordhrvghmphgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiiv
+ ghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepughonhgrlhgurdhhuhhnthgvrhesghhmrghilhdrtghomh
+X-GND-Sasl: kory.maincent@bootlin.com
 
+On Sat, 1 Mar 2025 14:00:43 +0100
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-On Wed, 26 Feb 2025 15:50:04 +0100, Julien Stephan wrote:
-> adaq4381-4 is the 14 bits version of adaq4380-1 chip. Add support for
-> it.
-> 
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/iio/adc/adi,ad7380.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+> On Thu, Feb 27, 2025 at 07:26:40PM +0100, Kory Maincent wrote:
+> > On Thu, 27 Feb 2025 17:40:42 +0100
+> > Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> > > I would prefer to have it in the for of devlink or use regulator netl=
+ink
+> > > interface. But, we do not need to do this discussion right now. =20
+> >=20
+> > If we want to report the method we should discuss it now. We shouldn't =
+add
+> > BUDGET_EVAL_STRAT uAPI to ethtool if we use another way to get and set =
+the
+> > method later. =20
+>=20
+> Ok, I assume we are talking about different things. I mean - not port
+> specific configurations and diagnostic, will have different interface.
+>=20
+> BUDGET_EVAL_STRAT is port specific. HP and Cisco implement it as port
+> specific. PD692x0 Protocol manual describe it as port specific too:
+> 3.3.6 Set BT Port Parameters
+>  Bits [3..0]=E2=80=94BT port PM mode
+>   0x0: The port power that is used for power management purposes is
+>        dynamic (Iport x Vmain).
+>   0x1: The port power that is used for power management purposes is port
+>        TPPL_BT.
+>   0x2: The port power that is used for power management purposes is
+>        dynamic for non LLDP/CDP/Autoclass ports and TPPL_BT for
+> LLDP/CDP/Autoclass ports. 0xF: Do not change settings.
 
+I don't really understand how that can be port specific when the power budg=
+et is
+per PD69208 manager. Maybe I am missing information here.
+
+> > We could also not report the method for now and assume the user knows i=
+t for
+> > the two controllers currently supported. =20
+>=20
+> On one side: it is not just status, but also active configuration. By
+> implementing the interface we may break default configuration and user
+> expectations.
+
+Yes we should not implement the budget method get/set interface in this ser=
+ies.
+=20
+> On other side: PD692x0 seems to need more then just setting prios to
+> manage them correctly. For example power bank limits should be set,
+> otherwise internal firmware won't be able to perform budget calculations.
+
+Patch 8 is already configuring the power PD692x0 bank limit according to PSE
+power domain budget.
+
+> So, I assume, critical components are missing anyway.
+
+As we are not supporting the budget method configured by the user in this
+series, I agreed we should not add any uAPI related to it that could be bro=
+ken
+or confusing later.
+
+I will remove it and send v6.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
