@@ -1,69 +1,69 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E840B24E4B9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3112624E4D2
 	for <linux-doc@vger.kernel.org>; Mon,  3 Mar 2025 16:30:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741019453; cv=none; b=W9ZtDiy5cp1mUh487QI7QKSeSlQmPBD1UwWvFTe9omshjGjCTjJDVcfudMbLH628X1BsqtiLHPELPSBuTpZ68ARmOIZgp7kH5oaAL2mzjSZq4fg5QdaXn1OC5su3ev5VeaNYmhktp7weluJLIzwpSldlkN9u1os0O9CoOWPDavM=
+	t=1741019454; cv=none; b=TlB2HhfTjCWeqYCZn7pi1ojxvOl0G0d+B/0xVEd58KPtCiNawNLCzsh6X/bdOeVxm7ejE7hNsulokAWa0r00PVHDlaulYTtX2k5C7YgIxC92/m4tUje2c8W9Yu7b2POsQHGsdmiaU0tbW5mcQJkPXLnxbA3ZACDpEDenkeTSjEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741019453; c=relaxed/simple;
-	bh=d9bRuBXmVv0p2a7zWAANlT4EIsScBcQtDcfcUcIlMKQ=;
+	s=arc-20240116; t=1741019454; c=relaxed/simple;
+	bh=eLFe26DopqB763zT78eiNQu7nUyXlOR9btcKFdRhzQE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kTDwOQ4QovSEGtQeQhXUbLvRI2leNQuuThZG4nXtdbLXo3M8dEOAxrGexCBzuidiwql2AddX00sUwlAsDj+ngqf1R6rfje0vtfsE/HJj1w7HRFHvdNvp0q6sMcfcLkrl4exr831vukTNzCxLFNL/UCxqEUE5/5SlIKFbih+AdW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qr6K4pwn; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=d/4E+GaEt21obHS+VewQe9R1zBZSI6cAf4dQbsayammqiMv8qV7SPEu+mhpIybjj1JLGZTXi2vFsE4pUKJq5QhVc1dyWzhtvNv3LpEACMMN1OhpuyZsYnOxZD+egUsNVHqyjfqFicUygEM3yQgiwqgO8ddU0RF/8zrwdAPPv71U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WIB5zV6C; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qr6K4pwn"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WIB5zV6C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1741019450;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6obLj5/+7cSJHkmjj4/LIEhJkcwhtMxgxzLmveILbME=;
-	b=Qr6K4pwnEBLHMqPO4A1GIAXEvSniXye96SQnzofz4iUvUo304AjhhctyORjfWV0eQlNreb
-	MrkCn6otbhvf4RRW074IblWKQcxaODK85n+95UAhcf734tVclM/3moYf8qTnZteQURnihu
-	CO0zw5nikBFb+7W8XHMcuPbCtjmLD7I=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=Ght3iO8/lkNOzwmnKtw9vXpGviqp6AJbx3c5inxt3jw=;
+	b=WIB5zV6CNVFd5hpIDorUXfan+HMmC415hQUuNnk25UIL3rQI8wCZvr6YmuPXoqySp2EAEb
+	fYmBpdFuCF2oJn3OLipj5aS8P/b7lJcMn0/DiwGso4/MZR/VHkN1yASOAXlpiIIqWy8wiI
+	JENqffqz9WKTyLnb9zh/PF9YoRSMyc0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-111-8H0Bh2abP_q0N629Qj6HKQ-1; Mon, 03 Mar 2025 11:30:33 -0500
-X-MC-Unique: 8H0Bh2abP_q0N629Qj6HKQ-1
-X-Mimecast-MFC-AGG-ID: 8H0Bh2abP_q0N629Qj6HKQ_1741019433
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-390ddb917abso1892616f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 03 Mar 2025 08:30:33 -0800 (PST)
+ us-mta-220-Afnhd7oTPxKjYka_vE2hsg-1; Mon, 03 Mar 2025 11:30:47 -0500
+X-MC-Unique: Afnhd7oTPxKjYka_vE2hsg-1
+X-Mimecast-MFC-AGG-ID: Afnhd7oTPxKjYka_vE2hsg_1741019446
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-390d73c20b6so3097788f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 03 Mar 2025 08:30:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741019432; x=1741624232;
+        d=1e100.net; s=20230601; t=1741019446; x=1741624246;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6obLj5/+7cSJHkmjj4/LIEhJkcwhtMxgxzLmveILbME=;
-        b=fSr9TXRE4wbGEKUksedvN6l3FN2+I5HN4gOrl90xaiMJ/LdP66XgqtQpfRVlxGvmL3
-         IXykYCmlpnNLiIHv5M337hItPgIxawZ/Y1uf18P6U6bGgE6CVzmIqBX0o4rIKK8maYs+
-         xNbFqRb0RRPc3OAD56ZvbBylmdGhE1tHnpUVJ+aSQmWADAN8guLUrtYDvcKUkuErWQui
-         2FbN1uQSzb5gBncazl7DefTHvbM5ALJ3ZGV3Q/l6x1NdvRUKiZ30G+siBE/5GiuZ9zMN
-         4+OfBDaZNBeQLTST4kM8uky9OExykSxNcaDy1URWxCqpvtYXtYD1DxT4IlYR80zfoqWU
-         iTiw==
-X-Gm-Message-State: AOJu0Yymbgi2pcHOzt7Ift0e53RykHlhmW6XWjKAXvw3QObC4OkPu3HG
-	eoQCvMzPE60d6Tz36YhMAiTcE2Y8FI8s7Rr12KSmfBGf7WVetfWtXpEA0Ge1W457/PVKL6ISxd8
-	ieu0uqhnFJL2cApWOSxUmxHJJy8AqDrV7bsPRLrcK5gvEdUGrBrgVkqPP8A==
-X-Gm-Gg: ASbGncsEtrI66B2EYd4+AC5gZ8ncialtck6SYIbQJJWmPdpStORSjUIffXL+iuNth4Y
-	5n4eN51PPdqD9BazZfUC/y+DwGkCE7lb0pqnZ3gpbUOUdp4VAvsH18smfyUZzi7OWkFeXy1QboT
-	gMSPmtdOhJ6Fd+eJSfiY9lkyWwtfjQwas3ZC4Ax9zoA55IPlqoMJfwJ3znQOk+GP+A1lgfvQGfJ
-	0Vw1fWg7OJpOkE77fNtCTjS2cf0HcOElWmvxkgPSPcYBNzg+GyPjOvHoweJIgLC9pXjZvHLLfrp
-	EdnU7ybsa3NgjgBjDnsCogyldX86/yJ8/0HLxyoQ9++2+ZR4+F8Fa99Qn5B9fD4n+eT/dJTf2xo
-	h
-X-Received: by 2002:a05:6000:21c6:b0:390:fd23:c145 with SMTP id ffacd0b85a97d-390fd23c2c2mr4404041f8f.36.1741019432589;
-        Mon, 03 Mar 2025 08:30:32 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG8V3sUJRCUTqrZLWnaeVZz5cWv6qO720rAawUL8eI33aPl04j18jrwhTf4sp/MF8gqzp2DbA==
-X-Received: by 2002:a05:6000:21c6:b0:390:fd23:c145 with SMTP id ffacd0b85a97d-390fd23c2c2mr4403996f8f.36.1741019432210;
-        Mon, 03 Mar 2025 08:30:32 -0800 (PST)
+        bh=Ght3iO8/lkNOzwmnKtw9vXpGviqp6AJbx3c5inxt3jw=;
+        b=NIQei1N8eqByzOdREp8C9uYBOmh3RGxr6ar1lST4anwFjXM00Sb+Cu08mZmdkhDvEw
+         +MA+F2RpehnzcqQ5MAU3Fk7AarhYzHge4GfrduQGD87b24Mj7IlVTfNTg3TmuLtN6dLi
+         wDi8X5lCWlECEu1l96sLPJEysNgDnjSK9lQHPWvgg73oqER36s4nOC9VUJKQ/mFTC0/W
+         qD+6RKdJniHc4B/NTup31MZmnU9hRsaFrqa298R286aZKs19R4gyY5riCGody2A4KVY3
+         BlpmE/nFW7gljuQAln9AilZQgpuQE7Z1Xd91jm4uP5M+zfodhnXS6uBjhsQnMjJ72Hjn
+         lCoA==
+X-Gm-Message-State: AOJu0YwJzlWgYo1UDzGFV+tavcqYoZ8z2tiE35Ixb9y99DqYiZH7rtqF
+	ZDBlRjKq/oN59WyyqPZTHr6tPz+3ULGnQxcWX2kiOH7tPA4BIw83nu7GMt4TBVcIHPdaQKmQ0TY
+	f8uU1EjvcNBMaALxQGsYKyDbmUs3Lm9HthUJ2GSH+Nyygbfw28FqlNLk8yg==
+X-Gm-Gg: ASbGncunElc6405WfxidGM4bAnBrOYNsGx3XGQKXQlNECSQXVUSe3Ry6esfkQanbglE
+	M7/4y+AwbrizTSucXe8gFoZbZ4sIVOO7capGpueEM8qJ0CObO2MvV+0lM1wDzFj1/6fCy8Hcg5g
+	JQJPC39fkuptR+sMaxPZesMFEFTDuGKU8W9l/dXspm8UoxVCA8SjMuF2snAwL+q+xrjrCBN6jY+
+	4WWuSIQGRG6wt3Rxkfe1ZlTs6e307hgcxsjlNYpcu0gV8w6MsxDP1vUSYfF9auYTnyExu5uegZm
+	e/nbLv5R2iocnxRru6ReVdCsH54ItJ7AnkIZKIYFmbnVxREg0vnli7awtOsnl3t6Yo978iaBKON
+	/
+X-Received: by 2002:a5d:6d0e:0:b0:390:ff25:79c8 with SMTP id ffacd0b85a97d-390ff257cccmr5482797f8f.20.1741019445783;
+        Mon, 03 Mar 2025 08:30:45 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFmOzbyVhjQHnOiNa5KjVt0NLNOpFtZnZeHlUY2sgZnsiw2i9l5pVj5IO3A736y2GBbWD/9gw==
+X-Received: by 2002:a5d:6d0e:0:b0:390:ff25:79c8 with SMTP id ffacd0b85a97d-390ff257cccmr5482733f8f.20.1741019445180;
+        Mon, 03 Mar 2025 08:30:45 -0800 (PST)
 Received: from localhost (p200300cbc7349600af274326a2162bfb.dip0.t-ipconnect.de. [2003:cb:c734:9600:af27:4326:a216:2bfb])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43bbfece041sm38658125e9.1.2025.03.03.08.30.30
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43aba5870e7sm199192765e9.35.2025.03.03.08.30.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Mar 2025 08:30:31 -0800 (PST)
+        Mon, 03 Mar 2025 08:30:44 -0800 (PST)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -89,9 +89,9 @@ Cc: linux-doc@vger.kernel.org,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Vlastimil Babka <vbabka@suse.cz>,
 	Jann Horn <jannh@google.com>
-Subject: [PATCH v3 07/20] mm/rmap: pass dst_vma to folio_dup_file_rmap_pte() and friends
-Date: Mon,  3 Mar 2025 17:30:00 +0100
-Message-ID: <20250303163014.1128035-8-david@redhat.com>
+Subject: [PATCH v3 12/20] mm/rmap: basic MM owner tracking for large folios (!hugetlb)
+Date: Mon,  3 Mar 2025 17:30:05 +0100
+Message-ID: <20250303163014.1128035-13-david@redhat.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250303163014.1128035-1-david@redhat.com>
 References: <20250303163014.1128035-1-david@redhat.com>
@@ -103,203 +103,526 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We'll need access to the destination MM when modifying the large mapcount
-of a non-hugetlb large folios next. So pass in the destination VMA.
+For small folios, we traditionally use the mapcount to decide
+whether it was "certainly mapped exclusively" by a single MM
+(mapcount == 1) or whether it "maybe mapped shared" by multiple MMs
+(mapcount > 1). For PMD-sized folios that were PMD-mapped, we were able
+to use a similar mechanism (single PMD mapping), but for PTE-mapped folios
+and in the future folios that span multiple PMDs, this does not work.
+
+So we need a different mechanism to handle large folios. Let's add a new
+mechanism to detect whether a large folio is "certainly mapped
+exclusively", or whether it is "maybe mapped shared".
+
+We'll use this information next to optimize CoW reuse for PTE-mapped
+anonymous THP, and to convert folio_likely_mapped_shared() to
+folio_maybe_mapped_shared(), independent of per-page mapcounts.
+
+For each large folio, we'll have two slots, whereby a slot stores:
+ (1) an MM id: unique id assigned to each MM
+ (2) a per-MM mapcount
+
+If a slot is unoccupied, it can be taken by the next MM that maps folio
+page.
+
+In addition, we'll remember the current state -- "mapped exclusively" vs.
+"maybe mapped shared" -- and use a bit spinlock to sync on updates and
+to reduce the total number of atomic accesses on updates. In the
+future, it might be possible to squeeze a proper spinlock into "struct
+folio". For now, keep it simple, as we require the whole thing with THP
+only, that is incompatible with RT.
+
+As we have to squeeze this information into the "struct folio" of even
+folios of order-1 (2 pages), and we generally want to reduce the required
+metadata, we'll assign each MM a unique ID that can fit into an int. In
+total, we can squeeze everything into 4x int (2x long) on 64bit.
+
+32bit support is a bit challenging, because we only have 2x long == 2x
+int in order-1 folios. But we can make it work for now, because we neither
+expect many MMs nor very large folios on 32bit.
+
+We will reliably detect folios as "mapped exclusively" vs. "mapped shared"
+as long as only two MMs map pages of a folio at one point in time -- for
+example with fork() and short-lived child processes, or with apps that
+hand over state from one instance to another.
+
+As soon as three MMs are involved at the same time, we might detect
+"maybe mapped shared" although the folio is "mapped exclusively".
+
+Example 1:
+
+(1) App1 faults in a (shmem/file-backed) folio page -> Tracked as MM0
+(2) App2 faults in a folio page -> Tracked as MM1
+(4) App1 unmaps all folio pages
+
+ -> We will detect "mapped exclusively".
+
+Example 2:
+
+(1) App1 faults in a (shmem/file-backed) folio page -> Tracked as MM0
+(2) App2 faults in a folio page -> Tracked as MM1
+(3) App3 faults in a folio page -> No slot available, tracked as "unknown"
+(4) App1 and App2 unmap all folio pages
+
+ -> We will detect "maybe mapped shared".
+
+Make use of __always_inline to keep possible performance degradation
+when (un)mapping large folios to a minimum.
+
+Note: by squeezing the two flags into the "unsigned long" that stores
+the MM ids, we can use non-atomic __bit_spin_unlock() and
+non-atomic setting/clearing of the "maybe mapped shared" bit,
+effectively not adding any new atomics on the hot path when updating the
+large mapcount + new metadata, which further helps reduce the runtime
+overhead in micro-benchmarks.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/rmap.h | 42 +++++++++++++++++++++++++-----------------
- mm/huge_memory.c     |  2 +-
- mm/memory.c          | 10 +++++-----
- 3 files changed, 31 insertions(+), 23 deletions(-)
+ Documentation/mm/transhuge.rst |   8 ++
+ include/linux/mm_types.h       |  49 ++++++++++
+ include/linux/page-flags.h     |   4 +
+ include/linux/rmap.h           | 165 +++++++++++++++++++++++++++++++++
+ kernel/fork.c                  |  36 +++++++
+ mm/Kconfig                     |   4 +
+ mm/internal.h                  |   5 +
+ mm/page_alloc.c                |  10 ++
+ 8 files changed, 281 insertions(+)
 
+diff --git a/Documentation/mm/transhuge.rst b/Documentation/mm/transhuge.rst
+index a2cd8800d5279..baa17d718a762 100644
+--- a/Documentation/mm/transhuge.rst
++++ b/Documentation/mm/transhuge.rst
+@@ -120,11 +120,19 @@ pages:
+     and also increment/decrement folio->_nr_pages_mapped by ENTIRELY_MAPPED
+     when _entire_mapcount goes from -1 to 0 or 0 to -1.
+ 
++    We also maintain the two slots for tracking MM owners (MM ID and
++    corresponding mapcount), and the current status ("maybe mapped shared" vs.
++    "mapped exclusively").
++
+   - map/unmap of individual pages with PTE entry increment/decrement
+     page->_mapcount, increment/decrement folio->_large_mapcount and also
+     increment/decrement folio->_nr_pages_mapped when page->_mapcount goes
+     from -1 to 0 or 0 to -1 as this counts the number of pages mapped by PTE.
+ 
++    We also maintain the two slots for tracking MM owners (MM ID and
++    corresponding mapcount), and the current status ("maybe mapped shared" vs.
++    "mapped exclusively").
++
+ split_huge_page internally has to distribute the refcounts in the head
+ page to the tail pages before clearing all PG_head/tail bits from the page
+ structures. It can be done easily for refcounts taken by page table
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index c83dd2f1ee25e..2d657ac8e9b0c 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -292,6 +292,44 @@ typedef struct {
+ #define NR_PAGES_IN_LARGE_FOLIO
+ #endif
+ 
++/*
++ * On 32bit, we can cut the required metadata in half, because:
++ * (a) PID_MAX_LIMIT implicitly limits the number of MMs we could ever have,
++ *     so we can limit MM IDs to 15 bit (32767).
++ * (b) We don't expect folios where even a single complete PTE mapping by
++ *     one MM would exceed 15 bits (order-15).
++ */
++#ifdef CONFIG_64BIT
++typedef int mm_id_mapcount_t;
++#define MM_ID_MAPCOUNT_MAX		INT_MAX
++typedef unsigned int mm_id_t;
++#else /* !CONFIG_64BIT */
++typedef short mm_id_mapcount_t;
++#define MM_ID_MAPCOUNT_MAX		SHRT_MAX
++typedef unsigned short mm_id_t;
++#endif /* CONFIG_64BIT */
++
++/* We implicitly use the dummy ID for init-mm etc. where we never rmap pages. */
++#define MM_ID_DUMMY			0
++#define MM_ID_MIN			(MM_ID_DUMMY + 1)
++
++/*
++ * We leave the highest bit of each MM id unused, so we can store a flag
++ * in the highest bit of each folio->_mm_id[].
++ */
++#define MM_ID_BITS			((sizeof(mm_id_t) * BITS_PER_BYTE) - 1)
++#define MM_ID_MASK			((1U << MM_ID_BITS) - 1)
++#define MM_ID_MAX			MM_ID_MASK
++
++/*
++ * In order to use bit_spin_lock(), which requires an unsigned long, we
++ * operate on folio->_mm_ids when working on flags.
++ */
++#define FOLIO_MM_IDS_LOCK_BITNUM	MM_ID_BITS
++#define FOLIO_MM_IDS_LOCK_BIT		BIT(FOLIO_MM_IDS_LOCK_BITNUM)
++#define FOLIO_MM_IDS_SHARED_BITNUM	(2 * MM_ID_BITS + 1)
++#define FOLIO_MM_IDS_SHARED_BIT		BIT(FOLIO_MM_IDS_SHARED_BITNUM)
++
+ /**
+  * struct folio - Represents a contiguous set of bytes.
+  * @flags: Identical to the page flags.
+@@ -318,6 +356,9 @@ typedef struct {
+  * @_nr_pages_mapped: Do not use outside of rmap and debug code.
+  * @_pincount: Do not use directly, call folio_maybe_dma_pinned().
+  * @_nr_pages: Do not use directly, call folio_nr_pages().
++ * @_mm_id: Do not use outside of rmap code.
++ * @_mm_ids: Do not use outside of rmap code.
++ * @_mm_id_mapcount: Do not use outside of rmap code.
+  * @_hugetlb_subpool: Do not use directly, use accessor in hugetlb.h.
+  * @_hugetlb_cgroup: Do not use directly, use accessor in hugetlb_cgroup.h.
+  * @_hugetlb_cgroup_rsvd: Do not use directly, use accessor in hugetlb_cgroup.h.
+@@ -390,6 +431,11 @@ struct folio {
+ 					atomic_t _entire_mapcount;
+ 					atomic_t _pincount;
+ #endif /* CONFIG_64BIT */
++					mm_id_mapcount_t _mm_id_mapcount[2];
++					union {
++						mm_id_t _mm_id[2];
++						unsigned long _mm_ids;
++					};
+ 				};
+ 				unsigned long _usable_1[4];
+ 			};
+@@ -1111,6 +1157,9 @@ struct mm_struct {
+ #endif
+ 		} lru_gen;
+ #endif /* CONFIG_LRU_GEN_WALKS_MMU */
++#ifdef CONFIG_MM_ID
++		mm_id_t mm_id;
++#endif /* CONFIG_MM_ID */
+ 	} __randomize_layout;
+ 
+ 	/*
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 30fe3eb62b90c..01716710066df 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -1222,6 +1222,10 @@ static inline int folio_has_private(const struct folio *folio)
+ 	return !!(folio->flags & PAGE_FLAGS_PRIVATE);
+ }
+ 
++static inline bool folio_test_large_maybe_mapped_shared(const struct folio *folio)
++{
++	return test_bit(FOLIO_MM_IDS_SHARED_BITNUM, &folio->_mm_ids);
++}
+ #undef PF_ANY
+ #undef PF_HEAD
+ #undef PF_NO_TAIL
 diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-index 6abf7960077aa..e795610bade80 100644
+index d1e888cc97a58..c131b0efff0fa 100644
 --- a/include/linux/rmap.h
 +++ b/include/linux/rmap.h
-@@ -335,7 +335,8 @@ static inline void hugetlb_remove_rmap(struct folio *folio)
+@@ -13,6 +13,7 @@
+ #include <linux/highmem.h>
+ #include <linux/pagemap.h>
+ #include <linux/memremap.h>
++#include <linux/bit_spinlock.h>
+ 
+ /*
+  * The anon_vma heads a list of private "related" vmas, to scan if
+@@ -173,6 +174,169 @@ static inline void anon_vma_merge(struct vm_area_struct *vma,
+ 
+ struct anon_vma *folio_get_anon_vma(const struct folio *folio);
+ 
++#ifdef CONFIG_MM_ID
++static __always_inline void folio_lock_large_mapcount(struct folio *folio)
++{
++	bit_spin_lock(FOLIO_MM_IDS_LOCK_BITNUM, &folio->_mm_ids);
++}
++
++static __always_inline void folio_unlock_large_mapcount(struct folio *folio)
++{
++	__bit_spin_unlock(FOLIO_MM_IDS_LOCK_BITNUM, &folio->_mm_ids);
++}
++
++static inline unsigned int folio_mm_id(const struct folio *folio, int idx)
++{
++	VM_WARN_ON_ONCE(idx != 0 && idx != 1);
++	return folio->_mm_id[idx] & MM_ID_MASK;
++}
++
++static inline void folio_set_mm_id(struct folio *folio, int idx, mm_id_t id)
++{
++	VM_WARN_ON_ONCE(idx != 0 && idx != 1);
++	folio->_mm_id[idx] &= ~MM_ID_MASK;
++	folio->_mm_id[idx] |= id;
++}
++
++static inline void __folio_large_mapcount_sanity_checks(const struct folio *folio,
++		int diff, mm_id_t mm_id)
++{
++	VM_WARN_ON_ONCE(!folio_test_large(folio) || folio_test_hugetlb(folio));
++	VM_WARN_ON_ONCE(diff <= 0);
++	VM_WARN_ON_ONCE(mm_id < MM_ID_MIN || mm_id > MM_ID_MAX);
++
++	/*
++	 * Make sure we can detect at least one complete PTE mapping of the
++	 * folio in a single MM as "exclusively mapped". This is primarily
++	 * a check on 32bit, where we currently reduce the size of the per-MM
++	 * mapcount to a short.
++	 */
++	VM_WARN_ON_ONCE(diff > folio_large_nr_pages(folio));
++	VM_WARN_ON_ONCE(folio_large_nr_pages(folio) - 1 > MM_ID_MAPCOUNT_MAX);
++
++	VM_WARN_ON_ONCE(folio_mm_id(folio, 0) == MM_ID_DUMMY &&
++			folio->_mm_id_mapcount[0] != -1);
++	VM_WARN_ON_ONCE(folio_mm_id(folio, 0) != MM_ID_DUMMY &&
++			folio->_mm_id_mapcount[0] < 0);
++	VM_WARN_ON_ONCE(folio_mm_id(folio, 1) == MM_ID_DUMMY &&
++			folio->_mm_id_mapcount[1] != -1);
++	VM_WARN_ON_ONCE(folio_mm_id(folio, 1) != MM_ID_DUMMY &&
++			folio->_mm_id_mapcount[1] < 0);
++	VM_WARN_ON_ONCE(!folio_mapped(folio) &&
++			folio_test_large_maybe_mapped_shared(folio));
++}
++
++static __always_inline void folio_set_large_mapcount(struct folio *folio,
++		int mapcount, struct vm_area_struct *vma)
++{
++	__folio_large_mapcount_sanity_checks(folio, mapcount, vma->vm_mm->mm_id);
++
++	VM_WARN_ON_ONCE(folio_mm_id(folio, 0) != MM_ID_DUMMY);
++	VM_WARN_ON_ONCE(folio_mm_id(folio, 1) != MM_ID_DUMMY);
++
++	/* Note: mapcounts start at -1. */
++	atomic_set(&folio->_large_mapcount, mapcount - 1);
++	folio->_mm_id_mapcount[0] = mapcount - 1;
++	folio_set_mm_id(folio, 0, vma->vm_mm->mm_id);
++}
++
++static __always_inline void folio_add_large_mapcount(struct folio *folio,
++		int diff, struct vm_area_struct *vma)
++{
++	const mm_id_t mm_id = vma->vm_mm->mm_id;
++	int new_mapcount_val;
++
++	folio_lock_large_mapcount(folio);
++	__folio_large_mapcount_sanity_checks(folio, diff, mm_id);
++
++	new_mapcount_val = atomic_read(&folio->_large_mapcount) + diff;
++	atomic_set(&folio->_large_mapcount, new_mapcount_val);
++
++	/*
++	 * If a folio is mapped more than once into an MM on 32bit, we
++	 * can in theory overflow the per-MM mapcount (although only for
++	 * fairly large folios), turning it negative. In that case, just
++	 * free up the slot and mark the folio "mapped shared", otherwise
++	 * we might be in trouble when unmapping pages later.
++	 */
++	if (folio_mm_id(folio, 0) == mm_id) {
++		folio->_mm_id_mapcount[0] += diff;
++		if (!IS_ENABLED(CONFIG_64BIT) && unlikely(folio->_mm_id_mapcount[0] < 0)) {
++			folio->_mm_id_mapcount[0] = -1;
++			folio_set_mm_id(folio, 0, MM_ID_DUMMY);
++			folio->_mm_ids |= FOLIO_MM_IDS_SHARED_BIT;
++		}
++	} else if (folio_mm_id(folio, 1) == mm_id) {
++		folio->_mm_id_mapcount[1] += diff;
++		if (!IS_ENABLED(CONFIG_64BIT) && unlikely(folio->_mm_id_mapcount[1] < 0)) {
++			folio->_mm_id_mapcount[1] = -1;
++			folio_set_mm_id(folio, 1, MM_ID_DUMMY);
++			folio->_mm_ids |= FOLIO_MM_IDS_SHARED_BIT;
++		}
++	} else if (folio_mm_id(folio, 0) == MM_ID_DUMMY) {
++		folio_set_mm_id(folio, 0, mm_id);
++		folio->_mm_id_mapcount[0] = diff - 1;
++		/* We might have other mappings already. */
++		if (new_mapcount_val != diff - 1)
++			folio->_mm_ids |= FOLIO_MM_IDS_SHARED_BIT;
++	} else if (folio_mm_id(folio, 1) == MM_ID_DUMMY) {
++		folio_set_mm_id(folio, 1, mm_id);
++		folio->_mm_id_mapcount[1] = diff - 1;
++		/* Slot 0 certainly has mappings as well. */
++		folio->_mm_ids |= FOLIO_MM_IDS_SHARED_BIT;
++	}
++	folio_unlock_large_mapcount(folio);
++}
++
++static __always_inline void folio_sub_large_mapcount(struct folio *folio,
++		int diff, struct vm_area_struct *vma)
++{
++	const mm_id_t mm_id = vma->vm_mm->mm_id;
++	int new_mapcount_val;
++
++	folio_lock_large_mapcount(folio);
++	__folio_large_mapcount_sanity_checks(folio, diff, mm_id);
++
++	new_mapcount_val = atomic_read(&folio->_large_mapcount) - diff;
++	atomic_set(&folio->_large_mapcount, new_mapcount_val);
++
++	/*
++	 * There are valid corner cases where we might underflow a per-MM
++	 * mapcount (some mappings added when no slot was free, some mappings
++	 * added once a slot was free), so we always set it to -1 once we go
++	 * negative.
++	 */
++	if (folio_mm_id(folio, 0) == mm_id) {
++		folio->_mm_id_mapcount[0] -= diff;
++		if (folio->_mm_id_mapcount[0] >= 0)
++			goto out;
++		folio->_mm_id_mapcount[0] = -1;
++		folio_set_mm_id(folio, 0, MM_ID_DUMMY);
++	} else if (folio_mm_id(folio, 1) == mm_id) {
++		folio->_mm_id_mapcount[1] -= diff;
++		if (folio->_mm_id_mapcount[1] >= 0)
++			goto out;
++		folio->_mm_id_mapcount[1] = -1;
++		folio_set_mm_id(folio, 1, MM_ID_DUMMY);
++	}
++
++	/*
++	 * If one MM slot owns all mappings, the folio is mapped exclusively.
++	 * Note that if the folio is now unmapped (new_mapcount_val == -1), both
++	 * slots must be free (mapcount == -1), and we'll also mark it as
++	 * exclusive.
++	 */
++	if (folio->_mm_id_mapcount[0] == new_mapcount_val ||
++	    folio->_mm_id_mapcount[1] == new_mapcount_val)
++		folio->_mm_ids &= ~FOLIO_MM_IDS_SHARED_BIT;
++out:
++	folio_unlock_large_mapcount(folio);
++}
++#else /* !CONFIG_MM_ID */
++/*
++ * See __folio_rmap_sanity_checks(), we might map large folios even without
++ * CONFIG_TRANSPARENT_HUGEPAGE. We'll keep that working for now.
++ */
+ static inline void folio_set_large_mapcount(struct folio *folio, int mapcount,
+ 		struct vm_area_struct *vma)
+ {
+@@ -191,6 +355,7 @@ static inline void folio_sub_large_mapcount(struct folio *folio,
+ {
+ 	atomic_sub(diff, &folio->_large_mapcount);
  }
++#endif /* CONFIG_MM_ID */
  
- static __always_inline void __folio_dup_file_rmap(struct folio *folio,
--		struct page *page, int nr_pages, enum rmap_level level)
-+		struct page *page, int nr_pages, struct vm_area_struct *dst_vma,
-+		enum rmap_level level)
+ #define folio_inc_large_mapcount(folio, vma) \
+ 	folio_add_large_mapcount(folio, 1, vma)
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 364b2d4fd3efa..f9cf0f056eb6f 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -802,6 +802,36 @@ static int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
+ #define mm_free_pgd(mm)
+ #endif /* CONFIG_MMU */
+ 
++#ifdef CONFIG_MM_ID
++static DEFINE_IDA(mm_ida);
++
++static inline int mm_alloc_id(struct mm_struct *mm)
++{
++	int ret;
++
++	ret = ida_alloc_range(&mm_ida, MM_ID_MIN, MM_ID_MAX, GFP_KERNEL);
++	if (ret < 0)
++		return ret;
++	mm->mm_id = ret;
++	return 0;
++}
++
++static inline void mm_free_id(struct mm_struct *mm)
++{
++	const mm_id_t id = mm->mm_id;
++
++	mm->mm_id = MM_ID_DUMMY;
++	if (id == MM_ID_DUMMY)
++		return;
++	if (WARN_ON_ONCE(id < MM_ID_MIN || id > MM_ID_MAX))
++		return;
++	ida_free(&mm_ida, id);
++}
++#else /* !CONFIG_MM_ID */
++static inline int mm_alloc_id(struct mm_struct *mm) { return 0; }
++static inline void mm_free_id(struct mm_struct *mm) {}
++#endif /* CONFIG_MM_ID */
++
+ static void check_mm(struct mm_struct *mm)
  {
- 	const int orig_nr_pages = nr_pages;
+ 	int i;
+@@ -905,6 +935,7 @@ void __mmdrop(struct mm_struct *mm)
  
-@@ -366,45 +367,47 @@ static __always_inline void __folio_dup_file_rmap(struct folio *folio,
-  * @folio:	The folio to duplicate the mappings of
-  * @page:	The first page to duplicate the mappings of
-  * @nr_pages:	The number of pages of which the mapping will be duplicated
-+ * @dst_vma:	The destination vm area
-  *
-  * The page range of the folio is defined by [page, page + nr_pages)
-  *
-  * The caller needs to hold the page table lock.
-  */
- static inline void folio_dup_file_rmap_ptes(struct folio *folio,
--		struct page *page, int nr_pages)
-+		struct page *page, int nr_pages, struct vm_area_struct *dst_vma)
- {
--	__folio_dup_file_rmap(folio, page, nr_pages, RMAP_LEVEL_PTE);
-+	__folio_dup_file_rmap(folio, page, nr_pages, dst_vma, RMAP_LEVEL_PTE);
- }
+ 	WARN_ON_ONCE(mm == current->active_mm);
+ 	mm_free_pgd(mm);
++	mm_free_id(mm);
+ 	destroy_context(mm);
+ 	mmu_notifier_subscriptions_destroy(mm);
+ 	check_mm(mm);
+@@ -1289,6 +1320,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+ 	if (mm_alloc_pgd(mm))
+ 		goto fail_nopgd;
  
- static __always_inline void folio_dup_file_rmap_pte(struct folio *folio,
--		struct page *page)
-+		struct page *page, struct vm_area_struct *dst_vma)
- {
--	__folio_dup_file_rmap(folio, page, 1, RMAP_LEVEL_PTE);
-+	__folio_dup_file_rmap(folio, page, 1, dst_vma, RMAP_LEVEL_PTE);
- }
++	if (mm_alloc_id(mm))
++		goto fail_noid;
++
+ 	if (init_new_context(p, mm))
+ 		goto fail_nocontext;
  
- /**
-  * folio_dup_file_rmap_pmd - duplicate a PMD mapping of a page range of a folio
-  * @folio:	The folio to duplicate the mapping of
-  * @page:	The first page to duplicate the mapping of
-+ * @dst_vma:	The destination vm area
-  *
-  * The page range of the folio is defined by [page, page + HPAGE_PMD_NR)
-  *
-  * The caller needs to hold the page table lock.
-  */
- static inline void folio_dup_file_rmap_pmd(struct folio *folio,
--		struct page *page)
-+		struct page *page, struct vm_area_struct *dst_vma)
- {
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
--	__folio_dup_file_rmap(folio, page, HPAGE_PMD_NR, RMAP_LEVEL_PTE);
-+	__folio_dup_file_rmap(folio, page, HPAGE_PMD_NR, dst_vma, RMAP_LEVEL_PTE);
- #else
- 	WARN_ON_ONCE(true);
- #endif
- }
+@@ -1308,6 +1342,8 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+ fail_cid:
+ 	destroy_context(mm);
+ fail_nocontext:
++	mm_free_id(mm);
++fail_noid:
+ 	mm_free_pgd(mm);
+ fail_nopgd:
+ 	free_mm(mm);
+diff --git a/mm/Kconfig b/mm/Kconfig
+index fba9757e58147..4034a0441f650 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -809,11 +809,15 @@ config ARCH_WANT_GENERAL_HUGETLB
+ config ARCH_WANTS_THP_SWAP
+ 	def_bool n
  
- static __always_inline int __folio_try_dup_anon_rmap(struct folio *folio,
--		struct page *page, int nr_pages, struct vm_area_struct *src_vma,
--		enum rmap_level level)
-+		struct page *page, int nr_pages, struct vm_area_struct *dst_vma,
-+		struct vm_area_struct *src_vma, enum rmap_level level)
- {
- 	const int orig_nr_pages = nr_pages;
- 	bool maybe_pinned;
-@@ -470,6 +473,7 @@ static __always_inline int __folio_try_dup_anon_rmap(struct folio *folio,
-  * @folio:	The folio to duplicate the mappings of
-  * @page:	The first page to duplicate the mappings of
-  * @nr_pages:	The number of pages of which the mapping will be duplicated
-+ * @dst_vma:	The destination vm area
-  * @src_vma:	The vm area from which the mappings are duplicated
-  *
-  * The page range of the folio is defined by [page, page + nr_pages)
-@@ -488,16 +492,18 @@ static __always_inline int __folio_try_dup_anon_rmap(struct folio *folio,
-  * Returns 0 if duplicating the mappings succeeded. Returns -EBUSY otherwise.
-  */
- static inline int folio_try_dup_anon_rmap_ptes(struct folio *folio,
--		struct page *page, int nr_pages, struct vm_area_struct *src_vma)
-+		struct page *page, int nr_pages, struct vm_area_struct *dst_vma,
-+		struct vm_area_struct *src_vma)
- {
--	return __folio_try_dup_anon_rmap(folio, page, nr_pages, src_vma,
--					 RMAP_LEVEL_PTE);
-+	return __folio_try_dup_anon_rmap(folio, page, nr_pages, dst_vma,
-+					 src_vma, RMAP_LEVEL_PTE);
- }
- 
- static __always_inline int folio_try_dup_anon_rmap_pte(struct folio *folio,
--		struct page *page, struct vm_area_struct *src_vma)
-+		struct page *page, struct vm_area_struct *dst_vma,
-+		struct vm_area_struct *src_vma)
- {
--	return __folio_try_dup_anon_rmap(folio, page, 1, src_vma,
-+	return __folio_try_dup_anon_rmap(folio, page, 1, dst_vma, src_vma,
- 					 RMAP_LEVEL_PTE);
- }
- 
-@@ -506,6 +512,7 @@ static __always_inline int folio_try_dup_anon_rmap_pte(struct folio *folio,
-  *				 of a folio
-  * @folio:	The folio to duplicate the mapping of
-  * @page:	The first page to duplicate the mapping of
-+ * @dst_vma:	The destination vm area
-  * @src_vma:	The vm area from which the mapping is duplicated
-  *
-  * The page range of the folio is defined by [page, page + HPAGE_PMD_NR)
-@@ -524,11 +531,12 @@ static __always_inline int folio_try_dup_anon_rmap_pte(struct folio *folio,
-  * Returns 0 if duplicating the mapping succeeded. Returns -EBUSY otherwise.
-  */
- static inline int folio_try_dup_anon_rmap_pmd(struct folio *folio,
--		struct page *page, struct vm_area_struct *src_vma)
-+		struct page *page, struct vm_area_struct *dst_vma,
-+		struct vm_area_struct *src_vma)
- {
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
--	return __folio_try_dup_anon_rmap(folio, page, HPAGE_PMD_NR, src_vma,
--					 RMAP_LEVEL_PMD);
-+	return __folio_try_dup_anon_rmap(folio, page, HPAGE_PMD_NR, dst_vma,
-+					 src_vma, RMAP_LEVEL_PMD);
- #else
- 	WARN_ON_ONCE(true);
- 	return -EBUSY;
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 07d43ca6db1c6..8e8b07e8b12fe 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1782,7 +1782,7 @@ int copy_huge_pmd(struct mm_struct *dst_mm, struct mm_struct *src_mm,
- 	src_folio = page_folio(src_page);
- 
- 	folio_get(src_folio);
--	if (unlikely(folio_try_dup_anon_rmap_pmd(src_folio, src_page, src_vma))) {
-+	if (unlikely(folio_try_dup_anon_rmap_pmd(src_folio, src_page, dst_vma, src_vma))) {
- 		/* Page maybe pinned: split and retry the fault on PTEs. */
- 		folio_put(src_folio);
- 		pte_free(dst_mm, pgtable);
-diff --git a/mm/memory.c b/mm/memory.c
-index 1efc393e32b6d..73b783c7d7d51 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -866,7 +866,7 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
- 		folio_get(folio);
- 		rss[mm_counter(folio)]++;
- 		/* Cannot fail as these pages cannot get pinned. */
--		folio_try_dup_anon_rmap_pte(folio, page, src_vma);
-+		folio_try_dup_anon_rmap_pte(folio, page, dst_vma, src_vma);
- 
- 		/*
- 		 * We do not preserve soft-dirty information, because so
-@@ -1020,14 +1020,14 @@ copy_present_ptes(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma
- 		folio_ref_add(folio, nr);
- 		if (folio_test_anon(folio)) {
- 			if (unlikely(folio_try_dup_anon_rmap_ptes(folio, page,
--								  nr, src_vma))) {
-+								  nr, dst_vma, src_vma))) {
- 				folio_ref_sub(folio, nr);
- 				return -EAGAIN;
- 			}
- 			rss[MM_ANONPAGES] += nr;
- 			VM_WARN_ON_FOLIO(PageAnonExclusive(page), folio);
- 		} else {
--			folio_dup_file_rmap_ptes(folio, page, nr);
-+			folio_dup_file_rmap_ptes(folio, page, nr, dst_vma);
- 			rss[mm_counter_file(folio)] += nr;
++config MM_ID
++	def_bool n
++
+ menuconfig TRANSPARENT_HUGEPAGE
+ 	bool "Transparent Hugepage Support"
+ 	depends on HAVE_ARCH_TRANSPARENT_HUGEPAGE && !PREEMPT_RT
+ 	select COMPACTION
+ 	select XARRAY_MULTI
++	select MM_ID
+ 	help
+ 	  Transparent Hugepages allows the kernel to use huge pages and
+ 	  huge tlb transparently to the applications whenever possible.
+diff --git a/mm/internal.h b/mm/internal.h
+index 9860e65ffc945..e33a1fc5ed667 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -720,6 +720,11 @@ static inline void prep_compound_head(struct page *page, unsigned int order)
+ 	folio_set_order(folio, order);
+ 	atomic_set(&folio->_large_mapcount, -1);
+ 	atomic_set(&folio->_nr_pages_mapped, 0);
++	if (IS_ENABLED(CONFIG_MM_ID)) {
++		folio->_mm_ids = 0;
++		folio->_mm_id_mapcount[0] = -1;
++		folio->_mm_id_mapcount[1] = -1;
++	}
+ 	if (IS_ENABLED(CONFIG_64BIT) || order > 1) {
+ 		atomic_set(&folio->_pincount, 0);
+ 		atomic_set(&folio->_entire_mapcount, -1);
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index b0739baf7b07f..e3b8bfdd0b756 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -959,6 +959,16 @@ static int free_tail_page_prepare(struct page *head_page, struct page *page)
+ 			bad_page(page, "nonzero nr_pages_mapped");
+ 			goto out;
  		}
- 		if (any_writable)
-@@ -1045,7 +1045,7 @@ copy_present_ptes(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma
- 		 * guarantee the pinned page won't be randomly replaced in the
- 		 * future.
- 		 */
--		if (unlikely(folio_try_dup_anon_rmap_pte(folio, page, src_vma))) {
-+		if (unlikely(folio_try_dup_anon_rmap_pte(folio, page, dst_vma, src_vma))) {
- 			/* Page may be pinned, we have to copy. */
- 			folio_put(folio);
- 			err = copy_present_page(dst_vma, src_vma, dst_pte, src_pte,
-@@ -1055,7 +1055,7 @@ copy_present_ptes(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma
- 		rss[MM_ANONPAGES]++;
- 		VM_WARN_ON_FOLIO(PageAnonExclusive(page), folio);
- 	} else {
--		folio_dup_file_rmap_pte(folio, page);
-+		folio_dup_file_rmap_pte(folio, page, dst_vma);
- 		rss[mm_counter_file(folio)]++;
- 	}
- 
++		if (IS_ENABLED(CONFIG_MM_ID)) {
++			if (unlikely(folio->_mm_id_mapcount[0] != -1)) {
++				bad_page(page, "nonzero mm mapcount 0");
++				goto out;
++			}
++			if (unlikely(folio->_mm_id_mapcount[1] != -1)) {
++				bad_page(page, "nonzero mm mapcount 1");
++				goto out;
++			}
++		}
+ 		if (IS_ENABLED(CONFIG_64BIT)) {
+ 			if (unlikely(atomic_read(&folio->_entire_mapcount) + 1)) {
+ 				bad_page(page, "nonzero entire_mapcount");
 -- 
 2.48.1
 
