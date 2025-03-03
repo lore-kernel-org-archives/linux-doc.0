@@ -1,355 +1,375 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44C322ACD2;
-	Mon,  3 Mar 2025 22:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE441DFE1;
+	Mon,  3 Mar 2025 22:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741039909; cv=none; b=ma7ZWWBFTYsSYinMcjcNxTNgOJsEdfGAT93yA8aO9+k8YNNp5ulhqFLWjfpkz3d3mjcsO6bvjdTwEO4jx9UqyBNpEX1BX9nPtJ7S0Vt0m0FaZkqBNpy9FUeNYppi6xvDzdpsMmBGp39/cbHzPCdZKGE647NXDPF7GcsTVed7ZiM=
+	t=1741040252; cv=none; b=YETfzal8ndAKONBHpYF5BSorKD+OFXxVZNrpydKBMr+r19xDnwHuH/SqVo5rve8uH0KuH+pS+SnnxeBn9vG2kiDpKo+30WsN2lGkUUNNdW9np6B1U++jhn0c/0z2hqR7n5YuPuoi/JlIRyJGwEf7eQqlOw24a1rli0JUtFtT+sI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741039909; c=relaxed/simple;
-	bh=gOqBGsbuoBoviwlQbN5mRhIstf0TSd/jjYEsRUjx79s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b/Ce/Vi7A0BYi0Rx9gtrVmFlc4oQ+g9UkZBg+WBXjCfTMw8FyGEjDFZewx64vIOBCjIu3RWaopQlW/qEwvdvRdKdiyhLGiUt84ctKv+RRTdpJBObTH7F3yRr6DaAJ1xuczu9GFUKtup5RxhGq/25Bl4zJz4eZSJJCJuGMzUL+J0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OGl3NGI/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741040252; c=relaxed/simple;
+	bh=7kMhJrsuHoyhhxHw8CA0cgQFlcSyx8x1axGfPstjeGk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L05buD6KurnQb7wbEJR1+0GLonO9QAZQokkqoKFEgdeMR0Pb+/nD1Ld0DefWyTVrkBuqKnNunMhfNuU4oPpMSbGMJo9rtJUH3kSncWYPDt23DYwDV4u+IM3n5sWMkFAYVwefhnRT+d/Dsmr4onC4ICLzb3EzS323fGHzz9waHFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rO2RXlYJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OGl3NGI/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BE81C4CEE9;
-	Mon,  3 Mar 2025 22:11:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rO2RXlYJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89F4EC4CED6;
+	Mon,  3 Mar 2025 22:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741039908;
-	bh=gOqBGsbuoBoviwlQbN5mRhIstf0TSd/jjYEsRUjx79s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=OGl3NGI/rA4V/SHBHU3+SjdzOFUEW4O7O6AOxGnbKJt3t8DtbDWatR2PhYlqadUQZ
-	 r5HXrxuvJpqQwpHSwAuePk/bxKRcGJLOl8lctFQpHFSz5O5JLwDB0xdWxByQE9W+6g
-	 Kvzpg+h+pjsgFCJQBinVRfscqULojXY5MB8q7rbxvQ+phM7SId+PqA2RJ0t0TpL6j2
-	 51o87gNYLAZZuLUt28gYckTxzSYe0Z28cWE4mLflSMAOCvweL00dId62Pbo6Jfpkiw
-	 CvHeGsRGgrIU3KplTjyxHo9nG7cB7AMejlPpozObxgs+m2f8h+CVCuhyhUna/DlndU
-	 E6IAGmxKj8crA==
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e4419a47887so3733404276.0;
-        Mon, 03 Mar 2025 14:11:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUBMltDBIOR2gADjlDLXfN60r6W00wdOqxLQ7AKWcypilozlXsfJk4IVxrNhCY6ItgHHif+NdRdIJLmfy4s@vger.kernel.org, AJvYcCVELOrCCR5OA2dnlcS6LVwGsyMqTluDhNOq7azlSr/7k09DTiEgt2XBr70Uf0kFJ0CVaX4tcO7qQp3LJ2n3dnoKSeI+cDvB@vger.kernel.org, AJvYcCWVfQmTuDmODDu3DiqfTL7wcSp6GNkeXNhs526nJnSzLbJJOkcBB/NZrk/KaX+b9I7/fRu+aw==@vger.kernel.org, AJvYcCWwluvbQqmlokE3EAtc66uhx3D6gpSls+cIe0vj3OltC92sX+F9jKGl48dHKhgJJgcWlOnhTy4Bk/VI@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0mPp5tlUWk/sVN8W4bp+pVNT98sI4qaUr/ym1tRDWTJcIxFYY
-	9hFaWySnmgJpSg3IqAvZg/a+0DmFpOr4aQrnHHTJGoKJBQbl4U2mvef1uVrTcZpBT59xlJn4Tkt
-	EmWhdhhCbq68abqEQ90EeRTlQQrM=
-X-Google-Smtp-Source: AGHT+IGE0pfvG8tW3dNvL0eDiGD3L2/GVowq3C94UqhDyDMworT0XksWKMeiLQs15jGcPVBpkRXMbxVXDf2Nv6E8qt4=
-X-Received: by 2002:a05:6902:1b03:b0:e5d:ac3c:9e07 with SMTP id
- 3f1490d57ef6-e60b2e8dddfmr16167840276.4.1741039907516; Mon, 03 Mar 2025
- 14:11:47 -0800 (PST)
+	s=k20201202; t=1741040251;
+	bh=7kMhJrsuHoyhhxHw8CA0cgQFlcSyx8x1axGfPstjeGk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rO2RXlYJTwKA2B/TggHkNlV3kBx0JUffUWZw+ZA4LVL/CtiAmFfDjYovTXlS895r2
+	 yCQ2zPJwB5XQm8Et1/eHOcysg6B1O1bc2XZ4tadOPFdc5AH9bPcXu4qWG4MUaYE5BJ
+	 UEuvgJayZO29n5K5M9Nr+OjdLRLfkdP+9dNn0C17kFEz4ARD3dFegmLnOKVcC9d97b
+	 su+dwkAXhfNshWZ5MMYGEcA6uRAV/IcRNJsQ1IVOWh2Zsn/s5sSOqGuUaagdrxJ8mg
+	 vOxdStg2NDnpoUwJwAhPC8uscxFYsynLvfxZMvPzVkghA4Ypzge1mXlRaX5GU3nkec
+	 EsXhuV9RWo1RA==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 0/8] mm/damon: auto-tune aggregation interval
+Date: Mon,  3 Mar 2025 14:17:18 -0800
+Message-Id: <20250303221726.484227-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKtyLkFyqFCcqUi7TPn9niUwYcHwv8nVq-joKc8kd8tFg58p-Q@mail.gmail.com>
- <1740784265-19829-1-git-send-email-jasjivsingh@linux.microsoft.com>
-In-Reply-To: <1740784265-19829-1-git-send-email-jasjivsingh@linux.microsoft.com>
-From: Fan Wu <wufan@kernel.org>
-Date: Mon, 3 Mar 2025 14:11:36 -0800
-X-Gmail-Original-Message-ID: <CAKtyLkGV4cGJzbvVUAeLBp=evc_QAWPD8FsskHNVvx-1UZJB-A@mail.gmail.com>
-X-Gm-Features: AQ5f1JrVaFR0iTvSqkTQt_tlcJV-Y1giK2s0oAmOJYrkSj92cb2mYmN1nn9jj6A
-Message-ID: <CAKtyLkGV4cGJzbvVUAeLBp=evc_QAWPD8FsskHNVvx-1UZJB-A@mail.gmail.com>
-Subject: Re: [PATCH v3] ipe: add errno field to IPE policy load auditing
-To: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
-Cc: wufan@kernel.org, audit@vger.kernel.org, corbet@lwn.net, eparis@redhat.com, 
-	jmorris@namei.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, paul@paul-moore.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 28, 2025 at 3:11=E2=80=AFPM Jasjiv Singh
-<jasjivsingh@linux.microsoft.com> wrote:
->
-> Users of IPE require a way to identify when and why an operation fails,
-> allowing them to both respond to violations of policy and be notified
-> of potentially malicious actions on their systems with respect to IPE.
->
-> This patch introduces a new error field to the AUDIT_IPE_POLICY_LOAD even=
-t
-> to log policy loading failures. Currently, IPE only logs successful polic=
-y
-> loads, but not failures. Tracking failures is crucial to detect malicious
-> attempts and ensure a complete audit trail for security events.
->
-> The new error field will capture the following error codes:
->
-> * 0: no error
-> * -EPERM: Insufficient permission
-> * -EEXIST: Same name policy already deployed
-> * -EBADMSG: policy is invalid
-> * -ENOMEM: out of memory (OOM)
-> * -ERANGE: policy version number overflow
-> * -EINVAL: policy version parsing error
->
+DAMON requires time-consuming and repetitive aggregation interval
+tuning.  Introduce a feature for automating it using a feedback loop
+that aims an amount of observed access events, like auto-exposing
+cameras.
 
-These error codes are not exhaustive. We recently introduced the
-secondary keyring and platform keyring to sign policy so the policy
-loading could return -ENOKEY or -EKEYREJECT. And also the update
-policy can return -ESTALE when the policy version is old.
-This is my fault that I forgot we should also update the documentation
-of the newly introduced error codes. Could you please go through the
-whole loading code and find all possible error codes?  Also this is a
-good chance to update the current stale function documents.
+Background: Access Frequency Monitoring and Aggregation Interval
+================================================================
 
-...
+DAMON checks if each memory element (damon_region) is accessed or not
+for every user-specified time interval called 'sampling interval'.  It
+aggregates the check intervals on per-element counter called
+'nr_accesses'.  DAMON users can read the counters to get the access
+temperature of a given element.  The counters are reset for every
+another user-specified time interval called 'aggregation interval'.
 
->
-> Signed-off-by: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
-> ---
->  Documentation/admin-guide/LSM/ipe.rst | 19 ++++++++++++++-----
->  security/ipe/audit.c                  | 15 ++++++++++++---
->  security/ipe/fs.c                     | 16 +++++++++++-----
->  security/ipe/policy_fs.c              | 18 +++++++++++++-----
->  4 files changed, 50 insertions(+), 18 deletions(-)
->
-> diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-=
-guide/LSM/ipe.rst
-> index f93a467db628..5dbf54471fab 100644
-> --- a/Documentation/admin-guide/LSM/ipe.rst
-> +++ b/Documentation/admin-guide/LSM/ipe.rst
-> @@ -423,7 +423,7 @@ Field descriptions:
->
->  Event Example::
->
-> -   type=3D1422 audit(1653425529.927:53): policy_name=3D"boot_verified" p=
-olicy_version=3D0.0.0 policy_digest=3Dsha256:820EEA5B40CA42B51F68962354BA08=
-3122A20BB846F26765076DD8EED7B8F4DB auid=3D4294967295 ses=3D4294967295 lsm=
-=3Dipe res=3D1
-> +   type=3D1422 audit(1653425529.927:53): policy_name=3D"boot_verified" p=
-olicy_version=3D0.0.0 policy_digest=3Dsha256:820EEA5B40CA42B51F68962354BA08=
-3122A20BB846F26765076DD8EED7B8F4DB auid=3D4294967295 ses=3D4294967295 lsm=
-=3Dipe res=3D1 errno=3D0
->     type=3D1300 audit(1653425529.927:53): arch=3Dc000003e syscall=3D1 suc=
-cess=3Dyes exit=3D2567 a0=3D3 a1=3D5596fcae1fb0 a2=3Da07 a3=3D2 items=3D0 p=
-pid=3D184 pid=3D229 auid=3D4294967295 uid=3D0 gid=3D0 euid=3D0 suid=3D0 fsu=
-id=3D0 egid=3D0 sgid=3D0 fsgid=3D0 tty=3Dpts0 ses=3D4294967295 comm=3D"pyth=
-on3" exe=3D"/usr/bin/python3.10" key=3D(null)
->     type=3D1327 audit(1653425529.927:53): PROCTITLE proctitle=3D707974686=
-F6E3300746573742F6D61696E2E7079002D66002E2E
->
-> @@ -436,11 +436,11 @@ Field descriptions:
->  +----------------+------------+-----------+-----------------------------=
-----------------------+
->  | Field          | Value Type | Optional? | Description of Value        =
-                      |
->  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-> -| policy_name    | string     | No        | The policy_name             =
-                      |
-> +| policy_name    | string     | Yes       | The policy_name             =
-                      |
->  +----------------+------------+-----------+-----------------------------=
-----------------------+
-> -| policy_version | string     | No        | The policy_version          =
-                      |
-> +| policy_version | string     | Yes       | The policy_version          =
-                      |
->  +----------------+------------+-----------+-----------------------------=
-----------------------+
-> -| policy_digest  | string     | No        | The policy hash             =
-                      |
-> +| policy_digest  | string     | Yes       | The policy hash             =
-                      |
->  +----------------+------------+-----------+-----------------------------=
-----------------------+
->  | auid           | integer    | No        | The login user ID           =
-                      |
->  +----------------+------------+-----------+-----------------------------=
-----------------------+
-> @@ -450,7 +450,16 @@ Field descriptions:
->  +----------------+------------+-----------+-----------------------------=
-----------------------+
->  | res            | integer    | No        | The result of the audited op=
-eration(success/fail) |
->  +----------------+------------+-----------+-----------------------------=
-----------------------+
-> -
-> +| errno          | integer    | No        | The result of the policy err=
-or as follows:        |
-> +|                |            |           |                             =
-                      |
-> +|                |            |           | +  0: no error              =
-                      |
-> +|                |            |           | +  -EPERM: Insufficient perm=
-ission                |
-> +|                |            |           | +  -EEXIST: Same name policy=
- already deployed     |
-> +|                |            |           | +  -EBADMSG: policy is inval=
-id                    |
-> +|                |            |           | +  -ENOMEM: out of memory (O=
-OM)                   |
-> +|                |            |           | +  -ERANGE: policy version n=
-umber overflow        |
-> +|                |            |           | +  -EINVAL: policy version p=
-arsing error          |
-> ++----------------+------------+-----------+-----------------------------=
-----------------------+
->
+This can be illustrated as DAMON continuously capturing a snapshot of
+access events that happen and captured within the last aggregation
+interval.  This implies the aggregation interval plays a key role for
+the quality of the snapshots, like the camera exposure time.  If it is
+too short, the amount of access events that happened and captured for
+each snapshot is small, so each snapshot will show no many interesting
+things but just a cold and dark world with hopefuly one pale blue dot or
+two.  If it is too long, too many events are aggregated in a single
+shot, so each snapshot will look like world of flames, or Muspellheim.
+It will be difficult to find practical insights in both cases.
 
-Might be better to create another table to list all potential erronos.
-Also please keep the capitalization of sentences consistent.
+Problem: Time Consuming and Repetitive Tuning
+=============================================
 
->  1404 AUDIT_MAC_STATUS
->  ^^^^^^^^^^^^^^^^^^^^^
-> diff --git a/security/ipe/audit.c b/security/ipe/audit.c
-> index f05f0caa4850..8df307bb2bab 100644
-> --- a/security/ipe/audit.c
-> +++ b/security/ipe/audit.c
-> @@ -21,6 +21,8 @@
->
->  #define AUDIT_POLICY_LOAD_FMT "policy_name=3D\"%s\" policy_version=3D%hu=
-.%hu.%hu "\
->                               "policy_digest=3D" IPE_AUDIT_HASH_ALG ":"
-> +#define AUDIT_POLICY_LOAD_FAIL_FMT "policy_name=3D? policy_version=3D? "=
-\
-> +                                  "policy_digest=3D?"
->  #define AUDIT_OLD_ACTIVE_POLICY_FMT "old_active_pol_name=3D\"%s\" "\
->                                     "old_active_pol_version=3D%hu.%hu.%hu=
- "\
->                                     "old_policy_digest=3D" IPE_AUDIT_HASH=
-_ALG ":"
-> @@ -254,16 +256,23 @@ void ipe_audit_policy_activation(const struct ipe_p=
-olicy *const op,
->  void ipe_audit_policy_load(const struct ipe_policy *const p)
->  {
+The appropriate length of the aggregation interval depends on how
+frequently the system and workloads are making access events that DAMON
+can observe.  Hence, users have to tune the interval with excessive
+amount of tests with the target system and workloads.  If the system and
+workloads are changed, the tuning should be done again.  If the
+characteristic of the workloads is dynamic, it becomes more challenging.
+It is therefore time-consuming and repetitive.
 
-The documentation of this function should also be updated since it is
-also auditing errors now.
+The tuning challenge mainly stems from the wrong question.  It is not
+asking users what quality of monitoring results they want, but how DAMON
+should operate for their hidden goal.  To make the right answer, users
+need to fully understand DAMON's mechanisms and the characteristics of
+their workloads.  Users shouldn't be asked to understand the underlying
+mechanism.  Understanding the characteristics of the workloads shouldn't
+be the role of users but DAMON.
 
->         struct audit_buffer *ab;
-> +       int err =3D 0;
->
->         ab =3D audit_log_start(audit_context(), GFP_KERNEL,
->                              AUDIT_IPE_POLICY_LOAD);
->         if (!ab)
->                 return;
->
-> -       audit_policy(ab, AUDIT_POLICY_LOAD_FMT, p);
-> -       audit_log_format(ab, " auid=3D%u ses=3D%u lsm=3Dipe res=3D1",
-> +       if (!IS_ERR(p)) {
-> +               audit_policy(ab, AUDIT_POLICY_LOAD_FMT, p);
-> +       } else {
-> +               audit_log_format(ab, AUDIT_POLICY_LOAD_FAIL_FMT);
-> +               err =3D PTR_ERR(p);
-> +       }
-> +
-> +       audit_log_format(ab, " auid=3D%u ses=3D%u lsm=3Dipe res=3D%d errn=
-o=3D%d",
->                          from_kuid(&init_user_ns, audit_get_loginuid(curr=
-ent)),
-> -                        audit_get_sessionid(current));
-> +                        audit_get_sessionid(current), !err, err);
->
->         audit_log_end(ab);
->  }
-> diff --git a/security/ipe/fs.c b/security/ipe/fs.c
-> index 5b6d19fb844a..da51264a1d0f 100644
-> --- a/security/ipe/fs.c
-> +++ b/security/ipe/fs.c
-> @@ -141,12 +141,16 @@ static ssize_t new_policy(struct file *f, const cha=
-r __user *data,
->         char *copy =3D NULL;
->         int rc =3D 0;
->
-> -       if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
-> -               return -EPERM;
-> +       if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN)) {
-> +               rc =3D -EPERM;
-> +               goto out;
-> +       }
->
->         copy =3D memdup_user_nul(data, len);
-> -       if (IS_ERR(copy))
-> -               return PTR_ERR(copy);
-> +       if (IS_ERR(copy)) {
-> +               rc =3D PTR_ERR(copy);
-> +               goto out;
-> +       }
->
->         p =3D ipe_new_policy(NULL, 0, copy, len);
->         if (IS_ERR(p)) {
-> @@ -161,8 +165,10 @@ static ssize_t new_policy(struct file *f, const char=
- __user *data,
->         ipe_audit_policy_load(p);
->
->  out:
-> -       if (rc < 0)
-> +       if (rc < 0) {
->                 ipe_free_policy(p);
-> +               ipe_audit_policy_load(ERR_PTR(rc));
-> +       }
->         kfree(copy);
->         return (rc < 0) ? rc : len;
->  }
+Aim-oriented Feedback-driven Auto-Tuning
+=========================================
 
-In case of memdup fail, the kfree(copy) will be called with the error
-pointer. Also how about refactor the code like
+Fortunately, the appropriate length of the aggregation interval can be
+inferred using a feedback loop.  If the current snapshots are showing no
+much intresting information, in other words, if it shows only rare
+access events, increasing the aggregation interval helps, and vice
+versa.  We tested this theory on a few real-world workloads, and
+documented one of the experience with an official DAMON monitoring
+intervals tuning guideline.  Since it is a simple theory that requires
+repeatable tries, it can be a good job for machines.
 
-        ipe_audit_policy_load(p);
-        kfree(copy);
+Based on the guideline's theory, we design an automation of aggregation
+interval tuning, in a way similar to that of camera auto-exposure
+feature.  It defines the amount of interesting information as the ratio
+of DAMON-observed access events that DAMON actually observed to
+theoretical maximum amount of it within each snapshot.  Events are
+accounted in byte and sampling attempts granularity.  For example, let's
+say there is a region of 'X' bytes size.  DAMON tried access check
+smapling for the region 'Y' times in total for a given aggregation.
+Among the 'Y' attempts, 'Z' times it shown positive results.  Then, the
+theoritical maximum number of access events for the region is 'X * Y'.
+And the number of access events that DAMON has observed for the region
+is 'X * Z'.  The abount of the interesting information is
+'(X * Z / X * Y)'.  Note that each snapshot would have multiple regions.
 
-        return len;
-err:
-        ipe_audit_policy_load(ERR_PTR(rc));
-        ipe_free_policy(p);
+Users can set an arbitrary value of the ratio as their target.  Once the
+target is set, the automation periodically measures the current value of
+the ratio and increase or decrease the aggregation interval if the ratio
+value is lower or higher than the target.  The amount of the change is
+proportion to the distance between the current adn the target values.
 
-        return rc;
+To avoid auto-tuning goes too long way, let users set the minimum and
+the maximum aggregation interval times.  Changing only aggregation
+interval while sampling interval is kept makes the maximum level of
+access frequency in each snapshot, or discernment of regions
+inconsistent.  Also, unnecessarily short sampling interval causes
+meaningless monitoring overhed.  The automation therefore adjusts the
+sampling interval together with aggregation interval, while keeping the
+ratio between the two intervals.  Users can set the ratio, or the
+discernment.
 
-> diff --git a/security/ipe/policy_fs.c b/security/ipe/policy_fs.c
-> index 3bcd8cbd09df..5f4a8e92bdcf 100644
-> --- a/security/ipe/policy_fs.c
-> +++ b/security/ipe/policy_fs.c
-> @@ -12,6 +12,7 @@
->  #include "policy.h"
->  #include "eval.h"
->  #include "fs.h"
-> +#include "audit.h"
->
->  #define MAX_VERSION_SIZE ARRAY_SIZE("65535.65535.65535")
->
-> @@ -292,21 +293,28 @@ static ssize_t update_policy(struct file *f, const =
-char __user *data,
->         char *copy =3D NULL;
->         int rc =3D 0;
->
-> -       if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
-> -               return -EPERM;
-> +       if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN)) {
-> +               rc =3D -EPERM;
-> +               goto out;
-> +       }
->
->         copy =3D memdup_user(data, len);
-> -       if (IS_ERR(copy))
-> -               return PTR_ERR(copy);
-> +       if (IS_ERR(copy)) {
-> +               rc =3D PTR_ERR(copy);
-> +               goto out;
-> +       }
->
->         root =3D d_inode(f->f_path.dentry->d_parent);
->         inode_lock(root);
->         rc =3D ipe_update_policy(root, NULL, 0, copy, len);
->         inode_unlock(root);
->
-> +out:
->         kfree(copy);
-> -       if (rc)
-> +       if (rc) {
-> +               ipe_audit_policy_load(ERR_PTR(rc));
->                 return rc;
-> +       }
->
+Discussion
+==========
 
-The above comments also apply to here.
+The modified question (aimed amount of access events, or lights, in each
+snapshot) is easy to answer by both the users and the kernel.  If users
+are interested in finding more cold regions, the value should be lower,
+and vice versa.  If users have no idea, kernel can suggest a fair
+default value based on some theories and experiments.  For example,
+based on the Pareto principle (80/20 rule), we could expect 20% target
+ratio will capture 80% of real access events.  Since 80% might be too
+high, applying the rule once again, 4% (20% * 20%) may capture about 56%
+(80% * 80%) of real access events.
 
--Fan
+Sampling to aggregation intervals ratio and min/max aggregation
+intervals are also arguably easy to answer.  What users want is
+discernment of regions for efficient system operation, for examples, X
+amount of colder regions or Y amount of warmer regions, not exactly how
+many times each cache line is accessed in nanoseconds degree.  The
+appropriate min/max aggregation interval can relatively naively set, and
+may better to set for aimed monitoring overhead.  Since sampling
+interval is directly deciding the overhead, setting it based on the
+sampling interval can be easy.  With my experiences, I'd argue the
+intervals ratio 0.05, and 5 milliseconds to 20 seconds sampling interval
+range (100 milliseconds to 400 seconds aggregation interval) can be a
+good default suggestion.
 
->         return len;
->  }
-> --
-> 2.34.1
->
+Evaluation
+==========
+
+On a machine running a real world server workload, I ran DAMON to
+monitor its physical address space for about 23 hours, with this feature
+turned on.  We set it to tune sampling interval in a range from 5
+milliseconds to 10 seconds, aiming 4 % DAMON-observed access ratio per
+three aggregation intervals.  The exact command I used is as below.
+
+    damo start --monitoring_intervals_goal 4% 3 5ms 10s --damos_action stat
+
+During the test run, DAMON continuously updated sampling and aggregation
+intervals as designed, within the given range.  For all the time, DAMON
+was able to find the intervals that meets the target access events ratio
+in the given intervals range (sampling interval between 5 milliseconds
+and 10 seconds).
+
+For most of the time, tuned sampling interval was converged in 300-400
+milliseconds.  It made only small amount of changes within the range.
+The average of the tuned sampling interval during the test was about 380
+milliseconds.
+
+The workload periodically gets less load and decreases its CPU usage.
+Presumably this also caused it making less memory access events.
+Reactively to such event,s DAMON also increased the intervals as
+expected.  It was still able to find the optimum interval that
+satisfying the target access ratio within the given intervals range.
+Usually it was converged to about 5 seconds.  Once the workload gets
+normal amount of load again, DAMON reactively reduced the intervals to
+the normal range.
+
+I collected and visualized DAMON's monitoring results on the server a
+few times.  Every time the visualized access pattern looked not biased
+to only cold or hot pages but diverse and balanced.  Let me show some of
+the snapshots that I collected at the nearly end of the test (after
+about 23 hours have passed since starting DAMON on the server).
+
+The recency histogram looks as below.  Please note that this
+visualization shows only a very coarse grained information.  For more
+details about the visualization format, please refer to DAMON user-space
+tool documentation[1].
+
+    # ./damo report access --style recency-sz-hist --tried_regions_of 0 0 0 --access_rate 0 0
+    <last accessed time (us)> <total size>
+    [-19 h 7 m 45.514 s, -17 h 12 m 58.963 s)  6.198 GiB  |****                |
+    [-17 h 12 m 58.963 s, -15 h 18 m 12.412 s) 0 B        |                    |
+    [-15 h 18 m 12.412 s, -13 h 23 m 25.860 s) 0 B        |                    |
+    [-13 h 23 m 25.860 s, -11 h 28 m 39.309 s) 0 B        |                    |
+    [-11 h 28 m 39.309 s, -9 h 33 m 52.757 s)  0 B        |                    |
+    [-9 h 33 m 52.757 s, -7 h 39 m 6.206 s)    0 B        |                    |
+    [-7 h 39 m 6.206 s, -5 h 44 m 19.654 s)    0 B        |                    |
+    [-5 h 44 m 19.654 s, -3 h 49 m 33.103 s)   0 B        |                    |
+    [-3 h 49 m 33.103 s, -1 h 54 m 46.551 s)   0 B        |                    |
+    [-1 h 54 m 46.551 s, -0 ns)                16.967 GiB |*********           |
+    [-0 ns, --6886551440000 ns)                38.835 GiB |********************|
+    memory bw estimate: 9.425 GiB per second
+    total size: 62.000 GiB
+
+It shows about 38 GiB of memory was accessed at least once within last
+aggregation interval (given ~300 milliseconds tuned sampling interval,
+this is about six seconds).  This is about 61 % of the total memory.  In
+other words, DAMON found warmest 61 % memory of the system.  The number
+is particularly interesting given our Pareto principle based theory for
+the tuning goal value.  We set it as 20 % of 20 % (4 %), thinking it
+would capture 80 % of 80 % (64 %) real access events.  And it foudn 61 %
+hot memory, or working set.  Nevertheless, to make the theory clearer,
+much more discussion and tests would be needed.  At the moment,
+nonetheless, we can say making the target value higher helps finding
+more hot memory regions.
+
+The histogram also shows an amount of cold memory.  About 17 GiB memory
+of the system has not accessed at least for last aggregation interval
+(about six seconds), and at most for about last two hours.  The real
+longest unaccessed time of the 17 GiB memory was about 19 minutes,
+though.  This is a limitation of this visualization format.
+
+It further found very cold 6 GiB memory.  It has not accessed at least for last
+17 hours and at most 19 hours.
+
+What about hot memory distribution?  To see this, I capture and
+visualize the snapshot in access temperature histogram.  Again, please
+refer to the DAMON user-space tool documentation[1] for the format and
+what access temperature mean.   Both the visualization and metric shows
+only very coarse grained and limited information.  The resulting
+histogram look like below.
+
+    # ./damo report access --style temperature-sz-hist --tried_regions_of 0 0 0
+    <temperature> <total size>
+    [-6,840,763,776,000, -5,501,580,939,800) 6.198 GiB  |***                 |
+    [-5,501,580,939,800, -4,162,398,103,600) 0 B        |                    |
+    [-4,162,398,103,600, -2,823,215,267,400) 0 B        |                    |
+    [-2,823,215,267,400, -1,484,032,431,200) 0 B        |                    |
+    [-1,484,032,431,200, -144,849,595,000)   0 B        |                    |
+    [-144,849,595,000, 1,194,333,241,200)    55.802 GiB |********************|
+    [1,194,333,241,200, 2,533,516,077,400)   4.000 KiB  |*                   |
+    [2,533,516,077,400, 3,872,698,913,600)   4.000 KiB  |*                   |
+    [3,872,698,913,600, 5,211,881,749,800)   8.000 KiB  |*                   |
+    [5,211,881,749,800, 6,551,064,586,000)   12.000 KiB |*                   |
+    [6,551,064,586,000, 7,890,247,422,200)   4.000 KiB  |*                   |
+    memory bw estimate: 5.178 GiB per second
+    total size: 62.000 GiB
+
+We can see most of the memory is in similar access temperature range,
+and definitely some pages are extremely hot.
+
+To see the picture in more detail, let's capture and visualize the
+snapshot per DAMON-region, sorted by their access temperature.  The
+total number of the regions was about 300.  Due to the limited space,
+I'm showing only a few parts of the output here.
+
+    # ./damo report access --style hot --tried_regions_of 0 0 0
+    heatmap: 00000000888888889999999888888888888888888888888888888888888888888888888888888888
+    # min/max temperatures: -6,827,258,184,000, 17,589,052,500, column size: 793.600 MiB
+     |999999999999999999999999999999999999999| 4.000 KiB   access 100 % 18 h 9 m 43.918 s
+     |999999999999999999999999999999999999999| 8.000 KiB   access 100 % 17 h 56 m 5.351 s
+     |999999999999999999999999999999999999999| 4.000 KiB   access 100 % 15 h 24 m 19.634 s
+     |999999999999999999999999999999999999999| 4.000 KiB   access 100 % 14 h 10 m 55.606 s
+     |999999999999999999999999999999999999999| 4.000 KiB   access 100 % 11 h 34 m 18.993 s
+    [...]
+               |99999999999999999999999999999| 8.000 KiB   access 100 % 1 m 27.945 s
+               |11111111111111111111111111111| 80.000 KiB  access 15 %  1 m 21.180 s
+               |00000000000000000000000000000| 24.000 KiB  access 5 %   1 m 21.180 s
+               |00000000000000000000000000000| 5.919 GiB   access 10 %  1 m 14.415 s
+               |99999999999999999999999999999| 12.000 KiB  access 100 % 1 m 7.650 s
+    [...]
+                                           |0| 4.000 KiB   access 5 %   0 ns
+                                           |0| 12.000 KiB  access 5 %   0 ns
+                                           |0| 188.000 KiB access 0 %   0 ns
+                                           |0| 24.000 KiB  access 0 %   0 ns
+                                           |0| 48.000 KiB  access 0 %   0 ns
+    [...]
+             |0000000000000000000000000000000| 8.000 KiB   access 0 %   6 m 45.901 s
+            |00000000000000000000000000000000| 36.000 KiB  access 0 %   7 m 26.491 s
+            |00000000000000000000000000000000| 4.000 KiB   access 0 %   12 m 37.682 s
+           |000000000000000000000000000000000| 8.000 KiB   access 0 %   18 m 9.168 s
+           |000000000000000000000000000000000| 16.000 KiB  access 0 %   19 m 3.288 s
+    |0000000000000000000000000000000000000000| 6.198 GiB   access 0 %   18 h 57 m 52.582 s
+    memory bw estimate: 8.798 GiB per second
+    total size: 62.000 GiB
+
+We can see DAMON found small and extremely hot regions that accessed for
+all access check sampling (once per about 300 milliseconds) for more
+than  10 hours.  The access temperature rapidly decreases.  DAMON was
+also able to find small and big regions that not accessed for up to
+about 19 minutes.  It even found an outlier cold region of 6 GiB that
+not accessed for about 19 hours.  It is unclear what the outlier region
+is, as of this writing.
+
+For the testing, DAMON was consuming about 0.1% of single CPU time.
+This is again expected results, since DAMON was using about 370
+milliseconds sampling interval in most case.
+
+    # ps -p $kdamond_pid -o %cpu
+    %CPU
+     0.1
+
+I also ran similar tests against kernel build workload and an in-memory
+cache workload benchmark[2].  Detialed results including tuned intervals
+and captured access pattern were of course different sicne those depend
+on the workloads.  But the auto-tuning feature was always working as
+expected like the above results for the real world workload.
+
+To wrap up, with intervals auto-tuning feature, DAMON was able to
+capture access pattern snapshots of a quality on a real world server
+workload.  The auto-tuning feature was able to adaptively react to the
+dynamic access patterns of the workload and reliably provide consistent
+monitoring results without manual human interventions.  Also, the
+auto-tuning made DAMON consumes only necessary amount of resource for
+the required quality.
+
+Changelog
+=========
+
+Changes from RFC v2
+(https://lore.kernel.org/20250228220328.49438-1-sj@kernel.org)
+- Add detailed evaluation results on cover letter
+
+Changes from RFC v1
+(https://lore.kernel.org/20250213014438.145611-1-sj@kernel.org)
+- Replace the target metric from positive samples ratio to
+  DAMON-observed access samples ratio
+- Fix wrong max events accounting bug
+- Fix double-increase of next_aggregation_sis
+
+References
+==========
+
+[1] https://github.com/damonitor/damo/blob/next/USAGE.md#access-report-styles
+[2] https://github.com/facebookresearch/DCPerf/blob/main/packages/tao_bench/README.md
+
+SeongJae Park (8):
+  mm/damon: add data structure for monitoring intervals auto-tuning
+  mm/damon/core: implement intervals auto-tuning
+  mm/damon/sysfs: implement intervals tuning goal directory
+  mm/damon/sysfs: commit intervals tuning goal
+  mm/damon/sysfs: implement a command to update auto-tuned monitoring
+    intervals
+  Docs/mm/damon/design: document for intervals auto-tuning
+  Docs/ABI/damon: document intervals auto-tuning ABI
+  Docs/admin-guide/mm/damon/usage: add intervals_goal directory on the
+    hierarchy
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |  30 +++
+ Documentation/admin-guide/mm/damon/usage.rst  |  25 ++
+ Documentation/mm/damon/design.rst             |  50 ++++
+ include/linux/damon.h                         |  43 ++++
+ mm/damon/core.c                               |  98 ++++++++
+ mm/damon/sysfs.c                              | 216 ++++++++++++++++++
+ 6 files changed, 462 insertions(+)
+
+
+base-commit: 2ade695ab17eb4005f006001aa9c51ad22d2f206
+-- 
+2.39.5
