@@ -1,69 +1,69 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A102505A8
-	for <linux-doc@vger.kernel.org>; Mon,  3 Mar 2025 16:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D127C250C14
+	for <linux-doc@vger.kernel.org>; Mon,  3 Mar 2025 16:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741019457; cv=none; b=tfbbG49op6ZSxV/OG7UMjJl6YQjBrbok1DpqRLduo0cdHC5LdvPGXh+9FTBzFcYOTqm0boUyR9Zyu26uUmgpJmMtm1TwfgYFVy0CRGGAp5QEWs68vgs4xyxeSRdrS/jIvcGHEH0p0oho/3jZ0gHUuAJqOQw768ZOdNFhWzYRt2I=
+	t=1741019459; cv=none; b=QbEaqrCOAPB/Ppp5yRma5DGHvOulvHsRAPLgMxsP8h6MhZvDyvvVIi6CVH0RtJzD+3dE6XTM+5B8/TePtlPa7Z+t+hKBe3b0B8kzGjZeEl6HY8c0KtoLaHEzzT4O0lzti+ji3yjHD5jdOZmswfkFTz8d+dWGdBTWIvTHudVcn4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741019457; c=relaxed/simple;
-	bh=zwBWJQNiZElGf+tnFTiOyJan5xAOzuwmBeeeOxUUAKM=;
+	s=arc-20240116; t=1741019459; c=relaxed/simple;
+	bh=RlWl3fpiF9O9sdm/iMb9TRR2Zh30yDuqbmqk7QeHHkM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EbIE0EkA2S6Mz1SxhwC4anxoqDd+18Q70a2zKv3MR3wYm3nCYNl92RIDElZNN3QUKzUVxVxxHYgXhnoxwLA96IeQtJn1xZbBYxEIyUtylLCLw1bRq+AJar6CDQ0PXTwdJG439B0g8nA0ACGn6TAUNaQuSINENLsNt8WV/zAimU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OxczAa00; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=NZacg2RXerq4vwbouvquu6vd255pFLiGrhtxiXsWrrTLB2672WvM7gwR4kDpdkoIqBmCvfzb6BVt1e8ThV3cG+9NgIwrMuthBbavvjS8kWHHwOlMMmq9BuEcQ2W0skpY3VFT+mhXvrBNLoEpiF1aIajWRQN6bK0w98wz5OX4yHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BwVrRVZ1; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OxczAa00"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BwVrRVZ1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741019454;
+	s=mimecast20190719; t=1741019455;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=azxC6HZJ9nBU2F+f5yWV4gQ6J7sT6YtNWxk4WN8FkrY=;
-	b=OxczAa00ggXMGxv4XdxxHmvRUxJwq3Cy3yvp+dqlC8r4sPeR10Bn7Y+OpvJ20/BX5pswpp
-	UlgScbvQvdn62V2oihYbqP6rObGAnPrll8PkD7Z6ZGYZj105R6HvgMwfAsGP3bqo0LRQ8n
-	wVzXvxzWvyrBOMP2jAVCB1SkmDFe/oY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=TqnqolcXMjdbgOoHxDkquZtgq0jreZJuwmbRkc4obqU=;
+	b=BwVrRVZ1xC7xAbCQbZ/P+KzhM0UE/DuKdYIYV3rffin7N803Gs/6dAvicXFnSkAatqtz15
+	WXKhaKHXfYATVEdFLMmCmdZtIvhuTEqUm1vkKh0Xg4t9UN4PxBFlhOxdn1M9oqcOqeKTu1
+	b1Uy/gRZQRjeYc+6pTZIHNk3FGh4Zoc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-19-erRR4tYsO5OaO_z54vbi4w-1; Mon, 03 Mar 2025 11:30:53 -0500
-X-MC-Unique: erRR4tYsO5OaO_z54vbi4w-1
-X-Mimecast-MFC-AGG-ID: erRR4tYsO5OaO_z54vbi4w_1741019452
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4399d2a1331so22759175e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Mar 2025 08:30:52 -0800 (PST)
+ us-mta-632-lwzRZ5dHNMqBFA_Zc_EuKg-1; Mon, 03 Mar 2025 11:30:44 -0500
+X-MC-Unique: lwzRZ5dHNMqBFA_Zc_EuKg-1
+X-Mimecast-MFC-AGG-ID: lwzRZ5dHNMqBFA_Zc_EuKg_1741019444
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-390e271517fso2720797f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Mar 2025 08:30:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741019452; x=1741624252;
+        d=1e100.net; s=20230601; t=1741019443; x=1741624243;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=azxC6HZJ9nBU2F+f5yWV4gQ6J7sT6YtNWxk4WN8FkrY=;
-        b=gHa5nEnlNu9JD0eoZBImfc8Zg7Y1aXkqfMWlVgu94CBXJJCv5L1kXO8wHDS2aIitMv
-         yMFWJpKwGGfNZ9Ub/1ytTzT5ClGax9CBF+9ez0qqkLWrKGyO7RLYYo+9VE8IfgqNOnR0
-         Y7m1oiVi3tL+VWoTJQcDJ1jnrJNzykPQjing8HJ4fJEkAGYSTdQUg3uA+/F4LMaNZDT3
-         vGZ9ZCYgEfovE5sHOQAjodd26ntLtUPYsgThc3AxsVqAxgkeW+TkCdXpY3Y8Z6fIB9Td
-         iT+/DNSC93k/u8ksz4a4ko/gtb64s/0xPyqFHUDm2XAoerugbtg0iusbItPr/SAg/MWe
-         LSVw==
-X-Gm-Message-State: AOJu0Yxl4bVMiyge7bniDWflsb0s9yufhgcyy4kpmYYeEsIWSoKfXR5i
-	fzmSdIvDeNCp64VSX9w16CoMHtn/RniewMmKtq5HIu90HSh6zYrdsO4GSNZyu+/B0Bd/22qsrhY
-	SvP7637UC35UMSwxUr3dh+c8Wno3BFPRP+53FkEawtQv8ZHVYVJEkxxTdUg==
-X-Gm-Gg: ASbGnctaTHAIjcje4lgJBC+UCLcnQHO4jZqdND/sWOHUAmNMNpn24WPtTiZg7/UXl4i
-	xfYgyG/ouPD9ecaUEfxlFReLNKP2/zBQaWDhFIQWTTXM/yqL2c016psqTLe3gKbzUQUXr3TnhhD
-	O3HNwQBIJl8OZVrhPlDZFl1dIHMCVgiFJFRdP6MwNmULCH+fEdT51c/xJF/W6Qh43+jwWvIBQ75
-	F7I46AwHIcBncKjGyHO/0ST+c4ePz08Nqd9aE9fB5BnTryOvTGd3IZyXfPrqnexhTXI50C4Lg6p
-	Hr7SceDTdsiGEuAov1CjDKWQIjtDtvWLM4yq/T5j08o4+WwQDIUQwkN3CxQnvQdXyoUf+RXYWqn
-	n
-X-Received: by 2002:a05:600c:5585:b0:43b:bedc:fcf6 with SMTP id 5b1f17b1804b1-43bbedcfe47mr44358525e9.1.1741019451749;
-        Mon, 03 Mar 2025 08:30:51 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFzQb6PWhSpsnKcZbPTy2ai+36EkVbTPhZ8phSQIWx5xoPi2ki+HFSKpKKxfbHb4k7pKztumg==
-X-Received: by 2002:a05:600c:5585:b0:43b:bedc:fcf6 with SMTP id 5b1f17b1804b1-43bbedcfe47mr44358005e9.1.1741019451351;
-        Mon, 03 Mar 2025 08:30:51 -0800 (PST)
+        bh=TqnqolcXMjdbgOoHxDkquZtgq0jreZJuwmbRkc4obqU=;
+        b=njeR5os5u49/p2lHKHxxNGl6bduzKFAJf2qnKF8P/Hf4vJT4P5zWQjV0tD6XCMpbsU
+         cLb59ltRp2MdEPamdePuHHt5KBM5Q8s2nYyyLHDG/98mwNEnTm9Y5lBDqHJajePhN1jN
+         5NAeWXFt6LaDROXKIAp69V7A0XX97FP3Ev8XBS6ZiZKKskBQAZeID62MVqkIU48QbWdV
+         5XJzzbERzZx/OaiHpwzLElldcTGed/1nioqYIojxPrzIXghrIZtQQDoYLIKwnqOQQYRY
+         zWCa2xmOIt9bBqPi2ZBXneWmK1iMZp1mGA3TEKGFCOx+F39TQmqSYnRnTdvPTAX76d00
+         wDig==
+X-Gm-Message-State: AOJu0Yzg4rJpRGVRTNxrfXzKQlYOGJUiOQrxzGK56NrJi1AFFQE7ez1y
+	K9FSgMmZ7wxfJ+DLLiwmxWdIIWF/0xl7HqOpya/Ep9tWBnMTvimrKluU5cplVkAKbEw010KBkcs
+	zjZdV6ecEYQEK/T/tjCEWsd9bXiDhXUX53oZetzJgmlDQLP182V1C3RP/+Q==
+X-Gm-Gg: ASbGncsUyyqZxzTkCmmvx3MU+hQ0gjvpKj1Ky08Ze7y2q3XPVdfs2/odmS5f0ArvdfQ
+	OOzRUlatOqiPmZ0WP75kYo+iLtuz+0TveNzMJdU/d26i4Nb1r/aA9SlC1iB+Tpnj8t0Gn7mJz2O
+	DPFlucdZwGTOncYd2GS+WmF2UndXtOCNCQOgXkOr51c63t/STcUrWX+rMpK+NuiOiO6QH8TqeAz
+	Br3GTjeLv6et+Ja30zEwtrE235HKS37S7I0mIYNyDjQYwfOvAF5/XnAeX1wDcLsHg3oL6XvhSHj
+	nf6vtP0ijWxRnVh2parMPRu1c3LRgDvuuajPBSR4QMcpwb7F3mhI70L80lU4yrx9QluL7g3BgTP
+	V
+X-Received: by 2002:a05:6000:1fa3:b0:390:f400:2083 with SMTP id ffacd0b85a97d-390f400227cmr11383322f8f.0.1741019443607;
+        Mon, 03 Mar 2025 08:30:43 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGnhjPORrAR9y+RvgL1OaYsuXRTyHneFQKcSCvW+9sKqMuJZykkJsayBSNel9nRS5Z27sSgaA==
+X-Received: by 2002:a05:6000:1fa3:b0:390:f400:2083 with SMTP id ffacd0b85a97d-390f400227cmr11383264f8f.0.1741019443130;
+        Mon, 03 Mar 2025 08:30:43 -0800 (PST)
 Received: from localhost (p200300cbc7349600af274326a2162bfb.dip0.t-ipconnect.de. [2003:cb:c734:9600:af27:4326:a216:2bfb])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43b736f74e8sm172202265e9.7.2025.03.03.08.30.50
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43bc032d049sm46650855e9.5.2025.03.03.08.30.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Mar 2025 08:30:50 -0800 (PST)
+        Mon, 03 Mar 2025 08:30:42 -0800 (PST)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -88,10 +88,11 @@ Cc: linux-doc@vger.kernel.org,
 	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Vlastimil Babka <vbabka@suse.cz>,
-	Jann Horn <jannh@google.com>
-Subject: [PATCH v3 15/20] mm: CONFIG_NO_PAGE_MAPCOUNT to prepare for not maintain per-page mapcounts in large folios
-Date: Mon,  3 Mar 2025 17:30:08 +0100
-Message-ID: <20250303163014.1128035-16-david@redhat.com>
+	Jann Horn <jannh@google.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: [PATCH v3 11/20] mm/rmap: use folio_large_nr_pages() in add/remove functions
+Date: Mon,  3 Mar 2025 17:30:04 +0100
+Message-ID: <20250303163014.1128035-12-david@redhat.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250303163014.1128035-1-david@redhat.com>
 References: <20250303163014.1128035-1-david@redhat.com>
@@ -103,54 +104,87 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We're close to the finishing line: let's introduce a new
-CONFIG_NO_PAGE_MAPCOUNT config option where we will incrementally remove
-any dependencies on per-page mapcounts in large folios. Once that's
-done, we'll stop maintaining the per-page mapcounts with this
-config option enabled.
+Let's just use the "large" variant in code where we are sure that we
+have a large folio in our hands: this way we are sure that we don't
+perform any unnecessary "large" checks.
 
-CONFIG_NO_PAGE_MAPCOUNT will be EXPERIMENTAL for now, as we'll have to
-learn about some of the real world impact of some of the implications.
+While at it, convert the VM_BUG_ON_VMA to a VM_WARN_ON_ONCE.
 
-As writing "!CONFIG_NO_PAGE_MAPCOUNT" is really nasty, let's introduce
-a helper config option "CONFIG_PAGE_MAPCOUNT" that expresses the
-negation.
+Maybe in the future there will not be a difference in that regard
+between large and small folios; in that case, unifying the handling again
+will be easy. E.g., folio_large_nr_pages() will simply translate to
+folio_nr_pages() until we replace all instances.
 
+Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/Kconfig | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ mm/rmap.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 4034a0441f650..e4bdcf11d1b86 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -881,8 +881,25 @@ config READ_ONLY_THP_FOR_FS
- 	  support of file THPs will be developed in the next few release
- 	  cycles.
+diff --git a/mm/rmap.c b/mm/rmap.c
+index 08846b7eced60..c9922928616ee 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -1274,7 +1274,7 @@ static __always_inline unsigned int __folio_add_rmap(struct folio *folio,
+ 		if (first) {
+ 			nr = atomic_add_return_relaxed(ENTIRELY_MAPPED, mapped);
+ 			if (likely(nr < ENTIRELY_MAPPED + ENTIRELY_MAPPED)) {
+-				nr_pages = folio_nr_pages(folio);
++				nr_pages = folio_large_nr_pages(folio);
+ 				/*
+ 				 * We only track PMD mappings of PMD-sized
+ 				 * folios separately.
+@@ -1522,14 +1522,11 @@ void folio_add_anon_rmap_pmd(struct folio *folio, struct page *page,
+ void folio_add_new_anon_rmap(struct folio *folio, struct vm_area_struct *vma,
+ 		unsigned long address, rmap_t flags)
+ {
+-	const int nr = folio_nr_pages(folio);
+ 	const bool exclusive = flags & RMAP_EXCLUSIVE;
+-	int nr_pmdmapped = 0;
++	int nr = 1, nr_pmdmapped = 0;
  
-+config NO_PAGE_MAPCOUNT
-+	bool "No per-page mapcount (EXPERIMENTAL)"
-+	help
-+	  Do not maintain per-page mapcounts for pages part of larger
-+	  allocations, such as transparent huge pages.
-+
-+	  When this config option is enabled, some interfaces that relied on
-+	  this information will rely on less-precise per-allocation information
-+	  instead: for example, using the average per-page mapcount in such
-+	  a large allocation instead of the per-page mapcount.
-+
-+	  EXPERIMENTAL because the impact of some changes is still unclear.
-+
- endif # TRANSPARENT_HUGEPAGE
+ 	VM_WARN_ON_FOLIO(folio_test_hugetlb(folio), folio);
+ 	VM_WARN_ON_FOLIO(!exclusive && !folio_test_locked(folio), folio);
+-	VM_BUG_ON_VMA(address < vma->vm_start ||
+-			address + (nr << PAGE_SHIFT) > vma->vm_end, vma);
  
-+# simple helper to make the code a bit easier to read
-+config PAGE_MAPCOUNT
-+	def_bool !NO_PAGE_MAPCOUNT
+ 	/*
+ 	 * VM_DROPPABLE mappings don't swap; instead they're just dropped when
+@@ -1547,6 +1544,7 @@ void folio_add_new_anon_rmap(struct folio *folio, struct vm_area_struct *vma,
+ 	} else if (!folio_test_pmd_mappable(folio)) {
+ 		int i;
+ 
++		nr = folio_large_nr_pages(folio);
+ 		for (i = 0; i < nr; i++) {
+ 			struct page *page = folio_page(folio, i);
+ 
+@@ -1559,6 +1557,7 @@ void folio_add_new_anon_rmap(struct folio *folio, struct vm_area_struct *vma,
+ 		folio_set_large_mapcount(folio, nr, vma);
+ 		atomic_set(&folio->_nr_pages_mapped, nr);
+ 	} else {
++		nr = folio_large_nr_pages(folio);
+ 		/* increment count (starts at -1) */
+ 		atomic_set(&folio->_entire_mapcount, 0);
+ 		folio_set_large_mapcount(folio, 1, vma);
+@@ -1568,6 +1567,9 @@ void folio_add_new_anon_rmap(struct folio *folio, struct vm_area_struct *vma,
+ 		nr_pmdmapped = nr;
+ 	}
+ 
++	VM_WARN_ON_ONCE(address < vma->vm_start ||
++			address + (nr << PAGE_SHIFT) > vma->vm_end);
 +
- #
- # The architecture supports pgtable leaves that is larger than PAGE_SIZE
- #
+ 	__folio_mod_stat(folio, nr, nr_pmdmapped);
+ 	mod_mthp_stat(folio_order(folio), MTHP_STAT_NR_ANON, 1);
+ }
+@@ -1681,7 +1683,7 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
+ 		if (last) {
+ 			nr = atomic_sub_return_relaxed(ENTIRELY_MAPPED, mapped);
+ 			if (likely(nr < ENTIRELY_MAPPED)) {
+-				nr_pages = folio_nr_pages(folio);
++				nr_pages = folio_large_nr_pages(folio);
+ 				if (level == RMAP_LEVEL_PMD)
+ 					nr_pmdmapped = nr_pages;
+ 				nr = nr_pages - (nr & FOLIO_PAGES_MAPPED);
 -- 
 2.48.1
 
