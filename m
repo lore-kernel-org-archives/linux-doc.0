@@ -1,136 +1,144 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E82204081
-	for <linux-doc@vger.kernel.org>; Mon,  3 Mar 2025 14:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FE922331E;
+	Mon,  3 Mar 2025 16:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741012892; cv=none; b=sr/Psd7Hm/PFKXu0amsuukGwP1bfkDhggWjt3ZXXjXCyV+3ON1TGBx9P5VTTr11TDmCaVARdJa75tf5z3G0qKk6joYAzrkc62WPfD7oQtGfktLer62MHksAnhNmYVWRKH34WYm4DmqEYbpGYn1p75L8/Dq+23VTTWmGRi3gEbv4=
+	t=1741017773; cv=none; b=HzVlmDZ6pHWB/6CqNMMJ00GHKLi0k7QrdPCCc5v+hEa8McrikqIZaQqUiqC/nCHuDOUZQnm4saC2F56L5HRBQzq6EBOV70RNnLmmYWWpiWhqXCaUkQqUtK7DhpIm+bkYokkQPDoQIY8YD9F6TgDZHE9slUfanE6UH0+Bh+30els=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741012892; c=relaxed/simple;
-	bh=aZmT+dUE/4t2fCfe4CEiC1nAw0DRflyAxm6MpXTO0ig=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cGvmpgD8P40T1WBRwN4GRjg271SecQ5ly8kAt6+s3EwkwmhmToHeacrFPEwJrGSXX4Vy//pijWQTcJrkBVzzsolICYHlu7Qr8vRokSN3OAL1OfosF3PH4NOhIuxFeUrPVzkI6k3RwbqHI4P0LMea1DYbokvS48b8tYtbPzmLGzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ha3O32tB; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1741017773; c=relaxed/simple;
+	bh=VloWLNuJy+a+QMiYC5t2AH/V4T4fUJVth/jJq4Qzt9o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UEcLUyISfR6jEDQql3lRAKdnBTwvo5pqiBv//ujG45RUzRME/q5JDDKmMhw3eztk9YaFoM6Od5+U7pTzr/T4HvkXxy9HhIm6q8xKiK+D827QTSNlOyIspvq2mdbJLQBJ0CnQLk8IWqHnZLlq//c1pIOE/sZa4Yzh6zibU2sqEiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P1C9o2ia; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ha3O32tB"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4393ee912e1so80095e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Mar 2025 06:41:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741012888; x=1741617688; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=egMLwgX+4g6rb8FbE3IRa+4Vm/5YU6NsfMcpKXEu4kE=;
-        b=ha3O32tByjAP6sUYTd6Da16Z2i8XKcIE/e3hLjZ0bXcRxCdpYyDYHuZw7xpXwOEKiE
-         dSvUwM+kcigXUx7Qq4xhOcafu8hWJSrrXx/DUnGLy2JmCWV4fN95i0cyVERxTFFc1ENW
-         pUWWUlJXRIrgeXzf7W7RFSDnDChlIUwHNNZ3cjxrymW7iN4RE+o6N9sgjyubvsAIYMP+
-         qOk1cE1av7v2tqvyzOQVXerFyheLaZADA5NQpP2JvFFuGivojkqY+560PijqOh0eNjEL
-         m8chdCAHn1efVXKUNUArO3vmtIX22L/b/IQORIXG/5CWTLeGKLrKGsbWO1p8D85fP2+t
-         oLlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741012888; x=1741617688;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=egMLwgX+4g6rb8FbE3IRa+4Vm/5YU6NsfMcpKXEu4kE=;
-        b=JqndRj5RgfWLmSXhmgC9GBjEsWwFpRh6bAcN3WypSGdq6WQ6FNqc/zw4tXBcnLnvSc
-         q0YPL59VJajfRlii0+BO1CwuCjycWv3KlVozgUo123+Zrl2zPCTtpePFaQp9iOSTwllA
-         b7nv9kyZFmp2PW9VdEVKqAMlAYhj8IgGXBRYrFfK34DHxKbd+Y2WhZo/LmQ5Ac+0NMnp
-         jDrX42DaECDCgUm4c4gNNI+WAuO4K/nAE2i3wC1zSTxKDdZTrXIZjCmCBl2r/UusBMOx
-         jhDeIBmLocNNmYKRoQA/z2Vv/tEowyrVh828c7pHeNK+56IsQRA73VlOBwGfDe4MjDTC
-         qMTA==
-X-Forwarded-Encrypted: i=1; AJvYcCW4dl+ba//SBws7y5jC+X8UOwXKJTct/z24p6UXIduqyLPfaSHzoxIpF3x+1SfJyMjqxoi0HOac3c0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxW9EpQ37NWYOpJA/evHtB9aZjz4CuJI5otKme9hUonB2uHvNxk
-	tvvyn1NKZX6ZlcO51lXcb1qXD/aLJfRGHckb0egOSgExv+gtwQADt9u4y6P6jj80+67oi1IC4WM
-	nLw==
-X-Gm-Gg: ASbGncuVdx1DiJoYmUG4PacSlnV1TIohytgGYXQd70fRfGfTYbStddSDx6xn5+HC6DD
-	f1cwaBZHqHoFWmTZmzc80e/jYDEhjJ6mL14FnLN66fKBgv47jzYiW0U8rS1gGuME6QtM6A7DUfe
-	pg9gKVKo5bmrHO/defOOm4MLg8oCwQfi6B0eOR3icsYqWcYnKYhNpG2/UJDIqbivYPJQY5MAAVX
-	HXv4v3ShIO9mPzfontsVUHJU/cNX0+AefHngaIzqo66bzE+FJI7Q7k7ZvQGBZwxRHMS+V07GupY
-	bX7zkQvQXQKG1pBT1Dzhm+8zuc3MmrSBySgGbFV8lmho92OMXX+h3qS34PVfyjicFtDkTDyr+e+
-	proAb
-X-Google-Smtp-Source: AGHT+IHO1Nbn09jkVoFLLqMX4NW+BO4HfXiWVCPB/n7FFGm1eIqk2YrLtsq7xUv891hZ1z+4ZKSjVA==
-X-Received: by 2002:a05:600c:4a19:b0:439:9434:1b6c with SMTP id 5b1f17b1804b1-43baff0940bmr2571725e9.3.1741012888246;
-        Mon, 03 Mar 2025 06:41:28 -0800 (PST)
-Received: from google.com (44.232.78.34.bc.googleusercontent.com. [34.78.232.44])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e4844c2bsm14742014f8f.77.2025.03.03.06.41.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Mar 2025 06:41:27 -0800 (PST)
-Date: Mon, 3 Mar 2025 14:41:23 +0000
-From: Brendan Jackman <jackmanb@google.com>
-To: Ingo Molnar <mingo@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] x86/cpu: Add facility to force-enable CPU caps
- and bugs
-Message-ID: <Z8W_k8a04aSdO0B5@google.com>
-References: <20241220-force-cpu-bug-v2-0-7dc71bce742a@google.com>
- <CA+i-1C2dB94t7nDEd-41MgLeHMYGN2oQJyQE8qnkcx+xYdHfpA@mail.gmail.com>
- <Z8GK10q_ouii0O5F@gmail.com>
- <Z8HkeZq1-Ij6MUZE@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P1C9o2ia"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44E5EC4CED6;
+	Mon,  3 Mar 2025 16:02:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741017772;
+	bh=VloWLNuJy+a+QMiYC5t2AH/V4T4fUJVth/jJq4Qzt9o=;
+	h=From:To:Cc:Subject:Date:From;
+	b=P1C9o2iawqT4rduu7fga8AP5SQKrG7Dm8sgPxPMbfCjQJK20NYWGKFD1Pk3wFPZSr
+	 cAGlI2HmWKxlMF+JLUnRHsO3agzJXu9cAHGRdlJPGCeL4J6le57XcnQdOyoFj2d8Cv
+	 Dk9sj78CCyTpBNcpSue988dENnggywPMpBacGvu9OjBkngYovq2QL9XbZkA70S6Sxe
+	 CohGyL8n8jY4C+NaNr/O4yR9XWJJfzQPPMGqIhHo78wFqPJtasolzBOlFd+CdxGql1
+	 dsOp0mRYny4LVhTFGr9a4sE3HWMT7Yt0ByodRxhp6FjaTa8zR6fqlPYv+f9buKHMWW
+	 t+eyBjgi2wxFg==
+From: Maxime Ripard <mripard@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-media@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v3] Documentation: dma-buf: heaps: Add heap name definitions
+Date: Mon,  3 Mar 2025 17:02:49 +0100
+Message-ID: <20250303160249.118549-1-mripard@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z8HkeZq1-Ij6MUZE@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 28, 2025 at 05:29:45PM +0100, Ingo Molnar wrote:
-> * Ingo Molnar <mingo@kernel.org> wrote:
-> > Integration with clearcpuid= is so much more generic than the original 
-> > variant and reuses a lot of that logic, so that's a big plus.
-> > 
-> > I've applied it to the x86 tree under the tip:x86/cpu branch and if 
-> > everything goes fine in testing it should hit v6.15 in a couple of 
-> > weeks.
+Following a recent discussion at last Plumbers, John Stultz, Sumit
+Sewal, TJ Mercier and I came to an agreement that we should document
+what the dma-buf heaps names are expected to be, and what the buffers
+attributes you'll get should be documented.
 
-It seems you applied this version (v2) while there was actually a
-review from Boris on this and it led to v3:
+Let's create that doc to make sure those attributes and names are
+guaranteed going forward.
 
-https://lore.kernel.org/linux-kernel/20250218-force-cpu-bug-v3-0-da3df43d1936@google.com/
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-This is weird, I can't see Boris' comments on Lore, even though they
-are Cc'd to linux-kernel@vger.kernel.org. I think there was some
-downtime on Lore recently, maybe they got lost?
+---
 
-> > One additional thing - which I'd suggest we make a 4th patch, because 
-> > it affects the existing clearcpuid= behavior - is to extend 
-> > set/clearcpuid= with a bit more boot time verbosity, right now it 
-> > taints the kernel:
-> > 
-> >                                 /* empty-string, i.e., ""-defined feature flags */
-> >                                 if (!x86_cap_flags[bit])
-> >                                         pr_cont(" " X86_CAP_FMT_NUM, x86_cap_flag_num(bit));
-> >                                 else
-> >                                         pr_cont(" " X86_CAP_FMT, x86_cap_flag(bit));
-> > 
-> >                                 if (set)
-> >                                         setup_force_cpu_cap(bit);
-> >                                 else
-> >                                         setup_clear_cpu_cap(bit);
-> >                                 taint++;
-> > 
-> > 
-> > I'd suggest we do what PeterZ suggested back in December: in addition 
-> > to the tainting, also emit an informative pr_warn() for every CPU 
-> > feature bit enabled/disabled over what was present, and maybe make a 
-> > bit of a distinction between 'feature' and 'bug' feature bits.
-> 
-> Ie. what I mean is that at minimum upgrade the output from pr_info() to 
-> pr_warn() - but maybe also make it clear in the output that the kernel 
-> is tainted and things may break as a result of modifying the feature 
-> bits.
+Changes from v2:
+  - Remove exhaustive list of names for platforms, and just mention the
+    alternatives.
+  - Add MAINTAINERS entry
 
-Anyway, yep, I will send some upgrades to the logging, plus any diff
-that got lost from v2 to v3 as a new series.
+Changes from v1:
+  - Add the mention that the cma / reserved heap is optional.
+---
+ Documentation/userspace-api/dma-buf-heaps.rst | 25 +++++++++++++++++++
+ Documentation/userspace-api/index.rst         |  1 +
+ MAINTAINERS                                   |  1 +
+ 3 files changed, 27 insertions(+)
+ create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
 
-Thanks for taking a look!
+diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
+new file mode 100644
+index 000000000000..5b92d69646f6
+--- /dev/null
++++ b/Documentation/userspace-api/dma-buf-heaps.rst
+@@ -0,0 +1,25 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==============================
++Allocating dma-buf using heaps
++==============================
++
++Dma-buf Heaps are a way for userspace to allocate dma-buf objects. They are
++typically used to allocate buffers from a specific allocation pool, or to share
++buffers across frameworks.
++
++Heaps
++=====
++
++A heap represent a specific allocator. The Linux kernel currently supports the
++following heaps:
++
++ - The ``system`` heap allocates virtually contiguous, cacheable, buffers
++
++ - The ``cma`` heap allocates physically contiguous, cacheable,
++   buffers. Only present if a CMA region is present. Such a region is
++   usually created either through the kernel commandline through the
++   `cma` parameter, a memory region Device-Tree node with the
++   `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
++   `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
++   might be called ``reserved``, ``linux,cma``, or ``default-pool``.
+diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+index b1395d94b3fd..9cbe4390c872 100644
+--- a/Documentation/userspace-api/index.rst
++++ b/Documentation/userspace-api/index.rst
+@@ -42,10 +42,11 @@ Devices and I/O
+ 
+ .. toctree::
+    :maxdepth: 1
+ 
+    accelerators/ocxl
++   dma-buf-heaps
+    dma-buf-alloc-exchange
+    gpio/index
+    iommufd
+    media/index
+    dcdbas
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8e0736dc2ee0..ef0364e65aef 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6911,10 +6911,11 @@ R:	T.J. Mercier <tjmercier@google.com>
+ L:	linux-media@vger.kernel.org
+ L:	dri-devel@lists.freedesktop.org
+ L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
+ S:	Maintained
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
++F:	Documentation/userspace-api/dma-buf-heaps.rst
+ F:	drivers/dma-buf/dma-heap.c
+ F:	drivers/dma-buf/heaps/*
+ F:	include/linux/dma-heap.h
+ F:	include/uapi/linux/dma-heap.h
+ F:	tools/testing/selftests/dmabuf-heaps/
+-- 
+2.48.1
+
