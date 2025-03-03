@@ -1,33 +1,33 @@
-Received: from smtp28.bhosted.nl (smtp28.bhosted.nl [94.124.121.40])
+Received: from smtp15.bhosted.nl (smtp15.bhosted.nl [94.124.121.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60E91F30D1
-	for <linux-doc@vger.kernel.org>; Mon,  3 Mar 2025 12:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA8520FAA1
+	for <linux-doc@vger.kernel.org>; Mon,  3 Mar 2025 13:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741006483; cv=none; b=L/cGPOJ6rmLYLFfRsfNkgc5sLgnl5EWEJwgI4sIOdyBUrtcrXXbNx0pkWTMTB3Si3SaqBdYdErraez64ToIFTnPNhUDgWw0jybVe617PJg++7QPvWn4MuTOdU0AOA3jwGhyObKBppRlNKLQlI9/qGSvfI9X+uOmz6K79oi5WwhU=
+	t=1741007923; cv=none; b=fKuBsotT/r/oTKUFj/dRXPtxU+rpDz1sXecsgbthSSum4WnvtaweEnsiRiNBKsJ7MT4jTCi9LGYyxnKRLhoj3halOojX/8Qnk+hopDxobi+qd6rJeim4gsdbOxOP8Pkb/nQ1obZe0V200wcs+TTJB+6P5L1xEXI/imZXnNzY2GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741006483; c=relaxed/simple;
-	bh=rlTejGww3GQcdaCE0lGdR0xVCG5KcxUJXrQx3paY4gI=;
+	s=arc-20240116; t=1741007923; c=relaxed/simple;
+	bh=AMDQ9eFx0aMl37aNjAdud2rQll+8S9hW7w2yT459u9w=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=roivXjO8Cg+xD0lvJVTr4BHIH6aEqKGOnf41//tHu25pm/HfVYVqjuSgwvd2/jDnhkhQ8JelvhvYlbIFn1jpSe5Mtf6wGGkqR4IEUSz6KDh3LTCF5uKrgVPiDCIrcGj/5w/ygM4ECp0P3v+mmXmkK7mROMiFyIvuWH60CAhyFKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl; spf=pass smtp.mailfrom=protonic.nl; dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b=RD38Rfrb; arc=none smtp.client-ip=94.124.121.40
+	 MIME-Version:Content-Type; b=Q7ywlUY++JYkYwDOiJ6lnVZaFRwVQK5h6Mr/TGzRn0DBWxwKy3EBYMmQiYtcQBfyEgANCtFB/ZfJ7SQOJZ0mG6+WkiQ1C1BOiS7uMsOLYAWKIW/t+sfjbkOULDLcVxXSjWkFd+l4D85juZwALB3+IfKbDBCyNQLXKVRqqWczII4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl; spf=pass smtp.mailfrom=protonic.nl; dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b=V2VWHjdH; arc=none smtp.client-ip=94.124.121.26
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonic.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b="RD38Rfrb"
+	dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b="V2VWHjdH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=protonic.nl; s=202111;
 	h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
 	 message-id:subject:cc:to:from:date:from;
-	bh=HYNOahwtKoOEdFJgHijQNkEchw/+KmIF5XNlrs66Y0A=;
-	b=RD38RfrbMLHFIRCg9/+3j9jeYTiY6iP9DmgwPclo0hnp1mUtSmTcuyWMZQkjJMu1y4MbeSUCeBibS
-	 L86np1SKnar/GHxF/D6QRjr3p7G1TKOaci/QnMtR39CFDCHxft0KsFqCJ1tU0XjBZMyhaTSrf3xC51
-	 Axjrotmo9EjaYWxAgTPRWKRGV1b/36ArOUURfTZ9OIMPqHTNC7JqNijCVZgOgNCTPIAupWCunpT4o4
-	 j0Is8xKoIIJjrNZiX6JjtBPxeVtwdA3kHT5JDZV32Ra7a3wq/AmyZVvdibQ5HMEZ2k1dTuxGNdbmxy
-	 h36piBLw6uR7/h8Mtr7k9DPE3SDalmw==
-X-MSG-ID: a940bcd0-f82e-11ef-b5ca-0050568164d1
-Date: Mon, 3 Mar 2025 13:54:35 +0100
+	bh=07jHBQ0Ocr20eMkBHU7wCv3Kb+u8M2gSl1jHl4Krjyw=;
+	b=V2VWHjdH50wFOAzqiqTCz4ucfQSAqCESzCrmKnlGDokUdrXyVCjY95wGlKxQEqab88IbyapJ8HitR
+	 HhPCkTVbdTVmITlaPVwF3DF45rsjZ8KKS9QR1QgL9Z9ZJ5PpeqMyb4Z4Br1b1QGHaU9XuSjwQA5XjL
+	 A9EK9KrVHqZcBBGpkCbhwHNy2zuIXnCvY+Yqh6IJUonUEaNniEQT+LOJaiv8qIBYHv/lxzT4aRN+2w
+	 0Ycn1oeGVIj2B/QPxKjK8H50uESCFnozuiYgwKdA25We/6ZDtA7Zez1CmVi/IbJCfJ/OrJ8aJ40Ipn
+	 ZWeXSYlWcX+QRqZW16a2zXBCEZZ+o4g==
+X-MSG-ID: 04a26b70-f832-11ef-a39b-00505681446f
+Date: Mon, 3 Mar 2025 14:18:37 +0100
 From: David Jander <david@protonic.nl>
 To: David Lechner <dlechner@baylibre.com>
 Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, Jonathan Corbet
@@ -36,13 +36,14 @@ Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, Jonathan Corbet
  devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Nuno Sa
  <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, Oleksij Rempel
  <o.rempel@pengutronix.de>
-Subject: Re: [RFC PATCH 7/7] dt-bindings: motion: Add motion-simple-pwm
- bindings
-Message-ID: <20250303135435.509c230f@erd003.prtnl>
-In-Reply-To: <8db96db5-c258-4c42-a70a-56fdf24ecdc6@baylibre.com>
+Subject: Re: [RFC PATCH 6/7] dt-bindings: motion: Add adi,tmc5240 bindings
+Message-ID: <20250303141837.782e57f7@erd003.prtnl>
+In-Reply-To: <CAMknhBFoRoaXWBL-vDnDrepqw_KJ-VrYeOoGJfjz8q=wDNM6xA@mail.gmail.com>
 References: <20250227162823.3585810-1-david@protonic.nl>
-	<20250227162823.3585810-8-david@protonic.nl>
-	<8db96db5-c258-4c42-a70a-56fdf24ecdc6@baylibre.com>
+	<20250227162823.3585810-7-david@protonic.nl>
+	<7b2a8d71-9d83-4d40-903b-ba7ef1c686f3@baylibre.com>
+	<20250303122253.26fec335@erd003.prtnl>
+	<CAMknhBFoRoaXWBL-vDnDrepqw_KJ-VrYeOoGJfjz8q=wDNM6xA@mail.gmail.com>
 Organization: Protonic Holland
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
@@ -51,221 +52,258 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
 
-Hi David,
+Dear David,
 
-On Fri, 28 Feb 2025 16:41:29 -0600
+On Mon, 3 Mar 2025 13:28:35 +0100
 David Lechner <dlechner@baylibre.com> wrote:
 
-> On 2/27/25 10:28 AM, David Jander wrote:
-> > Add device-tree bindings for simple Linux Motion Control devices that
-> > are based on 1 or 2 PWM outputs.
-> > 
-> > Signed-off-by: David Jander <david@protonic.nl>
-> > ---
-> >  .../bindings/motion/motion-simple-pwm.yaml    | 55 +++++++++++++++++++
-> >  1 file changed, 55 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/motion/motion-simple-pwm.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/motion/motion-simple-pwm.yaml b/Documentation/devicetree/bindings/motion/motion-simple-pwm.yaml
-> > new file mode 100644
-> > index 000000000000..409e3aef6f3f
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/motion/motion-simple-pwm.yaml
-> > @@ -0,0 +1,55 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/motion/motion-simple-pwm.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Simple PWM based motor controller  
-> 
-> I think it has been said many times before, in DT, there is no such thing as
-> a simple device! It will be much more future-proof if we write bindings for
-> actual individual motor controller chips than try to generalize all in a single
-> binding. The chip you gave as an example is far from the simplest H-bridge I
-> have seen!
+> (Sorry if you get this twice. I don't have my regular computer today
+> and didn't realize I was sending HTML the first time. Resending in
+> plain text so the lists pick it up.)
+>=20
+> On Mon, Mar 3, 2025 at 12:22=E2=80=AFPM David Jander <david@protonic.nl> =
+wrote:
+> >
+> >
+> > Dear David,
+> >
+> > On Fri, 28 Feb 2025 16:38:51 -0600
+> > David Lechner <dlechner@baylibre.com> wrote:
+> > =20
+> > > On 2/27/25 10:28 AM, David Jander wrote: =20
+> > > > Add device-tree bindings for Analog Devices TMC5240 stepper control=
+lers.
+> > > >
+> > > > Signed-off-by: David Jander <david@protonic.nl>
+> > > > ---
+> > > >  .../bindings/motion/adi,tmc5240.yaml          | 60 +++++++++++++++=
+++++
+> > > >  1 file changed, 60 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/motion/adi,tm=
+c5240.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/motion/adi,tmc5240.y=
+aml b/Documentation/devicetree/bindings/motion/adi,tmc5240.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..3364f9dfccb1
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/motion/adi,tmc5240.yaml
+> > > > @@ -0,0 +1,60 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/motion/adi,tmc5240.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Analog Devices TMC5240 Stepper Motor controller
+> > > > +
+> > > > +maintainers:
+> > > > +  - David Jander <david@protonic>
+> > > > +
+> > > > +description: |
+> > > > +   Stepper motor controller with motion engine and SPI interface. =
+=20
+> > >
+> > > Please include a link to the datasheet. =20
+> >
+> > Will do.
+> > =20
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    enum:
+> > > > +      - adi,tmc5240
+> > > > +
+> > > > +  reg:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  interrupts:
+> > > > +    maxItems: 1 =20
+> > >
+> > > I assume that this is the overvoltage output (OV pin). Would be nice =
+to have
+> > > a description here saying that. There are also NAO and DIAG0/1 output=
+ pins, so
+> > > it's a bit ambiguous otherwise. =20
+> >
+> > This is the DIAG0 output pin which on this chip has a dual function as =
+either
+> > a STEP output or an interrupt output. The pin name is a bit misleading,=
+ but it
+> > is the "interrupt" function that is meant here. The datasheet documents=
+ all
+> > the different events that can trigger this interrupt.
+> > I will add a description to clarify this.
+> > =20
+>=20
+> If it makes sense that other pins could possibly ever be connected to
+> interrupts then we can add those and also add interrupt-names (but
+> only if there is more than one possible interrupt).
 
-To clarify, my intention is not to generalize all existing DC motor controllers
-into one driver or dt-binding. I mentioned the drv8873, but only as an example.
-Actually my plan is to make a separate driver and separate bindings for the
-drv8873, but I haven't had time for that yet, and it would be too much for the
-first version of LMC.
+AFAIK, only DIAG1 would potentially make sense to be connected to an
+interrupt. It can be programmed to go low when the motor position matches t=
+he
+contents of the X_COMPARE/X_COMPARE_REPEAT register setting.
 
-There are a lot of simple "dumb" devices though, that have integrated or even
-discrete H-bridges with fixed dead-time, that can't do more than just 2 PWM
-signals to control left-/right-speed. There are also lots of places where
-people connect a DC motor to just a simple power-MOSFET. All of these cases can
-be handled by this driver.
+I will add that one if you agree. It will not be mandatory of course.
 
-Maybe the name "simple-pwm" isn't adequate. Should we name it "pwm-motor" or
-something liket that instead?
+In any case, if that pin was connected to an interrupt pin right now, it co=
+uld
+already be used as an IIO trigger for example. Just not (yet) via this driv=
+er.
 
-The intend of motion/simple-pwm.c is to be the analog of something like
-these other "simple" or "generic" drivers and corresponding dt-bindings, for
-example:
+>[...]
+> > The resistor connected to the IREF pin (Rref) OTOH does have an implica=
+tion to
+> > the software, as it sets the full-range current of the output stage.
+> >
+> > How should we specify that? Is it adequate to add an optional DT proper=
+ty
+> > "rref" or "rref-ohm" with an int32 value in Ohm? The default value if
+> > unspecified is 12000 Ohm. =20
+>=20
+> It looks like there are a few standardized properties, like
+> sense-resistor-ohms if that fits the use case. Otherwise, an
+> vendor-specific ti,rref-ohms would work. FYI, you can find the
+> preferred units at [1].
+>=20
+> [1]: https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schem=
+as/property-units.yaml
 
-gpio_keys.c:
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/keyboard/gpio_keys.c
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/input/gpio-keys.yaml
+Ah, thanks! This is helpful.
 
-gpio-regulator.c:
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/regulator/gpio-regulator.c
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/regulator/gpio-regulator.yaml
+Will use this for ti,rref-ohms. I guess in this case that would be easier to
+understand than "sense-resistor-ohms", which is also okay, but would require
+reading the description to know what exactly is meant in this context.
 
-pwm-regulator.c:
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/regulator/pwm-regulator.c
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/regulator/pwm-regulator.yaml
+> > > And if there are any pins would make sense to connect to a gpio, we c=
+an add
+> > > those even if the driver doesn't use it currently.
+> > > =20
+> > > > +  clocks:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +required:
+> > > > +  - compatible
+> > > > +  - reg
+> > > > +  - interrupts
+> > > > +  - clocks
+> > > > +
+> > > > +allOf:
+> > > > +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > > > +  - $ref: /schemas/motion/common.yaml# =20
+> > >
+> > > If we need to know about what is connected to the output of a motor c=
+ontroller
+> > > I would expect it to be done with child node for each output. That wa=
+y each
+> > > output can be unique, if needed. Basically, similar to iio/adc.yaml i=
+s used to
+> > > provide common properties for channel@ child nodes on iio devices. =20
+> >
+> > This controller chip only has one single output for one stepper motor (4
+> > wires). While technically you could connect something else to those 4 w=
+ires, I
+> > don't think it is the scope of LMC to support that. The chip itself isn=
+'t
+> > designed for that purpose and it would clearly go far beyond the intend=
+ed
+> > purpose of this device.
+> >
+> > That being said, your suggestion of supporting child nodes may actually=
+ be a
+> > good idea. Right now, we specify the type of motor (basically nominal- =
+and hold
+> > current settings) in user-space and set the IRUN/IHOLD parameters from
+> > user-space via the sysfs attributes interface. It might make sense to h=
+ave a DT
+> > child node to specify this, although in our current application this is=
+ not
+> > very practical, since there are many motor controllers on one board, an=
+d it is
+> > configurable in software (runtime) which motor is connected to which ou=
+tput.
+> >
+> > But I can imagine a situation where it may be fixed and thus can be des=
+cribed
+> > in the DT of a board.
+> >
+> > Then again I don't know if it would be over-complicating things with so=
+mething
+> > like this:
+> >
+> >         motor-controller@0 {
+> >                 ...
+> >                 motor@0 {
+> >                         compatible =3D "nanotec,st4118s1006";
+> >                         irun-ma =3D <1800>;
+> >                         ihold-ma =3D <270>;
+> >                 };
+> >         };
+> >
+> > where we'd possibly have a stepper-motors.c file with a lot of structs =
+and
+> > matching tables for the different motor types.... sounds like overkill =
+to me,
+> > but maybe not? =20
+>=20
+> A compatible for motors seems too much. I was just thinking along the
+> lines that 1) if we need to so some scaling or something that depends
+> on a motor constant, then it would make sense to put those constants
+> in the DT and 2) if there is a motor controller with more than one
+> output that could be connected to two or more different sizes of
+> motors with different constants, then we either need child nodes or an
+> array to be able to enter the different constants. Either one would
+> work. So maybe simpler to just use an array instead of child nodes now
+> that I'm thinking about it more.
 
-pwm_bl.c:
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/video/backlight/pwm_bl.c
-https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+Well, in the case of the TMC5240 there isn't much more than a single motor
+with possibly some fixed setting of irun/ihold in some cases, but like I sa=
+id,
+in our case it is run-time configurable, so not something fixed to the
+hardware-description. Apart from that, there are the speed- and acceleratio=
+n-
+conversion constants, which per default are the constants stated in the
+datasheet. In some rare cases one might want to overrule them, but that can
+already be done.
 
-etc...
+LMC does als support multi-channel controllers, and in that case I intend to
+make use of child nodes for the different channels, to be able to specify
+those parameters per motor.
 
-Although the driver actually is simple, and intended for simple hardware.
-The fact that it can even be used with more complex chips, like the drv8873, if
-the requirements are simple enough, and as long as there is no dedicated
-driver yet, doesn't change that fact.
+So maybe just leave it as it currently is for the tmc5240?
 
-> > +maintainers:
-> > +  - David Jander <david@protonic>
-> > +
-> > +description: |
-> > +   Simple motor control device based on 1 or 2 PWM outputs
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - motion-simple-pwm  
-> 
-> This should be e.g. ti,drv8873-q1. This device has much more pins that is given
-> in these bindings.
-
-Like I said, this driver isn't intended for the drv8873. It was merely an
-example where as a matter of fact this driver could be used for the drv8873,
-but that's not the intention. Sorry for not being clear. :-)
-
-> If we find more devices that have similar functionality/pinout we can add them
-> to the same bindings, but we will likely find that trying to cram all H-bridges
-> into a single binding is too much.
-> 
-> For starters, every H-bridge chip is going to have one or more power supplies.
-> ti,drv8873-q1 would need dvdd-supply and vm-supply properties for the DVDD and
-> VM pins.
-> 
-> Many have inputs for disabling the chip, e.g. for power management. And some
-> have outputs to indicate faults.
-> 
-> The TI DRV8873 in particular has an nSLEEP, DISABLE, nOL, SR, MODE and nITRIP
-> inputs in addition to the IN1 and IN2 that would be connected to the PWMs.
-> So we would have properties for all of these to either say how the pin is
-> hardwired or a *-gpios property if it needs to be controlled by the driver.
-
-Yes, sure. These will all be in the dt-binding for the drv8873. Our board
-actually uses the drv8873s, which has an SPI interface, so that will of course
-also be part of the bindings and of the driver.
-
-> The fault output would generally be an interrupts property.
-
-Ack.
-
-> The IPROPI1 and IPROPI2 output pins look like they would be connected to an
-> ADC, so it would make sense to have an io-channels property show that
-> connection.
-
-Ack. In fact, our board has these connected to the internal ADC of the SoC.
-
-> This chip also has a SPI interface. So it needs to have the possibility of
-> being a SPI peripheral node.
-
-Sure, like I said above.
-
-> And even if the Linux driver doesn't implement all of these features, we still
-> want the DT bindings to be as complete as possible, so we shouldn't be leaving
-> these out, at least for the trivial ones where there is an obvious correct
-> binding (which I think is the case for most of what I suggested).
-
-Completely agree. Will be done, but not for this first version. It is simply
-too much to review, I'm afraid. It will be a separate binding, in
-motion/ti,drv8873.yaml (not included in this version).
-
-> > +
-> > +  pwms:
-> > +    maxItems: 2
-> > +
-> > +  pwm-names:
-> > +    maxItems: 2  
-> 
-> Specifying what is wired up to the IN pins can be tricky. Using two PWMs is
-> the most sensible. But I've also seen devices where there was a single PWM
-> gated by two gpios. And for very basic H-bridges, there might not even be a
-> PWM. Just gpios to turn it on or off.
-
-That would be something for a future motion/gpio-motor.yaml, I guess.
-
-> > +
-> > +  motion,pwm-inverted:
-> > +    $ref: /schemas/types.yaml#/definitions/flag
-> > +    description:
-> > +      If present, this flag indicates that the PWM signal should be inverted.
-> > +      The duty-cycle will be scaled from 100% down to 0% instead 0% to 100%.
-> > +
-> > +required:
-> > +  - compatible
-> > +  - pwms
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/motion/common.yaml#
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    // This example shows how to use the TI DRV8873 or similar motor controllers
-> > +    // with this driver
-> > +    motion-simple-pwm0 {
-> > +      compatible = "motion-simple-pwm";
-> > +      pwms = <&hpdcm0_pwm 0 50000 0>,
-> > +             <&hpdcm0_pwm 1 50000 0>;
-> > +      pwm-names = "left", "right";
-> > +      motion,pwm-inverted;  
-> 
-> 
-> > +      motion,speed-conv-mul = <3600>;
-> > +      motion,speed-conv-div = <100000>;
-> > +      motion,acceleration-conv-mul = <3600>;
-> > +      motion,acceleration-conv-div = <100000>;  
-> 
-> This H-bridge controller doesn't have any kind of speed sensors that I can see
-> so these properties don't make sense to me. The H-bridge can control the voltage
-> sent to the motor, but there are more variables involved to convert voltage to
-> speed. It isn't a constant.
-
-Sure. In the most basic case, when there is no feedback signal for speed (like
-an encoder for example), the best thing you can do is assume an (imperfect)
-relation between duty-cycle and motor speed. That's what these factors are for.
-
-You could have a reduction gearbox even, so specifying some parameters for the
-user-space software to work with seems sensible. If you leave them out, the
-default values are used, which are all 1's, basically making the "speed" value
-equal to the (scaled) duty-cycle of the PWMs.
-
-The driver scales duty-cycle to 1/1000th of a percent, which seemed a sensible
-resolution to use and be intuitive enough, since due to the lack of floating
-point numbers in the kernel, it is common practice to scale values by a factor
-of 1000 to enhance resolution. If you prefer, we could also use
-parts-per-million, or ppm (1/1,000,000).
-
-With this in mind, setting the PWM outputs to 100% duty-cycle
-(0% if inverted), would correspond to setting a motor speed of 3600 in the
-case of the example scaling values given in the bindings.
+> > > > +
+> > > > +unevaluatedProperties: false
+> > > > +
+> > > > +examples:
+> > > > +  - |
+> > > > +    spi {
+> > > > +        #address-cells =3D <1>;
+> > > > +        #size-cells =3D <0>;
+> > > > +
+> > > > +        motor@0 { =20
+> > >
+> > > motor-controller@ or actuator-controller@
+> > >
+> > > The chip is the controller/driver, it is not a motor. =20
+> >
+> > Make sense. Will change this.
+> > =20
+> > > > +            compatible =3D "adi,tmc5240";
+> > > > +            reg =3D <0>;
+> > > > +            interrupts-extended =3D <&gpiok 7 0>;
+> > > > +            clocks =3D <&clock_tmc5240>;
+> > > > +            enable-supply =3D <&stpsleepn>;
+> > > > +            spi-max-frequency =3D <1000000>;
+> > > > +        };
+> > > > +    }; =20
 
 Best regards,
 
--- 
+--=20
 David Jander
