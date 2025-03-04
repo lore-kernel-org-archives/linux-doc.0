@@ -1,46 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB86C27C865;
-	Tue,  4 Mar 2025 16:38:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775232857F5;
+	Tue,  4 Mar 2025 16:40:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741106307; cv=none; b=YykGdmu65V9A/O5Y0hEReQLbxJ8Idgji3UaGNaWmk+BrH4opjpT5UPzNBCFWVjAk44nEtY4uyM2izw95OHiq9lgrl7tphPZ2+8DvQqakWX0Cr/cbTsM9AqSOQSql8kfcKJv/czwQP0F5gf1QS/eyGiJjnq1Ek2jSdfP5pLGbqpY=
+	t=1741106450; cv=none; b=a0XipNHicHKiuk+ST1nCvSRHlgqT3UHj8PswHZf8552z5/E0nFL3wQoeqy+Uhkk21pNzUaFJpPOC4Sgmx7LiTr8xiBte2WK7nr/5UHfUWiKQq39LMd9g8TlupPQhMXTvDEmgpxxpIzzxaXIGG/YFa+pqEluassEOY2PcRCpWUM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741106307; c=relaxed/simple;
-	bh=0NFhIHUSIXLQ1IERnVrz79OxkFLXeS/HqU9Qitji2q0=;
+	s=arc-20240116; t=1741106450; c=relaxed/simple;
+	bh=RsNPYWFwHjTlm1NWDwO6UoTqu0ODn/vHOK9DCu5N0Ck=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rIhkXjR+V3M2/kQctT2/1T0DCyVUsrQpd/S8iewBnRdB6CAkzyziec6p3MtbcdL6s65RScCxlKmzFvRKnRd5EYPDfvd/Hi3MUb9RmLJlZ7O/2PCFCi0+2+M/odH1BNDVgnk+wLv9FTDAtJdIICA7kR/TvvpZtG9iiyg3k50DTTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CqpFpRab; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=oDdyZwizOrWXmucB8bVUWPIGFX9cg+W2glT0ocbq6bOoFEGpMCPlax3bCPoItlAXjhUIYU2Q1abN1WtLSkGUFSnVkRYkyFF9QGARoaggmk5JyEJ8YyCEm18pXKRIbdcj05SsMBWVoK5Odn+rfgFxhT/dB6WoIQn+E7C3kkryMNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Aicu2jYL; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CqpFpRab"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DF3484105F
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Aicu2jYL"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8674C41065
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1741106305; bh=GNXSsU+nJrWFy0zOEQmbq0fVDqKBxRTGtxEH/aS4AaA=;
+	t=1741106447; bh=lAoWBHoBJyn4sQVBc23B2+fS0Hrl37i8VnRYxHDo7+o=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CqpFpRabFcZkVlHkdXF5u0TnXe5vmPQDD5+hgy/Ut8ryHvW2EFjp8PbrVuGfAAg8f
-	 JFhAOCqoHadLBKNSfX7xKNQAHQC0Il2Hqw96j2IBTwG/KAwYtI3hIBbsZsZSxk65S8
-	 actAD2/JcXNLiulR8WtVK+Qu9gKQ15cR3TXAy4rWJ2rVst8/v96ZFsGzpz0JO+SKQN
-	 B/LuliWECXn0y8Q/bKt50TGrUztHAvnC2T89LRRhYPRq0pXo+mgjnBOw+jKKF+13ON
-	 NhHI/LMZsiyxFFxuEOY+Y2KWdyh5pKhlGSFFl0MfCHbtb6Rc6gtNAw0U1v5kddpuJZ
-	 SS7Ul0z4311Mw==
+	b=Aicu2jYL0KqjdC8O/g/aeUouU1rGJBWKb+9FqIoZLODmnmYqPodpjIVSVSnOsWc5L
+	 PhoKpDuggxhVkxmCW4sb7dG9kogH0IIeXBUO+PZM63sdHTDlroQCWJWAO1aEAjaecP
+	 9eQ00MRTZuBDGSBs1KCjHcgKKMpwpSs1aHuQ6RvgK4spD3DLSVxJKi/+5jboabVZhp
+	 o04UbPO0MYBwjrI5QCITvPeMWe03E2RxooH7PQIgsRboXRyR7fhBsDHYklEz02Oseu
+	 rXhYFWUaXPml378YIavV1+Ziz46FdvptXSkoH7rbN7hSwSBkoQbX+osgxNXhj9VKAc
+	 4ZATCoRmTP2tA==
 Received: from localhost (unknown [73.243.92.182])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id DF3484105F;
-	Tue,  4 Mar 2025 16:38:24 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8674C41065;
+	Tue,  4 Mar 2025 16:40:47 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: gshahrouzi@gmail.com, linux-kernel@vger.kernel.org
-Cc: trivial@kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Docs/arch/arm64: Fix spelling in amu.rst
-In-Reply-To: <67bd05b5.c80a0220.205997.19df@mx.google.com>
-References: <67bd05b5.c80a0220.205997.19df@mx.google.com>
-Date: Tue, 04 Mar 2025 09:38:23 -0700
-Message-ID: <87cyeweoow.fsf@trenco.lwn.net>
+To: Suchit Karunakaran <suchitkarunakaran@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, Suchit Karunakaran
+ <suchitkarunakaran@gmail.com>
+Subject: Re: [PATCH] docs: debugfs: fix spelling of "failure"
+In-Reply-To: <20250220171903.11321-1-suchitkarunakaran@gmail.com>
+References: <20250220171903.11321-1-suchitkarunakaran@gmail.com>
+Date: Tue, 04 Mar 2025 09:40:46 -0700
+Message-ID: <87a5a0eokx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,32 +50,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-gshahrouzi@gmail.com writes:
+Suchit Karunakaran <suchitkarunakaran@gmail.com> writes:
 
->>From 748db76c8e9f6e5906be0033dcdec9bb5749b303 Mon Sep 17 00:00:00 2001
-> From: Gabriel <gshahrouzi@gmail.com>
-> Date: Mon, 24 Feb 2025 18:09:26 -0500
-> Subject: [PATCH] Docs/arch/arm64: Fix spelling in amu.rst
+> Fix a typo in debugfs documentation where "failure" was misspelled 
+> as "failuer".
 >
-> Change though to through.
->
-> Signed-off-by: Gabriel <gshahrouzi@gmail.com>
+> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
 > ---
->  Documentation/arch/arm64/amu.rst | 2 +-
+>  Documentation/filesystems/debugfs.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/arch/arm64/amu.rst b/Documentation/arch/arm64/amu.rst
-> index 01f2de2b0450..ac1b3f0e211d 100644
-> --- a/Documentation/arch/arm64/amu.rst
-> +++ b/Documentation/arch/arm64/amu.rst
-> @@ -80,7 +80,7 @@ bypass the setting of AMUSERENR_EL0 to trap accesses from EL0 (userspace) to
->  EL1 (kernel). Therefore, firmware should still ensure accesses to AMU registers
->  are not trapped in EL2/EL3.
+> diff --git a/Documentation/filesystems/debugfs.rst b/Documentation/filesystems/debugfs.rst
+> index f7f977ffbf8d..610f718ef8b5 100644
+> --- a/Documentation/filesystems/debugfs.rst
+> +++ b/Documentation/filesystems/debugfs.rst
+> @@ -220,7 +220,7 @@ There are a couple of other directory-oriented helper functions::
 >  
-> -The fixed counters of AMUv1 are accessible though the following system
-> +The fixed counters of AMUv1 are accessible through the following system
->  register definitions:
+>  A call to debugfs_change_name() will give a new name to an existing debugfs
+>  file, always in the same directory.  The new_name must not exist prior
+> -to the call; the return value is 0 on success and -E... on failuer.
+> +to the call; the return value is 0 on success and -E... on failure.
+>  Symbolic links can be created with debugfs_create_symlink().
 
-Applied, thanks.
+This was already fixed (along with several other similar mistakes) in
+early February.
+
+Thanks,
 
 jon
