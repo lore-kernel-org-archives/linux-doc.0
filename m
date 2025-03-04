@@ -1,178 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBEB1F55ED;
-	Tue,  4 Mar 2025 08:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0591F55FA
+	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 08:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741075495; cv=none; b=Kx5wzJ1mcOauMiMZUaCHeo0yYVuopk6HNlV8IdTtWLH8eonHvIEtZEQLjKnkSpoB6yc/Ibfs/RKG/URdW2wq+8si8FOePDBq9pxlOau+SIs0uhMGtSen3VpuFiytmiM/atHQglbjQSpnpNerK9V4CVT+IRv01157h6WlncjCniA=
+	t=1741076583; cv=none; b=E4pbAE/+qdMe9GjDsIfI1RP6hGmveGVYnRUpVFDrk49ALvC8DwJsIO+uUjGiSZ37eqb4rZwKTB2nZQ6ptrY86032u8orI9RzvrVumvsDJX8KWIYln2zdc/ALTOsdVNn8Q8e/IL2dQbpubXZR5087tCjTvchvkdJ4XgGQTKhxy0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741075495; c=relaxed/simple;
-	bh=vIjLPcUzgSKENXMFoyq8MSR3rL6XCeonIPvrarBTHfI=;
+	s=arc-20240116; t=1741076583; c=relaxed/simple;
+	bh=oJRocjVxvG8aocBlf5vT9fLjx9PJTOnjpaP9NfdgLoU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B3U28mQepnDeUKBZ3n6NMOTj1oq13K3Ud7oOpW42XburH4dZohnZurfBb24PF2hIqk3KcLpSJpsARfjv8Uq0j0wDklZMadRDHcbwIBaIV+cTjwdWnR9jpKda7Fz9W+yXl5p/GZw/YVpUpIwHCcHe3LN3VSeuo2p7w3BGDx6jYKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MTMooLPO; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=VTE4Pev7Z/FPVTMTnGJrKgyo/ByEssW1BvvZtQ8le6rFPG4eLs1VB8tlo/NCcoqrYHr/Z94ArpDT4mM3M7Af2JlBTBsiJN9XaaKQvuMMHzqQXq5kdhnpfOnTRIHhipDRDkaTTNBPYp2qmBoVj9LATdZGovr8bfTCfBaVMDbzd5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tKLIHTuS; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MTMooLPO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DCBEC4CEE5;
-	Tue,  4 Mar 2025 08:04:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741075492;
-	bh=vIjLPcUzgSKENXMFoyq8MSR3rL6XCeonIPvrarBTHfI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MTMooLPO8Bbb2GKqdM1BuZCtLRVMLpPUiZewyqhTUOANTZEdA7zKLpNVpc2b4+pde
-	 qLxD1GPfTrr2crKHjmFBRkbsQhLcZE/wIdMSn7xP+K7vJd7ZRJEAH9qDQUxuZcs5kx
-	 PTy2NgT0nWNSVjrgvdi0A9uofQ0NxTbml1X58f1jrN3deGiad5mCcW/u5Oh/f1kNxH
-	 WkgVk5ns/TvPqpAEbTVtWOTQmUYqzcBtq42vbowT/RyyDgHhCJdC0cKAvbzxnmEotI
-	 4k4ylvc9gwaqMoZC+TRzV16b9VRVTbQY41zF+zC/l+py0e6GMwaWsk+QqwNP9zvG1O
-	 WP0yWgzyy+/YA==
-Date: Tue, 4 Mar 2025 09:04:50 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
-	Joel Stanley <joel@jms.id.au>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
-	Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
-	Xinwei Kong <kong.kongxinwei@hisilicon.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Alexey Brodkin <abrodkin@synopsys.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RESEND 07/12] drm/sti: move to
- devm_platform_ioremap_resource() usage
-Message-ID: <20250304-astute-curvy-ladybug-f9ff15@houat>
-References: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com>
- <20250225-memory-drm-misc-next-v1-7-9d0e8761107a@redhat.com>
- <24958ae8-6153-4798-abeb-e770d66ca8e4@foss.st.com>
- <CAN9Xe3Q8=_Tz51i6gxNM6445p-rhNiK7B5Ljcga8g_Nn676dCQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tKLIHTuS"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5dc89df7eccso8763667a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 00:23:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741076580; x=1741681380; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=T6vsEs0w+2fpN2o1KS8VIE9clQoUeLM/QArYwjwqcY0=;
+        b=tKLIHTuSb8EsCI1KkpfUsVKCJmmjnPjmWq6aBgxmRlJtqHk8ikuDpQ8pHQReaI2mzY
+         hSRuBoHrplNxKm+Y4AUGV9s/rpZi3ab7HTGhJPL3UL+H4U4sUbErG02SGoa5LSgQ49lJ
+         EK907gmP/2Nd2Rx9WKHHzLvL/Hayd2zCx/SsnRoV6+qLW0QbLmyVmqKpmmFIgpZi/d+P
+         oOyVrYPQC8+ZdXGCZHDzxOYUHCOpJgGTP8f8IZC2o38X08eQfmkCkksKnHW0A9U/jHsu
+         UF0pqcYRChbbFpJq4Bo5lX4ZWHo5VqiJXAXUKvRfft6HvLeJM3L4MsQVeRM6sf+t+cpL
+         Mbew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741076580; x=1741681380;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T6vsEs0w+2fpN2o1KS8VIE9clQoUeLM/QArYwjwqcY0=;
+        b=RGtkez7365yR/xNPKXvimboIo2eh/1Hr0ztE84T1VJ2AYTLrwVNcsr7FoltxAlE/96
+         RyTjzeJxna+56ysC9RirvgMjFb+8XmQlMNrVsRIF2fMui1Taifu+cU0JN7F2p737Xfdb
+         XxWrtSGXZ7v3G/Q6jLWigtT3tO58/HoH7h2XGlZIb/PMNXdKNZ2oC99xPVm9Ey5UtPXM
+         f7tP8L0lq1qSNFH5j/wUB6gWDokbWeW2sF9nflcL5bB7sk+2rCNAZozgYpm9JTmlt+DT
+         ukCmY6v60JZMQ6wk8is0fPAQWqy1ZAwQlFQlKBsttU9v5BQVTMU7GCtdWEeNy82bIBv3
+         JG5A==
+X-Forwarded-Encrypted: i=1; AJvYcCWN+aoSmDQUuMGrXlnHZIbINIywrHIJWACQ/g2ZlWhC0BNhv8BTZeoOnE/2fE7d/zWaeBBN4gEOkPg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpL1at1FACBy5ADl2TT5fomYWjqeTpJOghDzUT7hBy2K5EArQc
+	0yGCzOXc58KSYAnPtlb/bEHQqvJ7YnsFDBWz5bq4cSh4J40vxKmMmzBkFX1LDPs=
+X-Gm-Gg: ASbGncvmIbYiYTGsC6fK/Bql4Gz2ZkU2xpv4OyHzc6Tgf6fMHcKEKnemvkykTuP1WpA
+	nGJ1BVFoXC4TqDzQEFnAnzDLmzOAch24gXemJw3d0W5BpQHPVyzzmGI6AFJXH6vwBePveXMBAkv
+	8f7RvT5gk8RiHBaGJ+l6F7Ig4FG/zoWXdY0+1+TV2XDR1mkZymTyoyojYIxlABeLiKITwnKB1Ex
+	0ilLAVveCJz9Ss3ieu+hxZsu6l/B12nIAEx99yfBECoyzVhIlKfjRBTIFqLKnjvkClsQMuhrTg9
+	4Q1NO53E3udV3wQ+YwnDk2jBtIbfUk7Gs9tWoDGTLdi11wTA2H4NaBoB
+X-Google-Smtp-Source: AGHT+IH0Xb393ctWLRXZSas7YgLXGqNPTHNCJsQolq/B1J5pMVs0L4gi+m3eIifTOO2YP/AzGBdjxw==
+X-Received: by 2002:a05:6402:3891:b0:5e0:8c55:531 with SMTP id 4fb4d7f45d1cf-5e4d6af98d1mr18864132a12.14.1741076579579;
+        Tue, 04 Mar 2025 00:22:59 -0800 (PST)
+Received: from linaro.org ([2a02:2454:ff21:ef30:ea7e:cb1f:99c6:de2d])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e5925ff875sm332907a12.20.2025.03.04.00.22.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Mar 2025 00:22:58 -0800 (PST)
+Date: Tue, 4 Mar 2025 09:22:49 +0100
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+	dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
+	lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
+	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+	robh@kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v35 00/31] Introduce QC USB SND audio offloading support
+Message-ID: <Z8a4WYq4GqWBVNyX@linaro.org>
+References: <20250219004754.497985-1-quic_wcheng@quicinc.com>
+ <Z7W_Vz_kVDjIcp5N@linaro.org>
+ <82ce69a3-d248-494f-6ddb-098f392c78a0@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="3cvx2hh6lak7gb3g"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAN9Xe3Q8=_Tz51i6gxNM6445p-rhNiK7B5Ljcga8g_Nn676dCQ@mail.gmail.com>
+In-Reply-To: <82ce69a3-d248-494f-6ddb-098f392c78a0@quicinc.com>
 
+On Mon, Mar 03, 2025 at 06:39:52PM -0800, Wesley Cheng wrote:
+> 
+> 
+> On 2/19/2025 3:24 AM, Stephan Gerhold wrote:
+> > On Tue, Feb 18, 2025 at 04:47:23PM -0800, Wesley Cheng wrote:
+> > > Requesting to see if we can get some Acked-By tags, and merge on usb-next.
+> > > 
+> > > Several Qualcomm based chipsets can support USB audio offloading to a
+> > > dedicated audio DSP, which can take over issuing transfers to the USB
+> > > host controller.  The intention is to reduce the load on the main
+> > > processors in the SoC, and allow them to be placed into lower power modes.
+> > > There are several parts to this design:
+> > >   1. Adding ASoC binding layer
+> > >   2. Create a USB backend for Q6DSP
+> > >   3. Introduce XHCI interrupter support
+> > >   4. Create vendor ops for the USB SND driver
+> > > 
+> > >       USB                          |            ASoC
+> > > --------------------------------------------------------------------
+> > >                                    |  _________________________
+> > >                                    | |sm8250 platform card     |
+> > >                                    | |_________________________|
+> > >                                    |         |           |
+> > >                                    |      ___V____   ____V____
+> > >                                    |     |Q6USB   | |Q6AFE    |
+> > > |     |"codec" | |"cpu"    |
+> > >                                    |     |________| |_________|
+> > >                                    |         ^  ^        ^
+> > >                                    |         |  |________|
+> > >                                    |      ___V____    |
+> > >                                    |     |SOC-USB |   |
+> > >    ________       ________               |        |   |
+> > >   |USB SND |<--->|QC offld|<------------>|________|   |
+> > >   |(card.c)|     |        |<----------                |
+> > >   |________|     |________|___     | |                |
+> > >       ^               ^       |    | |    ____________V_________
+> > >       |               |       |    | |   |APR/GLINK             |
+> > >    __ V_______________V_____  |    | |   |______________________|
+> > >   |USB SND (endpoint.c)     | |    | |              ^
+> > >   |_________________________| |    | |              |
+> > >               ^               |    | |   ___________V___________
+> > >               |               |    | |->|audio DSP              |
+> > >    ___________V_____________  |    |    |_______________________|
+> > >   |XHCI HCD                 |<-    |
+> > >   |_________________________|      |
+> > > 
+> > 
+> > As I noted on v34 [1], this version is still missing instructions and
+> > changes needed for testing this series. The device tree changes don't
+> > need to be part of the same series, but there should be at least a link
+> > provided to give other people the chance to provide Tested-by tags.
+> > 
+> > IMO we shouldn't merge this series without those instructions, otherwise
+> > we risk that this just ends up being dead code that no one can use.
+> > 
+> > Can you please share the device tree changes for a board upstream and
+> > any other changes needed to be able to test this series? E.g. for
+> > sm8250-mtp.dts, based on the examples in your cover letter.
+> > 
+> 
+> To clarify I'm testing this on sm8350 in recent times, but utilizing sm8250
+> definitions for the ASoC platform card, as the platform sound card is more
+> or less the same between the two SoCs.  Back
+> when I started this series, sm8350 was missing a bunch of dependent
+> components, such as aDSP not being loaded, and missing platform sound card
+> definition, so I had to define and enable those on my own, which required a
+> slew of new DT nodes, hence why it wasn't as straight forward to include
+> the DT definitions yet for sm8350.  Not thinking that this series would
+> take as long as it did, I was planning on separating out the DT changes in
+> a different series to enable offloading for the devices I have tested with.
+> (sm8150, sm8250 and sm8350)
+> 
+> There's still a pretty big chunk of dependencies missing from sm8350, so
+> those would also be handled in the follow up DT submission.  For now, its a
+> much bigger hurdle to get the main/functional changes in, and that was
+> taking a significant amount of time from my end to manage.
+> 
+> If you want, I can give you the changes I have offline to enable this for
+> sm8350, since I haven't spent time formatting/prepping the changes for
+> submission yet.
+> 
 
---3cvx2hh6lak7gb3g
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RESEND 07/12] drm/sti: move to
- devm_platform_ioremap_resource() usage
-MIME-Version: 1.0
+Can you push it to a public branch somewhere (e.g. on CodeLinaro)? I was
+talking to some people from the community about testing this on some of
+the smartphones we have in upstream, so it wouldn't help if I just have
+the changes privately.
 
-On Mon, Mar 03, 2025 at 12:29:19PM -0500, Anusha Srivatsa wrote:
-> On Wed, Feb 26, 2025 at 5:19=E2=80=AFAM Raphael Gallais-Pou <
-> raphael.gallais-pou@foss.st.com> wrote:
->=20
-> >
-> > On 2/25/25 23:20, Anusha Srivatsa wrote:
-> > > Replace platform_get_resource/_byname + devm_ioremap
-> > > with just devm_platform_ioremap_resource()
-> > >
-> > > Used Coccinelle to do this change. SmPl patch:
-> > >
-> > > @rule@
-> > > identifier res;
-> > > expression ioremap;
-> > > identifier pdev;
-> > > constant mem;
-> > > expression name;
-> > > @@
-> > > -struct resource *res;
-> > > ...
-> > > -res =3D platform_get_resource_byname(pdev,mem,name);
-> > > <...
-> > > -if (!res) {
-> > > -...
-> > > -}
-> > > ...>
-> > > -ioremap =3D devm_ioremap(...);
-> > > +ioremap =3D devm_platform_ioremap_resource_byname(pdev,name);
-> > >
-> > > and
-> > > @rule_2@
-> > > identifier res;
-> > > expression ioremap;
-> > > identifier pdev;
-> > > @@
-> > > -struct resource *res;
-> > > ...
-> > > -res =3D platform_get_resource(pdev,...);
-> > > <...
-> > > -if (!res) {
-> > > -...
-> > > -}
-> > > ...>
-> > > -ioremap =3D devm_ioremap(...);
-> > > +ioremap =3D devm_platform_ioremap_resource(pdev,0);
-> > >
-> > > v2: Fix compilation error.
-> >
-> >
-> > Hi Anusha,
-> >
-> >
-> > You did not take into account my comment regarding the changelog. :-)
-> >
-> > https://www.kernel.org/doc/html/latest/process/submitting-patches.html#=
-commentary
-> >
-> > While the commit summary do not specify the version, this changelog
-> > suggests
-> > that the version of your series as been incremented.
-> > If this is a v2, then a version descriptor should be applied to the
-> > patchset.
-> >
-> > https://www.kernel.org/doc/html/latest/process/submitting-patches.html#=
-subject-line
-> >
-> > Hi  Raphael,
->=20
-> That is correct. While this patch is a v2, there is another patch or two =
-in
-> the same series that is on v4 when it got acked and reviewed. Having
-> patches belonging to the same series with different version prefixes seem=
-ed
-> odd when I sent the series. Hence added what exactly changed in the commit
-> log.
+It doesn't have to be perfectly clean as far as I'm concerned, as long
+as it allows to see the whole picture of the additional changes we need
+to make use of this series.
 
-This breaks a lot of tools though. If your series changes, you need to
-increase the version number, no matter how small or insignificant it
-changed compared to the previous one. resend is only meant to be used
-when you send the exact same series.
-
-Maxime
-
---3cvx2hh6lak7gb3g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ8a0GwAKCRAnX84Zoj2+
-dvPAAX0T6CB5j6he9IlacsjKLYZXt0M1IhAKVugJHAC1WHuswlCAJSgEyELEpzS1
-ddcuQ7kBf3wXscEAe3lhr3vk0F2KVEj4r8JtBnUwxNM0o1E63auMQV7dNPG5Z5Ku
-4gxKbq/wJQ==
-=hPVI
------END PGP SIGNATURE-----
-
---3cvx2hh6lak7gb3g--
+Thanks,
+Stephan
