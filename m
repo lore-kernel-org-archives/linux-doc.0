@@ -1,146 +1,298 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F4480B;
-	Tue,  4 Mar 2025 13:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741094244; cv=none; b=bP9Et7ko1+YIdTNNfXyxjfAw/SjMe5sslZRTReVEU/o8pJV/0+9qOIFlFwUkykeUjBsTaBK4MZCH8GVFiBpw/+S9RgT5Q/BiaZRqGDS8wbIOzSso9nCrjH7wFB3NJD8s4WDf5SSPk4P/obUe2LpEfMzvauEox8RhQCGcC1tW4CI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741094244; c=relaxed/simple;
-	bh=azzIv3tU6f8HE2hiKpv+s7FiEV35AFhxpECvzWmLSKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=djsSyw3sCxNQblaD0tTal+LTQZKfa+xmqpj43TZ3QofRnnEl/nk5HctGabByucDynUePCtq77rqXCkzMFgPEvHyyD9A0dPXuSzt5oEWiioEQjKdPcNKkaw5gMZN9s/iRpvKIqCnMZuz9zBdK0ObDQCGu1fGkKGYU5FzJtaarpFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UM6wttCY; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3934E17583;
+	Tue,  4 Mar 2025 14:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741097321; cv=fail; b=dcTeQQHtjEB3yOkVBHZyQhxROXNx2MZ/OdDfxZ9TJ37hLpWqi4FPlOGar+9MMpIWHql53w3OyM7Bzz4TJI7zL9QDAX0FhtDitHuiGAev9f9iHxsSUvBjK12u3/cNS/Pk7vZ3kv5uonTD5YMdLDszacwyUZbklegkLwH07sVMeg8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741097321; c=relaxed/simple;
+	bh=1ZWav+lWKLf2tmmoGPYj8piCv9+hOAY0f10YIfHP0Nk=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=K1ikuw4OGQlJpIqBjWkZ4yJ0UWbYi/mTiSlU3v3peYd4fSCsoFYdbUaItHXMFnQM+x95azy3JTaC4W2LXAoQPCVRSqxK9/8eDwp3Xy6i+bKACxz5hkNTqpW+xWmbRNHEXYs12BY8hlGXZnEbBiAmEw0A+sre3281y37oQLf77n0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QK6Duca4; arc=fail smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UM6wttCY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41FA5C4CEE5;
-	Tue,  4 Mar 2025 13:17:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741094243;
-	bh=azzIv3tU6f8HE2hiKpv+s7FiEV35AFhxpECvzWmLSKo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UM6wttCYO2sGF2PduIojI9ajTigzByJl9nrcFH/n3e7XkI7anQSZ2WJ3V4DVmrnMW
-	 3/hX8lt+RyRrWBBsLp4z6wbfCNh544sA3dzZ/UHQLXEAvSJJ7TCFxVfKQz0DXTN6SU
-	 eZbG8rgJ7ZkAmC/DKDSYgmUlsAozMNdKc8sWvlJgO0fXI0XlIQv84lCjQyEEK26Omo
-	 gQS6juP3m+pSd7LhsmiVam+yJ7qf1PDiosnRFNl1LdOu6SD3q6OWUUBhN3+lmiSBx9
-	 7/s3H/k2Tcc32gWIQyA/O19kbA0Jt/gdRX0HEe3cSR7eJsdSBUvai9EltVuu280Vzc
-	 smxGucDFiUIzg==
-Date: Tue, 4 Mar 2025 13:17:08 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Robert Budai <robert.budai@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Nuno Sa <nuno.sa@analog.com>, "Ramona
- Gradinariu" <ramona.gradinariu@analog.com>, Antoniu Miclaus
- <antoniu.miclaus@analog.com>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, <linux-iio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [RESEND PATCH v8 0/6] Add support for ADIS16550
-Message-ID: <20250304131708.1003552a@jic23-huawei>
-In-Reply-To: <20250222124030.57771b0c@jic23-huawei>
-References: <20250217105753.605465-1-robert.budai@analog.com>
-	<20250217143354.0d1c4a2d@jic23-huawei>
-	<20250222124030.57771b0c@jic23-huawei>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QK6Duca4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741097320; x=1772633320;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=1ZWav+lWKLf2tmmoGPYj8piCv9+hOAY0f10YIfHP0Nk=;
+  b=QK6Duca4Ju8lz0pMZu4RkFtPzD4ebMM5DgblLKzgH1zBNSQyAkOWf9Ym
+   gFlx/pCsqmU0faxjAapwhLpcAl0XPY8p693Fq3hr1HslKMo65JPGsdp0X
+   sEubyNzeITKDUOzgsRseSm2TMmdBddKazFd4Aaaf2S2JC3+3r6DjfMHFX
+   57DMSVIXhmYifYZrUjvU6M/RCeTEjGLZJdba/RmX7ZqCySNHCYY1M8C4W
+   wqzkdGi15+/HfXop+fJYrlAnEciH84thnmI+JY7me0Z9MJeflGRzHw++6
+   3+7E/rH34JLzWr7zoI5ONjA4276cnk0ZNyAzJfjXpw+SUzmtrCrwFsQ3K
+   Q==;
+X-CSE-ConnectionGUID: Ovon9Fa3Q5O2uO+YbzGEGQ==
+X-CSE-MsgGUID: QurZnYzvT1GeFfiaOYIJew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="29604020"
+X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; 
+   d="scan'208";a="29604020"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 06:08:36 -0800
+X-CSE-ConnectionGUID: 9qgOOcg4Q46q7hssHs1PzA==
+X-CSE-MsgGUID: R4e+DAXDQUqJsHWLlvrRVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; 
+   d="scan'208";a="123321534"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 06:08:36 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.14; Tue, 4 Mar 2025 06:08:34 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Tue, 4 Mar 2025 06:08:34 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.47) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 4 Mar 2025 06:08:08 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N7PWNTolHkyZn6Ls4LVbKEALIko8muiacjYgeuN0ACFN2Y6g+T3l+ooEbKqfwKe06HLkb2Tmv803ntSH/cijdD3f1nOfGMvQRDjkKZ0sJqCHe57XBEOOHHHXmcFSNYnfms9Kin4beqd2kZUJnD/KKbv4ArSRoufObWtqPWF3shBkJSXDt3w0iuSwwqOj9f9Z73jpqMk/532PZIACoFssLmpJmPqpRyCJSDlIovy4b/Kbl4LjMNDLrSETRKzIqmcuyUXbk4dBjR6yb/tzWPB2O4E3wSs1W70DeD+zrkb6eg/B9icYHfvweS8sk5v47Vxg8Elf1tTeXJAGcDrzurFoUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OlsZN0ueo1ClOTg8p4vIZPRmwYVb3yEyebfGzGqFo58=;
+ b=EoCSTbIcGzLGyq6drSIvU6lbKJmaxB12Pt0NMDBAr3ey9Ooa5D1YTq/mpOoWx+sK0UGXzCAsS1AoOr85OlXgvgdwe4hjViwvBD5k7LzAiCbWHwn8QN6ZoDVOJ4WF7PAYXNunmBAKSjThIuFAjCwtBvZHtnGuMzbXQT5HiAw+4W2h8I7aaW5XWVZglCcjIK/JWFbfdTh7d5KLhbgMt9rSimnDMP6YLgooH+eRIoYkyVKP08ovVD8VARB7dQD3x3wYKwo6K94Le+Pc/hWarKDlLSwD2Akso90w7A2yvmd1d/CiaxRwUCVFC72RMSVCNQtZyKdBCMzgjGQXIafAmJzkYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
+ by MN0PR11MB6087.namprd11.prod.outlook.com (2603:10b6:208:3cd::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.28; Tue, 4 Mar
+ 2025 14:07:33 +0000
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::a137:ffd0:97a3:1db4]) by MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::a137:ffd0:97a3:1db4%4]) with mapi id 15.20.8489.025; Tue, 4 Mar 2025
+ 14:07:33 +0000
+Date: Tue, 4 Mar 2025 15:06:54 +0100
+From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+To: Andrey Konovalov <andreyknvl@gmail.com>
+CC: Vitaly Buka <vitalybuka@google.com>, <kees@kernel.org>,
+	<julian.stecklina@cyberus-technology.de>, <kevinloughlin@google.com>,
+	<peterz@infradead.org>, <tglx@linutronix.de>, <justinstitt@google.com>,
+	<catalin.marinas@arm.com>, <wangkefeng.wang@huawei.com>, <bhe@redhat.com>,
+	<ryabinin.a.a@gmail.com>, <kirill.shutemov@linux.intel.com>,
+	<will@kernel.org>, <ardb@kernel.org>, <jason.andryuk@amd.com>,
+	<dave.hansen@linux.intel.com>, <pasha.tatashin@soleen.com>,
+	<guoweikang.kernel@gmail.com>, <dwmw@amazon.co.uk>, <mark.rutland@arm.com>,
+	<broonie@kernel.org>, <apopple@nvidia.com>, <bp@alien8.de>,
+	<rppt@kernel.org>, <kaleshsingh@google.com>, <richard.weiyang@gmail.com>,
+	<luto@kernel.org>, <glider@google.com>, <pankaj.gupta@amd.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <kuan-ying.lee@canonical.com>,
+	<tony.luck@intel.com>, <tj@kernel.org>, <jgross@suse.com>,
+	<dvyukov@google.com>, <baohua@kernel.org>, <samuel.holland@sifive.com>,
+	<dennis@kernel.org>, <akpm@linux-foundation.org>,
+	<thomas.weissschuh@linutronix.de>, <surenb@google.com>,
+	<kbingham@kernel.org>, <ankita@nvidia.com>, <nathan@kernel.org>,
+	<ziy@nvidia.com>, <xin@zytor.com>, <rafael.j.wysocki@intel.com>,
+	<andriy.shevchenko@linux.intel.com>, <cl@linux.com>, <jhubbard@nvidia.com>,
+	<hpa@zytor.com>, <scott@os.amperecomputing.com>, <david@redhat.com>,
+	<jan.kiszka@siemens.com>, <vincenzo.frascino@arm.com>, <corbet@lwn.net>,
+	<maz@kernel.org>, <mingo@redhat.com>, <arnd@arndb.de>, <ytcoode@gmail.com>,
+	<xur@google.com>, <morbo@google.com>, <thiago.bauermann@linaro.org>,
+	<linux-doc@vger.kernel.org>, <kasan-dev@googlegroups.com>,
+	<linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>, <linux-mm@kvack.org>,
+	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>
+Subject: Re: [PATCH v2 01/14] kasan: sw_tags: Use arithmetic shift for shadow
+ computation
+Message-ID: <xzxlu4k76wllfreg3oztflyubnmaiktbnvdmszelxxcb4vlhiv@xgo2545uyggy>
+References: <CA+fCnZd6O0_fc1U-D_i2shcF4Td-6389F3Q=fDkdYYXQupX1NA@mail.gmail.com>
+ <uup72ceniis544hgfaojy5omctzf7gs4qlydyv2szkr5hqia32@t6fgaxcaw2oi>
+ <gisttijkccu6pynsdhvv3lpyxx7bxpvqbni43ybsa5axujr7qj@7feqy5fy2kgt>
+ <6wdzi5lszeaycdfjjowrbsnniks35zhatavknktskslwop5fne@uv5wzotu4ri4>
+ <CA+fCnZeEm+-RzqEXp1FqYJ5Gsm+mUZh5k3nq=92ZuTiqwsaWvA@mail.gmail.com>
+ <qnxlqbc4cs7izjilisbjlrup4zyntjyucvfa4s6eegn72wfbkd@czthvwkdvo3v>
+ <CA+fCnZdUFO0+G9HHy4oaQfEx8sm3D_ZfxdkH3y2ZojjYqTN74Q@mail.gmail.com>
+ <agqtypvkcpju3gdsq7pnpabikm4mnnpy4kp5efqs2pvsz6ubsl@togxtecvtb74>
+ <mjyjkyiyhbbxyksiycywgh72laozztzwxxwi3gi252uk4b6f7j@3zwpv7l7aisk>
+ <CA+fCnZcDyS8FJwE6x66THExYU_t_n9cTA=9Qy3wL-RSssEb55g@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+fCnZcDyS8FJwE6x66THExYU_t_n9cTA=9Qy3wL-RSssEb55g@mail.gmail.com>
+X-ClientProxiedBy: CWLP123CA0177.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:19b::14) To MN0PR11MB6231.namprd11.prod.outlook.com
+ (2603:10b6:208:3c4::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|MN0PR11MB6087:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b2df622-f31c-472c-8f21-08dd5b25e889
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?S0dyZVIxV2NhaTYvU0p2RkM5OHNtMU43MG1iemQ1OFZ4NzBEUU02ZnozRVpW?=
+ =?utf-8?B?R2hIUXljN2NPbUxMbnFRU0RGOVhMK1MzcWZiT2Q5cnQyd25sUGRRMlJGMkh0?=
+ =?utf-8?B?SnlkbFFQaGp5dXFCRW10S1B6UGE5eXd6c0dNV1pHSUxqUnlpUW5la0dpY0xw?=
+ =?utf-8?B?b1pmTDlPbEZXTnVoS3BzOVJhYVo2Q1N2VW1oaWVic0pMTzIySGU2ZUQzWW1l?=
+ =?utf-8?B?cnBuZFA3V1hpeDNNZHZXOU04U3E4R3FBN2VYeXBmVzlPWStZeWhZdTd4ZkJo?=
+ =?utf-8?B?aFFWdTRMNlFWUkh1Wjh6U0VuNEdPSGQ0Qkh4ZXk4eGxTMEtIQWlEZlMyRGFW?=
+ =?utf-8?B?MkJUZklLaU5sWU52TSt1Y215V0FibHd2VGxCcHVzQSs0V0psYVdTM2NlSEZn?=
+ =?utf-8?B?bms3cWRPZHV5VkFEY0pMNm1DeDM1L0lKTnZYLytCenNHMFhNUWlFTzk4a2tl?=
+ =?utf-8?B?aVlvMDA3RHpqREJ5a2tnakFhRHk2aWoxTnQzam82dTJGd2FqS1NBeFlRckRX?=
+ =?utf-8?B?aFZSVVdCK0NwdUVZTGhKY2t3NzFtRTVJQUhoTm5MSnkxVkh5RlpRY2Ftd0J6?=
+ =?utf-8?B?eUZrVjVqcW50cnpiMUp4WXVreWN2ZHQwb1NuVEhVMWdCdmNaT0kxTXllanAw?=
+ =?utf-8?B?N3BvQVV4bkRVYkt0UXd6c0ZzRzJYMjAycFJYaDIwa09pUElENWtRdzJYeVFO?=
+ =?utf-8?B?azE1K29XR1pTajRDYmlnTlArZ0FwaEtwNmM2dVFXYXhEazFIVUsyTmE0UVhZ?=
+ =?utf-8?B?SVFiYWlzVkt3ajFvR2lsNlNPNFcrbk9NNWxXLzN3aWRtR2NIWVZYNXV0R09B?=
+ =?utf-8?B?UklrdC81dVc1MWxXRGlTazUzQ0FGR09QbEREdWNTMFdMZ3ArckFkQnpGdFQ5?=
+ =?utf-8?B?TzBEQk8xamZnNUpMdXlSaEtqTlN0UGNqTStuODJPSmRNZU14dVF6Q25lQ3Bi?=
+ =?utf-8?B?SjlnbkdFY2p3QzRBMkVxY2FVOHdSTExIVXZ4MzN2WU13ak1lMzVWQ1dyQk9T?=
+ =?utf-8?B?dEhZWDVCRHAzbFVwZ0NpTEVYRHdObWh6QkZuNDk5WUFBTVUvdW85MHdnUDd6?=
+ =?utf-8?B?aU5MWUFPSWZGZTduQ2lBcndPcU9kUWlwR21mMUZ3Y1ZoRU9mSytPZmpOeTN0?=
+ =?utf-8?B?eTZvbkFhQ1NnMXp5ZktSWXdOS0poWnNHcU9HMGRvTzhRYVVIWWVXRWlFeDNF?=
+ =?utf-8?B?RTZicEZ1NkZGSnFrTGlRbzNjTEtwYVVWMXdBcW9KSHpuVDBCWnI1ajFtTXNV?=
+ =?utf-8?B?Q1BudVVlaXJ2QnJ2SWJ6S3pRK2x4ZitoNXJ0eFBISVJGYVVrdEhmUEpNSG5U?=
+ =?utf-8?B?MFFzeEZyYkJoZjlRS0lVdFdzZXNmb3NXSjE2TnBpVnhJT0NiUVgwREpwTnd1?=
+ =?utf-8?B?d1l5d080Q05ZNTd6WWk4WWgrdWVYRGV2S3dab0VWbTJMNXZsdWZEZElFSm5y?=
+ =?utf-8?B?dTR1Z1NJcUJPNStUZVQ1bTBwL1NOWTRFTTZjUlcvZWYwbzU1NnBwampGbS90?=
+ =?utf-8?B?bTVycXJIamRya3RGTytFYkx0QmhBZ0RlZ1NYSnNjdnRidHdmZ3EvSWtoYy8w?=
+ =?utf-8?B?a21TL0IvczNWTTlLeXV5S0FsbngxbjlGQ3pmdDJOeTRoSE1BNXloNjFoRWRr?=
+ =?utf-8?B?VDVGU2Z1WnN2SGl2UWdnRHVjRStBUm44bk5tTzBvUjN2QUNEZWpmdUxlOHhh?=
+ =?utf-8?B?Z1RnNmQwVFAxZENpNTR5ckJNdk53dkRnOHJROEtMd2l1d0tKOTQwbUNrNldq?=
+ =?utf-8?B?ekFuUUdvRHI2STV0TXBTb1lGSmlOSnRwN1pOMTNsYmY5RSs4UXFlRDRxTUtM?=
+ =?utf-8?B?UUpXaXdGQXJ3TWljSmx1WGFvTjNBYXQ0RWxnd2xPQ1NMc3lKS2kyVUY3Y05S?=
+ =?utf-8?Q?V9Uockl1XXRcG?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aDUwQU13ckNvcGg5dEltOGRqeU5LTkY1TVpFamhOS1dtbUREYjlucmJHTkxS?=
+ =?utf-8?B?QXo0TGFtV3FIc1RxVFVzVzVvc0FzNEJ5cUpDWExVdFQ0UkpmNnJNeS95eHRP?=
+ =?utf-8?B?aVpGQzlKU0hySHk1YmdZc3ZpL1hwSUtFZlM3M25VQzhIeCtBb0RSM000TFdn?=
+ =?utf-8?B?SDhKUjVubm5OZWkrZmpEVHI5eDJkamxvSDhNUjhRYUh6dlh1VDcvUlZkWjgz?=
+ =?utf-8?B?blE5aE41eWM1Q0V1QjIzMjJWbFRuZWhxbi9sYjVkeXNYTHlLWVlpem5XSXJP?=
+ =?utf-8?B?NXo2bTNDMWhheUxmZEF3bzRTd3JKenIwTUxUNEFWME5IcUFtZnJNYkxra1VZ?=
+ =?utf-8?B?UjhpQnNGSmhZNnVxUzRKUmdYRWF0dWdqejJ1TzJYSWt3ZWhoY3JwZGtRNWZk?=
+ =?utf-8?B?czF4Q01xcGNUZjZHcHpVYnBqbTZTaGhvYlNIdDJzOU9UZVZSd3N2MWVraUhz?=
+ =?utf-8?B?bVhwaGdvbTJPYmhRc1hmWmNESVI0S0hXNmg2UFZ0Y2pZYnFkSzFDQ0diMW5z?=
+ =?utf-8?B?eTZhcUlpOWhya0NRNjNtU2x6dTVlMFJIV0M0cWs2YlJjQ2xSSlZlc1F3L2k4?=
+ =?utf-8?B?clpaVjMwZjN6aTM3RDIxS0FqWTlxdGwrajBWbnI3U1BVQ3VJR3RNTFNVbmRt?=
+ =?utf-8?B?RzN0K3krblQ3MFM0d0puelZ6dUVoOTRrNVdRMkpncVRLVElTbFVFcU84cFp2?=
+ =?utf-8?B?djdSL1hSVVdQUVhSUjZhSkdnVjhXSHlTaXRuckgvL1g3UVMwOU02VUl2SXVi?=
+ =?utf-8?B?dVZxNjZxYTZVdVZraUZ1MjdLam0rTThNMDVld085U1NCbElxRkxMRXJkNGMr?=
+ =?utf-8?B?WlBKeGRUV2pibHRFOUN3MVdoMTlNMjF0dDZzaVd4bzRRaXlOL2p3dnpmQ2xS?=
+ =?utf-8?B?SmpFVkZRMlBiOVRGQzg0cC9rME1QUVJVMzhkeXlJRGlPcVlFNU5oeEpQMDEy?=
+ =?utf-8?B?SWp3b0duSGdkU2RzRVVGUE0rVUZXcmNldXlwVXFiM0tYdHdiMktKckZ2UCtP?=
+ =?utf-8?B?M1l2SDlFbkZlVnhxTmFpQ29nTVQxaWNjbnNFN1MwQlluS2R0RUpRZnhJdWoz?=
+ =?utf-8?B?VDJNdTlGb3E4UjJkUTl6YkFUdUIxTkRUTjd4UzRyZkpJd2xoTlBCZ0s3WlRt?=
+ =?utf-8?B?bUk0dW10eDcyakdDSWFIUVZYV3JhcTZCZnZ1eEttSnFpRjNPdElSNytKRXFM?=
+ =?utf-8?B?d3d3MHB2anRsb2NCVS81allTQ0QxcXV4WkRjczJITjZPYS9kZlVrcEtySUxK?=
+ =?utf-8?B?Y0xYYzlnYnpkVCtOaFFWQXdPTE53dEpxQ0VYYTR2RW1UdlVlWTcybFpWNmND?=
+ =?utf-8?B?Wkgzd3BhSWNPNmNJUVhoMkxXMzl2ZU1DUTl2dkhJRjlacXNvbkxMQkFtK1hR?=
+ =?utf-8?B?UURlUXBpRFR1U05DUWNKOHozM2VBZ25tUFZoWXdUaGw5M2xMVktObmwzMllw?=
+ =?utf-8?B?UUV0SVJMdWd2NlJyRmVBaEF2RUdMS0J0YWp3bWZQTzZIYnNDdHhWekJqbFN6?=
+ =?utf-8?B?ZGVyb0hHbWc5WEhXUXR3R3FiejBQWTVoeWtUd0J0Y1J6MEYxSmFlaHF1MVY0?=
+ =?utf-8?B?ZmtiRlBpMTY3QVB6Q1VUVDBhZXhYTjAvM3BpN3ZUYWZiMkMza00rV3d0M0sr?=
+ =?utf-8?B?MGx5WEpoQytNZkVuOS96Q1NTS3BkM2x3RFQveXFjK1pUVU9qN3RiRktvVldt?=
+ =?utf-8?B?TmFQYWVRM2swQkZ5YVdIWUNDWjlCMjBzTEpFV0hrbzM4a1FPeGc2Rk5PMlBs?=
+ =?utf-8?B?aWFzZFpzL0lWdFJUM3VxdVZtMlMrcEN1RVYwRjgxN0RSaDdYeDBSTzFITHU4?=
+ =?utf-8?B?QjNNLzNjTVROQnFvWFdyRkFpcGFlNy9jWUxidlk5Y20zT3ZqbHVaOG9MVHRo?=
+ =?utf-8?B?eEZTemxkSU1UVWtZNjFxZ0pXRm44N0hoT0xPNnlTcG5BMm9idkdYV2tnM2o3?=
+ =?utf-8?B?U3lhVlZ2eDlxaEl0eHVRaUZJc3JaTVR1WlYrSi8xaEJmK25lQjBKKzFpSERS?=
+ =?utf-8?B?SnBBei81eWdpaUZWVmdyN0J1eWEvQ3oxUmMvKzloN0luZm05NU5iTVNZeHRX?=
+ =?utf-8?B?WTZzVE91eVp2RHJReWdyejhVcE1pbU4xNk4xQmxjdXFlS0RJTHhjd1lpMlZh?=
+ =?utf-8?B?Ync2blMrTVV4ZDFJSHkreUhmcm95MHAyWTVXRUJmQVBuc1dhTm5pb2N3WnZK?=
+ =?utf-8?Q?6kpPCTorYszaKVMVv6fVpYg=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b2df622-f31c-472c-8f21-08dd5b25e889
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2025 14:07:33.1756
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VmKwmjxZwEFw1JPnhPBbeceWTbIFdY6wj221xUQS58NA8zgu7pkqGf09OtCZ35T+1q8t8UqRtnZ+WfNerUasJSGpX9YM9gGNxJrRMH2ps0U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6087
+X-OriginatorOrg: intel.com
 
-On Sat, 22 Feb 2025 12:40:30 +0000
-Jonathan Cameron <jic23@kernel.org> wrote:
+On 2025-03-01 at 01:21:52 +0100, Andrey Konovalov wrote:
+>On Fri, Feb 28, 2025 at 5:13 PM Maciej Wieczor-Retman
+><maciej.wieczor-retman@intel.com> wrote:
+>>
+>> I was applying your other comments to the series and came up with something like
+>> this. What do you think?
+>>
+>>         /*
+>>          * With the default kasan_mem_to_shadow() algorithm, all addresses
+>>          * returned by the memory-to-shadow mapping (even for bogus pointers)
+>>          * must be within a certain displacement from KASAN_SHADOW_OFFSET.
+>>          *
+>>          * For Generic KASAN the displacement is unsigned so the mapping from zero
+>>          * to the last kernel address needs checking.
+>>          */
+>>         if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
+>>                 if (addr < KASAN_SHADOW_OFFSET ||
+>>                     addr >= KASAN_SHADOW_OFFSET + max_shadow_size)
+>>                         return;
+>>         } else {
+>>                 /*
+>>                  * For the tag-based mode the compiler resets tags in addresses at
+>>                  * the start of kasan_mem_to_shadow(). Because of this it's not
+>>                  * necessary to check a mapping of the entire address space but only
+>>                  * whether a range of [0xFF00000000000000 - 0xFFFFFFFFFFFFFFFF] is a
+>>                  * valid memory-to-shadow mapping. On x86, tags are located in bits
+>>                  * 62:57 so the range becomes [0x7E00000000000000 - 0xFFFFFFFFFFFFFFFF].
+>>                  * The check below tries to exclude invalid addresses by
+>>                  * checking spaces between [0x7E00000000000000 - 0x7FFFFFFFFFFFFFFF]
+>>                  * (which are positive and will overflow the memory-to-shadow
+>>                  * mapping) and [0xFE00000000000000 - 0xFFFFFFFFFFFFFFFF]
+>>                  */
+>>                  if (addr > KASAN_SHADOW_OFFSET ||
+>>                      (addr < (u64)kasan_mem_to_shadow((void *)(0xFEUL << 56)) &&
+>>                      addr > (u64)kasan_mem_to_shadow((void *)(~0UL >> 1))) ||
+>>                      addr < (u64)kasan_mem_to_shadow((void *)(0x7EUL << 56)))
+>>                         return;
+>>         }
+>>
+>> The comment is a bit long and has a lot of hexes but maybe it's good to leave a
+>> longer explanation so no one has to dig through the mailing archives to
+>> understand the logic :b
+>
+>Explaining the logic sounds good to me!
+>
+>I think your patch is close to what would look good, but I think the
+>parentheses in the long if condition look suspicious.
+>
+>Please check the attached diff (Gmail makes it hard to inline code): I
+>fixed the parentheses (if I'm right about them being wrong), made the
+>checks look uniform, added an arm-specific check, and reworked the
+>comments (please check if they make sense).
+>
+>If the diff looks good to you, let's use that.
+>
+>It also would be great, if you could test this: add some code that
+>dereferences various bad addresses and see if the extra KASAN message
+>line gets printed during the GPF.
 
-> On Mon, 17 Feb 2025 14:33:54 +0000
-> Jonathan Cameron <jic23@kernel.org> wrote:
-> 
-> > On Mon, 17 Feb 2025 12:57:44 +0200
-> > Robert Budai <robert.budai@analog.com> wrote:
-> >   
-> > > The ADIS16550 is a complete inertial system that includes a triaxis gyroscope
-> > > and a triaxis accelerometer. Each inertial sensor in the ADIS16550 combines
-> > > industry leading MEMS only technology with signal conditioning that optimizes
-> > > dynamic performance. The factory calibration characterizes each sensor for
-> > > sensitivity, bias, and alignment. As a result, each sensor has its own dynamic
-> > > compensation formulas that provide accurate sensor measurements.
-> > >     
-> > Hi Robert,
-> > 
-> > The cover letter of any RESEND should always start with why you are doing so.
-> > If this was for the tiny fixup you mentioned it should have been v9 and
-> > not have been sent for a few days at least.  If everything else is fine
-> > I don't mind making that sort of fixup whilst applying anyway!  
-> 
-> With the tweaks to patch 5 and co-developed tags added as mentioned
-> in reply to that commit applied to the togreg branch of iio.git which
-> is initially pushed out as testing.
-> 
-Another tweak:
-0-day/ coccinelle reported:
-55be950cfc6031 Robert Budai 2025-02-17  1024  	.self_test_mask = BIT(1),
-55be950cfc6031 Robert Budai 2025-02-17  1025  	.self_test_reg = ADIS16550_REG_COMMAND,
-55be950cfc6031 Robert Budai 2025-02-17  1026  	.cs_change_delay = 5,
-55be950cfc6031 Robert Budai 2025-02-17  1027  	.unmasked_drdy = true,
-55be950cfc6031 Robert Budai 2025-02-17  1028  	.status_error_msgs = adis16550_status_error_msgs,
-55be950cfc6031 Robert Budai 2025-02-17 @1029  	.status_error_mask = BIT(ADIS16550_STATUS_CRC_CODE) |
-55be950cfc6031 Robert Budai 2025-02-17  1030  			BIT(ADIS16550_STATUS_CRC_CONFIG) |
-55be950cfc6031 Robert Budai 2025-02-17  1031  			BIT(ADIS16550_STATUS_FLASH_UPDATE) |
-55be950cfc6031 Robert Budai 2025-02-17  1032  			BIT(ADIS16550_STATUS_INERIAL) |
-55be950cfc6031 Robert Budai 2025-02-17  1033  			BIT(ADIS16550_STATUS_SENSOR) |
-55be950cfc6031 Robert Budai 2025-02-17  1034  			BIT(ADIS16550_STATUS_TEMPERATURE) |
-55be950cfc6031 Robert Budai 2025-02-17  1035  			BIT(ADIS16550_STATUS_SPI) |
-55be950cfc6031 Robert Budai 2025-02-17  1036  			BIT(ADIS16550_STATUS_PROCESSING) |
-55be950cfc6031 Robert Budai 2025-02-17  1037  			BIT(ADIS16550_STATUS_POWER) |
-55be950cfc6031 Robert Budai 2025-02-17  1038  			BIT(ADIS16550_STATUS_BOOT) |
-55be950cfc6031 Robert Budai 2025-02-17  1039  			BIT(ADIS16550_STATUS_WATCHDOG) |
-55be950cfc6031 Robert Budai 2025-02-17  1040  			BIT(ADIS16550_STATUS_REGULATOR) |
-55be950cfc6031 Robert Budai 2025-02-17  1041  			BIT(ADIS16550_STATUS_SENSOR_SUPPLY) |
-55be950cfc6031 Robert Budai 2025-02-17  1042  			BIT(ADIS16550_STATUS_CPU_SUPPLY) |
-55be950cfc6031 Robert Budai 2025-02-17  1043  			BIT(ADIS16550_STATUS_5V_SUPPLY) |
-55be950cfc6031 Robert Budai 2025-02-17  1044  			BIT(ADIS16550_STATUS_CRC_CODE),
+Sure, I'll do these tests :)
 
-this is duplicate.  I dropped this one.
+For now I found my code has some issue with inline mode so I'll first try to
+track down what's wrong there.
 
-55be950cfc6031 Robert Budai 2025-02-17  1045  	.timeouts = &adis16550_timeouts,
-55be950cfc6031 Robert Budai 2025-02-17  1046  };
-55be950cfc6031 Robert Budai 2025-02-17  1047
+But looking at the patch you sent I'm wondering - are we treating the arithmetic
+in kasan_mem_to_shadow() as unsigned? You wrote that all the ranges will
+overflow but I thought we're interpreting the arithmetic as signed - so only
+positive addresses will overflow and negative addresses (with bit 63 set) will
+only be more negative thus not causing an overflow. That was my assumption when
+writing the previous checks - we need to check below the overflown range, above
+the negative (not overflown) range, and between the two.
 
-
-> Jonathan
-> 
-> > 
-> > Jonathan
-> > 
-> >   
-> > > Robert Budai (6):
-> > >   iio: imu: adis: Add custom ops struct
-> > >   iio: imu: adis: Add reset to custom ops
-> > >   iio: imu: adis: Add DIAG_STAT register
-> > >   dt-bindings: iio: Add adis16550 bindings
-> > >   iio: imu: adis16550: add adis16550 support
-> > >   docs: iio: add documentation for adis16550 driver
-> > > 
-> > >  .../bindings/iio/imu/adi,adis16550.yaml       |   74 ++
-> > >  Documentation/iio/adis16550.rst               |  376 ++++++
-> > >  Documentation/iio/index.rst                   |    1 +
-> > >  MAINTAINERS                                   |   10 +
-> > >  drivers/iio/imu/Kconfig                       |   13 +
-> > >  drivers/iio/imu/Makefile                      |    1 +
-> > >  drivers/iio/imu/adis.c                        |   35 +-
-> > >  drivers/iio/imu/adis16550.c                   | 1149 +++++++++++++++++
-> > >  include/linux/iio/imu/adis.h                  |   34 +-
-> > >  9 files changed, 1680 insertions(+), 13 deletions(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> > >  create mode 100644 Documentation/iio/adis16550.rst
-> > >  create mode 100644 drivers/iio/imu/adis16550.c
-> > >     
-> > 
-> >   
-> 
-> 
-
+-- 
+Kind regards
+Maciej Wieczór-Retman
