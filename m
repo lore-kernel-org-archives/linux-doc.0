@@ -1,62 +1,63 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B3E1FF601
-	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 12:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781E0202995
+	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 12:00:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741089623; cv=none; b=mRD1wdaFPo/e5AarQ/hCUfon2YN8RmWFrGm7Wj/4U+1Ak33xzKDEuIXxGv62ttX23/YBgUy+SDFJFWGpSfocrxOsT8i5sD9/ekU3LQ+ILjzE4ZhrTzvPHIp56zkCVWgBDRt31GZxWIjuGxRiK6qIlEL/u7A//IMDyvAvvh1VRfw=
+	t=1741089624; cv=none; b=DNgcs4EP9494sRmb3TItcWF3N/bj5iioG4HhgyuZIaQ5Z+bAYd2KHHqIHMJ48h2DY9hs1ZVCe12XtmlKoICP/rkgYlonpHIBKL14UMmZoe6RW5APppKWrjH8jBMl7vbCDfQzizqsv76CRa449X+eSFzdtRDvAIGboDd8ORQExtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741089623; c=relaxed/simple;
-	bh=bKMa8fqW6fjvU7IC3trRLzO9pEfTAhYdgpAHUxI/OBw=;
+	s=arc-20240116; t=1741089624; c=relaxed/simple;
+	bh=37qdTKtD627l5e6Qxc7x2IExKolZyjtaGfIkopSnfWs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p4SkGJO+YFUeff8kCk2nm/FvFuPqmqDtXs6Wr2GWNHsCU776FNrCT63x+T00aGba32SsKOm4Nqo+gv4KvC0ozCLwe8+678PAUv++UKRvpBa3xWuGfTAzkrSGWPBCBwd3FY7Ox5NgZK3Ghm0wwBYgOmYXWkLF7WiK9+mgf+unMvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Qwji6+5/; arc=none smtp.client-ip=209.85.128.43
+	 MIME-Version:Content-Type; b=Tp0prmsEvnFcNHhC5nom+peO1D5Wkd8HXG3pHaO7eCBskXtyGCzgJDm26MEYagcIysmP9RK9wtZSilhYVLLLpDVBJf4achuwK4aUROBlgNaa9iW85/OJwwEnu1dzLw5fUY4ziHLVYEQVZMXhcCIj1sP9DyIht4O2b/7PYXzQPpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=UkvTCHiB; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Qwji6+5/"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43bc31227ecso12912945e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 04:00:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="UkvTCHiB"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4394345e4d5so37858965e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 04:00:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1741089618; x=1741694418; darn=vger.kernel.org;
+        d=ventanamicro.com; s=google; t=1741089621; x=1741694421; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XoVXTPIMs1CQCffXwitKYw9GB5bSc15mRPYc+pFsBJQ=;
-        b=Qwji6+5/VTF28jPBNsvck4WH3bCdkBox/CpQySMUy7f1cBbLWvx1jM/ZrmFqbRptvg
-         Zhu5mDNts4HG8s3mpw0Zxm+RbuIzJ89+0cf16mzFHjljvH1mW0FpF28j/I2iWgjRfKW1
-         ldhGibk7eZRbyzJRE+Xj9G/9gZp5EgpuHPYQpdHwWpJv2KLDAW+xgAo/joq+6viz0/4D
-         ihXMRIR4K4vaj0HYQPgQQKGK7TXOSa2e2OqGG6kzd5gl3xCkoshbbDFYNlE+2jG6xZXr
-         sctRpjnTDNJhI/UEAxJT2boTewuQaowVIz19Oq/K3kN/3xT14XMlXe8+e4JMTr/7n+A0
-         P0/A==
+        bh=v5+0DAJFyGg9dqAHMt/74M2g7aCiRWRLOEFqoe5G5I8=;
+        b=UkvTCHiBTyGl3Nw+fp/pvMuLhXk/il8e9d/VFc9Hj6ltvkSdfYE13AB1/2Xz8UxHmA
+         GQy5L3po2ILOqNqLqzzYjqjdJJ+yjb1LWL7yIYsKE9ykH6E4pyAGOlwLPtQXQJh7bPAt
+         9RpTIUw1yv4TZaW6lSqpfjEGpERRgV3v0xMwkD5Q9JEZqYp3pCiX2y9wytH3/MWIu8WS
+         VZNbc2waz4HSE2hvbZDsgFEFZrcmp3T37N4O/VVzb2lUstp5APYaCDkXMKJj4kP373DZ
+         LUcm3i5yYXy2CQn4ihVValkcBv7sohcgzTTD68twpo5x8YTH83pXjEhxGhZv36ATxdUV
+         Rp7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741089618; x=1741694418;
+        d=1e100.net; s=20230601; t=1741089621; x=1741694421;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XoVXTPIMs1CQCffXwitKYw9GB5bSc15mRPYc+pFsBJQ=;
-        b=gwCe16mFdX8jKA9QMCgv7qDKIP1w08g/rXP8jHu1y9gjtGgQEykhQSnTy5pCZaa0wZ
-         Myj9ihoVVqxIWVYnr/Acq1AOpbltOvJ1z39tJYoUuk0xvQvo7BPU1OgF9fZ38CyH/du1
-         De5UU0v/xg4xgT5mr9vF/EzRKulj4s796nTMq6WH/9DfyNPOAAkWSvq4Wl18d4ArrVnA
-         YBtyo2tC47cyDY6/4WDpNuu84rfkQ+wnzQD4Go+r57yNlIq8sMh7EnYfJCoZQOwinYlg
-         Y939RGNVFuyDOh7HR/2PQEjcYHfGqLNPa5NmN6s0bIi9TKdNc9Eew1Z+f7Uk+VWetfEt
-         1oAw==
-X-Forwarded-Encrypted: i=1; AJvYcCV490xLhYBqjyTewVx1jBc4mUTizaur80rmJdbLo8yqH09M39pLcd/OgLFDUHMpiP+SF5hOzV69nE4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHzsZ6aB3TzabiD83FqkOPBKxiaSveWNUSXrBm2kIGDfl6v2eJ
-	5Nn5jirefhjzTl0oaRI/f38QOypqoKq4bv2xmBQfXZIPCOwLcdmkNoiBHWUj6ts=
-X-Gm-Gg: ASbGncuubgDx2lY6pW+cyyBHifvVsqqUADZiWfw0U9nGMmf5NVXYcK3MvuV7MJf++Vn
-	cRcy6IuKabu4ra67h175rEspm/vY7PLSe40gWU2cvj8uKN7V98yxw7oD8T+0oEHZWAu908KrClG
-	Hm/0+Z/kI0c7D+Rc3im7iEcoymjkEjlCSt8VtN4nfGQY4+Qq3IUDlE6eDth/NchszP7OxaqJM3K
-	tHPPJf9Y74nGqMdWxfK7kA6Gxhnw657dC5TqlPjDBdTszIo1A3EbTjP6kqsFr+RLDZR6Yp7fOm6
-	3hcyFIPzDqSAItG0Q0j+rkYTM4v6Tynx
-X-Google-Smtp-Source: AGHT+IGSlj+jarr0JPc4Azcvd/gVJrRnnAK8bPpcD6KvNf1uMYM/W8wrPief42jLDcp+dxdCRnmVUw==
-X-Received: by 2002:a05:600c:19cd:b0:439:8346:505f with SMTP id 5b1f17b1804b1-43ba6747836mr129232375e9.20.1741089618179;
-        Tue, 04 Mar 2025 04:00:18 -0800 (PST)
+        bh=v5+0DAJFyGg9dqAHMt/74M2g7aCiRWRLOEFqoe5G5I8=;
+        b=XJpEn4hQVVzs/UlbZqlNoU7rrHNn76+GebV/cfyAke6MJdSjNJ4+u3gnT6VLvDo9/G
+         SUjthwyxnYKmOUqzmPN8BW1HpmUEy6K/Whf5qsrA+FPqVQ1BWOaJfYHQ6np4W7xQgVPx
+         mmOPYvi4uLFFb3cJAn4Ft5JnwsbGre26x5T3RPz/WzAYV/RXCciMQTpB1BReBFkQ/3pw
+         VuzA7kELbFpK4BtTbdDuCS0TzBS8jvVQcR22tSaOQL3VG0DMUrs9BuVpLuEEbSi0fQwi
+         xUCaRCZEaioObx4srn1PYrtKpajbjE7vhDwsRI3/BAXdzaOMsvk0uyYapCvyayTJ/Azo
+         Zhbw==
+X-Forwarded-Encrypted: i=1; AJvYcCWYwiBuGeR23FJveID3FlvpFTB05E2qyP0mYLNeUO2FqgLn4pLC9G3pv7FmDbwBUnfIo07H642r3zU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCnX9V0Ea6YwM2bbJkgcn7AVU7wkLuNEFOmJEgwBq4bkbERCQL
+	4yA1biG+JpiPORDLq/1v6iRVteUSZ+prXo1yNYc+sDVqaR515mKAG+mWp9kHHdqsKsl+26WpEoG
+	0
+X-Gm-Gg: ASbGnctZykeUjnLNn8ZPBkhs4+L3csMb0DTbF40C+tqSfaJIVkpgYmpDMQUmJBgVqVM
+	/5ecYO30/XXmWXHiuYPC0A4Ok2Jzkoz5t1tNywiBnjwgmn7lMC6h2HEPA1WZjqOBG5AIgzdxllZ
+	v3fGDdG/WmYyqo9RrBbbZNzwism/NzQhNkFLPcl6dzA+I2Zg34dJHI4j5DnhYJUuc4C8U3Y9oKq
+	NQN7OwTxKARhlaJUZJ01S+PCs+95kd662LoclbE/ikcIq69QHnFUV9qru/Ox7r+pwhO93AwYVnQ
+	KjkK+Wly7XTNNGsFdjp4o0Oe/cUJTyzQ
+X-Google-Smtp-Source: AGHT+IEqMgV5t8PcK9JSG+SOO4LPXPlwofpngejjCplSgEhGn5nYR0XjUC86Q3nC0sypwkMwdVM5mQ==
+X-Received: by 2002:a05:600c:4693:b0:439:8523:36cc with SMTP id 5b1f17b1804b1-43ba66e66d7mr161122735e9.11.1741089620734;
+        Tue, 04 Mar 2025 04:00:20 -0800 (PST)
 Received: from localhost ([2a02:8308:a00c:e200::688c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e485e13fsm17295914f8f.100.2025.03.04.04.00.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e4795962sm17966864f8f.13.2025.03.04.04.00.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 04:00:17 -0800 (PST)
+        Tue, 04 Mar 2025 04:00:20 -0800 (PST)
 From: Andrew Jones <ajones@ventanamicro.com>
 To: linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
@@ -69,9 +70,9 @@ Cc: paul.walmsley@sifive.com,
 	Anup Patel <apatel@ventanamicro.com>,
 	corbet@lwn.net,
 	Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v3 2/8] riscv: Fix riscv_online_cpu_vec
-Date: Tue,  4 Mar 2025 13:00:17 +0100
-Message-ID: <20250304120014.143628-12-ajones@ventanamicro.com>
+Subject: [PATCH v3 4/8] riscv: Change check_unaligned_access_speed_all_cpus to void
+Date: Tue,  4 Mar 2025 13:00:19 +0100
+Message-ID: <20250304120014.143628-14-ajones@ventanamicro.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250304120014.143628-10-ajones@ventanamicro.com>
 References: <20250304120014.143628-10-ajones@ventanamicro.com>
@@ -81,39 +82,80 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-We shouldn't probe when we already know vector is unsupported and
-we should probe when we see we don't yet know whether it's supported.
-Furthermore, we should ensure we've set the access type to
-unsupported when we don't have vector at all.
+The return value of check_unaligned_access_speed_all_cpus() is always
+zero, so make the function void so we don't need to concern ourselves
+with it. The change also allows us to tidy up
+check_unaligned_access_all_cpus() a bit.
 
-Fixes: e7c9d66e313b ("RISC-V: Report vector unaligned access speed hwprobe")
+Reviewed-by: Clément Léger <cleger@rivosinc.com>
 Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 Signed-off-by: Andrew Jones <ajones@ventanamicro.com>
 ---
- arch/riscv/kernel/unaligned_access_speed.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ arch/riscv/kernel/unaligned_access_speed.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
 diff --git a/arch/riscv/kernel/unaligned_access_speed.c b/arch/riscv/kernel/unaligned_access_speed.c
-index b7a8ff7ba6df..161964cf2abc 100644
+index 02b485dc4bc4..780f1c5f512a 100644
 --- a/arch/riscv/kernel/unaligned_access_speed.c
 +++ b/arch/riscv/kernel/unaligned_access_speed.c
-@@ -367,10 +367,12 @@ static void check_vector_unaligned_access(struct work_struct *work __always_unus
+@@ -218,7 +218,7 @@ static int riscv_offline_cpu(unsigned int cpu)
+ }
  
- static int riscv_online_cpu_vec(unsigned int cpu)
+ /* Measure unaligned access speed on all CPUs present at boot in parallel. */
+-static int __init check_unaligned_access_speed_all_cpus(void)
++static void __init check_unaligned_access_speed_all_cpus(void)
  {
--	if (!has_vector())
-+	if (!has_vector()) {
-+		per_cpu(vector_misaligned_access, cpu) = RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED;
- 		return 0;
-+	}
+ 	unsigned int cpu;
+ 	unsigned int cpu_count = num_possible_cpus();
+@@ -226,7 +226,7 @@ static int __init check_unaligned_access_speed_all_cpus(void)
  
--	if (per_cpu(vector_misaligned_access, cpu) != RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED)
-+	if (per_cpu(vector_misaligned_access, cpu) != RISCV_HWPROBE_MISALIGNED_VECTOR_UNKNOWN)
- 		return 0;
+ 	if (!bufs) {
+ 		pr_warn("Allocation failure, not measuring misaligned performance\n");
+-		return 0;
++		return;
+ 	}
  
- 	check_vector_unaligned_access_emulated(NULL);
+ 	/*
+@@ -261,12 +261,10 @@ static int __init check_unaligned_access_speed_all_cpus(void)
+ 	}
+ 
+ 	kfree(bufs);
+-	return 0;
+ }
+ #else /* CONFIG_RISCV_PROBE_UNALIGNED_ACCESS */
+-static int __init check_unaligned_access_speed_all_cpus(void)
++static void __init check_unaligned_access_speed_all_cpus(void)
+ {
+-	return 0;
+ }
+ #endif
+ 
+@@ -403,10 +401,10 @@ static int __init vec_check_unaligned_access_speed_all_cpus(void *unused __alway
+ 
+ static int __init check_unaligned_access_all_cpus(void)
+ {
+-	bool all_cpus_emulated;
+ 	int cpu;
+ 
+-	all_cpus_emulated = check_unaligned_access_emulated_all_cpus();
++	if (!check_unaligned_access_emulated_all_cpus())
++		check_unaligned_access_speed_all_cpus();
+ 
+ 	if (!has_vector()) {
+ 		for_each_online_cpu(cpu)
+@@ -417,9 +415,6 @@ static int __init check_unaligned_access_all_cpus(void)
+ 			    NULL, "vec_check_unaligned_access_speed_all_cpus");
+ 	}
+ 
+-	if (!all_cpus_emulated)
+-		return check_unaligned_access_speed_all_cpus();
+-
+ 	return 0;
+ }
+ 
 -- 
 2.48.1
 
