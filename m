@@ -1,96 +1,212 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A6A24EA8B
-	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 20:45:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A035F2E337D
+	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 21:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741121128; cv=none; b=k5sd4VQOv2KJ/lzhLmi/QB/Wt01yJNofsokSh/E3eTOX27CXXC0t7uz7zfeB0UeLVQfLuzSmygXMJNBY5O0SDNXO/BFnca5XevU8wZhCFuJSscLhT5Jp8FqXhKufFpHkroxCPzAsPQPx6csSJfvssjn17qrqZF/2mYtp/qaKu+k=
+	t=1741122361; cv=none; b=YDSaHFajf/qO0YSITL3heZ0C6OpyrjDhHsW9Q55pNVIJnvsmhwmn+goYY7mikO0DyZuxECAXhwAjsRzjpKCd8knviY4MdcG3ZUtd/A81IZniLeniX5HP56fDA19U+5CYk4FrS8/Xz2zNtnuHtJjynQMefE0LZYKpFiLOUK++96s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741121128; c=relaxed/simple;
-	bh=GBTYcWM988+PKQB7e+LWCSDv1bTZ9jOTHc6PlHK11LA=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=KXl8GQlIp6ssv+cXG1+QVN4gUZjR9FyM1VS4WQohSCt84X6xnERzDN0Dj52yguI+2mQDJCsnwNkAUk46w5POzDLZrIpDeaMAQijd93Z2f/ozbULQXl3Pl7rWAcVeXp8E8XJ/oCMFlnZK4J7bgqqX/FUNTUqQooKUt7JGhhey1+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P9Phi7bb; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+	s=arc-20240116; t=1741122361; c=relaxed/simple;
+	bh=tTzktltTbp+f/YuZQWlOZqnNOLQ0oDxFl3zFfOzmDuE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pWa+1Gz2QfNAwiAig0QgvyyxQ/R50muO6tPAUE0/lI+IpdRWbK6YHwvpQZ+rZjc3MQzmUSJdkQI+iFKwgZgU+KNy1qyIjk+eXkvLeivgeI94cFO3u0Bf5ASMg9zgMmgZyYHWJTzLGs8nX2v4erv9982HGVKiM8fWt0NqNkxnr4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bbNUVCl2; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P9Phi7bb"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-22380c707d3so53001905ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 12:45:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741121126; x=1741725926; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=O/h3K1VAjVU+85Yct7CoBzw18CRZr0W5WJZ0048JDtU=;
-        b=P9Phi7bbhFM4EUHnYOBI5owmxpoPMASwmpEAEortBpeXyhguguVeo74oFZX32R0DFx
-         NZYokAQqSWjyAkjVNutE3quPraDyc83tLUxNKKuWUvVW7rTsHbuJmfexN2mvZSLoAd59
-         S4xNSB75SncT6uR8Z6VJ5AftCR+yiSS0tiiRBBbQ3dsVluysmuc6IUO+7qLHGDJNSc0P
-         W5jqD2nCV8Flts8qSfFkUOd/5fUqSpCvFMksjqSr68u8xcnjcUgJb3iP28+S8xwGN8UO
-         tsftjoh5zCrtD4HFeVPlttOphg8sJdCKnqmpb9Q+qu8mpDuBaTDhR0BkiDzKSWEbv9xT
-         88Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741121126; x=1741725926;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=O/h3K1VAjVU+85Yct7CoBzw18CRZr0W5WJZ0048JDtU=;
-        b=AJchJmAg/j8xK4xwQiGSdXRdOmnoq0XHlmIrcowwSr7gplHQmMt8ToBLyQWbjloQmM
-         J1iLxqcUnV1f0mmsTnvQAeo1ITGOIITgzsVgiSuZI/ooGTYfb5GgW9P9aNwtz6vLBX5l
-         uW3W8vA9RAdyfBeQ8Xp5dohT3Zy2L5qN4xomThcZiQ+MOJzB7/xHdJEkJLias2ESOv2B
-         QVLVCEg0J2NHKUhcb6ftPwB9kxNz1bW83+EQy9faFnWYP4KPiZ4WEd3Qk4iGQhYCMcNl
-         GGYBJUzQwrraIIT3y1sy2t1SlFdNo7AhVHcmVX6M7X/girvHiBIWh0u11PorJVulyAOA
-         N6ng==
-X-Forwarded-Encrypted: i=1; AJvYcCWIM8iGgGmZ+QvaZXbuS1lMb7MHQ43hrsVFlU4gF6tfbYSg47j1V5SSI1hk22zXkpM6M2HzgOy4CCI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhVHii885zF2bi8I0dqKCXk2d1g8FLkgVsxzHl6cEOLnyH4smQ
-	AH3IjVHl+0goaiVf+VR26XGeTU9L0kLB3JQMIE9zrR8LzrVfHlVmOPakoMALybsbM4k/AA+8c/A
-	VH4zVdR/QjhKMcw==
-X-Google-Smtp-Source: AGHT+IEvAad14fuI/QYpN+y45DYnXWvF1S16Js2zs5xq9qmOkzSmCsB9Vo4K4dzj+al9VXMxX9NcMQF4YzW17IM=
-X-Received: from pjbkl12.prod.google.com ([2002:a17:90b:498c:b0:2ef:7af4:5e8e])
- (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:d50f:b0:223:5e76:637a with SMTP id d9443c01a7336-223f1c97445mr7020845ad.23.1741121125659;
- Tue, 04 Mar 2025 12:45:25 -0800 (PST)
-Date: Tue,  4 Mar 2025 20:45:19 +0000
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bbNUVCl2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1741122358;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6KWLJdJ5fiIb930pUJLqgFqnld1vEloL0BCIsYX5tKU=;
+	b=bbNUVCl2jecBvruXOAfHCme4B2iGNzuEdOqFPO6xGzc3wGkqGSoZ5Ja8zQJv16aQXyW/Uy
+	yXm1PWibWVYNGqwNJNshIp3xzZWsNUc30SsA7/06cs/fVdUQsQIIn/i/rxhbZVxx24OljM
+	Sfbg8Rn7U7LGEKkEfxgySD20GwooK0c=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-104-8p-Y_gSbPemwfxF2TVQ7pw-1; Tue,
+ 04 Mar 2025 16:05:56 -0500
+X-MC-Unique: 8p-Y_gSbPemwfxF2TVQ7pw-1
+X-Mimecast-MFC-AGG-ID: 8p-Y_gSbPemwfxF2TVQ7pw_1741122350
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 20205196E078;
+	Tue,  4 Mar 2025 21:05:49 +0000 (UTC)
+Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.107])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 863E5180035F;
+	Tue,  4 Mar 2025 21:05:40 +0000 (UTC)
+From: Anusha Srivatsa <asrivats@redhat.com>
+Subject: [PATCH v5 0/7] drm: Move to using devm_platform_ioremap_resource
+Date: Tue, 04 Mar 2025 16:05:30 -0500
+Message-Id: <20250304-mem-fixes-v1-0-fb3dab8d901f@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.48.1.711.g2feabab25a-goog
-Message-ID: <20250304204520.201115-1-tjmercier@google.com>
-Subject: [PATCH] bpf, docs: Fix broken link to renamed bpf_iter_task_vmas.c
-From: "T.J. Mercier" <tjmercier@google.com>
-To: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Dave Marchevsky <davemarchevsky@fb.com>
-Cc: "T.J. Mercier" <tjmercier@google.com>, bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABprx2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDYwMT3dzUXN20zIrUYl1jk5Q0c8MUQ4skSwsloPqColSwBFB5tFKZqVJ
+ sbS0AVVYK2l8AAAA=
+X-Change-ID: 20250304-mem-fixes-34df71d18b98
+To: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
+ Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Anusha Srivatsa <asrivats@redhat.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741122340; l=4017;
+ i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
+ bh=tTzktltTbp+f/YuZQWlOZqnNOLQ0oDxFl3zFfOzmDuE=;
+ b=tLxkFhbjw7T7MpPQYdS80+nQqIVDddH0gSbIMbiohOArqEncZj1ftcdpm/JGZ6GFdJ1dhbNll
+ zZTUamGjMv5C/C0Xon0mjVY0BqUtVSB/5VCcFwcg+kMfQBGgVc0MkWq
+X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
+ pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-This file was renamed from bpf_iter_task_vma.c.
+Start replacing the below occurences with the newer API:
+- (devm_)platform_get_resource + devm_ioremap_resource
+- (devm_)platform_get_resource + (devm_)ioremap
+- platform_get_resource_byname + devm_ioremap
+Move all these occurences to uses devm_platform_ioremap_resource
+instead.
 
-Fixes: 45b38941c81f ("selftests/bpf: Rename bpf_iter_task_vma.c to bpf_iter_task_vmas.c")
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
+This is v5 of the series.
+
+Changes in v5:
+- Some patches already merged, leave them out.
+- Handle return properly. The new API returns a error pointers
+and not NULL. While this is taken care of in most drivers in
+the series, the sprd and sti needed changes. Thanks to Dan
+for pointing this out with his fix:
+https://lore.kernel.org/dri-devel/a952e2b4-d4b8-49ac-abd9-9967c50f4a80@stanley.mountain/
+
+Changes in v4:
+- Address vc4 driver compilation error
+
+Changes in v3:
+- Keep the old snippet of documentation and add further
+clarification (Thomas)
+- change in vc4 driver for the a resource is not needed.
+Add a comment to clarify why that is left behind (Maxime)
+
+Changes in v2:
+- Fix compilation errors
+
+Used Coccinelle to make the code changes.Semantic patch:
+
+//First Case
+//rule s/platform_get_resource + devm_ioremap_resource/devm_platform_ioremap_resource
+@rule_1@
+identifier res;
+expression ioremap_res;
+identifier pdev;
+@@
+-struct resource *res;
+...
+-res = platform_get_resource(pdev,...);
+-ioremap_res = devm_ioremap_resource(...);
++ioremap_res = devm_platform_ioremap_resource(pdev,0);
+
+//Second case
+//rule s/(devm_)platform_get_resource + (devm_)ioremap/devm_platform_ioremap_resource.
+@rule_2@
+identifier res;
+expression ioremap;
+identifier pdev;
+@@
+-struct resource *res;
+...
+-res = platform_get_resource(pdev,...);
+<...
+-if (!res) {
+-...
+-}
+...>
+-ioremap = devm_ioremap(...);
++ioremap = devm_platform_ioremap_resource(pdev,0);
+
+//Third case
+//rule s/(devm_)platform_get_resource_byname + (devm_)ioremap/devm_platform_ioremap_resource_byname.
+@rule_3@
+identifier res;
+expression ioremap;
+identifier pdev;
+constant mem;
+expression name;
+@@
+-struct resource *res;
+<+...
+-res = platform_get_resource_byname(pdev,mem,name);
+<...
+-if (!res) {
+-...
+-}
+...>
+-ioremap = devm_ioremap(...);
++ioremap = devm_platform_ioremap_resource_byname(pdev,name);
+...+>
+
+Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- Documentation/bpf/bpf_iterators.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Anusha Srivatsa (7):
+      drm/fsl-dcu: move to devm_platform_ioremap_resource() usage
+      drm/hisilicon: move to devm_platform_ioremap_resource() usage
+      drm/mxsfb: move to devm_platform_ioremap_resource() usage
+      drm/sprd: move to devm_platform_ioremap_resource() usage
+      drm/sti: move to devm_platform_ioremap_resource() usage
+      drm/tegra: move to devm_platform_ioremap_resource() usage
+      Documentation: Update the todo
 
-diff --git a/Documentation/bpf/bpf_iterators.rst b/Documentation/bpf/bpf_iterators.rst
-index 07433915aa41..7f514cb6b052 100644
---- a/Documentation/bpf/bpf_iterators.rst
-+++ b/Documentation/bpf/bpf_iterators.rst
-@@ -86,7 +86,7 @@ following steps:
- The following are a few examples of selftest BPF iterator programs:
- 
- * `bpf_iter_tcp4.c <https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/tree/tools/testing/selftests/bpf/progs/bpf_iter_tcp4.c>`_
--* `bpf_iter_task_vma.c <https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/tree/tools/testing/selftests/bpf/progs/bpf_iter_task_vma.c>`_
-+* `bpf_iter_task_vmas.c <https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/tree/tools/testing/selftests/bpf/progs/bpf_iter_task_vmas.c>`_
- * `bpf_iter_task_file.c <https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/tree/tools/testing/selftests/bpf/progs/bpf_iter_task_file.c>`_
- 
- Let us look at ``bpf_iter_task_file.c``, which runs in kernel space:
+ Documentation/gpu/todo.rst                      | 13 +++++++------
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c       |  4 +---
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c    |  4 +---
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c |  4 +---
+ drivers/gpu/drm/mxsfb/lcdif_drv.c               |  4 +---
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c               |  4 +---
+ drivers/gpu/drm/sprd/sprd_dpu.c                 | 13 +++----------
+ drivers/gpu/drm/sprd/sprd_dsi.c                 | 13 +++----------
+ drivers/gpu/drm/sti/sti_compositor.c            | 14 +++-----------
+ drivers/gpu/drm/sti/sti_dvo.c                   | 14 +++-----------
+ drivers/gpu/drm/sti/sti_hda.c                   | 13 +++----------
+ drivers/gpu/drm/sti/sti_hdmi.c                  | 15 +++------------
+ drivers/gpu/drm/sti/sti_hqvdp.c                 | 14 +++-----------
+ drivers/gpu/drm/sti/sti_tvout.c                 | 14 +++-----------
+ drivers/gpu/drm/sti/sti_vtg.c                   | 14 +++-----------
+ drivers/gpu/drm/tegra/dsi.c                     |  4 +---
+ 16 files changed, 40 insertions(+), 121 deletions(-)
+---
+base-commit: 0670c2f56e45b3f4541985a9ebe06d04308e43b0
+change-id: 20250304-mem-fixes-34df71d18b98
+
+Best regards,
 -- 
-2.48.1.711.g2feabab25a-goog
+Anusha Srivatsa <asrivats@redhat.com>
 
