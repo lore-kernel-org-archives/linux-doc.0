@@ -1,133 +1,101 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC08F2780FF
-	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 21:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6783D202C53;
+	Tue,  4 Mar 2025 21:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741122415; cv=none; b=iaWTQOg2pyT3JcMIhcwvmdq7GDm4OmHIF2iPvpiK7uPZeXv6gAB1rq8JRSTvQDMqOMsnXjvKENtF3cEpR1PSN3bP2TgCUtg2Ff36KFJVk8PcG2zC5lqOxodHGeuZOhsYUV//sAfOe5pr4+YIDYhADYAQ3DnyGbsxUxH3bhhJQ/I=
+	t=1741123157; cv=none; b=sfE4tMtvEiD5y6rVkUGwUrChYeWx9zZqqm1JyvyYvZSPTkoBdp8/okdz4PBxnkT/uimOTQaMPGIL0E3ibiNNrkx0z0oGQArpLX9M13hs12pN+3woTsfmVG+etPzlIIqonunLHNLVr9eK1BofKLA1cLRzWVwvrmWSZj/TiqwuZWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741122415; c=relaxed/simple;
-	bh=a+9vSiehl6gknw6Mmbey4xtGtLQG5CCHOmYcTZZMmdo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ndHgAxspRekuEmdtB5O2jfRpYBxXxIL7QNi61VjEr7G0kXjg/hyfvKkSn5XMoe9Tksq5CVbCOxAM8f8VP0FPfhuG5V3rz6zBQapH8lXGhucL/8h2OTKUzSkMEheExoMUc0zmhkYh1g+99w40z8QjeUPcpHiXezMtG+7vyo+NUVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F7Fjsi8U; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1741123157; c=relaxed/simple;
+	bh=vX02kc1a3L/e3wLRY5G+48R1DF8rMoBAD1qr+V7KmLs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ji9Gz/gcSAUK0IEmozq7anXv0OIMMudhMU6p9Prh7hdkwlHY5cvIdNoVsXUyL7CkipKcnQO53WqjU/1RSlKQ+q8gf63sGs/uTJvLGa1ZqPwA4RdqUOymF8Vlj76Ok+9IKnb8Wq+23+wgXfESmjHfUMZB8ZxWLPrPVQHyQTh1ApM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GM2e7ceG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F7Fjsi8U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741122412;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PXScMvqY7wnhyHgtPtCu0A5GRSUf3CJsowbwzHCyWmo=;
-	b=F7Fjsi8UgcygO/JCTe3liPKyFgRHkucq4raM87Pl+fFdVQ1596FPYkUBabqvedaFw8b34o
-	aJDCO4F46kN+3swgXamWpeJ/nEtDMV5BoPBfYcmYReretBAUQhN00CjwpA82C62Q5KicDj
-	2O0oYDoh4o/2nBe0Xeffi4QECOqepCo=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-443-0cKN8XxRM0mrXwnxQn2CEA-1; Tue,
- 04 Mar 2025 16:06:44 -0500
-X-MC-Unique: 0cKN8XxRM0mrXwnxQn2CEA-1
-X-Mimecast-MFC-AGG-ID: 0cKN8XxRM0mrXwnxQn2CEA_1741122400
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7190E1954B1C;
-	Tue,  4 Mar 2025 21:06:40 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.107])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 18CB7180035F;
-	Tue,  4 Mar 2025 21:06:33 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 04 Mar 2025 16:05:37 -0500
-Subject: [PATCH v5 7/7] Documentation: Update the todo
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GM2e7ceG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6307C4CEE5;
+	Tue,  4 Mar 2025 21:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741123156;
+	bh=vX02kc1a3L/e3wLRY5G+48R1DF8rMoBAD1qr+V7KmLs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=GM2e7ceG1u1x75TI8kzbLFCehMSFdYJP/dMe4nLeRhezgFMjCWxgrM9DfeyNEVJpq
+	 muUYAfkC1Hq6iAiE0ijwq5U+BfSmXdG7DPWUMESs2PQtR5l7SfKHxGA0HFQNGmhgWJ
+	 Cb6AWS5As73tyNc+wiAf3KBwYemSGzMRZINE3vPE75sShPeUIF4l7SEG2+SmbZtuRB
+	 jQs5PoGLH3FxcW6Vnb/0SQn0kLa98zXLfb6JSPl+95KcmOwtx09S/Zkwx42SZLMQCY
+	 HedVYTEfWsdxnEvpeQ70GEkDaPB+k3662deL/LUgjm2xfCtcQRfZM+CG8l0SVMVhWb
+	 bWIybjFWam0Pw==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 0/9] mm/damon: make allow filters after reject filters useful and intuitive
+Date: Tue,  4 Mar 2025 13:19:04 -0800
+Message-Id: <20250304211913.53574-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250304-mem-fixes-v1-7-fb3dab8d901f@redhat.com>
-References: <20250304-mem-fixes-v1-0-fb3dab8d901f@redhat.com>
-In-Reply-To: <20250304-mem-fixes-v1-0-fb3dab8d901f@redhat.com>
-To: Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org, 
- Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1741122340; l=1624;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=a+9vSiehl6gknw6Mmbey4xtGtLQG5CCHOmYcTZZMmdo=;
- b=8rCBCsNcZ8amMTaIWFiJodYpFjxHIQvmmD9mzX+B3axhphImg2RnoMahA4QjvfU1qzgfFB9SV
- k3E4bSlMe1pCQkwPPjO0buETRRr0CC9j9KMOdGq2ajbFFEFxqaUT8Ct
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Transfer-Encoding: 8bit
 
-Update the Documentation to be more precise.
+DAMOS filters do allow or reject elements of memory for given DAMOS
+scheme only if those match the filter criterias.  For elements that
+don't match any DAMOS filter, 'allowing' is the default behavior.  This
+makes allow-filters that don't have any reject-filter after them
+meaningless sources of overhead.  The decision was made to keep the
+behavior consistent with that before the introduction of allow-filters.
+This, however, makes usage of DAMOS filters confusing and inefficient.
+It is more intuitive and still consistent behavior to reject by default
+unless there is no filter at all or the last filter is a reject filter.
+Update the filtering logic in the way and update documents to clarify
+the behavior.
 
-v2: Update for clarity
-v3: Further details in Todo
+Note that this is changing the old behavior.  But the old behavior for
+the problematic filter combination was definitely confusing, inefficient
+and anyway useless.  Also, the behavior has relatively recently
+introduced.  It is difficult to anticipate any user that depends on the
+behavior.  Hence this is not a user-breaking behavior change but an
+obvious improvement.
 
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- Documentation/gpu/todo.rst | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Changes from RFC v2
+(https://lore.kernel.org/20250227015754.38789-1-sj@kernel.org)
+- Wordsmith commit messages
+- Rebase on latest mm-unstable
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 256d0d1cb2164bd94f9b610a751b907834d96a21..c57777a24e03d91b1ffe04365f7356f2d938befd 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -441,14 +441,15 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
- 
- Level: Intermediate
- 
--Request memory regions in all drivers
---------------------------------------
-+Request memory regions in all fbdev drivers
-+--------------------------------------------
- 
--Go through all drivers and add code to request the memory regions that the
--driver uses. This requires adding calls to request_mem_region(),
-+Old/ancient fbdev drivers do not request their memory properly.
-+Go through these drivers and add code to request the memory regions
-+that the driver uses. This requires adding calls to request_mem_region(),
- pci_request_region() or similar functions. Use helpers for managed cleanup
--where possible.
--
-+where possible. Problematic areas include hardware that has exclusive ranges
-+like VGA. VGA16fb does not request the range as it is expected.
- Drivers are pretty bad at doing this and there used to be conflicts among
- DRM and fbdev drivers. Still, it's the correct thing to do.
- 
+Changes from RFC v1
+(https://lore.kernel.org/20250220193509.36379-1-sj@kernel.org)
+- Set default behavior on core layer filtering stage as allow if any ops
+  layer filter exists.
+- Wordsmith commit messages
+- Rebase on latest mm-unstable
 
+SeongJae Park (9):
+  mm/damon/core: introduce damos->ops_filters
+  mm/damon/paddr: support ops_filters
+  mm/damon/core: support committing ops_filters
+  mm/damon/core: put ops-handled filters to damos->ops_filters
+  mm/damon/paddr: support only damos->ops_filters
+  mm/damon: add default allow/reject behavior fields to struct damos
+  mm/damon/core: set damos_filter default allowance behavior based on
+    installed filters
+  mm/damon/paddr: respect ops_filters_default_reject
+  Docs/mm/damon/design: update for changed filter-default behavior
+
+ Documentation/mm/damon/design.rst | 10 ++--
+ include/linux/damon.h             | 11 ++++
+ mm/damon/core.c                   | 90 +++++++++++++++++++++++++++++--
+ mm/damon/paddr.c                  |  8 +--
+ 4 files changed, 105 insertions(+), 14 deletions(-)
+
+
+base-commit: 2f0a33016d6d4f184f2d3341af17a360b83e2ee2
 -- 
-2.48.1
-
+2.39.5
