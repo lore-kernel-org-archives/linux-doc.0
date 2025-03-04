@@ -1,73 +1,67 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEAB1FECCC
-	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 10:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053011FECC8;
+	Tue,  4 Mar 2025 11:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741083705; cv=none; b=eWBZrQko5Medq8c+I5GG+Q1dZUJ58LN+jOTG3359aCB6sV52Ok9RdOLtJ/o/tsASSbLF5J4ns5gVeqL1Iu+CVv6s1wPoa0LwLHj9xdrAb9E5GPny+IKo9GMo4EPEIdZuYEpNtzzmnBHdAyNTNRdU75QZc04MJQlKiCggTTABnEw=
+	t=1741086424; cv=none; b=KXJrWlakTfZGLlkcGI9L+CtLm7eKWdvXsY4PH3VsfeD8Wz3V4VEoFHymtOXSrXCF+o9C9zZ6yljLaYISUtL0O+VdUtyAsLr4PwtJPoKiWtejvm0eN7fOpN7FEOHDsqTtuzurjJWlZydc5JzcGtvVOObwr7f8lz7ihVGfYCe7S7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741083705; c=relaxed/simple;
-	bh=e7RM6hNb9ihF8EOVgJ5wclsgFLjxdYyGBdLQpDqENwM=;
+	s=arc-20240116; t=1741086424; c=relaxed/simple;
+	bh=u72okckNQ0jdNOB6Z8QVCZcm6/HzQjAsPLcVFc3sDac=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E5OQmQ/xSEKh/zVobAKr+UC3f2VBHsyjFf8t6KKxS1/kVsm1p/m2NPGV1SPYDerQYZI6EGOYj+efZFDCb+aoRP5LiECZKl9NthanzLZTi2DgYB6wSilIEp4Svezi/cGndVxhq7cyKLmyZDEVjyAdhkBVHJzhs2eOuDPfGO8nJqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GrKuga/H; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=cHz2rDJUnlB0jznlIKgLqAApoynudh7hLZ9TnaAVtBQjUmFkKu8zWE9ZuV+cjEpDi1uVbljbmFMR+81VODi7Qhj7A3L1ssRTZTcG8QwjFnjereZNDYeyad3qcAT6PeQQ+s4Oo0PuBFY6fEc5ax09BZdp9+bpi8ZhQ/sdb9YFUDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iGpqA9rT; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GrKuga/H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741083702;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G0GXHJX1K7E5e2wBQk1oB0WcGldIFjvSOHPSzQdYz+4=;
-	b=GrKuga/Hfj+FT7OXTfIsuSmlv5lNxn/b4wdhugcRBjlhiDVM90qFzWjqzpHJcuH/TMI1Du
-	vzbzcMZGz9W/Hxf1l/QhmXFUdHKv2QCu+tSgwejnGTVGPK2ZMUShniiXSzNo0tkSR3kQIa
-	AzM0SZhGKKeDzaYX34gSmh/rjkybmAQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-686-PXrXETdoNtSwrVa0ZHRJYA-1; Tue, 04 Mar 2025 05:21:41 -0500
-X-MC-Unique: PXrXETdoNtSwrVa0ZHRJYA-1
-X-Mimecast-MFC-AGG-ID: PXrXETdoNtSwrVa0ZHRJYA_1741083700
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3910876fce0so1374979f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 02:21:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iGpqA9rT"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-22356471820so86770495ad.0;
+        Tue, 04 Mar 2025 03:07:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741086422; x=1741691222; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=dGOYMclsPDgM+t0EQIsJJgGuY0WmmIvyK/JVQuDV9UU=;
+        b=iGpqA9rTdIirBwdQTdso4aEJmvSbSicADpvO+7OF7/1C4eQzrIEN1Ei8wx3Nel8KwX
+         +cz0bVbDvEP+vbyQ/9m5KMjkO5tTRXngWnQOjhSRBv38FAstYpAyQ2czYlCVGCujQhM7
+         DiDLPCU56yd6eP7PioPkxnAeMSO5FZOW+LG4c5CyGLEcysqnbLxjOngZdzl3YspE3PzX
+         EcaS6WuJzhskNqYYb9glpJXXwnk/SYcCcXfV4onN1WGaeGQgLzlZHSkdBj8awZULSaSa
+         0MsabV5DCwKGt6uq5MDROZqjpC74rmMn2ZRq265NOXC9ixyHsB1fJX1hECu2rP6ShAqe
+         cwxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741083700; x=1741688500;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=G0GXHJX1K7E5e2wBQk1oB0WcGldIFjvSOHPSzQdYz+4=;
-        b=isY8dZ0L/2tpd5yefPpfctIE0BJca2zHF5wZasLhZ6ERnnPgqXUVFtfsGrZQ4RPQPD
-         HFKLZOfzvGC2Bw58IZowqt8MNQROyK3rdxeYRfzmplWtKs5UdlktLmP6I6EryOsI5bRO
-         flJ1ncKRLbkChHsEJBEzRE5oRjPQczt3c/YUmbxlWdo9SNGK0YLJpbZlMJtattr00AYj
-         ERN5BftX1mK2NDK9mkMOCRQrsWBPqv/joTF4qVQ+6CQle6Vo9oU/2Lxr6RsDAyYIXm5F
-         PqySuN3TtHDsPKLIDFzxLIGPgdNCQ9w4x9dcTuf7WWlQVAVHJZ77bW+RVvqK2jPEZF5n
-         XObg==
-X-Forwarded-Encrypted: i=1; AJvYcCUoLRJf1XL/HKbtK02Nx0r522LkVqd6SPKZDGDNC2nHVAqYcJfTsa6toGzdkOemXFyefrdTjZUOpSs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyY5OvwJtjvo8m0Lsc/yz+HjZLmCb6CYCZg5ePSUY8DQbJstb2X
-	acWoOWKh5OJemGgxlLLcCtWgJM5/mp6tRqw6Pkiqmq5c6/p/FJaCoDXHDpDj1dXfQOH++hvHnDs
-	HllQbMrWDlpimLnFvx/ykdP0harmFP3BMCQ3MtkC/OSUcsBvDE3V+OV9wCg==
-X-Gm-Gg: ASbGncuS4CHK+ks8QWfpY2ErXFeNk654wXVkjCaekRzmMuCjeW9ps2LpliM3/JTjrtQ
-	bXIS/7QfkEaDTJiKoJjYHkkUdEo5/0xKtXrpPbS+PesXkljNLakZqYNBBrl4UPstfCpUhYdMyIC
-	s/AkjsRVG6yHzcBoztuLQqNnG5loQ2W66CAVguTW9APTGWKsaUCohmvxNS2+SmX07r0NJM0MCXN
-	TBFKFTf/YLSU1PzOVzUE+zkIQYsc4PGqkEVIzC9oPXPx9lVgtjxqglXuQZoUeUAqX5l5WQ4urAD
-	HNPkNvZdQF+KCoto9vG55PRkiEfjV3nbUosHe8/2SV/gTqfxocXoZBvuo/oLTmRjH5quP/yxyUd
-	MF0D6Ve++OgTi3iLiWDcNijP/IsSw+FPvXcSTchhlxRU=
-X-Received: by 2002:a5d:6c6e:0:b0:38d:c364:d516 with SMTP id ffacd0b85a97d-390eca81d4emr15654543f8f.54.1741083700191;
-        Tue, 04 Mar 2025 02:21:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFoe+t9reG+q1KXFWE83QujE4ro+8v9oe5SMfx3hNgMcGBMtEEMSM8d0V6pJPgREtHTPyF6dQ==
-X-Received: by 2002:a5d:6c6e:0:b0:38d:c364:d516 with SMTP id ffacd0b85a97d-390eca81d4emr15654508f8f.54.1741083699822;
-        Tue, 04 Mar 2025 02:21:39 -0800 (PST)
-Received: from ?IPV6:2003:cb:c736:1000:9e30:2a8a:cd3d:419c? (p200300cbc73610009e302a8acd3d419c.dip0.t-ipconnect.de. [2003:cb:c736:1000:9e30:2a8a:cd3d:419c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e4796517sm16996820f8f.5.2025.03.04.02.21.37
+        d=1e100.net; s=20230601; t=1741086422; x=1741691222;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dGOYMclsPDgM+t0EQIsJJgGuY0WmmIvyK/JVQuDV9UU=;
+        b=AcFUYIFceOYemveHWa5lxcU4iOFv7iWGHvvDoV+v9z57SXQG45pNnTJrqhoo/FjrWU
+         JBU5VQVIkS5Bd8ZQHFYyhc/Sj3+FZkwNjG/N2J8sAtovBv68O+iGKxA87vT+jtVmH7nN
+         u9O9iz29zUsoNMlzOvfvEPPVt8JCjoVB8DRZGngzntN3fInc5Do9RqhPLfQl2qAIm5sS
+         5qlLqrRxIDWU1w3LcvTl84IXZbzCEqqzj76+SgR0L7+jqybWYxX/howIpCgBWc6h8rmK
+         LwPAzIIR6EfbNzt9JXHEcVpVAcltzCkIgKukCIpv5ooNttd/bevAzTQz6PbbvvN/gU2Y
+         yRIA==
+X-Forwarded-Encrypted: i=1; AJvYcCVOfGfEPf7GEayK3Ec4tdmze+tGWY4izdO26S3zrZWmlwQYCZ1JhFcLS1ibuhLGK4nHnZUA4qcN2lF3XoAr@vger.kernel.org, AJvYcCWsXeTYHDr/ACrKL9Ob/iXbnwAowiVX1ZeMgEXMaPtpYUjAK7/J/cNvSGtSHX2DXrT4fLUwRkhhA5Dk810=@vger.kernel.org, AJvYcCX6FNMMYTy9FyROHeB9bT5FzBcvHVEKp0As/TKEJXwk2EfRLIIs7FovWpB6jxgCJ5euDHZnzRmhE58=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCdpZx3qlYZI+95I8UoLXINiiCoLTAq4N0bgSw35ygcSZBVZsX
+	PjpX7hbFffcoryO4VwS3/4SQ0F4ERqIGnBbexg8PZonWIOnCPR2i
+X-Gm-Gg: ASbGncsRmB5LYVCfOGr3qdmR0kwxLAtZCrViKo0d531Lvjh7iv9V5ZwPciMLdsAkaVN
+	AvmnNg94avZLanbCfrkj+RXMs9wYa5YyLwWVSEf7qMTNxuxmGdvJvsOS4FPDQQR2kGNPQSCpnFu
+	ZyunJ3CBqRlkaKOCHGMIj6FnXG1UpsGdta4+eDD+0IuwI67IxzjKbYy2bvnReZg53GeNPGtc4Fa
+	Qotwl7SyqgNszvSu7s9PGnxA1b9AipyamRvu8fQ7u+p0mPYC8E45NhWYHS7Bs0EziEOSTWm0sBp
+	mG2HpI+0LaA9pIu9Mp24B4hnRlmpo4SHU2czynNVB0kFHBNWuSE7wztb2veoPCQ69MmHgnYc/Qk
+	375hqBiaxzu3rYDpJ0Q==
+X-Google-Smtp-Source: AGHT+IHJwekzzBXCf+On6BNR1QynIXIPHY9wpKmMWCfn6uEVAXpFqnt5CFv0C/I7w1D4yIXQMrUnWQ==
+X-Received: by 2002:a05:6a00:4b54:b0:736:5725:59b9 with SMTP id d2e1a72fcca58-73657255a69mr10634752b3a.2.1741086422120;
+        Tue, 04 Mar 2025 03:07:02 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-aee7ddf230dsm9847675a12.8.2025.03.04.03.07.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Mar 2025 02:21:39 -0800 (PST)
-Message-ID: <54433b22-edaa-421e-9c99-6ee99734ab6d@redhat.com>
-Date: Tue, 4 Mar 2025 11:21:37 +0100
+        Tue, 04 Mar 2025 03:07:01 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <2af2888f-919c-40a0-901a-8eb0bc1f1257@roeck-us.net>
+Date: Tue, 4 Mar 2025 03:07:00 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,119 +69,108 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/20] mm: MM owner tracking for large folios
- (!hugetlb) + CONFIG_NO_PAGE_MAPCOUNT
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- cgroups@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-api@vger.kernel.org, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Muchun Song <muchun.song@linux.dev>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
-References: <20250303163014.1128035-1-david@redhat.com>
- <20250303144332.4cb51677966b515ee0c89a44@linux-foundation.org>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH] hwmon: (max77705) add initial support
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250225-initial-support-for-max77705-sensors-v1-1-2be6467628b0@gmail.com>
+ <f80207ca-da38-4999-be16-326490396d18@roeck-us.net>
+ <CABTCjFD8yozABXGVMtxhHTkpkAVis6tR=LEN9jNpvurTe_0iyQ@mail.gmail.com>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20250303144332.4cb51677966b515ee0c89a44@linux-foundation.org>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <CABTCjFD8yozABXGVMtxhHTkpkAVis6tR=LEN9jNpvurTe_0iyQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 03.03.25 23:43, Andrew Morton wrote:
-> On Mon,  3 Mar 2025 17:29:53 +0100 David Hildenbrand <david@redhat.com> wrote:
+On 3/4/25 02:03, Dzmitry Sankouski wrote:
+> ср, 26 февр. 2025 г. в 16:53, Guenter Roeck <linux@roeck-us.net>:
+>>
+>> On 2/25/25 11:11, Dzmitry Sankouski wrote:
+>>> Add support for max77705 hwmon. Includes charger input, system bus, and
+>>> vbyp measurements.
+>>>
+>>> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+>>> ---
+>>> Maxim MAX77705 is a Companion Power Management and Type-C interface IC.
+>>> It includes charger and fuel gauge blocks, and is capable of measuring
+>>> charger input current, system bus volatage and current, and bypass
+>>> voltage.
+>>>
+>>> This patch add support for mentioned measurements.
+> (...)
+>>> +
+>>> +struct channel_desc {
+>>> +     u8 reg;
+>>> +     u8 avg_reg;
+>>> +     const char *const label;
+>>> +     // register resolution. nano Volts for voltage, nano Amperes for current
+>>> +     u64 resolution;
+>>
+>> Why u64 ?
+>>
 > 
->> Some smaller change based on Zi Yan's feedback (thanks!).
->>
->>
->> Let's add an "easy" way to decide -- without false positives, without
->> page-mapcounts and without page table/rmap scanning -- whether a large
->> folio is "certainly mapped exclusively" into a single MM, or whether it
->> "maybe mapped shared" into multiple MMs.
->>
->> Use that information to implement Copy-on-Write reuse, to convert
->> folio_likely_mapped_shared() to folio_maybe_mapped_share(), and to
->> introduce a kernel config option that let's us not use+maintain
->> per-page mapcounts in large folios anymore.
->>
->> ...
->>
->> The goal is to make CONFIG_NO_PAGE_MAPCOUNT the default at some point,
->> to then slowly make it the only option, as we learn about real-life
->> impacts and possible ways to mitigate them.
+> Resolution is in nano Volts, and VBYP value is typically 5v, which leads to
+> u32 overflow.
 > 
-> I expect that we'll get very little runtime testing this way, and we
-> won't hear about that testing unless there's a failure.
+
+That is not a valid reason. The resolution itself does not overflow.
+The conversion to 64-bit calculations can be done there.
+
+> (...)
+>>
+>> This is unusual for an mfd driver. Why not pass regmap from the parent
+>> driver ?
+>>
 > 
-> Part of me wants to make it default on right now, but that's perhaps a
-> bit mean to linux-next testers.
-
-Yes, letting this sit at least for some time before we enable it in 
-linux-next as default might make sense.
-
- > > Or perhaps default-off for now and switch to default-y for 6.15-rcX?
-
-Maybe default-off for now, until we rebase mm-unstable to 6.15-rcX. 
-Then, default on first in linux-next, and then upstream (6.16).
-
+> This limits access to shared device register map by using readable table
+> with related registers only.
 > 
-> I suggest this just to push things along more aggressively - we may
-> choose to return to default-off after a few weeks of -rcX.
+I do not see that as valid reason to implement separate regmaps. That
+only complicates the code.
 
-Yeah, I'm usually very careful; sometimes a bit too careful :)
-
--- 
-Cheers,
-
-David / dhildenb
+Guenter
 
