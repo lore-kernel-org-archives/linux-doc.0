@@ -1,120 +1,199 @@
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70261FC7DF;
-	Tue,  4 Mar 2025 10:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE301FCD11;
+	Tue,  4 Mar 2025 10:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741082608; cv=none; b=EJjKYx7Hj6Xb9pHdB09JDfbX2j+C+bp6ZJwMH+5AS+BV5OunGi3kgQaVr2vvrPEsQwdVn0GFXHENpCGSU0xZRypn9eEsZ3zHmKBSZDyeIrKBgOEuizVQVbiQBpRzB/I/Oxl1r4i5SYSfFfE74wWQhEjAi3tvwhTL7V1KSTSPeL8=
+	t=1741083645; cv=none; b=pZ4sLWYtJ5W9X+zBmivww45Q9pyFCajYvb1nHA9CxI2f1HdiXtM5LOr1Nvi0zQuxbVzL+8vhXzFPRb8CUnD5FyeEWz/Y/o89c2zYVG+3kUcBRENiCVqY5l0xzGy0Y+s8BrBdIsS+kJJjx5d1DxjRqh0G9mVcnBWNV3fwHJx2ass=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741082608; c=relaxed/simple;
-	bh=MXox0Lyz/NoUGq4Jv82B/uOjxdzyOFGLNxekjNLbEFI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MdG0Wd+0Mcz1ja+HDMRalNBpaJugXMWMiMWyDHOP/r6tkVsUusyqh1MnMF5RT1cxq3joc5iqzZiR1x9vmthxG9whAiqHFCva+HynFrCqGxVauVHdCvJ55su0ibZgoykEc5PZbzgvTBAgbX9fK6g2UPjzA0MvhAUiPo8oNMrdNOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ISrkCSe1; arc=none smtp.client-ip=209.85.222.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741083645; c=relaxed/simple;
+	bh=pf+zd9eJSyjhAlIOjhLr+Q2nF6dk18iacDcYoB2pPyY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YSZfZOaJDktXJ9BvwCKbZdyEfv9Q4wmZlf9wbTjiilLKGcZRmWvu6WyGx3IKR/ez4FNjn4crxrGQ3r7OdSTEIwfVCQGfCPGpnctG/DO3jThjZCyx7u1MQEBufGAhxhFjS7w08NXaAAikNgEtipWsDNBo6e1vHRi1WBQScAtVcfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SlX//mvY; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ISrkCSe1"
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-86b2aaf84daso2157280241.3;
-        Tue, 04 Mar 2025 02:03:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741082605; x=1741687405; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=75uugYjxElZY6x8Po32ybV6WWPPYny1t3+5VwBk+/6U=;
-        b=ISrkCSe1UhBN+6cYExYpKDrLT/GVjwPeH60/vWLB6OIzdBGSpnWcJv6e4nkjOosRpf
-         fVXX8I+vExQ4rIRsBO2ZkswAzplDDl8TwronGdafsvmhyy2he/z5KxMbovRmcRRmQpu4
-         JFlFljHhyEMrkf0cOGMoFuYY4yjxDCSNKg7AXIdL71QkT9+JrQXuzO/W+B947uXzbUSX
-         jukFU9LjbFZOd8ou9OcJvRH7R6ADXsqlIV2wRMGVSgjy2pHP7oWl3shxbRO6PxbcBoUW
-         A1mZ2u0eZAVFiBibqOyfDIcnkjYgAA5W0WdNRAF5N4YLDipvL0IrNqKx0zBD2FgwasA8
-         eCjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741082605; x=1741687405;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=75uugYjxElZY6x8Po32ybV6WWPPYny1t3+5VwBk+/6U=;
-        b=VsQO14ZBl2cfGbcUx9eL0zoIwv3jq6GjEAiEWTdaqZRWpjT+jg6j8C8FJ62lXdCTKV
-         QpmKPhrtYkLrJ7w1vdnbBdCmri/6vSvBxYaNzift1EGMk57A/I61rHUSQwg7LTXTILt0
-         qx85/Qh8dIVzej1bUN8Zj65b/ombkM7jTM+c1M38S2s/+NRYuuIAK2JpOn9begyw6+Pn
-         pW46bqj2mED/bRTXgDxJm4zWU7Guc4mpGUa7/YRm9lnTQenqabCAROmz7CMZIYRZT9ZU
-         4YkSdFGyJgdGVEcZOM5J0O3mW6EP7r4KlhwTCv7hHbzUrFOj9VCyNq99vgcYi/F+4CHt
-         20KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVNNIuQFA98F0P5eek/ypvagQgpWyU9tQcnBzUEtxdJ6mkKMz1ysg3YSpFck+OeKgGvGSfOjOlvMeB5qqNK@vger.kernel.org, AJvYcCXpcwAHEWaMqaE2vJmdiWWnVvCWA/vC1EUxIwtxFCZf6G4mdyhyK2IFhMQbZ8OYNDU82PP8Rp6NQSA=@vger.kernel.org, AJvYcCXsjmUB+SLCZ7NX0ajjjkviIl2Rb/2fEcwbCBsbr27jqBVyh/gRfJ/QWXkEpEURDM1L93GjQ+OvCJ0XhzM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6k2cumniMSLtPf3ZX0atJkTe9c2LKpJxGERiqjUz1QcmIZAdL
-	AvTjU5xbfKBEy3/IeXc9ViiSN9sx10O6vwMWVUkpZTwVfoUMsL62Oue4xOiXkHVoB8v5l3eMslO
-	AEXf4PxR+E7lov4CyRW8hNN77s8g=
-X-Gm-Gg: ASbGncvnfwqMB05xu6vCxrgjSx4Q/bi1BdteucLeBr0ckXloEDcrL2kGOvw0Kz0UzwS
-	AqoLRoHY0mvINURoA/0EMxPFFA+FwdmcAufJ5naSTwNP31OnKG6L86JcyBIMpKkqxqe9MeZrqhO
-	jeom1dlAeCIZMVgAe4f7z40+0k
-X-Google-Smtp-Source: AGHT+IG+l9JR7fV93u9Wftn467Q+GhPebXTmpF9gNWTUd5YaEYIBbL1NcauvJnyntcvnbgg6Igo6p/7SkTGXmZ/cnq8=
-X-Received: by 2002:a05:6102:3f0c:b0:4b6:5e0f:6ddc with SMTP id
- ada2fe7eead31-4c044d3e523mr9610629137.14.1741082605651; Tue, 04 Mar 2025
- 02:03:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SlX//mvY"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4C9F24326A;
+	Tue,  4 Mar 2025 10:20:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1741083639;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FDpq6q6jzFFUOTpJZL2OgVJZD48jISpM6vW29U65xjA=;
+	b=SlX//mvYcZtdM+F8ewaPG8u6rjBHT4gnyZlSnA1moJHk7s4as+ty/cBExToazWaJHLfrhm
+	gJ5z31E0/oBpqOGJvgQ7KGr7dz12ET0+2QM0CvoujD8iiKT34bZswUiw2kTdBa229PwZgm
+	vGV7ZRAtMxIfqf3JIxMIluDQPxPV2D+Klf/aNG/SrVkIQAYi33Bc/O5sDIR+dt7rk2uJfa
+	baS8+cDsAlUfH8W2FwxGubDIlrnjYYG8akvUDR0s3kFXuZJ2dJSIuDiX4YRlCj7vjhVU0L
+	1BRI49Dp1o6xwvYC1KO+9X2NxKhWOoTALop54fhEFaefTp4ni17Gww+jQokzzQ==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net-next v6 00/12] Add support for PSE budget evaluation
+ strategy
+Date: Tue, 04 Mar 2025 11:18:49 +0100
+Message-Id: <20250304-feature_poe_port_prio-v6-0-3dc0c5ebaf32@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250225-initial-support-for-max77705-sensors-v1-1-2be6467628b0@gmail.com>
- <f80207ca-da38-4999-be16-326490396d18@roeck-us.net>
-In-Reply-To: <f80207ca-da38-4999-be16-326490396d18@roeck-us.net>
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Tue, 4 Mar 2025 13:03:14 +0300
-X-Gm-Features: AQ5f1JqfkBpa9tRJ6UHWa1ECypAj07rjeWpfg4UZnrHKGSeHTTg1zgLlm1qy3Wc
-Message-ID: <CABTCjFD8yozABXGVMtxhHTkpkAVis6tR=LEN9jNpvurTe_0iyQ@mail.gmail.com>
-Subject: Re: [PATCH] hwmon: (max77705) add initial support
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAIrTxmcC/3XOTWrDMBAF4KsErasijf676j1KCKo0bgStZWTVJ
+ ATfvYqhpMVoMYvHY76ZG5mxJJzJy+FGCi5pTnlsQT8dSDj78QNpii0TYCCZ44IO6Ot3wdOU71P
+ qaSopU6+4x2iEAAyk7U4Fh3TZ3DcyYqUjXio5tuac5prLdTu48K2/25wx6NgLp4waa5iSg5EY1
+ et7zvUzjc8hf23mAn8cwXoONMcp5TQAojR+74iHw4H3HNEcK8C5wWunTdg78tdRrD3Uc2RzYnD
+ ci8ACt2bvqIcD3PYc1RwRvbQa1RC1/O+s6/oDfe0xNeYBAAA=
+To: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Simon Horman <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ "Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.15-dev-8cb71
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutddujeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthekredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeduhfevudetfffgkedvhfevheeghedtleeghfffudeiffefvdehfeegieeivdekteenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdekpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhgrgihimhgvrdgthhgvvhgrlhhlihgvrhessghoohhtlhhinhdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehlghhirhgufihoohgusehgmhgrihhlr
+ dgtohhmpdhrtghpthhtohepuggvnhhtphhrohhjvggttheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiihihsiihtohhfrdhkohiilhhofihskhhisehlihhnrghrohdrohhrghdprhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggv
+X-GND-Sasl: kory.maincent@bootlin.com
 
-=D1=81=D1=80, 26 =D1=84=D0=B5=D0=B2=D1=80. 2025=E2=80=AF=D0=B3. =D0=B2 16:5=
-3, Guenter Roeck <linux@roeck-us.net>:
->
-> On 2/25/25 11:11, Dzmitry Sankouski wrote:
-> > Add support for max77705 hwmon. Includes charger input, system bus, and
-> > vbyp measurements.
-> >
-> > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> > ---
-> > Maxim MAX77705 is a Companion Power Management and Type-C interface IC.
-> > It includes charger and fuel gauge blocks, and is capable of measuring
-> > charger input current, system bus volatage and current, and bypass
-> > voltage.
-> >
-> > This patch add support for mentioned measurements.
-(...)
-> > +
-> > +struct channel_desc {
-> > +     u8 reg;
-> > +     u8 avg_reg;
-> > +     const char *const label;
-> > +     // register resolution. nano Volts for voltage, nano Amperes for =
-current
-> > +     u64 resolution;
->
-> Why u64 ?
->
+From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-Resolution is in nano Volts, and VBYP value is typically 5v, which leads to
-u32 overflow.
+This series brings support for budget evaluation strategy in the PSE
+subsystem. PSE controllers can set priorities to decide which ports should
+be turned off in case of special events like over-current.
 
-(...)
->
-> This is unusual for an mfd driver. Why not pass regmap from the parent
-> driver ?
->
+This patch series adds support for two budget evaluation strategy.
+1. Static Method:
 
-This limits access to shared device register map by using readable table
-with related registers only.
+   This method involves distributing power based on PD classification.
+   It’s straightforward and stable, the PSE core keeping track of the
+   budget and subtracting the power requested by each PD’s class.
 
-(...)
+   Advantages: Every PD gets its promised power at any time, which
+   guarantees reliability.
 
---=20
-Best regards and thanks for review,
-Dzmitry
+   Disadvantages: PD classification steps are large, meaning devices
+   request much more power than they actually need. As a result, the power
+   supply may only operate at, say, 50% capacity, which is inefficient and
+   wastes money.
+
+2. Dynamic Method:
+
+   To address the inefficiencies of the static method, vendors like
+   Microchip have introduced dynamic power budgeting, as seen in the
+   PD692x0 firmware. This method monitors the current consumption per port
+   and subtracts it from the available power budget. When the budget is
+   exceeded, lower-priority ports are shut down.
+
+   Advantages: This method optimizes resource utilization, saving costs.
+
+   Disadvantages: Low-priority devices may experience instability.
+
+The UAPI allows adding support for software port priority mode managed from
+userspace later if needed.
+
+Patches 1-2: Add support for interrupt event report in PSE core, ethtool
+	     and ethtool specs.
+Patch 3: Adds support for interrupt and event report in TPS23881 driver.
+Patches 4,5: Add support for PSE power domain in PSE core and ethtool.
+Patches 6,7: Add support for budget evaluation strategy in PSE core,
+	     ethtool and ethtool specs.
+Patches 8-10: Add support for port priority and power supplies in PD692x0
+	      drivers.
+Patches 11,12: Add support for port priority in TPS23881 drivers.
+
+Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+---
+Changes in v6:
+- Few typos.
+- Use uint instead of bitset for PSE_EVENT.
+- Remove report of budget evaluation strategy in the uAPI.
+- Link to v5: https://lore.kernel.org/r/20250218-feature_poe_port_prio-v5-0-3da486e5fd64@bootlin.com
+
+Changes in v5:
+- Remove the first part of the patch series which tackled PSE
+  improvement and already gets merged:
+  https://lore.kernel.org/netdev/20250110-b4-feature_poe_arrange-v3-0-142279aedb94@bootlin.com/
+- Remove the PSE index support which is useless for now. The PSE power
+  domain ID is sufficient.
+- Add support for PD692x0 power supplies other than Vmain which was already
+  in the patch series.
+- Few other small fixes.
+- Link to v4: https://lore.kernel.org/r/20250103-feature_poe_port_prio-v4-0-dc91a3c0c187@bootlin.com
+
+Changes in v4:
+- Remove disconnection policy.
+- Rename port priority mode to budget evaluation strategy.
+- Add cosmetic changes in PSE core.
+- Add support for port priority in PD692x0 driver.
+- Link to v3: https://lore.kernel.org/r/20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com
+
+Changes in v3:
+- Move power budget to regulator core.
+- Add disconnection policies with PIs using the same priority.
+- Several fixes on the TPS23881 drivers.
+- Several new cosmetic patches.
+- Link to v2: https://lore.kernel.org/r/20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com
+
+Changes in v2:
+- Rethink the port priority management.
+- Add PSE id.
+- Add support for PSE power domains.
+- Add get power budget regulator constraint.
+- Link to v1: https://lore.kernel.org/r/20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com
+
+---
+Kory Maincent (12):
+      net: ethtool: Add support for ethnl_info_init_ntf helper function
+      net: pse-pd: Add support for reporting events
+      net: pse-pd: tps23881: Add support for PSE events and interrupts
+      net: pse-pd: Add support for PSE power domains
+      net: ethtool: Add support for new power domains index description
+      net: pse-pd: Add support for budget evaluation strategies
+      net: ethtool: Add PSE new budget evaluation strategy support feature
+      net: pse-pd: pd692x0: Add support for PSE PI priority feature
+      net: pse-pd: pd692x0: Add support for controller and manager power supplies
+      dt-bindings: net: pse-pd: microchip,pd692x0: Add manager regulator supply
+      net: pse-pd: tps23881: Add support for static port priority feature
+      dt-bindings: net: pse-pd: ti,tps23881: Add interrupt description
+
+ .../bindings/net/pse-pd/microchip,pd692x0.yaml     |  22 +-
+ .../bindings/net/pse-pd/ti,tps23881.yaml           |   8 +
+ Documentation/netlink/specs/ethtool.yaml           |  37 +
+ Documentation/networking/ethtool-netlink.rst       |  49 ++
+ drivers/net/mdio/fwnode_mdio.c                     |  26 +-
+ drivers/net/pse-pd/pd692x0.c                       | 225 ++++++
+ drivers/net/pse-pd/pse_core.c                      | 863 ++++++++++++++++++++-
+ drivers/net/pse-pd/tps23881.c                      | 364 ++++++++-
+ include/linux/ethtool_netlink.h                    |   9 +
+ include/linux/pse-pd/pse.h                         |  72 +-
+ include/uapi/linux/ethtool.h                       |  52 ++
+ include/uapi/linux/ethtool_netlink_generated.h     |  12 +
+ net/ethtool/netlink.c                              |   7 +-
+ net/ethtool/netlink.h                              |   2 +
+ net/ethtool/pse-pd.c                               |  67 ++
+ 15 files changed, 1763 insertions(+), 52 deletions(-)
+---
+base-commit: bae1b23c77b97000d99afe38cbd7fb5778a2ea6d
+change-id: 20240913-feature_poe_port_prio-a51aed7332ec
+
+Best regards,
+-- 
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
