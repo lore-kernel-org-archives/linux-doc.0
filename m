@@ -1,495 +1,347 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31751FECDB;
-	Tue,  4 Mar 2025 11:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114411FE471
+	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 11:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741086528; cv=none; b=P12cDmLFgiHv+jfiUCkiJt1+KRFzvCvhMDp0MP7R5pcRVti4wq9z6fRAwqw+KYhUZpVHgCV5ukfkTkYEKUpDY6Eube82dVtJA1+qTciCATfXjD7WuH4tSX7AF3DFb9lwdTd/fKfEkvNVmEadB26NPrscY17/QPMPXc/pasR897s=
+	t=1741086550; cv=none; b=GK6ZvlE8qNsJyN2LWJChppEWFPpafOWPbwkExAyaZNu1kj9CmzE7AiT/nMsmKOK1g69zWHwyDf05MF1DAWN7jfL+PuO6TBEsz5NOmogFefgsGwO1l2BLD7hf2b/016GiJDUlBNHjUXZ518ZEsmjiHhXsGu41YJas2zqmu3KS3Po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741086528; c=relaxed/simple;
-	bh=4xkw0yYacB0/6Q5LwI8fkd9jTNv0eZdwxdKwCFqlyEc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=PbTQ0ydw5M9bYKO/qpljP7lpnu1UIO0hAMiRfpO3XpNUtznVGJZQQvfCgAfFj3th0NM5isttUNKW4LVKNCrFjQernNZryGSMhU/cFAnBWfineQXSlv8FKpfpm7pWWRCop5yzC1Cm5qEuSygADbvdAggVBygQkyIS35kdidx26QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bde/3n0y; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741086550; c=relaxed/simple;
+	bh=u0YmdJFlgr6Ci4zwZEY7A4+gyfwZZMpZ49LowVF7sWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cZ7L5G/kBaDfwMYCwSuCgbuYfZ8t/H6FUUmVdAxg5FZm3Bq7MQV8BiyI/OYEHU76y1SeZLjVng2pCF75AF7zGNgmd9rNtA+nKhEP1A5GNWSwUcmh7IUU0MVAxY7TZBfYppaGNFXMGcftcgpwWpHbvOnk7M7mpsW5OERkTEvyIHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wdwDPQ5J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MUzrvEzP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wdwDPQ5J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MUzrvEzP; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bde/3n0y"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5e4ebc78da5so7867731a12.2;
-        Tue, 04 Mar 2025 03:08:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741086525; x=1741691325; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MRjbS74Nsh8/qZkVcV7Vot+3slTDRd+TY3FbkFl3aNo=;
-        b=Bde/3n0y9icKKRCtSLbOwqCszWjgEbxHM+whyGY2P/AGQ3DvQw1b3PXjBNZyUIVjhd
-         UKIsSk4SKd9/jSdCVhS0odliX2AtUrWy/LVpb4+n1HG72X3jJN9wppXTp2N2W18n+f39
-         6mtKO+G+ekxc/8T9+pwli6jdkAMFa30KNm/zqX+2ffa8yUtkPN6bJiNz5dOEeLIes+a5
-         1y4ALq0fflvUJ4QLH5l8kqZQo36A2gebloa658ah//PhCT70gumjdYtwotIQUW/DOiuY
-         2zInwphDr3IVfIa2wBsJNPLoYHgsyBvV3EcKhlUl7j3A9P8wE/xb/P3y+EP2MFrdG8WY
-         uvGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741086525; x=1741691325;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MRjbS74Nsh8/qZkVcV7Vot+3slTDRd+TY3FbkFl3aNo=;
-        b=BpeW6QvQSk8Yv2L4bK90tQXNrNj3LvuB9gZ0aR6n2iD1sW7nJfT7za7xYGmDetas3i
-         ZWWN6MIcGiXNrHAAOmWfVFZJ83P+mieil2d796sKQfAP/nfO4P8gI0p9GvHyW4sln/QM
-         Xppn2HQR0nlhFefYSgpM3YwZQvZVYaYhCmEYTCxNwkt6BnJXf36mxUpRn+DOvGMkHIKm
-         0/g+ZCo7roe841noF/b+NFsJX5Eu+dW3V6t4ynh6CwoZK2YP53dA4TYtI/XmDhZ2Vptw
-         L2i2+q4T4w7B3XuHfnw+VHZBaJ3qR+L0NUcpHq6IcJYyw5Qqf5YTkeK4MP7IpL/g2TYJ
-         c5Cg==
-X-Forwarded-Encrypted: i=1; AJvYcCV5iROHbzIUENCz3FrHNstyrxwHLqRamNEQOaGs360YQOtISfdhXsQxXF+qE1CUCr2M7RvFNZTi4JM=@vger.kernel.org, AJvYcCW8oFhICIkDwG6mPNqJ+X7CJwuZ3TzARSLDjg5XAtBTflzWhaVNRmMiGSEFs1NDEzqrgYDLljyBZElp6FHf@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY0hrQT+SkpdsSgnnOC3G53oJWFLmZKNslKa0W0pDHwxv24V5B
-	75QF7cn1Ln/0dSdo1Z7nxESptr4W0XrQwt2DMAbvnJ9dh/TX9y2L
-X-Gm-Gg: ASbGnct5xIJfWD18SvC6sjG4D7WwRUh0FIZN6xcDVp4SFCwcarM0iAU0PhUTCfNqB2E
-	xNTi1KxbrOcZMgcn/VG2iTWfOAkGvLsiq4BqlsYUsaRdhdFCXr1tLpC9+7ppk68mqe33WMXJ0/P
-	RNFcm+JmuGMMWK80q/0HC1TmD8ShnqD5rfVTm5ugu16ct3UgBN5xi4HatvC4PlaCHobqsTyc8Kk
-	gccDhZRXI0ppkS1tJKUSl/wX9j/zMMzPNONicrw05JRbxw2RFAVX53tl5iLmm5wPw4iy3L2Xx3U
-	B6W8JxOitSo1rzbMiZ4fZErqKE5+tQuQutNDkjRX9Gc=
-X-Google-Smtp-Source: AGHT+IE1Np6k0sfwEuo8edx8oMlGkUOpQl3WFhV3iKjRQEVe2y/wzupGuFLz92VZSFKAR8kjCHXWLQ==
-X-Received: by 2002:a05:6402:1d4a:b0:5e4:be64:b562 with SMTP id 4fb4d7f45d1cf-5e4d6adb99fmr14634828a12.1.1741086524560;
-        Tue, 04 Mar 2025 03:08:44 -0800 (PST)
-Received: from [127.0.1.1] ([46.53.242.22])
-        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5e4c3fb51e1sm8262041a12.61.2025.03.04.03.08.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 03:08:43 -0800 (PST)
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Tue, 04 Mar 2025 14:08:40 +0300
-Subject: [PATCH v2] hwmon: (max77705) add initial support
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wdwDPQ5J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MUzrvEzP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wdwDPQ5J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MUzrvEzP"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 58F731F74D;
+	Tue,  4 Mar 2025 11:09:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741086545; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a+fxtDaCqIKsV3/+j7+mbgqDngXaphwg7nZVJK1S25Y=;
+	b=wdwDPQ5JW3v6aP23c0Qc7mf9sHv06uXuwAvObmCFRx+XNMUn4SNGdQyUBjNY4KkTlMa1VX
+	o6roVTvCwxek25YNVYLHd1FaKCZsVl9lPIro57lz/HFWkr9FPhkqsQ5Qn4hMPlQcBe0W/L
+	GHvAhscu1yPo+IpKC7jXJpySzek8nyY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741086545;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a+fxtDaCqIKsV3/+j7+mbgqDngXaphwg7nZVJK1S25Y=;
+	b=MUzrvEzP6KOiJdBfdKfbDY1afQgc6OxZ1PwrgIo8wnFfhWj2V6Cc8zhSEcALBzV7oNbrb+
+	5xisIk3apOtPgQDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741086545; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a+fxtDaCqIKsV3/+j7+mbgqDngXaphwg7nZVJK1S25Y=;
+	b=wdwDPQ5JW3v6aP23c0Qc7mf9sHv06uXuwAvObmCFRx+XNMUn4SNGdQyUBjNY4KkTlMa1VX
+	o6roVTvCwxek25YNVYLHd1FaKCZsVl9lPIro57lz/HFWkr9FPhkqsQ5Qn4hMPlQcBe0W/L
+	GHvAhscu1yPo+IpKC7jXJpySzek8nyY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741086545;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a+fxtDaCqIKsV3/+j7+mbgqDngXaphwg7nZVJK1S25Y=;
+	b=MUzrvEzP6KOiJdBfdKfbDY1afQgc6OxZ1PwrgIo8wnFfhWj2V6Cc8zhSEcALBzV7oNbrb+
+	5xisIk3apOtPgQDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 37CA913967;
+	Tue,  4 Mar 2025 11:09:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YX+UDVHfxmdIbwAAD6G6ig
+	(envelope-from <iivanov@suse.de>); Tue, 04 Mar 2025 11:09:05 +0000
+Date: Tue, 4 Mar 2025 13:09:04 +0200
+From: "Ivan T. Ivanov" <iivanov@suse.de>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v12 1/5] Documentation/firmware: add imx/se to
+ other_interfaces
+Message-ID: <20250304110904.qr5rtsvkqa3l64t4@localhost.localdomain>
+References: <20250120-imx-se-if-v12-0-c5ec9754570c@nxp.com>
+ <20250120-imx-se-if-v12-1-c5ec9754570c@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250304-initial-support-for-max77705-sensors-v2-1-58d2207c732b@gmail.com>
-X-B4-Tracking: v=1; b=H4sIADffxmcC/42OsQ6CMBRFf4V09pm2Wmqc/A/DUMoDXgIttoVgC
- P8uwuDqeM5wz11YxEAY2T1bWMCJInm3gTxlzLbGNQhUbcwkl4oLeQFylMh0EMdh8CFB7QP0ZtZ
- acwURXfQhgqm40NxYgVaxbWoIWNO8Z57FwQFf41ZLP9lSTD689yuT+NqjKqX6rzoJECBLzK+5z
- uWt5I+mN9Sdre9Zsa7rBx9gDRDtAAAA
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1741086522; l=11567;
- i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
- bh=4xkw0yYacB0/6Q5LwI8fkd9jTNv0eZdwxdKwCFqlyEc=;
- b=8IF6/x0sJWHtuL5LtWUNiphXXL3SiISj+3oqxNmfvm5zmngkg9prKJfjO3lxnVNOWb3y14jHV
- hqVRyO5AWuTC5m0ts/ev3/2GUJYowpiowP7WA+pGwhShCjsuEHpgUqC
-X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
- pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250120-imx-se-if-v12-1-c5ec9754570c@nxp.com>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[dt];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lwn.net,kernel.org,pengutronix.de,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,imap1.dmz-prg2.suse.org:helo,i.mx:url]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-Add support for max77705 hwmon. Includes charger input, system bus, and
-vbyp measurements.
+Hi,
 
-Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
----
-Maxim MAX77705 is a Companion Power Management and Type-C interface IC.
-It includes charger and fuel gauge blocks, and is capable of measuring
-charger input current, system bus volatage and current, and bypass
-voltage.
+On 01-20 22:22, Pankaj Gupta wrote:
+>=20
+> Documents i.MX SoC's Service layer and C_DEV driver for selected SoC(s)
+> that contains the NXP hardware IP(s) for Secure Enclaves(se) like:
+> - NXP EdgeLock Enclave on i.MX93 & i.MX8ULP
+>=20
+> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> ---
+>  .../driver-api/firmware/other_interfaces.rst       | 121 +++++++++++++++=
+++++++
+>  1 file changed, 121 insertions(+)
+>=20
 
-Add support for mentioned measurements.
----
-Changes in v2:
-- EDITME: describe what is new in this series revision.
-- EDITME: use bulletpoints and terse descriptions.
-- Link to v1: https://lore.kernel.org/r/20250225-initial-support-for-max77705-sensors-v1-1-2be6467628b0@gmail.com
----
-Changes in v2:
-- sort headers alphabetically
-- swap curr channel info, to align indeces with channel_desc struct
-- reword coverletter
-- fix checkpatch --strict warnings
-- remove struct max77705_hwmon, use regmap directly
-- move register validation logic to is_visible function
-- move common register reading and converting logic to separate function
-- remove unnessesary {} in if statement
-- s/i2c->dev/pdev->dev in dev_err_probe
----
- Documentation/hwmon/index.rst    |   1 +
- Documentation/hwmon/max77705.rst |  39 +++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                      |   7 +++++++
- drivers/hwmon/Kconfig            |  10 ++++++++++
- drivers/hwmon/Makefile           |   1 +
- drivers/hwmon/max77705-hwmon.c   | 250 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 308 insertions(+)
+<snip>
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 874f8fd26325..444c7865f74f 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -158,6 +158,7 @@ Hardware Monitoring Kernel Drivers
-    max6639
-    max6650
-    max6697
-+   max77705
-    max8688
-    mc13783-adc
-    mc34vr500
-diff --git a/Documentation/hwmon/max77705.rst b/Documentation/hwmon/max77705.rst
-new file mode 100644
-index 000000000000..9037226c50b9
---- /dev/null
-+++ b/Documentation/hwmon/max77705.rst
-@@ -0,0 +1,39 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver max77705
-+====================
-+
-+Supported chips:
-+
-+  * Maxim Integrated MAX77705
-+
-+    Prefix: 'max77705'
-+
-+    Addresses scanned: none
-+
-+    Datasheet: Not available
-+
-+Authors:
-+      - Dzmitry Sankouski <dsankouski@gmail.com>
-+
-+Description
-+-----------
-+
-+The MAX77705 PMIC provides current and voltage measurements besides fuelgauge:
-+- chip input current
-+- system bus current and voltage
-+- VBYP voltage
-+
-+Sysfs Attributes
-+----------------
-+
-+================= ========================================
-+in1_label         "vbyp"
-+in1_input         Measured chip vbyp voltage
-+in2_label         "vsys"
-+in2_input         Measured chip system bus voltage
-+curr1_label       "iin"
-+curr1_input       Measured chip input current.
-+curr2_label       "isys"
-+curr2_input       Measured chip system bus current.
-+================= ========================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 29e1a423eee5..0175f9f89325 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18110,6 +18110,13 @@ S:	Maintained
- F:	Documentation/hwmon/pc87427.rst
- F:	drivers/hwmon/pc87427.c
- 
-+MAX77705 HARDWARE MONITORING DRIVER
-+M:	Dzmitry Sankouski <dsankouski@gmail.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/max77705.rst
-+F:	drivers/hwmon/max77705-hwmon.c
-+
- PCA9532 LED DRIVER
- M:	Riku Voipio <riku.voipio@iki.fi>
- S:	Maintained
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 56494ab85b83..c86fe094a978 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1287,6 +1287,16 @@ config SENSORS_MAX31790
- 	  This driver can also be built as a module. If so, the module
- 	  will be called max31790.
- 
-+config SENSORS_MAX77705
-+	tristate "MAX77705 current and voltage sensor"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  If you say yes here you get support for MAX77705 sensors connected with I2C.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called max77705-hwmon.
-+
- config SENSORS_MC34VR500
- 	tristate "NXP MC34VR500 hardware monitoring driver"
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index b7ef0f0562d3..ff69f45eca50 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -159,6 +159,7 @@ obj-$(CONFIG_SENSORS_MAX6650)	+= max6650.o
- obj-$(CONFIG_SENSORS_MAX6697)	+= max6697.o
- obj-$(CONFIG_SENSORS_MAX31790)	+= max31790.o
- obj-$(CONFIG_MAX31827) += max31827.o
-+obj-$(CONFIG_SENSORS_MAX77705) += max77705-hwmon.o
- obj-$(CONFIG_SENSORS_MC13783_ADC)+= mc13783-adc.o
- obj-$(CONFIG_SENSORS_MC34VR500)	+= mc34vr500.o
- obj-$(CONFIG_SENSORS_MCP3021)	+= mcp3021.o
-diff --git a/drivers/hwmon/max77705-hwmon.c b/drivers/hwmon/max77705-hwmon.c
-new file mode 100644
-index 000000000000..6d2161421ac7
---- /dev/null
-+++ b/drivers/hwmon/max77705-hwmon.c
-@@ -0,0 +1,250 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ *  MAX77705 voltage and current hwmon driver.
-+ *
-+ *  Copyright (C) 2025 Dzmitry Sankouski <dsankouski@gmail.com>
-+ */
-+
-+#include <linux/err.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/hwmon.h>
-+#include <linux/i2c.h>
-+#include <linux/jiffies.h>
-+#include <linux/kernel.h>
-+#include <linux/mfd/max77705-private.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/slab.h>
-+
-+struct channel_desc {
-+	u8 reg;
-+	u8 avg_reg;
-+	const char *const label;
-+	// register resolution. nano Volts for voltage, nano Amperes for current
-+	u64 resolution;
-+};
-+
-+static const struct channel_desc current_channel_desc[] = {
-+	{
-+		.reg = IIN_REG,
-+		.label = "IIN_REG",
-+		.resolution = 125000
-+	},
-+	{
-+		.reg = ISYS_REG,
-+		.avg_reg = AVGISYS_REG,
-+		.label = "ISYS_REG",
-+		.resolution = 312500
-+	}
-+};
-+
-+static const struct channel_desc voltage_channel_desc[] = {
-+	{
-+		.reg = VBYP_REG,
-+		.label = "VBYP_REG",
-+		.resolution = 427246
-+	},
-+	{
-+		.reg = VSYS_REG,
-+		.label = "VSYS_REG",
-+		.resolution = 156250
-+	}
-+};
-+
-+static const struct regmap_range max77705_hwmon_readable_ranges[] = {
-+	regmap_reg_range(AVGISYS_REG,	AVGISYS_REG + 1),
-+	regmap_reg_range(IIN_REG,	IIN_REG + 1),
-+	regmap_reg_range(ISYS_REG,	ISYS_REG + 1),
-+	regmap_reg_range(VBYP_REG,	VBYP_REG + 1),
-+	regmap_reg_range(VSYS_REG,	VSYS_REG + 1),
-+};
-+
-+static const struct regmap_access_table max77705_hwmon_readable_table = {
-+	.yes_ranges = max77705_hwmon_readable_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(max77705_hwmon_readable_ranges),
-+};
-+
-+static const struct regmap_config max77705_hwmon_regmap_config = {
-+	.name = "max77705_hwmon",
-+	.reg_bits = 8,
-+	.val_bits = 16,
-+	.rd_table = &max77705_hwmon_readable_table,
-+	.max_register = MAX77705_FG_END,
-+	.val_format_endian = REGMAP_ENDIAN_LITTLE
-+};
-+
-+static int max77705_read_and_convert(struct regmap *regmap, u8 reg, u64 res, long *val)
-+{
-+	int ret;
-+	u32 regval;
-+
-+	ret = regmap_read(regmap, reg, &regval);
-+	if (ret < 0)
-+		return ret;
-+	*val = mult_frac((long)regval, res, 1000000);
-+
-+	return 0;
-+}
-+
-+static umode_t max77705_is_visible(const void *data,
-+				   enum hwmon_sensor_types type,
-+				   u32 attr, int channel)
-+{
-+	switch (type) {
-+	case hwmon_in:
-+		if (channel >= ARRAY_SIZE(voltage_channel_desc))
-+			return 0;
-+
-+		switch (attr) {
-+		case hwmon_in_input:
-+		case hwmon_in_label:
-+			return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	case hwmon_curr:
-+		if (channel >= ARRAY_SIZE(current_channel_desc))
-+			return 0;
-+
-+		switch (attr) {
-+		case hwmon_curr_input:
-+		case hwmon_in_label:
-+			return 0444;
-+		case hwmon_curr_average:
-+			if (current_channel_desc[channel].avg_reg)
-+				return 0444;
-+		default:
-+			break;
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+	return 0;
-+}
-+
-+static int max77705_read_string(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-+				int channel, const char **buf)
-+{
-+	switch (type) {
-+	case hwmon_curr:
-+		switch (attr) {
-+		case hwmon_in_label:
-+			*buf = current_channel_desc[channel].label;
-+			return 0;
-+		default:
-+			return -EOPNOTSUPP;
-+		}
-+
-+	case hwmon_in:
-+		switch (attr) {
-+		case hwmon_in_label:
-+			*buf = voltage_channel_desc[channel].label;
-+			return 0;
-+		default:
-+			return -EOPNOTSUPP;
-+		}
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static int max77705_read(struct device *dev, enum hwmon_sensor_types type,
-+			 u32 attr, int channel, long *val)
-+{
-+	struct regmap *regmap = dev_get_drvdata(dev);
-+	u8 reg;
-+	u64 res;
-+
-+	switch (type) {
-+	case hwmon_curr:
-+		switch (attr) {
-+		case hwmon_curr_input:
-+			reg = current_channel_desc[channel].reg;
-+			res = current_channel_desc[channel].resolution;
-+
-+			return max77705_read_and_convert(regmap, reg, res, val);
-+		case hwmon_curr_average:
-+			reg = current_channel_desc[channel].avg_reg;
-+			res = current_channel_desc[channel].resolution;
-+
-+			return max77705_read_and_convert(regmap, reg, res, val);
-+		default:
-+			return -EOPNOTSUPP;
-+		}
-+
-+	case hwmon_in:
-+		switch (attr) {
-+		case hwmon_in_input:
-+			reg = voltage_channel_desc[channel].reg;
-+			res = voltage_channel_desc[channel].resolution;
-+
-+			return max77705_read_and_convert(regmap, reg, res, val);
-+		default:
-+			return -EOPNOTSUPP;
-+		}
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct hwmon_ops max77705_hwmon_ops = {
-+	.is_visible = max77705_is_visible,
-+	.read = max77705_read,
-+	.read_string = max77705_read_string,
-+};
-+
-+static const struct hwmon_channel_info *max77705_info[] = {
-+	HWMON_CHANNEL_INFO(in,
-+			   HWMON_I_INPUT | HWMON_I_LABEL,
-+			   HWMON_I_INPUT | HWMON_I_LABEL
-+			),
-+	HWMON_CHANNEL_INFO(curr,
-+			   HWMON_C_INPUT | HWMON_C_LABEL,
-+			   HWMON_C_INPUT | HWMON_C_AVERAGE | HWMON_C_LABEL
-+			),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info max77705_chip_info = {
-+	.ops = &max77705_hwmon_ops,
-+	.info = max77705_info,
-+};
-+
-+static int max77705_hwmon_probe(struct platform_device *pdev)
-+{
-+	struct i2c_client *i2c;
-+	struct device *hwmon_dev;
-+	struct regmap *regmap;
-+
-+	i2c = to_i2c_client(pdev->dev.parent);
-+	regmap = devm_regmap_init_i2c(i2c, &max77705_hwmon_regmap_config);
-+	if (IS_ERR(regmap))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(regmap),
-+				"Failed to register max77705 hwmon regmap\n");
-+
-+	hwmon_dev = devm_hwmon_device_register_with_info(&pdev->dev, "max77705", regmap,
-+							 &max77705_chip_info, NULL);
-+	if (IS_ERR(hwmon_dev))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(hwmon_dev),
-+				"Unable to register hwmon device\n");
-+
-+	return 0;
-+};
-+
-+static struct platform_driver max77705_hwmon_driver = {
-+	.driver = {
-+		.name = "max77705-hwmon",
-+	},
-+	.probe = max77705_hwmon_probe,
-+};
-+
-+module_platform_driver(max77705_hwmon_driver);
-+
-+MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
-+MODULE_DESCRIPTION("MAX77705 monitor driver");
-+MODULE_LICENSE("GPL");
-+
+> +
+> +- c_dev:
+> +  This layer offers character device contexts, created as '/dev/<se>_mux=
+_chx'.
+> +  Using these multiple device contexts that are getting multiplexed over=
+ a single MU,
+> +  userspace application(s) can call fops like write/read to send the com=
+mand message,
+> +  and read back the command response message to/from Firmware.
+> +  fops like read & write use the above defined service layer API(s) to c=
+ommunicate with
+> +  Firmware.
+> +
+> +  Misc-device(/dev/<se>_mux_chn) synchronization protocol:
+> +
+> +                                Non-Secure               +   Secure
+> +                                                         |
+> +                                                         |
+> +                  +---------+      +-------------+       |
+> +                  | se_fw.c +<---->+imx-mailbox.c|       |
+> +                  |         |      |  mailbox.c  +<-->+------+    +-----=
+-+
+> +                  +---+-----+      +-------------+    | MU X +<-->+ ELE |
+> +                      |                               +------+    +-----=
+-+
+> +                      +----------------+                 |
+> +                      |                |                 |
+> +                      v                v                 |
+> +                  logical           logical              |
+> +                  receiver          waiter               |
+> +                     +                 +                 |
+> +                     |                 |                 |
+> +                     |                 |                 |
+> +                     |            +----+------+          |
+> +                     |            |           |          |
+> +                     |            |           |          |
+> +              device_ctx     device_ctx     device_ctx   |
+> +                                                         |
+> +                User 0        User 1       User Y        |
+> +                +------+      +------+     +------+      |
+> +                |misc.c|      |misc.c|     |misc.c|      |
+> + kernel space   +------+      +------+     +------+      |
+> +                                                         |
+> + +------------------------------------------------------ |
+> +                    |             |           |          |
+> + userspace     /dev/ele_muXch0    |           |          |
+> +                          /dev/ele_muXch1     |          |
+> +                                        /dev/ele_muXchY  |
+> +                                                         |
+
+I tried these patches on FRDM i.MX 93 board using this
+devicetree excerpt:
+
+	ele_if0: secure-enclave {
+		compatible =3D "fsl,imx93-se";
+		mbox-names =3D "tx", "rx";
+		mboxes =3D <&s4muap 0 0>,
+			<&s4muap 1 0>;
+		memory-region =3D <&ele_reserved>;
+	};
+
+	ele_reserved: ele-reserved@a4120000 {
+		compatible =3D "shared-dma-pool";
+		reg =3D <0 0xa4120000 0 0x100000>;
+		no-map;
+	};
+
+Unfortunately I do not see these device nodes, but only /dev/hsm0_ch0.
+
+=2E..
+fsl-se secure-enclave: i.MX secure-enclave: hsm0 interface to firmware, con=
+figured.
+=2E..
+
+This matches SE_TYPE_STR_HSM, so perhaps documentation needs updating.
+
+Then I build imx-secure-enclave user space tools. I have to update device
+nodes ELE_MU_HSM_PATH_xxx to match what c_dev exports, hopefully I
+patched it in the right place :-)
+
+Unfortunately just starting  nvm_daemon gives me following kernel
+crash [1].
+
+Please could you point me to the proper instruction how to test this?
+
+Thank you,
+Ivan
 
 ---
-base-commit: 20d5c66e1810e6e8805ec0d01373afb2dba9f51a
-change-id: 20250123-initial-support-for-max77705-sensors-ad0170ac1ec5
+# ./usr/bin/nvm_daemon  ./etc/file ./etc/ 0
 
-Best regards,
--- 
-Dzmitry Sankouski <dsankouski@gmail.com>
+[  597.387002][    C0] Unable to handle kernel NULL pointer dereference at =
+virtual address 0000000000000010
+[  597.396866][    C0] Mem abort info:
+[  597.400347][    C0]   ESR =3D 0x0000000096000006
+[  597.404775][    C0]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+[  597.410764][    C0]   SET =3D 0, FnV =3D 0
+[  597.414499][    C0]   EA =3D 0, S1PTW =3D 0
+[  597.418321][    C0]   FSC =3D 0x06: level 2 translation fault
+[  597.423877][    C0] Data abort info:
+[  597.427438][    C0]   ISV =3D 0, ISS =3D 0x00000006, ISS2 =3D 0x00000000
+[  597.433600][    C0]   CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
+[  597.439329][    C0]   GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
+[  597.445318][    C0] user pgtable: 4k pages, 48-bit VAs, pgdp=3D00000000a=
+04ac000
+[  597.452433][    C0] [0000000000000010] pgd=3D08000000a04b0003, p4d=3D080=
+00000a04b0003, pud=3D08000000a04b3003, pmd=3D0000000000000000
+[  597.463728][    C0] Internal error: Oops: 0000000096000006 [#1] SMP
+[  597.469985][    C0] Modules linked in: af_packet trusted caam_jr caamhas=
+h_desc caamalg_desc caam error crypto_engine asn1_encoder authenc libdes bt=
+nxpuart snd_soc_fsl_asoc_card snd_soc_imx_audmux snd_soc_simple_card_utils =
+snd_ac97_codec snd_soc_fsl_sai bluetooth fsl_imx9_ddr_perf imx_pcm_dma snd_=
+soc_fsl_utils qoriq_thermal ecdh_generic rfkill snd_soc_fsl_mqs flexcan snd=
+_soc_core snd_compress can_dev optee sec_enclave(OE) imx_rproc ac97_bus ffa=
+_core snd_pcm_dmaengine tee snd_pcm snd_timer snd soundcore nls_iso8859_1 n=
+ls_cp437 vfat fat uio_pdrv_genirq fuse dmi_sysfs ip_tables x_tables spidev =
+mmc_block rpmb_core tcpci tcpm typec rtc_pcf2127 crct10dif_ce pca9450_regul=
+ator ci_hdrc_imx 8021q ci_hdrc ghash_ce usb_otg_fsm garp gf128mul ulpi mrp =
+sm4 sha2_ce udc_core sha256_arm64 pwrseq_simple roles ehci_hcd sha1_ce dwma=
+c_imx usbcore phy_generic gpio_keys usb_common nvmem_imx_ocotp_ele usbmisc_=
+imx sdhci_esdhc_imx stmmac_platform sdhci_pltfm stmmac cqhci sdhci pwm_imx_=
+tpm mmc_core pcs_xpcs i2c_imx_lpi2c phylink spi_fsl_lpspi imx7ulp_wdt
+[  597.470224][    C0]  fsl_edma fixed overlay btrfs blake2b_generic xor xo=
+r_neon raid6_pq libcrc32c sunrpc dm_mirror dm_region_hash dm_log dm_mod be2=
+iscsi bnx2i cnic uio cxgb4i cxgb4 tls libcxgbi libcxgb qla4xxx iscsi_boot_s=
+ysfs iscsi_tcp libiscsi_tcp libiscsi scsi_transport_iscsi sd_mod sg scsi_mo=
+d scsi_common br_netfilter bridge stp llc efivarfs aes_neon_bs aes_neon_blk=
+ aes_ce_blk aes_ce_cipher
+[  597.595841][    C0] Supported: No, Unreleased kernel
+[  597.600794][    C0] CPU: 0 UID: 0 PID: 1912 Comm: nvm_daemon Tainted: G =
+          OE        6.12.0-g6dd51d0 #1  (unreleased) 1bbfa4b46f0796a1c0b0ab=
+ee639edd3b3230f00f
+[  597.617891][    C0] Tainted: [O]=3DOOT_MODULE, [E]=3DUNSIGNED_MODULE
+[  597.623877][    C0] Hardware name: fsl NXP i.MX93 11X11 FRDM board/NXP i=
+=2EMX93 11X11 FRDM board, BIOS 2024.04-00004-g27baba14a58-dirty 04/01/2024
+[  597.636801][    C0] pstate: 804000c9 (Nzcv daIF +PAN -UAO -TCO -DIT -SSB=
+S BTYPE=3D--)
+[  597.644443][    C0] pc : se_if_rx_callback+0xa8/0x1f0 [sec_enclave]
+[  597.650709][    C0] lr : mbox_chan_received_data+0x24/0x40
+[  597.656187][    C0] sp : ffff800080003e20
+[  597.660182][    C0] x29: ffff800080003e20 x28: ffff000085e60080 x27: 000=
+000000000001b
+[  597.667999][    C0] x26: ffff0000e89f388c x25: 0000000000000004 x24: fff=
+f0000996a4ac8
+[  597.675816][    C0] x23: ffff0000a43e3810 x22: ffff0000996a4ac8 x21: fff=
+f0000996a4a80
+[  597.683634][    C0] x20: 000000000000000c x19: ffff0000e89f3880 x18: 000=
+0000000000000
+[  597.691451][    C0] x17: ffff80007d89b000 x16: ffff800080000000 x15: 000=
+0000000000000
+[  597.699268][    C0] x14: 0000000000000000 x13: 0000000000000000 x12: 000=
+0000000000000
+[  597.707086][    C0] x11: 0000000000000040 x10: ffff0000801fab30 x9 : fff=
+f800080cbfbfc
+[  597.714903][    C0] x8 : ffff000080400948 x7 : 0000000000000000 x6 : 000=
+0000000000000
+[  597.722720][    C0] x5 : 0000000000000008 x4 : 000000000000000c x3 : 000=
+00000e1100307
+[  597.730538][    C0] x2 : 0000000000000000 x1 : ffff80007bb5fb98 x0 : fff=
+f0000a43e3810
+[  597.738356][    C0] Call trace:
+[  597.741485][    C0]  se_if_rx_callback+0xa8/0x1f0 [sec_enclave eaa590c7f=
+5850e16202e831d5a0ef9bbd976ab91]
+[  597.750957][    C0]  mbox_chan_received_data+0x24/0x40
+[  597.756087][    C0]  imx_mu_specific_rx+0x1ec/0x280
+[  597.760958][    C0]  imx_mu_isr+0x314/0x340
+[  597.765135][    C0]  __handle_irq_event_percpu+0x58/0x240
+[  597.770526][    C0]  handle_irq_event+0x54/0xd0
+[  597.775041][    C0]  handle_fasteoi_irq+0xac/0x1e0
+[  597.779825][    C0]  handle_irq_desc+0x48/0x70
+[  597.784254][    C0]  generic_handle_domain_irq+0x24/0x40
+[  597.789549][    C0]  gic_handle_irq+0x11c/0x260
+[  597.794073][    C0]  call_on_irq_stack+0x24/0x30
+[  597.798684][    C0]  do_interrupt_handler+0x88/0xa0
+[  597.803554][    C0]  el1_interrupt+0x44/0xd0
+[  597.807818][    C0]  el1h_64_irq_handler+0x18/0x30
+[  597.812602][    C0]  el1h_64_irq+0x7c/0x80
+[  597.816684][    C0]  _raw_spin_unlock_irq+0x14/0x70
+[  597.821555][    C0]  wait_for_completion_interruptible+0x28/0x50
+[  597.827544][    C0]  ele_msg_rcv+0xa0/0x100 [sec_enclave eaa590c7f5850e1=
+6202e831d5a0ef9bbd976ab91]
+[  597.836488][    C0]  se_if_fops_read+0xc8/0x1f0 [sec_enclave eaa590c7f58=
+50e16202e831d5a0ef9bbd976ab91]
+[  597.845779][    C0]  vfs_read+0xcc/0x320
+[  597.849696][    C0]  ksys_read+0x78/0x120
+[  597.853691][    C0]  __arm64_sys_read+0x24/0x40
+[  597.858207][    C0]  invoke_syscall+0x70/0x100
+[  597.862644][    C0]  el0_svc_common.constprop.0+0x48/0xf0
+[  597.868034][    C0]  do_el0_svc+0x24/0x40
+[  597.872038][    C0]  el0_svc+0x3c/0x170
+[  597.875869][    C0]  el0t_64_sync_handler+0x120/0x130
+[  597.880913][    C0]  el0t_64_sync+0x1a8/0x1b0
+[  597.885258][    C0] Code: b9400263 2a1403e4 f0fffe61 912e6021 (f9400842)
+[  597.892035][    C0] ---[ end trace 0000000000000000 ]---
+[  597.897330][    C0] Kernel panic - not syncing: Oops: Fatal exception in=
+ interrupt
+[  597.904878][    C0] SMP: stopping secondary CPUs
+[  597.909521][    C0] Kernel Offset: disabled
+[  597.913691][    C0] CPU features: 0x0,0000000c,00000004,00280928,4201721b
+[  597.920468][    C0] Memory Limit: none
+[  597.924205][    C0] Rebooting in 90 seconds..
 
