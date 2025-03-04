@@ -1,88 +1,104 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151D527CCFF
-	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 15:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E7C22780E2;
+	Tue,  4 Mar 2025 16:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741103467; cv=none; b=dFzAdF9Sn+aATAVHTiCA+xA1uiu2p17J6YkDr/G5labJHSbEyDHXTY6iB/QAOvZucIoZ3mMH+nRoxu6tO8TC9kzwF1KO08an+2KfECENGvmcjizqK/u95zFgIyw2flnsBQ6BpwtOCoMfs0pq33yUSIJCJS9/NLKZ8nUIHuSn8EE=
+	t=1741105550; cv=none; b=gLZftnlK0Y3i/Lx4UWIwVnEuBHGOuHnfw2uacVLB91DyH/ojo97/JLC4IodKCp9zdtVxVz/NfcLJnJP8aS5+FidNZrd/fQC4YZ/tTUk0AAZRpb1wn8OInV0iNqpQz3FXBB/yjWJRHG0B9OgBumPZ8y+W834lIIEVW4OFAVsfH6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741103467; c=relaxed/simple;
-	bh=k2Y27E8jBe6v83yy6OVDayltip9TmWM0y/2df87N2Wk=;
+	s=arc-20240116; t=1741105550; c=relaxed/simple;
+	bh=7joMoRPYn7I+O+FHoWsTud02cmpn2zlQxRxktM9D2Kk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J384eThKwbrqiZuRd+Rhp06+yCodOWNemPO0sLNG4tqy9++657YYFoEXeukq0COFaE26pFzV6TzIzOnqLkt4xlhZSqPi7S2BmP7yYK3dwS5tXct+Sc81wzmFomx7fZqsTvIi7yLR0zPiqhi2HZLxDfNQXNkZo0hCsoUwoGM+5Cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=FcZrEQom; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="FcZrEQom"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-390f5556579so2350211f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 07:51:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1741103462; x=1741708262; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ztij9sovDefPZ+JmP5z7McxB3M6gtn8pxDpq2Itdo0g=;
-        b=FcZrEQom3rzP6z093pcl2f9PYRpfDj2kSxp0utlBlAZ+tepjWwrw6vLG1mTMZ0tgq9
-         9hwgdW6biG8yyR7qb3U12rJHyzhi8B4kCb0qU6zLp1pKkiAUv0Kbn1sE5E6CPVNgmML6
-         glA0LJoCOSBnPckQtb548POvMBqHomz6SVXJR/xZ/qakb01gQ61mAtGPt5Hs8Vt8vUEx
-         VtROY2f/2ZeDhmTwpbvCgc7USsNiBvFQl8doZlLrs0PEKgnGrPJwt7vlBuCJ9cypII6I
-         Tjo08yc7D+CKnJ6RnrSwrAxLxi+t6QONXhlL/fLdaH6xOKzOu7BfEgJHKo5SHfwsq+mX
-         RYTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741103462; x=1741708262;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ztij9sovDefPZ+JmP5z7McxB3M6gtn8pxDpq2Itdo0g=;
-        b=qFLebx9nx6DKU3tyNJoVOr0pT3oBEG3JwxBQuq8mNHT1/kTFYCGcCix3H7XdOzDHuF
-         li5fXweThRzT58mByAQcq+YYOHQXHdX8Qrvhfcuq1LxfQ9SCwvGhXvnyM15XODIlWYDW
-         Ullp/kykY/V34hrv/8j5MGx3WTeiSk+78MVBHEFX4jd4wWhyZTgFEbsydexd6IMBHnwR
-         fa3lfwkygGpjyCgG3FCHNySgaiRqRHBsyofsYyEGrE7k3EDGky6B/4+fCkYRkx04Kr+v
-         nSdDVO9AsRb5HiYraLL+UvPthGz5vWn1VnLp4Qv6MMsyd7J05wmWaHq9yeIg1mdbCTx8
-         lnrw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQCrx8h+ujooxUOb57OGmEFOqCcWtW6edgYNw8XDES4ZfjAivSyOYlpzh4fdsRZJzRgXwvlaEil5E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVE2ydmClGvuCZUo+x4D39AHk/6RMoIPxO3GyJyOO69Z+49tQT
-	jz72Cj96s/0pZE7lP4WZber9Bm+EDqc/RoIbC3M9oKXYa0RDVqzQrD0zvXKHX4A=
-X-Gm-Gg: ASbGnctKixa08+RUKK0cym8tdvsFmo5grxi2ITEPTxVLR6up6o6pnNTKJcgNIpsnArJ
-	06oQEG7YpOzAy84D9ZpacyKiyXiB1N66X1R4AaLwoJHnuKLYWmaqlKwT1ULXBTYSQleNoXCqURY
-	3orZGzIYJw6Nc+KWHbGp52k8kO0lTGRd2IN48o096IzvRGX4uSg/PZo+VxX6ZZJtuW/dbfDp70p
-	VwXhEsT+LhrNE0wd0hvoXv2+aXHUDEInIqmaPzsldxDzs2G26vxFWQFS89g0V/rc2hMlOVyCa7r
-	MbMuytATNvsdGF2JmHDJLJSWNv0loaluFw==
-X-Google-Smtp-Source: AGHT+IEqw732r+HZ4NWu3JQYHrodjvDxnDB1NIugP9b50YqhrS6dPwVXDZpklzhnZ/WuAjHzoYGFCA==
-X-Received: by 2002:a05:6000:418a:b0:38f:32a7:b6f3 with SMTP id ffacd0b85a97d-390eca41867mr11311863f8f.40.1741103462172;
-        Tue, 04 Mar 2025 07:51:02 -0800 (PST)
-Received: from pathway ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bb767a977sm99979765e9.18.2025.03.04.07.51.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 07:51:01 -0800 (PST)
-Date: Tue, 4 Mar 2025 16:51:00 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Vincenzo MEZZELA <vincenzo.mezzela@suse.com>
-Cc: live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jpoimboe@kernel.org, jikos@kernel.org,
-	mbenes@suse.cz, joe.lawrence@redhat.com, corbet@lwn.net
-Subject: Re: [PATCH v2] docs: livepatch: move text out of code block
-Message-ID: <Z8chZIpQkrp1GZhy@pathway>
-References: <20250227163929.141053-1-vincenzo.mezzela@suse.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=m8z+tUhLR0QxYpCwLsed9Qg9c2Ql+pJzcwVtXUspFRRVftRQNl2iiZ/5KgP9oKSeFHzl9IEqhOYTYIiTAIdGjm9kKtgu4KpahCmIbWXeKAsUaw/ZNGsBUW1NFzDdbXAQJFmr6T7Bmx7Qr4uq+xt+QWseuOPF8hojpnFrEwiKT+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A8CF497;
+	Tue,  4 Mar 2025 08:26:01 -0800 (PST)
+Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 09DB23F5A1;
+	Tue,  4 Mar 2025 08:25:44 -0800 (PST)
+Date: Tue, 4 Mar 2025 16:25:38 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Leo Yan <leo.yan@arm.com>, kernel-team@android.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v20 00/11] arm64/perf: Enable branch stack sampling
+Message-ID: <Z8cpgsxG4RrDoTKR@J2N7QTR9R3.cambridge.arm.com>
+References: <20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org>
+ <174080569248.3208873.17639032755999041028.b4-ty@kernel.org>
+ <CAL_JsqLijFG1PFkqKk7hXzC=aj70OLQsXwC280QsCO=PnCVZYg@mail.gmail.com>
+ <Z8bjEm_neWdMBNYv@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250227163929.141053-1-vincenzo.mezzela@suse.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z8bjEm_neWdMBNYv@arm.com>
 
-On Thu 2025-02-27 17:39:29, Vincenzo MEZZELA wrote:
-> Part of the documentation text is included in the readelf output code
-> block. Hence, split the code block and move the affected text outside.
+On Tue, Mar 04, 2025 at 11:25:06AM +0000, Catalin Marinas wrote:
+> On Mon, Mar 03, 2025 at 10:44:21AM -0600, Rob Herring wrote:
+> > On Sat, Mar 1, 2025 at 1:05 AM Will Deacon <will@kernel.org> wrote:
+> > > On Tue, 18 Feb 2025 14:39:55 -0600, Rob Herring (Arm) wrote:
+> > > > This series enables perf branch stack sampling support on arm64 via a
+> > > > v9.2 arch feature called Branch Record Buffer Extension (BRBE). Details
+> > > > on BRBE can be found in the Arm ARM[1] chapter D18.
+> > > >
+> > > > I've picked up this series from Anshuman. v19 and v20 versions have been
+> > > > reworked quite a bit by Mark and myself. The bulk of those changes are
+> > > > in patch 11.
+> > > >
+> > > > [...]
+> > >
+> > > Applied cleanups to will (for-next/perf), thanks!
+> > >
+> > > [01/11] perf: arm_pmuv3: Call kvm_vcpu_pmu_resync_el0() before enabling counters
+> > >         https://git.kernel.org/will/c/04bd15c4cbc3
+> > > [02/11] perf: arm_pmu: Don't disable counter in armpmu_add()
+> > >         https://git.kernel.org/will/c/dcca27bc1ecc
+> > > [03/11] perf: arm_pmuv3: Don't disable counter in armv8pmu_enable_event()
+> > >         https://git.kernel.org/will/c/4b0567ad0be5
+> > > [04/11] perf: arm_v7_pmu: Drop obvious comments for enabling/disabling counters and interrupts
+> > >         https://git.kernel.org/will/c/7a5387748215
+> > > [05/11] perf: arm_v7_pmu: Don't disable counter in (armv7|krait_|scorpion_)pmu_enable_event()
+> > >         https://git.kernel.org/will/c/7bf1001e0d91
+> > > [06/11] perf: apple_m1: Don't disable counter in m1_pmu_enable_event()
+> > >         https://git.kernel.org/will/c/c2e793da59fc
+> > > [07/11] perf: arm_pmu: Move PMUv3-specific data
+> > >         https://git.kernel.org/will/c/dc4d58a752ea
+> > 
+> > I don't know if you looked at the thread on patch 11 and said "long
+> > discussion, I'll assume a new version is coming. Next!" because that's
+> > what I would do. In this case though, there's not any changes.
 > 
-> Signed-off-by: Vincenzo MEZZELA <vincenzo.mezzela@suse.com>
+> I do this as well ;). But I think Will is waiting for Mark R to look at
+> the rest of the series.
 
-JFYI, the patch has been comitted into livepatching.git,
-branch for-6.15/trivial.
+Sorry for the delay there.
 
-Best Regards,
-Petr
+I'm happy with the structure of this; my only remaining concern is the
+filtering logic, as it is surprisingly subtle, and when I was last
+working on that it wasn't clear to me whether we could alwways filter
+appropriately (or whether it'd be better to reject scheduling of events
+with mismatched filters).
+
+I'll try to page that in and properly attack that soon, but aside from
+that concern the series as a whole looks good to me.
+
+Thanks,
+Mark.
