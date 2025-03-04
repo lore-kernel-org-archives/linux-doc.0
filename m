@@ -1,236 +1,96 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E95224C093
-	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 20:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A6A24EA8B
+	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 20:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741121058; cv=none; b=n0kVygRgh4lRQerVfkY47QnYa0LcPeRUS3l5lcbqvyFDRQjUCUMcd0p5JWVR5PCYB0sTC59tsm3qcxdJP4YQlf6zyO55DO/u3rfI3CRLvdEq48fGxrtD7n/KkvHyKj0nQRCIfWzOAHUmVmW14Z1ogM97ebouw+FYXAGlnv/I4rA=
+	t=1741121128; cv=none; b=k5sd4VQOv2KJ/lzhLmi/QB/Wt01yJNofsokSh/E3eTOX27CXXC0t7uz7zfeB0UeLVQfLuzSmygXMJNBY5O0SDNXO/BFnca5XevU8wZhCFuJSscLhT5Jp8FqXhKufFpHkroxCPzAsPQPx6csSJfvssjn17qrqZF/2mYtp/qaKu+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741121058; c=relaxed/simple;
-	bh=7y6Ozzze4KwoBgjyzA+U/rpI+/mDiB9TlO4Of3/kd6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YFObZvP35qqXtCDK8yucy0/kRovxrX7ftzNpN4DIa+lt/DIXKcjn8AA3leu6NaFL1JR7JiwGHJO80m/zguNs4MdZ7MFTa2+lXgoNUyxIGxnMye92NhZeShSZjoLE6LxXAFJABL/O7YjLxn0M03kC8uXpiV7VmSjB5kaqn3RF/WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=T4oTxsjg; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1741121128; c=relaxed/simple;
+	bh=GBTYcWM988+PKQB7e+LWCSDv1bTZ9jOTHc6PlHK11LA=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=KXl8GQlIp6ssv+cXG1+QVN4gUZjR9FyM1VS4WQohSCt84X6xnERzDN0Dj52yguI+2mQDJCsnwNkAUk46w5POzDLZrIpDeaMAQijd93Z2f/ozbULQXl3Pl7rWAcVeXp8E8XJ/oCMFlnZK4J7bgqqX/FUNTUqQooKUt7JGhhey1+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P9Phi7bb; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="T4oTxsjg"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-223a0da61easo37065ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 12:44:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P9Phi7bb"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-22380c707d3so53001905ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 12:45:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741121056; x=1741725856; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=P6GyiO/b+/JHP4j/mZ3p/+VCJ12NtmyK1qhKdqkLMCk=;
-        b=T4oTxsjgaA8+y24tfCQAKQEckcXRTKyOiLFppTyllmgm4nbUjtlaUOxQxZuAZIE0/F
-         8SXR9R30apusepH7lhfZeeP8xqlVlKXD5des6pHMpZs9CoUg7y2/xHJrWusp9ESqjYla
-         YsQ7hb8du6XQoqbsHIkqli/YZ38seWvmI4BPOr9T1XiHDFYmYKSHUaABquTC5JF5q1Qr
-         /TnFkTU83jggTk1WgyhLvLtEssVzF4tubiiMKAIxZV5WPAZ2pyEgtcau15SkJ9g0EPJW
-         hmHl3xoadoewQe2Ewe3QBu9VMekEoRaER3N+ODexNoD+ZunWiIsR/Z23UHtcuNT+0+Hp
-         gbsA==
+        d=google.com; s=20230601; t=1741121126; x=1741725926; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=O/h3K1VAjVU+85Yct7CoBzw18CRZr0W5WJZ0048JDtU=;
+        b=P9Phi7bbhFM4EUHnYOBI5owmxpoPMASwmpEAEortBpeXyhguguVeo74oFZX32R0DFx
+         NZYokAQqSWjyAkjVNutE3quPraDyc83tLUxNKKuWUvVW7rTsHbuJmfexN2mvZSLoAd59
+         S4xNSB75SncT6uR8Z6VJ5AftCR+yiSS0tiiRBBbQ3dsVluysmuc6IUO+7qLHGDJNSc0P
+         W5jqD2nCV8Flts8qSfFkUOd/5fUqSpCvFMksjqSr68u8xcnjcUgJb3iP28+S8xwGN8UO
+         tsftjoh5zCrtD4HFeVPlttOphg8sJdCKnqmpb9Q+qu8mpDuBaTDhR0BkiDzKSWEbv9xT
+         88Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741121056; x=1741725856;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P6GyiO/b+/JHP4j/mZ3p/+VCJ12NtmyK1qhKdqkLMCk=;
-        b=KTpQVhm6P8ZO8RtGgXYMSMwUGzMOxgbeVSm2rxlkoDZHVGRZWZoy7xGpFYC6gp/5qC
-         GBxN/hVmaFpDHDPsxFSISz9AXPKSjQONYxMhyp2s/HsRv5BETDFn1r9F7wUpcqEV2gRV
-         A6ErdbbGuWxnMd/Aqso4C5ju9Kbue65MQGRgrmeqZU7HD/2Ari/Rfk6hIzBK/uVbGy/w
-         80l79i0xOFGMPkJaXgyKzhdGSjHGcyNwaExd9OyiZkP0Eg0EG/O5mWoFA1miVgnH4Bmw
-         6yJIkdydpEoeXTAcpkXU/Bmko1RyMAsDlXKhBhGLwgxhORU96uDGsjNcYqwnlPYQCx6T
-         Rvlw==
-X-Forwarded-Encrypted: i=1; AJvYcCXiTs5w+7qFC0MpVzU/AwQfvALUDDO1ncH9kCTUOhRcPbkv+gExOsA795IYezqzRBMmNLM5hba2l14=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhEbCBE14mRhsJRnoV2sDztBHAU3JDWl409TIqTULrBWkzNmd6
-	xtII8MWO32WzYGB5FmWdYDiURsx1GSXHPcQpBjbgNjGpNr7DBf9GGQM0px8jcw==
-X-Gm-Gg: ASbGncs6fBvLIIHImTvKw3FMRoSCDf7GIUjj8lLgQsRKbtexpaB/n6OkO8wVsKCouCM
-	UAZGP8/QoFXBHGkRYRQhsWSBfz3E1bNYCLSRMRwbVPENIq/Y6d+OQOUswV5eyMAcnmkqdtC4S2w
-	mDIWsczwe8bYIc0UXuNhSXn3ShTWTopVU00JllSfamvKzwZQ3izG+5GfleRAdp+kUEM63eS9a/2
-	wqLzz8P6vKtslBqB8Gz18J/KBnZamCIqYxniXgJO2oaph73TBMNvjPTdxAy8XedsKWI/r97kwDA
-	4oZuZLZsMw4Nt7v+TUq6Z5klJ24rLUY71c+G9IH0epPvUKcA808Z01c/xgd4P/07arntw/fcCvR
-	QVnenDQ==
-X-Google-Smtp-Source: AGHT+IF9jAAYtjI1xJD9q8aFzdqcCf3EBmPfCXO9SbqGxq/rnItvqWNyYmnWqD98oJASF+nZMTNy6g==
-X-Received: by 2002:a17:902:f681:b0:21f:56e5:daee with SMTP id d9443c01a7336-223f268a154mr502695ad.6.1741121056131;
-        Tue, 04 Mar 2025 12:44:16 -0800 (PST)
-Received: from google.com (169.224.198.35.bc.googleusercontent.com. [35.198.224.169])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-223504c5c5csm100141995ad.113.2025.03.04.12.44.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 12:44:15 -0800 (PST)
-Date: Tue, 4 Mar 2025 20:44:02 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Willem de Bruijn <willemb@google.com>,
-	David Ahern <dsahern@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
-	asml.silence@gmail.com, dw@davidwei.uk,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Victor Nogueira <victor@mojatatu.com>,
-	Pedro Tammela <pctammela@mojatatu.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v6 3/8] net: devmem: Implement TX path
-Message-ID: <Z8dmEu_p68X7tfq7@google.com>
-References: <20250227041209.2031104-1-almasrymina@google.com>
- <20250227041209.2031104-4-almasrymina@google.com>
+        d=1e100.net; s=20230601; t=1741121126; x=1741725926;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=O/h3K1VAjVU+85Yct7CoBzw18CRZr0W5WJZ0048JDtU=;
+        b=AJchJmAg/j8xK4xwQiGSdXRdOmnoq0XHlmIrcowwSr7gplHQmMt8ToBLyQWbjloQmM
+         J1iLxqcUnV1f0mmsTnvQAeo1ITGOIITgzsVgiSuZI/ooGTYfb5GgW9P9aNwtz6vLBX5l
+         uW3W8vA9RAdyfBeQ8Xp5dohT3Zy2L5qN4xomThcZiQ+MOJzB7/xHdJEkJLias2ESOv2B
+         QVLVCEg0J2NHKUhcb6ftPwB9kxNz1bW83+EQy9faFnWYP4KPiZ4WEd3Qk4iGQhYCMcNl
+         GGYBJUzQwrraIIT3y1sy2t1SlFdNo7AhVHcmVX6M7X/girvHiBIWh0u11PorJVulyAOA
+         N6ng==
+X-Forwarded-Encrypted: i=1; AJvYcCWIM8iGgGmZ+QvaZXbuS1lMb7MHQ43hrsVFlU4gF6tfbYSg47j1V5SSI1hk22zXkpM6M2HzgOy4CCI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhVHii885zF2bi8I0dqKCXk2d1g8FLkgVsxzHl6cEOLnyH4smQ
+	AH3IjVHl+0goaiVf+VR26XGeTU9L0kLB3JQMIE9zrR8LzrVfHlVmOPakoMALybsbM4k/AA+8c/A
+	VH4zVdR/QjhKMcw==
+X-Google-Smtp-Source: AGHT+IEvAad14fuI/QYpN+y45DYnXWvF1S16Js2zs5xq9qmOkzSmCsB9Vo4K4dzj+al9VXMxX9NcMQF4YzW17IM=
+X-Received: from pjbkl12.prod.google.com ([2002:a17:90b:498c:b0:2ef:7af4:5e8e])
+ (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:902:d50f:b0:223:5e76:637a with SMTP id d9443c01a7336-223f1c97445mr7020845ad.23.1741121125659;
+ Tue, 04 Mar 2025 12:45:25 -0800 (PST)
+Date: Tue,  4 Mar 2025 20:45:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250227041209.2031104-4-almasrymina@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.48.1.711.g2feabab25a-goog
+Message-ID: <20250304204520.201115-1-tjmercier@google.com>
+Subject: [PATCH] bpf, docs: Fix broken link to renamed bpf_iter_task_vmas.c
+From: "T.J. Mercier" <tjmercier@google.com>
+To: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Dave Marchevsky <davemarchevsky@fb.com>
+Cc: "T.J. Mercier" <tjmercier@google.com>, bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 27, 2025 at 04:12:04AM +0000, Mina Almasry wrote:
->  int mp_dmabuf_devmem_init(struct page_pool *pool)
-> diff --git a/net/core/devmem.h b/net/core/devmem.h
-> index 946f2e015746..67168aae5e5b 100644
-> --- a/net/core/devmem.h
-> +++ b/net/core/devmem.h
-> @@ -23,8 +23,9 @@ struct net_devmem_dmabuf_binding {
->  
->  	/* The user holds a ref (via the netlink API) for as long as they want
->  	 * the binding to remain alive. Each page pool using this binding holds
-> -	 * a ref to keep the binding alive. Each allocated net_iov holds a
-> -	 * ref.
-> +	 * a ref to keep the binding alive. The page_pool does not release the
-> +	 * ref until all the net_iovs allocated from this binding are released
-> +	 * back to the page_pool.
->  	 *
->  	 * The binding undos itself and unmaps the underlying dmabuf once all
->  	 * those refs are dropped and the binding is no longer desired or in
-> @@ -32,7 +33,10 @@ struct net_devmem_dmabuf_binding {
->  	 *
->  	 * net_devmem_get_net_iov() on dmabuf net_iovs will increment this
->  	 * reference, making sure that the binding remains alive until all the
-> -	 * net_iovs are no longer used.
-> +	 * net_iovs are no longer used. net_iovs allocated from this binding
-> +	 * that are stuck in the TX path for any reason (such as awaiting
-> +	 * retransmits) hold a reference to the binding until the skb holding
-> +	 * them is freed.
->  	 */
->  	refcount_t ref;
->  
-> @@ -48,6 +52,14 @@ struct net_devmem_dmabuf_binding {
->  	 * active.
->  	 */
->  	u32 id;
-> +
-> +	/* Array of net_iov pointers for this binding, sorted by virtual
-> +	 * address. This array is convenient to map the virtual addresses to
-> +	 * net_iovs in the TX path.
-> +	 */
-> +	struct net_iov **tx_vec;
-> +
-> +	struct work_struct unbind_w;
->  };
->  
->  #if defined(CONFIG_NET_DEVMEM)
-> @@ -64,14 +76,17 @@ struct dmabuf_genpool_chunk_owner {
->  	dma_addr_t base_dma_addr;
->  };
->  
-> -void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding);
-> +void __net_devmem_dmabuf_binding_free(struct work_struct *wq);
->  struct net_devmem_dmabuf_binding *
-> -net_devmem_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
-> -		       struct netlink_ext_ack *extack);
-> +net_devmem_bind_dmabuf(struct net_device *dev,
-> +		       enum dma_data_direction direction,
-> +		       unsigned int dmabuf_fd, struct netlink_ext_ack *extack);
-> +struct net_devmem_dmabuf_binding *net_devmem_lookup_dmabuf(u32 id);
->  void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding);
->  int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
->  				    struct net_devmem_dmabuf_binding *binding,
->  				    struct netlink_ext_ack *extack);
-> +void net_devmem_bind_tx_release(struct sock *sk);
->  
->  static inline struct dmabuf_genpool_chunk_owner *
->  net_devmem_iov_to_chunk_owner(const struct net_iov *niov)
-> @@ -100,10 +115,10 @@ static inline unsigned long net_iov_virtual_addr(const struct net_iov *niov)
->  	       ((unsigned long)net_iov_idx(niov) << PAGE_SHIFT);
->  }
->  
-> -static inline void
-> +static inline bool
->  net_devmem_dmabuf_binding_get(struct net_devmem_dmabuf_binding *binding)
->  {
-> -	refcount_inc(&binding->ref);
-> +	return refcount_inc_not_zero(&binding->ref);
->  }
->  
->  static inline void
-> @@ -112,7 +127,8 @@ net_devmem_dmabuf_binding_put(struct net_devmem_dmabuf_binding *binding)
->  	if (!refcount_dec_and_test(&binding->ref))
->  		return;
->  
-> -	__net_devmem_dmabuf_binding_free(binding);
-> +	INIT_WORK(&binding->unbind_w, __net_devmem_dmabuf_binding_free);
-> +	schedule_work(&binding->unbind_w);
->  }
->  
->  void net_devmem_get_net_iov(struct net_iov *niov);
-> @@ -123,6 +139,11 @@ net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding);
->  void net_devmem_free_dmabuf(struct net_iov *ppiov);
->  
->  bool net_is_devmem_iov(struct net_iov *niov);
-> +struct net_devmem_dmabuf_binding *
-> +net_devmem_get_binding(struct sock *sk, unsigned int dmabuf_id);
-> +struct net_iov *
-> +net_devmem_get_niov_at(struct net_devmem_dmabuf_binding *binding, size_t addr,
-> +		       size_t *off, size_t *size);
->  
->  #else
->  struct net_devmem_dmabuf_binding;
-> @@ -140,18 +161,23 @@ static inline void net_devmem_put_net_iov(struct net_iov *niov)
->  {
->  }
->  
-> -static inline void
-> -__net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
-> +static inline void __net_devmem_dmabuf_binding_free(struct work_struct *wq)
->  {
->  }
->  
->  static inline struct net_devmem_dmabuf_binding *
->  net_devmem_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
-> +		       enum dma_data_direction direction,
->  		       struct netlink_ext_ack *extack)
+This file was renamed from bpf_iter_task_vma.c.
 
-The order of arguments differs from the above definition (and also with
-the one in the net/core/devmem.c file) which could cause a failure in
-case CONFIG_NET_DEVMEM=n. I think it should instead be:
+Fixes: 45b38941c81f ("selftests/bpf: Rename bpf_iter_task_vma.c to bpf_iter_task_vmas.c")
+Signed-off-by: T.J. Mercier <tjmercier@google.com>
+---
+ Documentation/bpf/bpf_iterators.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- static inline struct net_devmem_dmabuf_binding *
- net_devmem_bind_dmabuf(struct net_device *dev, 
-+		       enum dma_data_direction direction,
-+		       unsigned int dmabuf_fd, struct netlink_ext_ack *extack)
+diff --git a/Documentation/bpf/bpf_iterators.rst b/Documentation/bpf/bpf_iterators.rst
+index 07433915aa41..7f514cb6b052 100644
+--- a/Documentation/bpf/bpf_iterators.rst
++++ b/Documentation/bpf/bpf_iterators.rst
+@@ -86,7 +86,7 @@ following steps:
+ The following are a few examples of selftest BPF iterator programs:
+ 
+ * `bpf_iter_tcp4.c <https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/tree/tools/testing/selftests/bpf/progs/bpf_iter_tcp4.c>`_
+-* `bpf_iter_task_vma.c <https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/tree/tools/testing/selftests/bpf/progs/bpf_iter_task_vma.c>`_
++* `bpf_iter_task_vmas.c <https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/tree/tools/testing/selftests/bpf/progs/bpf_iter_task_vmas.c>`_
+ * `bpf_iter_task_file.c <https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/tree/tools/testing/selftests/bpf/progs/bpf_iter_task_file.c>`_
+ 
+ Let us look at ``bpf_iter_task_file.c``, which runs in kernel space:
+-- 
+2.48.1.711.g2feabab25a-goog
 
->  {
->  	return ERR_PTR(-EOPNOTSUPP);
->  }
->  
-
-Thanks,
-Praan
