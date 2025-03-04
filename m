@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6783D202C53;
-	Tue,  4 Mar 2025 21:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9C427CB12;
+	Tue,  4 Mar 2025 21:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741123157; cv=none; b=sfE4tMtvEiD5y6rVkUGwUrChYeWx9zZqqm1JyvyYvZSPTkoBdp8/okdz4PBxnkT/uimOTQaMPGIL0E3ibiNNrkx0z0oGQArpLX9M13hs12pN+3woTsfmVG+etPzlIIqonunLHNLVr9eK1BofKLA1cLRzWVwvrmWSZj/TiqwuZWQ=
+	t=1741123167; cv=none; b=g/3OH06YITdcg2G6A125kzjGpxE+KFVKfDqLv2jfZzNTLo10MYfgt4zlYpRQjJySk30dc2DIJ2UjMwY4VqW9Wwl53XaHcOHEtL9Pj74JKn6nYd6A604NLPhOLdu/fmCaOg/3XsCaRg20EFCbnzsJaDQGOrOwllPTIuIKO9DpQK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741123157; c=relaxed/simple;
-	bh=vX02kc1a3L/e3wLRY5G+48R1DF8rMoBAD1qr+V7KmLs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ji9Gz/gcSAUK0IEmozq7anXv0OIMMudhMU6p9Prh7hdkwlHY5cvIdNoVsXUyL7CkipKcnQO53WqjU/1RSlKQ+q8gf63sGs/uTJvLGa1ZqPwA4RdqUOymF8Vlj76Ok+9IKnb8Wq+23+wgXfESmjHfUMZB8ZxWLPrPVQHyQTh1ApM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GM2e7ceG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741123167; c=relaxed/simple;
+	bh=MvYdk6+CJs1x3c6be1UzpWng25V7d78Qpub9AKz7s0w=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=UnYByb5dmHk0dHhubw4AlkP7UEpXy9zmd92TviR5XzhUosHy0d6AqwWeNETcWlGEEl8dblN0JHD6tCsqcJ1uHmpyI5aEmBYA25n2YSXNjtJWET54PccfFCeKgNSwW+WF4WL0nKgDSXanZPQaaRce3VHvlDBZgtCx+3ghIO45P7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+yFtLDF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GM2e7ceG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6307C4CEE5;
-	Tue,  4 Mar 2025 21:19:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H+yFtLDF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1049CC4CEE5;
+	Tue,  4 Mar 2025 21:19:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741123156;
-	bh=vX02kc1a3L/e3wLRY5G+48R1DF8rMoBAD1qr+V7KmLs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=GM2e7ceG1u1x75TI8kzbLFCehMSFdYJP/dMe4nLeRhezgFMjCWxgrM9DfeyNEVJpq
-	 muUYAfkC1Hq6iAiE0ijwq5U+BfSmXdG7DPWUMESs2PQtR5l7SfKHxGA0HFQNGmhgWJ
-	 Cb6AWS5As73tyNc+wiAf3KBwYemSGzMRZINE3vPE75sShPeUIF4l7SEG2+SmbZtuRB
-	 jQs5PoGLH3FxcW6Vnb/0SQn0kLa98zXLfb6JSPl+95KcmOwtx09S/Zkwx42SZLMQCY
-	 HedVYTEfWsdxnEvpeQ70GEkDaPB+k3662deL/LUgjm2xfCtcQRfZM+CG8l0SVMVhWb
-	 bWIybjFWam0Pw==
+	s=k20201202; t=1741123167;
+	bh=MvYdk6+CJs1x3c6be1UzpWng25V7d78Qpub9AKz7s0w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=H+yFtLDFGNtuTNbyJUs+cxgvACAguJ1tXWM+lVJ7fZHcH3tKreNyIYL/74ILQnPBF
+	 LlTEEqtW0LpjlYbcTMRDaiB0S8R5VwCl0QAmj4+m4Z/cMKj7SnTTIZH0u0dGbq15km
+	 XK8ubi0/sZefriDo97HjeujAKsKrZA4rtUA6leE6Z7jQFr81uQtBYPxTRh9QM6VEcw
+	 DhPEPbOV8b4U43JYDC4igFQ6atTlB4hhQLvgcCwUjdYDOoZC7ifnG4fpihSm5GpHwY
+	 YejZz9hEeZTh1c0n966bcFw8g722XNw6Lg6sL9DBfHXMS2xhiBKamFd/HXqSdbxpZn
+	 +/ver5JBcmoZQ==
 From: SeongJae Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SeongJae Park <sj@kernel.org>,
@@ -34,10 +35,12 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 0/9] mm/damon: make allow filters after reject filters useful and intuitive
-Date: Tue,  4 Mar 2025 13:19:04 -0800
-Message-Id: <20250304211913.53574-1-sj@kernel.org>
+Subject: [PATCH 9/9] Docs/mm/damon/design: update for changed filter-default behavior
+Date: Tue,  4 Mar 2025 13:19:13 -0800
+Message-Id: <20250304211913.53574-10-sj@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250304211913.53574-1-sj@kernel.org>
+References: <20250304211913.53574-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,56 +49,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-DAMOS filters do allow or reject elements of memory for given DAMOS
-scheme only if those match the filter criterias.  For elements that
-don't match any DAMOS filter, 'allowing' is the default behavior.  This
-makes allow-filters that don't have any reject-filter after them
-meaningless sources of overhead.  The decision was made to keep the
-behavior consistent with that before the introduction of allow-filters.
-This, however, makes usage of DAMOS filters confusing and inefficient.
-It is more intuitive and still consistent behavior to reject by default
-unless there is no filter at all or the last filter is a reject filter.
-Update the filtering logic in the way and update documents to clarify
-the behavior.
+Update the design documentation for changed DAMOS filters default
+allowance behaviors.
 
-Note that this is changing the old behavior.  But the old behavior for
-the problematic filter combination was definitely confusing, inefficient
-and anyway useless.  Also, the behavior has relatively recently
-introduced.  It is difficult to anticipate any user that depends on the
-behavior.  Hence this is not a user-breaking behavior change but an
-obvious improvement.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/mm/damon/design.rst | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-Changes from RFC v2
-(https://lore.kernel.org/20250227015754.38789-1-sj@kernel.org)
-- Wordsmith commit messages
-- Rebase on latest mm-unstable
-
-Changes from RFC v1
-(https://lore.kernel.org/20250220193509.36379-1-sj@kernel.org)
-- Set default behavior on core layer filtering stage as allow if any ops
-  layer filter exists.
-- Wordsmith commit messages
-- Rebase on latest mm-unstable
-
-SeongJae Park (9):
-  mm/damon/core: introduce damos->ops_filters
-  mm/damon/paddr: support ops_filters
-  mm/damon/core: support committing ops_filters
-  mm/damon/core: put ops-handled filters to damos->ops_filters
-  mm/damon/paddr: support only damos->ops_filters
-  mm/damon: add default allow/reject behavior fields to struct damos
-  mm/damon/core: set damos_filter default allowance behavior based on
-    installed filters
-  mm/damon/paddr: respect ops_filters_default_reject
-  Docs/mm/damon/design: update for changed filter-default behavior
-
- Documentation/mm/damon/design.rst | 10 ++--
- include/linux/damon.h             | 11 ++++
- mm/damon/core.c                   | 90 +++++++++++++++++++++++++++++--
- mm/damon/paddr.c                  |  8 +--
- 4 files changed, 105 insertions(+), 14 deletions(-)
-
-
-base-commit: 2f0a33016d6d4f184f2d3341af17a360b83e2ee2
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 26c9ab10daf7..0cf678d98b1b 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -631,9 +631,10 @@ When multiple filters are installed, the group of filters that handled by the
+ core layer are evaluated first.  After that, the group of filters that handled
+ by the operations layer are evaluated.  Filters in each of the groups are
+ evaluated in the installed order.  If a part of memory is matched to one of the
+-filter, next filters are ignored.  If the memory passes through the filters
++filter, next filters are ignored.  If the part passes through the filters
+ evaluation stage because it is not matched to any of the filters, applying the
+-scheme's action to it is allowed, same to the behavior when no filter exists.
++scheme's action to it depends on the last filter's allowance type.  If the last
++filter was for allowing, the part of memory will be rejected, and vice versa.
+ 
+ For example, let's assume 1) a filter for allowing anonymous pages and 2)
+ another filter for rejecting young pages are installed in the order.  If a page
+@@ -645,11 +646,6 @@ second reject-filter blocks it.  If the page is neither anonymous nor young,
+ the page will pass through the filters evaluation stage since there is no
+ matching filter, and the action will be applied to the page.
+ 
+-Note that the action can equally be applied to memory that either explicitly
+-filter-allowed or filters evaluation stage passed.  It means that installing
+-allow-filters at the end of the list makes no practical change but only
+-filters-checking overhead.
+-
+ Below ``type`` of filters are currently supported.
+ 
+ - Core layer handled
 -- 
 2.39.5
