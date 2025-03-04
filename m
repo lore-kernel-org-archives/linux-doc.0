@@ -1,183 +1,115 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19613280CFC;
-	Tue,  4 Mar 2025 15:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FB325525E
+	for <linux-doc@vger.kernel.org>; Tue,  4 Mar 2025 15:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741101405; cv=none; b=ZRNSXFUDAT0oBNAMp+viZROvs2fTG9SfPi2issXa10AT5pADQ9HZEFhfUWDlyLTuWGwWAI4IJaYX2zJe9GnuMknrWTpDdpDDwEBDvFhBpSGVVWDngLiE6lM6dgnEIdi7Eh2JRst0ReYT1YjFXZuq0xk+tiVja+/U7cOTv/Ve+94=
+	t=1741102056; cv=none; b=NMtAgaHhNSdVtVS0V/GgXixJ9Cv12gU0bll+HHHWh04ilmS9wH/15IKVne2HmlxusjdW/61VKye5ZGR+wWZUErCk9ZPIaCS663715iyX2tFVtHu28H/xqamjlLRz/xbKx2OU42S1UFgdM2xpeGwCU5MVTui0Mq/uLRBrVd08afw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741101405; c=relaxed/simple;
-	bh=Dn4+zLGkSbuBY9M3LhG1oiQATnMWEDzyvJWH0JyJhYE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tp55rsqrzOKs+yW4GA0iH+sSvs52G06InveVz5MxxGE2L4nMoLKUgXCACLXAv9mIHCCl+5O5PSeFfchZUs8t12c75h9BAnzNQNBUpIWnzGbqm0QsWcWNHRJjurNxZHQhYxMvASMajH6cZTHA13ZuF9m7ArWMwpFoTnH2vjJoKGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZefE7sUr; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741102056; c=relaxed/simple;
+	bh=QzL/6Jwrk5+OEZqUr5nej/Vdup/WUPqimuxioOMsDnQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=c6se+X6rj8vh8S/kjFw37QOHB5LKp1RMjNBgx7fPCuYfF5B79+qCYm9a+YHM8Eoh5VwDp2QMFWpU0i1Tg8qqW+KOzlDK201jRijGUHqD5vYOG2hYtK1YQx5P5N3UWXexzqfeoKeqJ5Prwb8B0oo/n1dDSZ4HoefKNqyaQFmv258=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=MdNMkUkU; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZefE7sUr"
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-86929964ed3so5112252241.0;
-        Tue, 04 Mar 2025 07:16:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="MdNMkUkU"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43bcf9612f4so3233165e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 07:27:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741101401; x=1741706201; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dBExPiSD4X8jOCvNjsvczU6ubS0LpoXpsXfZrpLd6tg=;
-        b=ZefE7sUrmiU+ZyT8b61DzxWaDHR709H+SQ9f4sKgQ3iED4fZgHRRgxPJhUJ2VmKTJE
-         bwADBO++hwKjb7oAWuaKpp1wUhC9fJzor2XmyMGtMKCvLEZgpB1ntxDtTvOlKKbfdF2S
-         WRtH5jxMZ9ndYWE5u0g3a0v313SI4LDiOdQfy1D5BWlfzZw3q6i8UB5beAw6HjiKWrhO
-         QZrtnLTn9KI5x5qvruHNtR0LcL2KKTOyC9tr+B9yhEPjeBx/3qGnN+RhpS83MP+RDsZD
-         Sbr7t7rhW5BIwBCv7rsCWBANJaeuQodQ4fEWexbLIA4WoKTQwMWmb6QbtEPIHKDXbYJP
-         r6lw==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1741102051; x=1741706851; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2BLge0yQ5Ly7QiVOr8wvQ/f7AlfV4bu5713ouH8WzHU=;
+        b=MdNMkUkUEt/CwfLUwMJNIKqKddQ/68vhhcSh6COrPzb8CbFHpLtlDhrd1MZZuc8NTj
+         pRoY/J5d/1Y3X9G/jHzJFFz2Eoivjk3NecXbn3JvlKotLYslwrReEd9jgtv8CmpcPg4W
+         5i0GfLDwxkThMngsi91P+FWKUaLGPbVjqyrmife9sRUE+U01EuufS5kO/krE80caF2wl
+         g+Y5JeIrznFBQ+dLL5nBRDrHc+lqhgShVyFlcb9fNrA/SvB7+JbbQF09FmvL3P/PKkQ7
+         hXlnyAvOK55Y7Ymy5QQJgl+2FHziXeLYfY4+MpVKhJt/pGoEpixcmuOtvDRGxkHGQvY7
+         NFyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741101401; x=1741706201;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dBExPiSD4X8jOCvNjsvczU6ubS0LpoXpsXfZrpLd6tg=;
-        b=LnXJ3Uya5+IBa5We9o7MCmMKzK87eIBJ86et7KWy0gNLdDL2IgbNzdmOqDYXT5rN90
-         FEELoiPUEjkTNWOZ13mFF5FsqJm6Ym+MH/lNU1u9cHndrqHbJ9+8NV66gIsOUC+hPO7V
-         yJtzVsb9Sse8shghC/IYBpMHZwgWwL9wo2i2m9n0sVjvfi7Fau8DQAOLf6w5AMjLfX5w
-         sTM8vupdGiB3Tcx833DBmFZA8IbHJaTUDYPBxk41eWflOFJTxbtU4qI5u4dpR2QMSXyU
-         R9BYVDkNP2mPjV0sCCb1GqWQGyGQhQuBV27GbqnTxotsgaXqpSwbg17td+s+46KDv4KU
-         AUTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUSjpytGZP/TohHOrQR5I1wH5cTQhPw9YtuiYaARiCOaRpd25iF7rC6APcaPJKwuXJt1nCT02TnINY=@vger.kernel.org, AJvYcCVpIoLxc3061NiTG+L3ErEGmtLE8I+766yWOtkkLgDXPt7IuTJSs9uJzLvBW9yug2VFanbg01RZWiXGDLDr@vger.kernel.org, AJvYcCWE+JmBPWTM97u+/UOQgs1scuHotnCsDp2X/55psnlnEaUMSwnkOluTiA+QqhJYwuqKciDO7kUwrmAMis4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTPQ/m/Nur7EyCGLutdGw9XcgNle+k0gBHw5LVznaifFqyijnr
-	wsfsQeFr7SfeI0v3yiHtK7KYW6+RZVsRGvmZmfZeJZEHcgM8rnWodsItvLCla7xdnTJFTLxl6Ip
-	UsBJPtxmXWupQCCdZkm6HlR6+KiU=
-X-Gm-Gg: ASbGncuUwE3bVAoVdRFpgY32RYfsWN7ut21fxc4ziCQGxbZSPkWLCjc4pfAZQ6gq2nq
-	XT9hNfQM/fh2uaBWYK2XR57QSIZAKLGbGfXPKNZ8K/aBGBz7M3VMGMMcXNP9+gqaMIEiGKrQKzE
-	46hLE8BANqSzZQOfhMQCtPRGWY
-X-Google-Smtp-Source: AGHT+IGiNXqMGZ/VCHM60oIynHo3ET2jPjUUoug+Y8PqqaIJx18YeTZsTGCb6GlaJbQZW0tfvKrzKsTqVti3TGE7cUI=
-X-Received: by 2002:a05:6102:4189:b0:4c1:a53d:c24b with SMTP id
- ada2fe7eead31-4c1a53dc383mr3854575137.23.1741101400328; Tue, 04 Mar 2025
- 07:16:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1741102051; x=1741706851;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2BLge0yQ5Ly7QiVOr8wvQ/f7AlfV4bu5713ouH8WzHU=;
+        b=Oz/Ew364/udICI29KGXEwwLJe8GmyUhzYoyUZ2xA+p4VDJ/Mq/+Q4CsdQ/jgOdIEav
+         4mPjxcoaqV4ikDQZaDPGN2AsDq3x9O+vwGZ7AmEIyt2oWS1YhHe6irkXQYNUzVuyT5IL
+         GGnqz5jLov7eYeIZgMCE5FR8/p+CksxU/30diNkulT4AccvmRdS7lE5ykwW+JGl3e6hf
+         6uizlEopuNcqUMaHO1zM76dXneEGjZgbMTGnq74DDq0njL47UK73JHw7QDehnvWUTKrD
+         5COsWsBkekaGFTbdSmc1AMMLoNtqdBEaezN/LhXwSu49SoKFXCZ6A43TJHlvAYr5gU3J
+         OaNw==
+X-Forwarded-Encrypted: i=1; AJvYcCXPn9+VjKoGResZ+fbHevy6MdCLb3NXWsnnngurxHwKVOUX+BGBJCir5L5JlhXh7E/Zr6gmjohPh0o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypRMflxj9hUcHTitl5Hi8ggmKPj1wfZzeJb6BI2jq8Sv9L3i0Z
+	OHIj3geS1ZXAmgb0GeLmy7WrItGcYD1TdJg2m8zOIK/pqpyVvbFfWOJVlQB48MA=
+X-Gm-Gg: ASbGncvhQ1A78jKqZaPxZWf0+W+REBLtAUXRtEl3Cm6BtfPHedgVuG+7kDyyBnf7HOm
+	0gW0oDleQ4kQ3ortFpvjkSAZ1OAp3fSvIgTIZjxYzjUiPpQAl1w8oA+O1MdNHEezBolLB1I0zTZ
+	wSYFdSlCU02QQpKO2rvm9Ppl3jrRmZHsyA7EzatGqlo0qMckuPQvtqJDHPMLvEi8q9SlLZFm5lL
+	veGMI89FPVeUNw8wvG6pUlf+uWI3ZeY93hsqYhk6L6XzaKGQFWKx8miKYNvJFarAUklIfkBuPza
+	PA0LBGb7u+kB3pQmIvcPJir2ftiNZv/7podLjx7gB/7d54vqCAd5klAFw+KzBmANYTnBFZgOyG8
+	m1YY2bE07ZEMp1LuBiIOxs0IK5WB+i0OFew==
+X-Google-Smtp-Source: AGHT+IHXqIP8MbjkxEqvoAMHolj2v2rUB0Dn2DUpOMoOaxKJaJO9yJDenmATL1r7UA1nkYXV308fzw==
+X-Received: by 2002:a05:6000:156d:b0:38d:e3db:9058 with SMTP id ffacd0b85a97d-390ec7cb945mr14176368f8f.12.1741102051464;
+        Tue, 04 Mar 2025 07:27:31 -0800 (PST)
+Received: from [10.2.5.157] (amontpellier-556-1-148-206.w109-210.abo.wanadoo.fr. [109.210.4.206])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e47b7dcfsm18245580f8f.55.2025.03.04.07.27.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Mar 2025 07:27:31 -0800 (PST)
+From: Angelo Dureghello <adureghello@baylibre.com>
+Subject: [PATCH v3 0/2] iio: ad7380: add SPI offload support
+Date: Tue, 04 Mar 2025 16:25:43 +0100
+Message-Id: <20250304-wip-bl-spi-offload-ad7380-v3-0-2d830f863bd1@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250304-initial-support-for-max77705-sensors-v2-1-58d2207c732b@gmail.com>
- <4e9a2383-108a-4440-8f55-77679a79e36e@roeck-us.net>
-In-Reply-To: <4e9a2383-108a-4440-8f55-77679a79e36e@roeck-us.net>
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Tue, 4 Mar 2025 18:16:29 +0300
-X-Gm-Features: AQ5f1JqS56tyVOI6OUdCZnIl_32rX0ffxN2S021rHpFmP3HaKf7zWOvDUhUXb1w
-Message-ID: <CABTCjFDsutg-BOKqH++_pYNaeX6SezVL0iyuePVA7m5gXA3Ftw@mail.gmail.com>
-Subject: Re: [PATCH v2] hwmon: (max77705) add initial support
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHcbx2cC/42NQQ6CMBBFr0Jm7ZhxsGBceQ/DooWOTIKUtAYlh
+ LtbOYGrn/eT//4KyUf1Ca7FCtHPmjSMGcpDAW1vx4dH7TIDExsq6YxvndANmCbFIDIE26Ht6vJ
+ COaraCFsW00LeT9GLfnb3vcnca3qFuOxXM//af6wzIyGJl+okXBmyN2eXQV30xzY8odm27Qt1g
+ yMVxQAAAA==
+X-Change-ID: 20250304-wip-bl-spi-offload-ad7380-ad675f2a2f5c
+To: Jonathan Cameron <jic23@kernel.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Angelo Dureghello <adureghello@baylibre.com>
+X-Mailer: b4 0.14.2
 
-=D0=B2=D1=82, 4 =D0=BC=D0=B0=D1=80. 2025=E2=80=AF=D0=B3. =D0=B2 14:38, Guen=
-ter Roeck <linux@roeck-us.net>:
->
-> On 3/4/25 03:08, Dzmitry Sankouski wrote:
-> > Add support for max77705 hwmon. Includes charger input, system bus, and
-> > vbyp measurements.
-> >
-> > Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> > ---
-> > Maxim MAX77705 is a Companion Power Management and Type-C interface IC.
-> > It includes charger and fuel gauge blocks, and is capable of measuring
-> > charger input current, system bus volatage and current, and bypass
-> > voltage.
->
-> That makes me wonder if this should be implemented in drivers/power/suppl=
-y/
-> and utilize the power_supply->hwmon bridge. That seems to make more sense
-> to me than implementing a separate hwmon driver.
->
+Add SPI offload support for the ad7380 ADC. 
 
-This chip incorporates charger and fuel gauge, which are modeled as power
-supply class drivers. These measurements, however, doesn't belong to any of
-mentioned drivers. For example, ISYS is the system bus current, but it
-not charger attribute, because charger output is split between battery and
-system bus.
+Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
+---
+Changes in v2:
+- fix return value on offload probe,
+- add documentation patch 2/2.
 
-Powering diagram:
+Changes in v3:
+- fix tabs erroneously added,
+- fix documentation syntax error,
+- add a note for the 4 channels ADC variants.
+- Link to v2: https://lore.kernel.org/r/20250304-wip-bl-spi-offload-ad7380-v2-0-0fef61f2650a@baylibre.com
 
-----------              ---------      ------------      --------------
-|usb port|<--[input]--> |charger| <--> |fuel gauge| <--> |battery pack|
-----------              ---------      ------------      --------------
-                            |
-                            |
-                            |---> [system bus]
+---
+Angelo Dureghello (2):
+      iio: ad7380: add support for SPI offload
+      docs: iio: ad7380: add SPI offload support
 
-See also https://patches.linaro.org/project/linux-leds/patch/20241217-starq=
-ltechn_integration_upstream-v12-2-ed840944f948@gmail.com/#952337
+ Documentation/iio/ad7380.rst |  36 +++
+ drivers/iio/adc/Kconfig      |   2 +
+ drivers/iio/adc/ad7380.c     | 509 ++++++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 511 insertions(+), 36 deletions(-)
+---
+base-commit: b7508a5a672275694c2a1b09a5f491ca2a56bbcf
+change-id: 20250304-wip-bl-spi-offload-ad7380-ad675f2a2f5c
 
-> >
-> > Add support for mentioned measurements.
-> > ---
-> > Changes in v2:
-> > - EDITME: describe what is new in this series revision.
-> > - EDITME: use bulletpoints and terse descriptions.
-> > - Link to v1: https://lore.kernel.org/r/20250225-initial-support-for-ma=
-x77705-sensors-v1-1-2be6467628b0@gmail.com
->
-> ???
->
+Best regards,
+-- 
+Angelo Dureghello <adureghello@baylibre.com>
 
-sorry, I forgot to edit that
-
-(...)
-> > +static umode_t max77705_is_visible(const void *data,
-> > +                                enum hwmon_sensor_types type,
-> > +                                u32 attr, int channel)
-> > +{
-> > +     switch (type) {
-> > +     case hwmon_in:
-> > +             if (channel >=3D ARRAY_SIZE(voltage_channel_desc))
-> > +                     return 0;
-> > +
-> > +             switch (attr) {
-> > +             case hwmon_in_input:
-> > +             case hwmon_in_label:
-> > +                     return 0444;
-> > +             default:
-> > +                     break;
-> > +             }
-> > +             break;
-> > +     case hwmon_curr:
-> > +             if (channel >=3D ARRAY_SIZE(current_channel_desc))
-> > +                     return 0;
-> > +
-> > +             switch (attr) {
-> > +             case hwmon_curr_input:
-> > +             case hwmon_in_label:
-> > +                     return 0444;
-> > +             case hwmon_curr_average:
-> > +                     if (current_channel_desc[channel].avg_reg)
-> > +                             return 0444;
-> > +             default:
-> > +                     break;
-> > +             }
-> > +             break;
->
-> The chip provides temperature measurements. Why not support it ?
->
-
-It provides temperature sensing in the fuel gauge block, so it is handled t=
-here.
-
-> Also, how about limits ? Doesn't the chip support any ? There do
-> seem to be some threshold registers.
->
-
-It has a register in the charger block to limit IIN current. It also has VB=
-YP
-interrupt, but I didn't found how the limit is set. Actually, I have a feel=
-ing
-these measurements are implemented by chip firmware, rather than some IP
-solution.
-
-(...)
-
---=20
-Best regards and thanks for review,
-Dzmitry
