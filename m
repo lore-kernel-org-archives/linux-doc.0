@@ -1,50 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5D1237180;
-	Tue,  4 Mar 2025 19:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F29259CB1;
+	Tue,  4 Mar 2025 19:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741115835; cv=none; b=Voku5Zp9etGFG4Xt6tiEOdiijJleyzqOHxKhgh8OlqBPAJoKSV48SN0wI5AkReN6oh7b61KOvVSmAiSAYR/7G4hiq8xpxT0rUukgXfRPcoYW/AlGbXmXjIWPBxmZDztrwDaMaH59ZY3MLZqep2ynBLrRI94OhfjpO1N0/bohEA0=
+	t=1741116129; cv=none; b=Ckr8ld6qh5fyNW9kQMSzYdql+AkJRqAJecEv5MKDolbxCSjVZeNnUiwLZiDXCV/2s4HynmQM7CAMUFZkX7Isu7efgrmRMlOdO6sr8dBHqug45UWdtRSlzajHd/38dbzARQMVPYWpQ92KUMNDpRzfqtcTaNPBAYdaOVxCxVmckXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741115835; c=relaxed/simple;
-	bh=PMboUH21QxSZynvmqYXTsJlCbDsI3wUH1QQCqbJpVC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ItyCo3NgCdoax2kft9IA3z5X4Sfd1fn4XFQMssMjJizNbXQp0BpvX0MICzpBZPnCTOcaDRl6ohS+LhlG5wW37oBtfmbR6bThoAiZ9UP+FHGMEp7wPpaE63gK0IowX3SNTRhUDoZ+lWyLfpHhEWIlNLQSci1OyDicLWiUYI+pLDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=irJ7QdaR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741116129; c=relaxed/simple;
+	bh=sS1Jy4MZ3ULHuGCYt3nACn4VMCcZWnFa/TQI0pe2Plw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qAHZNlgxYrBuLghfXs5dAkpQxMXALqoaPkQyS7ZpDGVjQkx6DVJ4qRGDPgVTo/DFOj4yhF29PQxNN3nIoTYi5/Xv6fr0clBn/z698iFc91TW9H6gx3toXAeGiBtE/QueuYAgKm23nTbplJBhv3B314PGh3oadXNAVfTCMxwsbj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G2kBPhps; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="irJ7QdaR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DEB2C4CEE5;
-	Tue,  4 Mar 2025 19:17:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741115835;
-	bh=PMboUH21QxSZynvmqYXTsJlCbDsI3wUH1QQCqbJpVC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=irJ7QdaR0K0c04nUp9b2wT+j89G4yrbHif+hu8lFO/egIAVdxMP+68HZBNcVhAMHn
-	 553GEYa/+Ppt5fcaxYJZ+jysAIxz7DNKriXV9R7mF1UFoFFGOvm2SicSkZYdK3GFKv
-	 hEAEg+m+bSXQQrCt/lrjDaRsbdtWmpLSnnJFCvu6RHx1nmBNpzctDhvx+b/x4dBSh0
-	 6/n3Uv+kvpFYtCW0XCXTp6HyhthA5/jBPGZ8vz/J3/ZkjYOk77t5IzWNubNl4Exr9k
-	 oV6k2bNSI/Iad/IPd+AWmbx7KHy7rwxVdd9igchCOuWhAkHqkJVD1oSE8muqq2z7CX
-	 ZBbbYaYOgTZWg==
-Date: Tue, 4 Mar 2025 21:17:10 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
-	pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
-	jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
-	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
-	gregkh@linuxfoundation.org, mcgrof@kernel.org,
-	russ.weight@linux.dev, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 3/5] rust: firmware: add `module_firmware!` macro
-Message-ID: <Z8dRtiUaS_Yrv8-K@kernel.org>
-References: <20250304173555.2496-1-dakr@kernel.org>
- <20250304173555.2496-4-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G2kBPhps"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741116127; x=1772652127;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sS1Jy4MZ3ULHuGCYt3nACn4VMCcZWnFa/TQI0pe2Plw=;
+  b=G2kBPhpsRDEGVwC9HmkTni0viOgu9QZBPbjyGtXM2xoIBye5xTXIZUq6
+   oDN6rGu71rsBL7BozSG07kasZizdALkrrUw4EWtnBh/KGAkNOlewRv6WF
+   v90pw8Yi3fpPa4HtxocPaoQIh+nG6AFk1PFHPSst8iPjGuYtlQXkCXs4D
+   dqlLTYlVSCPcRGS4+k8YNtEuEGilGrZUIf0IkMkBL7DOsYMeUnayZQUlA
+   AK0YaCKbzD/GRwqO/TdGjTiPuC4DXlOaKK1SIfdAsgV+7Tgz4otAuReAj
+   rJU6IGLTX/G1VzxZwOi3LIwy0bJGtHJoET4S/6o3FDDeSlZN+isbrZdr9
+   A==;
+X-CSE-ConnectionGUID: 8w71VksIRRe2LyboxoDu9Q==
+X-CSE-MsgGUID: z+xQIv3FTj2Xh+h8JXxXXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="67424334"
+X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; 
+   d="scan'208";a="67424334"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 11:22:07 -0800
+X-CSE-ConnectionGUID: hT0DxdifQo6QeQkn/ygtgA==
+X-CSE-MsgGUID: bgb2E51WRXWqQIySLdsFBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; 
+   d="scan'208";a="118614670"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 04 Mar 2025 11:22:05 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpXq6-000KBI-2L;
+	Tue, 04 Mar 2025 19:22:02 +0000
+Date: Wed, 5 Mar 2025 03:21:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	linux-doc@vger.kernel.org
+Subject: [sailus-media-tree:devel 27/46] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/media/i2c/ov7670.txt
+Message-ID: <202503050359.6DYrXi6o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,117 +67,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250304173555.2496-4-dakr@kernel.org>
 
-On Tue, Mar 04, 2025 at 06:34:50PM +0100, Danilo Krummrich wrote:
-> Analogous to the `module!` macro `module_firmware!` adds additional
-> firmware path strings to the .modinfo section.
-> 
-> In contrast to `module!`, where path strings need to be string literals,
-> path strings can be composed with the `firmware::ModInfoBuilder`.
-> 
-> Some drivers require a lot of firmware files (such as nova-core) and
-> hence benefit from more flexibility composing firmware path strings.
-> 
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  rust/kernel/firmware.rs | 79 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 79 insertions(+)
-> 
-> diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
-> index 6e6972d94597..5d1ac8287171 100644
-> --- a/rust/kernel/firmware.rs
-> +++ b/rust/kernel/firmware.rs
-> @@ -116,6 +116,85 @@ unsafe impl Send for Firmware {}
->  // be used from any thread.
->  unsafe impl Sync for Firmware {}
->  
-> +/// Create firmware .modinfo entries.
-> +///
-> +/// This macro is the counterpart of the C macro `MODULE_FIRMWARE()`, but instead of taking a
-> +/// simple string literals, which is already covered by the `firmware` field of
-> +/// [`crate::prelude::module!`], it allows the caller to pass a builder type (e.g.
-> +/// [`ModInfoBuilder`]) which can create the firmware modinfo strings in a more flexible way.
-> +///
-> +/// Drivers should extend the [`ModInfoBuilder`] with their own driver specific builder type.
-> +///
-> +/// The `builder` argument must be a type which implements the following function.
-> +///
-> +/// `const fn create(module_name: &'static CStr) -> ModInfoBuilder`
-> +///
-> +/// `create` should pass the `module_name` to the [`ModInfoBuilder`] and, with the help of
-> +/// it construct the corresponding firmware modinfo.
-> +///
-> +/// Typically, such contracts would be enforced by a trait, however traits do not (yet) support
-> +/// const functions.
-> +///
-> +/// # Example
-> +///
-> +/// ```
-> +/// # mod module_firmware_test {
-> +/// # use kernel::firmware;
-> +/// # use kernel::prelude::*;
-> +/// #
-> +/// # struct MyModule;
-> +/// #
-> +/// # impl kernel::Module for MyModule {
-> +/// #     fn init(_module: &'static ThisModule) -> Result<Self> {
-> +/// #         Ok(Self)
-> +/// #     }
-> +/// # }
-> +/// #
-> +/// #
-> +/// struct Builder<const N: usize>;
-> +///
-> +/// impl<const N: usize> Builder<N> {
-> +///     const fn create(module_name: &'static kernel::str::CStr) -> firmware::ModInfoBuilder<N> {
-> +///         firmware::ModInfoBuilder::new(module_name)
-> +///             .prepare()
-> +///             .push("vendor/foo.bin")
-> +///             .prepare()
-> +///             .push("vendor/bar.bin")
-> +///     }
-> +/// }
-> +///
-> +/// module! {
-> +///    type: MyModule,
-> +///    name: "module_firmware_test",
-> +///    author: "Rust for Linux",
-> +///    description: "module_firmware! test module",
-> +///    license: "GPL",
-> +/// }
-> +///
-> +/// kernel::module_firmware!(Builder);
-> +/// # }
-> +/// ```
-> +#[macro_export]
-> +macro_rules! module_firmware {
-> +    ($($builder:tt)*) => {
-> +
-> +        #[cfg(not(MODULE))]
-> +        const fn __module_name() -> &'static kernel::str::CStr {
-> +            <LocalModule as kernel::ModuleMetadata>::NAME
-> +        }
-> +
-> +        #[cfg(MODULE)]
-> +        const fn __module_name() -> &'static kernel::str::CStr {
-> +            kernel::c_str!("")
-> +        }
-> +
-> +        #[link_section = ".modinfo"]
-> +        #[used]
-> +        static __MODULE_FIRMWARE: [u8; $($builder)*::create(__module_name()).build_length()] =
-> +            $($builder)*::create(__module_name()).build();
-> +    };
-> +}
-> +
->  /// Builder for firmware module info.
->  ///
->  /// [`ModInfoBuilder`] is a helper component to flexibly compose firmware paths strings for the
-> -- 
-> 2.48.1
-> 
-> 
-Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
+tree:   git://linuxtv.org/sailus/media_tree.git devel
+head:   d84f66b64b763277de4a99cca88cccede13ec914
+commit: bcf999e34bc7c56a4cc589a2aadfcf248bbc3f1c [27/46] media: dt-bindings: media: i2c: align filenames format with standard
+reproduce: (https://download.01.org/0day-ci/archive/20250305/202503050359.6DYrXi6o-lkp@intel.com/reproduce)
 
-BR, Jarkko
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503050359.6DYrXi6o-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/i2c/ov7670.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+   Using alabaster theme
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
