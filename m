@@ -1,90 +1,137 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9C427CB12;
-	Tue,  4 Mar 2025 21:19:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87ADC24C06A;
+	Tue,  4 Mar 2025 21:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741123167; cv=none; b=g/3OH06YITdcg2G6A125kzjGpxE+KFVKfDqLv2jfZzNTLo10MYfgt4zlYpRQjJySk30dc2DIJ2UjMwY4VqW9Wwl53XaHcOHEtL9Pj74JKn6nYd6A604NLPhOLdu/fmCaOg/3XsCaRg20EFCbnzsJaDQGOrOwllPTIuIKO9DpQK8=
+	t=1741124611; cv=none; b=qcS/Uo3TqQuDJyZ9krtrtLWjv5pQKF+xnVpCd+SoC6X//Qt1DIA+O1vLSUP90GNOCGRVXnw71kgqFLOMg7kxDwDk77+zYFYG7aMzBB/wpnQht0ZDJ+Tj47Mn6dSsH1wBjwyTOChBAwRCWwFMzNJQVGZ/TKnz8zFv1rHm0HovQ6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741123167; c=relaxed/simple;
-	bh=MvYdk6+CJs1x3c6be1UzpWng25V7d78Qpub9AKz7s0w=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UnYByb5dmHk0dHhubw4AlkP7UEpXy9zmd92TviR5XzhUosHy0d6AqwWeNETcWlGEEl8dblN0JHD6tCsqcJ1uHmpyI5aEmBYA25n2YSXNjtJWET54PccfFCeKgNSwW+WF4WL0nKgDSXanZPQaaRce3VHvlDBZgtCx+3ghIO45P7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+yFtLDF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741124611; c=relaxed/simple;
+	bh=poIfZ6zxpAupZhduwjOEwwCNb5TCatwUR+RgFojwMQU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GqUergLfBiSJYUQ51zPw14iTX6Y9SSlM9Pt0aGyH9yzkkZSwqI1VWT/3i8fqzqTZ3bCRXrxTIqtoygi939FwLJE+wzTCh4/8B/hn1HBzEFwi3E8MLCQQzt08eMwksAdud9bFWJs6H3WQP/EiAqAWs7h+2W342scM/+18JlT7rH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7M13DMR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H+yFtLDF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1049CC4CEE5;
-	Tue,  4 Mar 2025 21:19:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7M13DMR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8D8C4CEE5;
+	Tue,  4 Mar 2025 21:43:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741123167;
-	bh=MvYdk6+CJs1x3c6be1UzpWng25V7d78Qpub9AKz7s0w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H+yFtLDFGNtuTNbyJUs+cxgvACAguJ1tXWM+lVJ7fZHcH3tKreNyIYL/74ILQnPBF
-	 LlTEEqtW0LpjlYbcTMRDaiB0S8R5VwCl0QAmj4+m4Z/cMKj7SnTTIZH0u0dGbq15km
-	 XK8ubi0/sZefriDo97HjeujAKsKrZA4rtUA6leE6Z7jQFr81uQtBYPxTRh9QM6VEcw
-	 DhPEPbOV8b4U43JYDC4igFQ6atTlB4hhQLvgcCwUjdYDOoZC7ifnG4fpihSm5GpHwY
-	 YejZz9hEeZTh1c0n966bcFw8g722XNw6Lg6sL9DBfHXMS2xhiBKamFd/HXqSdbxpZn
-	 +/ver5JBcmoZQ==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	kernel-team@meta.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 9/9] Docs/mm/damon/design: update for changed filter-default behavior
-Date: Tue,  4 Mar 2025 13:19:13 -0800
-Message-Id: <20250304211913.53574-10-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250304211913.53574-1-sj@kernel.org>
-References: <20250304211913.53574-1-sj@kernel.org>
+	s=k20201202; t=1741124610;
+	bh=poIfZ6zxpAupZhduwjOEwwCNb5TCatwUR+RgFojwMQU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=m7M13DMRjwg+vDheRJTY+qkx6bKmvLxcYOQpZXq1uAj0Lo11e5hVpGofX/NDmd/Ww
+	 Eg4BwxN9BIo1acUHnq1sDEwnXrdWNFizQ4a6sUB+DkrVgPWZ1AAZXMkd00CYdbwpCS
+	 juAV+L4Nvoqt64c1Qk3IAoMGOIaXCxiZVoqqD5h75RCjBdJFXJRfd5mZMEwuDmRIgK
+	 P7R6gM4mIdIOxiyDdBTXD3BhtxlSpvHcK5LaGrCC+hoocZRt2IfhJBfwL1CWpiHtgx
+	 NEzO4orCP5eqyr8kLxVZPx5nlIvgOpuF7a4qf/lMjtgXXZbBOzS+5m57eT0xOfMsyw
+	 5WOfTT8RL7xxA==
+Message-ID: <2b3aad9e-5288-45d5-bcdd-9dbc4f7298b4@kernel.org>
+Date: Tue, 4 Mar 2025 14:43:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/CoC: Spell out the TAB role in enforcement
+ decisions
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Shuah Khan <shuah@kernel.org>
+Cc: gregkh@linuxfoundation.org, corbet@lwn.net, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, conduct@kernel.org,
+ tab@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>
+References: <20250304194813.11049-1-shuah@kernel.org>
+ <20250304200947.GF30583@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Shuah <shuah@kernel.org>
+In-Reply-To: <20250304200947.GF30583@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Update the design documentation for changed DAMOS filters default
-allowance behaviors.
+On 3/4/25 13:09, Laurent Pinchart wrote:
+> Hi Shuah,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Mar 04, 2025 at 12:48:12PM -0700, Shuah Khan wrote:
+>> Updates to clarify and spell out the TAB role in approving and overturning
+>> enforcement measures for Code of Conduct violations.
+> 
+> As with any technical change, I think it would help reviewers if the
+> commit message could explain *why* this change is appropriate at this
+> time. For instance, it would be good to know if this is meant to ensure
+> the document clearly describes the existing practices without a change
+> of rules, or if there's another reason.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/mm/damon/design.rst | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+This change is to clarify and clearly describe the scope and role the
+TAB plays in making decisions on violations that don't resolve. When
+the CoC has to make a call on instituting a ban, it doesn't act without
+the TAB's approval and when the TAB okays it with 2/3 vote in favor.
 
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index 26c9ab10daf7..0cf678d98b1b 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -631,9 +631,10 @@ When multiple filters are installed, the group of filters that handled by the
- core layer are evaluated first.  After that, the group of filters that handled
- by the operations layer are evaluated.  Filters in each of the groups are
- evaluated in the installed order.  If a part of memory is matched to one of the
--filter, next filters are ignored.  If the memory passes through the filters
-+filter, next filters are ignored.  If the part passes through the filters
- evaluation stage because it is not matched to any of the filters, applying the
--scheme's action to it is allowed, same to the behavior when no filter exists.
-+scheme's action to it depends on the last filter's allowance type.  If the last
-+filter was for allowing, the part of memory will be rejected, and vice versa.
- 
- For example, let's assume 1) a filter for allowing anonymous pages and 2)
- another filter for rejecting young pages are installed in the order.  If a page
-@@ -645,11 +646,6 @@ second reject-filter blocks it.  If the page is neither anonymous nor young,
- the page will pass through the filters evaluation stage since there is no
- matching filter, and the action will be applied to the page.
- 
--Note that the action can equally be applied to memory that either explicitly
--filter-allowed or filters evaluation stage passed.  It means that installing
--allow-filters at the end of the list makes no practical change but only
--filters-checking overhead.
--
- Below ``type`` of filters are currently supported.
- 
- - Core layer handled
--- 
-2.39.5
+This is an update to the rules spelled out a few months ago and to
+ensure the document is consistent throughout.
+> 
+> Without an explanation of the intent, the CoC and TAB would appear more
+> opaque, especially given the tags present on v1 that shows the patch has
+> been discussed behind closed doors.
+
+No decisions are made behind the closed doors. As mentioned above, the
+document had inconsistent in when it described the TAB role. This patch
+is fixing the inconsistency.
+
+> 
+>> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+>> Acked-by: Steven Rostedt <rostedt@goodmis.org>
+>> Acked-by: Jonathan Corbet <corbet@lwn.net>
+>> Signed-off-by: Shuah Khan <shuah@kernel.org>
+>> ---
+>>   .../process/code-of-conduct-interpretation.rst  | 17 +++++++++++------
+>>   1 file changed, 11 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+>> index 1d1150954be3..4cdef8360698 100644
+>> --- a/Documentation/process/code-of-conduct-interpretation.rst
+>> +++ b/Documentation/process/code-of-conduct-interpretation.rst
+>> @@ -145,13 +145,16 @@ kernel community.
+>>   
+>>   Any decisions regarding enforcement recommendations will be brought to
+>>   the TAB for implementation of enforcement with the relevant maintainers
+>> -if needed.  A decision by the Code of Conduct Committee can be overturned
+>> -by the TAB by a two-thirds vote.
+>> +if needed.  Once the TAB approves one or more of the measures outlined
+>> +in the scope of the ban by two-thirds of the members voting for the
+> 
+> There was no mention of "ban" in this section, is the addition of that
+> word on purpose ?
+
+It previously stated that the TAB can overturn any decision made by CoC.
+This document moves it into a direction where the CoC will not act without
+the approval from the TAB. This applies to if and when "ban" is required
+which is rather infrequent. This word "ban" is not a new addition to the
+document in this patch as it is mentioned in the last paragraph in the
+"Remedial measures" section.
+
+The reason for adding the word "ban" here is to make the text consistent
+with the "Remedial measures" section.
+
+> 
+>> +measures, the Code of Conduct Committee will enforce the TAB approved
+>> +measures.  Any Code of Conduct Committee members serving on the TAB will
+>> +not vote on the measures.
+> 
+> We're switching from a 2/3 majority to *not* implement a recommendation
+> to a 2/3 majority to implement it. Without judging the merit of this (at
+> first sight I feel positive about the change), I think it's worth
+> explaining why.
+
+Right. I think this is a positive change and gives the TAB oversight
+on the CoC decisions before they are enforced as opposed afterwords.
+
+I can add the above explanation to the change log.
+
+thanks,
+-- Shuah
