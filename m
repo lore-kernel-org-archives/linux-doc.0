@@ -1,145 +1,101 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45134AEE0
-	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 00:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726CC1E50B
+	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 00:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741135711; cv=none; b=ifA8afBaoXTpmXXjSsdG379XEZa8u/u+MPCvDQ3hgOEj+amH2lC7kf9FAZvknFSpQ/+Zg2xOMX8Hq6oSDxN78PLfQ7TtG6wCQeLC9NKjogvcTQuCTLFR6NstdBfyuFPBnyrwAVX4394+rR3XFsdBU+ZiBUZ46szFoaFJWlFu8Tk=
+	t=1741135738; cv=none; b=hCtQ3Fid8tVXxVGIy0IJS4DiJO/Up6U9ft+14ypMPESRxbsr9InEWNG/6t1T/v8mI+iErYDJzkam9tXAt5EywmCd9qwCCv+tSUABoq7nnvNbyEe7OlDiENFsmW+7OSkC/oDAk9+u/IByH0QBiLoJElDVwQaDbfN0+GePkOs7iI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741135711; c=relaxed/simple;
-	bh=l8hOYfBwUIt4CU6TvmqlsZSPKBWt7NZAO4uGMUF/+So=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JIU5mpmOAL5fgG6Zikocngjt2CvcfYrEGBpFMKn1YMV2fS9hjirxt4jf+O1T0w/6i8EuxtGAFI68/IO1S/tsYUscIK95LLVvgD0+d5guTC/fT6KmKoqbUSCM3nFMESypUsrfKkm+zt1Z9CsQ5M/wnROb/m1TR3mMDemfr7Nx5Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EZ6NjMtB; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1741135738; c=relaxed/simple;
+	bh=tjTvQE048fv8PKJNsWXXOTWVGYT4qT63Flj1AfZdvI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PB1XzR5h6lWQqkY5xpFwH8cDZ9pOTdmZ3rGuRnQLxw+QMmL9hUBBBUJch8SIOvALaCyWpNnM0TbzlmzJtv4jxTbHjVw0zY3s+bY3FHHgA8ksD2c2mXI867jgupvJDVYcH6cVyhnpHmv/6AnENNO68tin0Flp9O3qW5kapyuZGus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=joshuarose@gmx.com header.b=Izg4rlH1; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EZ6NjMtB"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4393ee912e1so11745e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 16:48:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741135708; x=1741740508; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WpdfKf6RfaEe0n4JSWIwj1bvttMewhoSuLGnC7ajBRY=;
-        b=EZ6NjMtB+b+xP+tYPmgxMpkmueOAZD6bajU8e22g02dEiHFJD8VwtSU7gfvpazmLZA
-         SOQXPaBaTllksfYzIVhDJfrvynjxdrwEozPwO8QiFPBHqbaEbPsdnGTPnsYVi9Z2QDXH
-         Q76vZVA0YEsP3g2WyTHF4X5bZ2+7pbvZqCz2iCa1Ge6lF6hkkMvPfD7InJYlJQl0KnSP
-         TVhFGgAIEM4wW8M5WtIWFa+C15Im5r1XZLLsbf19Hwbsu1fpS8HgTFkcpmF3Vlg9KRe9
-         U8extPjqoFuTXRROea+qU6so3QQi1ouR2NbmFP5zVdkTRpxhlx+s+wUMNK+q0R7C1ybF
-         vJxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741135708; x=1741740508;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WpdfKf6RfaEe0n4JSWIwj1bvttMewhoSuLGnC7ajBRY=;
-        b=DFE+mHOq0k00nqBuTfvP0WRyzd28LwYDbPDwWZpdipNyay46l975+SJvKblMNlbwzn
-         XL8c6CPZkeqaEz3pM5jIhLAXd9PA4IAYEYVrSW1pEPWeq/J+HaN5Ci6RcxKHo0mcxdpR
-         tJyRgDuNd3ADeJHCXgR70A666tEz3VFDP9QoL+7vrEfrskyqWGW5SBOon4YzRdpe9Adx
-         0wQqc9q9RkT/cMXM3Vsz3tqrx4S9ULRe8qu9OSwgDhpJsbZ1drJukA2jFK2R4tWMjADZ
-         VET9K433XJqrUZ+JoH+lEtd4j5mJkKhBCtSvMG7f7W0kNPoPyzJxCGnEEsWOvIPw0qph
-         RMzA==
-X-Forwarded-Encrypted: i=1; AJvYcCVGkCVmqYt5uonawFiZl4mMOTAu79SBWugsilfugGGUDfWYtroJWhAzpfkUZMrEG27zwZ8rCPl8Fa0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTJ+E1MWKTTKpWeTcU2erQNnCW87MqTVKVnPrhvepYehF5XB3I
-	NTTuIe/Zv8zRyKyBq8K5XUjRfR/Qcu0IPF9Mo7wxYJTdPtkGoUiKOFn3QgWR4peOYCRrCQJGdB3
-	VtaYfvVATrw2LUnB64TNqe0qZPWuXFs7GXpW+
-X-Gm-Gg: ASbGncuNVv7rDbAmxWgBGOaw/E5PI6ofGH580qw7zgrz0qLOFVrnfrwwiKcQVpnmI4V
-	WWVcegxS/KZ5IYwyQvAqzrf2rVnpJpsk4LjP6PhY8Q1klRG74NWPEL7jhLLjWPHtwRn3Rqr3zhO
-	mflHmliCb0x7yKzMlZlPmcPn8rCYYTX5DcznFQi2yAyxSoVJf/mGqJZlHF
-X-Google-Smtp-Source: AGHT+IHS/CmjXgegGcxmRpNS98l46ZS6jKoa5Lns8rQL3j5jNusGGs4P4kOCp/wB0pBcvC4rGkpBgAWFwp9wMlZaewY=
-X-Received: by 2002:a05:600c:a20e:b0:439:7fc2:c7ad with SMTP id
- 5b1f17b1804b1-43bd360dd0bmr264395e9.7.1741135707908; Tue, 04 Mar 2025
- 16:48:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=joshuarose@gmx.com header.b="Izg4rlH1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
+	s=s31663417; t=1741135733; x=1741740533; i=joshuarose@gmx.com;
+	bh=orAPi4vl21rOodR/Ni9Q5EYFJ5Tj3xgVSnMzCsewzr0=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=Izg4rlH1V71p7IpaeFRoXXVbWql+9nmHviBXawmY0QT8+hHOIpd7s/FgvGiQGWv9
+	 ygqZ7VjWT6MvUdCvP0G0tXUOylv0k3bEybcJ2cHsg6TDjIJ/EevlVmryeZC926aJT
+	 PoG8Ooat8Z2TNkKANta/XeiQdTjbP472MQdllZY5GPk4OQb2SQJUga31TuHEnvAab
+	 89CoqiMQAV27PCZ2ipuSGqMiV5syBCzqNWUrAECaFirhvLJcPycwuqm6kgYSoHAIB
+	 +1BKiiVGBfeAselLxU3jIku2YZXRwYzAeHRKMfMdYcXz2Zt1DRAWZRW497GdB/2JR
+	 idKul2WZP3f/wtxSYA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost ([122.107.8.54]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1McY8d-1tH6TJ1KDV-00ffGD; Wed, 05
+ Mar 2025 01:48:53 +0100
+Date: Wed, 5 Mar 2025 11:48:45 +1100
+From: Joshua Rose <joshuarose@gmx.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Joshua Rose <joshuarose@gmx.com>, linux@leemhuis.info,
+	linux-doc@vger.kernel.org
+Subject: Re: Grammar issue(s) in documentation
+Message-ID: <Z8efbax_VgGBzQrl@spinny>
+References: <Z8Y-FHZ5tYBEMy4j@spinny>
+ <Z8ZdEioHt184CYNm@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250303160249.118549-1-mripard@kernel.org>
-In-Reply-To: <20250303160249.118549-1-mripard@kernel.org>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 4 Mar 2025 16:48:16 -0800
-X-Gm-Features: AQ5f1Jq3ZGx0qLsX7f-KsnmsL9RZFbs2tncfnAJKVdS694Nl6LlvniytB56xX18
-Message-ID: <CABdmKX2bA3R3RTvzaRTj5313o5cxdhf8b30YTNNKFq5Bqs09=Q@mail.gmail.com>
-Subject: Re: [PATCH v3] Documentation: dma-buf: heaps: Add heap name definitions
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-media@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Z8ZdEioHt184CYNm@casper.infradead.org>
+X-Provags-ID: V03:K1:334IWo7aILqlO9ehcKx1iNa/eQU2wEfigTaCrGcOM6SVLMmshka
+ xg8CU7DUEBknBTARM6e7vBqUpLu9g8IrrMbnFizUtc36s0ggt5lDtnmRNgIGVrfxq0mU9Iw
+ q+JFmWg+Owyo1+qPTKyzwNBLsQaFhny1aPbOqT9kSDAiH/cxT+mvOW5BDEuz2F+AHpmIkOx
+ wyX9QWMgSMNmH5F8sQWYw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:s+9XDzHyUy0=;e8ASrOEY9eGXrjXcVcUVABg9ufz
+ twUW0A0DeB+nHlD0r1R+KaDOe4M5l6X5E+fcnGWAlDjzsDNgBk7owMC2uFl7jrIcoWmzAyQMq
+ 8g5DBRpQYjAOBqP3odHdjJ0mlcfuByTnxDR6/q4h/fFTelXF8n5/E5EL7/H4ZhT1eIsdDQ9p8
+ m7FTz/wl0zw7ZYbyE38AQZLlYFeXAkRGPfs1xJOwTwfjT2J16xYuIEELgH9BspYuOVCwDHqjR
+ bQgHl5FE347XjACqdaXURMyYRVaFvdV+X/cK6MJI7V80mxtfu3/xZQESbWvutLslaaM8iXXYK
+ nbFXW/qMTIxTwJ+QBdFSxCZqi+AoeyJv8p54lKg5L8Fru6Y7I3Fpaty9O67L8XCkUcoHJ/+lq
+ lFr22FSkJ9hJlpa87CF1cNKDYPXJgHVmMXmL+McAqAI3PHgtUU50xITVikiFeN1l85Qs6kCN5
+ rb5ttBIbjJnum14B4DaHSGh1jsvkmqeOXHvYlHWrV4FgWz8RXaBSBme7wvldK1ieTlXhJ8Jkx
+ i+LP1+iPnkKr0kZRgb6NtUt3Fv78mSlF5cLUGWBxeJ1GS2juC+I+xr2EpmR1u0lKs0lO3zooK
+ 43NpIByunjrwCYfu1tcEozqfaH78V1jp112HmsJ1fk1NTItr031+qohwkvM6bjmaJ+UE/HBCH
+ ZEdpOogGSLbLTBGTkQKo4YYvg48tDXY2NZcjLCN17f4GypExzWw4hDV1zXc+rPoyIgMmXkq/N
+ 1AeSnVvd8/ABHCBX2mi/R15uo7k9PzDIEeWZw0+sCXE+ry6KwY9+4YwS2UkIyi9qToj1Z3ons
+ twiIimWfXuQmR4GCW1ywvaNYDNc5j8YRWEhHRjTJmduXk1H+g5pQwEt9Sa3ciab/OESkEUjNI
+ lPpwp+/wQKJkmYkh4Ojh+uG6VsogavhMlHqrjtYcskTL/0a4ei4eo1VfnGVG1dFaUKPq6upsd
+ rkE7A3c+gW/XoLh9anAzaNFPX9h4/fkSxWABDK88d5xRpU2LfbHx57eWA0yOi3jxhaDS+VEku
+ JinRSCxXG/dZ+29TlGKZ6Y+S8o/ouF2ven1Gc3CrBLSBE6EDTzwapCJ6ZT6OjGltEazEenU2S
+ EttT33xObLi92lzQY3LXMWzJQAycriqhwyvQW6y/WG5Q5jRWaQjNwE3BXtp/x+Y8sQiQd19ER
+ 9HEKFax2oHUZwXzbXNgKApo3lKOEyjunWNtq/D74yOtFjBgzsTsdHpuCaktVBT+ZiGxCa8SyA
+ 0lI6HjJzs5IRK1bomdnKgZQNXtdO/XCJVUJsPvKHd8HvverkxE8HXOUU0VPbihYLhKJszQmAQ
+ XBJ+vpLMgS7FVJ58Id/7OMYamNSje+knabN0FLtRqKIrs2BWDt7AcqfgDQyZnc37z2OXt9fAp
+ /00YvR0URDN799nYLrKxt8pO4QKWWrP7VDgvzUJQgqn3aAZzzS2r6zCsci
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 3, 2025 at 8:02=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
-rote:
->
-> Following a recent discussion at last Plumbers, John Stultz, Sumit
-> Sewal, TJ Mercier and I came to an agreement that we should document
-> what the dma-buf heaps names are expected to be, and what the buffers
-> attributes you'll get should be documented.
->
-> Let's create that doc to make sure those attributes and names are
-> guaranteed going forward.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
->
->
-> ---
->
-> Changes from v2:
->   - Remove exhaustive list of names for platforms, and just mention the
->     alternatives.
->   - Add MAINTAINERS entry
->
-> Changes from v1:
->   - Add the mention that the cma / reserved heap is optional.
-> ---
->  Documentation/userspace-api/dma-buf-heaps.rst | 25 +++++++++++++++++++
->  Documentation/userspace-api/index.rst         |  1 +
->  MAINTAINERS                                   |  1 +
->  3 files changed, 27 insertions(+)
->  create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
->
-> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentatio=
-n/userspace-api/dma-buf-heaps.rst
-> new file mode 100644
-> index 000000000000..5b92d69646f6
-> --- /dev/null
-> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> @@ -0,0 +1,25 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> +Allocating dma-buf using heaps
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> +
-> +Dma-buf Heaps are a way for userspace to allocate dma-buf objects. They =
-are
-> +typically used to allocate buffers from a specific allocation pool, or t=
-o share
-> +buffers across frameworks.
-> +
-> +Heaps
-> +=3D=3D=3D=3D=3D
-> +
-> +A heap represent a specific allocator. The Linux kernel currently suppor=
-ts the
+On Tue, Mar 04, 2025 at 01:53:22AM +0000, Matthew Wilcox wrote:
+> On Tue, Mar 04, 2025 at 10:41:08AM +1100, Joshua Rose wrote:
 
-"represents"
+> > "Do not attempt to circumvent your distribution's packaging system by
+> > installing your kernel manually; this will likely break your machine.
+> > Components of your kernel can be selectively removed later on.  Such
+> > components (files) are stored in two locations, both identifiable
+> > by the kernel's release name."
+>
+> I think that's the opposite of what they meant.  I understand it as:
+>
+> "Feel free to circumvent your distribution's package manager as it's
+> easy to remove the kernel afterwards".
 
-> +following heaps:
-> +
-> + - The ``system`` heap allocates virtually contiguous, cacheable, buffer=
-s
+Oh I see. Okay, well can it just be re-phrased as that then? It seems
+much simpler.
 
-Period at the end?
 
-This description is my understanding of the current state of things, so:
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
+Kind regards,
+Joshua Rose
