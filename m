@@ -1,113 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02E2250C1D;
-	Wed,  5 Mar 2025 17:52:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1D6250C1C;
+	Wed,  5 Mar 2025 18:00:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741197131; cv=none; b=NpCjVVyeUYnUDYkmERiSlUXfb+liuwQ6KG667tWMNWAkqF+FNgMEmNazKNfXoq7G27ZZ1UuEQDXGKE5z+5T4OD+SI8gFo/bsf8Qy77z6DLnSq8bM5zOAwN26EdMPhGT1sjPsrq4Vg0ADKBeApRWRw5lOiKcz6aAKY0jpQHJCOBI=
+	t=1741197601; cv=none; b=uG6nDswIF+/gmTmTClWCLP6Aeq01eiiU+8a/89Ibygk6hrHF35yB2jrFsqPILbUhLB5M3j2t+kDUJw2aF+ZbzppRFL1lfnLPjKb4WfChq7vlZ6buOjPvj9UAf0f1aSn6GlkGm/D32R5+zEfSjTwF/R7RiPr2H8UdtQ73zzRpV8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741197131; c=relaxed/simple;
-	bh=+fO6QHFZK3v34T0UbQQG+Rs4wUa/4vaaUqJFHDD+cJA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UM1XHSDxgcH+fmdWiSp7gbMvWK2e5lnyDfD4DEuOwC83YBroPveYDiBFQ8Pb+JnjKzDzpZCx4l+A0EQzFBFYAvsF6AD1NhsRX6L/f8Zqz9dLwV9/kbUCrbpbG+Mv1ZmwRRwlAXP5pHOB3RQqaz3Rlo8chqck2fa49zD2PRgHPfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tLjGYBKb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741197601; c=relaxed/simple;
+	bh=RZp4U+jYLynv07h7676ER25Ev/Yq9pXQYjKGxCn7CVs=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=cDAArSdvlYEc+iQ3Q7RLoOXf36DZfZ2YayXrcWKQkaxtAacR1CGLKC0MVV14P+SuVyYn37SUmElfaM5Mv3Zpd8js18CO67AEhZ92YtFKnCV3jkAmiFGMM8DbG14gy13/iMBtu/DmPzxLGpnSVdz9mHOw3QmDU+TF7ALsrHssyPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BIGufrcs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tLjGYBKb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60757C4CEEA;
-	Wed,  5 Mar 2025 17:52:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BIGufrcs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A03BC4CED1;
+	Wed,  5 Mar 2025 18:00:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741197130;
-	bh=+fO6QHFZK3v34T0UbQQG+Rs4wUa/4vaaUqJFHDD+cJA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tLjGYBKb2Crad0G/NITWxBaBxqZgqDl+WHtPV/INm9ZGzYEuYRxMovqxsAw8g9F7n
-	 6GKC/zA3gIBNEe3IQbEIX2voyimvey/XiDv9YyHcfniDhPi/FtDpb3ckaaSo42teoO
-	 gYN6zX8dZV+z9eCW50WR45oIzlMXO5CT+FQBwNCYKERCp694nN62/2glkpvvAMxuaj
-	 RGGx3yukJw17Ry7zuiXdoE721k8i4Uc812+jnw16YiKYjQ6U1haNvUewQLZMYfHrBd
-	 MCWnPFT80c+anlS38oocNHqYco2JryFGb/mlHMl+dQktVXF12U7BUndPiZiRE20Eii
-	 HUn/+p3uqdIEw==
-Date: Wed, 5 Mar 2025 17:52:04 +0000
-From: Simon Horman <horms@kernel.org>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowang@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-	linux-kselftest@vger.kernel.org,
-	Yuri Benditovich <yuri.benditovich@daynix.com>,
-	Andrew Melnychenko <andrew@daynix.com>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	gur.stavi@huawei.com, Lei Yang <leiyang@redhat.com>
-Subject: Re: [PATCH net-next v7 3/6] tun: Introduce virtio-net hash feature
-Message-ID: <20250305175204.GP3666230@kernel.org>
-References: <20250228-rss-v7-0-844205cbbdd6@daynix.com>
- <20250228-rss-v7-3-844205cbbdd6@daynix.com>
+	s=k20201202; t=1741197601;
+	bh=RZp4U+jYLynv07h7676ER25Ev/Yq9pXQYjKGxCn7CVs=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=BIGufrcs//TMH4PTu3EkXj3cMUNNZsutpQiIVzX2HwCAHnm5gfV2FyIw4S5TpMnB3
+	 88QEWwb1L/m1RZHXKSRYEZxkVfi8ZIaQnXg6DEQFKYbuZJYaml9HdWRFAbzL5NKNk/
+	 eWxWLc05E9TMNcrqK6P6QjIhdb6cXMuj65M6zv45wfnpEYzEQieplL+2WBVgjmijyy
+	 DRtcUsM1Ccm9bpLOu4wLJf+lXCPB3nxmbVTnF1twI2joVABXft2We0xgOWtsB+jmfh
+	 n3lUrKHcEg1dk0/eXqVkO7BgNEXnBXX8/LqJ/PGh3DHS0PNsAE6huXZb2OMWB0keLH
+	 +h8TX8rnhM0QA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70EE7380CEDD;
+	Wed,  5 Mar 2025 18:00:35 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250228-rss-v7-3-844205cbbdd6@daynix.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] bpf, docs: Fix broken link to renamed bpf_iter_task_vmas.c
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <174119763411.970160.4101069434619256136.git-patchwork-notify@kernel.org>
+Date: Wed, 05 Mar 2025 18:00:34 +0000
+References: <20250304204520.201115-1-tjmercier@google.com>
+In-Reply-To: <20250304204520.201115-1-tjmercier@google.com>
+To: T.J. Mercier <tjmercier@google.com>
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+ martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
+ yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
+ sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, corbet@lwn.net,
+ davemarchevsky@fb.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
-On Fri, Feb 28, 2025 at 04:58:49PM +0900, Akihiko Odaki wrote:
-> Hash reporting
-> --------------
+Hello:
+
+This patch was applied to bpf/bpf-next.git (master)
+by Alexei Starovoitov <ast@kernel.org>:
+
+On Tue,  4 Mar 2025 20:45:19 +0000 you wrote:
+> This file was renamed from bpf_iter_task_vma.c.
 > 
-> Allow the guest to reuse the hash value to make receive steering
-> consistent between the host and guest, and to save hash computation.
-> 
-> RSS
+> Fixes: 45b38941c81f ("selftests/bpf: Rename bpf_iter_task_vma.c to bpf_iter_task_vmas.c")
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
 > ---
+>  Documentation/bpf/bpf_iterators.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Odaki-san,
+Here is the summary with links:
+  - bpf, docs: Fix broken link to renamed bpf_iter_task_vmas.c
+    https://git.kernel.org/bpf/bpf-next/c/7781fd0ddeb4
 
-Please reformat the patch description to avoid including "^---$".
-Git will truncate the commit message at that point,
-excluding the text below and your Signed-off-by line.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-> 
-> RSS is a receive steering algorithm that can be negotiated to use with
-> virtio_net. Conventionally the hash calculation was done by the VMM.
-> However, computing the hash after the queue was chosen defeats the
-> purpose of RSS.
-> 
-> Another approach is to use eBPF steering program. This approach has
-> another downside: it cannot report the calculated hash due to the
-> restrictive nature of eBPF steering program.
-> 
-> Introduce the code to perform RSS to the kernel in order to overcome
-> thse challenges. An alternative solution is to extend the eBPF steering
-> program so that it will be able to report to the userspace, but I didn't
-> opt for it because extending the current mechanism of eBPF steering
-> program as is because it relies on legacy context rewriting, and
-> introducing kfunc-based eBPF will result in non-UAPI dependency while
-> the other relevant virtualization APIs such as KVM and vhost_net are
-> UAPIs.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
 
-This one is ok, as the commit message should end here.
-
->  Documentation/networking/tuntap.rst |   7 ++
->  drivers/net/Kconfig                 |   1 +
->  drivers/net/tap.c                   |  62 ++++++++++++-
->  drivers/net/tun.c                   |  89 ++++++++++++++----
->  drivers/net/tun_vnet.h              | 180 +++++++++++++++++++++++++++++++++---
->  include/linux/if_tap.h              |   2 +
->  include/linux/skbuff.h              |   3 +
->  include/uapi/linux/if_tun.h         |  75 +++++++++++++++
->  net/core/skbuff.c                   |   4 +
->  9 files changed, 390 insertions(+), 33 deletions(-)
-
-...
