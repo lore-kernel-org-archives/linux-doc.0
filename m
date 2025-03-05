@@ -1,97 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B391C288DA;
-	Wed,  5 Mar 2025 00:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45134AEE0
+	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 00:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741133871; cv=none; b=nWpEkgWyHGDzEN3mavyv3mQQciUjkimd3WWqYKmVoeS5CJxV4A0gareEgaVapwPauvmrD3mk0WG06bxNgmX7U8BasspzCJ7RrkUkOwwdhHhm4ketbFJl4VGkRDIokXd8IAjvJiK+/lCAsvN2lR8tfrmGnrgXQHutWEjKR0ASchM=
+	t=1741135711; cv=none; b=ifA8afBaoXTpmXXjSsdG379XEZa8u/u+MPCvDQ3hgOEj+amH2lC7kf9FAZvknFSpQ/+Zg2xOMX8Hq6oSDxN78PLfQ7TtG6wCQeLC9NKjogvcTQuCTLFR6NstdBfyuFPBnyrwAVX4394+rR3XFsdBU+ZiBUZ46szFoaFJWlFu8Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741133871; c=relaxed/simple;
-	bh=0yno/DE+/JPPbpjlTDp+6AS6Y5WufQLFUtooXTkZzOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hcMEaSGBb0En8C0lPS38caGpxDPLEg7yZOSOgV6vMyADODspEw6gKYWNVXy2ICL8HZ1562v8svTXGifliNah8SE+MJrK0m/2mQFJwDX5+RYMgas9FCIVYxzFPFxxeKpnmoY3xqLHd8s7fx75so4Dkmc+aC2Hr0kBoe2hXJBVZrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qiy9Zl6y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741135711; c=relaxed/simple;
+	bh=l8hOYfBwUIt4CU6TvmqlsZSPKBWt7NZAO4uGMUF/+So=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JIU5mpmOAL5fgG6Zikocngjt2CvcfYrEGBpFMKn1YMV2fS9hjirxt4jf+O1T0w/6i8EuxtGAFI68/IO1S/tsYUscIK95LLVvgD0+d5guTC/fT6KmKoqbUSCM3nFMESypUsrfKkm+zt1Z9CsQ5M/wnROb/m1TR3mMDemfr7Nx5Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EZ6NjMtB; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qiy9Zl6y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E4BDC4CEE5;
-	Wed,  5 Mar 2025 00:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741133871;
-	bh=0yno/DE+/JPPbpjlTDp+6AS6Y5WufQLFUtooXTkZzOg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Qiy9Zl6yv/aKjE9r7FltyhR99JNSR3mZEy7tHtEeAZwJx9e8I+OyYUOIVNR/AvgN4
-	 8y/TJexVAPwro/TnXD3bQGzwmuDowlMMQPnXQozziTqqfk4ft5fYlNG2Ew0+QbtsnO
-	 eIyPdgpKMmQ/18DHZ7SRDJQb5iNtOpCEkY2L7uSer+P0ci0NrVCxLl100RUgrg3zvo
-	 nx1DwfGtnJq5RIvZj/2QasoTO5Pwq+9XrYxDI9iJO7LOaPsIW5g2kdovUQlNW0r6l7
-	 j9E0YzHkyykZLrOevBWIxL8cVwlHZEmcr6184buXgx5OLsUD/wTj9miuN8+PRGiuqt
-	 lYFzVKL3eR5nQ==
-Date: Tue, 4 Mar 2025 16:17:48 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org, Donald
- Hunter <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Jeroen de Borst <jeroendb@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>,
- Willem de Bruijn <willemb@google.com>, David Ahern <dsahern@kernel.org>,
- Neal Cardwell <ncardwell@google.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
- <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Stefano
- Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
- sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk, Jamal Hadi Salim
- <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
- <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
-Subject: Re: [PATCH net-next v6 7/8] net: check for driver support in netmem
- TX
-Message-ID: <20250304161748.42b71228@kernel.org>
-In-Reply-To: <CAHS8izOJfSCM+qZ=npPOK3kwuA1pyGHrPo73brRq2VXg8G450g@mail.gmail.com>
-References: <20250227041209.2031104-1-almasrymina@google.com>
-	<20250227041209.2031104-8-almasrymina@google.com>
-	<20250228164301.07af6753@kernel.org>
-	<CAHS8izO-N4maVtjhgH7CFv5D-QEtjQaYKSrHUrth=aJje4NZgg@mail.gmail.com>
-	<20250303162901.7fa57cd0@kernel.org>
-	<CAHS8izOJfSCM+qZ=npPOK3kwuA1pyGHrPo73brRq2VXg8G450g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EZ6NjMtB"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4393ee912e1so11745e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 16:48:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1741135708; x=1741740508; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WpdfKf6RfaEe0n4JSWIwj1bvttMewhoSuLGnC7ajBRY=;
+        b=EZ6NjMtB+b+xP+tYPmgxMpkmueOAZD6bajU8e22g02dEiHFJD8VwtSU7gfvpazmLZA
+         SOQXPaBaTllksfYzIVhDJfrvynjxdrwEozPwO8QiFPBHqbaEbPsdnGTPnsYVi9Z2QDXH
+         Q76vZVA0YEsP3g2WyTHF4X5bZ2+7pbvZqCz2iCa1Ge6lF6hkkMvPfD7InJYlJQl0KnSP
+         TVhFGgAIEM4wW8M5WtIWFa+C15Im5r1XZLLsbf19Hwbsu1fpS8HgTFkcpmF3Vlg9KRe9
+         U8extPjqoFuTXRROea+qU6so3QQi1ouR2NbmFP5zVdkTRpxhlx+s+wUMNK+q0R7C1ybF
+         vJxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741135708; x=1741740508;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WpdfKf6RfaEe0n4JSWIwj1bvttMewhoSuLGnC7ajBRY=;
+        b=DFE+mHOq0k00nqBuTfvP0WRyzd28LwYDbPDwWZpdipNyay46l975+SJvKblMNlbwzn
+         XL8c6CPZkeqaEz3pM5jIhLAXd9PA4IAYEYVrSW1pEPWeq/J+HaN5Ci6RcxKHo0mcxdpR
+         tJyRgDuNd3ADeJHCXgR70A666tEz3VFDP9QoL+7vrEfrskyqWGW5SBOon4YzRdpe9Adx
+         0wQqc9q9RkT/cMXM3Vsz3tqrx4S9ULRe8qu9OSwgDhpJsbZ1drJukA2jFK2R4tWMjADZ
+         VET9K433XJqrUZ+JoH+lEtd4j5mJkKhBCtSvMG7f7W0kNPoPyzJxCGnEEsWOvIPw0qph
+         RMzA==
+X-Forwarded-Encrypted: i=1; AJvYcCVGkCVmqYt5uonawFiZl4mMOTAu79SBWugsilfugGGUDfWYtroJWhAzpfkUZMrEG27zwZ8rCPl8Fa0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTJ+E1MWKTTKpWeTcU2erQNnCW87MqTVKVnPrhvepYehF5XB3I
+	NTTuIe/Zv8zRyKyBq8K5XUjRfR/Qcu0IPF9Mo7wxYJTdPtkGoUiKOFn3QgWR4peOYCRrCQJGdB3
+	VtaYfvVATrw2LUnB64TNqe0qZPWuXFs7GXpW+
+X-Gm-Gg: ASbGncuNVv7rDbAmxWgBGOaw/E5PI6ofGH580qw7zgrz0qLOFVrnfrwwiKcQVpnmI4V
+	WWVcegxS/KZ5IYwyQvAqzrf2rVnpJpsk4LjP6PhY8Q1klRG74NWPEL7jhLLjWPHtwRn3Rqr3zhO
+	mflHmliCb0x7yKzMlZlPmcPn8rCYYTX5DcznFQi2yAyxSoVJf/mGqJZlHF
+X-Google-Smtp-Source: AGHT+IHS/CmjXgegGcxmRpNS98l46ZS6jKoa5Lns8rQL3j5jNusGGs4P4kOCp/wB0pBcvC4rGkpBgAWFwp9wMlZaewY=
+X-Received: by 2002:a05:600c:a20e:b0:439:7fc2:c7ad with SMTP id
+ 5b1f17b1804b1-43bd360dd0bmr264395e9.7.1741135707908; Tue, 04 Mar 2025
+ 16:48:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250303160249.118549-1-mripard@kernel.org>
+In-Reply-To: <20250303160249.118549-1-mripard@kernel.org>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 4 Mar 2025 16:48:16 -0800
+X-Gm-Features: AQ5f1Jq3ZGx0qLsX7f-KsnmsL9RZFbs2tncfnAJKVdS694Nl6LlvniytB56xX18
+Message-ID: <CABdmKX2bA3R3RTvzaRTj5313o5cxdhf8b30YTNNKFq5Bqs09=Q@mail.gmail.com>
+Subject: Re: [PATCH v3] Documentation: dma-buf: heaps: Add heap name definitions
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-media@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 3 Mar 2025 19:53:44 -0800 Mina Almasry wrote:
-> > Upper devices and BPF access is covered I think, by the skbuff checks.
-> > But I think we missed adding a check in validate_xmit_skb() to protect
-> > the xmit paths of HW|virt drivers. You can try to add a TC rule which
-> > forwards all traffic from your devmem flow back out to the device and
-> > see if it crashes on net-next ?  
-> 
-> No crash, but by adding debug logs I'm detecting that we're passing
-> unreadable netmem dma-addresses to the dma_unmap_*() APIs, which is
-> known to be unsafe. I just can't reproduce an issue because my
-> platform has the IOMMU disabled.
-> 
-> I guess I do need to send the hunk from validate_xmit_skb() as a fix
-> to net and CC stable.
-> 
-> Another thing I'm worried about is ip_forward() inserting an
-> unreadable skb into the tx path somewhere higher up the stack which
-> calls more code that isn't expecting unreadable skbs? Specifically
-> worried about skb_frag_ref/unref. Does this sound like a concern as
-> well? Or is it a similar code path to tc?
+On Mon, Mar 3, 2025 at 8:02=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
+rote:
+>
+> Following a recent discussion at last Plumbers, John Stultz, Sumit
+> Sewal, TJ Mercier and I came to an agreement that we should document
+> what the dma-buf heaps names are expected to be, and what the buffers
+> attributes you'll get should be documented.
+>
+> Let's create that doc to make sure those attributes and names are
+> guaranteed going forward.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>
+>
+> ---
+>
+> Changes from v2:
+>   - Remove exhaustive list of names for platforms, and just mention the
+>     alternatives.
+>   - Add MAINTAINERS entry
+>
+> Changes from v1:
+>   - Add the mention that the cma / reserved heap is optional.
+> ---
+>  Documentation/userspace-api/dma-buf-heaps.rst | 25 +++++++++++++++++++
+>  Documentation/userspace-api/index.rst         |  1 +
+>  MAINTAINERS                                   |  1 +
+>  3 files changed, 27 insertions(+)
+>  create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
+>
+> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentatio=
+n/userspace-api/dma-buf-heaps.rst
+> new file mode 100644
+> index 000000000000..5b92d69646f6
+> --- /dev/null
+> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
+> @@ -0,0 +1,25 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +Allocating dma-buf using heaps
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +
+> +Dma-buf Heaps are a way for userspace to allocate dma-buf objects. They =
+are
+> +typically used to allocate buffers from a specific allocation pool, or t=
+o share
+> +buffers across frameworks.
+> +
+> +Heaps
+> +=3D=3D=3D=3D=3D
+> +
+> +A heap represent a specific allocator. The Linux kernel currently suppor=
+ts the
 
-I'd say similar to tc. We can protect drivers with a check in
-validate_xmit_skb(). The second API surface we need to filter on
-is skb / skb_frag helpers. The third is socket API / opt-in for
-in-kernel socket readers.
+"represents"
 
-Driver and socket should be "easy" to cover with an explicit
-opt in. You already covered skb APIs but it's less centralized
-and there may be some abuses we are not aware of. Which is why
-patch 1 worries me a little.
+> +following heaps:
+> +
+> + - The ``system`` heap allocates virtually contiguous, cacheable, buffer=
+s
+
+Period at the end?
+
+This description is my understanding of the current state of things, so:
+Reviewed-by: T.J. Mercier <tjmercier@google.com>
