@@ -1,101 +1,236 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726CC1E50B
-	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 00:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA2813D8B2
+	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 01:39:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741135738; cv=none; b=hCtQ3Fid8tVXxVGIy0IJS4DiJO/Up6U9ft+14ypMPESRxbsr9InEWNG/6t1T/v8mI+iErYDJzkam9tXAt5EywmCd9qwCCv+tSUABoq7nnvNbyEe7OlDiENFsmW+7OSkC/oDAk9+u/IByH0QBiLoJElDVwQaDbfN0+GePkOs7iI0=
+	t=1741138793; cv=none; b=gs18u+dmc3d79prSlT+mj/AJl9Oo+Hih/v9o2lvZOyg85Slp71QdzISUa905evTegzxLgn9Sf6dedGsFsjQNtpGKKRk2yvMVLKenHJY6FHFJMVRo9fAYmrvCg+9DJa6sYybMPjGSXQP17smFv5ZPKuRuQ5hsqdXi6OemC3zYRoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741135738; c=relaxed/simple;
-	bh=tjTvQE048fv8PKJNsWXXOTWVGYT4qT63Flj1AfZdvI4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PB1XzR5h6lWQqkY5xpFwH8cDZ9pOTdmZ3rGuRnQLxw+QMmL9hUBBBUJch8SIOvALaCyWpNnM0TbzlmzJtv4jxTbHjVw0zY3s+bY3FHHgA8ksD2c2mXI867jgupvJDVYcH6cVyhnpHmv/6AnENNO68tin0Flp9O3qW5kapyuZGus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=joshuarose@gmx.com header.b=Izg4rlH1; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
+	s=arc-20240116; t=1741138793; c=relaxed/simple;
+	bh=dqWsSzrccmVHnLHCLmkQRVxxeSfQIVPPMj9Ba8t5jOk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gM7a3a4rP0opYAYefpOoihoqnEONA5395gFW3M66G4DtusCcf6xJCaDFgnacp8fBWk0qgnM7lxLQ0LMo3OsHvwTO1XCJIyiymMQe8c68yp2tlk56DsQLvJBghu08ixZxDbcXwPPA5FaXQrrp3nE98MGewBOb60j/2ArrSaOkGro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KEmY2HhO; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=joshuarose@gmx.com header.b="Izg4rlH1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1741135733; x=1741740533; i=joshuarose@gmx.com;
-	bh=orAPi4vl21rOodR/Ni9Q5EYFJ5Tj3xgVSnMzCsewzr0=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Izg4rlH1V71p7IpaeFRoXXVbWql+9nmHviBXawmY0QT8+hHOIpd7s/FgvGiQGWv9
-	 ygqZ7VjWT6MvUdCvP0G0tXUOylv0k3bEybcJ2cHsg6TDjIJ/EevlVmryeZC926aJT
-	 PoG8Ooat8Z2TNkKANta/XeiQdTjbP472MQdllZY5GPk4OQb2SQJUga31TuHEnvAab
-	 89CoqiMQAV27PCZ2ipuSGqMiV5syBCzqNWUrAECaFirhvLJcPycwuqm6kgYSoHAIB
-	 +1BKiiVGBfeAselLxU3jIku2YZXRwYzAeHRKMfMdYcXz2Zt1DRAWZRW497GdB/2JR
-	 idKul2WZP3f/wtxSYA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from localhost ([122.107.8.54]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1McY8d-1tH6TJ1KDV-00ffGD; Wed, 05
- Mar 2025 01:48:53 +0100
-Date: Wed, 5 Mar 2025 11:48:45 +1100
-From: Joshua Rose <joshuarose@gmx.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Joshua Rose <joshuarose@gmx.com>, linux@leemhuis.info,
-	linux-doc@vger.kernel.org
-Subject: Re: Grammar issue(s) in documentation
-Message-ID: <Z8efbax_VgGBzQrl@spinny>
-References: <Z8Y-FHZ5tYBEMy4j@spinny>
- <Z8ZdEioHt184CYNm@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KEmY2HhO"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2237a32c03aso43625ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 17:39:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1741138791; x=1741743591; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9fA2KYQHik2cIQjoxJaa3twCTPuvqgtb1JUSNyfAxYc=;
+        b=KEmY2HhOS8mF2KDj8S398zL/v1r7A/0pFXXbr7COg5sO4riLlxI+m9l5LS63Xw5H0z
+         DFtXfHaP8JmFmct3QWE4c+tNRkETsrVr3cSXac1HnQz8L1vhBD5r2C1g6CdahfZv/RnG
+         fhuH3+R35Ks7+4UXylW1Fhn6EHMFOQtsksGyM57fwxCd3nwTobKe3uXRWUGaza7HaWNs
+         LBjL2DV26rHB0+ouRAVVz+OZGdnNh4icMh0dqTL8daa2+0a7J+eJzjUvZ2hx4MeNAIU2
+         f0QXmHMg8PpJC5IzwjgfQl5yBkwcTnKYkGg6y43zvO0zGHNByYsznxQdNvmXY9gjdc3J
+         QtEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741138791; x=1741743591;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9fA2KYQHik2cIQjoxJaa3twCTPuvqgtb1JUSNyfAxYc=;
+        b=dwmw2Aehocn3rDwFkCq32QAk1WPGxlWSjAE3egMyD0mYxisJ2qR7MZQeeWrNNa9IMa
+         UncVx3xdjIT3F7rQLvWlAqYkpV+wEDmDR++6eVXapyW0UgN1UkUJbJZtQc6idQ/Nu5+4
+         dSjgEVJLe/z3mSbcwxI4jTjCM6EvucKI7v8OnngFVKhSqB/VM7Q7SqVvrIM0JlY96t92
+         mEMwPamRafARUBL6ANSS7qDLYd+lg5+UH2QOy8r09UnOqlh9sRdBf0OuRuWTzZdJjWu0
+         r9eAW3q0zWQXQX8wyK1mLCQdVmr+e0VgZjIfTcdQVllWX0Vh3ZFDpAl5JLCuhRY/nylN
+         jsBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXH1+p7/Y1eXL3HsG7LcwrxVnAsEiMU6NZcxDhP+29mBptZ64cSTA8DTegosniy+Plr+8JEW1spxN4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywe3UiKYjXVJRxsf6nzdw4B/dRUORlU2+YZd3BPXGbbwHYtKcR2
+	sSKXHW/kmotx58Dj5u8zIwclzTp5Pw0XldNvWZoGl+KuVUqS8WQDVzSdut4Hk3tQ/Rkqr/lr1WI
+	xGaBaaBQKuhlgiS+ggOODOyVg3Y7xwWTKeCBy
+X-Gm-Gg: ASbGnctz9N87P1BNAMw0Qui28BvtrTrrYbV4JD59Q4PBlZmzpi4CE3oiGViSw7gwVCr
+	Wx4l0HwGiFwVEd91owl1oBpoa19i/Qqq126pJCdruB0RNLKAwnQPfi4PsPzM36ej4kCshl0w4OM
+	sPCwhKGU6/sQjJdGAlwON8DyZ0LzOYuvmRFD9D8dTLx8uLukKDD8ifFNBt
+X-Google-Smtp-Source: AGHT+IH5gXmkQSdJDrmvDbhcX1gVqatKumUNqefxFocuBrCcwtKWp6uWzxr+bTikNvWZpTgRK27RGaHlzULM/jBATGw=
+X-Received: by 2002:a17:903:494:b0:216:2839:145 with SMTP id
+ d9443c01a7336-223f44abcf5mr798995ad.1.1741138790491; Tue, 04 Mar 2025
+ 17:39:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Z8ZdEioHt184CYNm@casper.infradead.org>
-X-Provags-ID: V03:K1:334IWo7aILqlO9ehcKx1iNa/eQU2wEfigTaCrGcOM6SVLMmshka
- xg8CU7DUEBknBTARM6e7vBqUpLu9g8IrrMbnFizUtc36s0ggt5lDtnmRNgIGVrfxq0mU9Iw
- q+JFmWg+Owyo1+qPTKyzwNBLsQaFhny1aPbOqT9kSDAiH/cxT+mvOW5BDEuz2F+AHpmIkOx
- wyX9QWMgSMNmH5F8sQWYw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:s+9XDzHyUy0=;e8ASrOEY9eGXrjXcVcUVABg9ufz
- twUW0A0DeB+nHlD0r1R+KaDOe4M5l6X5E+fcnGWAlDjzsDNgBk7owMC2uFl7jrIcoWmzAyQMq
- 8g5DBRpQYjAOBqP3odHdjJ0mlcfuByTnxDR6/q4h/fFTelXF8n5/E5EL7/H4ZhT1eIsdDQ9p8
- m7FTz/wl0zw7ZYbyE38AQZLlYFeXAkRGPfs1xJOwTwfjT2J16xYuIEELgH9BspYuOVCwDHqjR
- bQgHl5FE347XjACqdaXURMyYRVaFvdV+X/cK6MJI7V80mxtfu3/xZQESbWvutLslaaM8iXXYK
- nbFXW/qMTIxTwJ+QBdFSxCZqi+AoeyJv8p54lKg5L8Fru6Y7I3Fpaty9O67L8XCkUcoHJ/+lq
- lFr22FSkJ9hJlpa87CF1cNKDYPXJgHVmMXmL+McAqAI3PHgtUU50xITVikiFeN1l85Qs6kCN5
- rb5ttBIbjJnum14B4DaHSGh1jsvkmqeOXHvYlHWrV4FgWz8RXaBSBme7wvldK1ieTlXhJ8Jkx
- i+LP1+iPnkKr0kZRgb6NtUt3Fv78mSlF5cLUGWBxeJ1GS2juC+I+xr2EpmR1u0lKs0lO3zooK
- 43NpIByunjrwCYfu1tcEozqfaH78V1jp112HmsJ1fk1NTItr031+qohwkvM6bjmaJ+UE/HBCH
- ZEdpOogGSLbLTBGTkQKo4YYvg48tDXY2NZcjLCN17f4GypExzWw4hDV1zXc+rPoyIgMmXkq/N
- 1AeSnVvd8/ABHCBX2mi/R15uo7k9PzDIEeWZw0+sCXE+ry6KwY9+4YwS2UkIyi9qToj1Z3ons
- twiIimWfXuQmR4GCW1ywvaNYDNc5j8YRWEhHRjTJmduXk1H+g5pQwEt9Sa3ciab/OESkEUjNI
- lPpwp+/wQKJkmYkh4Ojh+uG6VsogavhMlHqrjtYcskTL/0a4ei4eo1VfnGVG1dFaUKPq6upsd
- rkE7A3c+gW/XoLh9anAzaNFPX9h4/fkSxWABDK88d5xRpU2LfbHx57eWA0yOi3jxhaDS+VEku
- JinRSCxXG/dZ+29TlGKZ6Y+S8o/ouF2ven1Gc3CrBLSBE6EDTzwapCJ6ZT6OjGltEazEenU2S
- EttT33xObLi92lzQY3LXMWzJQAycriqhwyvQW6y/WG5Q5jRWaQjNwE3BXtp/x+Y8sQiQd19ER
- 9HEKFax2oHUZwXzbXNgKApo3lKOEyjunWNtq/D74yOtFjBgzsTsdHpuCaktVBT+ZiGxCa8SyA
- 0lI6HjJzs5IRK1bomdnKgZQNXtdO/XCJVUJsPvKHd8HvverkxE8HXOUU0VPbihYLhKJszQmAQ
- XBJ+vpLMgS7FVJ58Id/7OMYamNSje+knabN0FLtRqKIrs2BWDt7AcqfgDQyZnc37z2OXt9fAp
- /00YvR0URDN799nYLrKxt8pO4QKWWrP7VDgvzUJQgqn3aAZzzS2r6zCsci
+References: <20250227041209.2031104-1-almasrymina@google.com>
+ <20250227041209.2031104-2-almasrymina@google.com> <20250228163846.0a59fb40@kernel.org>
+ <CAHS8izNQnTW7sad_oABtxhy3cHxGR0FWJucrHTSVX7ZAA6jT3Q@mail.gmail.com> <20250303162051.09ad684e@kernel.org>
+In-Reply-To: <20250303162051.09ad684e@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 4 Mar 2025 17:39:37 -0800
+X-Gm-Features: AQ5f1JokmBfu9vApWvP6OeSWBJnA3SLQMcYEIWf9RLvx2TEKaGIWTz1vBTgX4iM
+Message-ID: <CAHS8izNWt2-1bC2f0jv4Qpk_A9VpEXNvVRoXUtL43_16d-Ui-A@mail.gmail.com>
+Subject: Re: [PATCH net-next v6 1/8] net: add get_netmem/put_netmem support
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	Donald Hunter <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn <willemb@google.com>, David Ahern <dsahern@kernel.org>, 
+	Neal Cardwell <ncardwell@google.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk, 
+	Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, 
+	Pedro Tammela <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 04, 2025 at 01:53:22AM +0000, Matthew Wilcox wrote:
-> On Tue, Mar 04, 2025 at 10:41:08AM +1100, Joshua Rose wrote:
-
-> > "Do not attempt to circumvent your distribution's packaging system by
-> > installing your kernel manually; this will likely break your machine.
-> > Components of your kernel can be selectively removed later on.  Such
-> > components (files) are stored in two locations, both identifiable
-> > by the kernel's release name."
+On Mon, Mar 3, 2025 at 4:20=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
+te:
 >
-> I think that's the opposite of what they meant.  I understand it as:
+> On Fri, 28 Feb 2025 17:29:13 -0800 Mina Almasry wrote:
+> > On Fri, Feb 28, 2025 at 4:38=E2=80=AFPM Jakub Kicinski <kuba@kernel.org=
+> wrote:
+> > > On Thu, 27 Feb 2025 04:12:02 +0000 Mina Almasry wrote:
+> > > >  static inline void __skb_frag_ref(skb_frag_t *frag)
+> > > >  {
+> > > > -     get_page(skb_frag_page(frag));
+> > > > +     get_netmem(skb_frag_netmem(frag));
+> > > >  }
+> > >
+> > > Silently handling types of memory the caller may not be expecting
+> > > always worries me.
+> >
+> > Sorry, I'm not following. What caller is not expecting netmem?
+> > Here we're making sure __skb_frag_ref() handles netmem correctly,
+> > i.e. we were not expecting netmem here before, and after this patch
+> > we'll handle it correctly.
+> >
+> > > Why do we need this?
+> > >
+> >
+> > The MSG_ZEROCOPY TX path takes a page reference on the passed memory
+> > in zerocopy_fill_skb_from_iter() that kfree_skb() later drops when the
+> > skb is sent. We need an equivalent for netmem, which only supports pp
+> > refs today. This is my attempt at implementing a page_ref equivalent
+> > to net_iov and generic netmem.
+> >
+> > I think __skb_frag_[un]ref is used elsewhere in the TX path too,
+> > tcp_mtu_probe for example calls skb_frag_ref eventually.
 >
-> "Feel free to circumvent your distribution's package manager as it's
-> easy to remove the kernel afterwards".
+> Any such caller must be inspected to make sure it generates
+> / anticipates skbs with appropriate pp_recycle and readable settings.
+> It's possible that adding a set of _netmem APIs would be too much
+> churn, but if it's not - it'd make it clear which parts of the kernel
+> we have inspected.
+>
 
-Oh I see. Okay, well can it just be re-phrased as that then? It seems
-much simpler.
+I see, you're concerned about interactions between skb->pp_recycle and
+skb->unreadable. My strategy to handle this is to take what works for
+pages, and extend it as carefully as possible to unreadable
+net_iovs/skbs. Abstractly speaking, I think skb_frag_ref/unref should
+be able to obtain/drop a ref on a frag regardless of what the
+underlying memory type is.
 
+Currently __skb_frag_ref() obtains a page ref regardless of
+skb->pp_recycle setting, and skb_page_unref() drops a page_ref if
+!skb->pp_recycle and a pp ref if skb->pp_recycle. I extend the logic
+so that it applies as-is to net_iovs and unreadable skbs.
 
-Kind regards,
-Joshua Rose
+After this patch, __skb_frag_ref() obtains a 'page ref equivalent' on
+the net_iov regardless of the pp_recycle setting. My conjecture is
+that since that works for pages, it should also work for net_iovs.
+
+Also after this patch, skb_page_unref will drop a pp ref on the
+net_iov if skb->pp_recycle is set, and drop a 'page ref equivalent' on
+the net_iov if !skb->pp_recycle. The conjecture again is that since
+that works for pages, it should extend to net_iovs.
+
+With regards to the callers, my thinking is that since we preserved
+the semantics of __skb_frag_ref and skb_page_unref (and so
+skb_frag_ref/skb_frag_unref by extension), then all existing callers
+of skb_frag_[un]ref should work as is. Here is some code analysis of
+individual callers:
+
+1. skb_release_data
+      __skb_frag_unref
+        skb_page_unref
+
+This code path expects to drop a pp_ref if skb->pp_recycle, and drop a
+page ref if !skb->pp_recycle. We make sure to do this regardless if
+the skb is actually filled with net_iovs or pages, and the conjecture
+is that since the logic to acquire/drop a pp=3Dpage ref works for pages,
+it should work for the net_iovs as well.
+
+2. __skb_zcopy_downgrade_managed
+      skb_frag_ref
+
+Same thing here, since this code expects to get a page ref on the
+frag, we obtain the net_iov equivalent of a page_ref and that should
+work as well for net_iovs as pages. I could look at more callers, but
+the general thinking is the same. Am I off the rails here?
+
+Of course, we could leave skb_frag_[un]ref as-is and create an
+skb_frag_[un]ref_netmem which support net_iovs, but my ambition here
+was to make skb_frag_[un]ref itself support netmem rather than fork
+the frag refcounting - if it seems like a good idea?
+
+> > > In general, I'm surprised by the lack of bug reports for devmem.
+> >
+> > I guess we did a good job making sure we don't regress the page paths.
+>
+> :)
+>
+> > The lack of support in any driver that qemu will run is an issue. I
+> > wonder if also the fact that devmem needs some setup is also an issue.
+> > We need headersplit enabled, udmabuf created, netlink API bound, and
+> > then a connection referring to created and we don't support loopback.
+> > I think maybe it all may make it difficult for syzbot to repro. I've
+> > had it on my todo list to investigate this more.
+> >
+> > > Can you think of any way we could expose this more to syzbot?
+> > > First thing that comes to mind is a simple hack in netdevsim,
+> > > to make it insert a netmem handle (allocated locally, not a real
+> > > memory provider), every N packets (controllable via debugfs).
+> > > Would that work?
+> >
+> > Yes, great idea. I don't see why it wouldn't work.
+> >
+> > We don't expect mixing of net_iovs and pages in the same skb, but
+> > netdevsim could create one net_iov skb every N skbs.
+> >
+> > I guess I'm not totally sure something is discoverable to syzbot. Is a
+> > netdevsim hack toggleable via a debugfs sufficient for syzbot? I'll
+> > investigate and ask.
+>
+> Yeah, my unreliable memory is that syzbot has a mixed record discovering
+> problems with debugfs. If you could ask Dmitry for advice that'd be
+> ideal.
+
+Yes, I took a look here and discussed with Willem. Long story short is
+that syzbot support is possible but with a handful of changes. We'll
+look into that.
+
+Long story long, for syzbot support I don't think netdevsim itself
+will be useful. Its our understanding so far that syzbot doesn't do
+anything special with netdevsim. We'll need to add queue
+API/page_pool/unreadable netmem support to one of the drivers qemu
+(syzbot) uses, and that should get syzbot fuzzing the control plane.
+
+To get syzbot to fuzz the data plane, I think we need to set up a
+special syzbot instance which configures udmabuf/rss/flow
+steering/netlink binding and start injecting packets through the data
+path. Syzbot would not discover a working config on its own. I'm told
+it's rare to set up specialized syzbot instances but we could sell
+that this coverage is important enough.
+
+Hacking netdevsim like you suggested would be useful as well, but
+outside of syzbot, AFAICT so far. We can run existing netdevsim data
+path tests with netdevsim in 'unreadable netmem mode' and see if it
+can reproduce issues. Although I'm not sure how to integrate that with
+continuous testing yet.
+
+--
+Thanks,
+Mina
