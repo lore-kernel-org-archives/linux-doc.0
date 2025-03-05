@@ -1,101 +1,258 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E6B15DBA3
-	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 02:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9B62E3383;
+	Wed,  5 Mar 2025 03:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741143480; cv=none; b=Twyuy9MtUIwb2RIoPG5alv18U/p61V/mL0OBMVGUMg3mu5UhhUulNi1PPP5p4q2o7E4m92eBiTZKktj9strXxPzhq7JcW6+Yt5WXSkCRGAZL9KKZsZPdLNH0CzrMxfILseVAL/L9IR1q4VSdvsrBq+bGIZ+GGlBR45GyfFtmwHc=
+	t=1741144849; cv=none; b=LNkQOiVl5g8s1LqjS5KzW0ufQvHOZsagM5f5c1iOhgGPbBPQzKYtF7ATSDHx/PB6H4u4Y3pHdirjg694LhxaARVuVWllviO3s1VpXL0KJEAsjIdhpyPb4GATDJ+gxpwgLB54tzKz8JtM2giI9r5/zfBMYaHxEHDfhMsOBAF6HKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741143480; c=relaxed/simple;
-	bh=hnrlAa4MKKlg5paVJ8EDznGA/qVVPNZMRmkgKxJ9Z0M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VYvgdCzCeEe5Ccczu8cUngu1vme2P1/XqLDINK1Z7w5Uj+1K1sG6qzVkRdczAQMewZx7b6saqNY7GV2WAr51+e68YNOPZch2PVw8u9QMp4jMKtN48LX0s/T1bupNtwGV3jfYPLXOGPEmSlwvcTLW+eXKunJj0QPK9LpIMf4KavM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NaBWkLZ5; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741144849; c=relaxed/simple;
+	bh=DHgoGZ0qX7cTXT6R7MS14QaeHg+jC+soL0Tkn5Z3GeE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=O389OgEEsZ5qzknf0ztsbGXP8UjQV4bTed71IHq0G/uoMGoQzc5ReQ6pKKSNVSeD9R1hX3lutbnGvjrEW7pcxVBP1mQIRRIar0IRbCADSlNQF/W0RnXetZGGOW1WSzENmT8YDaE/pksGy1XPj730Z+LQ0keni6dGrKr5cjH8Y1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=JUEUqnJJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=E1iYtkh4; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NaBWkLZ5"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-abbd96bef64so988055466b.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Mar 2025 18:57:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741143476; x=1741748276; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hnrlAa4MKKlg5paVJ8EDznGA/qVVPNZMRmkgKxJ9Z0M=;
-        b=NaBWkLZ52oFxB3hJeE/lENiMMfJEhU7T1bR4Ot2jtLWYVi22h+4OVI1icLnePSEw4s
-         POSbJWHK0n7O6PY3HHvwLJdVj7fSsrqN4v5exdcjSygMiVDov27y4I7zoXNn7+QYT9JH
-         XLeQPLzmgy33u+IRNI1Jx5DcrZ92G4VY2gzMDxlAeczZ5ObtP1dFxhhKUp7LA9ULx+Xn
-         KOWq/IQF11s+h5OTjc0VtgHyPHOolci0x0LdcAogzqqWu7MtBSLamU8PcN7JCmD9O3wY
-         ut7cSDSzecHjqa2ylJqmcnrs9UzOtLv1scdW4MT4wsc7D6f9RDNDPnP/ROElBo8O9AJ5
-         AjIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741143476; x=1741748276;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hnrlAa4MKKlg5paVJ8EDznGA/qVVPNZMRmkgKxJ9Z0M=;
-        b=W8zSOeovHB/SGLxNyixLOboRkjDeBdUKyILGmbVzdBAwfVH9gP0RTufXL3ZUy65JV6
-         YWMkpQB2o05geP9L1YrXq8ZgA403ZchayyD2NcXIwh9HGabJSDtGLO5ilRzNUdO2MUhf
-         SIaV6MvEdIIsOg8Qb2x37FDB83utZOewvU0FZePKmYqc+tnc72GGUoISeSxh6GzGzYZ7
-         b2CG+a0GzbdA70FqpZ1d9escrd+8FzqiprIIjyKpKjVG+4FZmg4bK5kmARlr/bl49gFX
-         CSLV3PBVbDJGXlGPDrEDytWjZl7iesUK1bXHrrcfEvDAMn/RSFteAoKrLT1S1aTYYPIn
-         6PyA==
-X-Forwarded-Encrypted: i=1; AJvYcCVzpe7hULrZTvTxMgfTQb0chuZ3US9X/zrrc218yfZpYMQLQb4u+oZ84VjcjKKpYW55PI7v/Mo4goU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwulMaZu+GE/lQHjql7/2LXuN/BwucZsWwlAFQHvGmQtBbcdl+V
-	a6P1pkGcjZMnSzwhdn2gMMzP+fKTC2B3x1CLsTHvwhGSDM9oa50kkeEMTTMxDAYbWqX2ZwyrolC
-	IqbDYo4hLWsL0qtLs0c+DcISIizQ=
-X-Gm-Gg: ASbGncuZ8B4xh0fN76AbHRl6y/jd/fHBHZ36DUenLRuzSviYcNf4HRlVYN5H8Uv40WW
-	KS/23/rlIfbgd7zLaZSQBEPJEWMOY2tTnxWJxVk3xx6QW/MXJOS/0T4HRgLARbvjgI1tktiKjCR
-	OkLcUrFeeaOKm1Bmav6BR4eFB93ECb
-X-Google-Smtp-Source: AGHT+IHK361N/YmDn10qcIYFno+G9do2RFLQLcRsYttx/rcpfNsblhJfrW4wdQQfgZGo4d2QIRFtk/RDNmbjoRLMpGM=
-X-Received: by 2002:a17:907:944b:b0:ac1:f19a:c0b8 with SMTP id
- a640c23a62f3a-ac20d911f1cmr141824166b.24.1741143475836; Tue, 04 Mar 2025
- 18:57:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="JUEUqnJJ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="E1iYtkh4"
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5087311401BA;
+	Tue,  4 Mar 2025 22:20:44 -0500 (EST)
+Received: from phl-imap-10 ([10.202.2.85])
+  by phl-compute-06.internal (MEProxy); Tue, 04 Mar 2025 22:20:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1741144844;
+	 x=1741231244; bh=hs1JOBCtOs6uvUuOlg7Ww2Sx+hHGJabLYw2G13Hxk4k=; b=
+	JUEUqnJJhQdL9R5JDD0Pa+hfz+vmmIYXP/OpHNtCZTNaPEwd4ZTOZVAbZH4sRUnB
+	twvimisOSzpj8lbfkuCDbBmqzsjjM7jeaOfpEiT3GgNnrz98QRHIFwUpq6Cib27a
+	YmgD+sro4PRe9GyFsTGld2N23iJYEEt8MCp3BjAPGuE1dqhsImfNOUf9AjjBlhCg
+	XYQagBGlB+C9uwWK53SzCeHFvp5l3hWDXef2QVVCU5E/dmCM7RLrqDAQNXvD/7+K
+	wXN7CR0znP+y1DHuT1jWdhUsV9r97jC4iAfQd2edzlJRZJcXLvY9km46hYyDYrTT
+	OwtHPWTyNsITwdhj1UFxSA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1741144844; x=
+	1741231244; bh=hs1JOBCtOs6uvUuOlg7Ww2Sx+hHGJabLYw2G13Hxk4k=; b=E
+	1iYtkh4xqo2XToS9lVvzPWE6RJqCfzrN0tbP5FacDguKfzS8JmvictYhYQgAqWgB
+	JtSGD228nigHXUDmTjPdc4P6zsIrtLsuydxfY1la30NzmzS6RLcfQFuq+IrWY+B7
+	PJ0J5F3y48xln59/3ykJwbLHPmHZ65qIE9KLafTWCg/Yt7u2/GoFRyZdq0f/Eapi
+	AtINVyiMUf3vmnFsKHs2uAsCE5cFC3Imr5VkPUkcZ0O6XLf71yL75NH5CKP1xp9p
+	ceEySoif/RJM5VvVSEPnDsJy+Qq3I1GK1EbAf1z8wcIsurC1zhkbCL78vPU0GDx9
+	H15JhNlbLggoonBp8B3+A==
+X-ME-Sender: <xms:C8PHZx8UpM_Dn3zeC_QNjBYxFcEfSHWHOZ8GgwdJZvqQRNRNZ8LJNA>
+    <xme:C8PHZ1uHeonKLMGHDR5DLPXUU5CYEbCZ0DT3i6fcFdwNEbC207q4XjEAD5rzsVF0c
+    v1AzZCEEHCv7VCzcW0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdefjeefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedfofgrrhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlh
+    gvnhhovhhosehsqhhuvggssgdrtggrqeenucggtffrrghtthgvrhhnpefhuedvheetgeeh
+    tdehtdevheduvdejjefggfeijedvgeekhfefleehkeehvdffheenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhho
+    vhhosehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpoh
+    huthdprhgtphhtthhopehnihhtjhhoshhhihesghhmrghilhdrtghomhdprhgtphhtthho
+    pehnjhhoshhhihdusehlvghnohhvohdrtghomhdprhgtphhtthhopehilhhpohdrjhgrrh
+    hvihhnvghnsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepihgsmhdqrggt
+    phhiqdguvghvvghlsehlihhsthhsrdhsohhurhgtvghfohhrghgvrdhnvghtpdhrtghpth
+    htohephhguvghgohgvuggvsehrvgguhhgrthdrtghomhdprhgtphhtthhopehlihhnuhig
+    qdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphhlrghtfhhorh
+    hmqdgurhhivhgvrhdqgiekieesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:C8PHZ_C7C0g-s3pEAXfzboTq0P5nQoUS1VH-3T2jENHzWTuebZEtdA>
+    <xmx:C8PHZ1cR_N2LLrZL1_HbypqeMqTjc5fGeoI038SdXBlAM_f4t6ml_A>
+    <xmx:C8PHZ2NQX6ZH1VAfqOr5-FCWuT6ihG_UN601jwknPQEtgrSt1xvRsw>
+    <xmx:C8PHZ3nI-O6G-cs5voRXCsf3GG3A_DH-8fJJywjaUrNC5uIE4482tw>
+    <xmx:DMPHZyC_Smqoipxp2BjZ3UvimVGq2JygKH8eGYv0jKx5JMBx8fwMWTIJ>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 558943C0066; Tue,  4 Mar 2025 22:20:43 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250305025101.27717-1-alexs@kernel.org>
-In-Reply-To: <20250305025101.27717-1-alexs@kernel.org>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Wed, 5 Mar 2025 10:57:28 +0800
-X-Gm-Features: AQ5f1JpoV5-TvLf7XVR9ON0uSyS4w-MMluWRKB49dQ0u2GnkgRQ2MoCjCUTBuio
-Message-ID: <CAD-N9QVnMGSNZXMWNYoHwoe0ZN7cNnXysNtmBjMX4xpwCysckw@mail.gmail.com>
-Subject: Re: [PATCH] docs/Chinese: change the disclaimer words
-To: alexs@kernel.org
-Cc: Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Date: Tue, 04 Mar 2025 22:20:23 -0500
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Nitin Joshi" <nitjoshi@gmail.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Hans de Goede" <hdegoede@redhat.com>
+Cc: 
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ ibm-acpi-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
+ "Nitin Joshi1" <njoshi1@lenovo.com>
+Message-Id: <0cedc065-8cb7-4ef8-8989-6b113eb43460@app.fastmail.com>
+In-Reply-To: <20250305023319.6318-1-nitjoshi@gmail.com>
+References: <20250305023319.6318-1-nitjoshi@gmail.com>
+Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Add new sysfs to check user presence
+ sensing status
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-T24gV2VkLCBNYXIgNSwgMjAyNSBhdCAxMDo1MeKAr0FNIDxhbGV4c0BrZXJuZWwub3JnPiB3cm90
-ZToNCj4NCj4gRnJvbTogQWxleCBTaGkgPGFsZXhzQGtlcm5lbC5vcmc+DQo+DQo+IDIgcGFyYWdy
-YXBoIHdhcm5pbmcgYW5kIG5vdGUgdGFrZSBhIGJpdCBtb3JlIHNwYWNlLCBsZXQncyBtZXJnZSB0
-aGVtIHRvZ2V0aGVyLA0KPiBhbmQgZ3VpZGUgdG8gb3RoZXIgbWFpbnRhaW5lciBhbmQgcmV2aWV3
-ZXJzLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBBbGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4NCj4g
-Q2M6IFlhbnRlbmcgU2kgPHNpLnlhbnRlbmdAbGludXguZGV2Pg0KPiBDYzogRG9uZ2xpYW5nIE11
-IDxkem05MUBodXN0LmVkdS5jbj4NCj4gQ2M6IEpvbmF0aGFuIENvcmJldCA8Y29yYmV0QGx3bi5u
-ZXQ+DQo+IENjOiBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnDQo+IC0tLQ0KPiAgRG9jdW1lbnRh
-dGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGlzY2xhaW1lci16aF9DTi5yc3QgfCA2ICsrLS0tLQ0K
-PiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkNCj4NCj4g
-ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rpc2NsYWltZXIt
-emhfQ04ucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGlzY2xhaW1lci16
-aF9DTi5yc3QNCj4gaW5kZXggM2M2ZGIwOTRhNjNjLi41YTA0MTRlZWZhMDEgMTAwNjQ0DQo+IC0t
-LSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rpc2NsYWltZXItemhfQ04ucnN0
-DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rpc2NsYWltZXItemhf
-Q04ucnN0DQo+IEBAIC0xLDkgKzEsNyBAQA0KPiAgOm9ycGhhbjoNCj4NCj4gLS4uIHdhcm5pbmc6
-Og0KPiArLi4gbm90ZTo6DQo+ICAgICAgIOatpOaWh+S7tueahOebrueahOaYr+S4uuiuqeS4reaW
-h+ivu+iAheabtOWuueaYk+mYheivu+WSjOeQhuino++8jOiAjOS4jeaYr+S9nOS4uuS4gOS4quWI
-huaUr+OAgiDlm6DmraTvvIwNCj4gICAgICAg5aaC5p6c5oKo5a+55q2k5paH5Lu25pyJ5Lu75L2V
-5oSP6KeB5oiW5pu05paw77yM6K+35YWI5bCd6K+V5pu05paw5Y6f5aeL6Iux5paH5paH5Lu244CC
-DQo+IC0NCj4gLS4uIG5vdGU6Og0KPiAgICAgICDlpoLmnpzmgqjlj5HnjrDmnKzmlofmoaPkuI7l
-jp/lp4vmlofku7bmnInku7vkvZXkuI3lkIzmiJbogIXmnInnv7vor5Hpl67popjvvIzor7fogZTn
-s7vor6Xmlofku7bnmoTor5HogIXvvIwNCj4gLSAgICAg5oiW6ICF6K+35rGC5pe25aWO5Lqu55qE
-5biu5Yqp77yaPGFsZXhzQGtlcm5lbC5vcmc+44CCDQo+ICsgICAgIOaIluiAheivt+axguS4reaW
-h+aWh+aho+e7tOaKpOiAheWSjOWuoemYheiAheeahOW4ruWKqeOAgg0KDQpMR1RNIQ0KDQpSZXZp
-ZXdlZC1ieTogRG9uZ2xpYW5nIE11IDxkem05MUBodXN0LmVkdS5jbj4NCg0KPiAtLQ0KPiAyLjQz
-LjANCj4NCj4NCg==
+
+On Tue, Mar 4, 2025, at 9:33 PM, Nitin Joshi wrote:
+> Some Thinkpad products support Human Presence Detection (HPD) features.
+> Add new sysfs entry so that userspace can determine if feature is
+> supported or not.
+>
+> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+
+Just in case we're breaking protocol - I have reviewed this off mailing list with Nitin and gave it the thumbs up. The tag is correct.
+
+Mark
+
+> Signed-off-by: Nitin Joshi <nitjoshi@gmail.com>
+> ---
+>  .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
+>  drivers/platform/x86/thinkpad_acpi.c          | 79 +++++++++++++++++++
+>  2 files changed, 99 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst 
+> b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> index 4ab0fef7d440..02e6c4306f90 100644
+> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> @@ -1576,6 +1576,26 @@ percentage level, above which charging will stop.
+>  The exact semantics of the attributes may be found in
+>  Documentation/ABI/testing/sysfs-class-power.
+> 
+> +User Presence Sensing Detection
+> +------
+> +
+> +sysfs: hpd_bios_enabled
+> +
+> +Some Thinkpad products support Human Presence Detection (HPD) features.
+> +Added new sysfs entry so that userspace can determine if feature related to
+> +HPD should be enabled or disabled.
+> +
+> +The available commands are::
+> +
+> +        cat /sys/devices/platform/thinkpad_acpi/hpd_bios_enabled
+> +
+> +BIOS status is mentioned as below:
+> +- 0 = Disable
+> +- 1 = Enable
+> +
+> +The property is read-only. If the platform doesn't have support the sysfs
+> +class is not created.
+> +
+>  Multiple Commands, Module Parameters
+>  ------------------------------------
+> 
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c 
+> b/drivers/platform/x86/thinkpad_acpi.c
+> index 72a10ed2017c..daf31b2a4c73 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -11039,6 +11039,80 @@ static const struct attribute_group 
+> auxmac_attr_group = {
+>  	.attrs = auxmac_attributes,
+>  };
+> 
+> +/*************************************************************************
+> + * CHPD subdriver, for the Lenovo Human Presence Detection feature.
+> + */
+> +#define CHPD_GET_SENSOR_STATUS           0x00200000
+> +#define CHPD_GET_BIOS_UI_STATUS          0x00100000
+> +
+> +static bool has_user_presence_sensing;
+> +static int hpd_bios_status;
+> +static int chpd_command(int command, int *output)
+> +{
+> +	acpi_handle chpd_handle;
+> +
+> +	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "CHPD", &chpd_handle))) {
+> +		/* Platform doesn't support CHPD */
+> +		return -ENODEV;
+> +	}
+> +
+> +	if (!acpi_evalf(chpd_handle, output, NULL, "dd", command))
+> +		return -EIO;
+> +
+> +	return 0;
+> +}
+> +
+> +/* sysfs hpd bios status */
+> +static ssize_t hpd_bios_enabled_show(struct device *dev,
+> +				struct device_attribute *attr,
+> +				char *buf)
+> +{
+> +	return sysfs_emit(buf, "%d\n", hpd_bios_status);
+> +}
+> +static DEVICE_ATTR_RO(hpd_bios_enabled);
+> +
+> +static struct attribute *chpd_attributes[] = {
+> +	&dev_attr_hpd_bios_enabled.attr,
+> +	NULL
+> +};
+> +
+> +static umode_t chpd_attr_is_visible(struct kobject *kobj,
+> +					struct attribute *attr, int n)
+> +{
+> +	return has_user_presence_sensing ? attr->mode : 0;
+> +}
+> +
+> +static const struct attribute_group chpd_attr_group = {
+> +	.is_visible = chpd_attr_is_visible,
+> +	.attrs = chpd_attributes,
+> +};
+> +
+> +static int tpacpi_chpd_init(struct ibm_init_struct *iibm)
+> +{
+> +	int err, output;
+> +
+> +	err = chpd_command(CHPD_GET_SENSOR_STATUS, &output);
+> +	if (err)
+> +		return err;
+> +
+> +	if (output == 1)
+> +		return -ENODEV;
+> +
+> +	has_user_presence_sensing = true;
+> +	/* Get User Presence Sensing BIOS status */
+> +	err = chpd_command(CHPD_GET_BIOS_UI_STATUS, &output);
+> +	if (err)
+> +		return err;
+> +
+> +	hpd_bios_status = (output >> 1) & BIT(0);
+> +
+> +	return err;
+> +}
+> +
+> +static struct ibm_struct chpd_driver_data = {
+> +	.name = "chpd",
+> +};
+> +
+>  /* --------------------------------------------------------------------- */
+> 
+>  static struct attribute *tpacpi_driver_attributes[] = {
+> @@ -11098,6 +11172,7 @@ static const struct attribute_group *tpacpi_groups[] = {
+>  	&kbdlang_attr_group,
+>  	&dprc_attr_group,
+>  	&auxmac_attr_group,
+> +	&chpd_attr_group,
+>  	NULL,
+>  };
+> 
+> @@ -11694,6 +11769,10 @@ static struct ibm_init_struct ibms_init[] 
+> __initdata = {
+>  		.init = auxmac_init,
+>  		.data = &auxmac_data,
+>  	},
+> +	{
+> +		.init = tpacpi_chpd_init,
+> +		.data = &chpd_driver_data,
+> +	},
+>  };
+> 
+>  static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
+> -- 
+> 2.43.0
