@@ -1,66 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AAC25335D;
-	Wed,  5 Mar 2025 19:56:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACC619D06A;
+	Wed,  5 Mar 2025 20:09:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741204611; cv=none; b=niysNtmbcrKBrB+iuRYVQ8R6xfkWPUTGmJdbQMdFYj41SNhqJq/LIXdZwNtOZiVyOmVJSTErL00/zSNtKUeBxFxxnjnj3mpKECG5sXV+X7fYAvkB+9T7AhH0XxFN/qLQc4haLFOhF+NDsU4GyNeUQgsgQ/9VirUi1HKU9k7j5NU=
+	t=1741205344; cv=none; b=SnZQjAV6qI+Qf/0nLNZh8U2OmHtq1rVTwJQGKcfwOVGsYJPxs1wC6R0Pi8dKfduS5QNtMqNUWIlcqmJrq1ZDgqLNLhyHiWYf9fb66UyjiOj8OkGfeNuibSaj1mT7I9TXCDRfwjrjy79jGQTo8DUWc5NntDDWF/qcHNPnj1Bjc2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741204611; c=relaxed/simple;
-	bh=tHSKWwl3ha1y5igXyzymqDuF6lQTvM1zbhu3+g/qgJU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NFN9F8rSNZzaKcadnJgim8JismdIHUe97i1uKWtpfyQefn6iVGvknXI/oZWnMhUxCfMGD5RobTX3rhZNHpyGYQP+AU4qboFSSqtuB9hJr6LELeUkNbhz/rYWoSKpOCJ/a43e9OrKZxRB4+PtQ1I3SPmIAqlCyKE2b2lSkuqeH3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tu5QG/9S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741205344; c=relaxed/simple;
+	bh=3GEXo0R3oi/i957HgbWWMqT94pZhKmcGNV8yUuiPhGY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cvg03almkfb5O82XKYQGCxAK/gMiwg4nCB7gjXlNnTzCmYBiVmnu82k1JHln4sWg+acnWNDQ1XTb9wWgdo8N/y4fIeNxlGm6PVNO08bmLvMv5qlZNV8Te2cH+MiaPVzYG32nrn6wkdr0rTCefslfwvCTeZ1FH07UOm+KZsxbnZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kC8w/wzV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tu5QG/9S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22DF0C4CED1;
-	Wed,  5 Mar 2025 19:56:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kC8w/wzV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46F5DC4CED1;
+	Wed,  5 Mar 2025 20:09:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741204610;
-	bh=tHSKWwl3ha1y5igXyzymqDuF6lQTvM1zbhu3+g/qgJU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Tu5QG/9SpMYQUa8MRGPA1RC06rAh3B2yWsKvKOW6ZLAIskB5bxCBOtbALANu1yasf
-	 HYl/les0LAJ4JEmz1RjiywpgHYGSdT69S8mndOhTDZG24B5dO8+udH5OKg+3/3sqSl
-	 hen0e7YDXp8E/7WAHKQ3K9xtr3aeUrlCz2Zp0gtrmcuThe7MtC/ZxYOTMqo5kM+VB2
-	 wtls0g3r6q23U4b7/okLTDV2a9EUyJkI58qkBBXIIcI71FZeQr9D8DI9t2ua0ZbKUA
-	 Y6KBe24O6hH8uZ3nGGCUsxRs4Oe6BUoPvSeuzj4+VMWvLqiCcPoi8pWWLkT3c3Q579
-	 ZDdOqcxazc3dw==
-Date: Wed, 5 Mar 2025 20:56:42 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: gregkh@linuxfoundation.org, mcgrof@kernel.org, russ.weight@linux.dev
-Cc: ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
-	airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
-	pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
-	jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 0/5] Initial Nova Core series
-Message-ID: <Z8isev0gwQJPs7S9@cassiopeiae>
-References: <20250304173555.2496-1-dakr@kernel.org>
+	s=k20201202; t=1741205343;
+	bh=3GEXo0R3oi/i957HgbWWMqT94pZhKmcGNV8yUuiPhGY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kC8w/wzVrOeI+eaIoh+n2wfbPqxzUEDR4IFvOqOpHP7xW1Bbt4+RlNrFiPoRWDSlw
+	 Vp72Y9UKlZHt9R5C7Db3lbRKbFrANwLiXSjnqbWvQZHNiwLzDCaBvs1LyMa+S0QD1m
+	 VSx3283CCG++gn4F4N1Xvj4DhL5D03QUVak3sC7fR2uvonbTagTpkMHnGC+kANYtgU
+	 2iUmPy9wqj5SblPyJMOfsNQpNXALNJ/gIlF6ajNREQUd+RHb/fhdB8aVJ7gi2G5Zgi
+	 0b0fqQ3q4W+ueiB/U663TT2rE8cbOac2X7r0Yufwe8nM54WOSbBdea1SiDtxkZ9wcW
+	 5HDiKvyX2A0PQ==
+Message-ID: <5a284bee-c332-4af2-b7ad-56296e419e18@kernel.org>
+Date: Wed, 5 Mar 2025 13:08:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250304173555.2496-1-dakr@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/CoC: Spell out the TAB role in enforcement
+ decisions
+To: Steven Rostedt <rostedt@goodmis.org>, Jani Nikula <jani.nikula@intel.com>
+Cc: Shuah Khan <shuah@kernel.org>, gregkh@linuxfoundation.org,
+ corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, conduct@kernel.org, tab@lists.linux.dev,
+ Miguel Ojeda <ojeda@kernel.org>
+References: <20250304194813.11049-1-shuah@kernel.org>
+ <87h647yf8r.fsf@intel.com> <20250305103108.4943e301@gandalf.local.home>
+Content-Language: en-US
+From: Shuah <shuah@kernel.org>
+In-Reply-To: <20250305103108.4943e301@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 04, 2025 at 06:34:47PM +0100, Danilo Krummrich wrote:
-> Danilo Krummrich (5):
->   rust: module: add type `LocalModule`
->   rust: firmware: introduce `firmware::ModInfoBuilder`
->   rust: firmware: add `module_firmware!` macro
+On 3/5/25 08:31, Steven Rostedt wrote:
+> On Wed, 05 Mar 2025 11:54:28 +0200
+> Jani Nikula <jani.nikula@intel.com> wrote:
+> 
+>> 2/3 actually means 7/10 for the TAB.
+>>
+>> Except two of the CoC committee members currently serve on the TAB, and
+>> will not vote. Assuming they will also not count for the total, 2/3
+>> means 6/8 = 75%.
+>>
+>> All of a sudden you actually need 3/4 majority in the TAB to approve any
+>> CoC measures.
+>>
+>> Perhaps consider using a simple majority instead? The numbers become
+>> 6/10 and 5/8.
+> 
+> I'm a TAB member but I'm speaking for myself and not on behalf of the TAB.
+> 
+> I rather keep it as is and not move it to a simple majority. If the TAB is
+> going to make a decision that may affect the ability of a developer to get
+> their work done, the issue had better be substantial where it should have no
+> problem getting to 75%. Ideally, it should even be unanimous, but there are
+> cases where a member may be involved, and decides to abstain.
+> 
 
-Greg, Luis, Russ, any objections on me taking the two firmware patches through
-the nova tree?
+I am in total agreement with Steve on this. The way the document reads now
+with this change allows for oversight when the CoC, the TAB and the community
+is forced to make tough decisions that impact developer's ability to participate
+in the development process.
 
->   gpu: nova-core: add initial driver stub
->   gpu: nova-core: add initial documentation
+thanks,
+-- Shuah
