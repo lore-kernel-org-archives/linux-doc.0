@@ -1,343 +1,145 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD2A24BD03
-	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 14:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDB124A077
+	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 14:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741183583; cv=none; b=W8h39vaK0gIx54RmE+21lvNoPKt0D6y5yAcnz/oLhCQpq+8Mi3K5gk2LXsEl+l0jBrzeX8arlmNE/vXbfr1pKh35w3QAb/9sAX1FpMc7PdFA+KOKQ0e5Wv73i8xB1e3DO5gNDUm58+JEJyDv4/6DZldxJXyueltKXAjGt6sgd6Y=
+	t=1741184047; cv=none; b=bxRCTTQn9etVdQmNNuubPvSM2P7YuODGu4KW9JqC5UpG5CY2aufu1IV0QlEP3HeE2k+Ab/tobfGkzKAVP5wmbsPUe41MACT2xKE971mZOXnbxA9nR5xQDO4tyVlwup2t/Z8ORsRbt4z0fQlne/N0zrMUJd4JDh6GQhYgv6cajfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741183583; c=relaxed/simple;
-	bh=IY7DU1BhjQRR5Coi7wNZ7++4LSEJz4/d+wLFVatOJNE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ffM7Tk53zwaRAOdTTK4O1CKNmq3i4ehWrZ2W+za9+oFIO7qhUuQEKjgUZAskVxl7cK9A8oXvmb2t5m2E+BefnErmooPUh0QOqOzh4XmHVxKQST4C1msFC0v9VgF+wjDJnSx2E8jtCH1iuRUquawfIuB8BGMea1Osb5rAE3KrDxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aaEjXS+Z; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1741184047; c=relaxed/simple;
+	bh=EDOWiuz48EaOHCMVG5zuO1N25iNFE4iKpu3KXcX0EqI=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=XGyQqLGjFrInz7tIIBu6z5CTQob/0NObgkXEA/mIhAGLgmFwJdJog6XWAA3LkMTE0kez5iPODRJzOASpGQe3HVXsBYuibi6+inItp5SUMcCWFrNaNBNA2D3mqFi/gkqZ/ucNWVTxWyqZygKTouovo3JS0LUadfboVAP97MEwncI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Buq+4UuF; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aaEjXS+Z"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Buq+4UuF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741183580;
+	s=mimecast20190719; t=1741184044;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rPPwrQnu9UKt/4NbsUXxMh/AuN498RxwAC9aj1izwuk=;
-	b=aaEjXS+ZW/9pPGWqzTPbIGN8a+GsoBl2cex9Zuofx76964cU/6MkbrhJLWBUkr1ll99txP
-	n0vlVIe3oHh4EG6XAONv7BO+sZgcZ+98jML0IJmQMl3+w9Q4WCI38W1B0fIBA0wpt5F6EM
-	6zlmEOcjv22SduxqPeQFlUL/riwqg9M=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-336-lmc4OM4COHaAvJetnIsSxw-1; Wed,
- 05 Mar 2025 09:06:02 -0500
-X-MC-Unique: lmc4OM4COHaAvJetnIsSxw-1
-X-Mimecast-MFC-AGG-ID: lmc4OM4COHaAvJetnIsSxw_1741183561
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 58A6A1AAA6E9;
-	Wed,  5 Mar 2025 14:05:16 +0000 (UTC)
-Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.45.226.192])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D8DE7300070B;
-	Wed,  5 Mar 2025 14:05:11 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-doc@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: Gabriele Monaco <gmonaco@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	John Kacur <jkacur@redhat.com>,
-	Clark Williams <williams@redhat.com>
-Subject: [PATCH v5 8/9] Documentation/rv: Add docs for the sched monitors
-Date: Wed,  5 Mar 2025 15:04:01 +0100
-Message-ID: <20250305140406.350227-9-gmonaco@redhat.com>
-In-Reply-To: <20250305140406.350227-1-gmonaco@redhat.com>
-References: <20250305140406.350227-1-gmonaco@redhat.com>
+	bh=0W+VuZVYcnV3HyAvSTpbUUrhFmo350QWrg+wnsTs7g4=;
+	b=Buq+4UuFncXBd/85809tYuh2r9Qzx//t5VpM/8yQs4d4xUGIIPeCFhF2TnGPX/uxvOFNaG
+	qVpJQQVQF/jRImDjn2rsjc8PwvYCxrBQMfoCuoWPu+2jSs5MLgavaqb9m78kOBNEHQpOxh
+	dZIT+urGeDIx+SSPnDvZyFI812QR0oU=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-361-UJbm27UbMIeNjnvYtNvexw-1; Wed, 05 Mar 2025 09:13:53 -0500
+X-MC-Unique: UJbm27UbMIeNjnvYtNvexw-1
+X-Mimecast-MFC-AGG-ID: UJbm27UbMIeNjnvYtNvexw_1741184032
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c3cca5d865so161793885a.1
+        for <linux-doc@vger.kernel.org>; Wed, 05 Mar 2025 06:13:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741184032; x=1741788832;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0W+VuZVYcnV3HyAvSTpbUUrhFmo350QWrg+wnsTs7g4=;
+        b=M51dQPhjyb5rhQRL2AjlEpUvEhlX+cLsZNsDDj9PwedFqtBe32OjDSXRe6PaOhGXGG
+         FofVTRFvyiAdQd8neh7pondLy81KP5wlCB4BABeTkzjYYZC8sgEbdyD+oFqUQHiX3VVb
+         31dDKvtEJVQH9tC9FFv4VTwkcplBetW51A4lrxIGER5P9sxZvYORFLGYeFpiR0+fQG+u
+         ytF1VufoSPUpJeQCe8r4VrgAmaGdQ1mGN+HGS2NWXspbPO6lhe/CxybklPqq2NgtbAnR
+         37J5iCdLsq2w9ElgFZp9TdIdgiVxtvM4OclAuXaCF/vOJzq/l70fV3F3FOposrPUg+ov
+         stmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/s2/T2skeVddZwC2oF0hUpzo7WVEVxv/8G/pvYf5VH3aV1XrMVBjAKAja6Ns4tpsm/5RjPy/HUY4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+8K+2u+faPQB5jPjnqzSTQ4LwjJ6ZQ0igWLSRjKYHuRZW2zB2
+	450Y/nbWplmSWVe8fYAXcf5gYVoTu2XCSR1WQwP6QGcSm17lgU3GQcXuGmEctJNfUXxI5XE6Vq7
+	OMa1kpFgxGRgt/jm2Nabfg+yI4ju6C2R0AracoZpnpcieT8I1tgCDyCjS/Q==
+X-Gm-Gg: ASbGncsfPkkl5wxv+p5LPlOR1nhsjDQoRE2D2d8q1QzRFpvQ4t2BJKbMiwXrITkzMb6
+	rY2GKbfvvqQ4ocyCm+cGGTbQGDW3AFr3ybfBpc9Dz2bYHVSsmlkz7URllodX3Z8fecSP9+p9zU1
+	OxBG3Ab9+bOIUUXyOZ6cKR1zqQ2F6htabFXhXn+SxP/YEPbr8NYkDB7po7+LE5EJF6N+ebMLftX
+	ItKZl/od0jWmRG4vdzfAYKvkz0eeaJ5r5wCqjvq5YX/gaJgFT333GwIdRRP0S1v9c2sDucPRjl4
+	2r+WXdGekV/oCgZJn8hC1MJSv9Sqsd6nn/mglbjmh0Y42cgxpOTR0tHGzp0=
+X-Received: by 2002:a05:620a:43aa:b0:7c0:a260:ec1b with SMTP id af79cd13be357-7c3d91e8cafmr444390785a.25.1741184032540;
+        Wed, 05 Mar 2025 06:13:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH9ffpu0YZWhyUhYlZlVs8VrgC/jNuyM8WRbs000jc8OeU6/te1fV87F/+guN7+iQlwfItbJg==
+X-Received: by 2002:a05:620a:43aa:b0:7c0:a260:ec1b with SMTP id af79cd13be357-7c3d91e8cafmr444386885a.25.1741184032217;
+        Wed, 05 Mar 2025 06:13:52 -0800 (PST)
+Received: from ?IPV6:2601:188:c100:5710:627d:9ff:fe85:9ade? ([2601:188:c100:5710:627d:9ff:fe85:9ade])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c3bfb2a5e3sm392543585a.41.2025.03.05.06.13.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Mar 2025 06:13:51 -0800 (PST)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Message-ID: <6a6d4c61-a318-444f-b089-1776beb8873d@redhat.com>
+Date: Wed, 5 Mar 2025 09:13:50 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] cgroup, docs: Be explicit about independence of
+ RT_GROUP_SCHED and non-cpu controllers
+To: shashank.mahadasyam@sony.com, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shinya Takumi <shinya.takumi@sony.com>
+References: <20250305-rt-and-cpu-controller-doc-v1-0-7b6a6f5ff43d@sony.com>
+ <20250305-rt-and-cpu-controller-doc-v1-1-7b6a6f5ff43d@sony.com>
+Content-Language: en-US
+In-Reply-To: <20250305-rt-and-cpu-controller-doc-v1-1-7b6a6f5ff43d@sony.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add man page and kernel documentation for the sched monitors, as sched
-is a container of other monitors, document all in the same page.
-sched is the first nested monitor, also explain what is a nested monitor
-and how enabling containers or children monitors work.
+On 3/4/25 11:12 PM, Shashank Balaji via B4 Relay wrote:
+> From: Shashank Balaji <shashank.mahadasyam@sony.com>
+>
+> The cgroup v2 cpu controller has a limitation that if
+> CONFIG_RT_GROUP_SCHED is enabled, the cpu controller can be enabled only
+> if all the realtime processes are in the root cgroup. The other
+> controllers have no such restriction. They can be used for the resource
+> control of realtime processes irrespective of whether
+> CONFIG_RT_GROUP_SCHED is enabled or not.
+>
+> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+> ---
+>   Documentation/admin-guide/cgroup-v2.rst | 23 ++++++++++++++---------
+>   1 file changed, 14 insertions(+), 9 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index cb1b4e759b7e267c24d7f4f69564c16fb29c4d89..f293a13b42ed69e7c6bf5e974cb86e228411af4e 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1076,15 +1076,20 @@ cpufreq governor about the minimum desired frequency which should always be
+>   provided by a CPU, as well as the maximum desired frequency, which should not
+>   be exceeded by a CPU.
+>   
+> -WARNING: cgroup2 doesn't yet support control of realtime processes. For
+> -a kernel built with the CONFIG_RT_GROUP_SCHED option enabled for group
+> -scheduling of realtime processes, the cpu controller can only be enabled
+> -when all RT processes are in the root cgroup.  This limitation does
+> -not apply if CONFIG_RT_GROUP_SCHED is disabled.  Be aware that system
+> -management software may already have placed RT processes into nonroot
+> -cgroups during the system boot process, and these processes may need
+> -to be moved to the root cgroup before the cpu controller can be enabled
+> -with a CONFIG_RT_GROUP_SCHED enabled kernel.
+> +WARNING: cgroup2 cpu controller doesn't yet fully support the control of
+> +realtime processes. For a kernel built with the CONFIG_RT_GROUP_SCHED option
+> +enabled for group scheduling of realtime processes, the cpu controller can only
+> +be enabled when all RT processes are in the root cgroup. Be aware that system
+> +management software may already have placed RT processes into non-root cgroups
+> +during the system boot process, and these processes may need to be moved to the
+> +root cgroup before the cpu controller can be enabled with a
+> +CONFIG_RT_GROUP_SCHED enabled kernel.
+> +
+> +With CONFIG_RT_GROUP_SCHED disabled, this limitation does not apply and some of
+> +the interface files either affect realtime processes or account for them. See
+> +the following section for details. Only the cpu controller is affected by
+> +CONFIG_RT_GROUP_SCHED. Other controllers can be used for the resource control of
+> +realtime processes irrespective of CONFIG_RT_GROUP_SCHED.
+>   
+>   
+>   CPU Interface Files
 
-To: Ingo Molnar <mingo@redhat.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: John Kacur <jkacur@redhat.com>
-Cc: Clark Williams <williams@redhat.com>
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
----
- Documentation/tools/rv/rv-mon-sched.rst  |  69 +++++++++
- Documentation/trace/rv/monitor_sched.rst | 171 +++++++++++++++++++++++
- 2 files changed, 240 insertions(+)
- create mode 100644 Documentation/tools/rv/rv-mon-sched.rst
- create mode 100644 Documentation/trace/rv/monitor_sched.rst
+LGTM
 
-diff --git a/Documentation/tools/rv/rv-mon-sched.rst b/Documentation/tools/rv/rv-mon-sched.rst
-new file mode 100644
-index 0000000000000..da0fe4c79ae52
---- /dev/null
-+++ b/Documentation/tools/rv/rv-mon-sched.rst
-@@ -0,0 +1,69 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
-+rv-mon-sched
-+============
-+-----------------------------
-+Scheduler monitors collection
-+-----------------------------
-+
-+:Manual section: 1
-+
-+SYNOPSIS
-+========
-+
-+**rv mon sched** [*OPTIONS*]
-+
-+**rv mon <NESTED_MONITOR>** [*OPTIONS*]
-+
-+**rv mon sched:<NESTED_MONITOR>** [*OPTIONS*]
-+
-+DESCRIPTION
-+===========
-+
-+The scheduler monitor collection is a container for several monitors to model
-+the behaviour of the scheduler. Each monitor describes a specification that
-+the scheduler should follow.
-+
-+As a monitor container, it will enable all nested monitors and set them
-+according to OPTIONS.
-+Nevertheless nested monitors can also be activated independently both by name
-+and by specifying sched: , e.g. to enable only monitor tss you can do any of:
-+
-+    # rv mon sched:tss
-+
-+    # rv mon tss
-+
-+See kernel documentation for further information about this monitor:
-+<https://docs.kernel.org/trace/rv/monitor_sched.html>
-+
-+OPTIONS
-+=======
-+
-+.. include:: common_ikm.rst
-+
-+NESTED MONITOR
-+==============
-+
-+The available nested monitors are:
-+  * scpd: schedule called with preemption disabled
-+  * snep: schedule does not enable preempt
-+  * sncid: schedule not called with interrupt disabled
-+  * snroc: set non runnable on its own context
-+  * sco: scheduling context operations
-+  * tss: task switch while scheduling
-+
-+SEE ALSO
-+========
-+
-+**rv**\(1), **rv-mon**\(1)
-+
-+Linux kernel *RV* documentation:
-+<https://www.kernel.org/doc/html/latest/trace/rv/index.html>
-+
-+AUTHOR
-+======
-+
-+Written by Gabriele Monaco <gmonaco@redhat.com>
-+
-+.. include:: common_appendix.rst
-diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
-new file mode 100644
-index 0000000000000..24b2c62a3bc26
---- /dev/null
-+++ b/Documentation/trace/rv/monitor_sched.rst
-@@ -0,0 +1,171 @@
-+Scheduler monitors
-+==================
-+
-+- Name: sched
-+- Type: container for multiple monitors
-+- Author: Gabriele Monaco <gmonaco@redhat.com>, Daniel Bristot de Oliveira <bristot@kernel.org>
-+
-+Description
-+-----------
-+
-+Monitors describing complex systems, such as the scheduler, can easily grow to
-+the point where they are just hard to understand because of the many possible
-+state transitions.
-+Often it is possible to break such descriptions into smaller monitors,
-+sharing some or all events. Enabling those smaller monitors concurrently is,
-+in fact, testing the system as if we had one single larger monitor.
-+Splitting models into multiple specification is not only easier to
-+understand, but gives some more clues when we see errors.
-+
-+The sched monitor is a set of specifications to describe the scheduler behaviour.
-+It includes several per-cpu and per-task monitors that work independently to verify
-+different specifications the scheduler should follow.
-+
-+To make this system as straightforward as possible, sched specifications are *nested*
-+monitors, whereas sched itself is a *container*.
-+From the interface perspective, sched includes other monitors as sub-directories,
-+enabling/disabling or setting reactors to sched, propagates the change to all monitors,
-+however single monitors can be used independently as well.
-+
-+It is important that future modules are built after their container (sched, in
-+this case), otherwise the linker would not respect the order and the nesting
-+wouldn't work as expected.
-+To do so, simply add them after sched in the Makefile.
-+
-+Specifications
-+--------------
-+
-+The specifications included in sched are currently a work in progress, adapting the ones
-+defined in by Daniel Bristot in [1].
-+
-+Currently we included the following:
-+
-+Monitor tss
-+~~~~~~~~~~~
-+
-+The task switch while scheduling (tss) monitor ensures a task switch happens
-+only in scheduling context, that is inside a call to `__schedule`::
-+
-+                     |
-+                     |
-+                     v
-+                   +-----------------+
-+                   |     thread      | <+
-+                   +-----------------+  |
-+                     |                  |
-+                     | schedule_entry   | schedule_exit
-+                     v                  |
-+    sched_switch                        |
-+  +---------------                      |
-+  |                       sched         |
-+  +-------------->                     -+
-+
-+Monitor sco
-+~~~~~~~~~~~
-+
-+The scheduling context operations (sco) monitor ensures changes in a task state
-+happen only in thread context::
-+
-+
-+                        |
-+                        |
-+                        v
-+    sched_set_state   +------------------+
-+  +------------------ |                  |
-+  |                   |  thread_context  |
-+  +-----------------> |                  | <+
-+                      +------------------+  |
-+                        |                   |
-+                        | schedule_entry    | schedule_exit
-+                        v                   |
-+                                            |
-+                       scheduling_context  -+
-+
-+Monitor snroc
-+~~~~~~~~~~~~~
-+
-+The set non runnable on its own context (snroc) monitor ensures changes in a
-+task state happens only in the respective task's context. This is a per-task
-+monitor::
-+
-+                        |
-+                        |
-+                        v
-+                      +------------------+
-+                      |  other_context   | <+
-+                      +------------------+  |
-+                        |                   |
-+                        | sched_switch_in   | sched_switch_out
-+                        v                   |
-+    sched_set_state                         |
-+  +------------------                       |
-+  |                       own_context       |
-+  +----------------->                      -+
-+
-+Monitor scpd
-+~~~~~~~~~~~~
-+
-+The schedule called with preemption disabled (scpd) monitor ensures schedule is
-+called with preemption disabled::
-+
-+                       |
-+                       |
-+                       v
-+                     +------------------+
-+                     |    cant_sched    | <+
-+                     +------------------+  |
-+                       |                   |
-+                       | preempt_disable   | preempt_enable
-+                       v                   |
-+    schedule_entry                         |
-+    schedule_exit                          |
-+  +-----------------      can_sched        |
-+  |                                        |
-+  +---------------->                      -+
-+
-+Monitor snep
-+~~~~~~~~~~~~
-+
-+The schedule does not enable preempt (snep) monitor ensures a schedule call
-+does not enable preemption::
-+
-+                        |
-+                        |
-+                        v
-+    preempt_disable   +------------------------+
-+    preempt_enable    |                        |
-+  +------------------ | non_scheduling_context |
-+  |                   |                        |
-+  +-----------------> |                        | <+
-+                      +------------------------+  |
-+                        |                         |
-+                        | schedule_entry          | schedule_exit
-+                        v                         |
-+                                                  |
-+                          scheduling_contex      -+
-+
-+Monitor sncid
-+~~~~~~~~~~~~~
-+
-+The schedule not called with interrupt disabled (sncid) monitor ensures
-+schedule is not called with interrupt disabled::
-+
-+                       |
-+                       |
-+                       v
-+    schedule_entry   +--------------+
-+    schedule_exit    |              |
-+  +----------------- |  can_sched   |
-+  |                  |              |
-+  +----------------> |              | <+
-+                     +--------------+  |
-+                       |               |
-+                       | irq_disable   | irq_enable
-+                       v               |
-+                                       |
-+                        cant_sched    -+
-+
-+References
-+----------
-+
-+[1] - https://bristot.me/linux-task-model
--- 
-2.48.1
+Acked-by: Waiman Long <longman@redhat.com>
 
