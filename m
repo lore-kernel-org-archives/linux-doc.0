@@ -1,343 +1,300 @@
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE191FBC94;
-	Wed,  5 Mar 2025 11:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E767D23373F
+	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 11:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741173411; cv=none; b=g5Dc+JMje54tV5Je1UMXsahcbLzo9wbwElL0LY9zbOxnCiiwjrYt7Spd+oJdtu3L69qzNJPdSuZsQruOdc3TwGKeor0oaz5aAiHB2BMmiLx3tPPeqV76QYcWPYhgwEu8ghxEWt3ef4D8n7nGOy4rBkh5AYEz6b5FqrbJV3ceTTA=
+	t=1741174655; cv=none; b=LEPysHowvNw9Z/lqm3mx0/S5fGW6++m/EFRkzWCEPEUXUCjEDXIrvUnxbnOQpK7lE8YKoL6jEEPlGV7OXwNETTQ9N0cwYmtSmh4rH9ZolIAtWC6t1rAqh2QtRfyMZRz2nvyFX5EsQFs2a7JDTMPHHnrh5BKcfIZY8syzhS2J/SI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741173411; c=relaxed/simple;
-	bh=oDeP14IAUCRnH4j6RavLjdXfuFH/GC4EiIFhWi0jTu4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZAShOLxg73Ge9GWo0sihh2rYsSdkGMoy9jkUSJney1wChRO/WhaqlXd5ithHQ7AJCk6Wb6xFL23ldpLiEt6CsVK/9oYKKjs+SLh5mhU1X5quMrskgUOdbnSRf886ZzMecHZFx1lBwI0u+GYMqogSmEaOS1/Ismzeb5P3j+Pw1GI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=FzhJGJGN; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1741174655; c=relaxed/simple;
+	bh=w1zs0s53BjvIVKG5JLFecJgMXnzvr5rW68RODm/zAGQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MeRqwbdhMMMU/flCTGj78Ad/Rtbv6k85txC6jtU94g8vP0YhYJIrvyoCU3MXfXRbcPu/C5htU+L0w7FsbcY85n2BtrVVWHM0jiMccVPk9A+qfcL6KEIZCDqZ9hlw78JAwcwuK6C/1Jf8IWVTvNrl3Q+9XnGpz5SGW1DtFRC/5zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XewaFlyY; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="FzhJGJGN"
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 525BGBwo3933778
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 5 Mar 2025 05:16:11 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1741173371;
-	bh=pUoO09MYFSY7H1znYvfGa7jL/ZGhwkgxZ+hya5/sw48=;
-	h=From:To:CC:Subject:Date;
-	b=FzhJGJGNYNeIBow1V/v7Va3m4j+tDD/yAR5RSBeFtOa4L7ZMKLXFQ1bEFP4aU3jhQ
-	 C5tvZ+Mip0EAc4pFQeqVUs09Q/Y4i7MCuRZaNjPG2x/sZp5MoTCiO7eS3FCvy7xrB2
-	 nSzllldVO/ZSJuMgnkNsdOAn3Uv3KNvSqlaGwyUM=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 525BGBKv120467
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 5 Mar 2025 05:16:11 -0600
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 5
- Mar 2025 05:16:10 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 5 Mar 2025 05:16:10 -0600
-Received: from fllv0122.itg.ti.com (fllv0122.itg.ti.com [10.247.120.72])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 525BGARA106207;
-	Wed, 5 Mar 2025 05:16:10 -0600
-Received: from localhost (danish-tpc.dhcp.ti.com [10.24.69.25])
-	by fllv0122.itg.ti.com (8.14.7/8.14.7) with ESMTP id 525BG9WE014392;
-	Wed, 5 Mar 2025 05:16:10 -0600
-From: MD Danish Anwar <danishanwar@ti.com>
-To: Vignesh Raghavendra <vigneshr@ti.com>, Meghana Malladi <m-malladi@ti.com>,
-        Diogo Ivo <diogo.ivo@siemens.com>, Lee Trager <lee@trager.us>,
-        Andrew Lunn
-	<andrew+netdev@lunn.ch>,
-        Roger Quadros <rogerq@kernel.org>,
-        MD Danish Anwar
-	<danishanwar@ti.com>,
-        Jonathan Corbet <corbet@lwn.net>, Simon Horman
-	<horms@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        "David S. Miller"
-	<davem@davemloft.net>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>, <srk@ti.com>
-Subject: [PATCH net-next v2] net: ti: icssg-prueth: Add ICSSG FW Stats
-Date: Wed, 5 Mar 2025 16:46:08 +0530
-Message-ID: <20250305111608.520042-1-danishanwar@ti.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XewaFlyY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1741174652;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YpWTzpxBLEnQJns4RP/LsZzHqEk4J0vD1x4Ly1ln6+U=;
+	b=XewaFlyYxa1yD14P0VoT1BXfQbe0apoZ4+8sTI9k+Exmwt3ymKW8Esc/SMUI3dsQhaduK0
+	gsqDAal1FYtM8Cn2UCJR87Wsjq/Jhzyj9oTE4qUY2NfY7+d+gBCIweQlE8wZ2VK8Xo4Eb5
+	YrxnwxRtqwR/Enn6PHfvS89HxqOa6gw=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-694-0i-woyBeOXyPnouQATNMcw-1; Wed, 05 Mar 2025 06:37:26 -0500
+X-MC-Unique: 0i-woyBeOXyPnouQATNMcw-1
+X-Mimecast-MFC-AGG-ID: 0i-woyBeOXyPnouQATNMcw_1741174645
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-abf46dba035so98162666b.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Mar 2025 03:37:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741174645; x=1741779445;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YpWTzpxBLEnQJns4RP/LsZzHqEk4J0vD1x4Ly1ln6+U=;
+        b=KMSHLPkZz6wdWciivRZrdSY4mvNAzl3Dd90V5ZNcJmaBQSD6obRc7xYn/u0NWB1uRe
+         N5XmzGwqYHPUB4Ao3PiFFsc/DuvhEf/xb1rvUWo8U4b5AXWNLZ+mqnvEzRjbnfaWv63n
+         9HBSdTqRGCkx1n4Lz2otGiRr5vSRO1+dW4putHl0KqoaHTPau/NHxS8yoN2hxN9DFotu
+         ZM33vPJ7oaTUvg/1ijPXVKnPMjXl0+oBKyqeK9K6702lEgKgyukRRcTdjgSnr6pIomWb
+         1IPh3L9HDQdNqO2FqfhzHY7gXV70rTf2tw0sRKu0ha+wQsrGFuHtoOfmojw4ccjzbtgk
+         HzwA==
+X-Forwarded-Encrypted: i=1; AJvYcCX6Yc0yAYVw7Z9z9E3laLLpoo1XVUpOsT37SyPrUsAvX6XDnpiacFIXHgIilmPxn007UQ7dNCiOKrs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGQpAd229X4bwYA9IdJDhoc/oqOh8dItzpAdI18INTNkIZjfzt
+	lnbeDrYIoc6Tg/yyKd/Ypl5rm2N7RlQgLmBuVzFKU+MU6It+/FG/Gdo8+Zpw1/VHOTZSTt38Gxr
+	26TZC370B5BBX1AkSRhPSsxZbEV2CasFvmcoNQ2J6+zG5sdlUNa+nTlMd3g==
+X-Gm-Gg: ASbGncvIgDnvl9DUHv2iQU8uNQS/trQWCEkgXGGtJe5tn2WanHMIiCGy5sHF6eA3Xnx
+	MQpUh8ppXtzG8G/W/x54AJj+QGVmeMvMiSpwrBzuNCRMHrlo/wilaY4TyhlaRzDZsvwT8H4rzt2
+	+7hP5zC6N7+BgcecQPv0fGLyg1YpqqyVTPk3QGcUoYMN/bCc5QnnQhpukJwqTmE159cZ1zqXWUU
+	C2Mh0w+oIeHtgr8AABStg9J6DBRdU1tN54M7MiYQTHUoOMWT8ARcCtwkE/anG3wUZVWdkerk+GW
+	jJp1oaq/ctIpbxFhjkyljPm/izfUtBbo/FSsreS2rPcX79Xiq5fYKIzePFyH4xbYQhVo5RIH1CU
+	4Io/GO51Dl4U/8dzqacGrTHftOJGWwMW5PXuaGLE+B6jz5JmDz9TPgxxXJEC6LzGZhQ==
+X-Received: by 2002:a17:907:2d21:b0:ac1:de84:dea1 with SMTP id a640c23a62f3a-ac20da878e7mr288838466b.43.1741174645116;
+        Wed, 05 Mar 2025 03:37:25 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEn2fTEi1XfV8aqSw2zYnOzYdQ8RDqzxm6GhrXG0VCSnNWZhob/ImwbXjXzOGAfScAecHnEaA==
+X-Received: by 2002:a17:907:2d21:b0:ac1:de84:dea1 with SMTP id a640c23a62f3a-ac20da878e7mr288834766b.43.1741174644586;
+        Wed, 05 Mar 2025 03:37:24 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abf67fa3c05sm628915166b.72.2025.03.05.03.37.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Mar 2025 03:37:24 -0800 (PST)
+Message-ID: <f853b726-898c-4400-ab5a-50d3c19caea9@redhat.com>
+Date: Wed, 5 Mar 2025 12:37:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Add new sysfs to check user
+ presence sensing status
+To: Mark Pearson <mpearson-lenovo@squebb.ca>, Nitin Joshi
+ <nitjoshi@gmail.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>
+Cc: "platform-driver-x86@vger.kernel.org"
+ <platform-driver-x86@vger.kernel.org>, ibm-acpi-devel@lists.sourceforge.net,
+ linux-doc@vger.kernel.org, Nitin Joshi1 <njoshi1@lenovo.com>
+References: <20250305023319.6318-1-nitjoshi@gmail.com>
+ <0cedc065-8cb7-4ef8-8989-6b113eb43460@app.fastmail.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <0cedc065-8cb7-4ef8-8989-6b113eb43460@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The ICSSG firmware maintains set of stats called PA_STATS.
-Currently the driver only dumps 4 stats. Add support for dumping more
-stats.
+Hi Nitin, Mark,
 
-The offset for different stats are defined as MACROs in icssg_switch_map.h
-file. All the offsets are for Slice0. Slice1 offsets are slice0 + 4.
-The offset calculation is taken care while reading the stats in
-emac_update_hardware_stats().
+On 5-Mar-25 4:20 AM, Mark Pearson wrote:
+> 
+> On Tue, Mar 4, 2025, at 9:33 PM, Nitin Joshi wrote:
+>> Some Thinkpad products support Human Presence Detection (HPD) features.
+>> Add new sysfs entry so that userspace can determine if feature is
+>> supported or not.
+>>
+>> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+> 
+> Just in case we're breaking protocol - I have reviewed this off mailing list with Nitin and gave it the thumbs up. The tag is correct.
 
-The statistics are documented in
-Documentation/networking/device_drivers/icssg_prueth.rst
+Adding a Reviewed-by tag based on internal reviews done before
+submitting v1 is fine, no worries.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
-Signed-off-by: MD Danish Anwar <danishanwar@ti.com>
----
-v1 - v2:
-*) Created icssg_prueth.rst and added Documentation of firmware statistics
-as suggested by Jakub Kicinski <kuba@kernel.org>
-*) Removed unimplemented preemption statistics.
-*) Collected RB tag from Simon Horman <horms@kernel.org>
+I do wonder what the use-case for this exactly is?
 
-v1 - https://lore.kernel.org/all/20250227093712.2130561-1-danishanwar@ti.com/
+The current documentation of "so that userspace can determine if
+feature related to HPD should be enabled or disabled."
 
- .../device_drivers/ethernet/index.rst         |  1 +
- .../ethernet/ti/icssg_prueth.rst              | 56 ++++++++++++++++++
- drivers/net/ethernet/ti/icssg/icssg_prueth.h  |  2 +-
- drivers/net/ethernet/ti/icssg/icssg_stats.c   |  6 +-
- drivers/net/ethernet/ti/icssg/icssg_stats.h   | 58 ++++++++++++-------
- .../net/ethernet/ti/icssg/icssg_switch_map.h  | 33 +++++++++++
- 6 files changed, 129 insertions(+), 27 deletions(-)
- create mode 100644 Documentation/networking/device_drivers/ethernet/ti/icssg_prueth.rst
+is a bit vague. The reason I'm asking is because I'm wondering
+if this is the best API to expose this to userspace.
 
-diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
-index 6fc1961492b7..cd5f31dd07ce 100644
---- a/Documentation/networking/device_drivers/ethernet/index.rst
-+++ b/Documentation/networking/device_drivers/ethernet/index.rst
-@@ -55,6 +55,7 @@ Contents:
-    ti/cpsw_switchdev
-    ti/am65_nuss_cpsw_switchdev
-    ti/tlan
-+   ti/icssg_prueth
-    toshiba/spider_net
-    wangxun/txgbe
-    wangxun/ngbe
-diff --git a/Documentation/networking/device_drivers/ethernet/ti/icssg_prueth.rst b/Documentation/networking/device_drivers/ethernet/ti/icssg_prueth.rst
-new file mode 100644
-index 000000000000..da21ddf431bb
---- /dev/null
-+++ b/Documentation/networking/device_drivers/ethernet/ti/icssg_prueth.rst
-@@ -0,0 +1,56 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================================
-+Texas Instruments ICSSG PRUETH ethernet driver
-+==============================================
-+
-+:Version: 1.0
-+
-+ICSSG Firmware
-+==============
-+
-+Every ICSSG core has two Programmable Real-Time Unit(PRUs), two auxiliary
-+Real-Time Transfer Unit (RTUs), and two Transmit Real-Time Transfer Units
-+(TX_PRUs). Each one of these runs its own firmware. The firmwares combnined are
-+referred as ICSSG Firmware.
-+
-+Firmware Statistics
-+===================
-+
-+The ICSSG firmware maintains certain statistics which are dumped by the driver
-+via ``ethtool -S <interface>``
-+
-+These statistics are as follows,
-+
-+ - ``FW_RTU_PKT_DROP``: Diagnostic error counter which increments when RTU drops a locally injected packet due to port being disabled or rule violation.
-+ - ``FW_Q0_OVERFLOW``: TX overflow counter for queue0
-+ - ``FW_Q1_OVERFLOW``: TX overflow counter for queue1
-+ - ``FW_Q2_OVERFLOW``: TX overflow counter for queue2
-+ - ``FW_Q3_OVERFLOW``: TX overflow counter for queue3
-+ - ``FW_Q4_OVERFLOW``: TX overflow counter for queue4
-+ - ``FW_Q5_OVERFLOW``: TX overflow counter for queue5
-+ - ``FW_Q6_OVERFLOW``: TX overflow counter for queue6
-+ - ``FW_Q7_OVERFLOW``: TX overflow counter for queue7
-+ - ``FW_DROPPED_PKT``: This counter is incremented when a packet is dropped at PRU because of rule violation.
-+ - ``FW_RX_ERROR``: Incremented if there was a CRC error or Min/Max frame error at PRU
-+ - ``FW_RX_DS_INVALID``: Incremented when RTU detects Data Status invalid condition
-+ - ``FW_TX_DROPPED_PACKET``: Counter for packets dropped via TX Port
-+ - ``FW_TX_TS_DROPPED_PACKET``: Counter for packets with TS flag dropped via TX Port
-+ - ``FW_INF_PORT_DISABLED``: Incremented when RX frame is dropped due to port being disabled
-+ - ``FW_INF_SAV``: Incremented when RX frame is dropped due to Source Address violation
-+ - ``FW_INF_SA_DL``: Incremented when RX frame is dropped due to Source Address being in the denylist
-+ - ``FW_INF_PORT_BLOCKED``: Incremented when RX frame is dropped due to port being blocked and frame being a special frame
-+ - ``FW_INF_DROP_TAGGED`` : Incremented when RX frame is dropped for being tagged
-+ - ``FW_INF_DROP_PRIOTAGGED``: Incremented when RX frame is dropped for being priority tagged
-+ - ``FW_INF_DROP_NOTAG``: Incremented when RX frame is dropped for being untagged
-+ - ``FW_INF_DROP_NOTMEMBER``: Incremented when RX frame is dropped for port not being member of VLAN
-+ - ``FW_RX_EOF_SHORT_FRMERR``: Incremented if End Of Frame (EOF) task is scheduled without seeing RX_B1
-+ - ``FW_RX_B0_DROP_EARLY_EOF``: Incremented when frame is dropped due to Early EOF
-+ - ``FW_TX_JUMBO_FRM_CUTOFF``: Incremented when frame is cut off to prevent packet size > 2000 Bytes
-+ - ``FW_RX_EXP_FRAG_Q_DROP``: Incremented when express frame is received in the same queue as the previous fragment
-+ - ``FW_RX_FIFO_OVERRUN``: RX fifo overrun counter
-+ - ``FW_CUT_THR_PKT``: Incremented when a packet is forwarded using Cut-Through forwarding method
-+ - ``FW_HOST_RX_PKT_CNT``: Number of valid packets sent by Rx PRU to Host on PSI
-+ - ``FW_HOST_TX_PKT_CNT``: Number of valid packets copied by RTU0 to Tx queues
-+ - ``FW_HOST_EGRESS_Q_PRE_OVERFLOW``: Host Egress Q (Pre-emptible) Overflow Counter
-+ - ``FW_HOST_EGRESS_Q_EXP_OVERFLOW``: Host Egress Q (Pre-emptible) Overflow Counter
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.h b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
-index 329b46e9ee53..ff7fce26e851 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_prueth.h
-+++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
-@@ -50,7 +50,7 @@
- 
- #define ICSSG_MAX_RFLOWS	8	/* per slice */
- 
--#define ICSSG_NUM_PA_STATS	4
-+#define ICSSG_NUM_PA_STATS	32
- #define ICSSG_NUM_MIIG_STATS	60
- /* Number of ICSSG related stats */
- #define ICSSG_NUM_STATS (ICSSG_NUM_MIIG_STATS + ICSSG_NUM_PA_STATS)
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_stats.c b/drivers/net/ethernet/ti/icssg/icssg_stats.c
-index 8800bd3a8d07..3f1400e0207c 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_stats.c
-+++ b/drivers/net/ethernet/ti/icssg/icssg_stats.c
-@@ -11,7 +11,6 @@
- 
- #define ICSSG_TX_PACKET_OFFSET	0xA0
- #define ICSSG_TX_BYTE_OFFSET	0xEC
--#define ICSSG_FW_STATS_BASE	0x0248
- 
- static u32 stats_base[] = {	0x54c,	/* Slice 0 stats start */
- 				0xb18,	/* Slice 1 stats start */
-@@ -44,9 +43,8 @@ void emac_update_hardware_stats(struct prueth_emac *emac)
- 
- 	if (prueth->pa_stats) {
- 		for (i = 0; i < ARRAY_SIZE(icssg_all_pa_stats); i++) {
--			reg = ICSSG_FW_STATS_BASE +
--			      icssg_all_pa_stats[i].offset *
--			      PRUETH_NUM_MACS + slice * sizeof(u32);
-+			reg = icssg_all_pa_stats[i].offset +
-+			      slice * sizeof(u32);
- 			regmap_read(prueth->pa_stats, reg, &val);
- 			emac->pa_stats[i] += val;
- 		}
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_stats.h b/drivers/net/ethernet/ti/icssg/icssg_stats.h
-index e88b919f532c..5ec0b38e0c67 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_stats.h
-+++ b/drivers/net/ethernet/ti/icssg/icssg_stats.h
-@@ -155,24 +155,10 @@ static const struct icssg_miig_stats icssg_all_miig_stats[] = {
- 	ICSSG_MIIG_STATS(tx_bytes, true),
- };
- 
--/**
-- * struct pa_stats_regs - ICSSG Firmware maintained PA Stats register
-- * @fw_rx_cnt: Number of valid packets sent by Rx PRU to Host on PSI
-- * @fw_tx_cnt: Number of valid packets copied by RTU0 to Tx queues
-- * @fw_tx_pre_overflow: Host Egress Q (Pre-emptible) Overflow Counter
-- * @fw_tx_exp_overflow: Host Egress Q (Express) Overflow Counter
-- */
--struct pa_stats_regs {
--	u32 fw_rx_cnt;
--	u32 fw_tx_cnt;
--	u32 fw_tx_pre_overflow;
--	u32 fw_tx_exp_overflow;
--};
--
--#define ICSSG_PA_STATS(field)			\
--{						\
--	#field,					\
--	offsetof(struct pa_stats_regs, field),	\
-+#define ICSSG_PA_STATS(field)	\
-+{				\
-+	#field,			\
-+	field,			\
- }
- 
- struct icssg_pa_stats {
-@@ -181,10 +167,38 @@ struct icssg_pa_stats {
- };
- 
- static const struct icssg_pa_stats icssg_all_pa_stats[] = {
--	ICSSG_PA_STATS(fw_rx_cnt),
--	ICSSG_PA_STATS(fw_tx_cnt),
--	ICSSG_PA_STATS(fw_tx_pre_overflow),
--	ICSSG_PA_STATS(fw_tx_exp_overflow),
-+	ICSSG_PA_STATS(FW_RTU_PKT_DROP),
-+	ICSSG_PA_STATS(FW_Q0_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q1_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q2_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q3_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q4_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q5_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q6_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q7_OVERFLOW),
-+	ICSSG_PA_STATS(FW_DROPPED_PKT),
-+	ICSSG_PA_STATS(FW_RX_ERROR),
-+	ICSSG_PA_STATS(FW_RX_DS_INVALID),
-+	ICSSG_PA_STATS(FW_TX_DROPPED_PACKET),
-+	ICSSG_PA_STATS(FW_TX_TS_DROPPED_PACKET),
-+	ICSSG_PA_STATS(FW_INF_PORT_DISABLED),
-+	ICSSG_PA_STATS(FW_INF_SAV),
-+	ICSSG_PA_STATS(FW_INF_SA_DL),
-+	ICSSG_PA_STATS(FW_INF_PORT_BLOCKED),
-+	ICSSG_PA_STATS(FW_INF_DROP_TAGGED),
-+	ICSSG_PA_STATS(FW_INF_DROP_PRIOTAGGED),
-+	ICSSG_PA_STATS(FW_INF_DROP_NOTAG),
-+	ICSSG_PA_STATS(FW_INF_DROP_NOTMEMBER),
-+	ICSSG_PA_STATS(FW_RX_EOF_SHORT_FRMERR),
-+	ICSSG_PA_STATS(FW_RX_B0_DROP_EARLY_EOF),
-+	ICSSG_PA_STATS(FW_TX_JUMBO_FRM_CUTOFF),
-+	ICSSG_PA_STATS(FW_RX_EXP_FRAG_Q_DROP),
-+	ICSSG_PA_STATS(FW_RX_FIFO_OVERRUN),
-+	ICSSG_PA_STATS(FW_CUT_THR_PKT),
-+	ICSSG_PA_STATS(FW_HOST_RX_PKT_CNT),
-+	ICSSG_PA_STATS(FW_HOST_TX_PKT_CNT),
-+	ICSSG_PA_STATS(FW_HOST_EGRESS_Q_PRE_OVERFLOW),
-+	ICSSG_PA_STATS(FW_HOST_EGRESS_Q_EXP_OVERFLOW),
- };
- 
- #endif /* __NET_TI_ICSSG_STATS_H */
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_switch_map.h b/drivers/net/ethernet/ti/icssg/icssg_switch_map.h
-index 424a7e945ea8..490a9cc06fb0 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_switch_map.h
-+++ b/drivers/net/ethernet/ti/icssg/icssg_switch_map.h
-@@ -231,4 +231,37 @@
- /* Start of 32 bits PA_STAT counters */
- #define PA_STAT_32b_START_OFFSET                           0x0080
- 
-+#define FW_RTU_PKT_DROP			0x0088
-+#define FW_Q0_OVERFLOW			0x0090
-+#define FW_Q1_OVERFLOW			0x0098
-+#define FW_Q2_OVERFLOW			0x00A0
-+#define FW_Q3_OVERFLOW			0x00A8
-+#define FW_Q4_OVERFLOW			0x00B0
-+#define FW_Q5_OVERFLOW			0x00B8
-+#define FW_Q6_OVERFLOW			0x00C0
-+#define FW_Q7_OVERFLOW			0x00C8
-+#define FW_DROPPED_PKT			0x00F8
-+#define FW_RX_ERROR			0x0100
-+#define FW_RX_DS_INVALID		0x0108
-+#define FW_TX_DROPPED_PACKET		0x0110
-+#define FW_TX_TS_DROPPED_PACKET		0x0118
-+#define FW_INF_PORT_DISABLED		0x0120
-+#define FW_INF_SAV			0x0128
-+#define FW_INF_SA_DL			0x0130
-+#define FW_INF_PORT_BLOCKED		0x0138
-+#define FW_INF_DROP_TAGGED		0x0140
-+#define FW_INF_DROP_PRIOTAGGED		0x0148
-+#define FW_INF_DROP_NOTAG		0x0150
-+#define FW_INF_DROP_NOTMEMBER		0x0158
-+#define FW_RX_EOF_SHORT_FRMERR		0x0188
-+#define FW_RX_B0_DROP_EARLY_EOF		0x0190
-+#define FW_TX_JUMBO_FRM_CUTOFF		0x0198
-+#define FW_RX_EXP_FRAG_Q_DROP		0x01A0
-+#define FW_RX_FIFO_OVERRUN		0x01A8
-+#define FW_CUT_THR_PKT			0x01B0
-+#define FW_HOST_RX_PKT_CNT		0x0248
-+#define FW_HOST_TX_PKT_CNT		0x0250
-+#define FW_HOST_EGRESS_Q_PRE_OVERFLOW	0x0258
-+#define FW_HOST_EGRESS_Q_EXP_OVERFLOW	0x0260
-+
- #endif /* __NET_TI_ICSSG_SWITCH_MAP_H  */
+Also if I understand things correctly this is only about checking
+if:
 
-base-commit: f252f23ab657cd224cb8334ba69966396f3f629b
--- 
-2.34.1
+1) There is HPD support on the machine at all (if yes this file
+will exist)
+2) If HPD is supported on this machine, is it also enabled or
+disabled in the BIOS?
+
+IOW this is not about actually getting the HPD result,
+which would be "human present" or "human not present", right ?
+
+Any plans to export the actual HPD result ?
+
+Also if this is just about checking the BIOS setting why not
+just use the think-lmi driver / firmware-attribute sysfs API
+for that ?
+
+
+>> Signed-off-by: Nitin Joshi <nitjoshi@gmail.com>
+>> ---
+>>  .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
+>>  drivers/platform/x86/thinkpad_acpi.c          | 79 +++++++++++++++++++
+>>  2 files changed, 99 insertions(+)
+>>
+>> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst 
+>> b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+>> index 4ab0fef7d440..02e6c4306f90 100644
+>> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+>> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+>> @@ -1576,6 +1576,26 @@ percentage level, above which charging will stop.
+>>  The exact semantics of the attributes may be found in
+>>  Documentation/ABI/testing/sysfs-class-power.
+>>
+>> +User Presence Sensing Detection
+>> +------
+>> +
+>> +sysfs: hpd_bios_enabled
+>> +
+>> +Some Thinkpad products support Human Presence Detection (HPD) features.
+>> +Added new sysfs entry so that userspace can determine if feature related to
+>> +HPD should be enabled or disabled.
+
+"Added new sysfs entry ..." sounds more like something for a commit
+message then for in an ABI Documentation file. In 5 years the "adding
+new sysfs" language is going to look really weird in this file.
+
+Please just describe the function + intended uses without using
+"Adding new".
+
+>> +
+>> +The available commands are::
+>> +
+>> +        cat /sys/devices/platform/thinkpad_acpi/hpd_bios_enabled
+>> +
+>> +BIOS status is mentioned as below:
+>> +- 0 = Disable
+>> +- 1 = Enable
+>> +
+>> +The property is read-only. If the platform doesn't have support the sysfs
+>> +class is not created.
+>> +
+>>  Multiple Commands, Module Parameters
+>>  ------------------------------------
+>>
+>> diff --git a/drivers/platform/x86/thinkpad_acpi.c 
+>> b/drivers/platform/x86/thinkpad_acpi.c
+>> index 72a10ed2017c..daf31b2a4c73 100644
+>> --- a/drivers/platform/x86/thinkpad_acpi.c
+>> +++ b/drivers/platform/x86/thinkpad_acpi.c
+>> @@ -11039,6 +11039,80 @@ static const struct attribute_group 
+>> auxmac_attr_group = {
+>>  	.attrs = auxmac_attributes,
+>>  };
+>>
+>> +/*************************************************************************
+>> + * CHPD subdriver, for the Lenovo Human Presence Detection feature.
+>> + */
+>> +#define CHPD_GET_SENSOR_STATUS           0x00200000
+>> +#define CHPD_GET_BIOS_UI_STATUS          0x00100000
+>> +
+>> +static bool has_user_presence_sensing;
+>> +static int hpd_bios_status;
+>> +static int chpd_command(int command, int *output)
+>> +{
+>> +	acpi_handle chpd_handle;
+>> +
+>> +	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "CHPD", &chpd_handle))) {
+>> +		/* Platform doesn't support CHPD */
+>> +		return -ENODEV;
+>> +	}
+>> +
+>> +	if (!acpi_evalf(chpd_handle, output, NULL, "dd", command))
+>> +		return -EIO;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +/* sysfs hpd bios status */
+>> +static ssize_t hpd_bios_enabled_show(struct device *dev,
+>> +				struct device_attribute *attr,
+>> +				char *buf)
+>> +{
+>> +	return sysfs_emit(buf, "%d\n", hpd_bios_status);
+>> +}
+>> +static DEVICE_ATTR_RO(hpd_bios_enabled);
+>> +
+>> +static struct attribute *chpd_attributes[] = {
+>> +	&dev_attr_hpd_bios_enabled.attr,
+>> +	NULL
+>> +};
+>> +
+>> +static umode_t chpd_attr_is_visible(struct kobject *kobj,
+>> +					struct attribute *attr, int n)
+>> +{
+>> +	return has_user_presence_sensing ? attr->mode : 0;
+>> +}
+>> +
+>> +static const struct attribute_group chpd_attr_group = {
+>> +	.is_visible = chpd_attr_is_visible,
+>> +	.attrs = chpd_attributes,
+>> +};
+>> +
+>> +static int tpacpi_chpd_init(struct ibm_init_struct *iibm)
+>> +{
+>> +	int err, output;
+>> +
+>> +	err = chpd_command(CHPD_GET_SENSOR_STATUS, &output);
+>> +	if (err)
+>> +		return err;
+>> +
+>> +	if (output == 1)
+>> +		return -ENODEV;
+>> +
+>> +	has_user_presence_sensing = true;
+>> +	/* Get User Presence Sensing BIOS status */
+>> +	err = chpd_command(CHPD_GET_BIOS_UI_STATUS, &output);
+>> +	if (err)
+>> +		return err;
+>> +
+>> +	hpd_bios_status = (output >> 1) & BIT(0);
+
+Please add a define for this rather then just hardcoding
+a shift by 1.
+
+>> +
+>> +	return err;
+>> +}
+>> +
+>> +static struct ibm_struct chpd_driver_data = {
+>> +	.name = "chpd",
+>> +};
+>> +
+>>  /* --------------------------------------------------------------------- */
+>>
+>>  static struct attribute *tpacpi_driver_attributes[] = {
+>> @@ -11098,6 +11172,7 @@ static const struct attribute_group *tpacpi_groups[] = {
+>>  	&kbdlang_attr_group,
+>>  	&dprc_attr_group,
+>>  	&auxmac_attr_group,
+>> +	&chpd_attr_group,
+>>  	NULL,
+>>  };
+>>
+>> @@ -11694,6 +11769,10 @@ static struct ibm_init_struct ibms_init[] 
+>> __initdata = {
+>>  		.init = auxmac_init,
+>>  		.data = &auxmac_data,
+>>  	},
+>> +	{
+>> +		.init = tpacpi_chpd_init,
+>> +		.data = &chpd_driver_data,
+>> +	},
+>>  };
+>>
+>>  static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
+>> -- 
+>> 2.43.0
+> 
+
+
+Regards,
+
+Hans
 
