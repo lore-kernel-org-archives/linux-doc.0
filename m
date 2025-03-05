@@ -1,174 +1,226 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9059155747
-	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 14:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3350924A073;
+	Wed,  5 Mar 2025 14:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741184196; cv=none; b=oF7JHssjp54ajVbmSwUw+ddLwhKMOooBxbiKAdONmfGkWhaReeYVcDkhFofVEiILAemCIGJhw0OD6nsVHoC60Lo7fXdPVoS2wmkxV6kzW6R/UUgzuyGr+33CESxUgaaBczLRQBN9jka0oeB/USw+EvSUsjEbz4RMjQcucO6/Xsg=
+	t=1741186074; cv=none; b=XOGbXep+MFmWSiaUw7OpY08tvGxADgVvFPe3xQMYb7Me7DfcIf7gB6xlDdmStNl2/9cE4J2W2EpYNIqNN6TJfs+X4VJEPzOKfbzaOBgq+GGtaAxvQAT0pd5+CCJlJq9/FrzE+drW89Uj+YR8LhDzb/jYoeLCH+GiFn/Of44OH1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741184196; c=relaxed/simple;
-	bh=c5S7J2OYn+W4nZXQktdFwa61cTc7CLqDBEHPAvczxP0=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Wl2E+hpC1/6apc1qK7wlbKtQK9GBdf1pF9hMPzy3WJw7/Z0BAXm7YNlO/Riq0tnHUDhYVzx+jbgx7YXxII8hg/NmpAIxs/CwbWYxSKTiBZVKB6RPdsBZyIvqw3i85Eo4YK9/sCRnSzP6sE4Lc6URT4kUWFZ6y9Ho+m3eKIQS0sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RPooP8QD; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1741186074; c=relaxed/simple;
+	bh=joP68b7Dh0p2ZNLJiJaNW8ilprYFELiWiIzeuH6IOho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=edv2d8pb86yUaM3/+LjNIAj2gGLk3WuDm1TnccCp7mWXwbJGtnA+k87JIekCfODhz+VTAtcobyyf/kxcznZyqJQw7oBHUlr7Zqa43udAEOpBNSPbLmyELDzU3ASfV9RmekRYv67wu/vL6A/9M7INC5yFDqA2cOX2gim6riBJIt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dvTfGNi6; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RPooP8QD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741184193;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KFZHoZfRPZOBrtp2NMgzlZKzHBYfeJpoTJgjAjPn8dw=;
-	b=RPooP8QD1D4MTuDhz5HRD4uRj+XhMhlS5DzFfAa6r2WXyQclNKy+AxZ+bE+SSi9Jh9Pk5W
-	UxNChpYIPgbBa2JKdif+wlbGBCyFgMWEMU8iRgPhyJVj0xGk6xfM3jcTNKHkL+m56GBt21
-	0H6ohMUUcuJ6lvTWu9mXwVEWOL9vbEI=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-638-UFldJDskNCKxPbU-v6_T5Q-1; Wed, 05 Mar 2025 09:16:17 -0500
-X-MC-Unique: UFldJDskNCKxPbU-v6_T5Q-1
-X-Mimecast-MFC-AGG-ID: UFldJDskNCKxPbU-v6_T5Q_1741184177
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-474f8bac6e0so109470991cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 05 Mar 2025 06:16:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741184177; x=1741788977;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KFZHoZfRPZOBrtp2NMgzlZKzHBYfeJpoTJgjAjPn8dw=;
-        b=TSXy+Si2EbY7z8DkP7Vvsp9xe21BM/TlcWZLpPrxkI7a2VYIityFMgF/xvLyj8nvU6
-         kXtydKR+aQULW3Uj2YOX6cJ3v/WuF5DLrMe7e8aop0tHWOw+QPYru3kK4Rr5+duWybqi
-         iLwfCbSf8KKW2zoM7lRG0db3ZFDuTnE2V94MHPtl8Ru3Fm+Eb0puauK/PUM2rYrEHzAa
-         zuLvQiAsBIEJHGulEZie3vubabmbyuf6fQwVy0xkw4w3KcdpvSz87BhhFIB+/5aWJSX2
-         yh+WWYF6Q1np7MdC38m82tlaejqXsFfn2FIqYqntCoAt5clAEio5VQsUqOgjfRD0sM3W
-         n/Uw==
-X-Forwarded-Encrypted: i=1; AJvYcCWpNmF0TJtnZJ23wKoOT3uPvsGwOhRYTaOHwMruRJLqNbLAnZuV7S5CerN7G4Aco7KJd+DgmIXVMck=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUPl2fIKTsKE2HuTxRHWIj7qY4M1IsJ8+2XZsIKzXRS++30647
-	9yUTB5uFbIFbYgqAYXFyu7s9gfL26K7J1Lv+gcNg/cTElcTCb2OX5DREDBD1mFSy6uW04PvOk/O
-	Vy/MuLegGii8Z1yg0EsO6JkVGwmAzvNJ3ghHAwT68v+0NCpH+T+5U//NB6A==
-X-Gm-Gg: ASbGnculMYboGO1boemRdVIWNRYnmqXbUmfidVcDVJkeNEE9DCVSsKDN3/w5b2MJV9b
-	WYLxlZpa9HB4jxkUt6KKtBVic8vVSuLPhtlnrz2Nt1Y3rxgVFlqFAMdYFqqIWVxqGBg1fU0GGXB
-	FVpexDeBlIyhCC3FrsgXNSZ1Ah+Jw1IuyEdHBR+PcT32Ud858//CoTSIGQ4AfnOqlCfzh2c4SaB
-	MxxZJulrCGxgATz6iJn7tc1jovqNQJZy7Nt/WDIsA87wEBzVbLTWjGNkuwmz43OnfQoMtOcwBY9
-	O1dKSnvoxW7bLhWfmGGKD7JLxTwleK6CYY+7Qy1pXACtN19dtKUe+IiadPI=
-X-Received: by 2002:a05:622a:13c6:b0:475:946:9af9 with SMTP id d75a77b69052e-4750b45e28emr32102871cf.24.1741184176951;
-        Wed, 05 Mar 2025 06:16:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH2i6+NphVWLPKdROQD50Ji33QODfr+ufF7lxzb8Gx6bZBnBo6QU8mu8fpca6ltBNDLR/ASYw==
-X-Received: by 2002:a05:622a:13c6:b0:475:946:9af9 with SMTP id d75a77b69052e-4750b45e28emr32102521cf.24.1741184176589;
-        Wed, 05 Mar 2025 06:16:16 -0800 (PST)
-Received: from ?IPV6:2601:188:c100:5710:627d:9ff:fe85:9ade? ([2601:188:c100:5710:627d:9ff:fe85:9ade])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c3c0a94fbbsm389412085a.1.2025.03.05.06.16.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Mar 2025 06:16:16 -0800 (PST)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <d259ba35-a4a5-4e01-b539-85f2080fdd33@redhat.com>
-Date: Wed, 5 Mar 2025 09:16:15 -0500
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dvTfGNi6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741186073; x=1772722073;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=joP68b7Dh0p2ZNLJiJaNW8ilprYFELiWiIzeuH6IOho=;
+  b=dvTfGNi6TWsjW/E1sBzNxbhGfofkRP05mOufz5GWMcYy/poalsO3B+IP
+   rzlZrdLjv6RM23fxfGzGDowbujwbGOwJ0tP7UG+adVWH+wMvN9wOIEISV
+   p4Qk3z8pOVMOMiUJJkg7lZ2z1BOMeeuIagV3Ofm0ohLqEbCEPL15lF9Pv
+   t5GMDEbq2JVkMJm7sYbx3bFEGioQlIEDvqPRYKFEMB5QvTR8/TxAHPszm
+   1n6L/paOHWWiBmJ1bHuUr495CavjU1wGD137g5p3Xv32NGACdZvcUW3Nd
+   tXx8BYYOI9h3DtROoavh7c1jKJ7iloeectDxoOXzU3hC3WKpbrF73HBHy
+   g==;
+X-CSE-ConnectionGUID: gnOX6nhiT0eEdebX3GWuJw==
+X-CSE-MsgGUID: JG7ELMBEQv+TB40YcpC1Ww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="52788463"
+X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
+   d="scan'208";a="52788463"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 06:47:52 -0800
+X-CSE-ConnectionGUID: vI3ceUfnRrCGa1MWYBvuaA==
+X-CSE-MsgGUID: g0XkJtvfRtWxahAhx2Iiww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
+   d="scan'208";a="118421301"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2025 06:47:48 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpq2D-000L5W-2p;
+	Wed, 05 Mar 2025 14:47:45 +0000
+Date: Wed, 5 Mar 2025 22:47:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+	kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org,
+	si.yanteng@linux.dev, tglx@linutronix.de, jiaxun.yang@flygoat.com,
+	peterz@infradead.org, wangliupu@loongson.cn, lvjianmin@loongson.cn,
+	maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+	gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: Re: [PATCH 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
+Message-ID: <202503052234.SiXLJuat-lkp@intel.com>
+References: <20250303101533.31462-3-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] cgroup, docs: Document interaction of RT processes
- with cpu controller
-To: shashank.mahadasyam@sony.com, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shinya Takumi <shinya.takumi@sony.com>
-References: <20250305-rt-and-cpu-controller-doc-v1-0-7b6a6f5ff43d@sony.com>
- <20250305-rt-and-cpu-controller-doc-v1-2-7b6a6f5ff43d@sony.com>
-Content-Language: en-US
-In-Reply-To: <20250305-rt-and-cpu-controller-doc-v1-2-7b6a6f5ff43d@sony.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250303101533.31462-3-zhangtianyang@loongson.cn>
+
+Hi Tianyang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/irq/core]
+[also build test ERROR on lwn/docs-next linus/master v6.14-rc5 next-20250305]
+[cannot apply to tip/smp/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/Docs-LoongArch-Add-Advanced-Extended-Redirect-IRQ-model-description/20250303-181832
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20250303101533.31462-3-zhangtianyang%40loongson.cn
+patch subject: [PATCH 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
+config: loongarch-randconfig-002-20250305 (https://download.01.org/0day-ci/archive/20250305/202503052234.SiXLJuat-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503052234.SiXLJuat-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503052234.SiXLJuat-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/percpu.h:5,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/interrupt.h:11,
+                    from drivers/irqchip/irq-loongarch-ir.c:8:
+   drivers/irqchip/irq-loongarch-ir.c: In function 'redirect_queue_init':
+>> drivers/irqchip/irq-loongarch-ir.c:413:62: error: 'INVALID_QUEUE_PAGE_ORDER' undeclared (first use in this function)
+     413 |         pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
+         |                                                              ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/alloc_tag.h:227:16: note: in definition of macro 'alloc_hooks_tag'
+     227 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   include/linux/gfp.h:295:49: note: in expansion of macro 'alloc_hooks'
+     295 | #define  alloc_pages_node(...)                  alloc_hooks(alloc_pages_node_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:413:17: note: in expansion of macro 'alloc_pages_node'
+     413 |         pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:413:62: note: each undeclared identifier is reported only once for each function it appears in
+     413 |         pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
+         |                                                              ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/alloc_tag.h:227:16: note: in definition of macro 'alloc_hooks_tag'
+     227 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   include/linux/gfp.h:295:49: note: in expansion of macro 'alloc_hooks'
+     295 | #define  alloc_pages_node(...)                  alloc_hooks(alloc_pages_node_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:413:17: note: in expansion of macro 'alloc_pages_node'
+     413 |         pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
+         |                 ^~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:413:15: error: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     413 |         pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
+         |               ^
+   drivers/irqchip/irq-loongarch-ir.c: In function 'redirect_table_init':
+>> drivers/irqchip/irq-loongarch-ir.c:440:65: error: 'IRD_PAGE_ORDER' undeclared (first use in this function); did you mean 'NR_PAGE_ORDERS'?
+     440 |         pages = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, IRD_PAGE_ORDER);
+         |                                                                 ^~~~~~~~~~~~~~
+   include/linux/alloc_tag.h:227:16: note: in definition of macro 'alloc_hooks_tag'
+     227 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   include/linux/gfp.h:295:49: note: in expansion of macro 'alloc_hooks'
+     295 | #define  alloc_pages_node(...)                  alloc_hooks(alloc_pages_node_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:440:17: note: in expansion of macro 'alloc_pages_node'
+     440 |         pages = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, IRD_PAGE_ORDER);
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:440:15: error: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     440 |         pages = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, IRD_PAGE_ORDER);
+         |               ^
+   drivers/irqchip/irq-loongarch-ir.c: In function 'redirect_table_fini':
+   drivers/irqchip/irq-loongarch-ir.c:475:47: error: 'IRD_PAGE_ORDER' undeclared (first use in this function); did you mean 'NR_PAGE_ORDERS'?
+     475 |                 __free_pages(ird_table->page, IRD_PAGE_ORDER);
+         |                                               ^~~~~~~~~~~~~~
+         |                                               NR_PAGE_ORDERS
+   drivers/irqchip/irq-loongarch-ir.c:486:44: error: 'INVALID_QUEUE_PAGE_ORDER' undeclared (first use in this function)
+     486 |                 __free_pages(rqueue->page, INVALID_QUEUE_PAGE_ORDER);
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-On 3/4/25 11:12 PM, Shashank Balaji via B4 Relay wrote:
-> From: Shashank Balaji <shashank.mahadasyam@sony.com>
->
-> If the cpu controller is enabled in a CONFIG_RT_GROUP_SCHED
-> disabled setting, cpu.stat and cpu.pressure account for realtime
-> processes, and cpu.uclamp.{min, max} affect realtime processes as well.
-> None of the other interface files are affected by or affect realtime
-> processes.
->
-> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
-> ---
->   Documentation/admin-guide/cgroup-v2.rst | 18 +++++++++++++-----
->   1 file changed, 13 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index f293a13b42ed69e7c6bf5e974cb86e228411af4e..2c267f42e5fef9c4e2c3530ce73330d680b9b2dc 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1095,7 +1095,9 @@ realtime processes irrespective of CONFIG_RT_GROUP_SCHED.
->   CPU Interface Files
->   ~~~~~~~~~~~~~~~~~~~
->   
-> -All time durations are in microseconds.
-> +All time durations are in microseconds. Only cpu.stat and cpu.pressure account
-> +for realtime processes, and only cpu.uclamp.min and cpu.uclamp.max
-> +affect realtime processes.
->   
->     cpu.stat
->   	A read-only flat-keyed file.
-> @@ -1115,6 +1117,9 @@ All time durations are in microseconds.
->   	- nr_bursts
->   	- burst_usec
->   
-> +    The runtime of realtime processes is accounted for only by the usage_usec,
-> +	user_usec, and system_usec fields.
-> +
+vim +/INVALID_QUEUE_PAGE_ORDER +413 drivers/irqchip/irq-loongarch-ir.c
 
-Alignment problem!
+   407	
+   408	static int redirect_queue_init(int node)
+   409	{
+   410		struct redirect_queue *rqueue = &(irde_descs[node].inv_queue);
+   411		struct page *pages;
+   412	
+ > 413		pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
+   414		if (!pages) {
+   415			pr_err("Node [%d] Invalid Queue alloc pages failed!\n", node);
+   416			return -ENOMEM;
+   417		}
+   418	
+   419		rqueue->page = pages;
+   420		rqueue->base = (u64)page_address(pages);
+   421		rqueue->max_size = INVALID_QUEUE_SIZE;
+   422		rqueue->head = 0;
+   423		rqueue->tail = 0;
+   424		rqueue->node = node;
+   425		raw_spin_lock_init(&rqueue->lock);
+   426	
+   427		iocsr_write32(0, LOONGARCH_IOCSR_REDIRECT_CQH);
+   428		iocsr_write32(0, LOONGARCH_IOCSR_REDIRECT_CQT);
+   429		iocsr_write64(((rqueue->base & (CQB_ADDR_MASK << CQB_ADDR_SHIFT)) |
+   430					(CQB_SIZE_MASK << CQB_SIZE_SHIFT)), LOONGARCH_IOCSR_REDIRECT_CQB);
+   431		return 0;
+   432	}
+   433	
+   434	static int redirect_table_init(int node)
+   435	{
+   436		struct redirect_table *ird_table = &(irde_descs[node].ird_table);
+   437		struct page *pages;
+   438		unsigned long *bitmap;
+   439	
+ > 440		pages = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, IRD_PAGE_ORDER);
+   441		if (!pages) {
+   442			pr_err("Node [%d] redirect table alloc pages failed!\n", node);
+   443			return -ENOMEM;
+   444		}
+   445		ird_table->page = pages;
+   446		ird_table->table = page_address(pages);
+   447	
+   448		bitmap = bitmap_zalloc(IRD_ENTRIES, GFP_KERNEL);
+   449		if (!bitmap) {
+   450			pr_err("Node [%d] redirect table bitmap alloc pages failed!\n", node);
+   451			return -ENOMEM;
+   452		}
+   453	
+   454		ird_table->bitmap = bitmap;
+   455		ird_table->nr_ird = IRD_ENTRIES;
+   456		ird_table->node = node;
+   457	
+   458		raw_spin_lock_init(&ird_table->lock);
+   459	
+   460		if (redirect_queue_init(node))
+   461			return -EINVAL;
+   462	
+   463		iocsr_write64(CFG_DISABLE_IDLE, LOONGARCH_IOCSR_REDIRECT_CFG);
+   464		iocsr_write64(__pa(ird_table->table), LOONGARCH_IOCSR_REDIRECT_TBR);
+   465	
+   466		return 0;
+   467	}
+   468	
 
-Anyway, I am not familiar enough with these cpu control files to give a 
-review yet.
-
-Cheers,
-Longman
-
->     cpu.weight
->   	A read-write single value file which exists on non-root
->   	cgroups.  The default is "100".
-> @@ -1158,8 +1163,9 @@ All time durations are in microseconds.
->     cpu.pressure
->   	A read-write nested-keyed file.
->   
-> -	Shows pressure stall information for CPU. See
-> -	:ref:`Documentation/accounting/psi.rst <psi>` for details.
-> +	Shows pressure stall information for CPU, including the contribution of
-> +	realtime processes. See :ref:`Documentation/accounting/psi.rst <psi>`
-> +	for details.
->   
->     cpu.uclamp.min
->           A read-write single value file which exists on non-root cgroups.
-> @@ -1170,7 +1176,8 @@ All time durations are in microseconds.
->   
->           This interface allows reading and setting minimum utilization clamp
->           values similar to the sched_setattr(2). This minimum utilization
-> -        value is used to clamp the task specific minimum utilization clamp.
-> +        value is used to clamp the task specific minimum utilization clamp,
-> +        including those of realtime processes.
->   
->           The requested minimum utilization (protection) is always capped by
->           the current value for the maximum utilization (limit), i.e.
-> @@ -1185,7 +1192,8 @@ All time durations are in microseconds.
->   
->           This interface allows reading and setting maximum utilization clamp
->           values similar to the sched_setattr(2). This maximum utilization
-> -        value is used to clamp the task specific maximum utilization clamp.
-> +        value is used to clamp the task specific maximum utilization clamp,
-> +        including those of realtime processes.
->   
->     cpu.idle
->   	A read-write single value file which exists on non-root cgroups.
->
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
