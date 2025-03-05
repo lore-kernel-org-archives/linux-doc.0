@@ -1,52 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E35B265618;
-	Wed,  5 Mar 2025 22:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350461FC7FE
+	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 22:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741214304; cv=none; b=e1DHxLXn/+TD/zM2ntyjWsqy3AvGq4Xzgmqn3XtV5qLRdTlbq5iktGLshqh96vrukmKYzGVNQRzRldOJkY0G3AFNcrbWRo85ApnHNoiccD28Q6pZk+NwL9DGwuiQ1WtFf89g0lLHjPj6pFNizv9YantVg+z2khBrQW6C6eR+w/8=
+	t=1741214945; cv=none; b=AsiIoI3aE1Wizzrt86P1yoFSBgkM9a2fxDX2ORAjH8lf25ButsyVvNvtrtM5VLA6nqZcxiN8wJM0qTORRj0NPDqXRfgIQfsy0/Qy/rQoq5uEs6yyBcJXqswSs4pI7x40wInfkDeYO3P3l7uAwCvv8pX9gGY4j7Ap870Hg5/5zBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741214304; c=relaxed/simple;
-	bh=Roi/euyc99FChG5PRFvFXT8ZwL1l4H4tpWXXNhTNGBc=;
+	s=arc-20240116; t=1741214945; c=relaxed/simple;
+	bh=A6BmkDj+eOCUYDQS1sJ3VnSgss8h/ftymUYqrfrJTgE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NkHBZb8B7K2XmVASG9ELwkk+Pu0U9Q+Donfs42oDI0CkdT5t24ezoEohksepFhzZ8Zb6O1p9vEA3lxK3sBblYLNT3xTJ+zuMGucxy58fc1adY8z37JVpxfswo5OQy89/iI6D729d5ANCMTGqdwAy9Po2yuij7DShCqBSk0O69Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kA/clk9W; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=l+y5/Nr5I9e2XMwsSC82y+ZYR65mPPeu35NmZmOfEcT71jsBQKGDDrkHCmvjh535beqvnofrlOVfHMLnzmFm1Gumi22C6+d6XS7plfpAb0V0wJjCwi5OPlLqWx97uLtYo6xxJweHc7B/wZFDnc+bP05PR2FFBm4S7pvGSu0uiSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=zrxSVQIg; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kA/clk9W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02C96C4CED1;
-	Wed,  5 Mar 2025 22:38:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741214303;
-	bh=Roi/euyc99FChG5PRFvFXT8ZwL1l4H4tpWXXNhTNGBc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kA/clk9WPgtegyDu4qZG4uoAQHpEzBCX0vDP6Fl7+UDdfG9p5puozCMDQ5kFyAGKF
-	 NtBCKZIAj/YGDocvp28Xbb8pKpXLMEY1frV6Lz66+WTAzlRm29i5nA6wa2xx76O8gJ
-	 PoE+OjQ43lFAvcLD5HisHMw3hvdStEtfZaoXsrnk985rif07HdB1hN6Ij6zxWBYxdW
-	 LS4tMczCjF4l9B0nMjmNyxjzHXaHKg5iBFxOjsJdLYSepgdgeicUiTZc1PK/d5gois
-	 OfWP6zx6sflntD4RTvwSTJy/IxZiui90MLcw575hCHfP0bCzvBkwOXwzVJitup0w9T
-	 7ixe53hqaEpsw==
-Date: Wed, 5 Mar 2025 23:38:15 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
-	pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
-	jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
-	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, a.hindborg@kernel.org,
-	aliceryhl@google.com, tmgross@umich.edu, gregkh@linuxfoundation.org,
-	mcgrof@kernel.org, russ.weight@linux.dev,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 2/5] rust: firmware: introduce
- `firmware::ModInfoBuilder`
-Message-ID: <Z8jSV5CpZDcXrviY@pollux>
-References: <20250304173555.2496-1-dakr@kernel.org>
- <20250304173555.2496-3-dakr@kernel.org>
- <D88OSC9XJXZL.C5HXWFYCG9U6@proton.me>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="zrxSVQIg"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2234e4b079cso136796115ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 05 Mar 2025 14:49:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1741214942; x=1741819742; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uFYybP/h8fOOv7x6T0mDjGnjs7SO3QwCZI7Q4LRb824=;
+        b=zrxSVQIgf3LKppNSOEpX3XgQA7spHxaeGCywkO34XMaK3Sn/zhBbCb4XBrfjdzFPsi
+         wGERfEtIp4zCvOK12qtUdsV8lU3wUF4bw+kJoXKZIHWHo2q3N37oQOGOQlnXgL1oqpNV
+         qmcHTus3ZZiZwfdnKUUgp/H0L78ry0mnF3G4Ip/n6lpT5gR6pj+SP2PZ3ePA+I47lyPI
+         VA9mRNriR2+iAaas/0WbyuvkI79UG+WEJMlI8ICKxf9yG7CHiEnwnyan1sTIM7EXooe2
+         5XIKJgCcmJ/Jk5lLoMJEc7Bb44DDDLoiRV9vXsD0V12EKbXUyWa1tNvAMM7zaw9cfCtc
+         WhZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741214942; x=1741819742;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uFYybP/h8fOOv7x6T0mDjGnjs7SO3QwCZI7Q4LRb824=;
+        b=KssgqMlBcbOeHcnpIyMy6P5vBAMMNWc6S2GJolIoQ0G5FPG5GlKNMgKw1lF45GyYpN
+         vlOrx2FS0lDCMCp+L8lKDK9kHfcX5kiGhYs8lLOv+4dd6r++IcI9NgQAtdH74qV74MK7
+         755Oe1mpmmbDtrOsIbexCO6db5k/W6URMMvpUWNYqQ2v3M45sgto+zxci8SOj0fHvF6G
+         hGYCqImirPsET6H+LnLrLnBfgSV3z7hfLnuZb13s05hWCDdVa5uUFXHdsfkqRH1BnfGh
+         5Zaz9DMJ1iyapLAQNv2/sXRu9/V/U/GAcHhHs27pX0XGXK+l4xf7MVMVghZ/krtKYQV+
+         vxGg==
+X-Forwarded-Encrypted: i=1; AJvYcCW7wbRjv4I7nPecJnnc3I4jPFeXq31NsGyvdwQEbPJEuttw9ee1552upNeCZqzkxj+IIEspfc91KMg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6VSkZUAnSb7boMh0zNVSJg0l6/QBt+cw8i0fxC7kyTVRpzxPp
+	TNkFe+0GDBCH0ZgPi9afgSWuzEUTM9hwH0vJC+64iakOUF1xegO88yXID5M8g43kx4WydOoW/5x
+	W
+X-Gm-Gg: ASbGnctFzfUAyIC1fp31YItEPofkBdy5Rs2OPbamUfJuFRlsubm+S37eBzRFh+4vBX/
+	uzpMI/+jcm11Ny9Da0AkmeZQ3eSv5b7I8KQVdptCIPOH+y5BEsLOsr5Tt8bKSfwvQxXsKqIE3hz
+	tLULDc9ebyUM8NBtR8gvdRGL2F74l0N84ZitUJIE4Tz6Ew7Ssr0H/9NijVoQ5v91mv1xyHlwqLy
+	50gUml/1AIMKQkWrJHTCKrvh4z7DRisX7uESXKj3Y3OqrL88tnwBft/hv8dMnK4mORPR6USVhSo
+	2LMvLvVqrI4pct6PLssTOcn2Qf0fA77TmmDsXy02
+X-Google-Smtp-Source: AGHT+IHiF4FAqIjjn8/McPnIJdhPqPvuWE18WrtWy0zWz8b5lpOyHcNGEy/W0q+2+Lsw8Yldhi9I3w==
+X-Received: by 2002:a05:6a00:148a:b0:736:491b:536d with SMTP id d2e1a72fcca58-73682cc4155mr7884057b3a.20.1741214942068;
+        Wed, 05 Mar 2025 14:49:02 -0800 (PST)
+Received: from ghost ([2601:647:6700:64d0:9b3c:3246:a388:fe44])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73643eb9abdsm7837155b3a.84.2025.03.05.14.49.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 14:49:01 -0800 (PST)
+Date: Wed, 5 Mar 2025 14:48:58 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, cleger@rivosinc.com, alex@ghiti.fr,
+	Anup Patel <apatel@ventanamicro.com>, corbet@lwn.net
+Subject: Re: [PATCH v3 0/8] riscv: Unaligned access speed probing fixes and
+ skipping
+Message-ID: <Z8jU2i5d3e4Dv4vk@ghost>
+References: <20250304120014.143628-10-ajones@ventanamicro.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,162 +76,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <D88OSC9XJXZL.C5HXWFYCG9U6@proton.me>
+In-Reply-To: <20250304120014.143628-10-ajones@ventanamicro.com>
 
-On Wed, Mar 05, 2025 at 10:30:31PM +0000, Benno Lossin wrote:
-> On Tue Mar 4, 2025 at 6:34 PM CET, Danilo Krummrich wrote:
-> > The `firmware` field of the `module!` only accepts literal strings,
-> > which is due to the fact that it is implemented as a proc macro.
-> >
-> > Some drivers require a lot of firmware files (such as nova-core) and
-> > hence benefit from more flexibility composing firmware path strings.
-> >
-> > The `firmware::ModInfoBuilder` is a helper component to flexibly compose
-> > firmware path strings for the .modinfo section in const context.
-> >
-> > It is meant to be used in combination with `kernel::module_firmware!`,
-> > which is introduced in a subsequent patch.
-> >
-> > Co-developed-by: Alice Ryhl <aliceryhl@google.com>
-> > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-> > Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> > ---
-> >  rust/kernel/firmware.rs | 98 +++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 98 insertions(+)
-> >
-> > diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
-> > index c5162fdc95ff..6e6972d94597 100644
-> > --- a/rust/kernel/firmware.rs
-> > +++ b/rust/kernel/firmware.rs
-> > @@ -115,3 +115,101 @@ unsafe impl Send for Firmware {}
-> >  // SAFETY: `Firmware` only holds a pointer to a C `struct firmware`, references to which are safe to
-> >  // be used from any thread.
-> >  unsafe impl Sync for Firmware {}
-> > +
-> > +/// Builder for firmware module info.
-> > +///
-> > +/// [`ModInfoBuilder`] is a helper component to flexibly compose firmware paths strings for the
-> > +/// .modinfo section in const context.
-> > +///
-> > +/// It is meant to be used in combination with [`kernel::module_firmware!`].
-> > +///
-> > +/// For more details and an example, see [`kernel::module_firmware!`].
-> > +pub struct ModInfoBuilder<const N: usize> {
-> > +    buf: [u8; N],
-> > +    n: usize,
-> > +    module_name: &'static CStr,
-> > +}
-> > +
-> > +impl<const N: usize> ModInfoBuilder<N> {
-> > +    /// Create an empty builder instance.
-> > +    pub const fn new(module_name: &'static CStr) -> Self {
-> > +        Self {
-> > +            buf: [0; N],
-> > +            n: 0,
-> > +            module_name,
-> > +        }
-> > +    }
-> > +
-> > +    const fn push_internal(mut self, bytes: &[u8]) -> Self {
-> > +        let mut j = 0;
-> > +
-> > +        if N == 0 {
-> > +            self.n += bytes.len();
-> > +            return self;
-> > +        }
-> > +
-> > +        while j < bytes.len() {
-> > +            if self.n < N {
-> > +                self.buf[self.n] = bytes[j];
-> > +            }
-> > +            self.n += 1;
-> > +            j += 1;
-> > +        }
-> > +        self
-> > +    }
-> > +
-> > +    /// Push an additional path component.
-> > +    ///
-> > +    /// After a new [`ModInfoBuilder`] instance has been created, [`ModInfoBuilder::prepare`] must
-> > +    /// be called before adding path components.
-> > +    pub const fn push(self, s: &str) -> Self {
-> > +        if N != 0 && self.n == 0 {
-> > +            crate::build_error!("Must call prepare() before push().");
-> 
-> This will only prevent the first `prepare` call being missed, right?
+On Tue, Mar 04, 2025 at 01:00:15PM +0100, Andrew Jones wrote:
+> The first six patches of this series are fixes and cleanups of the
+> unaligned access speed probing code. The next patch introduces a
+> kernel command line option that allows the probing to be skipped.
+> This command line option is a different approach than Jesse's [1].
+> [1] takes a cpu-list for a particular speed, supporting heterogeneous
+> platforms. With this approach, the kernel command line should only
+> be used for homogeneous platforms. [1] also only allowed 'fast' and
+> 'slow' to be selected. This parameter also supports 'unsupported',
+> which could be useful for testing code paths gated on that. The final
+> patch adds the documentation.
 
-Correct, unfortunately there's no way to detect subsequent ones.
+Why constrain the command line option to homogeneous platforms?
+
+- Charlie
 
 > 
-> > +        }
-> > +
-> > +        self.push_internal(s.as_bytes())
-> > +    }
-> > +
-> > +    const fn prepare_module_name(self) -> Self {
-> > +        let mut this = self;
-> > +        let module_name = this.module_name;
-> > +
-> > +        if !this.module_name.is_empty() {
-> > +            this = this.push_internal(module_name.as_bytes_with_nul());
-> > +
-> > +            if N != 0 {
-> > +                // Re-use the space taken by the NULL terminator and swap it with the '.' separator.
-> > +                this.buf[this.n - 1] = b'.';
-> > +            }
-> > +        }
-> > +
-> > +        this.push_internal(b"firmware=")
-> > +    }
-> > +
-> > +    /// Prepare for the next module info entry.
-> > +    ///
-> > +    /// Must be called before [`ModInfoBuilder::push`] can be called.
+> (I'd be happy to split the fixes from the new skip support if we want to
+> discuss the skip support independently, but I want to base on the fixes
+> and I'm not sure if patchwork supports Based-on: $MESSAGE_ID/$LORE_URL
+> or not at the moment, so I'm just posting together for now in order to
+> be able to check for my patchwork green lights!)
 > 
-> If you always have to call this before `push`, why not inline it there?
-
-You can push() multiple times to compose the firmware path string (which is the
-whole purpose :).
-
-Example from nova-core:
-
-	pub(crate) struct ModInfoBuilder<const N: usize>(firmware::ModInfoBuilder<N>);
-	
-	impl<const N: usize> ModInfoBuilder<N> {
-	    const fn make_entry_file(self, chipset: &str, fw: &str) -> Self {
-	        let version = "535.113.01";
-	
-	        ModInfoBuilder(
-	            self.0
-	                .prepare()
-	                .push("nvidia/")
-	                .push(chipset)
-	                .push("/gsp/")
-	                .push(fw)
-	                .push("-")
-	                .push(version)
-	                .push(".bin"),
-	        )
-	    }
-	
-	    const fn make_entry_chipset(self, chipset: &str) -> Self {
-	        self.make_entry_file(chipset, "booter_load")
-	            .make_entry_file(chipset, "booter_unload")
-	            .make_entry_file(chipset, "bootloader")
-	            .make_entry_file(chipset, "gsp")
-	    }
-	
-	    pub(crate) const fn create(
-	        module_name: &'static kernel::str::CStr,
-	    ) -> firmware::ModInfoBuilder<N> {
-	        let mut this = Self(firmware::ModInfoBuilder::new(module_name));
-	        let mut i = 0;
-	
-	        while i < gpu::Chipset::NAMES.len() {
-	            this = this.make_entry_chipset(gpu::Chipset::NAMES[i]);
-	            i += 1;
-	        }
-	
-	        this.0
-	    }
-	}
+> [1] https://lore.kernel.org/linux-riscv/20240805173816.3722002-1-jesse@rivosinc.com/
+> 
+> Thanks,
+> drew
+> 
+> ---
+> v3:
+>  - Fix compile when RISCV_PROBE_UNALIGNED_ACCESS is not selected
+> 
+> v2:
+>  - Change to command line option from table
+> 
+> 
+> Andrew Jones (8):
+>   riscv: Annotate unaligned access init functions
+>   riscv: Fix riscv_online_cpu_vec
+>   riscv: Fix check_unaligned_access_all_cpus
+>   riscv: Change check_unaligned_access_speed_all_cpus to void
+>   riscv: Fix set up of cpu hotplug callbacks
+>   riscv: Fix set up of vector cpu hotplug callback
+>   riscv: Add parameter for skipping access speed tests
+>   Documentation/kernel-parameters: Add riscv unaligned speed parameters
+> 
+>  .../admin-guide/kernel-parameters.txt         |  16 ++
+>  arch/riscv/include/asm/cpufeature.h           |   4 +-
+>  arch/riscv/kernel/traps_misaligned.c          |  14 +-
+>  arch/riscv/kernel/unaligned_access_speed.c    | 237 +++++++++++-------
+>  4 files changed, 168 insertions(+), 103 deletions(-)
+> 
+> -- 
+> 2.48.1
+> 
