@@ -1,73 +1,40 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9082B9A6;
-	Wed,  5 Mar 2025 02:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E3A45C18
+	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 02:51:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741142016; cv=none; b=pwHw8IonbbIKIX7swn8rvmssJpCwVw195NZS6EI/9FwB4XvJRxE8wvvmqdFf6RwRlnDGMVe4hqNnXN1PqmF9Kc1DLa0JUn2gnJD92S8yrjnW5Jv3YDWun/pzZKsJaVRBEFbizoWBh+5GeSpyJZv1cvTioR9WCB1HWSTEi0oBkjU=
+	t=1741143076; cv=none; b=G9fXTtlczxpvq9upMqeEvdV5xHWGAaXTs8tg2JegF3v9hmqsQThpH0qN81Clzv1C4q6DDIu0egUnzbCHtGy9MYpPZGreHfJ3LfOg90ZvepoEg8wuGuh6UvlV+/ZYxHvCip7jVnjPyzYO1YYdp9nbAxuE2GwboZgd0z3vMKAHohQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741142016; c=relaxed/simple;
-	bh=HpmZuWNzhKhDZooEgV0w+CoL+y8ovQHJh7IawTz4hkM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NjPuNv4sQ2WctB74JmSGx2FAPOB1gZcVt5inmsJCBnkRuCdk7+BuIjJV2+myqS0gjVYbgoXvw3v8QyyC5cuZ9x3LD8knR05xtQC+xLKg+0gIpKPearfnGLmyczLwXvPQLpY45KHQLtJFDvKQmzXs1mmnOSxVVLz6dcvr2Q8HBaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k0phvOYE; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741143076; c=relaxed/simple;
+	bh=31EeGEBntdR+96QopTaXkZ09eq9NCvDO9umfxH+NWmQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mCuONsdj+sa+u6Lk1F7hrGbqra+r2cCZ1BUoQyaWvfij9jPukI6amHhnANa9TTR4poJtdEW+rffT1o4ssnQimabosJM8SD1m1HqkcP2B9Yf2ZjYi3P69jD2er2EAL5BNZJBPt8DjZrJzoz2I7ogc24SbSUFfnHJ2II9+wdw6S/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s+gyG0Mo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k0phvOYE"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2ff187f027fso652467a91.1;
-        Tue, 04 Mar 2025 18:33:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741142014; x=1741746814; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4GSAgENfOxfC89eb+Rp4XOCAnqjWdXf70x0t0Zn6oHo=;
-        b=k0phvOYEMpGMr9bFeRrJxR49B9lIUa/VyKqMHrnm6y2+HCr8YIZh8VqzSGDJIBPc1+
-         RfBWPe2OK4VrqsXdz5q2MZMAweiNJCLRVDy+8kwlpKlpyJx83z1yuqvYwp66isIGOVNG
-         DZuxmRr8jDXgx3mINvH3DtB3X/JM9RbA9KIV79k8NFtl9EeO+hh/k30+p/I8/Yp7IRLo
-         H+Qoyj6DhgWu/fIihjEE/7UIyfiVoCyRPfLIChBHbSU/qlCV8nMJn+7sDWvUbGMeE1Si
-         QYRUL8V2mKzPksFgxwnNA58Sl4MXycBjLgNr4XxgJkUT//1FoGzxC59xPsT6+yoH/Rd9
-         TtZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741142014; x=1741746814;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4GSAgENfOxfC89eb+Rp4XOCAnqjWdXf70x0t0Zn6oHo=;
-        b=q/MPFy8Gpm/inPoVPC0JuiQRcHg9xrCX9pJuYE0pJ4xtsiuCnO24zn/6Y4WkECPokR
-         GQwvSyxTA1ipRwWEcFYfT9yiEJPIZV24InFJPMc6JtrCmbBXnoeQbQQOSxFWt1xvxzrX
-         xYf6MQVltHoqkmorFkWoJQxI50RmIIGw7s1Zpqc/B/HfGkyBAYNlpIwprQrg3fVUTBKG
-         5l/1zdegMfjfkYovRT6v1WrhSu583zkE3XIbwVrAjb8//VG8Q0NA9tg6p5pkJB2y3RX1
-         K5tWHmAdMmHxoArQHG/wvVDcD1V3YAX4dg90cQm+Ni3MHKp6gdDFOjRzGhrHOgQ4Kqn2
-         FLPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWp2NrVcwOC8NGGI9ANiVIphs5HFE8gXXoXRHob2xHrp7vRk8rgEz+ylppACalLNfV1xtq2bDaLZwc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5KdSIR5MdMGdcApGdV7GlV3RBc+GgMe8xyOxP4X8xxIbTPXnM
-	hW/0MXbxvZ1dOh5HmTLTkW4lnrgB4IrMuoyAfp3e2Gp8MO+UYw4x
-X-Gm-Gg: ASbGncsxnUw17ze7ZGPet61YdJa9O4YrS6YmsVuf9kqPhfo4F+phAbP1wlX7Bz/7wp9
-	OpGbEg+ojNepwklfz1NOFAOQKE1VKMIY2KbHE+e79aCjxHTA+gkgcDEQM0Le4LX61j8HtGp852H
-	R533hskv06V6n7/0KOPkvITWrxSd4sGooZAFSRDoW1N+E41FnZ8bhz9DvTwwtjseh27KUyozLoZ
-	2DM02f1g9E+Z5f1b48xR3JnIzubAPjnjybGwz8j61so7rZjPZqCw0oeX+Rkavxk5Ujqx0TyyH08
-	lJkYyFZ23/EhABLx0tT9umejPkwTNwyfCv5iYymM/0ijI+YjMDcLogx+GsDNPMWV/qI6KPMlZXx
-	QqqYzItGEjigUKD7AXbHJUXG5Kdh0YIhF1CDc
-X-Google-Smtp-Source: AGHT+IHCZOJl87Q7hqtliBc4Iqc4H3wR/OVNQxB9m7efC1+KSWjW0kPoLD+b9J9kwjXYY5kYfgjUqQ==
-X-Received: by 2002:a17:90a:d648:b0:2fa:4926:d18d with SMTP id 98e67ed59e1d1-2ff33c0a87dmr9035239a91.13.1741142014083;
-        Tue, 04 Mar 2025 18:33:34 -0800 (PST)
-Received: from nitin-ThinkPad-X1-2-in-1-Gen-9.. (127.37.178.217.static.user.transix.jp. [217.178.37.127])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ff4e7bdb1esm167548a91.44.2025.03.04.18.33.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 18:33:33 -0800 (PST)
-From: Nitin Joshi <nitjoshi@gmail.com>
-To: ilpo.jarvinen@linux.intel.com,
-	hdegoede@redhat.com
-Cc: platform-driver-x86@vger.kernel.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	linux-doc@vger.kernel.org,
-	njoshi1@lenovo.com,
-	mpearson-lenovo@squebb.ca,
-	Nitin Joshi <nitjoshi@gmail.com>
-Subject: [PATCH] platform/x86: thinkpad_acpi: Add new sysfs to check user presence sensing status
-Date: Wed,  5 Mar 2025 11:33:19 +0900
-Message-ID: <20250305023319.6318-1-nitjoshi@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s+gyG0Mo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE398C4CEE5;
+	Wed,  5 Mar 2025 02:51:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741143075;
+	bh=31EeGEBntdR+96QopTaXkZ09eq9NCvDO9umfxH+NWmQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=s+gyG0MoHk+VFfyXZGS7ICYokIBUe0IB/+Vthv5YPzYnRPtW7mXMMHGmmu46VCBFN
+	 /JDgbTrxPMu7h5Zu++ZJexGxlTvZC7YvlG7wvRo5OY/K3lFIaNBAqABVkuRCrBOJEl
+	 Zx/YxKuSkTXz8GxpziMecEL8c4bqxCN+igACP/fMPa51G3Vwqoxc3ufDTtPUv8N5TH
+	 fXBnIlw4Opqwvfepd1luq+68wAgej1+N1rfXOGO9XqtWEctsB2FcZWg0hr2qTjSd2i
+	 7MSPbD/gxcb6YMDJ344vnKEAXJvddTZWTl3E+G3hr3Bd6FGbcyGLh/oeNEZA+08Lz2
+	 RgHTr47ADU2qQ==
+From: alexs@kernel.org
+To: 
+Cc: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs/Chinese: change the disclaimer words
+Date: Wed,  5 Mar 2025 10:50:58 +0800
+Message-ID: <20250305025101.27717-1-alexs@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -75,154 +42,39 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Some Thinkpad products support Human Presence Detection (HPD) features.
-Add new sysfs entry so that userspace can determine if feature is
-supported or not.
+From: Alex Shi <alexs@kernel.org>
 
-Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-Signed-off-by: Nitin Joshi <nitjoshi@gmail.com>
+2 paragraph warning and note take a bit more space, let's merge them together,
+and guide to other maintainer and reviewers.
+
+Signed-off-by: Alex Shi <alexs@kernel.org>
+Cc: Yanteng Si <si.yanteng@linux.dev> 
+Cc: Dongliang Mu <dzm91@hust.edu.cn> 
+Cc: Jonathan Corbet <corbet@lwn.net> 
+Cc: linux-doc@vger.kernel.org 
 ---
- .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
- drivers/platform/x86/thinkpad_acpi.c          | 79 +++++++++++++++++++
- 2 files changed, 99 insertions(+)
+ Documentation/translations/zh_CN/disclaimer-zh_CN.rst | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-index 4ab0fef7d440..02e6c4306f90 100644
---- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-+++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-@@ -1576,6 +1576,26 @@ percentage level, above which charging will stop.
- The exact semantics of the attributes may be found in
- Documentation/ABI/testing/sysfs-class-power.
+diff --git a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+index 3c6db094a63c..5a0414eefa01 100644
+--- a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
++++ b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+@@ -1,9 +1,7 @@
+ :orphan:
  
-+User Presence Sensing Detection
-+------
-+
-+sysfs: hpd_bios_enabled
-+
-+Some Thinkpad products support Human Presence Detection (HPD) features.
-+Added new sysfs entry so that userspace can determine if feature related to
-+HPD should be enabled or disabled.
-+
-+The available commands are::
-+
-+        cat /sys/devices/platform/thinkpad_acpi/hpd_bios_enabled
-+
-+BIOS status is mentioned as below:
-+- 0 = Disable
-+- 1 = Enable
-+
-+The property is read-only. If the platform doesn't have support the sysfs
-+class is not created.
-+
- Multiple Commands, Module Parameters
- ------------------------------------
- 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 72a10ed2017c..daf31b2a4c73 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -11039,6 +11039,80 @@ static const struct attribute_group auxmac_attr_group = {
- 	.attrs = auxmac_attributes,
- };
- 
-+/*************************************************************************
-+ * CHPD subdriver, for the Lenovo Human Presence Detection feature.
-+ */
-+#define CHPD_GET_SENSOR_STATUS           0x00200000
-+#define CHPD_GET_BIOS_UI_STATUS          0x00100000
-+
-+static bool has_user_presence_sensing;
-+static int hpd_bios_status;
-+static int chpd_command(int command, int *output)
-+{
-+	acpi_handle chpd_handle;
-+
-+	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "CHPD", &chpd_handle))) {
-+		/* Platform doesn't support CHPD */
-+		return -ENODEV;
-+	}
-+
-+	if (!acpi_evalf(chpd_handle, output, NULL, "dd", command))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+/* sysfs hpd bios status */
-+static ssize_t hpd_bios_enabled_show(struct device *dev,
-+				struct device_attribute *attr,
-+				char *buf)
-+{
-+	return sysfs_emit(buf, "%d\n", hpd_bios_status);
-+}
-+static DEVICE_ATTR_RO(hpd_bios_enabled);
-+
-+static struct attribute *chpd_attributes[] = {
-+	&dev_attr_hpd_bios_enabled.attr,
-+	NULL
-+};
-+
-+static umode_t chpd_attr_is_visible(struct kobject *kobj,
-+					struct attribute *attr, int n)
-+{
-+	return has_user_presence_sensing ? attr->mode : 0;
-+}
-+
-+static const struct attribute_group chpd_attr_group = {
-+	.is_visible = chpd_attr_is_visible,
-+	.attrs = chpd_attributes,
-+};
-+
-+static int tpacpi_chpd_init(struct ibm_init_struct *iibm)
-+{
-+	int err, output;
-+
-+	err = chpd_command(CHPD_GET_SENSOR_STATUS, &output);
-+	if (err)
-+		return err;
-+
-+	if (output == 1)
-+		return -ENODEV;
-+
-+	has_user_presence_sensing = true;
-+	/* Get User Presence Sensing BIOS status */
-+	err = chpd_command(CHPD_GET_BIOS_UI_STATUS, &output);
-+	if (err)
-+		return err;
-+
-+	hpd_bios_status = (output >> 1) & BIT(0);
-+
-+	return err;
-+}
-+
-+static struct ibm_struct chpd_driver_data = {
-+	.name = "chpd",
-+};
-+
- /* --------------------------------------------------------------------- */
- 
- static struct attribute *tpacpi_driver_attributes[] = {
-@@ -11098,6 +11172,7 @@ static const struct attribute_group *tpacpi_groups[] = {
- 	&kbdlang_attr_group,
- 	&dprc_attr_group,
- 	&auxmac_attr_group,
-+	&chpd_attr_group,
- 	NULL,
- };
- 
-@@ -11694,6 +11769,10 @@ static struct ibm_init_struct ibms_init[] __initdata = {
- 		.init = auxmac_init,
- 		.data = &auxmac_data,
- 	},
-+	{
-+		.init = tpacpi_chpd_init,
-+		.data = &chpd_driver_data,
-+	},
- };
- 
- static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
+-.. warning::
++.. note::
+      此文件的目的是为让中文读者更容易阅读和理解，而不是作为一个分支。 因此，
+      如果您对此文件有任何意见或更新，请先尝试更新原始英文文件。
+-
+-.. note::
+      如果您发现本文档与原始文件有任何不同或者有翻译问题，请联系该文件的译者，
+-     或者请求时奎亮的帮助：<alexs@kernel.org>。
++     或者请求中文文档维护者和审阅者的帮助。
 -- 
 2.43.0
 
