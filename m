@@ -1,102 +1,139 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1868FC139;
-	Wed,  5 Mar 2025 21:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81834A33;
+	Wed,  5 Mar 2025 21:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741208852; cv=none; b=AndgHQ0JMgmTWegLJyo1qrBboQv3gqJFPan/gYgy5s1NWgk3umMrO+KQbL7vu11Ut6lPi4nJvGs3vgLv9PhNWqzT3J8XoExBKYISQDppK/5gEx18fR/fX7zdNkX9LbypDef6SdmVnrSBzc3LUKYRpFt0Oci0XF1o9q+MOBxp/gw=
+	t=1741209817; cv=none; b=G81UNSwEIrY/0BYURt9m7IWB0lL8wlGa6OIxFbGD8enRMP/bX42gazDlnyBEak4hqBAMN92yc2ww658Ngy0RR2PSGb2cMIWHLlutIK6GhfPNWMv6ykMne6nlgBhyXjJEPxqtG+Mxrf1MnVWS06g98dcovrfmNN+QJNGi1w1X0xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741208852; c=relaxed/simple;
-	bh=ppeUxjaKjmx50Q3bQDc5N6dSfYxyGJbGKWKkwVwTeuI=;
+	s=arc-20240116; t=1741209817; c=relaxed/simple;
+	bh=DvbHalLpCxkuRiwdqtO8seg1Zu43gShTi+7ZD18U1h8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RdYbxil7VmgO+9MGfmBPrvLpiNzFfMfu+DTXceVp8n20HnyzOsjMCvnSVWqnsjvMtRT4u5PH5y9XvqXsmHLzy4fLgtkDGzSBINpukNTaNWNA/MiGmU5bC/REGVLzA7WssSK+ZgdrTalqMB4o3piD8OHGkRFtJ4Nb45RFyQ/1Wuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QRlRwE++; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=ZEL77KhA4W/Pmn28sTopP7ME3bPBKiV0t+bNvGdo5rjxgFbimQkf+Q1RUivef+Lk/FspEw/RwcOyYyoRMsrX7K7AfwO5/6TciQriHF9lh0Hfi1e3Ulh1/z8Zi7ofmeXn0FZ/HXIh5uwI5+JyzquhvgV2CookGk8DGRcM8XpeRO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=udubEywU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QRlRwE++"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ff53b26af2so3460a91.0;
-        Wed, 05 Mar 2025 13:07:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741208850; x=1741813650; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ppeUxjaKjmx50Q3bQDc5N6dSfYxyGJbGKWKkwVwTeuI=;
-        b=QRlRwE++KX6AFIpsF2Fd4sRq0fT21IBTnqFlFtB1sZ+rt7G5wrkz6fQqmf/1mE8D/e
-         yvwTgJBpk7L/t/6DjNiMqHI10NB1nDjj7waK8mhBLo/a4EoojcbwvglZ7FfX5648lWpb
-         hciLaUmRj5Uvb9ycfUL1T0ztLE+MbGe9mIN3XrtkRmXEaeYE9biErwQyXzPIC5mSOiCp
-         Jj6aRKLtM3vGzijw427JBX1hvaf5KjyYTEqdO9dbA++txTlMTA6vxrRZVVPTv4AbE3pg
-         BI0AP6vUBNNZO+nfuNcsbhO8h23svilV6gnNvD486DPGZ2CA3TMkhTRK1mKzHwD+C0R/
-         B+AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741208850; x=1741813650;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ppeUxjaKjmx50Q3bQDc5N6dSfYxyGJbGKWKkwVwTeuI=;
-        b=PZ7UqJiPj92F6Jc6YOnYxBft7aQD066neyG/yMoZmTZ0JCny0YCSfZF+aL/mpVtsTZ
-         +DPEGth+yNlP2ygbNZpOsMYv1U4KmVQvHae9pDSaxYv0upADrX38DfrYudWL5+sFLYk1
-         ckqyFwmBHFiLSRBWrW1Cu9KDLFiZrpYHtT+AnHYVjMtxW+yLgeE23I1gNNGyx7obG3zr
-         S7jUYzsywnAnlc6VT87uhEm0Ki6wVRxNxPksE7TIIxqRAnZdiCsLUiZEVkp6GGn3ZccW
-         +fxbbq4beFNYz3kI5JLZKmQYit8GpjFqE9I7HkxfNGgiEjJZIZA74WOg+Qu3so//ZXk+
-         Nyzg==
-X-Forwarded-Encrypted: i=1; AJvYcCUOfKYkoi5p8tiOblvSvAcoVO0xMHrr3A14KZCPrOVrKJPlTrliY0AVBu+4FkvJLjCVYDxc1DrJpvI=@vger.kernel.org, AJvYcCUdSruTCks6k1VUINidBJ026fnw1aigniE3eXh6yhLtKiCc9vijTnGErdP0PzoAru6gOjTIKVtar2KxyHcy/j8=@vger.kernel.org, AJvYcCWDWqOPghKdBjBDqwklY75vWbGTw8LdZzXXd17yOMiXwlOOjCQ+6a6xj+cl7hOPw/INaAnHypIZVtDusYDk@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzaCyKNlqd95TtgCKyaWcRLYo1PD3N/VtyTbgy/r6fA0cvNBH+
-	dKMPIIh0LxBdzVuYlgDHuCh1hnAKAe1aYKfYL6SqLkPHEBM0uaQsqV6llHBXzidFT/Jps967wRR
-	tnESyDe7LuYB0wa/xc/JXBM8iDrE=
-X-Gm-Gg: ASbGnct7h+xZCAlryw/ZHJIhTqEdpcIj2ObGXe/uf+j7WZWaJW+NwW1i4cHQwdJYVSk
-	LZrgRpNRfWKjpK/YFGT1exzsUC7DXSmNzvQRb/sOzl33ZgpzIfPxXdlnPb0N7fH6N6smj6T3h3k
-	IAUHzX7LnG0SCMB/IjFkW8VWNk3g==
-X-Google-Smtp-Source: AGHT+IFdCsF1vk5OPN4taJHp2TBXL+JUlxGZBmkkbeifhcezimLuADcrM7P2FojcMB4CukfeYQQYekuvC1Sp9CWZOJY=
-X-Received: by 2002:a17:90b:3504:b0:2ee:6563:20b5 with SMTP id
- 98e67ed59e1d1-2ff49634954mr3085426a91.0.1741208850256; Wed, 05 Mar 2025
- 13:07:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="udubEywU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56472C4CEE8;
+	Wed,  5 Mar 2025 21:23:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741209816;
+	bh=DvbHalLpCxkuRiwdqtO8seg1Zu43gShTi+7ZD18U1h8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=udubEywU4g28gFPq/9N5lLM2nPK1lMawQ+GWUGIQt4obxSNbK7tbvj1DBi5YN/eM3
+	 2E1ekg9Wg36v2x08Of2jLE56mTUfeOMzOLoSWFjY8SA9zqgLY7qAfWJyTSRnkuz3C3
+	 VbLBIxk1bLSO9xongCpc+qWD9eBWh0d3z6PWABYjx3Iv0Ipmxia/DgeJtpTaXwFgnT
+	 vumj06ol2aIc4cN1EMP5Wr3OxlXmZ24xPqztZVnyZDHrDNCf5aZ0IrXN+Qh5MYC3In
+	 8rgqPuxDMH0A1CF5Pa45HOkyTtNnmW9BDaXb9Hmo/ThrparhMqIAc5PQ3YT90rDaIG
+	 iCM+4IundHthA==
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e6119fc5e9bso1330683276.0;
+        Wed, 05 Mar 2025 13:23:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVyjZiARvlwfsy1T4b2XFZW2yNvVTJGv9I3P8Jg4sS9zmTlhW1Ar0yV7LJACzToeT63qlrYV6zYu5gX@vger.kernel.org, AJvYcCX0reZlse+DT9mvOySasA05Y4ega+fwlfYq2ea+K2gL1VQoC/VSRdSkfCcECyhhMM7LvNwY428miYkVOj3c@vger.kernel.org, AJvYcCXkGPqCQF0cEh8kovKNNznQLDo/mNYhBHq+5zK647IgT6nSpa/JLGcA3WCpZVF1qze2dDeYUntbhCrVFif5VLO+rWLFYlB6@vger.kernel.org, AJvYcCXwsXCS7kdCp23mD3C14viPssDHhkXT4Y327FJAgwl9KyYdAepS/F6XaAu1Kb5ebTgJYxPhBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz59/eArWnYIvynSYImC0hwU8AHN9VwKxbrd0e4gxWG+Pldi6Sc
+	amDvu/ZM/irSzKE1+RDsCfVLd98ANiFW5ebfpW8ID6PhYYZhWvMXrTCPofXLLO+RwbrYEWzdyW+
+	38sbxKNebyitgnr/bse322Yuy810=
+X-Google-Smtp-Source: AGHT+IFclP7iVxvi0j9ekZjfJdMyS78JlgW+fr8ZvybEcumnXEaCDKm5SlFT/PVINMVVVcf+Uzsy3DGg4vx2Z/JvQhA=
+X-Received: by 2002:a05:6902:2a42:b0:e60:affa:673d with SMTP id
+ 3f1490d57ef6-e611e333584mr6233902276.48.1741209815692; Wed, 05 Mar 2025
+ 13:23:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250304173555.2496-1-dakr@kernel.org> <20250304173555.2496-2-dakr@kernel.org>
-In-Reply-To: <20250304173555.2496-2-dakr@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 5 Mar 2025 22:07:18 +0100
-X-Gm-Features: AQ5f1Jo9uyXmUsRhx9aiXZGx5yBRRudRw6l9QRLBH4aKQdIv0iL_aGAt-0G_uyM
-Message-ID: <CANiq72kr1NU-xs2f8TG3XXG5su4HmZG0TGj6p2vtrzygxTv0TA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/5] rust: module: add type `LocalModule`
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
-	ajanulgu@redhat.com, lyude@redhat.com, pstanner@redhat.com, zhiw@nvidia.com, 
-	cjia@nvidia.com, jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com, 
-	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com, 
-	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me, 
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, 
-	gregkh@linuxfoundation.org, mcgrof@kernel.org, russ.weight@linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
-	rust-for-linux@vger.kernel.org
+References: <CAKtyLkFyqFCcqUi7TPn9niUwYcHwv8nVq-joKc8kd8tFg58p-Q@mail.gmail.com>
+ <1740784265-19829-1-git-send-email-jasjivsingh@linux.microsoft.com>
+ <CAKtyLkGV4cGJzbvVUAeLBp=evc_QAWPD8FsskHNVvx-1UZJB-A@mail.gmail.com> <0a5e586a-9b55-4905-8663-6ef0112aa32d@linux.microsoft.com>
+In-Reply-To: <0a5e586a-9b55-4905-8663-6ef0112aa32d@linux.microsoft.com>
+From: Fan Wu <wufan@kernel.org>
+Date: Wed, 5 Mar 2025 13:23:23 -0800
+X-Gmail-Original-Message-ID: <CAKtyLkEveJbJ9HAufC1_x8J287qqDFYZOhK2Y0MEaPo+dkJm2Q@mail.gmail.com>
+X-Gm-Features: AQ5f1JpnHsTCDFfoCzh84MJkz2wEhzTGjo9BEiGagwu5LFjMWyeoqQInPgwF4J8
+Message-ID: <CAKtyLkEveJbJ9HAufC1_x8J287qqDFYZOhK2Y0MEaPo+dkJm2Q@mail.gmail.com>
+Subject: Re: [PATCH v3] ipe: add errno field to IPE policy load auditing
+To: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
+Cc: Fan Wu <wufan@kernel.org>, audit@vger.kernel.org, corbet@lwn.net, 
+	eparis@redhat.com, jmorris@namei.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	paul@paul-moore.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 4, 2025 at 6:36=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> w=
-rote:
+On Tue, Mar 4, 2025 at 4:04=E2=80=AFPM Jasjiv Singh
+<jasjivsingh@linux.microsoft.com> wrote:
 >
-> The `LocalModule` type is the type of the module created by `module!`,
-> `module_pci_driver!`, `module_platform_driver!`, etc.
 >
-> Since the exact type of the module is sometimes generated on the fly by
-> the listed macros, provide an alias.
 >
-> This is first used by the `module_firmware!` macro introduced in a
-> subsequent patch.
+> On 3/3/2025 2:11 PM, Fan Wu wrote:
+> > On Fri, Feb 28, 2025 at 3:11=E2=80=AFPM Jasjiv Singh
+> > <jasjivsingh@linux.microsoft.com> wrote:
+> >>
+> >> Users of IPE require a way to identify when and why an operation fails=
+,
+> >> allowing them to both respond to violations of policy and be notified
+> >> of potentially malicious actions on their systems with respect to IPE.
+> >>
+> >> This patch introduces a new error field to the AUDIT_IPE_POLICY_LOAD e=
+vent
+> >> to log policy loading failures. Currently, IPE only logs successful po=
+licy
+> >> loads, but not failures. Tracking failures is crucial to detect malici=
+ous
+> >> attempts and ensure a complete audit trail for security events.
+> >>
+> >> The new error field will capture the following error codes:
+> >>
+> >> * 0: no error
+> >> * -EPERM: Insufficient permission
+> >> * -EEXIST: Same name policy already deployed
+> >> * -EBADMSG: policy is invalid
+> >> * -ENOMEM: out of memory (OOM)
+> >> * -ERANGE: policy version number overflow
+> >> * -EINVAL: policy version parsing error
+> >>
+> >
+> > These error codes are not exhaustive. We recently introduced the
+> > secondary keyring and platform keyring to sign policy so the policy
+> > loading could return -ENOKEY or -EKEYREJECT. And also the update
+> > policy can return -ESTALE when the policy version is old.
+> > This is my fault that I forgot we should also update the documentation
+> > of the newly introduced error codes. Could you please go through the
+> > whole loading code and find all possible error codes?  Also this is a
+> > good chance to update the current stale function documents.
+> >
+> > ...
+> >
 >
-> Suggested-by: Alice Ryhl <aliceryhl@google.com>
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> So, I looked into error codes when the policy loads. In ipe_new_policy,
+> the verify_pkcs7_signature can return a lot of errno codes (ex: ENOKEY,
+> EKEYREJECTED, EBADMSG, etc.) while parsing the pkcs7 and other functions
+> as well. Also, In ipe_new_policyfs_node used in new_policy(), I see the s=
+ame
+> issue with securityfs_create_dir and securityfs_create_file as they
+> return the errno directly from API to. So, what should we return?
 
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
+I think the key here is we need to document the errors in the ipe's
+context. For example, ENOKEY means the key used to sign the ipe policy
+is not found in the keyring, EKEYREJECTED means ipe signature
+verification failed. If an error does not have specific meaning for
+ipe then probably we don't need to document it.
 
-Cheers,
-Miguel
+>
+> For other functions: I have complied the errno list:
+>
+> * -ENOENT: Policy is not found while updating
+
+This one means policy was deleted while updating, this only happens
+the update happened just after the policy deletion.
+
+> * -EEXIST: Same name policy already deployed
+> * -ERANGE: Policy version number overflow
+> * -EINVAL: Policy version parsing error
+> * -EPERM: Insufficient permission
+> * -ESTALE: Policy version is old
+
+Maybe make this one clearer, how about trying to update an ipe policy
+with an older version policy.
+
+-Fan
