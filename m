@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429921A23AF;
-	Wed,  5 Mar 2025 04:13:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428EB19CC2E;
+	Wed,  5 Mar 2025 04:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741147989; cv=none; b=g2kIwV+Q5pyHqJl+0bB8WdcCKF8/YqmC07oxTv7UsyTW0g1xEX3/FlvCgu/aM6fkLUHfAwnhnR+bVd5ZwcECMifFC4IxXX5ctmk1HiLlkS1pyez3V5TQGYaCTKVbUVjIUE5HJuJZGlzQesARWHTCV+/QNN/u59X2bHl3mtzpFZY=
+	t=1741147989; cv=none; b=L9iMVIZ08XyIodZ6rQFgjff5Yt/Xq/yMmRSp1mPimGJSjIkqSEKfQ6Naot4UxK/k3K1lhjMpp6yl6Zhsw7t9Srf5CP8esCgYhp2ARo6d7BQh6kax6BEHp5Gt1DQIbi0lUpfdAQnqafU/A9NA0KB0Y6dG++exSIg1kuOvDcXe6sY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741147989; c=relaxed/simple;
-	bh=RBsh/xDj4vd4BAKgWWaorA7r/mUYNpFPasyRXkkSQEg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WiLyGbHa49sOqM6SjM6KTglClI3u6mChQzKdbrZbbYCs90O3nDmtWGBypkN5U5IISAQbsXYFlxkV74Fo+fshvU5ELMk/8G7mf8WRPzcoEoGO/JmDew4utj2BUTe35IFQddRTAzXghhOnmXbYmBtyw4lRWWOgjBMzbgaMyKO9N8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=COvuuk+S; arc=none smtp.client-ip=10.30.226.201
+	bh=5UXRL54BFARNyIExd957ZiQGbmJZmiFrgr7K+zCJvRQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OtIa9iSypeod78YR6HGf70Ie83WD7FCouf7mljgBxSYsK3yHr19gUAz1p8qEKtIYXECrL/fB6lZb5Kr43Rh2AKqVU7zCQBmV+twmluNPrgGBE4BoA7QlO94WfJ2+/lfiwVKIb2rRWU0ei8dRahjz7vrZYzC9VVbKDBWrUdwJcpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u4Sk5z5T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="COvuuk+S"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C129FC4CEEB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u4Sk5z5T"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9E1A8C4CEE2;
 	Wed,  5 Mar 2025 04:13:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1741147988;
-	bh=RBsh/xDj4vd4BAKgWWaorA7r/mUYNpFPasyRXkkSQEg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=COvuuk+ShgIppQ6Ihy1TUO9D39jQ3ibKNx+bE9FsBoqL980OPhD1D1WTp3pmi4+OZ
-	 3FuFgn7nTTPBiboTaxvRR23TZN5tCxba+H5EGb+CtdO3SiiA5adNfoFFnFX2Xf1EyR
-	 JNaLAXP18n3FYPxNj+ozt3hXUKvvPMplWITGYT6qTsQnYu86C0uc+VL2BmReakb4RM
-	 F52IkM3dJcpyl354lM5nf/I3muacTjwaXRFJkpt8eLmcOWYAik7cbvdsz7i++6lWPg
-	 fn2uId5LhUaMmXQPZjJ1YVcCKdPj2/XufF7Gk5VVdIpFegZC0JQC24XHzdJC882hh6
-	 wDXEY0Y+RdvFA==
+	bh=5UXRL54BFARNyIExd957ZiQGbmJZmiFrgr7K+zCJvRQ=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=u4Sk5z5Tvo1rTX66Bt3jX/gM1l67V+G3tTXqeLGZnxK671s2GpNj+HMQemd/vrZm0
+	 wDJHZpf2Rx8KRo1JgFqxKDASo8k9mt0iKojjcjUlxXwPswLLIYgK+h0mcJroeJAHEi
+	 ljlTgXr2ocZ3Ppjoqf+TuMKIXvGmAddUNXGPA2SReOuuGl6LlsPTUOlovkyjXVJf/O
+	 xfzzH5RflCBh7opDD+FEivawhCCvO89WLyOqgKTExCdQLEJA+MU6f8z+o9lWBE9JDX
+	 Bk99diqSeVRS6eAax8iUFGYFqS8rNrbw7hN0fwQsSENsRskVSLLVJ9Vcjcsjbm0Tdx
+	 /XCZQl5R/1PwA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADC62C282DE;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F7CEC19F32;
 	Wed,  5 Mar 2025 04:13:08 +0000 (UTC)
 From: Shashank Balaji via B4 Relay <devnull+shashank.mahadasyam.sony.com@kernel.org>
-Date: Wed, 05 Mar 2025 13:12:44 +0900
-Subject: [PATCH 2/2] cgroup, docs: Document interaction of RT processes
- with cpu controller
+Subject: [PATCH 0/2] cgroup, docs: Clarify interaction of RT processes with
+ cgroup v2 cpu controller
+Date: Wed, 05 Mar 2025 13:12:42 +0900
+Message-Id: <20250305-rt-and-cpu-controller-doc-v1-0-7b6a6f5ff43d@sony.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,9 +41,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250305-rt-and-cpu-controller-doc-v1-2-7b6a6f5ff43d@sony.com>
-References: <20250305-rt-and-cpu-controller-doc-v1-0-7b6a6f5ff43d@sony.com>
-In-Reply-To: <20250305-rt-and-cpu-controller-doc-v1-0-7b6a6f5ff43d@sony.com>
+X-B4-Tracking: v=1; b=H4sIADrPx2cC/x3MQQqDQAxA0atI1gZsilZ6leIiZKINyIxkrBRk7
+ u7g8i3+PyGrm2Z4Nye4HpYtxYpH24B8OS6KFqqBOuo7ogF9R44BZfuhpLh7Wld1DElw5JFZ+hf
+ NT4Xab66z/e/3ZyrlAtNmlBlrAAAA
+X-Change-ID: 20250226-rt-and-cpu-controller-doc-8a8aac572f3e
 To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
  =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
  Jonathan Corbet <corbet@lwn.net>
@@ -52,13 +53,13 @@ Cc: Waiman Long <longman@redhat.com>, cgroups@vger.kernel.org,
  Shinya Takumi <shinya.takumi@sony.com>, 
  Shashank Balaji <shashank.mahadasyam@sony.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3070;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1499;
  i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
- bh=C7JgnbF46KXkV/sLIdJxl+OtmX2NjXxlaJ2fLtetvIs=;
- b=owGbwMvMwCV2mPH4Ij++H1mMp9WSGNKPnw9e//2RmAhj3o5Du+SOLT0Xfi9vQYeCx84HZxYwC
- vzvemXwu6OUhUGMi0FWTJHlncy6CwetLJu+Hmf4BjOHlQlkCAMXpwBMxG8VI0NzIlvCn5hrrx4x
- iPRL7MhbL7J4AZ+BcWTx1e7fikX8J2Yz/A9+WhAhdXtX9QvT+uPMHMKiUusO/G6y/eXmc2Ptv5X
- Xv7EDAA==
+ bh=5UXRL54BFARNyIExd957ZiQGbmJZmiFrgr7K+zCJvRQ=;
+ b=owGbwMvMwCV2mPH4Ij++H1mMp9WSGNKPnw+6+bcjp3D9rkCn1feVrZ4o9OzxMqu4f6zss+Mfs
+ 19xBz23dJSyMIhxMciKKbK8k1l34aCVZdPX4wzfYOawMoEMYeDiFICJzPnJ8IeT757aNhEu/W8p
+ zaGFfgpXFft4k6PfWN7cXqTxv/3Qt2eMDDcUKxsPXbumLzLHV/aM8Jqgpm2y28y37Tm3LGLq95W
+ 6nfwA
 X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
  fpr=EE1CAED0C13A3982F5C700F6C301C7A24E0EF86A
 X-Endpoint-Received: by B4 Relay for shashank.mahadasyam@sony.com/default
@@ -66,78 +67,36 @@ X-Endpoint-Received: by B4 Relay for shashank.mahadasyam@sony.com/default
 X-Original-From: Shashank Balaji <shashank.mahadasyam@sony.com>
 Reply-To: shashank.mahadasyam@sony.com
 
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
+Currently, CONFIG_RT_GROUP_SCHED is practically unusable. If enabled,
+the cpu controller can be enabled only when all the realtime processes are in
+the root cgroup. This has been clarified by Waiman Long in commit
+20d4628 (cgroup, docs: Clarify limitation of RT processes with cgroup v2
+cpu controller): https://lore.kernel.org/lkml/20240320142302.1790171-1-longman@redhat.com/
 
-If the cpu controller is enabled in a CONFIG_RT_GROUP_SCHED
-disabled setting, cpu.stat and cpu.pressure account for realtime
-processes, and cpu.uclamp.{min, max} affect realtime processes as well.
-None of the other interface files are affected by or affect realtime
-processes.
+But this limitation does not affect any of the other controllers:
+irrespective of CONFIG_RT_GROUP_SCHED, the other controllers can be used
+for the resource control of realtime processes. This is made more
+explicit in the first patch.
+
+Even when CONFIG_RT_GROUP_SCHED is disabled, the runtime of realtime
+processes is accounted for by cpu.pressure, and the usage_usec, user_usec,
+and system_usec fields of cpu.stat, and cpu.uclamp.{min, max} affect
+realtime processes as well. This is documented in the second patch.
 
 Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+Shashank Balaji (2):
+      cgroup, docs: Be explicit about independence of RT_GROUP_SCHED and non-cpu controllers
+      cgroup, docs: Document interaction of RT processes with cpu controller
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index f293a13b42ed69e7c6bf5e974cb86e228411af4e..2c267f42e5fef9c4e2c3530ce73330d680b9b2dc 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1095,7 +1095,9 @@ realtime processes irrespective of CONFIG_RT_GROUP_SCHED.
- CPU Interface Files
- ~~~~~~~~~~~~~~~~~~~
- 
--All time durations are in microseconds.
-+All time durations are in microseconds. Only cpu.stat and cpu.pressure account
-+for realtime processes, and only cpu.uclamp.min and cpu.uclamp.max
-+affect realtime processes.
- 
-   cpu.stat
- 	A read-only flat-keyed file.
-@@ -1115,6 +1117,9 @@ All time durations are in microseconds.
- 	- nr_bursts
- 	- burst_usec
- 
-+    The runtime of realtime processes is accounted for only by the usage_usec,
-+	user_usec, and system_usec fields.
-+
-   cpu.weight
- 	A read-write single value file which exists on non-root
- 	cgroups.  The default is "100".
-@@ -1158,8 +1163,9 @@ All time durations are in microseconds.
-   cpu.pressure
- 	A read-write nested-keyed file.
- 
--	Shows pressure stall information for CPU. See
--	:ref:`Documentation/accounting/psi.rst <psi>` for details.
-+	Shows pressure stall information for CPU, including the contribution of
-+	realtime processes. See :ref:`Documentation/accounting/psi.rst <psi>`
-+	for details.
- 
-   cpu.uclamp.min
-         A read-write single value file which exists on non-root cgroups.
-@@ -1170,7 +1176,8 @@ All time durations are in microseconds.
- 
-         This interface allows reading and setting minimum utilization clamp
-         values similar to the sched_setattr(2). This minimum utilization
--        value is used to clamp the task specific minimum utilization clamp.
-+        value is used to clamp the task specific minimum utilization clamp,
-+        including those of realtime processes.
- 
-         The requested minimum utilization (protection) is always capped by
-         the current value for the maximum utilization (limit), i.e.
-@@ -1185,7 +1192,8 @@ All time durations are in microseconds.
- 
-         This interface allows reading and setting maximum utilization clamp
-         values similar to the sched_setattr(2). This maximum utilization
--        value is used to clamp the task specific maximum utilization clamp.
-+        value is used to clamp the task specific maximum utilization clamp,
-+        including those of realtime processes.
- 
-   cpu.idle
- 	A read-write single value file which exists on non-root cgroups.
+ Documentation/admin-guide/cgroup-v2.rst | 41 ++++++++++++++++++++++-----------
+ 1 file changed, 27 insertions(+), 14 deletions(-)
+---
+base-commit: 9b381a28f44a49b92b03bb3982728f9cb67ee225
+change-id: 20250226-rt-and-cpu-controller-doc-8a8aac572f3e
 
+Best regards,
 -- 
-2.43.0
+Shashank Balaji <shashank.mahadasyam@sony.com>
 
 
