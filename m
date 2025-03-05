@@ -1,300 +1,143 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E767D23373F
-	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 11:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E3B23F291
+	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 11:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741174655; cv=none; b=LEPysHowvNw9Z/lqm3mx0/S5fGW6++m/EFRkzWCEPEUXUCjEDXIrvUnxbnOQpK7lE8YKoL6jEEPlGV7OXwNETTQ9N0cwYmtSmh4rH9ZolIAtWC6t1rAqh2QtRfyMZRz2nvyFX5EsQFs2a7JDTMPHHnrh5BKcfIZY8syzhS2J/SI=
+	t=1741175320; cv=none; b=M0Vydwcx409q315TJfvGPqIGFttv7/StpYOZqPL5ww23PJnl8PED9jPGBpJGxxdNe/iwxeBIc3IFm9CB42yOflGVcL1RxZCtF3frMQHqMT2d3Vc4h55jTkN4fJo0hj1676cku3BgUDWaDP8jmptRRPr8w+M/MrAxpwoMaKSnUS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741174655; c=relaxed/simple;
-	bh=w1zs0s53BjvIVKG5JLFecJgMXnzvr5rW68RODm/zAGQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MeRqwbdhMMMU/flCTGj78Ad/Rtbv6k85txC6jtU94g8vP0YhYJIrvyoCU3MXfXRbcPu/C5htU+L0w7FsbcY85n2BtrVVWHM0jiMccVPk9A+qfcL6KEIZCDqZ9hlw78JAwcwuK6C/1Jf8IWVTvNrl3Q+9XnGpz5SGW1DtFRC/5zQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XewaFlyY; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1741175320; c=relaxed/simple;
+	bh=Q21NDekGBNQTIfKbTKns37l4fTuwmkz/QevP9S3vm50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K1BzIGYCpUFttiiWjUvkjEzGMPmhSwPnDl5Qntq89yh2D5fS+C7T1GFlhPAoiWa6xW7LO4zGp1YpeRJRM4hzeMnzyClB7Y+glJhbJMJ3b0zJpc/QLjW1GLaxFJBTVLnAlH6xdP6fSE5Tn2RdYQBkLn8jHlBVecB+YKzpk31mwX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=Uovnawnc; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XewaFlyY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741174652;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YpWTzpxBLEnQJns4RP/LsZzHqEk4J0vD1x4Ly1ln6+U=;
-	b=XewaFlyYxa1yD14P0VoT1BXfQbe0apoZ4+8sTI9k+Exmwt3ymKW8Esc/SMUI3dsQhaduK0
-	gsqDAal1FYtM8Cn2UCJR87Wsjq/Jhzyj9oTE4qUY2NfY7+d+gBCIweQlE8wZ2VK8Xo4Eb5
-	YrxnwxRtqwR/Enn6PHfvS89HxqOa6gw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-694-0i-woyBeOXyPnouQATNMcw-1; Wed, 05 Mar 2025 06:37:26 -0500
-X-MC-Unique: 0i-woyBeOXyPnouQATNMcw-1
-X-Mimecast-MFC-AGG-ID: 0i-woyBeOXyPnouQATNMcw_1741174645
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-abf46dba035so98162666b.0
-        for <linux-doc@vger.kernel.org>; Wed, 05 Mar 2025 03:37:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="Uovnawnc"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43bccfa7b89so13377545e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 05 Mar 2025 03:48:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1741175317; x=1741780117; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AjEwmig9AGzAF/y06SLaWwIs3RII9NjSOkKtK2LhVm4=;
+        b=UovnawncvM49TaeC0cgH0TQWg57wNy7LbL9GLz92hJUWJytoA09KUmLFP/BVluyf++
+         bifGjXmYU+LszaB1OpXNpB2NmP1rV+oviwPCP43cV3uaQjPcFS6V4s+MmixwBTFiEVTl
+         zceVGyrZZhV2V7kXoTqoWnFt/Uuj7XemNcYXIloe4QJy6U0h2UZocUaf0hD91aW3qMKg
+         V2RgEsdLlbrnjJrWZyEQ9moKjvqV9t5fRi/Tl0+mzWnoAD9gh23nrt/T2ZdWFuXGjMiS
+         pMji/rgrGxQHJQhNMWDZ07Enad0IkR03MlR84IBBbCzU4qRm0celFFQKZYZBlNKj0W7k
+         raUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741174645; x=1741779445;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YpWTzpxBLEnQJns4RP/LsZzHqEk4J0vD1x4Ly1ln6+U=;
-        b=KMSHLPkZz6wdWciivRZrdSY4mvNAzl3Dd90V5ZNcJmaBQSD6obRc7xYn/u0NWB1uRe
-         N5XmzGwqYHPUB4Ao3PiFFsc/DuvhEf/xb1rvUWo8U4b5AXWNLZ+mqnvEzRjbnfaWv63n
-         9HBSdTqRGCkx1n4Lz2otGiRr5vSRO1+dW4putHl0KqoaHTPau/NHxS8yoN2hxN9DFotu
-         ZM33vPJ7oaTUvg/1ijPXVKnPMjXl0+oBKyqeK9K6702lEgKgyukRRcTdjgSnr6pIomWb
-         1IPh3L9HDQdNqO2FqfhzHY7gXV70rTf2tw0sRKu0ha+wQsrGFuHtoOfmojw4ccjzbtgk
-         HzwA==
-X-Forwarded-Encrypted: i=1; AJvYcCX6Yc0yAYVw7Z9z9E3laLLpoo1XVUpOsT37SyPrUsAvX6XDnpiacFIXHgIilmPxn007UQ7dNCiOKrs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGQpAd229X4bwYA9IdJDhoc/oqOh8dItzpAdI18INTNkIZjfzt
-	lnbeDrYIoc6Tg/yyKd/Ypl5rm2N7RlQgLmBuVzFKU+MU6It+/FG/Gdo8+Zpw1/VHOTZSTt38Gxr
-	26TZC370B5BBX1AkSRhPSsxZbEV2CasFvmcoNQ2J6+zG5sdlUNa+nTlMd3g==
-X-Gm-Gg: ASbGncvIgDnvl9DUHv2iQU8uNQS/trQWCEkgXGGtJe5tn2WanHMIiCGy5sHF6eA3Xnx
-	MQpUh8ppXtzG8G/W/x54AJj+QGVmeMvMiSpwrBzuNCRMHrlo/wilaY4TyhlaRzDZsvwT8H4rzt2
-	+7hP5zC6N7+BgcecQPv0fGLyg1YpqqyVTPk3QGcUoYMN/bCc5QnnQhpukJwqTmE159cZ1zqXWUU
-	C2Mh0w+oIeHtgr8AABStg9J6DBRdU1tN54M7MiYQTHUoOMWT8ARcCtwkE/anG3wUZVWdkerk+GW
-	jJp1oaq/ctIpbxFhjkyljPm/izfUtBbo/FSsreS2rPcX79Xiq5fYKIzePFyH4xbYQhVo5RIH1CU
-	4Io/GO51Dl4U/8dzqacGrTHftOJGWwMW5PXuaGLE+B6jz5JmDz9TPgxxXJEC6LzGZhQ==
-X-Received: by 2002:a17:907:2d21:b0:ac1:de84:dea1 with SMTP id a640c23a62f3a-ac20da878e7mr288838466b.43.1741174645116;
-        Wed, 05 Mar 2025 03:37:25 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEn2fTEi1XfV8aqSw2zYnOzYdQ8RDqzxm6GhrXG0VCSnNWZhob/ImwbXjXzOGAfScAecHnEaA==
-X-Received: by 2002:a17:907:2d21:b0:ac1:de84:dea1 with SMTP id a640c23a62f3a-ac20da878e7mr288834766b.43.1741174644586;
-        Wed, 05 Mar 2025 03:37:24 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abf67fa3c05sm628915166b.72.2025.03.05.03.37.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Mar 2025 03:37:24 -0800 (PST)
-Message-ID: <f853b726-898c-4400-ab5a-50d3c19caea9@redhat.com>
-Date: Wed, 5 Mar 2025 12:37:23 +0100
+        d=1e100.net; s=20230601; t=1741175317; x=1741780117;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AjEwmig9AGzAF/y06SLaWwIs3RII9NjSOkKtK2LhVm4=;
+        b=hUXokUznp3MgUDkA2UelD3Sg8bKOoMN91zc64pt2OesFT8+2TE36dXYZ5M2YbdE5p7
+         9kCp9SvRB+lVxEqYICytCVrQ0kG6xCehc7QNbVmeuZwVYaUvwA5uI+RspDqG43uOoz2U
+         DJVrkuCPEcAZLoTmrzqW5RkW78Adx6ehaftvGt+3rqtpfApAaIy27OgL4+xxHS2C1KV8
+         C/4sXmsesZkQVkEGMEmG41sYxpr9jLjPerCHSP05ZW3w2EdtiDl2/Et5SEbRTpABuD8l
+         Jq9X7xKLq6d9th7g3EqTMxICiwXoAiUscq1Aua4I1hwLDTqDhXWQGDsgLS5UPWYTVLKc
+         CQdg==
+X-Forwarded-Encrypted: i=1; AJvYcCVDnc/8XwhoPYQwroxaVG0tc56l5PJJ+LfsWsperUFnoFIr4jLjMUerL3KsoHHAaaFPF1Dl5lxK/mg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRM18xZnZaUZI9HH8R4kWfa05kX54KJeUMLqNksVva8PlKtkMq
+	VqzZtIvhbjzhplZ0nsnYfT9NWKD7CyUFqeOtdZGAxvCHXdRFBMzEoEuEQ39j4gc=
+X-Gm-Gg: ASbGnctEk6mL/3HoPubbB4hJOXHFJ2xAwWEnzQo1wBXVsEQRzSrDQC+lcwYHgW2WxXQ
+	WqIhnxa6lVdFPz+lwLE2BJdOO7NIk69x2dZhCi/BrjgwAPkltRrSEria2yF9CxVGoy5sNN6jURx
+	D0TREzDxumYB3BXeUgZ+RlQwtRO40Jy3vo8rxJ9xkNH4VkX+4ie27HGOXxN3//KIZRvNHhRfKuk
+	VSvmEtzypcb2zxktmkwLb0WdrniSnjXOIZiI7asQD+qmwmHZIku3SIGifc/VgNW4neBXV9JrVZz
+	bw/ZB3WBkFoutRKg858Yid044MAqxWQCkW/B53XGTpcRw1wErjr+/ShGb5N0DQs7nooDSmxu
+X-Google-Smtp-Source: AGHT+IEXNFWx3dw1pIcEsbwbpOTPx3uvL6lGE1yf0XdlpTePB7sGcvwk+nr4zOCYvvAGQZ42wSzpcg==
+X-Received: by 2002:a05:6000:156d:b0:391:22e2:cce1 with SMTP id ffacd0b85a97d-39122e2d0c7mr1428279f8f.42.1741175317004;
+        Wed, 05 Mar 2025 03:48:37 -0800 (PST)
+Received: from jiri-mlt.client.nvidia.com ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bd4353003sm15541105e9.28.2025.03.05.03.48.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 03:48:36 -0800 (PST)
+Date: Wed, 5 Mar 2025 12:48:33 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Tariq Toukan <tariqt@nvidia.com>, 
+	"David S. Miller" <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, 
+	Eric Dumazet <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jiri Pirko <jiri@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, 
+	Carolina Jubran <cjubran@nvidia.com>, Gal Pressman <gal@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH net-next 03/10] devlink: Serialize access to rate domains
+Message-ID: <qygqjbhvk5ycigyxcojzakllelokkos3rgpolhpebmfiqzsajp@jxle4qz4ajxz>
+References: <ieeem2dc5mifpj2t45wnruzxmo4cp35mbvrnsgkebsqpmxj5ib@hn7gphf6io7x>
+ <20250218182130.757cc582@kernel.org>
+ <qaznnl77zg24zh72axtv7vhbfdbxnzmr73bqr7qir5wu2r6n52@ob25uqzyxytm>
+ <20250225174005.189f048d@kernel.org>
+ <wgbtvsogtf4wgxyz7q4i6etcvlvk6oi3xyckie2f7mwb3gyrl4@m7ybivypoojl>
+ <20250226185310.42305482@kernel.org>
+ <kmjgcuyao7a7zb2u4554rj724ucpd2xqmf5yru4spdqim7zafk@2ry67hbehjgx>
+ <20250303140623.5df9f990@kernel.org>
+ <ytupptfmds5nptspek6qvraotyzrky3gzjhzkuvt7magplva4f@dpusiuluch3a>
+ <20250304160412.50e5b6b8@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Add new sysfs to check user
- presence sensing status
-To: Mark Pearson <mpearson-lenovo@squebb.ca>, Nitin Joshi
- <nitjoshi@gmail.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>
-Cc: "platform-driver-x86@vger.kernel.org"
- <platform-driver-x86@vger.kernel.org>, ibm-acpi-devel@lists.sourceforge.net,
- linux-doc@vger.kernel.org, Nitin Joshi1 <njoshi1@lenovo.com>
-References: <20250305023319.6318-1-nitjoshi@gmail.com>
- <0cedc065-8cb7-4ef8-8989-6b113eb43460@app.fastmail.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <0cedc065-8cb7-4ef8-8989-6b113eb43460@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250304160412.50e5b6b8@kernel.org>
 
-Hi Nitin, Mark,
+Wed, Mar 05, 2025 at 01:04:12AM +0100, kuba@kernel.org wrote:
+>On Tue, 4 Mar 2025 14:11:40 +0100 Jiri Pirko wrote:
+>> Mon, Mar 03, 2025 at 11:06:23PM +0100, kuba@kernel.org wrote:
+>> >On Thu, 27 Feb 2025 13:22:25 +0100 Jiri Pirko wrote:  
+>> >> Depends. On normal host sr-iov, no. On smartnic where you have PF in
+>> >> host, yes.  
+>> >
+>> >Yet another "great choice" in mlx5 other drivers have foreseen
+>> >problems with and avoided.  
+>> 
+>> What do you mean? How else to model it? Do you suggest having PF devlink
+>> port for the PF that instantiates? That would sound like Uroboros to me.
+>
+>I reckon it was always more obvious to those of us working on
+>NPU-derived devices, to which a PCIe port is just a PCIe port,
+>with no PCIe<>MAC "pipeline" to speak of.
+>
+>The reason why having the "PF port" is a good idea is exactly
+>why we're having this conversation. If you don't you'll assign
+>to the global scope attributes which are really just port attributes.
 
-On 5-Mar-25 4:20 AM, Mark Pearson wrote:
-> 
-> On Tue, Mar 4, 2025, at 9:33 PM, Nitin Joshi wrote:
->> Some Thinkpad products support Human Presence Detection (HPD) features.
->> Add new sysfs entry so that userspace can determine if feature is
->> supported or not.
->>
->> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-> 
-> Just in case we're breaking protocol - I have reviewed this off mailing list with Nitin and gave it the thumbs up. The tag is correct.
-
-Adding a Reviewed-by tag based on internal reviews done before
-submitting v1 is fine, no worries.
-
-I do wonder what the use-case for this exactly is?
-
-The current documentation of "so that userspace can determine if
-feature related to HPD should be enabled or disabled."
-
-is a bit vague. The reason I'm asking is because I'm wondering
-if this is the best API to expose this to userspace.
-
-Also if I understand things correctly this is only about checking
-if:
-
-1) There is HPD support on the machine at all (if yes this file
-will exist)
-2) If HPD is supported on this machine, is it also enabled or
-disabled in the BIOS?
-
-IOW this is not about actually getting the HPD result,
-which would be "human present" or "human not present", right ?
-
-Any plans to export the actual HPD result ?
-
-Also if this is just about checking the BIOS setting why not
-just use the think-lmi driver / firmware-attribute sysfs API
-for that ?
+Well, we have devlink port for uplink for this purpose. Why isn't that
+enough?
 
 
->> Signed-off-by: Nitin Joshi <nitjoshi@gmail.com>
->> ---
->>  .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++
->>  drivers/platform/x86/thinkpad_acpi.c          | 79 +++++++++++++++++++
->>  2 files changed, 99 insertions(+)
->>
->> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst 
->> b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
->> index 4ab0fef7d440..02e6c4306f90 100644
->> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
->> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
->> @@ -1576,6 +1576,26 @@ percentage level, above which charging will stop.
->>  The exact semantics of the attributes may be found in
->>  Documentation/ABI/testing/sysfs-class-power.
->>
->> +User Presence Sensing Detection
->> +------
->> +
->> +sysfs: hpd_bios_enabled
->> +
->> +Some Thinkpad products support Human Presence Detection (HPD) features.
->> +Added new sysfs entry so that userspace can determine if feature related to
->> +HPD should be enabled or disabled.
+>
+>> >> Looks like pretty much all current NICs are multi-PFs, aren't they?  
+>> >
+>> >Not in a way which requires cross-port state sharing, no.
+>> >You should know this.  
+>> 
+>> This is not about cross-port state sharing. This is about per-PF
+>> configuration. What am I missing?
+>
+>Maybe we lost the thread of the conversation.. :)
+>I'm looking at the next patch in this series and it says:
+>
+>  devlink: Introduce shared rate domains
+>
+>  The underlying idea is modeling a piece of hardware which:
+>  1. Exposes multiple functions as separate devlink objects.
+>  2. Is capable of instantiating a transmit scheduling tree spanning
+>     multiple functions.
+>
+>  Modeling this requires devlink rate nodes with parents across other
+>  devlink objects.
+>
+>Are these domains are not cross port?
 
-"Added new sysfs entry ..." sounds more like something for a commit
-message then for in an ABI Documentation file. In 5 years the "adding
-new sysfs" language is going to look really weird in this file.
-
-Please just describe the function + intended uses without using
-"Adding new".
-
->> +
->> +The available commands are::
->> +
->> +        cat /sys/devices/platform/thinkpad_acpi/hpd_bios_enabled
->> +
->> +BIOS status is mentioned as below:
->> +- 0 = Disable
->> +- 1 = Enable
->> +
->> +The property is read-only. If the platform doesn't have support the sysfs
->> +class is not created.
->> +
->>  Multiple Commands, Module Parameters
->>  ------------------------------------
->>
->> diff --git a/drivers/platform/x86/thinkpad_acpi.c 
->> b/drivers/platform/x86/thinkpad_acpi.c
->> index 72a10ed2017c..daf31b2a4c73 100644
->> --- a/drivers/platform/x86/thinkpad_acpi.c
->> +++ b/drivers/platform/x86/thinkpad_acpi.c
->> @@ -11039,6 +11039,80 @@ static const struct attribute_group 
->> auxmac_attr_group = {
->>  	.attrs = auxmac_attributes,
->>  };
->>
->> +/*************************************************************************
->> + * CHPD subdriver, for the Lenovo Human Presence Detection feature.
->> + */
->> +#define CHPD_GET_SENSOR_STATUS           0x00200000
->> +#define CHPD_GET_BIOS_UI_STATUS          0x00100000
->> +
->> +static bool has_user_presence_sensing;
->> +static int hpd_bios_status;
->> +static int chpd_command(int command, int *output)
->> +{
->> +	acpi_handle chpd_handle;
->> +
->> +	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "CHPD", &chpd_handle))) {
->> +		/* Platform doesn't support CHPD */
->> +		return -ENODEV;
->> +	}
->> +
->> +	if (!acpi_evalf(chpd_handle, output, NULL, "dd", command))
->> +		return -EIO;
->> +
->> +	return 0;
->> +}
->> +
->> +/* sysfs hpd bios status */
->> +static ssize_t hpd_bios_enabled_show(struct device *dev,
->> +				struct device_attribute *attr,
->> +				char *buf)
->> +{
->> +	return sysfs_emit(buf, "%d\n", hpd_bios_status);
->> +}
->> +static DEVICE_ATTR_RO(hpd_bios_enabled);
->> +
->> +static struct attribute *chpd_attributes[] = {
->> +	&dev_attr_hpd_bios_enabled.attr,
->> +	NULL
->> +};
->> +
->> +static umode_t chpd_attr_is_visible(struct kobject *kobj,
->> +					struct attribute *attr, int n)
->> +{
->> +	return has_user_presence_sensing ? attr->mode : 0;
->> +}
->> +
->> +static const struct attribute_group chpd_attr_group = {
->> +	.is_visible = chpd_attr_is_visible,
->> +	.attrs = chpd_attributes,
->> +};
->> +
->> +static int tpacpi_chpd_init(struct ibm_init_struct *iibm)
->> +{
->> +	int err, output;
->> +
->> +	err = chpd_command(CHPD_GET_SENSOR_STATUS, &output);
->> +	if (err)
->> +		return err;
->> +
->> +	if (output == 1)
->> +		return -ENODEV;
->> +
->> +	has_user_presence_sensing = true;
->> +	/* Get User Presence Sensing BIOS status */
->> +	err = chpd_command(CHPD_GET_BIOS_UI_STATUS, &output);
->> +	if (err)
->> +		return err;
->> +
->> +	hpd_bios_status = (output >> 1) & BIT(0);
-
-Please add a define for this rather then just hardcoding
-a shift by 1.
-
->> +
->> +	return err;
->> +}
->> +
->> +static struct ibm_struct chpd_driver_data = {
->> +	.name = "chpd",
->> +};
->> +
->>  /* --------------------------------------------------------------------- */
->>
->>  static struct attribute *tpacpi_driver_attributes[] = {
->> @@ -11098,6 +11172,7 @@ static const struct attribute_group *tpacpi_groups[] = {
->>  	&kbdlang_attr_group,
->>  	&dprc_attr_group,
->>  	&auxmac_attr_group,
->> +	&chpd_attr_group,
->>  	NULL,
->>  };
->>
->> @@ -11694,6 +11769,10 @@ static struct ibm_init_struct ibms_init[] 
->> __initdata = {
->>  		.init = auxmac_init,
->>  		.data = &auxmac_data,
->>  	},
->> +	{
->> +		.init = tpacpi_chpd_init,
->> +		.data = &chpd_driver_data,
->> +	},
->>  };
->>
->>  static int __init set_ibm_param(const char *val, const struct kernel_param *kp)
->> -- 
->> 2.43.0
-> 
-
-
-Regards,
-
-Hans
-
+Sure. Cross PF even. What I suggest is, if we have devlink instance of
+which these 2 PFs are nested, we have this "domain" explicitly defined
+and we don't need any other construct.
