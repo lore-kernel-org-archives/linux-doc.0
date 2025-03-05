@@ -1,102 +1,122 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34F124C087
-	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 15:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535932AF16
+	for <linux-doc@vger.kernel.org>; Wed,  5 Mar 2025 16:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741189911; cv=none; b=gQVNy5QUyEGvmiYPv0GU9eII2OcDFUU9MoL4HdxEsARs2VlUoTUa36zRgkrv6ImTUo912CBGdFeXOTFvzCfkCdEgkUSojgwUYWiUDWabw7QDDd98+U43FB7Ac/+iUtlpLuBrWcHNsebmxxQap0DsmN8F8LKPsg3a+SG/BhzJAIA=
+	t=1741191360; cv=none; b=b8wPYi5cWXeQhrPna+s9564Xjrzk5liZlc4mLXC5q9ZldD16CEIFnC6U9D2xzett0OFTSGguwRNCdvpQBgirkN9KwsssbBJ9GBdOdsy+1Od4ZIGlw0GillwNXAzOtm4BnvGJDZvvLfRj6xcnpnNX0nVXGtJkxL0Ilv0tDof7g/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741189911; c=relaxed/simple;
-	bh=O/cTFmq280CPrxPXEkld2Dj3tT2/ZM0b/LQwLiDBrBo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D/064pYWQw68k9PzZXSMMsg6IM48xL03iW26lOhrsS8N5auU/bsKpbW1jF4ePgoS1qCJ1j+5O24Gc0HAekKhye3VLAtJf6WHrV4jEUWhTvND2xrptO3SFyX7ID/RnvtW/wFORto2V7q/Abx1DbNB7Bd2GsS/ur0ArlO2jsOz5L8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=itUGPaAO; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741191360; c=relaxed/simple;
+	bh=fv4YhRvlWbb2xsBRPo+vB8HbRXMqdTqTfwRar1qvmx0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nO485fZc6bK+uvaXRlIUacnoelZWDb2BEKAKgUfAyPCGW8zx/wv6f8lCFU9j+MJFbtdZmXA7IQCGpXBcGNTlBXsAFPZ2Rax7/hNo+TNnEMREMZ3Dq+g1/qgBEkf2SG7sPDYsEm5eBqbclyHm4Aru4JXHxR5w2bNtLp+y2lfc0M0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=elU4xBBE; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="itUGPaAO"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43bc4b16135so21793265e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Mar 2025 07:51:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="elU4xBBE"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-390effd3e85so5486392f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Mar 2025 08:15:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741189908; x=1741794708; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DZ2S+gHwbsXckxzFFhUyQLhk9IBYR1YjauglVfzrk5M=;
-        b=itUGPaAO7cVl+fwidqUHgI3zpFFfdrhDDvpGOggCgETt1tL1ZgiyvFMLH/rA6y5mar
-         XKFzfX2Qnrc4YOFCjloT9rwowl41vdaSgZD1lk4q0f/OEc5AeuNVl594wEsQAmVQL1tb
-         cwaFVcYoyAjIBSK/gpYLAIYmOlFPMm+cqEoDPxAaD1Gpdw2KWa59tgno2jDVsPVyoEzF
-         yRsa6D/50rDuOO/MLee+WM/T6F2axlhqHBDBmImJGxG9lDa597abpMKTkeo/kpov2f5g
-         R46leZPju2hDVOz976uSq0Z/JS4JlWQgm8Zgg9OV1eKGBjsasiA27C+Udf7UXz8QcaK0
-         VHpA==
+        d=suse.com; s=google; t=1741191356; x=1741796156; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PNAB44QyhnX4KFdgTgmL60qRg10qylEcS57fI8BPRcw=;
+        b=elU4xBBEmJhkTMqQ484vLEvFMK7m+hheKUitkLhNtXdoiIP5glSwKQPE2kOQvSDCQr
+         jD7KUAHnWsxjV4UyQU/5ITcXa7/Jpans53w4omNE4c1Bs1UaOFY/9sE/bcezQUQs+FhY
+         nuR8iQLKnKicUmIbLQ+ZiBxfrSFnlrwX292pSoIeKnutTy0eFNzwaDc/tpXz7Eb080fF
+         RKni5sr6M//lpq+HXifkHZUvEzL7gNMii7VCX7F02s1QlqpYr3ULkTArOpGtcHMqObF0
+         PKqhuQkH6XyXlYKBbw+11iBaxETGI4bvki887+ebJR+FeMnPLx96hdROq+lOV27y2Uhz
+         WSmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741189908; x=1741794708;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DZ2S+gHwbsXckxzFFhUyQLhk9IBYR1YjauglVfzrk5M=;
-        b=L2pQPdQM92wKNVUSqjRGwxJuRU8eN/hgZqCs/zOMiWBY42JWgR/v9vG3Sizk1ST0uE
-         Rz502LErikR4UX+757XvhBQ+fxCVK1uUY85rIJxqBnSkXqncif9UN3z3ln8FFbgDvvBA
-         Cr8dZMwr7hbKnlgFf7mV2Cu0q98F6HdIBKltfaYJf7Omm6e7hOWtxX5J5KxKZ11TRo+l
-         37eDVCJweI9ynRXv6yHyE1hCCGMxpwLrpY4R2OjF08Dzj817om0z8DttmTx+CvqG4iHY
-         nJtfsSs2FImrQ+arJhyO6gcYuXTcAnznt2aMruXurOACqV61sQckToZO0n2/t4WOQTOa
-         9YaA==
-X-Forwarded-Encrypted: i=1; AJvYcCXRcQHCJYwafApGu3CMd0v6os6bJl5DhYcGoFD/DqRiQtK3SynmyG8uiG0Ze3EkcvE8663v2vUJcsI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXn44lnFypcJwDnVZM+OWRaehQvK7yf1zbkTLCymUApRm+GQCo
-	5NiQ6Hu5NV55Mlq+OTfn6gNMerYhUNA+TJwQvq78ASsGCTq/ImyS6SXcqlDkVRo=
-X-Gm-Gg: ASbGncuXTO6e9w/4mJyBUovb/5fmR4UnSveF0iy+V98reb520F+m4h+DbWhAHOu5LiW
-	TUKJom8AJJu30w7LsxJICzZ9Yc5+PME0DZl//3GWHpxJy+MXrJxeiT8gmY0PLWgSszGq94GiFLZ
-	X0uXczEi8a8xwTOlBkOQ24FwlCkkSUT5z9Q+M7S8fRrYRlqhIpi1ST6ReZM0351bu3AuD/pijOE
-	hcV34/Ll7ycmOef+8mZdCcsDMAgSRgY0Vs74yzeOEkoNZ8HHsXi8337syZ1kgZk/9cEQJPMyx3j
-	0SY2XnJDS8Fpv07wH4wetwMo5WUN/BG2ZIR11pLecSbIM1TznZJ1EQ4=
-X-Google-Smtp-Source: AGHT+IG7qv+nb9cXjGGw9HHaPPCvBWbDrCLu9uLjG/6FTP2fC03dynof25NfR+yCRjeYdVlhkyXSaw==
-X-Received: by 2002:a05:600c:3b95:b0:43b:cfbb:3806 with SMTP id 5b1f17b1804b1-43bd29d2d84mr29598645e9.14.1741189907949;
-        Wed, 05 Mar 2025 07:51:47 -0800 (PST)
-Received: from [192.168.1.247] ([209.198.129.225])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bd4352eb1sm20794925e9.31.2025.03.05.07.51.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Mar 2025 07:51:47 -0800 (PST)
-Message-ID: <7ac4947b-76b1-4748-8ea0-a949613a3cfc@linaro.org>
-Date: Wed, 5 Mar 2025 15:51:46 +0000
+        d=1e100.net; s=20230601; t=1741191356; x=1741796156;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PNAB44QyhnX4KFdgTgmL60qRg10qylEcS57fI8BPRcw=;
+        b=Mo0+PxeXaSzQOk7QxinO0lOah6m9WZOZbwns9MvKb4qMOQo6zBIH+VJPgDBpghf1Tr
+         3Sj9AT1qmv7sI6Iti2araMlKNx9ebBiZ5bv6UKm7W1EC1BWKfrjigU8Aa0GOciqh/YrW
+         P+Czg8bN5PmhrzbM2DrYFqDJgvxTLrWkW6NM5iZTUuwNWgfroCI5xJgU36ALvPOyZE+i
+         UByFHyqtbzIZ7mPXht4FozXPqFjB7jt2ncsoR03Ni+p8emvlUrCjjZCkq2nX6EePotZx
+         jkZmN/2qWg4uJ8sl2bc3mKOTpKhUcoD26Y7RSMJk8hdcAVtCtL2vHrCx19XUHIL+Rc/3
+         Qwxw==
+X-Forwarded-Encrypted: i=1; AJvYcCX52FqTTxfFrGYQWKPZxTnExckcddEHw0LXKPlmMoog5BOAB+jpkQ5M3tyHp2P/rfajxy8jYMr6eUU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGy3IKc+gXBJGvrWISrMwNfTkDneu/Oi8F7QYO9cHtU4Bh4JV2
+	BRI0f6Os7SDhG7B2YFRd0BbW09znK4UinNt0JzJ3C+E1l5kdAnOFI25L2LKBIu/l6zbrQgwM42K
+	OBnU=
+X-Gm-Gg: ASbGncua5ThOPNMXWqVY4f6ARDHvLreCiLH9lApXqTT5RdWEknnzjsOE8sHia155rY4
+	m5lx55OuMlRe27pI1qCYPuxTbC39+TG2asKK5AA9Sd6KeMkViXU12C/IvDrP0Z+ugJXzVmGxmwl
+	M4s9NkH+wgX9nYbU3n1cry64VQyhrI2/8At4I7Mu/HpGIn0SsTeXAZMQTGQfik7zNKLVS8rh+Fp
+	sZja6YhtezmlkuOCK/q52/nIDLpGXDaW1txqFm9F5yqQIfQQeziaoBApqONQCUcqIt88t9Vcv7J
+	VEtZVfTGITH9sCFIa4ITkJCS6+6x1WtOkfz+Zcm3lG1mbnM=
+X-Google-Smtp-Source: AGHT+IFSFHy1G7JXs9LS6Zp9vf6qrgDOnTuLsUnVpuP6RU8IBq/z8lBT5ioxtv8qoOlGoLHFx2uA7A==
+X-Received: by 2002:a05:6000:4185:b0:391:5f:fa4e with SMTP id ffacd0b85a97d-3911f7476b5mr2262201f8f.29.1741191356432;
+        Wed, 05 Mar 2025 08:15:56 -0800 (PST)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e47b7ddesm21704636f8f.57.2025.03.05.08.15.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 08:15:56 -0800 (PST)
+Date: Wed, 5 Mar 2025 17:15:54 +0100
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: shashank.mahadasyam@sony.com
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Waiman Long <longman@redhat.com>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Shinya Takumi <shinya.takumi@sony.com>
+Subject: Re: [PATCH 1/2] cgroup, docs: Be explicit about independence of
+ RT_GROUP_SCHED and non-cpu controllers
+Message-ID: <h7xbvvv3727yobsl7vx3vvcpqhdulagmogbuulp3dny4jgggym@gb3yaeuiuwa2>
+References: <20250305-rt-and-cpu-controller-doc-v1-0-7b6a6f5ff43d@sony.com>
+ <20250305-rt-and-cpu-controller-doc-v1-1-7b6a6f5ff43d@sony.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] coresight: docs: Remove target sink from examples
-To: coresight@lists.linaro.org
-Cc: yeoreum.yun@arm.com, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Mike Leach <mike.leach@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Leo Yan <leo.yan@linux.dev>, Namhyung Kim <namhyung@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241210144933.295798-1-james.clark@linaro.org>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20241210144933.295798-1-james.clark@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mohu66pwpewgjwac"
+Content-Disposition: inline
+In-Reply-To: <20250305-rt-and-cpu-controller-doc-v1-1-7b6a6f5ff43d@sony.com>
 
 
+--mohu66pwpewgjwac
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/2] cgroup, docs: Be explicit about independence of
+ RT_GROUP_SCHED and non-cpu controllers
+MIME-Version: 1.0
 
-On 10/12/2024 2:49 pm, James Clark wrote:
-> Previously the sink had to be specified, but now it auto selects one by
-> default. Including a sink in the examples causes issues when copy
-> pasting the command because it might not work if that sink isn't
-> present. Remove the sink from all the basic examples and create a new
-> section specifically about overriding the default one.
-> 
-> Make the text a but more concise now that it's in the advanced section,
-> and similarly for removing the old kernel advice.
-> 
-> Signed-off-by: James Clark <james.clark@linaro.org>
+On Wed, Mar 05, 2025 at 01:12:43PM +0900, Shashank Balaji via B4 Relay <dev=
+null+shashank.mahadasyam.sony.com@kernel.org> wrote:
+> From: Shashank Balaji <shashank.mahadasyam@sony.com>
+>=20
+> The cgroup v2 cpu controller has a limitation that if
+> CONFIG_RT_GROUP_SCHED is enabled, the cpu controller can be enabled only
+> if all the realtime processes are in the root cgroup. The other
+> controllers have no such restriction. They can be used for the resource
+> control of realtime processes irrespective of whether
+> CONFIG_RT_GROUP_SCHED is enabled or not.
+>=20
+> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
 > ---
+>  Documentation/admin-guide/cgroup-v2.rst | 23 ++++++++++++++---------
+>  1 file changed, 14 insertions(+), 9 deletions(-)
+>=20
 
-Ping, thanks.
+Acked-by: Michal Koutn=FD <mkoutny@suse.com>
 
-I think Steve's comments are somewhat related, but shouldn't block this 
-change going in.
+--mohu66pwpewgjwac
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZ8h4twAKCRAt3Wney77B
+Sa/MAQCsVpx3ngjUqnES7cUlQY3BJhxMyIKDkx8/OleeglUqqAEAxOHtAu3BJJAS
+Ccs3+43hdTpTkLZ4OmOk8HTZf1FlMgA=
+=478H
+-----END PGP SIGNATURE-----
+
+--mohu66pwpewgjwac--
