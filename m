@@ -1,209 +1,164 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B622063F8;
-	Thu,  6 Mar 2025 08:59:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69050202C4D;
+	Thu,  6 Mar 2025 09:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741251560; cv=none; b=umSo49/D3jdiwndlUqgKfnDPlua4sIhkPqPyKriruYTQip2/6m4pXqqNv5qStP4PCdElqF6cju8WhfspKREHe/3t17d50ORwGGo47oZKwCVJx8uN3+rPsCUzJSxlcyxO9yPs0CwTuamJFfQunRGbG8b4MVqKlzaU6zXbamp+V9o=
+	t=1741251810; cv=none; b=khZ3/pujczy4kiXcIie9GWjmMmMEhZ4gON8OBaF3cCActCgTUuQb2Al86PE8M/Wt7wBHl/BE+iQW9GZi/yjiF8AZnfspXTOO9oupHfs07FrdwWTbq3UF0d6PZRYhGdJI10vF3+HenflzgaIB2nQn1XmhtmZ6sRztYAXSTmkhm+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741251560; c=relaxed/simple;
-	bh=w6Dn2/qTCu57870nK+uZAVm2dN+cuocLCxSK1mHE6HE=;
+	s=arc-20240116; t=1741251810; c=relaxed/simple;
+	bh=cpIhfzRQfyAuBaafeZo6QXxygGLDe7ulLKTftDugqOM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qy9OZ7lFylztRk5Z0gOxfp4M4y9DjH3+okZvGS8SYU3+Jzy+FtJfFN4V9E3Fph2tJ0OEyIFvcMzh8mG6PcFECeYz6I9rqtDczpIaa4OtYg4y853iACNC9dwH9rSOCUc71zIAi/q+XWPTgoYJKZOJuON9nc15+8h+yAINgSzwQm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tdOqRN92; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CtRE3Z47jhT44M/6oZFVOy+KXiEajTeypsWJMpkrTnEeg/5fSVao8oklXH4u9ked1YiyGeg5/00NAinwsfKxaL2b2T/W3f+8MOjhIcOn4w9MYTKdtwhETFULHKH2+F86hxqWPVPKND8o7idDG6saDiXtV45zcJylloaXg5ez33Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kXmdeiK/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tdOqRN92"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5052C4CEE0;
-	Thu,  6 Mar 2025 08:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741251559;
-	bh=w6Dn2/qTCu57870nK+uZAVm2dN+cuocLCxSK1mHE6HE=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kXmdeiK/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C6F8C4CEE0;
+	Thu,  6 Mar 2025 09:03:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1741251809;
+	bh=cpIhfzRQfyAuBaafeZo6QXxygGLDe7ulLKTftDugqOM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tdOqRN92Ep0AQ/tPCJAzKM2hSvhWkyywYZZYaTNEDfO45ZtcBL7tBA8R/LEccME2y
-	 KJHqApA4Am1WOSr9l6TMbMcyexBCVhLtuKB05WS7PvMGUPWIIX2Gkpm95X/hZMQHCc
-	 57/Rel6d5bVGQxu10DNNnvfJsdkLQtyykmup5RrxpHV/zZJ41eia4UT6hZvkiLVTMn
-	 qJMfjq/m48Ni2ZL5h/N1WwAZLAX5ZvI/w3E1mrSLiwTfvdBCj7Jpuy3U/0KvYsdFut
-	 OBMd4zkRmnvjQOZx1I6UfbmI96hKZbu/uc6/apC4HEYeWgfUl+bvp9zPR7TMOQyaXJ
-	 nOCRCB7WRCoew==
-Date: Thu, 6 Mar 2025 09:59:13 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: Alexander Mikhalitsyn <alexander@mihalicyn.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Eric W . Biederman" <ebiederm@xmission.com>, 
-	Oleg Nesterov <oleg@redhat.com>
-Subject: Re: [PATCH 2/2] pid: Optional first-fit pid allocation
-Message-ID: <20250306-esskultur-sitzheizung-d482c4a35f80@brauner>
-References: <20250221170249.890014-1-mkoutny@suse.com>
- <20250221170249.890014-3-mkoutny@suse.com>
+	b=kXmdeiK/PSu5WC7U2LW7pvdm4dRSvDK8TGVY/KXqJI1K1kXFcPNPvL1c5fQhJiuWB
+	 X1ob1NDcwRw9PaNqmiL2koEbNzyCP900K66TSXNEuwBoFMhBagmpC+4BZu6TAlTyrV
+	 /ROLVgjlKNI7PRN6B2X/3o+FfmuQ/QApUxepU3yA=
+Date: Thu, 6 Mar 2025 10:03:26 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: David Jander <david@protonic.nl>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Nuno Sa <nuno.sa@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>
+Subject: Re: [RFC PATCH 1/7] drivers: Add motion control subsystem
+Message-ID: <2025030638-wavy-napkin-41ab@gregkh>
+References: <20250227162823.3585810-1-david@protonic.nl>
+ <20250227162823.3585810-2-david@protonic.nl>
+ <6c6cqaxmsy7miesel4ghdeiea6nrpe4gti4xf5enfyg4uqro5u@vpmtd2t7gydi>
+ <20250305164046.4de5b6ef@erd003.prtnl>
+ <mzxammninwmak5ti4c6is4pbdx3xzzziiwbxiwrldjyxgae4ok@ocec24vu4txa>
+ <2025030611-embezzle-sacrament-00d9@gregkh>
+ <20250306092013.1147f27e@erd003.prtnl>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250221170249.890014-3-mkoutny@suse.com>
+In-Reply-To: <20250306092013.1147f27e@erd003.prtnl>
 
-On Fri, Feb 21, 2025 at 06:02:49PM +0100, Michal KoutnÃ½ wrote:
-> Noone would need to use this allocation strategy (it's slower, pid
-> numbers collide sooner). Its primary purpose are pid namespaces in
-> conjunction with pids.max cgroup limit which keeps (virtual) pid numbers
-> below the given limit. This is for 32-bit userspace programs that may
-> not work well with pid numbers above 65536.
+On Thu, Mar 06, 2025 at 09:20:13AM +0100, David Jander wrote:
+> On Thu, 6 Mar 2025 08:18:46 +0100
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 > 
-> Link: https://lore.kernel.org/r/20241122132459.135120-1-aleksandr.mikhalitsyn@canonical.com/
-> Signed-off-by: Michal KoutnÃ½ <mkoutny@suse.com>
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst |  2 ++
->  include/linux/pid_namespace.h               |  3 +++
->  kernel/pid.c                                | 12 +++++++--
->  kernel/pid_namespace.c                      | 28 +++++++++++++++------
->  4 files changed, 36 insertions(+), 9 deletions(-)
+> > On Thu, Mar 06, 2025 at 12:21:22AM +0100, Uwe Kleine-König wrote:
+> > > Hello David,
+> > > 
+> > > On Wed, Mar 05, 2025 at 04:40:45PM +0100, David Jander wrote:  
+> > > > On Fri, 28 Feb 2025 17:44:27 +0100
+> > > > Uwe Kleine-König <u.kleine-koenig@baylibre.com> wrote:  
+> > > > > On Thu, Feb 27, 2025 at 05:28:17PM +0100, David Jander wrote:
+> > > > > [...]  
+> > > > > > +static int motion_open(struct inode *inode, struct file *file)
+> > > > > > +{
+> > > > > > +	int minor = iminor(inode);
+> > > > > > +	struct motion_device *mdev = NULL, *iter;
+> > > > > > +	int err;
+> > > > > > +
+> > > > > > +	mutex_lock(&motion_mtx);    
+> > > > > 
+> > > > > If you use guard(), error handling gets a bit easier.  
+> > > > 
+> > > > This looks interesting. I didn't know about guard(). Thanks. I see the
+> > > > benefits, but in some cases it also makes the locked region less clearly
+> > > > visible. While I agree that guard() in this particular place is nice,
+> > > > I'm hesitant to try and replace all mutex_lock()/_unlock() calls with guard().
+> > > > Let me know if my assessment of the intended use of guard() is incorrect.  
+> > > 
+> > > I agree that guard() makes it harder for non-trivial functions to spot
+> > > the critical section. In my eyes this is outweight by not having to
+> > > unlock in all exit paths, but that might be subjective. Annother
+> > > downside of guard is that sparse doesn't understand it and reports
+> > > unbalanced locking.
+> > >    
+> > > > > > +	list_for_each_entry(iter, &motion_list, list) {
+> > > > > > +		if (iter->minor != minor)
+> > > > > > +			continue;
+> > > > > > +		mdev = iter;
+> > > > > > +		break;
+> > > > > > +	}    
+> > > > > 
+> > > > > This should be easier. If you use a cdev you can just do
+> > > > > container_of(inode->i_cdev, ...);  
+> > > > 
+> > > > Hmm... I don't yet really understand what you mean. I will have to study the
+> > > > involved code a bit more.  
+> > > 
+> > > The code that I'm convinced is correct is
+> > > https://lore.kernel.org/linux-pwm/00c9f1181dc351e1e6041ba6e41e4c30b12b6a27.1725635013.git.u.kleine-koenig@baylibre.com/
+> > > 
+> > > This isn't in mainline because there is some feedback I still have to
+> > > address, but I think it might serve as an example anyhow.
+> > >   
+> > > > > > [...]
+> > > > > > +
+> > > > > > +static const struct class motion_class = {
+> > > > > > +	.name		= "motion",
+> > > > > > +	.devnode	= motion_devnode,    
+> > > > > 
+> > > > > IIRC it's recommended to not create new classes, but a bus.  
+> > > > 
+> > > > Interesting. I did some searching, and all I could find was that the chapter
+> > > > in driver-api/driver-model about classes magically vanished between versions
+> > > > 5.12 and 5.13. Does anyone know where I can find some information about this?
+> > > > Sorry if I'm being blind...  
+> > > 
+> > > Half knowledge on my end at best. I would hope that Greg knows some
+> > > details (which might even be "no, classes are fine"). I added him to Cc:  
+> > 
+> > A class is there for when you have a common api that devices of
+> > different types can talk to userspace (i.e. the UAPI is common, not the
+> > hardware type).  Things like input devices, tty, disks, etc.  A bus is
+> > there to be able to write different drivers to bind to for that hardware
+> > bus type (pci, usb, i2c, platform, etc.)
+> > 
+> > So you need both, a bus to talk to the hardware, and a class to talk to
+> > userspace in a common way (ignore the fact that we can also talk to
+> > hardware directly from userspace like raw USB or i2c or PCI config
+> > space, that's all bus-specific stuff).
 > 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index a43b78b4b6464..f5e68d1c8849f 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -1043,6 +1043,8 @@ The last pid allocated in the current (the one task using this sysctl
->  lives in) pid namespace. When selecting a pid for a next task on fork
->  kernel tries to allocate a number starting from this one.
->  
-> +When set to -1, first-fit pid numbering is used instead of the next-fit.
+> Thanks for chiming in. Let me see if I understand this correctly: In this
+> case, I have a UAPI that is common to different types of motion control
+> devices. So I need a class. check.
 
-I strongly disagree with this approach. This is way worse then making
-pid_max per pid namespace.
+Correct.
 
-I'm fine if you come up with something else that's purely based on
-cgroups somehow and is uniform across 64-bit and 32-bit. Allowing to
-change the pid allocation strategy just for 32-bit is not the solution
-and not mergable.
+> Do I need a bus? If one can conceive other drivers or kernel parts that talk to
+> motion drivers, I would need a bus. If that doesn't make sense, I don't. Right?
 
-> +
->  
->  powersave-nap (PPC only)
->  ========================
-> diff --git a/include/linux/pid_namespace.h b/include/linux/pid_namespace.h
-> index f9f9931e02d6a..10bf66ca78590 100644
-> --- a/include/linux/pid_namespace.h
-> +++ b/include/linux/pid_namespace.h
-> @@ -41,6 +41,9 @@ struct pid_namespace {
->  #if defined(CONFIG_SYSCTL) && defined(CONFIG_MEMFD_CREATE)
->  	int memfd_noexec_scope;
->  #endif
-> +#ifdef CONFIG_IA32_EMULATION
-> +	bool pid_noncyclic;
-> +#endif
->  } __randomize_layout;
->  
->  extern struct pid_namespace init_pid_ns;
-> diff --git a/kernel/pid.c b/kernel/pid.c
-> index aa2a7d4da4555..e9da1662b8821 100644
-> --- a/kernel/pid.c
-> +++ b/kernel/pid.c
-> @@ -191,6 +191,10 @@ struct pid *alloc_pid(struct pid_namespace *ns, pid_t *set_tid,
->  
->  	for (i = ns->level; i >= 0; i--) {
->  		int tid = 0;
-> +		bool pid_noncyclic = 0;
-> +#ifdef CONFIG_IA32_EMULATION
-> +		pid_noncyclic = READ_ONCE(tmp->pid_noncyclic);
-> +#endif
->  
->  		if (set_tid_size) {
->  			tid = set_tid[ns->level - i];
-> @@ -235,8 +239,12 @@ struct pid *alloc_pid(struct pid_namespace *ns, pid_t *set_tid,
->  			 * Store a null pointer so find_pid_ns does not find
->  			 * a partially initialized PID (see below).
->  			 */
-> -			nr = idr_alloc_cyclic(&tmp->idr, NULL, pid_min,
-> -					      pid_max, GFP_ATOMIC);
-> +			if (likely(!pid_noncyclic))
-> +				nr = idr_alloc_cyclic(&tmp->idr, NULL, pid_min,
-> +						      pid_max, GFP_ATOMIC);
-> +			else
-> +				nr = idr_alloc(&tmp->idr, NULL, pid_min,
-> +						      pid_max, GFP_ATOMIC);
->  		}
->  		spin_unlock_irq(&pidmap_lock);
->  		idr_preload_end();
-> diff --git a/kernel/pid_namespace.c b/kernel/pid_namespace.c
-> index 0f23285be4f92..ceda94a064294 100644
-> --- a/kernel/pid_namespace.c
-> +++ b/kernel/pid_namespace.c
-> @@ -113,6 +113,9 @@ static struct pid_namespace *create_pid_namespace(struct user_namespace *user_ns
->  	ns->pid_allocated = PIDNS_ADDING;
->  #if defined(CONFIG_SYSCTL) && defined(CONFIG_MEMFD_CREATE)
->  	ns->memfd_noexec_scope = pidns_memfd_noexec_scope(parent_pid_ns);
-> +#endif
-> +#ifdef CONFIG_IA32_EMULATION
-> +	ns->pid_noncyclic = READ_ONCE(parent_pid_ns->pid_noncyclic);
->  #endif
->  	return ns;
->  
-> @@ -260,7 +263,7 @@ void zap_pid_ns_processes(struct pid_namespace *pid_ns)
->  	return;
->  }
->  
-> -#ifdef CONFIG_CHECKPOINT_RESTORE
-> +#if defined(CONFIG_CHECKPOINT_RESTORE) || defined(CONFIG_IA32_EMULATION)
->  static int pid_ns_ctl_handler(const struct ctl_table *table, int write,
->  		void *buffer, size_t *lenp, loff_t *ppos)
->  {
-> @@ -271,12 +274,23 @@ static int pid_ns_ctl_handler(const struct ctl_table *table, int write,
->  	if (write && !checkpoint_restore_ns_capable(pid_ns->user_ns))
->  		return -EPERM;
->  
-> -	next = idr_get_cursor(&pid_ns->idr) - 1;
-> +	next = -1;
-> +#ifdef CONFIG_IA32_EMULATION
-> +	if (!pid_ns->pid_noncyclic)
-> +#endif
-> +		next += idr_get_cursor(&pid_ns->idr);
->  
->  	tmp.data = &next;
->  	ret = proc_dointvec_minmax(&tmp, write, buffer, lenp, ppos);
-> -	if (!ret && write)
-> -		idr_set_cursor(&pid_ns->idr, next + 1);
-> +	if (!ret && write) {
-> +		if (next > -1)
-> +			idr_set_cursor(&pid_ns->idr, next + 1);
-> +		else if (!IS_ENABLED(CONFIG_IA32_EMULATION))
-> +			ret = -EINVAL;
-> +#ifdef CONFIG_IA32_EMULATION
-> +		WRITE_ONCE(pid_ns->pid_noncyclic, next == -1);
-> +#endif
-> +	}
->  
->  	return ret;
->  }
-> @@ -288,11 +302,11 @@ static const struct ctl_table pid_ns_ctl_table[] = {
->  		.maxlen = sizeof(int),
->  		.mode = 0666, /* permissions are checked in the handler */
->  		.proc_handler = pid_ns_ctl_handler,
-> -		.extra1 = SYSCTL_ZERO,
-> +		.extra1 = SYSCTL_NEG_ONE,
->  		.extra2 = &pid_max,
->  	},
->  };
-> -#endif	/* CONFIG_CHECKPOINT_RESTORE */
-> +#endif	/* CONFIG_CHECKPOINT_RESTORE || CONFIG_IA32_EMULATION */
->  
->  int reboot_pid_ns(struct pid_namespace *pid_ns, int cmd)
->  {
-> @@ -449,7 +463,7 @@ static __init int pid_namespaces_init(void)
->  {
->  	pid_ns_cachep = KMEM_CACHE(pid_namespace, SLAB_PANIC | SLAB_ACCOUNT);
->  
-> -#ifdef CONFIG_CHECKPOINT_RESTORE
-> +#if defined(CONFIG_CHECKPOINT_RESTORE) || defined(CONFIG_IA32_EMULATION)
->  	register_sysctl_init("kernel", pid_ns_ctl_table);
->  #endif
->  
-> -- 
-> 2.48.1
-> 
+Correct.
+
+> I actually can think of a new motion device that acts as an aggregator of
+> several single-channel motion devices into a single "virtual" multi-channel
+> device... so do I need also a bus? I suppose...?
+
+Nope, that should just be another class driver.  Think about how input
+does this, some input /dev/ nodes are the sum of ALL input /dev/ nodes
+together, while others are just for individual input devices.
+
+> Then the question remains: why did the chapter about classes vanish?
+
+What are you specifically referring to?  I don't remember deleting any
+documentation, did files move around somehow and the links not get
+updated?
+
+thanks,
+
+greg k-h
