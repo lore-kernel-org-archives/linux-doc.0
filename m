@@ -1,153 +1,167 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp15.bhosted.nl (smtp15.bhosted.nl [94.124.121.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4737E1F63F0
-	for <linux-doc@vger.kernel.org>; Thu,  6 Mar 2025 08:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9805C19995B
+	for <linux-doc@vger.kernel.org>; Thu,  6 Mar 2025 08:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741248829; cv=none; b=QGYrmCXupub9sWutD008GT2h44vN7uKtYvwkG0FobUyh2DAMcEKW8V9IDENQQcRVrsRpeZusQ0wJcM8Wlh5y5KpfwmFR2kpesdVoZpNQF7dXoPHz9UuThgyZDRUn04sGYzSWUAO1KS9w4yy9pUp0dhQGS8hmwgLb4vlCfJcznlo=
+	t=1741249221; cv=none; b=ksyKFMlKKqmH0ghz5D2p+uYEdeHq8Qi47SmAZ5ogBXyP388obQCHqkqR8Q21TnwMDD/Fpf5hX8RIkaIyeKLP2Kj2lT/JLxopJpvZ4Tgzn3CkLPKDOktz0Y4C5mGaqx1hLsGflF9gqrNjjR3RLyhNwnqLjpnWSI4//bQjkCj48Tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741248829; c=relaxed/simple;
-	bh=RmZfOZv9mSU7muKmuICqF7kMncNlxjNLjpCX8r/rE20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i4sylRV2Wo59W6Q2P3qxAcTwob1rbeHApyRp2MLHqiDhUiKQ136NvVj3fhmF+pqjuZyzMtsJPGUwkzG9uS7vmCKGPitLQZffUUO55i7b+piW5uhOrVGnLu4q8Cp0vh7o9om9FZn1YTIkZXnzVotN8PT2orcsY6L00bHTXF4/IEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=ZU6l3dcK; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1741249221; c=relaxed/simple;
+	bh=kceH0gTrTRVWZzXH93HjhlGVBTj2mbk4AUyaS4+UToM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HtKqj7FIdHuWXHEuovbNBkC0QYcyrOMVV6dnUD1J5Och5P8lLp4o2ZtpPvEIK9YEM3kCyvrlUyWSHizBSmcDUoB24YpBSqD7n0sVKYnu3MfYGm2tKOHlCOPystYl2hzGfv2vT7D1ZsO5Sr9pfucT6xxYxCNwWllZFNKt6PyR4ZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl; spf=pass smtp.mailfrom=protonic.nl; dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b=btdUpXCk; arc=none smtp.client-ip=94.124.121.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonic.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="ZU6l3dcK"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43690d4605dso1858005e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Mar 2025 00:13:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b="btdUpXCk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1741248825; x=1741853625; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gLj5XWg7CIE0WfrqZc/tm6IHxyhmUxBPEQxl5xJpjbY=;
-        b=ZU6l3dcKui5HpnluuvhRRRr6ihSgUF+VqdR0xI0uWtKO63tVKVIP2EozrAMrYmJw7l
-         ugb1AHDTobNPgsPSC3x/sJE5euc+MjbK4GH8NPq8BubRCcDhLr/GvodttT4tbNSncbz8
-         iVamZgHbBS6yBpKk+cv0CMpOUA1QZLZ5OHrahrstxITZyCEtSnPvILnH4V6OsxPY1CVH
-         T+K8ButUBRnuxpovbVeHcWLxuLJZ8lcbE51jHDm3qxsOdJTnxOjOxaCBzHrIQRwFWm4u
-         cViGZqp/5Ieu3WbcpzYxmbUPuDoAxU4E51aIy/ACNR+Y16pUXoBKQegB0icyLdijUJMX
-         4TNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741248825; x=1741853625;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gLj5XWg7CIE0WfrqZc/tm6IHxyhmUxBPEQxl5xJpjbY=;
-        b=Rjxsef7APkYv1pCrJPxoIHIkTEOcra+AdcKhDazo8C5XKr+OAXjZnWAPE434EQB6Xe
-         WRg/ik2kOIHMCjDGZ7WmE7SFypu8nsKYzupeiXe/TlVje4SOC4z5NrBRXk+uo2SqnOd2
-         a1mvGWb/pWQs5JaGkwQ6Vh74pnPonfsO6Q00Nkli2VHnOZNog9XDZfw1Tx5WkMdObOCR
-         Om1KGKmf9E/ApIJ8G3aoIqgorTLsp1m92bMU+3Vz3cFvE0yDgmKoozbTcV+YXqZNKUtl
-         0hfYT9b49vwxtR58Ivzmhbq/k7PkIsEsfLdLbXQjLyuZvxnMHump1Wnmkh+4xAMP7WED
-         sXOw==
-X-Forwarded-Encrypted: i=1; AJvYcCV4gv8KFxO9t1REyBpJOkBDqbrt8TsP7Zt5dF+v3kRY1f6BgfafU/cm8AqaTM5IyQwD8rSEfmWkxmw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzD/8B4aVTE3oWv0YTgjyl6fLpuVk6P0CgU4DUzDosf8w8piEZ9
-	u5zjBwMK5Z2TI0knwqIJoTJvwprdgIjvD/xNoyS4yM1MDB7sPIPskhfq24X51Wo=
-X-Gm-Gg: ASbGncscCr77DImLMIBnRx1a37YrefSj3DYXxVsgGElTIhrqVDzDSWD5VN310+bqnyc
-	Qi4cEC1951AQuBDXsL3cJoP3s1T4L3P3lfDQv9ONW7BvvwvwqloJXSsILMhYtjM0lr/fxx1pFwv
-	qN0KDBaisvTtSCoYMtHpFICFh6pFGhx1JH5m90mJrF+QHo4y1lrZ4GcQ74hRprj2T0v7TNzH64l
-	wCBx/IARc+J4WMPaBuAYtpqPLkMb/5INul7qP0uq/HhutsjIlDA0D2EVd97yYGJ0RcsTvq13lVO
-	RjxuG2RlIOBjNpHyShzN4I4X1K8UXtFT+4L9Ftbm3psfr9CTGce4fmZ7FOq8yQv1Y9ctLVzMKQ=
-	=
-X-Google-Smtp-Source: AGHT+IEizEhonB9j6mrELEVT2fWpqMYrBXgXdwXsHsJznxRDUYEH+hFr9DD372KDSR8Qo+hFwnpfNA==
-X-Received: by 2002:a05:600c:198f:b0:43b:c309:da40 with SMTP id 5b1f17b1804b1-43bd294de7dmr48473505e9.4.1741248825382;
-        Thu, 06 Mar 2025 00:13:45 -0800 (PST)
-Received: from localhost (cst2-173-28.cust.vodafone.cz. [31.30.173.28])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912c019557sm1262734f8f.50.2025.03.06.00.13.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 00:13:44 -0800 (PST)
-Date: Thu, 6 Mar 2025 09:13:43 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com, 
-	cleger@rivosinc.com, alex@ghiti.fr, Anup Patel <apatel@ventanamicro.com>, 
-	corbet@lwn.net
-Subject: Re: [PATCH v3 0/8] riscv: Unaligned access speed probing fixes and
- skipping
-Message-ID: <20250306-3f25ee3d4686442bd215a0fa@orel>
-References: <20250304120014.143628-10-ajones@ventanamicro.com>
- <Z8jU2i5d3e4Dv4vk@ghost>
+	d=protonic.nl; s=202111;
+	h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
+	 message-id:subject:cc:to:from:date:from;
+	bh=+lejcC24gc0iyhaiB1u+hyb9XJFYxfRXSIGs4t6bvk4=;
+	b=btdUpXCkXyXHybWKKSrI8Spk1EYJ4kyvUqTVl9D31+thMsJf8szZRebmNpC56qJzKaa2Q3UKGufYy
+	 aypgWEnSRAMbMCiCiNYYlJStMZB3LF57Mg9UH32m8NNGn+5FNiDG4aLbjiAuYAsxtaJyhwwuDsmUhi
+	 E3VXpsLoRKerGAJFqs7NTx6PyTU74X/w8gx3TMre+W50NOCVxRMIdjBNb7tRk42iDhtRmVfHavD6Xy
+	 Jhjk1pW63KFs0ifHfQqvzi2jjXaHhvFADwlycqOkGPU4VOxwfbmGTTaSjbnpPBK1aXV830Vg6MbhG1
+	 ycw8Zs1X01zsYZLIX7zxM7PO1JnrJoQ==
+X-MSG-ID: d4355bb4-fa63-11ef-a39e-00505681446f
+Date: Thu, 6 Mar 2025 09:20:13 +0100
+From: David Jander <david@protonic.nl>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, Jonathan Corbet
+ <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Nuno Sa
+ <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, Oleksij Rempel
+ <o.rempel@pengutronix.de>
+Subject: Re: [RFC PATCH 1/7] drivers: Add motion control subsystem
+Message-ID: <20250306092013.1147f27e@erd003.prtnl>
+In-Reply-To: <2025030611-embezzle-sacrament-00d9@gregkh>
+References: <20250227162823.3585810-1-david@protonic.nl>
+	<20250227162823.3585810-2-david@protonic.nl>
+	<6c6cqaxmsy7miesel4ghdeiea6nrpe4gti4xf5enfyg4uqro5u@vpmtd2t7gydi>
+	<20250305164046.4de5b6ef@erd003.prtnl>
+	<mzxammninwmak5ti4c6is4pbdx3xzzziiwbxiwrldjyxgae4ok@ocec24vu4txa>
+	<2025030611-embezzle-sacrament-00d9@gregkh>
+Organization: Protonic Holland
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z8jU2i5d3e4Dv4vk@ghost>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 05, 2025 at 02:48:58PM -0800, Charlie Jenkins wrote:
-> On Tue, Mar 04, 2025 at 01:00:15PM +0100, Andrew Jones wrote:
-> > The first six patches of this series are fixes and cleanups of the
-> > unaligned access speed probing code. The next patch introduces a
-> > kernel command line option that allows the probing to be skipped.
-> > This command line option is a different approach than Jesse's [1].
-> > [1] takes a cpu-list for a particular speed, supporting heterogeneous
-> > platforms. With this approach, the kernel command line should only
-> > be used for homogeneous platforms. [1] also only allowed 'fast' and
-> > 'slow' to be selected. This parameter also supports 'unsupported',
-> > which could be useful for testing code paths gated on that. The final
-> > patch adds the documentation.
-> 
-> Why constrain the command line option to homogeneous platforms?
+On Thu, 6 Mar 2025 08:18:46 +0100
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
-Based on feedback at the last Plumber's, we've decided not to go out of
-our way to support heterogeneous platforms unless they start to
-materialize. With that in mind, and the fact that heterogeneous platforms
-can use the probing mechanism instead of the command line, then I didn't
-think the cpu-list support was worth it yet. Also, we can introduce
-support for an optional [,<cpu-list>] attribute later, since the
-definition of the parameters would stay the same for when the cpu-list
-attribute is absent. Indeed, even if I was to introduce the cpu-list
-support now, I would make it optional with the absence of it behaving
-as this patch series implements.
+> On Thu, Mar 06, 2025 at 12:21:22AM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> > Hello David,
+> >=20
+> > On Wed, Mar 05, 2025 at 04:40:45PM +0100, David Jander wrote: =20
+> > > On Fri, 28 Feb 2025 17:44:27 +0100
+> > > Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com> wrote: =20
+> > > > On Thu, Feb 27, 2025 at 05:28:17PM +0100, David Jander wrote:
+> > > > [...] =20
+> > > > > +static int motion_open(struct inode *inode, struct file *file)
+> > > > > +{
+> > > > > +	int minor =3D iminor(inode);
+> > > > > +	struct motion_device *mdev =3D NULL, *iter;
+> > > > > +	int err;
+> > > > > +
+> > > > > +	mutex_lock(&motion_mtx);   =20
+> > > >=20
+> > > > If you use guard(), error handling gets a bit easier. =20
+> > >=20
+> > > This looks interesting. I didn't know about guard(). Thanks. I see the
+> > > benefits, but in some cases it also makes the locked region less clea=
+rly
+> > > visible. While I agree that guard() in this particular place is nice,
+> > > I'm hesitant to try and replace all mutex_lock()/_unlock() calls with=
+ guard().
+> > > Let me know if my assessment of the intended use of guard() is incorr=
+ect. =20
+> >=20
+> > I agree that guard() makes it harder for non-trivial functions to spot
+> > the critical section. In my eyes this is outweight by not having to
+> > unlock in all exit paths, but that might be subjective. Annother
+> > downside of guard is that sparse doesn't understand it and reports
+> > unbalanced locking.
+> >   =20
+> > > > > +	list_for_each_entry(iter, &motion_list, list) {
+> > > > > +		if (iter->minor !=3D minor)
+> > > > > +			continue;
+> > > > > +		mdev =3D iter;
+> > > > > +		break;
+> > > > > +	}   =20
+> > > >=20
+> > > > This should be easier. If you use a cdev you can just do
+> > > > container_of(inode->i_cdev, ...); =20
+> > >=20
+> > > Hmm... I don't yet really understand what you mean. I will have to st=
+udy the
+> > > involved code a bit more. =20
+> >=20
+> > The code that I'm convinced is correct is
+> > https://lore.kernel.org/linux-pwm/00c9f1181dc351e1e6041ba6e41e4c30b12b6=
+a27.1725635013.git.u.kleine-koenig@baylibre.com/
+> >=20
+> > This isn't in mainline because there is some feedback I still have to
+> > address, but I think it might serve as an example anyhow.
+> >  =20
+> > > > > [...]
+> > > > > +
+> > > > > +static const struct class motion_class =3D {
+> > > > > +	.name		=3D "motion",
+> > > > > +	.devnode	=3D motion_devnode,   =20
+> > > >=20
+> > > > IIRC it's recommended to not create new classes, but a bus. =20
+> > >=20
+> > > Interesting. I did some searching, and all I could find was that the =
+chapter
+> > > in driver-api/driver-model about classes magically vanished between v=
+ersions
+> > > 5.12 and 5.13. Does anyone know where I can find some information abo=
+ut this?
+> > > Sorry if I'm being blind... =20
+> >=20
+> > Half knowledge on my end at best. I would hope that Greg knows some
+> > details (which might even be "no, classes are fine"). I added him to Cc=
+: =20
+>=20
+> A class is there for when you have a common api that devices of
+> different types can talk to userspace (i.e. the UAPI is common, not the
+> hardware type).  Things like input devices, tty, disks, etc.  A bus is
+> there to be able to write different drivers to bind to for that hardware
+> bus type (pci, usb, i2c, platform, etc.)
+>=20
+> So you need both, a bus to talk to the hardware, and a class to talk to
+> userspace in a common way (ignore the fact that we can also talk to
+> hardware directly from userspace like raw USB or i2c or PCI config
+> space, that's all bus-specific stuff).
 
-Thanks,
-drew
+Thanks for chiming in. Let me see if I understand this correctly: In this
+case, I have a UAPI that is common to different types of motion control
+devices. So I need a class. check.
 
+Do I need a bus? If one can conceive other drivers or kernel parts that tal=
+k to
+motion drivers, I would need a bus. If that doesn't make sense, I don't. Ri=
+ght?
 
-> 
-> - Charlie
-> 
-> > 
-> > (I'd be happy to split the fixes from the new skip support if we want to
-> > discuss the skip support independently, but I want to base on the fixes
-> > and I'm not sure if patchwork supports Based-on: $MESSAGE_ID/$LORE_URL
-> > or not at the moment, so I'm just posting together for now in order to
-> > be able to check for my patchwork green lights!)
-> > 
-> > [1] https://lore.kernel.org/linux-riscv/20240805173816.3722002-1-jesse@rivosinc.com/
-> > 
-> > Thanks,
-> > drew
-> > 
-> > ---
-> > v3:
-> >  - Fix compile when RISCV_PROBE_UNALIGNED_ACCESS is not selected
-> > 
-> > v2:
-> >  - Change to command line option from table
-> > 
-> > 
-> > Andrew Jones (8):
-> >   riscv: Annotate unaligned access init functions
-> >   riscv: Fix riscv_online_cpu_vec
-> >   riscv: Fix check_unaligned_access_all_cpus
-> >   riscv: Change check_unaligned_access_speed_all_cpus to void
-> >   riscv: Fix set up of cpu hotplug callbacks
-> >   riscv: Fix set up of vector cpu hotplug callback
-> >   riscv: Add parameter for skipping access speed tests
-> >   Documentation/kernel-parameters: Add riscv unaligned speed parameters
-> > 
-> >  .../admin-guide/kernel-parameters.txt         |  16 ++
-> >  arch/riscv/include/asm/cpufeature.h           |   4 +-
-> >  arch/riscv/kernel/traps_misaligned.c          |  14 +-
-> >  arch/riscv/kernel/unaligned_access_speed.c    | 237 +++++++++++-------
-> >  4 files changed, 168 insertions(+), 103 deletions(-)
-> > 
-> > -- 
-> > 2.48.1
-> > 
+I actually can think of a new motion device that acts as an aggregator of
+several single-channel motion devices into a single "virtual" multi-channel
+device... so do I need also a bus? I suppose...?
+
+Then the question remains: why did the chapter about classes vanish?
+
+Best regards,
+
+--=20
+David Jander
+
