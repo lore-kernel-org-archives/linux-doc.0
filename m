@@ -1,208 +1,236 @@
-Received: from smtp28.bhosted.nl (smtp28.bhosted.nl [94.124.121.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB9E6FC3
-	for <linux-doc@vger.kernel.org>; Thu,  6 Mar 2025 09:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.124.121.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCF420ADD5
+	for <linux-doc@vger.kernel.org>; Thu,  6 Mar 2025 09:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741253653; cv=none; b=Ddbm8G9sA0i3ib/uURKm+nKXJ3XozWg6BuQQup/ZC8sIrDyyw8Boh18h4a91dXhlGbSwKpaKau76yK3WZYT3CWqvbiOLAg6tcXxlK6aT4VFER0L0mU2D/p/5foJmjso1nfK1ZbAtMgyvUERRYEjkaE2vJLelXFSiAmZnRM+7N+8=
+	t=1741255023; cv=none; b=fGudnRzW17tlsRl8ZFl3UoTg91nv5Quw9USbnYKtEqVC0TrAMrRwmcWj4gqRtDc2v24o7+qCESgmLaEOx1CBNS6epBlPO2kJazF9uhQIL5ocCGKroNe2lQ8wDTbAPxIldbjZcYg/mPIi29Vxv4kru01zAUCr61OvJjsuVMT74XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741253653; c=relaxed/simple;
-	bh=0Ul3W9RA2qbuwLSO2ikfxDnJ5d0Vyod5VAYqpLKoKLI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bo9FthhknW+AQobVOcOau8PU4/0lSXQbCRqMNCEogoOuFJuNEImCwc4DPJPXzL+0ZAzPUYc4RmoaFWEBW/7GSezOAonGltF+lTHZcCDu6oEC4JutHTVVAr67ZuSY1UJrTSu3CHzldBXys5GO8lw4t2lOkubAkMznEItO3qH4n+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl; spf=pass smtp.mailfrom=protonic.nl; dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b=IhG3jeFS; arc=none smtp.client-ip=94.124.121.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=protonic.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonic.nl
+	s=arc-20240116; t=1741255023; c=relaxed/simple;
+	bh=8nXRTGudzBBRfx66S5WuBv+BBtiXafaeFQXEswlaDnY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To; b=uKtHrbvgKe6RZvTo86OnZifobg04hlcLMllI48x5rQJDHBmqsmP3E0tqzmhSjnF0YPqlDs/pTgJSuIej64sDaW2zKeC9ggv3x/XJAqAcDMmCp2ahdqlyLhIgesjEKyzladK+mbSK6zqLES8hMYnO5x3JWTmQBQBfrnSpq8A1TKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=XKl0PTF0; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonic.nl header.i=@protonic.nl header.b="IhG3jeFS"
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="XKl0PTF0"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2234e4b079cso6210895ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 06 Mar 2025 01:57:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=protonic.nl; s=202111;
-	h=content-transfer-encoding:content-type:mime-version:references:in-reply-to:
-	 message-id:subject:cc:to:from:date:from;
-	bh=9tPUP8EiK8qOxuyJaWos1+XABWu3Bxs8tybweToNzbY=;
-	b=IhG3jeFShdQXOFCjNcuAh7zmvleBiMEanWrwNgthK2jMovqGUK70iShaGa8NBl3aqXdAoTFwb/1qF
-	 t0KwTL+AFF0Ga2NHug1pLMa3umU3Om+Ii94rOn2IwhV3TA2coa/daszdP1RQzT99jlSGBuy+x/4x+Y
-	 fuloAPhWhfq0pdTnZfKEjEm4SusF9udSd5chvcc6veMbGzX8OiwU40ZBEd4NCXKVzr9HZO/l+6wpCm
-	 JDlEeSB4Jf+lcrv67hOIYrSPhkrN3BDxFiR3VUBCHT0j9rRmw/OfF2qqWrZJPno5tDD+7shjiYs9Ed
-	 q75ecYc08/4HkPjvyZrR8AcZ/lNQYgw==
-X-MSG-ID: 23d7dec5-fa6e-11ef-b5ca-0050568164d1
-Date: Thu, 6 Mar 2025 10:34:02 +0100
-From: David Jander <david@protonic.nl>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, Jonathan Corbet
- <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Nuno Sa
- <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, Oleksij Rempel
- <o.rempel@pengutronix.de>
-Subject: Re: [RFC PATCH 1/7] drivers: Add motion control subsystem
-Message-ID: <20250306103402.2b9e51d7@erd003.prtnl>
-In-Reply-To: <2025030638-wavy-napkin-41ab@gregkh>
-References: <20250227162823.3585810-1-david@protonic.nl>
-	<20250227162823.3585810-2-david@protonic.nl>
-	<6c6cqaxmsy7miesel4ghdeiea6nrpe4gti4xf5enfyg4uqro5u@vpmtd2t7gydi>
-	<20250305164046.4de5b6ef@erd003.prtnl>
-	<mzxammninwmak5ti4c6is4pbdx3xzzziiwbxiwrldjyxgae4ok@ocec24vu4txa>
-	<2025030611-embezzle-sacrament-00d9@gregkh>
-	<20250306092013.1147f27e@erd003.prtnl>
-	<2025030638-wavy-napkin-41ab@gregkh>
-Organization: Protonic Holland
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1741255020; x=1741859820; darn=vger.kernel.org;
+        h=to:content-transfer-encoding:mime-version:message-id:date:subject
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+1Q1NyitEWr4IZ0KCgYL2Tz8PJ2srBtknby9HFciIus=;
+        b=XKl0PTF0QDgQ3pEkSAZXmAz4DxU0bDJLhSCUzWlzLm6/Tj3f46HHPPuT6VIkeEEuVp
+         C2uyUuR5brWIOHRmvmJnp3UOlNewyGniYYY54fZQTwQUkCek7i/5fwYLvAHZZq8gZaXM
+         351rl/eVReKewj61M3BniMU0qeH7gyen064WoLT5mkanYVLFV/POnDgRnrLQ3kXCqpfk
+         y73WeD/fWCtWzQBX67pUJHpAvEL9GVuUoxLV8OeC2T82ohp3P//dfQgZIbmn1cEx6mnH
+         Cpd0K7Gh5pFLexjsUOAxa8Zr2HK5sYMqKiqivCr0OFauD7GHnU8uDZqLIkp46BaZVW2q
+         +1ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741255020; x=1741859820;
+        h=to:content-transfer-encoding:mime-version:message-id:date:subject
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+1Q1NyitEWr4IZ0KCgYL2Tz8PJ2srBtknby9HFciIus=;
+        b=NNu/cFTiu/XSyfKMfjcwoKVEFkVJofZ1zhGo1Y6ZBgiBROZtQvqV+iOLeCpGSpQxRO
+         HwhHLwDTcbLqnG8fyh80g6DEgf3/xsh5qIEIO461n9GLG4aba3oaiNU+maz7QGCVB3RO
+         ku7LvpBI+EfE1I4/wzZcmEOkCoeeFxgCNBm46MhQt8wF7aNMGyf1yz8OjT3e9Qoq4F9M
+         Xx9KjZ13d2g/gjQcA25d5FHQ1l/V6EndZK86kruE4M/SRXcqpsMHCDkCdoGNa5QF3twa
+         esyUw9HXyawDO9IKyc5LLYmuN/+9hNLvau3DXtnggMbMWy71Po2IfZwci+z6xC43ybGb
+         A2dQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5tiGVTc79HDHY0rk+Ehk2SPQ+xa9k0V4Vb7gkRm1gLxRo/7h8hp1Rs5FvXFtsmPDVtHqtB6PmZK4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaYCr7VNAq/le8ZvIugyG7z9wxkwKBX2xoiKDgaueUd+nkEEfu
+	BGzmVWNRS9M8fzA8Oton7F5dLPOuMqAeVX2cbGaeRW1oPkxI8MpyzYaQM6zoLxQ=
+X-Gm-Gg: ASbGncsoW9hCTK1uSTbO7ftgZJtBXhzxVh8MBB+RR1mA3QpIa22ONhua1wiHlfWAcyx
+	SklRE5wMWxYX9rUiIpPiLI/3MzW5Z7+FpfRQgOc6ehy5eK+B81c0GqvnDROt2CZkGNaM5MP8kcI
+	S9DMWlWYLxsFqG+jMA2g1/K01nOyPcEnRD3obCxDmn6c39RlsB2al8J1+dES4vQr+5GRQouMMCf
+	B0PFjRlTykvLfQH8fEHy+sfDchGwTnWBbQuFKB10cAYWiXSH+meshbcwmIv0Cy2Nb+MbCPYlzSM
+	0JsC77lcB5spSPdgtAGIoA+h4j4GgXLSspXhp/0WcDQLj7Z6
+X-Google-Smtp-Source: AGHT+IHXeng5qGtVnY36Dm4C6gPvAiJUnMMUTbAF4BmiVlWPS+BPqS54LKH0wpj1Sfm2RVks4zC/qA==
+X-Received: by 2002:a17:902:e891:b0:223:47e4:d288 with SMTP id d9443c01a7336-223f1d83ce1mr103355185ad.47.1741255020410;
+        Thu, 06 Mar 2025 01:57:00 -0800 (PST)
+Received: from localhost ([157.82.207.107])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-22410a918f0sm8255215ad.168.2025.03.06.01.56.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Mar 2025 01:56:59 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH net-next v8 0/6] tun: Introduce virtio-net hashing feature
+Date: Thu, 06 Mar 2025 18:56:30 +0900
+Message-Id: <20250306-rss-v8-0-7ab4f56ff423@daynix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE5xyWcC/4WSTW7jMAyFrxJ4XQWURFGSV71H0YUlUROhqD1jO
+ 0GKoncv6/Qngyy6E0F+j494eu0WnhsvXb977WY+taVNoxThbtflwzD+YdWK1J0Bg4Bg1bwsir3
+ 1JUSug/edTP6dubbzpvLQjbyqkc9r9yidQ1vWaX7Z5E9664uS1QABnNGg9xoRjVFaDU/t0J6m/
+ VTkdV+Gl7Gd93l63nRO5orVTqMmxL0hIKRfWfvFIkTttgtOVoHKZEHESoJgbiC8ggxeIBQoIEd
+ rOANTvoHcN/Rx4QVyAlWbK4VSAVy5gegLcqAhXiASKOkcYSgeQqUbyP9Axnxu8ps9NOBySqX8D
+ 71dcpr531FCXj/D+s64322ujQW1HkdFxBoGjAmy78Xh9XfYRsWrJpWOtfK8qCjjmKqkU3MvWcl
+ 4GhZWsvm5rf2ulGC985WYAg1GhxCjz8mF5KJ31SOm5H0gsfn2DtcaZfOTAgAA
+X-Change-ID: 20240403-rss-e737d89efa77
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
+ Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+X-Mailer: b4 0.14.2
 
-On Thu, 6 Mar 2025 10:03:26 +0100
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+virtio-net have two usage of hashes: one is RSS and another is hash
+reporting. Conventionally the hash calculation was done by the VMM.
+However, computing the hash after the queue was chosen defeats the
+purpose of RSS.
 
-> On Thu, Mar 06, 2025 at 09:20:13AM +0100, David Jander wrote:
-> > On Thu, 6 Mar 2025 08:18:46 +0100
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> >  =20
-> > > On Thu, Mar 06, 2025 at 12:21:22AM +0100, Uwe Kleine-K=C3=B6nig wrote=
-: =20
-> > > > Hello David,
-> > > >=20
-> > > > On Wed, Mar 05, 2025 at 04:40:45PM +0100, David Jander wrote:   =20
-> > > > > On Fri, 28 Feb 2025 17:44:27 +0100
-> > > > > Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com> wrote:   =20
-> > > > > > On Thu, Feb 27, 2025 at 05:28:17PM +0100, David Jander wrote:
-> > > > > > [...]   =20
-> > > > > > > +static int motion_open(struct inode *inode, struct file *fil=
-e)
-> > > > > > > +{
-> > > > > > > +	int minor =3D iminor(inode);
-> > > > > > > +	struct motion_device *mdev =3D NULL, *iter;
-> > > > > > > +	int err;
-> > > > > > > +
-> > > > > > > +	mutex_lock(&motion_mtx);     =20
-> > > > > >=20
-> > > > > > If you use guard(), error handling gets a bit easier.   =20
-> > > > >=20
-> > > > > This looks interesting. I didn't know about guard(). Thanks. I se=
-e the
-> > > > > benefits, but in some cases it also makes the locked region less =
-clearly
-> > > > > visible. While I agree that guard() in this particular place is n=
-ice,
-> > > > > I'm hesitant to try and replace all mutex_lock()/_unlock() calls =
-with guard().
-> > > > > Let me know if my assessment of the intended use of guard() is in=
-correct.   =20
-> > > >=20
-> > > > I agree that guard() makes it harder for non-trivial functions to s=
-pot
-> > > > the critical section. In my eyes this is outweight by not having to
-> > > > unlock in all exit paths, but that might be subjective. Annother
-> > > > downside of guard is that sparse doesn't understand it and reports
-> > > > unbalanced locking.
-> > > >     =20
-> > > > > > > +	list_for_each_entry(iter, &motion_list, list) {
-> > > > > > > +		if (iter->minor !=3D minor)
-> > > > > > > +			continue;
-> > > > > > > +		mdev =3D iter;
-> > > > > > > +		break;
-> > > > > > > +	}     =20
-> > > > > >=20
-> > > > > > This should be easier. If you use a cdev you can just do
-> > > > > > container_of(inode->i_cdev, ...);   =20
-> > > > >=20
-> > > > > Hmm... I don't yet really understand what you mean. I will have t=
-o study the
-> > > > > involved code a bit more.   =20
-> > > >=20
-> > > > The code that I'm convinced is correct is
-> > > > https://lore.kernel.org/linux-pwm/00c9f1181dc351e1e6041ba6e41e4c30b=
-12b6a27.1725635013.git.u.kleine-koenig@baylibre.com/
-> > > >=20
-> > > > This isn't in mainline because there is some feedback I still have =
-to
-> > > > address, but I think it might serve as an example anyhow.
-> > > >    =20
-> > > > > > > [...]
-> > > > > > > +
-> > > > > > > +static const struct class motion_class =3D {
-> > > > > > > +	.name		=3D "motion",
-> > > > > > > +	.devnode	=3D motion_devnode,     =20
-> > > > > >=20
-> > > > > > IIRC it's recommended to not create new classes, but a bus.   =
-=20
-> > > > >=20
-> > > > > Interesting. I did some searching, and all I could find was that =
-the chapter
-> > > > > in driver-api/driver-model about classes magically vanished betwe=
-en versions
-> > > > > 5.12 and 5.13. Does anyone know where I can find some information=
- about this?
-> > > > > Sorry if I'm being blind...   =20
-> > > >=20
-> > > > Half knowledge on my end at best. I would hope that Greg knows some
-> > > > details (which might even be "no, classes are fine"). I added him t=
-o Cc:   =20
-> > >=20
-> > > A class is there for when you have a common api that devices of
-> > > different types can talk to userspace (i.e. the UAPI is common, not t=
-he
-> > > hardware type).  Things like input devices, tty, disks, etc.  A bus is
-> > > there to be able to write different drivers to bind to for that hardw=
-are
-> > > bus type (pci, usb, i2c, platform, etc.)
-> > >=20
-> > > So you need both, a bus to talk to the hardware, and a class to talk =
-to
-> > > userspace in a common way (ignore the fact that we can also talk to
-> > > hardware directly from userspace like raw USB or i2c or PCI config
-> > > space, that's all bus-specific stuff). =20
-> >=20
-> > Thanks for chiming in. Let me see if I understand this correctly: In th=
-is
-> > case, I have a UAPI that is common to different types of motion control
-> > devices. So I need a class. check. =20
->=20
-> Correct.
->=20
-> > Do I need a bus? If one can conceive other drivers or kernel parts that=
- talk to
-> > motion drivers, I would need a bus. If that doesn't make sense, I don't=
-. Right? =20
->=20
-> Correct.
->=20
-> > I actually can think of a new motion device that acts as an aggregator =
-of
-> > several single-channel motion devices into a single "virtual" multi-cha=
-nnel
-> > device... so do I need also a bus? I suppose...? =20
->=20
-> Nope, that should just be another class driver.  Think about how input
-> does this, some input /dev/ nodes are the sum of ALL input /dev/ nodes
-> together, while others are just for individual input devices.
+Another approach is to use eBPF steering program. This approach has
+another downside: it cannot report the calculated hash due to the
+restrictive nature of eBPF.
 
-Understood. Thanks!
+Introduce the code to compute hashes to the kernel in order to overcome
+thse challenges.
 
-> > Then the question remains: why did the chapter about classes vanish? =20
->=20
-> What are you specifically referring to?  I don't remember deleting any
-> documentation, did files move around somehow and the links not get
-> updated?
+An alternative solution is to extend the eBPF steering program so that it
+will be able to report to the userspace, but it is based on context
+rewrites, which is in feature freeze. We can adopt kfuncs, but they will
+not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KVM
+and vhost_net).
 
-This:
-https://www.kernel.org/doc/html/v5.12/driver-api/driver-model/index.html
+The patches for QEMU to use this new feature was submitted as RFC and
+is available at:
+https://patchew.org/QEMU/20240915-hash-v3-0-79cb08d28647@daynix.com/
 
-vs this:
-https://www.kernel.org/doc/html/v5.13/driver-api/driver-model/index.html
+This work was presented at LPC 2024:
+https://lpc.events/event/18/contributions/1963/
 
-Maybe it moved somewhere else, but I can't find it... I'd have to git bisect
-or git blame between the two releases maybe.
+V1 -> V2:
+  Changed to introduce a new BPF program type.
+
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+Changes in v8:
+- Disabled IPv6 to eliminate noises in tests.
+- Added a branch in tap to avoid unnecessary dissection when hash
+  reporting is disabled.
+- Removed unnecessary rtnl_lock().
+- Extracted code to handle new ioctls into separate functions to avoid
+  adding extra NULL checks to the code handling other ioctls.
+- Introduced variable named "fd" to __tun_chr_ioctl().
+- s/-/=/g in a patch message to avoid confusing Git.
+- Link to v7: https://lore.kernel.org/r/20250228-rss-v7-0-844205cbbdd6@daynix.com
+
+Changes in v7:
+- Ensured to set hash_report to VIRTIO_NET_HASH_REPORT_NONE for
+  VHOST_NET_F_VIRTIO_NET_HDR.
+- s/4/sizeof(u32)/ in patch "virtio_net: Add functions for hashing".
+- Added tap_skb_cb type.
+- Rebased.
+- Link to v6: https://lore.kernel.org/r/20250109-rss-v6-0-b1c90ad708f6@daynix.com
+
+Changes in v6:
+- Extracted changes to fill vnet header holes into another series.
+- Squashed patches "skbuff: Introduce SKB_EXT_TUN_VNET_HASH", "tun:
+  Introduce virtio-net hash reporting feature", and "tun: Introduce
+  virtio-net RSS" into patch "tun: Introduce virtio-net hash feature".
+- Dropped the RFC tag.
+- Link to v5: https://lore.kernel.org/r/20241008-rss-v5-0-f3cf68df005d@daynix.com
+
+Changes in v5:
+- Fixed a compilation error with CONFIG_TUN_VNET_CROSS_LE.
+- Optimized the calculation of the hash value according to:
+  https://git.dpdk.org/dpdk/commit/?id=3fb1ea032bd6ff8317af5dac9af901f1f324cab4
+- Added patch "tun: Unify vnet implementation".
+- Dropped patch "tap: Pad virtio header with zero".
+- Added patch "selftest: tun: Test vnet ioctls without device".
+- Reworked selftests to skip for older kernels.
+- Documented the case when the underlying device is deleted and packets
+  have queue_mapping set by TC.
+- Reordered test harness arguments.
+- Added code to handle fragmented packets.
+- Link to v4: https://lore.kernel.org/r/20240924-rss-v4-0-84e932ec0e6c@daynix.com
+
+Changes in v4:
+- Moved tun_vnet_hash_ext to if_tun.h.
+- Renamed virtio_net_toeplitz() to virtio_net_toeplitz_calc().
+- Replaced htons() with cpu_to_be16().
+- Changed virtio_net_hash_rss() to return void.
+- Reordered variable declarations in virtio_net_hash_rss().
+- Removed virtio_net_hdr_v1_hash_from_skb().
+- Updated messages of "tap: Pad virtio header with zero" and
+  "tun: Pad virtio header with zero".
+- Fixed vnet_hash allocation size.
+- Ensured to free vnet_hash when destructing tun_struct.
+- Link to v3: https://lore.kernel.org/r/20240915-rss-v3-0-c630015db082@daynix.com
+
+Changes in v3:
+- Reverted back to add ioctl.
+- Split patch "tun: Introduce virtio-net hashing feature" into
+  "tun: Introduce virtio-net hash reporting feature" and
+  "tun: Introduce virtio-net RSS".
+- Changed to reuse hash values computed for automq instead of performing
+  RSS hashing when hash reporting is requested but RSS is not.
+- Extracted relevant data from struct tun_struct to keep it minimal.
+- Added kernel-doc.
+- Changed to allow calling TUNGETVNETHASHCAP before TUNSETIFF.
+- Initialized num_buffers with 1.
+- Added a test case for unclassified packets.
+- Fixed error handling in tests.
+- Changed tests to verify that the queue index will not overflow.
+- Rebased.
+- Link to v2: https://lore.kernel.org/r/20231015141644.260646-1-akihiko.odaki@daynix.com
+
+---
+Akihiko Odaki (6):
+      virtio_net: Add functions for hashing
+      net: flow_dissector: Export flow_keys_dissector_symmetric
+      tun: Introduce virtio-net hash feature
+      selftest: tun: Test vnet ioctls without device
+      selftest: tun: Add tests for virtio-net hashing
+      vhost/net: Support VIRTIO_NET_F_HASH_REPORT
+
+ Documentation/networking/tuntap.rst  |   7 +
+ drivers/net/Kconfig                  |   1 +
+ drivers/net/tap.c                    |  67 +++-
+ drivers/net/tun.c                    |  98 +++++-
+ drivers/net/tun_vnet.h               | 159 ++++++++-
+ drivers/vhost/net.c                  |  49 +--
+ include/linux/if_tap.h               |   2 +
+ include/linux/skbuff.h               |   3 +
+ include/linux/virtio_net.h           | 188 ++++++++++
+ include/net/flow_dissector.h         |   1 +
+ include/uapi/linux/if_tun.h          |  75 ++++
+ net/core/flow_dissector.c            |   3 +-
+ net/core/skbuff.c                    |   4 +
+ tools/testing/selftests/net/Makefile |   2 +-
+ tools/testing/selftests/net/tun.c    | 656 ++++++++++++++++++++++++++++++++++-
+ 15 files changed, 1254 insertions(+), 61 deletions(-)
+---
+base-commit: dd83757f6e686a2188997cb58b5975f744bb7786
+change-id: 20240403-rss-e737d89efa77
+prerequisite-change-id: 20241230-tun-66e10a49b0c7:v6
+prerequisite-patch-id: 871dc5f146fb6b0e3ec8612971a8e8190472c0fb
+prerequisite-patch-id: 2797ed249d32590321f088373d4055ff3f430a0e
+prerequisite-patch-id: ea3370c72d4904e2f0536ec76ba5d26784c0cede
+prerequisite-patch-id: 837e4cf5d6b451424f9b1639455e83a260c4440d
+prerequisite-patch-id: ea701076f57819e844f5a35efe5cbc5712d3080d
+prerequisite-patch-id: 701646fb43ad04cc64dd2bf13c150ccbe6f828ce
+prerequisite-patch-id: 53176dae0c003f5b6c114d43f936cf7140d31bb5
+prerequisite-change-id: 20250116-buffers-96e14bf023fc:v2
+prerequisite-patch-id: 25fd4f99d4236a05a5ef16ab79f3e85ee57e21cc
 
 Best regards,
+-- 
+Akihiko Odaki <akihiko.odaki@daynix.com>
 
---=20
-David Jander
