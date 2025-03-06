@@ -1,145 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5156A367;
-	Thu,  6 Mar 2025 00:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3548184E;
+	Thu,  6 Mar 2025 00:06:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741219311; cv=none; b=nTuODKoqG9cxVOvJNX03YbZ5R0aWCllvjqkOXyp12UYQZQlIx7VL1GddHEvQQRVeTQMYGXzEBQsp4Li6A95o0UGZFeZXaib+o1MFyRY4B+rG3bHguLbaRNv+KWx8GlhI3zVLaqdqNRvWRgPlX1DhlbnaKBAiIxM4eERJISd/gZQ=
+	t=1741219578; cv=none; b=acyon2fkkXFxBid9qtZPO/9yDFbF3EzC9sFgHOgQtOzrxV8v68vqnFiLrqJuGaf+fTsILiuOnFJ8wWfN3RyhkyrFehhtR3iZ3B8G2MKgwUTOZujMR+/p2ixI4t6X+PmRGG84dNHcxWqsyaYjflOSl2AU9fKHc9lV3r1zU1Va9NQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741219311; c=relaxed/simple;
-	bh=azxlGePwOlFA7zcE0N3ZDl8+Ny9Zkx377il0JTO8MG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KAKCtEcoWOjj4q6LcHQTiomMlznUqFGTdPtf3V4c219TDD8nR5nzaigUPS0DaXTguXP3Um2R2fFbMm1xFa0yCzeHCnha4TctK1U44WQLbtlNHxxkR9OqOXmodsK17HClf/7/y9E2Eplgg4z0POnLTX2RrHaKciH0crNAtZpjWWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tQY3jNOo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741219578; c=relaxed/simple;
+	bh=cghxGvZLbOixCf8vLbjlFjCfUpgnX1TkEmT7KQkpcFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FqqLVIYmh9LuiV6tHENA2u++am+GvfhFiDLqma7yXB6x045zM2p/4uDH1y1iTAQVcFvngFXsdKaSP8OSOYdpVxpYrQf7ip0cB/uzRY0AtpDeMBRLBhrC/ylK+NzGe200Wb2rgnnUPXpYZqTvBWiZqvAnWurzaPacn6xFBDC224w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tevQe6hI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tQY3jNOo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35488C4CED1;
-	Thu,  6 Mar 2025 00:01:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tevQe6hI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D498C4CED1;
+	Thu,  6 Mar 2025 00:06:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741219310;
-	bh=azxlGePwOlFA7zcE0N3ZDl8+Ny9Zkx377il0JTO8MG8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tQY3jNOoCTqdU4vTPCjeXnOwgKa7GfKQYUou91frUhAgjUwUZpl4E11vgHD0RAjBb
-	 SYh0JnHNYWbdB6tMQutB6nJYR/wBmGfdJjesBAoEd9El3MU9Wme7yzSYLY5Nyi9pz4
-	 LmSvx8EO4a2FJ4uFahl/InA/mPT2fC6qq8WxZosMN4pTTiKAwsQsrZAAPLhZmf00nf
-	 qLsqCwUMJWy93wH+bGQzufJRtKXIuj9DWBl4eHTHPckG0umgWPMJnuT0ePcU9QGqv9
-	 mqMiyDj3ET/u/0BTxhQ1NsiwGKX/EHvtGkvGlY33VANia95wsTaEJh5RbfFsHMQtc8
-	 nsm6LNd61CFoA==
-Date: Thu, 6 Mar 2025 00:01:36 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Alisa-Dariana Roman <alisadariana@gmail.com>
-Cc: Alisa-Dariana Roman <alisa.roman@analog.com>, "Rob Herring (Arm)"
- <robh@kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, Ramona
- Gradinariu <ramona.bolboaca13@gmail.com>, David Lechner
- <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>
-Subject: Re: [PATCH v6 0/3] Add support for AD7191
-Message-ID: <20250306000136.7de51170@jic23-huawei>
-In-Reply-To: <20250228141327.262488-1-alisa.roman@analog.com>
-References: <20250228141327.262488-1-alisa.roman@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=k20201202; t=1741219576;
+	bh=cghxGvZLbOixCf8vLbjlFjCfUpgnX1TkEmT7KQkpcFk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tevQe6hIkXOk3v9Rgn4GUc+kbZz4l7gFmrygyzCN19dumIHWIJ9AkaneTO+gn2J59
+	 Bw9roHYUUDI8iuEDT/HZSncnQdvSrpxTQJcehW6YT5PoDie9hc/y6K5ZREO0c3poB8
+	 vwCpoujEBq3VIK8zOQwhXj7eMTfIlO8iGeRskEcCmvcEn2ojEwh8L9lKs2e4Xaj6xA
+	 c1lKHfimCEESRXv2+YHwIk476swIiT6RY3seZuhGxRHz+UydkKjhyg3sw2Ju5N/NbO
+	 mnxGG7yBuc7iKUaQQ/BjDNKwN1C2KcdHA/l+fwyna2M+ZbsCbKvFahCV/qlgsqcPuA
+	 ByKvbWWZ5CHEA==
+Date: Wed, 5 Mar 2025 16:06:13 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, russ.weight@linux.dev, ojeda@kernel.org,
+	alex.gaynor@gmail.com, boqun.feng@gmail.com, airlied@gmail.com,
+	simona@ffwll.ch, corbet@lwn.net, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, ajanulgu@redhat.com,
+	lyude@redhat.com, pstanner@redhat.com, zhiw@nvidia.com,
+	cjia@nvidia.com, jhubbard@nvidia.com, bskeggs@nvidia.com,
+	acurrid@nvidia.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+	benno.lossin@proton.me, a.hindborg@kernel.org, aliceryhl@google.com,
+	tmgross@umich.edu, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v5 0/5] Initial Nova Core series
+Message-ID: <Z8jm9XbK31nEI33V@bombadil.infradead.org>
+References: <20250304173555.2496-1-dakr@kernel.org>
+ <Z8isev0gwQJPs7S9@cassiopeiae>
+ <Z8jd0evXjJtz1CRB@bombadil.infradead.org>
+ <Z8jg_OokbtQ_WDS8@pollux>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8jg_OokbtQ_WDS8@pollux>
 
-Hi Alisa-Dariana,
-Looks good to me.  Applied to the togreg branch of iio.git and pushed out
-for now as testing to see if 0-day finds anything we missed.
+On Thu, Mar 06, 2025 at 12:40:44AM +0100, Danilo Krummrich wrote:
+> On Wed, Mar 05, 2025 at 03:27:13PM -0800, Luis Chamberlain wrote:
+> > On Wed, Mar 05, 2025 at 08:56:42PM +0100, Danilo Krummrich wrote:
+> > > On Tue, Mar 04, 2025 at 06:34:47PM +0100, Danilo Krummrich wrote:
+> > > > Danilo Krummrich (5):
+> > > >   rust: module: add type `LocalModule`
+> > > >   rust: firmware: introduce `firmware::ModInfoBuilder`
+> > > >   rust: firmware: add `module_firmware!` macro
+> > > 
+> > > Greg, Luis, Russ, any objections on me taking the two firmware patches through
+> > > the nova tree?
+> > 
+> > I don't speak Rust so I'd my recommendation would be to add the rust
+> > firmware file under the firmware loader entry for maintainers provided
+> > we get a volunteer from the rust community do help maintain *both* C and
+> > the Rust version of the firmware loader.
+> 
+> Yeah, you suggested that when I sent the first firmware loader abstraction more
+> than half a year ago and since I'm doing exactly that. :-)
 
-Thanks,
+Great, it sounds like we have a firmware loader maintainer volunteer!
 
-Jonathan
-
-
-On Fri, 28 Feb 2025 16:05:59 +0200
-Alisa-Dariana Roman <alisadariana@gmail.com> wrote:
-
-> v5: https://lore.kernel.org/all/20250226115451.249361-1-alisa.roman@analog.com/
-> 
-> v5 -> v6:
-> 	- use GPL-2.0-only
-> 	- remove kernel.h
-> 	- remove unused macros
-> 	- initialize local indexes
-> 	- check number of gpio pins
-> 	- use bitmap
-> 	- inverse if condition and remove continue in 2 places
-> 	- fit .compatible initialization in one line
-> 	- change MODULE_IMPORT_NS() content to string
-> 	- use iio_device_claim_direct()
-> 	- refactor heading levels in docs
-> 
-> v4: https://lore.kernel.org/all/20250203133254.313106-1-alisa.roman@analog.com/
-> 
-> v4 -> v5:
-> 	- use static arrays in the ad7191_config_setup function, instead of keeping
-> them in the state structure
-> 	- added error checking for devicetree parsing of pga-value and odr-value
-> 	- for now, it doesn't return error when the index corresponding to pga-value
-> or odr-value doesn't match, since index is initialized to 0, so it will use the
-> first value in this case (the bindings constrain the possbile values for these
-> 2 properties, so I thought it's ok like this)
-> 	- use gpiod_multi_set_value_cansleep()
-> 	- move sampling frequency attribute to mask separate (the avail unmodified)
-> 	- removed unused argument form ad7191_setup()
-> 	- removed 2 redundant sections from docs, and renamed one to Devicetree
-> 	- add ad7191.rst to MAINTAINERS
-> 
-> v3: https://lore.kernel.org/all/20250129143054.225322-1-alisa.roman@analog.com/
-> 
-> v3 -> v4:
-> 	- addressed all replies for v3
-> 	- refactored the scale and sampling frequencies configurations to use 2
-> different arrays for gpio case vs pinstrap case
-> 
-> v2: https://lore.kernel.org/all/20250122132821.126600-1-alisa.roman@analog.com/
-> 
-> v2 -> v3:
-> 	- correct binding title
-> 	- remove clksel_state and clksel_gpio, assume the clksel pin is always
-> pinstrapped
-> 	- rephrase clocks description accordingly
-> 	- simplify binding constraints
-> 	- specify in binding description that PDOWN must be connected to SPI's
-> controller's CS
-> 	- add minItems for gpios in bindings
-> 	- make scope explicit for mutex guard
-> 	- remove spi irq check
-> 	- add id_table to spi_driver struct
-> 	- changed comments as suggested
-> 	- use spi_message_init_with_transfers()
-> 	- default returns an error in ad7191_set_mode()
-> 	- replace hard-coded 2 with st->pga_gpios->ndescs
-> 	- use gpiod_set_array_value_cansleep()
-> 	- change .storagebits to 32
-> 	- check return value for ad_sd_init()
-> 	- change to adi,odr-value and adi,pga-value, which now accepts the value as
-> suggested
-> 	- modify variables names and refactor the setup of odr and pga gpios,
-> indexes and available arrays into ad7191_config_setup(), since they are all
-> related
-> 	- add ad7191.rst
-> 
-> v1: https://lore.kernel.org/all/20241221155926.81954-1-alisa.roman@analog.com/
-> 
-> v1 -> v2:
-> 	- removed patch adding function in ad_sigma_delta.h/.c
-> 	- added a function set_cs() for asserting/deasserting the cs
-> 	- handle pinstrapping cases
-> 	- refactored all clock handling
-> 	- updated bindings: corrected and added new things
-> 	- -> address of the channels is used in set_channel()  
-> 	- addressed all the other changes
-> 
-> 
-
+ Luis
