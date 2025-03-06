@@ -1,111 +1,190 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A155151990;
-	Thu,  6 Mar 2025 21:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D681FC11F;
+	Thu,  6 Mar 2025 22:23:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741297222; cv=none; b=rIgEnVy4a0V90F1acWNuVIuTCKknnHzOLOCGU1qfBGbiZk56z+pIrbMQbnCdLHvRX2ipDYRKTX7OrzhsLjagCut2xe4nckf0ZOrWNHGPFuyxczQv49aeHco8fWhjCwsu5lqUyWwg/xJtEEZp6e31GOK9ynG3q/KCNnVzCwO/c9E=
+	t=1741299826; cv=none; b=At7jjfueoYy1mhHVBxvaeD4fUn6JYDlJqyoc2t8Zuj59W6GseiLU4EQi8gG6wBTyi2cGC9VbfdCx4HU2oOzSNogQ+nRy8qmZnPx7DbtI2+9FJHGuEIb2C4S+wsKR3VSMzKXLW/gvXVbPKM2VNAhiSDSSJDPqcP/oqdtHz2zsZI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741297222; c=relaxed/simple;
-	bh=hLwEVcHmWyfHzwJcntUNMaPG82MeB24Us0ZhRuq1ojA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dpCOTTI6JK3JHKJLKBRBqtlxmFXi5QWbbScGEH6VCsPRA3xvuRdNDdnYZKNRjdJIm7EsxqA/CkhMJheayX0TkZ4aDX8abLUPoUg8iT5TMPPAF+pNzApJcHEYARC2N+jPoj/RSxXbt0fEy1nRHGqjX6rYRk2jsL7Ratuyt6RiBho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qWvQBC8c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741299826; c=relaxed/simple;
+	bh=BFYDfB39r0d8oX0i7oAdLWbvfQahgYk0WhchEJd2fKE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CU4GhP1c3Z1aS7/ioz63/zohaCC6karrOWg4T0on3pI7WZj0HvDTKb1GqvDdfGFYdsEQWhXec4Nbgfr119F0fRedT6aDIknQwmn9hcFhHEdqTlrqZB3uBw/ZmhX8sDj3zQBd1ncdVHXEIMrD3T0Yf86lypgUPXjubIL/R+knduk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+1y4ZuZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qWvQBC8c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36E2DC4CEE0;
-	Thu,  6 Mar 2025 21:40:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+1y4ZuZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDB90C4CEE0;
+	Thu,  6 Mar 2025 22:23:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741297221;
-	bh=hLwEVcHmWyfHzwJcntUNMaPG82MeB24Us0ZhRuq1ojA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qWvQBC8cMlzIYQijdnco18mw0T0tVzn2B4U0wQLNkSKO5KTDqAxHSAGxvUfNybRah
-	 8lgFJ/enNu+swZgndUBSSsT5aSgOH3LFxfQ7CBfpSPo1wvKYEI+3pTXeaGTbLi3nx1
-	 rY6v8/WbCqCOX/VNd4Il5HC86ulDEYjbHuSLFbXXU/PbA+kacBAbBC5sPifvmJygEA
-	 Gk76Ko19HRTBKiFw167crQ7jTK+XK1Tcg0oetXWQ6gB/SFDpI5GuXRkqgAdhL3hBPs
-	 oyvPuKTFtSIWVx07LChKUPoeB6Fpe7zRJAx/slFPjRcMwu7cc6yDZ/HFA3+bfVMKla
-	 alosVkK00Ebqw==
-Date: Thu, 6 Mar 2025 13:40:19 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org, Donald
- Hunter <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Jeroen de Borst <jeroendb@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>,
- Willem de Bruijn <willemb@google.com>, David Ahern <dsahern@kernel.org>,
- Neal Cardwell <ncardwell@google.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
- <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Stefano
- Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
- sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk, Jamal Hadi Salim
- <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
- <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
-Subject: Re: [PATCH net-next v6 1/8] net: add get_netmem/put_netmem support
-Message-ID: <20250306134019.1702e609@kernel.org>
-In-Reply-To: <CAHS8izNWt2-1bC2f0jv4Qpk_A9VpEXNvVRoXUtL43_16d-Ui-A@mail.gmail.com>
-References: <20250227041209.2031104-1-almasrymina@google.com>
-	<20250227041209.2031104-2-almasrymina@google.com>
-	<20250228163846.0a59fb40@kernel.org>
-	<CAHS8izNQnTW7sad_oABtxhy3cHxGR0FWJucrHTSVX7ZAA6jT3Q@mail.gmail.com>
-	<20250303162051.09ad684e@kernel.org>
-	<CAHS8izNWt2-1bC2f0jv4Qpk_A9VpEXNvVRoXUtL43_16d-Ui-A@mail.gmail.com>
+	s=k20201202; t=1741299826;
+	bh=BFYDfB39r0d8oX0i7oAdLWbvfQahgYk0WhchEJd2fKE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=U+1y4ZuZDfO5j4sSKYDK/GHa1HjQGtFz3UYM5UUclYcXH4an/SamZKI2CWkr3EUhM
+	 kqcNDEM3fH2cA7mJdfuNpEz7mgIJcGv8AlAn6Hb+vz0oipOP2P1eqXgMPfrjnm+NFu
+	 sZS+YyKLaocsGeZg2OH2OLMdsFB7pwVvAZR6bEqzkM2xX9nMoenSS2sGrTbhdI6PZz
+	 cCa/FRAGJbgspihOCtmS76bxH4YYwTQnfbX//Yri2yQC2pRFlxYqxHG0zlHS8LxHQZ
+	 m6lyw6SlFZG5FovshGK/lGTRPtKA1WCYXLk4p3byuQ/qEBJWsmXCBHiDotXBbMhDRz
+	 mVfrKu3OPiGxA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: airlied@gmail.com,
+	simona@ffwll.ch,
+	corbet@lwn.net,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	ajanulgu@redhat.com,
+	lyude@redhat.com,
+	pstanner@redhat.com,
+	zhiw@nvidia.com,
+	cjia@nvidia.com,
+	jhubbard@nvidia.com,
+	bskeggs@nvidia.com,
+	acurrid@nvidia.com
+Cc: ojeda@kernel.org,
+	alex.gaynor@gmail.com,
+	boqun.feng@gmail.com,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	benno.lossin@proton.me,
+	a.hindborg@kernel.org,
+	aliceryhl@google.com,
+	tmgross@umich.edu,
+	gregkh@linuxfoundation.org,
+	mcgrof@kernel.org,
+	russ.weight@linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nouveau@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v6 0/5] Initial Nova Core series
+Date: Thu,  6 Mar 2025 23:23:26 +0100
+Message-ID: <20250306222336.23482-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 4 Mar 2025 17:39:37 -0800 Mina Almasry wrote:
-> > > Yes, great idea. I don't see why it wouldn't work.
-> > >
-> > > We don't expect mixing of net_iovs and pages in the same skb, but
-> > > netdevsim could create one net_iov skb every N skbs.
-> > >
-> > > I guess I'm not totally sure something is discoverable to syzbot. Is a
-> > > netdevsim hack toggleable via a debugfs sufficient for syzbot? I'll
-> > > investigate and ask.  
-> >
-> > Yeah, my unreliable memory is that syzbot has a mixed record discovering
-> > problems with debugfs. If you could ask Dmitry for advice that'd be
-> > ideal.  
-> 
-> Yes, I took a look here and discussed with Willem. Long story short is
-> that syzbot support is possible but with a handful of changes. We'll
-> look into that.
-> 
-> Long story long, for syzbot support I don't think netdevsim itself
-> will be useful. Its our understanding so far that syzbot doesn't do
-> anything special with netdevsim.
+This is the initial series for the nova-core stub driver.
 
-Meaning it doesn't currently do anything special, or you can't make it
-do anything special with netdevsim?
+nova-core is intended to serve as a common base for nova-drm (the
+corresponding DRM driver) and the vGPU manager VFIO driver, serving as a
+hard- and firmware abstraction layer for GSP-based NVIDIA GPUs.
 
-> We'll need to add queue API/page_pool/unreadable netmem support to
-> one of the drivers qemu (syzbot) uses, and that should get syzbot
-> fuzzing the control plane.
-> 
-> To get syzbot to fuzz the data plane, I think we need to set up a
-> special syzbot instance which configures udmabuf/rss/flow
+The Nova project, including nova-core and nova-drm, in the long term,
+is intended to serve as the successor of Nouveau for all GSP-based GPUs.
 
-To be clear for Tx you don't need RSS and flow steering, Tx should
-be trivial for any device driver which managers DMAs directly (not USB).
+The motivation for both, starting a successor project for Nouveau and
+doing so using the Rust programming language, is documented in detail
+through a previous post on the mailing list [1], an LWN article [2] and a
+talk from LPC '24.
 
-> steering/netlink binding and start injecting packets through the data
-> path. Syzbot would not discover a working config on its own. I'm told
-> it's rare to set up specialized syzbot instances but we could sell
-> that this coverage is important enough.
-> 
-> Hacking netdevsim like you suggested would be useful as well, but
-> outside of syzbot, AFAICT so far. We can run existing netdevsim data
-> path tests with netdevsim in 'unreadable netmem mode' and see if it
-> can reproduce issues. Although I'm not sure how to integrate that with
-> continuous testing yet.
+In order to avoid the chicken and egg problem to require a user to
+upstream Rust abstractions, but at the same time require the Rust
+abstractions to implement the driver, nova-core kicks off as a driver
+stub and is subsequently developed upstream.
+
+Besides the driver itself and the corresponding documentation, i.e. guidelines,
+task list, etc., this series also carries a few more patches to more flexibly
+compose firmware path strings for the .modinfo section.
+
+Link: https://lore.kernel.org/dri-devel/Zfsj0_tb-0-tNrJy@cassiopeiae/T/#u [1]
+Link: https://lwn.net/Articles/990736/ [2]
+Link: https://youtu.be/3Igmx28B3BQ?si=sBdSEer4tAPKGpOs [3]
+
+Changes in v6:
+  - extend documentation and examples of ModInfoBuilder and module_firmware!
+    (Benno)
+  - wrap statics in module_firmware! in a const _:() = {} block (Benno)
+  - update task "Delay / Sleep abstractions" (FUJITA)
+  - don't refer to subsequent patches in commit message (Jarkko)
+  - nova: convert firmware version to const (Alex)
+
+Changes in v5:
+  - change `ModInfoBuilder::push()` to take a `&str` instead of `&[u8]`
+  - drop patch "rust: str: provide const fn as_bytes() for BStr"
+  - embedd `impl TryFrom<u32> for Chipset` in `define_chipset!` (Alexandre)
+  - switch `Chipset::NAMES` from `[&BStr; N]` to `[&str; N]`
+  - introduce `const_bytes_to_str()` helper
+  - move `to_lowercase_bytes()` to util.rs
+
+Changes in v4:
+  - in `regs::Boot0` take a `&Bar0` and let deref coercion do its thing
+    (Alexandre)
+  - add missing firmware path string to the .modinfo section (Greg)
+  - add some infrastructure to compose firmware path strings more flexibly
+
+Changes in v3:
+  - impl TryFrom<u32> for Chipset
+  - add Chipset::arch()
+  - initialize revision from Boot0
+  - in Firmware, eliminate repeating code pattern using a closure (thanks to
+    Alexandre)
+  - use #[expect(dead_code)] for Firmware
+  - Replace some Rust specific rules with links to existing R4L documentation.
+  - Link in R4L submit checklist.
+  - Update task entry "Page abstraction for foreign pages" with Lina's work.
+
+Changes in v2:
+  - Fix module name in Kconfig description. (John)
+  - Expand Kconfig description a bit. (John)
+  - Expand name for PCI BAR0 region.
+  - Do not store / print boot0 raw register value. (John)
+  - Rename CardType to Architecture, rename enum names to represent the
+    architecture name and adjust enum values according to the register
+    definition. (John)
+  - Add an abstraction for register accesses.
+  - Print chipset, architecture and revision.
+  - Load bootloader firmware. (Timur)
+  - Add task "Generic register abstraction".
+  - Change complexity of "Debugfs abstractions".
+
+Danilo Krummrich (5):
+  rust: module: add type `LocalModule`
+  rust: firmware: introduce `firmware::ModInfoBuilder`
+  rust: firmware: add `module_firmware!` macro
+  gpu: nova-core: add initial driver stub
+  gpu: nova-core: add initial documentation
+
+ Documentation/gpu/drivers.rst              |   1 +
+ Documentation/gpu/nova/core/guidelines.rst |  24 ++
+ Documentation/gpu/nova/core/todo.rst       | 446 +++++++++++++++++++++
+ Documentation/gpu/nova/guidelines.rst      |  69 ++++
+ Documentation/gpu/nova/index.rst           |  30 ++
+ MAINTAINERS                                |  11 +
+ drivers/gpu/Makefile                       |   1 +
+ drivers/gpu/nova-core/Kconfig              |  14 +
+ drivers/gpu/nova-core/Makefile             |   3 +
+ drivers/gpu/nova-core/driver.rs            |  47 +++
+ drivers/gpu/nova-core/firmware.rs          |  45 +++
+ drivers/gpu/nova-core/gpu.rs               | 199 +++++++++
+ drivers/gpu/nova-core/nova_core.rs         |  20 +
+ drivers/gpu/nova-core/regs.rs              |  55 +++
+ drivers/gpu/nova-core/util.rs              |  21 +
+ drivers/video/Kconfig                      |   1 +
+ rust/kernel/firmware.rs                    | 216 ++++++++++
+ rust/macros/module.rs                      |   4 +
+ 18 files changed, 1207 insertions(+)
+ create mode 100644 Documentation/gpu/nova/core/guidelines.rst
+ create mode 100644 Documentation/gpu/nova/core/todo.rst
+ create mode 100644 Documentation/gpu/nova/guidelines.rst
+ create mode 100644 Documentation/gpu/nova/index.rst
+ create mode 100644 drivers/gpu/nova-core/Kconfig
+ create mode 100644 drivers/gpu/nova-core/Makefile
+ create mode 100644 drivers/gpu/nova-core/driver.rs
+ create mode 100644 drivers/gpu/nova-core/firmware.rs
+ create mode 100644 drivers/gpu/nova-core/gpu.rs
+ create mode 100644 drivers/gpu/nova-core/nova_core.rs
+ create mode 100644 drivers/gpu/nova-core/regs.rs
+ create mode 100644 drivers/gpu/nova-core/util.rs
+
+
+base-commit: 1238f0af13495e14e1f40d011b9b7b414bf387fe
+-- 
+2.48.1
+
