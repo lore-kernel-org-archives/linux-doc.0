@@ -1,722 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F93527C873;
-	Thu,  6 Mar 2025 22:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C96327CB1E
+	for <linux-doc@vger.kernel.org>; Thu,  6 Mar 2025 22:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741299860; cv=none; b=K0+c1Oa+irZt/+ZXRTR+rI4IhQy9NaEbArCjrIeYi9DOZ8/oZjJds1LaSzCuCp9zMqvhKLOrXHeVOkReIR27SH0+YZ/RmxVUB+az4GMYSrfq/yNzjUK98P6PfC6QWyS7ZefmMCdBlV3ZW+FtKuUYW+p52uc9XuMRhesGrCeISls=
+	t=1741301097; cv=none; b=QTXUZA/CSbSfJ49+u+K5bIGtK+FvWkKG/VfIDX81lhOeb+KEvU+5MjpjDG7pnX6YW+ga8a4i/9uFZCtFDS95VQgX2kBag8tzLrtLk/6G5+MlKyGFxoDYCsUpXUhiItusY1JUiXNCPnpngYPuiZEe4sBBVa5iCmV7NuYj2mwQ8BI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741299860; c=relaxed/simple;
-	bh=w2Ow+vb2xn4+QHtDYdg1uGN3ICwyDK4L2g+N3PIVV5Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ts0gWGngeBPMPgBqCsNX9/K94WhkUEqSlj675It53ZK0fehheI3Q4BHPaGbo6FEgJr3G4M0Px2BEZ69pnVmGsO0BeYjR/1ehDT87n/ngCSApcOLjYncL9+HFUqu/n0x9DJ+08CvMJ9vSMQHMEevbm83mzKU+ZSooLwb8F6zhRtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g17qllWB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741301097; c=relaxed/simple;
+	bh=WJGCuAvULpegUxMdbOK1NHjZx/sGgwb92zX49N6RDkA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=okWbktn+MetU++Fp74PPh0ZMQbN8ZI305sz0eNeyQhK5U2VTcCQCr2puIWOZB/WUzsYH48+P5qfKIk2PmSD57JZcBX5imbqTBhyu/XJ3BdmntFvCDD9+fpLYKFUtmCigh5RNlv1XJZN8OLatWrgaFJL53K7JS7qr0JF40l7CvGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MOTan+I4; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g17qllWB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EAF9C4CEE9;
-	Thu,  6 Mar 2025 22:24:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741299859;
-	bh=w2Ow+vb2xn4+QHtDYdg1uGN3ICwyDK4L2g+N3PIVV5Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=g17qllWBFC0SQ8HEsm7Y0r+66KsLYJEJNYEsK+8WEGjO4GFKlhngMq7XYMFaJodDg
-	 QBiA4s3dCOPGCixczPOaC9wGt1ZGYgp/TIU7KdodjlhTcAQ6uu5piW2pINxnsL9qZV
-	 9dO9N9g3LReXt6frJZgAMPD/ciAjB0eqMkm8+DAinZ8Qq58GjSSuDuSLWGJNzfKubW
-	 oIERRZ4TgR6wotwO5SsQmVTt5tsaJqv8SZIj7kvOTXlKWDWz2mth6RHHU0g0tsXscF
-	 b4/BkdEJa2ikDAAAQEDXcFyAZ2MJ+GpCL460cqGp7q3KGlmD6sV9dLKBAofpcvLxc7
-	 BLKDoQaeNce3A==
-From: Danilo Krummrich <dakr@kernel.org>
-To: airlied@gmail.com,
-	simona@ffwll.ch,
-	corbet@lwn.net,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	ajanulgu@redhat.com,
-	lyude@redhat.com,
-	pstanner@redhat.com,
-	zhiw@nvidia.com,
-	cjia@nvidia.com,
-	jhubbard@nvidia.com,
-	bskeggs@nvidia.com,
-	acurrid@nvidia.com
-Cc: ojeda@kernel.org,
-	alex.gaynor@gmail.com,
-	boqun.feng@gmail.com,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	benno.lossin@proton.me,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	gregkh@linuxfoundation.org,
-	mcgrof@kernel.org,
-	russ.weight@linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nouveau@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>
-Subject: [PATCH v6 5/5] gpu: nova-core: add initial documentation
-Date: Thu,  6 Mar 2025 23:23:31 +0100
-Message-ID: <20250306222336.23482-6-dakr@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250306222336.23482-1-dakr@kernel.org>
-References: <20250306222336.23482-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MOTan+I4"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2240aad70f2so61675ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Mar 2025 14:44:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1741301095; x=1741905895; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WJGCuAvULpegUxMdbOK1NHjZx/sGgwb92zX49N6RDkA=;
+        b=MOTan+I41gCr2d1GB8Xs6Lbx8+4B5Eh49nNkmhmZ1JIhS0QEInna++EqD3GkW4LIQk
+         G6xBxiFM4ehF43qfNLA08eTgyjhAuELXyV2gy8vY5k06fNTfam8NUTR6Anjd7oH/oSEa
+         j08o51JuN2Mcoj9ZD5ro39XQCNJjpc9WRGRtz2iZOKjE57Cr5TK13FU6WopaDuKmc24x
+         D+gorw/IlxsnwFb2L0mZaGJ4xIG0OjLU1K35/3+drfaLv5ld5qvbs94+Ak1P2eMmfJit
+         Lhcpe0tlhWmW6Mld8IXbCNiBglX3jM72vrpesgZZxYRB0oXIhRYWuZpP2L5vDfNvyAVG
+         LqbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741301095; x=1741905895;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WJGCuAvULpegUxMdbOK1NHjZx/sGgwb92zX49N6RDkA=;
+        b=M0ljCdYLq9g7x+/c1rHM/QSFxLmyvpLYQXdzpl6/zXRh82ENHZmHRtEOlnfzdB8gtu
+         dixU9AHh8IYIm8QLpxpCWVZWucnZwTsKpm3RpZMDriQIXHW6P+vIJTOZH/LXC4DItzY/
+         mDurjG0HUnvo1iOBl0hTcdxJwP/9eDGKancB4DelCOBgf8TZmrtrenm6lYwsFlXJH7GE
+         eXrPsid481cpQOR984s2q4SdHgrSrMXtlsnukNvRospN6DM98/zOfA+myZgp40wcl0WR
+         ofxNOA9zeR4zHSbbxrrK+FiZYULkEnoq1RendS1ZSceCdPsaIDKDEB1GUrU4ZnqpjJDM
+         oh9g==
+X-Forwarded-Encrypted: i=1; AJvYcCXm/X8BHkvCHovmrhId3n/kHS8UCa5XpyQFG2HbexFj3fApdsHK/qJWsr9ZsGQzZYC0/MkyUPzRbg8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynymiZjrRKRYOhFxUfOvFfbNC/fqlyzF7m/uWK8PfYYT85a6Q1
+	Qby5+suWRTQMYOVhO+w2Mi/3m3VVuPQ0/EKecXpwhu6nA9/7/GlI3KNxfJoSKQTLt2/ZIe4S3jF
+	QNS4peJCHfI0DVDyWdF5+haAWdUgdaPosbom0
+X-Gm-Gg: ASbGncu57rrXBu6B8BwDqlV820AyUJFwWxsFrCy3rFQtx85VsmEAb8sc4cZhpXT0fFg
+	H/4svnaAjrzA6nF2b8O+1LBm50hjD0ypL386YKlwnZbeKFBq1tYkujKUby7q/QT22IeF3lAurA4
+	TefMWYHQGWJoOlmA7O3ygte3PAk6Fj92KZYiSRl3oGqMqIVAP15EEtyA==
+X-Google-Smtp-Source: AGHT+IGS+g4ZXFAp2nGdJpOHDce9EEY1Ln9JHFM0oHkP+LPpqqepXFJR4Sm8vslWM6D7/epATYsYkpZ1n4ukdSKEsNY=
+X-Received: by 2002:a17:902:ea0c:b0:216:21cb:2e14 with SMTP id
+ d9443c01a7336-2242a62b87amr242655ad.21.1741301095087; Thu, 06 Mar 2025
+ 14:44:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250227041209.2031104-1-almasrymina@google.com>
+ <20250227041209.2031104-2-almasrymina@google.com> <20250228163846.0a59fb40@kernel.org>
+ <CAHS8izNQnTW7sad_oABtxhy3cHxGR0FWJucrHTSVX7ZAA6jT3Q@mail.gmail.com>
+ <20250303162051.09ad684e@kernel.org> <CAHS8izNWt2-1bC2f0jv4Qpk_A9VpEXNvVRoXUtL43_16d-Ui-A@mail.gmail.com>
+ <20250306134019.1702e609@kernel.org>
+In-Reply-To: <20250306134019.1702e609@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 6 Mar 2025 14:44:41 -0800
+X-Gm-Features: AQ5f1JpdzmIgb4Qp1uwhgyjnsZGuDnrddzCXLNm0isLe9E-TpLpq-VU4X-9HjRo
+Message-ID: <CAHS8izM8dnFNj5p8vKiyhV9qeE+9=a=BWRnH=vCu49Tq_XTL9g@mail.gmail.com>
+Subject: Re: [PATCH net-next v6 1/8] net: add get_netmem/put_netmem support
+To: Jakub Kicinski <kuba@kernel.org>, Pranjal Shrivastava <praan@google.com>, 
+	Shivaji Kant <shivajikant@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	Donald Hunter <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn <willemb@google.com>, David Ahern <dsahern@kernel.org>, 
+	Neal Cardwell <ncardwell@google.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk, 
+	Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, 
+	Pedro Tammela <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add the initial documentation of the Nova project.
+On Thu, Mar 6, 2025 at 1:40=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
+te:
+>
+> On Tue, 4 Mar 2025 17:39:37 -0800 Mina Almasry wrote:
+> > > > Yes, great idea. I don't see why it wouldn't work.
+> > > >
+> > > > We don't expect mixing of net_iovs and pages in the same skb, but
+> > > > netdevsim could create one net_iov skb every N skbs.
+> > > >
+> > > > I guess I'm not totally sure something is discoverable to syzbot. I=
+s a
+> > > > netdevsim hack toggleable via a debugfs sufficient for syzbot? I'll
+> > > > investigate and ask.
+> > >
+> > > Yeah, my unreliable memory is that syzbot has a mixed record discover=
+ing
+> > > problems with debugfs. If you could ask Dmitry for advice that'd be
+> > > ideal.
+> >
+> > Yes, I took a look here and discussed with Willem. Long story short is
+> > that syzbot support is possible but with a handful of changes. We'll
+> > look into that.
+> >
+> > Long story long, for syzbot support I don't think netdevsim itself
+> > will be useful. Its our understanding so far that syzbot doesn't do
+> > anything special with netdevsim.
+>
+> Meaning it doesn't currently do anything special, or you can't make it
+> do anything special with netdevsim?
+>
 
-The initial project documentation consists out of a brief introduction
-of the project, as well as project guidelines both general and nova-core
-specific and a task list for nova-core specifically.
+Meaning it currently doesn't do anything special with netdevsim. I
+imagine we may be able to create a specialized syzbot instance that
+loads netdevsim and starts fuzzing its APIs. However I'm told
+specialized syzbot instances are much less valuable than making the
+feature discoverable to existing syzbot instances, which is why our
+thoughts went to adding devmem/unreadable skb support to virtio or
+tun/tap.
 
-The task list is divided into tasks for general Rust infrastructure
-required by the project, tasks regarding GSP enablement and firmware
-abstraction, general GPU driver tasks as well as tasks related to
-external API design and test infrastructure.
+Do I surmise from your question you prefer a netdevsim-based approach?
+(and just curious maybe, why?)
+> > We'll need to add queue API/page_pool/unreadable netmem support to
+> > one of the drivers qemu (syzbot) uses, and that should get syzbot
+> > fuzzing the control plane.
+> >
+> > To get syzbot to fuzz the data plane, I think we need to set up a
+> > special syzbot instance which configures udmabuf/rss/flow
+>
+> To be clear for Tx you don't need RSS and flow steering, Tx should
+> be trivial for any device driver which managers DMAs directly (not USB).
+>
 
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- Documentation/gpu/drivers.rst              |   1 +
- Documentation/gpu/nova/core/guidelines.rst |  24 ++
- Documentation/gpu/nova/core/todo.rst       | 446 +++++++++++++++++++++
- Documentation/gpu/nova/guidelines.rst      |  69 ++++
- Documentation/gpu/nova/index.rst           |  30 ++
- MAINTAINERS                                |   1 +
- 6 files changed, 571 insertions(+)
- create mode 100644 Documentation/gpu/nova/core/guidelines.rst
- create mode 100644 Documentation/gpu/nova/core/todo.rst
- create mode 100644 Documentation/gpu/nova/guidelines.rst
- create mode 100644 Documentation/gpu/nova/index.rst
+Yes, we don't need queue API or page_pool support or header split
+either for that matter. TX fuzzing is definitely simpler. Maybe we can
+start with that.
 
-diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-index 1f17ad0790d7..7c2c5dcb5fd4 100644
---- a/Documentation/gpu/drivers.rst
-+++ b/Documentation/gpu/drivers.rst
-@@ -24,6 +24,7 @@ GPU Driver Documentation
-    panfrost
-    panthor
-    zynqmp
-+   nova/index
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/gpu/nova/core/guidelines.rst b/Documentation/gpu/nova/core/guidelines.rst
-new file mode 100644
-index 000000000000..a389d65d7982
---- /dev/null
-+++ b/Documentation/gpu/nova/core/guidelines.rst
-@@ -0,0 +1,24 @@
-+.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+
-+==========
-+Guidelines
-+==========
-+
-+This documents contains the guidelines for nova-core. Additionally, all common
-+guidelines of the Nova project do apply.
-+
-+Driver API
-+==========
-+
-+One main purpose of nova-core is to implement the abstraction around the
-+firmware interface of GSP and provide a firmware (version) independent API for
-+2nd level drivers, such as nova-drm or the vGPU manager VFIO driver.
-+
-+Therefore, it is not permitted to leak firmware (version) specifics, through the
-+driver API, to 2nd level drivers.
-+
-+Acceptance Criteria
-+===================
-+
-+- To the extend possible, patches submitted to nova-core must be tested for
-+  regressions with all 2nd level drivers.
-diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nova/core/todo.rst
-new file mode 100644
-index 000000000000..ca08377d3b73
---- /dev/null
-+++ b/Documentation/gpu/nova/core/todo.rst
-@@ -0,0 +1,446 @@
-+.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+
-+=========
-+Task List
-+=========
-+
-+Tasks may have the following fields:
-+
-+- ``Complexity``: Describes the required familiarity with Rust and / or the
-+  corresponding kernel APIs or subsystems. There are four different complexities,
-+  ``Beginner``, ``Intermediate``, ``Advanced`` and ``Expert``.
-+- ``Reference``: References to other tasks.
-+- ``Link``: Links to external resources.
-+- ``Contact``: The person that can be contacted for further information about
-+  the task.
-+
-+Enablement (Rust)
-+=================
-+
-+Tasks that are not directly related to nova-core, but are preconditions in terms
-+of required APIs.
-+
-+FromPrimitive API
-+-----------------
-+
-+Sometimes the need arises to convert a number to a value of an enum or a
-+structure.
-+
-+A good example from nova-core would be the ``Chipset`` enum type, which defines
-+the value ``AD102``. When probing the GPU the value ``0x192`` can be read from a
-+certain register indication the chipset AD102. Hence, the enum value ``AD102``
-+should be derived from the number ``0x192``. Currently, nova-core uses a custom
-+implementation (``Chipset::from_u32`` for this.
-+
-+Instead, it would be desirable to have something like the ``FromPrimitive``
-+trait [1] from the num crate.
-+
-+Having this generalization also helps with implementing a generic macro that
-+automatically generates the corresponding mappings between a value and a number.
-+
-+| Complexity: Beginner
-+| Link: https://docs.rs/num/latest/num/trait.FromPrimitive.html
-+
-+Generic register abstraction
-+----------------------------
-+
-+Work out how register constants and structures can be automatically generated
-+through generalized macros.
-+
-+Example:
-+
-+.. code-block:: rust
-+
-+	register!(BOOT0, 0x0, u32, pci::Bar<SIZE>, Fields [
-+	   MINOR_REVISION(3:0, RO),
-+	   MAJOR_REVISION(7:4, RO),
-+	   REVISION(7:0, RO), // Virtual register combining major and minor rev.
-+	])
-+
-+This could expand to something like:
-+
-+.. code-block:: rust
-+
-+	const BOOT0_OFFSET: usize = 0x00000000;
-+	const BOOT0_MINOR_REVISION_SHIFT: u8 = 0;
-+	const BOOT0_MINOR_REVISION_MASK: u32 = 0x0000000f;
-+	const BOOT0_MAJOR_REVISION_SHIFT: u8 = 4;
-+	const BOOT0_MAJOR_REVISION_MASK: u32 = 0x000000f0;
-+	const BOOT0_REVISION_SHIFT: u8 = BOOT0_MINOR_REVISION_SHIFT;
-+	const BOOT0_REVISION_MASK: u32 = BOOT0_MINOR_REVISION_MASK | BOOT0_MAJOR_REVISION_MASK;
-+
-+	struct Boot0(u32);
-+
-+	impl Boot0 {
-+	   #[inline]
-+	   fn read(bar: &RevocableGuard<'_, pci::Bar<SIZE>>) -> Self {
-+	      Self(bar.readl(BOOT0_OFFSET))
-+	   }
-+
-+	   #[inline]
-+	   fn minor_revision(&self) -> u32 {
-+	      (self.0 & BOOT0_MINOR_REVISION_MASK) >> BOOT0_MINOR_REVISION_SHIFT
-+	   }
-+
-+	   #[inline]
-+	   fn major_revision(&self) -> u32 {
-+	      (self.0 & BOOT0_MAJOR_REVISION_MASK) >> BOOT0_MAJOR_REVISION_SHIFT
-+	   }
-+
-+	   #[inline]
-+	   fn revision(&self) -> u32 {
-+	      (self.0 & BOOT0_REVISION_MASK) >> BOOT0_REVISION_SHIFT
-+	   }
-+	}
-+
-+Usage:
-+
-+.. code-block:: rust
-+
-+	let bar = bar.try_access().ok_or(ENXIO)?;
-+
-+	let boot0 = Boot0::read(&bar);
-+	pr_info!("Revision: {}\n", boot0.revision());
-+
-+| Complexity: Advanced
-+
-+Delay / Sleep abstractions
-+--------------------------
-+
-+Rust abstractions for the kernel's delay() and sleep() functions.
-+
-+FUJITA Tomonori plans to work on abstractions for read_poll_timeout_atomic()
-+(and friends) [1].
-+
-+| Complexity: Beginner
-+| Link: https://lore.kernel.org/netdev/20250228.080550.354359820929821928.fujita.tomonori@gmail.com/ [1]
-+
-+IRQ abstractions
-+----------------
-+
-+Rust abstractions for IRQ handling.
-+
-+There is active ongoing work from Daniel Almeida [1] for the "core" abstractions
-+to request IRQs.
-+
-+Besides optional review and testing work, the required ``pci::Device`` code
-+around those core abstractions needs to be worked out.
-+
-+| Complexity: Intermediate
-+| Link: https://lore.kernel.org/lkml/20250122163932.46697-1-daniel.almeida@collabora.com/ [1]
-+| Contact: Daniel Almeida
-+
-+Page abstraction for foreign pages
-+----------------------------------
-+
-+Rust abstractions for pages not created by the Rust page abstraction without
-+direct ownership.
-+
-+There is active onging work from Abdiel Janulgue [1] and Lina [2].
-+
-+| Complexity: Advanced
-+| Link: https://lore.kernel.org/linux-mm/20241119112408.779243-1-abdiel.janulgue@gmail.com/ [1]
-+| Link: https://lore.kernel.org/rust-for-linux/20250202-rust-page-v1-0-e3170d7fe55e@asahilina.net/ [2]
-+
-+Scatterlist / sg_table abstractions
-+-----------------------------------
-+
-+Rust abstractions for scatterlist / sg_table.
-+
-+There is preceding work from Abdiel Janulgue, which hasn't made it to the
-+mailing list yet.
-+
-+| Complexity: Intermediate
-+| Contact: Abdiel Janulgue
-+
-+ELF utils
-+---------
-+
-+Rust implementation of ELF header representation to retrieve section header
-+tables, names, and data from an ELF-formatted images.
-+
-+There is preceding work from Abdiel Janulgue, which hasn't made it to the
-+mailing list yet.
-+
-+| Complexity: Beginner
-+| Contact: Abdiel Janulgue
-+
-+PCI MISC APIs
-+-------------
-+
-+Extend the existing PCI device / driver abstractions by SR-IOV, config space,
-+capability, MSI API abstractions.
-+
-+| Complexity: Beginner
-+
-+Auxiliary bus abstractions
-+--------------------------
-+
-+Rust abstraction for the auxiliary bus APIs.
-+
-+This is needed to connect nova-core to the nova-drm driver.
-+
-+| Complexity: Intermediate
-+
-+Debugfs abstractions
-+--------------------
-+
-+Rust abstraction for debugfs APIs.
-+
-+| Reference: Export GSP log buffers
-+| Complexity: Intermediate
-+
-+Vec extensions
-+--------------
-+
-+Implement ``Vec::truncate`` and ``Vec::resize``.
-+
-+Currently this is used for some experimental code to parse the vBIOS.
-+
-+| Reference vBIOS support
-+| Complexity: Beginner
-+
-+GPU (general)
-+=============
-+
-+Parse firmware headers
-+----------------------
-+
-+Parse ELF headers from the firmware files loaded from the filesystem.
-+
-+| Reference: ELF utils
-+| Complexity: Beginner
-+| Contact: Abdiel Janulgue
-+
-+Build radix3 page table
-+-----------------------
-+
-+Build the radix3 page table to map the firmware.
-+
-+| Complexity: Intermediate
-+| Contact: Abdiel Janulgue
-+
-+vBIOS support
-+-------------
-+
-+Parse the vBIOS and probe the structures required for driver initialization.
-+
-+| Contact: Dave Airlie
-+| Reference: Vec extensions
-+| Complexity: Intermediate
-+
-+Initial Devinit support
-+-----------------------
-+
-+Implement BIOS Device Initialization, i.e. memory sizing, waiting, PLL
-+configuration.
-+
-+| Contact: Dave Airlie
-+| Complexity: Beginner
-+
-+Boot Falcon controller
-+----------------------
-+
-+Infrastructure to load and execute falcon (sec2) firmware images; handle the
-+GSP falcon processor and fwsec loading.
-+
-+| Complexity: Advanced
-+| Contact: Dave Airlie
-+
-+GPU Timer support
-+-----------------
-+
-+Support for the GPU's internal timer peripheral.
-+
-+| Complexity: Beginner
-+| Contact: Dave Airlie
-+
-+MMU / PT management
-+-------------------
-+
-+Work out the architecture for MMU / page table management.
-+
-+We need to consider that nova-drm will need rather fine-grained control,
-+especially in terms of locking, in order to be able to implement asynchronous
-+Vulkan queues.
-+
-+While generally sharing the corresponding code is desirable, it needs to be
-+evaluated how (and if at all) sharing the corresponding code is expedient.
-+
-+| Complexity: Expert
-+
-+VRAM memory allocator
-+---------------------
-+
-+Investigate options for a VRAM memory allocator.
-+
-+Some possible options:
-+  - Rust abstractions for
-+    - RB tree (interval tree) / drm_mm
-+    - maple_tree
-+  - native Rust collections
-+
-+| Complexity: Advanced
-+
-+Instance Memory
-+---------------
-+
-+Implement support for instmem (bar2) used to store page tables.
-+
-+| Complexity: Intermediate
-+| Contact: Dave Airlie
-+
-+GPU System Processor (GSP)
-+==========================
-+
-+Export GSP log buffers
-+----------------------
-+
-+Recent patches from Timur Tabi [1] added support to expose GSP-RM log buffers
-+(even after failure to probe the driver) through debugfs.
-+
-+This is also an interesting feature for nova-core, especially in the early days.
-+
-+| Link: https://lore.kernel.org/nouveau/20241030202952.694055-2-ttabi@nvidia.com/ [1]
-+| Reference: Debugfs abstractions
-+| Complexity: Intermediate
-+
-+GSP firmware abstraction
-+------------------------
-+
-+The GSP-RM firmware API is unstable and may incompatibly change from version to
-+version, in terms of data structures and semantics.
-+
-+This problem is one of the big motivations for using Rust for nova-core, since
-+it turns out that Rust's procedural macro feature provides a rather elegant way
-+to address this issue:
-+
-+1. generate Rust structures from the C headers in a separate namespace per version
-+2. build abstraction structures (within a generic namespace) that implement the
-+   firmware interfaces; annotate the differences in implementation with version
-+   identifiers
-+3. use a procedural macro to generate the actual per version implementation out
-+   of this abstraction
-+4. instantiate the correct version type one on runtime (can be sure that all
-+   have the same interface because it's defined by a common trait)
-+
-+There is a PoC implementation of this pattern, in the context of the nova-core
-+PoC driver.
-+
-+This task aims at refining the feature and ideally generalize it, to be usable
-+by other drivers as well.
-+
-+| Complexity: Expert
-+
-+GSP message queue
-+-----------------
-+
-+Implement low level GSP message queue (command, status) for communication
-+between the kernel driver and GSP.
-+
-+| Complexity: Advanced
-+| Contact: Dave Airlie
-+
-+Bootstrap GSP
-+-------------
-+
-+Call the boot firmware to boot the GSP processor; execute initial control
-+messages.
-+
-+| Complexity: Intermediate
-+| Contact: Dave Airlie
-+
-+Client / Device APIs
-+--------------------
-+
-+Implement the GSP message interface for client / device allocation and the
-+corresponding client and device allocation APIs.
-+
-+| Complexity: Intermediate
-+| Contact: Dave Airlie
-+
-+Bar PDE handling
-+----------------
-+
-+Synchronize page table handling for BARs between the kernel driver and GSP.
-+
-+| Complexity: Beginner
-+| Contact: Dave Airlie
-+
-+FIFO engine
-+-----------
-+
-+Implement support for the FIFO engine, i.e. the corresponding GSP message
-+interface and provide an API for chid allocation and channel handling.
-+
-+| Complexity: Advanced
-+| Contact: Dave Airlie
-+
-+GR engine
-+---------
-+
-+Implement support for the graphics engine, i.e. the corresponding GSP message
-+interface and provide an API for (golden) context creation and promotion.
-+
-+| Complexity: Advanced
-+| Contact: Dave Airlie
-+
-+CE engine
-+---------
-+
-+Implement support for the copy engine, i.e. the corresponding GSP message
-+interface.
-+
-+| Complexity: Intermediate
-+| Contact: Dave Airlie
-+
-+VFN IRQ controller
-+------------------
-+
-+Support for the VFN interrupt controller.
-+
-+| Complexity: Intermediate
-+| Contact: Dave Airlie
-+
-+External APIs
-+=============
-+
-+nova-core base API
-+------------------
-+
-+Work out the common pieces of the API to connect 2nd level drivers, i.e. vGPU
-+manager and nova-drm.
-+
-+| Complexity: Advanced
-+
-+vGPU manager API
-+----------------
-+
-+Work out the API parts required by the vGPU manager, which are not covered by
-+the base API.
-+
-+| Complexity: Advanced
-+
-+nova-core C API
-+---------------
-+
-+Implement a C wrapper for the APIs required by the vGPU manager driver.
-+
-+| Complexity: Intermediate
-+
-+Testing
-+=======
-+
-+CI pipeline
-+-----------
-+
-+Investigate option for continuous integration testing.
-+
-+This can go from as simple as running KUnit tests over running (graphics) CTS to
-+booting up (multiple) guest VMs to test VFIO use-cases.
-+
-+It might also be worth to consider the introduction of a new test suite directly
-+sitting on top of the uAPI for more targeted testing and debugging. There may be
-+options for collaboration / shared code with the Mesa project.
-+
-+| Complexity: Advanced
-diff --git a/Documentation/gpu/nova/guidelines.rst b/Documentation/gpu/nova/guidelines.rst
-new file mode 100644
-index 000000000000..13ab13984a18
---- /dev/null
-+++ b/Documentation/gpu/nova/guidelines.rst
-@@ -0,0 +1,69 @@
-+.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+
-+==========
-+Guidelines
-+==========
-+
-+This document describes the general project guidelines that apply to nova-core
-+and nova-drm.
-+
-+Language
-+========
-+
-+The Nova project uses the Rust programming language. In this context, all rules
-+of the Rust for Linux project as documented in
-+:doc:`../../rust/general-information` apply. Additionally, the following rules
-+apply.
-+
-+- Unless technically necessary otherwise (e.g. uAPI), any driver code is written
-+  in Rust.
-+
-+- Unless technically necessary, unsafe Rust code must be avoided. In case of
-+  technical necessity, unsafe code should be isolated in a separate component
-+  providing a safe API for other driver code to use.
-+
-+Style
-+-----
-+
-+All rules of the Rust for Linux project as documented in
-+:doc:`../../rust/coding-guidelines` apply.
-+
-+For a submit checklist, please also see the `Rust for Linux Submit checklist
-+addendum <https://rust-for-linux.com/contributing#submit-checklist-addendum>`_.
-+
-+Documentation
-+=============
-+
-+The availability of proper documentation is essential in terms of scalability,
-+accessibility for new contributors and maintainability of a project in general,
-+but especially for a driver running as complex hardware as Nova is targeting.
-+
-+Hence, adding documentation of any kind is very much encouraged by the project.
-+
-+Besides that, there are some minimum requirements.
-+
-+- Every non-private structure needs at least a brief doc comment explaining the
-+  semantical sense of the structure, as well as potential locking and lifetime
-+  requirements. It is encouraged to have the same minimum documentation for
-+  non-trivial private structures.
-+
-+- uAPIs must be fully documented with kernel-doc comments; additionally, the
-+  semantical behavior must be explained including potential special or corner
-+  cases.
-+
-+- The APIs connecting the 1st level driver (nova-core) with 2nd level drivers
-+  must be fully documented. This includes doc comments, potential locking and
-+  lifetime requirements, as well as example code if applicable.
-+
-+- Abbreviations must be explained when introduced; terminology must be uniquely
-+  defined.
-+
-+- Register addresses, layouts, shift values and masks must be defined properly;
-+  unless obvious, the semantical sense must be documented. This only applies if
-+  the author is able to obtain the corresponding information.
-+
-+Acceptance Criteria
-+===================
-+
-+- Patches must only be applied if reviewed by at least one other person on the
-+  mailing list; this also applies for maintainers.
-diff --git a/Documentation/gpu/nova/index.rst b/Documentation/gpu/nova/index.rst
-new file mode 100644
-index 000000000000..2701b3f4af35
---- /dev/null
-+++ b/Documentation/gpu/nova/index.rst
-@@ -0,0 +1,30 @@
-+.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+
-+=======================
-+nova NVIDIA GPU drivers
-+=======================
-+
-+The nova driver project consists out of two separate drivers nova-core and
-+nova-drm and intends to supersede the nouveau driver for NVIDIA GPUs based on
-+the GPU System Processor (GSP).
-+
-+The following documents apply to both nova-core and nova-drm.
-+
-+.. toctree::
-+   :titlesonly:
-+
-+   guidelines
-+
-+nova-core
-+=========
-+
-+The nova-core driver is the core driver for NVIDIA GPUs based on GSP. nova-core,
-+as the 1st level driver, provides an abstraction around the GPUs hard- and
-+firmware interfaces providing a common base for 2nd level drivers, such as the
-+vGPU manager VFIO driver and the nova-drm driver.
-+
-+.. toctree::
-+   :titlesonly:
-+
-+   core/guidelines
-+   core/todo
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ede8abee210a..9530899b6b0a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7458,6 +7458,7 @@ Q:	https://patchwork.freedesktop.org/project/nouveau/
- B:	https://gitlab.freedesktop.org/drm/nova/-/issues
- C:	irc://irc.oftc.net/nouveau
- T:	git https://gitlab.freedesktop.org/drm/nova.git nova-next
-+F:	Documentation/gpu/nova/
- F:	drivers/gpu/nova-core/
- 
- DRM DRIVER FOR OLIMEX LCD-OLINUXINO PANELS
--- 
-2.48.1
-
+--
+Thanks,
+Mina
