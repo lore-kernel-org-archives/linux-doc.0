@@ -1,88 +1,148 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CD64C8E;
-	Thu,  6 Mar 2025 13:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56ABC33FD;
+	Thu,  6 Mar 2025 13:51:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741268714; cv=none; b=Hk0ksDtzsLos3iUbH7x0aV9qoZLFlLp46mhiwShu0IiE3UrAaD1/ojNYUqDengtMcXQn4cHNjIQgBnIcBrxObZPQONlJgZqXg2xbNskdr+jcRDopuEqjT94mH8R1B1V4YuYvVq2gqo4h6SDj/mzjXYgDYUDv8boUcrJy3OraMjs=
+	t=1741269078; cv=none; b=IWOocImaSPiDF09gaHDQbspbg8wyWrROE9q8fEEWT1tDGivfKcLMuzgqZVM5lq5gCxaPfo3cmnpjI08GO3BHnVUzLVTPwXZkX0kdes31RStxfsJnEbyPnShlRo8I08Qa2p/r/ryjr+6bBhZ5DQb0MdNk8Qq2G4DwpjoaW0Upz3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741268714; c=relaxed/simple;
-	bh=W/pLRzzCmKndl4i2cPdDqVunl8ECSHU4worQHHjuI3g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LmbozDWphWQKyGPTJrviS9RwGpv+9UPwCGGVYRrLmpnZN3Nflv0gjdsuzWc+M6fyQpEzovV+E36wy5OxBPeXVWm0dAXVXEkkT5dPB4+ic5DRyN7TYa3YZIQMWZJ8Av+K1TODTOrwkUT4alTM86aL/rOv9YzvKaPg2IiYEFWYinc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LL3EFMl8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741269078; c=relaxed/simple;
+	bh=xMq/gXwuGbOwdPZKg7OBqBV81DdiKtrLBRNuI+qJwjc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ssmyyh66CU3H0U2f6Qao9hM2O6rzosbj/NKxil04I2S2968zbYTHxSrSmo8ED/lOVSDTlisJIN941iWf570h1MAkcWWBJSlQxwDjVmjKCTZnIXS3PEJHEvUCdqCVr4QDrSJ7vQE/E41m1PUHkW+skBuLlmDn2tyqCCKj1Yh8iJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PfZHbCsG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LL3EFMl8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 936EDC4CEE4;
-	Thu,  6 Mar 2025 13:45:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PfZHbCsG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63F30C4CEE0;
+	Thu,  6 Mar 2025 13:51:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741268713;
-	bh=W/pLRzzCmKndl4i2cPdDqVunl8ECSHU4worQHHjuI3g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LL3EFMl8f/nuP1WsPibX1shS/JHV+dq34WHn35A+4Ni45fh2P+7iyWgA7S6uMv4py
-	 JJAkRCViZogb4z0YWCYUE2Gz9V+p+FBSeo5+hNp4lSjLLbBlmsmqvRtQHlVax1Id5m
-	 aMjf4wvokfguXu59H4gGpryCxEyYimv4ZH58GrmTxjJrK80dCGLDjXsx97MzZ758yi
-	 f6dYBLIO06oExGQh/U2abS+ru99SgT8dCDY6q4q0zeaykGiwAsCPHGFn1nVU6gdrep
-	 RosZ/T5VgXu7VEPaRPWFrhe95rPWZM84sFzHgVAmA9JvDl5kllS88xQzeELCzTfzIe
-	 pqSF9MsJpMVFg==
-Date: Thu, 6 Mar 2025 14:45:05 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: FUJITA Tomonori <fujita.tomonori@gmail.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
-	pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
-	jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
-	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
-	gregkh@linuxfoundation.org, mcgrof@kernel.org,
-	russ.weight@linux.dev, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 5/5] gpu: nova-core: add initial documentation
-Message-ID: <Z8mm4fJQxXMiN5tu@cassiopeiae>
-References: <20250304173555.2496-1-dakr@kernel.org>
- <20250304173555.2496-6-dakr@kernel.org>
- <20250306.215638.838863448505767234.fujita.tomonori@gmail.com>
+	s=k20201202; t=1741269077;
+	bh=xMq/gXwuGbOwdPZKg7OBqBV81DdiKtrLBRNuI+qJwjc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PfZHbCsGmbNbw3l6km+Hk/s/99YLXQIB10uxwOjopesXwDCt52NATDEW9Gx1Kp0Qa
+	 dmhV1g09jA9sCfaVNdq2C+bY4hQK2Hh7JyZLoo4IHVwMwLs4unG94Xj7a+MdLDp0xJ
+	 zGCHbo1rKEDpu54xGOlwxFmHCuH7IwxFHZCgGcNbz70Y12Y3y6G/BEAypXnm8Xigma
+	 fBYprMIew0gE417YJe6fkMKrpJKOrqRC0oEImHCxHP4s7TCSydEsfOUTshPebJbqZ+
+	 B1Q5bhSTTzpaHvdg/whFGG1IjVIniSQ4by83SDauPrKKYyW7CJYhiRHUoearz2Sobi
+	 Ifv8T8P6oLIMQ==
+From: Maxime Ripard <mripard@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-media@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v4] Documentation: dma-buf: heaps: Add heap name definitions
+Date: Thu,  6 Mar 2025 14:51:14 +0100
+Message-ID: <20250306135114.1943738-1-mripard@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250306.215638.838863448505767234.fujita.tomonori@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 06, 2025 at 09:56:38PM +0900, FUJITA Tomonori wrote:
-> On Tue,  4 Mar 2025 18:34:52 +0100
-> Danilo Krummrich <dakr@kernel.org> wrote:
-> 
-> > +Delay / Sleep abstractions
-> > +--------------------------
-> > +
-> > +Rust abstractions for the kernel's delay() and sleep() functions.
-> > +
-> > +There is some ongoing work from FUJITA Tomonori [1], which has not seen any updates
-> > +since Oct. 24.
-> > +
-> > +| Complexity: Beginner
-> > +| Link: https://lore.kernel.org/netdev/20241001112512.4861-2-fujita.tomonori@gmail.com/ [1]
-> 
-> I posted v11 last month.
-> 
-> https://lore.kernel.org/netdev/20250220070611.214262-1-fujita.tomonori@gmail.com/
+Following a recent discussion at last Plumbers, John Stultz, Sumit
+Sewal, TJ Mercier and I came to an agreement that we should document
+what the dma-buf heaps names are expected to be, and what the buffers
+attributes you'll get should be documented.
 
-Thanks for letting me know.
+Let's create that doc to make sure those attributes and names are
+guaranteed going forward.
 
-I think I lost track of this because in v1 the series was named "add delay
-abstraction (sleep functions)" and with v2 it was switched to "rust: Add IO
-polling" and I was searching for subsequent patch series with the "delay"
-keyword.
+Reviewed-by: T.J. Mercier <tjmercier@google.com>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Anyways, AFAICS you ended up with adding fsleep(). I think nova-core will need
-control over having a busy loop or actually re-schedule.
+---
+Changes from v3:
+  - Add TJ RB
+  - Fix a few typos.
 
-I will update this entry accordingly.
+Changes from v2:
+  - Remove exhaustive list of names for platforms, and just mention the
+    alternatives.
+  - Add MAINTAINERS entry
+
+Changes from v1:
+  - Add the mention that the cma / reserved heap is optional.
+---
+ Documentation/userspace-api/dma-buf-heaps.rst | 25 +++++++++++++++++++
+ Documentation/userspace-api/index.rst         |  1 +
+ MAINTAINERS                                   |  1 +
+ 3 files changed, 27 insertions(+)
+ create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
+
+diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
+new file mode 100644
+index 000000000000..535f49047ce6
+--- /dev/null
++++ b/Documentation/userspace-api/dma-buf-heaps.rst
+@@ -0,0 +1,25 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==============================
++Allocating dma-buf using heaps
++==============================
++
++Dma-buf Heaps are a way for userspace to allocate dma-buf objects. They are
++typically used to allocate buffers from a specific allocation pool, or to share
++buffers across frameworks.
++
++Heaps
++=====
++
++A heap represents a specific allocator. The Linux kernel currently supports the
++following heaps:
++
++ - The ``system`` heap allocates virtually contiguous, cacheable, buffers.
++
++ - The ``cma`` heap allocates physically contiguous, cacheable,
++   buffers. Only present if a CMA region is present. Such a region is
++   usually created either through the kernel commandline through the
++   `cma` parameter, a memory region Device-Tree node with the
++   `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
++   `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
++   might be called ``reserved``, ``linux,cma``, or ``default-pool``.
+diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+index b1395d94b3fd..9cbe4390c872 100644
+--- a/Documentation/userspace-api/index.rst
++++ b/Documentation/userspace-api/index.rst
+@@ -42,10 +42,11 @@ Devices and I/O
+ 
+ .. toctree::
+    :maxdepth: 1
+ 
+    accelerators/ocxl
++   dma-buf-heaps
+    dma-buf-alloc-exchange
+    gpio/index
+    iommufd
+    media/index
+    dcdbas
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8e0736dc2ee0..ef0364e65aef 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6911,10 +6911,11 @@ R:	T.J. Mercier <tjmercier@google.com>
+ L:	linux-media@vger.kernel.org
+ L:	dri-devel@lists.freedesktop.org
+ L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
+ S:	Maintained
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
++F:	Documentation/userspace-api/dma-buf-heaps.rst
+ F:	drivers/dma-buf/dma-heap.c
+ F:	drivers/dma-buf/heaps/*
+ F:	include/linux/dma-heap.h
+ F:	include/uapi/linux/dma-heap.h
+ F:	tools/testing/selftests/dmabuf-heaps/
+-- 
+2.48.1
+
