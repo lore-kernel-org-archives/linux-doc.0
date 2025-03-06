@@ -1,319 +1,742 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2056.outbound.protection.outlook.com [40.107.220.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E87F20B1E4
-	for <linux-doc@vger.kernel.org>; Thu,  6 Mar 2025 12:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741263911; cv=none; b=D51k7cqHQfDo0O2qNxQL9TibmrAN0rD6UVm1BIQ1YOac12SO/c0BgQ48EJYZjAXFVuototme9+vSakWMtBYYWqD3Snd0lsFnNMExkcSMRRgWfvFNT8Y1COv4VgiGQsdpPB1LXWMZJSHSb/hZI/37GjmyV4sm7+TQKkSGGj7KYYs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741263911; c=relaxed/simple;
-	bh=dDtH0uvhV0kEplUpSLFEmJdkxsFYdF+2rLpMIvGfd7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fxr6sj/zdB3wYZ2//kQPUMZKJTaq9IHEArwwXNmJl7G+lG+UCPPt31oC8Q2zDvPK6zG8mhXXpOSPUFU7g6uQZ5noAQZt1aOl5N2eU5IbF6RjesVIfPgKQz/d6tZZQA2IJkATZhXE1LwL591S6n3ZJmFRO2ydW9B4SoCtj1B3WR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=c2RK50yW; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EF620D4F0;
+	Thu,  6 Mar 2025 12:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741264714; cv=fail; b=UiRBoV0nHb0vFKJ7CkQuGIBYYUMAP/DFa7+8emrH5GC+41HiAJCjRa75mzlBe0MwS73ssO2nbKN8a9LjRTTgtDoEB9qXkkOtlAxCr273laUlnnR/SXYBiaOLsJIHZeOOAx2Y+jEYI9rhrocik4j+nxugFNGXDRU7AOYLw+utgF8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741264714; c=relaxed/simple;
+	bh=xniX99OtPCwzuYc+Ah4G8j/TaWWvvkx2yhqYpwbIk9o=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=VZwZykJNrECPkj5iHJHeHvUW6tp03UtdmgRGVH5imA9I0FcqL4JES9u3VdN79qFGCGoR0BCFXQWJWmVV3AgddeT6w8cEg8YyqMZwKQfXHceh0SH+WFVS+P5snfVmPySChIvS85yK7iiTOB2PgfJNtxqrBMeOe/Dlyfp3n4YZjCo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IG2H4Lkp; arc=fail smtp.client-ip=40.107.220.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="c2RK50yW"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43bcad638efso3411075e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 06 Mar 2025 04:25:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1741263905; x=1741868705; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nIwcoBN/hkEYZ3G8KOPMnrmKGBBnfRqx2ozDCVdFctQ=;
-        b=c2RK50yWNLfZhA26zK70ij7fEIsggbBBGqGTvHYE11TZjMo8of/vm5yyPr6HqXuAKb
-         gLWYEvqFoGJFOsdG0G2QkJsTCHFvmcqd6G57zsa9EzPLIWrNf86XhkMBGLQhW8gxRrSx
-         Jjkim7+ltnKaqccOk9cUVUrp+BX+IQRGPrtNZqE061AYa4quHgQ1YT3vaKl6vADaGgml
-         dJqstVbBor7PO5K49mIrv7yGjIJOSrNQ4ni64q3326VeQnCFfONHKptM8YBQoQqDTMq7
-         ZplRw33FwNUIwlyuQx00Tv4AWQI0wArv8xBjoaUcaEs6ilEf+emVqVE0Q3Ad5oKNC8R6
-         zXlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741263905; x=1741868705;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nIwcoBN/hkEYZ3G8KOPMnrmKGBBnfRqx2ozDCVdFctQ=;
-        b=aLzVBnbOx2vMgDYK9zyvSBa82mDj62pWpas7xRMbCLhMlgiuzD1CaZkkvFFHzgrpkd
-         2aQ9UQOChnbD7Y/sJL3YFrjlEf1HYL239zHfJmzAjSGlUz0L5V5HDmilH3/WNhC3SoFw
-         lRe3RiAVKYwb/Mn1GOHdv4vBnYf5rM7sVBhpiUttHC6N4fGYNowOlz9JdFQWs51Y/z5i
-         Xpc+V6dXMZoQQTnwMvuX9czWl48WhMG3gesY4FZH5YRHUjN6PFclywUfj5a/nvlaxaTw
-         YiUP8fBf3uQzPVp74FMTkotA4Jdd/iBGyQx0FhwPirkYC0niD+v0e9Voddf+yq9bTfeT
-         cCdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZoKEJv+I6Uuj9vQ4toczxg50pUkfiFvOsJ2XGFQuHcg+t8VAaou7ChptpbkCbirNihSNTlOl85bs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzda7jWClk4byf++/1HM0joVyk02zJaM1O9DHD+bRXUPjtCL+3C
-	vHsITWAK+pRaYIaascVo27wpe6w0s8Ev4odKbkxv5BQPB324LL2KY+oUGnuEDrY=
-X-Gm-Gg: ASbGncvHeiRoZBk6FvDbDXjx8kG4DwQc8lyf3r4JVUy/dT4oIKsWnNtAl4sS4/LAELp
-	CvUV9RY5h825qkSGfgpMuX6oT53eD/tJnJtvQiKZUgfBh3CL8KgxgFc20VRKQPqINfkaiwEul7M
-	EihfnNHGwnFDveccawdo6v63a6lIO1K7mdv5xLpULxI4aSZgKdALvH/RjlobyaJ2Qddx8jwNNoo
-	G+c9lmU6L6GM54PBcR5NX0lW3uXxKJ1fab6Hm40rBd1uhnRXG4iVM93JAYUpJN9QzbgqqCruhEG
-	kRGLbxAgZUurC3BEMwTcJfmcrwQ9V13LQSVKq3Rc/GoqBOo=
-X-Google-Smtp-Source: AGHT+IG009jfgS7Y1rNm77MEBAZpvk+csfOSyOFqNcxON1KmaThlFkX95r4263wttZgsIJhefyFJoA==
-X-Received: by 2002:a05:600c:548f:b0:43b:c0fa:f9bc with SMTP id 5b1f17b1804b1-43bd29c75famr57031165e9.12.1741263905515;
-        Thu, 06 Mar 2025 04:25:05 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bdd947544sm18165635e9.35.2025.03.06.04.25.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 04:25:05 -0800 (PST)
-Date: Thu, 6 Mar 2025 13:25:03 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>,
-	David Gow <davidgow@google.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v5 1/3] printf: convert self-test to KUnit
-Message-ID: <Z8mUH0comOCpycpK@pathway.suse.cz>
-References: <20250221-printf-kunit-convert-v5-0-5db840301730@gmail.com>
- <20250221-printf-kunit-convert-v5-1-5db840301730@gmail.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IG2H4Lkp"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EgsW+I6O5+rmAKpLODxqIbC75AL20gfNxjVThlQBqMclNiIPwzUsiQB+g6ytlGu+9YiA1BQq47jZl6f7TZWRCcVh69ZlkPzuR5TKOsaCpPlpq7sscrWelEy+x7LyiXzFKnE4ndcB8NllXuE2VuNYVa25g9gwW83g6lf9xcERI3X1iOHZ22MEOawDlyPPIJAfbAPLDmp/kJCpD7sA2sBIFzh3gjhqIwUjw3h/fNSrFvnlFpNmkDFIHqEDh1Z4K0iQ2TknGZRmQa6e97uqi88+jJGapRqowOkboNXgjZ4Im6/7572JH7TNjxzsCpnzFWRG38MGiD9Imqn7XLUdBbDdJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B8sGhK7nmYgIa6dsOTzXH+sVoL/UyjWMt0L19S71C28=;
+ b=qCvOiawtxIZCKYHCUojNwYwlg+0BW7Vgw7CrQwVCVRFKGD+gkLq9j5+OEOmT+Jmewpdx1UfSnUUttTW/8ZfRdamsFOXuR2tsdYrN1DT6cw6yjRZQKPJ0CRTnEZICQYsmUhNRZxcnG3KfP/dxed4R+uiphD9rllVgQk3zByute3YibBvgN40n42AO0VmP9DpbhxiICyfRPLFBChNpwJLo5yyG6k8xPBrjqJdH6nFNsYOeXTGGLnaiDV/Afpb41vU4W58IAn84XdYNM/RQ/H7y9jzs8NT78sQwQG26BkYGqdx4pja4S1Z7dJFQOu6z3/Mmtg3j1zIOxloIcNSrFZmTEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B8sGhK7nmYgIa6dsOTzXH+sVoL/UyjWMt0L19S71C28=;
+ b=IG2H4LkpJKZ7u80K+rkuMiL0vhf27gSHj3jkYRwec31jHcl7soGwooB7Gi/vtei69BHmQadc0pIfev994OHHCxnhuvNEsfB7wVXjoTExdRfcTZ7Dzx3TtwfjUHa9CAHJh4VuVmm2wow23UTOb2txRh2xi+idJLtABsMaNVtlWFxJiGvmKdEhJP2m7ZJVDKnuSGCnUsq9hOlBuDjOZ9jsh4eFMMlImOeQLHsDbP15xs9QoPkt7aeu80AE3xUSvk2UZPlfAuqEuJoH7GTP8l8s7Ry7a9NnyVvUxHNcrpAqZFjKYrBpXAVzd0ZqV57odinWg7mdp5Trxt+XXxY+3BpfUg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3997.namprd12.prod.outlook.com (2603:10b6:208:161::11)
+ by DM4PR12MB6254.namprd12.prod.outlook.com (2603:10b6:8:a5::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Thu, 6 Mar
+ 2025 12:38:28 +0000
+Received: from MN2PR12MB3997.namprd12.prod.outlook.com
+ ([fe80::d161:329:fdd3:e316]) by MN2PR12MB3997.namprd12.prod.outlook.com
+ ([fe80::d161:329:fdd3:e316%6]) with mapi id 15.20.8511.017; Thu, 6 Mar 2025
+ 12:38:28 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 06 Mar 2025 21:38:22 +0900
+Message-Id: <D896TLG23DKY.1SRUB54QZ8THK@nvidia.com>
+Cc: <ojeda@kernel.org>, <alex.gaynor@gmail.com>, <boqun.feng@gmail.com>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <benno.lossin@proton.me>,
+ <a.hindborg@kernel.org>, <aliceryhl@google.com>, <tmgross@umich.edu>,
+ <gregkh@linuxfoundation.org>, <mcgrof@kernel.org>, <russ.weight@linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH v5 4/5] gpu: nova-core: add initial driver stub
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <corbet@lwn.net>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <ajanulgu@redhat.com>,
+ <lyude@redhat.com>, <pstanner@redhat.com>, <zhiw@nvidia.com>,
+ <cjia@nvidia.com>, <jhubbard@nvidia.com>, <bskeggs@nvidia.com>,
+ <acurrid@nvidia.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250304173555.2496-1-dakr@kernel.org>
+ <20250304173555.2496-5-dakr@kernel.org>
+In-Reply-To: <20250304173555.2496-5-dakr@kernel.org>
+X-ClientProxiedBy: TYCP286CA0288.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c8::16) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250221-printf-kunit-convert-v5-1-5db840301730@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3997:EE_|DM4PR12MB6254:EE_
+X-MS-Office365-Filtering-Correlation-Id: 43c3ec75-a20d-4d7f-262e-08dd5cabca81
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|7053199007|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?K2w2dmJQLzdZcWVVNHFISzRGVzNZUDU5ZWJ1WFJ1em5IRkpJbUNiajJPNGhr?=
+ =?utf-8?B?U0hQL2tKbGFISndhRllvZjVINEIxei9GdkZzcFpYUnp2S1Rvdzg5WGhLMFY4?=
+ =?utf-8?B?b0cvWjk3Nnh6T3BHRUhkR2dDMDVJWGxPM3pGQ3dnSU9OQ05obGxLTm5SYVJO?=
+ =?utf-8?B?NERxSW45RUFZanp5bXZnSWFhNEprMFlubWUwYXhWaE1OTXFKRkZ0ZXZkcG5P?=
+ =?utf-8?B?Z3k3S2pvZ3FsQlRyUTY5ekcwaGQyUFozbENidDUzSHUvYTdsZ2pDN1JKTnhk?=
+ =?utf-8?B?M2NtL2RjRTFXWi9hTXdidDNnOU50bHJRQ05pZ2srWldLdVVDOExhSkxsYXo3?=
+ =?utf-8?B?SGhnUFpBdklyd0dhN3hxQWtxTVBnZzdPQ0lEN2k0SjY4RzBJWXRQSTJ4eWdk?=
+ =?utf-8?B?L2JwOVJzRjB4WnA4ak53MWN3RU1FckFoaFhsRXpRWk0xcmZRVTRrVFQvZ28z?=
+ =?utf-8?B?Q0IyS2hja1NJck9zd3MvUHI0dXdSazZxOFd0NnM4KzJFMGhXb2xUUjU1VEZV?=
+ =?utf-8?B?Qk5BSFJLSUE2d3lvMTMwbkhSaVpWOXp5RjBEdXpzZ2lhRXV4SkFjTmUyQWJ0?=
+ =?utf-8?B?L1BYemludFlyeVZzL0loTFFyaVdabTR5K284cExRZmxGdjFrQ1kyUit6MlNW?=
+ =?utf-8?B?dkZIWWpEVTFHaWFocXFZQUV6T2J1TGpvNUUwZU01VUNPSHJUK1hCVnNhNk9s?=
+ =?utf-8?B?ZUlGRkczWGtDd2gwVmZQY1BlYnZPLys0RlUzVml5WFZ4ZjBGOUxxOS81UHNB?=
+ =?utf-8?B?ZDZjRTE2dmJlbnBqUXo3Q0QrdmFEY0Vkb1FMNlgvNkdQendZSDZ2bmxHTUd1?=
+ =?utf-8?B?RUhZOEZUV2c4cEt1c0FobnNvR1Zqb25NQ2xJWU0vZGJHemFydktLenBPYXEz?=
+ =?utf-8?B?MDJRWTBGMDFWQjRHcnVJVzJ2UUF1RlMyRGZvNnRZUVNIK1BzUGl1bnFKalND?=
+ =?utf-8?B?OENYdk9neDhDcG1mWjBtUC9KSDU2a1RJVGxRd2ZEbk04cGtFNG1UQm8yclVQ?=
+ =?utf-8?B?RlNvYTBZVkZIcHlBc09hZzU3TWdpZDFHRURHalBmS0hsWUVPdlpZazVmRmkz?=
+ =?utf-8?B?Qit0U1B6OUdXQlQ3QUp2WHdsM1lmS1BVTzVHRmdPaEV1cW52UG9rZktyTUUr?=
+ =?utf-8?B?TUJzbUxYcjVYTHJVbVNVbDdlbDFSR0N1andoSDVhL0hBY0s0d2Vuck5ha2wv?=
+ =?utf-8?B?UzVWYkpjU0RvZGUxNThmaGdaSTNPSWZUZEZjMTVCait0bzJKdUtjTGJSc3Rs?=
+ =?utf-8?B?T0oyeEhmcFd6K0tWVjZrcTdMWWFHR3hXdFFSOG04MitpbUt6UWZNby9WWTJF?=
+ =?utf-8?B?UWRzT0pRcWQrUXBSaHNleWRHbkM2RlY4WlBHWkl4M3RwNGNvQTBhY2xtYTlj?=
+ =?utf-8?B?Wm1lcERPMGMxc0l2cndTS2M1QXJGcHdNczU4WkErWmorcDBqWGc0bHhmQzMv?=
+ =?utf-8?B?TmN1dlBhRk5WbFJuczZoUnQzanF0VEQ3cnIvLzRjSmZkRFg4WFZvS0RxSWFJ?=
+ =?utf-8?B?S3R1SS9BRlQxV1hHQUltZEV5Y01WVEdZMDJzdDEvQ01aMHJJNWtqemQ1Q2p4?=
+ =?utf-8?B?YzBULzI5OXoxejFzVUhReEF1cGI0cldWRUQ5bHd3b0lrbnphVkxRSWFmSU9K?=
+ =?utf-8?B?RTBQWW43L0VCdXN4TVNqL2dacU04cVNReEVxclA3Ums3SnhxeDZQS0NrbjhP?=
+ =?utf-8?B?dFF5ZTNVY0REQUhweENleFNBK3JlK2xBQlhyRlZFRkpTREo0UFZ3T21ydVpV?=
+ =?utf-8?B?cGxGdnorYTFYWjMrSWlWVWxKYUJlMVVpZWxZWkdtZmlxNUNFYjl3N1RTNzh0?=
+ =?utf-8?B?NVlVdEhBQmtaaHRSVE5YSmV3NHJCeDhpelBVM3lWMlhOZ0NBRUNCUUJWT1VV?=
+ =?utf-8?B?eHZZR09jSWJpNVhRSWxvT2FnbnM1MHVzellyTElMNmVwOWpuK2FwT2I0VG9N?=
+ =?utf-8?Q?UcW0Y4wjeVQ=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3997.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RmZ4RjVFeFlPWllDNUlwY1ZSa2ZaMHVoQzAzTVdwbXhHYWhoeGtSNFdQMXZ6?=
+ =?utf-8?B?dHJGTFo1cnZEdkZrZ2Nhb1JEVjRyRkJnTW03RnJUVTZtWlplZVFZYXVvc0t6?=
+ =?utf-8?B?MmJTVjZQYkRWNmxyT2hrVHBNdXoxNVNmcElLUXFHWlIvM1hmbStzUWR5NFJ3?=
+ =?utf-8?B?WWpGQU85RWNiMkt5MjhYRDIzdkl2d1pOdHI5bU1uYmJDWDdIL2JnMXVyRER0?=
+ =?utf-8?B?VzJIMFZiSm8xU01BemVmeWhkSlphVWNsTFBBVk5BSU10aFl3Z3BjRUpQdFh4?=
+ =?utf-8?B?VktPeDQ5WGU3YzBRdUgrbXFqOHlwUHNoejZwenk1KzZvR3Z2VElLckRRZGU5?=
+ =?utf-8?B?dS81c2s4NUhUQ0lBWkdQOGdIeW4zVnQwYlFjM1ZIQkZ5aVBIT3I0OXZCYkU3?=
+ =?utf-8?B?QzVLc3dwUHFtQWhEMHR3WlVYK0dqdlk2NEFZT25vRmtzWEpjSnlmZlJ0R1R6?=
+ =?utf-8?B?ak1RV1VqWVB6eW0zYi9yaDQyaWhYYkFLdFlMOFpMQnhKd0FZNjNZa1BwTVhP?=
+ =?utf-8?B?QVEyQW5xaVdkL25nUCtoaWMxdVY3M2RwV3R5RjNEOVRjSkZxOHljM1VPNmZa?=
+ =?utf-8?B?RUI4R1I4cDRodG8rTXd3U0dYekZ6b09HMWhac0hiRTFwUmhnQy9iSmI1bm1t?=
+ =?utf-8?B?dWlreDUzdWJ0R3NTWVByZEhSU0hjbHJEL0tMcmR6NkVoRFdlWnhEcHpaZEFU?=
+ =?utf-8?B?ODZvQXpEWkxxOW4vMEUzRHNkMktvczRTZk1uS2VuS3NhaXpPL0FLcnRYaTFD?=
+ =?utf-8?B?SjhuQ2pLR3pZV05pM1pGK3o3cXVPME5HL0cxcUdFa2Z4NEZsSnR3R01MbVNG?=
+ =?utf-8?B?V0pUZ3BBOVg5RzVNOTVVTG9EU2MwZnhoRXA5NGRIaEllZTVETTZtb1RDeGo4?=
+ =?utf-8?B?dGxVTTlHejFtL3V4WHJ5K3kreGp4Qm90THdyc1lLSVdFSW9PKzVqaXZ0VGV3?=
+ =?utf-8?B?TWEwaWhlQmtYVVVrQ0NNTkMzZzYzdXdneEt0MzZtWEZmdUpMOTA5d2ZZZWgw?=
+ =?utf-8?B?bTVZZUlHN2xpbnBsb0JyRjNlb3NHSEkwVkJ6UCtqMU1wS3R4ZWIwSFdMUGJu?=
+ =?utf-8?B?SUNUdXhQenAwdHJuUnduMEJYMXpGbWlDa2lqSzFQdHdpNlE2bWMxWWlPWlh2?=
+ =?utf-8?B?eUZVU05tR0FuWnVyQ1dQK2E4MVpKdTBSaVhMbXhacHB5NWZuaHV5T0N2TXll?=
+ =?utf-8?B?dWQ5czZGak11V0lDejNkUnR6MGo2Sjl1ZDBUQjZPbEk4UzhpS1Vzb3Yrd05t?=
+ =?utf-8?B?cDBKY3pnRWJRZ0xMZTV6VDl1QWZqVUZuNlo3Z1ZxZ1JteHp5emhieUZVOGtZ?=
+ =?utf-8?B?QUtCRzhEbzAwRjZkOWc5S0RQMDY0VjlHT1VtUm1QTVpPWmZKdHZML2psWnlq?=
+ =?utf-8?B?SUlHUGNHSXdZOFZacHQ2MERqTzh2VTZ5VUJiNTdNMjFPVVdjR1lnS2xnS1BW?=
+ =?utf-8?B?WHcwYXFJTkhxMS9manF5Qjd0YThXazNZNXdBMGxRU3ZNUFkvWVRjdDgyRmZD?=
+ =?utf-8?B?d2RVRWkvbVVKUWlUNVoybUczd1ptTHo2bmI1ZUpzeVNydS81aFlnWjFkQVVG?=
+ =?utf-8?B?QUVKc3lpY21WbXV1NzZGbVVDMWlMMElWdFEwbDhCSGNTNXRNdzBqUndySzF2?=
+ =?utf-8?B?c2ljRmM5ZU5NWm50b2taWHVSS1JvaGF0cXpLNGwrRlNNTVF1STEwSW1CV25t?=
+ =?utf-8?B?d1ZYVUNObU9FOWw1TWJSaGV4SVhhc2xtU2cwcGZIcG84aW42dlBZSlYrOVhi?=
+ =?utf-8?B?S25VT1ZqMDVOOGJ0NGZrN0VwWFJVSUU1SnBDOG43UC92ZzVMQlV6aitzc0tt?=
+ =?utf-8?B?bWNuTVN4TzdqazNTaEZzMFk5VDZhc2xaNDFiMjlieXMxQkpDVWQwY3gwaGZL?=
+ =?utf-8?B?K0pLUVcrUnB0NERhTDFFZ2NhT3lMcUU3T05pRDJNTngrNDZzZ2lyZWtNZkc0?=
+ =?utf-8?B?Z0J3MHpNV0xJYWQ2R2hxQlJNNUZVY3J5bktWSE0xcHBrU3kwVjZkQWtYc2s3?=
+ =?utf-8?B?U1hBcTVZbGp4YllHM0RKS0FOQktQWU5sNU5veUFCYUMvK3F5cjBIRlpOTmdv?=
+ =?utf-8?B?NmtoOHJOZE9JYzZodWFxYmRqbDRJSFUrNzAvVTNhSGJaV3dKWGRhaThTYWVj?=
+ =?utf-8?Q?duAOz7LPu/O02LVYKjMRjhITF?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 43c3ec75-a20d-4d7f-262e-08dd5cabca81
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 12:38:28.1261
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FUGeK6CkrkGAxFSNCT9Ak0whpCl4aV0RGrZ4GG+vRq4xatj6DZ8iV8jwefzTBuZbANO1FR6lQ21pB9Rye8RtWA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6254
 
-On Fri 2025-02-21 15:34:30, Tamir Duberstein wrote:
-> Convert the printf() self-test to a KUnit test.
-> 
-> In the interest of keeping the patch reasonably-sized this doesn't
-> refactor the tests into proper parameterized tests - it's all one big
-> test case.
-> 
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+Hi Danilo,
+
+On Wed Mar 5, 2025 at 2:34 AM JST, Danilo Krummrich wrote:
+> Add the initial nova-core driver stub.
+>
+> nova-core is intended to serve as a common base for nova-drm (the
+> corresponding DRM driver) and the vGPU manager VFIO driver, serving as a
+> hard- and firmware abstraction layer for GSP-based NVIDIA GPUs.
+>
+> The Nova project, including nova-core and nova-drm, in the long term,
+> is intended to serve as the successor of Nouveau for all GSP-based GPUs.
+>
+> The motivation for both, starting a successor project for Nouveau and
+> doing so using the Rust programming language, is documented in detail
+> through a previous post on the mailing list [1], an LWN article [2] and a
+> talk from LPC '24.
+>
+> In order to avoid the chicken and egg problem to require a user to
+> upstream Rust abstractions, but at the same time require the Rust
+> abstractions to implement the driver, nova-core kicks off as a driver
+> stub and is subsequently developed upstream.
+>
+> Link: https://lore.kernel.org/dri-devel/Zfsj0_tb-0-tNrJy@cassiopeiae/T/#u=
+ [1]
+> Link: https://lwn.net/Articles/990736/ [2]
+> Link: https://youtu.be/3Igmx28B3BQ?si=3DsBdSEer4tAPKGpOs [3]
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+
+A couple of nits inline below, but feel free to add my
+
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+
 > ---
->  Documentation/core-api/printk-formats.rst   |   4 +-
->  MAINTAINERS                                 |   2 +-
->  lib/Kconfig.debug                           |  12 +-
->  lib/Makefile                                |   1 -
->  lib/tests/Makefile                          |   1 +
->  lib/{test_printf.c => tests/printf_kunit.c} | 188 +++++++++++++++-------------
->  tools/testing/selftests/lib/config          |   1 -
->  tools/testing/selftests/lib/printf.sh       |   4 -
->  8 files changed, 117 insertions(+), 96 deletions(-)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index ecccc0473da9..4bdc394e86af 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -661,7 +661,7 @@ Do *not* use it from C.
->  Thanks
->  ======
->  
-> -If you add other %p extensions, please extend <lib/test_printf.c> with
-> -one or more test cases, if at all feasible.
-> +If you add other %p extensions, please extend <lib/tests/printf_kunit.c>
-> +with one or more test cases, if at all feasible.
->  
->  Thank you for your cooperation and attention.
+>  MAINTAINERS                        |  10 ++
+>  drivers/gpu/Makefile               |   1 +
+>  drivers/gpu/nova-core/Kconfig      |  14 ++
+>  drivers/gpu/nova-core/Makefile     |   3 +
+>  drivers/gpu/nova-core/driver.rs    |  47 +++++++
+>  drivers/gpu/nova-core/firmware.rs  |  45 +++++++
+>  drivers/gpu/nova-core/gpu.rs       | 199 +++++++++++++++++++++++++++++
+>  drivers/gpu/nova-core/nova_core.rs |  20 +++
+>  drivers/gpu/nova-core/regs.rs      |  55 ++++++++
+>  drivers/gpu/nova-core/util.rs      |  21 +++
+>  drivers/video/Kconfig              |   1 +
+>  11 files changed, 416 insertions(+)
+>  create mode 100644 drivers/gpu/nova-core/Kconfig
+>  create mode 100644 drivers/gpu/nova-core/Makefile
+>  create mode 100644 drivers/gpu/nova-core/driver.rs
+>  create mode 100644 drivers/gpu/nova-core/firmware.rs
+>  create mode 100644 drivers/gpu/nova-core/gpu.rs
+>  create mode 100644 drivers/gpu/nova-core/nova_core.rs
+>  create mode 100644 drivers/gpu/nova-core/regs.rs
+>  create mode 100644 drivers/gpu/nova-core/util.rs
+>
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index f076360ce3c6..b051ccf6b276 100644
+> index 8e0736dc2ee0..644817ccaa18 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -25510,8 +25510,8 @@ R:	Sergey Senozhatsky <senozhatsky@chromium.org>
+> @@ -7449,6 +7449,16 @@ T:	git https://gitlab.freedesktop.org/drm/nouveau.=
+git
+>  F:	drivers/gpu/drm/nouveau/
+>  F:	include/uapi/drm/nouveau_drm.h
+> =20
+> +CORE DRIVER FOR NVIDIA GPUS [RUST]
+> +M:	Danilo Krummrich <dakr@kernel.org>
+> +L:	nouveau@lists.freedesktop.org
+> +S:	Supported
+> +Q:	https://patchwork.freedesktop.org/project/nouveau/
+> +B:	https://gitlab.freedesktop.org/drm/nova/-/issues
+> +C:	irc://irc.oftc.net/nouveau
+> +T:	git https://gitlab.freedesktop.org/drm/nova.git nova-next
+> +F:	drivers/gpu/nova-core/
+> +
+>  DRM DRIVER FOR OLIMEX LCD-OLINUXINO PANELS
+>  M:	Stefan Mavrodiev <stefan@olimex.com>
 >  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/printk/linux.git
->  F:	Documentation/core-api/printk-formats.rst
-> -F:	lib/test_printf.c
->  F:	lib/test_scanf.c
-> +F:	lib/tests/printf_kunit.c
->  F:	lib/vsprintf.c
->  
->  VT1211 HARDWARE MONITOR DRIVER
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 7ddbfdacf895..d2b15f633227 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -2436,6 +2436,15 @@ config ASYNC_RAID6_TEST
->  config TEST_HEXDUMP
->  	tristate "Test functions located in the hexdump module at runtime"
->  
-> +config PRINTF_KUNIT_TEST
-> +	tristate "KUnit test printf() family of functions at runtime" if !KUNIT_ALL_TESTS
-> +	depends on KUNIT
-> +	default KUNIT_ALL_TESTS
+> diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
+> index 8997f0096545..36a54d456630 100644
+> --- a/drivers/gpu/Makefile
+> +++ b/drivers/gpu/Makefile
+> @@ -5,3 +5,4 @@
+>  obj-y			+=3D host1x/ drm/ vga/
+>  obj-$(CONFIG_IMX_IPUV3_CORE)	+=3D ipu-v3/
+>  obj-$(CONFIG_TRACE_GPU_MEM)		+=3D trace/
+> +obj-$(CONFIG_NOVA_CORE)		+=3D nova-core/
+> diff --git a/drivers/gpu/nova-core/Kconfig b/drivers/gpu/nova-core/Kconfi=
+g
+> new file mode 100644
+> index 000000000000..ad0c06756516
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/Kconfig
+> @@ -0,0 +1,14 @@
+> +config NOVA_CORE
+> +	tristate "Nova Core GPU driver"
+> +	depends on PCI
+> +	depends on RUST
+> +	depends on RUST_FW_LOADER_ABSTRACTIONS
+> +	default n
 > +	help
-> +	  Enable this option to test the printf functions at runtime.
+> +	  Choose this if you want to build the Nova Core driver for Nvidia
+> +	  GPUs based on the GPU System Processor (GSP). This is true for Turing
+> +	  and later GPUs.
 > +
-> +	  If unsure, say N.
+> +	  This driver is work in progress and may not be functional.
 > +
->  config STRING_KUNIT_TEST
->  	tristate "KUnit test string functions at runtime" if !KUNIT_ALL_TESTS
->  	depends on KUNIT
-> @@ -2449,9 +2458,6 @@ config STRING_HELPERS_KUNIT_TEST
->  config TEST_KSTRTOX
->  	tristate "Test kstrto*() family of functions at runtime"
->  
-> -config TEST_PRINTF
-> -	tristate "Test printf() family of functions at runtime"
-> -
->  config TEST_SCANF
->  	tristate "Test scanf() family of functions at runtime"
->  
-> diff --git a/lib/Makefile b/lib/Makefile
-> index 961aef91d493..f31e6a3100ba 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -77,7 +77,6 @@ obj-$(CONFIG_TEST_RHASHTABLE) += test_rhashtable.o
->  obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_keys.o
->  obj-$(CONFIG_TEST_STATIC_KEYS) += test_static_key_base.o
->  obj-$(CONFIG_TEST_DYNAMIC_DEBUG) += test_dynamic_debug.o
-> -obj-$(CONFIG_TEST_PRINTF) += test_printf.o
->  obj-$(CONFIG_TEST_SCANF) += test_scanf.o
->  
->  obj-$(CONFIG_TEST_BITMAP) += test_bitmap.o
-> diff --git a/lib/tests/Makefile b/lib/tests/Makefile
-> index 8961fbcff7a4..183c6a838a5d 100644
-> --- a/lib/tests/Makefile
-> +++ b/lib/tests/Makefile
-> @@ -30,6 +30,7 @@ obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
->  obj-$(CONFIG_MEMCPY_KUNIT_TEST) += memcpy_kunit.o
->  CFLAGS_overflow_kunit.o = $(call cc-disable-warning, tautological-constant-out-of-range-compare)
->  obj-$(CONFIG_OVERFLOW_KUNIT_TEST) += overflow_kunit.o
-> +obj-$(CONFIG_PRINTF_KUNIT_TEST) += printf_kunit.o
->  obj-$(CONFIG_SIPHASH_KUNIT_TEST) += siphash_kunit.o
->  obj-$(CONFIG_SLUB_KUNIT_TEST) += slub_kunit.o
->  obj-$(CONFIG_TEST_SORT) += test_sort.o
-> diff --git a/lib/test_printf.c b/lib/tests/printf_kunit.c
-> similarity index 87%
-> rename from lib/test_printf.c
-> rename to lib/tests/printf_kunit.c
-> index 59dbe4f9a4cb..287bbfb61148 100644
-> --- a/lib/test_printf.c
-> +++ b/lib/tests/printf_kunit.c
-> @@ -3,9 +3,7 @@
->   * Test cases for printf facility.
->   */
->  
-> -#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> -
-> -#include <linux/init.h>
-> +#include <kunit/test.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/printk.h>
-> @@ -25,8 +23,6 @@
->  
->  #include <linux/property.h>
->  
-> -#include "../tools/testing/selftests/kselftest_module.h"
-> -
->  #define BUF_SIZE 256
->  #define PAD_SIZE 16
->  #define FILL_CHAR '$'
-> @@ -37,12 +33,17 @@
->  	block \
->  	__diag_pop();
->  
-> -KSTM_MODULE_GLOBALS();
-> +static unsigned int total_tests;
+> +	  If M is selected, the module will be called nova_core.
+> diff --git a/drivers/gpu/nova-core/Makefile b/drivers/gpu/nova-core/Makef=
+ile
+> new file mode 100644
+> index 000000000000..2d78c50126e1
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0
 > +
-> +static char *test_buffer;
-> +static char *alloced_buffer;
+> +obj-$(CONFIG_NOVA_CORE) +=3D nova_core.o
+> diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driv=
+er.rs
+> new file mode 100644
+> index 000000000000..63c19f140fbd
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/driver.rs
+> @@ -0,0 +1,47 @@
+> +// SPDX-License-Identifier: GPL-2.0
 > +
-> +static struct kunit *kunittest;
->  
-> -static char *test_buffer __initdata;
-> -static char *alloced_buffer __initdata;
-> +#define tc_fail(fmt, ...) \
-> +	KUNIT_FAIL(kunittest, fmt, ##__VA_ARGS__)
->  
-> -static int __printf(4, 0) __init
-> +static void __printf(4, 0)
->  do_test(int bufsize, const char *expect, int elen,
->  	const char *fmt, va_list ap)
->  {
-> @@ -57,52 +58,50 @@ do_test(int bufsize, const char *expect, int elen,
->  	va_end(aq);
->  
->  	if (ret != elen) {
-> -		pr_warn("vsnprintf(buf, %d, \"%s\", ...) returned %d, expected %d\n",
-> +		tc_fail("vsnprintf(buf, %d, \"%s\", ...) returned %d, expected %d",
-
-1. It looks a bit strange that the 1st patch replaces pr_warn() with
-   tc_fail() which hides KUNIT_FAIL().
-
-   And the 2nd patch replaces tc_fail() with KUNIT_FAIL().
-
-   It looks like a non-necessary churn.
-
-   It would be better to avoid the temporary "tc_fail" and swith to
-   KUNIT_FAIL() already in this patch.
-
-   I did not find any comment about this in the earier versions of the
-   patchset.
-
-   Is it just a result of the evolution of the patchset or
-   is there any motivation for this?
-
-
-2. What was the motivation to remove the trailing '\n', please?
-
-   It actually makes a difference from the printk() POV. Messages without
-   the trailing '\n' are _not_ flushed to the console until another
-   message is added. The reason is that they might still be appended
-   by pr_cont(). And printk() emits only complete lines to the
-   console.
-
-   In general, messages should include the trailing '\n' unless the
-   code wants to append something later or the trailing '\n' is
-   added by another layer of the code. It does not seem to be this case.
-
-
->  			bufsize, fmt, ret, elen);
-> -		return 1;
-> +		return;
->  	}
-
-[...]
-
-> @@ -842,13 +836,15 @@ test_pointer(void)
->  	fourcc_pointer();
->  }
->  
-> -static void __init selftest(void)
-> +static void printf_test(struct kunit *test)
->  {
->  	alloced_buffer = kmalloc(BUF_SIZE + 2*PAD_SIZE, GFP_KERNEL);
->  	if (!alloced_buffer)
->  		return;
-
-I would use here:
-
-	KUNIT_ASSERT_NOT_NULL(test, alloced_buffer);
-
-And move the same change for the other kmalloc() location from
-the 2nd patch.
-
-
->  	test_buffer = alloced_buffer + PAD_SIZE;
->  
-> +	kunittest = test;
+> +use kernel::{bindings, c_str, pci, prelude::*};
 > +
->  	test_basic();
->  	test_number();
->  	test_string();
+> +use crate::gpu::Gpu;
+> +
+> +#[pin_data]
+> +pub(crate) struct NovaCore {
+> +    #[pin]
+> +    pub(crate) gpu: Gpu,
+> +}
+> +
+> +const BAR0_SIZE: usize =3D 8;
+> +pub(crate) type Bar0 =3D pci::Bar<BAR0_SIZE>;
+> +
+> +kernel::pci_device_table!(
+> +    PCI_TABLE,
+> +    MODULE_PCI_TABLE,
+> +    <NovaCore as pci::Driver>::IdInfo,
+> +    [(
+> +        pci::DeviceId::from_id(bindings::PCI_VENDOR_ID_NVIDIA, bindings:=
+:PCI_ANY_ID as _),
+> +        ()
+> +    )]
+> +);
+> +
+> +impl pci::Driver for NovaCore {
+> +    type IdInfo =3D ();
+> +    const ID_TABLE: pci::IdTable<Self::IdInfo> =3D &PCI_TABLE;
+> +
+> +    fn probe(pdev: &mut pci::Device, _info: &Self::IdInfo) -> Result<Pin=
+<KBox<Self>>> {
+> +        dev_dbg!(pdev.as_ref(), "Probe Nova Core GPU driver.\n");
+> +
+> +        pdev.enable_device_mem()?;
+> +        pdev.set_master();
+> +
+> +        let bar =3D pdev.iomap_region_sized::<BAR0_SIZE>(0, c_str!("nova=
+-core/bar0"))?;
+> +
+> +        let this =3D KBox::pin_init(
+> +            try_pin_init!(Self {
+> +                gpu <- Gpu::new(pdev, bar)?,
+> +            }),
+> +            GFP_KERNEL,
+> +        )?;
+> +
+> +        Ok(this)
+> +    }
+> +}
+> diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/fi=
+rmware.rs
+> new file mode 100644
+> index 000000000000..9de1399a2a69
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/firmware.rs
+> @@ -0,0 +1,45 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +use crate::gpu;
+> +use kernel::firmware;
+> +
+> +pub(crate) struct ModInfoBuilder<const N: usize>(firmware::ModInfoBuilde=
+r<N>);
+> +
+> +impl<const N: usize> ModInfoBuilder<N> {
+> +    const fn make_entry_file(self, chipset: &str, fw: &str) -> Self {
+> +        let version =3D "535.113.01";
 
+This should probably be a constant.
 
-Otherwise, it looks good to me.
+> +
+> +        ModInfoBuilder(
+> +            self.0
+> +                .prepare()
+> +                .push("nvidia/")
+> +                .push(chipset)
+> +                .push("/gsp/")
+> +                .push(fw)
+> +                .push("-")
+> +                .push(version)
+> +                .push(".bin"),
+> +        )
+> +    }
+> +
+> +    const fn make_entry_chipset(self, chipset: &str) -> Self {
+> +        self.make_entry_file(chipset, "booter_load")
+> +            .make_entry_file(chipset, "booter_unload")
+> +            .make_entry_file(chipset, "bootloader")
+> +            .make_entry_file(chipset, "gsp")
+> +    }
+> +
+> +    pub(crate) const fn create(
+> +        module_name: &'static kernel::str::CStr,
+> +    ) -> firmware::ModInfoBuilder<N> {
+> +        let mut this =3D Self(firmware::ModInfoBuilder::new(module_name)=
+);
+> +        let mut i =3D 0;
+> +
+> +        while i < gpu::Chipset::NAMES.len() {
+> +            this =3D this.make_entry_chipset(gpu::Chipset::NAMES[i]);
+> +            i +=3D 1;
+> +        }
+> +
+> +        this.0
+> +    }
+> +}
+> diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
+> new file mode 100644
+> index 000000000000..f57b7efa10f3
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/gpu.rs
+> @@ -0,0 +1,199 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +use kernel::{
+> +    device, devres::Devres, error::code::*, firmware, fmt, pci, prelude:=
+:*, str::CString,
+> +};
+> +
+> +use crate::driver::Bar0;
+> +use crate::regs;
+> +use crate::util;
+> +use core::fmt;
+> +
+> +macro_rules! define_chipset {
+> +    ({ $($variant:ident =3D $value:expr),* $(,)* }) =3D>
+> +    {
+> +        /// Enum representation of the GPU chipset.
+> +        #[derive(fmt::Debug)]
+> +        pub(crate) enum Chipset {
+> +            $($variant =3D $value),*,
+> +        }
+> +
+> +        impl Chipset {
+> +            pub(crate) const ALL: &'static [Chipset] =3D &[
+> +                $( Chipset::$variant, )*
+> +            ];
+> +
+> +            pub(crate) const NAMES: [&str; Self::ALL.len()] =3D [
+> +                $( util::const_bytes_to_str(
+> +                        util::to_lowercase_bytes::<{ stringify!($variant=
+).len() }>(
+> +                            stringify!($variant)
+> +                        ).as_slice()
+> +                ), )*
+> +            ];
+> +        }
+> +
+> +        // TODO replace with something like derive(FromPrimitive)
+> +        impl TryFrom<u32> for Chipset {
+> +            type Error =3D kernel::error::Error;
+> +
+> +            fn try_from(value: u32) -> Result<Self, Self::Error> {
+> +                match value {
+> +                    $( $value =3D> Ok(Chipset::$variant), )*
+> +                    _ =3D> Err(ENODEV),
+> +                }
+> +            }
+> +        }
+> +    }
+> +}
+> +
+> +define_chipset!({
+> +    // Turing
+> +    TU102 =3D 0x162,
+> +    TU104 =3D 0x164,
+> +    TU106 =3D 0x166,
+> +    TU117 =3D 0x167,
+> +    TU116 =3D 0x168,
+> +    // Ampere
+> +    GA102 =3D 0x172,
+> +    GA103 =3D 0x173,
+> +    GA104 =3D 0x174,
+> +    GA106 =3D 0x176,
+> +    GA107 =3D 0x177,
+> +    // Ada
+> +    AD102 =3D 0x192,
+> +    AD103 =3D 0x193,
+> +    AD104 =3D 0x194,
+> +    AD106 =3D 0x196,
+> +    AD107 =3D 0x197,
+> +});
+> +
+> +impl Chipset {
+> +    pub(crate) fn arch(&self) -> Architecture {
+> +        match self {
+> +            Self::TU102 | Self::TU104 | Self::TU106 | Self::TU117 | Self=
+::TU116 =3D> {
+> +                Architecture::Turing
+> +            }
+> +            Self::GA102 | Self::GA103 | Self::GA104 | Self::GA106 | Self=
+::GA107 =3D> {
+> +                Architecture::Ampere
+> +            }
+> +            Self::AD102 | Self::AD103 | Self::AD104 | Self::AD106 | Self=
+::AD107 =3D> {
+> +                Architecture::Ada
+> +            }
+> +        }
+> +    }
+> +}
+> +
+> +// TODO
+> +//
+> +// The resulting strings are used to generate firmware paths, hence the
+> +// generated strings have to be stable.
+> +//
+> +// Hence, replace with something like strum_macros derive(Display).
+> +//
+> +// For now, redirect to fmt::Debug for convenience.
+> +impl fmt::Display for Chipset {
+> +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+> +        write!(f, "{:?}", self)
+> +    }
+> +}
+> +
+> +/// Enum representation of the GPU generation.
+> +#[derive(fmt::Debug)]
+> +pub(crate) enum Architecture {
+> +    Turing,
+> +    Ampere,
+> +    Ada,
+> +}
+> +
+> +pub(crate) struct Revision {
+> +    major: u8,
+> +    minor: u8,
+> +}
+> +
+> +impl Revision {
+> +    fn from_boot0(boot0: regs::Boot0) -> Self {
+> +        Self {
+> +            major: boot0.major_rev(),
+> +            minor: boot0.minor_rev(),
+> +        }
+> +    }
+> +}
+> +
+> +impl fmt::Display for Revision {
+> +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+> +        write!(f, "{:x}.{:x}", self.major, self.minor)
+> +    }
+> +}
+> +
+> +/// Structure holding the metadata of the GPU.
+> +pub(crate) struct Spec {
+> +    chipset: Chipset,
+> +    /// The revision of the chipset.
+> +    revision: Revision,
+> +}
+> +
+> +impl Spec {
+> +    fn new(bar: &Devres<Bar0>) -> Result<Spec> {
+> +        let bar =3D bar.try_access().ok_or(ENXIO)?;
+> +        let boot0 =3D regs::Boot0::read(&bar);
+> +
+> +        Ok(Self {
+> +            chipset: boot0.chipset().try_into()?,
+> +            revision: Revision::from_boot0(boot0),
+> +        })
+> +    }
+> +}
+> +
+> +/// Structure encapsulating the firmware blobs required for the GPU to o=
+perate.
+> +#[expect(dead_code)]
+> +pub(crate) struct Firmware {
+> +    booter_load: firmware::Firmware,
+> +    booter_unload: firmware::Firmware,
+> +    bootloader: firmware::Firmware,
+> +    gsp: firmware::Firmware,
+> +}
+> +
+> +impl Firmware {
+> +    fn new(dev: &device::Device, spec: &Spec, ver: &str) -> Result<Firmw=
+are> {
+> +        let mut chip_name =3D CString::try_from_fmt(fmt!("{}", spec.chip=
+set))?;
+> +        chip_name.make_ascii_lowercase();
+> +
+> +        let request =3D |name_| {
+> +            CString::try_from_fmt(fmt!("nvidia/{}/gsp/{}-{}.bin", &*chip=
+_name, name_, ver))
+> +                .and_then(|path| firmware::Firmware::request(&path, dev)=
+)
+> +        };
+> +
+> +        Ok(Firmware {
+> +            booter_load: request("booter_load")?,
+> +            booter_unload: request("booter_unload")?,
+> +            bootloader: request("bootloader")?,
+> +            gsp: request("gsp")?,
+> +        })
+> +    }
+> +}
+> +
+> +/// Structure holding the resources required to operate the GPU.
+> +#[pin_data]
+> +pub(crate) struct Gpu {
+> +    spec: Spec,
+> +    /// MMIO mapping of PCI BAR 0
+> +    bar: Devres<Bar0>,
+> +    fw: Firmware,
+> +}
+> +
+> +impl Gpu {
+> +    pub(crate) fn new(pdev: &pci::Device, bar: Devres<Bar0>) -> Result<i=
+mpl PinInit<Self>> {
+> +        let spec =3D Spec::new(&bar)?;
+> +        let fw =3D Firmware::new(pdev.as_ref(), &spec, "535.113.01")?;
+> +
+> +        dev_info!(
+> +            pdev.as_ref(),
+> +            "NVIDIA (Chipset: {}, Architecture: {:?}, Revision: {})\n",
+> +            spec.chipset,
+> +            spec.chipset.arch(),
+> +            spec.revision
+> +        );
+> +
+> +        Ok(pin_init!(Self { spec, bar, fw }))
+> +    }
+> +}
+> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/n=
+ova_core.rs
+> new file mode 100644
+> index 000000000000..a91cd924054b
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/nova_core.rs
+> @@ -0,0 +1,20 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +//! Nova Core GPU Driver
+> +
+> +mod driver;
+> +mod firmware;
+> +mod gpu;
+> +mod regs;
+> +mod util;
+> +
+> +kernel::module_pci_driver! {
+> +    type: driver::NovaCore,
+> +    name: "NovaCore",
+> +    author: "Danilo Krummrich",
+> +    description: "Nova Core GPU driver",
+> +    license: "GPL v2",
+> +    firmware: [],
+> +}
+> +
+> +kernel::module_firmware!(firmware::ModInfoBuilder);
+> diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.r=
+s
+> new file mode 100644
+> index 000000000000..50aefb150b0b
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/regs.rs
+> @@ -0,0 +1,55 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +use crate::driver::Bar0;
+> +
+> +// TODO
+> +//
+> +// Create register definitions via generic macros. See task "Generic reg=
+ister
+> +// abstraction" in Documentation/gpu/nova/core/todo.rst.
+> +
+> +const BOOT0_OFFSET: usize =3D 0x00000000;
+> +
+> +// 3:0 - chipset minor revision
+> +const BOOT0_MINOR_REV_SHIFT: u8 =3D 0;
+> +const BOOT0_MINOR_REV_MASK: u32 =3D 0x0000000f;
+> +
+> +// 7:4 - chipset major revision
+> +const BOOT0_MAJOR_REV_SHIFT: u8 =3D 4;
+> +const BOOT0_MAJOR_REV_MASK: u32 =3D 0x000000f0;
+> +
+> +// 23:20 - chipset implementation Identifier (depends on architecture)
+> +const BOOT0_IMPL_SHIFT: u8 =3D 20;
+> +const BOOT0_IMPL_MASK: u32 =3D 0x00f00000;
+> +
+> +// 28:24 - chipset architecture identifier
+> +const BOOT0_ARCH_MASK: u32 =3D 0x1f000000;
+> +
+> +// 28:20 - chipset identifier (virtual register field combining BOOT0_IM=
+PL and
+> +//         BOOT0_ARCH)
+> +const BOOT0_CHIPSET_SHIFT: u8 =3D BOOT0_IMPL_SHIFT;
+> +const BOOT0_CHIPSET_MASK: u32 =3D BOOT0_IMPL_MASK | BOOT0_ARCH_MASK;
+> +
+> +#[derive(Copy, Clone)]
+> +pub(crate) struct Boot0(u32);
+> +
+> +impl Boot0 {
+> +    #[inline]
+> +    pub(crate) fn read(bar: &Bar0) -> Self {
+> +        Self(bar.readl(BOOT0_OFFSET))
+> +    }
+> +
+> +    #[inline]
+> +    pub(crate) fn chipset(&self) -> u32 {
+> +        (self.0 & BOOT0_CHIPSET_MASK) >> BOOT0_CHIPSET_SHIFT
+> +    }
+> +
+> +    #[inline]
+> +    pub(crate) fn minor_rev(&self) -> u8 {
+> +        ((self.0 & BOOT0_MINOR_REV_MASK) >> BOOT0_MINOR_REV_SHIFT) as u8
+> +    }
+> +
+> +    #[inline]
+> +    pub(crate) fn major_rev(&self) -> u8 {
+> +        ((self.0 & BOOT0_MAJOR_REV_MASK) >> BOOT0_MAJOR_REV_SHIFT) as u8
+> +    }
+> +}
+> diff --git a/drivers/gpu/nova-core/util.rs b/drivers/gpu/nova-core/util.r=
+s
+> new file mode 100644
+> index 000000000000..332a64cfc6a9
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/util.rs
+> @@ -0,0 +1,21 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +pub(crate) const fn to_lowercase_bytes<const N: usize>(s: &str) -> [u8; =
+N] {
+> +    let src =3D s.as_bytes();
+> +    let mut dst =3D [0; N];
+> +    let mut i =3D 0;
+> +
+> +    while i < src.len() && i < N {
+> +        dst[i] =3D (src[i] as char).to_ascii_lowercase() as u8;
+> +        i +=3D 1;
+> +    }
+> +
+> +    dst
+> +}
+> +
+> +pub(crate) const fn const_bytes_to_str(bytes: &[u8]) -> &str {
+> +    match core::str::from_utf8(bytes) {
+> +        Ok(string) =3D> string,
+> +        Err(_) =3D> kernel::build_error!("Bytes are not valid UTF-8."),
+> +    }
+> +}
 
-Best Regards,
-Petr
+I guess these functions could be useful to other drivers and can maybe
+be moved to a string utility module, but this can be done later too.
+
+Thanks!
+Alex.
+
