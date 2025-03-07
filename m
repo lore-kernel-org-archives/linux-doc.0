@@ -1,138 +1,104 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C360217653;
-	Fri,  7 Mar 2025 11:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427D014293;
+	Fri,  7 Mar 2025 11:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741346253; cv=none; b=osRm2lp7DeKNSjW+LqWY/vJp6JHOIRDG+c1tkkmApAHmUJ/w1id5zw+et6RnrN6msIPBfHfCxs8orWnEGKOWFllE8WZNYejMhFuH8XtzBznz486ifKWbhqE9rPwXaGO5oMC1/d41ramrs7br2/Dx30IJHgx5P9YGx4fu5JaldAo=
+	t=1741346369; cv=none; b=js0DHxCH57HOyc9+DiqFh4+CD6WDlIaKBL4WrJ4fYb+FgmrqpGnCeHIFRLEaADIBXRgjWpzIsDaS0Y0J8taL6EBTXiuqipcSENV7k1PcMvVRZ0WfL2WB6LPmGN3nRNTWqWHgAw1Y5DNu3QhlsG+CA8LP7p/IgT5RtfBCwC34MCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741346253; c=relaxed/simple;
-	bh=QY00a3rngmsVxLQDZ3rhfcfy8+4hGUDyLxDK2MVdQBU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u6j8zF1xT8VFwJkuI5CBXvff49g4brXAyf0N0yc43w1IQUJ4WqcAN1CfWS5Vn3y89vV2fkStuA5F9BClcxaYEyrg6yaSDK4O2Z9OfC23WbMesr/QbTOPI6uyvecpDXtddF1fShxEbjBOM6WY0yLtE5D/Wu2TvNoNrk+nJPJ70A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J08eV7ap; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741346369; c=relaxed/simple;
+	bh=LTgzbJRao0kxWFSBOmMo40nrp0G+Nn8FLwMclm5nFiQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iS4K9EWEZLBVEq1KGeR4yxUb8t2bhJYgiRh8V69c55rHrc8SuwgdNzH4kDb1WKP94mLHErflCmUf+eR7jiJydUQJyC7opBv1d2u9KhrAZoO59i96VKkw6O/ET7Bg6g5+A3UyKqMqLg8WKmuXBrg1z2xd6Lg+stjiZxb7TCyd1Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=eCFsKVKA; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J08eV7ap"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-22185cddbffso53482995ad.1;
-        Fri, 07 Mar 2025 03:17:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741346251; x=1741951051; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9WDU/0AiPCuXExkzik2v+BtrRa6yZzdzICrZw+6l4Ag=;
-        b=J08eV7apyRp/7zr2li9x1dsc0j4wTXDGWQFhJd7rINalz6N+2/2fItP+fFU0wPRmQZ
-         AKe88xcpsI+tLHhjGQk8ox0+xjugYPasuvcdwZpc2sY7A7swk1UFXxtUhonEs/387T3O
-         vKqmpffJSWXll9A64odVCUReG0MYGRBHZCP3ghK7yGv4DwdDtG8c/dQ429QZYd5WPTH0
-         1vrF1p1I3uGcZximeDHlVHfuhug01nuWYMZhZaapaSPQKTaVAGX8cenZH1eiuZwWEkep
-         99s5SdWzA3+zRJJOoWaSo58pwyLNYlPDqHoX4uqgBCo83plWkxiASaD1aSOpxLGkyCSt
-         yvyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741346251; x=1741951051;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9WDU/0AiPCuXExkzik2v+BtrRa6yZzdzICrZw+6l4Ag=;
-        b=lXfpbVLX84suJkZ2jQDlhnMjonHcLZaUW7ESIx4LVFGs+9DWUC7WcNKEGrQlRCIObo
-         lWhL8V7xi2+BXMLZIc49tyqePmeWD+aDy5ZHHLNCs9JgYhZfiF+oeTq6c1eyb/vjm/ps
-         Sv5VJEH52ZjiCvBq0k1d5eTCFQeLRA/gdRoYy6w1HZi8E81ngzH2IgnDiTWKdASEQGzP
-         NIDZznQvG5mS/KQu2eXU9iQvpEriVYgqp9C0vlFQgXbszSmSEtIqIgwcgygTD/TJ18sq
-         rRqAj7Ns1GcXRRSA3+giHTZuQdvB50m+/fy7TnMCyuRIW7xvXOaqSjv0V0gy5X60Dgc7
-         SvWg==
-X-Forwarded-Encrypted: i=1; AJvYcCVV9XKJFTHIxsqq225Ta0S+mIR4QtcyFyZAlC9U8cmzAm9AsWohfPnAS8UXkmHKPyYjgqwTI1c2C+E=@vger.kernel.org, AJvYcCVbCVFE51irR2nJisNXwrfzGmOsVB0+JS1VdSmejykK+M89mtnN12ciofW/O8qSL3FVBpIFaY4m3liombjV@vger.kernel.org
-X-Gm-Message-State: AOJu0YybXBplsZj9DTfcZuqAQwWSFs/vAi2NHe3ayzjUcVKa/rOD6Zst
-	J37FnOxjwT4YTNkQZEUpN5Mn4N8UsVpC8VzflfBBoeFVQyG4847O
-X-Gm-Gg: ASbGnctalOWPnE/eNIwtVyLFPQsWJKcD/S3UAQj+J4LBSzXA6SKdi6SuVBVIA4l+nCX
-	w8jmsLvecteOA/V2G0JMWdkVMsGKk8xPAJnbdjLtWW4gEjgcJiY8BJRopjpoxp287XTVRZ3TWKf
-	ylvMpgM6g3vyuOwd0fbtw5bkQo1AJ1lXlmCz7d8p+uE2RDpVmV5MXSnRRqirwKSD4A3rFndaKHI
-	g4XHWHqpXcPmjOlfQ7Loj1eaB27Oc4jUpbB0bLL1y8v3XV2DdD2rUyMhzi2U2K7TOtgVjhPX1qb
-	XjN03ePJkPEyYSu+MHEd6jNFHWOnKz/HrSb3nlPU1Up1K2U9a7Lx0GaCYGSCGR4um4jNGAVlMYO
-	eEsl+CieO15A5Li4=
-X-Google-Smtp-Source: AGHT+IGLMqL97eIZaqRXzhmsR4cnq0XXC/PM8jbkeUNyeHsw1h0hQd26hi42sAz14nYj3gGZ9el5iQ==
-X-Received: by 2002:a05:6a00:3d52:b0:736:9f2e:1357 with SMTP id d2e1a72fcca58-736a97e4239mr4650047b3a.12.1741346251281;
-        Fri, 07 Mar 2025 03:17:31 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73698514f4dsm2971364b3a.124.2025.03.07.03.17.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Mar 2025 03:17:30 -0800 (PST)
-Message-ID: <e3637b13-1f51-445b-8d9d-bd53a691eca3@gmail.com>
-Date: Fri, 7 Mar 2025 19:57:54 +0900
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eCFsKVKA"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 98BBF443A6;
+	Fri,  7 Mar 2025 11:19:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1741346364;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Yl6f/SodGGeAxz+5H/l72NErMjz9ym9/w2AhCrQGKKY=;
+	b=eCFsKVKARYrnL/zAS2YX34+Rl56pcOrOvoAXI9lYg7dMcmLKh4yqOq133wU9e1qMoZO8Tu
+	WhTKuiggcabdIRA7tJU77YD6PPNL0f6iqSce2nCSe0NYWV4DkGxhHnua9W/bzAqkcQYZom
+	RrGbfY4wA/kiAIRJMQQZF1qjWT0ufhnkTL3t0iKlOiMQ0m8/d7G73M9Pn5QcvCtB5eG7ei
+	pEpMIC26i7VQAGN4CLowA+VmaYwPuwX1VUFLpVa3HeU3Qj0aju9JXzEXWFiL49DzD9SkS2
+	D9VV0ryc4l9vK69HvKhvA1XcX/OI5ynMNgFQHeRnTMA0egR3Ylufwa5E17eBXQ==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH 0/2] vsprintf: remove redundant %pCn format specifier
+Date: Fri, 07 Mar 2025 12:19:06 +0100
+Message-Id: <20250307-vsprintf-pcn-v1-0-df0b2ccf610f@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
- cpumask.h
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Yury Norov <yury.norov@gmail.com>
-References: <cover.1741332579.git.viresh.kumar@linaro.org>
- <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACrWymcC/x2MQQqAIBAAvyJ7TjAtir4SHUzX2ovJGhJIf086D
+ XOYqZCRCTMsogJjoUxXbNJ3Atxp44GSfHPQSo/KqEmWnJjiHWRyUc52MGh25RugJYkx0PPv1u1
+ 9P0rCgtteAAAA
+X-Change-ID: 20250307-vsprintf-pcn-8a43e3b0d43e
+To: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, Liu Ying <victor.liu@nxp.com>, 
+ linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduuddthedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgieetkeekgfdtudevueffueffveekheeiudfhfedvhfeukeeuhffhtddtvdekfeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdejpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehssghrrghnuggvnhessghrohgruggtohhmrdgtohhmpdhrtghpthhto
+ heplhhinhhugidqtghlkhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehflhhorhhirghnrdhfrghinhgvlhhlihessghrohgruggtohhmrdgtohhmpdhrtghpthhtohepshgvnhhoiihhrghtshhkhiestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtohepphhmlhgruggvkhesshhushgvrdgtohhm
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Hi again, 
+There are two printk format specifiers for clocks: %pC and %pCn, and they
+print exactly the same string. The reason for having two is not totally
+clear (see discussion in patch 2), but there seem to be no advantage in
+having two instead of one.
 
-Viresh Kumar wrote:
-> This fixes various kernel-doc formatting errors in cpumask.h:
-> 
-> - WARNING: Inline literal start-string without end-string.
-> - ERROR: Unexpected indentation.
-> - ERROR: Unknown target name: "gfp".
-> 
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
->  include/linux/cpumask.h | 65 +++++++++++++++++++++--------------------
->  1 file changed, 34 insertions(+), 31 deletions(-)
-> 
+Definitely having two without properly documenting they do the same creates
+misunderstandings [0].
 
-Didn't come up in your diff, but you need additional changes shown below:
+Since %pCn is used in a single place, replace it with %pC and remove %pCn
+to simplify such format specifiers implementation and avoid
+misunderstandings.
 
-diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-index 656d2208467e..a6c1961cc535 100644
---- a/include/linux/cpumask.h
-+++ b/include/linux/cpumask.h
-@@ -285,10 +285,10 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
- }
- 
- /**
-- * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
-- *                        @n+1. If nothing found, wrap around and start from
-+ * cpumask_next_and_wrap - get the next cpu in *@src1p & *@src2p, starting from
-+ *                        @n+ 1. If nothing found, wrap around and start from
-  *                        the beginning
-- * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
-+ * @n: the cpu prior to the place to search (i.e. search starts from @n +1)
-  * @src1p: the first cpumask pointer
-  * @src2p: the second cpumask pointer
-  *
-@@ -306,9 +306,9 @@ unsigned int cpumask_next_and_wrap(int n, const struct cpumask *src1p,
- }
- 
- /**
-- * cpumask_next_wrap - get the next cpu in *src, starting from @n+1. If nothing
-+ * cpumask_next_wrap - get the next cpu in *@src, starting from @n +1. If nothing
-  *                    found, wrap around and start from the beginning
-- * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
-+ * @n: the cpu prior to the place to search (i.e. search starts from @n +1)
-  * @src: cpumask pointer
-  *
-  * Return: next set bit, wrapped if needed, or >= nr_cpu_ids if @src is empty.
+[0] https://lore.kernel.org/dri-devel/71c44221-b18b-4928-8faf-00893ec4a109@nxp.com/
 
-Feel free to squash into your 1/2.
-My R-b tag still stands.
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Luca Ceresoli (2):
+      thermal: bcm2835: use %pC instead of %pCn
+      vsprintf: remove redundant and unused %pCn format specifier
 
-        Thanks, Akira
+ Documentation/core-api/printk-formats.rst  |  3 +--
+ drivers/thermal/broadcom/bcm2835_thermal.c |  2 +-
+ lib/vsprintf.c                             | 10 ++--------
+ 3 files changed, 4 insertions(+), 11 deletions(-)
+---
+base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
+change-id: 20250307-vsprintf-pcn-8a43e3b0d43e
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
