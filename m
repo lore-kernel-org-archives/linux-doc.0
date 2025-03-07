@@ -1,215 +1,138 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C01A215774
-	for <linux-doc@vger.kernel.org>; Fri,  7 Mar 2025 11:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C360217653;
+	Fri,  7 Mar 2025 11:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741345330; cv=none; b=aFl7J6hKa6okFnFAdlcaBwRJbnvt1ZE9ZM2TCpCl2AAOdr765SWuFTXqa3NtCo/WUbJ4IgioiEh1m6kVjiyrKNVDDG+VTZ0wIkB6ZrSRxBy+l9YVABgA0H9fD6iiyjc8ijLSSZVzdqJkd+wijrP/y5/noNDFcOHogJ4hqNKpAzM=
+	t=1741346253; cv=none; b=osRm2lp7DeKNSjW+LqWY/vJp6JHOIRDG+c1tkkmApAHmUJ/w1id5zw+et6RnrN6msIPBfHfCxs8orWnEGKOWFllE8WZNYejMhFuH8XtzBznz486ifKWbhqE9rPwXaGO5oMC1/d41ramrs7br2/Dx30IJHgx5P9YGx4fu5JaldAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741345330; c=relaxed/simple;
-	bh=bUqgi3dszTeuIO6Jayt7FNCSfLxGF0Q3vs9yEXuCbLI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To; b=gsre34SeXIcTOHXvcVqnoOwv80o/Y70LTey5+VdYxglKa1zTR1GiF74jz4bYH9U3Z/4sUMFKcDXeRCXCe0jkA76cc+P++Ejp81LmnIBDltDbisPdXFSe7ZmU+an2J1E62LN/kmAkmXIy9IzWy1SsjoT2jns7CqRcIJpwxHe6vAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=BV8lPg2W; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+	s=arc-20240116; t=1741346253; c=relaxed/simple;
+	bh=QY00a3rngmsVxLQDZ3rhfcfy8+4hGUDyLxDK2MVdQBU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u6j8zF1xT8VFwJkuI5CBXvff49g4brXAyf0N0yc43w1IQUJ4WqcAN1CfWS5Vn3y89vV2fkStuA5F9BClcxaYEyrg6yaSDK4O2Z9OfC23WbMesr/QbTOPI6uyvecpDXtddF1fShxEbjBOM6WY0yLtE5D/Wu2TvNoNrk+nJPJ70A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J08eV7ap; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="BV8lPg2W"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-223fd89d036so33441585ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Mar 2025 03:02:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J08eV7ap"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-22185cddbffso53482995ad.1;
+        Fri, 07 Mar 2025 03:17:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1741345328; x=1741950128; darn=vger.kernel.org;
-        h=to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y12vdXD8IUD5lnVxvCmdhC+FVPs9nLD3u7Whh+JFE1I=;
-        b=BV8lPg2W+w8JYUuHvukENfQu1yEcqAfhTffhdX84e9KY40mWidZAHKVgite9chElwl
-         565JSX43tcP+myeQSpriEqik41rF+49s27l9Bs9I63gnt7xAr75bkYd2ofHi01ApKBnR
-         tYo5xZjmPnyCU0X/r3W0Mtn1vQ26v875DGlGOVgq5k/OB4pDwIDGqR6pe2qKg0pfeb7r
-         guT/kuRyEa1z76tXhAK9rdHJSiy+fIczLF+0HkKnkh3PUgA5ZAmKrjYoRGm++P5Box3w
-         4QJ80cMva+6bc1BrKw3ELlcY5UmOKKA4H4hJFtyAEZxISJX6UarGhJw6f69rvQ6vVeVK
-         meMA==
+        d=gmail.com; s=20230601; t=1741346251; x=1741951051; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9WDU/0AiPCuXExkzik2v+BtrRa6yZzdzICrZw+6l4Ag=;
+        b=J08eV7apyRp/7zr2li9x1dsc0j4wTXDGWQFhJd7rINalz6N+2/2fItP+fFU0wPRmQZ
+         AKe88xcpsI+tLHhjGQk8ox0+xjugYPasuvcdwZpc2sY7A7swk1UFXxtUhonEs/387T3O
+         vKqmpffJSWXll9A64odVCUReG0MYGRBHZCP3ghK7yGv4DwdDtG8c/dQ429QZYd5WPTH0
+         1vrF1p1I3uGcZximeDHlVHfuhug01nuWYMZhZaapaSPQKTaVAGX8cenZH1eiuZwWEkep
+         99s5SdWzA3+zRJJOoWaSo58pwyLNYlPDqHoX4uqgBCo83plWkxiASaD1aSOpxLGkyCSt
+         yvyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741345328; x=1741950128;
-        h=to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y12vdXD8IUD5lnVxvCmdhC+FVPs9nLD3u7Whh+JFE1I=;
-        b=qK2Dr2MwJCk2YIoHAFLUqZ1XCj1yizIdNflFXyyxs8cHzwvNwERYAqnDvnXhY5WyJa
-         FhAKskJs5Ul+rnK9ZwTofupdhpQGe3Hy3KbHjpFk2Es81VCvkw2sh2y1oMKpACJQpx1E
-         pg0teKfvUSqFulgzrajsrcFLjGRgsezm82Wy7jiaX747SAKpUPByNKvyYvUSMp4+8Eq8
-         /xMq+o9Ci0Jqzf5NQyNZBtle+fE7oQ28T8dJJjwtunzwFfttAAQuw0oehpAhugJ8fihI
-         /eQGzChxoM9SEv/tWtgmFmfwwW/8Qz0OuOI++JZen2x8h4VTNrfcgpVGrup7PFvqgi1R
-         3/dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7fLBexusXlVEqLSQfs2ip1vMji3YsOUIn12nsZ8RiKTXqPc3bzKJEAWPb43ce2ax5wIgCjohJ1is=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjGqo4wg5Dq1gxJy0OjRVYrLEuF5BAg+aVwGqTVPCrh0wzAe5Y
-	upUiWm4xLeBcewXUUz2Xtx42hx3AIEaZfXyXQ0pNxzsyf5Om0xTjZ3IyD2PI6MY=
-X-Gm-Gg: ASbGncuptghlwuusejJxzuIdcAa9pUSeX6AlO2CDlykDGPXtjeNevyvXap48L4+Nh6E
-	ZlkSZnWbWMqM3FK768z1VDM3qlEdY0FfDhnBl19pMnSmK4QZNx2+sRiO0Q7xBV6+K55Tr87Vy3o
-	/nraRqVg3nbk+r4H/OFIyJXd5fPx1+r2rmBUD534+iDskzomOoj46JE9IV6WCDNPc1vpYmqPSon
-	JfRkVp1akX9hyQP6ZTE71MKcD4pEl5khcIiNH4j+7ebp+N1zPE+fiewfPpTUgoNY7YLVmcmms8v
-	SHW6tzai/3dDKAIRSJyCG+Hr4RrLS3hBTLm3bk3dLv3KQYeU
-X-Google-Smtp-Source: AGHT+IF6zWuYi6fdLJEcdg62jGV3EWL/4omMjcZtlNvZShjxdxWSb6A2HX3eGBs7ZpbGb0lfsNdgeA==
-X-Received: by 2002:a17:903:283:b0:21f:6a36:7bf3 with SMTP id d9443c01a7336-224288974admr56342095ad.12.1741345328248;
-        Fri, 07 Mar 2025 03:02:08 -0800 (PST)
-Received: from localhost ([157.82.205.237])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-224109ddfd2sm27280985ad.39.2025.03.07.03.02.03
+        d=1e100.net; s=20230601; t=1741346251; x=1741951051;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9WDU/0AiPCuXExkzik2v+BtrRa6yZzdzICrZw+6l4Ag=;
+        b=lXfpbVLX84suJkZ2jQDlhnMjonHcLZaUW7ESIx4LVFGs+9DWUC7WcNKEGrQlRCIObo
+         lWhL8V7xi2+BXMLZIc49tyqePmeWD+aDy5ZHHLNCs9JgYhZfiF+oeTq6c1eyb/vjm/ps
+         Sv5VJEH52ZjiCvBq0k1d5eTCFQeLRA/gdRoYy6w1HZi8E81ngzH2IgnDiTWKdASEQGzP
+         NIDZznQvG5mS/KQu2eXU9iQvpEriVYgqp9C0vlFQgXbszSmSEtIqIgwcgygTD/TJ18sq
+         rRqAj7Ns1GcXRRSA3+giHTZuQdvB50m+/fy7TnMCyuRIW7xvXOaqSjv0V0gy5X60Dgc7
+         SvWg==
+X-Forwarded-Encrypted: i=1; AJvYcCVV9XKJFTHIxsqq225Ta0S+mIR4QtcyFyZAlC9U8cmzAm9AsWohfPnAS8UXkmHKPyYjgqwTI1c2C+E=@vger.kernel.org, AJvYcCVbCVFE51irR2nJisNXwrfzGmOsVB0+JS1VdSmejykK+M89mtnN12ciofW/O8qSL3FVBpIFaY4m3liombjV@vger.kernel.org
+X-Gm-Message-State: AOJu0YybXBplsZj9DTfcZuqAQwWSFs/vAi2NHe3ayzjUcVKa/rOD6Zst
+	J37FnOxjwT4YTNkQZEUpN5Mn4N8UsVpC8VzflfBBoeFVQyG4847O
+X-Gm-Gg: ASbGnctalOWPnE/eNIwtVyLFPQsWJKcD/S3UAQj+J4LBSzXA6SKdi6SuVBVIA4l+nCX
+	w8jmsLvecteOA/V2G0JMWdkVMsGKk8xPAJnbdjLtWW4gEjgcJiY8BJRopjpoxp287XTVRZ3TWKf
+	ylvMpgM6g3vyuOwd0fbtw5bkQo1AJ1lXlmCz7d8p+uE2RDpVmV5MXSnRRqirwKSD4A3rFndaKHI
+	g4XHWHqpXcPmjOlfQ7Loj1eaB27Oc4jUpbB0bLL1y8v3XV2DdD2rUyMhzi2U2K7TOtgVjhPX1qb
+	XjN03ePJkPEyYSu+MHEd6jNFHWOnKz/HrSb3nlPU1Up1K2U9a7Lx0GaCYGSCGR4um4jNGAVlMYO
+	eEsl+CieO15A5Li4=
+X-Google-Smtp-Source: AGHT+IGLMqL97eIZaqRXzhmsR4cnq0XXC/PM8jbkeUNyeHsw1h0hQd26hi42sAz14nYj3gGZ9el5iQ==
+X-Received: by 2002:a05:6a00:3d52:b0:736:9f2e:1357 with SMTP id d2e1a72fcca58-736a97e4239mr4650047b3a.12.1741346251281;
+        Fri, 07 Mar 2025 03:17:31 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73698514f4dsm2971364b3a.124.2025.03.07.03.17.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Mar 2025 03:02:07 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-Date: Fri, 07 Mar 2025 20:01:22 +0900
-Subject: [PATCH net-next v9 6/6] vhost/net: Support
- VIRTIO_NET_F_HASH_REPORT
+        Fri, 07 Mar 2025 03:17:30 -0800 (PST)
+Message-ID: <e3637b13-1f51-445b-8d9d-bd53a691eca3@gmail.com>
+Date: Fri, 7 Mar 2025 19:57:54 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
+ cpumask.h
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Yury Norov <yury.norov@gmail.com>
+References: <cover.1741332579.git.viresh.kumar@linaro.org>
+ <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250307-rss-v9-6-df76624025eb@daynix.com>
-References: <20250307-rss-v9-0-df76624025eb@daynix.com>
-In-Reply-To: <20250307-rss-v9-0-df76624025eb@daynix.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, kvm@vger.kernel.org, 
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
- Yuri Benditovich <yuri.benditovich@daynix.com>, 
- Andrew Melnychenko <andrew@daynix.com>, 
- Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
- Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>, 
- Akihiko Odaki <akihiko.odaki@daynix.com>
-X-Mailer: b4 0.14.2
 
-VIRTIO_NET_F_HASH_REPORT allows to report hash values calculated on the
-host. When VHOST_NET_F_VIRTIO_NET_HDR is employed, it will report no
-hash values (i.e., the hash_report member is always set to
-VIRTIO_NET_HASH_REPORT_NONE). Otherwise, the values reported by the
-underlying socket will be reported.
+Hi again, 
 
-VIRTIO_NET_F_HASH_REPORT requires VIRTIO_F_VERSION_1.
+Viresh Kumar wrote:
+> This fixes various kernel-doc formatting errors in cpumask.h:
+> 
+> - WARNING: Inline literal start-string without end-string.
+> - ERROR: Unexpected indentation.
+> - ERROR: Unknown target name: "gfp".
+> 
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+>  include/linux/cpumask.h | 65 +++++++++++++++++++++--------------------
+>  1 file changed, 34 insertions(+), 31 deletions(-)
+> 
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Tested-by: Lei Yang <leiyang@redhat.com>
----
- drivers/vhost/net.c | 49 +++++++++++++++++++++++++++++--------------------
- 1 file changed, 29 insertions(+), 20 deletions(-)
+Didn't come up in your diff, but you need additional changes shown below:
 
-diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
-index b9b9e9d40951856d881d77ac74331d914473cd56..16b241b44f89820a42c302f3586ea6bb5e0d4289 100644
---- a/drivers/vhost/net.c
-+++ b/drivers/vhost/net.c
-@@ -73,6 +73,7 @@ enum {
- 	VHOST_NET_FEATURES = VHOST_FEATURES |
- 			 (1ULL << VHOST_NET_F_VIRTIO_NET_HDR) |
- 			 (1ULL << VIRTIO_NET_F_MRG_RXBUF) |
-+			 (1ULL << VIRTIO_NET_F_HASH_REPORT) |
- 			 (1ULL << VIRTIO_F_ACCESS_PLATFORM) |
- 			 (1ULL << VIRTIO_F_RING_RESET)
- };
-@@ -1097,9 +1098,11 @@ static void handle_rx(struct vhost_net *net)
- 		.msg_controllen = 0,
- 		.msg_flags = MSG_DONTWAIT,
- 	};
--	struct virtio_net_hdr hdr = {
--		.flags = 0,
--		.gso_type = VIRTIO_NET_HDR_GSO_NONE
-+	struct virtio_net_hdr_v1_hash hdr = {
-+		.hdr = {
-+			.flags = 0,
-+			.gso_type = VIRTIO_NET_HDR_GSO_NONE
-+		}
- 	};
- 	size_t total_len = 0;
- 	int err, mergeable;
-@@ -1110,7 +1113,6 @@ static void handle_rx(struct vhost_net *net)
- 	bool set_num_buffers;
- 	struct socket *sock;
- 	struct iov_iter fixup;
--	__virtio16 num_buffers;
- 	int recv_pkts = 0;
+diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
+index 656d2208467e..a6c1961cc535 100644
+--- a/include/linux/cpumask.h
++++ b/include/linux/cpumask.h
+@@ -285,10 +285,10 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
+ }
  
- 	mutex_lock_nested(&vq->mutex, VHOST_NET_VQ_RX);
-@@ -1191,30 +1193,30 @@ static void handle_rx(struct vhost_net *net)
- 			vhost_discard_vq_desc(vq, headcount);
- 			continue;
- 		}
-+		hdr.hdr.num_buffers = cpu_to_vhost16(vq, headcount);
- 		/* Supply virtio_net_hdr if VHOST_NET_F_VIRTIO_NET_HDR */
- 		if (unlikely(vhost_hlen)) {
--			if (copy_to_iter(&hdr, sizeof(hdr),
--					 &fixup) != sizeof(hdr)) {
-+			if (copy_to_iter(&hdr, vhost_hlen,
-+					 &fixup) != vhost_hlen) {
- 				vq_err(vq, "Unable to write vnet_hdr "
- 				       "at addr %p\n", vq->iov->iov_base);
- 				goto out;
- 			}
--		} else {
-+		} else if (likely(set_num_buffers)) {
- 			/* Header came from socket; we'll need to patch
- 			 * ->num_buffers over if VIRTIO_NET_F_MRG_RXBUF
- 			 */
--			iov_iter_advance(&fixup, sizeof(hdr));
-+			iov_iter_advance(&fixup, offsetof(struct virtio_net_hdr_v1, num_buffers));
-+
-+			if (copy_to_iter(&hdr.hdr.num_buffers, sizeof(hdr.hdr.num_buffers),
-+					 &fixup) != sizeof(hdr.hdr.num_buffers)) {
-+				vq_err(vq, "Failed num_buffers write");
-+				vhost_discard_vq_desc(vq, headcount);
-+				goto out;
-+			}
- 		}
- 		/* TODO: Should check and handle checksum. */
+ /**
+- * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
+- *                        @n+1. If nothing found, wrap around and start from
++ * cpumask_next_and_wrap - get the next cpu in *@src1p & *@src2p, starting from
++ *                        @n+ 1. If nothing found, wrap around and start from
+  *                        the beginning
+- * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
++ * @n: the cpu prior to the place to search (i.e. search starts from @n +1)
+  * @src1p: the first cpumask pointer
+  * @src2p: the second cpumask pointer
+  *
+@@ -306,9 +306,9 @@ unsigned int cpumask_next_and_wrap(int n, const struct cpumask *src1p,
+ }
  
--		num_buffers = cpu_to_vhost16(vq, headcount);
--		if (likely(set_num_buffers) &&
--		    copy_to_iter(&num_buffers, sizeof num_buffers,
--				 &fixup) != sizeof num_buffers) {
--			vq_err(vq, "Failed num_buffers write");
--			vhost_discard_vq_desc(vq, headcount);
--			goto out;
--		}
- 		nvq->done_idx += headcount;
- 		if (nvq->done_idx > VHOST_NET_BATCH)
- 			vhost_net_signal_used(nvq);
-@@ -1607,10 +1609,13 @@ static int vhost_net_set_features(struct vhost_net *n, u64 features)
- 	size_t vhost_hlen, sock_hlen, hdr_len;
- 	int i;
- 
--	hdr_len = (features & ((1ULL << VIRTIO_NET_F_MRG_RXBUF) |
--			       (1ULL << VIRTIO_F_VERSION_1))) ?
--			sizeof(struct virtio_net_hdr_mrg_rxbuf) :
--			sizeof(struct virtio_net_hdr);
-+	if (features & (1ULL << VIRTIO_NET_F_HASH_REPORT))
-+		hdr_len = sizeof(struct virtio_net_hdr_v1_hash);
-+	else if (features & ((1ULL << VIRTIO_NET_F_MRG_RXBUF) |
-+			     (1ULL << VIRTIO_F_VERSION_1)))
-+		hdr_len = sizeof(struct virtio_net_hdr_mrg_rxbuf);
-+	else
-+		hdr_len = sizeof(struct virtio_net_hdr);
- 	if (features & (1 << VHOST_NET_F_VIRTIO_NET_HDR)) {
- 		/* vhost provides vnet_hdr */
- 		vhost_hlen = hdr_len;
-@@ -1691,6 +1696,10 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
- 			return -EFAULT;
- 		if (features & ~VHOST_NET_FEATURES)
- 			return -EOPNOTSUPP;
-+		if ((features & ((1ULL << VIRTIO_F_VERSION_1) |
-+				 (1ULL << VIRTIO_NET_F_HASH_REPORT))) ==
-+		    (1ULL << VIRTIO_NET_F_HASH_REPORT))
-+			return -EINVAL;
- 		return vhost_net_set_features(n, features);
- 	case VHOST_GET_BACKEND_FEATURES:
- 		features = VHOST_NET_BACKEND_FEATURES;
+ /**
+- * cpumask_next_wrap - get the next cpu in *src, starting from @n+1. If nothing
++ * cpumask_next_wrap - get the next cpu in *@src, starting from @n +1. If nothing
+  *                    found, wrap around and start from the beginning
+- * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
++ * @n: the cpu prior to the place to search (i.e. search starts from @n +1)
+  * @src: cpumask pointer
+  *
+  * Return: next set bit, wrapped if needed, or >= nr_cpu_ids if @src is empty.
 
--- 
-2.48.1
+Feel free to squash into your 1/2.
+My R-b tag still stands.
+
+        Thanks, Akira
 
