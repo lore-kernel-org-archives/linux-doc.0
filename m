@@ -1,167 +1,255 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D954A634EC;
-	Fri,  7 Mar 2025 10:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296462066F9
+	for <linux-doc@vger.kernel.org>; Fri,  7 Mar 2025 10:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741343477; cv=none; b=fUfROQbvhZ/3ezJsNnAFKGba/5J77sYWnMhv27al57RkCVeL5FA0aisWsJme3gclAkPVrw5f20c8MXgyRd0eC+plDK0vIKy5eZYyk8jmKVMSVC8snu1NY7nf/eX5BBFBYdxJ9VDbItFfYsmduICUvDsuKeUa72h/XIKy6X9R1uU=
+	t=1741344733; cv=none; b=sEx+mMH7hrHwmANjIWuP9AitXGgMCgWX8oHr5qinfRO+UGoSjAdtvXDxMKskqZ/+goZ+1K41yyM3kOXxXePymD43hxTl9GZ+WUq/CbdFB65kvFm2TfotDJ4OXeyqXGcbdYmsc82zK+Hb9ZT+NtwXnnhCPoUVYcazpcAnmnzNSJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741343477; c=relaxed/simple;
-	bh=g+i5ExB7iJNAMgpmrSvnBOnHGid3nMQ/bRienlHPEhA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=qvG7Kn2T2JbIYGL9biVDuauV9BD8fz+0o4wBy7FjkUvy16Id+ogytpaGUQz1ZZ7Sp1338UiPzzE4Jt96jJHL0q62FtT83ND/3R2RJ0R4KwnHF+XJhwfsc2nbIZvSwJ6CF0h8P0SiEe/7rChYbNCeo4DL6OdaVI+EvcZTi58GRW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=KGumB7H4; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1741344733; c=relaxed/simple;
+	bh=2yrl245pQFYTteb+/aA4r5Ui0KBjICUD+1rxdgPp0wA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gSNFgyOnttjsihJRgUQ2I1AkNOQetBZa9J+zcbw6rg2tfH8Ncr25QqYFeCoDEnFSwfK9+0IZkkWgMdZXFolNTx2t5mYotqmEJJTNz5SwU2Fm8Z6GKfGRRc8hDd4nXk1lBeiognxwObwbvTzHN71vrteQzSnz0JBdch4L0Q2WSbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ZtArpcoG; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="KGumB7H4"
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 527AUlJJ243303
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 7 Mar 2025 04:30:47 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1741343447;
-	bh=o06VURZdv6TpTGBcJJyPYbkacPk57jeEgcFoNnbN4aE=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=KGumB7H4cAQuFzdLuZycJZSpzg4QLD+dAHTuVBw8wXFNQprMsQ6eDC1tUtMpvhhb3
-	 4yo1Mfqb25UBTSJsBbPGMMIxW/zK5kLtIyv1S6n6mSYX9agzI58VKgMGEsvlls8dRy
-	 s9UzPLM1SjLU/JUpCgSeR5VofbJ+/CiONUvr/mTc=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 527AUlqh015612
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 7 Mar 2025 04:30:47 -0600
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 7
- Mar 2025 04:30:46 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 7 Mar 2025 04:30:46 -0600
-Received: from [10.24.69.25] (danish-tpc.dhcp.ti.com [10.24.69.25])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 527AUf4v015736;
-	Fri, 7 Mar 2025 04:30:42 -0600
-Message-ID: <3931a391-3967-4260-a104-4eb313810c0d@ti.com>
-Date: Fri, 7 Mar 2025 16:00:40 +0530
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ZtArpcoG"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30761be8fcfso18569971fa.0
+        for <linux-doc@vger.kernel.org>; Fri, 07 Mar 2025 02:52:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1741344728; x=1741949528; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VRsjrYylaGqHOYSS2Im8OTeS/8b87MG8RUTJovWmnVs=;
+        b=ZtArpcoG4xHxWeEYG8wOl/3hi3Tzm3qdOwHW2xTnK/WVdHb0RLYpcy7dcpfp4fEt1I
+         4wgkWBRyLhdlERz0dfGu35NYoqSUEj4Rwxb7smcVVBN83u75ZI++K8xMsAG16HnYdnwr
+         u6iBzCJZO1ELuz1qpEyqrRJycZrU5FEEAnatTk2jUzXEw/R3lfqWwJiyEM3FKo/XLCAZ
+         L+bgFTD2j/YLzgn3yzfXgDL5f5xk1FfI5RGSR8QKRaFldJsIwLVH3yK1Xs+/kFhqhMwK
+         tkP6+ZFIK63Lm8HgpECxWD0rB6zwXtx8b/af1tQ6PGEaaj8ZNGxXWJ2NeRbHby2TYPuV
+         kf2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741344728; x=1741949528;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VRsjrYylaGqHOYSS2Im8OTeS/8b87MG8RUTJovWmnVs=;
+        b=XrLg1EEz/RYcc5ZHprW42nq26oTMLUJZ5eFaIZwVPFf1DEd37vwgYp/BObeHiWj385
+         AOevi3OEO7ftuNTpIxxQpr6aDvRaakIulb4UeXeE3Y0urni2RRCLXiT/073RO/jBQJd0
+         yxB9FoIhFWcdwjymC695Axk0KpA1JpmKA06PfbRs73rFlvMvO+oFOZaX14v4cdGXxH15
+         N9uRNngxLqR0jTTv/7se9/ctvyXuXfUm66HfFKLCyZBKvG85Nwxo7jzssulDvcNst7G6
+         DYqekiumGeNmxSe98UBFy4fjToyoVjRgDTHsJudb6RCDxqooolPs3dNN2aaN0j7g9BTC
+         4YLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVWTrCncB04HOaxbCldG1rfLT17srL1mNIB/avWN5NgThcyFPthfbeWUMCMGjJ7jSpe5gKQ1O8kWcU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7Iz6PhlkeVpyrxGNDc3AzPHd7DK+p1kTw5iL+zWCuewYKmf7E
+	Xb9bBvP0ygWf0lqKlh00LY/gCoodt83AruiFI/iaNf1K0ilbd1ha3jK4dGjvPXSqlpAIqJTVcHP
+	rviokYC56Hq6ZgRT5p4bJgD5gET+ptuzXtrNVyg==
+X-Gm-Gg: ASbGnctZ111o5IqjXGN4u6bgnLMVd+uXrSd/bdYWEdPKE4xenQtbxpbAz5SWr2Q+7MW
+	jkvzIAcAvPJmtQTUEXlgdlD86hcBEo2W88nUpFL99lKisp1GO+KFjoG8Mqk6oaVQ6xfFJ4Qn4R4
+	gdF1cMhE27IVTxE9WOGzDR6sLLTA==
+X-Google-Smtp-Source: AGHT+IGTv8b2iGGJntdmFYPrxn5rBDY0hEoMs3EOIxh9tMQRsB5GFmoHIuYXVfRwM0Is+sU2gQz8J72mVJX/HKidY/U=
+X-Received: by 2002:a2e:3a15:0:b0:308:eb34:103a with SMTP id
+ 38308e7fff4ca-30bf45f4820mr8917921fa.28.1741344728194; Fri, 07 Mar 2025
+ 02:52:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2] net: ti: icssg-prueth: Add ICSSG FW Stats
-To: Jakub Kicinski <kuba@kernel.org>
-CC: Vignesh Raghavendra <vigneshr@ti.com>, Meghana Malladi <m-malladi@ti.com>,
-        Diogo Ivo <diogo.ivo@siemens.com>, Lee Trager <lee@trager.us>,
-        Andrew Lunn
-	<andrew+netdev@lunn.ch>,
-        Roger Quadros <rogerq@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Simon Horman <horms@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>, <srk@ti.com>
-References: <20250305111608.520042-1-danishanwar@ti.com>
- <20250306165513.541ff46e@kernel.org>
-Content-Language: en-US
-From: MD Danish Anwar <danishanwar@ti.com>
-In-Reply-To: <20250306165513.541ff46e@kernel.org>
+References: <20250306-iio-driver-ad4052-v1-0-2badad30116c@analog.com> <20250306-iio-driver-ad4052-v1-2-2badad30116c@analog.com>
+In-Reply-To: <20250306-iio-driver-ad4052-v1-2-2badad30116c@analog.com>
+From: David Lechner <dlechner@baylibre.com>
+Date: Fri, 7 Mar 2025 11:51:57 +0100
+X-Gm-Features: AQ5f1Jo2uhYB71XpyIkYmXnZs7v-ATTx9ln-Jijl_UCZHNfpilpA8uAirwbAS44
+Message-ID: <CAMknhBHeqhkGaSM0S_zahC1ZrKTfoYj87fFEwL362FhhjNOfpA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] dt-bindings: iio: adc: Add adi,ad4052
+To: Jorge Marques <jorge.marques@analog.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jakub
+On Thu, Mar 6, 2025 at 3:04=E2=80=AFPM Jorge Marques <jorge.marques@analog.=
+com> wrote:
+>
+> Add dt-bindings for AD4052 family, devices AD4050/AD4052/AD4056/AD4058,
+> low-power with monitor capabilities SAR ADCs.
 
-On 07/03/25 6:25 am, Jakub Kicinski wrote:
-> On Wed, 5 Mar 2025 16:46:08 +0530 MD Danish Anwar wrote:
->> + - ``FW_RTU_PKT_DROP``: Diagnostic error counter which increments when RTU drops a locally injected packet due to port being disabled or rule violation.
->> + - ``FW_Q0_OVERFLOW``: TX overflow counter for queue0
->> + - ``FW_Q1_OVERFLOW``: TX overflow counter for queue1
->> + - ``FW_Q2_OVERFLOW``: TX overflow counter for queue2
->> + - ``FW_Q3_OVERFLOW``: TX overflow counter for queue3
->> + - ``FW_Q4_OVERFLOW``: TX overflow counter for queue4
->> + - ``FW_Q5_OVERFLOW``: TX overflow counter for queue5
->> + - ``FW_Q6_OVERFLOW``: TX overflow counter for queue6
->> + - ``FW_Q7_OVERFLOW``: TX overflow counter for queue7
-> ...
-> 
-> Thanks for the docs, it looks good. Now, do all of these get included
-> in the standard stats returned by icssg_ndo_get_stats64 ?
-> That's the primary source of information for the user regarding packet
-> loss.
+> Contain selectable oversampling and sample rate, the latter for both
+> oversampling and monitor mode.
+> The monitor capability is exposed as an IIO threshold either direction
+> event.
 
-No, these are not reported via icssg_ndo_get_stats64.
+These sounds like they are describing the driver so aren't appropriate
+for this commit message. Here we should only be talking about the
+bindings.
 
-.ndo_get_stats64 populates stats that are part of `struct
-rtnl_link_stats64`. icssg_ndo_get_stats64 populates those stats wherever
-applicable. These firmware stats are not same as the ones defined in
-`icssg_ndo_get_stats64` hence they are not populated. They are not
-standard stats, they will be dumped by `ethtool -S`. Wherever there is a
-standard stats, I will make sure it gets dumped from the standard
-interface instead of `ethtool -S`
+>
+> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+> ---
+>  .../devicetree/bindings/iio/adc/adi,ad4052.yaml    | 80 ++++++++++++++++=
+++++++
+>  MAINTAINERS                                        |  6 ++
+>  2 files changed, 86 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4052.yaml b/=
+Documentation/devicetree/bindings/iio/adc/adi,ad4052.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..4602f1f0184d58f33883852ff=
+6d76933758825f1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4052.yaml
+> @@ -0,0 +1,80 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright 2025 Analog Devices Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/adc/adi,ad4052.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices AD4052 ADC family device driver
+> +
+> +maintainers:
+> +  - Jorge Marques <jorge.marques@analog.com>
+> +
+> +description: |
+> +  Analog Devices AD4052 Single Channel Precision SAR ADC family
+> +
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad=
+4050.pdf
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad=
+4052.pdf
 
-Only below stats are included in the standard stats returned by
-icssg_ndo_get_stats64
-- rx_packets
-- rx_bytes
-- tx_packets
-- tx_bytes
-- rx_crc_errors
-- rx_over_errors
-- rx_multicast_frames
+The links above don't work for me. Instead...
 
-> 
->>  	if (prueth->pa_stats) {
->>  		for (i = 0; i < ARRAY_SIZE(icssg_all_pa_stats); i++) {
->> -			reg = ICSSG_FW_STATS_BASE +
->> -			      icssg_all_pa_stats[i].offset *
->> -			      PRUETH_NUM_MACS + slice * sizeof(u32);
->> +			reg = icssg_all_pa_stats[i].offset +
->> +			      slice * sizeof(u32);
->>  			regmap_read(prueth->pa_stats, reg, &val);
->>  			emac->pa_stats[i] += val;
-> 
-> This gets called by icssg_ndo_get_stats64() which is under RCU 
+https://www.analog.com/media/en/technical-documentation/data-sheets/ad4050-=
+ad4056.pdf
+https://www.analog.com/media/en/technical-documentation/data-sheets/ad4052-=
+ad4058.pdf
 
-Yes, this does get called by icssg_ndo_get_stats64(). Apart from that
-there is a workqueue (`icssg_stats_work_handler`) that calls this API
-periodically and updates the emac->stats and emac->pa_stats arrays.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,ad4050
+> +      - adi,ad4052
+> +      - adi,ad4056
+> +      - adi,ad4058
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description:
+> +      Reference clock
+> +    maxItems: 1
 
-> protection and nothing else. I don't see any locking here, and
+I don't see any pins in the datasheet about a "reference clock" input.
+Is this for the CNV pin? If this is for the internal clock, then we
+don't need a property for it.
 
-There is no locking here. I don't think this is related to the patch.
-The API emac_update_hardware_stats() updates all the stats supported by
-ICSSG not just standard stats.
+> +
+> +  interrupts:
+> +    items:
+> +      - description: threshold events.
+> +      - description: device ready and data ready.
+> +
 
-> I hope the regmap doesn't sleep. cat /proc/net/dev to test.
-> You probably need to send some fixes to net.
+Since there are multiple interrupts, we should also have an
+interrupt-names property. Also, the interrupts should be named after
+the pin they are connected to, not the function. So the interrupt
+names should be "rdy", "gp0", and "gp1".
 
-I checked cat /proc/net/dev and the stats shown there are not related to
-the stats I am introducing in this series.
+> +  cnv-gpios:
+> +    maxItems: 1
 
-The fix could be to add a lock in this function, but we have close to 90
-stats and this function is called not only from icssg_ndo_get_stats64()
-but from emac_get_ethtool_stats(). The function also gets called
-periodically (Every 25 Seconds for 1G Link). I think every time locking
-90 regmap_reads() could result in performance degradation.
+Not necessary, but I would not mind having a description that says
+that the CNV pin may also be connected to the CS line of the SPI
+controller if it is not connected to a GPIO.
 
-I only see couple of drivers acquiring spin lock before reading the
-stats for .ndo_get_stats64. Most of the drivers are not using any lock.
+> +
+> +  spi-max-frequency:
+> +    maximum: 62500000
+> +
+> +  vdd-supply: true
 
-I did some testing and did not see any discrepancy in the stats `cat
-/proc/net/dev` without the lock.
+> +  vdd_1_8-supply: true
 
-Furthermore, the fix is independent of this patch. I can send out a
-separate fix to net to add cpu locks to this function. But I don't think
-there is any change needed in this patch.
+This one seems redundant and should be dropped.
 
-Let me know what should be done here.
+But there is also a possible separate reference voltage supply, so we
+should have a ref-supply property.
 
--- 
-Thanks and Regards,
-Danish
+> +  vio-supply: true
+
+These chips also have GPIO pins, so we can add the gpio-controller and
+#gpio-cells properties to the bindings even if we don't implement this
+in the driver.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+
+The chip won't work without vcc-supply and vio-supply so they should
+be required. ref-supply is clearly optional though.
+
+
+
+> +
+> +allOf:
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    spi {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        adc@0 {
+> +            compatible =3D "adi,ad4052";
+> +            reg =3D <0>;
+> +            spi-max-frequency =3D <25000000>;
+> +
+> +            interrupt-parent =3D <&gpio>;
+> +            interrupts =3D <0 0 IRQ_TYPE_EDGE_RISING>,
+> +                         <0 1 IRQ_TYPE_EDGE_RISING>;
+> +            cnv-gpios =3D <&gpio 2 GPIO_ACTIVE_HIGH>;
+> +        };
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 06f122cb8bbd15a0076c229dfc89be0b5126f237..fef8adaee888d59e1aa3b3592=
+dda5a8bea0b7677 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1317,6 +1317,12 @@ F:       Documentation/devicetree/bindings/iio/adc=
+/adi,ad4030.yaml
+>  F:     Documentation/iio/ad4030.rst
+>  F:     drivers/iio/adc/ad4030.c
+>
+> +ANALOG DEVICES INC AD4052 DRIVER
+> +M:     Jorge Marques <jorge.marques@analog.com>
+> +S:     Supported
+> +W:     https://ez.analog.com/linux-software-drivers
+> +F:     Documentation/devicetree/bindings/iio/adc/adi,ad4052.yaml
+> +
+>  ANALOG DEVICES INC AD4130 DRIVER
+>  M:     Cosmin Tanislav <cosmin.tanislav@analog.com>
+>  L:     linux-iio@vger.kernel.org
+>
+> --
+> 2.48.1
+>
