@@ -1,69 +1,57 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC7A13D897;
-	Thu,  6 Mar 2025 23:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC4D748D;
+	Fri,  7 Mar 2025 00:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741303891; cv=none; b=o7t0yPtQKEn/oIvizTQV7RBvqNFbPqkK5KmuAp10mdrH5HfBSS8C0m4JFktNqPJTSMd1ijbmNkTlOSGZcypWQUjrbwPC+BmOOQvZ1fVmFpijarLSR8a8wORmJac2fnDNYgDR2fJgfmG9azPOx1z1ssRQ6KPGP1A4+G7ESklCYQg=
+	t=1741308189; cv=none; b=IID1f84WwTHX4QEKfkDEMMZ5FWt0ruHa+3wy60g8Ioke7b5xDnztqOLNTorfxa2juRM83uJ8/zUnUbymRGpkTuuHK/qscKyO4o6nVgm9VeEdSir3GBm4UgIcIsCaumSZcrWSLCepIf9wHsQy446jZ6T/KoP7S+/olFEQgzE/cf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741303891; c=relaxed/simple;
-	bh=/5/X9nock4B043zzYIA4QiRQvzW6OTYeIzbvrLnt+FU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uyVoYzHHT7vri4Qhvfs4YIF0uv2uhzPgLXEkFmQghTu9v2cRQ2lgQHA1Xr3RQ+NGbXWnF0695zvAev9Pii35UhZVFIUzwCYzv2aT3Dr2+kT2wgrMnhR1vGBMJIhUQ9OR4NmalWRbQk7jEKQD291GY+Ml4EWdF2455O6ijQMhXhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W1MbmFkl; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741308189; c=relaxed/simple;
+	bh=YnM9xW+vVhuf9Yqt0rbNuyAYC11CGxiWbH8jc51gCVU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i/6ck8/FMSdIEL9C0tg4hSqALF3oILLGXHJ527CDJ0GSPqDyK9MzfjY2de106xfJaIsarbqrKrRr1L3PaCVTnwbvOgFFJmLgMiMW3xKoh1z7+bOQz0pExg6ET8XQF/f2UC86lKxlUUCyzxNpJU4+2aRmOK3QIyj/gb+GP3v5kyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=vxXh7ZkI; arc=none smtp.client-ip=99.78.197.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W1MbmFkl"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22185cddbffso46476185ad.1;
-        Thu, 06 Mar 2025 15:31:29 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="vxXh7ZkI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741303889; x=1741908689; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dbc4B5Qc7VlyIxPME83+2R4N0whC72xFyy0kP6DWisY=;
-        b=W1MbmFkluUdgiccOkJKKzkqut8QuyC9Q4CMrC9jOpbKwRs1b3NLlGaMVnujgM6rEeg
-         aNAGe0cjF6l97l71moPlQFn4MZdXOJwFBxsO9augVcwsi3IgXPZgiPk1s2R1DSNftdIt
-         bYDKzg3ZQgBLyZK5n1QV3hAyozw8GMUoALI/0hEzj2SZ/v7KW71V+kTp/4DAR8Ztu1Mw
-         E+CpvGB7RPMh6z/hb2GImWYfJAMXctPuq0tUct3oWxfMOtRWhl2NH5WNUIBJYxEL7EmQ
-         l1Ew32/KE3wyvFDKqAtHsPcEQTNo00S3MHp9tKtOS/j9w7OxzJ7BM0Tq2Eq8a1QIqgx/
-         jB0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741303889; x=1741908689;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dbc4B5Qc7VlyIxPME83+2R4N0whC72xFyy0kP6DWisY=;
-        b=Y3pZ4OO+l0V7b9D2AhQFPWH9cX/j1a9+FVLvv5gvMiiEH5ks1RRYCdj2eh4T6XW8MF
-         ZyX4OYVZqn3TBGjgW7aZ6iLFVkaW9XQ7v22Eh0FpYbehKjcHxqxqm+TjcTRY3966odrm
-         E5ud0Zfy06+LPxXtUKDJ79PoYTYsAr/3V4UXiTRfQCXj6NQTH9rRKEuy8Vh9aApZHxqA
-         jP18mfbdO4QmAxGCOOtuM9S3Vq4Yrahy+2/wZHGVabEUihczFMc2Itd0T6+iOzF+KEL3
-         fYKeAqadRJi+7x4Rg69JoOJjoXWayopjj87ZFoNXc6ZDjCu4Mykeg4d1iXXmRISAMT1A
-         ZH4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWanskpoJDcaMOKTIMwKfrSdzOMs7Wz1e2TpygW5jM/GDyd2VSnmZXNDwQLWYYU7r5jWRKNij5k9AA=@vger.kernel.org, AJvYcCXtG0LnyiDNh327HWJVMeN85nMn+kku/TrqubaQIdsDXL5uDWJwcvtbGIpbe+PR30O2W8fYoqIs@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQEHNIJQyx4N7bLX/7Posl4ZuCuU7fSgXoEU2CV37SZNglS9m9
-	ByGEFDobkCo4RO8ejVLAnJq0t26PRHBdng/bACICHV2OVfsAASYZ
-X-Gm-Gg: ASbGncsroeI8wqoYO9Zya2UIXgPqW1/bkOR0MEUEpnkbVJ3OoSV0pMnI06EuHldJs9i
-	M/AVa6gnUiq8B1JoRyi1M8XrclTsm/hOnHZtawTfmn7ytgAZ1f3PRUDnUGWHyvEo7r0KynTEMSs
-	JSmoBQEXDJGFCRTnBcpFjtq6iJjrKDVP6xWA7F2lKzYSe2WswdQBGGmkvNp5Qej6B8j3/zkGTjx
-	Kw/x2rvXUoPUWelVS6KZJ9BJi2Pgnd096/ULbU4AEV7KmYSUXAKXZUl1L9ufzRR6mHvQP80W1Me
-	tmdOf5MbJRNm+z+8Lb2zBByuC7ji592B+yvNe2dUrO0efPEX
-X-Google-Smtp-Source: AGHT+IG60Qj1lBt3UFNXsq0ITCVFXlNx5c3ljnnSaL3XA0bGKrMMMSlCS7bNbKJ8/dlRbu0edkhNOg==
-X-Received: by 2002:a05:6a00:2fc4:b0:727:39a4:30cc with SMTP id d2e1a72fcca58-73693e294dcmr6538691b3a.1.1741303889346;
-        Thu, 06 Mar 2025 15:31:29 -0800 (PST)
-Received: from localhost ([129.210.115.104])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-736ae20f4f0sm59148b3a.134.2025.03.06.15.31.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 15:31:28 -0800 (PST)
-Date: Thu, 6 Mar 2025 15:31:27 -0800
-From: Cong Wang <xiyou.wangcong@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-	pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org,
-	linux-doc@vger.kernel.org
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1741308187; x=1772844187;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ht85O26+YIFgXcgvETTRankb0ZIrczTlRdtMn2Kdoy8=;
+  b=vxXh7ZkIixcODnfUD4eMX9dgcqCGJmtZOJOvP/RJphgyt7ahGH2Jq6KG
+   Dbc48QRJs/M3+IO7k4NqCnyE0kgrN2oFoOTjqaSYvcHXGqL4ZFISYH2an
+   Ec+F13shtAI2WwoR6X5ejrPYT7wKWKxF7qihiOytfWxBraJRx0hl916CU
+   I=;
+X-IronPort-AV: E=Sophos;i="6.14,227,1736812800"; 
+   d="scan'208";a="179250745"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 00:43:06 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [10.0.38.20:37676]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.58.39:2525] with esmtp (Farcaster)
+ id 940c6036-4fc4-42e2-bcdc-6793e212f550; Fri, 7 Mar 2025 00:43:05 +0000 (UTC)
+X-Farcaster-Flow-ID: 940c6036-4fc4-42e2-bcdc-6793e212f550
+Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Fri, 7 Mar 2025 00:43:02 +0000
+Received: from 6c7e67bfbae3.amazon.com (10.106.101.42) by
+ EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Fri, 7 Mar 2025 00:42:59 +0000
+From: Kuniyuki Iwashima <kuniyu@amazon.com>
+To: <kuba@kernel.org>
+CC: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+	<horms@kernel.org>, <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<pabeni@redhat.com>
 Subject: Re: [PATCH net-next] docs: netdev: add a note on selftest posting
-Message-ID: <Z8owT1glLf+436yv@pop-os.localdomain>
+Date: Thu, 6 Mar 2025 16:41:41 -0800
+Message-ID: <20250307004251.55786-1-kuniyu@amazon.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250306180533.1864075-1-kuba@kernel.org>
 References: <20250306180533.1864075-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -71,11 +59,13 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250306180533.1864075-1-kuba@kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D044UWA002.ant.amazon.com (10.13.139.11) To
+ EX19D004ANA001.ant.amazon.com (10.37.240.138)
 
-On Thu, Mar 06, 2025 at 10:05:33AM -0800, Jakub Kicinski wrote:
+From: Jakub Kicinski <kuba@kernel.org>
+Date: Thu,  6 Mar 2025 10:05:33 -0800
 > We haven't had much discussion on the list about this, but
 > a handful of people have been confused about rules on
 > posting selftests for fixes, lately. I tend to post fixes
@@ -84,7 +74,25 @@ On Thu, Mar 06, 2025 at 10:05:33AM -0800, Jakub Kicinski wrote:
 > but so far it hasn't been a major issue.
 > 
 > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+>  Documentation/process/maintainer-netdev.rst | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+> index e497729525d5..1ac62dc3a66f 100644
+> --- a/Documentation/process/maintainer-netdev.rst
+> +++ b/Documentation/process/maintainer-netdev.rst
+> @@ -311,6 +311,14 @@ user space patches should form separate series (threads) when posted
+>  Posting as one thread is discouraged because it confuses patchwork
+>  (as of patchwork 2.2.2).
+>  
+> +Co-posting selftests
+> +--------------------
+> +
+> +Selftests should be part of the same series as the code changes.
+> +Specifically for fixes both code change and related test should go into
+> +the same tree (the tests may lack a Fixes tag, which is expected).
+> +Mixing code changes and test changes in a single commit is discouraged.
 
-Acked-by: Cong Wang <xiyou.wangcong@gmail.com>
-
-Thanks for the effort!
+I guess an exception for the mixing is when a code change breaks a
+selftest, or is it fine for NIPA ?  (still other CI may complain though)
