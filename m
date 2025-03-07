@@ -1,55 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE00198E91;
-	Fri,  7 Mar 2025 06:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3511632D9;
+	Fri,  7 Mar 2025 06:51:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741327391; cv=none; b=o1xa13v0OcQzMyUHjgMOrMg9FVMWbBaF+H+5w5JXurEJ1Ux9hGjku7lKdgJu6A3uq5KvWzkzARR6vH74id6nxMyzfVTUQkYuFNLYl/UoIrNO5hUHVFHEyxjylbVfXav1kUOcwVB8r3xAhHlnKwjE3I515SUr32KcwCulU/4dQaI=
+	t=1741330265; cv=none; b=IMcUEidwn0Wdg+Hi9fJPiAtdnlPIvLQ4Sq96hLlTf5SRH2LjzEVvG1zosfil/IdO1SMnksoVbBoZ0VOn0CsGW0fjJ9uYO720FQu899rpiAauzM41sd3rYUnU3sXe/fSxeHvUUCxxtpNk7JrG92ZNnfezsGqvD9oK1ABjI1fR1p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741327391; c=relaxed/simple;
-	bh=CRAihNkGRLaidsZuzsLC506Y8MOu0f2lmWlCIxy18H0=;
+	s=arc-20240116; t=1741330265; c=relaxed/simple;
+	bh=6ZI3dCObpML4Ufp4w1iQZ0U98W7z0VOCfaMcxrJlCIg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oIUh1ApD8uIYjaG9j3onmpcZ5rmDiCSGX3hhENsaRwjYXwnng9OouRQltffgKR2lWrwJTutd9jECc/Wy4aO5jtP1sS1vcdc3C2mRol0nOpVTx7bMLcaoZ51YSKZMSH4R/lmdAJEpqK/P4VmuswL9o3GepFE411QAvYPxA/yhVSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VDocaQE+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=aOpj1IluhnNkZ0VXi2oZ2mx7PK5i3qdVS9SUIKz43gai601kaH3gZE0eDSPl01sfDNuzF4me8Eosa6JIC40ohvoEX/L+oXGoXTZZFlrMzSGTSgqMFlNgnE74wVd4PnE0k5+G0U0CmDDPfwCEeuptCRP+EAIbUUL37kSRFlVy7Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=foE95Wbj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VDocaQE+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A418CC4CEE2;
-	Fri,  7 Mar 2025 06:03:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1741327390;
-	bh=CRAihNkGRLaidsZuzsLC506Y8MOu0f2lmWlCIxy18H0=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="foE95Wbj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A99DC4CED1;
+	Fri,  7 Mar 2025 06:51:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741330264;
+	bh=6ZI3dCObpML4Ufp4w1iQZ0U98W7z0VOCfaMcxrJlCIg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VDocaQE++DVK22rJjR70kxQTmMZHHuSCR7WjyiwjfJTHNTUq7Ul09dyUSB6USROlD
-	 PmFKhruwh42vcXvtqkr1t9+HYVC57Vfcc370h8VlDwUIoKmoqVTdPJpIBz4ssbdX1U
-	 2s4q7IFjhxQudeGaTX2sDHFRIa1SeDM5gE0ebBEM=
-Date: Fri, 7 Mar 2025 07:03:06 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Pratyush Yadav <ptyadav@amazon.de>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Hugh Dickins <hughd@google.com>, Alexander Graf <graf@amazon.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	David Woodhouse <dwmw2@infradead.org>,
-	James Gowans <jgowans@amazon.com>, Mike Rapoport <rppt@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pasha Tatashin <tatashin@google.com>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Dave Hansen <dave.hansen@intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, kexec@lists.infradead.org
-Subject: Re: [RFC PATCH 1/5] misc: introduce FDBox
-Message-ID: <2025030700-paramedic-untoasted-9cec@gregkh>
-References: <20250307005830.65293-1-ptyadav@amazon.de>
- <20250307005830.65293-2-ptyadav@amazon.de>
+	b=foE95WbjLJUGTYyscTXMtsFf9MeH/But/AEKvbezNXoxDg6qRlEz4XfAzplYYZQem
+	 raf6W+rXGPu8aIEO1ZZY78yBG1EHTpXKoh5n0sFncxZgkba8GpPsiskg/UKP0sNJ4V
+	 ozkLvrit/URKrTMhsyDSUkkzHvI8LFMiJehSw0j0PwyYaQ4DjHQrEP4YhLA5oP/mg8
+	 ABvwQspdwsa2Elj4PiDw9z/+o2qd5xqVB+Ht4KKRLtoRSiOAzo2ONaKnu+mxXN3omZ
+	 JkqAGDps79dDUt7fi9DxoMFXfTukI+i5r0rqSMV3MBcD83z2PluXhRvaie+exIx3u8
+	 xF1jQAyUUU/0Q==
+Date: Fri, 7 Mar 2025 08:51:00 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Ross Philipson <ross.philipson@oracle.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+	linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org,
+	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
+	ardb@kernel.org, mjg59@srcf.ucam.org,
+	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
+	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu,
+	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
+	ebiederm@xmission.com, dwmw2@infradead.org,
+	baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
+	andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v12 08/19] x86/boot: Place TXT MLE header in the
+ kernel_info section
+Message-ID: <Z8qXVLiab5L-XkgP@kernel.org>
+References: <20241219194216.152839-1-ross.philipson@oracle.com>
+ <20241219194216.152839-9-ross.philipson@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,23 +55,141 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250307005830.65293-2-ptyadav@amazon.de>
+In-Reply-To: <20241219194216.152839-9-ross.philipson@oracle.com>
 
-One quick review note:
+On Thu, Dec 19, 2024 at 11:42:05AM -0800, Ross Philipson wrote:
+> The MLE (measured launch environment) header must be locatable by the
+> boot loader and TXT must be setup to do a launch with this header's
 
-On Fri, Mar 07, 2025 at 12:57:35AM +0000, Pratyush Yadav wrote:
-> +/**
-> + * struct fdbox - A box of FDs.
-> + * @name: Name of the box. Must be unique.
-> + * @rwsem: Used to ensure exclusive access to the box during SEAL/UNSEAL
-> + *         operations.
-> + * @dev: Backing device for the character device.
-> + * @cdev: Character device which accepts ioctls from userspace.
+(cutting the hairs) nit: /TXT/Intel TXT/
 
-You now have a structure that contains 2 different reference counts,
-which is going to be impossible to handle properly.  Which one defines
-the lifetime of the object?  That's not going to work, please fix.
+> location. While the offset to the kernel_info structure does not need
+> to be at a fixed offset, the offsets in the header must be relative
+> offsets from the start of the setup kernel. The support in the linker
+> file achieves this.
 
-thanks,
+This is too obfuscated and also sort of misses the action taken by
+the patch.
 
-greg k-h
+I presume the goal here is to add relative offset to the MLE header?
+Please state that explicitly.
+
+Like for any possible kernel patch:
+
+1. Come out clean 110% transparent.
+2. Full exposure what you're doing.
+
+;-)
+
+That's the fastest possible path to actual results. 
+
+> 
+> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+> Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+> Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+> ---
+>  arch/x86/boot/compressed/kernel_info.S | 50 +++++++++++++++++++++++---
+>  arch/x86/boot/compressed/vmlinux.lds.S |  7 ++++
+>  2 files changed, 53 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/x86/boot/compressed/kernel_info.S b/arch/x86/boot/compressed/kernel_info.S
+> index f818ee8fba38..a0604a0d1756 100644
+> --- a/arch/x86/boot/compressed/kernel_info.S
+> +++ b/arch/x86/boot/compressed/kernel_info.S
+> @@ -1,12 +1,20 @@
+>  /* SPDX-License-Identifier: GPL-2.0 */
+>  
+> +#include <linux/linkage.h>
+>  #include <asm/bootparam.h>
+>  
+> -	.section ".rodata.kernel_info", "a"
+> +/*
+> + * The kernel_info structure is not placed at a fixed offest in the
+> + * kernel image. So this macro and the support in the linker file
+> + * allow the relative offsets for the MLE header within the kernel
+> + * image to be configured at build time.
+> + */
+> +#define roffset(X) ((X) - kernel_info)
+>  
+> -	.global kernel_info
+> +	.section ".rodata.kernel_info", "a"
+>  
+> -kernel_info:
+> +	.balign	16
+> +SYM_DATA_START(kernel_info)
+>  	/* Header, Linux top (structure). */
+>  	.ascii	"LToP"
+>  	/* Size. */
+> @@ -17,6 +25,40 @@ kernel_info:
+>  	/* Maximal allowed type for setup_data and setup_indirect structs. */
+>  	.long	SETUP_TYPE_MAX
+>  
+> +	/* Offset to the MLE header structure */
+> +#if IS_ENABLED(CONFIG_SECURE_LAUNCH)
+> +	.long	roffset(mle_header_offset)
+> +#else
+> +	.long	0
+> +#endif
+> +
+>  kernel_info_var_len_data:
+>  	/* Empty for time being... */
+> -kernel_info_end:
+> +SYM_DATA_END_LABEL(kernel_info, SYM_L_LOCAL, kernel_info_end)
+> +
+> +#if IS_ENABLED(CONFIG_SECURE_LAUNCH)
+> +	/*
+> +	 * The MLE Header per the TXT Specification, section 2.1
+> +	 * MLE capabilities, see table 4. Capabilities set:
+> +	 * bit 0: Support for GETSEC[WAKEUP] for RLP wakeup
+> +	 * bit 1: Support for RLP wakeup using MONITOR address
+> +	 * bit 2: The ECX register will contain the pointer to the MLE page table
+> +	 * bit 5: TPM 1.2 family: Details/authorities PCR usage support
+> +	 * bit 9: Supported format of TPM 2.0 event log - TCG compliant
+> +	 */
+> +SYM_DATA_START(mle_header)
+> +	.long	0x9082ac5a  /* UUID0 */
+> +	.long	0x74a7476f  /* UUID1 */
+> +	.long	0xa2555c0f  /* UUID2 */
+> +	.long	0x42b651cb  /* UUID3 */
+> +	.long	0x00000034  /* MLE header size */
+> +	.long	0x00020002  /* MLE version 2.2 */
+> +	.long	roffset(sl_stub_entry_offset) /* Linear entry point of MLE (virt. address) */
+> +	.long	0x00000000  /* First valid page of MLE */
+> +	.long	0x00000000  /* Offset within binary of first byte of MLE */
+> +	.long	roffset(_edata_offset) /* Offset within binary of last byte + 1 of MLE */
+> +	.long	0x00000227  /* Bit vector of MLE-supported capabilities */
+> +	.long	0x00000000  /* Starting linear address of command line (unused) */
+> +	.long	0x00000000  /* Ending linear address of command line (unused) */
+
+Nit: I'd consider aligning these to few tab offsets after even tho it
+might cause checkpatch complain (which is fine when there are legitimite
+reasons to do so).
+
+Would be easier to read.
+
+> +SYM_DATA_END(mle_header)
+> +#endif
+> diff --git a/arch/x86/boot/compressed/vmlinux.lds.S b/arch/x86/boot/compressed/vmlinux.lds.S
+> index 083ec6d7722a..f82184801462 100644
+> --- a/arch/x86/boot/compressed/vmlinux.lds.S
+> +++ b/arch/x86/boot/compressed/vmlinux.lds.S
+> @@ -118,3 +118,10 @@ SECTIONS
+>  	}
+>  	ASSERT(SIZEOF(.rela.dyn) == 0, "Unexpected run-time relocations (.rela) detected!")
+>  }
+> +
+> +#ifdef CONFIG_SECURE_LAUNCH
+> +PROVIDE(kernel_info_offset      = ABSOLUTE(kernel_info - startup_32));
+> +PROVIDE(mle_header_offset       = kernel_info_offset + ABSOLUTE(mle_header - startup_32));
+> +PROVIDE(sl_stub_entry_offset    = kernel_info_offset + ABSOLUTE(sl_stub_entry - startup_32));
+> +PROVIDE(_edata_offset           = kernel_info_offset + ABSOLUTE(_edata - startup_32));
+
+I'd enumerate these one by one in the commit message. I.e. what is added
+explicitly.
+
+> +#endif
+> -- 
+> 2.39.3
+> 
+
+BR, Jarkko
