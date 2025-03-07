@@ -1,98 +1,85 @@
-Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC4D748D;
-	Fri,  7 Mar 2025 00:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409DB1E868;
+	Fri,  7 Mar 2025 00:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741308189; cv=none; b=IID1f84WwTHX4QEKfkDEMMZ5FWt0ruHa+3wy60g8Ioke7b5xDnztqOLNTorfxa2juRM83uJ8/zUnUbymRGpkTuuHK/qscKyO4o6nVgm9VeEdSir3GBm4UgIcIsCaumSZcrWSLCepIf9wHsQy446jZ6T/KoP7S+/olFEQgzE/cf4=
+	t=1741308915; cv=none; b=h522Np4KPooqJhkgXZq5UstIp+LGhOHwsbVO/pTBVFsljBBGUw+c+7Zuj8BMdHciO+RLjRXYKrh7mYjmKUoeXxmpkjlSgn1D1jQY7iIvCJWdKO4xAgSLNT8Daf/iTthNG7MWYep3WKQxEOIYH1F0JBSRBbe6Pn3PKOefxawaC7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741308189; c=relaxed/simple;
-	bh=YnM9xW+vVhuf9Yqt0rbNuyAYC11CGxiWbH8jc51gCVU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i/6ck8/FMSdIEL9C0tg4hSqALF3oILLGXHJ527CDJ0GSPqDyK9MzfjY2de106xfJaIsarbqrKrRr1L3PaCVTnwbvOgFFJmLgMiMW3xKoh1z7+bOQz0pExg6ET8XQF/f2UC86lKxlUUCyzxNpJU4+2aRmOK3QIyj/gb+GP3v5kyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=vxXh7ZkI; arc=none smtp.client-ip=99.78.197.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
+	s=arc-20240116; t=1741308915; c=relaxed/simple;
+	bh=xek2BHPVZ26qJOlIwvynXxMSgyWkeMn3liBIClkp3lI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V4/yeyKO0VJek+5gHXcoMgDrY5yItiqfROE7NagW4d4MxElJMYZ402ivbKa+hpj0gW4sgNtEgLXwtPDjU3Hq+etqF7HluTxI0Z5a29tDREduUGT5MlnQ458EPWwYfQBpJxd/dbAXQLWA0lwhZszSkFHvKOyAXIEVJisQ3D1gRB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QrpItbRe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="vxXh7ZkI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1741308187; x=1772844187;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ht85O26+YIFgXcgvETTRankb0ZIrczTlRdtMn2Kdoy8=;
-  b=vxXh7ZkIixcODnfUD4eMX9dgcqCGJmtZOJOvP/RJphgyt7ahGH2Jq6KG
-   Dbc48QRJs/M3+IO7k4NqCnyE0kgrN2oFoOTjqaSYvcHXGqL4ZFISYH2an
-   Ec+F13shtAI2WwoR6X5ejrPYT7wKWKxF7qihiOytfWxBraJRx0hl916CU
-   I=;
-X-IronPort-AV: E=Sophos;i="6.14,227,1736812800"; 
-   d="scan'208";a="179250745"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 00:43:06 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [10.0.38.20:37676]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.58.39:2525] with esmtp (Farcaster)
- id 940c6036-4fc4-42e2-bcdc-6793e212f550; Fri, 7 Mar 2025 00:43:05 +0000 (UTC)
-X-Farcaster-Flow-ID: 940c6036-4fc4-42e2-bcdc-6793e212f550
-Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Fri, 7 Mar 2025 00:43:02 +0000
-Received: from 6c7e67bfbae3.amazon.com (10.106.101.42) by
- EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Fri, 7 Mar 2025 00:42:59 +0000
-From: Kuniyuki Iwashima <kuniyu@amazon.com>
-To: <kuba@kernel.org>
-CC: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-	<horms@kernel.org>, <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<pabeni@redhat.com>
-Subject: Re: [PATCH net-next] docs: netdev: add a note on selftest posting
-Date: Thu, 6 Mar 2025 16:41:41 -0800
-Message-ID: <20250307004251.55786-1-kuniyu@amazon.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250306180533.1864075-1-kuba@kernel.org>
-References: <20250306180533.1864075-1-kuba@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QrpItbRe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0F97C4CEE0;
+	Fri,  7 Mar 2025 00:55:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741308914;
+	bh=xek2BHPVZ26qJOlIwvynXxMSgyWkeMn3liBIClkp3lI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QrpItbReJvXV4f5NgW5mLT6raAXR9ILcWXRqNJek5KIcTTvGN4K/B/vomAxa0s7LW
+	 u4aZDEn0nSrDXhaoRTqiVXvn3VaThme6YX8s6fmORw6eDBPiM8AqInegTSJnIygUbN
+	 kmkzeTMC5o/97KmCJg36JTQAlrvaMcAxFirIDLb5xVmPAOJVe3jVwL0fCb3/QRj3A+
+	 wH5k2Okk0ScuJX1DrWC0/L8AYVJCKq8PdMiLFuNuJ8B4IhoS4LvwUN5iu2xUu8z5hV
+	 86lbzUFCHlPP2SMdOd/H4zSLjWAQwKdWKWfq348B2QMnnbe/oMlMH5KgNaN3ZRDPCA
+	 yO7SLVnzsbOzA==
+Date: Thu, 6 Mar 2025 16:55:13 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: MD Danish Anwar <danishanwar@ti.com>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>, Meghana Malladi
+ <m-malladi@ti.com>, Diogo Ivo <diogo.ivo@siemens.com>, Lee Trager
+ <lee@trager.us>, Andrew Lunn <andrew+netdev@lunn.ch>, Roger Quadros
+ <rogerq@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Simon Horman
+ <horms@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
+ <edumazet@google.com>, "David S. Miller" <davem@davemloft.net>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>, <srk@ti.com>
+Subject: Re: [PATCH net-next v2] net: ti: icssg-prueth: Add ICSSG FW Stats
+Message-ID: <20250306165513.541ff46e@kernel.org>
+In-Reply-To: <20250305111608.520042-1-danishanwar@ti.com>
+References: <20250305111608.520042-1-danishanwar@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D044UWA002.ant.amazon.com (10.13.139.11) To
- EX19D004ANA001.ant.amazon.com (10.37.240.138)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Jakub Kicinski <kuba@kernel.org>
-Date: Thu,  6 Mar 2025 10:05:33 -0800
-> We haven't had much discussion on the list about this, but
-> a handful of people have been confused about rules on
-> posting selftests for fixes, lately. I tend to post fixes
-> with their respective selftests in the same series.
-> There are tradeoffs around size of the net tree and conflicts
-> but so far it hasn't been a major issue.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
->  Documentation/process/maintainer-netdev.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-> index e497729525d5..1ac62dc3a66f 100644
-> --- a/Documentation/process/maintainer-netdev.rst
-> +++ b/Documentation/process/maintainer-netdev.rst
-> @@ -311,6 +311,14 @@ user space patches should form separate series (threads) when posted
->  Posting as one thread is discouraged because it confuses patchwork
->  (as of patchwork 2.2.2).
->  
-> +Co-posting selftests
-> +--------------------
-> +
-> +Selftests should be part of the same series as the code changes.
-> +Specifically for fixes both code change and related test should go into
-> +the same tree (the tests may lack a Fixes tag, which is expected).
-> +Mixing code changes and test changes in a single commit is discouraged.
+On Wed, 5 Mar 2025 16:46:08 +0530 MD Danish Anwar wrote:
+> + - ``FW_RTU_PKT_DROP``: Diagnostic error counter which increments when RTU drops a locally injected packet due to port being disabled or rule violation.
+> + - ``FW_Q0_OVERFLOW``: TX overflow counter for queue0
+> + - ``FW_Q1_OVERFLOW``: TX overflow counter for queue1
+> + - ``FW_Q2_OVERFLOW``: TX overflow counter for queue2
+> + - ``FW_Q3_OVERFLOW``: TX overflow counter for queue3
+> + - ``FW_Q4_OVERFLOW``: TX overflow counter for queue4
+> + - ``FW_Q5_OVERFLOW``: TX overflow counter for queue5
+> + - ``FW_Q6_OVERFLOW``: TX overflow counter for queue6
+> + - ``FW_Q7_OVERFLOW``: TX overflow counter for queue7
+...
 
-I guess an exception for the mixing is when a code change breaks a
-selftest, or is it fine for NIPA ?  (still other CI may complain though)
+Thanks for the docs, it looks good. Now, do all of these get included
+in the standard stats returned by icssg_ndo_get_stats64 ?
+That's the primary source of information for the user regarding packet
+loss.
+
+>  	if (prueth->pa_stats) {
+>  		for (i = 0; i < ARRAY_SIZE(icssg_all_pa_stats); i++) {
+> -			reg = ICSSG_FW_STATS_BASE +
+> -			      icssg_all_pa_stats[i].offset *
+> -			      PRUETH_NUM_MACS + slice * sizeof(u32);
+> +			reg = icssg_all_pa_stats[i].offset +
+> +			      slice * sizeof(u32);
+>  			regmap_read(prueth->pa_stats, reg, &val);
+>  			emac->pa_stats[i] += val;
+
+This gets called by icssg_ndo_get_stats64() which is under RCU 
+protection and nothing else. I don't see any locking here, and
+I hope the regmap doesn't sleep. cat /proc/net/dev to test.
+You probably need to send some fixes to net.
+-- 
+pw-bot: cr
