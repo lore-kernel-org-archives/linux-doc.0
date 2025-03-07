@@ -1,226 +1,242 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6751221146D
-	for <linux-doc@vger.kernel.org>; Fri,  7 Mar 2025 10:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067BA20C024
+	for <linux-doc@vger.kernel.org>; Fri,  7 Mar 2025 11:01:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741344737; cv=none; b=l/mie47pOvyUknsG9UWn3sVl9M4GinwfgEm892UYurhwaZ7pl6VADXLCG6hm6im5Sczay2suJIZuofiwBfbzq/Z9T+D9qys8p/jDiY5Bk7DxSmvw8O0xRUOkycV2whZxs5oRNfaLIQmG87TuJlFdOQRgdzTBd8lU/e78lwggzkA=
+	t=1741345298; cv=none; b=YUfOjKDObDiycVuShNUXloFZbRf5ClrqncHJh3ghTHeOw2BkoKBBZgyPZwm51gT8bXus6ntv4N8N0q0mwQZOE9y56ZbGgjgv0NxpUCL93jRBFV1ylo00P3zcvs4hpCj2KBZquw0CBixbhTW1oqdeP6EKhH1MPaF9lsVM+9f1VdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741344737; c=relaxed/simple;
-	bh=UPiCGB7id3J1Lgv5V6c3KuQAx79xGzzqfArR+kR1p9s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MexTvN0lWvfWDTXD9n+fr89V6EuBNwZmJXgTQtJbl4ZPW4LzWcpIuGUYkzqNXb8c8J2cH4T31mJi9BbrX3VcQZNTApzgKQupW1200lgye7L2NsuuE08oyqZ4HUFoXG/1pyEyvMV0l2gNuCa12Sg9EajJRQqm84r8gL6jwmo0AtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=t5kx29Dg; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1741345298; c=relaxed/simple;
+	bh=/g1GkLCKmv9y6KA7+eQLnMk39ax2rDsN2Scy3l2VLdw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To; b=VIaBU+bF7xdxXD3ekK6RtzxdY8GMComZJkPdeny6l7uG8ayMmJutUNSpk5+jZNDBAkWM1yHvL/D2n9ywunsE4F92WpUsJak04gCfmczgiHrqnORGUJAG2JBw6gU+NZfdW2dlCooO1uSZXgjq9j3fPo/Vwdey7Nl4II3NDs0mvL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=taNJNlDz; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="t5kx29Dg"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3061513d353so18359721fa.2
-        for <linux-doc@vger.kernel.org>; Fri, 07 Mar 2025 02:52:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="taNJNlDz"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22356471820so27396555ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 07 Mar 2025 03:01:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1741344733; x=1741949533; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=43iEn7JI+JVfImukURZDy+wlnZTduIdMuwCwHiHb2L4=;
-        b=t5kx29DgxBLwFRgGeyWORnNiym1+ant4k42yo+o6x8/DbCtFzJ0pls25N2fpxdEJ16
-         QqR4I7/186AzIkgn+JY5nr5z8+YYLIf/jnSJ4YCmBRotuBXEqMn1fPwoJjBWxor//59c
-         I+R59OJXTN1RuvfYaZDpoa/xcoidwoMEYhJDcl+lUyhWD5pRnZkk6erLnfUSyNw56S3d
-         gS3AAx36HghDf4pZw1i0Abu9/UZqSyxBTiiMLpCiwca3se4AguW/fDizGAa3mRYxhxWG
-         UXQlo0CI2/N7oaFQ6kwCbpB4fymeAhjr94axZMqYsKiO6Aue17hwTEPa3/hL2nF91vuy
-         O9eQ==
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1741345293; x=1741950093; darn=vger.kernel.org;
+        h=to:content-transfer-encoding:mime-version:message-id:date:subject
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uzMVlPOa3s/zB/a5VwTHDVG6oc6JLPQwIH8h0o1qpiY=;
+        b=taNJNlDzobekaGuJ8jefR1WgVul0nx6KSzIh4Gwe0wQh22fVJiVA2yqYK17y0b/1Kx
+         OyfmvV3Ao7eERMI39xIxi9wAA4fz3CiSmbgT/j9UzvNECDhSJ4KdLC47hU90OOqsxlHC
+         ZB9Z4NyVdPuxQu5NoDjbWDG4/U/mTFqoIhIUL4g8cdRexIbNtNzAT4V7Qgof98APcmLM
+         LOt+oHU7UIy8FdgzwIC67eCf9YLL8RmUOVcrN2mPoZY8mV6P+uQbMltzYizBBZ/otih3
+         3gIuhmiQ18K+1UpUYa/NayritsPiV14wgUiA4rtzVpZWPHFSbn1T1cExyUjLpjjm0TO3
+         rCfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741344733; x=1741949533;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=43iEn7JI+JVfImukURZDy+wlnZTduIdMuwCwHiHb2L4=;
-        b=LudsbgXwR86kc3aJOYihXtatWib+pOqYFPZbSweMaZ4HtfxWMgM/1S1O5bv64/CSl8
-         U/52P2/U7utB5b2nUiPrv1+2B/uUsCsq+t5Hiy8uzkWzpkfT9/yEheNBEeYoZ9A81b/+
-         p2Kf4eSBLQgyoEW97bR2zWVL6Asjmm/BUrQd9u18Y34IRrQLTl/35TmnXj5ML/aYPGgL
-         hb0BZWkd6BtVNPTeh9PihgrVQPN2BXG7WfLcKgP2f1clkQoKXsebjFgmjdQHo1UsVnNP
-         k+5AVcldOZCqFAzkRymp6aQxK73FDeBwhtD65pbX26gu/vEhGQiGOkCSHR/g+QKe5BKW
-         2USg==
-X-Forwarded-Encrypted: i=1; AJvYcCVGoCoWMovAwFDMT/kdjl4ojukKOCLZOS371MUC1zZlKHCUeWotIKuo34qo2wwRPO6JYVi2MLEACo4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKh9Z89Z51R3ysSCZWDMy+1roLRPfLfzSmMg8RfeLhE14UHWvn
-	vA/jWTQ9HTPhOtnoBVOKTPhOLrGge4FA2P42FNswdD0EiDyu8/jWGVc3h6Ty7nsopD2OnEhL/5Y
-	1YiIDGKsyK3/xvPows8uvEgHF1qEB7ViSzLHy7Q==
-X-Gm-Gg: ASbGncsvmRsZRQLQbxs1x/wENhIcOcqBVOA/+18WYXIpzAXhBMii1ym66XbcUK+y8CX
-	QXDOThISXA307mczTkV48FAsVPAeMsTJ6mv15sJrUrZDYHBcLhO4ohObZlEzXv8n93Y1dEn8h3S
-	pNJl2DnGRRHbWSolfxpJ+DugPZpQ==
-X-Google-Smtp-Source: AGHT+IHB3kK56vH8JV6/mkLBm8uqvR7p6MJCGGVmcvlyTK2KPum07gwr4GAktMuyL3uRXkIC0qo1105z0ZQF6RQulRM=
-X-Received: by 2002:a05:651c:1546:b0:308:efa4:d277 with SMTP id
- 38308e7fff4ca-30bf451a693mr10523131fa.15.1741344732515; Fri, 07 Mar 2025
- 02:52:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1741345293; x=1741950093;
+        h=to:content-transfer-encoding:mime-version:message-id:date:subject
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uzMVlPOa3s/zB/a5VwTHDVG6oc6JLPQwIH8h0o1qpiY=;
+        b=RV99SvVJgByfiVBu29GdHgbU/9qtMgebh7dGZPmNGFiYILKEFKeKq8pXy+bIHOikM8
+         1mQ4rfZ1TPLWu6ZJhbhRgCkm4+5lfs16pBt5TxXR5eVENm76/vwQ08NGWsOHs7W3L98I
+         j5+3F0Gi7BuexR9qiZlg7yGkqeUTIp8yPCgBaFhGErX2smru0TNh0d9HvRT1dUZxqyPk
+         Got2I/EnrJJ+HB0dq0JaBfwxnPYQCSlljcleMnanFTwn0Y5LiWfbWu0O/FrF9sRV5Igf
+         e72uNXVSfoJOHNRgw/pz6kweZUxb0ri92Ubkz1HYE/ca6HLf+qQtg4XWV44q+xbCId5F
+         huIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXDMLGEue14nUM3TArz1VdjlQxDUapoSu9p4ZjOadDt8Ib1YXf2sqkqMLPz8NsiiQ+Qx8wdGxyU4OQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyd6nP8PFs7jjUfXsxYFhxUImVrYNZs9gl0aj2DwUJu0BEanMsl
+	+RX/CIPQqvFP88HjxjcnWef5TXVt+kkH8Z5R+ZKYNP0Bl/rnakF1r86Zgdx1Iwg=
+X-Gm-Gg: ASbGncuWrBvVHNySAxwZguoqZvT90QxaWLgSMRptN3uFI9RJfJD+LCuyuXHVa/2KZqX
+	TW6N4NCetIwUl3fWh74Tqc5aiINLMNdZamqcIn5VvsTk0NZ+0SdpHZWdXWZUmDlxBWQ1bKrGisc
+	XIj8+1Gkxy++PvcDbfgDZw/rcx1RcNKTSd8RN40j95G4Hn0Hyst2wzQVILlmuR5ziUoucP5hIny
+	NrSfmgKbMEJZ52A34oIEu3N37D16DUMUmQRnYt/XG+/D1R0udQXok/bs64sxpBP6W4qnIChVZLU
+	J7HogfVPTZH1BDeDT/WyNwuA/ntancVq2P39D/lAtjqbMr8E
+X-Google-Smtp-Source: AGHT+IEWkspRFr7qHdskSRCnrxIpvvKyP779SqlsxZvyyYMDg2Rlwude0Tz7fnHYA8IOQruaEpUCgQ==
+X-Received: by 2002:a05:6a00:1887:b0:736:5e28:cfba with SMTP id d2e1a72fcca58-736aaae0343mr4694000b3a.18.1741345293154;
+        Fri, 07 Mar 2025 03:01:33 -0800 (PST)
+Received: from localhost ([157.82.205.237])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-73698206a8csm3054423b3a.19.2025.03.07.03.01.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Mar 2025 03:01:32 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH net-next v9 0/6] tun: Introduce virtio-net hashing feature
+Date: Fri, 07 Mar 2025 20:01:16 +0900
+Message-Id: <20250307-rss-v9-0-df76624025eb@daynix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250306-iio-driver-ad4052-v1-0-2badad30116c@analog.com> <20250306-iio-driver-ad4052-v1-3-2badad30116c@analog.com>
-In-Reply-To: <20250306-iio-driver-ad4052-v1-3-2badad30116c@analog.com>
-From: David Lechner <dlechner@baylibre.com>
-Date: Fri, 7 Mar 2025 11:52:01 +0100
-X-Gm-Features: AQ5f1JoiUtEQ4jvbbzJp6JsM_Z5iT3lzE5Y0UsgAtaayiupCCfLSsOBfI0fpWNs
-Message-ID: <CAMknhBFiZZUtCkTjQ=AVSgwqe=wCkMnqAmaTqvW_X6fm1OKuYA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] docs: iio: new docs for ad4052 driver
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPzRymcC/4XSzW7kIAwA4FcZ5VxGBoyBnPY9Vnvgt4OqJt0kM
+ 5qq6rvXTfozVQ69gfBnbNkv3VymVuauP7x0U7m0uY0DX/zdoUunMNwX0TLfOwUKAUGLaZ5Fsdp
+ m50sN1nYc+TSV2q5rlr/dUBYxlOvS/eOXU5uXcXpe01/k+s6ZtARwYJQEeZSIqJSQIjy0U3sYj
+ 2Pm058cnod2Pabxcc1zUTdWGomSEI+KgJB+tfrTInhp1g4uWoBIpIGT5QhO7RDeIIUbQkYOi9e
+ qJCiUdsh8ofcON2QYVZ0quVwBTN4h+kQGJPgNEaMok4eQLbhKO2S/kVIfP9m1PFRgUow575H7R
+ hpoQ46RDRGroVpR6R/odRvuVP6feTOWjwl/LUZ/WFtVGsRyHgRRkRDQR0i257Zud2gN5QYliXi
+ utUyz8ByOsfJIa+p5wBwew1wE//zYlv6Qs9PW2EqFHAUlnfPepmhcNN6aahFjtNYRl/n6BmFlA
+ ofIAgAA
+X-Change-ID: 20240403-rss-e737d89efa77
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
+ Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+X-Mailer: b4 0.14.2
 
-On Thu, Mar 6, 2025 at 3:04=E2=80=AFPM Jorge Marques <jorge.marques@analog.=
-com> wrote:
->
-> This adds a new page to document how to use the ad4052 ADC driver.
->
-> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-> ---
->  Documentation/iio/ad4052.rst | 93 ++++++++++++++++++++++++++++++++++++++=
-++++++
->  MAINTAINERS                  |  1 +
->  2 files changed, 94 insertions(+)
->
-> diff --git a/Documentation/iio/ad4052.rst b/Documentation/iio/ad4052.rst
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..cf0cbd60d0a48ea52f74ea02f=
-de659fcdba61aa1
-> --- /dev/null
-> +++ b/Documentation/iio/ad4052.rst
-> @@ -0,0 +1,93 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +AD4052 driver
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +ADC driver for Analog Devices Inc. AD4052 and similar devices.
-> +The module name is ``ad4052``.
-> +
-> +Supported devices
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The following chips are supported by this driver:
-> +
-> +* `AD4050 <https://www.analog.com/AD4050>`_
-> +* `AD4052 <https://www.analog.com/AD4052>`_
-> +* `AD4056 <https://www.analog.com/AD4056>`_
-> +* `AD4058 <https://www.analog.com/AD4058>`_
-> +
-> +Wiring modes
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The ADC uses SPI 4-wire mode, and contain two programmable GPIOs and
-> +a CNV pin.
-> +
-> +The CNV pin is exposed as the ``cnv-gpios`` and triggers a ADC conversio=
-n.
-> +GP1 is ADC conversion ready signal and GP0 Threshold event interrupt, bo=
-th
-> +exposed as interrupts.
-> +
-> +Omit ``cnv-gpios`` and tie CNV and CS together to use the rising edge
-> +of the CS as the CNV signal.
-> +
-> +Device attributes
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The ADC contain only one channels, and the following attributes:
-> +
-> +.. list-table:: Driver attributes
-> +   :header-rows: 1
-> +
-> +   * - Attribute
-> +     - Description
-> +   * - ``in_voltage0_raw``
-> +     - Raw ADC voltage value
-> +   * - ``in_voltage0_oversampling_ratio``
-> +     - Enable the device's burst averaging mode to over sample using
-> +       the internal sample rate.
-> +   * - ``in_voltage0_oversampling_ratio_available``
-> +     - List of available oversampling values. Value 0 disable the burst
-> +       averaging mode.
-> +   * - ``sample_rate``
-> +     - Device internal sample rate used in the burst averaging mode.
-> +   * - ``sample_rate_available``
-> +     - List of available sample rates.
+virtio-net have two usage of hashes: one is RSS and another is hash
+reporting. Conventionally the hash calculation was done by the VMM.
+However, computing the hash after the queue was chosen defeats the
+purpose of RSS.
 
-Why not using the standard sampling_frequency[_available] attributes?
+Another approach is to use eBPF steering program. This approach has
+another downside: it cannot report the calculated hash due to the
+restrictive nature of eBPF.
 
-> +
-> +Threshold events
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The ADC supports a monitoring mode to raise threshold events.
-> +The driver supports a single interrupt for both rising and falling
-> +readings.
-> +
-> +During monitor mode, the device is busy since other transactions
-> +require to put the device in configuration mode first.
+Introduce the code to compute hashes to the kernel in order to overcome
+thse challenges.
 
-This isn't so clear to me. Is this saying that events do not work
-while doing a buffered read? Do you need to do need to read the
-in_voltage0_raw input to trigger an event?
+An alternative solution is to extend the eBPF steering program so that it
+will be able to report to the userspace, but it is based on context
+rewrites, which is in feature freeze. We can adopt kfuncs, but they will
+not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KVM
+and vhost_net).
 
-> +
-> +Low-power mode
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The device enters low-power mode on idle to save power.
-> +Enabling an event puts the device out of the low-power since the ADC
-> +autonomously samples to assert the event condition.
-> +
-> +SPI offload support
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +To be able to achieve the maximum sample rate, the driver can be used wi=
-th the
-> +`AXI SPI Engine`_ to provide SPI offload support.
-> +
-> +.. _AXI SPI Engine: http://analogdevicesinc.github.io/hdl/projects/ad405=
-2_ardz/index.html
+The patches for QEMU to use this new feature was submitted as RFC and
+is available at:
+https://patchew.org/QEMU/20240915-hash-v3-0-79cb08d28647@daynix.com/
 
-This diagram show a PWM connected to the CNV pin on the ADC, but I
-didn't see a pwms property in the DT bindings to describe this.
+This work was presented at LPC 2024:
+https://lpc.events/event/18/contributions/1963/
 
-> +
-> +When SPI offload is being used, additional attributes are present:
-> +
-> +.. list-table:: Additional attributes
-> +   :header-rows: 1
-> +
-> +   * - Attribute
-> +     - Description
-> +   * - ``in_voltage0_sampling_frequency``
-> +     - Set the sampling frequency.
-> +   * - ``in_voltage0_sampling_frequency_available``
-> +     - Get the sampling frequency range.
-> +
-> +The scan type is different when the buffer with offload support is enabl=
-ed.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fef8adaee888d59e1aa3b3592dda5a8bea0b7677..312b2cf94b8f06298b1cbe597=
-5ee32e2cf9a74d8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1322,6 +1322,7 @@ M:        Jorge Marques <jorge.marques@analog.com>
->  S:     Supported
->  W:     https://ez.analog.com/linux-software-drivers
->  F:     Documentation/devicetree/bindings/iio/adc/adi,ad4052.yaml
-> +F:     Documentation/iio/ad4052.rst
->
->  ANALOG DEVICES INC AD4130 DRIVER
->  M:     Cosmin Tanislav <cosmin.tanislav@analog.com>
->
-> --
-> 2.48.1
->
+V1 -> V2:
+  Changed to introduce a new BPF program type.
 
-I didn't have time to read the full datasheet or look at the driver
-code yet, but can do that next week.
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+Changes in v9:
+- Added a missing return statement in patch
+  "tun: Introduce virtio-net hash feature".
+- Link to v8: https://lore.kernel.org/r/20250306-rss-v8-0-7ab4f56ff423@daynix.com
+
+Changes in v8:
+- Disabled IPv6 to eliminate noises in tests.
+- Added a branch in tap to avoid unnecessary dissection when hash
+  reporting is disabled.
+- Removed unnecessary rtnl_lock().
+- Extracted code to handle new ioctls into separate functions to avoid
+  adding extra NULL checks to the code handling other ioctls.
+- Introduced variable named "fd" to __tun_chr_ioctl().
+- s/-/=/g in a patch message to avoid confusing Git.
+- Link to v7: https://lore.kernel.org/r/20250228-rss-v7-0-844205cbbdd6@daynix.com
+
+Changes in v7:
+- Ensured to set hash_report to VIRTIO_NET_HASH_REPORT_NONE for
+  VHOST_NET_F_VIRTIO_NET_HDR.
+- s/4/sizeof(u32)/ in patch "virtio_net: Add functions for hashing".
+- Added tap_skb_cb type.
+- Rebased.
+- Link to v6: https://lore.kernel.org/r/20250109-rss-v6-0-b1c90ad708f6@daynix.com
+
+Changes in v6:
+- Extracted changes to fill vnet header holes into another series.
+- Squashed patches "skbuff: Introduce SKB_EXT_TUN_VNET_HASH", "tun:
+  Introduce virtio-net hash reporting feature", and "tun: Introduce
+  virtio-net RSS" into patch "tun: Introduce virtio-net hash feature".
+- Dropped the RFC tag.
+- Link to v5: https://lore.kernel.org/r/20241008-rss-v5-0-f3cf68df005d@daynix.com
+
+Changes in v5:
+- Fixed a compilation error with CONFIG_TUN_VNET_CROSS_LE.
+- Optimized the calculation of the hash value according to:
+  https://git.dpdk.org/dpdk/commit/?id=3fb1ea032bd6ff8317af5dac9af901f1f324cab4
+- Added patch "tun: Unify vnet implementation".
+- Dropped patch "tap: Pad virtio header with zero".
+- Added patch "selftest: tun: Test vnet ioctls without device".
+- Reworked selftests to skip for older kernels.
+- Documented the case when the underlying device is deleted and packets
+  have queue_mapping set by TC.
+- Reordered test harness arguments.
+- Added code to handle fragmented packets.
+- Link to v4: https://lore.kernel.org/r/20240924-rss-v4-0-84e932ec0e6c@daynix.com
+
+Changes in v4:
+- Moved tun_vnet_hash_ext to if_tun.h.
+- Renamed virtio_net_toeplitz() to virtio_net_toeplitz_calc().
+- Replaced htons() with cpu_to_be16().
+- Changed virtio_net_hash_rss() to return void.
+- Reordered variable declarations in virtio_net_hash_rss().
+- Removed virtio_net_hdr_v1_hash_from_skb().
+- Updated messages of "tap: Pad virtio header with zero" and
+  "tun: Pad virtio header with zero".
+- Fixed vnet_hash allocation size.
+- Ensured to free vnet_hash when destructing tun_struct.
+- Link to v3: https://lore.kernel.org/r/20240915-rss-v3-0-c630015db082@daynix.com
+
+Changes in v3:
+- Reverted back to add ioctl.
+- Split patch "tun: Introduce virtio-net hashing feature" into
+  "tun: Introduce virtio-net hash reporting feature" and
+  "tun: Introduce virtio-net RSS".
+- Changed to reuse hash values computed for automq instead of performing
+  RSS hashing when hash reporting is requested but RSS is not.
+- Extracted relevant data from struct tun_struct to keep it minimal.
+- Added kernel-doc.
+- Changed to allow calling TUNGETVNETHASHCAP before TUNSETIFF.
+- Initialized num_buffers with 1.
+- Added a test case for unclassified packets.
+- Fixed error handling in tests.
+- Changed tests to verify that the queue index will not overflow.
+- Rebased.
+- Link to v2: https://lore.kernel.org/r/20231015141644.260646-1-akihiko.odaki@daynix.com
+
+---
+Akihiko Odaki (6):
+      virtio_net: Add functions for hashing
+      net: flow_dissector: Export flow_keys_dissector_symmetric
+      tun: Introduce virtio-net hash feature
+      selftest: tun: Test vnet ioctls without device
+      selftest: tun: Add tests for virtio-net hashing
+      vhost/net: Support VIRTIO_NET_F_HASH_REPORT
+
+ Documentation/networking/tuntap.rst  |   7 +
+ drivers/net/Kconfig                  |   1 +
+ drivers/net/tap.c                    |  68 +++-
+ drivers/net/tun.c                    |  98 +++++-
+ drivers/net/tun_vnet.h               | 159 ++++++++-
+ drivers/vhost/net.c                  |  49 +--
+ include/linux/if_tap.h               |   2 +
+ include/linux/skbuff.h               |   3 +
+ include/linux/virtio_net.h           | 188 ++++++++++
+ include/net/flow_dissector.h         |   1 +
+ include/uapi/linux/if_tun.h          |  75 ++++
+ net/core/flow_dissector.c            |   3 +-
+ net/core/skbuff.c                    |   4 +
+ tools/testing/selftests/net/Makefile |   2 +-
+ tools/testing/selftests/net/tun.c    | 656 ++++++++++++++++++++++++++++++++++-
+ 15 files changed, 1255 insertions(+), 61 deletions(-)
+---
+base-commit: dd83757f6e686a2188997cb58b5975f744bb7786
+change-id: 20240403-rss-e737d89efa77
+prerequisite-change-id: 20241230-tun-66e10a49b0c7:v6
+prerequisite-patch-id: 871dc5f146fb6b0e3ec8612971a8e8190472c0fb
+prerequisite-patch-id: 2797ed249d32590321f088373d4055ff3f430a0e
+prerequisite-patch-id: ea3370c72d4904e2f0536ec76ba5d26784c0cede
+prerequisite-patch-id: 837e4cf5d6b451424f9b1639455e83a260c4440d
+prerequisite-patch-id: ea701076f57819e844f5a35efe5cbc5712d3080d
+prerequisite-patch-id: 701646fb43ad04cc64dd2bf13c150ccbe6f828ce
+prerequisite-patch-id: 53176dae0c003f5b6c114d43f936cf7140d31bb5
+prerequisite-change-id: 20250116-buffers-96e14bf023fc:v2
+prerequisite-patch-id: 25fd4f99d4236a05a5ef16ab79f3e85ee57e21cc
+
+Best regards,
+-- 
+Akihiko Odaki <akihiko.odaki@daynix.com>
+
