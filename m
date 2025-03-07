@@ -1,140 +1,122 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085DD218592;
-	Fri,  7 Mar 2025 11:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1DB217673
+	for <linux-doc@vger.kernel.org>; Fri,  7 Mar 2025 11:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741346374; cv=none; b=p5mLG1NpwYK+1rDXPtr/Dzcm314JrXppQcXepAqr0THpgZeutlUYs5JNAK6RfvzUcNZWrFBVDXwTd/NjxJwgL2rqCE63Z0+Of4MNvQbMORUO+Lnw6i+A92pbX8vVEzxtzYXx/7pc9XFBTnaC2br/wUBlnPjxQX97Nt1XVrET4xI=
+	t=1741346898; cv=none; b=oy9jr0yNBEpZnNM6OItYpgFMdz7xnaDSGfiIuINfFMrwiEHo8Qqh9vUZWh+sgoPr6SSfvruLz758PfwYuoAdILlsXhCwPkWvfIk+O/Bjs0ERTtcz+NtDT5ewD5kbPQkVNxC/GirxVGoAbkoS8/v1s3phBgYFaa8c0FE82UJmIN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741346374; c=relaxed/simple;
-	bh=0m6O98RpJX9PsqeHuauUrajQB/b6Sh9ottkc8OpeKhA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=q1ddd2/PPQb2H7AhGvqsAhvk68aw6xxxtP8KMuZtBy0oY6XxgbvP3/i8bS+Kgy5wxduUIQ2z063smupwXKliWLQLZBwxOiZT4rr9ZBqCPOel4pgXuaEXNGbsFGnvCObt03hLx0DXKKHw1uzkyDlVvFuiawRH6xr2HlDc9uJaXbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jU5ct4R9; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1741346898; c=relaxed/simple;
+	bh=77bK4Zp/TbJCp4MDtt6BamPlf5APkGCXJN1UMIG44Hw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C5XgkyFtXxnu8mYP5IVhUDE6sxmXcGZMF1I6mSE6zP/VTkf/miDISVCsP0icd42ZscqW3MAc2A8l2zO52XFC8ezLUHnb2OyTR4Nw537+isc3bmWUEnLL4tDanioiij/HnRtv27WPpFVjhIzDZJfD4qtanGUq5L6eDA9yE8I/5CI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jTKeeARZ; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jU5ct4R9"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9CB7C443B1;
-	Fri,  7 Mar 2025 11:19:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1741346369;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LfB8K2ObZyFaf2KJ7GrPMaTmLZopPbcPorZdKiZQLQk=;
-	b=jU5ct4R900zDqjytQyRj5JegUO57qtA31qoVKn4YXpHNl+N2nOViXGl6cP2zOHl8mqYrOt
-	rkzZ7YDS3Z/nUYdhHv2AfwMg2YMSQFe+g0h72eTHv9/cAMFO20amakYGmZQi8DWE11UsVX
-	UR/ICIQinVYrFNxfDPlNqpbo9aWhWJ+Phe2rcMDSNHa5Ji6gDPTxSjfXh709bICeh+2/rm
-	qxuypskAO39Tq0zjsFkO1mZ7mvDHdAKvGPn26r/Xca9IK4Lgmp18ER8LQb/TLUxMmHu6f2
-	BD2EcngPJh1SxSJz0r1Qu1aS3HPW88On1itr4FEYdfoq9BSsy6OOFW5WlFQicA==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 07 Mar 2025 12:19:08 +0100
-Subject: [PATCH 2/2] vsprintf: remove redundant and unused %pCn format
- specifier
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jTKeeARZ"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2241053582dso2420805ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 07 Mar 2025 03:28:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741346896; x=1741951696; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2KHuSHjoctZDpRbteDuBYEVJTRxTt8Y9MylCsxslIVY=;
+        b=jTKeeARZ+bslbWFsD97aEFoRpd3SqFTHIvLlPCYh/OWWxpUdWfW/WncupTBctMd1ME
+         zbmA2dGyBK6qs2gUhtl5Smk9M1Uc+qWlqpvFtd/41xpfEs2UZDlXXZ1BhsgGzPXRN1md
+         t3LycwxvDj1sO2F4uhnHG5zbfKTyVBnButv12EsUGIb/DToYzCBQ68I6jRutYSU797Qa
+         Y1iHZmaoWjcPZOZAZW74HCNZPUdeqtyYobyUaKuYxfZ4Q8Art9amBCU/ecHaxkq5b5pZ
+         ehbieWMyNiOI5IuVZrz9dtQCqSUUBx1Cxa5gwKpXgqOBadcCDGfVSlrO6RMECIEVgBAq
+         644Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741346896; x=1741951696;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2KHuSHjoctZDpRbteDuBYEVJTRxTt8Y9MylCsxslIVY=;
+        b=HzRUdn/9NbeQ6IcBcf+qLdKG13v2NqVA2xNjDolZgTq8sDgjnpnpGV/fnVX+Ii/B+f
+         srJwO9TRm1e/txLUfIj6Z0g1CQCZPz7rvs4kuAoTDxmaKpig/VXnRtZ/rLAkogI3UeM9
+         53UOY8mVVqn8YLpftw41JQfbzud9+exPUGXmLRjDBrzAvueUKAIXJ4rQ+qw1+1gz53X9
+         z6wD/zi4By5Owfl0E4FqAQiNc55hGJdysCZwlL42aPeMt0IInTe4Wyg7al0OKM2L3unh
+         2BokRjEgYUyoEPMoszUyIiuF4chb89cev16Aqsc9s0JAqu07X4+FdQnlYxAJkIBUaFYm
+         teYg==
+X-Forwarded-Encrypted: i=1; AJvYcCXmVJ0SYOWg8dL+oOT70zD0ULoXqAtrOeM7PU8qKYaM728bQb6WkjYxPxlx3C/uOxQqbaeSjXPUqvs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YydxOthoPiinDpg2O51sE6ZA2ZA/cHzl2850fB80v3SCEndRh/d
+	R7I04f3pBE+iIPMy1C6Eu/pShEcAJUHmyQqP4UCtrnD4AOJaqWFZrKw7CJ0l5uo=
+X-Gm-Gg: ASbGncuD99P1ZNAAKuZT2C2kZHeSpS7Z4NWuRooKfIJLxU5gqMAnGsbQjYXZ9Ril4+x
+	3fJLFeSXR3PSPZlqJELSvVJruUs74mSHq1BPgcVSERr0zke+++3hcv7nTOm/+imUhSxrSGahrZX
+	jAk6q4jdQhXW93tnea/VMXPafY7FJpJT0SqQNCVXBrSFqHqYBtw98mA8pxWO20lNgDFSaR8hkS4
+	e8UClYI4lH89KLNBsuhsQ+kWn0rSTKONVIePq1eekPw/PZulhaPcck4Lpty50fIwk1f6VPZx5bU
+	Mlv6FWJHrlVyRIXx1eO70jRJLkoXCeZ42TILWXq4s9Rm+w==
+X-Google-Smtp-Source: AGHT+IEvps1aGNeyDSEfmuS/2kZ/UIoJVeC4FQ3bEv/wYy7E3JSdL5e5iwjVJ47HjPenjvhwUyieNg==
+X-Received: by 2002:a05:6a20:3943:b0:1f3:289e:36d9 with SMTP id adf61e73a8af0-1f544c98c99mr5849762637.40.1741346895822;
+        Fri, 07 Mar 2025 03:28:15 -0800 (PST)
+Received: from localhost ([122.172.84.15])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-736984f7281sm3085274b3a.94.2025.03.07.03.28.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Mar 2025 03:28:15 -0800 (PST)
+Date: Fri, 7 Mar 2025 16:58:12 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Yury Norov <yury.norov@gmail.com>
+Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
+ cpumask.h
+Message-ID: <20250307112812.3la74kiomyqbzhk5@vireshk-i7>
+References: <cover.1741332579.git.viresh.kumar@linaro.org>
+ <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
+ <e3637b13-1f51-445b-8d9d-bd53a691eca3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250307-vsprintf-pcn-v1-2-df0b2ccf610f@bootlin.com>
-References: <20250307-vsprintf-pcn-v1-0-df0b2ccf610f@bootlin.com>
-In-Reply-To: <20250307-vsprintf-pcn-v1-0-df0b2ccf610f@bootlin.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, Liu Ying <victor.liu@nxp.com>, 
- linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduuddthedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvjedprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepshgsrhgrnhguvghnsegsrhhorggutghomhdrtghomhdprhgtphhtthhopehlihhnuhigqdgtlhhksehvghgvrhdrk
- hgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepfhhlohhrihgrnhdrfhgrihhnvghllhhisegsrhhorggutghomhdrtghomhdprhgtphhtthhopehsvghnohiihhgrthhskhihsegthhhrohhmihhumhdrohhrghdprhgtphhtthhopehpmhhlrgguvghksehsuhhsvgdrtghomh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e3637b13-1f51-445b-8d9d-bd53a691eca3@gmail.com>
 
-%pC and %pCn print the same string, and commit 900cca294425 ("lib/vsprintf:
-add %pC{,n,r} format specifiers for clocks") introducing them does not
-clarify any intended difference. It can be assumed %pC is a default for
-%pCn as some other specifiers do, but not all are consistent with this
-policy. Moreover there is now no other suffix other than 'n', which makes a
-default not really useful.
+On 07-03-25, 19:57, Akira Yokosawa wrote:
+> Didn't come up in your diff, but you need additional changes shown below:
+> 
+> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
+> index 656d2208467e..a6c1961cc535 100644
+> --- a/include/linux/cpumask.h
+> +++ b/include/linux/cpumask.h
+> @@ -285,10 +285,10 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
+>  }
+>  
+>  /**
+> - * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
+> - *                        @n+1. If nothing found, wrap around and start from
+> + * cpumask_next_and_wrap - get the next cpu in *@src1p & *@src2p, starting from
+> + *                        @n+ 1. If nothing found, wrap around and start from
+>   *                        the beginning
+> - * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
+> + * @n: the cpu prior to the place to search (i.e. search starts from @n +1)
+>   * @src1p: the first cpumask pointer
+>   * @src2p: the second cpumask pointer
+>   *
+> @@ -306,9 +306,9 @@ unsigned int cpumask_next_and_wrap(int n, const struct cpumask *src1p,
+>  }
+>  
+>  /**
+> - * cpumask_next_wrap - get the next cpu in *src, starting from @n+1. If nothing
+> + * cpumask_next_wrap - get the next cpu in *@src, starting from @n +1. If nothing
+>   *                    found, wrap around and start from the beginning
+> - * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
+> + * @n: the cpu prior to the place to search (i.e. search starts from @n +1)
+>   * @src: cpumask pointer
+>   *
+>   * Return: next set bit, wrapped if needed, or >= nr_cpu_ids if @src is empty.
 
-All users in the kernel were using %pC except for one which has been
-converted. So now remove %pCn and all the unnecessary extra code and
-documentation.
+How did you find these ? I only looked for build warnings / errors earlier (with
+make htmldocs). Anything else I should be doing to find these issues ?
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- Documentation/core-api/printk-formats.rst |  3 +--
- lib/vsprintf.c                            | 10 ++--------
- 2 files changed, 3 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index ecccc0473da9c10f45f2464566f690472c61401e..f3009e6ec80a864c330c8812efcd82c12f4066b3 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -571,9 +571,8 @@ struct clk
- ::
- 
- 	%pC	pll1
--	%pCn	pll1
- 
--For printing struct clk structures. %pC and %pCn print the name of the clock
-+For printing struct clk structures. %pC prints the name of the clock
- (Common Clock Framework) or a unique 32-bit ID (legacy clock framework).
- 
- Passed by reference.
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 56fe96319292674c9f79559cf78dd0d99d1a1f06..143d55cb1c12acac21a6c6bafd255437e878f280 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -1969,15 +1969,11 @@ char *clock(char *buf, char *end, struct clk *clk, struct printf_spec spec,
- 	if (check_pointer(&buf, end, clk, spec))
- 		return buf;
- 
--	switch (fmt[1]) {
--	case 'n':
--	default:
- #ifdef CONFIG_COMMON_CLK
--		return string(buf, end, __clk_get_name(clk), spec);
-+	return string(buf, end, __clk_get_name(clk), spec);
- #else
--		return ptr_to_id(buf, end, clk, spec);
-+	return ptr_to_id(buf, end, clk, spec);
- #endif
--	}
- }
- 
- static
-@@ -2382,8 +2378,6 @@ char *rust_fmt_argument(char *buf, char *end, void *ptr);
-  *      T    time64_t
-  * - 'C' For a clock, it prints the name (Common Clock Framework) or address
-  *       (legacy clock framework) of the clock
-- * - 'Cn' For a clock, it prints the name (Common Clock Framework) or address
-- *        (legacy clock framework) of the clock
-  * - 'G' For flags to be printed as a collection of symbolic strings that would
-  *       construct the specific value. Supported flags given by option:
-  *       p page flags (see struct page) given as pointer to unsigned long
+Thanks for your help Akira.
 
 -- 
-2.48.1
-
+viresh
