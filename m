@@ -1,98 +1,118 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A20F1607A4;
-	Fri,  7 Mar 2025 16:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3415223E35F;
+	Fri,  7 Mar 2025 16:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741365092; cv=none; b=ItNZJgWTAp/9AWIRU5DcsYoWcG3GWOW2TxWhs85Zt0hp+0MShWJRqiZ3IrB/L3RqREPyAz8eNpsPK/nOYvPQUeEqvA8T3VUHGBzKLuw7bOdORSb1Djbo8wLDqP9Z5lCgZMUM/22/iLxabWXDedwWCHALdsmCoTFJOaOZLfe1daE=
+	t=1741365601; cv=none; b=Pxi4ccDc8QUulnLuWYBxMO8yu8vQJO3sHcO4Jbz9fz8+qNCUvjOYZKuIgYphfYfE8g8YN85YHSWz+3je0ImKMFmnldUMyi8LEk56MkKll9/OMtu4vEJkvL7m7WeAN7IH/toqyqm9NclCFLC3htxHjE8xZ27K8xLgKSaVFI7QTIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741365092; c=relaxed/simple;
-	bh=lAJPfgwy80djfUD6Dp0fH1s3yX48TIE7w1QicCUh1KI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B4157airE/tYvMwpTzvm1UYJiqnMzymtEvXEE+9QMfpyakstu07LF6RtvmD6iOzZ7mFWeCbEFDk6gSZdF4CKira3ggT5wFAjkcOcvv4O1XHkJtkN2z42UfztHJIg5t98yMcZZPudhEKc2ot03gqJxOUHtIn2wZtaBjEfrII+Vps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGT/fMHx; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741365601; c=relaxed/simple;
+	bh=HOeJpd1r+tua3PHtEh6C8x0ozDENLgAh0S3dq7OosLc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ld6CH5Ad4Gj3lqR3LJqdD60zRiM6q763k60Si1LLFwSgfEE/4q1zOklM8wq/bhCPKDZiSar4ZldSkXjnpoM2bBtxIxao+WLwI0kYsrlcIl98ICrj2Fp37s16sDjHxbdaSBEwpVBFnVFV5oMn09ZSccwKnqW/HIp+SWdafEjR4WU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HlA/2tTf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGT/fMHx"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30797730cbdso20231021fa.3;
-        Fri, 07 Mar 2025 08:31:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741365089; x=1741969889; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lAJPfgwy80djfUD6Dp0fH1s3yX48TIE7w1QicCUh1KI=;
-        b=RGT/fMHx09KHYrRVJ2vkbJVj0hoTqsvQfn2MR7wgr1sfrQpGVYZ6uIa4OW5QtTn8d6
-         CKOi3kb9t9oYkzcLp2OOd6iDp4qd4DbHbbcHOj3+WPhHL1giS0+b+2R29m4NLq5Xnh34
-         vtzVdy5g+m14axyBjzzaaAj4Xxo+lZIYwgyWOw/bMqgN91A6aFpzeSC6EZiJmFr4my0Q
-         uxpGsoNT+N7EVT4zF4SQ8Catibn0YRTEIzu88fmfyGZxWUzbBY3PqmQ9Sdf7Lw6MzItY
-         f9rlI1p4iJ4UpkPDT2gX5vxVL9K9a+PJ0cF7UkfdJkst0RPc5dSuTJZRWVZCFSG5p9vJ
-         FFkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741365089; x=1741969889;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lAJPfgwy80djfUD6Dp0fH1s3yX48TIE7w1QicCUh1KI=;
-        b=k2JYpHVIPEYH2GbBQY1mfVMLeG0gyrH9VFD/NeqJbsQS3OnNISa8dNArd5dTqWLio2
-         qQ0DuJltVd1xGAfwvEG4NLh88eFSKajgJPcwe1oo7uQHEgRuP2S0MO6NfRInJcOD4kHH
-         j/JmikQlR095C3sZ67p9rjfSPkTLvXUy0Ir/2ub6h2+RDC/IGu8d48DRGmhCgewgUvRo
-         jW05W+CEmT+ZJw/gv5cev4nP/fxVZl4Gs1F2NkNimE3CjQ0DPgFJmpqQFpyTagZ8mG6E
-         M4DIcsPICb5w3IxVwv980ILXvGMoM8clkw1TjigHTAWN8SCmE5lNQlyy3IpuQci5ytyI
-         wAKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVk835h7MDGeAhZGT4bAzVCQAhBfcwdim0gqcdlP9fqfucSa/pFuvnqr1POocJHmt/Q2JmwDpGHadQ=@vger.kernel.org, AJvYcCX5VYTTAy3TErzTXexC4PasA41YLbEuuUlE+rLTptlwBwPe6ahKV9fmYjB6Ca5j4jmyHTb17whrBqpozoml@vger.kernel.org, AJvYcCXkSW2EHgDy4iUYKjz/mvW4BGBTwgyn2jKbJj6GN/WhoSizCIYC/9Ywz7rGG99mDiAOpWAnHnXfG0jheM85sYRg@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrCJlHanZF0eF8HNIhXF2l/8X8CTkRKoSFIu41E9+8GVF14hSz
-	qYqggS1X8IFvKMv1uh5yyVR2xbKquGvo0HjvldDEE3TkiNvu3JecIhRiFXju4/UcrVRFUN5p9l0
-	8KAwo5/MpihsWxl/KG3AHWGOCT8E=
-X-Gm-Gg: ASbGnctRmbUvs78k/nEzNxLvy4aaac/m/fAQiDEU0VqX1PzbBrL2BVoN6sNBzPWBK71
-	VmdAr9RfTtdQP7HWn2hFm+pUXw9Wul1mwoL2/eDBxypkXWF8UA3TgXcnpfAAB/iXvC7PhrkCRHE
-	IPoe0/hH9PPnxrBiNAiFFAtyxGIDsEpq6F6TxyU2t29ePfEfhJSjVYcBD+FcA3
-X-Google-Smtp-Source: AGHT+IEgEmihwEMplxNvvkQvj5VuR9SKkH2j1mgoi1vrJUJlhmNG3YpZPhWz5+QONvVJZUVJ5MwX6UXtoR+OGwuCJVI=
-X-Received: by 2002:a05:651c:1689:b0:308:fbd5:9d2d with SMTP id
- 38308e7fff4ca-30bf463a73dmr11788591fa.37.1741365089031; Fri, 07 Mar 2025
- 08:31:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HlA/2tTf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ADB6C4CED1;
+	Fri,  7 Mar 2025 16:40:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741365600;
+	bh=HOeJpd1r+tua3PHtEh6C8x0ozDENLgAh0S3dq7OosLc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HlA/2tTf49Drh9dXoRuX4+ksLB0ISVkvOod9RvdmQMyAiFTikLxbVABO5cI+KhZ6+
+	 /yo7hwScdT7/+NiRTQt8gSjN9+h1nXclYB/sy68vJmxmQsS4yg0YyPJU4ld+Cb7O6H
+	 5iiym06QWuGMruMU4kug65VmbU7/QNCL+cdwqmu7YkMuO3iEeLwqvQWUDce66hbt1F
+	 r+4hleY9aa1viPBbcx1WYlg6mZ9ieQufN8m4i9l8l1cPN6jny0xAtq99DawzUCfFLJ
+	 tlRMtH6PEAXztFhtXfPCGDVACS7QoVtoFSe84hzEQbkQAex5AIHjWvyYrFRIy8ksr0
+	 T2d7l4acdNG6w==
+Date: Fri, 7 Mar 2025 08:39:59 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: MD Danish Anwar <danishanwar@ti.com>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>, Meghana Malladi
+ <m-malladi@ti.com>, Diogo Ivo <diogo.ivo@siemens.com>, Lee Trager
+ <lee@trager.us>, Andrew Lunn <andrew+netdev@lunn.ch>, Roger Quadros
+ <rogerq@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Simon Horman
+ <horms@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
+ <edumazet@google.com>, "David S. Miller" <davem@davemloft.net>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>, <srk@ti.com>
+Subject: Re: [PATCH net-next v2] net: ti: icssg-prueth: Add ICSSG FW Stats
+Message-ID: <20250307083959.33098949@kernel.org>
+In-Reply-To: <3931a391-3967-4260-a104-4eb313810c0d@ti.com>
+References: <20250305111608.520042-1-danishanwar@ti.com>
+	<20250306165513.541ff46e@kernel.org>
+	<3931a391-3967-4260-a104-4eb313810c0d@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250221-printf-kunit-convert-v5-0-5db840301730@gmail.com>
- <20250221-printf-kunit-convert-v5-1-5db840301730@gmail.com>
- <Z8mUH0comOCpycpK@pathway.suse.cz> <CAJ-ks9nFSzRXFauavzSWhvhr2Rou7qqkWi_LZ=4e1Tyr4_bn3g@mail.gmail.com>
- <CAJ-ks9nDLGvzZ+NDAJsk2Hy1=hsCzayg4-65gk60T_WJZzOUzA@mail.gmail.com> <Z8sW1QBgPVUmEzUd@pathway.suse.cz>
-In-Reply-To: <Z8sW1QBgPVUmEzUd@pathway.suse.cz>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Fri, 7 Mar 2025 11:30:52 -0500
-X-Gm-Features: AQ5f1Jqj8z8Xnln11dqVW0XOSqH1XoW79G51FNEA7K4iaFdlgfDG9Z_Ubvj7D_E
-Message-ID: <CAJ-ks9=YWas3fUeUOYLhivb+icMczafmfBopvS77-CCWQyKQBQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] printf: convert self-test to KUnit
-To: Petr Mladek <pmladek@suse.com>
-Cc: Arpitha Raghunandan <98.arpi@gmail.com>, David Gow <davidgow@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Naveen N Rao <naveen@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 7, 2025 at 10:55=E2=80=AFAM Petr Mladek <pmladek@suse.com> wrot=
-e:
+On Fri, 7 Mar 2025 16:00:40 +0530 MD Danish Anwar wrote:
+> > Thanks for the docs, it looks good. Now, do all of these get included
+> > in the standard stats returned by icssg_ndo_get_stats64 ?
+> > That's the primary source of information for the user regarding packet
+> > loss.  
+> 
+> No, these are not reported via icssg_ndo_get_stats64.
+> 
+> .ndo_get_stats64 populates stats that are part of `struct
+> rtnl_link_stats64`. icssg_ndo_get_stats64 populates those stats wherever
+> applicable. These firmware stats are not same as the ones defined in
+> `icssg_ndo_get_stats64` hence they are not populated. They are not
+> standard stats, they will be dumped by `ethtool -S`. Wherever there is a
+> standard stats, I will make sure it gets dumped from the standard
+> interface instead of `ethtool -S`
+> 
+> Only below stats are included in the standard stats returned by
+> icssg_ndo_get_stats64
+> - rx_packets
+> - rx_bytes
+> - tx_packets
+> - tx_bytes
+> - rx_crc_errors
+> - rx_over_errors
+> - rx_multicast_frames
+
+Yes, but if the stats you're adding here relate to packets sent /
+destined to the host which were lost you should include them
+in the aggregate rx_errors / rx_dropped / tx_errors / tx_dropped.
+I understand that there's unlikely to be a 1:1 match with specific
+stats.
+
+> > This gets called by icssg_ndo_get_stats64() which is under RCU   
+> 
+> Yes, this does get called by icssg_ndo_get_stats64(). Apart from that
+> there is a workqueue (`icssg_stats_work_handler`) that calls this API
+> periodically and updates the emac->stats and emac->pa_stats arrays.
 >
-> Honestly, I am not able to find how the KUNIT_FAIL() actually prints
-> the message. I can't find how assert_format() is defined.
+> > protection and nothing else. I don't see any locking here, and  
+> 
+> There is no locking here. I don't think this is related to the patch.
+> The API emac_update_hardware_stats() updates all the stats supported by
+> ICSSG not just standard stats.
 
-KUNIT_FAIL -> KUNIT_FAIL_ASSERTION -> _KUNIT_FAILED ->
-__kunit_do_failed_assertion -> kunit_fail -> kunit_print_string_stream
--> kunit_err(test, "%s", buf);
+Yes, I'm saying you should send a separate fix, not really related or
+blocking this patch (unless they conflict)
 
-So I agree that the trailing newline is just as necessary here as in
-any other printk.
+> > I hope the regmap doesn't sleep. cat /proc/net/dev to test.
+> > You probably need to send some fixes to net.  
+> 
+> I checked cat /proc/net/dev and the stats shown there are not related to
+> the stats I am introducing in this series.
+
+You misunderstood. I pointed that you so you can check on a debug
+kernel if there are any warnings (e.g. something tries to sleep
+since /proc/net/dev read is under RCU lock).
+
+> The fix could be to add a lock in this function, but we have close to 90
+> stats and this function is called not only from icssg_ndo_get_stats64()
+> but from emac_get_ethtool_stats(). The function also gets called
+> periodically (Every 25 Seconds for 1G Link). I think every time locking
+> 90 regmap_reads() could result in performance degradation.
+
+Correctness comes first.
