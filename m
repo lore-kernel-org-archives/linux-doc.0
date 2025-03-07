@@ -1,159 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5325E217F31;
-	Fri,  7 Mar 2025 12:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA911B413D;
+	Fri,  7 Mar 2025 12:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741349210; cv=none; b=oMjiA+Blnc8g2Zob7ju4FHGh0mtVPw6qvhr6IrC6lW3Sk3hY618rg+wjvAenkAe5wiG4LU40P2U/zvzh9loBky64CMkNFWdyUlRCXFWE0YINWh4YudMLr+x9SpOLHBa3/QBmwF2SfvZNzKBdHglXDxu9io+kkUaz/VrWD1PPkEE=
+	t=1741349617; cv=none; b=mwegwAwEBllcRbuEhdEkutMgx7m7tDi4kIR/6dIv0X2uGROTwytp2wpURsU3G4WsTA8O0ZgHyqpjMM4JjvortcDX937+oTlisE56cZV3DvL6ZRxjuE4fqaxQmRoKUQgTikEtANS4wB+PYDDWRpU68vUKZsHcB2e6TUu73dsE7fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741349210; c=relaxed/simple;
-	bh=HAZxAV0kKIr9bNaLTZEMnA90XTslNhxbETGdPtCuEfw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HQoyj0YfblpY57mYQdLw6x50Y123BYe5wGuHj3sRWgfXuosU0kKIPwSbD1ztEqxvnFvFBvPpTXH3DRcdf2MPgxWrmdLxF5RcOSrFIz3mPZZXpa+n4HIzv8IrmnhtNhllapauk0G6KFW5W7dKC5LTvo3jeJoWHww2d5DetDwBsjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SrupaYid; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrupaYid"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741349209; x=1772885209;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HAZxAV0kKIr9bNaLTZEMnA90XTslNhxbETGdPtCuEfw=;
-  b=SrupaYid32EOijizWGImvTGAil7fAMLTxugHFXXJstj7ocXYRt6CoQlK
-   YKUdZvIpbiSUKYpM+bSlvedQxLFf804slw1iABMx6TMaboofLIoz4NNh6
-   iitMJhzGYINWs+iiTL/N0bveTSUSUT0P6yXiv+OkWjes8Q0TwXHt0geiD
-   +T+Vmy1WQV2Obft6lXqax+0DHt2HroRVi1je8aGrcQ7P5Zu1cL2fGQq8F
-   zN9P7tEaxJM0DjbnufitiERqiB/J2neduS5im4VNAxchcroUJOUkMtOXk
-   FYdxAz+Gdd3k4cJk0ex0OSA3YUnMwO4YynrleRNjr+iCwCC+SkDWcf7Pp
-   A==;
-X-CSE-ConnectionGUID: o8jTK5DMTLOywUdz40Uebg==
-X-CSE-MsgGUID: +nqj0MBlT/S6zcYMeR6Mpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42250770"
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="42250770"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 04:06:47 -0800
-X-CSE-ConnectionGUID: twvlSRkKRhmqSqbU0yMTOg==
-X-CSE-MsgGUID: oi1X6wwIS/28+ISkReyDMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="119476456"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Mar 2025 04:06:45 -0800
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tqWTS-0000Qp-0N;
-	Fri, 07 Mar 2025 12:06:42 +0000
-Date: Fri, 7 Mar 2025 20:06:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jorge Marques <jorge.marques@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	David Lechner <dlechner@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jorge Marques <jorge.marques@analog.com>
-Subject: Re: [PATCH 4/4] iio: adc: add support for ad4052
-Message-ID: <202503071916.STHJTSlp-lkp@intel.com>
-References: <20250306-iio-driver-ad4052-v1-4-2badad30116c@analog.com>
+	s=arc-20240116; t=1741349617; c=relaxed/simple;
+	bh=Y2tea/SV2O71IZ/SlEuXPbWMvLQMc6VbkdZr9bFJELI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N2Jxlr5Zb1/CwznvVCcTUzNCnA2jSq4Fh8VXjS2xx6xQaUBNEtBJGlrXhInzDF6Eg0KuuEQ09W4GOJ0EIh+gGyiRanXtTeUfoBY6+NHWQrFCqsVJlmtzd3D1zgjslaLiDCZoIpzWD2NQP10jTvG6FBfhNTjLQMAtuEsFQuVhl9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-86cce5dac90so757349241.0;
+        Fri, 07 Mar 2025 04:13:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741349612; x=1741954412;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bxeVgWBPIaIHKr/VoNwwOt9Stv37rE17JkSSDvEu9I8=;
+        b=k6J7q9J5wMpiS+oP0kDdwFSeCIRJFMBLMm1lYw3Dtfmnbre1TyJEW3Pna8GVh22kwr
+         95enl2OR1q0rQhycywvHiiE3UsQHF3u1ohyaVn9Bd+iil4GPAIqa0TRqHymfiST5ibum
+         uzAR6XR0p5c6YSYX0LUINTLtK+fYIvtvMUW1N1AAZzIuj+Ao+RdAKiYCwj9GZ1QRB40O
+         oyRMVgvkPeFlpoFIEtTISSSppeaAAkO92xSxILuUyiM2xRu7RzbulGEiubHdqdsCREam
+         EIYy7y6v7ay1hr3bDPIzRuw+Yf/zCUcubkr1R2yZ9kNuTlbeEu/K0vK+cgY9OvX6vuJQ
+         CqEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV6IpNcUdZ65NduMkq8/bW6+f3SyC6tEa7qNOPfL8vrukSyW+sK7AXCDcwraf3wsE5qUpp+vQ92VVPXqa39@vger.kernel.org, AJvYcCX7dBbOG3PLRLRlF/1OrGK5soQMR9i8lO2Za5cg99+MvvSAsC0IhoUVfcH1ELeAE3HHTEDQoYez/mk=@vger.kernel.org, AJvYcCXNJyRA33aCfbtSC+QX6Lyx9BP4k/rCKW2/d3RVgJyLLWbM9nmc9IA+Cjxov/ocif4rB3FYwBL6jpa5@vger.kernel.org, AJvYcCXO2KV+wa0iVrUncu4xTgp+qp+v5F1+c6YBbGM6OGyTitKy0ycPLAAYkd6P2XPI2yiYRkIUOGu/XlE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4Qa6jNjMXTA6P9A654gbxhUz3RrULsMe6qRnpDpzCcsV67LRx
+	xH6SDQAX4Oi11SySCFkR4Du5W0yequ46zD0/6zlNgIylMet+Mun8x1Eteww/x5U=
+X-Gm-Gg: ASbGncs3s/O3k0GoYijeVlHELFSyixc7mW2fJDBpE9Sgf9VJsBAql/uQFYihOnObTw3
+	XWorHwUShUf7dvk+ralAYP/UEyGCSbrNTrBfQKPBrUVVeNBM9HFz+AiTPAqzZ6J2hhng8Sd6ZGm
+	3CK8hSnxY3XaLKV/gixwYdnucXvVvqjYdtn8wd8kfsU35sW+Qin3qxcxUW5Ow0EHlYfekwtUmR8
+	Mtfdj0JaO4tMuIeI2oK/RS7B9Kfw98XTdnDKQVHxgquWJWcYxKJFjbSvTpelDdTZw4dAWG/QZci
+	cTeo0/1RWVx4bojIBZyRRt3Ip/4d2dhXVOJL/Scl8dgZfzeRfXFAAmPf0xr8tdWOSQcttG3vQ61
+	0olzdgm8=
+X-Google-Smtp-Source: AGHT+IEghvAAwuhoCq4oG0sKdWCVGwd5m0PWtGv1/pmpTcQ7dsNyqIES6opQez42K9NsZBqXxQ4jCg==
+X-Received: by 2002:a05:6102:2927:b0:4bb:c24b:b64b with SMTP id ada2fe7eead31-4c30a68a683mr1582245137.19.1741349612137;
+        Fri, 07 Mar 2025 04:13:32 -0800 (PST)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4c2fb459a40sm651235137.12.2025.03.07.04.13.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Mar 2025 04:13:32 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-866e8ca2e07so748378241.2;
+        Fri, 07 Mar 2025 04:13:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUs8j9PWEJxFGun+6TofH2/CFdITiwmXZglRrX49ueeK9LwHB0o2V3CyVoZc2XjGMaZjYF0I6Ti8mc=@vger.kernel.org, AJvYcCVZat1KJsWJ6Ns0SEhtC0yGfstzIuE7Tb/d1QZNCPqA4MOiDqdu7XIusmOsjNW7mQtX75Yi4h5TVuoWHIxQ@vger.kernel.org, AJvYcCWH3A+fyb4JPcERcxxInhxCWybzYWkqC7hntD+cNmHqoz1mrH0/KaD8v6lWy31a5Z+GQr3lZE3RATI=@vger.kernel.org, AJvYcCX7baI6aYKSR4lJS0WSCbdAxStGYqbHRhQEKuCy5DkmUfs2v3DB4qEZewWjutZjDcCpjpclHpfgNDBA@vger.kernel.org
+X-Received: by 2002:a05:6102:8001:b0:4bb:e8c5:b149 with SMTP id
+ ada2fe7eead31-4c30a5ab186mr1795545137.7.1741349611548; Fri, 07 Mar 2025
+ 04:13:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250306-iio-driver-ad4052-v1-4-2badad30116c@analog.com>
+References: <20250307-vsprintf-pcn-v1-0-df0b2ccf610f@bootlin.com>
+In-Reply-To: <20250307-vsprintf-pcn-v1-0-df0b2ccf610f@bootlin.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 7 Mar 2025 13:13:19 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUeThsk5tSaMnT-6BqO6XSMTTDo1Q9kRgJ_d5iC7MTdcw@mail.gmail.com>
+X-Gm-Features: AQ5f1JphTlGlfeyx26A9RukmW_sJoWB7kM5qnNPVm2RVhmEmPwlzPLJvmsJkOb8
+Message-ID: <CAMuHMdUeThsk5tSaMnT-6BqO6XSMTTDo1Q9kRgJ_d5iC7MTdcw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] vsprintf: remove redundant %pCn format specifier
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Liu Ying <victor.liu@nxp.com>, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Jorge,
+Hi Luca,
 
-kernel test robot noticed the following build warnings:
+On Fri, 7 Mar 2025 at 12:19, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> There are two printk format specifiers for clocks: %pC and %pCn, and they
+> print exactly the same string. The reason for having two is not totally
+> clear (see discussion in patch 2), but there seem to be no advantage in
+> having two instead of one.
+>
+> Definitely having two without properly documenting they do the same creates
+> misunderstandings [0].
+>
+> Since %pCn is used in a single place, replace it with %pC and remove %pCn
+> to simplify such format specifiers implementation and avoid
+> misunderstandings.
+>
+> [0] https://lore.kernel.org/dri-devel/71c44221-b18b-4928-8faf-00893ec4a109@nxp.com/
 
-[auto build test WARNING on aac287ec80d71a7ab7e44c936a434625417c3e30]
+The link looks unrelated?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jorge-Marques/iio-code-mark-iio_dev-as-const-in-iio_buffer_enabled/20250306-220719
-base:   aac287ec80d71a7ab7e44c936a434625417c3e30
-patch link:    https://lore.kernel.org/r/20250306-iio-driver-ad4052-v1-4-2badad30116c%40analog.com
-patch subject: [PATCH 4/4] iio: adc: add support for ad4052
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250307/202503071916.STHJTSlp-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071916.STHJTSlp-lkp@intel.com/reproduce)
+Gr{oetje,eeting}s,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503071916.STHJTSlp-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/iio/adc/ad4052.c:239:18: warning: 'ad4052_sample_rate_avail' defined but not used [-Wunused-const-variable=]
-     239 | static const int ad4052_sample_rate_avail[] = {
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/ad4052.c:214:41: warning: 'ad4052_regmap_wr_table' defined but not used [-Wunused-const-variable=]
-     214 | static const struct regmap_access_table ad4052_regmap_wr_table = {
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/ad4052.c:201:41: warning: 'ad4052_regmap_rd_table' defined but not used [-Wunused-const-variable=]
-     201 | static const struct regmap_access_table ad4052_regmap_rd_table = {
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/ad4052_sample_rate_avail +239 drivers/iio/adc/ad4052.c
-
-   200	
- > 201	static const struct regmap_access_table ad4052_regmap_rd_table = {
-   202		.yes_ranges = ad4052_regmap_rd_ranges,
-   203		.n_yes_ranges = ARRAY_SIZE(ad4052_regmap_rd_ranges),
-   204	};
-   205	
-   206	static const struct regmap_range ad4052_regmap_wr_ranges[] = {
-   207		regmap_reg_range(AD4052_REG_INTERFACE_CONFIG_A, AD4052_REG_DEVICE_CONFIG),
-   208		regmap_reg_range(AD4052_REG_SCRATCH_PAD, AD4052_REG_SCRATCH_PAD),
-   209		regmap_reg_range(AD4052_REG_STREAM_MODE, AD4052_REG_INTERFACE_STATUS),
-   210		regmap_reg_range(AD4052_REG_MODE_SET, AD4052_REG_MON_VAL),
-   211		regmap_reg_range(AD4052_REG_FUSE_CRC, AD4052_REG_DEVICE_STATUS),
-   212	};
-   213	
- > 214	static const struct regmap_access_table ad4052_regmap_wr_table = {
-   215		.yes_ranges = ad4052_regmap_wr_ranges,
-   216		.n_yes_ranges = ARRAY_SIZE(ad4052_regmap_wr_ranges),
-   217	};
-   218	
-   219	static const struct iio_event_spec ad4052_events[] = {
-   220		{
-   221			.type = IIO_EV_TYPE_THRESH,
-   222			.dir = IIO_EV_DIR_EITHER,
-   223			.mask_shared_by_all = BIT(IIO_EV_INFO_ENABLE)
-   224		},
-   225		{
-   226			.type = IIO_EV_TYPE_THRESH,
-   227			.dir = IIO_EV_DIR_RISING,
-   228			.mask_shared_by_all = BIT(IIO_EV_INFO_VALUE) |
-   229					      BIT(IIO_EV_INFO_HYSTERESIS)
-   230		},
-   231		{
-   232			.type = IIO_EV_TYPE_THRESH,
-   233			.dir = IIO_EV_DIR_FALLING,
-   234			.mask_shared_by_all = BIT(IIO_EV_INFO_VALUE) |
-   235					      BIT(IIO_EV_INFO_HYSTERESIS)
-   236		}
-   237	};
-   238	
- > 239	static const int ad4052_sample_rate_avail[] = {
-   240		2000000, 1000000, 300000, 100000, 33300,
-   241		10000, 3000, 500, 333, 250, 200,
-   242		166, 140, 125, 111
-   243	};
-   244	
+                        Geert
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
