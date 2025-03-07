@@ -1,52 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24B7198E6D;
-	Fri,  7 Mar 2025 05:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE00198E91;
+	Fri,  7 Mar 2025 06:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741326928; cv=none; b=kxv7OmE253Ezxtyv2eLZfn8siAlYAb4qWA7cBUAXF94jHitLpqg7Q/Kn/1FgjK5r5leSwQsINQCOHfUpwBaP4Ml+rjJChdd3gDA7NoaZeZHmcG15RVnGLtG03pxDwSzhf2wHomE3yxszERatZsUs3PfK6DSdbNHghQJp8X2Pw78=
+	t=1741327391; cv=none; b=o1xa13v0OcQzMyUHjgMOrMg9FVMWbBaF+H+5w5JXurEJ1Ux9hGjku7lKdgJu6A3uq5KvWzkzARR6vH74id6nxMyzfVTUQkYuFNLYl/UoIrNO5hUHVFHEyxjylbVfXav1kUOcwVB8r3xAhHlnKwjE3I515SUr32KcwCulU/4dQaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741326928; c=relaxed/simple;
-	bh=MhiyITzafn+oL8EbKVQjdW6/i3/2fPQ6p6JW0xN59M0=;
+	s=arc-20240116; t=1741327391; c=relaxed/simple;
+	bh=CRAihNkGRLaidsZuzsLC506Y8MOu0f2lmWlCIxy18H0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hT8X+pqL9YQNG/Ua5KZMCrdFPUkFtSdueTjd7O+xBWzHxQ+3KsG0gEAxJDQDvsdLnxMuIlnbByJCdcUtmZPuh08A84QBVoUIliSJj+oudjTWYI2/Tb1LeNk0VN2NNoHmXCqlJwEkKWQoAY+stbSzXT37A+6Ckjfgw9SaGJdaxt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jaDFXWdV; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=oIUh1ApD8uIYjaG9j3onmpcZ5rmDiCSGX3hhENsaRwjYXwnng9OouRQltffgKR2lWrwJTutd9jECc/Wy4aO5jtP1sS1vcdc3C2mRol0nOpVTx7bMLcaoZ51YSKZMSH4R/lmdAJEpqK/P4VmuswL9o3GepFE411QAvYPxA/yhVSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VDocaQE+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jaDFXWdV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8CAAC4CED1;
-	Fri,  7 Mar 2025 05:55:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741326927;
-	bh=MhiyITzafn+oL8EbKVQjdW6/i3/2fPQ6p6JW0xN59M0=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VDocaQE+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A418CC4CEE2;
+	Fri,  7 Mar 2025 06:03:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1741327390;
+	bh=CRAihNkGRLaidsZuzsLC506Y8MOu0f2lmWlCIxy18H0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jaDFXWdVefRVlF5I4F1zLj0PsGHZOmZnbvI96wxh0Xru+rB5XamCaShyRZr+njJNo
-	 6beP32EjV5Miai+UIKcynMRVboeVl50qr9uvuBsAgMz0TyzwKZaA/CuUs1EIglKhm7
-	 xyA4/Cmf9tzK82NDZb8Z4PQCYYHl9L3Efz+MrmFlLmUHydkN4elrX79KF0jcZ6K+fI
-	 2rpxKN+IRtce1ECwZOrARfO72hPMemqhOp6R870ixSN2Yc4afGtllk/cj5BjkKHC63
-	 7jv55UfYx5LBPNQQbzMHkwY8fua7xVfJ0FNBEdf5+KuxF881aSdAM4tG5BC4O8Dhg9
-	 VTdrcK4FruVww==
-Date: Fri, 7 Mar 2025 07:55:22 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Ross Philipson <ross.philipson@oracle.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-	linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org,
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
-	ardb@kernel.org, mjg59@srcf.ucam.org,
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu,
-	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
-	ebiederm@xmission.com, dwmw2@infradead.org,
-	baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
-	andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v12 07/19] x86/msr: Add variable MTRR base/mask and
- x2apic ID registers
-Message-ID: <Z8qKStnfCBvSw_yI@kernel.org>
-References: <20241219194216.152839-1-ross.philipson@oracle.com>
- <20241219194216.152839-8-ross.philipson@oracle.com>
+	b=VDocaQE++DVK22rJjR70kxQTmMZHHuSCR7WjyiwjfJTHNTUq7Ul09dyUSB6USROlD
+	 PmFKhruwh42vcXvtqkr1t9+HYVC57Vfcc370h8VlDwUIoKmoqVTdPJpIBz4ssbdX1U
+	 2s4q7IFjhxQudeGaTX2sDHFRIa1SeDM5gE0ebBEM=
+Date: Fri, 7 Mar 2025 07:03:06 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Pratyush Yadav <ptyadav@amazon.de>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Hugh Dickins <hughd@google.com>, Alexander Graf <graf@amazon.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	James Gowans <jgowans@amazon.com>, Mike Rapoport <rppt@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Pasha Tatashin <tatashin@google.com>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Dave Hansen <dave.hansen@intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Wei Yang <richard.weiyang@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, kexec@lists.infradead.org
+Subject: Re: [RFC PATCH 1/5] misc: introduce FDBox
+Message-ID: <2025030700-paramedic-untoasted-9cec@gregkh>
+References: <20250307005830.65293-1-ptyadav@amazon.de>
+ <20250307005830.65293-2-ptyadav@amazon.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,21 +58,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241219194216.152839-8-ross.philipson@oracle.com>
+In-Reply-To: <20250307005830.65293-2-ptyadav@amazon.de>
 
-On Thu, Dec 19, 2024 at 11:42:04AM -0800, Ross Philipson wrote:
-> These values are needed by Secure Launch to locate particular CPUs
-> during AP startup and to restore the MTRR state after a TXT launch.
+One quick review note:
 
-Hmm... does the first part with like locating particular CPU cores?
+On Fri, Mar 07, 2025 at 12:57:35AM +0000, Pratyush Yadav wrote:
+> +/**
+> + * struct fdbox - A box of FDs.
+> + * @name: Name of the box. Must be unique.
+> + * @rwsem: Used to ensure exclusive access to the box during SEAL/UNSEAL
+> + *         operations.
+> + * @dev: Backing device for the character device.
+> + * @cdev: Character device which accepts ioctls from userspace.
 
-I'd start also the sentence with the action taken except assuring
-why the undefined action is taken.
+You now have a structure that contains 2 different reference counts,
+which is going to be impossible to handle properly.  Which one defines
+the lifetime of the object?  That's not going to work, please fix.
 
-"Add the MSR values required by Secure Launch (SL) to locate particular
-CPU cores during application processor (AP) startup, and restore the
-MTRR state after a Intel TXT launch."
+thanks,
 
-Along the lines would be more informative...
-
-BR, Jarkko
+greg k-h
