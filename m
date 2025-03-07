@@ -1,122 +1,152 @@
 Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1DB217673
-	for <linux-doc@vger.kernel.org>; Fri,  7 Mar 2025 11:28:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E796C20764E;
+	Fri,  7 Mar 2025 11:40:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741346898; cv=none; b=oy9jr0yNBEpZnNM6OItYpgFMdz7xnaDSGfiIuINfFMrwiEHo8Qqh9vUZWh+sgoPr6SSfvruLz758PfwYuoAdILlsXhCwPkWvfIk+O/Bjs0ERTtcz+NtDT5ewD5kbPQkVNxC/GirxVGoAbkoS8/v1s3phBgYFaa8c0FE82UJmIN8=
+	t=1741347637; cv=none; b=X2We93V53x15U9RWL9JXuy33wL2+oRSAJMyRFOdVgBV0i/2x9aqdC2iaoOdAbiGo/JAF04g+atxn3FhTuzIjMXkXkE3C+5FJOF5Eicdle4E8lBGpyajT5SAXheviQmcQL/5ig9XAl2edEkYA7twG7bTzpRv842HcuCs7OFoS2AU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741346898; c=relaxed/simple;
-	bh=77bK4Zp/TbJCp4MDtt6BamPlf5APkGCXJN1UMIG44Hw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C5XgkyFtXxnu8mYP5IVhUDE6sxmXcGZMF1I6mSE6zP/VTkf/miDISVCsP0icd42ZscqW3MAc2A8l2zO52XFC8ezLUHnb2OyTR4Nw537+isc3bmWUEnLL4tDanioiij/HnRtv27WPpFVjhIzDZJfD4qtanGUq5L6eDA9yE8I/5CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jTKeeARZ; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741347637; c=relaxed/simple;
+	bh=I9Ix3U0W41expU7X/Dm9VIv651I61ZHx/8rqhJrlFys=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CG4I62PTEUcnOKbPQCbj8sZhv0xM2s4Y/iUC59Cws0We1BpatuiExVS/FOddSMye/GLF7OkIdAfQZOSGTj8dfFYaLpmeG5V3TRcNagL49vyV7xz6YM3m4BgSBIe/+0dtIqC5RQOUQwndNHkyS8sRtuZmxQFebSDgEaI0/YZkOjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PDh0OMzU; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jTKeeARZ"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2241053582dso2420805ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Mar 2025 03:28:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PDh0OMzU"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2241053582dso2690655ad.1;
+        Fri, 07 Mar 2025 03:40:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741346896; x=1741951696; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2KHuSHjoctZDpRbteDuBYEVJTRxTt8Y9MylCsxslIVY=;
-        b=jTKeeARZ+bslbWFsD97aEFoRpd3SqFTHIvLlPCYh/OWWxpUdWfW/WncupTBctMd1ME
-         zbmA2dGyBK6qs2gUhtl5Smk9M1Uc+qWlqpvFtd/41xpfEs2UZDlXXZ1BhsgGzPXRN1md
-         t3LycwxvDj1sO2F4uhnHG5zbfKTyVBnButv12EsUGIb/DToYzCBQ68I6jRutYSU797Qa
-         Y1iHZmaoWjcPZOZAZW74HCNZPUdeqtyYobyUaKuYxfZ4Q8Art9amBCU/ecHaxkq5b5pZ
-         ehbieWMyNiOI5IuVZrz9dtQCqSUUBx1Cxa5gwKpXgqOBadcCDGfVSlrO6RMECIEVgBAq
-         644Q==
+        d=gmail.com; s=20230601; t=1741347635; x=1741952435; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8UqIfgpaGc5zJjDWkkoCZZvtajjxdMIfBLrEowvjIPg=;
+        b=PDh0OMzUHRFNyp9exWivwI/VjjxXiO0HueliZEknNojBMteEvXULqh6BpMyCP81Bvu
+         1GbyN9hY+XqYPPCxS+eUApc8wgw9cuTHo7MGe4IMtGCwH3v4M5gi7L30wuS2H5xoRDqS
+         +PwpZ6VTKs0RYIdk7haFdayh2x2LUSjLv8sUCbnI8YGVdDzh8LInyISkZIv9ch6R79Th
+         50+J9W9wJaW3f2/oGMjh+BPwqtaeAxycsXGZvJUZ4HmmV7lwdqpTS/DGvJYGii4DtGWF
+         wtFPQZxGOeZw0Q4sfBWQ64LQoKUN6zIJsBtYAQZIJnds2y7Woqui7p9BxXa70cjllTky
+         43Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741346896; x=1741951696;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2KHuSHjoctZDpRbteDuBYEVJTRxTt8Y9MylCsxslIVY=;
-        b=HzRUdn/9NbeQ6IcBcf+qLdKG13v2NqVA2xNjDolZgTq8sDgjnpnpGV/fnVX+Ii/B+f
-         srJwO9TRm1e/txLUfIj6Z0g1CQCZPz7rvs4kuAoTDxmaKpig/VXnRtZ/rLAkogI3UeM9
-         53UOY8mVVqn8YLpftw41JQfbzud9+exPUGXmLRjDBrzAvueUKAIXJ4rQ+qw1+1gz53X9
-         z6wD/zi4By5Owfl0E4FqAQiNc55hGJdysCZwlL42aPeMt0IInTe4Wyg7al0OKM2L3unh
-         2BokRjEgYUyoEPMoszUyIiuF4chb89cev16Aqsc9s0JAqu07X4+FdQnlYxAJkIBUaFYm
-         teYg==
-X-Forwarded-Encrypted: i=1; AJvYcCXmVJ0SYOWg8dL+oOT70zD0ULoXqAtrOeM7PU8qKYaM728bQb6WkjYxPxlx3C/uOxQqbaeSjXPUqvs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YydxOthoPiinDpg2O51sE6ZA2ZA/cHzl2850fB80v3SCEndRh/d
-	R7I04f3pBE+iIPMy1C6Eu/pShEcAJUHmyQqP4UCtrnD4AOJaqWFZrKw7CJ0l5uo=
-X-Gm-Gg: ASbGncuD99P1ZNAAKuZT2C2kZHeSpS7Z4NWuRooKfIJLxU5gqMAnGsbQjYXZ9Ril4+x
-	3fJLFeSXR3PSPZlqJELSvVJruUs74mSHq1BPgcVSERr0zke+++3hcv7nTOm/+imUhSxrSGahrZX
-	jAk6q4jdQhXW93tnea/VMXPafY7FJpJT0SqQNCVXBrSFqHqYBtw98mA8pxWO20lNgDFSaR8hkS4
-	e8UClYI4lH89KLNBsuhsQ+kWn0rSTKONVIePq1eekPw/PZulhaPcck4Lpty50fIwk1f6VPZx5bU
-	Mlv6FWJHrlVyRIXx1eO70jRJLkoXCeZ42TILWXq4s9Rm+w==
-X-Google-Smtp-Source: AGHT+IEvps1aGNeyDSEfmuS/2kZ/UIoJVeC4FQ3bEv/wYy7E3JSdL5e5iwjVJ47HjPenjvhwUyieNg==
-X-Received: by 2002:a05:6a20:3943:b0:1f3:289e:36d9 with SMTP id adf61e73a8af0-1f544c98c99mr5849762637.40.1741346895822;
-        Fri, 07 Mar 2025 03:28:15 -0800 (PST)
-Received: from localhost ([122.172.84.15])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-736984f7281sm3085274b3a.94.2025.03.07.03.28.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Mar 2025 03:28:15 -0800 (PST)
-Date: Fri, 7 Mar 2025 16:58:12 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Yury Norov <yury.norov@gmail.com>
-Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
- cpumask.h
-Message-ID: <20250307112812.3la74kiomyqbzhk5@vireshk-i7>
-References: <cover.1741332579.git.viresh.kumar@linaro.org>
- <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
- <e3637b13-1f51-445b-8d9d-bd53a691eca3@gmail.com>
+        d=1e100.net; s=20230601; t=1741347635; x=1741952435;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8UqIfgpaGc5zJjDWkkoCZZvtajjxdMIfBLrEowvjIPg=;
+        b=ciTNY2JCavnT2LjaRtGGZ+ojEhgAugXKtf5r09A4tAb3h4FNCOCqHErbptQrHAdKAt
+         1XeOWnfPsHTlmvST84kuAX7ExqY1x3a/LJspMF6Yug+jiKMiuq1dnzsOWp8v53dzbDCz
+         8zOfWF1SPlsAmweUB+iQa8K3cgOQK7bayfMDvUsQ4nkHvvHq5WXdQOW/C15ZgEBimNFj
+         McdGtwaR/Mi8ou0UZaX7Mms6/6TBqEECcfMb57NaFfRfNafiLuoI+qTAZfDwCtdyKozw
+         jY9JBNzuopupyoLvpUSUUnWyWRyd3+so+JvguzrCioTuxrFvaeGf0oalsi2sjZVT0uIo
+         dWeA==
+X-Forwarded-Encrypted: i=1; AJvYcCV5hO4w+smaRgAYU5ueRfndbQIfHu2rRyk9yyGP9+X1lwznC3uyCYGxwQ6EL3ApoUz8IT5XNMVhZBz/GevX@vger.kernel.org, AJvYcCXXGHlM05A60V4Xcgvf9ba2Btmc4lCLje7Yg8iUF2QSOic8lvxlwmvfQxKXa4bo4OSIDgCcLQJ1BWw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwM030USy3Hwe/ZTL45krCycs/yxu3DoXKi37dEZWKtlNkvj9vl
+	h+bgRlmmhh2r1abXLITzsZtkXtHgFMPshp1spYp0gyYOAdzBr4Aj
+X-Gm-Gg: ASbGncuokfQnRTpVsNA7worWKYKoZ6U9TKJM+A4ElIHo9zN7jjtmgStJH3otUJ3ONsE
+	sCM0MqP1D1MRLmLIJ1aaJZ04e5wAOeEtxvYpomPEn6NV9uFFFmE2281PCk83WJPOLtEK4yeMnc1
+	Rqzt6if0WIaGJNIQtQ0cllzCpPcInfcqf1i4FX7Dj23osUKUvIt7oQkgUNSkHVu4oAijScCCvwi
+	/7MqQjlci3ca2uw0t1iIb7Y8uZO0UwxCjxO6tTmXEZB1yNpINocN+gtUq+u+kfJZZTj8K6nSwFg
+	l3kudU6ZVsTxHXxBjTWKzr/7aC+lDImhVfEBz5z/nR2dBDBjKTtdkpRcdMHyu+6F3ei6fhfu8Ua
+	47RfTZ5PTf7ie0+M=
+X-Google-Smtp-Source: AGHT+IHAQFCRCwe2R0RBVbabIC9mKCCEvLPEC7/LRCTgcq+4UsG7X8fmuRaJ2R6NSsPISjXf/BTVgg==
+X-Received: by 2002:a17:902:ce0a:b0:216:2bd7:1c4a with SMTP id d9443c01a7336-224289945b0mr52457245ad.26.1741347635027;
+        Fri, 07 Mar 2025 03:40:35 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22410a7f8b6sm27893455ad.136.2025.03.07.03.40.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Mar 2025 03:40:34 -0800 (PST)
+Message-ID: <f4ee5a3b-8d1e-4d6a-bafa-c8d4d376f388@gmail.com>
+Date: Fri, 7 Mar 2025 20:20:58 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e3637b13-1f51-445b-8d9d-bd53a691eca3@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
+ cpumask.h
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Yury Norov <yury.norov@gmail.com>, Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1741332579.git.viresh.kumar@linaro.org>
+ <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
+ <e3637b13-1f51-445b-8d9d-bd53a691eca3@gmail.com>
+ <20250307112812.3la74kiomyqbzhk5@vireshk-i7>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20250307112812.3la74kiomyqbzhk5@vireshk-i7>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 07-03-25, 19:57, Akira Yokosawa wrote:
-> Didn't come up in your diff, but you need additional changes shown below:
+Viresh Kumar wrote:
+> On 07-03-25, 19:57, Akira Yokosawa wrote:
+>> Didn't come up in your diff, but you need additional changes shown below:
+>>
+>> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
+>> index 656d2208467e..a6c1961cc535 100644
+>> --- a/include/linux/cpumask.h
+>> +++ b/include/linux/cpumask.h
+>> @@ -285,10 +285,10 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
+>>  }
+>>  
+>>  /**
+>> - * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
+>> - *                        @n+1. If nothing found, wrap around and start from
+>> + * cpumask_next_and_wrap - get the next cpu in *@src1p & *@src2p, starting from
+>> + *                        @n+ 1. If nothing found, wrap around and start from
+>>   *                        the beginning
+>> - * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
+>> + * @n: the cpu prior to the place to search (i.e. search starts from @n +1)
+>>   * @src1p: the first cpumask pointer
+>>   * @src2p: the second cpumask pointer
+>>   *
+>> @@ -306,9 +306,9 @@ unsigned int cpumask_next_and_wrap(int n, const struct cpumask *src1p,
+>>  }
+>>  
+>>  /**
+>> - * cpumask_next_wrap - get the next cpu in *src, starting from @n+1. If nothing
+>> + * cpumask_next_wrap - get the next cpu in *@src, starting from @n +1. If nothing
+>>   *                    found, wrap around and start from the beginning
+>> - * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
+>> + * @n: the cpu prior to the place to search (i.e. search starts from @n +1)
+>>   * @src: cpumask pointer
+>>   *
+>>   * Return: next set bit, wrapped if needed, or >= nr_cpu_ids if @src is empty.
 > 
-> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-> index 656d2208467e..a6c1961cc535 100644
-> --- a/include/linux/cpumask.h
-> +++ b/include/linux/cpumask.h
-> @@ -285,10 +285,10 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
->  }
->  
->  /**
-> - * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
-> - *                        @n+1. If nothing found, wrap around and start from
-> + * cpumask_next_and_wrap - get the next cpu in *@src1p & *@src2p, starting from
-> + *                        @n+ 1. If nothing found, wrap around and start from
->   *                        the beginning
-> - * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
-> + * @n: the cpu prior to the place to search (i.e. search starts from @n +1)
->   * @src1p: the first cpumask pointer
->   * @src2p: the second cpumask pointer
->   *
-> @@ -306,9 +306,9 @@ unsigned int cpumask_next_and_wrap(int n, const struct cpumask *src1p,
->  }
->  
->  /**
-> - * cpumask_next_wrap - get the next cpu in *src, starting from @n+1. If nothing
-> + * cpumask_next_wrap - get the next cpu in *@src, starting from @n +1. If nothing
->   *                    found, wrap around and start from the beginning
-> - * @n: the cpu prior to the place to search (i.e. search starts from @n+1)
-> + * @n: the cpu prior to the place to search (i.e. search starts from @n +1)
->   * @src: cpumask pointer
->   *
->   * Return: next set bit, wrapped if needed, or >= nr_cpu_ids if @src is empty.
+> How did you find these ? I only looked for build warnings / errors earlier (with
+> make htmldocs).   Anything else I should be doing to find these issues ?
 
-How did you find these ? I only looked for build warnings / errors earlier (with
-make htmldocs). Anything else I should be doing to find these issues ?
+Well, you need to see the rendered html pages in your browser. :-)
 
-Thanks for your help Akira.
+Or, look into the rst output from
+   "scripts/kernel-doc -rst <file with kernel-doc comments>",
+and see if it makes sense as reStructuredText.
 
--- 
-viresh
+It seems to me there are very few people actually do it ...
+
+But I fat-fingered in the above diff.
+
+>> @@ -285,10 +285,10 @@ unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
+>>  }
+>>  
+>>  /**
+>> - * cpumask_next_and_wrap - get the next cpu in *src1p & *src2p, starting from
+>> - *                        @n+1. If nothing found, wrap around and start from
+>> + * cpumask_next_and_wrap - get the next cpu in *@src1p & *@src2p, starting from
+>> + *                        @n+ 1. If nothing found, wrap around and start from
+        Obviously, should be  @n +1.
+
+>>   *                        the beginning
+
+> 
+> Thanks for your help Akira.
+>
+
+You are welcome.
+
