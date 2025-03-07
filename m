@@ -1,136 +1,104 @@
-Received: from smtp-fw-9106.amazon.com (smtp-fw-9106.amazon.com [207.171.188.206])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217951FECB6;
-	Fri,  7 Mar 2025 23:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.188.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1831F1925AC;
+	Fri,  7 Mar 2025 23:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741390111; cv=none; b=EjglQvNKTgWKcPR1Yp4axvVzWRWsCd9Y9rnjGaZ1Yf0L+dkj3G2m6yhiR9YD80I9Y44ayMbKXVKWI7j7XVIpXLSHKmraFAgx9U4AMc/78oPFUZzn5zWAR1Micw8UTAMwfRpjSp4y4BxcbJcwjtXRwpPZFFXn3AiutX6kt9fY/jc=
+	t=1741390481; cv=none; b=aEFq7G+uyO3q9ZAuWpkgDzNAF/AGvELiLo2IPG5CofTQhbVIrU0R1m6sLGcGQKOeYQUJksuNPhkuKvi/X1TJJdRDDPjDEAlS0Bxp9eWZOCqwxiC2U29O6DRJ0HD2nGrGABrYFOkVwtfpNFnhFP3t6gEE4JowuhpKrjMUBwqp7JI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741390111; c=relaxed/simple;
-	bh=UeOROIuHxrOSWLbOE95MlbOgZCV+/mmsFcLLjNmWGY4=;
-	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=G7HbZYPV7iZoJ9tJ3XLTWZ59Wg/JSCpUlNxdKFFOAr1TKOKHKS/GdKXtbEIv94tPtvfpyrNz/B7NYjTuYsNH5v/csA3f/W6SUcjcSF+xS5Mhou+8Huwtx6ipzMyHeSGDFaEpE2mOaHLpAmfDZWcLBF6x1vSv90hzQ8fBSjq/184=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=rOprVQmb; arc=none smtp.client-ip=207.171.188.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	s=arc-20240116; t=1741390481; c=relaxed/simple;
+	bh=kKh3XN4Srdg6CtNs5pzgXD8hxt/NvDuNA+VDK3Ebwe8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NsPGM8VzM5PzhcpM9O8R+OnY7HX6rxpgieBYmVzIYCtubuzRsYzSCA4dAks9PxtDPxZVKAMgZtKrLUNWsaJe2rh+zbPCnxpop/Bg8wMPSBLAfZLszjWX5zanKPE6hDCuF6a/oZvc94n/Up06+CQ1SdbZAFoDyJeBemuqmIdyIT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=f9TNv5eE; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="rOprVQmb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1741390111; x=1772926111;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=PxKleB6Wh7ZXzq2XCt1pO6Tm9zMapmQjwJkScUHeXmc=;
-  b=rOprVQmbX4pYqWHAuAAkdjzvrYvRBvO+ZmrB4IwQSEiogtiF5hr7974P
-   Sdwb4UJ9aetXbXGVgB54FN0ZKcscr8F+EXyYmc61TMMlqBZCMFsk3fAAn
-   Eputg48XzRd20Uq3VduU26neFPpaMODq2j6ktmsd9mHSkt8LWeHe8KWOK
-   k=;
-X-IronPort-AV: E=Sophos;i="6.14,230,1736812800"; 
-   d="scan'208";a="805364181"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-9106.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 23:28:24 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [10.0.38.20:22470]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.58.39:2525] with esmtp (Farcaster)
- id fbb96d7f-d3b0-45f3-bcea-de6963836fbc; Fri, 7 Mar 2025 23:28:23 +0000 (UTC)
-X-Farcaster-Flow-ID: fbb96d7f-d3b0-45f3-bcea-de6963836fbc
-Received: from EX19D020UWA004.ant.amazon.com (10.13.138.231) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Fri, 7 Mar 2025 23:28:23 +0000
-Received: from EX19MTAUWB001.ant.amazon.com (10.250.64.248) by
- EX19D020UWA004.ant.amazon.com (10.13.138.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Fri, 7 Mar 2025 23:28:22 +0000
-Received: from email-imr-corp-prod-iad-all-1b-1323ce6b.us-east-1.amazon.com
- (10.25.36.214) by mail-relay.amazon.com (10.250.64.254) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1544.14 via Frontend Transport; Fri, 7 Mar 2025 23:28:22 +0000
-Received: from dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com [172.19.91.144])
-	by email-imr-corp-prod-iad-all-1b-1323ce6b.us-east-1.amazon.com (Postfix) with ESMTP id 57D4C4354C;
-	Fri,  7 Mar 2025 23:28:22 +0000 (UTC)
-Received: by dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (Postfix, from userid 23027615)
-	id 1583C4F0F; Fri,  7 Mar 2025 23:28:22 +0000 (UTC)
-From: Pratyush Yadav <ptyadav@amazon.de>
-To: Jonathan Corbet <corbet@lwn.net>
-CC: <linux-kernel@vger.kernel.org>, Eric Biederman <ebiederm@xmission.com>,
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, "Hugh
- Dickins" <hughd@google.com>, Alexander Graf <graf@amazon.com>, "Benjamin
- Herrenschmidt" <benh@kernel.crashing.org>, David Woodhouse
-	<dwmw2@infradead.org>, James Gowans <jgowans@amazon.com>, Mike Rapoport
-	<rppt@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Pasha Tatashin
-	<tatashin@google.com>, Anthony Yznaga <anthony.yznaga@oracle.com>, "Dave
- Hansen" <dave.hansen@intel.com>, David Hildenbrand <david@redhat.com>, "Jason
- Gunthorpe" <jgg@nvidia.com>, Matthew Wilcox <willy@infradead.org>, Wei Yang
-	<richard.weiyang@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-mm@kvack.org>, <kexec@lists.infradead.org>
-Subject: Re: [RFC PATCH 2/5] misc: add documentation for FDBox
-In-Reply-To: <87ecz87tik.fsf@trenco.lwn.net>
-References: <20250307005830.65293-1-ptyadav@amazon.de>
-	<20250307005830.65293-3-ptyadav@amazon.de> <87ikok7wf4.fsf@trenco.lwn.net>
-	<mafs0v7skj3m2.fsf@amazon.de> <87ecz87tik.fsf@trenco.lwn.net>
-Date: Fri, 7 Mar 2025 23:28:22 +0000
-Message-ID: <mafs0msdwifop.fsf@amazon.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="f9TNv5eE"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 42F0F42FF4;
+	Fri,  7 Mar 2025 23:34:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1741390470;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ydp6do/YmlCcdU444Z/VCOeLnRiEL8f6oOoQBqEHKHw=;
+	b=f9TNv5eEBJQERSONNPIXE86lFBWD77yGJ0nfLkaPUyNuIH6zkHG/Xwkpa6VsAb4Q8S+WXq
+	9t8VWk5F3hSznCwvIsppnG35PdvPLucURj1+RITr+Bi55fj0IqNMTk/p67sOrbKOwOVPmk
+	yTdHYG7FXmt4EGD7CgJPRbD74ll4O8OLUieXDg9tvxCenxIIx1NYsT/O8l1qpNNNAD0viL
+	ke1iM91BoEq61FbAJYzrC4sa1gHMDh7Y8USPTJEDEqAE0umO6zs6MI4GJpw0C+VHcX+b3h
+	P51EWslCVh/NJMFZ6QDK9CvZS8jN1vdJFcsWHa6NdVw6LhaqiIUF5tjvHCVosg==
+Date: Sat, 8 Mar 2025 00:34:25 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
+ <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz Luba
+ <lukasz.luba@arm.com>, Florian Fainelli <florian.fainelli@broadcom.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton
+ <akpm@linux-foundation.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Liu Ying <victor.liu@nxp.com>,
+ linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] vsprintf: remove redundant and unused %pCn format
+ specifier
+Message-ID: <20250308003425.7b89bfb6@booty>
+In-Reply-To: <Z8sqJhbqEBla_Ch7@smile.fi.intel.com>
+References: <20250307-vsprintf-pcn-v1-0-df0b2ccf610f@bootlin.com>
+	<20250307-vsprintf-pcn-v1-2-df0b2ccf610f@bootlin.com>
+	<Z8sqJhbqEBla_Ch7@smile.fi.intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduudduleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgegiedvmedusgguugemledutddumedvleegfhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgegiedvmedusgguugemledutddumedvleegfhdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdeipdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhhivghlrdhlv
+ giitggrnhhosehlihhnrghrohdrohhrghdprhgtphhtthhopehruhhirdiihhgrnhhgsehinhhtvghlrdgtohhmpdhrtghpthhtoheplhhukhgrshiirdhluhgsrgesrghrmhdrtghomhdprhgtphhtthhopehflhhorhhirghnrdhfrghinhgvlhhlihessghrohgruggtohhmrdgtohhmpdhrtghpthhtoheprhhjuhhisegsrhhorggutghomhdrtghomhdprhgtphhtthhopehssghrrghnuggvnhessghrohgruggtohhmrdgtohhm
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Fri, Mar 07 2025, Jonathan Corbet wrote:
+Hello Andy,
 
-> Pratyush Yadav <ptyadav@amazon.de> writes:
->
->> On Fri, Mar 07 2025, Jonathan Corbet wrote:
->>
->>> Pratyush Yadav <ptyadav@amazon.de> writes:
->>>
->>>> With FDBox in place, add documentation that describes what it is and how
->>>> it is used, along with its UAPI and in-kernel API.
->>>>
->>>> Since the document refers to KHO, add a reference tag in kho/index.rst.
->>>>
->>>> Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
->>>> ---
->>>>  Documentation/filesystems/locking.rst |  21 +++
->>>>  Documentation/kho/fdbox.rst           | 224 ++++++++++++++++++++++++++
->>>>  Documentation/kho/index.rst           |   3 +
->>>>  MAINTAINERS                           |   1 +
->>>>  4 files changed, 249 insertions(+)
->>>>  create mode 100644 Documentation/kho/fdbox.rst
->>>
->>> Please do not create a new top-level directory under Documentation for
->>> this; your new file belongs in userspace-api/.
->>
->> I did not. The top-level directory comes from the KHO patches [0] (not
->> merged yet). This series is based on top of those. You can find the full
->> tree here [1].
->>
->> Since this is closely tied to KHO I found it a good fit for putting it
->> on KHO's directory. I don't have strong opinions about this so don't
->> mind moving it elsewhere if you think that is better.
->
-> I've not seen the KHO stuff, but I suspect I'll grumble about that too.
-> Our documentation should be organized for its audience, not for its
-> authors.  So yes, I think that your documentation of the user-space
-> interface should definitely go in the userspace-api book.
+On Fri, 7 Mar 2025 19:17:26 +0200
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-Okay, fair enough. I'll move it there.
+> On Fri, Mar 07, 2025 at 12:19:08PM +0100, Luca Ceresoli wrote:
+> > %pC and %pCn print the same string, and commit 900cca294425 ("lib/vsprintf:
+> > add %pC{,n,r} format specifiers for clocks") introducing them does not
+> > clarify any intended difference. It can be assumed %pC is a default for
+> > %pCn as some other specifiers do, but not all are consistent with this
+> > policy. Moreover there is now no other suffix other than 'n', which makes a
+> > default not really useful.
+> > 
+> > All users in the kernel were using %pC except for one which has been
+> > converted. So now remove %pCn and all the unnecessary extra code and
+> > documentation.  
+> 
+> You seem forgot to update translation(s) of the documentation.
 
->
-> Thanks,
->
-> jon
->
-> (Who now realizes he has been arguing this point of view for over ten
-> years ... eventually it will get across... :)
+I'm afraid I don't speak Chinese. :-)
+
+For this specific change I think I could come up with an approximation
+of it, but the both the docs and git log suggest this is not expected.
+
+Luca
 
 -- 
-Regards,
-Pratyush Yadav
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
