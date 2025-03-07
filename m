@@ -1,377 +1,169 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8E83258CCD;
-	Fri,  7 Mar 2025 22:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D5D7E9;
+	Fri,  7 Mar 2025 22:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741385042; cv=none; b=fVk/wwTz40e2HU74W8XXnndCmvkUTgjZQT2W45mjL5me26YJebyn8laf6OFjhjgUHzt2McwTKX6F4d8dqMBE0KBHw8jNxDd9ksFV5qSFrTIIRSHPqFpI8fee/o0P4O7VdnGPxMG79V8q2eqP11Q0Lu/b07uOr9zaq8HFAjh+mkw=
+	t=1741385396; cv=none; b=ABgXXyzpDXFft320nGSeed5aXmoj5uWCLZGg5UqLImRLzQw7Et/9LSHeNxFi7HQL7BYBisG7V9nNEYj/cTnJEsxzXIqBdqJjnFKWaZjZTebAP+aQFbjeBYVOezOwInPSnfrM5bx2F/hZACGDQUwDLzDuoI8uOT2yydvfcoAIFqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741385042; c=relaxed/simple;
-	bh=zsDdxVsZQ9ZJNACc1Ft8ZSg/yi/RjPxq4qsAN6csPeg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=Hot1v2050sU9l2CdQOO7m8UeKTbGAHEWfvqc+hnkbYtKLXXsbCqzvTFOXacaMdCrmQw2TTksCW9xNGcEWgGGUWAEUaoeSbEUEKSzBUEZiwPptfhysMQqAVoUviGZEG07OlBfQpJ7uycRwjxgG1xr8guPNDh6X/n44sIafeCRLqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=X/g983JT; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1741385396; c=relaxed/simple;
+	bh=SrDccJOqaJC+5/wA1pdnTwa1tJez7kYmHdz4b6r//PE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CnqY0j0hgcadM5dMZVxaKA7mZvHmm1+Sv0LWJUfUCNMQsd/zXmbZ51ANKCxdN5z5pI+S5mhhPfW7HbwVvJ2yd52d40hKxJ7MMRf5+kPlcl9E4k7nd9skLTbm6GISRtDIoPuzxLfDQW8jBmFzG8C1xI16Z9nXiIzHrOLzkfNJ098=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vyv6pbZB; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="X/g983JT"
-Received: by linux.microsoft.com (Postfix, from userid 1212)
-	id B0B6521104A3; Fri,  7 Mar 2025 14:04:00 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B0B6521104A3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1741385040;
-	bh=4YvoTnusyM/untS0m1JArWeDrAxxRhAyMQq7IEzvLzc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=X/g983JTd6SHxYrz5EJLA1939DRlHtH9XikLaMljfqdRpN8Qd08vsC5xNeyTJiOdq
-	 20hScsTtLPQiC/2gcZkKDUJk+H4E2mm9UDUXxWqoBvb/AQ53szXYrHrMnubOQZIh/6
-	 oTEvd+Esmx7GClZoeTHoguWpxIJ8rMs0a8QFeUaE=
-From: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
-To: corbet@lwn.net,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	eparis@redhat.com,
-	paul@paul-moore.com
-Cc: linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	audit@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jasjiv Singh <jasjivsingh@linux.microsoft.com>
-Subject: [RFC PATCH v4 1/1] ipe: add errno field to IPE policy load auditing
-Date: Fri,  7 Mar 2025 14:03:55 -0800
-Message-Id: <1741385035-22090-2-git-send-email-jasjivsingh@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1741385035-22090-1-git-send-email-jasjivsingh@linux.microsoft.com>
-References: <1741385035-22090-1-git-send-email-jasjivsingh@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vyv6pbZB"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7c3c9f7b1a6so229542885a.1;
+        Fri, 07 Mar 2025 14:09:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741385394; x=1741990194; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WQDcn8+Kkg+VJ3ToAm89lGpGIwYRFzkG+NUBWjAN8J8=;
+        b=Vyv6pbZBaOqzSV0lDiXvc0XABoIT8PCdF3oUsCglzJyMUI2k3ccpcjgH51pBhuXIzG
+         wx2sKlFUJyDKghSFExU9W7aAZ0J/qWXB5rsedYEy/9+ZPAnHk5BncdN9/mLAdfRXfE8t
+         BjbmvZ1dlrNPHBJrY8jYkv3Obhtz3c0s8j9K82BAvmqaUeQqyU83IX4IYhqOlfVQ5obH
+         bSq8wMmBMj7QT5O/n/uFPn+39HLKyleCNMFNlct8VfJjUtZf6m7ZLtLbFDOHMFKHdTfk
+         MUIweVINNRr2Lh0j6xPe9f5Fwi3rUnx0Y66QGBV6VZz8+6OXXAlII9/VaTipwOZZT5+t
+         z7nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741385394; x=1741990194;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WQDcn8+Kkg+VJ3ToAm89lGpGIwYRFzkG+NUBWjAN8J8=;
+        b=A/2KrLtqr6zppOSUWeU6JBZ2zLECa8386nTUrx+Lomi+qMgSlIXUPVArQQnt8hAulm
+         ydTH+T4OS28YPcLjFkMkh05s2L26yk9JmLmQ/8owEMsehsqQmb7FVsBS22N5qVv62M6O
+         0xEIBu7rCflMTAgVDP2BMOSj3slQ/9TLlYCyiJKPX6+lHwWXhp/NuTHgh6w6VOsejmDY
+         h3vnQkzSCWsfboQm99cXHyzR3FRzqU826wEOOGQipAn3LDJqzMY++AFMOndFvn5BBGz5
+         YJBYmBx6h+jWE90gLihFAapBtzIr0/m/JR/SuoqWV0U59HkXxFhsq6Pl8sHfU6h5y+nG
+         FKXw==
+X-Forwarded-Encrypted: i=1; AJvYcCVeyi0dHNWAE/BaohFgvW5eVrUyqHLtJcp8wVVMnScqRnGDUitC8SaEmwNJlSJ/N3AYuIg7Zx34XVg1@vger.kernel.org, AJvYcCVqbYESK92IGUto/OQuegEtEVjZWc6A36yOvRZefBtL8oEunMAjfhgv8mdsGJhjA4sjLOPSDNtuZXY=@vger.kernel.org, AJvYcCWngjLfVJVVnvHnP+zIT3cTEux7P5/d/o+0jS6Lawl19N9wEH2rUtfrgJ64Alxmo8LB2xyN+rG1fwfsojhDazXI@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRcThzgw2cMeG9/xJfQVdiPt/huvb65tfgJDXSNcLnCgiKZsU3
+	6qKFKq7D/4KJ1Z7OuWcWhfaOYN8siVreYKX4oeQVyXKsfms0i+BmLtag9Jq2OhE=
+X-Gm-Gg: ASbGnctNah9zJYvCJhVqA0QLSBS9YLt/1UeqlSJ/HRBTwflhhZE2QcdBDab3kNoZbpD
+	jwFUJLwEzTHsHziD5IeM/vJv5eBI+qeXliW8pPjdHekTKEbl/F14KEdHxVqJSTq1Aoe75ZPsiyF
+	sqaFrudW5wwVq+bN4kwc+Bty84uOC354AgkJa5Ix8kscZsal/rexphHgYtta/uNhvmrVaFfaQ1n
+	qQkQPMaIbF879ochQwVrQcK6cnZuN/Qs6nIbzvX8tR2GCQvAPsU6C0XiWj5EMH+NkNEkXBhxvPV
+	8GmvT+k3KOlHuRtdi4HL7cUqSonq/8nFzDV/cstDvIYnQVVs14jUEeozoQqjWrlkSFbFs0AvgK2
+	8
+X-Google-Smtp-Source: AGHT+IGQES6u145PCL7njlniOUgI19DACMWBXh7cghgv/R6KrBR+utSuxWgPw2eW3fPWcgc8Tk2fOA==
+X-Received: by 2002:a05:620a:4c8a:b0:7c5:3da4:5bed with SMTP id af79cd13be357-7c53da45ccamr69321485a.17.1741385393990;
+        Fri, 07 Mar 2025 14:09:53 -0800 (PST)
+Received: from 1.0.0.127.in-addr.arpa ([2600:4041:5be7:7c00:f0dd:49a0:8ab6:b3b6])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c3e533a095sm295001385a.3.2025.03.07.14.09.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Mar 2025 14:09:53 -0800 (PST)
+From: Tamir Duberstein <tamird@gmail.com>
+Subject: [PATCH v6 0/3] printf: convert self-test to KUnit
+Date: Fri, 07 Mar 2025 17:08:55 -0500
+Message-Id: <20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHduy2cC/3XQzW7DIAwH8FepOI/JGEyinfoeUw+UmBZtJRXJU
+ Kcq7z7SXVC3HP+W/PPHXUycI0/ibXcXmUuc4phqsC874c8unVjGoWaBgARKK3nNMc1BfnylOEs
+ /psJ5lmEwoNA5ZG9Fbb1mDvH2YN8PNZ/jNI/5+zGlqLX6CyKY/8GiJEj2QR17Y50ZeH+6uPj56
+ seLWMGCLdJtIFgRoO6IurfQo35GdIMo2ED0uglb54kAAv3ZxLTI1jmmIh7JUIdBkaVnhBoEN55
+ cqCI01I+ABtVpaJFlWX4A+w6Oo8wBAAA=
+X-Change-ID: 20250131-printf-kunit-convert-fd4012aa2ec6
+To: Arpitha Raghunandan <98.arpi@gmail.com>, 
+ David Gow <davidgow@google.com>, Petr Mladek <pmladek@suse.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Naveen N Rao <naveen@kernel.org>, 
+ Brendan Higgins <brendan.higgins@linux.dev>
+Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+ linuxppc-dev@lists.ozlabs.org, workflows@vger.kernel.org, 
+ Tamir Duberstein <tamird@gmail.com>
+X-Mailer: b4 0.15-dev
 
-Users of IPE require a way to identify when and why an operation fails,
-allowing them to both respond to violations of policy and be notified
-of potentially malicious actions on their systems with respect to IPE.
+This is one of just 3 remaining "Test Module" kselftests (the others
+being bitmap and scanf), the rest having been converted to KUnit.
 
-This patch introduces a new error field to the AUDIT_IPE_POLICY_LOAD event
-to log policy loading failures. Currently, IPE only logs successful policy
-loads, but not failures. Tracking failures is crucial to detect malicious
-attempts and ensure a complete audit trail for security events.
+I tested this using:
 
-The new error field will capture the following error codes:
+$ tools/testing/kunit/kunit.py run --arch arm64 --make_options LLVM=1 printf
 
-* -ENOKEY: Key used to sign the IPE policy not found in the keyring
-* -ESTALE: Attempting to update an IPE policy with an older version
-* -EKEYREJECTED: IPE signature verification failed
-* -ENOENT: Policy was deleted while updating
-* -EEXIST: Same name policy already deployed
-* -ERANGE: Policy version number overflow
-* -EINVAL: Policy version parsing error
-* -EPERM: Insufficient permission
-* -ENOMEM: Out of memory (OOM)
-* -EBADMSG: Policy is invalid
+I have also sent out a series converting scanf[0].
 
-Here are some examples of the updated audit record types:
+Link: https://lore.kernel.org/all/20250204-scanf-kunit-convert-v3-0-386d7c3ee714@gmail.com/T/#u [0]
 
-AUDIT_IPE_POLICY_LOAD(1422):
-audit:  AUDIT1422 policy_name="Test_Policy" policy_version=0.0.1
-policy_digest=sha256:84EFBA8FA71E62AE0A537FAB962F8A2BD1053964C4299DCA
-92BFFF4DB82E86D3 auid=1000 ses=3 lsm=ipe res=1 errno=0
-
-The above record shows a new policy has been successfully loaded into
-the kernel with the policy name, version, and hash with the errno=0.
-
-AUDIT_IPE_POLICY_LOAD(1422) with error:
-
-audit: AUDIT1422 policy_name=? policy_version=? policy_digest=?
-auid=1000 ses=3 lsm=ipe res=0 errno=-74
-
-The above record shows a policy load failure due to an invalid policy
-(-EBADMSG).
-
-Signed-off-by: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
+Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- Documentation/admin-guide/LSM/ipe.rst | 69 +++++++++++++++++++--------
- security/ipe/audit.c                  | 21 ++++++--
- security/ipe/fs.c                     | 19 ++++++--
- security/ipe/policy.c                 | 11 ++++-
- security/ipe/policy_fs.c              | 29 ++++++++---
- 5 files changed, 111 insertions(+), 38 deletions(-)
+Changes in v6:
+- Use __printf correctly on `__test`. (Petr Mladek)
+- Rebase on linux-next.
+- Remove leftover references to `printf.sh`.
+- Update comment in `hash_pointer`. (Petr Mladek)
+- Avoid overrun in `KUNIT_EXPECT_MEMNEQ`. (Petr Mladek)
+- Restore trailing newlines on printk strings and add some missing ones.
+  (Petr Mladek)
+- Use `kunit_skip` on not-yet-initialized crng. (Petr Mladek)
+- Link to v5: https://lore.kernel.org/r/20250221-printf-kunit-convert-v5-0-5db840301730@gmail.com
 
-diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-guide/LSM/ipe.rst
-index f93a467db628..0615941de6e0 100644
---- a/Documentation/admin-guide/LSM/ipe.rst
-+++ b/Documentation/admin-guide/LSM/ipe.rst
-@@ -423,7 +423,7 @@ Field descriptions:
- 
- Event Example::
- 
--   type=1422 audit(1653425529.927:53): policy_name="boot_verified" policy_version=0.0.0 policy_digest=sha256:820EEA5B40CA42B51F68962354BA083122A20BB846F26765076DD8EED7B8F4DB auid=4294967295 ses=4294967295 lsm=ipe res=1
-+   type=1422 audit(1653425529.927:53): policy_name="boot_verified" policy_version=0.0.0 policy_digest=sha256:820EEA5B40CA42B51F68962354BA083122A20BB846F26765076DD8EED7B8F4DB auid=4294967295 ses=4294967295 lsm=ipe res=1 errno=0
-    type=1300 audit(1653425529.927:53): arch=c000003e syscall=1 success=yes exit=2567 a0=3 a1=5596fcae1fb0 a2=a07 a3=2 items=0 ppid=184 pid=229 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=4294967295 comm="python3" exe="/usr/bin/python3.10" key=(null)
-    type=1327 audit(1653425529.927:53): PROCTITLE proctitle=707974686F6E3300746573742F6D61696E2E7079002D66002E2E
- 
-@@ -433,24 +433,55 @@ This record will always be emitted in conjunction with a ``AUDITSYSCALL`` record
- 
- Field descriptions:
- 
--+----------------+------------+-----------+---------------------------------------------------+
--| Field          | Value Type | Optional? | Description of Value                              |
--+================+============+===========+===================================================+
--| policy_name    | string     | No        | The policy_name                                   |
--+----------------+------------+-----------+---------------------------------------------------+
--| policy_version | string     | No        | The policy_version                                |
--+----------------+------------+-----------+---------------------------------------------------+
--| policy_digest  | string     | No        | The policy hash                                   |
--+----------------+------------+-----------+---------------------------------------------------+
--| auid           | integer    | No        | The login user ID                                 |
--+----------------+------------+-----------+---------------------------------------------------+
--| ses            | integer    | No        | The login session ID                              |
--+----------------+------------+-----------+---------------------------------------------------+
--| lsm            | string     | No        | The lsm name associated with the event            |
--+----------------+------------+-----------+---------------------------------------------------+
--| res            | integer    | No        | The result of the audited operation(success/fail) |
--+----------------+------------+-----------+---------------------------------------------------+
--
-++----------------+------------+-----------+-------------------------------------------------------------+
-+| Field          | Value Type | Optional? | Description of Value                                        |
-++================+============+===========+=============================================================+
-+| policy_name    | string     | Yes       | The policy_name                                             |
-++----------------+------------+-----------+-------------------------------------------------------------+
-+| policy_version | string     | Yes       | The policy_version                                          |
-++----------------+------------+-----------+-------------------------------------------------------------+
-+| policy_digest  | string     | Yes       | The policy hash                                             |
-++----------------+------------+-----------+-------------------------------------------------------------+
-+| auid           | integer    | No        | The login user ID                                           |
-++----------------+------------+-----------+-------------------------------------------------------------+
-+| ses            | integer    | No        | The login session ID                                        |
-++----------------+------------+-----------+-------------------------------------------------------------+
-+| lsm            | string     | No        | The lsm name associated with the event                      |
-++----------------+------------+-----------+-------------------------------------------------------------+
-+| res            | integer    | No        | The result of the audited operation(success/fail)           |
-++----------------+------------+-----------+-------------------------------------------------------------+
-+| errno          | integer    | No        | Error code from policy loading operations (see table below) |
-++----------------+------------+-----------+-------------------------------------------------------------+
-+
-+Policy error codes (errno):
-+
-+The following table lists the error codes that may appear in the errno field while loading or updating the policy:
-+
-++----------------+--------------------------------------------------------+
-+| Error Code     | Description                                            |
-++================+========================================================+
-+| 0              | No error                                               |
-++----------------+--------------------------------------------------------+
-+| -EPERM         | Insufficient permission                                |
-++----------------+--------------------------------------------------------+
-+| -EEXIST        | Same name policy already deployed                      |
-++----------------+--------------------------------------------------------+
-+| -EBADMSG       | Policy is invalid                                      |
-++----------------+--------------------------------------------------------+
-+| -ENOMEM        | Out of memory (OOM)                                    |
-++----------------+--------------------------------------------------------+
-+| -ERANGE        | Policy version number overflow                         |
-++----------------+--------------------------------------------------------+
-+| -EINVAL        | Policy version parsing error                           |
-++----------------+--------------------------------------------------------+
-+| -ENOKEY        | Key used to sign the IPE policy not found in keyring   |
-++----------------+--------------------------------------------------------+
-+| -EKEYREJECTED  | IPE signature verification failed                      |
-++----------------+--------------------------------------------------------+
-+| -ESTALE        | Attempting to update an IPE policy with older version  |
-++----------------+--------------------------------------------------------+
-+| -ENOENT        | Policy was deleted while updating                      |
-++----------------+--------------------------------------------------------+
- 
- 1404 AUDIT_MAC_STATUS
- ^^^^^^^^^^^^^^^^^^^^^
-diff --git a/security/ipe/audit.c b/security/ipe/audit.c
-index f05f0caa4850..ac9d68b68b8b 100644
---- a/security/ipe/audit.c
-+++ b/security/ipe/audit.c
-@@ -21,6 +21,8 @@
- 
- #define AUDIT_POLICY_LOAD_FMT "policy_name=\"%s\" policy_version=%hu.%hu.%hu "\
- 			      "policy_digest=" IPE_AUDIT_HASH_ALG ":"
-+#define AUDIT_POLICY_LOAD_FAIL_FMT "policy_name=? policy_version=? "\
-+				   "policy_digest=?"
- #define AUDIT_OLD_ACTIVE_POLICY_FMT "old_active_pol_name=\"%s\" "\
- 				    "old_active_pol_version=%hu.%hu.%hu "\
- 				    "old_policy_digest=" IPE_AUDIT_HASH_ALG ":"
-@@ -248,22 +250,31 @@ void ipe_audit_policy_activation(const struct ipe_policy *const op,
- }
- 
- /**
-- * ipe_audit_policy_load() - Audit a policy being loaded into the kernel.
-- * @p: Supplies a pointer to the policy to audit.
-+ * ipe_audit_policy_load() - Audit a policy being loaded or failing
-+ *	   to load into the kernel.
-+ * @p: Supplies a pointer to the policy to audit or an error pointer
-+ *	   to audit a failure with the associated error code from PTR_ERR(p).
-  */
- void ipe_audit_policy_load(const struct ipe_policy *const p)
- {
- 	struct audit_buffer *ab;
-+	int err = 0;
- 
- 	ab = audit_log_start(audit_context(), GFP_KERNEL,
- 			     AUDIT_IPE_POLICY_LOAD);
- 	if (!ab)
- 		return;
- 
--	audit_policy(ab, AUDIT_POLICY_LOAD_FMT, p);
--	audit_log_format(ab, " auid=%u ses=%u lsm=ipe res=1",
-+	if (!IS_ERR(p)) {
-+		audit_policy(ab, AUDIT_POLICY_LOAD_FMT, p);
-+	} else {
-+		audit_log_format(ab, AUDIT_POLICY_LOAD_FAIL_FMT);
-+		err = PTR_ERR(p);
-+	}
-+
-+	audit_log_format(ab, " auid=%u ses=%u lsm=ipe res=%d errno=%d",
- 			 from_kuid(&init_user_ns, audit_get_loginuid(current)),
--			 audit_get_sessionid(current));
-+			 audit_get_sessionid(current), !err, err);
- 
- 	audit_log_end(ab);
- }
-diff --git a/security/ipe/fs.c b/security/ipe/fs.c
-index 5b6d19fb844a..db18636470bf 100644
---- a/security/ipe/fs.c
-+++ b/security/ipe/fs.c
-@@ -133,6 +133,8 @@ static ssize_t getenforce(struct file *f, char __user *data,
-  * * %-ERANGE			- Policy version number overflow
-  * * %-EINVAL			- Policy version parsing error
-  * * %-EEXIST			- Same name policy already deployed
-+ * * %-ENOKEY			- Key used to sign the IPE policy not found in the keyring
-+ * * %-EKEYREJECTED		- IPE signature verification failed
-  */
- static ssize_t new_policy(struct file *f, const char __user *data,
- 			  size_t len, loff_t *offset)
-@@ -141,12 +143,17 @@ static ssize_t new_policy(struct file *f, const char __user *data,
- 	char *copy = NULL;
- 	int rc = 0;
- 
--	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
--		return -EPERM;
-+	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN)) {
-+		rc = -EPERM;
-+		goto out;
-+	}
- 
- 	copy = memdup_user_nul(data, len);
--	if (IS_ERR(copy))
--		return PTR_ERR(copy);
-+	if (IS_ERR(copy)) {
-+		rc = PTR_ERR(copy);
-+		copy = NULL;
-+		goto out;
-+	}
- 
- 	p = ipe_new_policy(NULL, 0, copy, len);
- 	if (IS_ERR(p)) {
-@@ -161,8 +168,10 @@ static ssize_t new_policy(struct file *f, const char __user *data,
- 	ipe_audit_policy_load(p);
- 
- out:
--	if (rc < 0)
-+	if (rc < 0) {
- 		ipe_free_policy(p);
-+		ipe_audit_policy_load(ERR_PTR(rc));
-+	}
- 	kfree(copy);
- 	return (rc < 0) ? rc : len;
- }
-diff --git a/security/ipe/policy.c b/security/ipe/policy.c
-index b628f696e32b..68a2078d5b6a 100644
---- a/security/ipe/policy.c
-+++ b/security/ipe/policy.c
-@@ -84,8 +84,12 @@ static int set_pkcs7_data(void *ctx, const void *data, size_t len,
-  * ipe_new_policy.
-  *
-  * Context: Requires root->i_rwsem to be held.
-- * Return: %0 on success. If an error occurs, the function will return
-- * the -errno.
-+ * Return:
-+ * * %0 					- Success
-+ * * %-ENOENT					- Policy was deleted while updating
-+ * * %-EINVAL					- Policy name was changed while updating
-+ * * %-ESTALE					- Attempting to update an IPE policy
-+ * *						  with an older version
-  */
- int ipe_update_policy(struct inode *root, const char *text, size_t textlen,
- 		      const char *pkcs7, size_t pkcs7len)
-@@ -150,6 +154,9 @@ int ipe_update_policy(struct inode *root, const char *text, size_t textlen,
-  * * %-ENOMEM					- Out of memory (OOM)
-  * * %-ERANGE					- Policy version number overflow
-  * * %-EINVAL					- Policy version parsing error
-+ * * %-ENOKEY					- Key used to sign the IPE policy
-+ *						  not found in the keyring
-+ * * %-EKEYREJECTED				- IPE signature verification failed
-  */
- struct ipe_policy *ipe_new_policy(const char *text, size_t textlen,
- 				  const char *pkcs7, size_t pkcs7len)
-diff --git a/security/ipe/policy_fs.c b/security/ipe/policy_fs.c
-index 3bcd8cbd09df..b70d2518b182 100644
---- a/security/ipe/policy_fs.c
-+++ b/security/ipe/policy_fs.c
-@@ -12,6 +12,7 @@
- #include "policy.h"
- #include "eval.h"
- #include "fs.h"
-+#include "audit.h"
- 
- #define MAX_VERSION_SIZE ARRAY_SIZE("65535.65535.65535")
- 
-@@ -282,8 +283,14 @@ static ssize_t getactive(struct file *f, char __user *data,
-  * On success this updates the policy represented by $name,
-  * in-place.
-  *
-- * Return: Length of buffer written on success. If an error occurs,
-- * the function will return the -errno.
-+ * Return:
-+ * * Length of buffer written			- Success
-+ * * %-EPERM					- Insufficient permission
-+ * * %-ENOMEM					- Out of memory (OOM)
-+ * * %-ENOENT					- Policy was deleted while updating
-+ * * %-EINVAL					- Policy name was changed while updating
-+ * * %-ESTALE					- Attempting to update an IPE policy
-+ * *						  with an older version
-  */
- static ssize_t update_policy(struct file *f, const char __user *data,
- 			     size_t len, loff_t *offset)
-@@ -292,21 +299,29 @@ static ssize_t update_policy(struct file *f, const char __user *data,
- 	char *copy = NULL;
- 	int rc = 0;
- 
--	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
--		return -EPERM;
-+	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN)) {
-+		rc = -EPERM;
-+		goto out;
-+	}
- 
- 	copy = memdup_user(data, len);
--	if (IS_ERR(copy))
--		return PTR_ERR(copy);
-+	if (IS_ERR(copy)) {
-+		rc = PTR_ERR(copy);
-+		copy = NULL;
-+		goto out;
-+	}
- 
- 	root = d_inode(f->f_path.dentry->d_parent);
- 	inode_lock(root);
- 	rc = ipe_update_policy(root, NULL, 0, copy, len);
- 	inode_unlock(root);
- 
-+out:
- 	kfree(copy);
--	if (rc)
-+	if (rc) {
-+		ipe_audit_policy_load(ERR_PTR(rc));
- 		return rc;
-+	}
- 
- 	return len;
- }
+Changes in v5:
+- Update `do_test` `__printf` annotation (Rasmus Villemoes).
+- Link to v4: https://lore.kernel.org/r/20250214-printf-kunit-convert-v4-0-c254572f1565@gmail.com
+
+Changes in v4:
+- Add patch "implicate test line in failure messages".
+- Rebase on linux-next, move scanf_kunit.c into lib/tests/.
+- Link to v3: https://lore.kernel.org/r/20250210-printf-kunit-convert-v3-0-ee6ac5500f5e@gmail.com
+
+Changes in v3:
+- Remove extraneous trailing newlines from failure messages.
+- Replace `pr_warn` with `kunit_warn`.
+- Drop arch changes.
+- Remove KUnit boilerplate from CONFIG_PRINTF_KUNIT_TEST help text.
+- Restore `total_tests` counting.
+- Remove tc_fail macro in last patch.
+- Link to v2: https://lore.kernel.org/r/20250207-printf-kunit-convert-v2-0-057b23860823@gmail.com
+
+Changes in v2:
+- Incorporate code review from prior work[0] by Arpitha Raghunandan.
+- Link to v1: https://lore.kernel.org/r/20250204-printf-kunit-convert-v1-0-ecf1b846a4de@gmail.com
+
+Link: https://lore.kernel.org/lkml/20200817043028.76502-1-98.arpi@gmail.com/t/#u [0]
+
+---
+Tamir Duberstein (3):
+      printf: convert self-test to KUnit
+      printf: break kunit into test cases
+      printf: implicate test line in failure messages
+
+ Documentation/core-api/printk-formats.rst   |   4 +-
+ Documentation/dev-tools/kselftest.rst       |   2 +-
+ MAINTAINERS                                 |   2 +-
+ lib/Kconfig.debug                           |  12 +-
+ lib/Makefile                                |   1 -
+ lib/tests/Makefile                          |   1 +
+ lib/{test_printf.c => tests/printf_kunit.c} | 442 ++++++++++++----------------
+ tools/testing/selftests/kselftest/module.sh |   2 +-
+ tools/testing/selftests/lib/Makefile        |   2 +-
+ tools/testing/selftests/lib/config          |   1 -
+ tools/testing/selftests/lib/printf.sh       |   4 -
+ 11 files changed, 207 insertions(+), 266 deletions(-)
+---
+base-commit: 7ec162622e66a4ff886f8f28712ea1b13069e1aa
+change-id: 20250131-printf-kunit-convert-fd4012aa2ec6
+
+Best regards,
 -- 
-2.34.1
+Tamir Duberstein <tamird@gmail.com>
 
