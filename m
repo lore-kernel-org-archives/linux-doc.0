@@ -1,113 +1,79 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0410D383A2;
-	Sat,  8 Mar 2025 17:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB370188CB1;
+	Sat,  8 Mar 2025 19:23:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741453736; cv=none; b=XYj+BRwgcKP8Sv8H4jILYuxqmHT0G6go8MFenpIO3Z074mkRTBkuTGir2T5jULIHOprElQSpzrjbHC3l6wJxTe5zyJT/pe0W18iirgp43UlMGizbkZ1mX5GMzM5YQnIcY31utNWj7LDTB93ds5BU0ZjfqwF6Ik83H2xgFcxcofo=
+	t=1741461822; cv=none; b=UMsvxn/WUMSt5O67C9Y1eh6COJRKlCyoZ23mfFJYupbEgFTXtXTyD+8twdFRaYnoA56f6x20mSIemUg6m7qVZ6KgIrB8FwVjWrDliQMHComnkhsM7SIAbVsgxrsADmvhQIXHLjvHjYYuXLFYvdp+QYjEeCMS8+0h3lKc2z0PJ4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741453736; c=relaxed/simple;
-	bh=YrA7wd8n7NLqEVAxegd9y+Av4QEBqHIaZpXSN7Muc+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DEF6dcvRyq34MaveM30oR+xHvIJEwr3jLDaN4bylEjNn+xQPXl6yfXFu7AL+uRgoN1mV3xI+NtZxOaDUK7Jcb39Q26yw/ifyj+1A7oTXi26NWqvm/GTLhM+GT3kcVjEoWrmNB6H5T3BMQofSW6QjvkjoEgUyagI3H/6FKe1J9Dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ENzzTTAw; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741461822; c=relaxed/simple;
+	bh=Pnbag/N8foQKG7DD9O5heajQUOEuMY9izXwVS6F+LX8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=LzFGb4HBKHPkKzUwqQGa9wOZiWnA4NWCmBJmyy7CDtZivVlI/QR8Rsa+iX6wlKpv7U++NzBZRS/oYY4myF+x5RXMg5PvCgJLpiRLqvsyiQ2mUFhQ1FS9gvxDeBibg7mg16VhVzvtY1v+PjiS3h+0l41ZuLFo8C2iyBEIPaqmm1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=isbRYJPR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ENzzTTAw"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-224341bbc1dso23699175ad.3;
-        Sat, 08 Mar 2025 09:08:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741453734; x=1742058534; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4IcMf84uhZ1TJoFOuLgOfVe7+B4onn10+WD0mzIT9m4=;
-        b=ENzzTTAwRBwxma4dIAk3Xuti416AORrZnEtmJD7N8fsRX+HVZV882Kw774b8UP+8iV
-         u6qhD69DmObqgC/mLyV9ZefdrWeeCGY1WaKzsMDHFe0s8mPOIdFt1tVFjbVpyvT4EuCE
-         r9R3q4YblY8lmmyEA0BQKZYntBVlpL0XkRy+C/gky4q1F9ujIYFf72UzMB8x6c51haRT
-         JmsocNEQ6jvgmke5ZmapC5OxnDYXS6p2ZfFy4kUV3QJyabJeQvo5PMi9nNrTJUN0MKWe
-         0CSKtXEqGl6GRbaEwS4akZX+IPZssoyS8hnDRnKK+zkoubqRHCWdWvyb16s+77oKDJyB
-         FtTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741453734; x=1742058534;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4IcMf84uhZ1TJoFOuLgOfVe7+B4onn10+WD0mzIT9m4=;
-        b=RzZf1RVpK3IUGpntmJL7I5NY/ov/3K+QjVe/GYWvkGAopE7+IPN4nodNP5xRo6/JNt
-         CGwvZ8mnJGV/0ANrSi78tnUqq3rBknHzzILXzKZUqv2MLkLjfrMZC7CeoG+AO0zJejdz
-         2XDqJYTfvytXhuXOznaMJR6XLOEY3hnUC5lpvF0WvJsUORDFvWz4KgfYisQ6h3RGcAP4
-         jboFNn3LUrnuQAFXPaNs6Z2Yd+KQP70IgKwB7qfUss7kw0ZfNY/Dr/U3i6oMgU+Enod/
-         ShTRkHjuwe5P9VscF+KCa8nrk2Oe7sYKWbQ1C4wBRZUPytaeVcBE+R8uZPZMqqj6KcxK
-         OC6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUuQUWpx3GTfVp1YTaYgqX6XGwgQfarN4YVMA3azqLSBno/LZzFdB4WFrieItq9bIDP4Q32UzpDUbQ=@vger.kernel.org, AJvYcCVI5bp5UB+CivUqCYaKKvIEjVdUDfcdJzYwnc9uaNdmOLcp09rcP1h29md4ciCJ4hySycZa1SzfDGaxzWPcTZQI@vger.kernel.org, AJvYcCX9IXE+h+rT0ueZ1ghXNGRzwN5fWZSQBjyRVpTaayuKbkg2al0Kgk4mg+DRvEjx4ijhKqJOeKlI@vger.kernel.org, AJvYcCXjBMdWkxBMR/Hd8JCdwQaxvdSjitqH23OD0KbM0Zt6iFTXHD7khCWhHBQ3YC9o4fMwk9j8GlPY3fRIfj9Q@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6mIWEKy7BuQBd1rpViUwkjm32qBvfeCEoRtPO8q8vqF5VzmKq
-	7yuXlnNcZz7x3t3sDRqZNq3pboJktkO9fs+Klm+nKw1+LmtF63w=
-X-Gm-Gg: ASbGncvaxlvOBZtA4Sno2DFHt7rsBiGXpd4/6/GTuSlOA3Es6uMNIBsQa73NgUexMRe
-	QUIihyfUrpp/Lwul/agvTeGZdrsngGkEuvUd3fTWFLXDEZDDBOfP3nlqQban9xmplB3LNAsSlrY
-	6QaJ7h4shDMiX4EkFMj9FXif0Qx6HYZcIYe5dbYpQDPuoEsDMEqVTcutfcPDrJ2T1ZFnWjNsgHl
-	bJemhruvf4SYrpGi7jP7lk6LbpxNB8puYdLkI9betjDKPlTJXyHn7Z3NZ17lVrk3ITbGvHs2lIh
-	m+sq9wRmkgps8ufJ7X/7AR8Z4uObhp9v9Gp0h7yxYaDY
-X-Google-Smtp-Source: AGHT+IFRZHlbgFDOueySaqdPee3EawbUTko5dKs36Wbsu+tzE6PWqif1pLkL8NZFxLhvNX2+zZW8Vw==
-X-Received: by 2002:a17:902:f78d:b0:223:5ada:88ff with SMTP id d9443c01a7336-2242889d1c3mr140941825ad.24.1741453734162;
-        Sat, 08 Mar 2025 09:08:54 -0800 (PST)
-Received: from localhost ([2601:646:9e00:f56e:2844:3d8f:bf3e:12cc])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-22410a7fa3csm48879285ad.110.2025.03.08.09.08.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Mar 2025 09:08:53 -0800 (PST)
-Date: Sat, 8 Mar 2025 09:08:52 -0800
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
-	davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	horms@kernel.org, corbet@lwn.net, andrew+netdev@lunn.ch,
-	pablo@netfilter.org, kadlec@netfilter.org
-Subject: Re: [PATCH net-next] net: revert to lockless TC_SETUP_BLOCK and
- TC_SETUP_FT
-Message-ID: <Z8x5pI0suqOiZPId@mini-arch>
-References: <20250308044726.1193222-1-sdf@fomichev.me>
- <CANn89iLV6mLh8mWhYket7gBWTX+3TcCrJDA4EU5YU4ebV2nPYw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="isbRYJPR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1552FC4CEE0;
+	Sat,  8 Mar 2025 19:23:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741461820;
+	bh=Pnbag/N8foQKG7DD9O5heajQUOEuMY9izXwVS6F+LX8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=isbRYJPRGigVuV4fVAAg638PF8ZwoomWWCwU66duyOYFQli2XPTIT6yawwaz0H6NT
+	 2oLx+NjgbkiVv+RikeaIGDz37tIw655/bDZ7qrnWP7iFVDTGrv9IXoIMhYbuQ1yT2P
+	 wItiARK0nhAE+GV2/Lsx+N5c6W53zx/l2KiLNw5lfZAmoUuMebFCINJb3xjbGqdFkD
+	 2+OQVCeGc3Xi1Peno2Heu9aDsyQ8yw3FdptMfuYPBK8L99LNPIay9UxmtWogKus+U1
+	 M1SW/gp9U4vFWYdR8WqrSlETX258jICt8pIim1fOOxUV9WEy8dfKSSpGJGbkdQEt0d
+	 7G5Y7JikD6gRg==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>
+Cc: Chiara Meiohas <cmeiohas@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rdma@vger.kernel.org, Mark Bloch <mbloch@nvidia.com>, 
+ Patrisious Haddad <phaddad@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>
+In-Reply-To: <cover.1741261611.git.leon@kernel.org>
+References: <cover.1741261611.git.leon@kernel.org>
+Subject: Re: [PATCH rdma-next v1 0/6] Introduce UCAP API and usage in mlx5
+Message-Id: <174146181739.309515.6405198590405946645.b4-ty@kernel.org>
+Date: Sat, 08 Mar 2025 14:23:37 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANn89iLV6mLh8mWhYket7gBWTX+3TcCrJDA4EU5YU4ebV2nPYw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-37811
 
-On 03/08, Eric Dumazet wrote:
-> On Sat, Mar 8, 2025 at 5:47 AM Stanislav Fomichev <sdf@fomichev.me> wrote:
-> >
-> > There is a couple of places from which we can arrive to ndo_setup_tc
-> > with TC_SETUP_BLOCK/TC_SETUP_FT:
-> > - netlink
-> > - netlink notifier
-> > - netdev notifier
-> >
-> > Locking netdev too deep in this call chain seems to be problematic
-> > (especially assuming some/all of the call_netdevice_notifiers
-> > NETDEV_UNREGISTER) might soon be running with the instance lock).
-> > Revert to lockless ndo_setup_tc for TC_SETUP_BLOCK/TC_SETUP_FT. NFT
-> > framework already takes care of most of the locking. Document
-> > the assumptions.
-> >
-> 
-> 
-> >
-> > Fixes: c4f0f30b424e ("net: hold netdev instance lock during nft ndo_setup_tc")
-> > Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
-> 
-> I think you forgot to mention syzbot.
-> 
-> Reported-by: syzbot+0afb4bcf91e5a1afdcad@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/netdev/67cb88d1.050a0220.d8275.022d.GAE@google.com/T/#u
 
-Ah, yes, I was waiting for a repro, but should have attached the proper
-tags, thanks!
+On Thu, 06 Mar 2025 13:51:25 +0200, Leon Romanovsky wrote:
+> Changelog:
+> v1:
+>  * Used kref primitives instead of open-coded variant
+>  * Check return value from dev_set_name()
+>  * Added extra brackets around type in UCAP_ENABLED macro
+> v0: https://lore.kernel.org/all/cover.1740574943.git.leon@kernel.org
+> 
+> [...]
+
+Applied, thanks!
+
+[1/6] RDMA/uverbs: Introduce UCAP (User CAPabilities) API
+      https://git.kernel.org/rdma/rdma/c/054220ae51ceca
+[2/6] RDMA/mlx5: Create UCAP char devices for supported device capabilities
+      https://git.kernel.org/rdma/rdma/c/dc0633dbb2abcc
+[3/6] RDMA/uverbs: Add support for UCAPs in context creation
+      https://git.kernel.org/rdma/rdma/c/8108812389cf29
+[4/6] RDMA/mlx5: Check enabled UCAPs when creating ucontext
+      https://git.kernel.org/rdma/rdma/c/984ec408e39bf8
+[5/6] RDMA/mlx5: Expose RDMA TRANSPORT flow table types to userspace
+      https://git.kernel.org/rdma/rdma/c/bec5f67b886710
+[6/6] docs: infiniband: document the UCAP API
+      https://git.kernel.org/rdma/rdma/c/850a5ea27782a5
+
+Best regards,
+-- 
+Leon Romanovsky <leon@kernel.org>
+
