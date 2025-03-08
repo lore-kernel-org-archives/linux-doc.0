@@ -1,107 +1,186 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53883185B67
-	for <linux-doc@vger.kernel.org>; Sat,  8 Mar 2025 06:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3DB17583;
+	Sat,  8 Mar 2025 08:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741416102; cv=none; b=g8fBW6qEmbnNd7zD/8cg+Ie2Ghbdzb58JmfwQiJYUsF81LBi/RPxoKemfRbmO07KcLoVNsqFUDvQensr+WUv0e67PlFkhXFe/dwGeA1fzOt11M80SUp20+hxd334Wy+5QzuuEnhROi50EId0htdCyoqJd/Q7Msf4NjL0pDEY3cs=
+	t=1741421167; cv=none; b=eC/nHdaYg2Vi1K45LqBWrFDeXom2fq21Yw68m/lmkYLIfOfGhkfYa88aYDjg4EZ6n3lcW2gU7kVHgjICy2sCm8LPwUwbG9p/JRctvbYs40Gdqq0mkkqnNHAplSixho1pzUqSLcwlquWBrcHOkPHja2VXYnJNtZfji5DtAPQT5IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741416102; c=relaxed/simple;
-	bh=mjXPEAUzfnISY0ZB5Qdk6ZqkNFSViNSHUixjtjhaCsM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=adYUzpEbq0RRNumQBne4KkfxRfZSNoaiVZ0o333zaqUpXo0Bcgkpq+Z+WF9T71bKPbBqzDzCal5ueILjKw/GNy0yp8Ud8V66A+yMVTikoZmu+ZXj9xnUkuOyVAlQ9sYAh/DRU1ELRQavKdXcOX7FoY2fTeuPSKdtSD/dCZsOZMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tdYqKpo5; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1741421167; c=relaxed/simple;
+	bh=XGRxZAYguXEWQD/gjMwK8T/ARx3CsugPw3sn2U4bboE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=EuK0VFBx4H3OHs+B54mHhMLkk7+cD6rNcj2UduPjZxX0WjCOWvs2FixFXwa1a3xloDSV8vUOhbHYWgaLK8YOk7xBHQDy/IXIxojIYYW/JMrm+iI2s1IR6GtF3IBI1BrSNGqKJDBJp3+QNSCJpZrUpbG7Gdg6+bXODmqerZCwckY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CpFZJrxT; arc=none smtp.client-ip=209.85.214.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tdYqKpo5"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-47662449055so3443111cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Mar 2025 22:41:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CpFZJrxT"
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-22337bc9ac3so54314055ad.1;
+        Sat, 08 Mar 2025 00:06:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741416099; x=1742020899; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mjXPEAUzfnISY0ZB5Qdk6ZqkNFSViNSHUixjtjhaCsM=;
-        b=tdYqKpo5mktSxKY1FOn2TiNPTX/sYR8C0/Smr7KIz89eGpSvzxW7jtlR8SQ9GeOh/i
-         Q8JRRCh6OXkQIuJWyEfNmugd9CuexhJbII1B85AubppeGD28u8gJVU4oRRSyHnaSgY+i
-         XwQgXorFsprEO68HuDnGIBHRbB7Pno+R4WVVZE82OkPhbiC05fDJGIxmsbyS7Zb2M+Lp
-         x7iVvm7W8v4VT4GZGxgCOZNcpitU2DewCeIEz5J1gesXKl7w7WURMsFoOMUs8WOFNeHH
-         2Iej9yyXfqc1gfzVZ1FdcRrllRRNXi50icRRwnDvBk/6O3kh3ti03iwADk0OZJC0Xs2O
-         rdXQ==
+        d=gmail.com; s=20230601; t=1741421165; x=1742025965; darn=vger.kernel.org;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ChhxADJR+xbJvkByK/dxsEr1PgDDMt78zzdKfiQchCo=;
+        b=CpFZJrxTWo8NSt1unJJNGf6kwCHf2blg6Z4PFACJlPyTiuEOu4YtRy+etWqjTzQIsI
+         TSzrZUfydc9dq0KRDufOe9jTxo+3jGiKHjOBNacxhw1A6lXHVbxL0jUdK/4nSC2pp0eB
+         50htEeqEVgWB896flEkZ8NXDaUoFI/KHZ3sTUdMiIdYfRSy1Y9XcH8NsEbavE1yF8mhe
+         rqwjsua82u8dZXa5ImCi9UkRvK7aTQDmby1/UX4XAsNTAKciQulwo/UGSF1eVp2HJ9Sp
+         1kPt41XHWyOiV7QbmZkRqi4OtHiWwUVEBKTl4D9mN9UKNfyi4xXhTZojAzK5Cp2j40Pl
+         eh0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741416099; x=1742020899;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mjXPEAUzfnISY0ZB5Qdk6ZqkNFSViNSHUixjtjhaCsM=;
-        b=KUQQX3F1C1RByMyaefdrhCb6Hq8cSn75zloviHoQKP6g/oSBm7GiXEt6iDnw845av2
-         0DLpw9trsya7iVW4+hLA7qVbvGIjmCvUDLOVrzRGQ7bTvNDroO5ZP8iKJdKEWYgbHxm8
-         6jeu+ZNGqWboSSMlzaQpyGRfa2GFZy92qGdg5OkkomsP09wtwrUzgT4lsQBcmIc+Bpa3
-         X3aj2B96u407MRDszTRJ4z8kf4i2tTq5i+3TAOTvfZ9kwdyJ5GLhDhJEgkXdREBEyAc7
-         F60SeqO69f5ss3iflEfgdhVMd0mxCSgcI6HOKAwDcuYSQRujXbmGQ+bi+uwOJrL75U1M
-         71wg==
-X-Forwarded-Encrypted: i=1; AJvYcCXNW1mrEs2G6ZSalmCYVtfpMlOD+kl2jPGDrK+kQ88Eb/C14owxIWqxbVMa5IMHYeNpSsfi7OBXdl0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwORRMc90bZ5cnRrE7bPGifaPK+XmSKsVkmdC4meIELOkWtoi2K
-	IvnnCrmsw+uw344098sPySD9RLutd74RCq0Nq75uTi4RBAk9sGLv+CuI8pObqLhgv6eX6ZWRvET
-	46YrxP27Ye0QBcisvvsizMGXdxCYx9UQTRHQb
-X-Gm-Gg: ASbGncuCd1EmmlBVpc5UVI6PMv9yCgB+hkRAEymOlV+823ffBeUZD0KZ/r0O9aqfOKd
-	nNBNvtq8TQ+gR/2wlg6eua5tMW8VDiERP9o/NMBq64UCbMPjM7pqep7Sf6hkSrD2/+R+iz1CKYv
-	lJK7uU0V1QYBGg0ZC2iF9GgZMbnM9YopejVvM=
-X-Google-Smtp-Source: AGHT+IH0eaLgh+XEDCWC3SYaInWPdIV9YE7cJpJB2zom7UsiOlycuB30zhF8t9x6msXH3oGPL8h6ICGxTYOXbXt0l5c=
-X-Received: by 2002:ac8:5d52:0:b0:476:7327:383e with SMTP id
- d75a77b69052e-4767327436emr891981cf.13.1741416098891; Fri, 07 Mar 2025
- 22:41:38 -0800 (PST)
+        d=1e100.net; s=20230601; t=1741421165; x=1742025965;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ChhxADJR+xbJvkByK/dxsEr1PgDDMt78zzdKfiQchCo=;
+        b=Oz48klfTUoUOKbtWfuN5Qb4KHsY4sksEyYo+BE9riXwdx9qjfYwTH8UiX+RYXU62Hp
+         EUB5fhIU7+4tXUL8cZrr+79flFU2uAw9DeiQ8bNSk2LtoyJziBMQ4PlnnVN0bl+78FZu
+         amFkG1bcHj7Vzm96bFn63ir47Sau5/S5JCkzpPjxlwDz36UWeIUnVGJpIlFnsSthxley
+         OFMwQet92NI/MyN7EDpZxm3tebNToMHb/OyLcHJRyzqaR6E2Z1tgOkkyjHPizHloopOi
+         uPHyUjKaaUGSSKH1xJdPLUDXWeeCjd2k0b+RSgq7Msh8c8YfGxYvXY0UrDqd+EpQRr7/
+         dGpA==
+X-Forwarded-Encrypted: i=1; AJvYcCUs6dl/Q/2EeH/2nf88L7H13SmzVPQ+Jej5+jLPg3vG8RK7Bj2AhGjO+GQW1bMyybTiPgTgJbg3aLcSY4SY@vger.kernel.org, AJvYcCWL/r808OVgUVfQjXao2NKnZXd6AQhjdqgxG8u8byU/Hcn+yExcqHXeT3cpPTO5I4y5lcuxCmNThWg=@vger.kernel.org, AJvYcCWy09PZy4wJ1sMRBtwvY5Ypa7qWzNkvaOHbaI2v5eIO4bmMn5aBQp/WTFIFtfm5s8maDv87mr6khSriQ6FiCw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRjYYqRDVrjT7u13EQAuJ7Ayd6/D3hRoDSTiWQ5NO/cG+5E32q
+	QI2lDkNZa71aiKiPjmNp2/2AjG/AL914s+IcBZ1f0HHjT9kXaWZF
+X-Gm-Gg: ASbGncuNHbp6le175uSc4cSfRKMKTnDj3PIcC5x9RHiztgpZKKAuL8IVsKl4q8EiopH
+	B3ofkNZQBKMtmDPeS4j1+X1etI7FNcQVVa8nDWnogd4+/rEQRMCY7ZGRFXOv2jTVzSnOh4MjCFb
+	ZxC1ug6nZBTAsP7ERWSkLE0r7vrT5rlqSzdBnwc23Nx5QKbbhHyQKDF+JI88Z0wjXTdZPg4FHrM
+	NOIQcHpXuHEfrBZ0MKb05//0OX9BNCXQmzpCPemLk/JXbfAx0O0T2wQV8FzM6tC8eur8SAtQX8n
+	NHbPk3q3QL8pY5IB+HZ78yVKJg9texsM6+kKJfqL/CRR1SjzMbrBcVt7gugfCBE3qqNDaj1hVQh
+	6k/o=
+X-Google-Smtp-Source: AGHT+IHTlPN6GmKz0DlzaC9MC6JKE39U4JRzI9PelS42v8C7wtfhvijef631QQXLRW/IU34dwMPy/w==
+X-Received: by 2002:a17:902:ce0f:b0:223:3396:15e8 with SMTP id d9443c01a7336-22428899f38mr129999835ad.22.1741421165055;
+        Sat, 08 Mar 2025 00:06:05 -0800 (PST)
+Received: from localhost.localdomain ([103.49.135.232])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22410a92699sm41859775ad.204.2025.03.08.00.06.02
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 08 Mar 2025 00:06:04 -0800 (PST)
+From: Ruiwu Chen <rwchen404@gmail.com>
+To: mcgrof@kernel.org
+Cc: corbet@lwn.net,
+	joel.granados@kernel.org,
+	keescook@chromium.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rwchen404@gmail.com,
+	viro@zeniv.linux.org.uk,
+	zachwade.k@gmail.com
+Subject: Re: [PATCH v2] drop_caches: re-enable message after disabling
+Date: Sat,  8 Mar 2025 16:05:49 +0800
+Message-Id: <20250308080549.14464-1-rwchen404@gmail.com>
+X-Mailer: git-send-email 2.18.0.windows.1
+In-Reply-To: <Z7tZTCsQop1Oxk_O@bombadil.infradead.org>
+References: <Z7tZTCsQop1Oxk_O@bombadil.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250308044726.1193222-1-sdf@fomichev.me>
-In-Reply-To: <20250308044726.1193222-1-sdf@fomichev.me>
-From: Eric Dumazet <edumazet@google.com>
-Date: Sat, 8 Mar 2025 07:41:28 +0100
-X-Gm-Features: AQ5f1Jo-nG_abX2mxVG0F6FyAQP3SKkSj2fRU5w8sH3E0_u7XuD1N8-7npTR7nI
-Message-ID: <CANn89iLV6mLh8mWhYket7gBWTX+3TcCrJDA4EU5YU4ebV2nPYw@mail.gmail.com>
-Subject: Re: [PATCH net-next] net: revert to lockless TC_SETUP_BLOCK and TC_SETUP_FT
-To: Stanislav Fomichev <sdf@fomichev.me>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org, 
-	pabeni@redhat.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org, horms@kernel.org, 
-	corbet@lwn.net, andrew+netdev@lunn.ch, pablo@netfilter.org, 
-	kadlec@netfilter.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 8, 2025 at 5:47=E2=80=AFAM Stanislav Fomichev <sdf@fomichev.me>=
- wrote:
+>> When 'echo 4 > /proc/sys/vm/drop_caches' the message is disabled,
+>> but there is no interface to enable the message, only by restarting
+>> the way, so add the 'echo 0 > /proc/sys/vm/drop_caches' way to
+>> enabled the message again.
+>> 
+>> Signed-off-by: Ruiwu Chen <rwchen404@gmail.com>
 >
-> There is a couple of places from which we can arrive to ndo_setup_tc
-> with TC_SETUP_BLOCK/TC_SETUP_FT:
-> - netlink
-> - netlink notifier
-> - netdev notifier
+> You are overcomplicating things, if you just want to re-enable messages
+> you can just use:
 >
-> Locking netdev too deep in this call chain seems to be problematic
-> (especially assuming some/all of the call_netdevice_notifiers
-> NETDEV_UNREGISTER) might soon be running with the instance lock).
-> Revert to lockless ndo_setup_tc for TC_SETUP_BLOCK/TC_SETUP_FT. NFT
-> framework already takes care of most of the locking. Document
-> the assumptions.
+> -		stfu |= sysctl_drop_caches & 4;
+> +		stfu = sysctl_drop_caches & 4;
 >
+> The bool is there as 4 is intended as a bit flag, you can can figure
+> out what values you want and just append 4 to it to get the expected
+> result.
+>
+>  Luis
 
+Is that what you mean ?
+
+-               stfu |= sysctl_drop_caches & 4;
++               stfu ^= sysctl_drop_caches & 4;
+
+'echo 4 > /sys/kernel/vm/drop_caches' can disable or open messages,
+This is what I originally thought, but there is uncertainty that when different operators execute the command,
+It is not possible to determine whether this time is enabled or turned on unless you operate it twice.
+
+Ruiwu
 
 >
-> Fixes: c4f0f30b424e ("net: hold netdev instance lock during nft ndo_setup=
-_tc")
-> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
-
-I think you forgot to mention syzbot.
-
-Reported-by: syzbot+0afb4bcf91e5a1afdcad@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/netdev/67cb88d1.050a0220.d8275.022d.GAE@goo=
-gle.com/T/#u
-
-Thanks.
+>> ---
+>> v2: - updated Documentation/ to note this new API.
+>>     - renamed the variable.
+>>     - rebase this on top of sysctl-next [1].
+>> [1] https://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git/log/?h=sysctl-next
+>> 
+>>  Documentation/admin-guide/sysctl/vm.rst | 11 ++++++++++-
+>>  fs/drop_caches.c                        | 11 +++++++----
+>>  2 files changed, 17 insertions(+), 5 deletions(-)
+>> 
+>> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+>> index f48eaa98d22d..ef73d36e8b84 100644
+>> --- a/Documentation/admin-guide/sysctl/vm.rst
+>> +++ b/Documentation/admin-guide/sysctl/vm.rst
+>> @@ -266,7 +266,16 @@ used::
+>>  	cat (1234): drop_caches: 3
+>>  
+>>  These are informational only.  They do not mean that anything is wrong
+>> -with your system.  To disable them, echo 4 (bit 2) into drop_caches.
+>> +with your system.
+>> +
+>> +To disable informational::
+>> +
+>> +	echo 4 > /proc/sys/vm/drop_caches
+>> +
+>> +To enable informational::
+>> +
+>> +	echo 0 > /proc/sys/vm/drop_caches
+>> +
+>>  
+>>  enable_soft_offline
+>>  ===================
+>> diff --git a/fs/drop_caches.c b/fs/drop_caches.c
+>> index 019a8b4eaaf9..a49af7023886 100644
+>> --- a/fs/drop_caches.c
+>> +++ b/fs/drop_caches.c
+>> @@ -57,7 +57,7 @@ static int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
+>>  	if (ret)
+>>  		return ret;
+>>  	if (write) {
+>> -		static int stfu;
+>> +		static bool silent;
+>>  
+>>  		if (sysctl_drop_caches & 1) {
+>>  			lru_add_drain_all();
+>> @@ -68,12 +68,15 @@ static int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
+>>  			drop_slab();
+>>  			count_vm_event(DROP_SLAB);
+>>  		}
+>> -		if (!stfu) {
+>> +		if (!silent) {
+>>  			pr_info("%s (%d): drop_caches: %d\n",
+>>  				current->comm, task_pid_nr(current),
+>>  				sysctl_drop_caches);
+>>  		}
+>> -		stfu |= sysctl_drop_caches & 4;
+>> +		if (sysctl_drop_caches == 0)
+>> +			silent = true;
+>> +		else if (sysctl_drop_caches == 4)
+>> +			silent = false;
+>>  	}
+>>  	return 0;
+>>  }
+>> @@ -85,7 +88,7 @@ static const struct ctl_table drop_caches_table[] = {
+>>  		.maxlen		= sizeof(int),
+>>  		.mode		= 0200,
+>>  		.proc_handler	= drop_caches_sysctl_handler,
+>> -		.extra1		= SYSCTL_ONE,
+>> +		.extra1		= SYSCTL_ZERO,
+>>  		.extra2		= SYSCTL_FOUR,
+>>  	},
+>>  };
+>> -- 
+>> 2.27.0
+>> 
