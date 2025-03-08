@@ -1,186 +1,135 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3DB17583;
-	Sat,  8 Mar 2025 08:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E7019CCF5;
+	Sat,  8 Mar 2025 11:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741421167; cv=none; b=eC/nHdaYg2Vi1K45LqBWrFDeXom2fq21Yw68m/lmkYLIfOfGhkfYa88aYDjg4EZ6n3lcW2gU7kVHgjICy2sCm8LPwUwbG9p/JRctvbYs40Gdqq0mkkqnNHAplSixho1pzUqSLcwlquWBrcHOkPHja2VXYnJNtZfji5DtAPQT5IY=
+	t=1741432203; cv=none; b=HnP8VgVT02Ol9EbKxdqYOmiR6ci+zgiBqTB8S4sw+8rJxiB5ldd4cv+5SyT/cPCpifxv3UgZl81rz/KwFzdrHbwcrzEdmbqYO1NhDDM5MHm54BPvuunYHvRbfaWkjQCQbxAdr5j//AyTMoInUMVdOlPWNkRF+KXVUv4gNRUk+R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741421167; c=relaxed/simple;
-	bh=XGRxZAYguXEWQD/gjMwK8T/ARx3CsugPw3sn2U4bboE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=EuK0VFBx4H3OHs+B54mHhMLkk7+cD6rNcj2UduPjZxX0WjCOWvs2FixFXwa1a3xloDSV8vUOhbHYWgaLK8YOk7xBHQDy/IXIxojIYYW/JMrm+iI2s1IR6GtF3IBI1BrSNGqKJDBJp3+QNSCJpZrUpbG7Gdg6+bXODmqerZCwckY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CpFZJrxT; arc=none smtp.client-ip=209.85.214.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741432203; c=relaxed/simple;
+	bh=wjd4lKQpkpaeMS8a8WAbOFRqGjEHqDFGgmCn5GH9lJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hgV6ZL1OlRfKc+XYtSNOWNBeKpgSNhKg6fx7WQtcpQ2jg5yGkYc6fzDKSh34QgW3xEGFsTKgnIe8nEwwh/OyJt2txRgsCQHbW5M6buoqR8flqJsL//OVtqEakxynVyqBkjoRYu4aPJtjnnz9Kiua5VCBpKs4KtykcjKh7TT7Ymc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jI558XKL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CpFZJrxT"
-Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-22337bc9ac3so54314055ad.1;
-        Sat, 08 Mar 2025 00:06:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741421165; x=1742025965; darn=vger.kernel.org;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ChhxADJR+xbJvkByK/dxsEr1PgDDMt78zzdKfiQchCo=;
-        b=CpFZJrxTWo8NSt1unJJNGf6kwCHf2blg6Z4PFACJlPyTiuEOu4YtRy+etWqjTzQIsI
-         TSzrZUfydc9dq0KRDufOe9jTxo+3jGiKHjOBNacxhw1A6lXHVbxL0jUdK/4nSC2pp0eB
-         50htEeqEVgWB896flEkZ8NXDaUoFI/KHZ3sTUdMiIdYfRSy1Y9XcH8NsEbavE1yF8mhe
-         rqwjsua82u8dZXa5ImCi9UkRvK7aTQDmby1/UX4XAsNTAKciQulwo/UGSF1eVp2HJ9Sp
-         1kPt41XHWyOiV7QbmZkRqi4OtHiWwUVEBKTl4D9mN9UKNfyi4xXhTZojAzK5Cp2j40Pl
-         eh0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741421165; x=1742025965;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ChhxADJR+xbJvkByK/dxsEr1PgDDMt78zzdKfiQchCo=;
-        b=Oz48klfTUoUOKbtWfuN5Qb4KHsY4sksEyYo+BE9riXwdx9qjfYwTH8UiX+RYXU62Hp
-         EUB5fhIU7+4tXUL8cZrr+79flFU2uAw9DeiQ8bNSk2LtoyJziBMQ4PlnnVN0bl+78FZu
-         amFkG1bcHj7Vzm96bFn63ir47Sau5/S5JCkzpPjxlwDz36UWeIUnVGJpIlFnsSthxley
-         OFMwQet92NI/MyN7EDpZxm3tebNToMHb/OyLcHJRyzqaR6E2Z1tgOkkyjHPizHloopOi
-         uPHyUjKaaUGSSKH1xJdPLUDXWeeCjd2k0b+RSgq7Msh8c8YfGxYvXY0UrDqd+EpQRr7/
-         dGpA==
-X-Forwarded-Encrypted: i=1; AJvYcCUs6dl/Q/2EeH/2nf88L7H13SmzVPQ+Jej5+jLPg3vG8RK7Bj2AhGjO+GQW1bMyybTiPgTgJbg3aLcSY4SY@vger.kernel.org, AJvYcCWL/r808OVgUVfQjXao2NKnZXd6AQhjdqgxG8u8byU/Hcn+yExcqHXeT3cpPTO5I4y5lcuxCmNThWg=@vger.kernel.org, AJvYcCWy09PZy4wJ1sMRBtwvY5Ypa7qWzNkvaOHbaI2v5eIO4bmMn5aBQp/WTFIFtfm5s8maDv87mr6khSriQ6FiCw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRjYYqRDVrjT7u13EQAuJ7Ayd6/D3hRoDSTiWQ5NO/cG+5E32q
-	QI2lDkNZa71aiKiPjmNp2/2AjG/AL914s+IcBZ1f0HHjT9kXaWZF
-X-Gm-Gg: ASbGncuNHbp6le175uSc4cSfRKMKTnDj3PIcC5x9RHiztgpZKKAuL8IVsKl4q8EiopH
-	B3ofkNZQBKMtmDPeS4j1+X1etI7FNcQVVa8nDWnogd4+/rEQRMCY7ZGRFXOv2jTVzSnOh4MjCFb
-	ZxC1ug6nZBTAsP7ERWSkLE0r7vrT5rlqSzdBnwc23Nx5QKbbhHyQKDF+JI88Z0wjXTdZPg4FHrM
-	NOIQcHpXuHEfrBZ0MKb05//0OX9BNCXQmzpCPemLk/JXbfAx0O0T2wQV8FzM6tC8eur8SAtQX8n
-	NHbPk3q3QL8pY5IB+HZ78yVKJg9texsM6+kKJfqL/CRR1SjzMbrBcVt7gugfCBE3qqNDaj1hVQh
-	6k/o=
-X-Google-Smtp-Source: AGHT+IHTlPN6GmKz0DlzaC9MC6JKE39U4JRzI9PelS42v8C7wtfhvijef631QQXLRW/IU34dwMPy/w==
-X-Received: by 2002:a17:902:ce0f:b0:223:3396:15e8 with SMTP id d9443c01a7336-22428899f38mr129999835ad.22.1741421165055;
-        Sat, 08 Mar 2025 00:06:05 -0800 (PST)
-Received: from localhost.localdomain ([103.49.135.232])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22410a92699sm41859775ad.204.2025.03.08.00.06.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 08 Mar 2025 00:06:04 -0800 (PST)
-From: Ruiwu Chen <rwchen404@gmail.com>
-To: mcgrof@kernel.org
-Cc: corbet@lwn.net,
-	joel.granados@kernel.org,
-	keescook@chromium.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rwchen404@gmail.com,
-	viro@zeniv.linux.org.uk,
-	zachwade.k@gmail.com
-Subject: Re: [PATCH v2] drop_caches: re-enable message after disabling
-Date: Sat,  8 Mar 2025 16:05:49 +0800
-Message-Id: <20250308080549.14464-1-rwchen404@gmail.com>
-X-Mailer: git-send-email 2.18.0.windows.1
-In-Reply-To: <Z7tZTCsQop1Oxk_O@bombadil.infradead.org>
-References: <Z7tZTCsQop1Oxk_O@bombadil.infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jI558XKL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1039C4CEE0;
+	Sat,  8 Mar 2025 11:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741432202;
+	bh=wjd4lKQpkpaeMS8a8WAbOFRqGjEHqDFGgmCn5GH9lJY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jI558XKLWX4PB6OS6TWHt63q8OOLntXovXrL6g7R2IoQRHOlRc/x7GiCAlKt0cPFy
+	 UJ0m3En3iOcOcnQcbaVNuygjBEHCamf6ZkdzcnkQIRvMuUudvdzJWQWRp7TahzpnMt
+	 po0NZYAOhJI6nMu6namwhF1JZ8c6L4Uwwsy+Qf0MIpylpTrKc5oTGhRkKIHp9gZqjx
+	 vUxCFDU4Ipw5VzgvYnbEX12w67Cv5lQXFJ9DU8slKx5BVC73IiYGs+zAZrXqdfkRlH
+	 pt5tWcD9gqJHqEDOAFRx9ppRpRmQMDbjsaWfFTMiOSAlIuSw7Ly4btwIUFTyVT8+VV
+	 waKmgfyh1ZNxQ==
+Date: Sat, 8 Mar 2025 12:09:53 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pratyush Yadav <ptyadav@amazon.de>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Eric Biederman <ebiederm@xmission.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
+	Alexander Graf <graf@amazon.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
+	David Woodhouse <dwmw2@infradead.org>, James Gowans <jgowans@amazon.com>, 
+	Mike Rapoport <rppt@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Pasha Tatashin <tatashin@google.com>, Anthony Yznaga <anthony.yznaga@oracle.com>, 
+	Dave Hansen <dave.hansen@intel.com>, David Hildenbrand <david@redhat.com>, 
+	Matthew Wilcox <willy@infradead.org>, Wei Yang <richard.weiyang@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, kexec@lists.infradead.org
+Subject: Re: [RFC PATCH 1/5] misc: introduce FDBox
+Message-ID: <20250308-wutanfall-ersetzbar-2aedc820d80d@brauner>
+References: <20250307005830.65293-1-ptyadav@amazon.de>
+ <20250307005830.65293-2-ptyadav@amazon.de>
+ <20250307-sachte-stolz-18d43ffea782@brauner>
+ <20250307151417.GQ354511@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250307151417.GQ354511@nvidia.com>
 
->> When 'echo 4 > /proc/sys/vm/drop_caches' the message is disabled,
->> but there is no interface to enable the message, only by restarting
->> the way, so add the 'echo 0 > /proc/sys/vm/drop_caches' way to
->> enabled the message again.
->> 
->> Signed-off-by: Ruiwu Chen <rwchen404@gmail.com>
->
-> You are overcomplicating things, if you just want to re-enable messages
-> you can just use:
->
-> -		stfu |= sysctl_drop_caches & 4;
-> +		stfu = sysctl_drop_caches & 4;
->
-> The bool is there as 4 is intended as a bit flag, you can can figure
-> out what values you want and just append 4 to it to get the expected
-> result.
->
->  Luis
+On Fri, Mar 07, 2025 at 11:14:17AM -0400, Jason Gunthorpe wrote:
+> On Fri, Mar 07, 2025 at 10:31:39AM +0100, Christian Brauner wrote:
+> > On Fri, Mar 07, 2025 at 12:57:35AM +0000, Pratyush Yadav wrote:
+> > > The File Descriptor Box (FDBox) is a mechanism for userspace to name
+> > > file descriptors and give them over to the kernel to hold. They can
+> > > later be retrieved by passing in the same name.
+> > > 
+> > > The primary purpose of FDBox is to be used with Kexec Handover (KHO).
+> > > There are many kinds anonymous file descriptors in the kernel like
+> > > memfd, guest_memfd, iommufd, etc. that would be useful to be preserved
+> > > using KHO. To be able to do that, there needs to be a mechanism to label
+> > > FDs that allows userspace to set the label before doing KHO and to use
+> > > the label to map them back after KHO. FDBox achieves that purpose by
+> > > exposing a miscdevice which exposes ioctls to label and transfer FDs
+> > > between the kernel and userspace. FDBox is not intended to work with any
+> > > generic file descriptor. Support for each kind of FDs must be explicitly
+> > > enabled.
+> > 
+> > This makes no sense as a generic concept. If you want to restore shmem
+> > and possibly anonymous inodes files via KHO then tailor the solution to
+> > shmem and anon inodes but don't make this generic infrastructure. This
+> > has zero chances to cover generic files.
+> 
+> We need it to cover a range of FD types in the kernel like iommufd and
 
-Is that what you mean ?
+anonymous inode
 
--               stfu |= sysctl_drop_caches & 4;
-+               stfu ^= sysctl_drop_caches & 4;
+> vfio.
 
-'echo 4 > /sys/kernel/vm/drop_caches' can disable or open messages,
-This is what I originally thought, but there is uncertainty that when different operators execute the command,
-It is not possible to determine whether this time is enabled or turned on unless you operate it twice.
+anonymous inode
 
-Ruiwu
+> 
+> It is not "generic" in the sense every FD in the kernel magicaly works
+> with fdbox, but that any driver/subsystem providing a FD could be
+> enlightened to support it.
+> 
+> Very much do not want the infrastructure tied to just shmem and memfd.
 
->
->> ---
->> v2: - updated Documentation/ to note this new API.
->>     - renamed the variable.
->>     - rebase this on top of sysctl-next [1].
->> [1] https://git.kernel.org/pub/scm/linux/kernel/git/sysctl/sysctl.git/log/?h=sysctl-next
->> 
->>  Documentation/admin-guide/sysctl/vm.rst | 11 ++++++++++-
->>  fs/drop_caches.c                        | 11 +++++++----
->>  2 files changed, 17 insertions(+), 5 deletions(-)
->> 
->> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
->> index f48eaa98d22d..ef73d36e8b84 100644
->> --- a/Documentation/admin-guide/sysctl/vm.rst
->> +++ b/Documentation/admin-guide/sysctl/vm.rst
->> @@ -266,7 +266,16 @@ used::
->>  	cat (1234): drop_caches: 3
->>  
->>  These are informational only.  They do not mean that anything is wrong
->> -with your system.  To disable them, echo 4 (bit 2) into drop_caches.
->> +with your system.
->> +
->> +To disable informational::
->> +
->> +	echo 4 > /proc/sys/vm/drop_caches
->> +
->> +To enable informational::
->> +
->> +	echo 0 > /proc/sys/vm/drop_caches
->> +
->>  
->>  enable_soft_offline
->>  ===================
->> diff --git a/fs/drop_caches.c b/fs/drop_caches.c
->> index 019a8b4eaaf9..a49af7023886 100644
->> --- a/fs/drop_caches.c
->> +++ b/fs/drop_caches.c
->> @@ -57,7 +57,7 @@ static int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
->>  	if (ret)
->>  		return ret;
->>  	if (write) {
->> -		static int stfu;
->> +		static bool silent;
->>  
->>  		if (sysctl_drop_caches & 1) {
->>  			lru_add_drain_all();
->> @@ -68,12 +68,15 @@ static int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
->>  			drop_slab();
->>  			count_vm_event(DROP_SLAB);
->>  		}
->> -		if (!stfu) {
->> +		if (!silent) {
->>  			pr_info("%s (%d): drop_caches: %d\n",
->>  				current->comm, task_pid_nr(current),
->>  				sysctl_drop_caches);
->>  		}
->> -		stfu |= sysctl_drop_caches & 4;
->> +		if (sysctl_drop_caches == 0)
->> +			silent = true;
->> +		else if (sysctl_drop_caches == 4)
->> +			silent = false;
->>  	}
->>  	return 0;
->>  }
->> @@ -85,7 +88,7 @@ static const struct ctl_table drop_caches_table[] = {
->>  		.maxlen		= sizeof(int),
->>  		.mode		= 0200,
->>  		.proc_handler	= drop_caches_sysctl_handler,
->> -		.extra1		= SYSCTL_ONE,
->> +		.extra1		= SYSCTL_ZERO,
->>  		.extra2		= SYSCTL_FOUR,
->>  	},
->>  };
->> -- 
->> 2.27.0
->> 
+Anything you can reasonably want will either be an internal shmem mount,
+devtmpfs, or anonymous inodes. Anything else isn't going to work.
+
+> 
+> > As soon as you're dealing with non-kernel internal mounts that are not
+> > guaranteed to always be there or something that depends on superblock or
+> > mount specific information that can change you're already screwed.
+> 
+> This is really targetting at anonymous or character device file
+> descriptors that don't have issues with mounts.
+> 
+> Same remark about inode permissions and what not. The successor
+> kernel would be responsible to secure the FDBOX and when it takes
+> anything out it has to relabel it if required.
+> 
+> inode #s and things can change because this is not something like CRIU
+> that would have state linked to inode numbers. The applications in the
+> sucessor kernels are already very special, they will need to cope with
+> inode number changes along with all the other special stuff they do.
+> 
+> > And struct file should have zero to do with this KHO stuff. It doesn't
+> > need to carry new operations and it doesn't need to waste precious space
+> > for any of this.
+> 
+> Yeah, it should go through file_operations in some way.
+
+I'm fine with a new method. There's not going to be three new methods
+just for the sake of this special-purpose thing. And want this to be
+part of fs/ and co-maintained by fs people.
+
+I'm not yet sold that this needs to be a character device. Because
+that's fundamentally limiting in how useful this can be.
+
+It might be way more useful if this ended up being a separate tiny
+filesystem where such preserved files are simply shown as named entries
+that you can open instead of ioctl()ing your way through character
+devices. But I need to think about that.
