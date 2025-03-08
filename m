@@ -1,135 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E7019CCF5;
-	Sat,  8 Mar 2025 11:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9827F1B040B;
+	Sat,  8 Mar 2025 12:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741432203; cv=none; b=HnP8VgVT02Ol9EbKxdqYOmiR6ci+zgiBqTB8S4sw+8rJxiB5ldd4cv+5SyT/cPCpifxv3UgZl81rz/KwFzdrHbwcrzEdmbqYO1NhDDM5MHm54BPvuunYHvRbfaWkjQCQbxAdr5j//AyTMoInUMVdOlPWNkRF+KXVUv4gNRUk+R4=
+	t=1741438327; cv=none; b=AIX91d1PLIpW50F+QmWAFStkwfDBO1Ck7DBAJ3ZhXmhL/ze4spHf+iI/d5eS8jXle/A8SynurnZfS1p2dSz2N8i7uo3hPQdJ6j5OoFkFcCIOPQucWVC7iD+RYcGHEx27q3qH/RZ1Iu+ZszWNt7JoKAgrs00QdaAUihyHAXsvKO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741432203; c=relaxed/simple;
-	bh=wjd4lKQpkpaeMS8a8WAbOFRqGjEHqDFGgmCn5GH9lJY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hgV6ZL1OlRfKc+XYtSNOWNBeKpgSNhKg6fx7WQtcpQ2jg5yGkYc6fzDKSh34QgW3xEGFsTKgnIe8nEwwh/OyJt2txRgsCQHbW5M6buoqR8flqJsL//OVtqEakxynVyqBkjoRYu4aPJtjnnz9Kiua5VCBpKs4KtykcjKh7TT7Ymc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jI558XKL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741438327; c=relaxed/simple;
+	bh=ljcSe8icqYARGbv2/xhAvm/DCpz0wTGWoW545h+pz7A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bafYscWi/iJDggG5ZoOhVVt4ILnHoD6DNqwPcji41Gf4CEp+O1Ldx5gzJHpOw/59OUssVk+IONt5avW76HSAWGiaXB+4ZY9f3crhzNBkINI2v6jOC4XB7mVVnRNcAvHwmnUDM3btzxVq5jsYhZsDMM7Sco8vk9tx2IvL7HvO1To=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SZkXQqml; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jI558XKL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1039C4CEE0;
-	Sat,  8 Mar 2025 11:09:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741432202;
-	bh=wjd4lKQpkpaeMS8a8WAbOFRqGjEHqDFGgmCn5GH9lJY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jI558XKLWX4PB6OS6TWHt63q8OOLntXovXrL6g7R2IoQRHOlRc/x7GiCAlKt0cPFy
-	 UJ0m3En3iOcOcnQcbaVNuygjBEHCamf6ZkdzcnkQIRvMuUudvdzJWQWRp7TahzpnMt
-	 po0NZYAOhJI6nMu6namwhF1JZ8c6L4Uwwsy+Qf0MIpylpTrKc5oTGhRkKIHp9gZqjx
-	 vUxCFDU4Ipw5VzgvYnbEX12w67Cv5lQXFJ9DU8slKx5BVC73IiYGs+zAZrXqdfkRlH
-	 pt5tWcD9gqJHqEDOAFRx9ppRpRmQMDbjsaWfFTMiOSAlIuSw7Ly4btwIUFTyVT8+VV
-	 waKmgfyh1ZNxQ==
-Date: Sat, 8 Mar 2025 12:09:53 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pratyush Yadav <ptyadav@amazon.de>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Eric Biederman <ebiederm@xmission.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
-	Alexander Graf <graf@amazon.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
-	David Woodhouse <dwmw2@infradead.org>, James Gowans <jgowans@amazon.com>, 
-	Mike Rapoport <rppt@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Pasha Tatashin <tatashin@google.com>, Anthony Yznaga <anthony.yznaga@oracle.com>, 
-	Dave Hansen <dave.hansen@intel.com>, David Hildenbrand <david@redhat.com>, 
-	Matthew Wilcox <willy@infradead.org>, Wei Yang <richard.weiyang@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, kexec@lists.infradead.org
-Subject: Re: [RFC PATCH 1/5] misc: introduce FDBox
-Message-ID: <20250308-wutanfall-ersetzbar-2aedc820d80d@brauner>
-References: <20250307005830.65293-1-ptyadav@amazon.de>
- <20250307005830.65293-2-ptyadav@amazon.de>
- <20250307-sachte-stolz-18d43ffea782@brauner>
- <20250307151417.GQ354511@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SZkXQqml"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3061513d353so30829811fa.2;
+        Sat, 08 Mar 2025 04:52:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741438324; x=1742043124; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ljcSe8icqYARGbv2/xhAvm/DCpz0wTGWoW545h+pz7A=;
+        b=SZkXQqmlbfk+OwOmVB4I/lPj9ZKJDYzGYOfbd+EQtrMZfOC6ZdxiR1gevRxlP+HQDI
+         r1P67B5pDfAKu3vtjXH6tJ1t2OmV+FPNA2Ba0AIjp5UCxmpxH3H5wo8zRnhPW4ydgH5K
+         2253GfEr1FRth0Fqu2MyBA4Lgy+2k4TkqT40u2UD2MTjyA0/XBAJOE3Rufn9DRfEvbb5
+         MpmxaenOl1L6TBysZk3V6bRHzrgkXsJdozG3jNygjsp++c5z4R/h4lPm0bu+m+wSm9PJ
+         9XusM2mM/Fq7D0uTkaco/z+I7Qxj+fgtstp1y5bjhf/i9Bzt8F7YRGNCoImageNvpa+I
+         ckHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741438324; x=1742043124;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ljcSe8icqYARGbv2/xhAvm/DCpz0wTGWoW545h+pz7A=;
+        b=RcrLBea1ps/Fw3QmFXnhJA+6oX0He7TaFTFjfOuyD3Zb+7z+pO8DOc84fOCwdIfqg7
+         aLg4L3VEYxhP8VV4W2aIHQSQY4NgJ6LZV6sgmYlBxkVrsFZcA4/vf2rhlRAlUosfSL2M
+         Mewt5Nky32BDDevdsajD4afpzlYIqMDy/eundbVmSiiaHI7eQLF7Fdx0qI50DqDlbG62
+         8zKRtGUBSVJoHYEc/NUK2IF3rDPOPyASZQyWnfoiLfMytVMLAq80KbyOWqV6uXInF32Y
+         VMs+2DeR/AuJcc+6uWzBGnSUPeSiOqoi4Yf8/7FKJfnchsRf/Z5Oh5eXHckhscTHjZrY
+         tvsg==
+X-Forwarded-Encrypted: i=1; AJvYcCUM+Dj5VT/3SzyBhL+AgFLJDMgvkbiH/m/pg0SSZn7wL7e909+4zoidyMY7SHrnRC8eXgAr8dvwPa4=@vger.kernel.org, AJvYcCVIB27o5lEBObdQjwUccKkV1U6mD4qirAFzGPgcfQSZNauaoIUNqKhyfilpqsdfYfmwLI8ygCkfIcOBeul/@vger.kernel.org, AJvYcCVKmr49xmJYTPI5Yd69KZQK6QR9uwXrIkB5eNfjs9nlmKZxK7X4WlWRaU6wn5vzo29Z14c3xtUyC5KF@vger.kernel.org, AJvYcCWEFKOQ+fxxpc5vW6k4r8TwUcJwSJ5M6tdRC5SKQJNuTS2pTYO5YD8spCTbBBNGXqRY0na4k57oVYj1c3g8JPGP@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9hXE27kVUVavWpKWr5P5aQC0dOZT1VWZgmS5Fv7JbPS/ooMW5
+	OHcsSfjPEZtjjMXmf8xhd91JdqYwbati4BeTTlvFBFoDnLcwuNeYOCB0nHkU6rRFXbn7YGoRbCi
+	fwmx4zu0fJ0GQt2/NvWAdC/9HTmc=
+X-Gm-Gg: ASbGncvGL1NWlS3m1QVJIle4o+HPzomi3miKrLaUwaASyv8j2E7XrG7dMNhTFjLS5em
+	TQl2C5vrZCUN28RyrN0NqlyOY+BVxuC9yOwNnmz1sIWbc8fv2z1tBora+rayF7TZbbAN7V/C7V0
+	DP4O3BFcqV3KgV3efjqVYEj4eAJme6J8KuAekBtcxMtXR4IqsbsFVI5iKQliK3
+X-Google-Smtp-Source: AGHT+IHdstqcViUgKKVj/dxOVnnCRmRtk0n+Jmb8EXvBPRxEstCxyV8oevucwu1Qdxz344u8wFGVHkGcozJRwQRyjxo=
+X-Received: by 2002:a2e:a495:0:b0:30b:aabf:fc4 with SMTP id
+ 38308e7fff4ca-30bf4535ca8mr20702861fa.21.1741438323386; Sat, 08 Mar 2025
+ 04:52:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250307151417.GQ354511@nvidia.com>
+References: <20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com> <202503072046.34DAF614E6@keescook>
+In-Reply-To: <202503072046.34DAF614E6@keescook>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Sat, 8 Mar 2025 07:51:27 -0500
+X-Gm-Features: AQ5f1JrzFDCikkubFSehWJW1k-o-BEpIkGHx4XfrgD5nfeGf55hOd06bCk68tB8
+Message-ID: <CAJ-ks9kTO-u+Wqp0K-vdMLAs08fBeoovSeb_pGkMjSHFnBKysA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/3] printf: convert self-test to KUnit
+To: Kees Cook <kees@kernel.org>
+Cc: Arpitha Raghunandan <98.arpi@gmail.com>, David Gow <davidgow@google.com>, 
+	Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Naveen N Rao <naveen@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+	linuxppc-dev@lists.ozlabs.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 07, 2025 at 11:14:17AM -0400, Jason Gunthorpe wrote:
-> On Fri, Mar 07, 2025 at 10:31:39AM +0100, Christian Brauner wrote:
-> > On Fri, Mar 07, 2025 at 12:57:35AM +0000, Pratyush Yadav wrote:
-> > > The File Descriptor Box (FDBox) is a mechanism for userspace to name
-> > > file descriptors and give them over to the kernel to hold. They can
-> > > later be retrieved by passing in the same name.
-> > > 
-> > > The primary purpose of FDBox is to be used with Kexec Handover (KHO).
-> > > There are many kinds anonymous file descriptors in the kernel like
-> > > memfd, guest_memfd, iommufd, etc. that would be useful to be preserved
-> > > using KHO. To be able to do that, there needs to be a mechanism to label
-> > > FDs that allows userspace to set the label before doing KHO and to use
-> > > the label to map them back after KHO. FDBox achieves that purpose by
-> > > exposing a miscdevice which exposes ioctls to label and transfer FDs
-> > > between the kernel and userspace. FDBox is not intended to work with any
-> > > generic file descriptor. Support for each kind of FDs must be explicitly
-> > > enabled.
-> > 
-> > This makes no sense as a generic concept. If you want to restore shmem
-> > and possibly anonymous inodes files via KHO then tailor the solution to
-> > shmem and anon inodes but don't make this generic infrastructure. This
-> > has zero chances to cover generic files.
-> 
-> We need it to cover a range of FD types in the kernel like iommufd and
+On Fri, Mar 7, 2025 at 11:49=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+>
+> On Fri, Mar 07, 2025 at 05:08:55PM -0500, Tamir Duberstein wrote:
+> > This is one of just 3 remaining "Test Module" kselftests (the others
+> > being bitmap and scanf), the rest having been converted to KUnit.
+> >
+> > I tested this using:
+> >
+> > $ tools/testing/kunit/kunit.py run --arch arm64 --make_options LLVM=3D1=
+ printf
+> >
+> > I have also sent out a series converting scanf[0].
+> >
+> > Link: https://lore.kernel.org/all/20250204-scanf-kunit-convert-v3-0-386=
+d7c3ee714@gmail.com/T/#u [0]
+> >
+> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> > ---
+> > Changes in v6:
+> > - Use __printf correctly on `__test`. (Petr Mladek)
+> > - Rebase on linux-next.
+>
+> Thanks for doing this!
+>
+> If Petr, Rasmus, Andy, and/or others Ack this I can carry it in my
+> "lib/ kunit tests move to lib/tests/" tree, as that's where all the
+> infrastructure in lib/tests/ exists.
 
-anonymous inode
-
-> vfio.
-
-anonymous inode
-
-> 
-> It is not "generic" in the sense every FD in the kernel magicaly works
-> with fdbox, but that any driver/subsystem providing a FD could be
-> enlightened to support it.
-> 
-> Very much do not want the infrastructure tied to just shmem and memfd.
-
-Anything you can reasonably want will either be an internal shmem mount,
-devtmpfs, or anonymous inodes. Anything else isn't going to work.
-
-> 
-> > As soon as you're dealing with non-kernel internal mounts that are not
-> > guaranteed to always be there or something that depends on superblock or
-> > mount specific information that can change you're already screwed.
-> 
-> This is really targetting at anonymous or character device file
-> descriptors that don't have issues with mounts.
-> 
-> Same remark about inode permissions and what not. The successor
-> kernel would be responsible to secure the FDBOX and when it takes
-> anything out it has to relabel it if required.
-> 
-> inode #s and things can change because this is not something like CRIU
-> that would have state linked to inode numbers. The applications in the
-> sucessor kernels are already very special, they will need to cope with
-> inode number changes along with all the other special stuff they do.
-> 
-> > And struct file should have zero to do with this KHO stuff. It doesn't
-> > need to carry new operations and it doesn't need to waste precious space
-> > for any of this.
-> 
-> Yeah, it should go through file_operations in some way.
-
-I'm fine with a new method. There's not going to be three new methods
-just for the sake of this special-purpose thing. And want this to be
-part of fs/ and co-maintained by fs people.
-
-I'm not yet sold that this needs to be a character device. Because
-that's fundamentally limiting in how useful this can be.
-
-It might be way more useful if this ended up being a separate tiny
-filesystem where such preserved files are simply shown as named entries
-that you can open instead of ioctl()ing your way through character
-devices. But I need to think about that.
+I think the plan is to take it through the printk tree. We're still
+working on it, here's v6:
+https://lore.kernel.org/all/20250307-printf-kunit-convert-v6-0-4d85c361c241=
+@gmail.com/
+where I've rebased and put the test in lib/tests.
