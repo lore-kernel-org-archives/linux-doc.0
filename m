@@ -1,606 +1,397 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB750217658
-	for <linux-doc@vger.kernel.org>; Sat,  8 Mar 2025 21:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185C62904
+	for <linux-doc@vger.kernel.org>; Sat,  8 Mar 2025 21:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741470065; cv=none; b=DJ9Be605Rdidm9gogdIF1FRI0AjQI9LAaxgZoqFO3qUiTpP5VDdQ69MR0iNo0Xy8c/Iaju53/8PgsOSNHjoWv/m13SvHB7T8Qtq38CqyH/tSdQ+b1di/7SNYB7xGz+F8nIYtCnd1Uwdoe4r5qVEV3Jog8VIXxuSYWfbsfre2g3U=
+	t=1741470461; cv=none; b=n3XsRMk3/8rwpud87qpEyEY0YeSyNM2tjQ46zZ/Dm4F9jqYyvB4yIIypWuIscErKnbBqv8CSAMHLgn65nbitJKvIG5tDykKeZ5oos1YcFVunv9wCgbGpchZjblHmFZ42AXSiCXNEMi4ONZAhGwsmt7sJvFCOzdHVicua8l70SYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741470065; c=relaxed/simple;
-	bh=f3/4i8+4lq8xrFjfnctzLJZ2Vew1NUkXraPbpumger0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=GSu/OSqo7Y/GIctil9x1ovM6zpzS9Z/2ycRyXIg4Kk0n17fFnGx87COfDGXLgVmJ/qC+SrP9HF5jNs4n8oOpiOSkZ5v1bmTOsZy4U/kfp0S9iNdCAlrITQgAPQ7u9u1JWi2gjXguYwowJIAUc7Eod7Nv3WiP9+a6qdI246pXC54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MIcWz81O; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+	s=arc-20240116; t=1741470461; c=relaxed/simple;
+	bh=kLh7vsiwyiRruuOrk3SyXEPc/yuLSYJc04oXkcOKcpo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BU5KKApog6M9dgr7jqXzzhKyAVXHF8ut/tbh83RWa5V9kZFwuIcGnv3aq7dGWSC//DicCiJGEaSx/nj0B/NZbIh3sbHJ/BT5BpNwOck489Ae6AlPcr+GGDjNphbvjfapMOWo3stDpQNOIfPuzOQXLFxZ0Hf/APcsDPKqN5g0qv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JcYJ1lG+; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MIcWz81O"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2feded265deso5194134a91.2
-        for <linux-doc@vger.kernel.org>; Sat, 08 Mar 2025 13:41:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JcYJ1lG+"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-38a25d4b9d4so1558795f8f.0
+        for <linux-doc@vger.kernel.org>; Sat, 08 Mar 2025 13:47:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741470062; x=1742074862; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yT18+yNp0G09gKREpoqxKnlnqPHvsdCe72nQqesZ4Kk=;
-        b=MIcWz81OPAuwg3taZ4zAx5xSXVIKjAUVh9eqsXLbh28VSKvgiFsuJEdyssuC/6W8HW
-         Z3TOpzfJzULXfwc/tKVk+Q9BGQ59VEUITNinwjhiHlBFRszW+2PsCGLpLbHrzx3lH0KO
-         2B+tao1AuqtbycVPjGPIdJuNfFDm/cDhLneflv/UZ3vtIOxYu8x1dmmLBDSX+HP0qmGg
-         yq3avSDthOeKxIoi5ha0SDEMcQST05RQvRztkLM33Ml/ibixtmRyoN9sZtUHZ9AIw8F4
-         J2SYxJf0HO4spRZOkIbTm1pyiCwZAP8S9PJ2yt4wScweX3Pg/s05pcHrxC19BuRTMmYs
-         PIag==
+        d=gmail.com; s=20230601; t=1741470457; x=1742075257; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Gz8rdYBjDWtVICITTkqM0G0gYcDxAwfcMXdZkz5lYRk=;
+        b=JcYJ1lG+VEY5EMh3MTkMuTVD7L2/7SNH9/9IvrHmTUSjw3wGo3UbX2i9BXL4B2gEFJ
+         S+haqMNyfjzYnuXeaBdoisbkQi8OmHKhUFbdVqa4x4RKyLrWfa8y75ye6GPdt12+15vo
+         TmqVGlroXEEfVcFg982iFmX8YbAAXuOAdtkRYIJdLYEwHfFyaBj1zZ6ZePPBtXUdj3+E
+         sPEGWUXzup3TxSoZL3YjtpSCKFVbvDV4iNnDe9PsM9wFMxu2H+HID/HW+muVHTlQ+pHk
+         I39ERSJzytaJnUb8NdcpEj1ibtNkIPteFXe84Eb9cOmtkmyI9Ic1tyTzXZLPnj+fuqNK
+         A1dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741470062; x=1742074862;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yT18+yNp0G09gKREpoqxKnlnqPHvsdCe72nQqesZ4Kk=;
-        b=Dak8/qXN1Y+bJi2FFkRulN6Y2T2KW3EbOvXZudpp1l+EgGL88LfAbnO9sEjfEftSaM
-         SiO6PiwCj8UUTymhR11tjfuKJq7JqUJ7u8tgxT++70pl4knPCVx/D+/XsPh/w10XJhWp
-         aRvfoGb8HYTyWoeXhdqlaGKEsvj3kzGbPwBSJQ0txmBGtdhlRbaLmu1cw2zLaGYST6Y9
-         lO/dX+hA9scDJCDXSWbkBEDi7kWBA4VJYTMFFMNQu6Wf7w5KmdpW02Yg9Jpcxc3CL380
-         sr6l00V6nLr2Js72XhwxPKqQKmE1/oV5d3J+r4J6Fqdtv6ZB4+vs7kgJydjOejWYtyxk
-         UG7w==
-X-Forwarded-Encrypted: i=1; AJvYcCWql7VGLvymig1wNleP3+PpgH6RKxBZKOWKZYpCR+ADDUux3Ai+PGEs8yAuEy3wXAfrv1QpDU8vuR4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcL4JySTScub+UB+MU5V7ZFUupDkFuEYcpuAMWaQVHWxWKLkoQ
-	4z8WSwRIo2Qe62xlF8e0E6sCadnm3cdTLkCONyrcviqPz0GbnBJAwCFZEDm2CJ0R8UL6kR6SVdN
-	+JsGgnr++BJlOxx4QJmvjVw==
-X-Google-Smtp-Source: AGHT+IFE12Qlv3QvvPMel+MqZLR2aYyOinhSvgix1CfB9ElAh2jhVqjROglhCR1VOqSbHd0lBIP0/ve5Fqc6EhHNBQ==
-X-Received: from pgbcf2.prod.google.com ([2002:a05:6a02:842:b0:adf:4827:b70e])
- (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a21:497:b0:1ee:ced0:f0a4 with SMTP id adf61e73a8af0-1f544c377b2mr16751104637.34.1741470062099;
- Sat, 08 Mar 2025 13:41:02 -0800 (PST)
-Date: Sat,  8 Mar 2025 21:40:45 +0000
-In-Reply-To: <20250308214045.1160445-1-almasrymina@google.com>
+        d=1e100.net; s=20230601; t=1741470457; x=1742075257;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Gz8rdYBjDWtVICITTkqM0G0gYcDxAwfcMXdZkz5lYRk=;
+        b=svkmVMJ5UHgOiVT4DFdZXdhO8nJHGPg3HDny+w/AaxzbwPlMHEzFi+97c9jpEQ84is
+         ib2a8sgNoDyxPrgeUhCRu/xlNBmpWXq66UfRnvEDyxFQHZnMVWexx74PXeUNqnRlSEb9
+         hMWQRiiuLJ5MaPkejnI3iwFqbYaCeD5F+Lp0NpTCPO3b6P8sLQglMCGdYpf3Maea3AHI
+         665H6dxRImROGBToHOvJEr01ImA8cZGK4K6vNChgrsnCRVlfRWRu1z1ARW3LQkPtv53o
+         1xG7hMzZyIx9Cwc6xB8tERJRnKICsrEQ+SsKuWUZPIjDbfALOXLNI/FXvOOU0KjRUfZ9
+         cWkw==
+X-Forwarded-Encrypted: i=1; AJvYcCWxhptx+3QIa5eT9RzppJJFgMIm28GCzhg8hR1/1D8k8ua49HHXKKRp+v0WrsR/cP07oFwn3bhR30I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YydOO4lrQSxGINwnoWpzLTXLHFk+QAG3XUonGDcnbhWcwPTjM1Y
+	csaBytHepJVbJG2PFWIbNJTMdjTh0CrsrPslZ8/2XNOljQz2OD6J0+BRwa/J
+X-Gm-Gg: ASbGncv6nhzJhUNX+SIu1vRjuR/IlmMrf9mK2tdrA5MfZRa8l7fQNG3xYXKvCv/B71r
+	hiF5qjV7+dVOF9diEvSgumoVegO8zTwGv4GfOXB2HStHo9+mcRui5irejlX9cAhKXtzACmnHhi9
+	zyFRTwyKS9Iii7PRIzhf356xph1Jx9z9kDRQM6jXALqCpXKnXEW+D66fzjJjEchIabTytzPqrDa
+	AWmcSrRhpda9ilpC6SEDg47RBNNsMjmrGJ1MqRW0nxAoS3ZUlH0q+pdUNy+boM6n4T4r7J5dsDd
+	sDD6RY9TbMv/Kq3vPiCGmbfhilWf7/EgtH5Zg3x52rwb1wJB3+VNJgiS3e2TT6e/eae9RIukTq5
+	+bSlQcbcTQab2JIvqm4nHlyAjvfXa4BVs4pdi
+X-Google-Smtp-Source: AGHT+IFrCln5Y3n4wK6o+O7r/hZHYr+IlKG4OdgcsQ5CvIWTEProowlDcQ6VWA1ePV6VzJuFLc7mgg==
+X-Received: by 2002:a05:6000:1aca:b0:391:2e6a:30de with SMTP id ffacd0b85a97d-39132d57a67mr4621617f8f.19.1741470457138;
+        Sat, 08 Mar 2025 13:47:37 -0800 (PST)
+Received: from [192.168.0.28] (cpc83567-brig19-2-0-cust951.3-3.cable.virginm.net. [86.9.27.184])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912c0e308dsm10113531f8f.67.2025.03.08.13.47.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 Mar 2025 13:47:35 -0800 (PST)
+Message-ID: <cfac5a05-4f61-4cbd-94c2-311bfad6784e@gmail.com>
+Date: Sat, 8 Mar 2025 21:47:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250308214045.1160445-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.49.0.rc0.332.g42c0ae87b1-goog
-Message-ID: <20250308214045.1160445-10-almasrymina@google.com>
-Subject: [PATCH net-next v7 9/9] selftests: ncdevmem: Implement devmem TCP TX
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org
-Cc: Mina Almasry <almasrymina@google.com>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn <willemb@google.com>, David Ahern <dsahern@kernel.org>, 
-	Neal Cardwell <ncardwell@google.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, sdf@fomichev.me, 
-	asml.silence@gmail.com, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
-	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>, 
-	Samiullah Khawaja <skhawaja@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/mm: Physical Memory: Populate the "Zones" section
+To: Mike Rapoport <rppt@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org
+References: <20250223185359.338647-1-jiwen7.qi@gmail.com>
+ <Z77a2dP9BbiN9MWQ@kernel.org>
+Content-Language: en-US
+From: Jiwen Qi <jiwen7.qi@gmail.com>
+In-Reply-To: <Z77a2dP9BbiN9MWQ@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add support for devmem TX in ncdevmem.
+Hi Mike,
 
-This is a combination of the ncdevmem from the devmem TCP series RFCv1
-which included the TX path, and work by Stan to include the netlink API
-and refactored on top of his generic memory_provider support.
+Thanks for your comments!
 
-Signed-off-by: Mina Almasry <almasrymina@google.com>
-Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
-Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+On 2/26/25 09:11, Mike Rapoport wrote:
+> (adding Lorenzo as well)
+> 
+> On Sun, Feb 23, 2025 at 06:53:59PM +0000, Jiwen Qi wrote:
+>> Briefly describe what zones are and the fields of struct zone.
+>> 
+>> Signed-off-by: Jiwen Qi <jiwen7.qi@gmail.com>
+>> ---
+>>  Documentation/mm/physical_memory.rst | 259 ++++++++++++++++++++++++++-
+>>  1 file changed, 257 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
+>> index 71fd4a6acf42..227997694851 100644
+>> --- a/Documentation/mm/physical_memory.rst
+>> +++ b/Documentation/mm/physical_memory.rst
+>> @@ -338,10 +338,265 @@ Statistics
+>>  
+>>  Zones
+>>  =====
+>> +As we have mentioned, each zone in memory is described by a ``struct zone``
+>> +which is an element of the ``node_zones`` field of the node it belongs to. A
+> 
+> node_zones array or list rather than field
+>
+I'll revise the first paragraph as follows:
+As we have mentioned, each zone in memory is described by a ``struct zone``
+which is an element of the ``node_zones`` array of the node it belongs to. 
+``struct zone`` is the core data structure of the page allocator. A zone
+represents a range of physical memory and may have holes.
+ 
+>> +zone represents a range of physical memory. A zone may have holes. The
+> 
+> I believe it's important to mention that struct zone is the core data
+> structure of the page allocator.
+> 
+See the change above
 
----
+>> +``spanned_pages`` field represents the total pages spanned by the zone,
+>> +the ``present_pages`` field represents the physical pages existing within the
+>> +zone and the managed_page field represents the pages managed by the buddy system.
+> 
+> I don't think these belong here, they are anyway described below.
+> 
+I'll removed it. See the change above
 
-v5:
-- Remove unnecassyr socat bindings (Stan).
-- Add exit_wait=True (Stan)
-- Remove unnecessary -c arg to ncdevmem in check_tx.
+>> +
+>> +Linux uses the GFP flags, see ``include/linux/gfp_types.h``, specified by
+> 
+> As Bagas suggested, a link to Documentation/core-api/mm-api.rst
+> <mm-api-gfp-flags> would be better here.
+> 
+I'll change it to "Linux uses the GFP flags, see :ref:`mm-api-gfp-flags`, specified by" as suggested.
 
-v4:
-- Add TX test to devmem.py (Paolo).
+>> +a memory allocation to determine the highest zone in a node from which
+>> +the memory allocation can allocate memory. Linux first allocates memory from
+>> +that zone, if Linux can't allocate the requested amount of memory from the zone,
+>> +it will allocate memory from the next lower zone in the node, the process
+>> +continues up to and including the lowest zone. For example, if a node contains
+>> +``ZONE_DMA32``, ``ZONE_NORMAL`` and ``ZONE_MOVABLE`` and the highest zone of a
+>> +memory allocation is ``ZONE_MOVABLE``, the order of the zones from which Linux
+>> +allocates memory is ``ZONE_MOVABLE`` > ``ZONE_NORMAL`` > ``ZONE_DMA32``.
+> 
+> In this paragraph I'd replace Linux with page allocator. 
+> 
+Bagas suggested using the kernel. I'll use the page allocator as suggested.
 
-v3:
-- Update ncdevmem docs to run validation with RX-only and RX-with-TX.
-- Fix build warnings (Stan).
-- Make the validation expect new lines in the pattern so we can have the
-  TX path behave like netcat (Stan).
-- Change ret to errno in error() calls (Stan).
-- Handle the case where client_ip is not provided (Stan).
-- Don't assume mid is <= 2000 (Stan).
+>> +
+>> +At runtime, free pages in a zone are in the Per-CPU Pagesets (PCP) or free areas
+>> +of the zone. The Per-CPU Pagesets is pointed by the ``per_cpu_pageset`` filed.
+>> +The free areas is pointed by the ``free_area`` field. The Per-CPU Pagesets are
+> 
+> No need to mention fields here, IMO
+> 
+I'll remove the fields as suggested.
 
-v2:
-- make errors a static variable so that we catch instances where there
-  are less than 20 errors across different buffers.
-- Fix the issue where the seed is reset to 0 instead of its starting
-  value 1.
-- Use 1000ULL instead of 1000 to guard against overflow (Willem).
-- Do not set POLLERR (Willem).
-- Update the test to use the new interface where iov_base is the
-  dmabuf_offset.
-- Update the test to send 2 iov instead of 1, so we get some test
-  coverage over sending multiple iovs at once.
-- Print the ifindex the test is using, useful for debugging issues where
-  maybe the test may fail because the ifindex of the socket is different
-  from the dmabuf binding.
+>> +a vital mechanism in the Linux kernel's memory management system. By handling
+>> +most frequent allocations and frees locally on each CPU, the Per-CPU Pagesets
+>> +improve performance and scalability, especially on systems with many cores. The
+>> +page allocator in the Linux kernel employs a two-step strategy for memory
+>> +allocation, starting with the Per-CPU Pagesets before falling back to the buddy
+>> +allocator. Pages are transferred between the Per-CPU Pagesets and the global
+>> +free areas (managed by the buddy allocator) in batches. This minimizes the
+>> +overhead of frequent interactions with the global buddy allocator. Free areas in
+>> +a zone are represented by an array of ``free_area``, where each element
+>> +corresponds to a specific order which is a power of two."
+>> +
+>> +Architecture specific code calls free_area_init() to initializes zones.
+>> +
+>> +Zone structure
+>> +--------------
+>>  
+>> -.. admonition:: Stub
+>> +The zones structure ``struct zone`` is declared in ``include/linux/mmzone.h``.
+>> +Here we briefly describe fields of this structure:
+>>  
+>> -   This section is incomplete. Please list and describe the appropriate fields.
+>> +General
+>> +~~~~~~~
+>> +
+>> +``_watermark``
+>> +  The watermarks for this zone. The min watermark is the point where boosting is
+>> +  ignored and an allocation may trigger direct reclaim and direct compaction.
+> 
+> I afraid it's not clear what "min watermark is the point" means. 
+> 
+> A watermark by itself does not trigger events, it's rather a threshold
+> value for amount of free pages for some events to happen.
+> 
+> I'd phrase this as 
+> 
+>   When amount of free pages in a zone is below min watermark, boosting is
+>   ignored ...
+> 
+> The same applies to other watermark descriptions below.
+> 
+I'll change it to "When the amount of free pages in a zone is below the min
+watermark, boosting is ignored..." as suggested. Other watermark descriptions
+will be changed too.
 
----
- .../selftests/drivers/net/hw/devmem.py        |  26 +-
- .../selftests/drivers/net/hw/ncdevmem.c       | 300 +++++++++++++++++-
- 2 files changed, 311 insertions(+), 15 deletions(-)
+>> +  It is also used to throttle direct reclaim. The low watermark is the point
+>> +  where kswapd is woken up. The high watermark is the point where kswapd stops
+>> +  reclaiming (a zone is balanced) when the ``NUMA_BALANCING_MEMORY_TIERING``
+>> +  bit of ``sysctl_numa_balancing_mode`` is not set. The promo watermark is used
+>> +  for memory tiering and NUMA balancing. It is the point where kswapd stops
+>> +  reclaiming when the ``NUMA_BALANCING_MEMORY_TIERING`` bit of
+>> +  ``sysctl_numa_balancing_mode`` is set. The watermarks are set by
+>> +  ``__setup_per_zone_wmarks()``. the min watermark is calculated according to
+> 
+> I don't think it's important to mention which function sets the watermarks.
+> This also applies to "initialized in foo()" and "setup in bar()" below.
+> 
+People who read this section will probably also read the source code, so mentioning the
+functions is helpful for them. I prefer to keep them, but I'll remove them if you
+still prefer that.
 
-diff --git a/tools/testing/selftests/drivers/net/hw/devmem.py b/tools/testing/selftests/drivers/net/hw/devmem.py
-index 3947e9157115..7fc686cf47a2 100755
---- a/tools/testing/selftests/drivers/net/hw/devmem.py
-+++ b/tools/testing/selftests/drivers/net/hw/devmem.py
-@@ -1,6 +1,7 @@
- #!/usr/bin/env python3
- # SPDX-License-Identifier: GPL-2.0
- 
-+from os import path
- from lib.py import ksft_run, ksft_exit
- from lib.py import ksft_eq, KsftSkipEx
- from lib.py import NetDrvEpEnv
-@@ -10,8 +11,7 @@ from lib.py import ksft_disruptive
- 
- def require_devmem(cfg):
-     if not hasattr(cfg, "_devmem_probed"):
--        port = rand_port()
--        probe_command = f"./ncdevmem -f {cfg.ifname}"
-+        probe_command = f"{cfg.bin_local} -f {cfg.ifname}"
-         cfg._devmem_supported = cmd(probe_command, fail=False, shell=True).ret == 0
-         cfg._devmem_probed = True
- 
-@@ -25,7 +25,7 @@ def check_rx(cfg) -> None:
-     require_devmem(cfg)
- 
-     port = rand_port()
--    listen_cmd = f"./ncdevmem -l -f {cfg.ifname} -s {cfg.addr_v['6']} -p {port}"
-+    listen_cmd = f"{cfg.bin_local} -l -f {cfg.ifname} -s {cfg.addr_v['6']} -p {port}"
- 
-     with bkg(listen_cmd) as socat:
-         wait_port_listen(port)
-@@ -34,9 +34,27 @@ def check_rx(cfg) -> None:
-     ksft_eq(socat.stdout.strip(), "hello\nworld")
- 
- 
-+@ksft_disruptive
-+def check_tx(cfg) -> None:
-+    cfg.require_ipver("6")
-+    require_devmem(cfg)
-+
-+    port = rand_port()
-+    listen_cmd = f"socat -U - TCP6-LISTEN:{port}"
-+
-+    with bkg(listen_cmd, exit_wait=True) as socat:
-+        wait_port_listen(port)
-+        cmd(f"echo -e \"hello\\nworld\"| {cfg.bin_remote} -f {cfg.ifname} -s {cfg.addr_v['6']} -p {port}", host=cfg.remote, shell=True)
-+
-+    ksft_eq(socat.stdout.strip(), "hello\nworld")
-+
-+
- def main() -> None:
-     with NetDrvEpEnv(__file__) as cfg:
--        ksft_run([check_rx],
-+        cfg.bin_local = path.abspath(path.dirname(__file__) + "/ncdevmem")
-+        cfg.bin_remote = cfg.remote.deploy(cfg.bin_local)
-+
-+        ksft_run([check_rx, check_tx],
-                  args=(cfg, ))
-     ksft_exit()
- 
-diff --git a/tools/testing/selftests/drivers/net/hw/ncdevmem.c b/tools/testing/selftests/drivers/net/hw/ncdevmem.c
-index 2bf14ac2b8c6..f801a1b3545f 100644
---- a/tools/testing/selftests/drivers/net/hw/ncdevmem.c
-+++ b/tools/testing/selftests/drivers/net/hw/ncdevmem.c
-@@ -9,22 +9,31 @@
-  *     ncdevmem -s <server IP> [-c <client IP>] -f eth1 -l -p 5201
-  *
-  *     On client:
-- *     echo -n "hello\nworld" | nc -s <server IP> 5201 -p 5201
-+ *     echo -n "hello\nworld" | \
-+ *		ncdevmem -s <server IP> [-c <client IP>] -p 5201 -f eth1
-  *
-- * Test data validation:
-+ * Note this is compatible with regular netcat. i.e. the sender or receiver can
-+ * be replaced with regular netcat to test the RX or TX path in isolation.
-+ *
-+ * Test data validation (devmem TCP on RX only):
-  *
-  *     On server:
-  *     ncdevmem -s <server IP> [-c <client IP>] -f eth1 -l -p 5201 -v 7
-  *
-  *     On client:
-  *     yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
-- *             tr \\n \\0 | \
-- *             head -c 5G | \
-+ *             head -c 1G | \
-  *             nc <server IP> 5201 -p 5201
-  *
-+ * Test data validation (devmem TCP on RX and TX, validation happens on RX):
-  *
-- * Note this is compatible with regular netcat. i.e. the sender or receiver can
-- * be replaced with regular netcat to test the RX or TX path in isolation.
-+ *	On server:
-+ *	ncdevmem -s <server IP> [-c <client IP>] -l -p 5201 -v 8 -f eth1
-+ *
-+ *	On client:
-+ *	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06\\x07) | \
-+ *		head -c 1M | \
-+ *		ncdevmem -s <server IP> [-c <client IP>] -p 5201 -f eth1
-  */
- #define _GNU_SOURCE
- #define __EXPORTED_HEADERS__
-@@ -40,15 +49,18 @@
- #include <fcntl.h>
- #include <malloc.h>
- #include <error.h>
-+#include <poll.h>
- 
- #include <arpa/inet.h>
- #include <sys/socket.h>
- #include <sys/mman.h>
- #include <sys/ioctl.h>
- #include <sys/syscall.h>
-+#include <sys/time.h>
- 
- #include <linux/memfd.h>
- #include <linux/dma-buf.h>
-+#include <linux/errqueue.h>
- #include <linux/udmabuf.h>
- #include <linux/types.h>
- #include <linux/netlink.h>
-@@ -79,6 +91,8 @@ static int num_queues = -1;
- static char *ifname;
- static unsigned int ifindex;
- static unsigned int dmabuf_id;
-+static uint32_t tx_dmabuf_id;
-+static int waittime_ms = 500;
- 
- struct memory_buffer {
- 	int fd;
-@@ -92,6 +106,8 @@ struct memory_buffer {
- struct memory_provider {
- 	struct memory_buffer *(*alloc)(size_t size);
- 	void (*free)(struct memory_buffer *ctx);
-+	void (*memcpy_to_device)(struct memory_buffer *dst, size_t off,
-+				 void *src, int n);
- 	void (*memcpy_from_device)(void *dst, struct memory_buffer *src,
- 				   size_t off, int n);
- };
-@@ -152,6 +168,20 @@ static void udmabuf_free(struct memory_buffer *ctx)
- 	free(ctx);
- }
- 
-+static void udmabuf_memcpy_to_device(struct memory_buffer *dst, size_t off,
-+				     void *src, int n)
-+{
-+	struct dma_buf_sync sync = {};
-+
-+	sync.flags = DMA_BUF_SYNC_START | DMA_BUF_SYNC_WRITE;
-+	ioctl(dst->fd, DMA_BUF_IOCTL_SYNC, &sync);
-+
-+	memcpy(dst->buf_mem + off, src, n);
-+
-+	sync.flags = DMA_BUF_SYNC_END | DMA_BUF_SYNC_WRITE;
-+	ioctl(dst->fd, DMA_BUF_IOCTL_SYNC, &sync);
-+}
-+
- static void udmabuf_memcpy_from_device(void *dst, struct memory_buffer *src,
- 				       size_t off, int n)
- {
-@@ -169,6 +199,7 @@ static void udmabuf_memcpy_from_device(void *dst, struct memory_buffer *src,
- static struct memory_provider udmabuf_memory_provider = {
- 	.alloc = udmabuf_alloc,
- 	.free = udmabuf_free,
-+	.memcpy_to_device = udmabuf_memcpy_to_device,
- 	.memcpy_from_device = udmabuf_memcpy_from_device,
- };
- 
-@@ -187,14 +218,16 @@ void validate_buffer(void *line, size_t size)
- {
- 	static unsigned char seed = 1;
- 	unsigned char *ptr = line;
--	int errors = 0;
-+	unsigned char expected;
-+	static int errors;
- 	size_t i;
- 
- 	for (i = 0; i < size; i++) {
--		if (ptr[i] != seed) {
-+		expected = seed ? seed : '\n';
-+		if (ptr[i] != expected) {
- 			fprintf(stderr,
- 				"Failed validation: expected=%u, actual=%u, index=%lu\n",
--				seed, ptr[i], i);
-+				expected, ptr[i], i);
- 			errors++;
- 			if (errors > 20)
- 				error(1, 0, "validation failed.");
-@@ -393,6 +426,49 @@ static int bind_rx_queue(unsigned int ifindex, unsigned int dmabuf_fd,
- 	return -1;
- }
- 
-+static int bind_tx_queue(unsigned int ifindex, unsigned int dmabuf_fd,
-+			 struct ynl_sock **ys)
-+{
-+	struct netdev_bind_tx_req *req = NULL;
-+	struct netdev_bind_tx_rsp *rsp = NULL;
-+	struct ynl_error yerr;
-+
-+	*ys = ynl_sock_create(&ynl_netdev_family, &yerr);
-+	if (!*ys) {
-+		fprintf(stderr, "YNL: %s\n", yerr.msg);
-+		return -1;
-+	}
-+
-+	req = netdev_bind_tx_req_alloc();
-+	netdev_bind_tx_req_set_ifindex(req, ifindex);
-+	netdev_bind_tx_req_set_fd(req, dmabuf_fd);
-+
-+	rsp = netdev_bind_tx(*ys, req);
-+	if (!rsp) {
-+		perror("netdev_bind_tx");
-+		goto err_close;
-+	}
-+
-+	if (!rsp->_present.id) {
-+		perror("id not present");
-+		goto err_close;
-+	}
-+
-+	fprintf(stderr, "got tx dmabuf id=%d\n", rsp->id);
-+	tx_dmabuf_id = rsp->id;
-+
-+	netdev_bind_tx_req_free(req);
-+	netdev_bind_tx_rsp_free(rsp);
-+
-+	return 0;
-+
-+err_close:
-+	fprintf(stderr, "YNL failed: %s\n", (*ys)->err.msg);
-+	netdev_bind_tx_req_free(req);
-+	ynl_sock_destroy(*ys);
-+	return -1;
-+}
-+
- static void enable_reuseaddr(int fd)
- {
- 	int opt = 1;
-@@ -431,7 +507,7 @@ static int parse_address(const char *str, int port, struct sockaddr_in6 *sin6)
- 	return 0;
- }
- 
--int do_server(struct memory_buffer *mem)
-+static int do_server(struct memory_buffer *mem)
- {
- 	char ctrl_data[sizeof(int) * 20000];
- 	struct netdev_queue_id *queues;
-@@ -685,6 +761,206 @@ void run_devmem_tests(void)
- 	provider->free(mem);
- }
- 
-+static uint64_t gettimeofday_ms(void)
-+{
-+	struct timeval tv;
-+
-+	gettimeofday(&tv, NULL);
-+	return (tv.tv_sec * 1000ULL) + (tv.tv_usec / 1000ULL);
-+}
-+
-+static int do_poll(int fd)
-+{
-+	struct pollfd pfd;
-+	int ret;
-+
-+	pfd.revents = 0;
-+	pfd.fd = fd;
-+
-+	ret = poll(&pfd, 1, waittime_ms);
-+	if (ret == -1)
-+		error(1, errno, "poll");
-+
-+	return ret && (pfd.revents & POLLERR);
-+}
-+
-+static void wait_compl(int fd)
-+{
-+	int64_t tstop = gettimeofday_ms() + waittime_ms;
-+	char control[CMSG_SPACE(100)] = {};
-+	struct sock_extended_err *serr;
-+	struct msghdr msg = {};
-+	struct cmsghdr *cm;
-+	__u32 hi, lo;
-+	int ret;
-+
-+	msg.msg_control = control;
-+	msg.msg_controllen = sizeof(control);
-+
-+	while (gettimeofday_ms() < tstop) {
-+		if (!do_poll(fd))
-+			continue;
-+
-+		ret = recvmsg(fd, &msg, MSG_ERRQUEUE);
-+		if (ret < 0) {
-+			if (errno == EAGAIN)
-+				continue;
-+			error(1, errno, "recvmsg(MSG_ERRQUEUE)");
-+			return;
-+		}
-+		if (msg.msg_flags & MSG_CTRUNC)
-+			error(1, 0, "MSG_CTRUNC\n");
-+
-+		for (cm = CMSG_FIRSTHDR(&msg); cm; cm = CMSG_NXTHDR(&msg, cm)) {
-+			if (cm->cmsg_level != SOL_IP &&
-+			    cm->cmsg_level != SOL_IPV6)
-+				continue;
-+			if (cm->cmsg_level == SOL_IP &&
-+			    cm->cmsg_type != IP_RECVERR)
-+				continue;
-+			if (cm->cmsg_level == SOL_IPV6 &&
-+			    cm->cmsg_type != IPV6_RECVERR)
-+				continue;
-+
-+			serr = (void *)CMSG_DATA(cm);
-+			if (serr->ee_origin != SO_EE_ORIGIN_ZEROCOPY)
-+				error(1, 0, "wrong origin %u", serr->ee_origin);
-+			if (serr->ee_errno != 0)
-+				error(1, 0, "wrong errno %d", serr->ee_errno);
-+
-+			hi = serr->ee_data;
-+			lo = serr->ee_info;
-+
-+			fprintf(stderr, "tx complete [%d,%d]\n", lo, hi);
-+			return;
-+		}
-+	}
-+
-+	error(1, 0, "did not receive tx completion");
-+}
-+
-+static int do_client(struct memory_buffer *mem)
-+{
-+	char ctrl_data[CMSG_SPACE(sizeof(__u32))];
-+	struct sockaddr_in6 server_sin;
-+	struct sockaddr_in6 client_sin;
-+	struct ynl_sock *ys = NULL;
-+	struct msghdr msg = {};
-+	ssize_t line_size = 0;
-+	struct cmsghdr *cmsg;
-+	struct iovec iov[2];
-+	char *line = NULL;
-+	unsigned long mid;
-+	size_t len = 0;
-+	int socket_fd;
-+	__u32 ddmabuf;
-+	int opt = 1;
-+	int ret;
-+
-+	ret = parse_address(server_ip, atoi(port), &server_sin);
-+	if (ret < 0)
-+		error(1, 0, "parse server address");
-+
-+	socket_fd = socket(AF_INET6, SOCK_STREAM, 0);
-+	if (socket_fd < 0)
-+		error(1, socket_fd, "create socket");
-+
-+	enable_reuseaddr(socket_fd);
-+
-+	ret = setsockopt(socket_fd, SOL_SOCKET, SO_BINDTODEVICE, ifname,
-+			 strlen(ifname) + 1);
-+	if (ret)
-+		error(1, errno, "bindtodevice");
-+
-+	if (bind_tx_queue(ifindex, mem->fd, &ys))
-+		error(1, 0, "Failed to bind\n");
-+
-+	if (client_ip) {
-+		ret = parse_address(client_ip, atoi(port), &client_sin);
-+		if (ret < 0)
-+			error(1, 0, "parse client address");
-+
-+		ret = bind(socket_fd, &client_sin, sizeof(client_sin));
-+		if (ret)
-+			error(1, errno, "bind");
-+	}
-+
-+	ret = setsockopt(socket_fd, SOL_SOCKET, SO_ZEROCOPY, &opt, sizeof(opt));
-+	if (ret)
-+		error(1, errno, "set sock opt");
-+
-+	fprintf(stderr, "Connect to %s %d (via %s)\n", server_ip,
-+		ntohs(server_sin.sin6_port), ifname);
-+
-+	ret = connect(socket_fd, &server_sin, sizeof(server_sin));
-+	if (ret)
-+		error(1, errno, "connect");
-+
-+	while (1) {
-+		free(line);
-+		line = NULL;
-+		line_size = getline(&line, &len, stdin);
-+
-+		if (line_size < 0)
-+			break;
-+
-+		mid = (line_size / 2) + 1;
-+
-+		iov[0].iov_base = (void *)1;
-+		iov[0].iov_len = mid;
-+		iov[1].iov_base = (void *)(mid + 2);
-+		iov[1].iov_len = line_size - mid;
-+
-+		provider->memcpy_to_device(mem, (size_t)iov[0].iov_base, line,
-+					   iov[0].iov_len);
-+		provider->memcpy_to_device(mem, (size_t)iov[1].iov_base,
-+					   line + iov[0].iov_len,
-+					   iov[1].iov_len);
-+
-+		fprintf(stderr,
-+			"read line_size=%ld iov[0].iov_base=%lu, iov[0].iov_len=%lu, iov[1].iov_base=%lu, iov[1].iov_len=%lu\n",
-+			line_size, (unsigned long)iov[0].iov_base,
-+			iov[0].iov_len, (unsigned long)iov[1].iov_base,
-+			iov[1].iov_len);
-+
-+		msg.msg_iov = iov;
-+		msg.msg_iovlen = 2;
-+
-+		msg.msg_control = ctrl_data;
-+		msg.msg_controllen = sizeof(ctrl_data);
-+
-+		cmsg = CMSG_FIRSTHDR(&msg);
-+		cmsg->cmsg_level = SOL_SOCKET;
-+		cmsg->cmsg_type = SCM_DEVMEM_DMABUF;
-+		cmsg->cmsg_len = CMSG_LEN(sizeof(__u32));
-+
-+		ddmabuf = tx_dmabuf_id;
-+
-+		*((__u32 *)CMSG_DATA(cmsg)) = ddmabuf;
-+
-+		ret = sendmsg(socket_fd, &msg, MSG_ZEROCOPY);
-+		if (ret < 0)
-+			error(1, errno, "Failed sendmsg");
-+
-+		fprintf(stderr, "sendmsg_ret=%d\n", ret);
-+
-+		if (ret != line_size)
-+			error(1, errno, "Did not send all bytes");
-+
-+		wait_compl(socket_fd);
-+	}
-+
-+	fprintf(stderr, "%s: tx ok\n", TEST_PREFIX);
-+
-+	free(line);
-+	close(socket_fd);
-+
-+	if (ys)
-+		ynl_sock_destroy(ys);
-+
-+	return 0;
-+}
-+
- int main(int argc, char *argv[])
- {
- 	struct memory_buffer *mem;
-@@ -728,6 +1004,8 @@ int main(int argc, char *argv[])
- 
- 	ifindex = if_nametoindex(ifname);
- 
-+	fprintf(stderr, "using ifindex=%u\n", ifindex);
-+
- 	if (!server_ip && !client_ip) {
- 		if (start_queue < 0 && num_queues < 0) {
- 			num_queues = rxq_num(ifindex);
-@@ -778,7 +1056,7 @@ int main(int argc, char *argv[])
- 		error(1, 0, "Missing -p argument\n");
- 
- 	mem = provider->alloc(getpagesize() * NUM_PAGES);
--	ret = is_server ? do_server(mem) : 1;
-+	ret = is_server ? do_server(mem) : do_client(mem);
- 	provider->free(mem);
- 
- 	return ret;
--- 
-2.49.0.rc0.332.g42c0ae87b1-goog
+>> +  ``vm.min_free_kbytes`` sysctl. The other three watermarks are set according
+>> +  to the distance between two watermarks. The distance is caculated according
+>> +  to ``vm.watermark_scale_factor`` sysctl.
+>> +
+>> +``watermark_boost``
+>> +  The number of pages which are used to boost watermarks to increase reclaim
+>> +  pressure to reduce the likelihood of future fallbacks and wake kswapd now
+>> +  as the node may be balanced overall and kswapd will not wake naturally.
+>> +
+>> +``nr_reserved_highatomic``
+>> +  The number of pages which are reserved for high-order atomic allocations.
+>> +
+>> +``nr_free_highatomic``
+>> +  The number of free pages in reserved highatomic pageblocks
+>> +
+>> +``lowmem_reserve``
+>> +  The array of the amounts of the memory reserved in this zone for memory
+>> +  allocations. For example, if the highest zone a memory allocation can
+>> +  allocate memory from is ``ZONE_MOVABLE``, the amount of memory reserved in
+>> +  this zone for this allocation is ``lowmem_reserve[ZONE_MOVABLE]`` when
+>> +  attempting to allocate memory from this zone. The reason is that we don't know
+>> +  if the memory that we're going to allocate will be freeable or/and it will be
+>> +  released eventually, so to avoid totally wasting several GB of ram we must
+>> +  reserve some of the lower zone memory (otherwise we risk to run OOM on the
+>> +  lower zones despite there being tons of freeable ram on the higher zones).
+> 
+> I realize that it's copied from comment in include/linux/mmzone.h, but I
+> really fail to parse the description of this field. 
+> 
+> I believe lowmem_reserve_ratio in Documentation/admin-guide/sysctl/vm.rst
+> gives much better description of how this field is used and it should be
+> the basic of the text here.
+> 
+I'll change the description as follows:
+  The array of the amounts of the memory reserved in this zone for memory
+  allocations. For example, if the highest zone a memory allocation can
+  allocate memory from is ``ZONE_MOVABLE``, the amount of memory reserved in
+  this zone for this allocation is ``lowmem_reserve[ZONE_MOVABLE]`` when
+  attempting to allocate memory from this zone. This is a mechanism the page
+  allocator uses to prevent allocations which could use ``highmem`` from using
+  too much ``lowmem``. For some specialised workloads on ``highmem`` machines,
+  it is dangerous for the kernel to allow process memory to be allocated from
+  the ``lowmem`` zone. This is because that memory could then be pinned via the
+  ``mlock()`` system call, or by unavailability of swapspace.
+  ``vm.lowmem_reserve_ratio`` sysctl determines how aggressive the kernel is in
+  defending these lower zones. This array is recalculated by
+  ``setup_per_zone_lowmem_reserve()`` at runtime if ``vm.lowmem_reserve_ratio``
+  sysctl changes.
 
+>> +  This array is recalculated by ``setup_per_zone_lowmem_reserve()`` at runtime
+>> +  if ``vm.lowmem_reserve_ratio`` sysctl changes.
+>> +
+>> +``node``
+>> +  The index of the node this zone belongs to. Available only when
+>> +  ``CONFIG_NUMA`` is enabled because there is only one zone in a UMA system.
+>> +
+>> +``zone_pgdat``
+>> +  Pointer to the pglist_data of the node this zone belongs to.
+> 
+>                   ^ ``struct pglist_data``
+I'll change it to "Pointer to the ``struct pglist_data`` of the node".
+
+>> +
+>> +``per_cpu_pageset``
+>> +  Pointer to the Per-CPU Pagesets (PCP) allocated and initialized by
+>> +  ``setup_zone_pageset()``. By handling most frequent allocations and frees
+>> +  locally on each CPU, the Per-CPU Pagesets improve performance and scalability
+>> +  on systems with many cores.
+>> +
+>> +``pageset_high_min``
+>> +  Copied to the ``high_min`` of the Per-CPU Pagesets for faster access.
+>> +
+>> +``pageset_high_max``
+>> +  Copied to the ``high_max`` of the Per-CPU Pagesets for faster access.
+>> +
+>> +``pageset_batch``
+>> +  Copied to the ``batch`` of the Per-CPU Pagesets for faster access. The
+>> +  ``batch``, ``high_min`` and ``high_max`` of the Per-CPU Pagesets are used to
+>> +  calculate the number of elements the Per-CPU Pagesets obtain from the buddy
+>> +  allocator under a single hold of the lock for efficiency. They are also used
+>> +  to decide if the Per-CPU Pagesets return pages to the buddy allocator in page
+>> +  free process.
+>> +
+>> +``pageblock_flags``
+>> +  The pointer to the flags for the pageblocks in the system. See
+> 
+>                                                 ^ in the zone
+> 
+I'll replace "system" with "zone".
+
+>> +  ``include/linux/pageblock-flags.h``. The memory is allocated in
+>> +  ``setup_usemap()``. Each pageblock occupies ``NR_PAGEBLOCK_BITS`` bits.
+>> +  Defined only when ``CONFIG_FLATMEM`` is enabled. The flags is stored in
+>> +  ``mem_section`` when ``CONFIG_SPARSEMEM`` is enabled.
+>> +
+>> +``span_seqlock``
+>> +  The seqlock to protect ``zone_start_pfn`` and ``spanned_pages``. It is a
+>> +  seqlock because it has to be read outside of ``zone->lock``, and it is done in
+>> +  the main allocator path.  But, it is written quite infrequently. Defined only
+>> +  when ``CONFIG_MEMORY_HOTPLUG`` is enabled.
+>> +
+>> +``initialized``
+>> +  The flag indicating if the zone is initialized. Set by
+>> +  ``init_currently_empty_zone()`` during boot.
+>> +
+>> +``free_area``
+>> +  Free areas of different sizes. It is initialized by ``zone_init_free_lists()``.
+> 
+> Here I'd love to see more details about what free area is.
+> 
+I'll update it as follows:
+  The array of free areas, where each element corresponds to a specific order
+  which is a power of two. The buddy allocator uses this structure to manage
+  free memory efficiently. When allocating, it tries to find the smallest
+  sufficient block, if the smallest sufficient block is larger than the
+  requested size, it will be recursively split into the next smaller blocks
+  until the required size is reached. When a page is freed, it may be merged
+  with its buddy to form a larger block. It is initialized by
+  ``zone_init_free_lists()``.
+
+>> +
+>> +``unaccepted_pages``
+>> +  The list of pages to be accepted. All pages on the list are ``MAX_PAGE_ORDER``.
+>> +  Defined only when ``CONFIG_UNACCEPTED_MEMORY`` is enabled.
+>> +
+>> +``percpu_drift_mark``
+>> +  When free pages are below this point, additional steps are taken when reading
+>> +  the number of free pages to avoid per-cpu counter drift allowing watermarks
+>> +  to be breached. It is updated in ``refresh_zone_stat_thresholds()``.
+>> +
+>> +Compaction control
+>> +~~~~~~~~~~~~~~~~~~
+>> +
+>> +``compact_cached_free_pfn``
+>> +  The PFN where compaction free scanner should start in the next scan.
+>> +
+>> +``compact_cached_migrate_pfn``
+>> +  The PFNs where compaction migration scanner should start in the next scan.
+>> +  This array has two elements, the first one is used in ``MIGRATE_ASYNC`` mode,
+>> +  the other is used in ``MIGRATE_SYNC`` mode.
+>> +
+>> +``compact_blockskip_flush``
+>> +  Set to true when compaction migration scanner and free scanner meet, which
+>> +  means the ``PB_migrate_skip`` bits should be cleared.
+>> +
+>> +``contiguous``
+>> +  Set to true when the zone is contiguous (there is no hole).
+>> +
+>> +Statistics
+>> +~~~~~~~~~~
+>> +
+>> +``vm_stat``
+>> +  VM statistics for the zone. The items tracked are defined by
+>> +  ``enum zone_stat_item``.
+>> +
+>> +``vm_numa_event``
+>> +  VM NUMA event statistics for the zone. The items tracked are defined by
+>> +  ``enum numa_stat_item``.
+>> +
+>> +``per_cpu_zonestats``
+>> +  Per-CPU VM statistics for the zone. It records VM statistics and VM NUMA event
+>> +  statistics on a per-CPU basis. It reduces updates to the global ``vm_stat``
+>> +  and ``vm_numa_event`` fields of the zone to improve performance.
+>>  
+>>  .. _pages:
+>>  
+>> 
+>> base-commit: 0ad2507d5d93f39619fc42372c347d6006b64319
+>> -- 
+>> 2.34.1
+>> 
+> 
+
+--
+Regards,
+Jiwen
