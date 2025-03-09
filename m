@@ -1,154 +1,129 @@
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2631A1C5D75;
-	Sun,  9 Mar 2025 11:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7992B9A4;
+	Sun,  9 Mar 2025 12:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741519304; cv=none; b=j3heK7boucluonaNVTvYTixBOK7NwUAnTahu7XDn9/A7tji5o2kq7IMMqXpsoPhbN7P9A6QsOD01CFcNRvwG9gvnJUrLyGZHYpvsgL7sr3dWz5CvS+ph1dcBMh2ZN9Hud56J9qPJj1+EF9IRehfgfENUIBH6lFwY4opqI11KvQM=
+	t=1741521820; cv=none; b=bRJLPMyRNJH4gQsRPkNSttKdVHXLgWPoPVMwFiWaK0Cj265HRTNdVlMdkuN/Hmsyx4SaDmDtLPD2+B+zo4gviREExT4wIzy1W2DYSDMQ+ucRT8iTj5NVyqsLzaRcrhDr977YVK3GA8nljJsSYMYhG8kKiOfTmCngueqHWcW/Hw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741519304; c=relaxed/simple;
-	bh=x7VIXFPiry34Dw0Y881bOgoIOqomKL15jPA8Ryo+3Qw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G5fiOIHTsaII25HG3u9EYUrIS+TRntFHkRl1md/7mtM/n1Lf45Fs25ActtqTx8Uq6+SRd8BQa8TSvwxck/8DRWj4BBThUKN3w9CHGi5/Ah5nBh9Fpw+2ncV7RBcp3LoGYD2lxq4W/kPikt8iP2BCO1ZHwg6o5A2qcX8njxZJQVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=t41+FfHK; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1741521820; c=relaxed/simple;
+	bh=x8LiHcCv8DTXMAg2ZcZKR2faXOH9UvWMVP3REFZJBHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHcBvJ55IeVY307lBCvRxeOIAnn5y9ZBA9yW6BuPGRGBQ5AoF85YXJrjjX8A3tT1GlAjUrOBefMtwI/yj6PzWkgfGeybU/4BM3VH67OJABHLlg/qrE4gF4Z3k8vXRHcj79mhaLMNktrnAzZQDq9drTtiElr9vwt3gQK2IPYnBB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MMN3iFTt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="t41+FfHK"
-Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:8d8a:5967:d692:ea4e])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id C7C842E02CAB;
-	Sun,  9 Mar 2025 13:21:39 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1741519301;
-	bh=OHipsFnWjp6uZ0j1y6/VAA7Vw2CV/N99b9nKlTIABCg=; h=From:To:Subject;
-	b=t41+FfHK4CExvvV/wNuF+hXofTbo2EmJ8aHuWsTlqVaP+fMlU9FFcpF7hhDnlb6K2
-	 6a7uGN2kzMhe6YEs9bxcj2lgW99UH6dh5uQenN+MRqRdtwauJrL3EfZnAhdD/Pkq8k
-	 2YOKXRLMGjpTlPsiHG6lmz/QdXe+fvXMZQLuevXs=
-Authentication-Results: linux1587.grserver.gr;
-	spf=pass (sender IP is 2a05:f6c2:511b:0:8d8a:5967:d692:ea4e) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org
-Cc: linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
-	Derek J Clark <derekjohn.clark@gmail.com>,
-	Kevin Greenberg <kdgreenberg234@protonmail.com>,
-	Joshua Tam <csinaction@pm.me>,
-	Parth Menon <parthasarathymenon@gmail.com>,
-	Eileen <eileen@one-netbook.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v3 12/12] platform/x86: oxpec: Adhere to sysfs-class-hwmon and
- enable pwm on 2
-Date: Sun,  9 Mar 2025 12:21:13 +0100
-Message-ID: <20250309112114.1177361-13-lkml@antheas.dev>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250309112114.1177361-1-lkml@antheas.dev>
-References: <20250309112114.1177361-1-lkml@antheas.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MMN3iFTt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD0CFC4CEE5;
+	Sun,  9 Mar 2025 12:03:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741521819;
+	bh=x8LiHcCv8DTXMAg2ZcZKR2faXOH9UvWMVP3REFZJBHc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MMN3iFTtKavUVNDKnRfSBedIJcy4ZJzQvZLr7uIufEVSHRR1ZoxrNAVbq+N4I0AJS
+	 MXWAqypAHyLu860XVaJ9HolV8bZebhOJR3DbWWOm2oPMsyLPvLuQzsHyq77WGGuG0K
+	 1TPUvSi00ykZ8CVUwsHaOKsMdvAo4cJCuwdMm3RKY/mD93O6zHbbuwexP7zSEcMgfQ
+	 T/WNkljDQHub56fTSTgfgdeTuVBWsJTtpIMXYaSNUEXorrN4EoW7rddkjRCQiiOvW2
+	 5XnXS/MkyFfmAZRpFp7smfbHx2AhYYnYVyfQkZc3iSsuM9rqumwc+7edu1yVDhSyXv
+	 ruUNUCYoPgzhQ==
+Date: Sun, 9 Mar 2025 13:03:31 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Pratyush Yadav <ptyadav@amazon.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Eric Biederman <ebiederm@xmission.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
+	Alexander Graf <graf@amazon.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
+	David Woodhouse <dwmw2@infradead.org>, James Gowans <jgowans@amazon.com>, 
+	Mike Rapoport <rppt@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Pasha Tatashin <tatashin@google.com>, Anthony Yznaga <anthony.yznaga@oracle.com>, 
+	Dave Hansen <dave.hansen@intel.com>, David Hildenbrand <david@redhat.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Matthew Wilcox <willy@infradead.org>, 
+	Wei Yang <richard.weiyang@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	kexec@lists.infradead.org
+Subject: Re: [RFC PATCH 1/5] misc: introduce FDBox
+Message-ID: <20250309-unerwartet-alufolie-96aae4d20e38@brauner>
+References: <20250307005830.65293-1-ptyadav@amazon.de>
+ <20250307005830.65293-2-ptyadav@amazon.de>
+ <20250307-sachte-stolz-18d43ffea782@brauner>
+ <mafs0ikokidqz.fsf@amazon.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <174151930112.29430.13365461935020013033@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <mafs0ikokidqz.fsf@amazon.de>
 
-Currently, the driver does not adhere to the sysfs-class-hwmon
-specification: 0 is used for auto fan control and 1 is used for manual
-control. However, it is expected that 0 sets the fan to full speed,
-1 sets the fan to manual, and then 2 is used for automatic control.
+On Sat, Mar 08, 2025 at 12:10:12AM +0000, Pratyush Yadav wrote:
+> Hi Christian,
+> 
+> Thanks for the review!
 
-Therefore, change the sysfs API to reflect this and enable pwm on 2.
+No worries, I'm not trying to be polemic. It's just that this whole
+proposed concept is pretty lightweight in terms of thinking about
+possible implications.
 
-As we are breaking the ABI for this driver, rename oxpec to oxp_ec,
-reflecting the naming convention used by other drivers, to allow for
-a smooth migration in current userspace programs.
+> > This use-case is covered with systemd's fdstore and it's available to
+> > unprivileged userspace. Stashing arbitrary file descriptors in the
+> > kernel in this way isn't a good idea.
+> 
+> For one, it can't be arbitrary FDs, but only explicitly enabled ones.
+> Beyond that, while not intended, there is no way to stop userspace from
+> using it as a stash. Stashing FDs is a needed operation for this to
+> work, and there is no way to guarantee in advance that userspace will
+> actually use it for KHO, and not just stash it to grab back later.
 
-Closes: https://lore.kernel.org/linux-hwmon/20241027174836.8588-1-derekjohn.clark@gmail.com/
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/platform/x86/oxpec.c | 37 ++++++++++++++++++++++++++++++++----
- 1 file changed, 33 insertions(+), 4 deletions(-)
+As written it can't ever function as a generic file descriptor store.
 
-diff --git a/drivers/platform/x86/oxpec.c b/drivers/platform/x86/oxpec.c
-index a06a7c54aa08..0b13baf190fe 100644
---- a/drivers/platform/x86/oxpec.c
-+++ b/drivers/platform/x86/oxpec.c
-@@ -938,7 +938,27 @@ static int oxp_platform_read(struct device *dev, enum hwmon_sensor_types type,
- 		case hwmon_pwm_input:
- 			return oxp_pwm_input_read(val);
- 		case hwmon_pwm_enable:
--			return oxp_pwm_read(val);
-+			ret = oxp_pwm_read(val);
-+			if (ret)
-+				return ret;
-+
-+			/* Check for auto and return 2 */
-+			if (!*val) {
-+				*val = 2;
-+				return 0;
-+			}
-+
-+			/* Return 0 if at full fan speed, 1 otherwise */
-+			ret = oxp_pwm_fan_speed(val);
-+			if (ret)
-+				return ret;
-+
-+			if (*val == 255)
-+				*val = 0;
-+			else
-+				*val = 1;
-+
-+			return 0;
- 		default:
- 			break;
- 		}
-@@ -952,15 +972,24 @@ static int oxp_platform_read(struct device *dev, enum hwmon_sensor_types type,
- static int oxp_platform_write(struct device *dev, enum hwmon_sensor_types type,
- 			      u32 attr, int channel, long val)
- {
-+	int ret;
-+
- 	switch (type) {
- 	case hwmon_pwm:
- 		switch (attr) {
- 		case hwmon_pwm_enable:
- 			if (val == 1)
- 				return oxp_pwm_enable();
--			else if (val == 0)
-+			else if (val == 2)
- 				return oxp_pwm_disable();
--			return -EINVAL;
-+			else if (val != 0)
-+				return -EINVAL;
-+
-+			/* Enable PWM and set to max speed */
-+			ret = oxp_pwm_enable();
-+			if (ret)
-+				return ret;
-+			return oxp_pwm_input_write(255);
- 		case hwmon_pwm_input:
- 			return oxp_pwm_input_write(val);
- 		default:
-@@ -1025,7 +1054,7 @@ static int oxp_platform_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct device *hwdev;
- 
--	hwdev = devm_hwmon_device_register_with_info(dev, "oxpec", NULL,
-+	hwdev = devm_hwmon_device_register_with_info(dev, "oxp_ec", NULL,
- 						     &oxp_ec_chip_info, NULL);
- 
- 	if (charge_behaviour_supported())
--- 
-2.48.1
+It only allows fully privileged processes to stash file descriptors.
+Which makes it useless for generic userspace. A generic fdstore should
+have a model that makes it usable unprivileged it probably should also
+be multi-instance and work easily with namespaces. This doesn't and
+hitching it on devtmpfs and character devices is guaranteed to not work
+well with such use-cases.
 
+It also has big time security issues and implications. Any file you
+stash in there will have the credentials of the opener attached to it.
+So if someone stashes anything in there you need permission mechanisms
+that ensures that Joe Random can't via FDBOX_GET_FD pull out a file for
+e.g., someone else's cgroup and happily migrate processses under the
+openers credentials or mess around some random executing binary.
+
+So you need a model of who is allowed to pull out what file descriptors
+from a file descriptor stash. What are the semantics for that? What's
+the security model for that? What are possible corner cases?
+
+For systemd's userspace fstore that's covered by policy it can implement
+quite easily what fds it accepts. For the kernel it's a lot more
+complicated.
+
+If someone puts in file descriptors for a bunch of files in there opened
+in different mount namespaces then this will pin said mount namespaces.
+If the last process in the mount namespace exists the mount namespace
+would be cleaned up but not anymore. The mount namespace would stay
+pinned. Not wrong, but needs to be spelled out what the implications of
+this are.
+
+What if someone puts a file descriptor from devtmpfs or for /dev/fdbox
+into an fdbox? Even if that's blocked, what happens if someone creates a
+detached bind-mount of a /dev/fdbox mount and mounts it into a different
+mount namespace and then puts a file descriptor for that mount namespace
+into the fdbox? Tons of other scenarios come to mind. Ignoring when
+networking is brought into the mix as well.
+
+It's not done by just letting the kernel stash some files and getting
+them out later somehow and then see whether it's somehow useful in the
+future for other stuff. A generic globally usable fdstore is not
+happening without a clear and detailed analysis what the semantics are
+going to be.
+
+So either that work is done right from the start or that stashing files
+goes out the window and instead that KHO part is implemented in a way
+where during a KHO dump relevant userspace is notified that they must
+now serialize their state into the serialization stash. And no files are
+actually kept in there at all.
