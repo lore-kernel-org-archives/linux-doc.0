@@ -1,156 +1,182 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EE646426;
-	Sun,  9 Mar 2025 15:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2315813B2A4;
+	Sun,  9 Mar 2025 17:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741533901; cv=none; b=JTSsX4wUsCOQ12COhMWu0cQBh/Orqy/POfaix647fmCehgu03VKP+4lMaYd0XOmX6dQPMBrgN6f4Wwjs7qYuouvYKbx7aA9dzVjoA+Wt6cUsQfJTDBTjXJTI8cpjD1ORN89u0lKqfDZ+Lpv/kqvSm5CSKKuwbd1QRzkuAlYrgn4=
+	t=1741541581; cv=none; b=QI7y+Z6g/Zaw+6ly0TefQ8T0BJqJ80XjJoQ7FHYiwiJTY9qonHdIR6jTv3NILjI34JPtSzm0/Rrwa7IOsvLfkCqvyu3oaknGfh01dmEJcHqO+WYbjti/gg9h9QZbwLrvjk9u5qBoI/OXAxNK//N+Srsxf7qJiCHyh01pxN1HM2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741533901; c=relaxed/simple;
-	bh=PSFXUHUfKDV0VsXHDLScH1d0tKwFMoxRxuZhJj9brJ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ieBpCItmC5H1LBOaER2L/uOuz7O37VS3RmGFn00j3AMExY++U6q5Jq6mX9BQLzwlK8NZFIKDC5LjpZbSGtN0IXIyQ+LYoag52xfgNIKDJ1tn0hn2BNF4BVwH/p1vdpAgmv6rSNA7P3XyfA7civY4MrKADywvELM+kspy/BcRHhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PjbLzxF3; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741541581; c=relaxed/simple;
+	bh=1UgctfymUV83xC3ix68vRlr3FAGTggR5aGYQLCNzbDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c2EuKmcvUL+YqL4g4yCcnM6Tt4TS3hYai4EaX/GDMl5vDghuScTfDhweG9W2KbHxX4YX2AuGdYgDXwGv0o39TphKNWX6CzqYEx5mXTXXfwP2OerM8kBCehjTne60hv4egfrvJ5HPbOHU7W3DyK0UfbXXiL8SmgTrdNONpWptoC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y8l0st9r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PjbLzxF3"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2feb91a25bdso5183909a91.1;
-        Sun, 09 Mar 2025 08:24:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741533898; x=1742138698; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=oE5dlvn/PoFAmzZkkwv7d6PSwwGsaZPhhmrL0ebICmo=;
-        b=PjbLzxF3ApXIc9H7AdnUqm7/c/SbTlRflU9TubEvNhkVZk2SBTVjE5rLF1qTz2Q8tZ
-         LZr1ajmYxokZtkhb6FgAZOVV60LJhagSnEeE87xOEgaP/LIjZZiDwZpDiImq3W9DOaoz
-         ig57QEzy1x8XTdQd2eGV236J3LrizWa9aOupG/K0eHvaG1wXeQ4NExEkMPTbyvEYJowx
-         G2jaQjUferCCUdK1YuRfvq0AQKJX0qM6L5nuIZG//BD3mswyTGVxjHmQWSL5WM9Kw0nF
-         H4w1UYqW0DXpNVKdMkpwEQiDu8+wWYBFbSnSfJ8EI8mtL0PJWJMdmETTkvEEpMI9xHXJ
-         SsFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741533898; x=1742138698;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oE5dlvn/PoFAmzZkkwv7d6PSwwGsaZPhhmrL0ebICmo=;
-        b=tec9/Ka+Z8wlNk7o9UvdCAj2aGjVBlb2seosx2xcqoLc1kNH7EgogWLQZdNjE4S8na
-         7TFvDjlm51C4fnRvkHj39mIqe5MuRxp6J7IvEBeyCvuoWgAlpeVctqXg3WU0A8WdV3Bo
-         U4zVrHdOl+L3IP7zq3Xl3McHumLrU27lf94rkL94JVZ8+/TmM164RMzuuCGhD4i3Uz64
-         oQ644spEsdKOmUWZiAjAWViXTu6SEsgqqXSJDnU+ag6Jh55zrP8gqvB7uSH+o60qu7Jb
-         M+Y+TzIBZuMzPo6RYi0mYAQT4YZSiKdXIYJKlV1jIVkl+RpDxHXodsSs8RTd4ArDs1HF
-         HU+g==
-X-Forwarded-Encrypted: i=1; AJvYcCV7TayuM2KYFfha7FlHxwNA4Lsqk8uP/X7RjoExjZcU5/4z0xHkorOdfvIjFgmvO3MZ9mqgPEoHpuc=@vger.kernel.org, AJvYcCW4rT3XAHo9ptXbbmReZ0vF2YFIHzY8jCg7sBoGnk04K+JoVx4oHRFmlg8I51Am/g94/TJ1w80SVxs=@vger.kernel.org, AJvYcCX7wx+SgR1Ax5erZIGva73K0yqXcN8sPOC8zQjsism0guoADpSoa6oQpAWrFsi48Hgg0mr0yjb1RYvi3MFwzziLr/33rQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxExknHuKkHchoiz7wHVq/Ir1cxLOt1UuYnyAPBlGALDUm0KpN1
-	brenjB2MqgTIyYS93kskuDkSdyckbde628fsTGM3QuLW8mLDdV1k
-X-Gm-Gg: ASbGncuaaYfdjbT0YFaJxKPrCA3YFJYa9wTE05Ih/pYPcH08m8inIqR9f+vzvkZtB/N
-	rfthjRFsXc1AtRp1EBPaHRMcj7SWwCdC9AvgE0Y/wnc+lbM4Tk761Wt149hRigIo/RL1b7yP3GJ
-	uL4edtmXIiegAPSv/UkxMTJPujnC26e09PhQ7rTZa52BpYobbf3KTiMsnjRaELBzBKXVc9xJS04
-	+vWIUYiSv0EBN+E8Umzad7KS7ak27dxzhlxY7sZDd5F7G13MCa66Wyc99vXCj8NaC8eiziEnq2c
-	yDKTuWhKQtokXOv2jZFAevFrSM7ji4Haqg6Jbkk6IVBTHnTUomPLEKM0oeHHaVex0AaW7cyOsTk
-	qnpa/izsw3Oyighfgs83Fd9AkR4l5
-X-Google-Smtp-Source: AGHT+IGJ6fL03acBX7QB9IKawki20pcEFlM7EqCNYYvfl210N08+64JLV1DFRu5PmPzu9ZKwhOIEWw==
-X-Received: by 2002:a17:90b:2883:b0:2ff:6788:cc67 with SMTP id 98e67ed59e1d1-2ff7cf31b55mr13178351a91.34.1741533898557;
-        Sun, 09 Mar 2025 08:24:58 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ff693534f8sm6218041a91.17.2025.03.09.08.24.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Mar 2025 08:24:58 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <72528e65-5feb-40d6-9ea6-12ba45cef8d2@roeck-us.net>
-Date: Sun, 9 Mar 2025 08:24:56 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y8l0st9r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73D34C4CEE5;
+	Sun,  9 Mar 2025 17:32:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741541580;
+	bh=1UgctfymUV83xC3ix68vRlr3FAGTggR5aGYQLCNzbDI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Y8l0st9r5NUNHRLdUc6QAuvfdp7z/SGXIVYgdibKL3oMiKK/TWKbgUu7of3jDgSJT
+	 xa1+UvktOZf0ZyjgzcCB1VpcCY/RKn8nBSglNhwCA4obeuG7RDSB3iWMVUsU7W2DAr
+	 ubx4ZOMoG4vanFDBA+k9aONrtifQ7qKeL9dyoh/2DOjpUR7Wk6u21gPeGBKYjyoX/X
+	 46lReRVXDgt4bRDZ2s5wJ2Yh0XD/nkaAxQxZwLUrTEGDFolP7YD56S7J2kLZKHnK4h
+	 29GCa+GzIk5hMQASMu/mSknKEcaB58Abch9CZMJDhQcOFqqxdb71s6ENh/rUiR6rIX
+	 NxD45unJiPLzQ==
+Date: Sun, 9 Mar 2025 17:32:50 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Jander <david@protonic.nl>
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, Jonathan Corbet
+ <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Nuno Sa
+ <nuno.sa@analog.com>, Oleksij Rempel <o.rempel@pengutronix.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [RFC PATCH 1/7] drivers: Add motion control subsystem
+Message-ID: <20250309173250.68956c88@jic23-huawei>
+In-Reply-To: <20250306102540.7f0f6146@erd003.prtnl>
+References: <20250227162823.3585810-1-david@protonic.nl>
+	<20250227162823.3585810-2-david@protonic.nl>
+	<6c6cqaxmsy7miesel4ghdeiea6nrpe4gti4xf5enfyg4uqro5u@vpmtd2t7gydi>
+	<20250305164046.4de5b6ef@erd003.prtnl>
+	<mzxammninwmak5ti4c6is4pbdx3xzzziiwbxiwrldjyxgae4ok@ocec24vu4txa>
+	<20250306102540.7f0f6146@erd003.prtnl>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/12] hwmon: (oxp-sensors) Add all OneXFly variants
-To: Antheas Kapenekakis <lkml@antheas.dev>,
- platform-driver-x86@vger.kernel.org
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pm@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Joaquin Ignacio Aramendia <samsagax@gmail.com>,
- Derek J Clark <derekjohn.clark@gmail.com>,
- Kevin Greenberg <kdgreenberg234@protonmail.com>,
- Joshua Tam <csinaction@pm.me>, Parth Menon <parthasarathymenon@gmail.com>,
- Eileen <eileen@one-netbook.com>
-References: <20250309112114.1177361-1-lkml@antheas.dev>
- <20250309112114.1177361-3-lkml@antheas.dev>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20250309112114.1177361-3-lkml@antheas.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 3/9/25 04:21, Antheas Kapenekakis wrote:
-> Currently, the driver only has the F1 OneXFly variant, which was based
-> on the 7000 AMD platform. Add its special editions: F1 EVA-01, F1 OLED.
-> F1 OLED might have been a dev unit, but it is supported by OneXConsole
-> with the same features so add it. Then add the F1L variant which is
-> based on the 8000 AMD platform and the F1Pro and its special edition
-> EVA-02.
-> 
-> One might ask why not just fuzzy match. Well, EVA-02 is a variant of
-> F1Pro which is a Strix Point handheld, but does not have F1Pro in its
-> name. This makes it risky to fuzzy match, as special variants in the
-> future from different platforms might not have the same feature set
-> or registers.
-> 
-> By happenstance, all current devices use the same registers. For the
-> charge limitting feature on this series, only F1Pro/X1 (AMD) were
-> released with it, but OneXPlayer is providing bios updates for F1, F1L,
-> X1 Mini units that use the same register, so treat all of them the same.
-> 
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+On Thu, 6 Mar 2025 10:25:40 +0100
+David Jander <david@protonic.nl> wrote:
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+> On Thu, 6 Mar 2025 00:21:22 +0100
+> Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com> wrote:
+>=20
+> > Hello David,
+> >=20
+> > On Wed, Mar 05, 2025 at 04:40:45PM +0100, David Jander wrote: =20
+> > > On Fri, 28 Feb 2025 17:44:27 +0100
+> > > Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com> wrote:   =20
+> > > > On Thu, Feb 27, 2025 at 05:28:17PM +0100, David Jander wrote:
+> > > > [...]   =20
+> > > > > +static int motion_open(struct inode *inode, struct file *file)
+> > > > > +{
+> > > > > +	int minor =3D iminor(inode);
+> > > > > +	struct motion_device *mdev =3D NULL, *iter;
+> > > > > +	int err;
+> > > > > +
+> > > > > +	mutex_lock(&motion_mtx);     =20
+> > > >=20
+> > > > If you use guard(), error handling gets a bit easier.   =20
+> > >=20
+> > > This looks interesting. I didn't know about guard(). Thanks. I see the
+> > > benefits, but in some cases it also makes the locked region less clea=
+rly
+> > > visible. While I agree that guard() in this particular place is nice,
+> > > I'm hesitant to try and replace all mutex_lock()/_unlock() calls with=
+ guard().
+> > > Let me know if my assessment of the intended use of guard() is incorr=
+ect.   =20
+> >=20
+> > I agree that guard() makes it harder for non-trivial functions to spot
+> > the critical section. In my eyes this is outweight by not having to
+> > unlock in all exit paths, but that might be subjective. Annother
+> > downside of guard is that sparse doesn't understand it and reports
+> > unbalanced locking. =20
+>=20
+> What I was referring to, and what I want to know is, is it okay to mix gu=
+ard()
+> with lock/unlock? I.e. Use guard() when there are multiple exit paths inv=
+olved
+> and revert back to simple lock/unlock if it is just to encase a handful of
+> non-exiting operations?
+
+Mixing is fine.  In some cases scoped_guard() can also make things
+clearer though at the cost of increased indent.
+
+> >=20
+> > Sad, so a userspace process still has to know some internal things about
+> > the motor it drives. :-\ =20
+>=20
+> Unfortunately that is almost impossible to avoid entirely.
+> You can replace one stepper motor driver with another that might have
+> different micro-stepping subdivision, by looking at struct
+> mot_capabilities.subdiv, but a simple brushed DC motor just isn't able to
+> replace a stepper motor in all but the most trivial applications. I also =
+think
+> that burdening the kernel with all sorts of complicated math to model the
+> mechanical conversion factors involved in anything that's connected to the
+> motor drive shaft is overkill. As well as trying to emulate all missing
+> capabilities from a motion device that is lacking that functionality nati=
+vely.
+>=20
+> So just like in IIO you cannot just replace one ADC with any other, in LM=
+C you
+> also cannot replace any device with any other.
+>=20
+> That's why there is struct mot_capabilities and MOT_IOCTL_GET_CAPA. It en=
+ables
+> user-space to optionally support different devices more easily. It is pro=
+bably
+> best used in conjunction with a LMC user-space library, although I don't =
+want
+> to rely on such a library for being able to use LMC. There is some middle
+> ground here I guess... just like in IIO.
+>=20
+> One thing I could try to improve though, is to include some additional
+> information in struct mot_capabilities that tells something more about the
+> nature of the used units, just like the speed_conv and accel_conv constan=
+ts do
+> for time conversion. Something that can be placed in the device tree (pos=
+sibly
+> in a motor child-node connected to the motor-controller) that contains so=
+me
+> conversion constant for distance. That way, if one were to (for example)
+> replace a stepper motor with a BLDC motor + encoder in a new hardware
+> revision, this constant could be used to make the units backwards compati=
+ble.
+>=20
+> As background information: A stepper motor controller counts distance in =
+steps
+> and/or micro-steps. There are mot_capabilities.subdiv micro-steps in each
+> step. The amount of angle the actual motor shaft advances with each whole=
+ step
+> depends on the motor construction and is often 200 steps per revolution (=
+1.8
+> degrees), but can vary from 4 to 400 steps per revolution depending on the
+> motor. So it is not only the controller that matters but also the type of
+> motor. This suggests the need of motor sub-nodes in the device-tree if one
+> wanted to extend the hardware knowledge further down from the motor drive=
+r.
+> But then there are gear boxes, pulleys, etc... it's basically conversion
+> factors all the way down. How many of them is sensible to bother the kern=
+el
+> with?
+
+I'd have a motor description that is sufficient to be able to swap steppers
+between hardware versions and present sufficient info to userspace to allow
+a library to hide those differences. That description might well be of
+an aggregate device consisting of motor and whatever mechanics to get you
+to the point you care about (actuator motion).  Hardest bit will be documen=
+ting
+'where' in the system the DT is describing.
+
+It's not that heavily used but we do have analog front ends in IIO that
+provide a not dissimilar thing to the various potential mechanisms here.
+
+Jonathan
+
+
+>=20
+> Best regards,
+>=20
 
