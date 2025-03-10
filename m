@@ -1,131 +1,120 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBD2231A24
-	for <linux-doc@vger.kernel.org>; Mon, 10 Mar 2025 17:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E4E22D7A6
+	for <linux-doc@vger.kernel.org>; Mon, 10 Mar 2025 17:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741626876; cv=none; b=YI6H8MmNPAR0lqewBGdXESJlecDY3EagzJ9M7Znnc5rnQtjx08+ZW6YxJNRSH5fZPj4eFPy0bd+a4fXEOxG24MP42KaWUesIGm/NJu1gREZa4Xpe1bV7arc5E7hfh58A9ZWQt1xUHRs7LkN61qBX8niIvpWGdEVZyT2MkSa1Gd4=
+	t=1741628473; cv=none; b=hU15cWKggSdr5bAo8kEXOQFa+tEsRaFyVp2ndigNA70iix0hKfkkqCDAd1gzmT54jb6OmJXjeQl8tsaFpWW7xkDjaqPB5aMJ41up/sDLnxI159POSFN6teXa5yZBg/2xGtEo7EsX3Kf74JyA/0FjOpPrCDgd7gvzlvXkJ5nNZa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741626876; c=relaxed/simple;
-	bh=dq1XvillSPGnZAnwO8Jk6HlomInoRUGnAxVEhvsL/5M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SAP6CE7nOG5ZDdh9Fl06a1IAsHyTYrygnIxgthufPv/PSuvgz9k/3GRwey4zzL33MQFXKWENxy+kOHtjuNloEZt+LLBHqYWI+gKDKs5d0ga2Ici0DOka4He9gPLRJPvvKgVMAPH6PwtxEXBV/nwIWy5lmok/bxnly4hJAKe2w44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=dgA0oPCj; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1741628473; c=relaxed/simple;
+	bh=5CSaYIH6K+6YfU9gGc1n6Mjj0iU2j2bA64dxCEYv5ls=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dfiIja5DwOTaMFO+4fwbE+tkfWk3UiDrNfoW7iHgmaBqLK4HUWJ1gLSBXjOrbH5SqdlyRU1ws+Mp7x282mwT0NLEB6J0RGhu9TslnGS3rNi1YrPrxbPAoo7aSCbbGGVTBH+j2oQp0kcI6m6MDs2rV8zKnDV9G6qhgCssm5itqaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=JLHhFmez; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="dgA0oPCj"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-39140bd6317so1358680f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Mar 2025 10:14:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="JLHhFmez"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39141ffa9fcso1482571f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Mar 2025 10:41:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1741626873; x=1742231673; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=heWFhlz+SWz1xH5kFIwmWzIb+nauW24lGHRaxh0Rld0=;
-        b=dgA0oPCjX2IEdYB9UjJli/tufzml5YNIqR1FFkwh6Knn9+Q8gjFM2Yi1U+n7zAOSo7
-         X2bbhm4lwiT9VeMPHtuzkVMq6EYb86MdoGN7udZvHtl9gIM4C58Uae3Te913L7mduFV3
-         gcNQCeMU+J6ahrcpNZiFmh5cJKBmAkxwb7+XZPJ4Gs8jGGawN51ui2mOzoGdGOnKevnS
-         DHPmjOBlN3OjeczFT8PSpQr0kULwuAJg6eg6PXA6D+eB1rC3t9tX3HGioiQTaMlaWCpw
-         sfbQE/3RYXBH8hBpbquZyHidbqBQsibEuGt8JivRKHxUn4XtQ7DXp+liKQX8ZETGr8D0
-         IUcQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1741628469; x=1742233269; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=op0K5hQxl24cMPSQ2zXUerey4wk9VmfFfMkw2OmdMwo=;
+        b=JLHhFmezIPhR8yET/sUs/4K5xmhFqI1XXyvtKUXs6sK3NvcRY2KvRTQcajoOgQwPts
+         9ltIgDSqmrtNbI1Un+6JhLsX4FjLC34km9nDkPMRBtcY1cS1360H9zM79IsuKKgWNJNu
+         K3TXiXWbE/KhukYOEpw7Kn/xXZdRmcFcJr+qy9nUDbyBy2CGWBuh7WNaBFSymD/UfddL
+         SB8aUtqTKht3eosV3bexmnRX8h+G/Uoc/q+FhV665T4wzXRj8B09TJGoHKPSD4jQf4ql
+         QS0w5xsA02TjjCd+a+fP1UlpmR+nUDdU+gZRcymDWx6HJ+MTiXxVX54jOXmU+aT8ga0i
+         76Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741626873; x=1742231673;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=heWFhlz+SWz1xH5kFIwmWzIb+nauW24lGHRaxh0Rld0=;
-        b=FwB1CRIof00hkHMardG5yAxMXJeTFxXdBFG+mv37mZTpZD4hUdHULY7nb/Zy5NIJ8s
-         5x7edLR18aMjKrcAmqWg0TLVBtJzU6+2x7csa1KEzB+K5zbS6mJrUN+ZEA2rb2Mn6eGB
-         4eG/60VOtyBiu91KJYcLyRo5eVfchdNToLtCTQ06hu+xNL8X43SadLWz9gWYdMOqSe7P
-         yWQoK5gTYlALTzk6nYSSvGiizmEJvfLMy6NAN9lCyQzUvwbprkTfrxmCQgNJQzXszbpW
-         /BXj6WYMOZRRryZALgI9KuPcg5bLa/dSvvE4brFl5jZM5kQp4Wkbtf0fBwVQRudYBgOp
-         msbw==
-X-Forwarded-Encrypted: i=1; AJvYcCWanllkbEEXFZZVtp/78qUgPunKeFuijsHbIeKkYlzs3KtO+D5LqVDsVMZ3GDV/XW7/AI90whUTYcE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywa0cZ+mRHYs5r4RBylOzqICnbBPfGkSW4WKXNBNisckG2cUBqc
-	gP6Nn3RlcObnBJX31Yi9pdRgf6ViHW94pbLZ8c0QgvlwzFxhtmjG7BaymLoDNFk=
-X-Gm-Gg: ASbGncsLptyLTWtMhq3AocIuUZXQafcVIl+wIGAn4JB9XQ0EyvxXoV9vt5pMm7FRmEw
-	ajIwKk0k2p0FUoYwHlBICAselPdqqNWfqRD0HbE7HFsj7dp1oy3QF1NZOpKe7fuqFFPHB7k4ELD
-	4JIii4e3OeM4UTfXODjT7yaI6O/6n5CquJ4VEseDcpc8jmsFA67b2k1EVDJOwWSYSTyYizUSzNN
-	y3sxxUd4al2lJVro7rmj3dKMfGFctABie/aAL+fqGHFxxJZU8xr2mcIzZQEDM+xnTjPB3D8euVL
-	mAwNJPW856vfjifLtaZaAJ+rSaamnRfSC79qaf8ZObKZ6ns=
-X-Google-Smtp-Source: AGHT+IHIfA6s47W3ZhsLWndjNxIG07Q9wUrct0SV7ZxC4AQ588su9NeqgtnaMCydV2H48+KZCdjFSQ==
-X-Received: by 2002:a05:6000:178d:b0:390:e9ea:59a with SMTP id ffacd0b85a97d-39132d77a7emr8940633f8f.5.1741626872767;
-        Mon, 10 Mar 2025 10:14:32 -0700 (PDT)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912bfbab43sm15840796f8f.15.2025.03.10.10.14.32
+        d=1e100.net; s=20230601; t=1741628469; x=1742233269;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=op0K5hQxl24cMPSQ2zXUerey4wk9VmfFfMkw2OmdMwo=;
+        b=owh5meYEIC0cdewEoKIAdzRpqV/KBwW50Pw2pjcI3ytjJryvCfJoiHqimwpG3hmmb5
+         VGwKGsruL8I49i2TK5NNV/TQDS6n0xl8UHQlY1OHEMhGHkygn/ZIiAC87criu142pr12
+         JNLi8VjoPrAEa42hp9VP2d6fp6bAq8+PIpm3WtrXp31QFXQsz/FqlGWvib7sUpeik8+/
+         YN7uRSAnZ7nPITtcKXUJuEwTOpXJcil9LZ9d91N7T5+k2eLdfyzrFMs0FMuDyFgGSoKJ
+         f/q0k7ObRpUgG/NLYbmVrk/8wBnCBRyFsiwK6+aUTncwbedzKfN82swyUMfPCu2oVykW
+         hP1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUpDQYlghawk4aJbkQ/0KrTatF+jsrs6GdlNf0R264Yqf2cm/R6hg3wufa9q4kVcEMbmE2xuIzfCKY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLasYRchGwj5vc3qDrc+aoAoI55f/KFGNCq4A3wtNpeKC/B5jJ
+	P3XxRO8dDPkarBO5tNxWu1SE/VTvrVfq0TA+tfA3QGKI3jcVe1If7uku9YdpYiw=
+X-Gm-Gg: ASbGncugBTc77xC2Rk4EvfitLUYuvDiAT2DA3xezEwyCgZTwtzo6sSZz2QrSsta3H2A
+	2fZwGxjzTAgK6ShPxT6KOT3zwEJTOoh+oXp1Pn1T+D+N4l9piNcu45W523sdqSKEsk7erlIhGRM
+	cv+DLxRtJerYHTOFeUH9wXB6y3rmbKXd3MbiaEfsiZXnWLdmS3KG1MNOxZYVB2bVUSM/9VforZd
+	SM3kaDfEnLRNLhzyzs9gAW/lPWuiIqr33kpukH10mW6fROdY4AY6OVxe6lCXkFHVlNNVnzKBQ1V
+	y8cWuMmIvWivDFsJkl7JgPAXNZR86vev2LVsgL31yzPKQZfYYvIJDgouddvLVa5EmEZ1PyU+h9b
+	0/T4VxL6y6Dxp2gT8Ix8=
+X-Google-Smtp-Source: AGHT+IGOgm3gmY4DlSe83JHp94+rEh9KGfjZ9kZ5Lnuk2aRTnT7RJnoSabcihrFdfyLb9ivTlMczAA==
+X-Received: by 2002:a5d:47a3:0:b0:391:329b:893e with SMTP id ffacd0b85a97d-39263cebb08mr668621f8f.5.1741628469264;
+        Mon, 10 Mar 2025 10:41:09 -0700 (PDT)
+Received: from [127.0.1.1] (host-82-56-170-15.retail.telecomitalia.it. [82.56.170.15])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912bfba8a9sm15597038f8f.9.2025.03.10.10.41.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Mar 2025 10:14:32 -0700 (PDT)
-Date: Mon, 10 Mar 2025 18:14:30 +0100
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: "Shashank.Mahadasyam@sony.com" <Shashank.Mahadasyam@sony.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Waiman Long <longman@redhat.com>, 
-	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Shinya.Takumi@sony.com" <Shinya.Takumi@sony.com>
-Subject: Re: [PATCH 2/2] cgroup, docs: Document interaction of RT processes
- with cpu controller
-Message-ID: <2vvwedzioiopvjhah4jxlc6a5gq4uayyj2s5gtjs455yojkhnn@rkxanxmh3hmu>
-References: <20250305-rt-and-cpu-controller-doc-v1-0-7b6a6f5ff43d@sony.com>
- <20250305-rt-and-cpu-controller-doc-v1-2-7b6a6f5ff43d@sony.com>
- <thhej7ngafu6ivtpcjs2czjidd5xqwihvrgqskvcrd3w65fnp4@inmu3wuofcpr>
- <OSZPR01MB67118A17B171687DB2F6FBC993CA2@OSZPR01MB6711.jpnprd01.prod.outlook.com>
+        Mon, 10 Mar 2025 10:41:08 -0700 (PDT)
+From: Angelo Dureghello <adureghello@baylibre.com>
+X-Google-Original-From: Angelo Dureghello <adureghello@baylibre.org>
+Subject: [PATCH v4 0/2] iio: ad7380: add SPI offload support
+Date: Mon, 10 Mar 2025 18:39:51 +0100
+Message-Id: <20250310-wip-bl-spi-offload-ad7380-v4-0-b184b37b7c72@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="axv77jbvbeq5oriz"
-Content-Disposition: inline
-In-Reply-To: <OSZPR01MB67118A17B171687DB2F6FBC993CA2@OSZPR01MB6711.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOcjz2cC/42NQQ6CMBBFr0K6dkxbBBpX3sOwGNqpTIK0aQ1KC
+ He3cgKX7yX//U1kSkxZXKtNJFo4c5gLXE6VsCPODwJ2hYWWupFaS3hzhGGCHBmC91NAB+i62kh
+ ovbK6s86oxomyj4k8f472vS88cn6FtB5Xi/rZf6qLAgWmNoimq6nVeBtwnXhIdLbhKfp937/DF
+ SnpxQAAAA==
+X-Change-ID: 20250220-wip-bl-spi-offload-ad7380-6f1c27cd815d
+To: Jonathan Cameron <jic23@kernel.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Angelo Dureghello <adureghello@baylibre.com>
+X-Mailer: b4 0.14.2
 
+Add SPI offload support for the ad7380 ADC.
 
---axv77jbvbeq5oriz
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH 2/2] cgroup, docs: Document interaction of RT processes
- with cpu controller
-MIME-Version: 1.0
+Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
+---
+Changes in v2:
+- fix return value on offload probe,
+- add documentation patch 2/2.
 
-On Thu, Mar 06, 2025 at 11:02:22AM +0000, "Shashank.Mahadasyam@sony.com" <Shashank.Mahadasyam@sony.com> wrote:
-> Do you think it should be rephrased to make it clearer?
+Changes in v3:
+- fix tabs erroneously added,
+- fix documentation syntax error,
+- add a note for the 4 channels ADC variants.
+- Link to v2: https://lore.kernel.org/r/20250304-wip-bl-spi-offload-ad7380-v2-0-0fef61f2650a@baylibre.com
 
-Aha, I understand now why it confused you (with the paragraph about
-realtime tasks right above interface files).
+Changes in v4:
+- add offload support to adaq4381-4.
+- Link to v3: https://lore.kernel.org/r/20250304-wip-bl-spi-offload-ad7380-v3-0-2d830f863bd1@baylibre.com
 
-I'd consider such a minimal correction:
+---
+Angelo Dureghello (2):
+      iio: ad7380: add support for SPI offload
+      doc: iio: ad7380: describe offload support
 
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1076,7 +1076,7 @@ cpufreq governor about the minimum desired frequency which should always be
- provided by a CPU, as well as the maximum desired frequency, which should not
- be exceeded by a CPU.
+ Documentation/iio/ad7380.rst |  18 ++
+ drivers/iio/adc/Kconfig      |   2 +
+ drivers/iio/adc/ad7380.c     | 511 ++++++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 495 insertions(+), 36 deletions(-)
+---
+base-commit: 73b788d05b5bd82c40193165583a9dcad2d8410e
+change-id: 20250220-wip-bl-spi-offload-ad7380-6f1c27cd815d
 
--WARNING: cgroup2 doesn't yet support control of realtime processes. For
-+WARNING: cgroup2 doesn't yet support (bandwidth) control of realtime processes. For
- a kernel built with the CONFIG_RT_GROUP_SCHED option enabled for group
- scheduling of realtime processes, the cpu controller can only be enabled
- when all RT processes are in the root cgroup.  This limitation does
+Best regards,
+-- 
+Angelo Dureghello <adureghello@baylibre.com>
 
-
-Of course wordier rewrite is possible but I find the text as you
-originally proposed unclear due to several uses of "only" that imply
-restrictions that aren't in place in reality.
-
-Thanks,
-Michal
-
---axv77jbvbeq5oriz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZ88d9AAKCRAt3Wney77B
-SZInAP9Rd3zY18EcqWow8FjgpvFFozQcWGVRKThYkSVY8rgSLwD9GbCUzDgg1aDb
-cFJMyU4xEzEHa2BFoC6eDq1KMLSZqAA=
-=CF/q
------END PGP SIGNATURE-----
-
---axv77jbvbeq5oriz--
