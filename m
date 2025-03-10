@@ -1,155 +1,213 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800D21EF386;
-	Sun,  9 Mar 2025 20:49:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E8281E;
+	Mon, 10 Mar 2025 00:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741553376; cv=none; b=cym+d+9a9sGhQM5LCZwIcGqgmtf2fIv4d6TCcIjQj+wKpIvyyHE5pKGwfnKNSaaj9Gp7ilgtfZksaOhziwepzGqAuTmeiRyd+lpq+BkjMKmXkp0W71aPdkhvdoOsYzdzdtvO38x5efgGg8uG177fy8S4/CRObeA7KcYgeNEXBGY=
+	t=1741565467; cv=none; b=WCbX51aXdqXEFgIyMhqmE5ih8ee6eH1YhhLnsxOyjKiJFQ8SAVPO4wvqucA3H9qtMcVJWtx8E0Iv1FseW5feQLG2kdbTwuPcH0yAL21T8pSUCWokW/Jv5Rmik1kcYoJb6R+20ALJG1QmnRP56gQZK/tLqYOlMratyjJZ3omd6Xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741553376; c=relaxed/simple;
-	bh=sVMlgFXYI7g+vJR6TKddPiu5AZClUdsWRZqI8kc3mRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BssBGevz/tr4nDMnKqOZDzGJwP3WLBK687TDpGsEQDgiznNp8UITTjL+KvFEjR4ok6/TBRNukYgEWtgc6QxctOLgl6mKs6xTgDQ6OPuZvivxwzdIRsqINhjLB6xmm6tkEvgyDQcEPXip9q4b+sPWS7OA1y4eYcRwW6LwSICOfNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KpS6HHWH; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1741565467; c=relaxed/simple;
+	bh=NNTDTkTEz9AitGsCoxYmnI5gt9HoS2+WSaQHCSMuMMU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bbi3shPfvFITMxoSNzSiW74mvnvDWVWJnNnEPM7jOAGymKMH4peAT1C9lIf4EPa8u6PrGfusbzAcgO+N/RscAC68RmKX0HPAdB2fugNfuVIDv9Mfcjji6m+e8oGZqyVfEmjAgMwgfFpROO+L7bn1UqwN6QktxJ/BVeAnGLU/fCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqsETMfQ; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KpS6HHWH"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-223594b3c6dso61403995ad.2;
-        Sun, 09 Mar 2025 13:49:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqsETMfQ"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-22355618fd9so63886425ad.3;
+        Sun, 09 Mar 2025 17:11:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741553375; x=1742158175; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Ymok4K4qVgWMasIZ+aZcHfy9Zvm1PfjXlbvHfdpv2Y=;
-        b=KpS6HHWHc4LkJvJAeJ7NaEPtVxLIhHcsnyX6PuOZUzmvMDAKTm+hYqM+U+5PI1fXih
-         HkocWNL266FnB85+Rv8WZCSJYi0ElU+Zm2zXAX1LBUA6v9DU1M/zeVjMCop0SAWAiep3
-         Xkv+uWBr2ZeXfvPgAtmzsSAuvRC4WBJswRn2KmWUd+z33blE1+EHps6WxtFvr9UCDCji
-         fF14Muc+iwqmjUlD4X/VhSlyUItoEwvRk5/rePgwTbC8ofKOqPW3X+ReRCKG+s6DvvRt
-         HjPT0wZjZLbUOzljzmG1w0REA2tHYLO5Mr+v7pTun++nQt+7gbAe9upMEWpkUYhvaYKM
-         47+w==
+        d=gmail.com; s=20230601; t=1741565465; x=1742170265; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=8ALG8qqKPFoDaQ+ApQvcfDOn130RPhdd8vCinfDX1Mk=;
+        b=jqsETMfQXy7lONtS57XvEHjB2Me7yoP83Ds2PN74Y1pmFhPtHCQJRa4oTT5cy9uCDk
+         zopWpydry9WO0xL8+F5X96xoc/2dfyVpzfY/96y78ouBF6a9VYliY0Jap7SYLQ1gma3Q
+         YhX7e2zd6ta7mSNqSPubpLvtT6FAhVP5TjE3gEaqPaJikWhUHGHd09UUIyvlEIH3o+5N
+         d8FRL9sJ4+zOuffnHfB9kUquHC46jW1YTBlTughwTy8dmJ+HHEyr9m2Nnra8zdRgrT3z
+         o1r4wqh55wanAnYNoczmIgHDignsHfKRCRS391ziXDmi/58OPPMc+gOpnyjVCXXlSOk2
+         iu2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741553375; x=1742158175;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1741565465; x=1742170265;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+Ymok4K4qVgWMasIZ+aZcHfy9Zvm1PfjXlbvHfdpv2Y=;
-        b=IMbi/Dl1Eq5sH3L9kE6LFlAzJEX8T9t83+tRuAsUVKXLnCHZIZ04GcFXyoig+yOhtn
-         fujGVJnO8LsKnUY48gvhL1BYOyq8QunS7U8QTN/bwhZRtNTGVOL/nKvbEZXfFc9E+2Jt
-         L7O/x2hC3REVNL4jeTTGE/yKO9vk50ybb2+XbIZG854eimqnw1Y7jSgPUsVnqJuPduNP
-         jdIT/6mWFAkIpD2dS0jzfw1tl8xx2Sw+f2CAczgii4DjUadn2wGj8qTm3npz2daCcRH7
-         zkgebA7Zs8wI9tjLwk5J0Suz7vg3FNl8zlz2H6pH36cJGiDgiU6p11s2izWy5xo88xIs
-         7yJA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAnhQ9t0qICrMQr8ldQlBlZ054ZEJ5jnYHBqOpVEXfsaBTqlmEO9v0Spb11V5Dm8aSSFQaPaor64To@vger.kernel.org, AJvYcCUcpOwVhUm/VOgdZQ/BtwBphjkW4cHM/Z5EEP5scnIRF2xBgLQeTNk72bMT+6zKeDbXYszLhPLDrMF3wBl8@vger.kernel.org, AJvYcCVCsx59vYP83gXUMxyAxtE8nTdWpeuvPg7otpQrQQ6PLQUzP9rL/Ybna3TrcAsKsAQZJs3uI1Il4b6f@vger.kernel.org, AJvYcCWBQ9R/0rxeOZUN1zmC45ppzSbYOqvyJV2fZHQ8TCpEcRueg9GJORr7sIm0ujaicL+dS6205BJF1YNB@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPACDndp92h49BUdfySb1Lmsh6sqrU3LAgZKGV0Z9kJEB5dIrF
-	A+FCGx9dMdBKrwXwtKneHj1cJLRoArqvxO2bGgA9eB5VzRGuJy0R
-X-Gm-Gg: ASbGncuo+8PoFrhNWe/yOuQSHE881RdCaeaCPMFtgDJZgJScZVneultzvs+YhAIXyai
-	Fm8jzKNZdvwV8hvAOMsVWQIW1qgZL3FsZDXAH0UuM3qCM294q0qXoxE4VCkuF0oJZCIW3OjtXsv
-	B+H8r/f1bsaUs7pIUUY6wpPVT3xVRTG7OojfO9xEdi5VQ5fkoamL6dpXe7+hI40U6rKFZp8OnqP
-	cfUi0pOZ0ZRa8uUCwhECpMDeYS0x+fuN9xpjNy5bPyCyRRJ1aisF5oP6FqzMhZqmpt0gd5v9FIt
-	TZuM/F+PmlaiuxkDpam1xRVYHcnvzrW8e+fnADyd/Nw914gokQuULC/t6ZNYSRBbWhzyDq5b
-X-Google-Smtp-Source: AGHT+IGgIPes28XROfmEhOPj/ChhxDfpGBkxv23MfingUFJ3I+yMwDE65ANstHXsl9HArbcKzSpX3Q==
-X-Received: by 2002:a17:90b:28c5:b0:2ee:e113:815d with SMTP id 98e67ed59e1d1-2ff7ce6f0demr18243256a91.8.1741553374683;
-        Sun, 09 Mar 2025 13:49:34 -0700 (PDT)
-Received: from HYB-DlYm71t3hSl.ad.analog.com ([2a02:2455:1853:7000:fc49:126f:e12d:f79c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ff4e789387sm8397251a91.25.2025.03.09.13.49.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Mar 2025 13:49:34 -0700 (PDT)
-Date: Sun, 9 Mar 2025 21:49:24 +0100
-From: Jorge Marques <gastmaier@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jorge Marques <jorge.marques@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/4] docs: iio: new docs for ad4052 driver
-Message-ID: <e3p2r2fet2spkrxv7x76gunlivrp3vng22wktz4fkww5nkckt7@jpgne4uerr3c>
-References: <20250306-iio-driver-ad4052-v1-0-2badad30116c@analog.com>
- <20250306-iio-driver-ad4052-v1-3-2badad30116c@analog.com>
- <CAMknhBFiZZUtCkTjQ=AVSgwqe=wCkMnqAmaTqvW_X6fm1OKuYA@mail.gmail.com>
+        bh=8ALG8qqKPFoDaQ+ApQvcfDOn130RPhdd8vCinfDX1Mk=;
+        b=eDoQwTQiF4XoCPG7yjY20XnzafVrbTRRMbdPWFzZ3aR7527KNOn9Z3ZPosJ/C1UgZ9
+         9tO0rIJygp9kP+t5eoar67C2dPcn/fRRY3fhOmoQa38VIOvpv/J4QvkvGoUIEv8MWfy0
+         ocriAjcXE2PnvN1zzYS1Zq6Uf7Ze88wxSXs6MOxurr4XM44U1NQKk0HWK/+LL9iwAIXS
+         +Dov/MBvS/hpZstiZfcdNd9GtIiWaDIbIHHg3VPdStoP+lvuqo6+85+ZZBi4aTV63Y1M
+         JKfJRVWLutPG8xHhkcsteE03NU6Zko6RX5C+pUXFviS5HLUZOEzuzOpELx9pFgGjhPR4
+         68mA==
+X-Forwarded-Encrypted: i=1; AJvYcCULrZ9QqEwtqweFUy5Z3pXic1YCWGPEgs7raIkdNMx9lLIemXt3i72e6/mVFF2xdJBFbjlgDmiq6Es=@vger.kernel.org, AJvYcCUYomXiMQikWfzr9lHoqO3stYNcRIOabWAtJON/n/kkLEZ9uYDSA6+aNZsF42k6QUyVYiPQp4MM4+UXc9hl@vger.kernel.org, AJvYcCXgzaaxnY4G8+3xmdxnc3dyTlriHNMopgjQFZws43K0KnwGtEn4U1QxYueAKD8klhqyfM0N9xGKtwMUGaQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVhGAR+GmfN6IPfCYpF0wwbyOqyPP6qnTJIiqQ1xDMiWmrdgF4
+	vuqOXbjU4decyGVj89niKQTzN5w1et57o9LqG8vT//TNc6HgFtk/
+X-Gm-Gg: ASbGncsx3ekp1hgHaqrl6c9VFZ1Di81J61urFLG3kM6jfLp4EjzU4zHivlPBxjxQJzQ
+	mYuGAxoSnovpBpf1NIBxNSUt4b/1KfvrKBLqFH8ysXBQSMrMfNTSCUuSCZn7+j99lAElqnWc4Qw
+	Fqe6VQuym7SzBD7gO81uXcORRevNOI153AoHxDnsopUrVrTsMtHRL3HaJdLZxIa8XKR+YrnapLJ
+	+S0CDbLLTUE+ggIjWgCqW6+QbR9lC1SPXuEfAytQrzyFP/vg+7STfl5O7gVg9WGFApVYpXYvoaN
+	tjinu4VwbSp/KdQKdbfLEMIbofvM4NPNmQBJvpi6NG8SOYz27f4+ZhHnNK3ebN06YnwYnQk0mqH
+	V2zCyfz6/lAbg5Bz4tQ==
+X-Google-Smtp-Source: AGHT+IHVE5OqQhV5ylGDdd0P+vVeUVyBaJoy5vWD4RhhvEt/K3A2WBkRk/06pCQ1V9qJeFFzmV3dSQ==
+X-Received: by 2002:a05:6a00:1703:b0:736:57cb:f2aa with SMTP id d2e1a72fcca58-736aa9fdbbamr16863191b3a.13.1741565465405;
+        Sun, 09 Mar 2025 17:11:05 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73698246387sm6951170b3a.72.2025.03.09.17.11.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Mar 2025 17:11:04 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <9865e1b9-6f03-4f54-83fc-73591646b74c@roeck-us.net>
+Date: Sun, 9 Mar 2025 17:11:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMknhBFiZZUtCkTjQ=AVSgwqe=wCkMnqAmaTqvW_X6fm1OKuYA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] hwmon: (dell-smm) Increment the number of fans
+To: Kurt Borja <kuurtb@gmail.com>, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>
+References: <20250304055249.51940-2-kuurtb@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20250304055249.51940-2-kuurtb@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> > +.. list-table:: Driver attributes
-> > +   :header-rows: 1
-> > +
-> > +   * - Attribute
-> > +     - Description
-> > +   * - ``in_voltage0_raw``
-> > +     - Raw ADC voltage value
-> > +   * - ``in_voltage0_oversampling_ratio``
-> > +     - Enable the device's burst averaging mode to over sample using
-> > +       the internal sample rate.
-> > +   * - ``in_voltage0_oversampling_ratio_available``
-> > +     - List of available oversampling values. Value 0 disable the burst
-> > +       averaging mode.
-> > +   * - ``sample_rate``
-> > +     - Device internal sample rate used in the burst averaging mode.
-> > +   * - ``sample_rate_available``
-> > +     - List of available sample rates.
+On 3/3/25 21:52, Kurt Borja wrote:
+> Some Alienware laptops that support the SMM interface, may have up to 4
+> fans.
 > 
-> Why not using the standard sampling_frequency[_available] attributes?
-Because sampling_frequency is the sampling frequency for the pwm trigger
-during buffer readings.
-sample_rate is the internal device clock used during monitor and burst
-averaging modes.
-
-> > +
-> > +Threshold events
-> > +================
-> > +
-> > +The ADC supports a monitoring mode to raise threshold events.
-> > +The driver supports a single interrupt for both rising and falling
-> > +readings.
-> > +
-> > +During monitor mode, the device is busy since other transactions
-> > +require to put the device in configuration mode first.
+> Tested on an Alienware x15 r1.
 > 
-> This isn't so clear to me. Is this saying that events do not work
-> while doing a buffered read? Do you need to do need to read the
-> in_voltage0_raw input to trigger an event?
+> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+> ---
+> Hi all,
 > 
-No, the device monitor mode and trigger mode autonomously samples using the
-internal clock set with the sample rate property.
-I rephrased that to:
-
- The feature is enabled/disabled by setting ``thresh_either_en``.
- During monitor mode, the device continuously operate in autonomous mode until
- put back in configuration mode, due to this, the device returns busy until the
- feature is disabled.
-
-The reasoning is that during configuration mode no ADC
-conversion is done, including if the previous mode was autonomous.
-If instead of return busy the driver hided this and resumed monitor mode
-after the access, a hidden (to the user) monitoring down-time would and
-thresholds crossings could be lost, undermining the feature.
-
-> > +SPI offload support
-> > +===================
-> > +
-> > +To be able to achieve the maximum sample rate, the driver can be used with the
-> > +`AXI SPI Engine`_ to provide SPI offload support.
-> > +
-> > +.. _AXI SPI Engine: http://analogdevicesinc.github.io/hdl/projects/ad4052_ardz/index.html
+> Guenter, if you prefer a different patch for the documentation, let me
+> know.
 > 
-> This diagram show a PWM connected to the CNV pin on the ADC, but I
-> didn't see a pwms property in the DT bindings to describe this.
+
+It looks ok, I'd just like to get a confirmation from someone with a
+system with fewer fans that this doesn't cause trouble on those.
+
+Thanks,
+Guenter
+
+> ~ Kurt
 > 
-It is not clear to me where the pwm property should be in the DT
-bindings, since the PWM node now belongs to the offload-capable SPI controller.
+>   Documentation/hwmon/dell-smm-hwmon.rst | 14 +++++++-------
+>   drivers/hwmon/dell-smm-hwmon.c         |  5 ++++-
+>   2 files changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/dell-smm-hwmon.rst b/Documentation/hwmon/dell-smm-hwmon.rst
+> index 74905675d71f..5a4edb6565cf 100644
+> --- a/Documentation/hwmon/dell-smm-hwmon.rst
+> +++ b/Documentation/hwmon/dell-smm-hwmon.rst
+> @@ -32,12 +32,12 @@ Temperature sensors and fans can be queried and set via the standard
+>   =============================== ======= =======================================
+>   Name				Perm	Description
+>   =============================== ======= =======================================
+> -fan[1-3]_input                  RO      Fan speed in RPM.
+> -fan[1-3]_label                  RO      Fan label.
+> -fan[1-3]_min                    RO      Minimal Fan speed in RPM
+> -fan[1-3]_max                    RO      Maximal Fan speed in RPM
+> -fan[1-3]_target                 RO      Expected Fan speed in RPM
+> -pwm[1-3]                        RW      Control the fan PWM duty-cycle.
+> +fan[1-4]_input                  RO      Fan speed in RPM.
+> +fan[1-4]_label                  RO      Fan label.
+> +fan[1-4]_min                    RO      Minimal Fan speed in RPM
+> +fan[1-4]_max                    RO      Maximal Fan speed in RPM
+> +fan[1-4]_target                 RO      Expected Fan speed in RPM
+> +pwm[1-4]                        RW      Control the fan PWM duty-cycle.
+>   pwm1_enable                     WO      Enable or disable automatic BIOS fan
+>                                           control (not supported on all laptops,
+>                                           see below for details).
+> @@ -93,7 +93,7 @@ Again, when you find new codes, we'd be happy to have your patches!
+>   ---------------------------
+>   
+>   The driver also exports the fans as thermal cooling devices with
+> -``type`` set to ``dell-smm-fan[1-3]``. This allows for easy fan control
+> +``type`` set to ``dell-smm-fan[1-4]``. This allows for easy fan control
+>   using one of the thermal governors.
+>   
+>   Module parameters
+> diff --git a/drivers/hwmon/dell-smm-hwmon.c b/drivers/hwmon/dell-smm-hwmon.c
+> index cd00adaad1b4..79e5606e6d2f 100644
+> --- a/drivers/hwmon/dell-smm-hwmon.c
+> +++ b/drivers/hwmon/dell-smm-hwmon.c
+> @@ -73,7 +73,7 @@
+>   #define DELL_SMM_LEGACY_EXECUTE	0x1
+>   
+>   #define DELL_SMM_NO_TEMP	10
+> -#define DELL_SMM_NO_FANS	3
+> +#define DELL_SMM_NO_FANS	4
+>   
+>   struct smm_regs {
+>   	unsigned int eax;
+> @@ -1074,11 +1074,14 @@ static const struct hwmon_channel_info * const dell_smm_info[] = {
+>   			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MIN | HWMON_F_MAX |
+>   			   HWMON_F_TARGET,
+>   			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MIN | HWMON_F_MAX |
+> +			   HWMON_F_TARGET,
+> +			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MIN | HWMON_F_MAX |
+>   			   HWMON_F_TARGET
+>   			   ),
+>   	HWMON_CHANNEL_INFO(pwm,
+>   			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+>   			   HWMON_PWM_INPUT,
+> +			   HWMON_PWM_INPUT,
+>   			   HWMON_PWM_INPUT
+>   			   ),
+>   	NULL
 
-> I didn't have time to read the full datasheet or look at the driver
-> code yet, but can do that next week.
-Ok, thank you for the review
-
-Jorge
