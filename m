@@ -1,157 +1,115 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF6ED846D;
-	Mon, 10 Mar 2025 13:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EF411CBA;
+	Mon, 10 Mar 2025 14:07:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741613372; cv=none; b=VYtPRYj9bWYGoQdno55xaTJA9frcSkNOFfIjuPH1C24InQ9BwCz4s7yPBDo8FhUyKD/RO+6Q5osg2KJbe4pRiJ5ETqNCpuodHWD68PhGHU4MGwOimmrJKRxnDKusscjwpvGCpxOfxLc3c+rCSjzqIwKmoQct3RSX/8RtwYF/XA4=
+	t=1741615637; cv=none; b=BQkXA8NQUwj/qcU+dqXc12lAO1p0BUStsE4jdq3zYP/+stpsm0hS5FlSRShfuM6//oK7Q55LTqOcgvixLIs+SG44vSPuZwsGl2sBS4+vmDssnQrelCu0zgGFFYnq1iIXFe6nMi7lH3ofKiwTDZE+d3x+Okn2499sufxIE/VDAQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741613372; c=relaxed/simple;
-	bh=wZ+bjnc45ikRcTR7Zx2xMwTbXDKPzC9yDpMnfE9AKes=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=DaNcTR4pcwoZw68ACJDRWh1F6RhQXF2b6Rg2VzjUg+vqXsBh73iouAaA13gUbMnPy/hgMVfmgGEpCy9HjLEj02Bw9UArDtseplpLonml0i3gbaLil01MZsLOlC7px4kFZkOqnnNTkMHsWtiPvdTeGPo3/xmtmI46ciepI7AjJQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6AE72153B;
-	Mon, 10 Mar 2025 06:29:40 -0700 (PDT)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ABA2B3F673;
-	Mon, 10 Mar 2025 06:29:27 -0700 (PDT)
-Message-ID: <d8b1cf1f-1996-4d9c-9f1a-fad556f91577@arm.com>
-Date: Mon, 10 Mar 2025 13:29:26 +0000
+	s=arc-20240116; t=1741615637; c=relaxed/simple;
+	bh=MXCvGpFSBuVp6krHHN3isLBAZvN02Z1YPRIGbhtklf8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=d6zQIYgW42NmourBDHRotgIrMEeQeMHglbXFc6fXgXOYBG1Vp99QTcld2WBZJtZQQ0zmZtY3PGXX0EnTn1f5Bowtv9GEozoVWJY680vbqCZN3FYVGfLZmvbIHl6piaN3XyTDnK3Jr4xn6eL7fdGXEB9/CQ4ArJ6oV6ktQPH4j9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=isq98SkE; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="isq98SkE"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3FAF141064
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1741615627; bh=X1mozlohMHXfQrE6hTxUIE0Q7zs60BV8xjtJXHV5TZ4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=isq98SkEfKvmCJL1snJYwOk2OIUhhPAyWqFwaANJpLKuzqws0YAbHbd21eGOb3Uag
+	 SV1UliltHXbSSA+LbZDqnUqeYKYVs7ENkAYeJ9E4nKbcAu7v0IGXFezexPGY0e9dp5
+	 yhQH2Q8Mja1FYzI2ymKFtVXGtfMVaokwRoQYJGVgYWygnlWTvW5km76BVqEKralFyM
+	 GnMFPvQwhStT5V+jZeyrE71XjAYx6sCVoBH+DXzcBPD7xLcaFAVoBl/rNk9dWRetRO
+	 oqhfGle/cltfPG3XIPkN58b66oBA3jtFDu9kATmzPrPwmhuT8kf02Rd6Zx9PT0PKJb
+	 msVeFYNzLW3Hg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3FAF141064;
+	Mon, 10 Mar 2025 14:07:07 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Yury Norov <yury.norov@gmail.com>, Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>, Vincent Guittot
+ <vincent.guittot@linaro.org>, Akira Yokosawa <akiyks@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Mauro Carvalho
+ Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
+ cpumask.h
+In-Reply-To: <Z8snakYmzhaavkKN@thinkpad>
+References: <cover.1741332579.git.viresh.kumar@linaro.org>
+ <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
+ <Z8snakYmzhaavkKN@thinkpad>
+Date: Mon, 10 Mar 2025 08:07:06 -0600
+Message-ID: <87r0350yk5.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/8] coresight: etm: Add an attribute for updating
- buffer
-To: Leo Yan <leo.yan@arm.com>, Mike Leach <mike.leach@linaro.org>,
- James Clark <james.clark@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Arnaldo Carvalho de Melo <acme@redhat.com>,
- Namhyung Kim <namhyung@kernel.org>, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250310104919.58816-1-leo.yan@arm.com>
- <20250310104919.58816-6-leo.yan@arm.com>
-Content-Language: en-US
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20250310104919.58816-6-leo.yan@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi Leo
+Yury Norov <yury.norov@gmail.com> writes:
 
-On 10/03/2025 10:49, Leo Yan wrote:
-> Add an attribute for updating buffer when the AUX trace is paused.  And
-> populate the value to the 'update_buf_on_pause' flag during the AUX
-> setting up.
+> On Fri, Mar 07, 2025 at 01:04:51PM +0530, Viresh Kumar wrote:
+>>  /**
+>> - * cpumask_first_and_and - return the first cpu from *srcp1 & *srcp2 & *srcp3
+>> + * cpumask_first_and_and - return the first cpu from *@srcp1 & *@srcp2 & *@srcp3
+>>   * @srcp1: the first input
+>>   * @srcp2: the second input
+>>   * @srcp3: the third input
+>> @@ -266,7 +266,7 @@ unsigned int cpumask_any_distribute(const struct cpumask *srcp);
+>>  #endif /* NR_CPUS */
+>>  
+>>  /**
+>> - * cpumask_next_and - get the next cpu in *src1p & *src2p
+>> + * cpumask_next_and - get the next cpu in *@src1p & *@src2p
+>>   * @n: the cpu prior to the place to search (i.e. return will be > @n)
+>>   * @src1p: the first cpumask pointer
+>>   * @src2p: the second cpumask pointer
+>
+> So the question: if some word in this particular comment block is
+> prefixed with @ symbol, can we teach kernel-doc to consider every
+> occurrence of this word as a variable?
+>
+> Why I'm asking: before the "*src1p & *src2p" was a line of C code.
+> And because we are all C programmers here, it's really simple to ident
+> it and decode. After it looks like something weird, and I think many
+> of us will just mentally skip it.
+>
+> I like kernel-docs and everything, but again, kernel sources should
+> stay readable, and particularly comments should stay human-readable.
 
-Do we need this attribute in the uAPI ? Could we do this by default for
-sinks without interrupt ? This definitely improves the quality of trace
-collected for such sinks and the driver can transparently do this.
+I'm sure it *can* be done, yes.  In truth, given that we're dealing with
+named parameters in a prototype that we are decoding, we might be able,
+with enough clever programming, to do away with that markup entirely.
 
-Cheers
-Suzuki
+It's just a matter of programming :)
 
-> 
-> If the AUX pause operation is attached to a PMU counter, when the
-> counter is overflow and if the PMU interrupt in an NMI, then AUX pause
-> operation will be triggered in the NMI context.  On the other hand, the
-> per CPU sink has its own interrupt handling.  Thus, there will be a race
-> condition between the updating buffer in NMI and sink's interrupt
-> handler.
-> 
-> To avoid the race condition, this commit disallows updating buffer on
-> AUX pause for the per CPU sink.  Currently, this is only applied for
-> TRBE.
-> 
-> Signed-off-by: Leo Yan <leo.yan@arm.com>
-> ---
->   .../hwtracing/coresight/coresight-etm-perf.c  | 20 +++++++++++++++++++
->   .../hwtracing/coresight/coresight-etm-perf.h  |  2 ++
->   include/linux/coresight-pmu.h                 |  1 +
->   3 files changed, 23 insertions(+)
-> 
-> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> index 29d52386ffbb..d759663a1f7d 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> @@ -62,6 +62,8 @@ PMU_FORMAT_ATTR(contextid1,	"config:" __stringify(ETM_OPT_CTXTID));
->   PMU_FORMAT_ATTR(contextid2,	"config:" __stringify(ETM_OPT_CTXTID2));
->   PMU_FORMAT_ATTR(timestamp,	"config:" __stringify(ETM_OPT_TS));
->   PMU_FORMAT_ATTR(retstack,	"config:" __stringify(ETM_OPT_RETSTK));
-> +PMU_FORMAT_ATTR(update_buf_on_pause,
-> +		"config:" __stringify(ETM_OPT_UPDATE_BUF_ON_PAUSE));
->   /* preset - if sink ID is used as a configuration selector */
->   PMU_FORMAT_ATTR(preset,		"config:0-3");
->   /* Sink ID - same for all ETMs */
-> @@ -103,6 +105,7 @@ static struct attribute *etm_config_formats_attr[] = {
->   	&format_attr_configid.attr,
->   	&format_attr_branch_broadcast.attr,
->   	&format_attr_cc_threshold.attr,
-> +	&format_attr_update_buf_on_pause.attr,
->   	NULL,
->   };
->   
-> @@ -434,6 +437,23 @@ static void *etm_setup_aux(struct perf_event *event, void **pages,
->   	if (!sink)
->   		goto err;
->   
-> +	/* Populate the flag for updating buffer on AUX pause */
-> +	event_data->update_buf_on_pause =
-> +		!!(event->attr.config & BIT(ETM_OPT_UPDATE_BUF_ON_PAUSE));
-> +
-> +	if (event_data->update_buf_on_pause) {
-> +		/*
-> +		 * The per CPU sink has own interrupt handling, it might have
-> +		 * race condition with updating buffer on AUX trace pause if
-> +		 * it is invoked from NMI.  To avoid the race condition,
-> +		 * disallows updating buffer for the per CPU sink case.
-> +		 */
-> +		if (coresight_is_percpu_sink(sink)) {
-> +			dev_err(&sink->dev, "update_buf_on_pause is not permitted.\n");
-> +			goto err;
-> +		}
-> +	}
-> +
->   	/* If we don't have any CPUs ready for tracing, abort */
->   	cpu = cpumask_first(mask);
->   	if (cpu >= nr_cpu_ids)
-> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.h b/drivers/hwtracing/coresight/coresight-etm-perf.h
-> index 744531158d6b..52b9385f8c11 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm-perf.h
-> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.h
-> @@ -51,6 +51,7 @@ struct etm_filters {
->    * @aux_hwid_done:	Whether a CPU has emitted the TraceID packet or not.
->    * @snk_config:		The sink configuration.
->    * @cfg_hash:		The hash id of any coresight config selected.
-> + * @update_buf_on_pause: The flag to indicate updating buffer on AUX pause.
->    * @path:		An array of path, each slot for one CPU.
->    */
->   struct etm_event_data {
-> @@ -59,6 +60,7 @@ struct etm_event_data {
->   	cpumask_t aux_hwid_done;
->   	void *snk_config;
->   	u32 cfg_hash;
-> +	bool update_buf_on_pause;
->   	struct list_head * __percpu *path;
->   };
->   
-> diff --git a/include/linux/coresight-pmu.h b/include/linux/coresight-pmu.h
-> index 89b0ac0014b0..04147e30c2f2 100644
-> --- a/include/linux/coresight-pmu.h
-> +++ b/include/linux/coresight-pmu.h
-> @@ -35,6 +35,7 @@
->   #define ETM_OPT_CTXTID2		15
->   #define ETM_OPT_TS		28
->   #define ETM_OPT_RETSTK		29
-> +#define ETM_OPT_UPDATE_BUF_ON_PAUSE	30
->   
->   /* ETMv4 CONFIGR programming bits for the ETM OPTs */
->   #define ETM4_CFG_BIT_BB         3
+I've added Mauro, since he's in the process of replacing kernel-doc
+entirely.  I suspect he has enough on his hands at the moment without
+adding extra objectives, and will want to get that replacement
+successfully done first.  But it's a worthy goal to keep in mind.
 
+
+>> @@ -334,7 +334,8 @@ unsigned int __pure cpumask_next_wrap(int n, const struct cpumask *mask, int sta
+>>   * @mask1: the first cpumask pointer
+>>   * @mask2: the second cpumask pointer
+>>   *
+>> - * This saves a temporary CPU mask in many places.  It is equivalent to:
+>> + * This saves a temporary CPU mask in many places.  It is equivalent to::
+>> + *
+>
+> I'm OK with extra line, but this double-colon. What for and what does
+> it mean?
+
+The :: introduces a literal block, which needs a blank line to start it.
+
+Thanks,
+
+jon
