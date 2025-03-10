@@ -1,1506 +1,813 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B2E1E102E;
-	Mon, 10 Mar 2025 21:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215701DFFD;
+	Mon, 10 Mar 2025 21:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741641176; cv=none; b=bkTUCaWtpibXlrZfp+hUjrHogaOZg2AR8Yj0UlXazTN0DOI9gR7t9kY5LhczEdV75jBbNIA0i7qiVZ0BPyL/m3+bJwOWGi3p/lXAkWpRzxej6C8IUE7342xwgc+Gz9biPM7H/PL+zZxZfcoCWAtfPrkVP0vU4vdIivLd1CAeIBE=
+	t=1741642596; cv=none; b=D+qsF1TYm1+oxlrDLAkntT/rS2yd5uaZkFlL4MRky7QgN+QQhdUSGypcdXDOszNtJZq8p/G1ZDhecSdro9YhpJdtHDdl0ZfvLpA08/726MNT4fr6B4qvFulgcnKZnaoiT+1eQIuQn0jdK995W3e6E6n8Hv9YSQAMC+eqxyWkpKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741641176; c=relaxed/simple;
-	bh=ybq0SGrH5rVeaEPsc3gmF2NR4hVwkFUmE3g96DVqyQI=;
+	s=arc-20240116; t=1741642596; c=relaxed/simple;
+	bh=y/BRf8+wQQosnibtxovOKL2Iodi/jJsXGeYYauGz0hg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HBQfJrgj3sCexBrqrvCOykf2w3PJy6RHe3mEY/bHydrfxoLha5s0jnqEvoYbJRlurJ7SQWUWwr1kL27YHNEP12LbGsKr45WGIJpdh2x+rRE+bMVoU3w7jAn8qHsDXetSw4AUHICn7jMvCajLE/9MTiqHDb/hYZiJuvAQqgb/bDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gkss7SGU; arc=none smtp.client-ip=209.85.166.175
+	 To:Cc:Content-Type; b=ah8JUpnDOe37XsodTbYs1Ll4y76D+6g1pKeAmRPweTXW/CE/eSx/NwQfSHQwa8jt5Sq8VsnpjqHRoc1YshGd806wIuxa0MTCmWn6xLP35xkqae78PED39goud9GIRPn0Cw7q19ofXzWV/YPwKPPJNdPvCocikR2SuqH6Lihmng8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CvjZeanv; arc=none smtp.client-ip=209.85.219.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gkss7SGU"
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3d45875d440so7657305ab.0;
-        Mon, 10 Mar 2025 14:12:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CvjZeanv"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6e8f06e13a4so49376566d6.0;
+        Mon, 10 Mar 2025 14:36:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741641173; x=1742245973; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1741642593; x=1742247393; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bpPnYvsqQNnbvPXbqnG75tISIt1oeNAGMK9n6uBWS3U=;
-        b=gkss7SGUxExPqmEYeogxDexmB+RFz+GDae4ZEpDt5Pw4qdnXsgsa2h3xmQDzqLhH8v
-         0RiO8K9HT6POjA/d+CWNrJMCib1Mqzz5WBUdsi/m9m6mkZ1WyS0rTb7PeySYoaSptOSu
-         aDjFr1CmC0G15i3Rn2UVS8ilpHALNEl+XvulaXYXcthh3FF5JOxlhOSzxYUDDetY43w5
-         65nIKjTcGwne4Kkam3RrqkK913I9mMDdXjlcZSwXI74VPDP+j3XEa1k28b8tuBPgYwQG
-         Hw4kEGbctLF62Em+J3sPaf3W2bVVLFGw2aVRIMjfpXQ50/vMnxWGPko7sBozxdFb9Y/u
-         xd2g==
+        bh=CHob6tqa3ayGo1vQiona5MKWNJXncq4kSGLwjoTAbRk=;
+        b=CvjZeanv61kb1o7qWsYqlu2vKPQzAJD/vcizN5kkFIdJUXlAvn5a+cURmdh7K4fvak
+         S2PNCum5HqimderZ56scgS2z5Ctfhpx8nZe0LwDbt7U9Av5q5Z4o6W0BU3IvFHh7iQm2
+         G0FJB22vCzUmV6x8HLGm58Ml3bRnf4RsKu6J2C42k/dJ3ghb/f0Pt88sgSmEgPw4gS45
+         nP+MLGKNOVsBt+sCZ5gyHxzrfuT3+jK4z6l/+JiYqg4sG3e8wc6x5aAMUnwnmHqMbfJK
+         XhfcKm6hRr7huSKxGKc65o/GR6D6MTeiKwdoZ+QOc6EZBriLu1cHDufC7nv+oWxdcLEb
+         EhmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741641173; x=1742245973;
+        d=1e100.net; s=20230601; t=1741642593; x=1742247393;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bpPnYvsqQNnbvPXbqnG75tISIt1oeNAGMK9n6uBWS3U=;
-        b=El010WfKiT6IKUcn5I1h12GYegXIT+Cwf6tffGyNok8WIp2quNUhaMVQ8EPzfUpgVC
-         e45avH/bkVqyyRcDfEZEESJXxiexejaUdkjjM5SYXbcqU/QzClXTDfgR04x9gxPRByMb
-         9Huq0goWwAoHnM+4Zybv9yI7EsaMs2BpmvYi0NCXSGX/fTYkddFjKJugE8wdj+P4skW4
-         kPkZrK3rZxqkt27aaPcTQjrxg8xKA5JxdjevmMhKRX6pnguRafyMZdJeqROPLOE4ACBj
-         0M0d4aedADZafl3MjGzqn84Aauyrusll3f9LxD+73TLqit8XWHiOW41zleWEMNwgFeW4
-         bzyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGvxn5ZlQsRcZxAtbMExbSd4mCRLfjoZ7pSY5c4UdIKasHxJrDQ2cQhD1qcFeFKKfLTJx9xYVUMSkaffRIluQ=@vger.kernel.org, AJvYcCWMh79L9ESSWnKt/Ao6xe1HNRJZCmKumR9+gjRr8nJW9/NlHQ0yoAUNjAOnSLi3WLLV46OJZsT1ZV4=@vger.kernel.org, AJvYcCWwz+safibH7h7VRZrmboc0S6RLPxu5LbIAtI028bzIRn5VrDM+71iACqOG/s2h9u3bwZ6JLWbliwWdOE1A@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIKKRkgekTVV+FLh4yjVfuAghzMN1vAhSuddz3yKJYGW9GaBZr
-	zW+J+9iL7lw1KR5q9NolDsL2wayi6sv2AYwI0yDspfUW7Y6jUHoTB+lK+O82cGY/PQnjyYtAxA5
-	nMSC5Z5Iled7+1OyHJu7E7yRxths=
-X-Gm-Gg: ASbGncspfU1wtT6jMBsFbjCoFaLFQX+y9GHwjOSmF6T3WRxEaX8Cujq6mRGyhAlAgcr
-	MEBSYI3akrDehp7pIAHSykMVEgVodwJAio3BOY2ENEgAdd7ZiurFx9RGPUO3uR6+4Hy89u6X1Bo
-	QCn1qf1n9lQU47QwMbujAqFiOP6XTYJewq0PJRC+4XdSF8ylk+zK6AhthmsjuMAt0tQBo=
-X-Google-Smtp-Source: AGHT+IHP8Mcc7UR3bS7vXQKShKiUBHGhxhJV30JaPTXGV2ld2tBexMdsYwjW7iwJCWr4bMlM9pe7xk3KD+rYm3f0wHw=
-X-Received: by 2002:a05:6e02:1848:b0:3d1:a34b:4d01 with SMTP id
- e9e14a558f8ab-3d44194369cmr162481035ab.8.1741641172310; Mon, 10 Mar 2025
- 14:12:52 -0700 (PDT)
+        bh=CHob6tqa3ayGo1vQiona5MKWNJXncq4kSGLwjoTAbRk=;
+        b=mDDWoesA9Hk0pkYyLpBIC9QiuqScoWlVFqA1cIUtx2H7Tk6lDvEOyp6U4h64We7tiL
+         1l/fi1Z69nktts+LfEbUlOFViskg4+k2adrJ898coKZcL0e8QV4crHeAdigLFVTO45hc
+         zYZPk8ilaHiJRU3N6inUHnjRb/Fkt8yvt4uTYXExqcuezTH7etx3CzSI+3AcuIF6o4Mr
+         d3dM1ZQQGgeeQ5y6IOWZ9dyS6elCHg1FD38RTo0PP/fSbVaqw4xcFHIrO4DxJzYy5l70
+         Ik2Ei6hb7KrrJ1aaHLrBCi30c9ICr7kk42kW10V4YQrd8kc4E5fpgyT7/22O2D3UUw2U
+         fVSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWULZ37t8XVvW/6ayn2Icch/fycEwtGe8W0W+kSFcWaYF0Cai6t/DwDUqEMBORxnNUCD2Lp7CvmnvmnT97hT0v/vZ1xVQ==@vger.kernel.org, AJvYcCXTbyMUzY3JedacBlmb+ry/JCOpHEykjJKkTRCxQlzezDXi4ErhWf6jujX2780y/foac1Djnd9o0mU=@vger.kernel.org, AJvYcCXcfd7PHPndS0fOMas0HD61ip9vMDQ+SI/n1ybi5UNK58LuZ6Foel1qwdebCRDtnWCGWBKmNljnSR9KwHnJ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyevjiv5WydD2jWBjl47St7h1x1XqgnH4pUslhcwNeu3iOVkqBf
+	3OHgFPZDNZ3K83MpjluvLSTJU7PSO8x5dQsAOnwImLx2UDuYs5SRmhm68JB65noTbnbpWX49m37
+	KatCvmmmJMFigX9WZkq+xfDQ/rio=
+X-Gm-Gg: ASbGncvezWSFJNnPrXnGyMdtsQrR1ID+kbxhuaNNaorr0mQ3nr9DdIkw0HN9A2XaGY7
+	17RfAIE0lJzGRzzgjGWnbddot2CBIimKQ+REUjAvCQIMIdHOUjG8ArBt5gSUjM/8VM6RSqWFkMq
+	wZh/YyWWkaXfqMII0LOqxTpFptTe8=
+X-Google-Smtp-Source: AGHT+IHQTBfHEn1vRnmpMgmTSZMUTKlFtCcc2pRp9pQUpGKKyDPG+wYx8A6p6VWHYQAglD/I+7HDpTURyjcvI4bU1RM=
+X-Received: by 2002:ad4:5f0f:0:b0:6e6:5f22:bb58 with SMTP id
+ 6a1803df08f44-6ea51f18684mr20923706d6.20.1741642592686; Mon, 10 Mar 2025
+ 14:36:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250310-agx-uapi-v1-1-86c80905004e@rosenzweig.io>
-In-Reply-To: <20250310-agx-uapi-v1-1-86c80905004e@rosenzweig.io>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 10 Mar 2025 14:12:40 -0700
-X-Gm-Features: AQ5f1Jpa9H62mvuEi4HVMLgCb1F5tOILb2dnAbN-KUE8TzraibDJqv6vFrHaP9U
-Message-ID: <CAF6AEGukrBzwwdDWX5jUXDKqj7+kn7LBRy6NocE4=bw1D9WjcQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: Add UAPI for the Asahi driver
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Faith Ekstrand <faith.ekstrand@collabora.com>, Janne Grunau <j@jannau.net>, 
-	Sven Peter <sven@svenpeter.dev>, Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, Asahi Lina <lina@asahilina.net>
+References: <20250225220037.16073-1-derekjohn.clark@gmail.com>
+ <20250225220037.16073-2-derekjohn.clark@gmail.com> <e46d95cc-800f-43e0-8064-77e784b40b7a@gmx.de>
+In-Reply-To: <e46d95cc-800f-43e0-8064-77e784b40b7a@gmx.de>
+From: Derek John Clark <derekjohn.clark@gmail.com>
+Date: Mon, 10 Mar 2025 14:36:21 -0700
+X-Gm-Features: AQ5f1JpsNaMWowNj5fpjibz2N3Ychq-Jvkw8RIbjiJ1c9XpTMJSa5V-C5tJTOM0
+Message-ID: <CAFqHKT=EHMO3fD7xHR4THJ67hARBnfDjT7Q9Dsjt1n4MHarwTw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] platform/x86: Add lenovo-wmi drivers Documentation
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Hans de Goede <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>, Luke Jones <luke@ljones.dev>, 
+	Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, 
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, "Cody T . -H . Chiu" <codyit@gmail.com>, 
+	John Martens <johnfanv2@gmail.com>, platform-driver-x86@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 10, 2025 at 7:14=E2=80=AFAM Alyssa Rosenzweig <alyssa@rosenzwei=
-g.io> wrote:
+On Fri, Mar 7, 2025 at 1:51=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote:
 >
-> This adds the UAPI for the Asahi driver targeting the GPU in the Apple
-> M1 and M2 series systems on chip. The UAPI design is based on other
-> modern Vulkan-capable drivers, including Xe and Panthor. Memory
-> management is based on explicit VM management. Synchronization is
-> exclusively explicit sync.
+> Am 25.02.25 um 22:59 schrieb Derek J. Clark:
 >
-> This UAPI is validated against our open source Mesa stack, which is
-> fully conformant to the OpenGL 4.6, OpenGL ES 3.2, OpenCL 3.0, and
-> Vulkan 1.4 standards. The Vulkan driver supports sparse, exercising the
-> VM_BIND mechanism.
+> > Adds documentation for all new lenovo-wmi drivers.
+> >
+> > v3:
+> > - Split documentation into multiple files, one for each parent
+> >    driver for the Gamezone and Other Mode WMI interfaces.
+> > - Add MOF data for all parent and child interfaces.
+> > - Remove lenovo-wmi-camera.c driver from v2 documentation.
+> > v2:
+> > - Update description of Custom Profile to include the need to manually
+> >    set it.
+> > - Remove all references to Legion hardware.
+> > - Add section for lenovo-wmi-camera.c driver as it follows the same
+> >    naming convention.
+> >
+> > Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> > ---
+> >   .../wmi/devices/lenovo-wmi-gamezone.rst       | 355 +++++++++++++++++=
++
+> >   .../wmi/devices/lenovo-wmi-other-method.rst   | 142 +++++++
+> >   MAINTAINERS                                   |   7 +
+> >   3 files changed, 504 insertions(+)
+> >   create mode 100644 Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> >   create mode 100644 Documentation/wmi/devices/lenovo-wmi-other-method.=
+rst
+> >
+> > diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst b/Docume=
+ntation/wmi/devices/lenovo-wmi-gamezone.rst
+> > new file mode 100644
+> > index 000000000000..1dc281fdd99d
+> > --- /dev/null
+> > +++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> > @@ -0,0 +1,355 @@
+> > +.. SPDX-License-Identifier: GPL-2.0-or-later
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +Lenovo WMI Interface Gamezone Driver (lenovo-wmi-gamezone)
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +Introduction
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +The Lenovo WMI gamezone interface is broken up into multiple GUIDs,
+> > +The priamry "Gamezone" GUID provides advanced features such as fan
+> > +profiles and overclocking. It is paired with multiple event GUIDs
+> > +and data block GUIDs that provide context for the various methods.
+> > +
+> > +Gamezone Data
+> > +-------------
+> > +WMI GUID "887B54E3-DDDC-4B2C-8B88-68A26A8835D0"
 >
-> This patch adds the standalone UAPI header. It is implemented by an open
-> source DRM driver written in Rust. We fully intend to upstream this
-> driver when possible. However, as a production graphics driver, it
-> depends on a significant number of Rust abstractions that will take a
-> long time to upstream. In the mean time, our userspace is upstream in
-> Mesa but is not allowed to probe with upstream Mesa as the UAPI is not
-> yet reviewed and merged in the upstream kernel. Although we ship a
-> patched Mesa in Fedora Asahi Remix, any containers shipping upstream
-> Mesa builds are broken for our users, including upstream Flatpak and
-> Waydroid runtimes. Additionally, it forces us to maintain forks of Mesa
-> and virglrenderer, which complicates bisects.
+> Maybe formatting the GUID as monospace text would look better here.
 >
-> The intention in sending out this patch is for this UAPI to be
-> thoroughly reviewed. Once we as the DRM community are satisfied with the
-> UAPI, this header lands signifying that the UAPI is stable and must only
-> be evolved in backwards-compatible ways; it will be the UAPI implemented
-> in the DRM driver that eventually lands upstream. That promise lets us
-> enable upstream Mesa, solving all these issues while the upstream Rust
-> abstractions are developed.
->
-> https://github.com/alyssarosenzweig/linux/commits/agx/uapi/ contains the
-> DRM driver implementing this proposed UAPI.
->
-> https://github.com/alyssarosenzweig/mesa/tree/agx-uapi contains the Mesa
-> patches to implement this proposed UAPI.
->
-> That Linux and Mesa branch together give a complete graphics/compute
-> stack on top of this UAPI.
->
-> Co-developed-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> ---
->  Documentation/gpu/driver-uapi.rst |    5 +
->  MAINTAINERS                       |    1 +
->  include/uapi/drm/asahi_drm.h      | 1153 +++++++++++++++++++++++++++++++=
-++++++
->  3 files changed, 1159 insertions(+)
->
-> diff --git a/Documentation/gpu/driver-uapi.rst b/Documentation/gpu/driver=
--uapi.rst
-> index 971cdb4816fc98d80a64d93637481d10c2e79718..1f15a8ca126516c23bd7374cc=
-4aead0dfbbccf67 100644
-> --- a/Documentation/gpu/driver-uapi.rst
-> +++ b/Documentation/gpu/driver-uapi.rst
-> @@ -27,3 +27,8 @@ drm/xe uAPI
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  .. kernel-doc:: include/uapi/drm/xe_drm.h
-> +
-> +drm/asahi uAPI
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. kernel-doc:: include/uapi/drm/asahi_drm.h
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d1050702f681fbd0e4e2d0457b2ba569a64070d9..7f692a935808d4ec82ee74132=
-4f8043302dae491 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2256,6 +2256,7 @@ F:        drivers/watchdog/apple_wdt.c
->  F:     include/dt-bindings/interrupt-controller/apple-aic.h
->  F:     include/dt-bindings/pinctrl/apple.h
->  F:     include/linux/soc/apple/*
-> +F:     include/uapi/drm/asahi_drm.h
->
->  ARM/ARTPEC MACHINE SUPPORT
->  M:     Jesper Nilsson <jesper.nilsson@axis.com>
-> diff --git a/include/uapi/drm/asahi_drm.h b/include/uapi/drm/asahi_drm.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..1491ddbf807d1a26d7d5c5df7=
-8a7a988787d15c4
-> --- /dev/null
-> +++ b/include/uapi/drm/asahi_drm.h
-> @@ -0,0 +1,1153 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright (C) The Asahi Linux Contributors
-> + * Copyright (C) 2018-2023 Collabora Ltd.
-> + * Copyright (C) 2014-2018 Broadcom
-> + */
-> +#ifndef _ASAHI_DRM_H_
-> +#define _ASAHI_DRM_H_
-> +
-> +#include "drm.h"
-> +
-> +#if defined(__cplusplus)
-> +extern "C" {
-> +#endif
-> +
-> +/**
-> + * DOC: Introduction to the Asahi UAPI
-> + *
-> + * This documentation describes the Asahi IOCTLs.
-> + *
-> + * Just a few generic rules about the data passed to the Asahi IOCTLs (c=
-ribbed
-> + * from Panthor):
-> + *
-> + * - Structures must be aligned on 64-bit/8-byte. If the object is not
-> + *   naturally aligned, a padding field must be added.
-> + * - Fields must be explicitly aligned to their natural type alignment w=
-ith
-> + *   pad[0..N] fields.
-> + * - All padding fields will be checked by the driver to make sure they =
-are
-> + *   zeroed.
-> + * - Flags can be added, but not removed/replaced.
-> + * - New fields can be added to the main structures (the structures
-> + *   directly passed to the ioctl). Those fields can be added at the end=
- of
-> + *   the structure, or replace existing padding fields. Any new field be=
-ing
-> + *   added must preserve the behavior that existed before those fields w=
-ere
-> + *   added when a value of zero is passed.
-> + * - New fields can be added to indirect objects (objects pointed by the
-> + *   main structure), iff those objects are passed a size to reflect the
-> + *   size known by the userspace driver (see
-> + *   drm_asahi_command::cmd_buffer_size).
-> + * - If the kernel driver is too old to know some fields, those will be
-> + *   ignored if zero, and otherwise rejected (and so will be zero on out=
-put).
-> + * - If userspace is too old to know some fields, those will be zeroed
-> + *   (input) before the structure is parsed by the kernel driver.
-> + * - Each new flag/field addition must come with a driver version update=
- so
-> + *   the userspace driver doesn't have to trial and error to know which
-> + *   flags are supported.
-> + * - Structures should not contain unions, as this would defeat the
-> + *   extensibility of such structures.
-> + * - IOCTLs can't be removed or replaced. New IOCTL IDs should be placed
-> + *   at the end of the drm_asahi_ioctl_id enum.
-> + */
-> +
-> +/**
-> + * enum drm_asahi_ioctl_id - IOCTL IDs
-> + *
-> + * Place new ioctls at the end, don't re-order, don't replace or remove =
-entries.
-> + *
-> + * These IDs are not meant to be used directly. Use the DRM_IOCTL_ASAHI_=
-xxx
-> + * definitions instead.
-> + */
-> +enum drm_asahi_ioctl_id {
-> +       /** @DRM_ASAHI_GET_PARAMS: Query device properties. */
-> +       DRM_ASAHI_GET_PARAMS =3D 0,
-> +
-> +       /** @DRM_ASAHI_VM_CREATE: Create a GPU VM address space. */
-> +       DRM_ASAHI_VM_CREATE,
-> +
-> +       /** @DRM_ASAHI_VM_DESTROY: Destroy a VM. */
-> +       DRM_ASAHI_VM_DESTROY,
-> +
-> +       /** @DRM_ASAHI_GEM_CREATE: Create a buffer object. */
-> +       DRM_ASAHI_GEM_CREATE,
-> +
-> +       /**
-> +        * @DRM_ASAHI_GEM_MMAP_OFFSET: Get offset to pass to mmap() to ma=
-p a
-> +        * given GEM handle.
-> +        */
-> +       DRM_ASAHI_GEM_MMAP_OFFSET,
-> +
-> +       /** @DRM_ASAHI_GEM_BIND: Bind/unbind memory to a VM. */
-> +       DRM_ASAHI_GEM_BIND,
-> +
-> +       /** @DRM_ASAHI_QUEUE_CREATE: Create a scheduling queue. */
-> +       DRM_ASAHI_QUEUE_CREATE,
-> +
-> +       /** @DRM_ASAHI_QUEUE_DESTROY: Destroy a scheduling queue. */
-> +       DRM_ASAHI_QUEUE_DESTROY,
-> +
-> +       /** @DRM_ASAHI_SUBMIT: Submit an array of commands to a queue. */
-> +       DRM_ASAHI_SUBMIT,
-> +
-> +       /** @DRM_ASAHI_GET_TIME: Query device time. */
-> +       DRM_ASAHI_GET_TIME,
-> +
-> +       /** @DRM_ASAHI_GEM_BIND_OBJECT: Bind memory as a special object *=
-/
-> +       DRM_ASAHI_GEM_BIND_OBJECT,
-> +};
-> +
-> +#define DRM_ASAHI_MAX_CLUSTERS 64
-> +
-> +/**
-> + * struct drm_asahi_params_global - Global parameters.
-> + *
-> + * This struct may be queried by drm_asahi_get_params.
-> + */
-> +struct drm_asahi_params_global {
-> +       /** @features: Feature bits from drm_asahi_feature */
-> +       __u64 features;
-> +
-> +       /** @gpu_generation: GPU generation, e.g. 13 for G13G */
-> +       __u32 gpu_generation;
-> +
-> +       /** @gpu_variant: GPU variant as a character, e.g. 'G' for G13G *=
-/
-> +       __u32 gpu_variant;
-> +
-> +       /**
-> +        * @gpu_revision: GPU revision in BCD, e.g. 0x00 for 'A0' or
-> +        * 0x21 for 'C1'
-> +        */
-> +       __u32 gpu_revision;
-> +
-> +       /** @chip_id: Chip ID in BCD, e.g. 0x8103 for T8103 */
-> +       __u32 chip_id;
-> +
-> +       /** @num_dies: Number of dies in the SoC */
-> +       __u32 num_dies;
-> +
-> +       /** @num_clusters_total: Number of GPU clusters (across all dies)=
- */
-> +       __u32 num_clusters_total;
-> +
-> +       /**
-> +        * @num_cores_per_cluster: Number of logical cores per cluster
-> +        * (including inactive/nonexistent)
-> +        */
-> +       __u32 num_cores_per_cluster;
-> +
-> +       /** @num_frags_per_cluster: Number of frags per cluster */
-> +       __u32 num_frags_per_cluster;
-> +
-> +       /** @num_gps_per_cluster: Number of GPs per cluster */
-> +       __u32 num_gps_per_cluster;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +
-> +       /** @core_masks: Bitmask of present/enabled cores per cluster */
-> +       __u64 core_masks[DRM_ASAHI_MAX_CLUSTERS];
-> +
-> +       /** @timer_frequency_hz: Clock frequency for timestamps */
-> +       __u64 timer_frequency_hz;
-> +
-> +       /** @min_frequency_khz: Minimum GPU core clock frequency */
-> +       __u32 min_frequency_khz;
-> +
-> +       /** @max_frequency_khz: Maximum GPU core clock frequency */
-> +       __u32 max_frequency_khz;
-> +
-> +       /** @max_power_mw: Maximum GPU power consumption */
-> +       __u32 max_power_mw;
-> +
-> +       /** @vm_page_size: GPU VM page size */
-> +       __u32 vm_page_size;
-> +
-> +       /** @vm_user_start: VM user range start VMA */
-> +       __u64 vm_user_start;
-> +
-> +       /** @vm_user_end: VM user range end VMA */
-> +       __u64 vm_user_end;
-> +
-> +       /**
-> +        * @vm_kernel_min_size: Minimum kernel VMA window size within use=
-r
-> +        * range
-> +        */
-> +       __u64 vm_kernel_min_size;
-> +
-> +       /**
-> +        * @max_commands_per_submission: Maximum number of supported comm=
-ands
-> +        * per submission
-> +        */
-> +       __u32 max_commands_per_submission;
-> +
-> +       /**
-> +        * @max_attachments: Maximum number of drm_asahi_attachment's per
-> +        * command
-> +        */
-> +       __u32 max_attachments;
-> +
-> +       /**
-> +        * @firmware_version: GPU firmware version, as 4 integers
-> +        */
-> +       __u32 firmware_version[4];
-> +
-> +       /**
-> +        * @user_timestamp_frequency_hz: Timebase frequency for user time=
-stamps
-> +        */
-> +       __u64 user_timestamp_frequency_hz;
-> +};
-> +
-> +/**
-> + * enum drm_asahi_feature - Feature bits
-> + *
-> + * This covers only features that userspace cannot infer from the archit=
-ecture
-> + * version. Most features don't need to be here.
-> + */
-> +enum drm_asahi_feature {
-> +       /**
-> +        * @DRM_ASAHI_FEATURE_SOFT_FAULTS: GPU has "soft fault" enabled. =
-Shader
-> +        * loads of unmapped memory will return zero. Shader stores to un=
-mapped
-> +        * memory will be silently discarded. Note that only shader load/=
-store
-> +        * is affected. Other hardware units are not affected, notably in=
-cluding
-> +        * texture sampling.
-> +        */
-> +       DRM_ASAHI_FEATURE_SOFT_FAULTS =3D (1UL) << 0,
-> +};
-> +
-> +/**
-> + * struct drm_asahi_get_params - Arguments passed to DRM_IOCTL_ASAHI_GET=
-_PARAMS
-> + */
-> +struct drm_asahi_get_params {
-> +       /** @param_group: Parameter group to fetch (MBZ) */
-> +       __u32 param_group;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +
-> +       /** @pointer: User pointer to write parameter struct */
-> +       __u64 pointer;
-> +
-> +       /** @size: Size of user buffer, max size supported on return */
-> +       __u64 size;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_vm_create - Arguments passed to DRM_IOCTL_ASAHI_VM_C=
-REATE
-> + */
-> +struct drm_asahi_vm_create {
-> +       /** @kernel_start: Start of the kernel-reserved address range */
-> +       __u64 kernel_start;
-> +
-> +       /** @kernel_end: End of the kernel-reserved address range */
-> +       __u64 kernel_end;
-> +
-> +       /** @vm_id: Returned VM ID */
-> +       __u32 vm_id;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_vm_destroy - Arguments passed to DRM_IOCTL_ASAHI_VM_=
-DESTROY
-> + */
-> +struct drm_asahi_vm_destroy {
-> +       /** @vm_id: VM ID to be destroyed */
-> +       __u32 vm_id;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +};
-> +
-> +/**
-> + * define ASAHI_GEM_WRITEBACK - BO should be CPU-mapped as writeback.
-> + *
-> + * Map as writeback instead of write-combine. This optimizes for CPU rea=
-ds.
-> + */
-> +#define ASAHI_GEM_WRITEBACK (1L << 0)
-> +
-> +/**
-> + * define ASAHI_GEM_VM_PRIVATE - BO is private to this GPU VM (no export=
-s)
-> + */
-> +#define ASAHI_GEM_VM_PRIVATE (1L << 1)
-> +
-> +/**
-> + * struct drm_asahi_gem_create - Arguments passed to DRM_IOCTL_ASAHI_GEM=
-_CREATE
-> + */
-> +struct drm_asahi_gem_create {
-> +       /** @size: Size of the BO */
-> +       __u64 size;
-> +
-> +       /** @flags: Combination of ASAHI_GEM_* flags. */
-> +       __u32 flags;
-> +
-> +       /**
-> +        * @vm_id: VM ID to assign to the BO, if ASAHI_GEM_VM_PRIVATE is =
-set
-> +        */
-> +       __u32 vm_id;
-> +
-> +       /** @handle: Returned GEM handle for the BO */
-> +       __u32 handle;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_gem_mmap_offset - Arguments passed to
-> + * DRM_IOCTL_ASAHI_GEM_MMAP_OFFSET
-> + */
-> +struct drm_asahi_gem_mmap_offset {
-> +       /** @handle: Handle for the object being mapped. */
-> +       __u32 handle;
-> +
-> +       /** @flags: Must be zero */
-> +       __u32 flags;
-> +
-> +       /** @offset: The fake offset to use for subsequent mmap call */
-> +       __u64 offset;
-> +};
-> +
-> +/**
-> + * enum drm_asahi_bind_op - Bind operation
-> + */
-> +enum drm_asahi_bind_op {
-> +       /** @ASAHI_BIND_OP_BIND: Bind a BO to a GPU VMA range */
-> +       ASAHI_BIND_OP_BIND =3D 0,
-> +
-> +       /** @ASAHI_BIND_OP_UNBIND: Unbind a GPU VMA range */
-> +       ASAHI_BIND_OP_UNBIND =3D 1,
-> +
-> +       /** @ASAHI_BIND_OP_UNBIND_ALL: Unbind all mappings of a given BO =
-*/
-> +       ASAHI_BIND_OP_UNBIND_ALL =3D 2,
-> +};
-> +
-> +/**
-> + * define ASAHI_BIND_READ - Map BO with GPU read permission
-> + */
-> +#define ASAHI_BIND_READ                (1L << 0)
-> +
-> +/**
-> + * define ASAHI_BIND_WRITE - Map BO with GPU write permission
-> + */
-> +#define ASAHI_BIND_WRITE       (1L << 1)
-> +
-> +/**
-> + * define ASAHI_BIND_SINGLE_PAGE - Map a single page of the BO repeatedl=
-y across
-> + * the VA range.
-> + *
-> + * This is useful to fill a VA range with scratch pages or zero pages. I=
-t is
-> + * intended as a mechanism to accelerate sparse.
-> + */
-> +#define ASAHI_BIND_SINGLE_PAGE (1L << 2)
-> +
-> +/**
-> + * struct drm_asahi_gem_bind - Arguments passed to
-> + * DRM_IOCTL_ASAHI_GEM_BIND
-> + */
-> +struct drm_asahi_gem_bind {
-> +       /** @op: Bind operation (enum drm_asahi_bind_op) */
-> +       __u32 op;
-> +
-> +       /** @flags: One or more of ASAHI_BIND_* (BIND only) */
-> +       __u32 flags;
-> +
-> +       /** @handle: GEM object to bind/unbind (BIND or UNBIND_ALL) */
-> +       __u32 handle;
-> +
-> +       /** @vm_id: The ID of the VM to operate on */
-> +       __u32 vm_id;
-> +
-> +       /** @offset: Offset into the object (BIND only) */
-> +       __u64 offset;
-> +
-> +       /**
-> +        * @range: Number of bytes to bind/unbind to addr (BIND or UNBIND=
- only)
-> +        */
-> +       __u64 range;
-> +
-> +       /** @addr: Address to bind to (BIND or UNBIND only) */
-> +       __u64 addr;
-> +};
+Acked.
 
-No in/out syncobj/fences?  This seems to diverge from xe/nouveau/panthor..
-
-> +
-> +/**
-> + * enum drm_asahi_bind_object_op - Special object bind operation
-> + */
-> +enum drm_asahi_bind_object_op {
-> +       /** @ASAHI_BIND_OBJECT_OP_BIND: Bind a BO as a special GPU object=
- */
-> +       ASAHI_BIND_OBJECT_OP_BIND =3D 0,
-> +
-> +       /** @ASAHI_BIND_OBJECT_OP_UNBIND: Unbind a special GPU object */
-> +       ASAHI_BIND_OBJECT_OP_UNBIND =3D 1,
-> +};
-> +
-> +/**
-> + * define ASAHI_BIND_OBJECT_USAGE_TIMESTAMPS - Map a BO as a timestamp b=
-uffer
-> + */
-> +#define ASAHI_BIND_OBJECT_USAGE_TIMESTAMPS     (1L << 0)
-> +
-> +/**
-> + * struct drm_asahi_gem_bind_object - Arguments passed to
-> + * DRM_IOCTL_ASAHI_GEM_BIND_OBJECT
-> + */
-> +struct drm_asahi_gem_bind_object {
-> +       /** @op: Bind operation (enum drm_asahi_bind_object_op) */
-> +       __u32 op;
-> +
-> +       /** @flags: One or more of ASAHI_BIND_OBJECT_* */
-> +       __u32 flags;
-> +
-> +       /** @handle: GEM object to bind/unbind (BIND) */
-> +       __u32 handle;
-> +
-> +       /** @vm_id: The ID of the VM to operate on (MBZ currently) */
-> +       __u32 vm_id;
-> +
-> +       /** @offset: Offset into the object (BIND only) */
-> +       __u64 offset;
-> +
-> +       /** @range: Number of bytes to bind/unbind (BIND only) */
-> +       __u64 range;
-> +
-> +       /** @object_handle: Object handle (out for BIND, in for UNBIND) *=
-/
-> +       __u32 object_handle;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +};
-> +
-> +/**
-> + * enum drm_asahi_cmd_type - Command type
-> + */
-> +enum drm_asahi_cmd_type {
-> +       /**
-> +        * @DRM_ASAHI_CMD_RENDER: Render command, executing on the render
-> +        * subqueue. Combined vertex and fragment operation.
-> +        */
-> +       DRM_ASAHI_CMD_RENDER =3D 0,
-> +
-> +       /** @DRM_ASAHI_CMD_COMPUTE: Compute command on the compute subque=
-ue. */
-> +       DRM_ASAHI_CMD_COMPUTE =3D 1,
-> +};
-> +
-> +/**
-> + * enum drm_asahi_queue_cap - Queue capabilities
-> + */
-> +enum drm_asahi_queue_cap {
-> +       /** @DRM_ASAHI_QUEUE_CAP_RENDER: Supports render commands */
-> +       DRM_ASAHI_QUEUE_CAP_RENDER      =3D (1UL << DRM_ASAHI_CMD_RENDER)=
-,
-> +
-> +       /** @DRM_ASAHI_QUEUE_CAP_COMPUTE: Supports compute commands */
-> +       DRM_ASAHI_QUEUE_CAP_COMPUTE     =3D (1UL << DRM_ASAHI_CMD_COMPUTE=
-),
-> +};
-> +
-> +/**
-> + * struct drm_asahi_queue_create - Arguments passed to
-> + * DRM_IOCTL_ASAHI_QUEUE_CREATE
-> + */
-> +struct drm_asahi_queue_create {
-> +       /** @flags: MBZ */
-> +       __u32 flags;
-> +
-> +       /** @vm_id: The ID of the VM this queue is bound to */
-> +       __u32 vm_id;
-> +
-> +       /** @queue_caps: Bitmask of DRM_ASAHI_QUEUE_CAP_* */
-> +       __u32 queue_caps;
-> +
-> +       /** @priority: Queue priority, 0-3 */
-> +       __u32 priority;
-> +
-> +       /** @queue_id: The returned queue ID */
-> +       __u32 queue_id;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_queue_destroy - Arguments passed to
-> + * DRM_IOCTL_ASAHI_QUEUE_DESTROY
-> + */
-> +struct drm_asahi_queue_destroy {
-> +       /** @queue_id: The queue ID to be destroyed */
-> +       __u32 queue_id;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +};
-> +
-> +/**
-> + * enum drm_asahi_sync_type - Sync item type
-> + */
-> +enum drm_asahi_sync_type {
-> +       /** @DRM_ASAHI_SYNC_SYNCOBJ: Binary sync object */
-> +       DRM_ASAHI_SYNC_SYNCOBJ =3D 0,
-> +
-> +       /** @DRM_ASAHI_SYNC_TIMELINE_SYNCOBJ: Timeline sync object */
-> +       DRM_ASAHI_SYNC_TIMELINE_SYNCOBJ =3D 1,
-> +};
-
-IMHO it would still be worthwhile to also support fence fd's, since it
-would avoid a couple extra ioctls to convert btwn fence fds and
-syncobj for virtgpu native context..
-
-BR,
--R
-
-> +
-> +/**
-> + * struct drm_asahi_sync - Sync item
-> + */
-> +struct drm_asahi_sync {
-> +       /** @sync_type: One of drm_asahi_sync_type */
-> +       __u32 sync_type;
-> +
-> +       /** @handle: The sync object handle */
-> +       __u32 handle;
-> +
-> +       /** @timeline_value: Timeline value for timeline sync objects */
-> +       __u64 timeline_value;
-> +};
-> +
-> +/**
-> + * enum drm_asahi_subqueue - Subqueue within a queue
-> + */
-> +enum drm_asahi_subqueue {
-> +       /** @DRM_ASAHI_SUBQUEUE_RENDER: Render subqueue */
-> +       DRM_ASAHI_SUBQUEUE_RENDER =3D 0,
-> +
-> +       /** @DRM_ASAHI_SUBQUEUE_COMPUTE: Compute subqueue */
-> +       DRM_ASAHI_SUBQUEUE_COMPUTE =3D 1,
-> +
-> +       /**
-> +        * @DRM_ASAHI_SUBQUEUE_COUNT: Queue count, must remain multiple o=
-f 2
-> +        * for struct alignment
-> +        */
-> +       DRM_ASAHI_SUBQUEUE_COUNT =3D 2,
-> +};
-> +
-> +/**
-> + * define DRM_ASAHI_BARRIER_NONE - Command index for no barrier
-> + *
-> + * This special value may be passed in to drm_asahi_command::barriers[] =
-to
-> + * indicate that the respective subqueue should not wait on any previous=
- work.
-> + */
-> +#define DRM_ASAHI_BARRIER_NONE ~(0U)
-> +
-> +/**
-> + * struct drm_asahi_command - Top level command structure
-> + */
-> +struct drm_asahi_command {
-> +       /** @cmd_type: One of drm_asahi_cmd_type */
-> +       __u32 cmd_type;
-> +
-> +       /** @flags: Flags for command submission */
-> +       __u32 flags;
-> +
-> +       /** @cmd_buffer: Pointer to the appropriate command buffer struct=
-ure */
-> +       __u64 cmd_buffer;
-> +
-> +       /** @cmd_buffer_size: Size of the command buffer structure */
-> +       __u64 cmd_buffer_size;
-> +
-> +       /** @barriers: Array of command indices per subqueue to wait on *=
-/
-> +       __u32 barriers[DRM_ASAHI_SUBQUEUE_COUNT];
-> +};
-> +
-> +/**
-> + * struct drm_asahi_submit - Arguments passed to DRM_IOCTL_ASAHI_SUBMIT
-> + */
-> +struct drm_asahi_submit {
-> +       /**
-> +        * @in_syncs: An optional array of drm_asahi_sync to wait on befo=
-re
-> +        * starting this job.
-> +        */
-> +       __u64 in_syncs;
-> +
-> +       /**
-> +        * @out_syncs: An optional array of drm_asahi_sync objects to sig=
-nal
-> +        * upon completion.
-> +        */
-> +       __u64 out_syncs;
-> +
-> +       /**
-> +        * @commands: Pointer to the drm_asahi_command array of commands =
-to
-> +        * submit.
-> +        */
-> +       __u64 commands;
-> +
-> +       /** @flags: Flags for command submission (MBZ) */
-> +       __u32 flags;
-> +
-> +       /** @queue_id: The queue ID to be submitted to */
-> +       __u32 queue_id;
-> +
-> +       /**
-> +        * @in_sync_count: Number of sync objects to wait on before start=
-ing
-> +        * this job.
-> +        */
-> +       __u32 in_sync_count;
-> +
-> +       /**
-> +        * @out_sync_count: Number of sync objects to signal upon complet=
-ion of
-> +        * this job.
-> +        */
-> +       __u32 out_sync_count;
-> +
-> +       /** @command_count: Number of commands to be submitted */
-> +       __u32 command_count;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_attachment - Describe an "attachment".
-> + *
-> + * Attachments are any memory written by shaders, notably including rend=
-er
-> + * target attachments written by the end-of-tile program. This is purely=
- a hint
-> + * about the accessed memory regions. It is optional to specify, which i=
-s
-> + * fortunate as it cannot be specified precisely with bindless access an=
-yway.
-> + * But where possible, it's probably a good idea for userspace to includ=
-e these
-> + * hints, forwarded to the firmware.
-> + */
-> +struct drm_asahi_attachment {
-> +       /** @pointer: Base address of the attachment */
-> +       __u64 pointer;
-> +
-> +       /** @size: Size of the attachment in bytes */
-> +       __u64 size;
-> +
-> +       /** @pad: MBZ */
-> +       __u32 pad;
-> +
-> +       /** @flags: MBZ */
-> +       __u32 flags;
-> +};
-> +
-> +/**
-> + * define ASAHI_RENDER_VERTEX_SPILLS - Vertex stage shader spills
-> + */
-> +#define ASAHI_RENDER_VERTEX_SPILLS (1UL << 0)
-> +
-> +/**
-> + * define ASAHI_RENDER_PROCESS_EMPTY_TILES - Process empty tiles through=
- the
-> + * fragment load/store
-> + */
-> +#define ASAHI_RENDER_PROCESS_EMPTY_TILES (1UL << 1)
-> +
-> +/**
-> + * define ASAHI_RENDER_NO_VERTEX_CLUSTERING - Run vertex stage on a sing=
-le
-> + * cluster (on multicluster GPUs)
-> + *
-> + * This will harm performance but can workaround certain sync/coherency =
-bugs,
-> + * and therefore is useful for debugging.
-> + */
-> +#define ASAHI_RENDER_NO_VERTEX_CLUSTERING (1UL << 2)
-> +
-> +/**
-> + * define ASAHI_RENDER_DBIAS_IS_INT - Use integer depth bias formula.
-> + *
-> + * Graphics specifications contain two alternate formulas for depth bias=
-, a
-> + * float formula used with floating-point depth buffers and an integer f=
-ormula
-> + * using with unorm depth buffers. This flag specifies that the integer =
-formula
-> + * should be used. If omitted, the float formula is used instead.
-> + *
-> + * This corresponds to bit 18 of the relevant hardware control register,=
- so we
-> + * match that here for efficiency.
-> + */
-> +#define ASAHI_RENDER_DBIAS_IS_INT (1UL << 18)
-> +
-> +/**
-> + * struct drm_asahi_zls_buffer - Describe a depth or stencil buffer.
-> + *
-> + * These fields correspond directly to hardware registers in the ZLS (Z
-> + * Load/Store) unit. Together, they configure a single depth or stencil =
-buffer.
-> + * Typically, load/store/partial will all use the same values. However, =
-the
-> + * hardware does not require this.
-> + */
-> +struct drm_asahi_zls_buffer {
-> +       /** @load: Base address of the buffer to load at the start */
-> +       __u64 load;
-> +
-> +       /** @store: Base address of the buffer to store at the end */
-> +       __u64 store;
-> +
-> +       /**
-> +        * @partial: Base address of the buffer to load and store during =
-a
-> +        * partial render operation.
-> +        */
-> +       __u64 partial;
-> +
-> +       /**
-> +        * @comp_load: If the load buffer is compressed, address of the
-> +        * compression metadata section.
-> +        */
-> +       __u64 comp_load;
-> +
-> +       /**
-> +        * @comp_store: If the load buffer is compressed, address of the
-> +        * compression metadata section.
-> +        */
-> +       __u64 comp_store;
-> +
-> +       /**
-> +        * @comp_partial: If the partial render buffer is compressed, add=
-ress of
-> +        * the compression metadata section.
-> +        */
-> +       __u64 comp_partial;
-> +
-> +       /**
-> +        * @load_stride: If layered rendering is enabled, the number of b=
-ytes
-> +        * between each layer of the load buffer.
-> +        */
-> +       __u32 load_stride;
-> +
-> +       /**
-> +        * @store_stride: If layered rendering is enabled, the number of =
-bytes
-> +        * between each layer of the store buffer.
-> +        */
-> +       __u32 store_stride;
-> +
-> +       /**
-> +        * @partial_stride: If layered rendering is enabled, the number o=
-f bytes
-> +        * between each layer of the partial render buffer.
-> +        */
-> +       __u32 partial_stride;
-> +
-> +       /**
-> +        * @comp_load_stride: If layered rendering is enabled, the number=
- of bytes
-> +        * between each layer of the compression metadata for loads.
-> +        */
-> +       __u32 comp_load_stride;
-> +
-> +       /**
-> +        * @comp_store_stride: If layered rendering is enabled, the numbe=
-r of
-> +        * bytes between each layer of the compression metadata for store=
-s.
-> +        */
-> +       __u32 comp_store_stride;
-> +
-> +       /**
-> +        * @comp_partial_stride: If layered rendering is enabled, the num=
-ber of
-> +        * bytes between each layer of the compression metadata for parti=
-al
-> +        * renders.
-> +        */
-> +       __u32 comp_partial_stride;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_timestamp - Describe a timestamp write.
-> + *
-> + * The firmware can optionally write the GPU timestamp at render pass
-> + * granularities, but it needs to be mapped specially via
-> + * DRM_IOCTL_ASAHI_GEM_BIND_OBJECT. This structure therefore describes w=
-here to
-> + * write as a handle-offset pair, rather than a GPU address like normal.
-> + */
-> +struct drm_asahi_timestamp {
-> +       /**
-> +        * @handle: Handle of the timestamp buffer, or 0 to skip this
-> +        * timestamp. If nonzero, this must equal the value returned in
-> +        * drm_asahi_gem_bind_object::object_handle.
-> +        */
-> +       __u32 handle;
-> +
-> +       /** @offset: Offset to write into the timestamp buffer */
-> +       __u32 offset;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_timestamps - Describe timestamp writes.
-> + *
-> + * Each operation that can be timestamped, can be timestamped at the sta=
-rt and
-> + * end. Therefore, drm_asahi_timestamp structs always come in pairs, bun=
-dled
-> + * together into drm_asahi_timestamps.
-> + */
-> +struct drm_asahi_timestamps {
-> +       /** @start: Timestamp recorded at the start of the operation */
-> +       struct drm_asahi_timestamp start;
-> +
-> +       /** @end: Timestamp recorded at the end of the operation */
-> +       struct drm_asahi_timestamp end;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_helper_program - Describe helper program configurati=
-on.
-> + *
-> + * The helper program is a compute-like kernel required for various hard=
-ware
-> + * functionality. Its most important role is dynamically allocating
-> + * scratch/stack memory for individual subgroups, by partitioning a stat=
-ic
-> + * allocation shared for the whole device. It is supplied by userspace v=
-ia
-> + * drm_asahi_helper_program and internally dispatched by the hardware as=
- needed.
-> + */
-> +struct drm_asahi_helper_program {
-> +       /**
-> +        * @binary: USC address to the helper program binary. This is a t=
-agged
-> +        * pointer with configuration in the bottom bits.
-> +        */
-> +       __u32 binary;
-> +
-> +       /** @cfg: Configuration bits for the helper program. */
-> +       __u32 cfg;
-> +
-> +       /**
-> +        * @data: Data passed to the helper program. This value is not
-> +        * interpreted by the kernel, firmware, or hardware in any way. I=
-t is
-> +        * simply a sideband for userspace, set with the submit ioctl and=
- read
-> +        * via special registers inside the helper program.
-> +        *
-> +        * In practice, userspace will pass a 64-bit GPU VA here pointing=
- to the
-> +        * actual arguments, which presumably don't fit in 64-bits.
-> +        */
-> +       __u64 data;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_bg_eot - Describe a background or end-of-tile progra=
-m.
-> + *
-> + * The background and end-of-tile programs are dispatched by the hardwar=
-e at the
-> + * beginning and end of rendering. As the hardware "tilebuffer" is simpl=
-y local
-> + * memory, these programs are necessary to implement API-level render ta=
-rgets.
-> + * The fragment-like background program is responsible for loading eithe=
-r the
-> + * clear colour or the existing render target contents, while the comput=
-e-like
-> + * end-of-tile program stores the tilebuffer contents to memory.
-> + */
-> +struct drm_asahi_bg_eot {
-> +       /**
-> +        * @usc: USC address of the hardware USC words binding resources
-> +        * (including images and uniforms) and the program itself. Note t=
-his is
-> +        * an additional layer of indirection compared to the helper prog=
-ram,
-> +        * avoiding the need for a sideband for data. This is a tagged po=
-inter
-> +        * with additional configuration in the bottom bits.
-> +        */
-> +       __u32 usc;
-> +
-> +       /**
-> +        * @rsrc_spec: Resource specifier for the program. This is a pack=
-ed
-> +        * hardware data structure describing the required number of regi=
-sters,
-> +        * uniforms, bound textures, and bound samplers.
-> +        */
-> +       __u32 rsrc_spec;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_cmd_render - Command to submit 3D
-> + *
-> + * This command submits a single render pass. The hardware control strea=
-m may
-> + * include many draws and subpasses, but within the command, the framebu=
-ffer
-> + * dimensions and attachments are fixed.
-> + *
-> + * The hardware requires the firmware to set a large number of Control R=
-egisters
-> + * setting up state at render pass granularity before each command rende=
-ring 3D.
-> + * The firmware bundles this state into data structures. Unfortunately, =
-we
-> + * cannot expose either any of that directly to userspace, because the
-> + * kernel-firmware ABI is not stable. Although we can guarantee the firm=
-ware
-> + * updates in tandem with the kernel, we cannot break old userspace when
-> + * upgrading the firmware and kernel. Therefore, we need to abstract wel=
-l the
-> + * data structures to avoid tying our hands with future firmwares.
-> + *
-> + * The bulk of drm_asahi_cmd_render therefore consists of values of hard=
-ware
-> + * control registers, marshalled via the firmware interface.
-> + *
-> + * The framebuffer/tilebuffer dimensions are also specified here. In add=
-ition to
-> + * being passed to the firmware/hardware, the kernel requires these dime=
-nsions
-> + * to calculate various essential tiling-related data structures. It is
-> + * unfortunate that our submits are heavier than on vendors with saner
-> + * hardware-software interfaces. The upshot is all of this information i=
-s
-> + * readily available to userspace with all current APIs.
-> + *
-> + * It looks odd - but it's not overly burdensome and it ensures we can r=
-emain
-> + * compatible with old userspace.
-> + */
-> +struct drm_asahi_cmd_render {
-> +       /** @flags: Zero or more of ASAHI_RENDER_* */
-> +       __u64 flags;
-> +
-> +       /** @encoder_ptr: GPU base address to the hardware control stream=
- */
-> +       __u64 encoder_ptr;
-> +
-> +       /**
-> +        * @usc_base: GPU base address for all USC binaries (shaders) use=
-d in
-> +        * this command. USC addresses are 32-bit relative to this 64-bit=
- base.
-> +        */
-> +       __u64 usc_base;
-> +
-> +       /**
-> +        * @vertex_attachments: Pointer to drm_asahi_attachment array use=
-d for
-> +        * the vertex portion of this command.
-> +        */
-> +       __u64 vertex_attachments;
-> +
-> +       /**
-> +        * @fragment_attachments: Pointer to drm_asahi_attachment array u=
-sed for
-> +        * the fragment portion of this command. This includes the end-of=
--tile
-> +        * shader, in addition to the fragment shaders themselves.
-> +        */
-> +       __u64 fragment_attachments;
-> +
-> +       /**
-> +        * @vertex_attachment_count: Number of drm_asahi_attachment's poi=
-nted to
-> +        * by vertex_attachments
-> +        */
-> +       __u32 vertex_attachment_count;
-> +
-> +       /**
-> +        * @fragment_attachment_count: Number of drm_asahi_attachment's p=
-ointed
-> +        * to by fragment_attachmenst
-> +        */
-> +       __u32 fragment_attachment_count;
-> +
-> +       /** @vertex_helper: Helper program used for the vertex shader */
-> +       struct drm_asahi_helper_program vertex_helper;
-> +
-> +       /** @fragment_helper: Helper program used for the fragment shader=
- */
-> +       struct drm_asahi_helper_program fragment_helper;
-> +
-> +       /**
-> +        * @isp_scissor_base: ISP_SCISSOR_BASE register value. GPU addres=
-s of an
-> +        * array of scissor descriptors indexed in the render pass.
-> +        */
-> +       __u64 isp_scissor_base;
-> +
-> +       /**
-> +        * @isp_dbias_base: ISP_DBIAS_BASE register value. GPU address of=
- an
-> +        * array of depth bias values indexed in the render pass.
-> +        */
-> +       __u64 isp_dbias_base;
-> +
-> +       /**
-> +        * @isp_oclqry_base: ISP_OCLQRY_BASE register value. GPU address =
-of an
-> +        * array of occlusion query results written by the render pass.
-> +        */
-> +       __u64 isp_oclqry_base;
-> +
-> +       /** @depth: Physical buffers backing the logical depth buffer */
-> +       struct drm_asahi_zls_buffer depth;
-> +
-> +       /** @stencil: Physical buffers backing the logical stencil buffer=
- */
-> +       struct drm_asahi_zls_buffer stencil;
-> +
-> +       /** @zls_ctrl: ZLS_CTRL register value */
-> +       __u64 zls_ctrl;
-> +
-> +       /** @ppp_multisamplectl: PPP_MULTISAMPLECTL register value */
-> +       __u64 ppp_multisamplectl;
-> +
-> +       /**
-> +        * @sampler_heap: Base address of the sampler heap. This heap is =
-used
-> +        * for both vertex shaders and fragment shaders. The registers ar=
+> > +
+> > +The Gamezone Data WMI interface provides platform-profile and fan curv=
 e
-> +        * per-stage, but there is no known use case for separate heaps.
-> +        */
-> +       __u64 sampler_heap;
-> +
-> +       /** @ppp_ctrl: PPP_CTRL register value */
-> +       __u32 ppp_ctrl;
-> +
-> +       /** @width_px: Framebuffer width in pixels */
-> +       __u16 width_px;
-> +
-> +       /** @height_px: Framebuffer height in pixels */
-> +       __u16 height_px;
-> +
-> +       /** @layers: Number of layers in the framebuffer */
-> +       __u16 layers;
-> +
-> +       /** @sampler_count: Number of samplers in the sampler heap. */
-> +       __u16 sampler_count;
-> +
-> +       /** @utile_width_px: Width of a logical tilebuffer tile in pixels=
- */
-> +       __u8 utile_width_px;
-> +
-> +       /** @utile_height_px: Height of a logical tilebuffer tile in pixe=
-ls */
-> +       __u8 utile_height_px;
-> +
-> +       /** @samples: # of samples in the framebuffer. Must be 1, 2, or 4=
-. */
-> +       __u8 samples;
-> +
-> +       /** @sample_size_B: # of bytes in the tilebuffer required per sam=
-ple. */
-> +       __u8 sample_size_B;
-> +
-> +       /** @encoder_id: Opaque handle identifying what encoded this comm=
-and. */
-> +       __u32 encoder_id;
-> +
-> +       /**
-> +        * @cmd_ta_id: Unique identifier for the Tiling Accelerator (TA)
-> +        * portion of this command.
-> +        */
-> +       __u32 cmd_ta_id;
-> +
-> +       /**
-> +        * @cmd_3d_id: Unique identifier for the 3D
-> +        * portion of this command.
-> +        */
-> +       __u32 cmd_3d_id;
-> +
-> +       /**
-> +        * @isp_merge_upper_x: 32-bit float used in the
-> +        * hardware triangle merging. Calculate as:
-> +        *
-> +        *      tan(60 deg) * width
-> +        *
-> +        * Making these values UAPI avoids requiring floating-point calcu=
-lations
-> +        * in the kernel in the hot path.
-> +        */
-> +       __u32 isp_merge_upper_x;
-> +
-> +       /**
-> +        * @isp_merge_upper_y: 32-bit float. Calculate as:
-> +        *
-> +        *      tan(60 deg) * height
-> +        *
-> +        * See @isp_merge_upper_x.
-> +        */
-> +
-> +       __u32 isp_merge_upper_y;
-> +
-> +       /**
-> +        * @bg: Background program ran at the start of each tile at the s=
-tart of
-> +        * the render pass.
-> +        */
-> +       struct drm_asahi_bg_eot bg;
-> +
-> +       /**
-> +        * @eot: End-of-tile program ran at the end of each tile at the e=
-nd of
-> +        * the render pass.
-> +        */
-> +       struct drm_asahi_bg_eot eot;
-> +
-> +       /**
-> +        * @partial_bg: Background program ran at the start of each tile =
-when
-> +        * resuming the render pass during a partial render.
-> +        */
-> +       struct drm_asahi_bg_eot partial_bg;
-> +
-> +       /**
-> +        * @partial_eot: End-of-tile program ran at the end of each tile =
-when
-> +        * pausing the render pass during a partial render.
-> +        */
-> +       struct drm_asahi_bg_eot partial_eot;
-> +
-> +       /**
-> +        * @isp_zls_pixels: ISP_ZLS_PIXELS register value. This contains =
-the
-> +        * depth buffer width/height, which is allowed to differ from the
-> +        * framebuffer width/height.
-> +        */
-> +       __u32 isp_zls_pixels;
-> +
-> +       /**
-> +        * @isp_bgobjdepth: ISP_BGOBJDEPTH register value. This is the de=
-pth
-> +        * buffer clear value, encoded in the depth buffer's format: eith=
-er a
-> +        * 32-bit float or a 16-bit unorm (with upper bits zeroed).
-> +        */
-> +       __u32 isp_bgobjdepth;
-> +
-> +       /**
-> +        * @isp_bgobjvals: ISP_BGOBJVALS register value. The bottom 8-bit=
-s
-> +        * contain the stencil buffer clear value.
-> +        */
-> +       __u32 isp_bgobjvals;
-> +
-> +       /** @ts_vtx: Timestamps for the vertex portion of the render */
-> +       struct drm_asahi_timestamps ts_vtx;
-> +
-> +       /** @ts_frag: Timestamps for the fragment portion of the render *=
-/
-> +       struct drm_asahi_timestamps ts_frag;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_cmd_compute - Command to submit compute
-> + *
-> + * This command submits a control stream consisting of compute dispatche=
-s. There
-> + * is essentially no limit on how many compute dispatches may be include=
-d in a
-> + * single compute command, although timestamping only occurs at command
-> + * granularity.
-> + */
-> +struct drm_asahi_cmd_compute {
-> +       /** @flags: MBZ */
-> +       __u64 flags;
-> +
-> +       /** @encoder_ptr: GPU base address to the hardware control stream=
- */
-> +       __u64 encoder_ptr;
-> +
-> +       /**
-> +        * @encoder_end: GPU base address to the end of the hardware cont=
-rol
-> +        * stream. Note this only considers the first contiguous segment =
+> > +settings for devices that fall under the "Gaming Series" of Lenovo dev=
+ices.
+> > +It uses a notifier chain to inform other Lenovo WMI interface drivers =
 of the
-> +        * control stream, as the stream might jump elsewhere.
-> +        */
-> +       __u64 encoder_end;
-> +
-> +       /**
-> +        * @usc_base: GPU Base address for all USC binaries (shaders) use=
-d in
-> +        * this command. USC addresses are 32-bit relative to this 64-bit=
- base.
-> +        */
-> +       __u64 usc_base;
-> +
-> +       /**
-> +        * @attachments: Pointer to drm_asahi_attachment array used for
-> +        * this command
-> +        */
-> +       __u64 attachments;
-> +
-> +       /**
-> +        * @sampler_heap: Base address of the sampler heap. This heap is =
-used
-> +        * for both vertex shaders and fragment shaders. The registers ar=
-e
-> +        * per-stage, but there is no known use case for separate heaps.
-> +        */
-> +       __u64 sampler_heap;
-> +
-> +       /**
-> +        * @attachment_count: Number of drm_asahi_attachments pointed to =
-by
-> +        * @attachments
-> +        */
-> +       __u32 attachment_count;
-> +
-> +       /** @sampler_count: Number of samplers in the sampler heap. */
-> +       __u32 sampler_count;
-> +
-> +       /** @helper: Helper program used for this compute shader */
-> +       struct drm_asahi_helper_program helper;
-> +
-> +       /** @encoder_id: Opaque handle identifying what encoded this comm=
-and. */
-> +       __u32 encoder_id;
-> +
-> +       /** @cmd_id: Unique identifier for this command. */
-> +       __u32 cmd_id;
-> +
-> +       /** @ts: Timestamps for the compute command */
-> +       struct drm_asahi_timestamps ts;
-> +};
-> +
-> +/**
-> + * struct drm_asahi_get_time - Arguments passed to DRM_IOCTL_ASAHI_GET_T=
-IME
-> + */
-> +struct drm_asahi_get_time {
-> +       /** @flags: MBZ. */
-> +       __u64 flags;
-> +
-> +       /** @gpu_timestamp: On return, the current GPU timestamp */
-> +       __u64 gpu_timestamp;
-> +};
-> +
-> +/**
-> + * DRM_IOCTL_ASAHI() - Build an Asahi IOCTL number
-> + * @__access: Access type. Must be R, W or RW.
-> + * @__id: One of the DRM_ASAHI_xxx id.
-> + * @__type: Suffix of the type being passed to the IOCTL.
-> + *
-> + * Don't use this macro directly, use the DRM_IOCTL_ASAHI_xxx
-> + * values instead.
-> + *
-> + * Return: An IOCTL number to be passed to ioctl() from userspace.
-> + */
-> +#define DRM_IOCTL_ASAHI(__access, __id, __type) \
-> +       DRM_IO ## __access(DRM_COMMAND_BASE + DRM_ASAHI_ ## __id, \
-> +                          struct drm_asahi_ ## __type)
-> +
-> +/* Note: this is an enum so that it can be resolved by Rust bindgen. */
-> +enum {
-> +       DRM_IOCTL_ASAHI_GET_PARAMS       =3D DRM_IOCTL_ASAHI(WR, GET_PARA=
-MS, get_params),
-> +       DRM_IOCTL_ASAHI_VM_CREATE        =3D DRM_IOCTL_ASAHI(WR, VM_CREAT=
-E, vm_create),
-> +       DRM_IOCTL_ASAHI_VM_DESTROY       =3D DRM_IOCTL_ASAHI(W, VM_DESTRO=
-Y, vm_destroy),
-> +       DRM_IOCTL_ASAHI_GEM_CREATE       =3D DRM_IOCTL_ASAHI(WR, GEM_CREA=
-TE, gem_create),
-> +       DRM_IOCTL_ASAHI_GEM_MMAP_OFFSET  =3D DRM_IOCTL_ASAHI(WR, GEM_MMAP=
-_OFFSET, gem_mmap_offset),
-> +       DRM_IOCTL_ASAHI_GEM_BIND         =3D DRM_IOCTL_ASAHI(W, GEM_BIND,=
- gem_bind),
-> +       DRM_IOCTL_ASAHI_QUEUE_CREATE     =3D DRM_IOCTL_ASAHI(WR, QUEUE_CR=
-EATE, queue_create),
-> +       DRM_IOCTL_ASAHI_QUEUE_DESTROY    =3D DRM_IOCTL_ASAHI(W, QUEUE_DES=
-TROY, queue_destroy),
-> +       DRM_IOCTL_ASAHI_SUBMIT           =3D DRM_IOCTL_ASAHI(W, SUBMIT, s=
-ubmit),
-> +       DRM_IOCTL_ASAHI_GET_TIME         =3D DRM_IOCTL_ASAHI(WR, GET_TIME=
-, get_time),
-> +       DRM_IOCTL_ASAHI_GEM_BIND_OBJECT  =3D DRM_IOCTL_ASAHI(WR, GEM_BIND=
-_OBJECT, gem_bind_object),
-> +};
-> +
-> +#if defined(__cplusplus)
-> +}
-> +#endif
-> +
-> +#endif /* _ASAHI_DRM_H_ */
+> > +current platform profile when it changes.
+> > +
+> > +The following platform profiles are supported:
+> > + - low-power
+> > + - balanced
+> > + - balanced-performance
+> > + - performance
+> > + - custom
+> > +
+> > +Balanced-Perfornance and Performance Profiles
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +Some newer Lenovo "Gaming Series" laptops have an "Extreme Mode" profi=
+le
+> > +enabled in their BIOS. For these devices, the performance platform pro=
+file
+> > +will correspond to the BIOS Extreme Mode, while the balanced-performan=
+ce
+> > +platform profile will correspond to the BIOS Performance mode. For leg=
+acy
+> > +devices, the performance platform prfile will correspond with the BIOS
+> > +Performance mode.
+> > +
+> > +Custom Profile
+> > +~~~~~~~~~~~~~~
+> > +The custom profile represents a hardware mode on Lenovo devices that e=
+nables
+> > +user modifications to Package Power Tracking (PPT) and fan curve setti=
+ngs.
+> > +When an attribute exposed by the Other Mode WMI interface is to be mod=
+ified,
+> > +the Gamezone driver must first be switched to the "custom" profile man=
+ually,
+> > +or the setting will have no effect. If another profile is set from the=
+ list
+> > +of supported profiles, the BIOS will override any user PPT settings wh=
+en
+> > +switching to that profile.
+> > +
+> > +Gamezone Thermal Mode Event
+> > +---------------------------
+> > +WMI GUID "D320289E-8FEA-41E0-86F9-911D83151B5F"
+> > +
 >
-> ---
-> base-commit: 0ed1356af8f629ae807963b7db4e501e3b580bc2
-> change-id: 20250307-agx-uapi-930579437f19
+> Same as above.
 >
-> Best regards,
-> --
-> Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> > +The Gamezone Thermal Mode Event interface notifies the system when the=
+ platform
+> > +profile has changed, either through the hardware event (Fn+Q for lapto=
+ps or
+> > +Legion + Y for Go Series), or through the Gamezone WMI interface.
+> > +
+> > +
+> > +WMI interface description
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> > +
+> > +The WMI interface description can be decoded from the embedded binary =
+MOF (bmof)
+> > +data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
+> > +
+> > +::
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("LENOVO_GAMEZONE_DATA class"),
+> > +   guid("{887B54E3-DDDC-4B2C-8B88-68A26A8835D0}")]
+> > +  class LENOVO_GAMEZONE_DATA {
+> > +     [key, read] string InstanceName;
+> > +     [read] boolean Active;
 >
+> The MOF definition mixes tabs and spaces and is not properly indented. Pl=
+ease fix this.
+
+Will be fixed, ty.
+
+> > +
+> > +     [WmiMethodId(4), Implemented, Description("Is SupportGpu OverCloc=
+k")]
+> > +    void IsSupportGpuOC([out, Description("Is SupportGpu OverClock")] =
+uint32 Data);
+> > +
+> > +     [WmiMethodId(11), Implemented, Description("Get AslCode Version")=
+]
+> > +    void GetVersion ([out, Description("AslCode version")] UINT32 Data=
+);
+> > +
+> > +     [WmiMethodId(12), Implemented, Description("Fan cooling capabilit=
+y")]
+> > +    void IsSupportFanCooling([out, Description("Fan cooling capability=
+")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(13), Implemented, Description("Set Fan cooling on/of=
+f")]
+> > +    void SetFanCooling ([in, Description("Set Fan cooling on/off")] UI=
+NT32 Data);
+> > +
+> > +     [WmiMethodId(14), Implemented, Description("cpu oc capability")]
+> > +    void IsSupportCpuOC ([out, Description("cpu oc capability")] UINT3=
+2 Data);
+> > +
+> > +     [WmiMethodId(15), Implemented, Description("bios has overclock ca=
+pability")]
+> > +    void IsBIOSSupportOC ([out, Description("bios has overclock capabi=
+lity")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(16), Implemented, Description("enable or disable ove=
+rclock in bios")]
+> > +    void SetBIOSOC ([in, Description("enable or disable overclock in b=
+ios")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(18), Implemented, Description("Get CPU temperature")=
+]
+> > +    void GetCPUTemp ([out, Description("Get CPU temperature")] UINT32 =
+Data);
+> > +
+> > +     [WmiMethodId(19), Implemented, Description("Get GPU temperature")=
+]
+> > +    void GetGPUTemp ([out, Description("Get GPU temperature")] UINT32 =
+Data);
+> > +
+> > +     [WmiMethodId(20), Implemented, Description("Get Fan cooling on/of=
+f status")]
+> > +    void GetFanCoolingStatus ([out, Description("Get Fan cooling on/of=
+f status")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(21), Implemented, Description("EC support disable wi=
+ndows key capability")]
+> > +    void IsSupportDisableWinKey ([out, Description("EC support disable=
+ windows key capability")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(22), Implemented, Description("Set windows key disab=
+le/enable")]
+> > +    void SetWinKeyStatus ([in, Description("Set windows key disable/en=
+able")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(23), Implemented, Description("Get windows key disab=
+le/enable status")]
+> > +    void GetWinKeyStatus ([out, Description("Get windows key disable/e=
+nable status")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(24), Implemented, Description("EC support disable to=
+uchpad capability")]
+> > +    void IsSupportDisableTP ([out, Description("EC support disable tou=
+chpad capability")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(25), Implemented, Description("Set touchpad disable/=
+enable")]
+> > +    void SetTPStatus ([in, Description("Set touchpad disable/enable")]=
+ UINT32 Data);
+> > +
+> > +     [WmiMethodId(26), Implemented, Description("Get touchpad disable/=
+enable status")]
+> > +    void GetTPStatus ([out, Description("Get touchpad disable/enable s=
+tatus")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(30), emented,      Description("Get Keyboard feature=
+ list")]
+> > +    void GetKeyboardfeaturelist ([out, Description("Get Keyboard featu=
+re list")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(31), emented,      Description("Get Memory OC Inform=
+ation")]
+> > +    void GetMemoryOCInfo ([out, Description("Get Memory OC Information=
+")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(32), emented,      Description("Water Cooling featur=
+e capability")]
+> > +    void IsSupportWaterCooling ([out, Description("Water Cooling featu=
+re capability")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(33), emented,      Description("Set Water Cooling st=
+atus")]
+> > +    void SetWaterCoolingStatus ([in, Description("Set Water Cooling st=
+atus")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(34), emented,      Description("Get Water Cooling st=
+atus")]
+> > +    void GetWaterCoolingStatus ([out, Description("Get Water Cooling s=
+tatus")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(35), emented,      Description("Lighting feature cap=
+ability")]
+> > +    void IsSupportLightingFeature ([out, Description("Lighting feature=
+ capability")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(36), emented,      Description("Set keyboard light o=
+ff or on to max")]
+> > +    void SetKeyboardLight ([in, Description("keyboard light off or on =
+switch")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(37), emented,      Description("Get keyboard light o=
+n/off status")]
+> > +    void GetKeyboardLight ([out, Description("Get keyboard light on/of=
+f status")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(38), emented,      Description("Get Macrokey scan co=
+de")]
+> > +    void GetMacrokeyScancode ([in, Description("Macrokey index")] UINT=
+32 idx, [out, Description("Scan code")] UINT32 scancode);
+> > +
+> > +     [WmiMethodId(39), emented,      Description("Get Macrokey count")=
+]
+> > +    void GetMacrokeyCount ([out, Description("Macrokey count")] UINT32=
+ Data);
+> > +
+> > +     [WmiMethodId(40), emented,      Description("Support G-Sync featu=
+re")]
+> > +    void IsSupportGSync ([out, Description("Support G-Sync feature")] =
+UINT32 Data);
+> > +
+> > +     [WmiMethodId(41), emented,      Description("Get G-Sync Statust")=
+]
+> > +    void GetGSyncStatus ([out, Description("Get G-Sync Statust")] UINT=
+32 Data);
+> > +
+> > +     [WmiMethodId(42), emented,      Description("Set G-Sync Statust")=
+]
+> > +    void SetGSyncStatus ([in, Description("Set G-Sync Statust")] UINT3=
+2 Data);
+> > +
+> > +     [WmiMethodId(43), emented,      Description("Support Smart Fan fe=
+ature")]
+> > +    void IsSupportSmartFan ([out, Description("Support Smart Fan featu=
+re")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(44), emented,      Description("Set Smart Fan Mode")=
+]
+> > +    void SetSmartFanMode ([in, Description("Set Smart Fan Mode")] UINT=
+32 Data);
+> > +
+> > +     [WmiMethodId(45), emented,      Description("Get Smart Fan Mode")=
+]
+> > +    void GetSmartFanMode ([out, Description("Get Smart Fan Mode")] UIN=
+T32 Data);
+> > +
+> > +     [WmiMethodId(46), emented,      Description("Get Smart Fan Settin=
+g Mode")]
+> > +    void GetSmartFanSetting ([out, Description("Get Smart Setting Mode=
+")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(47), emented,      Description("Get Power Charge Mod=
+e")]
+> > +    void GetPowerChargeMode ([out, Description("Get Power Charge Mode"=
+)] UINT32 Data);
+> > +
+> > +     [WmiMethodId(48), emented, Description("Get Gaming Product Info")=
+]
+> > +    void GetProductInfo ([out, Description("Get Gaming Product Info")]=
+ UINT32 Data);
+> > +
+> > +     [WmiMethodId(49), emented, Description("Over Drive feature capabi=
+lity")]
+> > +    void IsSupportOD ([out, Description("Over Drive feature capability=
+")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(50), emented, Description("Get Over Drive status")]
+> > +    void GetODStatus ([out, Description("Get Over Drive status")] UINT=
+32 Data);
+> > +
+> > +     [WmiMethodId(51), emented, Description("Set Over Drive status")]
+> > +    void SetODStatus ([in, Description("Set Over Drive status")] UINT3=
+2 Data);
+> > +
+> > +     [WmiMethodId(52), emented, Description("Set Light Control Owner")=
+]
+> > +    void SetLightControlOwner ([in, Description("Set Light Control Own=
+er")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(53), emented, Description("Set DDS Control Owner")]
+> > +    void SetDDSControlOwner ([in, Description("Set DDS Control Owner")=
+] UINT32 Data);
+> > +
+> > +     [WmiMethodId(54), emented, Description("Get the flag of restore O=
+C value")]
+> > +    void IsRestoreOCValue ([in, Description("Clean this flag")] UINT32=
+ idx, [out, Description("Restore oc value flag")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(55), emented,      Description("Get Real Thremal Mod=
+e")]
+> > +    void GetThermalMode ([out, Description("Real Thremal Mode")] UINT3=
+2 Data);
+> > +
+> > +     [WmiMethodId(56), emented,      Description("Get the OC switch st=
+atus in BIOS")]
+> > +    void GetBIOSOCMode ([out, Description("OC Mode")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(59), emented,      Description("Get hardware info su=
+pport version")]
+> > +    void GetHardwareInfoSupportVersion ([out, Description("version")] =
+UINT32 Data);
+> > +
+> > +     [WmiMethodId(60), emented,      Description("Get Cpu core 0 max f=
+requency")]
+> > +    void GetCpuFrequency ([out, Description("frequency")] UINT32 Data)=
+;
+> > +
+> > +     [WmiMethodId(62), emented,      Description("Check the Adapter ty=
+pe fit for OC")]
+> > +    void IsACFitForOC ([out, Description("AC check result")] UINT32 Da=
+ta);
+> > +
+> > +     [WmiMethodId(63), emented,      Description("Is support IGPU mode=
+")]
+> > +    void IsSupportIGPUMode ([out, Description("IGPU modes")] UINT32 Da=
+ta);
+> > +
+> > +     [WmiMethodId(64), emented,      Description("Get IGPU Mode Status=
+")]
+> > +    void GetIGPUModeStatus([out, Description("IGPU Mode Status")] UINT=
+32 Data);
+> > +
+> > +     [WmiMethodId(65), emented,      Description("Set IGPU Mode")]
+> > +    void SetIGPUModeStatus([in, Description("IGPU Mode")] UINT32 mode,=
+ [out, Description("return code")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(66), emented, Description("Notify DGPU Status")]
+> > +    void NotifyDGPUStatus([in, Description("DGPU status")] UINT32 stat=
+us, [out, Description("return code")] UINT32 Data);
+> > +
+> > +     [WmiMethodId(67), emented,      Description("Is changed Y log")]
+> > +    void IsChangedYLog([out, Description("Is changed Y Log")] UINT32 D=
+ata);
+> > +
+> > +     [WmiMethodId(68), emented, Description("Get DGPU Hardwawre ID")]
+> > +    void GetDGPUHWId([out, Description("Get DGPU Hardware ID")] string=
+ Data);
+> > +  };
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("Definition of CPU OC parameter list"),
+> > +   guid("{B7F3CA0A-ACDC-42D2-9217-77C6C628FBD2}")]
+> > +  class LENOVO_GAMEZONE_CPU_OC_DATA {
+> > +      [key, read] string InstanceName;
+> > +      [read] boolean Active;
+> > +
+> > +      [WmiDataId(1), read, Description("OC tune id.")]
+> > +      uint32 Tuneid;
+> > +
+> > +      [WmiDataId(2), read, Description("Default value.")]
+> > +      uint32 DefaultValue;
+> > +
+> > +      [WmiDataId(3), read, Description("OC Value.")]
+> > +      uint32 OCValue;
+> > +
+> > +      [WmiDataId(4), read, Description("Min Value.")]
+> > +      uint32 MinValue;
+> > +
+> > +      [WmiDataId(5), read, Description("Max Value.")]
+> > +      uint32 MaxValue;
+> > +
+> > +      [WmiDataId(6), read, Description("Scale Value.")]
+> > +      uint32 ScaleValue;
+> > +
+> > +      [WmiDataId(7), read, Description("OC Order id.")]
+> > +      uint32 OCOrderid;
+> > +
+> > +      [WmiDataId(8), read, Description("NON-OC Order id.")]
+> > +      uint32 NOCOrderid;
+> > +
+> > +      [WmiDataId(9), read, Description("Delay time in ms.")]
+> > +      uint32 Interval;
+> > +  };
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("Definition of GPU OC parameter list"),
+> > +   guid("{887B54E2-DDDC-4B2C-8B88-68A26A8835D0}")]
+> > +  class LENOVO_GAMEZONE_GPU_OC_DATA {
+> > +      [key, read] string InstanceName;
+> > +      [read] boolean Active;
+> > +
+> > +      [WmiDataId(1), read, Description("P-State ID.")]
+> > +      uint32 PStateID;
+> > +
+> > +      [WmiDataId(2), read, Description("CLOCK ID.")]
+> > +      uint32 ClockID;
+> > +
+> > +      [WmiDataId(3), read, Description("Default value.")]
+> > +      uint32 defaultvalue;
+> > +
+> > +      [WmiDataId(4), read, Description("OC Offset freqency.")]
+> > +      uint32 OCOffsetFreq;
+> > +
+> > +      [WmiDataId(5), read, Description("OC Min offset value.")]
+> > +      uint32 OCMinOffset;
+> > +
+> > +      [WmiDataId(6), read, Description("OC Max offset value.")]
+> > +      uint32 OCMaxOffset;
+> > +
+> > +      [WmiDataId(7), read, Description("OC Offset Scale.")]
+> > +      uint32 OCOffsetScale;
+> > +
+> > +      [WmiDataId(8), read, Description("OC Order id.")]
+> > +      uint32 OCOrderid;
+> > +
+> > +      [WmiDataId(9), read, Description("NON-OC Order id.")]
+> > +      uint32 NOCOrderid;
+> > +  };
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("Fancooling finish event"),
+> > +   guid("{BC72A435-E8C1-4275-B3E2-D8B8074ABA59}")]
+> > +  class LENOVO_GAMEZONE_FAN_COOLING_EVENT: WMIEvent {
+> > +      [key, read] string InstanceName;
+> > +      [read] boolean Active;
+> > +
+> > +      [WmiDataId(1), read, Description("Fancooling clean finish event"=
+)]
+> > +      uint32 EventId;
+> > +  };
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("Smart Fan mode change event"),
+> > +   guid("{D320289E-8FEA-41E0-86F9-611D83151B5F}")]
+> > +  class LENOVO_GAMEZONE_SMART_FAN_MODE_EVENT: WMIEvent {
+> > +      [key, read] string InstanceName;
+> > +      [read] boolean Active;
+> > +
+> > +      [WmiDataId(1), read, Description("Smart Fan Mode change event")]
+> > +      uint32 mode;
+> > +
+> > +       [WmiDataId(2), read, Description("version of FN+Q")]
+> > +      uint32 version;
+> > +  };
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("Smart Fan setting mode change event"),
+> > +   guid("{D320289E-8FEA-41E1-86F9-611D83151B5F}")]
+> > +  class LENOVO_GAMEZONE_SMART_FAN_SETTING_EVENT: WMIEvent {
+> > +      [key, read] string InstanceName;
+> > +      [read] boolean Active;
+> > +
+> > +      [WmiDataId(1), read, Description("Smart Fan Setting mode change =
+event")]
+> > +      uint32 mode;
+> > +  };
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("POWER CHARGE MODE Change EVENT"),
+> > +   guid("{D320289E-8FEA-41E0-86F9-711D83151B5F}")]
+> > +  class LENOVO_GAMEZONE_POWER_CHARGE_MODE_EVENT: WMIEvent {
+> > +      [key, read] string InstanceName;
+> > +      [read] boolean Active;
+> > +
+> > +      [WmiDataId(1), read, Description("POWER CHARGE MODE Change EVENT=
+")]
+> > +      uint32 mode;
+> > +  };
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("Thermal Mode Real Mode change event"),
+> > +   guid("{D320289E-8FEA-41E0-86F9-911D83151B5F}")]
+> > +  class LENOVO_GAMEZONE_THERMAL_MODE_EVENT: WMIEvent {
+> > +      [key, read] string InstanceName;
+> > +      [read] boolean Active;
+> > +
+> > +      [WmiDataId(1), read, Description("Thermal Mode Real Mode")]
+> > +      uint32 mode;
+> > +  };
+> > diff --git a/Documentation/wmi/devices/lenovo-wmi-other-method.rst b/Do=
+cumentation/wmi/devices/lenovo-wmi-other-method.rst
+> > new file mode 100644
+> > index 000000000000..d555f1ed9588
+> > --- /dev/null
+> > +++ b/Documentation/wmi/devices/lenovo-wmi-other-method.rst
+> > @@ -0,0 +1,142 @@
+> > +.. SPDX-License-Identifier: GPL-2.0-or-later
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +Lenovo WMI Interface Other Mode Driver (lenovo-wmi-other)
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +Introduction
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +Lenovo WMI Other Mode interface is broken up into multiple GUIDs,
+> > +The primary Other Mode interface provides advanced power tuning featur=
+es
+> > +such as Package Power Tracking (PPT). It is paired with multiple data =
+block
+> > +GUIDs that provide context for the various methods.
+> > +
+> > +
+> > +Other Mode
+> > +------------
+> > +WMI GUID "DC2A8805-3A8C-41BA-A6F7-092E0089CD3B"
+>
+> The suggestion with the monospace formatting applies here too.
+>
+> > +
+> > +The Other Mode WMI interface uses the fw_attributes class to expose
+> > +various WMI attributes provided by the interface in the sysfs. This en=
+ables
+> > +CPU and GPU power limit tuning as well as various other attributes for
+> > +devices that fall under the "Gaming Series" of Lenovo devices. Each
+> > +attribute exposed by the Other Mode interface has corresponding
+> > +capability data blocks which allow the driver to probe details about t=
+he
+> > +attribute. Each attibute has multiple pages, one for each of the platf=
+orm
+> > +profiles managed by the Gamezone interface. Attributes are exposed in =
+sysfs
+> > +under the following path:
+> > +
+> > +::
+> > +/sys/class/firmware-attributes/lenovo-wmi-other/attributes/<attribute>=
+/
+> > +
+> > +LENOVO_CAPABILITY_DATA_01
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +WMI GUID "7A8F5407-CB67-4D6E-B547-39B3BE018154"
+>
+> Same as above.
+>
+> > +
+> > +The LENOVO_CAPABILITY_DATA_01 interface provides information on variou=
+s
+> > +power limits of integrated CPU and GPU components.
+> > +
+> > +The following attributes are supported:
+> > + - ppt_pl1_spl: Platform Profile Tracking Sustained Power Limit
+> > + - ppt_pl2_sppt: Platform Profile Tracking Slow Package Power Tracking
+> > + - ppt_pl3_fppt: Platform Profile Tracking Fast Package Power Tracking
+> > +
+> > +Each attribute has the following properties:
+> > + - current_value
+> > + - default_value
+> > + - display_name
+> > + - max_value
+> > + - min_value
+> > + - scalar_increment
+> > + - type
+> > +
+> > +
+> > +WMI interface description
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> > +
+> > +The WMI interface description can be decoded from the embedded binary =
+MOF (bmof)
+> > +data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
+> > +
+> > +::
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("LENOVO_OTHER_METHOD class"),
+> > +   guid("{dc2a8805-3a8c-41ba-a6f7-092e0089cd3b}")]
+> > +  class LENOVO_OTHER_METHOD {
+> > +      [key, read] string InstanceName;
+> > +      [read] boolean Active;
+> > +
+> > +      [WmiMethodId(17), Implemented, Description("Get Feature Value ")=
+]
+> > +      void GetFeatureValue([in] uint32 IDs, [out] uint32 value);
+> > +
+> > +      [WmiMethodId(18), Implemented, Description("Set Feature Value ")=
+]
+> > +      void SetFeatureValue([in] uint32 IDs, [in] uint32 value);
+> > +
+> > +      [WmiMethodId(19), Implemented, Description("Get Data By Command =
+")]
+> > +      void GetDataByCommand([in] uint32 IDs, [in] uint32 Command, [out=
+] uint32 DataSize, [out, WmiSizeIs("DataSize")] uint32 Data[]);
+> > +
+> > +      [WmiMethodId(99), Implemented, Description("Get Data By Package =
+for TAC")]
+> > +      void GetDataByPackage([in, Max(40)] uint8 Input[], [out] uint32 =
+DataSize, [out, WmiSizeIs("DataSize")] uint8 Data[]);
+> > +  };
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("LENOVO CAPABILITY DATA 00"),
+> > +   guid("{362a3afe-3d96-4665-8530-96dad5bb300e}")]
+> > +  class LENOVO_CAPABILITY_DATA_00 {
+> > +      [key, read] string InstanceName;
+> > +      [read] boolean Active;
+> > +
+> > +      [WmiDataId(1), read, Description(" IDs.")]
+> > +      uint32 IDs;
+> > +
+> > +      [WmiDataId(2), read, Description("Capability.")]
+> > +      uint32 Capability;
+> > +
+> > +      [WmiDataId(3), read, Description("Capability Default Value.")]
+> > +      uint32 DefaultValue;
+> > +  };
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("LENOVO CAPABILITY DATA 01"),
+> > +   guid("{7a8f5407-cb67-4d6e-b547-39b3be018154}")]
+> > +  class LENOVO_CAPABILITY_DATA_01 {
+> > +      [key, read] string InstanceName;
+> > +      [read] boolean Active;
+> > +
+> > +      [WmiDataId(1), read, Description(" IDs.")]
+> > +      uint32 IDs;
+> > +
+> > +      [WmiDataId(2), read, Description("Capability.")]
+> > +      uint32 Capability;
+> > +
+> > +      [WmiDataId(3), read, Description("Default Value.")]
+> > +      uint32 DefaultValue;
+> > +
+> > +      [WmiDataId(4), read, Description("Step.")]
+> > +      uint32 Step;
+> > +
+> > +      [WmiDataId(5), read, Description("Minimum Value.")]
+> > +      uint32 MinValue;
+> > +
+> > +      [WmiDataId(6), read, Description("Maximum Value.")]
+> > +      uint32 MaxValue;
+> > +  };
+> > +
+> > +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),
+> > +   Description("LENOVO CAPABILITY DATA 02"),
+> > +   guid("{bbf1f790-6c2f-422b-bc8c-4e7369c7f6ab}")]
+> > +  class LENOVO_CAPABILITY_DATA_02 {
+> > +      [key, read] string InstanceName;
+> > +      [read] boolean Active;
+> > +
+> > +      [WmiDataId(1), read, Description(" IDs.")]
+> > +      uint32 IDs;
+> > +
+> > +      [WmiDataId(2), read, Description("Capability.")]
+> > +      uint32 Capability;
+> > +
+> > +      [WmiDataId(3), read, Description("Data Size.")]
+> > +      uint32 DataSize;
+> > +
+> > +      [WmiDataId(4), read, Description("Default Value"), WmiSizeIs("Da=
+taSize")]
+> > +      uint8 DefaultValue[];
+> > +  };
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 6f78d6bcbc7b..e20c32b3c480 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -13151,6 +13151,13 @@ S:   Maintained
+> >   W:  http://legousb.sourceforge.net/
+> >   F:  drivers/usb/misc/legousbtower.c
+> >
+> > +LENOVO WMI drivers
+> > +M:   Derek J. Clark <derekjohn.clark@gmail.com>
+> > +L:   platform-driver-x86@vger.kernel.org
+> > +S:   Maintained
+> > +F:   Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> > +F:   Documentation/wmi/devices/lenovo-wmi-other.rst
+>
+> Just a side note: when rebasing your work on the current for-next branch =
+you will have to resolve a minor merge
+> conflict here due to the new Lenovo hotkey utilities driver.
+
+Okay, thanks for the heads up.
+
+Cheers,
+- Derek
+
+> Apart from the formatting issues the remaining patch looks good to me.
+>
+> Thanks,
+> Armin Wolf
+>
+> > +
+> >   LETSKETCH HID TABLET DRIVER
+> >   M:  Hans de Goede <hdegoede@redhat.com>
+> >   L:  linux-input@vger.kernel.org
