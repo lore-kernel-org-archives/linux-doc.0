@@ -1,156 +1,317 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7976C220681;
-	Mon, 10 Mar 2025 11:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EA428EA;
+	Mon, 10 Mar 2025 11:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741605855; cv=none; b=UBcNgYZ/EkfEL+9c3c9HWwQ22LzvxBNi4tWG5WYyqqG1EaWMauxIeJxFfCEJzYGRrOZrWJClbNxR0yGOlpJjAdPixQoYb1HUvGvnQ9YK60FX659nq5yzd6V/6gRsXhQ5ztui1q3DVnL/tKpIWF3uyX/ni5HsxviEnWFEauATT/M=
+	t=1741606569; cv=none; b=qQwyZGdfkgYPcZsNRhVSOZoa579EFTmmuHS7o0vxMg3AsjAAaMDVx4F4rafvTAefojxaEq1Gf6d0ADzdJ8TKiGeKAwQtecB08BzPcBsGzV7G3YQ6rpTldNIonO8ucCTaWDFGPI78EvM2r530mG/S8WqOTEJk3ZUoIf1TOiRGbyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741605855; c=relaxed/simple;
-	bh=OeLaqDjCUWAjwPd9YXgc8Nf2jUeZmFsbQrRX1+n7oCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dkw3M6/TO0fGE7XI0pTOtpu8maB7FJwa9V2+jI6fd9y4Uj7gTTu9DS3uMGdUgEQZpTtdnCIxY3E02QU4VPGcmnwWqYTeWefiQtrZMgPVsq306Bo4JMbLBu9R4Pjt26E+hRCLw8qaD5vp7ojNcB0zet6usN3dtk/JrGS0d6NjeFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DnjZuGux; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1741606569; c=relaxed/simple;
+	bh=ArUkuMYyVMyRgyzw49Oucx0cxbpRmb/j4KxfbcZ6zIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q/goMz7z360Rl5cPehUwtn+cvFVpnlDv6dRLGJdMspxS+hrLJ+vNt9g32a7t1q5JUUrz+XgckdF9jk8afKZl4VUM9JRP+DT7Ft9cywa9gbrUB9858k/o9HApesWIrWhsoUG0yZPv/w77h4LbbSP+G0V8MqVp3RuitA1d/U+yn4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eGvZsrnn; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DnjZuGux"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 73C8843281;
-	Mon, 10 Mar 2025 11:24:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1741605844;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VIOxtXonhRWejNWq5rxRyT2kvdpRAuigNbl7XmTldVo=;
-	b=DnjZuGuxEwPfPqwor/sH5Pai+QeBH4BGQz6SCaIyuecx+hsULkaMmRZ24I9+i1YqAFsiEC
-	88/Ot/2+dooGKqzx/g7D+5Lglw5VLxEK0gkrEOPY1+OKpvolevV4NeZcZDJNu3I7TtspQ8
-	J/wFp7NguwsuDNj5GMNyhkDnnsXgy8lO0uCYMPDR82VzmOWKureunDkzhhbvzW6+hBCw4k
-	iuGaf1RSN9GnEjBjNvnLPPKbh9T0Rzwr6Gn5Lr8zwmCI7vGhiGnBakvIVjlclwTOO7Fra1
-	dtqVi4uUqoN/SxwTVUoFsMx8XuEv4pnkXnKuWPhvhqKqvxMIhs3ioV/+sI8Gxg==
-Date: Mon, 10 Mar 2025 12:23:58 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
- <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz Luba
- <lukasz.luba@arm.com>, Florian Fainelli <florian.fainelli@broadcom.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes
- <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Liu Ying <victor.liu@nxp.com>,
- linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Binbin Zhou
- <zhoubinbin@loongson.cn>
-Subject: Re: [PATCH 2/2] vsprintf: remove redundant and unused %pCn format
- specifier
-Message-ID: <20250310122358.3c07ed18@booty>
-In-Reply-To: <Z86gCjzuC5UFZBIL@smile.fi.intel.com>
-References: <20250307-vsprintf-pcn-v1-0-df0b2ccf610f@bootlin.com>
-	<20250307-vsprintf-pcn-v1-2-df0b2ccf610f@bootlin.com>
-	<Z8sqJhbqEBla_Ch7@smile.fi.intel.com>
-	<20250308003425.7b89bfb6@booty>
-	<Z86gCjzuC5UFZBIL@smile.fi.intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eGvZsrnn"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ac297cbe017so193452566b.0;
+        Mon, 10 Mar 2025 04:36:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741606566; x=1742211366; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/8+5USeHmSgmVlekyvx7qsgwmwBwnZMJfqFGewVU4UE=;
+        b=eGvZsrnnlNskGj31jlUhnLVf9RhIy1cC9g7ZZlv9HlI1VitedVBaqwpAlbpsi9+KM2
+         KFuUKZV3XTmGU+xaUhPJP6q9RxESY9Dkz31agZ3jKLhBUjgDBVx95BLRgtpCIgC+1rqw
+         5xPSgx4jSvcUKh/46MeECiVIjMxfXhUYM6Ff6j3VrhcwyqoNoWyNjthZQz1OeoMySfsu
+         Qt97w+MBTv2QVFzUEQdbJl27vIlEwioV3FvknkcCfcbExK71abb5f+ITxgbYYTLwKvJ6
+         qnA6K1O8F04Kdvfb3Pyn2cm8uetyIhhJZhxsuLQ0uLuzPDD1xuWAtEzQ07tM2JzyojyV
+         5Uig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741606566; x=1742211366;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/8+5USeHmSgmVlekyvx7qsgwmwBwnZMJfqFGewVU4UE=;
+        b=nzJK8a5cCTFHMArD0V+0rxiUnKYmOGdbYh8q5obssdfx7ogL/aBpmFvsu8WOHl1mKH
+         OjVe4aXV0WmOEtOO2zRsAVb0cTk2Xa34E7Evn0k+jyPW66dPIqYTQSYdBbzQPz/Wvw4R
+         aLNZzRQgTGt+2eO/ScNcxRr4DI8nuuRXEOi++rfUQofFXwDY5Qa7a8Tdm1mjuQscwRI/
+         4MdJEQ08Z02oJJlFUVTKQ+GxnnqUC8365Cgum8elMakwxms2oal37FdpJyvKTM4PS3Kx
+         UXIwAxtVx7tOGotmQzJIa7qh3SLTAhZ7s/9lxv7NcCYWpnNWJKoSyyzbwXBVInmQq8rS
+         kYwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUC9do9ZnQ0Dtm29y9iGpckeq375L4PJXvzwlPgucD6H183cNEgSk0AI+ThJAjVJ9KrBCraMUjBUisx@vger.kernel.org, AJvYcCV81inhPUwUZ57vUmu16d9pYf1jqil3SBoNU/ImccbX3BUwR9iy2NR3bRaeHMMxne331T5fcNMTV3j/@vger.kernel.org, AJvYcCVQP+GH9GcXqN31X32f4HZ77zOXKyxDJB27wzIsqmqS+K2wKjqJ02g5DStMBb1lpWBFG5KhW8Mp4DMX6knF@vger.kernel.org, AJvYcCWehe98Z12KRpwYV07v6P8oZVQ3D/1lupc71fRI84zGCKBceF6ysZs8G8ml2Yxqdq1Uokv3tzvevGru@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVIuY3ufsmi6iieEO/QnTJdmXf0+BjiiM/LU1EfIRx3e93n8Vb
+	IkDqGhZfha3wjuG1L3Wqy7oiG3byeFAiRWeVG0cWTkdf+zmC366Q
+X-Gm-Gg: ASbGncvEitd1wTzqgmzg3ltgVWjv+JzYl2NlBxbhHhkmaUcBwYcVPm2O9ZtKjuJtlfs
+	5Pgd9qZ93KoMXqSlDKW4HqHNQfDzSOtvXIeeSDL/l2N9hiBbAu6LtSdghZ3hB6nPeE2T1g/jaKy
+	RwmAPezFmBjD0vgp6itylL1qC7AsN1Rcgl6LOpOr+/NqRLmFjQqpWMjnt23OVoUmoaCQPox3aOb
+	deCEDZUtiQi239NyDtx/2ZOQcZk3nOEp/no5xnDb67b6yrOc62AftRLNz/uVo1sjh6MamAuoGaB
+	jxPKC6mRCfuC2vKOTAjFZCJ1Dz8BY3u3pWfJvV1y+Qy0DLpH09ygFLl3wFGi4ocrKAtQ5VfskO+
+	SwPWeTQ==
+X-Google-Smtp-Source: AGHT+IGt9pk4cOWLU0L9So++JSj6V2Rmf2jxnNguWzT5yBOI36c+FugZzH0ZGjBGx90UzDPn+uYxEw==
+X-Received: by 2002:a17:907:cf94:b0:ac1:ecb0:ca98 with SMTP id a640c23a62f3a-ac26cc77b35mr955140566b.26.1741606565955;
+        Mon, 10 Mar 2025 04:36:05 -0700 (PDT)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([2a02:3038:26a:50e7:149f:5ffb:56d9:92cd])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac2811e5b32sm354627066b.159.2025.03.10.04.36.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Mar 2025 04:36:05 -0700 (PDT)
+Date: Mon, 10 Mar 2025 12:36:03 +0100
+From: Jorge Marques <gastmaier@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 4/4] iio: adc: add support for ad4052
+Message-ID: <jotrsravanvshffv7uuqk7ocl7nnabvndjh2aa6dbwsaenmiki@xaqfm6sst4ce>
+References: <20250306-iio-driver-ad4052-v1-0-2badad30116c@analog.com>
+ <20250306-iio-driver-ad4052-v1-4-2badad30116c@analog.com>
+ <20250308160257.051395fa@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduudelvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhephfekieegtefhgeelieehhefgtdekffevgfegvdeggeelkeehjeetteethfevudfgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvledprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheprhgrfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhop
- egurghnihgvlhdrlhgviigtrghnoheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhuihdriihhrghnghesihhnthgvlhdrtghomhdprhgtphhtthhopehluhhkrghsiidrlhhusggrsegrrhhmrdgtohhmpdhrtghpthhtohepfhhlohhrihgrnhdrfhgrihhnvghllhhisegsrhhorggutghomhdrtghomhdprhgtphhtthhopehrjhhuihessghrohgruggtohhmrdgtohhmpdhrtghpthhtohepshgsrhgrnhguvghnsegsrhhorggutghomhdrtghomh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250308160257.051395fa@jic23-huawei>
 
-Hello,
+Hi Jonathan thank you for the review, comments excluded in the reply are
+agreed and applied.
 
-+To: Alex Shi, Yanteng Si (Chinese docs maintainers)
-+Cc: Binbin Zhou (contributor to English version of printk-formats.rst)
+> > --- a/drivers/iio/adc/Kconfig
+> > +++ b/drivers/iio/adc/Kconfig
+> >  	  To compile this driver as a module, choose M here: the module will be
+> >  	  called ad4130.
+> >  
+> > +config AD4052
+> Aim for alphanumeric order so this should at least be before AD4130
+Ups, I got tricked during cherry-pick.
+ 
+> > +#define AD4052_MIN_FLAG			BIT(2)
+> > +#define AD4052_EVENT_CLEAR		(AD4052_THRESH_OVERRUN | AD4052_MAX_FLAG | AD4052_MIN_FLAG)
+> Wrap the define with \ to break the line.
+Deadcode... removed.
 
-On Mon, 10 Mar 2025 10:17:14 +0200
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > +};
+> > +
+> > +static const char *const ad4052_sample_rates[] = {
+> > +	"2000000", "1000000", "300000", "100000", "33300",
+> > +	"10000", "3000", "500", "333", "250", "200",
+> > +	"166", "140", "124", "111",
+> Not sure why this can't be done with read_avail and the values above.
+Since it is the internal device sample rate, it is an extended
+device attribute.
+The channel IIO_SAMPLING_FREQUENCY is used for the sampling frequency during
+buffer readings.
+The macro IIO_ENUM_AVAILABLE is used to reduce redundancy.
 
-> On Sat, Mar 08, 2025 at 12:34:25AM +0100, Luca Ceresoli wrote:
-> > On Fri, 7 Mar 2025 19:17:26 +0200
-> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote: =20
-> > > On Fri, Mar 07, 2025 at 12:19:08PM +0100, Luca Ceresoli wrote: =20
-> > > > %pC and %pCn print the same string, and commit 900cca294425 ("lib/v=
-sprintf:
-> > > > add %pC{,n,r} format specifiers for clocks") introducing them does =
-not
-> > > > clarify any intended difference. It can be assumed %pC is a default=
- for
-> > > > %pCn as some other specifiers do, but not all are consistent with t=
-his
-> > > > policy. Moreover there is now no other suffix other than 'n', which=
- makes a
-> > > > default not really useful.
-> > > >=20
-> > > > All users in the kernel were using %pC except for one which has been
-> > > > converted. So now remove %pCn and all the unnecessary extra code and
-> > > > documentation.   =20
-> > >=20
-> > > You seem forgot to update translation(s) of the documentation. =20
-> >=20
-> > I'm afraid I don't speak Chinese. :-) =20
->=20
-> At bare minimum we can drop the same line in the list.
-> Also in such a case we may ask a Chinese speaking person to review / corr=
-ect /
-> suggest the changes. I would not leave a leftover as it will be forgotten=
- so
-> easily and documentation becomes not in sync.
+The previous integer declaration was unused since the char array index is
+used as the register r/w value.
 
-Alex Shi, Yanteng Si: what is the process to update the Chinese
-documentation after changes to the English one, considering I don't
-speak Chinese?
+> > +};
+> > +
+> > +static int ad4052_iio_device_claim_direct(struct iio_dev *indio_dev,
+> > +					  struct ad4052_state *st)
+> > +{
+> > +	if (!iio_device_claim_direct(indio_dev))
+> > +		return false;
+> 
+> This might stretch sparses ability to keep track or __acquire / __release.
+> Make sure to check that with a C=1 build. If the cond_acquires
+> stuff is merged into sparse, this may need a revisit for markings.
 
-The documentation [0] seems to imply it will be done by you after the
-English documentation update, is it the case?
+You are right!
+I also did further fixes caught by sparse.
 
-Otherwise, for this simple change, I can add a patch that looks like a
-somewhat correct one for Chinese:
+> > +{
+> > +	int ret;
+> > +
+> > +	if (st->mode == AD4052_SAMPLE_MODE) {
+> > +		*val = 0;
+> 
+> Probably = 1 to reflect no oversampling.
+> IIRC the attribute allows either but to me at least a default of 1
+> is more logical.
+  
+Agreed, 1 is now the only no oversampling value.
 
-@@ -523,9 +523,8 @@ clk=E7=BB=93=E6=9E=84=E4=BD=93
- ::
-=20
- 	%pC	pll1
--	%pCn	pll1
-=20
--=E7=94=A8=E4=BA=8E=E6=89=93=E5=8D=B0clk=E7=BB=93=E6=9E=84=E3=80=82%pC =E5=
-=92=8C %pCn =E6=89=93=E5=8D=B0=E6=97=B6=E9=92=9F=E7=9A=84=E5=90=8D=E7=A7=B0=
-=EF=BC=88=E9=80=9A=E7=94=A8=E6=97=B6=E9=92=9F=E6=A1=86=E6=9E=B6=EF=BC=89=E6=
-=88=96=E5=94=AF=E4=B8=80=E7=9A=8432=E4=BD=8D
-+=E7=94=A8=E4=BA=8E=E6=89=93=E5=8D=B0clk=E7=BB=93=E6=9E=84=E3=80=82%pC =E6=
-=89=93=E5=8D=B0=E6=97=B6=E9=92=9F=E7=9A=84=E5=90=8D=E7=A7=B0=EF=BC=88=E9=80=
-=9A=E7=94=A8=E6=97=B6=E9=92=9F=E6=A1=86=E6=9E=B6=EF=BC=89=E6=88=96=E5=94=AF=
-=E4=B8=80=E7=9A=8432=E4=BD=8D
- ID=EF=BC=88=E4=BC=A0=E7=BB=9F=E6=97=B6=E9=92=9F=E6=A1=86=E6=9E=B6=EF=BC=89=
-=E3=80=82
-=20
- =E9=80=9A=E8=BF=87=E5=BC=95=E7=94=A8=E4=BC=A0=E9=80=92=E3=80=82
+> > +}
+> > +
+> > +static int ad4052_assert(struct ad4052_state *st)
+> Slighly odd name.  check_ids or something like that.
+> 
+Went with 'check_ids'.
 
-Can you confirm the above is a correct change?
+> > +
+> > +	val = be16_to_cpu(st->d16);
+> > +	if (val != st->chip->prod_id)
+> > +		return -ENODEV;
+> 
+> Should not be treated as a failure as that breaks the future use of
+> fallback compatible values in DT (support new hardware on old kernel)
+> Instead just print a message saying it didn't match and carry on as if it did.
 
-Luca
+Noted, added:
 
-[0] https://docs.kernel.org/translations/index.html
+  "Production ID x%x does not match known values", val);
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> > +{
+> > +	struct ad4052_state *st = iio_priv(indio_dev);
+> > +	struct device *dev = &st->spi->dev;
+> > +	int ret = 0;
+> > +
+> > +	ret = fwnode_irq_get(dev_fwnode(&st->spi->dev), 0);
+> 
+> As per the binding review, use named variant as we should
+> not be controlling the order, but rather specifying which
+> is which in the dt-binding.
+
+Makes more sense indeed.
+
+> > +					IRQF_TRIGGER_RISING | IRQF_ONESHOT,
+> 
+> Direction should come from firmware, not be specified here.
+> There might be an inverter in the path.  That used to be a common cheap
+> way of doing level conversion for interrupt lines and it is handled by
+> flipping the sense of the interrupt in the dts.
+> 
+Agreed, defined the level flags as 0, and kept IRQF_ONESHOT the irq
+flag, to dismiss the threaded IRQ with NULL handler needs to be oneshot.
+
+
+> > +static int ad4052_write_event_config(struct iio_dev *indio_dev,
+> > +				     const struct iio_chan_spec *chan,
+> > +				     enum iio_event_type type,
+> > +				     enum iio_event_direction dir,
+> > +				     bool state)
+> > +{
+> > +	struct ad4052_state *st = iio_priv(indio_dev);
+> > +	int ret = -EBUSY;
+> > +
+> > +	if (!iio_device_claim_direct(indio_dev))
+> > +		return -EBUSY;
+> > +
+> > +	if (st->wait_event == state)
+> > +		goto out_release;
+> > +
+> > +	if (state) {
+> > +		ret = pm_runtime_resume_and_get(&st->spi->dev);
+> > +		if (ret)
+> > +			goto out_release;
+> > +
+> > +		ret = ad4052_set_operation_mode(st, AD4052_MONITOR_MODE);
+> > +		if (ret)
+> > +			goto out_err_suspend;
+> Given the error handling is different in the two paths, I'd
+> split this into two helpers - one each for enable and disable.
+> Probably take the direct claim around where they are called.
+
+Yes, that will make it easier to follow.
+
+> > +
+> > +	ret = ad4052_update_xfer_offload(indio_dev, indio_dev->channels);
+> > +	if (ret)
+> > +		goto out_error;
+> > +
+> > +	disable_irq(st->gp1_irq);
+> 
+> Add a comment on why.
+
+Added 
+
+   /* SPI Offload handles the data ready irq */
+
+> > +	struct ad4052_state *st = iio_priv(indio_dev);
+> > +
+> > +	/*
+> > +	 * REVISIT: the supported offload has a fixed length of 32-bits
+> > +	 * to fit the 24-bits oversampled case, requiring the additional
+> > +	 * offload scan types.
+> > +	 */
+> 
+> That's an additional feature I think. We don't need to have a comment
+> about things we haven't done in the driver.
+
+Removed comment.
+
+> > +	if (IS_ERR(st->cnv_gp))
+> > +		return dev_err_probe(dev, PTR_ERR(st->cnv_gp),
+> > +				    "Failed to get cnv gpio\n");
+> > +
+> > +	indio_dev->modes = INDIO_BUFFER_HARDWARE | INDIO_DIRECT_MODE;
+> > +	indio_dev->num_channels = 1;
+> > +	indio_dev->info = &ad4052_info;
+> > +	indio_dev->name = chip->name;
+> > +
+> > +	st->offload = devm_spi_offload_get(dev, spi, &ad4052_offload_config);
+> > +	ret = PTR_ERR_OR_ZERO(st->offload);
+> 
+> Use IS_ERR() to detect error and PTR_ERR() to get it if needed (will
+> end up calling PTR_ERR() twice but similar anyway.
+
+Ok.
+
+> > +	ret = regmap_write(st->regmap, AD4052_REG_DEVICE_STATUS, buf);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = ad4052_request_irq(indio_dev);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ad4052_update_xfer_raw(indio_dev, indio_dev->channels);
+> > +
+> > +	pm_runtime_set_autosuspend_delay(dev, 1000);
+> > +	pm_runtime_use_autosuspend(dev);
+> 
+> These autosuspend things are normally done after enabling runtime pm.
+> If nothing else that keeps the devm cleanup as being in opposite
+> order of what is set up here.  
+> https://elixir.bootlin.com/linux/v6.13.5/source/drivers/base/power/runtime.c#L1548
+
+Makes sense.
+
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	fsleep(2000);
+> 
+> Sleeps like this should ideally have a spec reference as a comment to
+> justify why that value is chosen.
+> 
+
+This sleep is not needed since there is no timing specification in the
+datasheet, removed.
+
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct dev_pm_ops ad4052_pm_ops = {
+> > +	RUNTIME_PM_OPS(ad4052_runtime_suspend, ad4052_runtime_resume, NULL)
+> Can you allow this to be used for suspend and resume as well?  e.g.
+> DEFINE_RUNTIME_DEV_PM_OPS()
+> 
+> It is a rare case where that isn't safe to do even if there might be
+> deeper sleep states available that would be even better.
+
+Yes.
+
+> > +	{}
+> Trivial but I'm slowly trying to standardize formatting of these tables
+> in IIO and I randomly decided to go with 
+> 	{ }
+> Please use that for terminating entries in this new driver.
+
+Done on all instances.
+
+I will wait further reviews before resubmitting the patch
+If useful for other reviewers, my current head is at
+https://github.com/analogdevicesinc/linux/tree/staging/ad4052
+
+Jorge
