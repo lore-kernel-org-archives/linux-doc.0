@@ -1,74 +1,56 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBBD1AAC4
-	for <linux-doc@vger.kernel.org>; Mon, 10 Mar 2025 06:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDDC38B;
+	Mon, 10 Mar 2025 06:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741587344; cv=none; b=V35YXX9WupQVL69HBYSc+Kc9oy21UcHDzrgXznZsFFZLJn9YsMELzEKnQl5NUHwc43VTUp+Clallonbc4fdmH2xU6Qv+SYPK+XUJ4fgENDxe4/DpZ9Np2wijvIJ06m48wsYlqOEJpCuV3mPjivmfM0p3i8y33jq7i8hag8cI4fc=
+	t=1741588361; cv=none; b=B4dJ5eDaeoGCe4JtUjOgaXL8kz3XUUHMXpdAHsj9SO/PEKwSz9Ou9IOa/jI6FyeaVWlDCadWt1Rq02BmohV9+giWc8RCAaEdpo5tReKdReELndJ/aHAqDbo+WBDnNtnWDbsYaMq/NwWkvpDxTyXuldwq+8nJRyLxdsniC2rjBYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741587344; c=relaxed/simple;
-	bh=N/XYxrYYh1Vkf56xV617pUrV8Lr60Xzn5kQ39SDReBI=;
+	s=arc-20240116; t=1741588361; c=relaxed/simple;
+	bh=EUFbqtCL5HuUmUMcDgzovMNMOcqHYTpQD4V/27f19tI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nLg/xKRgLhmT2wB/7eZZztNNaBmZJOppey8UK3dD508SwYEccELNvS+Q7wzpNIqHSQSQsNzDVro/QoyfwF8wi0ZcSslQ81KTUS0Z6hiGyygVuviGyrYVzejpT7vhCq6lELk5lJ/S9fsywpPnPFWbrAY9nyUjgSomtYOYsMP4tRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I5Jt2lq7; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=HFImXPNz+SymWsES/LMZCuHAFA5iBsXQFWdVQNx8O9ravor0ntap5Z/744devulojmpQlV2c33C8YSPL6Vp+sBiIqPEjsgHQ5+PxEa2umZa0khTF5ymKhk4YDmR6gO+gUYbTuq4Tq4SInFJpxOEZTA/mBix2zK41KJw0Ee+PuiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IAeeCfQ5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I5Jt2lq7"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-223a7065ff8so53843355ad.0
-        for <linux-doc@vger.kernel.org>; Sun, 09 Mar 2025 23:15:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741587342; x=1742192142; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WibY/XeJMEPDzBQenCLC9fzziipC+UPOYIp2W8k3LJs=;
-        b=I5Jt2lq7fwwNC5FCuz2GcYBVvkb6kaUrJs3Am7PA16bS+y8lZXYJIRnYSlCh7jPgl1
-         SMsximMdRKSAcaeCHyNObdOeMo7BG1Xwd9KkLa8JcfYhvZFh48rx2rxaggCH/xI7JFiV
-         eWeDqMApCb3Bd4EZk9Mh/zHHLCuoGto3H3fmewkLPaQq+hpNeV/k3nmwrYSEs22HSLxV
-         QKTxyRDS1l15iEhzkoOsm2oKkLuJS+jQvRYbFKPisyg4yOqHEgFERA3SZFVoS+uNFmk7
-         wt+IlF4/CXYfzCs+SNpIC51v3f2n8H88OX/pq0gVnqazyAKNvg2uLJaWyx52C31SCM0K
-         8lBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741587342; x=1742192142;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WibY/XeJMEPDzBQenCLC9fzziipC+UPOYIp2W8k3LJs=;
-        b=m+yalPQyFpGtDUUmJHAVy76T0IGyikmx5Efrrz4UsVWRJt8eCtgCJJ1tG3I0XXvSgl
-         uZT3hzwDzedEbPUKObI05R2MqzhF4adPS7akQpbTb2RbeHNJoOA9eTtQax//w1JbHZKw
-         HPXSjGgE8IvuZNWTpOnwSgPspJ40q3nN03n6XCoHLhK+TvH2qrpM88wV8PD2ERAeMLAE
-         i4nqS0xCdAb+b6anBOBZtcgNq1xquYksqou4u72mf63Nb2vE7zYmD3aK6nQ4PfcxuMt8
-         5GdTHq+1WxfLQ5zt5RKCXQhf/6liI3sp8Q09NDVj9k6KRqo31bEPaPHb6jsQibCsFHg9
-         CBgg==
-X-Forwarded-Encrypted: i=1; AJvYcCVUMtMUTVjtvO02W+MXbxnkj26DTFjBiyumVZMN4XElqw7R0OHehV5qwyXcSg7ml0BedniQCZKz1eM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8QH+8WeQ22t/CiBOLVnM1QfVNzIKIHbvedDJYyvLRjgCF+rYP
-	5gulNHQjq4ry//OjzWThYqZBn6p0ZqY0GeAEZlzoIAkANUEA5FwBC9I2rZcaFKk=
-X-Gm-Gg: ASbGncthz9u7awofROpQG/BYEQvQYIsZhTUWapQuP8hx/w4KE+LP17nPjKGEdqGuhNS
-	aoHqq155VcudRkkFg+axG9NTsP6WfffucB1v874Ht/hlttaBM5FlQc8SgYt/QSv/oeo+ewX8cf6
-	xrOPnrDHcHKupNkCpcvvoJTV6GLFZRqPBQqVrslTc9quiF1BG/iRxvPTLo9ER/Pye7doaT/xULm
-	vhcTnXDfxEEqdJfrYKkNbiMl35tYaafPN8Ev+tf+CtBrCCy0/qpB57f43/Z6dbLxCoS3RmE6O6e
-	3AnI8V52r8ttnZAzaCdnm+nCOvnyyU8VvpjNRWTpnHo6bELE+VHDkhOQ
-X-Google-Smtp-Source: AGHT+IE67+3IMf00Ld8YJZyg9Ls4jAy9KYKY/1GyMXJef6AIWxOa4NMBdVmmUSJ9htur0pAmDSGRGw==
-X-Received: by 2002:a05:6a00:3c87:b0:736:2a73:6756 with SMTP id d2e1a72fcca58-736aaad21dfmr18986179b3a.21.1741587342552;
-        Sun, 09 Mar 2025 23:15:42 -0700 (PDT)
-Received: from localhost ([122.172.84.15])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-736c1e7e142sm3509765b3a.114.2025.03.09.23.15.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Mar 2025 23:15:41 -0700 (PDT)
-Date: Mon, 10 Mar 2025 11:45:40 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Yury Norov <yury.norov@gmail.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
- cpumask.h
-Message-ID: <20250310061540.zpfyisvchyua2cuv@vireshk-i7>
-References: <cover.1741332579.git.viresh.kumar@linaro.org>
- <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
- <Z8snakYmzhaavkKN@thinkpad>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IAeeCfQ5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C08DC4CEE5;
+	Mon, 10 Mar 2025 06:32:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741588359;
+	bh=EUFbqtCL5HuUmUMcDgzovMNMOcqHYTpQD4V/27f19tI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IAeeCfQ5aG6wEK+82/lMCroHOsh9eITArhIPbTbwHdomFD1iskJihRV1NovpIspBQ
+	 XPIf/RFfZVkMHiAbzgMOlEeg+zSci1qabQNsNJ6kXftClEYqkdi0V6VNXBYiGr1jdc
+	 coikgZFKdcY60HIB98S+Hax/P0qIdVu+ei7LeM8+wXV7O60xwUh0WSsYz5kPYtHK95
+	 zQUFgnchgBXyXaAHh3zhysR+/k6Z7lv4P3HuZLywY3kTUmrEQRIq7hHsZi7qwxxMX/
+	 wVsEBHeukZxtlCwf5hSPh8HXaIYxMOAT6nByLcWkPv0+vDsGo99deagc53gy1iheUz
+	 O5YZ30rrTeFqw==
+Date: Mon, 10 Mar 2025 07:32:26 +0100
+From: Simon Horman <horms@kernel.org>
+To: Gur Stavi <gur.stavi@huawei.com>
+Cc: Fan Gong <gongfan1@huawei.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Lee Trager <lee@trager.us>,
+	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Cai Huoqing <cai.huoqing@linux.dev>, luosifu <luosifu@huawei.com>,
+	Xin Guo <guoxin09@huawei.com>,
+	Shen Chenyang <shenchenyang1@hisilicon.com>,
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+	Shi Jing <shijing34@huawei.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>,
+	Suman Ghosh <sumang@marvell.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Joe Damato <jdamato@fastly.com>
+Subject: Re: [PATCH net-next v08 1/1] hinic3: module initialization and tx/rx
+ logic
+Message-ID: <20250310063226.GE4159220@kernel.org>
+References: <cover.1741247008.git.gur.stavi@huawei.com>
+ <fc43342cbb9915da210792edcc8f6bf661b298e9.1741247008.git.gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,58 +59,260 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z8snakYmzhaavkKN@thinkpad>
+In-Reply-To: <fc43342cbb9915da210792edcc8f6bf661b298e9.1741247008.git.gur.stavi@huawei.com>
 
-On 07-03-25, 12:05, Yury Norov wrote:
-> On Fri, Mar 07, 2025 at 01:04:51PM +0530, Viresh Kumar wrote:
-> >  /**
-> > - * cpumask_next_and - get the next cpu in *src1p & *src2p
-> > + * cpumask_next_and - get the next cpu in *@src1p & *@src2p
-> >   * @n: the cpu prior to the place to search (i.e. return will be > @n)
-> >   * @src1p: the first cpumask pointer
-> >   * @src2p: the second cpumask pointer
+On Thu, Mar 06, 2025 at 09:50:28AM +0200, Gur Stavi wrote:
+> From: Fan Gong <gongfan1@huawei.com>
 > 
-> So the question: if some word in this particular comment block is
-> prefixed with @ symbol, can we teach kernel-doc to consider every
-> occurrence of this word as a variable?
+> This is [1/3] part of hinic3 Ethernet driver initial submission.
+> With this patch hinic3 is a valid kernel module but non-functional
+> driver.
 > 
-> Why I'm asking: before the "*src1p & *src2p" was a line of C code.
-> And because we are all C programmers here, it's really simple to ident
-> it and decode. After it looks like something weird, and I think many
-> of us will just mentally skip it.
+> The driver parts contained in this patch:
+> Module initialization.
+> PCI driver registration but with empty id_table.
+> Auxiliary driver registration.
+> Net device_ops registration but open/stop are empty stubs.
+> tx/rx logic.
 > 
-> I like kernel-docs and everything, but again, kernel sources should
-> stay readable, and particularly comments should stay human-readable.
-
-Jonathan / Akira, can you please answer this one ?
-
-> > @@ -334,7 +334,8 @@ unsigned int __pure cpumask_next_wrap(int n, const struct cpumask *mask, int sta
-> >   * @mask1: the first cpumask pointer
-> >   * @mask2: the second cpumask pointer
-> >   *
-> > - * This saves a temporary CPU mask in many places.  It is equivalent to:
-> > + * This saves a temporary CPU mask in many places.  It is equivalent to::
-> > + *
+> All major data structures of the driver are fully introduced with the
+> code that uses them but without their initialization code that requires
+> management interface with the hw.
 > 
-> I'm OK with extra line, but this double-colon. What for and what does
-> it mean?
+> Co-developed-by: Xin Guo <guoxin09@huawei.com>
+> Signed-off-by: Xin Guo <guoxin09@huawei.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
+> Co-developed-by: Gur Stavi <gur.stavi@huawei.com>
+> Signed-off-by: Gur Stavi <gur.stavi@huawei.com>
 
-Without this we get: "ERROR: Unexpected indentation", for the last
-line of the code block that contains: "        ...".
+Hi Gur,
 
-The double-colon creates a code-block for the below code and gets rid
-of the warning.
-> 
-> >  /**
-> > - * cpumask_weight - Count of bits in *srcp
-> > + * cpumask_weight - Count of bits in *@srcp
-> >   * @srcp: the cpumask to count bits (< nr_cpu_ids) in.
-> 
-> Here nr_cpu_ids is also a variable. Why you don't prefix it with @?
+I've reviewed this patch paying particular attention to error handling.
 
-I was only looking to fix the build warnings / errors for now, and did
-not look into detail for such issues. Yes, it should be marked with @.
-I will try to go through all the comments now and fix such issues.
+Please find some minor feedback below.
 
--- 
-viresh
+...
+
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c b/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
+
+...
+
+> +static int hinic3_probe_func(struct hinic3_pcidev *pci_adapter)
+> +{
+> +	struct pci_dev *pdev = pci_adapter->pdev;
+> +	int err;
+> +
+> +	err = hinic3_mapping_bar(pdev, pci_adapter);
+> +	if (err) {
+> +		dev_err(&pdev->dev, "Failed to map bar\n");
+> +		goto err_map_bar;
+> +	}
+> +
+> +	err = hinic3_func_init(pdev, pci_adapter);
+> +	if (err)
+> +		goto err_func_init;
+> +
+> +	return 0;
+> +
+> +err_func_init:
+> +	hinic3_unmapping_bar(pci_adapter);
+> +
+> +err_map_bar:
+> +	dev_err(&pdev->dev, "Pcie device probe function failed\n");
+
+nit: PCIE
+
+> +	return err;
+> +}
+
+...
+
+> +static int hinic3_sw_init(struct net_device *netdev)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
+> +	int err;
+> +
+> +	nic_dev->q_params.sq_depth = HINIC3_SQ_DEPTH;
+> +	nic_dev->q_params.rq_depth = HINIC3_RQ_DEPTH;
+> +
+> +	/* VF driver always uses random MAC address. During VM migration to a
+> +	 * new device, the new device should learn the VMs old MAC rather than
+> +	 * provide its own MAC. The product design assumes that every VF is
+> +	 * suspectable to migration so the device avoids offering MAC address
+> +	 * to VFs.
+> +	 */
+> +	eth_hw_addr_random(netdev);
+> +	err = hinic3_set_mac(hwdev, netdev->dev_addr, 0,
+> +			     hinic3_global_func_id(hwdev));
+> +	if (err) {
+> +		dev_err(hwdev->dev, "Failed to set default MAC\n");
+> +		goto err_out;
+
+nit: I think it would be slightly nicer to simply return err here
+     and drop the err_out label. This is because there is no
+     unwind to perform in this error case.
+
+     Likewise for any similar cases that may be in this patch
+     (I didn't spot any so far).
+
+> +	}
+> +
+> +	err = hinic3_alloc_txrxqs(netdev);
+> +	if (err) {
+> +		dev_err(hwdev->dev, "Failed to alloc qps\n");
+> +		goto err_alloc_qps;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_alloc_qps:
+> +	hinic3_del_mac(hwdev, netdev->dev_addr, 0, hinic3_global_func_id(hwdev));
+> +
+> +err_out:
+> +	return err;
+> +}
+> +
+> +static void hinic3_sw_deinit(struct net_device *netdev)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +
+> +	hinic3_free_txrxqs(netdev);
+> +	hinic3_del_mac(nic_dev->hwdev, netdev->dev_addr, 0,
+> +		       hinic3_global_func_id(nic_dev->hwdev));
+> +}
+
+...
+
+> +static int hinic3_nic_probe(struct auxiliary_device *adev,
+> +			    const struct auxiliary_device_id *id)
+> +{
+> +	struct hinic3_hwdev *hwdev = hinic3_adev_get_hwdev(adev);
+> +	struct pci_dev *pdev = hwdev->pdev;
+> +	struct hinic3_nic_dev *nic_dev;
+> +	struct net_device *netdev;
+> +	u16 max_qps, glb_func_id;
+> +	int err;
+> +
+> +	if (!hinic3_support_nic(hwdev)) {
+> +		dev_dbg(&adev->dev, "HW doesn't support nic\n");
+> +		return 0;
+> +	}
+> +
+> +	hinic3_adev_event_register(adev, hinic3_nic_event);
+> +
+> +	glb_func_id = hinic3_global_func_id(hwdev);
+> +	err = hinic3_func_reset(hwdev, glb_func_id, COMM_FUNC_RESET_BIT_NIC);
+> +	if (err) {
+> +		dev_err(&adev->dev, "Failed to reset function\n");
+> +		goto err_undo_event_register;
+> +	}
+> +
+> +	max_qps = hinic3_func_max_qnum(hwdev);
+> +	netdev = alloc_etherdev_mq(sizeof(*nic_dev), max_qps);
+> +	if (!netdev) {
+> +		dev_err(&adev->dev, "Failed to allocate netdev\n");
+> +		err = -ENOMEM;
+> +		goto err_undo_event_register;
+> +	}
+> +
+> +	nic_dev = netdev_priv(netdev);
+> +	dev_set_drvdata(&adev->dev, nic_dev);
+> +	err = hinic3_init_nic_dev(netdev, hwdev);
+> +	if (err)
+> +		goto err_undo_netdev_alloc;
+> +
+> +	err = hinic3_init_nic_io(nic_dev);
+> +	if (err)
+> +		goto err_undo_netdev_alloc;
+> +
+> +	err = hinic3_sw_init(netdev);
+> +	if (err)
+> +		goto err_sw_init;
+> +
+> +	hinic3_assign_netdev_ops(netdev);
+> +
+> +	netdev_feature_init(netdev);
+> +	err = hinic3_set_default_hw_feature(netdev);
+> +	if (err)
+> +		goto err_set_features;
+> +
+> +	err = register_netdev(netdev);
+> +	if (err) {
+> +		err = -ENOMEM;
+
+Could you clarify why err is being overridden here?
+I would have expected this function to return the
+error returned by register_netdev?
+
+> +		goto err_register_netdev;
+> +	}
+> +
+> +	netif_carrier_off(netdev);
+> +	return 0;
+> +
+> +err_register_netdev:
+> +	hinic3_update_nic_feature(nic_dev, 0);
+> +	hinic3_set_nic_feature_to_hw(nic_dev);
+> +
+> +err_set_features:
+> +	hinic3_sw_deinit(netdev);
+> +
+> +err_sw_init:
+> +	hinic3_free_nic_io(nic_dev);
+> +
+> +err_undo_netdev_alloc:
+> +	free_netdev(netdev);
+> +
+> +err_undo_event_register:
+> +	hinic3_adev_event_unregister(adev);
+> +	dev_err(&pdev->dev, "NIC service probe failed\n");
+> +
+> +	return err;
+> +}
+
+...
+
+> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+
+...
+
+> +static int hinic3_change_mtu(struct net_device *netdev, int new_mtu)
+> +{
+> +	int err;
+> +
+> +	err = hinic3_set_port_mtu(netdev, new_mtu);
+> +	if (err) {
+> +		netdev_err(netdev, "Failed to change port mtu to %d\n", new_mtu);
+> +	} else {
+> +		netdev_dbg(netdev, "Change mtu from %u to %d\n", netdev->mtu, new_mtu);
+> +		WRITE_ONCE(netdev->mtu, new_mtu);
+> +	}
+> +
+> +	return err;
+
+The above is straightforward enough, but I do think it would
+be nicer to stick with the idiomatic pattern of keeping the
+non-error paths in the main flow of execution, while
+error paths are handled conditionally.
+
+And also, to keep lines less than 80 columns wide unless
+it reduces readability.
+
+Something like this (completely untested!):
+
+	err = hinic3_set_port_mtu(netdev, new_mtu);
+	if (err) {
+		netdev_err(netdev, "Failed to change port mtu to %d\n",
+			   new_mtu);
+		return err;
+	}
+
+	netdev_dbg(netdev, "Change mtu from %u to %d\n", netdev->mtu, new_mtu);
+	WRITE_ONCE(netdev->mtu, new_mtu);
+
+	return 0;
+
+> +}
+
+...
