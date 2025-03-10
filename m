@@ -1,82 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C0E2153D6;
-	Mon, 10 Mar 2025 08:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8451D54FA;
+	Mon, 10 Mar 2025 08:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741594646; cv=none; b=Gu4AgXLpqS676aStFJi1+CtB/xVAMYJ6uG8mYajUKDQePLxCeU+Fn18SZrET/Y/PENVTPiNRjwX6fM09Y8VMJHj8GiGfm8OJPlLuaT1ESsJaZ+fBiHpOYIxkNSRWllnJEVND1MMYgpMA6wiD/QuOcazS49lvbmLbzilx8lS4ZFA=
+	t=1741595303; cv=none; b=dT3n1k4vGgi36HDvQzi+JLJKxAffI01ms4FnzlTvrnzCACwwVfNJJMdZtNhU2c+5TquT0h7BnbMUnCkh4+uBIIiApDCp+yGnCoWGO3wsVdVJCl09XgilgNeIq/PDLnAKJh4E/9DWawY6F7kcP4zJak79AFyNs5YaI+WH7VRF9VM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741594646; c=relaxed/simple;
-	bh=uawa4JN2MXUgGhBTnOMJGYIztDfknKCASvvEPmNYWpo=;
+	s=arc-20240116; t=1741595303; c=relaxed/simple;
+	bh=7uCFQcex+j6cpQPJF/6LfRBEaDs9jns/4ey91A2Sm5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AgwF5BkjyAY0CyxBIsPpbOdOVfyi26PV3fItBNIA1mgwpCzO6CushBh/rhS62C0EhZPa6bs8uFu/44OAR9nNKri4kFs9Fab7mJtzHlNMUMVOiiPrriZqM8B5LNL0zBbh5T9KBYcnzSKopjilpZQBeMlwktzUwvw7jC6x2Ib5rd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ehVJkKGp; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PLFjUHdFQo9/XyDWZRIIrUQn/sDUHV8ZAnxjCr7ahbhY03rzYD7qefrLl+VpY+XcoPaOKhV/gcOyfsRcmbKbHfy5lAFOxru24YGnYVYZg1nWtDVMxLVkwaGO9NVDXWWd0JLI90cTjPX4eZAgXOGA+IU4Ab6ku3b2R1Mzg4KLXds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dt+61OBu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ehVJkKGp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741594645; x=1773130645;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uawa4JN2MXUgGhBTnOMJGYIztDfknKCASvvEPmNYWpo=;
-  b=ehVJkKGp+nrH91F8VEJtdhK2ltkRwRwcBv4Rk53FQt1OX/WwsVIpC2Er
-   XOD7DUVLDpAd0Ci1gBsYw3tBwnj6nI47itYXwTcsC3MlCty1TMh6f7fPy
-   SghkYy7F+RVYh8+2lvFpLVOb/xAboDcO7G9OjYWBcAoo4lkQr/dAtZb7X
-   PhOvCvgtAIHjWsMediet+nW7BpVO0WxjRRWAqmoKL0b6zgqY6BmGKF0aA
-   JfVPS235CGCArvLw3xHoJHDE5r41ctyTgJHl9vO2cfGEVnMlnIQ7g3Zpj
-   cvCTfZYJlIdJhH5BctkyvkdfgI4uxG5jsx0Vg4A5XRgrI31kra1DcJTc9
-   g==;
-X-CSE-ConnectionGUID: O2ujGIseSNGQOIEnzG6rKg==
-X-CSE-MsgGUID: VC7GRyNJTOScWs7TP59C/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="42451119"
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="42451119"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 01:17:24 -0700
-X-CSE-ConnectionGUID: qKaGnuGGTxG/yni8i6DnRg==
-X-CSE-MsgGUID: qMrffTLPRlytlCS9ZfCoQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="124916130"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 01:17:19 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1trYK2-00000001BlI-3H1A;
-	Mon, 10 Mar 2025 10:17:14 +0200
-Date: Mon, 10 Mar 2025 10:17:14 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dt+61OBu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20474C4CEED;
+	Mon, 10 Mar 2025 08:28:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741595303;
+	bh=7uCFQcex+j6cpQPJF/6LfRBEaDs9jns/4ey91A2Sm5Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Dt+61OBuhSx0XzWa7kuR97NtRZolf+Ni76hFMdBs33YLt/1k+RMsxShKq8ywE5izv
+	 Xq0lyi+y7SJzKRcmF6pLe0/pMIp2CN1NtohvIhp4Lfz70fUXaKP8fdlcvDgL6nFqFz
+	 egPccLakn6UNDZwAc49vCsDGQvAccm2S6VOGcQu87kNkGYRfcWBfvdZMHBeMdQgSn4
+	 J/L+XCc+GdJd0FpcGKyrg/IzPOfmKo79PxsSU2iqjEbBsVqKufsF8EZdPd3pBHuFq6
+	 ipnF9XH2wTyTICRsMyZozegPxkb/EOVYqYIAdiNDHZduHzAW48E8qnjKEoT8Kf1pgw
+	 OUmx0WBZnksfg==
+Date: Mon, 10 Mar 2025 10:28:02 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Liu Ying <victor.liu@nxp.com>, linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] vsprintf: remove redundant and unused %pCn format
- specifier
-Message-ID: <Z86gCjzuC5UFZBIL@smile.fi.intel.com>
-References: <20250307-vsprintf-pcn-v1-0-df0b2ccf610f@bootlin.com>
- <20250307-vsprintf-pcn-v1-2-df0b2ccf610f@bootlin.com>
- <Z8sqJhbqEBla_Ch7@smile.fi.intel.com>
- <20250308003425.7b89bfb6@booty>
+	Andy Lutomirski <luto@kernel.org>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Pratyush Yadav <ptyadav@amazon.de>,
+	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v4 02/14] memblock: add MEMBLOCK_RSRV_KERN flag
+Message-ID: <Z86ikkLVHQhLmBWj@kernel.org>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+ <20250206132754.2596694-3-rppt@kernel.org>
+ <20250218155004.n53fcuj2lrl5rxll@master>
+ <Z7WHL_Xqgoln9oLg@kernel.org>
+ <20250224013131.fzz552bn7fs64umq@master>
+ <Z711VP45tjBi0kwx@kernel.org>
+ <20250226020915.ytxusrrl7rv4g64l@master>
+ <20250310075627.5hettrn2j2ien5bj@master>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,39 +77,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250308003425.7b89bfb6@booty>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250310075627.5hettrn2j2ien5bj@master>
 
-On Sat, Mar 08, 2025 at 12:34:25AM +0100, Luca Ceresoli wrote:
-> On Fri, 7 Mar 2025 19:17:26 +0200
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > On Fri, Mar 07, 2025 at 12:19:08PM +0100, Luca Ceresoli wrote:
-> > > %pC and %pCn print the same string, and commit 900cca294425 ("lib/vsprintf:
-> > > add %pC{,n,r} format specifiers for clocks") introducing them does not
-> > > clarify any intended difference. It can be assumed %pC is a default for
-> > > %pCn as some other specifiers do, but not all are consistent with this
-> > > policy. Moreover there is now no other suffix other than 'n', which makes a
-> > > default not really useful.
-> > > 
-> > > All users in the kernel were using %pC except for one which has been
-> > > converted. So now remove %pCn and all the unnecessary extra code and
-> > > documentation.  
-> > 
-> > You seem forgot to update translation(s) of the documentation.
+Hi Wei,
+
+On Mon, Mar 10, 2025 at 07:56:27AM +0000, Wei Yang wrote:
+> On Wed, Feb 26, 2025 at 02:09:15AM +0000, Wei Yang wrote:
+> >>> 
+> >>> From the above call flow and background, there are three cases when
+> >>> memblock_alloc_range_nid() would be called:
+> >>> 
+> >>>   * If it is called before (1), memblock.reserved's nid would be adjusted correctly.
+> >>>   * If it is called after (2), we don't touch memblock.reserved.
+> >>>   * If it happens between (1) and (2), it looks would break the consistency of
+> >>>     nid information in memblock.reserved. Because when we use
+> >>>     memblock_reserve_kern(), NUMA_NO_NODE would be stored in region.
+> >>> 
+> >>> So my question is if the third case happens, would it introduce a bug? If it
+> >>> won't happen, seems we don't need to specify the nid here?
+> >>
+> >>We don't really care about proper assignment of nodes between (1) and (2)
+> >>from one side and the third case does not happen on the other side. Nothing
+> >>should call membloc_alloc() after memblock_free_all(). 
+> >>
+> >
+> >My point is if no one would call memblock_alloc() after memblock_free_all(),
+> >which set nid in memblock.reserved properly, it seems not necessary to do
+> >__memblock_reserve() with exact nid during memblock_alloc()? 
+> >
+> >As you did __memblock_reserve(found, size, nid, MEMBLOCK_RSRV_KERN) in this
+> >patch.
+> >
 > 
-> I'm afraid I don't speak Chinese. :-)
+> Hi, Mike
+> 
+> Do you think my understanding is reasonable?
 
-At bare minimum we can drop the same line in the list.
-Also in such a case we may ask a Chinese speaking person to review / correct /
-suggest the changes. I would not leave a leftover as it will be forgotten so
-easily and documentation becomes not in sync.
+Without KHO it is indeed not strictly necessary to set nid during memblock_alloc().
+But since we anyway have nid parameter in memblock_alloc_range_nid() and it
+anyway propagates to memblock_add_range(), I think it's easier and cleaner
+to pass nid to __memblock_reserve() there.
 
-> For this specific change I think I could come up with an approximation
-> of it, but the both the docs and git log suggest this is not expected.
-
+And for KHO estimation of scratch size it is important to have nid assigned to
+the reserved areas before memblock_free_all(), at least for the allocations
+that request particular nid explicitly.
+ 
+> -- 
+> Wei Yang
+> Help you, Help me
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Sincerely yours,
+Mike.
