@@ -1,69 +1,234 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 632A722E41D;
-	Mon, 10 Mar 2025 10:49:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1AF52288FE;
+	Mon, 10 Mar 2025 10:57:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741603786; cv=none; b=EownuCsI6DZUqgbGVshNu0Cd4b9GrGTWvg8yfZbeZgVuaPiRchOUlrxpPLGgE/Ajjqy05uVB91CfFDayQNEnnduIu4pXR+pqW5OgjhsTArqLjL7lPln6CaEMomyxavsdQye75lI3wH691CIAZbMz2zhNS1Xz1yirAGx3JFist4Q=
+	t=1741604250; cv=none; b=ZyViVS2FarWynOcdAte7fdhR3GubKI3MOpLmq10t7vle4eM0KdQ4Ci3JYCeNc6bedHHdfDyNDOfaXiWyZzDJIhpkpC+aV/pmoRQMDI9kcKR6SrGjYxMqFkg6S1MweU6ysLdgV2IGaBHTR/hHFsxurgMDQYBfYy9fNI7U7k6fSog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741603786; c=relaxed/simple;
-	bh=HYKB4FoxEcUM24iTckyNLVXwttWEPBv6LkArHEDsK7w=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ng/Lz+J9hsY4Z5dqBJ2M3Sw+cxK+HNQ4xON+BiPLcoajCJ5RSCNRxfaGUmrpeVTzrwSAXCeZbnkgoIe4L62LyXFYuGUXswiWCM5Xc7j8I3x3eGRW2BMCcQfkGRO4XhvX68BdUxu9TRnEGcuKNnw2mf5cVIsFT6QrCceOzTeVjuw=
+	s=arc-20240116; t=1741604250; c=relaxed/simple;
+	bh=z8r8f3WaYefKneLFYtKcXNW7XunavUfymqJg+kkCuZw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=D2ULHZZYoFCVZDTbpD995AqAdaTQNBpfq0a0MWNDZhK1UhImPyBg/aojEBDkWXJXRwl20+tyQAbt67J6AtX4WUDGTxTEwoBUlmKwfhKgfynp1dF0KMMemiS4r1svW7h82FeHPMkdjAgKSTZhM/J+DWhHuiEdRx7+Fok/2x5XygE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3686115A1;
-	Mon, 10 Mar 2025 03:49:56 -0700 (PDT)
-Received: from e132581.cambridge.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E51DA3F5A1;
-	Mon, 10 Mar 2025 03:49:42 -0700 (PDT)
-From: Leo Yan <leo.yan@arm.com>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Namhyung Kim <namhyung@kernel.org>,
-	coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Leo Yan <leo.yan@arm.com>
-Subject: [PATCH v2 8/8] perf cs-etm: Sync kernel coresight-pmu.h header
-Date: Mon, 10 Mar 2025 10:49:19 +0000
-Message-Id: <20250310104919.58816-9-leo.yan@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250310104919.58816-1-leo.yan@arm.com>
-References: <20250310104919.58816-1-leo.yan@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C9B7415A1;
+	Mon, 10 Mar 2025 03:57:39 -0700 (PDT)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0759C3F5A1;
+	Mon, 10 Mar 2025 03:57:26 -0700 (PDT)
+Message-ID: <bb390d95-7f2b-4327-a809-9e4cdbd1a1bc@arm.com>
+Date: Mon, 10 Mar 2025 10:57:25 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/8] coresight: etm4x: Extract the trace unit
+ controlling
+To: Leo Yan <leo.yan@arm.com>, Mike Leach <mike.leach@linaro.org>,
+ James Clark <james.clark@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Arnaldo Carvalho de Melo <acme@redhat.com>,
+ Namhyung Kim <namhyung@kernel.org>, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250310104919.58816-1-leo.yan@arm.com>
+ <20250310104919.58816-2-leo.yan@arm.com>
+Content-Language: en-US
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20250310104919.58816-2-leo.yan@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Update the header in the tools to align with the kernel header.
+Hi Leo
 
-Signed-off-by: Leo Yan <leo.yan@arm.com>
----
- tools/include/linux/coresight-pmu.h | 1 +
- 1 file changed, 1 insertion(+)
+On 10/03/2025 10:49, Leo Yan wrote:
+> The trace unit is controlled in the ETM hardware enabling and disabling.
+> The sequential changes for support AUX pause and resume will reuse the
+> same operations.
+> 
+> Extract the operations in the etm4_{enable|disable}_trace_unit()
+> functions.  A minor improvement in etm4_enable_trace_unit() is for
+> returning the timeout error to callers.
+> 
+> Signed-off-by: Leo Yan <leo.yan@arm.com>
 
-diff --git a/tools/include/linux/coresight-pmu.h b/tools/include/linux/coresight-pmu.h
-index 89b0ac0014b0..04147e30c2f2 100644
---- a/tools/include/linux/coresight-pmu.h
-+++ b/tools/include/linux/coresight-pmu.h
-@@ -35,6 +35,7 @@
- #define ETM_OPT_CTXTID2		15
- #define ETM_OPT_TS		28
- #define ETM_OPT_RETSTK		29
-+#define ETM_OPT_UPDATE_BUF_ON_PAUSE	30
- 
- /* ETMv4 CONFIGR programming bits for the ETM OPTs */
- #define ETM4_CFG_BIT_BB         3
--- 
-2.34.1
+fyi, this area of code has changes significantly and will cause
+conflicts, due to the introduction of synchronization after
+each access to the TRCSTATR. Please rebase your next version on
+the coresight next branch to avoid the conflict.
+
+The changes as such look good to me.
+
+Suzuki
+
+
+
+> ---
+>   .../coresight/coresight-etm4x-core.c          | 126 ++++++++++--------
+>   1 file changed, 74 insertions(+), 52 deletions(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> index 2c1a60577728..71be566bd117 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> @@ -428,6 +428,78 @@ static void etm4_check_arch_features(struct etmv4_drvdata *drvdata,
+>   }
+>   #endif /* CONFIG_ETM4X_IMPDEF_FEATURE */
+>   
+> +static int etm4_enable_trace_unit(struct etmv4_drvdata *drvdata)
+> +{
+> +	struct coresight_device *csdev = drvdata->csdev;
+> +	struct device *etm_dev = &csdev->dev;
+> +	struct csdev_access *csa = &csdev->access;
+> +
+> +	/*
+> +	 * ETE mandates that the TRCRSR is written to before
+> +	 * enabling it.
+> +	 */
+> +	if (etm4x_is_ete(drvdata))
+> +		etm4x_relaxed_write32(csa, TRCRSR_TA, TRCRSR);
+> +
+> +	etm4x_allow_trace(drvdata);
+> +	/* Enable the trace unit */
+> +	etm4x_relaxed_write32(csa, 1, TRCPRGCTLR);
+> +
+> +	/* Synchronize the register updates for sysreg access */
+> +	if (!csa->io_mem)
+> +		isb();
+> +
+> +	/* wait for TRCSTATR.IDLE to go back down to '0' */
+> +	if (coresight_timeout(csa, TRCSTATR, TRCSTATR_IDLE_BIT, 0)) {
+> +		dev_err(etm_dev,
+> +			"timeout while waiting for Idle Trace Status\n");
+> +		return -ETIME;
+> +	}
+> +
+> +	/*
+> +	 * As recommended by section 4.3.7 ("Synchronization when using the
+> +	 * memory-mapped interface") of ARM IHI 0064D
+> +	 */
+> +	dsb(sy);
+> +	isb();
+> +
+> +	return 0;
+> +}
+> +
+> +static void etm4_disable_trace_unit(struct etmv4_drvdata *drvdata)
+> +{
+> +	u32 control;
+> +	struct coresight_device *csdev = drvdata->csdev;
+> +	struct device *etm_dev = &csdev->dev;
+> +	struct csdev_access *csa = &csdev->access;
+> +
+> +	control = etm4x_relaxed_read32(csa, TRCPRGCTLR);
+> +
+> +	/* EN, bit[0] Trace unit enable bit */
+> +	control &= ~0x1;
+> +
+> +	/*
+> +	 * If the CPU supports v8.4 Trace filter Control,
+> +	 * set the ETM to trace prohibited region.
+> +	 */
+> +	etm4x_prohibit_trace(drvdata);
+> +	/*
+> +	 * Make sure everything completes before disabling, as recommended
+> +	 * by section 7.3.77 ("TRCVICTLR, ViewInst Main Control Register,
+> +	 * SSTATUS") of ARM IHI 0064D
+> +	 */
+> +	dsb(sy);
+> +	isb();
+> +	/* Trace synchronization barrier, is a nop if not supported */
+> +	tsb_csync();
+> +	etm4x_relaxed_write32(csa, control, TRCPRGCTLR);
+> +
+> +	/* wait for TRCSTATR.PMSTABLE to go to '1' */
+> +	if (coresight_timeout(csa, TRCSTATR, TRCSTATR_PMSTABLE_BIT, 1))
+> +		dev_err(etm_dev,
+> +			"timeout while waiting for PM stable Trace Status\n");
+> +}
+> +
+>   static int etm4_enable_hw(struct etmv4_drvdata *drvdata)
+>   {
+>   	int i, rc;
+> @@ -536,33 +608,7 @@ static int etm4_enable_hw(struct etmv4_drvdata *drvdata)
+>   		etm4x_relaxed_write32(csa, trcpdcr | TRCPDCR_PU, TRCPDCR);
+>   	}
+>   
+> -	/*
+> -	 * ETE mandates that the TRCRSR is written to before
+> -	 * enabling it.
+> -	 */
+> -	if (etm4x_is_ete(drvdata))
+> -		etm4x_relaxed_write32(csa, TRCRSR_TA, TRCRSR);
+> -
+> -	etm4x_allow_trace(drvdata);
+> -	/* Enable the trace unit */
+> -	etm4x_relaxed_write32(csa, 1, TRCPRGCTLR);
+> -
+> -	/* Synchronize the register updates for sysreg access */
+> -	if (!csa->io_mem)
+> -		isb();
+> -
+> -	/* wait for TRCSTATR.IDLE to go back down to '0' */
+> -	if (coresight_timeout(csa, TRCSTATR, TRCSTATR_IDLE_BIT, 0))
+> -		dev_err(etm_dev,
+> -			"timeout while waiting for Idle Trace Status\n");
+> -
+> -	/*
+> -	 * As recommended by section 4.3.7 ("Synchronization when using the
+> -	 * memory-mapped interface") of ARM IHI 0064D
+> -	 */
+> -	dsb(sy);
+> -	isb();
+> -
+> +	rc = etm4_enable_trace_unit(drvdata);
+>   done:
+>   	etm4_cs_lock(drvdata, csa);
+>   
+> @@ -906,7 +952,6 @@ static void etm4_disable_hw(void *info)
+>   	struct etmv4_drvdata *drvdata = info;
+>   	struct etmv4_config *config = &drvdata->config;
+>   	struct coresight_device *csdev = drvdata->csdev;
+> -	struct device *etm_dev = &csdev->dev;
+>   	struct csdev_access *csa = &csdev->access;
+>   	int i;
+>   
+> @@ -920,31 +965,8 @@ static void etm4_disable_hw(void *info)
+>   		etm4x_relaxed_write32(csa, control, TRCPDCR);
+>   	}
+>   
+> -	control = etm4x_relaxed_read32(csa, TRCPRGCTLR);
+> +	etm4_disable_trace_unit(drvdata);
+>   
+> -	/* EN, bit[0] Trace unit enable bit */
+> -	control &= ~0x1;
+> -
+> -	/*
+> -	 * If the CPU supports v8.4 Trace filter Control,
+> -	 * set the ETM to trace prohibited region.
+> -	 */
+> -	etm4x_prohibit_trace(drvdata);
+> -	/*
+> -	 * Make sure everything completes before disabling, as recommended
+> -	 * by section 7.3.77 ("TRCVICTLR, ViewInst Main Control Register,
+> -	 * SSTATUS") of ARM IHI 0064D
+> -	 */
+> -	dsb(sy);
+> -	isb();
+> -	/* Trace synchronization barrier, is a nop if not supported */
+> -	tsb_csync();
+> -	etm4x_relaxed_write32(csa, control, TRCPRGCTLR);
+> -
+> -	/* wait for TRCSTATR.PMSTABLE to go to '1' */
+> -	if (coresight_timeout(csa, TRCSTATR, TRCSTATR_PMSTABLE_BIT, 1))
+> -		dev_err(etm_dev,
+> -			"timeout while waiting for PM stable Trace Status\n");
+>   	/* read the status of the single shot comparators */
+>   	for (i = 0; i < drvdata->nr_ss_cmp; i++) {
+>   		config->ss_status[i] =
 
