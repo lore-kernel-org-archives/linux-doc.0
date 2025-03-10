@@ -1,123 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-80006.amazon.com (smtp-fw-80006.amazon.com [99.78.197.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041981DFF0;
-	Mon, 10 Mar 2025 15:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E927A22B8A0;
+	Mon, 10 Mar 2025 16:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741622209; cv=none; b=IgYIOueYo3NxJRA6FrnE9SnjP6M5qhezTZCMmVFtxjRmXHTxbC/Z5CGNcRciZ4Q0K3XkU5rf93J4UkXdJAFBFfUj6E7AprgauOTN/hqdQMCwvmF2zGq7hE8IrX6A7nBs2G/Mcb6RKWUKuRoPp4IcSqi4PjSjcPj/8BG+DXQoBZk=
+	t=1741623634; cv=none; b=WLT9IxeBe3HQa/5k96HFIdrueriLmMERR8TCpofj0bD3wZfG0DjOH2Sz26T5cg+yLK4bfqSWqdBaBfUtCPjQTYF38rH1NKqf+NYbSuEVaPgkX0uRz3U1N1QnK3K4b3qCcMQJIyFt19HWos8fJW/k+2w6g+BWZau05QFJwbBCiPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741622209; c=relaxed/simple;
-	bh=kamb/0x1RtibBi69Oi3ZHY8EijG20URTJpwtA9UanIs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RxN4AtxZKRQdvxzMoCbnJOYJZDU4KEi1nDd5ncPmbA/PJ5+5xOJLPyjyc8Rpd+TxVr9KBFlyB876NlhwjM6zTBrc/UzspYyKtleSM1t1WnK3U3NdI0N117TJhC5Gs0p8keaEa7V/ycJLgg+N94zDvaBUmEgw1vTC/Lb8LkGKCTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YU8rIuID; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741623634; c=relaxed/simple;
+	bh=1v3xRWteGrI67pFecY5ifRB8yjRjr4Q9dY4h7fCYqW0=;
+	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DoPrz7MURzYx2DuKDsh5jeYw/bWCKfwnWXD5knGeiHFhOtMV771YK+/XUy2hjY4/vWim17VjPjFohOiHlkTLk5RjXvRkttxD3n1O0LEJusGuSzbi/tsDn9vSDTK6GTTZwmzOhqrEIOyLwJtgFoul/MzhPYpUU1UTeggVLWYAVSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=X13QNl68; arc=none smtp.client-ip=99.78.197.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YU8rIuID"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1991C4CEED;
-	Mon, 10 Mar 2025 15:56:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741622208;
-	bh=kamb/0x1RtibBi69Oi3ZHY8EijG20URTJpwtA9UanIs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YU8rIuID2ZcjzyRs4+lMKU6IIcOYPchsQLG8WBKpT5Ha/xw9e66suP6XzGUBAQby9
-	 LZNpEwOWo/AwkdScXHw/AY5olaZVgQxfmNbXMS6bFKhx2IHVw3oEAENbFZuyl3IbBg
-	 VEyJmVpHuIvXn115vcAYqS3Epp0L3rx4dio4v6OQwcJIAgZtLzahLeP92RMArsPWxZ
-	 r9HAPUaA7yFQVKJw6NloVzlTuNamWAz7rK5RXLP2NoR6ugt2fqYdJIwRy5jkuPhNzr
-	 FiNRf1yHuRscImO5S74kZYlaxutGB4x34xsxS1ivBx5u0Up3mrSgkq36dG+chDqE/V
-	 gMoO7+RVJHeFQ==
-Date: Mon, 10 Mar 2025 16:56:38 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>, Yury Norov
- <yury.norov@gmail.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
- cpumask.h
-Message-ID: <20250310165638.7b001393@sal.lan>
-In-Reply-To: <bcce7d39-f142-4838-ba23-4fa2dda69fd0@gmail.com>
-References: <cover.1741332579.git.viresh.kumar@linaro.org>
-	<f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
-	<20250310155301.6db5033c@foz.lan>
-	<bcce7d39-f142-4838-ba23-4fa2dda69fd0@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="X13QNl68"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1741623630; x=1773159630;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=kua1+P7pBuS50I7egTYFseHRI4Y7N92xh/jBVSs2A1g=;
+  b=X13QNl68/Tb2qC/W+0Ysu9lx4YStKf4N+gncnZq05VNfwahDnuDniqV+
+   jn7VLFRKL8HIBdva5GqTUChzeeHkVx62HfSxxBW+rzUDDKNW8TMllgu2B
+   y8IwY+iRElmpZ2TrGWMNTxctgJi7CN7mK67+rul63ob5+8YYmX4sX1uyF
+   A=;
+X-IronPort-AV: E=Sophos;i="6.14,236,1736812800"; 
+   d="scan'208";a="30459260"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
+  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 16:20:19 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [10.0.38.20:25065]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.22.127:2525] with esmtp (Farcaster)
+ id 4286f8c0-5c5d-4095-b20b-85582cfebec2; Mon, 10 Mar 2025 16:20:18 +0000 (UTC)
+X-Farcaster-Flow-ID: 4286f8c0-5c5d-4095-b20b-85582cfebec2
+Received: from EX19D020UWC001.ant.amazon.com (10.13.138.157) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Mon, 10 Mar 2025 16:20:02 +0000
+Received: from EX19MTAUWC002.ant.amazon.com (10.250.64.143) by
+ EX19D020UWC001.ant.amazon.com (10.13.138.157) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Mon, 10 Mar 2025 16:20:02 +0000
+Received: from email-imr-corp-prod-pdx-all-2c-475d797d.us-west-2.amazon.com
+ (10.25.36.210) by mail-relay.amazon.com (10.250.64.149) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1544.14 via Frontend Transport; Mon, 10 Mar 2025 16:20:02 +0000
+Received: from dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com [172.19.91.144])
+	by email-imr-corp-prod-pdx-all-2c-475d797d.us-west-2.amazon.com (Postfix) with ESMTP id 1694FA04AA;
+	Mon, 10 Mar 2025 16:20:02 +0000 (UTC)
+Received: by dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (Postfix, from userid 23027615)
+	id A154B6221; Mon, 10 Mar 2025 16:20:01 +0000 (UTC)
+From: Pratyush Yadav <ptyadav@amazon.de>
+To: Mike Rapoport <rppt@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, Alexander Graf <graf@amazon.com>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Andy Lutomirski <luto@kernel.org>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>, Arnd Bergmann <arnd@arndb.de>,
+	Ashish Kalra <ashish.kalra@amd.com>, Benjamin Herrenschmidt
+	<benh@kernel.crashing.org>, Borislav Petkov <bp@alien8.de>, Catalin Marinas
+	<catalin.marinas@arm.com>, Dave Hansen <dave.hansen@linux.intel.com>, "David
+ Woodhouse" <dwmw2@infradead.org>, Eric Biederman <ebiederm@xmission.com>,
+	"Ingo Molnar" <mingo@redhat.com>, James Gowans <jgowans@amazon.com>, Jonathan
+ Corbet <corbet@lwn.net>, Krzysztof Kozlowski <krzk@kernel.org>, Mark Rutland
+	<mark.rutland@arm.com>, Paolo Bonzini <pbonzini@redhat.com>, Pasha Tatashin
+	<pasha.tatashin@soleen.com>, "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra
+	<peterz@infradead.org>, Rob Herring <robh+dt@kernel.org>, Rob Herring
+	<robh@kernel.org>, Saravana Kannan <saravanak@google.com>, "Stanislav
+ Kinsburskii" <skinsburskii@linux.microsoft.com>, Steven Rostedt
+	<rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, Tom Lendacky
+	<thomas.lendacky@amd.com>, Usama Arif <usama.arif@bytedance.com>, Will Deacon
+	<will@kernel.org>, <devicetree@vger.kernel.org>, <kexec@lists.infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-mm@kvack.org>, <x86@kernel.org>
+Subject: Re: [PATCH v4 06/14] kexec: Add KHO parsing support
+In-Reply-To: <20250206132754.2596694-7-rppt@kernel.org>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+	<20250206132754.2596694-7-rppt@kernel.org>
+Date: Mon, 10 Mar 2025 16:20:01 +0000
+Message-ID: <mafs0zfhs97ta.fsf@amazon.de>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Em Tue, 11 Mar 2025 00:27:47 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+Hi Mike,
 
-> Hi,
-> 
-> Mauro Carvalho Chehab wrote:
-> > Em Fri,  7 Mar 2025 13:04:51 +0530  
-> [...]
-> >>  /**
-> >> - * cpumask_first_and - return the first cpu from *srcp1 & *srcp2
-> >> + * cpumask_first_and - return the first cpu from *@srcp1 & *@srcp2  
-> > 
-> > I don't think this would produce the right output. See my other comment.
-> > 
-> > See, if I add this there:
-> > 
-> > 	 * cpumask_first_and - return the first cpu from ``*srcp1`` & @srcp2 & *@srp3
-> > 
-> > The kernel-doc output is:
-> > 
-> > 	.. c:function:: unsigned int cpumask_first_and (const struct cpumask *srcp1, const struct cpumask *srcp2)
-> > 
-> > 	   return the first cpu from ``*srcp1`` & **srcp2** & ***srp3**
-> > 
-> > e.g.:
-> > 
-> > - srcp1: will not be bold, but it will use a monospaced font and will have 
-> > 	 an asterisk;
-> > 
-> > - srcp2: will be bold, without asterisk;
-> > 
-> > - srcp3: violates ReST spec: different versions may show it different
-> >          and warnings may be issued.  
-> 
-> This third pattern is available since commit 69fc23efc7e5 ("kernel-doc:
-> Add unary operator * to $type_param_ref") and I haven't heard of any
-> regression report.
-> 
-> Sphinx parses ***srp3** in the following way:
-> 
->   - It sees the first ** and start strong emphasis.
->   - It continues that mode until it sees next **.
-> 
-> In the end, Sphinx will produce strongly emphasized "*srp3".
+On Thu, Feb 06 2025, Mike Rapoport wrote:
+[...]
+> @@ -444,7 +576,141 @@ static void kho_reserve_scratch(void)
+>  	kho_enable = false;
+>  }
+>  
+> +/*
+> + * Scan the DT for any memory ranges and make sure they are reserved in
+> + * memblock, otherwise they will end up in a weird state on free lists.
+> + */
+> +static void kho_init_reserved_pages(void)
+> +{
+> +	const void *fdt = kho_get_fdt();
+> +	int offset = 0, depth = 0, initial_depth = 0, len;
+> +
+> +	if (!fdt)
+> +		return;
+> +
+> +	/* Go through the mem list and add 1 for each reference */
+> +	for (offset = 0;
+> +	     offset >= 0 && depth >= initial_depth;
+> +	     offset = fdt_next_node(fdt, offset, &depth)) {
+> +		const struct kho_mem *mems;
+> +		u32 i;
+> +
+> +		mems = fdt_getprop(fdt, offset, "mem", &len);
+> +		if (!mems || len & (sizeof(*mems) - 1))
+> +			continue;
+> +
+> +		for (i = 0; i < len; i += sizeof(*mems)) {
+> +			const struct kho_mem *mem = &mems[i];
 
-Yes, I got it. But, as "*" is a reserved symbol, used already as
-*italic* and **bold**, nothing prevents some day to have a ***something***.
+i goes from 0 to len in steps of 16, but you use it to dereference an
+array of type struct kho_mem. So you end up only looking at only one of
+every 16 mems and do an out of bounds access. I found this when testing
+the memfd patches and any time the file was more than 1 page, it started
+to crash randomly.
 
-Also, other ReST tools may misinterpret that,as, IMO, this has
-undefined behavior. So, better avoid that.
+Below patch should fix that:
 
-> It would be much better to convert *@srp3 into "\*\ **srp3", which will
-> result in normal "*" followed by emphasized "srp3", but I didn't go that
-> far at that time.  
+---- 8< ----
+diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
+index c26753d613cbc..40d1d8ac68d44 100644
+--- a/kernel/kexec_handover.c
++++ b/kernel/kexec_handover.c
+@@ -685,13 +685,15 @@ static void kho_init_reserved_pages(void)
+             offset >= 0 && depth >= initial_depth;
+             offset = fdt_next_node(fdt, offset, &depth)) {
+                const struct kho_mem *mems;
+-               u32 i;
++               u32 i, nr_mems;
+ 
+                mems = fdt_getprop(fdt, offset, "mem", &len);
+                if (!mems || len & (sizeof(*mems) - 1))
+                        continue;
+ 
+-               for (i = 0; i < len; i += sizeof(*mems)) {
++               nr_mems = len / sizeof(*mems);
++
++               for (i = 0; i < nr_mems; i++) {
+                        const struct kho_mem *mem = &mems[i];
+ 
+                        memblock_reserve(mem->addr, mem->size);
+---- >8 ----
+[...]
 
-Yeah, either that or **\*srp3** to keep the asterisk bold
-(assuming it works properly) [1].
-
-[1] I remember I had some troubles with escape codes on
-bold before, but can't rename exactly on what version.
-
-> This looked sufficient to me as a band-aid workaround.
-> 
-> Or you are aware of any Sphinx version who doesn't work in this way?
-
-Didn't check this specific issue.
-
-> 
->         Thanks, Akira
-> 
+-- 
+Regards,
+Pratyush Yadav
