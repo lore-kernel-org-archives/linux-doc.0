@@ -1,83 +1,123 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 377B422332E;
-	Mon, 10 Mar 2025 15:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041981DFF0;
+	Mon, 10 Mar 2025 15:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741621823; cv=none; b=SRwP5uaJPoIxhPBu1+gE/qbXFcCYrbEp5twdebpHmPEEsQUUAUKmgtvOn4ho5jevtqMMs4opnqUcvXJSbT7/cOaaArqlKPumMtxF5dxMlXb1DQvowqQV9vqqN/Fy5phQLKDDtjMNrtwt/yiP1pWROHYuasRWhOeRViOGzfV6/Sg=
+	t=1741622209; cv=none; b=IgYIOueYo3NxJRA6FrnE9SnjP6M5qhezTZCMmVFtxjRmXHTxbC/Z5CGNcRciZ4Q0K3XkU5rf93J4UkXdJAFBFfUj6E7AprgauOTN/hqdQMCwvmF2zGq7hE8IrX6A7nBs2G/Mcb6RKWUKuRoPp4IcSqi4PjSjcPj/8BG+DXQoBZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741621823; c=relaxed/simple;
-	bh=iS9+vSvOzrqV62mxwznPJsltsTrjWHcYTR8pofdi0Q8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LHPyqYZQsfMe8tdvpFaRz/YFP/A2Iej5dXnxtxSRTjOknZRqnYDvTV+DO26nMhh8FBi1sslqZxuLDvoOoNS7pKazUn9VD+E4nkXTwlPqyVmvrOkrkQbHGJLj5c+KX/M6qezmdgjqfQA1VkRRDdUb7xh5uBKhaSmUDdEPTOQ0snI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6EF4E1692;
-	Mon, 10 Mar 2025 08:50:31 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 96B003F5A1;
-	Mon, 10 Mar 2025 08:50:19 -0700 (PDT)
-Date: Mon, 10 Mar 2025 15:50:15 +0000
-From: Leo Yan <leo.yan@arm.com>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc: Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Namhyung Kim <namhyung@kernel.org>, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/8] coresight: etm: Add an attribute for updating
- buffer
-Message-ID: <20250310155015.GG9682@e132581.arm.com>
-References: <20250310104919.58816-1-leo.yan@arm.com>
- <20250310104919.58816-6-leo.yan@arm.com>
- <d8b1cf1f-1996-4d9c-9f1a-fad556f91577@arm.com>
+	s=arc-20240116; t=1741622209; c=relaxed/simple;
+	bh=kamb/0x1RtibBi69Oi3ZHY8EijG20URTJpwtA9UanIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RxN4AtxZKRQdvxzMoCbnJOYJZDU4KEi1nDd5ncPmbA/PJ5+5xOJLPyjyc8Rpd+TxVr9KBFlyB876NlhwjM6zTBrc/UzspYyKtleSM1t1WnK3U3NdI0N117TJhC5Gs0p8keaEa7V/ycJLgg+N94zDvaBUmEgw1vTC/Lb8LkGKCTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YU8rIuID; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YU8rIuID"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1991C4CEED;
+	Mon, 10 Mar 2025 15:56:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741622208;
+	bh=kamb/0x1RtibBi69Oi3ZHY8EijG20URTJpwtA9UanIs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YU8rIuID2ZcjzyRs4+lMKU6IIcOYPchsQLG8WBKpT5Ha/xw9e66suP6XzGUBAQby9
+	 LZNpEwOWo/AwkdScXHw/AY5olaZVgQxfmNbXMS6bFKhx2IHVw3oEAENbFZuyl3IbBg
+	 VEyJmVpHuIvXn115vcAYqS3Epp0L3rx4dio4v6OQwcJIAgZtLzahLeP92RMArsPWxZ
+	 r9HAPUaA7yFQVKJw6NloVzlTuNamWAz7rK5RXLP2NoR6ugt2fqYdJIwRy5jkuPhNzr
+	 FiNRf1yHuRscImO5S74kZYlaxutGB4x34xsxS1ivBx5u0Up3mrSgkq36dG+chDqE/V
+	 gMoO7+RVJHeFQ==
+Date: Mon, 10 Mar 2025 16:56:38 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>, Yury Norov
+ <yury.norov@gmail.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>
+Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
+ cpumask.h
+Message-ID: <20250310165638.7b001393@sal.lan>
+In-Reply-To: <bcce7d39-f142-4838-ba23-4fa2dda69fd0@gmail.com>
+References: <cover.1741332579.git.viresh.kumar@linaro.org>
+	<f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
+	<20250310155301.6db5033c@foz.lan>
+	<bcce7d39-f142-4838-ba23-4fa2dda69fd0@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d8b1cf1f-1996-4d9c-9f1a-fad556f91577@arm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 10, 2025 at 01:29:26PM +0000, Suzuki Kuruppassery Poulose wrote:
-> Hi Leo
+Em Tue, 11 Mar 2025 00:27:47 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
+
+> Hi,
 > 
-> On 10/03/2025 10:49, Leo Yan wrote:
-> > Add an attribute for updating buffer when the AUX trace is paused.  And
-> > populate the value to the 'update_buf_on_pause' flag during the AUX
-> > setting up.
+> Mauro Carvalho Chehab wrote:
+> > Em Fri,  7 Mar 2025 13:04:51 +0530  
+> [...]
+> >>  /**
+> >> - * cpumask_first_and - return the first cpu from *srcp1 & *srcp2
+> >> + * cpumask_first_and - return the first cpu from *@srcp1 & *@srcp2  
+> > 
+> > I don't think this would produce the right output. See my other comment.
+> > 
+> > See, if I add this there:
+> > 
+> > 	 * cpumask_first_and - return the first cpu from ``*srcp1`` & @srcp2 & *@srp3
+> > 
+> > The kernel-doc output is:
+> > 
+> > 	.. c:function:: unsigned int cpumask_first_and (const struct cpumask *srcp1, const struct cpumask *srcp2)
+> > 
+> > 	   return the first cpu from ``*srcp1`` & **srcp2** & ***srp3**
+> > 
+> > e.g.:
+> > 
+> > - srcp1: will not be bold, but it will use a monospaced font and will have 
+> > 	 an asterisk;
+> > 
+> > - srcp2: will be bold, without asterisk;
+> > 
+> > - srcp3: violates ReST spec: different versions may show it different
+> >          and warnings may be issued.  
 > 
-> Do we need this attribute in the uAPI ?
+> This third pattern is available since commit 69fc23efc7e5 ("kernel-doc:
+> Add unary operator * to $type_param_ref") and I haven't heard of any
+> regression report.
+> 
+> Sphinx parses ***srp3** in the following way:
+> 
+>   - It sees the first ** and start strong emphasis.
+>   - It continues that mode until it sees next **.
+> 
+> In the end, Sphinx will produce strongly emphasized "*srp3".
 
-This uAPI allows users to perform AUX pause and resume without the long
-latency caused by copying hardware trace data.
+Yes, I got it. But, as "*" is a reserved symbol, used already as
+*italic* and **bold**, nothing prevents some day to have a ***something***.
 
-E.g., a user can specify a large AUX buffer size using option "-m,128M".
-If the buffer is considered large enough to accommodate hardware trace
-data for a small program, the 'update_buf_on_pause' flag can be set to
-false, the copying will be deferred until the end of the perf session.
+Also, other ReST tools may misinterpret that,as, IMO, this has
+undefined behavior. So, better avoid that.
 
-I am bias to keep this uAPI.  If you prefer to remove it, I am also
-fine with that.
+> It would be much better to convert *@srp3 into "\*\ **srp3", which will
+> result in normal "*" followed by emphasized "srp3", but I didn't go that
+> far at that time.  
 
-> Could we do this by default for
-> sinks without interrupt ? This definitely improves the quality of trace
-> collected for such sinks and the driver can transparently do this.
+Yeah, either that or **\*srp3** to keep the asterisk bold
+(assuming it works properly) [1].
 
-How about we dynamically set the default flag in the Perf tool?
+[1] I remember I had some troubles with escape codes on
+bold before, but can't rename exactly on what version.
 
-- If users set explictly the 'update_buf_on_pause' flag, then the
-  setting will be respected.
-- If users don't set the flag, perf tool detects it is TRBE sinks,
-  then it can set 'update_buf_on_pause' flag as false.
-- If users don't set the flag, perf tool detects it is ETF/ETB/ETR
-  sinks, it sets the flag as true.
+> This looked sufficient to me as a band-aid workaround.
+> 
+> Or you are aware of any Sphinx version who doesn't work in this way?
 
-Thanks,
-Leo
+Didn't check this specific issue.
+
+> 
+>         Thanks, Akira
+> 
