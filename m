@@ -1,115 +1,174 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B67223322;
-	Mon, 10 Mar 2025 09:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B303422758F;
+	Mon, 10 Mar 2025 09:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741598965; cv=none; b=JZYCLBPn5QEeHMxdJf2Irs7lU+P9c4JVzzQTiDNL9Vwh2L73GakPukfb42mhai49Z8mXv9YWm5NoOs4O72klZaadQREdD6AK86YLY5WXDM8HkCwFOj9oRijVVplTC53y2jnzUBtyQcgf8rpSYN0i9Xw5yzQBHYTvdx3nIODYs2Y=
+	t=1741599765; cv=none; b=HrxTQD0qZgbhJiZO4C7+njTXQwomSKJSL5IpuI+yBOqF0UF28Ej+xgbwUnurPbN//ZuzHcAA4oczRQU68hIBzdRDB1MEO366LnOYJFcEE5N52q3mO19l7mg3d2H95DVq7fSUyHjS7vwNYj0BK2GvO0uzdVzlehyDFHfi3A2TCJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741598965; c=relaxed/simple;
-	bh=J4CXKEEuJ6tiTl5L6qEaOGNZZupbK7uRsbw2Rjp3bGQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dc0AOVr79TFoYRxrkm3vxne6Hf9AkPaK8yNIbmU6LR+Ac9eiqxObj3c/bpr0ny6gwvE7YVo+VNjrEYvOy+Zyewf9q89ctY+Sg/szdlSKptRYJJuwcUuHxCVBy9VG3qfipPz/HQm3jiohGN3x8GvGM45/hXUP4csSYQFyvNwfX/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gZSvSpB0; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1741599765; c=relaxed/simple;
+	bh=h1E0/A3bjATDwXlqdk725GKR6Hwuu+h4mOX6XmeZSLg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qzz6gpnTpAXRbF9uegA6G0jfmqKrphJKiRA70HyfQ+hPfgW9npOiU8+EzA34UlHaS+iQhQOkS6B0Eca/IJV+ef/SNxjzCrxlxPkSvJRGpEpN12tTq+kQ+OXWYzuza8Zey+9sAqapec7cA5RTBm655Xdkj+Y0/tgO16M+hlkkGoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DpVojWJm; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gZSvSpB0"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-22349bb8605so69987685ad.0;
-        Mon, 10 Mar 2025 02:29:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DpVojWJm"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aaf0f1adef8so702500466b.3;
+        Mon, 10 Mar 2025 02:42:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741598963; x=1742203763; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sTcSQFFnbluJf997mBXCx9e7ML1rsrCKL4zkfh+WiK4=;
-        b=gZSvSpB0x0Xd+n/mqFn2VGWAi49C65ypv4YjipBYwNVBDFP70HQezep+29fiW9UzIB
-         +6NBL4EF7N9niDam9qazRT8nEficVxg3yyUu7pmY71+2oHOirUqPUJhXJjor1SVg1cRb
-         NcD8qkPkyKwc3H7+bgwFO7AMuutgUe70UIV0FmXUfQ+VpD+EOEAsWozb60pc92qmszbG
-         UAc2KyTZNrQp/IZxD4vwgBWBpT3yv4If8haWlWxTBIYxHsk0ocJmY9R096e9YNmu23S/
-         x5wNfEdFhE9ROJlZiHc4gmv2nOkpkH9w0GLXIooHn7r23UwKOyKHpJb6cpF3qmVLoN3m
-         /XbQ==
+        d=gmail.com; s=20230601; t=1741599762; x=1742204562; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tMClGTb/xowiN+wUj5f6h9i/suU0YoMn0juoJl6ktWM=;
+        b=DpVojWJmneojq2ZrP1u99fpWNf0SBdT1DibjcoP7GeQR/NTxu/2QQCVNqUDZDd6eBQ
+         OWTjm61pD3LzLs/P2FqPJg+KpIKT5ZF7lPYGo7Nu6hSnKNhR2B3a3oZCBss1FIQ2mK2i
+         +Q8JOnI28+J8cWH1UBpcyT1x+C+fIpB8V70+o+wtz0+Z897JA7Qiu4B35mIyzBMDUqHp
+         JLlbrS4zbL2Q7Vm35ZZEhJhdlwW01u0emD29BM8OPd6ut+/yc44pAuEL2XC1ZVmtyQYi
+         gv3YCZQxkvawGBMumXu3A4qZmi3ksEbF4TPbQpFnpvUOJXWcROSNOLUBXmjchYtrPEXS
+         RoPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741598963; x=1742203763;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sTcSQFFnbluJf997mBXCx9e7ML1rsrCKL4zkfh+WiK4=;
-        b=dabKf7LluomTpOzD4/MrT504TDj3skGAXySZ6CmLF4IoqyEVVXqOXli/AWOWarhK1H
-         0DGwDaJw65s0gpk/u6GHxCeS+EV/C+LnJa/ToJYTVOOD7uob/V69XGpa5lEngCSgzFCu
-         OVZ/dT/1NAv3bA4DzyLzcUbTxszIY/rQ3Qs/m7naH1L1R9iLgWm8USvbM3UaRGnQQkPB
-         i4GxmN8Ue5yahO7uo0P41OIRYV1/3+x9R6GLclyldg8EsaGcOBuTzCNxNpJ1z+bqBSEy
-         p0botj+vlN1F8vGb8piKyHiwJbOAtTSBYh3qbMwWYuB8qMT47sZZpxeJorco58iNx9d5
-         TFww==
-X-Forwarded-Encrypted: i=1; AJvYcCW7MSMSKKIAiQRAMtuz/uNqCqamHGgPpKg061p9bCnMVFnEh+BggWE3zdvqH5E/GEqouWUlv+End+Y=@vger.kernel.org, AJvYcCXrdOdwd/5AMxdZ+rGntUrTklVTVBzi607HDARKr1cK/67yRhenvvTmhL7R9Iy+XKEGYDKdTqytQLNTK7aM@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjK/DynyGkNWwwSSkM3z/Ua6KklNch2Jb23XyTg+fJ37Thd4Jb
-	msZDWU2mVHQOfJQZBHupsqcezsLQ+tTr7LeQnmznZV3HUD4dxdFC
-X-Gm-Gg: ASbGnctXRDImsyQTWKwO9CYOGymLs48vgWU/hSMf/9wp1jPaDPRu8fue2u5EGaia2Jh
-	Gx8IG1FCmSitnGx1dZ4faKhrEod5IsCH+sg7oD0z8u17roHxpyyUTo8Xe+wj1o9x6pvBn4L1zQj
-	FDBotVBsvY3awxQ60hSn5T/aOCE7sWxh6+etFWDwRV/au3XyHWObFjYhQNmdv4qU+FEFAvaM29O
-	zxRn6nWUeTcro+s0NRk4yaqmRlhr38RKTiv7Y12liRgu1VyaKY8M1UQgxVVVctTrYTobD8UHht2
-	j02Sf+TKCt/gmA09g9tVdUnm6vwdVUWEyF/taK1ISTCbSwE4+q1D0JF78XNs8xLTutOVvagq6b+
-	uaX6KPr/+a4kGJ/A=
-X-Google-Smtp-Source: AGHT+IE+jPUAkXMj/tZzLRiCinBwXqUVE1rT1pab6rDJzc+t7jOXtlgTB8K+q6LEChcjppH7Kx19CQ==
-X-Received: by 2002:a05:6a00:23d5:b0:736:9fa2:bcbb with SMTP id d2e1a72fcca58-736aaae5325mr23864989b3a.24.1741598963132;
-        Mon, 10 Mar 2025 02:29:23 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-736b5cef0f1sm5276686b3a.25.2025.03.10.02.29.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Mar 2025 02:29:22 -0700 (PDT)
-Message-ID: <ed8add50-b146-4741-8ddc-010eea3ce169@gmail.com>
-Date: Mon, 10 Mar 2025 18:29:20 +0900
+        d=1e100.net; s=20230601; t=1741599762; x=1742204562;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tMClGTb/xowiN+wUj5f6h9i/suU0YoMn0juoJl6ktWM=;
+        b=tBj/+/vIEiNXqyg+aNSjXb8/YqT1JoVkzMS+2VUV8QyBgdIRqOnv4azKmTGtGh9Nks
+         fLRR4yUGcV9JpiLSWkP7IowUWC2LJufh7um/Pdklt0z+6BOmbs6X5TfmctSZSS+TSQ8o
+         VT0ggAbimzXreF7G1aY1I0nLnP4PaAVnoJD9HUxKmUboZQSiaPdtfSEubfxBkXUYrgIH
+         WlguWGUIKERn0EtjbM7XXFVzQAG5mA/JthENY8UrUT8C9KU7+vFK2Swf0UxGKWH6JeFB
+         91W0uzRIbdQae/JCyyIneh2oTzOn5tcuO/QuzoHNJAasxuAyVL/7AYm4eWBVqoQPvYM0
+         VhYA==
+X-Forwarded-Encrypted: i=1; AJvYcCVc8WBsmP8BxAKIvBUXMh2XnELTvZjA/9r/wuACZsiPFjqVlueTlUEpIgVnSYoCbOdkNDNGZJ45Yhje@vger.kernel.org, AJvYcCWG2frz4YnptvSZPz1KjwamSH9OpS0u833hzcUwwwlTwDHeTRVRjudQFx1YCVjtP5R2dLpkvTZKi5qOIo3y@vger.kernel.org, AJvYcCWRr+/kG8SiXzADS4RLuCyImdp/1grl4/F2slmv6KqTr3Wpt4h6PhJJaKLIAuH1iBym0ZM3egnNFAQ6@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxj4j4FdZdDpIdbVIICUGa79VBUPfrP1lIIiLoh6Ep3J8EsKphQ
+	ssFnLQWf3YTVR6MD+siccCjeIg2vlGM/3uXKNWyX7QOuEfAuc1B6
+X-Gm-Gg: ASbGnctXSn2hWWQ4Z+us1LfqkN1temS8lVu/YsOXXkuvzxRl3duA4JA8edhvaqqvHAP
+	0rQJ55VJqhT+n3JMgMqArmFQsI4jShIOokMkd+e7WGPbvRCSlNaCVESmkQVGR3s1J1QcJbCDWs0
+	o4PTuBQTqVybJ094LW7Fsl6mg99noal7ZZodIF7j2eF4w2sLxyux2wpe7In+LEhKOxujG+5y9jF
+	6R8JXVizYuvqx8veNChElJT316amYJACOieWFwOB6tqsVPVyT8xUEHwdjkwy+VhnDw3rUllFCxt
+	5I6Lr8SptTA+NQb1nLeK3IFKjmF3RBKAca9SCe5WOlkF
+X-Google-Smtp-Source: AGHT+IGr1BXamH0TMzryWGEFJPRvklcDIRXonoj2fHuOVeIPkUnC7Qwd3/v9Pu02iEAlM/2ZB1tn9g==
+X-Received: by 2002:a17:907:3f96:b0:abf:62a4:14ef with SMTP id a640c23a62f3a-ac25274a051mr1561659766b.9.1741599761642;
+        Mon, 10 Mar 2025 02:42:41 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac2b0daaa0asm28863966b.38.2025.03.10.02.42.40
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 10 Mar 2025 02:42:40 -0700 (PDT)
+Date: Mon, 10 Mar 2025 09:42:38 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
+	Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Pratyush Yadav <ptyadav@amazon.de>,
+	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v4 02/14] memblock: add MEMBLOCK_RSRV_KERN flag
+Message-ID: <20250310094238.lgsiyqci3aqdzrhj@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+ <20250206132754.2596694-3-rppt@kernel.org>
+ <20250218155004.n53fcuj2lrl5rxll@master>
+ <Z7WHL_Xqgoln9oLg@kernel.org>
+ <20250224013131.fzz552bn7fs64umq@master>
+ <Z711VP45tjBi0kwx@kernel.org>
+ <20250226020915.ytxusrrl7rv4g64l@master>
+ <20250310075627.5hettrn2j2ien5bj@master>
+ <Z86ikkLVHQhLmBWj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
- cpumask.h
-To: Viresh Kumar <viresh.kumar@linaro.org>, Yury Norov <yury.norov@gmail.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Vincent Guittot <vincent.guittot@linaro.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-References: <cover.1741332579.git.viresh.kumar@linaro.org>
- <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
- <Z8snakYmzhaavkKN@thinkpad> <20250310061540.zpfyisvchyua2cuv@vireshk-i7>
- <20250310090319.olwxrcqczwjla2jm@vireshk-i7>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250310090319.olwxrcqczwjla2jm@vireshk-i7>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z86ikkLVHQhLmBWj@kernel.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-Hi,
+On Mon, Mar 10, 2025 at 10:28:02AM +0200, Mike Rapoport wrote:
+>Hi Wei,
+>
+>On Mon, Mar 10, 2025 at 07:56:27AM +0000, Wei Yang wrote:
+>> On Wed, Feb 26, 2025 at 02:09:15AM +0000, Wei Yang wrote:
+>> >>> 
+>> >>> From the above call flow and background, there are three cases when
+>> >>> memblock_alloc_range_nid() would be called:
+>> >>> 
+>> >>>   * If it is called before (1), memblock.reserved's nid would be adjusted correctly.
+>> >>>   * If it is called after (2), we don't touch memblock.reserved.
+>> >>>   * If it happens between (1) and (2), it looks would break the consistency of
+>> >>>     nid information in memblock.reserved. Because when we use
+>> >>>     memblock_reserve_kern(), NUMA_NO_NODE would be stored in region.
+>> >>> 
+>> >>> So my question is if the third case happens, would it introduce a bug? If it
+>> >>> won't happen, seems we don't need to specify the nid here?
+>> >>
+>> >>We don't really care about proper assignment of nodes between (1) and (2)
+>> >>from one side and the third case does not happen on the other side. Nothing
+>> >>should call membloc_alloc() after memblock_free_all(). 
+>> >>
+>> >
+>> >My point is if no one would call memblock_alloc() after memblock_free_all(),
+>> >which set nid in memblock.reserved properly, it seems not necessary to do
+>> >__memblock_reserve() with exact nid during memblock_alloc()? 
+>> >
+>> >As you did __memblock_reserve(found, size, nid, MEMBLOCK_RSRV_KERN) in this
+>> >patch.
+>> >
+>> 
+>> Hi, Mike
+>> 
+>> Do you think my understanding is reasonable?
+>
+>Without KHO it is indeed not strictly necessary to set nid during memblock_alloc().
+>But since we anyway have nid parameter in memblock_alloc_range_nid() and it
+>anyway propagates to memblock_add_range(), I think it's easier and cleaner
+>to pass nid to __memblock_reserve() there.
+>
+>And for KHO estimation of scratch size it is important to have nid assigned to
+>the reserved areas before memblock_free_all(), at least for the allocations
+>that request particular nid explicitly.
 
-Viresh Kumar wrote:
-> On 10-03-25, 11:45, Viresh Kumar wrote:
->> On 07-03-25, 12:05, Yury Norov wrote:
->>>>  /**
->>>> - * cpumask_weight - Count of bits in *srcp
->>>> + * cpumask_weight - Count of bits in *@srcp
->>>>   * @srcp: the cpumask to count bits (< nr_cpu_ids) in.
->>>
->>> Here nr_cpu_ids is also a variable. Why you don't prefix it with @?
+Thanks, I see your point.
+
 > 
-> Hmm, I thought @ is applied only to function arguments. Not sure what
-> should be done with nr_cpu_ids.
-> 
-> Akira ?
+>> -- 
+>> Wei Yang
+>> Help you, Help me
+>
+>-- 
+>Sincerely yours,
+>Mike.
 
-Section "Highlights and cross-references" in
-Documentation/doc-guide/kernel-doc.sty says:
-
-    ``@parameter``
-    Name of a function parameter. (No cross-referencing, just formatting.)
-
-It's just formatting.  Putting "@" to a non argument name won't result
-in any warning.  (At least current kernel-doc goes.)
-
-kernel-doc is just our own convention, which can change any moment,
-hopefully in backward compatible manner.
-
+-- 
+Wei Yang
+Help you, Help me
