@@ -1,776 +1,935 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2055.outbound.protection.outlook.com [40.107.96.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B721BA3D;
-	Mon, 10 Mar 2025 22:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741646936; cv=fail; b=eAlaZ/GANMpE+x2PQWgHuCSq11n5wAApVf+MjU+RApgJLSKnLNC2Uk6pfShRf7TjK0GSD3u8qnyZlkUDwy08pYiCwW87szt6EsCZd/A82BVz8+caQFbjsPc14jmSh6jJs2OU6+EjNf/4DkyChuPijV6n0t8P4X5BseYNlBM1pDo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741646936; c=relaxed/simple;
-	bh=Fvrxf0oX3VjvrTedelCwylbtgWKBgxtLIMUMQt/GCP0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Y8yR4iunuAGeAHWsetasdbmXfi0rorY+p3+vpw0vUTODGnHVrATg6iCi5R26BchgqASsVVHzpemwimGi7enoTcmdwx3SKes+vv5bwt4DCtHnNM02bnqxnJEWI9O/23/Ittf401XUGJWpjfJBSOZc4RqGuPIXYr6q9iRyIdoQq0A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PWKn6/ri; arc=fail smtp.client-ip=40.107.96.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83644A02;
+	Mon, 10 Mar 2025 22:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741647318; cv=none; b=e4BM2WfrR3ch/4pwRafB/IGYrGA8BPMLQDCcb9Q0xE3GBJjdgFfLinDumy8Zlh0y0VC3DFMzvgX64PElmaKw2WHkHJtoQM5ncMOcGAk18tyq3jCw1WQ8eGPWFCEnllOTdejhCYueWjipWlUHh12z+CVycv+135Q9uvgGLXtz/vQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741647318; c=relaxed/simple;
+	bh=hlY1dv1gsjczRYzkupbSUKONxAByppwiV87sRmUeWg4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B6ZzN4zn8bcyo+GIBkKbI1uMCR8gd+BPNAlH6ctwyJk/x1Omv7/416k/K1EzxBM2slTjtid8iGWo82W9+F03ZVWtGV5qFq9fk+X0v20ECqS7RRsa3DlB9WZCC4t1yaS9IwHHram9HMyKkys2yIQLlVs91yEowBlwKY1HGwFpyH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jU5BiYrM; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PWKn6/ri"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hdPizMRRrwWr3QqtcszKMfYlQXGs6VglN83O41m31sYI7w/AjoHDDtbdkscy1IGyZ7aHnToAJyZFHVhWpexKTfGTRTTqnqhMKCszQ/VRw/GgyJqKzl3R6ytuuQJRUqXHsG+GREPcyO8UVvPb0GDMj6/R5+qcoFsXhTI/jr5zvi0l9AFyQBDlLA4Wy4pSe+boC7GrhqaoD/CKXQW/qomQlbtAeDn8/tk2k7AQ9X12R/S/sG4kaxycel/F/u29gSikvoGEcBIeR/Jn0NBH1Qw7EVCyTp6GIxKsB1df/G0CW+XcvJXpTvJnhRQMBwZ3DQ35l3AxHNCpuw0kY/pBn7abSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FRAL5AsHCgzGLlaKbSO342xydBi3dDH8eN0aEeniU68=;
- b=pUJdddy+dSAZCEsBl6L3EKRCYfsw2P4d+UUcl2V6ZjgyNnFeT+QGyj4PanVYgoqI7gRLGj8Nv+QT4OPCwIm0wh6wS5Iakhz8ghf17Mx79dH7twr5cDXbUXJ7ITN+EGan1oh0s95pZwAU0lVOj+nd6WZ0WP25QTSGC17T6+8hC1jBku/cflrSGZ3x3ykqpCJc0YVi2e1YhZ0wZXL/PwyWbMp38v3j/VDwKeUolW88GGLwdKF5nLBydyjTJI0Cixt7v7Ie44KCNQMwgXg9Ogi+dFNSxNAzBsjN3Y32vUITlQH5doSAR6kUr6FEB4aYI95x4348+LJShb9WXXkDkZWirw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FRAL5AsHCgzGLlaKbSO342xydBi3dDH8eN0aEeniU68=;
- b=PWKn6/ridfBoPR5KiUxJhANGgxMWhIvPPlOFmqUKRrXLiE9MWgp4UBJJDO2an8iaanZHSU2+Wn+tmN2egTJKPPVFKVeCzkmpMKkF30OXOtbfWT+F3stD9v7IdWpFz2OD4BU7Agwvnf2E12KN7pdnwCGBRUNE1T2KWQMRYeP7Org=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DS7PR12MB8289.namprd12.prod.outlook.com (2603:10b6:8:d8::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8511.27; Mon, 10 Mar 2025 22:48:49 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8511.026; Mon, 10 Mar 2025
- 22:48:49 +0000
-Message-ID: <c1c0a99a-a467-4ae6-80ee-04b6a9cdb6e5@amd.com>
-Date: Mon, 10 Mar 2025 17:48:44 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: babu.moger@amd.com, Peter Newman <peternewman@google.com>,
- "Chatre, Reinette" <reinette.chatre@intel.com>
-Cc: Reinette Chatre <reinette.chatre@intel.com>,
- Dave Martin <Dave.Martin@arm.com>, corbet@lwn.net, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- tony.luck@intel.com, x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
- akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
- xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
- daniel.sneddon@linux.intel.com, jpoimboe@kernel.org, perry.yuan@amd.com,
- sandipan.das@amd.com, kai.huang@intel.com, xiaoyao.li@intel.com,
- seanjc@google.com, xin3.li@intel.com, andrew.cooper3@citrix.com,
- ebiggers@google.com, mario.limonciello@amd.com, james.morse@arm.com,
- tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
- eranian@google.com
-References: <cover.1737577229.git.babu.moger@amd.com>
- <CALPaoCh7WpohzpXhSAbumjSZBv1_+1bXON7_V1pwG4bdEBr52Q@mail.gmail.com>
- <ccd9c5d7-0266-4054-879e-e084b6972ad5@intel.com>
- <CALPaoCj1TH+GN6+dFnt5xuN406u=tB-8mj+UuMRSm5KWPJW2wg@mail.gmail.com>
- <2b5a11e3-ee19-47ba-b47e-b7de2818f237@intel.com>
- <CALPaoChXvLNMg240C7RyBvg0SxXfGf_ozKC6X7Qe4OxyEcL2tw@mail.gmail.com>
- <a3b46f6f-a844-4648-905e-53d662e5715f@intel.com>
- <CALPaoCi0mFZ9TycyNs+SCR+2tuRJovQ2809jYMun4HtC64hJmA@mail.gmail.com>
- <fc3a67ee-6e97-4b9f-88d9-c24c6dab20c3@intel.com>
- <CALPaoCg97cLVVAcacnarp+880xjsedEWGJPXhYpy4P7=ky4MZw@mail.gmail.com>
- <a9078e7d-9ce6-4096-a2da-b2c6aae1e3ed@amd.com>
- <CALPaoCgN+oGgdp40TOJ9NgF9WYPdN0cG8A8BtOOMXOP6iMVfzw@mail.gmail.com>
- <f1744c45-9edf-4012-89bc-47393b4c53fc@amd.com>
- <CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com>
- <d1ca9220-1ab7-4a39-819a-03a6069b7ac4@amd.com>
- <CALPaoChLL8p49eANYgQ0dJiFs7G=223fGae+LJyx3DwEhNeR8A@mail.gmail.com>
- <a4ab53b5-03be-4299-8853-e86270d46f2e@amd.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <a4ab53b5-03be-4299-8853-e86270d46f2e@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA1P222CA0062.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:2c1::13) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jU5BiYrM"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6e6c082eac0so44408176d6.0;
+        Mon, 10 Mar 2025 15:55:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741647314; x=1742252114; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2nLYw+mzv4TphSNwmiwRbeHXYNP0BYpntdGXzmgHZ/k=;
+        b=jU5BiYrMfOZPiFQDtN3/ZTdJflzCSbnp//lxfV7BBwXd5Y9KIGMt4vgdxs/BMJZqEj
+         JRM6l9W2C5XI2sHOoFfYN2mReWA78UwmrZbUBK+GiMg0/UZPD7C4qHSQ9ZYRzdSC0GHP
+         QK6rNB5+QrLzOAsSJQ516SVKjSjb0IiFckt5r0xzKup6OZosxUwdwGfKXCG7QG/Fmon4
+         klNc6hGRBZOwCekAeSyS/4Fx02T0RpMhNmvhVRW59ZZOlCSjaPU2OJuiv/VJK7wjCl+t
+         th9G/ZccrDnBXsSYnF5tCGOxqe7u3On7nB38TtyYGde6Tn40RURIsieLRLonhMnoZKLj
+         4bGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741647314; x=1742252114;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2nLYw+mzv4TphSNwmiwRbeHXYNP0BYpntdGXzmgHZ/k=;
+        b=d4YmDzt6MB0fUosXsnGC4kFytXmXSvLDgbLXPUniMzjttl8Lm6+i8A1n0vddcTznB3
+         MIyPdMnQ2Xb3S/iLqbQsSEJiNkOvXbBA48I/Ij3LheKyGlCLBWSjYZgSVx3A7LaDzMKm
+         OnD1UIrVBPBDXTAh5NC7OJWx51ccv6eW4V+Ya5GrjZ12IAanLFZ+cq6QEqx0DRXzqXcI
+         OiuDpfrx66V6o1bOIgc1kXjWT2BFw0lNqQISyNHR4RhPFYdU7TIziRDyAFhApcWTffam
+         M2daXND5PUnRRkUaGPYN1zDaNzlZ+V1zDZ1z/bkVV3fCn/RDa9rVmM7BQ0EIWluM8aCQ
+         Niog==
+X-Forwarded-Encrypted: i=1; AJvYcCV7c65f8+KDHo+FEN+LeQ4aApuFbSrKBJF1RN2zD6yhzZTFy0Qk1MHJjRbEYRAbaQcRbyAaSMcFP14A0GWa@vger.kernel.org, AJvYcCW+CGANFXknoSSHXPYCjDr1wE9FCmCQC1+YBotbU2Rjg4t8Haiq2gceMFOTiTUro5cPebTWYAWjMZ5lOos93WGBtggZ2w==@vger.kernel.org, AJvYcCW28xaS3mj3PE+ZARmONBrmzDv1Lo6Oa4gUfKtFxaZMcVbHw+DtPC+D6JXAfMFo+cwqV4dOAzWQtho=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxc6s4RawV6PFr4NPMSyEksJNJfcC65FHhq2d7nVXAxGvctes3E
+	tkHv2p5EXgx5wJRhwH78AIVIiznkGAFeURa06uycs50gSI8UvjQs0ldwVi5MiQq8FprrYxfKlPY
+	Mb1fAhTBdxCpJc8WYp/Tc1ZcXF/Y=
+X-Gm-Gg: ASbGnctUPpbdsxMAVzxhLKqcKUTDzcTX2bqu+zhEaTDBpcLm3CUN3WI2pox5+bHfYnh
+	xNg4TTpJ2Bu/v9YQRn0EoKOfPO3gHnFrLizdn4yiMR5DUpR0eEx/5wxa6IVq00V0sn65axFF3Xg
+	DLvsxd1+F/vxIk4IdK0xSaJTHxGFQ=
+X-Google-Smtp-Source: AGHT+IFocwxg+Yw/6+8kr3UBrqHon5fbk+ltRcHbOsURvNCG2TTGiAnblNym7cTdQpUqS5TMQiYURaQkBcvP+Y59f5U=
+X-Received: by 2002:ad4:5aa2:0:b0:6e8:feae:9291 with SMTP id
+ 6a1803df08f44-6e90063df9amr191946876d6.24.1741647314293; Mon, 10 Mar 2025
+ 15:55:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS7PR12MB8289:EE_
-X-MS-Office365-Filtering-Correlation-Id: 85200ab9-3c89-4689-6f47-08dd6025b8e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MzBlWDFRQWNtbXFqK0NZY21QOFM4Zk9VMDdYVFl0RzZobTZHRWljcE9lWm9t?=
- =?utf-8?B?R3ZSSWFYdlhCRndYZW8xdmFmQm9PVVMrOWkzNzNLQmNDWTRJTkE0YXI2by9L?=
- =?utf-8?B?ZzRMUGpqRmE0NC9CekFQMGtmc21WMDBEZGRnQ04rWDZrTlJDWHFBVkN3bC9L?=
- =?utf-8?B?MHZRbUlWQ2h1WTFjVStJUTIrSFF5SWdGakFWY1hlOFFBYVZibXY2WEF3bUR0?=
- =?utf-8?B?cGZoYTZFZUVvNngzSjhzZmdZUVhjZDh5Smp2ZllxUnVBcG41UllSaVB2aWI1?=
- =?utf-8?B?cFl4VHZYcWZQZ0pIdU1hRXZlcDZTdGtzWlNUZktMRWQ4QXozbURkczhWbmhY?=
- =?utf-8?B?NVRMOGx2TG5rUjVnckxPdEFoUlFQUnI2ZFMyWEFYQ29LY3EveXBwczBCaTZw?=
- =?utf-8?B?MmN6MVpURU1nQjR1UytPZUplZ1dIVXhVQXJBRUNDTU05ZXZ1SGVSbDZaZXVK?=
- =?utf-8?B?WE85YUhpNG1OSDV4ZlZQUzlFYzIwZlJScDVKaisxRFNTVC8rZ1ZzalNEbTJn?=
- =?utf-8?B?dGMySmcxRFhGbkxCQml3cFpzQjZ1V0RaUGlRbkQyTTY2VElrOXZoNU5ZOTFr?=
- =?utf-8?B?elNnOVZLY3VjVURPeVpvL2pzUU5neWFMNUZoMVd5U0pKeHgrQzAzbUUybElG?=
- =?utf-8?B?ei9NckJTQ2NGUnNJMndVcUwzS0pHVVFxdkNWK3NEZ29xNGY4czdmeDZGb2k1?=
- =?utf-8?B?TGNyZ0N4cjA0bldvTllPeEV6NmJ5TzNnbHRrU2lGUi9USTVFMk9uOGUrMndU?=
- =?utf-8?B?SkkzY05mZjRnYmx3QTJTNGRYNTZhbS9QTXlVZDFtd1RiSVRIbTJlVVpiS0xT?=
- =?utf-8?B?b0RkZXUxemxJVnp6Z1A0YTZkYUV0RGQ2N2lDNUpXc2VQWnJMcEVCNW4zL25W?=
- =?utf-8?B?MS9lMEZ4M0JkVjZWSEJzSjJJb0dGMTFJODNPMjc2SUJCUTI4ZXZ3T21oMnNJ?=
- =?utf-8?B?RzRyRWN3eXNINkprVU9BZUI5ZHlqVWI4T25zSmFOSTJMTzA0MWhQbWFWY1My?=
- =?utf-8?B?SHhpV09tbUZUUGJSUzllWHF3MWFxTmErcERCQlRKd2g3cUMvQ21wZXlPOWFF?=
- =?utf-8?B?N01FR09KZ2draEgzeng1cTBWQVM4ZlFrVzZZN29DSzFRWi9jbnVZYVhaeHJY?=
- =?utf-8?B?MVlGN1ZaeFYxaHlvTTlEd0s3WHpnNWx5cjc0ZXF5OC9XNVAxTCtGRUpaWkNu?=
- =?utf-8?B?SDA3Ky8wS0JGVStoNGJmOGpVZTBOSzVod0d3Snk0MHNDd2pvUFdZOTA4dWhR?=
- =?utf-8?B?MEtoK05RUmpKdzI5NXF4dkw1U3pnRjNVUXNJNlpPaXVFL216RVNrV1IrUE9V?=
- =?utf-8?B?cDJ4R1lvZ2hBMnFRRHVWcWpkRm0zVjZYbnBQVzdBV05mTEIvWXFMRWxGSzM1?=
- =?utf-8?B?Ry9MdDhWQzdsWFozMmhvWU1YRTF1WVl6dXFOWEVKeFlVakJESklNSTR6MzJO?=
- =?utf-8?B?aWFmcnFsYzMvVU1Ed0cyei9xaVhtbnByM2h2S2N6SStjaGhHSm1VdDR1dHpm?=
- =?utf-8?B?eDdmSFFhMTRSY0R4eEF1b3V3dE02S0lNUWFIenBIRytncEFoejBJTktkb0Mx?=
- =?utf-8?B?UGF4Q3gxRnFIL0hOYkgzYUluRlg2ei80Zk5VRGxNOVAzQkh3S0F3RUNFL2x3?=
- =?utf-8?B?N0QxcGo5MVJrRnp6SjRVN0xQVjBESURMRG0wZ2syL05PWlNTQ01malMxZFdD?=
- =?utf-8?B?NDNPVUFTOVVTK2t2NjNFSGxYWUE3Vi8wNG9CWWhjQndiU2FTYzNETUlMRDJH?=
- =?utf-8?B?RHYrZ3BSRkxKak85SmUzcHBmSWxVcHdmVitGM0svNEhSK2kxUHpvdW1ZaDVW?=
- =?utf-8?B?a056SzgwclYxNm9xVnBGZFFBSTF6U3ZONXRObjMvYzRIZ2FjTWUrWktPQ2dR?=
- =?utf-8?Q?lCf5wigPe/LRV?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Kzk4OHB1cFg1dng4aXRPOUI3bGxjc1VHcEQ4RFlJb2MyRnZJd1NQMHA5eitR?=
- =?utf-8?B?VDZaQ1JWNEpaZkhCOHI5WmZPd3ZLQUNRb3hjaFlpM20zZWFuQ0NFQzV5WXpl?=
- =?utf-8?B?ZkYzektXZEN6S1I3bnZRb1FEVE9UbnNuZFRKWFU4RXdSbUlwa0tZR1hZVG5Z?=
- =?utf-8?B?MUtwKzV6M3g1d3hFaGsxVEt5Y1J0QkRZMWNEbEdMYlRvanVNVFRZY1pPR1N0?=
- =?utf-8?B?YkFwem5QMlk3WjB6M0trWVhOR0NIWnBneGxHUUhkUHRaUzgvT3RWbm1Wczc3?=
- =?utf-8?B?SDdSd3BoeHYwaHNFelV4SXJJK1JmUG51Z3BXL0NlY3BsTnBVWTZXbmZLMFo4?=
- =?utf-8?B?Q2tFaHR6LzhtalpHL3M2eW0rYTdPYnBIb2M3QkdUS3NaZVI0OTdQTXUyTWxz?=
- =?utf-8?B?Ri80WnNaR1YvVGlYRVFVMzdOYXhCVVpJSjJsY0xjRm1wYnJhd1V6akthY0Ju?=
- =?utf-8?B?bkhIY01DT3JCWjFOZVc2QnFqUEZsQThJWVZvOVRMeWNwZUw5ZWtlbDJya0tv?=
- =?utf-8?B?YlR6eGlkNVA3Nk16dGxzQklMSXRzdzhtZitEQmVObkY1MkpyUy9VLzN2bXZp?=
- =?utf-8?B?Vi9aZEt2L0J6eFlPVVNpdHZXVDFqcW1VVmJNUy9JN3hvOGZ0RVNJNlJKWFlB?=
- =?utf-8?B?cjlFa2ZkMmdhM2Eyc093V3I1ZUc1M3FZYjJKTUVzNGRqaTdTSFAxMzhJRGFD?=
- =?utf-8?B?NDRKUEpWUlVkWmtWbEhpNDgyUHFzcCtWTGxnUmhGVlhBZjk3WEo3WVZlOWxM?=
- =?utf-8?B?WjIrVkdHa20vNVM2Vlc0eFNwZTB4bzZZUVBPU2o2MFlEdXRhSW1WTWFLRGV1?=
- =?utf-8?B?TEk3UXJaTTBqMmxWSnF0NWpHOVh5cGl5WWpRWnR5VVBzSWZOZURadG5nUnpQ?=
- =?utf-8?B?NWFwYjJJWnVlOHJ3bTBFNnVlVGpLcUZITEtET2dLN2MwdzdmSnBHTFJ6bE1p?=
- =?utf-8?B?RE5TU3RseDUvSHE1QU50eDZGTTAxeE9WaWk3bEl0VzFpM1NsUXhtZWRwNnAy?=
- =?utf-8?B?RW5hK0Z2MnRiWlBkRlg5OEx0dEhHSUU2RzhaekRwSXZKajlKSVRQUkZUL1JB?=
- =?utf-8?B?eDBYRDBQVnZ4RUhVUXRvMWNSMWd3N1VyZjdiZDN0cW1sRDdQcDlaNFBSRnBn?=
- =?utf-8?B?RmxFc0g3aDYvWVp1b241Nm90QUpTR0NPT0M3OE5oMzZ4ZGVNekd1a0RzTG5R?=
- =?utf-8?B?RUVhaFI2ZStyZUozSVU0SzE2UldPWkRWYVlldEdFRGlrVWQxQUNDRE5ZOE1B?=
- =?utf-8?B?NVVpcmNySXZnM3ZUZzg1eHJYR3FVWkU1UFAzNHd6R0VXVTE3Yzd0dmpLS3RZ?=
- =?utf-8?B?ZFN4cjJucVFwTmFTdU1lOFFOaGxQTUdESUxUWjJrc0ZxSnYvT3hPSTlsZEFo?=
- =?utf-8?B?cFovZFNOT0NwSTdSdTlrcC85UVhHdzdxZC9HeWt6QURsL1h2NGRaY2t2cmdW?=
- =?utf-8?B?QlFLQ1VHdWpNWHAxZmQyelZ6RjhoczhtTXlXODFmTkJ1WEJrT2Nud0pmYUF2?=
- =?utf-8?B?MkhpRSt4Rm1EVUVReWlwMWl6WEZqeTJaRC9wUGFCdElVRDZPKzhUZWR3cW11?=
- =?utf-8?B?b09Nb0dwMWtaeFZ1aldITUhjZGxBVXBsUUdQa2F5VTRwRWk4RVRzdmFsc3Ny?=
- =?utf-8?B?TklVOURmOS80Vjl6YjhUdWQ1K01sN0NIODUxdGFXVnNHQVF2dGtKRmNiL204?=
- =?utf-8?B?R2prRXo0eUd5bk8rcklNSWEwOTR0bjBnNWdHdDVjU2IrVlJpS2RxY1QycWFT?=
- =?utf-8?B?bkd6ZlIzL21TNDBmWXFkdHNhSERDU1pETS90RlVvNFBEN1RTSWRHWDdkWWVO?=
- =?utf-8?B?ZWxMWGo4UkIxL3RYYzZFS3NrQ2NJRk9xcE1Ba3BRZUlaS2NXRWtXZTVRdnMy?=
- =?utf-8?B?SnVyYUQxTkRBSVllMU9Sc2xraXlhYkRPRllEMjNhK0FOVEJ2OWVxdU1FQkMx?=
- =?utf-8?B?UVVlWDFOYXM0aWpRcHFWMHZscEQ1QkNiVlphQXRDNUxtZE9memR6MGJTSFVq?=
- =?utf-8?B?a0FuaHVESG1PMW1pRmRjaE1JME9wT2JVTzZqM1h4ZVgwbGV0Sk5mdzEzZEhp?=
- =?utf-8?B?MGRvcWE0K3hvLzU4ZXp6MkljRTAyNXpzY1BTajh6T3hlUzRaeDdRSjlzZSs5?=
- =?utf-8?Q?qDTc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85200ab9-3c89-4689-6f47-08dd6025b8e8
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2025 22:48:49.0980
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wJDdNRgs7PvQozkoZJEv7mZDfT7pbxQvQKkuPSHEcX+WuyQOw02FiQg1f322j6RV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8289
+References: <20250225220037.16073-1-derekjohn.clark@gmail.com>
+ <20250225220037.16073-5-derekjohn.clark@gmail.com> <630b3040-a0ad-4438-8c52-bf9d7b8cfd63@gmx.de>
+In-Reply-To: <630b3040-a0ad-4438-8c52-bf9d7b8cfd63@gmx.de>
+From: Derek John Clark <derekjohn.clark@gmail.com>
+Date: Mon, 10 Mar 2025 15:55:03 -0700
+X-Gm-Features: AQ5f1Jq0g7_cpz9km07HhYPNuAtfUFeo8TT2LFP5VbLqU3SV92cIJZK-P99m1ds
+Message-ID: <CAFqHKTnBfmSoxou1Kze=q9VoqMGXYJUb=BOR3QMn4msi+ygwrQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] platform/x86: Add Lenovo Other Mode WMI Driver
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Hans de Goede <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>, Luke Jones <luke@ljones.dev>, 
+	Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, 
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, "Cody T . -H . Chiu" <codyit@gmail.com>, 
+	John Martens <johnfanv2@gmail.com>, platform-driver-x86@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi All,
+On Fri, Mar 7, 2025 at 4:25=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote:
+>
+> Am 25.02.25 um 22:59 schrieb Derek J. Clark:
+>
+> > Adds lenovo-wmi-other.c which provides a driver for the Lenovo
+> > "Other Mode" WMI interface that comes on some Lenovo "Gaming
+> > Series" hardware. Provides a firmware-attributes class which
+> > enables the use of tunable knobs for SPL, SPPT, and FPPT.
+> >
+> > v3:
+> > - Add notifier block and store result for getting the Gamezone interfac=
+e
+> >    profile changes.
+> > - Add driver as master component of capdata01 driver.
+> > - Use FIELD_PREP where appropriate.
+> > - Move macros and associated functions out of lemovo-wmi.h that are onl=
+y
+> >    used by this driver.
+> > v2:
+> > - Use devm_kmalloc to ensure driver can be instanced, remove global
+> >    reference.
+> > - Ensure reverse Christmas tree for all variable declarations.
+> > - Remove extra whitespace.
+> > - Use guard(mutex) in all mutex instances, global mutex.
+> > - Use pr_fmt instead of adding the driver name to each pr_err.
+> > - Remove noisy pr_info usage.
+> > - Rename other_method_wmi to lenovo_wmi_om_priv and om_wmi to priv.
+> > - Use list to get the lenovo_wmi_om_priv instance in some macro
+> >    called functions as the data provided by the macros that use it
+> >    doesn't pass a member of the struct for use in container_of.
+> > - Do not rely on GameZone interface to grab the current fan mode.
+> >
+> > Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> > ---
+> >   MAINTAINERS                             |   1 +
+> >   drivers/platform/x86/Kconfig            |  14 +
+> >   drivers/platform/x86/Makefile           |   1 +
+> >   drivers/platform/x86/lenovo-wmi-other.c | 549 +++++++++++++++++++++++=
++
+> >   drivers/platform/x86/lenovo-wmi.h       |  13 +
+> >   5 files changed, 578 insertions(+)
+> >   create mode 100644 drivers/platform/x86/lenovo-wmi-other.c
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index f6d3e79e50ce..f6e16b2346a2 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -13159,6 +13159,7 @@ F:    Documentation/wmi/devices/lenovo-wmi-game=
+zone.rst
+> >   F:  Documentation/wmi/devices/lenovo-wmi-other.rst
+> >   F:  drivers/platform/x86/lenovo-wmi-capdata01.c
+> >   F:  drivers/platform/x86/lenovo-wmi-gamezone.c
+> > +F:   drivers/platform/x86/lenovo-wmi-other.c
+> >   F:  drivers/platform/x86/lenovo-wmi.c
+> >   F:  drivers/platform/x86/lenovo-wmi.h
+> >
+> > diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfi=
+g
+> > index 56336dc3c2d0..017ecdfad8ce 100644
+> > --- a/drivers/platform/x86/Kconfig
+> > +++ b/drivers/platform/x86/Kconfig
+> > @@ -480,6 +480,20 @@ config LENOVO_WMI_DATA01
+> >       depends on ACPI_WMI
+> >       select LENOVO_WMI
+> >
+> > +config LENOVO_WMI_TUNING
+> > +     tristate "Lenovo Other Mode WMI Driver"
+> > +     depends on ACPI_WMI
+> > +     select FW_ATTR_CLASS
+> > +     select LENOVO_WMI
+> > +     select LENOVO_WMI_DATA01
+> > +     help
+> > +       Say Y here if you have a WMI aware Lenovo Legion device and wou=
+ld like to use the
+> > +       firmware_attributes API to control various tunable settings typ=
+ically exposed by
+> > +       Lenovo software in Windows.
+> > +
+> > +       To compile this driver as a module, choose M here: the module w=
+ill
+> > +       be called lenovo-wmi-other.
+> > +
+> >   config IDEAPAD_LAPTOP
+> >       tristate "Lenovo IdeaPad Laptop Extras"
+> >       depends on ACPI
+> > diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makef=
+ile
+> > index be9031bea090..28ce39631a6d 100644
+> > --- a/drivers/platform/x86/Makefile
+> > +++ b/drivers/platform/x86/Makefile
+> > @@ -71,6 +71,7 @@ obj-$(CONFIG_LENOVO_WMI)    +=3D lenovo-wmi.o
+> >   obj-$(CONFIG_LENOVO_WMI_CAMERA)     +=3D lenovo-wmi-camera.o
+> >   obj-$(CONFIG_LENOVO_WMI_GAMEZONE)   +=3D lenovo-wmi-gamezone.o
+> >   obj-$(CONFIG_LENOVO_WMI_DATA01)     +=3D lenovo-wmi-capdata01.o
+> > +obj-$(CONFIG_LENOVO_WMI_TUNING)      +=3D lenovo-wmi-other.o
+> >
+> >   # Intel
+> >   obj-y                               +=3D intel/
+> > diff --git a/drivers/platform/x86/lenovo-wmi-other.c b/drivers/platform=
+/x86/lenovo-wmi-other.c
+> > new file mode 100644
+> > index 000000000000..cd04ead94ba3
+> > --- /dev/null
+> > +++ b/drivers/platform/x86/lenovo-wmi-other.c
+> > @@ -0,0 +1,549 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + * Lenovo Other Mode WMI interface driver. This driver uses the fw_att=
+ributes
+> > + * class to expose the various WMI functions provided by the "Other Mo=
+de" WMI
+> > + * interface. This enables CPU and GPU power limit as well as various =
+other
+> > + * attributes for devices that fall under the "Gaming Series" of Lenov=
+o laptop
+> > + * devices. Each attribute exposed by the "Other Mode"" interface has =
+a
+> > + * corresponding LENOVO_CAPABILITY_DATA_01 struct that allows the driv=
+er to
+> > + * probe details about the attribute such as set/get support, step, mi=
+n, max,
+> > + * and default value. Each attibute has multiple pages, one for each o=
+f the
+> > + * fan profiles managed by the Gamezone interface.
+> > + *
+> > + * These attributes typically don't fit anywhere else in the sysfs and=
+ are set
+> > + * in Windows using one of Lenovo's multiple user applications.
+> > + *
+> > + * Copyright(C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
+>
+> 2025
+>
+> > + */
+> > +
+> > +#include <linux/bitfield.h>
+> > +#include <linux/cleanup.h>
+> > +#include <linux/component.h>
+> > +#include <linux/container_of.h>
+> > +#include <linux/device.h>
+> > +#include <linux/kobject.h>
+> > +#include <linux/notifier.h>
+> > +#include <linux/types.h>
+> > +#include <linux/wmi.h>
+> > +#include "lenovo-wmi.h"
+> > +#include "firmware_attributes_class.h"
+> > +
+> > +/* Interface GUIDs */
+> > +#define LENOVO_OTHER_METHOD_GUID "DC2A8805-3A8C-41BA-A6F7-092E0089CD3B=
+"
+> > +
+> > +/* Device IDs */
+> > +#define WMI_DEVICE_ID_CPU 0x01
+> > +
+> > +/* WMI_DEVICE_ID_CPU feature IDs */
+> > +#define WMI_FEATURE_ID_CPU_SPPT 0x01 /* Short Term Power Limit */
+> > +#define WMI_FEATURE_ID_CPU_FPPT 0x03 /* Long Term Power Limit */
+> > +#define WMI_FEATURE_ID_CPU_SPL 0x02 /* Peak Power Limit */
+> > +
+> > +/* Type IDs*/
+> > +#define WMI_TYPE_ID_NONE 0x00
+> > +
+> > +/* Method IDs */
+> > +#define WMI_FAN_TABLE_GET 5 /* Other Mode FAN_METHOD Getter */
+> > +#define WMI_FAN_TABLE_SET 6 /* Other Mode FAN_METHOD Setter */
+> > +#define WMI_FEATURE_VALUE_GET 17 /* Other Mode Getter */
+> > +#define WMI_FEATURE_VALUE_SET 18 /* Other Mode Setter */
+> > +
+> > +/* Attribute ID bitmasks */
+> > +#define ATTR_DEV_ID_MASK GENMASK(31, 24)
+> > +#define ATTR_FEAT_ID_MASK GENMASK(23, 16)
+> > +#define ATTR_MODE_ID_MASK GENMASK(15, 8)
+> > +#define ATTR_TYPE_ID_MASK GENMASK(7, 0)
+> > +
+> > +enum attribute_property {
+> > +     DEFAULT_VAL,
+> > +     MAX_VAL,
+> > +     MIN_VAL,
+> > +     STEP_VAL,
+> > +     SUPPORTED,
+> > +};
+> > +
+> > +/* Tunable attribute that uses LENOVO_CAPABILITY_DATA_01 */
+> > +struct tunable_attr_01 {
+> > +     u32 type_id;
+> > +     u32 device_id;
+> > +     u32 feature_id;
+> > +     u32 store_value;
+> > +     struct device *dev;
+> > +     struct capdata01 *capdata;
+> > +};
+> > +
+> > +/* Tunable Attributes */
+> > +struct tunable_attr_01 ppt_pl1_spl =3D { .device_id =3D WMI_DEVICE_ID_=
+CPU,
+> > +                                    .feature_id =3D WMI_FEATURE_ID_CPU=
+_SPL,
+> > +                                    .type_id =3D WMI_TYPE_ID_NONE };
+> > +struct tunable_attr_01 ppt_pl2_sppt =3D { .device_id =3D WMI_DEVICE_ID=
+_CPU,
+> > +                                     .feature_id =3D WMI_FEATURE_ID_CP=
+U_SPPT,
+> > +                                     .type_id =3D WMI_TYPE_ID_NONE };
+> > +struct tunable_attr_01 ppt_pl3_fppt =3D { .device_id =3D WMI_DEVICE_ID=
+_CPU,
+> > +                                     .feature_id =3D WMI_FEATURE_ID_CP=
+U_FPPT,
+> > +                                     .type_id =3D WMI_TYPE_ID_NONE };
+> > +
+> > +struct capdata01_attr_group {
+> > +     const struct attribute_group *attr_group;
+> > +     struct tunable_attr_01 *tunable_attr;
+> > +};
+> > +
+> > +#define FW_ATTR_FOLDER "lenovo-wmi-other"
+> > +
+> > +/**
+> > + * int_type_show() - Emit the data type for an integer attribute
+> > + * @kobj: Pointer to the driver object.
+> > + * @kobj_attribute: Pointer to the attribute calling this function.
+> > + * @buf: The buffer to write to.
+> > + *
+> > + * Returns: Number of characters written to buf.
+> > + */
+> > +static ssize_t int_type_show(struct kobject *kobj, struct kobj_attribu=
+te *kattr,
+> > +                          char *buf)
+> > +{
+> > +     return sysfs_emit(buf, "integer\n");
+> > +}
+> > +
+> > +/**                                      .
+> > + * attr_capdata01_get - Get the data of the specified attribute
+> > + * from lenovo_wmi_om->cd01.
+> > + * @tunable_attr: The attribute to be populated.
+> > + *
+> > + * Returns: Either 0 or an error.
+> > + */
+> > +static struct capdata01 *
+> > +attr_capdata01_get_data(struct lenovo_wmi_om *om,
+> > +                     struct tunable_attr_01 *tunable_attr,
+> > +                     enum thermal_mode mode)
+> > +{
+> > +     u32 attribute_id =3D
+> > +             FIELD_PREP(ATTR_DEV_ID_MASK, tunable_attr->device_id) |
+> > +             FIELD_PREP(ATTR_FEAT_ID_MASK, tunable_attr->feature_id) |
+> > +             FIELD_PREP(ATTR_MODE_ID_MASK, mode) |
+> > +             FIELD_PREP(ATTR_TYPE_ID_MASK, tunable_attr->type_id);
+> > +     int idx;
+> > +
+> > +     if (!om->cd01)
+> > +             return NULL;
+> > +
+> > +     for (idx =3D 0; idx < om->cd01->instance_count; idx++) {
+> > +             if (om->cd01->capdata[idx]->id !=3D attribute_id)
+> > +                     continue;
+> > +             return om->cd01->capdata[idx];
+> > +     }
+> > +
+> > +     return NULL;
+> > +}
+> > +
+> > +/**
+> > + * attr_capdata01_show() - Get the value of the specified attribute pr=
+operty
+> > + * from LENOVO_CAPABILITY_DATA_01.
+> > + * @kobj: Pointer to the driver object.
+> > + * @kobj_attribute: Pointer to the attribute calling this function.
+> > + * @buf: The buffer to write to.
+> > + * @tunable_attr: The attribute to be read.
+> > + * @prop: The property of this attribute to be read.
+> > + *
+> > + * This function is intended to be generic so it can be called from an=
+y "_show"
+> > + * attribute which works only with integers.
+> > + *
+> > + * If the WMI is success, then the sysfs attribute is notified.
+> > + *
+> > + * Returns: Either number of characters written to buf, or an error.
+> > + */
+> > +static ssize_t attr_capdata01_show(struct kobject *kobj,
+> > +                                struct kobj_attribute *kattr, char *bu=
+f,
+> > +                                struct tunable_attr_01 *tunable_attr,
+> > +                                enum attribute_property prop)
+> > +{
+> > +     struct lenovo_wmi_om *om =3D dev_get_drvdata(tunable_attr->dev);
+> > +     struct capdata01 *capdata;
+> > +     int value;
+> > +
+> > +     if (!om)
+> > +             return -ENODEV;
+> > +
+> > +     capdata =3D attr_capdata01_get_data(om, tunable_attr,
+> > +                                       SMARTFAN_MODE_CUSTOM);
+> > +
+> > +     if (!capdata)
+> > +             return -ENODEV;
+> > +
+> > +     switch (prop) {
+> > +     case DEFAULT_VAL:
+> > +             value =3D capdata->default_value;
+> > +             break;
+> > +     case MAX_VAL:
+> > +             value =3D capdata->max_value;
+> > +             break;
+> > +     case MIN_VAL:
+> > +             value =3D capdata->min_value;
+> > +             break;
+> > +     case STEP_VAL:
+> > +             value =3D capdata->step;
+> > +             break;
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+> > +     return sysfs_emit(buf, "%d\n", value);
+> > +}
+> > +
+> > +/* Simple attribute creation */
+> > +
+> > +/*
+> > + * att_current_value_store() - Set the current value of the given attr=
+ibute
+> > + * @kobj: Pointer to the driver object.
+> > + * @kobj_attribute: Pointer to the attribute calling this function.
+> > + * @buf: The buffer to read from, this is parsed to `int` type.
+> > + * @count: Required by sysfs attribute macros, pass in from the callee=
+ attr.
+> > + * @tunable_attr: The attribute to be stored.
+> > + *
+> > + * This function is intended to be generic so it can be called from an=
+y
+> > + * attribute's "current_value_store" which works only with integers. T=
+he
+> > + * integer to be sent to the WMI method is range checked and an error =
+returned
+> > + * if out of range.
+> > + *
+> > + * If the value is valid and WMI is success, then the sysfs attribute =
+is
+> > + * notified.
+> > + *
+> > + * Returns: Either count, or an error.
+> > + */
+> > +static ssize_t attr_current_value_store(struct kobject *kobj,
+> > +                                     struct kobj_attribute *kattr,
+> > +                                     const char *buf, size_t count,
+> > +                                     struct tunable_attr_01 *tunable_a=
+ttr)
+> > +{
+> > +     struct lenovo_wmi_om *om =3D dev_get_drvdata(tunable_attr->dev);
+> > +     struct capdata01 *capdata;
+> > +     u32 attribute_id;
+> > +     u32 value;
+> > +     int err;
+> > +
+> > +     if (!om)
+> > +             return -ENODEV;
+> > +
+> > +     capdata =3D attr_capdata01_get_data(om, tunable_attr,
+> > +                                       SMARTFAN_MODE_CUSTOM);
+> > +
+> > +     if (!capdata)
+> > +             return -ENODEV;
+> > +
+> > +     attribute_id =3D FIELD_PREP(ATTR_DEV_ID_MASK, tunable_attr->devic=
+e_id) |
+> > +                    FIELD_PREP(ATTR_FEAT_ID_MASK, tunable_attr->featur=
+e_id) |
+> > +                    FIELD_PREP(ATTR_MODE_ID_MASK, SMARTFAN_MODE_CUSTOM=
+) |
+> > +                    FIELD_PREP(ATTR_TYPE_ID_MASK, tunable_attr->type_i=
+d);
+> > +
+> > +     err =3D kstrtouint(buf, 10, &value);
+> > +     if (err)
+> > +             return err;
+> > +
+> > +     if (value < capdata->min_value || value > capdata->max_value)
+> > +             return -EINVAL;
+> > +
+> > +     err =3D lenovo_wmidev_evaluate_method_2(om->wdev, 0x0,
+> > +                                           WMI_FEATURE_VALUE_SET,
+> > +                                           attribute_id, value, NULL);
+> > +
+> > +     if (err)
+> > +             return err;
+> > +
+> > +     tunable_attr->store_value =3D value;
+> > +     return count;
+> > +};
+> > +
+> > +/*
+> > + * attr_current_value_show() - Get the current value of the given attr=
+ibute
+> > + * @kobj: Pointer to the driver object.
+> > + * @kobj_attribute: Pointer to the attribute calling this function.
+> > + * @buf: The buffer to write to.
+> > + * @tunable_attr: The attribute to be read.
+> > + *
+> > + * This function is intended to be generic so it can be called from an=
+y "_show"
+> > + * attribute which works only with integers.
+> > + *
+> > + * If the WMI is success, then the sysfs attribute is notified.
+> > + *
+> > + * Returns: Either number of characters written to buf, or an error.
+> > + */
+> > +static ssize_t attr_current_value_show(struct kobject *kobj,
+> > +                                    struct kobj_attribute *kattr, char=
+ *buf,
+> > +                                    struct tunable_attr_01 *tunable_at=
+tr)
+> > +{
+> > +     struct lenovo_wmi_om *om =3D dev_get_drvdata(tunable_attr->dev);
+> > +     u32 attribute_id;
+> > +     int retval;
+> > +     int err;
+> > +
+> > +     if (!om)
+> > +             return -ENODEV;
+> > +
+> > +     attribute_id =3D FIELD_PREP(ATTR_DEV_ID_MASK, tunable_attr->devic=
+e_id) |
+> > +                    FIELD_PREP(ATTR_FEAT_ID_MASK, tunable_attr->featur=
+e_id) |
+> > +                    FIELD_PREP(ATTR_MODE_ID_MASK, om->mode) |
+> > +                    FIELD_PREP(ATTR_TYPE_ID_MASK, tunable_attr->type_i=
+d);
+> > +
+> > +     err =3D lenovo_wmidev_evaluate_method_1(om->wdev, 0x0, WMI_FEATUR=
+E_VALUE_GET,
+> > +                                           attribute_id, &retval);
+> > +
+> > +     if (err)
+> > +             return err;
+> > +
+> > +     return sysfs_emit(buf, "%d\n", retval);
+> > +}
+> > +
+> > +/* Attribute macros */
+> > +#define __LL_ATTR_RO(_func, _name)                                    =
+\
+> > +     {                                                             \
+> > +             .attr =3D { .name =3D __stringify(_name), .mode =3D 0444 =
+}, \
+> > +             .show =3D _func##_##_name##_show,                       \
+> > +     }
+> > +
+> > +#define __LL_ATTR_RO_AS(_name, _show)                                 =
+\
+> > +     {                                                             \
+> > +             .attr =3D { .name =3D __stringify(_name), .mode =3D 0444 =
+}, \
+> > +             .show =3D _show,                                        \
+> > +     }
+> > +
+> > +#define __LL_ATTR_RW(_func, _name) \
+> > +     __ATTR(_name, 0644, _func##_##_name##_show, _func##_##_name##_sto=
+re)
+> > +
+> > +/* Shows a formatted static variable */
+> > +#define __ATTR_SHOW_FMT(_prop, _attrname, _fmt, _val)                 =
+         \
+> > +     static ssize_t _attrname##_##_prop##_show(                       =
+      \
+> > +             struct kobject *kobj, struct kobj_attribute *kattr, char =
+*buf) \
+> > +     {                                                                =
+      \
+> > +             return sysfs_emit(buf, _fmt, _val);                      =
+      \
+> > +     }                                                                =
+      \
+> > +     static struct kobj_attribute attr_##_attrname##_##_prop =3D      =
+        \
+> > +             __LL_ATTR_RO(_attrname, _prop)
+> > +
+> > +/* Attribute current value read/write */
+> > +#define __LL_TUNABLE_CURRENT_VALUE_CAP01(_attrname)                   =
+         \
+> > +     static ssize_t _attrname##_current_value_store(                  =
+      \
+> > +             struct kobject *kobj, struct kobj_attribute *kattr,      =
+      \
+> > +             const char *buf, size_t count)                           =
+      \
+> > +     {                                                                =
+      \
+> > +             return attr_current_value_store(kobj, kattr, buf, count, =
+      \
+> > +                                             &_attrname);             =
+      \
+> > +     }                                                                =
+      \
+> > +     static ssize_t _attrname##_current_value_show(                   =
+      \
+> > +             struct kobject *kobj, struct kobj_attribute *kattr, char =
+*buf) \
+> > +     {                                                                =
+      \
+> > +             return attr_current_value_show(kobj, kattr, buf, &_attrna=
+me);  \
+> > +     }                                                                =
+      \
+> > +     static struct kobj_attribute attr_##_attrname##_current_value =3D=
+        \
+> > +             __LL_ATTR_RW(_attrname, current_value)
+> > +
+> > +/* Attribute property read only */
+> > +#define __LL_TUNABLE_RO_CAP01(_prop, _attrname, _prop_type)           =
+         \
+> > +     static ssize_t _attrname##_##_prop##_show(                       =
+      \
+> > +             struct kobject *kobj, struct kobj_attribute *kattr, char =
+*buf) \
+> > +     {                                                                =
+      \
+> > +             return attr_capdata01_show(kobj, kattr, buf, &_attrname, =
+      \
+> > +                                        _prop_type);                  =
+      \
+> > +     }                                                                =
+      \
+> > +     static struct kobj_attribute attr_##_attrname##_##_prop =3D      =
+        \
+> > +             __LL_ATTR_RO(_attrname, _prop)
+> > +
+> > +#define ATTR_GROUP_LL_TUNABLE_CAP01(_attrname, _fsname, _dispname)    =
+ \
+> > +     __LL_TUNABLE_CURRENT_VALUE_CAP01(_attrname);                   \
+> > +     __LL_TUNABLE_RO_CAP01(default_value, _attrname, DEFAULT_VAL);  \
+> > +     __ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);   \
+> > +     __LL_TUNABLE_RO_CAP01(max_value, _attrname, MAX_VAL);          \
+> > +     __LL_TUNABLE_RO_CAP01(min_value, _attrname, MIN_VAL);          \
+> > +     __LL_TUNABLE_RO_CAP01(scalar_increment, _attrname, STEP_VAL);  \
+> > +     static struct kobj_attribute attr_##_attrname##_type =3D         =
+\
+> > +             __LL_ATTR_RO_AS(type, int_type_show);                  \
+> > +     static struct attribute *_attrname##_attrs[] =3D {               =
+\
+> > +             &attr_##_attrname##_current_value.attr,                \
+> > +             &attr_##_attrname##_default_value.attr,                \
+> > +             &attr_##_attrname##_display_name.attr,                 \
+> > +             &attr_##_attrname##_max_value.attr,                    \
+> > +             &attr_##_attrname##_min_value.attr,                    \
+> > +             &attr_##_attrname##_scalar_increment.attr,             \
+> > +             &attr_##_attrname##_type.attr,                         \
+> > +             NULL,                                                  \
+> > +     };                                                             \
+> > +     static const struct attribute_group _attrname##_attr_group =3D { =
+\
+> > +             .name =3D _fsname, .attrs =3D _attrname##_attrs          =
+  \
+> > +     }
+>
+> Those macros look a bit chaotic, can you help me a bit in understanding t=
+heir purpose?
+>
 
-On 3/5/2025 1:34 PM, Moger, Babu wrote:
-> Hi Peter,
-> 
-> On 3/5/25 04:40, Peter Newman wrote:
->> Hi Babu,
->>
->> On Tue, Mar 4, 2025 at 10:49 PM Moger, Babu <babu.moger@amd.com> wrote:
->>>
->>> Hi Peter,
->>>
->>> On 3/4/25 10:44, Peter Newman wrote:
->>>> On Mon, Mar 3, 2025 at 8:16 PM Moger, Babu <babu.moger@amd.com> wrote:
->>>>>
->>>>> Hi Peter/Reinette,
->>>>>
->>>>> On 2/26/25 07:27, Peter Newman wrote:
->>>>>> Hi Babu,
->>>>>>
->>>>>> On Tue, Feb 25, 2025 at 10:31 PM Moger, Babu <babu.moger@amd.com> wrote:
->>>>>>>
->>>>>>> Hi Peter,
->>>>>>>
->>>>>>> On 2/25/25 11:11, Peter Newman wrote:
->>>>>>>> Hi Reinette,
->>>>>>>>
->>>>>>>> On Fri, Feb 21, 2025 at 11:43 PM Reinette Chatre
->>>>>>>> <reinette.chatre@intel.com> wrote:
->>>>>>>>>
->>>>>>>>> Hi Peter,
->>>>>>>>>
->>>>>>>>> On 2/21/25 5:12 AM, Peter Newman wrote:
->>>>>>>>>> On Thu, Feb 20, 2025 at 7:36 PM Reinette Chatre
->>>>>>>>>> <reinette.chatre@intel.com> wrote:
->>>>>>>>>>> On 2/20/25 6:53 AM, Peter Newman wrote:
->>>>>>>>>>>> On Wed, Feb 19, 2025 at 7:21 PM Reinette Chatre
->>>>>>>>>>>> <reinette.chatre@intel.com> wrote:
->>>>>>>>>>>>> On 2/19/25 3:28 AM, Peter Newman wrote:
->>>>>>>>>>>>>> On Tue, Feb 18, 2025 at 6:50 PM Reinette Chatre
->>>>>>>>>>>>>> <reinette.chatre@intel.com> wrote:
->>>>>>>>>>>>>>> On 2/17/25 2:26 AM, Peter Newman wrote:
->>>>>>>>>>>>>>>> On Fri, Feb 14, 2025 at 8:18 PM Reinette Chatre
->>>>>>>>>>>>>>>> <reinette.chatre@intel.com> wrote:
->>>>>>>>>>>>>>>>> On 2/14/25 10:31 AM, Moger, Babu wrote:
->>>>>>>>>>>>>>>>>> On 2/14/2025 12:26 AM, Reinette Chatre wrote:
->>>>>>>>>>>>>>>>>>> On 2/13/25 9:37 AM, Dave Martin wrote:
->>>>>>>>>>>>>>>>>>>> On Wed, Feb 12, 2025 at 03:33:31PM -0800, Reinette Chatre wrote:
->>>>>>>>>>>>>>>>>>>>> On 2/12/25 9:46 AM, Dave Martin wrote:
->>>>>>>>>>>>>>>>>>>>>> On Wed, Jan 22, 2025 at 02:20:08PM -0600, Babu Moger wrote:
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>> (quoting relevant parts with goal to focus discussion on new possible syntax)
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> I see the support for MPAM events distinct from the support of assignable counters.
->>>>>>>>>>>>>>>>>>>>> Once the MPAM events are sorted, I think that they can be assigned with existing interface.
->>>>>>>>>>>>>>>>>>>>> Please help me understand if you see it differently.
->>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> Doing so would need to come up with alphabetical letters for these events,
->>>>>>>>>>>>>>>>>>>>> which seems to be needed for your proposal also? If we use possible flags of:
->>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> mbm_local_read_bytes a
->>>>>>>>>>>>>>>>>>>>> mbm_local_write_bytes b
->>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> Then mbm_assign_control can be used as:
->>>>>>>>>>>>>>>>>>>>> # echo '//0=ab;1=b' >/sys/fs/resctrl/info/L3_MON/mbm_assign_control
->>>>>>>>>>>>>>>>>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_read_bytes
->>>>>>>>>>>>>>>>>>>>> <value>
->>>>>>>>>>>>>>>>>>>>> # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->>>>>>>>>>>>>>>>>>>>> <sum of mbm_local_read_bytes and mbm_local_write_bytes>
->>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> One issue would be when resctrl needs to support more than 26 events (no more flags available),
->>>>>>>>>>>>>>>>>>>>> assuming that upper case would be used for "shared" counters (unless this interface is defined
->>>>>>>>>>>>>>>>>>>>> differently and only few uppercase letters used for it). Would this be too low of a limit?
->>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>> As mentioned above, one possible issue with existing interface is that
->>>>>>>>>>>>>>>>> it is limited to 26 events (assuming only lower case letters are used). The limit
->>>>>>>>>>>>>>>>> is low enough to be of concern.
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> The events which can be monitored by a single counter on ABMC and MPAM
->>>>>>>>>>>>>>>> so far are combinable, so 26 counters per group today means it limits
->>>>>>>>>>>>>>>> breaking down MBM traffic for each group 26 ways. If a user complained
->>>>>>>>>>>>>>>> that a 26-way breakdown of a group's MBM traffic was limiting their
->>>>>>>>>>>>>>>> investigation, I would question whether they know what they're looking
->>>>>>>>>>>>>>>> for.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> The key here is "so far" as well as the focus on MBM only.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> It is impossible for me to predict what we will see in a couple of years
->>>>>>>>>>>>>>> from Intel RDT, AMD PQoS, and Arm MPAM that now all rely on resctrl interface
->>>>>>>>>>>>>>> to support their users. Just looking at the Intel RDT spec the event register
->>>>>>>>>>>>>>> has space for 32 events for each "CPU agent" resource. That does not take into
->>>>>>>>>>>>>>> account the "non-CPU agents" that are enumerated via ACPI. Tony already mentioned
->>>>>>>>>>>>>>> that he is working on patches [1] that will add new events and shared the idea
->>>>>>>>>>>>>>> that we may be trending to support "perf" like events associated with RMID. I
->>>>>>>>>>>>>>> expect AMD PQoS and Arm MPAM to provide related enhancements to support their
->>>>>>>>>>>>>>> customers.
->>>>>>>>>>>>>>> This all makes me think that resctrl should be ready to support more events than 26.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> I was thinking of the letters as representing a reusable, user-defined
->>>>>>>>>>>>>> event-set for applying to a single counter rather than as individual
->>>>>>>>>>>>>> events, since MPAM and ABMC allow us to choose the set of events each
->>>>>>>>>>>>>> one counts. Wherever we define the letters, we could use more symbolic
->>>>>>>>>>>>>> event names.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Thank you for clarifying.
->>>>>>>>>>>>>
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> In the letters as events model, choosing the events assigned to a
->>>>>>>>>>>>>> group wouldn't be enough information, since we would want to control
->>>>>>>>>>>>>> which events should share a counter and which should be counted by
->>>>>>>>>>>>>> separate counters. I think the amount of information that would need
->>>>>>>>>>>>>> to be encoded into mbm_assign_control to represent the level of
->>>>>>>>>>>>>> configurability supported by hardware would quickly get out of hand.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Maybe as an example, one counter for all reads, one counter for all
->>>>>>>>>>>>>> writes in ABMC would look like...
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> (L3_QOS_ABMC_CFG.BwType field names below)
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> (per domain)
->>>>>>>>>>>>>> group 0:
->>>>>>>>>>>>>>   counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>>>>   counter 1: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>>>>> group 1:
->>>>>>>>>>>>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>>>>> ...
->>>>>>>>>>>>>>
->>>>>>>>>>>>>
->>>>>>>>>>>>> I think this may also be what Dave was heading towards in [2] but in that
->>>>>>>>>>>>> example and above the counter configuration appears to be global. You do mention
->>>>>>>>>>>>> "configurability supported by hardware" so I wonder if per-domain counter
->>>>>>>>>>>>> configuration is a requirement?
->>>>>>>>>>>>
->>>>>>>>>>>> If it's global and we want a particular group to be watched by more
->>>>>>>>>>>> counters, I wouldn't want this to result in allocating more counters
->>>>>>>>>>>> for that group in all domains, or allocating counters in domains where
->>>>>>>>>>>> they're not needed. I want to encourage my users to avoid allocating
->>>>>>>>>>>> monitoring resources in domains where a job is not allowed to run so
->>>>>>>>>>>> there's less pressure on the counters.
->>>>>>>>>>>>
->>>>>>>>>>>> In Dave's proposal it looks like global configuration means
->>>>>>>>>>>> globally-defined "named counter configurations", which works because
->>>>>>>>>>>> it's really per-domain assignment of the configurations to however
->>>>>>>>>>>> many counters the group needs in each domain.
->>>>>>>>>>>
->>>>>>>>>>> I think I am becoming lost. Would a global configuration not break your
->>>>>>>>>>> view of "event-set applied to a single counter"? If a counter is configured
->>>>>>>>>>> globally then it would not make it possible to support the full configurability
->>>>>>>>>>> of the hardware.
->>>>>>>>>>> Before I add more confusion, let me try with an example that builds on your
->>>>>>>>>>> earlier example copied below:
->>>>>>>>>>>
->>>>>>>>>>>>>> (per domain)
->>>>>>>>>>>>>> group 0:
->>>>>>>>>>>>>>   counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>>>>   counter 1: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>>>>> group 1:
->>>>>>>>>>>>>>   counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>>>>   counter 3: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>>>>> ...
->>>>>>>>>>>
->>>>>>>>>>> Since the above states "per domain" I rewrite the example to highlight that as
->>>>>>>>>>> I understand it:
->>>>>>>>>>>
->>>>>>>>>>> group 0:
->>>>>>>>>>>   domain 0:
->>>>>>>>>>>    counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>    counter 1: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>>   domain 1:
->>>>>>>>>>>    counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>    counter 1: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>> group 1:
->>>>>>>>>>>   domain 0:
->>>>>>>>>>>    counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>    counter 3: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>>   domain 1:
->>>>>>>>>>>    counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>    counter 3: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>>
->>>>>>>>>>> You mention that you do not want counters to be allocated in domains that they
->>>>>>>>>>> are not needed in. So, let's say group 0 does not need counter 0 and counter 1
->>>>>>>>>>> in domain 1, resulting in:
->>>>>>>>>>>
->>>>>>>>>>> group 0:
->>>>>>>>>>>   domain 0:
->>>>>>>>>>>    counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>    counter 1: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>> group 1:
->>>>>>>>>>>   domain 0:
->>>>>>>>>>>    counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>    counter 3: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>>   domain 1:
->>>>>>>>>>>    counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>    counter 3: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>>
->>>>>>>>>>> With counter 0 and counter 1 available in domain 1, these counters could
->>>>>>>>>>> theoretically be configured to give group 1 more data in domain 1:
->>>>>>>>>>>
->>>>>>>>>>> group 0:
->>>>>>>>>>>   domain 0:
->>>>>>>>>>>    counter 0: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>    counter 1: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>> group 1:
->>>>>>>>>>>   domain 0:
->>>>>>>>>>>    counter 2: LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>>    counter 3: VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>>   domain 1:
->>>>>>>>>>>    counter 0: LclFill,RmtFill
->>>>>>>>>>>    counter 1: LclNTWr,RmtNTWr
->>>>>>>>>>>    counter 2: LclSlowFill,RmtSlowFill
->>>>>>>>>>>    counter 3: VictimBW
->>>>>>>>>>>
->>>>>>>>>>> The counters are shown with different per-domain configurations that seems to
->>>>>>>>>>> match with earlier goals of (a) choose events counted by each counter and
->>>>>>>>>>> (b) do not allocate counters in domains where they are not needed. As I
->>>>>>>>>>> understand the above does contradict global counter configuration though.
->>>>>>>>>>> Or do you mean that only the *name* of the counter is global and then
->>>>>>>>>>> that it is reconfigured as part of every assignment?
->>>>>>>>>>
->>>>>>>>>> Yes, I meant only the *name* is global. I assume based on a particular
->>>>>>>>>> system configuration, the user will settle on a handful of useful
->>>>>>>>>> groupings to count.
->>>>>>>>>>
->>>>>>>>>> Perhaps mbm_assign_control syntax is the clearest way to express an example...
->>>>>>>>>>
->>>>>>>>>>   # define global configurations (in ABMC terms), not necessarily in this
->>>>>>>>>>   # syntax and probably not in the mbm_assign_control file.
->>>>>>>>>>
->>>>>>>>>>   r=LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>>>>>>>   w=VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>
->>>>>>>>>>   # legacy "total" configuration, effectively r+w
->>>>>>>>>>   t=LclFill,RmtFill,LclSlowFill,RmtSlowFill,VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>>
->>>>>>>>>>   /group0/0=t;1=t
->>>>>>>>>>   /group1/0=t;1=t
->>>>>>>>>>   /group2/0=_;1=t
->>>>>>>>>>   /group3/0=rw;1=_
->>>>>>>>>>
->>>>>>>>>> - group2 is restricted to domain 0
->>>>>>>>>> - group3 is restricted to domain 1
->>>>>>>>>> - the rest are unrestricted
->>>>>>>>>> - In group3, we decided we need to separate read and write traffic
->>>>>>>>>>
->>>>>>>>>> This consumes 4 counters in domain 0 and 3 counters in domain 1.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> I see. Thank you for the example.
->>>>>>>>>
->>>>>>>>> resctrl supports per-domain configurations with the following possible when
->>>>>>>>> using mbm_total_bytes_config and mbm_local_bytes_config:
->>>>>>>>>
->>>>>>>>> t(domain 0)=LclFill,RmtFill,LclSlowFill,RmtSlowFill,VictimBW,LclNTWr,RmtNTWr
->>>>>>>>> t(domain 1)=LclFill,RmtFill,VictimBW,LclNTWr,RmtNTWr
->>>>>>>>>
->>>>>>>>>     /group0/0=t;1=t
->>>>>>>>>     /group1/0=t;1=t
->>>>>>>>>
->>>>>>>>> Even though the flags are identical in all domains, the assigned counters will
->>>>>>>>> be configured differently in each domain.
->>>>>>>>>
->>>>>>>>> With this supported by hardware and currently also supported by resctrl it seems
->>>>>>>>> reasonable to carry this forward to what will be supported next.
->>>>>>>>
->>>>>>>> The hardware supports both a per-domain mode, where all groups in a
->>>>>>>> domain use the same configurations and are limited to two events per
->>>>>>>> group and a per-group mode where every group can be configured and
->>>>>>>> assigned freely. This series is using the legacy counter access mode
->>>>>>>> where only counters whose BwType matches an instance of QOS_EVT_CFG_n
->>>>>>>> in the domain can be read. If we chose to read the assigned counter
->>>>>>>> directly (QM_EVTSEL[ExtendedEvtID]=1, QM_EVTSEL[EvtID]=L3CacheABMC)
->>>>>>>> rather than asking the hardware to find the counter by RMID, we would
->>>>>>>> not be limited to 2 counters per group/domain and the hardware would
->>>>>>>> have the same flexibility as on MPAM.
->>>>>>>
->>>>>>> In extended mode, the contents of a specific counter can be read by
->>>>>>> setting the following fields in QM_EVTSEL: [ExtendedEvtID]=1,
->>>>>>> [EvtID]=L3CacheABMC and setting [RMID] to the desired counter ID. Reading
->>>>>>> QM_CTR will then return the contents of the specified counter.
->>>>>>>
->>>>>>> It is documented below.
->>>>>>> https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/programmer-references/24593.pdf
->>>>>>>   Section: 19.3.3.3 Assignable Bandwidth Monitoring (ABMC)
->>>>>>>
->>>>>>> We previously discussed this with you (off the public list) and I
->>>>>>> initially proposed the extended assignment mode.
->>>>>>>
->>>>>>> Yes, the extended mode allows greater flexibility by enabling multiple
->>>>>>> counters to be assigned to the same group, rather than being limited to
->>>>>>> just two.
->>>>>>>
->>>>>>> However, the challenge is that we currently lack the necessary interfaces
->>>>>>> to configure multiple events per group. Without these interfaces, the
->>>>>>> extended mode is not practical at this time.
->>>>>>>
->>>>>>> Therefore, we ultimately agreed to use the legacy mode, as it does not
->>>>>>> require modifications to the existing interface, allowing us to continue
->>>>>>> using it as is.
->>>>>>>
->>>>>>>>
->>>>>>>> (I might have said something confusing in my last messages because I
->>>>>>>> had forgotten that I switched to the extended assignment mode when
->>>>>>>> prototyping with soft-ABMC and MPAM.)
->>>>>>>>
->>>>>>>> Forcing all groups on a domain to share the same 2 counter
->>>>>>>> configurations would not be acceptable for us, as the example I gave
->>>>>>>> earlier is one I've already been asked about.
->>>>>>>
->>>>>>> I don’t see this as a blocker. It should be considered an extension to the
->>>>>>> current ABMC series. We can easily build on top of this series once we
->>>>>>> finalize how to configure the multiple event interface for each group.
->>>>>>
->>>>>> I don't think it is, either. Only being able to use ABMC to assign
->>>>>> counters is fine for our use as an incremental step. My longer-term
->>>>>> concern is the domain-scoped mbm_total_bytes_config and
->>>>>> mbm_local_bytes_config files, but they were introduced with BMEC, so
->>>>>> there's already an expectation that the files are present when BMEC is
->>>>>> supported.
->>>>>>
->>>>>> On ABMC hardware that also supports BMEC, I'm concerned about enabling
->>>>>> ABMC when only the BMEC-style event configuration interface exists.
->>>>>> The scope of my issue is just whether enabling "full" ABMC support
->>>>>> will require an additional opt-in, since that could remove the BMEC
->>>>>> interface. If it does, it's something we can live with.
->>>>>
->>>>> As you know, this series is currently blocked without further feedback.
->>>>>
->>>>> I’d like to begin reworking these patches to incorporate Peter’s feedback.
->>>>> Any input or suggestions would be appreciated.
->>>>>
->>>>> Here’s what we’ve learned so far:
->>>>>
->>>>> 1. Assignments should be independent of BMEC.
->>>>> 2. We should be able to specify multiple event types to a counter (e.g.,
->>>>> read, write, victimBM, etc.). This is also called shared counter
->>>>> 3. There should be an option to assign events per domain.
->>>>> 4. Currently, only two counters can be assigned per group, but the design
->>>>> should allow flexibility to assign more in the future as the interface
->>>>> evolves.
->>>>> 5. Utilize the extended RMID read mode.
->>>>>
->>>>>
->>>>> Here is my proposal using Peter's earlier example:
->>>>>
->>>>> # define event configurations
->>>>>
->>>>> ========================================================
->>>>> Bits    Mnemonics       Description
->>>>> ====   ========================================================
->>>>> 6       VictimBW        Dirty Victims from all types of memory
->>>>> 5       RmtSlowFill     Reads to slow memory in the non-local NUMA domain
->>>>> 4       LclSlowFill     Reads to slow memory in the local NUMA domain
->>>>> 3       RmtNTWr         Non-temporal writes to non-local NUMA domain
->>>>> 2       LclNTWr         Non-temporal writes to local NUMA domain
->>>>> 1       mtFill          Reads to memory in the non-local NUMA domain
->>>>> 0       LclFill         Reads to memory in the local NUMA domain
->>>>> ====    ========================================================
->>>>>
->>>>> #Define flags based on combination of above event types.
->>>>>
->>>>> t = LclFill,RmtFill,LclSlowFill,RmtSlowFill,VictimBW,LclNTWr,RmtNTWr
->>>>> l = LclFill, LclNTWr, LclSlowFill
->>>>> r = LclFill,RmtFill,LclSlowFill,RmtSlowFill
->>>>> w = VictimBW,LclNTWr,RmtNTWr
->>>>> v = VictimBW
->>>>>
->>>>> Peter suggested the following format earlier :
->>>>>
->>>>> /group0/0=t;1=t
->>>>> /group1/0=t;1=t
->>>>> /group2/0=_;1=t
->>>>> /group3/0=rw;1=_
->>>>
->>>> After some inquiries within Google, it sounds like nobody has invested
->>>> much into the current mbm_assign_control format yet, so it would be
->>>> best to drop it and distribute the configuration around the filesystem
->>>> hierarchy[1], which should allow us to produce something more flexible
->>>> and cleaner to implement.
->>>>
->>>> Roughly what I had in mind:
->>>>
->>>> Use mkdir in a info/<resource>_MON subdirectory to create free-form
->>>> names for the assignable configurations rather than being restricted
->>>> to single letters.  In the resulting directory, populate a file where
->>>> we can specify the set of events the config should represent. I think
->>>> we should use symbolic names for the events rather than raw BMEC field
->>>> values. Moving forward we could come up with portable names for common
->>>> events and only support the BMEC names on AMD machines for users who
->>>> want specific events and don't care about portability.
->>>
->>>
->>> I’m still processing this. Let me start with some initial questions.
->>>
->>> So, we are creating event configurations here, which seems reasonable.
->>>
->>> Yes, we should use portable names and are not limited to BMEC names.
->>>
->>> How many configurations should we allow? Do we know?
->>
->> Do we need an upper limit?
-> 
-> I think so. This needs to be maintained in some data structure. We can
-> start with 2 default configurations for now.
-> 
->>
->>>
->>>>
->>>> Next, put assignment-control file nodes in per-domain directories
->>>> (i.e., mon_data/mon_L3_00/assign_{exclusive,shared}). Writing a
->>>> counter-configuration name into the file would then allocate a counter
->>>> in the domain, apply the named configuration, and monitor the parent
->>>> group-directory. We can also put a group/resource-scoped assign_* file
->>>> higher in the hierarchy to make it easier for users who want to
->>>> configure all domains the same for a group.
->>>
->>> What is the difference between shared and exclusive?
->>
->> Shared assignment[1] means that non-exclusively-assigned counters in
->> each domain will be scheduled round-robin to the groups requesting
->> shared access to a counter. In my tests, I assigned the counters long
->> enough to produce a single 1-second MB/s sample for the per-domain
->> aggregation files[2].
->>
->> These do not need to be implemented immediately, but knowing that they
->> work addresses the overhead and scalability concerns of reassigning
->> counters and reading their values.
-> 
-> Ok. Lets focus on exclusive assignments for now.
-> 
->>
->>>
->>> Having three files—assign_shared, assign_exclusive, and unassign—for each
->>> domain seems excessive. In a system with 32 groups and 12 domains, this
->>> results in 32 × 12 × 3 files, which is quite large.
->>>
->>> There should be a more efficient way to handle this.
->>>
->>> Initially, we started with a group-level file for this interface, but it
->>> was rejected due to the high number of sysfs calls, making it inefficient.
->>
->> I had rejected it due to the high-frequency of access of a large
->> number of files, which has since been addressed by shared assignment
->> (or automatic reassignment) and aggregated mbps files.
-> 
-> I think we should address this as well. Creating three extra files for
-> each group isn’t ideal when there are more efficient alternatives.
-> 
->>
->>>
->>> Additionally, how can we list all assignments with a single sysfs call?
->>>
->>> That was another problem we need to address.
->>
->> This is not a requirement I was aware of. If the user forgot where
->> they assigned counters (or forgot to disable auto-assignment), they
->> can read multiple sysfs nodes to remind themselves.
-> 
-> I suggest, we should provide users with an option to list the assignments
-> of all groups in a single command. As the number of groups increases, it
-> becomes cumbersome to query each group individually.
-> 
-> To achieve this, we can reuse our existing mbm_assign_control interface
-> for this purpose. More details on this below.
-> 
->>>
->>>
->>>>
->>>> The configuration names listed in assign_* would result in files of
->>>> the same name in the appropriate mon_data domain directories from
->>>> which the count values can be read.
->>>>
->>>>   # mkdir info/L3_MON/counter_configs/mbm_local_bytes
->>>>   # echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>>   # echo LclNTWr > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>>   # echo LclSlowFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>>   # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>> LclFill
->>>> LclNTWr
->>>> LclSlowFill
->>>
->>> I feel we can just have the configs. event_filter file is not required.
->>
->> That's right, I forgot that we can implement kernfs_ops::open(). I was
->> only looking at struct kernfs_syscall_ops
->>
->>>
->>> #cat info/L3_MON/counter_configs/mbm_local_bytes
->>> LclFill <-rename these to generic names.
->>> LclNTWr
->>> LclSlowFill
->>>
->>
->> I think portable and non-portable event names should both be available
->> as options. There are simple bandwidth measurement mechanisms that
->> will be applied in general, but when they turn up an issue, it can
->> often lead to a more focused investigation, requiring more precise
->> events.
-> 
-> I aggree. We should provide both portable and non-portable event names.
-> 
-> Here is my draft proposal based on the discussion so far and reusing some
-> of the current interface. Idea here is to start with basic assigment
-> feature with options to enhance it in the future. Feel free to
-> comment/suggest.
-> 
-> 1. Event configurations will be in
->     /sys/fs/resctrl/info/L3_MON/counter_configs/.
-> 
->     There will be two pre-defined configurations by default.
-> 
->     #cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes
->     LclFill, LclNTWr,LclSlowFill,VictimBM,RmtSlowFill,LclSlowFill,RmtFill
-> 
->     #cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes
->     LclFill, LclNTWr, LclSlowFill
-> 
-> 2. Users will have options to update these configurations.
-> 
->     #echo "LclFill, LclNTWr, RmtFill" >
->        /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes
-> 
->     # #cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes
->     LclFill, LclNTWr, RmtFill
-> 
-> 3. The default configurations will be used when user mounts the resctrl.
-> 
->     mount  -t resctrl resctrl /sys/fs/resctrl/
->     mkdir /sys/fs/resctrl/test/
-> 
-> 4. The resctrl group/domains can be in one of these assingnment states.
->     e: Exclusive
->     s: Shared
->     u: Unassigned
-> 
->     Exclusive mode is supported now. Shared mode will be supported in the
-> future.
-> 
-> 5. We can use the current /sys/fs/resctrl/info/L3_MON/mbm_assign_control
-> to list the assignment state of all the groups.
-> 
->     Format:
->     "<CTRL_MON group>/<MON group>/<confguration>:<domain_id>=<assign state>"
-> 
->    # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
->     test//mbm_total_bytes:0=e;1=e
->     test//mbm_local_bytes:0=e;1=e
->     //mbm_total_bytes:0=e;1=e
->     //mbm_local_bytes:0=e;1=e
-> 
-> 6. Users can modify the assignment state by writing to mbm_assign_control.
-> 
->     Format:
->     “<CTRL_MON group>/<MON group>/<configuration>:<domain_id>=<assign state>”
-> 
->     #echo "test//mbm_local_bytes:0=e;1=e" >
-> /sys/fs/resctrl/info/L3_MON/mbm_assign_control
-> 
->     #echo "test//mbm_local_bytes:0=u;1=u" >
-> /sys/fs/resctrl/info/L3_MON/mbm_assign_control
-> 
->     # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
->     test//mbm_total_bytes:0=u;1=u
->     test//mbm_local_bytes:0=u;1=u
->     //mbm_total_bytes:0=e;1=e
->     //mbm_local_bytes:0=e;1=e
-> 
->     The corresponding events will be read in
-> 
->     /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
->     /sys/fs/resctrl/mon_data/mon_L3_01/mbm_total_bytes
->     /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->     /sys/fs/resctrl/mon_data/mon_L3_01/mbm_local_bytes
->     /sys/fs/resctrl/test/mon_data/mon_L3_00/mbm_total_bytes
->     /sys/fs/resctrl/test/mon_data/mon_L3_01/mbm_total_bytes
->     /sys/fs/resctrl/test/mon_data/mon_L3_00/mbm_local_bytes
->     /sys/fs/resctrl/test/mon_data/mon_L3_01/mbm_local_bytes
-> 
-> 7. In the first stage, only two configurations(mbm_total_bytes and
-> mbm_local_bytes) will be supported.
-> 
-> 8. In the future, there will be options to create multiple configurations
-> and corresponding directory will be created in
-> /sysf/fs/resctrl/test/mon_data/mon_L3_00/<configation name>.
-> 
+These macros create an attribute group (and associated show/store
+functions) for each firmware attribute exposed by other mode with the
+capdata_01 class. Each firmware attribute has the following sysfs
+fields:
+ - current_value
+ - default_value
+ - display_name
+ - max_value
+ - min_value
+ - scalar_increment
+ - type
 
-I know you are all busy with multiple series going on parallel. I am 
-still waiting for the inputs on this. It will be great if you can spend 
-some time on this to see if we can find common ground on the interface.
+The main ATTR_GROUP_LL_TUNABLE_CAP01 macro creates all of these sysfs
+entries for a specific attribute. Most of these are RO attributes that
+only have a _show call. current_value is the only RW attribute so it
+binds _show and _store. display_name and type emit strings through
+sysfs_emit.
 
-Thanks
-Babu
+Currently we're only exposing 3 of these attributes
+(pl1_ppt/pl2_sppt/pl3_fppt), but the MOF data provides details on 68
+total attributes. This approach reduces the size & complexity of the
+driver by turning a lot of repeated boilerplate into macros for the
+compiler to manage.
+
+> > +
+> > +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl1_spl, "ppt_pl1_spl",
+> > +                         "Set the CPU sustained power limit");
+> > +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl2_sppt, "ppt_pl2_sppt",
+> > +                         "Set the CPU slow package power tracking limi=
+t");
+> > +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl3_fppt, "ppt_pl3_fppt",
+> > +                         "Set the CPU fast package power tracking limi=
+t");
+> > +
+> > +static struct capdata01_attr_group capdata01_attr_groups[] =3D {
+> > +     { &ppt_pl1_spl_attr_group, &ppt_pl1_spl },
+> > +     { &ppt_pl2_sppt_attr_group, &ppt_pl2_sppt },
+> > +     { &ppt_pl3_fppt_attr_group, &ppt_pl3_fppt },
+> > +     {},
+> > +};
+> > +
+> > +static int lenovo_wmi_om_fw_attr_add(struct lenovo_wmi_om *om)
+> > +{
+> > +     int err, i;
+> > +
+> > +     om->fw_attr_dev =3D device_create(&firmware_attributes_class, NUL=
+L,
+> > +                                     MKDEV(0, 0), NULL, "%s",
+> > +                                     FW_ATTR_FOLDER);
+> > +     if (IS_ERR(om->fw_attr_dev)) {
+> > +             err =3D PTR_ERR(om->fw_attr_dev);
+> > +             return err;
+> > +     }
+> > +
+> > +     om->fw_attr_kset =3D
+> > +             kset_create_and_add("attributes", NULL, &om->fw_attr_dev-=
+>kobj);
+> > +     if (!om->fw_attr_kset) {
+> > +             err =3D -ENOMEM;
+> > +             goto err_destroy_classdev;
+> > +     }
+> > +
+> > +     for (i =3D 0; i < ARRAY_SIZE(capdata01_attr_groups) - 1; i++) {
+> > +             err =3D sysfs_create_group(&om->fw_attr_kset->kobj,
+> > +                                      capdata01_attr_groups[i].attr_gr=
+oup);
+> > +             if (err) {
+> > +                     pr_debug("Failed to create sysfs-group for %s: %d=
+\n",
+> > +                              capdata01_attr_groups[i].attr_group->nam=
+e,
+> > +                              err);
+> > +                     goto err_remove_groups;
+> > +             }
+> > +             capdata01_attr_groups[i].tunable_attr->dev =3D &om->wdev-=
+>dev;
+> > +     }
+> > +     return 0;
+> > +
+> > +err_remove_groups:
+> > +     while (i-- > 0) {
+> > +             sysfs_remove_group(&om->fw_attr_kset->kobj,
+> > +                                capdata01_attr_groups[i].attr_group);
+> > +     }
+> > +     kset_unregister(om->fw_attr_kset);
+> > +
+> > +err_destroy_classdev:
+> > +     device_unregister(om->fw_attr_dev);
+> > +     return err;
+>
+> Maybe using devm_add_action_or_reset() would make sense here?
+>
+
+I'll look into it.
+
+> > +}
+> > +
+> > +static int lenovo_wmi_om_notifier(struct notifier_block *nb, unsigned =
+long cmd,
+> > +                               void *data)
+> > +{
+> > +     struct lenovo_wmi_om *om =3D container_of(nb, struct lenovo_wmi_o=
+m, nb);
+> > +
+> > +     if (!om)
+> > +             NOTIFY_BAD;
+> > +
+> > +     if (cmd !=3D THERMAL_MODE_EVENT)
+> > +             NOTIFY_OK;
+> > +
+> > +     om->mode =3D *((enum thermal_mode *)data);
+> > +
+> > +     return NOTIFY_OK;
+> > +}
+> > +
+> > +static int lenovo_wmi_om_master_bind(struct device *dev)
+> > +{
+> > +     struct lenovo_wmi_om *om =3D dev_get_drvdata(dev);
+> > +
+> > +     int ret;
+> > +
+> > +     ret =3D component_bind_all(dev, om);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     return lenovo_wmi_om_fw_attr_add(om);
+> > +}
+> > +
+> > +static void lenovo_wmi_om_master_unbind(struct device *dev)
+> > +{
+> > +     component_unbind_all(dev, NULL);
+>
+> You need to remove the attributes here.
+
+That makes sense, yeah.
+
+> > +}
+> > +
+> > +static const struct component_master_ops lenovo_wmi_om_master_ops =3D =
+{
+> > +     .bind =3D lenovo_wmi_om_master_bind,
+> > +     .unbind =3D lenovo_wmi_om_master_unbind,
+> > +};
+> > +
+> > +static int lenovo_wmi_other_probe(struct wmi_device *wdev, const void =
+*context)
+> > +{
+> > +     struct notifier_block lenovo_wmi_om_notifier_block =3D {
+> > +             .notifier_call =3D lenovo_wmi_om_notifier,
+> > +     };
+> > +     struct component_match *master_match =3D NULL;
+> > +     struct lenovo_wmi_om *om;
+> > +     int ret;
+> > +
+> > +     om =3D devm_kzalloc(&wdev->dev, sizeof(*om), GFP_KERNEL);
+> > +     if (!om) {
+> > +             ret =3D -ENOMEM;
+> > +             goto err_exit;
+> > +     }
+> > +
+> > +     om->wdev =3D wdev;
+> > +     om->nb =3D lenovo_wmi_om_notifier_block;
+>
+> Please dont create a separate struct for the notifier block.
+
+I was doing this to get access to priv in _notifier with container_of
+as I don't have access to dev/wdev. Is there a better way for me to
+get ahold of priv there?
+
+> > +     om->mode =3D SMARTFAN_MODE_CUSTOM; /* fallback */
+> > +
+> > +     dev_set_drvdata(&wdev->dev, om);
+> > +
+> > +     ret =3D devm_lenovo_wmi_gz_register_notifier(&wdev->dev, &om->nb)=
+;
+> > +     if (ret) {
+> > +             pr_err("Failed to register notifier_block\n");
+> > +             goto err_exit;
+> > +     }
+> > +
+> > +     component_match_add(&wdev->dev, &master_match, lenovo_wmi_cd01_ma=
+tch,
+> > +                         NULL);
+> > +     if (IS_ERR_OR_NULL(master_match)) {
+>
+> Why are you checking for NULL here too?
+>
+
+My understanding was that if no component shows up this would return
+NULL and we'd want to abort since we're missing all our data. If it
+will just ERR in that case then I can change it to IS_ERR.
+
+> > +             ret =3D -ENOMEM;
+> > +             goto err_exit;
+> > +     }
+> > +
+> > +     ret =3D component_master_add_with_match(&wdev->dev,
+> > +                                           &lenovo_wmi_om_master_ops,
+> > +                                           master_match);
+> > +     if (ret < 0) {
+> > +             dev_err(&wdev->dev, "Master comp add failed %d\n", ret);
+> > +             goto err_exit;
+> > +     }
+> > +
+> > +     return 0;
+> > +err_exit:
+> > +     kfree(om);
+>
+> devm_kfree() already takes care of that, please remove.
+>
+> > +     return ret;
+> > +}
+> > +
+> > +static void lenovo_wmi_other_remove(struct wmi_device *wdev)
+> > +{
+> > +     struct lenovo_wmi_om *om =3D dev_get_drvdata(&wdev->dev);
+> > +
+> > +     kset_unregister(om->fw_attr_kset);
+> > +     device_destroy(&firmware_attributes_class, MKDEV(0, 0));
+>
+> Please use device_unregister() instead.
+>
+
+Acked
+
+> > +     component_master_del(&wdev->dev, &lenovo_wmi_om_master_ops);
+>
+> Please call this first before removing the firmware attribute kset and de=
+vice.
+>
+
+Acked
+
+> > +}
+> > +
+> > +static const struct wmi_device_id lenovo_wmi_other_id_table[] =3D {
+> > +     { LENOVO_OTHER_METHOD_GUID, NULL },
+> > +     {}
+> > +};
+> > +
+> > +static struct wmi_driver lenovo_wmi_other_driver =3D {
+> > +     .driver =3D {
+> > +             .name =3D "lenovo_wmi_other",
+> > +             .probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
+> > +     },
+> > +     .id_table =3D lenovo_wmi_other_id_table,
+> > +     .probe =3D lenovo_wmi_other_probe,
+> > +     .remove =3D lenovo_wmi_other_remove,
+> > +     .no_singleton =3D true,
+> > +};
+> > +
+> > +module_wmi_driver(lenovo_wmi_other_driver);
+> > +
+> > +MODULE_IMPORT_NS("CAPDATA_WMI");
+> > +MODULE_IMPORT_NS("GZ_WMI");
+> > +MODULE_IMPORT_NS("LENOVO_WMI");
+> > +MODULE_DEVICE_TABLE(wmi, lenovo_wmi_other_id_table);
+> > +MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
+> > +MODULE_DESCRIPTION("Lenovo Other Mode WMI Driver");
+> > +MODULE_LICENSE("GPL");
+> > diff --git a/drivers/platform/x86/lenovo-wmi.h b/drivers/platform/x86/l=
+enovo-wmi.h
+> > index 07fa67ed89d6..40b6418fbf02 100644
+> > --- a/drivers/platform/x86/lenovo-wmi.h
+> > +++ b/drivers/platform/x86/lenovo-wmi.h
+> > @@ -61,6 +61,19 @@ struct capdata01 {
+> >       u32 max_value;
+> >   };
+> >
+> > +/* other method structs */
+> > +struct lenovo_wmi_om {
+> > +     struct component_master_ops *ops;
+> > +     struct lenovo_wmi_cd01 *cd01;
+> > +     struct capdata01 **capdata;
+> > +     struct device *fw_attr_dev;
+> > +     struct kset *fw_attr_kset;
+> > +     struct notifier_block nb;
+> > +     struct wmi_device *wdev;
+> > +     enum thermal_mode mode;
+> > +     int instance_count;
+> > +};
+>
+> Please only pass *cd01 to the components and make this struct private.
+>
+
+Acked
+
+> Thanks,
+> Armin Wolf
+>
+> > +
+> >   /* wmidev_evaluate_method helper functions */
+> >   int lenovo_wmidev_evaluate_method_2(struct wmi_device *wdev, u8 insta=
+nce,
+> >                                   u32 method_id, u32 arg0, u32 arg1,
