@@ -1,105 +1,157 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E79D61C5D5C;
-	Mon, 10 Mar 2025 16:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F69922D79B;
+	Mon, 10 Mar 2025 17:08:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741624669; cv=none; b=MV7CL0dFKQ7BDHLldIuXE1/WVnTTq6nobV4bOzWxLAeBIFGqGpErawfsCVpovb1i9Nx2l27jASZtl4TJytENJSDPHlM5uiI5utyZtd2kh8IKRev46l6lXiQYoSYGoWYYvJo14tfp6wdXxfCnTgeqqVyb5qiSpViajlQ4skSt2lE=
+	t=1741626503; cv=none; b=mn7Men5siZRXC0U/K2iS7t6wmZaVEtAPOcfdodt+jm4+x0NVgBXcPrZQfy7vE5HuQK9XRaj8+FtR3sIaib1gpTs9+Z7wIBlfCGySIvr9L6qO30TQ2WmxV5ecfvpC04AJ1H31KVVHqWh8WEelx84GSvxVFSM5baYvYRM5WQHr274=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741624669; c=relaxed/simple;
-	bh=HEEmq9NpxnkYzQ46heoGLFXsrVON0GkI+r4j7PEdE0s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=roR8ZeNEjnIhP5jyNgvS9sq+X5lyhFpdfLzG2uHSFWmDgsQHgYMQQfxg4HlcmHKb2K3J+BeQiJ0fLSl6C+r+R4QjDe6YngtcedV6t55BSws9MxM3LhTgrrr+sxDonMmegyYX/fzH8fnks0MBVNQasv21QSg8H+QuFqrxbSXT3mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A2CCB1692;
-	Mon, 10 Mar 2025 09:37:58 -0700 (PDT)
-Received: from [10.57.39.43] (unknown [10.57.39.43])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 99ADE3F5A1;
-	Mon, 10 Mar 2025 09:37:45 -0700 (PDT)
-Message-ID: <3f4354e7-e74b-4ce9-b0c7-4be103cbc94d@arm.com>
-Date: Mon, 10 Mar 2025 16:37:44 +0000
+	s=arc-20240116; t=1741626503; c=relaxed/simple;
+	bh=BDPwHEQJtDtD2d6bq3wswYDHcfGQePvakq3VHHuiDXk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qfAOkHeVIzBSd8/exBjbvSDY5d6mJ3vtwLd5F7VgU2XrArnjNafb60mstVw3ouYAh1f0h+nEr6bageGQFTQNQrsjsnP5bAbYhnJOsohZv2p64NxILpfvGmRwzTDjfvba2aFur8HXzqMyXLPxXg135vM5pzXAQLju718VDb3Hgp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dP64LCSw; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dP64LCSw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD209C4CEEB;
+	Mon, 10 Mar 2025 17:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741626502;
+	bh=BDPwHEQJtDtD2d6bq3wswYDHcfGQePvakq3VHHuiDXk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dP64LCSwb0qvMdmxNsq4aBgEkKCWTngBOaUBShh/E456amPJ+27bT3yYrEE5Gbe2Y
+	 pF1oiiVL7+YWc6JNBHa7O2WtXGhJjTJsTLGJyLtE+bAmPCfq/3Pc4kAd9bqycwPSz5
+	 Adjk1OWKoidmg9OiT3mJIBc1IgB4uMqcUHbsgzJ+KzsaRTD5TKEwDpPg4x9PsZvD/4
+	 EZ7Q2cZdK8XAVDyjTOEv9MAuloiaC6ai4D/YMIbH2cPTCon/hLkqajOt3wbw54YP15
+	 wU2ay6wa88LQr0FNFLZu5rhY2ee46XOCZ7yoC5WtWWFs0NwciIsHg/fMOPeT7J/JrC
+	 2y2dbOxSiNHfA==
+Date: Mon, 10 Mar 2025 19:08:01 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pratyush Yadav <ptyadav@amazon.de>
+Cc: linux-kernel@vger.kernel.org, Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v4 06/14] kexec: Add KHO parsing support
+Message-ID: <Z88ccZat5wm_iXx1@kernel.org>
+References: <20250206132754.2596694-1-rppt@kernel.org>
+ <20250206132754.2596694-7-rppt@kernel.org>
+ <mafs0zfhs97ta.fsf@amazon.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/8] coresight: etm: Add an attribute for updating
- buffer
-Content-Language: en-GB
-To: Leo Yan <leo.yan@arm.com>
-Cc: Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Arnaldo Carvalho de Melo <acme@redhat.com>,
- Namhyung Kim <namhyung@kernel.org>, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250310104919.58816-1-leo.yan@arm.com>
- <20250310104919.58816-6-leo.yan@arm.com>
- <d8b1cf1f-1996-4d9c-9f1a-fad556f91577@arm.com>
- <20250310155015.GG9682@e132581.arm.com>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20250310155015.GG9682@e132581.arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mafs0zfhs97ta.fsf@amazon.de>
 
-On 10/03/2025 15:50, Leo Yan wrote:
-> On Mon, Mar 10, 2025 at 01:29:26PM +0000, Suzuki Kuruppassery Poulose wrote:
->> Hi Leo
->>
->> On 10/03/2025 10:49, Leo Yan wrote:
->>> Add an attribute for updating buffer when the AUX trace is paused.  And
->>> populate the value to the 'update_buf_on_pause' flag during the AUX
->>> setting up.
->>
->> Do we need this attribute in the uAPI ?
+Hi Pratyush,
+
+On Mon, Mar 10, 2025 at 04:20:01PM +0000, Pratyush Yadav wrote:
+> Hi Mike,
 > 
-> This uAPI allows users to perform AUX pause and resume without the long
-> latency caused by copying hardware trace data.
+> On Thu, Feb 06 2025, Mike Rapoport wrote:
+> [...]
+> > @@ -444,7 +576,141 @@ static void kho_reserve_scratch(void)
+> >  	kho_enable = false;
+> >  }
+> >  
+> > +/*
+> > + * Scan the DT for any memory ranges and make sure they are reserved in
+> > + * memblock, otherwise they will end up in a weird state on free lists.
+> > + */
+> > +static void kho_init_reserved_pages(void)
+> > +{
+> > +	const void *fdt = kho_get_fdt();
+> > +	int offset = 0, depth = 0, initial_depth = 0, len;
+> > +
+> > +	if (!fdt)
+> > +		return;
+> > +
+> > +	/* Go through the mem list and add 1 for each reference */
+> > +	for (offset = 0;
+> > +	     offset >= 0 && depth >= initial_depth;
+> > +	     offset = fdt_next_node(fdt, offset, &depth)) {
+> > +		const struct kho_mem *mems;
+> > +		u32 i;
+> > +
+> > +		mems = fdt_getprop(fdt, offset, "mem", &len);
+> > +		if (!mems || len & (sizeof(*mems) - 1))
+> > +			continue;
+> > +
+> > +		for (i = 0; i < len; i += sizeof(*mems)) {
+> > +			const struct kho_mem *mem = &mems[i];
 > 
-> E.g., a user can specify a large AUX buffer size using option "-m,128M".
-> If the buffer is considered large enough to accommodate hardware trace
-> data for a small program, the 'update_buf_on_pause' flag can be set to
-> false, the copying will be deferred until the end of the perf session.
+> i goes from 0 to len in steps of 16, but you use it to dereference an
+> array of type struct kho_mem. So you end up only looking at only one of
+> every 16 mems and do an out of bounds access. I found this when testing
+> the memfd patches and any time the file was more than 1 page, it started
+> to crash randomly.
+
+Thanks! Changyuan already pointed that out privately.
+But I'm going to adopt the memory reservation scheme Jason proposed so
+this code is going to go away anyway :)
+
+> Below patch should fix that:
 > 
-> I am bias to keep this uAPI.  If you prefer to remove it, I am also
-> fine with that.
+> ---- 8< ----
+> diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
+> index c26753d613cbc..40d1d8ac68d44 100644
+> --- a/kernel/kexec_handover.c
+> +++ b/kernel/kexec_handover.c
+> @@ -685,13 +685,15 @@ static void kho_init_reserved_pages(void)
+>              offset >= 0 && depth >= initial_depth;
+>              offset = fdt_next_node(fdt, offset, &depth)) {
+>                 const struct kho_mem *mems;
+> -               u32 i;
+> +               u32 i, nr_mems;
+>  
+>                 mems = fdt_getprop(fdt, offset, "mem", &len);
+>                 if (!mems || len & (sizeof(*mems) - 1))
+>                         continue;
+>  
+> -               for (i = 0; i < len; i += sizeof(*mems)) {
+> +               nr_mems = len / sizeof(*mems);
+> +
+> +               for (i = 0; i < nr_mems; i++) {
+>                         const struct kho_mem *mem = &mems[i];
+>  
+>                         memblock_reserve(mem->addr, mem->size);
+> ---- >8 ----
+> [...]
 > 
->> Could we do this by default for
->> sinks without interrupt ? This definitely improves the quality of trace
->> collected for such sinks and the driver can transparently do this.
-> 
-> How about we dynamically set the default flag in the Perf tool?
-> 
-> - If users set explictly the 'update_buf_on_pause' flag, then the
->    setting will be respected.
-> - If users don't set the flag, perf tool detects it is TRBE sinks,
->    then it can set 'update_buf_on_pause' flag as false.
+> -- 
+> Regards,
+> Pratyush Yadav
 
-Not really possible. There could be systems with mixed sinks. e.g.  TRBE
-for some CPU and ETR for others (say due to a non-functioning TRBE).
-
-> - If users don't set the flag, perf tool detects it is ETF/ETB/ETR
->    sinks, it sets the flag as true.
-
-And in the cases above, perf event cannot run on all the CPUs, because
-some sinks don't support it.
-
-Why do we need a flag, when the effect is not user (read, perf decoder)
-  visible and at the same time improves some scenarios (read non-TRBE 
-cases) ?
-
-I would say, let the driver always update on pause, depending on the
-sink.
-
-Suzuki
-
-
-> 
-> Thanks,
-> Leo
-
+-- 
+Sincerely yours,
+Mike.
