@@ -1,50 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3716E1CAA60;
-	Mon, 10 Mar 2025 19:35:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55961D54EE;
+	Mon, 10 Mar 2025 19:50:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741635339; cv=none; b=ehvIDCafMqsBeEpnitS1iqCLiKAZgs0epvXoX11mShjJac0wujR9/1NFW8Flv2wKXJf0QXbXmcTBVLmWa5GQJsWD3v/JcDkIQmrXju3rESa5+viyQPfz9EzV/NJO4Cbmik7nFD5G81FVk62LyQOQ38tUcv3nu1Hq3EC2mmEhAYs=
+	t=1741636212; cv=none; b=UeBxgwhnV0I9H9yApigqBGwYN3+yIvpS32EK+Fce+whMcA1zCA436RmR2fSFN14WHNbD2fYo99tc5pGAX5uoiusK+2Br0945FKG5XmYSm8zlbUzSOcaq/CYYICZiCIgsVJ6kEnIxqkC3Xx4lvBMXtV+KXZdSE9l9+Be4h1M4B+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741635339; c=relaxed/simple;
-	bh=mqvIm7CQVKu0FB11g1YGAcy3O/ZG5gcTFuHUtGtOHXA=;
+	s=arc-20240116; t=1741636212; c=relaxed/simple;
+	bh=Mou4XIMPQe6vHlHG+JrTUtYI9XNrbgd6UlwNdDedTzk=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E94h+YeuhG4orq7VbGc4vT1qOwiHlsiwHRk1/EDyB3TIWXZhgKMhDnoK5WGdLvlB/mKpaC52CyvgK9Hv+JfHXvyauyLb3VteJ4wiNXkJnGGsWNG21qh8TtVaBENPvLikOapvTlFCOWALp00A2Ax3QI3RIx2HY6ahDHyLlMF0/yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cKskT/AX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=aKKlEvwuwR7Suw30Uc/ZFxSrGMBuETBlyOC7+e2AcHePLoYtJAjOLFwMgJuvkdJQiWucK1R8gBQgfSHxnAn3/WU8iVHEQzJNmbRsOwpWeQEz+EB3jGrA4rk/HUyvjFBDin5WsRoGQNLs8H/ikBhZfda2v8+ucFS6koQiaOEJbRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hnm+zr4/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cKskT/AX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F14CC4CEE5;
-	Mon, 10 Mar 2025 19:35:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hnm+zr4/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E9EFC4CEE5;
+	Mon, 10 Mar 2025 19:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741635338;
-	bh=mqvIm7CQVKu0FB11g1YGAcy3O/ZG5gcTFuHUtGtOHXA=;
+	s=k20201202; t=1741636212;
+	bh=Mou4XIMPQe6vHlHG+JrTUtYI9XNrbgd6UlwNdDedTzk=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cKskT/AX2L6B8zrQve0N9GOi524W0eT7Eh3oPQs7POL4LZp4yyppUCR7PDCMma7zP
-	 dw3yobp4X0gZ7uo32XDZfCTfjyLwN75xK7uctKZOgr9IaELke4rA/wE3W6bYqV8twm
-	 LgpOLV1OpZ5QP04ZhSWpd4pz7VSSHo6qfW1oyYRuakJzHOuqOj5Gun/HSyRFzvtF9n
-	 dhtdWCjXFP39EkQ+j4vO4ynXjOaqK6cxHYg+0Eddyam/2POJHyJ/rSyFhMn4CxJ/uD
-	 R4CAW3af5r7Dx/XcT00wMZpA94AxUOzMm/EU5UDDocanIo5OzqRY8tIBBBW6eVRGSh
-	 gwtt3hNtpsMaw==
-Date: Mon, 10 Mar 2025 19:35:28 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jorge Marques <gastmaier@gmail.com>
-Cc: Conor Dooley <conor@kernel.org>, Jorge Marques
- <jorge.marques@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David Lechner
- <dlechner@baylibre.com>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/4] dt-bindings: iio: adc: Add adi,ad4052
-Message-ID: <20250310193528.35d35c2e@jic23-huawei>
-In-Reply-To: <sf7hqjyzal2jmbrf72xxj4cewrkq6bsjwlkbinqv2zan57cq3s@hwhfwmabtk5q>
-References: <20250306-iio-driver-ad4052-v1-0-2badad30116c@analog.com>
-	<20250306-iio-driver-ad4052-v1-2-2badad30116c@analog.com>
-	<20250306-promotion-tarmac-bc5172f38f31@spud>
-	<sf7hqjyzal2jmbrf72xxj4cewrkq6bsjwlkbinqv2zan57cq3s@hwhfwmabtk5q>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	b=Hnm+zr4/m3zduyUKRxvtfx7++ozizMMInZkFL4FbsuA/zoNhFQCPvPkjHBC4pklZG
+	 ARhEc0tWMLm7GBNzcbfXv+IJYDVyxKO/hnc6rzbWczoWK8RA52h4t0jjDJu73EvIKl
+	 j3ELzk1Pmc8yeoYi+4GFz30GXqy6XezkyP/yyUywJBvi29ntbHPVs9sV7EDveaugOv
+	 gNpsPjz4MIqTazKz2stXuTM6ZqFWHZWXGwce+NOSulC6uEzYEDavQe2ylSGrW6JtLC
+	 MBM7xRlex3ik0sGrzH0WifYHeJ8IB1LMpUoziAoESjk2WXagfga/N4SGQwMYXajnwL
+	 PB21cqlrrVnFg==
+Date: Mon, 10 Mar 2025 20:50:00 +0100
+From: Jakub Kicinski <kuba@kernel.org>
+To: Lei Yang <leiyang@redhat.com>
+Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, virtualization@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Jeroen de Borst <jeroendb@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>,
+ Willem de Bruijn <willemb@google.com>, David Ahern <dsahern@kernel.org>,
+ Neal Cardwell <ncardwell@google.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
+ <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
+ asml.silence@gmail.com, dw@davidwei.uk, Jamal Hadi Salim
+ <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
+ <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
+Subject: Re: [PATCH net-next v7 0/9] Device memory TCP TX
+Message-ID: <20250310205000.357d0e84@kernel.org>
+In-Reply-To: <CAPpAL=yPwCXONQfO4cZYt_j1CEt1=Yq6jDzqnc6udCTStM8exQ@mail.gmail.com>
+References: <20250308214045.1160445-1-almasrymina@google.com>
+	<CAPpAL=yPwCXONQfO4cZYt_j1CEt1=Yq6jDzqnc6udCTStM8exQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,45 +61,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun, 9 Mar 2025 20:43:55 +0100
-Jorge Marques <gastmaier@gmail.com> wrote:
-
-> > > +  compatible:
-> > > +    enum:
-> > > +      - adi,ad4050
-> > > +      - adi,ad4052
-> > > +      - adi,ad4056
-> > > +      - adi,ad4058  
-> > 
-> > Can you mention in your commit message what differs between these
-> > devices that makes picking one as the "base"/fallback compatible
-> > unsuitable please?  
-> Sure, to be added:
+On Mon, 10 Mar 2025 18:00:51 +0800 Lei Yang wrote:
+> QE tested this series with virtio-net regression tests, everything works fine.
 > 
->  Each variant of the family differs in speed and resolution, resulting
->  in different scan types and spi word sizes, that are matched by the
->  compatible with the chip_info.
->  The device contains two required interrupts (gp0, gp1) and one optional
->  gpio (cnv).
+> Tested-by: Lei Yang <leiyang@redhat.com>
 
-Explain why the interrupts are required.  That is unusual.
+It's a bit unclear to me what exactly you tested here 
+and why you chose this patch set..
 
-Note the driver can be stricter than the binding, so it may make sense
-to require them in the driver, but leave it flexible in the binding.
-If someone has a board without them wired, then they can look at adding
-polling or timing logic to avoid the need for the interrupt lines or
-at reducing functionality of the driver.
-
-> 
-> > > +
-> > > +  vdd-supply: true
-> > > +  vdd_1_8-supply: true  
-> > 
-> > You're allowed to use . in property names, and the _s should be -s.
-> > That said, vdd and vdd 1.8? Shouldn't both have the voltage in them in
-> > that case?  
-> I overlooked the supplies, the correct are vdd, vio as mandatory,
-> and vref is optional.
-> 
-> Jorge
-
+If you have a set of automated tests integrating them 
+with patchwork may be a more judicious use of time.
