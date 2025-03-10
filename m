@@ -1,124 +1,218 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58A22343C2;
-	Mon, 10 Mar 2025 14:53:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847F72343C0
+	for <linux-doc@vger.kernel.org>; Mon, 10 Mar 2025 14:53:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741618387; cv=none; b=nhWLIXk238IM3usQyOsEIoCJA4rHTCtFXxg0gPzPO6yYeW09Rvi34IVvi53SRLBhEjqm5rdkTqjs74nb9iCDxom7KALn81L1eLpNsp445QOZaf1ujJ64Qo7IIoHLgMVR8UwEWa4ThC7P+O04S7wCEbn4+EQFRcDrhaVMNhhjOIM=
+	t=1741618389; cv=none; b=m+9MbXNjO2MOXKN6uKrKmOK+45BuYOD3xqla8fDjMvwRrUGmBvkAPHTxJy0dER0DpuIwtek2B+SwR1YrnqyvQnyY6RdBsDo4Bwf/PFm98ACcFTomGXg1xY5rBgeiVk7Nm0ioQMr110YMTs1ix6RknRhDkF+fup98qyb0vo6iQ5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741618387; c=relaxed/simple;
-	bh=D3WRzyViP5CwXWPVNCkRgWmmTl0fcipekqVEQBW/ONc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C2A0EmC8wmayc3mWTtwvJBfggUe3p393yyVOh/K8bDoi9Pg0N3whfvOvewGs0SZ3j4eZUybjs+58zSk5LIwu6Kn9mJfePrzUYSKASzl68TmdTidKQCtkYhS/83YpRiuAjA0/XIB9QgC5TIg4RO9LuKa0ERHezjd5MFSq4KgV3wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QztsViFE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741618389; c=relaxed/simple;
+	bh=mWDyYETp4wr+sZ2udIiiXn9veUStZJ0b+YrPzAFDVJE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=QRnhk/Dg/JhATj8HRwlWvGXf8gH//UeFsmgDFtbtbXIzgXvUUNtOwKYY9J1o4oLu9JgP7fa2Cl8lVQ+N9YnfFA6H9O/9+1TaSNcJBlphiyvEtz+xQfyMqYM7/3JYY4AuP2qjngb/y4MeLOjiYwzbOAfT0R4nubQYtEu/0X1tz6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ruC45iPE; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QztsViFE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B874C4CEFD;
-	Mon, 10 Mar 2025 14:53:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741618387;
-	bh=D3WRzyViP5CwXWPVNCkRgWmmTl0fcipekqVEQBW/ONc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QztsViFE6EE/c4uYNqxmeRiOe2taN8KHza+9hsI3T4CWm1AqFlx//Jcl39OVJZyf9
-	 zoPCAXKOiomZTyKSRrORbtYdMThU2/KhF4at0OkzufHLA/VOh3T4xgLYqjckwfPFhH
-	 UsCrWf2CujzLkEVkzBSUqKIBCDAY+Q0BmA9Db1gUpqj30muu6N/De2UC3fjLcNggkm
-	 nxWtjxrCosa81MZLtxu+i8YdplF34XKszReFnqu2xb9EFImkrfhNwcMqox0R1dufCL
-	 MFwbzYDODWi4f5033F1CalleV9tatoDKUgFFJGQJu9Usfo+xV+lSFw0XLJcYTfdq17
-	 UFtM4r+odhLgA==
-Date: Mon, 10 Mar 2025 15:53:01 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>, Yury Norov
- <yury.norov@gmail.com>, Vincent Guittot <vincent.guittot@linaro.org>, Akira
- Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org, Jonathan Corbet
- <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
- cpumask.h
-Message-ID: <20250310155301.6db5033c@foz.lan>
-In-Reply-To: <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
-References: <cover.1741332579.git.viresh.kumar@linaro.org>
-	<f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ruC45iPE"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-223fd89d036so84670045ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 10 Mar 2025 07:53:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1741618387; x=1742223187; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M49HWf8gzr6wWBf1Qtr4VOivQAEEQjfyuWgORGOVTSw=;
+        b=ruC45iPEggx6iINPgbVg/Jjk6tyrE36Kku7m4ofEcj0qNu+4jUkWMEzYe/sZKYzE0E
+         gIV3hoyTmrg1sl0dKYyXjt73D29j0c3lnirnRbKaDag37wAlT9ORPeqHRQSKYq/UhkxZ
+         pyLVDXddoxiaXA0HJKpWfCGJXWeAEp8d6dJ/c+qSmFbIdDIyqK8XYqtjO5EUt2vjh54x
+         Kf3auTTaVrx54nLF5mPxAMqJs4yjR5A7bkcp2jU1hX3ISWhmQGxRIb0G7Ok9N7Wb8hpd
+         b69AwO0wiyXkxv1eE/FKyYIT9Hhh682WhtD4dDY6B2M/XeKRy81Ye4Nm9od2nlhTaIIk
+         Nd1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741618387; x=1742223187;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M49HWf8gzr6wWBf1Qtr4VOivQAEEQjfyuWgORGOVTSw=;
+        b=cyHBXA/yW0oJEpdO3y1UZQ6gsg4PRafRV0+O0PBMUBv4X5p6rZt5Af+WuJ2ORF8bVz
+         gcoyTGnuQKrPRz26/PEVtAyeckhMCnnursA9pZthX5DHY6S4AW3Zspi8cDrzpeaiasHy
+         iKr/Nlfmzun1HjHulGa+qZl2qlshxf7eG7kGfpWcb7rvhgtJgRFrsXGecTd2KAA7xhqc
+         cWtL+5wOF5oitWKzANZSRhEpWHUmLKkv0Z++5bQ4Lg29/YehXGk5kO9Xh8Tk1EGhrIdf
+         IkwJ4/ceS0a0QytG8u4EjCLvLRSOhNELAGK5U3NmuwGJZ4fWXPkEiop1To/yCNL8XWdX
+         phRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXs7cXXaG4o6F5vW/v5bFCZFd9CmWHemHOyz6yGcarS8xEdCOCDGw5Zh2fiUFWRu3iePi/vx4VWZMQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLDC8xXF7oXoS3PWAb4WR0HMg4XpzSHro4kzB7uyztfMhJPoCQ
+	dnfCNjaZxuwC2E02orMHAEf0yKeRuW/A/zko9ZdnSwZIw1FKU96BGD6BFz7vod4=
+X-Gm-Gg: ASbGnctKiAQOUqAGF0C9GuREfMjW+b5jvLGAxtzE9QOOozDYvZuNBw1IcXh4wTwu5GI
+	6hUbfJe41YLVUpLNJ94MWXZp+IH90lXR4/0Q22lKVhAPE3JnXUKPnc/AJmF0bcE2IJAnaJfjCbo
+	Fm3Tq8XuPyBZ1lXL7C6oncGy4PpkY2HvzPSepF2rqTLDfgzTBEURJnSkV2+Ky5LszDkQXSnwVyr
+	E9UwuYMC2Ext2Cu25OXGQJom1pC5UUQRaw4xVBxWnLLL4FaSgeatrELIt6BkPFmJ7thOD5+nzrQ
+	hooZjOzbj3n5gDDAOp4gylgOBRHMOgLIwFWJB5NrOeKpoNhPQgWR9xI=
+X-Google-Smtp-Source: AGHT+IFsZxG1TWVrNQMrqkKpccFn2JJPQ/WSJPQEXgIDTpBCMBrYmD46kiCZqmMB33SVFrCrhoe36g==
+X-Received: by 2002:a05:6a20:2d2c:b0:1f5:8221:d68c with SMTP id adf61e73a8af0-1f58221fee5mr5284959637.3.1741618386923;
+        Mon, 10 Mar 2025 07:53:06 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-736d11d4600sm2890275b3a.116.2025.03.10.07.53.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Mar 2025 07:53:06 -0700 (PDT)
+From: Deepak Gupta <debug@rivosinc.com>
+Date: Mon, 10 Mar 2025 07:52:36 -0700
+Subject: [PATCH v11 14/27] riscv/traps: Introduce software check exception
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250310-v5_user_cfi_series-v11-14-86b36cbfb910@rivosinc.com>
+References: <20250310-v5_user_cfi_series-v11-0-86b36cbfb910@rivosinc.com>
+In-Reply-To: <20250310-v5_user_cfi_series-v11-0-86b36cbfb910@rivosinc.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>, 
+ Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+ Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-riscv@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com, 
+ andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com, 
+ atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com, 
+ alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org, 
+ rick.p.edgecombe@intel.com, Deepak Gupta <debug@rivosinc.com>
+X-Mailer: b4 0.14.0
 
-Em Fri,  7 Mar 2025 13:04:51 +0530
-Viresh Kumar <viresh.kumar@linaro.org> escreveu:
+zicfiss / zicfilp introduces a new exception to priv isa `software check
+exception` with cause code = 18. This patch implements software check
+exception.
 
-> This fixes various kernel-doc formatting errors in cpumask.h:
-> 
-> - WARNING: Inline literal start-string without end-string.
-> - ERROR: Unexpected indentation.
-> - ERROR: Unknown target name: "gfp".
-> 
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
->  include/linux/cpumask.h | 65 +++++++++++++++++++++--------------------
->  1 file changed, 34 insertions(+), 31 deletions(-)
-> 
-> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-> index 36a890d0dd57..8b53e01dbd97 100644
-> --- a/include/linux/cpumask.h
-> +++ b/include/linux/cpumask.h
-> @@ -20,7 +20,7 @@
->   * cpumask_pr_args - printf args to output a cpumask
->   * @maskp: cpumask to be printed
->   *
-> - * Can be used to provide arguments for '%*pb[l]' when printing a cpumask.
-> + * Can be used to provide arguments for '%*pb [l]' when printing a cpumask.
+Additionally it implements a cfi violation handler which checks for code
+in xtval. If xtval=2, it means that sw check exception happened because of
+an indirect branch not landing on 4 byte aligned PC or not landing on
+`lpad` instruction or label value embedded in `lpad` not matching label
+value setup in `x7`. If xtval=3, it means that sw check exception happened
+because of mismatch between link register (x1 or x5) and top of shadow
+stack (on execution of `sspopchk`).
 
+In case of cfi violation, SIGSEGV is raised with code=SEGV_CPERR.
+SEGV_CPERR was introduced by x86 shadow stack patches.
 
-The best here would be to use, instead:
+Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+---
+ arch/riscv/include/asm/asm-prototypes.h |  1 +
+ arch/riscv/include/asm/entry-common.h   |  2 ++
+ arch/riscv/kernel/entry.S               |  3 +++
+ arch/riscv/kernel/traps.c               | 43 +++++++++++++++++++++++++++++++++
+ 4 files changed, 49 insertions(+)
 
-	 * Can be used to provide arguments for ``*pb[l]`` when printing a cpumask.
+diff --git a/arch/riscv/include/asm/asm-prototypes.h b/arch/riscv/include/asm/asm-prototypes.h
+index cd627ec289f1..5a27cefd7805 100644
+--- a/arch/riscv/include/asm/asm-prototypes.h
++++ b/arch/riscv/include/asm/asm-prototypes.h
+@@ -51,6 +51,7 @@ DECLARE_DO_ERROR_INFO(do_trap_ecall_u);
+ DECLARE_DO_ERROR_INFO(do_trap_ecall_s);
+ DECLARE_DO_ERROR_INFO(do_trap_ecall_m);
+ DECLARE_DO_ERROR_INFO(do_trap_break);
++DECLARE_DO_ERROR_INFO(do_trap_software_check);
+ 
+ asmlinkage void handle_bad_stack(struct pt_regs *regs);
+ asmlinkage void do_page_fault(struct pt_regs *regs);
+diff --git a/arch/riscv/include/asm/entry-common.h b/arch/riscv/include/asm/entry-common.h
+index b28ccc6cdeea..34ed149af5d1 100644
+--- a/arch/riscv/include/asm/entry-common.h
++++ b/arch/riscv/include/asm/entry-common.h
+@@ -40,4 +40,6 @@ static inline int handle_misaligned_store(struct pt_regs *regs)
+ }
+ #endif
+ 
++bool handle_user_cfi_violation(struct pt_regs *regs);
++
+ #endif /* _ASM_RISCV_ENTRY_COMMON_H */
+diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
+index 00494b54ff4a..9c00cac3f6f2 100644
+--- a/arch/riscv/kernel/entry.S
++++ b/arch/riscv/kernel/entry.S
+@@ -472,6 +472,9 @@ SYM_DATA_START_LOCAL(excp_vect_table)
+ 	RISCV_PTR do_page_fault   /* load page fault */
+ 	RISCV_PTR do_trap_unknown
+ 	RISCV_PTR do_page_fault   /* store page fault */
++	RISCV_PTR do_trap_unknown /* cause=16 */
++	RISCV_PTR do_trap_unknown /* cause=17 */
++	RISCV_PTR do_trap_software_check /* cause=18 is sw check exception */
+ SYM_DATA_END_LABEL(excp_vect_table, SYM_L_LOCAL, excp_vect_table_end)
+ 
+ #ifndef CONFIG_MMU
+diff --git a/arch/riscv/kernel/traps.c b/arch/riscv/kernel/traps.c
+index 8ff8e8b36524..3f7709f4595a 100644
+--- a/arch/riscv/kernel/traps.c
++++ b/arch/riscv/kernel/traps.c
+@@ -354,6 +354,49 @@ void do_trap_ecall_u(struct pt_regs *regs)
+ 
+ }
+ 
++#define CFI_TVAL_FCFI_CODE	2
++#define CFI_TVAL_BCFI_CODE	3
++/* handle cfi violations */
++bool handle_user_cfi_violation(struct pt_regs *regs)
++{
++	bool ret = false;
++	unsigned long tval = csr_read(CSR_TVAL);
++
++	if ((tval == CFI_TVAL_FCFI_CODE && cpu_supports_indirect_br_lp_instr()) ||
++	    (tval == CFI_TVAL_BCFI_CODE && cpu_supports_shadow_stack())) {
++		do_trap_error(regs, SIGSEGV, SEGV_CPERR, regs->epc,
++			      "Oops - control flow violation");
++		ret = true;
++	}
++
++	return ret;
++}
++
++/*
++ * software check exception is defined with risc-v cfi spec. Software check
++ * exception is raised when:-
++ * a) An indirect branch doesn't land on 4 byte aligned PC or `lpad`
++ *    instruction or `label` value programmed in `lpad` instr doesn't
++ *    match with value setup in `x7`. reported code in `xtval` is 2.
++ * b) `sspopchk` instruction finds a mismatch between top of shadow stack (ssp)
++ *    and x1/x5. reported code in `xtval` is 3.
++ */
++asmlinkage __visible __trap_section void do_trap_software_check(struct pt_regs *regs)
++{
++	if (user_mode(regs)) {
++		irqentry_enter_from_user_mode(regs);
++
++		/* not a cfi violation, then merge into flow of unknown trap handler */
++		if (!handle_user_cfi_violation(regs))
++			do_trap_unknown(regs);
++
++		irqentry_exit_to_user_mode(regs);
++	} else {
++		/* sw check exception coming from kernel is a bug in kernel */
++		die(regs, "Kernel BUG");
++	}
++}
++
+ #ifdef CONFIG_MMU
+ asmlinkage __visible noinstr void do_page_fault(struct pt_regs *regs)
+ {
 
-Which would be converted to this ReST notation:
+-- 
+2.34.1
 
-	    Can be used to provide arguments for ``*pb[l]`` when printing a cpumask.
-
-which is what it would be expected when converted to html/pdf.
-
-
-
->   */
->  #define cpumask_pr_args(maskp)		nr_cpu_ids, cpumask_bits(maskp)
->  
-> @@ -166,7 +166,7 @@ static __always_inline unsigned int cpumask_first_zero(const struct cpumask *src
->  }
->  
->  /**
-> - * cpumask_first_and - return the first cpu from *srcp1 & *srcp2
-> + * cpumask_first_and - return the first cpu from *@srcp1 & *@srcp2
-
-I don't think this would produce the right output. See my other comment.
-
-See, if I add this there:
-
-	 * cpumask_first_and - return the first cpu from ``*srcp1`` & @srcp2 & *@srp3
-
-The kernel-doc output is:
-
-	.. c:function:: unsigned int cpumask_first_and (const struct cpumask *srcp1, const struct cpumask *srcp2)
-
-	   return the first cpu from ``*srcp1`` & **srcp2** & ***srp3**
-
-e.g.:
-
-- srcp1: will not be bold, but it will use a monospaced font and will have 
-	 an asterisk;
-
-- srcp2: will be bold, without asterisk;
-
-- srcp3: violates ReST spec: different versions may show it different
-         and warnings may be issued.
-
-
-Thanks,
-Mauro
