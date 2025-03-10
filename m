@@ -1,97 +1,73 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8D0234989;
-	Mon, 10 Mar 2025 18:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CD6235C04;
+	Mon, 10 Mar 2025 19:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741632092; cv=none; b=SwJMQNwPFRi52GTvU22xf6gKWFQf1iYUJmLUAunSCozW9udzeiFLDuQuPmyLIIrPItrfxi9vN+LuNq3TzroZF+x9NgE7FtLtFXePqrbv3IMw56ml0+4UdZEB2XQzKLi6vAOzD2XeIU6k6rRWqd4iDzjdyu34e6mYOB+V50f1giI=
+	t=1741634892; cv=none; b=qZc5TRWLA/41DXdpUrWe5qVcfRhgB7LHCGkIQRYHKvJor3DGAkdGF8Ppqj2+jtNKSKaLs8jojg4eJ17yuIpY1rbDSpISHwAUs179J4WgRfrHY8sKoQjnTIRLsVnwNEA6vKvAWXQAR0t1AH7CH1Xihwx5ZIBDFSyNz/2js0j0j+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741632092; c=relaxed/simple;
-	bh=IQ8l5g6sMagIDU+kR0KS3nMtoySw4DwumRcGbI8TyAw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=khgA2a95mcuFhW70QDUrNeao9V6jxqyqh+OJuYHGwNxzeyj4iJEc85fYc3TIxsk1enDwE9oGNuyOn+5dxGSgikHuuP9usW+1sJccSdq+OmeK0M9oesoQuedsJeE1X+jbJA2r7QJL+6joSd8myDeaSRoU1dj2I5eElBgtDXAOM2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KbaQKioD; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741634892; c=relaxed/simple;
+	bh=qiEz4wXFKhuDCoZ/JWv3WXxSepSmO09MsuLs9ZdNhZw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CV3Nrn8Ffp6ShOm88THbrdoDp+ui/zRlQ/za23i7TT9YyXRTdN68XED90Seg0njONXVv/xa0b35VqGxDW+dvuz1a6UGyLN91CNNcxJ+kA7/Bd/fum/NxyRSpYMknZ6cItvwn5KDusXUtRnfBsFWnIsbslm1N3KLMPKXlKwv+WZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=g3laBx+O; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KbaQKioD"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-22401f4d35aso82113005ad.2;
-        Mon, 10 Mar 2025 11:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741632090; x=1742236890; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=B61KUVTuggZHqIjZJXZHkqKcS+C8QJT6SN4kadhnsBk=;
-        b=KbaQKioDbsYkYXZr3SpfsjcONRZtXB1PcGE56rjwVq8L+NVke626EDWXfx27fvou1z
-         2ae0kmIcrTvJneccbnOm5NTh1478gEXRK4QtHkOhu9bwztLZ8jkOnXT5KBdUIwiIAGRY
-         ePZ6xmIsAfZoON68qI5sxMdYbCM0xrRyBAGRft0SJO4SxsLsUiIoIWibGSSLAU9quzGI
-         BtsL6zqx3qovOoBExM2r39yTqHAkxOKMD/Oa4JqrIVykL/9upCA4UMT2Eoqh6anHLbut
-         YjVWQA4aoFwRE2hpFnNMtsfuxtVBskcKGvh04+//FmJEpdrNvAx2EGJNhxzRAVIVBjTa
-         sgZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741632090; x=1742236890;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=B61KUVTuggZHqIjZJXZHkqKcS+C8QJT6SN4kadhnsBk=;
-        b=Leu6gEES2yAEcZWNDDGJL5bzKPTrAB4tJM4TV+njAV/BFkL9Mqf4YwPeiZfZR5ElPa
-         EUQv7chwcTkCJ7ViLT+GXTAoZS1FXg2IeE+oiuT7b94KwLL3RMZxHVsJCgnJagfd4q1Y
-         OGKv7FrW2pbOgydlkXAysoAqPOWCQj5YK0Y2RxGWOde/fubnG8PNxstuAV3kbdpPCZAM
-         epIQAN04LiiTEtdO69rxbFA7nvZ+poHxko/HUDZd/1eddyz2whe7Q8pw7qEoqZxQNBHE
-         Q52guILVAr6kBXkLCfjTj6f1s6ZVv9QRxI5bMtNPO4pLWRTTVyr6ZAfBCcFO2pl0QwVP
-         muyA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPnSBm110K2A4lGBkn5fl3+QlE47G0ucHGm1rOZCwkG+5NgSFTGfmGEyQHads/OgtPUch+0BeB7Jddct5F@vger.kernel.org, AJvYcCV4KML0PnXI8ExioHUc57sWhCBPz15cuV+joHWbh7peOUMTtQR9bsxC6YcejJwO0bIpebQndYWO9Kk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwNTUkaTqZmRMNJu2to+wVfDQGmWFiXVMmNVo1PkgKldIHsNbT
-	FEckm2rCbbbdGAyQ9I69qCx7YlNbu/WNtc2YAwQTJK0qxFzjTfOz
-X-Gm-Gg: ASbGncszex3qKgY3Y6gAMfKo6PeIKQYeKiRFrXTQnf5ZnxOP9lfYfJb7D8LB96bCaMT
-	1zk6MW3f09G3KaJJpP885yYTJOlAPMn5KQTfUfFo/ibmFhoX1Z04CQsVy6bmQ5d8gvGdHiiB8+p
-	KAe52ThOuVVJlpEns2yMxzA4TdnWf/gcLyYeyMh1Cwgw+uKicJlqHYLDhOBs+l6hgd7yMCKgmwj
-	ZQePA+cf75zJiMBAcoiGBMSCu4+2jse4ACLzm6X6qa/80YLrC2dIhIamB12xd1LkQjrz/Ug4+G6
-	0dmwhm6nm+m+1dGCeB/MmZ52LGx9cT8JMAcFeFBSO9Xh
-X-Google-Smtp-Source: AGHT+IHkfNs77dRpHRw7m7Dy6Y50/e2amOEC9HUe81C+pfsC1RfTlvvZDqE9qifdEI1jqZPUU5u+tg==
-X-Received: by 2002:a05:6a21:1fc3:b0:1f5:64a4:aeac with SMTP id adf61e73a8af0-1f58cbb6055mr1152580637.33.1741632090480;
-        Mon, 10 Mar 2025 11:41:30 -0700 (PDT)
-Received: from arch.lan ([103.6.150.165])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-736cbe3fb3fsm3648696b3a.83.2025.03.10.11.41.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Mar 2025 11:41:30 -0700 (PDT)
-From: kth <kangtaeho2456@gmail.com>
-To: corbet@lwn.net
-Cc: kangtaeho2456@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fs: Fix typo from smpfs to smbfs in filesystem documentation
-Date: Tue, 11 Mar 2025 02:41:29 +0800
-Message-ID: <20250310184129.328482-1-kangtaeho2456@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="g3laBx+O"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=vPfN21NRmpQesCJZ8FUWTpIRNYjQP0B32oYDjnXqSnw=; b=g3laBx+O1d+D+vj+9BZHWkp2DN
+	lknyUmGlGhbtW0PjoZ2zLU8cEKltFX4QWUnzAxfc5HQtB/bHH1u10ojqI/a+paXbEpv7XStyxe1YV
+	ReZ9Upq8M9AzZH78VVPKE3Q7wIvnhg2W/SuI4RbzYhkDhFhIQ6fZgo8xUhAtJaxM7WdtzsARUlUGV
+	XCUvO3F/Vy3xaLSnS/RmRVWTXdul6StxsycrRoHb8U3G8opLlSz+WVZC2IvJ44uV6Hosj++oiiTFs
+	7agTPPThBupqJBZzHEG+uZ+m+plIO7FIEM+Jw8Ky9Z3xkSXc/lOiK01Cy3NmZEpcDESmdqDLdmbN4
+	IjOpx82g==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1trinF-00000009G1a-2WUe;
+	Mon, 10 Mar 2025 19:28:05 +0000
+Date: Mon, 10 Mar 2025 19:28:05 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: kth <kangtaeho2456@gmail.com>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fs: Fix typo from smpfs to smbfs in filesystem
+ documentation
+Message-ID: <Z889RfnudqMc5r_e@casper.infradead.org>
+References: <20250310184129.328482-1-kangtaeho2456@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250310184129.328482-1-kangtaeho2456@gmail.com>
 
-The documentation incorrectly referred to 'smbfs' as 'smpfs'. This change corrects that typo to ensure the documentation is accurate and not misleading.
+On Tue, Mar 11, 2025 at 02:41:29AM +0800, kth wrote:
+> The documentation incorrectly referred to 'smbfs' as 'smpfs'. This change corrects that typo to ensure the documentation is accurate and not misleading.
+> 
+> Signed-off-by: Kang Taeho <kangtaeho2456@gmail.com>
+> ---
+>  Documentation/admin-guide/highuid.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/highuid.rst b/Documentation/admin-guide/highuid.rst
+> index 6ee70465c0ea..9239067563a1 100644
+> --- a/Documentation/admin-guide/highuid.rst
+> +++ b/Documentation/admin-guide/highuid.rst
+> @@ -64,7 +64,7 @@ What's left to be done for 32-bit UIDs on all Linux architectures:
+>  
+>    Other filesystems have not been checked yet.
+>  
+> -- The ncpfs and smpfs filesystems cannot presently use 32-bit UIDs in
+> +- The ncpfs and smbfs filesystems cannot presently use 32-bit UIDs in
 
-Signed-off-by: Kang Taeho <kangtaeho2456@gmail.com>
----
- Documentation/admin-guide/highuid.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ncpfs doesn't exist any more; it was removed many years ago.  And the
+smbfs that is referred to here was replaced by cifs many years ago.
 
-diff --git a/Documentation/admin-guide/highuid.rst b/Documentation/admin-guide/highuid.rst
-index 6ee70465c0ea..9239067563a1 100644
---- a/Documentation/admin-guide/highuid.rst
-+++ b/Documentation/admin-guide/highuid.rst
-@@ -64,7 +64,7 @@ What's left to be done for 32-bit UIDs on all Linux architectures:
- 
-   Other filesystems have not been checked yet.
- 
--- The ncpfs and smpfs filesystems cannot presently use 32-bit UIDs in
-+- The ncpfs and smbfs filesystems cannot presently use 32-bit UIDs in
-   all ioctl()s. Some new ioctl()s have been added with 32-bit UIDs, but
-   more are needed. (as well as new user<->kernel data structures)
- 
--- 
-2.48.1
-
+I have a feeling the entire highuid document should be deleted.  It
+describes a transition that happened 25 years ago.
