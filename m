@@ -1,318 +1,375 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDDC38B;
-	Mon, 10 Mar 2025 06:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B6F1C7013
+	for <linux-doc@vger.kernel.org>; Mon, 10 Mar 2025 06:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741588361; cv=none; b=B4dJ5eDaeoGCe4JtUjOgaXL8kz3XUUHMXpdAHsj9SO/PEKwSz9Ou9IOa/jI6FyeaVWlDCadWt1Rq02BmohV9+giWc8RCAaEdpo5tReKdReELndJ/aHAqDbo+WBDnNtnWDbsYaMq/NwWkvpDxTyXuldwq+8nJRyLxdsniC2rjBYo=
+	t=1741589630; cv=none; b=qNAuFTHtDx1Y9U+1j6rWJApnl3jz6p8zynrwVmtaoeOtrlzzlD4tjVd1pYZLmPL6fTrHkWVbPTUcuMLNurmQiiLccgPctSo3aELYEl/bf8kx9ERLFnJQOKw4CSJv1cMl8unaoH7IiYqhIGC4eV67+1vcIHzTtrX6KHNaQOphIX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741588361; c=relaxed/simple;
-	bh=EUFbqtCL5HuUmUMcDgzovMNMOcqHYTpQD4V/27f19tI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HFImXPNz+SymWsES/LMZCuHAFA5iBsXQFWdVQNx8O9ravor0ntap5Z/744devulojmpQlV2c33C8YSPL6Vp+sBiIqPEjsgHQ5+PxEa2umZa0khTF5ymKhk4YDmR6gO+gUYbTuq4Tq4SInFJpxOEZTA/mBix2zK41KJw0Ee+PuiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IAeeCfQ5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741589630; c=relaxed/simple;
+	bh=+Mvd1cqrRnj2UJawDWZ/FNcD407yz19JVojDG3LwICQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S9OIwzyHwDYR+IO/ryyCV1FiNrnvWIbDEBCDsqp3JUQLZcG0bpQARJnZn9W93hm9S3Q5CmFfvX8yPRDvSKnQrOxUw3FMyEyyJMjr+h8ESTUX1Hws2rMHPT931kmgK97YRgc/KtKnPkHtYt2gZKYZPeDFQlmU2VLS6+TIOpCNcLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=f6u+9kwv; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IAeeCfQ5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C08DC4CEE5;
-	Mon, 10 Mar 2025 06:32:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741588359;
-	bh=EUFbqtCL5HuUmUMcDgzovMNMOcqHYTpQD4V/27f19tI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IAeeCfQ5aG6wEK+82/lMCroHOsh9eITArhIPbTbwHdomFD1iskJihRV1NovpIspBQ
-	 XPIf/RFfZVkMHiAbzgMOlEeg+zSci1qabQNsNJ6kXftClEYqkdi0V6VNXBYiGr1jdc
-	 coikgZFKdcY60HIB98S+Hax/P0qIdVu+ei7LeM8+wXV7O60xwUh0WSsYz5kPYtHK95
-	 zQUFgnchgBXyXaAHh3zhysR+/k6Z7lv4P3HuZLywY3kTUmrEQRIq7hHsZi7qwxxMX/
-	 wVsEBHeukZxtlCwf5hSPh8HXaIYxMOAT6nByLcWkPv0+vDsGo99deagc53gy1iheUz
-	 O5YZ30rrTeFqw==
-Date: Mon, 10 Mar 2025 07:32:26 +0100
-From: Simon Horman <horms@kernel.org>
-To: Gur Stavi <gur.stavi@huawei.com>
-Cc: Fan Gong <gongfan1@huawei.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Lee Trager <lee@trager.us>,
-	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Cai Huoqing <cai.huoqing@linux.dev>, luosifu <luosifu@huawei.com>,
-	Xin Guo <guoxin09@huawei.com>,
-	Shen Chenyang <shenchenyang1@hisilicon.com>,
-	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
-	Shi Jing <shijing34@huawei.com>,
-	Meny Yossefi <meny.yossefi@huawei.com>,
-	Suman Ghosh <sumang@marvell.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Joe Damato <jdamato@fastly.com>
-Subject: Re: [PATCH net-next v08 1/1] hinic3: module initialization and tx/rx
- logic
-Message-ID: <20250310063226.GE4159220@kernel.org>
-References: <cover.1741247008.git.gur.stavi@huawei.com>
- <fc43342cbb9915da210792edcc8f6bf661b298e9.1741247008.git.gur.stavi@huawei.com>
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="f6u+9kwv"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-224019ad9edso87447805ad.1
+        for <linux-doc@vger.kernel.org>; Sun, 09 Mar 2025 23:53:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1741589628; x=1742194428; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=V+lae8KNUZmIk784QUfpfzALekpSGimeXh+iOI8RB4k=;
+        b=f6u+9kwvOQZMQyvTnjLAXLZVw/G1f+YNNmY6NHDMi9DQJpyDk08N/lRF/vx2YcNo20
+         eML6N/IS8+A1dAfNOa+Y7ASzhbs8zl1xU0HyY3mD1Z1jr4wAWPFCbkPKHlwk7FG4wWCH
+         IAFXQgor87HyScuBjI26pSLbvw7uQXEN8WROoQJ3o+LVq0wxKmCah+aC5dYLb6Efbev/
+         7BTz7GFtFUiFZNF1AP5I8acFZf3nDl7KlQpwt0EwedRD7ZI+YD1P+JmCNekOKW55WAM3
+         3rD+Xsm0wW3LDlq+txjdQwUbhZ6g5SSsuGd+0S7dys6ohD4JTfDdZdw9w+Sdn3aOwwC5
+         +2xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741589628; x=1742194428;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V+lae8KNUZmIk784QUfpfzALekpSGimeXh+iOI8RB4k=;
+        b=faiUIMRIUW9/5zydLfWbpuBQpLjbZgOqiSNuwI2iI2tH2EBGIG2C9hVSB57u5xa5CG
+         nEig/gbqzMnLokzUMpy5YCG35/QN6kBIlyHKWU3iX+dWqB2KfdYQdj1Ek1ApGWRMyf7V
+         UrZIhT+D1AJXcKGXBTIc5roF8jwuy0RJwbj0DTuIrHHMfcMtOBI4NYUFmvdy4MtLsDtl
+         n/00BEtXJbWiv1zvQuOmTgbCJSRVxuRBQH/KxGNojUin+E4rTnbvIhUwG8IqHeezhzpX
+         I9affP/oAdHPLXicOnv7noKk9NoFuHL33w61tqeWKaozXCXCen+Co38KmaZRNamql2jZ
+         dAZw==
+X-Forwarded-Encrypted: i=1; AJvYcCX50iAOEIaKp36dKjtoN/SNrnWbKZVF1gl4glv0NxFjsxw5GjtwTUW4pDLxUQdGGTEFj4Aaq1kae00=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOXUCtTfKpEJ/2463vuc1mmuXDcHhHwdlktECCwvm5E73c+wUz
+	NDk+qJs+0775pSTPXzkF4sjnh4em4JUURDkflEzeDyhHr8e/tBuNC/ZryRZXodE=
+X-Gm-Gg: ASbGncv1LdNlaWxFdyhXe1nn53jsgdwa1hOViaF/r4Ldzjw2K1YGSV6wrZ5T2ODWwJo
+	SRihXrbYkqn3r7Wvp9n/m/Mf6se6EAk4xyGt7amnLu0B495SL7BR6gLD9cmxcXXh8RBhw5hfvF4
+	xMosSVStgIcshhG9TuAf0ZiAHKMVEdS1Z6ZzcsINEO6tJihHs6T8/9GRct8V5FIA//fFtuW/UoT
+	z1l2p8x6oRKj8ogcu/jzC/7KuanMJoFCrAnJIzduvsYoLKFoz6AhcraPUgXZ5SHTIZCbI9BUGG6
+	WNARx5D+K1Pys1CuBCzPCxJ8fWKZlZgoKTZPpG/or4us6zubrya4MP270uvQkqiWzyIf
+X-Google-Smtp-Source: AGHT+IGAt/lRGqcYffem3GLpt+BRgwl1EoyO59vlTzdj5PmOKfs6JEHAncR5g/o3gnY8IK7o4uVdYA==
+X-Received: by 2002:a05:6a00:4b4a:b0:736:a8db:93b8 with SMTP id d2e1a72fcca58-736aa9b3970mr21535017b3a.3.1741589627912;
+        Sun, 09 Mar 2025 23:53:47 -0700 (PDT)
+Received: from [157.82.205.237] ([157.82.205.237])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-736d6f48c17sm1428809b3a.3.2025.03.09.23.53.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Mar 2025 23:53:47 -0700 (PDT)
+Message-ID: <2e27f18b-1fc9-433d-92e9-8b2e3b1b65dc@daynix.com>
+Date: Mon, 10 Mar 2025 15:53:42 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fc43342cbb9915da210792edcc8f6bf661b298e9.1741247008.git.gur.stavi@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 1/6] virtio_net: Add functions for hashing
+To: Jason Wang <jasowang@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>,
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
+ Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>
+References: <20250307-rss-v9-0-df76624025eb@daynix.com>
+ <20250307-rss-v9-1-df76624025eb@daynix.com>
+ <CACGkMEvxkwe9OJRZPb7zz-sRfVpeuoYSz4c2kh9_jjtGbkb_qA@mail.gmail.com>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <CACGkMEvxkwe9OJRZPb7zz-sRfVpeuoYSz4c2kh9_jjtGbkb_qA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 06, 2025 at 09:50:28AM +0200, Gur Stavi wrote:
-> From: Fan Gong <gongfan1@huawei.com>
+On 2025/03/10 12:55, Jason Wang wrote:
+> On Fri, Mar 7, 2025 at 7:01 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>
+>> They are useful to implement VIRTIO_NET_F_RSS and
+>> VIRTIO_NET_F_HASH_REPORT.
+>>
+>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> Tested-by: Lei Yang <leiyang@redhat.com>
+>> ---
+>>   include/linux/virtio_net.h | 188 +++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 188 insertions(+)
+>>
+>> diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
+>> index 02a9f4dc594d02372a6c1850cd600eff9d000d8d..426f33b4b82440d61b2af9fdc4c0b0d4c571b2c5 100644
+>> --- a/include/linux/virtio_net.h
+>> +++ b/include/linux/virtio_net.h
+>> @@ -9,6 +9,194 @@
+>>   #include <uapi/linux/tcp.h>
+>>   #include <uapi/linux/virtio_net.h>
+>>
+>> +struct virtio_net_hash {
+>> +       u32 value;
+>> +       u16 report;
+>> +};
+>> +
+>> +struct virtio_net_toeplitz_state {
+>> +       u32 hash;
+>> +       const u32 *key;
+>> +};
+>> +
+>> +#define VIRTIO_NET_SUPPORTED_HASH_TYPES (VIRTIO_NET_RSS_HASH_TYPE_IPv4 | \
+>> +                                        VIRTIO_NET_RSS_HASH_TYPE_TCPv4 | \
+>> +                                        VIRTIO_NET_RSS_HASH_TYPE_UDPv4 | \
+>> +                                        VIRTIO_NET_RSS_HASH_TYPE_IPv6 | \
+>> +                                        VIRTIO_NET_RSS_HASH_TYPE_TCPv6 | \
+>> +                                        VIRTIO_NET_RSS_HASH_TYPE_UDPv6)
 > 
-> This is [1/3] part of hinic3 Ethernet driver initial submission.
-> With this patch hinic3 is a valid kernel module but non-functional
-> driver.
+> Let's explain why
 > 
-> The driver parts contained in this patch:
-> Module initialization.
-> PCI driver registration but with empty id_table.
-> Auxiliary driver registration.
-> Net device_ops registration but open/stop are empty stubs.
-> tx/rx logic.
+> #define VIRTIO_NET_HASH_REPORT_IPv6_EX         7
+> #define VIRTIO_NET_HASH_REPORT_TCPv6_EX        8
+> #define VIRTIO_NET_HASH_REPORT_UDPv6_EX        9
 > 
-> All major data structures of the driver are fully introduced with the
-> code that uses them but without their initialization code that requires
-> management interface with the hw.
+> are missed here.
+
+Because they require parsing IPv6 options and I'm not sure how many we 
+need to parse. QEMU's eBPF program has a hard-coded limit of 30 options; 
+it has some explanation for this limit, but it does not seem definitive 
+either:
+https://gitlab.com/qemu-project/qemu/-/commit/f3fa412de28ae3cb31d38811d30a77e4e20456cc#6ec48fc8af2f802e92f5127425e845c4c213ff60_0_165
+
+In this patch series, I add an ioctl to query capability instead; it 
+allows me leaving those hash types unimplemented and is crucial to 
+assure extensibility for future additions of hash types anyway. Anyone 
+who find these hash types useful can implement in the future.
+
 > 
-> Co-developed-by: Xin Guo <guoxin09@huawei.com>
-> Signed-off-by: Xin Guo <guoxin09@huawei.com>
-> Signed-off-by: Fan Gong <gongfan1@huawei.com>
-> Co-developed-by: Gur Stavi <gur.stavi@huawei.com>
-> Signed-off-by: Gur Stavi <gur.stavi@huawei.com>
+> And explain how we could maintain migration compatibility
+> 
+> 1) Does those three work for userspace datapath in Qemu? If yes,
+> migration will be broken.
 
-Hi Gur,
+They work for userspace datapath so my RFC patch series for QEMU uses 
+TUNGETVNETHASHCAP to prevent breaking migration:
+https://patchew.org/QEMU/20240915-hash-v3-0-79cb08d28647@daynix.com/
 
-I've reviewed this patch paying particular attention to error handling.
+This patch series first adds configuration options for users to choose 
+hash types. QEMU then automatically picks one implementation from the 
+following (the earlier one is the more preferred):
+1) The hash capability of vhost hardware
+2) The hash capability I'm proposing here
+3) The eBPF program
+4) The pure userspace implementation
 
-Please find some minor feedback below.
+This decision depends on the following:
+- The required hash types; supported ones are queried for 1) and 2)
+- Whether vhost is enabled or not and what vhost backend is used
+- Whether hash reporting is enabled; 3) is incompatible with this
 
-...
+The network device will not be realized if no implementation satisfies 
+the requirements.
 
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c b/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
+> 2) once we support those three in the future. For example, is the qemu
+> expected to probe this via TUNGETVNETHASHCAP in the destination and
+> fail the migration?
 
-...
+QEMU is expected to use TUNGETVNETHASHCAP, but it can selectively enable 
+hash types with TUNSETVNETHASH to keep migration working.
 
-> +static int hinic3_probe_func(struct hinic3_pcidev *pci_adapter)
-> +{
-> +	struct pci_dev *pdev = pci_adapter->pdev;
-> +	int err;
-> +
-> +	err = hinic3_mapping_bar(pdev, pci_adapter);
-> +	if (err) {
-> +		dev_err(&pdev->dev, "Failed to map bar\n");
-> +		goto err_map_bar;
-> +	}
-> +
-> +	err = hinic3_func_init(pdev, pci_adapter);
-> +	if (err)
-> +		goto err_func_init;
-> +
-> +	return 0;
-> +
-> +err_func_init:
-> +	hinic3_unmapping_bar(pci_adapter);
-> +
-> +err_map_bar:
-> +	dev_err(&pdev->dev, "Pcie device probe function failed\n");
+In summary, this patch series provides a sufficient facility for the 
+userspace to make extensibility and migration compatible; 
+TUNGETVNETHASHCAP exposes all of the kernel capabilities and 
+TUNSETVNETHASH allows the userspace to limit them.
 
-nit: PCIE
+Regards,
+Akihiko Odaki
 
-> +	return err;
-> +}
+> 
+> Thanks
+> 
+> 
+> 
+>> +
+>> +#define VIRTIO_NET_RSS_MAX_KEY_SIZE 40
+>> +
+>> +static inline void virtio_net_toeplitz_convert_key(u32 *input, size_t len)
+>> +{
+>> +       while (len >= sizeof(*input)) {
+>> +               *input = be32_to_cpu((__force __be32)*input);
+>> +               input++;
+>> +               len -= sizeof(*input);
+>> +       }
+>> +}
+>> +
+>> +static inline void virtio_net_toeplitz_calc(struct virtio_net_toeplitz_state *state,
+>> +                                           const __be32 *input, size_t len)
+>> +{
+>> +       while (len >= sizeof(*input)) {
+>> +               for (u32 map = be32_to_cpu(*input); map; map &= (map - 1)) {
+>> +                       u32 i = ffs(map);
+>> +
+>> +                       state->hash ^= state->key[0] << (32 - i) |
+>> +                                      (u32)((u64)state->key[1] >> i);
+>> +               }
+>> +
+>> +               state->key++;
+>> +               input++;
+>> +               len -= sizeof(*input);
+>> +       }
+>> +}
+>> +
+>> +static inline u8 virtio_net_hash_key_length(u32 types)
+>> +{
+>> +       size_t len = 0;
+>> +
+>> +       if (types & VIRTIO_NET_HASH_REPORT_IPv4)
+>> +               len = max(len,
+>> +                         sizeof(struct flow_dissector_key_ipv4_addrs));
+>> +
+>> +       if (types &
+>> +           (VIRTIO_NET_HASH_REPORT_TCPv4 | VIRTIO_NET_HASH_REPORT_UDPv4))
+>> +               len = max(len,
+>> +                         sizeof(struct flow_dissector_key_ipv4_addrs) +
+>> +                         sizeof(struct flow_dissector_key_ports));
+>> +
+>> +       if (types & VIRTIO_NET_HASH_REPORT_IPv6)
+>> +               len = max(len,
+>> +                         sizeof(struct flow_dissector_key_ipv6_addrs));
+>> +
+>> +       if (types &
+>> +           (VIRTIO_NET_HASH_REPORT_TCPv6 | VIRTIO_NET_HASH_REPORT_UDPv6))
+>> +               len = max(len,
+>> +                         sizeof(struct flow_dissector_key_ipv6_addrs) +
+>> +                         sizeof(struct flow_dissector_key_ports));
+>> +
+>> +       return len + sizeof(u32);
+>> +}
+>> +
+>> +static inline u32 virtio_net_hash_report(u32 types,
+>> +                                        const struct flow_keys_basic *keys)
+>> +{
+>> +       switch (keys->basic.n_proto) {
+>> +       case cpu_to_be16(ETH_P_IP):
+>> +               if (!(keys->control.flags & FLOW_DIS_IS_FRAGMENT)) {
+>> +                       if (keys->basic.ip_proto == IPPROTO_TCP &&
+>> +                           (types & VIRTIO_NET_RSS_HASH_TYPE_TCPv4))
+>> +                               return VIRTIO_NET_HASH_REPORT_TCPv4;
+>> +
+>> +                       if (keys->basic.ip_proto == IPPROTO_UDP &&
+>> +                           (types & VIRTIO_NET_RSS_HASH_TYPE_UDPv4))
+>> +                               return VIRTIO_NET_HASH_REPORT_UDPv4;
+>> +               }
+>> +
+>> +               if (types & VIRTIO_NET_RSS_HASH_TYPE_IPv4)
+>> +                       return VIRTIO_NET_HASH_REPORT_IPv4;
+>> +
+>> +               return VIRTIO_NET_HASH_REPORT_NONE;
+>> +
+>> +       case cpu_to_be16(ETH_P_IPV6):
+>> +               if (!(keys->control.flags & FLOW_DIS_IS_FRAGMENT)) {
+>> +                       if (keys->basic.ip_proto == IPPROTO_TCP &&
+>> +                           (types & VIRTIO_NET_RSS_HASH_TYPE_TCPv6))
+>> +                               return VIRTIO_NET_HASH_REPORT_TCPv6;
+>> +
+>> +                       if (keys->basic.ip_proto == IPPROTO_UDP &&
+>> +                           (types & VIRTIO_NET_RSS_HASH_TYPE_UDPv6))
+>> +                               return VIRTIO_NET_HASH_REPORT_UDPv6;
+>> +               }
+>> +
+>> +               if (types & VIRTIO_NET_RSS_HASH_TYPE_IPv6)
+>> +                       return VIRTIO_NET_HASH_REPORT_IPv6;
+>> +
+>> +               return VIRTIO_NET_HASH_REPORT_NONE;
+>> +
+>> +       default:
+>> +               return VIRTIO_NET_HASH_REPORT_NONE;
+>> +       }
+>> +}
+>> +
+>> +static inline void virtio_net_hash_rss(const struct sk_buff *skb,
+>> +                                      u32 types, const u32 *key,
+>> +                                      struct virtio_net_hash *hash)
+>> +{
+>> +       struct virtio_net_toeplitz_state toeplitz_state = { .key = key };
+>> +       struct flow_keys flow;
+>> +       struct flow_keys_basic flow_basic;
+>> +       u16 report;
+>> +
+>> +       if (!skb_flow_dissect_flow_keys(skb, &flow, 0)) {
+>> +               hash->report = VIRTIO_NET_HASH_REPORT_NONE;
+>> +               return;
+>> +       }
+>> +
+>> +       flow_basic = (struct flow_keys_basic) {
+>> +               .control = flow.control,
+>> +               .basic = flow.basic
+>> +       };
+>> +
+>> +       report = virtio_net_hash_report(types, &flow_basic);
+>> +
+>> +       switch (report) {
+>> +       case VIRTIO_NET_HASH_REPORT_IPv4:
+>> +               virtio_net_toeplitz_calc(&toeplitz_state,
+>> +                                        (__be32 *)&flow.addrs.v4addrs,
+>> +                                        sizeof(flow.addrs.v4addrs));
+>> +               break;
+>> +
+>> +       case VIRTIO_NET_HASH_REPORT_TCPv4:
+>> +               virtio_net_toeplitz_calc(&toeplitz_state,
+>> +                                        (__be32 *)&flow.addrs.v4addrs,
+>> +                                        sizeof(flow.addrs.v4addrs));
+>> +               virtio_net_toeplitz_calc(&toeplitz_state, &flow.ports.ports,
+>> +                                        sizeof(flow.ports.ports));
+>> +               break;
+>> +
+>> +       case VIRTIO_NET_HASH_REPORT_UDPv4:
+>> +               virtio_net_toeplitz_calc(&toeplitz_state,
+>> +                                        (__be32 *)&flow.addrs.v4addrs,
+>> +                                        sizeof(flow.addrs.v4addrs));
+>> +               virtio_net_toeplitz_calc(&toeplitz_state, &flow.ports.ports,
+>> +                                        sizeof(flow.ports.ports));
+>> +               break;
+>> +
+>> +       case VIRTIO_NET_HASH_REPORT_IPv6:
+>> +               virtio_net_toeplitz_calc(&toeplitz_state,
+>> +                                        (__be32 *)&flow.addrs.v6addrs,
+>> +                                        sizeof(flow.addrs.v6addrs));
+>> +               break;
+>> +
+>> +       case VIRTIO_NET_HASH_REPORT_TCPv6:
+>> +               virtio_net_toeplitz_calc(&toeplitz_state,
+>> +                                        (__be32 *)&flow.addrs.v6addrs,
+>> +                                        sizeof(flow.addrs.v6addrs));
+>> +               virtio_net_toeplitz_calc(&toeplitz_state, &flow.ports.ports,
+>> +                                        sizeof(flow.ports.ports));
+>> +               break;
+>> +
+>> +       case VIRTIO_NET_HASH_REPORT_UDPv6:
+>> +               virtio_net_toeplitz_calc(&toeplitz_state,
+>> +                                        (__be32 *)&flow.addrs.v6addrs,
+>> +                                        sizeof(flow.addrs.v6addrs));
+>> +               virtio_net_toeplitz_calc(&toeplitz_state, &flow.ports.ports,
+>> +                                        sizeof(flow.ports.ports));
+>> +               break;
+>> +
+>> +       default:
+>> +               hash->report = VIRTIO_NET_HASH_REPORT_NONE;
+>> +               return;
+>> +       }
+>> +
+>> +       hash->value = toeplitz_state.hash;
+>> +       hash->report = report;
+>> +}
+>> +
+>>   static inline bool virtio_net_hdr_match_proto(__be16 protocol, __u8 gso_type)
+>>   {
+>>          switch (gso_type & ~VIRTIO_NET_HDR_GSO_ECN) {
+>>
+>> --
+>> 2.48.1
+>>
+> 
 
-...
-
-> +static int hinic3_sw_init(struct net_device *netdev)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
-> +	int err;
-> +
-> +	nic_dev->q_params.sq_depth = HINIC3_SQ_DEPTH;
-> +	nic_dev->q_params.rq_depth = HINIC3_RQ_DEPTH;
-> +
-> +	/* VF driver always uses random MAC address. During VM migration to a
-> +	 * new device, the new device should learn the VMs old MAC rather than
-> +	 * provide its own MAC. The product design assumes that every VF is
-> +	 * suspectable to migration so the device avoids offering MAC address
-> +	 * to VFs.
-> +	 */
-> +	eth_hw_addr_random(netdev);
-> +	err = hinic3_set_mac(hwdev, netdev->dev_addr, 0,
-> +			     hinic3_global_func_id(hwdev));
-> +	if (err) {
-> +		dev_err(hwdev->dev, "Failed to set default MAC\n");
-> +		goto err_out;
-
-nit: I think it would be slightly nicer to simply return err here
-     and drop the err_out label. This is because there is no
-     unwind to perform in this error case.
-
-     Likewise for any similar cases that may be in this patch
-     (I didn't spot any so far).
-
-> +	}
-> +
-> +	err = hinic3_alloc_txrxqs(netdev);
-> +	if (err) {
-> +		dev_err(hwdev->dev, "Failed to alloc qps\n");
-> +		goto err_alloc_qps;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_alloc_qps:
-> +	hinic3_del_mac(hwdev, netdev->dev_addr, 0, hinic3_global_func_id(hwdev));
-> +
-> +err_out:
-> +	return err;
-> +}
-> +
-> +static void hinic3_sw_deinit(struct net_device *netdev)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +
-> +	hinic3_free_txrxqs(netdev);
-> +	hinic3_del_mac(nic_dev->hwdev, netdev->dev_addr, 0,
-> +		       hinic3_global_func_id(nic_dev->hwdev));
-> +}
-
-...
-
-> +static int hinic3_nic_probe(struct auxiliary_device *adev,
-> +			    const struct auxiliary_device_id *id)
-> +{
-> +	struct hinic3_hwdev *hwdev = hinic3_adev_get_hwdev(adev);
-> +	struct pci_dev *pdev = hwdev->pdev;
-> +	struct hinic3_nic_dev *nic_dev;
-> +	struct net_device *netdev;
-> +	u16 max_qps, glb_func_id;
-> +	int err;
-> +
-> +	if (!hinic3_support_nic(hwdev)) {
-> +		dev_dbg(&adev->dev, "HW doesn't support nic\n");
-> +		return 0;
-> +	}
-> +
-> +	hinic3_adev_event_register(adev, hinic3_nic_event);
-> +
-> +	glb_func_id = hinic3_global_func_id(hwdev);
-> +	err = hinic3_func_reset(hwdev, glb_func_id, COMM_FUNC_RESET_BIT_NIC);
-> +	if (err) {
-> +		dev_err(&adev->dev, "Failed to reset function\n");
-> +		goto err_undo_event_register;
-> +	}
-> +
-> +	max_qps = hinic3_func_max_qnum(hwdev);
-> +	netdev = alloc_etherdev_mq(sizeof(*nic_dev), max_qps);
-> +	if (!netdev) {
-> +		dev_err(&adev->dev, "Failed to allocate netdev\n");
-> +		err = -ENOMEM;
-> +		goto err_undo_event_register;
-> +	}
-> +
-> +	nic_dev = netdev_priv(netdev);
-> +	dev_set_drvdata(&adev->dev, nic_dev);
-> +	err = hinic3_init_nic_dev(netdev, hwdev);
-> +	if (err)
-> +		goto err_undo_netdev_alloc;
-> +
-> +	err = hinic3_init_nic_io(nic_dev);
-> +	if (err)
-> +		goto err_undo_netdev_alloc;
-> +
-> +	err = hinic3_sw_init(netdev);
-> +	if (err)
-> +		goto err_sw_init;
-> +
-> +	hinic3_assign_netdev_ops(netdev);
-> +
-> +	netdev_feature_init(netdev);
-> +	err = hinic3_set_default_hw_feature(netdev);
-> +	if (err)
-> +		goto err_set_features;
-> +
-> +	err = register_netdev(netdev);
-> +	if (err) {
-> +		err = -ENOMEM;
-
-Could you clarify why err is being overridden here?
-I would have expected this function to return the
-error returned by register_netdev?
-
-> +		goto err_register_netdev;
-> +	}
-> +
-> +	netif_carrier_off(netdev);
-> +	return 0;
-> +
-> +err_register_netdev:
-> +	hinic3_update_nic_feature(nic_dev, 0);
-> +	hinic3_set_nic_feature_to_hw(nic_dev);
-> +
-> +err_set_features:
-> +	hinic3_sw_deinit(netdev);
-> +
-> +err_sw_init:
-> +	hinic3_free_nic_io(nic_dev);
-> +
-> +err_undo_netdev_alloc:
-> +	free_netdev(netdev);
-> +
-> +err_undo_event_register:
-> +	hinic3_adev_event_unregister(adev);
-> +	dev_err(&pdev->dev, "NIC service probe failed\n");
-> +
-> +	return err;
-> +}
-
-...
-
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-
-...
-
-> +static int hinic3_change_mtu(struct net_device *netdev, int new_mtu)
-> +{
-> +	int err;
-> +
-> +	err = hinic3_set_port_mtu(netdev, new_mtu);
-> +	if (err) {
-> +		netdev_err(netdev, "Failed to change port mtu to %d\n", new_mtu);
-> +	} else {
-> +		netdev_dbg(netdev, "Change mtu from %u to %d\n", netdev->mtu, new_mtu);
-> +		WRITE_ONCE(netdev->mtu, new_mtu);
-> +	}
-> +
-> +	return err;
-
-The above is straightforward enough, but I do think it would
-be nicer to stick with the idiomatic pattern of keeping the
-non-error paths in the main flow of execution, while
-error paths are handled conditionally.
-
-And also, to keep lines less than 80 columns wide unless
-it reduces readability.
-
-Something like this (completely untested!):
-
-	err = hinic3_set_port_mtu(netdev, new_mtu);
-	if (err) {
-		netdev_err(netdev, "Failed to change port mtu to %d\n",
-			   new_mtu);
-		return err;
-	}
-
-	netdev_dbg(netdev, "Change mtu from %u to %d\n", netdev->mtu, new_mtu);
-	WRITE_ONCE(netdev->mtu, new_mtu);
-
-	return 0;
-
-> +}
-
-...
