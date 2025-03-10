@@ -1,66 +1,66 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B303422758F;
-	Mon, 10 Mar 2025 09:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CC42248A8;
+	Mon, 10 Mar 2025 09:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741599765; cv=none; b=HrxTQD0qZgbhJiZO4C7+njTXQwomSKJSL5IpuI+yBOqF0UF28Ej+xgbwUnurPbN//ZuzHcAA4oczRQU68hIBzdRDB1MEO366LnOYJFcEE5N52q3mO19l7mg3d2H95DVq7fSUyHjS7vwNYj0BK2GvO0uzdVzlehyDFHfi3A2TCJs=
+	t=1741600297; cv=none; b=M9vdWwZmQMFqH/bTHt8Drt5a6BCblPw1aHFBn+D4hIFi57LY7qT+manxqima57Yx/Vji4RFAEurGOqO1mJDDJt8lkKWnBRpBlSAXf5HwtkWRtR+YwBkl7uJ90RdLfK1X3FG14cwcDHa6HnJxS5kQwLaFzdIa+Nd3Zqwal1zXXis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741599765; c=relaxed/simple;
-	bh=h1E0/A3bjATDwXlqdk725GKR6Hwuu+h4mOX6XmeZSLg=;
+	s=arc-20240116; t=1741600297; c=relaxed/simple;
+	bh=KcsuoE5oc+tflOf5s+fkW50lshhYKgljE2mWx5LItuc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qzz6gpnTpAXRbF9uegA6G0jfmqKrphJKiRA70HyfQ+hPfgW9npOiU8+EzA34UlHaS+iQhQOkS6B0Eca/IJV+ef/SNxjzCrxlxPkSvJRGpEpN12tTq+kQ+OXWYzuza8Zey+9sAqapec7cA5RTBm655Xdkj+Y0/tgO16M+hlkkGoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DpVojWJm; arc=none smtp.client-ip=209.85.218.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=K0GJWuNPwPJCSGSehNG6xdTVv5gvQhEj2hT2tzVV8qUhotAs3+OInThAumJbcx/jNfL0kjufD7UyO9afag94fywHvvm/dA3Q14utPkJ5yNw7rhekFnxjMSfejq8Ipxy9hMEFl2cFb1wCECRk5nOE3IJqLz8zZeSMy4XALkdT+Ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cl6366UW; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DpVojWJm"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aaf0f1adef8so702500466b.3;
-        Mon, 10 Mar 2025 02:42:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cl6366UW"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-abf4b376f2fso750590066b.3;
+        Mon, 10 Mar 2025 02:51:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741599762; x=1742204562; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1741600294; x=1742205094; darn=vger.kernel.org;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tMClGTb/xowiN+wUj5f6h9i/suU0YoMn0juoJl6ktWM=;
-        b=DpVojWJmneojq2ZrP1u99fpWNf0SBdT1DibjcoP7GeQR/NTxu/2QQCVNqUDZDd6eBQ
-         OWTjm61pD3LzLs/P2FqPJg+KpIKT5ZF7lPYGo7Nu6hSnKNhR2B3a3oZCBss1FIQ2mK2i
-         +Q8JOnI28+J8cWH1UBpcyT1x+C+fIpB8V70+o+wtz0+Z897JA7Qiu4B35mIyzBMDUqHp
-         JLlbrS4zbL2Q7Vm35ZZEhJhdlwW01u0emD29BM8OPd6ut+/yc44pAuEL2XC1ZVmtyQYi
-         gv3YCZQxkvawGBMumXu3A4qZmi3ksEbF4TPbQpFnpvUOJXWcROSNOLUBXmjchYtrPEXS
-         RoPA==
+        bh=7fIk/wLn8siLSomZZskx1hmM4iyC641S3xGJlKKijlM=;
+        b=cl6366UWtMCfZLO1rHOgXS7DihlEtSbIlvmgXfCK/TTp7e879cYQ/fMO/1QfrgSahQ
+         EWRX+ckMiP0lJZzdkapUiT4ulNP8UHaxnQ5fpQKw4p0dkcaHqlxve8yOGHrhXnAxgf2X
+         plq9tKh0a8sR8WhFjPPTfhs7sV+ZC+5omeQlk+aM5aTd7/C4KhFSe4We9nXsoR4gyj1Y
+         QXYf4d/fwQay6q3VSOfnAhk85AI0vCcKcsDJkSdbzmOqO2vr8SlTJ2zb3hRoStLCd4cU
+         RoilNsv3clVOJawPXcuBOYMzULuU1zQfo6KB2rCaHu17EsRhG6RIQKMsfBrWSFBWcrm/
+         EYGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741599762; x=1742204562;
+        d=1e100.net; s=20230601; t=1741600294; x=1742205094;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=tMClGTb/xowiN+wUj5f6h9i/suU0YoMn0juoJl6ktWM=;
-        b=tBj/+/vIEiNXqyg+aNSjXb8/YqT1JoVkzMS+2VUV8QyBgdIRqOnv4azKmTGtGh9Nks
-         fLRR4yUGcV9JpiLSWkP7IowUWC2LJufh7um/Pdklt0z+6BOmbs6X5TfmctSZSS+TSQ8o
-         VT0ggAbimzXreF7G1aY1I0nLnP4PaAVnoJD9HUxKmUboZQSiaPdtfSEubfxBkXUYrgIH
-         WlguWGUIKERn0EtjbM7XXFVzQAG5mA/JthENY8UrUT8C9KU7+vFK2Swf0UxGKWH6JeFB
-         91W0uzRIbdQae/JCyyIneh2oTzOn5tcuO/QuzoHNJAasxuAyVL/7AYm4eWBVqoQPvYM0
-         VhYA==
-X-Forwarded-Encrypted: i=1; AJvYcCVc8WBsmP8BxAKIvBUXMh2XnELTvZjA/9r/wuACZsiPFjqVlueTlUEpIgVnSYoCbOdkNDNGZJ45Yhje@vger.kernel.org, AJvYcCWG2frz4YnptvSZPz1KjwamSH9OpS0u833hzcUwwwlTwDHeTRVRjudQFx1YCVjtP5R2dLpkvTZKi5qOIo3y@vger.kernel.org, AJvYcCWRr+/kG8SiXzADS4RLuCyImdp/1grl4/F2slmv6KqTr3Wpt4h6PhJJaKLIAuH1iBym0ZM3egnNFAQ6@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxj4j4FdZdDpIdbVIICUGa79VBUPfrP1lIIiLoh6Ep3J8EsKphQ
-	ssFnLQWf3YTVR6MD+siccCjeIg2vlGM/3uXKNWyX7QOuEfAuc1B6
-X-Gm-Gg: ASbGnctXSn2hWWQ4Z+us1LfqkN1temS8lVu/YsOXXkuvzxRl3duA4JA8edhvaqqvHAP
-	0rQJ55VJqhT+n3JMgMqArmFQsI4jShIOokMkd+e7WGPbvRCSlNaCVESmkQVGR3s1J1QcJbCDWs0
-	o4PTuBQTqVybJ094LW7Fsl6mg99noal7ZZodIF7j2eF4w2sLxyux2wpe7In+LEhKOxujG+5y9jF
-	6R8JXVizYuvqx8veNChElJT316amYJACOieWFwOB6tqsVPVyT8xUEHwdjkwy+VhnDw3rUllFCxt
-	5I6Lr8SptTA+NQb1nLeK3IFKjmF3RBKAca9SCe5WOlkF
-X-Google-Smtp-Source: AGHT+IGr1BXamH0TMzryWGEFJPRvklcDIRXonoj2fHuOVeIPkUnC7Qwd3/v9Pu02iEAlM/2ZB1tn9g==
-X-Received: by 2002:a17:907:3f96:b0:abf:62a4:14ef with SMTP id a640c23a62f3a-ac25274a051mr1561659766b.9.1741599761642;
-        Mon, 10 Mar 2025 02:42:41 -0700 (PDT)
+        bh=7fIk/wLn8siLSomZZskx1hmM4iyC641S3xGJlKKijlM=;
+        b=WHzrqGR68pC9JKfMB1Br947PJ8U7N3TJvHdo/64IBl66BOidfMkD5o2LNQux9lm5uZ
+         lIYefm0/D7O8mh73ZW3A6aXCzvN9jOZXhMkUOOq8Oup5h5d4N5xS6qmSM20GRtGcbnvg
+         Ho6b7usCFvEMLeWRe8FUAMyDyxr/G/hHf8vX4IIZCe6jGIoYyiu/57fuAFi2nlQSvSYh
+         pguQ7L6uzEkxIxgdT8RprzdVLIuw7DTHVNxdnSunw7EaLQonJHkTx9TjBW1D5KP0+0kH
+         tbWEyOD7lZ7ReziVo/DWhzbbZLLHG2/BRzxD7hOs9djwEVWc3hwVKFXR/al4ucZ8h8cS
+         334Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVxWrCMX7+imHK5yid25aSgePBgXXPtSdQt29iBlmuW0T7q/AXcRsfh1i5g2OFpjQu/r+TY5PWm23Mp@vger.kernel.org, AJvYcCW0kflvjg8MEvnJiJEuT92INi6dNxy9P1cJIB/8Fx128iKY7NHDJTqqoe1wLKUDyWaulY1UvFMVq6bU@vger.kernel.org, AJvYcCWpW7fb7rj3k9qiS4qGEgB9CA0fLeEquy+3/Xu/dqQTshKPmDehAo+4nXqeptEkDJbP3C0tSgPL4HJqG4DD@vger.kernel.org
+X-Gm-Message-State: AOJu0YydbIZWWHU52nCwLlyaUqvLWudGAFzr8CLVRl6yJubXNkXOO6rt
+	uFyV472ASbwuEkFD+LssO7NiHGFee67ndzXNJ0BzpRJFJ3WwQpcC
+X-Gm-Gg: ASbGncs/6jZrbXnAJJGaVbN6Roji4ySRxUrFhHF5/L7XSuvU2RIoW6poqSLoq33KTho
+	gmGlLxTPdiQIuL9VsgJ69U7YtdnXL7siMxLhjzOXCtuNIUgXzy4nDFT3IWRD/HSTZ5mnw7QLwLe
+	qh+W5xZ0ciIwoancG123tmNTIFGAOPJzEDd205gVdX6AVle/m+SAI2fqj2Zf++N3FE2+h2e5vku
+	npsP3DHA2uSklL6TS8lq+LMNEwaLyBWfHOUzqUUpWO1u4k9G1lA6fKnERyHQReMXWMHuNKygann
+	MOfCZege2v9SeiNFKOUGfiifIZIYSA50+mkDfJthLrPSHoWbREaxqQE=
+X-Google-Smtp-Source: AGHT+IEnsaBC89bibOD1BqC+ZZ1kovv3JGu+umNRENY/jx8wzQl9KTymklI/3Rp6DH54iA+FTxPRUw==
+X-Received: by 2002:a17:907:3f2a:b0:abf:5fa3:cf96 with SMTP id a640c23a62f3a-ac252a879d7mr1234111666b.14.1741600293920;
+        Mon, 10 Mar 2025 02:51:33 -0700 (PDT)
 Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac2b0daaa0asm28863966b.38.2025.03.10.02.42.40
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac255589a30sm594247266b.107.2025.03.10.02.51.25
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 10 Mar 2025 02:42:40 -0700 (PDT)
-Date: Mon, 10 Mar 2025 09:42:38 +0000
+        Mon, 10 Mar 2025 02:51:25 -0700 (PDT)
+Date: Mon, 10 Mar 2025 09:51:24 +0000
 From: Wei Yang <richard.weiyang@gmail.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
 	Alexander Graf <graf@amazon.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Andy Lutomirski <luto@kernel.org>,
@@ -92,17 +92,13 @@ Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
 	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
 Subject: Re: [PATCH v4 02/14] memblock: add MEMBLOCK_RSRV_KERN flag
-Message-ID: <20250310094238.lgsiyqci3aqdzrhj@master>
+Message-ID: <20250310095124.pa7dwgqhxglqrfes@master>
 Reply-To: Wei Yang <richard.weiyang@gmail.com>
 References: <20250206132754.2596694-1-rppt@kernel.org>
  <20250206132754.2596694-3-rppt@kernel.org>
  <20250218155004.n53fcuj2lrl5rxll@master>
  <Z7WHL_Xqgoln9oLg@kernel.org>
- <20250224013131.fzz552bn7fs64umq@master>
- <Z711VP45tjBi0kwx@kernel.org>
- <20250226020915.ytxusrrl7rv4g64l@master>
- <20250310075627.5hettrn2j2ien5bj@master>
- <Z86ikkLVHQhLmBWj@kernel.org>
+ <20250223002229.xuk6xlp23zr72hkc@master>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -111,63 +107,91 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z86ikkLVHQhLmBWj@kernel.org>
+In-Reply-To: <20250223002229.xuk6xlp23zr72hkc@master>
 User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Mon, Mar 10, 2025 at 10:28:02AM +0200, Mike Rapoport wrote:
->Hi Wei,
->
->On Mon, Mar 10, 2025 at 07:56:27AM +0000, Wei Yang wrote:
->> On Wed, Feb 26, 2025 at 02:09:15AM +0000, Wei Yang wrote:
->> >>> 
->> >>> From the above call flow and background, there are three cases when
->> >>> memblock_alloc_range_nid() would be called:
->> >>> 
->> >>>   * If it is called before (1), memblock.reserved's nid would be adjusted correctly.
->> >>>   * If it is called after (2), we don't touch memblock.reserved.
->> >>>   * If it happens between (1) and (2), it looks would break the consistency of
->> >>>     nid information in memblock.reserved. Because when we use
->> >>>     memblock_reserve_kern(), NUMA_NO_NODE would be stored in region.
->> >>> 
->> >>> So my question is if the third case happens, would it introduce a bug? If it
->> >>> won't happen, seems we don't need to specify the nid here?
->> >>
->> >>We don't really care about proper assignment of nodes between (1) and (2)
->> >>from one side and the third case does not happen on the other side. Nothing
->> >>should call membloc_alloc() after memblock_free_all(). 
->> >>
->> >
->> >My point is if no one would call memblock_alloc() after memblock_free_all(),
->> >which set nid in memblock.reserved properly, it seems not necessary to do
->> >__memblock_reserve() with exact nid during memblock_alloc()? 
->> >
->> >As you did __memblock_reserve(found, size, nid, MEMBLOCK_RSRV_KERN) in this
->> >patch.
->> >
+On Sun, Feb 23, 2025 at 12:22:29AM +0000, Wei Yang wrote:
+>On Wed, Feb 19, 2025 at 09:24:31AM +0200, Mike Rapoport wrote:
+>>Hi,
+>>
+>>On Tue, Feb 18, 2025 at 03:50:04PM +0000, Wei Yang wrote:
+>>> On Thu, Feb 06, 2025 at 03:27:42PM +0200, Mike Rapoport wrote:
+>>> >From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>>> >
+>>> >to denote areas that were reserved for kernel use either directly with
+>>> >memblock_reserve_kern() or via memblock allocations.
+>>> >
+>>> >Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>>> >---
+>>> > include/linux/memblock.h | 16 +++++++++++++++-
+>>> > mm/memblock.c            | 32 ++++++++++++++++++++++++--------
+>>> > 2 files changed, 39 insertions(+), 9 deletions(-)
+>>> >
+>>> >diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+>>> >index e79eb6ac516f..65e274550f5d 100644
+>>> >--- a/include/linux/memblock.h
+>>> >+++ b/include/linux/memblock.h
+>>> >@@ -50,6 +50,7 @@ enum memblock_flags {
+>>> > 	MEMBLOCK_NOMAP		= 0x4,	/* don't add to kernel direct mapping */
+>>> > 	MEMBLOCK_DRIVER_MANAGED = 0x8,	/* always detected via a driver */
+>>> > 	MEMBLOCK_RSRV_NOINIT	= 0x10,	/* don't initialize struct pages */
+>>> >+	MEMBLOCK_RSRV_KERN	= 0x20,	/* memory reserved for kernel use */
+>>> 
+>>> Above memblock_flags, there are comments on explaining those flags.
+>>> 
+>>> Seems we miss it for MEMBLOCK_RSRV_KERN.
+>>
+>>Right, thanks!
 >> 
->> Hi, Mike
+>>> > 
+>>> > #ifdef CONFIG_HAVE_MEMBLOCK_PHYS_MAP
+>>> >@@ -1459,14 +1460,14 @@ phys_addr_t __init memblock_alloc_range_nid(phys_addr_t size,
+>>> > again:
+>>> > 	found = memblock_find_in_range_node(size, align, start, end, nid,
+>>> > 					    flags);
+>>> >-	if (found && !memblock_reserve(found, size))
+>>> >+	if (found && !__memblock_reserve(found, size, nid, MEMBLOCK_RSRV_KERN))
+>>> 
+>>> Maybe we could use memblock_reserve_kern() directly. If my understanding is
+>>> correct, the reserved region's nid is not used.
+>>
+>>We use nid of reserved regions in reserve_bootmem_region() (commit
+>>61167ad5fecd ("mm: pass nid to reserve_bootmem_region()")) but KHO needs to
+>>know the distribution of reserved memory among the nodes before
+>>memmap_init_reserved_pages().
 >> 
->> Do you think my understanding is reasonable?
 >
->Without KHO it is indeed not strictly necessary to set nid during memblock_alloc().
->But since we anyway have nid parameter in memblock_alloc_range_nid() and it
->anyway propagates to memblock_add_range(), I think it's easier and cleaner
->to pass nid to __memblock_reserve() there.
+>I took another look into this commit. There maybe a very corner case in which
+>will leave a reserved region with no nid set.
 >
->And for KHO estimation of scratch size it is important to have nid assigned to
->the reserved areas before memblock_free_all(), at least for the allocations
->that request particular nid explicitly.
+>memmap_init_reserved_pages()
+>    for_each_mem_region() {
+>        ...
+>	memblock_set_node(start, end, &memblock.reserved, nid);
+>    }
+>
+>We leverage the iteration here to set nid to all regions in memblock.reserved.
+>But memblock_set_node() may call memblock_double_array() to expand the array,
+>which may get a range before current start. So we would miss to set the
+>correct nid to the new reserved region.
+>
+>I have tried to create a case in memblock test. This would happen when there
+>are 126 memblock.reserved regions. And the last region is across the last two
+>node.
+>
+>One way to fix this is compare type->max in memblock_set_node(). Then check
+>this return value in memmap_init_reserved_pages(). If we found the size
+>changes, repeat the iteration.
+>
+>But this is a very trivial one, not sure it worth fix.
+>
 
-Thanks, I see your point.
+Hi, Mike
 
-> 
->> -- 
->> Wei Yang
->> Help you, Help me
->
->-- 
->Sincerely yours,
->Mike.
+I have done a user space test which shows we may have a chance to leave a
+region with non-nid set.
+
+Not sure you are ok with my approach of fixing.
 
 -- 
 Wei Yang
