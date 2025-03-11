@@ -1,178 +1,199 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B751234977;
-	Tue, 11 Mar 2025 10:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66661DE2BB;
+	Tue, 11 Mar 2025 10:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741688527; cv=none; b=Hd4tEewGOH+SFVHk3oko5GrGyWS5DU67uTkSovx1lWAeBZkMmGHdeqtwPMF+qyZoD5/QeYoDR1WcJ5NOXVT83HmthlJN2RlPgjCie5fEK/Th4uCwcypneWi60Xa6t909LzHk36zNrwrX8/lRGb90UvOW1xcDgZA89RKSK8y7VQ4=
+	t=1741689910; cv=none; b=tuxVwO809KjhvM8ccaDqoweH2byMFflsgNztUavxltmHdoBFpglmQGD8hA0eNBCJDzpFgmLK6A3RmqaEA4GRvn3iNKT1k2c5/jRfmZArDgPmY2ynnjEzP2WWqB5mkvmNejEwAmBEB6ZQBBH7TqTfauyASLHHrjpLhPAl9VTiI9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741688527; c=relaxed/simple;
-	bh=LSLcGBRioPeMdvm1qw8/dxTdxYG8cUK8kyu3PmmIiUQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tJc79YoHI4JbkR2kjh7YPNS1k428vTBMNQ3wi1aRhMN71Cl9zRudfHjKyFiGAl9DbjJR3I0RaTZkt9EowXQ+4zdKccKZMcA83SZb8mXVOqo+PD8rHPA2KkyZkMpO4bVZiwyCED+LSe6rybr5n5LX5XGuCFSUsVunJ9WzBPJdmFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA8D81762;
-	Tue, 11 Mar 2025 03:22:15 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 633833F673;
-	Tue, 11 Mar 2025 03:22:04 -0700 (PDT)
-Date: Tue, 11 Mar 2025 10:22:00 +0000
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: coresight@lists.linaro.org, yeoreum.yun@arm.com,
-	Mike Leach <mike.leach@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linux.dev>,
-	Namhyung Kim <namhyung@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] coresight: docs: Remove target sink from examples
-Message-ID: <20250311102200.GJ9682@e132581.arm.com>
-References: <20241210144933.295798-1-james.clark@linaro.org>
+	s=arc-20240116; t=1741689910; c=relaxed/simple;
+	bh=2qtZx71hOP7XTKnjKVCGoxZv4RprBeHFFlw7SOTHDCM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=UYiuBSefdq202vHzVbMphTxrihmHxupU2jsAZLWYDTa16tcil0kEXjVPZTlDIOyQxexeMsr7ZujXjDioHFdoPw6cR3tfz7g/umSLx7utyptCcasNasXa3ool/oyBuNRwhXgOtclwbNWp0WxdHjOGjWaJgXXXRUMZNmUmaY/GGOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=P7hPtugr; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="P7hPtugr"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52BA4P1Z015125;
+	Tue, 11 Mar 2025 10:44:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	S2i6mRK0jajy0u0bUB2Z9AQTcwRxDHV/B/HG8iEiju8=; b=P7hPtugr6omYfGnF
+	DqAmVqW5Ec8QzF4iWGD/4Og9HQB5DAx/IavD+obS5gb5CdS5ikvpibXWZIF2RUVg
+	ezwUl16GdE9am/hNnwpU02HFbxGistvoPJNuov/DqWMw3eZM6cZo+Yv+IUTCH7fh
+	K3NO0eaoFqkNAhglRxQZSMooooPlLCQjOZYqZqnscMHrpCpDYANy1uzMm1zHrM0i
+	CmBM42HYPXIvxe3u7vfSo871QPqEs2QnTlI9OVAhc8pE97Wefe8ZZJ7cgDtRuATQ
+	C+0xq7slbdU6VCbxS3qpzrMXpkrGIt0jaeLMutPVO9UizqYf+9Pi6pJacA5lms1G
+	Dlk5uQ==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ab8m1hhm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Mar 2025 10:44:50 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52BAinNJ018053
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Mar 2025 10:44:49 GMT
+Received: from [10.253.38.132] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Mar
+ 2025 03:44:42 -0700
+Message-ID: <4c24723a-1773-4034-95fb-47748f6e8982@quicinc.com>
+Date: Tue, 11 Mar 2025 18:44:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241210144933.295798-1-james.clark@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 04/14] net: ethernet: qualcomm: Initialize PPE
+ buffer management for IPQ9574
+To: Andrew Lunn <andrew@lunn.ch>
+CC: Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
+        Suruchi Agarwal
+	<quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>,
+        "Simon
+ Horman" <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook
+	<kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        "Philipp
+ Zabel" <p.zabel@pengutronix.de>,
+        <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
+        <srinivas.kandagatla@linaro.org>, <bartosz.golaszewski@linaro.org>,
+        <john@phrozen.org>
+References: <20250209-qcom_ipq_ppe-v3-0-453ea18d3271@quicinc.com>
+ <20250209-qcom_ipq_ppe-v3-4-453ea18d3271@quicinc.com>
+ <a79027ed-012c-4771-982c-b80b55ab0c8a@lunn.ch>
+ <c592c262-5928-476f-ac2a-615c44d67277@quicinc.com>
+ <33529292-00cd-4a0f-87e4-b8127ca722a4@lunn.ch>
+ <cffdd8e8-76bc-4424-8cdb-d48f5010686d@quicinc.com>
+ <74f89e1e-c440-42cb-9d8e-be213a3d83a4@lunn.ch>
+Content-Language: en-US
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <74f89e1e-c440-42cb-9d8e-be213a3d83a4@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: txnyqolXEKgHcYx5KUazcWu3fq0FVdnZ
+X-Authority-Analysis: v=2.4 cv=K9nYHzWI c=1 sm=1 tr=0 ts=67d01422 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=IKtIH902HmA1w457l2kA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: txnyqolXEKgHcYx5KUazcWu3fq0FVdnZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-11_01,2025-03-11_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 spamscore=0 mlxlogscore=999 clxscore=1015
+ priorityscore=1501 mlxscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ adultscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2503110070
 
-On Tue, Dec 10, 2024 at 02:49:28PM +0000, James Clark wrote:
-> 
-> Previously the sink had to be specified, but now it auto selects one by
-> default. Including a sink in the examples causes issues when copy
-> pasting the command because it might not work if that sink isn't
-> present. Remove the sink from all the basic examples and create a new
-> section specifically about overriding the default one.
-> 
-> Make the text a but more concise now that it's in the advanced section,
-> and similarly for removing the old kernel advice.
-> 
-> Signed-off-by: James Clark <james.clark@linaro.org>
-> ---
->  Documentation/trace/coresight/coresight.rst   | 41 ++++++++-----------
->  .../userspace-api/perf_ring_buffer.rst        |  4 +-
->  2 files changed, 18 insertions(+), 27 deletions(-)
-> 
-> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-> index d4f93d6a2d63..806699871b80 100644
-> --- a/Documentation/trace/coresight/coresight.rst
-> +++ b/Documentation/trace/coresight/coresight.rst
-> @@ -462,44 +462,35 @@ queried by the perf command line tool:
-> 
->                 cs_etm//                                    [Kernel PMU event]
-> 
-> -       linaro@linaro-nano:~$
-> -
->  Regardless of the number of tracers available in a system (usually equal to the
->  amount of processor cores), the "cs_etm" PMU will be listed only once.
-> 
->  A Coresight PMU works the same way as any other PMU, i.e the name of the PMU is
-> -listed along with configuration options within forward slashes '/'.  Since a
-> -Coresight system will typically have more than one sink, the name of the sink to
-> -work with needs to be specified as an event option.
-> -On newer kernels the available sinks are listed in sysFS under
-> +provided along with configuration options within forward slashes '/' (see
-> +`Config option formats`_).
-> +
-> +Advanced Perf framework usage
-> +-----------------------------
-> +
-> +Sink selection
-> +~~~~~~~~~~~~~~
-> +
-> +An appropriate sink will be selected automatically for use with Perf, but since
-> +there will typically be more than one sink, the name of the sink to use may be
-> +specified as a special config option prefixed with '@'.
-> +
-> +The available sinks are listed in sysFS under
->  ($SYSFS)/bus/event_source/devices/cs_etm/sinks/::
-> 
->         root@localhost:/sys/bus/event_source/devices/cs_etm/sinks# ls
->         tmc_etf0  tmc_etr0  tpiu0
 
-Just a minor comment.  To reflect the latest hardware, it is good to
-mention the TRBE case, users should not and cannot specify TRBE as the
-sink name.  The driver will give priority for TRBE by default unless
-users specify other sink types.
 
-Otherwise, this is a good polish for me.
+On 3/6/2025 11:29 PM, Andrew Lunn wrote:
+>> Thanks for the suggestion. Just to clarify, we preferred
+>> u32p_replace_bits() over FIELD_PREP() because the former does
+>> a clear-and-set operation against a given mask, where as with
+>> FIELD_PREP(), we need to clear the bits first before we use the
+>> macro and then set it. Due to this, we preferred using
+>> u32_replace_bits() since it made the macro definitions to modify
+>> the registers simpler. Given this, would it be acceptable to
+>> document u32p_replace_bits() better, as it is already being used
+>> by other drivers as well?
+> 
+> I suggest you submit a patch to those who maintain that file and see
+> what they say.
+> 
+> But maybe also look at how others are using u32p_replace_bits() and
+> should it be wrapped up in a macro? FIELD_MOD()? These macros do a lot
+> of build time checking that you are not overflowing the type. It would
+> be good to have that to catch bugs at build time, rather than years
+> later at runtime.
+> 
+>        Andrew
 
-Thanks,
-Leo
+OK, understand. I will submit the patch by adding the FIELD_MODIFY()
+with required build time checking included.
 
-> -On older kernels, this may need to be found from the list of coresight devices,
-> -available under ($SYSFS)/bus/coresight/devices/::
-> -
-> -       root:~# ls /sys/bus/coresight/devices/
-> -        etm0     etm1     etm2         etm3  etm4      etm5      funnel0
-> -        funnel1  funnel2  replicator0  stm0  tmc_etf0  tmc_etr0  tpiu0
->         root@linaro-nano:~# perf record -e cs_etm/@tmc_etr0/u --per-thread program
-> 
-> -As mentioned above in section "Device Naming scheme", the names of the devices could
-> -look different from what is used in the example above. One must use the device names
-> -as it appears under the sysFS.
-> -
-> -The syntax within the forward slashes '/' is important.  The '@' character
-> -tells the parser that a sink is about to be specified and that this is the sink
-> -to use for the trace session.
-> -
->  More information on the above and other example on how to use Coresight with
->  the perf tools can be found in the "HOWTO.md" file of the openCSD gitHub
->  repository [#third]_.
-> 
-> -Advanced perf framework usage
-> ------------------------------
-> -
->  AutoFDO analysis using the perf tools
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> @@ -508,7 +499,7 @@ perf can be used to record and analyze trace of programs.
->  Execution can be recorded using 'perf record' with the cs_etm event,
->  specifying the name of the sink to record to, e.g::
-> 
-> -    perf record -e cs_etm/@tmc_etr0/u --per-thread
-> +    perf record -e cs_etm//u --per-thread
-> 
->  The 'perf report' and 'perf script' commands can be used to analyze execution,
->  synthesizing instruction and branch events from the instruction trace.
-> @@ -572,7 +563,7 @@ sort example is from the AutoFDO tutorial (https://eur03.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgcc.gnu.org%2Fwiki%2FAutoFDO%2FTuto&data=05%7C02%7Cleo.yan%40arm.com%7C0d4875673b894a332a5508dd192a1f35%7Cf34e597957d94aaaad4db122a662184d%7C0%7C0%7C638694390923618348%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=vX1RVi4hA2gEqrVk9lvMV8UFVDzvClvUN7yILwv0788%3D&reserved=0
->         Bubble sorting array of 30000 elements
->         5910 ms
-> 
-> -       $ perf record -e cs_etm/@tmc_etr0/u --per-thread taskset -c 2 ./sort
-> +       $ perf record -e cs_etm//u --per-thread taskset -c 2 ./sort
->         Bubble sorting array of 30000 elements
->         12543 ms
->         [ perf record: Woken up 35 times to write data ]
-> diff --git a/Documentation/userspace-api/perf_ring_buffer.rst b/Documentation/userspace-api/perf_ring_buffer.rst
-> index bde9d8cbc106..dc71544532ce 100644
-> --- a/Documentation/userspace-api/perf_ring_buffer.rst
-> +++ b/Documentation/userspace-api/perf_ring_buffer.rst
-> @@ -627,7 +627,7 @@ regular ring buffer.
->  AUX events and AUX trace data are two different things.  Let's see an
->  example::
-> 
-> -        perf record -a -e cycles -e cs_etm/@tmc_etr0/ -- sleep 2
-> +        perf record -a -e cycles -e cs_etm// -- sleep 2
-> 
->  The above command enables two events: one is the event *cycles* from PMU
->  and another is the AUX event *cs_etm* from Arm CoreSight, both are saved
-> @@ -766,7 +766,7 @@ only record AUX trace data at a specific time point which users are
->  interested in.  E.g. below gives an example of how to take snapshots
->  with 1 second interval with Arm CoreSight::
-> 
-> -  perf record -e cs_etm/@tmc_etr0/u -S -a program &
-> +  perf record -e cs_etm//u -S -a program &
->    PERFPID=$!
->    while true; do
->        kill -USR2 $PERFPID
-> --
-> 2.34.1
-> 
-> _______________________________________________
-> CoreSight mailing list -- coresight@lists.linaro.org
-> To unsubscribe send an email to coresight-leave@lists.linaro.org
+Below is a draft of the macro, please take a look if possible before
+it is posted to maintainers. I will update the driver to use this macro
+if it can be accepted. Thanks.
+
+/** 
+  
+  
+
+  * FIELD_MODIFY() - modify a bitfield element 
+  
+  
+
+  * @_mask: shifted mask defining the field's length and position 
+  
+  
+
+  * @_reg_p: point to the memory that should be updated 
+  
+  
+
+  * @_val: value to store in the bitfield 
+  
+  
+
+  * 
+  
+  
+
+  * FIELD_MODIFY() modifies the set of bits in @_reg_p specified
+  * by @_mask, by replacing them with the bitfield value passed
+  * in as @_val. 
+  
+  
+  
+  
+
+  */ 
+  
+  
+
+#define FIELD_MODIFY(_mask, _reg_p, _val)              		      \ 
+  
+  
+
+         ({                                  			      \ 
+  
+  
+
+                 __BF_FIELD_CHECK(_mask, *_reg_p, _val, "FIELD_MODIFY: 
+"); \ 
+  
+
+                 *_reg_p &= ~(_mask);                                  \ 
+  
+  
+
+                 *_reg_p |= (_val) << __bf_shf(_mask) & (_mask);       \ 
+  
+  
+
+         })
+
