@@ -1,73 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04EB225DD07;
-	Tue, 11 Mar 2025 19:10:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E0C263F46;
+	Tue, 11 Mar 2025 19:23:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741720245; cv=none; b=ODftxbeqMbFctumhdRHvBsIvFBS/CsAjHA9EnLq2Trh7v6T7pkHatxYYBc1GEEOO+r6gO0jkp3Hfmarc/HWMkhrDhqKpurCP5Kp0FOJvxlQ5YjnDUcNS37R9OxhC5hF9nBEX3LAL4XCFaHVuIMssMSsAHrzWWqa4t0vXx4C8A7U=
+	t=1741721040; cv=none; b=gqEWFRz3L1qbAA8GTLw8bCpKkXAOkky5EPay7XPNT46OQD9t64sdKMGYsWxGMIqadMJLaWThKgvRJjBtj3ELd+aRplIyquXrLOLaQ6ZmbHiVBCWiogSF9tQZXAQMxJch9mDSDMwXGJyCSbqn9vwEYNqpgXafzL5MMAkjKLyd0xQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741720245; c=relaxed/simple;
-	bh=6Te1+MCvDxChGIL5AtvWEAM7Dg1EZcHoZRPgaGsrwfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=obCM5LWj4CmIyq8wF/JDCtjhQDr43adgtZJV7sknmZzqO2iEnqyp8tVNeqRH5ET4V+PT2Qk9ry3dpGGuf90UlosfFhy33+5e8NYlfXMMuWilQQMcJswvGBqzG5HK+gRTCQ9pCXrpqW3up7xi82l1kr+JkVoIhxNepjGw7QF/2Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A5bAyfUX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741721040; c=relaxed/simple;
+	bh=5mVnh8fjGF8Oy9qr15OGfcozu4fYLmyI3uszL0xmuO8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A05qokKQIBI9i/4VwwG2Q7er5OYuGkIq9+kbCSdGryTenBTZ+CNHxzYN7vGVioSoOly0XVrs5dZ1PJNCYP08kNlbB2lQP9KRFQWhopdDcU5NNlFWwk69ri+EwkiWaVglwAuuQLtitOcvoIqgVqvvxzXkPo9G07/Ly09CCwTXl1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fNWAzyBh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A5bAyfUX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB1EBC4CEE9;
-	Tue, 11 Mar 2025 19:10:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fNWAzyBh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 811E0C4CEEA;
+	Tue, 11 Mar 2025 19:23:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741720244;
-	bh=6Te1+MCvDxChGIL5AtvWEAM7Dg1EZcHoZRPgaGsrwfQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=A5bAyfUXT66apiORTbTCI/dXHJdzgb40oWBL+dqx31VcPjwtjc6KxMoboXnkmtrE5
-	 5MlbRYmxGPgYrU+03UVUTcmZZ/mhlqyGK0lwoQQscqrYwAJAzjFf8q/+kz5iuZmjDw
-	 eriUcB36I8vp1Mixl5CHsPK3MgOOZvKTF+VTlCWP5T9pfmfkAiJPeCBY6DdO5qjO8B
-	 IDBnv96Hy484tiucYsoAv6TnPoDIuw4inEaUzEGkaWckLGqhkFk3YnTMlVDQiInXQi
-	 YCg7vIz+OF3Rd3SktnOiM9M96FRDp9yySgZMNpSEoJD92hkejHdiaQAEv3oyBwMXNm
-	 MTWIop7FZgaQw==
-Date: Tue, 11 Mar 2025 19:10:33 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Alisa-Dariana Roman <alisadariana@gmail.com>, Alisa-Dariana Roman
- <alisa.roman@analog.com>, "Rob Herring (Arm)" <robh@kernel.org>, Jonathan
- Cameron <Jonathan.Cameron@huawei.com>, Ramona Gradinariu
- <ramona.bolboaca13@gmail.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>
-Subject: Re: [PATCH v6 0/3] Add support for AD7191
-Message-ID: <20250311191033.793d2503@jic23-huawei>
-In-Reply-To: <3fa4136e-b384-4c3b-a58d-773887b87552@baylibre.com>
-References: <20250228141327.262488-1-alisa.roman@analog.com>
-	<3fa4136e-b384-4c3b-a58d-773887b87552@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=k20201202; t=1741721039;
+	bh=5mVnh8fjGF8Oy9qr15OGfcozu4fYLmyI3uszL0xmuO8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fNWAzyBhegpIESCOpfUhfzWO0+SAu6ynu9nA6DUlg8WBeqULGPcOe4cN5w1uTmc/w
+	 ol4QgnmOPAPOa++rCqD0ehNxbIjO8lV3ep1BSfMPYBE6t9mzLqezDg66k68DCliV6U
+	 9uhl9V8z6tuVSoCDM97UhnHozGzXn5KJ/PSlqlVhbdlQoh4K/CAFmpIfPDSpOp8Z1s
+	 lXbpe3fING+9OMnDwOTIjEAhuePf9KpaC18x50wDxB4GeZ9ivHyjCDUTZZk8qk7vkO
+	 OLcLWRhSddu2NRHptKZsr9V3fenrsTxkrDtg/Xyos95TkLLAPmfjf3iS8wdQQ8ipM5
+	 49bBC8dpZimrw==
+Date: Tue, 11 Mar 2025 09:23:58 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Cc: cgroups@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, Josef Bacik <josef@toxicpanda.com>,
+	Waiman Long <longman@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Michal Hocko <mhocko@kernel.org>, Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH v2 00/11] cgroup v1 deprecation messages
+Message-ID: <Z9CNzt9VAjFrLPBT@slm.duckdns.org>
+References: <20250311123640.530377-1-mkoutny@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250311123640.530377-1-mkoutny@suse.com>
 
-On Mon, 10 Mar 2025 16:01:45 -0500
-David Lechner <dlechner@baylibre.com> wrote:
-
-> On 2/28/25 8:05 AM, Alisa-Dariana Roman wrote:
-> >   
+On Tue, Mar 11, 2025 at 01:36:17PM +0100, Michal Koutný wrote:
+> Memory controller had begun to print warning messages when using some
+> attributes that do no have a counterpart in its cgroup v2
+> implementation. This is informative to users who run (unwittingly) on v1
+> or to distros that run v1 (they can learn about such users or prepare
+> for disabling v1 configs).
 > 
-> Probably too late...
+> I consider the deprecated files in three categories:
+>   - RE) replacement exists,
+>   - DN) dropped as non-ideal concept (e.g. non-hierarchical resources),
+>   - NE) not evaluated (yet).
 > 
-> Reviewed-by: David Lechner<dlechner@baylibre.com>
+> For RE, I added the replacement into the warning message, DN have only a
+> plain deprecation message and I marked the commits with NE as RFC.
+> Also I'd be happy if you would point out some forgotten knobs that'd
+> deserve similar warnings.
 > 
-Just snuck in (well technically I did push out non rebasing
-then noticed this, but unlikely anyone pulled in that 30 seconds :)
+> The level of messages is info to avoid too much noise (may be increased
+> in future when there are fewer users). Some knobs from DN have warn
+> level.
+> 
+> The net_cls and net_prio controllers that only exist on v1 hierarchies
+> have no straightforward action for users (replacement would rely on net
+> NS or eBPF), so messages for their usage are omitted, although it'd be
+> good to eventually retire that code in favor of aforementioned.
+> 
+> At the end are some cleanup patches I encountered en route.
 
-Thanks!
+Applied to cgroup/for-6.15.
 
-Jonathan
+Thanks.
 
-
+-- 
+tejun
