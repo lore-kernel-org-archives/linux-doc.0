@@ -1,111 +1,113 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EE3260A43
-	for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 18:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A01125FA2F;
+	Tue, 11 Mar 2025 18:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741717458; cv=none; b=tOn2ldJsk/weorlDfka8YXwUdopHZoYzcgmgUIptLKX6RMli2zeksmwSuN5X4b5CXMi0GDEZYWzaUh1zfUj0L7lLyhOWestRhshqGfUO7O7Kbq1LvDqBRISQvD179JB9MgVuHdDSCYiOzDB6ykjiP8ekYSYMLs/P30d2fimbVno=
+	t=1741717791; cv=none; b=O7YZiS9H/fOO/CFV1R7Jl5YSCuSRZpT8jK3qGbyJt21Q4CW2Rk9wLoKZpZaSa4NIziUmjYpn/2O+y61llqP8Hvj4yH5P8b7aurcGP8e2dBz/JdlhKaEKFpe0TGt4emuGoCNuWQxPSWgbrMaEXaGEmADwlshqaMFevlM35iTL9o0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741717458; c=relaxed/simple;
-	bh=tpf/mDNfeil7F8O6YAQ5U8g/fjc5ETa+OCrb7g/Uo6I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jksc3JJOAafbrt4GL0Fd0ZSQE1DOQFG0a85XNdAwpq4lj4F2am6nx0nY3SlTe1vrLgnznP6IdkIJvG3afOJa+/vGMfIder95JLELMh5uMU9r9HppZPcBaVgKZ2KIDry0q+dp/VqJRjqoHqqVbj01C02SnBuQ5qeNV/VV7jIJGDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nHAbOzJY; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1741717791; c=relaxed/simple;
+	bh=KnUqSnd7tj6cBBg2v4+tl5NOkLLKNodYpc+Q+0LlFbQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=VnV8p7RCWbUXzWOGZex6gy9U92hth0EIBqJj7x2c80mz0pAQ35r0zFiBV1aZJ1XpGXTsB4G5GSAWiBIgBTIA2DyvRwr+WYjL+ALsbtzFt+ckcu+NyRXYBiikfs+ijyJG54GqmhmiJgFDsyKlPJQVkxOBYQLZwY83LY9PmazrWhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GgNqwsxl; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nHAbOzJY"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-300fefb8e06so2645522a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 11:24:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GgNqwsxl"
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e46ebe19489so4570333276.2;
+        Tue, 11 Mar 2025 11:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1741717456; x=1742322256; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7KpDa/DEzb44vSpz/EoTHsPUYlYrzw48Wo3fhhLmVV8=;
-        b=nHAbOzJYBLcXeFjiUB8Z9wsT1pd6dk5DZnuvRMwF/WHoNrtV0CmFrwwkCM9PusIiGz
-         tADYmwLQV5JtAqEmoooDRUReM1IX5aMCNIQx1/e8mQZNGNNumgmVaQzNNaWUsBJBwB7c
-         MqxOhknAYyUh7piolb1VdpH0ZofEXxLnEP5Jc=
+        d=gmail.com; s=20230601; t=1741717789; x=1742322589; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KnUqSnd7tj6cBBg2v4+tl5NOkLLKNodYpc+Q+0LlFbQ=;
+        b=GgNqwsxls4/KXJyFyyLNI2OGvwUAg/ohRF5hhWAIamxBQqIWi0gv8QHRZ9778/emcT
+         3iz8jjqX0ohEZdGuZzNcQcMdAALPSfCMcMV2n+REa1Y2LuosXA98fh3T0ZuoxMw0z+lX
+         BQfee6GcXMfHk8WbdW25l8jM02TGkT7HkDxxgnzC25HrhDe1bP6bDyzyp54PhxlfsxTz
+         NmfkaHLOJDQfwqqMMH7JWl3sTXHWZCTucNBlefF6fBadCq/7ZvV8a+UV6isDfCWdX4ck
+         0GRIJEHkmkeb24KUd1B0MQ8GpYDiF83yC/vIUltTsNEgMEFRsiB1oV1STJr9kcqytZFv
+         2tsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741717456; x=1742322256;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7KpDa/DEzb44vSpz/EoTHsPUYlYrzw48Wo3fhhLmVV8=;
-        b=fgpJA3XPEvGVgX2xDtWcQwRy9ai0OvaKH46bGAVgfDxEXDgDiWV8K/V02EJLQ1SkfQ
-         tK2S9NQJuhq3ZOAicTVPtMp7Hb15DsHpMjQynBXtwAc2c1G6hfbn1YnBdriudXkWI33L
-         UdP5xdvfjbS9rnYJPb6Bp3zMia43CySh+RaZfndEffCYGH8kyvkvcKWMmDRFrA3yOWRL
-         Ebl6Npo0j98+nobTN8QVltSdbbKdEq3fbP6cbWWwuDg5ketQjz6quMFvOZ7zJ14nq6z/
-         mv9+xO8uIXA7F0TR+RIWQ9MAVIO17xK4WyUvusC7vQ+qEo8fw0Q/RCqUpaWNr5jJ3QCY
-         DeOw==
-X-Forwarded-Encrypted: i=1; AJvYcCVXHefq5gVWUV3sSxucPSBIvLNyQsdPK846whpn3Z9XDIhUTQ5IxXYpfDDoVDuUcWkuDzyHfj9/EbQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywe8T4Dj0utyLGLQwomWgEUR5JVGShu+PdWHQiTc01VIxs0wK4E
-	uFZt0QBe6yTXdPvEh0H54B50rAfQais9YiStJzMudLaIw8aumdxP+ncsYSGjvg==
-X-Gm-Gg: ASbGnctNoAfTOYlk3ZJ1S/1x7TgeStngmSxICC/CEecL82xOUpxMwctWKUguJ8IyI6e
-	pVr+SZ5JmL95Qxbfh30fjXBQbyas28TUYUdUS0cCMUsBW3vYJwxWchdR0/yLx0f0AcMIREjVQgV
-	PdLWDRgsrDcJEYgodRWQGAwjeLbG5kxmAjYf4YV10IfPQX3yG8wMPzmB8QdF6MPAVNBXxrBaPVW
-	vu0kukoJ8Tu7B3k61CQYuZElllUn2VGV+BHtcU3YH7fA3UWG//8caicSGO2U7qgqcat/HddZAZQ
-	BANf0wTxQJ4Bm6njIjT6gKBNyaK/zbXSSDondaPLzOcmtBH46F6SWP+bL9XFsYnp3361BuxhbrW
-	mZJyUbEspzdBt7cuASlZTHFHk
-X-Google-Smtp-Source: AGHT+IHJIFBe2sp5aefvMU/+B+c+/u+vycxKjjJCB5yGBHEUo079bEIqZxKID9+1kXvZn7DFB3FGYQ==
-X-Received: by 2002:a17:90b:180a:b0:2fe:9e6c:add9 with SMTP id 98e67ed59e1d1-300ff105730mr7049629a91.18.1741717456043;
-        Tue, 11 Mar 2025 11:24:16 -0700 (PDT)
-Received: from zipper.pdx.corp.google.com ([2a00:79e0:2e13:6:ea1:ba82:2605:7d4e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ff4e773dddsm12265383a91.12.2025.03.11.11.24.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Mar 2025 11:24:15 -0700 (PDT)
-From: Fritz Koenig <frkoenig@chromium.org>
-Date: Tue, 11 Mar 2025 11:24:02 -0700
-Subject: [PATCH] Documentation: ocxl.rst: Update consortium site
+        d=1e100.net; s=20230601; t=1741717789; x=1742322589;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KnUqSnd7tj6cBBg2v4+tl5NOkLLKNodYpc+Q+0LlFbQ=;
+        b=np03yAzlkqC2TIskdtM9XXnJzPBb1y4xb/rmSLrI2Pd3WOGF6YhsoMZxpbsAalbb5Q
+         sKyZ0kd1T6olUxqNJDh4aoHQxM4kZlfEXSgrziHJBhtphAPHKYxWo/zW/Wae4cbbeG7e
+         +0RUrVe16+qXYTBSjUYl0TFEMA7/fqFDpvol241LBCR/gNoC0HeZEnmcXQfZ9/Ayr+tz
+         VjoHy7JUY/jJqRrTg0jh/XhwVXQlEEDPY0WFeN8MwRLHUd0xSHMC6G26aP2Fa9xOG8Da
+         Eelo4vPWSpnuZLyGJtgTgBHJGLy12mVJEUhSDdLxVZFsmqRcwLwEjZ6pa9jRK8eMgCoD
+         V3jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQtO1hAunNjEdskUo69bL0udCfT90FugMi5hJjlPZrcs9lJ3IZetp88KQpRDp2xWENjqNNgm9Nwp7moCid@vger.kernel.org, AJvYcCXNy+sU/2Zvpi/eI65eqG47NsHg1tsYF82uRuPzictFIc5HGTbDlDoJIjvjWNe/m6drVM5gWZbXmZI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0Mr+X2TdFUWbJ6cI77WsS/jcMYKgbu3fyUzRL9LVeaskylydA
+	5y/ndnXW3/W/j2PdDx1Ot78yVsbVhOC9ulmkfA7GC9DoZKrSJ7UW
+X-Gm-Gg: ASbGncugOMhytbfEmsaapod70VJ0OCWMAaBXfshC5O9oStuqRMyYKzUUNcnCa+wHnde
+	fWpjAtjps+ZPKvWMswRA/lEyJHkSJQ6RRaz2WMOANFWQos2Jr7EGzMpRFxIst8pW8i6NHWe2guS
+	S2UdCsz9XGlkckm155WivTq6+kjxWCVn7ciD9udX4VaNnm6tMxClS+0Z+GL4aS9m/1O3pPhMTcY
+	HtzLV3Mz8kVmg7ntpCXIRa0fHs69QSwGkvSxEvA+4n7Ezk5yMOd1mk8GcBzHpWMoFMhhBLu0zgg
+	VKwSbU2zIVT7AfIV2RZXrqNzL8Xa6mkCDJpG
+X-Google-Smtp-Source: AGHT+IEuac/DAgSbKgIDxj7RrLhtBD/FJFLHfm6z+zqKWYjZg0d+aSa9DtIpcDnkKaHLq+cQ2V/Z1Q==
+X-Received: by 2002:a05:6902:2081:b0:e5a:c837:a8c7 with SMTP id 3f1490d57ef6-e635c136db5mr23807476276.11.1741717788979;
+        Tue, 11 Mar 2025 11:29:48 -0700 (PDT)
+Received: from localhost ([2800:bf0:82:3d2:9e61:1a62:1a8c:3e62])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e634b842945sm2792519276.20.2025.03.11.11.29.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Mar 2025 11:29:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250311-dead_site-v1-1-7ab3cea374f2@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAMF/0GcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDY0ND3ZTUxJT44sySVN1USzMLYxNLQwMzM2MloPqCotS0zAqwWdGxtbU
- AKoOjYVsAAAA=
-To: Frederic Barrat <fbarrat@linux.ibm.com>, 
- Andrew Donnellan <ajd@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Fritz Koenig <frkoenig@chromium.org>
-X-Mailer: b4 0.15-dev-37811
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 11 Mar 2025 13:29:45 -0500
+Message-Id: <D8DNFCVO68AX.NE67F0XRBQYX@gmail.com>
+Subject: Re: [PATCH v1 1/1] hwmon: (dell-smm) Increment the number of fans
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: "Armin Wolf" <W_Armin@gmx.de>, "Guenter Roeck" <linux@roeck-us.net>
+Cc: <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Jean Delvare" <jdelvare@suse.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, =?utf-8?q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250304055249.51940-2-kuurtb@gmail.com>
+ <bfb70a81-2ac1-428c-a327-d5098a8d3ce8@roeck-us.net>
+ <de49b8e8-e865-445d-881f-d26a7bbcf9e0@gmx.de>
+In-Reply-To: <de49b8e8-e865-445d-881f-d26a7bbcf9e0@gmx.de>
 
-Old site no longer associated with consortium.
+On Tue Mar 11, 2025 at 1:17 PM -05, Armin Wolf wrote:
+> Am 11.03.25 um 15:13 schrieb Guenter Roeck:
+>
+>> On Tue, Mar 04, 2025 at 12:52:50AM -0500, Kurt Borja wrote:
+>>> Some Alienware laptops that support the SMM interface, may have up to 4
+>>> fans.
+>>>
+>>> Tested on an Alienware x15 r1.
+>>>
+>>> Signed-off-by: Kurt Borja <kuurtb@gmail.com>
+>> Oh, never mind, I'll apply this patch. If it causes trouble on older mac=
+hines,
+>> we may have to make it conditional, but that is not a reason to hold it =
+up.
+>>
+>> Guenter
+>>
+> Hi,
+>
+> seems that i forgot about this patch, sorry. I just tested it on my Inspi=
+ron 3505 (single fan)
+> and everything works as expected.
+>
+> Thanks,
+> Armin Wolf
 
-Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
----
-After mergers the OpenCAPI Consortium does not seem to exist.
-The github page is the only seemingly relevant site, but it
-has not been updated in 4 years.
----
- Documentation/userspace-api/accelerators/ocxl.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+That's good to know. Thanks a lot!
 
-diff --git a/Documentation/userspace-api/accelerators/ocxl.rst b/Documentation/userspace-api/accelerators/ocxl.rst
-index db7570d5e50d..5fc86ead39f4 100644
---- a/Documentation/userspace-api/accelerators/ocxl.rst
-+++ b/Documentation/userspace-api/accelerators/ocxl.rst
-@@ -3,8 +3,8 @@ OpenCAPI (Open Coherent Accelerator Processor Interface)
- ========================================================
- 
- OpenCAPI is an interface between processors and accelerators. It aims
--at being low-latency and high-bandwidth. The specification is
--developed by the `OpenCAPI Consortium <http://opencapi.org/>`_.
-+at being low-latency and high-bandwidth. The specification is developed
-+by the `OpenCAPI Consortium <https://opencapi.github.io/oc-accel-doc/>`_.
- 
- It allows an accelerator (which could be an FPGA, ASICs, ...) to access
- the host memory coherently, using virtual addresses. An OpenCAPI
-
----
-base-commit: 0b46b049d6eccd947c361018439fcb596e741d7a
-change-id: 20250311-dead_site-e96834910663
-
-Best regards,
--- 
-Fritz Koenig <frkoenig@chromium.org>
+--=20
+ ~ Kurt
 
