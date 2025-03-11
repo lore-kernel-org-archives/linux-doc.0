@@ -1,55 +1,37 @@
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1CC261581;
-	Tue, 11 Mar 2025 16:54:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5366C2620D7;
+	Tue, 11 Mar 2025 17:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741712077; cv=none; b=Pz/qnHB4Sw/4UJ/REKYj3tULdKCtx60Fg7tPCz266r+x9izY8L/Lj/2YRntkkk61yCYllXj/YmlDVAbY7QBrI7mjFw9sqnZ6wCXvjk/eMaKgR1L84q4nHMIQkUmoMuEviDQaFTjm0BMZp43DtNhqafqz1xNoGzawUEE1zE9a7XM=
+	t=1741712735; cv=none; b=cI9o1hiG0m/C4JAi7eoj/o06qCE7LWIWwzxgkfJ6aUohdSXhMhIxedtel80A0e8w8ecQhx3usF+A+G/2MfCbmpXMTW0pE6i2PR5mjFcbKI3Ta3QiL9IY8n5Q1YlSe4ZUKw9RyiEVO8gHAyrbUoYk/HO0rSnMlp/a+ep6Imjkhb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741712077; c=relaxed/simple;
-	bh=57bUtWkumIaNfzhU8UUldSsAdJwVHq1f+/iMLy2KNiA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lhJZpOwLA2+hrQ7tTgtH2hk6tCUDGYKbaFJ4a3KDye+MqF+mAKD1nppZ82UfiGImvud+yGw8dtJWuKR4KYUfv4syT4yJxe9R4aSXD6AXKpPdikQP5aya7/mpcU0xLo6zfPiT82OKpvr2QTTx1LLe8/+XqWHpKuW2QMaMT0tIvpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=3ND2VWxW; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="3ND2VWxW"
-Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:cbc0:999f:73ad:33bd])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id D9C562E0923D;
-	Tue, 11 Mar 2025 18:54:32 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1741712074;
-	bh=EFhNmT7kyNtjQ1/AmOBtMWJ+TLTwebWeSRNPwES43Z8=; h=From:To:Subject;
-	b=3ND2VWxW1Hc5edx/qW56OxHoaLIh301FXEqlTrzbEPBOCf4faflZeiu6XGvvdjEA4
-	 1rTU5FOxDTGCYtdjy1/Xx0pMyGC2rtpAMDtiIVFcIH4bxKcRMRw9iFxorZVD/8BtmE
-	 w3IG7r83hN7/lO2kspTBz2uVqzksgcUpAfl32RjM=
-Authentication-Results: linux1587.grserver.gr;
-	spf=pass (sender IP is 2a05:f6c2:511b:0:cbc0:999f:73ad:33bd) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org
-Cc: linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>,
+	s=arc-20240116; t=1741712735; c=relaxed/simple;
+	bh=udctrwbuiTyYZLDxzpiksmAUIKV99gHl3fUEtUiKXzs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZXkWCGkwERdzj1LG0AqWEfTpY1IUkekz2UI7TfL9Qx+IE9TfLqGutVsOhBl1zI5BmUoRJdMKMq80dj4LvYCsKdVnjXlY/gDs/SXcQrRoOhXPXubxao9+yKYOvYTdv3OIJOEndqJp5O7wUo269pXt9+SJJJIkNmIMD9iJk3vNtsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4FB73152B;
+	Tue, 11 Mar 2025 10:05:42 -0700 (PDT)
+Received: from e132581.cambridge.arm.com (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BF4663F673;
+	Tue, 11 Mar 2025 10:05:29 -0700 (PDT)
+From: Leo Yan <leo.yan@arm.com>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@linaro.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
-	Derek J Clark <derekjohn.clark@gmail.com>,
-	Kevin Greenberg <kdgreenberg234@protonmail.com>,
-	Joshua Tam <csinaction@pm.me>,
-	Parth Menon <parthasarathymenon@gmail.com>,
-	Eileen <eileen@one-netbook.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v4 13/13] platform/x86: oxpec: Follow reverse xmas convention
- for tt_toggle
-Date: Tue, 11 Mar 2025 17:54:05 +0100
-Message-ID: <20250311165406.331046-14-lkml@antheas.dev>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250311165406.331046-1-lkml@antheas.dev>
-References: <20250311165406.331046-1-lkml@antheas.dev>
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Leo Yan <leo.yan@arm.com>
+Subject: [PATCH v3 0/6] Arm CoreSight: Support AUX pause and resume
+Date: Tue, 11 Mar 2025 17:04:45 +0000
+Message-Id: <20250311170451.611389-1-leo.yan@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,57 +39,56 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <174171207410.20431.1423246787523265302@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
 
-Since the rest of the driver follows this convention, apply it to the
-tt_toggle attribute as well.
+This series is to enable AUX pause and resume on Arm CoreSight.
 
-Suggested-by: Derek J. Clark <derekjohn.clark@gmail.com>
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/platform/x86/oxpec.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+The first patch extracts the trace unit controlling operations to two
+functions.  These two functions will be used by AUX pause and resume.
 
-diff --git a/drivers/platform/x86/oxpec.c b/drivers/platform/x86/oxpec.c
-index 273589f8b2fa..a3c945c73fc5 100644
---- a/drivers/platform/x86/oxpec.c
-+++ b/drivers/platform/x86/oxpec.c
-@@ -294,9 +294,9 @@ static const struct dmi_system_id dmi_table[] = {
- /* Helper functions to handle EC read/write */
- static int read_from_ec(u8 reg, int size, long *val)
- {
--	int i;
--	int ret;
- 	u8 buffer;
-+	int ret;
-+	int i;
- 
- 	if (!lock_global_acpi_lock())
- 		return -EBUSY;
-@@ -408,8 +408,8 @@ static ssize_t tt_toggle_store(struct device *dev,
- 			       struct device_attribute *attr, const char *buf,
- 			       size_t count)
- {
--	int rval;
- 	bool value;
-+	int rval;
- 
- 	rval = kstrtobool(buf, &value);
- 	if (rval)
-@@ -430,8 +430,8 @@ static ssize_t tt_toggle_show(struct device *dev,
- 			      struct device_attribute *attr, char *buf)
- {
- 	int retval;
--	u8 reg;
- 	long val;
-+	u8 reg;
- 
- 	switch (board) {
- 	case oxp_mini_amd_a07:
+Patches 02 and 03 change the ETMv4 driver to prepare callback functions
+for AUX pause and resume.
+
+Patch 04 changes the ETM perf layer to support AUX pause and resume in a
+perf session.  The patches 05 updates buffer on AUX pause occasion,
+which can mitigate the trace data lose issue.
+
+Patch 07 documents the AUX pause usages with Arm CoreSight.
+
+This patch set has been verified on the Hikey960 board and TC platform.
+The previous one uses ETR and the later uses TRBE as sink.
+
+It is suggested to disable CPUIdle (add `nohlt` option in Linux command
+line) when verifying this series.  ETM and funnel drivers are found
+issues during CPU suspend and resume which will be addressed separately.
+
+Changes from v2:
+- Rebased on CoreSight next branch.
+- Dropped the uAPI 'update_buf_on_pause' and updated document
+  respectively (Suzuki).
+- Renamed ETM callbacks to .pause_perf() and .resume_perf() (Suzuki).
+- Minor improvement for error handling in the AUX resume flow.
+
+Changes from v1:
+- Added validation function pointers in pause and resume APIs (Mike).
+
+
+Leo Yan (6):
+  coresight: etm4x: Extract the trace unit controlling
+  coresight: Introduce pause and resume APIs for source
+  coresight: etm4x: Hook pause and resume callbacks
+  coresight: perf: Support AUX trace pause and resume
+  coresight: perf: Update buffer on AUX pause
+  Documentation: coresight: Document AUX pause and resume
+
+ .../trace/coresight/coresight-perf.rst        |  31 ++++
+ drivers/hwtracing/coresight/coresight-core.c  |  22 +++
+ .../hwtracing/coresight/coresight-etm-perf.c  |  84 +++++++++-
+ .../coresight/coresight-etm4x-core.c          | 143 +++++++++++++-----
+ drivers/hwtracing/coresight/coresight-etm4x.h |   2 +
+ drivers/hwtracing/coresight/coresight-priv.h  |   2 +
+ include/linux/coresight.h                     |   4 +
+ 7 files changed, 246 insertions(+), 42 deletions(-)
+
 -- 
-2.48.1
+2.34.1
 
