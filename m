@@ -1,275 +1,167 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51FB9236A6A
-	for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 09:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1408A226CFC
+	for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 09:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741685158; cv=none; b=DYyGxq+glfbs5xHcD4svmTRexCcNGgKw+ZgvHjLDIj6IqBhHlXgFdaD8H/UGbv5+75KouS7mdfHFZ0BC7+LALH8axb4xoMHH5Ow0E2iB5zv6IpE5MpxxreQTmly10ZiOFS81xTlb+2QpHNk6rLJPz9KbL23z65TOBKbhHr9QIIs=
+	t=1741685716; cv=none; b=mzJSnFNi+7wMDZXDwiBjt6Ga0BGcrnYTTOZcDz7yFwwyKN3mfMA9M0ZVcyHwBzRbWRH2kKSp/aRo6nmAiNhmyaNLEXMqkcjtt3KDsqcq7hYb7H/meieFHzk5gqQtfKv10EtHT6Xb+RVQXjTAhfPpRH28lW24GPrn0gzYTtg0S+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741685158; c=relaxed/simple;
-	bh=ufjgBriFPO+A7ho0VTKYaFG559C+e9CDQm4Go78wAzM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CE8n1P77Rl13+VqE1SfU0xjBGjT/Ca1EguiqkyWFdNVWjfCdR1uaqUjcM8qSsZ7ekr4LFjX8+5tX8JHckbsnZVDXDtYvTduJFOWo1yHvrhxgfX38t3twVpog2sjb7D0Az+UL3aylL95wJ9iylHE/Wbc07tYFIjuIi56uDcZ2JlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=ofB2xKzd; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1741685716; c=relaxed/simple;
+	bh=ktS716Ut5UD+HH38uMLpPTCWkHMpybJEZhiqU304vTE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f9bvXaSQZsTdVOFRt40ythGDUhkxtwDQLCMEQnwJt78PRFTobnzYl6ne0Uoif2wM57j4hkSWbwj5SsVQULwC/QmaGnr6YTW/NQy9DjWTd8QRKk9ST6PeF4w2Pk/hTZ4OPr/7smH4ezGh7lLhNjQbEflLu4LxgI/YauumAj+S7Co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=aTWqcXAz; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="ofB2xKzd"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-390e3b3d3f4so2473692f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 02:25:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1741685154; x=1742289954; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wlFvuuZEOrpJeRtBEGpuQTKmyYbAYA8BV9Jv1FjV/XM=;
-        b=ofB2xKzdYQiFvgV1x4mQjlnStbqVHLJBWn1IcU+1xIeTcmBFk0JbZFpjBe70V86WBB
-         tH6jY+jmRUslERIKSwXNBnJkbUTJkIjzP6aGKWYsavZE5MsDAdKw/tbFF1aTaBMqnYdz
-         1vvZTwdJpox2HPMhjm7AT2A1G6C0gBa2s6QoX39iSIKnFWO5/7QoAqqx8agtiqBy5hNb
-         zAZW0ERFjN/fCf/geLBScBRIKYOiYCIf2rGPgMZuPunZyH36ivtRewgpVItlC4O3TXXA
-         Yi+NeJBlZ3PpWI/z64PLvyOu/ZXAmVDpiB2ZiDDSihVvzvhxvMsWDSSJfEi/P8kQ4WUs
-         tHyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741685154; x=1742289954;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wlFvuuZEOrpJeRtBEGpuQTKmyYbAYA8BV9Jv1FjV/XM=;
-        b=GEhaspykHLf4ypzuf/zeTaquE22fFW3wj1L1CMmYpFZPkpoCnGi3qEJkCoPIvl7vv8
-         sWPHmrPYb+fkuXfaEqOGXxOMwZKcN0NpVfOF/CJmhNfCP8sYGpEigEmmaUuG7gYfAUNf
-         zRKMCQSUdFmt0VFE+lX5pjJMX9EYzy9/e1Sq4sRN9CDh7Fm7I0dYdzGQwox+YJR7h6YV
-         /JbmT/ARsoRbZGwx7GBF8PqACGborhxE8U25g63Varu89zPYXn03JbgSkYUoYbh5QF0E
-         wWG1k+kAXRroVBySIbSRHeW9SYaXtlMGxspn1ekM5j5JgIWslG1uWpI7lHr1Z0sg8h1c
-         WRMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXPSIE9UK/zm2xtpTQCtdV5qtHfS5l0SEecNrKBoFwoVVunLRN8kvPF1BVQozxNpSuO4y37lo8zzCw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1Ic3hGFzYg5r23A7OAerYRH8l2PQJEdjMvY4CaObEaKsylIEF
-	FVVPXR+hwJgCvlmKbgElVfyoTUJrZTtlYInI+J+gbJgeqWpoOn+seyhkUcn3M1c=
-X-Gm-Gg: ASbGncvne9dHTcNZlWHwLgfvhfBIajPviQp9VccMB6j6UdTWHfFw82wgc/IhpDuKM5G
-	xVexNFccpPaPSK4yXl2l96t+EU/DjKjKuIHi6gqi7ox4kExXPiFH9OvK73MusWFttneu3fsI7zb
-	mIoYcRbHUQ16/0i8oO68omw+CdJdouVb/0jXcWA6PU8hzjuyNhZuzTs4N/wA7igWAFkkTE9Fwqk
-	rM9bvZM1VtmzdIHRiJOp5CiHde8zrCns+8zSSl0/CCz/WAccVulmAetQy8eM5CDJe0ivSB6TaZr
-	LkSzGlZO2G2kGl+30AmOaODqY1GeU7Y+3xrI
-X-Google-Smtp-Source: AGHT+IEW2hbCbJVhm6WHYg0pBOgMh7R2XmGC7pabSYhUG+f6aJX/Eh/0v963WXxGj4Z1OSHPW8JyfA==
-X-Received: by 2002:a05:6000:1f82:b0:391:3fde:1da with SMTP id ffacd0b85a97d-3913fde033cmr12119389f8f.16.1741685153661;
-        Tue, 11 Mar 2025 02:25:53 -0700 (PDT)
-Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:5946:3143:114d:3f3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43cea8076fcsm107436465e9.15.2025.03.11.02.25.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Mar 2025 02:25:52 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 11 Mar 2025 10:25:39 +0100
-Subject: [PATCH v7 8/8] crypto: qce - Add support for BAM locking
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="aTWqcXAz"
+Message-ID: <aa840586-cd70-417f-82c2-bb887f337720@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1741685711;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/wVsNKg9YkEQ7KSJyQziX/Pf5MNW/2LBII724NcKRvc=;
+	b=aTWqcXAzSWTgWXO+B8RX7iWZngEyO3a1jHoDvm0k0X7XvWTj3V6GECXGR3ooUXgbororde
+	6H+mxi8YqAjgzhuqWwr4p6ti7biIiW1JvnEB5yepdDfKJZLRgaXawAOIkgWvFgZr6j//J0
+	9a1fDrz5yhnkLIvSmHodJk0bhubB2uE=
+Date: Tue, 11 Mar 2025 17:34:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250311-qce-cmd-descr-v7-8-db613f5d9c9f@linaro.org>
-References: <20250311-qce-cmd-descr-v7-0-db613f5d9c9f@linaro.org>
-In-Reply-To: <20250311-qce-cmd-descr-v7-0-db613f5d9c9f@linaro.org>
-To: Thara Gopinath <thara.gopinath@gmail.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- "David S. Miller" <davem@davemloft.net>, Vinod Koul <vkoul@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Md Sadre Alam <quic_mdalam@quicinc.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: linux-crypto@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-doc@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6057;
- i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=mrvGg9IYidCko0IY95KksqDIDUmheB3bWnzVDjWoezs=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBn0AGW3z/MEW+57clZJmFBlWb40oPbtQUg+R7rM
- RG+pb3potqJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCZ9ABlgAKCRARpy6gFHHX
- coa+EACj+s86pmH1/FV+U6jTKbWslnLU5pSjxSz1J1xTIPXHByRw3DxuqMVwyNyB0OVctxAHYuU
- WUfeNHgjhkY7mdhu7ruUxgA/DbpAggoCPnzd0T3EHbSRGj/NVsalYensT/Wzx/73Ac6HIeI8eEQ
- s0746GNrevv9VM+ZIa6vfd6wSEsiY0QC9CpQOVWPmIzJYjd5XOkFTUgLrGczu5fvZ1fACWGp7O7
- FQFiged/bW9zhEhdXYwQ+mX5Fv23kl1C/2VDsnqN/o1xlTZwe17rZkJMIPUP2wdJNXoiY5x6P0p
- tovPkf3+Mt410WvjsQLNZGF1CGQg10KfG37jX2rbdtlXRtTbY0hMXxnbVQkErvynLnNWS/GLVZM
- tqsoHO9lNg0iS4CCZ+gsXI+sS6A0FkgqNb/jjYWmZ+FyqGWdBpyLqXnmmpfvUmniL599tbxIIVr
- Xf29NF721nqKzCBuYyRT2IyCoSkmMLGiVoWffuAsUCntsp6LqXr+hRyfZqCqw2dDC6sW+xx8hn+
- 09zGux2N0SaKZVwC/PkwySuWxufy+/0wcLoHV0esnnXhYeFqMTCBu20uaC5sU4joRbK4vwGRwCk
- JdSCafXkHVRTe/CW7HdQgTgYAEwGNTTJ7YYeyGZJQpjdbFmCTI0MjGstjMtZbaF1iFB0QWOIRMs
- GcJc1JMeyE0EXVw==
-X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+Subject: Re: [PATCH v2 2/2] vsprintf: remove redundant and unused %pCn format
+ specifier
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ Alex Shi <alexs@kernel.org>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Liu Ying <victor.liu@nxp.com>, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250311-vsprintf-pcn-v2-0-0af40fc7dee4@bootlin.com>
+ <20250311-vsprintf-pcn-v2-2-0af40fc7dee4@bootlin.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20250311-vsprintf-pcn-v2-2-0af40fc7dee4@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-From: Md Sadre Alam <quic_mdalam@quicinc.com>
 
-The BAM driver now supports command descriptor locking. Add helper
-functions that perform the dummy writes and acquire/release the lock and
-use them across the supported algos. With this: if mutliple execution
-environments (e.g.: a trusted app and linux) try to access the same
-crypto engine, we can serialize their accesses.
+在 3/11/25 5:21 PM, Luca Ceresoli 写道:
+> %pC and %pCn print the same string, and commit 900cca294425 ("lib/vsprintf:
+> add %pC{,n,r} format specifiers for clocks") introducing them does not
+> clarify any intended difference. It can be assumed %pC is a default for
+> %pCn as some other specifiers do, but not all are consistent with this
+> policy. Moreover there is now no other suffix other than 'n', which makes a
+> default not really useful.
+>
+> All users in the kernel were using %pC except for one which has been
+> converted. So now remove %pCn and all the unnecessary extra code and
+> documentation.
+>
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Signed-off-by: Md Sadre Alam <quic_mdalam@quicinc.com>
-[Bartosz: rework the coding style, naming convention, commit message and
-ifdef logic]
-Co-developed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
- drivers/crypto/qce/aead.c     |  4 ++++
- drivers/crypto/qce/common.c   | 30 ++++++++++++++++++++++++++++++
- drivers/crypto/qce/core.h     |  3 +++
- drivers/crypto/qce/dma.c      |  4 ++++
- drivers/crypto/qce/dma.h      |  2 ++
- drivers/crypto/qce/sha.c      |  4 ++++
- drivers/crypto/qce/skcipher.c |  4 ++++
- 7 files changed, 51 insertions(+)
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
 
-diff --git a/drivers/crypto/qce/aead.c b/drivers/crypto/qce/aead.c
-index 11cec08544c9..5d45841c029e 100644
---- a/drivers/crypto/qce/aead.c
-+++ b/drivers/crypto/qce/aead.c
-@@ -63,6 +63,8 @@ static void qce_aead_done(void *data)
- 		sg_free_table(&rctx->dst_tbl);
- 	}
- 
-+	qce_bam_unlock(qce);
-+
- 	error = qce_check_status(qce, &status);
- 	if (error < 0 && (error != -EBADMSG))
- 		dev_err(qce->dev, "aead operation error (%x)\n", status);
-@@ -433,6 +435,8 @@ qce_aead_async_req_handle(struct crypto_async_request *async_req)
- 	else
- 		rctx->assoclen = req->assoclen;
- 
-+	qce_bam_lock(qce);
-+
- 	diff_dst = (req->src != req->dst) ? true : false;
- 	dir_src = diff_dst ? DMA_TO_DEVICE : DMA_BIDIRECTIONAL;
- 	dir_dst = diff_dst ? DMA_FROM_DEVICE : DMA_BIDIRECTIONAL;
-diff --git a/drivers/crypto/qce/common.c b/drivers/crypto/qce/common.c
-index 80984e853454..251bf3cb1dd5 100644
---- a/drivers/crypto/qce/common.c
-+++ b/drivers/crypto/qce/common.c
-@@ -565,6 +565,36 @@ int qce_start(struct crypto_async_request *async_req, u32 type)
- #define STATUS_ERRORS	\
- 		(BIT(SW_ERR_SHIFT) | BIT(AXI_ERR_SHIFT) | BIT(HSD_ERR_SHIFT))
- 
-+void qce_bam_lock(struct qce_device *qce)
-+{
-+	int ret;
-+
-+	qce_clear_bam_transaction(qce);
-+
-+	/* This is just a dummy write to acquire the lock on the BAM pipe. */
-+	qce_write(qce, REG_AUTH_SEG_CFG, 0);
-+
-+	ret = qce_submit_cmd_desc(qce, QCE_DMA_DESC_FLAG_LOCK);
-+	if (ret)
-+		dev_err(qce->dev,
-+			"Failed to lock the command descriptor: %d\n", ret);
-+}
-+
-+void qce_bam_unlock(struct qce_device *qce)
-+{
-+	int ret;
-+
-+	qce_clear_bam_transaction(qce);
-+
-+	/* This just dummy write to release the lock on the BAM pipe. */
-+	qce_write(qce, REG_AUTH_SEG_CFG, 0);
-+
-+	ret = qce_submit_cmd_desc(qce, QCE_DMA_DESC_FLAG_UNLOCK);
-+	if (ret)
-+		dev_err(qce->dev,
-+			"Failed to unlock the command descriptor: %d\n", ret);
-+}
-+
- int qce_check_status(struct qce_device *qce, u32 *status)
- {
- 	int ret = 0;
-diff --git a/drivers/crypto/qce/core.h b/drivers/crypto/qce/core.h
-index b86caf8b926d..3341571991a4 100644
---- a/drivers/crypto/qce/core.h
-+++ b/drivers/crypto/qce/core.h
-@@ -65,4 +65,7 @@ struct qce_algo_ops {
- 	int (*async_req_handle)(struct crypto_async_request *async_req);
- };
- 
-+void qce_bam_lock(struct qce_device *qce);
-+void qce_bam_unlock(struct qce_device *qce);
-+
- #endif /* _CORE_H_ */
-diff --git a/drivers/crypto/qce/dma.c b/drivers/crypto/qce/dma.c
-index b8b305fc1b6a..f3178144fa94 100644
---- a/drivers/crypto/qce/dma.c
-+++ b/drivers/crypto/qce/dma.c
-@@ -80,6 +80,10 @@ int qce_submit_cmd_desc(struct qce_device *qce, unsigned long flags)
- 	int ret = 0;
- 
- 	desc_flags = DMA_PREP_CMD;
-+	if (flags & QCE_DMA_DESC_FLAG_LOCK)
-+		desc_flags |= DMA_PREP_LOCK;
-+	else if (flags & QCE_DMA_DESC_FLAG_UNLOCK)
-+		desc_flags |= DMA_PREP_UNLOCK;
- 
- 	/*
- 	 * The HPG recommends always using the consumer pipe for command
-diff --git a/drivers/crypto/qce/dma.h b/drivers/crypto/qce/dma.h
-index 7d9d58b414ed..c98dcab1dc62 100644
---- a/drivers/crypto/qce/dma.h
-+++ b/drivers/crypto/qce/dma.h
-@@ -21,6 +21,8 @@ struct qce_device;
- #define QCE_BAM_CMD_ELEMENT_SIZE       64
- #define QCE_DMA_DESC_FLAG_BAM_NWD      (0x0004)
- #define QCE_MAX_REG_READ               8
-+#define QCE_DMA_DESC_FLAG_LOCK          (0x0002)
-+#define QCE_DMA_DESC_FLAG_UNLOCK        (0x0001)
- 
- 
- struct qce_result_dump {
-diff --git a/drivers/crypto/qce/sha.c b/drivers/crypto/qce/sha.c
-index 0c7aab711b7b..4c701fca16f2 100644
---- a/drivers/crypto/qce/sha.c
-+++ b/drivers/crypto/qce/sha.c
-@@ -60,6 +60,8 @@ static void qce_ahash_done(void *data)
- 	rctx->byte_count[0] = cpu_to_be32(result->auth_byte_count[0]);
- 	rctx->byte_count[1] = cpu_to_be32(result->auth_byte_count[1]);
- 
-+	qce_bam_unlock(qce);
-+
- 	error = qce_check_status(qce, &status);
- 	if (error < 0)
- 		dev_dbg(qce->dev, "ahash operation error (%x)\n", status);
-@@ -90,6 +92,8 @@ static int qce_ahash_async_req_handle(struct crypto_async_request *async_req)
- 		rctx->authklen = AES_KEYSIZE_128;
- 	}
- 
-+	qce_bam_lock(qce);
-+
- 	rctx->src_nents = sg_nents_for_len(req->src, req->nbytes);
- 	if (rctx->src_nents < 0) {
- 		dev_err(qce->dev, "Invalid numbers of src SG.\n");
-diff --git a/drivers/crypto/qce/skcipher.c b/drivers/crypto/qce/skcipher.c
-index cab796cd7e43..42414fe9b787 100644
---- a/drivers/crypto/qce/skcipher.c
-+++ b/drivers/crypto/qce/skcipher.c
-@@ -52,6 +52,8 @@ static void qce_skcipher_done(void *data)
- 
- 	sg_free_table(&rctx->dst_tbl);
- 
-+	qce_bam_unlock(qce);
-+
- 	error = qce_check_status(qce, &status);
- 	if (error < 0)
- 		dev_dbg(qce->dev, "skcipher operation error (%x)\n", status);
-@@ -82,6 +84,8 @@ qce_skcipher_async_req_handle(struct crypto_async_request *async_req)
- 	dir_src = diff_dst ? DMA_TO_DEVICE : DMA_BIDIRECTIONAL;
- 	dir_dst = diff_dst ? DMA_FROM_DEVICE : DMA_BIDIRECTIONAL;
- 
-+	qce_bam_lock(qce);
-+
- 	rctx->src_nents = sg_nents_for_len(req->src, req->cryptlen);
- 	if (diff_dst)
- 		rctx->dst_nents = sg_nents_for_len(req->dst, req->cryptlen);
 
--- 
-2.45.2
+Thanks,
 
+Yanteng
+
+>
+> ---
+>
+> Changes in v2:
+> - update Chinese documentation (change acked by Yanteng Si <si.yanteng@linux.dev>)
+> ---
+>   Documentation/core-api/printk-formats.rst                    |  3 +--
+>   Documentation/translations/zh_CN/core-api/printk-formats.rst |  3 +--
+>   lib/vsprintf.c                                               | 10 ++--------
+>   3 files changed, 4 insertions(+), 12 deletions(-)
+>
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index ecccc0473da9c10f45f2464566f690472c61401e..f3009e6ec80a864c330c8812efcd82c12f4066b3 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -571,9 +571,8 @@ struct clk
+>   ::
+>   
+>   	%pC	pll1
+> -	%pCn	pll1
+>   
+> -For printing struct clk structures. %pC and %pCn print the name of the clock
+> +For printing struct clk structures. %pC prints the name of the clock
+>   (Common Clock Framework) or a unique 32-bit ID (legacy clock framework).
+>   
+>   Passed by reference.
+> diff --git a/Documentation/translations/zh_CN/core-api/printk-formats.rst b/Documentation/translations/zh_CN/core-api/printk-formats.rst
+> index bd36d35eba4eb124be43a66227059a30429e4135..96a917ecc93f2a4872784b6d8e3f98bcb9f5f737 100644
+> --- a/Documentation/translations/zh_CN/core-api/printk-formats.rst
+> +++ b/Documentation/translations/zh_CN/core-api/printk-formats.rst
+> @@ -523,9 +523,8 @@ clk结构体
+>   ::
+>   
+>   	%pC	pll1
+> -	%pCn	pll1
+>   
+> -用于打印clk结构。%pC 和 %pCn 打印时钟的名称（通用时钟框架）或唯一的32位
+> +用于打印clk结构。%pC 打印时钟的名称（通用时钟框架）或唯一的32位
+>   ID（传统时钟框架）。
+>   
+>   通过引用传递。
+> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> index 56fe96319292674c9f79559cf78dd0d99d1a1f06..143d55cb1c12acac21a6c6bafd255437e878f280 100644
+> --- a/lib/vsprintf.c
+> +++ b/lib/vsprintf.c
+> @@ -1969,15 +1969,11 @@ char *clock(char *buf, char *end, struct clk *clk, struct printf_spec spec,
+>   	if (check_pointer(&buf, end, clk, spec))
+>   		return buf;
+>   
+> -	switch (fmt[1]) {
+> -	case 'n':
+> -	default:
+>   #ifdef CONFIG_COMMON_CLK
+> -		return string(buf, end, __clk_get_name(clk), spec);
+> +	return string(buf, end, __clk_get_name(clk), spec);
+>   #else
+> -		return ptr_to_id(buf, end, clk, spec);
+> +	return ptr_to_id(buf, end, clk, spec);
+>   #endif
+> -	}
+>   }
+>   
+>   static
+> @@ -2382,8 +2378,6 @@ char *rust_fmt_argument(char *buf, char *end, void *ptr);
+>    *      T    time64_t
+>    * - 'C' For a clock, it prints the name (Common Clock Framework) or address
+>    *       (legacy clock framework) of the clock
+> - * - 'Cn' For a clock, it prints the name (Common Clock Framework) or address
+> - *        (legacy clock framework) of the clock
+>    * - 'G' For flags to be printed as a collection of symbolic strings that would
+>    *       construct the specific value. Supported flags given by option:
+>    *       p page flags (see struct page) given as pointer to unsigned long
+>
