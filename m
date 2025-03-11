@@ -1,74 +1,79 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FDA25A337
-	for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 12:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3557425A2DE
+	for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 12:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741696629; cv=none; b=sFWrxg+LTO9UIfUjwpUZp6XMD7C6ygkMUZ0TPK4q08wi7cIORVYA/mYJDY0jYZ2VDR03AqtXK8M6J/gGbA7Cu5tvDI7r0EoKtfW0p73nggFAviE6kEGmaGuaHe3pGxKhoZnEoj3IzfBOCWulI8+4T33C5cW8pLrW2th1+si/BSE=
+	t=1741696629; cv=none; b=VTqAJHlaFD7mnAoRMI0SJ3SJ4uJdRw+J68rSwyMMCWlQIYTDT5DyvUODym20LkaFjhcyG5iNslSM2L/cdV0w0WrJWFZnadsywXWvkawiHM0n7+S0ar8G89YT/yBzCzuHdZ+6u7MS3lmblbB/uMWsZheCvqgpORJMjVz4qMGsJjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741696629; c=relaxed/simple;
-	bh=zNk+oVMzTrxJrAV3YPS/mCKpQLRaGo/5NfuNYVLO0DA=;
+	bh=lpN6C3vH3f4PCCjaCmy194/gBX6pshhqP80Aixto8yo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y2WZAdv34AN/oI7L9j69WlXqYZD2uYkPwndF8C4a4BCwbRE++BiaDCQd/WgqanLvT0lQtm9QNMCSdtKFl9NovGGW070oVNtUgg8zaWtPZk1RmrYLIR+NqRXHdOckj7HOJjv0DGk7dJAuJyQfErP6ygjYQZyn8DprFSCHdzFlhrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=NsLYiDJZ; arc=none smtp.client-ip=209.85.128.43
+	 MIME-Version:Content-Type; b=gvcdVEu5FHVctCNniZ1hlpcrnYqwlj7cmFu2TBLrh9RySJh+YV07A7eMNNYLuwvnYsA/d0TJHFGxO/VprmA+Lk9PnCyf69Z4wRzNgFEKGEz30cq8nxH19aS8Nv/ZdtCzwatGPopKeS6K93jwxoUe3UCfOQJTOJ2EzkeAiKcJYSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=IlIo8lz9; arc=none smtp.client-ip=209.85.128.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="NsLYiDJZ"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so15482305e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 05:37:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="IlIo8lz9"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-43cf680d351so12936625e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 05:37:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=suse.com; s=google; t=1741696624; x=1742301424; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YOohSrQvPqKoJS058lh6ERBfYfFVZu79WxTYWxna9iQ=;
-        b=NsLYiDJZXlp7X/saeDGXIS/Eaf+BKJNGesltZPBd8n7nt3ewjAG1USbmbfviciduEl
-         sKGNWnhT1w4L1QLII2a2/uDNltVybXrv5eki9+Y4wEEAsqX0oyOgIJZcL8A6mmydItE2
-         9UzKt3FhDdPAJUvm2sdwVV/ehIcVTRHtYe/MGvsT1qYtivvYqkXCsNnE95qUt1P1uVjW
-         IO8+aTFlGyAJdW6n/SjUE5wOzTHxZUrUfHoRsyrNzuJVaVkm3GtJ4XDh04/VhzlwgpYR
-         oA5LIMjNm0Jpat1DUiLsFg/bjQZQrPd0ddW9KQDbxc5bRDE3rfyCEf0n/2JX3yMhaZnf
-         7yQA==
+        bh=XzWC6pSc3pyPRb1xLnLmWP9XGPQURz0PKrv7Tm61llY=;
+        b=IlIo8lz9LT+JHpY8qdbY//hWbYR8TdrXcFpxAacz6k/ajVvUt3xtikno+i3O4l6bhi
+         +X8Kxo6SKvEL9RhzRIgQlTTUYGoeJo/fhdycjwASJdKuoy2htZnd9S3ZQ2Hlkrv/IcxH
+         TMvl0Smuf2xdR5rIgV3GL1RKc9FK6JkGV0FbNF9JyxJAYzHy4rbuWasdFbwWB56EGWW6
+         cq0P2iyh607LqApoNTjE3gyZwColq/zr6nL74CQer87eQLcixzDh6tmdpz7KJcIJnuaL
+         JswHo8m/+IYhq7MiF9V8XnQCVQPIobCmzl0UY1vCmXGnhlGOt+QvxjIGDKSQr8jKwoEY
+         QXBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741696624; x=1742301424;
+        d=1e100.net; s=20230601; t=1741696625; x=1742301425;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YOohSrQvPqKoJS058lh6ERBfYfFVZu79WxTYWxna9iQ=;
-        b=gDMtkn6L9bnooX+NQ65jVIv75cIbzrEZVe2jxC9SNfjPuj0L4kA/PdvD6nfwlNngbI
-         lviUwQWcALoV01icXnDz0t5pqN3TxUo0H37jaw3QIxnF7nkO6GUdnT0waG+leMHRTQxI
-         Sg+1oMY6+99TwYAqkIZcQpLX03lWaPHDJ5i5Ugke1GmVfK12XdWpmToZaC+Sh/9HO1hW
-         qgC7oLyhB/8aNDmfso/GoLrTvi8yT1XeKZdh/jmWC/3wViayszPEvW0LPjuqyAGG5+F7
-         w7R3VUAaqFe/cjg/Ro2fbONWoCj2CYOf9NADoDJMVBnARs7WZba2kxm3JIO375L27xXO
-         nM8A==
-X-Forwarded-Encrypted: i=1; AJvYcCX+FwbofiLlrhr7skplemjTXBBBH0R/0bh32N47Hteie983zlYIkbV9V+0JtqeJgMYWOVQdAOTLYTs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPbmst4/OMPf0YjNgmFrPAHtAitwq8j38SHBhYh0UW+DzrOo8Z
-	boTg+9kbuKeVu9xZstM0/uHeAE8bFk7GFE+9GbZdg45gEiedPnHC1N6EH0cIormB8gDP/1+8JTN
-	8BHA=
-X-Gm-Gg: ASbGncuZlDGf4Sa3og+2h3d0SIKlMBhTKM/9cqZ9HkQECwji5eY+BI6mpdkXiNzh0yC
-	5rrNGlLoUQTY+ZsIHyzr7PqlIA3TC7AUrqTbnnbgm+9I0OEMPK0ot2rpjiDdfCgn/bvBpZaUxfM
-	6LPFEv7HyHjjfiZaA/g54jv/E2vdi09a5MUN4TtGPmx28TvPw8qBoOqfmgsvmZbI0K1tIirP28O
-	EqR2G1HHOTEvrs59dEqKVqp8RmK43n611MqmmhYIySDgjDCOysJzpkekOnj3pB89fz1pjGWxFmc
-	xzp1n1vFeXfq81xj5oWX+kUgyc9GCRVfSSpCtzCFHdiyZijS0vwFUh3pBA==
-X-Google-Smtp-Source: AGHT+IHTfCuQAPhrYhY9GiB9gvVm9rN3p4h2znVxLV21KfH9P21dIalFWV0Oc3AwmyqXz7qhPMYuCg==
-X-Received: by 2002:a05:6000:144d:b0:391:139f:61af with SMTP id ffacd0b85a97d-39132d8c768mr12227318f8f.32.1741696624554;
-        Tue, 11 Mar 2025 05:37:04 -0700 (PDT)
+        bh=XzWC6pSc3pyPRb1xLnLmWP9XGPQURz0PKrv7Tm61llY=;
+        b=tUND+PTTuKtUUVF3pxpWeA0zlCMWJr8s9hX407fbtuvaijdgMIEcNKpVyxEmVuTgq3
+         LglyN65qtlth4QJM0YNb7YUKpGIClFTsEuCOXP4U9EqmjUPvzy1PSCEC0dfMj+72XIju
+         JeE64MjUzatLvUhTcpQwXDJvpcHkWkC9ybVl688EKM4F1orFfvTjFH5HlXXVbutdeD+V
+         usAxy+oNaFsXgdpj/E8ZIGVh7kQFvdTjaVaoTHd7An1UnWCWxL4MQaqJqKLGOSBpPbmo
+         QcPcctOljz+OH0rOXeHKdO2lDiTyOa6U0XlkbIsDm6faWaYcs7lcytyyev8d4JpZMT7q
+         JnHA==
+X-Forwarded-Encrypted: i=1; AJvYcCVyxUh+RSY0kf1Hny2HRz0mPSj+2WH/7cGU5LF+aJNnP1nQMu1xgbJ2JeI7uNKkfBx2eRndr7CzGIs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0qoG6LxIm1XIS21SfV3BV3ADQgUzHSYMv0MDORoW40zLmPQDd
+	SxTuIriOOecXCCIbqq56hJ2hVhOB6MM48ytisbg6mIBVf3XH9CbCde8zpCUUnew=
+X-Gm-Gg: ASbGncuaRZAGoY4n4KAwFuOBHtflPtAvMs6Klr/uDPIrdvpXD+URJrWbMchFtIlRYxr
+	8y5N97SroFrc18FJr1fh1sTv1gilPLIGBZmgVTzMARIlpXNmRVLbllngbiiN2DuI9rjLifiCiGQ
+	VVPP2RWyIFEIeVYvWKa6vtjT6yR7crzCxvSxh15fhJ3tfrhUh2bECCUAovqXIHD4FHs/z3hlstf
+	5KFom1eQrKgx+LFDU1UeLYEd7VaWh71Wzsxrr8EBd3CnhfsO6RuGM4V6A6tmicIrmyCKOxCoVV1
+	pWhfSVmUpn5PDOWUtrrkt+PTXjbLqGRMPQPpLk27dPhTxOE=
+X-Google-Smtp-Source: AGHT+IHjGGtwlqaOo23AVRgIZZjsnb2eS9q9J1v0DCucwlPhaecePxi66A9LjOaMhcu9jnvCUdaHIA==
+X-Received: by 2002:a5d:6487:0:b0:390:e9e0:5cc6 with SMTP id ffacd0b85a97d-3926bdf5c18mr4141501f8f.1.1741696623166;
+        Tue, 11 Mar 2025 05:37:03 -0700 (PDT)
 Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d04004240sm9742265e9.3.2025.03.11.05.37.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d04004240sm9742265e9.3.2025.03.11.05.37.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Mar 2025 05:37:04 -0700 (PDT)
+        Tue, 11 Mar 2025 05:37:02 -0700 (PDT)
 From: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
 To: cgroups@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
 Cc: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
 	Tejun Heo <tj@kernel.org>,
 	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 09/11] cgroup: Add deprecation message to legacy freezer controller
-Date: Tue, 11 Mar 2025 13:36:26 +0100
-Message-ID: <20250311123640.530377-10-mkoutny@suse.com>
+	Jonathan Corbet <corbet@lwn.net>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v2 08/11] mm: Add transformation message for per-memcg swappiness
+Date: Tue, 11 Mar 2025 13:36:25 +0100
+Message-ID: <20250311123640.530377-9-mkoutny@suse.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250311123640.530377-1-mkoutny@suse.com>
 References: <20250311123640.530377-1-mkoutny@suse.com>
@@ -81,47 +86,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-As explained in the commit 76f969e8948d8 ("cgroup: cgroup v2 freezer"),
-the original freezer is imperfect, some users may unwittingly rely on it
-when there exists the alternative of v2. Print a message when it happens
-and explain that in the docs.
+The concept of per-memcg swappiness has never landed well in memcg for
+cgroup v2. Add a message to users who use it on v1 hierarchy.
+Decreased swappiness transforms to memory.swap.max=0 whereas
+increased swappiness transforms into active memory.reclaim operation.
 
+Link: https://lore.kernel.org/r/1577252208-32419-1-git-send-email-teawater@gmail.com/
 Signed-off-by: Michal Koutný <mkoutny@suse.com>
 ---
- Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst | 4 ++++
- kernel/cgroup/legacy_freezer.c                            | 6 ++++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/cgroup-v1/memory.rst | 1 +
+ mm/memcontrol-v1.c                             | 6 ++++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst b/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
-index 582d3427de3f8..a964aff373b19 100644
---- a/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
-+++ b/Documentation/admin-guide/cgroup-v1/freezer-subsystem.rst
-@@ -125,3 +125,7 @@ to unfreeze all tasks in the container::
- 
- This is the basic mechanism which should do the right thing for user space task
- in a simple scenario.
-+
-+This freezer implementation is affected by shortcomings (see commit
-+76f969e8948d8 ("cgroup: cgroup v2 freezer")) and cgroup v2 freezer is
-+recommended.
-diff --git a/kernel/cgroup/legacy_freezer.c b/kernel/cgroup/legacy_freezer.c
-index 074653f964c1d..039d1eb2f215b 100644
---- a/kernel/cgroup/legacy_freezer.c
-+++ b/kernel/cgroup/legacy_freezer.c
-@@ -430,9 +430,11 @@ static ssize_t freezer_write(struct kernfs_open_file *of,
- 
- 	if (strcmp(buf, freezer_state_strs(0)) == 0)
- 		freeze = false;
--	else if (strcmp(buf, freezer_state_strs(CGROUP_FROZEN)) == 0)
-+	else if (strcmp(buf, freezer_state_strs(CGROUP_FROZEN)) == 0) {
-+		pr_info_once("Freezing with imperfect legacy cgroup freezer. "
-+			     "See cgroup.freeze of cgroup v2\n");
- 		freeze = true;
--	else
-+	} else
+diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documentation/admin-guide/cgroup-v1/memory.rst
+index 286d16fc22ebb..02b8206a35941 100644
+--- a/Documentation/admin-guide/cgroup-v1/memory.rst
++++ b/Documentation/admin-guide/cgroup-v1/memory.rst
+@@ -90,6 +90,7 @@ Brief summary of control files.
+                                      used.
+  memory.swappiness		     set/show swappiness parameter of vmscan
+ 				     (See sysctl's vm.swappiness)
++				     Per memcg knob does not exist in cgroup v2.
+  memory.move_charge_at_immigrate     This knob is deprecated.
+  memory.oom_control		     set/show oom controls.
+                                      This knob is deprecated and shouldn't be
+diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
+index 2be6b9112808c..29ca6489b4ff7 100644
+--- a/mm/memcontrol-v1.c
++++ b/mm/memcontrol-v1.c
+@@ -1855,9 +1855,11 @@ static int mem_cgroup_swappiness_write(struct cgroup_subsys_state *css,
+ 	if (val > MAX_SWAPPINESS)
  		return -EINVAL;
  
- 	freezer_change_state(css_freezer(of_css(of)), freeze);
+-	if (!mem_cgroup_is_root(memcg))
++	if (!mem_cgroup_is_root(memcg)) {
++		pr_info_once("Per memcg swappiness does not exist in cgroup v2. "
++			     "See memory.reclaim or memory.swap.max there\n ")
+ 		WRITE_ONCE(memcg->swappiness, val);
+-	else
++	} else
+ 		WRITE_ONCE(vm_swappiness, val);
+ 
+ 	return 0;
 -- 
 2.48.1
 
