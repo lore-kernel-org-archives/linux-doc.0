@@ -1,125 +1,161 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933A6253B6A;
-	Tue, 11 Mar 2025 12:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01641EB9F2
+	for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 12:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741696453; cv=none; b=RFucZxNul1tw010bNaP6c4bw9KIhdaZ590Vy+FAbuVLfIUgpIKar1ZPpfdLZuaVTgMD0MTvN1zKgpvGTTURPcQYtOx6+kIzhyb4F97lypBetJE1Fo/wKi5xU8ok4wBU680Eq2sj+73MLjulJ0VflbTff85RpG25UeJerROFrdUc=
+	t=1741696618; cv=none; b=bBHBSZozuyCcauln2Orf4+maV5QZqN8s1yHk0FNNypv7iMGQp9zNgX2HPt/sxaS9yXCMPxavCiPS5zckjkuMcUMpBNVMgjY/JZZ49XSaKCleeYF0OHJkiZ5mK3mSOwI/uAUziO3O8FDLiiwGxLxmTHGwr1rLEdcdkDOpYPi/d2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741696453; c=relaxed/simple;
-	bh=addBakMJtFipeP5Dm9M+uBzjJaYdDmTB6XxVM3YiFNA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b29Poll4WUDMFTMg01mhRdDyN5eZU7ElC/fygNGs1umXJDRcXoao8jSZCVETJrXOjvQj5qkWwss6LUbTHXbhgaY11xjHuLyDmNDrRDXUlyneYlq1PbG7YGmrcA6Bd3Gf/VIiKOdUL8xRXJqoQXdyxJMxhm7c1WnQp2Y1et+aDoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+TNxXOU; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741696618; c=relaxed/simple;
+	bh=CePJDN6866RNu5OilP7NSNORan/RA/RBfUihDSOHno8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eNYldpaLgdvKsOHYs7FwhjLFWuxI3ztEci6xl+krRTQZsA2N7TQ1FNE43AQvCuhOrZEcnQKMqY4kNrEnSOv+xf7DkqE+fgwaOwsvDKczuRTRcloTwNgVseCgI/kw3XAi/tCK00Ai0j5/8dW4yJU10g24ZCetejMj4PK19Yn6BKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=CGF+l0I5; arc=none smtp.client-ip=209.85.221.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+TNxXOU"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7c3bf231660so558493685a.0;
-        Tue, 11 Mar 2025 05:34:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CGF+l0I5"
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-38f403edb4eso2957779f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 05:36:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741696450; x=1742301250; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=m1ZxqjyMUd+isnYc/2JZqNQs5zU7eDZecHhSMewZT7k=;
-        b=B+TNxXOUESk9yQpQv+5qmeChu5CC8kSE1wwoCtyl7amr2MuqPf0dpirEQFUXrwvqth
-         avV7uVarGsNVyKyDVhslvfhOyC6/OIdM4cFArFnn95j3GrZv0y2rPAzfmweeFafHtLBP
-         B6GItnEejDvx01k4wVa95yXyEqeqdyyHPLtxC8Q5io8Wu0Pq3I77AyyXOtKhKGYZEpZp
-         FhEEKaO8ZUdL6ObWBX0DGfbw1XK/JvExo2tbnesMLFUIMrdFr7O/LSZADZV+acAJXfaF
-         +c4YLAV6fztuSn4SlNSwZHT7rOsr2QQY+xMeR1pEg4xyIyI5f2WSvwtP6AkcXxi5Ysyk
-         XAOg==
+        d=suse.com; s=google; t=1741696613; x=1742301413; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7qYs9YHqi3o8BYflhXgM2/h7DX07No2svICRJmWY6FQ=;
+        b=CGF+l0I5Wsrch1iKaNhFNsc5fv4W/qTGaw/bNGmoseaXUOT+2ET757nQPK4LILnZQe
+         NzPbI/T0cinS74vqEzOL4MjQI5edjxOoHs1Gns4eXwRbrRZnrQZTxpMS/viv6FBf86nT
+         7yDM7hJFIPQP6hEIZlkEmyC8Qdw9ZylQpbjyWPqHgaPvVorEwplGVoiN2LAyRacz9MRT
+         LQoyOY36HWdHQcCf3d3aSANd16Tr568SPBQndn3TWNr3yMoaAgtABiIIJHQ+itfHox6K
+         hFX4lEOZt7+r+bFRpXkH4f2mx4imRji0yfcNNoTdiw9zoxVzuJX4yoPUzIqTAWs/C2YF
+         cWIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741696450; x=1742301250;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m1ZxqjyMUd+isnYc/2JZqNQs5zU7eDZecHhSMewZT7k=;
-        b=Pf91e8/+0zjlFzg+9IBbXFxixV3Jx+SIe1BMcwZcDmYJ35TXQ2h6Oscn0GPNKTnt7r
-         6UxcGerhu2wT1NiWLmpgsgKfxgRVsQ3iSww8h6Y5RsNReDGvrctRI71Kt8dGxv5DFXMi
-         EqOeiPqRtmR17Ebk5EufOMgxwb+ujN5DTlcuuQHCSOAROe61rI60AFttYe3G7FRnFwRD
-         P4BdXnJ7YojtYXo0Hph43xes+ynFSymPBuxblHEB9D5d502i6ka1FEpj51hNaR7g0RTO
-         Scb3OAmblvlhkAdJ0o0agD30WMyRP+N7RTP4j041D8qMwuO7vReFBxaq6c3MJ5Sc9gMA
-         OfiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUr2YUBsclp3xLz5JmWcoXC/iWBa1qschUBiXU9lfkopMsDQy+UWl3yt2+szyn7BX0R1GOtxI9fukLazNpA@vger.kernel.org, AJvYcCX2r1YrZSjmgooPwXlE4uAiEQjhOdpLmaa+CnSs3aO1tetDjrl/7+kYc24BWD6rklt028Mvb78DhMXs@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIEywC91YAEZtQMwPbvSv8TLD4VUuYd+QnljA9W9NhQTU+jpJZ
-	Wp2+zypB0p8N+uuQEtjrsdaljBBpZ2/LQAg7dhN0gaNUpGOGzCNa
-X-Gm-Gg: ASbGncusn9woB92xjaaBb62RwNvsQ/Kx/6HHRn1ZxW1o1agp6NsG8yHsrk/TPHs+s46
-	YQmYnYNBeJE7Dn7qRffeTsLz9w4ApI6B6OcUb3Uf1d3QzRIlAiCM9xqxlK82FKS/76Tn+FxWvCS
-	trxkMBFxf8r4iOpDp3DEnYnX4Bin4quB/utgNteb5bFp/zl0KSqwqqGgBzqwhqtHjEWtG+VEJ/p
-	n14hPmzvBdHaBxbq16sTbFF3xkLqNgUrmHFcMYyDp7Gkzf1HiiI3Ri5w7QTOJRphRSG9w78zsFY
-	0A/Q6OHNOzKVfIH6JSCo
-X-Google-Smtp-Source: AGHT+IFU2cAqaMeCXlZ0Hqy6Zv7mfjOYRy5JKPusGv2guBlnRHiq/LPliOv7yz6eaX2PsMQjmuIglQ==
-X-Received: by 2002:a05:620a:26a3:b0:7c5:55f9:4bc1 with SMTP id af79cd13be357-7c555f94e42mr850962085a.42.1741696450372;
-        Tue, 11 Mar 2025 05:34:10 -0700 (PDT)
-Received: from localhost ([2001:da8:7001:11::cb])
-        by smtp.gmail.com with UTF8SMTPSA id af79cd13be357-7c56630e44dsm34135885a.86.2025.03.11.05.34.09
+        d=1e100.net; s=20230601; t=1741696613; x=1742301413;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7qYs9YHqi3o8BYflhXgM2/h7DX07No2svICRJmWY6FQ=;
+        b=au3+lgu0AT1SXdUFuFyujWqd07VuRtg4aPjUp6QdqoGsL5CXPihOQQIQYDH+hXnshP
+         1ODCQ8JAoWGmUfCfo5EBapiA6wXT+9m9TQ7oTaYa4NKwjVPtLXWx/lqKaKqzhyC5ySND
+         p/WaibK2WbnQI4vBBtGrskb96Lbj4Nl0awoRCP+OukZ9V29ntR2fjsskAMOMiAa6XkP9
+         1Eqw7/WKT0N7ABpRcrSTbjusNlJyBwb4SHXVDzX5RD7h3YuBWa7Yn+wQWCyaX7JFMZMu
+         tLgqbITJ5CDtWJmg7yhFYnXlTiehLm5ycHtsz2Xtsv2qzJjbKUtgWfdE4M6HFMQIRLYx
+         d8NQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXcSG/NPBtFKZOGYE6z5TPGeva8u6pGzJ2kSZXi9uR9UM5/65ucM51wLykBR7JVxtVcjjZwfu5s/SA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgtdMVFHO7cY17ZRlOvan6kt6FkGzoE1aRBY9zO0A7yTnvlzV5
+	FfGMunyrO+2UDrD007G0AVko3WW4BTcvD6EukLLjDiOizdbi1kKFE/Ei0T0cNaU=
+X-Gm-Gg: ASbGncspfwWvV9OojEHJuycAGpvQA1wjz8lKfZfNPNuM8YlkQbvYI7m4u3UyfjeJKMT
+	e/E948/r6X52tDdEIQdXLrdVWCjpE1rrD0tvYgHiA+bdaeWbw3OOVttgdslih72umTYs723azqo
+	u3vZmduPjx6uCX5NBcQx5wchGNvPbzzKg68Do+knz/+QG7BhG9sXyGqhG1yMvFlg1tVhUXrSrrE
+	lBBVQI1+8p+gew9viHxKThu3h0hk3kJ5tkzmR5BPhYhNWfYzrjx8crHiR2J+gsevrrQ3J31+oW1
+	7SY2SCpiNzQ+oUAtkZWYPyIB9muSeIeZCzmGDAlrJidwuA+nOzZPNY4MEg==
+X-Google-Smtp-Source: AGHT+IEBZYqz4EXYjBrQl7MEBAEBtNENBPTwZcu8eE/AXSvpLAC27EkQUSrI1TFPSdtbH6FbRzmNrg==
+X-Received: by 2002:adf:b312:0:b0:390:f6cd:c89f with SMTP id ffacd0b85a97d-39132db6f86mr10434242f8f.53.1741696613012;
+        Tue, 11 Mar 2025 05:36:53 -0700 (PDT)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d04004240sm9742265e9.3.2025.03.11.05.36.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Mar 2025 05:34:09 -0700 (PDT)
-Date: Tue, 11 Mar 2025 20:34:02 +0800
-From: Inochi Amaoto <inochiama@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, Charlie Jenkins <charlie@rivosinc.com>, 
-	Evan Green <evan@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>, 
-	Inochi Amaoto <inochiama@gmail.com>, Jesse Taube <jesse@rivosinc.com>, Andy Chiu <andybnac@gmail.com>, 
-	Alexandre Ghiti <alexghiti@rivosinc.com>, Yong-Xuan Wang <yongxuan.wang@sifive.com>, 
-	Yu Chien Peter Lin <peterlin@andestech.com>, Samuel Holland <samuel.holland@sifive.com>
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Yixun Lan <dlan@gentoo.org>, 
-	Longbin Li <looong.bin@gmail.com>
-Subject: Re: [PATCH v4 0/3] riscv: Add bfloat16 instruction support
-Message-ID: <d6t25jmcf57sqpjqwykhdf3ju6v3wwpyaiumll4x6bjfhcohl5@oikmnpusjn6u>
-References: <20250213003849.147358-1-inochiama@gmail.com>
+        Tue, 11 Mar 2025 05:36:52 -0700 (PDT)
+From: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
+To: cgroups@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Waiman Long <longman@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Tejun Heo <tj@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Michal Hocko <mhocko@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH v2 00/11] cgroup v1 deprecation messages
+Date: Tue, 11 Mar 2025 13:36:17 +0100
+Message-ID: <20250311123640.530377-1-mkoutny@suse.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250213003849.147358-1-inochiama@gmail.com>
 
-On Thu, Feb 13, 2025 at 08:38:44AM +0800, Inochi Amaoto wrote:
-> Add description for the BFloat16 precision Floating-Point ISA extension,
-> (Zfbfmin, Zvfbfmin, Zvfbfwma). which was ratified in commit 4dc23d62
-> ("Added Chapter title to BF16") of the riscv-isa-manual.
-> 
-> Changed from v3:
-> 1. rebase for v6.14-rc1
-> 2. patch2: add validate for zfbfmin, zvfbfmin, zvfbfwma
-> 3. patch2: apply ClÈment's tag
-> 
-> Changed from v2:
-> 1. rebase for v6.13-rc1
-> 
-> Changed from v1:
-> 1. patch3: add missing code in sys_hwprobe.c
-> 
-> Inochi Amaoto (3):
->   dt-bindings: riscv: add bfloat16 ISA extension description
->   riscv: add ISA extension parsing for bfloat16 ISA extension
->   riscv: hwprobe: export bfloat16 ISA extension
-> 
->  Documentation/arch/riscv/hwprobe.rst          | 12 +++++
->  .../devicetree/bindings/riscv/extensions.yaml | 45 +++++++++++++++++++
->  arch/riscv/include/asm/hwcap.h                |  3 ++
->  arch/riscv/include/uapi/asm/hwprobe.h         |  3 ++
->  arch/riscv/kernel/cpufeature.c                | 35 +++++++++++++++
->  arch/riscv/kernel/sys_hwprobe.c               |  3 ++
->  6 files changed, 101 insertions(+)
-> 
-> --
-> 2.48.1
-> 
+Memory controller had begun to print warning messages when using some
+attributes that do no have a counterpart in its cgroup v2
+implementation. This is informative to users who run (unwittingly) on v1
+or to distros that run v1 (they can learn about such users or prepare
+for disabling v1 configs).
 
-I wonder whether this patch could get merged? So I can
-submit the SG2044 board dts without this as dependency.
+I consider the deprecated files in three categories:
+  - RE) replacement exists,
+  - DN) dropped as non-ideal concept (e.g. non-hierarchical resources),
+  - NE) not evaluated (yet).
 
-Regards,
-Inochi
+For RE, I added the replacement into the warning message, DN have only a
+plain deprecation message and I marked the commits with NE as RFC.
+Also I'd be happy if you would point out some forgotten knobs that'd
+deserve similar warnings.
+
+The level of messages is info to avoid too much noise (may be increased
+in future when there are fewer users). Some knobs from DN have warn
+level.
+
+The net_cls and net_prio controllers that only exist on v1 hierarchies
+have no straightforward action for users (replacement would rely on net
+NS or eBPF), so messages for their usage are omitted, although it'd be
+good to eventually retire that code in favor of aforementioned.
+
+At the end are some cleanup patches I encountered en route.
+
+Changes from v1 (https://lore.kernel.org/r/20250304153801.597907-1-mkoutny@suse.com/)
+- cpuset load_balance/pressure warn wording (Waiman)
+- comment typo (Waiman)
+- collect Acks
+- drop bouncing Cc: and respective RFC (self)
+- change level warn -> info, except for spread slab (Tejun)
+- add memory.swappiness (self)
+- add legacy freezer message (self)
+- update cover wrt net* controllers (self)
+
+Michal Koutn√Ω (11):
+  cgroup/cpuset-v1: Add deprecation messages to sched_load_balance and
+    memory_pressure_enabled
+  cgroup/cpuset-v1: Add deprecation messages to memory_spread_page and
+    memory_spread_slab
+  cgroup/blkio: Add deprecation messages to reset_stats
+  cgroup: Print message when /proc/cgroups is read on v2-only system
+  cgroup/cpuset-v1: Add deprecation messages to mem_exclusive and
+    mem_hardwall
+  cgroup/cpuset-v1: Add deprecation messages to memory_migrate
+  RFC cgroup/cpuset-v1: Add deprecation messages to
+    sched_relax_domain_level
+  mm: Add transformation message for per-memcg swappiness
+  cgroup: Add deprecation message to legacy freezer controller
+  cgroup: Update file naming comment
+  blk-cgroup: Simplify policy files registration
+
+ .../cgroup-v1/freezer-subsystem.rst           |  4 ++++
+ .../admin-guide/cgroup-v1/memory.rst          |  1 +
+ block/blk-cgroup.c                            |  8 +++++--
+ block/blk-ioprio.c                            | 23 ++++++-------------
+ include/linux/cgroup-defs.h                   |  5 ++--
+ include/linux/cgroup.h                        |  1 +
+ kernel/cgroup/cgroup-internal.h               |  1 +
+ kernel/cgroup/cgroup-v1.c                     |  7 ++++++
+ kernel/cgroup/cgroup.c                        |  4 ++--
+ kernel/cgroup/cpuset-v1.c                     |  8 +++++++
+ kernel/cgroup/legacy_freezer.c                |  6 +++--
+ mm/memcontrol-v1.c                            |  6 +++--
+ 12 files changed, 47 insertions(+), 27 deletions(-)
+
+
+base-commit: 80e54e84911a923c40d7bee33a34c1b4be148d7a
+-- 
+2.48.1
+
