@@ -1,49 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3203BE67;
-	Tue, 11 Mar 2025 15:57:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8194C25F79C;
+	Tue, 11 Mar 2025 16:00:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741708643; cv=none; b=oJt630bvsM/dfK4G+Wup5I2ssXDhMB51+qwuZ68zU7He9A9vwJNTPr8CJ0iz2w85Zn7B7JfQGxzBmqORSboZjthWqlPhQEN/A0RHcMfzzH0BSPvfOBpZ5OcqpaTmTgF7xnrnf/y9rX9tw0sc6/RmanVKshiJjIhx26n79ihu4TI=
+	t=1741708801; cv=none; b=l6+K8XX5ztqu+JPa+5HqM+3DiexqTFaJGo6syj+L/N40qzZqvTAZ97APA3zPZ1bxRfjSxewurlNPq/41Y7epd3Ln9in4aoi8oqD2zpggAv0krS8xhrDwT4gOx3A2MkVtiFymWfUgZ3Qw+yEWgdcyT5ybD0Ac0EFVDGsmyVjbLgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741708643; c=relaxed/simple;
-	bh=BZTxXXA67zvcYZUPAms2o1IQhwkgm/4LnFmDVxI2ONs=;
+	s=arc-20240116; t=1741708801; c=relaxed/simple;
+	bh=frAwT789BAh4F89Qv4uDoVqmywdm58BDlCsir8WtQmY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JYr2aIlSTN/o94qzp9Rn4W0d1sHMmab2lCeBi5Z9jMR6tiuuE4yuIkSfgICtV3+OFV4a8OsfOKKu3+MBMfHHpQgsAnC6RcNoz9RKWA3zPoOYLxY/EU9K2w5lmQgId9TMuiz4JQk8nRjlnYKlvzZd5a5LZGsIBoHGJMYMhWmboGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NYrFmUvf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FZc5yb4qck7NIF/QPI+f1TP4TYzmactsYD+lWJVUxHOXdxSNpaXCWlOTHCGj7XjxcKUkj+G3PDKXlbjlYZ6AQBe7JBzF++SsJbUi1zIYh9rKbpml4oADqt+5qImP6jImwoaBrbIluWzHl3HSffJMQOmFgQKTdd99BoojVzNO8Zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uUpknmff; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NYrFmUvf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D941C4CEEC;
-	Tue, 11 Mar 2025 15:57:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uUpknmff"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D39B7C4CEE9;
+	Tue, 11 Mar 2025 15:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741708643;
-	bh=BZTxXXA67zvcYZUPAms2o1IQhwkgm/4LnFmDVxI2ONs=;
+	s=k20201202; t=1741708800;
+	bh=frAwT789BAh4F89Qv4uDoVqmywdm58BDlCsir8WtQmY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NYrFmUvfLJTnTAUuNsvf7jl110FlX1XQjHYJv6UtMkxM487T1UwPjrJnb/KFOOXDY
-	 4c/FTYEtU3qswKyPGejNRtq9L4QnNxy+rDETa8i1IAL2MhiMEW+6PJnE6ajqGYLfL8
-	 JHDnS7kP7oW2bNHPkridid0tOs53GJHG9msqCSX/ReUA415polcodWwWksAHJXoQwk
-	 Q7zbpaLmB369VDgojkiXPq1kNn+gICyoTQ0g91wrOQkty74sa2qKd3by0RjZGS6WNw
-	 fqrMTu3Rb7/NHMMay2gFyahQ3CSkmM+sNuZejCnSqzmPMrrEf+Q4+Prhg3OjPWvlZH
-	 XOobXYZ3D+D9g==
-Date: Tue, 11 Mar 2025 15:57:16 +0000
-From: Will Deacon <will@kernel.org>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, joro@8bytes.org,
-	suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
-	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
-	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
-	praan@google.com, patches@lists.linux.dev
-Subject: Re: [PATCH v8 12/14] iommu/arm-smmu-v3: Introduce struct
- arm_smmu_vmaster
-Message-ID: <20250311155714.GC5138@willie-the-truck>
-References: <cover.1740504232.git.nicolinc@nvidia.com>
- <f205a4e2f5971cd4b1033d7cac41683e10ebabfb.1740504232.git.nicolinc@nvidia.com>
+	b=uUpknmffSTA6HHE+IafTOGZOOGVoB+jEDYMG0FuJYdMnNsfHRJu26BrQYwbY1k4zd
+	 VKL35+v1HICOjsfNov8pO2+cYat9912p8htjSX+3GMLdxnPdiWZvK3Alnapfyn4T9v
+	 3nP6aqWJvyplYWgTgw/9jqXL52VGrEIfxp5RsV3TzwvlM4ypshmqr9QBQv0l5sZk4X
+	 xhvSKndUayuYpc1EVBxlldxmAFq8YfLiSRYQ6WasQYbBtWt6/t6bhFJG4j9KqRsd7+
+	 ZQISQ/gxL7BFzAnnNdHfayVrshDGBctsKyclFm0jy2iwRpvcYmERzrVU5k8cre6UwP
+	 K1ZQCjo/9dTMQ==
+Date: Tue, 11 Mar 2025 17:59:55 +0200
+From: Dmitry Baryshkov <lumag@kernel.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Thara Gopinath <thara.gopinath@gmail.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Md Sadre Alam <quic_mdalam@quicinc.com>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	linux-crypto@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v7 1/8] dmaengine: add DMA_PREP_LOCK and DMA_PREP_UNLOCK
+ flag
+Message-ID: <ozcg3m3iwdprt4hnti473e4j6ixnwgggbdvsnxold32bigcv7i@koo3ww3wfw22>
+References: <20250311-qce-cmd-descr-v7-0-db613f5d9c9f@linaro.org>
+ <20250311-qce-cmd-descr-v7-1-db613f5d9c9f@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,90 +49,91 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f205a4e2f5971cd4b1033d7cac41683e10ebabfb.1740504232.git.nicolinc@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20250311-qce-cmd-descr-v7-1-db613f5d9c9f@linaro.org>
 
-On Tue, Feb 25, 2025 at 09:25:40AM -0800, Nicolin Chen wrote:
-> Use it to store all vSMMU-related data. The vsid (Virtual Stream ID) will
-> be the first use case. Since the vsid reader will be the eventq handler
-> that already holds a streams_mutex, reuse that to fenche the vmaster too.
-
-"fenche"?
-
-> Also add a pair of arm_smmu_attach_prepare/commit_vmaster helpers to set
-> or unset the master->vmaster point. Put these helpers inside the existing
-
-s/point/pointer/
-
-> arm_smmu_attach_prepare/commit().
+On Tue, Mar 11, 2025 at 10:25:32AM +0100, Bartosz Golaszewski wrote:
+> From: Md Sadre Alam <quic_mdalam@quicinc.com>
 > 
-> For identity/blocked ops that don't call arm_smmu_attach_prepare/commit(),
-> add a simpler arm_smmu_master_clear_vmaster helper to unset the vmaster.
+> Add lock and unlock flags for the command descriptor. With the former set
+> in the requester pipe, the bam controller will lock all other pipes and
+> process the request only from requester pipe. Unlocking can only be
+> performed from the same pipe.
 > 
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> Reviewed-by: Pranjal Shrivastavat <praan@google.com>
+> Setting the DMA_PREP_LOCK/DMA_PREP_UNLOCK flags in the command
+> descriptor means, the caller requests the BAM controller to be locked
+> for the duration of the transaction. In this case the BAM driver must
+> set the LOCK/UNLOCK bits in the HW descriptor respectively.
+> 
+> Only BAM IPs version 1.4.0 and above support the LOCK/UNLOCK feature.
 
-(per Pranjal: please fix his mis-spelling of his own name here and in
-the other patches too!)
+You are describing behaviour (and even versions) of a particular DMA
+hardware (BAM) in the commit message for a generic flag. Please drop all
+of that. Generic code should be described in generic terms.
 
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> 
+> Signed-off-by: Md Sadre Alam <quic_mdalam@quicinc.com>
+> [Bartosz: reworked the commit message]
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 > ---
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   | 28 ++++++++++++
->  .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     | 45 +++++++++++++++++++
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 18 +++++++-
->  3 files changed, 90 insertions(+), 1 deletion(-)
-
-[...]
-
-> @@ -1055,9 +1062,30 @@ struct iommufd_viommu *arm_vsmmu_alloc(struct device *dev,
->  				       struct iommu_domain *parent,
->  				       struct iommufd_ctx *ictx,
->  				       unsigned int viommu_type);
-> +int arm_smmu_attach_prepare_vmaster(struct arm_smmu_attach_state *state,
-> +				    struct arm_smmu_nested_domain *nested_domain);
-> +void arm_smmu_attach_commit_vmaster(struct arm_smmu_attach_state *state);
-> +void arm_smmu_master_clear_vmaster(struct arm_smmu_master *master);
->  #else
->  #define arm_smmu_hw_info NULL
->  #define arm_vsmmu_alloc NULL
-> +
-> +static inline int
-> +arm_smmu_attach_prepare_vmaster(struct arm_smmu_attach_state *state,
-> +				struct arm_smmu_nested_domain *nested_domain)
-> +{
-> +	return 0; /* NOP */
-> +}
-
-Please drop this comment.
-
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
-> index 5aa2e7af58b4..6b712b1ab429 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
-> @@ -85,6 +85,51 @@ static void arm_smmu_make_nested_domain_ste(
->  	}
->  }
+>  Documentation/driver-api/dmaengine/provider.rst | 15 +++++++++++++++
+>  include/linux/dmaengine.h                       |  6 ++++++
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
+> index 3085f8b460fa..a032e55d0a4f 100644
+> --- a/Documentation/driver-api/dmaengine/provider.rst
+> +++ b/Documentation/driver-api/dmaengine/provider.rst
+> @@ -628,6 +628,21 @@ DMA_CTRL_REUSE
+>    - This flag is only supported if the channel reports the DMA_LOAD_EOT
+>      capability.
 >  
-> +int arm_smmu_attach_prepare_vmaster(struct arm_smmu_attach_state *state,
-> +				    struct arm_smmu_nested_domain *nested_domain)
-> +{
-> +	struct arm_smmu_vmaster *vmaster;
-> +	unsigned long vsid;
-> +	int ret;
+> +- DMA_PREP_LOCK
 > +
-> +	iommu_group_mutex_assert(state->master->dev);
+> +  - If set, the DMA will lock all other pipes not related to the current
+> +    pipe group, and keep handling the current pipe only.
 > +
-> +	/* Skip invalid vSTE */
-> +	if (!(nested_domain->ste[0] & cpu_to_le64(STRTAB_STE_0_V)))
-> +		return 0;
+> +  - All pipes not within this group will be locked by this pipe upon lock
+> +    event.
+> +
+> +  - only pipes which are in the same group and relate to the same Environment
+> +    Execution(EE) will not be locked by a certain pipe.
+> +
+> +- DMA_PREP_UNLOCK
+> +
+> +  - If set, DMA will release all locked pipes
+> +
+>  General Design Notes
+>  ====================
+>  
+> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> index 346251bf1026..8ebd43a998a7 100644
+> --- a/include/linux/dmaengine.h
+> +++ b/include/linux/dmaengine.h
+> @@ -200,6 +200,10 @@ struct dma_vec {
+>   *  transaction is marked with DMA_PREP_REPEAT will cause the new transaction
+>   *  to never be processed and stay in the issued queue forever. The flag is
+>   *  ignored if the previous transaction is not a repeated transaction.
+> + *  @DMA_PREP_LOCK: tell the driver that there is a lock bit set on command
+> + *  descriptor.
+> + *  @DMA_PREP_UNLOCK: tell the driver that there is a un-lock bit set on command
+> + *  descriptor.
+>   */
+>  enum dma_ctrl_flags {
+>  	DMA_PREP_INTERRUPT = (1 << 0),
+> @@ -212,6 +216,8 @@ enum dma_ctrl_flags {
+>  	DMA_PREP_CMD = (1 << 7),
+>  	DMA_PREP_REPEAT = (1 << 8),
+>  	DMA_PREP_LOAD_EOT = (1 << 9),
+> +	DMA_PREP_LOCK = (1 << 10),
+> +	DMA_PREP_UNLOCK = (1 << 11),
+>  };
+>  
+>  /**
+> 
+> -- 
+> 2.45.2
+> 
 
-Ok, and we don't need to set 'state->vmaster' in this case because we
-only report stage-1 faults back to the vSMMU?
-
-With the nits fixed:
-
-Acked-by: Will Deacon <will@kernel.org>
-
-Thanks,
-
-Will
+-- 
+With best wishes
+Dmitry
