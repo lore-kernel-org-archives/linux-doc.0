@@ -1,37 +1,71 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F1B51D5ADC;
-	Tue, 11 Mar 2025 13:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3273722D4FE;
+	Tue, 11 Mar 2025 14:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741701431; cv=none; b=fEvSPxf3ZQYyjgubVLQTK6rI/NnyFHL/Rj4Ysv2M0lAqQMtXQuqyHL7ICotPBm8fN+GH1jjxB4wrCrpbQJ5UYSZXxotWHS/pDET3dBchFFEZQ6ig4O+VOx2uk1dGk2nD8dWdQhWzdjWqfz3llX4GmI2KH0IJrIIg/Q4wFvCDgBQ=
+	t=1741702226; cv=none; b=d0UAJoOeL09rxak+4NxRRWARC8J+DX8D9aI2h/WhLj7SS23LVOyz7SCu+nLTnPHA5NBO6iqm9V79Fm73DDuk3P4K7jtVlvPJqd1olId0D7TsT1R0ADsHRi0DXv3MJhyTRdDq39VvAotNSm5mHNObVEjA5Zomp3xe9jQP6zngi84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741701431; c=relaxed/simple;
-	bh=WJ7skOWoJeFHR7rNvq3i+XJAdc435edWr7FTfPWVkF4=;
+	s=arc-20240116; t=1741702226; c=relaxed/simple;
+	bh=6DCHttFxpQlt5JlaplZgiIIP2FjcwsLNjEAL1Va9+u4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VbAxm7ZddHTDRb4uE0RQlmoh617aqrM+7hN5IYC80Dy3n/09po26OwHY5Kfqh9y27GPz42LHAipvjSWQEeda/2+XLc4tatidUoQZpdpq3SA2aQ/2b1srbn4xtG2eH/jf1qAyJhC4iPoO2Kh6tPXr/OSTR/oZj0XwyNkKJcjA9WU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E97F01515;
-	Tue, 11 Mar 2025 06:57:19 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F20B3F694;
-	Tue, 11 Mar 2025 06:57:08 -0700 (PDT)
-Date: Tue, 11 Mar 2025 13:57:04 +0000
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: coresight@lists.linaro.org, yeoreum.yun@arm.com,
-	Mike Leach <mike.leach@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linux.dev>,
-	Namhyung Kim <namhyung@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] coresight: docs: Remove target sink from examples
-Message-ID: <20250311135704.GK9682@e132581.arm.com>
-References: <20241210144933.295798-1-james.clark@linaro.org>
- <20250311102200.GJ9682@e132581.arm.com>
- <898f1265-522f-44aa-a7da-879870b18807@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LNmcoIXEc+k2ekDpAkjeWtVlrSNBMGbLEpnA0U6fMQzd2Qu5RVTVQrrnSBcywM85ahzPV3vBWRdoYHwTKF0ljtTyPphMLLpU7eyjgphWdJ17OwkdZ6DeDo1q3E3LE0S15JJ0k29w7fi8b2I7/1wE7VImqFkiz9FNUR97C64wQLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JoThZfxt; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JoThZfxt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741702224; x=1773238224;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6DCHttFxpQlt5JlaplZgiIIP2FjcwsLNjEAL1Va9+u4=;
+  b=JoThZfxtWpBAhqz35ynvdytlBWUKooygdqA1ehBNKiETJA+kgNPGWIeO
+   ALgbTMzxebN3BTl69J4/6+3neK/vHj7zeGBmmlkgCr9E10oJSN2uhIA2K
+   SVgGkPzVwCAzhip4Ked4lXJSDKPS50PKNqpfk347WXw6BzDe0oqw9705i
+   fO2yCukYgtwF/2iMM9hFEB9qlCmijD4IBox0iUtWHDegWXmD9yKmp0b0s
+   HeV06IEFT/qHP+6GvCNdrwx8DxziNukDOiAcxF2ORRPB8qIMEzsQMl9nE
+   4o9c+W6JfNwVi6gAOYgoA4j1PlP7UEPH4PscLKERtAqHm7nYKOxFuNf/B
+   Q==;
+X-CSE-ConnectionGUID: f9SNI9vLSNWZFUfLp49hyQ==
+X-CSE-MsgGUID: HkPR4dGQSpSrfRWpx/EYwA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="46523319"
+X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; 
+   d="scan'208";a="46523319"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 07:10:03 -0700
+X-CSE-ConnectionGUID: lwwV97C/Q1Ck5Ar/zlHaNQ==
+X-CSE-MsgGUID: ERKY/U9aQg6zkJ8ybsZURA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; 
+   d="scan'208";a="157534140"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 11 Mar 2025 07:10:00 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ts0Iv-0006hg-0j;
+	Tue, 11 Mar 2025 14:09:57 +0000
+Date: Tue, 11 Mar 2025 22:09:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Antheas Kapenekakis <lkml@antheas.dev>,
+	platform-driver-x86@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-pm@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
+	Derek J Clark <derekjohn.clark@gmail.com>,
+	Kevin Greenberg <kdgreenberg234@protonmail.com>,
+	Joshua Tam <csinaction@pm.me>,
+	Parth Menon <parthasarathymenon@gmail.com>,
+	Eileen <eileen@one-netbook.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: Re: [PATCH v3 06/12] platform/x86: oxpec: Add charge threshold and
+ behaviour to OneXPlayer
+Message-ID: <202503112130.dl6b3XVs-lkp@intel.com>
+References: <20250309112114.1177361-7-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,61 +74,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <898f1265-522f-44aa-a7da-879870b18807@linaro.org>
+In-Reply-To: <20250309112114.1177361-7-lkml@antheas.dev>
 
-On Tue, Mar 11, 2025 at 10:51:39AM +0000, James Clark wrote:
+Hi Antheas,
 
-[...]
+kernel test robot noticed the following build errors:
 
-> > > +Sink selection
-> > > +~~~~~~~~~~~~~~
-> > > +
-> > > +An appropriate sink will be selected automatically for use with Perf, but since
-> > > +there will typically be more than one sink, the name of the sink to use may be
-> > > +specified as a special config option prefixed with '@'.
-> > > +
-> > > +The available sinks are listed in sysFS under
-> > >   ($SYSFS)/bus/event_source/devices/cs_etm/sinks/::
-> > > 
-> > >          root@localhost:/sys/bus/event_source/devices/cs_etm/sinks# ls
-> > >          tmc_etf0  tmc_etr0  tpiu0
-> > 
-> > Just a minor comment.  To reflect the latest hardware, it is good to
-> > mention the TRBE case, users should not and cannot specify TRBE as the
-> 
-> Is that strictly true? From looking at the code I think you could pick one
-> TRBE sink as long as you are only tracing from a single ETM. Although yeah
-> it would be pointless.
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on sre-power-supply/for-next amd-pstate/linux-next amd-pstate/bleeding-edge rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.14-rc6 next-20250307]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-My testing result shows perf reports error when specifying trbe as sink:
+url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/hwmon-oxp-sensors-Distinguish-the-X1-variants/20250309-192300
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250309112114.1177361-7-lkml%40antheas.dev
+patch subject: [PATCH v3 06/12] platform/x86: oxpec: Add charge threshold and behaviour to OneXPlayer
+config: x86_64-randconfig-074-20250311 (https://download.01.org/0day-ci/archive/20250311/202503112130.dl6b3XVs-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503112130.dl6b3XVs-lkp@intel.com/reproduce)
 
-  # perf record -e cs_etm/@trbe0/ -- ls
-  failed to mmap with 12 (Cannot allocate memory)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503112130.dl6b3XVs-lkp@intel.com/
 
-But I can make success for the command:
+All errors (new ones prefixed by >>):
 
-  # perf record -C 0 -e cs_etm/@trbe0/ -- ls
-  [ perf record: Woken up 1 times to write data ]
-  [ perf record: Captured and wrote 0.062 MB perf.data ]
+>> ld.lld: error: undefined symbol: battery_hook_register
+   >>> referenced by oxpec.c:927 (drivers/platform/x86/oxpec.c:927)
+   >>>               vmlinux.o:(oxp_platform_probe)
+--
+>> ld.lld: error: undefined symbol: battery_hook_unregister
+   >>> referenced by oxpec.c:935 (drivers/platform/x86/oxpec.c:935)
+   >>>               vmlinux.o:(oxp_platform_remove)
 
-This makes sense to me that if a perf session tries to enable trace for
-multiple CPUs but only a CPU sink is supported, the driver should
-report error to remind users the command does not work.
-
-> > sink name.  The driver will give priority for TRBE by default unless
-> > users specify other sink types.
-> > 
-> 
-> IMO mentioning TRBE would be overly wordy and not really add anything.
-> Removing the sink from all the base examples is exactly to make TRBE work
-> without going into detail about why. And the advanced section doesn't
-> mention TRBE because manually picking it is never right.
-
-The section "Sink selection" applies _only_ to traditional sinks, not
-to TRBE.  I am not sure if we should clarify a bit for this.  I don't
-have strong opinion on it, as it is a trade-off between providing
-necessary info and avoiding overstatement.
-
-So this patch is fine for me:
-
-Reviewed-by: Leo Yan <leo.yan@arm.com>
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
