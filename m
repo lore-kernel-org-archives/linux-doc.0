@@ -1,57 +1,56 @@
-Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com [95.215.58.184])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C21256C8F
-	for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 12:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EF335979
+	for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 13:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741697215; cv=none; b=droRs0f34xsn5lV8vB3kexDqKvJS4tDf2fEBhIrXp6z2+qyjt9ZR3A7nSyIsWujXHgd9ytKMNqwZAU6Ja9a+uzzPtAHmMUru7J4+j7BCfJMewpaEPm6U7oBCu/WxZQuV66TRQEta7tukSr3vbzE+5/hDdHu14EPLQqk0hhDUSEg=
+	t=1741698474; cv=none; b=n6u0NQdGZLc52tERmGj5QkMj3qQJGWkaFkDQdsuixCUhr/JKAa9sAuyvBDcOxMEhlr+kYTXW4PVoSjzSZEI4Bu4wOCiwXjpPkTugt/ddbgIeCv0E/LPtn0PnmeWF6vOYDrSQ2nLmtXH+o7Z284kPv+eFTpmBzTh4NMIoVCrbDH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741697215; c=relaxed/simple;
-	bh=hIuzAPv8x7HdhF3kOYgKUE08BcmIV4Tk3xoim98ixEQ=;
+	s=arc-20240116; t=1741698474; c=relaxed/simple;
+	bh=Y5DI7+SRpVq21SnJ5XCa+73thQkmx5Q3vChAwkd+ejw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sqqkZfVjqTndpTn8cBTz/vbpW0hG9mf+vqrnrfAQxdcFOtNQ2SRoraa8g7afnjgJqHJDM+4FnDSVG6S/2x5YFzUWTA4E2Kt/YCONs84ITETYo/RXQ3k9tQIPzY0QIB+EtoYvzGgQhv8/uAUBGjipOtFPSacM7YmwT5qCuzNF3rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=iOqEUJgv; arc=none smtp.client-ip=95.215.58.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	 Content-Type:Content-Disposition:In-Reply-To; b=OimIN7VIxqt7LPz7CyOwrigujFsAYr7F0mIoZJsK4shGca2dGPzi/jeIwiIYgtAUl/fiohhTvtsPycimZ5l7QVgWOkxYIQi0gXbo2JnDDjT19OCUJX0+NoynU0I+wtY9+YQYvBrNX3BryqY8YcqD3M93MEsBs0k/0kx3Z1211lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iN8Kxykf; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="iOqEUJgv"
-Date: Tue, 11 Mar 2025 08:46:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1741697201;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iN8Kxykf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1741698471;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mOG0CEw3FP2FlG0epn5X7Xw21NWLyIUELyR5vBonHPk=;
-	b=iOqEUJgvADrMU0rIWuG0Ruc7Rtt8IZl+4o95HtRzhUdZyQGFZ1JqrK6ZYGRItGhaB/i6vx
-	SUKlcXNM56cjtmk6uLgcFTxRSu13CBv7gM8RK/UHtKCdvpIuuoCKgOg2ZyE5WaPzY26G76
-	uyHRVJJ+1DwdlUYaed7Wflte4dOcoRNxcMzYlo6FIlE42eXoaGrJVauc3xcB5jmYo5XCcD
-	BUXc+bXEclIcJh9ZSiUkawPEsyTzJaoUtop39EGchJ3EqbnbnlWjQvuj3E3YGsIrgGFuaL
-	uZv6bDGFaxw6XdeG2kdrdBdFkuQ7+IJDK/zThbDQLqxqGNj8xUbEJQw7INmUrA==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Rob Clark <robdclark@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Janne Grunau <j@jannau.net>, Sven Peter <sven@svenpeter.dev>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH] drm: Add UAPI for the Asahi driver
-Message-ID: <Z9Awpj5Avh0rx_fq@blossom>
-References: <20250310-agx-uapi-v1-1-86c80905004e@rosenzweig.io>
- <CAF6AEGukrBzwwdDWX5jUXDKqj7+kn7LBRy6NocE4=bw1D9WjcQ@mail.gmail.com>
+	bh=GdzATd1PXx/GmdafuFTK4X7kP47DhqkVfSwlwyUvZU8=;
+	b=iN8Kxykf66i9L95salTdElOIcG+quBjea5MH2YQNbIZ02IZnDAqgHsmfkPfMeHu74IykH7
+	qKtYCqlxRdVeltI1G3CwrO1c5d2dEaHVDZuZLfUQN8LwFbKIJIBLvn3k4VU8bptUxpRh8u
+	xb7vslmBQ8qlpFhfIP6jCfY/Fgz2YF0=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-650-Dq2imMx-O7qH0IQZFDw64A-1; Tue,
+ 11 Mar 2025 09:07:48 -0400
+X-MC-Unique: Dq2imMx-O7qH0IQZFDw64A-1
+X-Mimecast-MFC-AGG-ID: Dq2imMx-O7qH0IQZFDw64A_1741698467
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F19E0180025B;
+	Tue, 11 Mar 2025 13:07:46 +0000 (UTC)
+Received: from localhost (unknown [10.22.81.23])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2CD7919560AB;
+	Tue, 11 Mar 2025 13:07:45 +0000 (UTC)
+Date: Tue, 11 Mar 2025 10:07:44 -0300
+From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+To: Tomas Glozar <tglozar@redhat.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, John Kacur <jkacur@redhat.com>
+Subject: Re: [PATCH 4/4] Documentation/rtla: Include BPF sample collection
+Message-ID: <Z9A1oN_XdMguNgHy@uudg.org>
+References: <20250311114936.148012-1-tglozar@redhat.com>
+ <20250311114936.148012-5-tglozar@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,66 +59,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAF6AEGukrBzwwdDWX5jUXDKqj7+kn7LBRy6NocE4=bw1D9WjcQ@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20250311114936.148012-5-tglozar@redhat.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-> > +/**
-> > + * struct drm_asahi_gem_bind - Arguments passed to
-> > + * DRM_IOCTL_ASAHI_GEM_BIND
-> > + */
-> > +struct drm_asahi_gem_bind {
-> > +       /** @op: Bind operation (enum drm_asahi_bind_op) */
-> > +       __u32 op;
-> > +
-> > +       /** @flags: One or more of ASAHI_BIND_* (BIND only) */
-> > +       __u32 flags;
-> > +
-> > +       /** @handle: GEM object to bind/unbind (BIND or UNBIND_ALL) */
-> > +       __u32 handle;
-> > +
-> > +       /** @vm_id: The ID of the VM to operate on */
-> > +       __u32 vm_id;
-> > +
-> > +       /** @offset: Offset into the object (BIND only) */
-> > +       __u64 offset;
-> > +
-> > +       /**
-> > +        * @range: Number of bytes to bind/unbind to addr (BIND or UNBIND only)
-> > +        */
-> > +       __u64 range;
-> > +
-> > +       /** @addr: Address to bind to (BIND or UNBIND only) */
-> > +       __u64 addr;
-> > +};
+On Tue, Mar 11, 2025 at 12:49:36PM +0100, Tomas Glozar wrote:
+> Add dependencies needed to build rtla with BPF sample collection support
+> to README, and document both ways of sample collection in the manpages.
 > 
-> No in/out syncobj/fences?  This seems to diverge from xe/nouveau/panthor..
-
-Async vm_bind is useful mainly as an optimization, it's not (as far as I
-know) required for correctness - you can always wait/signal from a
-userspace submit thread with sync vm_bind. It's my understanding (from
-when I chatted with Faith about this when bringing up sparse) that this
-is how sparse was implemented historically and maybe still is on
-Windows?
-
-> > +/**
-> > + * enum drm_asahi_sync_type - Sync item type
-> > + */
-> > +enum drm_asahi_sync_type {
-> > +       /** @DRM_ASAHI_SYNC_SYNCOBJ: Binary sync object */
-> > +       DRM_ASAHI_SYNC_SYNCOBJ = 0,
-> > +
-> > +       /** @DRM_ASAHI_SYNC_TIMELINE_SYNCOBJ: Timeline sync object */
-> > +       DRM_ASAHI_SYNC_TIMELINE_SYNCOBJ = 1,
-> > +};
+> Signed-off-by: Tomas Glozar <tglozar@redhat.com>
+> ---
+>  Documentation/tools/rtla/common_timerlat_description.rst | 8 ++++++++
+>  tools/tracing/rtla/README.txt                            | 7 +++++++
+>  2 files changed, 15 insertions(+)
 > 
-> IMHO it would still be worthwhile to also support fence fd's, since it
-> would avoid a couple extra ioctls to convert btwn fence fds and
-> syncobj for virtgpu native context..
+> diff --git a/Documentation/tools/rtla/common_timerlat_description.rst b/Documentation/tools/rtla/common_timerlat_description.rst
+> index 8cd3e717baa8..49fcae3ffdec 100644
+> --- a/Documentation/tools/rtla/common_timerlat_description.rst
+> +++ b/Documentation/tools/rtla/common_timerlat_description.rst
+> @@ -8,3 +8,11 @@ The *timerlat* tracer outputs information in two ways. It periodically
+>  prints the timer latency at the timer *IRQ* handler and the *Thread*
+>  handler. It also enables the trace of the most relevant information via
+>  **osnoise:** tracepoints.
+> +
+> +The **rtla timerlat** tool sets the options of the *timerlat* tracer
+> +and collects and displays a summary of the results. By default,
+> +the collection is done synchronously in kernel space using a dedicated
+> +BPF program attached to the *timerlat* tracer. If either BPF or
+> +the **osnoise:timerlat_sample** tracepoint it attaches to is
 
-Ditto for this as an optimization. Both of these can be added in a
-straightforward backwards-compat way later, so I'm inclined to not add
-any extra functionality beyond what we already have (and know works),
-rather than commit prematurely to new features and risk getting
-something wrong.
+In the last phrase, s/is/are/. So that "If either... or... are unavailable".
 
-(and then it means more rust bindings...)
+Luis
+
+> +unavailable, the **rtla timerlat** tool falls back to using tracefs to
+> +process the data asynchronously in user space.
+> diff --git a/tools/tracing/rtla/README.txt b/tools/tracing/rtla/README.txt
+> index dd5621038c55..43e98311d10f 100644
+> --- a/tools/tracing/rtla/README.txt
+> +++ b/tools/tracing/rtla/README.txt
+> @@ -13,6 +13,13 @@ RTLA depends on the following libraries and tools:
+>   - libtraceevent
+>   - libcpupower (optional, for --deepest-idle-state)
+>  
+> +For BPF sample collection support, the following extra dependencies are
+> +required:
+> +
+> + - libbpf 1.0.0 or later
+> + - bpftool with skeleton support
+> + - clang with BPF CO-RE support
+> +
+>  It also depends on python3-docutils to compile man pages.
+>  
+>  For development, we suggest the following steps for compiling rtla:
+> -- 
+> 2.48.1
+> 
+---end quoted text---
+
