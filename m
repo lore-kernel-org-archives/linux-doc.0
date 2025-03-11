@@ -1,221 +1,125 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com [95.215.58.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C23A1DE894;
-	Tue, 11 Mar 2025 12:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C21256C8F
+	for <linux-doc@vger.kernel.org>; Tue, 11 Mar 2025 12:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741696936; cv=none; b=M/zUgSDatFjrmXHGBGRvkcEtP7ieaqM7FSzchDT/QQeoWi5Ni9Pz5mKxVbj6VE8K3Ikr5tU5yqmnXBLjkAqPNlGX2VDEjzc0HaikFVH8vODYbX03qYneiM2bYDHB+mCmXYLH49eFA6g2vYgvcexcYOukYjNX9ixbPxUX1Efrfwk=
+	t=1741697215; cv=none; b=droRs0f34xsn5lV8vB3kexDqKvJS4tDf2fEBhIrXp6z2+qyjt9ZR3A7nSyIsWujXHgd9ytKMNqwZAU6Ja9a+uzzPtAHmMUru7J4+j7BCfJMewpaEPm6U7oBCu/WxZQuV66TRQEta7tukSr3vbzE+5/hDdHu14EPLQqk0hhDUSEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741696936; c=relaxed/simple;
-	bh=isFALg6CXqDl8cu7cPP7y6ryoQs71iJg27uKq5QT0gM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WqLMKrabscomzZuJDIN4ZXK8vokLEPR6bDf3byj8ECS54xLEmh/yEyJyhaIM1rzCZrHrAqpAca0ZAJ2L8MjEE6DWVsDVdYxDVHF36zs9wA9DAKYU2d59/vh2Yo3UixVtz/WbmtI1NGyRzy5PxTuJZI4FAJh05D7p17GObgugag0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EFXar4u7; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741697215; c=relaxed/simple;
+	bh=hIuzAPv8x7HdhF3kOYgKUE08BcmIV4Tk3xoim98ixEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sqqkZfVjqTndpTn8cBTz/vbpW0hG9mf+vqrnrfAQxdcFOtNQ2SRoraa8g7afnjgJqHJDM+4FnDSVG6S/2x5YFzUWTA4E2Kt/YCONs84ITETYo/RXQ3k9tQIPzY0QIB+EtoYvzGgQhv8/uAUBGjipOtFPSacM7YmwT5qCuzNF3rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=iOqEUJgv; arc=none smtp.client-ip=95.215.58.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EFXar4u7"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-223959039f4so106755945ad.3;
-        Tue, 11 Mar 2025 05:42:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741696934; x=1742301734; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WKfNUEOjLl/LJnQn1CB92jCGeCH7231aksnRXVNSbLI=;
-        b=EFXar4u7FqepL/TdIjlR7Rr1E6ZejB+I+ZMvh0GB6oaJttbRWOO2ZAthqs4W9y2IFR
-         VhE4Aj9SLEa5duK1Tp7aZcKNgap7oW53vTiXFPCe6svkgqJqQ4//nDplOk2u8cofBDm0
-         7AQiGiRiaFwgS/McIAaeWZJAs6CKQJ0nHyeMeU1wing9FXyC4Ouijw4Kiv61c9By5AGK
-         qmoRI5AgRtWCZLPJbImh+4aeOVZcXO89+C62PMc0aKtLhNqV/WBx3tPzb+II9PhIyzg1
-         0Zb4jaxGILbf/X5OpaTvNqh4i7igUCnUkAzUuY0YeAQTxCgP4LtBt4HuQW21vSrLRX28
-         D1lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741696934; x=1742301734;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WKfNUEOjLl/LJnQn1CB92jCGeCH7231aksnRXVNSbLI=;
-        b=mF+VsxL3NSVht9/P0MKFmQKc5mrOHMqnIAh5dLsxIJZ2IKbWlYYkz8zAsuONLBipug
-         S3gFPrDfkDQAGxlO56P3lBTCFq3B+0Bu9xjCjzRCb99qBuRvcuG3kLZb+owUX7I48yBo
-         Jy6Pb1ocWt42vP8Z+6zCdnm2WsSIu++pTMIDTfcgGS780/eTqKWrBIZCdWtDQL84YlRF
-         H2tBs1NZJZb7DbOlR1dXWWzqkHip+zzy+epu+9A+NeuMVv0InGVZSB1NX+l6zWkJx+fI
-         J+rpO/+2HdxW6coVV/FCTkSERs2ChFWJ4nvfPPb8/sGBCOnmOcunORf69uVLZN3oN+rJ
-         6/eA==
-X-Forwarded-Encrypted: i=1; AJvYcCU9M6uV/SPUbjcglWNCQIQE9rw0I01QCfgQ+stEbk7DMP45cU+zQ+bNHe1B6IDT1KRfq/p6Cr3XHYu1ZTCP@vger.kernel.org, AJvYcCUfYL9EdaHIxHuTTStgkw1k/5kEhP4ePMF8H3vqhoiQGMgFprMwrAjuYWWGyW79Fa+rvMymQsYM0vswpRFFoKxkh8hO@vger.kernel.org, AJvYcCVLQWDzB7Gl++zKzoaXMMHZqlmvBBAA2OUu2OGJ/ReQQ9DBSP4oqpNfEpGlZC0tpoZ/aUiiplB8x2U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKA9+vDCsvXYwIaM0k0Y+ufzxduNawd5j7OiUlUGQVRhqULBX0
-	vYcnQiMXnFKID2XiFMw+5PWu1ev6cXQeGjrPUP0L2Zvjd2fQ5Kwg+x1HByffzKQ=
-X-Gm-Gg: ASbGncvIst72bqKVEglk7EMXMJQQqY6Pcl+CiAvjYrBSgyoQyCwW+jDQu81CIueaN8v
-	nqL3IBfAahT+dbHi6yRKJD6UV2QLuBmqVBZ0nlaMXRXKN2GqZrvRE/7uCn6ugllm0oIGWcpYhiO
-	uZzuboSC0ZmW/69GmV2NSWsgbikKGbN6KHVHRoFnzmkFEVPnbfKizaqbpT8S8a8pbnrM9Qs2Xsj
-	11GSYiWO2C6sA3p1CAEGt72hyDORpzZYnvy6+3TJJSewwV8IycwK68Mv5uHiHY1/dK7e1X8IGvD
-	uBqCJnrcCO65pXz5Q02c0xAI0dWOE2Dg/1TuBvSoSP8CFBqHMxOqVX9cImAp+DANRp/AHRghDO0
-	o2OFtmSME4g==
-X-Google-Smtp-Source: AGHT+IFksfkPNQwMHiJKY4c3iD+j5d/ZmUsPno28U2muS68dudrD9hC8Ud5qfSRkEDv+fENeBL7Z/w==
-X-Received: by 2002:a17:902:d488:b0:215:b9a6:5cb9 with SMTP id d9443c01a7336-2242887eb5cmr282396875ad.5.1741696934361;
-        Tue, 11 Mar 2025 05:42:14 -0700 (PDT)
-Received: from purva-IdeaPad-Gaming-3-15IHU6.. ([14.139.108.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22410aa4a15sm96360125ad.215.2025.03.11.05.42.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Mar 2025 05:42:13 -0700 (PDT)
-From: Purva Yeshi <purvayeshi550@gmail.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	corbet@lwn.net
-Cc: mathieu.desnoyers@efficios.com,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Purva Yeshi <purvayeshi550@gmail.com>
-Subject: [PATCH 0/3] docs: tracing: Refactor index.rst documentation
-Date: Tue, 11 Mar 2025 18:11:58 +0530
-Message-Id: <20250311124158.22950-1-purvayeshi550@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="iOqEUJgv"
+Date: Tue, 11 Mar 2025 08:46:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1741697201;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mOG0CEw3FP2FlG0epn5X7Xw21NWLyIUELyR5vBonHPk=;
+	b=iOqEUJgvADrMU0rIWuG0Ruc7Rtt8IZl+4o95HtRzhUdZyQGFZ1JqrK6ZYGRItGhaB/i6vx
+	SUKlcXNM56cjtmk6uLgcFTxRSu13CBv7gM8RK/UHtKCdvpIuuoCKgOg2ZyE5WaPzY26G76
+	uyHRVJJ+1DwdlUYaed7Wflte4dOcoRNxcMzYlo6FIlE42eXoaGrJVauc3xcB5jmYo5XCcD
+	BUXc+bXEclIcJh9ZSiUkawPEsyTzJaoUtop39EGchJ3EqbnbnlWjQvuj3E3YGsIrgGFuaL
+	uZv6bDGFaxw6XdeG2kdrdBdFkuQ7+IJDK/zThbDQLqxqGNj8xUbEJQw7INmUrA==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: Rob Clark <robdclark@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Faith Ekstrand <faith.ekstrand@collabora.com>,
+	Janne Grunau <j@jannau.net>, Sven Peter <sven@svenpeter.dev>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, Asahi Lina <lina@asahilina.net>
+Subject: Re: [PATCH] drm: Add UAPI for the Asahi driver
+Message-ID: <Z9Awpj5Avh0rx_fq@blossom>
+References: <20250310-agx-uapi-v1-1-86c80905004e@rosenzweig.io>
+ <CAF6AEGukrBzwwdDWX5jUXDKqj7+kn7LBRy6NocE4=bw1D9WjcQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGukrBzwwdDWX5jUXDKqj7+kn7LBRy6NocE4=bw1D9WjcQ@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-Refactor Documentation/trace/index.rst to improve clarity, structure,
-and organization. Reformat sections and add appropriate headings for
-better readability.
+> > +/**
+> > + * struct drm_asahi_gem_bind - Arguments passed to
+> > + * DRM_IOCTL_ASAHI_GEM_BIND
+> > + */
+> > +struct drm_asahi_gem_bind {
+> > +       /** @op: Bind operation (enum drm_asahi_bind_op) */
+> > +       __u32 op;
+> > +
+> > +       /** @flags: One or more of ASAHI_BIND_* (BIND only) */
+> > +       __u32 flags;
+> > +
+> > +       /** @handle: GEM object to bind/unbind (BIND or UNBIND_ALL) */
+> > +       __u32 handle;
+> > +
+> > +       /** @vm_id: The ID of the VM to operate on */
+> > +       __u32 vm_id;
+> > +
+> > +       /** @offset: Offset into the object (BIND only) */
+> > +       __u64 offset;
+> > +
+> > +       /**
+> > +        * @range: Number of bytes to bind/unbind to addr (BIND or UNBIND only)
+> > +        */
+> > +       __u64 range;
+> > +
+> > +       /** @addr: Address to bind to (BIND or UNBIND only) */
+> > +       __u64 addr;
+> > +};
+> 
+> No in/out syncobj/fences?  This seems to diverge from xe/nouveau/panthor..
 
-Improve section grouping and refine descriptions for better usability.
+Async vm_bind is useful mainly as an optimization, it's not (as far as I
+know) required for correctness - you can always wait/signal from a
+userspace submit thread with sync vm_bind. It's my understanding (from
+when I chatted with Faith about this when bringing up sparse) that this
+is how sparse was implemented historically and maybe still is on
+Windows?
 
-Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
----
-V1 - https://lore.kernel.org/all/20250204133616.27694-1-purvayeshi550@gmail.com/
-V2 - https://lore.kernel.org/lkml/20250206141453.139613-1-purvayeshi550@gmail.com/
-V3 - Improve section grouping and refine descriptions.
+> > +/**
+> > + * enum drm_asahi_sync_type - Sync item type
+> > + */
+> > +enum drm_asahi_sync_type {
+> > +       /** @DRM_ASAHI_SYNC_SYNCOBJ: Binary sync object */
+> > +       DRM_ASAHI_SYNC_SYNCOBJ = 0,
+> > +
+> > +       /** @DRM_ASAHI_SYNC_TIMELINE_SYNCOBJ: Timeline sync object */
+> > +       DRM_ASAHI_SYNC_TIMELINE_SYNCOBJ = 1,
+> > +};
+> 
+> IMHO it would still be worthwhile to also support fence fd's, since it
+> would avoid a couple extra ioctls to convert btwn fence fds and
+> syncobj for virtgpu native context..
 
- Documentation/trace/index.rst | 94 +++++++++++++++++++++++++++++------
- 1 file changed, 79 insertions(+), 15 deletions(-)
+Ditto for this as an optimization. Both of these can be added in a
+straightforward backwards-compat way later, so I'm inclined to not add
+any extra functionality beyond what we already have (and know works),
+rather than commit prematurely to new features and risk getting
+something wrong.
 
-diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
-index 2c991dc96..6b268194f 100644
---- a/Documentation/trace/index.rst
-+++ b/Documentation/trace/index.rst
-@@ -1,39 +1,103 @@
--==========================
--Linux Tracing Technologies
--==========================
-+================================
-+Linux Tracing Technologies Guide
-+================================
-+
-+Tracing in the Linux kernel is a powerful mechanism that allows
-+developers and system administrators to analyze and debug system
-+behavior. This guide provides documentation on various tracing
-+frameworks and tools available in the Linux kernel.
-+
-+Introduction to Tracing
-+-----------------------
-+
-+This section provides an overview of Linux tracing mechanisms
-+and debugging approaches.
- 
- .. toctree::
-    :maxdepth: 2
- 
--   ftrace-design
-+   debugging
-+   tracepoints
-    tracepoint-analysis
-+   ring-buffer-map
-+
-+Core Tracing Frameworks
-+-----------------------
-+
-+The following are the primary tracing frameworks integrated into
-+the Linux kernel.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-    ftrace
-+   ftrace-design
-    ftrace-uses
--   fprobe
-    kprobes
-    kprobetrace
-    uprobetracer
-    fprobetrace
--   tracepoints
-+   fprobe
-+   ring-buffer-design
-+
-+Event Tracing and Analysis
-+--------------------------
-+
-+A detailed explanation of event tracing mechanisms and their
-+applications.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-    events
-    events-kmem
-    events-power
-    events-nmi
-    events-msr
--   mmiotrace
-+   boottime-trace
-    histogram
-    histogram-design
--   boottime-trace
--   debugging
--   hwlat_detector
--   osnoise-tracer
--   timerlat-tracer
-+
-+Hardware and Performance Tracing
-+--------------------------------
-+
-+This section covers tracing features that monitor hardware
-+interactions and system performance.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-    intel_th
--   ring-buffer-design
--   ring-buffer-map
-    stm
-    sys-t
-    coresight/index
--   user_events
-    rv/index
-    hisi-ptt
-+   mmiotrace
-+   hwlat_detector
-+   osnoise-tracer
-+   timerlat-tracer
-+
-+User-Space Tracing
-+------------------
-+
-+These tools allow tracing user-space applications and
-+interactions.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   user_events
-+
-+Additional Resources
-+--------------------
-+
-+For more details, refer to the respective documentation of each
-+tracing tool and framework.
-+
-+.. only:: subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-\ No newline at end of file
--- 
-2.34.1
-
+(and then it means more rust bindings...)
