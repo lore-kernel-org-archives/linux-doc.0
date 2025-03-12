@@ -1,47 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30871DFD95;
-	Wed, 12 Mar 2025 22:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31221EE7A7;
+	Wed, 12 Mar 2025 22:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741818645; cv=none; b=U31hUDmemfZLZdyPilKG8bc+WGi1lUur1aWKrzZMDmRHj0WEn0G2dVQVJ1ImpLEjd4nD0mvIYDqlhN29jFuQL0txhOrl1uhanOiL6DLCTEKP0mF/Tiw83FwqoJ2jxJeIo6wcmfhv01f5EKvaethugBpn9AKNkZWSRd+qFmp+ZPc=
+	t=1741818746; cv=none; b=U8ZyJpOe14jiJ6ndnm0BjMF8KvZKxIayU+RYaChzkUZM2uA09ajqb0ez4wmgSq8vEzvzgWstvvqMgBvjWmjdbPv+IQu6ftQ3C4IsnY9UN4bBg23xvB1l3rPFvz8N1JKv4mVAs6YQXyL39Ks6uEbfGJ3qUX6ppRNcJa9eqiXIinw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741818645; c=relaxed/simple;
-	bh=/5u4xWileZI4BqZZkjltZzTrP6QsO0Oq0cGDX0v38VM=;
+	s=arc-20240116; t=1741818746; c=relaxed/simple;
+	bh=KtI76n+O5O6nhKuTHqvqGNopnOGA1LLkaAn30RddlLQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=LCc+QGewCie8IK2cFMKr3KCLJ47teT4qwAysAJYwYf9RVlIMVbf4GuooobdITsxmfJuKDpVBAr/ufyFxzd3D1Qx4EhPQd5jXXfvLYf8bDhJVG9BYOYBiG2ePLqV4xyylH1onuIaWgFbXnTqP51frCAt/IhDmQSb6wbk7cCYVn5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pUS2Z/eU; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=RkiBTCZH2FZn2iqVMkW78IJgR2Ye72/1wjFq5dabpvwNo5aJ050atEVx3o/pEcRWcY+wx6lw5RmJocKJqBmlOctrKj11dBxkEwtDQw2MhjDyLoT1VoXTusMFh/H0lITk+XjVGY769xb5qE26IJ8/ahO1GkwStDeIOPrlwr8ZDLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lJQh7nHi; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pUS2Z/eU"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D62B441063
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lJQh7nHi"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BE8E041063
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1741818643; bh=WmyI+FyclJmL6XgBE5kwSw0ma2aJx2vXptVQysOPWrc=;
+	t=1741818743; bh=e5YZ8Buzyw07M50JDdwKBmHUBpDcOOl4aappK64F9Rg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=pUS2Z/eUsxgFSdn37S63JrojfPFKzjylkhN0jyn6yfpW8w9j7+vmNBycbnFPCPNd1
-	 blX/cgDECRyrWXkwm0WCk2CmqrnjLDD8GJIrWpT5viJ1RUr2TFmZvZgzyrUrH+FVOH
-	 zt9IlrID2mmdfQBXnlXB+K4aRmeCnPaCIDNkm4sApCPZcDRtFc6zYWGqHpb673SouU
-	 xqTSQ2WlByD6f6RsnUf6i4wpLkgADUiVyUNTXv7hGrVr6/UvUTD5fUQHUrNH9VNBzJ
-	 dsNiTqcT5qxVSeIZyvsxEYj+drorkcMjGZPPoesez7Cb3ggPMN+MWvJw+5+Y+2BODz
-	 XvlqI9yV2V5Ng==
+	b=lJQh7nHiwXIF6WVpGa1a2HdXAk/o6hYWfRrNkEX/4mwYWZjC16lTCIJaoIxD+LQX/
+	 +fbn4l8b6hh1FASQkZJZ6C+j5m99svDyNzhdNbTspVF1JPw9aNpk2eha8u4ohLIM+H
+	 4/8OxjgPrrd68VEFGdBDWkBOStZ6fDx6l4Uc7YRfYVphLCi5XSmyYWJZU9dM+fpIaK
+	 EDP45YxYJtuLLxnybxmtDJI7YQG4Wjr6zPjjtRXsPonYBUu9tEx9tY4V7v34lfJ14/
+	 lEYTbz3FM9w9iQ8USBeo8ySwe0NSCOENjXrDlSbUm3aPOsDUSTyrvgUQiJjxAPZluV
+	 iECx3+ulqJ8Vg==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D62B441063;
-	Wed, 12 Mar 2025 22:30:42 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id BE8E041063;
+	Wed, 12 Mar 2025 22:32:23 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Matthew Wilcox <willy@infradead.org>, kth <kangtaeho2456@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fs: Fix typo from smpfs to smbfs in filesystem
- documentation
-In-Reply-To: <Z889RfnudqMc5r_e@casper.infradead.org>
-References: <20250310184129.328482-1-kangtaeho2456@gmail.com>
- <Z889RfnudqMc5r_e@casper.infradead.org>
-Date: Wed, 12 Mar 2025 16:30:42 -0600
-Message-ID: <87wmctlw4t.fsf@trenco.lwn.net>
+To: Shuah Khan <shuah@kernel.org>, gregkh@linuxfoundation.org
+Cc: Shuah Khan <shuah@kernel.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ conduct@kernel.org, tab@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v2] Documentation/CoC: Spell out the TAB role in
+ enforcement decisions
+In-Reply-To: <20250306211231.13154-1-shuah@kernel.org>
+References: <20250306211231.13154-1-shuah@kernel.org>
+Date: Wed, 12 Mar 2025 16:32:22 -0600
+Message-ID: <87senhlw21.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,39 +52,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Matthew Wilcox <willy@infradead.org> writes:
+Shuah Khan <shuah@kernel.org> writes:
 
-> On Tue, Mar 11, 2025 at 02:41:29AM +0800, kth wrote:
->> The documentation incorrectly referred to 'smbfs' as 'smpfs'. This change corrects that typo to ensure the documentation is accurate and not misleading.
->> 
->> Signed-off-by: Kang Taeho <kangtaeho2456@gmail.com>
->> ---
->>  Documentation/admin-guide/highuid.rst | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git a/Documentation/admin-guide/highuid.rst b/Documentation/admin-guide/highuid.rst
->> index 6ee70465c0ea..9239067563a1 100644
->> --- a/Documentation/admin-guide/highuid.rst
->> +++ b/Documentation/admin-guide/highuid.rst
->> @@ -64,7 +64,7 @@ What's left to be done for 32-bit UIDs on all Linux architectures:
->>  
->>    Other filesystems have not been checked yet.
->>  
->> -- The ncpfs and smpfs filesystems cannot presently use 32-bit UIDs in
->> +- The ncpfs and smbfs filesystems cannot presently use 32-bit UIDs in
+> Updates the document to clearly describe the scope and role the TAB plays
+> in making decisions on unresolved violations. If and when the CoC has to
+> make a call on instituting a ban, it doesn't act without the TAB's approval
+> and only when the TAB approves it with 2/3 vote in favor of the measure.
 >
-> ncpfs doesn't exist any more; it was removed many years ago.  And the
-> smbfs that is referred to here was replaced by cifs many years ago.
+> These changes ensure that the TAB role and its oversight on CoC measures
+> is consistently described throughout the document.
 >
-> I have a feeling the entire highuid document should be deleted.  It
-> describes a transition that happened 25 years ago.
+> Fixes: c818d5c64c9a8cc1 ("Documentation/CoC: spell out enforcement for unacceptable behaviors")
+>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> Acked-by: Steven Rostedt <rostedt@goodmis.org>
+> Acked-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Shuah Khan <shuah@kernel.org>
+> ---
+> v1 - v2:
+> - Reword change log to better describe the changes and updates.
+> - Add Fixes tag
+>
+>  .../process/code-of-conduct-interpretation.rst  | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
 
-That seems like the right thing to do - it's essentially somebody's
-"todo" list from 2000, which lacks relevance now.
-
-Kang, would you like to submit a patch to simply remove the file
-instead?
-
-Thanks,
+I have applied this, thanks.
 
 jon
