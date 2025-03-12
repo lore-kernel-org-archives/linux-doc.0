@@ -1,49 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15201EFFAF;
-	Wed, 12 Mar 2025 22:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3065F1E9B32;
+	Wed, 12 Mar 2025 22:27:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741818375; cv=none; b=MOvlOAqAa0eWOrm1OYkgTubJG95s1qVGZ2OQALNqDZ2LIOFFX5e8ZxOm6YBfiNTUErvpe9515lQPp0b2Pnxzw8TaVoofk6SMlNCVZ/DyAJZjpg/EDsQYBozyPaRa0ah669v2LaqpoZ+2NExdcDCpvGNHuaaM8e7tEvgtk0AROv0=
+	t=1741818424; cv=none; b=mHNCbRUD5M2F76QSJdPg8gnkiPT6VbBMW/5U/iVKvcyyM1Tb0ajqS/FJ/XbYHcztVvBETcil0lv9gJYm1zJyF/y4xPgRza2sv8lNwWhypLWInIbBLZP+uhvZ9+4udKA5aBXDDWEGE1QZEk2x4swGcblIT0l9PkN77ZE1JncT8us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741818375; c=relaxed/simple;
-	bh=wVXAEMQ1AYcIo0RjMVfy/fifdDq9C9XRRzrJbyO9JKU=;
+	s=arc-20240116; t=1741818424; c=relaxed/simple;
+	bh=e35FjSVAvRqJw8XwAKmEAqbc55RiaFXBqqKCeCMqlDA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=QW8Hs0ATxsnQOtCsJEwtYC8JUi3PJEbbZHneLlFh9kxOul4icgjkk0BS4trhGnJw0QtT/KUSeQlvJ+hYWpS5CgkNLn5zaPwbtJ4lhMJetAKpD00XuhYDwoYtVYyKUUmp/FN1LzuY7wE2zalSBx1PuzKqiWfEE+gNkryo7HJlZQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ZV/rRze9; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=VeDO3g8bBB/fsWzXD3GAOximyoNUS0vbwYd7/ffCx3HSTGtmzvR+9xIEdwOTqDTkxoOhFuqvU69pdBskaV3vgbnZR70o7dDi1wX/7D87FYHCmFrV7HyHyswihf4XBtAYBrrgtqtPBqRH3OAmVzVPLWQbmvPzcrlbF4bEJGmf4Z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gkKBvUrz; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ZV/rRze9"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4B3D941063
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gkKBvUrz"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4161B41063
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1741818367; bh=R513z6VJ6jIxeMmLAESe2SdL+xy+4HtC5YoWAcZwhwc=;
+	t=1741818422; bh=xxL+8LhuOi8qnd+QuZQR12PXYmDYb9P5KqJMdTOYUKE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ZV/rRze9ItLVWPyQYtAqqN1EzNhNJVTWWbp8xouH4F5OMEPhPud/0h4ql765zB4V4
-	 nWjn3X9X/THPNLXxouQuEobq2czscNtkh7U25rqzbQ+wBn2lPTr0xRx6XbvbqRzmZs
-	 TpBPV1sw7qDQi5iNlgo5HPNtTDilHm5TIwQIrhKuuSEl1/RejN0ywtG6mSwgIdmgmI
-	 xqUwv4o0XbQSoIEg+xmi95e8FKNURU1A1d0rcp3myRMpp1LjX6n8+VnlxVtLpu/kNw
-	 sORV8X5KFE+mdKdV+wpzrJqNI34i0+Pq1xzdyF6CJySrPWjOco0+L2Y7q/II4tsEkl
-	 w8uMU5jZccR8w==
+	b=gkKBvUrzAdgZpOrEyPfR+tfKJp4wUVN6qmteR+rppA7xW2Mfrdtzhsr7KXcRDDvIJ
+	 D7t4rQk3Ow5T9mlJyJ2gYn80COIIqRP2sTWx+LFeTdziVKl/lsBh0T0e1CoxQklrO9
+	 sG1X60emZSrrQ5+HIkl+GOwobgFhaViA/ooxOMAEeAXeZT80OIYehoL7BMxRF/63v9
+	 FOrZ+NR9xPkAhmgzkD9nz8EwRnHPfsVkXR2FLQB0DPcYaCEdQ5kehdgQ9FQHda6D16
+	 B6v6dd1KT4zUV54se/PNl2QVCXnxo1OeJ4bJMsJ1gZpxP4bsHAwtYB7hIwg+gnqoGT
+	 kOIk8Id4AxQ3w==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4B3D941063;
-	Wed, 12 Mar 2025 22:26:07 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4161B41063;
+	Wed, 12 Mar 2025 22:27:02 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Heiko Carstens <hca@linux.ibm.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>, Sven Schnelle
- <svens@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH] scripts: get_feat.pl: substitute s390x with s390
-In-Reply-To: <20250312155219.3597768-1-hca@linux.ibm.com>
-References: <20250312155219.3597768-1-hca@linux.ibm.com>
-Date: Wed, 12 Mar 2025 16:26:06 -0600
-Message-ID: <875xkdnawx.fsf@trenco.lwn.net>
+To: Fritz Koenig <frkoenig@chromium.org>, Frederic Barrat
+ <fbarrat@linux.ibm.com>, Andrew Donnellan <ajd@linux.ibm.com>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Fritz Koenig <frkoenig@chromium.org>
+Subject: Re: [PATCH v2] Documentation: ocxl.rst: Update consortium site
+In-Reply-To: <20250312-dead_site-v2-1-920a313743ee@chromium.org>
+References: <20250312-dead_site-v2-1-920a313743ee@chromium.org>
+Date: Wed, 12 Mar 2025 16:27:01 -0600
+Message-ID: <871pv1nave.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,24 +50,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Heiko Carstens <hca@linux.ibm.com> writes:
+Fritz Koenig <frkoenig@chromium.org> writes:
 
-> Both get_feat.pl and list-arch.sh use uname -m to get the machine hardware
-> name to figure out the current architecture if no architecture is specified
-> with a command line option.
+> Point to post-merger site.
 >
-> This doesn't work for s390, since for 64 bit kernels the hardware name is
-> s390x, while the architecture name within the kernel, as well as in all
-> feature files is s390.
->
-> Therefore substitute s390x with s390 similar to what is already done for
-> x86_64 and i386.
->
-> Signed-off-by: Heiko Carstens <hca@linux.ibm.com>
+> Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
 > ---
->  Documentation/features/list-arch.sh | 2 +-
->  scripts/get_feat.pl                 | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+> Changes in v2:
+> - Update link per feedback
+> - Update commit message to reflect sureness in corectness
+> - Link to v1: https://lore.kernel.org/r/20250311-dead_site-v1-1-7ab3cea374f2@chromium.org
+> ---
+>  Documentation/userspace-api/accelerators/ocxl.rst | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/userspace-api/accelerators/ocxl.rst b/Documentation/userspace-api/accelerators/ocxl.rst
+> index db7570d5e50d..4e213af70237 100644
+> --- a/Documentation/userspace-api/accelerators/ocxl.rst
+> +++ b/Documentation/userspace-api/accelerators/ocxl.rst
+> @@ -3,8 +3,11 @@ OpenCAPI (Open Coherent Accelerator Processor Interface)
+>  ========================================================
+>  
+>  OpenCAPI is an interface between processors and accelerators. It aims
+> -at being low-latency and high-bandwidth. The specification is
+> -developed by the `OpenCAPI Consortium <http://opencapi.org/>`_.
+> +at being low-latency and high-bandwidth.
+> +
+> +The specification was developed by the OpenCAPI Consortium, and is now
+> +available from the `Compute Express Link Consortium
+> +<https://computeexpresslink.org/resource/opencapi-specification-archive/>`_.
+>  
 
 Applied, thanks.
 
