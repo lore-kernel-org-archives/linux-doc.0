@@ -1,133 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC77F1E5B9B;
-	Wed, 12 Mar 2025 19:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7651E5706;
+	Wed, 12 Mar 2025 19:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741807714; cv=none; b=pMH4x55OSDA51iYUUrLL/sANjs0vpLgiTSd39arJDWuFqyKTQ1+DHORlcL4mVOl97VSF0lq6DdWsVOt+phAULGcPzbf6+9fO6hM27pBAnCrXSyHY71Z9YgX8DXocCcqbuTm0CPHE2PLSWBEf2Q8I4kZDt1EVNv/M9Nxv5tzdTtc=
+	t=1741807975; cv=none; b=F0XfPkYpX0uuFdH4R9rum6ItrRxdHzoo6Mv3zY6ByUgjHtVaJ5Ipq6qwo9uyZIfGNAeyltX8xuMKgYZlFc3GyWgaQqd490JOvWjDSp9DA3w1IMmzRWBfTtm3olZ2voLlWZH4EveXiisO3vxuQZ/A/YVGcm5YJagzCfHJqPVb9JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741807714; c=relaxed/simple;
-	bh=Ml55QutQYDuNAblqTcMykzzhvcpoajqHCuwTLeq8ZBE=;
+	s=arc-20240116; t=1741807975; c=relaxed/simple;
+	bh=UqymYCmygChHTPDYtRXKIe/SXjDPGE2/pDiLoxPaWuE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fx3qnIbx3wTY3Hx2uUNIpS/csLg31YKReyB+EErjvJmOGFKD8brIlW2Q11FXdZXG+eMhM+6FPg8Dxb2lyC6Y294I6LOf/tl7zUH4O8YvZ50n6crveIJkkEmY0Pg2EcN+VCNvdbErZvX9hRt3UgAKmoOr5Mktzo18YngWNGrjDDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OnZZMd3W; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=cEVOohhjBrLAK/i9NT698SIveSUsHhUPiZ9TcU4TQ4HoWLNQ5m65DN343kguEBSmjDioshmFIKawnkHz1VanYnuV0CASO7I9dLOmLTFcYmvgxc5MIJWHwHZqFjsPn8RQZgnQ5vTU02WVmYqcVa/dHQ9eINtHBj18hkeCHXearlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b+Uk3+ue; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OnZZMd3W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741807713; x=1773343713;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Ml55QutQYDuNAblqTcMykzzhvcpoajqHCuwTLeq8ZBE=;
-  b=OnZZMd3W/6PU0zfK0DxnbXYhWuzHUTnbOt6/v72TKVKEyRRozDm3tczG
-   8EnYHRQHbE+lQ5L5VJFivZjjEpwYZ9NqjFppzm3ZCOr160QYD54AbH8jE
-   B05dnpagNaUkKS37aUgNyS/zHw6wiLKB+7qKzKgixdb71IknTRAEgxecD
-   OoV7Gqox/3P0Wva0AuHL+s8/QI70laeLtRGDvkByG1YYP1UaRK7f/BNHP
-   2TFDsjE/cvN7GC1oEq6LkcerNxoxBNO2PI1i7rDaF1dhTBRHrLjGEV2Wa
-   c455Ckwd3eKEWZhN3UOG+mCBNo8ecdfjQ5uUZtA54uZJYHGZ3jilONoXg
-   Q==;
-X-CSE-ConnectionGUID: uqKdhHNsSCyuigODnO+lzw==
-X-CSE-MsgGUID: x3u7NpWESIyGPn5wIWgACQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="45679548"
-X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
-   d="scan'208";a="45679548"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 12:28:32 -0700
-X-CSE-ConnectionGUID: csoMPoPiQ+6YRYdT+vqq7Q==
-X-CSE-MsgGUID: e2AEQ3zRSTCqEVh6w2B10w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
-   d="scan'208";a="125614288"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 12:28:27 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tsRkc-00000001xr9-20mF;
-	Wed, 12 Mar 2025 21:28:22 +0200
-Date: Wed, 12 Mar 2025 21:28:22 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Sven Peter <sven@svenpeter.dev>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>,
-	"airlied@redhat.com" <airlied@redhat.com>,
-	Simona Vetter <simona@ffwll.ch>, Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>
-Subject: Re: [PATCH 1/2] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Message-ID: <Z9HgVn-XELC065w0@smile.fi.intel.com>
-References: <ABAEA9D0-97CB-4ADD-9606-A12D5815335A@live.com>
- <376C9BD3-2F41-4511-BE52-1B8468FE2CB3@live.com>
- <b74df4b5-ecda-45ba-a98a-c84b0a29e380@suse.de>
- <PN3PR01MB9597AC6A02B0BF873920D94CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <9092a9ed-aecf-40bd-9d15-b53d60d035b5@suse.de>
- <PN3PR01MB959715C19BCEA54426D24934B8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <ff3a9c58-5c7a-4c48-8a9e-cc828a43baed@app.fastmail.com>
- <PN3PR01MB9597E5C609290DB1A967263CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b+Uk3+ue"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10277C4CEDD;
+	Wed, 12 Mar 2025 19:32:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741807973;
+	bh=UqymYCmygChHTPDYtRXKIe/SXjDPGE2/pDiLoxPaWuE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=b+Uk3+ueemhPDieKQx1nZ/0T/AxEPOxYIBTKKZu8d1FoyzOFJ2KMESVuqAJNe8KXO
+	 lPvJ3iwuw2HcCXBIuKgsjNyo/2cqjf8Jop9pQY7LvExmkjK5VQ2tPUtrcbiV3P0ASH
+	 IYBEgv5p8zecYfDaGdbOOAKD9I4sD8DqvB+8A/zcDu1qLHTqXjdRmMZ8Z606DedjEH
+	 z1azm63C7XF2PUIgn/hPn3OfaqKFeeH1obyQ47S5CRNm+ClQQ8oMrtBYnWFPs3mBKy
+	 LtdGBSZ3zpQjDdqi56DXmuUpg730oss4lY71gok4/eHccCcea6u0LtXsrNvTOrgrNG
+	 ex/5JVMLQJT6g==
+Date: Wed, 12 Mar 2025 21:32:49 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
+Message-ID: <20250312193249.GI1322339@unreal>
+References: <cover.1738765879.git.leonro@nvidia.com>
+ <20250220124827.GR53094@unreal>
+ <CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
+ <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+ <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3PR01MB9597E5C609290DB1A967263CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
 
-On Wed, Mar 12, 2025 at 07:14:36PM +0000, Aditya Garg wrote:
-> > On 12 Mar 2025, at 9:05â€¯PM, Sven Peter <sven@svenpeter.dev> wrote:
-> > On Wed, Mar 12, 2025, at 13:03, Aditya Garg wrote:
-
-...
-
-> > I don't have a strong opinion either way: for SMC I just need to print
-> > FourCC keys for debugging / information in a few places.
-> > 
-> > I'm preparing the SMC driver for upstreaming again (after a two year delay :-()
-> > and was just going to use macros to print the SMC FourCC keys similar to
-> > DRM_MODE_FMT/DRM_MODE_ARG for now to keep the series smaller and revisit
-> > the topic later.
-> > 
-> > Right now I have these in my local tree (only compile tested so far):
-> > 
-> > #define SMC_KEY_FMT "%c%c%c%c (0x%08x)"
-> > #define SMC_KEY_ARG(k) (k)>>24, (k)>>16, (k)>>8, (k), (k)
+On Wed, Mar 12, 2025 at 10:28:32AM +0100, Marek Szyprowski wrote:
+> Hi Robin
 > 
-> That seems to be a nice alternative, which I guess Thomas was also suggesting.
+> On 28.02.2025 20:54, Robin Murphy wrote:
+> > On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
+> >> On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
+> >>> From: Leon Romanovsky <leonro@nvidia.com>
+> >>>
+> >>> Changelog:
+> >>> v7:
+> >>>   * Rebased to v6.14-rc1
+> >>
+> >> <...>
+> >>
+> >>> Christoph Hellwig (6):
+> >>>    PCI/P2PDMA: Refactor the p2pdma mapping helpers
+> >>>    dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+> >>>    iommu: generalize the batched sync after map interface
+> >>>    iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+> >>>    dma-mapping: add a dma_need_unmap helper
+> >>>    docs: core-api: document the IOVA-based API
+> >>>
+> >>> Leon Romanovsky (11):
+> >>>    iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
+> >>>    dma-mapping: Provide an interface to allow allocate IOVA
+> >>>    dma-mapping: Implement link/unlink ranges API
+> >>>    mm/hmm: let users to tag specific PFN with DMA mapped bit
+> >>>    mm/hmm: provide generic DMA managing logic
+> >>>    RDMA/umem: Store ODP access mask information in PFN
+> >>>    RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+> >>>      linkage
+> >>>    RDMA/umem: Separate implicit ODP initialization from explicit ODP
+> >>>    vfio/mlx5: Explicitly use number of pages instead of allocated 
+> >>> length
+> >>>    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+> >>>    vfio/mlx5: Enable the DMA link API
+> >>>
+> >>>   Documentation/core-api/dma-api.rst   |  70 ++++
+> >>   drivers/infiniband/core/umem_odp.c   | 250 +++++---------
+> >>>   drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+> >>>   drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+> >>>   drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+> >>>   drivers/iommu/dma-iommu.c            | 468 
+> >>> +++++++++++++++++++++++----
+> >>>   drivers/iommu/iommu.c                |  84 ++---
+> >>>   drivers/pci/p2pdma.c                 |  38 +--
+> >>>   drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
+> >>>   drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+> >>>   drivers/vfio/pci/mlx5/main.c         |  87 +++--
+> >>>   include/linux/dma-map-ops.h          |  54 ----
+> >>>   include/linux/dma-mapping.h          |  85 +++++
+> >>>   include/linux/hmm-dma.h              |  33 ++
+> >>>   include/linux/hmm.h                  |  21 ++
+> >>>   include/linux/iommu.h                |   4 +
+> >>>   include/linux/pci-p2pdma.h           |  84 +++++
+> >>>   include/rdma/ib_umem_odp.h           |  25 +-
+> >>>   kernel/dma/direct.c                  |  44 +--
+> >>>   kernel/dma/mapping.c                 |  18 ++
+> >>>   mm/hmm.c                             | 264 +++++++++++++--
+> >>>   21 files changed, 1435 insertions(+), 693 deletions(-)
+> >>>   create mode 100644 include/linux/hmm-dma.h
+> >>
+> >> Kind reminder.
 
-I don't think it's "nice". Each of the approaches has pros and cons.
-You can start from bloat-o-meter here and compare it with your %p extension.
+<...>
 
-Also, can you show the bloat-o-meter output for the vsprintf.c?
+> Removing the need for scatterlists was advertised as the main goal of 
+> this new API, but it looks that similar effects can be achieved with 
+> just iterating over the pages and calling page-based DMA API directly.
 
-> > which are then used like this:
-> > 
-> >    dev_info(dev,
-> >        "Initialized (%d keys " SMC_KEY_FMT " .. " SMC_KEY_FMT ")\n",
-> >         smc->key_count, SMC_KEY_ARG(smc->first_key),
-> >         SMC_KEY_ARG(smc->last_key));
+Such iteration can't be enough because P2P pages don't have struct pages,
+so you can't use reliably and efficiently dma_map_page_attrs() call.
 
--- 
-With Best Regards,
-Andy Shevchenko
+The only way to do so is to use dma_map_sg_attrs(), which relies on SG
+(the one that we want to remove) to map P2P pages.
 
+> Maybe I missed something. I still see some advantages in this DMA API 
+> extension, but I would also like to see the clear benefits from 
+> introducing it, like perf logs or other benchmark summary.
 
+We didn't focus yet on performance, however Christoph mentioned in his
+block RFC [1] that even simple conversion should improve performance as
+we are performing one P2P lookup per-bio and not per-SG entry as was
+before [2]. In addition it decreases memory [3] too.
+
+[1] https://lore.kernel.org/all/cover.1730037261.git.leon@kernel.org/
+[2] https://lore.kernel.org/all/34d44537a65aba6ede215a8ad882aeee028b423a.1730037261.git.leon@kernel.org/
+[3] https://lore.kernel.org/all/383557d0fa1aa393dbab4e1daec94b6cced384ab.1730037261.git.leon@kernel.org/
+
+So clear benefits are:
+1. Ability to use native for subsystem structure, e.g. bio for block,
+umem for RDMA, dmabuf for DRM, e.t.c. It removes current wasteful
+conversions from and to SG in order to work with DMA API.
+2. Batched request and iotlb sync optimizations (perform only once).
+3. Avoid very expensive call to pgmap pointer.
+4. Expose MMIO over VFIO without hacks (PCI BAR doesn't have struct pages).
+See this series for such a hack
+https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
+
+Thanks
+
+> 
+> 
+> Best regards
+> -- 
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+> 
+> 
