@@ -1,74 +1,215 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA951E8353;
-	Wed, 12 Mar 2025 19:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865D51E8353;
+	Wed, 12 Mar 2025 19:39:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741808243; cv=none; b=EFCpfN5giOymp2R7r0hV5V4fvFsT/Y2VxUzgsH5FaT4lDMy1nwp1IijepwKsIsumu68OaZFehGrKSKKulsEzIHIzp/7+HnfZ5HZIhTITAzwfMzmwzhrJ6E9Km+i/Rds+FBPWxkvoUWMOLye8kg3YhFKrT85q3uKrLfBR7ANTP4k=
+	t=1741808365; cv=none; b=k5r8+y8GNiszPFOJSadntRm99PyQMlQWLtr3oF4KDppcDMhe8FvT2Ct691KfkW4ecOgyoMde+uNR54EN0Hx4dF1tHDYCZDCZfabCXaP7OPFW4Nnra6eHhxS+bb4Hbd9fxi4O0sGXADnsuHfI5OHazUA4DaX1Gy6ECjWv09axRiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741808243; c=relaxed/simple;
-	bh=ftQ3e44e8+7vyawaED0yk3fGaevmW38KxYSauz7PqDo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oeNI0S5Lt6IF/VgB+knkpE1oMASApV+LgFbwVPh0XzVpLDJ73j0WbaC8UDF4ZLFTKgxb9FeQzI0e1vjbbPB1gVthsWumOTomPWXZRrt0cRTG1STQfDnfWqxwYP/07XZayA6VhiWJEij2XKzOw+2QPjdIxgOkwk0PGBlKMYqZarA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JDXTJiGw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741808365; c=relaxed/simple;
+	bh=CKbvTcQjktbb/fkm2xvKUFHJAUWPFJnyE/7YkFwSoUY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WsCRdfu79734wALfUgj8QkKgTyFd6DamdnXhw4qg9kciivTPMGReX+RB44phLM8A4Fn653WfOKQLAb/iuviibYwz3ou0vqRdBeudZBHbQr3uVIpdpJbm0OIdlQvwkKtBnEgYhM5hYYWYqcITCZaEwBYGFjAZoFyqA4YqPhmhwws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T3PMhgLi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JDXTJiGw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B325DC4CEDD;
-	Wed, 12 Mar 2025 19:37:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T3PMhgLi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 131A6C4AF09;
+	Wed, 12 Mar 2025 19:39:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741808243;
-	bh=ftQ3e44e8+7vyawaED0yk3fGaevmW38KxYSauz7PqDo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JDXTJiGwDVKNtJaELzQnrZwv6Ke1nuJjfQ3w1/1rHpqtGscGR3JRRqNcTpMLQPH6p
-	 H/NVapRPNVh4F7wx7HNXc998/+3GbwtQ8XdZQk8OxxNVA0kRJNzdGSGmvbCWPdxzso
-	 cr2S6rcgFXkjBSDgd558uzcvyKS5p8nmVvKD/QpawS4FMDsnxs5Edu6gs+pP5aqqDt
-	 6DKHcxT+JjaF6GjVSevqXwDm2cn90huOY6G3MlXnniRHyoSZ6XoIS/I7LXZ73a6z7R
-	 y3m8nqYy15yudqMIkOe8kd3zb4Fqhlf4AM1MskJiWpT4PTdtQR283A19w+2VC9xL0h
-	 sczxH83we5FUA==
-Date: Wed, 12 Mar 2025 20:37:16 +0100
-From: Jakub Kicinski <kuba@kernel.org>
-To: Simon Horman <horms@kernel.org>
-Cc: Uday Shankar <ushankar@purestorage.com>, Breno Leitao
- <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, Andrew Morton
- <akpm@linux-foundation.org>, Johannes Berg <johannes@sipsolutions.net>,
- Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v5 2/2] netconsole: allow selection of egress
- interface via MAC address
-Message-ID: <20250312203716.110b6677@kernel.org>
-In-Reply-To: <20250311111301.GL4159220@kernel.org>
-References: <20250220-netconsole-v5-0-4aeafa71debf@purestorage.com>
-	<20250220-netconsole-v5-2-4aeafa71debf@purestorage.com>
-	<20250225144035.GY1615191@kernel.org>
-	<Z8tS5t+warQdwFTs@dev-ushankar.dev.purestorage.com>
-	<20250311111301.GL4159220@kernel.org>
+	s=k20201202; t=1741808365;
+	bh=CKbvTcQjktbb/fkm2xvKUFHJAUWPFJnyE/7YkFwSoUY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=T3PMhgLiC+1jN2fQn/s868b7rQ4xuI6jCK7ojznJRarsOayJt/9kF0gFd7jd/iYyb
+	 G772gtE9y/TQyqnd9lvi1gqvGrC76fLi4Ho7YBpioi5+QOfOpdUVeB4tHZ8G+dT0qs
+	 pXpBBd51/rP23Iat5xyDHYzcjbs3mCNTIXvUAY8uWMoGtMf9ry+M/3Fub9OANd+Ry3
+	 It5R0yQ6ghT3QEK9dddsbb8H47+sTDAEqIgwH7y1lvcR3Fg+Rbm04NWqlMhC+y9Ufy
+	 l7XzMgJTtri6ZJd7TM2lhWjb1vloMFH5u1kvvJF9NA/4ssGRtn7F7lAXm2OqgpJoEL
+	 +zgDzc5GzdnFQ==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2a88c7fabdeso188642fac.1;
+        Wed, 12 Mar 2025 12:39:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW04ZQ8dvw3SP+7fagWU7Ka80vWviUZDZuQb+EqObe+PxOpqdfAg+Uj285lRsZW1Wfbo2le6FOOBYfN9viw@vger.kernel.org, AJvYcCWT+IPffjgs1d0PS478Yd5fj9tA17I1hrdp7aKBDobYm3TZ2cpq9U58lRgnzyTlpxgbgW2x6I0GZM0T@vger.kernel.org, AJvYcCXr+s3PbhlisGmXUj926eQKI9GFlUaaN1ucrQxM06z34PepHUP+Sqe88owQJu+mYOaR41IZfEUjDlET@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiK5ig4xQT5zD9Zs3Yf559ZjGWIuJVnWyhHpBI27MhEvKOEbI9
+	nt8kaPb3SrSfb4nzpoqtxrnGBG5nyz21J6EuPvo/3wEMdBFpvvi3nW6EihfGw7hc0SqblOPAbNH
+	FWDKvMm7jU0ePz2yi/u0jJw7/QUQ=
+X-Google-Smtp-Source: AGHT+IHuNDHlZF9Ucfxr2gTlbfeWhfR5MVXJQ/d0SqzrupN1QuL8KSZ2cjTwH8+Q2igiU3qP86o6sWS8Qs+oYXJUACA=
+X-Received: by 2002:a05:6871:8a8:b0:2c2:50a5:1248 with SMTP id
+ 586e51a60fabf-2c2614d4a3cmr11747453fac.38.1741808364302; Wed, 12 Mar 2025
+ 12:39:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250307214936.74504-1-linux@treblig.org>
+In-Reply-To: <20250307214936.74504-1-linux@treblig.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 12 Mar 2025 20:39:13 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0j+=WYm+j340Z+1fs3aZ4PtTaF4XAFeSgm9s7NA=BR0=g@mail.gmail.com>
+X-Gm-Features: AQ5f1JrtyjGeDehvAPKabOsddC766J_8Cjm-oJ9-AbMlE98bvzAsdgHk-YLJY9E
+Message-ID: <CAJZ5v0j+=WYm+j340Z+1fs3aZ4PtTaF4XAFeSgm9s7NA=BR0=g@mail.gmail.com>
+Subject: Re: [PATCH] PNP: Remove prehistoric deadcode
+To: linux@treblig.org
+Cc: rafael.j.wysocki@intel.com, linux-acpi@vger.kernel.org, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 11 Mar 2025 12:13:01 +0100 Simon Horman wrote:
-> On Fri, Mar 07, 2025 at 01:11:18PM -0700, Uday Shankar wrote:
-> > On Tue, Feb 25, 2025 at 02:40:35PM +0000, Simon Horman wrote:  
-> > > Reviewed-by: Simon Horman <horms@kernel.org>  
-> > 
-> > Hey, since this has gotten quiet for a while, just wanted to confirm
-> > that there's no action needed from my end? Is this in the queue for
-> > net-next?  
-> 
-> It seems that this series has been marked as Changes Requested in
-> patchwork, which may explain the lack of progress. But that designation
-> doesn't seem correct to me. So let's see if this can move this series
-> back into the queue for the maintainers.
+On Fri, Mar 7, 2025 at 10:49=E2=80=AFPM <linux@treblig.org> wrote:
+>
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+>
+> pnp_remove_card() is currently unused, it has been since it was
+> added in 2003's BKrev: 3e6d3f19XSmESWEZnNEReEJOJW5SOw
+>
+> pnp_unregister_protocol() is currently unused,  it has been since
+> it was added in 2002's BKrev: 3df0cf6d4FVUKndhbfxjL7pksw5PGA
+>
+> Remove them, and pnp_remove_card_device() and __pnp_remove_device()
+> which are now no longer used.
+>
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> ---
+>  Documentation/admin-guide/pnp.rst |  3 ---
+>  drivers/pnp/base.h                |  4 ----
+>  drivers/pnp/card.c                | 32 -------------------------------
+>  drivers/pnp/core.c                | 16 ----------------
+>  4 files changed, 55 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/pnp.rst b/Documentation/admin-guid=
+e/pnp.rst
+> index 3eda08191d13..24d80e3eb309 100644
+> --- a/Documentation/admin-guide/pnp.rst
+> +++ b/Documentation/admin-guide/pnp.rst
+> @@ -129,9 +129,6 @@ pnp_put_protocol
+>  pnp_register_protocol
+>    use this to register a new PnP protocol
+>
+> -pnp_unregister_protocol
+> -  use this function to remove a PnP protocol from the Plug and Play Laye=
+r
+> -
+>  pnp_register_driver
+>    adds a PnP driver to the Plug and Play Layer
+>
+> diff --git a/drivers/pnp/base.h b/drivers/pnp/base.h
+> index 4e80273dfb1e..b342570d0236 100644
+> --- a/drivers/pnp/base.h
+> +++ b/drivers/pnp/base.h
+> @@ -9,7 +9,6 @@ extern const struct attribute_group *pnp_dev_groups[];
+>  extern const struct bus_type pnp_bus_type;
+>
+>  int pnp_register_protocol(struct pnp_protocol *protocol);
+> -void pnp_unregister_protocol(struct pnp_protocol *protocol);
+>
+>  #define PNP_EISA_ID_MASK 0x7fffffff
+>  void pnp_eisa_id_to_string(u32 id, char *str);
+> @@ -21,9 +20,7 @@ int pnp_add_device(struct pnp_dev *dev);
+>  struct pnp_id *pnp_add_id(struct pnp_dev *dev, const char *id);
+>
+>  int pnp_add_card(struct pnp_card *card);
+> -void pnp_remove_card(struct pnp_card *card);
+>  int pnp_add_card_device(struct pnp_card *card, struct pnp_dev *dev);
+> -void pnp_remove_card_device(struct pnp_dev *dev);
+>
+>  struct pnp_port {
+>         resource_size_t min;    /* min base number */
+> @@ -138,7 +135,6 @@ void pnp_init_resources(struct pnp_dev *dev);
+>  void pnp_fixup_device(struct pnp_dev *dev);
+>  void pnp_free_options(struct pnp_dev *dev);
+>  int __pnp_add_device(struct pnp_dev *dev);
+> -void __pnp_remove_device(struct pnp_dev *dev);
+>
+>  int pnp_check_port(struct pnp_dev *dev, struct resource *res);
+>  int pnp_check_mem(struct pnp_dev *dev, struct resource *res);
+> diff --git a/drivers/pnp/card.c b/drivers/pnp/card.c
+> index 9610a9f08ff4..c7596dc24fbd 100644
+> --- a/drivers/pnp/card.c
+> +++ b/drivers/pnp/card.c
+> @@ -269,25 +269,6 @@ int pnp_add_card(struct pnp_card *card)
+>         return 0;
+>  }
+>
+> -/**
+> - * pnp_remove_card - removes a PnP card from the PnP Layer
+> - * @card: pointer to the card to remove
+> - */
+> -void pnp_remove_card(struct pnp_card *card)
+> -{
+> -       struct list_head *pos, *temp;
+> -
+> -       device_unregister(&card->dev);
+> -       mutex_lock(&pnp_lock);
+> -       list_del(&card->global_list);
+> -       list_del(&card->protocol_list);
+> -       mutex_unlock(&pnp_lock);
+> -       list_for_each_safe(pos, temp, &card->devices) {
+> -               struct pnp_dev *dev =3D card_to_pnp_dev(pos);
+> -               pnp_remove_card_device(dev);
+> -       }
+> -}
+> -
+>  /**
+>   * pnp_add_card_device - adds a device to the specified card
+>   * @card: pointer to the card to add to
+> @@ -306,19 +287,6 @@ int pnp_add_card_device(struct pnp_card *card, struc=
+t pnp_dev *dev)
+>         return 0;
+>  }
+>
+> -/**
+> - * pnp_remove_card_device- removes a device from the specified card
+> - * @dev: pointer to the device to remove
+> - */
+> -void pnp_remove_card_device(struct pnp_dev *dev)
+> -{
+> -       mutex_lock(&pnp_lock);
+> -       dev->card =3D NULL;
+> -       list_del(&dev->card_list);
+> -       mutex_unlock(&pnp_lock);
+> -       __pnp_remove_device(dev);
+> -}
+> -
+>  /**
+>   * pnp_request_card_device - Searches for a PnP device under the specifi=
+ed card
+>   * @clink: pointer to the card link, cannot be NULL
+> diff --git a/drivers/pnp/core.c b/drivers/pnp/core.c
+> index 6a60c5d83383..ac48db6dcfe3 100644
+> --- a/drivers/pnp/core.c
+> +++ b/drivers/pnp/core.c
+> @@ -78,16 +78,6 @@ int pnp_register_protocol(struct pnp_protocol *protoco=
+l)
+>         return ret;
+>  }
+>
+> -/**
+> - * pnp_unregister_protocol - removes a pnp protocol from the pnp layer
+> - * @protocol: pointer to the corresponding pnp_protocol structure
+> - */
+> -void pnp_unregister_protocol(struct pnp_protocol *protocol)
+> -{
+> -       pnp_remove_protocol(protocol);
+> -       device_unregister(&protocol->dev);
+> -}
+> -
+>  static void pnp_free_ids(struct pnp_dev *dev)
+>  {
+>         struct pnp_id *id;
+> @@ -220,12 +210,6 @@ int pnp_add_device(struct pnp_dev *dev)
+>         return 0;
+>  }
+>
+> -void __pnp_remove_device(struct pnp_dev *dev)
+> -{
+> -       pnp_delist_device(dev);
+> -       device_unregister(&dev->dev);
+> -}
+> -
+>  static int __init pnp_init(void)
+>  {
+>         return bus_register(&pnp_bus_type);
+> --
 
-Unclear why the designation was chosen, indeed, but let's get this
-reposted per normal process. The posting is a month old.
+Applied as 6.15 material, thanks!
