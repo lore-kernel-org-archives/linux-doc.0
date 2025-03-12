@@ -1,215 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865D51E8353;
-	Wed, 12 Mar 2025 19:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD3E1DE3AF;
+	Wed, 12 Mar 2025 19:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741808365; cv=none; b=k5r8+y8GNiszPFOJSadntRm99PyQMlQWLtr3oF4KDppcDMhe8FvT2Ct691KfkW4ecOgyoMde+uNR54EN0Hx4dF1tHDYCZDCZfabCXaP7OPFW4Nnra6eHhxS+bb4Hbd9fxi4O0sGXADnsuHfI5OHazUA4DaX1Gy6ECjWv09axRiI=
+	t=1741809077; cv=none; b=hRJAsCHtdcf4KJK3C+a1FpdUKui0gf8l5/PbPzd4dbp6DVxSf/cP9+h3IVsqk3vfEMM52zElkpMmmKXWmqLOdEICDFZ7Mg/DDwwUP2I3XfZrK4m+4TTLFVI/SfIOUX7okandZsWfgFnL0q6e3W31akQyDnHMAxuLOf6mjRfA5pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741808365; c=relaxed/simple;
-	bh=CKbvTcQjktbb/fkm2xvKUFHJAUWPFJnyE/7YkFwSoUY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WsCRdfu79734wALfUgj8QkKgTyFd6DamdnXhw4qg9kciivTPMGReX+RB44phLM8A4Fn653WfOKQLAb/iuviibYwz3ou0vqRdBeudZBHbQr3uVIpdpJbm0OIdlQvwkKtBnEgYhM5hYYWYqcITCZaEwBYGFjAZoFyqA4YqPhmhwws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T3PMhgLi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741809077; c=relaxed/simple;
+	bh=SRoUV3eMk6edbVaDQv5PueMlnjvLSGvEzLVeIeX4V/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rU9tcE4YyKWHc10AQeItnw1XbDO+PHYXyFCJVDzHv8qM4/oaOcnCGUp2Owfa9721MKCZ/l3Efk5BKw5k2tZKoHbtrW/MtFtFDb5DcsdNa6zBJgT+vKyANAs7fyA62GlHylrnixu0GB6rf0FIYlsbWPQ3t/jfJSXlLZd/13vEiyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LBJFa6O0; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T3PMhgLi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 131A6C4AF09;
-	Wed, 12 Mar 2025 19:39:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741808365;
-	bh=CKbvTcQjktbb/fkm2xvKUFHJAUWPFJnyE/7YkFwSoUY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=T3PMhgLiC+1jN2fQn/s868b7rQ4xuI6jCK7ojznJRarsOayJt/9kF0gFd7jd/iYyb
-	 G772gtE9y/TQyqnd9lvi1gqvGrC76fLi4Ho7YBpioi5+QOfOpdUVeB4tHZ8G+dT0qs
-	 pXpBBd51/rP23Iat5xyDHYzcjbs3mCNTIXvUAY8uWMoGtMf9ry+M/3Fub9OANd+Ry3
-	 It5R0yQ6ghT3QEK9dddsbb8H47+sTDAEqIgwH7y1lvcR3Fg+Rbm04NWqlMhC+y9Ufy
-	 l7XzMgJTtri6ZJd7TM2lhWjb1vloMFH5u1kvvJF9NA/4ssGRtn7F7lAXm2OqgpJoEL
-	 +zgDzc5GzdnFQ==
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2a88c7fabdeso188642fac.1;
-        Wed, 12 Mar 2025 12:39:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW04ZQ8dvw3SP+7fagWU7Ka80vWviUZDZuQb+EqObe+PxOpqdfAg+Uj285lRsZW1Wfbo2le6FOOBYfN9viw@vger.kernel.org, AJvYcCWT+IPffjgs1d0PS478Yd5fj9tA17I1hrdp7aKBDobYm3TZ2cpq9U58lRgnzyTlpxgbgW2x6I0GZM0T@vger.kernel.org, AJvYcCXr+s3PbhlisGmXUj926eQKI9GFlUaaN1ucrQxM06z34PepHUP+Sqe88owQJu+mYOaR41IZfEUjDlET@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiK5ig4xQT5zD9Zs3Yf559ZjGWIuJVnWyhHpBI27MhEvKOEbI9
-	nt8kaPb3SrSfb4nzpoqtxrnGBG5nyz21J6EuPvo/3wEMdBFpvvi3nW6EihfGw7hc0SqblOPAbNH
-	FWDKvMm7jU0ePz2yi/u0jJw7/QUQ=
-X-Google-Smtp-Source: AGHT+IHuNDHlZF9Ucfxr2gTlbfeWhfR5MVXJQ/d0SqzrupN1QuL8KSZ2cjTwH8+Q2igiU3qP86o6sWS8Qs+oYXJUACA=
-X-Received: by 2002:a05:6871:8a8:b0:2c2:50a5:1248 with SMTP id
- 586e51a60fabf-2c2614d4a3cmr11747453fac.38.1741808364302; Wed, 12 Mar 2025
- 12:39:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LBJFa6O0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741809076; x=1773345076;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=SRoUV3eMk6edbVaDQv5PueMlnjvLSGvEzLVeIeX4V/Q=;
+  b=LBJFa6O0Gq94pnFFdaC6Xx0MPiGbABjmgQQmNlj6THt+bDeRwhFuPojv
+   kOIh8bQhsMLACeViSVxHg1urWWbnpsbZlrNu3DIhFzVaF7MrGvMPke6qh
+   GWJ88/Q3jgxhpwJU0Sbm9iIZEGsaCG5Ezpsmn3gRvFhCHUWaJeGOKrVXM
+   2s6xtoelTunjV3gOfZchm9eAHqjbwMet8suIlvMONyvGRqx0YuDWtj//c
+   PRqG4VmQzt/5gbFzHFWl6lBqK4+CvmN4t01D7GSY1seXReFvAkkzBDlMZ
+   jEKiJNrLv6S6v3MpQDgu2ZWQB0mLBDsDc5H9juQjYO/5P01s1vNybaPaL
+   w==;
+X-CSE-ConnectionGUID: Nsyi+gLOSgaJlqXrhDoMNg==
+X-CSE-MsgGUID: HfgrZareQsSgJl9E6TXptw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="42815589"
+X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
+   d="scan'208";a="42815589"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 12:51:15 -0700
+X-CSE-ConnectionGUID: mAuhRIanQJCNL6HZOC82OA==
+X-CSE-MsgGUID: 6kKyUx38RoKGvr2m8InV2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
+   d="scan'208";a="125804140"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 12:51:10 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tsS6d-00000001yNT-0W8I;
+	Wed, 12 Mar 2025 21:51:07 +0200
+Date: Wed, 12 Mar 2025 21:51:06 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: Sven Peter <sven@svenpeter.dev>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Maxime Ripard <mripard@kernel.org>,
+	"airlied@redhat.com" <airlied@redhat.com>,
+	Simona Vetter <simona@ffwll.ch>, Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>
+Subject: Re: [PATCH 1/2] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Message-ID: <Z9Hlqh7opZHvkSX0@smile.fi.intel.com>
+References: <ABAEA9D0-97CB-4ADD-9606-A12D5815335A@live.com>
+ <376C9BD3-2F41-4511-BE52-1B8468FE2CB3@live.com>
+ <b74df4b5-ecda-45ba-a98a-c84b0a29e380@suse.de>
+ <PN3PR01MB9597AC6A02B0BF873920D94CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <9092a9ed-aecf-40bd-9d15-b53d60d035b5@suse.de>
+ <PN3PR01MB959715C19BCEA54426D24934B8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <ff3a9c58-5c7a-4c48-8a9e-cc828a43baed@app.fastmail.com>
+ <PN3PR01MB9597E5C609290DB1A967263CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z9HgVn-XELC065w0@smile.fi.intel.com>
+ <PN3PR01MB959786A68923B2D471C129E6B8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250307214936.74504-1-linux@treblig.org>
-In-Reply-To: <20250307214936.74504-1-linux@treblig.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 12 Mar 2025 20:39:13 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0j+=WYm+j340Z+1fs3aZ4PtTaF4XAFeSgm9s7NA=BR0=g@mail.gmail.com>
-X-Gm-Features: AQ5f1JrtyjGeDehvAPKabOsddC766J_8Cjm-oJ9-AbMlE98bvzAsdgHk-YLJY9E
-Message-ID: <CAJZ5v0j+=WYm+j340Z+1fs3aZ4PtTaF4XAFeSgm9s7NA=BR0=g@mail.gmail.com>
-Subject: Re: [PATCH] PNP: Remove prehistoric deadcode
-To: linux@treblig.org
-Cc: rafael.j.wysocki@intel.com, linux-acpi@vger.kernel.org, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN3PR01MB959786A68923B2D471C129E6B8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Mar 7, 2025 at 10:49=E2=80=AFPM <linux@treblig.org> wrote:
->
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->
-> pnp_remove_card() is currently unused, it has been since it was
-> added in 2003's BKrev: 3e6d3f19XSmESWEZnNEReEJOJW5SOw
->
-> pnp_unregister_protocol() is currently unused,  it has been since
-> it was added in 2002's BKrev: 3df0cf6d4FVUKndhbfxjL7pksw5PGA
->
-> Remove them, and pnp_remove_card_device() and __pnp_remove_device()
-> which are now no longer used.
->
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  Documentation/admin-guide/pnp.rst |  3 ---
->  drivers/pnp/base.h                |  4 ----
->  drivers/pnp/card.c                | 32 -------------------------------
->  drivers/pnp/core.c                | 16 ----------------
->  4 files changed, 55 deletions(-)
->
-> diff --git a/Documentation/admin-guide/pnp.rst b/Documentation/admin-guid=
-e/pnp.rst
-> index 3eda08191d13..24d80e3eb309 100644
-> --- a/Documentation/admin-guide/pnp.rst
-> +++ b/Documentation/admin-guide/pnp.rst
-> @@ -129,9 +129,6 @@ pnp_put_protocol
->  pnp_register_protocol
->    use this to register a new PnP protocol
->
-> -pnp_unregister_protocol
-> -  use this function to remove a PnP protocol from the Plug and Play Laye=
-r
-> -
->  pnp_register_driver
->    adds a PnP driver to the Plug and Play Layer
->
-> diff --git a/drivers/pnp/base.h b/drivers/pnp/base.h
-> index 4e80273dfb1e..b342570d0236 100644
-> --- a/drivers/pnp/base.h
-> +++ b/drivers/pnp/base.h
-> @@ -9,7 +9,6 @@ extern const struct attribute_group *pnp_dev_groups[];
->  extern const struct bus_type pnp_bus_type;
->
->  int pnp_register_protocol(struct pnp_protocol *protocol);
-> -void pnp_unregister_protocol(struct pnp_protocol *protocol);
->
->  #define PNP_EISA_ID_MASK 0x7fffffff
->  void pnp_eisa_id_to_string(u32 id, char *str);
-> @@ -21,9 +20,7 @@ int pnp_add_device(struct pnp_dev *dev);
->  struct pnp_id *pnp_add_id(struct pnp_dev *dev, const char *id);
->
->  int pnp_add_card(struct pnp_card *card);
-> -void pnp_remove_card(struct pnp_card *card);
->  int pnp_add_card_device(struct pnp_card *card, struct pnp_dev *dev);
-> -void pnp_remove_card_device(struct pnp_dev *dev);
->
->  struct pnp_port {
->         resource_size_t min;    /* min base number */
-> @@ -138,7 +135,6 @@ void pnp_init_resources(struct pnp_dev *dev);
->  void pnp_fixup_device(struct pnp_dev *dev);
->  void pnp_free_options(struct pnp_dev *dev);
->  int __pnp_add_device(struct pnp_dev *dev);
-> -void __pnp_remove_device(struct pnp_dev *dev);
->
->  int pnp_check_port(struct pnp_dev *dev, struct resource *res);
->  int pnp_check_mem(struct pnp_dev *dev, struct resource *res);
-> diff --git a/drivers/pnp/card.c b/drivers/pnp/card.c
-> index 9610a9f08ff4..c7596dc24fbd 100644
-> --- a/drivers/pnp/card.c
-> +++ b/drivers/pnp/card.c
-> @@ -269,25 +269,6 @@ int pnp_add_card(struct pnp_card *card)
->         return 0;
->  }
->
-> -/**
-> - * pnp_remove_card - removes a PnP card from the PnP Layer
-> - * @card: pointer to the card to remove
-> - */
-> -void pnp_remove_card(struct pnp_card *card)
-> -{
-> -       struct list_head *pos, *temp;
-> -
-> -       device_unregister(&card->dev);
-> -       mutex_lock(&pnp_lock);
-> -       list_del(&card->global_list);
-> -       list_del(&card->protocol_list);
-> -       mutex_unlock(&pnp_lock);
-> -       list_for_each_safe(pos, temp, &card->devices) {
-> -               struct pnp_dev *dev =3D card_to_pnp_dev(pos);
-> -               pnp_remove_card_device(dev);
-> -       }
-> -}
-> -
->  /**
->   * pnp_add_card_device - adds a device to the specified card
->   * @card: pointer to the card to add to
-> @@ -306,19 +287,6 @@ int pnp_add_card_device(struct pnp_card *card, struc=
-t pnp_dev *dev)
->         return 0;
->  }
->
-> -/**
-> - * pnp_remove_card_device- removes a device from the specified card
-> - * @dev: pointer to the device to remove
-> - */
-> -void pnp_remove_card_device(struct pnp_dev *dev)
-> -{
-> -       mutex_lock(&pnp_lock);
-> -       dev->card =3D NULL;
-> -       list_del(&dev->card_list);
-> -       mutex_unlock(&pnp_lock);
-> -       __pnp_remove_device(dev);
-> -}
-> -
->  /**
->   * pnp_request_card_device - Searches for a PnP device under the specifi=
-ed card
->   * @clink: pointer to the card link, cannot be NULL
-> diff --git a/drivers/pnp/core.c b/drivers/pnp/core.c
-> index 6a60c5d83383..ac48db6dcfe3 100644
-> --- a/drivers/pnp/core.c
-> +++ b/drivers/pnp/core.c
-> @@ -78,16 +78,6 @@ int pnp_register_protocol(struct pnp_protocol *protoco=
-l)
->         return ret;
->  }
->
-> -/**
-> - * pnp_unregister_protocol - removes a pnp protocol from the pnp layer
-> - * @protocol: pointer to the corresponding pnp_protocol structure
-> - */
-> -void pnp_unregister_protocol(struct pnp_protocol *protocol)
-> -{
-> -       pnp_remove_protocol(protocol);
-> -       device_unregister(&protocol->dev);
-> -}
-> -
->  static void pnp_free_ids(struct pnp_dev *dev)
->  {
->         struct pnp_id *id;
-> @@ -220,12 +210,6 @@ int pnp_add_device(struct pnp_dev *dev)
->         return 0;
->  }
->
-> -void __pnp_remove_device(struct pnp_dev *dev)
-> -{
-> -       pnp_delist_device(dev);
-> -       device_unregister(&dev->dev);
-> -}
-> -
->  static int __init pnp_init(void)
->  {
->         return bus_register(&pnp_bus_type);
-> --
+On Wed, Mar 12, 2025 at 07:35:54PM +0000, Aditya Garg wrote:
+> > On 13 Mar 2025, at 12:58 AM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > On Wed, Mar 12, 2025 at 07:14:36PM +0000, Aditya Garg wrote:
+> >>>> On 12 Mar 2025, at 9:05 PM, Sven Peter <sven@svenpeter.dev> wrote:
+> >>> On Wed, Mar 12, 2025, at 13:03, Aditya Garg wrote:
 
-Applied as 6.15 material, thanks!
+...
+
+> >>> I don't have a strong opinion either way: for SMC I just need to print
+> >>> FourCC keys for debugging / information in a few places.
+> >>> 
+> >>> I'm preparing the SMC driver for upstreaming again (after a two year delay :-()
+> >>> and was just going to use macros to print the SMC FourCC keys similar to
+> >>> DRM_MODE_FMT/DRM_MODE_ARG for now to keep the series smaller and revisit
+> >>> the topic later.
+> >>> 
+> >>> Right now I have these in my local tree (only compile tested so far):
+> >>> 
+> >>> #define SMC_KEY_FMT "%c%c%c%c (0x%08x)"
+> >>> #define SMC_KEY_ARG(k) (k)>>24, (k)>>16, (k)>>8, (k), (k)
+> >> 
+> >> That seems to be a nice alternative, which I guess Thomas was also suggesting.
+> > 
+> > I don't think it's "nice". Each of the approaches has pros and cons.
+> 
+> I would prefer vsprintf, but if it's not there, that remains as nice right?
+
+Nope, it remains us with the only approach (besides copy'n'paste everywhere
+which is error prone).
+
+> > You can start from bloat-o-meter here and compare it with your %p extension.
+> > 
+> > Also, can you show the bloat-o-meter output for the vsprintf.c?
+> 
+> vsprintf isn't a kernel module, is it? I'll have to compile a new kernel I guess.
+
+You can just compile one file. We need an object out of it, we don't it to be
+linked.
+
+> >>> which are then used like this:
+> >>> 
+> >>>   dev_info(dev,
+> >>>       "Initialized (%d keys " SMC_KEY_FMT " .. " SMC_KEY_FMT ")\n",
+> >>>        smc->key_count, SMC_KEY_ARG(smc->first_key),
+> >>>        SMC_KEY_ARG(smc->last_key));
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
