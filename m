@@ -1,185 +1,255 @@
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011028.outbound.protection.outlook.com [52.103.68.28])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7832523816A;
-	Wed, 12 Mar 2025 09:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.28
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741770413; cv=fail; b=TDS9YrSuTxiAg9lBgAWgPlW1c8hHA2ya63PMsDbUwDhVeWLp+I3Ti1x2dO67gZaNSSajYsAbiMxGIMIW7NZG/aSl3c2g/WE06BysdPAhDR6Lz5BdJCSAkBaNa83Uz0Q3TvSf0egvAbjsazSeHb+g1wqtTDVmHr5lR/cz1Z65Qes=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741770413; c=relaxed/simple;
-	bh=FzD4ilIILSrUotbDSNcjfZZbPdA2al85CGsyBL1j2XY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=mk8oNbG34EjEBO2hAtcUaQ0j51/nwH7o4WzSNPGIe/IGObmHkfJOlu9f3G3NSH5R1C/QJCGiNO3z9KWyUFe+TprR5Ip9zrXXtD071OZwNv5h74EcToj1pv0ZP/R/Ey9pt+sZnVOvG34ep7yVtpktnXdjLPuk3grYF/jwhj6VAow=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=FNQ0i+Y1; arc=fail smtp.client-ip=52.103.68.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC1D2397BE
+	for <linux-doc@vger.kernel.org>; Wed, 12 Mar 2025 09:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741771722; cv=none; b=j7KpK+Sxj7XpnlZgjRtneCQel/PMvHFcf2nqlpvLCqGMldxnHE7xHCcXLjuYFrkA1nz/IPtGj84y+GxTesN7VLDBHmsv37Q5dkivGtvB3BmoIOSaNtwEb1qjtJaw7dGKWu5SVJoORvu59rwm7Jcb8XtVhKP2fWT9YtAEDhnglJk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741771722; c=relaxed/simple;
+	bh=6KAeTydDNQmh9ejxV3lHGEocGPHDZC5ErvVvG5/OBoo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=pqI3yII++CVOGoZM/Ap91JfHiGxFFZQxtX0Xls2+gyzFMlAzWf9fRD8WfaBK7/vywtBe8Hqx5YQMXh7KpJiRwreFhd5LaIxDoVpP+escVM3rbec2iF0aiUKDFH+TK7AyZXij/yrRhvCUBrV9XVWS1DY23pCiRPIuo/F+E4KnX8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Ze2jFdmu; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="FNQ0i+Y1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rfd4gcQKLyZsTX2GifhnfLMTCv0svcL/BHpWIMxywoldifjm1k4+E3+vE9IYGo7mSsmEu0VqoTQlX4bNysRey1NqujdZQRt+dy0EGM5J3SKK48ROp16j2BYpkP9SIp8BuKH+8nnOMKzk8+bqqkUK1HBGyOw1jxL+qTJhp5DcDk3/REcWJkQPmQ/1+5vWKr4p+P7+HdKThASTIneNj0lhPu/WkK++AcZqXXmCtl/uhaOGOCBdk+jS/Fevd6T50+3EHCMTJf/XLaxfFEoQ5JU4NRWStu5KNokLD8qE3T1HQV7G+y33JPcaCVKfRmq+YzscrvAUkTjoKrcG/Z6NC5AV+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PWytK++w7efVge2S3HCDfNc7xFUv7xIt7O1G0q5iL4I=;
- b=vud2i8XGlyKDEVreERdC1LQgH3/BqHaKq4K//z/FJcEGopZiWBj4PJ1gtPfwIodlc7MApZSmtGRLks7Hp5AkjaVXj/X5CYTybDIfCYINHKb4oh86PLRxivU4O9VAzKYbkGeydrYeSV5McKE7GJLlyUMY4Ct7sL868EVhhovglG4mksOX8d/Qk8Pka69ACYSKYq5cpU8JmkOk9T2BFIqc/CBSLFdMaP8QwF19mOZAGbt8d+0fajqFysEu1QKl7GeDEncF1/wA0cgfYbDfJS3JW0vJPUuP0pKeeClw6rn8bv8exxbpkLgVdZTFaTgC+SxUDdTTP+wp0vPG0WkW+6SOlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PWytK++w7efVge2S3HCDfNc7xFUv7xIt7O1G0q5iL4I=;
- b=FNQ0i+Y1+VPVPkj7SHutnXpMR7w9CG55koqpQX3Uy09//9z3XUzhoteiyr01bbcM/kgSQOWw7xRZV1M7YE8kqf6KBTH6Nx2AXh5G9apOu2ZH1y4LKRZMr+FRK6FH2emHbjv9JLFkFvTSbA5DULJJmwWwRSwGw8sP8DOABSq9Z4tN5shpOqfTjr5By8ELvjRgSiQSicoXCrRgRkmIAAagbGYjw7L7IXmm92HXrcQMxBwuxmw3tU9eNOqo9ca6dWW32Fx2isqH+ocwLleUQwlldwWRjShJa7dOf14gKRdqq2nyPz1PuDwGXZuQ8Z711E/ti31/8t8lH6JbKJn9kIwE4A==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN3PR01MB9981.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:151::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Wed, 12 Mar
- 2025 09:06:42 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8511.026; Wed, 12 Mar 2025
- 09:06:42 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>, "airlied@redhat.com"
-	<airlied@redhat.com>, Simona Vetter <simona@ffwll.ch>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>, Petr
- Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Rasmus
- Villemoes <linux@rasmusvillemoes.dk>, "senozhatsky@chromium.org"
-	<senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
-	<akpm@linux-foundation.org>, "apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>, "dwaipayanray1@gmail.com"
-	<dwaipayanray1@gmail.com>, "lukas.bulwahn@gmail.com"
-	<lukas.bulwahn@gmail.com>
-CC: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Hector Martin
-	<marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Asahi Linux Mailing List
-	<asahi@lists.linux.dev>
-Subject: [PATCH 2/2] drm/appletbdm: use %p4cl instead of %p4cc
-Thread-Topic: [PATCH 2/2] drm/appletbdm: use %p4cl instead of %p4cc
-Thread-Index: AQHbky4SdzBfIMQKI0KeiKFo673KWg==
-Date: Wed, 12 Mar 2025 09:06:42 +0000
-Message-ID: <33F3F7E2-24AE-4F29-9053-3B502D075BA8@live.com>
-References: <ABAEA9D0-97CB-4ADD-9606-A12D5815335A@live.com>
-In-Reply-To: <ABAEA9D0-97CB-4ADD-9606-A12D5815335A@live.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|PN3PR01MB9981:EE_
-x-ms-office365-filtering-correlation-id: d9a03da8-9340-4d3b-8bed-08dd614534d3
-x-microsoft-antispam:
- BCL:0;ARA:14566002|15080799006|7092599003|19110799003|8060799006|8062599003|461199028|41001999003|12091999003|102099032|440099028|3412199025;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?0IkeCQEaT+5TqGNhQUnL9iwHKeCeEeMy6VBGJkLSKkFKh2YDEKSHCBwM3y/a?=
- =?us-ascii?Q?3FVDhbGEl5t2BdtM6YanjgKqd6CBOVDyR1Osly/1U5oJ92gBy6SgSeymN0+k?=
- =?us-ascii?Q?m/W8pfiIfzWP/eRpS0JDAGXHkNJe45IytVTVFyNZ6kx5/3bIuf5GekVp8iP2?=
- =?us-ascii?Q?cKH0vb7T2x0JqL2ASNBa/9f4jV9RUz8i7WM3VAYkG9bmnRQr8mxKqJOz8Om6?=
- =?us-ascii?Q?oar+8AdQjVIiPoQzhVRuBJdDDjgKYjc4e0LCgNeaIzp79Gvz89fzxlwTEoqZ?=
- =?us-ascii?Q?su4akItx89mzZnPkvGXnA8cXjdbayrsEgvg0VB0Pfqhva5j/R0Ckzf1GoHuo?=
- =?us-ascii?Q?kkPKz+G6d6htwPZGhntE0MRIiiQOVal0L7GivaXKivJBzAP2KT/MrA+msnJ1?=
- =?us-ascii?Q?4l8kIuawchYB0yXhrHQHitGlrylWvk6S1jRstgxTVjiHm5VeOYqDNmrPynh2?=
- =?us-ascii?Q?4o2FQNTchUhP5tg1yQKnOylaLrrgLdWFhp99Ugdz4NqtNCKVg6Q+95LV7Kqj?=
- =?us-ascii?Q?9gGMTyQhKqlEalGpzfWJSvF+/a18opYDP2ruJ6GPykmmCs7ij73Hox+wOhuO?=
- =?us-ascii?Q?w8Kr+LcW19EM7aeoNgC6AUUwNaiosJS3GzojnLaupCpcN4i1mcFhuTf01h0R?=
- =?us-ascii?Q?tvxLoPI+TA7cbnCH8fMOdd2eJVLpuYtwJWQcfRcfCykFbLUFC2Kq8XeYaRu7?=
- =?us-ascii?Q?tEfSp33Q3786CyWjg1vdxi47xrDBLnE1737992QUiUfE02IU+DAc8jfbcvrB?=
- =?us-ascii?Q?fMqPit89L312D5CXW56l/FCGE4deGb9hD+I8Xv0XHQm3Zx/OqgBxpFy3l3Ik?=
- =?us-ascii?Q?819BsbjbhBq+xGUFz6Y9PBlclx+twGgOmDIDfzfU46Ag/9c/7TvaoHsRRHXI?=
- =?us-ascii?Q?A2bad1r9rEVModzUu9GChmJuB5avX7/lmmzwfhEjqjoZAFN7yjYNjnSOWu/4?=
- =?us-ascii?Q?rvp5k6Cu8Zms+eEBz7lkcwmLxMDnQ6+LCd3z+M3WOEays3xSKMviA8qIs9Q2?=
- =?us-ascii?Q?ybmgBm9CQG7gj+x1iSU0MDareVmGg+jH0bKahSercmK/DuUmoIsDunITHPqv?=
- =?us-ascii?Q?hkFAnZKJuSsRAZU3QaKs34PHwl/nTm12IQA5SqMwlw+PEVaj8wI4HXRrOnh/?=
- =?us-ascii?Q?9+x29FbmteXA?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?6H8SSlEyPGktk2PXzl/SWqZVKsI/2VsZRE0kpSP2KZeJK9kEiw93jY8xHMNb?=
- =?us-ascii?Q?sFgSA1L9aP2j/Iu4aEAzcrAduZMp7rJDK865PjymIdZLGpeHOz9Ur4mQZFBs?=
- =?us-ascii?Q?RtVJH2hGVJ7AujRSRl+UkFYzSUVG2UDLXavYlXBqIvSYnbxVptLje0pd+ad8?=
- =?us-ascii?Q?gk0r7wz6XtDFW5ryAIIFZbj0eK6MBWZSjosWPs3AbLEohBKHVwXoL+APmDPU?=
- =?us-ascii?Q?3sV0kEJeqt73r52kw5V8ihXVa42SUkp2grD+HX0+KjKXh1TOvYCfTFWJFoYo?=
- =?us-ascii?Q?OtbbEntYrF2+thDW3I9RAPEKmqw6P7dhRP8ENJHoa4k2kT0ygnq2QIvuWJEm?=
- =?us-ascii?Q?Zca3R5kUO6iUSZPXjLtVQbqVN+ZITOPy5TsIAYwYDGW3w/PZAI1y2Lne9G2W?=
- =?us-ascii?Q?P5tXQMY1g8RqLg8ZWxZsz0VqgPpG6MdG+aWFLaUKnN4KX5+YFWfTN6NK9LnA?=
- =?us-ascii?Q?6mn1vBn0A9AGJPBqL2qk2CLpGp+zFKk7yf2ReKRZ2C3nDucOlZg28Kc2YHpc?=
- =?us-ascii?Q?ru6j0O0keK8KfP1PGZg0Bidn2ezxR4JAj2HD5L4G71FZa57QR3KD/soMpiMQ?=
- =?us-ascii?Q?ghj81zGPiZqfj6E3Nx9T92gNLZhyG9cTTFyl/lSsylO3GE9FLVEYOgWrgH31?=
- =?us-ascii?Q?l5O46hymoh7kGGrKCqCdrinKKWLDwZQgSEgvj/mhTGkLMR28gVwUW39EQSaz?=
- =?us-ascii?Q?++DyOPDfMldc9DjHEb0DO2nmHCAijCL+4d53mXCvs6RNnHGCb4Gyqr1l/Nls?=
- =?us-ascii?Q?Ez4dR0vTN4KssecsnFOdT2f1pU4wQuvDreORnILvqB3Zd7rsTswdxYsXt4PF?=
- =?us-ascii?Q?4G7Nj0+esWHK2KhCdyfk7zJqdaxoYvH4wtKZsYLOeSAa8ujrXXEoMV8IKMoq?=
- =?us-ascii?Q?KC1KA9F+ASVZXsYyrHE9grLAIzS2abAyujqDJqkf7Z2yOfC/OwKzPgGHKEb4?=
- =?us-ascii?Q?FyZ56ehUTBWUKEjthK9yjAvuipFuuDkwCaFaJsqfvl0X68iOMc0IL/9Wk9Af?=
- =?us-ascii?Q?447huUdZQ4AJ2uRL1HoZ1Y3fFeoP63MRCaVlPhccyV2b4FArjP2M35VFAPCe?=
- =?us-ascii?Q?xMfkj5IrovE7bk+jyfRylz5MyDGf+QQDWgiZyPfIkEhGLg0aas86fnr5EY7T?=
- =?us-ascii?Q?J7s0kb41SCp8eAn2J9CRnkU7kZiPIq32ybesTQQmb/vZdBCPEqYw9DO5vBle?=
- =?us-ascii?Q?+Qe0bQDTis29fDynmfyPpDAv8HbjmezrXoNMRHBrO3e9ZJDEvKaRb19WIUuw?=
- =?us-ascii?Q?CpESqMz1ZwO+YVVVN4aRwa6F3CynH8jE2OupB4M/3BPaIg6RSQk43WG1isYt?=
- =?us-ascii?Q?exEGc3IO8+j6tlfBYWza8Yje?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4831D0BA280B6E4697AE095A0C14C852@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Ze2jFdmu"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250312092838euoutp01255863f7300302f6f807eba1f43c4c2d~sBCY7yMVb2625426254euoutp01t
+	for <linux-doc@vger.kernel.org>; Wed, 12 Mar 2025 09:28:38 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250312092838euoutp01255863f7300302f6f807eba1f43c4c2d~sBCY7yMVb2625426254euoutp01t
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1741771718;
+	bh=jM2XikXEr0ikBo0oLtomrsxm7QlhoeG8uKeeSTS19yM=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=Ze2jFdmuO0cLLYqLIJd51/wQzBFKAzxgIHozoFZZoNuFZcFG485swGkdKMqUW/Zvp
+	 cl2zr4/04Ndda/wzPd5iBES/LxTo9/80XTM5/yJ6P9bBGWVcJ9B29HLYT+lSWshREK
+	 7AGTFVkE3KSlN6ONOEzzV8Pi8Yif9QuOagwPNUks=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20250312092837eucas1p25b1b9a0eaeeeb28386900bd5799beff7~sBCYkpiud1062910629eucas1p2o;
+	Wed, 12 Mar 2025 09:28:37 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges2new.samsung.com (EUCPMTA) with SMTP id 6E.F9.20409.5C351D76; Wed, 12
+	Mar 2025 09:28:37 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250312092837eucas1p141720d6a0df85c410f2b2209e4cb4ae1~sBCYE1szl1182811828eucas1p1t;
+	Wed, 12 Mar 2025 09:28:37 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20250312092837eusmtrp1bf90383d9f98004fe39bcc48be1d1fe1~sBCYCvohl2987729877eusmtrp1N;
+	Wed, 12 Mar 2025 09:28:37 +0000 (GMT)
+X-AuditID: cbfec7f4-c39fa70000004fb9-67-67d153c532b4
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id 8C.F0.19654.5C351D76; Wed, 12
+	Mar 2025 09:28:37 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250312092833eusmtip25e36488a2aac248bc9b654fb690ddc66~sBCVArikT0743107431eusmtip2e;
+	Wed, 12 Mar 2025 09:28:33 +0000 (GMT)
+Message-ID: <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
+Date: Wed, 12 Mar 2025 10:28:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9a03da8-9340-4d3b-8bed-08dd614534d3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2025 09:06:42.2799
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB9981
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
+To: Robin Murphy <robin.murphy@arm.com>, Leon Romanovsky <leon@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>, Will
+	Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Keith Busch
+	<kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe
+	<logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>, Shameer Kolothum
+	<shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, Randy
+	Dunlap <rdunlap@infradead.org>
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxjH97anp6VQdiwobxRH2l2o6KigZO+CdgyNOfpBXbbswz64NeNY
+	CBehpWzMLDYMtHRctEiAgoDaCqNFsIxuVlHbgS0QBsiYchGDKZVLymgHTmGbkx628e33f97/
+	c83LYfLb8c2clIxsSp4hTRPiXMxy93n/210fDsp23l+IRDUtJhw9fVGEI+PDUhzp85KR684Z
+	gL4zdjHQ8iJCVZVOgKorphmosLqVjbT2XwEyeNrZqKY8C51fNjBRx+h2dPG0HkND1hocTZhe
+	sFDdlSk26qt14MhtL8aQvuAlecYrMGRbcLHQ1bnfMPTDcB4L5Y/HoSvl3IRw0mWrZZCmWhMg
+	3cNuQNablWT/xDWMzO/0sMi2xijy8s0ZBjnUpyTNTYU4afZp2aSzcgUj2/SnyOm2KkDeGFHh
+	5OWSMtbR0E+4e5KotJQcSi6WfMZNHnFuybwt/rLQ7mCoQEOkBnA4kNgNB31JGsDl8IlGAN13
+	F1i0WARw5vwyoMXvAHYUexkaEODPaLSq11wNAN6ssmO08ALou9eMrbp4hATeLzH5MzDiTVg8
+	1bEW3wC7q1x+3khEwEejlexVDiH2wzuWc8zVQqFEEYC2oT/9JibRg8PnTw7QHAZHXXX+ojgR
+	AzUeDb7KAUQ8nC/4hU17IuA37dX+QpCwceEDSyWLnns/tBuMaxwCZx3fs2kOh71lRRidcAbA
+	+pVHDFqcBVD1ZBTQrng4/vMyvnozJrENtljFdPh9OLA0yaZPGQwfeDbQQwRDraWCSYd5UH2a
+	T7vfgjrH1f/a2gbuMc8CoW7dXXTr1tStW0f3f996gDWBMEqpSJdRitgM6otohTRdocyQRX9+
+	It0MXv7s3r8diz+ChllvtB0wOMAOIIcpDOUZ9w7I+Lwkae5XlPzEp3JlGqWwgy0cTBjGu3S7
+	QMYnZNJsKpWiMin5v68MTsBmFePjg7uDJLceL73TCqhcgSZ3LKG6YW5raimP79tbJ7IOPhN9
+	HSw0fNsaNBU73xqi8mZH5R3ftz0oueX68eFbG6mTzUWmngZkbntNqy4XRbD7+1KOxM2ee336
+	5A1nwS4ROcuO73Ad3PNXafjAoLUvzM2aCzarX+lWR838NB75kbDp6OTY4WMRIx/scqDCkmvR
+	mRZfzAF9iWfb4USxTLyvbjgywfB4x3sGZ41AkihauhCYmHr9VEp1z8oxmVv4blpvVhzPc8im
+	FVyaP2T7Y6458NmwoF/wVCu52J3onUh/WLcjMKdr2rh10TDQOPZqIRmeuSmrPj9TH7up842y
+	nCM7JztJIaZIlsZEMeUK6T9oYz5PSAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJKsWRmVeSWpSXmKPExsVy+t/xe7pHgy+mGxybwmoxZ/0aNotv/3vY
+	LFbf7WezWNKUYfHkQDujxcrVR5ksfn2xsJg54wSjxezpL5gsOmdvYLeYdOgao8XSt1vZLeZM
+	LbSY8msps8XeW9oWC9uWsFhc3jWHzeLemv+sFvOXPWW3ODvvOJvFs0O9LBZLWoGst3ems1gc
+	/PCE1WLd6/csFtuvNrFatNwxtVg2lctBxuPJwXlMHmvmrWH0eHb1GaPHgk2lHufvbWTxaDny
+	ltVj8wotj8V7XjJ5XD5b6rFpVSebx6ZPk9g9Tsz4zeKxeUm9x4vNMxk9dt9sYPNY3DeZNUAk
+	Ss+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS/j5gnp
+	gv36FZ2HjjM1MC5X72Lk5JAQMJFYsauDtYuRi0NIYCmjxIS/p5ghEjISJ6c1sELYwhJ/rnWx
+	QRS9Z5RY++UkO0iCV8BO4nrfGiYQm0VAVaL36V4WiLigxMmZT8BsUQF5ifu3ZoDVCwu4SBzY
+	NpEZZJCIQA+jxLdTrxlBHGaBM2wSl08dZodYcZtR4u6OZ2DtzALiEreezAdbwSZgKNH1FuQO
+	Tg5OAWuJd61X2CFqzCS6tnYxQtjyEs1bZzNPYBSaheSSWUhGzULSMgtJywJGllWMIqmlxbnp
+	ucVGesWJucWleel6yfm5mxiBaWrbsZ9bdjCufPVR7xAjEwfjIUYJDmYlEd7VthfShXhTEiur
+	Uovy44tKc1KLDzGaAoNjIrOUaHI+MFHmlcQbmhmYGpqYWRqYWpoZK4nzsl05nyYkkJ5Ykpqd
+	mlqQWgTTx8TBKdXA5MXweTLfSoUt60qSqyf199psCJmzLOjbt8Dp+7jLF2+ZuEluf1nFmbOd
+	l+qXd9/ft6TgwH4DreD/wnf1z2qZXhOetSktKnbvNVmG5GOnBBm31dzN+6q+VYDH/nXctaXM
+	DRaGhnPUPZ5uLq/ju9p/c8Lyk3EfPjhwBL4XLv7acvXf23j5OaW87x66Vu0X7fJa8Thh2ccZ
+	gsVbGVZfm5p4ViVl+65LbPukf8vc5kivmOKxdG+f8RpZ3sqDYcteLtZunVmxxVM+7JHComdz
+	/OTe5AR/tP1X1fZmt+BTkYmPJr/2fLbOLX6/YIXdFHGLCU2v7nSZ83W9mB+3dPf3mvIjtrN5
+	81IPXWh+2M93O+XnxA4lluKMREMt5qLiRABwmQ+33AMAAA==
+X-CMS-MailID: 20250312092837eucas1p141720d6a0df85c410f2b2209e4cb4ae1
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648
+References: <cover.1738765879.git.leonro@nvidia.com>
+	<20250220124827.GR53094@unreal>
+	<CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
+	<1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
 
-From: Aditya Garg <gargaditya08@live.com>
+Hi Robin
 
-Due to lack of a proper printk format, %p4cc was being used instead of
-%p4cl for the purpose of printing FourCCs. But the disadvange was that
-they were being printed in a reverse order. %p4cl should correct this
-issue.
+On 28.02.2025 20:54, Robin Murphy wrote:
+> On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
+>> On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
+>>> From: Leon Romanovsky <leonro@nvidia.com>
+>>>
+>>> Changelog:
+>>> v7:
+>>>   * Rebased to v6.14-rc1
+>>
+>> <...>
+>>
+>>> Christoph Hellwig (6):
+>>>    PCI/P2PDMA: Refactor the p2pdma mapping helpers
+>>>    dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+>>>    iommu: generalize the batched sync after map interface
+>>>    iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+>>>    dma-mapping: add a dma_need_unmap helper
+>>>    docs: core-api: document the IOVA-based API
+>>>
+>>> Leon Romanovsky (11):
+>>>    iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
+>>>    dma-mapping: Provide an interface to allow allocate IOVA
+>>>    dma-mapping: Implement link/unlink ranges API
+>>>    mm/hmm: let users to tag specific PFN with DMA mapped bit
+>>>    mm/hmm: provide generic DMA managing logic
+>>>    RDMA/umem: Store ODP access mask information in PFN
+>>>    RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+>>>      linkage
+>>>    RDMA/umem: Separate implicit ODP initialization from explicit ODP
+>>>    vfio/mlx5: Explicitly use number of pages instead of allocated 
+>>> length
+>>>    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+>>>    vfio/mlx5: Enable the DMA link API
+>>>
+>>>   Documentation/core-api/dma-api.rst   |  70 ++++
+>>   drivers/infiniband/core/umem_odp.c   | 250 +++++---------
+>>>   drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+>>>   drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+>>>   drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+>>>   drivers/iommu/dma-iommu.c            | 468 
+>>> +++++++++++++++++++++++----
+>>>   drivers/iommu/iommu.c                |  84 ++---
+>>>   drivers/pci/p2pdma.c                 |  38 +--
+>>>   drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
+>>>   drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+>>>   drivers/vfio/pci/mlx5/main.c         |  87 +++--
+>>>   include/linux/dma-map-ops.h          |  54 ----
+>>>   include/linux/dma-mapping.h          |  85 +++++
+>>>   include/linux/hmm-dma.h              |  33 ++
+>>>   include/linux/hmm.h                  |  21 ++
+>>>   include/linux/iommu.h                |   4 +
+>>>   include/linux/pci-p2pdma.h           |  84 +++++
+>>>   include/rdma/ib_umem_odp.h           |  25 +-
+>>>   kernel/dma/direct.c                  |  44 +--
+>>>   kernel/dma/mapping.c                 |  18 ++
+>>>   mm/hmm.c                             | 264 +++++++++++++--
+>>>   21 files changed, 1435 insertions(+), 693 deletions(-)
+>>>   create mode 100644 include/linux/hmm-dma.h
+>>
+>> Kind reminder.
+>
+> ...that you've simply reposted the same thing again? Without doing 
+> anything to address the bugs, inconsistencies, fundamental design 
+> flaws in claiming to be something it cannot possibly be, the egregious 
+> abuse of DMA_ATTR_SKIP_CPU_SYNC proudly highlighting how 
+> unfit-for-purpose the most basic part of the whole idea is, nor 
+> *still* the complete lack of any demonstrable justification of how 
+> callers who supposedly can't use the IOMMU API actually benefit from 
+> adding all the complexity of using the IOMMU API in a hat but also 
+> still the streaming DMA API as well?
+>
+> Yeah, consider me reminded.
+>
+>
+>
+> In case I need to make it any more explicit, NAK to this not-generic 
+> not-DMA-mapping API, until you can come up with either something which 
+> *can* actually work in any kind of vaguely generic manner as claimed, 
+> or instead settle on a reasonable special-case solution for 
+> justifiable special cases. Bikeshedding and rebasing through half a 
+> dozen versions, while ignoring fundamental issues I've been pointing 
+> out from the very beginning, has not somehow magically made this 
+> series mature and acceptable to merge.
+>
+> Honestly, given certain other scenarios we may also end up having to 
+> deal with, if by the time everything broken is taken away, it were to 
+> end up stripped all the way back to something well-reasoned like:
+>
+> "Some drivers want more control of their DMA buffer layout than the 
+> general-purpose IOVA allocator is able to provide though the DMA 
+> mapping APIs, but also would rather not have to deal with managing an 
+> entire IOMMU domain and address space, making MSIs work, etc. Expose 
+> iommu_dma_alloc_iova() and some trivial IOMMU API wrappers to allow 
+> drivers of coherent devices to claim regions of the default domain 
+> wherein they can manage their own mappings directly."
+>
+> ...I wouldn't necessarily disagree.
 
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
----
- drivers/gpu/drm/tiny/appletbdrm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/appletbdrm.c b/drivers/gpu/drm/tiny/apple=
-tbdrm.c
-index 703b9a41a..751b05753 100644
---- a/drivers/gpu/drm/tiny/appletbdrm.c
-+++ b/drivers/gpu/drm/tiny/appletbdrm.c
-@@ -212,7 +212,7 @@ static int appletbdrm_read_response(struct appletbdrm_d=
-evice *adev,
- 	}
-=20
- 	if (response->msg !=3D expected_response) {
--		drm_err(drm, "Unexpected response from device (expected %p4cc found %p4c=
-c)\n",
-+		drm_err(drm, "Unexpected response from device (expected %p4cl found %p4c=
-l)\n",
- 			&expected_response, &response->msg);
- 		return -EIO;
- 	}
-@@ -286,7 +286,7 @@ static int appletbdrm_get_information(struct appletbdrm=
-_device *adev)
- 	}
-=20
- 	if (pixel_format !=3D APPLETBDRM_PIXEL_FORMAT) {
--		drm_err(drm, "Encountered unknown pixel format (%p4cc)\n", &pixel_format=
-);
-+		drm_err(drm, "Encountered unknown pixel format (%p4cl)\n", &pixel_format=
-);
- 		ret =3D -EINVAL;
- 		goto free_info;
- 	}
---=20
-2.47.1
+Well, this is definitely not a review I've expected. I admit that I 
+wasn't involved in this proposal nor the discussion about it and I 
+wasn't able to devote enough time for keeping myself up to date. Now 
+I've tried to read all the required backlog and I must admit that this 
+was quite demanding.
+
+If You didn't like this design from the beginning, then please state 
+that early instead of pointing random minor issues in the code. There 
+have been plenty of time to discuss the overall approach if You think it 
+was wrong. What do to now?
+
+Removing the need for scatterlists was advertised as the main goal of 
+this new API, but it looks that similar effects can be achieved with 
+just iterating over the pages and calling page-based DMA API directly. 
+Maybe I missed something. I still see some advantages in this DMA API 
+extension, but I would also like to see the clear benefits from 
+introducing it, like perf logs or other benchmark summary.
+
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
