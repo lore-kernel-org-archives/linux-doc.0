@@ -1,354 +1,412 @@
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010002.outbound.protection.outlook.com [52.103.67.2])
+Received: from mail-m3287.qiye.163.com (mail-m3287.qiye.163.com [220.197.32.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5FF236A68;
-	Wed, 12 Mar 2025 09:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741770348; cv=fail; b=ndHA86momRnO/d/H85yTqRmHhrGkx9E7FKDvbDpWbhffUxOfgkzA2rOkcRmpE12K0PzFceJNsPzMau30dFYIzfv5OW9sWpkUTg5A9Y4PuODd/r5r2gOe1J9GYa8wn+06WLh2xKA9aA33KPRRtYHGQnvHNpo4gUDxmm12pg2eqCI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741770348; c=relaxed/simple;
-	bh=iGQNXlLwm5OG077299Dzq7CBOL8PQ2u3zCKghkEE6bk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=IRpjVOwuxLb8CkAT7kkC94YHP4/u3g/Ki6jMuNF4oC7Vd6sf5RxJNEFfHOqFCNpB3PCorl+36jQ0eldKtB4AWKX4Uzwp6azFTAo32KPpCAsk+oudCnptnQ+D5tmwzc/Qp60WJQ5UJDOSeemsefXgG8GoaKN9J/J4lWLC9ktNzUU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=e9zdoH5X; arc=fail smtp.client-ip=52.103.67.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17F9236A68
+	for <linux-doc@vger.kernel.org>; Wed, 12 Mar 2025 09:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.87
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741770373; cv=none; b=QRqsPge9y8g+PJZ2bhn45XzPofgauBi20IuuzwXfbOvW/Vx092dErv5fJxgvKzWaMl9c+w9+1cUe9s7Jq5Xyd6JPQkduwJvbEWYjftx9c3/UN61ftwbqoSjw3GRVZUP2z/j6J3A1rhcaBSaMGeisnaFoHXgQpsAEsmvQJnO5UUk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741770373; c=relaxed/simple;
+	bh=R0evpSQ2y2qQBdOvaxOLMKcVEf1gRalL9VdgqWU+fps=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=no4BbYnxfTwQ1end9BxH9aYOk919jenrOC328uJK7slneCmrSeUf1/6LJ9QLvWFlQoykk6fgfrn2KdTBOxTLpbdioILjmh6xFFntLKcEWoQ1rSUC8eq/gsiSIY/eJhu4djrgSIcS92OjhvzERDxXaEhd1mmUA/vucNntZZ3nO/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=Llz/d8G5; arc=none smtp.client-ip=220.197.32.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="e9zdoH5X"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GAADVHF/0GAON4/L3+eIEFMMjelSetNPng2pUTMjtMVFlfh8TUrO+3AO1Lv8N6yA9Gn5jZhOTfXodJ3/VdzocoYkoXGvXB/J+Y511o5hwiUk53apFopH3L30Ywcjh9/0zTYQG2ENzYPhIT9H35hyfmBHmqglFW+tnBOS+3HR4FjM06mX7E6aZ9WyfB58coZcH6mJF7JqZuyw3VFFSNjwuOo/pejllf6OS9En+fKIBC606LsB3cxjdRQnZYCQSv5iglfqwy9YiYJqfMYEa3Onwo9WZ5NC4tZs0kT6t9j+MSZ8UbEY2j+TIDkkocl8UBbpf+bcZnLydUm26LfSP5sp1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/pJqLbtD6xmyotjrr7f0gCRaeWGyq1wlx5kC8RQdDGs=;
- b=UEctUOoPbHZ4NNrFv0pZrz+rNbY64NZ+QpdplHpx8eWqhdIptjfQVaQcy1YUJVndHFhyNsw+Y2g10eeJa7iFY+YrUUAT8dbGNEEvA2o3ZGMIS6cqa9zCTHob/naSQxMRbbaFEadUlmV40l0QBpLD3WlbCggZSNkvU8unS0/KLRupECa8bAFTbLDXPHJIrY96rVv7XC9VaxfLuX5cz/L8zrnKKjfyXJ9IaVtFTGUs8VngqWiU3g55mdQerBNAIvYURAdHmaOWXfFjWzkCVrwJbLeIqlYEODrH8rBfTRI5Lh+u/PLKMchmUD0OBENdl8qwharwy1LY+W3S0PNHgPZIbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/pJqLbtD6xmyotjrr7f0gCRaeWGyq1wlx5kC8RQdDGs=;
- b=e9zdoH5XzXCVVpnKpqNu6crHkGZHPJ1fZFZaq77K6m0iwxQPZ15X/9NTvLayUJO7iKVwsw8tkrDst4R1kjD2JWMqlJzyIeZWQgfELLIyfJuwULTiCW4nZB3APeyYzHLyIr41hOYyqLYG1vjJQvntRx5tiLx6l4hlEljcsyeEymphqtlqswiqxVrTMkxK3yGJxWNSg2AkGE9UribiuvfM/sAr1RKSQ5PVEAHkYa5IwEsrd4jaw85P1rNbRBxfINORdnRJKzbSbBtjmtsF6r5UitFeahxLEL1Z+R6bl/2HZSR2QuM5PkvY9ub6HIoHHaJvB+p1jVvLb75ngXvwmzZdnQ==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN3PR01MB9981.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:151::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Wed, 12 Mar
- 2025 09:05:38 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8511.026; Wed, 12 Mar 2025
- 09:05:38 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>, "airlied@redhat.com"
-	<airlied@redhat.com>, Simona Vetter <simona@ffwll.ch>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>, Petr
- Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Rasmus
- Villemoes <linux@rasmusvillemoes.dk>, "senozhatsky@chromium.org"
-	<senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
-	<akpm@linux-foundation.org>, "apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>, "dwaipayanray1@gmail.com"
-	<dwaipayanray1@gmail.com>, "lukas.bulwahn@gmail.com"
-	<lukas.bulwahn@gmail.com>
-CC: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Hector Martin
-	<marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Asahi Linux Mailing List
-	<asahi@lists.linux.dev>
-Subject: [PATCH 1/2] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Thread-Topic: [PATCH 1/2] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Thread-Index: AQHbky3sVCTho9z6wEy4WLvGD6MYHw==
-Date: Wed, 12 Mar 2025 09:05:38 +0000
-Message-ID: <376C9BD3-2F41-4511-BE52-1B8468FE2CB3@live.com>
-References: <ABAEA9D0-97CB-4ADD-9606-A12D5815335A@live.com>
-In-Reply-To: <ABAEA9D0-97CB-4ADD-9606-A12D5815335A@live.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|PN3PR01MB9981:EE_
-x-ms-office365-filtering-correlation-id: 4b5430d8-f1a8-4979-8dfb-08dd61450ef0
-x-microsoft-antispam:
- BCL:0;ARA:14566002|15080799006|7092599003|19110799003|8060799006|8062599003|461199028|41001999003|102099032|440099028|3412199025;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?w7St64aj0MRXZgXY0f8JbBpC3cMAe8lz0sGePf/HoJz+yo5HA88nuPPBTRVA?=
- =?us-ascii?Q?mEFk1FLiyZLLpGF695wNqccXxNgu0W07jNhKPT035y6oNbekEFmLca2MESQJ?=
- =?us-ascii?Q?tRBof+jmQOzvrGd3brM9NXJY66hQVdjwsUV1ftn3I2zeLPwWIC7eDDeG4A+Z?=
- =?us-ascii?Q?26IBavpNwyG2cKexxYbZ1Mxvd/jloxJm7eWSB7PQV344NLh1iEmylQKkSR9r?=
- =?us-ascii?Q?kLTFZ/r3oJTWHj3DxOag38dgIDqBSbj0ZHnBCVrhDUvSJBY7KZoKizrrXJ1Y?=
- =?us-ascii?Q?r8DB5CfhtSPYaT/9NN/bC4DCOqFYXAlMjKZukb6apRVQCmUnyMwgMGCGX17c?=
- =?us-ascii?Q?JzPV4HsSqI0Z1G0GWzdhfeKuDXJqKfJvdcYwyE+NiWdCSvZyHK+tfWzSbERS?=
- =?us-ascii?Q?D7RytaONXDhVQxcDsJFE89jVk646GfgZejCcdILTT8ZDl54bcDoit6v7hC3q?=
- =?us-ascii?Q?RpyXfSCbA06jcyMB7OSf7Ywg3HsBsJxJDzXNMNFQr1iJYlsTbXW0+cYMYodw?=
- =?us-ascii?Q?mMr6BXcBJXhz8LSoF+3DcF97i6UpxWYlrUdUBwn86Vd5Vb7E3QjMSPALbHfF?=
- =?us-ascii?Q?hLAmRis/yGRzsu/7IUtrqvVM6QZoLYsirtClXfa9au7oLRuwoQwiZ1vOvvHE?=
- =?us-ascii?Q?DzgzGLPsjKOH+bHnFkaDlN9KXm+MU6Q4ghqO6mi6C0PEEP2E6LWRT1zDSshq?=
- =?us-ascii?Q?o6iF0COhJ1aNCThqidRb7qfF1AqM2/xv+PsSbPRCLMssXQhmr+XqFmoyQqGo?=
- =?us-ascii?Q?hPDBPhmWEdvK5DkzymNqE8FUQYb38PKL3QkLs+5eskJjDjxVsBt7CrJG3YOM?=
- =?us-ascii?Q?eTWTwhXRHu788Rwa/a+u9TCWPpf6A0MWWCQwxwFAoF3k+VYEZmXSeFT/QiuH?=
- =?us-ascii?Q?DR9pGNpojzwGdCYMGjQKXPwGGcHLHqIbwqM5h7kAuLzzaey+uPJgkfkdw/CG?=
- =?us-ascii?Q?IgHvbMnygIdwvGsU1uQpXM8P24MpU7mVLPjGgA6plvPeB6HvlkWxRZigpSWe?=
- =?us-ascii?Q?X3p/5gSUMYVEQsx/QpTJdKRRzxKS5hKIHHKkm45292Lp1hKWc23T9R0csmS6?=
- =?us-ascii?Q?xOmgCj45+LKNVQ+hbjxXLhPmqXTDCkR9gFjM3CWVo+2f1mMTSw4=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?jg/Q5TVww4cetzIzkLvOyzEq1lNlaNfP2ZV4bkta1g8RGtgI8gCofYEx44M0?=
- =?us-ascii?Q?Mh0iaxR6NdDmr6Qjfr8zHu9dSLE2Zs5ZQwiV808B/BtiaxiLUn8vT16UnktW?=
- =?us-ascii?Q?1NIg4ldWOSQUJifXnTYtrVGzDfBD6v5KTSfZWLx3v8fdzlSfV1wKi2ZzViMe?=
- =?us-ascii?Q?1d5otG1qEjUB/DdhNU2tnEoFKQEu9yDm0XJeUeosgESFndOaqOYRxTS/WeOj?=
- =?us-ascii?Q?J6vUpyyCZ+jSZ4tzl2HMHe6dmKWdqftI9lFDiyIvLNnghaENMcoDi2kr3/46?=
- =?us-ascii?Q?CpPrXQScB/M5nwBJpCu4VeXR/tEVfbCaGLA0A8a8UXEKbU8drihkWw6vB+AP?=
- =?us-ascii?Q?CjHtI7nO40+dwJSNBAle3NdYaKGLYdh/yzCwcwpNe2+Yl7Dqh6B9OoFbBfpY?=
- =?us-ascii?Q?DFclJcnZaixPH/1QigrDEiclkoChHS75ZtSabxdfDtGI+TR7wVXQD2Sobb0C?=
- =?us-ascii?Q?kCYiFeoi9quONo/t2IzkM2qOwg9S2nS9lJA0PyHre+C6QcRIk9f5r+x++JN8?=
- =?us-ascii?Q?qkjVsQV10ndmJVdQO9EtQauUOfXJHihI9og+ovSaznaX+iuAHid1DJR1xTAB?=
- =?us-ascii?Q?hID0gGsEjKhxPZ3LBzHthV8QCV4dqke9JXw0fPO9zmdvTTg38Jlr4oILH8HD?=
- =?us-ascii?Q?/+j4pDuT3xwb4tocJ/hAnUQuGl65hy8fknnW1e71DmskjbitUbcM+8Ae2Tnb?=
- =?us-ascii?Q?TInsVpwpWUBHSHl5m/4tXZWZw/lUs45TvOyUo7IbivskejHwYEqPDjQ6a8TO?=
- =?us-ascii?Q?6WlpBabrvy0EPaRtY09xMofq2bKadfBuYlQEY+CLQA0bw422aDvgajDpuflz?=
- =?us-ascii?Q?kn1WuLtJFpoSzgY7uO2yEiPohio5zLJ/vOT2xSwyP7/cykC2LQPkn4xZM5Vi?=
- =?us-ascii?Q?Qc1SuA5IPWZZ7k6TN53RvRyCYvQX7LpDB1OTbNZagPp5NUJdH4hROEm6UT/g?=
- =?us-ascii?Q?imKvas/qMPZ6q/7Pc0AEav8KzFFE6jDThRWniFyuQvTBLxhLh2N66ZWvhT3G?=
- =?us-ascii?Q?IOQlYrcFnk5F+BFEZGvSTmZHRF+RH/kd9pZOUNzDZWjYIF9xuihnMocUCKVO?=
- =?us-ascii?Q?b+n2ZyyaeKUcqQqB8zu8QhEHbZE4iDskrM7/hGZA+RBCg2rXhx9n2nOc2mcZ?=
- =?us-ascii?Q?s4Gl3pDIyJo0rjMUNqUbq/c9mp7DMfFU1vuceyNEyMl1phb+ZXarblhHgVL7?=
- =?us-ascii?Q?k0He709UNSsL4rdnYDj6XMSSGf7a+Yv3QwytJMae4ff0aASdC1ro4jVayDbY?=
- =?us-ascii?Q?2drUgURs93XX7cf6MDk+dqHhxiPstA9a55DSsMpcQE9OSZBUEad8fSkbMnr0?=
- =?us-ascii?Q?AFrUTg98kxXzTWFZHQ7MwDel?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0039A4A56758C047BDB11B805171E318@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="Llz/d8G5"
+Received: from localhost.localdomain (unknown [1.193.57.30])
+	by smtp.qiye.163.com (Hmail) with ESMTP id e04904ac;
+	Wed, 12 Mar 2025 16:50:42 +0800 (GMT+08:00)
+From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn,
+	zhaoshuo@cqsoftware.com.cn,
+	zhangwei@cqsoftware.com.cn,
+	maoyuxian@cqsoftware.com.cn,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs/zh_CN: Add security SCTP Chinese translation
+Date: Wed, 12 Mar 2025 16:50:32 +0800
+Message-ID: <20250312085033.83716-1-zhaoshuo@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b5430d8-f1a8-4979-8dfb-08dd61450ef0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2025 09:05:38.7676
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB9981
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTB9MVhhDH0pOHx9DSUJKQlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVIS1lXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
+	JLS1kG
+X-HM-Tid: 0a95898c845d09d0kunme04904ac
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PUk6Vjo6NjJKMh1RDRI8KxRJ
+	NgxPCgpVSlVKTE9KTE1CT09IT05PVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkxVSEtZV1kIAVlBSk5ISEI3Bg++
+DKIM-Signature:a=rsa-sha256;
+	b=Llz/d8G5VRV3bBGCMJLTZi8S/zdv3mxwp6mqdc6abWB5cr3v1MoUXawVWa3L5M+/eqC+incUnDNC/wcW1Cdx5+d0jbI59JL5UBfcFPrUk4cRpUgb5qT59yu9+eHDWIseWhbTO6CKFKi/7xuyxBDsbWyb6H/YCnU+43oqoslAJ7M=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
+	bh=5+vos6zi/V8oEoBWZhDx70kavCWNjJXXo9ZlmKDjOPA=;
+	h=date:mime-version:subject:message-id:from;
 
-From: Hector Martin <marcan@marcan.st>
+Translate .../security/SCTP.rst into Chinese.
 
-%p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
-it's useful to be able to print generic 4-character codes formatted as
-an integer. Extend it to add format specifiers for printing generic
-32-bit FourCCs with various endian semantics:
+Update the translation through commit da51bbcdbace
+("Docs: typos/spelling")
 
-%p4ch	Host byte order
-%p4cn	Network byte order
-%p4cl	Little-endian
-%p4cb	Big-endian
-
-The endianness determines how bytes are interpreted as a u32, and the
-FourCC is then always printed MSByte-first (this is the opposite of
-V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
-allow printing LSByte-first FourCCs stored in host endian order
-(other than the hex form being in character order, not the integer
-value).
-
-Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
+Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 ---
- Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++
- lib/test_printf.c                         | 39 +++++++++++++++++++----
- lib/vsprintf.c                            | 35 ++++++++++++++++----
- scripts/checkpatch.pl                     |  2 +-
- 4 files changed, 94 insertions(+), 14 deletions(-)
+ .../translations/zh_CN/security/SCTP.rst      | 317 ++++++++++++++++++
+ .../translations/zh_CN/security/index.rst     |   2 +-
+ 2 files changed, 318 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/SCTP.rst
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core=
--api/printk-formats.rst
-index ecccc0473..bd420e8aa 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -648,6 +648,38 @@ Examples::
- 	%p4cc	Y10  little-endian (0x20303159)
- 	%p4cc	NV12 big-endian (0xb231564e)
-=20
-+Generic FourCC code
-+-------------------
+diff --git a/Documentation/translations/zh_CN/security/SCTP.rst b/Documentation/translations/zh_CN/security/SCTP.rst
+new file mode 100644
+index 000000000000..df19d6af3a8b
+--- /dev/null
++++ b/Documentation/translations/zh_CN/security/SCTP.rst
+@@ -0,0 +1,317 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
 +
++:Original: Documentation/security/SCTP.rst
++
++:翻译:
++ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
++
++====
++SCTP
++====
++
++SCTP的LSM支持
++=============
++
++安全钩子
++--------
++
++对于安全模块支持，已经实现了三个特定于SCTP的钩子::
++
++	security_sctp_assoc_request()
++	security_sctp_bind_connect()
++	security_sctp_sk_clone()
++	security_sctp_assoc_established()
++
++这些钩子的用法在下面的 `SCTP的SELinux支持`_ 一章中描述SELinux的实现。
++
++
++security_sctp_assoc_request()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++将关联INIT数据包的 ``@asoc`` 和 ``@chunk->skb`` 传递给安全模块。
++成功时返回 0，失败时返回错误。
 +::
-+	%p4c[hnlb]	gP00 (0x67503030)
 +
-+Print a generic FourCC code, as both ASCII characters and its numerical
-+value as hexadecimal.
++	@asoc - 指向sctp关联结构的指针。
++	@skb - 指向包含关联数据包skbuff的指针。
 +
-+The generic FourCC code is always printed in the big-endian format,
-+the most significant byte first. This is the opposite of V4L/DRM FourCCs.
 +
-+The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
-+endianness is used to load the stored bytes. The data might be interpreted
-+using the host byte order, network byte order, little-endian, or big-endia=
-n.
++security_sctp_bind_connect()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++将一个或多个IPv4/IPv6地址传递给安全模块进行基于 ``@optname`` 的验证，
++这将导致是绑定还是连接服务，如下面的权限检查表所示。成功时返回 0，失败
++时返回错误。
++::
 +
-+Passed by reference.
++	@sk      - 指向sock结构的指针。
++	@optname - 需要验证的选项名称。
++	@address - 一个或多个IPv4 / IPv6地址。
++	@addrlen - 地址的总长度。使用sizeof(struct sockaddr_in)或
++			   sizeof(struct sockaddr_in6)来计算每个ipv4或ipv6地址。
 +
-+Examples for a little-endian machine, given &(u32)0x67503030::
++  ------------------------------------------------------------------
++  |                     BIND Type Checks                           |
++  |       @optname             |         @address contains         |
++  |----------------------------|-----------------------------------|
++  | SCTP_SOCKOPT_BINDX_ADD     | One or more ipv4 / ipv6 addresses |
++  | SCTP_PRIMARY_ADDR          | Single ipv4 or ipv6 address       |
++  | SCTP_SET_PEER_PRIMARY_ADDR | Single ipv4 or ipv6 address       |
++  ------------------------------------------------------------------
 +
-+	%p4ch	gP00 (0x67503030)
-+	%p4cn	00Pg (0x30305067)
-+	%p4cl	gP00 (0x67503030)
-+	%p4cb	00Pg (0x30305067)
++  ------------------------------------------------------------------
++  |                   CONNECT Type Checks                          |
++  |       @optname             |         @address contains         |
++  |----------------------------|-----------------------------------|
++  | SCTP_SOCKOPT_CONNECTX      | One or more ipv4 / ipv6 addresses |
++  | SCTP_PARAM_ADD_IP          | One or more ipv4 / ipv6 addresses |
++  | SCTP_SENDMSG_CONNECT       | Single ipv4 or ipv6 address       |
++  | SCTP_PARAM_SET_PRIMARY     | Single ipv4 or ipv6 address       |
++  ------------------------------------------------------------------
 +
-+Examples for a big-endian machine, given &(u32)0x67503030::
++条目 ``@optname`` 的摘要如下::
 +
-+	%p4ch	gP00 (0x67503030)
-+	%p4cn	00Pg (0x30305067)
-+	%p4cl	00Pg (0x30305067)
-+	%p4cb	gP00 (0x67503030)
++	SCTP_SOCKOPT_BINDX_ADD - 允许在（可选地）调用 bind(3) 后，关联额外
++							 的绑定地址。
++							 sctp_bindx(3) 用于在套接字上添加一组绑定地址。
 +
- Rust
- ----
-=20
-diff --git a/lib/test_printf.c b/lib/test_printf.c
-index 59dbe4f9a..b9e8afc01 100644
---- a/lib/test_printf.c
-+++ b/lib/test_printf.c
-@@ -776,21 +776,46 @@ static void __init fwnode_pointer(void)
- 	software_node_unregister_node_group(group);
- }
-=20
-+struct fourcc_struct {
-+	u32 code;
-+	const char *str;
-+};
++	SCTP_SOCKOPT_CONNECTX - 允许分配多个地址以连接到对端（多宿主）。
++							sctp_connectx(3) 使用多个目标地址在SCTP
++							套接字上发起连接。
 +
-+static void __init fourcc_pointer_test(const struct fourcc_struct *fc, siz=
-e_t n,
-+				       const char *fmt)
-+{
-+	size_t i;
++	SCTP_SENDMSG_CONNECT  - 通过sendmsg(2)或sctp_sendmsg(3)在新关联上
++							发起连接。
 +
-+	for (i =3D 0; i < n; i++)
-+		test(fc[i].str, fmt, &fc[i].code);
-+}
++	SCTP_PRIMARY_ADDR     - 设置本地主地址。
 +
- static void __init fourcc_pointer(void)
- {
--	struct {
--		u32 code;
--		char *str;
--	} const try[] =3D {
-+	static const struct fourcc_struct try_cc[] =3D {
- 		{ 0x3231564e, "NV12 little-endian (0x3231564e)", },
- 		{ 0xb231564e, "NV12 big-endian (0xb231564e)", },
- 		{ 0x10111213, ".... little-endian (0x10111213)", },
- 		{ 0x20303159, "Y10  little-endian (0x20303159)", },
- 	};
--	unsigned int i;
-+	static const struct fourcc_struct try_ch[] =3D {
-+		{ 0x41424344, "ABCD (0x41424344)", },
-+	};
-+	static const struct fourcc_struct try_cn[] =3D {
-+		{ 0x41424344, "DCBA (0x44434241)", },
-+	};
-+	static const struct fourcc_struct try_cl[] =3D {
-+		{ (__force u32)cpu_to_le32(0x41424344), "ABCD (0x41424344)", },
-+	};
-+	static const struct fourcc_struct try_cb[] =3D {
-+		{ (__force u32)cpu_to_be32(0x41424344), "ABCD (0x41424344)", },
-+	};
-=20
--	for (i =3D 0; i < ARRAY_SIZE(try); i++)
--		test(try[i].str, "%p4cc", &try[i].code);
-+	fourcc_pointer_test(try_cc, ARRAY_SIZE(try_cc), "%p4cc");
-+	fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
-+	fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
-+	fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
-+	fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
- }
-=20
- static void __init
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 56fe96319..56511a994 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -1781,27 +1781,50 @@ char *fourcc_string(char *buf, char *end, const u32=
- *fourcc,
- 	char output[sizeof("0123 little-endian (0x01234567)")];
- 	char *p =3D output;
- 	unsigned int i;
-+	bool pixel_fmt =3D false;
- 	u32 orig, val;
-=20
--	if (fmt[1] !=3D 'c' || fmt[2] !=3D 'c')
-+	if (fmt[1] !=3D 'c')
- 		return error_string(buf, end, "(%p4?)", spec);
-=20
- 	if (check_pointer(&buf, end, fourcc, spec))
- 		return buf;
-=20
- 	orig =3D get_unaligned(fourcc);
--	val =3D orig & ~BIT(31);
-+	switch (fmt[2]) {
-+	case 'h':
-+		break;
-+	case 'n':
-+		orig =3D swab32(orig);
-+		break;
-+	case 'l':
-+		orig =3D (__force u32)cpu_to_le32(orig);
-+		break;
-+	case 'b':
-+		orig =3D (__force u32)cpu_to_be32(orig);
-+		break;
-+	case 'c':
-+		/* Pixel formats are printed LSB-first */
-+		pixel_fmt =3D true;
-+		break;
-+	default:
-+		return error_string(buf, end, "(%p4?)", spec);
-+	}
++	SCTP_SET_PEER_PRIMARY_ADDR - 请求远程对端将某个地址设置为其主地址。
 +
-+	val =3D pixel_fmt ? swab32(orig & ~BIT(31)) : orig;
-=20
- 	for (i =3D 0; i < sizeof(u32); i++) {
--		unsigned char c =3D val >> (i * 8);
-+		unsigned char c =3D val >> ((3 - i) * 8);
-=20
- 		/* Print non-control ASCII characters as-is, dot otherwise */
- 		*p++ =3D isascii(c) && isprint(c) ? c : '.';
- 	}
-=20
--	*p++ =3D ' ';
--	strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
--	p +=3D strlen(p);
-+	if (pixel_fmt) {
-+		*p++ =3D ' ';
-+		strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
-+		p +=3D strlen(p);
-+	}
-=20
- 	*p++ =3D ' ';
- 	*p++ =3D '(';
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 7b28ad331..5595a0898 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6904,7 +6904,7 @@ sub process {
- 					    ($extension eq "f" &&
- 					     defined $qualifier && $qualifier !~ /^w/) ||
- 					    ($extension eq "4" &&
--					     defined $qualifier && $qualifier !~ /^cc/)) {
-+					     defined $qualifier && $qualifier !~ /^c[hnlbc]/)) {
- 						$bad_specifier =3D $specifier;
- 						last;
- 					}
---=20
++	SCTP_PARAM_ADD_IP          - 在启用动态地址重配置时使用。
++	SCTP_PARAM_SET_PRIMARY     - 如下所述，启用重新配置功能。
++
++
++为了支持动态地址重新配置，必须在两个端点上启用以下
++参数（或使用适当的 **setsockopt**\(2)）::
++
++	/proc/sys/net/sctp/addip_enable
++	/proc/sys/net/sctp/addip_noauth_enable
++
++当相应的 ``@optname`` 存在时，以下的 *_PARAM_* 参数会
++通过ASCONF块发送到对端::
++
++		  @optname                      ASCONF Parameter
++		 ----------                    ------------------
++	SCTP_SOCKOPT_BINDX_ADD     ->   SCTP_PARAM_ADD_IP
++	SCTP_SET_PEER_PRIMARY_ADDR ->   SCTP_PARAM_SET_PRIMARY
++
++
++security_sctp_sk_clone()
++~~~~~~~~~~~~~~~~~~~~~~~~
++每当通过 **accept**\(2)创建一个新的套接字（即TCP类型的套接字），或者当
++一个套接字被‘剥离’时如用户空间调用 **sctp_peeloff**\(3)，会调用此函数。
++::
++
++	@asoc -  指向当前sctp关联结构的指针。
++	@sk - 指向当前套接字结构的指针。
++	@newsk - 指向新的套接字结构的指针。
++
++
++security_sctp_assoc_established()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++当收到COOKIE ACK时调用，对于客户端，对端的secid将被保存
++到 ``@asoc->peer_secid`` 中::
++
++	@asoc - 指向sctp关联结构的指针。
++	@skb - 指向COOKIE ACK数据包的skbuff指针。
++
++
++用于关联建立的安全钩子
++----------------------
++
++下图展示了在建立关联时 ``security_sctp_bind_connect()``、 ``security_sctp_assoc_request()``
++和 ``security_sctp_assoc_established()`` 的使用。
++::
++
++      SCTP 端点 "A"                                 SCTP 端点 "Z"
++      =============                                 =============
++    sctp_sf_do_prm_asoc()
++ 关联的设置可以通过connect(2),
++ sctp_connectx(3),sendmsg(2)
++ or sctp_sendmsg(3)来发起。
++ 这将导致调用security_sctp_bind_connect()
++ 发起与SCTP对端端点"Z"的关联。
++         INIT --------------------------------------------->
++                                                   sctp_sf_do_5_1B_init()
++                                                 响应一个INIT数据块。
++                                             SCTP对端端点"A"正在请求一个临时关联。
++                                             如果是首次关联，调用security_sctp_assoc_request()
++                                             来设置对等方标签。
++                                             如果不是首次关联，检查是否被允许。
++                                             如果允许，则发送:
++          <----------------------------------------------- INIT ACK
++          |
++          |                                  否则，生成审计事件并默默丢弃该数据包。
++          |
++    COOKIE ECHO ------------------------------------------>
++                                                  sctp_sf_do_5_1D_ce()
++                                             响应一个COOKIE ECHO数据块。
++                                             确认该cookie并创建一个永久关联。
++                                             调用security_sctp_assoc_request()
++                                             执行与INIT数据块响应相同的操作。
++          <------------------------------------------- COOKIE ACK
++          |                                               |
++    sctp_sf_do_5_1E_ca                                    |
++ 调用security_sctp_assoc_established()                    |
++ 来设置对方标签                                           |
++          |                                               |
++          |                               如果是SCTP_SOCKET_TCP或是剥离的套接
++          |                               字，会调用 security_sctp_sk_clone()
++          |                               来克隆新的套接字。
++          |                                               |
++         建立                                            建立
++          |                                               |
++    ------------------------------------------------------------------
++    |                            关联建立                            |
++    ------------------------------------------------------------------
++
++
++SCTP的SELinux支持
++=================
++
++安全钩子
++--------
++
++上面的 `SCTP的LSM支持`_ 章节描述了以下SCTP安全钩子，SELinux的细节
++说明如下::
++
++	security_sctp_assoc_request()
++	security_sctp_bind_connect()
++	security_sctp_sk_clone()
++	security_sctp_assoc_established()
++
++
++security_sctp_assoc_request()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++将关联INIT数据包的 ``@asoc`` 和 ``@chunk->skb`` 传递给安全模块。
++成功时返回 0，失败时返回错误。
++::
++
++    @asoc - 指向sctp关联结构的指针。
++    @skb - 指向关联数据包skbuff的指针。
++
++安全模块执行以下操作:
++	 如果这是 ``@asoc->base.sk`` 上的首次关联，则将对端的sid设置
++	 为 ``@skb`` 中的值。这将确保只有一个对端sid分配给可能支持多个
++	 关联的 ``@asoc->base.sk``。
++
++	 否则验证 ``@asoc->base.sk peer sid`` 是否与 ``@skb peer sid``
++	 匹配，以确定该关联是否应被允许或拒绝。
++
++	 将sctp的 ``@asoc sid`` 设置为套接字的sid（来自 ``asoc->base.sk``）
++	 并从 ``@skb peer sid`` 中提取MLS部分。这将在SCTP的TCP类型套接字及
++	 剥离连接中使用，因为它们会导致生成一个新的套接字。
++
++	 如果配置了IP安全选项（CIPSO/CALIPSO），则会在套接字上设置IP选项。
++
++
++security_sctp_bind_connect()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++根据 ``@optname`` 检查ipv4/ipv6地址所需的权限，具体如下::
++
++  ------------------------------------------------------------------
++  |                   BIND Permission Checks                       |
++  |       @optname             |         @address contains         |
++  |----------------------------|-----------------------------------|
++  | SCTP_SOCKOPT_BINDX_ADD     | One or more ipv4 / ipv6 addresses |
++  | SCTP_PRIMARY_ADDR          | Single ipv4 or ipv6 address       |
++  | SCTP_SET_PEER_PRIMARY_ADDR | Single ipv4 or ipv6 address       |
++  ------------------------------------------------------------------
++
++  ------------------------------------------------------------------
++  |                 CONNECT Permission Checks                      |
++  |       @optname             |         @address contains         |
++  |----------------------------|-----------------------------------|
++  | SCTP_SOCKOPT_CONNECTX      | One or more ipv4 / ipv6 addresses |
++  | SCTP_PARAM_ADD_IP          | One or more ipv4 / ipv6 addresses |
++  | SCTP_SENDMSG_CONNECT       | Single ipv4 or ipv6 address       |
++  | SCTP_PARAM_SET_PRIMARY     | Single ipv4 or ipv6 address       |
++  ------------------------------------------------------------------
++
++
++`SCTP的LSM支持`_ 提供了 ``@optname`` 摘要，并且还描述了当启用动态地址重新
++配置时，ASCONF块的处理过程。
++
++
++security_sctp_sk_clone()
++~~~~~~~~~~~~~~~~~~~~~~~~
++每当通过 **accept**\(2)（即TCP类型的套接字）创建一个新的套接字，或者
++当一个套接字被‘剥离’如用户空间调用 **sctp_peeloff**\(3)时，
++``security_sctp_sk_clone()`` 将会分别将新套接字的sid和对端sid设置为
++``@asoc sid`` 和 ``@asoc peer sid`` 中包含的值。
++::
++
++	@asoc - 指向当前sctp关联结构的指针。
++	@sk - 指向当前sock结构的指针。
++	@newsk - 指向新sock结构的指针。
++
++
++security_sctp_assoc_established()
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++当接收到COOKIE ACK时调用，它将连接的对端sid设置为 ``@skb`` 中的值::
++
++	@asoc - 指向sctp关联结构的指针。
++	@skb - 指向COOKIE ACK包skbuff的指针。
++
++
++策略声明
++--------
++以下支持SCTP的类和权限在内核中是可用的::
++
++	class sctp_socket inherits socket { node_bind }
++
++当启用以下策略功能时::
++
++	policycap extended_socket_class;
++
++SELinux对SCTP的支持添加了用于连接特定端口类型 ``name_connect`` 权限
++以及在下面的章节中进行解释的 ``association`` 权限。
++
++如果用户空间工具已更新，SCTP将支持如下所示的 ``portcon`` 声明::
++
++	portcon sctp 1024-1036 system_u:object_r:sctp_ports_t:s0
++
++
++SCTP对端标签
++------------
++每个SCTP套接字仅分配一个对端标签。这个标签将在建立第一个关联时分配。
++任何后续在该套接字上的关联都会将它们的数据包对端标签与套接字的对端标
++签进行比较，只有在它们不同的情况下 ``association`` 权限才会被验证。
++这是通过检查套接字的对端sid与接收到的数据包中的对端sid来验证的，以决
++定是否允许或拒绝该关联。
++
++注:
++   1) 如果对端标签未启用，则对端上下文将始终是 ``SECINITSID_UNLABELED``
++      （在策略声明中为 ``unlabeled_t`` ）。
++
++   2) 由于SCTP可以在单个套接字上支持每个端点（多宿主）的多个传输地址，因此
++      可以配置策略和NetLabel为每个端点提供不同的对端标签。由于套接字的对端
++      标签是由第一个关联的传输地址决定的，因此建议所有的对端标签保持一致。
++
++   3) 用户空间可以使用 **getpeercon**\(3) 来检索套接字的对端上下文。
++
++   4) 虽然这不是SCTP特有的，但在使用NetLabel时要注意，如果标签分配给特定的接
++      口，而该接口‘goes down’，则NetLabel服务会移除该条目。因此，请确保网络启
++      动脚本调用 **netlabelctl**\(8) 来设置所需的标签（详细信息，
++      请参阅 **netlabel-config**\(8) 辅助脚本）。
++
++   5) NetLabel SCTP对端标签规则应用如下所述标签为“netlabel”的一组帖子：
++      https://www.paul-moore.com/blog/t.
++
++   6) CIPSO仅支持IPv4地址： ``socket(AF_INET, ...)``
++      CALIPSO仅支持IPv6地址： ``socket(AF_INET6, ...)``
++
++      测试CIPSO/CALIPSO时请注意以下事项：
++         a) 如果SCTP数据包由于无效标签无法送达，CIPSO会发送一个ICMP包。
++         b) CALIPSO不会发送ICMP包，只会默默丢弃数据包。
++
++   7) RFC 3554不支持IPSEC —— SCTP/IPSEC支持尚未在用户空间实现(**racoon**\(8)
++      或 **ipsec_pluto**\(8))，尽管内核支持 SCTP/IPSEC。
+diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
+index 05d24e3acc11..d33b107405c7 100644
+--- a/Documentation/translations/zh_CN/security/index.rst
++++ b/Documentation/translations/zh_CN/security/index.rst
+@@ -20,6 +20,7 @@
+    lsm
+    lsm-development
+    sak
++   SCTP
+    self-protection
+    siphash
+    tpm/index
+@@ -29,6 +30,5 @@
+ TODOLIST:
+ * IMA-templates
+ * keys/index
+-* SCTP
+ * secrets/index
+ * ipe
+-- 
 2.47.1
 
