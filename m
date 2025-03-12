@@ -1,147 +1,164 @@
-Received: from mail-pl1-f226.google.com (mail-pl1-f226.google.com [209.85.214.226])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79FF1EFFB3
-	for <linux-doc@vger.kernel.org>; Wed, 12 Mar 2025 19:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69731E8823
+	for <linux-doc@vger.kernel.org>; Wed, 12 Mar 2025 20:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741809123; cv=none; b=ccgcGY40Hfo2fNIirPSPETYvSELZ7qfdykXAkb7Sb+lFTz7wgn2CVMszHc2oDcZzW4bZjfqsu4tPIvOV1AfJ4KyLymHabWLEhjin8oP13QAlyAhIf4UbPZhPkabECyWeXFu8qn7bAP9Mf3ciErX/VoUUJnHuBS/Ohl6BW+ro7bQ=
+	t=1741810459; cv=none; b=UZN0aZYZQr6csG+TSuaGm2kJZT7JCXYUyykKatZjLDlB3HdRscFz+UqvqO7a3EmveseI4ScR0Y+gl5uE9pC5ttNxJ76HRg04B4wiapgiZe3qCJnmtb5PHoow+Xd+I1WhUkc8wQSncDCX94DQZxDMx3oFMNJEocMqHYGfxndS0QA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741809123; c=relaxed/simple;
-	bh=Q2k9GPayWeUHQsXcs/86RclA5d1uasfKBhsFAaw3N6I=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=O1y37OGKW9yTfO7R4Ligyecir/WhjtHhL8WmLUrgLQXLDDyR2pyVCQclfENCOj5foVoM8hlhpr8nrvIzKSCF60aII6zL/6badgR0dcnyV1VxBbSb1D+JegXork41gUpxZlCsdW05VqzTOv5RqErToarRnUVRvpUiukG3AHVQxuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=XKBh4GFt; arc=none smtp.client-ip=209.85.214.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
+	s=arc-20240116; t=1741810459; c=relaxed/simple;
+	bh=vKwigBB2IjpH6imGvsuAwuaflIRBbAP/S1v0i6KO5LM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QNOGWwZdDQmaF1Ato/P6D4Jclg7pSLApjKp9YDIq9DsNUMvdf9cJtKvaxSQYGChriTs+k9UnQk/a+ghgdcpxgm+wrC01vyNfWNmWpXXv+LmvJij2D/rxW/Ml6u1WT5/GvGPx8SHF8EVv1tN6wtthBQ4RSSudn4Ta+kTE79WJzKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YZVWAjka; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="XKBh4GFt"
-Received: by mail-pl1-f226.google.com with SMTP id d9443c01a7336-22409077c06so6108635ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Mar 2025 12:51:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YZVWAjka"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2240aad70f2so11055ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Mar 2025 13:14:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1741809118; x=1742413918; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TUXQmTabTFlJQTznKZdaGRe9l01Y+yauh4zh2Ba8guo=;
-        b=XKBh4GFtQCYph1TcPaoHMx/aS0kPOPGy2bz3gEQfe7/Am5jsZSqu2HIx3lm3sN8Qbt
-         BYRTRqeMBEPJhg7bbdHL2mmOfojYsV05s56KcpqY3N/MvjMKvVs4DxzALnDYb3wPOZiF
-         /hO3Bpn0YmPt0Svnob5N9iwjmB23DFfA8Sqf0AkOhvS6weuCK8DyRDm4PG/5cPs0loMu
-         CExrPDjVbwwbtJ+jAF1FDm5aMzQQRpGvIKNv1jMji6zdVC7eqXQbDdCjBlKT9fgVWrng
-         tIiNshqy5NTKtRLmcb9WpqyryGmzqhFBMmu1CYgdyUkiZmSP6K6YaPVUSPy49ewEfoln
-         NYeQ==
+        d=google.com; s=20230601; t=1741810457; x=1742415257; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EAXW43jmz+v892cmcTYK6Xn+BX9LwfhC4DPI6cYsApU=;
+        b=YZVWAjka/pZL+jm1rAEPzis6W3crkE8X+IMDVvP7zEWVGOAUM/vXYwoi6C1fhzkE7b
+         GT3qcEXVZRHhkLWghtBS5Rp7VY/Y68CjR0ojQmX8naiuwxPQ9sXmkX4hc2KcbD9oyFKs
+         dkFjdVlWTPFcZjlFIrtnJrrCYlIdkc7ky7ZRY/T/+mMTtDZE9F18EARYwYpEy6P+qwfQ
+         h/p7WoF5ITuBaD/slnU+E+R/gWiTYYPS85frJKiGJFqRsNBaXcw3A7EGykPKXIMQ3TNe
+         a4wQ/I2sRBp2zXqboZahHY1LKNKVtPdrL50Q3miWABRREORw/6F+ZsLUoh6/WZPfSAtQ
+         On8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741809118; x=1742413918;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TUXQmTabTFlJQTznKZdaGRe9l01Y+yauh4zh2Ba8guo=;
-        b=bPuH+HdYavlzr85QhOud+4u2uUK6BUH1DKIRo26+iJ01E/viwRS12CyG89KCKMwWjb
-         sKfm5VsoRCQw/g6S3YVE+p5sqnz10G2YkROmuebRGfXcwWGLgC9tusD1oRQUm2vnFlVw
-         ee9cbpQlSbxnbf/d+JfM16J9qIyP8ZmbzFolDmqers2QY4T7nFCAylCk07q4xQaVDXFV
-         N0e2a9PowwTvnnIXgMdb56d9zWKo1YrDqM54KKX7839s4OG7VP8RgPDJJawIAFBEoUJy
-         NruZdqdSGoTRkFZrt5+EG56y25vfF4ykngD0rsU8oUop94wNQOOveFT52SGg+xId5lhj
-         a7cw==
-X-Forwarded-Encrypted: i=1; AJvYcCUgKEfBboW0+J1JkvA5/oRKCPq+xIoZgy6BNTxymuJIqvd1dskc2Rdze9+yup5rmPUpMNKyM0Nf9to=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBQmQtmtBV7PZVW3FFKHF6Vb1+XumWh6hHTC21FgCN+UXVpOGY
-	H4DfROHEVO8c6sVkTB8agxgKe8TP4OsZgGoBUrANPmBLbramhewoyeDgee+61Hi24sditAikINW
-	OLrqbL+lBmHefoTj4OhHN5MMjnOQc4iBTjuu4e71FRpMEDLRE
-X-Gm-Gg: ASbGncu5NicjTuVOmD4QyIq8VAQIeVFsyHXvWGx2BJiSnQwxkTJW1qOszW8r/v8QLLY
-	i8qRFqqHWchb19ycyayPtaTX/muMOlogqx9ABQ8PWkK3zciHBubGb65axKl5/HYTtSF9VLEcyKp
-	alyjdbj08gAmltfi5B5GlOUZWWWNdp+qzgGI57o98RoatHfIGc1bi86oGN4k3nZkm+5ZwuRu7vt
-	WaSQtXuLZZEmc1KaMAjoxDyMOtgVaYjfg+5Lcj0igYIjVeulGop1RZKceqtbU7OjzLLBQqiO2h4
-	Rvqm2Df7krtJTKhzrWghe9pm7cMtGPulEh0=
-X-Google-Smtp-Source: AGHT+IFzTFpDmJydmC2PtlCdpNTNUDU0mgSO+UfsIg00y4eEivOM8oFExNu431q+A3hE23lAesqPTs6l6uBP
-X-Received: by 2002:a17:903:283:b0:224:194c:6942 with SMTP id d9443c01a7336-22428bded4amr373642295ad.34.1741809118152;
-        Wed, 12 Mar 2025 12:51:58 -0700 (PDT)
-Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id d2e1a72fcca58-736c8d701absm632789b3a.12.2025.03.12.12.51.57
+        d=1e100.net; s=20230601; t=1741810457; x=1742415257;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EAXW43jmz+v892cmcTYK6Xn+BX9LwfhC4DPI6cYsApU=;
+        b=KOE+PVrwaCOXdJcOZwsCvzTxdd3niCHf0in/PcOOmRKLol3om76M8Hj+3fgGsNw5PV
+         wZsNxve32VEx5c38uDZmtVj1Q6hllKZ8gQQp01/6KfHWXWCs5pdQAs7TIXIpHFeQnxKh
+         P6rA6QdvMgvPoJuF5zr1EP6jMlCRuYBfJYQvsAcIrtJgXdtQdzt2KPYOx6OFlkdTiY9U
+         lrXeVf9ZgmIBaOQ+aeLSQ2J9WkmIpCJIWry+UHr4WGDX55RBAvmgllHiZzaJMYdHONsh
+         K54u3uNUiei2d8bLYlA2yFQWWHFLfi4jB8/z6Bpq2qIFzQwhtpUz07R3IA0zzlGcu1tN
+         wClg==
+X-Forwarded-Encrypted: i=1; AJvYcCVTD4tugDdUxqvYR6v6nxOrothGskX8Y2VTrVNX+9K9jFPnhDgaO11Pw7iYeZ/NdriGfzORih1W+0Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4i9xdESoODapYYmlsPX0qUivZHZ2S924GeuWL+ErBRdvKT6Yc
+	HbGp/Wn7ACIf2SRjfBhQIifuNjEatsJa80Xnb4tylDCGV28NV1Yq/2sNA/GN0A==
+X-Gm-Gg: ASbGnctTe7vDcRu6UtRRXSHOnW5Rs4qpZzVBvA5q6x+A32w3WdCimWe2oRVaSnWUDpe
+	YdaXRCZKxmp0AEnO1MdwpxT4NSRELNzhHx+AocI6Cut66XZPbAHPIEoA4LClgT9/fumKFJvOrFa
+	Kpv0SG5h76KOXGRW6gnyPlRbM73jGBpwMYwCRCElrHW9mAze/wwY3p+wKUqMhTvuw8N3YDNUwA5
+	zgt2X91rISPB37GbOKWjZ23NrQrTDfuaAO1uQf9hWLsXHPRDen368vv0W8MGAx9e1tgqCjeMdS3
+	ZeV77LYZYjYeP5nvXlspbxpa9BaaEdf4flgRB/bRBWji0txBxFrczHuI7TXUKMMgYv4dPlfPCGW
+	LnjLc0Vg=
+X-Google-Smtp-Source: AGHT+IHtw1ysulsO8x8+o2O3j0n/z4qIqj3SYRhhQmpzlwQZjxNft8QHeLkmJtLVFUxToSP1/tTfxA==
+X-Received: by 2002:a17:902:ec8f:b0:21b:b3c4:7e0a with SMTP id d9443c01a7336-225c5b6c66emr261875ad.13.1741810456662;
+        Wed, 12 Mar 2025 13:14:16 -0700 (PDT)
+Received: from google.com (57.145.233.35.bc.googleusercontent.com. [35.233.145.57])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22410aa5166sm120318605ad.219.2025.03.12.13.14.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Mar 2025 12:51:58 -0700 (PDT)
-X-Relaying-Domain: purestorage.com
-Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [10.7.70.36])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 3CF97340328;
-	Wed, 12 Mar 2025 13:51:57 -0600 (MDT)
-Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
-	id 2C718E4044C; Wed, 12 Mar 2025 13:51:57 -0600 (MDT)
-From: Uday Shankar <ushankar@purestorage.com>
-Subject: [PATCH net-next v6 0/2] netconsole: allow selection of egress
- interface via MAC address
-Date: Wed, 12 Mar 2025 13:51:45 -0600
-Message-Id: <20250312-netconsole-v6-0-3437933e79b8@purestorage.com>
+        Wed, 12 Mar 2025 13:14:16 -0700 (PDT)
+Date: Wed, 12 Mar 2025 20:14:09 +0000
+From: Carlos Llamas <cmllamas@google.com>
+To: Li Li <dualli@chromium.org>
+Cc: "Cc:" <dualli@google.com>, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, Jakub Kicinski <kuba@kernel.org>,
+	pabeni@redhat.com, donald.hunter@gmail.com,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+	tkjos@android.com, maco@android.com,
+	"Joel Fernandes (Google)" <joel@joelfernandes.org>,
+	brauner@kernel.org, Suren Baghdasaryan <surenb@google.com>,
+	omosnace@redhat.com, shuah@kernel.org, arnd@arndb.de,
+	masahiroy@kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
+	Simon Horman <horms@kernel.org>, tweek@google.com,
+	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org, selinux@vger.kernel.org,
+	Hridya Valsaraju <hridya@google.com>, smoreland@google.com,
+	ynaffit@google.com, Android Kernel Team <kernel-team@android.com>
+Subject: Re: Fwd: [PATCH v16 2/3] binder: report txn errors via generic
+ netlink
+Message-ID: <Z9HrEdbI5JYu0pwS@google.com>
+References: <20250303200212.3294679-1-dualli@chromium.org>
+ <20250303200212.3294679-3-dualli@chromium.org>
+ <Z8-4SZv6plpyQUwf@google.com>
+ <CANBPYPhR-C3VTv=ZHc1LJ0c7OG8-K2iGS62vXHmg9gcX0y89Cw@mail.gmail.com>
+ <CANBPYPg5i5PhqV0-1foaKwNOaoKNoit6-cLUAqNu=2S0AUp==w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANHl0WcC/23NTQ6CMBAF4KuYrq3plP6oK+9hXJQy1SZKSYtEY
- 7i7IyuILF/evG8+rGCOWNhx82EZh1hiaimY7Yb5m2uvyGNDmUkhtZBC8RZ7n9qS7siVNyBQhr0
- Fz2jQZQzxNWFnRnd0++rZhZpbLH3K7+nLIKd+DRwkF1xj0FjrYIQ2p+6Z8Td1V9z59JiwoZoDe
- gFUBEAlXQUBLBwO64CaAWAXgCJAeLMHj8ESsg7oGSDFAtAEKIcuOAsN1uEfGMfxCzHJLj93AQA
- A
-X-Change-ID: 20250204-netconsole-4c610e2f871c
-To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
- Simon Horman <horms@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
- Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-wireless@vger.kernel.org, linux-doc@vger.kernel.org, 
- Uday Shankar <ushankar@purestorage.com>, 
- Michal Swiatkowski <michal.swiatkowski@linux.intel.com>, 
- Simon Horman <horms@verge.net.au>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANBPYPg5i5PhqV0-1foaKwNOaoKNoit6-cLUAqNu=2S0AUp==w@mail.gmail.com>
 
-This series adds support for selecting a netconsole egress interface by
-specifying the MAC address (in place of the interface name) in the
-boot/module parameter.
+On Wed, Mar 12, 2025 at 11:49:02AM -0700, Li Li wrote:
+> > > +     mutex_lock(&binder_procs_lock);
+> > > +     hlist_for_each_entry(proc, &binder_procs, proc_node) {
+> > > +             if (proc->pid == pid)
+> > > +                     break;
+> >
+> > Wait... can't there be multiple binder_proc instances matching the same
+> > pid? I know that binder_proc is a bit of a misnomer but what should you
+> > do in such case? Shouldn't you set the flags in _all_ matching pids?
+> >
+> > Furthermore, there could be a single task talking on multiple contexts,
+> > so you could be returning the 'proc' that doesn't match the context that
+> > you are looking for right?
+> >
+> 
+> You're right. I should update this logic to search the process within a
+> certain binder_context only.
 
-Signed-off-by: Uday Shankar <ushankar@purestorage.com>
----
-Changes in v6:
-- No changes, just rebase on net-next/main and repost for patchwork
-  automation
-- Link to v5: https://lore.kernel.org/r/20250220-netconsole-v5-0-4aeafa71debf@purestorage.com
+Also, note the comment about multiple 'struct binder_proc' matching the
+same desired pid.
 
-Changes in v5:
-- Drop Breno Leitao's patch to add (non-RCU) dev_getbyhwaddr from this
-  set since it has landed on net-next (Jakub Kicinski)
-- Link to v4: https://lore.kernel.org/r/20250217-netconsole-v4-0-0c681cef71f1@purestorage.com
+> > > +static void binder_netlink_report(struct binder_context *context, u32 err,
+> > > +                               u32 pid, u32 tid, u32 to_pid, u32 to_tid,
+> >
+> > Instead of all these parameters, is there a way to pass the transaction
+> > itself? Isn't this info already populated there? I think it even holds
+> > the info you are looking for from the 'binder_transaction_data' below.
+> >
+> 
+> The binder_transaction_data doesn't include all of pid, tid, to_pid and to_tid.
 
-Changes in v4:
-- Incorporate Breno Leitao's patch to add (non-RCU) dev_getbyhwaddr and
-  use it (Jakub Kicinski)
-- Use MAC_ADDR_STR_LEN in ieee80211_sta_debugfs_add as well (Michal
-  Swiatkowski)
-- Link to v3: https://lore.kernel.org/r/20250205-netconsole-v3-0-132a31f17199@purestorage.com
+I'm not referring to binder_transaction_data, I mean 'struct
+binder_transaction'. I _think_ this should have all you need?
 
-Changes in v3:
-- Rename MAC_ADDR_LEN to MAC_ADDR_STR_LEN (Johannes Berg)
-- Link to v2: https://lore.kernel.org/r/20250204-netconsole-v2-0-5ef5eb5f6056@purestorage.com
+> > > +     ret = genlmsg_multicast(&binder_nl_family, skb, 0, BINDER_NLGRP_REPORT, GFP_KERNEL);
+> >
+> > Thanks for switching to multicast. On this topic, we can only have a
+> > single global configuration at a time correct? e.g. context vs per-proc.
+> > So all listeners would ahve to work with the same setup?
+> >
+> 
+> We only have a single global configuration, which can include both
+> context and proc setup.
+> Yes, all listeners work with the same setup as we have only one
+> multicast group defined.
+> The user space code can demux it by checking the context field of the
+> netlink messages.
 
----
-Uday Shankar (2):
-      net, treewide: define and use MAC_ADDR_STR_LEN
-      netconsole: allow selection of egress interface via MAC address
+Ack. I understand the demux solution. I was wondering if we'll need to
+OR the different configurations (per-proc and flags) from each listener
+in that case.
 
- Documentation/networking/netconsole.rst |  6 +++-
- drivers/net/netconsole.c                |  2 +-
- drivers/nvmem/brcm_nvram.c              |  2 +-
- drivers/nvmem/layouts/u-boot-env.c      |  2 +-
- include/linux/if_ether.h                |  3 ++
- include/linux/netpoll.h                 |  6 ++++
- lib/net_utils.c                         |  4 +--
- net/core/netpoll.c                      | 51 +++++++++++++++++++++++++--------
- net/mac80211/debugfs_sta.c              |  7 +++--
- 9 files changed, 61 insertions(+), 22 deletions(-)
----
-base-commit: 0ea09cbf8350b70ad44d67a1dcb379008a356034
-change-id: 20250204-netconsole-4c610e2f871c
+> > > +TRACE_EVENT(binder_netlink_report,
+> > > +     TP_PROTO(const char *name, u32 err, u32 pid, u32 tid, u32 to_pid,
+> > > +              u32 to_tid, u32 reply, struct binder_transaction_data *tr),
+> >
+> > Similarly here I think you could get away with passing 'struct
+> > binder_transaction' instead of all the individual fields.
+> >
+> 
+> Same as above, the pid/tid fields are not in the struct
+> binder_transaction (or redacted for oneway txns).
 
-Best regards,
--- 
-Uday Shankar <ushankar@purestorage.com>
+There is something off here. You have t->from_{pid|tid} and also
+t->to_{proc|thead} that you can use. Isn't this what you are looking
+for?
 
+--
+Carlos Llamas
