@@ -1,104 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B661F09A8;
-	Wed, 12 Mar 2025 21:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15201EFFAF;
+	Wed, 12 Mar 2025 22:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741814630; cv=none; b=CkWiwL6iRH3wCvQlgniO3Dw4V5YVULDdd6jjDNawdiUiVx6Pv2pTmYtimsRFjvLwQC+B43mrdzyNyauC8KKNch48qfNSAz+en+ivI8EWQs/qK9qNoy5J+q4bto6O9wfaB03/iD3RaRXtMGwAfBFOBOwX/txU+Ly0sCmLOiDYQmU=
+	t=1741818375; cv=none; b=MOvlOAqAa0eWOrm1OYkgTubJG95s1qVGZ2OQALNqDZ2LIOFFX5e8ZxOm6YBfiNTUErvpe9515lQPp0b2Pnxzw8TaVoofk6SMlNCVZ/DyAJZjpg/EDsQYBozyPaRa0ah669v2LaqpoZ+2NExdcDCpvGNHuaaM8e7tEvgtk0AROv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741814630; c=relaxed/simple;
-	bh=xHL+MXLk8oTL6JktnRTqQNOjTVW4eIBGCZKvQxz6iNs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MjMA08nci0HnhBE/W+MeXDc57M6Mw1XUS5nQoI8ZQvAPGTk6viP9/fK6Rn8LmDL+fmexc0QpedvReTLIJ19uAIkh0c5h9M7XaP8hS+mOa9C1XopTVFhzYf5Ogp3hsgtsXMKGE95+ALs4cCb/sviw1+WSi1HUo9F3XKBH8kNgLiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NkauvbMZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741818375; c=relaxed/simple;
+	bh=wVXAEMQ1AYcIo0RjMVfy/fifdDq9C9XRRzrJbyO9JKU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QW8Hs0ATxsnQOtCsJEwtYC8JUi3PJEbbZHneLlFh9kxOul4icgjkk0BS4trhGnJw0QtT/KUSeQlvJ+hYWpS5CgkNLn5zaPwbtJ4lhMJetAKpD00XuhYDwoYtVYyKUUmp/FN1LzuY7wE2zalSBx1PuzKqiWfEE+gNkryo7HJlZQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ZV/rRze9; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NkauvbMZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8012C4CEDD;
-	Wed, 12 Mar 2025 21:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741814630;
-	bh=xHL+MXLk8oTL6JktnRTqQNOjTVW4eIBGCZKvQxz6iNs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NkauvbMZ7KhZaA+uaw5PFaE1H57K5JMNxYkinpXh1jtBfCQESM1QsyXChyy0F/VPx
-	 7/xjhVS9cFep4gRdypc2UpPx9qG8M+1BGsoHa7IEth/nKJ55rk0sypINr8RzoSEjJY
-	 LqT4Ab9IbHdSHj9hy+3gG5CiGCBlYOyQJrMMSqrRw7bUxgaMFXBPNBGg8qGZ7PbeKo
-	 d1+7vPvFYrs4tLZ+USMobqnzooFZPzbXFeEsOQocWk9PrGhpF5H84QX6zDpqh3YJAs
-	 7wxGPZw+uLS7zSvifegFb9kSjgVD/nWYWjgKjbAEd+DbOlWKfjUisgqw+TXvfwqlxi
-	 bPSb1iQTshuFQ==
-Date: Mon, 10 Mar 2025 14:51:11 +0100
-From: Joel Granados <joel.granados@kernel.org>
-To: Ruiwu Chen <rwchen404@gmail.com>
-Cc: mcgrof@kernel.org, corbet@lwn.net, keescook@chromium.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, zachwade.k@gmail.com
-Subject: Re: [PATCH v2] drop_caches: re-enable message after disabling
-Message-ID: <zaiqpjvkekhgipcs7smqhbb7hqt5dcneyoyndycofjepitxznf@q22hsykugpme>
-References: <Z7tZTCsQop1Oxk_O@bombadil.infradead.org>
- <20250308080549.14464-1-rwchen404@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ZV/rRze9"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4B3D941063
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1741818367; bh=R513z6VJ6jIxeMmLAESe2SdL+xy+4HtC5YoWAcZwhwc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ZV/rRze9ItLVWPyQYtAqqN1EzNhNJVTWWbp8xouH4F5OMEPhPud/0h4ql765zB4V4
+	 nWjn3X9X/THPNLXxouQuEobq2czscNtkh7U25rqzbQ+wBn2lPTr0xRx6XbvbqRzmZs
+	 TpBPV1sw7qDQi5iNlgo5HPNtTDilHm5TIwQIrhKuuSEl1/RejN0ywtG6mSwgIdmgmI
+	 xqUwv4o0XbQSoIEg+xmi95e8FKNURU1A1d0rcp3myRMpp1LjX6n8+VnlxVtLpu/kNw
+	 sORV8X5KFE+mdKdV+wpzrJqNI34i0+Pq1xzdyF6CJySrPWjOco0+L2Y7q/II4tsEkl
+	 w8uMU5jZccR8w==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4B3D941063;
+	Wed, 12 Mar 2025 22:26:07 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Heiko Carstens <hca@linux.ibm.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>, Sven Schnelle
+ <svens@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH] scripts: get_feat.pl: substitute s390x with s390
+In-Reply-To: <20250312155219.3597768-1-hca@linux.ibm.com>
+References: <20250312155219.3597768-1-hca@linux.ibm.com>
+Date: Wed, 12 Mar 2025 16:26:06 -0600
+Message-ID: <875xkdnawx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250308080549.14464-1-rwchen404@gmail.com>
+Content-Type: text/plain
 
-On Sat, Mar 08, 2025 at 04:05:49PM +0800, Ruiwu Chen wrote:
-> >> When 'echo 4 > /proc/sys/vm/drop_caches' the message is disabled,
-> >> but there is no interface to enable the message, only by restarting
-> >> the way, so add the 'echo 0 > /proc/sys/vm/drop_caches' way to
-> >> enabled the message again.
-> >> 
-> >> Signed-off-by: Ruiwu Chen <rwchen404@gmail.com>
-> >
-> > You are overcomplicating things, if you just want to re-enable messages
-> > you can just use:
-> >
-> > -		stfu |= sysctl_drop_caches & 4;
-> > +		stfu = sysctl_drop_caches & 4;
-> >
-> > The bool is there as 4 is intended as a bit flag, you can can figure
-> > out what values you want and just append 4 to it to get the expected
-> > result.
-> >
-> >  Luis
-> 
-> Is that what you mean ?
-> 
-> -               stfu |= sysctl_drop_caches & 4;
-> +               stfu ^= sysctl_drop_caches & 4;
-> 
-> 'echo 4 > /sys/kernel/vm/drop_caches' can disable or open messages,
-> This is what I originally thought, but there is uncertainty that when different operators execute the command,
-> It is not possible to determine whether this time is enabled or turned on unless you operate it twice.
+Heiko Carstens <hca@linux.ibm.com> writes:
 
-So can you use ^= or not? And what does operate it twice mean?
+> Both get_feat.pl and list-arch.sh use uname -m to get the machine hardware
+> name to figure out the current architecture if no architecture is specified
+> with a command line option.
+>
+> This doesn't work for s390, since for 64 bit kernels the hardware name is
+> s390x, while the architecture name within the kernel, as well as in all
+> feature files is s390.
+>
+> Therefore substitute s390x with s390 similar to what is already done for
+> x86_64 and i386.
+>
+> Signed-off-by: Heiko Carstens <hca@linux.ibm.com>
+> ---
+>  Documentation/features/list-arch.sh | 2 +-
+>  scripts/get_feat.pl                 | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 
-Best
-> 
-> Ruiwu
-> 
-> >
-> >> ---
-> >> v2: - updated Documentation/ to note this new API.
-> >>     - renamed the variable.
-...
-> >> @@ -85,7 +88,7 @@ static const struct ctl_table drop_caches_table[] = {
-> >>  		.maxlen		= sizeof(int),
-> >>  		.mode		= 0200,
-> >>  		.proc_handler	= drop_caches_sysctl_handler,
-> >> -		.extra1		= SYSCTL_ONE,
-> >> +		.extra1		= SYSCTL_ZERO,
-> >>  		.extra2		= SYSCTL_FOUR,
-> >>  	},
-> >>  };
-> >> -- 
-> >> 2.27.0
-> >> 
+Applied, thanks.
 
--- 
-
-Joel Granados
+jon
