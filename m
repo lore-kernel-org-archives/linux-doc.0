@@ -1,47 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3065F1E9B32;
-	Wed, 12 Mar 2025 22:27:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30871DFD95;
+	Wed, 12 Mar 2025 22:30:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741818424; cv=none; b=mHNCbRUD5M2F76QSJdPg8gnkiPT6VbBMW/5U/iVKvcyyM1Tb0ajqS/FJ/XbYHcztVvBETcil0lv9gJYm1zJyF/y4xPgRza2sv8lNwWhypLWInIbBLZP+uhvZ9+4udKA5aBXDDWEGE1QZEk2x4swGcblIT0l9PkN77ZE1JncT8us=
+	t=1741818645; cv=none; b=U31hUDmemfZLZdyPilKG8bc+WGi1lUur1aWKrzZMDmRHj0WEn0G2dVQVJ1ImpLEjd4nD0mvIYDqlhN29jFuQL0txhOrl1uhanOiL6DLCTEKP0mF/Tiw83FwqoJ2jxJeIo6wcmfhv01f5EKvaethugBpn9AKNkZWSRd+qFmp+ZPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741818424; c=relaxed/simple;
-	bh=e35FjSVAvRqJw8XwAKmEAqbc55RiaFXBqqKCeCMqlDA=;
+	s=arc-20240116; t=1741818645; c=relaxed/simple;
+	bh=/5u4xWileZI4BqZZkjltZzTrP6QsO0Oq0cGDX0v38VM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VeDO3g8bBB/fsWzXD3GAOximyoNUS0vbwYd7/ffCx3HSTGtmzvR+9xIEdwOTqDTkxoOhFuqvU69pdBskaV3vgbnZR70o7dDi1wX/7D87FYHCmFrV7HyHyswihf4XBtAYBrrgtqtPBqRH3OAmVzVPLWQbmvPzcrlbF4bEJGmf4Z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gkKBvUrz; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=LCc+QGewCie8IK2cFMKr3KCLJ47teT4qwAysAJYwYf9RVlIMVbf4GuooobdITsxmfJuKDpVBAr/ufyFxzd3D1Qx4EhPQd5jXXfvLYf8bDhJVG9BYOYBiG2ePLqV4xyylH1onuIaWgFbXnTqP51frCAt/IhDmQSb6wbk7cCYVn5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pUS2Z/eU; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gkKBvUrz"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4161B41063
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pUS2Z/eU"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D62B441063
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1741818422; bh=xxL+8LhuOi8qnd+QuZQR12PXYmDYb9P5KqJMdTOYUKE=;
+	t=1741818643; bh=WmyI+FyclJmL6XgBE5kwSw0ma2aJx2vXptVQysOPWrc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gkKBvUrzAdgZpOrEyPfR+tfKJp4wUVN6qmteR+rppA7xW2Mfrdtzhsr7KXcRDDvIJ
-	 D7t4rQk3Ow5T9mlJyJ2gYn80COIIqRP2sTWx+LFeTdziVKl/lsBh0T0e1CoxQklrO9
-	 sG1X60emZSrrQ5+HIkl+GOwobgFhaViA/ooxOMAEeAXeZT80OIYehoL7BMxRF/63v9
-	 FOrZ+NR9xPkAhmgzkD9nz8EwRnHPfsVkXR2FLQB0DPcYaCEdQ5kehdgQ9FQHda6D16
-	 B6v6dd1KT4zUV54se/PNl2QVCXnxo1OeJ4bJMsJ1gZpxP4bsHAwtYB7hIwg+gnqoGT
-	 kOIk8Id4AxQ3w==
+	b=pUS2Z/eUsxgFSdn37S63JrojfPFKzjylkhN0jyn6yfpW8w9j7+vmNBycbnFPCPNd1
+	 blX/cgDECRyrWXkwm0WCk2CmqrnjLDD8GJIrWpT5viJ1RUr2TFmZvZgzyrUrH+FVOH
+	 zt9IlrID2mmdfQBXnlXB+K4aRmeCnPaCIDNkm4sApCPZcDRtFc6zYWGqHpb673SouU
+	 xqTSQ2WlByD6f6RsnUf6i4wpLkgADUiVyUNTXv7hGrVr6/UvUTD5fUQHUrNH9VNBzJ
+	 dsNiTqcT5qxVSeIZyvsxEYj+drorkcMjGZPPoesez7Cb3ggPMN+MWvJw+5+Y+2BODz
+	 XvlqI9yV2V5Ng==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 4161B41063;
-	Wed, 12 Mar 2025 22:27:02 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id D62B441063;
+	Wed, 12 Mar 2025 22:30:42 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Fritz Koenig <frkoenig@chromium.org>, Frederic Barrat
- <fbarrat@linux.ibm.com>, Andrew Donnellan <ajd@linux.ibm.com>
-Cc: linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Fritz Koenig <frkoenig@chromium.org>
-Subject: Re: [PATCH v2] Documentation: ocxl.rst: Update consortium site
-In-Reply-To: <20250312-dead_site-v2-1-920a313743ee@chromium.org>
-References: <20250312-dead_site-v2-1-920a313743ee@chromium.org>
-Date: Wed, 12 Mar 2025 16:27:01 -0600
-Message-ID: <871pv1nave.fsf@trenco.lwn.net>
+To: Matthew Wilcox <willy@infradead.org>, kth <kangtaeho2456@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fs: Fix typo from smpfs to smbfs in filesystem
+ documentation
+In-Reply-To: <Z889RfnudqMc5r_e@casper.infradead.org>
+References: <20250310184129.328482-1-kangtaeho2456@gmail.com>
+ <Z889RfnudqMc5r_e@casper.infradead.org>
+Date: Wed, 12 Mar 2025 16:30:42 -0600
+Message-ID: <87wmctlw4t.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,37 +50,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Fritz Koenig <frkoenig@chromium.org> writes:
+Matthew Wilcox <willy@infradead.org> writes:
 
-> Point to post-merger site.
+> On Tue, Mar 11, 2025 at 02:41:29AM +0800, kth wrote:
+>> The documentation incorrectly referred to 'smbfs' as 'smpfs'. This change corrects that typo to ensure the documentation is accurate and not misleading.
+>> 
+>> Signed-off-by: Kang Taeho <kangtaeho2456@gmail.com>
+>> ---
+>>  Documentation/admin-guide/highuid.rst | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/Documentation/admin-guide/highuid.rst b/Documentation/admin-guide/highuid.rst
+>> index 6ee70465c0ea..9239067563a1 100644
+>> --- a/Documentation/admin-guide/highuid.rst
+>> +++ b/Documentation/admin-guide/highuid.rst
+>> @@ -64,7 +64,7 @@ What's left to be done for 32-bit UIDs on all Linux architectures:
+>>  
+>>    Other filesystems have not been checked yet.
+>>  
+>> -- The ncpfs and smpfs filesystems cannot presently use 32-bit UIDs in
+>> +- The ncpfs and smbfs filesystems cannot presently use 32-bit UIDs in
 >
-> Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
-> ---
-> Changes in v2:
-> - Update link per feedback
-> - Update commit message to reflect sureness in corectness
-> - Link to v1: https://lore.kernel.org/r/20250311-dead_site-v1-1-7ab3cea374f2@chromium.org
-> ---
->  Documentation/userspace-api/accelerators/ocxl.rst | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+> ncpfs doesn't exist any more; it was removed many years ago.  And the
+> smbfs that is referred to here was replaced by cifs many years ago.
 >
-> diff --git a/Documentation/userspace-api/accelerators/ocxl.rst b/Documentation/userspace-api/accelerators/ocxl.rst
-> index db7570d5e50d..4e213af70237 100644
-> --- a/Documentation/userspace-api/accelerators/ocxl.rst
-> +++ b/Documentation/userspace-api/accelerators/ocxl.rst
-> @@ -3,8 +3,11 @@ OpenCAPI (Open Coherent Accelerator Processor Interface)
->  ========================================================
->  
->  OpenCAPI is an interface between processors and accelerators. It aims
-> -at being low-latency and high-bandwidth. The specification is
-> -developed by the `OpenCAPI Consortium <http://opencapi.org/>`_.
-> +at being low-latency and high-bandwidth.
-> +
-> +The specification was developed by the OpenCAPI Consortium, and is now
-> +available from the `Compute Express Link Consortium
-> +<https://computeexpresslink.org/resource/opencapi-specification-archive/>`_.
->  
+> I have a feeling the entire highuid document should be deleted.  It
+> describes a transition that happened 25 years ago.
 
-Applied, thanks.
+That seems like the right thing to do - it's essentially somebody's
+"todo" list from 2000, which lacks relevance now.
+
+Kang, would you like to submit a patch to simply remove the file
+instead?
+
+Thanks,
 
 jon
