@@ -1,57 +1,80 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC1D2397BE
-	for <linux-doc@vger.kernel.org>; Wed, 12 Mar 2025 09:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822DE23E35E
+	for <linux-doc@vger.kernel.org>; Wed, 12 Mar 2025 11:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741771722; cv=none; b=j7KpK+Sxj7XpnlZgjRtneCQel/PMvHFcf2nqlpvLCqGMldxnHE7xHCcXLjuYFrkA1nz/IPtGj84y+GxTesN7VLDBHmsv37Q5dkivGtvB3BmoIOSaNtwEb1qjtJaw7dGKWu5SVJoORvu59rwm7Jcb8XtVhKP2fWT9YtAEDhnglJk=
+	t=1741779982; cv=none; b=ASe53AZSY23R1+Sad97HvGyNprX0TfW/7ilMJBfIke0tcehs2bPjPuNIssnZgIu7wbDROS1h+G/BDX46ioYbGHpjI3GBnAWNq0oNSQA19liWpQBurDoNtEtk/2+7WYYIpUK/g1RCzPjkwzVQrRKy5YsL2Blat7FFu8uTDZmxvV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741771722; c=relaxed/simple;
-	bh=6KAeTydDNQmh9ejxV3lHGEocGPHDZC5ErvVvG5/OBoo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=pqI3yII++CVOGoZM/Ap91JfHiGxFFZQxtX0Xls2+gyzFMlAzWf9fRD8WfaBK7/vywtBe8Hqx5YQMXh7KpJiRwreFhd5LaIxDoVpP+escVM3rbec2iF0aiUKDFH+TK7AyZXij/yrRhvCUBrV9XVWS1DY23pCiRPIuo/F+E4KnX8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Ze2jFdmu; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1741779982; c=relaxed/simple;
+	bh=Xa6TYUGl1MFDutyTjGyQmUtsil/dYMwXHv3sHjT8fvE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WBnIJQ0PnNXATbiCMmqegWcTPVb2g04oxkoG9+/HKJ2NvnHf52cjGTOtECEcmZgTahVMpesIJTP6Naa/K/Kgb7lO1MCmuOIGFQZt96LZ3rFc0S6HmZlYXYASoDX3BcKRujDbj3rY8b7kSMThl+4mLfg7ejMclZCbUJRLqxNAiaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VBHE3DQj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ei4X+1w+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VBHE3DQj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ei4X+1w+; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Ze2jFdmu"
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20250312092838euoutp01255863f7300302f6f807eba1f43c4c2d~sBCY7yMVb2625426254euoutp01t
-	for <linux-doc@vger.kernel.org>; Wed, 12 Mar 2025 09:28:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20250312092838euoutp01255863f7300302f6f807eba1f43c4c2d~sBCY7yMVb2625426254euoutp01t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1741771718;
-	bh=jM2XikXEr0ikBo0oLtomrsxm7QlhoeG8uKeeSTS19yM=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=Ze2jFdmuO0cLLYqLIJd51/wQzBFKAzxgIHozoFZZoNuFZcFG485swGkdKMqUW/Zvp
-	 cl2zr4/04Ndda/wzPd5iBES/LxTo9/80XTM5/yJ6P9bBGWVcJ9B29HLYT+lSWshREK
-	 7AGTFVkE3KSlN6ONOEzzV8Pi8Yif9QuOagwPNUks=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20250312092837eucas1p25b1b9a0eaeeeb28386900bd5799beff7~sBCYkpiud1062910629eucas1p2o;
-	Wed, 12 Mar 2025 09:28:37 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id 6E.F9.20409.5C351D76; Wed, 12
-	Mar 2025 09:28:37 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250312092837eucas1p141720d6a0df85c410f2b2209e4cb4ae1~sBCYE1szl1182811828eucas1p1t;
-	Wed, 12 Mar 2025 09:28:37 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20250312092837eusmtrp1bf90383d9f98004fe39bcc48be1d1fe1~sBCYCvohl2987729877eusmtrp1N;
-	Wed, 12 Mar 2025 09:28:37 +0000 (GMT)
-X-AuditID: cbfec7f4-c39fa70000004fb9-67-67d153c532b4
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 8C.F0.19654.5C351D76; Wed, 12
-	Mar 2025 09:28:37 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250312092833eusmtip25e36488a2aac248bc9b654fb690ddc66~sBCVArikT0743107431eusmtip2e;
-	Wed, 12 Mar 2025 09:28:33 +0000 (GMT)
-Message-ID: <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
-Date: Wed, 12 Mar 2025 10:28:32 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VBHE3DQj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ei4X+1w+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VBHE3DQj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ei4X+1w+"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9B1141F443;
+	Wed, 12 Mar 2025 11:46:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741779977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=3u1Jcvqrr5Px9iP/HojR7R+9JukBXETngaTrDQuarGc=;
+	b=VBHE3DQjJqXaJbF9bSTb3uAlIAyNvlT/tgYxeQ8gF4iga66zH60ETNruGQf2Zk0udfS/nS
+	cotmaAgDNAjIRC41hdBXXuw2NYJb0En8pXQgmjzKN7a9LJaGbgYpEPf/3hFZx/Cu1hF5m/
+	rJrlNBuMmGq8/WN4o/zvrL5uzgq9ZUc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741779977;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=3u1Jcvqrr5Px9iP/HojR7R+9JukBXETngaTrDQuarGc=;
+	b=ei4X+1w+TbSTTgScw2uDBQfRBSS485jELMzrB/CMJou8c9saAl1lhJFnetIGF5GxEglksC
+	RIlaSbdGaX9Y1uBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1741779977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=3u1Jcvqrr5Px9iP/HojR7R+9JukBXETngaTrDQuarGc=;
+	b=VBHE3DQjJqXaJbF9bSTb3uAlIAyNvlT/tgYxeQ8gF4iga66zH60ETNruGQf2Zk0udfS/nS
+	cotmaAgDNAjIRC41hdBXXuw2NYJb0En8pXQgmjzKN7a9LJaGbgYpEPf/3hFZx/Cu1hF5m/
+	rJrlNBuMmGq8/WN4o/zvrL5uzgq9ZUc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1741779977;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=3u1Jcvqrr5Px9iP/HojR7R+9JukBXETngaTrDQuarGc=;
+	b=ei4X+1w+TbSTTgScw2uDBQfRBSS485jELMzrB/CMJou8c9saAl1lhJFnetIGF5GxEglksC
+	RIlaSbdGaX9Y1uBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 078BE1377F;
+	Wed, 12 Mar 2025 11:46:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8Vs9AAl00WfZQAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 12 Mar 2025 11:46:17 +0000
+Message-ID: <b74df4b5-ecda-45ba-a98a-c84b0a29e380@suse.de>
+Date: Wed, 12 Mar 2025 12:46:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,197 +82,305 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
-To: Robin Murphy <robin.murphy@arm.com>, Leon Romanovsky <leon@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>, Will
-	Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Keith Busch
-	<kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe
-	<logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>, Shameer Kolothum
-	<shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, Randy
-	Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 1/2] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+To: Aditya Garg <gargaditya08@live.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+ Maxime Ripard <mripard@kernel.org>, "airlied@redhat.com"
+ <airlied@redhat.com>, Simona Vetter <simona@ffwll.ch>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ "apw@canonical.com" <apw@canonical.com>, "joe@perches.com"
+ <joe@perches.com>, "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+ "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>
+References: <ABAEA9D0-97CB-4ADD-9606-A12D5815335A@live.com>
+ <376C9BD3-2F41-4511-BE52-1B8468FE2CB3@live.com>
 Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxjH97anp6VQdiwobxRH2l2o6KigZO+CdgyNOfpBXbbswz64NeNY
-	CBehpWzMLDYMtHRctEiAgoDaCqNFsIxuVlHbgS0QBsiYchGDKZVLymgHTmGbkx628e33f97/
-	c83LYfLb8c2clIxsSp4hTRPiXMxy93n/210fDsp23l+IRDUtJhw9fVGEI+PDUhzp85KR684Z
-	gL4zdjHQ8iJCVZVOgKorphmosLqVjbT2XwEyeNrZqKY8C51fNjBRx+h2dPG0HkND1hocTZhe
-	sFDdlSk26qt14MhtL8aQvuAlecYrMGRbcLHQ1bnfMPTDcB4L5Y/HoSvl3IRw0mWrZZCmWhMg
-	3cNuQNablWT/xDWMzO/0sMi2xijy8s0ZBjnUpyTNTYU4afZp2aSzcgUj2/SnyOm2KkDeGFHh
-	5OWSMtbR0E+4e5KotJQcSi6WfMZNHnFuybwt/rLQ7mCoQEOkBnA4kNgNB31JGsDl8IlGAN13
-	F1i0WARw5vwyoMXvAHYUexkaEODPaLSq11wNAN6ssmO08ALou9eMrbp4hATeLzH5MzDiTVg8
-	1bEW3wC7q1x+3khEwEejlexVDiH2wzuWc8zVQqFEEYC2oT/9JibRg8PnTw7QHAZHXXX+ojgR
-	AzUeDb7KAUQ8nC/4hU17IuA37dX+QpCwceEDSyWLnns/tBuMaxwCZx3fs2kOh71lRRidcAbA
-	+pVHDFqcBVD1ZBTQrng4/vMyvnozJrENtljFdPh9OLA0yaZPGQwfeDbQQwRDraWCSYd5UH2a
-	T7vfgjrH1f/a2gbuMc8CoW7dXXTr1tStW0f3f996gDWBMEqpSJdRitgM6otohTRdocyQRX9+
-	It0MXv7s3r8diz+ChllvtB0wOMAOIIcpDOUZ9w7I+Lwkae5XlPzEp3JlGqWwgy0cTBjGu3S7
-	QMYnZNJsKpWiMin5v68MTsBmFePjg7uDJLceL73TCqhcgSZ3LKG6YW5raimP79tbJ7IOPhN9
-	HSw0fNsaNBU73xqi8mZH5R3ftz0oueX68eFbG6mTzUWmngZkbntNqy4XRbD7+1KOxM2ee336
-	5A1nwS4ROcuO73Ad3PNXafjAoLUvzM2aCzarX+lWR838NB75kbDp6OTY4WMRIx/scqDCkmvR
-	mRZfzAF9iWfb4USxTLyvbjgywfB4x3sGZ41AkihauhCYmHr9VEp1z8oxmVv4blpvVhzPc8im
-	FVyaP2T7Y6458NmwoF/wVCu52J3onUh/WLcjMKdr2rh10TDQOPZqIRmeuSmrPj9TH7up842y
-	nCM7JztJIaZIlsZEMeUK6T9oYz5PSAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJKsWRmVeSWpSXmKPExsVy+t/xe7pHgy+mGxybwmoxZ/0aNotv/3vY
-	LFbf7WezWNKUYfHkQDujxcrVR5ksfn2xsJg54wSjxezpL5gsOmdvYLeYdOgao8XSt1vZLeZM
-	LbSY8msps8XeW9oWC9uWsFhc3jWHzeLemv+sFvOXPWW3ODvvOJvFs0O9LBZLWoGst3ems1gc
-	/PCE1WLd6/csFtuvNrFatNwxtVg2lctBxuPJwXlMHmvmrWH0eHb1GaPHgk2lHufvbWTxaDny
-	ltVj8wotj8V7XjJ5XD5b6rFpVSebx6ZPk9g9Tsz4zeKxeUm9x4vNMxk9dt9sYPNY3DeZNUAk
-	Ss+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUnsyy1SN8uQS/j5gnp
-	gv36FZ2HjjM1MC5X72Lk5JAQMJFYsauDtYuRi0NIYCmjxIS/p5ghEjISJ6c1sELYwhJ/rnWx
-	QRS9Z5RY++UkO0iCV8BO4nrfGiYQm0VAVaL36V4WiLigxMmZT8BsUQF5ifu3ZoDVCwu4SBzY
-	NpEZZJCIQA+jxLdTrxlBHGaBM2wSl08dZodYcZtR4u6OZ2DtzALiEreezAdbwSZgKNH1FuQO
-	Tg5OAWuJd61X2CFqzCS6tnYxQtjyEs1bZzNPYBSaheSSWUhGzULSMgtJywJGllWMIqmlxbnp
-	ucVGesWJucWleel6yfm5mxiBaWrbsZ9bdjCufPVR7xAjEwfjIUYJDmYlEd7VthfShXhTEiur
-	Uovy44tKc1KLDzGaAoNjIrOUaHI+MFHmlcQbmhmYGpqYWRqYWpoZK4nzsl05nyYkkJ5Ykpqd
-	mlqQWgTTx8TBKdXA5MXweTLfSoUt60qSqyf199psCJmzLOjbt8Dp+7jLF2+ZuEluf1nFmbOd
-	l+qXd9/ft6TgwH4DreD/wnf1z2qZXhOetSktKnbvNVmG5GOnBBm31dzN+6q+VYDH/nXctaXM
-	DRaGhnPUPZ5uLq/ju9p/c8Lyk3EfPjhwBL4XLv7acvXf23j5OaW87x66Vu0X7fJa8Thh2ccZ
-	gsVbGVZfm5p4ViVl+65LbPukf8vc5kivmOKxdG+f8RpZ3sqDYcteLtZunVmxxVM+7JHComdz
-	/OTe5AR/tP1X1fZmt+BTkYmPJr/2fLbOLX6/YIXdFHGLCU2v7nSZ83W9mB+3dPf3mvIjtrN5
-	81IPXWh+2M93O+XnxA4lluKMREMt5qLiRABwmQ+33AMAAA==
-X-CMS-MailID: 20250312092837eucas1p141720d6a0df85c410f2b2209e4cb4ae1
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648
-References: <cover.1738765879.git.leonro@nvidia.com>
-	<20250220124827.GR53094@unreal>
-	<CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
-	<1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <376C9BD3-2F41-4511-BE52-1B8468FE2CB3@live.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[live.com,kodeit.net,kernel.org,redhat.com,ffwll.ch,linux.intel.com,suse.com,goodmis.org,rasmusvillemoes.dk,chromium.org,lwn.net,linux-foundation.org,canonical.com,perches.com,gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,live.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TAGGED_RCPT(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:mid]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-Hi Robin
+Hi
 
-On 28.02.2025 20:54, Robin Murphy wrote:
-> On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
->> On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
->>> From: Leon Romanovsky <leonro@nvidia.com>
->>>
->>> Changelog:
->>> v7:
->>>   * Rebased to v6.14-rc1
->>
->> <...>
->>
->>> Christoph Hellwig (6):
->>>    PCI/P2PDMA: Refactor the p2pdma mapping helpers
->>>    dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
->>>    iommu: generalize the batched sync after map interface
->>>    iommu/dma: Factor out a iommu_dma_map_swiotlb helper
->>>    dma-mapping: add a dma_need_unmap helper
->>>    docs: core-api: document the IOVA-based API
->>>
->>> Leon Romanovsky (11):
->>>    iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
->>>    dma-mapping: Provide an interface to allow allocate IOVA
->>>    dma-mapping: Implement link/unlink ranges API
->>>    mm/hmm: let users to tag specific PFN with DMA mapped bit
->>>    mm/hmm: provide generic DMA managing logic
->>>    RDMA/umem: Store ODP access mask information in PFN
->>>    RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
->>>      linkage
->>>    RDMA/umem: Separate implicit ODP initialization from explicit ODP
->>>    vfio/mlx5: Explicitly use number of pages instead of allocated 
->>> length
->>>    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
->>>    vfio/mlx5: Enable the DMA link API
->>>
->>>   Documentation/core-api/dma-api.rst   |  70 ++++
->>   drivers/infiniband/core/umem_odp.c   | 250 +++++---------
->>>   drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
->>>   drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
->>>   drivers/infiniband/hw/mlx5/umr.c     |  12 +-
->>>   drivers/iommu/dma-iommu.c            | 468 
->>> +++++++++++++++++++++++----
->>>   drivers/iommu/iommu.c                |  84 ++---
->>>   drivers/pci/p2pdma.c                 |  38 +--
->>>   drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
->>>   drivers/vfio/pci/mlx5/cmd.h          |  35 +-
->>>   drivers/vfio/pci/mlx5/main.c         |  87 +++--
->>>   include/linux/dma-map-ops.h          |  54 ----
->>>   include/linux/dma-mapping.h          |  85 +++++
->>>   include/linux/hmm-dma.h              |  33 ++
->>>   include/linux/hmm.h                  |  21 ++
->>>   include/linux/iommu.h                |   4 +
->>>   include/linux/pci-p2pdma.h           |  84 +++++
->>>   include/rdma/ib_umem_odp.h           |  25 +-
->>>   kernel/dma/direct.c                  |  44 +--
->>>   kernel/dma/mapping.c                 |  18 ++
->>>   mm/hmm.c                             | 264 +++++++++++++--
->>>   21 files changed, 1435 insertions(+), 693 deletions(-)
->>>   create mode 100644 include/linux/hmm-dma.h
->>
->> Kind reminder.
+Am 12.03.25 um 10:05 schrieb Aditya Garg:
+> From: Hector Martin <marcan@marcan.st>
 >
-> ...that you've simply reposted the same thing again? Without doing 
-> anything to address the bugs, inconsistencies, fundamental design 
-> flaws in claiming to be something it cannot possibly be, the egregious 
-> abuse of DMA_ATTR_SKIP_CPU_SYNC proudly highlighting how 
-> unfit-for-purpose the most basic part of the whole idea is, nor 
-> *still* the complete lack of any demonstrable justification of how 
-> callers who supposedly can't use the IOMMU API actually benefit from 
-> adding all the complexity of using the IOMMU API in a hat but also 
-> still the streaming DMA API as well?
+> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
+> it's useful to be able to print generic 4-character codes formatted as
+> an integer. Extend it to add format specifiers for printing generic
+> 32-bit FourCCs with various endian semantics:
 >
-> Yeah, consider me reminded.
->
->
->
-> In case I need to make it any more explicit, NAK to this not-generic 
-> not-DMA-mapping API, until you can come up with either something which 
-> *can* actually work in any kind of vaguely generic manner as claimed, 
-> or instead settle on a reasonable special-case solution for 
-> justifiable special cases. Bikeshedding and rebasing through half a 
-> dozen versions, while ignoring fundamental issues I've been pointing 
-> out from the very beginning, has not somehow magically made this 
-> series mature and acceptable to merge.
->
-> Honestly, given certain other scenarios we may also end up having to 
-> deal with, if by the time everything broken is taken away, it were to 
-> end up stripped all the way back to something well-reasoned like:
->
-> "Some drivers want more control of their DMA buffer layout than the 
-> general-purpose IOVA allocator is able to provide though the DMA 
-> mapping APIs, but also would rather not have to deal with managing an 
-> entire IOMMU domain and address space, making MSIs work, etc. Expose 
-> iommu_dma_alloc_iova() and some trivial IOMMU API wrappers to allow 
-> drivers of coherent devices to claim regions of the default domain 
-> wherein they can manage their own mappings directly."
->
-> ...I wouldn't necessarily disagree.
+> %p4ch	Host byte order
+> %p4cn	Network byte order
+> %p4cl	Little-endian
+> %p4cb	Big-endian
 
-
-Well, this is definitely not a review I've expected. I admit that I 
-wasn't involved in this proposal nor the discussion about it and I 
-wasn't able to devote enough time for keeping myself up to date. Now 
-I've tried to read all the required backlog and I must admit that this 
-was quite demanding.
-
-If You didn't like this design from the beginning, then please state 
-that early instead of pointing random minor issues in the code. There 
-have been plenty of time to discuss the overall approach if You think it 
-was wrong. What do to now?
-
-Removing the need for scatterlists was advertised as the main goal of 
-this new API, but it looks that similar effects can be achieved with 
-just iterating over the pages and calling page-based DMA API directly. 
-Maybe I missed something. I still see some advantages in this DMA API 
-extension, but I would also like to see the clear benefits from 
-introducing it, like perf logs or other benchmark summary.
-
+That looks like someone trying to be too clever for their own good. Just 
+my 2 cts.
 
 Best regards
+Thomas
+
+>
+> The endianness determines how bytes are interpreted as a u32, and the
+> FourCC is then always printed MSByte-first (this is the opposite of
+> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
+> allow printing LSByte-first FourCCs stored in host endian order
+> (other than the hex form being in character order, not the integer
+> value).
+>
+> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> ---
+>   Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++
+>   lib/test_printf.c                         | 39 +++++++++++++++++++----
+>   lib/vsprintf.c                            | 35 ++++++++++++++++----
+>   scripts/checkpatch.pl                     |  2 +-
+>   4 files changed, 94 insertions(+), 14 deletions(-)
+>
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index ecccc0473..bd420e8aa 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -648,6 +648,38 @@ Examples::
+>   	%p4cc	Y10  little-endian (0x20303159)
+>   	%p4cc	NV12 big-endian (0xb231564e)
+>   
+> +Generic FourCC code
+> +-------------------
+> +
+> +::
+> +	%p4c[hnlb]	gP00 (0x67503030)
+> +
+> +Print a generic FourCC code, as both ASCII characters and its numerical
+> +value as hexadecimal.
+> +
+> +The generic FourCC code is always printed in the big-endian format,
+> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
+> +
+> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
+> +endianness is used to load the stored bytes. The data might be interpreted
+> +using the host byte order, network byte order, little-endian, or big-endian.
+> +
+> +Passed by reference.
+> +
+> +Examples for a little-endian machine, given &(u32)0x67503030::
+> +
+> +	%p4ch	gP00 (0x67503030)
+> +	%p4cn	00Pg (0x30305067)
+> +	%p4cl	gP00 (0x67503030)
+> +	%p4cb	00Pg (0x30305067)
+> +
+> +Examples for a big-endian machine, given &(u32)0x67503030::
+> +
+> +	%p4ch	gP00 (0x67503030)
+> +	%p4cn	00Pg (0x30305067)
+> +	%p4cl	00Pg (0x30305067)
+> +	%p4cb	gP00 (0x67503030)
+> +
+>   Rust
+>   ----
+>   
+> diff --git a/lib/test_printf.c b/lib/test_printf.c
+> index 59dbe4f9a..b9e8afc01 100644
+> --- a/lib/test_printf.c
+> +++ b/lib/test_printf.c
+> @@ -776,21 +776,46 @@ static void __init fwnode_pointer(void)
+>   	software_node_unregister_node_group(group);
+>   }
+>   
+> +struct fourcc_struct {
+> +	u32 code;
+> +	const char *str;
+> +};
+> +
+> +static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
+> +				       const char *fmt)
+> +{
+> +	size_t i;
+> +
+> +	for (i = 0; i < n; i++)
+> +		test(fc[i].str, fmt, &fc[i].code);
+> +}
+> +
+>   static void __init fourcc_pointer(void)
+>   {
+> -	struct {
+> -		u32 code;
+> -		char *str;
+> -	} const try[] = {
+> +	static const struct fourcc_struct try_cc[] = {
+>   		{ 0x3231564e, "NV12 little-endian (0x3231564e)", },
+>   		{ 0xb231564e, "NV12 big-endian (0xb231564e)", },
+>   		{ 0x10111213, ".... little-endian (0x10111213)", },
+>   		{ 0x20303159, "Y10  little-endian (0x20303159)", },
+>   	};
+> -	unsigned int i;
+> +	static const struct fourcc_struct try_ch[] = {
+> +		{ 0x41424344, "ABCD (0x41424344)", },
+> +	};
+> +	static const struct fourcc_struct try_cn[] = {
+> +		{ 0x41424344, "DCBA (0x44434241)", },
+> +	};
+> +	static const struct fourcc_struct try_cl[] = {
+> +		{ (__force u32)cpu_to_le32(0x41424344), "ABCD (0x41424344)", },
+> +	};
+> +	static const struct fourcc_struct try_cb[] = {
+> +		{ (__force u32)cpu_to_be32(0x41424344), "ABCD (0x41424344)", },
+> +	};
+>   
+> -	for (i = 0; i < ARRAY_SIZE(try); i++)
+> -		test(try[i].str, "%p4cc", &try[i].code);
+> +	fourcc_pointer_test(try_cc, ARRAY_SIZE(try_cc), "%p4cc");
+> +	fourcc_pointer_test(try_ch, ARRAY_SIZE(try_ch), "%p4ch");
+> +	fourcc_pointer_test(try_cn, ARRAY_SIZE(try_cn), "%p4cn");
+> +	fourcc_pointer_test(try_cl, ARRAY_SIZE(try_cl), "%p4cl");
+> +	fourcc_pointer_test(try_cb, ARRAY_SIZE(try_cb), "%p4cb");
+>   }
+>   
+>   static void __init
+> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> index 56fe96319..56511a994 100644
+> --- a/lib/vsprintf.c
+> +++ b/lib/vsprintf.c
+> @@ -1781,27 +1781,50 @@ char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+>   	char output[sizeof("0123 little-endian (0x01234567)")];
+>   	char *p = output;
+>   	unsigned int i;
+> +	bool pixel_fmt = false;
+>   	u32 orig, val;
+>   
+> -	if (fmt[1] != 'c' || fmt[2] != 'c')
+> +	if (fmt[1] != 'c')
+>   		return error_string(buf, end, "(%p4?)", spec);
+>   
+>   	if (check_pointer(&buf, end, fourcc, spec))
+>   		return buf;
+>   
+>   	orig = get_unaligned(fourcc);
+> -	val = orig & ~BIT(31);
+> +	switch (fmt[2]) {
+> +	case 'h':
+> +		break;
+> +	case 'n':
+> +		orig = swab32(orig);
+> +		break;
+> +	case 'l':
+> +		orig = (__force u32)cpu_to_le32(orig);
+> +		break;
+> +	case 'b':
+> +		orig = (__force u32)cpu_to_be32(orig);
+> +		break;
+> +	case 'c':
+> +		/* Pixel formats are printed LSB-first */
+> +		pixel_fmt = true;
+> +		break;
+> +	default:
+> +		return error_string(buf, end, "(%p4?)", spec);
+> +	}
+> +
+> +	val = pixel_fmt ? swab32(orig & ~BIT(31)) : orig;
+>   
+>   	for (i = 0; i < sizeof(u32); i++) {
+> -		unsigned char c = val >> (i * 8);
+> +		unsigned char c = val >> ((3 - i) * 8);
+>   
+>   		/* Print non-control ASCII characters as-is, dot otherwise */
+>   		*p++ = isascii(c) && isprint(c) ? c : '.';
+>   	}
+>   
+> -	*p++ = ' ';
+> -	strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> -	p += strlen(p);
+> +	if (pixel_fmt) {
+> +		*p++ = ' ';
+> +		strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> +		p += strlen(p);
+> +	}
+>   
+>   	*p++ = ' ';
+>   	*p++ = '(';
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 7b28ad331..5595a0898 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -6904,7 +6904,7 @@ sub process {
+>   					    ($extension eq "f" &&
+>   					     defined $qualifier && $qualifier !~ /^w/) ||
+>   					    ($extension eq "4" &&
+> -					     defined $qualifier && $qualifier !~ /^cc/)) {
+> +					     defined $qualifier && $qualifier !~ /^c[hnlbc]/)) {
+>   						$bad_specifier = $specifier;
+>   						last;
+>   					}
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
