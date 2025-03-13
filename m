@@ -1,166 +1,234 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B6B266F13
-	for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 13:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C36265610;
+	Thu, 13 Mar 2025 13:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741871977; cv=none; b=JzoLeKJ4olIYl1UlsqlWgW8Gcyq/n7swL3E6iqgkG9sgkP56wYFC+9QNJsLKJ+2WhsAniiTo+pk2ekavRN8tXJHqZQymWQLjIiGn55dfp9A2Cd9VLqF7fHqhMf+hY/SBPJ6zbLwgvzjNp0a36vh92oyvCCdoEOYKOpfZEkKJhg8=
+	t=1741872264; cv=none; b=P1y5KFJoA3tyreu2U/NgJBIstGWnoONx1lfAvRuK9jNOoiAilUHujISq1ja5kktjcwVpjnhxb8nwxJI9oDxQMRl4bJ4xBCqF/tNYhsF8g8zenARcgFG188+6p3muANVyr/HvZIaKRfJ4EwGjZ9mnXrQ/3GRa0mQJFACoz9OgsBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741871977; c=relaxed/simple;
-	bh=Gdz8UJhWShBn1LGKb52FUKgFJdhhJNGhVtNjQr+Ljhw=;
+	s=arc-20240116; t=1741872264; c=relaxed/simple;
+	bh=jCDe7Wc94ba6aJ/MFQbCu86uV8l1MOm2WI7qny2btIY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SQuRI4ys2/wXAKOYhMAou80cXr2q9cV3krZpHeFXiY1Vi+QpiEByUIfMSqsCiMOroEK3hp0aBO864YSyX3c+fadYwGJcsFxETAyolZAo7aRIaQRTGGx3I5lHab5hSC+62LvI64xYY9RYlOcDnVxDzp6TfcSR0y7HFgvJwVuzR8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Fya+B5uv; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=uUrVBPQxyQtDn+0OhPRkza1GpbGYDACLBwlAGxu/iyDS6XhvwNAtxhCFl+57dQVaF2vgDpnmI/IytzoATzdsbm4af9KGUxnVowai82xPyTTRsoOLFFcvM8BhkhyEhZJPJxxmbuDHB5d5U8edTLH+Cg/XgxVmMB7/rJ0Oig5XUA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dz+Vjr8P; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Fya+B5uv"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac2ed007aacso195501866b.0
-        for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 06:19:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1741871974; x=1742476774; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SLwI9+XgDvx6y1QmCRm2s349AXzMPGhMLML8/FN0xLk=;
-        b=Fya+B5uvMaBWg05/ZRaooO28oARMieTKejYuRJHRQIjyrXOuvQoFXtsyZGxHLoiqGL
-         3dxTmbWsHoc/LO3ACZs+ovLFovc85/cZDAFlz4Dr+Np2mRFz+D/XMy6Yy9Fdx2qs84ny
-         rp5uIw5CRIrGOkqHeFwdv8DUsSLZ0RAdaeJqNgnjynazmIg3FDYRa0vOpHiRwZFKJH5/
-         G3CEBRjEzjPipxd+Xx25UTJa6oXICPZLQ+CcujMNWwKjyhV7QnxyM0+/J8XoKLvkDpQp
-         C9w2NQYJDA9rpmIe5YofDyga9OrNItLRekWl+/h9p0E9oAN+c48I94bUQRMPo8p4ISfU
-         YbBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741871974; x=1742476774;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SLwI9+XgDvx6y1QmCRm2s349AXzMPGhMLML8/FN0xLk=;
-        b=BLXGkmtZA1DLYMeukS26aW0X5q6uKWBmGyDyW6cn6SrxZI67S40Zv9S4+LHJ+9HYTx
-         SFAVCW6WR+6ZWIYJyniwdkVbVXaHCPV4p1Cdev/bf+GTrm12nTs1wCrNyvVRzN9ku+R/
-         cKdBuNvuX4wsf4qC8E7+jQbItqvPgHhnCmTObE+xW/yUrj5lkEHwrJkIm/YEjtty9g87
-         EvLwDFoeqdfTlQYT/rXUuLC4P3N5DcnRezrFTi8mRthykgQRH9PQFLuw6gIDmVXXFK+b
-         Ebjudr5EeHbiLDW+1r4n2EjZ7cR/wq/Usvaeg5J0fF15sLnD942myS+DCDMPlYsMtHcg
-         Wp2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUGtJ8XXywX2SIRvK6B2LsKoc/68K/nGditQSe39l4W3iqo7x/1DzaV/l8wLYvaerPyUlguu5LJXy4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlyABS5qHnbyV/OVEybfhc8FeHOfSxlIoTPFHW59kErQriYVXa
-	H1Jc/PJ3M67haGwXSu+zsLd8faNbOp0cF78Gmpy1liB7Px7OT7nd4kbIg/hQXe8=
-X-Gm-Gg: ASbGncuZK+Jr5LOTVxlOBpgO2mFjvURXx3M34PhLQwiqXkBrRwdBnedHAI9ePbnbNxj
-	bY1nL6P/8NK8rqvvtsx7RlPPrv33s6Bh001QycpHJb2z3jUikNnMOp7k64X/P7bKjkPlynHgCqW
-	s3T+rFZkbJwpbCov5B+c9nWWZnXHah2C37DeTy8GtPLiq3mAcufhPpka6diMjfyh7lIZ3sM/UuI
-	hOK32HtE6yjf2kY+mhCGWoPGTIeg2fi5j9RExWjFCO4cyHzAnTBu2I4p6Z2JgocYfCDovSjr25x
-	RH6y6GIvBy3gAue/hH5tigdW17nHLF0L
-X-Google-Smtp-Source: AGHT+IF3RjvN3caMGccSNmH1eaKCAyeC0UKLdIujqC0Ubvi5/eGttJVhWRGqhwIRTen+UtV+e2lwpQ==
-X-Received: by 2002:a17:907:7da8:b0:ac1:dd6f:f26c with SMTP id a640c23a62f3a-ac2b9ede2f5mr1499361666b.46.1741871973986;
-        Thu, 13 Mar 2025 06:19:33 -0700 (PDT)
-Received: from localhost ([2a02:8308:a00c:e200::59a5])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3147ead1dsm81138266b.58.2025.03.13.06.19.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 06:19:33 -0700 (PDT)
-Date: Thu, 13 Mar 2025 14:19:32 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>, 
-	Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
-	Samuel Holland <samuel.holland@sifive.com>
-Subject: Re: [PATCH v3 08/17] riscv: misaligned: add a function to check
- misalign trap delegability
-Message-ID: <20250313-4bea400c5770a5a5d3d70b38@orel>
-References: <20250310151229.2365992-1-cleger@rivosinc.com>
- <20250310151229.2365992-9-cleger@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dz+Vjr8P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741872263; x=1773408263;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=jCDe7Wc94ba6aJ/MFQbCu86uV8l1MOm2WI7qny2btIY=;
+  b=dz+Vjr8Pivx9Y9nQrD3GImA/al6j1qkNuqv6IN4+fSUOYN5asyJsVJTs
+   RexsZbuSqHR7JIBM2eEjTNVhUuF2Nfv7QxBeD19LHA6JJEAJiSy5QlV98
+   7LXq6cAG/29audJVmC/VFyBlADh/I5NAxGn1rrqQZGFUrqT/8hWd+skwZ
+   H0YaqRQtPN0dGEbMibUxfwhEu/3xRckWr50NOPeHxsno6yO3L+zkdmNtO
+   jOx+sPzf7QLbiRDq2ip3DDqq3HG2GpKrPokUFwbo3ItGawHaUG/MlIF4C
+   aABH5deocTQU1VO+ZgnYeJ1M9ylXJee5DiYy87gwCQ4mSrBdPcomsmNDg
+   w==;
+X-CSE-ConnectionGUID: OzzBWEFFQra20W9g/Zdmgg==
+X-CSE-MsgGUID: VshMdA3iQ/6HFai5gpgbug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="60387877"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="60387877"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:24:22 -0700
+X-CSE-ConnectionGUID: P2b3MLySQXqccd5C+UEwdw==
+X-CSE-MsgGUID: 6BtBIRMqRfu7WFaTVmO00g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="125833934"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:24:17 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tsiXl-00000002BIs-16K9;
+	Thu, 13 Mar 2025 15:24:13 +0200
+Date: Thu, 13 Mar 2025 15:24:13 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: Petr Mladek <pmladek@suse.com>, Kees Cook <kees@kernel.org>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Maxime Ripard <mripard@kernel.org>,
+	"airlied@redhat.com" <airlied@redhat.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>
+Subject: Re: [PATCH 1/2] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Message-ID: <Z9LcfW8H_0YudtdC@smile.fi.intel.com>
+References: <ff3a9c58-5c7a-4c48-8a9e-cc828a43baed@app.fastmail.com>
+ <PN3PR01MB9597E5C609290DB1A967263CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z9HgVn-XELC065w0@smile.fi.intel.com>
+ <47AE7FCD-0F30-4379-ADE9-090A15ACD58F@live.com>
+ <Z9Kb8zMJgmSP-rgD@smile.fi.intel.com>
+ <PN3PR01MB959780176C0B16C36FBD59C3B8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z9KdzZUxs3vlwp0Z@smile.fi.intel.com>
+ <PN3PR01MB9597A8F02423B9E4C585F5EBB8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z9K36SRz7Ja_AyQb@pathway.suse.cz>
+ <D1A20E79-554E-4E91-BE47-B6493BDC3823@live.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250310151229.2365992-9-cleger@rivosinc.com>
+In-Reply-To: <D1A20E79-554E-4E91-BE47-B6493BDC3823@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Mar 10, 2025 at 04:12:15PM +0100, Clément Léger wrote:
-> Checking for the delegability of the misaligned access trap is needed
-> for the KVM FWFT extension implementation. Add a function to get the
-> delegability of the misaligned trap exception.
+On Thu, Mar 13, 2025 at 11:06:54AM +0000, Aditya Garg wrote:
+> > On 13 Mar 2025, at 4:18â€¯PM, Petr Mladek <pmladek@suse.com> wrote:
+> > On Thu 2025-03-13 09:13:23, Aditya Garg wrote:
+> >>> On 13 Mar 2025, at 2:27â€¯PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> >>> On Thu, Mar 13, 2025 at 08:53:28AM +0000, Aditya Garg wrote:
+> >>>>>> On 13 Mar 2025, at 2:19â€¯PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> >>>>> On Thu, Mar 13, 2025 at 07:26:05AM +0000, Aditya Garg wrote:
+> >>>>>>>> On 13 Mar 2025, at 12:58â€¯AM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> >>>>>>> On Wed, Mar 12, 2025 at 07:14:36PM +0000, Aditya Garg wrote:
+> >>>>>>>>> On 12 Mar 2025, at 9:05â€¯PM, Sven Peter <sven@svenpeter.dev> wrote:
+> >>>>>>>>> On Wed, Mar 12, 2025, at 13:03, Aditya Garg wrote:
+
+...
+
+> >>>>>>>>> I don't have a strong opinion either way: for SMC I just need to print
+> >>>>>>>>> FourCC keys for debugging / information in a few places.
+> >>>>>>>>> 
+> >>>>>>>>> I'm preparing the SMC driver for upstreaming again (after a two year delay :-()
+> >>>>>>>>> and was just going to use macros to print the SMC FourCC keys similar to
+> >>>>>>>>> DRM_MODE_FMT/DRM_MODE_ARG for now to keep the series smaller and revisit
+> >>>>>>>>> the topic later.
+> >>>>>>>>> 
+> >>>>>>>>> Right now I have these in my local tree (only compile tested so far):
+> >>>>>>>>> 
+> >>>>>>>>> #define SMC_KEY_FMT "%c%c%c%c (0x%08x)"
+> >>>>>>>>> #define SMC_KEY_ARG(k) (k)>>24, (k)>>16, (k)>>8, (k), (k)
+> >>>>>>>> 
+> >>>>>>>> That seems to be a nice alternative, which I guess Thomas was also suggesting.
+> >>>>>>> 
+> >>>>>>> I don't think it's "nice". Each of the approaches has pros and cons.
+> >>>>>>> You can start from bloat-o-meter here and compare it with your %p extension.
+> >>>>>>> 
+> >>>>>>> Also, can you show the bloat-o-meter output for the vsprintf.c?
+> >>>>>> 
+> >>>>>> Here are your outputs:
+> >>>>> 
+> >>>>> Thank you!
+> >>>>> 
+> >>>>>> ---------------------------------------------------------------------
+> >>>>>> For appletbdrm:
+> >>>>>> 
+> >>>>>> aditya@MacBook:~/linux$ ./scripts/bloat-o-meter $P4 $MACRO
+> >>>>>> add/remove: 0/0 grow/shrink: 1/1 up/down: 64/-19 (45)
+> >>>>>> Function                                     old     new   delta
+> >>>>>> appletbdrm_read_response                     395     459     +64
+> >>>>>> appletbdrm_probe                            1786    1767     -19
+> >>>>>> Total: Before=13418, After=13463, chg +0.34%
+> >>>>> 
+> >>>>> This is enough, no need to repeat this for every parameter.
+> >>>>> 
+> >>>>>> ---------------------------------------------------------------------
+> >>>>>> For vsprintf:
+> >>>>>> 
+> >>>>>> aditya@MacBook:~/linux$ ./scripts/bloat-o-meter $OLD $NEW
+> >>>>>> add/remove: 0/0 grow/shrink: 1/0 up/down: 220/0 (220)
+> >>>>>> Function                                     old     new   delta
+> >>>>>> fourcc_string                                479     699    +220
+> >>>>>> Total: Before=26454, After=26674, chg +0.83%
+> >>>>> 
+> >>>>> So, we get +220 bytes vs +43 bytes. It means if we found 5+ users, it worth
+> >>>>> doing.
+> >>>> 
+> >>>> Will it also depend upon the number of times it's being used? In appletbdrm,
+> >>>> it is being used 3 times. Probably more in Asahi SMC.
+> >>> 
+> >>> Right, it depends on the usage count. Also on different architectures it may
+> >>> give different results. On 32-bit it probably gives better statistics.
+> >> 
+> >> Best to go ahead with vsprintf then. Petr, are you still there?
+> > 
+> > I am here but there were many other things in the queue ;-)
+> > 
+> > I do not have strong opinion. I am not familiar with the FourCC
+> > format and it looks like a magic to me. But it seems that it makes
+> > sense for the users.
+> > 
+> > I personally find the %pcX modifiers a bit less hacky than
+> > the two macros SMC_KEY_FMT/SMC_KEY_ARG.
+> > 
+> > So I am fine with this patch:
+> > 
+> > Reviewed-by: Petr Mladek <pmladek@suse.com>
+> > Tested-by: Petr Mladek <pmladek@suse.com>
+> > 
+> > 
+> > Now, the question is how to get this patch into the mainline.
+> > 
+> > Normally, it would make perfect sense to queue it via the DRM tree
+> > because drivers/gpu/drm/tiny/appletbdrm.c is a new driver...
+> > 
+> > But this time there is a conflicting patchset which is reworking
+> > the entire lib/test_printf.c file, see
+> > 20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com
 > 
-> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> ---
->  arch/riscv/include/asm/cpufeature.h  |  5 +++++
->  arch/riscv/kernel/traps_misaligned.c | 17 +++++++++++++++--
->  2 files changed, 20 insertions(+), 2 deletions(-)
+> Link seems to be broken
+
+It works fine. Because it's not a link, it's Message-ID, you need to add
+https://lore.kernel.org/r/ in front of it.
+
+> > And it will likely be ready for the next merge window as well.
+> > I am going to review it right away.
+> > 
+> > It is even more complicated because the patchset converting
+> > the printf test module to KUNIT depends on another changes
+> > in Kees' tree (moving kunit test modules to lib/tests/).
+> > So it might be easier when it goes via Kees' tree.
+> > 
+> > And it might be easier when even this patch goes via Kees' tree.
+> > 
+> > My proposal:
+> > 
+> > I suggest to separate the fourcc_pointer() test update
+> > to a separate patch and add it later after the merge window
+> > when things settle down.
+> > 
+> > I mean to send the vsprintf.c, checkpatch.pl, and doc update
+> > via DRM tree together with the new appletbdrm.c driver.
 > 
-> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-> index ad7d26788e6a..8b97cba99fc3 100644
-> --- a/arch/riscv/include/asm/cpufeature.h
-> +++ b/arch/riscv/include/asm/cpufeature.h
-> @@ -69,12 +69,17 @@ int cpu_online_unaligned_access_init(unsigned int cpu);
->  #if defined(CONFIG_RISCV_SCALAR_MISALIGNED)
->  void unaligned_emulation_finish(void);
->  bool unaligned_ctl_available(void);
-> +bool misaligned_traps_can_delegate(void);
->  DECLARE_PER_CPU(long, misaligned_access_speed);
->  #else
->  static inline bool unaligned_ctl_available(void)
->  {
->  	return false;
->  }
-> +static inline bool misaligned_traps_can_delegate(void)
-> +{
-> +	return false;
-> +}
->  #endif
->  
->  bool check_vector_unaligned_access_emulated_all_cpus(void);
-> diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
-> index db31966a834e..a67a6e709a06 100644
-> --- a/arch/riscv/kernel/traps_misaligned.c
-> +++ b/arch/riscv/kernel/traps_misaligned.c
-> @@ -716,10 +716,10 @@ static int cpu_online_check_unaligned_access_emulated(unsigned int cpu)
->  }
->  #endif
->  
-> -#ifdef CONFIG_RISCV_SBI
-> -
->  static bool misaligned_traps_delegated;
->  
-> +#ifdef CONFIG_RISCV_SBI
-> +
->  static int cpu_online_sbi_unaligned_setup(unsigned int cpu)
->  {
->  	if (sbi_fwft_set(SBI_FWFT_MISALIGNED_EXC_DELEG, 1, 0) &&
-> @@ -761,6 +761,7 @@ static int cpu_online_sbi_unaligned_setup(unsigned int cpu __always_unused)
->  {
->  	return 0;
->  }
-> +
->  #endif
->  
->  int cpu_online_unaligned_access_init(unsigned int cpu)
-> @@ -773,3 +774,15 @@ int cpu_online_unaligned_access_init(unsigned int cpu)
->  
->  	return cpu_online_check_unaligned_access_emulated(cpu);
->  }
-> +
-> +bool misaligned_traps_can_delegate(void)
-> +{
-> +	/*
-> +	 * Either we successfully requested misaligned traps delegation for all
-> +	 * CPUS or the SBI does not implemented FWFT extension but delegated the
-> +	 * exception by default.
-> +	 */
-> +	return misaligned_traps_delegated ||
-> +	       all_cpus_unaligned_scalar_access_emulated();
-> +}
-> +EXPORT_SYMBOL_GPL(misaligned_traps_can_delegate);
-> \ No newline at end of file
+> Sounds good. At least we can get it working. Iâ€™ll make sure the self
+> tests get updated once 6.15-rc1 gets released, or Kees can share
+> his tree, where I can add the tests as well.
+> 
+> Iâ€™ll send a v2 so that Thomas can take them up.
+> > 
+> > And update the selftest later when both DRM tree and KUNIT
+> > update reaches mainline.
+> > 
+> > How does that sound, please?
 
-Check your editor settings.
+To me sounds good, but I'm not a maintainer involved in all this :-)
 
-> -- 
-> 2.47.2
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+
