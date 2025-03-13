@@ -1,93 +1,144 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AFD12CD88;
-	Thu, 13 Mar 2025 17:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4590514386D;
+	Thu, 13 Mar 2025 17:34:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741886939; cv=none; b=akdWVFGE36tFFRXuGjDQz9nobRABRxkOSX2rTwVTY+mvkQ9WaHOTsWxJisoTZRc5OsYbDPEYI0Zjk1H8dgk/J60sc7PqW2PpOhGQuvShPCOahALKUK3rWGTj/hcD9tpLtQn0uoWG6aNqWjqqxPyP36WE2eBykQjuz+pfXeLzBtQ=
+	t=1741887290; cv=none; b=GJErdFHPvtD4HSGVNIDl0olPMVlTvVnspaz/MnC25+L2fASURAGn9+Jamq9viDw82U+Xr05FxjuYMYmqyO7SSssL7vSyU1fDsRkYU4J4wz5c5hyiPJU5WqQ++HapcDStNkWWH2oKFaxpDAaG0vLVpA5k2hRHD4RVWZsXdmXNrHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741886939; c=relaxed/simple;
-	bh=pCKx8h4RdPEXnrliEof7w9TGctCJ+lkyJAvPxZvj8as=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=liW8s5H1NxzBeCRiIcQJdhCxAjugRR2ma55gP5ZLu5BPx0W8jO47KebiC4Lh6Yn9BaMynJtavHE6ut1qHkym9j1Le3oUD8+W4h+ZYOvnHcZwq6iMyHJNI1laGUP9pqVJPm2xvuS9L8S9eJIVSt78TzFoob3/E3VwT54e7pBdYZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WsiJ1vS4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741887290; c=relaxed/simple;
+	bh=OoAvfSAO5M3PHg1qgT00ibdT5WETqpo45KH3DuoIfjE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jwQrJOBkl4kLo9sPaxrhgdY/8Dbo39d7uSvcXl5HwHIXt6fSF7pTIOBLNfduuaK/29XckIuN9uDHW//8/UyacH6YaMDqOW67rUIP2DGixdwC4ECHzTs99koMhjoP5ynO4JiPcSmK3Fu4mH3tv5yHRfgKbqnYXrrvIxybWr9+J9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VVQyU8mB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WsiJ1vS4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78296C4CEDD;
-	Thu, 13 Mar 2025 17:28:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VVQyU8mB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7B6BC4CEEA;
+	Thu, 13 Mar 2025 17:34:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741886938;
-	bh=pCKx8h4RdPEXnrliEof7w9TGctCJ+lkyJAvPxZvj8as=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WsiJ1vS4VkmRkEQ91gUkBcXJpHCkjiQdXuKiOQrrIiFFBXTiyzWC1lNxpbasmhUpq
-	 3JfyOHYn+nAM5kLaFI7eKKMk0HVf0PYt9MfKkoBJ8D20YQKw1ngGTv9SXVphquEE2h
-	 5FlTV4pustJ2ITwpRF1Mfnt55HA7MhFAT/DH8k8bfDg8uSfYhcoZzDsRwQ4++FKCuA
-	 ot/lfD8WMiYADiTKuF+3761zflCg4viKvvK9vcUUI5qt7A6AsUxSPP/q9N2rzjlyFr
-	 zE/pTffZvM1VqP7YEYZUp20FKgVv5uizsSJhZI1T/0EIjucCggWl2hxTSmb3uw6p4S
-	 9WKQ0vOSUIRTA==
-From: Kees Cook <kees@kernel.org>
-To: Arpitha Raghunandan <98.arpi@gmail.com>,
-	David Gow <davidgow@google.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Tamir Duberstein <tamird@gmail.com>
-Cc: Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
+	s=k20201202; t=1741887289;
+	bh=OoAvfSAO5M3PHg1qgT00ibdT5WETqpo45KH3DuoIfjE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VVQyU8mBAHNp06f4PUy8OQ441a3jzB0w7cdr7DECxbtEliMh01cQUWRWvFYU3Jez5
+	 RkdnI1LCoaG7yppGd9vje1fEdUoHzs3A5HH0zBqE+yFMcbOswaG7PGNAVDbtVbGQuG
+	 rHqqNwL2pbQFRBc4kq3PgxHk6Gd6btpLtWNO3AMV9bD1DfPOaerkp3DgRE1PuAxdTW
+	 18+vvZB5PhAsHJrLYHTMEzzeCEOV2/D+wJby5pXwes6nzXzoOmetd5UFctZLD4jsNu
+	 0SiX1C1WDorGyJZy5/32/g2HlM+ZisCfcYi5uy3ilNb6Go6TvGn3h39aDHO31lyI43
+	 8eQsG2/A/ZsFw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tsmSE-00DJ4E-TQ;
+	Thu, 13 Mar 2025 17:34:47 +0000
+Date: Thu, 13 Mar 2025 17:34:46 +0000
+Message-ID: <86ikocomvd.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: =?UTF-8?B?TWlrb8WCYWo=?= Lenczewski <miko.lenczewski@arm.com>
+Cc: ryan.roberts@arm.com,
+	suzuki.poulose@arm.com,
+	yang@os.amperecomputing.com,
+	corbet@lwn.net,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	jean-philippe@linaro.org,
+	robin.murphy@arm.com,
+	joro@8bytes.org,
+	akpm@linux-foundation.org,
+	mark.rutland@arm.com,
+	joey.gouly@arm.com,
+	james.morse@arm.com,
+	broonie@kernel.org,
+	anshuman.khandual@arm.com,
+	oliver.upton@linux.dev,
+	ioworker0@gmail.com,
+	baohua@kernel.org,
+	david@redhat.com,
+	jgg@ziepe.ca,
+	shameerali.kolothum.thodi@huawei.com,
+	nicolinc@nvidia.com,
+	mshavit@google.com,
+	jsnitsel@redhat.com,
+	smostafa@google.com,
 	linux-doc@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linuxppc-dev@lists.ozlabs.org,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH v6 0/3] printf: convert self-test to KUnit
-Date: Thu, 13 Mar 2025 10:28:50 -0700
-Message-Id: <174188692856.3317505.16138391415680640168.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com>
-References: <20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com>
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH v3 1/3] arm64: Add BBM Level 2 cpu feature
+In-Reply-To: <20250313104111.24196-3-miko.lenczewski@arm.com>
+References: <20250313104111.24196-2-miko.lenczewski@arm.com>
+	<20250313104111.24196-3-miko.lenczewski@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: miko.lenczewski@arm.com, ryan.roberts@arm.com, suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org, jean-philippe@linaro.org, robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org, mark.rutland@arm.com, joey.gouly@arm.com, james.morse@arm.com, broonie@kernel.org, anshuman.khandual@arm.com, oliver.upton@linux.dev, ioworker0@gmail.com, baohua@kernel.org, david@redhat.com, jgg@ziepe.ca, shameerali.kolothum.thodi@huawei.com, nicolinc@nvidia.com, mshavit@google.com, jsnitsel@redhat.com, smostafa@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Fri, 07 Mar 2025 17:08:55 -0500, Tamir Duberstein wrote:
-> This is one of just 3 remaining "Test Module" kselftests (the others
-> being bitmap and scanf), the rest having been converted to KUnit.
-> 
-> I tested this using:
-> 
-> $ tools/testing/kunit/kunit.py run --arch arm64 --make_options LLVM=1 printf
-> 
-> [...]
+On Thu, 13 Mar 2025 10:41:10 +0000,
+Miko=C5=82aj Lenczewski <miko.lenczewski@arm.com> wrote:
+>=20
+> diff --git a/arch/arm64/kernel/pi/idreg-override.c b/arch/arm64/kernel/pi=
+/idreg-override.c
+> index c6b185b885f7..9728faa10390 100644
+> --- a/arch/arm64/kernel/pi/idreg-override.c
+> +++ b/arch/arm64/kernel/pi/idreg-override.c
+> @@ -209,6 +209,7 @@ static const struct ftr_set_desc sw_features __prel64=
+_initconst =3D {
+>  		FIELD("nokaslr", ARM64_SW_FEATURE_OVERRIDE_NOKASLR, NULL),
+>  		FIELD("hvhe", ARM64_SW_FEATURE_OVERRIDE_HVHE, hvhe_filter),
+>  		FIELD("rodataoff", ARM64_SW_FEATURE_OVERRIDE_RODATA_OFF, NULL),
+> +		FIELD("nobbml2", ARM64_SW_FEATURE_OVERRIDE_NOBBML2, NULL),
+>  		{}
+>  	},
+>  };
+> @@ -246,6 +247,7 @@ static const struct {
+>  	{ "rodata=3Doff",			"arm64_sw.rodataoff=3D1" },
+>  	{ "arm64.nolva",		"id_aa64mmfr2.varange=3D0" },
+>  	{ "arm64.no32bit_el0",		"id_aa64pfr0.el0=3D1" },
+> +	{ "arm64.nobbml2",		"arm64_sw.nobbml2=3D1" },
 
-Applied to for-next/move-kunit-tests, thanks!
+Why is that a SW feature? This looks very much like a HW feature to
+me, and you should instead mask out ID_AA64MMFR2_EL1.BBM, and be done
+with it. Something like:
 
-[1/3] printf: convert self-test to KUnit
-      https://git.kernel.org/kees/c/7a79e7daa84e
-[2/3] printf: break kunit into test cases
-      https://git.kernel.org/kees/c/81a03aa9b88c
-[3/3] printf: implicate test line in failure messages
-      https://git.kernel.org/kees/c/034bee685fd4
+diff --git a/arch/arm64/kernel/pi/idreg-override.c b/arch/arm64/kernel/pi/i=
+dreg-override.c
+index c6b185b885f70..803a0c99f7b46 100644
+--- a/arch/arm64/kernel/pi/idreg-override.c
++++ b/arch/arm64/kernel/pi/idreg-override.c
+@@ -102,6 +102,7 @@ static const struct ftr_set_desc mmfr2 __prel64_initcon=
+st =3D {
+ 	.override	=3D &id_aa64mmfr2_override,
+ 	.fields		=3D {
+ 		FIELD("varange", ID_AA64MMFR2_EL1_VARange_SHIFT, mmfr2_varange_filter),
++		FIELD("bbm", ID_AA64MMFR2_EL1_BBM_SHIFT, NULL),
+ 		{}
+ 	},
+ };
+@@ -246,6 +247,7 @@ static const struct {
+ 	{ "rodata=3Doff",			"arm64_sw.rodataoff=3D1" },
+ 	{ "arm64.nolva",		"id_aa64mmfr2.varange=3D0" },
+ 	{ "arm64.no32bit_el0",		"id_aa64pfr0.el0=3D1" },
++	{ "arm64.nobbml2",		"id_aa64mmfr2.bbm=3D0" },
+ };
+=20
+ static int __init parse_hexdigit(const char *p, u64 *v)
 
-Take care,
 
--- 
-Kees Cook
+Thanks,
 
+	M.
+
+--=20
+Without deviation from the norm, progress is not possible.
