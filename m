@@ -1,324 +1,870 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464D542AA9;
-	Thu, 13 Mar 2025 20:36:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A67E14A60F;
+	Thu, 13 Mar 2025 20:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741898200; cv=none; b=cJl6zq787hWP6YNa1/mj4WIbMldNrImbAbYP+ZiSZK3+fMrhox1x5oPcyRED/t04BKK1ZS0/nYNulEn6dBoJB8Sl8rOz7n5TbHZad7119VXc8z6Hp1UI5B7rZ8WOU4O+OD7Z3k0b5wGoUg6owAKzh/9xYdZIxEjF8lKBQhypTN8=
+	t=1741899534; cv=none; b=ZxNc1hxNmiwEybFtsM89unKXryiasWjmIaVOntTgzazjvOdhgmXn2pyV/tFF97vh3UAlBYlTFFIMufKAmm39E/RUdw86PT4uEF0FsgDb+qhodgiWw8VJMvmO6CgIiFsUqLHJIeSjljNc0teOZ7IGOOFIQnlvWMg6g2KUYS9OOy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741898200; c=relaxed/simple;
-	bh=mLAlCqYCbYi8Tz7gyZwo2pmMdHDEESJWMN8CkQrRVgI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SPnW1kBpZHZhXmxbBcpiX/fDy1Qmcx1u0Qc/4ug/TRUlTJqVAzfkwpgJeNG8VELB00S2mI73MJaotnW6LzPTQ6YijGwvEtMcTuaF047vArkhEQgjqlT8TJFnN7CJ48sNWRptWDgofCh9iglmtDFW2WpEMRbg8gxRif2Ewbmy7DM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2CxPUzz; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741899534; c=relaxed/simple;
+	bh=fSvPTMewSmcZmfUQpIHVhrzMlnrHus6axRXlv6L5LZE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EVEgLxqQRk5YBa3Q4EXLIkF/0zZMsN8fEu04UrpN/r3XzcvN3xB5+2FY5sV0wIvcJ4q3B/1eoIJv/8EACPcJCzV8uROuS71levySU0rK043RFkzA4WbFOZzO1s0UuvwXaawqTEHkNPVuMN2rhfv19HKfsoX2npFfWH++bxyzS0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=b7Yoikxr; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2CxPUzz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741898198; x=1773434198;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mLAlCqYCbYi8Tz7gyZwo2pmMdHDEESJWMN8CkQrRVgI=;
-  b=B2CxPUzzwIA7Or/79hbGlhMwhVMhH0DIc8hYFWtzZ5ygvpSoVVxyhgSR
-   9XR3DSTNpUm6VB2C52QB7iJIUtuAj7j7fnvJao2M3PaVjJWxRdzjMQQEX
-   xS1qCkM78OKpdfwVz7JxVcVShvy3n1EzUHTtHVUonVWLwRer0UWhAmhiK
-   QM6wyYl8mbXT/6PNLsghHHn5G1xI5J964Blqtez/kY1M56iZaYDAs7bmJ
-   crqpv+BVPYww7hUyiKtlDdmhXzXJ/XutjGYKsbA7zgiTxt8IqMltgtBEJ
-   IJsAiaxi2uXCnhElQMiPJ7uZOd18s56QybNe4E+Yadwe+XRZ7ihe7BBj8
-   A==;
-X-CSE-ConnectionGUID: X1tI+qqqRBa9pXHNyXGtcQ==
-X-CSE-MsgGUID: iQP0V+wySqqOtLhhWdHz1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="42945407"
-X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
-   d="scan'208";a="42945407"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 13:36:37 -0700
-X-CSE-ConnectionGUID: vjmZss9dQii/lO6d73MReA==
-X-CSE-MsgGUID: zXm1khAJSWaao1/Zy1PU3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
-   d="scan'208";a="122000600"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.70])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 13:36:37 -0700
-Date: Thu, 13 Mar 2025 13:36:35 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: "Moger, Babu" <babu.moger@amd.com>
-Cc: Reinette Chatre <reinette.chatre@intel.com>,
-	"Moger, Babu" <bmoger@amd.com>,
-	Peter Newman <peternewman@google.com>,
-	Dave Martin <Dave.Martin@arm.com>, corbet@lwn.net,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
-	rostedt@goodmis.org, xiongwei.song@windriver.com,
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
-	mario.limonciello@amd.com, james.morse@arm.com,
-	tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
-	eranian@google.com
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Message-ID: <Z9NB0wd8ZewLjNAd@agluck-desk3>
-References: <Z890Q2GoP6GecwW4@agluck-desk3>
- <04e47d0e-6447-451e-98e4-7ea65187d370@amd.com>
- <6508cf67-3263-432e-892c-9b502b3c6cd4@intel.com>
- <f8a20ed8-6e30-4cff-a96b-8df89a605081@amd.com>
- <d07a70f5-b1ca-4766-a1d9-53988dd9164f@intel.com>
- <14c14b11-5b45-4810-8e46-019c8a67fc90@amd.com>
- <1db8ad73-5194-4821-844a-8fd7cac72ad4@intel.com>
- <9b8653a3-c6fd-4748-a4b5-94d5598d180f@amd.com>
- <20ec195a-c4dd-48d9-89f6-4d48fd438fe8@intel.com>
- <be6d23c8-3e93-4bdc-8b33-d3af7df7cc94@amd.com>
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="b7Yoikxr"
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id C31BB2E0999D;
+	Thu, 13 Mar 2025 22:58:39 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1741899520;
+	bh=Y5VrSNdlsgJQoubN0CAtgMrTyGcggYC2+C8A79hNoGg=;
+	h=Received:From:Subject:To;
+	b=b7YoikxrejUqbDJgJG2FEKT1MgIumkC/ZLTFGIfvlZ74XLKyUgWHss8kFvRsxg9BT
+	 JvK123SrnyaRN5US6UFU2KR7LIJRi64xvqPz21bUm0c7Ct+T2gAnVkHBbfgRRAQJJE
+	 KgCgi0M40tfaZ8yVif1V/msq1ZeyrS7TYA1GcEFk=
+Authentication-Results: linux1587.grserver.gr;
+        spf=pass (sender IP is 209.85.208.174) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f174.google.com
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-307c13298eeso16794601fa.0;
+        Thu, 13 Mar 2025 13:58:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVElnud0s3mHVmVQaTxtWvhmX65hpqFc/37eWpqMW0xnYN3NVtMBNx5B4lhb5lmOSSBxkSmfZYDN0c=@vger.kernel.org,
+ AJvYcCWMxoabzEGmRsJLQUigukJ1wmcV5CPX0GJs9O+hHxfuNHhma9nH7qIiWrq8LL4nqPjdpp/9/u1ql2pnKNIc@vger.kernel.org,
+ AJvYcCXiy96Qee2GDRlxF9SIYzlOvLOSYyVR8ZZOfG39ki93x6GwhM5lL+VRvDT6HUvoo2kk8rDu+S/0h5rh7Q8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhICELr4MKRcp8Rk0lLtABHtxQLIZVbLXwXjGn9xfVnnAEAdrd
+	joHBRAMc0opj5YyQtMxyPiOuU/ZOjA5sS7aQ5X5PDc6vFacIw+tdAGCoKDW/iq4SpodawJoLP+v
+	PicztmMeTPYJUkQKEVY0NwJN8Pfw=
+X-Google-Smtp-Source: 
+ AGHT+IFVP2z7pKlq2maJuuMlyQM96aJotIRkeu4CsibblhQYwRjJaI00Z/V6Tm+b2Z5A/RkkyK7mrtpF1KQlceOALdU=
+X-Received: by 2002:a2e:a985:0:b0:30c:799:8418 with SMTP id
+ 38308e7fff4ca-30c3dd13dd4mr16284171fa.4.1741899518912; Thu, 13 Mar 2025
+ 13:58:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <be6d23c8-3e93-4bdc-8b33-d3af7df7cc94@amd.com>
+References: <20250314-gpd_fan-v6-0-1dc992050e42@gmail.com>
+ <20250314-gpd_fan-v6-1-1dc992050e42@gmail.com>
+In-Reply-To: <20250314-gpd_fan-v6-1-1dc992050e42@gmail.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Thu, 13 Mar 2025 21:58:27 +0100
+X-Gmail-Original-Message-ID: 
+ <CAGwozwENLOOS5q1Bs5SEh3FFJAY-=kcVimf5U+tWzy6HaiGd=g@mail.gmail.com>
+X-Gm-Features: AQ5f1JpUweQBsjYFek3ctv1nypRPZzbamtcli6P4-dMtP8MdB-GFwb0CiLd94TU
+Message-ID: 
+ <CAGwozwENLOOS5q1Bs5SEh3FFJAY-=kcVimf5U+tWzy6HaiGd=g@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] hwmon: add GPD devices sensor driver
+To: Cryolitia@gmail.com
+Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
+	Yao Zi <ziyao@disroot.org>, Derek John Clark <derekjohn.clark@gmail.com>,
+	=?UTF-8?Q?Marcin_Str=C4=85gowski?= <marcin@stragowski.com>,
+	someone5678 <someone5678.dev@gmail.com>,
+ Justin Weiss <justin@justinweiss.com>,
+	command_block <mtf@ik.me>
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <174189952030.30846.1271750701143063826@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-On Thu, Mar 13, 2025 at 03:13:32PM -0500, Moger, Babu wrote:
-> Hi Reinette,
-> 
-> On 3/13/25 11:08, Reinette Chatre wrote:
-> > Hi Babu,
-> > 
-> > On 3/12/25 11:14 AM, Moger, Babu wrote:
-> >> Hi Reinette,
-> >>
-> >> On 3/12/25 12:14, Reinette Chatre wrote:
-> >>> Hi Babu,
-> >>>
-> >>> On 3/12/25 9:03 AM, Moger, Babu wrote:
-> >>>> Hi Reinette,
-> >>>>
-> >>>> On 3/12/25 10:07, Reinette Chatre wrote:
-> >>>>> Hi Babu,
-> >>>>>
-> ..
-> 
-> >>>>>> We can add the mkdir support later. That way we can provide basic ABMC
-> >>>>>> support without too much code complexity with mkdir support.
-> >>>>>
-> >>>>> This is not clear to me how you envision the "first phase". Is it what you
-> >>>>> proposed above, for example:
-> >>>>>       #echo "LclFill, LclNTWr, RmtFill" >
-> >>>>>          /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes
-> >>>>>
-> >>>>> In above the counter configuration name is a file. 
-> >>>>
-> >>>> Yes. That is correct.
-> >>>>
-> >>>> There will be two configuration files by default when resctrl is mounted
-> >>>> when ABMC is enabled.
-> >>>> /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes
-> >>>> /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes
-> >>>>
-> >>>>>
-> >>>>> How could mkdir support be added to this later if there are already files present?
-> >>>>
-> >>>> We already have these directories when resctrl is mounted.
-> >>>> /sys/fs/resctrl/test/mon_data/mon_L3_00/mbm_total_bytes
-> >>>> /sys/fs/resctrl/test/mon_data/mon_L3_00/mbm_local_bytes
-> >>>> /sys/fs/resctrl/test/mon_data/mon_L3_01/mbm_total_bytes
-> >>>> /sys/fs/resctrl/test/mon_data/mon_L3_01/mbm_local_bytes
-> >>>>
-> >>>> We dont need "mkdir" support for default  configurations.
-> >>>
-> >>> I was referring to the "mkdir" support for additional configurations that
-> >>> I understood you are thinking about adding later. For example,
-> >>> (copied from Peter's message
-> >>> https://lore.kernel.org/lkml/CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com/):
-> >>>
-> >>>
-> >>>  # mkdir info/L3_MON/counter_configs/mbm_local_bytes
-> >>>  # echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> >>>  # echo LclNTWr > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> >>>  # echo LclSlowFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> >>>  # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> >>> LclFill
-> >>> LclNTWr
-> >>> LclSlowFill
-> >>>
-> >>> Any "later" work needs to be backward compatible with the first phase.
-> >>
-> >> Actually, we dont need extra file "event_filter".
-> >> This was discussed here.
-> >> https://lore.kernel.org/lkml/CALPaoChLL8p49eANYgQ0dJiFs7G=223fGae+LJyx3DwEhNeR8A@mail.gmail.com/
-> > 
-> > I undestand from that exchange that it is possible to read/write from
-> > an *existing* kernfs file but it is not obvious to me how that file is
-> > planned to be created.
-> 
-> My bad.. I misspoke here. We need "event_filter" file under each
-> configuration.
-> 
-> 
-> > 
-> > My understanding of the motivation behind support for "mkdir" is to enable
-> > user space to create custom counter configurations.
-> > 
-> 
-> That is correct.
-> 
-> > I understand that ABMC support aims to start with existing mbm_total_bytes/mbm_local_bytes
-> > configurations but I believe the consensus is that custom configurations need
-> > to be supported in the future.
-> > If resctrl starts with support where counter configuration as
-> > managed with a *file*, for example:
-> > /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes
-> > how will user space create future custom configurations?
-> > As I understand that is only possible with mkdir.
-> > 
-> >>
-> >> # echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes
-> >> # echo LclNTWr > info/L3_MON/counter_configs/mbm_local_bytes
-> >> # echo LclSlowFill > info/L3_MON/counter_configs/mbm_local_bytes
-> >> # cat info/L3_MON/counter_configs/mbm_local_bytes
-> >>  LclFill
-> >>  LclNTWr
-> >>  LclSlowFill
-> >>
-> >> In the future, we can add mkdir support.
-> >>
-> >> # mkdir info/L3_MON/counter_configs/mbm_read_only
-> > 
-> > This is exactly my concern. resctrl should not start with a user space where
-> > a counter configuration is a file (mbm_local_bytes/mbm_total_bytes) and then
-> > switch user space interface to have counter configuration be done with
-> > directories.
-> > 
-> >> # echo LclFill > info/L3_MON/counter_configs/mbm_read_only
-> >> # cat info/L3_MON/counter_configs/mbm_read_only
-> >>   LclFill
-> > 
-> > ... wait ... user space writes to the directory?
-> > 
-> 
-> My bad. This is wrong. Let me rewrite the steps below.
-> 
-> > 
-> > 
-> >>
-> >> #echo mbm_read_only > test/mon_data/mon_L3_00/assign_exclusive
-> >>
-> >> Which would result in the creation of test/mon_data/mon_L3_*/mbm_read_only
-> >>
-> >> So, there is not breakage of backword compatibility.
-> > 
-> > The way I understand it I am seeing many incompatibilities. Perhaps I am missing
-> > something. Could you please provide detailed steps of how first phase and
-> > second phase would look?
-> 
-> No. You didn't miss anything. I misspoke on few steps.
-> 
-> Here are the steps. Just copying steps from Peters proposal.
-> https://lore.kernel.org/lkml/CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com/
-> 
-> 
-> 1. Mount the resctrl
->    mount -t resctrl resctrl /sys/fs/resctrl
-> 
-> 2. When ABMC is supported two default configurations will be created.
-> 
->   a. info/L3_MON/counter_configs/mbm_total_bytes/event_filter
->   b. info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> 
->   These files will be populated with default total and local events
->   # cat info/L3_MON/counter_configs/mbm_total_bytes/event_filter
->     VictimBW
->     RmtSlowFill
->     RmtNTWr
->     RmtFill
->     LclFill
->     LclNTWr
->     LclSlowFill
-> 
->   # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->    LclFill,
->    LclNTWr
->    LclSlowFill
-> 
-> 3. Users will have options to update the event configuration.
->    echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
+On Thu, 13 Mar 2025 at 21:10, Cryolitia PukNgae via B4 Relay
+<devnull+Cryolitia.gmail.com@kernel.org> wrote:
+>
+> From: Cryolitia PukNgae <Cryolitia@gmail.com>
+>
+> Sensors driver for GPD Handhelds that expose fan reading and control via
+> hwmon sysfs.
+>
+> Shenzhen GPD Technology Co., Ltd. manufactures a series of handheld
+> devices. This driver implements these functions through x86 port-mapped IO.
+>
+> Signed-off-by: Cryolitia PukNgae <Cryolitia@gmail.com>
+> ---
+>  MAINTAINERS             |   6 +
+>  drivers/hwmon/Kconfig   |  10 +
+>  drivers/hwmon/Makefile  |   1 +
+>  drivers/hwmon/gpd-fan.c | 681 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 698 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 0fa7c5728f1e64d031f4a47b6fce1db484ce0fc2..777ba74ccb07ccc0840c3cd34e7b4d98d726f964 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9762,6 +9762,12 @@ F:       drivers/phy/samsung/phy-gs101-ufs.c
+>  F:     include/dt-bindings/clock/google,gs101.h
+>  K:     [gG]oogle.?[tT]ensor
+>
+> +GPD FAN DRIVER
+> +M:     Cryolitia PukNgae <Cryolitia@gmail.com>
+> +L:     linux-hwmon@vger.kernel.org
+> +S:     Maintained
+> +F:     drivers/hwmon/gpd-fan.c
 
-Once the "mkdir" support described below is implemented users will not
-need to redefine these legacy event file names. That makes me happy.
+A problem we had with oxp sensors is that once OneXPlayer expanded
+their EC to include e.g., battery capacity limits, it was no longer
+appropriate for it to reside in hwmon. I expect GPD to do the same
+sometime in the near future. If that is the case, should we
+futureproof the driver by moving it to platform-x86 right away?
 
-> 
-> 4. As usual the events can be read from the mon_data directories.
->    #mkdir /sys/fs/resctrl/test
->    #cd   /sys/fs/resctr/test
->    #cat  test/mon_data/mon_data/mon_L3_00/mbm_tota_bytes
->    101010
->    #cat   test/mon_data/mon_data/mon_L3_00/mbm_local_bytes
->    32323
-> 
-> 5. There will be 3 files created in each group's mon_data directory when
-> ABMC is supported.
-> 
->    a. test/mon_data/mon_L3_00/assign_exclusive
->    b. test/mon_data/mon_L3_00/assign_shared
->    c. test/mon_data/mon_L3_00/unassign
-> 
-> 
-> 6. Events can be assigned/unassigned by these commands
-> 
->  # echo mbm_total_bytes > test/mon_data/mon_L3_00/assign_exclusive
->  # echo mbm_local_bytes > test/mon_data/mon_L3_01/assign_exclusive
->  # echo mbm_local_bytes > test/mon_data/mon_L3_01/unassign
-> 
-> 
-> Note:
-> I feel 3 files are excessive here. We can probably achieve everything in
-> just one file.
+> +
+>  GPD POCKET FAN DRIVER
+>  M:     Hans de Goede <hdegoede@redhat.com>
+>  L:     platform-driver-x86@vger.kernel.org
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index dd376602f3f19c6f258651afeffbe1bb5d9b6b72..974b341c0bdaba147370de59f510140c0c937913 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -729,6 +729,16 @@ config SENSORS_GL520SM
+>           This driver can also be built as a module. If so, the module
+>           will be called gl520sm.
+>
+> +config SENSORS_GPD
+> +       tristate "GPD handhelds"
+> +       depends on X86
+> +       help
+> +         If you say yes here you get support for fan readings and
+> +         control over GPD handheld devices.
+> +
+> +         Can also be built as a module. In that case it will be
+> +         called gpd-fan.
+> +
+>  config SENSORS_G760A
+>         tristate "GMT G760A"
+>         depends on I2C
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index b827b92f2a7844418f3f3b6434a63b744b52c33d..cd512c19caa9737a2926a3d4860f65b65cd013c3 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -87,6 +87,7 @@ obj-$(CONFIG_SENSORS_GIGABYTE_WATERFORCE) += gigabyte_waterforce.o
+>  obj-$(CONFIG_SENSORS_GL518SM)  += gl518sm.o
+>  obj-$(CONFIG_SENSORS_GL520SM)  += gl520sm.o
+>  obj-$(CONFIG_SENSORS_GSC)      += gsc-hwmon.o
+> +obj-$(CONFIG_SENSORS_GPD)      += gpd-fan.o
+>  obj-$(CONFIG_SENSORS_GPIO_FAN) += gpio-fan.o
+>  obj-$(CONFIG_SENSORS_GXP_FAN_CTRL) += gxp-fan-ctrl.o
+>  obj-$(CONFIG_SENSORS_HIH6130)  += hih6130.o
+> diff --git a/drivers/hwmon/gpd-fan.c b/drivers/hwmon/gpd-fan.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..782c9981d5357b11faad4e6cd75242828e667f95
+> --- /dev/null
+> +++ b/drivers/hwmon/gpd-fan.c
+> @@ -0,0 +1,681 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +
+> +/* Platform driver for GPD devices that expose fan control via hwmon sysfs.
+> + *
+> + * Fan control is provided via pwm interface in the range [0-255].
+> + * Each model has a different range in the EC, the written value is scaled to
+> + * accommodate for that.
+> + *
+> + * Based on this repo:
+> + * https://github.com/Cryolitia/gpd-fan-driver
 
-Maybe the one file could look like:
+Perhaps the github link will date this. I would remove it.
 
-# cat mon_L3_assignments
-mbm_total_bytes: exclusive
-mbm_local_bytes: shared
-mbm_read_only: unassigned
+> + *
+> + * Copyright (c) 2024 Cryolitia PukNgae
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/dmi.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/ioport.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +
+> +#define DRIVER_NAME "gpdfan"
+> +#define GPD_PWM_CTR_OFFSET 0x1841
+> +
+> +static char *gpd_fan_board = "";
+> +module_param(gpd_fan_board, charp, 0444);
+> +
+> +// EC read/write locker
+> +// Should never access EC at the same time, otherwise system down.
 
-with new lines appearing when mkdir creates new events, and the obvious
-write semantics:
+These two comments could use some rewording. E.g., Prevent access to
+the EC at the same time to avoid system instability.
 
-# echo "mbm_total_bytes: unassigned" > mon_L3_assignments
+> +static DEFINE_MUTEX(gpd_fan_lock);
+> +
+> +enum gpd_board {
+> +       win_mini,
+> +       win4_6800u,
+> +       win_max_2,
+> +};
+> +
+> +enum FAN_PWM_ENABLE {
+> +       DISABLE         = 0,
+> +       MANUAL          = 1,
+> +       AUTOMATIC       = 2,
+> +};
+> +
+> +static struct {
+> +       enum FAN_PWM_ENABLE pwm_enable;
+> +       u8 pwm_value;
+> +
+> +       const struct gpd_fan_drvdata *drvdata;
+> +} gpd_driver_priv;
+> +
+> +struct gpd_fan_drvdata {
+> +       const char *board_name; /* Board name for module param comparison */
+> +       const enum gpd_board board;
+> +
+> +       const u8 addr_port;
+> +       const u8 data_port;
+> +       const u16 manual_control_enable;
+> +       const u16 rpm_read;
+> +       const u16 pwm_write;
+> +       const u16 pwm_max;
+> +};
+> +
+> +static struct gpd_fan_drvdata gpd_win_mini_drvdata = {
+> +       .board_name             = "win_mini",
+> +       .board                  = win_mini,
+> +
+> +       .addr_port              = 0x4E,
+> +       .data_port              = 0x4F,
+> +       .manual_control_enable  = 0x047A,
+> +       .rpm_read               = 0x0478,
+> +       .pwm_write              = 0x047A,
+> +       .pwm_max                = 244,
+> +};
+> +
+> +static struct gpd_fan_drvdata gpd_win4_drvdata = {
+> +       .board_name             = "win4",
+> +       .board                  = win4_6800u,
+> +
+> +       .addr_port              = 0x2E,
+> +       .data_port              = 0x2F,
+> +       .manual_control_enable  = 0xC311,
+> +       .rpm_read               = 0xC880,
+> +       .pwm_write              = 0xC311,
+> +       .pwm_max                = 127,
+> +};
+> +
+> +static struct gpd_fan_drvdata gpd_wm2_drvdata = {
+> +       .board_name             = "wm2",
+> +       .board                  = win_max_2,
+> +
+> +       .addr_port              = 0x4E,
+> +       .data_port              = 0x4F,
+> +       .manual_control_enable  = 0x0275,
+> +       .rpm_read               = 0x0218,
+> +       .pwm_write              = 0x1809,
+> +       .pwm_max                = 184,
+> +};
+> +
+> +static const struct dmi_system_id dmi_table[] = {
+> +       {
+> +               // GPD Win Mini
+> +               // GPD Win Mini with AMD Ryzen 8840U
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "G1617-01")
+> +               },
+> +               .driver_data = &gpd_win_mini_drvdata,
+> +       },
+> +       {
+> +               // GPD Win Mini
+> +               // GPD Win Mini with AMD Ryzen HX370
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "G1617-02")
+> +               },
+> +               .driver_data = &gpd_win_mini_drvdata,
+> +       },
+> +       {
+> +               // GPD Win Mini
+> +               // GPD Win Mini with AMD Ryzen HX370
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "G1617-02-L")
+> +               },
+> +               .driver_data = &gpd_win_mini_drvdata,
+> +       },
+> +       {
+> +               // GPD Win 4 with AMD Ryzen 6800U
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
+> +                       DMI_MATCH(DMI_BOARD_VERSION, "Default string"),
+> +               },
+> +               .driver_data = &gpd_win4_drvdata,
+> +       },
+> +       {
+> +               // GPD Win 4 with Ryzen 7840U
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
+> +                       DMI_MATCH(DMI_BOARD_VERSION, "Ver. 1.0"),
+> +               },
+> +               // Since 7840U, win4 uses the same drvdata as wm2
+> +               .driver_data = &gpd_wm2_drvdata,
+> +       },
+> +       {
+> +               // GPD Win 4 with Ryzen 7840U (another)
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "G1618-04"),
+> +                       DMI_MATCH(DMI_BOARD_VERSION, "Ver.1.0"),
+> +               },
+> +               .driver_data = &gpd_wm2_drvdata,
+> +       },
+> +       {
+> +               // GPD Win Max 2 with Ryzen 6800U
+> +               // GPD Win Max 2 2023 with Ryzen 7840U
+> +               // GPD Win Max 2 2024 with Ryzen 8840U
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "G1619-04"),
+> +               },
+> +               .driver_data = &gpd_wm2_drvdata,
+> +       },
+> +       {
+> +               // GPD Win Max 2 with AMD Ryzen HX370
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "G1619-05"),
+> +               },
+> +               .driver_data = &gpd_wm2_drvdata,
+> +       },
+> +       {
+> +               // GPD Pocket 4
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "G1628-04"),
+> +               },
+> +               .driver_data = &gpd_win_mini_drvdata,
+> +       },
+> +       {
+> +               // GPD Pocket 4 (another)
+> +               .matches = {
+> +                       DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "G1628-04-L"),
+> +               },
+> +               .driver_data = &gpd_win_mini_drvdata,
+> +       },
+> +       {}
+> +};
+> +
+> +static const struct gpd_fan_drvdata *gpd_module_drvdata[] = {
+> +       &gpd_win_mini_drvdata, &gpd_win4_drvdata, &gpd_wm2_drvdata, NULL
+> +};
+> +
+> +/* Helper functions to handle EC read/write */
+> +static int gpd_ecram_read(const struct gpd_fan_drvdata *drvdata, u16 offset,
+> +                         u8 *val)
+> +{
+> +       int ret;
+> +       u16 addr_port = drvdata->addr_port;
+> +       u16 data_port = drvdata->data_port;
+> +
+> +       ret = mutex_lock_interruptible(&gpd_fan_lock);
+> +
+> +       if (ret)
+> +               return ret;
+> +
+> +       outb(0x2E, addr_port);
+> +       outb(0x11, data_port);
+> +       outb(0x2F, addr_port);
+> +       outb((u8)((offset >> 8) & 0xFF), data_port);
+> +
+> +       outb(0x2E, addr_port);
+> +       outb(0x10, data_port);
+> +       outb(0x2F, addr_port);
+> +       outb((u8)(offset & 0xFF), data_port);
+> +
+> +       outb(0x2E, addr_port);
+> +       outb(0x12, data_port);
+> +       outb(0x2F, addr_port);
+> +       *val = inb(data_port);
+> +
+> +       mutex_unlock(&gpd_fan_lock);
+> +       return 0;
+> +}
 
-to make updates.
+One concern I had with this driver while using it is that ACPI might
+have access to this EC. If that is the case, then this mutex is not
+exclusive and that could cause some instability. You can reference
+oxp-sensors for an ACPI lock.
 
-> Not sure about mbm_assign_control interface as there are concerns with
-> group listing holding the lock for long.
-> 
-> -----------------------------------------------------------------------
-> Second phase, we can add support for "mkdir"
-> 
-> 1. mkdir info/L3_MON/counter_configs/mbm_read_only
-> 
-> 2. mkdir option will create "event_filter" file.
->    info/L3_MON/counter_configs/mbm_read_only/event_filter
-> 
-> 3. Users can modify event configuration.
->    echo LclFill > info/L3_MON/counter_configs/mbm_read_only/event_filter
-> 
-> 4. Users can assign the events
-> 
->   echo mbm_read_only > test/mon_data/mon_L3_00/assign_exclusive
-> 
-> 5. Events can be read in
-> 
->    test/mon_data/mon_data/mon_L3_00/mbm_read_only
+Although, if I am being honest, the lock in oxp-sensors is probably
+duplicative because ec_read already holds a mutex. In your case, you
+do not use ec_read so it is not.
 
-Is there a matching "rmdir" to make this go away again?
+> +
+> +static int gpd_ecram_write(const struct gpd_fan_drvdata *drvdata, u16 offset,
+> +                          u8 value)
+> +{
+> +       int ret;
+> +       u16 addr_port = drvdata->addr_port;
+> +       u16 data_port = drvdata->data_port;
+> +
+> +       ret = mutex_lock_interruptible(&gpd_fan_lock);
+> +
+> +       if (ret)
+> +               return ret;
+> +
+> +       outb(0x2E, addr_port);
+> +       outb(0x11, data_port);
+> +       outb(0x2F, addr_port);
+> +       outb((u8)((offset >> 8) & 0xFF), data_port);
+> +
+> +       outb(0x2E, addr_port);
+> +       outb(0x10, data_port);
+> +       outb(0x2F, addr_port);
+> +       outb((u8)(offset & 0xFF), data_port);
+> +
+> +       outb(0x2E, addr_port);
+> +       outb(0x12, data_port);
+> +       outb(0x2F, addr_port);
+> +       outb(value, data_port);
+> +
+> +       mutex_unlock(&gpd_fan_lock);
+> +       return 0;
+> +}
+> +
+> +static int gpd_generic_read_rpm(void)
+> +{
+> +       u8 high, low;
+> +       int ret;
+> +       const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
+> +
+> +       ret = gpd_ecram_read(drvdata, drvdata->rpm_read, &high);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret = gpd_ecram_read(drvdata, drvdata->rpm_read + 1, &low);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return (u16)high << 8 | low;
+> +}
+> +
+> +static int gpd_win4_read_rpm(void)
+> +{
+> +       const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
+> +       u8 pwm_ctr_reg;
+> +       int ret;
+> +
+> +       gpd_ecram_read(drvdata, GPD_PWM_CTR_OFFSET, &pwm_ctr_reg);
+> +
+> +       if (pwm_ctr_reg != 0x7F)
+> +               gpd_ecram_write(drvdata, GPD_PWM_CTR_OFFSET, 0x7F);
+> +
+> +       ret = gpd_generic_read_rpm();
+> +
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       if (ret == 0) {
+> +               // re-init EC
+> +               u8 chip_id;
+> +
+> +               gpd_ecram_read(drvdata, 0x2000, &chip_id);
+> +               if (chip_id == 0x55) {
+> +                       u8 chip_ver;
+> +
+> +                       if (gpd_ecram_read(drvdata, 0x1060, &chip_ver))
+> +                               gpd_ecram_write(drvdata, 0x1060,
+> +                                               chip_ver | 0x80);
+> +               }
+> +       }
+> +
+> +       return ret;
+> +}
+> +
+> +static int gpd_wm2_read_rpm(void)
+> +{
+> +       const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
+> +
+> +       for (u16 pwm_ctr_offset = GPD_PWM_CTR_OFFSET;
+> +            pwm_ctr_offset <= GPD_PWM_CTR_OFFSET + 2; pwm_ctr_offset++) {
+> +               u8 PWMCTR;
+> +
+> +               gpd_ecram_read(drvdata, pwm_ctr_offset, &PWMCTR);
+> +
+> +               if (PWMCTR != 0xB8)
+> +                       gpd_ecram_write(drvdata, pwm_ctr_offset, 0xB8);
+> +       }
+> +
+> +       return gpd_generic_read_rpm();
+> +}
+> +
+> +// Read value for fan1_input
+> +static int gpd_read_rpm(void)
+> +{
+> +       switch (gpd_driver_priv.drvdata->board) {
+> +       case win_mini:
+> +               return gpd_generic_read_rpm();
+> +       case win4_6800u:
+> +               return gpd_win4_read_rpm();
+> +       case win_max_2:
+> +               return gpd_wm2_read_rpm();
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int gpd_wm2_read_pwm(void)
+> +{
+> +       const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
+> +       u8 var;
+> +       int ret = gpd_ecram_read(drvdata, drvdata->pwm_write, &var);
+> +
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       return var * 255 / drvdata->pwm_max;
+> +}
+> +
+> +// Read value for pwm1
+> +static int gpd_read_pwm(void)
+> +{
+> +       switch (gpd_driver_priv.drvdata->board) {
+> +       case win_mini:
+> +       case win4_6800u:
+> +               return gpd_driver_priv.pwm_value;
+> +       case win_max_2:
+> +               return gpd_wm2_read_pwm();
+> +       }
+> +       return 0;
+> +}
+> +
+> +static int gpd_generic_write_pwm(u8 val)
+> +{
+> +       const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
+> +       u8 pwm_reg;
+> +
+> +       // PWM value's range in EC is 1 - pwm_max, cast 0 - 255 to it.
+> +       pwm_reg = val * (drvdata->pwm_max - 1) / 255 + 1;
+> +       return gpd_ecram_write(drvdata, drvdata->pwm_write, pwm_reg);
+> +}
+> +
+> +static int gpd_win_mini_write_pwm(u8 val)
+> +{
+> +       if (gpd_driver_priv.pwm_enable == MANUAL)
+> +               return gpd_generic_write_pwm(val);
+> +       else
+> +               return -EPERM;
+> +}
+> +
+> +static int gpd_wm2_write_pwm(u8 val)
+> +{
+> +       if (gpd_driver_priv.pwm_enable != DISABLE)
+> +               return gpd_generic_write_pwm(val);
+> +       else
+> +               return -EPERM;
+> +}
+> +
+> +// Write value for pwm1
+> +static int gpd_write_pwm(u8 val)
+> +{
+> +       switch (gpd_driver_priv.drvdata->board) {
+> +       case win_mini:
+> +               return gpd_win_mini_write_pwm(val);
+> +       case win4_6800u:
+> +               return gpd_generic_write_pwm(val);
+> +       case win_max_2:
+> +               return gpd_wm2_write_pwm(val);
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int gpd_win_mini_set_pwm_enable(enum FAN_PWM_ENABLE pwm_enable)
+> +{
+> +       const struct gpd_fan_drvdata *drvdata;
+> +
+> +       switch (pwm_enable) {
+> +       case DISABLE:
+> +               return gpd_generic_write_pwm(255);
+> +       case MANUAL:
+> +               return gpd_generic_write_pwm(gpd_driver_priv.pwm_value);
+> +       case AUTOMATIC:
+> +               drvdata = gpd_driver_priv.drvdata;
+> +               return gpd_ecram_write(drvdata, drvdata->pwm_write, 0);
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int gpd_wm2_set_pwm_enable(enum FAN_PWM_ENABLE enable)
+> +{
+> +       const struct gpd_fan_drvdata *const drvdata = gpd_driver_priv.drvdata;
+> +       int ret;
+> +
+> +       switch (enable) {
+> +       case DISABLE: {
+> +               ret = gpd_generic_write_pwm(255);
+> +
+> +               if (ret)
+> +                       return ret;
+> +
+> +               return gpd_ecram_write(drvdata, drvdata->manual_control_enable,
+> +                                      1);
+> +       }
+> +       case MANUAL: {
+> +               ret = gpd_generic_write_pwm(gpd_driver_priv.pwm_value);
+> +
+> +               if (ret)
+> +                       return ret;
+> +
+> +               return gpd_ecram_write(drvdata, drvdata->manual_control_enable,
+> +                                      1);
+> +       }
+> +       case AUTOMATIC: {
+> +               ret = gpd_ecram_write(drvdata, drvdata->manual_control_enable,
+> +                                     0);
+> +
+> +               return ret;
+> +       }
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +// Write value for pwm1_enable
+> +static int gpd_set_pwm_enable(enum FAN_PWM_ENABLE enable)
+> +{
+> +       switch (gpd_driver_priv.drvdata->board) {
+> +       case win_mini:
+> +       case win4_6800u:
+> +               return gpd_win_mini_set_pwm_enable(enable);
+> +       case win_max_2:
+> +               return gpd_wm2_set_pwm_enable(enable);
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static umode_t gpd_fan_hwmon_is_visible(__always_unused const void *drvdata,
+> +                                       enum hwmon_sensor_types type, u32 attr,
+> +                                       __always_unused int channel)
+> +{
+> +       if (type == hwmon_fan && attr == hwmon_fan_input) {
+> +               return 0444;
+> +       } else if (type == hwmon_pwm) {
+> +               switch (attr) {
+> +               case hwmon_pwm_enable:
+> +               case hwmon_pwm_input:
+> +                       return 0644;
+> +               default:
+> +                       return 0;
+> +               }
+> +       }
+> +       return 0;
+> +}
+> +
+> +static int gpd_fan_hwmon_read(__always_unused struct device *dev,
+> +                             enum hwmon_sensor_types type, u32 attr,
+> +                             __always_unused int channel, long *val)
+> +{
+> +       if (type == hwmon_fan) {
+> +               if (attr == hwmon_fan_input) {
+> +                       int ret = gpd_read_rpm();
+> +
+> +                       if (ret < 0)
+> +                               return ret;
+> +
+> +                       *val = ret;
+> +                       return 0;
+> +               }
+> +               return -EOPNOTSUPP;
+> +       } else if (type == hwmon_pwm) {
+> +               int ret;
+> +
+> +               switch (attr) {
+> +               case hwmon_pwm_enable:
+> +                       *val = gpd_driver_priv.pwm_enable;
+> +                       return 0;
+> +               case hwmon_pwm_input:
+> +                       ret = gpd_read_pwm();
+> +
+> +                       if (ret < 0)
+> +                               return ret;
+> +
+> +                       *val = ret;
+> +                       return 0;
+> +               default:
+> +                       return -EOPNOTSUPP;
+> +               }
+> +       }
+> +
+> +       return -EOPNOTSUPP;
+> +}
+> +
+> +static int gpd_fan_hwmon_write(__always_unused struct device *dev,
+> +                              enum hwmon_sensor_types type, u32 attr,
+> +                              __always_unused int channel, long val)
+> +{
+> +       u8 var;
+> +
+> +       if (type == hwmon_pwm) {
+> +               switch (attr) {
+> +               case hwmon_pwm_enable:
+> +                       if (!in_range(val, 0, 3))
+> +                               return -EINVAL;
+> +
+> +                       gpd_driver_priv.pwm_enable = val;
+> +
+> +                       return gpd_set_pwm_enable(gpd_driver_priv.pwm_enable);
+> +               case hwmon_pwm_input:
+> +                       var = clamp_val(val, 0, 255);
+> +
+> +                       gpd_driver_priv.pwm_value = var;
+> +
+> +                       return gpd_write_pwm(var);
+> +               default:
+> +                       return -EOPNOTSUPP;
+> +               }
+> +       }
+> +
+> +       return -EOPNOTSUPP;
+> +}
+> +
+> +static const struct hwmon_ops gpd_fan_ops = {
+> +       .is_visible = gpd_fan_hwmon_is_visible,
+> +       .read = gpd_fan_hwmon_read,
+> +       .write = gpd_fan_hwmon_write,
+> +};
+> +
+> +static const struct hwmon_channel_info *gpd_fan_hwmon_channel_info[] = {
+> +       HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
+> +       HWMON_CHANNEL_INFO(pwm, HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
+> +       NULL
+> +};
+> +
+> +static struct hwmon_chip_info gpd_fan_chip_info = {
+> +       .ops = &gpd_fan_ops,
+> +       .info = gpd_fan_hwmon_channel_info
+> +};
+> +
+> +static int gpd_fan_probe(struct platform_device *pdev)
+> +{
+> +       struct device *dev = &pdev->dev;
+> +       const struct resource *res;
+> +       const struct device *hwdev;
+> +       const struct resource *region;
+> +
+> +       res = platform_get_resource(pdev, IORESOURCE_IO, 0);
+> +       if (IS_ERR(res))
+> +               return dev_err_probe(dev, PTR_ERR(res),
+> +                                    "Failed to get platform resource\n");
+> +
+> +       region = devm_request_region(dev, res->start,
+> +                                    resource_size(res), DRIVER_NAME);
+> +       if (IS_ERR(region))
+> +               return dev_err_probe(dev, PTR_ERR(region),
+> +                                    "Failed to request region\n");
+> +
+> +       hwdev = devm_hwmon_device_register_with_info(dev,
+> +                                                    DRIVER_NAME,
+> +                                                    NULL,
+> +                                                    &gpd_fan_chip_info,
+> +                                                    NULL);
+> +       if (IS_ERR(hwdev))
+> +               return dev_err_probe(dev, PTR_ERR(region),
+> +                                    "Failed to register hwmon device\n");
+> +
+> +       return 0;
+> +}
+> +
+> +static void gpd_fan_remove(__always_unused struct platform_device *pdev)
+> +{
+> +       gpd_driver_priv.pwm_enable = AUTOMATIC;
+> +       gpd_set_pwm_enable(AUTOMATIC);
+> +}
+> +
+> +static struct platform_driver gpd_fan_driver = {
+> +       .probe = gpd_fan_probe,
+> +       .remove = gpd_fan_remove,
+> +       .driver = {
+> +               .name = KBUILD_MODNAME,
+> +       },
+> +};
+> +
+> +static struct platform_device *gpd_fan_platform_device;
+> +
+> +static int __init gpd_fan_init(void)
+> +{
+> +       const struct gpd_fan_drvdata *match = NULL;
+> +
+> +       for (const struct gpd_fan_drvdata **p = gpd_module_drvdata; *p; p++) {
+> +               if (strcmp(gpd_fan_board, (*p)->board_name) == 0) {
+> +                       match = *p;
+> +                       break;
+> +               }
+> +       }
+> +
+> +       if (!match) {
+> +               const struct dmi_system_id *dmi_match =
+> +                       dmi_first_match(dmi_table);
+> +               if (dmi_match)
+> +                       match = dmi_match->driver_data;
+> +       }
+> +
+> +       if (!match)
+> +               return -ENODEV;
+> +
+> +       gpd_driver_priv.pwm_enable = AUTOMATIC;
+> +       gpd_driver_priv.pwm_value = 255;
+> +       gpd_driver_priv.drvdata = match;
+> +
+> +       struct resource gpd_fan_resources[] = {
+> +               {
+> +                       .start = match->addr_port,
+> +                       .end = match->data_port,
+> +                       .flags = IORESOURCE_IO,
+> +               },
+> +       };
+> +
+> +       gpd_fan_platform_device = platform_create_bundle(&gpd_fan_driver,
+> +                                                        gpd_fan_probe,
+> +                                                        gpd_fan_resources,
+> +                                                        1, NULL, 0);
+> +
+> +       if (IS_ERR(gpd_fan_platform_device)) {
+> +               pr_warn("Failed to create platform device\n");
+> +               return PTR_ERR(gpd_fan_platform_device);
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static void __exit gpd_fan_exit(void)
+> +{
+> +       platform_device_unregister(gpd_fan_platform_device);
+> +       platform_driver_unregister(&gpd_fan_driver);
+> +}
+> +
+> +MODULE_DEVICE_TABLE(dmi, dmi_table);
+> +
+> +module_init(gpd_fan_init);
+> +module_exit(gpd_fan_exit);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Cryolitia PukNgae <Cryolitia@gmail.com>");
+> +MODULE_DESCRIPTION("GPD Devices fan control driver");
+>
+> --
+> 2.48.1
+>
+>
 
-> -- 
-> Thanks
-> Babu Moger
+I will try to swap from the dkms variant to this series soon.
+
+Best,
+Antheas
