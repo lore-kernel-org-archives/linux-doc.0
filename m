@@ -1,229 +1,160 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B844268FED
-	for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 10:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E541DF975
+	for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 10:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741862918; cv=none; b=kpFuXG6RD6iqVBqehSiMeTrdKD5xjYkLMJYiOVUd1SulJmH6xVPJ4BUb7MbWg5DcMtDb25k4iAqRXf5X0/WktiVL8S6oqYNELz/ZPnfK+pKqdmht7t6gOWL0uM5V2XOnrUVal+4LSau2WOb7SJ/2I7MAxz4IuXou7CrwGSgk0m8=
+	t=1741863543; cv=none; b=nCCjrR73UTkd6jKTJHjzyKiOaCSsJeCBrkjsRPUO6WwMPeSgMlclZ5fQxrgZsFoD7RRW8cRtttR7qqZYRWPKGUSAF2gZS8KvmWtyBpeIzyPQEosEvkEDk3RxxMRvjPefK9cnfkoc3w1LjL1Cce31R+4T8num9b1CI5VNJvwPr9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741862918; c=relaxed/simple;
-	bh=zEa2/6ZbYMtLXc0GQf4ghQrBvlaLDMechFGbdAdGPCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MGN6UF6VVFSFxK+58ku2F12qn/dG5Yqhk2lrDf7e2exyalaDE8e4YI9/ZxZ9Aq3uCVVjl9MM3/hkS4B8A1M4Ib7QMIe2bgvc0O6XfgHTwx0brWx2ALgXnE8uhSo0/CD9lmJreOatCW9v6T7OQ81vzQGGf7QopHvd7TQxYS9t4Bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=I3PiCtEL; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1741863543; c=relaxed/simple;
+	bh=37LJNif6aGyyhlJh5h8ixFPgluvePWafJrCynYtE1IE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LtWc/nVMkQP2Yp+wVbkhsUJNXVHnuZNQ85U3S2uUe4+Ij6hbeRXFkHfVWx5YZQbMA/qGhNlmxOwkrMxN6Jh8pmA1vOjflmsCCC5UD2Ase4Q0wTiMEfpFOQ/NeqnH4lRsFjCY97eJPXabzCyM85OQt2bdhZY2Z0zoiLY30cBE6jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iVLZfptD; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="I3PiCtEL"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-39133f709f5so481235f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 03:48:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1741862914; x=1742467714; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=eB5vcLE8SQfGumBXnzHAeXBgedPPd3tI3SPBGaHjDZo=;
-        b=I3PiCtELMMHEWBralE6681EyTHaZ7OCjpcN9fdKNBvH9mxrr1VulXMZRVlnkvdS6gU
-         zDmjL/I+n9YEUngzbVhjVtKbC8Mnxxf5n1/saivCilZVNd3tSzDGOzdwRe7u4T8S5L2K
-         78MNzFxJ2L+ih59EuHosZl22m/nhWSWQA0nPTF0tUFkDuHMbjYURNyddXPdV3N0u9EdI
-         Pau5JoviWCVR8UeFa79Vf+U4aXvhMwKeF2rougzvWa9h2bMNA7j51Z2icouj9gVdPoWG
-         SJyVitfpZnEC3FIdUTcKqnQWIUXtD6irrbJlaQQusIDGjS0Cl35Q33ukMePVwXAVHMeQ
-         DpjQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iVLZfptD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1741863541;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I8+KGKdJ4EK24n18Z2V3Wf8YYaN68pwFttwmHD5FeXs=;
+	b=iVLZfptD+pn64iyDSyI9HvKJqVIM7VARZHxcm78tK7bXK16d5pvAEVqfSAZ+i/8WL45NFP
+	aPWFUwTjTeAcgfyqPAK6tfAFSlncRiHt6fnRxCRDA0tfz23QQmF7w305BVYFt5RPOx90Nj
+	Aay6tMPBv48kV7h3ux+IRm/SmWV6868=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-226-Eih71LrBNVSzjkxvcjpVLw-1; Thu, 13 Mar 2025 06:58:59 -0400
+X-MC-Unique: Eih71LrBNVSzjkxvcjpVLw-1
+X-Mimecast-MFC-AGG-ID: Eih71LrBNVSzjkxvcjpVLw_1741863539
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-39131f2bbe5so304235f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 03:58:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741862914; x=1742467714;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1741863538; x=1742468338;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eB5vcLE8SQfGumBXnzHAeXBgedPPd3tI3SPBGaHjDZo=;
-        b=daVMDTQoKFR1LT8i+AXVsLZqG8Fskixb9ogn4L9xwY1tgFARbJ8W0FJaeaqkBTpLZ2
-         mgHTxClNpoF2ihXgOktYwbj+WNtThc785FetNTPTzVQH8rCoM7HzUk0UZOK7qChc/d9N
-         MznSVlptphB+ywRh5odzR2QHQgUrn/DH5fRbtUIkeZjZ4u2BQemZUMXVWe8dIG1H6Twy
-         fzB390wLuVcrvQ1p0CoFnwaQV8ImsgH3hmgzfwignfkeacSGCTmQNK9wraC9zsWm/Os1
-         4stQv3MyhnbjjF37Ly1bCtDgexFhq73SRisxZAFYjQitsOZG9/X7C6hfWuuz/s2RsW/L
-         ULFg==
-X-Forwarded-Encrypted: i=1; AJvYcCUdFIOKJQzgm8xZs4Q0xGnHBhNXiC4PCQhGYcwyxtBIYYcGNjOJ4PXvazYGix6gvLbjavqF+eL5AFY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFjq/PhcKjdf9o60dodSJwmcR+7Kbn5QuA0b+6w0n7dCl75M7y
-	sNRI9PT8Yiut9oKhffYjJgWqNBGm9Zb/EZV5sPW1c606OKlg9DbH0r+uITHfnpA=
-X-Gm-Gg: ASbGncueMmELrANGw4HOR1mIwmoKTgXvSLGCNYTPGo0wEa+03QX0uhFDIl0ruVHbDog
-	mZlFekNvzYD7Ba2OXMQUMHqEn81VCPc9ifGnvwzrKllwpmB+0diIxRsaC550kNEW+jRn+wjQ2Y7
-	pl8v8qXa82CDEmmNiBFnoYg1yfMM50tNqRpsROAblKn5m0AZGHy554JCm/55m8+5ZSZMfBDjhLH
-	miBOeMTqvkybiXql1Tc9XP1l3YBqwi1srlQexdrwB97Nyb1Y/Kfv34nMi03GtKkQcXd7nY0fg8n
-	EX87nZuiWkZ+vhk30P3/6djlFqG/R/hmxAvY1vFtQWMNB14=
-X-Google-Smtp-Source: AGHT+IFm7Kuzlt4RWV1h9LdE/z3iVTyMjzOwOXxoRSiATKcU+lu5J0yjCPWicWOanc5m4AYOR6rZGw==
-X-Received: by 2002:a5d:64c3:0:b0:391:31c8:ba58 with SMTP id ffacd0b85a97d-39132d16dd6mr21931727f8f.10.1741862914526;
-        Thu, 13 Mar 2025 03:48:34 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c83b7656sm1673700f8f.40.2025.03.13.03.48.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 03:48:34 -0700 (PDT)
-Date: Thu, 13 Mar 2025 11:48:32 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Aditya Garg <gargaditya08@live.com>, Kees Cook <kees@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>,
-	"airlied@redhat.com" <airlied@redhat.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>
-Subject: Re: [PATCH 1/2] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Message-ID: <Z9K36SRz7Ja_AyQb@pathway.suse.cz>
-References: <9092a9ed-aecf-40bd-9d15-b53d60d035b5@suse.de>
- <PN3PR01MB959715C19BCEA54426D24934B8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <ff3a9c58-5c7a-4c48-8a9e-cc828a43baed@app.fastmail.com>
- <PN3PR01MB9597E5C609290DB1A967263CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <Z9HgVn-XELC065w0@smile.fi.intel.com>
- <47AE7FCD-0F30-4379-ADE9-090A15ACD58F@live.com>
- <Z9Kb8zMJgmSP-rgD@smile.fi.intel.com>
- <PN3PR01MB959780176C0B16C36FBD59C3B8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <Z9KdzZUxs3vlwp0Z@smile.fi.intel.com>
- <PN3PR01MB9597A8F02423B9E4C585F5EBB8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+        bh=I8+KGKdJ4EK24n18Z2V3Wf8YYaN68pwFttwmHD5FeXs=;
+        b=EiogNx6nBC9Uhq/NbYtYPGJ0cnYUXO5w6V8PtCUarU+shEy/3kYfQnHxSZKLFWjQoH
+         8akLt1FU1/cFi7/GnJMhwG5scHj7cc4QldMpUm7mq2dbEKRMIewfJWbOm75kH7XNzzcg
+         m9Pz8FL5rno9msZiFiLtIt7WXQk/A0+124u+C++T5S8CpR9ZXf2rEwJVw1JI2YlO1aiM
+         k72MRVIMa6PlSFc/MG7Z5IBs0UYBU3Ps95MseGvqfYRIaAYExighWMoNz/bJvqELEmxI
+         n441/ZFjCrHGi4IGmDzi4XWndbh//fx9Dj5QNA+nWv4C0kktd9wDwV2D0BfUIMNQxff+
+         49Iw==
+X-Forwarded-Encrypted: i=1; AJvYcCWmv+CqOJRg4XRaURW+FCos4qnuj8+sQMpebQAKQgvg4qG3J3OnW71Jgh2jBZYg9go/2uFFd8sWFNI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHTKuhY5KzM3pkxpbNaxLQEVnbEI4/xRam1cIY45RealFBzimB
+	DmkdwPLj2zO78moRIcdzHCYBJ6lRPLpC0PxgKdpLKtiPRJdOOk75MX9Fm44s6frsdfQnmpJth4p
+	dvpvHXayd+ExOuCFFg3H/PIJQzg+Kat7lVlBpMWWHpH5K4V+YfoaoTXUMTQ==
+X-Gm-Gg: ASbGncsT2oE8T3C5Pc2VioC1POAgDvsc/eq2SIsDPzydz+TL/dpgl19yAUdok7uYL09
+	+3MaB1nX7ky+w3l2h27OqlDtgFxqeadGYcYFANrUtQke2mQqpQNGhBXnhfgOcuvKe+atDzmf5EJ
+	TqPuz4ZN02cVphX4G6hOCZ/8wmlBFPIm6Js/r6gED97xdK522cI6kRavjw/AvM0vcCqPWKqACWg
+	2A0b0g2P4Wh3HoPJtzAfE7MK0soyrbCZ3AaRyKfXLdm44ZFOs0fFm7ELtjoIM4erM2+/XTD8B88
+	5tYVJtGSYvjphMLEk7lc3b6I/MeW4/NJgl9RsSYH
+X-Received: by 2002:a05:6000:1aca:b0:390:f738:246b with SMTP id ffacd0b85a97d-39132d1cc3fmr19536581f8f.15.1741863538687;
+        Thu, 13 Mar 2025 03:58:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFl5a/zzB4j/bQzrh0zOYukq0rCxpL/1iN9vmTUtNgl3blwOPgCRfDtKqTKHkVbblM4clhX9A==
+X-Received: by 2002:a05:6000:1aca:b0:390:f738:246b with SMTP id ffacd0b85a97d-39132d1cc3fmr19536568f8f.15.1741863538262;
+        Thu, 13 Mar 2025 03:58:58 -0700 (PDT)
+Received: from [192.168.88.253] (146-241-6-87.dyn.eolo.it. [146.241.6.87])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d0a7582absm49566905e9.17.2025.03.13.03.58.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Mar 2025 03:58:57 -0700 (PDT)
+Message-ID: <b62ea2ac-aff3-4a00-bc3a-960c28bc5522@redhat.com>
+Date: Thu, 13 Mar 2025 11:58:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3PR01MB9597A8F02423B9E4C585F5EBB8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v7 8/9] net: check for driver support in netmem
+ TX
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, virtualization@lists.linux.dev,
+ linux-kselftest@vger.kernel.org
+Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
+ <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn
+ <willemb@google.com>, David Ahern <dsahern@kernel.org>,
+ Neal Cardwell <ncardwell@google.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
+ asml.silence@gmail.com, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
+ <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
+References: <20250308214045.1160445-1-almasrymina@google.com>
+ <20250308214045.1160445-9-almasrymina@google.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250308214045.1160445-9-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Adding Kees into Cc to resolve how to get this patch into the mainline.
-
-On Thu 2025-03-13 09:13:23, Aditya Garg wrote:
+On 3/8/25 10:40 PM, Mina Almasry wrote:
+> We should not enable netmem TX for drivers that don't declare support.
 > 
+> Check for driver netmem TX support during devmem TX binding and fail if
+> the driver does not have the functionality.
 > 
-> > On 13 Mar 2025, at 2:27 PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > 
-> > ﻿On Thu, Mar 13, 2025 at 08:53:28AM +0000, Aditya Garg wrote:
-> >>>> On 13 Mar 2025, at 2:19 PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> >>> On Thu, Mar 13, 2025 at 07:26:05AM +0000, Aditya Garg wrote:
-> >>>>>> On 13 Mar 2025, at 12:58 AM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> >>>>> On Wed, Mar 12, 2025 at 07:14:36PM +0000, Aditya Garg wrote:
-> >>>>>>> On 12 Mar 2025, at 9:05 PM, Sven Peter <sven@svenpeter.dev> wrote:
-> >>>>>>> On Wed, Mar 12, 2025, at 13:03, Aditya Garg wrote:
-> > 
-> > ...
-> > 
-> >>>>>>> I don't have a strong opinion either way: for SMC I just need to print
-> >>>>>>> FourCC keys for debugging / information in a few places.
-> >>>>>>> 
-> >>>>>>> I'm preparing the SMC driver for upstreaming again (after a two year delay :-()
-> >>>>>>> and was just going to use macros to print the SMC FourCC keys similar to
-> >>>>>>> DRM_MODE_FMT/DRM_MODE_ARG for now to keep the series smaller and revisit
-> >>>>>>> the topic later.
-> >>>>>>> 
-> >>>>>>> Right now I have these in my local tree (only compile tested so far):
-> >>>>>>> 
-> >>>>>>> #define SMC_KEY_FMT "%c%c%c%c (0x%08x)"
-> >>>>>>> #define SMC_KEY_ARG(k) (k)>>24, (k)>>16, (k)>>8, (k), (k)
-> >>>>>> 
-> >>>>>> That seems to be a nice alternative, which I guess Thomas was also suggesting.
-> >>>>> 
-> >>>>> I don't think it's "nice". Each of the approaches has pros and cons.
-> >>>>> You can start from bloat-o-meter here and compare it with your %p extension.
-> >>>>> 
-> >>>>> Also, can you show the bloat-o-meter output for the vsprintf.c?
-> >>>> 
-> >>>> Here are your outputs:
-> >>> 
-> >>> Thank you!
-> >>> 
-> >>>> ---------------------------------------------------------------------
-> >>>> For appletbdrm:
-> >>>> 
-> >>>> aditya@MacBook:~/linux$ ./scripts/bloat-o-meter $P4 $MACRO
-> >>>> add/remove: 0/0 grow/shrink: 1/1 up/down: 64/-19 (45)
-> >>>> Function                                     old     new   delta
-> >>>> appletbdrm_read_response                     395     459     +64
-> >>>> appletbdrm_probe                            1786    1767     -19
-> >>>> Total: Before=13418, After=13463, chg +0.34%
-> >>> 
-> >>> This is enough, no need to repeat this for every parameter.
-> >>> 
-> >>>> ---------------------------------------------------------------------
-> >>>> For vsprintf:
-> >>>> 
-> >>>> aditya@MacBook:~/linux$ ./scripts/bloat-o-meter $OLD $NEW
-> >>>> add/remove: 0/0 grow/shrink: 1/0 up/down: 220/0 (220)
-> >>>> Function                                     old     new   delta
-> >>>> fourcc_string                                479     699    +220
-> >>>> Total: Before=26454, After=26674, chg +0.83%
-> >>> 
-> >>> So, we get +220 bytes vs +43 bytes. It means if we found 5+ users, it worth
-> >>> doing.
-> >> 
-> >> Will it also depend upon the number of times it's being used? In appletbdrm,
-> >> it is being used 3 times. Probably more in Asahi SMC.
-> > 
-> > Right, it depends on the usage count. Also on different architectures it may
-> > give different results. On 32-bit it probably gives better statistics.
+> Check for driver support in validate_xmit_skb as well.
 > 
-> Best to go ahead with vsprintf then. Petr, are you still there?
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+> 
+> ---
+> 
+> v5: https://lore.kernel.org/netdev/20250227041209.2031104-8-almasrymina@google.com/
+> - Check that the dmabuf mappings belongs to the specific device the TX
+>   is being sent from (Jakub)
+> 
+> v4:
+> - New patch
+> 
+> ---
+>  net/core/dev.c         | 33 +++++++++++++++++++++++++++++++++
+>  net/core/devmem.h      |  6 ++++++
+>  net/core/netdev-genl.c |  7 +++++++
+>  3 files changed, 46 insertions(+)
+> 
+> diff --git a/net/core/dev.c b/net/core/dev.c
+> index 1cb134ff7327..5553947123a0 100644
+> --- a/net/core/dev.c
+> +++ b/net/core/dev.c
+> @@ -3868,10 +3868,43 @@ int skb_csum_hwoffload_help(struct sk_buff *skb,
+>  }
+>  EXPORT_SYMBOL(skb_csum_hwoffload_help);
+>  
+> +static struct sk_buff *validate_xmit_unreadable_skb(struct sk_buff *skb,
+> +						    struct net_device *dev)
+> +{
+> +	struct skb_shared_info *shinfo;
+> +	struct net_iov *niov;
+> +
+> +	if (likely(skb_frags_readable(skb)))
+> +		goto out;
+> +
+> +	if (likely(!dev->netmem_tx))
 
-I am here but there were many other things in the queue ;-)
+Minor nit: I think the above is actually unlikely. The skb is
+unreadable: is supposed to be transmitted on a device supporting
+netmem_tx, otherwise we are in exceptional/error path.
 
-I do not have strong opinion. I am not familiar with the FourCC
-format and it looks like a magic to me. But it seems that it makes
-sense for the users.
+No need to repost just for this.
 
-I personally find the %pcX modifiers a bit less hacky than
-the two macros SMC_KEY_FMT/SMC_KEY_ARG.
+Thanks,
 
-So I am fine with this patch:
+Paolo
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
-Tested-by: Petr Mladek <pmladek@suse.com>
-
-
-Now, the question is how to get this patch into the mainline.
-
-Normally, it would make perfect sense to queue it via the DRM tree
-because drivers/gpu/drm/tiny/appletbdrm.c is a new driver...
-
-But this time there is a conflicting patchset which is reworking
-the entire lib/test_printf.c file, see
-20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com
-And it will likely be ready for the next merge window as well.
-I am going to review it right away.
-
-It is even more complicated because the patchset converting
-the printf test module to KUNIT depends on another changes
-in Kees' tree (moving kunit test modules to lib/tests/).
-So it might be easier when it goes via Kees' tree.
-
-And it might be easier when even this patch goes via Kees' tree.
-
-My proposal:
-
-I suggest to separate the fourcc_pointer() test update
-to a separate patch and add it later after the merge window
-when things settle down.
-
-I mean to send the vsprintf.c, checkpatch.pl, and doc update
-via DRM tree together with the new appletbdrm.c driver.
-
-And update the selftest later when both DRM tree and KUNIT
-update reaches mainline.
-
-How does that sound, please?
-
-Best Regards,
-Petr
