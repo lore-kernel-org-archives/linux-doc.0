@@ -1,157 +1,229 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AE51F03D6
-	for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 10:47:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B844268FED
+	for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 10:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741862873; cv=none; b=IMAYg4VpX6zbO6eDUsHMWz3gFMgKYVALp1ESeUyXwAMA1NuZVpNx0hiHtAs4fPAymgKRIKS+8BDIipIFG5plhR61GhRUFrtDnBQWOvdg+Dx3nhTZdag4pFooTr0/JaIinT6VwGb0DVr52zOAjs7nWOgvVQ9ogDOikFa7DLjuNDA=
+	t=1741862918; cv=none; b=kpFuXG6RD6iqVBqehSiMeTrdKD5xjYkLMJYiOVUd1SulJmH6xVPJ4BUb7MbWg5DcMtDb25k4iAqRXf5X0/WktiVL8S6oqYNELz/ZPnfK+pKqdmht7t6gOWL0uM5V2XOnrUVal+4LSau2WOb7SJ/2I7MAxz4IuXou7CrwGSgk0m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741862873; c=relaxed/simple;
-	bh=flFI4F9iJbigAdLeH1msK0WPNSRRKGt+NPtx2Z0lY7g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PlIrFjfWnLkz+8s8wf759x+Lh7yjGQylNUDLbvwHYH6K8KksJt+HMJrArbgNfa+fOf/VpEDro/dq/chF2nbM/gead1eY/nJQuz396zpDXXhoAIG75udCvUBMFdOJu6vcBXzJCeyj2gsOR5kyLqpUtkp9XunFIRLr/fThavbfwUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=J82pn6a9; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1741862918; c=relaxed/simple;
+	bh=zEa2/6ZbYMtLXc0GQf4ghQrBvlaLDMechFGbdAdGPCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MGN6UF6VVFSFxK+58ku2F12qn/dG5Yqhk2lrDf7e2exyalaDE8e4YI9/ZxZ9Aq3uCVVjl9MM3/hkS4B8A1M4Ib7QMIe2bgvc0O6XfgHTwx0brWx2ALgXnE8uhSo0/CD9lmJreOatCW9v6T7OQ81vzQGGf7QopHvd7TQxYS9t4Bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=I3PiCtEL; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J82pn6a9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741862870;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mKlH8svYGZq8nS9wIHoOZaP2tIWMcEGLEEAOkrVCTz8=;
-	b=J82pn6a9BqLAFjIB07wt6XutQpavmvmdhT1GYoD1EsY6/V2YBy054F2CC35+Fpp9sFQhAP
-	YjcW7mJUeGbeCNUs2nqLInIJbfgq5U9+c/itscgRhfpsa7StOn5g+DEkT9zrbGLs/Y0OyV
-	onGN+fMkBqI9gsHWi+9yBPM55yr+Ipw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-557-XHQgfPoCPgORRX5j0d7IZw-1; Thu, 13 Mar 2025 06:47:49 -0400
-X-MC-Unique: XHQgfPoCPgORRX5j0d7IZw-1
-X-Mimecast-MFC-AGG-ID: XHQgfPoCPgORRX5j0d7IZw_1741862868
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-43d0a037f97so4036465e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 03:47:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="I3PiCtEL"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-39133f709f5so481235f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 03:48:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1741862914; x=1742467714; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eB5vcLE8SQfGumBXnzHAeXBgedPPd3tI3SPBGaHjDZo=;
+        b=I3PiCtELMMHEWBralE6681EyTHaZ7OCjpcN9fdKNBvH9mxrr1VulXMZRVlnkvdS6gU
+         zDmjL/I+n9YEUngzbVhjVtKbC8Mnxxf5n1/saivCilZVNd3tSzDGOzdwRe7u4T8S5L2K
+         78MNzFxJ2L+ih59EuHosZl22m/nhWSWQA0nPTF0tUFkDuHMbjYURNyddXPdV3N0u9EdI
+         Pau5JoviWCVR8UeFa79Vf+U4aXvhMwKeF2rougzvWa9h2bMNA7j51Z2icouj9gVdPoWG
+         SJyVitfpZnEC3FIdUTcKqnQWIUXtD6irrbJlaQQusIDGjS0Cl35Q33ukMePVwXAVHMeQ
+         DpjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741862868; x=1742467668;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1741862914; x=1742467714;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mKlH8svYGZq8nS9wIHoOZaP2tIWMcEGLEEAOkrVCTz8=;
-        b=ktXWUpvyTe6sXb0bZwGvzcuy1ihSVAKHhSi6nqD562aRiiU1SgnirmkXaAHZyydEdD
-         1889ZwdN1MN774E2lXQLNE0wYyS9rA46fU6I6ZwgGseRZs+l3wt1zoiwgCDGnwa8F7od
-         t53XuI/wjyd/eg4at4Jxj4JYZ3ChXCpSPU7p32T9JCEufWej+wmStmb1stc9nG6CCAqt
-         lOKbrjszkeG03xD831eTrfA5ZSJpeTO5ndj+NdV0Q3szaLG8j1lgpgHEoGabd4yO2W/N
-         WtdhVsurVPWSQ28tUP1SCc6U8LNbnZH71TNCQmEibCny1s26RPYRMAcphd9WLo3kqbfd
-         QOeg==
-X-Forwarded-Encrypted: i=1; AJvYcCWcNGQ6qVi7tuLNLFATtjOMOBDQCTmpTivV4fqCiJGS0z6YtkaCanACvFZu/XHi9ke3psCSjqVYBSQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwM0MrIL5NZuG/lllwBurEXb7jfECPnyB+PHRDihAvk3s9OyglA
-	EFnLcPapEL4HZCKnO0EnW1fz9Ty9B8cCSkWkVg1rnNBdCsBvLcrxdtUz16nO57i9Trt6sLuUVpM
-	7LKadruUgtqcHc1eh80EZB1BNJ+/8gCFXpuopiQgoBu8rVLRGE/tWJ5enTg==
-X-Gm-Gg: ASbGncvX2YfIoZA00+lo7JQ1V69vhoUbbZ9pq9fyZBO6ULKVLx5lGQEBjN8jepxi8h5
-	JlsnevpEWqC8j3vi6/Llk20FW08rDAjvk2XFNc5rcWQUkry3I3+g6Q26LgBZU8u5pcCtHrr2sdS
-	VIQD/uH9Kzq8Ee4rpqKgeRBwl+6IUo5fA4/i07nogFOu473HTxNGavDxBSyXDPrN7GsqOcRON+O
-	mcxFMafdKG6EMOewGXdgIg+gRq/OkQgD8CbTAkmAlZRq6Aac5OAiIASsTDOPXuFNMrRcIte2Gvm
-	s7bfY9rtSinhxoHbbIk+5wXUOqyRNxBB7ZELmd7z
-X-Received: by 2002:a05:600c:524c:b0:43d:563:6fef with SMTP id 5b1f17b1804b1-43d05637140mr66351155e9.21.1741862868058;
-        Thu, 13 Mar 2025 03:47:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFuof90DCs7eJ3JwItRCIRpwATmH/3XNmF4IhoW7PyjbpLbTIbp4p7z1rZXGN+i2daYNGVW0g==
-X-Received: by 2002:a05:600c:524c:b0:43d:563:6fef with SMTP id 5b1f17b1804b1-43d05637140mr66350925e9.21.1741862867674;
-        Thu, 13 Mar 2025 03:47:47 -0700 (PDT)
-Received: from [192.168.88.253] (146-241-6-87.dyn.eolo.it. [146.241.6.87])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d04004240sm38333535e9.3.2025.03.13.03.47.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Mar 2025 03:47:47 -0700 (PDT)
-Message-ID: <87e8bde7-b05e-4a1b-bcef-f6bb3a12315a@redhat.com>
-Date: Thu, 13 Mar 2025 11:47:44 +0100
+        bh=eB5vcLE8SQfGumBXnzHAeXBgedPPd3tI3SPBGaHjDZo=;
+        b=daVMDTQoKFR1LT8i+AXVsLZqG8Fskixb9ogn4L9xwY1tgFARbJ8W0FJaeaqkBTpLZ2
+         mgHTxClNpoF2ihXgOktYwbj+WNtThc785FetNTPTzVQH8rCoM7HzUk0UZOK7qChc/d9N
+         MznSVlptphB+ywRh5odzR2QHQgUrn/DH5fRbtUIkeZjZ4u2BQemZUMXVWe8dIG1H6Twy
+         fzB390wLuVcrvQ1p0CoFnwaQV8ImsgH3hmgzfwignfkeacSGCTmQNK9wraC9zsWm/Os1
+         4stQv3MyhnbjjF37Ly1bCtDgexFhq73SRisxZAFYjQitsOZG9/X7C6hfWuuz/s2RsW/L
+         ULFg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdFIOKJQzgm8xZs4Q0xGnHBhNXiC4PCQhGYcwyxtBIYYcGNjOJ4PXvazYGix6gvLbjavqF+eL5AFY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFjq/PhcKjdf9o60dodSJwmcR+7Kbn5QuA0b+6w0n7dCl75M7y
+	sNRI9PT8Yiut9oKhffYjJgWqNBGm9Zb/EZV5sPW1c606OKlg9DbH0r+uITHfnpA=
+X-Gm-Gg: ASbGncueMmELrANGw4HOR1mIwmoKTgXvSLGCNYTPGo0wEa+03QX0uhFDIl0ruVHbDog
+	mZlFekNvzYD7Ba2OXMQUMHqEn81VCPc9ifGnvwzrKllwpmB+0diIxRsaC550kNEW+jRn+wjQ2Y7
+	pl8v8qXa82CDEmmNiBFnoYg1yfMM50tNqRpsROAblKn5m0AZGHy554JCm/55m8+5ZSZMfBDjhLH
+	miBOeMTqvkybiXql1Tc9XP1l3YBqwi1srlQexdrwB97Nyb1Y/Kfv34nMi03GtKkQcXd7nY0fg8n
+	EX87nZuiWkZ+vhk30P3/6djlFqG/R/hmxAvY1vFtQWMNB14=
+X-Google-Smtp-Source: AGHT+IFm7Kuzlt4RWV1h9LdE/z3iVTyMjzOwOXxoRSiATKcU+lu5J0yjCPWicWOanc5m4AYOR6rZGw==
+X-Received: by 2002:a5d:64c3:0:b0:391:31c8:ba58 with SMTP id ffacd0b85a97d-39132d16dd6mr21931727f8f.10.1741862914526;
+        Thu, 13 Mar 2025 03:48:34 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c83b7656sm1673700f8f.40.2025.03.13.03.48.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Mar 2025 03:48:34 -0700 (PDT)
+Date: Thu, 13 Mar 2025 11:48:32 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Aditya Garg <gargaditya08@live.com>, Kees Cook <kees@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Maxime Ripard <mripard@kernel.org>,
+	"airlied@redhat.com" <airlied@redhat.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>
+Subject: Re: [PATCH 1/2] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Message-ID: <Z9K36SRz7Ja_AyQb@pathway.suse.cz>
+References: <9092a9ed-aecf-40bd-9d15-b53d60d035b5@suse.de>
+ <PN3PR01MB959715C19BCEA54426D24934B8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <ff3a9c58-5c7a-4c48-8a9e-cc828a43baed@app.fastmail.com>
+ <PN3PR01MB9597E5C609290DB1A967263CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z9HgVn-XELC065w0@smile.fi.intel.com>
+ <47AE7FCD-0F30-4379-ADE9-090A15ACD58F@live.com>
+ <Z9Kb8zMJgmSP-rgD@smile.fi.intel.com>
+ <PN3PR01MB959780176C0B16C36FBD59C3B8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z9KdzZUxs3vlwp0Z@smile.fi.intel.com>
+ <PN3PR01MB9597A8F02423B9E4C585F5EBB8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 2/9] net: add get_netmem/put_netmem support
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, virtualization@lists.linux.dev,
- linux-kselftest@vger.kernel.org
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
- <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Jeroen de Borst <jeroendb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn
- <willemb@google.com>, David Ahern <dsahern@kernel.org>,
- Neal Cardwell <ncardwell@google.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
- asml.silence@gmail.com, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
- Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
- <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
-References: <20250308214045.1160445-1-almasrymina@google.com>
- <20250308214045.1160445-3-almasrymina@google.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250308214045.1160445-3-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN3PR01MB9597A8F02423B9E4C585F5EBB8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 
-On 3/8/25 10:40 PM, Mina Almasry wrote:
-> Currently net_iovs support only pp ref counts, and do not support a
-> page ref equivalent.
-> 
-> This is fine for the RX path as net_iovs are used exclusively with the
-> pp and only pp refcounting is needed there. The TX path however does not
-> use pp ref counts, thus, support for get_page/put_page equivalent is
-> needed for netmem.
-> 
-> Support get_netmem/put_netmem. Check the type of the netmem before
-> passing it to page or net_iov specific code to obtain a page ref
-> equivalent.
-> 
-> For dmabuf net_iovs, we obtain a ref on the underlying binding. This
-> ensures the entire binding doesn't disappear until all the net_iovs have
-> been put_netmem'ed. We do not need to track the refcount of individual
-> dmabuf net_iovs as we don't allocate/free them from a pool similar to
-> what the buddy allocator does for pages.
-> 
-> This code is written to be extensible by other net_iov implementers.
-> get_netmem/put_netmem will check the type of the netmem and route it to
-> the correct helper:
-> 
-> pages -> [get|put]_page()
-> dmabuf net_iovs -> net_devmem_[get|put]_net_iov()
-> new net_iovs ->	new helpers
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> Acked-by: Stanislav Fomichev <sdf@fomichev.me>
-> 
-> ---
-> 
-> v5: https://lore.kernel.org/netdev/20250227041209.2031104-2-almasrymina@google.com/
-> 
-> - Updated to check that the net_iov is devmem before calling
->   net_devmem_put_net_iov().
-> 
-> - Jakub requested that callers of __skb_frag_ref()/skb_page_unref be
->   inspected to make sure that they generate / anticipate skbs with the
->   correct pp_recycle and unreadable setting:
-> 
-> skb_page_unref
-> ==============
-> 
-> - callers that are unreachable for unreadable skbs:
-> 
-> gro_pull_from_frag0, skb_copy_ubufs, __pskb_pull_tail
+Adding Kees into Cc to resolve how to get this patch into the mainline.
 
-Why `__pskb_pull_tail` is not reachable? it's called by __pskb_trim(),
-via skb_condense().
+On Thu 2025-03-13 09:13:23, Aditya Garg wrote:
+> 
+> 
+> > On 13 Mar 2025, at 2:27 PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > 
+> > ﻿On Thu, Mar 13, 2025 at 08:53:28AM +0000, Aditya Garg wrote:
+> >>>> On 13 Mar 2025, at 2:19 PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> >>> On Thu, Mar 13, 2025 at 07:26:05AM +0000, Aditya Garg wrote:
+> >>>>>> On 13 Mar 2025, at 12:58 AM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> >>>>> On Wed, Mar 12, 2025 at 07:14:36PM +0000, Aditya Garg wrote:
+> >>>>>>> On 12 Mar 2025, at 9:05 PM, Sven Peter <sven@svenpeter.dev> wrote:
+> >>>>>>> On Wed, Mar 12, 2025, at 13:03, Aditya Garg wrote:
+> > 
+> > ...
+> > 
+> >>>>>>> I don't have a strong opinion either way: for SMC I just need to print
+> >>>>>>> FourCC keys for debugging / information in a few places.
+> >>>>>>> 
+> >>>>>>> I'm preparing the SMC driver for upstreaming again (after a two year delay :-()
+> >>>>>>> and was just going to use macros to print the SMC FourCC keys similar to
+> >>>>>>> DRM_MODE_FMT/DRM_MODE_ARG for now to keep the series smaller and revisit
+> >>>>>>> the topic later.
+> >>>>>>> 
+> >>>>>>> Right now I have these in my local tree (only compile tested so far):
+> >>>>>>> 
+> >>>>>>> #define SMC_KEY_FMT "%c%c%c%c (0x%08x)"
+> >>>>>>> #define SMC_KEY_ARG(k) (k)>>24, (k)>>16, (k)>>8, (k), (k)
+> >>>>>> 
+> >>>>>> That seems to be a nice alternative, which I guess Thomas was also suggesting.
+> >>>>> 
+> >>>>> I don't think it's "nice". Each of the approaches has pros and cons.
+> >>>>> You can start from bloat-o-meter here and compare it with your %p extension.
+> >>>>> 
+> >>>>> Also, can you show the bloat-o-meter output for the vsprintf.c?
+> >>>> 
+> >>>> Here are your outputs:
+> >>> 
+> >>> Thank you!
+> >>> 
+> >>>> ---------------------------------------------------------------------
+> >>>> For appletbdrm:
+> >>>> 
+> >>>> aditya@MacBook:~/linux$ ./scripts/bloat-o-meter $P4 $MACRO
+> >>>> add/remove: 0/0 grow/shrink: 1/1 up/down: 64/-19 (45)
+> >>>> Function                                     old     new   delta
+> >>>> appletbdrm_read_response                     395     459     +64
+> >>>> appletbdrm_probe                            1786    1767     -19
+> >>>> Total: Before=13418, After=13463, chg +0.34%
+> >>> 
+> >>> This is enough, no need to repeat this for every parameter.
+> >>> 
+> >>>> ---------------------------------------------------------------------
+> >>>> For vsprintf:
+> >>>> 
+> >>>> aditya@MacBook:~/linux$ ./scripts/bloat-o-meter $OLD $NEW
+> >>>> add/remove: 0/0 grow/shrink: 1/0 up/down: 220/0 (220)
+> >>>> Function                                     old     new   delta
+> >>>> fourcc_string                                479     699    +220
+> >>>> Total: Before=26454, After=26674, chg +0.83%
+> >>> 
+> >>> So, we get +220 bytes vs +43 bytes. It means if we found 5+ users, it worth
+> >>> doing.
+> >> 
+> >> Will it also depend upon the number of times it's being used? In appletbdrm,
+> >> it is being used 3 times. Probably more in Asahi SMC.
+> > 
+> > Right, it depends on the usage count. Also on different architectures it may
+> > give different results. On 32-bit it probably gives better statistics.
+> 
+> Best to go ahead with vsprintf then. Petr, are you still there?
 
-/P
+I am here but there were many other things in the queue ;-)
 
+I do not have strong opinion. I am not familiar with the FourCC
+format and it looks like a magic to me. But it seems that it makes
+sense for the users.
+
+I personally find the %pcX modifiers a bit less hacky than
+the two macros SMC_KEY_FMT/SMC_KEY_ARG.
+
+So I am fine with this patch:
+
+Reviewed-by: Petr Mladek <pmladek@suse.com>
+Tested-by: Petr Mladek <pmladek@suse.com>
+
+
+Now, the question is how to get this patch into the mainline.
+
+Normally, it would make perfect sense to queue it via the DRM tree
+because drivers/gpu/drm/tiny/appletbdrm.c is a new driver...
+
+But this time there is a conflicting patchset which is reworking
+the entire lib/test_printf.c file, see
+20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com
+And it will likely be ready for the next merge window as well.
+I am going to review it right away.
+
+It is even more complicated because the patchset converting
+the printf test module to KUNIT depends on another changes
+in Kees' tree (moving kunit test modules to lib/tests/).
+So it might be easier when it goes via Kees' tree.
+
+And it might be easier when even this patch goes via Kees' tree.
+
+My proposal:
+
+I suggest to separate the fourcc_pointer() test update
+to a separate patch and add it later after the merge window
+when things settle down.
+
+I mean to send the vsprintf.c, checkpatch.pl, and doc update
+via DRM tree together with the new appletbdrm.c driver.
+
+And update the selftest later when both DRM tree and KUNIT
+update reaches mainline.
+
+How does that sound, please?
+
+Best Regards,
+Petr
