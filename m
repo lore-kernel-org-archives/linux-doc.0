@@ -1,310 +1,272 @@
-Received: from mxde.zte.com.cn (mxde.zte.com.cn [209.9.37.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2611372;
-	Thu, 13 Mar 2025 05:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.9.37.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9631FBEA3
+	for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 07:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741845582; cv=none; b=dozaZn9CVg7rBVXd5nt9sAXy/o/kHnhLdTYGttUtdQSZNu24YXzNr/+BDT5ZEKfiM/1ttmRKyV87MuboUwR70EeMpiHNSRn9K7azIFvt4LBz5IVUepuzWLJRl3mhE9kKtcqqVXK5Kt6+LMDbNbovwEkNTEnXPLoHK5owh0nYv1A=
+	t=1741849287; cv=none; b=thmM7G2LZjejrOIRMkz0SHCi7r9Na13nEtyrUC4cnk4CMbtEub5NmjVUEY79FZ1YBS1USYYTeztFaSXp4UYy93Q5X+hFM0PiM4qtDxj/SSkDAlqnR0GWxNbBVAd2f4+o6fvE1zJUyrzA7nzyrEIOMRpycnswqinJm5+hT8wvsvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741845582; c=relaxed/simple;
-	bh=ikenFsmUjZ6MVfZ8nL3sickctm5OeHqxVW2So8W8dXs=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=fmaNkjDy/nqXX2fqEOGhH0h5SKCqHwtAgEj1LvW3TDoWpSAO3p+KKXiBhqr5o9R55LMHlr3ibaFVSpUzS5g79ekubl3pQMDR4L4ipEiDuU5xFanOLc1Be1wPtK1E5Gc570AkwtfSpGbR2vzdxgawTkgLssVyho1RJglhefqXOnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=209.9.37.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mxhk.zte.com.cn (unknown [192.168.250.137])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mxde.zte.com.cn (FangMail) with ESMTPS id 4ZCxfB2tNDzBRHKM;
-	Thu, 13 Mar 2025 13:59:30 +0800 (CST)
-Received: from mxct.zte.com.cn (unknown [192.168.251.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZCxdy0RsFz8QrkZ;
-	Thu, 13 Mar 2025 13:59:18 +0800 (CST)
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4ZCxdp12GRz50FXJ;
-	Thu, 13 Mar 2025 13:59:10 +0800 (CST)
-Received: from njb2app06.zte.com.cn ([10.55.23.119])
-	by mse-fl1.zte.com.cn with SMTP id 52D5x23e032393;
-	Thu, 13 Mar 2025 13:59:02 +0800 (+08)
-	(envelope-from jiang.kun2@zte.com.cn)
-Received: from mapi (njy2app01[null])
-	by mapi (Zmail) with MAPI id mid204;
-	Thu, 13 Mar 2025 13:59:04 +0800 (CST)
-Date: Thu, 13 Mar 2025 13:59:04 +0800 (CST)
-X-Zmail-TransId: 2af967d27428ffffffffbf2-31216
-X-Mailer: Zmail v1.0
-Message-ID: <20250313135904589bPGz00-l-A1PtKxvMW5TC@zte.com.cn>
+	s=arc-20240116; t=1741849287; c=relaxed/simple;
+	bh=kfhpvvDElt6du2l15UsrfA5V34sNhDDERx8i5/QevB8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To; b=FSZOuWCc3/fi+mHClY+ec1X1kOOusLAW4pMzWFJnqrsqhB9jskcOcKk1NN+jc5YFfQX6ePPBLis10ADHBWFL3RewOD+Vlu9XAhsmC3Dk6D2d13yGWMRB0sAymLcGRyogQ7FZPaoMym5R1wEw1rqJYhhTU8VTun+mCtr39mtmNLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=ugtg68O7; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="ugtg68O7"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2ff4a4f901fso1091710a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 00:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1741849285; x=1742454085; darn=vger.kernel.org;
+        h=to:content-transfer-encoding:mime-version:message-id:date:subject
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F95exAcnYQIEI1RaxPZgX7HWw0kZCG1DoITy3lJOXMs=;
+        b=ugtg68O7Lml28x3t17Hl8KLVfQ1GtiFAfKhM19J4XNAJoHhwoQEwX0VQnp07qymo92
+         xJ03E1gzul/82hEOdBVWd3TRznArjYOLB501Hg9RFcE0HoEnjFpoOXNZeR/RzDkTQoKY
+         Rwjz6VNlcU/d3OZUTmFJj88UoPL42C9kYO/LvGDO+CwF+rEvZVWP1NWoNupDrZ45A2lt
+         BvsWCOhR20MUyf3l2XZMvpVU/5buaA/tB/hC0VPrgybcOxBTuklVIK1iOJ5tojyvFMon
+         MDx6wDh7oDFXsOsmbOok8RxgbIPsuw0hsHgdubB0nSXzNUTJVoNiSTiA6qZA/BrUezfi
+         4ChA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741849285; x=1742454085;
+        h=to:content-transfer-encoding:mime-version:message-id:date:subject
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=F95exAcnYQIEI1RaxPZgX7HWw0kZCG1DoITy3lJOXMs=;
+        b=RHAtprGE42GCey/sLyxHPwnAnP4ze+6nSagXjlC3EryMGW4B4VCv/3ZEtLjhyERk6M
+         +Wql2/GMh6eq1KE7z1XgZ0OkE38WTsbLZbUg01r6LuR5Q9IG70n/rQmhYkV2qz92BJAy
+         f6crhUIOp/3NvldeY1d+UkaF0X4NgFqQcVAiwyihum+MXB18lTx5/NMVlmAZyFnNALXm
+         boAGfButIO/IwfRRN+oot3ViCedmmhV7AjuO1fg883s0AbdICP6LH6/6womHNmNQ1wXm
+         OOBFDIc/hHYMIHfNbG8IBmk26uoMzU4pnbomDEUIrJyPnIZ8eFe4UB6EJm11x1Jafgny
+         FuZA==
+X-Forwarded-Encrypted: i=1; AJvYcCWiRLqgQ84ZJAQnfCSXfJf1/m9hNk6OjXf/WPvWud+SnDAwlK/1VQZ29G1CQ5RfHCku2llKxSD2x1w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoWYmkCzTZbIT1Pdgcaw7KjqnLp+XzX10slsYvY1vNhtsDaMd/
+	rE/Gq6l2wO5pKXOsBYb+FuUV/OWJUNvuu0DuRnTlb4+d0k9VloGjOdcjzHoUVrieOv9OLMFlVLq
+	lNfU=
+X-Gm-Gg: ASbGncvTadxwaRqcMDIVCXqtXr/3/iCiteddgXoCl4CzYt7WxbzZQ/dRrbo69ZphZOV
+	26OtUOdO48kVYIBtiIcdfEzXZrDVb58BwpL8tLwG+IGfJnn/T77dRc1aIV9hRjpc9n7Lh6a4Qjw
+	N0AgficgkIhNQkLGHq4JCbtqYrqERpqJl3oVzQkHqB3RLfdfmmNtojEReNgUdz7fAyYAv6Geb6J
+	BEw9U3ENWnASWRoav07+3ikVPU+m1xS+AWxMWGefsnUnw9DVKjy/eEP+KJ/4+W/2hVENsFeezFt
+	8VWCRPcgkgFDUnHNS7+zo4kc9Eee+dMeMMGdO0eRKmEo2OHR
+X-Google-Smtp-Source: AGHT+IG/2TUsxjSP8SAJkKonb+AXsMlQnT1GibK5u7KLisnvk4f6w1Qgk6Dn5pj1HIS4hmUjn2b80w==
+X-Received: by 2002:a17:90a:e70e:b0:2ee:f076:20fb with SMTP id 98e67ed59e1d1-300ff10c978mr15687591a91.17.1741849284620;
+        Thu, 13 Mar 2025 00:01:24 -0700 (PDT)
+Received: from localhost ([157.82.205.237])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-301182181c3sm3092882a91.5.2025.03.13.00.01.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Mar 2025 00:01:24 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH net-next v10 00/10] tun: Introduce virtio-net hashing
+ feature
+Date: Thu, 13 Mar 2025 16:01:03 +0900
+Message-Id: <20250313-rss-v10-0-3185d73a9af0@daynix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <jiang.kun2@zte.com.cn>
-To: <alexs@kernel.org>, <si.yanteng@linux.dev>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Cc: <xu.xin16@zte.com.cn>, <yang.yang29@zte.com.cn>, <wang.yaxin@zte.com.cn>,
-        <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>, <tu.qiang35@zte.com.cn>,
-        <qiu.yutan@zte.com.cn>, <zhang.yunkai@zte.com.cn>,
-        <ye.xingchen@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIGxpbnV4IG5leHQgdjRdIERvY3MvemhfQ046IFRyYW5zbGF0ZSBtc2dfemVyb2NvcHkucnN0IHRvCiBTaW1wbGlmaWVkIENoaW5lc2U=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 52D5x23e032393
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 67D27441.000/4ZCxfB2tNDzBRHKM
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALCC0mcC/4XSS27kIBAG4Ku0vA6tAooCvJp7jGbBM42i2Bnb3
+ eooyt1TsfPoyIvsjKmvgNL/0s1lamXu+sNLN5VLm9s48ELC3aFLpzDcF9Ey/+gUKAQELaZ5FsV
+ qm50vNVjbceXTVGq7rm3+dkNZxFCuS/ePd05tXsbpee1/kes+d9ISwIFREuRRIqJSQorw0E7tY
+ TyOmb/+5PA8tOsxjY9rn4u6sdJIlIR4VASE9KvVnxbBS7O+4KIFiEQauFmO4NQO4Q1SuCFk5LB
+ 4rUqCQmmHzBd6f+GGDKOqUyWXK4DJO0SfyIAEvyFiFGXyELIFV2mH7DdS6uMku14PFZgUY8575
+ L6RBtqQY2RDxGqoVlR6h/wtshvyjHK1RDwdZUr8gV63REzl/5nztHzE4itN/WGdj9IglvMgiIq
+ EgD5Csj3P4jZ4aylPRZKI51rLNAvP5Rgr56CmnlPB5THMRfDJj23pDzk7bY2tVMhRUNI5722Kx
+ kXjrakWMUZrHfE1X98A0L/L2f4CAAA=
+X-Change-ID: 20240403-rss-e737d89efa77
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
+ Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+X-Mailer: b4 0.15-dev-edae6
 
-From: Wang Yaxin <wang.yaxin@zte.com.cn>
-translate the "msg_zerocopy.rst" into Simplified Chinese.
+virtio-net have two usage of hashes: one is RSS and another is hash
+reporting. Conventionally the hash calculation was done by the VMM.
+However, computing the hash after the queue was chosen defeats the
+purpose of RSS.
 
-Update to commit bac2cac12c26("docs: net: description of
-MSG_ZEROCOPY for AF_VSOCK")
+Another approach is to use eBPF steering program. This approach has
+another downside: it cannot report the calculated hash due to the
+restrictive nature of eBPF.
 
-Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
-Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
-Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+Introduce the code to compute hashes to the kernel in order to overcome
+thse challenges.
+
+An alternative solution is to extend the eBPF steering program so that it
+will be able to report to the userspace, but it is based on context
+rewrites, which is in feature freeze. We can adopt kfuncs, but they will
+not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KVM
+and vhost_net).
+
+The patches for QEMU to use this new feature was submitted as RFC and
+is available at:
+https://patchew.org/QEMU/20250313-hash-v4-0-c75c494b495e@daynix.com/
+
+This work was presented at LPC 2024:
+https://lpc.events/event/18/contributions/1963/
+
+V1 -> V2:
+  Changed to introduce a new BPF program type.
+
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
-v3->v4:
-https://lore.kernel.org/all/8945250c-3f6e-43eb-bac8-03ca044fcbae@linux.dev/
-1. add the Reviewed-by tag in v4.
+Changes in v10:
+- Split common code and TUN/TAP-specific code into separate patches.
+- Reverted a spurious style change in patch "tun: Introduce virtio-net
+  hash feature".
+- Added a comment explaining disable_ipv6 in tests.
+- Used AF_PACKET for patch "selftest: tun: Add tests for
+  virtio-net hashing". I also added the usage of FIXTURE_VARIANT() as
+  the testing function now needs access to more variant-specific
+  variables.
+- Corrected the message of patch "selftest: tun: Add tests for
+  virtio-net hashing"; it mentioned validation of configuration but
+  it is not scope of this patch.
+- Expanded the description of patch "selftest: tun: Add tests for
+  virtio-net hashing".
+- Added patch "tun: Allow steering eBPF program to fall back".
+- Changed to handle TUNGETVNETHASHCAP before taking the rtnl lock.
+- Removed redundant tests for tun_vnet_ioctl().
+- Added patch "selftest: tap: Add tests for virtio-net ioctls".
+- Added a design explanation of ioctls for extensibility and migration.
+- Removed a few branches in patch
+  "vhost/net: Support VIRTIO_NET_F_HASH_REPORT".
+- Link to v9: https://lore.kernel.org/r/20250307-rss-v9-0-df76624025eb@daynix.com
 
- .../zh_CN/networking/msg_zerocopy.rst         | 223 ++++++++++++++++++
- 1 file changed, 223 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/networking/msg_zerocopy.rst
+Changes in v9:
+- Added a missing return statement in patch
+  "tun: Introduce virtio-net hash feature".
+- Link to v8: https://lore.kernel.org/r/20250306-rss-v8-0-7ab4f56ff423@daynix.com
 
-diff --git a/Documentation/translations/zh_CN/networking/msg_zerocopy.rst b/Documentation/translations/zh_CN/networking/msg_zerocopy.rst
-new file mode 100644
-index 000000000000..7362b8514e70
---- /dev/null
-+++ b/Documentation/translations/zh_CN/networking/msg_zerocopy.rst
-@@ -0,0 +1,223 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/networking/msg_zerocopy.rst
-+
-+:翻译:
-+
-+   王亚鑫 Wang Yaxin <wang.yaxin@zte.com.cn>
-+
-+:校译:
-+
-+   - 徐鑫 xu xin <xu.xin16@zte.com.cn>
-+   - 何配林 He Peilin <he.peilin@zte.com.cn>
-+
-+============
-+MSG_ZEROCOPY
-+============
-+
-+简介
-+====
-+
-+MSG_ZEROCOPY 标志用于启用套接字发送调用的免拷贝功能。该功能目前适用于 TCP、UDP 和 VSOCK
-+（使用 virtio 传输）套接字。
-+
-+机遇与注意事项
-+--------------
-+
-+在用户进程与内核之间拷贝大型缓冲区可能会消耗大量资源。Linux 支持多种免拷贝的接口，如sendfile
-+和 splice。MSG_ZEROCOPY 标志将底层的拷贝避免机制扩展到了常见的套接字发送调用中。
-+
-+免拷贝并非毫无代价。在实现上，它通过页面固定（page pinning）将按字节拷贝的成本替换为页面统计
-+（page accounting）和完成通知的开销。因此，MSG_ZEROCOPY 通常仅在写入量超过大约 10 KB 时
-+才有效。
-+
-+页面固定还会改变系统调用的语义。它会暂时在进程和网络堆栈之间共享缓冲区。与拷贝不同，进程在系统
-+调用返回后不能立即覆盖缓冲区，否则可能会修改正在传输中的数据。内核的完整性不会受到影响，但有缺
-+陷的程序可能会破坏自己的数据流。
-+
-+当内核返回数据可以安全修改的通知时，进程才可以修改数据。因此，将现有应用程序转换为使用
-+MSG_ZEROCOPY 并非总是像简单地传递该标志那样容易。
-+
-+更多信息
-+--------
-+
-+本文档的大部分内容是来自于 netdev 2.1 上发表的一篇长篇论文。如需更深入的信息，请参阅该论文和
-+演讲，或者浏览 LWN.net 上的精彩报道，也可以直接阅读源码。
-+
-+  论文、幻灯片、视频：
-+    https://netdevconf.org/2.1/session.html?debruijn
-+
-+  LWN 文章：
-+    https://lwn.net/Articles/726917/
-+
-+  补丁集：
-+    [PATCH net-next v4 0/9] socket sendmsg MSG_ZEROCOPY
-+    https://lore.kernel.org/netdev/20170803202945.70750-1-willemdebruijn.kernel@gmail.com
-+
-+接口
-+====
-+
-+传递 MSG_ZEROCOPY 标志是启用免拷贝功能的最明显步骤，但并非唯一的步骤。
-+
-+套接字设置
-+----------
-+
-+当应用程序向 send 系统调用传递未定义的标志时，内核通常会宽容对待。默认情况下，它会简单地忽略
-+这些标志。为了避免为那些偶然传递此标志的遗留进程启用免拷贝模式，进程必须首先通过设置套接字选项
-+来表明意图：
-+
-+::
-+
-+    if (setsockopt(fd, SOL_SOCKET, SO_ZEROCOPY, &one, sizeof(one)))
-+        error(1, errno, "setsockopt zerocopy");
-+
-+传输
-+----
-+
-+对 send（或 sendto、sendmsg、sendmmsg）本身的改动非常简单。只需传递新的标志即可。
-+
-+::
-+
-+    ret = send(fd, buf, sizeof(buf), MSG_ZEROCOPY);
-+
-+如果零拷贝操作失败，将返回 -1，并设置 errno 为 ENOBUFS。这种情况可能发生在套接字超出其
-+optmem 限制，或者用户超出其锁定页面的 ulimit 时。
-+
-+混合使用免拷贝和拷贝
-+~~~~~~~~~~~~~~~~~~~~
-+
-+许多工作负载同时包含大型和小型缓冲区。由于对于小数据包来说，免拷贝的成本高于拷贝，因此该
-+功能是通过标志实现的。带有标志的调用和没有标志的调用可以安全地混合使用。
-+
-+通知
-+----
-+
-+当内核认为可以安全地重用之前传递的缓冲区时，它必须通知进程。完成通知在套接字的错误队列上
-+排队，类似于传输时间戳接口。
-+
-+通知本身是一个简单的标量值。每个套接字都维护一个内部的无符号 32 位计数器。每次带有
-+MSG_ZEROCOPY 标志的 send 调用成功发送数据时，计数器都会增加。如果调用失败或长度为零，
-+则计数器不会增加。该计数器统计系统调用的调用次数，而不是字节数。在 UINT_MAX 次调用后，
-+计数器会循环。
-+
-+通知接收
-+~~~~~~~~
-+
-+下面的代码片段展示了 API 的使用。在最简单的情况下，每次 send 系统调用后，都会对错误队列
-+进行轮询和 recvmsg 调用。
-+
-+从错误队列读取始终是一个非阻塞操作。poll 调用用于阻塞，直到出现错误。它会在其输出标志中
-+设置 POLLERR。该标志不需要在 events 字段中设置。错误会无条件地发出信号。
-+
-+::
-+
-+    pfd.fd = fd;
-+    pfd.events = 0;
-+    if (poll(&pfd, 1, -1) != 1 || pfd.revents & POLLERR == 0)
-+        error(1, errno, "poll");
-+
-+    ret = recvmsg(fd, &msg, MSG_ERRQUEUE);
-+    if (ret == -1)
-+        error(1, errno, "recvmsg");
-+
-+    read_notification(msg);
-+
-+
-+这个示例仅用于演示目的。在实际应用中，不等待通知，而是每隔几次 send 调用就进行一次非阻塞
-+读取会更高效。
-+
-+零拷贝通知可以与其他套接字操作乱序处理。通常，拥有错误队列套接字会阻塞其他操作，直到错误
-+被读取。然而，零拷贝通知具有零错误代码，因此不会阻塞 send 和 recv 调用。
-+
-+通知批处理
-+~~~~~~~~~~~~
-+
-+可以使用 recvmmsg 调用来一次性读取多个未决的数据包。这通常不是必需的。在每条消息中，内核
-+返回的不是一个单一的值，而是一个范围。当错误队列上有一个通知正在等待接收时，它会将连续的通
-+知合并起来。
-+
-+当一个新的通知即将被排队时，它会检查队列尾部的通知的范围是否可以扩展以包含新的值。如果是这
-+样，它会丢弃新的通知数据包，并增大未处理通知的范围上限值。
-+
-+对于按顺序确认数据的协议（如 TCP），每个通知都可以合并到前一个通知中，因此在任何时候在等待
-+的通知都不会超过一个。
-+
-+有序交付是常见的情况，但不能保证。在重传和套接字拆除时，通知可能会乱序到达。
-+
-+通知解析
-+~~~~~~~~
-+
-+下面的代码片段演示了如何解析控制消息：前面代码片段中的 read_notification() 调用。通知
-+以标准错误格式 sock_extended_err 编码。
-+
-+控制数据中的级别和类型字段是协议族特定的，对于 TCP 或 UDP 套接字，分别为 IP_RECVERR 或
-+IPV6_RECVERR。对于 VSOCK 套接字，cmsg_level 为 SOL_VSOCK，cmsg_type 为 VSOCK_RECVERR。
-+
-+错误来源是新的类型 SO_EE_ORIGIN_ZEROCOPY。如前所述，ee_errno 为零，以避免在套接字上
-+阻塞地读取和写入系统调用。
-+
-+32 位通知范围编码为 [ee_info, ee_data]。这个范围是包含边界值的。除了下面讨论的 ee_code
-+字段外，结构中的其他字段应被视为未定义的。
-+
-+::
-+
-+    struct sock_extended_err *serr;
-+    struct cmsghdr *cm;
-+
-+    cm = CMSG_FIRSTHDR(msg);
-+    if (cm->cmsg_level != SOL_IP &&
-+        cm->cmsg_type != IP_RECVERR)
-+        error(1, 0, "cmsg");
-+
-+    serr = (void *) CMSG_DATA(cm);
-+    if (serr->ee_errno != 0 ||
-+        serr->ee_origin != SO_EE_ORIGIN_ZEROCOPY)
-+        error(1, 0, "serr");
-+
-+    printf("completed: %u..%u\n", serr->ee_info, serr->ee_data);
-+
-+
-+延迟拷贝
-+~~~~~~~~
-+
-+传递标志 MSG_ZEROCOPY 是向内核发出的一个提示，让内核采用免拷贝的策略，同时也是一种约
-+定，即内核会对完成通知进行排队处理。但这并不保证拷贝操作一定会被省略。
-+
-+拷贝避免不总是适用的。不支持分散/聚集 I/O 的设备无法发送由内核生成的协议头加上零拷贝用户
-+数据组成的数据包。数据包可能需要在协议栈底层转换为一份私有数据副本，例如用于计算校验和。
-+
-+在所有这些情况下，当内核释放对共享页面的持有权时，它会返回一个完成通知。该通知可能在（已
-+拷贝）数据完全传输之前到达。因此。零拷贝完成通知并不是传输完成通知。
-+
-+如果数据不在缓存中，延迟拷贝可能会比立即在系统调用中拷贝开销更大。进程还会因通知处理而产
-+生成本，但却没有带来任何好处。因此，内核会在返回时通过在 ee_code 字段中设置标志
-+SO_EE_CODE_ZEROCOPY_COPIED 来指示数据是否以拷贝的方式完成。进程可以利用这个信号，在
-+同一套接字上后续的请求中停止传递 MSG_ZEROCOPY 标志。
-+
-+实现
-+====
-+
-+环回
-+----
-+
-+对于 TCP 和 UDP：
-+如果接收进程不读取其套接字，发送到本地套接字的数据可能会无限期排队。无限期的通知延迟是不
-+可接受的。因此，所有使用 MSG_ZEROCOPY 生成并环回到本地套接字的数据包都将产生延迟拷贝。
-+这包括环回到数据包套接字（例如，tcpdump）和 tun 设备。
-+
-+对于 VSOCK：
-+发送到本地套接字的数据路径与非本地套接字相同。
-+
-+测试
-+====
-+
-+更具体的示例代码可以在内核源码的 tools/testing/selftests/net/msg_zerocopy.c 中找到。
-+
-+要留意环回约束问题。该测试可以在一对主机之间进行。但如果是在本地的一对进程之间运行，例如当使用
-+msg_zerocopy.sh 脚本在跨命名空间的虚拟以太网（veth）对之间运行时，测试将不会显示出任何性能
-+提升。为了便于测试，可以通过让 skb_orphan_frags_rx 与 skb_orphan_frags 相同，来暂时放宽
-+环回限制。
-+
-+对于 VSOCK 类型套接字的示例可以在 tools/testing/vsock/vsock_test_zerocopy.c 中找到。
+Changes in v8:
+- Disabled IPv6 to eliminate noises in tests.
+- Added a branch in tap to avoid unnecessary dissection when hash
+  reporting is disabled.
+- Removed unnecessary rtnl_lock().
+- Extracted code to handle new ioctls into separate functions to avoid
+  adding extra NULL checks to the code handling other ioctls.
+- Introduced variable named "fd" to __tun_chr_ioctl().
+- s/-/=/g in a patch message to avoid confusing Git.
+- Link to v7: https://lore.kernel.org/r/20250228-rss-v7-0-844205cbbdd6@daynix.com
+
+Changes in v7:
+- Ensured to set hash_report to VIRTIO_NET_HASH_REPORT_NONE for
+  VHOST_NET_F_VIRTIO_NET_HDR.
+- s/4/sizeof(u32)/ in patch "virtio_net: Add functions for hashing".
+- Added tap_skb_cb type.
+- Rebased.
+- Link to v6: https://lore.kernel.org/r/20250109-rss-v6-0-b1c90ad708f6@daynix.com
+
+Changes in v6:
+- Extracted changes to fill vnet header holes into another series.
+- Squashed patches "skbuff: Introduce SKB_EXT_TUN_VNET_HASH", "tun:
+  Introduce virtio-net hash reporting feature", and "tun: Introduce
+  virtio-net RSS" into patch "tun: Introduce virtio-net hash feature".
+- Dropped the RFC tag.
+- Link to v5: https://lore.kernel.org/r/20241008-rss-v5-0-f3cf68df005d@daynix.com
+
+Changes in v5:
+- Fixed a compilation error with CONFIG_TUN_VNET_CROSS_LE.
+- Optimized the calculation of the hash value according to:
+  https://git.dpdk.org/dpdk/commit/?id=3fb1ea032bd6ff8317af5dac9af901f1f324cab4
+- Added patch "tun: Unify vnet implementation".
+- Dropped patch "tap: Pad virtio header with zero".
+- Added patch "selftest: tun: Test vnet ioctls without device".
+- Reworked selftests to skip for older kernels.
+- Documented the case when the underlying device is deleted and packets
+  have queue_mapping set by TC.
+- Reordered test harness arguments.
+- Added code to handle fragmented packets.
+- Link to v4: https://lore.kernel.org/r/20240924-rss-v4-0-84e932ec0e6c@daynix.com
+
+Changes in v4:
+- Moved tun_vnet_hash_ext to if_tun.h.
+- Renamed virtio_net_toeplitz() to virtio_net_toeplitz_calc().
+- Replaced htons() with cpu_to_be16().
+- Changed virtio_net_hash_rss() to return void.
+- Reordered variable declarations in virtio_net_hash_rss().
+- Removed virtio_net_hdr_v1_hash_from_skb().
+- Updated messages of "tap: Pad virtio header with zero" and
+  "tun: Pad virtio header with zero".
+- Fixed vnet_hash allocation size.
+- Ensured to free vnet_hash when destructing tun_struct.
+- Link to v3: https://lore.kernel.org/r/20240915-rss-v3-0-c630015db082@daynix.com
+
+Changes in v3:
+- Reverted back to add ioctl.
+- Split patch "tun: Introduce virtio-net hashing feature" into
+  "tun: Introduce virtio-net hash reporting feature" and
+  "tun: Introduce virtio-net RSS".
+- Changed to reuse hash values computed for automq instead of performing
+  RSS hashing when hash reporting is requested but RSS is not.
+- Extracted relevant data from struct tun_struct to keep it minimal.
+- Added kernel-doc.
+- Changed to allow calling TUNGETVNETHASHCAP before TUNSETIFF.
+- Initialized num_buffers with 1.
+- Added a test case for unclassified packets.
+- Fixed error handling in tests.
+- Changed tests to verify that the queue index will not overflow.
+- Rebased.
+- Link to v2: https://lore.kernel.org/r/20231015141644.260646-1-akihiko.odaki@daynix.com
+
+---
+Akihiko Odaki (10):
+      virtio_net: Add functions for hashing
+      net: flow_dissector: Export flow_keys_dissector_symmetric
+      tun: Allow steering eBPF program to fall back
+      tun: Add common virtio-net hash feature code
+      tun: Introduce virtio-net hash feature
+      tap: Introduce virtio-net hash feature
+      selftest: tun: Test vnet ioctls without device
+      selftest: tun: Add tests for virtio-net hashing
+      selftest: tap: Add tests for virtio-net ioctls
+      vhost/net: Support VIRTIO_NET_F_HASH_REPORT
+
+ Documentation/networking/tuntap.rst  |   7 +
+ drivers/net/Kconfig                  |   1 +
+ drivers/net/tap.c                    |  68 ++++-
+ drivers/net/tun.c                    |  90 +++++--
+ drivers/net/tun_vnet.h               | 155 ++++++++++-
+ drivers/vhost/net.c                  |  68 ++---
+ include/linux/if_tap.h               |   2 +
+ include/linux/skbuff.h               |   3 +
+ include/linux/virtio_net.h           | 188 ++++++++++++++
+ include/net/flow_dissector.h         |   1 +
+ include/uapi/linux/if_tun.h          |  82 ++++++
+ net/core/flow_dissector.c            |   3 +-
+ net/core/skbuff.c                    |   4 +
+ tools/testing/selftests/net/Makefile |   2 +-
+ tools/testing/selftests/net/tap.c    |  97 ++++++-
+ tools/testing/selftests/net/tun.c    | 491 ++++++++++++++++++++++++++++++++++-
+ 16 files changed, 1185 insertions(+), 77 deletions(-)
+---
+base-commit: dd83757f6e686a2188997cb58b5975f744bb7786
+change-id: 20240403-rss-e737d89efa77
+prerequisite-change-id: 20241230-tun-66e10a49b0c7:v6
+prerequisite-patch-id: 871dc5f146fb6b0e3ec8612971a8e8190472c0fb
+prerequisite-patch-id: 2797ed249d32590321f088373d4055ff3f430a0e
+prerequisite-patch-id: ea3370c72d4904e2f0536ec76ba5d26784c0cede
+prerequisite-patch-id: 837e4cf5d6b451424f9b1639455e83a260c4440d
+prerequisite-patch-id: ea701076f57819e844f5a35efe5cbc5712d3080d
+prerequisite-patch-id: 701646fb43ad04cc64dd2bf13c150ccbe6f828ce
+prerequisite-patch-id: 53176dae0c003f5b6c114d43f936cf7140d31bb5
+prerequisite-change-id: 20250116-buffers-96e14bf023fc:v2
+prerequisite-patch-id: 25fd4f99d4236a05a5ef16ab79f3e85ee57e21cc
+
+Best regards,
 -- 
-2.25.1
+Akihiko Odaki <akihiko.odaki@daynix.com>
+
