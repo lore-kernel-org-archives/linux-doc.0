@@ -1,109 +1,98 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89948266B40;
-	Thu, 13 Mar 2025 12:16:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A38D265CC1
+	for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 12:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741868185; cv=none; b=nfzDnRHyaOlz/WuyyV+0ccNHuZbupeSD2Qf6lttm377H0vq9dTU7lkes8Eak4Vx5C6ibnsMRF5A/X8mY0MNrV3/RuV7OiDdVGGk/SkrhU+8gIfxTQVIW1VvvSjLhZMotfzAZcOlatNA4Ldg+Pd1CtLA54o/lQgot8LtjRlE3leY=
+	t=1741868689; cv=none; b=IEKlf/ieLXxnA340BM8LKSjidnUksLegUVKlWildbg20PK9j0Sa0InFaag87Yfgj6u+m3ol2TDdVALH3/Mg4Bz8y0jINqEtm1VGGGqXwgdfq8AAC/5ZghwfB5oaBawgUEZOhHOM8Tr2f1ORxVM1cg5d3Q6Rx2LsF4x+85Pqa9og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741868185; c=relaxed/simple;
-	bh=+TIjaWLq+k8j709rR1HauZvIDScpqyb45V6w2bWtKHM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T4HTWp0tMOU+tbOhz3jTO64af19oJHU+TEEfWNR9QC76xP0IlH01/5QsyaxjAO9b1tNlZkrGw0y29jO8gZV/c7V8dZvoNcbBYOu4OcZqXo/PBG2BPCIyD9syWJ4Gfgzr4lN+FF/5LxV3Ba6gGHoqewd3EKsJWYFiQ7RNZrUjcRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Roxd87ae; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741868689; c=relaxed/simple;
+	bh=qUINEFrGdyqtUCxJgPIIWVSKNSceW/vG2w99VTb0EFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ED9dBLNIJ8PbLGpCPluACzWp2pG4c/MDJvVzREIrNxAm0UPrO3DldDp9jccXjIOyw9uXBCh2VJtdwdrDaTwDLrsg/0IX1z1pTwmF1Rg0BGmM2N7ueoSFXIETTH42LMo2wvjTzag93BpHJAp8/IFpbBn/vf6h1E6c0Bwo7selWqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=EbCTWpuC; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Roxd87ae"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22355618fd9so16202495ad.3;
-        Thu, 13 Mar 2025 05:16:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="EbCTWpuC"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3913b539aabso549721f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 13 Mar 2025 05:24:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741868184; x=1742472984; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fm8fq5i0vpAjTWwW3jwRc1uPshAS1XnTW97HiaXAENI=;
-        b=Roxd87aezQfpGPSbvyXc8BDi8EwGZR3BYyrtLSU7dE+60ANO/R9XUSeoB1qWpamM4c
-         2gnWCD6uo8MurvmHA57jJbeh2SbyrydJTjPUCHURhI+swI8BOj66w0bmmvZZjVzITsfZ
-         oHaNN4PmlT88Y6GwFT4Ltla+k9dEzTyQXp3wgVzGgcpbFvSJxnVN0mhBpWjKzQmzUn6d
-         WDQtoC2S/Z6GG6r23LcnM+O0wqVMK1fqRdAYhcac49XcokUqDH+ZZbK9OTyJUiwJGc+5
-         HAiVIkgh+0HRq8U/vNM871zvThAuaEYSgMYpxhFlf/4dYmdqe+dAIU6wskhdc6zHQW5F
-         O58Q==
+        d=ventanamicro.com; s=google; t=1741868684; x=1742473484; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jdwK1Zh8ZZo6rwDf542VaxRAlTlQ9sZFdzOTXwzDIRU=;
+        b=EbCTWpuCIEVmrusg4jm7PmZ3G9kQr3/k9FBQmvZQ8D7L9OQ+iISsTbF2CI9I7Bi7gG
+         bkXR4Csa9wQus0Wn3s8RDbygCrSwQoxc0zR4YNMOspJKsGE+qogTlrrQv4/JIgdiLaQC
+         srHIzpaxhUnaPIR/rbJblHFnLgfoenOWhKitdtVdX6uHq24OQ/Jk8asZPuloMdH88Gcb
+         PwABAp+AOU8lCJ61EKwfQlNMR9F8nIEIwMFNi4vwTZIMkosSsHDu5x3I0O/zvJuFQpZQ
+         CTaTAXGf8EJm2gSbBuYUb4oq4aKf0bSHvrfQou7r10dsjUH3wz5o/1X0jX53FbeEL0Ws
+         caHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741868184; x=1742472984;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1741868684; x=1742473484;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fm8fq5i0vpAjTWwW3jwRc1uPshAS1XnTW97HiaXAENI=;
-        b=UMBXaW/Qfvcgz5XEVvE82OzNSSigI2VcdA5ElKi/ahBzn46gO6P05Q07JpZnwbWcfu
-         w7pv7DkCMlT/DF9YiLMo6+OCQCqmhpWoMXktmUHaxAhoFHJNOzM9P6EJTJQiROY4YmKQ
-         WedSWhlfEbfClzu3/mIV/vr8ltX9EPVqyodl8x+oRnNty5hlXuF/4A7YxgNuM2w+rjpu
-         Di0KqhLW134aYaNuIwJuL2bh2Wpbb0jX5GHXpVgRGAXgGr/VSE7sJV/qxmTOhn00ZRiR
-         cPdK5gNJrsSdDArLs8OsALqYHWja48L/yK9fH3oF4tjtcgnxzCn3XICpp4JH51s0+F+g
-         Je6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUHgCOvhBfMz33cIN4nFNwULHCFVmOz3Tb/JC0d3/ZUtI/SvF2c9WsnSUobWBUP1pl/DITkb2NZiWc8oA794wl+LEiN@vger.kernel.org, AJvYcCXB7ChE9a4cyMBrRbW4MdU3YtaoRr7Mnd/UCbebyRVGhkHi9yc26D+KLHBW5ogbOkwE0MjmvSVNtrM=@vger.kernel.org, AJvYcCXX4uftehqc7Ji7jJW4xbwFkACXdh4h7TGijyQTTJT47NLM31Itwa8NPm+oS33CXenG6gRHmUlUHLC3NiKy@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLQ+FJ5zOoTepBQHA0FxPCzuP88JKXq1SWUPzmzaCSBKQWHplE
-	dRczVHGSgkh1JbYH5EWvY0p7wcRB7kPAU4Iwvv46NGAg813ABaz+
-X-Gm-Gg: ASbGncuo2eG7siTWqafMmhNw8RTg8U/zxL5/dz+ZzazTdjH/Ym29UdkHkt31LElv3ZF
-	DP+gjvAm3qi8ANXTfVaFOOWYf21YxS+Bxb/rfWpGDcn/kF71ZG3pioAiZfON9xST4Jgln7D0YMJ
-	mai6ePqHIJ3yqt4k+Galn8+XHBqGLKs6NsFskshNzHJU9MQ9h1Z6jlaAD/2uSV3P6cMb+hTkv9B
-	JE+CqilUAws1YhQvMpKq/Px8CjFa32Be5MSpoOTU+TtqaeuhR9BpcCb06/LaC+mzidwXr+7NPF+
-	Rcp/7ajWhQh4rnoDlxIdWhE60pjlgCmN5mhuf82jxpR3hYRdJtGf
-X-Google-Smtp-Source: AGHT+IHQtvAx5vR6EcoVx3cqc3qpwWGM7hmtHRZwrnH2OnV0qoF4IGFFKA3P5vGN9Xmq9qQXGCx1xA==
-X-Received: by 2002:a17:902:e84d:b0:221:78a1:27fb with SMTP id d9443c01a7336-22592e21969mr157466725ad.11.1741868183631;
-        Thu, 13 Mar 2025 05:16:23 -0700 (PDT)
-Received: from [192.168.0.150] ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6c6bsm11691775ad.150.2025.03.13.05.16.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Mar 2025 05:16:22 -0700 (PDT)
-Message-ID: <4cc0a072-3eaf-4fbf-a334-012aacf9039f@gmail.com>
-Date: Thu, 13 Mar 2025 19:16:17 +0700
+        bh=jdwK1Zh8ZZo6rwDf542VaxRAlTlQ9sZFdzOTXwzDIRU=;
+        b=Zd4SQIS29x71phQBIsff06Y2WvY1rQP1LagDc9bXPNJUJ795ZACsf3CumWzogAm//E
+         KDgSeBI5g/pm7raZBjfjo2AaXjy09lkKeMKJY1z11Qor/dT+Ariqkrapq5j/BnyCto2r
+         Z8ypZertg54WD+9sgS9iE5BRx3aIPVpUkZkLZ4zxvi0LlXUF4/L72/eNzwbeQCpP8b6y
+         e90ERIFS/vWL4/T17iu8+i859Yid5UO/JYh2ktD/BZwByK7LqNyDb16ZEthmLcq4NmQy
+         WeFXtZT5Btt6kE6MsbaGtTrhA6J7kQz2rbhKmfTqNf/xm7rIxXZrTVSX2D1xQx9SAgsd
+         QboA==
+X-Forwarded-Encrypted: i=1; AJvYcCUpKuKjo1EJfmgz0NzdPw5mEbIN2jG5UwDps9ZsMQZbR4aeoABu/hgYAR5QNPuSVFlU/uL5gqCkqlw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXLwgFu+LFe4XVUvoQfC8q8z1XmGQFYoiO8BysNpWoG2l5XvzC
+	A1Mbq2nN4NaRJ3UCnGF9Q9pQ55+kY8YOkV7ruqJI1XcZVtUzjmMIRuTBxc80rag=
+X-Gm-Gg: ASbGncszf/Sh3XnvCQtMhiHrMkz9ioNafRKj1h807KxlkAnDnVHStVlbwppDK+6Rc5q
+	tG94RMrXNWD10ABOT9F5ZkwpbK0wvQjwQvnLB6QF1vgh2DU4pIlPHIeyqb6USkSG7zeFN0W9YWo
+	Ieuxu+ouAX0sg0wgSd3604g6Yuq6pdGK2mJpHfZXAOo1Ejac/uIZbmf0yGRyumdo7VoItTP9RnR
+	aV9M3kwM5FqZdlits5KoLwzNCHKY/XSYHYr70JKh6l6zNK01zdMXzBuUQWZGcLsLhsTSNrAcfk1
+	6sRj61OyNg5bLJd7zFS0GSlrt4HIqiLj
+X-Google-Smtp-Source: AGHT+IHTTFdUMyPE8J6/FJ/Tz2TmgEnvUPiqAP3Vg4LJA9U623EyzHKoPA3QMg0KCVbZ9Z4v0fkfMA==
+X-Received: by 2002:a05:6000:402a:b0:390:e5c6:920 with SMTP id ffacd0b85a97d-39132d22aa7mr18761264f8f.3.1741868684583;
+        Thu, 13 Mar 2025 05:24:44 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200::59a5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c8975b90sm2006325f8f.53.2025.03.13.05.24.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Mar 2025 05:24:44 -0700 (PDT)
+Date: Thu, 13 Mar 2025 13:24:43 +0100
+From: Andrew Jones <ajones@ventanamicro.com>
+To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
+	Samuel Holland <samuel.holland@sifive.com>, Deepak Gupta <debug@rivosinc.com>
+Subject: Re: [PATCH v3 01/17] riscv: add Firmware Feature (FWFT) SBI
+ extensions definitions
+Message-ID: <20250313-924c6711597160f50c4cf90e@orel>
+References: <20250310151229.2365992-1-cleger@rivosinc.com>
+ <20250310151229.2365992-2-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] docs: tracing: Reduce maxdepth in index
- documentation
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Purva Yeshi <purvayeshi550@gmail.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250312124717.7208-1-purvayeshi550@gmail.com>
- <20250312134907.06d27d78@batman.local.home> <Z9JKqVvG1iw0bFXR@archie.me>
- <20250313070457.647c8c57@batman.local.home>
-Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20250313070457.647c8c57@batman.local.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250310151229.2365992-2-cleger@rivosinc.com>
 
-On 3/13/25 18:04, Steven Rostedt wrote:
-> On Thu, 13 Mar 2025 10:02:01 +0700
-> Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+On Mon, Mar 10, 2025 at 04:12:08PM +0100, Clément Léger wrote:
+> The Firmware Features extension (FWFT) was added as part of the SBI 3.0
+> specification. Add SBI definitions to use this extension.
 > 
->> If you'd like to generate a patch series, you can refer to thoughtbot
->> blogpost at [1].
-> 
-> ??
-> 
-> This is already a patch series.
-> 
->>
->> And you can also add cover letter by passing --cover-letter to
->> git-format-patch(1).
-> 
-> It's simple enough it doesn't need a cover letter.
-> 
+> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+> Reviewed-by: Samuel Holland <samuel.holland@sifive.com>
+> Tested-by: Samuel Holland <samuel.holland@sifive.com>
+> Reviewed-by: Deepak Gupta <debug@rivosinc.com>
+> ---
+>  arch/riscv/include/asm/sbi.h | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+>
 
-I mean I'm directing my reply to Purva.
-
-Thanks anyway.
-
--- 
-An old man doll... just what I always wanted! - Clara
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
