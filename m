@@ -1,127 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7047335966;
-	Thu, 13 Mar 2025 15:42:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA58139566;
+	Thu, 13 Mar 2025 15:47:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741880524; cv=none; b=k1VdP0xXqSZ93AKLgTQWWqCQw5FOJw+zML1m37qFM8+2z8TV/1Pci+UXoaOOmbW4l/BxnhKSf6HKX5qzieUbozoV7S0Eq4MYBz9qRiG954m/JTY57FtjcAFk1GKkhWb5EohpxbvR/97Wu8UZjQFOrU9qGE37UvNKpUdn9F6GXpQ=
+	t=1741880866; cv=none; b=hyL+kPNopmN9aaO2blSexsrfLCeVrgIw/gI2jD/I/KmEWCyICHkBhNBfD5I3QjknVqFGrJLa6VEMeHlQzZCAmb8zUnk4mMG0u5yF2CA0j2Iy9JykTMYXUItSA0gd9J8awzhFSJkdCOrSElG6SdJoJRTGGY2o/9z1VSe8nTrhkQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741880524; c=relaxed/simple;
-	bh=GcM0bWRw3lqkKiGt9DpFV6nSyrYsqck9QyyQooLhfPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q+FxAegaNyI2Zt/vsndRYwJj6jb4mVPI8lB8d4pVfqAIIk0RLpQQBZXhTzw9F1yKr+voc1tGn5LH2ZjgrPAwd1uC32IUUb5lnqhgfkx2GBLho68fwLT5LLEHkNPwWhX6jL0i5tuoO2rUuqib1ohtEVd3QX4CsZMnMJp8fe4Lxls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CKh58mif; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741880866; c=relaxed/simple;
+	bh=onqUyIR18v4Kxp915+i4qq8AG9pw2nIIaV6s1W5Ie2I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VWRa+1ssXNudvacYgoeA2af49oB6KZc5tnT8OgtJyOoG43tIVuUfs82i+RWRBFMiK8RfjmtS9g+qYix4k+fgU3l2M4KP0ggV1Ksl3KCW7Lv6aUntCBFRaRMuTEd81tKTOyhZYxtmW3litHiijAPCJ543sy3mrFxyLeC+mmObJWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lQxtePXT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CKh58mif"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 551C0C4CEDD;
-	Thu, 13 Mar 2025 15:41:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lQxtePXT"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 95D30C4CEE9;
+	Thu, 13 Mar 2025 15:47:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741880523;
-	bh=GcM0bWRw3lqkKiGt9DpFV6nSyrYsqck9QyyQooLhfPQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CKh58mif1encnvopzGQ5g8u81BpNzKKnyR1m8qQQQQFsKjRMEMmH1J//1xRJ5mY+w
-	 +H0rEJc6wrjQUj3wd777qw2QfvQjIWB0AR2T70uuujeB1ejksQBfCUO87h9BVIHPSU
-	 EZf/Vb9bfsLAd5804VEg7rkdIybciqmUjvetIuWmGMJ84FXQyT7iHjS568tt72VEVk
-	 FRkxZ8Ca9aZ6XB58b8x0LzI5TYCEjiBXVU6/z6yxmeUH5TYR/UvYrtb/yreyKwFLSF
-	 WcTGizKXWyQKnMpHaxLruLRZukNBESLeygP4Jc1ORmrQ2H+ICYqgn7slmdqFHAU+2/
-	 gJkGfc1gvGyRw==
-Date: Thu, 13 Mar 2025 17:41:47 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Changyuan Lyu <changyuanl@google.com>
-Cc: Alexander Graf <graf@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>, Ashish Kalra <ashish.kalra@amd.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Ingo Molnar <mingo@redhat.com>, James Gowans <jgowans@amazon.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pratyush Yadav <ptyadav@amazon.de>,
-	Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	Will Deacon <will@kernel.org>, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v4 02/14] memblock: add MEMBLOCK_RSRV_KERN flag
-Message-ID: <Z9L8u4XP5U6iq5Gu@kernel.org>
-References: <20250206132754.2596694-3-rppt@kernel.org>
- <20250226015342.2136669-1-changyuanl@google.com>
+	s=k20201202; t=1741880865;
+	bh=onqUyIR18v4Kxp915+i4qq8AG9pw2nIIaV6s1W5Ie2I=;
+	h=From:Date:Subject:To:Cc:From;
+	b=lQxtePXTfEadnLpjvvPl7XxUoSl9Qo3TsM1GMMsjMkYD50VHaFJ0x8lGqB4y3fQ00
+	 x9FHqU1ohbEmGbLtnbhs1Y7Rq4PRsJL+k9V0I8UPfTZP/a9hNQoYtc/VJcCx0EaMva
+	 j7R9GW/sVG5zPgAqx620jsEn8wUTAEmPNmqqpCl4rSpgERRah10xeojg07FPwUuatZ
+	 hhrM60EVguG0AfXtKxeOZ0ioc4MxCRDlpkCPuLFlInTbmY0q4GtZ9wHnf2MCp/PDZx
+	 HltGKukvVznQMeStTahVpwSn40QJHJwlJP/iRZ+jatQ4gcyNpSx1DstRVTeOIpSECt
+	 4wUs5mD0vgMmA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD1EC35FF3;
+	Thu, 13 Mar 2025 15:47:45 +0000 (UTC)
+From: Joel Granados <joel.granados@kernel.org>
+Date: Thu, 13 Mar 2025 16:46:36 +0100
+Subject: [PATCH] drop_caches: Allow re-enabling message after disabling
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226015342.2136669-1-changyuanl@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250313-jag-drop_caches_msg-v1-1-c2e4e7874b72@kernel.org>
+X-B4-Tracking: v=1; b=H4sIANv90mcC/x3MTQqAIBBA4avErBM0a9NVIsKf0SZIxYEIorsnL
+ b/Few8wVkKGuXug4kVMOTWovgO3mxRRkG+GQQ6T1EqLw0Thay6bM25H3k6Owo3BBvR2UkFDK0v
+ FQPd/Xdb3/QD22YgqZQAAAA==
+X-Change-ID: 20250313-jag-drop_caches_msg-c4fbfedb51f3
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, Ruiwu Chen <rwchen404@gmail.com>, 
+ Luis Chamberlain <mcgrof@kernel.org>, 
+ Joel Granados <joel.granados@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1756;
+ i=joel.granados@kernel.org; h=from:subject:message-id;
+ bh=onqUyIR18v4Kxp915+i4qq8AG9pw2nIIaV6s1W5Ie2I=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGfS/f6CEC4g2XnGlGRlSme4x3oOFMFovBpF7
+ JcxYrJVTJTsb4kBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJn0v3+AAoJELqXzVK3
+ lkFPPNYL/jHTPUPVYZaSe0Tz1azPRYnf0WszSAKm+jNqgbZXptpqSIgTNuiRiXalABLa94PT/vf
+ kNo26IgXSmsz7t/qRDUCSg6URaTItyfUMQ5kE12xtzqu4t6PBNRa0QfTcGG+ZkcQtD9k6iSx48u
+ wWzjVc/l72eww/CtfGAvwGATdzt2jUxofWkUyPsXA9jYIs5staKiBzDPPgGhVWV3uUdXP+5xXws
+ UxlT61ooON9PW0HVJds9DzHZz1/tO88Qgy5gs/kbheAPlL3sIIYxxyt/LwPyy9A8GrTZl/uSJv6
+ OXIlkJ87Yt1cZBNYONFDiLdu+W8YJPmQpiGRZ+hGfAmJ/ExvRYCuZyz6CjtY+cc55YWjCCzRzdX
+ IfaG1MM4FeDnkRVEjCRt5idGfM8rKxHfebqk4Z+HvAoqyPT8sBObxGl/r4Hu6ZvW4BLBUZfe6iy
+ Y/BCsgAwQeMx4Df2x3fvD9rZpAYpFK5EB1VMx9/9znIOKAScp9HCqENAKc46/Sn6Jm8qAlyt0a7
+ N0=
+X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
+ fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
+X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
+ auth_id=239
 
-Hi Changyuan,
+After writing "4" to /proc/sys/vm/drop_caches there was no way to
+re-enable the drop_caches kernel message. By removing the "or" logic for
+the stfu variable in drop_cache_sysctl_handler, it is now possible to
+toggle the message on and off by setting the 4th bit in
+/proc/sys/vm/drop_caches.
 
-On Tue, Feb 25, 2025 at 05:53:39PM -0800, Changyuan Lyu wrote:
-> Hi Mike,
-> 
-> On Thu,  6 Feb 2025 15:27:42 +0200, Mike Rapoport <rppt@kernel.org> wrote:
-> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> >
-> > to denote areas that were reserved for kernel use either directly with
-> > memblock_reserve_kern() or via memblock allocations.
-> >
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > ---
-> >  include/linux/memblock.h | 16 +++++++++++++++-
-> >  mm/memblock.c            | 32 ++++++++++++++++++++++++--------
-> >  2 files changed, 39 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-> > index e79eb6ac516f..65e274550f5d 100644
-> > --- a/include/linux/memblock.h
-> > +++ b/include/linux/memblock.h
-> > ......
-> > @@ -116,7 +117,19 @@ int memblock_add_node(phys_addr_t base, phys_addr_t size, int nid,
-> >  int memblock_add(phys_addr_t base, phys_addr_t size);
-> >  int memblock_remove(phys_addr_t base, phys_addr_t size);
-> >  int memblock_phys_free(phys_addr_t base, phys_addr_t size);
-> > -int memblock_reserve(phys_addr_t base, phys_addr_t size);
-> > +int __memblock_reserve(phys_addr_t base, phys_addr_t size, int nid,
-> > +		       enum memblock_flags flags);
-> > +
-> > +static __always_inline int memblock_reserve(phys_addr_t base, phys_addr_t size)
-> > +{
-> > +	return __memblock_reserve(base, size, NUMA_NO_NODE, 0);
-> 
-> Without this patch `memblock_reserve` eventually calls `memblock_add_range`
-> with `MAX_NUMNODES`, but with this patch, `memblock_reserve` calls
-> `memblock_add_range` with `NUMA_NO_NODE`. Is it intended or an
-> accidental typo? Thanks!
+Signed-off-by: Joel Granados <joel.granados@kernel.org>
+---
+ Documentation/admin-guide/sysctl/vm.rst | 2 +-
+ fs/drop_caches.c                        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-We were mixing NUMA_NO_NODE and MAX_NUMNODES for memory with undefined node
-id for a while, with MAX_NUMNODES being older and NUMA_NO_NODE newer define
-for the same thing.
-
-To make sure both are treated correctly in memblock we use
-numa_valid_node() to check if a range has node id set.
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index f48eaa98d22d2b575f6e913f437b0d548daac3e6..75a032f8cbfb4e05f04610cca219d154bd852789 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -266,7 +266,7 @@ used::
+ 	cat (1234): drop_caches: 3
  
-> Best,
-> Changyuan
+ These are informational only.  They do not mean that anything is wrong
+-with your system.  To disable them, echo 4 (bit 2) into drop_caches.
++with your system.  To toggle them, echo 4 (bit 2) into drop_caches.
+ 
+ enable_soft_offline
+ ===================
+diff --git a/fs/drop_caches.c b/fs/drop_caches.c
+index d45ef541d848a73cbd19205e0111c2cab3b73617..501b9f690445e245f88cbb31a5123b2752e2e7ce 100644
+--- a/fs/drop_caches.c
++++ b/fs/drop_caches.c
+@@ -73,7 +73,7 @@ int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
+ 				current->comm, task_pid_nr(current),
+ 				sysctl_drop_caches);
+ 		}
+-		stfu |= sysctl_drop_caches & 4;
++		stfu = sysctl_drop_caches & 4;
+ 	}
+ 	return 0;
+ }
 
+---
+base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
+change-id: 20250313-jag-drop_caches_msg-c4fbfedb51f3
+
+Best regards,
 -- 
-Sincerely yours,
-Mike.
+Joel Granados <joel.granados@kernel.org>
+
+
