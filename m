@@ -1,234 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C36265610;
-	Thu, 13 Mar 2025 13:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2782673A4;
+	Thu, 13 Mar 2025 13:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741872264; cv=none; b=P1y5KFJoA3tyreu2U/NgJBIstGWnoONx1lfAvRuK9jNOoiAilUHujISq1ja5kktjcwVpjnhxb8nwxJI9oDxQMRl4bJ4xBCqF/tNYhsF8g8zenARcgFG188+6p3muANVyr/HvZIaKRfJ4EwGjZ9mnXrQ/3GRa0mQJFACoz9OgsBA=
+	t=1741873457; cv=none; b=TncnecbFue6/YgpQM2AYk4QnlFDDSgStV8tF3Q28cJxaiftqz9gfgPf1nrcIIcoG9mewz/Fi7WYXBJq1HzBMxFKVknwUpgstHZM/9EkCM3ioaGA4xNb3nkziEwLcLncoM7wASixGr9/BoBHMq/5JhJpou28CRfxe2K2+Rpbi3Ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741872264; c=relaxed/simple;
-	bh=jCDe7Wc94ba6aJ/MFQbCu86uV8l1MOm2WI7qny2btIY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uUrVBPQxyQtDn+0OhPRkza1GpbGYDACLBwlAGxu/iyDS6XhvwNAtxhCFl+57dQVaF2vgDpnmI/IytzoATzdsbm4af9KGUxnVowai82xPyTTRsoOLFFcvM8BhkhyEhZJPJxxmbuDHB5d5U8edTLH+Cg/XgxVmMB7/rJ0Oig5XUA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dz+Vjr8P; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1741873457; c=relaxed/simple;
+	bh=CT6wlOPpNHCYWIJ/2e/j3A8JwuCfLUN6mF49wnM5xX0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NHGz0ssNxWF+nqexz3xocONREbZgSIe2pt366Fu9GaKSoknAQNuZ+0NNRw/1RiltPh/DMo0X4dWoy0NkqOtoH6SlINzn6W2MzULBjexRl+v+KM6Gch0N3cFhm7eIpqN1upgnb3TJAPJIz9F/M3cbXRz28yXFK8JsQKu14HsuyK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jFO1P1ye; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dz+Vjr8P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741872263; x=1773408263;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=jCDe7Wc94ba6aJ/MFQbCu86uV8l1MOm2WI7qny2btIY=;
-  b=dz+Vjr8Pivx9Y9nQrD3GImA/al6j1qkNuqv6IN4+fSUOYN5asyJsVJTs
-   RexsZbuSqHR7JIBM2eEjTNVhUuF2Nfv7QxBeD19LHA6JJEAJiSy5QlV98
-   7LXq6cAG/29audJVmC/VFyBlADh/I5NAxGn1rrqQZGFUrqT/8hWd+skwZ
-   H0YaqRQtPN0dGEbMibUxfwhEu/3xRckWr50NOPeHxsno6yO3L+zkdmNtO
-   jOx+sPzf7QLbiRDq2ip3DDqq3HG2GpKrPokUFwbo3ItGawHaUG/MlIF4C
-   aABH5deocTQU1VO+ZgnYeJ1M9ylXJee5DiYy87gwCQ4mSrBdPcomsmNDg
-   w==;
-X-CSE-ConnectionGUID: OzzBWEFFQra20W9g/Zdmgg==
-X-CSE-MsgGUID: VshMdA3iQ/6HFai5gpgbug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="60387877"
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="60387877"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:24:22 -0700
-X-CSE-ConnectionGUID: P2b3MLySQXqccd5C+UEwdw==
-X-CSE-MsgGUID: 6BtBIRMqRfu7WFaTVmO00g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="125833934"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 06:24:17 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tsiXl-00000002BIs-16K9;
-	Thu, 13 Mar 2025 15:24:13 +0200
-Date: Thu, 13 Mar 2025 15:24:13 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Petr Mladek <pmladek@suse.com>, Kees Cook <kees@kernel.org>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>,
-	"airlied@redhat.com" <airlied@redhat.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>
-Subject: Re: [PATCH 1/2] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Message-ID: <Z9LcfW8H_0YudtdC@smile.fi.intel.com>
-References: <ff3a9c58-5c7a-4c48-8a9e-cc828a43baed@app.fastmail.com>
- <PN3PR01MB9597E5C609290DB1A967263CB8D02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <Z9HgVn-XELC065w0@smile.fi.intel.com>
- <47AE7FCD-0F30-4379-ADE9-090A15ACD58F@live.com>
- <Z9Kb8zMJgmSP-rgD@smile.fi.intel.com>
- <PN3PR01MB959780176C0B16C36FBD59C3B8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <Z9KdzZUxs3vlwp0Z@smile.fi.intel.com>
- <PN3PR01MB9597A8F02423B9E4C585F5EBB8D32@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <Z9K36SRz7Ja_AyQb@pathway.suse.cz>
- <D1A20E79-554E-4E91-BE47-B6493BDC3823@live.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jFO1P1ye"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0CBD44107C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1741873455; bh=k2/agbzDqKUzBDvE+7KPIy6SKclCTv5ArfE1MIoAEpk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=jFO1P1yekmY8vtYCf5g9C65BG3ee3LlQbembIdSYPj7KpuaIUVzVr0TTq8xkxWMEG
+	 A2RezUV4e02NLK82VF59t+95xgR4ERumb6/5++A53y08QxAll15sM33ajx8JiIK2XW
+	 TnMVZtmqztYhFel7D2qynIItPhGlPnrFhJEnHuXSrnRwZGGExa392iqM8Ly6YA/rfS
+	 8cDUhP9uLZ82xxDSLaA6mATBdUaSAr2jMN9rDCH3DizleX/yQwROZaLMNUA9iMK86n
+	 ZA9lubh6ioXCPK9Vi6S7dYt76XdxVTVRAbVGUqGZ4O6eHiuX/Kl73gNnZ3NGtPnco5
+	 uAjmpoAaJjO9g==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0CBD44107C;
+	Thu, 13 Mar 2025 13:44:15 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: kth <kangtaeho2456@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kth
+ <kangtaeho2456@gmail.com>
+Subject: Re: [PATCH] docs: Remove outdated highuid.rst documentation
+In-Reply-To: <20250313051252.18471-1-kangtaeho2456@gmail.com>
+References: <20250313051252.18471-1-kangtaeho2456@gmail.com>
+Date: Thu, 13 Mar 2025 07:44:14 -0600
+Message-ID: <87tt7xjb9t.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <D1A20E79-554E-4E91-BE47-B6493BDC3823@live.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 
-On Thu, Mar 13, 2025 at 11:06:54AM +0000, Aditya Garg wrote:
-> > On 13 Mar 2025, at 4:18 PM, Petr Mladek <pmladek@suse.com> wrote:
-> > On Thu 2025-03-13 09:13:23, Aditya Garg wrote:
-> >>> On 13 Mar 2025, at 2:27 PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> >>> On Thu, Mar 13, 2025 at 08:53:28AM +0000, Aditya Garg wrote:
-> >>>>>> On 13 Mar 2025, at 2:19 PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> >>>>> On Thu, Mar 13, 2025 at 07:26:05AM +0000, Aditya Garg wrote:
-> >>>>>>>> On 13 Mar 2025, at 12:58 AM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> >>>>>>> On Wed, Mar 12, 2025 at 07:14:36PM +0000, Aditya Garg wrote:
-> >>>>>>>>> On 12 Mar 2025, at 9:05 PM, Sven Peter <sven@svenpeter.dev> wrote:
-> >>>>>>>>> On Wed, Mar 12, 2025, at 13:03, Aditya Garg wrote:
+kth <kangtaeho2456@gmail.com> writes:
 
-...
+> The highuid.rst document describes a transition that is outdated and no longer relevant. Additionally, it references filesystems (ncpfs and smbfs) that have been removed or replaced.
+>
+> Signed-off-by: Kang Taeho <kangtaeho2456@gmail.com>
+> ---
+>  Documentation/admin-guide/highuid.rst | 80 ---------------------------
+>  1 file changed, 80 deletions(-)
+>  delete mode 100644 Documentation/admin-guide/highuid.rst
 
-> >>>>>>>>> I don't have a strong opinion either way: for SMC I just need to print
-> >>>>>>>>> FourCC keys for debugging / information in a few places.
-> >>>>>>>>> 
-> >>>>>>>>> I'm preparing the SMC driver for upstreaming again (after a two year delay :-()
-> >>>>>>>>> and was just going to use macros to print the SMC FourCC keys similar to
-> >>>>>>>>> DRM_MODE_FMT/DRM_MODE_ARG for now to keep the series smaller and revisit
-> >>>>>>>>> the topic later.
-> >>>>>>>>> 
-> >>>>>>>>> Right now I have these in my local tree (only compile tested so far):
-> >>>>>>>>> 
-> >>>>>>>>> #define SMC_KEY_FMT "%c%c%c%c (0x%08x)"
-> >>>>>>>>> #define SMC_KEY_ARG(k) (k)>>24, (k)>>16, (k)>>8, (k), (k)
-> >>>>>>>> 
-> >>>>>>>> That seems to be a nice alternative, which I guess Thomas was also suggesting.
-> >>>>>>> 
-> >>>>>>> I don't think it's "nice". Each of the approaches has pros and cons.
-> >>>>>>> You can start from bloat-o-meter here and compare it with your %p extension.
-> >>>>>>> 
-> >>>>>>> Also, can you show the bloat-o-meter output for the vsprintf.c?
-> >>>>>> 
-> >>>>>> Here are your outputs:
-> >>>>> 
-> >>>>> Thank you!
-> >>>>> 
-> >>>>>> ---------------------------------------------------------------------
-> >>>>>> For appletbdrm:
-> >>>>>> 
-> >>>>>> aditya@MacBook:~/linux$ ./scripts/bloat-o-meter $P4 $MACRO
-> >>>>>> add/remove: 0/0 grow/shrink: 1/1 up/down: 64/-19 (45)
-> >>>>>> Function                                     old     new   delta
-> >>>>>> appletbdrm_read_response                     395     459     +64
-> >>>>>> appletbdrm_probe                            1786    1767     -19
-> >>>>>> Total: Before=13418, After=13463, chg +0.34%
-> >>>>> 
-> >>>>> This is enough, no need to repeat this for every parameter.
-> >>>>> 
-> >>>>>> ---------------------------------------------------------------------
-> >>>>>> For vsprintf:
-> >>>>>> 
-> >>>>>> aditya@MacBook:~/linux$ ./scripts/bloat-o-meter $OLD $NEW
-> >>>>>> add/remove: 0/0 grow/shrink: 1/0 up/down: 220/0 (220)
-> >>>>>> Function                                     old     new   delta
-> >>>>>> fourcc_string                                479     699    +220
-> >>>>>> Total: Before=26454, After=26674, chg +0.83%
-> >>>>> 
-> >>>>> So, we get +220 bytes vs +43 bytes. It means if we found 5+ users, it worth
-> >>>>> doing.
-> >>>> 
-> >>>> Will it also depend upon the number of times it's being used? In appletbdrm,
-> >>>> it is being used 3 times. Probably more in Asahi SMC.
-> >>> 
-> >>> Right, it depends on the usage count. Also on different architectures it may
-> >>> give different results. On 32-bit it probably gives better statistics.
-> >> 
-> >> Best to go ahead with vsprintf then. Petr, are you still there?
-> > 
-> > I am here but there were many other things in the queue ;-)
-> > 
-> > I do not have strong opinion. I am not familiar with the FourCC
-> > format and it looks like a magic to me. But it seems that it makes
-> > sense for the users.
-> > 
-> > I personally find the %pcX modifiers a bit less hacky than
-> > the two macros SMC_KEY_FMT/SMC_KEY_ARG.
-> > 
-> > So I am fine with this patch:
-> > 
-> > Reviewed-by: Petr Mladek <pmladek@suse.com>
-> > Tested-by: Petr Mladek <pmladek@suse.com>
-> > 
-> > 
-> > Now, the question is how to get this patch into the mainline.
-> > 
-> > Normally, it would make perfect sense to queue it via the DRM tree
-> > because drivers/gpu/drm/tiny/appletbdrm.c is a new driver...
-> > 
-> > But this time there is a conflicting patchset which is reworking
-> > the entire lib/test_printf.c file, see
-> > 20250307-printf-kunit-convert-v6-0-4d85c361c241@gmail.com
-> 
-> Link seems to be broken
+We're getting closer, but:
 
-It works fine. Because it's not a link, it's Message-ID, you need to add
-https://lore.kernel.org/r/ in front of it.
+- Please wrap your changelog at <80 columns
+- You should copy Willy and put a Suggested-by tag as well
+- You need to fix index.rst as well or you'll break the docs build.
 
-> > And it will likely be ready for the next merge window as well.
-> > I am going to review it right away.
-> > 
-> > It is even more complicated because the patchset converting
-> > the printf test module to KUNIT depends on another changes
-> > in Kees' tree (moving kunit test modules to lib/tests/).
-> > So it might be easier when it goes via Kees' tree.
-> > 
-> > And it might be easier when even this patch goes via Kees' tree.
-> > 
-> > My proposal:
-> > 
-> > I suggest to separate the fourcc_pointer() test update
-> > to a separate patch and add it later after the merge window
-> > when things settle down.
-> > 
-> > I mean to send the vsprintf.c, checkpatch.pl, and doc update
-> > via DRM tree together with the new appletbdrm.c driver.
-> 
-> Sounds good. At least we can get it working. I’ll make sure the self
-> tests get updated once 6.15-rc1 gets released, or Kees can share
-> his tree, where I can add the tests as well.
-> 
-> I’ll send a v2 so that Thomas can take them up.
-> > 
-> > And update the selftest later when both DRM tree and KUNIT
-> > update reaches mainline.
-> > 
-> > How does that sound, please?
+Thanks,
 
-To me sounds good, but I'm not a maintainer involved in all this :-)
+jon
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> diff --git a/Documentation/admin-guide/highuid.rst b/Documentation/admin-guide/highuid.rst
+> deleted file mode 100644
+> index 9239067563a1..000000000000
+> --- a/Documentation/admin-guide/highuid.rst
+> +++ /dev/null
+> @@ -1,80 +0,0 @@
+> -===================================================
+> -Notes on the change from 16-bit UIDs to 32-bit UIDs
+> -===================================================
+> -
+> -:Author: Chris Wing <wingc@umich.edu>
+> -:Last updated: January 11, 2000
+> -
+> -- kernel code MUST take into account __kernel_uid_t and __kernel_uid32_t
+> -  when communicating between user and kernel space in an ioctl or data
+> -  structure.
+> -
+> -- kernel code should use uid_t and gid_t in kernel-private structures and
+> -  code.
+> -
+> -What's left to be done for 32-bit UIDs on all Linux architectures:
+> -
+> -- Disk quotas have an interesting limitation that is not related to the
+> -  maximum UID/GID. They are limited by the maximum file size on the
+> -  underlying filesystem, because quota records are written at offsets
+> -  corresponding to the UID in question.
+> -  Further investigation is needed to see if the quota system can cope
+> -  properly with huge UIDs. If it can deal with 64-bit file offsets on all 
+> -  architectures, this should not be a problem.
+> -
+> -- Decide whether or not to keep backwards compatibility with the system
+> -  accounting file, or if we should break it as the comments suggest
+> -  (currently, the old 16-bit UID and GID are still written to disk, and
+> -  part of the former pad space is used to store separate 32-bit UID and
+> -  GID)
+> -
+> -- Need to validate that OS emulation calls the 16-bit UID
+> -  compatibility syscalls, if the OS being emulated used 16-bit UIDs, or
+> -  uses the 32-bit UID system calls properly otherwise.
+> -
+> -  This affects at least:
+> -
+> -	- iBCS on Intel
+> -
+> -	- sparc32 emulation on sparc64
+> -	  (need to support whatever new 32-bit UID system calls are added to
+> -	  sparc32)
+> -
+> -- Validate that all filesystems behave properly.
+> -
+> -  At present, 32-bit UIDs _should_ work for:
+> -
+> -	- ext2
+> -	- ufs
+> -	- isofs
+> -	- nfs
+> -	- coda
+> -	- udf
+> -
+> -  Ioctl() fixups have been made for:
+> -
+> -	- ncpfs
+> -	- smbfs
+> -
+> -  Filesystems with simple fixups to prevent 16-bit UID wraparound:
+> -
+> -	- minix
+> -	- sysv
+> -	- qnx4
+> -
+> -  Other filesystems have not been checked yet.
+> -
+> -- The ncpfs and smbfs filesystems cannot presently use 32-bit UIDs in
+> -  all ioctl()s. Some new ioctl()s have been added with 32-bit UIDs, but
+> -  more are needed. (as well as new user<->kernel data structures)
+> -
+> -- The ELF core dump format only supports 16-bit UIDs on arm, i386, m68k,
+> -  sh, and sparc32. Fixing this is probably not that important, but would
+> -  require adding a new ELF section.
+> -
+> -- The ioctl()s used to control the in-kernel NFS server only support
+> -  16-bit UIDs on arm, i386, m68k, sh, and sparc32.
+> -
+> -- make sure that the UID mapping feature of AX25 networking works properly
+> -  (it should be safe because it's always used a 32-bit integer to
+> -  communicate between user and kernel)
+> -- 
+> 2.48.1
