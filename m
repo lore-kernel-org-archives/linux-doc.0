@@ -1,115 +1,132 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F0618952C;
-	Thu, 13 Mar 2025 18:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268191EBA09;
+	Thu, 13 Mar 2025 18:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741890676; cv=none; b=gHJBT816EVEx71dcW0OOvCdiwmD8akBAnBcdBHthaMLCgT0TeFwm0euGe24QoISo+vK3en+oAtxiPJhjk1WPpDpCT9L5Fm5qeB0R+MnG6C45IFtfwci0bt5LeZ3bv721G7UHGjNC2GV7+pR2OKHbHqZ1oux1zlN+vqhfitVQuUM=
+	t=1741890975; cv=none; b=QTilHRp82VTImzZU0l9vSEjA6oTjiV+9FmpdIZVeelWx2v63271ZCpAZSaMdqr2eNaC3S+SwvdJk1KmYd7YKTc643ZPpW659Whf9eo5VxF3Acrx7zqEttITa39dbPgDx6gcYBYp8k9VNVxNji3fImBFkhaQHjxJaGKmnrTNI6hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741890676; c=relaxed/simple;
-	bh=R7IKmWAfEV6dguBunqVGGqHpFRfFDM8SuXUyyQU9jxc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sGlOWe324XwVpGMBJ6QFPV52UW2QfT7liW2i03E35dmYoDPRWY7X20f6GVSJ52DeggmO8muwDFHfvzIF+0Dy69vtLnVZTHmJ4AJQekAsJZg6Cec2tg14sWOEH2oWtxmRC+4qtbRSKwBrFyY9EmPqbGLqbSb5Dmwmcyn8Y7V5kjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dff/ayra; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741890975; c=relaxed/simple;
+	bh=noNqbEqWozEmWb8r+oEsKLOqlleIkAazUiumENMSLF0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ACYZEjPixhbApy7aYWrfe/R0ZqEQcVXzNdwX4ziTGR2EFDZimrGtC+FrJ0dsKDw54MOwmw02ebBetr/vC0hzHbHxwoA05EEwJ8kPwRLNrKcq0Gkpvt47dkqCwXNOT3AAGEqQtfnfHEvThCAKRmthooPyk4ig8/RzB128HBz1eXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h/HNnNqr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dff/ayra"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-22403cbb47fso27007075ad.0;
-        Thu, 13 Mar 2025 11:31:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741890674; x=1742495474; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Jt5WSssG+OEvsuPkFz6BZY4vYElG8JeyaALVDa3jMX0=;
-        b=dff/ayraWXwHg6p5rLQCltUtU/IfTflDLBIUaXJyRSlk57Wm1AbrhmRr0PVMVHsAha
-         F6DE+WtNPHZmlLvyW4UBTt/OwjTVRTfc/qfQYrMa7G1j0bqwKSDr3Oe9tqpQnc8kxwvM
-         4waY2BbSmxWMxRnCIoQ3z0ivEWTaflEeTCFelcpGiABIgRN9AkhJX/eCCu7iqQaXX6AG
-         kdCqkplArE49svpeJReu9Lu4ZU+K6CSisnnSPrGDq8yjSqlGpV23bLX5dW4rE2NWRtD+
-         n1FEjfguBv2IfUfnNJRXg90J5c0bUlpJagZPXeMCJM2b5DqEgRgRyuG0My9KSX3VeeWc
-         UiDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741890674; x=1742495474;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Jt5WSssG+OEvsuPkFz6BZY4vYElG8JeyaALVDa3jMX0=;
-        b=rsowbsunLTIiH0jbdGJXsmR/MM5Q/AVzeCSpdSh4/jpGrN8GRTxFVh+WgqOXk8Q780
-         rwfWNto0HMK75bRWaUx7bw6nmsUJVJ5rNFW7X2UckrYHuquVEyMuzgsk0ehDKgaBWiF6
-         HpBAm1zwErZcI+XRRDLFeb5oRaMdQAvDS+nWteQv+yj1njzTYd5DmMrdqB25UF6Qs6wz
-         rPKTBktnSzRi6HcKDw+D4I7XVCqnZWE07orBi5U/lKn1VBkr8Ga4DQTjOelziiPo146j
-         eDN0/u+v6h/eYrSygHGFW83V2Rq1J1JWmhtXeUxGN5rEt9BB+bDgTfufpYkgI//uinBh
-         3fqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUImNb7MkHMTBjXdvHNY0EXGH9BMGNHprXVAMf+gT/2CH2YmVyk7FfvloHZUPGZB8xslh/HvxTPBVQlThiLEGMg@vger.kernel.org, AJvYcCUrGnr29cMpHGmhE0ycHOK8AsKpsPiND074iCE3BEwyonEYY13ZiwONAiRaJj4f5nIuSNrYREuz5Z8=@vger.kernel.org, AJvYcCVR6mFPW43MtfhW4JyPt6klpjBFx4r87d7kUw/h/UeJ+uSFcNQagVWrDrvzGjqZfIOvQsTUABNtwMsTQxJU@vger.kernel.org, AJvYcCWVJvpdi+eLgH1Ofo9X62XKzUdfpnNPawnw1HQLvDeyGpQy1qpSNzX1ERvuqT8GXziKNq7b5WZptF2d@vger.kernel.org, AJvYcCXIj2oyBIvf4gWeufYtUtkRY3rJYeHDLGbq5dhA4GYi0U4Wme7Rj0pTuk7IcdmPHB5SVO/7NWS4HKOz1Q==@vger.kernel.org, AJvYcCXZdAn4kbT6LtpspRLSWF5Cwp9+T2p+5Nnh+wGKuCtAvrWqtQW0WluD1qNyhPsZx6m0LD4OG24uSljh0fT8@vger.kernel.org, AJvYcCXn6PaI1SVup/bV48s5z7r5XVsONOs76go4Ay35TXDZ6lQVm//S4M6GV03JOCv+3YtOZF+BZHhzmWHm@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbWnl5NeA0GSRt7wB2hnzRQn8F9Zr7+ZOw2Jgs/n2JC0Pit5wy
-	l1sVjprXJFVcVKbhe3rVo75iV1qiIx/6AQrrmwcW/yf2dS9RN7TJ
-X-Gm-Gg: ASbGncuu5XTUUEkl3CP5/txGMxGJs6XxxLXABNaLqRFgw0sZVZcxq2Lz6rmEIlTQ2Q+
-	/st1MO6SuW59FwxeRWSgpWcJeqoQqS//Zl6+kaR2Uy998yUXV2cmvgWFUEfuxvsGQp0ovCcDv5f
-	t+nAok/Vk9NKIlIaos+0bL51SNlEiyu30FGlCl1HFDv+jqtgg7Qvh2tucIz8r8qCAZvmol+y+NB
-	/DodUZ82F36+9nPPeboERoRE5yZ85eXBEDfpD+QmeMzvXE5xtwfL/vsQc6uF53nbZsjIUS9Nvyw
-	Az2k56nCjzOT+/Y3Po1Ct6uBxqT9RDj+QkG4nJWgw5m8wBH1g+fD+Kw5qA==
-X-Google-Smtp-Source: AGHT+IHUyL3JZBiKaHL1hLSTeQrgywlLwwEUN5of1N0Gy8TC0X3IRTq509SX5+fcaAZt7Xsc6jRvwQ==
-X-Received: by 2002:a17:902:d48f:b0:220:fb23:48df with SMTP id d9443c01a7336-225dd8ed442mr5472005ad.36.1741890673680;
-        Thu, 13 Mar 2025 11:31:13 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3011926599csm4185647a91.35.2025.03.13.11.31.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 11:31:13 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 13 Mar 2025 11:31:12 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Alessandro Carminati <acarmina@redhat.com>,
-	linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Daniel Diaz <daniel.diaz@linaro.org>,
-	David Gow <davidgow@google.com>,
-	Arthur Grillo <arthurgrillo@riseup.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Naresh Kamboju <naresh.kamboju@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Alessandro Carminati <alessandro.carminati@gmail.com>,
-	Jani Nikula <jani.nikula@intel.com>,
-	dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, loongarch@lists.linux.dev, x86@kernel.org
-Subject: Re: [PATCH v4 00/14] Add support for suppressing warning backtraces
-Message-ID: <c8287bde-fa1c-4113-af22-4701d40d386e@roeck-us.net>
-References: <20250313114329.284104-1-acarmina@redhat.com>
- <202503131016.5DCEAEC945@keescook>
- <20250313-abiding-vivid-robin-159dfa@houat>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h/HNnNqr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FAEBC4CEE3;
+	Thu, 13 Mar 2025 18:36:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741890974;
+	bh=noNqbEqWozEmWb8r+oEsKLOqlleIkAazUiumENMSLF0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=h/HNnNqra92rwOtBSLrZYKtv3i4wYf3e0w1wkpDU+50RtKRiaiHiK99B01QMkiV26
+	 4vWx7Bsfkl6b1D2c+z/Q/61EFzU8MmxNMbhxdIxefn0yyO9QogszYYj7RcTNWPHMjV
+	 qIprYoFVtNk7kt1Y5ToOA9NWDet7gBIDZTdeF2zQIgRWciKmbieoXlgZ9f6qwA8N+J
+	 8CrEpbGixi5fOo2MN0WrcUiIjSHYERG06Te4Jo/2VM46BydjX3ntLSE5sbwIqEBpPc
+	 uMOJAfbxtltCqjC3ZlX7TNNh2gpwRMgNN7jSG3TK6iDp0C/NYwLtuptXKQUuQLUeK0
+	 WjRSaEhsPKQCg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tsnPg-00DK9R-1h;
+	Thu, 13 Mar 2025 18:36:12 +0000
+Date: Thu, 13 Mar 2025 18:36:10 +0000
+Message-ID: <86h63wok11.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: =?UTF-8?B?TWlrb8WCYWo=?= Lenczewski <miko.lenczewski@arm.com>,
+	suzuki.poulose@arm.com,	yang@os.amperecomputing.com,	corbet@lwn.net,
+	catalin.marinas@arm.com,	will@kernel.org,	jean-philippe@linaro.org,
+	robin.murphy@arm.com,	joro@8bytes.org,	akpm@linux-foundation.org,
+	mark.rutland@arm.com,	joey.gouly@arm.com,	james.morse@arm.com,
+	broonie@kernel.org,	anshuman.khandual@arm.com,	oliver.upton@linux.dev,
+	ioworker0@gmail.com,	baohua@kernel.org,	david@redhat.com,	jgg@ziepe.ca,
+	shameerali.kolothum.thodi@huawei.com,	nicolinc@nvidia.com,
+	mshavit@google.com,	jsnitsel@redhat.com,	smostafa@google.com,
+	linux-doc@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,	iommu@lists.linux.dev
+Subject: Re: [PATCH v3 1/3] arm64: Add BBM Level 2 cpu feature
+In-Reply-To: <f244c20e-e11c-477b-9487-cb6738c028ca@arm.com>
+References: <20250313104111.24196-2-miko.lenczewski@arm.com>
+	<20250313104111.24196-3-miko.lenczewski@arm.com>
+	<86ikocomvd.wl-maz@kernel.org>
+	<f244c20e-e11c-477b-9487-cb6738c028ca@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250313-abiding-vivid-robin-159dfa@houat>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ryan.roberts@arm.com, miko.lenczewski@arm.com, suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org, jean-philippe@linaro.org, robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org, mark.rutland@arm.com, joey.gouly@arm.com, james.morse@arm.com, broonie@kernel.org, anshuman.khandual@arm.com, oliver.upton@linux.dev, ioworker0@gmail.com, baohua@kernel.org, david@redhat.com, jgg@ziepe.ca, shameerali.kolothum.thodi@huawei.com, nicolinc@nvidia.com, mshavit@google.com, jsnitsel@redhat.com, smostafa@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Thu, Mar 13, 2025 at 06:24:25PM +0100, Maxime Ripard wrote:
-> > 
-> > Yeah, as with my prior review, I'm a fan of this. It makes a bunch of my
-> > very noisy tests much easier to deal with.
-> 
-> And for the record, we're also affected by this in DRM and would very
-> much like to get it merged in one shape or another.
-> 
+On Thu, 13 Mar 2025 18:22:00 +0000,
+Ryan Roberts <ryan.roberts@arm.com> wrote:
+>=20
+> On 13/03/2025 17:34, Marc Zyngier wrote:
+> > On Thu, 13 Mar 2025 10:41:10 +0000,
+> > Miko=C5=82aj Lenczewski <miko.lenczewski@arm.com> wrote:
+> >>
+> >> diff --git a/arch/arm64/kernel/pi/idreg-override.c b/arch/arm64/kernel=
+/pi/idreg-override.c
+> >> index c6b185b885f7..9728faa10390 100644
+> >> --- a/arch/arm64/kernel/pi/idreg-override.c
+> >> +++ b/arch/arm64/kernel/pi/idreg-override.c
+> >> @@ -209,6 +209,7 @@ static const struct ftr_set_desc sw_features __pre=
+l64_initconst =3D {
+> >>  		FIELD("nokaslr", ARM64_SW_FEATURE_OVERRIDE_NOKASLR, NULL),
+> >>  		FIELD("hvhe", ARM64_SW_FEATURE_OVERRIDE_HVHE, hvhe_filter),
+> >>  		FIELD("rodataoff", ARM64_SW_FEATURE_OVERRIDE_RODATA_OFF, NULL),
+> >> +		FIELD("nobbml2", ARM64_SW_FEATURE_OVERRIDE_NOBBML2, NULL),
+> >>  		{}
+> >>  	},
+> >>  };
+> >> @@ -246,6 +247,7 @@ static const struct {
+> >>  	{ "rodata=3Doff",			"arm64_sw.rodataoff=3D1" },
+> >>  	{ "arm64.nolva",		"id_aa64mmfr2.varange=3D0" },
+> >>  	{ "arm64.no32bit_el0",		"id_aa64pfr0.el0=3D1" },
+> >> +	{ "arm64.nobbml2",		"arm64_sw.nobbml2=3D1" },
+> >=20
+> > Why is that a SW feature? This looks very much like a HW feature to
+> > me, and you should instead mask out ID_AA64MMFR2_EL1.BBM, and be done
+> > with it. Something like:
+>=20
+> I think this implies that we would expect the BBM field to be advertising=
+ BBML2
+> support normally and we would check for that as part of the cpufeature
+> detection. That's how Miko was doing it in v2, but Yang pointed out that
+> AmpereOne, which supports BBML2+NOABORT semantics, doesn't actually adver=
+tise
+> BBML2 in its MMFR2. So we don't want to check that field, and instead rely
+> solely on the MIDR allow-list + a command line override. It was me that
+> suggested putting that in the SW feature register, and I think that still=
+ sounds
+> like the right solution for this situation?
 
-I was unable to get maintainers of major architectures interested enough
-to provide feedback, and did not see a path forward. Maybe Alessandro
-has more success than me.
+I think this is mixing two different things:
 
-Guenter
+- preventing BBM-L2 from being visible to the kernel: this is what my
+  suggestion is doing by nuking an architectural feature in the
+  relevant register
+
+- random HW not correctly advertising what they are doing: this is an
+  erratum workaround
+
+I'd rather we don't conflate the two things, and make them very
+explicitly distinct.
+
+Thanks,
+
+	M.
+
+--=20
+Without deviation from the norm, progress is not possible.
