@@ -1,210 +1,136 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73C21FF7C5
-	for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 13:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E487485;
+	Fri, 14 Mar 2025 14:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741960445; cv=none; b=bYpNfdVEOSOoBkLQ/LUjbGC16XNVZ2MMNEdxrGWO89Bv5TDZwhcQpOr8RNOMYxZ3si1ReYcI6VLHuNImegf3saXCyy1UeieRkxArfjmT/a9CjoIbsyDeBfL+c+e0GNaQfsUDrCwUT1BmSliom8f/gHitXNLwZ2Ql2afITtN39Zw=
+	t=1741962691; cv=none; b=kHGgwS7lMGeFAicqHwe3bDY+910cpsJxIoul/n7gmXjdgEnwLGXyXW9C55eCOCM9UTbED2e7LLfYP9OLsZPez34YkUvMl3NqpyJupKtiYfTkDc4GbS8SJNFceiOodTpBSb+zgV/AtxSeIO63l+7zUkOGU4eR6hDGS8oIfRFpjdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741960445; c=relaxed/simple;
-	bh=hkuxj9Z6LalKPIM3SuTs15HhyoVDZbez+SnQN16sWVg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZcLMMvLqdmn6j+KrkSmcfQyHNY3YyHkIDvmt6KN1h0QXdY7fT8OWI6iRVu4CYp4ga+1Zbk7Jzr7+yjNfdo3sHNTK3evo47XCbuXiM7pdrEeJT3hJXjnb8I5EqDyh1ZDWVv7hOtCmTYGMrP47M2YnzpWeGy1+gv7YsWP+j1NXVmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=gQvd/ZRR; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1741962691; c=relaxed/simple;
+	bh=ym1t0HhYzi+uNqAzKhYR0HUnH6j3cdUQ68UUxTYpXMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SZLIFJr+ARf95vblVH5Dp5ZA1aPtq8ECeQPinwoDaxvur/uj9KTOCqNzMIFgMxYzBrr40Us6kWaiCyQ48U3qAvVBJNbv+bpyWIGwA8iBUoWl/Ppldn0eRhrThIKtKXWEkeLCp5sFYjF7V9Nk6wtiJT/Rj4ChRjWSESPxaG4QlH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b/1YYG7t; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="gQvd/ZRR"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-394780e98easo1392928f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 06:54:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b/1YYG7t"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2239c066347so46041535ad.2;
+        Fri, 14 Mar 2025 07:31:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1741960440; x=1742565240; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Fagz20QrFuAHZhTQ6FrQZLAd/rBpo65R2q5CpO1e6Ms=;
-        b=gQvd/ZRRu6LYDSLMLDmBfNswGH/Et4f+0d3rlUMDhuloBWJEItFLzR5tg6tNiHhXVb
-         cDX24d8I4MUBPr4C1p0MyJj2j1p7NPSHSFXzphxvW7NLPQh6nhyLyKyh3OapZdWdvz/N
-         vXSg40qKzeC+FJacbQKjWgcFsfXDIQ/ISHkNgoeLNttT4jzLLhq/ekd/hZ63XG8tmr37
-         ntYCjx3lLJVGmnvL2RZqzP5tLNGW6PRl0IMPrFbyVRgF0jJlkjfHt3tDh6Jjsnlk8X2O
-         c2gtYIeIGQDaKjTHTW9uezxIn167j0zQ3BOVTLMEBIW+jDocyq9GJ65U2EbZWH2ptowr
-         VQjA==
+        d=gmail.com; s=20230601; t=1741962689; x=1742567489; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SrjknHmgf65ssRMbGjRwe0QuLHCWzzid6s0x5foLqw0=;
+        b=b/1YYG7ty/XdFz55MEBqKZkNdlazVxy7yy7MgzCoH7yx0F2cnga019fGVRQj3NKzm4
+         5GyuppzjGChhp90qkrahUnZn+3t9H2SJsfJuysGzigMuNlsp3LJEHkYDjRnixslenJbe
+         ZkhuDSSnlXJd62whT59a81QmC0qCpcz6r0urgxBIbCqLokxiLpnJNoXrUGnUHfXYxZ9I
+         VvkDTCe0mPK843EK3Gs0C12FIEpUqhX9TqvlSkUtO26VOERH4h03BfCI7PTayBC8cQni
+         kYFwvgLFA+4xTCZovxYKihZBfiJacU6J43S8bDco1udTgzwPwiz+0J3Rvv3lqH5OhWbo
+         588g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741960440; x=1742565240;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fagz20QrFuAHZhTQ6FrQZLAd/rBpo65R2q5CpO1e6Ms=;
-        b=Wxc6kudPu/We6eFPZOR6ILo1Yd/GIiaiMUEidPqf94CwK0MVeJMmR9n5HhCUhCDxAw
-         hPrfo+/rpxFDIhs8ZK90z6I1DZoCocbKnm9jznTZ3MIviXh4dmT1LQQRYrGUcZvC8DiP
-         DolvH+SY23k9oHQKnq4OC5+5yaW9/Fr7aWKecILzVDZ4BTYnlQJ54Lc573GV5UGvSlWC
-         trd65t2pb8c4IAvPu0cSy8jz6C2I46gqFQtrXIdhmUNvZRF+4ONAF/QRHg/Gcy74/Wrl
-         c5IwkI8VDQzEKnWkLRvD4fwyEqhzzyZr5xKZ+lZQbElqI7Exs4EVIY4KEYYoiVvK53Sn
-         Zc1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXwGHmNBgc+FiH+9aWqv6WmK+iv2+byuBU1FgwwXWBQAwPAMYsZHKAgK2B+IotTwSzzDN/eKkiPiT4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzO+q+6CBzwaIxQSN5YlZSlPFHLqiQ+qp8ZznUxUOwws8BrprV/
-	YVvvRXONFMr0yWJ0biIkwFrOmx0TU7t60PO02JsGvKRjUVoJTkWjXr1qGX/4rNA=
-X-Gm-Gg: ASbGnctVchXh6KvSduZkkm4UC9HPAe+kafMFdCmgOIgqNT/g54qBCZs3oHPz44/JwuQ
-	wd2gwksSbmlVdkO9O2fF0RCmAFLfav1tkO56j5tH4H7EoRLtdgOTUiduO1gKDPeiCF2j5xb9S5R
-	n72DtobF5OkCSvTsjNnscGwrafQDHBFGyqOF5UJrTNj9HNeSYwBMq41qdII8wI1vv3BPTIlrQWu
-	ZHVTLqbEfuTSHSGUynObwU08O7qSZrCyDO8iQoBdkRPIzg3w9OKLVsHQbijg3rZh9xk01Dbp6hQ
-	M7Uz9//3W62rYh/MjLKR19H6Mzq9IGOhKUah7cavlfwGK8MGxdBN5a6VKZ9EgYkwHda4Q070rqG
-	YhbW7x/svtSgGvg==
-X-Google-Smtp-Source: AGHT+IFiUfIYzj4rjDfIocFY+Zq89FGHUz0Fh/cjhy+mbnj+WnaTwAetyDwYahJAg/CF95TRVy0QHw==
-X-Received: by 2002:a05:6000:2a6:b0:391:1806:e23d with SMTP id ffacd0b85a97d-3971d03d1b7mr3515213f8f.6.1741960439864;
-        Fri, 14 Mar 2025 06:53:59 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb7eb8c2sm5503118f8f.85.2025.03.14.06.53.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Mar 2025 06:53:59 -0700 (PDT)
-Message-ID: <ed45849c-12b6-446e-b7ad-3e0469378b4d@rivosinc.com>
-Date: Fri, 14 Mar 2025 14:53:58 +0100
+        d=1e100.net; s=20230601; t=1741962689; x=1742567489;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SrjknHmgf65ssRMbGjRwe0QuLHCWzzid6s0x5foLqw0=;
+        b=HowxtV/M31Vf4gEhcphxnJJYj7Cdl6uc2fJsXGAuCYxfKBKB4knGQ4ftjMxtLDtDHa
+         gapMZPx1pFvfpqHe2nrBPkcW2Lu3Vlv2SPvd8Qnc+a4p+l2w4IPAjo9QxMLdxgkd2BZN
+         gSjGFVUYbUHzTgAMStN39xKZuKC+4ZyVkVYqf4NBgU/YTbcerPPITAzpLG2tm+oxo55+
+         BQBAr+q+9vsmDdQdOy3m8Aavf60EbLD0qim6y/CpaFrOK0cNMv2AbynZZ1UYezyYhgXT
+         PaPU+hXvY9NOK34PZVa7nxhw3lesAhgPvzBA7Pc91OpoLXUML4e73hsmTQLFkiR8sc23
+         606Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW1lXmsK6z9pZSXxldB6K2Z75zk2Bv5lXjI+AFj753Cz6s5XEanPRRPMx7UldG4m2SZEOx0zmnkjmE=@vger.kernel.org, AJvYcCWEePq8ru+Ki6qzHTwtNhxSPd9hNDp8fn/WqZ+lOXlVSn5VhQ/GLtkwBdC8SuTjaTbOWLZqgjesYQXycA==@vger.kernel.org, AJvYcCWOGx/z1DmwvXdelVP6I9BOZ6HT/8bBtZDAJfN2uI3/MyG0/x0RH0DFUvnhJhETRQuWJnotQ3dr@vger.kernel.org, AJvYcCWkkoCNAuCh1z2vJv6IedTYb2X/iqwYoitzwKsJFJy6w8BBz2DUoQQybTr8SzPsDV1Z85aoeROqoo8K6dph@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZvKzKMz22n/6+xZOgG7hEMeEQd7bQiovKfkQpXEQmv4UWSTie
+	Sd3tziSKK2J1HXxF7kL+AAKuJV58GIl3PqmOUWp9ChJhJMs0yaY=
+X-Gm-Gg: ASbGncvH960lHcRsPHxVxGrJ2pUuhXmnfmg7Phrk8VQI3tYTptYZOEtYVDYTrtdAHC+
+	agBj6RYcje9n2rC4qIIHGR7Rcl5Oxy7XXuM/kph3wzvysBKAJANqZ5yj+voVGIJmqGsBKlZwcgW
+	bUP4bUvQNr2mUrsLM8ZGuNbRGHkKpqa8W/PNLIeziIid2jxEofGRlsh63OJhiPInSsu2HUmdPum
+	AllTbo0w3NPqz63yZ+5M8qI0bdiCiSB0umWnpiUwaqL+cDg50s+qaU1um7wm7lArXp5evf4/Ke2
+	H54fE4ixRf5TjIb0KtdM0zoTbHFmNxWLDzpzRmGKeWlP
+X-Google-Smtp-Source: AGHT+IFJDqwdI6R+aufvCxuFg6s86CheuRTM4g3HmlZAvyFwPx9dHRbgZdyuUHEYvNKRcVKJeJG2/w==
+X-Received: by 2002:a17:903:2388:b0:21f:4c8b:c514 with SMTP id d9443c01a7336-225e0b14e9fmr36237525ad.45.1741962689271;
+        Fri, 14 Mar 2025 07:31:29 -0700 (PDT)
+Received: from localhost ([2601:646:9e00:f56e:2844:3d8f:bf3e:12cc])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-225c68884b6sm29234745ad.3.2025.03.14.07.31.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Mar 2025 07:31:28 -0700 (PDT)
+Date: Fri, 14 Mar 2025 07:31:28 -0700
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Gal Pressman <gal@nvidia.com>,
+	Mark Bloch <mbloch@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Yael Chemla <ychemla@nvidia.com>
+Subject: Re: [PATCH net-next 4/4] net/mlx5e: Expose port reset cycle recovery
+ counter via ethtool
+Message-ID: <Z9Q9wBuDYHvEc4zY@mini-arch>
+References: <1741893886-188294-1-git-send-email-tariqt@nvidia.com>
+ <1741893886-188294-5-git-send-email-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 14/17] RISC-V: KVM: add SBI extension init()/deinit()
- functions
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
- Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
- linux-kselftest@vger.kernel.org, Samuel Holland <samuel.holland@sifive.com>
-References: <20250310151229.2365992-1-cleger@rivosinc.com>
- <20250310151229.2365992-15-cleger@rivosinc.com>
- <20250313-f08cee46c912f729d1829d37@orel>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20250313-f08cee46c912f729d1829d37@orel>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1741893886-188294-5-git-send-email-tariqt@nvidia.com>
 
-
-
-On 13/03/2025 15:27, Andrew Jones wrote:
-> On Mon, Mar 10, 2025 at 04:12:21PM +0100, Clément Léger wrote:
->> The FWFT SBI extension will need to dynamically allocate memory and do
->> init time specific initialization. Add an init/deinit callbacks that
->> allows to do so.
->>
->> Signed-off-by: Clément Léger <cleger@rivosinc.com>
->> ---
->>  arch/riscv/include/asm/kvm_vcpu_sbi.h |  9 +++++++++
->>  arch/riscv/kvm/vcpu.c                 |  2 ++
->>  arch/riscv/kvm/vcpu_sbi.c             | 29 +++++++++++++++++++++++++++
->>  3 files changed, 40 insertions(+)
->>
->> diff --git a/arch/riscv/include/asm/kvm_vcpu_sbi.h b/arch/riscv/include/asm/kvm_vcpu_sbi.h
->> index 4ed6203cdd30..bcb90757b149 100644
->> --- a/arch/riscv/include/asm/kvm_vcpu_sbi.h
->> +++ b/arch/riscv/include/asm/kvm_vcpu_sbi.h
->> @@ -49,6 +49,14 @@ struct kvm_vcpu_sbi_extension {
->>  
->>  	/* Extension specific probe function */
->>  	unsigned long (*probe)(struct kvm_vcpu *vcpu);
->> +
->> +	/*
->> +	 * Init/deinit function called once during VCPU init/destroy. These
->> +	 * might be use if the SBI extensions need to allocate or do specific
->> +	 * init time only configuration.
->> +	 */
->> +	int (*init)(struct kvm_vcpu *vcpu);
->> +	void (*deinit)(struct kvm_vcpu *vcpu);
->>  };
->>  
->>  void kvm_riscv_vcpu_sbi_forward(struct kvm_vcpu *vcpu, struct kvm_run *run);
->> @@ -69,6 +77,7 @@ const struct kvm_vcpu_sbi_extension *kvm_vcpu_sbi_find_ext(
->>  bool riscv_vcpu_supports_sbi_ext(struct kvm_vcpu *vcpu, int idx);
->>  int kvm_riscv_vcpu_sbi_ecall(struct kvm_vcpu *vcpu, struct kvm_run *run);
->>  void kvm_riscv_vcpu_sbi_init(struct kvm_vcpu *vcpu);
->> +void kvm_riscv_vcpu_sbi_deinit(struct kvm_vcpu *vcpu);
->>  
->>  int kvm_riscv_vcpu_get_reg_sbi_sta(struct kvm_vcpu *vcpu, unsigned long reg_num,
->>  				   unsigned long *reg_val);
->> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
->> index 60d684c76c58..877bcc85c067 100644
->> --- a/arch/riscv/kvm/vcpu.c
->> +++ b/arch/riscv/kvm/vcpu.c
->> @@ -185,6 +185,8 @@ void kvm_arch_vcpu_postcreate(struct kvm_vcpu *vcpu)
->>  
->>  void kvm_arch_vcpu_destroy(struct kvm_vcpu *vcpu)
->>  {
->> +	kvm_riscv_vcpu_sbi_deinit(vcpu);
->> +
->>  	/* Cleanup VCPU AIA context */
->>  	kvm_riscv_vcpu_aia_deinit(vcpu);
->>  
->> diff --git a/arch/riscv/kvm/vcpu_sbi.c b/arch/riscv/kvm/vcpu_sbi.c
->> index d1c83a77735e..858ddefd7e7f 100644
->> --- a/arch/riscv/kvm/vcpu_sbi.c
->> +++ b/arch/riscv/kvm/vcpu_sbi.c
->> @@ -505,8 +505,37 @@ void kvm_riscv_vcpu_sbi_init(struct kvm_vcpu *vcpu)
->>  			continue;
->>  		}
->>  
->> +		if (!ext->default_disabled && ext->init &&
->> +		    ext->init(vcpu) != 0) {
->> +			scontext->ext_status[idx] = KVM_RISCV_SBI_EXT_STATUS_UNAVAILABLE;
->> +			continue;
->> +		}
+On 03/13, Tariq Toukan wrote:
+> From: Yael Chemla <ychemla@nvidia.com>
 > 
-> I think this new block should be below the assignment below (and it can
-> drop the continue) and it shouldn't check default_disabled (as I've done
-> below). IOW, we should always run ext->init when there is one to run here.
-> Otherwise, I how will it get run later?
-
-Ok, i did not saw that there was a possibility to enable the extension
-at a later time. I'll fix that.
-
-Thanks,
-
-Clément
-
+> Display recovery event of PPCNT recovery counters group. Counts (per
+> link) the number of total successful recovery events of any recovery
+> types during port reset cycle.
 > 
->> +
->>  		scontext->ext_status[idx] = ext->default_disabled ?
->>  					KVM_RISCV_SBI_EXT_STATUS_DISABLED :
->>  					KVM_RISCV_SBI_EXT_STATUS_ENABLED;
+> Signed-off-by: Yael Chemla <ychemla@nvidia.com>
+> Reviewed-by: Cosmin Ratiu <cratiu@nvidia.com>
+> Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
+> ---
+>  .../ethernet/mellanox/mlx5/counters.rst       |  5 +++
+>  .../ethernet/mellanox/mlx5/core/en_stats.c    | 44 ++++++++++++++++---
+>  .../ethernet/mellanox/mlx5/core/en_stats.h    |  4 ++
+>  3 files changed, 48 insertions(+), 5 deletions(-)
 > 
->                 if (ext->init && ext->init(vcpu))
->                     scontext->ext_status[idx] = KVM_RISCV_SBI_EXT_STATUS_UNAVAILABLE;
-> 
->>  	}
->>  }
->> +
->> +void kvm_riscv_vcpu_sbi_deinit(struct kvm_vcpu *vcpu)
->> +{
->> +	struct kvm_vcpu_sbi_context *scontext = &vcpu->arch.sbi_context;
->> +	const struct kvm_riscv_sbi_extension_entry *entry;
->> +	const struct kvm_vcpu_sbi_extension *ext;
->> +	int idx, i;
->> +
->> +	for (i = 0; i < ARRAY_SIZE(sbi_ext); i++) {
->> +		entry = &sbi_ext[i];
->> +		ext = entry->ext_ptr;
->> +		idx = entry->ext_idx;
->> +
->> +		if (idx < 0 || idx >= ARRAY_SIZE(scontext->ext_status))
->> +			continue;
->> +
->> +		if (scontext->ext_status[idx] == KVM_RISCV_SBI_EXT_STATUS_UNAVAILABLE ||
->> +		    !ext->deinit)
->> +			continue;
->> +
->> +		ext->deinit(vcpu);
->> +	}
->> +}
->> -- 
->> 2.47.2
->>
-> 
-> Thanks,
-> drew
+> diff --git a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/counters.rst b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/counters.rst
+> index 99d95be4d159..f9a1cf370b5a 100644
+> --- a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/counters.rst
+> +++ b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/counters.rst
+> @@ -1082,6 +1082,11 @@ like flow control, FEC and more.
+>         need to replace the cable/transceiver.
+>       - Error
+>  
+> +  * - `total_success_recovery_phy`
+> +     - The number of total successful recovery events of any type during
+> +       ports reset cycle.
+> +     - Error
+> +
 
+html build complains with the following:
+Sphinx parallel build error:
+docutils.utils.SystemMessagePropagation: <system_message level="3" line="896" source="/home/doc-build/testing/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/counters.rst" type="ERROR"><paragraph>Error parsing content block for the "flat-table" directive: exactly one bullet list expected.</paragraph><literal_block xml:space="preserve">.. flat-table:: Physical Port Counter Table
+
+https://netdev-3.bots.linux.dev/doc-build/results/32382/stderr
+
+The indent is wrong?
+
+* - xx
+  - xx
+  - xx
+
+Vs yours:
+
+* - xx
+   - xx
+   - xx
+
+---
+pw-bot: cr
