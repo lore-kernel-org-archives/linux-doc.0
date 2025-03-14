@@ -1,50 +1,37 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C42623;
-	Fri, 14 Mar 2025 00:04:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D29A802;
+	Fri, 14 Mar 2025 00:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741910665; cv=none; b=li3iHNgG3iaeQ8L1ASMsEG6PNtwEbABQ3IpJVVQdxPxeRaAJdmNOFQUH36SiDU93V9W2eYbnxr6eZDuS5gEmdmD1LWIbQl9NUvRIZ19BWdyTWlns0ArMehMIXVU1nzlKBl93RSZSJT/FXMriT2yScjoeqb3+Cq9LR7BC4xmF/qA=
+	t=1741910711; cv=none; b=HrZgfkw0PRWKLctuXbQ5dgyOg/ulbLtYlHiJoGgKcwmiu92xku19r2kb6t1XubBzoXWEt+hehhs4PtpvVvaZL0zO5oY47kSP1Ln2o1WeyVCgFxO6q8OeBzwvng6YAzYobC32PJHgjsmHKIkBcPb6MHraEt0BO/pTmNWP9v292h8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741910665; c=relaxed/simple;
-	bh=7J4X4POFKAK2E1LbPYYiYU1p+FKjTar06hfL+QisXv8=;
+	s=arc-20240116; t=1741910711; c=relaxed/simple;
+	bh=1W8CEFUb9RzbLkyucd9jGuKFCaNamj/pyFF/1tmggBU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XyCtkgZLYI9BlfVPro3lHviduxNUqIKdWw3fQwliGX0fyNyJQZ+jSGtHtpPOEtoa/j7udWderMEWYxbX0nZdXNFl/IxW5KhDQOMTJjZSJN1n4pByUsb+3rFnCgYyjykMF65dHGbwENKfr6v7PMzkbdLZbHWpuKGDCFZO5Y7PU54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NQ+ZLC2d; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type; b=mV/MhSZs22Y36rmt5dkr8seA7mqre4JJ+DEAXuVnv4HPJeIXoyhVz0XbR2ljXfWXkjD7quiZmksuP9NyzxHZShxS77ejlHFvxMrZd4hzYb5q2uMT9z+Cz7hQltLhU9RhdWDThC4k0WokjtF74CkL9VZPerHto7Piu0RqZYmhW7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nTC4fHFj; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NQ+ZLC2d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741910664; x=1773446664;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=7J4X4POFKAK2E1LbPYYiYU1p+FKjTar06hfL+QisXv8=;
-  b=NQ+ZLC2dxvyPBGQu/AQQcEmrShX4eT20O+se/ddjKcl22Jgkee7LOGjr
-   rHA1YrxL4bilq3VeaB6PejkTvPRNq866qTyaFC0+zRoaVwLZZ/q2P+JBe
-   fHVhw8/Ke5Ftbs4gQG40DX1/mYuP8VVw6j9JybpK5Xx1oZhshFPabS9sN
-   R9tPZSHluKKwRmtPBDBs/Casjx/6wum8KxCNms4Vo1QRm4y9vzNJjA+9/
-   oQdZLpRcaVQo+L9PCKFvjl+sxtU/+xbQujq71UnTVbfxUvsI0hmwuOpJe
-   KhzARBHNd5oF1JDFK4TLHDcdY+kZ155CCrM9X5rbQGGrQhHERI1hFLGx6
-   w==;
-X-CSE-ConnectionGUID: JB6OQ65dSqSBQud+WxexnQ==
-X-CSE-MsgGUID: /x7xIzqQQE+amBxPJTuaVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="30643156"
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="30643156"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 17:04:22 -0700
-X-CSE-ConnectionGUID: qBP+7FiLRcOtzdZqU2UNyg==
-X-CSE-MsgGUID: E+H8EP3HTICzmR8Y/uYtug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="121313657"
-Received: from puneetse-mobl.amr.corp.intel.com (HELO [10.125.108.136]) ([10.125.108.136])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 17:04:13 -0700
-Message-ID: <cfc6916e-802f-4727-aa74-b052f94d0101@intel.com>
-Date: Thu, 13 Mar 2025 17:04:12 -0700
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nTC4fHFj"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=seOIK6F8Ri3Z9b2uMtd13H97RuBbTuOVKW2NN8PKcbE=; b=nTC4fHFjIabjCnWjjCjmk0MIQJ
+	f2NNa6pI2kO1Dr/6UnJtfkox9yuU09sGCsA6IpNyEZHSFGau37rI5E8FjtXNBNI2u795pYpNzgS16
+	OInbooV2qvy7vGF3ivg243fzGpLvkkIt/ULvTL364/bhyWEt2LxiqKqoYDu1YCmW7CQL0+ZVX01Zz
+	t9ypTs5lhFpuRgoOiyWhO3WSsbNWQkl9rxeqDpncc+SIXWkiFGbQrC7WZ95e60roMjk8JxHXMm0wl
+	uWOFh6fBFERn/x0IjqXj/E2F/dOZ2YsVFJNUf7SxeGgt/rB5kjzqM2ej59lS2akfwWVPfFYcXUo7I
+	jkxB/i2w==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tssXm-00000002oSr-47Yu;
+	Fri, 14 Mar 2025 00:04:55 +0000
+Message-ID: <60067986-ce08-45da-85ba-a9ea8fedfe06@infradead.org>
+Date: Thu, 13 Mar 2025 17:04:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,56 +46,17 @@ To: dmukhin@ford.com, Jonathan Corbet <corbet@lwn.net>,
  x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250313-earlyprintk-v1-1-8f818d77a8dd@ford.com>
-From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
+From: Randy Dunlap <rdunlap@infradead.org>
 In-Reply-To: <20250313-earlyprintk-v1-1-8f818d77a8dd@ford.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 3/13/25 16:45, Denis Mukhin via B4 Relay wrote:
+Hi,
+
+On 3/13/25 4:45 PM, Denis Mukhin via B4 Relay wrote:
+> From: Denis Mukhin <dmukhin@ford.com>
+> 
 > During the bring-up of an x86 board, the kernel was crashing before
 > reaching the platform's console driver because of a bug in the firmware,
 > leaving no trace of the boot progress.
@@ -116,12 +64,7 @@ On 3/13/25 16:45, Denis Mukhin via B4 Relay wrote:
 > It was discovered that the only available method to debug the kernel
 > boot process was via the platform's MMIO-based UART, as the board lacked
 > an I/O port-based UART, PCI UART, or functional video output.
-
-This is a pretty exotic piece of hardware, right? It's not some off the
-shelf laptop?
-
-Is there a driver for it during normal runtime?
-
+> 
 > Then it turned out that earlyprintk= does not have a knob to configure
 > the MMIO-mapped UART.
 > 
@@ -130,10 +73,120 @@ Is there a driver for it during normal runtime?
 > 
 > The command line syntax to enable platform MMIO-based UART is:
 >   earlyprintk=mmio,membase[,{nocfg|baudrate}][,keep]
+> 
+> Note, the change does not integrate MMIO-based UART support to:
+>   arch/x86/boot/early_serial_console.c
+> 
+> Signed-off-by: Denis Mukhin <dmukhin@ford.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  4 +++
+>  arch/x86/kernel/early_printk.c                  | 45 ++++++++++++++++++++++++-
+>  2 files changed, 48 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index fb8752b42ec8582b8750d7e014c4d76166fa2fc1..bee9ee18a506d019dc3d330268e3e1c83434ebba 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1414,11 +1414,15 @@
+>  			earlyprintk=pciserial[,force],bus:device.function[,baudrate]
+>  			earlyprintk=xdbc[xhciController#]
+>  			earlyprintk=bios
+> +			earlyprintk=mmio,membase[,{nocfg|baudrate}][,keep]
+>  
+>  			earlyprintk is useful when the kernel crashes before
+>  			the normal console is initialized. It is not enabled by
+>  			default because it has some cosmetic problems.
+>  
+> +			Use "nocfg" to skip UART configuration, assume
+> +			BIOS/firmware has configured UART correctly.
+> +
+>  			Append ",keep" to not disable it when the real console
+>  			takes over.
+>  
+> diff --git a/arch/x86/kernel/early_printk.c b/arch/x86/kernel/early_printk.c
+> index 44f937015e1e25bf41532eb7e1031a6be32a6523..19248c73b5b0950e9edf1a60ba67829f1cd3279e 100644
+> --- a/arch/x86/kernel/early_printk.c
+> +++ b/arch/x86/kernel/early_printk.c
+> @@ -191,7 +191,6 @@ static __init void early_serial_init(char *s)
+>  	early_serial_hw_init(divisor);
+>  }
+>  
+> -#ifdef CONFIG_PCI
+>  static void mem32_serial_out(unsigned long addr, int offset, int value)
+>  {
+>  	u32 __iomem *vaddr = (u32 __iomem *)addr;
+> @@ -206,6 +205,45 @@ static unsigned int mem32_serial_in(unsigned long addr, int offset)
+>  	return readl(vaddr + offset);
+>  }
+>  
+> +/*
+> + * early_mmio_serial_init() - Initialize MMIO-based early serial console.
+> + * @membase: UART base address.
+> + * @nocfg: Skip configuration, assume BIOS has configured UART correctly.
+> + * @baudrate (int): Baud rate.
+
+Looks like unsigned long to me.
+
+> + * @keep: Keep after the real driver is available.
+
+These 4 "parameters" are not the function arguments.
+@s is the function argument.
+
+You could say in a comment that @s is scanned to obtain
+these 4 parameters or something like that.
+
+> + */
+> +static __init void early_mmio_serial_init(char *s)
+> +{
+> +	unsigned long baudrate;
+> +	unsigned long membase;
+> +	char *e;
+> +
+> +	if (*s == ',')
+> +		s++;
+> +
+> +	if (!strncmp(s, "0x", 2)) {
+> +		membase = simple_strtoul(s, &e, 16);
+> +		early_serial_base = (unsigned long)early_ioremap(membase, PAGE_SIZE);
+> +		serial_in = mem32_serial_in;
+> +		serial_out = mem32_serial_out;
+> +
+> +		s += strcspn(s, ",");
+> +		if (*s == ',')
+> +			s++;
+> +	}
+> +
+> +	if (!strncmp(s, "nocfg", 5))
+> +		baudrate = 0;
+> +	else {
+> +		baudrate = simple_strtoul(s, &e, 0);
+> +		if (baudrate == 0 || s == e)
+> +			baudrate = DEFAULT_BAUD;
+> +	}
+> +	if (baudrate)
+> +		early_serial_hw_init(115200 / baudrate);
+> +}
+> +
+> +#ifdef CONFIG_PCI
+>  /*
+>   * early_pci_serial_init()
+>   *
+> @@ -352,6 +390,11 @@ static int __init setup_early_printk(char *buf)
+>  	keep = (strstr(buf, "keep") != NULL);
+>  
+>  	while (*buf != '\0') {
+> +		if (!strncmp(buf, "mmio", 4)) {
+> +			early_mmio_serial_init(buf + 4);
+> +			early_console_register(&early_serial_console, keep);
+> +			buf += 4;
+> +		}
+>  		if (!strncmp(buf, "serial", 6)) {
+>  			buf += 6;
+>  			early_serial_init(buf);
+> 
+> ---
 
 
-I'll stick this in the queue to take a closer look after the next merge
-window closes. It's a bit on the late side in the 6.14 cycle for new stuff.
+-- 
+~Randy
 
-I do appreciate the importance of having this tool in your toolbox.
-earlyprintk has saved my bacon more times than I can count.
