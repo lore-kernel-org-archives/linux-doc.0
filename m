@@ -1,431 +1,71 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C08B202C2F
-	for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 16:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B4A1FE44D
+	for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 16:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741969204; cv=none; b=pCXKHmnW6P+fn9EQ51/2m43HqSlfwiMpYoYtxHlAp+gUvaNdthYlCJN/9xINFawJWqjJ1FvvVhFtUf9FOtZIJFab8tc/Pi4m37T4xsnEc6TMzpjT4vFIrtEyNwge0nIUr9FTMU7vFMSgdl/SaFfMZ9o5U8drejkzMtVK3nwCtyA=
+	t=1741969820; cv=none; b=iLcB3MNFTJZMKGVpolwppxRj7LQMkOLPzIDeGj3F2H80cVxHhE1sfH5gxggKx3cu43SC7yej0e9MmktVxe8xzHa39Zl8Ch8xat4dBVRSHUmBE83qkvP2cQF8UIIRV429ejIARHm7KT6PmMNhfz2OzHYwMVanVbqmzVyD1PiToiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741969204; c=relaxed/simple;
-	bh=IjfqCxJWOuyuQTYKA1wW0W4fouvMcTGBSmGHe1hIGLU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vxf4kFNA3/bjnoSN5KSbh9Ox90Bc6Clqmc/6CSlBd2yNDj2+TRnZMWSoYdY9vWydk9T7rKilcMdD3YC3d2k7VKAAE6UORMC9v1eU11zsiAPp75kJTHbUfJLfVB56pZJt0eAE25sGZ9T/KQ8oKqYv+4dM5y/7Foj/keStoEvLGq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=IYtijmjX; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1741969820; c=relaxed/simple;
+	bh=Rf3Y2t5DfgJzg/9Slo+edGTDwDk+9738sTXLJVoqKHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W7XfvinGCFyxk8y1awlzpzU3kBH8Pqk2PTHUAQLIuB4UIHsnFSiYqxiP4C87qxvIv7r2RRvFgndmqM4MAdolrgdXTvL+FydODARyIjM5Orobw2whguMlCHJzJHSBda5b3YyYh0uMQOQI3ls+x2ySHP99XV6KVrqABn1+zhrzcWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=pm4irdM4; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="IYtijmjX"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22349bb8605so51610315ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 09:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1741969201; x=1742574001; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4iE9Aj155vU9nWMwEtJbFQr2Ek1tXLJTCSgBH0mDSSs=;
-        b=IYtijmjXNJLYeugSpGA3Y11W7CHNJ5QSxFEN1rxTiEBfVOj0b9Z43ZTkTNBrNhBT70
-         36dL8x5EuKfgmWNEE+KjuCgAq8Ay9utWD3GJs2sVaHZLx0tdSRSJOG1S+XC/S1XeE9XS
-         xEbmJwHRCpjhJG2+xk1K7gONpCt1/0VaLsDluBB2uwMdHTftosaNHaKBAkJ0gpaxCnTc
-         E3vKbQI9G218kJvvehzcKK/X7g1xW+CXsU0FR/ZsQjndxl3MXc7R2V7JKq1zKGIY53+A
-         Ty8dia5YJH8k3TE9iHQ2aUmCcJgQ8rqnBdtYE/lRpDcTymwJlY1O4jFb3vHbS0i3D3fz
-         AYAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741969201; x=1742574001;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4iE9Aj155vU9nWMwEtJbFQr2Ek1tXLJTCSgBH0mDSSs=;
-        b=jcgTs7PfMMPwC9LCodleJqshQCRMjgUwJbEXH60qVSWdaq9PMzLVdb5jN5ZwKb3u3N
-         uyZhK4IARurIKak+CnFMVW5Q3ZZLuHiV2521Ou+UWWp30+B8Ez1ScGMqIPvX0WaOf9ZM
-         2co5XtU8kfij6olShEY9gG/VPc9D9li8gY4BJidJ1YfzyZ8jImfrhVcsvJ+XH7/eKVcD
-         Fa1arCxcRDBJSTGPk0pNSK7WMInTP2fWIRDMmVrhn1bm3PEk4CRuu8NK8fDGFAryAcnC
-         yexLXaX2LLBR27/FGQQj8i60ONTQMWnUdUtVK9WA2CDQdRN3zsP6OHVIGq93E7hoZBuN
-         jcsA==
-X-Forwarded-Encrypted: i=1; AJvYcCVJ/aqILxVTTdP5Goh3P0Po4pLrA6UU90bSwFeD/fLiwc9KOxOD9N7KNVMh5ad3lY3h99Y/BirIC/c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7tZXuWWIcax9VHmSK2riE0RmLBqPWPEZNW3APWsJbQ9BmCJiT
-	L849s3V56JdHjePTmp3/P2mCGMsH6E3uNVLmRxadk5MhsdSrkRQ9dFjKLd8rtcY=
-X-Gm-Gg: ASbGnculX8luGyr2Eay/+Wgh1xDTqDalpqik+cq38SIWxq8P7CRx/GNPOkiFKXq0zEg
-	1Ge51lDrej1W/NyTiHVBNTzNPXbIVs9DHZvDIPcqwjhdCp+FfTLNdjX38RVL1jBJlwff4vsBR8A
-	SbBZl9ZE70p2MmbxTi2h7aqv93CTDqPm7mbj/C8v2Wu/duxxNQMgUVXlGxuE4sC/NqLav6/eo1C
-	KZuRZzlih6D1kHDAua1YTOijHkA9067jxvQa649OwXr4oUOLIRvPnCOs7j6xx0mkeqYvDxBmxsJ
-	whOpkogGQhUkC5iKn0PU3oVFx3No6xw6Y15GEJQ+72mCJmLAPyNs0Tns8B7U4h/Keg==
-X-Google-Smtp-Source: AGHT+IHaZv14PiDCCl5alLmsrLTAosVgBcOkr+N1Y8pEfjFu2xgCXzp40ME/YZI+0wTGJ7KUwvdfgw==
-X-Received: by 2002:a17:903:2b0c:b0:21f:45d:21fb with SMTP id d9443c01a7336-225e0a28ademr37966685ad.3.1741969201235;
-        Fri, 14 Mar 2025 09:20:01 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153534510sm1208138a91.22.2025.03.14.09.19.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 09:20:00 -0700 (PDT)
-Date: Fri, 14 Mar 2025 09:19:57 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Zong Li <zong.li@sifive.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com
-Subject: Re: [PATCH v11 13/27] prctl: arch-agnostic prctl for indirect branch
- tracking
-Message-ID: <Z9RXLU0w59h1QEtR@debug.ba.rivosinc.com>
-References: <20250310-v5_user_cfi_series-v11-0-86b36cbfb910@rivosinc.com>
- <20250310-v5_user_cfi_series-v11-13-86b36cbfb910@rivosinc.com>
- <CANXhq0r1dd2jCtCbinD4iy9rx+oQ+VDMWjATf1GqxEmuvFzyWw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="pm4irdM4"
+Message-ID: <1d66a62e-faee-4604-9136-f90eddcfa7c0@iencinas.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
+	s=key1; t=1741969806;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Rf3Y2t5DfgJzg/9Slo+edGTDwDk+9738sTXLJVoqKHY=;
+	b=pm4irdM4HR3MZn2jvYaJbIkFZV/erWWwNaBU55MuhJswE4dYlcLX7vjUBeCb6YNGArVQQ+
+	Sc0suUTZpLwSxR7uSJK4BeB9+2z3uBqFw7BhRekSs9PgHssYegQn+OZm4j/bGGbVCx9aqC
+	HDWUqk5vy7FuSWHbd7L+vK4cD7jmPyIiCcqxPMm+a9UKUt1n+/fEWnGSP+6zrVSdfD2K7d
+	Yg8nStKg0/rQzVup9zMup/aGQC3gWl6hj3sYB+UIkJALyp3vuGb+O8kajmf3wnpzwcJOMw
+	OWtnT+E39b28KqmGzP0UdkjlLEJe/caA3GOmUD0rCOh8J26MyW9A6j8fFFcEVw==
+Date: Fri, 14 Mar 2025 17:30:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANXhq0r1dd2jCtCbinD4iy9rx+oQ+VDMWjATf1GqxEmuvFzyWw@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kcsan: fix "Plain Accesses and Data Races"
+ URL in kcsan.rst
+To: Jonathan Corbet <corbet@lwn.net>, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org, Marco Elver <elver@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>
+Cc: kasan-dev@googlegroups.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250306-fix-plain-access-url-v1-1-9c653800f9e0@iencinas.com>
+ <87o6y5lvvg.fsf@trenco.lwn.net>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ignacio Encinas Rubio <ignacio@iencinas.com>
+Autocrypt: addr=ignacio@iencinas.com; keydata=
+ xjMEZgaZEBYJKwYBBAHaRw8BAQdAYZxeXU5yoeLYkQpvN+eE3wmAF4V0JUzIlpm/DqiSeBnN
+ LElnbmFjaW8gRW5jaW5hcyBSdWJpbyA8aWduYWNpb0BpZW5jaW5hcy5jb20+wo8EExYIADcW
+ IQSXV5vKYfM26lUMmYnH3J3Ka8TsNgUCZgaZEAUJBaOagAIbAwQLCQgHBRUICQoLBRYCAwEA
+ AAoJEMfcncprxOw21F4BAJe+mYh3sIdSvydyDdDXLFqtVkzrFB8PVNSU9eZpvM0mAP9996LA
+ N0gyY7Obnc3y59r9jOElOn/5fz5mOEU3nE5lCc44BGYGmRESCisGAQQBl1UBBQEBB0CVC5o6
+ qnsTzmmtKY1UWa/GJE53dV/3UPJpZu42p/F0OAMBCAfCfgQYFggAJhYhBJdXm8ph8zbqVQyZ
+ icfcncprxOw2BQJmBpkRBQkFo5qAAhsMAAoJEMfcncprxOw2N8ABAPcrkHouJPn2N8HcsL4S
+ SVgqxNLVOpsMX9kAYgIMqM0WAQCA40v0iYH1q7QHa2IfgkrBzX2ZLdXdwoxfUr8EY5vtAg==
+In-Reply-To: <87o6y5lvvg.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Mar 14, 2025 at 04:25:59PM +0800, Zong Li wrote:
->On Mon, Mar 10, 2025 at 11:42 PM Deepak Gupta <debug@rivosinc.com> wrote:
->>
->> Three architectures (x86, aarch64, riscv) have support for indirect branch
->> tracking feature in a very similar fashion. On a very high level, indirect
->> branch tracking is a CPU feature where CPU tracks branches which uses
->> memory operand to perform control transfer in program. As part of this
->> tracking on indirect branches, CPU goes in a state where it expects a
->> landing pad instr on target and if not found then CPU raises some fault
->> (architecture dependent)
->>
->> x86 landing pad instr - `ENDBRANCH`
->> aarch64 landing pad instr - `BTI`
->> riscv landing instr - `lpad`
->>
->> Given that three major arches have support for indirect branch tracking,
->> This patch makes `prctl` for indirect branch tracking arch agnostic.
->>
->> To allow userspace to enable this feature for itself, following prtcls are
->> defined:
->>  - PR_GET_INDIR_BR_LP_STATUS: Gets current configured status for indirect
->>    branch tracking.
->>  - PR_SET_INDIR_BR_LP_STATUS: Sets a configuration for indirect branch
->>    tracking.
->>    Following status options are allowed
->>        - PR_INDIR_BR_LP_ENABLE: Enables indirect branch tracking on user
->>          thread.
->>        - PR_INDIR_BR_LP_DISABLE; Disables indirect branch tracking on user
->>          thread.
->>  - PR_LOCK_INDIR_BR_LP_STATUS: Locks configured status for indirect branch
->>    tracking for user thread.
->>
->> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->> Reviewed-by: Mark Brown <broonie@kernel.org>
->> ---
->>  arch/riscv/include/asm/usercfi.h | 16 ++++++++-
->>  arch/riscv/kernel/entry.S        |  2 +-
->>  arch/riscv/kernel/process.c      |  5 +++
->>  arch/riscv/kernel/usercfi.c      | 76 ++++++++++++++++++++++++++++++++++++++++
->>  include/linux/cpu.h              |  4 +++
->>  include/uapi/linux/prctl.h       | 27 ++++++++++++++
->>  kernel/sys.c                     | 30 ++++++++++++++++
->>  7 files changed, 158 insertions(+), 2 deletions(-)
->>
->> diff --git a/arch/riscv/include/asm/usercfi.h b/arch/riscv/include/asm/usercfi.h
->> index c4dcd256f19a..a8cec7c14d1d 100644
->> --- a/arch/riscv/include/asm/usercfi.h
->> +++ b/arch/riscv/include/asm/usercfi.h
->> @@ -16,7 +16,9 @@ struct kernel_clone_args;
->>  struct cfi_status {
->>         unsigned long ubcfi_en : 1; /* Enable for backward cfi. */
->>         unsigned long ubcfi_locked : 1;
->> -       unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);
->> +       unsigned long ufcfi_en : 1; /* Enable for forward cfi. Note that ELP goes in sstatus */
->> +       unsigned long ufcfi_locked : 1;
->> +       unsigned long rsvd : ((sizeof(unsigned long) * 8) - 4);
->>         unsigned long user_shdw_stk; /* Current user shadow stack pointer */
->>         unsigned long shdw_stk_base; /* Base address of shadow stack */
->>         unsigned long shdw_stk_size; /* size of shadow stack */
->> @@ -33,6 +35,10 @@ bool is_shstk_locked(struct task_struct *task);
->>  bool is_shstk_allocated(struct task_struct *task);
->>  void set_shstk_lock(struct task_struct *task);
->>  void set_shstk_status(struct task_struct *task, bool enable);
->> +bool is_indir_lp_enabled(struct task_struct *task);
->> +bool is_indir_lp_locked(struct task_struct *task);
->> +void set_indir_lp_status(struct task_struct *task, bool enable);
->> +void set_indir_lp_lock(struct task_struct *task);
->>
->>  #define PR_SHADOW_STACK_SUPPORTED_STATUS_MASK (PR_SHADOW_STACK_ENABLE)
->>
->> @@ -58,6 +64,14 @@ void set_shstk_status(struct task_struct *task, bool enable);
->>
->>  #define set_shstk_status(task, enable)
->>
->> +#define is_indir_lp_enabled(task) false
->> +
->> +#define is_indir_lp_locked(task) false
->> +
->> +#define set_indir_lp_status(task, enable)
->> +
->> +#define set_indir_lp_lock(task)
->> +
->>  #endif /* CONFIG_RISCV_USER_CFI */
->>
->>  #endif /* __ASSEMBLY__ */
->> diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
->> index 68c99124ea55..00494b54ff4a 100644
->> --- a/arch/riscv/kernel/entry.S
->> +++ b/arch/riscv/kernel/entry.S
->> @@ -143,7 +143,7 @@ SYM_CODE_START(handle_exception)
->>          * Disable the FPU/Vector to detect illegal usage of floating point
->>          * or vector in kernel space.
->>          */
->> -       li t0, SR_SUM | SR_FS_VS
->> +       li t0, SR_SUM | SR_FS_VS | SR_ELP
->>
->>         REG_L s0, TASK_TI_USER_SP(tp)
->>         csrrc s1, CSR_STATUS, t0
->> diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
->> index cd11667593fe..4587201dd81d 100644
->> --- a/arch/riscv/kernel/process.c
->> +++ b/arch/riscv/kernel/process.c
->> @@ -160,6 +160,11 @@ void start_thread(struct pt_regs *regs, unsigned long pc,
->>         set_shstk_status(current, false);
->>         set_shstk_base(current, 0, 0);
->>         set_active_shstk(current, 0);
->> +       /*
->> +        * disable indirect branch tracking on exec.
->> +        * libc will enable it later via prctl.
->> +        */
->> +       set_indir_lp_status(current, false);
->
->In set_indir_lp_status and set_shstk_status, the $senvcfg.LPE and
->$senvcfg.SSE fields are set. However, if the CPU does not support this
->CSR, writing to it will trigger an illegal instruction exception.
->Should we add sanity checks to handle this situation? Thanks
+On 12/3/25 23:36, Jonathan Corbet wrote:
+> It would be best, of course, to get the memory-model documentation
+> properly into our built docs...someday...
 
-hmm. these were two patches. something happened in my workflow and two
-were squash together it seems. I need to split them (one for introduction
-of generic prctls and another which implements them on riscv)
-
-Being said that, yes good point here. I'll make that change.
->>
->>  #ifdef CONFIG_64BIT
->>         regs->status &= ~SR_UXL;
->> diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
->> index 37d6fb8144e7..3a66f149a4ef 100644
->> --- a/arch/riscv/kernel/usercfi.c
->> +++ b/arch/riscv/kernel/usercfi.c
->> @@ -69,6 +69,32 @@ void set_shstk_lock(struct task_struct *task)
->>         task->thread_info.user_cfi_state.ubcfi_locked = 1;
->>  }
->>
->> +bool is_indir_lp_enabled(struct task_struct *task)
->> +{
->> +       return task->thread_info.user_cfi_state.ufcfi_en ? true : false;
->> +}
->> +
->> +bool is_indir_lp_locked(struct task_struct *task)
->> +{
->> +       return task->thread_info.user_cfi_state.ufcfi_locked ? true : false;
->> +}
->> +
->> +void set_indir_lp_status(struct task_struct *task, bool enable)
->> +{
->> +       task->thread_info.user_cfi_state.ufcfi_en = enable ? 1 : 0;
->> +
->> +       if (enable)
->> +               task->thread.envcfg |= ENVCFG_LPE;
->> +       else
->> +               task->thread.envcfg &= ~ENVCFG_LPE;
->> +
->> +       csr_write(CSR_ENVCFG, task->thread.envcfg);
->> +}
->> +
->> +void set_indir_lp_lock(struct task_struct *task)
->> +{
->> +       task->thread_info.user_cfi_state.ufcfi_locked = 1;
->> +}
->>  /*
->>   * If size is 0, then to be compatible with regular stack we want it to be as big as
->>   * regular stack. Else PAGE_ALIGN it and return back
->> @@ -369,3 +395,53 @@ int arch_lock_shadow_stack_status(struct task_struct *task,
->>
->>         return 0;
->>  }
->> +
->> +int arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __user *status)
->> +{
->> +       unsigned long fcfi_status = 0;
->> +
->> +       if (!cpu_supports_indirect_br_lp_instr())
->> +               return -EINVAL;
->> +
->> +       /* indirect branch tracking is enabled on the task or not */
->> +       fcfi_status |= (is_indir_lp_enabled(t) ? PR_INDIR_BR_LP_ENABLE : 0);
->> +
->> +       return copy_to_user(status, &fcfi_status, sizeof(fcfi_status)) ? -EFAULT : 0;
->> +}
->> +
->> +int arch_set_indir_br_lp_status(struct task_struct *t, unsigned long status)
->> +{
->> +       bool enable_indir_lp = false;
->> +
->> +       if (!cpu_supports_indirect_br_lp_instr())
->> +               return -EINVAL;
->> +
->> +       /* indirect branch tracking is locked and further can't be modified by user */
->> +       if (is_indir_lp_locked(t))
->> +               return -EINVAL;
->> +
->> +       /* Reject unknown flags */
->> +       if (status & ~PR_INDIR_BR_LP_ENABLE)
->> +               return -EINVAL;
->> +
->> +       enable_indir_lp = (status & PR_INDIR_BR_LP_ENABLE) ? true : false;
->> +       set_indir_lp_status(t, enable_indir_lp);
->> +
->> +       return 0;
->> +}
->> +
->> +int arch_lock_indir_br_lp_status(struct task_struct *task,
->> +                                unsigned long arg)
->> +{
->> +       /*
->> +        * If indirect branch tracking is not supported or not enabled on task,
->> +        * nothing to lock here
->> +        */
->> +       if (!cpu_supports_indirect_br_lp_instr() ||
->> +           !is_indir_lp_enabled(task) || arg != 0)
->> +               return -EINVAL;
->> +
->> +       set_indir_lp_lock(task);
->> +
->> +       return 0;
->> +}
->> diff --git a/include/linux/cpu.h b/include/linux/cpu.h
->> index 6a0a8f1c7c90..fb0c394430c6 100644
->> --- a/include/linux/cpu.h
->> +++ b/include/linux/cpu.h
->> @@ -204,4 +204,8 @@ static inline bool cpu_mitigations_auto_nosmt(void)
->>  }
->>  #endif
->>
->> +int arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __user *status);
->> +int arch_set_indir_br_lp_status(struct task_struct *t, unsigned long status);
->> +int arch_lock_indir_br_lp_status(struct task_struct *t, unsigned long status);
->> +
->>  #endif /* _LINUX_CPU_H_ */
->> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
->> index 5c6080680cb2..6cd90460cbad 100644
->> --- a/include/uapi/linux/prctl.h
->> +++ b/include/uapi/linux/prctl.h
->> @@ -353,4 +353,31 @@ struct prctl_mm_map {
->>   */
->>  #define PR_LOCK_SHADOW_STACK_STATUS      76
->>
->> +/*
->> + * Get the current indirect branch tracking configuration for the current
->> + * thread, this will be the value configured via PR_SET_INDIR_BR_LP_STATUS.
->> + */
->> +#define PR_GET_INDIR_BR_LP_STATUS      77
->> +
->> +/*
->> + * Set the indirect branch tracking configuration. PR_INDIR_BR_LP_ENABLE will
->> + * enable cpu feature for user thread, to track all indirect branches and ensure
->> + * they land on arch defined landing pad instruction.
->> + * x86 - If enabled, an indirect branch must land on `ENDBRANCH` instruction.
->> + * arch64 - If enabled, an indirect branch must land on `BTI` instruction.
->> + * riscv - If enabled, an indirect branch must land on `lpad` instruction.
->> + * PR_INDIR_BR_LP_DISABLE will disable feature for user thread and indirect
->> + * branches will no more be tracked by cpu to land on arch defined landing pad
->> + * instruction.
->> + */
->> +#define PR_SET_INDIR_BR_LP_STATUS      78
->> +# define PR_INDIR_BR_LP_ENABLE            (1UL << 0)
->> +
->> +/*
->> + * Prevent further changes to the specified indirect branch tracking
->> + * configuration.  All bits may be locked via this call, including
->> + * undefined bits.
->> + */
->> +#define PR_LOCK_INDIR_BR_LP_STATUS      79
->> +
->>  #endif /* _LINUX_PRCTL_H */
->> diff --git a/kernel/sys.c b/kernel/sys.c
->> index cb366ff8703a..f347f3518d0b 100644
->> --- a/kernel/sys.c
->> +++ b/kernel/sys.c
->> @@ -2336,6 +2336,21 @@ int __weak arch_lock_shadow_stack_status(struct task_struct *t, unsigned long st
->>         return -EINVAL;
->>  }
->>
->> +int __weak arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __user *status)
->> +{
->> +       return -EINVAL;
->> +}
->> +
->> +int __weak arch_set_indir_br_lp_status(struct task_struct *t, unsigned long status)
->> +{
->> +       return -EINVAL;
->> +}
->> +
->> +int __weak arch_lock_indir_br_lp_status(struct task_struct *t, unsigned long status)
->> +{
->> +       return -EINVAL;
->> +}
->> +
->>  #define PR_IO_FLUSHER (PF_MEMALLOC_NOIO | PF_LOCAL_THROTTLE)
->>
->>  #ifdef CONFIG_ANON_VMA_NAME
->> @@ -2811,6 +2826,21 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->>                         return -EINVAL;
->>                 error = arch_lock_shadow_stack_status(me, arg2);
->>                 break;
->> +       case PR_GET_INDIR_BR_LP_STATUS:
->> +               if (arg3 || arg4 || arg5)
->> +                       return -EINVAL;
->> +               error = arch_get_indir_br_lp_status(me, (unsigned long __user *)arg2);
->> +               break;
->> +       case PR_SET_INDIR_BR_LP_STATUS:
->> +               if (arg3 || arg4 || arg5)
->> +                       return -EINVAL;
->> +               error = arch_set_indir_br_lp_status(me, arg2);
->> +               break;
->> +       case PR_LOCK_INDIR_BR_LP_STATUS:
->> +               if (arg3 || arg4 || arg5)
->> +                       return -EINVAL;
->> +               error = arch_lock_indir_br_lp_status(me, arg2);
->> +               break;
->>         default:
->>                 trace_task_prctl_unknown(option, arg2, arg3, arg4, arg5);
->>                 error = -EINVAL;
->>
->> --
->> 2.34.1
->>
->>
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
+I hadn't thought about this. If this sentiment is shared by the LKMM
+people I would be happy to work on this. Has this ever been
+proposed/discussed before?
