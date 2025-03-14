@@ -1,142 +1,90 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35A121C07D9;
-	Fri, 14 Mar 2025 09:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3C01F30C3;
+	Fri, 14 Mar 2025 10:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741944423; cv=none; b=jPfRFdUEsBpJ1gThwHW1uVfDdAAdnndZ2J9VCTlQoh98wzkre4ywgQlI0pfXOe0LR40wkvSQL1p3MIBuVYmhtYrDAJR7MR3p5MI8BqBEyoo9dwtxRMjOL5VaIgGjUkc3LIehWHPMHMvHLoO/RelYxrWmZK2bpK7AsZxL/0hwCg8=
+	t=1741946504; cv=none; b=nTv0HGSni1zRULmHWDHjw/CCGF8mUc+JZx84HwTmjf0e31WwPEAa/s93pwX9Xu6ezWmReggTkCI1813btOB1S18CK9JBWE0GtsmpjUqkvC2raD1XVwoZbLSO0fM+VL/yr/RhKkNNujUZqEhKlYbNabF1k/Cg7I3HeZ/16/CHJIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741944423; c=relaxed/simple;
-	bh=JcldlY/ETPmR3IenknhNxPNgRcWA0ROHMHWWITDho/I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BqtDtBIi8pw7nja+MEluEiSLuSWQoEw7Sb1w/8jK4z9ZIo5h4UwKZPNr/sUMrjMlhTa/6cDhu6VLnpsC4eB5UXpIkLOnJ8pnW+TpyMBtx11f+J7WFYeuFsO72ywSeNlFsyu7NlHTPonOkLn1cXtsQsTO+C6LMOeRsIecR8vXz5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 549631424;
-	Fri, 14 Mar 2025 02:27:11 -0700 (PDT)
-Received: from [10.57.85.159] (unknown [10.57.85.159])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 73EA03F673;
-	Fri, 14 Mar 2025 02:26:57 -0700 (PDT)
-Message-ID: <d3a15aaf-16a6-4a88-a6c5-9b9afaa5f370@arm.com>
-Date: Fri, 14 Mar 2025 09:26:56 +0000
+	s=arc-20240116; t=1741946504; c=relaxed/simple;
+	bh=ssdVXLgH46tCNp5vgZI7lWWdXz1whwaAJoMzKSN4mKE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N9ZTKCPyFnb20ka4XZ/ezzMbhJ+gxq32Ps22+/OqKxAj/eho99p2dHxuDqTMw0bOxSwbk422q2y1Per6qUYJQOyqBEIq83Ja0ZWEexCPQN/5cl2p4MaKz2KXiPXTY5fML72QQjxuPy88j2L0pA/bN+kgar0osQDsDKnqw3I7O8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XVjkQMhJ; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVjkQMhJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741946503; x=1773482503;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ssdVXLgH46tCNp5vgZI7lWWdXz1whwaAJoMzKSN4mKE=;
+  b=XVjkQMhJ5X2+dVcJo5TsR2t7WRXnKiYQg1W8UVy75Jg6QXrmr251ri1e
+   GKmr7SClS9TPYZm70Ja92/ETVQZH7G/2IIoiau8aHNCY9nrW7O+nwgtB2
+   4z0qFmUOfpRSk57l74aXe/lWcNcEzNKMSGEvcCbCDRhPJjZgIU+wPPV8W
+   5swQvEfa9hAwOsBi4Kq4Js5T/FK0cVypnrpj2PhEkMSGpNO8hdSKwLwa2
+   wmLieY5rS8ydmGWGl91I0iwiWC273oyhTPIkxlyXjAGM+1qrkdsODglXY
+   OACF5eSGAqJiVlEt2IZ/qCOAwxrxPr1BEo4QGOybiLqims5UzZJ9E0NA5
+   Q==;
+X-CSE-ConnectionGUID: Hc4NP3j+QvCgV5DFd8oerw==
+X-CSE-MsgGUID: As2cQozoTLquKVNI4Y8dVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="43197139"
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="43197139"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 03:01:41 -0700
+X-CSE-ConnectionGUID: //I4/LOVRtmeSfvdraR8XQ==
+X-CSE-MsgGUID: fvqhzmGyQ8+7cLgK3UHdMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="120944855"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 03:01:39 -0700
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	simona.vetter@ffwll.ch,
+	airlied@gmail.com,
+	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH] docs: driver-api: firmware: clarify userspace requirements
+Date: Fri, 14 Mar 2025 11:01:36 +0100
+Message-ID: <20250314100137.2972355-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] arm64: Add BBM Level 2 cpu feature
-Content-Language: en-GB
-To: =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
-Cc: suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net,
- catalin.marinas@arm.com, will@kernel.org, jean-philippe@linaro.org,
- robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
- mark.rutland@arm.com, joey.gouly@arm.com, maz@kernel.org,
- james.morse@arm.com, broonie@kernel.org, anshuman.khandual@arm.com,
- oliver.upton@linux.dev, ioworker0@gmail.com, baohua@kernel.org,
- david@redhat.com, jgg@ziepe.ca, shameerali.kolothum.thodi@huawei.com,
- nicolinc@nvidia.com, mshavit@google.com, jsnitsel@redhat.com,
- smostafa@google.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev
-References: <20250313104111.24196-2-miko.lenczewski@arm.com>
- <20250313104111.24196-3-miko.lenczewski@arm.com>
- <ea10caee-59ef-4a00-9b61-37cb0a379411@arm.com>
- <20250313180833.GA40525@mazurka.cambridge.arm.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <20250313180833.GA40525@mazurka.cambridge.arm.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 13/03/2025 18:08, Mikołaj Lenczewski wrote:
-> On Thu, Mar 13, 2025 at 04:13:22PM +0000, Ryan Roberts wrote:
->> On 13/03/2025 10:41, Mikołaj Lenczewski wrote: 
->>> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
->>> index d561cf3b8ac7..b936e0805161 100644
->>> --- a/arch/arm64/kernel/cpufeature.c
->>> +++ b/arch/arm64/kernel/cpufeature.c
->>> @@ -2176,6 +2176,76 @@ static bool hvhe_possible(const struct arm64_cpu_capabilities *entry,
->>>  	return arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_HVHE);
->>>  }
->>>  
->>> +static inline bool bbml2_possible(void)
->>> +{
->>> +	return !arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_NOBBML2);
->>
->> If you're going to keep this helper, I think it really needs to be:
->>
->> return IS_ENABLED(CONFIG_ARM64_BBML2_NOABORT) &&
->>        !arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_NOBBML2);
->>
->> Then you would simplify the caller to remove it's own
->> IS_ENABLED(CONFIG_ARM64_BBML2_NOABORT) check.
->>
->> But personally I would remove the helper and just fold the test into
->> has_bbml2_noabort().
->>
->> Thanks,
->> Ryan
-> 
-> I was debating folding it into has_bbml2_noabort(), but went ahead and
-> implemented it separately to match hvhe_possible(), which was another sw
-> feature helper.
+The guidelines mention that firmware updates can't break the kernel,
+but it doesn't state directly that they can't break userspace programs.
+Make it explicit that firmware updates cannot break UAPI.
 
-hvhe_possible() is a .matches function, so there is nothing to fold it into.
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ .../driver-api/firmware/firmware-usage-guidelines.rst        | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-> 
-> But I agree, folding it will be simpler and read just as easily (if not
-> easier). Will do so.
-> 
->>> +}
->>> +
->>> +static bool cpu_has_bbml2_noabort(unsigned int cpu_midr)
->>> +{
->>> +	/* We want to allow usage of bbml2 in as wide a range of kernel contexts
->>> +	 * as possible. This list is therefore an allow-list of known-good
->>> +	 * implementations that both support bbml2 and additionally, fulfill the
->>> +	 * extra constraint of never generating TLB conflict aborts when using
->>> +	 * the relaxed bbml2 semantics (such aborts make use of bbml2 in certain
->>> +	 * kernel contexts difficult to prove safe against recursive aborts).
->>> +	 *
->>> +	 * Note that implementations can only be considered "known-good" if their
->>> +	 * implementors attest to the fact that the implementation never raises
->>> +	 * TLBI conflict aborts for bbml2 mapping granularity changes.
->>> +	 */
->>> +	static const struct midr_range supports_bbml2_noabort_list[] = {
->>> +		MIDR_REV_RANGE(MIDR_CORTEX_X4, 0, 3, 0xf),
->>> +		MIDR_REV_RANGE(MIDR_NEOVERSE_V3, 0, 2, 0xf),
->>> +		{}
->>> +	};
->>> +
->>> +	return is_midr_in_range_list(cpu_midr, supports_bbml2_noabort_list);
->>> +}
->>> +
->>> +static inline unsigned int __cpu_read_midr(int cpu)
->>
->> nit: why the double underscrore prefix?
-> 
-> Again copying other helpers I saw that seemed to do similar things.
-> Didn't know if this was the expected style, so did as other helpers did.
-> Will remove.
-
-Often those double underscores are used when you have a public function wrapping
-into a private function, like this:
-
-static void __do_a_thing(bool modify_behaviour_in_some_way);
-
-void do_a_thing(void)
-{
-	__do_a_thing(false);
-}
-
-I'm sure the coding style offers a better explanation.
-
-Thanks,
-Ryan
-
-> 
-> Thank you for the review.
-> 
+diff --git a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+index fdcfce42c6d28..5f8f13e2ee510 100644
+--- a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
++++ b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+@@ -42,3 +42,8 @@ then of course these rules will not apply strictly.)
+   deprecating old major versions, then this should only be done as a
+   last option, and be stated clearly in all communications.
+ 
++* Firmware files that affect the User API (UAPI) shall not introduce
++  changes that break existing userspace programs. Updates to such firmware
++  must ensure backward compatibility with existing userspace applications.
++  This includes maintaining consistent interfaces and behaviors that
++  userspace programs rely on.
+\ No newline at end of file
+-- 
+2.45.1
 
