@@ -1,65 +1,65 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8C71FA856
-	for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 11:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3E21FDA7A
+	for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 11:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741952041; cv=none; b=Y5oJd6Ak86YHbrG2OxTOHSQs5TkVwBAJNiAQGBZH1a1fUSevR6lxx8modS+AKqi8tDzyt+Q5V7RbqGz0xH+9PcdSkTzF6gL+J4D5ZZzqdDmaH6XwwAx2U/sTZ9+zA475PT6pUn8tZ4mOF6UL8pSEJn2a51AR58jXmOfPriLdlcs=
+	t=1741952650; cv=none; b=UMZvm9rv9tYj7+BqswxCdayX6jjtKnORaiZCBtBWREG+6Yr2ozI9boQf8x3FTgll4yJeyEMYkANOgf7KvaITHIYh3JYUeGG1gStmvLPbVXHTtWihxQ4JGbvmEbsobPOlJFwEGrJePxicVHRnoIcGEtk3DdwBRTF537scLuu8s5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741952041; c=relaxed/simple;
-	bh=VFo619g1ewrwqe/TdYiWkAB8pKkLXxjuW43KtWiO5EM=;
+	s=arc-20240116; t=1741952650; c=relaxed/simple;
+	bh=k3VquhwGBzj/qmce5+dPovhxa6xW5DKGhqNFIz459Pw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UWM2Qd8xOqqeiqisk7wCavblkTxyXKqsJHvAghZH25SgEk8BSAqbyR3hCk74o+eUwI2H2IAecamlXctTEA6m3LH+6861x5R84kBXNXd142PyUbW5/6WzCPW0LBpD0a4LrMUjYxIj92ji+QsBdCoSUvzQbD1KRqW399HxxZp6TYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=vCtRBqFz; arc=none smtp.client-ip=209.85.128.41
+	 In-Reply-To:Content-Type; b=Yv56DgX8xTfSzsmKJr9cJZ+Wg1EsHkv+Sofsja3DiXukawP1zNnUwKkZQZL8YjdgvHWtm/kvvockhjDhocy3fyGI63PUrHAtkwe9fJI4p3dl+aT5fYAwMO67P50YknzXNuLFquW6uXpHNNKup148udlYxLn7up0IwGBtS04h7LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=fKRJZn8O; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="vCtRBqFz"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4394345e4d5so13386405e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 04:33:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="fKRJZn8O"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3914bc3e01aso1282168f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 04:44:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1741952037; x=1742556837; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1741952647; x=1742557447; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Nsvbx0/e3umNGv5t27NVbjQ76HCEZqmQcUDkEBMQhSw=;
-        b=vCtRBqFzOc8z91AC5oBWsRqbEqxKYvRIXZ55bTJ+2REe30JiBEn8OuLpAR+GzOxSjz
-         WDSDsPr9CFy8Tl3n6qmu230zpJIIg2UU97T2bKuBWKDiS7c92MzJI03iV62Hz1rTtu9l
-         LRA1jv0sEbPDwL4Mxj4JcVUfq4vo5BP6wCpzPaJWyJtBJ/XOqAWzST+LxeoAq+Nt9ps8
-         9ePmnTdzDjAl2QIhQ4OHX6il0LHH77Cq/N2DAFhqU3llu5KUt5yJFJuFncEjklLYL9tr
-         /6HGxDHusyIHHSIQDjWw/r87Msb1fMfR+o8mB3pTVmKkP/qxqieaNoVnNHcxjOSPAQbS
-         1ElQ==
+        bh=yNXP4301/EYAJtyOh9G36QhlKo8rLTXV/iJ66ebNv0k=;
+        b=fKRJZn8O5LWILPL61QJWy9PcxsKvfPy7Vy3XP94utIj0okxdSdAuFC/A/Gu54GYAIT
+         W+MWYhJdrxU88ULgbjBEfyDOigvxGPg5J3GFoNCpValNaUjLNun4tXjmOUfuTN0dzvxH
+         7by+9njDjWaSLHhi0I1q5vm4Y13ziVqzdU8LbKSJc1dtoB2Y53oxOvz38z59sLyBnwJM
+         AQKfPNUirYs4PBoeCWd9uffKuQPegE3TJnL8RDzDOzmf/9hDWAO2XwUGco6+ySHK9vGb
+         WDylJrV4EqjG1qDQQ3lRLDguRb+wR7PB4i8Wzf4s+RBDERDY71Cc6KGc5Gdp/WbitUvG
+         EApw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741952037; x=1742556837;
+        d=1e100.net; s=20230601; t=1741952647; x=1742557447;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nsvbx0/e3umNGv5t27NVbjQ76HCEZqmQcUDkEBMQhSw=;
-        b=b04fZ9KGA3niaZdCvw9K1H98EVK3HXcwCNiLloVHmfUjDAqQq2CORc2Y1eOuAdNb9g
-         MUou/meuGOVO/MCJJDcvrIZoMIe41QMAqFSDaRf3XKKsO7ZjyIRGnCcaBUr5mGIYA0BG
-         A5x2cFqPxTC7PdnuHuo578zdmd5grOaBSRaMXtFyP0aF7iSMM3+WnB+u+kqud0WTswoC
-         DYwh4FrIbKGlUw53sP7+DQM6T8onm0CJ5eSR3cGN8oY2itax7fOtUkQAEUlBfrj/w3c0
-         6UNsWlBy2KYDwPimVq0I681ZQUzq0Unlmu+lGVL7L3qfn9uf8CtkHnWWF1AFeSpoqRWI
-         Qtmg==
-X-Forwarded-Encrypted: i=1; AJvYcCUVO2YvVKbzMr78KGlEAyNvvNoWC8lcKG7GhCsmjtBHUK+9EvnGQY6MqpvLS1ikKMXx+NNKgkt3Bz0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhUnQaIQ+0ejdU2+oDqZB3QpHSlLpgN6kiaovJpyM3OkLgrQlQ
-	rd3HvFMcC+nrngvje481pqPID34bfmgJwMOZIUAZq1oFJTir3BzoiFzQ4IIW2Fk=
-X-Gm-Gg: ASbGnct7Sz1zhE66OZwqcxguP7g1u0iLXbR1NQzZiS+iCxOdZO4IQ6oKFMYksw59t4o
-	7RUNPmUDUQKWnAWYSwg5nQr1j9GNh4r+c38rbLgBpX1Y8V8mXpr1xqRwHMcVAvdCE7S8c1jBNpO
-	c+j3ESyyAaykbH5HuGCxI01a4rVbwkr+cDBoTqvv0VdqQnQkFNFWgrcNxa3liQQP7CBTQAMCZm2
-	zGoAmMhVmOoGyviDAQBMXgmm5y1XYpHgPH0W7h4P9oKZ6OUMNuWpNyYbPWUopnkwrQDgikEi6vI
-	24cLhsUn87Wq06VsDp8EwM07UJf82OIj2y5NwqA7VzaO9LFOKcsH67+SQxX0vE1O9ZCVtRYa0Mi
-	PJXTXw4epjoJGWA==
-X-Google-Smtp-Source: AGHT+IGFCS6aHC85bI1G02X5ARi0quKTYrYIojfOtWsQSuEVwoRIcZmL2DpiMo0uOfjcu6utBxTbug==
-X-Received: by 2002:a05:6000:4025:b0:391:1139:2653 with SMTP id ffacd0b85a97d-3971ffb3a29mr1899191f8f.52.1741952036756;
-        Fri, 14 Mar 2025 04:33:56 -0700 (PDT)
+        bh=yNXP4301/EYAJtyOh9G36QhlKo8rLTXV/iJ66ebNv0k=;
+        b=d2ykwumYGY874flRCDw/qzVTEoel73/4RDZD8nQvA4ZWX8+8N29urEOFUSVrnqzJ6b
+         QaUwer9k2R/xq+L3ieyWzD1R/uqJooAEDNPaX6yphm+11qJ6Bd67u1KBLbcvi6SAfMzo
+         BnnFZQT9Yv2kTE3gOpfGlXGNK5q1+2GlGzMJec1iIumHX+CuYFO9Mn7bhare6zMnGywN
+         bQJWa8Ec3UHXJjjoNQps7EhEMKrjMZQ4+vFV/1UjFxQ7lx9fUKSe28oFMjWatYL9j7Hu
+         A1sQjXM4szT1IjErkH7Qk5oYqkwFKwA+fwFItydSLV88Ypl5NZ7dEZpuxDEBY5oasyfd
+         t+mw==
+X-Forwarded-Encrypted: i=1; AJvYcCV8u5gGVgx5N9mmDHzgi8S8vKOFnwrkGeiNBzzSKQ3RWdjWL1GDH6ylsqi1WNAbikNSSQqowvZJMEg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoNypcMk0OUccYrPVpcJ/zTWCxwaZV7noivdXz5WIhTy0HIq9B
+	rxJlb37LgyI9VrBxO3ydqdC6fIn6oLPld73ORgn9Eg9W9C437SmnUQ0aWAqUhrE=
+X-Gm-Gg: ASbGncsr/+zdHB2/D6lqihJ74RQJnVhZIxnCmY8oCRE9zstalCjQE6WvkANq7qe2Y7l
+	o9ksrfYQjVwrA8d1CSHJFka9oOX/uZpFNqhsyeETuKE4t3DQ5boZNnRr0n88gT4xyQ/toY+9x7D
+	prM54vi5TMFM/72qIqokLJVtI6gqmsfOTzk1xSyTYX1dQ4UhDweP91w5e8XD3LeRmktd3vuIAOp
+	ahScWT/gtb7Cnt41DyztahhP4Kpoue2fijqt/eU7MjareSFGsOvEpkJrCNK4vTyOBCvYVm1sQ/D
+	H8p4oA4v6noZxiFJb05rkki/cRFbXN1MQJhbOGQO8Hfac12phVqM4npYKJgLq4WWDvc7UGAn72s
+	U4lNWE8l7oEJdkg==
+X-Google-Smtp-Source: AGHT+IF+PcMLniUgUw+7z04HFQAwTiKLbHivzVvB0Zh2bIees9zyWsKr40uUY0pHyf5dEv8vx5Q9WQ==
+X-Received: by 2002:a5d:5f49:0:b0:390:fb37:1bd with SMTP id ffacd0b85a97d-3971f7f8fccmr2700791f8f.46.1741952647046;
+        Fri, 14 Mar 2025 04:44:07 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d1fe65977sm14993745e9.36.2025.03.14.04.33.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c83b6a32sm5420094f8f.33.2025.03.14.04.44.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Mar 2025 04:33:56 -0700 (PDT)
-Message-ID: <dad465de-e5da-4ebb-8395-ea9e181a6f57@rivosinc.com>
-Date: Fri, 14 Mar 2025 12:33:55 +0100
+        Fri, 14 Mar 2025 04:44:06 -0700 (PDT)
+Message-ID: <1942580f-cd67-4ddd-b489-0532f95c1ef2@rivosinc.com>
+Date: Fri, 14 Mar 2025 12:44:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,7 +67,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/17] riscv: sbi: add FWFT extension interface
+Subject: Re: [PATCH v3 05/17] riscv: misaligned: use on_each_cpu() for scalar
+ misaligned access probing
 To: Andrew Jones <ajones@ventanamicro.com>
 Cc: Paul Walmsley <paul.walmsley@sifive.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
@@ -77,199 +78,85 @@ Cc: Paul Walmsley <paul.walmsley@sifive.com>,
  kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
  linux-kselftest@vger.kernel.org, Samuel Holland <samuel.holland@sifive.com>
 References: <20250310151229.2365992-1-cleger@rivosinc.com>
- <20250310151229.2365992-3-cleger@rivosinc.com>
- <20250313-5c22df0c08337905367fa125@orel>
+ <20250310151229.2365992-6-cleger@rivosinc.com>
+ <20250313-311b94f9bafe73bcd41158a1@orel>
 Content-Language: en-US
 From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20250313-5c22df0c08337905367fa125@orel>
+In-Reply-To: <20250313-311b94f9bafe73bcd41158a1@orel>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 13/03/2025 13:39, Andrew Jones wrote:
-> On Mon, Mar 10, 2025 at 04:12:09PM +0100, Clément Léger wrote:
->> This SBI extensions enables supervisor mode to control feature that are
->> under M-mode control (For instance, Svadu menvcfg ADUE bit, Ssdbltrp
->> DTE, etc).
+On 13/03/2025 13:57, Andrew Jones wrote:
+> On Mon, Mar 10, 2025 at 04:12:12PM +0100, Clément Léger wrote:
+>> schedule_on_each_cpu() was used without any good reason while documented
+>> as very slow. This call was in the boot path, so better use
+>> on_each_cpu() for scalar misaligned checking. Vector misaligned check
+>> still needs to use schedule_on_each_cpu() since it requires irqs to be
+>> enabled but that's less of a problem since this code is ran in a kthread.
+>> Add a comment to explicit that.
 >>
 >> Signed-off-by: Clément Léger <cleger@rivosinc.com>
 >> ---
->>  arch/riscv/include/asm/sbi.h |  5 ++
->>  arch/riscv/kernel/sbi.c      | 97 ++++++++++++++++++++++++++++++++++++
->>  2 files changed, 102 insertions(+)
+>>  arch/riscv/kernel/traps_misaligned.c | 9 +++++++--
+>>  1 file changed, 7 insertions(+), 2 deletions(-)
 >>
->> diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
->> index bb077d0c912f..fc87c609c11a 100644
->> --- a/arch/riscv/include/asm/sbi.h
->> +++ b/arch/riscv/include/asm/sbi.h
->> @@ -503,6 +503,11 @@ int sbi_remote_hfence_vvma_asid(const struct cpumask *cpu_mask,
->>  				unsigned long asid);
->>  long sbi_probe_extension(int ext);
+>> diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
+>> index 90ac74191357..ffac424faa88 100644
+>> --- a/arch/riscv/kernel/traps_misaligned.c
+>> +++ b/arch/riscv/kernel/traps_misaligned.c
+>> @@ -616,6 +616,11 @@ bool check_vector_unaligned_access_emulated_all_cpus(void)
+>>  		return false;
+>>  	}
 >>  
->> +int sbi_fwft_all_cpus_set(u32 feature, unsigned long value, unsigned long flags,
->> +			  bool revert_on_failure);
->> +int sbi_fwft_get(u32 feature, unsigned long *value);
->> +int sbi_fwft_set(u32 feature, unsigned long value, unsigned long flags);
->> +
->>  /* Check if current SBI specification version is 0.1 or not */
->>  static inline int sbi_spec_is_0_1(void)
->>  {
->> diff --git a/arch/riscv/kernel/sbi.c b/arch/riscv/kernel/sbi.c
->> index 1989b8cade1b..256910db1307 100644
->> --- a/arch/riscv/kernel/sbi.c
->> +++ b/arch/riscv/kernel/sbi.c
->> @@ -299,6 +299,103 @@ static int __sbi_rfence_v02(int fid, const struct cpumask *cpu_mask,
->>  	return 0;
->>  }
->>  
->> +int sbi_fwft_get(u32 feature, unsigned long *value)
->> +{
->> +	return -EOPNOTSUPP;
->> +}
->> +
->> +/**
->> + * sbi_fwft_set() - Set a feature on all online cpus
+>> +	/*
+>> +	 * While being documented as very slow, schedule_on_each_cpu() is used
+>> +	 * since kernel_vector_begin() expects irqs to be enabled or it will panic().
 > 
-> copy+paste of description from sbi_fwft_all_cpus_set(). This function
-> only sets the feature on the calling hart.
-> 
->> + * @feature: The feature to be set
->> + * @value: The feature value to be set
->> + * @flags: FWFT feature set flags
->> + *
->> + * Return: 0 on success, appropriate linux error code otherwise.
->> + */
->> +int sbi_fwft_set(u32 feature, unsigned long value, unsigned long flags)
->> +{
->> +	return -EOPNOTSUPP;
->> +}
->> +
->> +struct fwft_set_req {
->> +	u32 feature;
->> +	unsigned long value;
->> +	unsigned long flags;
->> +	cpumask_t mask;
->> +};
->> +
->> +static void cpu_sbi_fwft_set(void *arg)
->> +{
->> +	struct fwft_set_req *req = arg;
->> +
->> +	if (sbi_fwft_set(req->feature, req->value, req->flags))
->> +		cpumask_clear_cpu(smp_processor_id(), &req->mask);
->> +}
->> +
->> +static int sbi_fwft_feature_local_set(u32 feature, unsigned long value,
->> +				      unsigned long flags,
->> +				      bool revert_on_fail)
->> +{
->> +	int ret;
->> +	unsigned long prev_value;
->> +	cpumask_t tmp;
->> +	struct fwft_set_req req = {
->> +		.feature = feature,
->> +		.value = value,
->> +		.flags = flags,
->> +	};
->> +
->> +	cpumask_copy(&req.mask, cpu_online_mask);
->> +
->> +	/* We can not revert if features are locked */
->> +	if (revert_on_fail && flags & SBI_FWFT_SET_FLAG_LOCK)
-> 
-> Should use () around the flags &. I thought checkpatch complained about
-> that?
-> 
->> +		return -EINVAL;
->> +
->> +	/* Reset value is the same for all cpus, read it once. */
-> 
-> How do we know we're reading the reset value? sbi_fwft_all_cpus_set() may
-> be called multiple times on the same feature. And harts may have had
-> sbi_fwft_set() called on them independently. I think we should drop the
-> whole prev_value optimization.
+> which expects
 
-That's actually used for revert_on_failure as well not only the
-optimization.
+Hum that would yield the following:
 
-> 
->> +	ret = sbi_fwft_get(feature, &prev_value);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Feature might already be set to the value we want */
->> +	if (prev_value == value)
->> +		return 0;
->> +
->> +	on_each_cpu_mask(&req.mask, cpu_sbi_fwft_set, &req, 1);
->> +	if (cpumask_equal(&req.mask, cpu_online_mask))
->> +		return 0;
->> +
->> +	pr_err("Failed to set feature %x for all online cpus, reverting\n",
->> +	       feature);
-> 
-> nit: I'd let the above line stick out. We have 100 chars.
-> 
->> +
->> +	req.value = prev_value;
->> +	cpumask_copy(&tmp, &req.mask);
->> +	on_each_cpu_mask(&req.mask, cpu_sbi_fwft_set, &req, 1);
->> +	if (cpumask_equal(&req.mask, &tmp))
->> +		return 0;
-> 
-> I'm not sure we want the revert_on_fail support either. What happens when
-> the revert fails and we return -EINVAL below? Also returning zero when
-> revert succeeds means the caller won't know if we successfully set what
-> we wanted or just successfully reverted.
+"schedule_on_each_cpu() is used since kernel_vector_begin() that is
+called inside the vector code 'which' expects irqs to be enabled or it
+will panic()." which seems wrong as well.
 
-So that might actually be needed for features that needs to be enabled
-on all hart or not enabled at all. If we fail to enable all of them,
-them the hart will be in some non coherent state between the harts.
-The returned error code though is wrong and I'm not sure we would have a
-way to gracefully handle revertion failure (except maybe panicking ?).
+I guess something like this would be better:
+
+"While being documented as very slow, schedule_on_each_cpu() is used
+since kernel_vector_begin() expects irqs to be enabled or it will panic()"
 
 Thanks,
 
 Clément
 
 > 
->> +
->> +	return -EINVAL;
->> +}
->> +
->> +/**
->> + * sbi_fwft_all_cpus_set() - Set a feature on all online cpus
->> + * @feature: The feature to be set
->> + * @value: The feature value to be set
->> + * @flags: FWFT feature set flags
->> + * @revert_on_fail: true if feature value should be restored to it's orignal
-> 
-> its original
-> 
->> + * 		    value on failure.
-> 
-> Line 'value' up under 'true'
-> 
->> + *
->> + * Return: 0 on success, appropriate linux error code otherwise.
->> + */
->> +int sbi_fwft_all_cpus_set(u32 feature, unsigned long value, unsigned long flags,
->> +			  bool revert_on_fail)
->> +{
->> +	if (feature & SBI_FWFT_GLOBAL_FEATURE_BIT)
->> +		return sbi_fwft_set(feature, value, flags);
->> +
->> +	return sbi_fwft_feature_local_set(feature, value, flags,
->> +					  revert_on_fail);
->> +}
->> +
->>  /**
->>   * sbi_set_timer() - Program the timer for next timer event.
->>   * @stime_value: The value after which next timer event should fire.
+>> +	 */
+>>  	schedule_on_each_cpu(check_vector_unaligned_access_emulated);
+>>  
+>>  	for_each_online_cpu(cpu)
+>> @@ -636,7 +641,7 @@ bool check_vector_unaligned_access_emulated_all_cpus(void)
+>>  
+>>  static bool unaligned_ctl __read_mostly;
+>>  
+>> -static void check_unaligned_access_emulated(struct work_struct *work __always_unused)
+>> +static void check_unaligned_access_emulated(void *arg __always_unused)
+>>  {
+>>  	int cpu = smp_processor_id();
+>>  	long *mas_ptr = per_cpu_ptr(&misaligned_access_speed, cpu);
+>> @@ -677,7 +682,7 @@ bool check_unaligned_access_emulated_all_cpus(void)
+>>  	 * accesses emulated since tasks requesting such control can run on any
+>>  	 * CPU.
+>>  	 */
+>> -	schedule_on_each_cpu(check_unaligned_access_emulated);
+>> +	on_each_cpu(check_unaligned_access_emulated, NULL, 1);
+>>  
+>>  	for_each_online_cpu(cpu)
+>>  		if (per_cpu(misaligned_access_speed, cpu)
 >> -- 
 >> 2.47.2
+>>
 > 
-> Thanks,
-> drew
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
