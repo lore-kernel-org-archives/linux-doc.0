@@ -1,71 +1,104 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B4A1FE44D
-	for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 16:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D3F1F957;
+	Fri, 14 Mar 2025 17:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741969820; cv=none; b=iLcB3MNFTJZMKGVpolwppxRj7LQMkOLPzIDeGj3F2H80cVxHhE1sfH5gxggKx3cu43SC7yej0e9MmktVxe8xzHa39Zl8Ch8xat4dBVRSHUmBE83qkvP2cQF8UIIRV429ejIARHm7KT6PmMNhfz2OzHYwMVanVbqmzVyD1PiToiU=
+	t=1741972701; cv=none; b=MooGpjA3vWaXmWWjNDmP1+JVuU9R7oRHo+8elmCrj8HDKJFF3SYKn5zmmJ6siNJPF76KxtLaKyhZbkf1xHJUwmREN9tPnPhwTZFXmKznuuzzBPg3W9vez5B0rALLBKcBjcR5hR4jU+7aq1Ak9vT39NQllyJX9bOpou2zlIRjWfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741969820; c=relaxed/simple;
-	bh=Rf3Y2t5DfgJzg/9Slo+edGTDwDk+9738sTXLJVoqKHY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W7XfvinGCFyxk8y1awlzpzU3kBH8Pqk2PTHUAQLIuB4UIHsnFSiYqxiP4C87qxvIv7r2RRvFgndmqM4MAdolrgdXTvL+FydODARyIjM5Orobw2whguMlCHJzJHSBda5b3YyYh0uMQOQI3ls+x2ySHP99XV6KVrqABn1+zhrzcWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=pm4irdM4; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
+	s=arc-20240116; t=1741972701; c=relaxed/simple;
+	bh=+RX0bOfB5Qz+vXOyHXihEQwKeBSuvgq5jV37rXdBC3I=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pGywFh70bVZd2zohQypDViXVe/aUD5vYbkxB2YY9hs/XszfiCUCJnK95MdjWJty+MYQThKd9Xte2HH3Wpj/pjx8+8wvVXPtcW5er7DeICYKa/mDQ1hipAiq31uUybXQ7TZA44Xe0RNCptWEQ+91F3+4umR/Zl6SXaEZofpFBZEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=wSXERhUB; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="pm4irdM4"
-Message-ID: <1d66a62e-faee-4604-9136-f90eddcfa7c0@iencinas.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
-	s=key1; t=1741969806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Rf3Y2t5DfgJzg/9Slo+edGTDwDk+9738sTXLJVoqKHY=;
-	b=pm4irdM4HR3MZn2jvYaJbIkFZV/erWWwNaBU55MuhJswE4dYlcLX7vjUBeCb6YNGArVQQ+
-	Sc0suUTZpLwSxR7uSJK4BeB9+2z3uBqFw7BhRekSs9PgHssYegQn+OZm4j/bGGbVCx9aqC
-	HDWUqk5vy7FuSWHbd7L+vK4cD7jmPyIiCcqxPMm+a9UKUt1n+/fEWnGSP+6zrVSdfD2K7d
-	Yg8nStKg0/rQzVup9zMup/aGQC3gWl6hj3sYB+UIkJALyp3vuGb+O8kajmf3wnpzwcJOMw
-	OWtnT+E39b28KqmGzP0UdkjlLEJe/caA3GOmUD0rCOh8J26MyW9A6j8fFFcEVw==
-Date: Fri, 14 Mar 2025 17:30:00 +0100
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="wSXERhUB"
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52EF5B59008213;
+	Fri, 14 Mar 2025 13:17:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=itgvC/ZWz2LcGv939LwDGD3Mr24
+	JIPo7vS7Eob/K9/o=; b=wSXERhUBNUxJALFMyN2UZK7s/+QnUVcW4/+qZTehCDH
+	YZ0b7sDEvqwF6EO/0l5yb7mLUvFnWADxbfGr7SND0zFhnJArPKmF9/FISysjCjhF
+	oC3xpAJVlZ8y95yxFnRzQHs9M/1+Y+qZa1+C4y2ze2fRlqd2xhg2tEOYFE2P0qxX
+	78XthnNUw5tH4xdjRVAoaJQy3ruXJMySlzOXtwmRwSf0ObgXgMFm6Mzmz7OM2hbb
+	aY1Vl8Fdofd8KkwfFb7f9SVsvKBBfLPoyJLg4FvAdPHbSJGMh5oMk7iSJ0h0X2+f
+	PTHDMFctY4MDlq2CYgu0j0OXr/5etjDJ5aEC/E2ITmQ==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 45cpsq0gh2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 14 Mar 2025 13:17:50 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 52EHHnsu018752
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 14 Mar 2025 13:17:49 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Fri, 14 Mar
+ 2025 13:17:49 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Fri, 14 Mar 2025 13:17:49 -0400
+Received: from work.ad.analog.com (HYB-hERzalRezfV.ad.analog.com [10.65.205.9])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 52EHHUwA004983;
+	Fri, 14 Mar 2025 13:17:33 -0400
+From: Marcelo Schmitt <marcelo.schmitt@analog.com>
+To: <linux-iio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC: <jic23@kernel.org>, <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
+        <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>
+Subject: [PATCH v1 0/4] iio: adc: ad4000: Add SPI offload support
+Date: Fri, 14 Mar 2025 14:17:26 -0300
+Message-ID: <cover.1741970538.git.marcelo.schmitt@analog.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] Documentation: kcsan: fix "Plain Accesses and Data Races"
- URL in kcsan.rst
-To: Jonathan Corbet <corbet@lwn.net>, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>
-Cc: kasan-dev@googlegroups.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250306-fix-plain-access-url-v1-1-9c653800f9e0@iencinas.com>
- <87o6y5lvvg.fsf@trenco.lwn.net>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ignacio Encinas Rubio <ignacio@iencinas.com>
-Autocrypt: addr=ignacio@iencinas.com; keydata=
- xjMEZgaZEBYJKwYBBAHaRw8BAQdAYZxeXU5yoeLYkQpvN+eE3wmAF4V0JUzIlpm/DqiSeBnN
- LElnbmFjaW8gRW5jaW5hcyBSdWJpbyA8aWduYWNpb0BpZW5jaW5hcy5jb20+wo8EExYIADcW
- IQSXV5vKYfM26lUMmYnH3J3Ka8TsNgUCZgaZEAUJBaOagAIbAwQLCQgHBRUICQoLBRYCAwEA
- AAoJEMfcncprxOw21F4BAJe+mYh3sIdSvydyDdDXLFqtVkzrFB8PVNSU9eZpvM0mAP9996LA
- N0gyY7Obnc3y59r9jOElOn/5fz5mOEU3nE5lCc44BGYGmRESCisGAQQBl1UBBQEBB0CVC5o6
- qnsTzmmtKY1UWa/GJE53dV/3UPJpZu42p/F0OAMBCAfCfgQYFggAJhYhBJdXm8ph8zbqVQyZ
- icfcncprxOw2BQJmBpkRBQkFo5qAAhsMAAoJEMfcncprxOw2N8ABAPcrkHouJPn2N8HcsL4S
- SVgqxNLVOpsMX9kAYgIMqM0WAQCA40v0iYH1q7QHa2IfgkrBzX2ZLdXdwoxfUr8EY5vtAg==
-In-Reply-To: <87o6y5lvvg.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: qiFi1hf3DUiEoMes5Fh_ORWzUr5Y2TiN
+X-Authority-Analysis: v=2.4 cv=HawUTjE8 c=1 sm=1 tr=0 ts=67d464be cx=c_pps a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17 a=Vs1iUdzkB0EA:10 a=LW6Ksy-oGqye9MjSVIYA:9
+X-Proofpoint-ORIG-GUID: qiFi1hf3DUiEoMes5Fh_ORWzUr5Y2TiN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-14_06,2025-03-14_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
+ clxscore=1015 adultscore=0 priorityscore=1501 lowpriorityscore=0
+ mlxlogscore=999 impostorscore=0 mlxscore=0 malwarescore=0 phishscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503140135
 
-On 12/3/25 23:36, Jonathan Corbet wrote:
-> It would be best, of course, to get the memory-model documentation
-> properly into our built docs...someday...
+This patch series extends the ad4000 driver to support SPI offloading.
+In addition to that, ad4000 IIO documentation is expanded to:
+- list PulSAR parts supported by the ad4000 driver.
+- describe some characteristics of AD4000 IIO device.
+- describe changes when SPI offload is being used.
 
-I hadn't thought about this. If this sentiment is shared by the LKMM
-people I would be happy to work on this. Has this ever been
-proposed/discussed before?
+The proposed changes were tested with AD7687 and ADAQ4003 on CoraZ7 setup
+running Linux built from IIO testing branch.
+
+Marcelo Schmitt (4):
+  iio: adc: ad4000: Add support for SPI offload
+  Documentation: iio: ad4000: Add new supported parts
+  Documentation: iio: ad4000: Add IIO Device characteristics section
+  Documentation: iio: ad4000: Describe offload support
+
+ Documentation/iio/ad4000.rst |  81 +++++-
+ drivers/iio/adc/Kconfig      |   7 +-
+ drivers/iio/adc/ad4000.c     | 519 +++++++++++++++++++++++++++++------
+ 3 files changed, 517 insertions(+), 90 deletions(-)
+
+
+base-commit: af94f401e26f686f7391ce79b38a6129417c22dc
+prerequisite-patch-id: 3d517eef53a799adba5922815fe684b913e36773
+-- 
+2.47.2
+
