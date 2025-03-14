@@ -1,90 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3C01F30C3;
-	Fri, 14 Mar 2025 10:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92FE41F4261;
+	Fri, 14 Mar 2025 10:11:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741946504; cv=none; b=nTv0HGSni1zRULmHWDHjw/CCGF8mUc+JZx84HwTmjf0e31WwPEAa/s93pwX9Xu6ezWmReggTkCI1813btOB1S18CK9JBWE0GtsmpjUqkvC2raD1XVwoZbLSO0fM+VL/yr/RhKkNNujUZqEhKlYbNabF1k/Cg7I3HeZ/16/CHJIo=
+	t=1741947072; cv=none; b=EEBteKwUujqHPkuD0bsIGqN8nFak9lQLyIi9oiwdQcrpIDdc2kubKPXeWAteeIcZx9V64wj0wPwvB55yVmUaVdsbkv3AeMBuZF8+wmXzjUVkluZrXpgCUuPBEU0GG1m9TEKHgqzL9DeJf9WDdpMunxStkszV896NhP2/AtrWhOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741946504; c=relaxed/simple;
-	bh=ssdVXLgH46tCNp5vgZI7lWWdXz1whwaAJoMzKSN4mKE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N9ZTKCPyFnb20ka4XZ/ezzMbhJ+gxq32Ps22+/OqKxAj/eho99p2dHxuDqTMw0bOxSwbk422q2y1Per6qUYJQOyqBEIq83Ja0ZWEexCPQN/5cl2p4MaKz2KXiPXTY5fML72QQjxuPy88j2L0pA/bN+kgar0osQDsDKnqw3I7O8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XVjkQMhJ; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1741947072; c=relaxed/simple;
+	bh=tDstaa/o6sUBQipm+8mIlCkuic6AshHp3d0i/s0EITM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RIKG5yKLTyVU4HV8zMYNNAGKrlAh12S3X1Eq0SoJuC1ZwOufyAzi7ILDHfK+rFNR7B2ThhI6tQh/AhuoScF36dJZDk/mMeagDeUHgQQAXZMZ2C62qs1uwpkaeFSItYlzAIV/h/w4TGbhpmNZEJP6PLsN9Nyfanojw0dWkVgN7OA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M74ckQG0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVjkQMhJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741946503; x=1773482503;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ssdVXLgH46tCNp5vgZI7lWWdXz1whwaAJoMzKSN4mKE=;
-  b=XVjkQMhJ5X2+dVcJo5TsR2t7WRXnKiYQg1W8UVy75Jg6QXrmr251ri1e
-   GKmr7SClS9TPYZm70Ja92/ETVQZH7G/2IIoiau8aHNCY9nrW7O+nwgtB2
-   4z0qFmUOfpRSk57l74aXe/lWcNcEzNKMSGEvcCbCDRhPJjZgIU+wPPV8W
-   5swQvEfa9hAwOsBi4Kq4Js5T/FK0cVypnrpj2PhEkMSGpNO8hdSKwLwa2
-   wmLieY5rS8ydmGWGl91I0iwiWC273oyhTPIkxlyXjAGM+1qrkdsODglXY
-   OACF5eSGAqJiVlEt2IZ/qCOAwxrxPr1BEo4QGOybiLqims5UzZJ9E0NA5
-   Q==;
-X-CSE-ConnectionGUID: Hc4NP3j+QvCgV5DFd8oerw==
-X-CSE-MsgGUID: As2cQozoTLquKVNI4Y8dVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="43197139"
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="43197139"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 03:01:41 -0700
-X-CSE-ConnectionGUID: //I4/LOVRtmeSfvdraR8XQ==
-X-CSE-MsgGUID: fvqhzmGyQ8+7cLgK3UHdMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="120944855"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 03:01:39 -0700
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	simona.vetter@ffwll.ch,
-	airlied@gmail.com,
-	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH] docs: driver-api: firmware: clarify userspace requirements
-Date: Fri, 14 Mar 2025 11:01:36 +0100
-Message-ID: <20250314100137.2972355-1-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.45.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M74ckQG0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F422DC4CEE3;
+	Fri, 14 Mar 2025 10:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741947072;
+	bh=tDstaa/o6sUBQipm+8mIlCkuic6AshHp3d0i/s0EITM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=M74ckQG0sfvECxcaXf8Tl8WoWWhi4VT0YPYkXgn/QrpSQ5sg/X2u5ixhpCg99qZ92
+	 yJYOHdeJao8AqwcLwQCD4g0MlEnSjubhKT9LCyazptQa/koISoX3njO/nrKiQB4W5G
+	 X13YnXU0g5T9erpPZhALc3PWY7OlKct8dJCXG8XAXiLLSBhb1fvezOKgJ5+Wgm0maO
+	 PsxXQuZA7FB6TBsHmnHIRhKa+IYLhCIB/04KlUd3ALJxUcayMa2+9HfPyGBMWpfV1+
+	 XtQae7eE0BBFynLsY29h7JG092I7A2tuVFXm9wj/tGtN6dAykI3tODuqQeo3eBrdFY
+	 SRvU1zcD2guQg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tt20T-00DVK5-Fo;
+	Fri, 14 Mar 2025 10:11:09 +0000
+Date: Fri, 14 Mar 2025 10:11:08 +0000
+Message-ID: <86ecyzorb7.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: =?UTF-8?B?TWlrb8WCYWo=?= Lenczewski <miko.lenczewski@arm.com>,
+	suzuki.poulose@arm.com,	yang@os.amperecomputing.com,	corbet@lwn.net,
+	catalin.marinas@arm.com,	will@kernel.org,	jean-philippe@linaro.org,
+	robin.murphy@arm.com,	joro@8bytes.org,	akpm@linux-foundation.org,
+	mark.rutland@arm.com,	joey.gouly@arm.com,	james.morse@arm.com,
+	broonie@kernel.org,	anshuman.khandual@arm.com,	oliver.upton@linux.dev,
+	ioworker0@gmail.com,	baohua@kernel.org,	david@redhat.com,	jgg@ziepe.ca,
+	shameerali.kolothum.thodi@huawei.com,	nicolinc@nvidia.com,
+	mshavit@google.com,	jsnitsel@redhat.com,	smostafa@google.com,
+	linux-doc@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,	iommu@lists.linux.dev
+Subject: Re: [PATCH v3 1/3] arm64: Add BBM Level 2 cpu feature
+In-Reply-To: <4998dd9b-106d-4ca7-be88-5330429dcfe8@arm.com>
+References: <20250313104111.24196-2-miko.lenczewski@arm.com>
+	<20250313104111.24196-3-miko.lenczewski@arm.com>
+	<86ikocomvd.wl-maz@kernel.org>
+	<f244c20e-e11c-477b-9487-cb6738c028ca@arm.com>
+	<86h63wok11.wl-maz@kernel.org>
+	<4998dd9b-106d-4ca7-be88-5330429dcfe8@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ryan.roberts@arm.com, miko.lenczewski@arm.com, suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org, jean-philippe@linaro.org, robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org, mark.rutland@arm.com, joey.gouly@arm.com, james.morse@arm.com, broonie@kernel.org, anshuman.khandual@arm.com, oliver.upton@linux.dev, ioworker0@gmail.com, baohua@kernel.org, david@redhat.com, jgg@ziepe.ca, shameerali.kolothum.thodi@huawei.com, nicolinc@nvidia.com, mshavit@google.com, jsnitsel@redhat.com, smostafa@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-The guidelines mention that firmware updates can't break the kernel,
-but it doesn't state directly that they can't break userspace programs.
-Make it explicit that firmware updates cannot break UAPI.
+On Fri, 14 Mar 2025 09:18:43 +0000,
+Ryan Roberts <ryan.roberts@arm.com> wrote:
+>=20
+> On 13/03/2025 18:36, Marc Zyngier wrote:
+> > On Thu, 13 Mar 2025 18:22:00 +0000,
+> > Ryan Roberts <ryan.roberts@arm.com> wrote:
+> >>
+> >> On 13/03/2025 17:34, Marc Zyngier wrote:
+> >>> On Thu, 13 Mar 2025 10:41:10 +0000,
+> >>> Miko=C5=82aj Lenczewski <miko.lenczewski@arm.com> wrote:
+> >>>>
+> >>>> diff --git a/arch/arm64/kernel/pi/idreg-override.c b/arch/arm64/kern=
+el/pi/idreg-override.c
+> >>>> index c6b185b885f7..9728faa10390 100644
+> >>>> --- a/arch/arm64/kernel/pi/idreg-override.c
+> >>>> +++ b/arch/arm64/kernel/pi/idreg-override.c
+> >>>> @@ -209,6 +209,7 @@ static const struct ftr_set_desc sw_features __p=
+rel64_initconst =3D {
+> >>>>  		FIELD("nokaslr", ARM64_SW_FEATURE_OVERRIDE_NOKASLR, NULL),
+> >>>>  		FIELD("hvhe", ARM64_SW_FEATURE_OVERRIDE_HVHE, hvhe_filter),
+> >>>>  		FIELD("rodataoff", ARM64_SW_FEATURE_OVERRIDE_RODATA_OFF, NULL),
+> >>>> +		FIELD("nobbml2", ARM64_SW_FEATURE_OVERRIDE_NOBBML2, NULL),
+> >>>>  		{}
+> >>>>  	},
+> >>>>  };
+> >>>> @@ -246,6 +247,7 @@ static const struct {
+> >>>>  	{ "rodata=3Doff",			"arm64_sw.rodataoff=3D1" },
+> >>>>  	{ "arm64.nolva",		"id_aa64mmfr2.varange=3D0" },
+> >>>>  	{ "arm64.no32bit_el0",		"id_aa64pfr0.el0=3D1" },
+> >>>> +	{ "arm64.nobbml2",		"arm64_sw.nobbml2=3D1" },
+> >>>
+> >>> Why is that a SW feature? This looks very much like a HW feature to
+> >>> me, and you should instead mask out ID_AA64MMFR2_EL1.BBM, and be done
+> >>> with it. Something like:
+> >>
+> >> I think this implies that we would expect the BBM field to be advertis=
+ing BBML2
+> >> support normally and we would check for that as part of the cpufeature
+> >> detection. That's how Miko was doing it in v2, but Yang pointed out th=
+at
+> >> AmpereOne, which supports BBML2+NOABORT semantics, doesn't actually ad=
+vertise
+> >> BBML2 in its MMFR2. So we don't want to check that field, and instead =
+rely
+> >> solely on the MIDR allow-list + a command line override. It was me that
+> >> suggested putting that in the SW feature register, and I think that st=
+ill sounds
+> >> like the right solution for this situation?
+> >=20
+> > I think this is mixing two different things:
+> >=20
+> > - preventing BBM-L2 from being visible to the kernel: this is what my
+> >   suggestion is doing by nuking an architectural feature in the
+> >   relevant register
+> >=20
+> > - random HW not correctly advertising what they are doing: this is an
+> >   erratum workaround
+> >=20
+> > I'd rather we don't conflate the two things, and make them very
+> > explicitly distinct.
+>=20
+> It all sounds so obvious when you put it like that! :)
+>=20
+> I'm guessing there is a layer where the workaround can be applied to the
+> sanitised feature registers on a per-cpu basis and that won't affect this=
+ global
+> override which will remain as an overlay on top? If so then that sounds p=
+erfect
+> (you can probably tell I find the whole feature management framework rath=
+er
+> inpeneterable).
 
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
----
- .../driver-api/firmware/firmware-usage-guidelines.rst        | 5 +++++
- 1 file changed, 5 insertions(+)
+You and I, brother... The only person who actually understands what's
+in that file is Suzuki.
 
-diff --git a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-index fdcfce42c6d28..5f8f13e2ee510 100644
---- a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-+++ b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-@@ -42,3 +42,8 @@ then of course these rules will not apply strictly.)
-   deprecating old major versions, then this should only be done as a
-   last option, and be stated clearly in all communications.
- 
-+* Firmware files that affect the User API (UAPI) shall not introduce
-+  changes that break existing userspace programs. Updates to such firmware
-+  must ensure backward compatibility with existing userspace applications.
-+  This includes maintaining consistent interfaces and behaviors that
-+  userspace programs rely on.
-\ No newline at end of file
--- 
-2.45.1
+> That workaround would be added as part of Yang's series anyway.
 
+Yup, that's what I'd expect. Ideally tied to an erratum number so that
+we have an actual promise from the vendor that their implementation is
+actually BBM-L2 compliant despite the idreg breakage.
+
+Thanks,
+
+	M.
+
+--=20
+Without deviation from the norm, progress is not possible.
