@@ -1,224 +1,160 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3454F193435
-	for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 08:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D566619F42D;
+	Fri, 14 Mar 2025 08:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741939840; cv=none; b=P2cx1n9aPkQKtN8ixdDZ/JruMZQySbmIMbBC7rQViyQwUxfSrDMrJRNRGpJe5U4c3c38OgaPLggyWeR0KwSWKESB6pD4ubZKOLaCj1tJqmsTsQdLvJjZS5J1YIQU/ONmnQ7P9TX07KAu2+yh7Q2cufJM8Cp0uOzV6pGhKmziWOs=
+	t=1741939893; cv=none; b=Mg1vyQcBy+Q3tU3/0ts7pZd0yrazbgeRLDsIPCqS1oReDfUg7dcnne2MVY5sMtc6CM+o4q48nQrAJPoquR4B8Ws9ZAGBezukqsWV2MyS7DfOzFSEqmGccxmjjP7YTUlbDKU0Jyn8EXnawxqPx+bjTCEzq1vkYkyhhB4932Nii1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741939840; c=relaxed/simple;
-	bh=J9W/tM13EIIllauoi40EROSVBNfzNEqDPKfRn8QEwgY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YVgIcRm74t40EhQptUMgSAabmiShUCXT8XYiIog6RFRLgqnS5ux5L8Ptg6IHbNjMpFi0oQZWDafQeUl1sGh7m7rYvrtG+BuTsW4piioijh9mpq4SWiXT16cdqMiR657c4U264Nbt0Dy8bLfoZMQAetHJqqE6N+FvEThlWxlBaEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=fe0OlAGT; arc=none smtp.client-ip=209.85.166.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1741939893; c=relaxed/simple;
+	bh=wLR9kA7YRBMcXE+WRSSPf8qb6kdsUh2P55EgbJ5oQmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JRPUfXnoxTwpyRI4fsgohpYO4gcVpt74ZBkAmAX+L7Ww9y46NNiWVSmN35/ADW+OLZYl8UELxZDbg0NRi0GiRb50wmXQugXifmu8mIdJg3zK+jrWuXCNvjZYpbxDRSSLySIx+s/V23xrpmSXLndgrASFAG8H9QmGowuY75qe2Lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fIoKFoKE; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="fe0OlAGT"
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-3cfc8772469so7517275ab.3
-        for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 01:10:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1741939837; x=1742544637; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=maat8Z8CQlIo/YQgvM5joGb0bwlzNNQQ5lvrvmfPTnE=;
-        b=fe0OlAGTebdWN4bzy2YgTdfPZeIIO7KNRRYxxCOviK0+S0bjWrvi7Ut9dJn8EcRxGn
-         RueVgr5L3kwoz/uvFocUPLqjthpmyiBRA8saSc5DWE3/kfEhG8xafDoilDdLj5Uga8VV
-         A+Ge32/bvLiH2w1hOeU8lgHYWveVoAi+Kj91NHwf37glXcWf/nAVXxoVp70tdxOySLCB
-         JS97qcCQXwDZ/uTjuNx5A6+8ej6FTElh+isMqXjM/U5WMLYfGGK6VsRJbUeUSDthOf74
-         NZMj+QApaQpMOmHHpiv8QZg0gvrV/DdTr0ToV7Mqk6v7Ip+A88sZZzxt8IdQahf9CIA9
-         +bWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741939837; x=1742544637;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=maat8Z8CQlIo/YQgvM5joGb0bwlzNNQQ5lvrvmfPTnE=;
-        b=NXm6x81g9eYqA/BCAPjL8tRPGBqooIM90zgyQhm3ANf+Chf+50GqxV1vvqi2jbakOy
-         S9jzjUSppVDSyrGuNR00ytXMXKRArx0Z+NKBv+/xoxzCG4tPv2/9sg0Z8vLGv6nmLi8k
-         2OfGAWu2VgEybq36xVtgT01nWNum0BuvJ39sRNk4hrW1ublOAR5/UbOMFrCGdPQLuajq
-         Mn2Mtw5SuSawpi8NzPPf8VzvELkS8oaXFCyAG1hdSsSYdLBZoIM2H48ClOpdDU1S+aDu
-         k7Moeef/OzwTVpxwGqGN/QdFDQHXYHOuLeZCDsCJr0Lf0dxhN8gvmXdScff9iFbcpDsn
-         eOyA==
-X-Forwarded-Encrypted: i=1; AJvYcCXBD/7Af+cLQKkG/siJe2HVUrX6frMBV0k7M7vGz08+Gtk4PcUuCplfaPzOVVZf5pdxMX97nG509Eo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsSfwH09jIPa8QYBA05Z+bQDwqRaCEj/O1wqE1Tcnq52BrvURb
-	qvkuV41uxxiwPsKBw9MskBNqr3Lb9zSO0cBra2dplXHSnxnd5UpLqz6RlpPYQeYenHljmH1Ge/K
-	ikpgPubDpTEJ7Ka9w4fqQlMLvI2e7Xx2MtY4F4g==
-X-Gm-Gg: ASbGnctLmmzMW6zyfWlGjWjHioj+Q8Q7UQZ1S/dysa26iSr5mu2d4qhkjkcqeDIVEZW
-	xg7NkgnH0PIVX3B9XXp2NafYyGpjKJ8eClHQQAwwsL+Y2G7FbUYZZnJkxBOyK/jjLCwy7f/7iDd
-	CeLoH1GJ5RmGKPapuiBU7yY//KsIqr4z4ik263jjE=
-X-Google-Smtp-Source: AGHT+IEr06JJWPIe++RWZprx7+sk0G4gmp805oxABOzSJgVtajhlGN2WM+TyYd1zsyGazHwiZ0K31rleVVMRVGbr6R4=
-X-Received: by 2002:a92:c246:0:b0:3d4:3ab3:5574 with SMTP id
- e9e14a558f8ab-3d4839feb6emr12608625ab.3.1741939837275; Fri, 14 Mar 2025
- 01:10:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fIoKFoKE"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 39CB844166;
+	Fri, 14 Mar 2025 08:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1741939888;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=shPwwGXfHVuV1VEQPB00+dQj+dOnHg7agqnzcuOae+g=;
+	b=fIoKFoKELP4821UfIVCOJ7r0oRx+ErLefYKp9XTh7WSH4cEVUWJiedNkCtFuxYms4hSMxu
+	eERv4eaCRm7eD7vTzxbo2Yd5bpPbOXvkc8n7yoNaqR/GDSYlOh3ZY0Mx8ebCY7BAlbndwl
+	nqqshu+8ScypJK0eDaRsnNPkAlXHe+LRax8aMccBkZiJXYcf78fa/sf3HpuSxb/Q36bK43
+	EeepcpWqgGZZL1WGsf5AjGG+Xv2hXIhFvMlEdcdRP8Sb3c9HVSYIJgg7a/dMsNkABQaI8j
+	pNdL7J5N3VFrE0/URRC9+BNzsRU1UslrHOsivGUh+9vbsKwQ8UbRq5kvRIBpeg==
+Date: Fri, 14 Mar 2025 09:11:20 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Paul Kocialkowski
+ <contact@paulk.fr>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?B?SGVy?=
+ =?UTF-8?B?dsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
+ bridges
+Message-ID: <20250314091120.366b5fd7@booty>
+In-Reply-To: <20250313-flying-crab-of-diversity-fa1db0@houat>
+References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
+	<20250206-hotplug-drm-bridge-v6-14-9d6f2c9c3058@bootlin.com>
+	<20250207-ingenious-daffodil-dugong-51be57@houat>
+	<20250313125656.70448d09@booty>
+	<20250313-flying-crab-of-diversity-fa1db0@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250310-v5_user_cfi_series-v11-0-86b36cbfb910@rivosinc.com> <20250310-v5_user_cfi_series-v11-3-86b36cbfb910@rivosinc.com>
-In-Reply-To: <20250310-v5_user_cfi_series-v11-3-86b36cbfb910@rivosinc.com>
-From: Zong Li <zong.li@sifive.com>
-Date: Fri, 14 Mar 2025 16:10:24 +0800
-X-Gm-Features: AQ5f1JpIIk67nxD8XYVlg0yQoGLERm_fNClgnrJ71NE6nAneEkcJbes_9dfQWtA
-Message-ID: <CANXhq0p22tsMUBffV4rTu+Txf0ugmpUmUQZWf2EX00Qxhvq2_Q@mail.gmail.com>
-Subject: Re: [PATCH v11 03/27] riscv: zicfiss / zicfilp enumeration
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
-	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufedtfedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgdttddvmedusggrjeemgeekfhejmedulegtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemrgdttddvmedusggrjeemgeekfhejmedulegthedphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeejpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehinhhkihdruggrvgesshgrmhhsuhhnghdrtghomhdprhgtphhtt
+ hhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvrhhnvghlrdhorhhg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Mon, Mar 10, 2025 at 11:42=E2=80=AFPM Deepak Gupta <debug@rivosinc.com> =
-wrote:
->
-> This patch adds support for detecting zicfiss and zicfilp. zicfiss and
-> zicfilp stands for unprivleged integer spec extension for shadow stack
-> and branch tracking on indirect branches, respectively.
->
-> This patch looks for zicfiss and zicfilp in device tree and accordinlgy
-> lights up bit in cpu feature bitmap. Furthermore this patch adds detectio=
-n
-> utility functions to return whether shadow stack or landing pads are
-> supported by cpu.
->
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> ---
->  arch/riscv/include/asm/cpufeature.h | 13 +++++++++++++
->  arch/riscv/include/asm/hwcap.h      |  2 ++
->  arch/riscv/include/asm/processor.h  |  1 +
->  arch/riscv/kernel/cpufeature.c      | 13 +++++++++++++
->  4 files changed, 29 insertions(+)
->
-> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
-/cpufeature.h
-> index 569140d6e639..69007b8100ca 100644
-> --- a/arch/riscv/include/asm/cpufeature.h
-> +++ b/arch/riscv/include/asm/cpufeature.h
-> @@ -12,6 +12,7 @@
->  #include <linux/kconfig.h>
->  #include <linux/percpu-defs.h>
->  #include <linux/threads.h>
-> +#include <linux/smp.h>
->  #include <asm/hwcap.h>
->  #include <asm/cpufeature-macros.h>
->
-> @@ -137,4 +138,16 @@ static __always_inline bool riscv_cpu_has_extension_=
-unlikely(int cpu, const unsi
->         return __riscv_isa_extension_available(hart_isa[cpu].isa, ext);
->  }
->
-> +static inline bool cpu_supports_shadow_stack(void)
-> +{
-> +       return (IS_ENABLED(CONFIG_RISCV_USER_CFI) &&
-> +               riscv_cpu_has_extension_unlikely(smp_processor_id(), RISC=
-V_ISA_EXT_ZICFISS));
-> +}
-> +
-> +static inline bool cpu_supports_indirect_br_lp_instr(void)
-> +{
-> +       return (IS_ENABLED(CONFIG_RISCV_USER_CFI) &&
-> +               riscv_cpu_has_extension_unlikely(smp_processor_id(), RISC=
-V_ISA_EXT_ZICFILP));
-> +}
-> +
->  #endif
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwca=
-p.h
-> index 869da082252a..2dc4232bdb3e 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -100,6 +100,8 @@
->  #define RISCV_ISA_EXT_ZICCRSE          91
->  #define RISCV_ISA_EXT_SVADE            92
->  #define RISCV_ISA_EXT_SVADU            93
-> +#define RISCV_ISA_EXT_ZICFILP          94
-> +#define RISCV_ISA_EXT_ZICFISS          95
->
->  #define RISCV_ISA_EXT_XLINUXENVCFG     127
->
-> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/=
-processor.h
-> index 5f56eb9d114a..e3aba3336e63 100644
-> --- a/arch/riscv/include/asm/processor.h
-> +++ b/arch/riscv/include/asm/processor.h
-> @@ -13,6 +13,7 @@
->  #include <vdso/processor.h>
->
->  #include <asm/ptrace.h>
-> +#include <asm/hwcap.h>
->
->  #define arch_get_mmap_end(addr, len, flags)                    \
->  ({                                                             \
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index c6ba750536c3..82065cc55822 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -150,6 +150,15 @@ static int riscv_ext_svadu_validate(const struct ris=
-cv_isa_ext_data *data,
->         return 0;
->  }
->
-> +static int riscv_cfi_validate(const struct riscv_isa_ext_data *data,
-> +                             const unsigned long *isa_bitmap)
-> +{
-> +       if (!IS_ENABLED(CONFIG_RISCV_USER_CFI))
-> +               return -EINVAL;
-> +
-> +       return 0;
-> +}
-> +
->  static const unsigned int riscv_zk_bundled_exts[] =3D {
->         RISCV_ISA_EXT_ZBKB,
->         RISCV_ISA_EXT_ZBKC,
-> @@ -333,6 +342,10 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =3D =
-{
->         __RISCV_ISA_EXT_SUPERSET_VALIDATE(zicboz, RISCV_ISA_EXT_ZICBOZ, r=
-iscv_xlinuxenvcfg_exts,
->                                           riscv_ext_zicboz_validate),
->         __RISCV_ISA_EXT_DATA(ziccrse, RISCV_ISA_EXT_ZICCRSE),
-> +       __RISCV_ISA_EXT_SUPERSET_VALIDATE(zicfilp, RISCV_ISA_EXT_ZICFILP,=
- riscv_xlinuxenvcfg_exts,
-> +                                         riscv_cfi_validate),
-> +       __RISCV_ISA_EXT_SUPERSET_VALIDATE(zicfiss, RISCV_ISA_EXT_ZICFISS,=
- riscv_xlinuxenvcfg_exts,
-> +                                         riscv_cfi_validate),
->         __RISCV_ISA_EXT_DATA(zicntr, RISCV_ISA_EXT_ZICNTR),
->         __RISCV_ISA_EXT_DATA(zicond, RISCV_ISA_EXT_ZICOND),
->         __RISCV_ISA_EXT_DATA(zicsr, RISCV_ISA_EXT_ZICSR),
->
+Hello Maxime,
 
-LGTM.
+On Thu, 13 Mar 2025 19:07:17 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
 
-Reviewed-by: Zong Li <zong.li@sifive.com>
+> On Thu, Mar 13, 2025 at 12:56:56PM +0100, Luca Ceresoli wrote:
+> > Hello Maxime,
+> > 
+> > On Fri, 7 Feb 2025 12:47:51 +0100
+> > Maxime Ripard <mripard@kernel.org> wrote:  
+> > > On Thu, Feb 06, 2025 at 07:14:29PM +0100, Luca Ceresoli wrote:  
+> > > > DRM bridges are currently considered as a fixed element of a DRM card, and
+> > > > thus their lifetime is assumed to extend for as long as the card
+> > > > exists. New use cases, such as hot-pluggable hardware with video bridges,
+> > > > require DRM bridges to be added and removed to a DRM card without tearing
+> > > > the card down. This is possible for connectors already (used by DP MST), so
+> > > > add this possibility to DRM bridges as well.
+> > > > 
+> > > > Implementation is based on drm_connector_init() as far as it makes sense,
+> > > > and differs when it doesn't. A difference is that bridges are not exposed
+> > > > to userspace, hence struct drm_bridge does not embed a struct
+> > > > drm_mode_object which would provide the refcount. Instead we add to struct
+> > > > drm_bridge a refcount field (we don't need other struct drm_mode_object
+> > > > fields here) and instead of using the drm_mode_object_*() functions we
+> > > > reimplement from those functions the few lines that drm_bridge needs for
+> > > > refcounting.
+> > > > 
+> > > > Also add a new devm_drm_bridge_alloc() macro to allocate a new refcounted
+> > > > bridge.
+> > > > 
+> > > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>    
+> > > 
+> > > So, a couple of general comments:
+> > > 
+> > > - I've said it a couple of times already, but I really think you're
+> > >   making it harder than necessary for you here. This (and only this!)
+> > >   should be the very first series you should be pushing. The rest can
+> > >   only ever work if that work goes through, and it's already hard enough
+> > >   as it is. So, split that patch into a series of its own, get that
+> > >   merged, and then we will be able to deal with panels conversion and
+> > >   whatever. That's even more true with panels since there's ongoing work
+> > >   that will make it easier for you too. So the best thing here is
+> > >   probably to wait.
+> > > 
+> > > - This patch really needs to be split into several patches, something
+> > >   along the lines of:
+> > > 
+> > >   + Creating devm_drm_bridge_alloc()
+> > >   + Adding refcounting
+> > >   + Taking the references in all the needed places
+> > >   + Converting a bunch of drivers  
+> > 
+> > After reading Anusha's "[PATCH RFC 0/2] drm/panel: Refcounted panel
+> > allocation" [0] I think I need a clarification about the 4 steps you had
+> > outlined in the above quoted text. Are you suggesting those are four
+> > _series_, and you'd want to see a series only creating
+> > devm_drm_bridge_alloc() as a first step, similarly to Anusha's work?
+> > 
+> > That was not my understanding so far, and so I've been working on a
+> > series containing all 4 items, and it's growing very long due to item 3
+> > needing to touch many dozen drivers which need to put a bridge (many
+> > are identical oneliner patches though).  
+> 
+> I believe I've clarified it already in Anusha's series, but I think a
 
-> --
-> 2.34.1
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Yes, you have...
+
+> reasonable series for *early* work would be the bullet points 1, 2, a
+> bit of 3 and a bit of 4.
+
+...but thanks for the extra clarification.
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
