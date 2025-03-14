@@ -1,200 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F39913A26D;
-	Fri, 14 Mar 2025 18:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC06202C3D
+	for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 18:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741978157; cv=none; b=Rfwp00l7YChLwnfv2D+qvaSMdEVw1AreDkDDDNwQzwyC2a345rvLAWq8TG9Dywqhqyw98QPazUfpYgeY9Al0JzksAc4Mwk44OIfneIJeJUKTsNPLYy4w1zRBPftr5mKlafeLRX7/Qjz5VX8o7Dj9ndpXiatN1qg96M52qDxwdRQ=
+	t=1741978598; cv=none; b=i1CUQ+hfbt1BBVCtR0h5TxJZC6i9GIgeykb0AD4VNSEgQebtwiFP19VQyZe1wgjD61Z4oTFHI4MJSSMWLDRj7Px+MbKYz0vk5iQSUtnT6yXnA6Wz2kIqoC3I5joMSxZQ88bjHVY478XS4ai1oPcn3pS+b7rxbZYtX4t7u18mthk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741978157; c=relaxed/simple;
-	bh=O6TQHcNZOIDORUQUex99gbjkbXRSAsx+LziCN6QYCcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XRiC/ALWiGdDRnu3t9+TNmp2WE4FzEkuuQpnHJWJ1ue3RLEWuflPvd+mKPiw+yQRyhtZvud2ba2W8pNmOZxDsOJtB8ilWir8dyaU/ycLGwPBAqtl/3Y3JXfH9BKmC1ybq0dn3NNPjGFSytbWyfTDFZFpjRluh1ptVui85nhswDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rQVmjcjZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741978598; c=relaxed/simple;
+	bh=d6lRTVD/mtADsxyTCgSv/4oezDiZLFcfLJQEpM2XOWo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AxKXOA2yp9t82oHWAbfgaK7HDu5F0DfTg0KA2DtCOl59zNDeGo0eO+p9gUUUOpQ2zqXDjR1f/bYCyPTGb2snVAXretQfckyFq9QByZYvbkHA8k9M56stlI+xuPKO73cAzizQ63CWW8O6nIa3jNmzoMby6MQ36jLLXSg/HRsUT+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=n7AT3+v4; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rQVmjcjZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C4A3C4CEE9;
-	Fri, 14 Mar 2025 18:49:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741978156;
-	bh=O6TQHcNZOIDORUQUex99gbjkbXRSAsx+LziCN6QYCcQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rQVmjcjZhe/sj5yONxV2qVxL98CsQ/XLSI8I1aZI9aDjryLW+sVGMqcfI9Bca9bOS
-	 BjeRuzyi8Km8hWOU7pWxLh0zSj3Q5xmQc8mdYFqkiDMoJN2jPM4GlDtxa49auZ9+wv
-	 o4Atu8WInpcl8PAepC/fXyU6iiNJ15uue0LdQRbYK1nJzWh83j90x9tnoa0sRasVK1
-	 38iJcCj/HUFJNu/wqR3UGB0O36uPS2R51CHZ5YoiakTWuHP1tXd0Pvob4wtZn293CI
-	 sVep3kKdHjc3A4MK0/PKcdqXaMCX1hnu3s63bSmSw7dabMqNw6WwX2YJoxC1T+nsVF
-	 6r+AVkQEbO0Yg==
-Date: Fri, 14 Mar 2025 20:49:11 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
-Message-ID: <20250314184911.GR1322339@unreal>
-References: <cover.1738765879.git.leonro@nvidia.com>
- <20250220124827.GR53094@unreal>
- <CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
- <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
- <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
- <20250312193249.GI1322339@unreal>
- <adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="n7AT3+v4"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7272f9b4132so1598880a34.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 11:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1741978595; x=1742583395; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RNVuCuSS97Q/Z+sHOmkjZ2bCuVpW+EMqPl3PUMJe14g=;
+        b=n7AT3+v4ka4YBn1DdB5mWT1Pj1uOtqPnr/3GrDm9+RrFZVNfP83YTmkNBWg7+tLvo6
+         d75XXYGnmFHrwzC+FpvPwRrdFLXLGeUILwIW3xk5/+Z3ihTc9F2OtQq1SPkK258vuFyf
+         O+q3LPr0ilX5zuAwi2A99q4+q1WAsJsp4Q/0S4ZZAW+FEW6N4vPEJntjHQL8HTt4CrgH
+         z1AzHIoMwiQZDYG1zLjNWTZzKy/mDS04kicmooDAcXgBdYJv4d0Djg1EYUx8IRD2u42j
+         6ipEHFVqOJu6MkIJnFpawEtxqSH7p0QDC7nDDFOSQIFo6qFcJnhZx5levirXZGfq0mGp
+         CKiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741978595; x=1742583395;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RNVuCuSS97Q/Z+sHOmkjZ2bCuVpW+EMqPl3PUMJe14g=;
+        b=KNI5sxF7L7c15D9pIiWoO21iPQNLt70OC3mqJdUPGwCEHds9nxtUpshwTWmUM7uYqx
+         ocP+AR1PeWGmAswxRI7HYo9GTotDZa9cNTyNCXeSj9KhReVsFPSrzp9DB7A9hQpysd50
+         2BpuFfmcd3FV/6aNOnVrDCytGFXqUAodgS3J50YVRqOu1RBb6hv34lELMoQqKRlmhpKC
+         Hz9vmgeiRFEenxqfWc5hhhvYhp4NkAQI64eRCmu2x6O02+GOqSpOHiwXLKNvTG2Bul/9
+         iwIWtMrsu4JNa+MFosYOAy8nAY9FwSKANMJyoA4EcANDGKFqcYonrR4lkVP/fdk4VmhA
+         bd1w==
+X-Forwarded-Encrypted: i=1; AJvYcCXojLxSPUkZ0EnklaAleoMXNp9i9aCm9NRnoG0fW5DKX3MlfaylUpD6FHenMbPtIkSHX4W8xVL6rTM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlM8YKVh9zoVzdSxnKwDTrAs3xkZCIvpmspwFC9+mEz7D8fNMN
+	PLeux+SJYUk/ZnNzQfDLifbXX7ihP3SiO0s2ouztA44e8r8oBiC0JY91mD2O6MI=
+X-Gm-Gg: ASbGncuyN/sKSfKG2J6aHV0tkGBjOplpHroARXPsxSCqEtjTpUDFIMPXxd5HcTzBgCd
+	vs/k2ZWEfcdRJoIaS7mOoHe+ygyWsvoJpnE/oipdpfkAKoUIwCXjZUO5i7bhxErAvyM0HZ5k9tf
+	cUlwTENDc50OuBxJDW3EpwEd6tlPSlJv3vOGx72YQw3N9wj13qzyMJst47M48T0LGrooSRXU8bZ
+	mWtYNg3U0zKAm5li3j2n3Be1o1LhSLKe+7vZAzOiW6lSmeeVY1lYQQyf1+59vbJFUvcXoParu+v
+	SvvM/Jvtx1F/yy8LgbN5PkJSS6qNs8zHM9+irwjm5FNa8x6eFY4orcg14k5z80QnjDNFhuUM7dI
+	LYEWkTA==
+X-Google-Smtp-Source: AGHT+IGg20VFuY1ZXtqIODcWgwwkYNtqJaT66K1mKtecrIPYl6dsZdvrnubDwiZydzZ3z/ZBfVrqDw==
+X-Received: by 2002:a05:6808:1528:b0:3f6:ea63:6a6d with SMTP id 5614622812f47-3fdeefecf73mr2090220b6e.22.1741978595347;
+        Fri, 14 Mar 2025 11:56:35 -0700 (PDT)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3fcd5c0007esm798356b6e.37.2025.03.14.11.56.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Mar 2025 11:56:34 -0700 (PDT)
+Message-ID: <05b83988-b7aa-453a-bef7-8e7eda77f53a@baylibre.com>
+Date: Fri, 14 Mar 2025 13:56:32 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] docs: iio: new docs for ad4052 driver
+To: Jorge Marques <gastmaier@gmail.com>, Jonathan Cameron <jic23@kernel.org>
+Cc: Jorge Marques <jorge.marques@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250306-iio-driver-ad4052-v1-0-2badad30116c@analog.com>
+ <20250306-iio-driver-ad4052-v1-3-2badad30116c@analog.com>
+ <CAMknhBFiZZUtCkTjQ=AVSgwqe=wCkMnqAmaTqvW_X6fm1OKuYA@mail.gmail.com>
+ <e3p2r2fet2spkrxv7x76gunlivrp3vng22wktz4fkww5nkckt7@jpgne4uerr3c>
+ <20250310195416.6d8c64f2@jic23-huawei>
+ <c62l6jv5vgsxnbipw7jar6tikjavwybdxaurz7hkdowbamc7ic@ak2rva3ujmaa>
+From: David Lechner <dlechner@baylibre.com>
+Content-Language: en-US
+In-Reply-To: <c62l6jv5vgsxnbipw7jar6tikjavwybdxaurz7hkdowbamc7ic@ak2rva3ujmaa>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 14, 2025 at 11:52:58AM +0100, Marek Szyprowski wrote:
-> On 12.03.2025 20:32, Leon Romanovsky wrote:
-> > On Wed, Mar 12, 2025 at 10:28:32AM +0100, Marek Szyprowski wrote:
-> >> Hi Robin
-> >>
-> >> On 28.02.2025 20:54, Robin Murphy wrote:
-> >>> On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
-> >>>> On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
-> >>>>> From: Leon Romanovsky <leonro@nvidia.com>
-> >>>>>
-> >>>>> Changelog:
-> >>>>> v7:
-> >>>>>    * Rebased to v6.14-rc1
-> >>>> <...>
-> >>>>
-> >>>>> Christoph Hellwig (6):
-> >>>>>     PCI/P2PDMA: Refactor the p2pdma mapping helpers
-> >>>>>     dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
-> >>>>>     iommu: generalize the batched sync after map interface
-> >>>>>     iommu/dma: Factor out a iommu_dma_map_swiotlb helper
-> >>>>>     dma-mapping: add a dma_need_unmap helper
-> >>>>>     docs: core-api: document the IOVA-based API
-> >>>>>
-> >>>>> Leon Romanovsky (11):
-> >>>>>     iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
-> >>>>>     dma-mapping: Provide an interface to allow allocate IOVA
-> >>>>>     dma-mapping: Implement link/unlink ranges API
-> >>>>>     mm/hmm: let users to tag specific PFN with DMA mapped bit
-> >>>>>     mm/hmm: provide generic DMA managing logic
-> >>>>>     RDMA/umem: Store ODP access mask information in PFN
-> >>>>>     RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
-> >>>>>       linkage
-> >>>>>     RDMA/umem: Separate implicit ODP initialization from explicit ODP
-> >>>>>     vfio/mlx5: Explicitly use number of pages instead of allocated
-> >>>>> length
-> >>>>>     vfio/mlx5: Rewrite create mkey flow to allow better code reuse
-> >>>>>     vfio/mlx5: Enable the DMA link API
-> >>>>>
-> >>>>>    Documentation/core-api/dma-api.rst   |  70 ++++
-> >>>>    drivers/infiniband/core/umem_odp.c   | 250 +++++---------
-> >>>>>    drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
-> >>>>>    drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
-> >>>>>    drivers/infiniband/hw/mlx5/umr.c     |  12 +-
-> >>>>>    drivers/iommu/dma-iommu.c            | 468
-> >>>>> +++++++++++++++++++++++----
-> >>>>>    drivers/iommu/iommu.c                |  84 ++---
-> >>>>>    drivers/pci/p2pdma.c                 |  38 +--
-> >>>>>    drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
-> >>>>>    drivers/vfio/pci/mlx5/cmd.h          |  35 +-
-> >>>>>    drivers/vfio/pci/mlx5/main.c         |  87 +++--
-> >>>>>    include/linux/dma-map-ops.h          |  54 ----
-> >>>>>    include/linux/dma-mapping.h          |  85 +++++
-> >>>>>    include/linux/hmm-dma.h              |  33 ++
-> >>>>>    include/linux/hmm.h                  |  21 ++
-> >>>>>    include/linux/iommu.h                |   4 +
-> >>>>>    include/linux/pci-p2pdma.h           |  84 +++++
-> >>>>>    include/rdma/ib_umem_odp.h           |  25 +-
-> >>>>>    kernel/dma/direct.c                  |  44 +--
-> >>>>>    kernel/dma/mapping.c                 |  18 ++
-> >>>>>    mm/hmm.c                             | 264 +++++++++++++--
-> >>>>>    21 files changed, 1435 insertions(+), 693 deletions(-)
-> >>>>>    create mode 100644 include/linux/hmm-dma.h
-> >>>> Kind reminder.
-> > <...>
-> >
-> >> Removing the need for scatterlists was advertised as the main goal of
-> >> this new API, but it looks that similar effects can be achieved with
-> >> just iterating over the pages and calling page-based DMA API directly.
-> > Such iteration can't be enough because P2P pages don't have struct pages,
-> > so you can't use reliably and efficiently dma_map_page_attrs() call.
-> >
-> > The only way to do so is to use dma_map_sg_attrs(), which relies on SG
-> > (the one that we want to remove) to map P2P pages.
+On 3/14/25 1:13 PM, Jorge Marques wrote:
+> On Mon, Mar 10, 2025 at 07:54:16PM +0000, Jonathan Cameron wrote:
+>> On Sun, 9 Mar 2025 21:49:24 +0100
+>> Jorge Marques <gastmaier@gmail.com> wrote:
+>>
+>>>>> +.. list-table:: Driver attributes
+>>>>> +   :header-rows: 1
+>>>>> +
+>>>>> +   * - Attribute
+>>>>> +     - Description
+>>>>> +   * - ``in_voltage0_raw``
+>>>>> +     - Raw ADC voltage value
+>>>>> +   * - ``in_voltage0_oversampling_ratio``
+>>>>> +     - Enable the device's burst averaging mode to over sample using
+>>>>> +       the internal sample rate.
+>>>>> +   * - ``in_voltage0_oversampling_ratio_available``
+>>>>> +     - List of available oversampling values. Value 0 disable the burst
+>>>>> +       averaging mode.
+>>>>> +   * - ``sample_rate``
+>>>>> +     - Device internal sample rate used in the burst averaging mode.
+>>>>> +   * - ``sample_rate_available``
+>>>>> +     - List of available sample rates.  
+>>>>
+>>>> Why not using the standard sampling_frequency[_available] attributes?  
+>>> Because sampling_frequency is the sampling frequency for the pwm trigger
+>>> during buffer readings.
+>>> sample_rate is the internal device clock used during monitor and burst
+>>> averaging modes.
+>>
+>> For an ABI that is very vague and the two use cases seem to be logically
+>> quite different.
+>>
+>> Seems that for each trigger we have an oversampling ratio controlled number
+>> of samples at this rate. It is unusual to be able to control oversampling
+>> rate separately from the trigger clock, hence the lack of ABI.  If
+>> we add something new for this it should something relating to oversampling.
+>> oversampling_frequency perhaps.
+>>
+>> For monitor mode, it is tied to the sampling frequency for most devices.
+>> But there are exceptions.  E.g. the max1363. Trick is to make it an event
+>> ABI property and hence under events/ rather than in the root directory.
+>>
+>> In this case you'll have to store two values and write the appropriate
+>> one into the register to suit a given operating mode.
+>>
 > 
-> That's something I don't get yet. How P2P pages can be used with 
-> dma_map_sg_attrs(), but not with dma_map_page_attrs()? Both operate 
-> internally on struct page pointer.
-
-Yes, and no.
-See users of is_pci_p2pdma_page(...) function. In dma_*_sg() APIs, there
-is a real check and support for p2p. In dma_map_page_attrs() variants,
-this support is missing (ignored, or error is returned).
-
+> If doing buffer captures with oversampling enabled, both sampling
+> frequencies have an impact:
 > 
-> >> Maybe I missed something. I still see some advantages in this DMA API
-> >> extension, but I would also like to see the clear benefits from
-> >> introducing it, like perf logs or other benchmark summary.
-> > We didn't focus yet on performance, however Christoph mentioned in his
-> > block RFC [1] that even simple conversion should improve performance as
-> > we are performing one P2P lookup per-bio and not per-SG entry as was
-> > before [2]. In addition it decreases memory [3] too.
-> >
-> > [1] https://lore.kernel.org/all/cover.1730037261.git.leon@kernel.org/
-> > [2] https://lore.kernel.org/all/34d44537a65aba6ede215a8ad882aeee028b423a.1730037261.git.leon@kernel.org/
-> > [3] https://lore.kernel.org/all/383557d0fa1aa393dbab4e1daec94b6cced384ab.1730037261.git.leon@kernel.org/
-> >
-> > So clear benefits are:
-> > 1. Ability to use native for subsystem structure, e.g. bio for block,
-> > umem for RDMA, dmabuf for DRM, e.t.c. It removes current wasteful
-> > conversions from and to SG in order to work with DMA API.
-> > 2. Batched request and iotlb sync optimizations (perform only once).
-> > 3. Avoid very expensive call to pgmap pointer.
-> > 4. Expose MMIO over VFIO without hacks (PCI BAR doesn't have struct pages).
-> > See this series for such a hack
-> > https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
+> e.g.,
+> oversampling: 4
+> sample_rate: 2MHz
+> PWM sampling frequency: 500KHz
 > 
-> I see those benefits and I admit that for typical DMA-with-IOMMU case it 
-> would improve some things. I think that main concern from Robin was how 
-> to handle it for the cases without an IOMMU.
-
-In such case, we fallback to non-IOMMU flow (old, well-established one).
-See this HMM patch as an example https://lore.kernel.org/all/a796da065fa8a9cb35d591ce6930400619572dcc.1738765879.git.leonro@nvidia.com/
-+dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
-+			   size_t idx,
-+			   struct pci_p2pdma_map_state *p2pdma_state)
-...
-+	if (dma_use_iova(state)) {
-...
-+	} else {
-...
-+		dma_addr = dma_map_page(dev, page, 0, map->dma_entry_size,
-+					DMA_BIDIRECTIONAL);
-
-Thanks
-
+> PWM trigger out (CNV)   |       |       |       |       |
+> ADC conversion          ++++    ++++    ++++    ++++    ++++
+> ADC data ready  (GP)       *       *       *       *       *
 > 
-> Best regards
-> -- 
-> Marek Szyprowski, PhD
-> Samsung R&D Institute Poland
+> For monitor mode, it will constantly be doing conversion to check for
+> threshold crossings, at the defined sample_rate.
 > 
+> I like the idea of having the device's sample_rate as
+> conversion_frequency.
+
+In addition to what makes sense for this chip, we should also consider what
+makes sense other chips with similar features. For example, I am working on
+ad7606c which has control for the oversampling burst frequency (frequency of
+"+" in the diagram above). So it would make sense to have a standard attribute
+that would work for both chips.
+
+On ad4052, just because we have a single register that controls two different
+functions doesn't mean we have to be limited to a single attribute that controls
+that register.
+
+So I would create the events/sampling_frequency{,_available} attributes like
+Jonathan suggested for controlling the sampling frequency in monitor mode and
+introduce new oversampling_burst_frequency{,_available} attributes for
+controlling the conversion frequency when oversampling. When an attribute is
+written, we can cache the requested value in the state struct instead of
+writing it directly to the register on the ADC if we want the attributes to be
+independent. Then only write the register when we enable monitor mode or when
+we start reading samples with oversampling enabled.
+
+Sure, it is more work to implement it in the driver this way, but that shouldn't
+be an an excuse to do things in a way that isn't compatible with other ADCs.
+
