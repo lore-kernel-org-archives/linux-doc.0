@@ -1,137 +1,194 @@
 Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF99205E18;
-	Fri, 14 Mar 2025 18:00:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E7A133987;
+	Fri, 14 Mar 2025 18:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741975203; cv=none; b=f+R4Y5pCVFVbM4cCeb8aux8NUqbwTsZgOliQFiuvXaco9WzIuAaqtld8tlxlqj5AK6TLe4PFwLCCGPWmjm59fvDhKPGSwilAcwkWL2Q3jQ4ZVf1lju7ZewMbOpN5olZIER1W3lE7HLoivFaWHuqztRp3TeOZbqIbU+jsCFD8ANE=
+	t=1741975998; cv=none; b=qWCmRpz5r/WX6vARZLfPS2NAgyAisyYk4uXTKKFcfBOsYAcILXZx6M66JKq9rszVFoynJwdLcHvOlDLf6ZMeeOcJG4Xu1R/c4C11+eew0/eTViRmHljqBiVEqCQ1tnC71wGz2lepJ5NQLG61vubePEjpib7+36Ims1osZm+KaFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741975203; c=relaxed/simple;
-	bh=u2j/NzYgk/d8iGdvU8IUJdzQd6mljcLDKSOYxuEqFMQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iSz5sPCEZXyITB9fyx0oBFsqBZ0WuzhWLrN6NTYvjGMZnfwRy3mHm5jvZz3mlnzZOUYI2DSS9ah7cAvyDU62YP49ZEXsD9PKVciPutLJ9o25ZFdMFW15MqoQYFBnNGb2ymWNUxIHUKTBLk19LSUng779y9HT1vCd/q1Ck2YocLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+	s=arc-20240116; t=1741975998; c=relaxed/simple;
+	bh=MEOmtqTEiVJQr927TcxuyiQEiUmBPWzmltaQ8JvFgLE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hGVpD3Ct1/zIvZQY1khlOoZixvJxXmympz66XJXRtnSRM2t6H2tRkEUylhdPINUPCr0iekJ/qQH1O945rcMf/fL6YCXLgEWpKxdFlO4SBLhwAiEWJ7aOOKvvQDbOxqnh2R3c4qYYUdm9B1tujkzZxNe4YNHPxZ6TrfzzWS85yXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dKb7g13u; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac2ab99e16eso494234866b.0;
-        Fri, 14 Mar 2025 11:00:01 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dKb7g13u"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac2c663a3daso489435966b.2;
+        Fri, 14 Mar 2025 11:13:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741975995; x=1742580795; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hRXcmIk1FrJUoiaKnTEHuirTRRO0REhDyJUvBh6x6zI=;
+        b=dKb7g13u+XI87wqi+HOp5A4uWbdGKosQ77IAYAw/wEl42N1mWwK3Ps944bWYMU4f7w
+         Z3hjyaBaZwY1/T6aXLyfEg4paIxPz/hrGEWWUph/ACYDUyts9Il9Umduk9IxZ7hjtrid
+         j7BQ9+8fkbgqVmZS2f4vdQXYNy6mTP+ySisP1fosAN1LX+RKiDQFOpP1hHiOi7IURytH
+         nfrevjAr754dWwXqf72OnQ7O+VQm2qEtPdo9FBV72PzzOFeftibc/uBhgkyls73tWyiC
+         2K3L5c2F+atKIqNr9+VQl/kdDUVbDqoWrA42rXJ5A+mengTgNj5RuLwWDr5BEcgWaVIO
+         YLeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741975199; x=1742579999;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SaIvKW2mgl+3uA9xHER8fMViH0sfgfYeNYyYR2PLWqM=;
-        b=mP0j/3TRmUaYxxzSi+ZMjKP9Y5uSaR6+HBX1BKqBaKu8MjZiA1vhL7Xek18qjggsW1
-         md/h3gkXJarAt6QGh0sUr/v3wN8mUt7oA9/yNmd49O8Lm6UfD68UXDW99hIEpcydGn3x
-         tG+n+2xKA4yisB8ZANcTaHo88uPwsoD2zv63cMTM8pEqAQfjL3YslY+bfO/THPJZn7M0
-         5Pw7LvuG+XFFXSv24393ENzlnkiw2bqZ5HnZYDhtAwelFYAG9ulyUu4KIS6NZ9368Nfi
-         rJeL9O5pbZp3v4J5qwtXK9BFwI7s+22U6aepe3WXqRI6VuFGJW7B7em5V2jYjpsDXn8q
-         PQpw==
-X-Forwarded-Encrypted: i=1; AJvYcCVFqt+Iu0JFDbLcx5IoqvapcivfL6kTSG2M6cIsz+D8DJ3xfU2r6TUL+KvxTfIpbW/tsK85AUZC4uU/y0bW@vger.kernel.org, AJvYcCW4mo4RNLzRKMbDApvBg7La6MKQ48p2mFqj+NL7SwBk+6t0q6QohU+Qv8ChVVsPmHSLFNwfJhH+ou5pz47QOpSX@vger.kernel.org, AJvYcCXFt72VAcAjxUWjXwAD6mjb6LPIyWYoh5Sfrq+9plI21EsvbGa6RZhfPFJ8/RTddHoxfS9+3kgHV1Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVo3q1StCfeeX6MnFGy2vwzT6MsrpUIo0Xquzeli6B8Kgcq7K5
-	Uq7xL8kzAQles4qb5791JIpKO0lsq9dzrXzNciWmcR0nwpvpvm2hDYsU0w==
-X-Gm-Gg: ASbGncsSjXhwu4PDV61w7nuUdCRJKRfiD6cnhYgjhTZMqneJRrVGyfI3HjkWbSwaM7U
-	BoLhd8I6qZuzaiKLRdZUpVbQ3Qx1hhe5rlj8JfJkI2qcvOVTDX2Ol3Y+Uyk3/jPPOZVv5yixBC0
-	a//23BXPTL6o6de5lxt8ghcGES/YrPz6xC2YfzTExVjxXcyDR7jBnT9HNJ/DVX7xlBO9CG2AFda
-	ONP45fltYvLPHjIOBsHvOWD/WYUvxQPZ0t5CppnO0a0uC+q1bMiuMyVXXEQ/I/OjCc1aMYGwpPS
-	X1ZI7XuNBR+J+ZdqZ3nsJnfEoQCRbNs9ZNvf
-X-Google-Smtp-Source: AGHT+IE0gCLI1dRzN42ISOI3SznEjuPXbPl3ACCM4prwxY9/ZX0Qybd90r7TKQJmjA7QcpcfBxn4pQ==
-X-Received: by 2002:a17:907:7251:b0:ac1:ecb5:7207 with SMTP id a640c23a62f3a-ac330301e93mr384393666b.29.1741975198992;
-        Fri, 14 Mar 2025 10:59:58 -0700 (PDT)
-Received: from localhost ([2a03:2880:30ff:70::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3147ed1e4sm256125466b.66.2025.03.14.10.59.58
+        d=1e100.net; s=20230601; t=1741975995; x=1742580795;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hRXcmIk1FrJUoiaKnTEHuirTRRO0REhDyJUvBh6x6zI=;
+        b=MoSpjrSBfZuCX834TC8503d8NbfsoDiR1v0xlL5ZZ/hkFFZUQlKeCEw1lj94BCscWI
+         4TYNewqUaotrfv4FMguVF9b2dXwZkC9lvirgt1/hc+W1Q+9HhPkDj/VIv5aV1Zg0KsNJ
+         10qIjDMcEEDsp+Dbq2KPLP/OCr9FUMcViNmsxckBuAWgpeICT9QBVZNK5RLDDLAYZo6Y
+         DWDcIw2sYF4J2eWytX/GvEn338JeT+UFrMrs31mAzzWypB1UJ+TspODlLIB1Wi+kBEsT
+         qbqvZLMo0J0TYdXFwLb7KMSD8DHx6PhQCvfVugcayugUrjxXmmJksMLHIjKvXr+e1EAD
+         +G+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVQF04bKZdo4bQwIlFRSdTKK1sW20Xo8az+nQbDSurV/0weTWNxC+GqqDvEyTS7n3wTy13vMZTN/d6rb4VP@vger.kernel.org, AJvYcCWLRzYYReNdkLU5AK4TUNHVr+HCsvIWxYRxrgIeiFzrYez9nxFGyPxx+PgGintDy6hXL7V6z/eX/9+0@vger.kernel.org, AJvYcCXjCnOL8xGDiBif26Tl4FC1+tnxwZqXMeXIfLMuMB12niri3NCrp/NFz+u6Kcq/dYN631Jmw/eL6cxP@vger.kernel.org, AJvYcCXqmPQVPZ1YUpo78crD4JPxg2zqgyokE56ZNKUweti7jVhqlTJAjOehcjmxncd2REUlSEd51cjBupMd@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIE/wfgVuMMVpP8GisLE+1g7LVrbT9Z+XOaFoKz3+tfUmqUAn5
+	LxG8/0ndN3Oag4tiWR3wecCMa2Pl51+yPCICKA6pQuTnaHGrd+W3
+X-Gm-Gg: ASbGncv3UX2FDxI6duASgEKc0f6DA1+y17fWWQa2V4OaFXQGuTT5mVfF3HhP6Yb2tuC
+	PgrjAXwBA3TKlwApBe5aLJzs8WhP4G4uwA5+BorX8t58Eh/b68+Sw1AE10K5ZVrH8pY1n5bKnW+
+	x67U8dnYShHdi3XO1KaY7tGMWQWgUbn+0Ff6Y0BeLJzWF7SEhbegAzeG+jaqsd9QzJ0YToPqpWh
+	aIqCQewZYn7HWoQpl5uPsem/33dZfeXgGKm9vipnWN4kX/PIh0Eas3cc/YpSilmhCijuE8wFOOl
+	ub1UwQp2ajvji6G5/nb9F92p5e32RVE5THQFixPbJ7Iqg7yrWim4N6VAEaSES7zW
+X-Google-Smtp-Source: AGHT+IEjf0PtfzbVYlpokTFdwyHVVJhkNzfonJaVRGcGAd8ZFMzZDsbK/40bHr1xYluNrS/Qd7YYpw==
+X-Received: by 2002:a17:907:a08a:b0:abf:4da0:28e8 with SMTP id a640c23a62f3a-ac330183f41mr402841166b.17.1741975994455;
+        Fri, 14 Mar 2025 11:13:14 -0700 (PDT)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([137.71.226.91])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3146aeb24sm255764366b.9.2025.03.14.11.13.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 10:59:58 -0700 (PDT)
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 14 Mar 2025 10:58:50 -0700
-Subject: [PATCH net-next 6/6] docs: netconsole: document release feature
+        Fri, 14 Mar 2025 11:13:14 -0700 (PDT)
+Date: Fri, 14 Mar 2025 19:13:11 +0100
+From: Jorge Marques <gastmaier@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>, 
+	Jorge Marques <jorge.marques@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 3/4] docs: iio: new docs for ad4052 driver
+Message-ID: <c62l6jv5vgsxnbipw7jar6tikjavwybdxaurz7hkdowbamc7ic@ak2rva3ujmaa>
+References: <20250306-iio-driver-ad4052-v1-0-2badad30116c@analog.com>
+ <20250306-iio-driver-ad4052-v1-3-2badad30116c@analog.com>
+ <CAMknhBFiZZUtCkTjQ=AVSgwqe=wCkMnqAmaTqvW_X6fm1OKuYA@mail.gmail.com>
+ <e3p2r2fet2spkrxv7x76gunlivrp3vng22wktz4fkww5nkckt7@jpgne4uerr3c>
+ <20250310195416.6d8c64f2@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250314-netcons_release-v1-6-07979c4b86af@debian.org>
-References: <20250314-netcons_release-v1-0-07979c4b86af@debian.org>
-In-Reply-To: <20250314-netcons_release-v1-0-07979c4b86af@debian.org>
-To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
- Manu Bretelle <chantr4@gmail.com>, kernel-team@meta.com
-X-Mailer: b4 0.15-dev-42535
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1790; i=leitao@debian.org;
- h=from:subject:message-id; bh=u2j/NzYgk/d8iGdvU8IUJdzQd6mljcLDKSOYxuEqFMQ=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBn1G6SLMwdJ4gjJcxr3mdipOopPqrC5GAx1bakl
- REwxlOE9++JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCZ9RukgAKCRA1o5Of/Hh3
- bSynEACdkIq8fJbzIuspTFutUJ7ZzO2CzJ1GgNRqCJwjfwjDyF6Wt4MkCQ8s2s1XbO2z7GshqLA
- cmnyIL9lGnkGZOavKJtKUCLbo+tCCnQDm3Qo+JbFG1ObICAzvus+AVfE1285o5JtO8DvK94UVVN
- 7I1lBzTVeS4hupscEEKDFA4AfrfvIwzlYYcKi6EPdz6qRU75eyzXxla09izAYIYCV5I35C+R2FC
- aXW/RNsxBDVY40h3T3MbZcuar9v7HDCUiAZZp3aUSlR7th4P7Ry3kvHVnV5TvfHJD8Og1Xs7pKT
- L6Nc4AbbVxTNshwUbmU+l6ofNaEXH7YzbWbpCjGf+SlZD3wN8KnGSUQe5APmU2kfDdsPQ0NaCKq
- XBuVl5eS6lrxYA7UAZyBLx/NkvxFlM/Qzk+8+jVAGc0UPMr6IysS8bARuHFT/mcr3pUQVcnRiMs
- QDlB5dnAO+Kam2PJZR3h9lHeXHcVeN+4nIoHiQQsg/3ifmQ0k95rzt9Nxi64zNwlzE8fSrTfpsy
- 92a6zZAwNAvObtitWqsmPS1SaRT8VsoYFe1wZq6iK88nipeCk17lwxA/naVEXcP3O013R2yUrvL
- xQH4xeZasjPD8xDQORNMWz83IhQfsPlDqpK0mBDTYntiUzRT9hVkVnzyZqgzEiULI8bDVVzNSUD
- vkqIMhd+GlV/+4Q==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250310195416.6d8c64f2@jic23-huawei>
 
-Add documentation explaining the kernel release auto-population feature
-in netconsole.
+On Mon, Mar 10, 2025 at 07:54:16PM +0000, Jonathan Cameron wrote:
+> On Sun, 9 Mar 2025 21:49:24 +0100
+> Jorge Marques <gastmaier@gmail.com> wrote:
+> 
+> > > > +.. list-table:: Driver attributes
+> > > > +   :header-rows: 1
+> > > > +
+> > > > +   * - Attribute
+> > > > +     - Description
+> > > > +   * - ``in_voltage0_raw``
+> > > > +     - Raw ADC voltage value
+> > > > +   * - ``in_voltage0_oversampling_ratio``
+> > > > +     - Enable the device's burst averaging mode to over sample using
+> > > > +       the internal sample rate.
+> > > > +   * - ``in_voltage0_oversampling_ratio_available``
+> > > > +     - List of available oversampling values. Value 0 disable the burst
+> > > > +       averaging mode.
+> > > > +   * - ``sample_rate``
+> > > > +     - Device internal sample rate used in the burst averaging mode.
+> > > > +   * - ``sample_rate_available``
+> > > > +     - List of available sample rates.  
+> > > 
+> > > Why not using the standard sampling_frequency[_available] attributes?  
+> > Because sampling_frequency is the sampling frequency for the pwm trigger
+> > during buffer readings.
+> > sample_rate is the internal device clock used during monitor and burst
+> > averaging modes.
+> 
+> For an ABI that is very vague and the two use cases seem to be logically
+> quite different.
+> 
+> Seems that for each trigger we have an oversampling ratio controlled number
+> of samples at this rate. It is unusual to be able to control oversampling
+> rate separately from the trigger clock, hence the lack of ABI.  If
+> we add something new for this it should something relating to oversampling.
+> oversampling_frequency perhaps.
+> 
+> For monitor mode, it is tied to the sampling frequency for most devices.
+> But there are exceptions.  E.g. the max1363. Trick is to make it an event
+> ABI property and hence under events/ rather than in the root directory.
+> 
+> In this case you'll have to store two values and write the appropriate
+> one into the register to suit a given operating mode.
+> 
 
-This feature appends kernel version information to the userdata
-dictionary in every message sent when enabled via the `release_enabled`
-file in the configfs hierarchy.
+If doing buffer captures with oversampling enabled, both sampling
+frequencies have an impact:
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- Documentation/networking/netconsole.rst | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+e.g.,
+oversampling: 4
+sample_rate: 2MHz
+PWM sampling frequency: 500KHz
 
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index ae82a6337a8d8..44f5a441cf813 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -268,6 +268,31 @@ Example::
- In this example, the message was generated while "echo" was the current
- scheduled process.
- 
-+Kernel release auto population in userdata
-+------------------------------------------
-+
-+Within the netconsole configfs hierarchy, there is a file named `release_enabled`
-+located in the `userdata` directory. This file controls the kernel release
-+(version) auto-population feature, which appends the kernel release information
-+to userdata dictionary in every message sent.
-+
-+To enable the release auto-population::
-+
-+  echo 1 > /sys/kernel/config/netconsole/target1/userdata/release_enabled
-+
-+Example::
-+
-+  echo "This is a message" > /dev/kmsg
-+  12,607,22085407756,-;This is a message
-+   release=6.14.0-rc6-01219-g3c027fbd941d
-+
-+.. note::
-+
-+   This feature provides the same data as the "release prepend" feature.
-+   However, in this case, the release information is appended to the userdata
-+   dictionary rather than being included in the message header.
-+
-+
- CPU number auto population in userdata
- --------------------------------------
- 
+PWM trigger out (CNV)   |       |       |       |       |
+ADC conversion          ++++    ++++    ++++    ++++    ++++
+ADC data ready  (GP)       *       *       *       *       *
 
--- 
-2.47.1
+For monitor mode, it will constantly be doing conversion to check for
+threshold crossings, at the defined sample_rate.
 
+I like the idea of having the device's sample_rate as
+conversion_frequency.
+
+> > 
+> > > > +
+> > > > +Threshold events
+> > > > +================
+> > > > +
+> > > > +The ADC supports a monitoring mode to raise threshold events.
+> > > > +The driver supports a single interrupt for both rising and falling
+> > > > +readings.
+> > > > +
+> > > > +During monitor mode, the device is busy since other transactions
+> > > > +require to put the device in configuration mode first.  
+> > > 
+> > > This isn't so clear to me. Is this saying that events do not work
+> > > while doing a buffered read? Do you need to do need to read the
+> > > in_voltage0_raw input to trigger an event?
+> > >   
+> > No, the device monitor mode and trigger mode autonomously samples using the
+> > internal clock set with the sample rate property.
+> > I rephrased that to:
+> > 
+> >  The feature is enabled/disabled by setting ``thresh_either_en``.
+> >  During monitor mode, the device continuously operate in autonomous mode until
+> >  put back in configuration mode, due to this, the device returns busy until the
+> >  feature is disabled.
+> > 
+> > The reasoning is that during configuration mode no ADC
+> > conversion is done, including if the previous mode was autonomous.
+> > If instead of return busy the driver hided this and resumed monitor mode
+> > after the access, a hidden (to the user) monitoring down-time would and
+> > thresholds crossings could be lost, undermining the feature.
+> 
+> hmm. This is a trade off between usability and precise matching of expectations.
+> From your description does monitor mode only trigger if the threshold is
+> crossed or is it a level comparison?  If it's level I'd consider the
+> option of brief disabling.  Unlikely to be a problem interrupting things
+> in vast majority of usecases. Documentation can then express this issue.
+> 
+
+The gpio asserts when the threshold is crossed, and desserts when it is
+back in bounds.
+The interrupt controller should be configured to detecting rising
+edges, to not call multiple irq_handlers for the same crossing.
+If the interrupt controller is set to trigger on level,
+multiple irq handler calls will occur before being able to access
+the device register to disable the GPIO.
+
+Jorge
