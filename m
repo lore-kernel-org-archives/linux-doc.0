@@ -1,471 +1,431 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6688220013C;
-	Fri, 14 Mar 2025 16:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741969126; cv=fail; b=ae4myCuedeHQAc2AxOac7WHn06nE7tT1YwGDj6xcgWBpJhuYHEgLJSeRh85Ii4TJ9MVFmBh9qrOYcehceGNUZWtcEz//DYKCkzsi01ZtXdZV6nV7sFMkuGqLzsyu0XlNGTjDThp7lNQRtnrHJv73GEPQXmO5ACcBHaLRwO+jMVo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741969126; c=relaxed/simple;
-	bh=G9wjdzSi9GZ7uCS39dQk/Psnk42DFILCvlOx6ckjGrw=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=c4qYpuecIJ9c3wu4IbmqSNBsGBuGO8mK8xzHjlG3rjBcQdK2OQ00G/feHeg1X9UI17ez1QYQfFzaetkoigu9kf2hbJjGBJsVjlw1YjWHPYckpUK09hnoBTILYiHrOgbyIN5MarzwZAleNDf5KHtUw46/rAqJzyHqy58PX4eLnIM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GCb4CqD0; arc=fail smtp.client-ip=40.107.92.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C08B202C2F
+	for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 16:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741969204; cv=none; b=pCXKHmnW6P+fn9EQ51/2m43HqSlfwiMpYoYtxHlAp+gUvaNdthYlCJN/9xINFawJWqjJ1FvvVhFtUf9FOtZIJFab8tc/Pi4m37T4xsnEc6TMzpjT4vFIrtEyNwge0nIUr9FTMU7vFMSgdl/SaFfMZ9o5U8drejkzMtVK3nwCtyA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741969204; c=relaxed/simple;
+	bh=IjfqCxJWOuyuQTYKA1wW0W4fouvMcTGBSmGHe1hIGLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vxf4kFNA3/bjnoSN5KSbh9Ox90Bc6Clqmc/6CSlBd2yNDj2+TRnZMWSoYdY9vWydk9T7rKilcMdD3YC3d2k7VKAAE6UORMC9v1eU11zsiAPp75kJTHbUfJLfVB56pZJt0eAE25sGZ9T/KQ8oKqYv+4dM5y/7Foj/keStoEvLGq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=IYtijmjX; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GCb4CqD0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ws8h7r/I+p2SC28t6Qh7MORvj8gl4gsyejrZJnsZScPreHrqUZZtWJSLfkmOP1lq3fvp7Uc42XFGIGSMShiLMQtxITxf3A3AoMfBkCrkm62oAqMur18TAtGRyijGvmvDiCPtPyWGTbje2N4Or85rZVKxdZjLMUu4d8H4ap0tCDcbv6EIBq2d5juv8EZn3yh5JiZIY+w+bUZzZZnDx9CZ/v4rFw+MHurXu4D8E+MXoQVq6sWHcUMeRz0crlIa27ZE9SWtdExkRMuVni1Qf+sV/OUcO0C7eAgGn/hHXnLnbdSOmu0CwrN9dKVk4JAmeHDDEhne6YhIaqlYAvg8c1r/FQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=34PL3Xi1zqhfepf/YT3bKO5lpE/+0YVU4lOhnDRvFEc=;
- b=K1+fg4vgLMuVwA/KE6JLVdh6jDDXUTL+/BCbItD6wiI00BEsgiyN3hmkndPzVp/KAyA93AVTl0PSnFsV1GY2pJ0Rh33S2+w4/SMPWjjIiEaeeVCzXD5509ZI/ryHKQoSlCtymyNTTiOj2tSYQIc1xNrlqWurojKwuElPTDgv+kFe1CY3OQNRaH96yRloZFuNzrl2r3Xgf++S9Is0OuC32+9WWawEaKIQx0/38tEDJJoNZY3W+1Bj129o8tfUFtIihiB69JXkWosoaH1I9Z/N+SZBo08k31v+BkmIIrRcDTN3770dIO+nYCKZpmMguuafKlXu6YeDhzVQX/VOirxBPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=34PL3Xi1zqhfepf/YT3bKO5lpE/+0YVU4lOhnDRvFEc=;
- b=GCb4CqD0R+5E0boU0rK0Zf7FnAOOCVEk2g5+pj9gRdNo7ozEBuE1draXL7Va9j6gSBPd8pkFhim/ncoq/qrg8AexHGAVO9zoVS8h77chqt9XUyYYYo34KqbeCud9hA6RUykFSUOZm3CpVg9GLHapbrM+F6I/3EJg14ut21CYwtw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by SA0PR12MB7003.namprd12.prod.outlook.com (2603:10b6:806:2c0::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.28; Fri, 14 Mar
- 2025 16:18:41 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8534.028; Fri, 14 Mar 2025
- 16:18:41 +0000
-Message-ID: <c840cb69-41fe-49a8-a7a8-d75f68e1d84c@amd.com>
-Date: Fri, 14 Mar 2025 11:18:33 -0500
-User-Agent: Mozilla Thunderbird
-From: "Moger, Babu" <bmoger@amd.com>
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com,
- "Luck, Tony" <tony.luck@intel.com>
-Cc: Peter Newman <peternewman@google.com>, Dave Martin <Dave.Martin@arm.com>,
- corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
- rostedt@goodmis.org, xiongwei.song@windriver.com,
- pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
- jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
- kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
- xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
- mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- maciej.wieczor-retman@intel.com, eranian@google.com
-References: <fc3a67ee-6e97-4b9f-88d9-c24c6dab20c3@intel.com>
- <CALPaoCgN+oGgdp40TOJ9NgF9WYPdN0cG8A8BtOOMXOP6iMVfzw@mail.gmail.com>
- <f1744c45-9edf-4012-89bc-47393b4c53fc@amd.com>
- <CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com>
- <d1ca9220-1ab7-4a39-819a-03a6069b7ac4@amd.com>
- <CALPaoChLL8p49eANYgQ0dJiFs7G=223fGae+LJyx3DwEhNeR8A@mail.gmail.com>
- <a4ab53b5-03be-4299-8853-e86270d46f2e@amd.com>
- <c1c0a99a-a467-4ae6-80ee-04b6a9cdb6e5@amd.com>
- <Z890Q2GoP6GecwW4@agluck-desk3>
- <04e47d0e-6447-451e-98e4-7ea65187d370@amd.com>
- <6508cf67-3263-432e-892c-9b502b3c6cd4@intel.com>
- <f8a20ed8-6e30-4cff-a96b-8df89a605081@amd.com>
- <d07a70f5-b1ca-4766-a1d9-53988dd9164f@intel.com>
- <14c14b11-5b45-4810-8e46-019c8a67fc90@amd.com>
- <1db8ad73-5194-4821-844a-8fd7cac72ad4@intel.com>
- <9b8653a3-c6fd-4748-a4b5-94d5598d180f@amd.com>
- <20ec195a-c4dd-48d9-89f6-4d48fd438fe8@intel.com>
- <be6d23c8-3e93-4bdc-8b33-d3af7df7cc94@amd.com>
- <7f54f9aa-1102-49ed-b830-6facb6f48366@intel.com>
-Content-Language: en-US
-In-Reply-To: <7f54f9aa-1102-49ed-b830-6facb6f48366@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1PR13CA0350.namprd13.prod.outlook.com
- (2603:10b6:208:2c6::25) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="IYtijmjX"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22349bb8605so51610315ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 09:20:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1741969201; x=1742574001; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4iE9Aj155vU9nWMwEtJbFQr2Ek1tXLJTCSgBH0mDSSs=;
+        b=IYtijmjXNJLYeugSpGA3Y11W7CHNJ5QSxFEN1rxTiEBfVOj0b9Z43ZTkTNBrNhBT70
+         36dL8x5EuKfgmWNEE+KjuCgAq8Ay9utWD3GJs2sVaHZLx0tdSRSJOG1S+XC/S1XeE9XS
+         xEbmJwHRCpjhJG2+xk1K7gONpCt1/0VaLsDluBB2uwMdHTftosaNHaKBAkJ0gpaxCnTc
+         E3vKbQI9G218kJvvehzcKK/X7g1xW+CXsU0FR/ZsQjndxl3MXc7R2V7JKq1zKGIY53+A
+         Ty8dia5YJH8k3TE9iHQ2aUmCcJgQ8rqnBdtYE/lRpDcTymwJlY1O4jFb3vHbS0i3D3fz
+         AYAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741969201; x=1742574001;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4iE9Aj155vU9nWMwEtJbFQr2Ek1tXLJTCSgBH0mDSSs=;
+        b=jcgTs7PfMMPwC9LCodleJqshQCRMjgUwJbEXH60qVSWdaq9PMzLVdb5jN5ZwKb3u3N
+         uyZhK4IARurIKak+CnFMVW5Q3ZZLuHiV2521Ou+UWWp30+B8Ez1ScGMqIPvX0WaOf9ZM
+         2co5XtU8kfij6olShEY9gG/VPc9D9li8gY4BJidJ1YfzyZ8jImfrhVcsvJ+XH7/eKVcD
+         Fa1arCxcRDBJSTGPk0pNSK7WMInTP2fWIRDMmVrhn1bm3PEk4CRuu8NK8fDGFAryAcnC
+         yexLXaX2LLBR27/FGQQj8i60ONTQMWnUdUtVK9WA2CDQdRN3zsP6OHVIGq93E7hoZBuN
+         jcsA==
+X-Forwarded-Encrypted: i=1; AJvYcCVJ/aqILxVTTdP5Goh3P0Po4pLrA6UU90bSwFeD/fLiwc9KOxOD9N7KNVMh5ad3lY3h99Y/BirIC/c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7tZXuWWIcax9VHmSK2riE0RmLBqPWPEZNW3APWsJbQ9BmCJiT
+	L849s3V56JdHjePTmp3/P2mCGMsH6E3uNVLmRxadk5MhsdSrkRQ9dFjKLd8rtcY=
+X-Gm-Gg: ASbGnculX8luGyr2Eay/+Wgh1xDTqDalpqik+cq38SIWxq8P7CRx/GNPOkiFKXq0zEg
+	1Ge51lDrej1W/NyTiHVBNTzNPXbIVs9DHZvDIPcqwjhdCp+FfTLNdjX38RVL1jBJlwff4vsBR8A
+	SbBZl9ZE70p2MmbxTi2h7aqv93CTDqPm7mbj/C8v2Wu/duxxNQMgUVXlGxuE4sC/NqLav6/eo1C
+	KZuRZzlih6D1kHDAua1YTOijHkA9067jxvQa649OwXr4oUOLIRvPnCOs7j6xx0mkeqYvDxBmxsJ
+	whOpkogGQhUkC5iKn0PU3oVFx3No6xw6Y15GEJQ+72mCJmLAPyNs0Tns8B7U4h/Keg==
+X-Google-Smtp-Source: AGHT+IHaZv14PiDCCl5alLmsrLTAosVgBcOkr+N1Y8pEfjFu2xgCXzp40ME/YZI+0wTGJ7KUwvdfgw==
+X-Received: by 2002:a17:903:2b0c:b0:21f:45d:21fb with SMTP id d9443c01a7336-225e0a28ademr37966685ad.3.1741969201235;
+        Fri, 14 Mar 2025 09:20:01 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30153534510sm1208138a91.22.2025.03.14.09.19.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Mar 2025 09:20:00 -0700 (PDT)
+Date: Fri, 14 Mar 2025 09:19:57 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Zong Li <zong.li@sifive.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	alistair.francis@wdc.com, richard.henderson@linaro.org,
+	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
+	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
+	cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com
+Subject: Re: [PATCH v11 13/27] prctl: arch-agnostic prctl for indirect branch
+ tracking
+Message-ID: <Z9RXLU0w59h1QEtR@debug.ba.rivosinc.com>
+References: <20250310-v5_user_cfi_series-v11-0-86b36cbfb910@rivosinc.com>
+ <20250310-v5_user_cfi_series-v11-13-86b36cbfb910@rivosinc.com>
+ <CANXhq0r1dd2jCtCbinD4iy9rx+oQ+VDMWjATf1GqxEmuvFzyWw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SA0PR12MB7003:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92494d97-7ba2-4a70-8263-08dd6313e246
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|366016|7416014|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VG5YMEh4TnlxK1M0cnBWb0NqVk13bW9qWDhNSmJ3cTVjNStNbWZHUDE1OXB3?=
- =?utf-8?B?S2F0bUJFbWhBQUtBMWdiRDUzanhLWStCM0xGK1pVZmdzU2tOWlkvSlE0d1ND?=
- =?utf-8?B?S1FsTit3b1FTWU9HaEhDMmc4MmxmQ3Eyam1IWVZqY3hIOURocW5TZWgxdFdM?=
- =?utf-8?B?T3MyR1hWSHdMM09uOGRVSlBlWjVNQnZKQzRBbzZOaEUzeGNwWGFYTkZsUExR?=
- =?utf-8?B?WDRvQU5LeEtqL2h0cEkyc20vc3lEa2hBdi9kb0k1WDhoNFpuRkd1Rmw5aHNq?=
- =?utf-8?B?TVdDeHhrK1Q5OEZ4TVlCV3A5a1c5U3NNcW1TWEhEVmxVVXJNS2JHZ0xlM3pt?=
- =?utf-8?B?TWFtVVBxc0JVcEpJZ1BnM3dzT3VZUytia1RpendOTEFzN2ptSTVmUWpqMXlL?=
- =?utf-8?B?RGRVSzRycXRBL1Uxazg0NklhNnV6eGNmOUNFRHRVbklid1d4SWV3M2pqVWRW?=
- =?utf-8?B?Q1FtRGlzd0V5R2NOYmMvSnlsY2dZdGEwSVhVQVJjUStZNEdoSG4wb3dva0hE?=
- =?utf-8?B?YTlWYkJ5VHp0VWE1WTBwNDg5N0ZHd2xmaXQwQXVteXhpbVowUTZ0TStLcS9Y?=
- =?utf-8?B?UzFZSDhSZzRYQm9SVkFsWDhtRkxHSzhTSVBVUWZXN3FySFljaU1qclJPTGJW?=
- =?utf-8?B?ZlBkeUJwZDVTR0M0TlNFTHlQYmFTS05paitMbXladWc0ajR4cW5xSm45MHZD?=
- =?utf-8?B?N2h5Z1kxQ3IxZlVINVdnY3cwYkh3ODBPbnBmamhNb0lObEM1cDUxL3hwR1hP?=
- =?utf-8?B?MkExc0lpVzNVenNEaEhQWmx1NThBTHI3SmY0M1hXTmZucnk1c3Jhc2xQR2hI?=
- =?utf-8?B?QW5NcUtUUGFjS3NIcW9GOUN0ejFMUlZCUEwxLzEveU9aU0NmVEdHaVBtQStC?=
- =?utf-8?B?SDZ1V0NmNzd2RlEzZEkrc2d1ZVV2K2xSYnllMHJsVlpRTFFUMjB4L2hPUTJl?=
- =?utf-8?B?Q0dsVkduNGpsL1lwSmhKQ3lwSE5IZGE3UWRDNkNyZFpEakI2N0JaRis5d1VC?=
- =?utf-8?B?djhBYXZTRUNxUXYzTmFmWExXNkxQeHo4WUcrSkNqbUxNbHMxMGpBOXdBMFMw?=
- =?utf-8?B?K2N3M3pFZElqMEVWZjA2Z3BHV09yMXM0bzRzUHRNOElzNG1nVUFMOWN1Z2Jl?=
- =?utf-8?B?MDF1QmN3ZExwdmZ3eFBTWnkwenJKYVBQbG51M1ltd1hsazg2OGRQaVJrZ3kx?=
- =?utf-8?B?c2dLdFNlbERVUmRjcTdhbzhqT3g1WmIzUG9VL1RyUm5xNjNyL0wrVXUvSUlq?=
- =?utf-8?B?MjdmVWNwdDhNNzgzSEduay8wQzhHTXhIVWhMTVJ1Q2hWRHVjbFlQUDNVQjE4?=
- =?utf-8?B?cVdGdXhFVDFNZ21jaUltYW93QkI3VElxd2liU2xUamI4djRPa2lkUFEvYkI1?=
- =?utf-8?B?RTNtK2tMUWhLQzErcEJuQlZnbGcwUVNuMDNNUXBsZHNzTVZXUHFlR1dHWkxq?=
- =?utf-8?B?N00vQWp2bjlOZ3VqaGlOMzc5QkJzWXVGWXNUZnAyZ2x0dzBuUXNUNG8wcFYr?=
- =?utf-8?B?TEsyUXFEZ2NJSkxRdWhhcEcweGM4L2pHSWNIb3JZTWdpQ0E2VzZ2NXFET3JO?=
- =?utf-8?B?SkF3Zk4wNWNaSmhCTmE5Q2dUZXhwV3VIV1pTNCtqOXd1ZHlYMVBwWHNjMzVR?=
- =?utf-8?B?RVBEUkFWWHlnOE1xc2xVcTNvQis2cTRDL2FPY2RRZExMREs5UjhmNGxhMUlY?=
- =?utf-8?B?VmFpc2I2eW5XS3lmRmlwbk5NNW5DTHR4Y2JaMlp3WWcrZ3VPMTg2RmdydDk1?=
- =?utf-8?B?TjhqaGhZdllyN0wzaG1HRU04SGlUUytXNWc3a1orbCtxcjVKQTZtL0x4OW9H?=
- =?utf-8?B?VWpBT2pDdnNHK1l3N3MrUFNTbHR0MDA1bU1LdEcxb05kZmtkd3pmd3hXUWI0?=
- =?utf-8?B?S0pmeit3TS80L0tMVGg3UEdadEU5YkQxWTRIc3BBNlI1U0E9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SUk3ZDZpSG5paWxpcVg1dStFYnZ5eVdUbTlYOTNZOFM4cXVQTjVHNVRmT1FB?=
- =?utf-8?B?aXJhelVXU0ZqUWV3anJUcWNYdENnMkkxVVpRTjFoakFSSHR1aWZWbVAxUzRI?=
- =?utf-8?B?OGpRNnB6b0s1elpJUFVydmROaFhQb2JLZnQ4ZW5jNjhHbHh5bDNGUWhvYm0w?=
- =?utf-8?B?ZUwzNnlSb1lVN3VQUTZiT3J5MWxoaXNtSEFLOVpWWUFsOUdvQlBuN3dlc1RN?=
- =?utf-8?B?dGdIS2o5VmxYQWRUcVBkRUYzODlsV0hRMlZ2K2ZOSnhaNjh6WXgvRCtOendW?=
- =?utf-8?B?UzI1Mi85ZGJvQU5DNUNPVnpNdXo5OFpvdThjMHlUL3RFUzJmV2lWTVFIa0Nn?=
- =?utf-8?B?Nm8xb1ppSnZUdTNhVmhWMXdaMnYwSUFJVUZYNGV6QThPY3JGNVk1bmFQNzNY?=
- =?utf-8?B?Z1kwRnU0WnRTKzNUdjN3cGg3dEVWSVFUSUgxY1JIdUJCZksxcEc4TmR2cFE4?=
- =?utf-8?B?alc5RlRXbnQrMkp4czV4MDRJWHFKc281amJIMzJVNVVOUDRDV05ud0pYYkk5?=
- =?utf-8?B?YXl1Wml1bCtEL2JUN1BQVkxsRU5wYmRCSnFGOGlwZnNZZWZnSWRINks2ZHpS?=
- =?utf-8?B?Q1A1UERsTTZ4V21EeWVtQkE2N3pmeHFzNlBtYTAwTW5oei9TWk90V205R0p6?=
- =?utf-8?B?a3N3ZVdtZ1RPWjlVcXhPWjcvS0pCWFY2dDNlYjJMeDFTWHhPMkM1QnIxcEVM?=
- =?utf-8?B?UEo3QnoyYjYzWkp5bkxDeWR6RC9VWUdIWmgzbDBld3NaQ0V1Ync3ZG03dkxn?=
- =?utf-8?B?QkJuNDZ3MkRTd2JtWEh6ckxqZXNybmRKU1lhdk1yUndQM0hsc0R4WkpHZnkw?=
- =?utf-8?B?TXByYkM5eVR1VE5YczZUaUpiQjJ5M0tjTkg3SEJCTmhTREVNYUtLaWtaOHdx?=
- =?utf-8?B?aG96ZjFLNzUxWjR1bWJuRk5kSnpqNVRwdmR5NWk1a3Nnd0hFRmpkSUVzWGNQ?=
- =?utf-8?B?T1AxS2dlc2psQVgwUFBJODU5dTl1VndmdU11c1FFSUErdExqMStmMW5Md21T?=
- =?utf-8?B?NVVXTVE4SjI2VmRNSlBZSmpuZUdLVXVTMzFLNFA0ZThDdnBFMkJqNXJ6RXNI?=
- =?utf-8?B?Q0FHSmdkK1dGN0VEbE5iQnA5OXRFRy9JUk15SVkxRHdwZTBHZENpcDZFZCsy?=
- =?utf-8?B?eEE4NVEwRkx3bkNzMEpuSEpBQ0s4SGFPaHJFazViTEhwQmNUVU5pdGxTZEhh?=
- =?utf-8?B?bHZKVWw0WUpSOXZlT3cyTVdyclk3QncxY0MxMFBPRG5tVjM1YW9Cc1YxbVUz?=
- =?utf-8?B?S0lFWVEwNFRJZkNPeFlQa1FvU2VQQjViLysva1JQTUJsYVBER2hnVmNvZVU5?=
- =?utf-8?B?dXJ5dDNoNTRqcDVrc2Q3NEZnRHFpc0JlVzhvZVU4WW1STEgvdzZlekpNMFYx?=
- =?utf-8?B?U3h6Sk45UmJpTFQ2K2JhRzVUTTFJeXQ1SkQ2ZFU0SUJrUktIU0RORFhJWGhm?=
- =?utf-8?B?aUpOcHV1d1FYK1A0eExjaHNUTUcrT3pBSTBkRCswdFh5TTdjTFRSUG14SS9r?=
- =?utf-8?B?bjNXUnBJNE1sYmhPdGhFaWNTemswVys0eG8razBHb0hRWXQ2TVBZaWNFWHh4?=
- =?utf-8?B?MjJOY2VOVnBpaFhjME51VkdkT0QzTFowby9Dd1BOUE1wQ2FsVkdMWXN3RnlZ?=
- =?utf-8?B?Z0VtcENqSjZiRk9WUjVGMWl0dUdBOEhNK3hDL21ra3Q2RVZ3YVJISWw2RHlI?=
- =?utf-8?B?UnVZb2haVlhRMmRxSyt6MGVTSDYwNVpOSmZ6YWRKeWorbFloVWpKN0NxczNz?=
- =?utf-8?B?M2owU0trRXJzR2pVdW8xUnpyMmdzT3JpY0ljQjZvV0pqdStwWFphTmh4QklS?=
- =?utf-8?B?TTlDUDJmclNFOVdLb1hqTkpJcFZpUmRqUHRPS3RsTy94NnRLNW5JazhuWXgx?=
- =?utf-8?B?RzlRYjdwaDQ5c25MZEhyZlVGdnhsbC9ZS0ZmblR6K2tnTWZhdEhsYnVYWVdj?=
- =?utf-8?B?aUdrY0Uxa1Q4cXorOXBXNUpRaWM4RWViN3JaQ3BCWVFsa0wxVnA1MFFMMURS?=
- =?utf-8?B?UWlOTm04cnZrK2xQRHNFNDZjOW93Q0JCMlQvTVBKK0N4UHBtYVNoY0ZwUkhq?=
- =?utf-8?B?SWIySVlqUndVSG43QnJPM1ZWNTZIUFVodW5XbWJWRVU1dVUvYXVoS0dleWI5?=
- =?utf-8?Q?GDKA=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92494d97-7ba2-4a70-8263-08dd6313e246
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2025 16:18:41.6266
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EWveP5HHGBn+AuUtoldcSLCmxtHjKbyWXp3u6YVWo2Vbtj1rjcWJF4efUnaCfjXC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7003
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANXhq0r1dd2jCtCbinD4iy9rx+oQ+VDMWjATf1GqxEmuvFzyWw@mail.gmail.com>
 
-Hi Reinette,
+On Fri, Mar 14, 2025 at 04:25:59PM +0800, Zong Li wrote:
+>On Mon, Mar 10, 2025 at 11:42 PM Deepak Gupta <debug@rivosinc.com> wrote:
+>>
+>> Three architectures (x86, aarch64, riscv) have support for indirect branch
+>> tracking feature in a very similar fashion. On a very high level, indirect
+>> branch tracking is a CPU feature where CPU tracks branches which uses
+>> memory operand to perform control transfer in program. As part of this
+>> tracking on indirect branches, CPU goes in a state where it expects a
+>> landing pad instr on target and if not found then CPU raises some fault
+>> (architecture dependent)
+>>
+>> x86 landing pad instr - `ENDBRANCH`
+>> aarch64 landing pad instr - `BTI`
+>> riscv landing instr - `lpad`
+>>
+>> Given that three major arches have support for indirect branch tracking,
+>> This patch makes `prctl` for indirect branch tracking arch agnostic.
+>>
+>> To allow userspace to enable this feature for itself, following prtcls are
+>> defined:
+>>  - PR_GET_INDIR_BR_LP_STATUS: Gets current configured status for indirect
+>>    branch tracking.
+>>  - PR_SET_INDIR_BR_LP_STATUS: Sets a configuration for indirect branch
+>>    tracking.
+>>    Following status options are allowed
+>>        - PR_INDIR_BR_LP_ENABLE: Enables indirect branch tracking on user
+>>          thread.
+>>        - PR_INDIR_BR_LP_DISABLE; Disables indirect branch tracking on user
+>>          thread.
+>>  - PR_LOCK_INDIR_BR_LP_STATUS: Locks configured status for indirect branch
+>>    tracking for user thread.
+>>
+>> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>> Reviewed-by: Mark Brown <broonie@kernel.org>
+>> ---
+>>  arch/riscv/include/asm/usercfi.h | 16 ++++++++-
+>>  arch/riscv/kernel/entry.S        |  2 +-
+>>  arch/riscv/kernel/process.c      |  5 +++
+>>  arch/riscv/kernel/usercfi.c      | 76 ++++++++++++++++++++++++++++++++++++++++
+>>  include/linux/cpu.h              |  4 +++
+>>  include/uapi/linux/prctl.h       | 27 ++++++++++++++
+>>  kernel/sys.c                     | 30 ++++++++++++++++
+>>  7 files changed, 158 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/arch/riscv/include/asm/usercfi.h b/arch/riscv/include/asm/usercfi.h
+>> index c4dcd256f19a..a8cec7c14d1d 100644
+>> --- a/arch/riscv/include/asm/usercfi.h
+>> +++ b/arch/riscv/include/asm/usercfi.h
+>> @@ -16,7 +16,9 @@ struct kernel_clone_args;
+>>  struct cfi_status {
+>>         unsigned long ubcfi_en : 1; /* Enable for backward cfi. */
+>>         unsigned long ubcfi_locked : 1;
+>> -       unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);
+>> +       unsigned long ufcfi_en : 1; /* Enable for forward cfi. Note that ELP goes in sstatus */
+>> +       unsigned long ufcfi_locked : 1;
+>> +       unsigned long rsvd : ((sizeof(unsigned long) * 8) - 4);
+>>         unsigned long user_shdw_stk; /* Current user shadow stack pointer */
+>>         unsigned long shdw_stk_base; /* Base address of shadow stack */
+>>         unsigned long shdw_stk_size; /* size of shadow stack */
+>> @@ -33,6 +35,10 @@ bool is_shstk_locked(struct task_struct *task);
+>>  bool is_shstk_allocated(struct task_struct *task);
+>>  void set_shstk_lock(struct task_struct *task);
+>>  void set_shstk_status(struct task_struct *task, bool enable);
+>> +bool is_indir_lp_enabled(struct task_struct *task);
+>> +bool is_indir_lp_locked(struct task_struct *task);
+>> +void set_indir_lp_status(struct task_struct *task, bool enable);
+>> +void set_indir_lp_lock(struct task_struct *task);
+>>
+>>  #define PR_SHADOW_STACK_SUPPORTED_STATUS_MASK (PR_SHADOW_STACK_ENABLE)
+>>
+>> @@ -58,6 +64,14 @@ void set_shstk_status(struct task_struct *task, bool enable);
+>>
+>>  #define set_shstk_status(task, enable)
+>>
+>> +#define is_indir_lp_enabled(task) false
+>> +
+>> +#define is_indir_lp_locked(task) false
+>> +
+>> +#define set_indir_lp_status(task, enable)
+>> +
+>> +#define set_indir_lp_lock(task)
+>> +
+>>  #endif /* CONFIG_RISCV_USER_CFI */
+>>
+>>  #endif /* __ASSEMBLY__ */
+>> diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
+>> index 68c99124ea55..00494b54ff4a 100644
+>> --- a/arch/riscv/kernel/entry.S
+>> +++ b/arch/riscv/kernel/entry.S
+>> @@ -143,7 +143,7 @@ SYM_CODE_START(handle_exception)
+>>          * Disable the FPU/Vector to detect illegal usage of floating point
+>>          * or vector in kernel space.
+>>          */
+>> -       li t0, SR_SUM | SR_FS_VS
+>> +       li t0, SR_SUM | SR_FS_VS | SR_ELP
+>>
+>>         REG_L s0, TASK_TI_USER_SP(tp)
+>>         csrrc s1, CSR_STATUS, t0
+>> diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
+>> index cd11667593fe..4587201dd81d 100644
+>> --- a/arch/riscv/kernel/process.c
+>> +++ b/arch/riscv/kernel/process.c
+>> @@ -160,6 +160,11 @@ void start_thread(struct pt_regs *regs, unsigned long pc,
+>>         set_shstk_status(current, false);
+>>         set_shstk_base(current, 0, 0);
+>>         set_active_shstk(current, 0);
+>> +       /*
+>> +        * disable indirect branch tracking on exec.
+>> +        * libc will enable it later via prctl.
+>> +        */
+>> +       set_indir_lp_status(current, false);
+>
+>In set_indir_lp_status and set_shstk_status, the $senvcfg.LPE and
+>$senvcfg.SSE fields are set. However, if the CPU does not support this
+>CSR, writing to it will trigger an illegal instruction exception.
+>Should we add sanity checks to handle this situation? Thanks
 
-On 3/13/2025 4:21 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 3/13/25 1:13 PM, Moger, Babu wrote:
->> On 3/13/25 11:08, Reinette Chatre wrote:
->>> On 3/12/25 11:14 AM, Moger, Babu wrote:
->>>> On 3/12/25 12:14, Reinette Chatre wrote:
->>>>> On 3/12/25 9:03 AM, Moger, Babu wrote:
->>>>>> On 3/12/25 10:07, Reinette Chatre wrote:
-> 
-> 
->> Here are the steps. Just copying steps from Peters proposal.
->> https://lore.kernel.org/lkml/CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com/
-> 
-> Thank you very much for detailing the steps. It is starting the fall into place
-> for me.
-> 
+hmm. these were two patches. something happened in my workflow and two
+were squash together it seems. I need to split them (one for introduction
+of generic prctls and another which implements them on riscv)
+
+Being said that, yes good point here. I'll make that change.
+>>
+>>  #ifdef CONFIG_64BIT
+>>         regs->status &= ~SR_UXL;
+>> diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
+>> index 37d6fb8144e7..3a66f149a4ef 100644
+>> --- a/arch/riscv/kernel/usercfi.c
+>> +++ b/arch/riscv/kernel/usercfi.c
+>> @@ -69,6 +69,32 @@ void set_shstk_lock(struct task_struct *task)
+>>         task->thread_info.user_cfi_state.ubcfi_locked = 1;
+>>  }
+>>
+>> +bool is_indir_lp_enabled(struct task_struct *task)
+>> +{
+>> +       return task->thread_info.user_cfi_state.ufcfi_en ? true : false;
+>> +}
+>> +
+>> +bool is_indir_lp_locked(struct task_struct *task)
+>> +{
+>> +       return task->thread_info.user_cfi_state.ufcfi_locked ? true : false;
+>> +}
+>> +
+>> +void set_indir_lp_status(struct task_struct *task, bool enable)
+>> +{
+>> +       task->thread_info.user_cfi_state.ufcfi_en = enable ? 1 : 0;
+>> +
+>> +       if (enable)
+>> +               task->thread.envcfg |= ENVCFG_LPE;
+>> +       else
+>> +               task->thread.envcfg &= ~ENVCFG_LPE;
+>> +
+>> +       csr_write(CSR_ENVCFG, task->thread.envcfg);
+>> +}
+>> +
+>> +void set_indir_lp_lock(struct task_struct *task)
+>> +{
+>> +       task->thread_info.user_cfi_state.ufcfi_locked = 1;
+>> +}
+>>  /*
+>>   * If size is 0, then to be compatible with regular stack we want it to be as big as
+>>   * regular stack. Else PAGE_ALIGN it and return back
+>> @@ -369,3 +395,53 @@ int arch_lock_shadow_stack_status(struct task_struct *task,
+>>
+>>         return 0;
+>>  }
+>> +
+>> +int arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __user *status)
+>> +{
+>> +       unsigned long fcfi_status = 0;
+>> +
+>> +       if (!cpu_supports_indirect_br_lp_instr())
+>> +               return -EINVAL;
+>> +
+>> +       /* indirect branch tracking is enabled on the task or not */
+>> +       fcfi_status |= (is_indir_lp_enabled(t) ? PR_INDIR_BR_LP_ENABLE : 0);
+>> +
+>> +       return copy_to_user(status, &fcfi_status, sizeof(fcfi_status)) ? -EFAULT : 0;
+>> +}
+>> +
+>> +int arch_set_indir_br_lp_status(struct task_struct *t, unsigned long status)
+>> +{
+>> +       bool enable_indir_lp = false;
+>> +
+>> +       if (!cpu_supports_indirect_br_lp_instr())
+>> +               return -EINVAL;
+>> +
+>> +       /* indirect branch tracking is locked and further can't be modified by user */
+>> +       if (is_indir_lp_locked(t))
+>> +               return -EINVAL;
+>> +
+>> +       /* Reject unknown flags */
+>> +       if (status & ~PR_INDIR_BR_LP_ENABLE)
+>> +               return -EINVAL;
+>> +
+>> +       enable_indir_lp = (status & PR_INDIR_BR_LP_ENABLE) ? true : false;
+>> +       set_indir_lp_status(t, enable_indir_lp);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +int arch_lock_indir_br_lp_status(struct task_struct *task,
+>> +                                unsigned long arg)
+>> +{
+>> +       /*
+>> +        * If indirect branch tracking is not supported or not enabled on task,
+>> +        * nothing to lock here
+>> +        */
+>> +       if (!cpu_supports_indirect_br_lp_instr() ||
+>> +           !is_indir_lp_enabled(task) || arg != 0)
+>> +               return -EINVAL;
+>> +
+>> +       set_indir_lp_lock(task);
+>> +
+>> +       return 0;
+>> +}
+>> diff --git a/include/linux/cpu.h b/include/linux/cpu.h
+>> index 6a0a8f1c7c90..fb0c394430c6 100644
+>> --- a/include/linux/cpu.h
+>> +++ b/include/linux/cpu.h
+>> @@ -204,4 +204,8 @@ static inline bool cpu_mitigations_auto_nosmt(void)
+>>  }
+>>  #endif
+>>
+>> +int arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __user *status);
+>> +int arch_set_indir_br_lp_status(struct task_struct *t, unsigned long status);
+>> +int arch_lock_indir_br_lp_status(struct task_struct *t, unsigned long status);
+>> +
+>>  #endif /* _LINUX_CPU_H_ */
+>> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+>> index 5c6080680cb2..6cd90460cbad 100644
+>> --- a/include/uapi/linux/prctl.h
+>> +++ b/include/uapi/linux/prctl.h
+>> @@ -353,4 +353,31 @@ struct prctl_mm_map {
+>>   */
+>>  #define PR_LOCK_SHADOW_STACK_STATUS      76
+>>
+>> +/*
+>> + * Get the current indirect branch tracking configuration for the current
+>> + * thread, this will be the value configured via PR_SET_INDIR_BR_LP_STATUS.
+>> + */
+>> +#define PR_GET_INDIR_BR_LP_STATUS      77
+>> +
+>> +/*
+>> + * Set the indirect branch tracking configuration. PR_INDIR_BR_LP_ENABLE will
+>> + * enable cpu feature for user thread, to track all indirect branches and ensure
+>> + * they land on arch defined landing pad instruction.
+>> + * x86 - If enabled, an indirect branch must land on `ENDBRANCH` instruction.
+>> + * arch64 - If enabled, an indirect branch must land on `BTI` instruction.
+>> + * riscv - If enabled, an indirect branch must land on `lpad` instruction.
+>> + * PR_INDIR_BR_LP_DISABLE will disable feature for user thread and indirect
+>> + * branches will no more be tracked by cpu to land on arch defined landing pad
+>> + * instruction.
+>> + */
+>> +#define PR_SET_INDIR_BR_LP_STATUS      78
+>> +# define PR_INDIR_BR_LP_ENABLE            (1UL << 0)
+>> +
+>> +/*
+>> + * Prevent further changes to the specified indirect branch tracking
+>> + * configuration.  All bits may be locked via this call, including
+>> + * undefined bits.
+>> + */
+>> +#define PR_LOCK_INDIR_BR_LP_STATUS      79
+>> +
+>>  #endif /* _LINUX_PRCTL_H */
+>> diff --git a/kernel/sys.c b/kernel/sys.c
+>> index cb366ff8703a..f347f3518d0b 100644
+>> --- a/kernel/sys.c
+>> +++ b/kernel/sys.c
+>> @@ -2336,6 +2336,21 @@ int __weak arch_lock_shadow_stack_status(struct task_struct *t, unsigned long st
+>>         return -EINVAL;
+>>  }
+>>
+>> +int __weak arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __user *status)
+>> +{
+>> +       return -EINVAL;
+>> +}
+>> +
+>> +int __weak arch_set_indir_br_lp_status(struct task_struct *t, unsigned long status)
+>> +{
+>> +       return -EINVAL;
+>> +}
+>> +
+>> +int __weak arch_lock_indir_br_lp_status(struct task_struct *t, unsigned long status)
+>> +{
+>> +       return -EINVAL;
+>> +}
+>> +
+>>  #define PR_IO_FLUSHER (PF_MEMALLOC_NOIO | PF_LOCAL_THROTTLE)
+>>
+>>  #ifdef CONFIG_ANON_VMA_NAME
+>> @@ -2811,6 +2826,21 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>>                         return -EINVAL;
+>>                 error = arch_lock_shadow_stack_status(me, arg2);
+>>                 break;
+>> +       case PR_GET_INDIR_BR_LP_STATUS:
+>> +               if (arg3 || arg4 || arg5)
+>> +                       return -EINVAL;
+>> +               error = arch_get_indir_br_lp_status(me, (unsigned long __user *)arg2);
+>> +               break;
+>> +       case PR_SET_INDIR_BR_LP_STATUS:
+>> +               if (arg3 || arg4 || arg5)
+>> +                       return -EINVAL;
+>> +               error = arch_set_indir_br_lp_status(me, arg2);
+>> +               break;
+>> +       case PR_LOCK_INDIR_BR_LP_STATUS:
+>> +               if (arg3 || arg4 || arg5)
+>> +                       return -EINVAL;
+>> +               error = arch_lock_indir_br_lp_status(me, arg2);
+>> +               break;
+>>         default:
+>>                 trace_task_prctl_unknown(option, arg2, arg3, arg4, arg5);
+>>                 error = -EINVAL;
+>>
+>> --
+>> 2.34.1
 >>
 >>
->> 1. Mount the resctrl
->>     mount -t resctrl resctrl /sys/fs/resctrl
-> 
-> I assume that on ABMC system the plan remains to have ABMC enabled by default, which
-> will continue to depend on BMEC.
-
-Yes. ABMC will be enabled by default. ABMC will use the configurations 
-from info/L3_MON/counter_configs. ABMC will not depend on BMEC.
-
-> How would the existing BMEC implementation be impacted in this case?
-
-BMEC will only work with pre-ABMC(or default) mode.
-
-
-> 
-> Without any changes to BMEC support the mbm_total_bytes_config and mbm_local_bytes_config
-> files will remain and user space may continue to use them to change the event
-> configurations with confusing expecations/results on an ABMC system.
-> 
-> One possibility may be that a user may see below on ABMC system even if BMEC is supported:
-> # cat /sys/fs/resctrl/info/L3_MON/mon_features
-> llc_occupancy
-> mbm_total_bytes
-> mbm_local_bytes
-> 
-> With the above a user cannot be expected to want to interact with mbm_total_bytes_config
-> and mbm_local_bytes_config, which may be the simplest to do.
-
-yes.
-
-> 
-> To follow that, we should also consider how "mon_features" will change with this
-> implementation.
-
-May be
-
-# cat /sys/fs/resctrl/info/L3_MON/mon_features
-  llc_occupancy
-  mbm_total_bytes
-  mbm_local_bytes
-  counter_configs/mbm_total_bytes/event_filter
-  counter_configs/mbm_local_bytes/event_filter
-
-> 
->>
->> 2. When ABMC is supported two default configurations will be created.
->>
->>    a. info/L3_MON/counter_configs/mbm_total_bytes/event_filter
->>    b. info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>
->>    These files will be populated with default total and local events
->>    # cat info/L3_MON/counter_configs/mbm_total_bytes/event_filter
->>      VictimBW
->>      RmtSlowFill
->>      RmtNTWr
->>      RmtFill
->>      LclFill
->>      LclNTWr
->>      LclSlowFill
-> 
-> Looks good. Here we could perhaps start nitpicking about naming and line separation.
-> I think it may be easier if the fields are separated by comma, but more on that
-> below ...
-> 
->>
->>    # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>     LclFill,
->>     LclNTWr
->>     LclSlowFill
->>
->> 3. Users will have options to update the event configuration.
->>     echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> 
-> We need to be clear on how user space interacts with this file. For example,
-> can user space "append" configurations? Specifically, if the file has
-> contents like your earlier example:
-> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->   LclFill
->   LclNTWr
->   LclSlowFill
-> 
-> Should above be created with (note "append" needed for second and third):
-> echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> echo LclNTWr >> info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> echo LclSlowFill >> info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> 
-> Is it possible to set multiple configurations in one write like below?
-> echo "LclFill,LclNTWr,LclSlowFill" > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-
-Yes. We should support that.
-
-> 
-> (note above where it may be easier for user space to use comma (or some other field separator)
-> when providing multiple configurations at a time, with this, to match, having output in
-> commas may be easier since it makes user interface copy&paste easier)
-> 
-> If file has content like:
-> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->   LclNTWr
->   LclSlowFill
-> 
-> What is impact of the following:
-> echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> 
-> Is it (append):
-> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->   LclFill
->   LclNTWr
->   LclSlowFill
-> 
-> or (overwrite):
-> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->   LclFill
-> 
-> I do think the interface will be more intuitive it if follows regular file
-> operations wrt "append" and such. I have not looked into how kernfs supports
-> "append".
-
-Just searching quickly, I have not seen any append operations on kernfs.
-
-
-> As alternative, we can try to work the previous mbm_assign_control syntax in here (use + and -).
-> 
-> For example:
-> 
-> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> LclNTWr
-> # echo "+LclFill,-LclNTWr,+LclSlowFill" > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> LclFill,LclSlowFill
-> 
-> With something like above resctrl just deals with file writes as before.
-
-Or without complicating much we can just support basic operations.
-
-# cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-   LclFill, LclNTWr, LclSlowFill
-
-# echo "LclFill, LclNTWr, LclSlowFill, VictimBW" > 
-info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-
-# cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-   LclFill, LclNTWr, LclSlowFill, VictimBW
-
-# echo "LclFill, LclNTWr" > 
-info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-
-# cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-   LclFill, LclNTWr
-
-> 
-> 
->>
->> 4. As usual the events can be read from the mon_data directories.
->>     #mkdir /sys/fs/resctrl/test
->>     #cd   /sys/fs/resctr/test
->>     #cat  test/mon_data/mon_data/mon_L3_00/mbm_tota_bytes
->>     101010
->>     #cat   test/mon_data/mon_data/mon_L3_00/mbm_local_bytes
->>     32323
->>
->> 5. There will be 3 files created in each group's mon_data directory when
->> ABMC is supported.
->>
->>     a. test/mon_data/mon_L3_00/assign_exclusive
->>     b. test/mon_data/mon_L3_00/assign_shared
->>     c. test/mon_data/mon_L3_00/unassign
->>
->>
->> 6. Events can be assigned/unassigned by these commands
->>
->>   # echo mbm_total_bytes > test/mon_data/mon_L3_00/assign_exclusive
->>   # echo mbm_local_bytes > test/mon_data/mon_L3_01/assign_exclusive
->>   # echo mbm_local_bytes > test/mon_data/mon_L3_01/unassign
->>
->>
->> Note:
->> I feel 3 files are excessive here. We can probably achieve everything in
->> just one file.
-> 
-> Could you please elaborate what your concern is? You mention that it is
-> excessive but it is not clear to me what issues may arise by
-> having three files instead of one.
-
-All these 3 properties are mutually exclusive. Only one can true at a 
-time. Example:
-#cat assign_exclusive
-0
-#cat assign_shared
-0
-#cat uassigned
-1
-
-Three operations to find out the assign state.
-
-Instead of that
-#cat mon_l3_assignments
-unassigned
-
-
-> 
-> I do think, and Peter also mentioned [1] this, that it may be useful,
-> to "put a group/resource-scoped assign_* file higher in the hierarchy
-> to make it easier for users who want to configure all domains the
-> same for a group."
-> 
-> Placing *additional* files higher in hierarchy (used to manage counters in all
-> domains) may be more useful that trying to provide the shared/exclusive/unassign
-> in one file per domain.
-
-Yea. To make it better we can add "mon_l3_assignments" in groups main 
-directory. We can do all the operation in just one file.
-
-https://lore.kernel.org/lkml/efb5293f-b0ef-4c94-bf10-9ca7ebb3b53f@amd.com/
-
-
-> 
->>
->> Not sure about mbm_assign_control interface as there are concerns with
->> group listing holding the lock for long.
->>
->> -----------------------------------------------------------------------
->> Second phase, we can add support for "mkdir"
->>
->> 1. mkdir info/L3_MON/counter_configs/mbm_read_only
->>
->> 2. mkdir option will create "event_filter" file.
->>     info/L3_MON/counter_configs/mbm_read_only/event_filter
->>
-> 
-> Got it!
-> 
->> 3. Users can modify event configuration.
->>     echo LclFill > info/L3_MON/counter_configs/mbm_read_only/event_filter
->>
->> 4. Users can assign the events
->>
->>    echo mbm_read_only > test/mon_data/mon_L3_00/assign_exclusive
->>
->> 5. Events can be read in
->>
->>     test/mon_data/mon_data/mon_L3_00/mbm_read_only
->>
-> 
-> Related to comment from Tony [2] about rmdir, please also consider that
-> original mbm_local_bytes/mbm_total_bytes could also be removed because at this
-> point they should not appear different from other counter configurations ... apart
-> from being pre-populated for backward compatibility.
-
-Sure.
-
-> 
-> Thank you.
-> 
-> Reinette
-> 
-> 
-> [1] https://lore.kernel.org/lkml/CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com/
-> [2] https://lore.kernel.org/lkml/Z9NB0wd8ZewLjNAd@agluck-desk3/
-> 
-
-Thanks
-Babu
+>> _______________________________________________
+>> linux-riscv mailing list
+>> linux-riscv@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-riscv
