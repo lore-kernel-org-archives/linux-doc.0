@@ -1,176 +1,194 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC06202C3D
-	for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 18:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E82205ABB;
+	Fri, 14 Mar 2025 20:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741978598; cv=none; b=i1CUQ+hfbt1BBVCtR0h5TxJZC6i9GIgeykb0AD4VNSEgQebtwiFP19VQyZe1wgjD61Z4oTFHI4MJSSMWLDRj7Px+MbKYz0vk5iQSUtnT6yXnA6Wz2kIqoC3I5joMSxZQ88bjHVY478XS4ai1oPcn3pS+b7rxbZYtX4t7u18mthk=
+	t=1741982989; cv=none; b=OSD/H77AQxr8zhFKSA98ecT4dsQZFZ9al5LRf9ZQjMBNZUx3pyX3YEMW70QJYtLaEU9vIB4tPxbiubjitISLIoBgKKo/f8CYAlfazy3uM9bcYQ36FOJH3OUaOGmlfHGbAKb9nHcAuBGDQ1/j/nWGtaSJ6GxXGWIEY54qsMLXE1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741978598; c=relaxed/simple;
-	bh=d6lRTVD/mtADsxyTCgSv/4oezDiZLFcfLJQEpM2XOWo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AxKXOA2yp9t82oHWAbfgaK7HDu5F0DfTg0KA2DtCOl59zNDeGo0eO+p9gUUUOpQ2zqXDjR1f/bYCyPTGb2snVAXretQfckyFq9QByZYvbkHA8k9M56stlI+xuPKO73cAzizQ63CWW8O6nIa3jNmzoMby6MQ36jLLXSg/HRsUT+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=n7AT3+v4; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1741982989; c=relaxed/simple;
+	bh=bu9YvpGoo7Dv3D4pG2VJn76PECmkfqUMeBgCXk2byN4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Uv5Jr6DgqbIcmxVNyYplbkt7bEYo9JPN/LE6dEfFbCZc+d+rKHLaiEFSC0kGCkjV4D2+UeKok44yjhbNZkR5PwPlwkwkAUArT6wB0LlOjCc85zxoxQd3NXHgT3tZsPwnlGBemN0/PkI+xMTNrD+u/geKkomdSx6AXqwvE3BptyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qjc+zOJw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="n7AT3+v4"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7272f9b4132so1598880a34.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Mar 2025 11:56:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1741978595; x=1742583395; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RNVuCuSS97Q/Z+sHOmkjZ2bCuVpW+EMqPl3PUMJe14g=;
-        b=n7AT3+v4ka4YBn1DdB5mWT1Pj1uOtqPnr/3GrDm9+RrFZVNfP83YTmkNBWg7+tLvo6
-         d75XXYGnmFHrwzC+FpvPwRrdFLXLGeUILwIW3xk5/+Z3ihTc9F2OtQq1SPkK258vuFyf
-         O+q3LPr0ilX5zuAwi2A99q4+q1WAsJsp4Q/0S4ZZAW+FEW6N4vPEJntjHQL8HTt4CrgH
-         z1AzHIoMwiQZDYG1zLjNWTZzKy/mDS04kicmooDAcXgBdYJv4d0Djg1EYUx8IRD2u42j
-         6ipEHFVqOJu6MkIJnFpawEtxqSH7p0QDC7nDDFOSQIFo6qFcJnhZx5levirXZGfq0mGp
-         CKiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741978595; x=1742583395;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RNVuCuSS97Q/Z+sHOmkjZ2bCuVpW+EMqPl3PUMJe14g=;
-        b=KNI5sxF7L7c15D9pIiWoO21iPQNLt70OC3mqJdUPGwCEHds9nxtUpshwTWmUM7uYqx
-         ocP+AR1PeWGmAswxRI7HYo9GTotDZa9cNTyNCXeSj9KhReVsFPSrzp9DB7A9hQpysd50
-         2BpuFfmcd3FV/6aNOnVrDCytGFXqUAodgS3J50YVRqOu1RBb6hv34lELMoQqKRlmhpKC
-         Hz9vmgeiRFEenxqfWc5hhhvYhp4NkAQI64eRCmu2x6O02+GOqSpOHiwXLKNvTG2Bul/9
-         iwIWtMrsu4JNa+MFosYOAy8nAY9FwSKANMJyoA4EcANDGKFqcYonrR4lkVP/fdk4VmhA
-         bd1w==
-X-Forwarded-Encrypted: i=1; AJvYcCXojLxSPUkZ0EnklaAleoMXNp9i9aCm9NRnoG0fW5DKX3MlfaylUpD6FHenMbPtIkSHX4W8xVL6rTM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlM8YKVh9zoVzdSxnKwDTrAs3xkZCIvpmspwFC9+mEz7D8fNMN
-	PLeux+SJYUk/ZnNzQfDLifbXX7ihP3SiO0s2ouztA44e8r8oBiC0JY91mD2O6MI=
-X-Gm-Gg: ASbGncuyN/sKSfKG2J6aHV0tkGBjOplpHroARXPsxSCqEtjTpUDFIMPXxd5HcTzBgCd
-	vs/k2ZWEfcdRJoIaS7mOoHe+ygyWsvoJpnE/oipdpfkAKoUIwCXjZUO5i7bhxErAvyM0HZ5k9tf
-	cUlwTENDc50OuBxJDW3EpwEd6tlPSlJv3vOGx72YQw3N9wj13qzyMJst47M48T0LGrooSRXU8bZ
-	mWtYNg3U0zKAm5li3j2n3Be1o1LhSLKe+7vZAzOiW6lSmeeVY1lYQQyf1+59vbJFUvcXoParu+v
-	SvvM/Jvtx1F/yy8LgbN5PkJSS6qNs8zHM9+irwjm5FNa8x6eFY4orcg14k5z80QnjDNFhuUM7dI
-	LYEWkTA==
-X-Google-Smtp-Source: AGHT+IGg20VFuY1ZXtqIODcWgwwkYNtqJaT66K1mKtecrIPYl6dsZdvrnubDwiZydzZ3z/ZBfVrqDw==
-X-Received: by 2002:a05:6808:1528:b0:3f6:ea63:6a6d with SMTP id 5614622812f47-3fdeefecf73mr2090220b6e.22.1741978595347;
-        Fri, 14 Mar 2025 11:56:35 -0700 (PDT)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3fcd5c0007esm798356b6e.37.2025.03.14.11.56.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Mar 2025 11:56:34 -0700 (PDT)
-Message-ID: <05b83988-b7aa-453a-bef7-8e7eda77f53a@baylibre.com>
-Date: Fri, 14 Mar 2025 13:56:32 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qjc+zOJw"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DF0D0C4CEE9;
+	Fri, 14 Mar 2025 20:09:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741982988;
+	bh=bu9YvpGoo7Dv3D4pG2VJn76PECmkfqUMeBgCXk2byN4=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=qjc+zOJwsJPvcDLkXGuIaxbNs1zNW1HhHZCTfjxU6gPPvDuMe1CrSTxZBssdOGXp2
+	 wj70RuqwnRaSmjtDDWoT4R+3iheesoiEzL/uAEYYPuOEjzmBrmXcsmlfXeH8Pupg/3
+	 KeIfwBbQolzqDDUnJxT2+xlk5EHMXIwD8epnq18tKAdF8ZEXSl24VMQjeKi81rv3bW
+	 cMZI5hV5tiV8i01IwATVofDHKLJdfBUIBl/yz9ZM5HEzCnV7egB3Zjv4KWqurFg2+g
+	 JOwpjKJjjCefI4awc+VBA4kVtpCS7ssB6zhwY1zIawhX7JhsqgjRKmHQ5zZedmMHEC
+	 xBeANlEUPcFSQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3B5CC282EC;
+	Fri, 14 Mar 2025 20:09:48 +0000 (UTC)
+From: Denis Mukhin via B4 Relay <devnull+dmukhin.ford.com@kernel.org>
+Date: Fri, 14 Mar 2025 13:09:45 -0700
+Subject: [PATCH v2] x86/early_printk: add MMIO-based UARTs
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] docs: iio: new docs for ad4052 driver
-To: Jorge Marques <gastmaier@gmail.com>, Jonathan Cameron <jic23@kernel.org>
-Cc: Jorge Marques <jorge.marques@analog.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250306-iio-driver-ad4052-v1-0-2badad30116c@analog.com>
- <20250306-iio-driver-ad4052-v1-3-2badad30116c@analog.com>
- <CAMknhBFiZZUtCkTjQ=AVSgwqe=wCkMnqAmaTqvW_X6fm1OKuYA@mail.gmail.com>
- <e3p2r2fet2spkrxv7x76gunlivrp3vng22wktz4fkww5nkckt7@jpgne4uerr3c>
- <20250310195416.6d8c64f2@jic23-huawei>
- <c62l6jv5vgsxnbipw7jar6tikjavwybdxaurz7hkdowbamc7ic@ak2rva3ujmaa>
-From: David Lechner <dlechner@baylibre.com>
-Content-Language: en-US
-In-Reply-To: <c62l6jv5vgsxnbipw7jar6tikjavwybdxaurz7hkdowbamc7ic@ak2rva3ujmaa>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250314-earlyprintk-v2-1-2bcbe05290b8@ford.com>
+X-B4-Tracking: v=1; b=H4sIAAiN1GcC/23MQQ7CIBCF4as0sxYDNFriyns0XVAY7EQtzdAQm
+ 4a7i127/F/yvh0SMmGCW7MDY6ZEca6hTw24yc4PFORrg5b6IlvVCrT82hameX2KcDWjC0oGHB3
+ Ux8IY6HNo/VB7orRG3g48q9/638lKKGGCUcZ3nTXe30Nkf3bxDUMp5QuxcbaTpQAAAA==
+X-Change-ID: 20250313-earlyprintk-f68bcf10febc
+To: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Denis Mukhin <dmukhin@ford.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741982987; l=4186;
+ i=dmukhin@ford.com; s=20241125; h=from:subject:message-id;
+ bh=nRjw5s6qvJdy0IHWC7BFiP/737YxH4rYS8hst3iRRtM=;
+ b=+5cgtBnIGpj9caRMXvhQnolR3F9sf8P0BFHozEvxkBONhdQ/y/htcvvW9uK/LYms512hXpr9i
+ Thl43dAF4clDRASBgrehH9Emf9gz7S1h7TfPTJCNEhMVsKXhCTkZdVp
+X-Developer-Key: i=dmukhin@ford.com; a=ed25519;
+ pk=SsDZ9p39s0fqcpUKQuqKqrbn0rq6EtEAClvpOpzx6+U=
+X-Endpoint-Received: by B4 Relay for dmukhin@ford.com/20241125 with
+ auth_id=287
+X-Original-From: Denis Mukhin <dmukhin@ford.com>
+Reply-To: dmukhin@ford.com
 
-On 3/14/25 1:13 PM, Jorge Marques wrote:
-> On Mon, Mar 10, 2025 at 07:54:16PM +0000, Jonathan Cameron wrote:
->> On Sun, 9 Mar 2025 21:49:24 +0100
->> Jorge Marques <gastmaier@gmail.com> wrote:
->>
->>>>> +.. list-table:: Driver attributes
->>>>> +   :header-rows: 1
->>>>> +
->>>>> +   * - Attribute
->>>>> +     - Description
->>>>> +   * - ``in_voltage0_raw``
->>>>> +     - Raw ADC voltage value
->>>>> +   * - ``in_voltage0_oversampling_ratio``
->>>>> +     - Enable the device's burst averaging mode to over sample using
->>>>> +       the internal sample rate.
->>>>> +   * - ``in_voltage0_oversampling_ratio_available``
->>>>> +     - List of available oversampling values. Value 0 disable the burst
->>>>> +       averaging mode.
->>>>> +   * - ``sample_rate``
->>>>> +     - Device internal sample rate used in the burst averaging mode.
->>>>> +   * - ``sample_rate_available``
->>>>> +     - List of available sample rates.  
->>>>
->>>> Why not using the standard sampling_frequency[_available] attributes?  
->>> Because sampling_frequency is the sampling frequency for the pwm trigger
->>> during buffer readings.
->>> sample_rate is the internal device clock used during monitor and burst
->>> averaging modes.
->>
->> For an ABI that is very vague and the two use cases seem to be logically
->> quite different.
->>
->> Seems that for each trigger we have an oversampling ratio controlled number
->> of samples at this rate. It is unusual to be able to control oversampling
->> rate separately from the trigger clock, hence the lack of ABI.  If
->> we add something new for this it should something relating to oversampling.
->> oversampling_frequency perhaps.
->>
->> For monitor mode, it is tied to the sampling frequency for most devices.
->> But there are exceptions.  E.g. the max1363. Trick is to make it an event
->> ABI property and hence under events/ rather than in the root directory.
->>
->> In this case you'll have to store two values and write the appropriate
->> one into the register to suit a given operating mode.
->>
-> 
-> If doing buffer captures with oversampling enabled, both sampling
-> frequencies have an impact:
-> 
-> e.g.,
-> oversampling: 4
-> sample_rate: 2MHz
-> PWM sampling frequency: 500KHz
-> 
-> PWM trigger out (CNV)   |       |       |       |       |
-> ADC conversion          ++++    ++++    ++++    ++++    ++++
-> ADC data ready  (GP)       *       *       *       *       *
-> 
-> For monitor mode, it will constantly be doing conversion to check for
-> threshold crossings, at the defined sample_rate.
-> 
-> I like the idea of having the device's sample_rate as
-> conversion_frequency.
+From: Denis Mukhin <dmukhin@ford.com>
 
-In addition to what makes sense for this chip, we should also consider what
-makes sense other chips with similar features. For example, I am working on
-ad7606c which has control for the oversampling burst frequency (frequency of
-"+" in the diagram above). So it would make sense to have a standard attribute
-that would work for both chips.
+During the bring-up of an x86 board, the kernel was crashing before
+reaching the platform's console driver because of a bug in the firmware,
+leaving no trace of the boot progress.
 
-On ad4052, just because we have a single register that controls two different
-functions doesn't mean we have to be limited to a single attribute that controls
-that register.
+It was discovered that the only available method to debug the kernel
+boot process was via the platform's MMIO-based UART, as the board lacked
+an I/O port-based UART, PCI UART, or functional video output.
 
-So I would create the events/sampling_frequency{,_available} attributes like
-Jonathan suggested for controlling the sampling frequency in monitor mode and
-introduce new oversampling_burst_frequency{,_available} attributes for
-controlling the conversion frequency when oversampling. When an attribute is
-written, we can cache the requested value in the state struct instead of
-writing it directly to the register on the ADC if we want the attributes to be
-independent. Then only write the register when we enable monitor mode or when
-we start reading samples with oversampling enabled.
+Then it turned out that earlyprintk= does not have a knob to configure
+the MMIO-mapped UART.
 
-Sure, it is more work to implement it in the driver this way, but that shouldn't
-be an an excuse to do things in a way that isn't compatible with other ADCs.
+Extend the early printk facility to support platform MMIO-based UARTs
+on x86 systems, enabling debugging during the system bring-up phase.
+
+The command line syntax to enable platform MMIO-based UART is:
+  earlyprintk=mmio,membase[,{nocfg|baudrate}][,keep]
+
+Note, the change does not integrate MMIO-based UART support to:
+  arch/x86/boot/early_serial_console.c
+
+Signed-off-by: Denis Mukhin <dmukhin@ford.com>
+---
+Changes in v2:
+- Fixed description of early_mmio_serial_init()
+- Link to v1: https://lore.kernel.org/r/20250313-earlyprintk-v1-1-8f818d77a8dd@ford.com
+---
+ Documentation/admin-guide/kernel-parameters.txt |  4 +++
+ arch/x86/kernel/early_printk.c                  | 42 ++++++++++++++++++++++++-
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index fb8752b42ec8582b8750d7e014c4d76166fa2fc1..bee9ee18a506d019dc3d330268e3e1c83434ebba 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1414,11 +1414,15 @@
+ 			earlyprintk=pciserial[,force],bus:device.function[,baudrate]
+ 			earlyprintk=xdbc[xhciController#]
+ 			earlyprintk=bios
++			earlyprintk=mmio,membase[,{nocfg|baudrate}][,keep]
+ 
+ 			earlyprintk is useful when the kernel crashes before
+ 			the normal console is initialized. It is not enabled by
+ 			default because it has some cosmetic problems.
+ 
++			Use "nocfg" to skip UART configuration, assume
++			BIOS/firmware has configured UART correctly.
++
+ 			Append ",keep" to not disable it when the real console
+ 			takes over.
+ 
+diff --git a/arch/x86/kernel/early_printk.c b/arch/x86/kernel/early_printk.c
+index 44f937015e1e25bf41532eb7e1031a6be32a6523..068729a53e87cafd27ea9de1781887dff01d5710 100644
+--- a/arch/x86/kernel/early_printk.c
++++ b/arch/x86/kernel/early_printk.c
+@@ -191,7 +191,6 @@ static __init void early_serial_init(char *s)
+ 	early_serial_hw_init(divisor);
+ }
+ 
+-#ifdef CONFIG_PCI
+ static void mem32_serial_out(unsigned long addr, int offset, int value)
+ {
+ 	u32 __iomem *vaddr = (u32 __iomem *)addr;
+@@ -206,6 +205,42 @@ static unsigned int mem32_serial_in(unsigned long addr, int offset)
+ 	return readl(vaddr + offset);
+ }
+ 
++/*
++ * early_mmio_serial_init() - Initialize MMIO-based early serial console.
++ * @s: MMIO-based serial specification.
++ */
++static __init void early_mmio_serial_init(char *s)
++{
++	unsigned long baudrate;
++	unsigned long membase;
++	char *e;
++
++	if (*s == ',')
++		s++;
++
++	if (!strncmp(s, "0x", 2)) {
++		membase = simple_strtoul(s, &e, 16);
++		early_serial_base = (unsigned long)early_ioremap(membase, PAGE_SIZE);
++		serial_in = mem32_serial_in;
++		serial_out = mem32_serial_out;
++
++		s += strcspn(s, ",");
++		if (*s == ',')
++			s++;
++	}
++
++	if (!strncmp(s, "nocfg", 5))
++		baudrate = 0;
++	else {
++		baudrate = simple_strtoul(s, &e, 0);
++		if (baudrate == 0 || s == e)
++			baudrate = DEFAULT_BAUD;
++	}
++	if (baudrate)
++		early_serial_hw_init(115200 / baudrate);
++}
++
++#ifdef CONFIG_PCI
+ /*
+  * early_pci_serial_init()
+  *
+@@ -352,6 +387,11 @@ static int __init setup_early_printk(char *buf)
+ 	keep = (strstr(buf, "keep") != NULL);
+ 
+ 	while (*buf != '\0') {
++		if (!strncmp(buf, "mmio", 4)) {
++			early_mmio_serial_init(buf + 4);
++			early_console_register(&early_serial_console, keep);
++			buf += 4;
++		}
+ 		if (!strncmp(buf, "serial", 6)) {
+ 			buf += 6;
+ 			early_serial_init(buf);
+
+---
+base-commit: 8aed61b8334e00f4fe5de9f2df1cd183dc328a9d
+change-id: 20250313-earlyprintk-f68bcf10febc
+
+Best regards,
+-- 
+Denis Mukhin <dmukhin@ford.com>
+
 
