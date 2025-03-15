@@ -1,101 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-187.mta0.migadu.com (out-187.mta0.migadu.com [91.218.175.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFF11B0F2C;
-	Sat, 15 Mar 2025 12:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662F61DF969
+	for <linux-doc@vger.kernel.org>; Sat, 15 Mar 2025 12:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742040159; cv=none; b=JBFpyFfAkvMS8PKSrS3wEcpDBybAcmfOkDViai9Oe67GvFS1IvWSY/A8YTW92SPqy0aJGIlLzcREGEJYUF8BEvR4PIiKaNugB3xN11DHUVjb7rXqLuzvrl0FEuU7CR+U9HaB/xxfbjC+gbVzE+BcgQPXKwInA9OIc56cKOREZaA=
+	t=1742041322; cv=none; b=JfJWGvAhwHQDde7PiHwpBLIIaE2v7kaYnx06dEIrhNDE65mPPwb1zoeBShauDuDDSLTsU9XcB2TIzDDCruS28Mxh1koYyff6vEuyWZyOsJxgGpcP1qIxLMAW2OXTh3l3Y6/ZLC8xgTarOxs1p7+3YOfRMM0QrRe470JiXvuD7pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742040159; c=relaxed/simple;
-	bh=ZshsBfDgmQQXxn6Zq2mwSKQ4py97/19kW7WSg6nt5DY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ctRS/IOkjhlYkamEZNVP4XoYWwmlytulx2DPGEg7WPKK7a3SpRTay/Q28JZxvYALRAcgXILRKV4WENAlS8zLayjUijphiA5cebsCnvwpIKuCZ3/KuFyBUZYKRUxwLYRJacVLmF8MRJQ/h1PIfsVGYBoQvi3+C0FsA4pV5AsHELY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PxKpyKlx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742041322; c=relaxed/simple;
+	bh=wy6c20spWXmcS2DWIuXkVaGyvR3S8hTMEupyMxN48h0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bSNaklKdm6vonz/PxNGSEBW6FbuXHsMBNpRxFfDA3wGgvE4tCa/gjywE/v/9I6gLMgA9QtD2sfCQGj5fdwRExTUXfYYEi6h93ymnRxLbjqgf26hR1vAzGtOrq6ds7NbMNoJkndUoyhWVtfjq9+yuXhpsDJU7niPZ5+k0Fnn8MLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com; spf=pass smtp.mailfrom=iencinas.com; dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b=lcEMBs7h; arc=none smtp.client-ip=91.218.175.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iencinas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iencinas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PxKpyKlx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF9CC4CEEE;
-	Sat, 15 Mar 2025 12:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742040158;
-	bh=ZshsBfDgmQQXxn6Zq2mwSKQ4py97/19kW7WSg6nt5DY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=PxKpyKlxovQLYibeNpu7gPR1G6ZSgOR3XZni+xyZyXOCLsy56xy0xVkdANxaR87fF
-	 xZ5MGL5gP1yfFFV6/tNtOaJR8vf2D+I3NBwNnraik2zccDZKg8rJ9ruejlGZ1jKaRV
-	 F+afOe+juvGQ3CamiFioNwDvGNq4ZeYaCXOFiKtJUDzbWQAHbvX6gElFj0tEbJy8ip
-	 jxJdboYk6xIe6RVg1GHsnDJHO2KzA6sSLDOhHxkkwmvthO7WCneWp9d1fY1zTDcmpQ
-	 TaisCHcw9XcP9pI5ITVlY/LTQryigXLBVaIOpD0D/pjsFTFfkgCxlskf6ODIJfhMvy
-	 0mPlu5tRcKBeQ==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54954fa61c8so2730875e87.1;
-        Sat, 15 Mar 2025 05:02:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUAgo4gG7lVs7Ex97DmyQZMuPN4tSAlF4pUpXueBOpenMJbeiwi25TnXWTGPFeZQXcBZo/wXFpGaywKz0Ae@vger.kernel.org, AJvYcCX3rHeAwWT5/+XOS0AE3wy9ZV4R6WP+ryroMwcsZur2Ohkpu/D8zV9ec5MaJ9J6+S5sInqYakErUFA=@vger.kernel.org, AJvYcCX73VbuNR0vrQQRTdeafeg39KiQX87q7GINgyml5LMfcYhe3iImVGXQkAPsMM3pICNxVClJp47CSmtbTlSz@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6GV5GsuFNOuMCSJshpZQGIXv0AV8cAtT1qo34QmM7S3JgNfVA
-	pLqorHuJtKTtSTlxVQvrCqyFdsx6Sd1QSggpwterpzNIet99tAOVwO6ENMVQ6p/VOvWtm1TtS/4
-	t4RMax711DZPiTdd7yYeR/zFlTFw=
-X-Google-Smtp-Source: AGHT+IEcM89STBGsgVH0T8F/WmL6+RVisVeAhVW5hkRP6/aoDX4/WRx+2kapYi+yt9ee24n1pOPToUcniZucvqMH4s0=
-X-Received: by 2002:a05:6512:3d29:b0:549:3b4f:4b39 with SMTP id
- 2adb3069b0e04-549c38d07d4mr2122012e87.10.1742040156908; Sat, 15 Mar 2025
- 05:02:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=iencinas.com header.i=@iencinas.com header.b="lcEMBs7h"
+Message-ID: <9c6298a2-4efa-4f77-81c0-b2132f48c1b0@iencinas.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iencinas.com;
+	s=key1; t=1742041308;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4pHhzfXW24TF1t1FOgMUb4yg/TvgoSuq5by1lc39Sis=;
+	b=lcEMBs7hDHnSc0+QfxLmeZDIERK/dJY68x+llhQSLKp9G00S01R84WKw83XJyuvTMYeLMB
+	8DF9YfNP5+MXAwlcgypmjk+GSuo93jaqX21XnnJ5xxx00ldRX8dqrFfwQK9NM0DJM2m0Mj
+	DeygCKkWiBcK7/TouZY26iJWUm139hA1mbL9gi4YCxjIw4W0pz7kaE09y+KhAMebA1qPli
+	2IWYBaEHlNcZBkuFC53V0susnEgNklY23VZgOffvT+FXiLUGSZfp+WIJhesX2iBbGCEPcH
+	OlutoqHPbk9V0BZZtlNBrNLpKkywoHqByp09B6sMGS2jY7PU2iVNl63jS1ZLtg==
+Date: Sat, 15 Mar 2025 13:21:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250313-kbuild-prefix-map-v1-0-38cea8448c5f@weissschuh.net> <20250315113400.GBZ9VlqIBVsVdzlRAb@fat_crate.local>
-In-Reply-To: <20250315113400.GBZ9VlqIBVsVdzlRAb@fat_crate.local>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 15 Mar 2025 21:02:00 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT+U=FM=vS4jSPG1Jfn7e0sD8AgSvjGqTVK0s27t0soBA@mail.gmail.com>
-X-Gm-Features: AQ5f1JrSCVfnKBQ5tc8_eDWdQzWiJbV0UKRlUsjTEffjkmqj704r67_zDguqv9o
-Message-ID: <CAK7LNAT+U=FM=vS4jSPG1Jfn7e0sD8AgSvjGqTVK0s27t0soBA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] kbuild: make all file references relative to source root
-To: Borislav Petkov <bp@alien8.de>
-Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Ben Hutchings <ben@decadent.org.uk>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] Documentation: kcsan: fix "Plain Accesses and Data Races"
+ URL in kcsan.rst
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: corbet@lwn.net, dvyukov@google.com, elver@google.com,
+ kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, workflows@vger.kernel.org
+References: <1d66a62e-faee-4604-9136-f90eddcfa7c0@iencinas.com>
+ <c6a697af-281a-4a91-8885-a4478dfe2cef@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ignacio Encinas Rubio <ignacio@iencinas.com>
+In-Reply-To: <c6a697af-281a-4a91-8885-a4478dfe2cef@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sat, Mar 15, 2025 at 8:34=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrot=
-e:
->
-> On Thu, Mar 13, 2025 at 04:59:08PM +0100, Thomas Wei=C3=9Fschuh wrote:
-> > -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
-> > Other references, for example in debug information, is not affected.
-> > This makes handling of file references in the compiler output harder to
-> > use and creates problems for reproducible builds.
-> >
-> > Switch to -ffile-prefix map which affects all references.
-> >
-> > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> > ---
-> > Thomas Wei=C3=9Fschuh (4):
-> >       kbuild: make all file references relative to source root
-> >       kbuild: doc: reproducible-builds: drop section "Absolute filename=
-s"
-> >       x86/boot: Switch to -ffile-prefix-map
-> >       x86/boot/compressed: Switch to -ffile-prefix-map
->
-> Btw, I don't see why those are 4 patches - it is a single logical change =
-that
-> converts to this new compiler switch.
->
-> So why are they 4?
+On 15/3/25 3:41, Akira Yokosawa wrote:
+> This might be something Jon would like to keep secret, but ...
+> 
+> See the message and the thread it belongs at:
+> 
+>     https://lore.kernel.org/lkml/Pine.LNX.4.44L0.1907310947340.1497-100000@iolanthe.rowland.org/
+> 
+> It happened in 2019 responding to Mauro's attempt to conversion of
+> LKMM docs.
+> 
+> I haven't see any change in sentiment among LKMM maintainers since.
 
-Good point.
+Thanks for the information!
 
->
-> Masahiro, might as well merge them into one...
+> Your way forward would be to keep those .txt files *pure plain text"
+> and to convert them on-the-fly into reST.  Of course only if such an
+> effort sounds worthwhile to you.
 
-I'd like Thomas to submit a single patch.
+With this you mean producing a .rst from the original .txt file using an 
+script before building the documentation, right? I'm not sure how hard 
+this is, but I can look into it.
 
+> Another approach might be to include those docs literally.
+> Similar approach has applied to
+> 
+>     Documentation/
+> 	atomic_t.txt
+> 	atomic_bitops.txt
+>         memory-barriers.txt
 
+Right, I got to [1]. 
 
+It looks like there are several options here:
 
---
-Best Regards
-Masahiro Yamada
+  A) Include the text files like in [1]
+  B) Explore the "on-the-fly" translation
+  C) Do A) and then B)
+
+Does any of the above sound good, Jon?
+
+Thank you both for your time
+
+[1] https://lore.kernel.org/all/20220927160559.97154-7-corbet@lwn.net/
