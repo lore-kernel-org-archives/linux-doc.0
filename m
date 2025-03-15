@@ -1,170 +1,72 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD49B188012;
-	Sat, 15 Mar 2025 13:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35D1208D0;
+	Sat, 15 Mar 2025 14:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742044828; cv=none; b=g6Sx1h0xxpAViDKD1jEY4mJxxh9YKxaIK0c/APOZGpg/nXvBVFWZgIvLDIUz5ySPPCSUS/JbWTCVKXflkdp92c40+9kF7kXO5CDo90JBXxIOE9Cv1pW6VM/i2SLwvFhGylUJkTPJg6qcmaOIfwYhlK2xLWAdU5nZbfI3wRioosE=
+	t=1742050223; cv=none; b=NVJr1Mkdbxbhb2fhmD+XKjhrZazM5HsLAOVSivy4/Y3rmYMkH3BuJshqOw5uRJDxLwR1xuEjrzwX3ra1OvIgmJWykzS+Gf5pwxS7rm4xknJ2v/WyCdJCZ3Yu/Q+BAO33f7RlW51Wz0DEP4fqc3tDpwblO/mPbsLveYLkKq2PykA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742044828; c=relaxed/simple;
-	bh=5aAd5kxEgpNv9jP73xNPFCtdSg1gvVxKex9LF+vIYYw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YWYYhct9xrUNsL6SAxEk7mlYb0PldU4BoFbiUkSOmHPX4WmuJSQtEKyhyyYYlKK/K4TW8XWJO8vzcumWeWU6GtVHEA3Gg1CoQkCxkiE341UdI12NgzM/NOaMjDjKt1n6+68/W+j8vpq8ygRt2NzI2ADi3ArIGXLn8WfaNUQpLZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=JNEWAJLP; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1742050223; c=relaxed/simple;
+	bh=FQUYiextVDgUYWXuF/yOc1G6zOZN1i3xz/ylkwvnuaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t1GrzqvLTK0tByWcVYWz8Mu6kYo+rE0XmRCVyBpq1E/CGSj+uNgLtJwFMWcT9o0q1m0K3zATySIv7WsKakyp9Wg0Jad6Ulkl50OyInKO9+gCOOuCL16Pq8/y1+i38o56R2h5swQGbt6v1dzDw/hdOg+FhzL5CKTO7y3Nf2UvKiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BTm43f3T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="JNEWAJLP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1742044815;
-	bh=5aAd5kxEgpNv9jP73xNPFCtdSg1gvVxKex9LF+vIYYw=;
-	h=From:Date:Subject:To:Cc:From;
-	b=JNEWAJLPlUzVtGxCp29wNfCDRhMalaQWu+6aecq00TgXZ+l9MhyLECCR2qrjWiqVa
-	 DT+Q0B3YDmcLwbR8QBqnoE0ZJ4NAvHasZcfwt0x5/ugfaem+JflYOacAxfcbKQU7LQ
-	 /65g5Nb3YksnKV+IHn638Ayf8ue6tronYP8KLjHw=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sat, 15 Mar 2025 14:20:14 +0100
-Subject: [PATCH v2] kbuild: make all file references relative to source
- root
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BTm43f3T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08541C4CEE5;
+	Sat, 15 Mar 2025 14:50:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742050223;
+	bh=FQUYiextVDgUYWXuF/yOc1G6zOZN1i3xz/ylkwvnuaU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BTm43f3TprM/O1OebuMSkny0gUTnQYZ7VIiozKjrXmmjsjSFki338r0rWavmIMw2j
+	 oz6QJiJks32TavMMIiqUKhUrhbWe2mfnAjKzFZN0OCkipUL8KzA5syo+mVdQJFsY3O
+	 bD7VB452AtKBkDf1JXl19T+iONzguOlsaxKB6aqB6k5ZsqddPT03JCaNcRGYPSxCUc
+	 09fn56/0FXp4uzAMyO901WQjhPgtyOH2St60EyQRam3skiG7uvSD7WpJbREltoTHyL
+	 KYeL2b5Jgy2fJvAQZh+xdO5ivVuEsRnSR1p01wbCo7yDec/82/IaKCKXAzWgzMibVw
+	 yvnVLF16OIDcw==
+Date: Sat, 15 Mar 2025 15:50:16 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Andrew Ballance <andrewjballance@gmail.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net,
+	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+	acourbot@nvidia.com, nouveau@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 0/3] rust: alloc: add Vec::resize and Vec::truncate
+Message-ID: <Z9WTqChNDG8GnXY0@cassiopeiae>
+References: <20250315024235.5282-1-andrewjballance@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAI1+1WcC/22NwQ6CMBBEf4Xs2TWlgKAn/8NwqGWxG7WQLqCG8
- O9WjDePbybzZgahwCRwSGYINLFw5yPoTQLWGX8h5CYyaKULlaUar+eRbw32gVp+4t30WBgqd1a
- rPZUG4u5brc5THdmxDF14rRdT+kl/tuyPbUpRYVZZMlWeV7Zojw9iEbFudFtPA9TLsrwBhu/yR
- bcAAAA=
-X-Change-ID: 20250312-kbuild-prefix-map-5ae76c209e7a
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>, Ben Hutchings <ben@decadent.org.uk>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1742044815; l=4983;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=5aAd5kxEgpNv9jP73xNPFCtdSg1gvVxKex9LF+vIYYw=;
- b=poDRjIhb/G41s9ptBZZyGL7Io6BzUYTI2xwX2fLZnHNV98APDZltVsyMujL4CeZ8EJU1iSOvX
- Nb9yOhd8/OuB9OPa5cbcmpvkynmaPdMCqqVeeIyaLcQSBUSdPf0geKK
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250315024235.5282-1-andrewjballance@gmail.com>
 
--fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
-Other references, for example in debug information, are not affected.
-This makes handling of file references in the compiler outputs harder to
-use and creates problems for reproducible builds.
+Hi Andrew,
 
-Switch to -ffile-prefix map which affects all references.
+On Fri, Mar 14, 2025 at 09:42:32PM -0500, Andrew Ballance wrote:
+> This patch series implements the Vec::truncate and Vec::resize methods
+> that were needed by the nova driver and removes the corresponding item
+> from their task list
+> 
+> Andrew Ballance (3):
+>   rust: alloc: add Vec::truncate method
+>   rust: alloc: add Vec::resize method
+>   gpu: nova-core: remove completed Vec extentions from task list
 
-Also drop the documentation section advising manual specification of
--fdebug-prefix-map for reproducible builds, as it is not necessary
-anymore.
+Thanks for picking this up!
 
-Suggested-by: Ben Hutchings <ben@decadent.org.uk>
-Link: https://lore.kernel.org/lkml/c49cc967294f9a3a4a34f69b6a8727a6d3959ed8.camel@decadent.org.uk/
-Acked-by: Borislav Petkov (AMD) <bp@alien8.de> # arch/x86/
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
-Changes in v2:
-- Pick up Ack from Borislav
-- Merge all changes into single patch
-- Also drop link to KCFLAGS from docs
-- Link to v1: https://lore.kernel.org/r/20250313-kbuild-prefix-map-v1-0-38cea8448c5f@weissschuh.net
----
- Documentation/kbuild/reproducible-builds.rst | 17 -----------------
- Makefile                                     |  2 +-
- arch/x86/boot/Makefile                       |  2 +-
- arch/x86/boot/compressed/Makefile            |  2 +-
- 4 files changed, 3 insertions(+), 20 deletions(-)
+Once ready, I will pick up the first two patches for alloc-next and take the
+third one through the nova tree.
 
-diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-index f2dcc39044e66ddd165646e0b51ccb0209aca7dd..a7762486c93fcd3eba08b836bed622a41e829e41 100644
---- a/Documentation/kbuild/reproducible-builds.rst
-+++ b/Documentation/kbuild/reproducible-builds.rst
-@@ -46,21 +46,6 @@ The kernel embeds the building user and host names in
- `KBUILD_BUILD_USER and KBUILD_BUILD_HOST`_ variables.  If you are
- building from a git commit, you could use its committer address.
- 
--Absolute filenames
--------------------
--
--When the kernel is built out-of-tree, debug information may include
--absolute filenames for the source files.  This must be overridden by
--including the ``-fdebug-prefix-map`` option in the `KCFLAGS`_ variable.
--
--Depending on the compiler used, the ``__FILE__`` macro may also expand
--to an absolute filename in an out-of-tree build.  Kbuild automatically
--uses the ``-fmacro-prefix-map`` option to prevent this, if it is
--supported.
--
--The Reproducible Builds web site has more information about these
--`prefix-map options`_.
--
- Generated files in source packages
- ----------------------------------
- 
-@@ -131,7 +116,5 @@ See ``scripts/setlocalversion`` for details.
- 
- .. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
- .. _KBUILD_BUILD_USER and KBUILD_BUILD_HOST: kbuild.html#kbuild-build-user-kbuild-build-host
--.. _KCFLAGS: kbuild.html#kcflags
--.. _prefix-map options: https://reproducible-builds.org/docs/build-path/
- .. _Reproducible Builds project: https://reproducible-builds.org/
- .. _SOURCE_DATE_EPOCH: https://reproducible-builds.org/docs/source-date-epoch/
-diff --git a/Makefile b/Makefile
-index 5c333682dc9142b1aacfe454a5c77f5923554b7d..4f920187cee658ae4d1b807fca365f6994274828 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1067,7 +1067,7 @@ endif
- 
- # change __FILE__ to the relative path to the source directory
- ifdef building_out_of_srctree
--KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srcroot)/=)
-+KBUILD_CPPFLAGS += $(call cc-option,-ffile-prefix-map=$(srcroot)/=)
- KBUILD_RUSTFLAGS += --remap-path-prefix=$(srcroot)/=
- endif
- 
-diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
-index 9cc0ff6e9067d574488a35573eff4d0f8449e398..f500f82864aae80deb74faa3df9a8b6333d6c4ca 100644
---- a/arch/x86/boot/Makefile
-+++ b/arch/x86/boot/Makefile
-@@ -54,7 +54,7 @@ targets += cpustr.h
- 
- KBUILD_CFLAGS	:= $(REALMODE_CFLAGS) -D_SETUP
- KBUILD_AFLAGS	:= $(KBUILD_CFLAGS) -D__ASSEMBLY__
--KBUILD_CFLAGS	+= $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
-+KBUILD_CFLAGS	+= $(call cc-option,-ffile-prefix-map=$(srctree)/=)
- KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables
- KBUILD_CFLAGS	+= $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
- 
-diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
-index 5edee7a9786c67e13c295473751b82387bcbd67e..ad324978b2e5b1b6f8be82647769c99db8257ac7 100644
---- a/arch/x86/boot/compressed/Makefile
-+++ b/arch/x86/boot/compressed/Makefile
-@@ -38,7 +38,7 @@ KBUILD_CFLAGS += -fno-stack-protector
- KBUILD_CFLAGS += $(call cc-disable-warning, address-of-packed-member)
- KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
- KBUILD_CFLAGS += -Wno-pointer-sign
--KBUILD_CFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
-+KBUILD_CFLAGS += $(call cc-option,-ffile-prefix-map=$(srctree)/=)
- KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
- KBUILD_CFLAGS += -D__DISABLE_EXPORTS
- # Disable relocation relaxation in case the link is not PIE.
+But you can keep them in the same series for subsequent submissions.
 
----
-base-commit: a57512d6cd88eba04cdc1fb83832c00d248bd0d1
-change-id: 20250312-kbuild-prefix-map-5ae76c209e7a
-
-Best regards,
--- 
-Thomas Weißschuh <linux@weissschuh.net>
-
+- Danilo
