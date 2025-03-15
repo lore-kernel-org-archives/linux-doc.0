@@ -1,107 +1,101 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3701E7C0A;
-	Sat, 15 Mar 2025 11:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFF11B0F2C;
+	Sat, 15 Mar 2025 12:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742038466; cv=none; b=phewRNmoT/51aOT77qo7IGd/xdfG3swCXLhnbOo64gbjw0L2lzIEu5Cb389gZrNdPc0XDXLF6p6Iv5gCQrJpaR08H6uABFIoamenLDCmFFOJxtOB2k4wuXEttRmdjALm1W1iFXnV4xy0rZZt/IeJAEawx7WFmYo5BTFdyGfOqvw=
+	t=1742040159; cv=none; b=JBFpyFfAkvMS8PKSrS3wEcpDBybAcmfOkDViai9Oe67GvFS1IvWSY/A8YTW92SPqy0aJGIlLzcREGEJYUF8BEvR4PIiKaNugB3xN11DHUVjb7rXqLuzvrl0FEuU7CR+U9HaB/xxfbjC+gbVzE+BcgQPXKwInA9OIc56cKOREZaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742038466; c=relaxed/simple;
-	bh=rAr/1XOPL6FtqBP7vv5nuWJT+lCTu+U480Yk0OYPEbQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EZSeFXjECuyuTYviJrfBq93aJkjPeD/xOOLAbj/5exootU/LatWhux57nnOHpJQGHhxuDxx4E+rEwqkkJdLjX9Equc701F+ekQCkfYYpSlJ6s8yNRsYscutXqoBBr+mTt4YbwxDysAsdRpaNW0KxLhEE5M8gPfhXJSKP/MpFq8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=NFTaNFnX reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1742040159; c=relaxed/simple;
+	bh=ZshsBfDgmQQXxn6Zq2mwSKQ4py97/19kW7WSg6nt5DY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ctRS/IOkjhlYkamEZNVP4XoYWwmlytulx2DPGEg7WPKK7a3SpRTay/Q28JZxvYALRAcgXILRKV4WENAlS8zLayjUijphiA5cebsCnvwpIKuCZ3/KuFyBUZYKRUxwLYRJacVLmF8MRJQ/h1PIfsVGYBoQvi3+C0FsA4pV5AsHELY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PxKpyKlx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="NFTaNFnX"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4432D40E0196;
-	Sat, 15 Mar 2025 11:34:21 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
-	reason="fail (body has been altered)" header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 8hxDFu0D7Fcd; Sat, 15 Mar 2025 11:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1742038456; bh=gSgNTrF/QbgbsMwtMJwfKMFZleoPJK4pQUmP758rID4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NFTaNFnXZu8gdd3lmhmwHKKY80bmsVlFIKp8X4xobVPQp/fskNrr3xVJLi4/MIGKF
-	 vpxvmjvjuYWPKBZtAEksOP71kOwnBEHE8OIqKNLuFRhY4h2nOuFcL22EK024MoZjAu
-	 agG66/ZLG30Z3KDAXezZvQkjpsGXEgAvikFdbxxmAH2vU+uiBHHu1hGiwNP/e0lT1y
-	 Yfqw75n6mgteMJEAh/vdElQ1MqeKFiCL4OaokG5FHYRd1JHlrhuuRqSfasatXZz1T+
-	 /vftDQWftmtC38r8FsMA2cuuXUeE9GQdQ9h49O0jpMCPpb4rRGBur+wspujvlBOW3E
-	 kd/DAnnOP8fOtGI4bvv4thxHAH6UqJTYQjdTJ4QVFaF2hz8oUuHvdn0ynzofnnXwAW
-	 hxXrM/9LcYmnuJcjZTpGFKso3CS3RAriU9g2VF0+LgXG2Qh0CFpksqRhseGEQDn4o7
-	 HgRxEnwu/sGKMLAYXmTvLyRFITGXcXNsxV5wg7AUrOhxrJn7kV014tgLovY4pZotpJ
-	 sBMVrXobTawJywQ4NbUVKdkzMRPcSLbKuGlpeVZN8ZXO7piLLnhmqTqfJNwof5ldel
-	 GXGWsgKWw5KaQrwHDl7rCQ2hCUKven6PRsP83BZk8lfJr2wWGvLjoUHsLQURFKBwmp
-	 P4y4JU8BvXlVW3yE9daJKp38=
-Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E3AC540E0216;
-	Sat, 15 Mar 2025 11:34:01 +0000 (UTC)
-Date: Sat, 15 Mar 2025 12:34:00 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Ben Hutchings <ben@decadent.org.uk>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/4] kbuild: make all file references relative to source
- root
-Message-ID: <20250315113400.GBZ9VlqIBVsVdzlRAb@fat_crate.local>
-References: <20250313-kbuild-prefix-map-v1-0-38cea8448c5f@weissschuh.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PxKpyKlx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF9CC4CEEE;
+	Sat, 15 Mar 2025 12:02:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742040158;
+	bh=ZshsBfDgmQQXxn6Zq2mwSKQ4py97/19kW7WSg6nt5DY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=PxKpyKlxovQLYibeNpu7gPR1G6ZSgOR3XZni+xyZyXOCLsy56xy0xVkdANxaR87fF
+	 xZ5MGL5gP1yfFFV6/tNtOaJR8vf2D+I3NBwNnraik2zccDZKg8rJ9ruejlGZ1jKaRV
+	 F+afOe+juvGQ3CamiFioNwDvGNq4ZeYaCXOFiKtJUDzbWQAHbvX6gElFj0tEbJy8ip
+	 jxJdboYk6xIe6RVg1GHsnDJHO2KzA6sSLDOhHxkkwmvthO7WCneWp9d1fY1zTDcmpQ
+	 TaisCHcw9XcP9pI5ITVlY/LTQryigXLBVaIOpD0D/pjsFTFfkgCxlskf6ODIJfhMvy
+	 0mPlu5tRcKBeQ==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54954fa61c8so2730875e87.1;
+        Sat, 15 Mar 2025 05:02:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUAgo4gG7lVs7Ex97DmyQZMuPN4tSAlF4pUpXueBOpenMJbeiwi25TnXWTGPFeZQXcBZo/wXFpGaywKz0Ae@vger.kernel.org, AJvYcCX3rHeAwWT5/+XOS0AE3wy9ZV4R6WP+ryroMwcsZur2Ohkpu/D8zV9ec5MaJ9J6+S5sInqYakErUFA=@vger.kernel.org, AJvYcCX73VbuNR0vrQQRTdeafeg39KiQX87q7GINgyml5LMfcYhe3iImVGXQkAPsMM3pICNxVClJp47CSmtbTlSz@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6GV5GsuFNOuMCSJshpZQGIXv0AV8cAtT1qo34QmM7S3JgNfVA
+	pLqorHuJtKTtSTlxVQvrCqyFdsx6Sd1QSggpwterpzNIet99tAOVwO6ENMVQ6p/VOvWtm1TtS/4
+	t4RMax711DZPiTdd7yYeR/zFlTFw=
+X-Google-Smtp-Source: AGHT+IEcM89STBGsgVH0T8F/WmL6+RVisVeAhVW5hkRP6/aoDX4/WRx+2kapYi+yt9ee24n1pOPToUcniZucvqMH4s0=
+X-Received: by 2002:a05:6512:3d29:b0:549:3b4f:4b39 with SMTP id
+ 2adb3069b0e04-549c38d07d4mr2122012e87.10.1742040156908; Sat, 15 Mar 2025
+ 05:02:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250313-kbuild-prefix-map-v1-0-38cea8448c5f@weissschuh.net>
+References: <20250313-kbuild-prefix-map-v1-0-38cea8448c5f@weissschuh.net> <20250315113400.GBZ9VlqIBVsVdzlRAb@fat_crate.local>
+In-Reply-To: <20250315113400.GBZ9VlqIBVsVdzlRAb@fat_crate.local>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 15 Mar 2025 21:02:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT+U=FM=vS4jSPG1Jfn7e0sD8AgSvjGqTVK0s27t0soBA@mail.gmail.com>
+X-Gm-Features: AQ5f1JrSCVfnKBQ5tc8_eDWdQzWiJbV0UKRlUsjTEffjkmqj704r67_zDguqv9o
+Message-ID: <CAK7LNAT+U=FM=vS4jSPG1Jfn7e0sD8AgSvjGqTVK0s27t0soBA@mail.gmail.com>
+Subject: Re: [PATCH 0/4] kbuild: make all file references relative to source root
+To: Borislav Petkov <bp@alien8.de>
+Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ben Hutchings <ben@decadent.org.uk>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 13, 2025 at 04:59:08PM +0100, Thomas Wei=C3=9Fschuh wrote:
-> -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
-> Other references, for example in debug information, is not affected.
-> This makes handling of file references in the compiler output harder to
-> use and creates problems for reproducible builds.
->=20
-> Switch to -ffile-prefix map which affects all references.
->=20
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> ---
-> Thomas Wei=C3=9Fschuh (4):
->       kbuild: make all file references relative to source root
->       kbuild: doc: reproducible-builds: drop section "Absolute filename=
+On Sat, Mar 15, 2025 at 8:34=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrot=
+e:
+>
+> On Thu, Mar 13, 2025 at 04:59:08PM +0100, Thomas Wei=C3=9Fschuh wrote:
+> > -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
+> > Other references, for example in debug information, is not affected.
+> > This makes handling of file references in the compiler output harder to
+> > use and creates problems for reproducible builds.
+> >
+> > Switch to -ffile-prefix map which affects all references.
+> >
+> > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> > ---
+> > Thomas Wei=C3=9Fschuh (4):
+> >       kbuild: make all file references relative to source root
+> >       kbuild: doc: reproducible-builds: drop section "Absolute filename=
 s"
->       x86/boot: Switch to -ffile-prefix-map
->       x86/boot/compressed: Switch to -ffile-prefix-map
-
-Btw, I don't see why those are 4 patches - it is a single logical change =
+> >       x86/boot: Switch to -ffile-prefix-map
+> >       x86/boot/compressed: Switch to -ffile-prefix-map
+>
+> Btw, I don't see why those are 4 patches - it is a single logical change =
 that
-converts to this new compiler switch.
+> converts to this new compiler switch.
+>
+> So why are they 4?
 
-So why are they 4?
+Good point.
 
-Masahiro, might as well merge them into one...
+>
+> Masahiro, might as well merge them into one...
 
-Thx.
+I'd like Thomas to submit a single patch.
 
---=20
-Regards/Gruss,
-    Boris.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+
+
+--
+Best Regards
+Masahiro Yamada
