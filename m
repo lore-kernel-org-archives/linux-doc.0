@@ -1,126 +1,122 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993F02045A8;
-	Sat, 15 Mar 2025 18:24:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA8B1F8901;
+	Sat, 15 Mar 2025 18:34:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742063052; cv=none; b=NDLPnheT46q54OsCPnJOLTvwYx1Romg/ybqHoOLDVYkCO8F64Ymb+qNW83QH9ozwRqwjOjYcoIKArnrilH1jr+9T9z1cNYNGpnlad7JrRAtq3SkJmV1Mr0h3vpcZCz5FyIcAzGzAOOAEZsdq6yjdRZ98mGN2ckZQyGVW/4axif8=
+	t=1742063673; cv=none; b=YSkfJ1+r/Zkfkpbu+alldXej0mT9eNl81aEPQnx1Ke1oJiCMLmSL0QUq9mk0SG1OJz0Z4383B2dU2eIF7qThmYEahvQu7ylauS0JkHunPuFXVnwKuDo6ankkjp1AH2n9K1Sfx6Vz5Vn4A2FpEuYvKKi4LCO9PVvgwdDsanp2jJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742063052; c=relaxed/simple;
-	bh=1OSMH1Qhc2HVIdN9lUo5EIcgC/VQXR5nLtIJGdwCXyE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DIljA+domFYOb9RJrQ0UIvPobpVQ8nQYeeRkiDuZ9A9PpAhYv+oFBLiw++mlfSP7jBGDVbVTbij8Gjs+kQl6G77EBNTgugsXueIAkwl3DDV9a3M61fV9XvmAfTKR/C60whME1j0B5chgIeQLWYN97q1yXsoPigc5mZq5u8aud28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GgOOtrJ0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742063673; c=relaxed/simple;
+	bh=X4xpNZ8s/sLlkBevw/itk2vfx1DtriwGopjBQDhHUlk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ECnX6CQSj9qCLpnn3/i9vSEIUMedF2NBAia8SCCTyDX4/Rh+8n9x1WYNIL5jYdidBfFRTJIXNffrSAc6i8J9743NUD5SqVEvgvmDRK/qre4e5Yv9Ibjz/tLcwK6qgWKq/8wK6JJQliracX/Ilgk3Bjog5udlpg+1bT6ywIUqK/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PDoNB7Dz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GgOOtrJ0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8BFAC4CEE5;
-	Sat, 15 Mar 2025 18:24:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PDoNB7Dz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A38DC4CEE5;
+	Sat, 15 Mar 2025 18:34:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742063052;
-	bh=1OSMH1Qhc2HVIdN9lUo5EIcgC/VQXR5nLtIJGdwCXyE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GgOOtrJ04G5i3Wfl+n9/xw1Wu/Brh1HvHBRaiKd9qDbcT1gNslP1tCFL8CRSKn4Ek
-	 pehiJ4/thFy4b6YlCtwdrKwF6cj25sLYkRxXRLK+4cuIIBZr1Rc8Lrrcf1bhafu/wb
-	 V3VThXpOznoB+1eByBZ6Yhc07WRkiEPkCCeeAFULv+QTN95P5+Walvvu0q+mBieMmM
-	 m5yPoLCqT+uSh1ezDG8WhS7eiUODnWPUddqcT68qU86/wRf+hziYzrQH/FQH6N66fs
-	 YgGkrKs5jPBC4noCSX7RqPJvckiqeSL38xcK9omvFH2ZWyY9ExsLHTvGCQAonn9meE
-	 n/uRtIKbDMbXg==
-Date: Sat, 15 Mar 2025 18:24:02 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jorge Marques <gastmaier@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>, Jorge Marques
- <jorge.marques@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/4] docs: iio: new docs for ad4052 driver
-Message-ID: <20250315182402.59f3ccf4@jic23-huawei>
-In-Reply-To: <27kqar3ugxjzwss7hzxil2hz3kxaunnkpaaas3nnzemhssf6mo@65xknov7jh7k>
-References: <20250306-iio-driver-ad4052-v1-0-2badad30116c@analog.com>
-	<20250306-iio-driver-ad4052-v1-3-2badad30116c@analog.com>
-	<CAMknhBFiZZUtCkTjQ=AVSgwqe=wCkMnqAmaTqvW_X6fm1OKuYA@mail.gmail.com>
-	<e3p2r2fet2spkrxv7x76gunlivrp3vng22wktz4fkww5nkckt7@jpgne4uerr3c>
-	<6ca1eafd-276d-421b-8d35-bd3e363803d1@baylibre.com>
-	<20250310195629.47ca023f@jic23-huawei>
-	<27kqar3ugxjzwss7hzxil2hz3kxaunnkpaaas3nnzemhssf6mo@65xknov7jh7k>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=k20201202; t=1742063673;
+	bh=X4xpNZ8s/sLlkBevw/itk2vfx1DtriwGopjBQDhHUlk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PDoNB7DzA9Waok4Oz0gdSnJmuGJvm+LFo0WJ6WFGPyGHM6uPTy82o13K5gjCZPPZg
+	 pX4v/5/QL+pdLvPQb4aTmjjK0yhu2FrFWvAHMsaLdWwlaiUDgGBY2/Ys4dthN/BZWM
+	 vtTlvLY6dWn8a8lm89kCObmxMFyL1Fq289hdcj/j6rPyy6huex/JAHIt2wBvoypqYK
+	 3Ka9NZDENVsrASqFqZumU2REmTbbul8+mTQ/3ihRLHHXDmKst+fGdeKhVNETK/fn9j
+	 E6lHMRFqfhQ/Rfthh4hWxx8p0VSXirdabbR2UkvwIO1BLrHkiASgsWyb5MqNd/XL2L
+	 F9h7+7zTM/cvg==
+Date: Sat, 15 Mar 2025 11:34:28 -0700
+From: Kees Cook <kees@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Miguel Ojeda <ojeda@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Marco Elver <elver@google.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	linux-hardening@vger.kernel.org, Christoph Lameter <cl@linux.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Yafang Shao <laoar.shao@gmail.com>,
+	Tony Ambardar <tony.ambardar@gmail.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Jan Hendrik Farr <kernel@jfarr.cc>,
+	Alexander Potapenko <glider@google.com>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v4 1/2] compiler_types: Introduce __flex_counter() and
+ family
+Message-ID: <202503151133.3FCFCB70@keescook>
+References: <20250315025852.it.568-kees@kernel.org>
+ <20250315031550.473587-1-kees@kernel.org>
+ <03d69156-1cee-43bc-901b-5f85f3aa7575@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <03d69156-1cee-43bc-901b-5f85f3aa7575@infradead.org>
 
-On Fri, 14 Mar 2025 18:34:46 +0100
-Jorge Marques <gastmaier@gmail.com> wrote:
-
-> On Mon, Mar 10, 2025 at 07:56:29PM +0000, Jonathan Cameron wrote:
-> > On Mon, 10 Mar 2025 09:31:45 -0500
-> > David Lechner <dlechner@baylibre.com> wrote:
-> >   
-> > > On 3/9/25 3:49 PM, Jorge Marques wrote:  
-> > > >>> +   * - ``sample_rate``
-> > > >>> +     - Device internal sample rate used in the burst averaging mode.
-> > > >>> +   * - ``sample_rate_available``
-> > > >>> +     - List of available sample rates.    
-> > > >>
-> > > >> Why not using the standard sampling_frequency[_available] attributes?    
-> > > > Because sampling_frequency is the sampling frequency for the pwm trigger
-> > > > during buffer readings.
-> > > > sample_rate is the internal device clock used during monitor and burst
-> > > > averaging modes.    
-> > > 
-> > > I haven't done a chips with a monitor mode yet where we aren't reading
-> > > the samples, so hopefully Jonathan will chime in here on the usual way
-> > > to handle that.
-> > > 
-> > > For the burst averaging mode, I understand the need for a separate attribute
-> > > now. I would suggest to call this the conversion_frequency rather than
-> > > sampling_rate since IIO already defines "sampling" to be the data read
-> > > from the chip to Linux even if it is an averaged value, it still counts
-> > > as one sample.  
-> > 
-> > I should have read on.  I'd like this more closely associated with oversampling.
-> > As per other reply we use sampling_frequency in the events directory for
-> > the monitoring frequency case.  One of our very first drivers did this
-> > (max1363) so it's been in the ABI a long time!
-> >   
+On Fri, Mar 14, 2025 at 09:53:41PM -0700, Randy Dunlap wrote:
+> Hi Kees,
 > 
-> I get the idea but maybe the datasheet sample rate as conversion_frequency
-> and stored as a channel attribute (iio_chan_spec.ext_info) is clear enough.
-
-It's not standard ABI. So no standard userspace code will be aware of it.
-we can add to standard ABI, but only if we can't support a feature with
-what is already defined. Event then we need to keep it consistent with
-existing ABI.
-
-Note that the first step on any ABI is to write documentation for it in 
-Documentation/ABI/testing/sysfs-bus-iio-*
-That can help people understand what is being proposed and allows discussion
-of how to generalize any new ABI to be useful across many drivers.
 > 
-> The datasheet sample rate affects both the burst averaging mode (oversampling) and
-> monitor mode (threshold events).
+> On 3/14/25 8:15 PM, Kees Cook wrote:
+> 
+> 
+> > diff --git a/include/linux/overflow.h b/include/linux/overflow.h
+> > index 0c7e3dcfe867..e2b81cb5576e 100644
+> > --- a/include/linux/overflow.h
+> > +++ b/include/linux/overflow.h
+> > @@ -440,4 +440,40 @@ static inline size_t __must_check size_sub(size_t minuend, size_t subtrahend)
+> >  #define DEFINE_FLEX(TYPE, NAME, MEMBER, COUNTER, COUNT)	\
+> >  	_DEFINE_FLEX(TYPE, NAME, MEMBER, COUNT, = { .obj.COUNTER = COUNT, })
+> >  
+> > +/**
+> > + * typeof_flex_counter() - Return the type of the counter variable of a given
+> > + *                         flexible array member annotated by __counted_by().
+> > + * @FAM: Pointer to the flexible array member within a given struct.
+> > + *
+> > + * Returns "size_t" if no annotation exists.
+> 
+> Please use
+>  * Returns: <text>
+> instead so that kernel-doc can make a special doc section for it.
 
-True, but are both occurring at the same time?  My reading of the situation was
-that they weren't but I could be wrong.  If they aren't then just rewrite the register
-to a cached value when you change mode.
+Ah! Thanks -- I hadn't realized that the ":" induced special sections. I
+think I have a bunch of other kern-doc clean-ups to do as well.
 
 > 
-> The max1363 stores as an event attribute (iio_info.event_attr) and requires iio/sysfs.h include.
-> A last option is to store as a general purpose device attribute (iio_info.attrs).
-> As a channel attribute, the driver logic is slightly simpler by using the macros.
-
-Agreed that non standard event attributes are a bit trickier to deal with.  They
-have never been common enough for us to fix that.  However the ABI exists
-and is documented, so that's almost certainly the way to go.
-
-Jonathan
+> Same for patch 2/2.
 > 
-> Jorge
+> > + */
+> > +#define typeof_flex_counter(FAM)				\
+> > +	typeof(_Generic(__flex_counter(FAM),			\
+> > +			void *: (size_t)0,			\
+> > +			default: *__flex_counter(FAM)))
+> > +
+> > +/** can_set_flex_counter() - Check if the counter associated with the given
+> 
+> Needs a newline between /** and the function name, as in set_flex_counter() below.
 
+Whoops, thanks!
+
+-Kees
+
+-- 
+Kees Cook
