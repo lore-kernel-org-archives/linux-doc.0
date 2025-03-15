@@ -1,128 +1,103 @@
-Received: from omta034.useast.a.cloudfilter.net (omta034.useast.a.cloudfilter.net [44.202.169.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503E818DB1E
-	for <linux-doc@vger.kernel.org>; Sat, 15 Mar 2025 05:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CA413F43B;
+	Sat, 15 Mar 2025 08:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742015944; cv=none; b=H/lfQ++UAMUYnuE61SSmdR+cWs/Zhsbq1SNb/h+XBRFxiCYbNTO6w7IrXnSHj1n9sGoYfX0Cbv2erIceZ3Q5N2hcNHSOu7JUv/TDztZ+jnBCAFCo6Vj3htI4V+mW/6Isg/AurUUcQvEJerh5u2q2Mz3sD0x+3NVpcmx/hlG7ZF0=
+	t=1742026571; cv=none; b=igheBEIyirmOP/53HBStx8gOl8lGqPZSvuVYvB8+dFJa7vQkVDHZjuzuE7N3NSxh7WMka8EHYuet+GtYgJU/SIngtxYuY9QmvUghvDCkj5Cwvoe6y/d1/RghZI7OUwYaxc+ryl90thnzUA2sdZsm4qPlR2zajLzkhBxHYa7LRt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742015944; c=relaxed/simple;
-	bh=gCKOMTSR7SFGeALdClJ4oeqAp32aiNNdltbx70uY+l0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hj2aPfWWBOuLJs+l3el8h9ooKhtTXtF4MUa08zccDGNN7JOQ8Fn0XGEd1ZfdesIpeFfmfptEJRFUzJHnvgf05jnzw3vtXSZbgaZeBovJLW9wu2CX9Ug+lvuwLdUoPT3BEU5kTkU5xfY72jtAY0PmWcwrCR6MmzTv9YZBewVUrj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=Yr4eOeb1; arc=none smtp.client-ip=44.202.169.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	s=arc-20240116; t=1742026571; c=relaxed/simple;
+	bh=maUhN+AJnWAR8ns3BwFcLCq65svuJuNcwk2OiHz9Y2Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N2z+0JzjCGBB0BQmvYsHPH8Si6VlZ/bLU3Bl1T71ZAjaGvLRbxR0PKi408opguno4caNWz2bo5LwRIAYIanbBJfzzqt/P0CvlgbNK4c10HCJYpxwLnuS5xfNJwAnn14z3Lua6xesMMN2XnZw9Bed7qOWPSJI1ckC7Af/U99aU68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YH/njqrj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="Yr4eOeb1"
-Received: from eig-obgw-6003a.ext.cloudfilter.net ([10.0.30.151])
-	by cmsmtp with ESMTPS
-	id tFWwtq6zzXshwtJvEtAA63; Sat, 15 Mar 2025 05:18:56 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id tJvDtF46Gh9ZxtJvEtXUyx; Sat, 15 Mar 2025 05:18:56 +0000
-X-Authority-Analysis: v=2.4 cv=GODDEfNK c=1 sm=1 tr=0 ts=67d50dc0
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=6Vi/Wpy7sgpXGMLew8oZcg==:17
- a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=7T7KSl7uo7wA:10
- a=ZeKeiZ7te2ZlWvWP_YkA:9 a=QEXdDO2ut3YA:10 a=Xt_RvD8W3m28Mn_h3AK8:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Z9CV7YjZm2q81+e0gd2CqFBpJBtXFWEm4J6h1AlGC2s=; b=Yr4eOeb1ZdZrGAUExLuwFtBdA0
-	nLqdok3y8dnsk+9TMsOUiAau/LeIdzsleTe+RsXaC+eKo7WA2vw9O+ZDoCobJc71qNEP3yBDJqSY8
-	V33x6N2YcTNMGeKjinas8zekF6sFG+m3BTqfBGYwID5FBalv6TkQt89yt5QjZxYfJvLzeb7cVW6ad
-	iDiThwZY6Y4mI/m8APdvW+VOiiQ8w8ndJJqtPNQrZKWVVAZHkKeYbJpAOgmqYWHlwES/MB4nUP7OI
-	aXp9T9KRlrJXlq2+RWizYEnzljWrMOMf7yOCuk7ti2bDMNa4xfFfBRwFmlSw3bYfcjxB/e4kNbaZl
-	k6L/kZiQ==;
-Received: from [45.124.203.140] (port=53524 helo=[192.168.0.160])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.1)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1ttJv8-00000003Ac1-2JPJ;
-	Sat, 15 Mar 2025 00:18:50 -0500
-Message-ID: <17076519-33fd-4fac-a718-784b9597c9e6@embeddedor.com>
-Date: Sat, 15 Mar 2025 15:48:30 +1030
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YH/njqrj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11A39C4AF09;
+	Sat, 15 Mar 2025 08:16:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742026571;
+	bh=maUhN+AJnWAR8ns3BwFcLCq65svuJuNcwk2OiHz9Y2Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=YH/njqrj8bAXy2Z07DQMyqD2bEoj18H9Dx5deMyPl4Ijdnxv2jODOddeGvOqUsDzD
+	 S90q2O8mNfjQa52GJwkpVTY49QOhQU9+JPAtaZa0xchzg33P4IXC2wElTC4qbX3p2g
+	 lBBFrka1CptEidEAk8QRPzowIX/nhK4iXsIwoTo14kaBFr/eQNEBGNj2UOk/RaiAVe
+	 yKyUL7uzL/2LJteTS1qNo+7hVEN5RqE7sLsIF3iriVKz29p0mmfwPdD7dof9jp2M41
+	 KLhDIlptW2jAZ43kXVhPJsYvJLP2vtJgfl6vMFo0xCrXJJwnuXLXsN35vKYqHPmwlY
+	 dxJTWCWJ61QvA==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30bfc8faef9so28210061fa.1;
+        Sat, 15 Mar 2025 01:16:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU6X16vXfmde1FmyZPyfSbtQR2ZM9KOhVQr8W0bztBsNLGH4pCQObh+JIdc0FEZsA0OJZXN9o3jSyv/Ew7P@vger.kernel.org, AJvYcCWipw+4KlvGEXDrCoTJcfcDUljM12UdYEaUBxq07cG249W0FxLYeVtS3VG5zEoeYgi1SCjiNRE2jTnTUrdC@vger.kernel.org, AJvYcCWwkZPs4Hxxao4hx0UmVkF3R8Hseygi9uE2Wqz4QgXdbFTsLnMD6lj1A6BbKMcWumA4lhaywpBqvBs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+q+nqq3vgnHcLVnI4lW3Goc4tEVWE2Oq5ydM5Ao0jvxKD0f4T
+	QmJxQt4klM3/HY/pLLQdHrApHvonhlhGzxxi4xn8mcj/2dtndPsz/fYfef9IQFCyjiKtyvcWD/w
+	lWfiV2bSfVmqUksl2/0wCCevQVyo=
+X-Google-Smtp-Source: AGHT+IGmnB4gPS6Yhf1I051zNGKkcqfe/bOTJQsVHygtNFoNmNzIh7SDi0tpWWhkazTubKAuSRwg8cjVes/Ildo/Sbc=
+X-Received: by 2002:a05:6512:2245:b0:545:cc5:be90 with SMTP id
+ 2adb3069b0e04-549c398cf85mr1858047e87.35.1742026569742; Sat, 15 Mar 2025
+ 01:16:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] slab: Introduce kmalloc_obj() and family
-To: Kees Cook <kees@kernel.org>, Vlastimil Babka <vbabka@suse.cz>
-Cc: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
- David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- "Gustavo A . R . Silva" <gustavoars@kernel.org>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Jann Horn <jannh@google.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Marco Elver <elver@google.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>,
- Yafang Shao <laoar.shao@gmail.com>, Tony Ambardar <tony.ambardar@gmail.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Jan Hendrik Farr <kernel@jfarr.cc>, Alexander Potapenko <glider@google.com>,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
- linux-doc@vger.kernel.org, llvm@lists.linux.dev
-References: <20250315025852.it.568-kees@kernel.org>
- <20250315031550.473587-2-kees@kernel.org>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20250315031550.473587-2-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 45.124.203.140
-X-Source-L: No
-X-Exim-ID: 1ttJv8-00000003Ac1-2JPJ
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.0.160]) [45.124.203.140]:53524
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 2
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfGQIBySxVRDg0sdlXMREn8RdyeeAa328if8ODOVRNbIKWiL/4NcuG/o/lVYrEoynRBw0k/RzgBKqlhOAueF/OVxtzNj20Qj5SxPQKoVF+tqgN9m3bisW
- gj55BqyaB6+U6cMRI7VDr+VOSpWueT/55K6jETk83dsR/1+dbj6ETcOY3Gr5OjUeh3sVPLv/5h62eudtyBlMnv7yRWRRxkrptSs=
+References: <20250313-kbuild-prefix-map-v1-0-38cea8448c5f@weissschuh.net> <20250313-kbuild-prefix-map-v1-3-38cea8448c5f@weissschuh.net>
+In-Reply-To: <20250313-kbuild-prefix-map-v1-3-38cea8448c5f@weissschuh.net>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 15 Mar 2025 17:15:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ695Ur3tvq+W67zgkRuw_wnRJpoAsmpEUgVLyFx8USNg@mail.gmail.com>
+X-Gm-Features: AQ5f1Jrvonb-5Mtiicy6dw4ZlrYroUO2Ym6UWmGYhYtF3F3_vYC6MyoBKdEXbtA
+Message-ID: <CAK7LNAQ695Ur3tvq+W67zgkRuw_wnRJpoAsmpEUgVLyFx8USNg@mail.gmail.com>
+Subject: Re: [PATCH 3/4] x86/boot: Switch to -ffile-prefix-map
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ben Hutchings <ben@decadent.org.uk>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi X86 maintainers,
+
+Is it OK to pick up this to kbuild tree?
+Ack is appreciated.
 
 
-> These each return the assigned value of ptr (which may be NULL on
-> failure). For cases where the total size of the allocation is needed,
-> the kmalloc_obj_sz(), kmalloc_objs_sz(), and kmalloc_flex_sz() family
-> of macros can be used. For example:
-> 
-> 	info->size = struct_size(ptr, flex_member, count);
-> 	ptr = kmalloc(info->size, gfp);
-> 
-> becomes:
-> 
-> 	kmalloc_flex_sz(ptr, flex_member, count, gfp, &info->size);
 
-I wonder if it'd be better to keep the gfp flags as the last argument
-for all these `*_sz()` cases:
+On Fri, Mar 14, 2025 at 12:59=E2=80=AFAM Thomas Wei=C3=9Fschuh <linux@weiss=
+schuh.net> wrote:
+>
+> -ffile-prefix-map is a more general variant of the currently used
+> -fmacro-prefix-map. It is also what the top-level Makefile is using now.
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> ---
+>  arch/x86/boot/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
+> index 9cc0ff6e9067d574488a35573eff4d0f8449e398..f500f82864aae80deb74faa3d=
+f9a8b6333d6c4ca 100644
+> --- a/arch/x86/boot/Makefile
+> +++ b/arch/x86/boot/Makefile
+> @@ -54,7 +54,7 @@ targets +=3D cpustr.h
+>
+>  KBUILD_CFLAGS  :=3D $(REALMODE_CFLAGS) -D_SETUP
+>  KBUILD_AFLAGS  :=3D $(KBUILD_CFLAGS) -D__ASSEMBLY__
+> -KBUILD_CFLAGS  +=3D $(call cc-option,-fmacro-prefix-map=3D$(srctree)/=3D=
+)
+> +KBUILD_CFLAGS  +=3D $(call cc-option,-ffile-prefix-map=3D$(srctree)/=3D)
+>  KBUILD_CFLAGS  +=3D -fno-asynchronous-unwind-tables
+>  KBUILD_CFLAGS  +=3D $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
+>
+>
+> --
+> 2.48.1
+>
 
-	kmalloc_flex_sz(ptr, flex_member, count, &info->size, gpf);
-
-Probably, even for __alloc_objs()
 
 --
-Gustavo
+Best Regards
+Masahiro Yamada
