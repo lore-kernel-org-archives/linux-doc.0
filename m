@@ -1,130 +1,169 @@
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ABA510F2;
-	Sun, 16 Mar 2025 11:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314F320311;
+	Sun, 16 Mar 2025 11:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742123854; cv=none; b=BnIQC0dehz/yT+nEUTlsS5S/TC7pB40u8fA2T15a4AZgTbuz8Jh9XOcekkGLhcZkHig5rThB2QcFz7owyVSZla7qBnexPxgx6cKfnGyX2XnrKBSVcn6c6Huzk5CICR/JvQyqSegtKIEAUMRmgiG4VwQYldeQ4dmN0vEBsaFSDRk=
+	t=1742125257; cv=none; b=HOnIQIS0jJE0G2y1zBiL1kW1eMSacLjVbxSa23aKVw1XdiEyD2ti9c72Dc7pexzkcJlU9XHytyKW9lQ39X6gQ0F6S8SmJix+7+iGNGP7D1m+L+fXSp6QBGLKOzjmz8Ermw+VYUHA+NIWgQmsPNJc4trXT6+C0GC3Br/dHhBPIG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742123854; c=relaxed/simple;
-	bh=GlntjgU3Lxdii6DqpKNjs6+MaX1eRLZ0d3LBMTa28eY=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lCMpu6TJWpoMeecHqbpIQVOQaBmHHbsULt6fOgufpgMEJMnrEUstnvs4U34r5gnxhitj6WH5Ld/eXZA7tnnVljGvP/BzR8ZroaL1H9sZ24LuJEzmOaG+iy33DkCyKmiA6Mrbip4/9ZX84SgtYRUIn7BJxdWHkhUI26vKzrY/Ngg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cCJqS5GH; arc=none smtp.client-ip=209.85.161.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742125257; c=relaxed/simple;
+	bh=i+6HoquRiLWr0sO3yfdjpo1aNrtmauC4Zz6XOb47INY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QVcIdmiJYpYNnygScqbeci3bWqj3EPEgnfroGDaD2DZJsIWAVdYtljIV9F9q5Xd3m+ezaaEca4czVK7rpjD7GB8GoyCDQcYD6Mv9quKlR+QDc26180gPCoc4xYqhBnTjvMlqrhBh6qLrce7f/tEuesoQH+XuYJELT8Hfzk94iD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=TX46hhwm; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cCJqS5GH"
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-601c12ac8d0so1597469eaf.2;
-        Sun, 16 Mar 2025 04:17:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742123851; x=1742728651; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MibvrQXj2P5QnlDxX5YbYon7Ne8dH6XMjJsYnk+RzkY=;
-        b=cCJqS5GH2H7fEPT8ZKCkHTXxqpfAqyn0gqJc50Rjzdaw1MoVB5pST//rxQ/dQyFpvy
-         OSQwq7JNxIC3tdZ8zXK9eozem5HJjd6KJ7hyFRVmh7hOmTKcQ2F5mCr2fJN3oor+M2MF
-         YtB3zlIg6vL3lMDjJ4gUdC5G5KfCxotAek8BIt+5ygu00PYtVWmnPZ1ksJJfq/mLZECZ
-         sC56IxXRBPsm1mQLmZLcxa9uUeP/MjrKthDssmoARqaVJt8cE8To2DmVIH4P7hs4wL2v
-         +/+WkNR4naCtsGd1DGJHBhG2ZFwZLO/J0Dg+dAPRI7vtReR3PwXfrYKaMiJwliaFBKV1
-         NR7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742123851; x=1742728651;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MibvrQXj2P5QnlDxX5YbYon7Ne8dH6XMjJsYnk+RzkY=;
-        b=dC7KUT3qdm2k7zzbaab7dVDDVY8qI77UfEj7OfQY5zlpd7YWazsTHKwPe7cKa0PIGT
-         CeX1kGH0v+pbQkeRpG8uVvYfZyBL7jBblEAWbt4nqBrwJzUHP/DSO8dY6Y7WqCpiayZ1
-         tMpEI9mjJMRTqsAGj8Z2eo+QymQRmQpmo44qaWUf2PApLVT/83g1d+OLoDsg8MaUF3dX
-         EMcK9CCl82e+WXxsT8DBHSKXFmkNPU6qoUilUSzbkyVFFTHE8yKkl0fHnj5sz85NEJvZ
-         wYY+Kb+EH+Oj9cAUvYlA+8MOg92lOVmJnPLeTHvKoG7YaazOj9k5ytKENTWg08l3INul
-         o1sg==
-X-Forwarded-Encrypted: i=1; AJvYcCU1pV+p5ZoehDFeF17iQ6EKuij+JxUzM6o0nh0H9c9Mcwc33D4Zk/R2l7HxbPety39+awtjnp/soxM=@vger.kernel.org, AJvYcCULXWNC2aITgXKPR5l2iTLOjECPD4I1lLL53cnOzTQGwV5yQeJyYyIG1SMLXB4n5EjLgX18on8+bT7JUYs/oIo=@vger.kernel.org, AJvYcCVaLYMHI36yrIg4TEVeNaJqg2qDQVsyoWYpTGJw9I5Xdt4BorKsU82mJiBtEEHgBwJHtY8aJ2qRuL7wZBPP@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQhu//g+BtYwBeZm3+6WgrE21xRZVCeyIOYWHgT/DXET4cwz3G
-	8mDgo5Omj5mTLCz8q1+GUj6au/FEmILEk9wc8a5vBvZ3HgMf0E/t
-X-Gm-Gg: ASbGncsZ6W3yE6nT5/Zv0fXmiMgMc7uQfi3X1jvmwLqjphK2yiqMyEf6qk7iv0Oo/Zd
-	cd6qevkn9gG7vF+toMD9eWgPHvCCmOl9QwCSHctb6ip2wLpmFAsRXWlRlzKlODxJjX+HzLhYBGN
-	4RdYhY1XGrr1jzAzTPrAhH07++U4CqiPnpObbfo57ZRjK5comytnrh3H/AbG0+lpzpj1TKkVeMI
-	5c+vPY+sNiZ32/9aFctMBPL9VXRq35TAzg2dOt+ekZxT2GVK0kD+odfxHzF3eHyOK9IpMvrpAMz
-	HUJXfW9Q4pHB17FxzgpidqA3uRyBcWETFb8Jdl29XZ3WJWGHW01kt1oUwJaIwnd0a9eBOKRwT4X
-	clmyuB6LJale0gmTN
-X-Google-Smtp-Source: AGHT+IG0u7JDaDNYIHwPQlqHBQlgmBC+Fo0wrepsC3YNTau6TIWAGIJlcCHjX1uHxt1F9G2iknrsEg==
-X-Received: by 2002:a05:6808:f12:b0:3f4:af3:74a5 with SMTP id 5614622812f47-3fdeed0d78emr5189018b6e.21.1742123851687;
-        Sun, 16 Mar 2025 04:17:31 -0700 (PDT)
-Received: from my-computer.lan (c-73-76-29-249.hsd1.tx.comcast.net. [73.76.29.249])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-3fe832ce015sm715978b6e.7.2025.03.16.04.17.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Mar 2025 04:17:30 -0700 (PDT)
-From: Andrew Ballance <andrewjballance@gmail.com>
-To: dakr@kernel.org,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	corbet@lwn.net,
-	ojeda@kernel.org,
-	alex.gaynor@gmail.com,
-	boqun.feng@gmail.com,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	benno.lossin@proton.me,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	andrewjballance@gmail.com,
-	acourbot@nvidia.com,
-	nouveau@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH v2 3/3] gpu: nova-core: remove completed Vec extentions from task list
-Date: Sun, 16 Mar 2025 06:16:44 -0500
-Message-ID: <20250316111644.154602-4-andrewjballance@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250316111644.154602-1-andrewjballance@gmail.com>
-References: <20250316111644.154602-1-andrewjballance@gmail.com>
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="TX46hhwm"
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 68F922E08C68;
+	Sun, 16 Mar 2025 13:40:43 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1742125244;
+	bh=BGHr1/4aATDr1mD8uyz2Fhbm5tPYXu0tVOldrpJ8cWo=;
+	h=Received:From:Subject:To;
+	b=TX46hhwm7BtnUe2JJ552LFxyjP37qpfUqG4JbYIzX4yntZvAceCOu+YLiPE5CZtmC
+	 wOWg1iuTea0K2EuVSi74KxgfHpLUk0THPEVNTS8dUX2RCEPbL1Vm0pebCafqPfVF6x
+	 J2xbSEvSqa2WRLBSduGVc3OwjQ+Fzu92b1xWJgJk=
+Authentication-Results: linux1587.grserver.gr;
+        spf=pass (sender IP is 209.85.208.177) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f177.google.com
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-30bf3f3539dso35670681fa.1;
+        Sun, 16 Mar 2025 04:40:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4dmNdftnq9kSRlUjJVBHW5wy1/afrJwOGL9U9UTuwaK0ek38mpZELiirgpG4pFZXCTTq3nQTor9E=@vger.kernel.org,
+ AJvYcCWNenx2CMvQIuVWvw+S+9YruumgIm79JFbwmPlQMqZxpJspVpJC4iZSQKvWaoFZItFStldW7J5db74=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEvdb0nyqthFuhhfyi41cevdDu6RadXovYpc16hoz3rxUIAdBS
+	wtJvdH0Wr2urVV4I2YXzisk66ZUcDcmBeJ7c6+PNKtAlpv1Nfj9aSYLBduU7JtK9kszztUJEBJJ
+	BrLyIxvc92Uzzd+T5wK6KbqE0PhA=
+X-Google-Smtp-Source: 
+ AGHT+IHl5GkEAYqN3zNvvmgbMMk4DsiUwZxs+6BARkR8jqA/ebo/rfPt4v14pRse6wK+wD6yfRh5DRehzizRymAyk98=
+X-Received: by 2002:a2e:bea3:0:b0:30c:799:8418 with SMTP id
+ 38308e7fff4ca-30c4aa76ee8mr37400751fa.4.1742125242611; Sun, 16 Mar 2025
+ 04:40:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250311165406.331046-1-lkml@antheas.dev>
+ <20250311165406.331046-6-lkml@antheas.dev>
+In-Reply-To: <20250311165406.331046-6-lkml@antheas.dev>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Sun, 16 Mar 2025 12:40:31 +0100
+X-Gmail-Original-Message-ID: 
+ <CAGwozwELmp7v_46wmo_bbORWMEeA-NWRjXeRML4Jd=p=huLNaw@mail.gmail.com>
+X-Gm-Features: AQ5f1JrufAoSFAcwKpp0MKevZu5L5NV33r0LZSt3sZsJsqHAdj8y0B-Mf1--Ka8
+Message-ID: 
+ <CAGwozwELmp7v_46wmo_bbORWMEeA-NWRjXeRML4Jd=p=huLNaw@mail.gmail.com>
+Subject: Re: [PATCH v4 05/13] power: supply: add inhibit-charge-s0 to
+ charge_behaviour
+To: platform-driver-x86@vger.kernel.org
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-pm@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
+ Derek J Clark <derekjohn.clark@gmail.com>,
+	Kevin Greenberg <kdgreenberg234@protonmail.com>,
+ Joshua Tam <csinaction@pm.me>,
+	Parth Menon <parthasarathymenon@gmail.com>, Eileen <eileen@one-netbook.com>
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <174212524391.3504.18369951178983920859@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-The requested Vec methods have been implemented thus, removes
-the completed item from the nova task list
+On Tue, 11 Mar 2025 at 17:54, Antheas Kapenekakis <lkml@antheas.dev> wrote:
+>
+> OneXPlayer devices have a charge bypass feature
+> that allows the user to select between it being
+> active always or only when the device is on.
+>
+> Therefore, add attribute inhibit-charge-s0 to
+> charge_behaviour to allow the user to select
+> that bypass should only be on when the device is
+> in the s0 state.
+>
+> Reviewed-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> ---
+>  Documentation/ABI/testing/sysfs-class-power | 11 ++++++-----
+>  drivers/power/supply/power_supply_sysfs.c   |  1 +
+>  drivers/power/supply/test_power.c           |  1 +
+>  include/linux/power_supply.h                |  1 +
+>  4 files changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-class-power b/Documentation/ABI/testing/sysfs-class-power
+> index 2a5c1a09a28f..4a187ca11f92 100644
+> --- a/Documentation/ABI/testing/sysfs-class-power
+> +++ b/Documentation/ABI/testing/sysfs-class-power
+> @@ -508,11 +508,12 @@ Description:
+>                 Access: Read, Write
+>
+>                 Valid values:
+> -                       ================ ====================================
+> -                       auto:            Charge normally, respect thresholds
+> -                       inhibit-charge:  Do not charge while AC is attached
+> -                       force-discharge: Force discharge while AC is attached
+> -                       ================ ====================================
+> +                       ================== =====================================
+> +                       auto:              Charge normally, respect thresholds
+> +                       inhibit-charge:    Do not charge while AC is attached
+> +                       inhibit-charge-s0: same as inhibit-charge but only in S0
+> +                       force-discharge:   Force discharge while AC is attached
+> +                       ================== =====================================
+>
+>  What:          /sys/class/power_supply/<supply_name>/technology
+>  Date:          May 2007
+> diff --git a/drivers/power/supply/power_supply_sysfs.c b/drivers/power/supply/power_supply_sysfs.c
+> index edb058c19c9c..1a98fc26ce96 100644
+> --- a/drivers/power/supply/power_supply_sysfs.c
+> +++ b/drivers/power/supply/power_supply_sysfs.c
+> @@ -140,6 +140,7 @@ static const char * const POWER_SUPPLY_SCOPE_TEXT[] = {
+>  static const char * const POWER_SUPPLY_CHARGE_BEHAVIOUR_TEXT[] = {
+>         [POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO]            = "auto",
+>         [POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE]  = "inhibit-charge",
+> +       [POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE_S0]       = "inhibit-charge-s0",
+>         [POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE] = "force-discharge",
+>  };
+>
+> diff --git a/drivers/power/supply/test_power.c b/drivers/power/supply/test_power.c
+> index 2a975a110f48..4bc5ab84a9d6 100644
+> --- a/drivers/power/supply/test_power.c
+> +++ b/drivers/power/supply/test_power.c
+> @@ -214,6 +214,7 @@ static const struct power_supply_desc test_power_desc[] = {
+>                 .property_is_writeable = test_power_battery_property_is_writeable,
+>                 .charge_behaviours = BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO)
+>                                    | BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE)
+> +                                  | BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE_S0)
+>                                    | BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE),
+>         },
+>         [TEST_USB] = {
+> diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+> index 6ed53b292162..b1ca5e148759 100644
+> --- a/include/linux/power_supply.h
+> +++ b/include/linux/power_supply.h
+> @@ -212,6 +212,7 @@ enum power_supply_usb_type {
+>  enum power_supply_charge_behaviour {
+>         POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO = 0,
+>         POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE,
+> +       POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE_S0,
+>         POWER_SUPPLY_CHARGE_BEHAVIOUR_FORCE_DISCHARGE,
+>  };
+>
+> --
+> 2.48.1
+>
 
-Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
----
- Documentation/gpu/nova/core/todo.rst | 10 ----------
- 1 file changed, 10 deletions(-)
+Hi Guenter,
+I think I need an ack here, and then someone from platform-x86 to
+triage the series.
 
-diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nova/core/todo.rst
-index ca08377d3b73..234d753d3eac 100644
---- a/Documentation/gpu/nova/core/todo.rst
-+++ b/Documentation/gpu/nova/core/todo.rst
-@@ -190,16 +190,6 @@ Rust abstraction for debugfs APIs.
- | Reference: Export GSP log buffers
- | Complexity: Intermediate
- 
--Vec extensions
----------------
--
--Implement ``Vec::truncate`` and ``Vec::resize``.
--
--Currently this is used for some experimental code to parse the vBIOS.
--
--| Reference vBIOS support
--| Complexity: Beginner
--
- GPU (general)
- =============
- 
--- 
-2.48.1
+Do I need to cc anyone extra?
 
+Thanks,
+Antheas
