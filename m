@@ -1,992 +1,480 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CE6372;
-	Sun, 16 Mar 2025 00:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFCABE4A
+	for <linux-doc@vger.kernel.org>; Sun, 16 Mar 2025 01:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742083282; cv=none; b=WsBIYj8q1PFPaQW0MjztsapZ9iBG1M7X/DOX4pjjeXUhW79fQjxbFP4iO2uU7movzrh5gpALabFDuP1IsmqdYeLwarYrVrVWP1xmXaPtL5P29wnMiVYKMQEtGo4Fa9LnWwA+8csS12exnOgsrA3TrSFq+APs0wxB62qUhI8svyU=
+	t=1742086816; cv=none; b=dAFoa7w4cyjlXV2kpjDYmnMSsSgROQwDhVEw3fICmd8QJuhGqv8n/5AEA6BfOywjh9w3j/Rmmg5LWKR53aK0+31JCPgBfzLx3RNTCyPuUuNfpt0Ha4FwZhV0iynnCNv5I93O3NnmNCBGopoIRoCLGOmroesyWf8v9XT7Izb2+Bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742083282; c=relaxed/simple;
-	bh=mDvx28BFwAPA/BAPa6Teuz3dzNSscWFs2HQ+lWEI1Yk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NE+Z73ihwsQfF4fOFs8DS9SNnjnh535trDSdOLREiEQAwVNqzOl3KejMt3BzL9usiyMm2NRlktADEWOBUuhXf4w9hlgSOx872331tkvQ+7KXg+DcZVURt1pSsj+OWtXLBjpO4vSr0ENYLw+rd1DGz5PBg8CqbGLJoRsST8grr8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=N9LtAknu; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1742086816; c=relaxed/simple;
+	bh=riF/m0jw9ias/fIUVxC1P3AWVAci2Age0F/WByfFUOE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bjwsoskm0oyojIpxgw3Fj/3AaS2jmjPharPNJ41M714hC+UYotU19GCFHbaIWFrCzT18jqpgnLxCHesfOYfFRFLPNW8AWX8SRwG821rzeMOcgACSEdGFK5oR6emZfzl64KuaFRsIWVdaa0ddkYeMsVALeldCKTDyH9ZYjZKYRVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nHut4geA; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="N9LtAknu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1742083276; x=1742688076; i=w_armin@gmx.de;
-	bh=kAQvgYsx6ZDlQ1wtGc5W/28OKyE+xP70qh4uIb7Vimg=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=N9LtAknuu+3CVbGMRUXHuBjKheYJ3gpPbycVsUl9KlHZuXR1VQEE/yLlC96vta8C
-	 IZ45loDm+/+LqZiPIZywI9/tQewsXDMCN5BzpxYdszg3z7cvbo1kBx/F4RaflWRh6
-	 cM6Rx8kb47+FhgNsrNBnJ+SowvDELUCvXjvJTWuFFb++qMbGNv8eTVYZK5nbGENAk
-	 KXtyMl9qd8jNyFLijmiPDusNbq2X8PApwr4L/PKNLkmoSVPrxubpCaWQExUMwGVtR
-	 hmWTkhGlNJ4FGttE8lzrbLZlbT8cUrB/54czKjdciA/KUSKeHywLat+ozaFcrfxdo
-	 pkqeyigGpFzI6x0T0g==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.24] ([87.177.78.219]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwfWU-1t0Ftu2GF8-016AEc; Sun, 16
- Mar 2025 01:01:16 +0100
-Message-ID: <19207b85-5842-4ff9-81b3-da80aedf7995@gmx.de>
-Date: Sun, 16 Mar 2025 01:01:14 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nHut4geA"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ac2963dc379so564900766b.2
+        for <linux-doc@vger.kernel.org>; Sat, 15 Mar 2025 18:00:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742086812; x=1742691612; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=riF/m0jw9ias/fIUVxC1P3AWVAci2Age0F/WByfFUOE=;
+        b=nHut4geA6JjK863n32zvObUjoYz+Mcgn6yjY0XNHO9DROwb5OEJL82WYQREqtAMnTI
+         sKwPxp5jc6YZEvjz51x+b4S/8bn861EYc7FHZ3IFY2c8084xQwOPbZ1x37YzCVScdwz1
+         ppYV2quFuUbBnZ4jPZsSiZXljBuHZMoRHc0vhlBCq/gbCLlsQ82Gi33F3xG7Mgbv6GCl
+         tc3jC5CUty4hFG2/Mdg6sSIURpEAYtcxmgo+8H+7XOZF6LzTWaSqEEHW5pOe7yqISkdj
+         RZ3WEhjFVqJS0CxIRiIAVMNaoXg8n8H4UJx+jFpVOoLpihbIY4KuCW8kSc56rCYuS2y1
+         W86g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742086812; x=1742691612;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=riF/m0jw9ias/fIUVxC1P3AWVAci2Age0F/WByfFUOE=;
+        b=SZOK1CQWrBGUH/LESEx2Roz/QjVLSUpsyoM2Y5GHVpN9ElgsZRAa5AlummnnFZbnC/
+         6DjtUWsYoovWi2qDI3gr7hMc0pnEquilq/Pc9EcQpOr+deKb2800gaVLyjdJpmLm3rnP
+         YmrkumWE7ZdzWlUWfCtDUiFMq4WGVmQP85BRM+zWiGzbH/BzkS2EcHEzejTqiePtCxp1
+         8ECmPvQ7BcR0210AeStiGLr1guTLRTYoxnMrvsQ2Y8RPi5eJRyuOg2pDjHiEcZGy0m/8
+         PxeV/BgBhKlOpQdFFxKxXZ1ur2l8N6A2Sp0MtcBDLMGiFE0RN5wHxfiNP6/O+W+5/Ymk
+         fTnw==
+X-Forwarded-Encrypted: i=1; AJvYcCUlvd9hnFmPH5Sd7Xcv42LsRnV9Ru2q1JVzHzodTkHxXu4/lJr/zarThkBfNQCOOO7WPIh9jAvh7nM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCW07lfojWj8r290uK0GJd8D6RdpXLLWGsLK12UXsEJr5i0rv/
+	vHemCFaCqtJxdgljhpOWz52BXHTsUiNBecb9eAK4fxqbu/K+wsP4OukIaAcp8M2CglMlG8kiCX3
+	XKr4sL60EjiWyKRHXsIpPWQ4qeq1MWOUV
+X-Gm-Gg: ASbGnctN9NHpEBorXvTiqi2dhvu24cfasD+6xLrA/gJ0GVLD+U5XJLDnm00su9SFwzU
+	yU3+sLqIwjih3eLKexet2dFOPtCaorjw+udgkYlJSaLxNS4yppTb5CdE8OKUp/ql1RunhZQ5Ct5
+	TMtTvdCES6ctcW+qwgu8CRLzuuXCZY
+X-Google-Smtp-Source: AGHT+IFJYzUaLUDhdJNqUKYCKhGQoqC0beYAhcSh9w5pvohJRtmmNNx8G+O2ggn1nyYUgKutd/pCKmPFUMtneChmcus=
+X-Received: by 2002:a17:907:9725:b0:ac1:e332:b1e7 with SMTP id
+ a640c23a62f3a-ac3301e23aamr769423166b.4.1742086811314; Sat, 15 Mar 2025
+ 18:00:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] platform/x86: Add Lenovo Gamezone WMI Driver
-To: Derek John Clark <derekjohn.clark@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>,
- Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
- Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- "Cody T . -H . Chiu" <codyit@gmail.com>, John Martens <johnfanv2@gmail.com>,
- platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250225220037.16073-1-derekjohn.clark@gmail.com>
- <20250225220037.16073-3-derekjohn.clark@gmail.com>
- <dd6f0d07-d629-40ce-9009-1a0919d93493@gmx.de>
- <CAFqHKTn7gjjAzJET2776z4HV+_=AigdKCnLZB7GOZNb_ib=Uhg@mail.gmail.com>
- <229b2b2e-8404-4589-b364-af4a4a4c9461@gmx.de>
- <CAFqHKT=KiKDxjKby_sMW4KENnXNj0P57D8C-sevq+Q_PuV2TsQ@mail.gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <CAFqHKT=KiKDxjKby_sMW4KENnXNj0P57D8C-sevq+Q_PuV2TsQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:cUsbCZ7NGeQObNqyPsWt6Qbk9brglOuz4kdj7rnky4w4FCVrXBu
- UrDuge3m0XekC9/rYbe4Iz+b2CKU2i6nNq8PQHQcxUmgy8UQLzQtC9UxxwtadOBM7eDThWu
- fpMdc+eqcmCVyOHJwLX8y/DkMcAnfAsOgozfp6eUmRiZrQyApYoY1TbmhdxpmcwyzgaCZ0c
- RO2gHTmAl59pDBZ2sSB3g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:e4+T2VAhbe8=;32wTqmxsIzPTPeUuXJwLr2eneUm
- w/IpvC9MhAJQGn9og0rt7Td+9idkN7nTsUi3gn0x7EOc2Neqh1scEP0ge5Ph4cfivqY3kSxfk
- 3ecBozwrp7Ufr0HndSoLykJSwGDIbqjdVdGLnJ0GqZl8kZToM2Si/qEBwV+OogLrR5bVqNzAC
- 2A/UZ8GKORefOFEXtHsUBadd3SHjZ3ElVTcUuNJ8r3ftQdPZ8V3s/tQG0NXMoYvN2WHORpm0A
- MdvXL6pizKeUTPg6AoJ4vpZr0QoyxctH9ajkfdk0N19im3d8DHtTpwt0HwAnaUI5YjJDW5EDv
- 3nG373J52OM410u9+gZLwaC2SY5J2NZ4Hschhl10wPyTZ7R6hVog4LupAbc2p2CB2g0KizZ6l
- t7X79DUH35SknxBoUn9HlgcYsITIoPhMma/5r0knIFmMrcDCvo/qRO50rs0FlydC09fkEAPLu
- haZyUw8NS3Cpe5Gb73CYQEowndnd2CvnCb5fHe42j9icckZvLsoYFj2cOmwAifm/j9nNXGilb
- zP5JADJ3026veAho9ti3MVAHpYiuBPpbg9pkSFEPJrDByq5Kk899jSSE0lbYuMG7I99VfDrWr
- Lv15t48HbM2lV5rNBC8vrlQtR0H8VYfQI0VfePX8sLMmy1vR6++FdT0/R2k6/1JDuunEZSK+N
- wq+BOJ+HZ4Gc7UUgyCwVF8e95FLj4C4Un6qOq9XM0DLzZfHPqCv8Qomigfi93bPxH2t4J4ktY
- zDfik7BwBLmmISdgaChVYQqleRG6wOrkRDs5l9fGHDcUXwMRqwKswxQV8qU+ZxUUdyzhxuDAP
- Hng25VNicYtKYCTvtpwi/J6VIxTIpKh3tbeA0k3VT/ghXebYiRmfwZRhe9/ONKGQyXOZjBR28
- R2jATUJS/DXaOfoxQ4JUFFtKAUiMIn1Vy5CWDVQJryU2BM61nkb5rIbdhipdsVv7+jg7hXGKs
- FUEpA8RA/lIvNPkmFYh5qOw/fv95TqAoW5g4mpluVj+2P/43m7PKuRly8WkWRfBz4AM/ZZoqS
- 2ez63DyWQ8Pbs6PBgBiRH40inkMwuNjOGhCGi4yNZ9PybQ1JoRWC7wjbMb6linePP4seFMO5f
- S3y1FO2E2FwwJ8F9hQ5KaJne3SJcv43GihP8RWsBUNwlGr1GY/a8tfUNWGahVhBCCSUUpnsyH
- YQtrEYfDVlSHiOVBFfGnBSBDzg/N2nYNYQJi5N6mGTBEkNq+O6yXdWaFzShpz6DNDIkHKCSmn
- fISfrk85wp6UddDUsNrNUwhH3XgNQcHpeOVZt0DkwD1+Hu2VikAC3NEIKXnnR1P953WiHXMNY
- tFJXLs6N7oRilKEt1mpIH15X2wmOjfYdBpsB7//pg37ndNbfEEJ6wsoXdonve5euGmor2JHXw
- tZxk5+r+GjfVmmmAMvSDEZXph2akdR8wjqMX8yLcQymD/T+kFsm8Mx+4N3qPyvXfBv/zfYXeW
- Mo44E8i52Cw7zE9n+XoswWp5pOWs=
+References: <20250314102833.70037-1-siyanteng@cqsoftware.com.cn>
+In-Reply-To: <20250314102833.70037-1-siyanteng@cqsoftware.com.cn>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Sun, 16 Mar 2025 08:59:44 +0800
+X-Gm-Features: AQ5f1Jo_OPBPAtQ8TsgDag8aTVOxsUhgXYglUl8RiurMn3GlawEFxVvgAEnwAsM
+Message-ID: <CAD-N9QVWsq3p4Axsm8V2_fQTHybU6vkZQHnWLwNo8=4BvGzpyA@mail.gmail.com>
+Subject: Re: [PATCH v1] docs/zh_CN: Add how-to of Chinese translation
+To: Yanteng Si <siyanteng@cqsoftware.com.cn>
+Cc: alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	Yanteng Si <si.yanteng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Am 14.03.25 um 22:29 schrieb Derek John Clark:
-
-> On Tue, Mar 11, 2025 at 1:30=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrot=
-e:
->> Am 10.03.25 um 23:11 schrieb Derek John Clark:
->>
->>> On Fri, Mar 7, 2025 at 2:48=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wro=
-te:
->>>> Am 25.02.25 um 22:59 schrieb Derek J. Clark:
->>>>
->>>>> Adds lenovo-wmi-gamezone.c which provides a driver for the Lenovo
->>>>> Gamezone WMI interface that comes on Lenovo "Gaming Series" hardware=
-.
->>>>> Provides ACPI platform profiles over WMI.
->>>>>
->>>>> Adds lenovo-wmi.h and lenovo-wmi.c which provide helper functions fo=
-r
->>>>> wmidev_evaluate_method as well as prototypes for exported functions.
->>>>> v3:
->>>>> - Use notifier chain to report platform profile changes to any
->>>>>      subscribed drivers.
->>>>> - Adds THERMAL_MODE_EVENT GUID and .notify function to trigger notif=
-ier
->>>>>      chain.
->>>>> - Adds support for Extreme Mode profile on supported hardware, as we=
-ll
->>>>>      as a DMI quirk table for some devices that report extreme mode =
-version
->>>>>      support but so not have it fully implemented.
->>>>> - Update to include recent changes to platform-profile.
->>>>> v2:
->>>>> - Use devm_kmalloc to ensure driver can be instanced, remove global
->>>>>      reference.
->>>>> - Ensure reverse Christmas tree for all variable declarations.
->>>>> - Remove extra whitespace.
->>>>> - Use guard(mutex) in all mutex instances, global mutex.
->>>>> - Use pr_fmt instead of adding the driver name to each pr_err.
->>>>> - Remove noisy pr_info usage.
->>>>> - Rename gamezone_wmi to lenovo_wmi_gz_priv and gz_wmi to priv.
->>>>> - Remove GZ_WMI symbol exporting.
->>>>>
->>>>> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
->>>>> ---
->>>>>     MAINTAINERS                                |   3 +
->>>>>     drivers/platform/x86/Kconfig               |  16 +
->>>>>     drivers/platform/x86/Makefile              |   2 +
->>>>>     drivers/platform/x86/lenovo-wmi-gamezone.c | 374 +++++++++++++++=
-++++++
->>>>>     drivers/platform/x86/lenovo-wmi.c          |  77 +++++
->>>>>     drivers/platform/x86/lenovo-wmi.h          |  62 ++++
->>>>>     6 files changed, 534 insertions(+)
->>>>>     create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.c
->>>>>     create mode 100644 drivers/platform/x86/lenovo-wmi.c
->>>>>     create mode 100644 drivers/platform/x86/lenovo-wmi.h
->>>>>
->>>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>>> index e20c32b3c480..cf7f4fce1a25 100644
->>>>> --- a/MAINTAINERS
->>>>> +++ b/MAINTAINERS
->>>>> @@ -13157,6 +13157,9 @@ L:    platform-driver-x86@vger.kernel.org
->>>>>     S:  Maintained
->>>>>     F:  Documentation/wmi/devices/lenovo-wmi-gamezone.rst
->>>>>     F:  Documentation/wmi/devices/lenovo-wmi-other.rst
->>>>> +F:   drivers/platform/x86/lenovo-wmi-gamezone.c
->>>>> +F:   drivers/platform/x86/lenovo-wmi.c
->>>>> +F:   drivers/platform/x86/lenovo-wmi.h
->>>>>
->>>>>     LETSKETCH HID TABLET DRIVER
->>>>>     M:  Hans de Goede <hdegoede@redhat.com>
->>>>> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kco=
-nfig
->>>>> index 7e20a58861eb..875822e6bd65 100644
->>>>> --- a/drivers/platform/x86/Kconfig
->>>>> +++ b/drivers/platform/x86/Kconfig
->>>>> @@ -459,6 +459,22 @@ config IBM_RTL
->>>>>          state =3D 0 (BIOS SMIs on)
->>>>>          state =3D 1 (BIOS SMIs off)
->>>>>
->>>>> +config LENOVO_WMI
->>>>> +     tristate
->>>>> +     depends on ACPI_WMI
->>>> Please rename this module to LENOVO_WMI_HELPERS.
->>> Acked
->>>
->>>>> +
->>>>> +config LENOVO_WMI_GAMEZONE
->>>>> +     tristate "Lenovo GameZone WMI Driver"
->>>>> +     depends on ACPI_WMI
->>>>> +     select ACPI_PLATFORM_PROFILE
->>>>> +     select LENOVO_WMI
->>>>> +     help
->>>>> +       Say Y here if you have a WMI aware Lenovo Legion device and =
-would like to use the
->>>>> +       platform-profile firmware interface to manage power usage.
->>>>> +
->>>>> +       To compile this driver as a module, choose M here: the modul=
-e will
->>>>> +       be called lenovo-wmi-gamezone.
->>>>> +
->>>>>     config IDEAPAD_LAPTOP
->>>>>         tristate "Lenovo IdeaPad Laptop Extras"
->>>>>         depends on ACPI
->>>>> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Ma=
-kefile
->>>>> index 5f6307246e69..4a7b2d14eb82 100644
->>>>> --- a/drivers/platform/x86/Makefile
->>>>> +++ b/drivers/platform/x86/Makefile
->>>>> @@ -67,7 +67,9 @@ obj-$(CONFIG_THINKPAD_ACPI) +=3D thinkpad_acpi.o
->>>>>     obj-$(CONFIG_THINKPAD_LMI)  +=3D think-lmi.o
->>>>>     obj-$(CONFIG_YOGABOOK)              +=3D lenovo-yogabook.o
->>>>>     obj-$(CONFIG_YT2_1380)              +=3D lenovo-yoga-tab2-pro-13=
-80-fastcharger.o
->>>>> +obj-$(CONFIG_LENOVO_WMI)     +=3D lenovo-wmi.o
->>>>>     obj-$(CONFIG_LENOVO_WMI_CAMERA)     +=3D lenovo-wmi-camera.o
->>>>> +obj-$(CONFIG_LENOVO_WMI_GAMEZONE)    +=3D lenovo-wmi-gamezone.o
->>>>>
->>>>>     # Intel
->>>>>     obj-y                               +=3D intel/
->>>>> diff --git a/drivers/platform/x86/lenovo-wmi-gamezone.c b/drivers/pl=
-atform/x86/lenovo-wmi-gamezone.c
->>>>> new file mode 100644
->>>>> index 000000000000..d5329fecba47
->>>>> --- /dev/null
->>>>> +++ b/drivers/platform/x86/lenovo-wmi-gamezone.c
->>>>> @@ -0,0 +1,374 @@
->>>>> +// SPDX-License-Identifier: GPL-2.0-or-later
->>>>> +/*
->>>>> + * Lenovo GameZone WMI interface driver. The GameZone WMI interface=
- provides
->>>>> + * platform profile and fan curve settings for devices that fall un=
-der the
->>>>> + * "Gaming Series" of Lenovo Legion devices.
->>>>> + *
->>>>> + * Copyright(C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
->>>>> + */
->>>>> +
->>>>> +#include "linux/container_of.h"
->>>>> +#include "linux/printk.h"
->>>>> +#include <linux/cleanup.h>
->>>>> +#include <linux/dev_printk.h>
->>>>> +#include <linux/dmi.h>
->>>>> +#include <linux/list.h>
->>>>> +#include <linux/notifier.h>
->>>>> +#include <linux/platform_profile.h>
->>>>> +#include <linux/types.h>
->>>>> +#include <linux/wmi.h>
->>>>> +#include "lenovo-wmi.h"
->>>>> +
->>>>> +/* Interface GUIDs */
->>>>> +#define LENOVO_GAMEZONE_GUID "887B54E3-DDDC-4B2C-8B88-68A26A8835D0"
->>>>> +#define THERMAL_MODE_EVENT_GUID "D320289E-8FEA-41E0-86F9-911D83151B=
-5F"
->>>>> +
->>>>> +/* Method IDs */
->>>>> +#define WMI_METHOD_ID_SMARTFAN_SUPP 43 /* IsSupportSmartFan */
->>>>> +#define WMI_METHOD_ID_SMARTFAN_SET 44 /* SetSmartFanMode */
->>>>> +#define WMI_METHOD_ID_SMARTFAN_GET 45 /* GetSmartFanMode */
->>>>> +
->>>>> +enum lenovo_wmi_gz_type {
->>>>> +     GAMEZONE_FULL =3D 1,
->>>>> +     THERMAL_MODE,
->>>>> +};
->>>>> +
->>>>> +#define GAMEZONE_WMI_DEVICE(guid, type)                            =
-  \
->>>>> +     .guid_string =3D (guid), .context =3D &(enum lenovo_wmi_gz_typ=
-e) \
->>>>> +     {                                                            \
->>>>> +             type                                                 \
->>>>> +     }
->>>>> +
->>>>> +static BLOCKING_NOTIFIER_HEAD(gz_chain_head);
->>>>> +static DEFINE_MUTEX(gz_chain_mutex);
->>>>> +
->>>>> +struct lenovo_wmi_gz_priv {
->>>>> +     enum platform_profile_option current_profile;
->>>> This variable is only assigned and never read, please remove it.
->>> You're correct for this version. I re-added it when working on the
->>> notifier chain but didn't end up using it. I'll make sure no unused
->>> variables are in the next version.
->>>
->>>>> +     struct wmi_device *wdev;
->>>>> +     bool extreme_supported;
->>>>> +     struct device *ppdev; /*platform profile device */
->>>>> +     enum lenovo_wmi_gz_type type;
->>>>> +     struct blocking_notifier_head nhead;
->>>>> +};
->>>>> +
->>>>> +struct quirk_entry {
->>>>> +     bool extreme_supported;
->>>>> +};
->>>>> +
->>>>> +static struct quirk_entry quirk_no_extreme_bug =3D {
->>>>> +     .extreme_supported =3D false,
->>>>> +};
->>>> Can you make this const?
-> I get warnings when setting the drvdata with this as a const
->
-> drivers/platform/x86/lenovo-wmi-gamezone.c:144:32: warning:
-> initialization discards =E2=80=98const=E2=80=99 qualifier from pointer t=
-arget type
-> [-Wdiscarded-qualifiers]
->   144 |                 .driver_data =3D &quirk_no_extreme_bug,
->       |                                ^
->
-Alright, then you can keep it non-const.
-
->>>>> +
->>>>> +/* Platform Profile Methods & Setup */
->>>>> +static int
->>>>> +lenovo_wmi_gz_platform_profile_supported(struct lenovo_wmi_gz_priv =
-*priv,
->>>>> +                                      int *supported)
->>>>> +{
->>>>> +     return lenovo_wmidev_evaluate_method_1(priv->wdev, 0x0,
->>>>> +                                            WMI_METHOD_ID_SMARTFAN_=
-SUPP, 0, supported);
->>>>> +}
->>>>> +
->>>>> +static int lenovo_wmi_gz_profile_get(struct device *dev,
->>>>> +                                  enum platform_profile_option *pro=
-file)
->>>>> +{
->>>>> +     struct lenovo_wmi_gz_priv *priv =3D dev_get_drvdata(dev);
->>>>> +     int sel_prof;
->>>>> +     int ret;
->>>>> +
->>>>> +     ret =3D lenovo_wmidev_evaluate_method_1(priv->wdev, 0x0,
->>>>> +                                           WMI_METHOD_ID_SMARTFAN_G=
-ET, 0, &sel_prof);
->>>>> +     if (ret)
->>>>> +             return ret;
->>>>> +
->>>>> +     switch (sel_prof) {
->>>>> +     case SMARTFAN_MODE_QUIET:
->>>>> +             *profile =3D PLATFORM_PROFILE_LOW_POWER;
->>>>> +             break;
->>>>> +     case SMARTFAN_MODE_BALANCED:
->>>>> +             *profile =3D PLATFORM_PROFILE_BALANCED;
->>>>> +             break;
->>>>> +     case SMARTFAN_MODE_PERFORMANCE:
->>>>> +             if (priv->extreme_supported) {
->>>>> +                     *profile =3D PLATFORM_PROFILE_BALANCED_PERFORM=
-ANCE;
->>>>> +                     break;
->>>>> +             }
->>>>> +             *profile =3D PLATFORM_PROFILE_PERFORMANCE;
->>>>> +             break;
->>>>> +     case SMARTFAN_MODE_EXTREME:
->>>>> +             *profile =3D PLATFORM_PROFILE_PERFORMANCE;
->>>>> +             break;
->>>>> +     case SMARTFAN_MODE_CUSTOM:
->>>>> +             *profile =3D PLATFORM_PROFILE_CUSTOM;
->>>>> +             break;
->>>>> +     default:
->>>>> +             return -EINVAL;
->>>>> +     }
->>>>> +
->>>>> +     priv->current_profile =3D *profile;
->>>>> +
->>>>> +     ret =3D blocking_notifier_call_chain(&gz_chain_head, THERMAL_M=
-ODE_EVENT,
->>>>> +                                        &sel_prof);
->>>> Is it really necessary to call the notifier here? AFAIK the notifier =
-needs to be called
->>>> only:
->>>>
->>>>     - when the platform profile was changed either by the user or the=
- firmware.
->>>>     - when a new notifier handler was registered so that the handler =
-does not have to wait for the next user input
->>>>
->>>> Please only call the notifier in those two situations.
->>>>
->>> I was originally calling it here to solve a problem with synchronizing
->>> the drivers. Lenovo-wmi-other registers a notifier block before
->>> gamezone inits the platform profile. That means I can't use _notify
->>> during the _register to get the initial profile to the block members.
->>> Since the platform profile makes an initial request after it registers
->>> this is a simple way to propagate when the platform profile is ready.
->>> I'm not sure of another way to trigger a notification chain once the
->>> information is available.
->>>
->>>>> +     if (ret =3D=3D NOTIFY_BAD)
->>>>> +             pr_err("Failed to send notification to call chain for =
-WMI event %u\n",
->>>>> +                    priv->type);
->>>> Use dev_err() here please.
->>>>
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static int lenovo_wmi_gz_profile_set(struct device *dev,
->>>>> +                                  enum platform_profile_option prof=
-ile)
->>>>> +{
->>>>> +     struct lenovo_wmi_gz_priv *priv =3D dev_get_drvdata(dev);
->>>>> +     int sel_prof;
->>>>> +     int ret;
->>>>> +
->>>>> +     switch (profile) {
->>>>> +     case PLATFORM_PROFILE_LOW_POWER:
->>>>> +             sel_prof =3D SMARTFAN_MODE_QUIET;
->>>>> +             break;
->>>>> +     case PLATFORM_PROFILE_BALANCED:
->>>>> +             sel_prof =3D SMARTFAN_MODE_BALANCED;
->>>>> +             break;
->>>>> +     case PLATFORM_PROFILE_BALANCED_PERFORMANCE:
->>>>> +             sel_prof =3D SMARTFAN_MODE_PERFORMANCE;
->>>>> +             break;
->>>>> +     case PLATFORM_PROFILE_PERFORMANCE:
->>>>> +             if (priv->extreme_supported) {
->>>>> +                     sel_prof =3D SMARTFAN_MODE_EXTREME;
->>>>> +                     break;
->>>>> +             }
->>>>> +             sel_prof =3D SMARTFAN_MODE_PERFORMANCE;
->>>>> +             break;
->>>>> +     case PLATFORM_PROFILE_CUSTOM:
->>>>> +             sel_prof =3D SMARTFAN_MODE_CUSTOM;
->>>>> +             break;
->>>>> +     default:
->>>>> +             return -EOPNOTSUPP;
->>>>> +     }
->>>>> +
->>>>> +     ret =3D lenovo_wmidev_evaluate_method_1(priv->wdev, 0x0,
->>>>> +                                           WMI_METHOD_ID_SMARTFAN_S=
-ET, sel_prof, NULL);
->>>>> +     if (ret)
->>>>> +             return ret;
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static const struct dmi_system_id fwbug_list[] =3D {
->>>>> +     {
->>>>> +             .ident =3D "Legion Go 8APU1",
->>>>> +             .matches =3D {
->>>>> +                     DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
->>>>> +                     DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go 8APU=
-1"),
->>>>> +             },
->>>>> +             .driver_data =3D &quirk_no_extreme_bug,
->>>>> +     },
->>>>> +     {
->>>>> +             .ident =3D "Legion Go S 8ARP1",
->>>>> +             .matches =3D {
->>>>> +                     DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
->>>>> +                     DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go S 8A=
-RP1"),
->>>>> +             },
->>>>> +             .driver_data =3D &quirk_no_extreme_bug,
->>>>> +     },
->>>>> +     {
->>>>> +             .ident =3D "Legion Go S 8APU1",
->>>>> +             .matches =3D {
->>>>> +                     DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
->>>>> +                     DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go S 8A=
-PU1"),
->>>>> +             },
->>>>> +             .driver_data =3D &quirk_no_extreme_bug,
->>>>> +     },
->>>>> +     {},
->>>>> +
->>>>> +};
->>>>> +
->>>>> +static bool extreme_supported(int profile_support_ver)
->>>>> +{
->>>>> +     const struct dmi_system_id *dmi_id;
->>>>> +     struct quirk_entry *quirks;
->>>>> +
->>>>> +     if (profile_support_ver < 6)
->>>>> +             return false;
->>>>> +
->>>>> +     dmi_id =3D dmi_first_match(fwbug_list);
->>>>> +     if (!dmi_id)
->>>>> +             return true;
->>>>> +
->>>>> +     quirks =3D dmi_id->driver_data;
->>>>> +     return quirks->extreme_supported;
->>>>> +}
->>>>> +
->>>>> +static int lenovo_wmi_platform_profile_probe(void *drvdata,
->>>>> +                                          unsigned long *choices)
->>>>> +{
->>>>> +     struct lenovo_wmi_gz_priv *priv =3D drvdata;
->>>>> +     enum platform_profile_option profile;
->>>> Unused variable, please remove.
->>>>
->>>>> +     int profile_support_ver;
->>>>> +     int ret;
->>>>> +
->>>>> +     ret =3D lenovo_wmi_gz_platform_profile_supported(priv,
->>>>> +                                                    &profile_suppor=
-t_ver);
->>>>> +     if (ret)
->>>>> +             return ret;
->>>>> +
->>>>> +     if (profile_support_ver < 1)
->>>>> +             return -ENODEV;
->>>>> +
->>>>> +     priv->extreme_supported =3D extreme_supported(profile_support_=
-ver);
->>>>> +
->>>>> +     set_bit(PLATFORM_PROFILE_LOW_POWER, choices);
->>>>> +     set_bit(PLATFORM_PROFILE_BALANCED, choices);
->>>>> +     set_bit(PLATFORM_PROFILE_PERFORMANCE, choices);
->>>>> +     set_bit(PLATFORM_PROFILE_CUSTOM, choices);
->>>>> +
->>>>> +     if (priv->extreme_supported)
->>>>> +             set_bit(PLATFORM_PROFILE_BALANCED_PERFORMANCE, choices=
-);
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static const struct platform_profile_ops lenovo_wmi_gz_platform_pro=
-file_ops =3D {
->>>>> +     .probe =3D lenovo_wmi_platform_profile_probe,
->>>>> +     .profile_get =3D lenovo_wmi_gz_profile_get,
->>>>> +     .profile_set =3D lenovo_wmi_gz_profile_set,
->>>>> +};
->>>>> +
->>>>> +/* Notifier Methods */
->>>>> +int lenovo_wmi_gz_register_notifier(struct notifier_block *nb)
->>>>> +{
->>>>> +     guard(mutex)(&gz_chain_mutex);
->>>> The blocking notifier already does the locking itself. Please remove =
-this mutex.
->>>>
->>> Good to know, will fix, ty.
->>>
->>>>> +     return blocking_notifier_chain_register(&gz_chain_head, nb);
->>>>> +}
->>>>> +EXPORT_SYMBOL_NS_GPL(lenovo_wmi_gz_register_notifier, "GZ_WMI");
->>>> Can you name the namespace similar to "LENOVO_GAMEZONE_WMI" please?
->>>>
->>> Acked
->>>
->>>>> +
->>>>> +int lenovo_wmi_gz_unregister_notifier(struct notifier_block *nb)
->>>>> +{
->>>>> +     guard(mutex)(&gz_chain_mutex);
->>>>> +     return blocking_notifier_chain_unregister(&gz_chain_head, nb);
->>>>> +}
->>>>> +EXPORT_SYMBOL_NS_GPL(lenovo_wmi_gz_unregister_notifier, "GZ_WMI");
->>>>> +
->>>>> +static void devm_lenovo_wmi_gz_unregister_notifier(void *data)
->>>>> +{
->>>>> +     struct notifier_block *nb =3D data;
->>>>> +
->>>>> +     lenovo_wmi_gz_unregister_notifier(nb);
->>>>> +}
->>>>> +
->>>>> +int devm_lenovo_wmi_gz_register_notifier(struct device *dev,
->>>>> +                                      struct notifier_block *nb)
->>>>> +{
->>>>> +     int ret;
->>>>> +
->>>>> +     ret =3D lenovo_wmi_gz_register_notifier(nb);
->>>>> +     if (ret < 0)
->>>>> +             return ret;
->>>>> +
->>>>> +     return devm_add_action_or_reset(dev, devm_lenovo_wmi_gz_unregi=
-ster_notifier, nb);
->>>>> +}
->>>>> +EXPORT_SYMBOL_NS_GPL(devm_lenovo_wmi_gz_register_notifier, "GZ_WMI"=
-);
->>>>> +
->>>>> +/* Driver Methods */
->>>>> +static void lenovo_wmi_gz_notify(struct wmi_device *wdev,
->>>>> +                              union acpi_object *obj)
->>>>> +{
->>>>> +     struct lenovo_wmi_gz_priv *tm_priv =3D dev_get_drvdata(&wdev->=
-dev);
->>>>> +     struct lenovo_wmi_gz_priv *gz_priv =3D
->>>>> +             container_of(&gz_chain_head, struct lenovo_wmi_gz_priv=
-, nhead);
->>>> I fear that this will not work because gz_chain_head is a global vari=
-able, not a field inside
->>>> struct lenovo_wmi_gz_priv. Also this would crash the kernel should th=
-e main gamezone driver be
->>>> unbound from its WMI device.
->>>>
->>>> I suggest you move the WMI driver for the WMI event into a separate m=
-odule. Then you use another notifier
->>>> inside the new module to allow the gamezone driver to listen for even=
-ts. For example this separate WMI event driver
->>>> could use the "val" argument inside blocking_notifier_call_chain() to=
- specify the type of event (like THERMAL_MODE_CHANGED)
->>>> and the "v" argument to pass a pointer to a u32 variable containing t=
-he new thermal mode.
->>> I can do this, but we explicitly discussed doing it in one driver for
->>> all gamezone GUIDs. If I do this I'd like to confirm I won't need to
->>> revert on this later.
->>> As for naming, what would you suggest? Depending on scope it would
->>> either cover all lenovo_wmi-* events, or just the gamezone events.
->>>
->>> Kconfig: LENOVO_WMI_EVENTS | LENOVO_WMI_GAMEZONE_EVENTS
->>> .c: lenovo-wmi-events.c | lenovo-wmi-gamezone-events.c
->> I think there was a misunderstand here, with "one driver for all gamezo=
-ne GUIDs" i meant
->> "one driver for all gamezone _event_ GUIDs". Sorry for that.
->>
->> Personally i would favor the lenovo-wmi-events name. With this we can a=
-dd support for additional
->> WMI events later.
->>
-> Okay, that sounds good to me.
-> There is one thing I want to clarify for the gamezone driver. It will
-> need to register two notifier blocks, correct? One for the "push"
-> notification from events, and one for the "pull" notification call
-> from other mode. My assumption is that we shouldn't use the same
-> notifier_block on two chain heads, but I want to be sure before
-> submitting.
->
-> - Derek
-
-Yes, using separate notification chains for WMI events and communication w=
-ith
-lenovo-wmi-other would make sense. This also means that you need to use se=
-parate
-notifier blocks for each chain.
-
-Thanks,
-Armin Wolf
-
->>>> This also allows you to extend the separate WMI driver later to suppo=
-rt more WMI event GUIDs.
->>> There are 4 more gamezone event GUIDs that the Legion Go doesn't
->>> implement, so that would be a good place for them. I haven't added
->>> them as I cannot test them with my hardware.
->> This is fine, getting only the platform profile interface to work is a =
-good start.
->>
->>>>> +     int sel_prof;
->>>>> +     int ret;
->>>>> +
->>>>> +     if (obj->type !=3D ACPI_TYPE_INTEGER)
->>>>> +             return;
->>>>> +
->>>>> +     switch (tm_priv->type) {
->>>>> +     case THERMAL_MODE:
->>>>> +             sel_prof =3D obj->integer.value;
->>>>> +             break;
->>>>> +     default:
->>>>> +             return;
->>>>> +     }
->>>>> +
->>>>> +     /* Update primary Gamezone instance */
->>>>> +     switch (sel_prof) {
->>>>> +     case SMARTFAN_MODE_QUIET:
->>>>> +             gz_priv->current_profile =3D PLATFORM_PROFILE_LOW_POWE=
-R;
->>>>> +             break;
->>>>> +     case SMARTFAN_MODE_BALANCED:
->>>>> +             gz_priv->current_profile =3D PLATFORM_PROFILE_BALANCED=
-;
->>>>> +             break;
->>>>> +     case SMARTFAN_MODE_PERFORMANCE:
->>>>> +             if (gz_priv->extreme_supported) {
->>>>> +                     gz_priv->current_profile =3D
->>>>> +                             PLATFORM_PROFILE_BALANCED_PERFORMANCE;
->>>>> +                     break;
->>>>> +             }
->>>>> +             gz_priv->current_profile =3D PLATFORM_PROFILE_PERFORMA=
-NCE;
->>>>> +             break;
->>>>> +     case SMARTFAN_MODE_EXTREME:
->>>>> +             gz_priv->current_profile =3D PLATFORM_PROFILE_PERFORMA=
-NCE;
->>>>> +             break;
->>>>> +     case SMARTFAN_MODE_CUSTOM:
->>>>> +             gz_priv->current_profile =3D PLATFORM_PROFILE_CUSTOM;
->>>>> +             break;
->>>>> +     default:
->>>>> +             break;
->>>>> +     }
->>>> Please use platform_profile_notify() to notify userspace of the new p=
-latform profile settings.
->>> That makes sense.
->>>
->>>>> +
->>>>> +     ret =3D blocking_notifier_call_chain(&gz_chain_head, THERMAL_M=
-ODE_EVENT,
->>>>> +                                        &sel_prof);
->>>>> +     if (ret =3D=3D NOTIFY_BAD)
->>>>> +             pr_err("Failed to send notification to call chain for =
-WMI event %u\n",
->>>>> +                    tm_priv->type);
->>>>> +}
->>>>> +
->>>>> +static int lenovo_wmi_gz_probe(struct wmi_device *wdev, const void =
-*context)
->>>>> +{
->>>>> +     struct lenovo_wmi_gz_priv *priv =3D
->>>>> +             devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
->>>> Please do the call to devm_kzalloc() on a separate line:
->>>>
->>>>           struct lenovo_wmi_gz_priv *priv;
->>>>
->>>>           priv =3D devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL=
-);
->>>>
->>> Understood
->>>
->>>>> +
->>>>> +     if (!priv)
->>>>> +             return -ENOMEM;
->>>>> +
->>>>> +     if (!context)
->>>>> +             return -EINVAL;
->>>>> +
->>>>> +     priv->wdev =3D wdev;
->>>>> +     priv->type =3D *((enum lenovo_wmi_gz_type *)context);
->>>>> +
->>>>> +     dev_set_drvdata(&wdev->dev, priv);
->>>>> +
->>>>> +     if (priv->type !=3D GAMEZONE_FULL)
->>>>> +             return 0;
->>>>> +
->>>>> +     priv->nhead =3D gz_chain_head;
->>>>> +     priv->ppdev =3D platform_profile_register(&wdev->dev, "lenovo-=
-wmi-gamezone",
->>>>> +                                             priv, &lenovo_wmi_gz_p=
-latform_profile_ops);
->>>> Please check if platform_profile_register() was successful and return=
- an error if not.
->>>>
->>> Will do, ty.
->>>
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static const struct wmi_device_id lenovo_wmi_gz_id_table[] =3D {
->>>>> +     { GAMEZONE_WMI_DEVICE(LENOVO_GAMEZONE_GUID, GAMEZONE_FULL) },
->>>>> +     { GAMEZONE_WMI_DEVICE(THERMAL_MODE_EVENT_GUID, THERMAL_MODE) }=
-,
->>>>> +     {}
->>>>> +};
->>>>> +
->>>>> +static struct wmi_driver lenovo_wmi_gz_driver =3D {
->>>>> +     .driver =3D {
->>>>> +             .name =3D "lenovo_wmi_gamezone",
->>>>> +             .probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
->>>>> +     },
->>>>> +     .id_table =3D lenovo_wmi_gz_id_table,
->>>>> +     .probe =3D lenovo_wmi_gz_probe,
->>>>> +     .notify =3D lenovo_wmi_gz_notify,
->>>>> +     .no_singleton =3D true,
->>>>> +};
->>>>> +
->>>>> +module_wmi_driver(lenovo_wmi_gz_driver);
->>>>> +
->>>>> +MODULE_IMPORT_NS("LENOVO_WMI");
->>>>> +MODULE_DEVICE_TABLE(wmi, lenovo_wmi_gz_id_table);
->>>>> +MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
->>>>> +MODULE_DESCRIPTION("Lenovo GameZone WMI Driver");
->>>>> +MODULE_LICENSE("GPL");
->>>>> diff --git a/drivers/platform/x86/lenovo-wmi.c b/drivers/platform/x8=
-6/lenovo-wmi.c
->>>>> new file mode 100644
->>>>> index 000000000000..0de2c37e69bd
->>>>> --- /dev/null
->>>>> +++ b/drivers/platform/x86/lenovo-wmi.c
->>>>> @@ -0,0 +1,77 @@
->>>>> +// SPDX-License-Identifier: GPL-2.0-or-later
->>>>> +/*
->>>>> + * Lenovo Legion WMI interface driver. The Lenovo Legion WMI interf=
-ace is
->>>>> + * broken up into multiple GUID interfaces that require cross-refer=
-ences
->>>>> + * between GUID's for some functionality. The "Custom Method" inter=
-face is a
->>>>> + * legacy interface for managing and displaying CPU & GPU power and=
- hwmon
->>>>> + * settings and readings. The "Other Mode" interface is a modern in=
-terface
->>>>> + * that replaces or extends the "Custom Method" interface methods. =
-The
->>>>> + * "Gamezone" interface adds advanced features such as fan profiles=
- and
->>>>> + * overclocking. The "Lighting" interface adds control of various s=
-tatus
->>>>> + * lights related to different hardware components. "Other Mode" us=
-es
->>>>> + * the data structs LENOVO_CAPABILITY_DATA_00, LENOVO_CAPABILITY_DA=
-TA_01
->>>>> + * and LENOVO_CAPABILITY_DATA_02 structs for capability information=
-.
->>>>> + *
->>>>> + * Copyright(C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
->>>>> + *
->>>>> + */
->>>>> +
->>>>> +#include <linux/wmi.h>
->>>>> +#include "lenovo-wmi.h"
->>>>> +
->>>>> +/* wmidev_evaluate_method helper functions */
->>>>> +static int lenovo_wmidev_evaluate_method(struct wmi_device *wdev, u=
-8 instance,
->>>>> +                                      u32 method_id, struct acpi_bu=
-ffer *in,
->>>>> +                                      struct acpi_buffer *out)
->>>>> +{
->>>>> +     acpi_status status;
->>>>> +
->>>>> +     status =3D wmidev_evaluate_method(wdev, instance, method_id, i=
-n, out);
->>>>> +
->>>>> +     if (ACPI_FAILURE(status))
->>>>> +             return -EIO;
->>>>> +
->>>>> +     return 0;
->>>>> +};
->>>>> +
->>>>> +int lenovo_wmidev_evaluate_method_2(struct wmi_device *wdev, u8 ins=
-tance,
->>>>> +                                 u32 method_id, u32 arg0, u32 arg1,
->>>>> +                                 u32 *retval)
->>>>> +{
->>>> Please give this method a more descriptive name.
->>>>
->>> Okay. I followed the convention in asus_wmi here as it takes 2 args
->>> and _1 takes one arg. When I add fan profiles later I'll need one that
->>> takes one u64 arg as well, and I think some other GUID's I don't yet
->>> have implemented have 3 or 4 u16 args. Do you have a suggestion on how
->>> you'd prefer them named? My instinct would be to simplify to three,
->>> _u16, _u32, _u64, and pass 0 to unused args instead of having a second
->>> _1 helper.
->> Good question, would it make sense to just pass the arguments as a sing=
-le byte buffer?
->>
->>>>> +     struct wmi_method_args args =3D { arg0, arg1 };
->>>>> +     struct acpi_buffer input =3D { (acpi_size)sizeof(args), &args =
-};
->>>> Cast to acpi_size is unnecessary here.
->>> Acked
->>>
->>>>> +     struct acpi_buffer output =3D { ACPI_ALLOCATE_BUFFER, NULL };
->>>>> +     union acpi_object *ret_obj __free(kfree) =3D NULL;
->>>>> +     int err;
->>>>> +
->>>>> +     err =3D lenovo_wmidev_evaluate_method(wdev, instance, method_i=
-d, &input,
->>>>> +                                         &output);
->>>>> +
->>>>> +     if (err)
->>>>> +             return err;
->>>>> +
->>>>> +     if (retval) {
->>>>> +             ret_obj =3D (union acpi_object *)output.pointer;
->>>>> +             if (!ret_obj)
->>>>> +                     return -ENODATA;
->>>>> +
->>>>> +             if (ret_obj->type !=3D ACPI_TYPE_INTEGER)
->>>>> +                     return -ENXIO;
->>>>> +
->>>>> +             *retval =3D (u32)ret_obj->integer.value;
->>>>> +     }
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +EXPORT_SYMBOL_NS_GPL(lenovo_wmidev_evaluate_method_2, "LENOVO_WMI")=
-;
->>>> Can you please rename the namespace to "LENOVO_WMI_HELPERS"?
->>> Yes
->>>
->>>>> +
->>>>> +int lenovo_wmidev_evaluate_method_1(struct wmi_device *wdev, u8 ins=
-tance,
->>>>> +                                 u32 method_id, u32 arg0, u32 *retv=
-al)
->>>>> +{
->>>> Same as above.
->>>>
->>>>> +     return lenovo_wmidev_evaluate_method_2(wdev, instance, method_=
-id, arg0,
->>>>> +                                            0, retval);
->>>>> +}
->>>>> +EXPORT_SYMBOL_NS_GPL(lenovo_wmidev_evaluate_method_1, "LENOVO_WMI")=
-;
->>>>> +MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
->>>>> +MODULE_DESCRIPTION("Lenovo WMI Common Driver");
->>>>> +MODULE_LICENSE("GPL");
->>>>> diff --git a/drivers/platform/x86/lenovo-wmi.h b/drivers/platform/x8=
-6/lenovo-wmi.h
->>>>> new file mode 100644
->>>>> index 000000000000..113928b4fc0f
->>>>> --- /dev/null
->>>>> +++ b/drivers/platform/x86/lenovo-wmi.h
->>>>> @@ -0,0 +1,62 @@
->>>>> +/* SPDX-License-Identifier: GPL-2.0-or-later
->>>>> + *
->>>>> + * Lenovo Legion WMI interface driver. The Lenovo Legion WMI interf=
-ace is
->>>>> + * broken up into multiple GUID interfaces that require cross-refer=
-ences
->>>>> + * between GUID's for some functionality. The "Custom Method" inter=
-face is a
->>>>> + * legacy interface for managing and displaying CPU & GPU power and=
- hwmon
->>>>> + * settings and readings. The "Other Mode" interface is a modern in=
-terface
->>>>> + * that replaces or extends the "Custom Method" interface methods. =
-The
->>>>> + * "Gamezone" interface adds advanced features such as fan profiles=
- and
->>>>> + * overclocking. The "Lighting" interface adds control of various s=
-tatus
->>>>> + * lights related to different hardware components. "Other Mode" us=
-es
->>>>> + * the data structs LENOVO_CAPABILITY_DATA_00, LENOVO_CAPABILITY_DA=
-TA_01
->>>>> + * and LENOVO_CAPABILITY_DATA_02 structs for capability information=
-.
->>>>> + *
->>>>> + * Copyright(C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
->>>>> + *
->>>>> + */
->>>>> +#include <linux/notifier.h>
->>>>> +#include <linux/platform_profile.h>
->>>>> +
->>>>> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->>>> This causes a build error on my machine. Please only use this macro i=
-nside source files
->>>> for modules and not inside header files.
->>> This also causes a build error on my machine inside the .c sources.
->>> I'm not sure why.
->> The reason for this is that some drivers including this header file als=
-o define this macro.
->> In general this macro should only be used inside source files for modul=
-es.
->>
->> Thanks,
->> Armin Wolf
->>
->>>>> +
->>>>> +#ifndef _LENOVO_WMI_H_
->>>>> +#define _LENOVO_WMI_H_
->>>>> +
->>>>> +#include <linux/bits.h>
->>>>> +#include <linux/types.h>
->>>>> +#include <linux/wmi.h>
->>>>> +
->>>>> +struct wmi_method_args {
->>>>> +     u32 arg0;
->>>>> +     u32 arg1;
->>>>> +};
->>>>> +
->>>>> +/* gamezone structs */
->>>>> +enum thermal_mode {
->>>>> +     SMARTFAN_MODE_QUIET =3D 0x01,
->>>>> +     SMARTFAN_MODE_BALANCED =3D 0x02,
->>>>> +     SMARTFAN_MODE_PERFORMANCE =3D 0x03,
->>>>> +     SMARTFAN_MODE_EXTREME =3D 0xE0, /* Ver 6+ */
->>>>> +     SMARTFAN_MODE_CUSTOM =3D 0xFF,
->>>>> +};
->>>>> +
->>>>> +enum lenovo_wmi_action {
->>>>> +     THERMAL_MODE_EVENT =3D 1,
->>>>> +};
->>>>> +
->>>>> +/* wmidev_evaluate_method helper functions */
->>>>> +int lenovo_wmidev_evaluate_method_2(struct wmi_device *wdev, u8 ins=
-tance,
->>>>> +                                 u32 method_id, u32 arg0, u32 arg1,
->>>>> +                                 u32 *retval);
->>>>> +int lenovo_wmidev_evaluate_method_1(struct wmi_device *wdev, u8 ins=
-tance,
->>>>> +                                 u32 method_id, u32 arg0, u32 *retv=
-al);
->>>>> +
->>>>> +/* lenovo_wmi_gz_driver notifier functions */
->>>>> +int lenovo_wmi_gz_notifier_call(struct notifier_block *nb, unsigned=
- long action,
->>>>> +                             enum platform_profile_option *profile)=
-;
->>>>> +int lenovo_wmi_gz_register_notifier(struct notifier_block *nb);
->>>>> +int lenovo_wmi_gz_unregister_notifier(struct notifier_block *nb);
->>>>> +int devm_lenovo_wmi_gz_register_notifier(struct device *dev,
->>>>> +                                      struct notifier_block *nb);
->>>> Can you please create a separate header file for each driver? Otherwi=
-se this header file
->>>> will contain many different things from different drivers, which will=
- maybe not even be
->>>> available depending on the Kconfig settings.
->>> Can do.
->>>
->>> Cheers,
->>> - Derek
->>>
->>>> Thanks,
->>>> Armin Wolf
->>>>
->>>>> +#endif /* !_LENOVO_WMI_H_ */
+T24gRnJpLCBNYXIgMTQsIDIwMjUgYXQgNjoyOOKAr1BNIFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bj
+cXNvZnR3YXJlLmNvbS5jbj4gd3JvdGU6DQo+DQo+IEZyb206IFlhbnRlbmcgU2kgPHNpLnlhbnRl
+bmdAbGludXguZGV2Pg0KPg0KPiBNYW55IG5ldyBmYWNlcyBrZWVwIGFwcGVhcmluZyBvbiB0aGUg
+bWFpbGluZyBsaXN0IGZyb20gdGltZSB0bw0KPiB0aW1lLCBhbmQgdGhlcmUgbWF5IGJlIG1hbnkg
+cG90ZW50aWFsIGRldmVsb3BlcnMgd2hvIHdhbnQgdG8NCj4gcGFydGljaXBhdGUgaW4gdGhlIENo
+aW5lc2UgdHJhbnNsYXRpb24gYnV0IGRvbid0IGtub3cgaG93IHRvDQo+IGdldCBzdGFydGVkLiBB
+cyBtb3JlIGFuZCBtb3JlIGRvY3VtZW50cyBhcmUgdHJhbnNsYXRlZCwgaXQgaXMNCj4gYmVjb21p
+bmcgaW5jcmVhc2luZ2x5IGltcG9ydGFudCB0byBpbXByb3ZlIHRoZSBtYWludGFpbmFiaWxpdHkN
+Cj4gb2YgQ2hpbmVzZSBkb2N1bWVudHMuIFdlIGhhdmUgYSBsb3Qgb2YgY29udmVudGlvbnMsIGJ1
+dCBjdXJyZW50bHkNCj4gdGhlc2UgY29udmVudGlvbnMgYXJlIHN0aWxsIGJlaW5nIHBhc3NlZCBv
+biBvcmFsbHkuIEF0IHRoZSBzYW1lDQo+IHRpbWUsIGR1cmluZyB0aGUgcmV2aWV3IHByb2Nlc3Ms
+IGVzcGVjaWFsbHkgZm9yIHRoZSBmaXJzdCBmZXcNCj4gcGF0Y2hlcyBzdWJtaXR0ZWQgYnkgbmV3
+Ymllcywgd2UgaGF2ZSBtYWRlIHRvbyBtYW55IHJlcGV0aXRpdmUNCj4gY29tbWVudHMuIEluIG9y
+ZGVyIHRvIGFkZHJlc3MgdGhlIGFib3ZlIGlzc3VlcywgSSBoYXZlIGRyYWZ0ZWQNCj4gdGhpcyBn
+dWlkZSwgYW5kIHRoZXJlIGlzIHN0aWxsIGEgbG90IHRoYXQgbmVlZHMgdG8gYmUgaW1wcm92ZWQu
+DQo+DQo+IExpbms6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyNTAyMjcxMDM2MDIuMzIx
+MTk4LTEtc2kueWFudGVuZ0BsaW51eC5kZXYNCj4gU2lnbmVkLW9mZi1ieTogWWFudGVuZyBTaSA8
+c2kueWFudGVuZ0BsaW51eC5kZXY+DQoNCkFzIG9ic2VydmVkIGZyb20gbXkgc2lkZSwgSSB0aGlu
+ayB0aGlzIGhvdy10by10cmFuc2xhdGUgbWFudWFsIGNvdmVycw0KYWxsIHRoZSB0aGluZ3MgaW4g
+bXkgbWluZCAob25seSBzb21lIGNvbW1lbnRzIGxlZnQgYmVsb3cpLg0KDQpJZiBZYW50ZW5nIGhh
+cyBvdGhlciB0aGluZ3MgaW4gbWluZCwgSSBjYW4gaGVscCB3cml0ZSBzb21lIGd1aWRhbmNlLg0K
+DQpEb25nbGlhbmcgTXUNCg0KPiAtLS0NCj4gIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
+X0NOL2hvdy10by5yc3QgfCA0NDUgKysrKysrKysrKysrKysrKysrKysNCj4gIERvY3VtZW50YXRp
+b24vdHJhbnNsYXRpb25zL3poX0NOL2luZGV4LnJzdCAgfCAgMjQgKy0NCj4gIDIgZmlsZXMgY2hh
+bmdlZCwgNDU3IGluc2VydGlvbnMoKyksIDEyIGRlbGV0aW9ucygtKQ0KPiAgY3JlYXRlIG1vZGUg
+MTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2hvdy10by5yc3QNCj4NCj4g
+ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2hvdy10by5yc3Qg
+Yi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9ob3ctdG8ucnN0DQo+IG5ldyBmaWxl
+IG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAwMDAwMC4uMjgwZmQzMjYzMjM3DQo+IC0tLSAv
+ZGV2L251bGwNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vaG93LXRv
+LnJzdA0KPiBAQCAtMCwwICsxLDQ0NSBAQA0KPiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6
+IEdQTC0yLjANCj4gKw0KPiArPT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiArTGludXjlhoXm
+oLjkuK3mlofmlofmoaPnv7vor5Hop4TojIMNCj4gKz09PT09PT09PT09PT09PT09PT09PT09PT0N
+Cj4gKw0KPiAr5L+u6K6i6K6w5b2V77yaDQo+ICsgLSB2MS4wIDIwMjXlubQz5pyIMTTml6XvvIzl
+j7jlu7bohb7lj4LogIPnpL7ljLrnmoTmjIflr7zmhI/op4Hkv67orqLkuobpg6jliIblhoXlrrnj
+gIINCj4gKw0KPiAr5Yi25a6a6KeE6IyD55qE6IOM5pmvDQo+ICs9PT09PT09PT09PT09PQ0KPiAr
+DQo+ICvov4fljrvlh6DlubTvvIzlnKjlub/lpKfnpL7ljLrniLHlpb3ogIXnmoTlj4vlpb3lkIjk
+vZzkuIvvvIxMaW51eCDlhoXmoLjkuK3mlofmlofmoaPov47mnaXkuobok6zli4PnmoTlj5ENCj4g
+K+WxleOAguWcqOe/u+ivkeeahOaXqeacn++8jOS4gOWIh+mDveaYr+a3t+S5seeahO+8jOekvuWM
+uuWvueivkeeov+WPquacieS4gOS4quWHhuehrue/u+ivkeeahOimgeaxgu+8jOS7pem8kw0KPiAr
+5Yqx5pu05aSa55qE5byA5Y+R6ICF5Y+C5LiO6L+b5p2l77yM6L+Z5piv5LuOMOWIsDHnmoTlv4Xn
+hLbov4fnqIvvvIzmiYDku6Xml6nmnJ/nmoTkuK3mlofmlofmoaPnm67lvZXmm7TliqANCj4gK+WF
+t+acieWkmuagt+aAp++8jOS4jei/h+WlveWcqOaWh+aho+S4jeWkmu+8jOe7tOaKpOS4iuW5tuay
+oeaciei/h+Wkp+eahOWOi+WKm+OAgg0KPiArDQo+ICvnhLbogIzvvIzkuJbkuovlj5jlubvvvIzk
+uI3op4nmnInlubTvvIznjrDlnKjlhoXmoLjkuK3mlofmlofmoaPlnKjliY3ov5vnmoTpgZPot6/k
+uIrotorotbDotorov5zvvIzlvojlpJrmvZwNCj4gK+WcqOeahOmXrumimOmAkOa4kOa1ruWHuuaw
+tOmdou+8jOiAjOS4lOmaj+edgOS4reaWh+aWh+aho+aVsOmHj+eahOWinuWKoO+8jOe/u+ivkeab
+tOWkmueahOaWh+aho+S4juaPkOmrmOS4rQ0KPiAr5paH5paH5qGj5Y+v57u05oqk5oCn5LmL6Ze0
+55qE55+b55u+5oSI5Y+R5bCW6ZSQ44CC55Sx5LqO5paH5qGj57+76K+R55qE54m55q6K5oCn77yM
+5b6I5aSa5byA5Y+R6ICF5bm25LiN5LyaDQo+ICvkuIDnm7Tmm7TmlrDmlofmoaPvvIzlpoLmnpzk
+uK3mlofmlofmoaPokL3lkI7oi7HmlofmlofmoaPlpKrlpJrvvIzmlofmoaPmm7TmlrDnmoTlt6Xk
+vZzph4/kvJrov5zlpKfkuo7ph43mlrANCj4gK+e/u+ivkeOAguiAjOS4lOmCruS7tuWIl+ihqOS4
+remZhue7reacieaWsOeahOmdouWtlOWHuueOsO+8jOS7luS7rOmCo+iCoeeDreaDhe+8jOWwseWD
+j+eHg+eDp+eahOeBq+eEsO+8jOiDvQ0KPiAr556s6Ze054K554eD5pW05Liq56m66Ze077yM5Y+v
+5piv5LuW5Lus55qE6KGl5LiB5b6A5b6A5YW35pyJ5Liq5oCn77yM6L+Z5Lya57uZ5a6h6ZiF5bim
+5p2l5LqG5b6I5aSn55qE5Zuw6Zq+77yMDQo+ICtyZXZpZXdlciDku6zlj6rog73ogJDlv4PlnLDm
+jIflr7zku5bku6zlpoLkvZXkuI7npL7ljLrmm7Tlpb3lnLDlkIjkvZzvvIzkvYbmmK/ov5npobnl
+t6XkvZzlhbfmnInph43lpI0NCj4gK+aAp++8jOmVv+atpOS7peW+gO+8jOS8mua4kOa4kOa1h+eB
+rSByZXZpZXdlciDlrqHpmIXnmoTng63mg4XjgIINCj4gKw0KPiAr6Jm954S25YaF5qC45paH5qGj
+5Lit5bey57uP5pyJ5LqG57G75Ly855qE6LSh54yu5oyH5Y2X77yM5L2G5piv57y65LmP5LiT6Zeo
+6ZKI5a+55LqO5Lit5paH57+76K+R55qE77yM5bCk5YW2DQo+ICvmmK/lr7nkuo7mlrDmiYvmnaXo
+r7TvvIzmtY/op4jlpKfph4/nmoTmlofmoaPlj43ogIzmm7TliqDov7fmg5HvvIzor6XmlofmoaPl
+sLHmmK/kuLrkuobnvJPop6Pov5nkuIDpl67popjogIwNCj4gK+e8luWGme+8jOebrueahOaYr+S4
+uuaPkOS+m+e7meaWsOaJi+S4gOS4quW/q+mAn+e/u+ivkeaMh+WNl+OAgg0KPiArDQo+ICvor6bn
+u4bnmoTotKHnjK7mjIfljZfvvJpEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9wcm9j
+ZXNzL2luZGV4LnJzdOOAgg0KPiArDQo+ICvnjq/looPmkK3lu7oNCj4gKz09PT09PT09DQo+ICsN
+Cj4gK+W3peassuWWhOWFtuS6i+W/heWFiOWIqeWFtuWZqO+8jOWmguaenOaCqOebruWJjeWvueWG
+heaguOaWh+aho+e/u+ivkea7oeaAgOeDreaDhe+8jOW5tuS4lOS8mueLrOeri+WcsOWuieijhQ0K
+PiArbGludXgg5Y+R6KGM54mI5ZKM566A5Y2V5Zyw5L2/55SoIGxpbnV4IOWRveS7pOihjO+8jOmC
+o+S5iOWPr+S7pei/hemAn+W8gOWni+S6huOAguiLpeaCqOWwmuS4jeWFt+Wkh+ivpQ0KPiAr6IO9
+5Yqb77yM5b6I5aSa572R56uZ5LiK5Lya5pyJ6K+m57uG55qE5omL5oqK5omL5pWZ56iL77yM5pyA
+5aSa5LiA5Liq5LiK5Y2I77yM5oKo5bqU6K+l5bCx6IO95o6M5o+h5a+55bqU5oqADQo+ICvog73j
+gILmgqjpnIDopoHms6jmhI/nmoTkuIDngrnmmK/vvIzor7fkuI3opoHkvb/nlKggcm9vdCDnlKjm
+iLfov5vooYzlkI7nu63mraXpqqTlkozmlofmoaPnv7vor5HjgIINCj4gKw0KPiAr5ouJ5Y+W5byA
+5Y+R5qCRDQo+ICstLS0tLS0tLS0tDQo+ICsNCj4gK+S4reaWh+aWh+aho+e/u+ivkeW3peS9nOeb
+ruWJjeeLrOeri+S6jiBsaW51eC1kb2Mg5byA5Y+R5qCR5byA5bGV77yM5omA5Lul5oKo6ZyA6KaB
+5ouJ5Y+W6K+l5byA5Y+R5qCR77yMDQo+ICvmiZPlvIDnu4jnq6/lkb3ku6TooYzmiafooYw6Og0K
+PiArDQo+ICsgICAgICAgZ2l0IGNsb25lIGdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGlu
+dXgva2VybmVsL2dpdC9hbGV4cy9saW51eC5naXQNCj4gKw0KPiAr5aaC5p6c5oKo6YGH5Yiw572R
+57uc6L+e5o6l6Zeu6aKY77yM5Lmf5Y+v5Lul5omn6KGM5Lul5LiL5ZG95LukOjoNCj4gKw0KPiAr
+ICAgICAgIGdpdCBjbG9uZSBodHRwczovL21pcnJvcnMuaHVzdC5lZHUuY24vZ2l0L2x3bi5naXQN
+CiAgICAgICAgICAgIGdpdCBjbG9uZSBodHRwczovL21pcnJvcnMuaHVzdC5lZHUuY24vZ2l0L2tl
+cm5lbC1kb2MtemguZ2l0IGxpbnV4DQoNCkluIG9yZGVyIHRvIGtlZXAgdGhpcyBzYW1lIGRpcmVj
+dG9yeSwgSSBqdXN0IGFkZCBhIGZvbGRlciBuYW1lLg0KPiArDQo+ICvov5nmmK8gbGludXgtZG9j
+IOW8gOWPkeagke+8jOWPr+iDveS8muiQveWQjuS6jiBBbGV4IOeahOW8gOWPkeagke+8jOS9huaY
+r+S4jeWkmuOAguWmguaenOWwhuadpeaciei+g+W/qw0KPiAr55qEIG1pcnJvcu+8jOivt+maj+aX
+tuabtOaUueOAgg0KDQpXZSBjYW4gY2hhbmdlIHRvIDoNCg0K6L+Z5pivIEFsZXgg5byA5Y+R5qCR
+55qE6ZWc5YOP5bqT77yM5q+P5Lik5Liq5bCP5pe25ZCM5q2l5LiA5qyh5LiK5ri444CC5aaC5p6c
+5bCG5p2l5pyJ6L6D5b+r55qEIG1pcnJvcu+8jOWPr+maj+aXtuabtOaUueOAgg0KDQo+ICsNCj4g
+K+WRveS7pOaJp+ihjOWujOavleWQju+8jOaCqOS8muWcqOW9k+WJjeebruW9leS4i+W+l+WIsOS4
+gOS4qiBsaW51eCDnm67lvZXvvIzor6Xnm67lvZXlsLHmmK/mgqjkuYvlkI7nmoTlt6XkvZwNCj4g
+K+S7k+W6k++8jOivt+aKiuWug+aUvuWcqOS4gOS4queos+WmpeeahOS9jee9ruOAgg0KPiArDQo+
+ICvlronoo4XmlofmoaPmnoTlu7rnjq/looMNCj4gKy0tLS0tLS0tLS0tLS0tLS0NCj4gKw0KPiAr
+5YaF5qC45LuT5bqT6YeM6Z2i5o+Q5L6b5LqG5LiA5Liq5Y2K6Ieq5Yqo5YyW6ISa5pys77yM5omn
+6KGM6K+l6ISa5pys77yM5Lya5qOA5rWL5oKo55qE5Y+R6KGM54mI5Lit6ZyA6KaB5a6JDQo+ICvo
+o4Xlk6rkupvljIXvvIzor7fmjInnhaflkb3ku6TooYzmj5DnpLrov5vooYzlronoo4XvvIzpgJrl
+uLjmgqjlj6rpnIDopoHlpI3liLblkb3ku6TlubbmiafooYzlsLHooYzjgIINCg0K5YyFLT7ova/k
+u7bljIUNCg0KPiArOjoNCj4gKw0KPiArICAgICAgIGNkIGxpbnV4DQo+ICsgICAgICAgLi9zY3Jp
+cHRzL3NwaGlueC1wcmUtaW5zdGFsbA0KPiArDQo+ICvku6VGZWRvcmHkuLrkvovvvIzlroPnmoTo
+vpPlh7rmmK/ov5nmoLfnmoQ6Og0KPiArDQo+ICsgICAgICAgWW91IHNob3VsZCBydW46DQo+ICsN
+Cj4gKyAgICAgICAgICAgICAgIHN1ZG8gZG5mIGluc3RhbGwgLXkgZGVqYXZ1LXNhbnMtZm9udHMg
+ZGVqYXZ1LXNhbnMtbW9uby1mb250cyBkZWphdnUtc2VyaWYtZm9udHMgZ29vZ2xlLW5vdG8tc2Fu
+cy1jamstZm9udHMgZ3JhcGh2aXotZ2QgbGF0ZXhtayBsaWJyc3ZnMi10b29scyB0ZXhsaXZlLWFu
+eWZvbnRzaXplIHRleGxpdmUtY2FwdC1vZiB0ZXhsaXZlLWNvbGxlY3Rpb24tZm9udHNyZWNvbW1l
+bmRlZCB0ZXhsaXZlLWN0ZXggdGV4bGl2ZS1lcXBhcmJveCB0ZXhsaXZlLWZuY3ljaGFwIHRleGxp
+dmUtZnJhbWVkIHRleGxpdmUtbHVhdGV4ODUgdGV4bGl2ZS1tdWx0aXJvdyB0ZXhsaXZlLW5lZWRz
+cGFjZSB0ZXhsaXZlLXRhYnVsYXJ5IHRleGxpdmUtdGhyZWVwYXJ0dGFibGUgdGV4bGl2ZS11cHF1
+b3RlIHRleGxpdmUtd3JhcGZpZyB0ZXhsaXZlLXhlY2prDQo+ICsNCj4gKyAgICAgICBTcGhpbngg
+bmVlZHMgdG8gYmUgaW5zdGFsbGVkIGVpdGhlcjoNCj4gKyAgICAgICAxKSB2aWEgcGlwL3B5cGkg
+d2l0aDoNCj4gKw0KPiArICAgICAgICAgICAgICAgL3Vzci9iaW4vcHl0aG9uMyAtbSB2ZW52IHNw
+aGlueF9sYXRlc3QNCj4gKyAgICAgICAgICAgICAgIC4gc3BoaW54X2xhdGVzdC9iaW4vYWN0aXZh
+dGUNCj4gKyAgICAgICAgICAgICAgIHBpcCBpbnN0YWxsIC1yIC4vRG9jdW1lbnRhdGlvbi9zcGhp
+bngvcmVxdWlyZW1lbnRzLnR4dA0KPiArDQo+ICsgICAgICAgICAgIElmIHlvdSB3YW50IHRvIGV4
+aXQgdGhlIHZpcnR1YWxlbnYsIHlvdSBjYW4gdXNlOg0KPiArICAgICAgICAgICAgICAgZGVhY3Rp
+dmF0ZQ0KPiArDQo+ICsgICAgICAgMikgQXMgYSBwYWNrYWdlIHdpdGg6DQo+ICsNCj4gKyAgICAg
+ICAgICAgICAgIHN1ZG8gZG5mIGluc3RhbGwgLXkgcHl0aG9uMy1zcGhpbngNCj4gKw0KPiArICAg
+ICAgICAgICBQbGVhc2Ugbm90ZSB0aGF0IFNwaGlueCA+PSAzLjAgd2lsbCBjdXJyZW50bHkgcHJv
+ZHVjZSBmYWxzZS1wb3NpdGl2ZQ0KPiArICAgICAgICAgIHdhcm5pbmcgd2hlbiB0aGUgc2FtZSBu
+YW1lIGlzIHVzZWQgZm9yIG1vcmUgdGhhbiBvbmUgdHlwZSAoZnVuY3Rpb25zLA0KPiArICAgICAg
+ICAgIHN0cnVjdHMsIGVudW1zLC4uLikuIFRoaXMgaXMga25vd24gU3BoaW54IGJ1Zy4gRm9yIG1v
+cmUgZGV0YWlscywgc2VlOg0KPiArICAgICAgICAgICAgICAgaHR0cHM6Ly9naXRodWIuY29tL3Nw
+aGlueC1kb2Mvc3BoaW54L3B1bGwvODMxMw0KPiArDQo+ICvor7fmgqjmjInnhafmj5DnpLrlpI3l
+iLbmiZPljbDnmoTlkb3ku6TliLDlkb3ku6TooYzmiafooYzvvIzmgqjlv4XpobvlhbflpIcgcm9v
+dCDmnYPpmZDmiY3og73miafooYwgc3Vkbw0KPiAr5byA5aS055qE5ZG95Luk44CCDQo+ICsNCj4g
+K+WmguaenOaCqOWkhOS6juS4gOS4quWkmueUqOaIt+eOr+Wig+S4re+8jOS4uuS6humBv+WFjeWv
+ueWFtuS7luS6uumAoOaIkOW9seWTje+8jOW7uuiuruaCqOmFjee9ruWNleeUqOaItw0KPiArc3Bo
+aW54IOiZmuaLn+eOr+Wig++8jOWNs+WPqumcgOimgeaJp+ihjDo6DQo+ICsNCj4gKyAgICAgICAv
+dXNyL2Jpbi9weXRob24zIC1tIHZlbnYgc3BoaW54X2xhdGVzdA0KPiArICAgICAgIC4gc3BoaW54
+X2xhdGVzdC9iaW4vYWN0aXZhdGUNCj4gKyAgICAgICBwaXAgaW5zdGFsbCAtciAuL0RvY3VtZW50
+YXRpb24vc3BoaW54L3JlcXVpcmVtZW50cy50eHQNCj4gKw0KPiAr5pyA5ZCO5omn6KGM5Lul5LiL
+5ZG95Luk6YCA5Ye66Jma5ouf546v5aKDOjoNCj4gKw0KPiArICAgICAgIGRlYWN0aXZhdGUNCj4g
+Kw0KPiAr5oKo5Y+v5Lul5Zyo5Lu75L2V6ZyA6KaB55qE5pe25YCZ5YaN5qyh5omn6KGM5Lul5LiL
+5ZG95Luk6L+b5YWl6Jma5ouf546v5aKDOjoNCj4gKw0KPiArICAgICAgIC4gc3BoaW54X2xhdGVz
+dC9iaW4vYWN0aXZhdGUNCj4gKw0KPiAr6L+b6KGM56ys5LiA5qyh5paH5qGj57yW6K+RDQo+ICst
+LS0tLS0tLS0tLS0tLS0tLS0NCj4gKw0KPiAr6L+b5YWl5byA5Y+R5qCR55uu5b2VOjoNCj4gKw0K
+PiArICAgICAgIGNkIGxpbnV4DQo+ICsNCj4gK+i/meaYr+S4gOS4quagh+WHhueahOe8luivkeWS
+jOiwg+ivlea1geeoi++8jOivt+avj+asoeaehOW7uuaXtumDveS4peagvOaJp+ihjDo6DQo+ICsN
+Cj4gKyAgICAgICAuIHNwaGlueF9sYXRlc3QvYmluL2FjdGl2YXRlDQo+ICsgICAgICAgbWFrZSBj
+bGVhbmRvY3MNCj4gKyAgICAgICBtYWtlIGh0bWxkb2NzDQo+ICsgICAgICAgZGVhY3RpdmF0ZQ0K
+PiArDQo+ICvmo4Dmn6XnvJbor5Hnu5PmnpwNCj4gKy0tLS0tLS0tLS0tLQ0KPiArDQo+ICvnvJbo
+r5HovpPlh7rlnKhEb2N1bWVudGF0aW9uL291dHB1dC/nm67lvZXkuIvvvIzor7fnlKjmtY/op4jl
+majmiZPlvIDor6Xnm67lvZXkuIvlr7nlupQNCj4gK+eahOaWh+S7tui/m+ihjOajgOafpeOAgg0K
+PiArDQo+ICtnaXTlkozpgq7nrrHphY3nva4NCj4gKy0tLS0tLS0tLS0tLS0NCj4gKw0KPiAr5omT
+5byA5ZG95Luk6KGM5omn6KGMOjoNCj4gKw0KPiArICAgICAgIHN1ZG8gZG5mIGluc3RhbGwgZ2l0
+LWVtYWlsDQo+ICsgICAgICAgdmltIH4vLmdpdGNvbmZpZw0KPiArDQo+ICvov5nph4zmmK/miJHn
+moTkuIDkuKrphY3nva7mlofku7bnpLrojIPvvIzor7fmoLnmja7mgqjnmoTpgq7nrrHln5/lkI3m
+nI3liqHllYbmj5DkvpvnmoTmiYvlhozmm7/mjaLliLDlr7kNCj4gK+W6lOeahOWtl+auteOAgg0K
+PiArOjoNCj4gKw0KPiArICAgICAgIFt1c2VyXQ0KPiArICAgICAgICAgICAgICBuYW1lID0gWWFu
+dGVuZyBTaSAgICAgICAgICAgICAgICAjIOi/meS8muWHuueOsOWcqOaCqOeahOihpeS4geWktOmD
+qOetvuWQjeagjw0KPiArICAgICAgICAgICAgICBlbWFpbCA9IHNpLnlhbnRlbmdAbGludXguZGV2
+ICAgICAjIOi/meS8muWHuueOsOWcqOaCqOeahOihpeS4geWktOmDqOetvuWQjeagjw0KPiArDQo+
+ICsgICAgICAgW3NlbmRlbWFpbF0NCj4gKyAgICAgICAgICAgICAgZnJvbSA9IFlhbnRlbmcgU2kg
+PHNpLnlhbnRlbmdAbGludXguZGV2PiAjIOi/meS8muWHuueOsOWcqOaCqOeahOihpeS4geWktOmD
+qA0KPiArICAgICAgICAgICAgICBzbXRwZW5jcnlwdGlvbiA9IHNzbA0KPiArICAgICAgICAgICAg
+ICBzbXRwc2VydmVyID0gc210cC5taWdhZHUuY29tDQo+ICsgICAgICAgICAgICAgIHNtdHB1c2Vy
+ID0gc2kueWFudGVuZ0BsaW51eC5kZXYNCj4gKyAgICAgICAgICAgICAgc210cHBhc3MgPSA8cGFz
+c3dkPiAgICAgICMg5bu66K6u5L2/55So56ys5LiJ5pa55a6i5oi356uv5LiT55So5a+G56CBDQo+
+ICsgICAgICAgICAgICAgIGNoYWlucmVwbHl0byA9IGZhbHNlDQo+ICsgICAgICAgICAgICAgIHNt
+dHBzZXJ2ZXJwb3J0ID0gNDY1DQo+ICsNCj4gK+WFs+S6jumCruS7tuWuouaIt+err+eahOmFjee9
+ru+8jOivt+afpemYhURvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Byb2Nlc3MvZW1h
+aWwtY2xpZW50cy5yc3TjgIINCj4gKw0KPiAr5byA5aeL57+76K+R5paH5qGjDQo+ICs9PT09PT09
+PT09PT0NCj4gKw0KPiAr5paH5qGj57Si5byV57uT5p6EDQo+ICstLS0tLS0tLS0tLS0NCj4gKw0K
+PiAr55uu5YmN5Lit5paH5paH5qGj5piv5ZyoRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhf
+Q04v55uu5b2V5LiL6L+b6KGM77yM6K+lDQo+ICvnm67lvZXnu5PmnoTmnIDnu4jkvJrkuI5Eb2N1
+bWVudGF0aW9uL+e7k+aehOS4gOiHtO+8jOaJgOS7peaCqOWPqumcgOimgeWwhuaCqOaEn+WFtOi2
+o+eahOiLseaWhw0KPiAr5paH5qGj5paH5Lu25ZKM5a+55bqU55qEIGluZGV4LnJzdCDlpI3liLbl
+iLAgemhfQ04g55uu5b2V5LiL5a+55bqU55qE5L2N572u77yM54S25ZCO5L+u5pS55pu0DQo+ICvk
+uIrkuIDnuqfnmoQgaW5kZXgg5Y2z5Y+v5byA5aeL5oKo55qE57+76K+R44CCDQoNCuW7uuiuruiL
+seaWh+S4pOS+p+mDvea3u+WKoOepuuagvO+8jOS4jei/h+WPr+S7peWQjue7rei/m+ihjOiwg+aV
+tOOAguaIkeWQjue7reWPr+S7peaPkOS6pOihpeS4geWkhOeQhuOAgg0KDQo+ICsNCj4gK+S4uuS6
+huS/neivgee/u+ivkeeahOaWh+aho+ihpeS4geiiq+mhuuWIqeWQiOW5tu+8jOS4jeW7uuiuruWk
+muS6uuWQjOaXtue/u+ivkeS4gOS4quebruW9le+8jOWboOS4uui/meS8mg0KPiAr6YCg5oiQ6KGl
+5LiB5LmL6Ze05LqS55u45L6d6LWW77yM5b6A5b6A5Lya5a+86Ie05LiA6YOo5YiG6KGl5LiB6KKr
+5ZCI5bm277yM5Y+m5LiA6YOo5YiG5Lqn55Sf5Yay56qB44CCDQo+ICsNCj4gK+WmguaenOWunuWc
+qOaXoOazlemBv+WFjeS4pOS4quS6uuWQjOaXtuWvueS4gOS4quebruW9lei/m+ihjOe/u+ivkeea
+hOaDheWGte+8jOivt+WwhuihpeS4geWItuS9nOi/m+S4gOS4quihpQ0KPiAr5LiB6ZuG44CC5L2G
+5piv5LiN5o6o6I2Q5Yia5byA5aeL5bCx6L+Z5LmI5YGa77yM5Zug5Li657uP6L+H5a6e6Le177yM
+5Zyo5rKh5pyJ5oyH5a+855qE5oOF5Ya15LiL77yM5paw5omL5b6IDQo+ICvpmr7kuIDmrKHlpITn
+kIblpb3ov5nkuKrooaXkuIHpm4bjgIINCj4gKw0KPiAr6K+35omn6KGM5Lul5LiL5ZG95Luk77yM
+5paw5bu65byA5Y+R5YiG5pSvOjoNCj4gKw0KPiArICAgICAgIGdpdCBjaGVja291dCBkb2NzLW5l
+eHQNCj4gKyAgICAgICBnaXQgYnJhbmNoIG15LXRyYW5zDQo+ICsgICAgICAgZ2l0IGNoZWNrb3V0
+IG15LXRyYW5zDQo+ICsNCj4gK+ivkeaWh+agvOW8j+imgeaxgg0KPiArLS0tLS0tLS0tLS0tDQo+
+ICsNCj4gKyAgICAgICAtIOavj+ihjOmVv+W6puacgOWkmuS4jei2hei/hzQw5Liq5a2X56ymDQo+
+ICsgICAgICAgLSDmr4/ooYzplb/luqbor7fkv53mjIHkuIDoh7QNCj4gKyAgICAgICAtIOagh+mi
+mOeahOS4i+WIkue6v+mVv+W6puivt+aMieeFp+S4gOS4quiLseaWh+S4gOS4quWtl+espuOAgeS4
+gOS4quS4reaWh+S4pOS4quWtl+espuS4juagh+mimOWvuem9kA0KPiArICAgICAgIC0g5YW25a6D
+55qE5L+u6aWw56ym6K+35LiO6Iux5paH5paH5qGj5L+d5oyB5LiA6Ie0DQo+ICsNCj4gK+atpOWk
+luWcqOivkeaWh+eahOWktOmDqO+8jOaCqOmcgOimgeaPkuWFpeS7peS4i+WGheWuuTo6DQo+ICsN
+Cj4gKyAgICAgICAuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiArICAgICAg
+IC4uIGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NOLnJzdCAgI+aCqOmcgOimgeS6huino+iv
+peaWh+S7tueahOi3r+W+hO+8jOaguQ0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICDmja7mgqjlrp7pmYXnv7vor5HnmoTmlofmoaPngbXmtLvosIPmlbQN
+Cj4gKw0KPiArICAgICAgIDpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi94eHgveHh4LnJzdCAgI+ab
+v+aNouS4uuaCqOe/u+ivkeeahOiLseaWh+aWh+aho+i3r+W+hA0KPiArDQo+ICsgICAgICAgOue/
+u+ivkToNCj4gKw0KPiArICAgICAgICDlj7jlu7bohb4gWWFudGVuZyBTaSA8c2kueWFudGVuZ0Bs
+aW51eC5kZXY+ICPmm7/mjaLkuLrmgqjoh6rlt7HnmoTogZTns7vmlrnlvI8NCj4gKw0KPiAr57+7
+6K+R5oqA5benDQo+ICstLS0tLS0tLQ0KPiArDQo+ICvkuK3mlofmlofmoaPmnInmr4/ooYw0MOWt
+l+espumZkOWItu+8jOWboOS4uuS4gOS4quS4reaWh+Wtl+espuetieS6jjLkuKroi7HmloflrZfn
+rKbjgILkvYbmmK/npL7ljLrlubbmsqHmnIkNCj4gK+mCo+S5iOS4peagvO+8jOS4gOS4quivgOeq
+jeaYr+WwhuaCqOeahOe/u+ivkeeahOWGheWuueS4juiLseaWh+WOn+aWh+eahOavj+ihjOmVv+W6
+puWvuem9kOWNs+WPr++8jOi/meagt++8jA0KPiAr5oKo5Lmf5LiN5b+F5oC75piv5qOA5p+l5pyJ
+5rKh5pyJ6LaF6ZmQ44CCDQo+ICsNCj4gK+WmguaenOaCqOeahOiLseaWh+mYheivu+iDveWKm+ac
+iemZkO+8jOWPr+S7peiAg+iZkeS9v+eUqOi+heWKqee/u+ivkeW3peWFt++8jOS+i+WmgiBkZWVw
+c2VlayDjgILkvYbmmK/mgqgNCj4gK+W/hemhu+S7lOe7huWcsOaJk+ejqO+8jOS9v+ivkeaWh+i+
+vuWIsOKAnOS/oei+vumbheKAneeahOagh+WHhuOAgg0KPiArDQo+ICsqKuivt+azqOaEjyoqIOek
+vuWMuuS4jeaOpeWPl+e6r+acuuWZqOe/u+ivkeeahOaWh+aho++8jOekvuWMuuW3peS9nOW7uuer
+i+WcqOS/oeS7u+eahOWfuuehgOS4iu+8jOivt+iupOecn+WvueW+heOAgg0KPiArDQo+ICvnvJbo
+r5Hlkozmo4Dmn6UNCj4gKy0tLS0tLS0tLS0NCj4gKw0KPiAr6K+35omn6KGMOjoNCj4gKw0KPiAr
+ICAgICAgIC4gc3BoaW54X2xhdGVzdC9iaW4vYWN0aXZhdGUNCj4gKyAgICAgICBtYWtlIGNsZWFu
+ZG9jcw0KPiArICAgICAgIG1ha2UgaHRtbGRvY3MNCj4gKw0KPiAr6Kej5Yaz5LiO5oKo57+76K+R
+55qE5paH5qGj55u45YWz55qEIHdhcm5pbmcg5ZKMIGVycm9y77yM54S25ZCO5omn6KGMOjoNCj4g
+Kw0KPiArICAgICAgIG1ha2UgY2xlYW5kb2NzICAj6K+l5q2l6aqk5LiN6IO955yB55Wl77yM5ZCm
+5YiZ5Y+v6IO95LiN5Lya5YaN5qyh6L6T5Ye655yf5a6e5a2Y5Zyo55qE6K2m5ZGKDQo+ICsgICAg
+ICAgbWFrZSBodG1sZG9jcw0KPiArICAgICAgIGRlYWN0aXZhdGUNCj4gKw0KPiAr6L+b5YWlIG91
+dHB1dCDnm67lvZXnlKjmtY/op4jlmajmiZPlvIDmgqjnv7vor5HnmoTmlofmoaPvvIzmo4Dmn6Xm
+uLLmn5PnmoTpobXpnaLmmK/lkKbmraPluLjvvIzlpoLmnpzmraPluLjvvIwNCj4gK+e7p+e7rei/
+m+ihjOWQjue7reatpemqpO+8jOWQpuWImeivt+Wwneivleino+WGs+OAgg0KPiArDQo+ICvliLbk
+vZzooaXkuIENCj4gKz09PT09PT09DQo+ICsNCj4gK+aPkOS6pOaUueWKqA0KPiArLS0tLS0tLS0N
+Cj4gKw0KPiAr5omn6KGM5Lul5LiL5ZG95Luk77yM5Zyo5by55Ye655qE5Lqk5LqS5byP6aG16Z2i
+5Lit5aGr5YaZ5b+F6KaB55qE5L+h5oGv44CCDQo+ICs6Og0KPiArDQo+ICsgICAgICAgZ2l0IGFk
+ZCAuDQo+ICsgICAgICAgZ2l0IGNvbW1pdCAtcyAtdg0KPiArDQo+ICvor7flj4LogIPku6XkuIvk
+v6Hmga/ov5vooYzovpPlhaU6Og0KPiArDQo+ICsgICAgICAgZG9jcy96aF9DTjogQWRkIHNlbGYt
+cHJvdGVjdGlvbiBpbmRleCBDaGluZXNlIHRyYW5zbGF0aW9uDQo+ICsNCj4gKyAgICAgICBUcmFu
+c2xhdGUgLi4uL3NlY3VyaXR5L3NlbGYtcHJvdGVjdGlvbi5yc3QgaW50byBDaGluZXNlLg0KPiAr
+DQo+ICsgICAgICAgVXBkYXRlIHRoZSB0cmFuc2xhdGlvbiB0aHJvdWdoIGNvbW1pdCBiMDgwZTUy
+MTEwZWEgICAgICAj6K+35omn6KGMZ2l0IGxvZyA85oKo57+76K+R55qE6Iux5paH5paH5qGj6Lev
+5b6EPiDlpI3liLbmnIDpobbpg6jnrKzkuIDkuKrooaXkuIHnmoRzaGHlgLznmoTliY0xMuS9je+8
+jOabv+aNouaOiTEy5L2Nc2hh5YC844CCDQo+ICsgICAgICAgKCJkb2NzOiB1cGRhdGUgc2VsZi1w
+cm90ZWN0aW9uIF9fcm9fYWZ0ZXJfaW5pdCBzdGF0dXMiKQ0KPiArDQo+ICsgICAgICAgU2lnbmVk
+LW9mZi1ieTogWWFudGVuZyBTaSA8c2kueWFudGVuZ0BsaW51eC5kZXY+ICAgICAgICAj5aaC5p6c
+5oKo5YmN6Z2i55qE5q2l6aqk5q2j56Gu5omn6KGM77yM6K+l6KGM5Lya6Ieq5Yqo5pi+56S677yM
+5ZCm5YiZ6K+35qOA5p+lZ2l0Y29uZmln5paH5Lu244CCDQo+ICsNCj4gK+S/neWtmOW5tumAgOWH
+uuOAgg0KPiArDQo+ICsqKuivt+azqOaEjyoqIOS7peS4iuWbm+ihjO+8jOe8uuWwkeS7u+S9leS4
+gOihjO+8jOaCqOmDveWwhuS8muWcqOesrOS4gOi9ruWuoemYheWQjui/lOW3pe+8jOWmguaenOaC
+qOmcgOimgeS4gOS4quabtOWKoOaYjuehrueahOekuuS+i++8jOivt+WvuSB6aF9DTiDnm67lvZXm
+iafooYwgZ2l0IGxvZ+OAgg0KPiArDQo+ICvlr7zlh7rooaXkuIHlkozliLbkvZzlsIHpnaINCj4g
+Ky0tLS0tLS0tLS0tLS0tLS0tLQ0KPiArDQo+ICvov5nkuKrml7blgJnvvIzlj6/ku6Xlr7zlh7ro
+oaXkuIHvvIzlgZrlj5HpgIHpgq7ku7bliJfooajmnIDlkI7nmoTlh4blpIfkuobjgILlkb3ku6To
+oYzmiafooYw6Og0KPiArDQo+ICsgICAgICAgZ2l0IGZvcm1hdC1wYXRjaCAtTg0KPiArDQo+ICvn
+hLblkI7lkb3ku6TooYzkvJrovpPlh7rnsbvkvLzkuIvpnaLnmoTlhoXlrrk6Og0KPiArDQo+ICsg
+ICAgICAgMDAwMS1kb2NzLXpoX0NOLWFkZC14eHh4eHh4eC5wYXRjaA0KPiArICAgICAgIDAwMDIt
+ZG9jcy16aF9DTi1hZGQteHh4eHh4eHgucGF0Y2gNCj4gKyAgICAgICDigKbigKYNCj4gKw0KPiAr
+5rWL6K+V6KGl5LiBDQo+ICstLS0tLS0tLQ0KPiArDQo+ICvlhoXmoLjmj5DkvpvkuobkuIDkuKro
+oaXkuIHmo4DmtYvohJrmnKzvvIzor7fmiafooYw6Og0KPiArDQo+ICsgICAgICAgLi9zY3JpcHRz
+L2NoZWNrcGF0Y2gucGwgKi5wYXRjaA0KPiArDQo+ICvlj4LogIPohJrmnKzovpPlh7rvvIzop6Pl
+hrPmjonmiYDmnInnmoQgZXJyb3Ig5ZKMIHdhcm5pbmfvvIzpgJrluLjmg4XlhrXkuIvvvIzlj6rm
+nInkuIvpnaLov5nkuKoNCj4gK3dhcm5pbmcg5LiN6ZyA6KaB6Kej5YazOjoNCj4gKw0KPiArICAg
+ICAgIFdBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRB
+SU5FUlMgbmVlZCB1cGRhdGluZz8NCj4gKw0KPiAr5LiA5Liq566A5Y2V55qE6Kej5Yaz5pa55rOV
+5piv5LiA5qyh5Y+q5qOA5p+l5LiA5Liq6KGl5LiB77yM54S25ZCO5omT5LiK6K+l6KGl5LiB77yM
+55u05o6l5a+56K+R5paH6L+b6KGM5L+u5pS577yMDQo+ICvnhLblkI7miafooYzku6XkuIvlkb3k
+u6TkuLrooaXkuIHov73liqDmm7TmlLk6Og0KPiArDQo+ICsgICAgICAgZ2l0IGNoZWNrb3V0IGRv
+Y3MtbmV4dA0KPiArICAgICAgIGdpdCBicmFuY2ggdGVzdC10cmFucw0KPiArICAgICAgIGdpdCBh
+bSAwMDAxLXh4eHh4LnBhdGNoDQo+ICsgICAgICAgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgMDAw
+MS14eHh4eC5wYXRjaA0KPiArICAgICAgIOebtOaOpeS/ruaUueaCqOeahOe/u+ivkQ0KPiArICAg
+ICAgIGdpdCBhZGQgLg0KPiArICAgICAgIGdpdCBhbSAtLWFtZW5kDQo+ICsgICAgICAg5L+d5a2Y
+6YCA5Ye6DQo+ICsgICAgICAgZ2l0IGFtIDAwMDIteHh4eHgucGF0Y2gNCj4gKyAgICAgICDigKbi
+gKYNCj4gKw0KPiAr6YeN5paw5a+85Ye65YaN5qyh5qOA5rWL77yM6YeN5aSN6L+Z5Liq6L+H56iL
+77yM55u05Yiw5aSE55CG5a6M5omA5pyJ55qE6KGl5LiB44CCDQo+ICsNCj4gK+acgOWQju+8jOWm
+guaenOajgOa1i+aXtuayoeaciSB3YXJuaW5nIOWSjCBlcnJvciDpnIDopoHooqvlpITnkIbmiJbo
+gIXmgqjlj6rmnInkuIDkuKrooaXkuIHvvIzor7fot7MNCj4gK+i/h+S4i+mdoui/meS4quatpemq
+pO+8jOWQpuWImeivt+mHjeaWsOWvvOWHuuihpeS4geWItuS9nOWwgemdojo6DQo+ICsNCj4gKyAg
+ICAgICBnaXQgZm9ybWF0LXBhdGNoIC1OIC0tY292ZXItbGV0dGVyIC0tdGhyZWFkPXNoYWxsb3cg
+ICNO5Li65oKo55qE6KGl5LiB5pWw6YePLE7kuIDoiKzopoHlpKfkuo4x44CCDQo+ICsNCj4gK+eE
+tuWQjuWRveS7pOihjOS8mui+k+WHuuexu+S8vOS4i+mdoueahOWGheWuuTo6DQo+ICsNCj4gKyAg
+ICAgICAwMDAwLWNvdmVyLWxldHRlci5wYXRjaA0KPiArICAgICAgIDAwMDEtZG9jcy16aF9DTi1h
+ZGQteHh4eHh4eHgucGF0Y2gNCj4gKyAgICAgICAwMDAyLWRvY3MtemhfQ04tYWRkLXh4eHh4eHh4
+LnBhdGNoDQo+ICsNCj4gK+aCqOmcgOimgeeUqOe8lui+keWZqOaJk+W8gDDlj7fooaXkuIHvvIzk
+v67mlLnkuKTlpITlhoXlrrk6Og0KPiArDQo+ICsgICAgICAgdmltIDAwMDAtY292ZXItbGV0dGVy
+LnBhdGNoDQo+ICsNCj4gKyAgICAgICAuLi4NCj4gKyAgICAgICBTdWJqZWN0OiBbUEFUQ0ggMC8x
+XSAqKiogU1VCSkVDVCBIRVJFICoqKiAgICAgICAj5L+u5pS56K+l5a2X5q6177yM5qaC5ous5oKo
+55qE6KGl5LiB6ZuG6YO95YGa5LqG5ZOq5Lqb5LqL5oOFDQo+ICsNCj4gKyAgICAgICAqKiogQkxV
+UkIgSEVSRSAqKiogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAj5L+u5pS56K+l5a2X5q61
+77yM6K+m57uG5o+P6L+w5oKo55qE6KGl5LiB6ZuG5YGa5LqG5ZOq5Lqb5LqL5oOFDQo+ICsNCj4g
+KyAgICAgICBZYW50ZW5nIFNpICgxKToNCj4gKyAgICAgICAgIGRvY3MvemhfQ046IGFkZCB4eHh4
+eA0KPiArICAgICAgIC4uLg0KPiArDQo+ICvlpoLmnpzmgqjlj6rmnInkuIDkuKrooaXkuIHvvIzl
+iJnlj6/ku6XkuI3liLbkvZzlsIHpnaLvvIzljbMw5Y+36KGl5LiB77yM5Y+q6ZyA6KaB5omn6KGM
+OjoNCj4gKw0KPiArICAgICAgIGdpdCBmb3JtYXQtcGF0Y2ggLTENCj4gKw0KPiAr5oqK6KGl5LiB
+5o+Q5Lqk5Yiw6YKu5Lu25YiX6KGoDQo+ICs9PT09PT09PT09PT09PT09PT09PQ0KPiArDQo+ICvm
+ga3llpzmgqjvvIzmgqjnmoTmlofmoaPnv7vor5HnjrDlnKjlj6/ku6Xmj5DkuqTliLDpgq7ku7bl
+iJfooajkuobjgIINCj4gKw0KPiAr6I635Y+W57u05oqk6ICF5ZKM5a6h6ZiF6ICF6YKu566x5Lul
+5Y+K6YKu5Lu25YiX6KGo5Zyw5Z2ADQo+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQ0KPiArDQo+ICvlhoXmoLjmj5DkvpvkuobkuIDkuKroh6rliqjljJbohJrmnKzlt6Xl
+hbfvvIzor7fmiafooYw6Og0KPiArDQo+ICsgICAgICAgLi9zY3JpcHRzL2dldF9tYWludGFpbmVy
+LnBsICoucGF0Y2gNCj4gKw0KPiAr5bCG6L6T5Ye655qE6YKu566x5Zyw5Z2A5L+d5a2Y5LiL5p2l
+44CCDQo+ICsNCj4gK+WwhuihpeS4geaPkOS6pOWIsOmCruS7tuWIl+ihqA0KPiArLS0tLS0tLS0t
+LS0tLS0tLS0tLS0NCj4gKw0KPiAr5omT5byA5LiK6Z2i5oKo5L+d5a2Y55qE6YKu5Lu25Zyw5Z2A
+77yM5omn6KGMOjoNCj4gKw0KPiArICAgICAgIGdpdCBzZW5kLWVtYWlsICoucGF0Y2ggLS10byA8
+bWFpbnRhaW5lciBlbWFpbCBhZGRyPiAtLWNjIDxvdGhlcnMgYWRkcj4gICPkuIDkuKp0b+WvueW6
+lOS4gOS4quWcsOWdgO+8jOS4gOS4qmNj5a+55bqU5LiA5Liq5Zyw5Z2A77yM5pyJ5Yeg5Liq5bCx
+5YaZ5Yeg5Liq44CCDQo+ICsNCj4gK+aJp+ihjOivpeWRveS7pOaXtu+8jOivt+ehruS/nee9kee7
+nOmAmuW4uO+8jOmCruS7tuWPkemAgeaIkOWKn+S4gOiIrOS8mui/lOWbnjI1MOOAgg0KPiArDQo+
+ICvlpoLmnpzor6XmraXpqqTooqvkuK3mlq3vvIzmgqjlj6/ku6Xmo4Dmn6XkuIDkuIvvvIznu6fn
+u63nlKjkuIrmnaHlkb3ku6Tlj5HpgIHlpLHotKXnmoTooaXkuIHvvIzkuIDlrprkuI3opoHlho0N
+Cj4gK+asoeWPkemAgeW3sue7j+WPkemAgeaIkOWKn+eahOihpeS4geOAgg0KPiArDQo+ICvnp6/m
+noHlj4LkuI7lrqHpmIXov4fnqIvlubbov63ku6PooaXkuIENCj4gKz09PT09PT09PT09PT09PT09
+PT09PT09PT09DQo+ICsNCj4gK+ihpeS4geaPkOS6pOWIsOmCruS7tuWIl+ihqOW5tuS4jeS7o+ih
+qOS4h+S6i+Wkp+WQie+8jOaCqOi/mOmcgOimgeenr+aegeWbnuWkjSBtYWludGFpbmVyIOWSjA0K
+PiArcmV2aWV3ZXIg55qE6K+E6K6677yM5YGa5Yiw5q+P5p2h6YO95pyJ5Zue5aSN77yM5q+P5Liq
+5Zue5aSN6YO96JC95a6e5Yiw5L2N44CCDQo+ICsNCj4gK+WmguS9leWbnuWkjeivhOiuug0KPiAr
+LS0tLS0tLS0tLS0tDQo+ICsNCj4gKyAtIOivt+WFiOWwhuaCqOeahOmCrueuseWuouaIt+err+S/
+oeS7tuWbnuWkjeS/ruaUueS4uiAqKue6r+aWh+acrCoqIOagvOW8j++8jOW5tuWOu+mZpOaJgOac
+ieetvuWQje+8jOWwpOWFtuaYrw0KPiArICAg5LyB5Lia6YKu566x44CCDQo+ICsgLSDnhLblkI7n
+grnlh7vlm57lpI3mjInpkq7vvIzlubblsIbopoHlm57lpI3nmoTpgq7ku7bluKblhaXvvIwNCj4g
+KyAtIOWcqOesrOS4gOadoeivhOiuuuihjOWwvuaNouihjO+8jOi+k+WFpeaCqOeahOWbnuWkjQ0K
+PiArIC0g5Zyo56ys5LqM5p2h6K+E6K666KGM5bC+5o2i6KGM77yM6L6T5YWl5oKo55qE5Zue5aSN
+DQo+ICsgLSDnm7TliLDlpITnkIblrozmnIDlkI7kuIDmnaHor4TorrrvvIzmjaLooYznqbrkuKTo
+oYzovpPlhaXpl67lgJnor63lkoznvbLlkI0NCj4gKw0KPiAr5rOo5oSP77yM5L+h5Lu25Zue5aSN
+6K+35bC96YeP5L2/55So6Iux5paH44CCDQo+ICsNCj4gK+i/reS7o+ihpeS4gQ0KPiArLS0tLS0t
+LS0NCj4gKw0KPiAr5bu66K6u5oKo5q+P5Zue5aSN5LiA5p2h6K+E6K6677yM5bCx5L+u5pS55LiA
+5aSE57+76K+R44CC54S25ZCO6YeN5paw55Sf5oiQ6KGl5LiB77yM55u45L+h5oKo546w5Zyo5bey
+57uP5YW3DQo+ICvlpIfkuobngbXmtLvkvb/nlKggZ2l0IGFtIC0tYW1lbmQg55qE6IO95Yqb44CC
+DQo+ICsNCj4gK+avj+asoei/reS7o+S4gOS4quihpeS4ge+8jOS4jeimgeS4gOasoeWkmuS4qjo6
+DQo+ICsNCj4gKyAgICAgICBnaXQgYW0gPOaCqOimgeS/ruaUueeahOihpeS4gT4NCj4gKyAgICAg
+ICDnm7TmjqXlr7nmlofku7bov5vooYzmgqjnmoTkv67mlLkNCj4gKyAgICAgICBnaXQgYWRkIC4N
+Cj4gKyAgICAgICBnaXQgY29tbWl0IC0tYW1lbmQNCj4gKw0KPiAr5b2T5oKo5bCG5omA5pyJ55qE
+6K+E6K666JC95a6e5Yiw5L2N5ZCO77yM5a+85Ye656ys5LqM54mI6KGl5LiB77yM5bm25L+u5pS5
+5bCB6Z2iOjoNCj4gKw0KPiArICAgICAgIGdpdCBmb3JtYXQtcGF0Y2ggLU4gIC12IDIgLS1jb3Zl
+ci1sZXR0ZXIgLS10aHJlYWQ9c2hhbGxvdw0KPiArDQo+ICvmiZPlvIAw5Y+36KGl5LiB77yM5Zyo
+IEJMVVJCIEhFUkUg5aSE57yW5YaZ55u46L6D5LqO5LiK5Liq54mI5pys77yM5oKo5YGa5LqG5ZOq
+5Lqb5pS55Yqo44CCDQo+ICsNCj4gK+eEtuWQjuaJp+ihjDo6DQo+ICsNCj4gKyAgICAgICBnaXQg
+c2VuZC1lbWFpbCB2MiogLS10byA8bWFpbnRhaW5lciBlbWFpbCBhZGRyPiAtLWNjIDxvdGhlcnMg
+YWRkcj4NCj4gKw0KPiAr6L+Z5qC377yM5paw55qE5LiA54mI6KGl5LiB5bCx5Y+I5Y+R6YCB5Yiw
+6YKu5Lu25YiX6KGo562J5b6F5a6h6ZiF77yM5LmL5ZCO5bCx5piv6YeN5aSN6L+Z5Liq6L+H56iL
+44CCDQo+ICsNCj4gK+WuoemYheWRqOacnw0KPiArLS0tLS0tLS0NCj4gKw0KPiAr5Zug5Li65pyJ
+5pe26YKu5Lu25YiX6KGo5q+U6L6D57mB5b+Z77yM5oKo55qE6YKu5Lu25Y+v6IO95Lya6KKr5re5
+5rKh77yM5aaC5p6c6LaF6L+H5Lik5ZGo5rKh5pyJ5b6X5Yiw5Lu75L2VDQo+ICvlm57lpI3vvIzo
+r7foh6rlt7Hlm57lpI3oh6rlt7HvvIzlm57lpI3nmoTlhoXlrrnkuLogUGluZy4NCj4gKw0KPiAr
+5pyA57uI77yM5aaC5p6c5oKo6JC95a6e5aW95LqG5omA5pyJ55qE6K+E6K6677yM5bm25LiU5LiA
+5q615pe26Ze05ZCO5rKh5pyJ5pyA5paw55qE6K+E6K6677yM5oKo55qE6KGl5LiB5bCGDQo+ICvk
+vJrlhYjov5vlhaUgQWxleCDnmoTlvIDlj5HmoJHvvIznhLblkI7ov5vlhaUgbGludXgtZG9jIOW8
+gOWPkeagke+8jOacgOe7iOWcqOS4i+S4queql+WPo+aJk+W8gA0KPiAr5pe25ZCI5bm26L+bIG1h
+aW5saW5lIOS7k+W6k+OAgg0KPiArDQo+ICvntKfmgKXlpITnkIYNCj4gKy0tLS0tLS0tDQo+ICsN
+Cj4gK+WmguaenOaCqOWPkemAgeWIsOmCruS7tuWIl+ihqOS5i+WQjuOAguWPkeeOsOWPkemUmeS6
+huihpeS4gembhu+8jOWwpOWFtuaYr+WcqOWkmuS4queJiOacrOi/reS7o+eahOi/h+eoi+S4re+8
+mw0KPiAr6Ieq5bex5Y+R546w5LqG5LiA5Lqb5LiN5aal55qE57+76K+R77yb5Y+R6YCB6ZSZ5LqG
+6YKu5Lu25YiX6KGo4oCm4oCmDQo+ICsNCj4gK2dpdCBlbWFpbOm7mOiupOS8muaKhOmAgee7meaC
+qOS4gOS7ve+8jOaJgOS7peaCqOWPr+S7peWIh+aNouS4uuWuoemYheiAheeahOinkuiJsuWuoeaf
+peiHquW3seeahOihpeS4ge+8jA0KPiAr5bm255WZ5LiL6K+E6K6677yM5o+P6L+w5pyJ5L2V5LiN
+5aal77yM5bCG5Zyo5LiL5Liq54mI5pys5oCO5LmI5pS577yM5bm25LuY6K+46KGM5Yqo77yM6YeN
+5paw5o+Q5Lqk77yM5L2G5pivDQo+ICvms6jmhI/popHnjofvvIzmr4/lpKnmj5DkuqTnmoTmrKHm
+lbDkuI3opoHotoXov4fkuKTmrKHjgIINCj4gKw0KPiAr6L+b6Zi2DQo+ICstLS0tDQo+ICsNCj4g
+K+W4jOacm+aCqOS4jeWPquaYr+WNlee6r+eahOe/u+ivkeWGheaguOaWh+aho++8jOWcqOeGn+aC
+ieS6huS4gOi1t+S4juekvuWMuuW3peS9nOS5i+WQju+8jOaCqOWPr+S7peWuoemYheWFtuS7lg0K
+PiAr5byA5Y+R6ICF55qE57+76K+R77yM5oiW6ICF5o+Q5Ye65YW35pyJ5bu66K6+5oCn55qE5Li7
+5byg44CC5LiO5q2k5ZCM5pe277yM5LiO5paH5qGj5a+55bqU55qE5Luj56CB5pu05Yqg5pyJ6Laj
+77yMDQo+ICvogIzkuJTpnIDopoHlrozlloTnmoTlnLDmlrnov5jmnInlvojlpJrvvIzli4fmlaLl
+nLDljrvmjqLntKLvvIznhLblkI7mj5DkuqTkvaDnmoTmg7Pms5XlkKfjgIINCj4gKw0KPiAr5bi4
+6KeB55qE6Zeu6aKYDQo+ICs9PT09PT09PT09DQo+ICsNCj4gK01haW50YWluZXLlm57lpI3ooaXk
+uIHkuI3og73mraPluLhhcHBseQ0KPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
+PiArDQo+ICvov5npgJrluLjmmK/lm6DkuLrmgqjnmoTooaXkuIHkuI7pgq7ku7bliJfooajlhbbk
+u5bkurrnmoTooaXkuIHkuqfnlJ/kuoblhrLnqoHvvIzliKvkurrnmoTooaXkuIHlhYjooqsgYXBw
+bHkg5LqG77yMDQo+ICvmgqjnmoTooaXkuIHpm4blsLHml6Dms5XmiJDlip8gYXBwbHkg5LqG77yM
+6L+Z6ZyA6KaB5oKo5pu05paw5pys5Zyw5YiG5pSv77yM5Zyo5pys5Zyw6Kej5Yaz5a6M5Yay56qB
+5ZCO5YaN5qyh5o+Q5Lqk44CCDQo+ICsNCj4gK+ivt+WwvemHj+mBv+WFjeWGsueqge+8jOS4jeim
+geWkmuS4quS6uuWQjOaXtue/u+ivkeS4gOS4quebruW9leOAgue/u+ivkeS5i+WJjeWPr+S7pemA
+mui/hyBnaXQgbG9nIOafpeeci+aCqOaEnw0KPiAr5YW06Laj55qE55uu5b2V6L+R5pyf5pyJ5rKh
+5pyJ5YW25LuW5Lq657+76K+R77yM5aaC5p6c5pyJ77yM6K+35o+Q5YmN56eB5L+h6IGU57O75a+5
+5pa577yM6K+35rGC5YW25Luj5Li65Y+R6YCB5oKoDQo+ICvnmoTooaXkuIHjgILlpoLmnpzlr7nm
+lrnmnKrmnaXkuIDkuKrmnIjlhoXmsqHmnInmj5DkuqTmlrDooaXkuIHnmoTmiZPnrpfvvIzmgqjl
+j6/ku6Xni6zoh6rlj5HpgIHjgIINCj4gKw0KPiAr5Zue5L+h6KKr6YKu5Lu25YiX6KGo5ouS5pS2
+DQo+ICstLS0tLS0tLS0tLS0tLS0tLS0NCj4gKw0KPiAr5aSn6YOo5YiG5oOF5Ya15LiL77yM5piv
+55Sx5LqO5oKo5Y+R6YCB5LqG6Z2e57qv5paH5pys5qC85byP55qE5L+h5Lu277yM6K+35bC96YeP
+6YG/5YWN5L2/55SoIHdlYm1haWzvvIzmjqjojZANCj4gK+S9v+eUqOmCruS7tuWuouaIt+err++8
+jOavlOWmgiB0aHVuZGVyYmlyZO+8jOiusOW+l+WcqOiuvue9ruS4reeahOWbnuS/oemFjee9rumC
+o+aUueS4uue6r+aWh+acrOWPkemAgeOAgg0KPiArDQo+ICvlpoLmnpzotoXov4fkuoYyNOWwj+aX
+tu+8jOaCqOS+neaXp+ayoeacieWcqDxodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1kb2Mv
+PuWPkeeOsOaCqOeahOmCrg0KPiAr5Lu277yM6K+36IGU57O75oKo55qE572R57uc566h55CG5ZGY
+5biu5b+Z6Kej5Yaz44CCDQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
+cy96aF9DTi9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9pbmRl
+eC5yc3QNCj4gaW5kZXggY2M1MTJjYTU0MTcyLi5iMDhjMDlkOGU5NmUgMTAwNjQ0DQo+IC0tLSBh
+L0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2luZGV4LnJzdA0KPiArKysgYi9Eb2N1
+bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9pbmRleC5yc3QNCj4gQEAgLTIxLDE4ICsyMSwx
+OCBAQA0KPiAg6L+Z5piv5Lit5paH5YaF5qC45paH5qGj5qCR55qE6aG257qn55uu5b2V44CC5YaF
+5qC45paH5qGj77yM5bCx5YOP5YaF5qC45pys6Lqr5LiA5qC377yM5Zyo5b6I5aSn56iL5bqm5LiK
+5piv5LiADQo+ICDpobnmraPlnKjov5vooYznmoTlt6XkvZzvvJvlvZPmiJHku6zliqrlipvlsIbo
+rrjlpJrliIbmlaPnmoTmlofku7bmlbTlkIjmiJDkuIDkuKrov57otK/nmoTmlbTkvZPml7blsKTl
+hbblpoLmraTjgIINCj4gIOWPpuWklu+8jOmaj+aXtuasoui/juaCqOWvueWGheaguOaWh+aho+i/
+m+ihjOaUuei/m++8m+WmguaenOaCqOaDs+aPkOS+m+W4ruWKqe+8jOivt+WKoOWFpXZnZXIua2Vy
+bmVsLm9yZw0KPiAt5LiK55qEbGludXgtZG9j6YKu5Lu25YiX6KGo44CCDQo+IC0NCj4gLemhuuS+
+v+ivtOS4i++8jOS4reaWh+aWh+aho+S5n+mcgOimgemBteWuiOWGheaguOe8lueggemjjuagvO+8
+jOmjjuagvOS4reS4reaWh+WSjOiLseaWh+eahOS4u+imgeS4jeWQjOWwseaYr+S4reaWhw0KPiAt
+55qE5a2X56ym5qCH54K55Y2g55So5Lik5Liq6Iux5paH5a2X56ym5a695bqm77yM5omA5Lul77yM
+5b2T6Iux5paH6KaB5rGC5LiN6KaB6LaF6L+H5q+P6KGMMTAw5Liq5a2X56ym5pe277yMDQo+IC3k
+uK3mloflsLHkuI3opoHotoXov4c1MOS4quWtl+espuOAguWPpuWklu+8jOS5n+imgeazqOaEjyct
+J++8jCc9J+etieespuWPt+S4juebuOWFs+agh+mimOeahOWvuem9kOOAguWcqOWwhg0KPiAt6KGl
+5LiB5o+Q5Lqk5Yiw56S+5Yy65LmL5YmN77yM5LiA5a6a6KaB6L+b6KGM5b+F6KaB55qEIGBgY2hl
+Y2twYXRjaC5wbGBgIOajgOafpeWSjOe8luivkea1i+ivle+8jOehruS/nQ0KPiAt5ZyoIGBgbWFr
+ZSBodG1sZG9jcy9wZGZkb2NzYGAg5Lit5LiN5aKe5Yqg5paw55qE5ZGK6K2m77yM5pyA5ZCO77yM
+5a6J6KOF5qOA5p+l5L2g55Sf5oiQ55qEDQo+IC1odG1sL3BkZiDmlofku7bvvIznoa7orqTlroPk
+u6znnIvotbfmnaXmmK/mraPluLjnmoTjgIINCj4gLQ0KPiAt5o+Q5Lqk5LmL5YmN6K+356Gu6K6k
+5L2g55qE6KGl5LiB5Y+v5Lul5q2j5bi45o+Q5Lqk5Yiw5Lit5paH5paH5qGj57u05oqk5bqTOg0K
+PiAtaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvYWxleHMv
+bGludXguZ2l0Lw0KPiAt5aaC5p6c5L2g55qE6KGl5LiB5L6d6LWW5LqO5YW25LuW5Lq655qE6KGl
+5LiBLCDlj6/ku6XkuI7lhbbku5bkurrllYbph4/lkI7nlLHmn5DkuIDkuKrkurrlkIjlubbmj5Dk
+uqTjgIINCj4gK+S4iueahGxpbnV4LWRvY+mCruS7tuWIl+ihqO+8jOW5tuaMieeFp0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2hvdy10by5yc3TnmoQNCj4gK+aMh+W8leaPkOS6pOih
+peS4geOAguaPkOS6pOihpeS4geS5i+WJjeivt+ehruS/neaJp+ihjCJtYWtlIGh0bWxkb2Nz4oCd
+5ZCO5peg5LiO57+76K+R5pyJ5YWz55qE5byC5bi46L6T5Ye644CCDQo+ICsNCj4gK+WmguS9lee/
+u+ivkeWGheaguOaWh+ahow0KPiArLS0tLS0tLS0tLS0tLS0tLQ0KPiArDQo+ICvnv7vor5Hmlofm
+oaPmnKzouqvmmK/kuIDku7blvojnroDljZXnmoTkuovmg4XvvIzkvYbmmK/mj5DkuqTooaXkuIHp
+nIDopoHms6jmhI/kuIDkupvnu4boioLvvIzkuLrkuobkv53or4HlhoXmoLjkuK3mlofmlofmoaPn
+moTpq5jotKjph4/lj6/mjIHnu63lj5HlsZXvvIzmj5DkvpvkuobkuIDku73nv7vor5HmjIfljZfj
+gIINCj4gKw0KPiArLi4gdG9jdHJlZTo6DQo+ICsgICA6bWF4ZGVwdGg6IDENCj4gKw0KPiArICAg
+aG93LXRvLnJzdA0KPg0KPiAg5LiOTGludXgg5YaF5qC456S+5Yy65LiA6LW35bel5L2cDQo+ICAt
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLS0NCj4gMi40OC4xDQo+DQo=
