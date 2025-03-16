@@ -1,64 +1,119 @@
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
+Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [65.21.191.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3B71C862A;
-	Sun, 16 Mar 2025 18:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E0F1A840A;
+	Sun, 16 Mar 2025 19:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.21.191.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742148092; cv=none; b=nL3wc/azGAQ4fCQbFLhIMFmjLf/d1kGqw8oEZs6P7r+fGCCSWuA/9ecUEyi685EUpKRTPJV/4FuYS+huaMj4p4y22SCPPy2tvU5o5910gi0CbxEYb1ZTYFDCkMY2M3SDUbYCDm3+KlvYwbH+lCe445DtuQImvmNhPP+1NhKTiVs=
+	t=1742152161; cv=none; b=VrYFY6o83052eRFM7TB+wdmXriAcwH7WtonIZDILBakz+2gwTTh4a0xd8FdsxbrybRG2cmuJ1k95VYxr8nU5sIYrbgf2NFvQeNIigz5Ao+owdRQdWOpvO1KU2qPJIWuwx5lMZeZDYFRiNd4zK5X5XRcIMHSSM0J3b3igTi2YqQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742148092; c=relaxed/simple;
-	bh=QXR00CS8QUxl5UcLkdVT8Wo7n+Glksoub62YlpafMVE=;
-	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EM6zEvtS+z3CJ4w3uw4rJI1JyAgXc8GZyzhUzrNT2vuF+kUucUw7g45j2gX2VlahZzwwQNR2nhUKtO05nw/1NaYoRpP1LgRosj6XrkLXiP5yf4RitUlEdWcihvujpNL+hhTqTZ2oJYOgsAr4xtnjl/kbY7noIbVE/rgMq2niZ6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=br+hPYt9; arc=none smtp.client-ip=185.70.40.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="br+hPYt9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1742148087; x=1742407287;
-	bh=tAOyqqzV3U1doRz6F+tF1ZAeoLpn6CDfC6jWDliUrEo=;
-	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=br+hPYt9Gnwa7o6IBCW88llVLpCKrhm1GWAa2kho4+eWWTBZS+6S+ubbKlEWppETU
-	 RAw9A5p1vS8w3QiwmwAkDMufLI12hL6tdt3JVJNO4c9T/OskCpr/dealfBc7Vf7w7Z
-	 AcMQpB3mxJRdx7/zzZ6AyphoU3rvhuaUAZ5zgM2f3Oaueb4+JimxwN0mIOpMtcOhfN
-	 dip7LuZI88MW7P4jIdzFCMmtLWD2Um/0oIXMwQEDrAETEIdXnI+zKCoxt+Vvini2Mq
-	 +VhEZC/9B8C5JHR+jk2qxrJaZEWcCff2YaPaqVJna4WLKcsVlefSZJ4UOcvuhKerlX
-	 uiiFEnDxfCqcg==
-Date: Sun, 16 Mar 2025 18:01:21 +0000
-To: Andrew Ballance <andrewjballance@gmail.com>, dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, acourbot@nvidia.com, nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-From: Benno Lossin <benno.lossin@proton.me>
-Subject: Re: [PATCH v2 2/3] rust: alloc: add Vec::resize method
-Message-ID: <D8HVY5KSXNRL.YPQRJFX9R8XQ@proton.me>
-In-Reply-To: <20250316111644.154602-3-andrewjballance@gmail.com>
-References: <20250316111644.154602-1-andrewjballance@gmail.com> <20250316111644.154602-3-andrewjballance@gmail.com>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: 6851ab4816f7ad4e9864ac4c422a20a36671b293
+	s=arc-20240116; t=1742152161; c=relaxed/simple;
+	bh=7K0CKKSEQCj2Z31ffJIY+LQcS/jTWa6MowDTW+qfLiI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BN4rjwvnDAkXG607Wh/YoslLLannK58lqMzHqi2WgSsXtBIX3W9CvzvD91A2WEEQ9mDgUPgLnNC8REyBbHKkBhvyr63ZjSyKFCGKOQBC9TZhqqrZXlFNayLmgyFjJeTPrLwGb8ZPIG7L3oOAhaqNejCXhof3vn/6hi4LJTkrf9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=decadent.org.uk; spf=pass smtp.mailfrom=decadent.org.uk; arc=none smtp.client-ip=65.21.191.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=decadent.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=decadent.org.uk
+Received: from [2a02:578:851f:1502:391e:c5f5:10e2:b9a3] (helo=deadeye)
+	by maynard with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1tttLn-009DD6-1E;
+	Sun, 16 Mar 2025 19:08:43 +0000
+Received: from ben by deadeye with local (Exim 4.98)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1tttLm-00000002R5p-12M0;
+	Sun, 16 Mar 2025 20:08:42 +0100
+Message-ID: <d250e864d6d81cc02e2599f710872f72d58a3c29.camel@decadent.org.uk>
+Subject: Re: [PATCH v2] kbuild: make all file references relative to source
+ root
+From: Ben Hutchings <ben@decadent.org.uk>
+To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>, Masahiro
+ Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier	 <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner	 <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov	 <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin"	 <hpa@zytor.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Date: Sun, 16 Mar 2025 20:08:37 +0100
+In-Reply-To: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
+References: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-CLWj+1c9T7wgjA6qpkHc"
+User-Agent: Evolution 3.55.3-1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-SA-Exim-Connect-IP: 2a02:578:851f:1502:391e:c5f5:10e2:b9a3
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
+
+
+--=-CLWj+1c9T7wgjA6qpkHc
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun Mar 16, 2025 at 12:16 PM CET, Andrew Ballance wrote:
-> implement the equivalent of the rust std's Vec::resize
-> on the kernel's Vec type.
->
-> Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
+On Sat, 2025-03-15 at 14:20 +0100, Thomas Wei=C3=9Fschuh wrote:
+> -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
+> Other references, for example in debug information, are not affected.
+> This makes handling of file references in the compiler outputs harder to
+> use and creates problems for reproducible builds.
+>=20
+> Switch to -ffile-prefix map which affects all references.
 
-Reviewed-by: Benno Lossin <benno.lossin@proton.me>
+This appears to cover all the C sources, but not quite all the assembly
+sources:
 
----
-Cheers,
-Benno
+[...]
 
-> ---
->  rust/kernel/alloc/kvec.rs | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
+> --- a/arch/x86/boot/Makefile
+> +++ b/arch/x86/boot/Makefile
+> @@ -54,7 +54,7 @@ targets +=3D cpustr.h
+> =20
+>  KBUILD_CFLAGS	:=3D $(REALMODE_CFLAGS) -D_SETUP
+>  KBUILD_AFLAGS	:=3D $(KBUILD_CFLAGS) -D__ASSEMBLY__
+> -KBUILD_CFLAGS	+=3D $(call cc-option,-fmacro-prefix-map=3D$(srctree)/=3D)
+> +KBUILD_CFLAGS	+=3D $(call cc-option,-ffile-prefix-map=3D$(srctree)/=3D)
+[...]
 
+I think this addition to KBUILD_CFLAGS needs to be done before the
+assignment to KBUILD_AFLAGS.
+
+Also, in some older versions of gcc the -ffile-prefix-map option didn't
+affect assembly sources - gas only understands --debug-prefix-map and
+gcc did not do the necessary conversion.  But this works properly since
+at least gcc 12, so I wouldn't worry too much about it.
+
+Ben.
+
+--=20
+Ben Hutchings
+Lowery's Law:
+        If it jams, force it. If it breaks, it needed replacing anyway.
+
+--=-CLWj+1c9T7wgjA6qpkHc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmfXIbUACgkQ57/I7JWG
+EQk/QxAAp1QI6wF/LXIDuaISL+X/2y+Le4q0YYynsOz3YXaov9KeE4yBzGl40w2Y
+eEtVRYpDF1v8q3ZI/0fNDNm2xiQVZGmQwrNhGNvxb3eSd3ISkaKid4vMYCo1s/+i
+ON2CWMxAO9JUQBTekvTSF8swzxHgHXoLZS4jgZdd8MKhTsrBHiUMLqNY1HVmkIEf
+utkrapxDtB63Qw8y0O8nXTtqvDmoyhPl4+Rzra9IjWu8f9v+Dni3h5CVGhLm8xXX
+rgb5MgT/pkGURqbJKAMsT2KqTuIqdg0iwFOjUko/Qg3hXNP/a1Fp6z04/UtWjmJj
+KVYLAD9NuagraWlNMqT/1ekfBUergLpphCnHeeT5wdvgkWFfWcdz+UZbhN6GGaOU
+KLYgjkH7/Szs8Fl7+Qu2IYImSNDMFzaYrVQV8DttRjbGHajHHHDj73EHxADCXFXu
+9zh02iX1MWvLR27lAr8INlLVuQSwoloSqm5FCmmkaZHRG1GzhrhtTtYMDm/XB/4/
+fj1Q0uNDkoy0hBieu/qsXb/Q8tiBDj2FY1rC0ksAgX/cd6VHKunwUAWl8cCqE6Wn
+CjMLkq+4axSgdjp/46uzePRgD0RzdfdEo4bq/b8A4/Nw07Sxr0uzVybDodwdY4Sh
+aekBTPuTDDEKnY50M3WAlD52ONd1PNOQl5WfmTh+1X4S5b4jXE0=
+=mQGT
+-----END PGP SIGNATURE-----
+
+--=-CLWj+1c9T7wgjA6qpkHc--
