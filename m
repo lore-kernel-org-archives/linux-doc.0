@@ -1,350 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A421607A4
-	for <linux-doc@vger.kernel.org>; Sun, 16 Mar 2025 07:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742111193; cv=none; b=aS7UDhF23E6f5jOcdOgEHR9ufGB/8EY5Gnojyo6+sQ/dL52VVWdPrMOKDWcun+0lvQNXg1ZGCAFMaEvNX2jvbkDuLi8xY0qugzy++iZVvhd7/Dq/4TooBHfkpLaAHThAFUYtuxbEBPkX8r7choKKOPn0cyii9jUIXPYAzj/VEfw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742111193; c=relaxed/simple;
-	bh=ca5yg9L+BMvSIiwaBvgviIX78XzgvwLsqWzwQw8fct8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ISNWH3dPCWCpF36rCoXcCiwQxmx4B5uKPU1FnpimFcQxPHdC6bFly3pqH1BuCvsa/+juQq21jHXEfR/sJ4SckhVty37RGChxiTNHmjie+kicxygLQGVMe5Oc089Rmxngl1qlqNlIvhC9eux1xmZzN0QM5Xt5dy+X1obEi/xgMoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VC46HOul; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954DB42A96;
+	Sun, 16 Mar 2025 08:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742112895; cv=fail; b=uCF0GL/kMP+9YdSfU6ajXcmUaKWnOjtUdsb+ejp0Hff6Uuccrzh+MlrH+abf/Gqx6g6Gx4nXK/f89qEOZ4bvhawsLEiEbh+eSeAhur35+Dj007Pt1ciwLydfQqGs99hEa25kiJPfBqQ8HaiQjCVoEL6Wcvjse6YZbG32bltthgI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742112895; c=relaxed/simple;
+	bh=c29w1oxLksAQwz4UZAjRlCob/bM6i1pZbdnEsm+S7QU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=D/H/p7xrwz30MLqqq8bgHIs4YmPblkxcNP0A/KdFa79CyZreUoy85fGhx2XBXJJoJ7CdWuk1Oh+olqkgQvGQnveYC4/jwwJaBTNKvGSq5+k7NNDddIqaWKaEDBHPOh8PKlJdRYJaFPPXss7D2ZITRIe3cYLLbdFM15q/GrhgqG4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DA1eRqry; arc=fail smtp.client-ip=40.107.220.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VC46HOul"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8FCC4CEE9;
-	Sun, 16 Mar 2025 07:46:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742111193;
-	bh=ca5yg9L+BMvSIiwaBvgviIX78XzgvwLsqWzwQw8fct8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VC46HOulj/AsnyViIrEThaHbvngnSR/2YKEZ7SuEdfjfmBfcjWKC9WwYoTrNXZRC8
-	 bVRStHm3xivUy5jKScxT0nVy8Y1iRxepLECaOOurwFUIHDM2t/fiMpEAVj+TUbMCUd
-	 khm4BPcfNE3XGH4CtqCEELoxZSoqnJKTIcc8hngTk1oLbBxyas3eVAPyFWU8WckQNx
-	 5TbK0LG0IAgqvdhDTqwdd73KGvbzyzvrXRKZfymjIRZ6KCMbRbFAWKIyRQendUrG9O
-	 PF1jmUqNXyDrhoHukHEjTK6Y7YSSr1aYneT7ecaEn8uZhEun4/AUTLlOhZ4kYjJ3mB
-	 PhB3eQL+X+TRA==
-Date: Sun, 16 Mar 2025 09:46:27 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Jiwen Qi <jiwen7.qi@gmail.com>
-Cc: akpm@linux-foundation.org, linux-mm@kvack.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, bagasdotme@gmail.com
-Subject: Re: [PATCH v2] docs/mm: Physical Memory: Populate the "Zones" section
-Message-ID: <Z9aB0zTW5WeveZGs@kernel.org>
-References: <20250223185359.338647-1-jiwen7.qi@gmail.com>
- <20250315211317.27612-1-jiwen7.qi@gmail.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DA1eRqry"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MYRfD56W4yXYMvyoxmmcw8rd2/29OAxUw38GKdc1m2pyIi2dVHalQ6J3Bjd8ub3vKLh6A/ZFVw5KYrjM1vprCTkpZWO5+iMq/JbaKb2yUMEh+aXi/gNuTeygxE6rEk9IWvgFe5AawzUKa5oHwiYDXon/C2faOoI7uqC610u3Yoe+17IKJx6DcUzZTsNGOk9lv9+/bqHk7sRD//P1HCBbUNvfQm3x/5QB9yh1k9z7q5pD4I81UGpI5LnPpKPLIHiWmfM4NyMpq6urQthVUuvasOZFWqaswpRsJUC9Z60NejvkMPBLOuBNwVgrRQQDXp4PAu4LVOxbIP3HMIOGW3x+Jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VhgnlpbE2cICD8iTHp8AFJWXcGRWxqRilPIPtabQjIA=;
+ b=C5fWyRVc+F3CoqD/dD36sWIQiCTdBDRJk1zQ27bvN9k/SMM47WK7BgvGWGDWJfNFE3quw1+rdsVG68F+W/Rgife1aLG+yhTXCSLU7Bl2G0sPciBUoq/B1QImwAXmMA1Cf5OUsWjHdE5PpQcPp1FlLgNAfWpjYwQxfK1GvDUS1mdFFsrUOOj8yRsJ/U40v2HXi1K1sbdzBPtjVcjU+ah1sWw3yEPKkUHOo8LgYPe2wInY0o9n27kKcC6HfE8BZ0fcuHoTMRUzAVdhTv4vQY9X8diUp6bpEj+0iU82Pl3hDg3M24ibgoizsf3ElUbYhiRXt/wwYZ0zliaRsiqHVM6Y/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=davemloft.net smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VhgnlpbE2cICD8iTHp8AFJWXcGRWxqRilPIPtabQjIA=;
+ b=DA1eRqryycXGY1dO4wglz2fA6VxScc9ztjpfEhFuyoIAI6ZHVs1gTNOVQueHj/UWYbhjz+Q3NX7uLAsXqAGJwrRK8HhtSFN8HxZlC2Uxma/DOKXM8MexQJ9l8Rp3rOjOPzelwPnTVURgE1S2999Qe14kuaE1WdNEteXj/WBCMDLxVbqtG9kqLbaFb7r7LAYwa/KYOYy3MjbTchk++SaNnoKiuhyHXZFpc+cQ9slSw9ehySCQbrrMJQzuNR7si1mIOr3a7/LMX+F63c4PPdDkCSZZ6vknefpG8Rfhe0agDkw/UaHl8foX9t17Gb+RTojF9y/zqkOfVtv6/M7y71awqA==
+Received: from DM6PR02CA0054.namprd02.prod.outlook.com (2603:10b6:5:177::31)
+ by SA0PR12MB4381.namprd12.prod.outlook.com (2603:10b6:806:70::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Sun, 16 Mar
+ 2025 08:14:50 +0000
+Received: from CY4PEPF0000EE30.namprd05.prod.outlook.com
+ (2603:10b6:5:177:cafe::7a) by DM6PR02CA0054.outlook.office365.com
+ (2603:10b6:5:177::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.27 via Frontend Transport; Sun,
+ 16 Mar 2025 08:14:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ CY4PEPF0000EE30.mail.protection.outlook.com (10.167.242.36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8534.20 via Frontend Transport; Sun, 16 Mar 2025 08:14:48 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Sun, 16 Mar
+ 2025 01:14:47 -0700
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Sun, 16 Mar 2025 01:14:46 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server id 15.2.1544.14 via Frontend
+ Transport; Sun, 16 Mar 2025 01:14:42 -0700
+From: Tariq Toukan <tariqt@nvidia.com>
+To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, "Andrew
+ Lunn" <andrew+netdev@lunn.ch>
+CC: Gal Pressman <gal@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>, "Yael
+ Chemla" <ychemla@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
+ Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, <netdev@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Kalesh Anakkur Purayil
+	<kalesh-anakkur.purayil@broadcom.com>, Jacob Keller
+	<jacob.e.keller@intel.com>, Stanislav Fomichev <stfomichev@gmail.com>
+Subject: [PATCH net-next V2 0/4] mlx5e: Support recovery counter in reset
+Date: Sun, 16 Mar 2025 10:14:32 +0200
+Message-ID: <1742112876-2890-1-git-send-email-tariqt@nvidia.com>
+X-Mailer: git-send-email 2.8.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250315211317.27612-1-jiwen7.qi@gmail.com>
+Content-Type: text/plain
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE30:EE_|SA0PR12MB4381:EE_
+X-MS-Office365-Filtering-Correlation-Id: 149c7aaa-843d-4ed3-b459-08dd64629e90
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|376014|82310400026|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?rJKOAgYVZNp+I2VH5/61xD08moBxDayzVfrk8Rp6kR1aSM1QkZU4MxWmDM9o?=
+ =?us-ascii?Q?nYokNwgUsd5utQj7hkI1QGm5S52q+rP4Ie3Kn6/9GS88rUOmRpVtz90PVKNG?=
+ =?us-ascii?Q?DApQpLWP7o0ZWa5g0y2VBloDCaI5+j+8MzR9hUfK+dwc3wEuKmRHbloiDPKe?=
+ =?us-ascii?Q?m+rwc4fBr28/BF1vGNKnMD/Jt9hnKsoez8ti07WlCLmIpcV97GDl/G4qh8Sq?=
+ =?us-ascii?Q?q7rJRFhmtLLHBPM28o+aDDXVHEK25aqIuoQW2SjnqpKOOSQrJF4bTM+25Xh/?=
+ =?us-ascii?Q?xtoSkTWbVX5Wvy2TUN2QK3u8f6CM2AqxB83c/0auU1t5UntMADYDvmouDdbP?=
+ =?us-ascii?Q?Har3JqpBAwM9n6G1q62Jfyh1PMjnYAWqvEOQMjg8MlskIRpkklz7+fqPHzWA?=
+ =?us-ascii?Q?QCqEGrAFl0POFS+s/xKqZFMIbCN3zAbfGgjrNeRZTGfCWn4It6KZnvGvTtzi?=
+ =?us-ascii?Q?tA4JSlIeu2ZSXrBQb+KYbZ65RXz79B5yciiaYKBW6SBgR34rjKGESN77yPDm?=
+ =?us-ascii?Q?rIXQWVHepVbYBa6EfNr2ytJqvJQ8Zhr5mhRB73+QzEL/Um/+jeewV4ltHIzh?=
+ =?us-ascii?Q?Lty8QJkZUBZrGQJJanhgAnO09Dt0MfivT5FyKjxghWgoGCAoDdrDtFOMlrx3?=
+ =?us-ascii?Q?EW0d76nnzvD6Yc/GYDq8xqwWvY6Zx4NYcLCodr1wHUCEbMo+UIRwO2+Gpiy4?=
+ =?us-ascii?Q?zT40/AVrqs8DdZfRq12SV7Gainu8FOG+bgzx/t1gbTEmmo4sGUi4L59l36DG?=
+ =?us-ascii?Q?sbrREcX+Xvv1xz+wsggXnXfWAn56ed5GeHiAOhCopmPUrxyzEuRhmAIQEeem?=
+ =?us-ascii?Q?EHyvu9pRfUA/IdMSgxGRkDCQy5Xc4t7RVjFqhaKt3Z6bQi4XmN1uM6LONY2N?=
+ =?us-ascii?Q?RmFMh47007EG96ytKBk8qzsbjId77avQz4aLtvCmJjeTG3NVOQuknY9IZKgT?=
+ =?us-ascii?Q?LKzC9bSGTk93OWPG/PfHKgJHe4LjI7EyoTMMMijMjWfWyPOFDmYDkp6Uz8en?=
+ =?us-ascii?Q?Kh+qAt7YzF77rl4P4hekhsZx0kpx8XK2nuSoR8K8ugazXEERSt6eLlQB8FTl?=
+ =?us-ascii?Q?q6ZKBTBmLbsE1Q7+RM9ZWwdLtar4N4wxD4JQYZpk58bH98Qg/cRsTiRns77H?=
+ =?us-ascii?Q?4gNMTAGgEYOtCOglDuwO4s8gC6qYxYN/wrnfFiItoYspwJsStYMnclUQWFcN?=
+ =?us-ascii?Q?MxNaOrOiTJkosYZDrRRNLqlnT/5KgMIUE29R+xv/9IDE+aNGars0vnKp4iHN?=
+ =?us-ascii?Q?DyaD40yPClms5w43lPZQBY660oU4YaUiiRINtljFxXncRN1jZWJ5d136xrIH?=
+ =?us-ascii?Q?2625W+e146tPKni9gCcyog+GH4/zSUFIAUwJ89kJjtJwArZ92EKhejeKRIZa?=
+ =?us-ascii?Q?vyG/ElNfNAMLPBPcNifvCKbYvEmGEn4VJ0vOW3/FYLwuw4VvltHqS1e4BAgK?=
+ =?us-ascii?Q?2aPh5OwcPbmutLT5IUT6VA9gctvYd0FAQaoDSb5ddEMTEOL8QWE2UB+egNIU?=
+ =?us-ascii?Q?J1hGDTN5abcwR+U=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2025 08:14:48.5240
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 149c7aaa-843d-4ed3-b459-08dd64629e90
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EE30.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4381
 
-On Sat, Mar 15, 2025 at 09:13:17PM +0000, Jiwen Qi wrote:
-> Briefly describe what zones are and the fields of struct zone.
-> 
-> Signed-off-by: Jiwen Qi <jiwen7.qi@gmail.com>
+Hi,
 
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+This series by Yael adds a recovery counter in ethtool, for any recovery
+type during port reset cycle.
+Series starts with some cleanup and refactoring patches.
+New counter is added and exposed to ethtool stats in patch #4.
 
-> ---
-> Changes since v1:
->  - Addressed review comments from Bagas Sanjaya.
->  - Addressed review comments from Mike Rapoport.
-> 
->  Documentation/mm/physical_memory.rst | 266 ++++++++++++++++++++++++++-
->  1 file changed, 264 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
-> index 71fd4a6acf42..d3ac106e6b14 100644
-> --- a/Documentation/mm/physical_memory.rst
-> +++ b/Documentation/mm/physical_memory.rst
-> @@ -338,10 +338,272 @@ Statistics
->  
->  Zones
->  =====
-> +As we have mentioned, each zone in memory is described by a ``struct zone``
-> +which is an element of the ``node_zones`` array of the node it belongs to.
-> +``struct zone`` is the core data structure of the page allocator. A zone
-> +represents a range of physical memory and may have holes.
-> +
-> +The page allocator uses the GFP flags, see :ref:`mm-api-gfp-flags`, specified by
-> +a memory allocation to determine the highest zone in a node from which the
-> +memory allocation can allocate memory. The page allocator first allocates memory
-> +from that zone, if the page allocator can't allocate the requested amount of
-> +memory from the zone, it will allocate memory from the next lower zone in the
-> +node, the process continues up to and including the lowest zone. For example, if
-> +a node contains ``ZONE_DMA32``, ``ZONE_NORMAL`` and ``ZONE_MOVABLE`` and the
-> +highest zone of a memory allocation is ``ZONE_MOVABLE``, the order of the zones
-> +from which the page allocator allocates memory is ``ZONE_MOVABLE`` >
-> +``ZONE_NORMAL`` > ``ZONE_DMA32``.
-> +
-> +At runtime, free pages in a zone are in the Per-CPU Pagesets (PCP) or free areas
-> +of the zone. The Per-CPU Pagesets are a vital mechanism in the kernel's memory
-> +management system. By handling most frequent allocations and frees locally on
-> +each CPU, the Per-CPU Pagesets improve performance and scalability, especially
-> +on systems with many cores. The page allocator in the kernel employs a two-step
-> +strategy for memory allocation, starting with the Per-CPU Pagesets before
-> +falling back to the buddy allocator. Pages are transferred between the Per-CPU
-> +Pagesets and the global free areas (managed by the buddy allocator) in batches.
-> +This minimizes the overhead of frequent interactions with the global buddy
-> +allocator.
-> +
-> +Architecture specific code calls free_area_init() to initializes zones.
-> +
-> +Zone structure
-> +--------------
-> +The zones structure ``struct zone`` is defined in ``include/linux/mmzone.h``.
-> +Here we briefly describe fields of this structure:
->  
-> -.. admonition:: Stub
-> +General
-> +~~~~~~~
->  
-> -   This section is incomplete. Please list and describe the appropriate fields.
-> +``_watermark``
-> +  The watermarks for this zone. When the amount of free pages in a zone is below
-> +  the min watermark, boosting is ignored, an allocation may trigger direct
-> +  reclaim and direct compaction, it is also used to throttle direct reclaim.
-> +  When the amount of free pages in a zone is below the low watermark, kswapd is
-> +  woken up. When the amount of free pages in a zone is above the high watermark,
-> +  kswapd stops reclaiming (a zone is balanced) when the
-> +  ``NUMA_BALANCING_MEMORY_TIERING`` bit of ``sysctl_numa_balancing_mode`` is not
-> +  set. The promo watermark is used for memory tiering and NUMA balancing. When
-> +  the amount of free pages in a zone is above the promo watermark, kswapd stops
-> +  reclaiming when the ``NUMA_BALANCING_MEMORY_TIERING`` bit of
-> +  ``sysctl_numa_balancing_mode`` is set. The watermarks are set by
-> +  ``__setup_per_zone_wmarks()``. The min watermark is calculated according to
-> +  ``vm.min_free_kbytes`` sysctl. The other three watermarks are set according
-> +  to the distance between two watermarks. The distance itself is calculated
-> +  taking ``vm.watermark_scale_factor`` sysctl into account.
-> +
-> +``watermark_boost``
-> +  The number of pages which are used to boost watermarks to increase reclaim
-> +  pressure to reduce the likelihood of future fallbacks and wake kswapd now
-> +  as the node may be balanced overall and kswapd will not wake naturally.
-> +
-> +``nr_reserved_highatomic``
-> +  The number of pages which are reserved for high-order atomic allocations.
-> +
-> +``nr_free_highatomic``
-> +  The number of free pages in reserved highatomic pageblocks
-> +
-> +``lowmem_reserve``
-> +  The array of the amounts of the memory reserved in this zone for memory
-> +  allocations. For example, if the highest zone a memory allocation can
-> +  allocate memory from is ``ZONE_MOVABLE``, the amount of memory reserved in
-> +  this zone for this allocation is ``lowmem_reserve[ZONE_MOVABLE]`` when
-> +  attempting to allocate memory from this zone. This is a mechanism the page
-> +  allocator uses to prevent allocations which could use ``highmem`` from using
-> +  too much ``lowmem``. For some specialised workloads on ``highmem`` machines,
-> +  it is dangerous for the kernel to allow process memory to be allocated from
-> +  the ``lowmem`` zone. This is because that memory could then be pinned via the
-> +  ``mlock()`` system call, or by unavailability of swapspace.
-> +  ``vm.lowmem_reserve_ratio`` sysctl determines how aggressive the kernel is in
-> +  defending these lower zones. This array is recalculated by
-> +  ``setup_per_zone_lowmem_reserve()`` at runtime if ``vm.lowmem_reserve_ratio``
-> +  sysctl changes.
-> +
-> +``node``
-> +  The index of the node this zone belongs to. Available only when
-> +  ``CONFIG_NUMA`` is enabled because there is only one zone in a UMA system.
-> +
-> +``zone_pgdat``
-> +  Pointer to the ``struct pglist_data`` of the node this zone belongs to.
-> +
-> +``per_cpu_pageset``
-> +  Pointer to the Per-CPU Pagesets (PCP) allocated and initialized by
-> +  ``setup_zone_pageset()``. By handling most frequent allocations and frees
-> +  locally on each CPU, PCP improves performance and scalability on systems with
-> +  many cores.
-> +
-> +``pageset_high_min``
-> +  Copied to the ``high_min`` of the Per-CPU Pagesets for faster access.
-> +
-> +``pageset_high_max``
-> +  Copied to the ``high_max`` of the Per-CPU Pagesets for faster access.
-> +
-> +``pageset_batch``
-> +  Copied to the ``batch`` of the Per-CPU Pagesets for faster access. The
-> +  ``batch``, ``high_min`` and ``high_max`` of the Per-CPU Pagesets are used to
-> +  calculate the number of elements the Per-CPU Pagesets obtain from the buddy
-> +  allocator under a single hold of the lock for efficiency. They are also used
-> +  to decide if the Per-CPU Pagesets return pages to the buddy allocator in page
-> +  free process.
-> +
-> +``pageblock_flags``
-> +  The pointer to the flags for the pageblocks in the zone (see
-> +  ``include/linux/pageblock-flags.h`` for flags list). The memory is allocated
-> +  in ``setup_usemap()``. Each pageblock occupies ``NR_PAGEBLOCK_BITS`` bits.
-> +  Defined only when ``CONFIG_FLATMEM`` is enabled. The flags is stored in
-> +  ``mem_section`` when ``CONFIG_SPARSEMEM`` is enabled.
-> +
-> +``zone_start_pfn``
-> +  The start pfn of the zone. It is initialized by
-> +  ``calculate_node_totalpages()``.
-> +
-> +``managed_pages``
-> +  The present pages managed by the buddy system, which is calculated as:
-> +  ``managed_pages`` = ``present_pages`` - ``reserved_pages``, ``reserved_pages``
-> +  includes pages allocated by the memblock allocator. It should be used by page
-> +  allocator and vm scanner to calculate all kinds of watermarks and thresholds.
-> +  It is accessed using ``atomic_long_xxx()`` functions. It is initialized in
-> +  ``free_area_init_core()`` and then is reinitialized when memblock allocator
-> +  frees pages into buddy system.
-> +
-> +``spanned_pages``
-> +  The total pages spanned by the zone, including holes, which is calculated as:
-> +  ``spanned_pages`` = ``zone_end_pfn`` - ``zone_start_pfn``. It is initialized
-> +  by ``calculate_node_totalpages()``.
-> +
-> +``present_pages``
-> +  The physical pages existing within the zone, which is calculated as:
-> +  ``present_pages`` = ``spanned_pages`` - ``absent_pages`` (pages in holes). It
-> +  may be used by memory hotplug or memory power management logic to figure out
-> +  unmanaged pages by checking (``present_pages`` - ``managed_pages``). Write
-> +  access to ``present_pages`` at runtime should be protected by
-> +  ``mem_hotplug_begin/done()``. Any reader who can't tolerant drift of
-> +  ``present_pages`` should use ``get_online_mems()`` to get a stable value. It
-> +  is initialized by ``calculate_node_totalpages()``.
-> +
-> +``present_early_pages``
-> +  The present pages existing within the zone located on memory available since
-> +  early boot, excluding hotplugged memory. Defined only when
-> +  ``CONFIG_MEMORY_HOTPLUG`` is enabled and initialized by
-> +  ``calculate_node_totalpages()``.
-> +
-> +``cma_pages``
-> +  The pages reserved for CMA use. These pages behave like ``ZONE_MOVABLE`` when
-> +  they are not used for CMA. Defined only when ``CONFIG_CMA`` is enabled.
-> +
-> +``name``
-> +  The name of the zone. It is a pointer to the corresponding element of
-> +  the ``zone_names`` array.
-> +
-> +``nr_isolate_pageblock``
-> +  Number of isolated pageblocks. It is used to solve incorrect freepage counting
-> +  problem due to racy retrieving migratetype of pageblock. Protected by
-> +  ``zone->lock``. Defined only when ``CONFIG_MEMORY_ISOLATION`` is enabled.
-> +
-> +``span_seqlock``
-> +  The seqlock to protect ``zone_start_pfn`` and ``spanned_pages``. It is a
-> +  seqlock because it has to be read outside of ``zone->lock``, and it is done in
-> +  the main allocator path. However, the seqlock is written quite infrequently.
-> +  Defined only when ``CONFIG_MEMORY_HOTPLUG`` is enabled.
-> +
-> +``initialized``
-> +  The flag indicating if the zone is initialized. Set by
-> +  ``init_currently_empty_zone()`` during boot.
-> +
-> +``free_area``
-> +  The array of free areas, where each element corresponds to a specific order
-> +  which is a power of two. The buddy allocator uses this structure to manage
-> +  free memory efficiently. When allocating, it tries to find the smallest
-> +  sufficient block, if the smallest sufficient block is larger than the
-> +  requested size, it will be recursively split into the next smaller blocks
-> +  until the required size is reached. When a page is freed, it may be merged
-> +  with its buddy to form a larger block. It is initialized by
-> +  ``zone_init_free_lists()``.
-> +
-> +``unaccepted_pages``
-> +  The list of pages to be accepted. All pages on the list are ``MAX_PAGE_ORDER``.
-> +  Defined only when ``CONFIG_UNACCEPTED_MEMORY`` is enabled.
-> +
-> +``flags``
-> +  The zone flags. The least three bits are used and defined by
-> +  ``enum zone_flags``. ``ZONE_BOOSTED_WATERMARK`` (bit 0): zone recently boosted
-> +  watermarks. Cleared when kswapd is woken. ``ZONE_RECLAIM_ACTIVE`` (bit 1):
-> +  kswapd may be scanning the zone. ``ZONE_BELOW_HIGH`` (bit 2): zone is below
-> +  high watermark.
-> +
-> +``lock``
-> +  The main lock that protects the internal data structures of the page allocator
-> +  specific to the zone, especially protects ``free_area``.
-> +
-> +``percpu_drift_mark``
-> +  When free pages are below this point, additional steps are taken when reading
-> +  the number of free pages to avoid per-cpu counter drift allowing watermarks
-> +  to be breached. It is updated in ``refresh_zone_stat_thresholds()``.
-> +
-> +Compaction control
-> +~~~~~~~~~~~~~~~~~~
-> +
-> +``compact_cached_free_pfn``
-> +  The PFN where compaction free scanner should start in the next scan.
-> +
-> +``compact_cached_migrate_pfn``
-> +  The PFNs where compaction migration scanner should start in the next scan.
-> +  This array has two elements: the first one is used in ``MIGRATE_ASYNC`` mode,
-> +  and the other one is used in ``MIGRATE_SYNC`` mode.
-> +
-> +``compact_init_migrate_pfn``
-> +  The initial migration PFN which is initialized to 0 at boot time, and to the
-> +  first pageblock with migratable pages in the zone after a full compaction
-> +  finishes. It is used to check if a scan is a whole zone scan or not.
-> +
-> +``compact_init_free_pfn``
-> +  The initial free PFN which is initialized to 0 at boot time and to the last
-> +  pageblock with free ``MIGRATE_MOVABLE`` pages in the zone. It is used to check
-> +  if it is the start of a scan.
-> +
-> +``compact_considered``
-> +  The number of compactions attempted since last failure. It is reset in
-> +  ``defer_compaction()`` when a compaction fails to result in a page allocation
-> +  success. It is increased by 1 in ``compaction_deferred()`` when a compaction
-> +  should be skipped. ``compaction_deferred()`` is called before
-> +  ``compact_zone()`` is called, ``compaction_defer_reset()`` is called when
-> +  ``compact_zone()`` returns ``COMPACT_SUCCESS``, ``defer_compaction()`` is
-> +  called when ``compact_zone()`` returns ``COMPACT_PARTIAL_SKIPPED`` or
-> +  ``COMPACT_COMPLETE``.
-> +
-> +``compact_defer_shift``
-> +  The number of compactions skipped before trying again is
-> +  ``1<<compact_defer_shift``. It is increased by 1 in ``defer_compaction()``.
-> +  It is reset in ``compaction_defer_reset()`` when a direct compaction results
-> +  in a page allocation success. Its maximum value is ``COMPACT_MAX_DEFER_SHIFT``.
-> +
-> +``compact_order_failed``
-> +  The minimum compaction failed order. It is set in ``compaction_defer_reset()``
-> +  when a compaction succeeds and in ``defer_compaction()`` when a compaction
-> +  fails to result in a page allocation success.
-> +
-> +``compact_blockskip_flush``
-> +  Set to true when compaction migration scanner and free scanner meet, which
-> +  means the ``PB_migrate_skip`` bits should be cleared.
-> +
-> +``contiguous``
-> +  Set to true when the zone is contiguous (in other words, no hole).
-> +
-> +Statistics
-> +~~~~~~~~~~
-> +
-> +``vm_stat``
-> +  VM statistics for the zone. The items tracked are defined by
-> +  ``enum zone_stat_item``.
-> +
-> +``vm_numa_event``
-> +  VM NUMA event statistics for the zone. The items tracked are defined by
-> +  ``enum numa_stat_item``.
-> +
-> +``per_cpu_zonestats``
-> +  Per-CPU VM statistics for the zone. It records VM statistics and VM NUMA event
-> +  statistics on a per-CPU basis. It reduces updates to the global ``vm_stat``
-> +  and ``vm_numa_event`` fields of the zone to improve performance.
->  
->  .. _pages:
->  
-> 
-> base-commit: 0ad2507d5d93f39619fc42372c347d6006b64319
-> -- 
-> 2.34.1
-> 
+Regards,
+Tariq
 
+V2:
+- Fix bad indentation failing the html build. (Stanislav Fomichev).
+- Add review tags.
+
+Yael Chemla (4):
+  net/mlx5e: Ensure each counter group uses its PCAM bit
+  net/mlx5e: Access PHY layer counter group as other counter groups
+  net/mlx5e: Get counter group size by FW capability
+  net/mlx5e: Expose port reset cycle recovery counter via ethtool
+
+ .../ethernet/mellanox/mlx5/counters.rst       |   5 +
+ .../ethernet/mellanox/mlx5/core/en_stats.c    | 119 ++++++++++++------
+ .../ethernet/mellanox/mlx5/core/en_stats.h    |   4 +
+ 3 files changed, 91 insertions(+), 37 deletions(-)
+
+
+base-commit: 89d75c4c67aca1573aff905e72131a10847c5fda
 -- 
-Sincerely yours,
-Mike.
+2.31.1
+
