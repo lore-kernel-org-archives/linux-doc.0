@@ -1,353 +1,162 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B052441A0;
-	Mon, 17 Mar 2025 14:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8092459DB;
+	Mon, 17 Mar 2025 14:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742222348; cv=none; b=bH3GGRdkTf3eY4spdXQGYXAigLos0T4PjLCIIozXWDik0SvQhpnon4Kb8a7j0sypakGqEwJ1Vv4BXoBhIjkJRjw0cgFZ6C5YnvAVS+sYrSNaYJeEC33N2iARjyT+GVsNswEPvVgy5y29EUYQ8gdk5RvhM9Nd/wsUbJs5g6d17RA=
+	t=1742222613; cv=none; b=FE8m4bTFIZtTPd0zA919AQqtkC4AzQiNOmBf/lTv1FMosndDq+9pzkPF0WbX8xF1fDItNVI+iHM1dUOpESgRkQYr1U0x+izU6HzDlGHAXxr7yeozbxvEqOVggwHWWkXYPPQFqpml8O7QTN7PhylPx0qnqYScYNbLeCBjiOVXgSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742222348; c=relaxed/simple;
-	bh=5sctOWQdDZU6goyyowPsbITQ4Qx7EMOcJkexjRoQrMI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i/AaY87u4wO2EhgynHToccaD5BZZv0EUZYeUnNKtinp1zlLddT2U3C7Dnz9o3OIPDl+GPzgHonyWLpWziGCDJJ497oU8seCP5e8yW0VMqDBvaShm7Bu9ogAC5rBD6YBkIH64MIZ2r3DEZf1+grrTdgKmVAfWCVhD+uvS2/xIgjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 624FC44382;
-	Mon, 17 Mar 2025 14:39:02 +0000 (UTC)
-Message-ID: <1b7e3d0f-0526-4afb-9f7a-2695e4166a9b@ghiti.fr>
-Date: Mon, 17 Mar 2025 15:39:01 +0100
+	s=arc-20240116; t=1742222613; c=relaxed/simple;
+	bh=U/X0J1536P3kLZ5Mre5he1Y2PoLkgKWb2013ybVYwFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fKDZIKiPopS4Lu0SIFx1bU0Y4+qObmkyuj3MtOtNeYmGToO1KPfh8ZDcSLsjFxLjhx/ejA889DnXGqLxF/8SIWGQKM8rWR0oa9ADSN6ecWeJz0OucX1sUPszR68nFTBJBq4jid0xh+NmuLFtt6F+8BWVc5EYawgKslZcVbdRyNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h1rD8Tiq; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h1rD8Tiq"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-225477548e1so75688005ad.0;
+        Mon, 17 Mar 2025 07:43:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742222611; x=1742827411; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zBTZ3P6VJ5gdNk4d//KGnUmMWLLJGp2Otj36JKM4btA=;
+        b=h1rD8TiqvgjB6lC3iKqr9EqNClVIr9D4VEKhqabh9tD7iqxXQDhPyl0QSlQNaU9LF2
+         0yZARhIql9WKAqLx10gZRlljlhEtZgzO9kKSqcR9W+aRYyHMQ1arxcXAfE7IcH1Q4Npo
+         mrQfG2QC6VA17dxeJDLbEvzbUfAyGQvFu9wZKe4lt6knbRurTEsguBGjv/NnXmitXXkV
+         qLkN/OX9JgLNCj5XZoz+6UZdeqkFM9xNdvqwyKoYLemJqGVYz8f36BAFGI5fZq3dUY1Z
+         4shRj4JOlm+CajegMz92vnxtWT4jhrFo+pQj7lFPGKSZRYeOIp9otBwSgTo0eCes1zMj
+         5KRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742222611; x=1742827411;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zBTZ3P6VJ5gdNk4d//KGnUmMWLLJGp2Otj36JKM4btA=;
+        b=DLsphZKA/F0XESACq8Pup1JBFbWf0TpmB/JfyJZuSutbdFDuLNYcRmUXlFXksXoawq
+         xtRFSwpVrlNS+f1ZClU63OPbtlrInQhgRZUxOJaA+1ZLvlKsoSA6hzhNau4d0+ehLIxJ
+         uIWzgBOA7MLwbgdGxUgPiFM4sIH1D+zuz3gaWT4Xu06CDyVFSE2U5CwjLDuwOZLHZCns
+         KJ9iyT3q32WUC3tZNy3JWOloxyGdHq0QG0beWsh9OFSUXOVlXnx52MuhoMPfS6mbxHyx
+         RmFOXMSmjV+HqX9B/6eWrP7+mqfENIAjyork+qosG8R9p1/v4qcUHBC+evKqsn32f/Nk
+         BsXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVWaq1m8XxUPJWWGSvLLFUEGWY1a6vh09oqR0fP1YtWyX4VHVThQwVV2G6moMgpIgaLYedhs6I2vEM=@vger.kernel.org, AJvYcCVqf3eKye4JfdKWdOvlCxBWV0OQgbcZ5QLD4Bpwi8xfL/qh5Gg4Ih9hCYjsFgXfkFQAGWxFipB/L0DIjuEApYtk5ISvDQ==@vger.kernel.org, AJvYcCXapwfk1X4xlV3Y4q2HH7aFCA92gNRQ8LAXQcI3ZYIwVg37a25PPPXEhH2Esy0hbFq6Ny/Y6/Pqaa890b+l@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLc0r52vKAOtU5qtZElvAB9y3S16f/m5x1vC1DkoUu8dqm2UzK
+	eEUHXr57eeMkVN5INAZRBOM3uVdP6eRbPuxD5h8DxAIHkomT2KAK
+X-Gm-Gg: ASbGncvb5Qdp4/L1F8T6VBKlnSw8PFZOBnDapZ84Ic3Ksh3fJDo+l6fecpBclYgufHw
+	zZAgHEA6Q/LFpgaPmYNtdg5M61VTEoBEMWe2smkXhDxG6gOlg/sp9rAgMEbFgYTZnWl7hP9iqHQ
+	95byrSXjImbTBFm8PqJhXF3M1cyr1esmiHrhyxaim0R1FPJM+6EPUKpWwxCmKduR0ymgKMh40qc
+	pFhVL9hZe4RisouyjN/LXlNZs5ApNuT598Ve/XEnL9QUF1oPXQwhRPiGlZ8Mz5vT5gPKBqo5bbU
+	toJKDI/pkpasdi+L3hua/trOT0DWcu0wloFBVLI=
+X-Google-Smtp-Source: AGHT+IFnSHhw+a+QAV1Ss451PkZuwhG2PMN3QqQFKxxK2F/FeLoLil1nV1kUqyAk00B0nZtB8kxyNA==
+X-Received: by 2002:a05:6a00:2e1e:b0:736:362a:6fc8 with SMTP id d2e1a72fcca58-7372240bf61mr11270012b3a.15.1742222611316;
+        Mon, 17 Mar 2025 07:43:31 -0700 (PDT)
+Received: from terminus.lan1 ([2605:59c8:3484:ea20::914])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73711694e34sm7906797b3a.140.2025.03.17.07.43.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Mar 2025 07:43:30 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Armin Wolf <W_Armin@gmx.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mario Limonciello <superm1@kernel.org>,
+	Luke Jones <luke@ljones.dev>,
+	Xino Ni <nijs1@lenovo.com>,
+	Zhixin Zhang <zhangzx36@lenovo.com>,
+	Mia Shao <shaohz1@lenovo.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	"Cody T . -H . Chiu" <codyit@gmail.com>,
+	John Martens <johnfanv2@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	platform-driver-x86@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/6 RESEND] platform/x86: Add Lenovo Gaming Series WMI Drivers
+Date: Mon, 17 Mar 2025 07:43:20 -0700
+Message-ID: <20250317144326.5850-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/8] riscv: Add parameter for skipping access speed
- tests
-Content-Language: en-US
-To: Andrew Jones <ajones@ventanamicro.com>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: paul.walmsley@sifive.com, palmer@dabbelt.com, charlie@rivosinc.com,
- cleger@rivosinc.com, Anup Patel <apatel@ventanamicro.com>, corbet@lwn.net
-References: <20250304120014.143628-10-ajones@ventanamicro.com>
- <20250304120014.143628-17-ajones@ventanamicro.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20250304120014.143628-17-ajones@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeeljeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpeejieeuudejieekveeutdeguefhkeduledugeevhefffeejudeggedufffgleeugfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeefuddrfedvrdekuddrudekjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeefuddrfedvrdekuddrudekjedphhgvlhhopegludelvddrudeikedrvddurddvhegnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtoheprghjohhnvghssehvvghnthgrnhgrmhhitghrohdrtghomhdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehpr
- ghulhdrfigrlhhmshhlvgihsehsihhfihhvvgdrtghomhdprhgtphhtthhopehprghlmhgvrhesuggrsggsvghlthdrtghomhdprhgtphhtthhopegthhgrrhhlihgvsehrihhvohhsihhntgdrtghomhdprhgtphhtthhopegtlhgvghgvrhesrhhivhhoshhinhgtrdgtohhm
-X-GND-Sasl: alex@ghiti.fr
 
-Hi Drew,
+Adds support for the Lenovo "Gaming Series" of laptop hardware that use
+WMI interfaces that control various power settings. There are multiple WMI
+interfaces that work in concert to provide getting and setting values as
+well as validation of input. Currently only the "Gamezone", "Other
+Mode", and "LENOVO_CAPABILITY_DATA_01" interfaces are implemented, but
+I attempted to structure the driver so that adding the "Custom Mode",
+"Lighting", and other data block interfaces would be trivial in a later
+patches.
 
-On 04/03/2025 13:00, Andrew Jones wrote:
-> Allow skipping scalar and vector unaligned access speed tests. This
-> is useful for testing alternative code paths and to skip the tests in
-> environments where they run too slowly. All CPUs must have the same
-> unaligned access speed.
+This driver is distinct from, but should be considered a replacement for
+this patch:
+https://lore.kernel.org/all/20241118100503.14228-1-jonmail@163.com/
 
-I'm not a big fan of the command line parameter, this is not where we 
-should push uarch decisions because there could be many other in the 
-future, the best solution to me should be in DT/ACPI and since the DT 
-folks, according to Palmer, shut down this solution, it remains using an 
-extension.
+This driver attempts to standardize the exposed sysfs by mirroring the
+asus-armoury driver currently under review. As such, a lot of
+inspiration has been drawn from that driver.
+https://lore.kernel.org/platform-driver-x86/20250316230724.100165-1-luke@ljones.dev/
 
-I have been reading a bit about unaligned accesses. Zicclsm was 
-described as "Even though mandated, misaligned loads and stores might 
-execute extremely slowly. Standard software distributions should assume 
-their existence only for correctness, not for performance." in rva20/22 
-but *not* in rva23. So what about using this "hole" and consider that a 
-platform that *advertises* Zicclsm means its unaligned accesses are 
-fast? After internal discussion, It actually does not make sense to 
-advertise Zicclsm if the platform accesses are slow right?
+The drivers have been tested by me on the Lenovo Legion Go and Legion Go
+S.
 
-arm64 for example considers that armv8 has fast unaligned accesses and 
-can then enable HAVE_EFFICIENT_ALIGNED_ACCESS in the kernel, even though 
-some uarchs are slow. Distros will very likely use rva23 as baseline so 
-they will enable Zicclsm which would allow us to take advantage of this 
-too, without this, we lose a lot of perf improvement in the kernel, see 
-https://lore.kernel.org/lkml/20231225044207.3821-1-jszhang@kernel.org/.
+Suggested-by: Mario Limonciello <superm1@kernel.org>
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+--- 
+v4:
+ - Added lenovo-wmi-events driver
+ - Added headers for every driver
+ - Fixes requested from v3 review
+v3:
+https://lore.kernel.org/platform-driver-x86/20250225220037.16073-1-derekjohn.clark@gmail.com/
+v2:
+https://lore.kernel.org/platform-driver-x86/20250102004854.14874-1-derekjohn.clark@gmail.com/
+v1:
+https://lore.kernel.org/platform-driver-x86/20241217230645.15027-1-derekjohn.clark@gmail.com/
 
-Or we could have a new named feature for this, even though it's weird to 
-have a named feature which would basically  mean "Zicclsm is fast". We 
-don't have, for example, a named feature to say "Zicboz is fast" but 
-given the vague wording in the profile spec, maybe we can ask for one in 
-that case?
+Derek J. Clark (6):
+  platform/x86: Add lenovo-wmi-* driver Documentation
+  platform/x86: Add lenovo-wmi-helpers
+  platform/x86: Add Lenovo WMI Events Driver
+  platform/x86: Add Lenovo Capability Data 01 WMI Driver
+  platform/x86: Add Lenovo Other Mode WMI Driver
+  platform/x86: Add Lenovo Gamezone WMI Driver
 
-Sorry for the late review and for triggering this debate...
+ .../wmi/devices/lenovo-wmi-gamezone.rst       | 203 ++++++
+ .../wmi/devices/lenovo-wmi-other-method.rst   | 108 +++
+ MAINTAINERS                                   |  17 +
+ drivers/platform/x86/Kconfig                  |  40 ++
+ drivers/platform/x86/Makefile                 |   5 +
+ drivers/platform/x86/lenovo-wmi-capdata01.c   | 136 ++++
+ drivers/platform/x86/lenovo-wmi-capdata01.h   |  29 +
+ drivers/platform/x86/lenovo-wmi-events.c      | 132 ++++
+ drivers/platform/x86/lenovo-wmi-events.h      |  21 +
+ drivers/platform/x86/lenovo-wmi-gamezone.c    | 380 +++++++++++
+ drivers/platform/x86/lenovo-wmi-gamezone.h    |  18 +
+ drivers/platform/x86/lenovo-wmi-helpers.c     |  64 ++
+ drivers/platform/x86/lenovo-wmi-helpers.h     |  24 +
+ drivers/platform/x86/lenovo-wmi-other.c       | 626 ++++++++++++++++++
+ drivers/platform/x86/lenovo-wmi-other.h       |  19 +
+ 15 files changed, 1822 insertions(+)
+ create mode 100644 Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+ create mode 100644 Documentation/wmi/devices/lenovo-wmi-other-method.rst
+ create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-events.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-events.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-other.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-other.h
 
-Thanks,
+-- 
+2.49.0
 
-Alex
-
-
->
-> The code movement is because we now need the scalar cpu hotplug
-> callback to always run, so we need to bring it and its supporting
-> functions out of CONFIG_RISCV_PROBE_UNALIGNED_ACCESS.
->
-> Signed-off-by: Andrew Jones <ajones@ventanamicro.com>
-> ---
->   arch/riscv/kernel/unaligned_access_speed.c | 187 +++++++++++++--------
->   1 file changed, 121 insertions(+), 66 deletions(-)
->
-> diff --git a/arch/riscv/kernel/unaligned_access_speed.c b/arch/riscv/kernel/unaligned_access_speed.c
-> index d9d4ca1fadc7..18e334549544 100644
-> --- a/arch/riscv/kernel/unaligned_access_speed.c
-> +++ b/arch/riscv/kernel/unaligned_access_speed.c
-> @@ -24,8 +24,12 @@
->   DEFINE_PER_CPU(long, misaligned_access_speed) = RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN;
->   DEFINE_PER_CPU(long, vector_misaligned_access) = RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED;
->   
-> -#ifdef CONFIG_RISCV_PROBE_UNALIGNED_ACCESS
-> +static long unaligned_scalar_speed_param = RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN;
-> +static long unaligned_vector_speed_param = RISCV_HWPROBE_MISALIGNED_VECTOR_UNKNOWN;
-> +
->   static cpumask_t fast_misaligned_access;
-> +
-> +#ifdef CONFIG_RISCV_PROBE_UNALIGNED_ACCESS
->   static int check_unaligned_access(void *param)
->   {
->   	int cpu = smp_processor_id();
-> @@ -130,6 +134,50 @@ static void __init check_unaligned_access_nonboot_cpu(void *param)
->   		check_unaligned_access(pages[cpu]);
->   }
->   
-> +/* Measure unaligned access speed on all CPUs present at boot in parallel. */
-> +static void __init check_unaligned_access_speed_all_cpus(void)
-> +{
-> +	unsigned int cpu;
-> +	unsigned int cpu_count = num_possible_cpus();
-> +	struct page **bufs = kcalloc(cpu_count, sizeof(*bufs), GFP_KERNEL);
-> +
-> +	if (!bufs) {
-> +		pr_warn("Allocation failure, not measuring misaligned performance\n");
-> +		return;
-> +	}
-> +
-> +	/*
-> +	 * Allocate separate buffers for each CPU so there's no fighting over
-> +	 * cache lines.
-> +	 */
-> +	for_each_cpu(cpu, cpu_online_mask) {
-> +		bufs[cpu] = alloc_pages(GFP_KERNEL, MISALIGNED_BUFFER_ORDER);
-> +		if (!bufs[cpu]) {
-> +			pr_warn("Allocation failure, not measuring misaligned performance\n");
-> +			goto out;
-> +		}
-> +	}
-> +
-> +	/* Check everybody except 0, who stays behind to tend jiffies. */
-> +	on_each_cpu(check_unaligned_access_nonboot_cpu, bufs, 1);
-> +
-> +	/* Check core 0. */
-> +	smp_call_on_cpu(0, check_unaligned_access, bufs[0], true);
-> +
-> +out:
-> +	for_each_cpu(cpu, cpu_online_mask) {
-> +		if (bufs[cpu])
-> +			__free_pages(bufs[cpu], MISALIGNED_BUFFER_ORDER);
-> +	}
-> +
-> +	kfree(bufs);
-> +}
-> +#else /* CONFIG_RISCV_PROBE_UNALIGNED_ACCESS */
-> +static void __init check_unaligned_access_speed_all_cpus(void)
-> +{
-> +}
-> +#endif
-> +
->   DEFINE_STATIC_KEY_FALSE(fast_unaligned_access_speed_key);
->   
->   static void modify_unaligned_access_branches(cpumask_t *mask, int weight)
-> @@ -188,21 +236,29 @@ arch_initcall_sync(lock_and_set_unaligned_access_static_branch);
->   
->   static int riscv_online_cpu(unsigned int cpu)
->   {
-> -	static struct page *buf;
-> -
->   	/* We are already set since the last check */
-> -	if (per_cpu(misaligned_access_speed, cpu) != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN)
-> +	if (per_cpu(misaligned_access_speed, cpu) != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN) {
-> +		goto exit;
-> +	} else if (unaligned_scalar_speed_param != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN) {
-> +		per_cpu(misaligned_access_speed, cpu) = unaligned_scalar_speed_param;
->   		goto exit;
-> -
-> -	check_unaligned_access_emulated(NULL);
-> -	buf = alloc_pages(GFP_KERNEL, MISALIGNED_BUFFER_ORDER);
-> -	if (!buf) {
-> -		pr_warn("Allocation failure, not measuring misaligned performance\n");
-> -		return -ENOMEM;
->   	}
->   
-> -	check_unaligned_access(buf);
-> -	__free_pages(buf, MISALIGNED_BUFFER_ORDER);
-> +#ifdef CONFIG_RISCV_PROBE_UNALIGNED_ACCESS
-> +	{
-> +		static struct page *buf;
-> +
-> +		check_unaligned_access_emulated(NULL);
-> +		buf = alloc_pages(GFP_KERNEL, MISALIGNED_BUFFER_ORDER);
-> +		if (!buf) {
-> +			pr_warn("Allocation failure, not measuring misaligned performance\n");
-> +			return -ENOMEM;
-> +		}
-> +
-> +		check_unaligned_access(buf);
-> +		__free_pages(buf, MISALIGNED_BUFFER_ORDER);
-> +	}
-> +#endif
->   
->   exit:
->   	set_unaligned_access_static_branches();
-> @@ -217,50 +273,6 @@ static int riscv_offline_cpu(unsigned int cpu)
->   	return 0;
->   }
->   
-> -/* Measure unaligned access speed on all CPUs present at boot in parallel. */
-> -static void __init check_unaligned_access_speed_all_cpus(void)
-> -{
-> -	unsigned int cpu;
-> -	unsigned int cpu_count = num_possible_cpus();
-> -	struct page **bufs = kcalloc(cpu_count, sizeof(*bufs), GFP_KERNEL);
-> -
-> -	if (!bufs) {
-> -		pr_warn("Allocation failure, not measuring misaligned performance\n");
-> -		return;
-> -	}
-> -
-> -	/*
-> -	 * Allocate separate buffers for each CPU so there's no fighting over
-> -	 * cache lines.
-> -	 */
-> -	for_each_cpu(cpu, cpu_online_mask) {
-> -		bufs[cpu] = alloc_pages(GFP_KERNEL, MISALIGNED_BUFFER_ORDER);
-> -		if (!bufs[cpu]) {
-> -			pr_warn("Allocation failure, not measuring misaligned performance\n");
-> -			goto out;
-> -		}
-> -	}
-> -
-> -	/* Check everybody except 0, who stays behind to tend jiffies. */
-> -	on_each_cpu(check_unaligned_access_nonboot_cpu, bufs, 1);
-> -
-> -	/* Check core 0. */
-> -	smp_call_on_cpu(0, check_unaligned_access, bufs[0], true);
-> -
-> -out:
-> -	for_each_cpu(cpu, cpu_online_mask) {
-> -		if (bufs[cpu])
-> -			__free_pages(bufs[cpu], MISALIGNED_BUFFER_ORDER);
-> -	}
-> -
-> -	kfree(bufs);
-> -}
-> -#else /* CONFIG_RISCV_PROBE_UNALIGNED_ACCESS */
-> -static void __init check_unaligned_access_speed_all_cpus(void)
-> -{
-> -}
-> -#endif
-> -
->   #ifdef CONFIG_RISCV_PROBE_VECTOR_UNALIGNED_ACCESS
->   static void check_vector_unaligned_access(struct work_struct *work __always_unused)
->   {
-> @@ -372,8 +384,8 @@ static int __init vec_check_unaligned_access_speed_all_cpus(void *unused __alway
->   
->   static int riscv_online_cpu_vec(unsigned int cpu)
->   {
-> -	if (!has_vector()) {
-> -		per_cpu(vector_misaligned_access, cpu) = RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED;
-> +	if (unaligned_vector_speed_param != RISCV_HWPROBE_MISALIGNED_VECTOR_UNKNOWN) {
-> +		per_cpu(vector_misaligned_access, cpu) = unaligned_vector_speed_param;
->   		return 0;
->   	}
->   
-> @@ -388,30 +400,73 @@ static int riscv_online_cpu_vec(unsigned int cpu)
->   	return 0;
->   }
->   
-> +static const char * const speed_str[] __initconst = { NULL, NULL, "slow", "fast", "unsupported" };
-> +
-> +static int __init set_unaligned_scalar_speed_param(char *str)
-> +{
-> +	if (!strcmp(str, speed_str[RISCV_HWPROBE_MISALIGNED_SCALAR_SLOW]))
-> +		unaligned_scalar_speed_param = RISCV_HWPROBE_MISALIGNED_SCALAR_SLOW;
-> +	else if (!strcmp(str, speed_str[RISCV_HWPROBE_MISALIGNED_SCALAR_FAST]))
-> +		unaligned_scalar_speed_param = RISCV_HWPROBE_MISALIGNED_SCALAR_FAST;
-> +	else if (!strcmp(str, speed_str[RISCV_HWPROBE_MISALIGNED_SCALAR_UNSUPPORTED]))
-> +		unaligned_scalar_speed_param = RISCV_HWPROBE_MISALIGNED_SCALAR_UNSUPPORTED;
-> +	else
-> +		return -EINVAL;
-> +
-> +	return 1;
-> +}
-> +__setup("unaligned_scalar_speed=", set_unaligned_scalar_speed_param);
-> +
-> +static int __init set_unaligned_vector_speed_param(char *str)
-> +{
-> +	if (!strcmp(str, speed_str[RISCV_HWPROBE_MISALIGNED_VECTOR_SLOW]))
-> +		unaligned_vector_speed_param = RISCV_HWPROBE_MISALIGNED_VECTOR_SLOW;
-> +	else if (!strcmp(str, speed_str[RISCV_HWPROBE_MISALIGNED_VECTOR_FAST]))
-> +		unaligned_vector_speed_param = RISCV_HWPROBE_MISALIGNED_VECTOR_FAST;
-> +	else if (!strcmp(str, speed_str[RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED]))
-> +		unaligned_vector_speed_param = RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED;
-> +	else
-> +		return -EINVAL;
-> +
-> +	return 1;
-> +}
-> +__setup("unaligned_vector_speed=", set_unaligned_vector_speed_param);
-> +
->   static int __init check_unaligned_access_all_cpus(void)
->   {
->   	int cpu;
->   
-> -	if (!check_unaligned_access_emulated_all_cpus())
-> +	if (unaligned_scalar_speed_param == RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN &&
-> +	    !check_unaligned_access_emulated_all_cpus()) {
->   		check_unaligned_access_speed_all_cpus();
-> -
-> -	if (!has_vector()) {
-> +	} else {
-> +		pr_info("scalar unaligned access speed set to '%s' by command line\n",
-> +			speed_str[unaligned_scalar_speed_param]);
->   		for_each_online_cpu(cpu)
-> -			per_cpu(vector_misaligned_access, cpu) = RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED;
-> -	} else if (!check_vector_unaligned_access_emulated_all_cpus() &&
-> -		   IS_ENABLED(CONFIG_RISCV_PROBE_VECTOR_UNALIGNED_ACCESS)) {
-> +			per_cpu(misaligned_access_speed, cpu) = unaligned_scalar_speed_param;
-> +	}
-> +
-> +	if (!has_vector())
-> +		unaligned_vector_speed_param = RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED;
-> +
-> +	if (unaligned_vector_speed_param == RISCV_HWPROBE_MISALIGNED_VECTOR_UNKNOWN &&
-> +	    !check_vector_unaligned_access_emulated_all_cpus() &&
-> +	    IS_ENABLED(CONFIG_RISCV_PROBE_VECTOR_UNALIGNED_ACCESS)) {
->   		kthread_run(vec_check_unaligned_access_speed_all_cpus,
->   			    NULL, "vec_check_unaligned_access_speed_all_cpus");
-> +	} else {
-> +		pr_info("vector unaligned access speed set to '%s' by command line\n",
-> +			speed_str[unaligned_vector_speed_param]);
-> +		for_each_online_cpu(cpu)
-> +			per_cpu(vector_misaligned_access, cpu) = unaligned_vector_speed_param;
->   	}
->   
->   	/*
->   	 * Setup hotplug callbacks for any new CPUs that come online or go
->   	 * offline.
->   	 */
-> -#ifdef CONFIG_RISCV_PROBE_UNALIGNED_ACCESS
->   	cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN, "riscv:online",
->   				  riscv_online_cpu, riscv_offline_cpu);
-> -#endif
->   	cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN, "riscv:online",
->   				  riscv_online_cpu_vec, NULL);
->   
