@@ -1,56 +1,90 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34349405F7;
-	Mon, 17 Mar 2025 02:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46412FB6;
+	Mon, 17 Mar 2025 02:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742178733; cv=none; b=d+lxCnx/X9S+vqaLFz4bWKwEyHxke17zJ5/Kiqqfy6qcpmQmAv5t6lijOZCkdFBRNF0LE6R136j8aK9sa3D6f/f7R8s+TneK7yY7K1x4oFTVCtfh4z8ClsauGqhma8ef5TrGUILMYSrIF0astB4q7yRXP0GrEc8PzvDaVr5Ivm8=
+	t=1742180028; cv=none; b=pLqmwlNF9xrrJqYgvdy04x6os9QP9nQfIk1+GvQFGZNt/rPoNn0LvoliaaXgqmrKrCaD3KByiGYUsiLp/s4moo8stiMYt821/pNgiMLDzXoh3cO0oLMQRnXgCMfsO4d1VV+IIV3o5A/6eIYeWM3T2wVMkHujE+LAhX3SiCQzV7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742178733; c=relaxed/simple;
-	bh=j+nOZecMB+eGLoFV7lwsCTRQ3mPi5dJ+kqLvxf12vdY=;
-	h=Date:Message-ID:In-Reply-To:References:Mime-Version:From:To:Cc:
-	 Subject:Content-Type; b=Hv5aFRWAZdeGt34cpSE5Aknt9amG4Ze9X2I1Sn+/83hSbuNjV9RmrJcfHSCuaaVSTraH9gNfMZ5CKYE+eb8k6WDUshafZjLDCKKwHhA2DRDuLadvB3wBPwcrZPb+pwfdEe/PVh2nrU/pz+TXE48w4YHfNbIueZlqkzPJX4DLAFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZGJs400t5z5B1J4;
-	Mon, 17 Mar 2025 10:32:08 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.99.176])
-	by mse-fl1.zte.com.cn with SMTP id 52H2VjNl035173;
-	Mon, 17 Mar 2025 10:31:46 +0800 (+08)
-	(envelope-from jiang.peng9@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid31;
-	Mon, 17 Mar 2025 10:31:47 +0800 (CST)
-Date: Mon, 17 Mar 2025 10:31:47 +0800 (CST)
-X-Zmail-TransId: 2afb67d78993ffffffffff7-36625
-X-Mailer: Zmail v1.0
-Message-ID: <20250317103147313V7IEKc3g37STl_idkF_ZB@zte.com.cn>
-In-Reply-To: <f11afa64-1629-4005-8cb4-723d9b6ce6cb@hust.edu.cn>
-References: 20250317100811126QvOaWRPxSgm2ttU5faitl@zte.com.cn,f11afa64-1629-4005-8cb4-723d9b6ce6cb@hust.edu.cn
+	s=arc-20240116; t=1742180028; c=relaxed/simple;
+	bh=s4pehmqV798v9Jv3dej+/6WZnixtY8UeLNjRX5JnVlo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AfeDk+xAPQnEBGsrsJ9vgn9xtmX5CYE39F6Z2vfLvHcHZ7W/jZXDHQeoy8E6aJ6eCG5ABBYTQ2waQlFknOOitmIh5841GjoQjEUA4uHAEmJiU4PBYpPnQqcooGYhnxTRmQe4X5UjM0GnmxsLIUfB5b9rYj/RqUsCCXcSrQ5cRr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P+nQnTBX; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P+nQnTBX"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ac34257295dso231851666b.2;
+        Sun, 16 Mar 2025 19:53:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742180024; x=1742784824; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s4pehmqV798v9Jv3dej+/6WZnixtY8UeLNjRX5JnVlo=;
+        b=P+nQnTBXISAN06nd3R5VFpHGKVCwA0SlizDSZD1p5YM6H2GujOvamIJHSqbHtWzl4H
+         YheKPOHowCgxNF8Xs8za+SE7S6QpzVRuvUxVYX5laqgdQoE89d0wK9RlFs8gMVPGgR/3
+         3Blz1VwndIr0vnBI/SiPfy7D4wimLnJmmiEe3WDAAz794XTW0iTl2/WUUhAtzPUDpuOu
+         0VSbEAQhEfokcnunlyVFEPy3hXr9xs4SwfUgtQVNvFxqoxf2tZWeaWzupXPN2hsp2Atq
+         SHhudGyINkDIKCMqEna0JgcTA7H88r/d77z6UMYDPR7aR9c0IepSR2XKrll22AhPD3al
+         duOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742180024; x=1742784824;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s4pehmqV798v9Jv3dej+/6WZnixtY8UeLNjRX5JnVlo=;
+        b=VMmlCSnYu8T5RDTDumGOcMDmxVhyh0sW47WSCxLS0Uovo7/36wDFIJB804WksJNzHi
+         INfQfOwfP+xs4StIBdu3zw/Rgtb5HyFyG22ugmugVcSaptwT0oR7W6B4BHFi4DcSRLo3
+         luA8mDPDnh8tMGgQ7Gg2phpXb/eUx9jXaswYUvhOKz7cYgxdzI/9wpsH9hrwSx3D7Z2C
+         CwNVVMU2HVOxbptxP2WX9p/1WE20NA/3c/uuXhdfJFbLKcqtwHIexYDKmOtXA99KZOC2
+         YL6KJIYmsbqq974MuW1UUkQub4TDMxq2LZ7O9aFUDlTB0gvNHBs4/CXknSa0xVuzsObB
+         lQtA==
+X-Forwarded-Encrypted: i=1; AJvYcCUCTr1ZUXuSWmxaWfM/hMFoUi0k6fPFaJP79xHFvUzlS61IUmEdhr2ewm6uMz/N9fxmAezZBiSQpR/UsaNW@vger.kernel.org, AJvYcCXPjwCYziwJwig/Fz5HItRnRbf45Q04yVAwnO26WAa/J4JARZhRVnB48d91axwUaOVTO+FcwfGjtq0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUBiMEwbHrqywSAsIh59Y038s/KtUmLNaQdkmk5JQmHxO7M802
+	GKaKT3KfDaeRoyo2pF1E2/a0hQRN4Cbw6Pcj8BvW9TZ6Y8QAg9yRVEToYdIg+aqQ2FmQOKFrla+
+	oMBN9LzpICMO1qmr4HXl8Y+3dlR+/rfgxkB0=
+X-Gm-Gg: ASbGncvwTCefoeSs1WGswI4KdV0SQEC+/Y3+KIqJoNt3u9bMHEcukjtRCdz0KWjshHH
+	8nkby7XbMD/mKrToQjchwLZdHC8tk1tJw1fqYBgenEeStSR3lmA5b9XFxlBRKHac5STw1SYroS0
+	tK99l9VyAaNRUb6v0ynLKKV5gCUPf+
+X-Google-Smtp-Source: AGHT+IFb1SBXwfQIshlQn4d8jRFmxovYMRaGpa48Dp7+9we1erWX7TndiXy7ho6ihN/58Q8wpfTYjXd5njKvgrDV3ug=
+X-Received: by 2002:a17:907:6ea9:b0:abf:74d6:e2b0 with SMTP id
+ a640c23a62f3a-ac3301db34fmr1188373266b.3.1742180023551; Sun, 16 Mar 2025
+ 19:53:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <jiang.peng9@zte.com.cn>
-To: <dzm91@hust.edu.cn>
-Cc: <alexs@kernel.org>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSF0gZG9jcy96aF9DTjogZml4IHNwZWxsaW5nIG1pc3Rha2U=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 52H2VjNl035173
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 67D789A7.004/4ZGJs400t5z5B1J4
+MIME-Version: 1.0
+References: <f11afa64-1629-4005-8cb4-723d9b6ce6cb@hust.edu.cn> <20250317103147313V7IEKc3g37STl_idkF_ZB@zte.com.cn>
+In-Reply-To: <20250317103147313V7IEKc3g37STl_idkF_ZB@zte.com.cn>
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+Date: Mon, 17 Mar 2025 10:53:17 +0800
+X-Gm-Features: AQ5f1JqIn9iLbOK6qwul6BzNHb0SFYqnLe7tLMEFJvtAV5TeZT-AztBwBzPH_No
+Message-ID: <CAD-N9QXEam8v6amrfswCDFfmEkb6npDLxHRaT2dYAVEV0T4i8Q@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: fix spelling mistake
+To: jiang.peng9@zte.com.cn
+Cc: dzm91@hust.edu.cn, alexs@kernel.org, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> One suggestion: the original English(Documentation/mm/balance.rst) 
-> version also has this typo. Submit a v2 patch to fix both?
+On Mon, Mar 17, 2025 at 10:32=E2=80=AFAM <jiang.peng9@zte.com.cn> wrote:
+>
+> > One suggestion: the original English(Documentation/mm/balance.rst)
+> > version also has this typo. Submit a v2 patch to fix both?
+>
+> Documentation/mm/balance.rst was already modified by Suchit 4 days ago. T=
+herefore, it might not contain the typo anymore.
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/c=
+ommit/Documentation/mm/balance.rst?id=3Df5d10c46872ca9a6d716854354c11f2f32f=
+ce0e8
 
-Documentation/mm/balance.rst was already modified by Suchit 4 days ago. Therefore, it might not contain the typo anymore.
-https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/Documentation/mm/balance.rst?id=f5d10c46872ca9a6d716854354c11f2f32fce0e8
+LGTM. And your patch is merged into Alex's tree. Congrats!
+
+Dongliang Mu
+
+>
