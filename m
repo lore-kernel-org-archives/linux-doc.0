@@ -1,187 +1,153 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2085.outbound.protection.outlook.com [40.107.93.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2471E1E0B;
-	Mon, 17 Mar 2025 18:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742237376; cv=fail; b=dFVvvODVTwp5uIPH0Qxp3nDNEU7ZAMFA9nMz7GGU27Ne+mcMGReyOvQ4Rn1PLv4yODQDy4cVAHV9B9i2Ip+100yD2KmfHGp3oeO5JO0bYNrwwcOOmzVKAHDVOaE4DMxHW9fjW5NmYpNz19P0+NMhbs0QLqDebMjohyZQXjXHhGQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742237376; c=relaxed/simple;
-	bh=7ciRmG86Kz+2ZX82GYtcjesbRuCbhfkyQi/IMmNRqqY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=QHljuKtOHkH2LH848dNQb3CcMgY3nWGo1JCkNF94JNUh55XuIMuu0EIh4cusOeIAT0sA9oCYorchplXaw0B1co3alw227RQTtK2K/atMzYvYzZNPClpjJ7eeJ+IWnGoFQy9bVzDWREwR/CT886ro1KwDYpMgBiYCyrGBBWhwLjs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Ta5GuCG3; arc=fail smtp.client-ip=40.107.93.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3DE143748;
+	Mon, 17 Mar 2025 18:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742237516; cv=none; b=pZK7YU4y2ez52/hDOb3J/JKIrFtJG57GVhKyS9/fpPMVm09UA0yzpA8WNvVMB4AX0pax4pASQBDiQaeWaXKByMPD4hRDLhnVPWbveJbucqtKe7rbQYGqMvGP6EMnNtJ8WChqQo7SViWwbuTB22Qa9OYE+K026TRsHGLV3yVaRiE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742237516; c=relaxed/simple;
+	bh=zIs0Y0BVAU9E77z/Zzluoby72K6idCnOcy81f26DbrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OjCiQe17wVHnGdZfnZiT8OzQYeA0OMt6LhbS4wDCJp8e92um8+MDW8Xxe32v2JG6Rak4Zqzy46/diknznbPqyFBH+bKb1jcYcAxzRQ1aCE7YBQkdiVm2RTLZdW1KkHkPRgpFAQBa/UHngw66xjnhK3IrkbJ7/KEdSL0cQxVq1nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oVM559R2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Ta5GuCG3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wUSZfJJNsV1wfsTI1CBDGVotV8lAW/p0JySqHU5K9LPWSRmlgsy96HE2WliHbhEvuuCqfsKYR88qOgVVQ4ngzag+2/EYOrQpLtLzLODHudfWSby3jfFBXgjsfKnj+4fUtjRj6AW9tW5cuzQtg0A8J84huJgcIWvvxL74mKKGxwnVS06W5+BKOMOFFs1qpKWxtxdXjq43yfGxjkHNSwc4xDZY6hchsKuRRorCOB1zyl5LUZHZyr4s+V4WSViTKysNyZh51fvFPKLEBgh4u8OrAtgFIJ7NDMQR+XTcBuj5TqopYgoFcPQLw7IPcBKDaC+0fPxvX5QRhqD8lYBHsHeUbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QaDraG0VqnzTeusPbnlcILqKK+zWtIOw7ZP87wyWl1Y=;
- b=RLZjjPhOF1Fwu4X9zoqJf3u03fDemjkeYQIeaS4miN8FcmbiAeGCCpJIpWdvAeSy7mk45XxnmJR8ONS8SyL0NNWCVsxm/L0iYl+3woQJ4vcVYuBhZ1QWmtQ9vE39yAc32WqPuM8o5MwMHAvAbOBrFlmjrVUD6NIP2LweClPml1VdAGvSvIF603ivsT8FriVDhfgEvVgIHprauQ3UhT+s0f/LfaswV0DaBpAE2/Sf9P6pldvguMsz+YNrkG8YQ2DLNrqeMvh4wXDe+BZC2NcY3Kmcv36Vm40Xkw1Do+3W1X7LPNd9OxsN3XJpHTS+VSgtpb2E4fYMIzRUjU52SKfAWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QaDraG0VqnzTeusPbnlcILqKK+zWtIOw7ZP87wyWl1Y=;
- b=Ta5GuCG3BJxEtmGr2HTEdOEBIVUypqEGM1Pikg64YZNcTBncxDS80MkjXa1mn96zIC3SSdpNqYc0hSEgnNXOfZEtDj5VMPKiG8YO6zwPIQ7DXuZ8q10yYEQ1op+GVf0W2hMUDAgigYZj2AUkOoWKZidjQwKaXvqQHx6RP+2ymivo2dD/NT6I687hxQ6ywani6iLl0Z0BXWuQRgDD1jhzIAVL9FYV1vw6/DlRwxJJR4cbp3gS0+/JePDMgSk56e1QC0G0fWTdcHF9SdpphCGbSW7rwNOv1w4HM2QeFe+Vtot7CnwceIibC3WtfytF5+EoBoaFqJkyeLk4mN7HOo/E1Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by IA0PR12MB9012.namprd12.prod.outlook.com (2603:10b6:208:485::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Mon, 17 Mar
- 2025 18:49:31 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8534.031; Mon, 17 Mar 2025
- 18:49:31 +0000
-Date: Mon, 17 Mar 2025 15:49:30 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: kevin.tian@intel.com, corbet@lwn.net, joro@8bytes.org,
-	suravee.suthikulpanit@amd.com, will@kernel.org,
-	robin.murphy@arm.com, dwmw2@infradead.org, baolu.lu@linux.intel.com,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
-	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
-	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
-	praan@google.com, patches@lists.linux.dev
-Subject: Re: [PATCH v9 00/14] iommufd: Add vIOMMU infrastructure (Part-3:
- vEVENTQ)
-Message-ID: <20250317184930.GQ9311@nvidia.com>
-References: <cover.1741719725.git.nicolinc@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1741719725.git.nicolinc@nvidia.com>
-X-ClientProxiedBy: BN9PR03CA0034.namprd03.prod.outlook.com
- (2603:10b6:408:fb::9) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oVM559R2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8611C4CEE3;
+	Mon, 17 Mar 2025 18:51:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742237513;
+	bh=zIs0Y0BVAU9E77z/Zzluoby72K6idCnOcy81f26DbrQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oVM559R2kPO3CO1hH+pgQNvu5hEbnw4/r9xTQr2jmWwM1Po/1nthbIAlZL8eNhhNt
+	 EFeoLu3jachtwwWZd5pDI/ry4RP5BUzRZrojRIMjs0TSN+7vZVb2kMj0AO6gXWJ1i8
+	 tWpNw3nSA5UF1kHJ7Qvnils2vGCBiTLxX134/BAUCIu48gXjOEf+HCOTTqizi8yAbO
+	 yq/s2w2c9wSoUC9OrNkm7EeXMlz3qno06xEbKcjjOjr/8G2Hibu9aoJdoFkSq77VkI
+	 dM8pxb787jkAYJPm6u/3gJZQyzwGwgmaAyshaKEfvSgTY4PkxtAz9XFnBbZvjlLMq8
+	 zONQlopE7k/3g==
+Date: Mon, 17 Mar 2025 18:51:44 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>, Marcelo Schmitt
+ <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, lars@metafoo.de,
+ Michael.Hennerich@analog.com, corbet@lwn.net
+Subject: Re: [PATCH v1 1/4] iio: adc: ad4000: Add support for SPI offload
+Message-ID: <20250317185144.68dd564e@jic23-huawei>
+In-Reply-To: <Z9haCda4yF2SZ6gb@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1741970538.git.marcelo.schmitt@analog.com>
+	<301fc83a961c4a2ef2ac980d0baa83d9d89a88c5.1741970538.git.marcelo.schmitt@analog.com>
+	<20250317102751.5702fb82@jic23-huawei>
+	<Z9hAUs1wPOIAo2nt@debian-BULLSEYE-live-builder-AMD64>
+	<60831e04-52c2-446f-8bc5-b5d3e9e5fd40@baylibre.com>
+	<Z9haCda4yF2SZ6gb@debian-BULLSEYE-live-builder-AMD64>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|IA0PR12MB9012:EE_
-X-MS-Office365-Filtering-Correlation-Id: 58831bfb-e576-4608-2a1a-08dd65847414
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?i8s9jdC09kAfLyKk2bBiBKGUH+WruWX4n+7/6MNftr/mc4XBgHMDIIodzOMY?=
- =?us-ascii?Q?NVX5m+2HdHf9yW44IfhT/tobGgG/KESBI7+2Y/a2cdXjI8G3AtrtKMEkvq5X?=
- =?us-ascii?Q?ldQsBkhiC7pkQ3KHZWCVAW6Sby7NLsM2vewzcAcXsgpRSnVA1+NSVjuGdFh4?=
- =?us-ascii?Q?AiEPYDkff4IDbeWVsgHyTLbLiBsUrRGonBZ5mkMF4w8Db/SkST3Z3yRMMbuU?=
- =?us-ascii?Q?bkOuKAiDFRe4XkjurE/oulkroej3p7wPrmnrYIDEJ2+NeZ7MBMFQFPY9L4cm?=
- =?us-ascii?Q?3I7ie2s5PZxffolnLS8LDJh1g+WcFCC/EXyE6wVqmqD2X9c7hkWoQq3EXdAJ?=
- =?us-ascii?Q?MSkfvLp/j3tcFgEEASGuLyf3toFTPx6D+bFKzs9mStALXGoyhg2iBuW95Rww?=
- =?us-ascii?Q?DbYGr0tAc9Ehfo68THQI5M8xI12l6ulBkWf8LVTQ/y5u33Weq4MfTII5yNXf?=
- =?us-ascii?Q?peI322hrMDlP652z+6SG7VAqqdxv87eVeDecF3koYtWHnILI7uzHj6E2k/Mv?=
- =?us-ascii?Q?MxsM7jX9HjTA+mcG+IOV51okC312dGn5I+djx/5VvcgfbfbnLYMzic9REm/P?=
- =?us-ascii?Q?DtpDwI+j91qG/PumFkXPu2pZvteBRc1HI+UAQOOBC4QBZGlo499C6TaOmbXt?=
- =?us-ascii?Q?l2O8rnjO4CT/1ZtBuj69OdWl+hkLnnm4E66SjMtOHJezzdkpWkx5w+cWQllh?=
- =?us-ascii?Q?Nzw2LEnqRjBFpS0d8bX3bVNc9/yrqWPDSQD8oC8aO5e8YQOSbMxUaeFpSKT2?=
- =?us-ascii?Q?K4F3RyNjNY9gDY4v0fsEneEkuuYy0lWrRA1rruN/Ds/waRE6K/i2602tmSCZ?=
- =?us-ascii?Q?x9G4jMvCOJ2um8y/AquCnhIJYAa9WBgH/QwwrsDOrMcQzBY47wfE3A33RXoq?=
- =?us-ascii?Q?swsmx9hI3nFXs/ieUIyyPOXBPx9zbDm5bO4o3ZhVghm9R9okwbyfOC3P9wwD?=
- =?us-ascii?Q?B3+0g/aRQrop3imvJbuoLlafSqHkMXyyXsIf4SU6K3Bw+g0UeNubrVn6Luwm?=
- =?us-ascii?Q?so+wrCcdsAvqih6Fgq1k/fkTfPX7BJVvQpz12IUVinX3j/YkURtMXYjHqZZh?=
- =?us-ascii?Q?qeJNoWulDTqeKpxvdzbElCEbXOF4tM9Tyk5Xmfg1V8i8dhyzqNHRjoldQn50?=
- =?us-ascii?Q?KQNXk5Kl1ZfkpikPBaTo3aIDcxoc8HmijHqrHqafonccaKOvhb3niGGyHRYM?=
- =?us-ascii?Q?QYX0tZtK3w4gc2ziTfohZEBWkAzMxFvZj91GN/0iJETyJCcSnaxwPqhUud3/?=
- =?us-ascii?Q?CMAGKDcGOb/JUMR2FC7nnEeyLKSqVzWi6jR59xs0QjHx/kvnJUph6kyPYYti?=
- =?us-ascii?Q?Ju4MBSKObzjZtKbSuxcRhQfLgh+H+hUWg7rEWoI/6nRdTaSkR43qz7Y25zph?=
- =?us-ascii?Q?E2LC8MHcimai8/OrNRN5Y4K+MABp?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?4svhi+vbEvVOv5bS8p0UG2YhQwMM2Lskxu+xEp7GeKAl1cwoVa87TqvXNdC1?=
- =?us-ascii?Q?rWRGb6QEiocTHYUyQkt5PFOhRBzuWTWHFftn2R1VTrJKr1vvTniVilgQWoK0?=
- =?us-ascii?Q?RJYOO2Iw6hupXZZS48R3ZRbYKSr8Ddp96HLWMrJszGzXK+hHIHdBndjg9FpR?=
- =?us-ascii?Q?h6rsUCNi0sdoEF6wpQa3/VcFb06ZVW2feqSSF0t3xwtpjE9MICVYcrepibUz?=
- =?us-ascii?Q?WMreaEm+h/p//n1Ew9eOOET4HC5/WSkmfeW523/Utf9sa+/ht5INZ/jVWZ9i?=
- =?us-ascii?Q?5c7S5AVL8cdFIeBTXO23TfO6kS95Ul5jXfHvef9GMlsPzMl2tKgqO8evf+Us?=
- =?us-ascii?Q?t8RNfzscapvgZcg4DsLByq78rnN7rf3RnQeXPKdw+mSiPBOB45zZSaqTBEQZ?=
- =?us-ascii?Q?EdfQe97KMVHDh9G62eb4h9NXEYzlsQF86ozBEjgp+9cih+lfCQVdmoKGg4db?=
- =?us-ascii?Q?vZwM+kA4Sx66MnAgvd7y+6qQDkm9in/xd3YQ9YaHmtNPmMRi6ujdWI9yUTm0?=
- =?us-ascii?Q?chGgN8ROyMr/q8V0UKXeXOH7hlsz/SlzmnoXTeyDkrpup8UWGTSxQy6HcFUH?=
- =?us-ascii?Q?x63VPwycfOhn/nv+Su32pODYc/eFu3v0G1rCggbx5c6/29xWHPaw0lrVSHQ6?=
- =?us-ascii?Q?LNP9a5D4rFzr5W2uHPG3/53mpWwXIW9dRoju75iY+XuBbfiG0Fu8ex0rEvhC?=
- =?us-ascii?Q?jJOXesB00VoTe6E+iQK4/ZZtbP59w+Ox6Qjzv2Oyta61VyEpvK5rfNfPx+kM?=
- =?us-ascii?Q?i55QL9uQtA7flLv+2dIj7eWlN2rk3RDbMLM0XSv1c60XZKnKVfVHxYIbxDVX?=
- =?us-ascii?Q?BKxOVOii/xt5oH5zMuLbtO/b/XqYlEtqT6rSrOMXM6jpbDULlusckIrbchcM?=
- =?us-ascii?Q?3IxJLYys7emyRdKjwgUNVwpVavzn4T3tja9MtknUyug2zY2WPgnyPOHR2EH+?=
- =?us-ascii?Q?tVD2oyg2M+9HsvA5M4OQK06WaJdS/LIssSzlU5ck2lsvfI9ih4wwee/mtvBt?=
- =?us-ascii?Q?Fjy6NIUKbs1aHzhsQAEPYoyUZ+qgy6PqNUErPKUSDb0XUklseaIOXss+GT+E?=
- =?us-ascii?Q?EQCOb1PA8MQaAwDTofDCsOvIRklUKr9bUzCWNOgM1VNRMArCs09wbIVark+0?=
- =?us-ascii?Q?Bzcp87jh1dlUhtS3niUMlSgMLeQ0JgcbHWDV+eRJojjVMVb7Afz39SZCUfZB?=
- =?us-ascii?Q?GyeExeiCdOzBfZ37WIbzxMItUu1XukKushqBNGDc4qWhk8nKfE4hz/2B+yr2?=
- =?us-ascii?Q?xe+vqddiLZoWKFn7OO925AxiGID+nHm0p3Ja1xKS6fx65/XUq6TUnrXc3rFV?=
- =?us-ascii?Q?FdThp/pLnJoVhyRK1dKePrpQHOeLCFPnS/Di0Sww/Sba+IZrqf+2sr1JKHx3?=
- =?us-ascii?Q?UpPY6FdbdM62J3c9XSXeQGyeiwO8JtkKbkSFjOLxrVx91oUvEmkUKJBnOlOS?=
- =?us-ascii?Q?wpIz9k2BGft1s2NIG63QvGASEo13oBxFLayOzErD9GvWase78Yj4JAeZLbnQ?=
- =?us-ascii?Q?DGNSIAJCVYK4FUJNR56rSvYNAQkvZICprhm7LTE2boF0kbm3zy7JTTcnytkt?=
- =?us-ascii?Q?wT7VoXhdGlK8x97ijxXpsHBwSOBcD+iSq59hvizx?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58831bfb-e576-4608-2a1a-08dd65847414
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2025 18:49:31.5884
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oJWMjKH5Y79IZ852FkDE8m783iSB9sMFaNN7GqDW3zMc2k+R2CEQzuYjdgSVBhyz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9012
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 11, 2025 at 12:44:18PM -0700, Nicolin Chen wrote:
-> As the vIOMMU infrastructure series part-3, this introduces a new vEVENTQ
-> object. The existing FAULT object provides a nice notification pathway to
-> the user space with a queue already, so let vEVENTQ reuse that.
-> 
-> Mimicing the HWPT structure, add a common EVENTQ structure to support its
-> derivatives: IOMMUFD_OBJ_FAULT (existing) and IOMMUFD_OBJ_VEVENTQ (new).
-> 
-> An IOMMUFD_CMD_VEVENTQ_ALLOC is introduced to allocate vEVENTQ object for
-> vIOMMUs. One vIOMMU can have multiple vEVENTQs in different types but can
-> not support multiple vEVENTQs in the same type.
-> 
-> The forwarding part is fairly simple but might need to replace a physical
-> device ID with a virtual device ID in a driver-level event data structure.
-> So, this also adds some helpers for drivers to use.
-> 
-> As usual, this series comes with the selftest coverage for this new ioctl
-> and with a real world use case in the ARM SMMUv3 driver.
+On Mon, 17 Mar 2025 14:21:13 -0300
+Marcelo Schmitt <marcelo.schmitt1@gmail.com> wrote:
 
-> Nicolin Chen (14):
->   iommufd/fault: Move two fault functions out of the header
->   iommufd/fault: Add an iommufd_fault_init() helper
->   iommufd: Abstract an iommufd_eventq from iommufd_fault
->   iommufd: Rename fault.c to eventq.c
->   iommufd: Add IOMMUFD_OBJ_VEVENTQ and IOMMUFD_CMD_VEVENTQ_ALLOC
->   iommufd/viommu: Add iommufd_viommu_get_vdev_id helper
->   iommufd/viommu: Add iommufd_viommu_report_event helper
->   iommufd/selftest: Require vdev_id when attaching to a nested domain
->   iommufd/selftest: Add IOMMU_TEST_OP_TRIGGER_VEVENT for vEVENTQ
->     coverage
->   iommufd/selftest: Add IOMMU_VEVENTQ_ALLOC test coverage
->   Documentation: userspace-api: iommufd: Update FAULT and VEVENTQ
->   iommu/arm-smmu-v3: Introduce struct arm_smmu_vmaster
->   iommu/arm-smmu-v3: Report events that belong to devices attached to
->     vIOMMU
->   iommu/arm-smmu-v3: Set MEV bit in nested STE for DoS mitigations
+> Hi, comments inline.
+> 
+> On 03/17, David Lechner wrote:
+> > On 3/17/25 10:31 AM, Marcelo Schmitt wrote:
+> > 
+> >   
+> > > ...  
+> > >>> +/*
+> > >>> + * This executes a data sample transfer when using SPI offloading for when the
+> > >>> + * device connections are in "3-wire" mode, selected when the adi,sdi-pin device
+> > >>> + * tree property is set to "high". In this connection mode, the ADC SDI pin is
+> > >>> + * connected to VIO and ADC CNV pin is connected to a SPI controller CS (it
+> > >>> + * can't be connected to a GPIO).
+> > >>> + *
+> > >>> + * In order to achieve the maximum sample rate, we only do one transfer per
+> > >>> + * SPI offload trigger. This has the effect that the first sample data is not
+> > >>> + * valid because it is reading the previous conversion result. We also use  
+> > >>
+> > >> Say what happens to that invalid sample.  Is it dropped or provided to userspace
+> > >> as if it were valid?  (I hope dropped!)  
+> > > 
+> > > TL;DR: The invalid sample goes into the buffer as a valid one.
+> > > 
+> > > In AD4000 '3-wire' mode, data capture has a latency (delay) of one sample.
+> > > 
+> > > The ADC begins sampling data N at CNV rising edge
+> > >           |   +-- CNV (usually SPI CS) is brought low to begin reading the data
+> > >           |   |                                +-- Data N + 1 that will be read
+> > >           |   |                                |   on the next transfer starts 
+> > >           v   v                                v   being sampled at end of transfer N.
+> > >            ___                                  ____            
+> > > CNV  _____/   \________________________________/    \_____
+> > >                     _     _             _
+> > > SCLK ______________/ \___/ \_ ...   ___/ \_______________
+> > >                    ___   ___           ___
+> > > SDO  _____________/___\_/___\ ...   __/___\_______________
+> > >                     ^
+> > >                     |
+> > >              Data from conversion N is output from here on
+> > > 
+> > > A better drawing can be found in datasheet page 29, Figure 57.
+> > > https://www.analog.com/media/en/technical-documentation/data-sheets/ADAQ4003.pdf
+> > > 
+> > > In sum, we're always reading a conversion that started at the end of the
+> > > previous SPI transfer or, in other words, the data comes out with a latency
+> > > (delay) of one read.
+> > > 
+> > > Datasheet somehow mentions that by saying
+> > > 	When turbo mode is enabled, the conversion result read on SDO corresponds to
+> > > 	the result of the previous conversion.
+> > > 
+> > > I think I can do a dummy SPI transfer on buffer preenable so at least the
+> > > first data is not invalid. Would that be better?  
+> > 
+> > Not really. There will be a relatively long delay between that conversion
+> > trigger and when the sample is read. So the data might be slightly less stale
+> > in that case, but still not particularly useful, e.g. if you are doing any
+> > kind of signal processing that expects equal time between all samples.
+> > 
+> > On similar chips, like ad7944, we just documented that the first sample does
+> > not contain valid data and needs to be discarded.
+> >   
+> Okay, I'll assume that to be acceptable and do the same for this one.
 
-Applied, thanks
+Hmm. Doesn't really pass the useability 'smell' test but I guess
+if there is precedence and clear docs it should be fine.
 
-Jason
+> 
+> ...
+> 
+> > > I also didn't expect to find out HDL support for 16-bit data width was removed.
+> > > We used to have a build parameter for 16-bit precision ADCs.
+> > > https://github.com/analogdevicesinc/hdl/commit/b2dc91b30dae891b6319d88e083f26e726f43ba0#diff-1117c2618353232e5f22aa6a12e8ae976757fa897b3425f470a12123cae26535L13  
+> > 
+> > A while back the HDL engineers mentioned to us that they wanted to standardize
+> > on 32-bit data words everywhere. While not the most efficient use of memory,
+> > having fewer options does make things simpler across the entire software stack.
+> >   
+> Ack
+> 
+> > > 
+> > > Would something like 'because SPI offloading leads to data being pushed to
+> > > memory in CPU endianness' be a reasonable comment?  
+> > 
+> > Another way to say it is that SPI offload reads data in complete words and not
+> > in separate 8-bit xfers (bits_per_word = realbits vs. bits_per_word = 8).
+> >   
+> Ah sure, I recall the effect of setting .bits_per_word now.
+> Will add a comment explaining why the difference in endianness.
+
+Great
+
+> 
+> Thanks,
+> Marcelo
+
