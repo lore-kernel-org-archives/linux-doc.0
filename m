@@ -1,140 +1,255 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7241A072A;
-	Mon, 17 Mar 2025 16:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA5517A2E5
+	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 16:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742228569; cv=none; b=AGxxGX6Ob0Ahpg9yHsawjujVokdgTXRylhcNdUf9J9vL2UQZgAsmr6u0RIkKJ2b+Ix7wfakd4t0SkWbpEYJNwZYfpOST9c+z0DtjjM+GbwNwh+/a4sJlHN6ryJXQFQkabaCADvhLUgItTQrT08To7QyxM0CZEmwZSj9NX+qFygs=
+	t=1742228883; cv=none; b=QjmddVUbJp67R10c0EvmDy9Yzw0vn3iRigBWwFsj7RHvgmKiWdsiXkgLY2sf87vYNCYBC7lzRtJk4W1xeKmb8tuKkZB40B3jn4T8+wBTg1aDkFup0n+lN86P9aIr44UWN3tBNNNO1cVyq2GPnCvlkKRSomEtSWBbcfrBldC4hFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742228569; c=relaxed/simple;
-	bh=dRUIl3yQcLybI+RJ6oaOQPFfyifr9VBzmEcrLKujw2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r4N7u+LcR0fsZnfaQxR9RvV5wBONhMlsoAHvm2GDif0dVL1zbEnbi65+fo0J8PBLbrkzYQ5ht/bcivezsBS8esjCBvNyIncp1Qzw1NUPQ/nDlqULd9exAEXhTl/N9qg8ck5FwJmab0lpH3YbWB0GKg0cfMBkYk+wmwFHicAXGmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rFYdRWCR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742228883; c=relaxed/simple;
+	bh=+xbA11YoBCM0APVgE1HmJiBC1pDnDh5yw515L6QByLQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EO3l5R3jPVF85MPVn3O2ELBBfQhEkUF9HVGcKUUFd4wFWL2cVRe+BQIhog4AIg1RZBMM6f9aIn2Qifyb/oS4UDja3a5BkFuWTKpW2pS15Cz23zuf5blPKO2Pcr4prRclXpGpJtJstQlTXAxLza4dV5GgKbHwigPmC4335tXJNck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dDM0Tjw0; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rFYdRWCR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D4AC4CEED;
-	Mon, 17 Mar 2025 16:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742228569;
-	bh=dRUIl3yQcLybI+RJ6oaOQPFfyifr9VBzmEcrLKujw2A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rFYdRWCRMHtn3ek5pOSVea3e1aV3dB3WZkMmGn14i+pVDV70xQ4NY4R/ZlTkyS86C
-	 HGEpT+dhq4uqjcBnp1l01qCouQcDLlbj5wo9QOTOFkc7pQMauL03MlK9Y4h3XhlRxh
-	 cnup+q58QqMDwCuZn/G0pO3SmEuZT+0rrpjuXzn5U1gE9tEdYIF2XFctyrV6Z/YrXu
-	 vMXqUWKB4xXGT75JveTVA6Oblr++7aq8T0SPVv/gnlvDtVtsH6QScGRc+4IUhUCZ+d
-	 /xcMHRSGWcLrC/nuHlZIvmcLTNxXmfazqGOGiM4370sgCS3bSRyyCTmGT9+Rmo71w2
-	 26zc6VcvZZdLw==
-Date: Mon, 17 Mar 2025 09:22:46 -0700
-From: Kees Cook <kees@kernel.org>
-To: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Miguel Ojeda <ojeda@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Marco Elver <elver@google.com>, linux-hardening@vger.kernel.org,
-	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Yafang Shao <laoar.shao@gmail.com>,
-	Tony Ambardar <tony.ambardar@gmail.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Jan Hendrik Farr <kernel@jfarr.cc>,
-	Alexander Potapenko <glider@google.com>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v4 1/2] compiler_types: Introduce __flex_counter() and
- family
-Message-ID: <202503170918.A53A0F2@keescook>
-References: <20250315025852.it.568-kees@kernel.org>
- <20250315031550.473587-1-kees@kernel.org>
- <eb6e6198-dc42-4a63-8d0d-35f3061ff388@intel.com>
- <44a00ad4-b05d-4fb8-87f2-fccbaa068872@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dDM0Tjw0"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5e5e34f4e89so8318624a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 09:28:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1742228880; x=1742833680; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=89fD89Q6T2OKDuYNg82lPgYyR9ous0ateN1XpH9BsoA=;
+        b=dDM0Tjw0N/onVGEaa/V+FpXuChPIpSG36ZiVBEwoSDp3+Birn9bTufYQhi+CkfCmbw
+         jsvK+FxE6vB/JfBooIOw6NbuXuJiF7ulLG5U2nGizQ5wG6PWZvqmnxRG1KaBVnBGWk4+
+         d4MBbX8u0ATQPT+Yq2c1xzkJTQCNuW+TcxvcPlq4PsbWDzXyilJ33uWhM/Tk4SJDX00n
+         FkuEY3/Wm814f7g1BeSe+L7RYanumIIMz+pCx+xRglbOpgvs/ITXUE0OR65JvBDKIJKk
+         KPRImI4sT5wYMokKM0isBgvGozuRBoTMR+1RGGvDKaOFkjOdWLB9Cj8RmVPe+HMtbNZG
+         jg3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742228880; x=1742833680;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=89fD89Q6T2OKDuYNg82lPgYyR9ous0ateN1XpH9BsoA=;
+        b=Q0GkfGjG58tkb3g4VB74gwRy4XvCD7IaYehYVnCbSAtxhWD/iGR9VSwvGSuqFvrSnh
+         yJlE8WOIhEBz5qKTZ24+cY0MLxbrxLuxL0hFr4kTNqdxkYH/pvhZwHF1olcqIDXV4KCu
+         NHuPOx6XfIwEETia7r43dzXh4ClnG+0e+HhR3UjFSwOdKckCucSlGJZ1b7J49fowBEdV
+         2vaI/71h74eu7W/kBX5923Imo2pMxV1Gv8QeKRmauc/maVlaONScYvdc1u4/Mw+LOqnl
+         kR9BsWtGfTGvCVPFc63Ml8P8qFwlbP4Peds3MfEPjMfKRo1M4LvQGpgBxBrlM5agihp+
+         c0IQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWF7WXt6HyF+JNFggInfFx+Japwgagsu/cASXT7yaEFMvwGyYzhOBy/oj52QX9UjMFbs81/E8+sniI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJzCRMzZFVGbf1/Yg0xydeYaiKnVKtAYZHAxIqG05ZcfyUWo+t
+	ybG4htDZj/TORwRPs9HD45EQOdeU9w29GmmKh9trVNz2TGY7IuW2SJWF0VX4jXrssa6UmUL/QOh
+	JTHtxbRuDjYh85Pk7fHNeNK1gCfRaI5MK7ST5
+X-Gm-Gg: ASbGncuV2e91K0Qkmsg+GefJEH/HZ/udppjNAjZAekTiwRnlhwf+Sa6w/C82yHEATJZ
+	7cNqlcsXQj2N4F9p43pd60Zfv5dEsYjRPFRuJrFoZwhYx1gk6FsWJUXlM5q67v5JEx0V9WBcCQi
+	Ja/M6WEmCB/BmCI+TSQ/s5HieQFlvVzvQwdGnm2CTfo7zDntVkMcdkhWvXvi+zDZ/uZw==
+X-Google-Smtp-Source: AGHT+IGFFcNVZoBalAn7/3OPYvWx4kWbHEWQNDXbKx96snWH45JMXiSL+Iev2blxLMZFP9U29bNgAZYh4i+cmODElXE=
+X-Received: by 2002:a05:6402:84f:b0:5de:dfd0:9d22 with SMTP id
+ 4fb4d7f45d1cf-5eb1df95fdamr261706a12.22.1742228879633; Mon, 17 Mar 2025
+ 09:27:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <44a00ad4-b05d-4fb8-87f2-fccbaa068872@intel.com>
+References: <fc3a67ee-6e97-4b9f-88d9-c24c6dab20c3@intel.com>
+ <a9078e7d-9ce6-4096-a2da-b2c6aae1e3ed@amd.com> <CALPaoCgN+oGgdp40TOJ9NgF9WYPdN0cG8A8BtOOMXOP6iMVfzw@mail.gmail.com>
+ <f1744c45-9edf-4012-89bc-47393b4c53fc@amd.com> <CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com>
+ <d1ca9220-1ab7-4a39-819a-03a6069b7ac4@amd.com> <CALPaoChLL8p49eANYgQ0dJiFs7G=223fGae+LJyx3DwEhNeR8A@mail.gmail.com>
+ <a4ab53b5-03be-4299-8853-e86270d46f2e@amd.com> <c1c0a99a-a467-4ae6-80ee-04b6a9cdb6e5@amd.com>
+ <Z890Q2GoP6GecwW4@agluck-desk3> <04e47d0e-6447-451e-98e4-7ea65187d370@amd.com>
+ <6508cf67-3263-432e-892c-9b502b3c6cd4@intel.com> <f8a20ed8-6e30-4cff-a96b-8df89a605081@amd.com>
+ <d07a70f5-b1ca-4766-a1d9-53988dd9164f@intel.com> <14c14b11-5b45-4810-8e46-019c8a67fc90@amd.com>
+ <1db8ad73-5194-4821-844a-8fd7cac72ad4@intel.com> <9b8653a3-c6fd-4748-a4b5-94d5598d180f@amd.com>
+ <20ec195a-c4dd-48d9-89f6-4d48fd438fe8@intel.com> <be6d23c8-3e93-4bdc-8b33-d3af7df7cc94@amd.com>
+ <7f54f9aa-1102-49ed-b830-6facb6f48366@intel.com>
+In-Reply-To: <7f54f9aa-1102-49ed-b830-6facb6f48366@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Mon, 17 Mar 2025 17:27:47 +0100
+X-Gm-Features: AQ5f1JoIXqgG0M4QrynyU6Ipgs01SNdbTiTvENC9YJAFCysT9dUjqv8f75ycOjM
+Message-ID: <CALPaoCj7aSVxHisQTdKQ5KN0-aNzN8rRkRPVc7pjGMLSxfPvrA@mail.gmail.com>
+Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: babu.moger@amd.com, "Moger, Babu" <bmoger@amd.com>, "Luck, Tony" <tony.luck@intel.com>, 
+	Dave Martin <Dave.Martin@arm.com>, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com, 
+	rostedt@goodmis.org, xiongwei.song@windriver.com, 
+	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com, 
+	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com, 
+	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com, 
+	mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	maciej.wieczor-retman@intel.com, eranian@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 17, 2025 at 10:43:38AM +0100, Przemek Kitszel wrote:
-> On 3/17/25 10:26, Przemek Kitszel wrote:
-> > On 3/15/25 04:15, Kees Cook wrote:
-> > > Introduce __flex_counter() which wraps __builtin_counted_by_ref(),
-> > > as newly introduced by GCC[1] and Clang[2]. Use of __flex_counter()
-> > > allows access to the counter member of a struct's flexible array member
-> > > when it has been annotated with __counted_by().
-> > > 
-> > > Introduce typeof_flex_counter(), can_set_flex_counter(), and
-> > > set_flex_counter() to provide the needed _Generic() wrappers to get sane
-> > > results out of __flex_counter().
-> > > 
-> > > For example, with:
-> > > 
-> > >     struct foo {
-> > >         int counter;
-> > >         short array[] __counted_by(counter);
-> > >     } *p;
-> > > 
-> > > __flex_counter(p->array) will resolve to: &p->counter
-> > > 
-> > > typeof_flex_counter(p->array) will resolve to "int". (If p->array was not
-> > > annotated, it would resolve to "size_t".)
-> > > 
-> > > can_set_flex_counter(p->array, COUNT) is the same as:
-> > > 
-> > >     COUNT <= type_max(p->counter) && COUNT >= type_min(p->counter)
-> > > 
-> > > (If p->array was not annotated it would return true since everything
-> > > fits in size_t.)
-> > > 
-> > > set_flex_counter(p->array, COUNT) is the same as:
-> > > 
-> > >     p->counter = COUNT;
-> > > 
-> > > (It is a no-op if p->array is not annotated with __counted_by().)
-> > > 
-> > > Signed-off-by: Kees Cook <kees@kernel.org>
-> > 
-> > I agree that there is no suitable fallback handy, but I see counter
-> > as integral part of the struct (in contrast to being merely annotation),
-> > IOW, without set_flex_counter() doing the assignment, someone will
-> > reference it later anyway, without any warning when kzalloc()'d
-> > 
-> > So, maybe BUILD_BUG() instead of no-op?
-> 
-> I get that so far this is only used as an internal helper (in the next
-> patch), so for me it would be also fine to just add __ prefix:
-> __set_flex_counter(), at least until the following is true:
->  "manual initialization of the flexible array counter is still
-> required (at some point) after allocation as not all compiler versions
-> support the __counted_by annotation yet"
+Hi Reinette,
 
-Yeah, that's fair. I will rename set_... and can_set_...
+On Thu, Mar 13, 2025 at 10:22=E2=80=AFPM Reinette Chatre
+<reinette.chatre@intel.com> wrote:
+>
+> Hi Babu,
+>
+> On 3/13/25 1:13 PM, Moger, Babu wrote:
+> > On 3/13/25 11:08, Reinette Chatre wrote:
+> >> On 3/12/25 11:14 AM, Moger, Babu wrote:
+> >>> On 3/12/25 12:14, Reinette Chatre wrote:
+> >>>> On 3/12/25 9:03 AM, Moger, Babu wrote:
+> >>>>> On 3/12/25 10:07, Reinette Chatre wrote:
+>
+>
+> > Here are the steps. Just copying steps from Peters proposal.
+> > https://lore.kernel.org/lkml/CALPaoCiii0vXOF06mfV=3DkVLBzhfNo0SFqt4kQGw=
+GSGVUqvr2Dg@mail.gmail.com/
+>
+> Thank you very much for detailing the steps. It is starting the fall into=
+ place
+> for me.
+>
+> >
+> >
+> > 1. Mount the resctrl
+> >    mount -t resctrl resctrl /sys/fs/resctrl
+>
+> I assume that on ABMC system the plan remains to have ABMC enabled by def=
+ault, which
+> will continue to depend on BMEC.
+>
+> How would the existing BMEC implementation be impacted in this case?
+>
+> Without any changes to BMEC support the mbm_total_bytes_config and mbm_lo=
+cal_bytes_config
+> files will remain and user space may continue to use them to change the e=
+vent
+> configurations with confusing expecations/results on an ABMC system.
+>
+> One possibility may be that a user may see below on ABMC system even if B=
+MEC is supported:
+> # cat /sys/fs/resctrl/info/L3_MON/mon_features
+> llc_occupancy
+> mbm_total_bytes
+> mbm_local_bytes
+>
+> With the above a user cannot be expected to want to interact with mbm_tot=
+al_bytes_config
+> and mbm_local_bytes_config, which may be the simplest to do.
 
-Thought FWIW I'm not sure we'll ever want a BUILD_BUG_ON() just because
-there will be flex arrays with future annotations that can't have their
-counter set (e.g. annotations that indicate globals, expressions, etc --
-support for these cases is coming, if slowly[1]).
+How about making mbm_local_bytes and mbm_total_bytes always be
+configured using mbm_{local,total}_bytes_config and only allowing the
+full ABMC configurability on user-defined configurations. This could
+resolve the issue of backwards compatibility with the BMEC files and
+remove the need for the user opting-in to ABMC mode.
 
--Kees
+It will be less clean implementation-wise, since there will be two
+classes of event configuration to deal with, but I think it seems
+logical from the user's side.
 
-[1] loooong thread https://gcc.gnu.org/pipermail/gcc-patches/2025-March/677024.html
+>
+> To follow that, we should also consider how "mon_features" will change wi=
+th this
+> implementation.
+>
+> >
+> > 2. When ABMC is supported two default configurations will be created.
+> >
+> >   a. info/L3_MON/counter_configs/mbm_total_bytes/event_filter
+> >   b. info/L3_MON/counter_configs/mbm_local_bytes/event_filter
+> >
+> >   These files will be populated with default total and local events
+> >   # cat info/L3_MON/counter_configs/mbm_total_bytes/event_filter
+> >     VictimBW
+> >     RmtSlowFill
+> >     RmtNTWr
+> >     RmtFill
+> >     LclFill
+> >     LclNTWr
+> >     LclSlowFill
+>
+> Looks good. Here we could perhaps start nitpicking about naming and line =
+separation.
+> I think it may be easier if the fields are separated by comma, but more o=
+n that
+> below ...
+>
+> >
+> >   # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
+> >    LclFill,
+> >    LclNTWr
+> >    LclSlowFill
+> >
+> > 3. Users will have options to update the event configuration.
+> >    echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_fil=
+ter
+>
+> We need to be clear on how user space interacts with this file. For examp=
+le,
+> can user space "append" configurations? Specifically, if the file has
+> contents like your earlier example:
+> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
+>  LclFill
+>  LclNTWr
+>  LclSlowFill
+>
+> Should above be created with (note "append" needed for second and third):
+> echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
+> echo LclNTWr >> info/L3_MON/counter_configs/mbm_local_bytes/event_filter
+> echo LclSlowFill >> info/L3_MON/counter_configs/mbm_local_bytes/event_fil=
+ter
+>
+> Is it possible to set multiple configurations in one write like below?
+> echo "LclFill,LclNTWr,LclSlowFill" > info/L3_MON/counter_configs/mbm_loca=
+l_bytes/event_filter
+>
+> (note above where it may be easier for user space to use comma (or some o=
+ther field separator)
+> when providing multiple configurations at a time, with this, to match, ha=
+ving output in
+> commas may be easier since it makes user interface copy&paste easier)
+>
+> If file has content like:
+> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
+>  LclNTWr
+>  LclSlowFill
+>
+> What is impact of the following:
+> echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
+>
+> Is it (append):
+> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
+>  LclFill
+>  LclNTWr
+>  LclSlowFill
+>
+> or (overwrite):
+> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
+>  LclFill
+>
+> I do think the interface will be more intuitive it if follows regular fil=
+e
+> operations wrt "append" and such. I have not looked into how kernfs suppo=
+rts
+> "append".
 
--- 
-Kees Cook
+I expect specifying counter_configs to be a rare or one-time
+operation, so I think ease-of-use is the only concern. I think
+multiple, appending writes is the most straightforward to implement
+and invoke (for a shell user), but I think commas are easy enough to
+support as well, even though it would look better when reading back to
+see the entries on separate lines.
+
+I believe you can inspect the file descriptor's flags from the
+kernfs_open_file reference: of->file->f_flags & O_APPEND
+
+I haven't tried this, though.
+
+-Peter
