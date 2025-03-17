@@ -1,170 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE451FAA;
-	Mon, 17 Mar 2025 20:59:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C35617A311;
+	Mon, 17 Mar 2025 21:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742245161; cv=none; b=VVoo/RdFrc0Q52l4NKcjhTQx9GMCWtjJrMMdMvOq99LaxAV1vn2KtY4Bh9deoF7yWRccO12zMfd0ds40EoQitOt7a8O/dD8xsMFx9lHO4BrswaNs65IBEZcDE5KG2xZSolKRECJzHbuDyYUrPUD0Mhk8iqETcYdnMcnfQy0z3SM=
+	t=1742245330; cv=none; b=iDnur/9A66sHlDN5NS1K3Lq5EjtLxsfk/fr+gUjHbfcTqFa004xUU8Z1tguqDpQYv8eY8fyPOt1EJcdECwu2A3M/lCeclCBzlbxUXv+jc+THS384X0bIFnZSpAg5W3eDtALaf3n7CnbY2/0E18xZr4kiE0ng7W42eUB1SYICHxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742245161; c=relaxed/simple;
-	bh=vjYs1iVtvT6elCJYWvA6a39Fiy+4oldR0sImIebwG2k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z0apXJVJDMzp1rp2/m8DMl8cGfYcpNO1qPUavYzlDY7yVwCkbsdrlqXl8t2B5XtSaLcBAWyEMwJE+7eaDT6WX82j3+hpghDo+rKCKDIgSeumAOFOAIqQs/WX1otgOGv8sQMAbh3qopWCsd2hupQkNUQuFoGPaT07jGNfDmnw9E0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+6XPPrN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742245330; c=relaxed/simple;
+	bh=tkddO0mXjCM4xUoDUByVjfHycXg5CLzqUgcE7sXXykY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tw6skWRNDChOKxadfCyhPT4q3hDTqls022yHxbG1oJRqDnRg3vSNZue33acUg8qwQWFoq/AKVtrNw36z568wAD/Gjbh/h23tyknxAb7uO6p4QjS7D5bccoI8lVBxoQ0/S70SVr9bkCGe545jdsSWqF7cGv9jNqB2wZpXqAee8no=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=JHiBK7F5; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+6XPPrN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB031C4CEF2;
-	Mon, 17 Mar 2025 20:59:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742245160;
-	bh=vjYs1iVtvT6elCJYWvA6a39Fiy+4oldR0sImIebwG2k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=p+6XPPrNuH6u+/zhkkK3a/t53bIXFuFzXp6p4RjfOjjrP8AIMDUWZjWcfJL4GZLXl
-	 0/Q9HAqhNkWEiuV2u5CAtJC6V5ANJ+Hw8oAeSPzh/WoDTYxJkZZ8rX2GFxETz3E1Kw
-	 Z2xdu6QRc3qaMoVA9AbFr4+HS6lqus2c8WxSUf/B96710S2bJ5L+LoUr2UFI5w8GpD
-	 pBZPVACsZ9o59Ot732iVX/lYrzFinZj2eJWulgjm+zsdD1yeXHq+Vt/u+NuGMbHXLA
-	 wyzdNuKA4ux607YNlhchLenPAKSwe3zvR6OxWEd0SxpmBQw/CuV7t1qHP15Hs8YvYw
-	 E2pgP5r1PY+yg==
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6f666c94285so47219517b3.3;
-        Mon, 17 Mar 2025 13:59:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU2kZbAb7VLDb/QJLWYuo142Z+oL7oD2OruoPjUk54PEy3zUJp3VdpJVMFcXlFAX458QBjAEw==@vger.kernel.org, AJvYcCU5fbGCUcMTs+N04LBi0/rkM6msOXcoB7vBeEpSwSDM+od3mV6U5qJAqXnLBqucdGd7wnXCMjHGOYaCa4Gz@vger.kernel.org, AJvYcCV9yR4vv2IsOotP57gmdNWfU/bwZYTkJnc2Q7b/3ENWvu4L+ngh593JmVjs0rInLjZp+uaF+SNwqmGs@vger.kernel.org, AJvYcCXYdDLXOhdJws3tzeZiOKC9LgyFL6VWCT56RyLgp1tF+c6Qo5W6i+19B9Lo8ZmtfrKC9s0K6IrjRBUTD9JbxdKzJZMs92U+@vger.kernel.org
-X-Gm-Message-State: AOJu0Yye7yixqRgxdxG7YtYjnKsQgHyxthSAgSFDLtR+sptiKFvCGNwR
-	nOTP4sd2wsb+wCgixa6s3l5gPsA/1Sg9cvkDVaIR8AYMEqtisdWSq1vYVohPwp0S0+mceY2c32A
-	YD6nfYwXrQlbhVqNxfOtikG8jAyg=
-X-Google-Smtp-Source: AGHT+IG2KGySkbENIEIwfPWn9Y0xEwyw2vu7R1Cg5oOaKr3QUdu4o2IoxOYJkMdYnLlTBrmK/eWhPMya6kUW2cA8aBI=
-X-Received: by 2002:a05:6902:118f:b0:e64:192e:725d with SMTP id
- 3f1490d57ef6-e64af124d1emr2325540276.15.1742245160049; Mon, 17 Mar 2025
- 13:59:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="JHiBK7F5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1742245325;
+	bh=tkddO0mXjCM4xUoDUByVjfHycXg5CLzqUgcE7sXXykY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JHiBK7F5+DY/zWzWeY9LzMfbXq20oIZ0SP3VvbvLajirBaxN8mkCQEg92UD00OVn8
+	 Ec6kX2X3mDJDQNEuFuPh4a4QOVlZEhKYSfygLklxl7vxayKEGWYRDQ3UmjaYKdsXgV
+	 u3ow/Mj+HGiV65NIFA19dJIG0bEnh3lTFBUdv24U=
+Date: Mon, 17 Mar 2025 22:02:04 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>, 
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Joaquin Ignacio Aramendia <samsagax@gmail.com>, Derek J Clark <derekjohn.clark@gmail.com>, 
+	Kevin Greenberg <kdgreenberg234@protonmail.com>, Joshua Tam <csinaction@pm.me>, 
+	Parth Menon <parthasarathymenon@gmail.com>, Eileen <eileen@one-netbook.com>, linux-kernel@vger.kernel.org, 
+	sre@kernel.org
+Subject: Re: [PATCH v5 13/13] platform/x86: oxpec: Add charge threshold and
+ behaviour to OneXPlayer
+Message-ID: <a764ce58-27a8-44f1-b60e-c6a6d4233977@t-8ch.de>
+References: <20250317155349.1236188-1-lkml@antheas.dev>
+ <20250317155349.1236188-14-lkml@antheas.dev>
+ <ce0727b4-bf47-4dc7-9103-d87d88a0e213@t-8ch.de>
+ <CAGwozwEqjoW-6J8rzm9HcJ0W1DVvzzPkPRzsKZE62gk3Q1ewSA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1741902661-31767-1-git-send-email-jasjivsingh@linux.microsoft.com>
- <1741902661-31767-2-git-send-email-jasjivsingh@linux.microsoft.com>
-In-Reply-To: <1741902661-31767-2-git-send-email-jasjivsingh@linux.microsoft.com>
-From: Fan Wu <wufan@kernel.org>
-Date: Mon, 17 Mar 2025 13:59:08 -0700
-X-Gmail-Original-Message-ID: <CAKtyLkGuRraMbArSQCGxb+m5p+M8G5WZCTHk-7dKVfQd2EJYxw@mail.gmail.com>
-X-Gm-Features: AQ5f1JrHOtrVJ6GMM8x4vxzrK5EKOKJCc20cPLm5ogUONaxzbIbLo2wsHktkfwc
-Message-ID: <CAKtyLkGuRraMbArSQCGxb+m5p+M8G5WZCTHk-7dKVfQd2EJYxw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/1] ipe: add errno field to IPE policy load auditing
-To: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
-Cc: corbet@lwn.net, jmorris@namei.org, serge@hallyn.com, eparis@redhat.com, 
-	paul@paul-moore.com, linux-doc@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, audit@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGwozwEqjoW-6J8rzm9HcJ0W1DVvzzPkPRzsKZE62gk3Q1ewSA@mail.gmail.com>
 
-On Thu, Mar 13, 2025 at 2:51=E2=80=AFPM Jasjiv Singh
-<jasjivsingh@linux.microsoft.com> wrote:
->
-> Users of IPE require a way to identify when and why an operation fails,
-> allowing them to both respond to violations of policy and be notified
-> of potentially malicious actions on their systems with respect to IPE.
->
-> This patch introduces a new error field to the AUDIT_IPE_POLICY_LOAD even=
-t
-> to log policy loading failures. Currently, IPE only logs successful polic=
-y
-> loads, but not failures. Tracking failures is crucial to detect malicious
-> attempts and ensure a complete audit trail for security events.
->
-> The new error field will capture the following error codes:
->
-> * -ENOKEY: Key used to sign the IPE policy not found in the keyring
-> * -ESTALE: Attempting to update an IPE policy with an older version
-> * -EKEYREJECTED: IPE signature verification failed
-> * -ENOENT: Policy was deleted while updating
-> * -EEXIST: Same name policy already deployed
-> * -ERANGE: Policy version number overflow
-> * -EINVAL: Policy version parsing error
-> * -EPERM: Insufficient permission
-> * -ENOMEM: Out of memory (OOM)
-> * -EBADMSG: Policy is invalid
->
-> Here are some examples of the updated audit record types:
->
-> AUDIT_IPE_POLICY_LOAD(1422):
-> audit:  AUDIT1422 policy_name=3D"Test_Policy" policy_version=3D0.0.1
-> policy_digest=3Dsha256:84EFBA8FA71E62AE0A537FAB962F8A2BD1053964C4299DCA
-> 92BFFF4DB82E86D3 auid=3D1000 ses=3D3 lsm=3Dipe res=3D1 errno=3D0
->
-> The above record shows a new policy has been successfully loaded into
-> the kernel with the policy name, version, and hash with the errno=3D0.
->
-> AUDIT_IPE_POLICY_LOAD(1422) with error:
->
-> audit: AUDIT1422 policy_name=3D? policy_version=3D? policy_digest=3D?
-> auid=3D1000 ses=3D3 lsm=3Dipe res=3D0 errno=3D-74
->
-> The above record shows a policy load failure due to an invalid policy
-> (-EBADMSG).
->
-> By adding this error field, we ensure that all policy load attempts,
-> whether successful or failed, are logged, providing a comprehensive
-> audit trail for IPE policy management.
->
-> Signed-off-by: Jasjiv Singh <jasjivsingh@linux.microsoft.com>
-> ---
->  Documentation/admin-guide/LSM/ipe.rst | 69 +++++++++++++++++++--------
->  security/ipe/audit.c                  | 19 ++++++--
->  security/ipe/fs.c                     | 25 ++++++----
->  security/ipe/policy.c                 | 17 ++++---
->  security/ipe/policy_fs.c              | 28 ++++++++---
->  5 files changed, 113 insertions(+), 45 deletions(-)
->
+On 2025-03-17 19:20:46+0100, Antheas Kapenekakis wrote:
+> On Mon, 17 Mar 2025 at 19:13, Thomas Weißschuh <linux@weissschuh.net> wrote:
+> > On 2025-03-17 16:53:49+0100, Antheas Kapenekakis wrote:
 
-...
+> > > @@ -60,6 +61,7 @@ enum oxp_board {
+> > >  };
+> > >
+> > >  static enum oxp_board board;
+> > > +static struct device *oxp_dev;
+> >
+> > Using a global variable is ugly.
+> > An explicit parameter passed through
+> > battery_hook_register() -> add_battery()
+> > would be nicer.
+> > It would require changes to the core code and all its users, though.
+> 
+> I debated doing this. Unfortunately, this driver uses a global
+> variable already (see board), so introducing a struct here seemed a
+> bit excessive.
+> 
+> During a refactor, removing the board global variable would introduce
+> a features struct, which can then be used for the battery hook.
+> 
+> So I think they should be done together in a future series.
 
-> diff --git a/security/ipe/policy.c b/security/ipe/policy.c
-> index b628f696e32b..1c58c29886e8 100644
-> --- a/security/ipe/policy.c
-> +++ b/security/ipe/policy.c
-> @@ -84,8 +84,11 @@ static int set_pkcs7_data(void *ctx, const void *data,=
- size_t len,
->   * ipe_new_policy.
->   *
->   * Context: Requires root->i_rwsem to be held.
-> - * Return: %0 on success. If an error occurs, the function will return
-> - * the -errno.
-> + * Return:
-> + * * %0        - Success
-> + * * %-ENOENT  - Policy was deleted while updating
-> + * * %-EINVAL  - Policy name mismatch
-> + * * %-ESTALE  - Policy version too old
->   */
->  int ipe_update_policy(struct inode *root, const char *text, size_t textl=
-en,
->                       const char *pkcs7, size_t pkcs7len)
-> @@ -146,10 +149,12 @@ int ipe_update_policy(struct inode *root, const cha=
-r *text, size_t textlen,
->   *
->   * Return:
->   * * a pointer to the ipe_policy structure     - Success
-> - * * %-EBADMSG                                 - Policy is invalid
-> - * * %-ENOMEM                                  - Out of memory (OOM)
-> - * * %-ERANGE                                  - Policy version number o=
-verflow
-> - * * %-EINVAL                                  - Policy version parsing =
-error
-> + * * %-EBADMSG                         - Policy is invalid
-> + * * %-ENOMEM                          - Out of memory (OOM)
-> + * * %-ERANGE                          - Policy version number overflow
-> + * * %-EINVAL                          - Policy version parsing error
-> + * * %-ENOKEY                          - Policy signing key not found
-> + * * %-EKEYREJECTED                    - Policy signature verification f=
-ailed
->   */
+Fine by me.
 
-The indentation here is not aligned.
+<snip>
 
-I don't see any other issue, if there is no objection from the audit
-folks, I will pull this into ipe's tree.
+> > > +static int oxp_add_battery(struct power_supply *battery, struct acpi_battery_hook *hook)
+> > > +{
+> > > +     /* OneXPlayer devices only have one battery. */
+> > > +     if (strcmp(battery->desc->name, "BAT0") != 0 &&
+> > > +         strcmp(battery->desc->name, "BAT1") != 0 &&
+> > > +         strcmp(battery->desc->name, "BATC") != 0 &&
+> > > +         strcmp(battery->desc->name, "BATT") != 0)
+> > > +             return -ENODEV;
+> >
+> > If they only have one battery, why is the check necessary?
+> 
+> Leftover from when I modelled the battery hook from asus-wmi. If the
+> battery hook only runs for system batteries and not e.g., for
+> peripherals, I will remove this.
 
--Fan
+The battery hook runs for all batteries discovered through ACPI.
+These should only be system batteries.
 
-.
+> > > +
+> > > +     return power_supply_register_extension(battery, &oxp_psy_ext, oxp_dev, NULL);
+> > > +}
+> > > +
+> > > +static int oxp_remove_battery(struct power_supply *battery, struct acpi_battery_hook *hook)
+> > > +{
+> > > +     power_supply_unregister_extension(battery, &oxp_psy_ext);
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static struct acpi_battery_hook battery_hook = {
+> > > +     .add_battery = oxp_add_battery,
+> > > +     .remove_battery = oxp_remove_battery,
+> > > +     .name = "OneXPlayer Battery",
+> >
+> > This struct can also be aligned.
+> 
+> Can you expand on that?
+
+It is about lining up the "=" characters all in one vertical line.
+Same as in oxp_psy_ext;
+
+<snip>
