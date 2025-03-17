@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71711A3029;
-	Mon, 17 Mar 2025 19:41:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDA21DEFEB;
+	Mon, 17 Mar 2025 19:52:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742240506; cv=none; b=rX3HOtPH6hbmzIauTiu10+ncW4o49KuBDGbKV/xTOF+mtBgef8cJZ2lFCFcmYzXE0ZS1eODGR+zNFPaQxR+SAb5N1g3k1xESXjWo5Rho+/fCcStKCWfYlELwZu7IDnDvxXX0o0/D5IWnSj6tpfvsbeYybll1BEbaeG7VUXlM42U=
+	t=1742241147; cv=none; b=MTXybwSJcaEvdFLamTTHTgh/KDew/SaGPv+bSHrlHA09AYeGz0YcfTbNdoP8eXBJiqur55NYXMFLiU0xredzvy4eFq8YobljsRGgzy58BetiFd/SIJtBvmc42PV65XsciSTVsFQG5ZUbRInd4LuwVOQZO546bJKj1EU/41GL2xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742240506; c=relaxed/simple;
-	bh=M5DC/biv/Uhbcd3IaR6CyJL8PiIRugOzZt7y1LxHHSE=;
+	s=arc-20240116; t=1742241147; c=relaxed/simple;
+	bh=k35eDx8RG0ueo8SoUAaQ9cHQFddjWMIWuTGDDc47dy0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m4404MXJlk3/gcS6HMF6S4JVS35JqIBm26NpIXVGUGNTF09j1Dyl4MHHdg42NIwtTlIPw28DelwWa+B7/P/fxgrcRyFTcTZ+jMQ+mfaQ9YcA+X31BO3e10+mMn8xGcY1kVgbAwVKTGDkqGXMKwJD9aryobR4BOgD8tcCuXwtyeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAdHQFpF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=BybJnwC/70KLOXc7NTJXv520kQzyx1Dm7cCXNd+4RIQomr7KxViihbZGq9TMmRCO3W3UM3Pt57dhroMVKQo2zyGoQLS3Gl5AxfHaR/ciDCo3W1SmQnJaOcEB8Dm/Tyb7p4cN1C8Q2IkZDB23qwZmkJEacm0Xgv/r3eAEkxLA0k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iu0gVWhY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAdHQFpF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2ABDC4CEE3;
-	Mon, 17 Mar 2025 19:41:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iu0gVWhY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C000C4CEE3;
+	Mon, 17 Mar 2025 19:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742240505;
-	bh=M5DC/biv/Uhbcd3IaR6CyJL8PiIRugOzZt7y1LxHHSE=;
+	s=k20201202; t=1742241146;
+	bh=k35eDx8RG0ueo8SoUAaQ9cHQFddjWMIWuTGDDc47dy0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hAdHQFpFtcLF6f9SBZk35QKEAEbtVx01EhXSOBhpfPmK5jx9eZMbnd9B0lPkanT+k
-	 k5GGaqfeip2FSFYLvkTsMrLa587fjLpnY3kJlhiJxzIhHR99ryVVcMSUWreH9hOl7k
-	 WyheSyd4goRIx8ZYc74lZZvYdwwiI8ziweZa6oQx2RRM619qsk6H7JnrcpnmaWs7F+
-	 GIKSc1xxZ7k4MWKNhOQUlcUYJ15holzasL0+Hozso3LxWbllpDRTxx7jy8cfVbRF6X
-	 a+CX9Csx8hMJwDAG62CGZ/TlJxr+ec/wsAiHyaQ1qrXsSKexsXhHs8N9OTM5BTT1yZ
-	 kcSqAMbRcIdUw==
-Date: Mon, 17 Mar 2025 20:41:38 +0100
+	b=Iu0gVWhYpcpA63Dbe6zfrI6mgVpjUSeuAVBgJ6V6DPTtnKGt/w62XaS7X0IVWpG5c
+	 ZySe2qI/ow+Sz70BRFEXT0RSlZwUlTFVIuBKw85tQRxTxZYTLsiOBB08e/NpA6cCnH
+	 Q5QXedGRWVWtxByFdyPmxIWGaAG8kuuICwGn+49bz69rXfeMdFz3Y3h8x+SS6bZdPg
+	 h8l9B3GQPHOjmUb0L/PVuzcyFClvZ59I/HxiEIAKJxOtJlRpSI/TCPCY/X2zg02x4p
+	 xQQNFemYWgS9ipoyZTAd20vPyO3ZKRVg569jqw/u3UhFDkvQOeehWdvO5Eti+NGMpK
+	 RJRmzWk2I/5HA==
+Date: Mon, 17 Mar 2025 20:28:10 +0100
 From: Joel Granados <joel.granados@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Ruiwu Chen <rwchen404@gmail.com>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH] drop_caches: Allow re-enabling message after disabling
-Message-ID: <uskuzzo47jsebv7estk3vwiidygl3vybwxynwod76dwtbtim5i@4iyavbs3qgsi>
-References: <20250313-jag-drop_caches_msg-v1-1-c2e4e7874b72@kernel.org>
- <20250314-tilgen-dissident-05705fca5e00@brauner>
+To: Ruiwu Chen <rwchen404@gmail.com>
+Cc: mcgrof@kernel.org, corbet@lwn.net, keescook@chromium.org, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	viro@zeniv.linux.org.uk, zachwade.k@gmail.com
+Subject: Re: [PATCH v2] drop_caches: re-enable message after disabling
+Message-ID: <k742mxcj77qyga6gqo25yylne4ch3eqyluwplkc7utyqfydvlz@gga3m5vpdh2k>
+References: <db2zm4c5p5octh6garrnvlg3qzhvaqxtoz33f5ksegwupcbegk@jidbmdepvn57>
+ <20250314122803.14568-1-rwchen404@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,41 +44,111 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250314-tilgen-dissident-05705fca5e00@brauner>
+In-Reply-To: <20250314122803.14568-1-rwchen404@gmail.com>
 
-On Fri, Mar 14, 2025 at 11:48:43AM +0100, Christian Brauner wrote:
-> On Thu, 13 Mar 2025 16:46:36 +0100, Joel Granados wrote:
-> > After writing "4" to /proc/sys/vm/drop_caches there was no way to
-> > re-enable the drop_caches kernel message. By removing the "or" logic for
-> > the stfu variable in drop_cache_sysctl_handler, it is now possible to
-> > toggle the message on and off by setting the 4th bit in
-> > /proc/sys/vm/drop_caches.
-> > 
-> > 
-> > [...]
+On Fri, Mar 14, 2025 at 08:28:03PM +0800, Ruiwu Chen wrote:
+> > On Wed, Mar 12, 2025 at 03:55:22PM -0700, Luis Chamberlain wrote:
+> > > On Mon, Mar 10, 2025 at 02:51:11PM +0100, Joel Granados wrote:
+> > > > On Sat, Mar 08, 2025 at 04:05:49PM +0800, Ruiwu Chen wrote:
+> > > > > >> When 'echo 4 > /proc/sys/vm/drop_caches' the message is disabled,
+> > > > > >> but there is no interface to enable the message, only by restarting
+> > > > > >> the way, so add the 'echo 0 > /proc/sys/vm/drop_caches' way to
+> > > > > >> enabled the message again.
+> > > > > >> 
+> > > > > >> Signed-off-by: Ruiwu Chen <rwchen404@gmail.com>
+> > > > > >
+> > > > > > You are overcomplicating things, if you just want to re-enable messages
+> > > > > > you can just use:
+> > > > > >
+> > > > > > -		stfu |= sysctl_drop_caches & 4;
+> > > > > > +		stfu = sysctl_drop_caches & 4;
+> > > > > >
+> > > > > > The bool is there as 4 is intended as a bit flag, you can can figure
+> > > > > > out what values you want and just append 4 to it to get the expected
+> > > > > > result.
+> > > > > >
+> > > > > >  Luis
+> > > > >
+> > > > > Is that what you mean ?
+> > > > >
+> > > > > -               stfu |= sysctl_drop_caches & 4;
+> > > > > +               stfu ^= sysctl_drop_caches & 4;
+> > > > >
+> > > > > 'echo 4 > /sys/kernel/vm/drop_caches' can disable or open messages,
+> > > > > This is what I originally thought, but there is uncertainty that when different operators execute the command,
+> > > > > It is not possible to determine whether this time is enabled or turned on unless you operate it twice.
+> > > >
+> > > > So can you use ^= or not?
+> > > 
+> > > No,  ^= does not work, see a boolean truth table.
 > 
-> Applied to the vfs-6.15.misc branch of the vfs/vfs.git tree.
-> Patches in the vfs-6.15.misc branch should appear in linux-next soon.
+> I don't quite agree with you, you change this, 
+> echo {1,2,3} will have the meaning of enable message
 > 
-> Please report any outstanding bugs that were missed during review in a
-> new review to the original patch series allowing us to drop it.
+> The initial logic:
+> echo 1: free pagecache
+> echo 2: free slab
+> echo 3: free pagecache and slab
+> echo 4: disable message
 > 
-> It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> patch has now been applied. If possible patch trailers will be updated.
-> 
-> Note that commit hashes shown below are subject to change due to rebase,
-> trailer updates or similar. If in doubt, please check the listed branch.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> branch: vfs-6.15.misc
-> 
-> [1/1] drop_caches: Allow re-enabling message after disabling
->       https://git.kernel.org/vfs/vfs/c/66c4cbae77e2
+> If you change it to something like this:
+> stfu = sysctl_drop_caches & 4;
+> echo 1: free pagecache  and enable message
+> echo 2: free slab       and enable message
+> echo 3: free pagecache  and enable message
+As I read it, its should be
+echo 3: free slab and pagecache     and enable message
 
-FYI, Sent out a V2 after discussion in [1]
+> echo 4: disable message
+This is a very good point. But the new logic does not shock me. I would
+actually add some rows to your explanation in the following fashion:
 
-[1]: https://lore.kernel.org/20250216100514.3948-1-rwchen404@gmail.com
+echo 5: free pagecache            and disable message
+echo 6: free slab                 and disable message
+echo 7: free pagecache and slab   and disable message
+echo 0: Nothing                   and enable message
 
+This is in line with the file describing a binary value where every bit
+position means something different. At the end its up to the maintainer
+to decide what is "right".
+
+> 
+> echo 4 becomes meaningless, when echo 4 only the next message can be disabled
+> Unable to continuously disable echo{1,2,3}
+> 
+> echo {1,2,3} always enabled the message
+> echo {1,2,3} should not have the meaning of enabling messages
+> 
+> My thoughts:
+> stfu ^= !!(sysctl_drop_caches & 4);
+This is a bit convoluted. This is more understandable IMO:
+
+  diff --git a/fs/drop_caches.c b/fs/drop_caches.c
+  index d45ef541d848..15730593ae39 100644
+  --- a/fs/drop_caches.c
+  +++ b/fs/drop_caches.c
+  @@ -68,12 +68,13 @@ int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
+                          drop_slab();
+                          count_vm_event(DROP_SLAB);
+                  }
+  +               if (sysctl_drop_caches & 4)
+  +                       stfu ^= 1;
+                  if (!stfu) {
+                          pr_info("%s (%d): drop_caches: %d\n",
+                                  current->comm, task_pid_nr(current),
+                                  sysctl_drop_caches);
+                  }
+  -               stfu |= sysctl_drop_caches & 4;
+          }
+          return 0;
+   }
+
+I'll add this to the patch that I sent in [1]. If you have any more
+comments, please answer them in [1]
+
+Best
+
+[1] : https://lore.kernel.org/20250313-jag-drop_caches_msg-v1-1-c2e4e7874b72@kernel.org
 -- 
 
 Joel Granados
