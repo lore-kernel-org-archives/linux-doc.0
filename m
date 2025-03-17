@@ -1,42 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f228.google.com (mail-yw1-f228.google.com [209.85.128.228])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9038F14A8B;
-	Mon, 17 Mar 2025 20:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444281F3BAC
+	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 20:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742242564; cv=none; b=ZX46VUjkor/D/aJX+KEgqpQR4dMMkPfE+nvPUInXINIwY1CtmJGErGLbzFYQaaqSCPlJRe+uecQKEfXKXDabQ+ETxkYvJGppAQP64IHjvYLcRM1fZmg5N/0ClWjAj6swXym67KWzHPiABXLEQvy5jSdHr/6PZxGY5aKaNpo1QWw=
+	t=1742244201; cv=none; b=oQmEYA80fj6a07UyvwHoG14RC1TrAakR8iYNroJ5TVqXjARmm4tsdUdAiCri4h6VctmgRwiBCCb8+bCz1kWWA48QfH3Qq/p5WJSrr/FPgfN3K4RvKeAuQ9KtfB8+KwJj0tqfue+nQ5CEo/rWMst7nvmShv1uE1M717DwxiXiOxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742242564; c=relaxed/simple;
-	bh=36nuEkg/wj+vxl7Pqk2I+OAgs73XticS9qh3Exp7GiQ=;
+	s=arc-20240116; t=1742244201; c=relaxed/simple;
+	bh=CaY9plOsZmG+vqb+Y1a/gKRrf/XFzCbAh8Gjy+jCWms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lh/Nr/tODz+vpHyLZYqedMj8Eanc4gPIFkoNY8wUGfLx8e0OGsnQ8EomLMn51nNOte/DJgNArLM3Q8AGkG3YJ9kROc2N7qCsouWKSWzR8TfSUnlvcYAPe4Au5JcE9TikPMmBdGFmqWq7S5LigeczZBcpiXGrIkcj3cj9xJLJ0nM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XUn0gG1+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qJlcLy2weh20ODAnKaXi1wu9z7s401uiv5zNlVl9RrTw2HSpU+5elDYi70swQau8mPEGIPKX5tnoctqM7oe4PKwhdblxigq/KAtSXorpqrzeu5SnJaiYq+MPEu6ZC1BaVHTt1igOYT+VJC3jV+6/WITBzUTLOSxjy5n5vfztdr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=ENDg0ENI; arc=none smtp.client-ip=209.85.128.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XUn0gG1+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A85D7C4CEE3;
-	Mon, 17 Mar 2025 20:16:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742242564;
-	bh=36nuEkg/wj+vxl7Pqk2I+OAgs73XticS9qh3Exp7GiQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XUn0gG1+klSzkhmFSl1FdnWugyPCluelq2Ll2Z7hSwyyOam+ohbJS0tCEgNO6iSDV
-	 NsuxZahOMmOPbxAQuNGdQTeKrGGuLqFSbCcFMxjRpNWyUL9Uct7AhL2jWB2/XFYJT3
-	 zirZay3VBugsRSZhzWwMQ9sCWGuNwR0Rtgjgk2h3ketbFdyQLyA5mgTviOnGo7p3oE
-	 4Tt6k5vxz50LqX9ENnZ7ovsWvh3CX1Orjufwl7kqqOixjKFHANrAebpGBXRIqjJ4Tz
-	 e2X/kDN6gtedc3apK1Lbqwo3EhImYGcm5ffwf+AhowGeoTnq5inBHqRPjX3rL8SXhh
-	 sBvaYeuFQBYTA==
-Date: Mon, 17 Mar 2025 21:15:57 +0100
-From: Joel Granados <joel.granados@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Ruiwu Chen <rwchen404@gmail.com>, Luis Chamberlain <mcgrof@kernel.org>
-Subject: Re: [PATCH v2] drop_caches: Allow re-enabling message after disabling
-Message-ID: <jdddmxrwys6kqvovuvwo7o7ie2qpnubmdbzcmcz5eywy5qw2xx@soveljw6isz2>
-References: <20250317-jag-drop_caches_msg-v2-1-e22d9a6a3038@kernel.org>
- <Z9h9wKcAD2iiO7dS@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="ENDg0ENI"
+Received: by mail-yw1-f228.google.com with SMTP id 00721157ae682-6fee63b9139so40844747b3.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 13:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1742244197; x=1742848997; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XMeuqQnVCFYcIh1s8lv0Ab4xH5GnpJ38EIK5c4gPr0c=;
+        b=ENDg0ENIuz6Aks1W7JswZhQRnFXeDkSWMoghPY5Xljiy195QJRAQZh40nBJXj8NEEd
+         t+sAvoGnQcSbUZBlMdFv6s/I3z36OZdXIVu5zuDrBKEOiP5SqgIt/WxMReR6xg4V/iYB
+         INfgpIYEorasNEIay7nMF/n7O9ty+caatL28RaJZ+bB8xjnGClZdn9huEoYAleLZzaPM
+         380ClgbkKoEOQ+A1ur/94l3YGPYGZ/FRCRsHV5LA1npPRf5eSh8H+OuzemKl2acsTdzD
+         QVj+ytAj7fSpF4ESVcA5OJqkSgwFntEDnPBb2y5pBA/VdM55oASbIPsvMS5T4ejyqrX/
+         qgsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742244197; x=1742848997;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XMeuqQnVCFYcIh1s8lv0Ab4xH5GnpJ38EIK5c4gPr0c=;
+        b=PZsIUIIolKzSwLUXa6jTjUMEzWK4bhSoGIBSt0fXujYzrIF9JlqRlK78Qd6rs5YIgg
+         zHvzzZQhbufg2LuvwhQD1DdHSiOuPm6eIuMgJlHJpLnAMmhEpInLZcTXwGH4awVY95ZV
+         Leir26pXo5zKPMShnDMJfEX2XHLHWrU6StO4Uwik3IfUpZDukOMJW/pR8e4NzHIL1h3r
+         bh3Il8XbnctR61sDQ/wl0XkGjjoBjEN5HSKy4+kHmHcZ2KhjYghr9/7gWZ+3erYlTBUC
+         uuQnNxCxioTlJEGcNq+gwJ5z4LKk/+wEVhp61+upl2REtQzFBDXYu1qRhQS7xUYMURwZ
+         GBfA==
+X-Forwarded-Encrypted: i=1; AJvYcCWonxl/ZrphPnrWIMGrXEqAWfd1xR4qb2y+NxzYlPL7jVWXsm9FHAabNQGYnHVyy/LNoKkd0m9tKGg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPp6w2Na+OaPt3+Sr1q1vB7KHqpYNfuCpU9ThvQ3cMXpNaY+by
+	thX7GrFRnj+nUP9NlMN/K3XbR3Cojm0ulyWR2e5hDu1P0WR4WO3+SnkOMcSM/zvQsVBsy7LBs+H
+	QxYZB9OIA2ORr1dyEFdJoBAAl9JW1UPio
+X-Gm-Gg: ASbGncuz0/2anBO+tUphowA/Q7wKqgsEjMm76cB2e47If/JJRaO7gfFAw35EGf84iCT
+	r07WXi7r3OjoILblk56A1zE58ILbZhbeRaFdDxCwBqGIk/tqO3+Qm6eeNQw1pR55zwMVVeOKz2T
+	sX52Upf6vtQN5Kzhg737Q4kEdtmoqHo8BurY3okEMWKSZlwrd/TftkzahPCQFX/PQcNTuSGdNKn
+	omFNMum7pU+zKjK7FRKOgIMoATJA/mL5wtXAiRK9NRQAx1J39cHiNSJGRkvdcLgWyPl69eNn3fX
+	1/GweERZ6AseQipWrtdVldk0uCx7Ca6WJEdVN0N0ONRntnUBUA==
+X-Google-Smtp-Source: AGHT+IGhYQOQzoo1W81n7SvjULK8kea4ne4u7SJCVMHMBohbiO+5gVHT5Why/Jb0nEdWm7n7qdstRUUSezbb
+X-Received: by 2002:a81:c748:0:b0:6fe:bf32:a427 with SMTP id 00721157ae682-6ffeb390465mr12881107b3.0.1742244197208;
+        Mon, 17 Mar 2025 13:43:17 -0700 (PDT)
+Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.128])
+        by smtp-relay.gmail.com with ESMTPS id 00721157ae682-6ff32894af3sm4257537b3.37.2025.03.17.13.43.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Mar 2025 13:43:17 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [10.7.70.36])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 3E38A340314;
+	Mon, 17 Mar 2025 14:43:16 -0600 (MDT)
+Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
+	id 324C6E4020B; Mon, 17 Mar 2025 14:43:16 -0600 (MDT)
+Date: Mon, 17 Mar 2025 14:43:16 -0600
+From: Uday Shankar <ushankar@purestorage.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Simon Horman <horms@kernel.org>, Breno Leitao <leitao@debian.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v5 2/2] netconsole: allow selection of egress
+ interface via MAC address
+Message-ID: <Z9iJZBh5ZFq3wC6s@dev-ushankar.dev.purestorage.com>
+References: <20250220-netconsole-v5-0-4aeafa71debf@purestorage.com>
+ <20250220-netconsole-v5-2-4aeafa71debf@purestorage.com>
+ <20250225144035.GY1615191@kernel.org>
+ <Z8tS5t+warQdwFTs@dev-ushankar.dev.purestorage.com>
+ <20250311111301.GL4159220@kernel.org>
+ <20250312203716.110b6677@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,89 +94,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z9h9wKcAD2iiO7dS@casper.infradead.org>
+In-Reply-To: <20250312203716.110b6677@kernel.org>
 
-On Mon, Mar 17, 2025 at 07:53:36PM +0000, Matthew Wilcox wrote:
-> On Mon, Mar 17, 2025 at 08:40:04PM +0100, Joel Granados wrote:
-> > After writing "4" to /proc/sys/vm/drop_caches there was no way to
-> > re-enable the drop_caches kernel message. By replacing the "or"
-> > assignment for the stfu variable, it is now possible to toggle the
-> > message on and off by setting the 4th bit in /proc/sys/vm/drop_caches.
+On Wed, Mar 12, 2025 at 08:37:16PM +0100, Jakub Kicinski wrote:
+> On Tue, 11 Mar 2025 12:13:01 +0100 Simon Horman wrote:
+> > On Fri, Mar 07, 2025 at 01:11:18PM -0700, Uday Shankar wrote:
+> > > On Tue, Feb 25, 2025 at 02:40:35PM +0000, Simon Horman wrote:  
+> > > > Reviewed-by: Simon Horman <horms@kernel.org>  
+> > > 
+> > > Hey, since this has gotten quiet for a while, just wanted to confirm
+> > > that there's no action needed from my end? Is this in the queue for
+> > > net-next?  
+> > 
+> > It seems that this series has been marked as Changes Requested in
+> > patchwork, which may explain the lack of progress. But that designation
+> > doesn't seem correct to me. So let's see if this can move this series
+> > back into the queue for the maintainers.
 > 
-> I don't like the toggle.  Nobody wants to toggle, which means that you
-> need to keep track of what it is in order to make it be "on" or "off".
-> And you can't keep track of it, because it's system-wide.  Which means
-> you might turn it off when you wanted it on, or vice versa.
-Don't really have a strong opinion here. Posted V2 thinking that
-toggling might be preferable. If it is not, then V1 is the way
-to go as it just sets the value by looking at the 4th bit.
+> Unclear why the designation was chosen, indeed, but let's get this
+> reposted per normal process. The posting is a month old.
 
-> 
-> Did I miss the discussion which promopted this change?  It seems like
-> terrible UI to me.
+Sounds good, I've posted a v6 which is listed at
+https://patchwork.kernel.org/project/netdevbpf/list/?series=943246 as
+"new" even though it has several reviews from maintainers. Anything else
+for me to do?
 
-As I understand it, the motivation is to be able to turn the messages
-back on. This is not possible as the 4th bit stays set (no message)
-after setting it for the first time.
-
-Best
-> 
-> > Signed-off-by: Joel Granados <joel.granados@kernel.org>
-> > ---
-> > Changes in v2:
-> > - Check the 4 bit before we actualy toggle the message
-> > - Link to v1: https://lore.kernel.org/r/20250313-jag-drop_caches_msg-v1-1-c2e4e7874b72@kernel.org
-> > ---
-> > 
-> > ---
-> >  Documentation/admin-guide/sysctl/vm.rst | 2 +-
-> >  fs/drop_caches.c                        | 3 ++-
-> >  2 files changed, 3 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> > index f48eaa98d22d2b575f6e913f437b0d548daac3e6..75a032f8cbfb4e05f04610cca219d154bd852789 100644
-> > --- a/Documentation/admin-guide/sysctl/vm.rst
-> > +++ b/Documentation/admin-guide/sysctl/vm.rst
-> > @@ -266,7 +266,7 @@ used::
-> >  	cat (1234): drop_caches: 3
-> >  
-> >  These are informational only.  They do not mean that anything is wrong
-> > -with your system.  To disable them, echo 4 (bit 2) into drop_caches.
-> > +with your system.  To toggle them, echo 4 (bit 2) into drop_caches.
-> >  
-> >  enable_soft_offline
-> >  ===================
-> > diff --git a/fs/drop_caches.c b/fs/drop_caches.c
-> > index d45ef541d848a73cbd19205e0111c2cab3b73617..15730593ae39955ae7ae93aec17546fc96f89dce 100644
-> > --- a/fs/drop_caches.c
-> > +++ b/fs/drop_caches.c
-> > @@ -68,12 +68,13 @@ int drop_caches_sysctl_handler(const struct ctl_table *table, int write,
-> >  			drop_slab();
-> >  			count_vm_event(DROP_SLAB);
-> >  		}
-> > +		if (sysctl_drop_caches & 4)
-> > +			stfu ^= 1;
-> >  		if (!stfu) {
-> >  			pr_info("%s (%d): drop_caches: %d\n",
-> >  				current->comm, task_pid_nr(current),
-> >  				sysctl_drop_caches);
-> >  		}
-> > -		stfu |= sysctl_drop_caches & 4;
-> >  	}
-> >  	return 0;
-> >  }
-> > 
-> > ---
-> > base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
-> > change-id: 20250313-jag-drop_caches_msg-c4fbfedb51f3
-> > 
-> > Best regards,
-> > -- 
-> > Joel Granados <joel.granados@kernel.org>
-> > 
-> > 
-> > 
-
--- 
-
-Joel Granados
