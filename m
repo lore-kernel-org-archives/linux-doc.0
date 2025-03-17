@@ -1,247 +1,99 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015434A1C
-	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 12:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BAC29D19;
+	Mon, 17 Mar 2025 13:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742215577; cv=none; b=pEg/rpizlZux0+3Vp1lnC0D0K2KxIA+jxvlo0yKi/BfN0z7T8byXLE8D5wwo+WL7Viz3YBmZUU11Q59BkCml8Qr/N5dc4FAQ+aic5jWkoYpf8ADNJIQ5WXzJULIunF9XBm/pyRpGH0ERkVMj22kWVkxlD+tzemVXJa4uIlqnUhg=
+	t=1742216421; cv=none; b=gW99roOH3JCZ71udVCKz8P1YeHmB9QtxyWoyZh+6XtA3o7ab4HKKe8v656Icyi5kjAAN4mTwjgi9bazOaDbysctMESA0onBZtALIjXHzHUMBe3NHryQftdqVyHPgLZi4P1MwRiogaXPQiAL+CG+iLygMwqt+ElZPcsQo4V2EhMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742215577; c=relaxed/simple;
-	bh=gu5tdQie3PXjE9UKnouXcaXft1uLAYhn2LNXTlZeflU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cyba55x7oGUEo7G9b/yIcF/ucV61eyTxr6wXqVsaW4v5KlLS1EJfMYHucIMtDtojCL6Kcq0bCsnCSuMc4k0Tco5em/L/rPjdn3MDF201SmruI9kq3KQHwevKOBT45cKpQWhsDYHZYCJbuAwKaQq/AyjcpdK+almO70sMIQ8kN1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tu9ma-0002fR-81; Mon, 17 Mar 2025 13:41:34 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tu9ls-000Fod-2e;
-	Mon, 17 Mar 2025 13:40:45 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tu9lt-001Blb-0C;
-	Mon, 17 Mar 2025 13:40:45 +0100
-Date: Mon, 17 Mar 2025 13:40:45 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v6 06/12] net: pse-pd: Add support for budget
- evaluation strategies
-Message-ID: <Z9gYTRgH-b1fXJRQ@pengutronix.de>
-References: <20250304-feature_poe_port_prio-v6-0-3dc0c5ebaf32@bootlin.com>
- <20250304-feature_poe_port_prio-v6-6-3dc0c5ebaf32@bootlin.com>
+	s=arc-20240116; t=1742216421; c=relaxed/simple;
+	bh=bIubJEwAWGYDMO/DSvL87cdFtXZDcF5zY0t0lC/0u/o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z40j/mlUg4b5BkTdSgBK1PA//QmNEyNko7NRXX1i4Ts1NCCCZS+uyw7V90pDQjPakwVcBfvOUxa9/NTg57jNrz+V2fWiwiHCix45qvAuTOMtQYI4ajGpG5+huI4paFXix7SjzS7ySFDMStZlIKm4xRPSn0GIHeQEPaygX+ur2iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QzlXMkOa; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QzlXMkOa"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ac298c8fa50so824713566b.1;
+        Mon, 17 Mar 2025 06:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742216418; x=1742821218; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bIubJEwAWGYDMO/DSvL87cdFtXZDcF5zY0t0lC/0u/o=;
+        b=QzlXMkOaI+YA/S0xSOYZhTHKWxRnA75AvreDQHCPQblBpyRBEWCoNmmDku/uz1OFKu
+         3bom/tf6aDjeJBqb7M6/8owZnaoGfJdr96oktkpGE6Bq3kFr0kIvDB3IpEFHNMn47bQj
+         +9lvE9ZnxiS92WKhiPVROxlc4ijipHZJZJT/+QJ6hB94Oc1asD/BvFAtIP8Vw+16iVhE
+         C6NotuI+Fh2EfP+Rf0LygmzPBr5FxGBehsT+irBs2u7ysvp2eeuHu6OHUv7+dJROKo+r
+         9bPPRmAq8mKZF/4cZTWfFpvaXF77jO7Xoqw/LLPPhwHZxNqt3YbTvLf0yzhxqROuchIm
+         eLhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742216418; x=1742821218;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bIubJEwAWGYDMO/DSvL87cdFtXZDcF5zY0t0lC/0u/o=;
+        b=prTuYi4xJvH3pNMemzMhZaKL+h9ooFTPs2VxHBq7+jIurT5v0Iz4Vll9q+v+830dme
+         mvz8718/rVvkYfciWaZL9mAWdOfeBFcqrgMuDlRdAuX/aBMgx9z3OcRd+IZtI+tfQrcN
+         XMW6MB9xjh7LPUTHFMAR07wTyrmlLX4qgAyUtSKTQwnvh51GOkx+dKXr6xhC7riXlfw2
+         AXMbfy5hj/eT/lFXdYgEkqKA6wfLddmRlCQdJz2cVenA+F4ChabDHFs1Ca0ECrS7OaLr
+         9BFJxwZXqNnl5dnLodRtm+necE4GCgAa3rciMYflJjH3Uphw4h6xGV57LyZ+x4BEZVti
+         nEPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/os2fJ7WAp4nnoNtR3hmJFPsyBGX0v4e2Eg2HQHk4FKiiVzr+5lV0CJJqHrHQ91Ifo2UyofTmJEmuFmtW@vger.kernel.org, AJvYcCXQBl2eUaeGXORX276y9E/u7mt44vCn6cxIA0QunO0pGGZy4SATJ+so1gPCsoO2y1y9kaUXXgVSzng=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxg+CuWtLMgCXNp3F9mh9yf8D7G96zvcjJr5kWr/Eg2B3Gv8q2Q
+	O7QMwyQQqlzYpgj6Qvzsd6IaaSzmy7Tubxc6IFHBM/0TUs+OhtPbcfpEwJaj4amRurIuZwx3dX8
+	bxLctlJRiXrzeXSi5ElphvBaLY8k=
+X-Gm-Gg: ASbGncsv6qfRR/aCJTgwCRcxVendjY3smP+nZRNJbAddIh4vRQrxKNz5w1f2WFS36o0
+	6KHWmA8VZwTv8OtdMfwlsyu9l31IkL3ffczBHd9wjPqphPLmPJ3WDO9CScNan5PnQbZ5E8es6/6
+	SimVRQkrs7/+rLO60YKhlFb6+canJHiSJ2DQ3O
+X-Google-Smtp-Source: AGHT+IEUR1Y37l1FwAWvThJlHPQmxIymqVtj2Uln20rLTns8WdNrirlScgCLZlwk1y7sZsv2fziokMs0lERkuQLbL9c=
+X-Received: by 2002:a17:906:7308:b0:ac2:e059:dc03 with SMTP id
+ a640c23a62f3a-ac3303f75d1mr1235173766b.38.1742216417651; Mon, 17 Mar 2025
+ 06:00:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250304-feature_poe_port_prio-v6-6-3dc0c5ebaf32@bootlin.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <f11afa64-1629-4005-8cb4-723d9b6ce6cb@hust.edu.cn>
+ <20250317103147313V7IEKc3g37STl_idkF_ZB@zte.com.cn> <CAD-N9QXEam8v6amrfswCDFfmEkb6npDLxHRaT2dYAVEV0T4i8Q@mail.gmail.com>
+In-Reply-To: <CAD-N9QXEam8v6amrfswCDFfmEkb6npDLxHRaT2dYAVEV0T4i8Q@mail.gmail.com>
+From: Alex Shi <seakeel@gmail.com>
+Date: Mon, 17 Mar 2025 20:59:41 +0800
+X-Gm-Features: AQ5f1Jr3gw9oMbv5_hTh0-Z8hTWCsezwnxtbPy9op3MvI5szk_NRovfaYL0ANHg
+Message-ID: <CAJy-AmnA8tSR7QmMjQEWHWHWX=rni79T-MY5SA-4iCd3cnh=gA@mail.gmail.com>
+Subject: Re: [PATCH] docs/zh_CN: fix spelling mistake
+To: Dongliang Mu <mudongliangabcd@gmail.com>
+Cc: jiang.peng9@zte.com.cn, dzm91@hust.edu.cn, alexs@kernel.org, 
+	corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 04, 2025 at 11:18:55AM +0100, Kory Maincent wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> +/**
-> + * pse_disable_pi_prio - Disable all PIs of a given priority inside a PSE
-> + *			 power domain
-> + * @pcdev: a pointer to the PSE
-> + * @pw_d: a pointer to the PSE power domain
-> + * @prio: priority
-> + *
-> + * Return: 0 on success and failure value on error
-> + */
-> +static int pse_disable_pi_prio(struct pse_controller_dev *pcdev,
-> +			       struct pse_power_domain *pw_d,
-> +			       int prio)
-> +{
-> +	int i;
-> +
+I should given a bit more time for review next time. :/
 
-Should we lock the pi[] array at some level?
+Anyway thank for all of you!
 
-> +	for (i = 0; i < pcdev->nr_lines; i++) {
-> +		int ret;
-> +
-> +		if (pcdev->pi[i].prio != prio ||
-> +		    pcdev->pi[i].pw_d != pw_d ||
-> +		    !pcdev->pi[i].admin_state_enabled)
-> +			continue;
-> +
-> +		ret = pse_disable_pi_pol(pcdev, i);
 
-If the PSE has many lower-priority ports, the same set of ports could be
-repeatedly shut down while higher-priority ports keep power
-indefinitely.
-
-This could result in a starvation issue, where lower-priority group of
-ports may never get a chance to stay enabled, even if power briefly
-becomes available.
-
-To fix this, we could:
-- Disallow identical priorities in static mode to ensure a clear
-shutdown order.
-- Modify pse_disable_pi_prio() to track freed power and stop
-disabling once enough power is recovered.
-
-static int pse_disable_pi_prio(struct pse_controller_dev *pcdev,
-                               struct pse_power_domain *pw_d,
-                               int prio, int required_power)
-{
-    int i, ret;
-    int freed_power = 0;
-
-    mutex_lock(&pcdev->lock);
-
-    for (i = 0; i < pcdev->nr_lines; i++) {
-        if (pcdev->pi[i].prio != prio ||
-            pcdev->pi[i].pw_d != pw_d ||
-            !pcdev->pi[i].admin_state_enabled)
-            continue;
-
-        ret = pse_disable_pi_pol(pcdev, i);
-        if (ret == 0)
-            freed_power += pcdev->pi[i].pw_allocated_mW;
-
-        /* Stop once we have freed enough power */
-        if (freed_power >= required_power)
-            break;
-    }
-
-    mutex_unlock(&pcdev->lock);
-    return ret;
-}
-
-The current approach still introduces an implicit priority based on loop
-execution order, but since it's predictable, it can serve as a reasonable
-default.
-
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-
-....
-
-> +/**
-> + * pse_ethtool_set_prio - Set PSE PI priority according to the budget
-> + *			  evaluation strategy
-> + * @psec: PSE control pointer
-> + * @extack: extack for reporting useful error messages
-> + * @prio: priovity value
-> + *
-> + * Return: 0 on success and failure value on error
-> + */
-> +int pse_ethtool_set_prio(struct pse_control *psec,
-> +			 struct netlink_ext_ack *extack,
-> +			 unsigned int prio)
-> +{
-> +	struct pse_controller_dev *pcdev = psec->pcdev;
-> +	const struct pse_controller_ops *ops;
-> +	int ret = 0;
-> +
-> +	if (!pcdev->pi[psec->id].pw_d) {
-> +		NL_SET_ERR_MSG(extack, "no power domain attached");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	/* We don't want priority change in the middle of an
-> +	 * enable/disable call or a priority mode change
-> +	 */
-> +	mutex_lock(&pcdev->lock);
-> +	switch (pcdev->pi[psec->id].pw_d->budget_eval_strategy) {
-> +	case ETHTOOL_PSE_BUDGET_EVAL_STRAT_STATIC:
-> +		if (prio > pcdev->nr_lines) {
-> +			NL_SET_ERR_MSG_FMT(extack,
-> +					   "priority %d exceed priority max %d",
-> +					   prio, pcdev->nr_lines);
-> +			ret = -ERANGE;
-> +			goto out;
-> +		}
-> +
-> +		pcdev->pi[psec->id].prio = prio;
-
-In case we already out of the budget, we will need to re-evaluate the
-prios. New configuration may affect state of ports.
-
-Potentially we may need a bulk interface to assign prios, to speed-up
-reconfiguration. But it is not needed right now.
-
-> +		break;
-> +
-> +	case ETHTOOL_PSE_BUDGET_EVAL_STRAT_DYNAMIC:
-> +		ops = psec->pcdev->ops;
-> +		if (!ops->pi_set_prio) {
-> +			NL_SET_ERR_MSG(extack,
-> +				       "pse driver does not support setting port priority");
-> +			ret = -EOPNOTSUPP;
-> +			goto out;
-> +		}
-> +
-> +		if (prio > pcdev->pis_prio_max) {
-> +			NL_SET_ERR_MSG_FMT(extack,
-> +					   "priority %d exceed priority max %d",
-> +					   prio, pcdev->pis_prio_max);
-> +			ret = -ERANGE;
-> +			goto out;
-> +		}
-> +
-> +		ret = ops->pi_set_prio(pcdev, psec->id, prio);
-
-Here too, but in case of microchip PSE it will happen in the firmware.
-May be add here a comment that currently it is done in firmware and to
-be extended for the kernel based implementation.
-
-> +		break;
-> +
-> +	default:
-> +		ret = -EOPNOTSUPP;
-> +	}
-> +
-> +out:
-> +	mutex_unlock(&pcdev->lock);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(pse_ethtool_set_prio);
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Dongliang Mu <mudongliangabcd@gmail.com> =E4=BA=8E2025=E5=B9=B43=E6=9C=8817=
+=E6=97=A5=E5=91=A8=E4=B8=80 10:53=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Mon, Mar 17, 2025 at 10:32=E2=80=AFAM <jiang.peng9@zte.com.cn> wrote:
+> >
+> > > One suggestion: the original English(Documentation/mm/balance.rst)
+> > > version also has this typo. Submit a v2 patch to fix both?
+> >
+> > Documentation/mm/balance.rst was already modified by Suchit 4 days ago.=
+ Therefore, it might not contain the typo anymore.
+> > https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+/commit/Documentation/mm/balance.rst?id=3Df5d10c46872ca9a6d716854354c11f2f3=
+2fce0e8
+>
+> LGTM. And your patch is merged into Alex's tree. Congrats!
+>
+> Dongliang Mu
+>
+> >
