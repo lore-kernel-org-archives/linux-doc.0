@@ -1,155 +1,79 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E071F941;
-	Mon, 17 Mar 2025 22:46:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1869D1F941;
+	Mon, 17 Mar 2025 22:47:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742251566; cv=none; b=qtVJJdIs/S1+RyrIU+O44SRLp6pctfYv/sxJEEajTcSEWbgjXlLsZOLL/+4jhbBmr05VlPj5hw5s6kHlqikiiOL164OojX05Wg8ubHZYxKrvcxk6wxQjjLngvL/bOdJH4oUOWCdLlvU2CyYWhHXEX49m+16Rcv5Oi/c0ji3RzHM=
+	t=1742251666; cv=none; b=srzVKHa6E/ZIFR4rSpo8JStknjQYNHqjJPCcWsr2vq8Ii2fTdZYDzb0NQQX3Txw+1FSrtT8RzuRCma7Y9xYOMS28y9OVz6DmLLpxPBMA0S+BtmCzprKZg42coAqdOBYRtmIULQy1Eew1I8J60BhY5Z8GXY4MsUdGjkhkQJ6mZjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742251566; c=relaxed/simple;
-	bh=t7bFOkiAGVi6XPW6GNWw26eWipIu6SUPj59NMISco94=;
+	s=arc-20240116; t=1742251666; c=relaxed/simple;
+	bh=7pGLlYwqFnVH5ubLC9+Fc3grydgjmhWeDX+NIdBHqgw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KrEeMGkjVkTux3v+MdE2gOJUDZsSvG27t7M6JeyMGZU8KK4QN2maKwdrUpeb4OTx1LskyOcc36JrhWgINLO5s8NVDIR70hKp+5qhNZrsmhVp9X19L/Epj95nz8iB/NdE/mwh9l1kHMCDYZfCNQ4XxEfb0YpZ7E43rzgIu+wUbxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BDkm0Wav; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=ZWVdLrIi7RxH8slq1b79RjfCeO47l8Zg/x57vVhPeZyLxYpx9wE9w0cQiipC+3kDDGfWXfc8Sc8JlMnxVnybE+WXTilo9zt6e5XccUp6zVFksm0BGL5aHpmCpTPAop7vd301tGO6Qs5xO8rOE6NuX+AugDyhheXc6ZXGQ+sE64E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bgpujGS7; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BDkm0Wav"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 87AD141061
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bgpujGS7"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3C36341061
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1742251557; bh=HuAmXrHMyFgzYYzV4NEx6cMVyHaLuixo/yumJ8pls+Q=;
+	t=1742251662; bh=7pGLlYwqFnVH5ubLC9+Fc3grydgjmhWeDX+NIdBHqgw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BDkm0WavK4tk3G7mOgJnsZ2QDLCXownkn3fOcCENfC4VEa1pQsSzFpMmkdJWbYwXI
-	 4AV9IANTgkLzOhvy7Il1G4fs2mFvuy946W91GVf+QbV9oFMNQrFPGDXHC+cVtzmzmL
-	 DKv0/K5WZk+Ii72s7/GWP1Sq2QmDW3OebqLBN/2nzemrKQJ+p1fK7Vt+f7AH28qe/7
-	 RMtqBXMuhNwiWzuMeNKMRwltTLEzH9rAuF7cN5o1P8aSg1eij3N9qyK3kwVgdC/Wom
-	 aGwPmbEPD8+mFezqh9lIqgJY0yMHEdlHz9W5m8872UdylxY8mznkAuREB+cbIhCkfq
-	 m17uzs0f6VhIw==
+	b=bgpujGS7/KosD742Bb37WalnTCUfFf/mZaNMKB+7f71XB+GbAUbtd96I56/x6Dc/R
+	 wROT1/otuKwFGJK0qofdvRf30/AnWF8rybR1SSkRxJyOPIqQbe+YjlTErjVd6bKNRt
+	 dr1pwK+IRO4IjIFgew2SKj6QC73Y/7QvoTRbNUxBEZCq8h4QFuV/DVBnhrPEIsfDBN
+	 A47eiAEhmB6m8bxznkxPkMt5M4Ar1BWCB1x3CM+Ep15xPTUB7eChieh9tMHefp8ZQu
+	 baq0IPLj7R74xWpHLNnx3mbQiE6AQg+nNm4JH5gAlskTVi3s3rGSWiyFUJDMTEnVj+
+	 8+1etF4JHFxMQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 87AD141061;
-	Mon, 17 Mar 2025 22:45:57 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3C36341061;
+	Mon, 17 Mar 2025 22:47:42 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: kth <kangtaeho2456@gmail.com>
-Cc: willy@infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kth <kangtaeho2456@gmail.com>
-Subject: Re: [PATCH v2] docs: Remove outdated highuid.rst documentation
-In-Reply-To: <20250313145650.278346-1-kangtaeho2456@gmail.com>
-References: <20250313145650.278346-1-kangtaeho2456@gmail.com>
-Date: Mon, 17 Mar 2025 16:45:56 -0600
-Message-ID: <87h63re0nv.fsf@trenco.lwn.net>
+To: Tomas Glozar <tglozar@redhat.com>, "Luis Claudio R. Goncalves"
+ <lgoncalv@redhat.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, John Kacur <jkacur@redhat.com>
+Subject: Re: [PATCH 4/4] Documentation/rtla: Include BPF sample collection
+In-Reply-To: <CAP4=nvRCtRwXReMt8+vxjLVqtL_pR9OyKo0HS417+93QR84mUA@mail.gmail.com>
+References: <20250311114936.148012-1-tglozar@redhat.com>
+ <20250311114936.148012-5-tglozar@redhat.com> <Z9A1oN_XdMguNgHy@uudg.org>
+ <CAP4=nvRCtRwXReMt8+vxjLVqtL_pR9OyKo0HS417+93QR84mUA@mail.gmail.com>
+Date: Mon, 17 Mar 2025 16:47:41 -0600
+Message-ID: <87cyefe0ky.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-kth <kangtaeho2456@gmail.com> writes:
+Tomas Glozar <tglozar@redhat.com> writes:
 
-> The highuid.rst document describes a transition that is outdated and no
-> longer relevant. Additionally, it references filesystems (ncpfs and smbfs),
-> which have been removed or replaced.
+> =C3=BAt 11. 3. 2025 v 14:07 odes=C3=ADlatel Luis Claudio R. Goncalves
+> <lgoncalv@redhat.com> napsal:
+>>
+>> In the last phrase, s/is/are/. So that "If either... or... are unavailab=
+le".
+>>
+>> Luis
+>>
 >
-> Suggested-by: Matthew Wilcox <willy@infradead.org>
-> Signed-off-by: Kang Taeho <kangtaeho2456@gmail.com>
-> ---
->  Documentation/admin-guide/highuid.rst | 80 ---------------------------
->  Documentation/admin-guide/index.rst   |  1 -
->  2 files changed, 81 deletions(-)
->  delete mode 100644 Documentation/admin-guide/highuid.rst
-
-OK, I have applied this, but it was some work.  For future reference:
-
-- When you do a v2 (or whatever), always include a description of what
-  changed since the previous version under the "---" line.
-
-- Before sending another patch, email it to yourself and be sure that
-  you can apply what you receive.  This patch was whitespace damaged,
-  but that is not all ...
-
+> All references I found on this topic say the verb should be singular
+> (since both "BPF" and "the osnoise:timerlat_sample tracepoint" are
+> singular). Search for "either or subject verb agreement", e.g. [1].
 >
-> diff --git a/Documentation/admin-guide/highuid.rst b/Documentation/admin-guide/highuid.rst
-> deleted file mode 100644
-> index 9239067563a1..000000000000
-> --- a/Documentation/admin-guide/highuid.rst
-> +++ /dev/null
-> @@ -1,80 +0,0 @@
-> -===================================================
-> -Notes on the change from 16-bit UIDs to 32-bit UIDs
-> -===================================================
-> -
-> -:Author: Chris Wing <wingc@umich.edu>
-> -:Last updated: January 11, 2000
-> -
-> -- kernel code MUST take into account __kernel_uid_t and __kernel_uid32_t
-> -  when communicating between user and kernel space in an ioctl or data
-> -  structure.
-> -
-> -- kernel code should use uid_t and gid_t in kernel-private structures and
-> -  code.
-> -
-> -What's left to be done for 32-bit UIDs on all Linux architectures:
-> -
-> -- Disk quotas have an interesting limitation that is not related to the
-> -  maximum UID/GID. They are limited by the maximum file size on the
-> -  underlying filesystem, because quota records are written at offsets
-> -  corresponding to the UID in question.
-> -  Further investigation is needed to see if the quota system can cope
-> -  properly with huge UIDs. If it can deal with 64-bit file offsets on all 
-> -  architectures, this should not be a problem.
-> -
-> -- Decide whether or not to keep backwards compatibility with the system
-> -  accounting file, or if we should break it as the comments suggest
-> -  (currently, the old 16-bit UID and GID are still written to disk, and
-> -  part of the former pad space is used to store separate 32-bit UID and
-> -  GID)
-> -
-> -- Need to validate that OS emulation calls the 16-bit UID
-> -  compatibility syscalls, if the OS being emulated used 16-bit UIDs, or
-> -  uses the 32-bit UID system calls properly otherwise.
-> -
-> -  This affects at least:
-> -
-> -	- iBCS on Intel
-> -
-> -	- sparc32 emulation on sparc64
-> -	  (need to support whatever new 32-bit UID system calls are added to
-> -	  sparc32)
-> -
-> -- Validate that all filesystems behave properly.
-> -
-> -  At present, 32-bit UIDs _should_ work for:
-> -
-> -	- ext2
-> -	- ufs
-> -	- isofs
-> -	- nfs
-> -	- coda
-> -	- udf
-> -
-> -  Ioctl() fixups have been made for:
-> -
-> -	- ncpfs
-> -	- smbfs
-> -
-> -  Filesystems with simple fixups to prevent 16-bit UID wraparound:
-> -
-> -	- minix
-> -	- sysv
-> -	- qnx4
-> -
-> -  Other filesystems have not been checked yet.
-> -
-> -- The ncpfs and smbfs filesystems cannot presently use 32-bit UIDs in
+> [1] https://www.englishgrammar.org/subjectverb-agreement-2/
 
-This line here     ^^^^^   contains your previous attempted fix; that,
-too, caused the patch to fail to apply.  I had to hand edit it to get
-past that.
+I concur with that reasoning, FWIW.
+
+What is the intended path to get this one upstream; should I take it?
 
 Thanks,
 
