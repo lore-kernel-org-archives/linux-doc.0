@@ -1,266 +1,73 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F1C4315E
-	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 01:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D6B199BC;
+	Mon, 17 Mar 2025 02:08:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742175011; cv=none; b=X2MyI0XuwcGb4LjRD6Dghdu0S5yrUCa6OHb8ef/TLkw8HlVnRR8knZf6fJlzzcNb6U3ij/bDA4t6akRnlKHvpaLXSUjq0kX/6gAIialUxdZMi3ObxaaFGiI1Iw52MeaomfFu/4CJR7806iMxTfivR+B5Q8YEz541kRHjE93RQJE=
+	t=1742177312; cv=none; b=EEP762rxlfuB1SYFvP1wed3W2+mwfTxmzZsA/F3KSSXhyeu254B4yZBgWoHZB4YR8i7aR+lPGo+E8PBPL7htPEB4PEpatxpiT28kuekJicCDjSQ42D/yWumrubn7dvbRSqxrWv1ZuC56KsNJmsC0dX9S/dbCZvhfUpNX2e+CeIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742175011; c=relaxed/simple;
-	bh=NpMOVBOS8yDuSZNKzTrt0KxgDiVsUGvJ2JbhENakTNE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lwWVHx06cQvY0Bt9pmdfwt1dZZCs0Gw3YsNgVZYYHgUssdq36FqnMFZDFYP59myOND5ue4XVIAbOFdh6Ptsf98aKVncNrNfTy8QBmXQoByzrdUKLCp4FOZmhXbhMlSuNINGKrJXHkrNeUACo1lwCTGlDi2QoBti2GSzdHZmCCHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=nsIWc+O/; arc=none smtp.client-ip=209.85.166.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="nsIWc+O/"
-Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-85d9a87660fso342026039f.1
-        for <linux-doc@vger.kernel.org>; Sun, 16 Mar 2025 18:30:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1742175009; x=1742779809; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0BgPqh2lb+Uwmfrt3ADGADV+FsUyp9TAnyh5DCYwF0A=;
-        b=nsIWc+O/ppJ7J/pbLyPRpD1W8bBeIBxD+xARdZE9HgJoHY64QdMpzrp6rqO9TWODOR
-         0DQbp5KVOI29hBfzxbAQ31dcrfg9YcPczk3CJxA1ijt6XNpUm4uvKleEwsZovXCQSN8V
-         p5pi5lBt2gByZkLoL61XUb9hQuZjxFxpaNCvTSuwEdTLEzkRgLGgIsMnZICDnvwiauyL
-         3jnu1LIHVRM19MtZu6TXbU2cMmOiQ4fo3QpD7PDFU3ttVfhVCox614lVyVB2pLrV8m+6
-         XtDcPPBnDOKTOR5mJ+tat0bwpb55/ka6z0MmAWFcxpaMsFA12DZ5BNCwZXimF2SAlcQe
-         bVLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742175009; x=1742779809;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0BgPqh2lb+Uwmfrt3ADGADV+FsUyp9TAnyh5DCYwF0A=;
-        b=U8tShomK23gPTUInx7SUPS9pGyzqxDJUoecAR7k0DcDYWc8RcGgs8tnC/74SXgOPrQ
-         cJUI/jwG4UtX3hupsDCkmeJKlG7IJyT1RG5qcRs2kMedQUgJPmbYRoBV8OmFwRyleksI
-         +C/6ccw/kDYHoPqPxklXdNg5o/sL07gkklCskHPbpPZo9SUwIx2/AWpzfh/qJSDFPjhU
-         gwb10w3LLqSQtfgnkpZPnoJshjpghm4BYLPkiNUwUvrWnBS/JAhzUrw8w7H8q+a7z8Bo
-         TcRnFj3WwYRUSMfwbscoy2pHh3fy2In9deoLY7Hk0V+dLlBClIcXZP68uljy93HvLFzc
-         VZlw==
-X-Forwarded-Encrypted: i=1; AJvYcCU7iH/tB6OI6+rUAl+l77kmYVC7jaJBtoq+PqH7vTJzCbIlfgwA/sQVrooCc/9+dHisDxuZhjHRAcg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLy7VEMGSOMxi4c99qtS56G59ZiU0p1ko62abLwrBwjmMhPTbA
-	Xw34/EqSH1YvJx1UpEV7vW8kTjUdcWVf1ulhhUcoOhy4LbxgNhamWjyeIE88bYwj35E2836xm9D
-	YHN36Vf8labx9+KvAd5hr6bhx6gbTpRTnuNgiAg==
-X-Gm-Gg: ASbGncsdyj1kLMAxN7abRIAoREymXK0uQ/CbAwnwptFU5npd8H5WoEi3+izADmDIyYH
-	2Zd7fTyh8wDEtfwu+MZ57YGbbhTokc2sLTs0tXNwVHlsr/c1NimIRcq8JRYT7QhT2kxu21mcl2m
-	jlCwJZZWb0cS/kkRrUcDuo9R1Kli3T
-X-Google-Smtp-Source: AGHT+IFIq9kkasXmtYBi1bOlasABayp5RTyarU6d4HJ+lY/VA6wq4Lo3I/SyszKkcRTrfrE4ClECajli89b3tva72eM=
-X-Received: by 2002:a05:6602:3f09:b0:85d:a1c4:ee03 with SMTP id
- ca18e2360f4ac-85dc47d36b5mr1483188839f.7.1742175009124; Sun, 16 Mar 2025
- 18:30:09 -0700 (PDT)
+	s=arc-20240116; t=1742177312; c=relaxed/simple;
+	bh=yPmiCRzGpPl2kZo59o7Bi1COBDNxBghe9zJSA/v5lsI=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=O4Tcn8wcqgQSG3rd5eI7ACaxke2cm+S1NssyeBioMYMVUOMd0/fM0U7ArgctkC5bt/LuP/08RuSoygrAd32EFIUPaLTpU6dBwW6aXthLSAXrNsCrbN+zJ7bnOHE2uKGcer8EgOgw3sanUt/d4NkxwU/mcoRRWsXqLk7cH8+ICDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZGJKc1Jgwz8RTZT;
+	Mon, 17 Mar 2025 10:08:20 +0800 (CST)
+Received: from xaxapp05.zte.com.cn ([10.99.98.109])
+	by mse-fl1.zte.com.cn with SMTP id 52H2891F001068;
+	Mon, 17 Mar 2025 10:08:09 +0800 (+08)
+	(envelope-from jiang.peng9@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid31;
+	Mon, 17 Mar 2025 10:08:11 +0800 (CST)
+Date: Mon, 17 Mar 2025 10:08:11 +0800 (CST)
+X-Zmail-TransId: 2afc67d7840b13c-1178e
+X-Mailer: Zmail v1.0
+Message-ID: <20250317100811126QvOaWRPxSgm2ttU5faitl@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com> <20250314-v5_user_cfi_series-v12-13-e51202b53138@rivosinc.com>
-In-Reply-To: <20250314-v5_user_cfi_series-v12-13-e51202b53138@rivosinc.com>
-From: Zong Li <zong.li@sifive.com>
-Date: Mon, 17 Mar 2025 09:29:57 +0800
-X-Gm-Features: AQ5f1JrP5j_jWeX4yoQDmxgHc7C_BW3_CH6nIyiVQO54RVQmiKVGFtDika6nCYk
-Message-ID: <CANXhq0o2gxV462GY6h=_4GmBDcDf3oeh-L=WXzz=AsMCV=x2Kw@mail.gmail.com>
-Subject: Re: [PATCH v12 13/28] prctl: arch-agnostic prctl for indirect branch tracking
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
-	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+From: <jiang.peng9@zte.com.cn>
+To: <si.yanteng@linux.dev>
+Cc: <alexs@kernel.org>, <dzm91@hust.edu.cn>, <corbet@lwn.net>,
+        <jiang.peng9@zte.com.cn>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBkb2NzL3poX0NOOiBmaXggc3BlbGxpbmcgbWlzdGFrZQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 52H2891F001068
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 67D78414.000/4ZGJKc1Jgwz8RTZT
 
-On Sat, Mar 15, 2025 at 6:51=E2=80=AFAM Deepak Gupta <debug@rivosinc.com> w=
-rote:
->
-> Three architectures (x86, aarch64, riscv) have support for indirect branc=
-h
-> tracking feature in a very similar fashion. On a very high level, indirec=
-t
-> branch tracking is a CPU feature where CPU tracks branches which uses
-> memory operand to perform control transfer in program. As part of this
-> tracking on indirect branches, CPU goes in a state where it expects a
-> landing pad instr on target and if not found then CPU raises some fault
-> (architecture dependent)
->
-> x86 landing pad instr - `ENDBRANCH`
-> arch64 landing pad instr - `BTI`
-> riscv landing instr - `lpad`
->
-> Given that three major arches have support for indirect branch tracking,
-> This patch makes `prctl` for indirect branch tracking arch agnostic.
->
-> To allow userspace to enable this feature for itself, following prtcls ar=
-e
-> defined:
->  - PR_GET_INDIR_BR_LP_STATUS: Gets current configured status for indirect
->    branch tracking.
->  - PR_SET_INDIR_BR_LP_STATUS: Sets a configuration for indirect branch
->    tracking.
->    Following status options are allowed
->        - PR_INDIR_BR_LP_ENABLE: Enables indirect branch tracking on user
->          thread.
->        - PR_INDIR_BR_LP_DISABLE; Disables indirect branch tracking on use=
-r
->          thread.
->  - PR_LOCK_INDIR_BR_LP_STATUS: Locks configured status for indirect branc=
-h
->    tracking for user thread.
->
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> Reviewed-by: Mark Brown <broonie@kernel.org>
-> ---
->  include/linux/cpu.h        |  4 ++++
->  include/uapi/linux/prctl.h | 27 +++++++++++++++++++++++++++
->  kernel/sys.c               | 30 ++++++++++++++++++++++++++++++
->  3 files changed, 61 insertions(+)
->
-> diff --git a/include/linux/cpu.h b/include/linux/cpu.h
-> index 6a0a8f1c7c90..fb0c394430c6 100644
-> --- a/include/linux/cpu.h
-> +++ b/include/linux/cpu.h
-> @@ -204,4 +204,8 @@ static inline bool cpu_mitigations_auto_nosmt(void)
->  }
->  #endif
->
-> +int arch_get_indir_br_lp_status(struct task_struct *t, unsigned long __u=
-ser *status);
-> +int arch_set_indir_br_lp_status(struct task_struct *t, unsigned long sta=
-tus);
-> +int arch_lock_indir_br_lp_status(struct task_struct *t, unsigned long st=
-atus);
-> +
->  #endif /* _LINUX_CPU_H_ */
-> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> index 5c6080680cb2..6cd90460cbad 100644
-> --- a/include/uapi/linux/prctl.h
-> +++ b/include/uapi/linux/prctl.h
-> @@ -353,4 +353,31 @@ struct prctl_mm_map {
->   */
->  #define PR_LOCK_SHADOW_STACK_STATUS      76
->
-> +/*
-> + * Get the current indirect branch tracking configuration for the curren=
-t
-> + * thread, this will be the value configured via PR_SET_INDIR_BR_LP_STAT=
-US.
-> + */
-> +#define PR_GET_INDIR_BR_LP_STATUS      77
-> +
-> +/*
-> + * Set the indirect branch tracking configuration. PR_INDIR_BR_LP_ENABLE=
- will
-> + * enable cpu feature for user thread, to track all indirect branches an=
-d ensure
-> + * they land on arch defined landing pad instruction.
-> + * x86 - If enabled, an indirect branch must land on `ENDBRANCH` instruc=
-tion.
-> + * arch64 - If enabled, an indirect branch must land on `BTI` instructio=
-n.
-> + * riscv - If enabled, an indirect branch must land on `lpad` instructio=
-n.
-> + * PR_INDIR_BR_LP_DISABLE will disable feature for user thread and indir=
-ect
-> + * branches will no more be tracked by cpu to land on arch defined landi=
-ng pad
-> + * instruction.
-> + */
-> +#define PR_SET_INDIR_BR_LP_STATUS      78
-> +# define PR_INDIR_BR_LP_ENABLE            (1UL << 0)
-> +
-> +/*
-> + * Prevent further changes to the specified indirect branch tracking
-> + * configuration.  All bits may be locked via this call, including
-> + * undefined bits.
-> + */
-> +#define PR_LOCK_INDIR_BR_LP_STATUS      79
-> +
->  #endif /* _LINUX_PRCTL_H */
-> diff --git a/kernel/sys.c b/kernel/sys.c
-> index cb366ff8703a..f347f3518d0b 100644
-> --- a/kernel/sys.c
-> +++ b/kernel/sys.c
-> @@ -2336,6 +2336,21 @@ int __weak arch_lock_shadow_stack_status(struct ta=
-sk_struct *t, unsigned long st
->         return -EINVAL;
->  }
->
-> +int __weak arch_get_indir_br_lp_status(struct task_struct *t, unsigned l=
-ong __user *status)
-> +{
-> +       return -EINVAL;
-> +}
-> +
-> +int __weak arch_set_indir_br_lp_status(struct task_struct *t, unsigned l=
-ong status)
-> +{
-> +       return -EINVAL;
-> +}
-> +
-> +int __weak arch_lock_indir_br_lp_status(struct task_struct *t, unsigned =
-long status)
-> +{
-> +       return -EINVAL;
-> +}
-> +
->  #define PR_IO_FLUSHER (PF_MEMALLOC_NOIO | PF_LOCAL_THROTTLE)
->
->  #ifdef CONFIG_ANON_VMA_NAME
-> @@ -2811,6 +2826,21 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long,=
- arg2, unsigned long, arg3,
->                         return -EINVAL;
->                 error =3D arch_lock_shadow_stack_status(me, arg2);
->                 break;
-> +       case PR_GET_INDIR_BR_LP_STATUS:
-> +               if (arg3 || arg4 || arg5)
-> +                       return -EINVAL;
-> +               error =3D arch_get_indir_br_lp_status(me, (unsigned long =
-__user *)arg2);
-> +               break;
-> +       case PR_SET_INDIR_BR_LP_STATUS:
-> +               if (arg3 || arg4 || arg5)
-> +                       return -EINVAL;
-> +               error =3D arch_set_indir_br_lp_status(me, arg2);
-> +               break;
-> +       case PR_LOCK_INDIR_BR_LP_STATUS:
-> +               if (arg3 || arg4 || arg5)
-> +                       return -EINVAL;
-> +               error =3D arch_lock_indir_br_lp_status(me, arg2);
-> +               break;
->         default:
->                 trace_task_prctl_unknown(option, arg2, arg3, arg4, arg5);
->                 error =3D -EINVAL;
->
+From: Peng Jiang <jiang.peng9@zte.com.cn>
 
-LGTM
+The word watermark was misspelled as "watemark".
 
-Reviewed-by: Zong Li <zong.li@sifive.com>
+Signed-off-by: Peng Jiang <jiang.peng9@zte.com.cn>
+---
+ Documentation/translations/zh_CN/mm/balance.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> --
-> 2.34.1
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+diff --git a/Documentation/translations/zh_CN/mm/balance.rst b/Documentation/translations/zh_CN/mm/balance.rst
+index 6fd79209c307..f877c0cfa39a 100644
+--- a/Documentation/translations/zh_CN/mm/balance.rst
++++ b/Documentation/translations/zh_CN/mm/balance.rst
+@@ -64,7 +64,7 @@ kswapd并不真正需要平衡高内存区，因为中断上下文并不请求
+ 如果从进程内存和shm中偷取页面可以减轻该页面节点中任何区的内存压力，而该区的内存压力
+ 已经低于其水位，则会进行偷取。
+
+-watemark[WMARK_MIN/WMARK_LOW/WMARK_HIGH]/low_on_memory/zone_wake_kswapd：
++watermark[WMARK_MIN/WMARK_LOW/WMARK_HIGH]/low_on_memory/zone_wake_kswapd：
+ 这些是每个区的字段，用于确定一个区何时需要平衡。当页面数低于水位[WMARK_MIN]时，
+ hysteric 的字段low_on_memory被设置。这个字段会一直被设置，直到空闲页数变成水位
+ [WMARK_HIGH]。当low_on_memory被设置时，页面分配请求将尝试释放该区域的一些页面（如果
+-- 
+2.25.1
