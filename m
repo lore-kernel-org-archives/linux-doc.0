@@ -1,413 +1,247 @@
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DEC723BF9B;
-	Mon, 17 Mar 2025 12:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015434A1C
+	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 12:46:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742215241; cv=none; b=Rbbrv4sRpMcKOlvEv2wD6IXs3gFLL1doUXja3hXAfzCPl828MWiO6fX5sAyEM20LUVyZaf/KT2V9gWvcGC4dKJ8+tDqbnJEgurMURjgk76vk3/i4kF5jDgn7/WBmSExHq54S1ppLqY64j5OPmOvET+Cn/P6tiPHym59SYImwXag=
+	t=1742215577; cv=none; b=pEg/rpizlZux0+3Vp1lnC0D0K2KxIA+jxvlo0yKi/BfN0z7T8byXLE8D5wwo+WL7Viz3YBmZUU11Q59BkCml8Qr/N5dc4FAQ+aic5jWkoYpf8ADNJIQ5WXzJULIunF9XBm/pyRpGH0ERkVMj22kWVkxlD+tzemVXJa4uIlqnUhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742215241; c=relaxed/simple;
-	bh=/ifvT0YHmAWaf7XWBlS5HTeD5nCccJPLy98iwqOOtig=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MvebkXbWmLHs5Pq7nA0g1pOCIQ6qyTLlffVPLGZAnvbIRGwF2rm3U4nuWQTRPEh6FrYxWOmgytf3hsU1OAVs6lx9TVWwGSYyx+KbQMBIOY1O6mwJ80N/0JLai9B9sK5WOUtLtaTeQcYUNr9zuEq/q7aIXTn4LOokgH/LBjJszA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=RCSb2mHy; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="RCSb2mHy"
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 242C12E08D3A;
-	Mon, 17 Mar 2025 14:40:35 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742215237;
-	bh=GvjbsrqhYXCl+fJq6B8Vfrvfs0PX7hF3K3MuqJf3WhI=;
-	h=Received:From:Subject:To;
-	b=RCSb2mHy7F/kd+ax1qAjHNv5sgjlK7KJ9m+jP3CorsRjKk6Dd7RPQ+pNag8E5rjLk
-	 N5/7ItqOWDY+hvRQNCQ/Z+YhDt0L7dqw1ijgqCz9sJhOMl8Wt/hRamQWWOMfMeM+8a
-	 68AdSNSq04dQM/qO5O8xwlCInIPo51bDtYf1B63U=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.182) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f182.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-30bee1cb370so48255231fa.1;
-        Mon, 17 Mar 2025 05:40:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUUCs/mIzhxCejXUNwCTbo+rEPH8fN9DLp1AANPdAO6yWIQU8b2WBETJGixVHFBqlofmHhuxtbFQ7NG+s4=@vger.kernel.org,
- AJvYcCVwZKV+1xIIzPmyDKJbY4ZkC0n9X8CoFphV0G4VQBDoRV/dtixIF5Wc7JubYC8y7JIIY7VnuAVXpZU=@vger.kernel.org,
- AJvYcCXexYAWXPKtcTcbNPtd2YSagoETDLCyspa3l8cxCd2+OXl9lKtY90tq0f3imq6ZqtgVCrotIAqWtMQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywg6av/aOhIn6VFxDlvb9KZBBsmAXcd2RlT3tBQS6cpt1pdTxul
-	3cPG56oEw9tuSPpsQpgWEHJ+7Op33xX8NVL1MuT7ycck6LCf/YHYZm3iYVIF/vqC7Jt+Vl9BPUj
-	wxEsw5UgKoouejiotZ4j+FIVha1I=
-X-Google-Smtp-Source: 
- AGHT+IGMR2djrUaFm4OR/AaOYmGUiiSOp6nN5pKnWDKGhArBTloCJmKfaznMHhz3ADypwLk2MJxkeGR/MMxiHPwOf10=
-X-Received: by 2002:a05:651c:503:b0:30b:ee44:b692 with SMTP id
- 38308e7fff4ca-30c4a8f4dd4mr58176431fa.33.1742215234440; Mon, 17 Mar 2025
- 05:40:34 -0700 (PDT)
+	s=arc-20240116; t=1742215577; c=relaxed/simple;
+	bh=gu5tdQie3PXjE9UKnouXcaXft1uLAYhn2LNXTlZeflU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cyba55x7oGUEo7G9b/yIcF/ucV61eyTxr6wXqVsaW4v5KlLS1EJfMYHucIMtDtojCL6Kcq0bCsnCSuMc4k0Tco5em/L/rPjdn3MDF201SmruI9kq3KQHwevKOBT45cKpQWhsDYHZYCJbuAwKaQq/AyjcpdK+almO70sMIQ8kN1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tu9ma-0002fR-81; Mon, 17 Mar 2025 13:41:34 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tu9ls-000Fod-2e;
+	Mon, 17 Mar 2025 13:40:45 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tu9lt-001Blb-0C;
+	Mon, 17 Mar 2025 13:40:45 +0100
+Date: Mon, 17 Mar 2025 13:40:45 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v6 06/12] net: pse-pd: Add support for budget
+ evaluation strategies
+Message-ID: <Z9gYTRgH-b1fXJRQ@pengutronix.de>
+References: <20250304-feature_poe_port_prio-v6-0-3dc0c5ebaf32@bootlin.com>
+ <20250304-feature_poe_port_prio-v6-6-3dc0c5ebaf32@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250311165406.331046-1-lkml@antheas.dev>
- <20250311165406.331046-7-lkml@antheas.dev>
- <c7a198b5-bebb-498b-9e77-17b467f4dc48@redhat.com>
-In-Reply-To: <c7a198b5-bebb-498b-9e77-17b467f4dc48@redhat.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Mon, 17 Mar 2025 13:40:23 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwH3Hev7oZP-q6z8Q8iv3XpnrMvN1AzDx7Nsq0bmei+bng@mail.gmail.com>
-X-Gm-Features: AQ5f1Jr92O07Ma23OFxBek5VHTKvouZczp3nhbmXFN7sYLxzh5rKvE2OPnyvb4Q
-Message-ID: 
- <CAGwozwH3Hev7oZP-q6z8Q8iv3XpnrMvN1AzDx7Nsq0bmei+bng@mail.gmail.com>
-Subject: Re: [PATCH v4 06/13] platform/x86: oxpec: Add charge threshold and
- behaviour to OneXPlayer
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
-	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
- Derek J Clark <derekjohn.clark@gmail.com>,
-	Kevin Greenberg <kdgreenberg234@protonmail.com>,
- Joshua Tam <csinaction@pm.me>,
-	Parth Menon <parthasarathymenon@gmail.com>, Eileen <eileen@one-netbook.com>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <174221523563.32285.13355826910338874268@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250304-feature_poe_port_prio-v6-6-3dc0c5ebaf32@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Mon, 17 Mar 2025 at 13:33, Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 11-Mar-25 17:53, Antheas Kapenekakis wrote:
-> > With the X1 (AMD), OneXPlayer added a charge limit and charge bypass to
-> > their devices. Charge limit allows for choosing an arbitrary battery
-> > charge setpoint in percentages. Charge bypass allows to instruct the
-> > device to stop charging either when it is in s0 or always.
->
-> Again please don't use the word bypass, use inhibit instead.
->
-> > This feature was then extended for the F1Pro as well. OneXPlayer also
-> > released BIOS updates for the X1 Mini, X1 (Intel), and F1 devices that
-> > add support for this feature. Therefore, enable it for all F1 and
-> > X1 devices.
-> >
-> > Add both of these under the standard sysfs battery endpoints for them,
-> > by looking for the battery. OneXPlayer devices have a single battery.
-> >
-> > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-> > ---
-> >  drivers/platform/x86/Kconfig |   1 +
-> >  drivers/platform/x86/oxpec.c | 217 +++++++++++++++++++++++++++++++++++
-> >  2 files changed, 218 insertions(+)
-> >
-> > diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> > index 82cfc76bc5c9..f4d993658c01 100644
-> > --- a/drivers/platform/x86/Kconfig
-> > +++ b/drivers/platform/x86/Kconfig
-> > @@ -1189,6 +1189,7 @@ config SEL3350_PLATFORM
-> >  config OXP_EC
-> >       tristate "OneXPlayer EC platform control"
-> >       depends on ACPI_EC
-> > +     depends on ACPI_BATTERY
-> >       depends on HWMON
-> >       depends on X86
-> >       help
-> > diff --git a/drivers/platform/x86/oxpec.c b/drivers/platform/x86/oxpec.c
-> > index dc3a0871809c..d73a10598d8f 100644
-> > --- a/drivers/platform/x86/oxpec.c
-> > +++ b/drivers/platform/x86/oxpec.c
-> > @@ -24,6 +24,7 @@
-> >  #include <linux/module.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/processor.h>
-> > +#include <acpi/battery.h>
-> >
-> >  /* Handle ACPI lock mechanism */
-> >  static u32 oxp_mutex;
-> > @@ -87,6 +88,24 @@ static enum oxp_board board;
-> >
-> >  #define OXP_TURBO_RETURN_VAL           0x00 /* Common return val */
-> >
-> > +/* Battery bypass settings */
-> > +#define EC_CHARGE_CONTROL_BEHAVIOURS_X1      (BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO)             | \
-> > +                                      BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE)    | \
-> > +                                      BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE_S0))
-> > +
-> > +#define OXP_X1_CHARGE_LIMIT_REG      0xA3 /* X1 charge limit (%) */
-> > +#define OXP_X1_CHARGE_BYPASS_REG     0xA4 /* X1 bypass charging */
-> > +
-> > +#define OXP_X1_CHARGE_BYPASS_MASK_S0 0x01
->
-> Again avoid the word BYPASS please, if OneXPlayer are calling this bypass in their
-> own documentation maybe add a note here when defining the registers that OneXPlayer
-> calls this bypass and then use inhibit from there on.
+On Tue, Mar 04, 2025 at 11:18:55AM +0100, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> +/**
+> + * pse_disable_pi_prio - Disable all PIs of a given priority inside a PSE
+> + *			 power domain
+> + * @pcdev: a pointer to the PSE
+> + * @pw_d: a pointer to the PSE power domain
+> + * @prio: priority
+> + *
+> + * Return: 0 on success and failure value on error
+> + */
+> +static int pse_disable_pi_prio(struct pse_controller_dev *pcdev,
+> +			       struct pse_power_domain *pw_d,
+> +			       int prio)
+> +{
+> +	int i;
+> +
 
-Sure, I can do that.
+Should we lock the pi[] array at some level?
 
-> > +/*
-> > + * Cannot control S3, S5 individually.
-> > + * X1 Mask is 0x0A, OneXFly F1Pro is just 0x02
-> > + * but the extra bit on the X1 does nothing.
-> > + */
-> > +#define OXP_X1_CHARGE_BYPASS_MASK_S3S5 0x02
->
-> Ok, so suspend is treated as off, but that is for S3 suspend, what about
-> s2idle, or does this hw not do s2idle ?
+> +	for (i = 0; i < pcdev->nr_lines; i++) {
+> +		int ret;
+> +
+> +		if (pcdev->pi[i].prio != prio ||
+> +		    pcdev->pi[i].pw_d != pw_d ||
+> +		    !pcdev->pi[i].admin_state_enabled)
+> +			continue;
+> +
+> +		ret = pse_disable_pi_pol(pcdev, i);
 
-I will change it to OFF. Sorry, s3 is a typo it should be S4.
+If the PSE has many lower-priority ports, the same set of ports could be
+repeatedly shut down while higher-priority ports keep power
+indefinitely.
 
-> > +#define OXP_X1_CHARGE_BYPASS_MASK_ALWAYS (OXP_X1_CHARGE_BYPASS_MASK_S0 | \
-> > +     OXP_X1_CHARGE_BYPASS_MASK_S3S5)
-> > +
-> >  static const struct dmi_system_id dmi_table[] = {
-> >       {
-> >               .matches = {
-> > @@ -434,6 +453,194 @@ static ssize_t tt_toggle_show(struct device *dev,
-> >
-> >  static DEVICE_ATTR_RW(tt_toggle);
-> >
-> > +/* Callbacks for charge behaviour attributes */
-> > +static bool charge_behaviour_supported(void)
-> > +{
-> > +     switch (board) {
-> > +     case oxp_x1:
-> > +     case oxp_fly:
-> > +             return 1;
-> > +     default:
-> > +             break;
-> > +     }
-> > +     return 0;
-> > +}
-> > +
-> > +static ssize_t charge_behaviour_store(struct device *dev,
-> > +                            struct device_attribute *attr, const char *buf,
-> > +                            size_t count)
-> > +{
-> > +     unsigned int available;
-> > +     long val, s0, always;
-> > +     int ret;
-> > +     u8 reg;
-> > +
-> > +     switch (board) {
-> > +     case oxp_x1:
-> > +     case oxp_fly:
-> > +             s0 = OXP_X1_CHARGE_BYPASS_MASK_S0;
-> > +             always = OXP_X1_CHARGE_BYPASS_MASK_ALWAYS;
-> > +             reg = OXP_X1_CHARGE_BYPASS_REG;
-> > +             available = EC_CHARGE_CONTROL_BEHAVIOURS_X1;
-> > +             break;
->
-> Since these are always the same this does not seem useful, please
-> use the defines directly below.
+This could result in a starvation issue, where lower-priority group of
+ports may never get a chance to stay enabled, even if power briefly
+becomes available.
 
-Ack
+To fix this, we could:
+- Disallow identical priorities in static mode to ensure a clear
+shutdown order.
+- Modify pse_disable_pi_prio() to track freed power and stop
+disabling once enough power is recovered.
 
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     ret = power_supply_charge_behaviour_parse(available, buf);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     switch (ret) {
-> > +     case POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO:
-> > +             val = 0;
-> > +             break;
-> > +     case POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE_S0:
-> > +             val = s0;
-> > +             break;
-> > +     case POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE:
-> > +             val = always;
-> > +             break;
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     ret = write_to_ec(reg, val);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     return count;
-> > +}
-> > +
-> > +static ssize_t charge_behaviour_show(struct device *dev,
-> > +                           struct device_attribute *attr, char *buf)
-> > +{
-> > +     long val, s0, always, sel;
-> > +     unsigned int available;
-> > +     int ret;
-> > +     u8 reg;
-> > +
-> > +     switch (board) {
-> > +     case oxp_x1:
-> > +     case oxp_fly:
-> > +             s0 = OXP_X1_CHARGE_BYPASS_MASK_S0;
-> > +             always = OXP_X1_CHARGE_BYPASS_MASK_ALWAYS;
-> > +             reg = OXP_X1_CHARGE_BYPASS_REG;
-> > +             available = EC_CHARGE_CONTROL_BEHAVIOURS_X1;
-> > +             break;
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     ret = read_from_ec(reg, 1, &val);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     if ((val & always) == always)
-> > +             sel = POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE;
-> > +     else if ((val & s0) == s0)
-> > +             sel = POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE_S0;
-> > +     else
-> > +             sel = POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO;
-> > +
-> > +     return power_supply_charge_behaviour_show(dev, available, sel, buf);
-> > +}
-> > +
-> > +static DEVICE_ATTR_RW(charge_behaviour);
-> > +
-> > +static ssize_t charge_control_end_threshold_store(struct device *dev,
-> > +                            struct device_attribute *attr, const char *buf,
-> > +                            size_t count)
-> > +{
-> > +     u64 val, reg;
-> > +     int ret;
-> > +
-> > +     ret = kstrtou64(buf, 10, &val);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     if (val > 100)
-> > +             return -EINVAL;
-> > +
-> > +     switch (board) {
-> > +     case oxp_x1:
-> > +     case oxp_fly:
-> > +             reg = OXP_X1_CHARGE_LIMIT_REG;
-> > +             break;
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     ret = write_to_ec(reg, val);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     return count;
-> > +}
-> > +
-> > +static ssize_t charge_control_end_threshold_show(struct device *dev,
-> > +                           struct device_attribute *attr, char *buf)
-> > +{
-> > +     long val;
-> > +     int ret;
-> > +     u8 reg;
-> > +
-> > +     switch (board) {
-> > +     case oxp_x1:
-> > +     case oxp_fly:
-> > +             reg = OXP_X1_CHARGE_LIMIT_REG;
-> > +             break;
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     ret = read_from_ec(reg, 1, &val);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     return sysfs_emit(buf, "%ld\n", val);
-> > +}
-> > +
-> > +static DEVICE_ATTR_RW(charge_control_end_threshold);
-> > +
-> > +static int oxp_battery_add(struct power_supply *battery, struct acpi_battery_hook *hook)
-> > +{
-> > +     /* OneXPlayer devices only have one battery. */
-> > +     if (strcmp(battery->desc->name, "BAT0") != 0 &&
-> > +         strcmp(battery->desc->name, "BAT1") != 0 &&
-> > +         strcmp(battery->desc->name, "BATC") != 0 &&
-> > +         strcmp(battery->desc->name, "BATT") != 0)
-> > +             return -ENODEV;
-> > +
-> > +     if (device_create_file(&battery->dev,
-> > +         &dev_attr_charge_control_end_threshold))
-> > +             return -ENODEV;
-> > +
-> > +     if (device_create_file(&battery->dev,
-> > +         &dev_attr_charge_behaviour)) {
-> > +             device_remove_file(&battery->dev,
-> > +                             &dev_attr_charge_control_end_threshold);
-> > +             return -ENODEV;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int oxp_battery_remove(struct power_supply *battery, struct acpi_battery_hook *hook)
-> > +{
-> > +     device_remove_file(&battery->dev,
-> > +                        &dev_attr_charge_control_end_threshold);
-> > +     device_remove_file(&battery->dev,
-> > +                        &dev_attr_charge_behaviour);
-> > +     return 0;
-> > +}
-> > +
-> > +static struct acpi_battery_hook battery_hook = {
-> > +     .add_battery = oxp_battery_add,
-> > +     .remove_battery = oxp_battery_remove,
-> > +     .name = "OneXPlayer Battery",
-> > +};
-> > +
->
-> Since this is new code it should use the new power-supply extension support instead
-> of the old battery_hook mechanism:
->
-> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6037802bbae892f3ad0c7b4c4faee39b967e32b0
->
+static int pse_disable_pi_prio(struct pse_controller_dev *pcdev,
+                               struct pse_power_domain *pw_d,
+                               int prio, int required_power)
+{
+    int i, ret;
+    int freed_power = 0;
 
-Ack
+    mutex_lock(&pcdev->lock);
 
->
-> >  /* PWM enable/disable functions */
-> >  static int oxp_pwm_enable(void)
-> >  {
-> > @@ -716,15 +923,25 @@ static int oxp_platform_probe(struct platform_device *pdev)
-> >       hwdev = devm_hwmon_device_register_with_info(dev, "oxpec", NULL,
-> >                                                    &oxp_ec_chip_info, NULL);
-> >
-> > +     if (charge_behaviour_supported())
-> > +             battery_hook_register(&battery_hook);
-> > +
-> >       return PTR_ERR_OR_ZERO(hwdev);
-> >  }
-> >
-> > +static void oxp_platform_remove(struct platform_device *device)
-> > +{
-> > +     if (charge_behaviour_supported())
-> > +             battery_hook_unregister(&battery_hook);
-> > +}
-> > +
-> >  static struct platform_driver oxp_platform_driver = {
-> >       .driver = {
-> >               .name = "oxp-platform",
-> >               .dev_groups = oxp_ec_groups,
-> >       },
-> >       .probe = oxp_platform_probe,
-> > +     .remove = oxp_platform_remove,
-> >  };
-> >
-> >  static struct platform_device *oxp_platform_device;
->
-> Regards,
->
-> Hans
->
->
+    for (i = 0; i < pcdev->nr_lines; i++) {
+        if (pcdev->pi[i].prio != prio ||
+            pcdev->pi[i].pw_d != pw_d ||
+            !pcdev->pi[i].admin_state_enabled)
+            continue;
+
+        ret = pse_disable_pi_pol(pcdev, i);
+        if (ret == 0)
+            freed_power += pcdev->pi[i].pw_allocated_mW;
+
+        /* Stop once we have freed enough power */
+        if (freed_power >= required_power)
+            break;
+    }
+
+    mutex_unlock(&pcdev->lock);
+    return ret;
+}
+
+The current approach still introduces an implicit priority based on loop
+execution order, but since it's predictable, it can serve as a reasonable
+default.
+
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+
+....
+
+> +/**
+> + * pse_ethtool_set_prio - Set PSE PI priority according to the budget
+> + *			  evaluation strategy
+> + * @psec: PSE control pointer
+> + * @extack: extack for reporting useful error messages
+> + * @prio: priovity value
+> + *
+> + * Return: 0 on success and failure value on error
+> + */
+> +int pse_ethtool_set_prio(struct pse_control *psec,
+> +			 struct netlink_ext_ack *extack,
+> +			 unsigned int prio)
+> +{
+> +	struct pse_controller_dev *pcdev = psec->pcdev;
+> +	const struct pse_controller_ops *ops;
+> +	int ret = 0;
+> +
+> +	if (!pcdev->pi[psec->id].pw_d) {
+> +		NL_SET_ERR_MSG(extack, "no power domain attached");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	/* We don't want priority change in the middle of an
+> +	 * enable/disable call or a priority mode change
+> +	 */
+> +	mutex_lock(&pcdev->lock);
+> +	switch (pcdev->pi[psec->id].pw_d->budget_eval_strategy) {
+> +	case ETHTOOL_PSE_BUDGET_EVAL_STRAT_STATIC:
+> +		if (prio > pcdev->nr_lines) {
+> +			NL_SET_ERR_MSG_FMT(extack,
+> +					   "priority %d exceed priority max %d",
+> +					   prio, pcdev->nr_lines);
+> +			ret = -ERANGE;
+> +			goto out;
+> +		}
+> +
+> +		pcdev->pi[psec->id].prio = prio;
+
+In case we already out of the budget, we will need to re-evaluate the
+prios. New configuration may affect state of ports.
+
+Potentially we may need a bulk interface to assign prios, to speed-up
+reconfiguration. But it is not needed right now.
+
+> +		break;
+> +
+> +	case ETHTOOL_PSE_BUDGET_EVAL_STRAT_DYNAMIC:
+> +		ops = psec->pcdev->ops;
+> +		if (!ops->pi_set_prio) {
+> +			NL_SET_ERR_MSG(extack,
+> +				       "pse driver does not support setting port priority");
+> +			ret = -EOPNOTSUPP;
+> +			goto out;
+> +		}
+> +
+> +		if (prio > pcdev->pis_prio_max) {
+> +			NL_SET_ERR_MSG_FMT(extack,
+> +					   "priority %d exceed priority max %d",
+> +					   prio, pcdev->pis_prio_max);
+> +			ret = -ERANGE;
+> +			goto out;
+> +		}
+> +
+> +		ret = ops->pi_set_prio(pcdev, psec->id, prio);
+
+Here too, but in case of microchip PSE it will happen in the firmware.
+May be add here a comment that currently it is done in firmware and to
+be extended for the kernel based implementation.
+
+> +		break;
+> +
+> +	default:
+> +		ret = -EOPNOTSUPP;
+> +	}
+> +
+> +out:
+> +	mutex_unlock(&pcdev->lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(pse_ethtool_set_prio);
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
