@@ -1,99 +1,109 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BAC29D19;
-	Mon, 17 Mar 2025 13:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915FD23BD1F
+	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 13:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742216421; cv=none; b=gW99roOH3JCZ71udVCKz8P1YeHmB9QtxyWoyZh+6XtA3o7ab4HKKe8v656Icyi5kjAAN4mTwjgi9bazOaDbysctMESA0onBZtALIjXHzHUMBe3NHryQftdqVyHPgLZi4P1MwRiogaXPQiAL+CG+iLygMwqt+ElZPcsQo4V2EhMs=
+	t=1742217625; cv=none; b=qdlno7ftygc+RIg14YwbvrbiSCvCZiDNXS7Gwya/Op+wwWoH77DPc4m43uSHuszNGRNJQ8OFgeUHc9MoFPlWK+r6BGM4dzCL81ctPvaC0Q6lQQ1SLGizMtVtu2X+A/iNGiE6jJ0M3gkmg3/MmrgpMH0uEpsGBlIPbztYvojnRx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742216421; c=relaxed/simple;
-	bh=bIubJEwAWGYDMO/DSvL87cdFtXZDcF5zY0t0lC/0u/o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z40j/mlUg4b5BkTdSgBK1PA//QmNEyNko7NRXX1i4Ts1NCCCZS+uyw7V90pDQjPakwVcBfvOUxa9/NTg57jNrz+V2fWiwiHCix45qvAuTOMtQYI4ajGpG5+huI4paFXix7SjzS7ySFDMStZlIKm4xRPSn0GIHeQEPaygX+ur2iQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QzlXMkOa; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QzlXMkOa"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ac298c8fa50so824713566b.1;
-        Mon, 17 Mar 2025 06:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742216418; x=1742821218; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bIubJEwAWGYDMO/DSvL87cdFtXZDcF5zY0t0lC/0u/o=;
-        b=QzlXMkOaI+YA/S0xSOYZhTHKWxRnA75AvreDQHCPQblBpyRBEWCoNmmDku/uz1OFKu
-         3bom/tf6aDjeJBqb7M6/8owZnaoGfJdr96oktkpGE6Bq3kFr0kIvDB3IpEFHNMn47bQj
-         +9lvE9ZnxiS92WKhiPVROxlc4ijipHZJZJT/+QJ6hB94Oc1asD/BvFAtIP8Vw+16iVhE
-         C6NotuI+Fh2EfP+Rf0LygmzPBr5FxGBehsT+irBs2u7ysvp2eeuHu6OHUv7+dJROKo+r
-         9bPPRmAq8mKZF/4cZTWfFpvaXF77jO7Xoqw/LLPPhwHZxNqt3YbTvLf0yzhxqROuchIm
-         eLhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742216418; x=1742821218;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bIubJEwAWGYDMO/DSvL87cdFtXZDcF5zY0t0lC/0u/o=;
-        b=prTuYi4xJvH3pNMemzMhZaKL+h9ooFTPs2VxHBq7+jIurT5v0Iz4Vll9q+v+830dme
-         mvz8718/rVvkYfciWaZL9mAWdOfeBFcqrgMuDlRdAuX/aBMgx9z3OcRd+IZtI+tfQrcN
-         XMW6MB9xjh7LPUTHFMAR07wTyrmlLX4qgAyUtSKTQwnvh51GOkx+dKXr6xhC7riXlfw2
-         AXMbfy5hj/eT/lFXdYgEkqKA6wfLddmRlCQdJz2cVenA+F4ChabDHFs1Ca0ECrS7OaLr
-         9BFJxwZXqNnl5dnLodRtm+necE4GCgAa3rciMYflJjH3Uphw4h6xGV57LyZ+x4BEZVti
-         nEPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW/os2fJ7WAp4nnoNtR3hmJFPsyBGX0v4e2Eg2HQHk4FKiiVzr+5lV0CJJqHrHQ91Ifo2UyofTmJEmuFmtW@vger.kernel.org, AJvYcCXQBl2eUaeGXORX276y9E/u7mt44vCn6cxIA0QunO0pGGZy4SATJ+so1gPCsoO2y1y9kaUXXgVSzng=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxg+CuWtLMgCXNp3F9mh9yf8D7G96zvcjJr5kWr/Eg2B3Gv8q2Q
-	O7QMwyQQqlzYpgj6Qvzsd6IaaSzmy7Tubxc6IFHBM/0TUs+OhtPbcfpEwJaj4amRurIuZwx3dX8
-	bxLctlJRiXrzeXSi5ElphvBaLY8k=
-X-Gm-Gg: ASbGncsv6qfRR/aCJTgwCRcxVendjY3smP+nZRNJbAddIh4vRQrxKNz5w1f2WFS36o0
-	6KHWmA8VZwTv8OtdMfwlsyu9l31IkL3ffczBHd9wjPqphPLmPJ3WDO9CScNan5PnQbZ5E8es6/6
-	SimVRQkrs7/+rLO60YKhlFb6+canJHiSJ2DQ3O
-X-Google-Smtp-Source: AGHT+IEUR1Y37l1FwAWvThJlHPQmxIymqVtj2Uln20rLTns8WdNrirlScgCLZlwk1y7sZsv2fziokMs0lERkuQLbL9c=
-X-Received: by 2002:a17:906:7308:b0:ac2:e059:dc03 with SMTP id
- a640c23a62f3a-ac3303f75d1mr1235173766b.38.1742216417651; Mon, 17 Mar 2025
- 06:00:17 -0700 (PDT)
+	s=arc-20240116; t=1742217625; c=relaxed/simple;
+	bh=KETlwWnjuUVgAlxuyR5Vs6IKJQ7UVTK2S4CiSKVsqZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oT5bWTYq7TJk4mTcH63/7JmoqBUNgoNP4/ns3xrVCOFtnBqng6u2qpVqZ+O9JRygzZmYm3hlvDL1SOepFheZCVY/Br+uWbKHynzbIOV2+5aktmFJxEVSH3uPVuDWHAYBx2U44lmIjV42tohR9t3RBkJck9XGzW1yKy5LZXpsLhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tuANv-0001jC-Ho; Mon, 17 Mar 2025 14:20:03 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tuANt-000GAp-2a;
+	Mon, 17 Mar 2025 14:20:02 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tuANu-001CQB-0C;
+	Mon, 17 Mar 2025 14:20:02 +0100
+Date: Mon, 17 Mar 2025 14:20:02 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v6 08/12] net: pse-pd: pd692x0: Add support for
+ PSE PI priority feature
+Message-ID: <Z9ghgq8zlXKsVjOW@pengutronix.de>
+References: <20250304-feature_poe_port_prio-v6-0-3dc0c5ebaf32@bootlin.com>
+ <20250304-feature_poe_port_prio-v6-8-3dc0c5ebaf32@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <f11afa64-1629-4005-8cb4-723d9b6ce6cb@hust.edu.cn>
- <20250317103147313V7IEKc3g37STl_idkF_ZB@zte.com.cn> <CAD-N9QXEam8v6amrfswCDFfmEkb6npDLxHRaT2dYAVEV0T4i8Q@mail.gmail.com>
-In-Reply-To: <CAD-N9QXEam8v6amrfswCDFfmEkb6npDLxHRaT2dYAVEV0T4i8Q@mail.gmail.com>
-From: Alex Shi <seakeel@gmail.com>
-Date: Mon, 17 Mar 2025 20:59:41 +0800
-X-Gm-Features: AQ5f1Jr3gw9oMbv5_hTh0-Z8hTWCsezwnxtbPy9op3MvI5szk_NRovfaYL0ANHg
-Message-ID: <CAJy-AmnA8tSR7QmMjQEWHWHWX=rni79T-MY5SA-4iCd3cnh=gA@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: fix spelling mistake
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: jiang.peng9@zte.com.cn, dzm91@hust.edu.cn, alexs@kernel.org, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250304-feature_poe_port_prio-v6-8-3dc0c5ebaf32@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-I should given a bit more time for review next time. :/
+On Tue, Mar 04, 2025 at 11:18:57AM +0100, Kory Maincent wrote:
+>  static u8 pd692x0_build_msg(struct pd692x0_msg *msg, u8 echo)
+> @@ -739,6 +755,29 @@ pd692x0_pi_get_actual_pw(struct pse_controller_dev *pcdev, int id)
+>  	return (buf.data[0] << 4 | buf.data[1]) * 100;
+>  }
+>  
+> +static int
+> +pd692x0_pi_get_prio(struct pse_controller_dev *pcdev, int id)
+> +{
+> +	struct pd692x0_priv *priv = to_pd692x0_priv(pcdev);
+> +	struct pd692x0_msg msg, buf = {0};
+> +	int ret;
+> +
+> +	ret = pd692x0_fw_unavailable(priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msg = pd692x0_msg_template_list[PD692X0_MSG_GET_PORT_PARAM];
+> +	msg.sub[2] = id;
+> +	ret = pd692x0_sendrecv_msg(priv, &msg, &buf);
+> +	if (ret < 0)
+> +		return ret;
+> +	if (buf.data[2] < 1 || 3 < buf.data[2])
 
-Anyway thank for all of you!
+if (!buf.data[2] || buf.data[2] > pcdev->pis_prio_max + 1)
 
 
-Dongliang Mu <mudongliangabcd@gmail.com> =E4=BA=8E2025=E5=B9=B43=E6=9C=8817=
-=E6=97=A5=E5=91=A8=E4=B8=80 10:53=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Mar 17, 2025 at 10:32=E2=80=AFAM <jiang.peng9@zte.com.cn> wrote:
-> >
-> > > One suggestion: the original English(Documentation/mm/balance.rst)
-> > > version also has this typo. Submit a v2 patch to fix both?
-> >
-> > Documentation/mm/balance.rst was already modified by Suchit 4 days ago.=
- Therefore, it might not contain the typo anymore.
-> > https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
-/commit/Documentation/mm/balance.rst?id=3Df5d10c46872ca9a6d716854354c11f2f3=
-2fce0e8
->
-> LGTM. And your patch is merged into Alex's tree. Congrats!
->
-> Dongliang Mu
->
-> >
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
