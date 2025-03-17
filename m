@@ -1,302 +1,225 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB134748D
-	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 09:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8AF191499;
+	Mon, 17 Mar 2025 09:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742204819; cv=none; b=hUd3OV8Mv8Jk0gr4Wpb5IEJZqAAUnknK88DJpHFOrWoX/P/cfefzAQ8QAsCw6wKFP/gqD+8xnHjK79hVKLgECNR6Hh01h0YykgGBNSnO9uWpL8UmVh7K6L9HPzX7cHUNThNl0ykKeNRTrMDgVJGRGjHqXGb1s3SdSwCTJdbi5Dg=
+	t=1742205193; cv=none; b=nCoo4aVopxCPSOp3fNRfFBCbSxBguXIKgHDBxwA8xxPY+potrFiORRqskYQxtyFBgbLjaWrtVBzkE9nBAKwjGbAI4v8KSObv2yYQHOz3vHzjnhF5xF17oXXIkhf5UUnxCn2Obt+Jbr/80NPIWHOSZ0CtOEQ/L4WW4aWd01zMEhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742204819; c=relaxed/simple;
-	bh=2veRFn9s6smtCQqoc4SQYbL4EFFITKrxLNOuXB9fl50=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bBMGHAlg6KCKn/aqRJEr+OV1KPMYtoCUAca/gqpRDScl3F5wAO5LbgZi9kaeFQJu3iyvJYjKP3UKO6OPrfTAiIsujv4SCYZ02HTlvfjVYOc0q4aM9khXvlYzXQFgPf7+vjVae+f1sswByBP6bQff5sSgw3IE+xyAGX7LkeFJruA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Uy/9j7jF; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1742205193; c=relaxed/simple;
+	bh=9LvosgfNboj4d6skergAV5qna7rDXXjRYXQz0EOL2xw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kwLT90TUJbxSw60ys3ljDqlPbkMdiayxJK0oSDWozzyfYckF4ReFZRgUedFHwi52H5jA9LKicOHd9lQl1lIfCV4MPnLfJD6oq5W/OrhOfcFifGZFu7ooY+fH+vGzXtqEi1x863QBR2MpxGn4fgoBQ/nAX811Wl/Erf6R94Cnqzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=hGlqs8an; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Uy/9j7jF"
-Message-ID: <35073023-ef0f-4ae1-adbb-80557b1ff909@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1742204815;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6z6T75WahHqlf6G0BJLxKM4EYAkPMuCV3PEMCzh/2qg=;
-	b=Uy/9j7jFrDKhUV+RD7ZM/gFI6HWTyScAGT+zAcAIVzaW2MWADDrL287JKGY9azIi5wD5nP
-	poeMbqaXuZfgy7Gx2/Pu2C/rcNsRoT41t8S5T4vXNCEEBmcH8Lnz/eTKqJULjpUYydaP+S
-	DpvjP9ZGwA0g7P4tvsnGfTzo77pP2lc=
-Date: Mon, 17 Mar 2025 17:46:38 +0800
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="hGlqs8an"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52H9eY00025235;
+	Mon, 17 Mar 2025 09:52:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=hIg8v/
+	EyjfTcc0iuNUQscATzYjiWKV5XrpqVVFSl4mk=; b=hGlqs8anJ55ZOjYtA7f5VK
+	UJykErQ6f+n4hAaorqRs0UEeWg/4xqym49kk87c5pL9NPScV1J5pIcH5s26flq2T
+	TIkQhuAavtA/pw1vd7CnAYQ8TKrRT4bLGozXrJhVx4H47tfArvVKzjuCqvtF7KzW
+	nimDlGV08TO0w3gKSsQWFpFx4Vek4de+QSQzww9fYmmfu0JS/qsKW9zwrarnZCBL
+	KEVF82zleKN9/s+7CqweQtF7aQCPKCvvNW5CY0n8/BC4sQbRRPPYdv6djH8iZYVY
+	Dyi+sBdcT4JWY/Jp/9cWb9olSQorquMJGzWFBhfj8/omD//n6LxyZW7cZdjcm2rw
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45e6252h95-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Mar 2025 09:52:19 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 52H9qIVA006829;
+	Mon, 17 Mar 2025 09:52:18 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45e6252h91-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Mar 2025 09:52:18 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 52H90WIa012351;
+	Mon, 17 Mar 2025 09:52:18 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 45dmvnngg1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Mar 2025 09:52:18 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 52H9qHqa12321330
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 17 Mar 2025 09:52:17 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 51CA258056;
+	Mon, 17 Mar 2025 09:52:17 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 70DD158052;
+	Mon, 17 Mar 2025 09:52:12 +0000 (GMT)
+Received: from [9.179.19.164] (unknown [9.179.19.164])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 17 Mar 2025 09:52:12 +0000 (GMT)
+Message-ID: <d83afae060351f49fe0ba661f69c1d0b00538a35.camel@linux.ibm.com>
+Subject: Re: [PATCH v7 03/17] iommu: generalize the batched sync after map
+ interface
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
+        Jason
+ Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+        Will
+ Deacon	 <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+        Keith Busch	
+ <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        Logan Gunthorpe	
+ <logang@deltatee.com>,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Shameer Kolothum	
+ <shameerali.kolothum.thodi@huawei.com>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Marek Szyprowski
+ <m.szyprowski@samsung.com>,
+        =?ISO-8859-1?Q?J=E9r=F4me?= Glisse	
+ <jglisse@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+        linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+        kvm@vger.kernel.org, linux-mm@kvack.org,
+        Randy Dunlap
+ <rdunlap@infradead.org>
+Date: Mon, 17 Mar 2025 10:52:11 +0100
+In-Reply-To: <ad8b0dc927ea21238457a47537d39cd746751f4b.1738765879.git.leonro@nvidia.com>
+References: <cover.1738765879.git.leonro@nvidia.com>
+	 <ad8b0dc927ea21238457a47537d39cd746751f4b.1738765879.git.leonro@nvidia.com>
+Autocrypt: addr=schnelle@linux.ibm.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v1] docs/zh_CN: Add how-to of Chinese translation
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20250314102833.70037-1-siyanteng@cqsoftware.com.cn>
- <CAD-N9QVWsq3p4Axsm8V2_fQTHybU6vkZQHnWLwNo8=4BvGzpyA@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <CAD-N9QVWsq3p4Axsm8V2_fQTHybU6vkZQHnWLwNo8=4BvGzpyA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 0hF70HY6BT5s-wPoLrVhBSjKbm0vSecU
+X-Proofpoint-ORIG-GUID: BH4B5Yn9WYfZcmNDq4xTvZV-53IulqxV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-17_03,2025-03-17_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 mlxlogscore=991
+ clxscore=1011 suspectscore=0 spamscore=0 phishscore=0 priorityscore=1501
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502280000 definitions=main-2503170069
 
+On Wed, 2025-02-05 at 16:40 +0200, Leon Romanovsky wrote:
+> From: Christoph Hellwig <hch@lst.de>
+>=20
+> For the upcoming IOVA-based DMA API we want to use the interface batch th=
+e
+> sync after mapping multiple entries from dma-iommu without having a
+> scatterlist.
+>=20
+> For that move more sanity checks from the callers into __iommu_map and
+> make that function available outside of iommu.c as iommu_map_nosync.
+>=20
+> Add a wrapper for the map_sync as iommu_sync_map so that callers don't
+> need to poke into the methods directly.
+>=20
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Acked-by: Will Deacon <will@kernel.org>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/iommu/iommu.c | 65 +++++++++++++++++++------------------------
+>  include/linux/iommu.h |  4 +++
+>  2 files changed, 33 insertions(+), 36 deletions(-)
+>=20
+>=20
+--- snip ---
+> +
+>  	return mapped;
+> =20
+>  out_err:
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index 38c65e92ecd0..7ae9aa3a1894 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -857,6 +857,10 @@ extern struct iommu_domain *iommu_get_domain_for_dev=
+(struct device *dev);
+>  extern struct iommu_domain *iommu_get_dma_domain(struct device *dev);
+>  extern int iommu_map(struct iommu_domain *domain, unsigned long iova,
+>  		     phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
+> +int iommu_map_nosync(struct iommu_domain *domain, unsigned long iova,
+> +		phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
+> +int iommu_sync_map(struct iommu_domain *domain, unsigned long iova,
+> +		size_t size);
 
-在 3/16/25 8:59 AM, Dongliang Mu 写道:
-> On Fri, Mar 14, 2025 at 6:28 PM Yanteng Si <siyanteng@cqsoftware.com.cn> wrote:
->> From: Yanteng Si <si.yanteng@linux.dev>
->>
->> Many new faces keep appearing on the mailing list from time to
->> time, and there may be many potential developers who want to
->> participate in the Chinese translation but don't know how to
->> get started. As more and more documents are translated, it is
->> becoming increasingly important to improve the maintainability
->> of Chinese documents. We have a lot of conventions, but currently
->> these conventions are still being passed on orally. At the same
->> time, during the review process, especially for the first few
->> patches submitted by newbies, we have made too many repetitive
->> comments. In order to address the above issues, I have drafted
->> this guide, and there is still a lot that needs to be improved.
->>
->> Link: https://lore.kernel.org/r/20250227103602.321198-1-si.yanteng@linux.dev
->> Signed-off-by: Yanteng Si <si.yanteng@linux.dev>
-> As observed from my side, I think this how-to-translate manual covers
-> all the things in my mind (only some comments left below).
->
-> If Yanteng has other things in mind, I can help write some guidance.
+There are two different word orders in the function names.
+iommu_sync_map() vs iommu_map_nosync(). I'd prefer to be consistent
+with e.g. iommu_map_sync() vs iommu_map_nosync().
 
-I think there is still a lack of a quick guide to using
-
-reStructuredText (RST). We should sort out the
-
-frequently used chapters, simplify the content, and
-
-insert them as a subsection at an appropriate position
-
-in this article. It would be best to include many small
-
-examples. Refer to 
-<https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#quick-syntax-overview>. 
-
-
-Of course, many common compilation warnings often
-
-puzzle beginners. Perhaps a small section on these
-
-should also be added.
-
->
-> Dongliang Mu
->
->> ---
->>   Documentation/translations/zh_CN/how-to.rst | 445 ++++++++++++++++++++
->>   Documentation/translations/zh_CN/index.rst  |  24 +-
->>   2 files changed, 457 insertions(+), 12 deletions(-)
->>   create mode 100644 Documentation/translations/zh_CN/how-to.rst
->>
->> diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
->> new file mode 100644
->> index 000000000000..280fd3263237
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/how-to.rst
->> @@ -0,0 +1,445 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +=========================
->> +Linux内核中文文档翻译规范
->> +=========================
->> +
->> +修订记录：
->> + - v1.0 2025年3月14日，司延腾参考社区的指导意见修订了部分内容。
->> +
->> +制定规范的背景
->> +==============
->> +
->> +过去几年，在广大社区爱好者的友好合作下，Linux 内核中文文档迎来了蓬勃的发
->> +展。在翻译的早期，一切都是混乱的，社区对译稿只有一个准确翻译的要求，以鼓
->> +励更多的开发者参与进来，这是从0到1的必然过程，所以早期的中文文档目录更加
->> +具有多样性，不过好在文档不多，维护上并没有过大的压力。
->> +
->> +然而，世事变幻，不觉有年，现在内核中文文档在前进的道路上越走越远，很多潜
->> +在的问题逐渐浮出水面，而且随着中文文档数量的增加，翻译更多的文档与提高中
->> +文文档可维护性之间的矛盾愈发尖锐。由于文档翻译的特殊性，很多开发者并不会
->> +一直更新文档，如果中文文档落后英文文档太多，文档更新的工作量会远大于重新
->> +翻译。而且邮件列表中陆续有新的面孔出现，他们那股热情，就像燃烧的火焰，能
->> +瞬间点燃整个空间，可是他们的补丁往往具有个性，这会给审阅带来了很大的困难，
->> +reviewer 们只能耐心地指导他们如何与社区更好地合作，但是这项工作具有重复
->> +性，长此以往，会渐渐浇灭 reviewer 审阅的热情。
->> +
->> +虽然内核文档中已经有了类似的贡献指南，但是缺乏专门针对于中文翻译的，尤其
->> +是对于新手来说，浏览大量的文档反而更加迷惑，该文档就是为了缓解这一问题而
->> +编写，目的是为提供给新手一个快速翻译指南。
->> +
->> +详细的贡献指南：Documentation/translations/zh_CN/process/index.rst。
->> +
->> +环境搭建
->> +========
->> +
->> +工欲善其事必先利其器，如果您目前对内核文档翻译满怀热情，并且会独立地安装
->> +linux 发行版和简单地使用 linux 命令行，那么可以迅速开始了。若您尚不具备该
->> +能力，很多网站上会有详细的手把手教程，最多一个上午，您应该就能掌握对应技
->> +能。您需要注意的一点是，请不要使用 root 用户进行后续步骤和文档翻译。
->> +
->> +拉取开发树
->> +----------
->> +
->> +中文文档翻译工作目前独立于 linux-doc 开发树开展，所以您需要拉取该开发树，
->> +打开终端命令行执行::
->> +
->> +       git clone git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
->> +
->> +如果您遇到网络连接问题，也可以执行以下命令::
->> +
->> +       git clone https://mirrors.hust.edu.cn/git/lwn.git
->              git clone https://mirrors.hust.edu.cn/git/kernel-doc-zh.git linux
->
-> In order to keep this same directory, I just add a folder name.
-OK!
->> +
->> +这是 linux-doc 开发树，可能会落后于 Alex 的开发树，但是不多。如果将来有较快
->> +的 mirror，请随时更改。
-> We can change to :
->
-> 这是 Alex 开发树的镜像库，每两个小时同步一次上游。如果将来有较快的 mirror，可随时更改。
-
-how about:
-
-这是 Alex 开发树的镜像库，每两个小时同步一次上游。如果您了解到更快的 mirror，请随时 **添加** 。
-
->
->> +
->> +命令执行完毕后，您会在当前目录下得到一个 linux 目录，该目录就是您之后的工作
->> +仓库，请把它放在一个稳妥的位置。
->> +
->> +安装文档构建环境
->> +----------------
->> +
->> +内核仓库里面提供了一个半自动化脚本，执行该脚本，会检测您的发行版中需要安
->> +装哪些包，请按照命令行提示进行安装，通常您只需要复制命令并执行就行。
-> 包->软件包
-OK!
->
->> +::
->> +
->> +       cd linux
->> +       ./scripts/sphinx-pre-install
->> +
->> +以Fedora为例，它的输出是这样的::
->> +
->> +       You should run:
->> +
->> +               sudo dnf install -y dejavu-sans-fonts dejavu-sans-mono-fonts dejavu-serif-fonts google-noto-sans-cjk-fonts graphviz-gd latexmk librsvg2-tools texlive-anyfontsize texlive-capt-of texlive-collection-fontsrecommended texlive-ctex texlive-eqparbox texlive-fncychap texlive-framed texlive-luatex85 texlive-multirow texlive-needspace texlive-tabulary texlive-threeparttable texlive-upquote texlive-wrapfig texlive-xecjk
->> +
->> +       Sphinx needs to be installed either:
->> +       1) via pip/pypi with:
->> +
->> +               /usr/bin/python3 -m venv sphinx_latest
->> +               . sphinx_latest/bin/activate
->> +               pip install -r ./Documentation/sphinx/requirements.txt
->> +
->> +           If you want to exit the virtualenv, you can use:
->> +               deactivate
->> +
->> +       2) As a package with:
->> +
->> +               sudo dnf install -y python3-sphinx
->> +
->> +           Please note that Sphinx >= 3.0 will currently produce false-positive
->> +          warning when the same name is used for more than one type (functions,
->> +          structs, enums,...). This is known Sphinx bug. For more details, see:
->> +               https://github.com/sphinx-doc/sphinx/pull/8313
->> +
->> +请您按照提示复制打印的命令到命令行执行，您必须具备 root 权限才能执行 sudo
->> +开头的命令。
->> +
->> +如果您处于一个多用户环境中，为了避免对其他人造成影响，建议您配置单用户
->> +sphinx 虚拟环境，即只需要执行::
->> +
->> +       /usr/bin/python3 -m venv sphinx_latest
->> +       . sphinx_latest/bin/activate
->> +       pip install -r ./Documentation/sphinx/requirements.txt
->> +
->> +最后执行以下命令退出虚拟环境::
->> +
->> +       deactivate
->> +
->> +您可以在任何需要的时候再次执行以下命令进入虚拟环境::
->> +
->> +       . sphinx_latest/bin/activate
->> +
->> +进行第一次文档编译
->> +------------------
->> +
->> +进入开发树目录::
->> +
->> +       cd linux
->> +
->> +这是一个标准的编译和调试流程，请每次构建时都严格执行::
->> +
->> +       . sphinx_latest/bin/activate
->> +       make cleandocs
->> +       make htmldocs
->> +       deactivate
->> +
->> +检查编译结果
->> +------------
->> +
->> +编译输出在Documentation/output/目录下，请用浏览器打开该目录下对应
->> +的文件进行检查。
->> +
->> +git和邮箱配置
->> +-------------
->> +
->> +打开命令行执行::
->> +
->> +       sudo dnf install git-email
->> +       vim ~/.gitconfig
->> +
->> +这里是我的一个配置文件示范，请根据您的邮箱域名服务商提供的手册替换到对
->> +应的字段。
->> +::
->> +
->> +       [user]
->> +              name = Yanteng Si                # 这会出现在您的补丁头部签名栏
->> +              email = si.yanteng@linux.dev     # 这会出现在您的补丁头部签名栏
->> +
->> +       [sendemail]
->> +              from = Yanteng Si <si.yanteng@linux.dev> # 这会出现在您的补丁头部
->> +              smtpencryption = ssl
->> +              smtpserver = smtp.migadu.com
->> +              smtpuser = si.yanteng@linux.dev
->> +              smtppass = <passwd>      # 建议使用第三方客户端专用密码
->> +              chainreplyto = false
->> +              smtpserverport = 465
->> +
->> +关于邮件客户端的配置，请查阅Documentation/translations/zh_CN/process/email-clients.rst。
->> +
->> +开始翻译文档
->> +============
->> +
->> +文档索引结构
->> +------------
->> +
->> +目前中文文档是在Documentation/translations/zh_CN/目录下进行，该
->> +目录结构最终会与Documentation/结构一致，所以您只需要将您感兴趣的英文
->> +文档文件和对应的 index.rst 复制到 zh_CN 目录下对应的位置，然后修改更
->> +上一级的 index 即可开始您的翻译。
-> 建议英文两侧都添加空格，不过可以后续进行调整。我后续可以提交补丁处理。
-
-OK.
-
-
-Thanks,
-
-Yanteng
-
+>  extern size_t iommu_unmap(struct iommu_domain *domain, unsigned long iov=
+a,
+>  			  size_t size);
+>  extern size_t iommu_unmap_fast(struct iommu_domain *domain,
 
