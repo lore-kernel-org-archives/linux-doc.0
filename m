@@ -1,55 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169031D934D;
-	Mon, 17 Mar 2025 22:49:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B862E1EEA20;
+	Mon, 17 Mar 2025 22:53:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742251753; cv=none; b=VzRLtv8DmhbLdq5lIfk+gA4+jKXFYEGhhLHw80m7M9tVp4P/S0cIAgsOOrmu97rmAYRKmYLLJyUnpEvllUUTQ8IyErT62yVHownkqqn8Xrr9XtRAnBy+Y4QEEYfwnAtFvJ0YIKrNUsgTufyaMaRH2TOnw5EUjyKLIS/Qx4S5JBA=
+	t=1742252032; cv=none; b=Iqk576PUkrPc1zkt5QHEHOZn3IdZW4slAU2oJn4j8z3AW/tyvkL/X2+wBsGd0joptUM8ZmH8f+DgU3DTeQXmZ1yCc0jAAYuJfSznFNCs2hsGzBr8lNTi3mdo80L/XcNvURA1EROPJCV70OrIhqOr0YPFbtJqRtYnTxY9XNH/txk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742251753; c=relaxed/simple;
-	bh=NGELh5FK8qxoafb9BF1ie8d4BLSd7FdWC4zqeQ+Rxac=;
+	s=arc-20240116; t=1742252032; c=relaxed/simple;
+	bh=1S1wcpOAxOJ4DHTjH1VO4jxPlklt6ZOU7On+F2Rgyjk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=J6VM+Zdb65rsyKnMwPc7StbfXrMkojLDGx/BUCVMbwEcb/iGr1Xw1hJK+RNtUxePs7rN5qHQ3w1lURFABBwVJxv+KgjmYWTZyTEx2byzx+Vw0F6fgj7QBgvv6eMxRE0HzRexzqBXT7OTodFn6RZeRMbJ2xofcNhD6ZEqhn/s5KU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KLGgCNcW; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=RXxRN/iZ5C5vFHbx8N6FzTILG/bESEVJvQrYNdWsGjV08iWedGoAeKGv2MaiXh9xxD1kb3Zw+ty8DIsddS8eIG+QBug19M+Wo4iVKuGc2SdDG6Vs5I4B7GdA+xM3qHSOHqYEltt59CjyhMyqw26M+0ZHNb9l+ZdELN2bdsAh0jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sjGTpFcW; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KLGgCNcW"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2CD4641081
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sjGTpFcW"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CA02E41081
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1742251750; bh=6PN7nApfM8X3fCGrZAu8H3kE5UNylVr653ipaeqlmtE=;
+	t=1742252030; bh=m1ArYPexXQLLtsttigae2e4aJ3hQRaLakaXfUFdgBoY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=KLGgCNcWvvI6Y3yEwPPqklYWBk3UrzBO2iFMqx9MPIei57VVTGRMxiW1kKUImh7Hb
-	 6snMD3IfD9S2r2MoSxL76n1DgnxII0bCBd6gFnmNvKOlZSHhPDyrF68JtIVAuBbhtr
-	 /G3UVvPqlbjs27GiOBL4xcxL9ANOUpdEaSpB0C7fyqxz78ZvTUTTFUK4yDqjMd5SAi
-	 ncmG4nO2LHTmCZ9sCTIltU+66XtGg4t8ZYwxhQJsPnpbmLKSHwA0sl9oDRdpyXfyBa
-	 5kC8bJtVFOFftAmVCd8xCix7JIVrZwlJ9aHbPpDqCRJrQHIBDzo4+t2/vAOiaS4bzG
-	 FYKtP2FZgbAPg==
+	b=sjGTpFcWrFNyxcrEhg5znWVSCMX/Jxov0q9Ugh8gtnqqZboBDzXiAlylqrhRY2zi1
+	 cyIGLnkpswu+aJtUY2TZFzVxJp5OtmTs2P6lw6wCWVbxIjHv9FM/b8k656bRWLHLaV
+	 IuhbgxUjA3neuEQ3ZllosRbua/ZfRVTLxtuJzGbPskBFHH+A8gwLanTpL4YSk5Rnhk
+	 xKToCE+f5fDf2QwgTp9qiWfUyAm1N7yKJA7tJq1AlBPoNPjGlJG83tN41wUr7ewT3Z
+	 P1JXzlHeb8updjN+8+EUEZwreC8NacJv2vgz5hPP5DZ+bfIcUze43tjUudxE7PLO28
+	 j0KiF4vKWTBRw==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2CD4641081;
-	Mon, 17 Mar 2025 22:49:10 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id CA02E41081;
+	Mon, 17 Mar 2025 22:53:49 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Simona Vetter
- <simona.vetter@ffwll.ch>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v4] docs: clarify rules wrt tagging other people
-In-Reply-To: <87jz8tlvqa.fsf@trenco.lwn.net>
-References: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
- <87y0ydzn1q.fsf@trenco.lwn.net>
- <8b87b297-b68b-4276-95ae-e04650c3360f@leemhuis.info>
- <875xl7nfxg.fsf@trenco.lwn.net>
- <431b3825-8ed6-4da2-af9d-4f95e9d08606@leemhuis.info>
- <87jz8tlvqa.fsf@trenco.lwn.net>
-Date: Mon, 17 Mar 2025 16:49:09 -0600
-Message-ID: <878qp3e0ii.fsf@trenco.lwn.net>
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, simona.vetter@ffwll.ch, airlied@gmail.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: Re: [PATCH] docs: driver-api: firmware: clarify userspace requirements
+In-Reply-To: <20250314100137.2972355-1-jacek.lawrynowicz@linux.intel.com>
+References: <20250314100137.2972355-1-jacek.lawrynowicz@linux.intel.com>
+Date: Mon, 17 Mar 2025 16:53:49 -0600
+Message-ID: <874izre0aq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,19 +50,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Jonathan Corbet <corbet@lwn.net> writes:
+Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com> writes:
 
-> Sorry for being slow ... but also, I guess, for not communicating my
-> point very well.  My concern wasn't about somebody not wanting to appear
-> in the repository at all; it was more with somebody not wanting their
-> tag in a specific patch where they had not offered it.
+> The guidelines mention that firmware updates can't break the kernel,
+> but it doesn't state directly that they can't break userspace programs.
+> Make it explicit that firmware updates cannot break UAPI.
 >
-> It seems I'm the only one who is worried about this, though.  It seems
-> like we should go ahead and get this change in before the merge window
-> hits.
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> ---
+>  .../driver-api/firmware/firmware-usage-guidelines.rst        | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+> index fdcfce42c6d28..5f8f13e2ee510 100644
+> --- a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+> +++ b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+> @@ -42,3 +42,8 @@ then of course these rules will not apply strictly.)
+>    deprecating old major versions, then this should only be done as a
+>    last option, and be stated clearly in all communications.
+>  
+> +* Firmware files that affect the User API (UAPI) shall not introduce
+> +  changes that break existing userspace programs. Updates to such firmware
+> +  must ensure backward compatibility with existing userspace applications.
+> +  This includes maintaining consistent interfaces and behaviors that
+> +  userspace programs rely on.
+> \ No newline at end of file
 
-OK, I have gone ahead and applied it ... though I'm still not 100%
-comfortable with the wording as it is... :)
+This ^^^^^^^^^^^^^^^^^^^^^^^^  is a good thing to avoid.  That can be
+fixed up at apply time.
+
+Dave, you're the only one with fingerprints on this document; is the
+change OK with you?
 
 Thanks,
 
