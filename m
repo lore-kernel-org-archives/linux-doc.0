@@ -1,255 +1,238 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2079.outbound.protection.outlook.com [40.107.100.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA5517A2E5
-	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 16:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742228883; cv=none; b=QjmddVUbJp67R10c0EvmDy9Yzw0vn3iRigBWwFsj7RHvgmKiWdsiXkgLY2sf87vYNCYBC7lzRtJk4W1xeKmb8tuKkZB40B3jn4T8+wBTg1aDkFup0n+lN86P9aIr44UWN3tBNNNO1cVyq2GPnCvlkKRSomEtSWBbcfrBldC4hFA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742228883; c=relaxed/simple;
-	bh=+xbA11YoBCM0APVgE1HmJiBC1pDnDh5yw515L6QByLQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EO3l5R3jPVF85MPVn3O2ELBBfQhEkUF9HVGcKUUFd4wFWL2cVRe+BQIhog4AIg1RZBMM6f9aIn2Qifyb/oS4UDja3a5BkFuWTKpW2pS15Cz23zuf5blPKO2Pcr4prRclXpGpJtJstQlTXAxLza4dV5GgKbHwigPmC4335tXJNck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dDM0Tjw0; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCAA1A3155;
+	Mon, 17 Mar 2025 16:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742229966; cv=fail; b=Fv6cYmcuKcsXsM9qg+kj06LImDXK82yN/PowTXPcmTJN1aWqFXQU/gqlqzjO02YTKRtXvz3kwdnIVwsPXwqOq2ZS8eBsaaUXRXMuD6ZpyZvHuT66kEfBEQRWTd13YPVa7ESAMKUA+BQViAiKRSXp52Sd9Imbqj/mOyi/m8OsCgU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742229966; c=relaxed/simple;
+	bh=ByKQGivlZtq4jo7OjiKW92pnX4je31C8HrPM6F9Z3mE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=fHlqxv12htRciX71dsnYvPgoDxqOshn9lKGI527EhO4koy76ilu+F6OZ7QH9L5ALU9HH4EUiYY/lO+6eiHMiT53tw9pEkoMBBZAZvY9C6swAbFEcH0EUOOCIARIRQSdMpOXcQa18HzqbEfzeK/w5o6n+SDQxktSJfX7jYQbk5BI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rPpEQd5N; arc=fail smtp.client-ip=40.107.100.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dDM0Tjw0"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5e5e34f4e89so8318624a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 09:28:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1742228880; x=1742833680; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=89fD89Q6T2OKDuYNg82lPgYyR9ous0ateN1XpH9BsoA=;
-        b=dDM0Tjw0N/onVGEaa/V+FpXuChPIpSG36ZiVBEwoSDp3+Birn9bTufYQhi+CkfCmbw
-         jsvK+FxE6vB/JfBooIOw6NbuXuJiF7ulLG5U2nGizQ5wG6PWZvqmnxRG1KaBVnBGWk4+
-         d4MBbX8u0ATQPT+Yq2c1xzkJTQCNuW+TcxvcPlq4PsbWDzXyilJ33uWhM/Tk4SJDX00n
-         FkuEY3/Wm814f7g1BeSe+L7RYanumIIMz+pCx+xRglbOpgvs/ITXUE0OR65JvBDKIJKk
-         KPRImI4sT5wYMokKM0isBgvGozuRBoTMR+1RGGvDKaOFkjOdWLB9Cj8RmVPe+HMtbNZG
-         jg3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742228880; x=1742833680;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=89fD89Q6T2OKDuYNg82lPgYyR9ous0ateN1XpH9BsoA=;
-        b=Q0GkfGjG58tkb3g4VB74gwRy4XvCD7IaYehYVnCbSAtxhWD/iGR9VSwvGSuqFvrSnh
-         yJlE8WOIhEBz5qKTZ24+cY0MLxbrxLuxL0hFr4kTNqdxkYH/pvhZwHF1olcqIDXV4KCu
-         NHuPOx6XfIwEETia7r43dzXh4ClnG+0e+HhR3UjFSwOdKckCucSlGJZ1b7J49fowBEdV
-         2vaI/71h74eu7W/kBX5923Imo2pMxV1Gv8QeKRmauc/maVlaONScYvdc1u4/Mw+LOqnl
-         kR9BsWtGfTGvCVPFc63Ml8P8qFwlbP4Peds3MfEPjMfKRo1M4LvQGpgBxBrlM5agihp+
-         c0IQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWF7WXt6HyF+JNFggInfFx+Japwgagsu/cASXT7yaEFMvwGyYzhOBy/oj52QX9UjMFbs81/E8+sniI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJzCRMzZFVGbf1/Yg0xydeYaiKnVKtAYZHAxIqG05ZcfyUWo+t
-	ybG4htDZj/TORwRPs9HD45EQOdeU9w29GmmKh9trVNz2TGY7IuW2SJWF0VX4jXrssa6UmUL/QOh
-	JTHtxbRuDjYh85Pk7fHNeNK1gCfRaI5MK7ST5
-X-Gm-Gg: ASbGncuV2e91K0Qkmsg+GefJEH/HZ/udppjNAjZAekTiwRnlhwf+Sa6w/C82yHEATJZ
-	7cNqlcsXQj2N4F9p43pd60Zfv5dEsYjRPFRuJrFoZwhYx1gk6FsWJUXlM5q67v5JEx0V9WBcCQi
-	Ja/M6WEmCB/BmCI+TSQ/s5HieQFlvVzvQwdGnm2CTfo7zDntVkMcdkhWvXvi+zDZ/uZw==
-X-Google-Smtp-Source: AGHT+IGFFcNVZoBalAn7/3OPYvWx4kWbHEWQNDXbKx96snWH45JMXiSL+Iev2blxLMZFP9U29bNgAZYh4i+cmODElXE=
-X-Received: by 2002:a05:6402:84f:b0:5de:dfd0:9d22 with SMTP id
- 4fb4d7f45d1cf-5eb1df95fdamr261706a12.22.1742228879633; Mon, 17 Mar 2025
- 09:27:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rPpEQd5N"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ad7WrH6VMmVteF0+uysPb++Kt87H/56jLyjY2KrwPfsl9vMoLCZRESrbGDV6Rp29ijSwoMyl05WMxcJGUICgYTOpXJewKN/zx7AhE3OZk5wp4lTUIJfHkYDppc5a5du+MimpWeCAnK7hwAAxkl14NZmFZHQt6kBSkcZajRfhfMAsfm7szkCMHP8ReVkvy3//mq6xNKD58+vt/KRCT54//EbYtK5WA5jTJfjWUy8jz1/GZxQwM39oQbRySYn08KZKDuKgH1aBO6Xj9IX+qeDVg9NrByLiBVnqN0q4LybBKiikkgNfXQoig071nCyoj5kS9q30k/sLGfRoYuiKc55IKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wFDg9516p7Xnp2MSZZPQ+ApbktlB5E5Rn8d86Y2t3Jk=;
+ b=NwOO+SUGsjRPLdjU0IMsvUBXR+Mx+qKKBb1YT+TCHT9keU9eovcjwyRXaGM07FHmGH0Gi/JLmvO/jHvxh3UAu4k57MlGtlwV2SN/xjWPN9pPSCErOfSHnKb6lNgyceQe7+eWbHyfaS49z2Xj3f+GotYE8kUOaJSHdRMQOqzRyxWGhhbypOsEouREysbn8iuaxhvphFOJmYpskm0AU9NzJ4E+75syqMm23AvRM5eFracnfbfjWluX1AiL1/ZUfvs9vUGSLQM4nlbsGlp1JIL+g9zxXO8VHN8g84+TJGT4GOD/cYEvjYGRoB/6AETZxcAgB97DbBV59+T23ioFu/KMbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wFDg9516p7Xnp2MSZZPQ+ApbktlB5E5Rn8d86Y2t3Jk=;
+ b=rPpEQd5NEirWSkOBjmKiL6+rJp1qQRrEC9cX6+Vl/gdQCpw6d/rWnZEJKCt90f6koVZPjGwBXslOp69QCmpnADnkm1qmE+fwJ8M6zx6O92d9+n4giCu9brMIlDOlnJTkz2a9RHeL5hHuNIZpJfnMGd5fqG7mRFpxe87ZPTYHHeMm9DxjU3ee2MMwdm9zWHGhUg+3a5IYTUCKqgmbloGjVWn/RA/wpKrT0u6FCUwsS3nIvPjhZ6LPLN7leoZ72GewF0omkbBxFsxfcflLbrlM3dvfQPgJFYypC0r7JG3OgDDMVxiCTaN/1eusdTlUHzl7z7HwHVZtk3YyjU1pgPC1Lg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by DM3PR12MB9433.namprd12.prod.outlook.com (2603:10b6:0:47::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.28; Mon, 17 Mar
+ 2025 16:46:01 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8534.031; Mon, 17 Mar 2025
+ 16:46:01 +0000
+Date: Mon, 17 Mar 2025 13:46:00 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Pratyush Yadav <ptyadav@amazon.de>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Hugh Dickins <hughd@google.com>, Alexander Graf <graf@amazon.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	James Gowans <jgowans@amazon.com>, Mike Rapoport <rppt@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Pasha Tatashin <tatashin@google.com>,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Dave Hansen <dave.hansen@intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Wei Yang <richard.weiyang@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, kexec@lists.infradead.org
+Subject: Re: [RFC PATCH 1/5] misc: introduce FDBox
+Message-ID: <20250317164600.GM9311@nvidia.com>
+References: <20250307005830.65293-1-ptyadav@amazon.de>
+ <20250307005830.65293-2-ptyadav@amazon.de>
+ <20250307-sachte-stolz-18d43ffea782@brauner>
+ <20250307151417.GQ354511@nvidia.com>
+ <20250308-wutanfall-ersetzbar-2aedc820d80d@brauner>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250308-wutanfall-ersetzbar-2aedc820d80d@brauner>
+X-ClientProxiedBy: MN2PR04CA0026.namprd04.prod.outlook.com
+ (2603:10b6:208:d4::39) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <fc3a67ee-6e97-4b9f-88d9-c24c6dab20c3@intel.com>
- <a9078e7d-9ce6-4096-a2da-b2c6aae1e3ed@amd.com> <CALPaoCgN+oGgdp40TOJ9NgF9WYPdN0cG8A8BtOOMXOP6iMVfzw@mail.gmail.com>
- <f1744c45-9edf-4012-89bc-47393b4c53fc@amd.com> <CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com>
- <d1ca9220-1ab7-4a39-819a-03a6069b7ac4@amd.com> <CALPaoChLL8p49eANYgQ0dJiFs7G=223fGae+LJyx3DwEhNeR8A@mail.gmail.com>
- <a4ab53b5-03be-4299-8853-e86270d46f2e@amd.com> <c1c0a99a-a467-4ae6-80ee-04b6a9cdb6e5@amd.com>
- <Z890Q2GoP6GecwW4@agluck-desk3> <04e47d0e-6447-451e-98e4-7ea65187d370@amd.com>
- <6508cf67-3263-432e-892c-9b502b3c6cd4@intel.com> <f8a20ed8-6e30-4cff-a96b-8df89a605081@amd.com>
- <d07a70f5-b1ca-4766-a1d9-53988dd9164f@intel.com> <14c14b11-5b45-4810-8e46-019c8a67fc90@amd.com>
- <1db8ad73-5194-4821-844a-8fd7cac72ad4@intel.com> <9b8653a3-c6fd-4748-a4b5-94d5598d180f@amd.com>
- <20ec195a-c4dd-48d9-89f6-4d48fd438fe8@intel.com> <be6d23c8-3e93-4bdc-8b33-d3af7df7cc94@amd.com>
- <7f54f9aa-1102-49ed-b830-6facb6f48366@intel.com>
-In-Reply-To: <7f54f9aa-1102-49ed-b830-6facb6f48366@intel.com>
-From: Peter Newman <peternewman@google.com>
-Date: Mon, 17 Mar 2025 17:27:47 +0100
-X-Gm-Features: AQ5f1JoIXqgG0M4QrynyU6Ipgs01SNdbTiTvENC9YJAFCysT9dUjqv8f75ycOjM
-Message-ID: <CALPaoCj7aSVxHisQTdKQ5KN0-aNzN8rRkRPVc7pjGMLSxfPvrA@mail.gmail.com>
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: babu.moger@amd.com, "Moger, Babu" <bmoger@amd.com>, "Luck, Tony" <tony.luck@intel.com>, 
-	Dave Martin <Dave.Martin@arm.com>, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com, 
-	rostedt@goodmis.org, xiongwei.song@windriver.com, 
-	pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com, 
-	jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com, 
-	kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com, 
-	xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com, 
-	mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	maciej.wieczor-retman@intel.com, eranian@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|DM3PR12MB9433:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2ec5bdd-2f37-4e50-fdf8-08dd6573333a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?G85XgDF1tmweZjf+IH0gvSzyac4muHco2kgwpMZoT2dwAmqj1nCWuOehh3XT?=
+ =?us-ascii?Q?9yvVZOKpSWiHwAl+Y3nq0b6SqutCMX5VabIq3y9gXUcM7ouLd5QohiJwGA63?=
+ =?us-ascii?Q?OeIoh0LudTZK4o4ajJXFf9m84jmpNinbCXHHqP6D/eXa5FpQyNWstNNNbyjn?=
+ =?us-ascii?Q?EZyA9FE+bNcOMiMvor6uYJ5O71NcVwuowrj9XlfefQ13XdUuDo5/WdB8UZN8?=
+ =?us-ascii?Q?zPYI5qfSxJxW/xO7MJobmbxdRv+0nZ7HU9sc6b8YZpqvOh/vH3efZ0btDmj6?=
+ =?us-ascii?Q?vZVDt2LCuA/fzw03X3YoJXyNJPTZw9/Q7HvkRnC1VmUF+75ggs3Ekk8Ud97t?=
+ =?us-ascii?Q?V85KGraYZhjgjWJxtLJkee6qQ3DnxwMB5MeDJbyMjq9z2StwkR9mKWW56hmX?=
+ =?us-ascii?Q?NFAauEty8GJSdkIADbFP2A4sciB5m0dokI9OH7hxzXNmrbi61g8HtuhSfVAb?=
+ =?us-ascii?Q?keD804bKLfVMERsoqCpAogQVO+eY1CkARWMscPMm5mst9YwIENOi+n/2KIaq?=
+ =?us-ascii?Q?N6po6EVBlj7nDxFH3vJbb0F8j3iYnXT5HybS9LFNGjfVu3xaVhb2Rx/f1E9G?=
+ =?us-ascii?Q?+neQQ3LlJptm1oQJEYljpbI6CxNYu3YCtc4JkUuCD6HY1ksyXzBavZW+OcNP?=
+ =?us-ascii?Q?4+xoAv1TR1kYzy/9XnkTx1OoGx+va8nNhQnRNTKjGBTqL3Qhw9i+xLwIYK2S?=
+ =?us-ascii?Q?jvdWMm2ef9MJqGtAZ0yXmmHnJ6v/Tt450OhiQUzIw5ZsfMkb+c+H8RTxqujr?=
+ =?us-ascii?Q?FHPgb7qgMMwFlY4b2h3RX096hHyqj9GyuzzczzK919noH3uMJvIP38go1z1K?=
+ =?us-ascii?Q?YYeV19YjaZp0+C0bU0lCer3zsxrDwDWuowGRfHiJyQil45Yu7qtsesYtmMiG?=
+ =?us-ascii?Q?bQLJhm4P+u8NpFEvp3rlxQCJwgCRyWOfezxeDNEDU2ic8nnnF4o1CDhDeyc9?=
+ =?us-ascii?Q?YYma9I1eIMxdyfl3h3xgBwv9AurIs9E5ieRRW/1NG1eVJqe2eYLYs+9943AH?=
+ =?us-ascii?Q?cj1Vp2XPiX0Q6DQpm79/Fd53oyknKYP5eZkrWvqOHCyiEFeEaZ2dMb94gV8Q?=
+ =?us-ascii?Q?Xi7zw8Rn6A1kIV8/ronWNtWpJABZTqSCbUN+ymfD5HswWIEw5Im4REgdx08X?=
+ =?us-ascii?Q?zZV3pBhYFFJN0IWS1rK8FqiSZdOWL6Ddpj5KNbQKc45i75S4bwAwRg5BFqSP?=
+ =?us-ascii?Q?etc1UgkUEhT9iz060fjEgz88S0JU/WEIkox6/i4xwH2OecLv4IqBDLa2YerT?=
+ =?us-ascii?Q?QamsMdVVduaPUAftgxBolL4eurFWtTeFSDtzI+KGDJ6Rf1TFpEWTiEy3cbec?=
+ =?us-ascii?Q?wjUbEua8tKjlfL0cNT4nAPFssHpWRoXVLl7Ov1xwL0SWx74N8eaqD5MAUJsN?=
+ =?us-ascii?Q?3B9uF4KMZYCpMOzMDt8lUdbkd2GH?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?NSxEyvU07zcscwyu3JXPhXqGaBATOY0/CZl9Bm/mTQUs+/qJe2b3Ba2U/+rD?=
+ =?us-ascii?Q?VMekQk8dtpqB0UgDfiMBlewssqFMWB+yhA7ZKHhjSsmLGvt31+bVZyrh7TWi?=
+ =?us-ascii?Q?xku4GJAFUVwvg7wjmyabZbyHtdGpcB5TPhCzPjuWY7ByWrQ92hlaBQuN7sKN?=
+ =?us-ascii?Q?gbdCkm/nSjESUyVERjfT/gxQuVuIpnSqxIVOyz9yRb6gv7WfgaPGez8mpRw7?=
+ =?us-ascii?Q?2Y6IROhxlIQBW6zfOBV1Dj5n7xSTVGnjpYIxZcbmDdgkpBjSo+iI2KkpYw9y?=
+ =?us-ascii?Q?VEQ7EsQLOUBYmGGNJrUmlal1m4jve8hfXP8zE8O9YzACSZiuFRc2unZFM7Jo?=
+ =?us-ascii?Q?ea84mimo+fziSxzIzQqx6P1LTTidX+x3sm4OXnsP6mpPMifIdF8ekMy5dPUC?=
+ =?us-ascii?Q?L8MaUWbeT/1zYL7dEU8i8LJr+opkpFLsaexSt7XUT3VxS1NLKnrgts2QMJFw?=
+ =?us-ascii?Q?2MCwyJdzrlheBcD9jNSPfEBgVHoPq4xi3fUei0zz0xrbc0/mq0BPLR+MBIiK?=
+ =?us-ascii?Q?2nHBx65/hOGtvnBjQIuPjT6SlPpPw6canAzTnmwhN+tvyQNZyD5EhoICR9Zw?=
+ =?us-ascii?Q?wksYZeqmFo9x8M2nNG44lBV/JAmUENGRMTnSE8KDGiYmWdLcxNgT1CoTJv+F?=
+ =?us-ascii?Q?5VOsyKo+dQd0pZ8RSW9bPSJF3dTT48e2lkLnBdji5JXw3WftvvmC/zrKb3M9?=
+ =?us-ascii?Q?N3PK6vGxw407Wnn0OEU1YHAZaCKa2kh1Y4h9njoNQirvx2M0joY2B9A234Od?=
+ =?us-ascii?Q?rRaJm2aut4NVTk9+kDNqHR4HxxPXkVo52vaJ6tWSYsPguMUAxJroEbgvXPVH?=
+ =?us-ascii?Q?YrOzUi8r5VDpI4kHKUR5BlIMt9lL5KrTHJnTcMHNltCgE9Bv5hHhLXxcJgJs?=
+ =?us-ascii?Q?XgCmSzIDKhR2qSqiuWJ+WXzGQgQyp/I86gh8h39HNozV1gzCCN15zfB+QfiT?=
+ =?us-ascii?Q?dXQX1291xuGM5NrPg4kkHLz4PisCUSHfvoEqwyiM9DnGtY1zpPIbzrE4up6U?=
+ =?us-ascii?Q?s3OqEoqks9v3HsqCMIW84lliw6dMQ2lom0XWhbXT+iUTk8iUeDyZTvfEP5tK?=
+ =?us-ascii?Q?tUpwvYX8tHdH87JFG+jl/5v09OMDMRtrZ5HnrOUZxa2lGd9jLRF9HKVtejp+?=
+ =?us-ascii?Q?QDZanhWPVaI5jTX8tbnWfDz7UVA6JTihpSfxYW5wUefgtqmWkSdBtsySwv4f?=
+ =?us-ascii?Q?62SU1509Rq5DG4GNyw9j7g2+AlIypMxRcvt+qWFviHTV78T8rCI3KbWiRmfK?=
+ =?us-ascii?Q?GbN1fAzXME0Yye57upfnwsLI7VcoYMqcuSy1CkvuY1TtgbZYhBMtzl5Re5j8?=
+ =?us-ascii?Q?t3NKf8GMORXyDekVFPIHFKnJk0YRJxyWyMRCrCI/pR8pcpke1nsTYrSQoMzi?=
+ =?us-ascii?Q?IoNc/ZpktD7Mr5QvP/2k8pJxgt7JvQl78QJBdlYloveKcYPYQhapQvsp7kk+?=
+ =?us-ascii?Q?PvwO82pMa6KLX8HdYYUj69GcsUj40JGDPVuYcASlyxIca4h/iwMZu2li+9oy?=
+ =?us-ascii?Q?s/Zdi5+AsLMygXZSXv14oobpCF+UhnVIWrV5A+CkKVdpqZ/ZLPEtvSGJGGy6?=
+ =?us-ascii?Q?X8atK1bWWEWDABq4r0D1cj47cBw+ltIhhC2v2kFw?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2ec5bdd-2f37-4e50-fdf8-08dd6573333a
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2025 16:46:01.3430
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FfbtNOXWrQ/ZK64B3FV8+LRlHU7BVaJ6iOGSMO+Mfnti3KPC9Omqn9T+R0wPDdvb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9433
 
-Hi Reinette,
+On Sat, Mar 08, 2025 at 12:09:53PM +0100, Christian Brauner wrote:
+> On Fri, Mar 07, 2025 at 11:14:17AM -0400, Jason Gunthorpe wrote:
+> > On Fri, Mar 07, 2025 at 10:31:39AM +0100, Christian Brauner wrote:
+> > > On Fri, Mar 07, 2025 at 12:57:35AM +0000, Pratyush Yadav wrote:
+> > > > The File Descriptor Box (FDBox) is a mechanism for userspace to name
+> > > > file descriptors and give them over to the kernel to hold. They can
+> > > > later be retrieved by passing in the same name.
+> > > > 
+> > > > The primary purpose of FDBox is to be used with Kexec Handover (KHO).
+> > > > There are many kinds anonymous file descriptors in the kernel like
+> > > > memfd, guest_memfd, iommufd, etc. that would be useful to be preserved
+> > > > using KHO. To be able to do that, there needs to be a mechanism to label
+> > > > FDs that allows userspace to set the label before doing KHO and to use
+> > > > the label to map them back after KHO. FDBox achieves that purpose by
+> > > > exposing a miscdevice which exposes ioctls to label and transfer FDs
+> > > > between the kernel and userspace. FDBox is not intended to work with any
+> > > > generic file descriptor. Support for each kind of FDs must be explicitly
+> > > > enabled.
+> > > 
+> > > This makes no sense as a generic concept. If you want to restore shmem
+> > > and possibly anonymous inodes files via KHO then tailor the solution to
+> > > shmem and anon inodes but don't make this generic infrastructure. This
+> > > has zero chances to cover generic files.
+> > 
+> > We need it to cover a range of FD types in the kernel like iommufd and
+> 
+> anonymous inode
+> 
+> > vfio.
+> 
+> anonymous inode
 
-On Thu, Mar 13, 2025 at 10:22=E2=80=AFPM Reinette Chatre
-<reinette.chatre@intel.com> wrote:
->
-> Hi Babu,
->
-> On 3/13/25 1:13 PM, Moger, Babu wrote:
-> > On 3/13/25 11:08, Reinette Chatre wrote:
-> >> On 3/12/25 11:14 AM, Moger, Babu wrote:
-> >>> On 3/12/25 12:14, Reinette Chatre wrote:
-> >>>> On 3/12/25 9:03 AM, Moger, Babu wrote:
-> >>>>> On 3/12/25 10:07, Reinette Chatre wrote:
->
->
-> > Here are the steps. Just copying steps from Peters proposal.
-> > https://lore.kernel.org/lkml/CALPaoCiii0vXOF06mfV=3DkVLBzhfNo0SFqt4kQGw=
-GSGVUqvr2Dg@mail.gmail.com/
->
-> Thank you very much for detailing the steps. It is starting the fall into=
- place
-> for me.
->
-> >
-> >
-> > 1. Mount the resctrl
-> >    mount -t resctrl resctrl /sys/fs/resctrl
->
-> I assume that on ABMC system the plan remains to have ABMC enabled by def=
-ault, which
-> will continue to depend on BMEC.
->
-> How would the existing BMEC implementation be impacted in this case?
->
-> Without any changes to BMEC support the mbm_total_bytes_config and mbm_lo=
-cal_bytes_config
-> files will remain and user space may continue to use them to change the e=
-vent
-> configurations with confusing expecations/results on an ABMC system.
->
-> One possibility may be that a user may see below on ABMC system even if B=
-MEC is supported:
-> # cat /sys/fs/resctrl/info/L3_MON/mon_features
-> llc_occupancy
-> mbm_total_bytes
-> mbm_local_bytes
->
-> With the above a user cannot be expected to want to interact with mbm_tot=
-al_bytes_config
-> and mbm_local_bytes_config, which may be the simplest to do.
+Yes, I think Pratyush did not really capture that point, that it is
+really only for very limited FD types. Realistically probably only
+anonymous like things.
 
-How about making mbm_local_bytes and mbm_total_bytes always be
-configured using mbm_{local,total}_bytes_config and only allowing the
-full ABMC configurability on user-defined configurations. This could
-resolve the issue of backwards compatibility with the BMEC files and
-remove the need for the user opting-in to ABMC mode.
+> > It is not "generic" in the sense every FD in the kernel magicaly works
+> > with fdbox, but that any driver/subsystem providing a FD could be
+> > enlightened to support it.
+> > 
+> > Very much do not want the infrastructure tied to just shmem and memfd.
+> 
+> Anything you can reasonably want will either be an internal shmem mount,
+> devtmpfs, or anonymous inodes. Anything else isn't going to work.
 
-It will be less clean implementation-wise, since there will be two
-classes of event configuration to deal with, but I think it seems
-logical from the user's side.
+Yes.
+ 
+> I'm not yet sold that this needs to be a character device. Because
+> that's fundamentally limiting in how useful this can be.
 
->
-> To follow that, we should also consider how "mon_features" will change wi=
-th this
-> implementation.
->
-> >
-> > 2. When ABMC is supported two default configurations will be created.
-> >
-> >   a. info/L3_MON/counter_configs/mbm_total_bytes/event_filter
-> >   b. info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> >
-> >   These files will be populated with default total and local events
-> >   # cat info/L3_MON/counter_configs/mbm_total_bytes/event_filter
-> >     VictimBW
-> >     RmtSlowFill
-> >     RmtNTWr
-> >     RmtFill
-> >     LclFill
-> >     LclNTWr
-> >     LclSlowFill
->
-> Looks good. Here we could perhaps start nitpicking about naming and line =
-separation.
-> I think it may be easier if the fields are separated by comma, but more o=
-n that
-> below ...
->
-> >
-> >   # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> >    LclFill,
-> >    LclNTWr
-> >    LclSlowFill
-> >
-> > 3. Users will have options to update the event configuration.
-> >    echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_fil=
-ter
->
-> We need to be clear on how user space interacts with this file. For examp=
-le,
-> can user space "append" configurations? Specifically, if the file has
-> contents like your earlier example:
-> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->  LclFill
->  LclNTWr
->  LclSlowFill
->
-> Should above be created with (note "append" needed for second and third):
-> echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> echo LclNTWr >> info/L3_MON/counter_configs/mbm_local_bytes/event_filter
-> echo LclSlowFill >> info/L3_MON/counter_configs/mbm_local_bytes/event_fil=
-ter
->
-> Is it possible to set multiple configurations in one write like below?
-> echo "LclFill,LclNTWr,LclSlowFill" > info/L3_MON/counter_configs/mbm_loca=
-l_bytes/event_filter
->
-> (note above where it may be easier for user space to use comma (or some o=
-ther field separator)
-> when providing multiple configurations at a time, with this, to match, ha=
-ving output in
-> commas may be easier since it makes user interface copy&paste easier)
->
-> If file has content like:
-> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->  LclNTWr
->  LclSlowFill
->
-> What is impact of the following:
-> echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->
-> Is it (append):
-> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->  LclFill
->  LclNTWr
->  LclSlowFill
->
-> or (overwrite):
-> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->  LclFill
->
-> I do think the interface will be more intuitive it if follows regular fil=
-e
-> operations wrt "append" and such. I have not looked into how kernfs suppo=
-rts
-> "append".
+It is part of KHO, and I think KHO wants a character device for other
+reasons anyhow.
 
-I expect specifying counter_configs to be a rare or one-time
-operation, so I think ease-of-use is the only concern. I think
-multiple, appending writes is the most straightforward to implement
-and invoke (for a shell user), but I think commas are easy enough to
-support as well, even though it would look better when reading back to
-see the entries on separate lines.
+The whole concept is tied to KHO intrinsically because this new
+file_operations callback is going to be calling KHO related functions
+to register the information contained in the FD with KHO.
 
-I believe you can inspect the file descriptor's flags from the
-kernfs_open_file reference: of->file->f_flags & O_APPEND
+Also, I kind of expect it to be semi-destructive to the FDs in
+someway, especially for VFIO and iommufd. The FD will have to be
+prepared to go into the KHO first.
 
-I haven't tried this, though.
+> It might be way more useful if this ended up being a separate tiny
+> filesystem where such preserved files are simply shown as named entries
+> that you can open instead of ioctl()ing your way through character
+> devices. But I need to think about that.
 
--Peter
+It could be possible, but I think this is more complex, and not really
+too useful. How do you store a iommufd anonymous inode in a new
+special filesystem? What permissions does it have after kexec? How
+does open work? What if you open the same path multiple times? What
+about the single-open rules of VFIO? How do you "open" co-linked FDs
+like VFIO & iommufd?
+
+A char device can give pretty reasonable answers to these questions
+when we don't have to pretend to be a filesytem..
+
+Jason
