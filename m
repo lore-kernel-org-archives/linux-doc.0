@@ -1,193 +1,197 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BA122F147
-	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 09:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E23944E;
+	Mon, 17 Mar 2025 10:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742205565; cv=none; b=LwhCf//6+OWyDOrIeS91VShK9TuotaLM9wzOYKxGQygos/07vsnEHvHG8Bx9qeXwqA85adhp/Yann6HLzSkovzmLiKL2n3WrA0JKACY66KlLwuvn647vZWrE8Hy2BgngtPX/KZLDTL63cAGkeo920M9WY0tPVVg+EJrsnGwVPow=
+	t=1742206145; cv=none; b=rnK7CbQOXn5GJwml/+W8xl2p8z7stv1lWkB7buwMRpyPV4I8+toGHq3wSQXqDkc6ewSu75jbJbxuSVIPmbHfly53hZhj1c38HYEFxTkO0yGNhb32d3KjkNwhddLLsHIEVBA/Z/a4tDsfk38945bKBdpY9nRvaFaNc4l1xR88GK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742205565; c=relaxed/simple;
-	bh=eLTZeaMW6RqboQrRfMoLdJ3QLbgZhIQQ6M3lPH/kUsg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CMgqsviKsrrNtYvt3uH0ZtSHrM7SMGGPLrcKIcb7OXu3ocpqJ+IaOP4a/OptEiMlpKADogqXn1+qKljKLjiSMYprdU4wShinM35oBZQ8mpE5PlQfcJu21I5GUA1/7ckm1K1/xFtmeKy7p0rhyXSyD+KkLD+O/vtBwpN7CC8ra/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tu7FP-0006dd-GS; Mon, 17 Mar 2025 10:59:03 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tu7FO-000Dti-1d;
-	Mon, 17 Mar 2025 10:59:02 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tu7FO-0018Rw-2T;
-	Mon, 17 Mar 2025 10:59:02 +0100
-Date: Mon, 17 Mar 2025 10:59:02 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v6 04/12] net: pse-pd: Add support for PSE power
- domains
-Message-ID: <Z9fyZkAOB602cFJY@pengutronix.de>
-References: <20250304-feature_poe_port_prio-v6-0-3dc0c5ebaf32@bootlin.com>
- <20250304-feature_poe_port_prio-v6-4-3dc0c5ebaf32@bootlin.com>
+	s=arc-20240116; t=1742206145; c=relaxed/simple;
+	bh=ndVQP1RQkHpSwsfRVDJ3pqBGs1UQtw7G1sqAOUt47aQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VDmK+lAh201/0UAXIo7LrVOfwWBHqcIpaKmu0kN4OjWRWQbRzTpDsvSAzXPDgwSrXe+04UhCHfWUufanyJHxb4YR6hboGEMXLqwU7nk3ifuX/s4GTKo8VsTsmJ35nsnF04ICfHsDnKndYjNwZJPgKT5IFHepToBpVwpSi8u0onA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=jSI6nJdB; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="jSI6nJdB"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52GKb30Z020098;
+	Mon, 17 Mar 2025 10:08:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=BkOQKPYEOSEZSmObA
+	rNGM1L7wwULiz/z2gw8hWd4riE=; b=jSI6nJdBv1T2UYmZTQwWPHLxOi+gQdA6A
+	Q48lqPpyAR1J68paw7B+yfbFeVIlqkQD3y116ErwIbOlV79VGkPRdtakLuaVG4nk
+	6+pdQA7XbTKEWlPM0F19y9TQkKGmxD7FNrVEpel5CfuSqCFJWkIS7PTomGDsjgmX
+	/TAxI8FRQRxImwHP9C3H5NMzYFMhAcoIR3c5FbBCCdZ8TTbEmvOzqG0vOTr7sTEw
+	fOuFH65jKLMz6uentAukArEQvzGUOcC3Cu/jGoyYTECB+VdCpZc4nOz8eCr63D7d
+	okWwytVv2icYrhWjYn1yxTxWFpoAwTXOMcMlMQrtTilwsOwahrhFQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45e5tpanmq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Mar 2025 10:08:53 +0000 (GMT)
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 52HA8qjX003543;
+	Mon, 17 Mar 2025 10:08:52 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45e5tpanmn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Mar 2025 10:08:52 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 52H8UYrR012350;
+	Mon, 17 Mar 2025 10:08:52 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 45dmvnnjvk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 17 Mar 2025 10:08:52 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 52HA8mdN31982230
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 17 Mar 2025 10:08:48 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 371E020063;
+	Mon, 17 Mar 2025 10:08:48 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5127820095;
+	Mon, 17 Mar 2025 10:08:43 +0000 (GMT)
+Received: from vaibhav?linux.ibm.com (unknown [9.124.208.110])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with SMTP;
+	Mon, 17 Mar 2025 10:08:43 +0000 (GMT)
+Received: by vaibhav@linux.ibm.com (sSMTP sendmail emulation); Mon, 17 Mar 2025 15:38:42 +0530
+From: Vaibhav Jain <vaibhav@linux.ibm.com>
+To: linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        kvm-ppc@vger.kernel.org
+Cc: Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Vaidyanathan Srinivasan <svaidy@linux.vnet.ibm.com>,
+        sbhat@linux.ibm.com, gautam@linux.ibm.com, kconsul@linux.ibm.com,
+        amachhiw@linux.ibm.com, Athira Rajeev <atrajeev@linux.vnet.ibm.com>,
+        linux-doc@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v5 1/6] powerpc: Document APIv2 KVM hcall spec for Hostwide counters
+Date: Mon, 17 Mar 2025 15:38:28 +0530
+Message-ID: <20250317100834.451452-2-vaibhav@linux.ibm.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250317100834.451452-1-vaibhav@linux.ibm.com>
+References: <20250317100834.451452-1-vaibhav@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250304-feature_poe_port_prio-v6-4-3dc0c5ebaf32@bootlin.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: B5m6wfL497b_c6F4nhG7aPh7dmYr3o8f
+X-Proofpoint-ORIG-GUID: IfMqWeKUgIgQQdwF1GzQ0uG4YxX4N6tp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-17_03,2025-03-17_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
+ spamscore=0 clxscore=1015 mlxscore=0 impostorscore=0 phishscore=0
+ adultscore=0 priorityscore=1501 mlxlogscore=999 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502280000 definitions=main-2503170073
 
-On Tue, Mar 04, 2025 at 11:18:53AM +0100, Kory Maincent wrote:
-> +/**
-> + * pse_flush_pw_ds - flush all PSE power domains of a PSE
-> + * @pcdev: a pointer to the initialized PSE controller device
-> + */
-> +static void pse_flush_pw_ds(struct pse_controller_dev *pcdev)
-> +{
-> +	struct pse_power_domain *pw_d;
-> +	int i;
-> +
-> +	for (i = 0; i < pcdev->nr_lines; i++) {
-> +		if (!pcdev->pi[i].pw_d)
-> +			continue;
-> +
-> +		pw_d = xa_load(&pse_pw_d_map, pcdev->pi[i].pw_d->id);
-> +		if (pw_d) {
-> +			regulator_put(pw_d->supply);
-> +			xa_erase(&pse_pw_d_map, pw_d->id);
-> +		}
-> +	}
-> +}
-> +
-> +/**
-> + * devm_pse_alloc_pw_d - allocate a new PSE power domain for a device
-> + * @dev: device that is registering this PSE power domain
-> + *
-> + * Return: Pointer to the newly allocated PSE power domain or error pointers
-> + */
-> +static struct pse_power_domain *devm_pse_alloc_pw_d(struct device *dev)
-> +{
-> +	struct pse_power_domain *pw_d;
-> +	int index, ret;
-> +
-> +	pw_d = devm_kzalloc(dev, sizeof(*pw_d), GFP_KERNEL);
-> +	if (!pw_d)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	ret = xa_alloc(&pse_pw_d_map, &index, pw_d, XA_LIMIT(1, INT_MAX), GFP_KERNEL);
+Update kvm-nested APIv2 documentation to include five new
+Guest-State-Elements to fetch the hostwide counters. These counters are
+per L1-Lpar and indicate the amount of Heap/Page-table memory allocated,
+available and Page-table memory reclaimed for all L2-Guests active
+instances
 
-#define PSE_PW_D_LIMIT INT_MAX
+Cc: linux-doc@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-XA_LIMIT(1, PSE_PW_D_LIMIT)
+---
+Changelog
 
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	pw_d->id = index;
-> +	return pw_d;
-> +}
-> +
-> +/**
-> + * pse_register_pw_ds - register the PSE power domains for a PSE
-> + * @pcdev: a pointer to the PSE controller device
-> + *
-> + * Return: 0 on success and failure value on error
-> + */
-> +static int pse_register_pw_ds(struct pse_controller_dev *pcdev)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < pcdev->nr_lines; i++) {
-> +		struct regulator_dev *rdev = pcdev->pi[i].rdev;
-> +		struct pse_power_domain *pw_d;
-> +		struct regulator *supply;
-> +		bool present = false;
-> +		unsigned long index;
-> +
-> +		/* No regulator or regulator parent supply registered.
-> +		 * We need a regulator parent to register a PSE power domain
-> +		 */
-> +		if (!rdev || !rdev->supply)
-> +			continue;
-> +
+v4->v5:
+* None
 
-Should we use xa_lock() before iteration over the map?
+v3->v4:
+* Added reviewed by [ Bagas Sanjaya ]
 
-> +		xa_for_each(&pse_pw_d_map, index, pw_d) {
-> +			/* Power supply already registered as a PSE power
-> +			 * domain.
-> +			 */
-> +			if (regulator_is_equal(pw_d->supply, rdev->supply)) {
-> +				present = true;
-> +				pcdev->pi[i].pw_d = pw_d;
-> +				break;
-> +			}
-> +		}
-> +		if (present)
-> +			continue;
-> +
-> +		pw_d = devm_pse_alloc_pw_d(pcdev->dev);
-> +		if (IS_ERR_OR_NULL(pw_d))
-> +			return PTR_ERR(pw_d);
+v2->v3:
+* Minor reword for the cumulative reclaim counter [ Gautam ]
 
-It is better to break the loop and roll back previous allocations.
+v1->v2:
+* Reworded section on GSID [Gautam]
+---
+ Documentation/arch/powerpc/kvm-nested.rst | 40 +++++++++++++++++------
+ 1 file changed, 30 insertions(+), 10 deletions(-)
 
-> +
-> +		supply = regulator_get(&rdev->dev, rdev->supply_name);
-> +		if (IS_ERR(supply)) {
-> +			xa_erase(&pse_pw_d_map, pw_d->id);
-> +			return PTR_ERR(supply);
-
-same here.
-
-> +		}
-> +
-> +		pw_d->supply = supply;
-> +		pcdev->pi[i].pw_d = pw_d;
-> +	}
-> +
-> +	return 0;
-> +}
+diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/arch/powerpc/kvm-nested.rst
+index 5defd13cc6c1..574592505604 100644
+--- a/Documentation/arch/powerpc/kvm-nested.rst
++++ b/Documentation/arch/powerpc/kvm-nested.rst
+@@ -208,13 +208,9 @@ associated values for each ID in the GSB::
+       flags:
+          Bit 0: getGuestWideState: Request state of the Guest instead
+            of an individual VCPU.
+-         Bit 1: takeOwnershipOfVcpuState Indicate the L1 is taking
+-           over ownership of the VCPU state and that the L0 can free
+-           the storage holding the state. The VCPU state will need to
+-           be returned to the Hypervisor via H_GUEST_SET_STATE prior
+-           to H_GUEST_RUN_VCPU being called for this VCPU. The data
+-           returned in the dataBuffer is in a Hypervisor internal
+-           format.
++         Bit 1: getHostWideState: Request stats of the Host. This causes
++           the guestId and vcpuId parameters to be ignored and attempting
++           to get the VCPU/Guest state will cause an error.
+          Bits 2-63: Reserved
+       guestId: ID obtained from H_GUEST_CREATE
+       vcpuId: ID of the vCPU pass to H_GUEST_CREATE_VCPU
+@@ -406,9 +402,10 @@ the partition like the timebase offset and partition scoped page
+ table information.
+ 
+ +--------+-------+----+--------+----------------------------------+
+-|   ID   | Size  | RW | Thread | Details                          |
+-|        | Bytes |    | Guest  |                                  |
+-|        |       |    | Scope  |                                  |
++|   ID   | Size  | RW |(H)ost  | Details                          |
++|        | Bytes |    |(G)uest |                                  |
++|        |       |    |(T)hread|                                  |
++|        |       |    |Scope   |                                  |
+ +========+=======+====+========+==================================+
+ | 0x0000 |       | RW |   TG   | NOP element                      |
+ +--------+-------+----+--------+----------------------------------+
+@@ -434,6 +431,29 @@ table information.
+ |        |       |    |        |- 0x8 Table size.                 |
+ +--------+-------+----+--------+----------------------------------+
+ | 0x0007-|       |    |        | Reserved                         |
++| 0x07FF |       |    |        |                                  |
+++--------+-------+----+--------+----------------------------------+
++| 0x0800 | 0x08  | R  |   H    | Current usage in bytes of the    |
++|        |       |    |        | L0's Guest Management Space      |
++|        |       |    |        | for an L1-Lpar.                  |
+++--------+-------+----+--------+----------------------------------+
++| 0x0801 | 0x08  | R  |   H    | Max bytes available in the       |
++|        |       |    |        | L0's Guest Management Space for  |
++|        |       |    |        | an L1-Lpar                       |
+++--------+-------+----+--------+----------------------------------+
++| 0x0802 | 0x08  | R  |   H    | Current usage in bytes of the    |
++|        |       |    |        | L0's Guest Page Table Management |
++|        |       |    |        | Space for an L1-Lpar             |
+++--------+-------+----+--------+----------------------------------+
++| 0x0803 | 0x08  | R  |   H    | Max bytes available in the L0's  |
++|        |       |    |        | Guest Page Table Management      |
++|        |       |    |        | Space for an L1-Lpar             |
+++--------+-------+----+--------+----------------------------------+
++| 0x0804 | 0x08  | R  |   H    | Cumulative Reclaimed bytes from  |
++|        |       |    |        | L0 Guest's Page Table Management |
++|        |       |    |        | Space due to overcommit          |
+++--------+-------+----+--------+----------------------------------+
++| 0x0805-|       |    |        | Reserved                         |
+ | 0x0BFF |       |    |        |                                  |
+ +--------+-------+----+--------+----------------------------------+
+ | 0x0C00 | 0x10  | RW |   T    |Run vCPU Input Buffer:            |
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.48.1
+
