@@ -1,62 +1,62 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78D61DDA0F
-	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 17:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4871F4706
+	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 17:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742231302; cv=none; b=vCkRc3NBjW1V1xSpKbW1kHnsMgxwC/ILRAtmo04oQ4mJq0RO2s+Elyrk9ScL/eZJiOK28nvzYXRxLL4uLRR6lHReni5rw5Y09VPL/dSOVZdhPfSADPW9Hvg5CH/j/QFSU6VmLL/No0dXNCz2qvvA/UYv1D3k0U6gMjLecW0RiwA=
+	t=1742231302; cv=none; b=tCrnOXwwZCW1PNrAkt/lfNbtXce4DF9GwHx+7HyGlYusPTihhqFB5kGceZbgtqgPF3X2YqcLFZF1E8cbOGHygKbUfBZKeicOZCd5222YMS4HXm7zeuAKPX536hdB/ExhbhtQEEtHq7hAUJ6Ggj4GFH4vUkpIgU2O0t3ood24qnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1742231302; c=relaxed/simple;
-	bh=B4l5ww4xM3ybuxVDnFD7O4s6SCugiqPi0tOYv0B/adg=;
+	bh=o8LicozigsBJPUxfw0UjH/+haPfd2EDEodthfJ8bhLQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qlM8F0bPuncy9N0olSAG/WduGHyiO4uj6Uyz5mrnHccNmNmEs4/LwKvQ3E2Hb2iqvn2QBcI1SQrSP9RL5c01AWcfUEhAEYg6ZFlMRQlrkp984tgqCvueM6T/ZdVX5tQ3ptgXZlI5mRcRYzAfs2LBggI/RmM3y1BfNgd8pC9KAyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=TH0Wpr6k; arc=none smtp.client-ip=209.85.221.46
+	 MIME-Version:Content-Type; b=Szll+JNIuqLaFFFjaHd5qazUeFzri8bIrW6xWhd4/3+b4qhUjszE4MnvyN5pl4ahll2azRqrTmSZJmlyBH5UbwGMgF1R2RljXPn6uYzRW08NNSTDfJ9c1WN9JnvptF2o3NFinxKwul7MEwkHj9gChCLypcUA57JktKPCDxa81Z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=B6RaHu7w; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="TH0Wpr6k"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3912e96c8e8so3042755f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 10:08:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="B6RaHu7w"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso17326025e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 10:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1742231298; x=1742836098; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1742231299; x=1742836099; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z9Vwlc46bZsQyt2QxW9m2l1M9vTOam7Mm6HyDDfLEZk=;
-        b=TH0Wpr6kUlHO8JCQ8f1xc1hUwdTwBLerRFQ1twh7EsTet8H64iJxR7jlfxf4PtwVsk
-         VXRN09JsGKDl7bY4vCW0Ht2UFXJ1kdeHbPrjlSVA3Eho+hcUH1ZUF9cUDYufFnkKkWbb
-         f4ETFjelcXuCl7cyxhkKFvNpn4547+fOHY9Rrso8D78/OUSgoe3wKWtPwfYxqSA+ma9d
-         xPemuYDNAL9vwUieKeknaKYh85TIPPhPeNbNeII+DXeoIiPQ2NGhnzSf4n6rb42h+ICU
-         /5BZuHy9st5KLNxj/lERhDOCDRtPCd0+D+MqaLN3MhM0rVeQyU+XrA80YfffflQxVQA4
-         swUQ==
+        bh=NTEMNxwWUDdJDHTSWR5BaYosnBDapUg7Ev6g031TeV8=;
+        b=B6RaHu7w/vTAvs3i8oBRPcmJ8fCdI1+ASycCRjRmU/aXVuSytN2BuFIBoIc/VNDS5a
+         NM94toxBLBIm/xJCFrkkhoiXwUpvIWUSb2+QdDFKNuxKKtVxkTcAGDRu8jO8QoM3x1Tj
+         UgBIsidJk3qPU5H4UexAOs+t6ejR2FHSdgnPPqiZAHZ9zyFGESmhdYPzQVKSx4zDjoGn
+         vxbI1J96zO5+8wdjI5Qpr6x3DnEQQoh2/vy3LjWzuvxVSJn6EVEXhJzwdTtD9C6XzQ3Y
+         958QFE5CsO7gK5IobDmz9kvdgiUHGgDP2kOqv8+gMczVqY6NDEra89bHpU0q5sfomCoV
+         XrlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742231298; x=1742836098;
+        d=1e100.net; s=20230601; t=1742231299; x=1742836099;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z9Vwlc46bZsQyt2QxW9m2l1M9vTOam7Mm6HyDDfLEZk=;
-        b=Wa8lf6kfk9k4VbDH8giAbF62/sBaylDDRU+BxMyldc1qBA9Z3XBu2sr3CTYr9j3gPe
-         4auEGkos0TIcj3dUZ2K+VC8XoGMaufHEhcTNX4M6I9VW42o4sFQc7YsVjn6tmE5OjOOG
-         5hLtfs+p1uvzAkKl85KA41WT3l7xkwj8Oq/IIwrOk42DGVqR8l+f6RmZJvU5iRzEtKYv
-         16KxkmmtWeYzVT/VjCCJsEsmipE78DwLdcVkG6+uqfXuLAaoic0ktG7n3COVmae+m67/
-         oQUz2L2jKVAt2ade7Nw3NfuH/VGCQ5QNyXPGfppyayU9CEGbiuR6iNH2jDkpa7N1jnPT
-         bipQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWerlxzdoqSakfoSiAq9LVGy313uQzPRl4u5d+iZjpsm+I04pqxJWNd5aHa52RED7CTtMcgghw4OzY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywee01P2E1ciOxNxHD+LI5UaIKzNv722AYfCH9bEXVaW971/RLF
-	/s8SACtOAFqO6frNgmCVFZvCJYnTXYszid+W/kuOhElKMs379NKalD2HACYRDBI=
-X-Gm-Gg: ASbGncsqw/Z71BfZ48IXuXsB2mOeT0JEBDTbr2acvugIrVEJmMtrnCW1EKQFfFTuZiY
-	FEuE5/IngfJ4h/Pm+GLujRcwX8E9lhfguzkb0WVDmvTk057AapBanF80g5c/HYwLqQP0jTGSwSs
-	LP6oMLgfCV1ZMyPdyDDRGjleQV0emI2A6wLY6u1nTDwe2HnYAU+LEWxLkKaD30SeB1ViofM1AO0
-	bpdZgMQ3Zjy41to1f3YP6Vkoc7jPuB5WRbmTZcvk96AWyTeLd8aXv5y9oRiOQFc8QJQHTBqayxt
-	OVFWuQ3V6Hr3k3ZRihhhsr1mPf0G+CQGv3RusUqM7j8ZIQ==
-X-Google-Smtp-Source: AGHT+IGA2Rdk6jf2tb4X7esu4pon4fXkJaTK84F8Y0BwgA61Xp90vVw97TtNBjS5pxzMobEPki6sdQ==
-X-Received: by 2002:a05:6000:1f8e:b0:391:253b:4046 with SMTP id ffacd0b85a97d-3971d51f3f8mr14939898f8f.16.1742231298143;
-        Mon, 17 Mar 2025 10:08:18 -0700 (PDT)
+        bh=NTEMNxwWUDdJDHTSWR5BaYosnBDapUg7Ev6g031TeV8=;
+        b=ZMo0PQ+ifu8pE9uFGD2RxWGYwmhigQKajw0UZNfAZn5Jnuo6jHdHFlAQDlnNQIVT1Z
+         SkO0FmWHPZtFpjv7Qh8uLLHlswns2AV5Utbjw7i8GVVGDsCf3MTuM8xR31jwf2v7nqau
+         TPAiH1tXDvITMPQEcqan1DBC5bZ0JVKk3rVig6OG1srnS2LCg2eI8LAquOIShdQyTJYG
+         LYL4b4letQTJYG2CXiXfK8AvU6aPkPP+PMeBPkx22lCvBqGo3Nd2tAyFDqP/Wrmqv7wS
+         aseAPwkKwIOfElGJu8a5OHBxbUXV1HhFMImSwfI0St2IEnuZbdB9Uq1D0+dWYFaSs+B1
+         cElQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVcWB3tJPoBB0MqR5ey/+J8f2jmaS37/vzWij7M/dGUB9VHLhooG/O77JekSKTg4NSdq8KEYK8i28w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAojmDizI4NuB9Z0eNumP55qa05y2rUYZUI9vM0/xB+SBt0GhT
+	j53G4ymj2qKyjYM4QHM2iFfaF3WNIdsbMcO5U/HVbmQ3SSlF/v/jtxovXcYRzGY=
+X-Gm-Gg: ASbGncueNZ1+6hmN15tSLvYTpT88Yu7lhVFZLJx/ZnFTMMAqLAZi6DqlzJFzPLlF3l/
+	3LOkVoM9r8oPHly34abcI9j+HC5pNRZFfogZsFPO6VTt3sKHwR6WkrOW5RTRsvvEFzgwcc2UuZN
+	lHwAsHajXFmGb9Dxw8Guu+4drOq8oGQhVPskcriw0NujHTei/5lgXZZESsvpHPcN8PIttvfHjQF
+	61sRQnWUCnl67mlbry+VSu7D8v+stEmCKV4v0ewuCp2nU2kccwMbmqdDw0srEp07tus7oEEMjUD
+	BZY6jSrOmaoyVE9W+nQ4UZ4CZrT4hGrX8PDxRRpmYAJPXw==
+X-Google-Smtp-Source: AGHT+IF/jPZgtuKO9F2UOB0NNJAFXUmhCJVLus67Lul9R3bvXGZReu7Tw2V0Z3eVtQhps9kA5NlJfg==
+X-Received: by 2002:a05:600c:4451:b0:43c:fa24:8721 with SMTP id 5b1f17b1804b1-43d1ec8a44cmr134590325e9.17.1742231299101;
+        Mon, 17 Mar 2025 10:08:19 -0700 (PDT)
 Received: from carbon-x1.. ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d23cddb2asm96014505e9.39.2025.03.17.10.08.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d23cddb2asm96014505e9.39.2025.03.17.10.08.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Mar 2025 10:08:17 -0700 (PDT)
+        Mon, 17 Mar 2025 10:08:18 -0700 (PDT)
 From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -73,9 +73,9 @@ To: Paul Walmsley <paul.walmsley@sifive.com>,
 Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
 	Samuel Holland <samuel.holland@sifive.com>,
 	Andrew Jones <ajones@ventanamicro.com>
-Subject: [PATCH v4 10/18] riscv: misaligned: factorize trap handling
-Date: Mon, 17 Mar 2025 18:06:16 +0100
-Message-ID: <20250317170625.1142870-11-cleger@rivosinc.com>
+Subject: [PATCH v4 11/18] riscv: misaligned: enable IRQs while handling misaligned accesses
+Date: Mon, 17 Mar 2025 18:06:17 +0100
+Message-ID: <20250317170625.1142870-12-cleger@rivosinc.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250317170625.1142870-1-cleger@rivosinc.com>
 References: <20250317170625.1142870-1-cleger@rivosinc.com>
@@ -88,88 +88,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-misaligned accesses traps are not nmi and should be treated as normal
-one using irqentry_enter()/exit(). Since both load/store and user/kernel
-should use almost the same path and that we are going to add some code
-around that, factorize it.
+We can safely reenable IRQs if they were enabled in the previous
+context. This allows to access user memory that could potentially
+trigger a page fault.
 
 Signed-off-by: Clément Léger <cleger@rivosinc.com>
 ---
- arch/riscv/kernel/traps.c | 49 ++++++++++++++++-----------------------
- 1 file changed, 20 insertions(+), 29 deletions(-)
+ arch/riscv/kernel/traps.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/arch/riscv/kernel/traps.c b/arch/riscv/kernel/traps.c
-index 8ff8e8b36524..55d9f3450398 100644
+index 55d9f3450398..3eecc2addc41 100644
 --- a/arch/riscv/kernel/traps.c
 +++ b/arch/riscv/kernel/traps.c
-@@ -198,47 +198,38 @@ asmlinkage __visible __trap_section void do_trap_insn_illegal(struct pt_regs *re
- DO_ERROR_INFO(do_trap_load_fault,
- 	SIGSEGV, SEGV_ACCERR, "load access fault");
- 
--asmlinkage __visible __trap_section void do_trap_load_misaligned(struct pt_regs *regs)
-+enum misaligned_access_type {
-+	MISALIGNED_STORE,
-+	MISALIGNED_LOAD,
-+};
-+
-+static void do_trap_misaligned(struct pt_regs *regs, enum misaligned_access_type type)
+@@ -206,6 +206,11 @@ enum misaligned_access_type {
+ static void do_trap_misaligned(struct pt_regs *regs, enum misaligned_access_type type)
  {
--	if (user_mode(regs)) {
--		irqentry_enter_from_user_mode(regs);
-+	irqentry_state_t state = irqentry_enter(regs);
+ 	irqentry_state_t state = irqentry_enter(regs);
++	bool enable_irqs = !regs_irqs_disabled(regs);
++
++	/* Enable interrupts if they were enabled in the interrupted context. */
++	if (enable_irqs)
++		local_irq_enable();
  
-+	if (type ==  MISALIGNED_LOAD) {
+ 	if (type ==  MISALIGNED_LOAD) {
  		if (handle_misaligned_load(regs))
- 			do_trap_error(regs, SIGBUS, BUS_ADRALN, regs->epc,
--			      "Oops - load address misaligned");
--
--		irqentry_exit_to_user_mode(regs);
-+				      "Oops - load address misaligned");
- 	} else {
--		irqentry_state_t state = irqentry_nmi_enter(regs);
--
--		if (handle_misaligned_load(regs))
-+		if (handle_misaligned_store(regs))
- 			do_trap_error(regs, SIGBUS, BUS_ADRALN, regs->epc,
--			      "Oops - load address misaligned");
--
--		irqentry_nmi_exit(regs, state);
-+				      "Oops - store (or AMO) address misaligned");
+@@ -217,6 +222,9 @@ static void do_trap_misaligned(struct pt_regs *regs, enum misaligned_access_type
+ 				      "Oops - store (or AMO) address misaligned");
  	}
+ 
++	if (enable_irqs)
++		local_irq_disable();
 +
-+	irqentry_exit(regs, state);
+ 	irqentry_exit(regs, state);
  }
  
--asmlinkage __visible __trap_section void do_trap_store_misaligned(struct pt_regs *regs)
-+asmlinkage __visible __trap_section void do_trap_load_misaligned(struct pt_regs *regs)
- {
--	if (user_mode(regs)) {
--		irqentry_enter_from_user_mode(regs);
--
--		if (handle_misaligned_store(regs))
--			do_trap_error(regs, SIGBUS, BUS_ADRALN, regs->epc,
--				"Oops - store (or AMO) address misaligned");
--
--		irqentry_exit_to_user_mode(regs);
--	} else {
--		irqentry_state_t state = irqentry_nmi_enter(regs);
--
--		if (handle_misaligned_store(regs))
--			do_trap_error(regs, SIGBUS, BUS_ADRALN, regs->epc,
--				"Oops - store (or AMO) address misaligned");
-+	do_trap_misaligned(regs, MISALIGNED_LOAD);
-+}
- 
--		irqentry_nmi_exit(regs, state);
--	}
-+asmlinkage __visible __trap_section void do_trap_store_misaligned(struct pt_regs *regs)
-+{
-+	do_trap_misaligned(regs, MISALIGNED_STORE);
- }
-+
- DO_ERROR_INFO(do_trap_store_fault,
- 	SIGSEGV, SEGV_ACCERR, "store (or AMO) access fault");
- DO_ERROR_INFO(do_trap_ecall_s,
 -- 
 2.47.2
 
