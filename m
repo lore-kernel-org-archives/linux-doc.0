@@ -1,134 +1,101 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BA921ABC8
-	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 08:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBA0220680
+	for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 08:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742200498; cv=none; b=fDNaL+5m2cVSNX43iwS9+lLcIX2iItvWEVWW8JtBlG9WSKvZneCHsiiI4HIGLwCrQZ9ARhv0mZ3dJ+SQCH9+KGQWQAqLuUJQCJAoN+Y2vBNrwZyt4ze7bj4KVwoT4WZXh6gl7RZMB1JVJ3ULkRnBNQyhYUW8MwXnGzxXnj0j01s=
+	t=1742201623; cv=none; b=VuKJqMvUQvrBGhK9rW8j6dYa/Tx+wvU41WTdAB+END6AoNgL11qROpBvanAbLYTeMxt3UnvpcHGDDvCye+hY8jrWwifbNRKsEwMF2FU7goPJJLQvRjTrQpmylYi18S2uA73LiYLmTW3/JE6/xh1K8oOMpVNSqALtnoGBEJkDfUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742200498; c=relaxed/simple;
-	bh=c2n1Fx835UhBJSllbwffn7zGDt95tdAKPpRn0ntoO54=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=M9YLpttB7bvjMB+FRUp+GNLs8tK+stvyMcrySOgEZ2zkXwXi5t8yUiUUqTQJPEhhqTbL4rupWwlvnB8Z827cS+qms7jSGY6jAASadCR6p8wuw5BhnCmOhWH7cBnkmt0D55C8jDqEDxV+aQ0H9dte+zY6qAaF8CR4+Pzc4mEEoE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EfAwxosm; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1742201623; c=relaxed/simple;
+	bh=5TLinsCFZY6ypy0cnZ760RF7CdaufS9N1m06Lm0tnw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rek44V4GdoWXEdRYL7EnBa+IE20N64IbgFXMwKlUA4WJU0tj/X345eCgvDKuZgl6EQStGjRf5eqctIfRPFvT2mHFor70Ik4YfFB8WKo9LzHGXAYp0ct4wBLWDu1K/nq7dUAxhAqPzzVNykKnjV33p+V2Xdo/9NJcrRGi440yV1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=anG/Z06Q; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EfAwxosm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1742200495;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K8fFsxESP3H629nCG6gkvjmwLt+3pqm+G1ABejpl59E=;
-	b=EfAwxosmi2kuQHPFTccyZ/hzPapseqk7aATs16x3QEEFIoDFVzkopbMjLm3bqQlxTGx0rx
-	XvvkLWSgCCephjVsZKdAqRCKI83X45+gw9iMlo7Ik4+wUHig4AJYFl8h8b7t3i0xtSvvGq
-	pK+uf6fjwLimgrKzYJm68G+5cYv55Pg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-185-6c5gGVbpNcWxkOMJ5Zfizg-1; Mon, 17 Mar 2025 04:34:53 -0400
-X-MC-Unique: 6c5gGVbpNcWxkOMJ5Zfizg-1
-X-Mimecast-MFC-AGG-ID: 6c5gGVbpNcWxkOMJ5Zfizg_1742200492
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3914bc0cc4aso2404172f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 01:34:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="anG/Z06Q"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2239c066347so80850575ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 01:53:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742201619; x=1742806419; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R1gfFdT9yc0ID86bAZQcBXC/s8a7FX9Kfok55CN+i30=;
+        b=anG/Z06QSOhuaHYtTZZNDN4jrc5wAD1zubQKxfrDEye3qYCrDdRBwOTuGtpLmttUfK
+         3ZiVnzR5M5s1H5/TIvFcFFrCsGs+1jtybSXBcy+8ILEWdI16pjKpS4aAiH45IAuwjVuI
+         b9HXo400YMy7IuXWwD/RcUGEqbYacwdzAVdEKtaeNTSM8XRiElJzRar6/VJu8NcTmYLU
+         PK1cz+10+c1xXxamovm3jY+cweWnchFRLkNVjjRNWcwCKPlFbWA2zAXH7rMjH9PedCJK
+         aDbtpe17gvdxjMle57L4SPARnVzNZNh7NKvFkoimpHdAU1R4sqiLtEqfz5UjnPpMGfJj
+         o4dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742200492; x=1742805292;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K8fFsxESP3H629nCG6gkvjmwLt+3pqm+G1ABejpl59E=;
-        b=DYWpHZxXj/pDk3hQVMkT16i4ypXWRQrRqbUeVHNqb3kcu6eNOqD7yA1W75GyVsvHGH
-         nBD8TtGP2CYX0ywCgO8axOgVZ5Ta37onjsOBJHtw8wzpn0dI0AAmXb17sO3NtvvMpuvb
-         xQJQhWIozTreDfw6oYFmK7biJVXY7d+z1xpLTuIsyesMin/rSz1oeY1TeA3W+D7YE2xC
-         JMhYqHxOyxuqTHGlBv4pRPGw9rc5+xkJQTQ5oT2hZc/C/L9LqfBFqTpjmUvX+oMv7cZK
-         j+fJ+yqIGL6V/DfD+LAh/IHLBAvxSJh1WFDn6mm6c9GJ59gPTeZpMpm2dVglarfAH5qf
-         T9mw==
-X-Forwarded-Encrypted: i=1; AJvYcCUfquGwiShWOr59NF5A/Glqw2U1EKjmtc60vvXrmRK4KMz/1bQT+NLToDFcC5yL2gOjSGvtodVBtJg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxR+RPiPhjbbT/BE8AlhHG1oJcVuySWWVITQ9GqFi1u/XbZ529/
-	Qf2wguUMwzpXQLEz+3hxhGwjkLBIszD1ll9En5Dbx+/wzImnG0cJ3yZQfzk/rbedhYDQOD+jQz+
-	P4QUO5WmN1JcT5ktSPJmX2rYCWyHj7x58prv/MHeP4kX3I+Jyb5epgE2EiA==
-X-Gm-Gg: ASbGncscc1Uqiuvk4CSu4BbqETrnKf3qa/LPd6auzCbM1vOnoergBcjwBda1EvfIrxU
-	uXTupfAdcq+o74X1Z3dCdLaUHV3nWKXhBpEWv7zZ8Mv891zvQK3yx6yhxS7XNKNF20HStohJmAv
-	+z8GccC7MkwsDq2oc+va7B4bVRWwD7XwTnjIWdzsT57mq4XZ5cLdsUBNXTjMDryUTpjPHWxvlFn
-	yOWI+hY8mfsVrAwSSfaK4iWnGaUHpmPMIMTr6ahtXpm3OAN4A5B4x6zws3y0B7OejP2xYD7MTa+
-	91h/Uwi5T/97e3tfBHECdlttwmtZZHBtzoOThqS27V4l8w==
-X-Received: by 2002:a5d:6c6c:0:b0:38d:e6b6:508b with SMTP id ffacd0b85a97d-3971d23508dmr10794755f8f.9.1742200492272;
-        Mon, 17 Mar 2025 01:34:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGV3AlBDqXOJvZL9/HUdYQCvelee3VTZFcDu+UlzkczKdH898voG07Nf0T2P5NkPsevzif4lw==
-X-Received: by 2002:a5d:6c6c:0:b0:38d:e6b6:508b with SMTP id ffacd0b85a97d-3971d23508dmr10794744f8f.9.1742200491924;
-        Mon, 17 Mar 2025 01:34:51 -0700 (PDT)
-Received: from [192.168.88.253] (146-241-10-172.dyn.eolo.it. [146.241.10.172])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d200fae4asm98193875e9.27.2025.03.17.01.34.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Mar 2025 01:34:51 -0700 (PDT)
-Message-ID: <5b9d622e-7404-490a-a13c-1181d196d7c6@redhat.com>
-Date: Mon, 17 Mar 2025 09:34:49 +0100
+        d=1e100.net; s=20230601; t=1742201619; x=1742806419;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R1gfFdT9yc0ID86bAZQcBXC/s8a7FX9Kfok55CN+i30=;
+        b=BKM4t+FqJvSuwTetgtGSKYRjlAEL40sDnHLDqJW88cktTV6UNhfhfqU1NVmRCQ6I1V
+         WvfAXdMWn7oOVwmnaSliwBVe276yWvfuBy11WAzaiYVX8ynKMpUQxmOqQ6vjVu5cKi0x
+         vVn4GbjHFc3WAG8sz5+lODPW5XN/n5tFqTYzIWSNQF2SEk0f5bXyofgjNHTK2Z26+NyD
+         RxlWzYsdwLJzhF/F1lpLyl+7jyF3YNOTd5XCjrj6xMFXS16rQSDzg11ehf8qR6U2l0Kg
+         5Dfwvs/Lsvax/pllyIRRIVzUpBE96dvjekz6gWY4k7511WKK09JiaQ5Gmx7wEAXfNKBc
+         EEeA==
+X-Forwarded-Encrypted: i=1; AJvYcCWG9T7mOdL8BVUMrx8NfE1laaFhfAzW6+YqW4HHJiTGj8L8DXp842rmQfy7x2lFo9GWXx8OLH55kbk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyv68Gk6L6DwfXA1KWowEpul3Dy2Cit8cxPLBtJQB3ObCAE3788
+	/PlrXJZKZN41QgnwDJF2WchJE1TmiTwjTAtVdtV2maTAzpq2eDpwiLmj1gv8jpo=
+X-Gm-Gg: ASbGnctp/IUe50Jk2enj8Yi2ukt6W0legaZRNbkZz7l8yMEdGVFlKwgxdmsHvsS0jU+
+	jfZjJO26Tm4Y+Xwymtw9O04xjughmk8ektKqLTNjIkVpWECOJI3XvLOj6BkoIL8A0zOhtHkW1y8
+	+Jr9zc9c+AtLOpfw6jp/3SwJB7vR7XKDasdM8X5ih7JODcg59lzKTtayGLZxN+6uP6iB+c9CXgN
+	AJbl03Qu+D5rX9UinMFQ/E9XyJRHq60mxo3vyl5weitrL49L53Q2fIvfdrTo2hoLEO8VkFIq0CH
+	0MGm1I4mZMHln2A9tY4bqoBT38Ui/U0Ye8cAgSDqNBJ3Gg==
+X-Google-Smtp-Source: AGHT+IFDNnj2E/5Q4qSJV0JJLbClWNS4V04i4NWCWhKijLjJLsNAdu+JYl9z1X7dvEDSsRoDUhQEtw==
+X-Received: by 2002:a17:903:2f86:b0:224:93e:b5d7 with SMTP id d9443c01a7336-225e0afa057mr167261555ad.34.1742201619619;
+        Mon, 17 Mar 2025 01:53:39 -0700 (PDT)
+Received: from localhost ([122.172.84.15])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbeb89sm69895575ad.204.2025.03.17.01.53.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Mar 2025 01:53:39 -0700 (PDT)
+Date: Mon, 17 Mar 2025 14:23:36 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Yury Norov <yury.norov@gmail.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2 1/2] cpumask: Fix kernel-doc formatting errors in
+ cpumask.h
+Message-ID: <20250317085336.tlmuvpq663m4krkb@vireshk-i7>
+References: <cover.1741332579.git.viresh.kumar@linaro.org>
+ <f4ad81150eaa00b43c161f0d1f811f8ecfe21889.1741332579.git.viresh.kumar@linaro.org>
+ <20250310155301.6db5033c@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 06/10] tap: Introduce virtio-net hash feature
-To: Akihiko Odaki <akihiko.odaki@daynix.com>, Jonathan Corbet
- <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>,
- Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
- Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>
-References: <20250313-rss-v10-0-3185d73a9af0@daynix.com>
- <20250313-rss-v10-6-3185d73a9af0@daynix.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250313-rss-v10-6-3185d73a9af0@daynix.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250310155301.6db5033c@foz.lan>
 
-On 3/13/25 8:01 AM, Akihiko Odaki wrote:
-> @@ -998,6 +1044,16 @@ static long tap_ioctl(struct file *file, unsigned int cmd,
->  		rtnl_unlock();
->  		return ret;
->  
-> +	case TUNGETVNETHASHCAP:
-> +		return tun_vnet_ioctl_gethashcap(argp);
-> +
-> +	case TUNSETVNETHASH:
-> +		rtnl_lock();
-> +		tap = rtnl_dereference(q->tap);
-> +		ret = tap ? tun_vnet_ioctl_sethash(&tap->vnet_hash, argp) : -EBADFD;
+On 10-03-25, 15:53, Mauro Carvalho Chehab wrote:
+> >  /**
+> > - * cpumask_first_and - return the first cpu from *srcp1 & *srcp2
+> > + * cpumask_first_and - return the first cpu from *@srcp1 & *@srcp2
+> 
+> I don't think this would produce the right output. See my other comment.
+
+I see. I was only looking at the html output earlier and that was
+showing up correctly.
+
+   return the first cpu from *srcp1 & *srcp2
 
 
-Not really a review, but apparently this is causing intermittent memory
-leak in self tests:
+Tried with "scripts/kernel-doc -rst" now and it does show
 
-xx__-> echo scan > /sys/kernel/debug/kmemleak && cat
-/sys/kernel/debug/kmemleak
-unreferenced object 0xffff88800c6ec248 (size 8):
-  comm "tap", pid 21124, jiffies 4299141559
-  hex dump (first 8 bytes):
-    00 00 00 00 00 00 00 00                          ........
-  backtrace (crc 0):
-    __kmalloc_cache_noprof+0x2df/0x390
-    tun_vnet_ioctl_sethash+0xbf/0x3a0
-    tap_ioctl+0x6f2/0xc10
-    __x64_sys_ioctl+0x11f/0x180
-    do_syscall_64+0xc1/0x1d0
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+   return the first cpu from ***srcp1** & ***srcp2**
 
-Could you please have a look?
-
-Thanks!
-
-Paolo
-
+-- 
+viresh
