@@ -1,43 +1,75 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA92206F13
-	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 09:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917C81FA85A;
+	Tue, 18 Mar 2025 09:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742289552; cv=none; b=aoQaF7rdFeyaP4YfftIcYqAOQsRt36BaUMYEqVDD3l6GZZiUtaCfEIcEYdaqEupM2v/loeH5Qmb+eEGEuRUqi0pYXNWHOSUChAgw7NYeLwO1YRPGuDZtVty94VcDO0kUaO5gH4kX/gQmfF6i922MOCoBPEYfH1NiIabJ+hb2Agw=
+	t=1742291451; cv=none; b=TwjEx4pYCDP0leYtQVWrmJidEBG3E7XtYf2ygyW7Vbv3lyYnvk5oDv0qr4XvLRdBBjvbDXfKYAus/jUkh/nsf8GxO0g2UJhz+Bxf7dwyuzMP/iqjJHkuXC9teUV66K02on6uCdMhI6V3NEgXBtLkrOqXee0hovRUBV4DvbMr68E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742289552; c=relaxed/simple;
-	bh=P4lroIrdjW+wWo+cj0mN2WGn6w305766fFhpOj+Gm1Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sPyES72uIgB1ROaJDWJTHMKg76lXdFs4ev3TQ4XTRdvaD2e4dz8SSwoKaanY8eJs2GLHPz3xh1RJ/Zv/D8NSHl6bj0yqNEOyYNM2xaCZ05u+jEmA5xT+roUdPdU9fKWB7BobLA/eS8jRsbPdHRqbvz+oz5uR76nfivr4QG00yDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YeiSX+H4; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1742291451; c=relaxed/simple;
+	bh=hGopxxqfyPTpZCBKdO/LfYEekxcpzmTVTn43r/TjjzY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nVDzy9MUmzceSFZuGvk8JK6gYPBnyfe2oxMNmrLAPwdTmVjUmgWdTqtvKoduJ7kqIAG53+fK19bSGJFrf3KbKAVTFInwCqDuPTrjBk8yT74PwCdoRp9E3g6lg4BBh4eEVOLt8t+OAYVwyfqCpqE+qGGakhATY7MCtzpJZyePxtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gLMs5QiG; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YeiSX+H4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=LO9Bbrk77YxKzi
-	fj7EKPXFN6fdXvBJl+Jb+cXqZg9EQ=; b=YeiSX+H4EZQr7xMEpvWp0cJbnqSFf6
-	H1lctCg8L8fbsZwcEC8CwYg4nyAyf7VrwrvvhAWe3VypWKT7zJ1m0Bo3JA4KekJy
-	tje8gxFuNkeou61RXTV/dAzcnrii4AOetz93GGdDj1Jb3fPyFzupGgJro2suJX5r
-	5Ofp8bRBceLSkBInvkYCKcwSYTXIWJVIBC8rutNQYYATM5bx+2DFYMhC5GYQ6nhH
-	7jGa8/j1O2S5/0ab8U40LOr39QYVRu5r9z4GwYPzPWJhuL/2FJSL4USlkl9aN+id
-	ibHReB3t82GglOYIW7C604tjt66NYqDP3ZUtGW7RRyfFpTdJKWZ+4tug==
-Received: (qmail 3664335 invoked from network); 18 Mar 2025 10:19:08 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Mar 2025 10:19:08 +0100
-X-UD-Smtp-Session: l3s3148p1@LqyaZZow1JMgAwDPXyTHAJp038nK7dx+
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-input@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gLMs5QiG"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-223fb0f619dso88713035ad.1;
+        Tue, 18 Mar 2025 02:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742291450; x=1742896250; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lr5ydRO9S4SBm+kh2AYrcino5ma1DMprXJx9fx/6uCQ=;
+        b=gLMs5QiGD8BswXM7kf8Vwyzn1vFURd/veTnPNmOyBO/a9vDWv86ko4GXCkpsoT/QAz
+         UQX9QmXc2rO4ONFqEWrTENcv3l3luOJmaC/KdutcZeOWifv5e1qnYgKj2RjQzm66nWlO
+         HRL75XVbXAr9unljn6xZOpG7eRjADY8N5eE3LAnSmWXThlvPBevjhKF6PnaXgPcMG21M
+         g/dGiM8R65fcMRFdpxumHvEd2e3QWYitzVjtDrOOjwCwTx1GGdH3wMB7iJMQAb5M7RmN
+         PpA1TkYWSNzjRQuZ3Be7DU4gR22RBcHBA6Arj7qRQs+o5RhZktocEiNRjsptXlCBckfc
+         6yeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742291450; x=1742896250;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Lr5ydRO9S4SBm+kh2AYrcino5ma1DMprXJx9fx/6uCQ=;
+        b=n+jYAdJLwMJ8fjYMu76OEFHCbKNLLPt4zm4A2892gFTy0qjDq4wxMyZWEUW9nsadFN
+         Di7kmyxdpHxxjdAEpa+xUUx5K1jiSnjtpSiEYrIrcpGec0R89FKTfbMwgKmK5I8ouGjU
+         UPmtge8IicK10nKc9u3j6wtp/dmu0eOx5bcPe2OjieFNI2SILn5o+O2ut0Y2SG/goVph
+         jhzGHpCoTwE7882+YgSBD2n7RMR9BxUAvD8Ndbi6AfELv0xgS9ePixP88TYULjW1bSxl
+         Oy1nguOAYMQvKyKMz6w2ux0EdmBKHc3AThS8/eCVVbVdFOPYeV003SFfu3pS68lNTz4v
+         hl5w==
+X-Forwarded-Encrypted: i=1; AJvYcCUUnCnZLq2lILcCwCcOeM1kA6Yh1Ig0SiNwb59l6tFN7LTGnufGjdmEIJu5pT/t/mpe7HU5XS/aATQ=@vger.kernel.org, AJvYcCV1IRMZURGC4u6+25tQEcuQ44TvtDB7uJYkbN+HII61jQq2pwxhPFr0VOZcV5l6zYPgmRLoF0Fi@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCxHla50iIUJYbBfx+ofbdO5IOmDPpmpLSq0Kh4IiJ++MX20OD
+	wry/+SNUUknP+A/6gTXbfN2JKIezvWB++oot2Ee0ICcF3lb+HwJz
+X-Gm-Gg: ASbGncudDi113tZiiZ10pysQsVIBTH1QMcKcJJPBEEQimBtLdxG+aD0S12CBOOBXwSp
+	8MxNj49BB+98S7xBusrn26bXn1kiH5C7287zBXSRzmMmrMT3cvU6oek9Gq6e7j4hZKHgZC7M2+u
+	sAtU8rHV/DTnvcRx2EV7mC3J1nm9aK99vMDxhxP6zuD3Gt90tLKz177/ZjGtVdO+5zbJJHKuruA
+	NPc6VXrcpadd/MH9XNDk3gOop+MtNjjiYBx0+GfjGT20BLSIUy5rbZcgiHbvlu13mumje5Dy7DD
+	DIzKJQ0/AcfGy/b5PKUn13yLcKas9wnyxbdExYnod07oN/CacptVhXu+6KGazHT266mqQg==
+X-Google-Smtp-Source: AGHT+IHh677GH4bk3aKWox1MAPXdpCOJb6C+7bHv9pEH7uo/TsVnfepDYVk/p16ujYF+cYwIpFPLUA==
+X-Received: by 2002:a05:6a00:1950:b0:736:53bc:f1ab with SMTP id d2e1a72fcca58-737223b908dmr19427072b3a.12.1742291449732;
+        Tue, 18 Mar 2025 02:50:49 -0700 (PDT)
+Received: from localhost.ntt.co.jp ([222.151.198.97])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-737116b102fsm9118085b3a.166.2025.03.18.02.50.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Mar 2025 02:50:49 -0700 (PDT)
+From: Ryohei Kinugawa <ryohei.kinugawa@gmail.com>
+To: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	tom@herbertland.com
+Cc: Ryohei Kinugawa <ryohei.kinugawa@gmail.com>,
+	netdev@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [RFC PATCH] Input: edt-ft5x06 - use per-client debugfs directory
-Date: Tue, 18 Mar 2025 10:17:41 +0100
-Message-ID: <20250318091904.22468-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.2
+Subject: [PATCH net-next] docs/kcm: Fix typo "BFP"
+Date: Tue, 18 Mar 2025 09:51:52 +0000
+Message-ID: <20250318095154.4187952-1-ryohei.kinugawa@gmail.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,113 +78,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The I2C core now provides a debugfs entry for each client. Let this
-driver use it instead of the custom directory in debugfs root. Further
-improvements by this change: support of multiple instances.
+'BFP' should be 'BPF'.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Signed-off-by: Ryohei Kinugawa <ryohei.kinugawa@gmail.com>
 ---
+ Documentation/networking/kcm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Build tested only, by me and buildbots. Trying to cleanup the debugfs a
-little. But not sure if this is too complicated for users. Opinions?
-
- Documentation/input/devices/edt-ft5x06.rst | 21 +++++++++++++++++++--
- drivers/input/touchscreen/edt-ft5x06.c     | 20 ++++++++------------
- 2 files changed, 27 insertions(+), 14 deletions(-)
-
-diff --git a/Documentation/input/devices/edt-ft5x06.rst b/Documentation/input/devices/edt-ft5x06.rst
-index 1ccc94b192b7..e410d73d4841 100644
---- a/Documentation/input/devices/edt-ft5x06.rst
-+++ b/Documentation/input/devices/edt-ft5x06.rst
-@@ -29,8 +29,25 @@ The driver allows configuration of the touch screen via a set of sysfs files:
+diff --git a/Documentation/networking/kcm.rst b/Documentation/networking/kcm.rst
+index db0f5560ac1c..71f44d0beaa3 100644
+--- a/Documentation/networking/kcm.rst
++++ b/Documentation/networking/kcm.rst
+@@ -200,7 +200,7 @@ while. Example use::
  
+   setsockopt(kcmfd, SOL_KCM, KCM_RECV_DISABLE, &val, sizeof(val))
  
- For debugging purposes the driver provides a few files in the debug
--filesystem (if available in the kernel). In /sys/kernel/debug/edt_ft5x06
--you'll find the following files:
-+filesystem (if available in the kernel). They are located in:
-+
-+    /sys/kernel/debug/i2c/<i2c-bus>/<i2c-device>/
-+
-+If you don't know the bus and device numbers, you can look them up with this
-+command:
-+
-+    $ ls -l /sys/bus/i2c/drivers/edt_ft5x06
-+
-+The dereference of the symlink will contain the needed information. You will
-+need the last two elements of its path:
-+
-+    0-0038 -> ../../../../devices/platform/soc/fcfee800.i2c/i2c-0/0-0038
-+
-+So in this case, the location for the debug files is:
-+
-+    /sys/kernel/debug/i2c/i2c-0/0-0038/
-+
-+There, you'll find the following files:
+-BFP programs for message delineation
++BPF programs for message delineation
+ ------------------------------------
  
- num_x, num_y:
-     (readonly) contains the number of sensor fields in X- and
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index 0d7bf18e2508..abc5bbb5c8c9 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -120,7 +120,6 @@ struct edt_ft5x06_ts_data {
- 	struct regmap *regmap;
- 
- #if defined(CONFIG_DEBUG_FS)
--	struct dentry *debug_dir;
- 	u8 *raw_buffer;
- 	size_t raw_bufsize;
- #endif
-@@ -815,23 +814,21 @@ static const struct file_operations debugfs_raw_data_fops = {
- 	.read = edt_ft5x06_debugfs_raw_data_read,
- };
- 
--static void edt_ft5x06_ts_prepare_debugfs(struct edt_ft5x06_ts_data *tsdata,
--					  const char *debugfs_name)
-+static void edt_ft5x06_ts_prepare_debugfs(struct edt_ft5x06_ts_data *tsdata)
- {
--	tsdata->debug_dir = debugfs_create_dir(debugfs_name, NULL);
-+	struct dentry *debug_dir = tsdata->client->debugfs;
- 
--	debugfs_create_u16("num_x", S_IRUSR, tsdata->debug_dir, &tsdata->num_x);
--	debugfs_create_u16("num_y", S_IRUSR, tsdata->debug_dir, &tsdata->num_y);
-+	debugfs_create_u16("num_x", S_IRUSR, debug_dir, &tsdata->num_x);
-+	debugfs_create_u16("num_y", S_IRUSR, debug_dir, &tsdata->num_y);
- 
- 	debugfs_create_file("mode", S_IRUSR | S_IWUSR,
--			    tsdata->debug_dir, tsdata, &debugfs_mode_fops);
-+			    debug_dir, tsdata, &debugfs_mode_fops);
- 	debugfs_create_file("raw_data", S_IRUSR,
--			    tsdata->debug_dir, tsdata, &debugfs_raw_data_fops);
-+			    debug_dir, tsdata, &debugfs_raw_data_fops);
- }
- 
- static void edt_ft5x06_ts_teardown_debugfs(struct edt_ft5x06_ts_data *tsdata)
- {
--	debugfs_remove_recursive(tsdata->debug_dir);
- 	kfree(tsdata->raw_buffer);
- }
- 
-@@ -842,8 +839,7 @@ static int edt_ft5x06_factory_mode(struct edt_ft5x06_ts_data *tsdata)
- 	return -ENOSYS;
- }
- 
--static void edt_ft5x06_ts_prepare_debugfs(struct edt_ft5x06_ts_data *tsdata,
--					  const char *debugfs_name)
-+static void edt_ft5x06_ts_prepare_debugfs(struct edt_ft5x06_ts_data *tsdata)
- {
- }
- 
-@@ -1349,7 +1345,7 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client)
- 	if (error)
- 		return error;
- 
--	edt_ft5x06_ts_prepare_debugfs(tsdata, dev_driver_string(&client->dev));
-+	edt_ft5x06_ts_prepare_debugfs(tsdata);
- 
- 	dev_dbg(&client->dev,
- 		"EDT FT5x06 initialized: IRQ %d, WAKE pin %d, Reset pin %d.\n",
+ BPF programs can be compiled using the BPF LLVM backend. For example,
 -- 
-2.47.2
+2.43.5
 
