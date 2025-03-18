@@ -1,66 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C038212B2F;
-	Tue, 18 Mar 2025 17:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37487205E12
+	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 18:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742318713; cv=none; b=Kq5c2ZBC3/e/53gRwsLTp+OHZyxCSP50OsrFHP7dDFFipsPL1pe+mVKKiD7X1Ca2j6vNLuf0hQQ0XcCUZD1DsiY+AMlqmFJ3BjSzp0K+FfvRR5TGCFHv7qBe736dk2Vwsyihb99CKZcptCBem4UK+gIIkTzwL4MaF6hNT2RsY2s=
+	t=1742320950; cv=none; b=GV5I+Q6ux7nUWKBc6C7gsbqVhd/zQETtXxWWHeqEJbvGZYgepMPD0pEzAX0dE0LwaNyZ9tAaQqIV9NkK5DGYiWKWmY9UFsPPlmDM5aG49S8+6JVzoX1bDaVcsSIej1q8iYEmvGGlRhVV10xOHS5HbK1M1DrhwMkKP93Z09ngsus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742318713; c=relaxed/simple;
-	bh=+JGrZaKDcqHFC83e6PGUPM23Myi2VS8ZTFr3mBv8eF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iXBKMB0yRQY9msO8MRD7NKDn6eP+7WbS1KQaRe5EpJ7BHVgtvPuxCp14BihktGvbSOII9QgYl06bczcnP8abcAa0DCXS4i95jI67de5LXpD4Ki8hu9twgPusl4a2kkZI5JMWmj8LwcBs07enOAT5Ui+7u1Xo2xJroaGam/APsDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RHIDtWpw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742320950; c=relaxed/simple;
+	bh=BjcYVEKKpUzz2FsrjqEYaGy5upsDyp7dXMD/jUWpPEw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KOPIyGWCpy2I/pa5HqP1W8NPbrTW2+S4H6TIZW09JmmJuwNiriMz8Z48NyxbZUgJewQPz0Pz6v79HQeA8WuLAewImQNt1yGLXrZiJ5aUlxSBT0l3O5NEcLlBigTsQTVlWzO5OnSbIwWP9Q/AKXGKuJ849Sq+/HYei+r1RGVoz9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iWMbp9gc; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RHIDtWpw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 587FAC4CEDD;
-	Tue, 18 Mar 2025 17:25:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742318713;
-	bh=+JGrZaKDcqHFC83e6PGUPM23Myi2VS8ZTFr3mBv8eF8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RHIDtWpwP3uiGF0YUXgBPZBiLmN6Y49NlyddnaNFgRwFwUflssXpf28umRv8ehqng
-	 QE9s3Q6s5wLS7sspbbxthfQJ7+4gUuuKsLmYOSKbEBaQADeGuLKggQygq1ZODG66nR
-	 0dar5QsJwDcGYuiWZo5U2A/U5pxhZs+4RyYYqCb5q0lh1P2zg/SWXBy9SFgd4SJwrb
-	 7LD0v3sWGsiX50jl3DxP29mD03AS7bttbXe9et5pzq0IvVvj3c8t+dIBKzgR3Ev3jj
-	 yGuvfMwypQDOnQXUZm5dKso/pz1zlNQtRRIhrODlc1uxqKE/7+BNrsKdoZRnK14U07
-	 tniEX/Oh1GLsA==
-Date: Tue, 18 Mar 2025 17:25:08 +0000
-From: Simon Horman <horms@kernel.org>
-To: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-Cc: mptcp@lists.linux.dev, Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH net-next 12/12] selftests: mptcp: add pm sysctl mapping
- tests
-Message-ID: <20250318172508.GQ688833@kernel.org>
-References: <20250313-net-next-mptcp-pm-ops-intro-v1-0-f4e4a88efc50@kernel.org>
- <20250313-net-next-mptcp-pm-ops-intro-v1-12-f4e4a88efc50@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iWMbp9gc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742320944;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qlRKauU87C/lC5/9zx115U/gNR/bBnOd+yZH1lsjrlY=;
+	b=iWMbp9gckmGJ406qtMVPceg46E6h1P6Whdf24KlejiBV2LHX2FzOom8ASPk7KNMZY4BuIB
+	k4Rs/vceG9XSW340Hra5oKC/KqO8LbfpHg7BAjk33MKR8WlGpA0blcUfqT09e6xm59MlLF
+	9vxnyfXJrptLH6NdoiP/4J4IfNx14uY=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-336-j42DlxmuNF-ZV9V5PclBhg-1; Tue, 18 Mar 2025 14:02:20 -0400
+X-MC-Unique: j42DlxmuNF-ZV9V5PclBhg-1
+X-Mimecast-MFC-AGG-ID: j42DlxmuNF-ZV9V5PclBhg_1742320939
+Received: by mail-yb1-f199.google.com with SMTP id 3f1490d57ef6-e63aad1e67dso9523767276.1
+        for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 11:02:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742320939; x=1742925739;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qlRKauU87C/lC5/9zx115U/gNR/bBnOd+yZH1lsjrlY=;
+        b=R3x1SO7jqwmGVbm19cbrgLWZlTq0s9MzExjppgWOKJKe8eA9BNgewYouphOCYZH+R+
+         XfEMsLtdpcRn6l4chs0aTJEJ3awqeabTIiubPykU5hDp6g2XqP8H4ZIoCUN6vR35Mi0d
+         OrqVNizEjO0rC0PH8MsR2BNlQb87mc03QvtKLzu9SdDf2OTVzVtT1N9jvOZsHE5y4+ix
+         cxFFwK1ji3FjE9t80IzK+0bhRC9rR8Mq4at+tG8oo3uarCLC49qnTaOK61KY7Ap2vXku
+         4MLwLKI/s/qvteySi2eaHGvrPLJ715MKew/+KjwuKWdODOGEDIpGwPiNY1gqfrweca7t
+         lNZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVHtGqqZ+CTaGgbUcR3ST+F90JtEjOxU9C1AwQvWbOlrrjIi3feqvb2QVm6+HhCvoU1Btpxj6QoP/Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJejkKE5cn2KPMVFpJT2IadPiMZsZz/t8oVj8Hq/e+U7uTvKa4
+	8SPpK5P6oveNADQ+2srIRfo+wU7lGQwK5oo9Z8rMPMMm576CVYODzb0VsVYvcddF+6H1sbam4m8
+	qBeWuFVR0gulM/vLJOms7PDo29gJrYwzqVpQHmNYex9ypXuRrh2bV2/DLd6EazztMyFHzrsx8JF
+	eOn3EZGIbbM23gWBAc6fqG0q75WW4wBiir
+X-Gm-Gg: ASbGnctapFt3CcPdg7Y6ARF97YGZcDTEj2cddSBHgFEVblgI3k7mKuCatTIFmDj3Gn4
+	Vyj2uhKQ61TgMcsvC4j9VL5dXd7iJ4encxThUFyG8thVFvVYooFcF/NiIuzOJo0Es1sDBr5ILWU
+	5Fm28iwBbKUw==
+X-Received: by 2002:a05:6902:230a:b0:e60:a2e2:9359 with SMTP id 3f1490d57ef6-e6678ef846fmr311876276.3.1742320939546;
+        Tue, 18 Mar 2025 11:02:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHf71qxvLWsxGimRT+uGjSq1Z0p53QdA8cl8alstSBpREqHbGhALnJb5uq3wRaeZHh2Md4lHGIZ8rqQbUzgZjw=
+X-Received: by 2002:a05:6902:230a:b0:e60:a2e2:9359 with SMTP id
+ 3f1490d57ef6-e6678ef846fmr311841276.3.1742320939131; Tue, 18 Mar 2025
+ 11:02:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250313-net-next-mptcp-pm-ops-intro-v1-12-f4e4a88efc50@kernel.org>
+References: <20250317230403.79632-1-npache@redhat.com> <e2807c0f-c6db-4946-a731-009d34c2c72e@redhat.com>
+In-Reply-To: <e2807c0f-c6db-4946-a731-009d34c2c72e@redhat.com>
+From: Nico Pache <npache@redhat.com>
+Date: Tue, 18 Mar 2025 12:01:53 -0600
+X-Gm-Features: AQ5f1Jqld-DTVBJ5lnYhAbXgkaFBEnpnySW3WxHs_U8l1d99uleiybSQ_j4TBT0
+Message-ID: <CAA1CXcAr+rjZmzbzHSuvCDqyfi6wW1-32c6_3isZMSr-qM7DLw@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: Add "Unaccepted" meminfo entry
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kirill.shutemov@linux.intel.com, corbet@lwn.net, 
+	akpm@linux-foundation.org, surenb@google.com, pasha.tatashin@soleen.com, 
+	catalin.marinas@arm.com, jeffxu@chromium.org, andrii@kernel.org, 
+	xu.xin16@zte.com.cn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 13, 2025 at 11:21:01AM +0100, Matthieu Baerts (NGI0) wrote:
-> From: Geliang Tang <tanggeliang@kylinos.cn>
-> 
-> This patch checks if the newly added net.mptcp.path_manager is mapped
-> successfully from or to the old net.mptcp.pm_type in userspace_pm.sh.
-> 
-> Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
-> Reviewed-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
-> Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+On Tue, Mar 18, 2025 at 2:42=E2=80=AFAM David Hildenbrand <david@redhat.com=
+> wrote:
+>
+> On 18.03.25 00:04, Nico Pache wrote:
+> > Commit dcdfdd40fa82 ("mm: Add support for unaccepted memory") added a
+> > entry to meminfo but did not document it in the proc.rst file.
+> >
+> > This counter tracks the amount of "Unaccepted" guest memory for some
+> > Virtual Machine platforms, such as Intel TDX or AMD SEV-SNP.
+> >
+> > Add the missing entry in the documentation.
+> >
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+> > ---
+> >   Documentation/filesystems/proc.rst | 3 +++
+> >   1 file changed, 3 insertions(+)
+> >
+> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesys=
+tems/proc.rst
+> > index 09f0aed5a08b..8fcf19c31b18 100644
+> > --- a/Documentation/filesystems/proc.rst
+> > +++ b/Documentation/filesystems/proc.rst
+> > @@ -1060,6 +1060,7 @@ Example output. You may not have all of these fie=
+lds.
+> >       FilePmdMapped:         0 kB
+> >       CmaTotal:              0 kB
+> >       CmaFree:               0 kB
+> > +    Unaccepted:            0 kB
+> >       HugePages_Total:       0
+> >       HugePages_Free:        0
+> >       HugePages_Rsvd:        0
+> > @@ -1228,6 +1229,8 @@ CmaTotal
+> >                 Memory reserved for the Contiguous Memory Allocator (CM=
+A)
+> >   CmaFree
+> >                 Free remaining memory in the CMA reserves
+> > +Unaccepted
+> > +              Memory that has not been accepted by the guest
+>
+> I was wondering if we could be clearer like
+>
+> "Memory that has not been accepted. Especially in some confidential VM
+> implementations, memory must be accepted manually by the guest OS before
+> it can be used the first time."
+I actually grappled with the description for longer than I'd like to
+admit lol. I wanted to add more but *most* others left the description
+short-- so I tried to make it short too.
+>
+> In any case
+>
+> Acked-by: David Hildenbrand <david@redhat.com>
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Thanks!
+>
+> --
+> Cheers,
+>
+> David / dhildenb
+>
 
