@@ -1,77 +1,37 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E051290F;
-	Tue, 18 Mar 2025 06:14:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366EB1DED4E
+	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 06:30:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742278493; cv=none; b=NAwmVvLugB/STPg7JNpIx+EDakVduwb0eybt5kJZJcuPLMqro++UcOOHBUnMB3BbNi80F/C3bqSS5+EA2HGwJpK/iyP8CKF+q87i7bbz1B8+SDhmC6VLgntjJO0PgiML1HvQwW91It7YmTsaoQeox0LWk2LdO+nnL8EBh6GFWFY=
+	t=1742279407; cv=none; b=DWdldcdj/HjDwIpITtiTQeCDubuoAjYdthvaOHwK12O8/hO3g1B6mFiuRjmfWZ3v95BbcUfkaLrPsyLEq5ZHWfDZWQat1osNSAhJ094fVKRgqmj/M7mBQnE0o6dKpofriqv1ZTzXr/hLUg0Oc0U/GR6aa3ucizuUTQTFlShS6sY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742278493; c=relaxed/simple;
-	bh=Gtnj5kQROMjxg37cGTfBNCf5fuHtC2s7BZDYJzC4d60=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SJ9ZhebLlHQqhc6HSXNh7cJKxyYWfbS7wpRvUNEMMxV6TqsOejFpLDj3ObvfJTsA8ASqIjEbtJ1drpbGbYNKqcgkkNjGC/2g6NbO/a6bfozlTlDaw2Q3MjJQ69QmRvyAs853RetNOFWIKuIC9IB5DgtVR2rsmngT1IPDaGtv42M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hBhgeNj5; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742279407; c=relaxed/simple;
+	bh=6Te6MXGKvkGnPPHgBjTftAZZGSg5emWGwjq/V3DuYIA=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=nIepuTYLFDkOUTqMf7jnAJllrn4GtSgCcEn7hpHOb9tvZacNeUcjn5u2+zag81jRy8sCawWYd170tSVpMcWxvlx4yFwSyuwcLvkVbmGUlcAFufJXp4X7ksrMmYkj0wzTWcGF/jI3ZGmXgEzTY5EuahySlEMIb/lMEWFXRiWP19k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hJp7fVo5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hBhgeNj5"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-225477548e1so90052735ad.0;
-        Mon, 17 Mar 2025 23:14:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742278491; x=1742883291; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OyYTblo3Go4gS7PCUVXkp5H6saiDkosqM0q0E7qSpCk=;
-        b=hBhgeNj5IZqgxTaSFP2USvNiYAg9SnSFFVVg4R8g/zurbIlq/N4DY98CPUIs/6oy4s
-         7kdduvylB2/4G5Wn7Gl4ie89C+wV1xf9rV72sZSM/7BbFuEzADmhq/MPyZj+w/RL9z3B
-         c8v3s76zEeUlWj9mUcEe42qBRUmtz+bvHsauh34L3+gtgs8uiWK1geaJJLukzvALWqxt
-         /l3aEB1A0Bn3xueEWGc/2uhPrdg0pKkuBl/jQGI+bjH6SKqJ/znfCRB3FbDejiF2ur2N
-         2knYufu8iBxkHWpXni/W62WjpsS5cECr+qnR1/jJsmvewt8TBBII2P1XDMhMSMdjTrUX
-         DCFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742278491; x=1742883291;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OyYTblo3Go4gS7PCUVXkp5H6saiDkosqM0q0E7qSpCk=;
-        b=FAvQqAtwuLppzziiQjc+B6oAgse0FgW0OrWiUxtvSb49JEfQSwgcnwCrHmsPBUUCNc
-         oeUeoE9CWFk3LyofaoDPLn1DflkKyECrZxSbnzD6lGYepUO2fPAyIqJLbk5s7GljL81R
-         2R6Gh3ux0eiCqQ6Cn6RY7efdBaz8uTCL9BhdPRcy71vk7qiwd54VAf3pd5ThE1IePRmd
-         rFDLF6cmbGxJVDIXU7gfHxYPnR2iUZUy3Dd5g7bpq6pACFd0ePmcfm+fWSEV7/7bAV9X
-         XbQwSMjRB4BAZjE3FIPAjVmBDbrJ8bBU7OZOtRvc2YD9YU+Elj+CbHl3ZCBQ7HzMq+eX
-         BoTg==
-X-Forwarded-Encrypted: i=1; AJvYcCVV0mwef3kImz6aERLHA3H7UWRgPOGB6ZvyotQU5MknSC6iMhjQTpuwTdb5C2RSnvS9Y+QlfzsA@vger.kernel.org, AJvYcCXlEY7zh1vEEACBqh4Ic1Av0Vtti0ZmO9ODJdYciTWzEE7g6cHQhtvmh6R6bvvQFLS4dCyRt8yaIxM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHttqLekJQIm0CtGgOTqIP07EcCz0E1N/vG7e4WNWzNFx6nqqH
-	yZ51or5DK41Z2z8zc5AkslbROWzC/NWu3/psM6zzipY4KocYfUMf
-X-Gm-Gg: ASbGnctmsHa9Z6FtZBKK99TLYX4t0nhXeDHwvsOyhNJjTHeVF7u4VWMq9oZATmwTckC
-	1zM0x/bIle9rmH0RBzQlXQIZqMgd7/0jZJwZLO/Z2eSwX3jlwQKEdDXI9dORitAKra2Gaa1S9IQ
-	Q9PJbp2x99Ew7uXogmEtpvF7TCKQU2bVPBq3NkXn8Sm/n2ZpqKJddNkAtbllODEK46JAdaOjSff
-	s0l/BaUu9mJj9U/WrYnu7jrxF/fOcdqtUdeUap8E/om16Iuh4ZoJ265mdxhDkaSUbalX2/iWpBQ
-	58b2PnQRqNzuZNazK+/h9SeNqtl4kQ9nXdmjgLGpYQYHrK6tnNgiRCfIJuOlf+t5dQc1r9zBU0V
-	uQN6HcX6HKA==
-X-Google-Smtp-Source: AGHT+IGmbxdINLBI7rtKGYMxXUneyJ7nnQAQgKQLbaZKROKl7Qcon6wI0LUOa89i0J1FawJuOFiy/g==
-X-Received: by 2002:a17:903:291:b0:225:b718:4dff with SMTP id d9443c01a7336-225e0b2a4d7mr209695725ad.53.1742278491278;
-        Mon, 17 Mar 2025 23:14:51 -0700 (PDT)
-Received: from ywashizu-z4g4.kern.oss.ntt.co.jp ([222.151.198.97])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bd5b27sm86287255ad.255.2025.03.17.23.14.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Mar 2025 23:14:50 -0700 (PDT)
-From: Yui Washizu <yui.washidu@gmail.com>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	almasrymina@google.com,
-	sdf@fomichev.me
-Cc: Yui Washizu <yui.washidu@gmail.com>,
-	linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: [PATCH net-next] docs: fix the path of example code and example commands for device memory TCP
-Date: Tue, 18 Mar 2025 15:12:41 +0900
-Message-ID: <20250318061251.775191-1-yui.washidu@gmail.com>
-X-Mailer: git-send-email 2.43.5
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hJp7fVo5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2916C4CEE9;
+	Tue, 18 Mar 2025 06:30:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742279406;
+	bh=6Te6MXGKvkGnPPHgBjTftAZZGSg5emWGwjq/V3DuYIA=;
+	h=From:To:Subject:Date:From;
+	b=hJp7fVo5HOqiboz15IvBHoGQDXhqtMAUfcZDz8v47cDPjgOOt1rmTds5ciMbSj7V+
+	 iXqjKl7WGol2UAkylGI28bywuGYLPWjSUkYcbpnokwnLvowKbG6resviHAZMu+39mB
+	 HDSI+Q6OS0752belmcN21A1PTj9aoKZRXK6HeIw23wz/9Z5NBODrtshGJ2SqVXTzkF
+	 6UHBJzhCgOCsedceSiFlnwySlFwqne6uL7RRNbWD04Rjwqjw+sA6etTNn5lN81Ubic
+	 AcueI+woqnHJ6t9t8RXstI2zfFi5/FwJvbd9ScVQ5Yf8PqmNWX/XlgzoK81E9S7AH9
+	 BVmWp3W++R8nA==
+From: alexs@kernel.org
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [GIT PULL] Chinese-docs changes for v6.15-rc1
+Date: Tue, 18 Mar 2025 14:29:57 +0800
+Message-ID: <20250318062957.2120-1-alexs@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,36 +40,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This updates the old path and fixes the description of unavailable options.
+Jonathan, please merge the Chinese translation docs, thanks.
 
-Signed-off-by: Yui Washizu <yui.washidu@gmail.com>
----
- Documentation/networking/devmem.rst | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+The following changes since commit 5b8f85d081da449ab35e4bd009d7c00afaab2fab:
 
-diff --git a/Documentation/networking/devmem.rst b/Documentation/networking/devmem.rst
-index d95363645331..eb678ca45496 100644
---- a/Documentation/networking/devmem.rst
-+++ b/Documentation/networking/devmem.rst
-@@ -256,7 +256,7 @@ Testing
- =======
- 
- More realistic example code can be found in the kernel source under
--``tools/testing/selftests/net/ncdevmem.c``
-+``tools/testing/selftests/drivers/net/hw/ncdevmem.c``
- 
- ncdevmem is a devmem TCP netcat. It works very similarly to netcat, but
- receives data directly into a udmabuf.
-@@ -268,8 +268,7 @@ ncdevmem has a validation mode as well that expects a repeating pattern of
- incoming data and validates it as such. For example, you can launch
- ncdevmem on the server by::
- 
--	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
--		 -p 5201 -v 7
-+	ncdevmem -s <server IP> -c <client IP> -f <ifname> -l -p 5201 -v 7
- 
- On client side, use regular netcat to send TX data to ncdevmem process
- on the server::
--- 
-2.43.5
+  docs: driver-api: firmware: clarify userspace requirements (2025-03-17 17:04:32 -0600)
 
+are available in the Git repository at:
+
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/alexs/linux.git docs-next
+
+for you to fetch changes up to c6e686b992f4da3fb9e56f42eb5a1060facf9442:
+
+  docs/zh_CN: fix spelling mistake (2025-03-18 13:36:57 +0800)
+
+----------------------------------------------------------------
+Alex Shi (1):
+      docs/Chinese: change the disclaimer words
+
+Peng Jiang (1):
+      docs/zh_CN: fix spelling mistake
+
+Yuxian Mao (1):
+      docs/zh_CN: Add snp-tdx-threat-model index Chinese translation
+
+ .../translations/zh_CN/disclaimer-zh_CN.rst        |   8 +-
+ Documentation/translations/zh_CN/mm/balance.rst    |   2 +-
+ .../translations/zh_CN/security/index.rst          |   2 +-
+ .../zh_CN/security/snp-tdx-threat-model.rst        | 209 +++++++++++++++++++++
+ 4 files changed, 214 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst
