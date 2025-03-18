@@ -1,213 +1,241 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E3120E00C
-	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 15:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2644B20E6E1;
+	Tue, 18 Mar 2025 15:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742310604; cv=none; b=uRm+LQhqIPjiRor9gnU8ULCLKTfo7Nnm0PTe1ZEdAJUBtv9ip7n8yaCgg53FdugJMBycKwHMFEn3gy037T9c/cuEYK25sokLTzar2jKzrWFas2RaNr+7RR7xoyOMyM9fPJYFDhkk5xPqvDYQw8TTHD8uztcwbYW8RPiq2fNkXyY=
+	t=1742311051; cv=none; b=cPtOdirQ3fv4CIhY3ajI5CJosyQSW0xs146XH/jBspOT2mhJUX+LJK6tAdW/7Hhes/Z7TpoHjCxntJ39jFgPuo99zN90le73KGZqDoxG7Yupq2m5zELWMe7VBHF+H37O0uTCySNGkJ6RCNGT0+iK2ud4j7TukW7ODFOd/sIaou8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742310604; c=relaxed/simple;
-	bh=9g8qG8scRkPPYmIXfvAFFthP/Lv8qrSHb6e/cFtOGTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QORM3N1z09WkgWdWEggSrVj+XOcplAeor1ofA+eSlKnGQDlGTWNXwc6qgbuU5h0TOHv5TkJ+Sw4t8Xw2ww6fxdBa0dTMV20mFdKSKwa3BRYB/6NfEyk7vdFGTZYofI+UlNCTCs6wilsVe2LDR9VW+nVCpQwics7iih4VcLfCoNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Q1wkqIXw; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1742311051; c=relaxed/simple;
+	bh=psTxiGB92gSaGM/Faa8KmerNR/BeW98o+Pr9u0hxNaw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=STpel70Jn7dIjpWVnRikvBNNif6y7ryaXQhToQlm6gRB73iRML5tRH7XmqT+i22d7v6dyRTvNH5LNSccAuIgnS9tS/tTojA60WNH9+cX9T8TLu2linNCb3TBkOc+ZAndoVtcIri7JF5nNSgVxi0Hh1Ts9mmsNfFDdHCidYN107s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4bw49gc; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Q1wkqIXw"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43948021a45so34788255e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 08:09:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4bw49gc"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-225e3002dffso62868295ad.1;
+        Tue, 18 Mar 2025 08:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1742310597; x=1742915397; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=pi9+EclVOPrZYJ8BNIPSTKMUS248Uk1Nqe/ZKkcV2oE=;
-        b=Q1wkqIXw01YLjD30Swh3Hfy8N5F8JZSC8+hvubtihKmqyHw6OOrZAMHXN0Fan6JqNR
-         yTwMQG0eiYXLs83odBtUy9AHRRG6quBg/UQcIQFdCJnB76WodRAV9CWW7W/G1u2MNnWi
-         yVPSWnEII8rlUgcwhvWQKbFP7SToEyPTxa3VzwrmMuqGRy+ECSRlotkd7OIeXxmUi6aL
-         lgjGCkQug+MUj55qsF6KNXULkro4OsXuBDt2ASjq4gFXAU8pVtHk1uR/TQZNzPgWhHcZ
-         2chvf9UBmWSE5AQYv5rcNmGtCyPD8ajGo88wVgVRmf3uRMHAzdY5c28aG3PqlLmEDWGw
-         jenw==
+        d=gmail.com; s=20230601; t=1742311049; x=1742915849; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZHAf260asVvJfddY3c+QBCDCOVojVZW9/fzAEGmVdxY=;
+        b=D4bw49gcsdqgTSWJ1sFmEZ/nM2B+dsIskmmEv/lR8gG6gddSDorOXtDHpeod/X5peK
+         jF3v9RHyNZjTA+VjglycIZTNvyDGlpyUoGDMEb5Zqju/f9szir/9SR9JR7csnRNkN/dj
+         uWblDPoraGrJyuv3pspppwACzOs72NqtwanPCDUTWattbLzRV3jIhRf1/IUXI2rvivs0
+         Gd9S9T05G8DqDYoSrlg7rrRwbhDICaly3ZE9K2URtI5A/2YIsjpO9peWb62TQ4jnQgOC
+         f84nfrqU7/r+HCZFNgWHUW3nnHUopEhmIgvTJHwXqDhwk++7RTwnQ4AFmv+cQ6eW1Nbd
+         OuEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742310597; x=1742915397;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pi9+EclVOPrZYJ8BNIPSTKMUS248Uk1Nqe/ZKkcV2oE=;
-        b=M+cM9ipHdef/qGS7TaXbD43f7d/Nw5kRK9suz0gRusrGEWBURTQXERiVrXhljKVshu
-         g/96GrxMAG2i+i0vX14qcmJ/FQ4m7OS8sTgOntgnQ/dx44jeW9W03HLzUfR4zxAKE6DK
-         wqAFlLE3AJjFIQAJoe2Hg3sSjuVfgn7QP9Eri54e87Tiepv4kJa2ToulbHQuMjYSonRV
-         apeyH2srLIzzUXOt/qaObTf2h0Zwewbz1wWCsdpqisfKUfkYm5Cjga0z5QrCSORLZhpb
-         2mROqc4av5y2KlwagX+qeQcfBAFRDx3NNRSUxqlDzNZ1ErlJ6xinaw9L/R1SD0FI7VxL
-         jcRw==
-X-Forwarded-Encrypted: i=1; AJvYcCUbh3AImYDvoIYCxPZt7roQqnFWJUEVabkYjNnTjT5PPcNkqsLhGpv1M51XmdwRJBjHRk5gWQkaPAw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlbJSNQ78ZmdZoqtXOue0cqk7IFDjADV6DEs2i5OK+Htqp4WoL
-	v4YTEjOjG96ucwdnJwUQXAMWs1PRoPEQYEow3m+LF3K+HjZ4xSGHrxl4kqV7p51J5mtj7F5oh7o
-	f
-X-Gm-Gg: ASbGncv0NMNEQaFBYqjT9Ix2SiJBI7IvAGQgXEG7Z4MC+53+DIgR7G70Pzr5KASUd+D
-	5dQgVavTzJOug3ya7nD47q9bnyklKGv3Ra8dRuOQ+CnQ9aijbKvi3iOMxOH/tw8Rqj8ooxCnyBa
-	4/KjuEXJ9U8IPF1VkudsySvavY18PpUXZ2/HVn6V8lWKcqbYSUXsPJ4Y0Llp2ZzHBRjGNtOBW11
-	pWjm3HJKRMmOWHw+qmI1iletNgcXVgAlWpmJCHdUIg8yUSWLYaGwBrPflSGSz70v85iabierEKI
-	eMKEQDfGBWRIxd9Km2E7r7UwdS/oJ26bgE4f+fOj9H0=
-X-Google-Smtp-Source: AGHT+IGR/8SFcCBDGiWMbZof8cTzlXY2ErSUJPc9XQCrBR5S4X8kUHjHc4wgiiNvzdvuRJwdCPzyPA==
-X-Received: by 2002:a05:6000:1f8b:b0:391:1458:2233 with SMTP id ffacd0b85a97d-3971d235022mr18693931f8f.11.1742310589615;
-        Tue, 18 Mar 2025 08:09:49 -0700 (PDT)
-Received: from localhost ([2a02:8308:a00c:e200::59a5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c888117csm18119516f8f.44.2025.03.18.08.09.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 08:09:49 -0700 (PDT)
-Date: Tue, 18 Mar 2025 16:09:48 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com, 
-	charlie@rivosinc.com, cleger@rivosinc.com, Anup Patel <apatel@ventanamicro.com>, 
-	corbet@lwn.net
-Subject: Re: [PATCH v3 7/8] riscv: Add parameter for skipping access speed
- tests
-Message-ID: <20250318-bf7e13879b2073c610d32bae@orel>
-References: <20250304120014.143628-10-ajones@ventanamicro.com>
- <20250304120014.143628-17-ajones@ventanamicro.com>
- <1b7e3d0f-0526-4afb-9f7a-2695e4166a9b@ghiti.fr>
- <20250318-1b03e58fe508b077e5d38233@orel>
- <c5e174e4-4fce-4c7f-821a-cf3781becab4@ghiti.fr>
- <20250318-18b96818299ef211ef8ca620@orel>
- <d7a04d06-766b-4b43-8c42-2b681629c35d@ghiti.fr>
- <20250318-ec2a990d55378039a863b94b@orel>
- <44304bca-b30a-4c0b-b242-3a54ac021e40@ghiti.fr>
+        d=1e100.net; s=20230601; t=1742311049; x=1742915849;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZHAf260asVvJfddY3c+QBCDCOVojVZW9/fzAEGmVdxY=;
+        b=o2sXP+TA2JYqyC/4OkqDmxMQ8iswa1JQv00Ti0fjQOUZNsZ5ScUUATmZJpFpBFLOoS
+         WP7TX1wIvhuOs2Vyk6oPMJ1ey3GNWrkSEPPI+PpX/NjugvTHVST3nLnVqCKf266PicOd
+         cSyL7/ysHw3pKC3KDnrV1IbVs//lnwPinbrppAjw7lIZOiZLwaiVTCuqSxBRdwEBJCzN
+         SjfmwH+kAgml+b9I1DTtGi83ITaZUoOQv+NOa3h/xrnWrwd5QufCA2MWpjpj5B0Eb3Dq
+         LhjgV8xsKkOUHKPFhryGkNXVNRE1cw0w5XLZ8sE0duAON6t4JUDNhdDxpSdXkuv0eTYz
+         Go3g==
+X-Forwarded-Encrypted: i=1; AJvYcCV8veftKbTOGFdal8HIMqGgx0WgJpCy1V1YB+kD7TQjZRqmTACUrP97vLphJluhTr9NQDBdtPPw1d5q@vger.kernel.org, AJvYcCVBaHz6vVD+gC5tZ7Wv07kID1vckyYJuSn2TfWSiwy+rI25RStdUrtNlTfcDaoiemp4+uKImdAviWmC@vger.kernel.org, AJvYcCVb2Ivqvwg1xBxJ0kAwhQqKvTL+UGT1st3nOZgX0xrY9ciA2yvOfOk1YKFf1E67kIhA3WlJ8TzLvY/5ncAF@vger.kernel.org, AJvYcCVnV3dPFo8abpaA1WPyzTw8TIr407mpk2kGBGOZmSR8raXV4OeV/YEpGeJ7raVMPjGz1RJOdVhSIPr1kJw=@vger.kernel.org, AJvYcCWHSpR8/dR2S3ODPa7H+UTM0+JeilxX2N1MMnMnCm2oVKZLHIpcNEicBnW1qklPYof5HaiPMmMQlLqi@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgA76Ku79Bj9EWAWcdCIJdG51gx42VSIlkPAe+gDGwzNWNPsMT
+	vokXLFvGjBWl/5UdlpBoJzIgsh5hf9sqlTJZY1BcJ8dZeeUags6x
+X-Gm-Gg: ASbGncuOgXE1I4FDKDuK3svNb69UwZ1t0RtEVC7rLm3kY89LLXyFhGFckU+gjc6C5iz
+	U0ab5imX4mv0Zb5gBJ4Tre3fpM++kiq82Jk5qsEmd4qduprCsrewge4DeNOcWQIsrGn8x9LUiNa
+	KwD2w/4pWEorTuEi4gw3lDXXhSwWg4gvGovYzQfw30RZ9iNg9Z9IURuiY9sVfZRrJLPep79EqqR
+	7s3zbitKYwJ5DELMynkCxCbOfRhLeswXOq33kWwiKpHW2PKu16cuFdyuQC9HZ4LNSzm5fgRqnlI
+	wD+00vLGZikPXWXngVSTIULrgGnusmr32bF4HZtOrSlotUMo5i02y9m47UtDir5rq2YFNJFL/Pd
+	E2sryytaVniILn0t+lw==
+X-Google-Smtp-Source: AGHT+IEqH1G8VZBeSKB8c6EwNUAE+zwq3XXI2OW9qUH7fPlFDKsvo00z+J1eK41UJAnTlcsMJl8jsQ==
+X-Received: by 2002:a17:902:d4c5:b0:223:42ca:10ef with SMTP id d9443c01a7336-2262c6111d4mr51279195ad.43.1742311049329;
+        Tue, 18 Mar 2025 08:17:29 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6888675sm95585345ad.51.2025.03.18.08.17.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Mar 2025 08:17:28 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <15ce883f-444c-4b27-a48d-b17e3df5895d@roeck-us.net>
+Date: Tue, 18 Mar 2025 08:17:27 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <44304bca-b30a-4c0b-b242-3a54ac021e40@ghiti.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add lt3074
+To: "Encarnacion, Cedric justine" <Cedricjustine.Encarnacion@analog.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+References: <20250225-upstream-lt3074-v2-0-18ad10ba542e@analog.com>
+ <20250225-upstream-lt3074-v2-1-18ad10ba542e@analog.com>
+ <20250226-gentle-spicy-jacamar-2dd36a@krzk-bin>
+ <20250226145931.GA2314060-robh@kernel.org>
+ <3f7b031d-7b83-4a00-996d-aabb26278b67@roeck-us.net>
+ <20250227-sceptical-phenomenal-wolverine-56e3cf@krzk-bin>
+ <dbd9cc84-a0b6-4323-b343-6e80aaaf2d14@roeck-us.net>
+ <PH0PR03MB69385BEFFD04ECF850311E988EDE2@PH0PR03MB6938.namprd03.prod.outlook.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <PH0PR03MB69385BEFFD04ECF850311E988EDE2@PH0PR03MB6938.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 18, 2025 at 03:09:18PM +0100, Alexandre Ghiti wrote:
-> On 18/03/2025 14:04, Andrew Jones wrote:
-> > On Tue, Mar 18, 2025 at 01:58:10PM +0100, Alexandre Ghiti wrote:
-> > > On 18/03/2025 13:45, Andrew Jones wrote:
-> > > > On Tue, Mar 18, 2025 at 01:13:18PM +0100, Alexandre Ghiti wrote:
-> > > > > On 18/03/2025 09:48, Andrew Jones wrote:
-> > > > > > On Mon, Mar 17, 2025 at 03:39:01PM +0100, Alexandre Ghiti wrote:
-> > > > > > > Hi Drew,
-> > > > > > > 
-> > > > > > > On 04/03/2025 13:00, Andrew Jones wrote:
-> > > > > > > > Allow skipping scalar and vector unaligned access speed tests. This
-> > > > > > > > is useful for testing alternative code paths and to skip the tests in
-> > > > > > > > environments where they run too slowly. All CPUs must have the same
-> > > > > > > > unaligned access speed.
-> > > > > > > I'm not a big fan of the command line parameter, this is not where we should
-> > > > > > > push uarch decisions because there could be many other in the future, the
-> > > > > > > best solution to me should be in DT/ACPI and since the DT folks, according
-> > > > > > > to Palmer, shut down this solution, it remains using an extension.
-> > > > > > > 
-> > > > > > > I have been reading a bit about unaligned accesses. Zicclsm was described as
-> > > > > > > "Even though mandated, misaligned loads and stores might execute extremely
-> > > > > > > slowly. Standard software distributions should assume their existence only
-> > > > > > > for correctness, not for performance." in rva20/22 but *not* in rva23. So
-> > > > > > > what about using this "hole" and consider that a platform that *advertises*
-> > > > > > > Zicclsm means its unaligned accesses are fast? After internal discussion, It
-> > > > > > > actually does not make sense to advertise Zicclsm if the platform accesses
-> > > > > > > are slow right?
-> > > > > > This topic pops up every so often, including in yesterday's server
-> > > > > > platform TG call. In that call, and, afaict, every other time it has
-> > > > > > popped up, the result is to reiterate that ISA extensions never say
-> > > > > > anything about performance. So, Zicclsm will never mean fast and we
-> > > > > > won't likely be able to add any extension that does.
-> > > > > Ok, I should not say "fast". Usually, when an extension is advertised by a
-> > > > > platform, we don't question its speed (zicboz, zicbom...etc), we simply use
-> > > > > it and it's up to the vendor to benchmark its implementation and act
-> > > > > accordingly (i.e. do not set it in the isa string).
-> > > > > 
-> > > > > 
-> > > > > > > arm64 for example considers that armv8 has fast unaligned accesses and can
-> > > > > > > then enable HAVE_EFFICIENT_ALIGNED_ACCESS in the kernel, even though some
-> > > > > > > uarchs are slow. Distros will very likely use rva23 as baseline so they will
-> > > > > > > enable Zicclsm which would allow us to take advantage of this too, without
-> > > > > > > this, we lose a lot of perf improvement in the kernel, see
-> > > > > > > https://lore.kernel.org/lkml/20231225044207.3821-1-jszhang@kernel.org/.
-> > > > > > > 
-> > > > > > > Or we could have a new named feature for this, even though it's weird to
-> > > > > > > have a named feature which would basically  mean "Zicclsm is fast". We don't
-> > > > > > > have, for example, a named feature to say "Zicboz is fast" but given the
-> > > > > > > vague wording in the profile spec, maybe we can ask for one in that case?
-> > > > > > > 
-> > > > > > > Sorry for the late review and for triggering this debate...
-> > > > > > No problem, let's try to pick the best option. I'll try listing all the
-> > > > > > options and there pros/cons.
-> > > > > > 
-> > > > > > 1. Leave as is, which is to always probe
-> > > > > >       pro: Nothing to do
-> > > > > >       con: Not ideal in all environments
-> > > > > > 
-> > > > > > 2. New DT/ACPI description
-> > > > > >       pro: Describing whether or not misaligned accesses are implemented in
-> > > > > >            HW (which presumably means fast) is something that should be done
-> > > > > > 	in HW descriptions
-> > > > > >       con: We'll need to live with probing until we can get the descriptions
-> > > > > >            defined, which may be never if there's too much opposition
-> > > > > > 
-> > > > > > 3. Command line
-> > > > > >       pro: Easy and serves its purpose, which is to skip probing in the
-> > > > > >            environments where probing is not desired
-> > > > > >       con: Yet another command line option (which we may want to deprecate
-> > > > > >            someday)
-> > > > > > 
-> > > > > > 4. New ISA extension
-> > > > > >       pro: Easy to add to HW descriptions
-> > > > > >       con: Not likely to get it through ratification
-> > > > > > 
-> > > > > > 5. New SBI FWFT feature
-> > > > > >       pro: Probably easier to get through ratification than an ISA extension
-> > > > > >       con: Instead of probing, kernel would have to ask SBI -- would that
-> > > > > >            even be faster? Will all the environments that want to skip
-> > > > > > 	probing even have a complete SBI?
-> > > > > > 
-> > > > > > 6. ??
-> > > > > So what about:
-> > > > > 
-> > > > > 7. New enum value describing the performance as "FORCED" or "HW" (or
-> > > > > anything better)
-> > > > >       pro: We only use the existing Zicclsm
-> > > > >       con: It's not clear that the accesses are fast but it basically says to
-> > > > > SW "don't think too much, I'm telling you that you can use it", up to us to
-> > > > > describe this correctly for users to understand.
-> > > > But Zicclsm doesn't mean misaligned accesses are in HW, it just means
-> > > > they're not going to explode.
-> > > 
-> > > They never explode since if they are not supported by the HW, we rely on
-> > > S-mode emulation already.
-> > Exactly. Zicclsm is just a new name for that behavior. Profiles try to
-> > name every behavior, even the ones we take for granted. Unfortunately,
-> > like in the case of Zicclsm, we don't necessarily gain anything from
-> > the new name. In this case, we don't gain a way to avoid probing.
+On 3/18/25 03:03, Encarnacion, Cedric justine wrote:
+>> -----Original Message-----
+>> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+>> Sent: Friday, February 28, 2025 12:33 AM
+>> To: Krzysztof Kozlowski <krzk@kernel.org>
+>> Cc: Rob Herring <robh@kernel.org>; Encarnacion, Cedric justine
+>> <Cedricjustine.Encarnacion@analog.com>; Krzysztof Kozlowski
+>> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Jean Delvare
+>> <jdelvare@suse.com>; Jonathan Corbet <corbet@lwn.net>; Delphine CC Chiu
+>> <Delphine_CC_Chiu@wiwynn.com>; devicetree@vger.kernel.org; linux-
+>> kernel@vger.kernel.org; linux-hwmon@vger.kernel.org; linux-
+>> doc@vger.kernel.org; linux-i2c@vger.kernel.org
+>> Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add lt3074
+>>
+>> [External]
+>>
+>> On Thu, Feb 27, 2025 at 09:50:23AM +0100, Krzysztof Kozlowski wrote:
+>>>>>>
+>>>>>> hwmon code might need some changes, but that's not really
+>>>>>> relevant for proper hardware description.
+>>>>>
+>>>>> Normally, I would agree, but it seems generic pmbus code expects
+>>>>> this structure. This just came up with changing another binding
+>>>>> maintained by 'Not Me' to follow this structure. We're stuck with
+>>>>> the existing way, so I don't know that it is worth supporting 2
+>>>>> ways forever. OTOH, is it guaranteed that these devices will only
+>>>>> ever be pmbus devices or that other regulator devices which are
+>>>>> not handled as pmbus devices currently will be in the future. If
+>>>>> so, more flexibility in the bindings will be needed.
+>>>>>
+>>>>
+>>>> I would appreciate if someone would explain to me what the problems
+>>>> with the current PMBus code actually are. I have seen several
+>>>> comments claiming
+>>>
+>>> Not exactly a problem but missing feature. pmbus code (at least one of
+>>> macros I looked at) expects regulator node and some sort of child of
+>>> it (vout), while such simple devices should be:
+>>>
+>>> regulator {
+>>> 	compatible = "adi,lt3074";
+>>> 	regulator-name = "vout";
+>>> 	regulator-min-microvolt = "100000";
+>>> 	regulator-max-microvolt = "100000";
+>>> };
+>>>
+>>> so without any of regulators and regulators/vout subnodes.
+>>>
+>>>> that the code should be changed, but I have no idea what the
+>>>> expected changes actually are or, in other words, what the PMBus
+>>>> code should be doing differently.
+>>>
+>>> I did not investigate much into pmbus code, but this might be as
+>>> simple as accepting arguments for .of_match and .regulators_node and
+>>> then accepting NULLs as them as well. Or a new macro which assigns
+>>> NULLs there.
+>>>
+>>
+>> Unless I am missing something, the following should do the trick.
+>>
+>> diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+>> index ddb19c9726d6..289767e5d599 100644
+>> --- a/drivers/hwmon/pmbus/pmbus.h
+>> +++ b/drivers/hwmon/pmbus/pmbus.h
+>> @@ -512,7 +512,6 @@ int pmbus_regulator_init_cb(struct regulator_dev *rdev,
+>>   	{							\
+>>   		.name = (_name),				\
+>>   		.of_match = of_match_ptr(_name),		\
+>> -		.regulators_node = of_match_ptr("regulators"),	\
+>>   		.ops = &pmbus_regulator_ops,			\
+>>   		.type = REGULATOR_VOLTAGE,			\
+>>   		.owner = THIS_MODULE,				\
+>>
+>> Maybe someone can check if that works.
+>>
+>> Thanks,
+>> Guenter
 > 
-> 
-> I understand your point but given the misaligned traps exist, I can't find
-> another meaning to Zicclsm than "I'm telling you to use it". Zicclsm can't
-> be used to describe an OS behaviour (ie the emulation of misaligned
-> accesses).
-> 
-> I'm also insisting because we need a compile-time hint which allows us to
-> enable HAVE_EFFICIENT_UNALIGNED_ACCESS in the kernel and Zicclsm is great
-> since it is required in RVA23. if that's not Zicclsm, that must be another
-> named feature/extension.
-> 
-> What do you suggest to make progress here?
->
+> I'd like to follow up on this one. As of this writing, my understanding
+> is that the dt-binding should not expect regulators subnodes for
+> simple devices like this. There is already a similar binding as
+> mentioned in this thread particularly
+> "dt-bindings/regulator/infineon,ir38060". I think a binding without
+> the subnodes should still work with or without the change above.
 
-I guess you mean besides listing five options and posting patches for two
-of them :-)  We can't force semantics onto Zicclsm and I doubt we'll get
-agreement to make another extension with the semantics we want. So (4)
-is out. I agree with Clement that (5) isn't good. That leaves (2). I
-guess we should start by trying to understand what issues there were/are
-with it.
+Interesting. I am not sure if it really works, though. I looked into
+the regulator code, and I don't immediately see the code path it would
+take.
+
+> With this, I'd like to know what the specific next steps are to continue
+> this patch series.
+
+Can you try on hardware using a devicetree file which doesn't have the
+regulators node ? If the current code works, just submit an updated
+(simplified) .yaml file and we should be good. If not, I have an
+untested patch series introducing another macro which doesn't set
+the regulators node.
 
 Thanks,
-drew
+Guenter
+
