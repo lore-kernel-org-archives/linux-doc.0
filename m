@@ -1,51 +1,44 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB181C5F32;
-	Tue, 18 Mar 2025 14:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C328D20E70E
+	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 14:51:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742309016; cv=none; b=LgT1xSYScwAd3Qg3JQNjE3/HY0vEwTCIY6Rm7mfKc8fqdYrMWYl1QQIbSevlYBEuQVTa8lMo4Xk8aDbmZ/5ch/8OkDqGVboQGVDw64hkYKMoaGu8YuU+QfVKC+ahrlxuMBsWQ7a+rxGPRg7tU7jObgRscZ5NSintIwBa0Mqs8Ak=
+	t=1742309466; cv=none; b=oYNnj04XxdM8IhWwO72l2c00/AZYW5fDDPzIoPG27FCUUeAYrZoStVCs1CUQiIMv3pEG5ANOO6BRbM1qVDsGe+r2qOdrkyxeKmvfzyGUKV/kTRQ43vv9Yis6XP5eOgMwrwhBx18NbhOnVpYmKKT5wQiiA16BJT6U5m6yJENHWlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742309016; c=relaxed/simple;
-	bh=cqsBRt8ZmMLt6MtWdz+Gh+vgZfJbepNTIAPzVuhc7/U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=S9XfVGjizOTQeVfbV9DM1eRko+BN2Ixcv9MiEgAIQsoJ8wFliWo1XqV2tnQh7ZuZKUUsmyrghkltwG51aIzdrFKOWLBQhpgODaFiquaP6+UsdeLm5ss4P0J/YSsi20kXuQmpi6LGl/fZ9OirLjxnKV5sRPN4bWPuieuPXshsb0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Gokot2pn; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1742309466; c=relaxed/simple;
+	bh=Fu0geNXj+0C72bNSXugwSjZhSE+DkkaIidL1RcSmRgQ=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=t+xzug8fsteNOQPlfJ+yK5TS7FWwohkBCscvkQuZQo6/XZ5KOzmRAF6h3/jD1yfAGkx1riXYX/VGJ8KPxB8NUTCrEz+gXZjMfT3lEheWnnDi9aRiWRVOBx9PdfLL9NFSTef+bCwKDhb/1SElUpwGrxLQjgr5mtyM6m3P0Ulb3Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bzSbkBs6; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Gokot2pn"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2BF724107B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bzSbkBs6"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AB1D64107B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1742309012; bh=+EhGNEpSFKvod8JfD5aHgJIBk5oICr0X9rPl5M67D/4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Gokot2pnDJ3QNNtVXcwq1iNq9GhQQiqc3WDlJ7WLjF/INXzD0t8QM7ZMdrgXsCmgs
-	 /lX9TIKOSMZJ1XUWHHZ+Gwi7WVoTtN3sZXtpFaU1g/NT3EhVUfXNQSeNcZnxe3N5rv
-	 gZAyNge2EKyIZU4RBsD9X+nP1srKlKjDaaU/ubbb5CqFEHWjH5N1+JYv3e7o5y1xz9
-	 ysEtO3yNETqHqmAzU0TXDuZG/n7nyvbdKs6xH8Y2efUxorYL1Y15BKRTRaMW4wZM3E
-	 aOmbVpqO8Fsp/xqghVQa9y5TlK6Sbpho6YklTjhmbd84Ku87AqHJbzkG2dC+Pw03n4
-	 m2JuWsQDsMQEQ==
+	t=1742309463; bh=Yi5aSg6qxHZ1De6lGc93R7t/+S8I5tw3jep/jpYjT4U=;
+	h=From:To:Subject:In-Reply-To:References:Date:From;
+	b=bzSbkBs6XZO1H6lP7yxTvEuZIKEwyCGmnILvgj8GaY9lpCGQAxxxDLzOY9s3msT9e
+	 ztf11lvNWerPYK7AN4KNooiUeXbnTQE5dTXzP2PDdIonoynpw/gUDiD/xF8nfbVv0O
+	 dVFWyWm3V0SBQ+x4xizsrXYieYjHFyl2TeFOappOfXJ/o4mIRSzJ1WjM+jM/56E/lZ
+	 yvk0Xle+AoC7buPVhu5iSlmhFX9rghOWH1uvlr5yBCYVb6x/v0nyb9iUhmSnplqyfx
+	 42a+MwBF8YQ2qDnobE3QSgLs2xlQSKOPKrFPt/zUFZd5iXEe15Xu7S4cwKPHdFcGjx
+	 9frTouG2OwW8w==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2BF724107B;
-	Tue, 18 Mar 2025 14:43:32 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id AB1D64107B;
+	Tue, 18 Mar 2025 14:51:03 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux DRI Development
- <dri-devel@lists.freedesktop.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: Re: [PATCH] Documentation: vgaarbiter: Fix grammar
-In-Reply-To: <20250318041249.20786-2-bagasdotme@gmail.com>
-References: <20250318041249.20786-2-bagasdotme@gmail.com>
-Date: Tue, 18 Mar 2025 08:43:31 -0600
-Message-ID: <87a59icsbw.fsf@trenco.lwn.net>
+To: alexs@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [GIT PULL] Chinese-docs changes for v6.15-rc1
+In-Reply-To: <20250318062957.2120-1-alexs@kernel.org>
+References: <20250318062957.2120-1-alexs@kernel.org>
+Date: Tue, 18 Mar 2025 08:51:02 -0600
+Message-ID: <875xk6crzd.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,29 +47,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+alexs@kernel.org writes:
 
-> From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+> Jonathan, please merge the Chinese translation docs, thanks.
 >
-> Correct grammar issues:
+> The following changes since commit 5b8f85d081da449ab35e4bd009d7c00afaab2fab:
 >
-> - Fix "co-exist" subject-verb agreement
-> - Correct plural form of "server" in context of more than one legacy
->   devices
-> - Use passive mood for intro sentence of libpciaccess section
+>   docs: driver-api: firmware: clarify userspace requirements (2025-03-17 17:04:32 -0600)
 >
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Link: https://lore.kernel.org/r/20250220164946.18007-1-pranav.tyagi03@gmail.com
-> [Bagas: massage commit message]
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
+> are available in the Git repository at:
 >
-> I have to carry the original patch [1] because DRM maintainers doesn't seem
-> to apply that AFAIK. Jon, would you like to apply this patch before the
-> merge window in case DRM people don't apply this either?
+>   git@gitolite.kernel.org:pub/scm/linux/kernel/git/alexs/linux.git docs-next
+>
+> for you to fetch changes up to c6e686b992f4da3fb9e56f42eb5a1060facf9442:
+>
+>   docs/zh_CN: fix spelling mistake (2025-03-18 13:36:57 +0800)
+>
+> ----------------------------------------------------------------
+> Alex Shi (1):
+>       docs/Chinese: change the disclaimer words
+>
+> Peng Jiang (1):
+>       docs/zh_CN: fix spelling mistake
+>
+> Yuxian Mao (1):
+>       docs/zh_CN: Add snp-tdx-threat-model index Chinese translation
+>
+>  .../translations/zh_CN/disclaimer-zh_CN.rst        |   8 +-
+>  Documentation/translations/zh_CN/mm/balance.rst    |   2 +-
+>  .../translations/zh_CN/security/index.rst          |   2 +-
+>  .../zh_CN/security/snp-tdx-threat-model.rst        | 209 +++++++++++++++++++++
+>  4 files changed, 214 insertions(+), 7 deletions(-)
+>  create mode 100644 Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst
 
-The DRM folks manage their own docs.  I'm certainly not going to
-circumvent them during -rc7 for a patch like this.
+It's a bit close to the merge window for this.  I could consider that,
+but I really need you to put a signed tag on there and have me pull
+that.
+
+Thanks,
 
 jon
