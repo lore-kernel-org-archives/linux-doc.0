@@ -1,236 +1,115 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A964120CCEA;
-	Tue, 18 Mar 2025 14:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A6C20DD5C;
+	Tue, 18 Mar 2025 14:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742307843; cv=none; b=BvzlLfYBO9Ani1NvbZDJFR+k8U0J+3ao4QUTayPY0zroGs/ooDo/fItkRlU0Ua5cZzmuccDBg7JCzEZEcfR4SrBNdwoqzvhBdKeJ0PNmCnn3wxh2OPo2rkvAxP+eVemYXA4KIYcIybJUOuJ0gkrVm4dFyYMhtOsX7dx8u4AJSM4=
+	t=1742307934; cv=none; b=HLhfF+RhML0gO6V07//D5R2r/96zSdBYP5AYyEP5ogBqQxg9iMcskWZthzJVqhEf0kxMMHGduxeasyja1a5tXZhL+T6zJjb5HbVARyrGV/t59PFyOBuXOFIO81I03kPYfwQQAyjtAEAIsi8ZIJHOBSFEkwEmlhmeisScb2qLoxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742307843; c=relaxed/simple;
-	bh=maoiZEqfCuHXMMG5JNWWjXtFMpNqlPv902s6wygwmVI=;
+	s=arc-20240116; t=1742307934; c=relaxed/simple;
+	bh=nZIVy8rDifxs0gFezfDSsyY7SSuvanD4bNKBzieVH6U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gc8kY6r32lwrbMe3sXvuykQf0TIBj/hVEq/QfjdfEC1HaEiFpeQma+z/3PBIugqQfIvX532gnadV7jW6zHX3GABCO2DuTHJzFVlznew7uooGuKAcFLtoORKhs6al3iTc6x9na3eKgGditVMi/0iElNCG8Qf3SPGNSGdfazxBVLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F5MHzyKZ; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=RdvXG1ecr5KRiGBwXJrr7A1kT+AjCFqNS4hNBmB+aMELWG4ouTCS3JVZGSZI3RBu540PdPEVCx9kTuOSLYGn+WuhcsTn7n/v+/R9g9sIMlu2nZ8oA1lhd4IFtkckVT8cSBUgZ7ASujRqzpgPAjei/the5bCGpwTNtHEFPalEz9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eM8GGehu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F5MHzyKZ"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2ff65d88103so6400379a91.2;
-        Tue, 18 Mar 2025 07:24:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742307841; x=1742912641; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v9NUYvwPjZMLhULxfg8LZIqxczu/kF5avfqxLvT4naM=;
-        b=F5MHzyKZDoxE3u7EhwWChWva72F1717Xz6rG7CLhhrr4jIZlCcLnkJKM8rJEGsYk4l
-         PDvJeuJoKsS1CStjNb/JksylgiYv4+4kltNHAyKP1KDuFdojJuezI8ncG/Yrioulf0xe
-         f0zc9YPoRLqs67QyJ7cdEbuRw7N+jwaLSt2gzJJ9CzcjFesP8+HwjzNHkBZ+kSLn3hdX
-         gGf5IICzAb3VziImegqAqkqL6OApDyLTI1Y5yWJ4ilBuFtPuDBkKo1vnWrt3sFzGpb/2
-         ISyjnGmBb1xPIrl4zceVNO63mx+gbKkVRbDUo81VPuulplrwPM2QZVKi8UJBgilWb+Zd
-         USTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742307841; x=1742912641;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v9NUYvwPjZMLhULxfg8LZIqxczu/kF5avfqxLvT4naM=;
-        b=F5Hl6CteuuS12XRpmUhq48rD3+aytsH4aHPcf/X4QvJC84T3K8AzRTobAsUJjGvKAk
-         +c8cP156tHZpxVVjabHW1SBmLoy8bS5pVlmfh5fnsGeXqArZkcadLfU9kqshIMusVObO
-         Pw93FDJycf1+jsA5+j6YIwGbkHGMYc04joA/5BBlGkMzgAO8hzCxe6PpSwB+EObHYO9C
-         daaDBjc8n1Mi1Qn4kyTSrhgM1SbOQS0jSH2MYfnb8zKtdk4bRllng/a3Jg3bI1rjdkW8
-         qXIZJ66AdMzP4cdaMWXgkxBtdxbPb9ZzBjmXn8CSyvrMwPQkqJmcwOWKecMrwdVIcdZ8
-         rgnA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6e3B+sADCN9HdpymI+0tIOEs2yVsZ+YvThFyDgvkM2f9hpcSWoAP9kALLQh0ibcHCHvifb+qKuRYWcBoAFDu1VyZj@vger.kernel.org, AJvYcCV727B9sw2Kwr36oylhH42UTBIN8xBlGX714sHodtRh/pGuaQzNGtE4Ck/sL7aI7oR8SALJCajAkIE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDXjU5A82hcJpCOKndx0PiC/eh9+37FepjJfEmgzo/BAko9VB8
-	aC5eLVVGLFp46g2K8jX/MgctASBfOmfo4hTHkMQqOLgTXfH2KXmv
-X-Gm-Gg: ASbGncvIpfaShvijqzD0q+NEGx5W4pYhpW1HZKtR4B6rikCtMOD3mhS+Eu2cWrmiWVp
-	e8WxsTln9ypatKN6nEFU7xBx5Sf/Bi+V0YNBVtrUBF34UzMx+DypYcpe3UhN9833W93Wc4lHqE0
-	3MYsR8f/Ow+DBaxtMPYCVIsGT4iTDsEWtQQ8VMQj8FBNgDwGf3rcUj4V0q/ZsRaMtFsQyihb3Ml
-	Z1XejjIwA62NK3g6VVG9hHFqkTkZiB6I/qqnMh9BHMP7pGoHyiWLO/Vd+kJia/1cHUYt5LnmyOH
-	LdzvfFkKEdWKApEhJg6KtAJzsAYL39PX8A5P2+P1cO27
-X-Google-Smtp-Source: AGHT+IFJWF3YZCH+W8N53QYOTLC9tI2x6C4gSNzY3u42eVEztBxaBPF7vbmS5YZFQy8xjulFdDoPTw==
-X-Received: by 2002:a05:6a21:b90:b0:1f5:8c05:e8ee with SMTP id adf61e73a8af0-1f5c1216210mr23213080637.11.1742307840620;
-        Tue, 18 Mar 2025 07:24:00 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7371169593csm9571411b3a.128.2025.03.18.07.23.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 07:23:59 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 1007F420A74B; Tue, 18 Mar 2025 21:23:57 +0700 (WIB)
-Date: Tue, 18 Mar 2025 21:23:57 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Purva Yeshi <purvayeshi550@gmail.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] docs: tracing: Refactor index.rst for clarity
-Message-ID: <Z9mB_ZXp2bdXh0YN@archie.me>
-References: <20250318113230.24950-1-purvayeshi550@gmail.com>
- <20250318113230.24950-2-purvayeshi550@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eM8GGehu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CDB4C4CEE3;
+	Tue, 18 Mar 2025 14:25:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742307933;
+	bh=nZIVy8rDifxs0gFezfDSsyY7SSuvanD4bNKBzieVH6U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eM8GGehuJpGvKpivoD4QSR+KNpQOrsTrQe+Eub+aqiMOwfDX+Sd0MybIJqruOhLex
+	 biGvEmTGReQmgJ0IFMiGSlsFCq55zmnjRdh9Dlq8a6caIHoCMo3/rPvEJL08UzkuDN
+	 toN9B7pWXLt+twkHsRTlar9Rfb66Cl4bQcgCIOS8cFxXk2uIFCHgdYG8XQb4ijRSm1
+	 w0PNZNXJFIdg+wPtVYcf+3mmQxVsJ26tSr9ThAZwKrW6wApcHfaFvTr2sYnUovdUby
+	 vejqSYllChZiA15Jx6PSxONI+qOkHqf4Bvr4azaaeG/UCSBsE68OPkVC5lNPRzkyLS
+	 65BarMYc5GzlQ==
+Date: Tue, 18 Mar 2025 15:25:25 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pratyush Yadav <ptyadav@amazon.de>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Eric Biederman <ebiederm@xmission.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
+	Alexander Graf <graf@amazon.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
+	David Woodhouse <dwmw2@infradead.org>, James Gowans <jgowans@amazon.com>, 
+	Mike Rapoport <rppt@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Pasha Tatashin <tatashin@google.com>, Anthony Yznaga <anthony.yznaga@oracle.com>, 
+	Dave Hansen <dave.hansen@intel.com>, David Hildenbrand <david@redhat.com>, 
+	Matthew Wilcox <willy@infradead.org>, Wei Yang <richard.weiyang@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, kexec@lists.infradead.org
+Subject: Re: [RFC PATCH 1/5] misc: introduce FDBox
+Message-ID: <20250318-toppen-elfmal-968565e93e69@brauner>
+References: <20250307005830.65293-1-ptyadav@amazon.de>
+ <20250307005830.65293-2-ptyadav@amazon.de>
+ <20250307-sachte-stolz-18d43ffea782@brauner>
+ <mafs0ikokidqz.fsf@amazon.de>
+ <20250309-unerwartet-alufolie-96aae4d20e38@brauner>
+ <20250317165905.GN9311@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cuhFiq444qP6XxVp"
-Content-Disposition: inline
-In-Reply-To: <20250318113230.24950-2-purvayeshi550@gmail.com>
-
-
---cuhFiq444qP6XxVp
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250317165905.GN9311@nvidia.com>
 
-On Tue, Mar 18, 2025 at 05:02:30PM +0530, Purva Yeshi wrote:
-> diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
-> index fecc4adf7..5ddd47ee7 100644
-> --- a/Documentation/trace/index.rst
-> +++ b/Documentation/trace/index.rst
-> @@ -1,39 +1,103 @@
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> -Linux Tracing Technologies
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> +Linux Tracing Technologies Guide
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Tracing in the Linux kernel is a powerful mechanism that allows
-> +developers and system administrators to analyze and debug system
-> +behavior. This guide provides documentation on various tracing
-> +frameworks and tools available in the Linux kernel.
-> +
-> +Introduction to Tracing
-> +-----------------------
-> +
-> +This section provides an overview of Linux tracing mechanisms
-> +and debugging approaches.
-> =20
->  .. toctree::
->     :maxdepth: 1
-> =20
-> -   ftrace-design
-> +   debugging
-> +   tracepoints
->     tracepoint-analysis
-> +   ring-buffer-map
-> +
-> +Core Tracing Frameworks
-> +-----------------------
-> +
-> +The following are the primary tracing frameworks integrated into
-> +the Linux kernel.
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
->     ftrace
-> +   ftrace-design
->     ftrace-uses
-> -   fprobe
->     kprobes
->     kprobetrace
->     uprobetracer
->     fprobetrace
-> -   tracepoints
-> +   fprobe
-> +   ring-buffer-design
-> +
-> +Event Tracing and Analysis
-> +--------------------------
-> +
-> +A detailed explanation of event tracing mechanisms and their
-> +applications.
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
->     events
->     events-kmem
->     events-power
->     events-nmi
->     events-msr
-> -   mmiotrace
-> +   boottime-trace
->     histogram
->     histogram-design
-> -   boottime-trace
-> -   debugging
-> -   hwlat_detector
-> -   osnoise-tracer
-> -   timerlat-tracer
-> +
-> +Hardware and Performance Tracing
-> +--------------------------------
-> +
-> +This section covers tracing features that monitor hardware
-> +interactions and system performance.
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
->     intel_th
-> -   ring-buffer-design
-> -   ring-buffer-map
->     stm
->     sys-t
->     coresight/index
-> -   user_events
->     rv/index
->     hisi-ptt
-> +   mmiotrace
-> +   hwlat_detector
-> +   osnoise-tracer
-> +   timerlat-tracer
-> +
-> +User-Space Tracing
-> +------------------
-> +
-> +These tools allow tracing user-space applications and
-> +interactions.
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   user_events
-> +
-> +Additional Resources
-> +--------------------
-> +
-> +For more details, refer to the respective documentation of each
-> +tracing tool and framework.
-> +
-> +.. only:: subproject and html
-> +
-> +   Indices
-> +   =3D=3D=3D=3D=3D=3D=3D
-> +
-> +   * :ref:`genindex`
-> \ No newline at end of file
+On Mon, Mar 17, 2025 at 01:59:05PM -0300, Jason Gunthorpe wrote:
+> On Sun, Mar 09, 2025 at 01:03:31PM +0100, Christian Brauner wrote:
+> 
+> > So either that work is done right from the start or that stashing files
+> > goes out the window and instead that KHO part is implemented in a way
+> > where during a KHO dump relevant userspace is notified that they must
+> > now serialize their state into the serialization stash. And no files are
+> > actually kept in there at all.
+> 
+> Let's ignore memfd/shmem for a moment..
+> 
+> It is not userspace state that is being serialized, it is *kernel*
+> state inside device drivers like VFIO/iommufd/kvm/etc that is being
+> serialized to the KHO.
+> 
+> The file descriptor is simply the handle to the kernel state. It is
+> not a "file" in any normal filesystem sense, it is just an uAPI handle
+> for a char dev that is used with IOCTL.
+> 
+> When KHO is triggered triggered whatever is contained inside the FD is
+> serialized into the KHO.
+> 
+> So we need:
+>  1) A way to register FDs to be serialized. For instance, not every
+>     VFIO FD should be retained.
+>  2) A way for the kexecing kernel to make callbacks to the char dev
+>     owner (probably via struct file operations) to perform the
+>     serialization
+>  3) A way for the new kernel to ask the char dev owner to create a new
+>     struct file out of the serialized data. Probably allowed to happen
+>     only once, ie you can't clone these things. This is not the same
+>     as just opening an empty char device, it would also fill the char
+>     device with whatever data was serialized.
+>  4) A way to get the struct file into a process fd number so userspace
+>     can route it to the right place.
+> 
+> It is not really a stash, it is not keeping files, it is hardwired to
 
-LGTM, thanks!
+Right now as written it is keeping references to files in these fdboxes
+and thus functioning both as a crippled high-privileged fdstore and a
+serialization mechanism. Please get rid of the fdstore bits and
+implement it in a way that it serializes files without stashing
+references to live files that can at arbitrary points in time before the
+fdbox is "sealed" be pulled out and installed into the caller's fdtable
+again.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---cuhFiq444qP6XxVp
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ9mB/QAKCRD2uYlJVVFO
-o82/AQC6St6NAWq8B5z4Zw7q1LUj0robzpjBQS3eWY72NT5cRAD/azaSf3VmAAlY
-zOdVCBMuKWxztlcZmhT4DNJkt06SkAo=
-=biNI
------END PGP SIGNATURE-----
-
---cuhFiq444qP6XxVp--
+> KHO to drive it's serialize/deserialize mechanism around char devs in
+> a very limited way.
+> 
+> If you have that then feeding an anonymous memfd/guestmemfd through
+> the same machinery is a fairly small and logical step.
+> 
+> Jason
