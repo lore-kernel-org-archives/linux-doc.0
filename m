@@ -1,433 +1,145 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20261E50E
-	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 02:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886761865E5
+	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 02:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742263747; cv=none; b=nc09+Q9xa9vs6aEPtTNunpAwi3Nfi3CvUQlU/dliPDTT8pgYHjYzxk9cRyxqE+PTfCacn/pKUbJwKh0E8YcrvoIc1dGYU+LuOMwwETVxIrG1Oq5sOacmqVszxdp8l+5k+eNStLD1Ps1rqpLTBfOZIRqF2RbPdE2onchuMQsgfqc=
+	t=1742263836; cv=none; b=DEhsKJL3ihJVHp4Km8MAB0xVVwMQwvZ8LM8nFzFmqZX9+2oDcEjJWGIbxUpHLnnR26oQBYGBmZEeBft1J4ma37PwCS++sJuiguURLL9WH2xIxsk4ISo21HtoTyECOSbqTQeTUx3Ro6gUNRyFq5pQuJ5AHmNzRePPAzOPAJo7p20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742263747; c=relaxed/simple;
-	bh=GT57Q8c5YSP8ukX/9u0HMcm+ce9uDfJh1OeXJJlByPQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DLw5EGwRiTHF1eYNRfb+amaSCml6Eil/vl2EQgAmit2PORBpfWpFBGEqEhbJSGIp/yGwzY1+qmFCw1Zw4M9TDPqTyRxy6gTJGNY/iXeWbK3liqrkHGd7BGG8aP1Jh0bqmnHuh4kAwDcwCzfKqyMfBKYTnJ/9TEwwuccNT0W6SRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Pfm42JkV; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1742263836; c=relaxed/simple;
+	bh=QR2+CQhFtF3wiXNVfMMn04N/Zgc7E9vWUP/WZyEzsE4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZxoYm46nTjGN8uwA6/ofz22lJCIYyDJTDltRo59FVICfQb6DU2WIJlowrb/TtJcatrBhC6bsmFBH3gysRip2lR8FbnZwaOPtSqzsEBHgb9NZx1la4dPlsfVn74alkNIqLvTGHzESJ4N+SerZdDxXh27N5U2cFVAlt0ExuWdi2zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OA7XBh+E; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Pfm42JkV"
-Message-ID: <d2138c3e-db34-4e84-9f3e-3265d64039cd@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1742263740;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OA7XBh+E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742263831;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KO6lsG+68F559UAZHnyemlZEXp7ViQI5HytnHUatYfo=;
-	b=Pfm42JkVe9BRCCZj4swSRIZIgOqYmAhJA8Qon7PHDECwtTRF6YyG07W7fJKA4iJc8a6gHA
-	oVD3GQblEq1rotBX5BuaRHu5IzUXrwjOkncN55j0JOsAfQTYnxK/KlLdoXxI1D8GlPVRzt
-	Tmjus5GU8ACjvyybVKIyu5wnsbmFAdw=
-Date: Tue, 18 Mar 2025 10:08:54 +0800
+	bh=bocJ4xY+cvLvF8Z2x24tl3LRmmXAsvkZEGxfx5yQFuM=;
+	b=OA7XBh+EGBpYEVJpS5Cs6jMyEuq5xXd6e/u0I6B3baoOMmb5cs9KEnLdSyYhn7WCgZlqg4
+	HfvfqEorcwhQT42Vyo60TTHiVu2WxvSFAt8Gcl2DHJnKE9GZJijnuZEcPrfjTftAOXy02K
+	GxLZbbGC+Hd/rqBADyRFeLyUL776yMQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-228-v5HsRbWYMRC2iOWC9AU7ig-1; Mon, 17 Mar 2025 22:10:28 -0400
+X-MC-Unique: v5HsRbWYMRC2iOWC9AU7ig-1
+X-Mimecast-MFC-AGG-ID: v5HsRbWYMRC2iOWC9AU7ig_1742263827
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-5e68e9d9270so4124147a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Mar 2025 19:10:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742263827; x=1742868627;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bocJ4xY+cvLvF8Z2x24tl3LRmmXAsvkZEGxfx5yQFuM=;
+        b=fpeSj837yiC2L1CZtO38Sy+t/+P7GZltkizRMb0RbE4bsr7LerIHZQszAJ2Gva0pz2
+         5+UlS8ZN2+czd/dOfFLJZL/xP9pDF9ovGo+G810PooLd9dVp6HS8OxXn3VrrcpgeddFl
+         K2wjyL+OsAmkOQE8PSFYqZf8xzO1YTNjabrSuHN+KUJwVLDZaNA4qvrFWO4Uhy6Fu4fe
+         8xBRLESS2PkAnYp1ht4KleXDyy4sves5imUS6fo/hdKloRNhsEhxiM7Or4vd4fdmSN07
+         Mow/YZ96kbGUAZ2k6Qf3Fkl8c1B0xTqekG/01Jc09LFANhKt2fGw162IjTfx/0x7VjJL
+         mgPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXn32th5uUf+uwDC0oqMiYHgEACOuQvgcDEuMPn3FmFZlMJBxCEyztdVdtZQpDzdOQNxoXo2n3qHR0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDUf0maJ75oVeOT6Nu7ocfZJ3h6ZPYucv01Mt6ddMCrwnSdcsy
+	M8o+4TRTEKxaMCP+ehPr3wSBRzsizutBpC0wGVNBR4uYc/Wyc7SITIes5+OrwGBUZ27tKqdSN4a
+	hqc8mEeCT3PqqGCbnZD9+rWdSp8lrOwV/f40f4sZ1OmnDUIp3yBskNU8HxGvnEPJhlZbh4R9/7c
+	iwAVsrYqr+13tfOn6t1nc4CjyTf2hfTjjG
+X-Gm-Gg: ASbGncuPC+Tr5qVQtzFz2/yURDLxzlOlBN8n+6Bn7KOto0gEhHwgrfT1dbVJX6DbPuk
+	vQLMOGezkWEqIIT9juP+LrwAVX3G+/uLp1zEJCQYQomVxC6wQN8Q4LC7Opld+OEANJfUu6Xlfiw
+	==
+X-Received: by 2002:a05:6402:348d:b0:5de:cbed:c955 with SMTP id 4fb4d7f45d1cf-5e89fa5252bmr15904558a12.17.1742263827521;
+        Mon, 17 Mar 2025 19:10:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHCvFJRxiUrK3Hl8RQJ4gACrb1PAEIxR0Zqht6rIjp/tdZBCVDepPjzyLxDhCMISfCanvYlkZjNzb4UQTjWFWQ=
+X-Received: by 2002:a05:6402:348d:b0:5de:cbed:c955 with SMTP id
+ 4fb4d7f45d1cf-5e89fa5252bmr15904525a12.17.1742263827103; Mon, 17 Mar 2025
+ 19:10:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs/zh_CN: Add security SCTP Chinese translation
-To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org, corbet@lwn.net,
- dzm91@hust.edu.cn
-Cc: zhaoyuehui@cqsoftware.com.cn, zhangwei@cqsoftware.com.cn,
- maoyuxian@cqsoftware.com.cn, linux-doc@vger.kernel.org
-References: <20250312085033.83716-1-zhaoshuo@cqsoftware.com.cn>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20250312085033.83716-1-zhaoshuo@cqsoftware.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250317-rss-v11-0-4cacca92f31f@daynix.com> <CACGkMEu=pPTd-QHKRDw7noRCTu-18c7JLJNKZCEu5=BHAE0aJQ@mail.gmail.com>
+In-Reply-To: <CACGkMEu=pPTd-QHKRDw7noRCTu-18c7JLJNKZCEu5=BHAE0aJQ@mail.gmail.com>
+From: Lei Yang <leiyang@redhat.com>
+Date: Tue, 18 Mar 2025 10:09:50 +0800
+X-Gm-Features: AQ5f1Jpjunc8xib_cyTewZlm6iAFgRKVvfy1UVZQ0lyOQH2XWEffoxUQGNr9u5c
+Message-ID: <CAPpAL=yfgiuFA-SyrCe0Ud8Wm9tJMcMm9L4Q-AnnuRzN+Q9M=A@mail.gmail.com>
+Subject: Re: [PATCH net-next v11 00/10] tun: Introduce virtio-net hashing feature
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
+	Simon Horman <horms@kernel.org>, Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+QE tested this series of patches v11 under linux-next repo with
+virtio-net regression tests, everything works fine.
 
-在 3/12/25 4:50 PM, Shuo Zhao 写道:
-> Translate .../security/SCTP.rst into Chinese.
+Tested-by: Lei Yang <leiyang@redhat.com>
+
+On Tue, Mar 18, 2025 at 8:29=E2=80=AFAM Jason Wang <jasowang@redhat.com> wr=
+ote:
 >
-> Update the translation through commit da51bbcdbace
-> ("Docs: typos/spelling")
+> On Mon, Mar 17, 2025 at 6:58=E2=80=AFPM Akihiko Odaki <akihiko.odaki@dayn=
+ix.com> wrote:
+> >
+> > virtio-net have two usage of hashes: one is RSS and another is hash
+> > reporting. Conventionally the hash calculation was done by the VMM.
+> > However, computing the hash after the queue was chosen defeats the
+> > purpose of RSS.
+> >
+> > Another approach is to use eBPF steering program. This approach has
+> > another downside: it cannot report the calculated hash due to the
+> > restrictive nature of eBPF.
+> >
+> > Introduce the code to compute hashes to the kernel in order to overcome
+> > thse challenges.
+> >
+> > An alternative solution is to extend the eBPF steering program so that =
+it
+> > will be able to report to the userspace, but it is based on context
+> > rewrites, which is in feature freeze. We can adopt kfuncs, but they wil=
+l
+> > not be UAPIs. We opt to ioctl to align with other relevant UAPIs (KVM
+> > and vhost_net).
+> >
+> > The patches for QEMU to use this new feature was submitted as RFC and
+> > is available at:
+> > https://patchew.org/QEMU/20250313-hash-v4-0-c75c494b495e@daynix.com/
+> >
+> > This work was presented at LPC 2024:
+> > https://lpc.events/event/18/contributions/1963/
+> >
+> > V1 -> V2:
+> >   Changed to introduce a new BPF program type.
+> >
+> > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> > ---
+> > Changes in v11:
+> > - Added the missing code to free vnet_hash in patch
+> >   "tap: Introduce virtio-net hash feature".
+> > - Link to v10: https://lore.kernel.org/r/20250313-rss-v10-0-3185d73a9af=
+0@daynix.com
+> >
 >
-> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-> ---
->   .../translations/zh_CN/security/SCTP.rst      | 317 ++++++++++++++++++
->   .../translations/zh_CN/security/index.rst     |   2 +-
->   2 files changed, 318 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/security/SCTP.rst
+> We only have 2 or 3 points that need to be sorted out. Let's hold on
+> to the iteration until we had an agreement.
 >
-> diff --git a/Documentation/translations/zh_CN/security/SCTP.rst b/Documentation/translations/zh_CN/security/SCTP.rst
-> new file mode 100644
-> index 000000000000..df19d6af3a8b
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/security/SCTP.rst
-> @@ -0,0 +1,317 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/security/SCTP.rst
-> +
-> +:翻译:
-> + 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-> +
-> +====
-> +SCTP
-> +====
-> +
-> +SCTP的LSM支持
-> +=============
-> +
-> +安全钩子
-> +--------
-> +
-> +对于安全模块支持，已经实现了三个特定于SCTP的钩子::
-> +
-> +	security_sctp_assoc_request()
-> +	security_sctp_bind_connect()
-> +	security_sctp_sk_clone()
-> +	security_sctp_assoc_established()
-> +
-> +这些钩子的用法在下面的 `SCTP的SELinux支持`_ 一章中描述SELinux的实现。
-> +
-> +
-> +security_sctp_assoc_request()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +将关联INIT数据包的 ``@asoc`` 和 ``@chunk->skb`` 传递给安全模块。
-> +成功时返回 0，失败时返回错误。
-> +::
-> +
-> +	@asoc - 指向sctp关联结构的指针。
-> +	@skb - 指向包含关联数据包skbuff的指针。
-> +
-> +
-> +security_sctp_bind_connect()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +将一个或多个IPv4/IPv6地址传递给安全模块进行基于 ``@optname`` 的验证，
-> +这将导致是绑定还是连接服务，如下面的权限检查表所示。成功时返回 0，失败
-> +时返回错误。
-> +::
-> +
-> +	@sk      - 指向sock结构的指针。
-> +	@optname - 需要验证的选项名称。
-> +	@address - 一个或多个IPv4 / IPv6地址。
-> +	@addrlen - 地址的总长度。使用sizeof(struct sockaddr_in)或
-> +			   sizeof(struct sockaddr_in6)来计算每个ipv4或ipv6地址。
-> +
-
-> +  ------------------------------------------------------------------
-> +  |                     BIND Type Checks                           |
-> +  |       @optname             |         @address contains         |
-> +  |----------------------------|-----------------------------------|
-> +  | SCTP_SOCKOPT_BINDX_ADD     | One or more ipv4 / ipv6 addresses |
-> +  | SCTP_PRIMARY_ADDR          | Single ipv4 or ipv6 address       |
-> +  | SCTP_SET_PEER_PRIMARY_ADDR | Single ipv4 or ipv6 address       |
-> +  ------------------------------------------------------------------
-> +
-> +  ------------------------------------------------------------------
-> +  |                   CONNECT Type Checks                          |
-> +  |       @optname             |         @address contains         |
-> +  |----------------------------|-----------------------------------|
-> +  | SCTP_SOCKOPT_CONNECTX      | One or more ipv4 / ipv6 addresses |
-> +  | SCTP_PARAM_ADD_IP          | One or more ipv4 / ipv6 addresses |
-> +  | SCTP_SENDMSG_CONNECT       | Single ipv4 or ipv6 address       |
-> +  | SCTP_PARAM_SET_PRIMARY     | Single ipv4 or ipv6 address       |
-> +  ------------------------------------------------------------------
-let's translate it.
-> +
-> +条目 ``@optname`` 的摘要如下::
-> +
-> +	SCTP_SOCKOPT_BINDX_ADD - 允许在（可选地）调用 bind(3) 后，关联额外
-> +							 的绑定地址。
-> +							 sctp_bindx(3) 用于在套接字上添加一组绑定地址。
-> +
-> +	SCTP_SOCKOPT_CONNECTX - 允许分配多个地址以连接到对端（多宿主）。
-> +							sctp_connectx(3) 使用多个目标地址在SCTP
-> +							套接字上发起连接。
-> +
-> +	SCTP_SENDMSG_CONNECT  - 通过sendmsg(2)或sctp_sendmsg(3)在新关联上
-> +							发起连接。
-> +
-> +	SCTP_PRIMARY_ADDR     - 设置本地主地址。
-> +
-> +	SCTP_SET_PEER_PRIMARY_ADDR - 请求远程对端将某个地址设置为其主地址。
-> +
-> +	SCTP_PARAM_ADD_IP          - 在启用动态地址重配置时使用。
-> +	SCTP_PARAM_SET_PRIMARY     - 如下所述，启用重新配置功能。
-> +
-> +
-> +为了支持动态地址重新配置，必须在两个端点上启用以下
-> +参数（或使用适当的 **setsockopt**\(2)）::
-> +
-> +	/proc/sys/net/sctp/addip_enable
-> +	/proc/sys/net/sctp/addip_noauth_enable
-> +
-> +当相应的 ``@optname`` 存在时，以下的 *_PARAM_* 参数会
-> +通过ASCONF块发送到对端::
-> +
-> +		  @optname                      ASCONF Parameter
-> +		 ----------                    ------------------
-> +	SCTP_SOCKOPT_BINDX_ADD     ->   SCTP_PARAM_ADD_IP
-> +	SCTP_SET_PEER_PRIMARY_ADDR ->   SCTP_PARAM_SET_PRIMARY
-> +
-> +
-> +security_sctp_sk_clone()
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +每当通过 **accept**\(2)创建一个新的套接字（即TCP类型的套接字），或者当
-> +一个套接字被‘剥离’时如用户空间调用 **sctp_peeloff**\(3)，会调用此函数。
-“剥离”
-> +::
-> +
-> +	@asoc -  指向当前sctp关联结构的指针。
-> +	@sk - 指向当前套接字结构的指针。
-> +	@newsk - 指向新的套接字结构的指针。
-> +
-> +
-> +security_sctp_assoc_established()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +当收到COOKIE ACK时调用，对于客户端，对端的secid将被保存
-> +到 ``@asoc->peer_secid`` 中::
-> +
-> +	@asoc - 指向sctp关联结构的指针。
-> +	@skb - 指向COOKIE ACK数据包的skbuff指针。
-> +
-> +
-> +用于关联建立的安全钩子
-> +----------------------
-> +
-> +下图展示了在建立关联时 ``security_sctp_bind_connect()``、 ``security_sctp_assoc_request()``
-> +和 ``security_sctp_assoc_established()`` 的使用。
-> +::
-> +
-> +      SCTP 端点 "A"                                 SCTP 端点 "Z"
-> +      =============                                 =============
-> +    sctp_sf_do_prm_asoc()
-> + 关联的设置可以通过connect(2),
-> + sctp_connectx(3),sendmsg(2)
-> + or sctp_sendmsg(3)来发起。
-> + 这将导致调用security_sctp_bind_connect()
-> + 发起与SCTP对端端点"Z"的关联。
-> +         INIT --------------------------------------------->
-> +                                                   sctp_sf_do_5_1B_init()
-> +                                                 响应一个INIT数据块。
-> +                                             SCTP对端端点"A"正在请求一个临时关联。
-> +                                             如果是首次关联，调用security_sctp_assoc_request()
-> +                                             来设置对等方标签。
-> +                                             如果不是首次关联，检查是否被允许。
-> +                                             如果允许，则发送:
-> +          <----------------------------------------------- INIT ACK
-> +          |
-> +          |                                  否则，生成审计事件并默默丢弃该数据包。
-> +          |
-> +    COOKIE ECHO ------------------------------------------>
-> +                                                  sctp_sf_do_5_1D_ce()
-> +                                             响应一个COOKIE ECHO数据块。
-> +                                             确认该cookie并创建一个永久关联。
-> +                                             调用security_sctp_assoc_request()
-> +                                             执行与INIT数据块响应相同的操作。
-> +          <------------------------------------------- COOKIE ACK
-> +          |                                               |
-> +    sctp_sf_do_5_1E_ca                                    |
-> + 调用security_sctp_assoc_established()                    |
-> + 来设置对方标签                                           |
-> +          |                                               |
-> +          |                               如果是SCTP_SOCKET_TCP或是剥离的套接
-> +          |                               字，会调用 security_sctp_sk_clone()
-> +          |                               来克隆新的套接字。
-> +          |                                               |
-> +         建立                                            建立
-> +          |                                               |
-> +    ------------------------------------------------------------------
-> +    |                            关联建立                            |
-> +    ------------------------------------------------------------------
-> +
-> +
-> +SCTP的SELinux支持
-> +=================
-> +
-> +安全钩子
-> +--------
-> +
-> +上面的 `SCTP的LSM支持`_ 章节描述了以下SCTP安全钩子，SELinux的细节
-> +说明如下::
-> +
-> +	security_sctp_assoc_request()
-> +	security_sctp_bind_connect()
-> +	security_sctp_sk_clone()
-> +	security_sctp_assoc_established()
-> +
-> +
-> +security_sctp_assoc_request()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +将关联INIT数据包的 ``@asoc`` 和 ``@chunk->skb`` 传递给安全模块。
-> +成功时返回 0，失败时返回错误。
-> +::
-> +
-> +    @asoc - 指向sctp关联结构的指针。
-> +    @skb - 指向关联数据包skbuff的指针。
-> +
-> +安全模块执行以下操作:
-> +	 如果这是 ``@asoc->base.sk`` 上的首次关联，则将对端的sid设置
-> +	 为 ``@skb`` 中的值。这将确保只有一个对端sid分配给可能支持多个
-> +	 关联的 ``@asoc->base.sk``。
-> +
-> +	 否则验证 ``@asoc->base.sk peer sid`` 是否与 ``@skb peer sid``
-> +	 匹配，以确定该关联是否应被允许或拒绝。
-> +
-> +	 将sctp的 ``@asoc sid`` 设置为套接字的sid（来自 ``asoc->base.sk``）
-> +	 并从 ``@skb peer sid`` 中提取MLS部分。这将在SCTP的TCP类型套接字及
-> +	 剥离连接中使用，因为它们会导致生成一个新的套接字。
-> +
-> +	 如果配置了IP安全选项（CIPSO/CALIPSO），则会在套接字上设置IP选项。
-> +
-> +
-> +security_sctp_bind_connect()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +根据 ``@optname`` 检查ipv4/ipv6地址所需的权限，具体如下::
-> +
-
-> +  ------------------------------------------------------------------
-> +  |                   BIND Permission Checks                       |
-> +  |       @optname             |         @address contains         |
-> +  |----------------------------|-----------------------------------|
-> +  | SCTP_SOCKOPT_BINDX_ADD     | One or more ipv4 / ipv6 addresses |
-> +  | SCTP_PRIMARY_ADDR          | Single ipv4 or ipv6 address       |
-> +  | SCTP_SET_PEER_PRIMARY_ADDR | Single ipv4 or ipv6 address       |
-> +  ------------------------------------------------------------------
-> +
-> +  ------------------------------------------------------------------
-> +  |                 CONNECT Permission Checks                      |
-> +  |       @optname             |         @address contains         |
-> +  |----------------------------|-----------------------------------|
-> +  | SCTP_SOCKOPT_CONNECTX      | One or more ipv4 / ipv6 addresses |
-> +  | SCTP_PARAM_ADD_IP          | One or more ipv4 / ipv6 addresses |
-> +  | SCTP_SENDMSG_CONNECT       | Single ipv4 or ipv6 address       |
-> +  | SCTP_PARAM_SET_PRIMARY     | Single ipv4 or ipv6 address       |
-> +  ------------------------------------------------------------------
-ditto
-> +
-> +
-> +`SCTP的LSM支持`_ 提供了 ``@optname`` 摘要，并且还描述了当启用动态地址重新
-> +配置时，ASCONF块的处理过程。
-> +
-> +
-> +security_sctp_sk_clone()
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +每当通过 **accept**\(2)（即TCP类型的套接字）创建一个新的套接字，或者
-> +当一个套接字被‘剥离’如用户空间调用 **sctp_peeloff**\(3)时，
-> +``security_sctp_sk_clone()`` 将会分别将新套接字的sid和对端sid设置为
-> +``@asoc sid`` 和 ``@asoc peer sid`` 中包含的值。
-> +::
-> +
-> +	@asoc - 指向当前sctp关联结构的指针。
-> +	@sk - 指向当前sock结构的指针。
-> +	@newsk - 指向新sock结构的指针。
-> +
-> +
-> +security_sctp_assoc_established()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +当接收到COOKIE ACK时调用，它将连接的对端sid设置为 ``@skb`` 中的值::
-> +
-> +	@asoc - 指向sctp关联结构的指针。
-> +	@skb - 指向COOKIE ACK包skbuff的指针。
-> +
-> +
-> +策略声明
-> +--------
-> +以下支持SCTP的类和权限在内核中是可用的::
-> +
-> +	class sctp_socket inherits socket { node_bind }
-> +
-> +当启用以下策略功能时::
-> +
-> +	policycap extended_socket_class;
-> +
-> +SELinux对SCTP的支持添加了用于连接特定端口类型 ``name_connect`` 权限
-> +以及在下面的章节中进行解释的 ``association`` 权限。
-> +
-> +如果用户空间工具已更新，SCTP将支持如下所示的 ``portcon`` 声明::
-> +
-> +	portcon sctp 1024-1036 system_u:object_r:sctp_ports_t:s0
-> +
-> +
-> +SCTP对端标签
-> +------------
-> +每个SCTP套接字仅分配一个对端标签。这个标签将在建立第一个关联时分配。
-> +任何后续在该套接字上的关联都会将它们的数据包对端标签与套接字的对端标
-> +签进行比较，只有在它们不同的情况下 ``association`` 权限才会被验证。
-> +这是通过检查套接字的对端sid与接收到的数据包中的对端sid来验证的，以决
-> +定是否允许或拒绝该关联。
-> +
-> +注:
-> +   1) 如果对端标签未启用，则对端上下文将始终是 ``SECINITSID_UNLABELED``
-> +      （在策略声明中为 ``unlabeled_t`` ）。
-> +
-> +   2) 由于SCTP可以在单个套接字上支持每个端点（多宿主）的多个传输地址，因此
-> +      可以配置策略和NetLabel为每个端点提供不同的对端标签。由于套接字的对端
-> +      标签是由第一个关联的传输地址决定的，因此建议所有的对端标签保持一致。
-> +
-> +   3) 用户空间可以使用 **getpeercon**\(3) 来检索套接字的对端上下文。
-> +
-> +   4) 虽然这不是SCTP特有的，但在使用NetLabel时要注意，如果标签分配给特定的接
-> +      口，而该接口‘goes down’，则NetLabel服务会移除该条目。因此，请确保网络启
-> +      动脚本调用 **netlabelctl**\(8) 来设置所需的标签（详细信息，
-> +      请参阅 **netlabel-config**\(8) 辅助脚本）。
-> +
-> +   5) NetLabel SCTP对端标签规则应用如下所述标签为“netlabel”的一组帖子：
-> +      https://www.paul-moore.com/blog/t.
-> +
-> +   6) CIPSO仅支持IPv4地址： ``socket(AF_INET, ...)``
-> +      CALIPSO仅支持IPv6地址： ``socket(AF_INET6, ...)``
-> +
-> +      测试CIPSO/CALIPSO时请注意以下事项：
-> +         a) 如果SCTP数据包由于无效标签无法送达，CIPSO会发送一个ICMP包。
-> +         b) CALIPSO不会发送ICMP包，只会默默丢弃数据包。
-> +
-> +   7) RFC 3554不支持IPSEC —— SCTP/IPSEC支持尚未在用户空间实现(**racoon**\(8)
-> +      或 **ipsec_pluto**\(8))，尽管内核支持 SCTP/IPSEC。
-> diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
-> index 05d24e3acc11..d33b107405c7 100644
-> --- a/Documentation/translations/zh_CN/security/index.rst
-> +++ b/Documentation/translations/zh_CN/security/index.rst
-> @@ -20,6 +20,7 @@
->      lsm
->      lsm-development
->      sak
-> +   SCTP
->      self-protection
->      siphash
->      tpm/index
-> @@ -29,6 +30,5 @@
->   TODOLIST:
->   * IMA-templates
->   * keys/index
-> -* SCTP
->   * secrets/index
->   * ipe
-
-You sent two patches within one day.
-
-
-If it's convenient, could you consider merging these
-
-two patches into a single patch set? This might
-
-make the review and deployment process more efficient.
-
-
-Moreover, these two patches have a dependency relationship,
-
-and we shouldn't always shift the workload of resolving conflicts
-
-onto the maintainer.
-
-
-Thanks,
-
-Yanteng
+> Thanks
+>
 
