@@ -1,124 +1,151 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AA51DD0C7;
-	Tue, 18 Mar 2025 12:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC05207A2A;
+	Tue, 18 Mar 2025 12:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742299435; cv=none; b=ANe8Kfqc7HzxzSaQ8gbXU7CoWz/54srVdBdSAYswu78W3YP7b3YvSq4q8iaHdKlnHMSDbyU29EZD8kopJoSwd2HZiFkxO6kDwgq0xEQSArwRJUCsqaHI/IZiXje43kCoinnUWYhlGBc2oxZGXEKLdgb7z7LyQ+4cbCjJRdXcdtQ=
+	t=1742300011; cv=none; b=mm7DKkT2amWqvsn4uTgImc6Vdo+ITq4eJeVgpQ1B38dBoXs/0iK5cq+uGYWt7AMjHv+WNB3eL1vwmWza8sDy/051mJHGwaRyB5AaOpE3qmpcHK36Ny8n1MEONv0xPVXOV2wZ2mqxVURUqlXrLzLoJtyeiwXfi41Pc7l8WFeW+1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742299435; c=relaxed/simple;
-	bh=mKWN17AgP7RXAQMl5UNpPp2xTFqkRLwFBlYzV8Iy08w=;
+	s=arc-20240116; t=1742300011; c=relaxed/simple;
+	bh=EQPFuO/g+o3bHN94fQmctKpgZkdnPJbFaADp2g/Rb/o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TG3kAYxpfyPH2VT6mdH7964bP+pWFO1emzoKeKo6yrzH/cMzB1l+T9mQAK+4L8rwTs8L8Np3biZhtIho4xw6Z2hTmM34GcBq1JaMMrTRdOyEehnT7I+kFeaj5pXacABPB96+VR2HDVhaO7TpHSVKy8bJOqoTM7FGjFEX4XD+auw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FT8axBdQ; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FT8axBdQ"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-224171d6826so5243975ad.3;
-        Tue, 18 Mar 2025 05:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742299432; x=1742904232; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g286AmrqJFZCIXU6diWj4M9nrpngO7iRskShEc5/HSI=;
-        b=FT8axBdQbX6/JvDuLsNRM9cUDBCsozv3/edJWQsqnc8sKinXfuCweKuAd6OWjh5eyO
-         Qke1cYZ2lmqJurfKUucz8Y9pkGDdUeTvClQKrvDKT7ZdgzcyAEvlEX3GnD4k27GmLdCD
-         9BtS+uKsbZV6nMQJ2J2z7TWd7QjWKhJReEl/gLPbciL/W11k9Wr4BRnYGsAyaG30VNd9
-         wXhaNXQ9a2FeSafJ8VFeRyVum4QPe9eDVdrXRbiaOkPPBWbCrRPKaN6d9M7lT8NwZbUE
-         1y0hBLvmjCJrNxSxc4hWnrts0JGplLDMS9Ta4EQBss9pv+80m6R78Llamh4UCYcBCHOd
-         +yjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742299432; x=1742904232;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=g286AmrqJFZCIXU6diWj4M9nrpngO7iRskShEc5/HSI=;
-        b=UcjmcmWSv0HTBBLxf0LY9ZoSi4oq2V3wUy67Bm8+mc0raGJjecuEl9nDWDI3/6AvVU
-         uquOmeoy/r9wU5hKhbqBJklJJBVj5Oo5l2FLTtyX+wyTXr57HpJVKVvGXrzG6VskLG0d
-         ki38crXZXd0ZCkH41Ajb27jD6HHS3JUZYDLLoID6HfaCWdKkkIWgxov3IIuFbdo7mL+Y
-         /oy7Mt8UL0w3xbea7XBbxhLMxP3oesPwiJgGC0ocTI4z9fZ91MZpLxFoCGOfa0Gr2ioa
-         vkLyxeTCZDwoDTWOlGtTGJyAuml8TXobzu8pR12dQ/4jpVFvWR692ubTi0PV/CblAiCj
-         Palg==
-X-Forwarded-Encrypted: i=1; AJvYcCW52S3KossYoGMQoMKNRrCBDbBYMxZ/gmVi0czq7waqgywCtOzawBxDr7Lf1JDzoq50S+z/i352@vger.kernel.org, AJvYcCXRA7TGtq3EJnGLm43uh9TZjHphD38nz9SXk38WWpkyGYc/GnrJ0lv2Ze+pIus2egwHHZxICPBn75ktdNMu@vger.kernel.org, AJvYcCXrN2cYUnxaCb6DqpfG7EUYitF6LvmTGeT+Vuj/LrZRBDyD4QwMCsI6j5oZK5sXh9M6gBtqFqkWkq3Z@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWgbkBcInpVc4dZOXbs7j5AvWU7MXJasxAZ14xOaInjW4lcJRf
-	+98o/RIEBROHNT0tRch2bfI3BJynIa/5ioVLEk8uTIMSiCYtEoLkmfxMHw==
-X-Gm-Gg: ASbGncuXXYQu2HC+z3+pFtWqHGJQrqIn3tRtpdsT93JCGQ+HSipLtUzvQspdrNPYiZM
-	X9rbP77yUJWA5o7jV2lrMZAYyz5rAra79qgnrCusNIge16tTKbqEAyMbLdnIKbCRDaVLm8/PYGk
-	3Sd8mZK8/+FhiCz8DmtiAYycgnZbUxYIw4tFBIeZwGFuAL/auYQfPOHchF03qcXk8aJaANMN6R0
-	T/69wA+UN7RvfQ5YtBtfL+AfJKpBULMGlouXTlnn7oln+Wp8yyMqLyZ/9zCwJHzrfrmoGrNe/Af
-	GtD5PXxerJs0W4gEzGp7M6P2xQ0ltgzJ23ocoMgJowTzDULJenIkuF2rT3Q2T0KV
-X-Google-Smtp-Source: AGHT+IEUry7uNBfZfrQXJDmQ4UWuDItAhEZlRZebCkdsdMrUuE7/GeKzZVaB0DmYQEiGHfspFpm1bw==
-X-Received: by 2002:a17:903:1a26:b0:224:c46:d166 with SMTP id d9443c01a7336-225e0b18f50mr251057845ad.40.1742299431758;
-        Tue, 18 Mar 2025 05:03:51 -0700 (PDT)
-Received: from [10.125.192.74] ([103.165.80.178])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68884fcsm92974765ad.16.2025.03.18.05.03.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Mar 2025 05:03:51 -0700 (PDT)
-Message-ID: <f62cb0c2-e2a4-e104-e573-97b179e3fd84@gmail.com>
-Date: Tue, 18 Mar 2025 20:03:44 +0800
+	 In-Reply-To:Content-Type; b=Ncmsmakhr8ym4kSoUNr3tgMBxRJqD15h7JC8QU2kLWwvufnfE4Cwmaietae9DUpURKWhWVTiVLWiQrRLhEEb6dR2qeodX8P91jgNMCe7rYpbnjPZJbwFiBFHms3cocVbJrBtuvocmiInmB5IEyzMcEvoVw4FQzCzhUdcy//ss5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6AB524327D;
+	Tue, 18 Mar 2025 12:13:19 +0000 (UTC)
+Message-ID: <c5e174e4-4fce-4c7f-821a-cf3781becab4@ghiti.fr>
+Date: Tue, 18 Mar 2025 13:13:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.15.0
-Subject: Re: [PATCH 1/2] mm: vmscan: Split proactive reclaim statistics from
- direct reclaim statistics
-To: =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
-Cc: hannes@cmpxchg.org, akpm@linux-foundation.org, tj@kernel.org,
- corbet@lwn.net, mhocko@kernel.org, roman.gushchin@linux.dev,
- shakeel.butt@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Hao Jia <jiahao1@lixiang.com>
-References: <20250318075833.90615-1-jiahao.kernel@gmail.com>
- <20250318075833.90615-2-jiahao.kernel@gmail.com>
- <qt73bnzu5k7ac4hnom7jwhsd3qsr7otwidu3ptalm66mbnw2kb@2uunju6q2ltn>
-From: Hao Jia <jiahao.kernel@gmail.com>
-In-Reply-To: <qt73bnzu5k7ac4hnom7jwhsd3qsr7otwidu3ptalm66mbnw2kb@2uunju6q2ltn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 7/8] riscv: Add parameter for skipping access speed
+ tests
+Content-Language: en-US
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
+ charlie@rivosinc.com, cleger@rivosinc.com,
+ Anup Patel <apatel@ventanamicro.com>, corbet@lwn.net
+References: <20250304120014.143628-10-ajones@ventanamicro.com>
+ <20250304120014.143628-17-ajones@ventanamicro.com>
+ <1b7e3d0f-0526-4afb-9f7a-2695e4166a9b@ghiti.fr>
+ <20250318-1b03e58fe508b077e5d38233@orel>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20250318-1b03e58fe508b077e5d38233@orel>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedvgeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpeejieeuudejieekveeutdeguefhkeduledugeevhefffeejudeggedufffgleeugfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedvtddtudemkeeiudemfeefkedvmegvfheltdemtggrvdehmeeifhdtkeemiegtfegsmeehtgeftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemfeefkedvmegvfheltdemtggrvdehmeeifhdtkeemiegtfegsmeehtgeftddphhgvlhhopeglkffrggeimedvtddtudemkeeiudemfeefkedvmegvfheltdemtggrvdehmeeifhdtkeemiegtfegsmeehtgeftdgnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtoheprghjohhnvghssehvvghnthgrnhgrmhhitghrohdrtghomhdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggur
+ dhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehprghulhdrfigrlhhmshhlvgihsehsihhfihhvvgdrtghomhdprhgtphhtthhopehprghlmhgvrhesuggrsggsvghlthdrtghomhdprhgtphhtthhopegthhgrrhhlihgvsehrihhvohhsihhntgdrtghomhdprhgtphhtthhopegtlhgvghgvrhesrhhivhhoshhinhgtrdgtohhm
+X-GND-Sasl: alex@ghiti.fr
 
 
-
-On 2025/3/18 18:17, Michal Koutný wrote:
-> Hello.
-> 
-> On Tue, Mar 18, 2025 at 03:58:32PM +0800, Hao Jia <jiahao.kernel@gmail.com> wrote:
->> From: Hao Jia <jiahao1@lixiang.com>
+On 18/03/2025 09:48, Andrew Jones wrote:
+> On Mon, Mar 17, 2025 at 03:39:01PM +0100, Alexandre Ghiti wrote:
+>> Hi Drew,
 >>
->> In proactive memory reclaim scenarios, it is necessary to
->> accurately track proactive reclaim statistics to dynamically
->> adjust the frequency and amount of memory being reclaimed
->> proactively. Currently, proactive reclaim is included in
->> direct reclaim statistics, which can make these
->> direct reclaim statistics misleading.
-> 
-> How silly is it to have multiple memory.reclaim writers?
-> Would it make sense to bind those statistics to each such a write(r)
-> instead of the aggregated totals?
+>> On 04/03/2025 13:00, Andrew Jones wrote:
+>>> Allow skipping scalar and vector unaligned access speed tests. This
+>>> is useful for testing alternative code paths and to skip the tests in
+>>> environments where they run too slowly. All CPUs must have the same
+>>> unaligned access speed.
+>> I'm not a big fan of the command line parameter, this is not where we should
+>> push uarch decisions because there could be many other in the future, the
+>> best solution to me should be in DT/ACPI and since the DT folks, according
+>> to Palmer, shut down this solution, it remains using an extension.
+>>
+>> I have been reading a bit about unaligned accesses. Zicclsm was described as
+>> "Even though mandated, misaligned loads and stores might execute extremely
+>> slowly. Standard software distributions should assume their existence only
+>> for correctness, not for performance." in rva20/22 but *not* in rva23. So
+>> what about using this "hole" and consider that a platform that *advertises*
+>> Zicclsm means its unaligned accesses are fast? After internal discussion, It
+>> actually does not make sense to advertise Zicclsm if the platform accesses
+>> are slow right?
+> This topic pops up every so often, including in yesterday's server
+> platform TG call. In that call, and, afaict, every other time it has
+> popped up, the result is to reiterate that ISA extensions never say
+> anything about performance. So, Zicclsm will never mean fast and we
+> won't likely be able to add any extension that does.
 
 
-I'm sorry, I didn't understand what your suggestion was conveying.
-
-Are you suggesting that the statistics for {pgscan, pgsteal}_{kswapd, 
-direct, khugepaged} be merged into one?
-
-
-In our current scenario, userspace proactive reclaimers trigger 
-proactive memory reclaim on different memory cgroups. Tracking 
-statistics related to proactive reclaim for each memory cgroup is very 
-helpful for dynamically adjusting the frequency and amount of memory 
-reclaimed for each cgroup.
+Ok, I should not say "fast". Usually, when an extension is advertised by 
+a platform, we don't question its speed (zicboz, zicbom...etc), we 
+simply use it and it's up to the vendor to benchmark its implementation 
+and act accordingly (i.e. do not set it in the isa string).
 
 
-Please correct me if I've misunderstood anything.
+>> arm64 for example considers that armv8 has fast unaligned accesses and can
+>> then enable HAVE_EFFICIENT_ALIGNED_ACCESS in the kernel, even though some
+>> uarchs are slow. Distros will very likely use rva23 as baseline so they will
+>> enable Zicclsm which would allow us to take advantage of this too, without
+>> this, we lose a lot of perf improvement in the kernel, see
+>> https://lore.kernel.org/lkml/20231225044207.3821-1-jszhang@kernel.org/.
+>>
+>> Or we could have a new named feature for this, even though it's weird to
+>> have a named feature which would basically  mean "Zicclsm is fast". We don't
+>> have, for example, a named feature to say "Zicboz is fast" but given the
+>> vague wording in the profile spec, maybe we can ask for one in that case?
+>>
+>> Sorry for the late review and for triggering this debate...
+> No problem, let's try to pick the best option. I'll try listing all the
+> options and there pros/cons.
+>
+> 1. Leave as is, which is to always probe
+>     pro: Nothing to do
+>     con: Not ideal in all environments
+>
+> 2. New DT/ACPI description
+>     pro: Describing whether or not misaligned accesses are implemented in
+>          HW (which presumably means fast) is something that should be done
+> 	in HW descriptions
+>     con: We'll need to live with probing until we can get the descriptions
+>          defined, which may be never if there's too much opposition
+>
+> 3. Command line
+>     pro: Easy and serves its purpose, which is to skip probing in the
+>          environments where probing is not desired
+>     con: Yet another command line option (which we may want to deprecate
+>          someday)
+>
+> 4. New ISA extension
+>     pro: Easy to add to HW descriptions
+>     con: Not likely to get it through ratification
+>
+> 5. New SBI FWFT feature
+>     pro: Probably easier to get through ratification than an ISA extension
+>     con: Instead of probing, kernel would have to ask SBI -- would that
+>          even be faster? Will all the environments that want to skip
+> 	probing even have a complete SBI?
+>
+> 6. ??
+
+
+So what about:
+
+7. New enum value describing the performance as "FORCED" or "HW" (or 
+anything better)
+     pro: We only use the existing Zicclsm
+     con: It's not clear that the accesses are fast but it basically 
+says to SW "don't think too much, I'm telling you that you can use it", 
+up to us to describe this correctly for users to understand.
 
 Thanks,
-Hao
+
+Alex
 
 
+>
+> I'm voting for (3), which is why I posted this patchset, but I'm happy
+> to hear other votes or other proposals and discuss.
+>
+> Thanks,
+> drew
