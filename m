@@ -1,116 +1,99 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B05320B7ED;
-	Tue, 18 Mar 2025 11:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17B120A5DE;
+	Tue, 18 Mar 2025 11:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742297748; cv=none; b=BTI7j/42oF5NDkifalMWIdPs7oonYWVKyARgMCvpOuwFeDz+wS+vK3ERyWpTi73fmBwlrYx+zWzkbH4wMKOHpEdG9o0+g/ArIXWc2BDO9OXG6N1dcmLAaSBuhRFT+MiGH39fok0etdPnWSO3kL92jn2kbESRK+3BlhU/Uzlgh8U=
+	t=1742298945; cv=none; b=o3nlhGsQbofYtq3GnREgBSWT/LpYQDdKY2T606BprSWwUnO0ykZmQMN5Hgi7qq/rOBBXuWS5SYSgzEopxRcaSArFli+w+67CEBv1IGGVxDMlKxrAUzAPaizod7MWUPmwlHANheZleKc79IezZoMhVIriQarsrL9XjR+nfxj46Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742297748; c=relaxed/simple;
-	bh=Oo5Rb8+Ng9GPmuJ70nHR1J7BG8YZnuFUuDLGpMRu5Ls=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L1wsjQKuIWYnz+yEHK087PpkHb9+KJe3H0lWZZ2vlkxWmx76QNWteTmE02oVy5QAcWQei5LBhWtiJ4iy4WjzZjpnO64EZd+iy1CNuXSGxps9Lfy6ntp7LRW56UuVpox/gEm1eyqVs5YxrhQwL+M1zF4P+vqL5JPo7O44VqzN9CE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iX0YmYwN; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1742298945; c=relaxed/simple;
+	bh=JQ5utqpG6y1Ex545GbLiV+P0yO2TxTZwfB14ybeEbcM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aAJ414hPqgigEa6ccsi7LjI4sgX6B0//dLvecROLc9ArSl+L+LfgyJQf4lvIhQdolNsFvaWNDo3BJJ0autIYDHW6b7jlNb6Q+Qt1QfXWDi2RUzPYgou16r9I4+dLw8PXzgrbE5ETIuT9QvThmPQcMi42XCFqviOefAFYod2sXp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IePG8UoL; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iX0YmYwN"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2ff80290debso4704597a91.3;
-        Tue, 18 Mar 2025 04:35:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IePG8UoL"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2fecba90cc3so7179934a91.2;
+        Tue, 18 Mar 2025 04:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742297747; x=1742902547; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lt93u+3xE/W+Cmzf7bmN03zxBQ/l7okUOSYfUSihUhQ=;
-        b=iX0YmYwN1WU7Vkj9ZpNTNxx0gEp6c4IMHldeyCJFC6RiUM3POYaLBlWnRHJ/mPuXvd
-         Crt3Ba1DB/Qg08l700PtUuhsIqEkLsaMv1O1MYG99n5nL7QHiPbaW3y5njeGaNK4/+za
-         P/npgveTgPStStEwMXV309fG/5mxspGMfZPCmfd8Uywr7qwAl+B2d6SIKg96Czqx1jQM
-         /rLGPMtm3cXdyz15HvBflqxpCtwMmabBuEol6FoEstzK3aDJaeDmh8CFM8cijgRHnuPZ
-         A9QSC9qCAi4Zf4415lFg0eQa26UOilJh87UqvtMXJq0rzMOflC0boLsZ2cFBO7wSG1dU
-         0ORA==
+        d=gmail.com; s=20230601; t=1742298940; x=1742903740; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cKyihIKo/pH3bvfSdmsukEMIsZJtwyOFl7m6Edus9Dg=;
+        b=IePG8UoLfkpoKZSkB8rrOWOzwomipjKLklPudNdfJWXTRoPXrmHZbG0ASDx2COVNcW
+         A/5lfZ2acwHMIeLBPRYBFzdABMiErIgjuyR2LPb96ltvZajdkiR5iF0Q5hxXYa6Jrdxd
+         CTIFlcLkcVJThOX7cyXJy7e8EWhyRhSr8alncf9P/dWKtKRjKiRAx7X8JHvNQ7fF56uF
+         tRUiSdea07c/teWepI6FxRpJlle1FKtxgpejKFR8W0NLgQo1HPwLpAN1XuBIpz6k3los
+         fDQKbJ9f28O4wETdUQvO2YOE5HRMy2k1fmY0eA3n3G5Sk+f9uA8Z2szk+mweZu7dtQlP
+         UgrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742297747; x=1742902547;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lt93u+3xE/W+Cmzf7bmN03zxBQ/l7okUOSYfUSihUhQ=;
-        b=vdE7ey0jg2dPzcyQrDmfWttXq10GbaP1KawI045S5i5uRhKkvDRHMz4gqoOxL/iDfz
-         dd0nazbhlHy2KNkT5Uin4pRP0j3I/2o4UzE1nlhW+rh6Rn68lnB5dX+L2TCi9CnhGgdM
-         I7DIaz4Hxit4SMomlfEliHsWq09vYuDeWB8iQKpQn/a5c7DVbDKB1igxrI7+lIPNYf43
-         KRIe6ZqfoPQ+pDTLFlBhe8yne085h8B9tJXzvFud3OJWIiYQsJuUXFeiw9x/5XgwDP98
-         UnOrM4OgIGInq9nQcLWGyuq0BnggXbmo61iayn0r/7DD+N5Ylnr3O1SEczABC5GINTmK
-         +WiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUD07Iu0w58mITKlNYUfo1V/vrS06+GBVixJg1Y00xSpR27gopXW/srrD3Gp+7Z6Pnu3ILzm4TApZ3AMyZtjPHT3Guc@vger.kernel.org, AJvYcCVsQqvNLOmt0+CX4V8tO5nGETEftWhtLlJpFGizziOf9n+ekPiGuAIxqZPX+sTVkBuM5gR8IQXLMeu1BGDv@vger.kernel.org, AJvYcCWQRIGCm3Yje/biRNlAdAcntJ6cgdeFLHHnwO04OBK8Kde/ThZhqKHQHEUPkPu3GhnR7yqwI/A6lLk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTzh4v6RCObbTrn2hJszO+O2ImKylBRFSK6ZdHXogjCGwfF5uR
-	4wOHPwX2Sa/ZuMa0nihByJe5Pf6ULkNA2yyQ+kTC2wyWa/tGti7A
-X-Gm-Gg: ASbGncuaPzOIrtvanXEB2a9FO1NxgR0s3mhX6lhcF8FNwqqxRXVBMBs5mynLt7WNomo
-	sW086GlIPvPA33MKBFJ4OIsj2UBMW3MnifuIBjOx2kMv3Wo8ieF5q5Od+H9V+fUP0T8LXhA7DU7
-	NPLKxzitDYS/3w14zaWqs7dUs3kIOW9UQpIgm4RfRkwMNLGv3chq64iuoc6hgoenRd2BEzDaPzj
-	wBEo9cQPd+vbYfk1r3xOI9kEGuoMXMQvIgtIF8MYCQDAp9u8fdzETJAGEIo2bOajzOXN+FjakzU
-	w6mTDUbjwkGcPOMMKvecLjZJtrfvnCd/+kRdc35gBae7SFstA42O4A==
-X-Google-Smtp-Source: AGHT+IFVaY96rQ1MIKrGux34tD4f7j0/KybkBdC4jQu1kYtIggPHmETgmVeeIdlXlbNhYJBdy9z39A==
-X-Received: by 2002:a17:90b:3d06:b0:2ff:7cb8:6eca with SMTP id 98e67ed59e1d1-301a5b8a043mr3242659a91.24.1742297746631;
-        Tue, 18 Mar 2025 04:35:46 -0700 (PDT)
-Received: from [192.168.0.125] ([14.139.108.62])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3015364ebe0sm7910944a91.43.2025.03.18.04.35.42
+        d=1e100.net; s=20230601; t=1742298940; x=1742903740;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cKyihIKo/pH3bvfSdmsukEMIsZJtwyOFl7m6Edus9Dg=;
+        b=aV6AdxMOTRlist5WvQC+uPaLaoHrtMlxl/YFOBwd0XB3rD9kMrFrCixbQqLDQ+Dacw
+         OZK+Re0Am0A/wXKuuC/4rnA6nd9aGeSElKtCb374HDzDYxTutz9BWF52K+XOTHHh2SSZ
+         fYG+q0FpwaqurztMIDN9S3joMNvC1ahT4UH7HkZCn/QDf7OfK4gJPNxftJKslaQT1Bcz
+         MT5EMpAhCrV/hgeYPDKsqOjQdrcT+BSkBq7A/SbMlGrtrPSQRDqeZ1UMY2D2Z2OgFE5p
+         iqBKp0dAsx93WXNLDWrsI2RiFsUDmYzrOYY8ZDxRRUJhVT3w1+Ri1kMaiyyOMfYOi+9g
+         WMUA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+EQzC7yFrY5CbymwcjQonbYYZNBas9YZKgBff9AaXmg7mWPKiWRRYNMlSjDg4WC3X+DX+lqo2Da4=@vger.kernel.org, AJvYcCWOGef1kp0ilGu+wH81ucBtURwUGuj8+g71ds1k56HLfKtyma5Tx2A36Ks5HIL3xXX5j6efSow7AKlvSoIm+UBk@vger.kernel.org
+X-Gm-Message-State: AOJu0YxR27aUNtpVT8tDDG3eYbQaraukTC8iTU3OBmoQxVYejO9s54PN
+	koH1SLzeWkzzDwy5kDl9uAKADacmLKilBRINboIq1dw/DMgoaaYDT8W1xPA=
+X-Gm-Gg: ASbGncu3brPdSwzB0pWsixiZ/aUipZfuB9oMJVPyH+d1jet65lKOmX7WNN01Je3tzR5
+	+89Ni9fjuLvgjYkPZi1mJgxVYtCobgvuBAP8ByUzINGf1j3uw7PfKD560mWwMzAVo0mYWqbw9M7
+	ye4TpOMlhHOORkr6JAR7iTbcYFMCwyAsIusZOJPnh6Mqn8GBZFqy7m7/HBvZuXHTjFRWZ9F0ROY
+	O6nEw2djARF9KeotAymHhTtMNFgAXK33pSBsEG1HS7jLCqyXfvTEei33255nNyW1KPps9mY7hfD
+	WOxc4DDK59nHA7YNFfdyAdnidLIFEJMNc9Hy87snPs8=
+X-Google-Smtp-Source: AGHT+IGHyw9jpFHb0aZNa7IBr5fLIyNMqKS2+tIQTNTWVJAr+zH6ZWKTwNlqMg6M1sYOe3HKq0hxDA==
+X-Received: by 2002:a17:90b:1b47:b0:2ee:8ea0:6b9c with SMTP id 98e67ed59e1d1-301a5b14c80mr2967926a91.12.1742298939730;
+        Tue, 18 Mar 2025 04:55:39 -0700 (PDT)
+Received: from localhost ([222.151.198.97])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-225c6ba6cbbsm91808155ad.117.2025.03.18.04.55.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Mar 2025 04:35:46 -0700 (PDT)
-Message-ID: <23f1706f-e12e-4a4a-9919-6e654df8cc31@gmail.com>
-Date: Tue, 18 Mar 2025 17:05:39 +0530
+        Tue, 18 Mar 2025 04:55:39 -0700 (PDT)
+From: takumaw1990@gmail.com
+To: linux-mm@kvack.org,
+	linux-hardening@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Takuma Watanabe <takumaw1990@gmail.com>
+Subject: [PATCH] mseal: Fix typo and style in documentation
+Date: Tue, 18 Mar 2025 20:55:19 +0900
+Message-ID: <20250318115521.11654-1-takumaw1990@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] docs: tracing: Reduce maxdepth in index
- documentation
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250312124717.7208-1-purvayeshi550@gmail.com>
- <20250312134907.06d27d78@batman.local.home> <Z9JKqVvG1iw0bFXR@archie.me>
- <20250313070457.647c8c57@batman.local.home>
- <4cc0a072-3eaf-4fbf-a334-012aacf9039f@gmail.com>
- <b1882a1f-3ed0-4307-8a34-3236bdfb79a6@gmail.com>
- <20250314084155.20c3e662@batman.local.home>
-Content-Language: en-US
-From: Purva Yeshi <purvayeshi550@gmail.com>
-In-Reply-To: <20250314084155.20c3e662@batman.local.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 14/03/25 18:11, Steven Rostedt wrote:
-> On Fri, 14 Mar 2025 14:26:37 +0530
-> Purva Yeshi <purvayeshi550@gmail.com> wrote:
-> 
->> Thanks for the reference. I will keep this in mind for future patch
->> series and include a cover letter.
-> 
-> Note, a cover letter isn't really necessary here. Why? because these
-> are pretty much two agnostic patches. One fixes the maxdepth, the other
-> is changing the layout for readability.
-> 
-> Cover letters are best when there's a bigger picture being had. That
-> is, the patch series is set out to accomplish a single goal that is
-> broken up into little steps. A cover letter explains what the goal is
-> and why and how. Each patch after that explains what that patch is
-> doing (why and how), but from the focus of that particular change.
-> 
-> As these patches could theoretically be sent as two separate patches
-> and not as a series as they don't really share the same goal, a cover
-> letter's only purpose here would be to make the email thread look a 
-> little nicer ;-)  But that's about it.
-> 
-> -- Steve
+From: Takuma Watanabe <takumaw1990@gmail.com>
 
-Got it! Thanks for the clarification Steve.
+Corrected a typo in the mseal documentation.
 
-Best Regards,
-Purva Yeshi
+Signed-off-by: Takuma Watanabe <takumaw1990@gmail.com>
+---
+ Documentation/userspace-api/mseal.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/userspace-api/mseal.rst b/Documentation/userspace-api/mseal.rst
+index 41102f74c5e2..42f32b57e7e2 100644
+--- a/Documentation/userspace-api/mseal.rst
++++ b/Documentation/userspace-api/mseal.rst
+@@ -27,7 +27,7 @@ SYSCALL
+ =======
+ mseal syscall signature
+ -----------------------
+-   ``int mseal(void \* addr, size_t len, unsigned long flags)``
++   ``int mseal(void *addr, size_t len, unsigned long flags)``
+ 
+    **addr**/**len**: virtual memory address range.
+       The address range set by **addr**/**len** must meet:
+-- 
+2.43.0
+
