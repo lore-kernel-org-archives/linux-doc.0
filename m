@@ -1,123 +1,110 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EAB206F1B
-	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 10:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF191598F4;
+	Tue, 18 Mar 2025 11:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742293136; cv=none; b=RhnOOHprXtQrFt42P9sM2S+74cnQ5xquQlJsO3d9Uu5pBSHdEFrztzr2WncHqG8wFTrUKVSnx/DMLBn5j8W87byN0hrGLWMd5oGD89AcUO/3BBT5algQyKEoJea4swFJM2jWe3jE2HO9Y5Wx5LrDSz1kmygCls3FMDfKraCMn4c=
+	t=1742297575; cv=none; b=qC5TgPzkGkcWhs3C3sreaLOtFp4xr+w8T4kPJu9WUuup2utZ4ZzwfeFuFWytZkr7XKN5aYxtm4VrEtTJV0BfhockASmyLLkyGEmOkv/epLfPGcU6rQLrucVr/9IyhuqB5BYpfe8IKI4tbTzwi5Zl5w2YfQPZ3CeZNYKXNtjwqSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742293136; c=relaxed/simple;
-	bh=4ssJsJxIWYpA3fFkasszhPUhMVSzH9qY3MwdoCqp/rE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gd4CXd480FiA6VMwHSIfAVBkOmrbS3lGzvg2Gm46TdhqARl0Nj4HO0e6FAzQR1sHa4fIMMYyjOhWTs+dYRtAKfYMCn7kKhrntDOx2ZrTA3Z0Vusxzy2Yv8iKaEQ3+KixFjv/fMjIMQ+uFg24PaU4xf5ki1Q0bwcwZ3ln7ClMifs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UT0Qy1+7; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1742297575; c=relaxed/simple;
+	bh=DOLg4qCV36A7TvJtJdyAix1jKsHX7JjPHQ2ArcXagQ4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Jvc6zWiHbJeX90vS0O3V1wXRTvXH+IMiWmizTMu59zbNYtjSMgfFRJYcFLrQRE+e1LAj7EXqHcDaNLDbh66Z3+OE7SKNH22O7ihmHuZXy22iCe72coHj2JdjOcHOymvAVTZm9rrStufI/+iQiXBcKR0iAk2xOjZgPoWcuHIhHCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wro0Y2o6; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UT0Qy1+7"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cf257158fso20525405e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 03:18:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wro0Y2o6"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2f9d3d0f55dso5471192a91.1;
+        Tue, 18 Mar 2025 04:32:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1742293129; x=1742897929; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=n7xGOMAuQUF7MWyNDY6Z3/tomm5PbBSvhnd4ckgMx6g=;
-        b=UT0Qy1+7UWpCaH/QVVmkp+9HAWJag4LEgdwwnzby6gS2CyaMOCRwkQTy4YbwaubF8H
-         2abQZDC/Ua/YiM/V8mKxkwkM4eP+KRBWedKbPZdXI281fKp1umeNnIDRNyJY2RtRU4lb
-         vHYt4VAbdXYpo0evg1PoaywwasJG+Gn7MR9fz7Nyqy5jRFpOSX9Y3EimxKJ4P+sY6JaV
-         RM8NndL2vGcyk7lQ8BS6cNmA/RIavjKZgcBdkAIiGlT54XdiyK6ymcHw02egnVc6Xems
-         zCDTnUVB32TWOvtWk25Z8GQ2AcRy/ouB+s/p1jzX+Gvy/wEn/r32BCwiYq2eyaJWsqY9
-         06EQ==
+        d=gmail.com; s=20230601; t=1742297569; x=1742902369; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=llCyBpyuPyimvCR5J3EoIvDpQdWHHcfEhpAsJ9dqxHU=;
+        b=Wro0Y2o60lKu2t8BsWuAzV8bMqztZtSKcDTZbJxEiyYYLZqOfjpVwfTK6yMpHBjz/s
+         cWUL41Yu3eh2DJoYRZjC2yjwKC3ACRadVZ6ZlEVztaqa+GgP5aBgvqgDN0h+6VZu3S4f
+         v1iNMjXpYZeMpIXSX6GQQpDfF/UDezXZPER0QrK108omi+axxJDHOov2BSZLAqEEWRrC
+         mAYmNESoN2ix6dbyAZBRCOMyqk3d7PpfOwDZnY9wlce2YYJWzHQuKHeIFuxxXL58E9RO
+         PLiC9kyAe8oIS6eRLMn8VBj3Xvg2nxadxa0MJ4YdivtXyxwl3GvpoO97oJQAp4S2b8Hb
+         71JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742293129; x=1742897929;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n7xGOMAuQUF7MWyNDY6Z3/tomm5PbBSvhnd4ckgMx6g=;
-        b=Q6V/A53d5qWNp3wIWpprru97UBF8232yRVkoR7QBoOt66aWgM6UlpSdbMLavgcDOOp
-         5ySF5PB3lX/9Tvk6bR3Uj2T+8UWk8e0KDAs6vXM68v/Y1+3YoiTwFgVEeLxv7zFbHvK4
-         47WjBuZfbDoWytVyNx5Zpp1Eu6/oz6XAv6hFb/hD0glXYn53PPJN0/PCfuJKlAvnjayj
-         CS7V5M9rp0wtHCuvPIqpI8LZlBYBF07jLcajs772PjWzBZTVdi/Y8fZuOGuvjhxVXuCu
-         e4U3cXaCRX/FRC6FPIP/luYuWEL0ldA+ORstmU6SjL9FScQ38uERC1D60DyrxzjVd9ZW
-         KQkg==
-X-Forwarded-Encrypted: i=1; AJvYcCXJmhxWfkoS2eUa5Ju4t/x5R5VAdTW8PJ6f8EnVAyEY6iB4M03BBPFKhztiyi7AEykCV2M4cM1gLlY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywte3Oa583c26hEt/hCAHaYkPPrq5uvEkQmzGGJb5yiI8EjJWZH
-	ASs+wiMffrqotEs4STxFgV9kJp+kX4iySm3pK06QKkmwbUYN5famXNZvTwUZmEw=
-X-Gm-Gg: ASbGnctbRmRSY3bxBAlUCZCvUXcRsqlSPxg54yF0J/Kf4nNF+r4qLcSNHjqBeIS7Lll
-	pzscAlRSAtysoA7MUrm5IVTMASgrxyBkj6lW6QXhLqJHWIYiiAL6W4HO88wmwPFXWmXkRdiEugd
-	/2p2yJo0oYx3KHMaUE9eaioth9hwW9MVorNFttICJ5ROkjt8GtIlXfxAIMklE4aCV4L5B8eJBnU
-	n8QQVCC7MVMH8V/0yrurJZ0zSBeeRuQjg4FLVfd+jh9ZvTwV3szi6YR58GEQ+Bm9dEsUeD1HkfA
-	Ui5PQS/jjUle9SptE/238LXDo8FoSEBlPFe7pT2qA3264Jg=
-X-Google-Smtp-Source: AGHT+IFrT2crDX0AazaJrXxMyeiUJbVXB4waHwmUEuTI2Pk2priOkOM8LHglNdNkvzmeJCEOd9dpDg==
-X-Received: by 2002:a05:600c:4ec6:b0:43d:db5:7b1a with SMTP id 5b1f17b1804b1-43d3b987ec2mr14873995e9.12.1742293129530;
-        Tue, 18 Mar 2025 03:18:49 -0700 (PDT)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d1fdda208sm132395975e9.6.2025.03.18.03.18.48
+        d=1e100.net; s=20230601; t=1742297569; x=1742902369;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=llCyBpyuPyimvCR5J3EoIvDpQdWHHcfEhpAsJ9dqxHU=;
+        b=TqeIEqOKdYX1vbHarTBNh539waSfZh4+dxY/E6sbFuvLNLqQpd/BwHY3ECY0lsMGrM
+         IxNDC5rbyMZVf5TZtrVV6uelAZ2XK5fAd3b8p3y/cIZePLIbST9KU9ZpOnaCC/RhSwEL
+         ryp4MAbJRX9KDFoE2PheuqrJWe0lOSpfMH3Zf4y54Tgx+WCMaff72gxTeC4DOO4KXrnB
+         i+5r2DjSK6CKWf1jpk6wU6zz6sHCI9bvL6uGXr8U08cbMHXwf/RnDAej2juPMs3Z4viA
+         j/+v/5J+qpcH0QirHZpdJwj/eOBQEJ1j2hHCcRCsYiszQauFuOohciDOIHqG2EE0S/M4
+         Oo0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVBbTdoaGPjiQqHdW1qfQwmLG0PTradRigVDY4OUb6llhSwfkxRPiHGVdo0mgaMhQBW2GSxpTiNDMI=@vger.kernel.org, AJvYcCXMK66+zFSx4R4pU6gLsZAwSITkI16fzwNxtWvnTxv9Y2MHkMAFZc/GiMi8VNP6QN+dUrmaTknFMj8hKjkz+wOalgMN@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3QRvv54sG9YFbtbNG/94BH0YqyPofpmEDNF3Q+MQpS67VhfEp
+	ttuIiweM+W2RuaY9iWyjStWcwt0xvM6/ELbIck3eRObl5fP2SjLa
+X-Gm-Gg: ASbGnctfNOvUkQJGAk8tWL6M5ukJD7Acm+aUuH3iJFFFFu63rxIQDiVD7FpJYC6mY4L
+	7WzTOEm+JO+jdQl1AkenJjhOMTb4CZQZUUHKYgjrkslv//LYZ1PeSAbaPvkQ/YwYfiVly192/iZ
+	cU/BsgjNzCEemwA3s0KQVpH9tzpOOtqW46QzTxY4kf2qN5ReixThNzKFcc57xSllxCtXr3SRtcb
+	iG7m/Xtl0lw+SpuvrgFFotJOAZ7cUCbPM1AvGmt4kHWYVaYDdtS+CUwrMOifH8kzv3reYjSUY3e
+	iX+0D/OGwvzwjzJDHl6OtwEBzViT4gTE1tXCt+Ui1l4VDRdgyeXzBbMRYBtLSJtWqf16cU9+ffg
+	=
+X-Google-Smtp-Source: AGHT+IFC4kGCuKFADzEYkuZqmtcTWDGH6kHXcC7o1xX775e+lgRcF41Lg5LZn6d0S5J2XICWin9wNg==
+X-Received: by 2002:a17:90b:4a11:b0:2ef:31a9:95c6 with SMTP id 98e67ed59e1d1-301a5b13817mr3095801a91.14.1742297568976;
+        Tue, 18 Mar 2025 04:32:48 -0700 (PDT)
+Received: from purva-IdeaPad-Gaming-3-15IHU6.. ([14.139.108.62])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbec04sm91832555ad.191.2025.03.18.04.32.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 03:18:49 -0700 (PDT)
-Date: Tue, 18 Mar 2025 11:18:47 +0100
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Hao Jia <jiahao.kernel@gmail.com>
-Cc: hannes@cmpxchg.org, akpm@linux-foundation.org, tj@kernel.org, 
-	corbet@lwn.net, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeel.butt@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Hao Jia <jiahao1@lixiang.com>
-Subject: Re: [PATCH 2/2] cgroup: docs: Add pswpin and pswpout items in cgroup
- v2 doc
-Message-ID: <2bzz6n6ugfuvw7kpnewqhdzmv3yxghe5o4y4jxrwtrw65f6jsd@zgnh7qkpw33y>
-References: <20250318075833.90615-1-jiahao.kernel@gmail.com>
- <20250318075833.90615-3-jiahao.kernel@gmail.com>
+        Tue, 18 Mar 2025 04:32:48 -0700 (PDT)
+From: Purva Yeshi <purvayeshi550@gmail.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Purva Yeshi <purvayeshi550@gmail.com>
+Subject: [PATCH v4 1/2] docs: tracing: Reduce maxdepth in index.rst for clarity
+Date: Tue, 18 Mar 2025 17:02:29 +0530
+Message-Id: <20250318113230.24950-1-purvayeshi550@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ceucqiazdoxttvyr"
-Content-Disposition: inline
-In-Reply-To: <20250318075833.90615-3-jiahao.kernel@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+Reduce :maxdepth: from 2 to 1 in index.rst to simplify the table of
+contents, showing only top-level document titles for better readability.
 
---ceucqiazdoxttvyr
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/2] cgroup: docs: Add pswpin and pswpout items in cgroup
- v2 doc
-MIME-Version: 1.0
+Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
+---
+V1 - https://lore.kernel.org/all/20250204133616.27694-1-purvayeshi550@gmail.com/
+V2 - https://lore.kernel.org/lkml/20250206141453.139613-1-purvayeshi550@gmail.com/
+V3 - https://lore.kernel.org/all/20250312124717.7208-1-purvayeshi550@gmail.com/
+V4 - Reorder patches to apply the 'maxdepth' change first, then refactor
+the index documentation to avoid introducing maxdepth: 2 only to modify
+it in the next patch.
 
-On Tue, Mar 18, 2025 at 03:58:33PM +0800, Hao Jia <jiahao.kernel@gmail.com>=
- wrote:
-> From: Hao Jia <jiahao1@lixiang.com>
->=20
-> The commit 15ff4d409e1a ("mm/memcontrol: add per-memcg pgpgin/pswpin
-> counter") introduced the pswpin and pswpout items in the memory.stat
-> of cgroup v2. Therefore, update them accordingly in the cgroup-v2
-> documentation.
+ Documentation/trace/index.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Fixes: 15ff4d409e1a ("mm/memcontrol: add per-memcg pgpgin/pswpin counter")=
-=20
+diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+index 2c991dc96..fecc4adf7 100644
+--- a/Documentation/trace/index.rst
++++ b/Documentation/trace/index.rst
+@@ -3,7 +3,7 @@ Linux Tracing Technologies
+ ==========================
+ 
+ .. toctree::
+-   :maxdepth: 2
++   :maxdepth: 1
+ 
+    ftrace-design
+    tracepoint-analysis
+-- 
+2.34.1
 
-> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
-
-Thanks,
-Michal
-
---ceucqiazdoxttvyr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHQEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZ9lIhQAKCRAt3Wney77B
-SQcmAPj5mu7c5i0F7YE9fLx+JKryDsiUXIhpYvodLh4TGWAxAQCdwaT9YNeayOac
-3hnyVehCiIPruqy8kwaAR7cXejMfAw==
-=IbXD
------END PGP SIGNATURE-----
-
---ceucqiazdoxttvyr--
