@@ -1,62 +1,62 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1CE169AE6
-	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 10:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EAB206F1B
+	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 10:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742293070; cv=none; b=cyAAZZAbP210NtG4+XnBy2A8zIogcF5o6Sbq3kqsm6iC/6sfM9K3eJQHEBFUyQHvO5JMMRPmyp4Gr39qfqpzi2M55pNIz4hQjIVerfpGV1CcpD46Ma5VZnwb6eO8N/HMe9fKZlhtnDwnqeHKFy0UPGEIYH5xd/zWmJHv42P9+oU=
+	t=1742293136; cv=none; b=RhnOOHprXtQrFt42P9sM2S+74cnQ5xquQlJsO3d9Uu5pBSHdEFrztzr2WncHqG8wFTrUKVSnx/DMLBn5j8W87byN0hrGLWMd5oGD89AcUO/3BBT5algQyKEoJea4swFJM2jWe3jE2HO9Y5Wx5LrDSz1kmygCls3FMDfKraCMn4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742293070; c=relaxed/simple;
-	bh=IFBxPeTjHI7TeObAp8XDFRUhMTnCq+H7JfaB8yzIjPY=;
+	s=arc-20240116; t=1742293136; c=relaxed/simple;
+	bh=4ssJsJxIWYpA3fFkasszhPUhMVSzH9qY3MwdoCqp/rE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PaATMoxucPZrNLTJ5eAfpOUrhxno7+aEG6bMa6Z+vu1SVZvxkn5qIEmklGEV8XMgHftK0/LhHp5+NUDIXIa9+pKeNaMAlfGdb7vEPXVo7LgTBBklGRI8+M++Yraq1yRAlOJaZ/jozoAMvotWQFfIC8OUbh/BCCHi2Zu85xXCAjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UM5YD9ik; arc=none smtp.client-ip=209.85.128.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gd4CXd480FiA6VMwHSIfAVBkOmrbS3lGzvg2Gm46TdhqARl0Nj4HO0e6FAzQR1sHa4fIMMYyjOhWTs+dYRtAKfYMCn7kKhrntDOx2ZrTA3Z0Vusxzy2Yv8iKaEQ3+KixFjv/fMjIMQ+uFg24PaU4xf5ki1Q0bwcwZ3ln7ClMifs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UT0Qy1+7; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UM5YD9ik"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4394a0c65fcso28938345e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 03:17:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UT0Qy1+7"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cf257158fso20525405e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 03:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1742293066; x=1742897866; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1742293129; x=1742897929; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IFBxPeTjHI7TeObAp8XDFRUhMTnCq+H7JfaB8yzIjPY=;
-        b=UM5YD9ikWP1OFIYPz3YJ+tgr7rFxjVBQH0oF+MVEfJ5CKmXqLgfNRUEzOgO2tHQyLa
-         2lqkskqOX2zazBcEnREatATOjmyiiTrek/N6E0j/5fXsow/i7SUvPE6mufD5Kvvl8oX9
-         Te+es32uTajC4Q+f3l7hL1DEV7bIu2/Ic7O3YlFkH0sSeRCUTh+tkNMhtg3NNLsneXLF
-         YWSK8s9efL7tu4r2E4EvsT/1/WDBoizk1H9E4hf8DL1ggU21mmd4pQoOao91NY3Q2j5Z
-         5akK+S4c3BTiviKUN8kj+8tzOIy6bmQ9iN0ibXAy4Xu5qWq4cJfEpXx7HkwX8TM8Z7PU
-         zH8A==
+        bh=n7xGOMAuQUF7MWyNDY6Z3/tomm5PbBSvhnd4ckgMx6g=;
+        b=UT0Qy1+7UWpCaH/QVVmkp+9HAWJag4LEgdwwnzby6gS2CyaMOCRwkQTy4YbwaubF8H
+         2abQZDC/Ua/YiM/V8mKxkwkM4eP+KRBWedKbPZdXI281fKp1umeNnIDRNyJY2RtRU4lb
+         vHYt4VAbdXYpo0evg1PoaywwasJG+Gn7MR9fz7Nyqy5jRFpOSX9Y3EimxKJ4P+sY6JaV
+         RM8NndL2vGcyk7lQ8BS6cNmA/RIavjKZgcBdkAIiGlT54XdiyK6ymcHw02egnVc6Xems
+         zCDTnUVB32TWOvtWk25Z8GQ2AcRy/ouB+s/p1jzX+Gvy/wEn/r32BCwiYq2eyaJWsqY9
+         06EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742293067; x=1742897867;
+        d=1e100.net; s=20230601; t=1742293129; x=1742897929;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IFBxPeTjHI7TeObAp8XDFRUhMTnCq+H7JfaB8yzIjPY=;
-        b=hP1n7ptmb2zWwZBEwZGK7xxaqR5SWfoLg715Stca6wlCYVS/6eYkVgsT66zDxgdUgf
-         kbQ7xL7xrcY7AQM5xx5W04LpjGFR0e6r3Fj1ZB03sa7wUDQ4MNO+RGKIbCY5ASCnJ0GY
-         G1SHjRRyymL5ptVB9ZyT4OXtEF1GH/Sz13AXXZsRo9k+lk1777Tbzxvyp46blcchG9Bn
-         Ht5X8LKpfWn0qvTDndMcEnbiocDA40SP9tB6wNw2mOPmIZqUrMp/qGG4C2M4ZnTRdtK4
-         zxsuPhxwLTN/aDRjTtSCeRYgzeE9UjyL0YwIEP+zTaE3kFqBZxW8EESGpHctnLKM2Rc7
-         mqgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWQJzNpJicy/lXQPkZ8xxc8qSB3Q/thFMpmqwbJMPkN1LDLyReS1wCda1hpj7/sdRdaxPbknaDFFG0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZCskd1fColBQ+S62vSoiE+S/vex9tCJm5e7ydwKXylTr+ttzr
-	1q5tvFh5iG24I8Fn8MGaOikJg2JvPN0MnD4wGL0XGxY9I8I6C0BGXTHiJZdeF+8=
-X-Gm-Gg: ASbGncuMa2Lg93ZjKOHqLxX5ts890lsYlgSziFfXy+WjJZvZbX0vrLg5u6GvsniMXdq
-	5OZi097bJMnKU1/KLC1zi8ZGU+dmAWfhIET0f/PQz7B70ao0c9LYRYfyL62KSwU9Q/TI1OLBRFN
-	GkCTLzh7Tj6pSiuDyLsdCOw6ZDYY5hweFcG4bfEdNvpxCprJskO0zBt5anIih0wVqJ55RKBwoM2
-	gBxua3fCuPOIkojMZR+j5VKhpgYrx99RL2eidaBHu0W/9RFyA7RD/+2BTkPDSAs+idla597ay0t
-	HEg69LC3jBV6EX0k9lF9dxXoyzQrD/EVeuslTPygzTwWwUY=
-X-Google-Smtp-Source: AGHT+IGDLa5UPBGfrRVOOm3XvQnMemu2Schtcck+5EYcWBJ65baV+gaiWnBiXGOVUyqS4P0tACKxdg==
-X-Received: by 2002:a05:600c:4e8b:b0:43c:fa52:7d2d with SMTP id 5b1f17b1804b1-43d3b9dc596mr11587965e9.20.1742293066628;
-        Tue, 18 Mar 2025 03:17:46 -0700 (PDT)
+        bh=n7xGOMAuQUF7MWyNDY6Z3/tomm5PbBSvhnd4ckgMx6g=;
+        b=Q6V/A53d5qWNp3wIWpprru97UBF8232yRVkoR7QBoOt66aWgM6UlpSdbMLavgcDOOp
+         5ySF5PB3lX/9Tvk6bR3Uj2T+8UWk8e0KDAs6vXM68v/Y1+3YoiTwFgVEeLxv7zFbHvK4
+         47WjBuZfbDoWytVyNx5Zpp1Eu6/oz6XAv6hFb/hD0glXYn53PPJN0/PCfuJKlAvnjayj
+         CS7V5M9rp0wtHCuvPIqpI8LZlBYBF07jLcajs772PjWzBZTVdi/Y8fZuOGuvjhxVXuCu
+         e4U3cXaCRX/FRC6FPIP/luYuWEL0ldA+ORstmU6SjL9FScQ38uERC1D60DyrxzjVd9ZW
+         KQkg==
+X-Forwarded-Encrypted: i=1; AJvYcCXJmhxWfkoS2eUa5Ju4t/x5R5VAdTW8PJ6f8EnVAyEY6iB4M03BBPFKhztiyi7AEykCV2M4cM1gLlY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywte3Oa583c26hEt/hCAHaYkPPrq5uvEkQmzGGJb5yiI8EjJWZH
+	ASs+wiMffrqotEs4STxFgV9kJp+kX4iySm3pK06QKkmwbUYN5famXNZvTwUZmEw=
+X-Gm-Gg: ASbGnctbRmRSY3bxBAlUCZCvUXcRsqlSPxg54yF0J/Kf4nNF+r4qLcSNHjqBeIS7Lll
+	pzscAlRSAtysoA7MUrm5IVTMASgrxyBkj6lW6QXhLqJHWIYiiAL6W4HO88wmwPFXWmXkRdiEugd
+	/2p2yJo0oYx3KHMaUE9eaioth9hwW9MVorNFttICJ5ROkjt8GtIlXfxAIMklE4aCV4L5B8eJBnU
+	n8QQVCC7MVMH8V/0yrurJZ0zSBeeRuQjg4FLVfd+jh9ZvTwV3szi6YR58GEQ+Bm9dEsUeD1HkfA
+	Ui5PQS/jjUle9SptE/238LXDo8FoSEBlPFe7pT2qA3264Jg=
+X-Google-Smtp-Source: AGHT+IFrT2crDX0AazaJrXxMyeiUJbVXB4waHwmUEuTI2Pk2priOkOM8LHglNdNkvzmeJCEOd9dpDg==
+X-Received: by 2002:a05:600c:4ec6:b0:43d:db5:7b1a with SMTP id 5b1f17b1804b1-43d3b987ec2mr14873995e9.12.1742293129530;
+        Tue, 18 Mar 2025 03:18:49 -0700 (PDT)
 Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d3ae040f9sm13194615e9.0.2025.03.18.03.17.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d1fdda208sm132395975e9.6.2025.03.18.03.18.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 03:17:46 -0700 (PDT)
-Date: Tue, 18 Mar 2025 11:17:44 +0100
+        Tue, 18 Mar 2025 03:18:49 -0700 (PDT)
+Date: Tue, 18 Mar 2025 11:18:47 +0100
 From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
 To: Hao Jia <jiahao.kernel@gmail.com>
 Cc: hannes@cmpxchg.org, akpm@linux-foundation.org, tj@kernel.org, 
@@ -64,11 +64,11 @@ Cc: hannes@cmpxchg.org, akpm@linux-foundation.org, tj@kernel.org,
 	shakeel.butt@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org, 
 	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
 	Hao Jia <jiahao1@lixiang.com>
-Subject: Re: [PATCH 1/2] mm: vmscan: Split proactive reclaim statistics from
- direct reclaim statistics
-Message-ID: <qt73bnzu5k7ac4hnom7jwhsd3qsr7otwidu3ptalm66mbnw2kb@2uunju6q2ltn>
+Subject: Re: [PATCH 2/2] cgroup: docs: Add pswpin and pswpout items in cgroup
+ v2 doc
+Message-ID: <2bzz6n6ugfuvw7kpnewqhdzmv3yxghe5o4y4jxrwtrw65f6jsd@zgnh7qkpw33y>
 References: <20250318075833.90615-1-jiahao.kernel@gmail.com>
- <20250318075833.90615-2-jiahao.kernel@gmail.com>
+ <20250318075833.90615-3-jiahao.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,47 +76,48 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="m6wfz6q3cfwefzqq"
+	protocol="application/pgp-signature"; boundary="ceucqiazdoxttvyr"
 Content-Disposition: inline
-In-Reply-To: <20250318075833.90615-2-jiahao.kernel@gmail.com>
+In-Reply-To: <20250318075833.90615-3-jiahao.kernel@gmail.com>
 
 
---m6wfz6q3cfwefzqq
+--ceucqiazdoxttvyr
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 1/2] mm: vmscan: Split proactive reclaim statistics from
- direct reclaim statistics
+Subject: Re: [PATCH 2/2] cgroup: docs: Add pswpin and pswpout items in cgroup
+ v2 doc
 MIME-Version: 1.0
 
-Hello.
-
-On Tue, Mar 18, 2025 at 03:58:32PM +0800, Hao Jia <jiahao.kernel@gmail.com>=
+On Tue, Mar 18, 2025 at 03:58:33PM +0800, Hao Jia <jiahao.kernel@gmail.com>=
  wrote:
 > From: Hao Jia <jiahao1@lixiang.com>
 >=20
-> In proactive memory reclaim scenarios, it is necessary to
-> accurately track proactive reclaim statistics to dynamically
-> adjust the frequency and amount of memory being reclaimed
-> proactively. Currently, proactive reclaim is included in
-> direct reclaim statistics, which can make these
-> direct reclaim statistics misleading.
+> The commit 15ff4d409e1a ("mm/memcontrol: add per-memcg pgpgin/pswpin
+> counter") introduced the pswpin and pswpout items in the memory.stat
+> of cgroup v2. Therefore, update them accordingly in the cgroup-v2
+> documentation.
 
-How silly is it to have multiple memory.reclaim writers?
-Would it make sense to bind those statistics to each such a write(r)
-instead of the aggregated totals?
+Fixes: 15ff4d409e1a ("mm/memcontrol: add per-memcg pgpgin/pswpin counter")=
+=20
 
+> Signed-off-by: Hao Jia <jiahao1@lixiang.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+
+Thanks,
 Michal
 
---m6wfz6q3cfwefzqq
+--ceucqiazdoxttvyr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZ9lIRgAKCRAt3Wney77B
-SRN9AQCIE/qNRp6gU2k+xnK3FHJnFxAelfP/oIqk3z71MjMSZgD/cizNdVftiC2U
-CSpV9isE71qsCu5oCAFzbKznXsbF4Q8=
-=Bloy
+iHQEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZ9lIhQAKCRAt3Wney77B
+SQcmAPj5mu7c5i0F7YE9fLx+JKryDsiUXIhpYvodLh4TGWAxAQCdwaT9YNeayOac
+3hnyVehCiIPruqy8kwaAR7cXejMfAw==
+=IbXD
 -----END PGP SIGNATURE-----
 
---m6wfz6q3cfwefzqq--
+--ceucqiazdoxttvyr--
