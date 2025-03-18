@@ -1,115 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A6C20DD5C;
-	Tue, 18 Mar 2025 14:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BA320B81F
+	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 14:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742307934; cv=none; b=HLhfF+RhML0gO6V07//D5R2r/96zSdBYP5AYyEP5ogBqQxg9iMcskWZthzJVqhEf0kxMMHGduxeasyja1a5tXZhL+T6zJjb5HbVARyrGV/t59PFyOBuXOFIO81I03kPYfwQQAyjtAEAIsi8ZIJHOBSFEkwEmlhmeisScb2qLoxA=
+	t=1742308761; cv=none; b=jiYHpSJjXqAu4tG8ZaWcSr+G26VDJyjWzxXGfa+6kLerbUAegLOC49Yw3YhThvFrbEBgPIOGzSoiWHa1pYWnLgrE/hunaZPvfB4l53KqmTQRtKE4aZzMI6ZWmnT3A7lZL/ndZtCPc4vtLDx5/pQPSXCyBY4U924uIcbfWVI7x+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742307934; c=relaxed/simple;
-	bh=nZIVy8rDifxs0gFezfDSsyY7SSuvanD4bNKBzieVH6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RdvXG1ecr5KRiGBwXJrr7A1kT+AjCFqNS4hNBmB+aMELWG4ouTCS3JVZGSZI3RBu540PdPEVCx9kTuOSLYGn+WuhcsTn7n/v+/R9g9sIMlu2nZ8oA1lhd4IFtkckVT8cSBUgZ7ASujRqzpgPAjei/the5bCGpwTNtHEFPalEz9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eM8GGehu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742308761; c=relaxed/simple;
+	bh=VlmrhLeJPUEFA+lzg8T6jHkvVs+Rt91krv8MHtKaYng=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Iypf61DmDt0oNKzFvuBQcfcdLof2dq5jd7U5a34POwvi8d5/H1dHCy/I9EYrtXXUXcjAXZ27O5VaMEDmw4FVzq7HIY6cxq67u640aYnwCLXzaky6pwXl4IQA+BtiSEdyWgusD9px7cKjfPhZ7R/US6Bk6R+OLuLdAeddx0zdITo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YPZ4/oc3; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eM8GGehu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CDB4C4CEE3;
-	Tue, 18 Mar 2025 14:25:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742307933;
-	bh=nZIVy8rDifxs0gFezfDSsyY7SSuvanD4bNKBzieVH6U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eM8GGehuJpGvKpivoD4QSR+KNpQOrsTrQe+Eub+aqiMOwfDX+Sd0MybIJqruOhLex
-	 biGvEmTGReQmgJ0IFMiGSlsFCq55zmnjRdh9Dlq8a6caIHoCMo3/rPvEJL08UzkuDN
-	 toN9B7pWXLt+twkHsRTlar9Rfb66Cl4bQcgCIOS8cFxXk2uIFCHgdYG8XQb4ijRSm1
-	 w0PNZNXJFIdg+wPtVYcf+3mmQxVsJ26tSr9ThAZwKrW6wApcHfaFvTr2sYnUovdUby
-	 vejqSYllChZiA15Jx6PSxONI+qOkHqf4Bvr4azaaeG/UCSBsE68OPkVC5lNPRzkyLS
-	 65BarMYc5GzlQ==
-Date: Tue, 18 Mar 2025 15:25:25 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pratyush Yadav <ptyadav@amazon.de>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Eric Biederman <ebiederm@xmission.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
-	Alexander Graf <graf@amazon.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
-	David Woodhouse <dwmw2@infradead.org>, James Gowans <jgowans@amazon.com>, 
-	Mike Rapoport <rppt@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Pasha Tatashin <tatashin@google.com>, Anthony Yznaga <anthony.yznaga@oracle.com>, 
-	Dave Hansen <dave.hansen@intel.com>, David Hildenbrand <david@redhat.com>, 
-	Matthew Wilcox <willy@infradead.org>, Wei Yang <richard.weiyang@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, kexec@lists.infradead.org
-Subject: Re: [RFC PATCH 1/5] misc: introduce FDBox
-Message-ID: <20250318-toppen-elfmal-968565e93e69@brauner>
-References: <20250307005830.65293-1-ptyadav@amazon.de>
- <20250307005830.65293-2-ptyadav@amazon.de>
- <20250307-sachte-stolz-18d43ffea782@brauner>
- <mafs0ikokidqz.fsf@amazon.de>
- <20250309-unerwartet-alufolie-96aae4d20e38@brauner>
- <20250317165905.GN9311@nvidia.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YPZ4/oc3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742308758;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PsQlwRAe+Vfyt5oYdUWSq8JNPzE0Apo55NHwyi1kdq0=;
+	b=YPZ4/oc3qQkd8NDHnt+27Xqv8TY5SjNZEUZhxH3Um6/AQaZUC4RdG4Z5vGJvpKuMTKnVAn
+	CIAKVjpWNp9NUQfXZsAyy4LfWwfAkgSojb2Q+kCz3NjV5ykbA7SMeMaYtEMBZOlMVjUlXf
+	wLn1K0Bnbf53vqOqo2e9MyJy6IFiUhA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-576-bU83o6gBNIqgswiZjEvn5A-1; Tue, 18 Mar 2025 10:39:17 -0400
+X-MC-Unique: bU83o6gBNIqgswiZjEvn5A-1
+X-Mimecast-MFC-AGG-ID: bU83o6gBNIqgswiZjEvn5A_1742308756
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-43ceeaf1524so20092005e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 07:39:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742308755; x=1742913555;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PsQlwRAe+Vfyt5oYdUWSq8JNPzE0Apo55NHwyi1kdq0=;
+        b=piw7m2hCLYlZWhlrfc8KmsyYWoCYGyRnaHSVcEt0iMijfLXgEWwuqUqvrcUWoxtodi
+         XzeEX9xD5QzDDO/TzaqxHU0XX7Yjr4xdBr08xpAW8iX+SD82rifX0Hryk5XfGpo9KdRs
+         tigPoTpdVyaBZtbvz7PlKlAzwVjLEMbyUKjqRYL70/Euw8TcFPgBXYmZaX4vwoNL2fFU
+         E/O7vQjMG3zWxA8qvxMEbpXVlRCzRSykOz49P4uaA9jear116RT2bSld4w1WUvu0c9eC
+         ypkHyyP8fDCVlursaQ0zp4uTQamGFKZyVzbrJoZICirmItq/8LJDK92krCKFgIV20uru
+         jmvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVCmdfcBjyP4MUejqmKFbwReDH6njYIvEstBBiP+uYLaRwUARMsQHDEVLrpmgLfKKKwNOP2U+ObMvo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysfOpWoQG15VyYA+2O1gCNY3E7y1RbZBoUaxW8dwqlUwBH8sPL
+	Qd3Cqez44Q7dhzWC+nhXog5d7577jr0XXWCVnwscSwExGJMZfTfSEOjLFd+KT+rIj9HZJZI1GAK
+	rFfsvpSUhI07n1zPHWDi4GPDWpr9w8dZubLF6DgRe6c5dVOYvBJAHmGKoXcJ2Udpb22no
+X-Gm-Gg: ASbGnctxqVq3ZXhioolXp2r/RIWTGltxq4anH3T9qE5R5T4vSFfOAfflHiW4rQIXdDq
+	/DJ5iS+IjAN6owgipBWGYS2alEg7Va2rCDJIWwjE6zWUYQ9NKQysjlWhNPsWK/D7tjRVARM4Lhm
+	ihrFH09HWXOLuvd1s43z0plie1btPQoM9CakrEOjR4bdPGqqxR1eKEC4gh8efl0248eoohiu8+9
+	DZUmqzWNvBFTcQ+RmgNiteSW6yi8kHM+TnbFwln+g00dyYeTexp5jNNdxZqg54xZkiR3/8QxLqp
+	6Ra4NCl1duN+bVd3PacXuCi7asWa2s0cK61+WZZi+SL7Qg==
+X-Received: by 2002:a05:600c:138a:b0:439:873a:1114 with SMTP id 5b1f17b1804b1-43d3bc12751mr24184695e9.6.1742308755375;
+        Tue, 18 Mar 2025 07:39:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGWUKBTOZHulBPKccJIMkih2ejX9HgOTZC6YQk6IraOUM0a3ImJsw3fgLjtFZUV+DmHGg37Vw==
+X-Received: by 2002:a05:600c:138a:b0:439:873a:1114 with SMTP id 5b1f17b1804b1-43d3bc12751mr24184395e9.6.1742308754930;
+        Tue, 18 Mar 2025 07:39:14 -0700 (PDT)
+Received: from [192.168.88.253] (146-241-10-172.dyn.eolo.it. [146.241.10.172])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d393bb288sm27247155e9.29.2025.03.18.07.39.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Mar 2025 07:39:14 -0700 (PDT)
+Message-ID: <d67a6f99-3d67-4843-8a32-83b086952ab2@redhat.com>
+Date: Tue, 18 Mar 2025 15:39:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250317165905.GN9311@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] net: remove sb1000 cable modem driver
+To: Arnd Bergmann <arnd@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Arnd Bergmann <arnd@arndb.de>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>
+References: <20250312085236.2531870-1-arnd@kernel.org>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250312085236.2531870-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 17, 2025 at 01:59:05PM -0300, Jason Gunthorpe wrote:
-> On Sun, Mar 09, 2025 at 01:03:31PM +0100, Christian Brauner wrote:
+On 3/12/25 9:51 AM, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> > So either that work is done right from the start or that stashing files
-> > goes out the window and instead that KHO part is implemented in a way
-> > where during a KHO dump relevant userspace is notified that they must
-> > now serialize their state into the serialization stash. And no files are
-> > actually kept in there at all.
+> This one is hilariously outdated, it provided a faster downlink over
+> TV cable for users of analog modems in the 1990s, through an ISA card.
 > 
-> Let's ignore memfd/shmem for a moment..
+> The web page for the userspace tools has been broken for 25 years, and
+> the driver has only ever seen mechanical updates.
 > 
-> It is not userspace state that is being serialized, it is *kernel*
-> state inside device drivers like VFIO/iommufd/kvm/etc that is being
-> serialized to the KHO.
-> 
-> The file descriptor is simply the handle to the kernel state. It is
-> not a "file" in any normal filesystem sense, it is just an uAPI handle
-> for a char dev that is used with IOCTL.
-> 
-> When KHO is triggered triggered whatever is contained inside the FD is
-> serialized into the KHO.
-> 
-> So we need:
->  1) A way to register FDs to be serialized. For instance, not every
->     VFIO FD should be retained.
->  2) A way for the kexecing kernel to make callbacks to the char dev
->     owner (probably via struct file operations) to perform the
->     serialization
->  3) A way for the new kernel to ask the char dev owner to create a new
->     struct file out of the serialized data. Probably allowed to happen
->     only once, ie you can't clone these things. This is not the same
->     as just opening an empty char device, it would also fill the char
->     device with whatever data was serialized.
->  4) A way to get the struct file into a process fd number so userspace
->     can route it to the right place.
-> 
-> It is not really a stash, it is not keeping files, it is hardwired to
+> Link: http://web.archive.org/web/20000611165545/http://home.adelphia.net:80/~siglercm/sb1000.html
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  .../networking/device_drivers/cable/index.rst |   18 -
+>  .../device_drivers/cable/sb1000.rst           |  222 ----
+>  .../networking/device_drivers/index.rst       |    1 -
+>  arch/powerpc/configs/ppc6xx_defconfig         |    1 -
+>  drivers/acpi/acpi_pnp.c                       |    2 -
+>  drivers/net/Kconfig                           |   24 -
+>  drivers/net/Makefile                          |    1 -
+>  drivers/net/sb1000.c                          | 1179 -----------------
+>  include/uapi/linux/if_cablemodem.h            |   23 -
+>  9 files changed, 1471 deletions(-)
+>  delete mode 100644 Documentation/networking/device_drivers/cable/index.rst
+>  delete mode 100644 Documentation/networking/device_drivers/cable/sb1000.rst
+>  delete mode 100644 drivers/net/sb1000.c
+>  delete mode 100644 include/uapi/linux/if_cablemodem.h
 
-Right now as written it is keeping references to files in these fdboxes
-and thus functioning both as a crippled high-privileged fdstore and a
-serialization mechanism. Please get rid of the fdstore bits and
-implement it in a way that it serializes files without stashing
-references to live files that can at arbitrary points in time before the
-fdbox is "sealed" be pulled out and installed into the caller's fdtable
-again.
+I'll wait a little more before applying this one, to possibly allow
+explicit ack for the ACPI and powerPC bits.
 
-> KHO to drive it's serialize/deserialize mechanism around char devs in
-> a very limited way.
-> 
-> If you have that then feeding an anonymous memfd/guestmemfd through
-> the same machinery is a fairly small and logical step.
-> 
-> Jason
+/P
+
