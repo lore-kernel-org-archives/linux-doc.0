@@ -1,245 +1,113 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3A41EF384;
-	Wed, 19 Mar 2025 17:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0BC35942;
+	Wed, 19 Mar 2025 17:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742403820; cv=none; b=AvFMi31OMaes8a9YfbuK3ouND5iwYQE3a45GoiegsWf3BZkjY2YTiuqs+uxnNqfelua9JHT6WCDGFAhpdfJqrm5P+jPsUoMKvBjOwbZ0I8pFaAY69OudfSz6s8oisAVaFpz2ciTlp3MN5VjwrfKiaSVrFCWFl1ErZHVvStUaxj8=
+	t=1742404985; cv=none; b=nPm9gDmoQEKPepy6/a53sSHyJHKVNjBSsuBMM8xR/PgY/QgHTiUyZM5vFDNh/PG517IIJ6YY7otH1wGhKt0JLhXAZQEJ/jV/icV26DoKeBrqLBJjHrpx/qkgaC67C44368dFd0nDD98zbNHDmN037pXEVrw97Icm26cy95MtHY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742403820; c=relaxed/simple;
-	bh=RnsQ9F2mVzQQMBXA26C3IJlUcZMpGeaYTvQuh7UEXsQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X8s1nZNLAAuKbyy85c0yoGAupIVuydQlaNqipZe6WbSqXQsq0+T3eGs9WybSVfsTEc+bdYZgyU8BGjRC/iCf+SDDfUMOdYqgEReTkeSaNID+oK88Uzo6LfZpsHcF1zuJcbOvQbkbSKLH2pZozETO5B6D32G5ie5Re/AcmbR4OXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=Wiv+i6Dv; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+	s=arc-20240116; t=1742404985; c=relaxed/simple;
+	bh=hsaYUgrXM5qfLvhH06tltZQdRCjc5tEs2EI/X9vdw2c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UfXFbYbxkazIEW7dWXBDq9ll68BRyeGMMHt20bp8jyY/FQ1osYANYb0SDowtTDCh0Xkjxq+VM0mnP20+Tfh4/bKXXLzQarCnau2IZQOpb3TwEDHsX05uxZth2W298U66t5a6TcuhSGtdi5DYSgHXpAFLFbFrRlv7BdfxL2+SwTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lr9aPgDq; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="Wiv+i6Dv"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ac28e66c0e1so1116352066b.0;
-        Wed, 19 Mar 2025 10:03:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lr9aPgDq"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-307c13298eeso12584741fa.0;
+        Wed, 19 Mar 2025 10:23:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1742403817; x=1743008617; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1742404981; x=1743009781; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7SiuU7CfDhJwDuJz6ru8RHm/UaVa4fwnp4j5CIzUXKs=;
-        b=Wiv+i6DvENMFxJsLtutxg42bDUhKwe475P2/VYWDtskwjRhQSrw+KCZzU1uql/XW/V
-         QyuSCqlGai4lOR4u1cUcKm5Q0EVfItglAx+b90hvi625RCxy3YPH4IkeHtB/Lbnkdka+
-         GnnR5fclNwvgH1gInPUE0vn0xMGaLZ3QEYjNQXLYadLRpnM1y0sgfVZDXykZwpJcCDyw
-         /IFfSEBmCyrdDRgYc543eZ+zWjSMf/T0V7qFLxh5H9657damj/2EVhQqLTiUdBE3WCVk
-         blH6zS2Laqg07EMhg2pPtgfCNemjA6YgLhUWgcirBXT3+lza6NNPbs5KLikTGyGj9Yta
-         qE4w==
+        bh=hsaYUgrXM5qfLvhH06tltZQdRCjc5tEs2EI/X9vdw2c=;
+        b=Lr9aPgDqdju3vuKRhsZ3J658hOerO7V3Qqw+NaIbTU9o5oMKLovHsAA9nj3HE0o+yI
+         gYRmMQ7XoDSC4QC7NMLsHtZfAHmt5HzIuL7rSgHMPdKULa7rGMQAA9vclRYavs8UPxTv
+         2Q+mLb6RGK3F+iYtE1BFB9tefhZpoC1LB2pw0OedwPw4NpRzXJfLEpyplXm0NcFuixhd
+         /a9tKX0AtBvw3N7tSycbSRF4NzKLSQ4TJuZalgQp3ymavSr2/PtrrKqjzk5xOh/XbS2y
+         sfhUQFqflpva0mCZ5wweEPX13NNKvBAOhAYyGzQXH+Q7W3DNq6Ak+BNTtlfK83B/sHpM
+         JwAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742403817; x=1743008617;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1742404981; x=1743009781;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7SiuU7CfDhJwDuJz6ru8RHm/UaVa4fwnp4j5CIzUXKs=;
-        b=asDyJ+xgHyICEc7T8XSnB/6xM34A5lc4621kKTAauEOdqG2/qj8OdDIxyJaYech4jK
-         l2WLCFr1qEbNgN/z9/jEbn9SAhPYZfk7hkx1Z5F1/LkWZjI0SYhjh9CYKO3pTCyTzdns
-         hJF/zgUZ1SkB0M7K2nk88Sb/fMaNN8ZDmM3oGx4r7aLjxVd2zbIjVYT5USaAEWQJrN55
-         HTjrfJzOcdlxaAA9NefXcVyvkd/zBQZHkztnnr/lOkwCBeZazBAQEY9Ydgt0+0m0I5FQ
-         MhqZ9v/8TjJfw4v3n8Uyyh5EWGD+y72C9qNwTo1/ofn2sbtqu98uxGzGJ0AduTYh9dDe
-         fopQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdogUR4HJgt96RSGcFZsfCO004EbJNYmwsdsi2qwdDEWV0DX321WMtQA0fwDHZ20aKxLdTwRiSC1KgG1Y=@vger.kernel.org, AJvYcCUnbL/FfMo2fOdvcjt5e69XfDqUvqb8r/0f+biVhZe/OUIbH+2q1qqMKLLAadU0bgtLLg8ALWG+2nqA@vger.kernel.org, AJvYcCVqiLQsbSs64nwDzpqOmAF8mBIcJjnom0c8ZByzOKcxtAxNh1arsV5SD6Eu6TOlOZPOyaheFXCLhBuXo7Cb@vger.kernel.org, AJvYcCWY7Wodz/8Msx2ZBn4mhqnNBNRHiI4WrC2LPR+82fxhjceAU7A0RZcKzLwidDi7eQSspcBx82jhJhOt@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnLyVjJAqFdh+PpPfA9ybLa7T2oiBeATXLmGzVC1TSsjnDnd/G
-	APUsdYtDNzNkeZ+ABjOy8uyGLv/0B0avrBG/bQDd1Zcb3S4udcpF
-X-Gm-Gg: ASbGncvkbIVqhQ38+GV0HVkAInL/hG4meytTO0CrMdMWjiTjJoAwSoWuI6jbu1RIM3i
-	oebZNauhptnUam1XTCg91zkVddbktdejxCTQsDVKf/lLqCwLfMGvTJyIpdG04Ik5WCIn3NzZa11
-	w1BYUtSY0/SU5QH2N8fsV5QOFTIM0XRh37oyeOWtXSPxiBHqrA1f+HXxB3X/vtJ0dDqteWeRm+5
-	Cv63aG86cQS22EzjUUzyqgYmkxD10mikyYjZ0huz1I6H8qmjqaprpp9mDxNXPkzO4udSwU6iR0v
-	XJNFqj24tyDIxavWXLIiLggm/zMZf8zJ93Wg5cgVRc+mt3zuATqTOiHpNi4Vbv4EXgemAjw=
-X-Google-Smtp-Source: AGHT+IEivZ3sWdK4akjEnpYdG1nhuPD91nXTna28mFD2Fly0YuUowthEqtudaddT1Ho/vTidC1534w==
-X-Received: by 2002:a17:907:7e5d:b0:ac3:8d36:ead3 with SMTP id a640c23a62f3a-ac3cdf8cac7mr38936366b.12.1742403812254;
-        Wed, 19 Mar 2025 10:03:32 -0700 (PDT)
-Received: from flaviu-Aspire-E5-572G.. ([5.15.67.29])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3143653a7sm1034235866b.0.2025.03.19.10.03.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 10:03:31 -0700 (PDT)
-From: Flaviu Nistor <flaviu.nistor@googlemail.com>
-X-Google-Original-From: Flaviu Nistor <flaviu.nistor@gmail.com>
-To: 
-Cc: Flaviu Nistor <flaviu.nistor@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] dt-bindings: hwmon: Add TI TPS389008
-Date: Wed, 19 Mar 2025 19:02:29 +0200
-Message-ID: <20250319170234.63723-3-flaviu.nistor@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250319170234.63723-1-flaviu.nistor@gmail.com>
-References: <20250319170234.63723-1-flaviu.nistor@gmail.com>
+        bh=hsaYUgrXM5qfLvhH06tltZQdRCjc5tEs2EI/X9vdw2c=;
+        b=aARmSsYz8XtfEM7nzK0jMYKeBskK/vjjHY4DRm/22HNVn5BP++t2/+1rSaWLuHLCcw
+         wvy8ww1yHLgodlSRpTlFzJ8CsEhErFJe09YOJQN5CT70LbGniSfkI0QWCkOZOrsVw1Mm
+         3m+bp5AvQDazY2K9+OgfV9HPhs3OdzN5AL9sbrDwS4SHBcFI1lxDXA5VQTNjBO2KtW/B
+         GanbisHXkxJNN3PC6KKC0vSxCxhheKXJhR3MlI8LmfJnBmGxwpVUt8R9h29sStHgp+8m
+         adAaBBkUzDe5GX9x//vWJVl5bTAL2qa2RR20yoXPh0UvYv2WR59EvyH1Nds55AeMjCHE
+         H+xA==
+X-Forwarded-Encrypted: i=1; AJvYcCUAoJjjbX2jDRBF0pd6FYp8vDHKq+v1OPMyYfcvjd41QnrUSWNw9kiAYTwETtNZ7uGBuDB3f5BA3BM=@vger.kernel.org, AJvYcCWY/bLw6CePpr4+PI+7GMA9ZGtiRT8dAx2sIMDy2YG10nBPuQrfZE4jYpfUo/exd40JrBFg00JCN0cQGxab@vger.kernel.org, AJvYcCXiJPB1gAIJnz+5eiVkJtSEwknZa5YzLm09MiftJ4CQNV0m5wYgBpESHUU/Xn2kyhTzIt8Byl5Z6eb9RyxjF70=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4bktso//HhuglA2cYrNNbUk5yZnSUplZnH+sF/F4g3oE9o01m
+	6D/3KjsdKMqjnk6Nzx8XO+PMKTBaSdxzxW3E4NJCK6/9l65QXfRfHdH6UqmQEXmOL4s86nrifTt
+	StScJpyaJYOvONlk4LK1IvR82I5w=
+X-Gm-Gg: ASbGncvQAzLlO6OQQcr50VNmWjCkWhUQ2sp/Pm4ej/qPx0aosxpZEmBdX0M/BPXAITd
+	eoiGMDlfR1M+4vSeKs/B0HY1diqO4lsxZE6PF97pY1BcRI+fWKJ6TWR7+q0kDLjUtyiE5vxMXB6
+	V2P9EcuWYurEVhlpH0gCb5Wx03ynA583nfsrgQEEIsnSCcaEuTJL/a
+X-Google-Smtp-Source: AGHT+IEjO2m1zIXw4HFAj9tm3S3oc43HEXQnmavT/Wdw9EFY3wTfyK5+LzJIIT2UTtXDcjxCFrMJwxSj2WzQC4KjEys=
+X-Received: by 2002:a2e:90c5:0:b0:30b:e73e:e472 with SMTP id
+ 38308e7fff4ca-30d727aac9fmr1171781fa.14.1742404981302; Wed, 19 Mar 2025
+ 10:23:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250316111644.154602-1-andrewjballance@gmail.com>
+ <20250316111644.154602-3-andrewjballance@gmail.com> <CAJ-ks9kAROOfyPtxMe6LE4-UPsvXca2sQ2VDjhRchZp3HLddGg@mail.gmail.com>
+ <D8JTWL8JY7DM.3IVH6FZ4M49CB@proton.me> <CAJ-ks9k+A1+0CWXZmD2m0+jRqTRTNFn-=d9VXqytiOqvn4BR0w@mail.gmail.com>
+ <D8KBFC9M74H5.4ZJ2SJK06SGR@proton.me> <CAJ-ks9=NQrz3ySacKt+XXm2vS+Fn9gjmtqAaaoz1k=iTG_1HXw@mail.gmail.com>
+ <CANiq72mnT73Mb7RJhZjf4de=_Orv4pipunMhOersOj_aqrFA-g@mail.gmail.com>
+ <CAJ-ks9=23qEqxT5rivsbfNYC6iUP4RXsKbcDU9XDx32ERnKbYg@mail.gmail.com> <CANiq72kfgDVkKAeX1SiahEoo13+kHrcvVY3hMAfRPGjwErCt6A@mail.gmail.com>
+In-Reply-To: <CANiq72kfgDVkKAeX1SiahEoo13+kHrcvVY3hMAfRPGjwErCt6A@mail.gmail.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Wed, 19 Mar 2025 13:22:25 -0400
+X-Gm-Features: AQ5f1JrVVB0KaF0SOHg6B4PqxeZ26bWmx4gdmbRKGmZX3gyzx8re07gIpcxQEmU
+Message-ID: <CAJ-ks9=mbqMdguFmnRP+t-P2OC+oYGVDU2oLtT1dZzY=USESEg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] rust: alloc: add Vec::resize method
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Benno Lossin <benno.lossin@proton.me>, Andrew Ballance <andrewjballance@gmail.com>, dakr@kernel.org, 
+	airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+	mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net, ojeda@kernel.org, 
+	alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, a.hindborg@kernel.org, aliceryhl@google.com, 
+	tmgross@umich.edu, acourbot@nvidia.com, nouveau@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add device tree bindings and an example for the
-TI TPS389008 voltage monitor.
+On Wed, Mar 19, 2025 at 12:43=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Wed, Mar 19, 2025 at 5:13=E2=80=AFPM Tamir Duberstein <tamird@gmail.co=
+m> wrote:
+> >
+> > No, I meant avoiding the check. The existing code already explicitly
+> > checks `new_len > self.len()` before evaluating `new_len -
+> > self.len()`. This means the check occurs twice. `checked_sub` reduces
+> > the number of checks by 1. Perhaps my wording could have been clearer
+> > ("avoid *an* underflow check").
+>
+> Ah, you mean in the function you suggested, I see.
+>
+> I think it they all may compile down to the same thing, whether
+> overflows checks are enabled or not, and whether the version in the
+> patch or `checked_sub` is used or not. At least in a quick Compiler
+> Explorer test it seems so, but I didn't check in an actual kernel
+> build.
+>
+> The implicit check is gated behind the other one, so that one can be
+> removed, even if values are unknown -- we always have optimizations
+> enabled, even under "debug" builds (assuming "debug" means overflow
+> checking enabled).
 
-Signed-off-by: Flaviu Nistor <flaviu.nistor@gmail.com>
----
- .../bindings/hwmon/ti,tps389008.yaml          | 140 ++++++++++++++++++
- 1 file changed, 140 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/ti,tps389008.yaml
-
-diff --git a/Documentation/devicetree/bindings/hwmon/ti,tps389008.yaml b/Documentation/devicetree/bindings/hwmon/ti,tps389008.yaml
-new file mode 100644
-index 000000000000..5a32359894cc
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/ti,tps389008.yaml
-@@ -0,0 +1,140 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/hwmon/ti,tps389008.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: TPS389008 voltage monitor
-+
-+maintainers:
-+  - Flaviu Nistor <flaviu.nistor@gmail.com>
-+
-+description: |
-+  Voltage monitor from TI (TPS389008, TPS389006, TPS389004) on I2C bus.
-+
-+  Datasheets:
-+    https://www.ti.com/lit/ds/symlink/tps389006.pdf?ts=1741000787840&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTPS389006
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: ti,tps38908
-+      - items:
-+          - enum:
-+              - ti,tps38908
-+              - ti,tps38906
-+              - ti,tps38904
-+          - const: ti,tps38908
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#address-cells":
-+    description: Required only if a child node is present.
-+    const: 1
-+
-+  "#size-cells":
-+    description: Required only if a child node is present.
-+    const: 0
-+
-+patternProperties:
-+  "^vmon@[1-8]$":
-+    description: |
-+      The node contains optional child nodes for up to x channels.
-+      There are 8 channels for TPS389008, 6 channels for TPS389006,
-+      and 4 channels for TPS389004. Each child node describes the information
-+      of the input source. Input channels default to disabled in the chip.
-+      Unless channels are explicitly enabled in device-tree,
-+      input channels will be disabled.
-+    type: object
-+    additionalProperties: false
-+    properties:
-+      reg:
-+        description: |
-+          Must be 1 to 8, corresponding to the VMONx
-+          ports of the TPS389008, TPS389006, or TPS389004, respectively.
-+        enum: [ 1, 2, 3, 4, 5, 6, 7, 8 ]
-+
-+      label:
-+        description: Name of the input source.
-+
-+      ti,vrange-mult-4x:
-+        description: |
-+          Must have values 5 or 20 in order for the analog
-+          conversion to be done correctly.
-+          Value 5 indicates multiply by 1 (x1), and value 20 indicates
-+          multiply by 4 (x4).
-+        type: boolean
-+
-+      ti,vmon-enable:
-+        description: |
-+          Sets each channel status. By default, all input channels are disabled.
-+            - 0 = channel disabled
-+            - 1 = channel active
-+        type: boolean
-+
-+    required:
-+      - reg
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        vmon@37 {
-+            compatible = "ti,tps389008", "ti,tps389006", "ti,tps389004";
-+            reg = <0x37>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            vmon1: vmon1@1 {
-+                reg = <0x1>;
-+                label = "input1";
-+                ti,vrange-mult-4x;
-+                ti,vmon-enable;
-+            };
-+            vmon2: vmon2@2 {
-+                reg = <0x2>;
-+                label = "input2";
-+                ti,vrange-mult-4x;
-+                ti,vmon-enable;
-+            };
-+            vmon3: vmon3@3 {
-+                reg = <0x3>;
-+                label = "input3";
-+                ti,vmon-enable;
-+            };
-+            vmon4: vmon4@4 {
-+                reg = <0x4>;
-+                label = "input4";
-+                ti,vmon-enable;
-+            };
-+            vmon5: vmon5@5 {
-+                reg = <0x5>;
-+                label = "input5";
-+                status = "disabled";
-+            };
-+            vmon6: vmon6@6 {
-+                reg = <0x6>;
-+                label = "input6";
-+                ti,vmon-enable;
-+            };
-+            vmon7: vmon7@7 {
-+                reg = <0x7>;
-+                label = "input7";
-+                ti,vmon-enable;
-+            };
-+            vmon8: vmon8@8 {
-+                reg = <0x8>;
-+                label = "input8";
-+                ti,vmon-enable;
-+            };
-+        };
-+    };
--- 
-2.43.0
-
+Yeah, this elision is what I was trying to allude to in the original
+wording. I still think the suggested code is simpler, but gave my RB
+either way.
