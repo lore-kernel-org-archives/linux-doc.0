@@ -1,120 +1,127 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3A98F6D
-	for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 15:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51541953A1;
+	Wed, 19 Mar 2025 15:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742399078; cv=none; b=QrfXoO83PKUUHTafSoGuiCYkH169qfpF40ieYpRpxht8PVZFYlLk9fFVE0wuzVt3iiGmNEMr20cKKm8jjmx8ZqkzYH9u4BPCFS5YcJYht0Jziy9FGWxqpvmHCWKuNJAs4AMSm+hEaZihPvUL+rQSrJOn1AOYEaKDnE+gJP1aNvQ=
+	t=1742399980; cv=none; b=uiXqxCFNQMcKiWZ3wZV+87/YsvAzl8h5dt+mMHOZoW4H6lnaNNiOcZiK6gt528WZc2BopY7CSwRHpt62W1GbQ3Vmg40lpuvz++ck/qaVLNRpa+HWaX6H+g6WuN3FgVphhqEQucDeN3g2Sk7ENd3aRhUTis3wHa5VBnK+qeb35+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742399078; c=relaxed/simple;
-	bh=ijx4QVA6cu7/bppMn4qjyQgrq7PDRcrE8h4ApLxVMGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ivj4kNLwM5MKVnLYox4J3KA/rRAvP/KGCY/5ShH0geyUVHX4Eqe/0zJaBz8n8leDySuk7fnkAabFs7KDj1SIjvMNc2vXO3K1t1SAMY7z7QFG9mlPwZXDdAD2u10zY2VWn0DJrnOAHSZYbI6MWNXjX/1XbZ6DHPo3wjCcKceiGqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=tS+DbH+/; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1742399980; c=relaxed/simple;
+	bh=3HKsqdZgxVCB5JiXxlUvPKlGtQpw7juWEyY6Azxug7E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iW6awJmylQJaTkVAeeSbrTkBl+afhwc5vPVNcnZ19abeg9fDsW2m69H3A9weBeCyH3LhPqAn0avsGKxtg657tk3QNJC6KmhBauMXYoVm7uft3dcBSGHqQ9YLxO3mlT8YkLr7yiOge/u2FeJkxDV6KcD+Q7rU6dDTnthoZOw5M14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TbtAmBpX; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="tS+DbH+/"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-47686580529so58585101cf.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 08:44:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TbtAmBpX"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30613802a04so79543771fa.2;
+        Wed, 19 Mar 2025 08:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1742399074; x=1743003874; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9si6QKET998u7WyNlD/oIsbCSW0xvxa41wWw0Ozqipk=;
-        b=tS+DbH+/UZlkS/aF4DyezYHorNb/pFwXbKo/UvY4EVdZSx/jbqOVyIYd+CGgx8rLvo
-         1A3YrAzGY0AC0BNb6LYD/99322ufTOIkGMxSXN3xbcKoQuveAh9CvEdKiDKIcRlj58XE
-         xNk8BiJFfp3ZI0fZwMAf9AmRGcMc8dnZH1ZiHV4YZg3tkNDvQksIye2al2pAzgrmr2Sg
-         nAs/qua4G+YBw+Xp64j39s8orrFOsmFkZnTlQm9Okp91Zm0gf5W/6ealoTKFtGavAbYY
-         vA8NTnCI5m+fqKyU5IfgmAhJ6fANAHkHkoTJOUIu7Ka9xYe6t0psukdYy2Xw7cukP+n0
-         03Gg==
+        d=gmail.com; s=20230601; t=1742399977; x=1743004777; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g9hyskz0+W8oxdMSBSrKYAiDGZxtrfIfmdmAlEMXAcA=;
+        b=TbtAmBpXbsh3QQ0VdJNxQ3Eq8CteQAkC1RsuEgjw6zHX9O2an0KoqvDb5B0KXBkSmV
+         7Ua9Ly0P0gcXWItpzyu9IlwoUt4FIw7LNPnhT5cM99aa1SuFiKXRQ0YB6Gq1PEr8B+HG
+         e8VDiJHIgTMM9ccPUtNsZ2SlSzPAfzCPwN48tYX05awZ8cMbKIppooWJ6HhFpLmuorSu
+         8OktETsDRXIHP7CPz+l+LCqrmHivMkeWfHSoGYmDwcSbx6eBEseDVxZSAwogn97tIC8l
+         m0KXdhPKZc2o4HVjTeT4gT2wdwv/74wKKUoBeCJMdl6xhi6bVYfGFdBk5ShTsV8Zav17
+         lnvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742399074; x=1743003874;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9si6QKET998u7WyNlD/oIsbCSW0xvxa41wWw0Ozqipk=;
-        b=ENiQLFMWfd0/nDMh3VSlZw9mELTQEQJPIOOzR5WSXicV0U6Dc12YTK8zS4b2IQZqP5
-         Ih3goDnwi/rueKi4jdxWc+vefzfOfvADNT3EFamfCtkAu/b2XXyZGiNoXSYJZAjTZqCA
-         AiCJT7GTmm0eKaG3lVnK6VqXm4DCKarYQr2S3A8hWEsz1JEJSaAoeapLg+RAoZIIS8Tb
-         GBr97hmXTBwzLlXvd8QGDEryWEn0zyOHqcdjza77nMycoy+ipUun8E/xulmNO9H9huOd
-         UlIUnyb7XwfWUN3I45bkjtnW7lg+rWB+hk/DixW7L7PtSVJyaSzN0iQlVjvKZVcAKB00
-         M5aA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJaBhgF/CPMktlcNbl60z0pMjQPoBpNgKhfC8bxo5RVyiYNMZMVozvfkIk5nuo1yhKTyXomTPB0/w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+eNUt7IwZtE1uXey5AfEdltDnyns2na7ewhA4WJfrcF+lzOF0
-	RhXjphJ43jgR1/l5sEwRtGanks4K3ICQEN9DG3QhnXcZM+MHDkWJhvPTxG425nM=
-X-Gm-Gg: ASbGncvpw0K6oyRKhdq8bhN8qYxfsp2UUknaU+GQzeE9c9o8CQh6wWYZq1vBvPRG1+X
-	XJLxNIxkemKD6EZRiVEr2oPePCbHXTrNAE1I+rskae/uJLdJL9/nh9NjxZMTEEIBSTm5wuBApqb
-	6I+0uB0RsFnSsIAqkasJK+KH1KPYkWmtE65SBmblKYHMiSjUR2tRKzYGqQH40CcGzJUdOQaDjK1
-	RKW1Fs1BiIf0ASpeF6uKW6X0SKM9ozOwprQkncwybTzo8SG0FmdROgIbmz6COZGPidhxy+7/5to
-	mOB1SgMI2KsirmO79dN4021yRSccQWC2CfZQscecoc4=
-X-Google-Smtp-Source: AGHT+IH2ElysGznDqaVkF9K0dG1j3qwf6OVzHoFCKXB3QMfIF6k7b3yKuQfRi9aAY26/yEo88wfixQ==
-X-Received: by 2002:a05:622a:2b4a:b0:476:8296:17e5 with SMTP id d75a77b69052e-477082f00f2mr50488621cf.17.1742399074007;
-        Wed, 19 Mar 2025 08:44:34 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-476bb7f3c86sm81158871cf.54.2025.03.19.08.44.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 08:44:32 -0700 (PDT)
-Date: Wed, 19 Mar 2025 11:44:28 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Cc: Hao Jia <jiahao1@lixiang.com>, Hao Jia <jiahao.kernel@gmail.com>,
-	akpm@linux-foundation.org, tj@kernel.org, corbet@lwn.net,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	muchun.song@linux.dev, cgroups@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm: vmscan: Split proactive reclaim statistics from
- direct reclaim statistics
-Message-ID: <20250319154428.GA1876369@cmpxchg.org>
-References: <20250318075833.90615-1-jiahao.kernel@gmail.com>
- <20250318075833.90615-2-jiahao.kernel@gmail.com>
- <qt73bnzu5k7ac4hnom7jwhsd3qsr7otwidu3ptalm66mbnw2kb@2uunju6q2ltn>
- <f62cb0c2-e2a4-e104-e573-97b179e3fd84@gmail.com>
- <unm54ivbukzxasmab7u5r5uyn7evvmsmfzsd7zytrdfrgbt6r3@vasumbhdlyhm>
- <b8c1a314-13ad-e610-31e4-fa931531aea9@gmail.com>
- <hvdw5o6trz5q533lgvqlyjgaskxfc7thc7oicdomovww4pn6fz@esy4zzuvkhf6>
- <3a7a14fb-2eb7-3580-30f8-9a8f1f62aad4@lixiang.com>
- <rxgfvctb5a5plo2o54uegyocmofdcxfxfwwjsn2lrgazdxxbnc@b4xdyfsuplwd>
+        d=1e100.net; s=20230601; t=1742399977; x=1743004777;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g9hyskz0+W8oxdMSBSrKYAiDGZxtrfIfmdmAlEMXAcA=;
+        b=IphVpwH07gr7STtQnT6rkMqT0MTxHylCwyEB0x9DxbJsl6BHRoKJ6ETsDZWaAMFitQ
+         BovGk07N2Vvqbc0PtxUL59JkS/WQVMVp53WsSM/aCZEAutIJsxsH9FBeAw93PoJgiAA0
+         w2AZWfKeVIvOxZ4yMSZZCN8uEzPKU6wSTXuaKo8RNDe9/mtyqkFx5cQFP3SaNCL3eMXa
+         F4F3LEaQTL1JAiQteqrFxnRPqj4Qz7HzTYzRMKqzMJCrauvOjHKdsnHVZx0QYHahIc4t
+         GToRuaixApDY7xJk/t8AKSQqUcTNd6QlhQk3wG0ovRh26/y5kqc7GKB0jjVreso5c8+P
+         w+TQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU40d33yMhJ2gzxmm5EzlHHHSMjm6zolB4L/rFstydtqDURFWoDSTtBBCN01M5Roop7lBF/WH3Tz1S3GRflJGs=@vger.kernel.org, AJvYcCUYaJqIHspL3MKqLz8+7HB5yh2Eub4crhb6jh6UnOWDpbUCCjl4+FJJPvd6EZcOU6o2H3M4N71d+LLsrW95@vger.kernel.org, AJvYcCWDvPIycm5xEQRd81omkUePAf8LKYxdvUw0iYbnfnm0SNbj6x+TGNt/xzoWP4uT5nm1xiWEMlPBw4o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7bK2xlm0Dr9BQ4ux4e+IbGet92ld7lB4yKvfOuoAryESM8k6U
+	ATRE3TZJJo8n4rBtOFnR82pkWlr1Tejozw+XLoyRzxgEXVsGczJe+FwDeJm1heO6SdgC/J8rLhZ
+	onGOU3ycDNHo9SxxMKHK9pXWQ9sk=
+X-Gm-Gg: ASbGncsgRI7/q+2aYgkwjUc20EEAZSAPhEh5uku8s2LyRgASeaEW6lk9Q77SfpbgVfz
+	XhXQ51yEYq1s1BxVRJAs6+QyaK2fouImPA0Zn6XUPXGEcY548oiGdiDfvdeMviVdqejVb8xsonm
+	HY0exLuBrrQ+lpbVFMT1Ond01xiq6LXXR82Mjsl2ILug==
+X-Google-Smtp-Source: AGHT+IGpFcafT3b6aIOYtJ2V3tq0B+fB5vBSvNidH0DfLkAvD0boqzlYgVWbBMeg+FDMjz+arPmg3F7bSk7c+dd0l3c=
+X-Received: by 2002:a05:651c:210a:b0:30b:b00f:9507 with SMTP id
+ 38308e7fff4ca-30d6a44cae5mr15914741fa.24.1742399976387; Wed, 19 Mar 2025
+ 08:59:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <rxgfvctb5a5plo2o54uegyocmofdcxfxfwwjsn2lrgazdxxbnc@b4xdyfsuplwd>
+References: <20250316111644.154602-1-andrewjballance@gmail.com>
+ <20250316111644.154602-3-andrewjballance@gmail.com> <CAJ-ks9kAROOfyPtxMe6LE4-UPsvXca2sQ2VDjhRchZp3HLddGg@mail.gmail.com>
+ <D8JTWL8JY7DM.3IVH6FZ4M49CB@proton.me> <CAJ-ks9k+A1+0CWXZmD2m0+jRqTRTNFn-=d9VXqytiOqvn4BR0w@mail.gmail.com>
+ <D8KBFC9M74H5.4ZJ2SJK06SGR@proton.me>
+In-Reply-To: <D8KBFC9M74H5.4ZJ2SJK06SGR@proton.me>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Wed, 19 Mar 2025 11:58:59 -0400
+X-Gm-Features: AQ5f1Jqy1G9xW_d_MZv7EIGIWVxFYoqazHtgodTNU3whmyJ8gAuU1mj5mo_jYbc
+Message-ID: <CAJ-ks9=NQrz3ySacKt+XXm2vS+Fn9gjmtqAaaoz1k=iTG_1HXw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] rust: alloc: add Vec::resize method
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: Andrew Ballance <andrewjballance@gmail.com>, dakr@kernel.org, airlied@gmail.com, 
+	simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+	tzimmermann@suse.de, corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com, 
+	boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, 
+	acourbot@nvidia.com, nouveau@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hey Michal,
+On Wed, Mar 19, 2025 at 10:34=E2=80=AFAM Benno Lossin <benno.lossin@proton.=
+me> wrote:
+>
+> On Wed Mar 19, 2025 at 2:42 PM CET, Tamir Duberstein wrote:
+> > On Tue, Mar 18, 2025 at 8:50=E2=80=AFPM Benno Lossin <benno.lossin@prot=
+on.me> wrote:
+> >>
+> >> On Tue Mar 18, 2025 at 9:12 PM CET, Tamir Duberstein wrote:
+> >> > On Sun, Mar 16, 2025 at 7:17=E2=80=AFAM Andrew Ballance
+> >> > <andrewjballance@gmail.com> wrote:
+> >> >> +    pub fn resize(&mut self, new_len: usize, value: T, flags: Flag=
+s) -> Result<(), AllocError> {
+> >> >> +        if new_len > self.len() {
+> >> >> +            self.extend_with(new_len - self.len(), value, flags)
+> >> >> +        } else {
+> >> >> +            self.truncate(new_len);
+> >> >> +            Ok(())
+> >> >> +        }
+> >> >> +    }
+> >> >
+> >> > You can avoid underflow checking in debug builds by using `checked_s=
+ub`:
+> >>
+> >> `checked_sub` doesn't only avoid underflow in debug builds, but rather
+> >> in all builds. But the code below is a good suggestion.
+> >
+> > Yes, I know :)
+> >
+> > I included that language because the underflow check is likely
+> > optimized away in release builds.
+>
+> If the function is inlined and the compiler can argue that `new_len >
+> self.len()`, then yes, but otherwise I'm pretty sure it won't be
+> optimized away.
+>
+> Also if it is optimized away, then the check was still "executed", so I
+> find it a bit misleading to say "in debug builds" (making it sound like
+> it wouldn't do it in non-debug builds).
 
-On Wed, Mar 19, 2025 at 11:33:10AM +0100, Michal Koutný wrote:
-> On Wed, Mar 19, 2025 at 05:49:15PM +0800, Hao Jia <jiahao1@lixiang.com> wrote:
-> > 	root
-> >   	`- a `- b`- c
-> > 
-> > We have a userspace proactive memory reclaim process that writes to 
-> > a/memory.reclaim, observes a/memory.stat, then writes to 
-> > b/memory.reclaim and observes b/memory.stat. This pattern is the same 
-> > for other cgroups as well, so all memory cgroups(a, b, c) have the 
-> > **same writer**. So, I need per-cgroup proactive memory reclaim statistics.
-> 
-> Sorry for unclarity, it got lost among the mails. Originally, I thought
-> about each write(2) but in reality it'd be per each FD. Similar to how
-> memory.peak allows seeing different values. WDYT?
-
-Can you clarify if you're proposing this as an addition or instead of
-the memory.stat items?
-
-The memory.stat items are quite useful to understand what happened to
-a cgroup in the past. In Meta prod, memory.stat is recorded over time,
-and it's go-to information when the kernel team gets looped into an
-investigation around unexpected workload behavior at some date/time X.
-
-The proactive reclaimer data points provide a nice bit of nuance to
-this. They can easily be aggregated over many machines etc.
-
-A usecase for per-fd stats would be interesting to hear about, but I
-don't think they would be a suitable replacement for memory.stat data.
+If we're talking about the same thing then I think we're both wrong
+and the correct phrasing would have been: "you can avoid underflow
+checking when CONFIG_RUST_OVERFLOW_CHECKS=3Dy by using `checked_sub`". I
+was referring to the underflow check implicit in `new_len -
+self.len()`.
