@@ -1,113 +1,64 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C590211A06;
-	Wed, 19 Mar 2025 15:06:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5F11DD0C7;
+	Wed, 19 Mar 2025 15:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742396776; cv=none; b=FnKsp1Y1zNg606PqT3snPzgDL1XO8zFL8NBgFsuvCTMtmIaVl9FqT4xLVmCSDNVI3APaSHjitNFv0rUBkOerLgtoUafwQIZ7oEoVZ+ZFcBcjeBqG1C54ZAQEQgtMnUb1RmEeittLdfHe/aBfXvXVgBexYD6AGddmGY8PTBoVOqg=
+	t=1742398825; cv=none; b=tIGkVA6/ezjPs9NFNyjn+8FYwg8vy31vdK/nbn+/YXMJhY2AR389+tW0Ve8UbIPWcDVshWAn4A5txBCuLagvC+5Czb29a3LxH65aSAXlP8VMtocmOjPK5hGLvFm1Ag/Z0N2Hshx8cuw2ACk4ag+If2ci+uEi2VOF9k/qijE/iBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742396776; c=relaxed/simple;
-	bh=3D/MuSsp/QPxF75tlglyjKVX1UunnNhbd+JZHVymTjI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZrwIoG6n32NeLC7tU5ucVZzOndxKNf0bAZQG7xVTGlNkN3V2mlFkBPOL8pUuSWyQRy+yW4uUB8+AbABbfTom3fQFfgsnZ7fBTvxDm8d6FN+NRtUGsQQK5NxIE9f0MGXM3bNnM8nT10geCyjzNRZFoNTpVKa4egjqlCqVJ4oBTfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA3051655;
-	Wed, 19 Mar 2025 08:06:22 -0700 (PDT)
-Received: from mazurka.cambridge.arm.com (mazurka.cambridge.arm.com [10.2.80.18])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A210E3F694;
-	Wed, 19 Mar 2025 08:06:10 -0700 (PDT)
-From: =?UTF-8?q?Miko=C5=82aj=20Lenczewski?= <miko.lenczewski@arm.com>
-To: ryan.roberts@arm.com,
-	suzuki.poulose@arm.com,
-	yang@os.amperecomputing.com,
-	corbet@lwn.net,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	jean-philippe@linaro.org,
-	robin.murphy@arm.com,
-	joro@8bytes.org,
-	akpm@linux-foundation.org,
-	ardb@kernel.org,
-	mark.rutland@arm.com,
-	joey.gouly@arm.com,
-	maz@kernel.org,
-	james.morse@arm.com,
-	broonie@kernel.org,
-	oliver.upton@linux.dev,
-	baohua@kernel.org,
-	david@redhat.com,
-	ioworker0@gmail.com,
-	jgg@ziepe.ca,
-	nicolinc@nvidia.com,
-	mshavit@google.com,
-	jsnitsel@redhat.com,
-	smostafa@google.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev
-Cc: =?UTF-8?q?Miko=C5=82aj=20Lenczewski?= <miko.lenczewski@arm.com>
-Subject: [PATCH v4 3/3] arm64/mm: Elide tlbi in contpte_convert() under BBML2
-Date: Wed, 19 Mar 2025 15:05:34 +0000
-Message-ID: <20250319150533.37440-5-miko.lenczewski@arm.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250319150533.37440-2-miko.lenczewski@arm.com>
-References: <20250319150533.37440-2-miko.lenczewski@arm.com>
+	s=arc-20240116; t=1742398825; c=relaxed/simple;
+	bh=wAoeFN6hAbWVxku5OhniHiXhkdAt6x6CK2DxmwanrQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kESkwLe04jHurj6lp4AXfkPMQwNyodufnXP5a6nqNxvnA2TXRIaYYkO+tpHjHcl//ynmrJFtve1cf5axAgM34TKqM6Xo2VQgSMqx1rIEkSRtVRRw0k/Tpii8emctT9qzkXepUajtcbuaCJ2N/hFi8cX/OUrj6bs+Kdov98YLxGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1SavQQx; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1SavQQx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2B5DC4CEE4;
+	Wed, 19 Mar 2025 15:40:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742398824;
+	bh=wAoeFN6hAbWVxku5OhniHiXhkdAt6x6CK2DxmwanrQE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=o1SavQQxpm/oyzrgoKXokY1GXh1740OzKvorCW8kcMtdhp0MaCYxO2Fwb6qFL9QdN
+	 Wm3yZgt83sUEwBGs4YQ1/V8WFK9Urv+hPRD23vUqOr/QF+wkPw9wzko7bPnxgJNSRE
+	 Z+Wjcc5g7aV/Gk/ZGple7H+yVLMzNRnTZAj0MM0peixzg3SVl5M6MeZnGZXjPoHfNb
+	 VEWj/XYjHkR7pb8yt1xxAzpvhfBGVoK4cra4PIhxyeMjuK8QKXL4xPthu55M/nllaC
+	 JoKHGJzRWdlsEX4bnHEppmC9EOhUTNYUCbaE3Zi1Kf7I9ZdxBGZrd7D2tJxBirY7GA
+	 IS7eSwliqVXUQ==
+Date: Wed, 19 Mar 2025 15:40:17 +0000
+From: Simon Horman <horms@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	Manu Bretelle <chantr4@gmail.com>, kernel-team@meta.com
+Subject: Re: [PATCH net-next 1/6] netconsole: introduce 'release' as a new
+ sysdata field
+Message-ID: <20250319154017.GF768132@kernel.org>
+References: <20250314-netcons_release-v1-0-07979c4b86af@debian.org>
+ <20250314-netcons_release-v1-1-07979c4b86af@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250314-netcons_release-v1-1-07979c4b86af@debian.org>
 
-When converting a region via contpte_convert() to use mTHP, we have two
-different goals. We have to mark each entry as contiguous, and we would
-like to smear the dirty and young (access) bits across all entries in
-the contiguous block. Currently, we do this by first accumulating the
-dirty and young bits in the block, using an atomic
-__ptep_get_and_clear() and the relevant pte_{dirty,young}() calls,
-performing a tlbi, and finally smearing the correct bits across the
-block using __set_ptes().
+On Fri, Mar 14, 2025 at 10:58:45AM -0700, Breno Leitao wrote:
+> This commit adds a new feature to the sysdata structure, allowing the
+> kernel release/version to be appended as part of sysdata. Additionally,
+> it updates the logic to count this new field as a used entry when
+> enabled.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-This approach works fine for BBM level 0, but with support for BBM level
-2 we are allowed to reorder the tlbi to after setting the pagetable
-entries. We expect the time cost of a tlbi to be much greater than the
-cost of clearing and resetting the PTEs. As such, this reordering of the
-tlbi outside the window where our PTEs are invalid greatly reduces the
-duration the PTE are visibly invalid for other threads. This reduces the
-likelyhood of a concurrent page walk finding an invalid PTE, reducing
-the likelyhood of a fault in other threads, and improving performance
-(more so when there are more threads).
-
-Because we support via allowlist only bbml2 implementations that never
-raise conflict aborts and instead invalidate the tlb entries
-automatically in hardware, we can avoid the final flush altogether.
-Avoiding flushes is a win.
-
-Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
-Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
----
- arch/arm64/mm/contpte.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/mm/contpte.c b/arch/arm64/mm/contpte.c
-index 55107d27d3f8..77ed03b30b72 100644
---- a/arch/arm64/mm/contpte.c
-+++ b/arch/arm64/mm/contpte.c
-@@ -68,7 +68,8 @@ static void contpte_convert(struct mm_struct *mm, unsigned long addr,
- 			pte = pte_mkyoung(pte);
- 	}
- 
--	__flush_tlb_range(&vma, start_addr, addr, PAGE_SIZE, true, 3);
-+	if (!system_supports_bbml2_noabort())
-+		__flush_tlb_range(&vma, start_addr, addr, PAGE_SIZE, true, 3);
- 
- 	__set_ptes(mm, start_addr, start_ptep, pte, CONT_PTES);
- }
--- 
-2.48.1
+Reviewed-by: Simon Horman <horms@kernel.org>
 
