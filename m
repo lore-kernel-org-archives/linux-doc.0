@@ -1,406 +1,937 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2D816F858;
-	Wed, 19 Mar 2025 20:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742417627; cv=fail; b=mZvrB4ZkHEfhgJkD7ooetj3j2uT1fIjyNKUyDo43e9z2fMyCJ0e+hVbzISp9aNsFqViKjaAP2jk4XZsP8jE+YaIvVvQKDDyQN0dHqLKMWbNkDVw8T0UWHBlZ1Pfexv+aDUJU9HogTyAkzBd/HO85pMfqHGYS2bou4MLjXn3wej4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742417627; c=relaxed/simple;
-	bh=dI7BTuV5C91oc3iPqvg940CNA/4UMIJnT3S8haGbCwY=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=UJSWfHWsZV5jd0m6xmogRSI202OMJ9AVjkSXqO8uN6v5osad7Xvr7mBz7nREpglwPUxG17jQVm7AbecyMQMT6+65RGSc4L/gEev3qL/+uHITZU/uNnNXhyRKHoSw0Wt5wFtMtBNSFg2k4ghTQ+e0rmVDMUtXm3POrvYMnyiz8+g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iXMWkOk2; arc=fail smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B243A20C47B;
+	Wed, 19 Mar 2025 21:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742419324; cv=none; b=EW60to/R+uELoI1x5tvMsOYNoWSc61unYmQ7McDnFGnLv91nDkP+DfENpErNwkE6g5FBRYN7BCi1vL0KhKEoEVy9U8ntbBAyfXdIacnqtWEKq/j39/zQsSRrj+iuAL7+FRAbgvywqaIC+0Hm3xB7BVYUWQ6jClL5jGmslGkyGpw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742419324; c=relaxed/simple;
+	bh=8fw533LX3us9uq4fnVKecH9A/hjLxfTzEbEoQzevf2w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lzRNJHWFtn1pWS3qZTW+q4I9157bYgvgWmRR8R8hn0NbeHWf17iaW1Gh1Hgt7I573wDIlippz7t5HPG1DSfBX6JIRfWeEq34opqOEf48YfIsEhFVhGIWHEEF+rsBGYHlygidEvYVTBPD35LO/AL4G9Y/jT3pYMRE8BrOvp7+roA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iey2YFg6; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iXMWkOk2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742417626; x=1773953626;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=dI7BTuV5C91oc3iPqvg940CNA/4UMIJnT3S8haGbCwY=;
-  b=iXMWkOk2xGVnVAKlrRUtRi2NeEVZSqBScstvXmu6vMPSZp2vGDgVoPiF
-   ErUVCY1DD1OW8uhGrFm30don2p74mBfnDKMZJfCcGS6QlsH5O5vyj/148
-   KJqpKFWHs/19tXwG5phXxbNs+y0wryuaP0bR59v75fmf6k/XekqYFBtPI
-   CYYFVpT3VOW8FCNRfOiLpZVebU7hRedoycir0Zv3gDR0gxxPqCiDWMWa5
-   CAkYi3gvBiSkITpJylXutZ2XCNvB6UKE/mccBemLLeGCTWzCqRrqgeHFY
-   lkVGkQyZZn7u6U4Hzh1tHN9fU++FXBIgiWEoFFOyHDVVPOaG5bjsYl3qL
-   A==;
-X-CSE-ConnectionGUID: FOJVYwoERYKMTSLZnJtqag==
-X-CSE-MsgGUID: ertmVKfDQF223eYkmpu7Hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43550175"
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="43550175"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 13:53:45 -0700
-X-CSE-ConnectionGUID: 7s81hIYqSTWtGe70PuPltQ==
-X-CSE-MsgGUID: VNstVpXAQjCItVHfzsyqpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="128007528"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Mar 2025 13:53:44 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Wed, 19 Mar 2025 13:53:44 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Wed, 19 Mar 2025 13:53:44 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.47) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 19 Mar 2025 13:53:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Db5q+gYC58d6dHQtXPtKgqcD12SishOp7IiyqrFQmkQPXVdSaYVozpaR18QMFOtoCDW05fg+McEybiCA/hu8NTVqm/uHUMr0Izg7AR2ovFI6pTwWpXrH9rMw/cNPJrTZXGW/dpFXN0fY6W33F3kBX4HCCwVxMYqxA72i21IoWznr4Aj//JEk1rigQH/6cEKDJU6pXWYUcmYYtyudRyanVY18vg85jYiHl4kF0OfIspY0dXmHMYJKL/SHxTGdc/M0LSmffeyoBJW7e1Q8auokSq3UNnFz41zw+xYrqEXJrrJFwW4iRODH3CVhtLoZwmSHIiTrbB74ju0bDbAd8L/gsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GfXqHuwks9+cMI02jClGDa5h0yZ1syaqFgnRUfGgeYA=;
- b=IGRdJ674R08y1vTqBaIjvC115B5tM1qm0PPDogqZHA2gCermh/x+qJUNNb7eh3HBbCrBcJCU0gu2fa7CewTYR4btSFWl1+r8G/yXVHMlKYgCcMlY9R7SEZFnG4ziFB3+MbXrgyFWX5aG4mtv1kDa1vQrAV+Kb7m/LSuNvODvFeS/wG4YF3IyFKuasc8z7nCGAmLYyWGy6hrIAEpJ5Njj8BV9c0+UydDm8v7SxhUxgWp8j6T5xynS+tm+V9U4NJUi+7uM6mvJZhqKGqzRy9hxwI5w/BQvB/XrDcdW1Wgpzv9WNQekDjfcGVl/Zt5xkCVuLAqivwZgoLA4W+zC3bOkVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by DS0PR11MB6445.namprd11.prod.outlook.com (2603:10b6:8:c6::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.34; Wed, 19 Mar
- 2025 20:53:27 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.8534.034; Wed, 19 Mar 2025
- 20:53:27 +0000
-Message-ID: <ad3867b7-cf4c-4098-9639-e98d1145617e@intel.com>
-Date: Wed, 19 Mar 2025 13:53:23 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: "Moger, Babu" <bmoger@amd.com>, Peter Newman <peternewman@google.com>
-CC: <babu.moger@amd.com>, "Luck, Tony" <tony.luck@intel.com>, Dave Martin
-	<Dave.Martin@arm.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<akpm@linux-foundation.org>, <thuth@redhat.com>, <rostedt@goodmis.org>,
-	<xiongwei.song@windriver.com>, <pawan.kumar.gupta@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <jpoimboe@kernel.org>,
-	<perry.yuan@amd.com>, <sandipan.das@amd.com>, <kai.huang@intel.com>,
-	<xiaoyao.li@intel.com>, <seanjc@google.com>, <xin3.li@intel.com>,
-	<andrew.cooper3@citrix.com>, <ebiggers@google.com>,
-	<mario.limonciello@amd.com>, <james.morse@arm.com>,
-	<tan.shaopeng@fujitsu.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <maciej.wieczor-retman@intel.com>,
-	<eranian@google.com>
-References: <fc3a67ee-6e97-4b9f-88d9-c24c6dab20c3@intel.com>
- <CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com>
- <d1ca9220-1ab7-4a39-819a-03a6069b7ac4@amd.com>
- <CALPaoChLL8p49eANYgQ0dJiFs7G=223fGae+LJyx3DwEhNeR8A@mail.gmail.com>
- <a4ab53b5-03be-4299-8853-e86270d46f2e@amd.com>
- <c1c0a99a-a467-4ae6-80ee-04b6a9cdb6e5@amd.com>
- <Z890Q2GoP6GecwW4@agluck-desk3>
- <04e47d0e-6447-451e-98e4-7ea65187d370@amd.com>
- <6508cf67-3263-432e-892c-9b502b3c6cd4@intel.com>
- <f8a20ed8-6e30-4cff-a96b-8df89a605081@amd.com>
- <d07a70f5-b1ca-4766-a1d9-53988dd9164f@intel.com>
- <14c14b11-5b45-4810-8e46-019c8a67fc90@amd.com>
- <1db8ad73-5194-4821-844a-8fd7cac72ad4@intel.com>
- <9b8653a3-c6fd-4748-a4b5-94d5598d180f@amd.com>
- <20ec195a-c4dd-48d9-89f6-4d48fd438fe8@intel.com>
- <be6d23c8-3e93-4bdc-8b33-d3af7df7cc94@amd.com>
- <7f54f9aa-1102-49ed-b830-6facb6f48366@intel.com>
- <CALPaoCj7aSVxHisQTdKQ5KN0-aNzN8rRkRPVc7pjGMLSxfPvrA@mail.gmail.com>
- <8babbd2a-50ae-4a18-8e48-5421539ef0e6@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <8babbd2a-50ae-4a18-8e48-5421539ef0e6@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW2PR16CA0030.namprd16.prod.outlook.com (2603:10b6:907::43)
- To SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iey2YFg6"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22409077c06so658995ad.1;
+        Wed, 19 Mar 2025 14:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742419321; x=1743024121; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=INjxBY4NUU14lbJiLiuDMPDrJe530L26PzqgZvfD9z4=;
+        b=Iey2YFg6QsVUl1nJ8RmHzrbOIuZXDRQDFKcGyMoN9mxQ3RMmt0oUw2ZBZanZghGG2X
+         fePChQ8dLn56J2Ma17+Lht+F4UM1zKlarB2OYZe2rsClS/mDK5bgLepave78MTqUKrZj
+         rnG4lwFUM225yyFBywk3mGy4JDXCcDTqOBfvwC34XvrLn1CkBsbqvWvyQtuG0A5QnOtl
+         xHuPo/bNvcU17L2vnCA8aPOm3smSBAdVzDnylQXz2o3IBGiYnG5n9hxM2SGvMs9J9+7d
+         3l2mLHguNKMYeWXpL5sAA6u1Xsez3HPbusTD02Lmxeccy7aKpYV3sVogQdCFXZcEjb/c
+         1+gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742419321; x=1743024121;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=INjxBY4NUU14lbJiLiuDMPDrJe530L26PzqgZvfD9z4=;
+        b=gX8n3TD+cANVd8EqWFBRf98Scxqaa4rl7eLdWhQK2cPo9dC4KiK/jLjBaG6GsWyyDI
+         42XbwYnXmOh9tfgLH0pVmpU3r3S45WakRLdvhBYz5xmppvisCFpv7Eo/MTw0nJidDaPw
+         BeQaUmZd2dovSagxdgtXXY797COL+3wfzYbYsznh5cK0c89EAtMsWQeHcBjCNbx9p3eR
+         xxeNNL54hIOUN34FDDMdd9xk2tdyIL1nELUDfpKxRcRLRoewDvV4c+rwG4Rw5IyZeS9t
+         OFf/aeiwmyXAYxaq6ecLjWxCuNCdZ9KtXo62/4k9muKseu4l91caOGaHdh148kz5e6a3
+         TG1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVMx9fwmCqJv2qbVQccXrk5HuLxmSZL0i/fl5Q1ILcbaBccjNWM9MD4bOApCtncvYRjdHZC1Ky34d5e@vger.kernel.org, AJvYcCVN8ee5vnsCcuYduvtJ1f2xfvx667fFaVzOhDFdQGxjDyhuxeIu95SbavqqqiAIAN24/ewTDR24QfFDiiUJ@vger.kernel.org, AJvYcCWGAQN8p1hzSEQ8bP7mLWEJP8vb39eBDT5aJm0ks6tF4ZuiBIqyzncEGKKZna4G2WHhc/UKT47MDcwn@vger.kernel.org, AJvYcCXZJyxoSwkL1r95wAmCK2vOKDVu30znwfeKq9OLIV6FK6+hCFiv4LzSRMxTfaTK2dLcqDoE1SccVxIMD/Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyv2swWISeVr3JE7W/h/jHdv24Wy2I9Z4f6OIc2wV94Ti/mX580
+	5l+ZOa2XCqHI9rVijnzqik6eCpXVZ7ppxcfhkgQWX3e6w3zjSVab
+X-Gm-Gg: ASbGnct2QEi+GRZFXSYBOKTGsYkLF6PGDPwgoQmAwj+X6h5zUBEYnkPqYC/a1gcmhFD
+	G1ctiWkDs4+rDl01O0Yb+qP2pplwaV5dPA4rSSEkK96YCXsZfn1S59TaHkBpVJ+LvZep7cWe9Pf
+	efU3/UC01PTlqzisZ1h+v0QR0Xi1mQXKY7VgRC9IARWuWyiFEYDEuSdgYi9B9iRr1swGkQFYQ6U
+	phFkqJFklJIQ0hnfDKNSqxP/JpbGzx+5QKN/p9W7HofzpUuL3yalMiE7cf/TmKbwfcg8+28xx9R
+	PrUoaCvaNHdyvv4kze41ag4DQD9KKwXxOLxzt+d9M5rubXLSHLvutEBACYzUhh61lr/eKvX4UGG
+	bsuZuXz1eUbSMRG+D+Q==
+X-Google-Smtp-Source: AGHT+IGV7Pv090h51drctBEe4Wmlhq3Wsn3jsAdJuDNu4VJb6UUlfbVe9OdEXERbqnAVCAkPypUO2w==
+X-Received: by 2002:a17:90b:3c4a:b0:2fa:137f:5c61 with SMTP id 98e67ed59e1d1-301d50b3be1mr1577062a91.12.1742419320461;
+        Wed, 19 Mar 2025 14:22:00 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bd53aasm119911755ad.247.2025.03.19.14.21.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Mar 2025 14:21:59 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <60ed83d9-c5e3-40c3-9004-6c44511e3a9c@roeck-us.net>
+Date: Wed, 19 Mar 2025 14:21:58 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DS0PR11MB6445:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc21485c-0fc5-4147-3659-08dd6728189e
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TVM0eVo5ZmJkUUozbXJmb0JOdlJobjdsVkl6cm5oQzBLeDJFajdWbURWZkFK?=
- =?utf-8?B?dXFFaE90K1d0RUpjd29rV3ZOMU9LV01NYVdkN3p6VGlsTTZMVE1OTURUMm5T?=
- =?utf-8?B?NkJzNUorS3VlRS9sa21aQkF3Y1VXUXQyZkhKa1REVkVQTDF1dTkvUzJpOWtQ?=
- =?utf-8?B?L081RnI5TUZ2R3U1ZkFuNWtQUDNzWWVBWjVwMWZTWjhTUTZQbk80TjNubzdn?=
- =?utf-8?B?WnYzL0dYVTk0b3hpbll3dXZ6d1RITXZGc0dEcmFzeUMra2tyc2l0cUZsQmMx?=
- =?utf-8?B?ays5MEpzK3lkcDl2SmVWZHZJUHdDZUpFaHN6dkVjNUVEcGx1dkdjOU9KVit2?=
- =?utf-8?B?cXNoU1pUdGdMaFNSNFpLMEZRQjhmNFBSbjhZWDd3dys4blVaUnFLZE0zRW9Z?=
- =?utf-8?B?RXJjbGlOaVRIdk5GRXdJbWhZdCtjTUhrM0FwN2pBQ0NvM1MxWTVaRU9JQXg0?=
- =?utf-8?B?YXVVVmtQRkIrRUZRY3NHQWtmYkdpT3pHdzlpSzArNjA1VmttNnRWUVQwYml2?=
- =?utf-8?B?RmhXOEcrRjQvMEVYY0dlRHNoTWpNQVZQV3RHZFlkS1JmdG1sa3hsODJWYlR0?=
- =?utf-8?B?OWwzQTVkTkhmdWE0b0s0YTd0ODdzWGZKL1RGU1pId09iNWNmcWU2TnpscWZU?=
- =?utf-8?B?WGhVdWFwVmVwM1E3a0Rmd3l5djh1b1M2L1hZSi9hLzV3MnBvYWUzZlZPa2lr?=
- =?utf-8?B?Q1FLOXBSd0o5N3Yxb2ZXQVU3czJoQ3o2QmRpQWtxb1FYbk5TQjRsRVBKUnJm?=
- =?utf-8?B?cmdSUjNITjViTkJkNGtMaEdwSjFnZEw1Rmw3dkZXelNTbjA3Sm5aakk4Q1Ay?=
- =?utf-8?B?ZHNrdDB6Skc1NWFlQWJBNUlFOC9aWjhBYUZyTWVHcEtHaUJZWU8xT0hIWURR?=
- =?utf-8?B?dmxpQ3R5aDdlSUZuWlZFdnU0bmI2aFpwMisra3dPbVpsR2VCemZIVGpBenlh?=
- =?utf-8?B?WXRibzMreTh5S20rYkxiRkU4TzZKazIvOXhaVEtmdXYzWnBCbm82KzhzZDRl?=
- =?utf-8?B?aEVmL053RkUvUkZpNzVHVFIwRkViazhuNE1KMUoxYi9ndnJsaDI4aG1LeXdN?=
- =?utf-8?B?T1FDTnZ1NFp1bWZnNUxZd01OVVlVRlRycWFFRmpKbHFDZGdkZVVkWVNDZDAy?=
- =?utf-8?B?RVc5a2w5aysxY01TM0phRDRhN0tGVW5BbFBzYWoybVJreEsrekppVmxkdW1n?=
- =?utf-8?B?WklVczZpS3prUlRzcERjemMrSE9jQi9SUXZWcWpIdE5TNVQwWSt5NHBMMG9X?=
- =?utf-8?B?eFNVZWdUNlV1NWhPU3VyS2VnTGZKdG1rZzBBdFMrWkQ1RmZ6VS9oMUtQRlhJ?=
- =?utf-8?B?dHpVLy8wY3NZVmg0OXY1WXo0UXYrWjZTYi9kM0dVa2JMSkUvVC9DZCtDbm1k?=
- =?utf-8?B?TTl2QXZqV3VKekY1UC9YaTRFZzM0QmM2QmNHenJxVjlzWVdsdWZ2NkNBMFVW?=
- =?utf-8?B?Yk5JelhYTFRLUmowcEZta05GU1FxZUd0UERrYmsrVForWmhmWnFsVVh0ZkZT?=
- =?utf-8?B?UUV0dlZxSDV1cWlDUGw5WUJpbDhybitKZGdFdFdkVy80Q1V0ZHVUZ3RrZDNy?=
- =?utf-8?B?djkrS2M1QTg1clJRTVVYaC9LNUlSbzhIaXQxZTJUTWYxNlpvZ1pBck9Jbk1R?=
- =?utf-8?B?cmhtMWs1ZU5nS1NXalNFYUVSenhjU3cxMlNTU2lsV1NNR0FDeDlOM0dKaVJ4?=
- =?utf-8?B?NFQvaXZ5aTdzMG11VEhpdi9HbnBFaC9LM1d4VFB3TFA2NzhlblpMUUJyRGRL?=
- =?utf-8?B?ZFV3NWlLSUFxODl0MW91WUo2TXZKdHlhdUROVjlua3JBbzRyYytlTG1Hb1g4?=
- =?utf-8?B?YjBMOTduQkpMSG1CZVFjMEJwNW4yVjdqTFV4LzdmMDhzejc0UVBaSTh5bVp6?=
- =?utf-8?Q?H/fk7OP3YhpLx?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWVlblhyUWdtaUFjNW1oVk1xazB1TUxsVmNsVHVxMStQai9hRUsrZk1MTzRa?=
- =?utf-8?B?cnV2WkY0WUNXMk1nNmZEU1VRUDk1cG1MNEJGUHhIQjY4Y2doci9lWFlobmdR?=
- =?utf-8?B?MENTZ1FLdTVrTWRsYmowam5EWFBSRG85SjFsVkxwdks4Y0poZWIvV1lHRUsv?=
- =?utf-8?B?Z2tKdS9FTk9xR01oVC8vZTB4N1htVllxanZTTElGQ2hKTEF2WFNYUFhwSTls?=
- =?utf-8?B?RWFNaUFWWk04ZkhIcEpmZUYxVElJYWJnSklMaUNmSk1aeTd6ZjFBN1VHV3cx?=
- =?utf-8?B?TlJ5VjFlMHpJdWVIcHRxQzcvVUZ2a1RMd29BaVpRSmRPb000QmorbWY0WTVh?=
- =?utf-8?B?ZmFDaWxQQTVBMEVzRHptSXE0d0k3UHlKbXB6LzhUYktLZWhWcHVKdnloV0xn?=
- =?utf-8?B?UmREVzNQL0lZYm9tdG54UFhKbEU0SWdtZHAvazlVNkVVWWhrZTF3Q0djZU00?=
- =?utf-8?B?VkJuS0JUWDk1R0ZaTTE5VG9jdlJuMVVTdy91VXVVckxJNUFYNThnc1dxMHRO?=
- =?utf-8?B?dkVhOXFCMXpLS1JDei9EaGR6YzU5QUN0cXV4QUFXN0tZaklDSk1ZeC8vM2tS?=
- =?utf-8?B?ejdFcXpMWlF2MFpQbmVOZTMrTk5XdGE0dzR1bDNCNDc3SG10dVo5bjYxS0Ur?=
- =?utf-8?B?MlBtbUxNLzdkNHlLSDE5ZUxNNjFEQU5HYkRLVUVnazlrbnZpNVY3WlI4K1Rp?=
- =?utf-8?B?YmN5aitDbXdlQXFWdTFvUk1RL2JSeFdZa0VHZGhMZWxMdy9FaWhveU1vQXAr?=
- =?utf-8?B?MHFvbzBtZStWV041N2xxRHJjY2VkVFQxb0RJZE82RzNnSk5obHJxSWo4cU9P?=
- =?utf-8?B?aVMyYndKTm9DSzViQ0NKNkl5YTJZaHZkcCtxcy91d25xcmpBSFVRbTM4Rk9Q?=
- =?utf-8?B?dWhqRVUrZVlndTBoK0RNT0ZKZ0pnZFEzSzdkT0xXaHNyV1pxek9obkdNVkxm?=
- =?utf-8?B?M0trTmdqQ2dZQ29UNVJ2M2Q4c2w3R2thZUd1ZGJmZkpCYjFhUGkxVEJEU1Zq?=
- =?utf-8?B?a0Jhb3F6NE9NMVRLYjNYWnZ2Ylo5aTJ2VUpWQnpKQVhpT1lCWnliRVlQYVdY?=
- =?utf-8?B?SzdlMGNIeTR4Vm5vRVhOZFB1ZDVGZjZpWDJoQlRZV3NSSllGcHVuVVFTR3lp?=
- =?utf-8?B?YkhxdThjaElwVUJZeUdPMmZZRVAyWlFrd1N4U1UxMzVreFR5Q3dzMjlXT1ln?=
- =?utf-8?B?c0NsZVFYRmkveVVxM2w5VW5OQ0IvaDZBMWoyaWdWK3czL1N1c050Mm9yWk5t?=
- =?utf-8?B?OEZqSVhpeEhGK28rbkxVSityN2NBWGJzS1ZpbHhSbHFjSjhGdEs1UXowRWht?=
- =?utf-8?B?QmE4Sy9zbEZoRG9nSmZGRFF3N0U2a2VURWhGekc5cUwrZ0JxemRPMVRCUTNI?=
- =?utf-8?B?TnA0K1lCVXlZY1hqNjBpNUU1U08zK3F6eXhsMnZNeHRJSCswZHZBd1lwUmw0?=
- =?utf-8?B?NUZycGNhWW84QUNXUW9HbEs3aWNRNHNsVXNsMnloc2x2Z0E2SFVhS1hkSENo?=
- =?utf-8?B?ZEtzNTVLQWRLNVZtYUs0OGhockZRWFczRytQZHNqZUN1U2oxVTJBaUdCYWxj?=
- =?utf-8?B?Q3RiYXRjaE5Za3UzQTB3UHBxd3YrN1BzaEdwRnliZnNIeWxiWmRPS0pnRUFZ?=
- =?utf-8?B?RnB1cnU5UDAvSzFCN01LbTJsdi9oK1cvZG9FTFdPemRXOVlYUmMveDVVUWt3?=
- =?utf-8?B?QjNCcFNTNUdiWWYvbzRzaGR0K1BXbXlNYWE0SVRKcVJWcU9HOEtpaGNYOUtV?=
- =?utf-8?B?bGJiRm12NlFEc1VWeXEzM20xc21ieTNJUEdCeC80UGVxSjhYc3FVRlNEZ3Vi?=
- =?utf-8?B?Ukk4Nk9lTi9xUEpSbVNaWFRpZWRLRzhhZmVJOHZ0STNmN3ZsdEpnaFFmMWxr?=
- =?utf-8?B?OThSNEhJK0V2YUR4aTJyT3Z0Nks1RWQ0bFNzd2FYV3dJalNVOEpINnNzQ1c1?=
- =?utf-8?B?MG5MU2JHQ1lIa1ZNUHdlaHR5eXRvS1FCd0lMQlhVWitwcGZCUTRqVGozeVBu?=
- =?utf-8?B?QW9IdWpTcTRzM3k5c2k2LzVJWUorMnlPQm1pMzVFeXcxV0xLalZ5Y3o2U1ZF?=
- =?utf-8?B?RStxeE1NOEx6TzVvWUlYY2hJYUw1eFJTQlloeEx4ZHhKTlJiVFFhdERaVXdl?=
- =?utf-8?B?ZnlZYzlhVDYwMkJ2RmJqS3ErSnY0SzhmREJsQUVsZkQ4S1liMHVnWW9FRWlq?=
- =?utf-8?B?YWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc21485c-0fc5-4147-3659-08dd6728189e
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 20:53:26.9833
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2M7n2jLk9vatgcpg7b5GFvhv7JgXOrhd3Nq/BpIApOQsHwds1Zv/6IYRQvWQHPXgqj7qaCbv/BW/bKmPEQCgv9HxPfmbi2HdfyJ9GxKW5bI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6445
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] hwmon: Add support for TI TPS389008
+To: Flaviu Nistor <flaviu.nistor@googlemail.com>
+Cc: Flaviu Nistor <flaviu.nistor@gmail.com>, Jean Delvare
+ <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250319170234.63723-1-flaviu.nistor@gmail.com>
+ <20250319170234.63723-2-flaviu.nistor@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20250319170234.63723-2-flaviu.nistor@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Babu and Peter,
-
-On 3/17/25 4:00 PM, Moger, Babu wrote:
-> Hi Peter,
+On 3/19/25 10:02, Flaviu Nistor wrote:
+> TI TPS38900x are voltage monitor IC's.
 > 
-> On 3/17/2025 11:27 AM, Peter Newman wrote:
->> Hi Reinette,
->>
->> On Thu, Mar 13, 2025 at 10:22 PM Reinette Chatre
->> <reinette.chatre@intel.com> wrote:
->>>
->>> Hi Babu,
->>>
->>> On 3/13/25 1:13 PM, Moger, Babu wrote:
->>>> On 3/13/25 11:08, Reinette Chatre wrote:
->>>>> On 3/12/25 11:14 AM, Moger, Babu wrote:
->>>>>> On 3/12/25 12:14, Reinette Chatre wrote:
->>>>>>> On 3/12/25 9:03 AM, Moger, Babu wrote:
->>>>>>>> On 3/12/25 10:07, Reinette Chatre wrote:
->>>
->>>
->>>> Here are the steps. Just copying steps from Peters proposal.
->>>> https://lore.kernel.org/lkml/CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com/
->>>
->>> Thank you very much for detailing the steps. It is starting the fall into place
->>> for me.
->>>
->>>>
->>>>
->>>> 1. Mount the resctrl
->>>>     mount -t resctrl resctrl /sys/fs/resctrl
->>>
->>> I assume that on ABMC system the plan remains to have ABMC enabled by default, which
->>> will continue to depend on BMEC.
->>>
->>> How would the k existing BMEC implementation be impacted in this case?
->>>
->>> Without any changes to BMEC support the mbm_total_bytes_config and mbm_local_bytes_config
->>> files will remain and user space may continue to use them to change the event
->>> configurations with confusing expecations/results on an ABMC system.
->>>
->>> One possibility may be that a user may see below on ABMC system even if BMEC is supported:
->>> # cat /sys/fs/resctrl/info/L3_MON/mon_features
->>> llc_occupancy
->>> mbm_total_bytes
->>> mbm_local_bytes
->>>
->>> With the above a user cannot be expected to want to interact with mbm_total_bytes_config
->>> and mbm_local_bytes_config, which may be the simplest to do.
->>
->> How about making mbm_local_bytes and mbm_total_bytes always be
->> configured using mbm_{local,total}_bytes_config and only allowing the
->> full ABMC configurability on user-defined configurations. This could
->> resolve the issue of backwards compatibility with the BMEC files and
->> remove the need for the user opting-in to ABMC mode.
-
-hmmm, yes, backward compatibility is a big issue with an earlier suggestion
-from me. Users with scripts/tools using mbm_{local,total}_bytes_config
-would expect that to continue to work on systems that support BMEC.
-resctrl could continue to use mbm_{local,total}_bytes_config
-even though the inconsistent interface is not ideal
-
+> All device variants offer an I2C interface and depending on the
+> part number, x monitor inputs.
 > 
-> There is no opt-in mode. ABMC will be enabled by default if supported.
-> Users will have option to go back to legacy mode.
-
-I assume there will still be the opt-in for automatic counter assignment
-on monitor group creation (mkdir)?
-
+> Support chips by the driver are TPS389008, TPS389006 and TPS389004.
 > 
-> The default configurations will be used for total(0x7f equivalent to enable all) and local(0x15 equivalent to all local events).
+> The driver adds support for reading the 8-bit ADC value of any of
+
+Use imperative mood.
+
+> the VMON inputs. By default the inputs are disabled and have a scaling
+> factor of 1x. They need to be enabled in the device tree, or using the
+> sysfs attribute from user space.
 > 
-> Same thing will show up at
-> a. info/L3_MON/counter_configs/mbm_total_bytes/event_filter
-> b. info/L3_MON/counter_configs/mbm_local_bytes/event_filter
+Default must be the current chip configuration.
 
-These files could possibly be read-only but the moment user space uses
-mbm_{local,total}_bytes_config to change the configurations between domains
-this will be invalid. In this case the file could also perhaps
-read "Configured using <path to>mbm_{local,total}_bytes_config". It is
-not clear to me what would be most intuitive to user space.
+> Signed-off-by: Flaviu Nistor <flaviu.nistor@gmail.com>
 
+You'll have to decide if you want to use flaviu.nistor@googlemail.com or
+flaviu.nistor@gmail.com.
+
+This is not a complete review.
+
+General comments:
+
+- The driver must support non-devicetree configurations and
+   in that case just use defaults (i.e., use what the chip provides).
+
+- Drop VMON. This is a driver for the chip, not just for its voltage monitoring
+   capabilities.
+
+- Voltage channel numbers start with 0. Yes, there are one or two drivers
+   starting with 1 for historic reasons, but that is not an argument.
+   Besides, just looking at the code should make it obvious that the 1->0 mapping
+   is risky and error prone.
+
+- checkpatch --strict says:
+
+   total: 0 errors, 4 warnings, 13 checks, 566 lines checked
+
+   I expect that to be addressed in the next version.
+
+> ---
+>   Documentation/hwmon/index.rst     |   1 +
+>   Documentation/hwmon/tps389008.rst |  56 ++++
+>   MAINTAINERS                       |   8 +
+>   drivers/hwmon/Kconfig             |  10 +
+>   drivers/hwmon/Makefile            |   1 +
+>   drivers/hwmon/tps389008.c         | 466 ++++++++++++++++++++++++++++++
+>   6 files changed, 542 insertions(+)
+>   create mode 100644 Documentation/hwmon/tps389008.rst
+>   create mode 100644 drivers/hwmon/tps389008.c
 > 
->>
->> It will be less clean implementation-wise, since there will be two
->> classes of event configuration to deal with, but I think it seems
->> logical from the user's side.
->>
->>>
->>> To follow that, we should also consider how "mon_features" will change with this
->>> implementation.
->>>
->>>>
->>>> 2. When ABMC is supported two default configurations will be created.
->>>>
->>>>    a. info/L3_MON/counter_configs/mbm_total_bytes/event_filter
->>>>    b. info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>>
->>>>    These files will be populated with default total and local events
->>>>    # cat info/L3_MON/counter_configs/mbm_total_bytes/event_filter
->>>>      VictimBW
->>>>      RmtSlowFill
->>>>      RmtNTWr
->>>>      RmtFill
->>>>      LclFill
->>>>      LclNTWr
->>>>      LclSlowFill
->>>
->>> Looks good. Here we could perhaps start nitpicking about naming and line separation.
->>> I think it may be easier if the fields are separated by comma, but more on that
->>> below ...
->>>
->>>>
->>>>    # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>>     LclFill,
->>>>     LclNTWr
->>>>     LclSlowFill
->>>>
->>>> 3. Users will have options to update the event configuration.
->>>>     echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>
->>> We need to be clear on how user space interacts with this file. For example,
->>> can user space "append" configurations? Specifically, if the file has
->>> contents like your earlier example:
->>> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>   LclFill
->>>   LclNTWr
->>>   LclSlowFill
->>>
->>> Should above be created with (note "append" needed for second and third):
->>> echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>> echo LclNTWr >> info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>> echo LclSlowFill >> info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>
->>> Is it possible to set multiple configurations in one write like below?
->>> echo "LclFill,LclNTWr,LclSlowFill" > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>
->>> (note above where it may be easier for user space to use comma (or some other field separator)
->>> when providing multiple configurations at a time, with this, to match, having output in
->>> commas may be easier since it makes user interface copy&paste easier)
->>>
->>> If file has content like:
->>> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>   LclNTWr
->>>   LclSlowFill
->>>
->>> What is impact of the following:
->>> echo LclFill > info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>
->>> Is it (append):
->>> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>   LclFill
->>>   LclNTWr
->>>   LclSlowFill
->>>
->>> or (overwrite):
->>> # cat info/L3_MON/counter_configs/mbm_local_bytes/event_filter
->>>   LclFill
->>>
->>> I do think the interface will be more intuitive it if follows regular file
->>> operations wrt "append" and such. I have not looked into how kernfs supports
->>> "append".
->>
->> I expect specifying counter_configs to be a rare or one-time
->> operation, so I think ease-of-use is the only concern. I think
->> multiple, appending writes is the most straightforward to implement
->> and invoke (for a shell user), but I think commas are easy enough to
->> support as well, even though it would look better when reading back to
->> see the entries on separate lines.
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 874f8fd26325..b04643d14972 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -239,6 +239,7 @@ Hardware Monitoring Kernel Drivers
+>      tmp513
+>      tps23861
+>      tps25990
+> +   tps389008
+>      tps40422
+>      tps53679
+>      tps546d24
+> diff --git a/Documentation/hwmon/tps389008.rst b/Documentation/hwmon/tps389008.rst
+> new file mode 100644
+> index 000000000000..6e1166165ac4
+> --- /dev/null
+> +++ b/Documentation/hwmon/tps389008.rst
+> @@ -0,0 +1,56 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver tps389008
+> +======================
 
-When the counter configuration consist out of multiple events then it may
-be convenient to just write it all in one go and having a shell user use
-newline as field separator does not seem convenient. Appending writes sound
-good no matter the field separator.
-Reading back we may have to consider both what looks good to user space and
-what is easy to parse by a script.
+Does that pass documentation builds ?
 
->>
->> I believe you can inspect the file descriptor's flags from the
->> kernfs_open_file reference: of->file->f_flags & O_APPEND
->>
->> I haven't tried this, though.
+> +
+> +Supported chips:
+> +
+> +  * TI TPS389008, TPS389006, TPS389004
+> +
+> +    Prefix: 'tps389008'
+> +
+> +    Addresses scanned: -
+> + 
+> +    Datasheet: https://www.ti.com/lit/ds/symlink/tps389006.pdf?ts=1741000787840&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FTPS389006
+> +
+> +Author:
+> +
+> +  - Flaviu Nistor <flaviu.nistor@gmail.com>
+> +
+> +Description
+> +-----------
+> +
+> +This driver implements support for TI TPS389008, TPS389006 and TPS389004 voltage monitor chips.
 
-Thanks for looking this up.
+Those are not voltage monitor chips, they are voltage supersisor and monitor chips.
 
-Reinette
+> +The driver supports only the chips that have default values based on datasheet and not OTP NVM settings.
+
+Why ? Given the normal use case for those chips (as voltage sequencer)
+that doesn't make any sense. If anything, it should be the opposite.
+
+> +Monitored voltages can be read out via an internal ADC with one register per input channel.
+> +Measured voltage is expressed in mV per LSB.
+> +The measurement voltage ranges depends on the scaling factor used as following:
+> +
+> +  - 1x scaling: 200 to 1475 mV (8-bit resolution)
+> +  - 4x scaling: 800 to 5900 mV (8-bit resolution)
+> +
+> +The scaling factor is 1 by default for all channels.
+> +
+> +All input VMON channel are disabled by default, and they can be enabled via the dts (during probe)
+> +or using the provided sysfs attribute from user space.
+
+This is unacceptable. Default has to be what the chip is programmed to do
+for a chip like this.
+
+> +
+> +The device communicates with the I2C protocol and uses the I2C address 0x30 by default.
+> +
+> +
+> +Known Issues
+> +------------
+> +
+> +The driver does not support usage of alarms and setting of thresholds (for the alarms).
+> +
+
+Curious: Why ? That would be the primary use case for a hardware monitoring driver.
+
+> +sysfs-Interface
+> +---------------
+> +
+> +The following list includes the sysfs attributes that the driver will provide for each added input channel:
+> +
+> +=============================== ======= ========================================
+> +Name                            Perm    Description
+> +=============================== ======= ========================================
+> +in[12345678]_input:             RO      Voltage channel input
+> +in[12345678]_label:             RO      Voltage channel label
+> +in[12345678]_enable:            RW      Voltage channel enable controls
+
+Make that [0-7]. Also indicate number of channels per chip.
+
+> +=============================== ======= ========================================
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 16f51eb6ebe8..fbf07f26d933 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23510,6 +23510,14 @@ F:	Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
+>   F:	Documentation/hwmon/tps23861.rst
+>   F:	drivers/hwmon/tps23861.c
+>   
+> +TEXAS INSTRUMENTS TPS389008 VMON DRIVER
+
+Drop VMON here and elsewhere.
+
+> +M:	Flaviu Nistor <flaviu.nistor@gmail.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/hwmon/ti,tps389008.yaml
+> +F:	Documentation/hwmon/tps389008.rst
+> +F:	drivers/hwmon/tps389008.c
+> +
+>   TEXAS INSTRUMENTS' DAC7612 DAC DRIVER
+>   M:	Ricardo Ribalda <ribalda@kernel.org>
+>   L:	linux-iio@vger.kernel.org
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 4cbaba15d86e..5562eea4d0bb 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -1340,6 +1340,16 @@ config SENSORS_TPS23861
+>   	  This driver can also be built as a module. If so, the module
+>   	  will be called tps23861.
+>   
+> +config SENSORS_TPS389008
+> +	tristate "TI TPS389008 VMON Driver"
+> +	depends on I2C
+> +	help
+> +	  This driver provides support for voltage monitoring for the Texas
+> +	  Instruments TPS389008, TPS389006 and TPS389004 chips.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called tps389008.
+> +
+>   config SENSORS_MENF21BMC_HWMON
+>   	tristate "MEN 14F021P00 BMC Hardware Monitoring"
+>   	depends on MFD_MENF21BMC
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index b7ef0f0562d3..6eb0b7696239 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -164,6 +164,7 @@ obj-$(CONFIG_SENSORS_MC34VR500)	+= mc34vr500.o
+>   obj-$(CONFIG_SENSORS_MCP3021)	+= mcp3021.o
+>   obj-$(CONFIG_SENSORS_TC654)	+= tc654.o
+>   obj-$(CONFIG_SENSORS_TPS23861)	+= tps23861.o
+> +obj-$(CONFIG_SENSORS_TPS389008) += tps389008.o
+>   obj-$(CONFIG_SENSORS_MLXREG_FAN) += mlxreg-fan.o
+>   obj-$(CONFIG_SENSORS_MENF21BMC_HWMON) += menf21bmc_hwmon.o
+>   obj-$(CONFIG_SENSORS_MR75203)	+= mr75203.o
+> diff --git a/drivers/hwmon/tps389008.c b/drivers/hwmon/tps389008.c
+> new file mode 100644
+> index 000000000000..6ee6c3b58747
+> --- /dev/null
+> +++ b/drivers/hwmon/tps389008.c
+> @@ -0,0 +1,466 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * tps389008.c Support for the TI TPS389008 Voltage Monitor
+> + *
+> + * Part numbers supported:
+> + * TPS389006, TPS389008
+> + *
+
+This does not match the rest of the code.
+
+> + * Author: Flaviu Nistor <flaviu.nistor@gmail.com>
+> + *
+> + * Datasheet and application notes:
+> + * https://www.ti.com/
+
+Pretty pointless reference.
+
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/bits.h>
+> +#include <linux/cleanup.h>
+> +#include <linux/completion.h>
+> +#include <linux/delay.h>
+
+I do not se where completion.h and delay.h would be needed.
+
+> +#include <linux/hwmon.h>
+> +#include <linux/i2c.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/irq.h>
+
+I do not see any interrupt support.
+
+> +#include <linux/module.h>
+> +#include <linux/regulator/consumer.h>
+
+I do not see any regulator code.
+
+Please only include files which are actually used.
+
+Overall it seems like the template for this driver was either copied,
+or the entire driver ws copied and scaled down. That is fine, but there
+should be a reference to the origin.
+
+> +
+> +#define TPS389008_NUM_CHANNELS      8
+> +#define TPS389008_1LSB              5
+> +#define RANGE_OFFSET                200
+> +#define BANK0                       0
+> +#define BANK1                       1
+> +/*BANK0 REGISTERS*/
+> +#define MON_LVL			            0x40
+> +#define BANK_SEL                    0xF0
+> +/*BANK1 REGISTERS
+> + * use 0x100 to signal that address is part of BANK1
+> + */
+
+/*
+  * Please use proper multi-line comments, and add spaces after the beginning and before
+  * the end of a comment.
+  */
+
+> +#define MON_CH_EN                   0x11E
+> +
+> +struct tps389008_input {
+> +	const char *label;
+> +	int vrange_mult_mv;
+> +	bool enabled;
+> +	bool disconnected;
+
+There should only be one flag, for disconnected channels.
+'enabled' is a local cache. Either use regmap for caching,
+or get it from the chip.
+
+> +};
+> +
+> +struct tps389008_data {
+> +	struct device *hwmon;
+> +	struct i2c_client *client;
+> +	struct tps389008_input input[TPS389008_NUM_CHANNELS];
+> +	struct mutex dev_access_lock; /* device access lock */
+> +	const char *name;
+> +	int current_bank;
+> +};
+> +
+> +enum tps_chan_addr {
+> +	TPS_CHANNEL_0 = 0,
+> +	TPS_CHANNEL_1,
+> +	TPS_CHANNEL_2,
+> +	TPS_CHANNEL_3,
+> +	TPS_CHANNEL_4,
+> +	TPS_CHANNEL_5,
+> +	TPS_CHANNEL_6,
+> +	TPS_CHANNEL_7,
+> +	TPS_CHANNEL_8
+
+I do not see the point of these defines.
+
+> +};
+> +
+> +static int tps389008_read_string(struct device *dev, enum hwmon_sensor_types type,
+> +	u32 attr, int channel, const char **str)
+> +{
+> +	struct tps389008_data *tps = dev_get_drvdata(dev);
+> +	int index;
+> +
+> +	index = channel - 1;
+
+This is an absolute no-go. Channels start with 0. There must not be a
+dummy channel.
+
+> +	*str = tps->input[index].label;
+> +
+> +	return 0;
+> +}
+> +
+> +static umode_t tps389008_is_visible(const void *data, enum hwmon_sensor_types type,
+> +				  u32 attr, int channel)
+> +{
+> +	const struct tps389008_data *tps = data;
+> +	const struct tps389008_input *input = NULL;
+
+Unecessary assignment.
+
+> +	int index;
+> +
+> +	/* channel numbering starts from 1, but index from 0*/
+> +	index = channel - 1;
+> +
+> +	/* in0_ or disconnected channels should be ignored*/
+> +	if (channel == 0 ||
+> +		(tps->input[index].disconnected ||
+> +		 tps->input[index].vrange_mult_mv == 0)) {
+
+vrange_mult_mv should have a default and never be 0.
+
+> +		return 0;
+> +	}
+> +	switch (attr) {
+> +	case hwmon_in_input:
+> +		return 0444;
+> +	case hwmon_in_label:
+> +		input = &tps->input[index];
+> +		/* Hide label node if label is not provided */
+> +		return (input && input->label) ? 0444 : 0;
+
+"input" is never NULL.
+
+> +	case hwmon_in_enable:
+> +		return 0644;
+> +	default:
+> +		return 0;
+> +	}
+> +}
+> +
+> +static int change_bank(struct tps389008_data *data, u8 bank)
+> +{
+> +	int ret;
+> +
+> +	ret = i2c_smbus_write_byte_data(data->client, BANK_SEL, bank);
+> +	if (ret < 0) {
+> +		dev_err(&data->client->dev,
+> +			"change to bank%d failed with error code: %d\n", bank, ret);
+
+Drop all those runtime error messages.
+
+> +		return ret;
+> +	}
+> +
+> +	return ret;
+> +}
+
+This function is only used to display an error message, which I am not going
+to accept. All callers check if changing the bank is necessary, and save
+the new bank number. This doesn't make sense. Please move the common code into
+this function.
+
+> +
+> +static int tps389008_write_reg(struct tps389008_data *data, u16 reg, u8 val)
+> +{
+> +	int ret;
+> +	u8 bank;
+> +
+> +	bank  = (reg & 0x100) >> 8;
+> +
+> +	if (bank != (u8)data->current_bank) {
+
+Why the typecast and not just define current_bank as u8 ?
+
+> +		change_bank(data, bank);
+
+Add error checks here and everywhere else.
+
+> +		data->current_bank = bank;
+> +	}
+> +
+> +	ret = i2c_smbus_write_byte_data(data->client, reg, val);
+> +	if (ret < 0) {
+> +		dev_err(&data->client->dev,
+> +				"I2C write failed at address: 0x%X with error code: %d\n",
+> +				reg, ret);
+
+Drop all those log messages.
+
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int tps389008_read_reg(struct tps389008_data *data, u16 reg, u16 *val)
+> +{
+> +	int read_byte;
+> +	u8 bank;
+> +
+> +	bank  = (reg & 0x100) >> 8;
+> +
+> +	if (bank != (u8)data->current_bank) {
+> +		change_bank(data, bank);
+> +		data->current_bank = bank;
+> +	}
+> +
+> +	read_byte = i2c_smbus_read_byte_data(data->client, reg);
+> +	if (read_byte < 0) {
+> +		dev_err(&data->client->dev,
+> +			"I2C read failed at address: 0x%X with error code: %d\n", reg, read_byte);
+> +		return read_byte;
+> +	}
+> +
+> +	*val = read_byte;
+
+What is the point of splitting return value and error code ?
+It just adds a lot of unnecessary complexity to the code.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int tps389008_get_in_val(struct tps389008_data *data, u16 reg, int channel, long *val)
+> +{
+> +	u16 reg_val;
+> +	int ret;
+> +	int index;
+> +
+> +	/* channel numbering starts from 1, but index from 0*/
+> +	index = channel - 1;
+> +
+> +	ret = tps389008_read_reg(data, reg, &reg_val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*val = ((reg_val * TPS389008_1LSB + RANGE_OFFSET) * data->input[index].vrange_mult_mv);
+
+Drop all unnecessary ( ).
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int disable_input(struct tps389008_data *data, u8 channel)
+> +{
+> +	u16 reg_val;
+> +	int ret;
+> +	int index;
+> +
+> +	index = channel - 1;
+> +
+> +	ret = tps389008_read_reg(data, MON_CH_EN, &reg_val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	reg_val = reg_val & ~(1 << index);
+> +
+> +	ret = tps389008_write_reg(data, MON_CH_EN, reg_val);
+> +
+> +	return ret;
+> +}
+> +
+> +static int enable_input(struct tps389008_data *data, u8 channel)
+> +{
+> +	u16 reg_val;
+> +	int ret;
+> +	int index;
+> +
+> +	index = channel - 1;
+> +
+> +	ret = tps389008_read_reg(data, MON_CH_EN, &reg_val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	reg_val = reg_val | (1 << index);
+
+This is what the BIT() macro is for. Same here and elsewhere.
+
+> +
+> +	ret = tps389008_write_reg(data, MON_CH_EN, reg_val);
+> +
+> +	return ret;
+> +}
+> +
+> +static int tps389008_write(struct device *dev, enum hwmon_sensor_types type, u32 attr,
+> +			int channel, long val)
+> +{
+> +	struct tps389008_data *data = dev_get_drvdata(dev);
+> +	int index;
+> +	int ret;
+> +
+> +	/* channel numbering starts from 1, but index from 0*/
+> +	index = channel - 1;
+> +
+> +	guard(mutex)(&data->dev_access_lock);
+> +
+> +	if (attr == hwmon_in_input || attr == hwmon_in_label) {
+> +		dev_warn(dev, "Write to READ ONLY resource\n");
+> +		return -EOPNOTSUPP;
+> +	}
+
+The checked attributes are read-only. This won't happen.
+Even if it was possible, the error message would be unacceptable.
+Please drop this code.
+
+> +	if (attr == hwmon_in_enable) {
+> +		if (val == 0) {
+> +			data->input[index].enabled = val;
+> +			ret = disable_input(data, channel);
+> +			return ret;
+> +		} else if (val == 1) {
+> +			data->input[index].enabled = val;
+> +			ret = enable_input(data, channel);
+> +			return ret;
+> +		}
+> +		dev_err(dev, "invalid value %ld\n", val);
+
+This would create a lot of noise if someone keeps writing "2".
+It is both unnecessary and unacceptable.
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static int tps389008_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
+> +			int channel, long *val)
+> +{
+> +
+> +	struct tps389008_data *data = dev_get_drvdata(dev);
+> +	int ret;
+> +	int index;
+> +
+> +	/* channel numbering starts from 1, but index from 0*/
+> +	index = channel - 1;
+> +
+> +	guard(mutex)(&data->dev_access_lock);
+> +
+> +	switch (attr) {
+> +	case hwmon_in_input:
+> +		ret = tps389008_get_in_val(data, MON_LVL + index, channel, val);
+> +		if (ret)
+> +			dev_err(dev,
+> +				"Reading the ADC value for channel %d failed with error code: %d\n",
+> +				channel, ret);
+> +		break;
+> +	case hwmon_in_enable:
+> +		*val = data->input[index].enabled;
+
+ret is uninitialized. No idea why the compiler doesn't bail out here.
+
+> +		break;
+> +	default:
+> +		ret = -EOPNOTSUPP;
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct hwmon_channel_info *tps389008_info[] = {
+> +	HWMON_CHANNEL_INFO(in,
+> +					/* 0: dummy, skipped in is_visible */
+> +					HWMON_I_INPUT,
+> +					/* 1-8: input voltage Channels */
+> +					HWMON_I_INPUT | HWMON_I_ENABLE | HWMON_I_LABEL,
+> +					HWMON_I_INPUT | HWMON_I_ENABLE | HWMON_I_LABEL,
+> +					HWMON_I_INPUT | HWMON_I_ENABLE | HWMON_I_LABEL,
+> +					HWMON_I_INPUT | HWMON_I_ENABLE | HWMON_I_LABEL,
+> +					HWMON_I_INPUT | HWMON_I_ENABLE | HWMON_I_LABEL,
+> +					HWMON_I_INPUT | HWMON_I_ENABLE | HWMON_I_LABEL,
+> +					HWMON_I_INPUT | HWMON_I_ENABLE | HWMON_I_LABEL,
+> +					HWMON_I_INPUT | HWMON_I_ENABLE | HWMON_I_LABEL),
+
+Indentation is way to deep.
+
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_ops tps389008_hwmon_ops = {
+> +	.is_visible = tps389008_is_visible,
+> +	.read_string = tps389008_read_string,
+> +	.read = tps389008_read,
+> +	.write = tps389008_write,
+> +};
+> +
+> +static const struct hwmon_chip_info tps389008_chip_info = {
+> +	.ops = &tps389008_hwmon_ops,
+> +	.info = tps389008_info,
+> +};
+> +
+> +
+
+No double empty lines. checkpatch would tell you.
+
+> +static int tps389008_probe_child_from_dt(struct device *dev,
+> +	struct device_node *child,
+> +	struct tps389008_data *tps)
+
+Please no unnecessary continuation lines. On top of that,
+continuation line assignment is wrong. Again, checkpatch would tell.
+
+> +{
+> +	struct tps389008_input *input;
+> +	u32 val;
+> +	int ret;
+> +
+> +	ret = of_property_read_u32(child, "reg", &val);
+> +	if (ret) {
+> +		dev_err(dev, "missing reg property of %pOFn\n", child);
+> +		return ret;
+> +	}
+> +	if (val < 1 || val > TPS_CHANNEL_8) {
+
+This should compare against the actual number of channels supported by the chip.
+
+> +		dev_err(dev, "invalid reg %d of %pOFn\n", val, child);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* remember that children nodes starts from 1, but we have the input start index 0.*/
+> +	input = &tps->input[val-1];
+> +
+> +	ret = (int)of_property_read_bool(child, "ti,vrange-mult-4x");
+
+Unnecessary type cast and, for that matter, variable assignment.
+
+	if (of_property_read_bool(child, "ti,vrange-mult-4x"))
+
+would be just as good.
+
+> +	if (ret)
+> +		input->vrange_mult_mv = 4;
+> +	else
+> +		input->vrange_mult_mv = 1;
+> +
+> +	ret = (int)of_property_read_bool(child, "ti,vmon-enable");
+> +	/* missing optional property. Default enable the channel*/
+> +	if (ret)
+> +		input->enabled = true;
+
+	input->enabled = of_property_read_bool(child, "ti,vmon-enable");
+
+> +
+> +	/* Log the disconnected channel input */
+> +	if (!of_device_is_available(child)) {
+> +		input->disconnected = true;
+> +		return 0;
+> +	}
+> +
+> +	/* Save the connected input label if available */
+> +	of_property_read_string(child, "label", &input->label);
+> +
+> +	return 0;
+> +}
+> +
+> +static int tps389008_probe_from_dt(struct device *dev, struct tps389008_data *tps)
+> +{
+> +	const struct device_node *np = dev->of_node;
+> +	struct device_node *child;
+> +	int ret;
+> +
+> +	for_each_child_of_node(np, child) {
+
+Use for_each_child_of_node_scoped().
+
+> +		ret = tps389008_probe_child_from_dt(dev, child, tps);
+> +		if (ret) {
+> +			of_node_put(child);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int tps389008_probe(struct i2c_client *client)
+> +{
+> +	struct tps389008_data *data;
+> +	struct device *dev = &client->dev;
+> +	int ret, i;
+> +
+> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+> +		return -EOPNOTSUPP;
+> +
+> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	i2c_set_clientdata(client, data);
+> +	mutex_init(&data->dev_access_lock);
+
+Use devm_mutex_init() and drop the remove function.
+
+> +	data->client = client;
+> +
+> +	ret = tps389008_probe_from_dt(dev, data);
+> +	if (ret) {
+> +		dev_err(dev, "Unable to probe from device tree\n");
+> +		return ret;
+> +	}
+> +
+> +	data->current_bank = 0;
+
+This is just an assumption. Either read the current channel from
+the chip, or set it to an nivalid value such as 0xff to ensure
+that the channel is selected with the first access.
+
+> +
+> +	/* Enable channels if they are enabled */
+> +	for (i = 0; i < TPS389008_NUM_CHANNELS; i++) {
+> +		if (data->input[i].enabled) {
+> +			enable_input(data, i+1);
+
+Error check missing.
+
+> +			dev_dbg(dev, "VMON input %d is enabled\n", (i+1));
+> +		}
+> +	}
+> +
+> +	data->hwmon = devm_hwmon_device_register_with_info(dev, client->name,
+> +							   data, &tps389008_chip_info,
+> +							   NULL);
+> +
+> +	if (IS_ERR(data->hwmon))
+> +		return dev_err_probe(dev, PTR_ERR(data->hwmon),
+> +					 "Failed to register hwmon device tps389008\n");
+> +
+> +	dev_info(dev, "hwmon device tps389008 probed successfully\n");
+> +
+Noise; please drop.
+
+> +	return 0;
+> +}
+> +
+> +static void tps389008_remove(struct i2c_client *client)
+> +{
+> +	struct tps389008_data *tps = dev_get_drvdata(&client->dev);
+> +
+> +	hwmon_device_unregister(tps->hwmon);
+> +
+> +	mutex_destroy(&tps->dev_access_lock);
+> +}
+> +
+> +static const struct i2c_device_id tps389008_ids[] = {
+> +	{ "tps389008" },
+> +	{ "tps389006" },
+> +	{ "tps389004" },
+
+The number of channels should be listed here for each chip to support defaults.
+
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, tps389008_ids);
+> +
+> +static const struct of_device_id tps389008_of_match[] = {
+> +	{ .compatible = "ti,tps389008", },
+> +	{ .compatible = "ti,tps389006", },
+> +	{ .compatible = "ti,tps389004", },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, tps389008_of_match);
+> +
+> +static struct i2c_driver tps389008_i2c_driver = {
+> +	.driver = {
+> +		.name = "tps389008",
+> +		.of_match_table = tps389008_of_match,
+> +	},
+> +	.probe = tps389008_probe,
+> +	.remove = tps389008_remove,
+> +	.id_table = tps389008_ids,
+> +};
+> +
+> +module_i2c_driver(tps389008_i2c_driver);
+> +
+> +MODULE_AUTHOR("Flaviu Nistor <flaviu.nistor@gmail.com>");
+> +MODULE_DESCRIPTION("TI TPS389008 voltage monitor driver");
+> +MODULE_LICENSE("GPL");
+
