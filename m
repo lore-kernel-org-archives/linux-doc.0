@@ -1,909 +1,859 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBB3210F4D
-	for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 05:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47E08374FF;
+	Wed, 19 Mar 2025 05:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742362138; cv=none; b=to238NZ/xZKHLzoaTU743CLve08wuz6uVLyL/nf8YMLHsfxUEG2YxONxduQv8cj0tkzlmgeHmS5I5rYOBMD/6VzVZVzANSTH+A9XWALOqrcZlh9EJXPCWP/3LRuMHynDX/zKfh/w8mNQVTIUtf01rmchbLiSmFvaHDxGWGpU26Y=
+	t=1742363740; cv=none; b=Gi74Q53x22W6cNqbwFg8P7/CR8i7Z5mOlTlVrsbQeIeeXSR5t/x0lju59Mdy095hmbzcUGnrOeEkXZamgNDWhIkAneFDJQ4+mM42dsD4ep4ZsWtgUljC3CGpyMOPoIpej4Y19lIbFVK5DN2onP+QgeQY84qciSDb1CYqR/GC82c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742362138; c=relaxed/simple;
-	bh=Lbrtxq1/N2D0nk2H6fapZjtf22xgVG44Hia3D0kxJoQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JIfhYXsBIECdolPj99EEVQbgn5REGe5QvG3Ibv8+7v5BFyANpIE0ce/AdKvJeJeo4/7ZDMo3Swjp7fXcYLUtySphNLWdL5l60qAZX6G/5nEa5/zUwWs+yBnmE9nKJcXRU1+Zdq+kKbRHpzWLum18SDNmywci8raB3oruvc8vX2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=uykmlvpD; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="uykmlvpD"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-224019ad9edso11307055ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 22:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1742362136; x=1742966936; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nAxKmYd6FsSv/hdo+nOfgu32B13GROmnQYNPsLMtqOE=;
-        b=uykmlvpDwy7XYSA6YDsJHplmIennMqdltMYo1BQ8zsjdqjUaBm/TdpxC9iIh8KgwZP
-         mbGFvjeq3oYoFm8u/3G3xZiDzmHBdttAAf322ZV7XJjlElJRRpvWZIb2I4IbeH4czk8Y
-         2OTPIWjmckEc2vEsgd93zUMV7lhu9crA//muGxkMoyzRInxOGFU+YkLC7MEw097MnfR/
-         noeB/q78BQwcALkYlhS+C4ht0lLipFBkeR3EHGOjQuSsAjiSDVAqyMGryRrMg5Wp0IUn
-         r0YFHiNrKG3bfuhkRRp+bqKT7fyCySsunfT5RDPvHSH7vf/a5OIvNHYPY1HvdNQ8ujVl
-         n1qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742362136; x=1742966936;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nAxKmYd6FsSv/hdo+nOfgu32B13GROmnQYNPsLMtqOE=;
-        b=EA/kEafKGcqks2Oe901SKc3xpUAbrS6Jbti7DqWG8bEQCG8XYsnKdy3LNtW7bPSv4I
-         5YWzGILdB8955ut4Q3nfkM5AQVGkZAHYSZbn8LxepiBnItSisnfuYR6NWaj+41iECfFg
-         /jxU/TC/QCl+wNLJ8ExJKx/P3hWMmqeEk3S80zCfWIsYQfPgaX1mtDs/BPCn7+iscV+8
-         djJ25EA7LvHXPxMCjdOfbCsTteKjH7a6cvDyq2xqQ+n4NDIpUhFitwf89QwvwDz/BRGK
-         9l2JNkTUF6tHfcRCMAZ0qm1+97cLICDSf7LO7m/0m9AXXVAI6m08wjUaAxhohchSVr3S
-         YI+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVMYVwHgRc4VTgMnpUMdqEelnAp++WOrbyh0EFTwTSSCc3djbGvklOiYgOl47W1/r74uNdGMPonSCM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIoI2w+/SbxqP2bwor/I5B4L6F5/lXtMuBuJMPeAD9z4BMr285
-	LF13a9MNKiiCUvYEoyHJJatlgAYBRgq2BpgDOprIdIErNOsg5R3vFFLNMlSs5PU=
-X-Gm-Gg: ASbGncthe11Iw0WGExBbty26qJOAWSFPhLgpmd2B1oLG0owaN3QW8pwt6YdgHcal/Xy
-	EPa8caM6yMCyHfHdrcwfEjOSGFitzh6TAc5gQDobAiQz/fFZchqExE6F6C6ZmAXB+U0RrbDwYZc
-	Of/KFT5dzxSfQLwvqXWcmgL2LWRwNpOyrctdz89NiGdf02AXxvbthG1UCyJjEgsHP+JUTPw8loy
-	TLhldxTyALh0Az+Aynl/ilVpYN5MqzgJpabFKPreALUblZ71xS7HRlgtcXKjvehhmCueDSL81o/
-	Ltxok2Faz6C/fq3k55TMG/kgogVERi4KNyeBLRBfZb5ObYtllvMJ27CqU3+DXi51TbWX
-X-Google-Smtp-Source: AGHT+IE5GFRTw1MLbieNd3ON9vhiEeKvvWLeDOicWB6WF5kc4qeJLvKknMMejyqYjL7NOk+OKN/+HA==
-X-Received: by 2002:a17:902:e80c:b0:220:c067:7be0 with SMTP id d9443c01a7336-22649828c5bmr17745195ad.6.1742362135155;
-        Tue, 18 Mar 2025 22:28:55 -0700 (PDT)
-Received: from [157.82.207.107] ([157.82.207.107])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbed5bsm104987195ad.202.2025.03.18.22.28.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Mar 2025 22:28:54 -0700 (PDT)
-Message-ID: <20c34c80-7549-43e1-8bec-f7210a90f94e@daynix.com>
-Date: Wed, 19 Mar 2025 14:28:48 +0900
+	s=arc-20240116; t=1742363740; c=relaxed/simple;
+	bh=TcVSGPU6InW4T+tkmg9CkqJSSLQcvTYM4QRGFPnmXEQ=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=WJCiBiiPz0l/7v5suCobnXryivoVfW6Y0rudaePddFsK3pNaok4dV8JdbGFLD1s/SF7p02UPgb/b8fnpYKcGlPyCihA9ANCFNvzyLRiWXrJwSIl4pHooQN5/G6eI6+DcePTUfdVIpznYKKTBG4NV4KsJUXXGXU7vhMy2vPG6YBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.24])
+	by gateway (Coremail) with SMTP id _____8DxfWtWXNpnrLGcAA--.2822S3;
+	Wed, 19 Mar 2025 13:55:34 +0800 (CST)
+Received: from [10.20.42.24] (unknown [10.20.42.24])
+	by front1 (Coremail) with SMTP id qMiowMDxu8RRXNpnFSJTAA--.41309S3;
+	Wed, 19 Mar 2025 13:55:32 +0800 (CST)
+Subject: Re: [PATCH 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
+To: chenhuacai@kernel.org, kernel@xen0n.name, corbet@lwn.net,
+ alexs@kernel.org, si.yanteng@linux.dev, tglx@linutronix.de,
+ jiaxun.yang@flygoat.com, peterz@infradead.org, wangliupu@loongson.cn,
+ lvjianmin@loongson.cn, maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+ gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250317082253.20520-1-zhangtianyang@loongson.cn>
+ <20250317082253.20520-3-zhangtianyang@loongson.cn>
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+Message-ID: <59c6a714-e862-7d04-3843-7e2ad349764a@loongson.cn>
+Date: Wed, 19 Mar 2025 13:55:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v9 3/6] tun: Introduce virtio-net hash feature
-To: Jason Wang <jasowang@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>,
- Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
- Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>
-References: <20250307-rss-v9-0-df76624025eb@daynix.com>
- <20250307-rss-v9-3-df76624025eb@daynix.com>
- <CACGkMEsNHba=PY5UQoH1zdGQRiHC8FugMG1nkXqOj1TBdOQrww@mail.gmail.com>
- <7978dfd5-8499-44f3-9c30-e53a01449281@daynix.com>
- <CACGkMEsR4_RreDbYQSEk5Cr29_26WNUYheWCQBjyMNUn=1eS2Q@mail.gmail.com>
- <edf41317-2191-458f-a315-87d5af42a264@daynix.com>
- <CACGkMEta3k_JOhKv44XiBXZb=WuS=KbSeJNpYxCdeiAgRY2azg@mail.gmail.com>
- <ff7916cf-8a9c-4c27-baaf-ca408817c063@daynix.com>
- <CACGkMEsVgbJPhz2d2ATm5fr3M2uSEoSXWW7tXZ_FrkQtmmu1wA@mail.gmail.com>
- <73250942-9ab9-4ee4-9bbe-e0a155a61f51@daynix.com>
- <CACGkMEud0Ki8p=z299Q7b4qEDONpYDzbVqhHxCNVk_vo-KdP9A@mail.gmail.com>
- <1f06b4b6-267a-4091-a3ba-e7b9dafae918@daynix.com>
- <CACGkMEsACb5S4rv-bWeBadDmnCcwFfnNp4MN7_4RQGB0MUWrzQ@mail.gmail.com>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <CACGkMEsACb5S4rv-bWeBadDmnCcwFfnNp4MN7_4RQGB0MUWrzQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20250317082253.20520-3-zhangtianyang@loongson.cn>
+Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID:qMiowMDxu8RRXNpnFSJTAA--.41309S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj9fXoWfXw4UWr4rGFWkGF1rWry5ZFc_yoW5Jr4kXo
+	WfJFsak3yrWr18CFW5K3y2qFyav34rGr4kA39xZFZ5ZF12vrWYkrW7G3yYvFyIgF10qFnr
+	AayIgan5JFWxtwn3l-sFpf9Il3svdjkaLaAFLSUrUUUUeb8apTn2vfkv8UJUUUU8wcxFpf
+	9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
+	UjIYCTnIWjp_UUUOj7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
+	8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
+	Y2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14
+	v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6rxl6s0DM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
+	twAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
+	k0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l
+	4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxV
+	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI
+	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+	1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+	42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j5o7tUUUUU=
 
-On 2025/03/19 9:58, Jason Wang wrote:
-> On Tue, Mar 18, 2025 at 6:10â€¯PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>
->> On 2025/03/18 9:15, Jason Wang wrote:
->>> On Mon, Mar 17, 2025 at 3:07â€¯PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>
->>>> On 2025/03/17 10:12, Jason Wang wrote:
->>>>> On Wed, Mar 12, 2025 at 1:03â€¯PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>
->>>>>> On 2025/03/12 11:35, Jason Wang wrote:
->>>>>>> On Tue, Mar 11, 2025 at 2:11â€¯PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>>>
->>>>>>>> On 2025/03/11 9:38, Jason Wang wrote:
->>>>>>>>> On Mon, Mar 10, 2025 at 3:45â€¯PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>>>>>
->>>>>>>>>> On 2025/03/10 12:55, Jason Wang wrote:
->>>>>>>>>>> On Fri, Mar 7, 2025 at 7:01â€¯PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>>>>>>>
->>>>>>>>>>>> Hash reporting
->>>>>>>>>>>> ==============
->>>>>>>>>>>>
->>>>>>>>>>>> Allow the guest to reuse the hash value to make receive steering
->>>>>>>>>>>> consistent between the host and guest, and to save hash computation.
->>>>>>>>>>>>
->>>>>>>>>>>> RSS
->>>>>>>>>>>> ===
->>>>>>>>>>>>
->>>>>>>>>>>> RSS is a receive steering algorithm that can be negotiated to use with
->>>>>>>>>>>> virtio_net. Conventionally the hash calculation was done by the VMM.
->>>>>>>>>>>> However, computing the hash after the queue was chosen defeats the
->>>>>>>>>>>> purpose of RSS.
->>>>>>>>>>>>
->>>>>>>>>>>> Another approach is to use eBPF steering program. This approach has
->>>>>>>>>>>> another downside: it cannot report the calculated hash due to the
->>>>>>>>>>>> restrictive nature of eBPF steering program.
->>>>>>>>>>>>
->>>>>>>>>>>> Introduce the code to perform RSS to the kernel in order to overcome
->>>>>>>>>>>> thse challenges. An alternative solution is to extend the eBPF steering
->>>>>>>>>>>> program so that it will be able to report to the userspace, but I didn't
->>>>>>>>>>>> opt for it because extending the current mechanism of eBPF steering
->>>>>>>>>>>> program as is because it relies on legacy context rewriting, and
->>>>>>>>>>>> introducing kfunc-based eBPF will result in non-UAPI dependency while
->>>>>>>>>>>> the other relevant virtualization APIs such as KVM and vhost_net are
->>>>>>>>>>>> UAPIs.
->>>>>>>>>>>>
->>>>>>>>>>>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->>>>>>>>>>>> Tested-by: Lei Yang <leiyang@redhat.com>
->>>>>>>>>>>> ---
->>>>>>>>>>>>        Documentation/networking/tuntap.rst |   7 ++
->>>>>>>>>>>>        drivers/net/Kconfig                 |   1 +
->>>>>>>>>>>>        drivers/net/tap.c                   |  68 ++++++++++++++-
->>>>>>>>>>>>        drivers/net/tun.c                   |  98 +++++++++++++++++-----
->>>>>>>>>>>>        drivers/net/tun_vnet.h              | 159 ++++++++++++++++++++++++++++++++++--
->>>>>>>>>>>>        include/linux/if_tap.h              |   2 +
->>>>>>>>>>>>        include/linux/skbuff.h              |   3 +
->>>>>>>>>>>>        include/uapi/linux/if_tun.h         |  75 +++++++++++++++++
->>>>>>>>>>>>        net/core/skbuff.c                   |   4 +
->>>>>>>>>>>>        9 files changed, 386 insertions(+), 31 deletions(-)
->>>>>>>>>>>>
->>>>>>>>>>>> diff --git a/Documentation/networking/tuntap.rst b/Documentation/networking/tuntap.rst
->>>>>>>>>>>> index 4d7087f727be5e37dfbf5066a9e9c872cc98898d..86b4ae8caa8ad062c1e558920be42ce0d4217465 100644
->>>>>>>>>>>> --- a/Documentation/networking/tuntap.rst
->>>>>>>>>>>> +++ b/Documentation/networking/tuntap.rst
->>>>>>>>>>>> @@ -206,6 +206,13 @@ enable is true we enable it, otherwise we disable it::
->>>>>>>>>>>>              return ioctl(fd, TUNSETQUEUE, (void *)&ifr);
->>>>>>>>>>>>          }
->>>>>>>>>>>>
->>>>>>>
->>>>>>> [...]
->>>>>>>
->>>>>>>>>>>> +static inline long tun_vnet_ioctl_sethash(struct tun_vnet_hash_container __rcu **hashp,
->>>>>>>>>>>> +                                         bool can_rss, void __user *argp)
->>>>>>>>>>>
->>>>>>>>>>> So again, can_rss seems to be tricky. Looking at its caller, it tires
->>>>>>>>>>> to make eBPF and RSS mutually exclusive. I still don't understand why
->>>>>>>>>>> we need this. Allow eBPF program to override some of the path seems to
->>>>>>>>>>> be common practice.
->>>>>>>>>>>
->>>>>>>>>>> What's more, we didn't try (or even can't) to make automq and eBPF to
->>>>>>>>>>> be mutually exclusive. So I still didn't see what we gain from this
->>>>>>>>>>> and it complicates the codes and may lead to ambiguous uAPI/behaviour.
->>>>>>>>>>
->>>>>>>>>> automq and eBPF are mutually exclusive; automq is disabled when an eBPF
->>>>>>>>>> steering program is set so I followed the example here.
->>>>>>>>>
->>>>>>>>> I meant from the view of uAPI, the kernel doesn't or can't reject eBPF
->>>>>>>>> while using automq.
->>>>>>>>      > >>
->>>>>>>>>> We don't even have an interface for eBPF to let it fall back to another
->>>>>>>>>> alogirhtm.
->>>>>>>>>
->>>>>>>>> It doesn't even need this, e.g XDP overrides the default receiving path.
->>>>>>>>>
->>>>>>>>>> I could make it fall back to RSS if the eBPF steeering
->>>>>>>>>> program is designed to fall back to automq when it returns e.g., -1. But
->>>>>>>>>> such an interface is currently not defined and defining one is out of
->>>>>>>>>> scope of this patch series.
->>>>>>>>>
->>>>>>>>> Just to make sure we are on the same page, I meant we just need to
->>>>>>>>> make the behaviour consistent: allow eBPF to override the behaviour of
->>>>>>>>> both automq and rss.
->>>>>>>>
->>>>>>>> That assumes eBPF takes precedence over RSS, which is not obvious to me.
->>>>>>>
->>>>>>> Well, it's kind of obvious. Not speaking the eBPF selector, we have
->>>>>>> other eBPF stuffs like skbedit etc.
->>>>>>>
->>>>>>>>
->>>>>>>> Let's add an interface for the eBPF steering program to fall back to
->>>>>>>> another steering algorithm. I said it is out of scope before, but it
->>>>>>>> makes clear that the eBPF steering program takes precedence over other
->>>>>>>> algorithms and allows us to delete the code for the configuration
->>>>>>>> validation in this patch.
->>>>>>>
->>>>>>> Fallback is out of scope but it's not what I meant.
->>>>>>>
->>>>>>> I meant in the current uAPI take eBPF precedence over automq. It's
->>>>>>> much more simpler to stick this precedence unless we see obvious
->>>>>>> advanatge.
->>>>>>
->>>>>> We still have three different design options that preserve the current
->>>>>> precedence:
->>>>>>
->>>>>> 1) Precedence order: eBPF -> RSS -> automq
->>>>>> 2) Precedence order: RSS -> eBPF -> automq
->>>>>> 3) Precedence order: eBPF OR RSS -> automq where eBPF and RSS are
->>>>>> mutually exclusive
->>>>>>
->>>>>> I think this is a unique situation for this steering program and I could
->>>>>> not find another example in other eBPF stuffs.
->>>>>
->>>>> As described above, queue mapping could be overridden by tc-ebpf. So
->>>>> there's no way to guarantee the RSS will work:
->>>>>
->>>>> https://github.com/DPDK/dpdk/blob/main/drivers/net/tap/bpf/tap_rss.c#L262
->>>>>
->>>>> Making eBPF first leaves a chance for the management layer to override
->>>>> the choice of Qemu.
->>>>
->>>> I referred to the eBPF steering program instead of tc-ebpf. tc-ebpf is
->>>> nothing to do with the TUNSETSTEERINGEBPF ioctl, which this patch changes.
->>>
->>> I meant you can't do "full control" in any case, the point below
->>> doesn't stand. Queue mapping could be restored even if RSS is set.
->>
->> What matters here is how we handle the control when tc didn't take it.
->> eBPF, RSS, or automq make take all of it; I referred that as "full control".
->>
->>>
->>>>
->>>>>
->>>>>>
->>>>>> The current version implements 3) because it is not obvious whether we
->>>>>> should choose either 1) or 2).
->>>>>
->>>>> But you didn't explain why you choose 3), and it leads to tricky code
->>>>> (e.g the can_rss stuff etc).
->>>>
->>>> I wrote: "because it is not obvious whether we should choose either 1)
->>>> or 2)", but I think I can explain it better:
->>>>
->>>> When an eBPF steering program cannot implement a fallback, it means the
->>>> eBPF steering program requests the full control over the steering. On
->>>> the other hand, RSS also requests the same control. So these two will
->>>> conflict and the entity controlling the steering will be undefined when
->>>> both are enabled.
->>>
->>> Well, the fallback is orthogonal to the proposal here. We haven't had
->>> that since the introduction of the eBPF steering program. This means
->>> automq has been in "conflict" with eBPF for years. Again, another
->>> advantage, allowing the eBPF program to be the first to allow the
->>> management layer to override Qemu's steering.
->>
->> What if a VMM uses eBPF steering program and the management layer
->> decides to override it with RSS?
-> 
-> That's possible but I think we're seeking which approach is better. In
-> this case, RSS could be implemented in eBPF but not the reverse.
-> 
-> So my point is to start from something that is simpler. Simply allow
-> eBPF on top of RSS as automq. And optimize on top.
+Hi, Everyone
 
+We've got feedback on issues from this patch. Please disregard v1. I'll 
+test and push v2 soon.
 
-The in-kernel RSS implementation is more optimized and capable of hash 
-reporting. I don't think either eBPF steering program or in-kernel RSS 
-is more capable than the other and there is a reason to place eBPF on 
-top of RSS.
-
-> 
->>
->> eBPF is obviously predecedent to automq as eBPF is an opt-in feature and
->> automq is the implicit default. But this logic cannot be applied to
->> decide the order of eBPF and RSS because they are both opt-in features.
-> 
-> This is from the perspective of kernel development. But let's try to
-> think from the userspace: A well written user space knows what it
-> does, rejecting eBPF while RSS is set doesn't help. But anyhow if you
-> stick, it doesn't harm.
-
-Yes, it not for the current userspace but for the future kernel 
-development; the kernel can reserve the freedom to decide the priority 
-of eBPF and RSS by rejecting eBPF while RSS.
-
-> 
->>
->>>
->>>>
->>>> 3) eliminates the undefined semantics by rejecting to enable both.
->>>
->>> This would lead a usersapce noticeable change of the behaviour? And
->>> what do you mean by "rejecting to enable both"?
->>
->> Existing userspace code should see no change as it only cares the case
->> where RSS is enabled.
->>
->> Here, rejecting to enable both means to deny setting an eBPF steering
->> program when RSS is enabled, and visa-versa.
->>
->>>
->>>> An
->>>> alternative approach is to allow eBPF steering programs to fall back.
->>>> When both the eBPF program and RSS are enabled, RSS will gain the
->>>> control of steering under the well-defined situation where the eBPF
->>>> steering program decides to fall back.
->>>
->>> How about just stick the eBPF precedence in this proposal and
->>> introduce the fallback on top? This helps to speed up the iteration
->>> (as the version has been iterated to 11).
->>
->> I don't think that helps much since we have another ongoing discussion
->> below and it is not the sole roadblock.
->>
->>>
->>>>
->>>>>
->>>>>> But 1) will be the most capable option if
->>>>>> eBPF has a fall-back feature.
->>>>>>
->>>>>>>
->>>>>>>>
->>>>>>>>>
->>>>>>>>>>
->>>>>>>>>>>
->>>>>>>
->>>>>>> [...]
->>>>>>>
->>>>>>>>>>> Is there a chance that we can reach here without TUN_VNET_HASH_REPORT?
->>>>>>>>>>> If yes, it should be a bug.
->>>>>>>>>>
->>>>>>>>>> It is possible to use RSS without TUN_VNET_HASH_REPORT.
->>>>>>>>>
->>>>>>>>> Another call to separate the ioctls then.
->>>>>>>>
->>>>>>>> RSS and hash reporting are not completely independent though.
->>>>>>>
->>>>>>> Spec said:
->>>>>>>
->>>>>>> """
->>>>>>> VIRTIO_NET_F_RSSRequires VIRTIO_NET_F_CTRL_VQ.
->>>>>>> """
->>>>>>
->>>>>> I meant the features can be enabled independently, but they will share
->>>>>> the hash type set when they are enabled at the same time.
->>>>>
->>>>> Looking at the spec:
->>>>>
->>>>> Hash repot uses:
->>>>>
->>>>> """
->>>>> struct virtio_net_hash_config {
->>>>>        le32 hash_types;
->>>>>        le16 reserved[4];
->>>>>        u8 hash_key_length;
->>>>>        u8 hash_key_data[hash_key_length];
->>>>> };
->>>>> """
->>>>>
->>>>> RSS uses
->>>>>
->>>>> """
->>>>> struct rss_rq_id {
->>>>>       le16 vq_index_1_16: 15; /* Bits 1 to 16 of the virtqueue index */
->>>>>       le16 reserved: 1; /* Set to zero */
->>>>> };
->>>>>
->>>>> struct virtio_net_rss_config {
->>>>>        le32 hash_types;
->>>>>        le16 indirection_table_mask;
->>>>>        struct rss_rq_id unclassified_queue;
->>>>>        struct rss_rq_id indirection_table[indirection_table_length];
->>>>>        le16 max_tx_vq;
->>>>>        u8 hash_key_length;
->>>>>        u8 hash_key_data[hash_key_length];
->>>>> };
->>>>> """
->>>>>
->>>>> Instead of trying to figure out whether we can share some data
->>>>> structures, why not simply start from what has been done in the spec?
->>>>> This would ease the usersapce as well where it can simply do 1:1
->>>>> mapping between ctrl vq command and tun uAPI.
->>>>
->>>> The spec also defines struct virtio_net_hash_config (which will be used
->>>> when RSS is disabled) and struct virtio_net_rss_config to match the
->>>> layout to share some fields. However, the UAPI does not follow the
->>>> interface design of virtio due to some problems with these structures.
->>>
->>> Copy-paste error. The above is copied from the virtio spec, but I
->>> meant the existing uAPI in virtio_net.h:
->>>
->>> /*
->>>    * The command VIRTIO_NET_CTRL_MQ_RSS_CONFIG has the same effect as
->>>    * VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET does and additionally configures
->>>    * the receive steering to use a hash calculated for incoming packet
->>>    * to decide on receive virtqueue to place the packet. The command
->>>    * also provides parameters to calculate a hash and receive virtqueue.
->>>    */
->>> struct virtio_net_rss_config {
->>>           __le32 hash_types;
->>>           __le16 indirection_table_mask;
->>>           __le16 unclassified_queue;
->>>           __le16 indirection_table[1/* + indirection_table_mask */];
->>>           __le16 max_tx_vq;
->>>           __u8 hash_key_length;
->>>           __u8 hash_key_data[/* hash_key_length */];
->>> };
->>>>    #define VIRTIO_NET_CTRL_MQ_RSS_CONFIG          1
->>>
->>> /*
->>>    * The command VIRTIO_NET_CTRL_MQ_HASH_CONFIG requests the device
->>>    * to include in the virtio header of the packet the value of the
->>>    * calculated hash and the report type of hash. It also provides
->>>    * parameters for hash calculation. The command requires feature
->>>    * VIRTIO_NET_F_HASH_REPORT to be negotiated to extend the
->>>    * layout of virtio header as defined in virtio_net_hdr_v1_hash.
->>>    */
->>> struct virtio_net_hash_config {
->>>           __le32 hash_types;
->>>           /* for compatibility with virtio_net_rss_config */
->>>           __le16 reserved[4];
->>>           __u8 hash_key_length;
->>>           __u8 hash_key_data[/* hash_key_length */];
->>> };
->>>
->>> This has been used by Qemu but I see a virtio-net version of:
->>>
->>> struct virtio_net_ctrl_rss {
->>>           u32 hash_types;
->>>           u16 indirection_table_mask;
->>>           u16 unclassified_queue;
->>>           u16 hash_cfg_reserved; /* for HASH_CONFIG (see
->>> virtio_net_hash_config for details) */
->>>           u16 max_tx_vq;
->>>           u8 hash_key_length;
->>>           u8 key[VIRTIO_NET_RSS_MAX_KEY_SIZE];
->>>
->>>           u16 *indirection_table;
->>> };
->>>
->>> This is ugly and results in a tricky code when trying to submit
->>> RSS/HASH commands to the device:
->>>
->>>           if (vi->has_rss) {
->>>                   sg_buf_size = sizeof(uint16_t) * vi->rss_indir_table_size;
->>>                   sg_set_buf(&sgs[1], vi->rss.indirection_table, sg_buf_size);
->>>           } else {
->>>                   sg_set_buf(&sgs[1], &vi->rss.hash_cfg_reserved,
->>> sizeof(uint16_t));
->>>           }
->>
->> The only reference to struct virtio_net_rss_config in QEMU is to derive
->> the offset of indirection_table. This is because the definition in
->> virtio_net.h also includes indirection_table in the middle and the
->> offsets of later part are unusable.
-> 
-> Yes.
-> 
->>
->> QEMU internally has a structure named VirtioNetRssData which just looks
->> like struct virtio_net_ctrl_rss.
-> 
-> It's a pity that it doesn't use uAPI. We might need to fix them.
-
-It doesn't want to use the UAPI structures for the internal storage 
-because it wants to store them in native endians and QEMU is not 
-interested in some fields in the UAPI structures. struct tun_vnet_hash 
-and struct tun_vnet_hash_rss are easy to fill using VirtioNetRssData.
-
-> 
->>
->>>
->>>>
->>>> Below is the definition of struct virtio_net_hash_config:
->>>>
->>>> struct virtio_net_hash_config {
->>>>        le32 hash_types;
->>>>        le16 reserved[4];
->>>>        u8 hash_key_length;
->>>>        u8 hash_key_data[hash_key_length];
->>>> };
->>>>
->>>> Here, hash_types, hash_key_length, and hash_key_data are shared with
->>>> struct virtio_net_rss_config.
->>>>
->>>> One problem is that struct virtio_net_rss_config has a flexible array
->>>> (indirection_table) between hash_types and hash_key_length. This is
->>>> something we cannot express with C.
->>>
->>> We can split the virtio_net_rss_config to ease the dealing with
->>> arrays, more below.
->>>
->>>>
->>>> Another problem is that the semantics of the key in struct
->>>> virtio_net_hash_config is not defined in the spec.
->>>
->>> If this is the case. Let's fix that in the spec first to make sure our
->>> uAPI aligns with spec without ambiguity. It would be a nightmare to
->>> deal with the in-consistency between virtio spec and Linux uAPIs.
->>
->> The userspace doesn't need to do anything to deal with inconsistency
->> since these fields are unused.
->>
->>>
->>>>
->>>> To solve these problems, I defined the UAPI structures that do not
->>>> include indiretion_table.
->>>>
->>>>>
->>>>>>
->>>>>>>
->>>>>>>>
->>>>>>>> A plot twist is the "types" parameter; it is a parameter that is
->>>>>>>> "common" for RSS and hash reporting.
->>>>>>>
->>>>>>> So we can share part of the structure through the uAPI.
->>>>>>
->>>>>> Isn't that what this patch does?
->>>>>
->>>>> I didn't see, basically I see only one TUNSETVNETHASH that is used to
->>>>> set both hash report and rss:
->>>>
->>>> The UAPI shares struct tun_vnet_hash for both hash report and rss.
->>>
->>> I meant sharing structure in two ioctls instead of reusing a specific
->>> structure for two semantics in one ioctl if possible. Though I don't
->>> think we need any sharing.
->>
->> The UAPI implemented in this patch already shares struct tun_vnet_hash
->> and having two ioctls doesn't change that.
->>
->>>
->>>>
->>>>>
->>>>> """
->>>>> +/**
->>>>> + * define TUNSETVNETHASH - ioctl to configure virtio_net hashing
->>>>> + *
->>>>> + * The argument is a pointer to &struct tun_vnet_hash.
->>>>> + *
->>>>> + * The argument is a pointer to the compound of the following in order if
->>>>> + * %TUN_VNET_HASH_RSS is set:
->>>>> + *
->>>>> + * 1. &struct tun_vnet_hash
->>>>> + * 2. &struct tun_vnet_hash_rss
->>>>> + * 3. Indirection table
->>>>> + * 4. Key
->>>>> + *
->>>>> """
->>>>>
->>>>> And it seems to lack parameters like max_tx_vq.
->>>>
->>>> max_tx_vq is not relevant with hashing.
->>>
->>> It is needed for RSS and we don't have that, no?
->>
->> No. RSS is Receive Side Scaling but it's not about receiving.
-> 
-> Just to make sure I understand this, max_tx_vq is part of the
-> virtio_net_rss_config, how would Qemu behave when it receives this
-> from guest?
-> 
-> """
-> A driver sets max_tx_vq to inform a device how many transmit
-> virtqueues it may use (transmitq1â€¦transmitq max_tx_vq).
-> """
-
-It does nothing.
-
-> 
->>
->>>
->>>>
->>>>>
->>>>> What's more, we've already had virito-net uAPI. Why not simply reusing them?
->>>>
->>>> See the above.
->>>>
->>>>>
->>>>>>
->>>>>>>
->>>>>>>> RSS and hash reporting must share
->>>>>>>> this parameter when both are enabled at the same time; otherwise RSS may
->>>>>>>> compute hash values that are not suited for hash reporting.
->>>>>>>
->>>>>>> Is this mandated by the spec? If yes, we can add a check. If not,
->>>>>>> userspace risk themselves as a mis-configuration which we don't need
->>>>>>> to bother.
->>>>>>
->>>>>> Yes, it is mandated. 5.1.6.4.3 Hash calculation for incoming packets says:
->>>>>>     > A device attempts to calculate a per-packet hash in the following
->>>>>>     > cases:
->>>>>>     >
->>>>>>     >   - The feature VIRTIO_NET_F_RSS was negotiated. The device uses the
->>>>>>     >     hash to determine the receive virtqueue to place incoming packets.
->>>>>>     >   - The feature VIRTIO_NET_F_HASH_REPORT was negotiated. The device
->>>>>>     >     reports the hash value and the hash type with the packet.
->>>>>>     >
->>>>>>     > If the feature VIRTIO_NET_F_RSS was negotiated:
->>>>>>     >
->>>>>>     >   - The device uses hash_types of the virtio_net_rss_config structure
->>>>>>     >     as â€™Enabled hash typesâ€™ bitmask.
->>>>>>     >   - The device uses a key as defined in hash_key_data and
->>>>>>           hash_key_length of the virtio_net_rss_config structure (see
->>>>>>     >      5.1.6.5.7.1).
->>>>>>     >
->>>>>>     > If the feature VIRTIO_NET_F_RSS was not negotiated:
->>>>>>     >
->>>>>>     >   - The device uses hash_types of the virtio_net_hash_config structure
->>>>>>     >     as â€™Enabled hash typesâ€™ bitmask.
->>>>>>     >   - The device uses a key as defined in hash_key_data and
->>>>>>     >     hash_key_length of the virtio_net_hash_config structure (see
->>>>>>     >      .1.6.5.6.4).
->>>>>>
->>>>>> So when both VIRTIO_NET_F_RSS and VIRTIO_NET_F_HASH_REPORT are
->>>>>> negotiated, virtio_net_rss_config not only controls RSS but also the
->>>>>> reported hash values and types. They cannot be divergent.
->>>>>>
->>>>>>>
->>>>>>> Note that spec use different commands for hash_report and rss.
->>>>>>
->>>>>> TUNSETVNETHASH is different from these commands in terms that it also
->>>>>> negotiates VIRTIO_NET_F_HASH_REPORT and VIRTIO_NET_F_RSS.
->>>>>>
->>>>>
->>>>> There Are different "issues" here:
->>>>>
->>>>> 1) Whether or not we need to use a unified API for negotiating RSS and
->>>>> HASH_REPORT features
->>>>> 2) Whether or not we need to sue a unified API for setting RSS and
->>>>> HASH_REPORT configuration
->>>>>
->>>>> What I want to say is point 2. But what you raise is point 1.
->>>>>
->>>>> For simplicity, it looks to me like it's a call for having separated
->>>>> ioctls for feature negotiation (for example via TUNSETIFF). You may
->>>>> argue that either RSS or HASH_REPORT requires configurations, we can
->>>>> just follow what spec defines or not (e.g what happens if
->>>>> RSS/HASH_REPORT were negotiated but no configurations were set).
->>>>
->>>> Unfortunately TUNSETIFF does not fit in this use case. The flags set
->>>> with TUNSETIFF are fixed, but the guest can request a different feature
->>>> set anytime by resetting the device.
->>>
->>> TUNSETIFF, enables the device to be able to handle RSS/HASREPORT.
->>> TUNSETHASH/RSS. dealing with RSS/HASH command from userspace.
->>
->> We also needs to be able to disable them at runtime so that we can
->> handle resets.
-> 
-> Via TUNSETHASH/RSS? I think it should have a way to accept parameters
-> that disable RSS or hash report.
-
-That's what this patch implements. TUNSETVNETHASH accepts parameters to 
-choose what features to be enabled.
-
-> 
->>
->>>
->>> This is the way we used to do for multi queue and vnet header.
->>> TUNSETIFF requires CAP_NET_ADMIN, this could be an extra safe guard
->>> for unprivileged userspace.
->>
->> I intend to allow using this feature without privilege. A VMM is usually
->> unprivileged and requiring a privilege to configure tuntap is too
->> prohibitive.
-> 
-> For safety, tun is not allowed to be created by unprivileged users.
-> And it's not to configure the tuntap dynamically, it's about telling
-> the function that tuntap can have (not necessarily enabled though) .
-
-I don't think we need another barrier for the new functions. Once an 
-unprivileged user get a file descriptor of tuntap from a privileged 
-user, they are free to enable RSS and/or hash reporting.
-
-> 
->>
->>>
->>>>
->>>>    > >> In the virtio-net specification, it is not defined what would
->>>> happen if
->>>>>> these features are negotiated but the VIRTIO_NET_CTRL_MQ_RSS_CONFIG or
->>>>>> VIRTIO_NET_CTRL_MQ_HASH_CONFIG commands are not sent. There is no such
->>>>>> ambiguity with TUNSETVNETHASH.
->>>>>
->>>>> So I don't see advantages of unifying hash reports and rss into a
->>>>> single ioctl. Let's just follow what has been done in the spec that
->>>>> uses separated commands. Tuntap is not a good place to debate whether
->>>>> those commands could be unified or not. We need to move it to the spec
->>>>> but assuming spec has been done, it might be too late or too few
->>>>> advantages for having another design.
->>>>
->>>> It makes sense for the spec to reuse the generic feature negotiation
->>>> mechanism, but the situation is different for tuntap; we cannot use
->>>> TUNSETIFF and need to define another. Then why don't we exploit this
->>>> opportunity to have an interface with well-defined semantics?
->>>
->>> That's perfectly fine, but it needs to be done in virtio-net's uAPI
->>> not tun's. What's more, if you think two commands are not
->>> well-defined, let's fix that in the virtio spec first.
->>>
->>>> The virtio
->>>> spec does its best as an interface between the host and guest and tuntap
->>>> does its best as an UAPI.
->>>
->>> See above, let's fix the uAPI first. We don't want DPDK to use tun's
->>> uAPI for RSS
->>
->> virtio-net's UAPI is for the virtio spec which has a capable generic
->> feature negotiation mechanism. tuntap needs its own feature negotiation
->> and it's nothing to do with virtio-net's UAPI.
-> 
-> Well, I don't mean the part of the feature negotiation. I mean the
-> part for rss and hash report configuration.
-
-The feature negotiation still matters when deciding the granularity of 
-ioctls. We need one ioctl for a feature negotiation, and to avoid having 
-an intermediate state, the ioctl should also do the configuration. Hence 
-that one ioctl should do all of the feature negotiation and configuration.
-
-> 
->>
->> The structures for two commands have unused or redundant fields and a
->> flexible array in the middle of the structure, but they are ABIs so we
->> can't change it.
->>
->> DPDK is another reason to define tuntap's own UAPIs. They don't care
->> unused or redundant fields and a flexible array in middle that are
->> present in the virtio spec. It will also not want to deal with the
->> requirement of little endian. Constructing struct virtio_net_rss_config
->> is an extra burden for DPDK.
-> 
-> I meant for vhost-user implementation in DPDK, it needs to use
-> virtio-net uAPI not tuntap's for example.
-
-The vhost-user implementation will use tuntap's UAPIs for its ethernet 
-device backend. It uses the generic interface of ethernet device so for 
-RSS it will use functions like rte_eth_dev_rss_hash_update() for 
-example. tuntap's UAPIs are more suited to implement these interfaces as 
-they operate in native endian and don't have extra fields.
-
-DPDk applications other than vhost-user also matter; they do not care 
-what virtio does at all.
-
- > >>
->> On the other hand, Constructing tuntap-specific structures is not that
->> complicated for VMMs.
-> 
-> Not complicated but redundant.
-> 
->> A VMM will need to inspect struct
->> virtio_net_rss_config anyway to handle migration and check its size so
->> it can store the values it inspected to struct tun_vnet_hash and struct
->> tun_vnet_hash_rss and pass them to the kernel.
-> 
-> I don't see how rss and hash reports differ from what we have now.
-> Those inspections must be done anyhow for compatibility for example
-> the check of offloading features. Such steps could not be eliminated
-> no matter how we design the uAPI.
-
-I explained the difference between the virtio and tuntap UAPIs, not 
-between RSS and hash reporting.
-
-> 
->>
->> The overall userspace implementation will be simpler by having
->> structures specifically tailored for the communication between the
->> userspace and kernel.
-> 
-> This is exactly how a good uAPI should behave. If uAPI in virtio-net
-> can't do this, I don't understand why uAPI in tuntap can solve it.
-
-The UAPI in virtio-net cannot do it because it's already fixed and it 
-also needs to perform endian conversion for the VM use case. tuntap 
-doesn't have these restrictions.
-
-> 
->>
->>>
->>>>
->>>> I don't think there is an advantage to split ioctls to follow the spec
->>>> after all. It makes sense if we can pass-through virtio commands to
->>>> tuntap, but it is not possible as ioctl operation codes are different
->>>> from virtio commands.
->>>
->>> I don't see a connection with the operation code. For example, we can
->>> add new uAPIs in virtio-net which could be something like:
->>>
->>>    struct virtio_net_rss_config_header {
->>>         __le32 hash_types;
->>>         __le16 indirection_table_mask;
->>>         __le16 unclassified_queue;
->>>         __le16 indirection_table[];
->>> }
->>>
->>> struct virtio_net_rss_config_tailer {
->>>         __le16 max_tx_vq;
->>>         u8 hash_key_length;
->>>         u8 hash_key_data[];
->>> }
->>>
->>> These two are used by TUNSETVNETRSS. And simply reuse the
->>> virtio_net_hash_config for TUNSETVETHASH.
->>   > > With this, we can tweak the virtio-net driver with this new uAPI. Then
->>> tap* can reuse this.
->>
->> I implemented a UAPI and driver change accordingly:
->> https://lore.kernel.org/r/20250318-virtio-v1-0-344caf336ddd@daynix.com
->>
->> This is a nice improvement for the driver, but I still don't think it is
->> suited for the UAPI of tuntap.
-> 
-> Any reason for this? It should work like virtio_net_hdr.
-> 
->> The requirements of extra fields and
->> little endian cannot be removed from the virtio spec but they are
->> irrelevant for tuntap.
-> 
-> I don't understand this part. What fields are "extra" and need to be
-> removed from the spec?
-
-All fields not included in struct tun_vnet_hash and struct 
-tun_vnet_hash_rss. Namely, for struct virtio_net_hash_config:
-- reserved
-- hash_key_length
-- hash_key_data
-
-For struct virtio_net_rss_config:
-- max_tx_vq
-- hash_key_length
-
-Regards,
-Akihiko Odaki
-
-> 
->>
->>>
->>>> The best possibility is to share structures, not
->>>> commands, and I don't think even sharing structures makes sense here
->>>> because of the reasons described above.
->>>
->>> I don't want to share structures, I meant starting from something that
->>> is simple and has been sorted in the virtio spec. Optimization could
->>> be done on top.
->>
->> I meant to reuse the structures in virtio_net.h.
->>
->> Regards,
->> Akihiko Odaki
-> 
-> Thanks
-> 
->>
->>>
->>> Thanks
->>>
->>>
->>>>
->>>> Regards,
->>>> Akihiko Odaki
->>>>
->>>>>
->>>>> Thanks
->>>>>
->>>>>>
->>>>>> Regards,
->>>>>> Akihiko Odaki
->>>>>>
->>>>>>>
->>>>>>>>
->>>>>>>> The paramter will be duplicated if we have separate ioctls for RSS and
->>>>>>>> hash reporting, and the kernel will have a chiken-egg problem when
->>>>>>>> ensuring they are synchronized; when the ioctl for RSS is issued, should
->>>>>>>> the kernel ensure the "types" parameter is identical with one specified
->>>>>>>> for hash reporting? It will not work if the userspace may decide to
->>>>>>>> configure hash reporting after RSS.
->>>>>>>>
->>>>>>>
->>>>>>> See my reply above.
->>>>>>>
->>>>>>> Thanks
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
-> 
+ÔÚ 2025/3/17 ÏÂÎç4:22, Tianyang Zhang Ð´µÀ:
+> The main function of the Redirected interrupt controller is to manage the
+> redirected-interrupt table, which consists of many redirected entries.
+> When MSI interrupts are requested, the driver creates a corresponding
+> redirected entry that describes the target CPU/vector number and the
+> operating mode of the interrupt. The redirected interrupt module has an
+> independent cache, and during the interrupt routing process, it will
+> prioritize the redirected entries that hit the cache. The driver
+> invalidates certain entry caches via a command queue.
+>
+> Co-developed-by: Liupu Wang <wangliupu@loongson.cn>
+> Signed-off-by: Liupu Wang <wangliupu@loongson.cn>
+> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
+> ---
+>   arch/loongarch/include/asm/cpu-features.h |   1 +
+>   arch/loongarch/include/asm/cpu.h          |   2 +
+>   arch/loongarch/include/asm/loongarch.h    |   6 +
+>   arch/loongarch/kernel/cpu-probe.c         |   3 +
+>   drivers/irqchip/Makefile                  |   2 +-
+>   drivers/irqchip/irq-loongarch-avec.c      |  21 +-
+>   drivers/irqchip/irq-loongarch-ir.c        | 561 ++++++++++++++++++++++
+>   drivers/irqchip/irq-loongson.h            |  12 +
+>   include/linux/cpuhotplug.h                |   1 +
+>   9 files changed, 595 insertions(+), 14 deletions(-)
+>   create mode 100644 drivers/irqchip/irq-loongarch-ir.c
+>
+> diff --git a/arch/loongarch/include/asm/cpu-features.h b/arch/loongarch/include/asm/cpu-features.h
+> index fc83bb32f9f0..03f7e93e81e0 100644
+> --- a/arch/loongarch/include/asm/cpu-features.h
+> +++ b/arch/loongarch/include/asm/cpu-features.h
+> @@ -68,5 +68,6 @@
+>   #define cpu_has_ptw		cpu_opt(LOONGARCH_CPU_PTW)
+>   #define cpu_has_lspw		cpu_opt(LOONGARCH_CPU_LSPW)
+>   #define cpu_has_avecint		cpu_opt(LOONGARCH_CPU_AVECINT)
+> +#define cpu_has_redirectint	cpu_opt(LOONGARCH_CPU_REDIRECTINT)
+>   
+>   #endif /* __ASM_CPU_FEATURES_H */
+> diff --git a/arch/loongarch/include/asm/cpu.h b/arch/loongarch/include/asm/cpu.h
+> index 98cf4d7b4b0a..33cd96e569d8 100644
+> --- a/arch/loongarch/include/asm/cpu.h
+> +++ b/arch/loongarch/include/asm/cpu.h
+> @@ -102,6 +102,7 @@ enum cpu_type_enum {
+>   #define CPU_FEATURE_PTW			27	/* CPU has hardware page table walker */
+>   #define CPU_FEATURE_LSPW		28	/* CPU has LSPW (lddir/ldpte instructions) */
+>   #define CPU_FEATURE_AVECINT		29	/* CPU has AVEC interrupt */
+> +#define CPU_FEATURE_REDIRECTINT		30      /* CPU has interrupt remmap */
+>   
+>   #define LOONGARCH_CPU_CPUCFG		BIT_ULL(CPU_FEATURE_CPUCFG)
+>   #define LOONGARCH_CPU_LAM		BIT_ULL(CPU_FEATURE_LAM)
+> @@ -133,5 +134,6 @@ enum cpu_type_enum {
+>   #define LOONGARCH_CPU_PTW		BIT_ULL(CPU_FEATURE_PTW)
+>   #define LOONGARCH_CPU_LSPW		BIT_ULL(CPU_FEATURE_LSPW)
+>   #define LOONGARCH_CPU_AVECINT		BIT_ULL(CPU_FEATURE_AVECINT)
+> +#define LOONGARCH_CPU_REDIRECTINT	BIT_ULL(CPU_FEATURE_REDIRECTINT)
+>   
+>   #endif /* _ASM_CPU_H */
+> diff --git a/arch/loongarch/include/asm/loongarch.h b/arch/loongarch/include/asm/loongarch.h
+> index 52651aa0e583..95e06cb6831e 100644
+> --- a/arch/loongarch/include/asm/loongarch.h
+> +++ b/arch/loongarch/include/asm/loongarch.h
+> @@ -1130,6 +1130,7 @@
+>   #define  IOCSRF_FLATMODE		BIT_ULL(10)
+>   #define  IOCSRF_VM			BIT_ULL(11)
+>   #define  IOCSRF_AVEC			BIT_ULL(15)
+> +#define  IOCSRF_REDIRECTINT		BIT_ULL(16)
+>   
+>   #define LOONGARCH_IOCSR_VENDOR		0x10
+>   
+> @@ -1189,6 +1190,11 @@
+>   
+>   #define LOONGARCH_IOCSR_EXTIOI_NODEMAP_BASE	0x14a0
+>   #define LOONGARCH_IOCSR_EXTIOI_IPMAP_BASE	0x14c0
+> +#define LOONGARCH_IOCSR_REDIRECT_CFG		0x15e0
+> +#define LOONGARCH_IOCSR_REDIRECT_TBR		0x15e8  /* IRT BASE REG*/
+> +#define LOONGARCH_IOCSR_REDIRECT_CQB		0x15f0  /* IRT CACHE QUEUE BASE */
+> +#define LOONGARCH_IOCSR_REDIRECT_CQH		0x15f8  /* IRT CACHE QUEUE HEAD, 32bit */
+> +#define LOONGARCH_IOCSR_REDIRECT_CQT		0x15fc  /* IRT CACHE QUEUE TAIL, 32bit */
+>   #define LOONGARCH_IOCSR_EXTIOI_EN_BASE		0x1600
+>   #define LOONGARCH_IOCSR_EXTIOI_BOUNCE_BASE	0x1680
+>   #define LOONGARCH_IOCSR_EXTIOI_ISR_BASE		0x1800
+> diff --git a/arch/loongarch/kernel/cpu-probe.c b/arch/loongarch/kernel/cpu-probe.c
+> index fedaa67cde41..89a41c9ba0c0 100644
+> --- a/arch/loongarch/kernel/cpu-probe.c
+> +++ b/arch/loongarch/kernel/cpu-probe.c
+> @@ -289,6 +289,9 @@ static inline void cpu_probe_loongson(struct cpuinfo_loongarch *c, unsigned int
+>   		c->options |= LOONGARCH_CPU_EIODECODE;
+>   	if (config & IOCSRF_AVEC)
+>   		c->options |= LOONGARCH_CPU_AVECINT;
+> +	if (config & IOCSRF_REDIRECTINT)
+> +		c->options |= LOONGARCH_CPU_REDIRECTINT;
+> +	c->options |= LOONGARCH_CPU_REDIRECTINT;
+>   	if (config & IOCSRF_VM)
+>   		c->options |= LOONGARCH_CPU_HYPERVISOR;
+>   }
+> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+> index 25e9ad29b8c4..5dd7d6b151d9 100644
+> --- a/drivers/irqchip/Makefile
+> +++ b/drivers/irqchip/Makefile
+> @@ -113,7 +113,7 @@ obj-$(CONFIG_LS1X_IRQ)			+= irq-ls1x.o
+>   obj-$(CONFIG_TI_SCI_INTR_IRQCHIP)	+= irq-ti-sci-intr.o
+>   obj-$(CONFIG_TI_SCI_INTA_IRQCHIP)	+= irq-ti-sci-inta.o
+>   obj-$(CONFIG_TI_PRUSS_INTC)		+= irq-pruss-intc.o
+> -obj-$(CONFIG_IRQ_LOONGARCH_CPU)		+= irq-loongarch-cpu.o irq-loongarch-avec.o
+> +obj-$(CONFIG_IRQ_LOONGARCH_CPU)		+= irq-loongarch-cpu.o irq-loongarch-avec.o irq-loongarch-ir.o
+>   obj-$(CONFIG_LOONGSON_LIOINTC)		+= irq-loongson-liointc.o
+>   obj-$(CONFIG_LOONGSON_EIOINTC)		+= irq-loongson-eiointc.o
+>   obj-$(CONFIG_LOONGSON_HTPIC)		+= irq-loongson-htpic.o
+> diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
+> index 80e55955a29f..a2a8c819cfb1 100644
+> --- a/drivers/irqchip/irq-loongarch-avec.c
+> +++ b/drivers/irqchip/irq-loongarch-avec.c
+> @@ -24,7 +24,6 @@
+>   #define VECTORS_PER_REG		64
+>   #define IRR_VECTOR_MASK		0xffUL
+>   #define IRR_INVALID_MASK	0x80000000UL
+> -#define AVEC_MSG_OFFSET		0x100000
+>   
+>   #ifdef CONFIG_SMP
+>   struct pending_list {
+> @@ -47,15 +46,6 @@ struct avecintc_chip {
+>   
+>   static struct avecintc_chip loongarch_avec;
+>   
+> -struct avecintc_data {
+> -	struct list_head	entry;
+> -	unsigned int		cpu;
+> -	unsigned int		vec;
+> -	unsigned int		prev_cpu;
+> -	unsigned int		prev_vec;
+> -	unsigned int		moving;
+> -};
+> -
+>   static inline void avecintc_enable(void)
+>   {
+>   	u64 value;
+> @@ -85,7 +75,7 @@ static inline void pending_list_init(int cpu)
+>   	INIT_LIST_HEAD(&plist->head);
+>   }
+>   
+> -static void avecintc_sync(struct avecintc_data *adata)
+> +void avecintc_sync(struct avecintc_data *adata)
+>   {
+>   	struct pending_list *plist;
+>   
+> @@ -109,7 +99,7 @@ static int avecintc_set_affinity(struct irq_data *data, const struct cpumask *de
+>   			return -EBUSY;
+>   
+>   		if (cpu_online(adata->cpu) && cpumask_test_cpu(adata->cpu, dest))
+> -			return 0;
+> +			return IRQ_SET_MASK_OK_DONE;
+>   
+>   		cpumask_and(&intersect_mask, dest, cpu_online_mask);
+>   
+> @@ -121,7 +111,8 @@ static int avecintc_set_affinity(struct irq_data *data, const struct cpumask *de
+>   		adata->cpu = cpu;
+>   		adata->vec = vector;
+>   		per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = irq_data_to_desc(data);
+> -		avecintc_sync(adata);
+> +		if (!cpu_has_redirectint)
+> +			avecintc_sync(adata);
+>   	}
+>   
+>   	irq_data_update_effective_affinity(data, cpumask_of(cpu));
+> @@ -242,6 +233,7 @@ static void avecintc_irq_dispatch(struct irq_desc *desc)
+>   		d = this_cpu_read(irq_map[vector]);
+>   		if (d) {
+>   			generic_handle_irq_desc(d);
+> +
+>   		} else {
+>   			spurious_interrupt();
+>   			pr_warn("Unexpected IRQ occurs on CPU#%d [vector %ld]\n", smp_processor_id(), vector);
+> @@ -412,6 +404,9 @@ static int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
+>   
+>   static inline int __init acpi_cascade_irqdomain_init(void)
+>   {
+> +	if (cpu_has_redirectint)
+> +		return redirect_acpi_init(loongarch_avec.domain);
+> +
+>   	return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
+>   }
+>   
+> diff --git a/drivers/irqchip/irq-loongarch-ir.c b/drivers/irqchip/irq-loongarch-ir.c
+> new file mode 100644
+> index 000000000000..9e1cbbb72e29
+> --- /dev/null
+> +++ b/drivers/irqchip/irq-loongarch-ir.c
+> @@ -0,0 +1,561 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2020 Loongson Technologies, Inc.
+> + */
+> +
+> +#include <linux/cpuhotplug.h>
+> +#include <linux/init.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/kernel.h>
+> +#include <linux/irq.h>
+> +#include <linux/irqchip.h>
+> +#include <linux/irqdomain.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/msi.h>
+> +
+> +#include <asm/irq.h>
+> +#include <asm/loongarch.h>
+> +#include <asm/setup.h>
+> +#include <larchintrin.h>
+> +
+> +#include "irq-loongson.h"
+> +#include "irq-msi-lib.h"
+> +
+> +#define IRD_ENTRIES			65536
+> +
+> +/* redirect entry size 128bits */
+> +#define IRD_PAGE_ORDER			(20 - PAGE_SHIFT)
+> +
+> +/* irt cache invalid queue */
+> +#define	INVALID_QUEUE_SIZE		4096
+> +
+> +#define INVALID_QUEUE_PAGE_ORDER	(16 - PAGE_SHIFT)
+> +
+> +#define GPID_ADDR_MASK			0x3ffffffffffULL
+> +#define GPID_ADDR_SHIFT			6
+> +
+> +#define CQB_SIZE_SHIFT			0
+> +#define CQB_SIZE_MASK			0xf
+> +#define CQB_ADDR_SHIFT			12
+> +#define CQB_ADDR_MASK			(0xfffffffffULL)
+> +
+> +#define CFG_DISABLE_IDLE		2
+> +#define INVALID_INDEX			0
+> +
+> +#define MAX_IR_ENGINES			16
+> +
+> +struct irq_domain *redirect_domain;
+> +
+> +struct redirect_entry {
+> +	struct  {
+> +		__u64	valid	: 1,
+> +			res1	: 5,
+> +			gpid	: 42,
+> +			res2	: 8,
+> +			vector	: 8;
+> +	}	lo;
+> +	__u64	hi;
+> +};
+> +
+> +struct redirect_gpid {
+> +	u64	pir[4];      /* Pending interrupt requested */
+> +	u8	en	: 1, /* doorbell */
+> +		res0	: 7;
+> +	u8	irqnum;
+> +	u16	res1;
+> +	u32	dst;
+> +	u32	rsvd[6];
+> +} __aligned(64);
+> +
+> +struct redirect_table {
+> +	int			node;
+> +	struct redirect_entry	*table;
+> +	unsigned long		*bitmap;
+> +	unsigned int		nr_ird;
+> +	struct page		*page;
+> +	raw_spinlock_t		lock;
+> +};
+> +
+> +struct redirect_item {
+> +	int			index;
+> +	struct redirect_entry	*entry;
+> +	struct redirect_gpid	*gpid;
+> +	struct redirect_table	*table;
+> +};
+> +
+> +struct redirect_queue {
+> +	int		node;
+> +	u64		base;
+> +	u32		max_size;
+> +	int		head;
+> +	int		tail;
+> +	struct page	*page;
+> +	raw_spinlock_t	lock;
+> +};
+> +
+> +
+> +struct irde_desc {
+> +	struct redirect_table	ird_table;
+> +	struct redirect_queue	inv_queue;
+> +};
+> +
+> +struct irde_inv_cmd {
+> +	union {
+> +		__u64	cmd_info;
+> +		struct {
+> +			__u64	res1		: 4,
+> +				type		: 1,
+> +				need_notice	: 1,
+> +				pad		: 2,
+> +				index		: 16,
+> +				pad2		: 40;
+> +		}	index;
+> +	};
+> +	__u64		notice_addr;
+> +};
+> +
+> +struct smp_invalid_arg {
+> +	struct redirect_queue	*queue;
+> +	struct irde_inv_cmd	*cmd;
+> +};
+> +
+> +static struct irde_desc irde_descs[MAX_IR_ENGINES];
+> +static phys_addr_t msi_base_addr;
+> +
+> +static inline bool invalid_queue_is_full(int node_id, u32 *tail)
+> +{
+> +	u32 head;
+> +
+> +	head = iocsr_read32(LOONGARCH_IOCSR_REDIRECT_CQH);
+> +	*tail = iocsr_read32(LOONGARCH_IOCSR_REDIRECT_CQT);
+> +
+> +	return !!(head == ((*tail + 1) % INVALID_QUEUE_SIZE));
+> +}
+> +
+> +static void invalid_enqueue(struct redirect_queue *rqueue, struct irde_inv_cmd *cmd)
+> +{
+> +	struct irde_inv_cmd *inv_addr;
+> +	u32 tail;
+> +
+> +	guard(raw_spinlock_irqsave)(&rqueue->lock);
+> +
+> +	while (invalid_queue_is_full(rqueue->node, &tail))
+> +		cpu_relax();
+> +
+> +	inv_addr = (struct irde_inv_cmd *)(rqueue->base + tail * sizeof(struct irde_inv_cmd));
+> +	memcpy(inv_addr, cmd, sizeof(struct irde_inv_cmd));
+> +	tail = (tail + 1) % INVALID_QUEUE_SIZE;
+> +
+> +	wmb();
+> +
+> +	iocsr_write32(tail, LOONGARCH_IOCSR_REDIRECT_CQT);
+> +}
+> +
+> +static void smp_call_invalid_enqueue(void *arg)
+> +{
+> +	struct smp_invalid_arg *s_arg = (struct smp_invalid_arg *)arg;
+> +
+> +	invalid_enqueue(s_arg->queue, s_arg->cmd);
+> +}
+> +
+> +static void irde_invlid_entry_node(struct redirect_item *item)
+> +{
+> +	struct redirect_queue *rqueue;
+> +	struct smp_invalid_arg arg;
+> +	struct irde_inv_cmd cmd;
+> +	volatile u64 raddr = 0;
+> +	int node = item->table->node, cpu;
+> +
+> +	rqueue = &(irde_descs[node].inv_queue);
+> +	cmd.cmd_info = 0;
+> +	cmd.index.type = INVALID_INDEX;
+> +	cmd.index.need_notice = 1;
+> +	cmd.index.index = item->index;
+> +	cmd.notice_addr = (u64)(__pa(&raddr));
+> +
+> +	if (cpu_to_node(smp_processor_id()) == node)
+> +		invalid_enqueue(rqueue, &cmd);
+> +	else {
+> +		for_each_cpu(cpu, cpumask_of_node(node)) {
+> +			if (cpu_online(cpu))
+> +				break;
+> +		}
+> +		arg.queue = rqueue;
+> +		arg.cmd = &cmd;
+> +		smp_call_function_single(cpu, smp_call_invalid_enqueue, &arg, 0);
+> +	}
+> +
+> +	while (!raddr)
+> +		cpu_relax();
+> +
+> +}
+> +
+> +static inline struct avecintc_data *irq_data_get_avec_data(struct irq_data *data)
+> +{
+> +	return data->parent_data->chip_data;
+> +}
+> +
+> +static int redirect_table_alloc(struct redirect_item *item, struct redirect_table *ird_table)
+> +{
+> +	int index;
+> +
+> +	guard(raw_spinlock_irqsave)(&ird_table->lock);
+> +
+> +	index = find_first_zero_bit(ird_table->bitmap, IRD_ENTRIES);
+> +	if (index > IRD_ENTRIES) {
+> +		pr_err("No redirect entry to use\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	__set_bit(index, ird_table->bitmap);
+> +
+> +	item->index = index;
+> +	item->entry = &ird_table->table[index];
+> +	item->table = ird_table;
+> +
+> +	return 0;
+> +}
+> +
+> +static int redirect_table_free(struct redirect_item *item)
+> +{
+> +	struct redirect_table *ird_table;
+> +	struct redirect_entry *entry;
+> +	unsigned long flags;
+> +
+> +	ird_table = item->table;
+> +
+> +	entry = item->entry;
+> +	memset(entry, 0, sizeof(struct redirect_entry));
+> +
+> +	raw_spin_lock_irqsave(&ird_table->lock, flags);
+> +	bitmap_release_region(ird_table->bitmap, item->index, 0);
+> +	raw_spin_unlock_irqrestore(&ird_table->lock, flags);
+> +
+> +	kfree(item->gpid);
+> +
+> +	irde_invlid_entry_node(item);
+> +
+> +	return 0;
+> +}
+> +
+> +static inline void redirect_domain_prepare_entry(struct redirect_item *item, struct avecintc_data *adata)
+> +{
+> +	struct redirect_entry *entry = item->entry;
+> +
+> +	item->gpid->en = 1;
+> +	item->gpid->irqnum = adata->vec;
+> +	item->gpid->dst = adata->cpu;
+> +
+> +	entry->lo.valid = 1;
+> +	entry->lo.gpid = ((long)item->gpid >> GPID_ADDR_SHIFT) & (GPID_ADDR_MASK);
+> +	entry->lo.vector = 0xff;
+> +	wmb();
+> +}
+> +
+> +static int redirect_set_affinity(struct irq_data *data, const struct cpumask *dest, bool force)
+> +{
+> +	struct redirect_item *item = data->chip_data;
+> +	struct avecintc_data *adata;
+> +	int ret;
+> +
+> +	ret = irq_chip_set_affinity_parent(data, dest, force);
+> +	if (ret == IRQ_SET_MASK_OK_DONE)
+> +		return IRQ_SET_MASK_OK;
+> +	else if (ret) {
+> +		pr_err("IRDE:set_affinity error %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	adata = irq_data_get_avec_data(data);
+> +
+> +	redirect_domain_prepare_entry(item, adata);
+> +
+> +	irde_invlid_entry_node(item);
+> +
+> +	avecintc_sync(adata);
+> +	return IRQ_SET_MASK_OK;
+> +}
+> +
+> +static void redirect_compose_msi_msg(struct irq_data *d, struct msi_msg *msg)
+> +{
+> +	struct redirect_item *item;
+> +
+> +	item = irq_data_get_irq_chip_data(d);
+> +	msg->address_lo = (msi_base_addr | 1 << 2 | ((item->index & 0xffff) << 4));
+> +	msg->address_hi = 0x0;
+> +	msg->data = 0x0;
+> +}
+> +
+> +static inline void redirect_ack_irq(struct irq_data *d)
+> +{
+> +}
+> +
+> +static inline void redirect_unmask_irq(struct irq_data *d)
+> +{
+> +}
+> +
+> +static inline void redirect_mask_irq(struct irq_data *d)
+> +{
+> +}
+> +
+> +static struct irq_chip loongarch_redirect_chip = {
+> +	.name			= "REDIRECT",
+> +	.irq_ack		= redirect_ack_irq,
+> +	.irq_mask		= redirect_mask_irq,
+> +	.irq_unmask		= redirect_unmask_irq,
+> +	.irq_set_affinity	= redirect_set_affinity,
+> +	.irq_compose_msi_msg	= redirect_compose_msi_msg,
+> +};
+> +
+> +static void redirect_free_resources(struct irq_domain *domain,
+> +						unsigned int virq, unsigned int nr_irqs)
+> +{
+> +	struct irq_data *irq_data;
+> +	struct redirect_item *item;
+> +
+> +	for (int i = 0; i < nr_irqs; i++) {
+> +		irq_data = irq_domain_get_irq_data(domain, virq  + i);
+> +		if (irq_data && irq_data->chip_data) {
+> +			item = irq_data->chip_data;
+> +			redirect_table_free(item);
+> +			kfree(item);
+> +		}
+> +	}
+> +}
+> +
+> +static int redirect_alloc(struct irq_domain *domain,
+> +					unsigned int virq, unsigned int nr_irqs,
+> +					 void *arg)
+> +{
+> +	struct redirect_table *ird_table;
+> +	struct avecintc_data *avec_data;
+> +	struct irq_data *irq_data;
+> +	int ret, i, node;
+> +
+> +#ifdef CONFIG_NUMA
+> +	node = ((msi_alloc_info_t *)arg)->desc->dev->numa_node;
+> +#else
+> +	node = 0;
+> +#endif
+> +	ird_table = &irde_descs[node].ird_table;
+> +	ret = irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, arg);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	for (i = 0; i < nr_irqs; i++) {
+> +		struct redirect_item *item;
+> +
+> +		item = kzalloc(sizeof(struct redirect_item), GFP_KERNEL);
+> +		if (!item) {
+> +			pr_err("Alloc redirect descriptor failed\n");
+> +			goto out_free_resources;
+> +		}
+> +
+> +		irq_data = irq_domain_get_irq_data(domain, virq + i);
+> +
+> +		avec_data = irq_data_get_avec_data(irq_data);
+> +		ret = redirect_table_alloc(item, ird_table);
+> +		if (ret) {
+> +			pr_err("Alloc redirect table entry failed\n");
+> +			goto out_free_resources;
+> +		}
+> +
+> +		item->gpid = kzalloc_node(sizeof(struct redirect_gpid), GFP_KERNEL, node);
+> +		if (!item->gpid) {
+> +			pr_err("Alloc redirect GPID failed\n");
+> +			goto out_free_resources;
+> +		}
+> +
+> +		irq_data->chip_data = item;
+> +		irq_data->chip = &loongarch_redirect_chip;
+> +		redirect_domain_prepare_entry(item, avec_data);
+> +	}
+> +	return 0;
+> +
+> +out_free_resources:
+> +	redirect_free_resources(domain, virq, nr_irqs);
+> +	irq_domain_free_irqs_common(domain, virq, nr_irqs);
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static void redirect_free(struct irq_domain *domain,
+> +				     unsigned int virq, unsigned int nr_irqs)
+> +{
+> +	redirect_free_resources(domain, virq, nr_irqs);
+> +	return irq_domain_free_irqs_common(domain, virq, nr_irqs);
+> +}
+> +
+> +static const struct irq_domain_ops redirect_domain_ops = {
+> +	.alloc		= redirect_alloc,
+> +	.free		= redirect_free,
+> +	.select		= msi_lib_irq_domain_select,
+> +};
+> +
+> +static int redirect_queue_init(int node)
+> +{
+> +	struct redirect_queue *rqueue = &(irde_descs[node].inv_queue);
+> +	struct page *pages;
+> +
+> +	pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
+> +	if (!pages) {
+> +		pr_err("Node [%d] Invalid Queue alloc pages failed!\n", node);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	rqueue->page = pages;
+> +	rqueue->base = (u64)page_address(pages);
+> +	rqueue->max_size = INVALID_QUEUE_SIZE;
+> +	rqueue->head = 0;
+> +	rqueue->tail = 0;
+> +	rqueue->node = node;
+> +	raw_spin_lock_init(&rqueue->lock);
+> +
+> +	iocsr_write32(0, LOONGARCH_IOCSR_REDIRECT_CQH);
+> +	iocsr_write32(0, LOONGARCH_IOCSR_REDIRECT_CQT);
+> +	iocsr_write64(((rqueue->base & (CQB_ADDR_MASK << CQB_ADDR_SHIFT)) |
+> +				(CQB_SIZE_MASK << CQB_SIZE_SHIFT)), LOONGARCH_IOCSR_REDIRECT_CQB);
+> +	return 0;
+> +}
+> +
+> +static int redirect_table_init(int node)
+> +{
+> +	struct redirect_table *ird_table = &(irde_descs[node].ird_table);
+> +	struct page *pages;
+> +	unsigned long *bitmap;
+> +
+> +	pages = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, IRD_PAGE_ORDER);
+> +	if (!pages) {
+> +		pr_err("Node [%d] redirect table alloc pages failed!\n", node);
+> +		return -ENOMEM;
+> +	}
+> +	ird_table->page = pages;
+> +	ird_table->table = page_address(pages);
+> +
+> +	bitmap = bitmap_zalloc(IRD_ENTRIES, GFP_KERNEL);
+> +	if (!bitmap) {
+> +		pr_err("Node [%d] redirect table bitmap alloc pages failed!\n", node);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ird_table->bitmap = bitmap;
+> +	ird_table->nr_ird = IRD_ENTRIES;
+> +	ird_table->node = node;
+> +
+> +	raw_spin_lock_init(&ird_table->lock);
+> +
+> +	if (redirect_queue_init(node))
+> +		return -EINVAL;
+> +
+> +	iocsr_write64(CFG_DISABLE_IDLE, LOONGARCH_IOCSR_REDIRECT_CFG);
+> +	iocsr_write64(__pa(ird_table->table), LOONGARCH_IOCSR_REDIRECT_TBR);
+> +
+> +	return 0;
+> +}
+> +
+> +static void redirect_table_fini(int node)
+> +{
+> +	struct redirect_table *ird_table = &(irde_descs[node].ird_table);
+> +	struct redirect_queue *rqueue = &(irde_descs[node].inv_queue);
+> +
+> +	if (ird_table->page) {
+> +		__free_pages(ird_table->page, IRD_PAGE_ORDER);
+> +		ird_table->table = NULL;
+> +		ird_table->page = NULL;
+> +	}
+> +
+> +	if (ird_table->page) {
+> +		bitmap_free(ird_table->bitmap);
+> +		ird_table->bitmap = NULL;
+> +	}
+> +
+> +	if (rqueue->page) {
+> +		__free_pages(rqueue->page, INVALID_QUEUE_PAGE_ORDER);
+> +		rqueue->page = NULL;
+> +		rqueue->base = 0;
+> +	}
+> +
+> +	iocsr_write64(0, LOONGARCH_IOCSR_REDIRECT_CQB);
+> +	iocsr_write64(0, LOONGARCH_IOCSR_REDIRECT_TBR);
+> +}
+> +
+> +static int redirect_cpu_online(unsigned int cpu)
+> +{
+> +	int ret, node = cpu_to_node(cpu);
+> +
+> +	if (cpu != cpumask_first(cpumask_of_node(node)))
+> +		return 0;
+> +
+> +	ret = redirect_table_init(node);
+> +	if (ret) {
+> +		redirect_table_fini(node);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +#if defined(CONFIG_ACPI)
+> +static int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
+> +		const unsigned long end)
+> +{
+> +	struct acpi_madt_msi_pic *pchmsi_entry = (struct acpi_madt_msi_pic *)header;
+> +
+> +	msi_base_addr = pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
+> +
+> +	return pch_msi_acpi_init_avec(redirect_domain);
+> +}
+> +
+> +static int __init acpi_cascade_irqdomain_init(void)
+> +{
+> +	return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
+> +}
+> +
+> +int __init redirect_acpi_init(struct irq_domain *parent)
+> +{
+> +	struct fwnode_handle *fwnode;
+> +	struct irq_domain *domain;
+> +	int ret;
+> +
+> +	fwnode = irq_domain_alloc_named_fwnode("redirect");
+> +	if (!fwnode) {
+> +		pr_err("Unable to alloc redirect domain handle\n");
+> +		goto fail;
+> +	}
+> +
+> +	domain = irq_domain_create_hierarchy(parent, 0, IRD_ENTRIES, fwnode,
+> +			&redirect_domain_ops, irde_descs);
+> +	if (!domain) {
+> +		pr_err("Unable to alloc redirect domain\n");
+> +		goto out_free_fwnode;
+> +	}
+> +
+> +	redirect_domain = domain;
+> +
+> +	ret = redirect_table_init(0);
+> +	if (ret)
+> +		goto out_free_table;
+> +
+> +	ret = acpi_cascade_irqdomain_init();
+> +	if (ret < 0) {
+> +		pr_err("Failed to cascade IRQ domain, ret=%d\n", ret);
+> +		goto out_free_table;
+> +	}
+> +
+> +	cpuhp_setup_state_nocalls(CPUHP_AP_IRQ_REDIRECT_STARTING,
+> +				  "irqchip/loongarch/redirect:starting",
+> +				  redirect_cpu_online, NULL);
+> +
+> +	pr_info("loongarch irq redirect modules init succeeded\n");
+> +	return 0;
+> +
+> +out_free_table:
+> +	redirect_table_fini(0);
+> +	irq_domain_remove(redirect_domain);
+> +	redirect_domain = NULL;
+> +out_free_fwnode:
+> +	irq_domain_free_fwnode(fwnode);
+> +fail:
+> +	return -EINVAL;
+> +}
+> +#endif
+> diff --git a/drivers/irqchip/irq-loongson.h b/drivers/irqchip/irq-loongson.h
+> index 11fa138d1f44..05ad40ffb62b 100644
+> --- a/drivers/irqchip/irq-loongson.h
+> +++ b/drivers/irqchip/irq-loongson.h
+> @@ -5,6 +5,15 @@
+>   
+>   #ifndef _DRIVERS_IRQCHIP_IRQ_LOONGSON_H
+>   #define _DRIVERS_IRQCHIP_IRQ_LOONGSON_H
+> +#define AVEC_MSG_OFFSET		0x100000
+> +struct avecintc_data {
+> +	struct list_head        entry;
+> +	unsigned int            cpu;
+> +	unsigned int            vec;
+> +	unsigned int            prev_cpu;
+> +	unsigned int            prev_vec;
+> +	unsigned int            moving;
+> +};
+>   
+>   int find_pch_pic(u32 gsi);
+>   
+> @@ -24,4 +33,7 @@ int pch_msi_acpi_init(struct irq_domain *parent,
+>   					struct acpi_madt_msi_pic *acpi_pchmsi);
+>   int pch_msi_acpi_init_avec(struct irq_domain *parent);
+>   
+> +int redirect_acpi_init(struct irq_domain *parent);
+> +
+> +void avecintc_sync(struct avecintc_data *adata);
+>   #endif /* _DRIVERS_IRQCHIP_IRQ_LOONGSON_H */
+> diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
+> index 6cc5e484547c..2fd5531fa378 100644
+> --- a/include/linux/cpuhotplug.h
+> +++ b/include/linux/cpuhotplug.h
+> @@ -146,6 +146,7 @@ enum cpuhp_state {
+>   	CPUHP_AP_IRQ_MIPS_GIC_STARTING,
+>   	CPUHP_AP_IRQ_EIOINTC_STARTING,
+>   	CPUHP_AP_IRQ_AVECINTC_STARTING,
+> +	CPUHP_AP_IRQ_REDIRECT_STARTING,
+>   	CPUHP_AP_IRQ_SIFIVE_PLIC_STARTING,
+>   	CPUHP_AP_IRQ_THEAD_ACLINT_SSWI_STARTING,
+>   	CPUHP_AP_IRQ_RISCV_IMSIC_STARTING,
 
