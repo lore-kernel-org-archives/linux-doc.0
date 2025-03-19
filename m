@@ -1,116 +1,123 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FD31AF0D7;
-	Wed, 19 Mar 2025 18:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7FC1D54D6;
+	Wed, 19 Mar 2025 18:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742407298; cv=none; b=K4bBaG5aLi7zyUWJ/XuQ7JXA2akv6KXFu1+10L2+s7HgNPro9FalfKsgY+QAA2zdj14J75iQjopR3t+qAkfAC53lesHZNMZyydYhy5S3fRv/4iAgfHEUsvnhWqHJY30U1A8KOlNhwhvTBSTXdigrY5XGopi6QZEVjVeJNbETqzA=
+	t=1742407695; cv=none; b=obqMWd1Jg4Y6TtIOweTvTcBCMb2BQwkHVKAfCBBFgpsFI0mcb6bKuzfBpRbd0qgucEdc9Rkq4+RSUGrFPV0eyPjhpAemOBkZ4WgQrw9oqxBzsiuMJZwL4hreQUkqoxb9G8YOR29K3SSw+YDJCynzzbSOBnRD0SY/nSk+lkO+gwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742407298; c=relaxed/simple;
-	bh=oQE5SWEQZo+51U7+Wy6AQNae+ZlEYPOsFBF8ZFt2r30=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lsHFqIbDkzYUMTltk+DOPb8TNsyDWsJhu7PN0LX/P3Lpq0fkQHd2qV89K7t1PTX5R3wF1M810ipkAEUKRmhMNZ4HEa3NKz9sWkoQ9M18CFktRq+4lYYV54zruAIt8+5wMIjo0J/fXcwKmMizOarJ1jwafe3DzlcZ5QuZH2vD6Vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dUl5A6/M; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1742407695; c=relaxed/simple;
+	bh=zqnzsxiP89SgvtjiQFzuFFa7snDt35vKEJJvRGx0NfM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ivEGgB1/6BUH7RqQM61ZgR8Y5l+wsL9NLajymHZY7AnV8I8/FgT4svFEZh3DJk/88bVZpnsHEDIxPyumJ+eLIq0PldDN9z2I+wPniPafN0ROW0tPrtoEPFNwCJEr4WUCdNemLOSDuYmaWh6KlaBCgmsYw6vLOV7pL5z3fI8/rJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=dl4I27XB; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dUl5A6/M"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=9ZQ/8u1bPwOt3oNHK9qL/WApsP/XQrqSOmmJ930SPGc=; b=dUl5A6/MqdWgl1juDVkqKPiS9r
-	tsCLHriDCeA99lFYbDJSYL1G6DYjXzifeWAIrm4nc+vyjayxVLhMIC1TTfS6QPdB8ZayKRUnaun4s
-	5wnOcNzdmaDWhFHp0WjIh0HnNqph5Xszmi0eqd5r3ruxI5znMK400pEqkdUXvQrJKRDkNZAMexHuR
-	wfHs3CjXXXTZtyfWB3wbfNwl5AoZQyT5k2MY4UHL00SaYHaF3cQYFYQrzKDJfuXMM8yhxetDq8kDL
-	uSnbDyQQB4uyYewL/IyHqz/3wmxZApS4OJdfUOFhjSsc+x3nFWCmFXa6EMV8D/JlTHzs42NyxYDxK
-	t6j0uaxA==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tuxjS-0000000DF5N-3QER;
-	Wed, 19 Mar 2025 18:01:35 +0000
-Message-ID: <907fba96-d8f5-428e-b762-738abc8f88a4@infradead.org>
-Date: Wed, 19 Mar 2025 11:01:31 -0700
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dl4I27XB"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 94D7644549;
+	Wed, 19 Mar 2025 18:08:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742407685;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YZPIFVslvH9l06L8tnbNSF2qR6hGErPXH8fPWX2MidI=;
+	b=dl4I27XBcpPofhry0JbmcrWGxoLtOpTw8nB68wQqjPsZjOJzq6kON/ApeSqIo8db8178LJ
+	s38hr0Exy3OFWsHR3pOAeQryWaCIqF2ZDWcxpdF600XrKrdpbbetFk4zQSCBwJatepGd1k
+	wWJNwyBl8vl4OjBroZN9BiEmWuYLYDTGuq1NpCFdoDRazNL9tNoI/wZVzCKS+0Er1qidnW
+	z+cKIwqKybBt3d1s9XttfTzmjzSxtySNInLM4fV6yMIb13yDO14AEVFihhA6k+bhKtkmr9
+	a80p/rXc+Z5DjVYf5OS7WLHxHy7sX30Mt2NXmBwB3x5MItCsiYPmPHQ+RLw5Eg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Petr Mladek <pmladek@suse.com>,  David Laight
+ <david.laight.linux@gmail.com>,  Steven Rostedt <rostedt@goodmis.org>,
+  Rasmus Villemoes <linux@rasmusvillemoes.dk>,  Sergey Senozhatsky
+ <senozhatsky@chromium.org>,  Jonathan Corbet <corbet@lwn.net>,  John
+ Ogness <john.ogness@linutronix.de>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] hexdump: Allow skipping identical lines
+In-Reply-To: <Z9rzy9WQcy_MgH9v@smile.fi.intel.com> (Andy Shevchenko's message
+	of "Wed, 19 Mar 2025 18:41:47 +0200")
+References: <20250319-perso-hexdump-v3-0-a6ba3a9f3742@bootlin.com>
+	<20250319-perso-hexdump-v3-2-a6ba3a9f3742@bootlin.com>
+	<Z9rzy9WQcy_MgH9v@smile.fi.intel.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Wed, 19 Mar 2025 19:08:04 +0100
+Message-ID: <87tt7oyjuj.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 56/57] docs: irqdomain: Update
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, tglx@linutronix.de
-Cc: maz@kernel.org, linux-kernel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20250319092951.37667-1-jirislaby@kernel.org>
- <20250319092951.37667-57-jirislaby@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250319092951.37667-57-jirislaby@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeeitdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufgjfhgffffkgggtsehttdertddtredtnecuhfhrohhmpefoihhquhgvlhcutfgrhihnrghluceomhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhephfelkedvveffleeuhfeigfdvvefhgfejgffghfeiteegteeiudegfedtjeehkeefnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddvpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehpmhhlrgguvghksehsuhhsvgdrtghomhdprhgtphhtthhopegurghvihgurdhlrghighhhthdrlhhinhhugiesghhmrghilhdrtghomhdprhgtphhtthhopehrohhsthgvughtsehgohhoughmihhsrdhorhhgpdhrtghpthhtoheplhhinhhugiesrhgrshhmuhhsvhhil
+ hhlvghmohgvshdrughkpdhrtghpthhtohepshgvnhhoiihhrghtshhkhiestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepjhhohhhnrdhoghhnvghssheslhhinhhuthhrohhnihigrdguvg
+X-GND-Sasl: miquel.raynal@bootlin.com
 
 
+>>  For printing small buffers (up to 64 bytes long) as a hex string with a
+>>  certain separator. For larger buffers consider using
+>> -:c:func:`print_hex`.
+>
+> Instead of fixing this (see also comment in previous patch), just add the text
+> like
+>
+> :c:func:`print_hex` is  especially useful since duplicated lines can be skipped
+> automatically to reduce the overhead with the
+> ``DUMP_SKIP_IDENTICAL_LINES`` flag.
 
-On 3/19/25 2:29 AM, Jiri Slaby (SUSE) wrote:
-> The irqdomain documentaion became obsolete over time. Update and extend
-> it a bit with respect to the current code and HW.
-> 
-> Most notably the doubled documentation of irq_domain (from .rst and .h)
-> was unified and let only in .rst. A reference link was added to .h.
-> 
-> Furthermore:
-> * Some 'struct' keywords added, so that the respective structs are
->   hyperlinked.
-> * :c:member: used where appropriate to mark a member of a struct.
-> * Some wording rephrased to improve readability/understanding.
-> 
-> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> ---
->  Documentation/core-api/irq/irq-domain.rst | 122 +++++++++++++---------
->  include/linux/irqdomain.h                 |  26 +----
->  2 files changed, 76 insertions(+), 72 deletions(-)
-> 
-> diff --git a/Documentation/core-api/irq/irq-domain.rst b/Documentation/core-api/irq/irq-domain.rst
-> index c2f2728b1a35..7a418b3135de 100644
-> --- a/Documentation/core-api/irq/irq-domain.rst
-> +++ b/Documentation/core-api/irq/irq-domain.rst
-> @@ -3,8 +3,8 @@ The irq_domain Interrupt Number Mapping Library
->  ===============================================
->  
->  The current design of the Linux kernel uses a single large number
-> -space where each separate IRQ source is assigned a different number.
-> -This is simple when there is only one interrupt controller, but in
-> +space where each separate IRQ source is assigned a unique number.
-> +This is simple when there is only one interrupt controller. But in
->  systems with multiple interrupt controllers, the kernel must ensure
->  that each one gets assigned non-overlapping allocations of Linux
->  IRQ numbers.
-> @@ -15,45 +15,64 @@ such as GPIO controllers avoid reimplementing identical callback
->  mechanisms as the IRQ core system by modelling their interrupt
->  handlers as irqchips. I.e. in effect cascading interrupt controllers.
->  
-> -Here the interrupt number loose all kind of correspondence to
-> -hardware interrupt numbers: whereas in the past, IRQ numbers could
-> -be chosen so they matched the hardware IRQ line into the root
-> -interrupt controller (i.e. the component actually fireing the
-> -interrupt line to the CPU) nowadays this number is just a number.
-> +So in the past, IRQ numbers could be chosen so that they match the
-> +hardware IRQ line into the root interrupt controller (i.e. the
-> +component actually firing the interrupt line to the CPU). Nowadays,
-> +this number is just a number and the number loose all kind of
+Why are you bothered here? I am sorry but this part of the review is
+absolutely pointless. I have no words to emphasize how high the
+nitpicking level is. Please refrain yourself.
 
-                                               loses
+>> +:c:func:`print_hex`, especially since duplicated lines can be
+>> +skipped automatically to reduce the overhead with the
+>> +``DUMP_SKIP_IDENTICAL_LINES`` flag.
+>
+> Also, can  we also put a sub name spaces to the flags, like for HEX/ASCII
+>
+> DUMP_DATA_HEX
+> DUMP_DATA_ASCII
 
-> +correspondence to hardware interrupt numbers.
->  
+They just refer to the way the data is dumped, so "data" is in the name,
+that's true. The fact that they share the same namespace is fortunate
+but not super relevant either. I am following the hints discussed in v2
+regarding the naming, I am not too attached to these, but they felt
+correct, so I use them.
 
-[snip]
+> This SKIP  will start a new sub name space.
 
--- 
-~Randy
+Yes. And?
 
+I would have probably chosen a common name space from day 1 if I was
+creating these now, but they are already two enums named
+"DUMP_PREFIX". I guess we all agree it would be stupid to prefix all
+enums "DUMP_PREFIX" anyway? And because you disgusted me from attempting
+brave tree-wide changes, I will not rename them.
+
+>
+> ...
+>
+>>  #include <linux/errno.h>
+>>  #include <linux/kernel.h>
+>>  #include <linux/minmax.h>
+>
+>> +#include <linux/string.h>
+>>  #include <linux/export.h>
+>
+> It's more natural to put it here, with given context it makes more order
+> (speaking of alphabetical one).
+
+If I learned something on these mailing lists, it is that what is
+natural for me might not be for others. The alphabetical order is not
+respected. You already pointed that in your first review, so I chose
+another place which felt more relevant... to me.
+e, k, m, s, u. This is the alphabetical order. export.h is not at the
+correct place, I am very sorry.
