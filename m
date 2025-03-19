@@ -1,182 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BA11A3056;
-	Wed, 19 Mar 2025 14:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B44157A6B;
+	Wed, 19 Mar 2025 14:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742393126; cv=none; b=LTB9xPa74bZG4bU6rVrv5o6uVFpkdSfmdSdcpq+osQwolgm/KE5/Na0V4Uermy08jAuzrlWVgaGQN9YEdqjlXFRQ6fUnS+4tT7DpGrP/Jyh5AiCm6PqACs0CSF9gOhWZyQtYkRuUuSX80MwLpO9bW4zjW3YLU8HLo5VK5bpjNm0=
+	t=1742393576; cv=none; b=iHrwzs2nW1M8zCM0axo9uEeK9RbqHTEapbgDFNul4+PgM3tFFDNbGKXnaXwwkUqMy9i/0jfpU5m+LYJELFAtGJlcg/iwgU5/6gRQPL0OScOoa/B3mayTB/C3yQjbTYkCEzsactXGRdKoNMLKZxM0CnF4xfTObAW3xV6SMy1sBXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742393126; c=relaxed/simple;
-	bh=FykKi5B1OIIrB8kV/rDesHGQ7kViOrYXaOuFqKji6kk=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=uqq5R7UEmCMnSkiIItTjQPyfkk/8f21md+MMHfElngNxUFJtRB4cDI+22WP4OzQM3bXP0tKczZYuOWDtLqqHWbQBL6TFNQZtIWKIFmzkPTf8zJDFTin3acMfGKKo/RJbv/gWb2u393xVO12LydcEZre4KtR0HRl0AC0f+1153ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEiGP4Gw; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1742393576; c=relaxed/simple;
+	bh=7VJOMqWqh0wQcU1BFtXa6c0GzKjyuarAJOX4Wh2GmdU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nIkXyeBBnWj/59N9S3gDHzSzPaPsyaex9N+rroWCPRcDwvr04ewPWmP7LvAFB9W3uaGwORUx6gLSbqtFtAsNWurvFGae0ZzwT9NSsOsYCC/BhbESlaV1xK5FxVcjeIkw3hsO/wdmHZ8JzAkNX8HmyDRJg9pipn/m5psEbf6OZpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WIi7XKWr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEiGP4Gw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742393126; x=1773929126;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=FykKi5B1OIIrB8kV/rDesHGQ7kViOrYXaOuFqKji6kk=;
-  b=LEiGP4GwtaeYo4pEluo+WcGa1b8/IhsgoiszzW6kDJey5khjNH6T71lm
-   UXO6CHWfoSpscQxxZwwwWNDvVLVUnWQCRCpm4M4Slv8BXEk9t88dx6kSj
-   AzueLnSDOQFHImh3Q9hwhMUqeTkCjq+9JFYZ2I4wy3p37MZA40+AduiU8
-   7IaL3X7Kl1RTDV5m4IhuwTyjiIxVIaVshUjFgzPO84gwm8q0x8elFBRwq
-   mCdXAJwGaQW8Xm3TidP19lKEXpm/0pROMvr4oFEu/01fPjbmZYdCMn8fj
-   EDUlbKFJahsCsrG6jYy3NnODBmRDg9ej2HPDCkq359Cxmxc4Lhmd0DEoz
-   g==;
-X-CSE-ConnectionGUID: XRbVggPMRfuHZVwO6e3Pjw==
-X-CSE-MsgGUID: IMe9F9wgSpG143fDeIL8ZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="47233470"
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="47233470"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 07:05:24 -0700
-X-CSE-ConnectionGUID: xdB9ZGvyRyWA5i3/n3IEbw==
-X-CSE-MsgGUID: TG6HtdmlS5CiPVL7P6LI+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="123567657"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.21])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 07:05:17 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 19 Mar 2025 16:05:14 +0200 (EET)
-To: Mario Limonciello <superm1@kernel.org>
-cc: Hans de Goede <hdegoede@redhat.com>, 
-    Mario Limonciello <mario.limonciello@amd.com>, 
-    Perry Yuan <perry.yuan@amd.com>, Thomas Gleixner <tglx@linutronix.de>, 
-    Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-    Dave Hansen <dave.hansen@linux.intel.com>, 
-    "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>, 
-    "H . Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, 
-    Huang Rui <ray.huang@amd.com>, 
-    "Gautham R . Shenoy" <gautham.shenoy@amd.com>, 
-    "Rafael J . Wysocki" <rafael@kernel.org>, 
-    Viresh Kumar <viresh.kumar@linaro.org>, 
-    "open list:AMD HETERO CORE HARDWARE FEEDBACK DRIVER" <platform-driver-x86@vger.kernel.org>, 
-    "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <linux-kernel@vger.kernel.org>, 
-    "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-    "open list:AMD PSTATE DRIVER" <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH v8 12/13] platform/x86/amd: hfi: Add debugfs support
-In-Reply-To: <20250218190822.1039982-13-superm1@kernel.org>
-Message-ID: <051984c1-c70b-3782-bda2-a00ed190525e@linux.intel.com>
-References: <20250218190822.1039982-1-superm1@kernel.org> <20250218190822.1039982-13-superm1@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WIi7XKWr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4305AC4CEE4;
+	Wed, 19 Mar 2025 14:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742393575;
+	bh=7VJOMqWqh0wQcU1BFtXa6c0GzKjyuarAJOX4Wh2GmdU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WIi7XKWru5EjClACAxW7fG7MrDi1oafmrSYWuXdM4al6SJMerCD644yysnaDZp1p3
+	 2LDcQEEXQMHEsUw1kWs1HQdpVEhZ+Rlh3cMQGDXUheT3jqRNpEf7RchuL1QIiE0VvV
+	 9nXul06F0lg22xYOWnH40PRctJ5PLPcuTvKhGTABAzObaKo4uGJDbY90fglQchMrPz
+	 zdnDS5wAHIzRd67LmF1G3JlvIXOdZYT6Fcj3yjWaUW/4/a8WWrduL730o5XA/58K0q
+	 UVQaOk/8wXhRASzknHY8/8DPszhi4/o8XNYLNxMGVdTOL7jrB3VRz/2M5WGrtt7k7p
+	 VKIjmLhc6/iag==
+From: Maxime Ripard <mripard@kernel.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: Re: [PATCH] Documentation: vgaarbiter: Fix grammar
+Date: Wed, 19 Mar 2025 15:12:50 +0100
+Message-ID: <174239356754.697925.8716284607359471588.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250318041249.20786-2-bagasdotme@gmail.com>
+References: <20250318041249.20786-2-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 18 Feb 2025, Mario Limonciello wrote:
-
-> From: Mario Limonciello <mario.limonciello@amd.com>
+On Tue, 18 Mar 2025 11:12:50 +0700, Bagas Sanjaya wrote:
+> Correct grammar issues:
 > 
-> Add a dump of the class and capabilities table to debugfs to assist
-> with debugging scheduler issues.
+> - Fix "co-exist" subject-verb agreement
+> - Correct plural form of "server" in context of more than one legacy
+>   devices
+> - Use passive mood for intro sentence of libpciaccess section
 > 
-> Reviewed-by: Gautham R. Shenoy <gautham.shenoy@amd.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
-> v8:
->  * s,for_each_present_cpu,for_each_possible_cpu,
-> v3:
->  * Move idx to earlier line
-> ---
->  drivers/platform/x86/amd/hfi/hfi.c | 35 ++++++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/amd/hfi/hfi.c b/drivers/platform/x86/amd/hfi/hfi.c
-> index 14378a0e09e21..79d065d7b6441 100644
-> --- a/drivers/platform/x86/amd/hfi/hfi.c
-> +++ b/drivers/platform/x86/amd/hfi/hfi.c
-> @@ -13,6 +13,7 @@
->  #include <linux/acpi.h>
->  #include <linux/cpu.h>
->  #include <linux/cpumask.h>
-> +#include <linux/debugfs.h>
->  #include <linux/gfp.h>
->  #include <linux/init.h>
->  #include <linux/io.h>
-> @@ -74,6 +75,8 @@ struct amd_hfi_data {
->  	void __iomem		*pcc_comm_addr;
->  	struct acpi_subtable_header	*pcct_entry;
->  	struct amd_shmem_info	*shmem;
-> +
-> +	struct dentry *dbgfs_dir;
->  };
->  
->  /**
-> @@ -235,6 +238,13 @@ static int amd_hfi_alloc_class_data(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> +static void amd_hfi_remove(struct platform_device *pdev)
-> +{
-> +	struct amd_hfi_data *dev = platform_get_drvdata(pdev);
-> +
-> +	debugfs_remove_recursive(dev->dbgfs_dir);
-> +}
-> +
->  static int amd_set_hfi_ipcc_score(struct amd_hfi_cpuinfo *hfi_cpuinfo, int cpu)
->  {
->  	for (int i = 0; i < hfi_cpuinfo->nr_class; i++)
-> @@ -389,6 +399,26 @@ static int amd_hfi_metadata_parser(struct platform_device *pdev,
->  	return ret;
->  }
->  
-> +static int class_capabilities_show(struct seq_file *s, void *unused)
-> +{
-> +	int cpu, idx;
-> +
-> +	seq_puts(s, "CPU #\tWLC\tPerf\tEff\n");
-> +	for_each_possible_cpu(cpu) {
-> +		struct amd_hfi_cpuinfo *hfi_cpuinfo = per_cpu_ptr(&amd_hfi_cpuinfo, cpu);
-> +
-> +		seq_printf(s, "%d", cpu);
-> +		for (idx = 0; idx < hfi_cpuinfo->nr_class; idx++) {
-> +			seq_printf(s, "\t%d\t%d\t%d\n", idx,
-> +				   hfi_cpuinfo->amd_hfi_classes[idx].perf,
-> +				   hfi_cpuinfo->amd_hfi_classes[idx].eff);
+> [...]
 
-Please use %u for unsigned variables.
+Applied to misc/kernel.git (drm-misc-next).
 
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(class_capabilities);
-> +
->  static int amd_hfi_pm_resume(struct device *dev)
->  {
->  	int ret, cpu;
-> @@ -468,6 +498,10 @@ static int amd_hfi_probe(struct platform_device *pdev)
->  
->  	schedule_work(&sched_amd_hfi_itmt_work);
->  
-> +	amd_hfi_data->dbgfs_dir = debugfs_create_dir("amd_hfi", arch_debugfs_dir);
-> +	debugfs_create_file("class_capabilities", 0644, amd_hfi_data->dbgfs_dir, pdev,
-> +			    &class_capabilities_fops);
-> +
->  	return 0;
->  }
->  
-> @@ -479,6 +513,7 @@ static struct platform_driver amd_hfi_driver = {
->  		.acpi_match_table = ACPI_PTR(amd_hfi_platform_match),
->  	},
->  	.probe = amd_hfi_probe,
-> +	.remove = amd_hfi_remove,
->  };
->  
->  static int __init amd_hfi_init(void)
-> 
-
--- 
- i.
-
+Thanks!
+Maxime
