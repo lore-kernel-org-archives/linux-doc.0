@@ -1,43 +1,43 @@
 Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E2220765F
-	for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 23:39:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F515D2FB;
+	Wed, 19 Mar 2025 00:50:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742341195; cv=none; b=CaXY85MgGXG0J6m4NHeAtm0mOeSV6hm9TDwMO6+8Xs6iCG1b0REitCP66KPXn9OkcYtQjTF3DSlDQvU/jfabMIc0NGiQJcBz20m44aGkRnH+2xoEWF0yFhBvWJSEgJXg4fx7Dq5jpZUj50pNJBC4E4+bZk7qklQ2BPHwUfMbeOU=
+	t=1742345444; cv=none; b=FUgc2DbTKEUOzIB/RorWo+umyPboPibm56JyaYkKdACZiP0jBXmoWcB4Ks90I0p086dJPA23d9CvHg+cGCknRlFfHwVHIcElNpd9cAIrd3pFvaHLTnedeeyIpdbI0mBDFrgknmsHeXrdoa4fgpf3XdAAk4XbTEMqb5NGMuaZgK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742341195; c=relaxed/simple;
-	bh=fGuUKbDOB5dmTVEfiXG6YxIzsikn2cP+B87uXozbX/U=;
+	s=arc-20240116; t=1742345444; c=relaxed/simple;
+	bh=NeEU7i74gwTAa1WttGzCW7vliZqsygMpqhOWUejssws=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=efx2yI3FhOlira5igHQOdRjNEZd64OtDkSkpiiubFMfrIPxPMVY0JT+YiRj1RGSpK7lJCi1ma/eCq2nXZEqcpk83doHdZJHtxPxH8ic6woa+XYYbFcSjo4vRAqlPlYD0T8droBh7Hbif1DQfhOcB+LgOP0MmXMS+9WLRuj4tvBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=RaOciKBT; arc=none smtp.client-ip=79.135.106.28
+	 MIME-Version:Content-Type; b=tddNr9vtpyNDCl8baYnKEfFEMP/9EalkP33v5fMdnFw2SUfc9i+XKCtgw52AXh5WFmFYhm10/HC2CKlPDxA2zdEqfJ8CRfbcKhyURiLniE+MpPRVOduIgmNG64yyLkTo9ByqVhMxXbTf8dSNGD0r3uSXG6XISfDOoqcr5WkoDaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=OuvlnTKG; arc=none smtp.client-ip=79.135.106.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="RaOciKBT"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="OuvlnTKG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1742341186; x=1742600386;
-	bh=d34UJK5tJkTjTYS+Ho6QsGFR8HYdLE42Xz994EfYEqE=;
+	s=6jba5to2fzf2tmn4smqyqpdmoq.protonmail; t=1742345439; x=1742604639;
+	bh=VkL2Mxif+LYFPEMvRY4YuHUJQ31AetP3+c0xD9LJp+0=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=RaOciKBTsTlblmMpVe62hSQ6/t3Mi4fW8+urMe45f79YfYG5yf6E64gryI9qXf49Z
-	 A8SNKRsiQsAPgHHVOyC7Nkv8vMiQ5kwv6ijAk4DumuFZ1IFVJxDy78hFcOY/z/p5eM
-	 R6BPafrmCaSo4Jt22oLXFQacIc0PGZzkAZ/A3as5ArVeTvXw8s3V99AKjSiNQzXpZA
-	 fNqC5l3ap9FTBQOA1ghIvn5t6mDDnTou2c1V1glM1dcI8tpvaOVhTIRkXpTtkPxAYt
-	 dLWcQHmvUJj+10vWtNmwu0l9tFCIKgj+9/m8Q85DtGSE8vBXG3nYX6Sdk4AG9e4fyJ
-	 uo2A0y/stXPSg==
-Date: Tue, 18 Mar 2025 23:39:41 +0000
-To: Ingo Molnar <mingo@kernel.org>
-From: Denis Mukhin <dmkhn@proton.me>
-Cc: dmukhin@ford.com, Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] x86/early_printk: add MMIO-based UARTs
-Message-ID: <wlidpR0nAfMoUkVTrtOogcSBeZ8pEKU32ZCubunTj3-kDUj4hKY0fJAAQD11aFA5xkGAH9qV2tNee7yB5qJof_lq9zxdXAfzR0Fm6mf5cqI=@proton.me>
-In-Reply-To: <Z9fWMaX25c8GIaQK@gmail.com>
-References: <20250314-earlyprintk-v2-1-2bcbe05290b8@ford.com> <Z9fWMaX25c8GIaQK@gmail.com>
-Feedback-ID: 123220910:user:proton
-X-Pm-Message-ID: 4861024a656d413dcc21272edb7c9479286245a3
+	b=OuvlnTKGDYLlG88upDBw7wr7g3AGCYM0aTNk3kRAoVprUuW+CF/kqquXw1cSicdLT
+	 uVn/H329nesx/xyayy2Fazl1UVyHZV/K9jTFAG2dKFAG0dRAq2X9EKmPTvy44/LhqH
+	 UHiRD60+7g1KXwgS4aJRWHPWE1eO7El1z6MIJnTGMDd/5NPPy77oQsWCNSa40MHR0S
+	 +WoI4I0EQk/x2iIHvxkVkXQ4zY4IbT36G7wYMVsFjOsIpmc8INPwpP/zzcrIZZVBJD
+	 ylra/qToQwv/F1EBGmh2weZubQEmvOe9vyQrqoJEt34Dm4R4WYR1Ork8tDUjgM+Fbl
+	 mmXzZ4qWCyItw==
+Date: Wed, 19 Mar 2025 00:50:29 +0000
+To: Tamir Duberstein <tamird@gmail.com>, Andrew Ballance <andrewjballance@gmail.com>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, acourbot@nvidia.com, nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] rust: alloc: add Vec::resize method
+Message-ID: <D8JTWL8JY7DM.3IVH6FZ4M49CB@proton.me>
+In-Reply-To: <CAJ-ks9kAROOfyPtxMe6LE4-UPsvXca2sQ2VDjhRchZp3HLddGg@mail.gmail.com>
+References: <20250316111644.154602-1-andrewjballance@gmail.com> <20250316111644.154602-3-andrewjballance@gmail.com> <CAJ-ks9kAROOfyPtxMe6LE4-UPsvXca2sQ2VDjhRchZp3HLddGg@mail.gmail.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 124220e04b60981fd23d64c8176e2b18357079aa
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,51 +47,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue Mar 18, 2025 at 9:12 PM CET, Tamir Duberstein wrote:
+> On Sun, Mar 16, 2025 at 7:17=E2=80=AFAM Andrew Ballance
+> <andrewjballance@gmail.com> wrote:
+>> +    pub fn resize(&mut self, new_len: usize, value: T, flags: Flags) ->=
+ Result<(), AllocError> {
+>> +        if new_len > self.len() {
+>> +            self.extend_with(new_len - self.len(), value, flags)
+>> +        } else {
+>> +            self.truncate(new_len);
+>> +            Ok(())
+>> +        }
+>> +    }
+>
+> You can avoid underflow checking in debug builds by using `checked_sub`:
 
-Thanks for taking a look!
+`checked_sub` doesn't only avoid underflow in debug builds, but rather
+in all builds. But the code below is a good suggestion.
 
-On Monday, March 17th, 2025 at 12:58 AM, Ingo Molnar <mingo@kernel.org> wro=
-te:
+---
+Cheers,
+Benno
 
+>         match new_len.checked_sub(self.len()) {
+>             Some(n) =3D> self.extend_with(n, value, flags),
+>             None =3D> {
+>                 self.truncate(new_len);
+>                 Ok(())
+>             }
+>         }
 >
+>>  }
+>>
+>>  impl<T, A> Drop for Vec<T, A>
+>> --
+>> 2.48.1
+>>
+>>
 >
+> Either way:
 >
-> * Denis Mukhin via B4 Relay devnull+dmukhin.ford.com@kernel.org wrote:
->
-> > + if (!strncmp(s, "nocfg", 5))
-> > + baudrate =3D 0;
-> > + else {
-> > + baudrate =3D simple_strtoul(s, &e, 0);
-> > + if (baudrate =3D=3D 0 || s =3D=3D e)
-> > + baudrate =3D DEFAULT_BAUD;
-> > + }
->
->
-> In standard kernel coding style we always balance curly braces and
-> don't skip them in the single-statement case. Ie. the above should be:
->
-> if (!strncmp(s, "nocfg", 5)) {
-> baudrate =3D 0;
-> } else {
->
-> > + if (baudrate)
-> > + early_serial_hw_init(115200 / baudrate);
->
->
-> Hm, I think that division will go poorly if 'baudrate' ends up being 0
-> in the 'nocfg' case ... ;-)
+> Reviewed-by: Tamir Duberstein <tamird@gmail.com>
 
-This patch has a guardrail:
-  early_serial_hw_init(115200 / baudrate);
-will not be called in case of baudrate is 0.
 
-I can re-write code to avoid confusion.
-
->
-> Thanks,
->
-> Ingo
-
-Thanks,
-Denis
