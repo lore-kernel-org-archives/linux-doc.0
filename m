@@ -1,99 +1,256 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E151DE4FB;
-	Wed, 19 Mar 2025 16:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9B71CCB4B;
+	Wed, 19 Mar 2025 16:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742400415; cv=none; b=QlT5jmoXnyVPX06ANY2FO9p7Zj5btBYBizRec3xy76SAHJlUpIvUNNOdabY5kYAXSyndZrhxYlq1aFoAg7IGiIvt1rS79ApwlNm7wTj9aJ0b2FwUXVVrKzVMU3Xq/5qK7CYlee/hW2SOwAoS9fyMiqirB29DpSTjG5ZkYMnFa/s=
+	t=1742400725; cv=none; b=J4WHLgkIZuyEuTa2pJMaho1CFcde0e5mlybnToZbEHOz7aA2/fWmDBykduOOum4kHEixyCC5qN//0Eyg52N4jEMcf4n97xT0Gs2q1aWb/ot/YIHepqga+XaLzDIt83FgSjp5u3mzfsoYTV2Tysc6SV6n+HUR3Kp62UizGyndL4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742400415; c=relaxed/simple;
-	bh=zOvNy6cuX1wOoW8pRGs7qcnquFhdC/sbHrVaQCrxSA8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IjCKkcTcAst3q/wcLzE65a/3WJf2u5514GA6P08tTTmuYSRNlE/pz2o7MFOlFjJ7N3OfH/MeYzMirnGMa7ouwcoNfwkguiV5zyYBkG+huzQI9LCm3/4BAx4h16/Kvux9urxcQ2cXbvclGUAs4SYkDvyavIaremoBAqfgIDIM200=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DImMQxs/; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742400725; c=relaxed/simple;
+	bh=Yit60MizxPdRAT0dGt9yEpVcp5G813hgs0g6iVfQ2dQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=t6uMs8MxR2L+F0YHNhmiTS0pSEeSWZFMbA/wVts3ZYKuw9bT3BadTzLXHLFLWEJvIi5UCpAKMDKDkVXroRctcTM3Zdcimdt8T98bmCruhkaDKkoOtvaZu0cxM247DASyiY9FlDgP0Bz8/BZZJd/ls74XucLesrUpdEDtswDn7oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=XAerFY9T; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DImMQxs/"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ff53b26af2so1085286a91.0;
-        Wed, 19 Mar 2025 09:06:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742400412; x=1743005212; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zOvNy6cuX1wOoW8pRGs7qcnquFhdC/sbHrVaQCrxSA8=;
-        b=DImMQxs/Sy1fH0QJhXeW6pvGwWS9US/dpqxEofzGzYZCa0Dw1VuPOL2Q6UI2pD/FyZ
-         MuNCe4lVQPFg4rL4n2ZnHC5CethZhAvHMSl8RNO/7NxPYV8PxlUsmi0934I9D7JzEuoI
-         S8AKDDu/Rj0Q4gCod746la/CsBexwaEew2sRt0Y2v1CRePxyN94thK3Xe2b4pwRnORql
-         owdyL4z+aJlX2K0C4sFOCai38+09VemZA6TKProQrt6dImI2nqkAFDmlSAf7HuvverYr
-         I9gB24gATI3xRDgZuNEVX9usH50PBIY1dJI/yJJBl4AZb6k5ZGlVIQo1ZiB0DiEWp2CC
-         MClQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742400412; x=1743005212;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zOvNy6cuX1wOoW8pRGs7qcnquFhdC/sbHrVaQCrxSA8=;
-        b=snpV6JkVmbdUcrj0b1VQ2IK1qTaycTBG54J2UuP7Njva48WJuSFOMJECvIxrheg0Ja
-         +4tDhKsVJKBOTAE+KAa0XcQLKgW+E2lAvJX4HShtTKbbFMTlFnDgPQkuk2tPkOPeG5B1
-         HUqExUK1IyuuQU5PXQ2IT61Q0ADAz4z6MR4x+YUVEnWEdQ3k1gqT4U/Q9zoA+8F6oEWP
-         zCMZ+x2UnUH0z60fLY3nvM6lz1NxUYlSvU6hb9mO/ZuX1aMvMl9xL3eZMjogA6pwJQom
-         ibU29lRUg1k/Fl8pigbn0HYEkMQ5D0NiPHGmhkyXHA6ZGl54/5hdX4tJ7G7/SFr1dd6R
-         w35A==
-X-Forwarded-Encrypted: i=1; AJvYcCVmT428jCSEKDCoJnU4n6sMd/mtu8mMHuq3QjxFfcjQVd5XbWqSytzCBYoYempundCbvzPlveHZN4MXUaQO@vger.kernel.org, AJvYcCWb3EkSr4Y7vM2q1fgfOgNqrRr4Cx7Q8zNdWTmessAp46Hpru+KZXl5/QUrIR91MP9w+6aGyNiMshkjxJ/KN0Y=@vger.kernel.org, AJvYcCXyDGcMrE+0CbNHlKL3DSRHnivgsOdbQwjjFOrCKaFOHeb44Mlp7UJySm/YOGOxgGeLaAlv8rXtxRU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaBZPf6y9Ros7MpL4+vUh/cjUo9KR+qEgTs/w7i2Rb8P4UlKQi
-	KdrkD88sjltcP9VGLPFi7QtLKhYWlny6CT/NgabmAy6LiknvDquCsQ7VjY4uk3f+PP6a6QHzM07
-	cmGZKJRnFYxWZ7f0Bu+cMQa9Jv8E=
-X-Gm-Gg: ASbGncsu3okiWjdjnk7jxHPwDMFQ1p+sd1Fgivna5JEwNKnnST1itkMbI6lSw3pXCSr
-	tJQeUZ/8NnwZur8xEHb+6DYCe6E18gHkDC5Mc6v539Aaz82qsuNKQn2WNLdzKpqtZSFtfuWBKTw
-	FkFU10DSOJ8X5ZV6cdgjd7BqzvjQ==
-X-Google-Smtp-Source: AGHT+IGKH7dGzo9CR9DyO61FwA7cxqxKg1zlVUXDQ/9/34mE4QzwcvBU2hSm+dhh6M/XvRm1n6FGq53W1euSYJyTZJY=
-X-Received: by 2002:a17:90b:2246:b0:301:1c11:aa7a with SMTP id
- 98e67ed59e1d1-301bfc749d3mr1656740a91.3.1742400412036; Wed, 19 Mar 2025
- 09:06:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XAerFY9T"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 998F620487;
+	Wed, 19 Mar 2025 16:11:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742400715;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TgQW7SKf+36bry4gG5ZfyulYo2oF3QSahnUBo0Xtw3I=;
+	b=XAerFY9THmzvZNFx0XpeSs74R2niZnVDVdnTLzDm9rMXentyby3uKDSs1w4pzjWKKvtiAR
+	pv706IKVNRpdTJVfaVsJRNaL3UCi9ACGBGcxUvd3OOt66Ao44PIsM/STyiiQ/2ndamIM5r
+	+5bYoPsjFuwU6AERdphYwryE/Ws5cLRBD9ett6FEjwoD2pY6vIW2Z58FfmApESUtCnhHJf
+	g2TA/heaaalFhrv5u5fSvR7X4b+Fw2vP/Fimalcocw6Z/tjKLs1exERlREmdawFT92T7P3
+	cJXpCOrtDDXoWh8lzwDsjVopXsG5/6ZpBIbGlhx0TNOqhao76Uzbu15+1QcbcA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Date: Wed, 19 Mar 2025 17:08:10 +0100
+Subject: [PATCH v3 1/3] hexdump: Simplify print_hex_dump()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250316111644.154602-1-andrewjballance@gmail.com>
- <20250316111644.154602-3-andrewjballance@gmail.com> <CAJ-ks9kAROOfyPtxMe6LE4-UPsvXca2sQ2VDjhRchZp3HLddGg@mail.gmail.com>
- <D8JTWL8JY7DM.3IVH6FZ4M49CB@proton.me> <CAJ-ks9k+A1+0CWXZmD2m0+jRqTRTNFn-=d9VXqytiOqvn4BR0w@mail.gmail.com>
- <D8KBFC9M74H5.4ZJ2SJK06SGR@proton.me> <CAJ-ks9=NQrz3ySacKt+XXm2vS+Fn9gjmtqAaaoz1k=iTG_1HXw@mail.gmail.com>
-In-Reply-To: <CAJ-ks9=NQrz3ySacKt+XXm2vS+Fn9gjmtqAaaoz1k=iTG_1HXw@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 19 Mar 2025 17:06:39 +0100
-X-Gm-Features: AQ5f1JrZzeF8YqgUhS2ui73zsg8Ty3fstbUTrdh2di_k7zMf5vS2OO4mnq0-LQ8
-Message-ID: <CANiq72mnT73Mb7RJhZjf4de=_Orv4pipunMhOersOj_aqrFA-g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] rust: alloc: add Vec::resize method
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Benno Lossin <benno.lossin@proton.me>, Andrew Ballance <andrewjballance@gmail.com>, dakr@kernel.org, 
-	airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net, ojeda@kernel.org, 
-	alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, a.hindborg@kernel.org, aliceryhl@google.com, 
-	tmgross@umich.edu, acourbot@nvidia.com, nouveau@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250319-perso-hexdump-v3-1-a6ba3a9f3742@bootlin.com>
+References: <20250319-perso-hexdump-v3-0-a6ba3a9f3742@bootlin.com>
+In-Reply-To: <20250319-perso-hexdump-v3-0-a6ba3a9f3742@bootlin.com>
+To: Petr Mladek <pmladek@suse.com>, 
+ David Laight <david.laight.linux@gmail.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>
+X-Mailer: b4 0.15-dev
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeehjeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepofhiqhhuvghlucftrgihnhgrlhcuoehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeelgfehvdduieefieeikeffgffggfdttdeugeffieetheeuleelfeehffdtffetveenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrdegvddrgeeingdpmhgrihhlfhhrohhmpehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedufedprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehrohhst
+ hgvughtsehgohhoughmihhsrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhohhhnrdhoghhnvghssheslhhinhhuthhrohhnihigrdguvgdprhgtphhtthhopehmihhquhgvlhdrrhgrhihnrghlsegsohhothhlihhnrdgtohhm
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-On Wed, Mar 19, 2025 at 4:59=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
- wrote:
->
-> If we're talking about the same thing then I think we're both wrong
-> and the correct phrasing would have been: "you can avoid underflow
-> checking when CONFIG_RUST_OVERFLOW_CHECKS=3Dy by using `checked_sub`". I
-> was referring to the underflow check implicit in `new_len -
-> self.len()`.
+print_hex_dump() already has numerous parameters, and could be extended
+with a new one. Adding new parameters is super painful due to the number
+of users, and it makes the function calls even longer.
 
-`checked_sub` always checks (if not optimized away). The config option
-is about the implicit one.
+Create a print_hex() to replace print_hex_dump(), with 'prefix_type' and
+'ascii' being merged into a 'dump_flags' parameter. This way extending
+the list of dump flags will be much easier.
 
-Do you mean avoiding panics?
+For convenience, a print_hex_dump macro is created to fallback on the
+print_hex() implementation. A tree-wide change to remove its use could
+be done in the future.
 
-Cheers,
-Miguel
+No functional change intended.
+
+Suggested-by: Petr Mladek <pmladek@suse.com>
+Suggested-by: David Laight <david.laight.linux@gmail.com>
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+ Documentation/core-api/printk-formats.rst |  2 +-
+ include/linux/printk.h                    | 42 +++++++++++++++++++++++-------
+ lib/hexdump.c                             | 43 ++++++++++++++-----------------
+ 3 files changed, 53 insertions(+), 34 deletions(-)
+
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index ecccc0473da9c10f45f2464566f690472c61401e..f80b5e262e9933992d1291f1d78fba97589d5631 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -310,7 +310,7 @@ Raw buffer as a hex string
+ 
+ For printing small buffers (up to 64 bytes long) as a hex string with a
+ certain separator. For larger buffers consider using
+-:c:func:`print_hex_dump`.
++:c:func:`print_hex`.
+ 
+ MAC/FDDI addresses
+ ------------------
+diff --git a/include/linux/printk.h b/include/linux/printk.h
+index 4217a9f412b265f1dc027be88eff7f5a0e0e4aab..7dca2270c82c0ed788cd706274f1c1b14ed9a7fe 100644
+--- a/include/linux/printk.h
++++ b/include/linux/printk.h
+@@ -747,22 +747,31 @@ do {									\
+ 
+ extern const struct file_operations kmsg_fops;
+ 
++/*
++ * Dump flags for print_hex().
++ * DUMP_PREFIX_{NONE,ADDRESS,OFFSET} are mutually exclusive.
++ */
+ enum {
+-	DUMP_PREFIX_NONE,
+-	DUMP_PREFIX_ADDRESS,
+-	DUMP_PREFIX_OFFSET
++	DUMP_HEX_DATA = 0,
++	DUMP_ASCII = BIT(0),
++	DUMP_PREFIX_NONE = 0, /* Legacy definition for print_hex_dump() */
++	DUMP_PREFIX_ADDRESS = BIT(1),
++	DUMP_PREFIX_OFFSET = BIT(2),
+ };
++
+ extern int hex_dump_to_buffer(const void *buf, size_t len, int rowsize,
+ 			      int groupsize, char *linebuf, size_t linebuflen,
+ 			      bool ascii);
+ #ifdef CONFIG_PRINTK
+-extern void print_hex_dump(const char *level, const char *prefix_str,
+-			   int prefix_type, int rowsize, int groupsize,
+-			   const void *buf, size_t len, bool ascii);
++extern void print_hex(const char *level, const char *prefix_str,
++		      int rowsize, int groupsize,
++		      const void *buf, size_t len,
++		      unsigned int dump_flags);
+ #else
+-static inline void print_hex_dump(const char *level, const char *prefix_str,
+-				  int prefix_type, int rowsize, int groupsize,
+-				  const void *buf, size_t len, bool ascii)
++static inline void print_hex(const char *level, const char *prefix_str,
++			     int rowsize, int groupsize,
++			     const void *buf, size_t len,
++			     unsigned int dump_flags)
+ {
+ }
+ static inline void print_hex_dump_bytes(const char *prefix_str, int prefix_type,
+@@ -791,6 +800,21 @@ static inline void print_hex_dump_debug(const char *prefix_str, int prefix_type,
+ }
+ #endif
+ 
++/*
++ * print_hex_dump - legacy version of print_hex() with a longer parameter list
++ *
++ * Refer to print_hex() for the parameters definition which are identical except:
++ * - prefix_type: controls whether prefix of an offset, address, or none
++ * is printed (%DUMP_PREFIX_OFFSET, %DUMP_PREFIX_ADDRESS, %DUMP_PREFIX_NONE).
++ * This parameter has been removed in favor of a common 'flags' parameter.
++ * - ascii: include ASCII after the hex output.
++ * This parameter has been removed in favor of a common 'flags' parameter.
++ */
++
++#define print_hex_dump(level, prefix_str, prefix_type, rowsize, groupsize, buf, len, ascii) \
++	print_hex(level, prefix_str, rowsize, groupsize, buf, len, \
++		  (prefix_type) | ((ascii) ? DUMP_ASCII : DUMP_HEX_DATA))
++
+ /**
+  * print_hex_dump_bytes - shorthand form of print_hex_dump() with default params
+  * @prefix_str: string to prefix each line with;
+diff --git a/lib/hexdump.c b/lib/hexdump.c
+index c3db7c3a764365b01e78f8ed0b7f782f33a5ce34..74fdcb4566d27f257a0e1288c261d81d231b06bf 100644
+--- a/lib/hexdump.c
++++ b/lib/hexdump.c
+@@ -228,39 +228,39 @@ EXPORT_SYMBOL(hex_dump_to_buffer);
+ 
+ #ifdef CONFIG_PRINTK
+ /**
+- * print_hex_dump - print a text hex dump to syslog for a binary blob of data
++ * print_hex - print a text hex dump to syslog for a binary blob of data
+  * @level: kernel log level (e.g. KERN_DEBUG)
+  * @prefix_str: string to prefix each line with;
+  *  caller supplies trailing spaces for alignment if desired
+- * @prefix_type: controls whether prefix of an offset, address, or none
+- *  is printed (%DUMP_PREFIX_OFFSET, %DUMP_PREFIX_ADDRESS, %DUMP_PREFIX_NONE)
+  * @rowsize: number of bytes to print per line; must be 16 or 32
+  * @groupsize: number of bytes to print at a time (1, 2, 4, 8; default = 1)
+  * @buf: data blob to dump
+  * @len: number of bytes in the @buf
+- * @ascii: include ASCII after the hex output
++ * @dump_flags: controls the output format, typically:
++ *   - %DUMP_PREFIX_OFFSET shows the offset in front of each line
++ *   - %DUMP_PREFIX_ADDRESS shows the address in front of each line
++ *   - %DUMP_ASCII prints the ascii equivalent after the hex output
+  *
+- * Given a buffer of u8 data, print_hex_dump() prints a hex + ASCII dump
++ * Given a buffer of u8 data, print_hex() prints a hex + ASCII dump
+  * to the kernel log at the specified kernel log level, with an optional
+  * leading prefix.
+  *
+- * print_hex_dump() works on one "line" of output at a time, i.e.,
++ * print_hex() works on one "line" of output at a time, i.e.,
+  * 16 or 32 bytes of input data converted to hex + ASCII output.
+- * print_hex_dump() iterates over the entire input @buf, breaking it into
++ * print_hex() iterates over the entire input @buf, breaking it into
+  * "line size" chunks to format and print.
+  *
+  * E.g.:
+- *   print_hex_dump(KERN_DEBUG, "raw data: ", DUMP_PREFIX_ADDRESS,
+- *		    16, 1, frame->data, frame->len, true);
++ *   print_hex(KERN_DEBUG, "raw data: ", 16, 1, frame->data, frame->len,
++ *             DUMP_PREFIX_ADDRESS | DUMP_ASCII);
+  *
+  * Example output using %DUMP_PREFIX_OFFSET and 1-byte mode:
+  * 0009ab42: 40 41 42 43 44 45 46 47 48 49 4a 4b 4c 4d 4e 4f  @ABCDEFGHIJKLMNO
+  * Example output using %DUMP_PREFIX_ADDRESS and 4-byte mode:
+  * ffffffff88089af0: 73727170 77767574 7b7a7978 7f7e7d7c  pqrstuvwxyz{|}~.
+  */
+-void print_hex_dump(const char *level, const char *prefix_str, int prefix_type,
+-		    int rowsize, int groupsize,
+-		    const void *buf, size_t len, bool ascii)
++void print_hex(const char *level, const char *prefix_str, int rowsize, int groupsize,
++	       const void *buf, size_t len, unsigned int dump_flags)
+ {
+ 	const u8 *ptr = buf;
+ 	int i, linelen, remaining = len;
+@@ -274,22 +274,17 @@ void print_hex_dump(const char *level, const char *prefix_str, int prefix_type,
+ 		remaining -= rowsize;
+ 
+ 		hex_dump_to_buffer(ptr + i, linelen, rowsize, groupsize,
+-				   linebuf, sizeof(linebuf), ascii);
++				   linebuf, sizeof(linebuf),
++				   dump_flags & DUMP_ASCII);
+ 
+-		switch (prefix_type) {
+-		case DUMP_PREFIX_ADDRESS:
+-			printk("%s%s%p: %s\n",
+-			       level, prefix_str, ptr + i, linebuf);
+-			break;
+-		case DUMP_PREFIX_OFFSET:
++		if (dump_flags & DUMP_PREFIX_ADDRESS)
++			printk("%s%s%p: %s\n", level, prefix_str, ptr + i, linebuf);
++		else if (dump_flags & DUMP_PREFIX_OFFSET)
+ 			printk("%s%s%.8x: %s\n", level, prefix_str, i, linebuf);
+-			break;
+-		default:
++		else
+ 			printk("%s%s%s\n", level, prefix_str, linebuf);
+-			break;
+-		}
+ 	}
+ }
+-EXPORT_SYMBOL(print_hex_dump);
++EXPORT_SYMBOL(print_hex);
+ 
+ #endif /* defined(CONFIG_PRINTK) */
+
+-- 
+2.48.1
+
