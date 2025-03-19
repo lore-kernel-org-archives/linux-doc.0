@@ -1,232 +1,187 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-fw-6002.amazon.com (smtp-fw-6002.amazon.com [52.95.49.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AEF255241;
-	Wed, 19 Mar 2025 13:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627C3A29;
+	Wed, 19 Mar 2025 13:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.95.49.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742389893; cv=none; b=IlN79BWTjoX6BI6ncao+GcXrBdePOiBqRfeqwzESJHzmsZobzr5E2IIhRiIubO4AAEqx7IBlcvm5zpD9mdi/hqJw7SxlarTiNx6tPbxLiQ7Sc6xJDK8xgct4aLOZxWr5ZTa+3i0t2+QsD1JXtULJEN2+UCZfKW4wW8ciFDWhWM8=
+	t=1742391340; cv=none; b=Bx12MU8scB18xtwbDKnEbh/jnH3r73jw+k7StQ7QBcrkL9HbYv3NUwFcb1bDzlU8p/na0Iovob4/uY01OYsNK1OUtOb/1VRNkhXdqq8gRU9XJmWun51vVBTVIvRBlZnbOJkPx0zDy4NxjXEtZNWvIvNLEIb/nW3U91zPxSFnNWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742389893; c=relaxed/simple;
-	bh=7z2QeMdxOzSLIrBnl1x85KA6hGxJO1bQRKSWgGeuNPY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kHa+jktQsEXzH4jMyPE/5xwu7MuMEe0OYfXupnGA966KeJ55XvSCRWrqnyP+aj2fZ1i0vQ1zyDjlTdtIZLfQVJE6f40pVqVDK6M48OemE20c6pXJXtQCX9R4OJoqHSlFanhsnPODjFhW/vWm8Kc2QT8eIZpEBukLtItuQXVLCN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lYkmuEQ8; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742391340; c=relaxed/simple;
+	bh=RLiqBVLAswhOALCEFFshUGNdDuiXsWj7woAnkixStJI=;
+	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VQCUAU2nW7zk23P9bU1iS10+vVK+2exalANY4LfcV+Lf9tzJ0UyMNFM1+ZtivTOpBNZpIv8hXXTTwb1pQhG+P9rUew8wNewumxJxtlgqAbTEtQT20RZvdYemmyKN4fCt9B6SU+Jz9oPzMNKNudFVqJr4/xx9Rtv2osUCmt91hRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=jYGoBDSK; arc=none smtp.client-ip=52.95.49.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lYkmuEQ8"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-225b5448519so129846215ad.0;
-        Wed, 19 Mar 2025 06:11:31 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="jYGoBDSK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742389891; x=1742994691; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=/CKiUxIsp+RiAjt+4CW+mXa9kqAZnMY4uY5XJZebADk=;
-        b=lYkmuEQ8CEZI6JXXHtorSYZXxt9Ut2R1PEpbpXU1Ww2yK6p5GHOlJlZB4RBDPf29ch
-         de58a79TsN2XlwmlFBZfCZluZPs5Ft/AMhqa9QshhjopFHGvbdkVHLjQ6+XZFD7mkxj1
-         xctmlt9ytGKTOPSVa2fxu3diZrgr24rTYF6+Mexcu2YFCYpQ+zWEu4JyviJIa9lNTcB8
-         JekgjqMyKsG3l1CEJv7ouUqK1sD0/BoxSoqPpGHqIw8lv9CeS8v2pitzP7N757+PjfWm
-         /h6qBlHWZL8AIFf5fgikKy90L/dKv/ZDj4eLhOzj/OTSdIbsF/mL9ucIGfYVMlAqhu6i
-         VaHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742389891; x=1742994691;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/CKiUxIsp+RiAjt+4CW+mXa9kqAZnMY4uY5XJZebADk=;
-        b=YhYSJOzUsDEsFmBReA2dq8toJtPImagDk+X/HyzvZ/xJxTTw53TO9nJhSLo06GS2KX
-         tx5zHThJkli+hEC+B3LDD+Mhd1ruft5AU7KnagXbF1+twIFD4gpUFYuVcVwjwH9ViZnP
-         akYomnB8oVIQTFPcL/HPfYujDPAxxh9DPZy86NLQ3KBsz8aKlcRAkmETvdR4UeBvIz8v
-         qdsS9MPN1NP6zkVxSfcP2d20rc/1pPVKl3qP3hhTedCuWAzL2+4qb8yGXl/ixVnRx45Q
-         +a498PTir8I/uln8fbMAhG747by/WrqKr9UVwS7K6pzbeuLg0xIGE3Tc/g3bCJIzcRPu
-         C3yg==
-X-Forwarded-Encrypted: i=1; AJvYcCU3gxdscukephkn1jklkrLZw5XU5OdxTb3szaAdztN/bN3yPsGcshgbf5rWbuNPtbIlnQeOIBAPZLQYW2li@vger.kernel.org, AJvYcCV6ZYrnkS9mh5kJGisEoLgdQUsVb3hs7RDLph4yFLerFpoSuf5FTyJ5n0eIdKGAVF1/HBWLjcSC6j8=@vger.kernel.org, AJvYcCVQL+VOhV0HUk7cj5ZYHBB+ZVbKG/CWdINS4ZluyFMtaf/XuMkJOpa1j9R6k2lqeYwlWdYIVyLzXUEpsA==@vger.kernel.org, AJvYcCVXqlgTOa57XG9b8zVX/9O+PYrAO6kN3k3DSePMy072kN/kmSv2wNGyLTKZT1JWFHnB1CrlS6zw7c2+@vger.kernel.org, AJvYcCWWegHkOdQRrEvN5eB7s7fQVvYrzjYDe7Ktfb1InySdtND6s8Yyg/pDkrlhwGgkHLdYzLixRz/0ZRLY@vger.kernel.org, AJvYcCXGy5RKjnjMhrLfgiCB7g5JPj6Z1Uulo+JLvnYo+ub4BtbTrEwwudIs5/WT2YPlL7CY92NahenKHTq4tyKC@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGzWgvjbfMCS8rF4v9kYtdMHOu0RIC6EhioanqjX9G3+zEM8Xf
-	9b582tIQrmMf6C4ZPRmZdYbmn5fwjYFwIC4E4NFw7GLgYUPof3J5
-X-Gm-Gg: ASbGncthkRo9Tl1Q6LAbVCLknRGZ9RDj7jS+QuSxacFSCbeof8NjpItztrt+yXqy/M+
-	ZjAoMlm2Kwgub1nJmENJlDlntpzejKEUV1tWR3luOldphZPHWNebvsOaRST7C68NBkIBQVsYr6o
-	LpBKIat0KvTh3eNWm0iexTY1msZ/YN7yIjOHSElWRfh6aulXBk6igmYH3s+5YFNudWksjdXq9hZ
-	Pbd/KELj9zW7esswGfLfvm5J+z0Uxuds7GwNsTvYl3r8UC0jHTU1KB13MyaolTtYKSU4dHcnsA6
-	FXCqSajhx0dKaeUN6JN9UG2Mfo6m4HNealyCVN79n/88aeEYMQH+DyNxXO3eJqm06adyA9xOpbL
-	4HZpVygDeZI9x5rqE5A==
-X-Google-Smtp-Source: AGHT+IEioVgtuSEfAYuAE8IAAYiDjsUn61PAgb/S9UQkSNM/19B6DRuSeEADVUHZxIm2XFZUlNalCg==
-X-Received: by 2002:a05:6a21:6e48:b0:1f5:839e:ece8 with SMTP id adf61e73a8af0-1fbeb1854bcmr4348609637.2.1742389891204;
-        Wed, 19 Mar 2025 06:11:31 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7371157369bsm11469895b3a.75.2025.03.19.06.11.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Mar 2025 06:11:30 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <9030a298-fcb6-48ea-a941-ad6916bf9fa7@roeck-us.net>
-Date: Wed, 19 Mar 2025 06:11:28 -0700
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1742391338; x=1773927338;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=GD84eS+KjqESu8bl1BI9Aha2TWlwiVZ+GXn8bhJHG+4=;
+  b=jYGoBDSKc5RJX7hux43YfIF/rAryUafpC41O6t9vUJATyZz/N6ArqbD4
+   9eyv8IgIeTuYHfFAXRosA36w2oeYz5Q+H9+DSRzjaTa6UVEpbrYwabI8C
+   tVJF13ttg0vyhd3mhAgAsuMrOTXBhyfW6boVVjFmRRXf0NFizw/3LEV/r
+   Q=;
+X-IronPort-AV: E=Sophos;i="6.14,259,1736812800"; 
+   d="scan'208";a="481718566"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+  by smtp-border-fw-6002.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 13:35:33 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [10.0.21.151:53702]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.40.40:2525] with esmtp (Farcaster)
+ id 22e8791f-d226-4e39-a4e3-702c6513df8c; Wed, 19 Mar 2025 13:35:32 +0000 (UTC)
+X-Farcaster-Flow-ID: 22e8791f-d226-4e39-a4e3-702c6513df8c
+Received: from EX19D020UWA002.ant.amazon.com (10.13.138.222) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Wed, 19 Mar 2025 13:35:32 +0000
+Received: from EX19MTAUEB002.ant.amazon.com (10.252.135.47) by
+ EX19D020UWA002.ant.amazon.com (10.13.138.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Wed, 19 Mar 2025 13:35:32 +0000
+Received: from email-imr-corp-prod-iad-all-1a-f1af3bd3.us-east-1.amazon.com
+ (10.43.8.2) by mail-relay.amazon.com (10.252.135.97) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1544.14 via Frontend Transport; Wed, 19 Mar 2025 13:35:32 +0000
+Received: from dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com [172.19.91.144])
+	by email-imr-corp-prod-iad-all-1a-f1af3bd3.us-east-1.amazon.com (Postfix) with ESMTP id CF94A40238;
+	Wed, 19 Mar 2025 13:35:31 +0000 (UTC)
+Received: by dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (Postfix, from userid 23027615)
+	id 8C4975149; Wed, 19 Mar 2025 13:35:31 +0000 (UTC)
+From: Pratyush Yadav <ptyadav@amazon.de>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Christian Brauner <brauner@kernel.org>, Linus Torvalds
+	<torvalds@linux-foundation.org>, <linux-kernel@vger.kernel.org>, "Jonathan
+ Corbet" <corbet@lwn.net>, Eric Biederman <ebiederm@xmission.com>, "Arnd
+ Bergmann" <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, "Hugh
+ Dickins" <hughd@google.com>, Alexander Graf <graf@amazon.com>, "Benjamin
+ Herrenschmidt" <benh@kernel.crashing.org>, David Woodhouse
+	<dwmw2@infradead.org>, James Gowans <jgowans@amazon.com>, Mike Rapoport
+	<rppt@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Pasha Tatashin
+	<tatashin@google.com>, Anthony Yznaga <anthony.yznaga@oracle.com>, "Dave
+ Hansen" <dave.hansen@intel.com>, David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>, Wei Yang <richard.weiyang@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-mm@kvack.org>,
+	<kexec@lists.infradead.org>
+Subject: Re: [RFC PATCH 1/5] misc: introduce FDBox
+In-Reply-To: <20250318232727.GF9311@nvidia.com>
+References: <20250307005830.65293-1-ptyadav@amazon.de>
+	<20250307005830.65293-2-ptyadav@amazon.de>
+	<20250307-sachte-stolz-18d43ffea782@brauner> <mafs0ikokidqz.fsf@amazon.de>
+	<20250309-unerwartet-alufolie-96aae4d20e38@brauner>
+	<20250317165905.GN9311@nvidia.com>
+	<20250318-toppen-elfmal-968565e93e69@brauner>
+	<20250318145707.GX9311@nvidia.com> <mafs0a59i3ptk.fsf@amazon.de>
+	<20250318232727.GF9311@nvidia.com>
+Date: Wed, 19 Mar 2025 13:35:31 +0000
+Message-ID: <mafs05xk53zz0.fsf@amazon.de>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/14] arm64: Add support for suppressing warning
- backtraces
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
- Will Deacon <will@kernel.org>, Alessandro Carminati <acarmina@redhat.com>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Dan Carpenter <dan.carpenter@linaro.org>,
- Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>,
- David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard
- <mripard@kernel.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alessandro Carminati <alessandro.carminati@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- loongarch@lists.linux.dev, x86@kernel.org,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- Catalin Marinas <catalin.marinas@arm.com>
-References: <20250313114329.284104-1-acarmina@redhat.com>
- <20250313114329.284104-8-acarmina@redhat.com>
- <20250313122503.GA7438@willie-the-truck>
- <CAGegRW5r3V2-_44-X353vS-GZwDYG=SVwc6MzSGE8GdFQuFoKA@mail.gmail.com>
- <20250318155946.GC13829@willie-the-truck>
- <a64bf821-ea90-4fd9-92ec-13bf7b7a3067@csgroup.eu>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <a64bf821-ea90-4fd9-92ec-13bf7b7a3067@csgroup.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 3/19/25 01:05, Christophe Leroy wrote:
-> 
-> 
-> Le 18/03/2025 à 16:59, Will Deacon a écrit :
->> On Thu, Mar 13, 2025 at 05:40:59PM +0100, Alessandro Carminati wrote:
->>> On Thu, Mar 13, 2025 at 1:25 PM Will Deacon <will@kernel.org> wrote:
->>>>
->>>> On Thu, Mar 13, 2025 at 11:43:22AM +0000, Alessandro Carminati wrote:
->>>>> diff --git a/arch/arm64/include/asm/bug.h b/arch/arm64/include/asm/bug.h
->>>>> index 28be048db3f6..044c5e24a17d 100644
->>>>> --- a/arch/arm64/include/asm/bug.h
->>>>> +++ b/arch/arm64/include/asm/bug.h
->>>>> @@ -11,8 +11,14 @@
->>>>>
->>>>>   #include <asm/asm-bug.h>
->>>>>
->>>>> +#ifdef HAVE_BUG_FUNCTION
->>>>> +# define __BUG_FUNC  __func__
->>>>> +#else
->>>>> +# define __BUG_FUNC  NULL
->>>>> +#endif
->>>>> +
->>>>>   #define __BUG_FLAGS(flags)                           \
->>>>> -     asm volatile (__stringify(ASM_BUG_FLAGS(flags)));
->>>>> +     asm volatile (__stringify(ASM_BUG_FLAGS(flags, %c0)) : : "i" (__BUG_FUNC));
->>>>
->>>> Why is 'i' the right asm constraint to use here? It seems a bit odd to
->>>> use that for a pointer.
->>>
->>> I received this code as legacy from a previous version.
->>> In my review, I considered the case when HAVE_BUG_FUNCTION is defined:
->>> Here, __BUG_FUNC is defined as __func__, which is the name of the
->>> current function as a string literal.
->>> Using the constraint "i" seems appropriate to me in this case.
->>>
->>> However, when HAVE_BUG_FUNCTION is not defined:
->>> __BUG_FUNC is defined as NULL. Initially, I considered it literal 0,
->>> but after investigating your concern, I found:
->>>
->>> ```
->>> $ echo -E "#include <stdio.h>\n#include <stddef.h>\nint main()
->>> {\nreturn 0;\n}" | aarch64-linux-gnu-gcc -E -dM - | grep NULL
->>> #define NULL ((void *)0)
->>> ```
->>>
->>> I realized that NULL is actually a pointer that is not a link time
->>> symbol, and using the "i" constraint with NULL may result in undefined
->>> behavior.
->>>
->>> Would the following alternative definition for __BUG_FUNC be more convincing?
->>>
->>> ```
->>> #ifdef HAVE_BUG_FUNCTION
->>>      #define __BUG_FUNC __func__
->>> #else
->>>      #define __BUG_FUNC (uintptr_t)0
->>> #endif
->>> ```
->>> Let me know your thoughts.
->>
->> Thanks for the analysis; I hadn't noticed this specific issue, it just
->> smelled a bit fishy. Anyway, the diff above looks better, thanks.
-> 
-> That propably deserves a comment.
-> 
-> Doesn't sparse and/or checkpatch complain about 0 being used in lieu of NULL ?
-> 
+On Tue, Mar 18 2025, Jason Gunthorpe wrote:
 
-__BUG_FUNC is only used as parameter to asm code, not as pointer.
+> On Tue, Mar 18, 2025 at 11:02:31PM +0000, Pratyush Yadav wrote:
+>
+>> I suppose we can serialize all FDs when the box is sealed and get rid of
+>> the struct file. If kexec fails, userspace can unseal the box, and FDs
+>> will be deserialized into a new struct file. This way, the behaviour
+>> from userspace perspective also stays the same regardless of whether
+>> kexec went through or not. This also helps tie FDBox closer to KHO.
+>
+> I don't think we can do a proper de-serialization without going
+> through kexec. The new stuff Mike is posting for preserving memory
+> will not work like that.
 
- From the diff:
+Why not? If the next kernel can restore the file from the serialized
+content, so can the current kernel. What stops this from working with
+the new memory preservation scheme (which I assume is the idea you
+proposed in [0])? In that, kho_preserve_folio() marks a page to be
+preserved across KHO. We can have a kho_restore_folio() function that
+removes the reservation from the xarray and returns the folio to the
+caller. The KHO machinery takes care of abstracting the detail of
+whether kexec actually happened. With that in place, I don't see why we
+can't deserialize without going through kexec.
 
--                    : : "i" (__FILE__), "i" (__LINE__),                \
-+                    : : "i" (__FILE__), "i" (__BUG_FUNC), "i" (__LINE__),\
+>
+> I think error recovery wil have to work by just restoring access to
+> the FD and it's driver state that was never actually destroyed.
+>
+>> > It sure would be nice if the freezing process could be managed
+>> > generically somehow.
+>> >
+>> > One option for freezing would have the kernel enforce that userspace
+>> > has closed and idled the FD everywhere (eg check the struct file
+>> > refcount == 1). If userspace doesn't have access to the FD then it is
+>> > effectively frozen.
+>> 
+>> Yes, that is what I want to do in the next revision. FDBox itself will
+>> not close the file descriptors when you put a FD in the box. It will
+>> just grab a reference and let the userspace close the FD. Then when the
+>> box is sealed, the operation can be refused if refcount != 1.
+>
+> I'm not sure about this sealed idea..
+>
+> One of the design points here was to have different phases for the KHO
+> process and we want to shift alot of work to the earlier phases. Some
+> of that work should be putting things into the fdbox, freezing them,
+> and writing out the serialzation as that may be quite time consuming.
+>
+> The same is true for the deserialize step where we don't want to bulk
+> deserialize but do it in an ordered way to minimize the critical
+> downtime.
+>
+> So I'm not sure if a 'seal' operation that goes and bulk serializes
+> everything makes sense. I still haven't seen a state flow chart and a
+> proposal where all the different required steps would have to land to
+> get any certainty here.
 
-The use is quite similar to __FILE__ and __LINE__. It might even be possible
-and appropriate to just define __BUG_FUNC as 0 if HAVE_BUG_FUNCTION is not defined.
+The seal operation does bulk serialize/deserialize for _one_ box. You
+can have multiple boxes and distribute your FDs in the boxes based on
+the serialize or deserialize order you want. Userspace decides when to
+seal or unseal a particular box, which gives it full control over the
+order in which things happen.
 
-Guenter
+>
+> At least in my head I imagined you'd open the KHO FD, put it in
+> serializing mode and then go through in the right order pushing all
+> the work and building the serializion data structure as you go.
 
+If we serialize the box at seal time, this is exactly how things will be
+done. Before KHO activate happens, userspace can start putting in FDs
+and start serializing things. Then when activation happens, the
+box-level metadata gets quickly written out to the main FDT and that's
+it. The bulk of the per-fd work should already be done.
+
+We can even have something like FDBOX_PREPARE_FD or FDBOX_PREPARE_BOX
+that pre-serializes as much as it can before anything is actually
+frozen, so the actual freeze is faster. This is similar to pre-copy
+during live migration for example.
+
+All of this is made easier if each component has its own FDT (or any
+other data structure) and doesn't have to share the same FDT. This is
+the direction we are going in anyway with the next KHO versions.
+
+>
+> At the very end you'd finalize the KHO serialization, which just
+> writes out a little bit more to the FDT and gives you back the FDT
+> blob for the kexec. It should be a very fast operation.
+>
+> Jason
+>
+
+[0] https://lore.kernel.org/lkml/20250212152336.GA3848889@nvidia.com/
+
+-- 
+Regards,
+Pratyush Yadav
