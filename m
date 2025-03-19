@@ -1,167 +1,116 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44B41E22E6
-	for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 17:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FD31AF0D7;
+	Wed, 19 Mar 2025 18:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742407124; cv=none; b=Bjk8oFWKliNg8hXxTnw0TIVRjfmO3ukTwCX81HyCrppOHq8VGuNWQuAlYMZ0LK6XNTKC0yVTaMCUl+zENt8e6NEvSAgyJvYxSQGeoN7J6N2hj5djeZsyB9M+sEOlLrNBYJbQVfBD3/6uFyw8yaPEyMvLE/VuSSZM8zN/5iqXDF4=
+	t=1742407298; cv=none; b=K4bBaG5aLi7zyUWJ/XuQ7JXA2akv6KXFu1+10L2+s7HgNPro9FalfKsgY+QAA2zdj14J75iQjopR3t+qAkfAC53lesHZNMZyydYhy5S3fRv/4iAgfHEUsvnhWqHJY30U1A8KOlNhwhvTBSTXdigrY5XGopi6QZEVjVeJNbETqzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742407124; c=relaxed/simple;
-	bh=O1aeb0KFlrkj4Yiw1nWYiPzizeq56+6Mn3GDJKk7WrE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DqSCf9xEfppRrlgkAIbht10ur8YDrOCIp9gQdzD7GnCTG4kwCWlyFhDRi1bW2asPsGAJhi9A7DbZ+gvcGZZ4Mufru+nl5J/f8NscXBwBFI3up8f3d5d8alFvTzvmOApqnY/kxeFZIbd9BVqfor21hQfGziHpmqSZcW6in6Yv9B0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=JswssZao; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1742407298; c=relaxed/simple;
+	bh=oQE5SWEQZo+51U7+Wy6AQNae+ZlEYPOsFBF8ZFt2r30=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lsHFqIbDkzYUMTltk+DOPb8TNsyDWsJhu7PN0LX/P3Lpq0fkQHd2qV89K7t1PTX5R3wF1M810ipkAEUKRmhMNZ4HEa3NKz9sWkoQ9M18CFktRq+4lYYV54zruAIt8+5wMIjo0J/fXcwKmMizOarJ1jwafe3DzlcZ5QuZH2vD6Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dUl5A6/M; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="JswssZao"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7c55500d08cso602914685a.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 10:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1742407121; x=1743011921; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tk5ycb3N9meE73NCm46CD0AtZuFHAdivFMZfwt24RPU=;
-        b=JswssZaoSvcGZ3Nb3HuBG6yTTepkbVvops9jz8GX0QPSsMZFW5TAmeqJyqUmyrXh5e
-         9yd0D5+xit2h+NbfDPGcgydDHXSJ2ZawWNZlNKWiPsbscwgJO3I/D/ccaEd6sXaQefXL
-         P8IaxLiPCwfg4vuJ9yijo8Qifjg8jhUnuqW3o6y37oeE1UjF0yLhoJ0ffNsqWWhVLzbx
-         03eQ6VGcXdRNbfKzRLeEWywvgzyxONJ2hS86uSYluPzy0M0PxKuFPIYJfQH/xuM5OYQ5
-         s5XDR6OMjA+U7S70WxOERiIXTMPnvEsyw3TOvGC0iyLiroIrIpuMe5vEkwUAUWF5OZqs
-         GzCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742407121; x=1743011921;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tk5ycb3N9meE73NCm46CD0AtZuFHAdivFMZfwt24RPU=;
-        b=fVHXj0VEDZkAju5ZVAtBrqfeiicUkGd9pg5L6Rxj6ZxlaXL4CuLm12On+GcznZMe75
-         G/Weq5tIcdFPR1vYufyncD3schUW/xi5u6zCptd2j0fkw6qPH6++qPiT44q9sJ4IgcDg
-         4Wk7ScUorGd8H6BhNN5Spqxu2wjnri2RHFX3tHRAWxIaHNKOWLDL130sxbVOSAMXCe80
-         IzDu8wmTGqV8XhgrmcjAohviesbGCjDmGsJ5K8irEK3eHnXD4FrdJx2gjeVp7xW41j35
-         iteYUiQpTYW15E/bKVyInrlBOdNo+V92Hk8HOfAvq2LRvcekrqnSyGoc07Zdot8nZHAM
-         uQ3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWtvuR4CO0MKgVoeoSG7i/e47xmo+fnkbNqvtmMHorr9OgC8dk51UcYLPFTJjjc936NC1tI0qBhhr8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwNbUIe1rGk+64jTXGwQfmNFeiTwH5LKKITG9JYwvfE8pNCLJ3
-	9KaJDhuFHG99Zvh6+2QQOxkCA+90tbmbcaSAIfkJtogH8aGMopjOQ44qXQks62k=
-X-Gm-Gg: ASbGncsXfwzbBdxRCr5gqBMDccKG4rK0ivuToq3t7KwgXw3oNoKXM3rEIklyTyhVZP3
-	TS2qrLRwmC+DOfLUB3aa68oReKNzlPnSDaMmJ5p8TsltV2JqGsqDGoHLikBzx1xv56RNWUp391W
-	/LZ5GF5UJuzfMuw++ofunjM8uRomEPfY5hUqDhQjCugPBQ8JvsoDkO0UNlvi4caKbhmHvrNit0J
-	pNXvbomkrVwsMAGt4bz6xeIMMHF+61DxVnfTSB2FeahBJON/GVZnwrpubLXFnucXLYmxoPwW3KZ
-	1Wb6obkDOPxXFQt91XWSlAqXHtsL/HtRnNPliAXodWBz6d4G2o01AnK5VYTzTxJLxUU0pEQFqod
-	FksaXJp6CPMRMSwDV4A==
-X-Google-Smtp-Source: AGHT+IH//pIx1EBbRFqDU6QPhXC6odo+Ppd2dshOt/mNgQMR0e3nRHsssO7Vo2UonDgQd/fB3+YCbw==
-X-Received: by 2002:a05:620a:3189:b0:7c5:5154:cb2 with SMTP id af79cd13be357-7c5a839688cmr568357985a.15.1742407121681;
-        Wed, 19 Mar 2025 10:58:41 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c573d8a62asm885096585a.96.2025.03.19.10.58.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 10:58:40 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1tuxge-00000000Wns-1mXJ;
-	Wed, 19 Mar 2025 14:58:40 -0300
-Date: Wed, 19 Mar 2025 14:58:40 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
-Message-ID: <20250319175840.GG10600@ziepe.ca>
-References: <cover.1738765879.git.leonro@nvidia.com>
- <20250220124827.GR53094@unreal>
- <CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
- <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
- <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
- <20250312193249.GI1322339@unreal>
- <adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dUl5A6/M"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=9ZQ/8u1bPwOt3oNHK9qL/WApsP/XQrqSOmmJ930SPGc=; b=dUl5A6/MqdWgl1juDVkqKPiS9r
+	tsCLHriDCeA99lFYbDJSYL1G6DYjXzifeWAIrm4nc+vyjayxVLhMIC1TTfS6QPdB8ZayKRUnaun4s
+	5wnOcNzdmaDWhFHp0WjIh0HnNqph5Xszmi0eqd5r3ruxI5znMK400pEqkdUXvQrJKRDkNZAMexHuR
+	wfHs3CjXXXTZtyfWB3wbfNwl5AoZQyT5k2MY4UHL00SaYHaF3cQYFYQrzKDJfuXMM8yhxetDq8kDL
+	uSnbDyQQB4uyYewL/IyHqz/3wmxZApS4OJdfUOFhjSsc+x3nFWCmFXa6EMV8D/JlTHzs42NyxYDxK
+	t6j0uaxA==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tuxjS-0000000DF5N-3QER;
+	Wed, 19 Mar 2025 18:01:35 +0000
+Message-ID: <907fba96-d8f5-428e-b762-738abc8f88a4@infradead.org>
+Date: Wed, 19 Mar 2025 11:01:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 56/57] docs: irqdomain: Update
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, tglx@linutronix.de
+Cc: maz@kernel.org, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20250319092951.37667-1-jirislaby@kernel.org>
+ <20250319092951.37667-57-jirislaby@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250319092951.37667-57-jirislaby@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 14, 2025 at 11:52:58AM +0100, Marek Szyprowski wrote:
 
-> > The only way to do so is to use dma_map_sg_attrs(), which relies on SG
-> > (the one that we want to remove) to map P2P pages.
+
+On 3/19/25 2:29 AM, Jiri Slaby (SUSE) wrote:
+> The irqdomain documentaion became obsolete over time. Update and extend
+> it a bit with respect to the current code and HW.
 > 
-> That's something I don't get yet. How P2P pages can be used with 
-> dma_map_sg_attrs(), but not with dma_map_page_attrs()? Both operate 
-> internally on struct page pointer.
+> Most notably the doubled documentation of irq_domain (from .rst and .h)
+> was unified and let only in .rst. A reference link was added to .h.
+> 
+> Furthermore:
+> * Some 'struct' keywords added, so that the respective structs are
+>   hyperlinked.
+> * :c:member: used where appropriate to mark a member of a struct.
+> * Some wording rephrased to improve readability/understanding.
+> 
+> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> ---
+>  Documentation/core-api/irq/irq-domain.rst | 122 +++++++++++++---------
+>  include/linux/irqdomain.h                 |  26 +----
+>  2 files changed, 76 insertions(+), 72 deletions(-)
+> 
+> diff --git a/Documentation/core-api/irq/irq-domain.rst b/Documentation/core-api/irq/irq-domain.rst
+> index c2f2728b1a35..7a418b3135de 100644
+> --- a/Documentation/core-api/irq/irq-domain.rst
+> +++ b/Documentation/core-api/irq/irq-domain.rst
+> @@ -3,8 +3,8 @@ The irq_domain Interrupt Number Mapping Library
+>  ===============================================
+>  
+>  The current design of the Linux kernel uses a single large number
+> -space where each separate IRQ source is assigned a different number.
+> -This is simple when there is only one interrupt controller, but in
+> +space where each separate IRQ source is assigned a unique number.
+> +This is simple when there is only one interrupt controller. But in
+>  systems with multiple interrupt controllers, the kernel must ensure
+>  that each one gets assigned non-overlapping allocations of Linux
+>  IRQ numbers.
+> @@ -15,45 +15,64 @@ such as GPIO controllers avoid reimplementing identical callback
+>  mechanisms as the IRQ core system by modelling their interrupt
+>  handlers as irqchips. I.e. in effect cascading interrupt controllers.
+>  
+> -Here the interrupt number loose all kind of correspondence to
+> -hardware interrupt numbers: whereas in the past, IRQ numbers could
+> -be chosen so they matched the hardware IRQ line into the root
+> -interrupt controller (i.e. the component actually fireing the
+> -interrupt line to the CPU) nowadays this number is just a number.
+> +So in the past, IRQ numbers could be chosen so that they match the
+> +hardware IRQ line into the root interrupt controller (i.e. the
+> +component actually firing the interrupt line to the CPU). Nowadays,
+> +this number is just a number and the number loose all kind of
 
-It is a bit subtle, I ran in to this when exploring enabling proper
-P2P for dma_map_resource() too.
+                                               loses
 
-The API signatures are:
+> +correspondence to hardware interrupt numbers.
+>  
 
-dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
-		size_t offset, size_t size, enum dma_data_direction dir,
-		unsigned long attrs);
-void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
-		enum dma_data_direction dir, unsigned long attrs);
+[snip]
 
-The thing to notice immediately is that the unmap path does not get
-passed a struct page.
+-- 
+~Randy
 
-So, lets think about the flow when the iommu is turned on. 
-
-For normal struct page memory:
-
- - dma_map_page_attrs() allocates some IOVA and returns it in the
-   dma_addr_t and then maps the struct page to the iommu page table
-
- - dma_unmap_page_attrs() frees the IOVA from the given dma_addr_t
- 
-If we think about P2P now:
-
- - dma_map_page_attrs() can inspect the struct page and determine it
-   is P2P. It computes a bus address which is not an IOVA, and does
-   not transit through the IOMMU. No IOVA allocation is performed. the
-   bus address is returned as the dma_addr_t
-
- - dma_unmap_page_attrs() ... is impossible. We just get this
-   dma_addr_t that doesn't have enough information to tell anymore if
-   the address is a P2P bus address or not, so we can't tell if we
-   should unmap an iova from the dma_addr_t :\
-
-The sg path fixes this because it introduced a new flag in the
-scatterlist, SG_DMA_BUS_ADDRESS, that allows the sg map path to record
-the information for the unmap path so it can do the right thing.
-
-Leon's approach fixes this by putting an overarching transaction state
-around the DMA operation so that map and unmap operations can look in
-the state and determine if this is a P2P or non P2P map and then know
-how to unmap.
-
-For some background here, Christoph gave me this idea back at LSF/MM
-in Vancouver (two years ago now). At the time I was looking at
-replacing scatterlist and giving new DMA API ops to operate on a
-"scatterlist v2" structure.
-
-Christoph's vision was to make a performance DMA API path that could
-be used to implement any scatterlist-like data structure very
-efficiently without having to teach the DMA API about all sorts of 
-scatterlist-like things.
-
-Jason
