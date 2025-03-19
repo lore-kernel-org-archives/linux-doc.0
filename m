@@ -1,58 +1,58 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51541953A1;
-	Wed, 19 Mar 2025 15:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E151DE4FB;
+	Wed, 19 Mar 2025 16:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742399980; cv=none; b=uiXqxCFNQMcKiWZ3wZV+87/YsvAzl8h5dt+mMHOZoW4H6lnaNNiOcZiK6gt528WZc2BopY7CSwRHpt62W1GbQ3Vmg40lpuvz++ck/qaVLNRpa+HWaX6H+g6WuN3FgVphhqEQucDeN3g2Sk7ENd3aRhUTis3wHa5VBnK+qeb35+o=
+	t=1742400415; cv=none; b=QlT5jmoXnyVPX06ANY2FO9p7Zj5btBYBizRec3xy76SAHJlUpIvUNNOdabY5kYAXSyndZrhxYlq1aFoAg7IGiIvt1rS79ApwlNm7wTj9aJ0b2FwUXVVrKzVMU3Xq/5qK7CYlee/hW2SOwAoS9fyMiqirB29DpSTjG5ZkYMnFa/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742399980; c=relaxed/simple;
-	bh=3HKsqdZgxVCB5JiXxlUvPKlGtQpw7juWEyY6Azxug7E=;
+	s=arc-20240116; t=1742400415; c=relaxed/simple;
+	bh=zOvNy6cuX1wOoW8pRGs7qcnquFhdC/sbHrVaQCrxSA8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iW6awJmylQJaTkVAeeSbrTkBl+afhwc5vPVNcnZ19abeg9fDsW2m69H3A9weBeCyH3LhPqAn0avsGKxtg657tk3QNJC6KmhBauMXYoVm7uft3dcBSGHqQ9YLxO3mlT8YkLr7yiOge/u2FeJkxDV6KcD+Q7rU6dDTnthoZOw5M14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TbtAmBpX; arc=none smtp.client-ip=209.85.208.171
+	 To:Cc:Content-Type; b=IjCKkcTcAst3q/wcLzE65a/3WJf2u5514GA6P08tTTmuYSRNlE/pz2o7MFOlFjJ7N3OfH/MeYzMirnGMa7ouwcoNfwkguiV5zyYBkG+huzQI9LCm3/4BAx4h16/Kvux9urxcQ2cXbvclGUAs4SYkDvyavIaremoBAqfgIDIM200=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DImMQxs/; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TbtAmBpX"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30613802a04so79543771fa.2;
-        Wed, 19 Mar 2025 08:59:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DImMQxs/"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ff53b26af2so1085286a91.0;
+        Wed, 19 Mar 2025 09:06:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742399977; x=1743004777; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1742400412; x=1743005212; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=g9hyskz0+W8oxdMSBSrKYAiDGZxtrfIfmdmAlEMXAcA=;
-        b=TbtAmBpXbsh3QQ0VdJNxQ3Eq8CteQAkC1RsuEgjw6zHX9O2an0KoqvDb5B0KXBkSmV
-         7Ua9Ly0P0gcXWItpzyu9IlwoUt4FIw7LNPnhT5cM99aa1SuFiKXRQ0YB6Gq1PEr8B+HG
-         e8VDiJHIgTMM9ccPUtNsZ2SlSzPAfzCPwN48tYX05awZ8cMbKIppooWJ6HhFpLmuorSu
-         8OktETsDRXIHP7CPz+l+LCqrmHivMkeWfHSoGYmDwcSbx6eBEseDVxZSAwogn97tIC8l
-         m0KXdhPKZc2o4HVjTeT4gT2wdwv/74wKKUoBeCJMdl6xhi6bVYfGFdBk5ShTsV8Zav17
-         lnvg==
+        bh=zOvNy6cuX1wOoW8pRGs7qcnquFhdC/sbHrVaQCrxSA8=;
+        b=DImMQxs/Sy1fH0QJhXeW6pvGwWS9US/dpqxEofzGzYZCa0Dw1VuPOL2Q6UI2pD/FyZ
+         MuNCe4lVQPFg4rL4n2ZnHC5CethZhAvHMSl8RNO/7NxPYV8PxlUsmi0934I9D7JzEuoI
+         S8AKDDu/Rj0Q4gCod746la/CsBexwaEew2sRt0Y2v1CRePxyN94thK3Xe2b4pwRnORql
+         owdyL4z+aJlX2K0C4sFOCai38+09VemZA6TKProQrt6dImI2nqkAFDmlSAf7HuvverYr
+         I9gB24gATI3xRDgZuNEVX9usH50PBIY1dJI/yJJBl4AZb6k5ZGlVIQo1ZiB0DiEWp2CC
+         MClQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742399977; x=1743004777;
+        d=1e100.net; s=20230601; t=1742400412; x=1743005212;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=g9hyskz0+W8oxdMSBSrKYAiDGZxtrfIfmdmAlEMXAcA=;
-        b=IphVpwH07gr7STtQnT6rkMqT0MTxHylCwyEB0x9DxbJsl6BHRoKJ6ETsDZWaAMFitQ
-         BovGk07N2Vvqbc0PtxUL59JkS/WQVMVp53WsSM/aCZEAutIJsxsH9FBeAw93PoJgiAA0
-         w2AZWfKeVIvOxZ4yMSZZCN8uEzPKU6wSTXuaKo8RNDe9/mtyqkFx5cQFP3SaNCL3eMXa
-         F4F3LEaQTL1JAiQteqrFxnRPqj4Qz7HzTYzRMKqzMJCrauvOjHKdsnHVZx0QYHahIc4t
-         GToRuaixApDY7xJk/t8AKSQqUcTNd6QlhQk3wG0ovRh26/y5kqc7GKB0jjVreso5c8+P
-         w+TQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU40d33yMhJ2gzxmm5EzlHHHSMjm6zolB4L/rFstydtqDURFWoDSTtBBCN01M5Roop7lBF/WH3Tz1S3GRflJGs=@vger.kernel.org, AJvYcCUYaJqIHspL3MKqLz8+7HB5yh2Eub4crhb6jh6UnOWDpbUCCjl4+FJJPvd6EZcOU6o2H3M4N71d+LLsrW95@vger.kernel.org, AJvYcCWDvPIycm5xEQRd81omkUePAf8LKYxdvUw0iYbnfnm0SNbj6x+TGNt/xzoWP4uT5nm1xiWEMlPBw4o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7bK2xlm0Dr9BQ4ux4e+IbGet92ld7lB4yKvfOuoAryESM8k6U
-	ATRE3TZJJo8n4rBtOFnR82pkWlr1Tejozw+XLoyRzxgEXVsGczJe+FwDeJm1heO6SdgC/J8rLhZ
-	onGOU3ycDNHo9SxxMKHK9pXWQ9sk=
-X-Gm-Gg: ASbGncsgRI7/q+2aYgkwjUc20EEAZSAPhEh5uku8s2LyRgASeaEW6lk9Q77SfpbgVfz
-	XhXQ51yEYq1s1BxVRJAs6+QyaK2fouImPA0Zn6XUPXGEcY548oiGdiDfvdeMviVdqejVb8xsonm
-	HY0exLuBrrQ+lpbVFMT1Ond01xiq6LXXR82Mjsl2ILug==
-X-Google-Smtp-Source: AGHT+IGpFcafT3b6aIOYtJ2V3tq0B+fB5vBSvNidH0DfLkAvD0boqzlYgVWbBMeg+FDMjz+arPmg3F7bSk7c+dd0l3c=
-X-Received: by 2002:a05:651c:210a:b0:30b:b00f:9507 with SMTP id
- 38308e7fff4ca-30d6a44cae5mr15914741fa.24.1742399976387; Wed, 19 Mar 2025
- 08:59:36 -0700 (PDT)
+        bh=zOvNy6cuX1wOoW8pRGs7qcnquFhdC/sbHrVaQCrxSA8=;
+        b=snpV6JkVmbdUcrj0b1VQ2IK1qTaycTBG54J2UuP7Njva48WJuSFOMJECvIxrheg0Ja
+         +4tDhKsVJKBOTAE+KAa0XcQLKgW+E2lAvJX4HShtTKbbFMTlFnDgPQkuk2tPkOPeG5B1
+         HUqExUK1IyuuQU5PXQ2IT61Q0ADAz4z6MR4x+YUVEnWEdQ3k1gqT4U/Q9zoA+8F6oEWP
+         zCMZ+x2UnUH0z60fLY3nvM6lz1NxUYlSvU6hb9mO/ZuX1aMvMl9xL3eZMjogA6pwJQom
+         ibU29lRUg1k/Fl8pigbn0HYEkMQ5D0NiPHGmhkyXHA6ZGl54/5hdX4tJ7G7/SFr1dd6R
+         w35A==
+X-Forwarded-Encrypted: i=1; AJvYcCVmT428jCSEKDCoJnU4n6sMd/mtu8mMHuq3QjxFfcjQVd5XbWqSytzCBYoYempundCbvzPlveHZN4MXUaQO@vger.kernel.org, AJvYcCWb3EkSr4Y7vM2q1fgfOgNqrRr4Cx7Q8zNdWTmessAp46Hpru+KZXl5/QUrIR91MP9w+6aGyNiMshkjxJ/KN0Y=@vger.kernel.org, AJvYcCXyDGcMrE+0CbNHlKL3DSRHnivgsOdbQwjjFOrCKaFOHeb44Mlp7UJySm/YOGOxgGeLaAlv8rXtxRU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaBZPf6y9Ros7MpL4+vUh/cjUo9KR+qEgTs/w7i2Rb8P4UlKQi
+	KdrkD88sjltcP9VGLPFi7QtLKhYWlny6CT/NgabmAy6LiknvDquCsQ7VjY4uk3f+PP6a6QHzM07
+	cmGZKJRnFYxWZ7f0Bu+cMQa9Jv8E=
+X-Gm-Gg: ASbGncsu3okiWjdjnk7jxHPwDMFQ1p+sd1Fgivna5JEwNKnnST1itkMbI6lSw3pXCSr
+	tJQeUZ/8NnwZur8xEHb+6DYCe6E18gHkDC5Mc6v539Aaz82qsuNKQn2WNLdzKpqtZSFtfuWBKTw
+	FkFU10DSOJ8X5ZV6cdgjd7BqzvjQ==
+X-Google-Smtp-Source: AGHT+IGKH7dGzo9CR9DyO61FwA7cxqxKg1zlVUXDQ/9/34mE4QzwcvBU2hSm+dhh6M/XvRm1n6FGq53W1euSYJyTZJY=
+X-Received: by 2002:a17:90b:2246:b0:301:1c11:aa7a with SMTP id
+ 98e67ed59e1d1-301bfc749d3mr1656740a91.3.1742400412036; Wed, 19 Mar 2025
+ 09:06:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,66 +62,38 @@ MIME-Version: 1.0
 References: <20250316111644.154602-1-andrewjballance@gmail.com>
  <20250316111644.154602-3-andrewjballance@gmail.com> <CAJ-ks9kAROOfyPtxMe6LE4-UPsvXca2sQ2VDjhRchZp3HLddGg@mail.gmail.com>
  <D8JTWL8JY7DM.3IVH6FZ4M49CB@proton.me> <CAJ-ks9k+A1+0CWXZmD2m0+jRqTRTNFn-=d9VXqytiOqvn4BR0w@mail.gmail.com>
- <D8KBFC9M74H5.4ZJ2SJK06SGR@proton.me>
-In-Reply-To: <D8KBFC9M74H5.4ZJ2SJK06SGR@proton.me>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 19 Mar 2025 11:58:59 -0400
-X-Gm-Features: AQ5f1Jqy1G9xW_d_MZv7EIGIWVxFYoqazHtgodTNU3whmyJ8gAuU1mj5mo_jYbc
-Message-ID: <CAJ-ks9=NQrz3ySacKt+XXm2vS+Fn9gjmtqAaaoz1k=iTG_1HXw@mail.gmail.com>
+ <D8KBFC9M74H5.4ZJ2SJK06SGR@proton.me> <CAJ-ks9=NQrz3ySacKt+XXm2vS+Fn9gjmtqAaaoz1k=iTG_1HXw@mail.gmail.com>
+In-Reply-To: <CAJ-ks9=NQrz3ySacKt+XXm2vS+Fn9gjmtqAaaoz1k=iTG_1HXw@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 19 Mar 2025 17:06:39 +0100
+X-Gm-Features: AQ5f1JrZzeF8YqgUhS2ui73zsg8Ty3fstbUTrdh2di_k7zMf5vS2OO4mnq0-LQ8
+Message-ID: <CANiq72mnT73Mb7RJhZjf4de=_Orv4pipunMhOersOj_aqrFA-g@mail.gmail.com>
 Subject: Re: [PATCH v2 2/3] rust: alloc: add Vec::resize method
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Andrew Ballance <andrewjballance@gmail.com>, dakr@kernel.org, airlied@gmail.com, 
-	simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	tzimmermann@suse.de, corbet@lwn.net, ojeda@kernel.org, alex.gaynor@gmail.com, 
-	boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, 
-	acourbot@nvidia.com, nouveau@lists.freedesktop.org, 
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Benno Lossin <benno.lossin@proton.me>, Andrew Ballance <andrewjballance@gmail.com>, dakr@kernel.org, 
+	airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+	mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net, ojeda@kernel.org, 
+	alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, a.hindborg@kernel.org, aliceryhl@google.com, 
+	tmgross@umich.edu, acourbot@nvidia.com, nouveau@lists.freedesktop.org, 
 	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 19, 2025 at 10:34=E2=80=AFAM Benno Lossin <benno.lossin@proton.=
-me> wrote:
+On Wed, Mar 19, 2025 at 4:59=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
+ wrote:
 >
-> On Wed Mar 19, 2025 at 2:42 PM CET, Tamir Duberstein wrote:
-> > On Tue, Mar 18, 2025 at 8:50=E2=80=AFPM Benno Lossin <benno.lossin@prot=
-on.me> wrote:
-> >>
-> >> On Tue Mar 18, 2025 at 9:12 PM CET, Tamir Duberstein wrote:
-> >> > On Sun, Mar 16, 2025 at 7:17=E2=80=AFAM Andrew Ballance
-> >> > <andrewjballance@gmail.com> wrote:
-> >> >> +    pub fn resize(&mut self, new_len: usize, value: T, flags: Flag=
-s) -> Result<(), AllocError> {
-> >> >> +        if new_len > self.len() {
-> >> >> +            self.extend_with(new_len - self.len(), value, flags)
-> >> >> +        } else {
-> >> >> +            self.truncate(new_len);
-> >> >> +            Ok(())
-> >> >> +        }
-> >> >> +    }
-> >> >
-> >> > You can avoid underflow checking in debug builds by using `checked_s=
-ub`:
-> >>
-> >> `checked_sub` doesn't only avoid underflow in debug builds, but rather
-> >> in all builds. But the code below is a good suggestion.
-> >
-> > Yes, I know :)
-> >
-> > I included that language because the underflow check is likely
-> > optimized away in release builds.
->
-> If the function is inlined and the compiler can argue that `new_len >
-> self.len()`, then yes, but otherwise I'm pretty sure it won't be
-> optimized away.
->
-> Also if it is optimized away, then the check was still "executed", so I
-> find it a bit misleading to say "in debug builds" (making it sound like
-> it wouldn't do it in non-debug builds).
+> If we're talking about the same thing then I think we're both wrong
+> and the correct phrasing would have been: "you can avoid underflow
+> checking when CONFIG_RUST_OVERFLOW_CHECKS=3Dy by using `checked_sub`". I
+> was referring to the underflow check implicit in `new_len -
+> self.len()`.
 
-If we're talking about the same thing then I think we're both wrong
-and the correct phrasing would have been: "you can avoid underflow
-checking when CONFIG_RUST_OVERFLOW_CHECKS=3Dy by using `checked_sub`". I
-was referring to the underflow check implicit in `new_len -
-self.len()`.
+`checked_sub` always checks (if not optimized away). The config option
+is about the implicit one.
+
+Do you mean avoiding panics?
+
+Cheers,
+Miguel
