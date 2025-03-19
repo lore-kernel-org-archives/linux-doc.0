@@ -1,89 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3085B1FB3;
-	Wed, 19 Mar 2025 18:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6FC19006F;
+	Wed, 19 Mar 2025 18:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742408752; cv=none; b=SSEX66k5A9Cw2+AI24v4c7llXtLUo5QVhpIJzh1qxiVH31wx2Xu8j9AZz/WvPSxVFfI3z8M4xRxDfpoYJbRezYbVG5gNchOZiX/lnS2EI4LWhItSTkoREuDqKs9tXZf9vw+BgT+xaClTqDE1PzIjHwxNeNcndRQ/a63kScQjJ6M=
+	t=1742408998; cv=none; b=DM5W9lBjFxbhZRmEQ+GJQjXdV1h2jsvsv6+UVpKTnapNp+MMMct7LqU7Fq6fS6bWtyPFWLMsRyDam1/lCjTsXda59WhvuB39vlR1j89nqdJHLZbrzWFmbpLk02KoHj9b4wEuzcnMw4GNRsQXS260sotPMPHNoy5CK+GZzo/iCpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742408752; c=relaxed/simple;
-	bh=04CMRe93ja+0dP91KUJ1g3Ym9I3uIUGjEdjdQChI45w=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=Suz1Ia0cFd7AiASoQIDuqfedEoYRGJ2k0B8xWD0Ti7Acu5g4x3d5HiIPpEeh9t+FhTzNQWV4i1pqIfK61EXVwUGcLleJu44z83DICUzJOTnz9m/Sl601Pm7OA1Bmeh41u4/5nBYAbY5hhf6QPzN8gnlPzcGBVl/itb1EQLMOjy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YKhGZn1e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742408998; c=relaxed/simple;
+	bh=rDEJilAYGA8Ecmyu39y36S9/93GbeW/ZKb/0a5sXCwg=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=VzJ/sbiazrVvVKYE6hEw8VqxnFWOgNCtFu4y0jwWq+IYw2FhHQWAH+l3mFxwAr9x9WRsE6s520PztF55rH01+jbmG+wv5WxG2BgK2tHTLmIPfUElTlOj0c+7h462EqSJbAeCHJGCWhOhWemP+wyUJu6motRn/td9U3Ae/jKMf7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cX+941jw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YKhGZn1e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E0B2C4CEE4;
-	Wed, 19 Mar 2025 18:25:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cX+941jw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C80BC4CEE4;
+	Wed, 19 Mar 2025 18:29:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742408751;
-	bh=04CMRe93ja+0dP91KUJ1g3Ym9I3uIUGjEdjdQChI45w=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=YKhGZn1eTu8aUzeBZK0hVZjTgVsbH+pITU9AswRjgdFmvNALPZBW6Hsz/YT4snIT1
-	 zPHs9rSu85745og20w3OoufRJcUvEYhbaM0N1Ek6r+Sa+u/IqWVBd7E25MYo+oJ6fh
-	 bm+Kv5PYf/pjPnrZYAzurjs7yWrRsIWQ8MzGm3Axnh6ZG4nnAqOEtpF+H5D3W6XqU9
-	 0RluMZifkFxk6bA+BGUnTUQbF2x/gisXqZ+n8GFhjbS7460wVVGuOG3UXygpD2O5L/
-	 1aCyrGLbrbFm3oNAKast4gtrE5vKViIyA4uTYQNDYVNEhqI0QnD82qGEoxiGoXqSfN
-	 L1mk6lX8+YZTg==
-Date: Wed, 19 Mar 2025 13:25:50 -0500
+	s=k20201202; t=1742408998;
+	bh=rDEJilAYGA8Ecmyu39y36S9/93GbeW/ZKb/0a5sXCwg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=cX+941jwqXvuLuF6yUrjZQZJEg086+pcY5nlwE3jdJ/vv6mSXU1J2pA7qYMbJSFE9
+	 wdljIudrLLYIMs3Ri90BpWAv5q7iu+0Jb0viUurFXz2geIHxe00Gbr4eJCqSeiwWyr
+	 Wv4DUtSeBYweYvN3HG5cWFV0vGUpw1KZiMpmCFMJ0P2hpzu/a39wwUPkg15bR+KDY7
+	 PFdd+LPi5m6+aU+PUzMX3l30TJSG6+UByaPCQM/9arRBkFuVCMcN+doW2LgkSXh1n6
+	 FGup0bUa1ldcP++3Zy1Bv+bGOF8tITgp4v8Dez1MRG6q3MBrZIRq7CFEQwGtVNPnBy
+	 p/iHaOFkTVhBQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB2A9380CFFE;
+	Wed, 19 Mar 2025 18:30:34 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>, 
- linux-hwmon@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Flaviu Nistor <flaviu.nistor@gmail.com>
-To: Flaviu Nistor <flaviu.nistor@googlemail.com>
-In-Reply-To: <20250319170234.63723-3-flaviu.nistor@gmail.com>
-References: <20250319170234.63723-1-flaviu.nistor@gmail.com>
- <20250319170234.63723-3-flaviu.nistor@gmail.com>
-Message-Id: <174240875028.2079791.17732248186123259206.robh@kernel.org>
-Subject: Re: [PATCH 2/2] dt-bindings: hwmon: Add TI TPS389008
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v6 0/2] netconsole: allow selection of egress
+ interface via MAC address
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <174240903376.1147083.9038887742867617656.git-patchwork-notify@kernel.org>
+Date: Wed, 19 Mar 2025 18:30:33 +0000
+References: <20250312-netconsole-v6-0-3437933e79b8@purestorage.com>
+In-Reply-To: <20250312-netconsole-v6-0-3437933e79b8@purestorage.com>
+To: Uday Shankar <ushankar@purestorage.com>
+Cc: leitao@debian.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ srinivas.kandagatla@linaro.org, rafal@milecki.pl, horms@kernel.org,
+ akpm@linux-foundation.org, johannes@sipsolutions.net, corbet@lwn.net,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-doc@vger.kernel.org,
+ michal.swiatkowski@linux.intel.com, horms@verge.net.au
 
+Hello:
 
-On Wed, 19 Mar 2025 19:02:29 +0200, Flaviu Nistor wrote:
-> Add device tree bindings and an example for the
-> TI TPS389008 voltage monitor.
+This series was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Wed, 12 Mar 2025 13:51:45 -0600 you wrote:
+> This series adds support for selecting a netconsole egress interface by
+> specifying the MAC address (in place of the interface name) in the
+> boot/module parameter.
 > 
-> Signed-off-by: Flaviu Nistor <flaviu.nistor@gmail.com>
+> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
 > ---
->  .../bindings/hwmon/ti,tps389008.yaml          | 140 ++++++++++++++++++
->  1 file changed, 140 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/ti,tps389008.yaml
+> Changes in v6:
+> - No changes, just rebase on net-next/main and repost for patchwork
+>   automation
+> - Link to v5: https://lore.kernel.org/r/20250220-netconsole-v5-0-4aeafa71debf@purestorage.com
 > 
+> [...]
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Here is the summary with links:
+  - [net-next,v6,1/2] net, treewide: define and use MAC_ADDR_STR_LEN
+    https://git.kernel.org/netdev/net-next/c/6d6c1ba78240
+  - [net-next,v6,2/2] netconsole: allow selection of egress interface via MAC address
+    https://git.kernel.org/netdev/net-next/c/f8a10bed32f5
 
-yamllint warnings/errors:
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/hwmon/ti,tps389008.example.dtb: /example-0/i2c/vmon@37: failed to match any schema with compatible: ['ti,tps389008', 'ti,tps389006', 'ti,tps389004']
-Documentation/devicetree/bindings/hwmon/ti,tps389008.example.dtb: /example-0/i2c/vmon@37: failed to match any schema with compatible: ['ti,tps389008', 'ti,tps389006', 'ti,tps389004']
-Documentation/devicetree/bindings/hwmon/ti,tps389008.example.dtb: /example-0/i2c/vmon@37: failed to match any schema with compatible: ['ti,tps389008', 'ti,tps389006', 'ti,tps389004']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250319170234.63723-3-flaviu.nistor@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
