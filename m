@@ -1,137 +1,179 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE41A186E2D;
-	Wed, 19 Mar 2025 03:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A9B128819
+	for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 03:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742355856; cv=none; b=gpg6HE9ZXgn1wNExlyQR24nBnflUcdxyQanM25FQIYP45SxT7Jjbf1y3rR+dci6Lhx+VBb3mDtorwLQ4YoVLaeE8qFY05yuiGEdC5MujLOEn213+6KHSM/5WT6/BM9cWjaAAskFbmJvgg/niRKZb03YU4SWPbg0H4VNmyLut8zs=
+	t=1742356077; cv=none; b=EFN6gzjRNyUuT6ETmWe/YIZcUTF2OstEwkRtat21EBSD7XfgMYh+ELTRanQNawwuwLU34bGPbYsYruwHLe5qeFh5//9FxoovKEXoDhAuQa+MEzIrkcYR5Btq+GtiB0tM82bwoC0TDBhwEKtfzb+OkYAG7bHAzlm92CUqlvS2Hrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742355856; c=relaxed/simple;
-	bh=+GAbF5SpSc6oQqFDuV3LJR9UnoESsAOk8fkh+YD1Rt4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UpG30zb0h/EkTlUJlB3nBnKTL9T5tYVaLbTaS1lBbnU0ijMmYNPzfE3AJLISxr7+X63uBXPHTG82fUmiKZD6GQ6Vfq/4u1tsy3Fh0XG1fBoWiO8beCSZE69WQHCJMcU1Dooatu5ObtRrvW4exXLqD+JGV3Gp3Hk4HJrP68c9dEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rhbw2PIw; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1742356077; c=relaxed/simple;
+	bh=HCZqnNNA7vRUMJ0YSIba4FcncdZxUlVwmkTFPHK3oDI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z4xwYhTU/BcVKyHrHmgi/YshbKSeCpaiOq8Xd4s8yvODbmcghsiwxfW3FyNUUZTgOGeUba3/u5+z4sMkmXPeP4ZKDXJlvC1/SKFSiFTPlqJtsOeHfNnCRpZDxRWg+KadPzsGNm5zTlcG4+hsZyxwOTmJ/K/tmKsgzy+5GGtrmKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OKw/OhL1; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rhbw2PIw"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2ff6e91cff5so6252443a91.2;
-        Tue, 18 Mar 2025 20:44:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OKw/OhL1"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e5e1a38c1aso7970571a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Mar 2025 20:47:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742355854; x=1742960654; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LmrhgRaZQ2esJD5Ee8Q5WTZMqeQvEp9WPDtHlhFhYRo=;
-        b=Rhbw2PIwQPaFDotRDELMeEM6c0M0GoqJJZ4D/hzQL78WqqULtyMPZQCOzfh7ugn8Ry
-         JAjfbrnzj3rY9XNyFrgt9eMpNnTAWP2Jhx22d1TrDttL+bq5qme58/GjeRgk9pZWaCJd
-         1npxLsfamte+mc6ia1h4nD6Pn/ck9bmKq+w7WurSvUDRbeEgoKx6T/vko8D6Z9FP31LM
-         x1ZJx9nq03loAgJx5qxEz2+6SQdJkRuD3WAQtGTHB2IZgbU+MS4/lfW0xkpQGgeg2sEa
-         6ews2A3jTkUSMV9eO1vGGAE9d86kf3v5qXgDlqSpYdPmrGdw93Yt+5VwvB0+/qJSt5rR
-         7t0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742355854; x=1742960654;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1742356074; x=1742960874; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LmrhgRaZQ2esJD5Ee8Q5WTZMqeQvEp9WPDtHlhFhYRo=;
-        b=GsCQ9XjKr1vClo4+2kMDEJsZG1nK+SuIQ02kI8SUCAZ4DvMkwaJM6iwWyix5LyBbkN
-         V31J7yyfSozW/+oNz0vH8ctvlX7qWCzR14Z8lDDKk7vMDxC+VGLUfrCOThZahLfMMESi
-         nI6hsWE0lwvYwLPpabQBrIeuHwXI6QFAxfffr7KeUXFA91Yk1fOnZoiLT7gVL1wd+jbt
-         mE54YqYBi1OYOKwmWxnBRodRLfMG64+jjQXmm3v7G16hQ3KWonHdQFfosvM97p1zQa4n
-         sVQpqWLWceXgVBAOGT1UNFxvwcVrVSF5aj+yuVVAS6B4fqAXBIJ/+XYu52EMoNyXCHSg
-         J9qg==
-X-Forwarded-Encrypted: i=1; AJvYcCWoWMz+yN1H6hZduaQ9o1uv37PXnJFEiw51Dk8GEThbpxMYkkk0z7dAhyj2X0Vrg0uW72/osuKYHBc=@vger.kernel.org, AJvYcCWy05MoJ70/sLV2E757wdIRcPylGBRXytV0LhQ5z3n/dGreznzdAcKVuVcU9MibI05NDactVpSrVTUSUIOR@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRgKWRmcWnuNi+PPIF57gUpkZa1faiwg+F4aXQDS5RPZ1n6s4t
-	8lWBb/kleLK1CgRS1soy9X5YLP53MTHfWRXZj2R6Ij/XN87z5rvl
-X-Gm-Gg: ASbGnctBus+t3il8b3118Fc8jzWhVZQCHeSgPqU4r9k6xlTl+d4WOsYiS8rJ3WiQq/l
-	nLzYiQwm0OKX0/FyjfXnLEm1rxMtHX8ONos7+/h5UecHFL90hKPXZ8L0hQQKKjk8syblSLzpuEV
-	kz4n++883ByC1rl+eLcu/Lbvvd1IhC2H93lNnpcpOMO+Gj2o6Ag8M/Oj0GMDqZuCLdGazB6YDiq
-	9D7ZtvG4NcZORl11JKPc9oHszlwkTcGVPJPXo0SJ2uKKlic2dq1lIQydvv2FSaMpXP9kKGpaQWM
-	p5IBJA0Hh+U4aArgWI37xlk2HB6yy9sl9yhr81Z0cpuIUN5x/LhHwno=
-X-Google-Smtp-Source: AGHT+IH/iT3MtS2ax7POPPW1zeTwh0K1LGntWioMM24k31dXIZG9jeCFE1wxGR3hbW1JG1oYXmT3uw==
-X-Received: by 2002:a17:90b:1a89:b0:2fe:b937:2a51 with SMTP id 98e67ed59e1d1-301be205ce4mr1756074a91.33.1742355853746;
-        Tue, 18 Mar 2025 20:44:13 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-301bf59cd49sm365744a91.22.2025.03.18.20.44.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 20:44:12 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 167FD424184A; Wed, 19 Mar 2025 10:44:11 +0700 (WIB)
-Date: Wed, 19 Mar 2025 10:44:10 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: Re: [PATCH] Documentation: vgaarbiter: Fix grammar
-Message-ID: <Z9o9iri2uUCoIxdK@archie.me>
-References: <20250318041249.20786-2-bagasdotme@gmail.com>
- <87a59icsbw.fsf@trenco.lwn.net>
+        bh=QvddNjEwHXAjloHSZgBt4n64GMyLPZo9MMI/U7TAxRw=;
+        b=OKw/OhL1Ld7N6Sb4BphCc0NFN2Wo1RV/NwxD5KhWpUWDL1ltoot+Uk7O09EdEt1GiI
+         NoppSkoW6cwi50clqNYIGEJXoG0fyj5Nbyu78w7h+BFSL+s2Stq0dq4IDjBTVzyjBInb
+         Binek7anhDBlUPnF15Bk527eNuqmc3671KLGP+eL4wCVOlV2/xYUgHyeRh7/fX6rpKni
+         7lQAvRZIem3Nvkz8RxsqLkPn+qcjUTNFe0oDu+eAzz/cGudlnM+ZJUCScrFf4E38o4KY
+         j0l+NXkz3JH+XTfTidD7uvoQA191ZMCN5H2O2DZAHmdZxxJ4w/Edg7bx0Gt60wTZEP0h
+         WJUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742356074; x=1742960874;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QvddNjEwHXAjloHSZgBt4n64GMyLPZo9MMI/U7TAxRw=;
+        b=ux0J2h3anRVK8JFKjHboZt6I+c0xRK/fgvqrOZ55VgFN/FZ08/0SKQs9hQaayNikkO
+         LKRYsarIXictPcent+I4R9+xFzCieVngNOpMYmWdegD/JHuJGc5pirlWu5dYKPNX6SDc
+         Iu0bfJgU6q8jYCqoSPoFhKtysKFfivMQjsniKI1cMiM/6sMe9hi6hjWW3pPpu0BpnDjV
+         f+NxHzsgUw3/Sb//clraXl3kGdJjSnsFUJsBf0TWr1VpnXKoqZPdDBDdBYswN+XdWrZl
+         Dge7OceGdJMJffeBcxE66VyzLhSqbz9NusMagbwSUjQoUVhivEici7XOZfeNCBb7dV6o
+         MRLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXEKpzbV5lwgf6Jq0abvo4q1LEo+G+xbI8fg5J88E6BCRhkF6DGEemCPayGDcX46mp2LaykZbpKebE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYK2sIsuMmwo/r7g7065Kr7OE49Uv77igQ74ajNTc9zJIxoRMI
+	rnqDZ//OoSjaMcN9StdjixB43U310jAYcfUGjmY5d64MxT7ISd869+6NijyR1RVHUse4FCeX5Xg
+	t26ajz8CGtZ3K3+1xqP4QO12ohYksQOxyzWsgbw==
+X-Gm-Gg: ASbGncsUSBILeh07bxvCFpDghcirQCXpH1vC5qGyEyNQQxa6tIedRwzt64Ey82XdOPj
+	tO/PzZxjwJFCgOZgOZwA8gr82QWUM+bs6EXwB1ZH6QJJoStctn/JidV5GayZ4TgQeKY80rRy5Py
+	sCoRVl9/HOPxtwfYBPpkDtB/FS7Q==
+X-Google-Smtp-Source: AGHT+IFHT4M86gSKs6rUl1Yur7qyqPloKbpXzj6N1klKJxC/ZvX3+na5L8ELUu0G3jpW+ayWBiGx1mfhnT0DlARZmns=
+X-Received: by 2002:a05:6402:4402:b0:5e6:44d8:eced with SMTP id
+ 4fb4d7f45d1cf-5eb80cfd690mr944659a12.12.1742356073661; Tue, 18 Mar 2025
+ 20:47:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JSr2fAOfACuQ+50l"
-Content-Disposition: inline
-In-Reply-To: <87a59icsbw.fsf@trenco.lwn.net>
-
-
---JSr2fAOfACuQ+50l
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20250318062957.2120-1-alexs@kernel.org> <875xk6crzd.fsf@trenco.lwn.net>
+In-Reply-To: <875xk6crzd.fsf@trenco.lwn.net>
+From: Alex Shi <seakeel@gmail.com>
+Date: Wed, 19 Mar 2025 11:47:17 +0800
+X-Gm-Features: AQ5f1Jp8kkhDjFzCFoojw6T56nR9zpA-bhEr9L2qTam4rcNfqwzntGFE_AJlJQ4
+Message-ID: <CAJy-Amk+M2OVgrRp8CUXssX2XFc6ciKFMS1iHLcyLNZ5Gm4fEw@mail.gmail.com>
+Subject: Re: [GIT PULL] Chinese-docs changes for v6.15-rc1
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: alexs@kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 18, 2025 at 08:43:31AM -0600, Jonathan Corbet wrote:
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
->=20
-> > From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2025=E5=B9=B43=E6=9C=8818=E6=97=
+=A5=E5=91=A8=E4=BA=8C 22:51=E5=86=99=E9=81=93=EF=BC=9A
+>
+> alexs@kernel.org writes:
+>
+> > Jonathan, please merge the Chinese translation docs, thanks.
 > >
-> > Correct grammar issues:
+> > The following changes since commit 5b8f85d081da449ab35e4bd009d7c00afaab=
+2fab:
 > >
-> > - Fix "co-exist" subject-verb agreement
-> > - Correct plural form of "server" in context of more than one legacy
-> >   devices
-> > - Use passive mood for intro sentence of libpciaccess section
+> >   docs: driver-api: firmware: clarify userspace requirements (2025-03-1=
+7 17:04:32 -0600)
 > >
-> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > Link: https://lore.kernel.org/r/20250220164946.18007-1-pranav.tyagi03@g=
-mail.com
-> > [Bagas: massage commit message]
-> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > ---
+> > are available in the Git repository at:
 > >
-> > I have to carry the original patch [1] because DRM maintainers doesn't =
-seem
-> > to apply that AFAIK. Jon, would you like to apply this patch before the
-> > merge window in case DRM people don't apply this either?
->=20
-> The DRM folks manage their own docs.  I'm certainly not going to
-> circumvent them during -rc7 for a patch like this.
+> >   git@gitolite.kernel.org:pub/scm/linux/kernel/git/alexs/linux.git docs=
+-next
+> >
+> > for you to fetch changes up to c6e686b992f4da3fb9e56f42eb5a1060facf9442=
+:
+> >
+> >   docs/zh_CN: fix spelling mistake (2025-03-18 13:36:57 +0800)
+> >
+> > ----------------------------------------------------------------
+> > Alex Shi (1):
+> >       docs/Chinese: change the disclaimer words
+> >
+> > Peng Jiang (1):
+> >       docs/zh_CN: fix spelling mistake
+> >
+> > Yuxian Mao (1):
+> >       docs/zh_CN: Add snp-tdx-threat-model index Chinese translation
+> >
+> >  .../translations/zh_CN/disclaimer-zh_CN.rst        |   8 +-
+> >  Documentation/translations/zh_CN/mm/balance.rst    |   2 +-
+> >  .../translations/zh_CN/security/index.rst          |   2 +-
+> >  .../zh_CN/security/snp-tdx-threat-model.rst        | 209 +++++++++++++=
+++++++++
+> >  4 files changed, 214 insertions(+), 7 deletions(-)
+> >  create mode 100644 Documentation/translations/zh_CN/security/snp-tdx-t=
+hreat-model.rst
+>
+> It's a bit close to the merge window for this.  I could consider that,
+> but I really need you to put a signed tag on there and have me pull
+> that.
 
-OK, thanks! I should've post this after 6.15 merge window closes then...
+Sorry, it's my fault. I thought gpg guarded gitolite.org may help us.
+Here is the new pull request with my signed tag: chinese-doc-6.15-rc1
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+The following changes since commit 5b8f85d081da449ab35e4bd009d7c00afaab2fab=
+:
 
---=20
-An old man doll... just what I always wanted! - Clara
+  docs: driver-api: firmware: clarify userspace requirements
+(2025-03-17 17:04:32 -0600)
 
---JSr2fAOfACuQ+50l
-Content-Type: application/pgp-signature; name=signature.asc
+are available in the Git repository at:
 
------BEGIN PGP SIGNATURE-----
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/alexs/linux.git
+tags/chinese-doc-6.15-rc1
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ9o9hgAKCRD2uYlJVVFO
-ozPKAQD81lszkWgPnWn6sjb1ZHh6b793Xx5tEtNM5I22Gh3qFQEAghGlHKJouvS4
-vC7T2IcOxUIPNRvEi+MLHCsLIOMaRgA=
-=woq5
------END PGP SIGNATURE-----
+for you to fetch changes up to 82ac75237379041db3a63e5d354a58966a69ec84:
 
---JSr2fAOfACuQ+50l--
+  docs/zh_CN: fix spelling mistake (2025-03-19 10:28:58 +0800)
+
+----------------------------------------------------------------
+Chinese translation docs for 6.15-rc1
+
+This is the Chinese translation subtree for 6.15-rc1. It just
+includes few changes:
+        - Chinese disclaimer change
+        - add a new translation doc: snp-tdx-threat-model
+        - fix a typo
+Above patches are tested by 'make htmldocs/pdfdocs'
+
+Signed-off-by: Alex Shi <alexs@kernel.org>
+
+----------------------------------------------------------------
+Alex Shi (1):
+      docs/Chinese: change the disclaimer words
+
+Peng Jiang (1):
+      docs/zh_CN: fix spelling mistake
+
+Yuxian Mao (1):
+      docs/zh_CN: Add snp-tdx-threat-model index Chinese translation
+
+ Documentation/translations/zh_CN/disclaimer-zh_CN.rst              |   8 +=
++--
+ Documentation/translations/zh_CN/mm/balance.rst                    |   2 +=
+-
+ Documentation/translations/zh_CN/security/index.rst                |   2 +=
+-
+ Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst |
+209 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++
+ 4 files changed, 214 insertions(+), 7 deletions(-)
+ create mode 100644
+Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst
+
+
+>
+> Thanks,
+>
+> jon
