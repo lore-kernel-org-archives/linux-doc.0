@@ -1,213 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C994D20F091;
-	Wed, 19 Mar 2025 08:31:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60653209F32
+	for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 09:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742373064; cv=none; b=RzdkwKfac6Rf+c9N9OBTOIuZiLPR4sBUmgcHPxk72VnU/5NutxShNmzge43QSrV3vvdEktIhE2ri81Y1nbdvTBZpSyjNW/vgS8PL/A9NYTrhpae/kgu7+eLemU5GkIzWddUQ6uEGjQwu8DZS/C+H1UotPz6s931hb8TuF5CFDdY=
+	t=1742375724; cv=none; b=CgDFax+zVeWhKsnvxCZYvh7m5OpFL5s/qLrVyorQG0l7gnnXHg9bRVtSwhqe2/szIsaRbpn/sqbnupX0/DDN4u4AGFYyNj8ivVLV2HFhR101psOYZOljSUFVyZFd8URn7qP9ZcbY7KqOrZuMIwrdbjO1BIHNZcNYkCX+4v8OY9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742373064; c=relaxed/simple;
-	bh=w3JmB7o8CKormT/Akok+UN9U+U8VYEVmbKd3okiCYoE=;
+	s=arc-20240116; t=1742375724; c=relaxed/simple;
+	bh=sdoWtmP8lcFKkLO6YKHdSDaFP6raFIU4DI5wjtYIURA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WcgP+Rt+xPObIsmt1BqHd3kuIvYuVeA+JzlrwHBTJngo8cyeE61nA38kDLiV+xG6gNN1eG/sT+YCRh7/yn+BKu2pG3h0MnAqWDOD0mSfrL+Lt8Sa7Al9oLz1f8aVVDhO2E1wUo4FW4mnQhyivBvyDGOtJB972JsS+wlirjcumWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k/ZmCalc; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=kdJp2VuyNMO/apk+0E1QHaeCaqz9IhjQNN6SVAnqSJ7X8mcoVhWT2q0rOPwJlUtWfIV3k6vp2EXomyhY4U4DnhFDbCaBBrA+n1FsVqkcimp9ClaMPhTslFVejdqVvFxLACEj6ZNoxGA6HycuhDnKQ5Xw5VsmFaUmb8PFqp6GQnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=edF5KG9j; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k/ZmCalc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96DF5C4CEE9;
-	Wed, 19 Mar 2025 08:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742373063;
-	bh=w3JmB7o8CKormT/Akok+UN9U+U8VYEVmbKd3okiCYoE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k/ZmCalc1dPOZG6tOAhA+Vbavt7ywew9AlCIx2pzmLHVBTMjREfKHqE2Yum/A2k90
-	 Mgo+utD6esZ3GSzapnLqbyG8yVsrTWUf4LItvlOCrYiiwuNO3yR2hQSEZpAOU6nnCo
-	 ZQRiEYn2mZ5bFSK8HEji2pCWj4CLMwBv5PoBA514qIBaTnW4NxRHmPJsRxHz6F9LM6
-	 DEj4Vkpkiz3HR+9d8OInlfDxTa9WdUELXV90gpobKxd8KKBd5UGsQL7y13D0qR11Xw
-	 1V/5hXHr1Z4zSHswxS63wOUI6bDFZ2FK5D8dKbOltHWG9ThPOmE1f0m3YkoTz1ruoI
-	 rs/FbXe+RBpfw==
-Date: Wed, 19 Mar 2025 10:30:58 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
-Message-ID: <20250319083058.GG1322339@unreal>
-References: <cover.1738765879.git.leonro@nvidia.com>
- <20250220124827.GR53094@unreal>
- <CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
- <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
- <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
- <20250312193249.GI1322339@unreal>
- <adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
- <20250314184911.GR1322339@unreal>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="edF5KG9j"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43d0359b1fcso3036075e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 02:15:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1742375720; x=1742980520; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ahIpFM+QNyoBpC1gPfBS5sPiHVhg0tBQ7r3MPVtw/d8=;
+        b=edF5KG9jLZLUN18XPd0AqVDW5B35OYV942dGR6Gam5ddWNuNE1O/QDkojmyhFLuJo6
+         R5OHvmHwe1ZwV1uYmb3hg4UdrmyVyoEOdaQHmP5EjROsMVl2qj1okO2BJ0m3u61FiBfA
+         TgDvnAlO4/tWPskMz1a9BzBevQU8dSBxdEpuy4deuveDuw4V40lbJg1UJRWszB133UAy
+         8AVUcyngjPNm65vIcbBVVrdwhJKP3DA6PhANX7fWO0gsTK24Vw+2ZZK5mUafT5st0Jj6
+         RVht+tdj//U7tIJ4ZxFrNQHwetJpV4ufw9hVmp5jxEQIkt49Amtn41U8mKec9BNVJ4u5
+         j/Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742375720; x=1742980520;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ahIpFM+QNyoBpC1gPfBS5sPiHVhg0tBQ7r3MPVtw/d8=;
+        b=cBRwO2tgsnCn4hME2AO0tk1qjWmzIF5L7uDIpI8FLdHcA8YaOSls+uTg6lfjZPP+x+
+         yfMGweB/Np9xBMaMviFdlOtWbsyVDiKhEY0M3p4AtbUM2ofu6ukDm84oxzAlZPADctJq
+         anUgXajJUlZ9EnawxxUrzwj1rO9zv8tgZHZmUhvuEz9y2O4uBR6X5c448gl8l7qZQ126
+         GQJIAvr+OGHDiM/g1BcIrBF9RpJDLsZfWLJH2S0o8ioOMqJ+yHvvXjHKrl7m9USFeFcF
+         JxJe3g6ibDpxoIBt3uRqMs6Yn4VDToRzcfpS21MpFyXRlJrKN2cB6uvycDTtmiCMsetA
+         fSrw==
+X-Forwarded-Encrypted: i=1; AJvYcCXjmJ2w+I35c9C4o1+oMJn3+havDktywunIC5s0uq9iJooY6L84P9yuElrBCNc0dhXkc8prdEUBI+I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzalnmyhq7ZSqYz7zt/PN/uHbfJZNpJxiXkm21TmjJkk4Fjpulh
+	Eo8nSuMRYWCWkz08v6490jyxtSKWOPpvyH3qd+zzhvO5NgjO0SsGeVQOJwFavvU=
+X-Gm-Gg: ASbGncuff6M4LSH4XIMYzTQLX5g4dCJOZSPYFR/wSbylC8TuhgruIJ/K3SRKxNeqdOS
+	aSKzaDMgQP4UlUFqppD8I4PfOH/wZ5vRke4llCUwz2A8Tq/oJssDGPVTYu7sBnhhSppeBkAngiY
+	0D841cP6xkISVdkwPtJeVoGwgL7EKLXfMnaPDXWhCFmt5vtIq/b+ouLWDOJK74tiyVhPGjPRZaH
+	Ly1egfzx5j8BtN2wdqg59egfZZyAFryHhhLEac+vcdwkn7ISvTzEty0UbF3ydZKoeEghexaeOHm
+	ZPpJilKDZMc2jqsA4qi+fyafumd6oK7w5JmAanEXWhg4hYA=
+X-Google-Smtp-Source: AGHT+IEHJqVdsFhvFTJ0j9XFeF9mtqW2S/78HUhgtYFtcniJo8M+ZzwHHxF5ImTnWsi+nzTq3v24/g==
+X-Received: by 2002:a05:600c:46c7:b0:439:5f04:4f8d with SMTP id 5b1f17b1804b1-43d4309c628mr12508825e9.12.1742375720499;
+        Wed, 19 Mar 2025 02:15:20 -0700 (PDT)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d43f7460fsm12870405e9.28.2025.03.19.02.15.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Mar 2025 02:15:20 -0700 (PDT)
+Date: Wed, 19 Mar 2025 10:15:18 +0100
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Hao Jia <jiahao.kernel@gmail.com>
+Cc: hannes@cmpxchg.org, akpm@linux-foundation.org, tj@kernel.org, 
+	corbet@lwn.net, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	shakeel.butt@linux.dev, muchun.song@linux.dev, cgroups@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Hao Jia <jiahao1@lixiang.com>
+Subject: Re: [PATCH 1/2] mm: vmscan: Split proactive reclaim statistics from
+ direct reclaim statistics
+Message-ID: <hvdw5o6trz5q533lgvqlyjgaskxfc7thc7oicdomovww4pn6fz@esy4zzuvkhf6>
+References: <20250318075833.90615-1-jiahao.kernel@gmail.com>
+ <20250318075833.90615-2-jiahao.kernel@gmail.com>
+ <qt73bnzu5k7ac4hnom7jwhsd3qsr7otwidu3ptalm66mbnw2kb@2uunju6q2ltn>
+ <f62cb0c2-e2a4-e104-e573-97b179e3fd84@gmail.com>
+ <unm54ivbukzxasmab7u5r5uyn7evvmsmfzsd7zytrdfrgbt6r3@vasumbhdlyhm>
+ <b8c1a314-13ad-e610-31e4-fa931531aea9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2vr2zym4stjkfz33"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250314184911.GR1322339@unreal>
+In-Reply-To: <b8c1a314-13ad-e610-31e4-fa931531aea9@gmail.com>
 
-On Fri, Mar 14, 2025 at 08:49:11PM +0200, Leon Romanovsky wrote:
-> On Fri, Mar 14, 2025 at 11:52:58AM +0100, Marek Szyprowski wrote:
-> > On 12.03.2025 20:32, Leon Romanovsky wrote:
-> > > On Wed, Mar 12, 2025 at 10:28:32AM +0100, Marek Szyprowski wrote:
-> > >> Hi Robin
-> > >>
-> > >> On 28.02.2025 20:54, Robin Murphy wrote:
-> > >>> On 20/02/2025 12:48 pm, Leon Romanovsky wrote:
-> > >>>> On Wed, Feb 05, 2025 at 04:40:20PM +0200, Leon Romanovsky wrote:
-> > >>>>> From: Leon Romanovsky <leonro@nvidia.com>
-> > >>>>>
-> > >>>>> Changelog:
-> > >>>>> v7:
-> > >>>>>    * Rebased to v6.14-rc1
-> > >>>> <...>
-> > >>>>
-> > >>>>> Christoph Hellwig (6):
-> > >>>>>     PCI/P2PDMA: Refactor the p2pdma mapping helpers
-> > >>>>>     dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
-> > >>>>>     iommu: generalize the batched sync after map interface
-> > >>>>>     iommu/dma: Factor out a iommu_dma_map_swiotlb helper
-> > >>>>>     dma-mapping: add a dma_need_unmap helper
-> > >>>>>     docs: core-api: document the IOVA-based API
-> > >>>>>
-> > >>>>> Leon Romanovsky (11):
-> > >>>>>     iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
-> > >>>>>     dma-mapping: Provide an interface to allow allocate IOVA
-> > >>>>>     dma-mapping: Implement link/unlink ranges API
-> > >>>>>     mm/hmm: let users to tag specific PFN with DMA mapped bit
-> > >>>>>     mm/hmm: provide generic DMA managing logic
-> > >>>>>     RDMA/umem: Store ODP access mask information in PFN
-> > >>>>>     RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
-> > >>>>>       linkage
-> > >>>>>     RDMA/umem: Separate implicit ODP initialization from explicit ODP
-> > >>>>>     vfio/mlx5: Explicitly use number of pages instead of allocated
-> > >>>>> length
-> > >>>>>     vfio/mlx5: Rewrite create mkey flow to allow better code reuse
-> > >>>>>     vfio/mlx5: Enable the DMA link API
-> > >>>>>
-> > >>>>>    Documentation/core-api/dma-api.rst   |  70 ++++
-> > >>>>    drivers/infiniband/core/umem_odp.c   | 250 +++++---------
-> > >>>>>    drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
-> > >>>>>    drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
-> > >>>>>    drivers/infiniband/hw/mlx5/umr.c     |  12 +-
-> > >>>>>    drivers/iommu/dma-iommu.c            | 468
-> > >>>>> +++++++++++++++++++++++----
-> > >>>>>    drivers/iommu/iommu.c                |  84 ++---
-> > >>>>>    drivers/pci/p2pdma.c                 |  38 +--
-> > >>>>>    drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
-> > >>>>>    drivers/vfio/pci/mlx5/cmd.h          |  35 +-
-> > >>>>>    drivers/vfio/pci/mlx5/main.c         |  87 +++--
-> > >>>>>    include/linux/dma-map-ops.h          |  54 ----
-> > >>>>>    include/linux/dma-mapping.h          |  85 +++++
-> > >>>>>    include/linux/hmm-dma.h              |  33 ++
-> > >>>>>    include/linux/hmm.h                  |  21 ++
-> > >>>>>    include/linux/iommu.h                |   4 +
-> > >>>>>    include/linux/pci-p2pdma.h           |  84 +++++
-> > >>>>>    include/rdma/ib_umem_odp.h           |  25 +-
-> > >>>>>    kernel/dma/direct.c                  |  44 +--
-> > >>>>>    kernel/dma/mapping.c                 |  18 ++
-> > >>>>>    mm/hmm.c                             | 264 +++++++++++++--
-> > >>>>>    21 files changed, 1435 insertions(+), 693 deletions(-)
-> > >>>>>    create mode 100644 include/linux/hmm-dma.h
-> > >>>> Kind reminder.
-> > > <...>
-> > >
-> > >> Removing the need for scatterlists was advertised as the main goal of
-> > >> this new API, but it looks that similar effects can be achieved with
-> > >> just iterating over the pages and calling page-based DMA API directly.
-> > > Such iteration can't be enough because P2P pages don't have struct pages,
-> > > so you can't use reliably and efficiently dma_map_page_attrs() call.
-> > >
-> > > The only way to do so is to use dma_map_sg_attrs(), which relies on SG
-> > > (the one that we want to remove) to map P2P pages.
-> > 
-> > That's something I don't get yet. How P2P pages can be used with 
-> > dma_map_sg_attrs(), but not with dma_map_page_attrs()? Both operate 
-> > internally on struct page pointer.
-> 
-> Yes, and no.
-> See users of is_pci_p2pdma_page(...) function. In dma_*_sg() APIs, there
-> is a real check and support for p2p. In dma_map_page_attrs() variants,
-> this support is missing (ignored, or error is returned).
-> 
-> > 
-> > >> Maybe I missed something. I still see some advantages in this DMA API
-> > >> extension, but I would also like to see the clear benefits from
-> > >> introducing it, like perf logs or other benchmark summary.
-> > > We didn't focus yet on performance, however Christoph mentioned in his
-> > > block RFC [1] that even simple conversion should improve performance as
-> > > we are performing one P2P lookup per-bio and not per-SG entry as was
-> > > before [2]. In addition it decreases memory [3] too.
-> > >
-> > > [1] https://lore.kernel.org/all/cover.1730037261.git.leon@kernel.org/
-> > > [2] https://lore.kernel.org/all/34d44537a65aba6ede215a8ad882aeee028b423a.1730037261.git.leon@kernel.org/
-> > > [3] https://lore.kernel.org/all/383557d0fa1aa393dbab4e1daec94b6cced384ab.1730037261.git.leon@kernel.org/
-> > >
-> > > So clear benefits are:
-> > > 1. Ability to use native for subsystem structure, e.g. bio for block,
-> > > umem for RDMA, dmabuf for DRM, e.t.c. It removes current wasteful
-> > > conversions from and to SG in order to work with DMA API.
-> > > 2. Batched request and iotlb sync optimizations (perform only once).
-> > > 3. Avoid very expensive call to pgmap pointer.
-> > > 4. Expose MMIO over VFIO without hacks (PCI BAR doesn't have struct pages).
-> > > See this series for such a hack
-> > > https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
-> > 
-> > I see those benefits and I admit that for typical DMA-with-IOMMU case it 
-> > would improve some things. I think that main concern from Robin was how 
-> > to handle it for the cases without an IOMMU.
-> 
-> In such case, we fallback to non-IOMMU flow (old, well-established one).
-> See this HMM patch as an example https://lore.kernel.org/all/a796da065fa8a9cb35d591ce6930400619572dcc.1738765879.git.leonro@nvidia.com/
-> +dma_addr_t hmm_dma_map_pfn(struct device *dev, struct hmm_dma_map *map,
-> +			   size_t idx,
-> +			   struct pci_p2pdma_map_state *p2pdma_state)
-> ...
-> +	if (dma_use_iova(state)) {
-> ...
-> +	} else {
-> ...
-> +		dma_addr = dma_map_page(dev, page, 0, map->dma_entry_size,
-> +					DMA_BIDIRECTIONAL);
-> 
-> Thanks
 
-Marek,
+--2vr2zym4stjkfz33
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH 1/2] mm: vmscan: Split proactive reclaim statistics from
+ direct reclaim statistics
+MIME-Version: 1.0
 
-Did it answer your concerns?
+On Wed, Mar 19, 2025 at 10:38:01AM +0800, Hao Jia <jiahao.kernel@gmail.com> wrote:
+> However, binding the statistics to the memory.reclaim writers may not be
+> suitable for our scenario. The userspace proactive memory reclaimer triggers
+> proactive memory reclaim on different memory cgroups, and all memory reclaim
+> statistics would be tied to this userspace proactive memory reclaim process.
 
-How can we progress here? As you can see, the chances to get meaningful
-response to your review request and my questions are not high.
+It thought that was what you wanted -- have stats related precisely to
+the process so that you can feedback-control the reclaim.
 
-Thanks
+> This does not distinguish the proactive memory reclaim status of different
+> cgroups.
 
-> 
-> > 
-> > Best regards
-> > -- 
-> > Marek Szyprowski, PhD
-> > Samsung R&D Institute Poland
-> > 
-> 
+	a
+	`- b
+	`- c
+
+Or do you mean that you write to a/memory.reclaim and want to observe
+respective results in {b,c}/memory.stat?
+
+(I think your addition to memory.stat is also natural. If the case above
+is the explanation why to prefer it over per-writer feedback, please
+mention that in next-rev commit message.)
+
+Thanks,
+Michal
+
+
+--2vr2zym4stjkfz33
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZ9qLJAAKCRAt3Wney77B
+Sdz/AQDecvjUIrBbge909wB9b5M9WL2CyeFc32hNE+fRPTIFHAEA6LHJUMgFCinA
++J9mJe//Ur+z8K0lQBS3T8v+E9CbmQQ=
+=VFn0
+-----END PGP SIGNATURE-----
+
+--2vr2zym4stjkfz33--
