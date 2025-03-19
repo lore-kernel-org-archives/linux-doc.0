@@ -1,303 +1,230 @@
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB1621A45A;
-	Wed, 19 Mar 2025 18:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885591DF271;
+	Wed, 19 Mar 2025 18:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742407914; cv=none; b=ARjE7o7ij2DSxhkdJwOn3zNfMxdP4U5ViVgLYyNW+4Gab/PCO8ttN84fAQD5pdeiGaQlyrt88vYtJUk4zoHh5NkHrjqF8gJ/aeil+pOS0f2pLzmQ1S4ExQQNcxSGVl7XH+B5JGVHFLUX4XTfWGJBImyAB2DtIvsxB7+NEdtJRAc=
+	t=1742408576; cv=none; b=PUoIdnr1v1Z1sj23j2SOULsb9IGZkgJrqv3nhMRbpQmn+ICMXmpsMlZ4/zlX3kDzALa33sQhngVCmrPx3pI/7Iq9rQ4AusveOKFBJXmQukq5mbN6KsJrqzs5q9sE5pHRb61c42bYfVqlDBIblbY+B5BdYtEQTED9m4eLm6SoIwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742407914; c=relaxed/simple;
-	bh=2JmBtFbxKKQjNhgOlVG8wfl7nFBIR0TxMAgRZRCiFxc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JHQasTViOVYje1jfehlHmqdMH4MVyTXEppuCSX0McYT+fpggdlE0v78aA7TKYzgp+f6tFpYySYboPcEWASY5Tc16OElhtKcr6uRq4V4kPIVzTxZoNG+ADsa8obVhqpyWlrWPC+nYE0WdV43ljX7w6OrUBEZchlCVH2NOGqijQMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=jlmSt5j0; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1742408576; c=relaxed/simple;
+	bh=EaxMpD9W8uZcvCwEnoAV9wzWk6ALOz5xdQZST97pXqc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NmhYk3mmvL+TG7iq//hZhM6KExVVP4RH5dj0X2CdeOsV4vQSvjtGU61Aena0n3r4mUWpUkAyju5AHGKvZ6qelk4AL1djrMfzUtHtkipQwi1R5b2z/9xnTKWYwRN5YxOFTn/W6ry6M9vDqYdKbFtHfAF2PrxzIzQ+MyrdreNtxHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VPQUjgJD; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="jlmSt5j0"
-Received: from localhost.localdomain (unknown [IPv6:2a05:f6c2:511b:0:cbc0:999f:73ad:33bd])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 3F57A2E095DB;
-	Wed, 19 Mar 2025 20:11:48 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742407910;
-	bh=dWLKrg1FIdgXcQO7bjik/WuI88OIFzXpgBzRQ4lKa5w=; h=From:To:Subject;
-	b=jlmSt5j0vQ/1DK57GxGESfdBensyYHh5Ns87Mhp5EjY8ZqhIr9eVFSwOBQrDfroDQ
-	 TMDHBKW9acXQyHZmtSUDWMJmxCR7psDmkA+4Yf/je2KcgqmsgPympehYqZxwvDsrbO
-	 8FlVROYYObpXNASx6p5IhuCU9wZ5XZP1tmHzHgiw=
-Authentication-Results: linux1587.grserver.gr;
-	spf=pass (sender IP is 2a05:f6c2:511b:0:cbc0:999f:73ad:33bd) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org
-Cc: linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
-	Derek J Clark <derekjohn.clark@gmail.com>,
-	Kevin Greenberg <kdgreenberg234@protonmail.com>,
-	Joshua Tam <csinaction@pm.me>,
-	Parth Menon <parthasarathymenon@gmail.com>,
-	Eileen <eileen@one-netbook.com>,
-	linux-kernel@vger.kernel.org,
-	sre@kernel.org,
-	linux@weissschuh.net,
-	ilpo.jarvinen@linux.intel.com,
-	hdegoede@redhat.com,
-	mario.limonciello@amd.com,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v7 14/14] platform/x86: oxpec: Add charge threshold and
- behaviour to OneXPlayer
-Date: Wed, 19 Mar 2025 19:10:41 +0100
-Message-ID: <20250319181044.392235-15-lkml@antheas.dev>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250319181044.392235-1-lkml@antheas.dev>
-References: <20250319181044.392235-1-lkml@antheas.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VPQUjgJD"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30761be8fcfso74561fa.0;
+        Wed, 19 Mar 2025 11:22:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742408573; x=1743013373; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VLkLWvkDX5FuoXTeYmRt1KErPEmtJ52plY5zQ5AVuCU=;
+        b=VPQUjgJDNvirToTFuvDYSKNkWlaaXWhRms8DP0ZPnIiRXml2HPp9ENEii9LEUNS5QO
+         ZGST7Va0W9+ZIIrqvS2pzNyw2ETMq4rmuoOjy6YrQ7cfCfpsWSgwEJZX71Y0o97/79LU
+         KcA1FHQo6hQrpcXnXJ3Tp7miEjZcm4cE+SWSyR5ZhBcgojaasjzPDSDTGwHkAM9BvkZz
+         17x0qM70/5B4KLxEZ2HiNBdLGqIsdTKVELGqEFUlZCsQ0VTfMRee+Mu9mmmLspiopuXS
+         VUucg6Wu64czmAfzQhYSGVanD9G3P3Fp5Zcjd0A+05zkV6TjrNp/QO31+U4tPkIiGCqD
+         kSMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742408573; x=1743013373;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VLkLWvkDX5FuoXTeYmRt1KErPEmtJ52plY5zQ5AVuCU=;
+        b=PZFVRdxDyCJNGRo1zmd5DFNyCUHShiCK9mESv1/yDztq+cGV3rejeM4nVcJpoE1lfx
+         M+OtOq6voSWJlsJu3Iyxxk46uEuqnqYnXy2s3eJbA4o/5NRhI8BX7Ie87Ylc8BfPqJ90
+         7iYwGTbqa/JoYdXjv0foyAFtQ024+fn4RlZxvkwXfQaDOLEJ+TzW+w7UfazZIvIQFqaW
+         FzbBgK35N6KghBOjkmCJMw0aVwxPq8nymjVRQvxq9gusykny0b38H0tgeLt5VWUAaeln
+         +o7/zx9xxj31iN86NcbzbXVqJi8Nxhs0fSaMbz/WXZfylZN9ZcxPTA5x6wQI/akLJzxV
+         EyHw==
+X-Forwarded-Encrypted: i=1; AJvYcCUpPHDMhFsrG2PUkfYnw+g3+2NAkPwtOCrJHl43NIbetSmW9YFhFDuyTDkw7c/vjH13mPEr6VQdFqh9PcLfB5ID@vger.kernel.org, AJvYcCV6GmPEbtB/b8OaHafHza0NSp087PGAAOPC7NjEIEpz+rjSWZR4zRzJWczDyPdX4eGVaiTZpVE31FN5eVrC7Q==@vger.kernel.org, AJvYcCWGQSW9m0HZ17vjm75ix2DvxIUreD91r+/vASi36pZ2ijrobifeocOTQeKfC8fs3egvk82KaFHXke94@vger.kernel.org, AJvYcCWdOE2CttomIWTKs+C5CIsRVB61nmhZEk3q1hUGzbrb3RwaAjcdLQcYCLuJkp9ANxEP+WEIKb4yXupscOlW@vger.kernel.org, AJvYcCXhp25JXvTXL2nAKaVV/SqnOr/k4tdLI+84l2YqiXwwJcL+7ICPz+ttVr6ZGgRjHAK3KqGufrcTP0A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/x4nfCeQYCy20LiYUoBdg/skKDCCzHsJ+men2vGpxDPZa9i9D
+	L7P1bn037LbasqBtOE+G035wOTO1u/tpOjwVtTTQiQpYdtV3DaJYfxb15Q9hJCCovYUv3HRHMl9
+	OXbnyKsJ+uWAu6mhHG/1idxyzNVQ=
+X-Gm-Gg: ASbGnct9C2+aDaZkQdw8nMiSItK50hoo8+4yB/0lHsp67d3ARS45gysDtckbyCJP3lI
+	RVi+oaoBe+cutA2vIwS4ecyM9CJwO6yt3jnIkTVKO25bhjwutnf5dPu9QHuyZFLM+CfJ+lTMH7R
+	r+JqV9l3MHW3ajiV974MlqFh7ia5s=
+X-Google-Smtp-Source: AGHT+IHrb+0+RW//aqL4hayGxKMukUv5CQcq0S1hKrCwbb+4QWIXnDL8Nl4vyyrv12iknXkUgnUUPfeHuJytfA0aC3k=
+X-Received: by 2002:a2e:8e86:0:b0:30b:f924:3554 with SMTP id
+ 38308e7fff4ca-30d6a40df68mr11816251fa.21.1742408572336; Wed, 19 Mar 2025
+ 11:22:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <174240790985.3578.1398837508702229341@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+References: <cover.1740139449.git.lorenzo.stoakes@oracle.com>
+ <521d99c08b975fb06a1e7201e971cc24d68196d1.1740139449.git.lorenzo.stoakes@oracle.com>
+ <857b2c3f-7be7-44e8-a825-82a7353665fb@redhat.com> <cd57ed04-c6b1-4df3-a5cb-a33078a08e74@lucifer.local>
+ <09d7ca19-e6cc-4aa9-8474-8975373bdebd@redhat.com>
+In-Reply-To: <09d7ca19-e6cc-4aa9-8474-8975373bdebd@redhat.com>
+From: Andrei Vagin <avagin@gmail.com>
+Date: Wed, 19 Mar 2025 11:22:40 -0700
+X-Gm-Features: AQ5f1JruWAyKDTdp0dEzeU8snZGpGJb9hqdzmlckS-ryauSv8oXkKubpwnOYi4E
+Message-ID: <CANaxB-yMBSFeYcTr-PaevooSeHUkCN9GWTUkLZUNW2vxKzm0sg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fs/proc/task_mmu: add guard region bit to pagemap
+To: David Hildenbrand <david@redhat.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Kalesh Singh <kaleshsingh@google.com>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Matthew Wilcox <willy@infradead.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, "Paul E . McKenney" <paulmck@kernel.org>, Jann Horn <jannh@google.com>, 
+	Juan Yescas <jyescas@google.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org, 
+	criu@lists.linux.dev, 
+	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>, Pavel Tikhomirov <snorcht@gmail.com>, 
+	Mike Rapoport <mike.rapoport@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-With the X1 (AMD), OneXPlayer added a charge limit and charge inhibit
-feature to their devices. Charge limit allows for choosing an arbitrary
-battery charge setpoint in percentages. Charge ihibit allows to instruct
-the device to stop charging either when it is awake or always.
+On Mon, Feb 24, 2025 at 2:39=E2=80=AFAM David Hildenbrand <david@redhat.com=
+> wrote:
+>
+> On 24.02.25 11:18, Lorenzo Stoakes wrote:
+> > On Mon, Feb 24, 2025 at 10:27:28AM +0100, David Hildenbrand wrote:
+> >> On 21.02.25 13:05, Lorenzo Stoakes wrote:
+> >>> Currently there is no means by which users can determine whether a gi=
+ven
+> >>> page in memory is in fact a guard region, that is having had the
+> >>> MADV_GUARD_INSTALL madvise() flag applied to it.
+> >>>
+> >>> This is intentional, as to provide this information in VMA metadata w=
+ould
+> >>> contradict the intent of the feature (providing a means to change fau=
+lt
+> >>> behaviour at a page table level rather than a VMA level), and would r=
+equire
+> >>> VMA metadata operations to scan page tables, which is unacceptable.
+> >>>
+> >>> In many cases, users have no need to reflect and determine what regio=
+ns
+> >>> have been designated guard regions, as it is the user who has establi=
+shed
+> >>> them in the first place.
+> >>>
+> >>> But in some instances, such as monitoring software, or software that =
+relies
+> >>> upon being able to ascertain the nature of mappings within a remote p=
+rocess
+> >>> for instance, it becomes useful to be able to determine which pages h=
+ave
+> >>> the guard region marker applied.
+> >>>
+> >>> This patch makes use of an unused pagemap bit (58) to provide this
+> >>> information.
+> >>>
+> >>> This patch updates the documentation at the same time as making the c=
+hange
+> >>> such that the implementation of the feature and the documentation of =
+it are
+> >>> tied together.
+> >>>
+> >>> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> >>> ---
+> >>
+> >>
+> >> Acked-by: David Hildenbrand <david@redhat.com>
+> >
+> > Thanks! :)
+> >>
+> >> Something that might be interesting is also extending the PAGEMAP_SCAN
+> >> ioctl.
+> >
+> > Yeah, funny you should mention that, I did see that, but on reading the=
+ man
+> > page it struck me that it requires the region to be uffd afaict? All th=
+e
+> > tests seem to establish uffd, and the man page implies it:
+> >
+> >         To start tracking the written state (flag) of a page or range o=
+f
+> >         memory, the UFFD_FEATURE_WP_ASYNC must be enabled by UFFDIO_API
+> >         ioctl(2) on userfaultfd and memory range must be registered wit=
+h
+> >         UFFDIO_REGISTER ioctl(2) in UFFDIO_REGISTER_MODE_WP mode.
+> >
+> > It would be a bit of a weird edge case to add support there. I was exci=
+ted
+> > when I first saw this ioctl, then disappointed afterwards... but maybe =
+I
+> > got it wrong?
 
-This feature was then extended for the F1Pro as well. OneXPlayer also
-released BIOS updates for the X1 Mini, X1 (Intel), and F1 devices that
-add support for this feature. Therefore, enable it for all F1 and
-X1 devices.
+> >
+>
+> I never managed to review that fully, but I thing that
+> UFFD_FEATURE_WP_ASYNC thingy is only required for PM_SCAN_CHECK_WPASYNC
+> and PM_SCAN_WP_MATCHING.
+>
+> See pagemap_scan_test_walk().
+>
+> I do recall that it works on any VMA.
+>
+> Ah yes, tools/testing/selftests/mm/vm_util.c ends up using it for
+> pagemap_is_swapped() and friends via page_entry_is() to sanity check
+> that what pagemap gives us is consistent with what pagemap_scan gives us.
+>
+> So it should work independent of the uffd magic.
+> I might be wrong, though ...
 
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/platform/x86/Kconfig |   1 +
- drivers/platform/x86/oxpec.c | 160 ++++++++++++++++++++++++++++++++++-
- 2 files changed, 157 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 82cfc76bc5c9f..f4d993658c01f 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -1189,6 +1189,7 @@ config SEL3350_PLATFORM
- config OXP_EC
- 	tristate "OneXPlayer EC platform control"
- 	depends on ACPI_EC
-+	depends on ACPI_BATTERY
- 	depends on HWMON
- 	depends on X86
- 	help
-diff --git a/drivers/platform/x86/oxpec.c b/drivers/platform/x86/oxpec.c
-index 2e4c7e6188f08..3c445932fccbb 100644
---- a/drivers/platform/x86/oxpec.c
-+++ b/drivers/platform/x86/oxpec.c
-@@ -24,6 +24,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/processor.h>
-+#include <acpi/battery.h>
- 
- /* Handle ACPI lock mechanism */
- static u32 oxp_mutex;
-@@ -60,6 +61,7 @@ enum oxp_board {
- };
- 
- static enum oxp_board board;
-+static struct device *oxp_dev;
- 
- /* Fan reading and PWM */
- #define OXP_SENSOR_FAN_REG             0x76 /* Fan reading is 2 registers long */
-@@ -93,6 +95,23 @@ static enum oxp_board board;
- #define OXP_X1_TURBO_LED_OFF           0x01
- #define OXP_X1_TURBO_LED_ON            0x02
- 
-+/* Battery extension settings */
-+#define EC_CHARGE_CONTROL_BEHAVIOURS	(BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO)             | \
-+					 BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE)    | \
-+					 BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE_AWAKE))
-+
-+#define OXP_X1_CHARGE_LIMIT_REG      0xA3 /* X1 charge limit (%) */
-+#define OXP_X1_CHARGE_INHIBIT_REG     0xA4 /* X1 bypass charging */
-+
-+#define OXP_X1_CHARGE_INHIBIT_MASK_AWAKE 0x01
-+/*
-+ * X1 Mask is 0x0A, OneXFly F1Pro is just 0x02
-+ * but the extra bit on the X1 does nothing.
-+ */
-+#define OXP_X1_CHARGE_INHIBIT_MASK_OFF 0x02
-+#define OXP_X1_CHARGE_INHIBIT_MASK_ALWAYS (OXP_X1_CHARGE_INHIBIT_MASK_AWAKE | \
-+	OXP_X1_CHARGE_INHIBIT_MASK_OFF)
-+
- static const struct dmi_system_id dmi_table[] = {
- 	{
- 		.matches = {
-@@ -507,6 +526,129 @@ static ssize_t tt_led_show(struct device *dev,
- 
- static DEVICE_ATTR_RW(tt_led);
- 
-+/* Callbacks for charge behaviour attributes */
-+static bool oxp_psy_ext_supported(void)
-+{
-+	switch (board) {
-+	case oxp_x1:
-+	case oxp_fly:
-+		return true;
-+	default:
-+		break;
-+	}
-+	return false;
-+}
-+
-+static int oxp_psy_ext_get_prop(struct power_supply *psy,
-+				       const struct power_supply_ext *ext,
-+				       void *data,
-+				       enum power_supply_property psp,
-+				       union power_supply_propval *val)
-+{
-+	long raw_val;
-+	int ret;
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD:
-+		ret = read_from_ec(OXP_X1_CHARGE_LIMIT_REG, 1, &raw_val);
-+		if (ret)
-+			return ret;
-+		if (raw_val > 100)
-+			return -EINVAL;
-+		val->intval = raw_val;
-+		return 0;
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		ret = read_from_ec(OXP_X1_CHARGE_INHIBIT_REG, 1, &raw_val);
-+		if (ret)
-+			return ret;
-+		if ((raw_val & OXP_X1_CHARGE_INHIBIT_MASK_ALWAYS) ==
-+		    OXP_X1_CHARGE_INHIBIT_MASK_ALWAYS)
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE;
-+		else if ((raw_val & OXP_X1_CHARGE_INHIBIT_MASK_AWAKE) ==
-+			 OXP_X1_CHARGE_INHIBIT_MASK_AWAKE)
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE_AWAKE;
-+		else
-+			val->intval = POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO;
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int oxp_psy_ext_set_prop(struct power_supply *psy,
-+				       const struct power_supply_ext *ext,
-+				       void *data,
-+				       enum power_supply_property psp,
-+				       const union power_supply_propval *val)
-+{
-+	long raw_val;
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD:
-+		if (val->intval > 100)
-+			return -EINVAL;
-+		return write_to_ec(OXP_X1_CHARGE_LIMIT_REG, val->intval);
-+	case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
-+		switch (val->intval) {
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO:
-+			raw_val = 0;
-+			break;
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE_AWAKE:
-+			raw_val = OXP_X1_CHARGE_INHIBIT_MASK_AWAKE;
-+			break;
-+		case POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE:
-+			raw_val = OXP_X1_CHARGE_INHIBIT_MASK_ALWAYS;
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+
-+		return write_to_ec(OXP_X1_CHARGE_INHIBIT_REG, raw_val);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int oxp_psy_prop_is_writeable(struct power_supply *psy,
-+					    const struct power_supply_ext *ext,
-+					    void *data,
-+					    enum power_supply_property psp)
-+{
-+	return true;
-+}
-+
-+static const enum power_supply_property oxp_psy_ext_props[] = {
-+	POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR,
-+	POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD,
-+};
-+
-+struct power_supply_ext oxp_psy_ext = {
-+	.name			= "oxp-charge-control",
-+	.properties		= oxp_psy_ext_props,
-+	.num_properties		= ARRAY_SIZE(oxp_psy_ext_props),
-+	.charge_behaviours	= EC_CHARGE_CONTROL_BEHAVIOURS,
-+	.get_property		= oxp_psy_ext_get_prop,
-+	.set_property		= oxp_psy_ext_set_prop,
-+	.property_is_writeable	= oxp_psy_prop_is_writeable,
-+};
-+
-+static int oxp_add_battery(struct power_supply *battery, struct acpi_battery_hook *hook)
-+{
-+	return power_supply_register_extension(battery, &oxp_psy_ext, oxp_dev, NULL);
-+}
-+
-+static int oxp_remove_battery(struct power_supply *battery, struct acpi_battery_hook *hook)
-+{
-+	power_supply_unregister_extension(battery, &oxp_psy_ext);
-+	return 0;
-+}
-+
-+static struct acpi_battery_hook battery_hook = {
-+	.add_battery	= oxp_add_battery,
-+	.remove_battery	= oxp_remove_battery,
-+	.name		= "OneXPlayer Battery",
-+};
-+
- /* PWM enable/disable functions */
- static int oxp_pwm_enable(void)
- {
-@@ -845,12 +987,22 @@ static const struct hwmon_chip_info oxp_ec_chip_info = {
- static int oxp_platform_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
--	struct device *hwdev;
-+	int ret;
-+
-+	oxp_dev = dev;
-+	ret = PTR_ERR_OR_ZERO(devm_hwmon_device_register_with_info(
-+		dev, "oxp_ec", NULL, &oxp_ec_chip_info, NULL));
- 
--	hwdev = devm_hwmon_device_register_with_info(dev, "oxpec", NULL,
--						     &oxp_ec_chip_info, NULL);
-+	if (ret)
-+		return ret;
- 
--	return PTR_ERR_OR_ZERO(hwdev);
-+	if (oxp_psy_ext_supported()) {
-+		ret = devm_battery_hook_register(dev, &battery_hook);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
- }
- 
- static struct platform_driver oxp_platform_driver = {
--- 
-2.48.1
+PAGEMAP_SCAN can work without the UFFD magic. CRIU utilizes PAGEMAP_SCAN
+as a more efficient alternative to /proc/pid/pagemap:
+https://github.com/checkpoint-restore/criu/blob/d18912fc88f3dc7bde5fdfa3575=
+691977eb21753/criu/pagemap-cache.c#L178
 
+For CRIU, obtaining information about guard regions is critical.
+Without this functionality in the kernel, CRIU is broken. We probably shoul=
+d
+consider backporting these changes to the 6.13 and 6.14 stable branches.
+
+>
+> >>
+> >>
+> >> See do_pagemap_scan().
+> >>
+> >> The benefit here might be that one could effectively search/filter for=
+ guard
+> >> regions without copying 64bit per base-page to user space.
+> >>
+> >> But the idea would be to indicate something like PAGE_IS_GUARD_REGION =
+as a
+> >> category when we hit a guard region entry in pagemap_page_category().
+> >>
+> >> (the code is a bit complicated, and I am not sure why we indicate
+> >> PAGE_IS_SWAPPED for non-swap entries, likely wrong ...)
+> >
+> > Yeah, I could go on here about how much I hate how uffd does a 'paralle=
+l
+> > implementation' of a ton of stuff and then chucks in if (uffd) { go do
+> > something weird + wonderful } but I'll resist the urge :P :))
+> >
+> > Do you think, if it were uffd-specific, this would be useful?
+>
+> If it really is completely uffd-specific for now, I agree that we should
+> rather leave it alone.
+>
+> >
+> > At any rate, I'm not sure it's _hugely_ beneficial in this form as page=
+map
+> > is binary in any case so you're not having to deal with overhead of par=
+sing
+> > a text file at least!
+>
+> My thinking was, that if you have a large VMA, with ordinary pagemap you
+> have to copy 8byte per entry (and have room for that somewhere in user
+> space). In theory, with the scanning feature, you can leave that ...
+> scanning to the kernel and don't have to do any copying/allocate space
+> for it in user space etc.
+
+PAGEMAP_SCAN doesn't have this issue and it was one of the reasons to
+implement it.
+
+Thanks,
+Andrei
