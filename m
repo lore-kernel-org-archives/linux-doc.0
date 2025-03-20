@@ -1,58 +1,58 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857B52222DD
-	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 22:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C213221F3C
+	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 22:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742509812; cv=none; b=G8OZRds5dGpmdv6TwtexRA+pw4t0XgNiHYL6hsv3KGyG7goebYtWAibHzUtXTi2xR/xs/N1cLjY6BVKqHZ4jFOYw356NLByo7iAZiAXvY9zJf4H1A9vReOnQAGDGejl6c8JVsMBHCnXEDNVDuz7f1c/YKNp8HMcCPPrhUDj+j7Q=
+	t=1742509887; cv=none; b=Hdn4wrmyzmShjiXTU+du1XG+TRVXBEMirvHqk1KApMRDAkk59iYG8jX+cbLYvK7U+BUXBGe04hZAxcvkp+n/NvuPCDCzApI0Uy5GunqvE8giNR+2xRS8fArrHQ69h2IDXrOE4Zk3Zzl6x72EezCvKjkcgGEP3XgJoVnuJIKr8ME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742509812; c=relaxed/simple;
-	bh=vflRrrsnCM79fxzO5pPrxOluLycregqyFFnGs8AHfO4=;
+	s=arc-20240116; t=1742509887; c=relaxed/simple;
+	bh=IrTDX1xRoCekq5NEqfi8Ke8ahM5ujPZ5//oKaibGbYo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hUGijhHISJdfRsrkuecIVQtHSpaS7nS7hPF9DOsJ0mZM4DCOUPeTe2ZxIqWHWZCspP2sIDDszQf/eh5YHvYXxUeXDVM3QDNHsC0cbTbgLRcR0A7+ikyQ8BkcTiR70HJ17/GFK12DL1prjC+JUGNmnWpnYp94ebCbTm1V7PJARb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=oR5yI+dS; arc=none smtp.client-ip=209.85.219.176
+	 To:Cc:Content-Type; b=nYHOZY3QRO7UdNc/1Twvpw5MV6EE/yGs6ox7/2zoeVkbxxPC2k0KLvN8CAwmSO22JmJ0HP41+aDaCvoheQeEajPHVQIflSwdcNLUDUcy+qBaEUTT612Cpi/SBGPphbe0iIl0x3T5Iq5sGs4biy+7vtyYIjJpa5UKdtemCnMgcVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=middonsV; arc=none smtp.client-ip=209.85.128.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="oR5yI+dS"
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e63a159525bso926387276.2
-        for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 15:30:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="middonsV"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6ff0c9d1761so12956367b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 15:31:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1742509809; x=1743114609; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1742509884; x=1743114684; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JhKgSRxm2mNSCqvm5Zj9K3Ods9oUsUl94h74lzVe+vg=;
-        b=oR5yI+dSS8gh9QJrj8stngfC1e1E+6lVfe9TLaT3inCCOBF3VX6n58nK5RDgnn6BRb
-         7MKRyLq6HR550oLR2qcCUp/q5oiA3n9Q6S6eiG0kdyuarGJ9f40VCcozgr/FlwGGCfIk
-         1uB+RNnwakW+ZBanEjgi8uwcGmwgFjZuFRVzKpofpSiJJ/Oncb3mK29RR5+/0F6OaZ8Y
-         Hzrm9wWB9AvqSSeQU4JLTP/ipfZHBirhxZzl3uEnEQjod6dXsbOMKrkgnB0RjLy0TCX6
-         ufznOfCg1JmEfdpOIbAm8+BopF7TPAd64traBoIIjVm7CCUS5MQ+lJMy2sde1Kwk61bu
-         UIvw==
+        bh=IofsmlVDJhRwn5HSuRGp3pTAenUeDGvG4AuBmId2Qpg=;
+        b=middonsVSenVKcFMlRa4WpDsbHQFQfyLWM4nVOY+yQJ7ytYvfL9BP7Po3ZN9SZMxdm
+         1JLrKbT79ZGfc/jVHOsk2gj9Eu2Ti3k4KUgmh0xRo+o95hzrSQxWyd8HX7Mj8SNwoscl
+         QG8qq+bUmKJgxmrefRuOUsOcLo/4008DBjsFZpDtOkW/5YR7xyER+QkI3P8vOxImsrX0
+         hMzIqIuSdU/zxda0yZgdRmfJuQjmIcKqDY9MZ1Qe1WpMoszIRbnVdnQJZRDHmwT0Jvv0
+         6SBcgABG9ZjRXiqZQGvvwXkggcE8CFhoBFcgA+CHJV+g0vvSTXeArcwxfg+CpbOWzxC0
+         lE0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742509809; x=1743114609;
+        d=1e100.net; s=20230601; t=1742509884; x=1743114684;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JhKgSRxm2mNSCqvm5Zj9K3Ods9oUsUl94h74lzVe+vg=;
-        b=mIxv4uvy/Rt11J0t+3sPM3VDD4QnUzLadHyVJPkqgyQR6s97HtX8vjb7su5l2OEYz2
-         RHiJPQHm+zQVUM6OM7HkCs/HPVGo35nHKBU28nHvn9m7aN+CWOUhlgFli5jedqzvaHIX
-         5G5iz+CPPFeIbeasEk37wrs1rCuG6IuAW1fqeTuQkXD15878jxNeSkLvZngj7eNMvUHE
-         zzTT9+Dy27uirOPhYIY2Rvpzy7H4PM9B3vkg5piJclORDgFqH0Wr6mJyLWbxJpiO3F6S
-         t70ODZjx1gMLK2a8E71y4wvpAfP0yE0Nv5VySGXwBkril3cSoRvrHuNTM80WV7AKYxA4
-         m0Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCVrZfWW2g0ayDjByNZ/MLw4HwJmGhRkEXIJ4Sjz9M7oV9d4ChOjxM1DzppAk8KWNuvJT9EFdDnjDCg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrtH4Y+6Hmf86pQEkMz80SIE4bU0I+f/7Z32qHjv404KN/M8SU
-	oXUDRFgDYozArvEObG4lKWgjucvmn/tAknoXeAiILyLdeVeww18IPdqrQeebGjnDLlzU4aN47RL
-	OR3y1Y6cpkO8sR0JZ0r8s4u9pu9QJr8PR0kHJRA==
-X-Gm-Gg: ASbGncuGL5zTJhxv6GbkRhGaX/D5/TpdNvwhEVSm/ZXKia+5ZZhvOmNP6Qlmv9ExlYz
-	hU04BXUvuTYFXWqWP6PmYZCu03r9EUcVf5YODBNpU+lqnaKeBJ76+lYZgasCQobXZefZQLWGL/T
-	dUS6mTLscr/dOEPOKZwR8jwjqn/Gw=
-X-Google-Smtp-Source: AGHT+IEQPzBHifdPzQrM8MhMztEZK/jnjn8OcNor9KhvI4hEsyHN6f7exl2vjGFEVUFZVWt5FCpCyI9kZub1gEwdZzk=
-X-Received: by 2002:a05:6902:a05:b0:e60:99d2:cbc2 with SMTP id
- 3f1490d57ef6-e66a4db6ba8mr1114497276.25.1742509809144; Thu, 20 Mar 2025
- 15:30:09 -0700 (PDT)
+        bh=IofsmlVDJhRwn5HSuRGp3pTAenUeDGvG4AuBmId2Qpg=;
+        b=InZ78Y2cAMIR+kU0CIO2Ztu8QPwSWYqMGBU4MZ82ibTe6P80CLKebRtueepxsokctH
+         GFtcCtvLvXGSrg+GrE3l38CsnhHIQmkNZctGivRrE2YsOZxaFy3CZTx0A3E4k4tUAFDJ
+         WlZokRA4xHP0JY06ZG2wLxthIGU8AFV/oaPNDx3HM+jbXQAH+aozrjVf7huAGnoYIvhi
+         AKk2fvmfSIdyDxtOeW5sN28aQjxG5czdmHVzFUs09JBWZkrx74WdYcwH54AcHXVsUgMx
+         4lhpYNl9mSKNkIFEFPhLBl7FbVMdeS6cBUNUDeJuFJNNiUdlEaf/WED4wHtygl5VRa+a
+         KT5g==
+X-Forwarded-Encrypted: i=1; AJvYcCUtnErdbezJ9u1SkhYITyNPwAiB0KxW7OeHrliLUa8i2aRwcKKYyZxSs3j4Tusu+P2jeA/N4fWRXCU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiVJxOol/0yKwQlEI24XfKU7SeiHZqqXiBu1Gw2cXynJpqMWyq
+	3K4yXR+xJYjfc4ElNRnCPRYpTzVvZ+Qt5DGCRBJDzLoHNR2eMVZ1dJOXu0rNZWlogIqaapQkqUr
+	DcULAIei/XSpTNAQmzDmGXGv41nRatlUmF9y8cQ==
+X-Gm-Gg: ASbGncuHN3zhiImsxfW3MuISG92qA84/oV+K5wwFKZqJOmxdJhtKCYI7EPlNSYDllNE
+	iLb362xUy3UhqJpuDwBPdJMsR6yFasRYDL5A+25851V806ih4utjBZgLC1fdgbnsIvRor2vdFlZ
+	9tguqp7kHNUQwJ74M5wpFulUGrJqg=
+X-Google-Smtp-Source: AGHT+IHFNCvqeNOK7sMsBmLPvgYWG7exVxSWvS9DNLcUgNmS336dZeeGcZ6AHSeGvrnkMyVPDEN8X9dkpWdV3lB6eDg=
+X-Received: by 2002:a05:690c:3809:b0:6e2:1527:446b with SMTP id
+ 00721157ae682-700babe54c1mr17364757b3.3.1742509884010; Thu, 20 Mar 2025
+ 15:31:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,14 +60,14 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
- <20250314-v5_user_cfi_series-v12-25-e51202b53138@rivosinc.com> <D8LESTM58PV0.7F6M6XYSL4BU@ventanamicro.com>
-In-Reply-To: <D8LESTM58PV0.7F6M6XYSL4BU@ventanamicro.com>
+ <20250314-v5_user_cfi_series-v12-23-e51202b53138@rivosinc.com> <D8LF0RDZ6809.1I3MCCVSHRSQ2@ventanamicro.com>
+In-Reply-To: <D8LF0RDZ6809.1I3MCCVSHRSQ2@ventanamicro.com>
 From: Deepak Gupta <debug@rivosinc.com>
-Date: Thu, 20 Mar 2025 15:29:55 -0700
-X-Gm-Features: AQ5f1JpPoZ6b9vZ5xwZpI2oxEH4zoWU0U5E6Pfiy0DThCuNWaEl3L1CWR9SNfKo
-Message-ID: <CAKC1njQHu1UeSSApWHXedEURBezuQL1BDcrpsSfi=D0JmDFX8A@mail.gmail.com>
-Subject: Re: [PATCH v12 25/28] riscv: create a config for shadow stack and
- landing pad instr support
+Date: Thu, 20 Mar 2025 15:31:09 -0700
+X-Gm-Features: AQ5f1JrziMLdrjsoBdVgxAHm84jf6CZ2h4oWTVpyzciuX161uoZpfiFXMbIZdgY
+Message-ID: <CAKC1njQR9yARvWffjznjpeZK5zLFpg0-qCUo25_8niH29YL6uA@mail.gmail.com>
+Subject: Re: [PATCH v12 23/28] riscv: kernel command line option to opt out of
+ user cfi
 To: =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
 	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
@@ -89,92 +89,81 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borisl
 	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
 	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
 	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
-	Zong Li <zong.li@sifive.com>, linux-riscv <linux-riscv-bounces@lists.infradead.org>
+	linux-riscv <linux-riscv-bounces@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 20, 2025 at 2:25=E2=80=AFPM Radim Kr=C4=8Dm=C3=A1=C5=99 <rkrcma=
+On Thu, Mar 20, 2025 at 2:35=E2=80=AFPM Radim Kr=C4=8Dm=C3=A1=C5=99 <rkrcma=
 r@ventanamicro.com> wrote:
 >
-> 2025-03-14T14:39:44-07:00, Deepak Gupta <debug@rivosinc.com>:
-> > This patch creates a config for shadow stack support and landing pad in=
-str
-> > support. Shadow stack support and landing instr support can be enabled =
-by
-> > selecting `CONFIG_RISCV_USER_CFI`. Selecting `CONFIG_RISCV_USER_CFI` wi=
-res
-> > up path to enumerate CPU support and if cpu support exists, kernel will
-> > support cpu assisted user mode cfi.
+> 2025-03-14T14:39:42-07:00, Deepak Gupta <debug@rivosinc.com>:
+> > This commit adds a kernel command line option using which user cfi can =
+be
+> > disabled.
 > >
-> > If CONFIG_RISCV_USER_CFI is selected, select `ARCH_USES_HIGH_VMA_FLAGS`=
-,
-> > `ARCH_HAS_USER_SHADOW_STACK` and DYNAMIC_SIGFRAME for riscv.
-> >
-> > Reviewed-by: Zong Li <zong.li@sifive.com>
 > > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 > > ---
-> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > @@ -250,6 +250,26 @@ config ARCH_HAS_BROKEN_DWARF5
-> > +config RISCV_USER_CFI
-> > +     def_bool y
-> > +     bool "riscv userspace control flow integrity"
-> > +     depends on 64BIT && $(cc-option,-mabi=3Dlp64 -march=3Drv64ima_zic=
-fiss)
-> > +     depends on RISCV_ALTERNATIVE
-> > +     select ARCH_HAS_USER_SHADOW_STACK
-> > +     select ARCH_USES_HIGH_VMA_FLAGS
-> > +     select DYNAMIC_SIGFRAME
-> > +     help
-> > +       Provides CPU assisted control flow integrity to userspace tasks=
-.
-> > +       Control flow integrity is provided by implementing shadow stack=
- for
-> > +       backward edge and indirect branch tracking for forward edge in =
-program.
-> > +       Shadow stack protection is a hardware feature that detects func=
-tion
-> > +       return address corruption. This helps mitigate ROP attacks.
-> > +       Indirect branch tracking enforces that all indirect branches mu=
-st land
-> > +       on a landing pad instruction else CPU will fault. This mitigate=
-s against
-> > +       JOP / COP attacks. Applications must be enabled to use it, and =
-old user-
-> > +       space does not get protection "for free".
-> > +       default y
+> >  arch/riscv/kernel/usercfi.c | 21 +++++++++++++++++++++
+> >  1 file changed, 21 insertions(+)
+> >
+> > diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
+> > index d31d89618763..813162ce4f15 100644
+> > --- a/arch/riscv/kernel/usercfi.c
+> > +++ b/arch/riscv/kernel/usercfi.c
+> > @@ -17,6 +17,8 @@
+> >  #include <asm/csr.h>
+> >  #include <asm/usercfi.h>
+> >
+> > +bool disable_riscv_usercfi;
+> > +
+> >  #define SHSTK_ENTRY_SIZE sizeof(void *)
+> >
+> >  bool is_shstk_enabled(struct task_struct *task)
+> > @@ -396,6 +398,9 @@ int arch_set_shadow_stack_status(struct task_struct=
+ *t, unsigned long status)
+> >       unsigned long size =3D 0, addr =3D 0;
+> >       bool enable_shstk =3D false;
+> >
+> > +     if (disable_riscv_usercfi)
+> > +             return 0;
+> > +
+> >       if (!cpu_supports_shadow_stack())
+> >               return -EINVAL;
+> >
+> > @@ -475,6 +480,9 @@ int arch_set_indir_br_lp_status(struct task_struct =
+*t, unsigned long status)
+> >  {
+> >       bool enable_indir_lp =3D false;
+> >
+> > +     if (disable_riscv_usercfi)
+> > +             return 0;
+> > +
+> >       if (!cpu_supports_indirect_br_lp_instr())
+> >               return -EINVAL;
+> >
+> > @@ -507,3 +515,16 @@ int arch_lock_indir_br_lp_status(struct task_struc=
+t *task,
+> >
+> >       return 0;
+> >  }
+> > +
+> > +static int __init setup_global_riscv_enable(char *str)
+> > +{
+> > +     if (strcmp(str, "true") =3D=3D 0)
+> > +             disable_riscv_usercfi =3D true;
+> > +
+> > +     pr_info("Setting riscv usercfi to be %s\n",
+> > +             (disable_riscv_usercfi ? "disabled" : "enabled"));
+> > +
+> > +     return 1;
+> > +}
+> > +
+> > +__setup("disable_riscv_usercfi=3D", setup_global_riscv_enable);
 >
-> A high level question to kick off my review:
+> I'd prefer two command line options instead.
+
+One for zicfilp and one for zicfiss ?
 >
-> Why are landing pads and shadow stacks merged together?
->
-> Apart from adding build flexibility, we could also split the patches
-> into two isolated series, because the features are independent.
+> In any case, I think we still document params in kernel-parameters.txt.
 
-Strictly from CPU extensions point of view they are independent features.
-Although from a usability point of view they complement each other. A user
-wanting to enable support for control flow integrity wouldn't be enabling
-only landing pad and leaving return flow open for an attacker and vice-vers=
-a.
-That's why I defined a single CONFIG for CFI.
-
-From organizing patches in the patch series, shadow stack and landing
-pad patches do not cross into each other and are different from each
-other except dt-bindings, hwprobe, csr definitions. I can separate them
-out as well if that's desired.
-
-Furthermore, I do not see an implementation only implementing zicfilp
-while not implementing zicfiss. There is a case of a nommu case where
-only zicfilp might be implemented and no zicfiss. However that's the case
-which is anyways riscv linux kernel is not actively being tested. IIRC,
-it was (nommu linux) considered to be phased out/not supported as well.
-
-We could have two different configs but I don't see what would serve
-apart from the ability to build support for landing pad and shadow stack
-differently. As I said from a usability point of view both features
-are complimenting
-to each other rather than standing out alone and providing full protection.
-
-A kernel is built with support for enabling both features or none. Sure use=
-r
-can use either of the prctl to enable either of the features in whatever
-combination they see fit.
+Noted, will do that.
