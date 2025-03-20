@@ -1,452 +1,275 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806482144A2
-	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 01:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302725D477
+	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 02:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742435788; cv=none; b=FD2sVOlDYcNT8AoyWjb5unNE5ZdLMcVo7bDsltLu4BXGC0w8z7tAELnkNEGkuNWrJUKcH8kh/3xGw86EGKjDXSx0XCa8kiTJnEDFnZZGHO9joqSI9YSH2d9QJ5ojD2Ytxq4KBVOYT4xyEc33KdFLzhHwSZPLkupVZ7w7yfmAFRM=
+	t=1742438419; cv=none; b=Q0P/IYw9G0d0GJLqcAcVFCho1BjQDi9wPqkWgDYd19opKnjRZiI40judVOGum+CIQPoJ9NMGiES8PvlHzO3bEESmr7YuPl/rqA1OOkLo2Q1wI2CCwpUias7s7FZ/nIvfvIuHnqqSM+sGGUGDv/KWsE2OMEJHGmcxtDeZgi7urK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742435788; c=relaxed/simple;
-	bh=GQpum+kbkQ32yG9pKvwkRymxFMOXJhqs/4V43pYjbkw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=PDFofEf9c4uRziabM8rWb36C/rHkL+9i4VOZUW5qCeecmRtS6GQoZ90FWy3/2ejZivGs5zmTThQ/u+X1w8ZBQNay51sLzA3iEBkc/a2NQQ9t0reHOKlKqAVR9ab2PluXpzuW3IUpsEAIs40WIr2v2QDVKIY31Fx8RLGK2MvHqZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vJ5AfgKh; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
+	s=arc-20240116; t=1742438419; c=relaxed/simple;
+	bh=iS8K2ad2L9fb7Amq/QOAuUaMBSjz/+OSRSXUw7oHdt0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=tKGzaUTmLIARvGD6RRSRJI+KgJ6HPQFStNClzNvpSa45StDSu2P5qXD8FXnIyt7RPO3KBTJZpPxuADVhgoKoOtFzs6EufLR0B+jNRpV/owDGJfe+XxDyEEWE7Ema7bZ3vACXvb6mIvsTob0lRWtsWMiKfatn/L/XzwzOzT6SA1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=HAQfnq0O; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vJ5AfgKh"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-22650077995so5175895ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 18:56:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="HAQfnq0O"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7c559b3eb0bso15380185a.1
+        for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 19:40:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1742435786; x=1743040586; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iApjQxSPhTF/tl2rkU2LC3L+Sofo1JAgj9zbjrL2yA0=;
-        b=vJ5AfgKhAU8pifqw8o6YE8VK6vuM8JQVtU+/CllcG77JfTZgTo5l6oX+oJRBXwv/mx
-         1A9Q7X7w2DS3wBtdeIY0KyOlOsfs8nusTJItPxufVol6DrRYW8E+wXkkejZlVFTCcbsB
-         goac61gTyUftMRURVq0yERLhOkamOVaXfXBYzpOGbaXtNbuKQNwy13Z/rzdQaSnA1kSq
-         obXux9KsWFwZZ1YdsbcR2Ux+Ro18YVY2m+qDaWMIznkSsiYjACByXJEVUPaUAi38ifVB
-         a0f2uNMXh5hUh5ngAUx5AwglHgUJbIkCx6XlCFpjhSUfGpzJhTFi9yhZGyGBvUIosd1y
-         Kbng==
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1742438415; x=1743043215; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Oh+wZ0iaEUOZozW+9qtsMspd/PywyTewkvRRfAF3O8=;
+        b=HAQfnq0ObAGxPxQ3R1G8EpwecFyN/Xh/9ufh3lD4vyRshO0LpNUHmO1DAHPEQlCKk0
+         Tg2DqolOXc7OtazFrc7kO7OPAWF1YWk7iw9y2g7WAAUYcREBR2J8h+GZc4TQNLI7hBIj
+         jybTdUpm0c+4kLH5hRfOx1Y747Rfv9E8wNEdBKmUztBaW9oi3mVfF4lvFeypEskG00Kq
+         zKD+EJXlA1/uRMmL1NaoyyXhfWmdFUXZKXLzj5ZmAQXUfNyJJYIfD5L/EESSkowidiud
+         a3nEC8fToWY8p7FP6TZDh9w40S/3ejyvBxshoWHwCdIoxZvTfKQ99hiiT8Q1IdAwQkXQ
+         L0IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742435786; x=1743040586;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iApjQxSPhTF/tl2rkU2LC3L+Sofo1JAgj9zbjrL2yA0=;
-        b=HHLk31zS1jf85SfQW4kZpl+WUi0t74UDTz/RydNE+nnXSRC8DK1K950XpcHXvPnDBw
-         d1iyXt81giz2b0Yj14tsi4+5RnyP07JObnEh6h+6M4MMxdqOSfT6U9UEIEshwEnSNDAe
-         +LfWDOteiPXbEuAwpQuTPqb6w4/4auldl/KaOCevn1uuMs+ZNSrf7bbLM2KWkxqu5l4V
-         arwyvF44uWGMzeDSYCo64GQahA2zHsWZRS6wzzC/ILWO8Qy6YLxomZBJFgPJKtloKVQu
-         IWiGIjk/suwfH18bYqkYcLZ9w5NggANJr3C8K+yPQCXCaNfpzOXe8pEw5Mv1+GLpxNrT
-         Brgw==
-X-Forwarded-Encrypted: i=1; AJvYcCUnUoMy2p4mNlpM/fUwykk+23B2IK+WOrIwHehPqululntWOh66yBjY9Pu7gPXuJv3j+jj4RTjG7uM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjiaY26e5urJTO1I0jv4s8ZvItbvxFCaGDV5KHqz4o+WFAPycu
-	HMwCDX2ogfN06cUFUYoK/oTZNeID8bS2WxU6GunubiN0dpVUCxlVO33W0DxxStboVZo/9CDhN/7
-	m+oBHtA3ePiFG1t8MYg==
-X-Google-Smtp-Source: AGHT+IGFSfyI7p/Qh0SdAoE1uQ2Phsg//Ps3doqJu8c++ecy3AeyWqH3lvhpNMjdI0PgAE047ECxcGLwH834CeR5
-X-Received: from pjbpw8.prod.google.com ([2002:a17:90b:2788:b0:2fa:15aa:4d2b])
- (user=changyuanl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:22c1:b0:223:fd7f:2752 with SMTP id d9443c01a7336-22649a34325mr73764035ad.29.1742435786002;
- Wed, 19 Mar 2025 18:56:26 -0700 (PDT)
-Date: Wed, 19 Mar 2025 18:55:51 -0700
-In-Reply-To: <20250320015551.2157511-1-changyuanl@google.com>
+        d=1e100.net; s=20230601; t=1742438415; x=1743043215;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Oh+wZ0iaEUOZozW+9qtsMspd/PywyTewkvRRfAF3O8=;
+        b=ND1yq/zlnEzFOMuN65wz0L6TIyFGb40r2+n+CueQj9Rejh/rBO+wNEmDO1QriMfFDp
+         myi9jOR0JVNaQ9MTxNfSnfGnA0mwHUaCVkCm/w8t6nJqNOCSdnGpHD36nmDwDXZkEUL3
+         tMIVXMa3Qd9Pi9QGjJTxBVtiNQqjh7ni30jlJTFseK5o5IxVkeGgFboBqqWMopCgNkcz
+         Rxv2SSopyVzWlJ/qwn0b9oLuhbM1XWwmU32nr3OqZlap+OSg2VeUFEqdxXTABC0YwGUf
+         5gVKEZ0en0k9raT0fzoCkY9P/xjqTBpqIhSzdtVv8G9+wAHcLqkpRF24pB9eYAcKXdZE
+         fBUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWNrJaJ6+Qgl62HgTIcJtKEATnf43FQDLTgWebzKbJmwFQZXMAm1s5a+71A+vX357h21wDzmh1vYGY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLcmZlCa7DsWm8RW2epdxMuKmjPDGlZXuX77mnjQSmbI41pYaI
+	oLf9Yhs5w4Qp15QUz7zcq8PIJr5ETHCjajEgm4/MLMvwvPe78eUXCCtyBRiAKaMSQ/ylzZttZt5
+	+SDc=
+X-Gm-Gg: ASbGncvXtNt3nK3iG3F6B470zYZ2YpCR4qYKU4lE13Uvb3HUZwzPvqc8BNTCP+r81mm
+	coUHymFU3BBdZXwIAR4wh+ph5nkeavGdNynyChBTZ6b80i8yas4yeWPe6g4u+LS2KLbDHJ93UOq
+	f0BfrSFowsT1wq6jVFBiS6h9WyItTKFxYr+WafTZH+bDe4YcFnYmDs+EB9is6MaxvtFvXXn/cdW
+	AAEXKpcNhxrqpbuWvtwqfmL//zm0vB+F9HP/R2fR7ZMuxy/OpeymI4VsBnVuc0ywQbkeB/j+OCS
+	caoE9BsIJmXejQpWVTeuPg5zfwtJ4v/rYH1CMAo4sfcJJilGB0KhfUvdpau+1pd0RsMADOMOQ4v
+	MQl0503xd7/f1cZxYVvZQCKHEg8Y6k2dc
+X-Google-Smtp-Source: AGHT+IGIHM7x9JmjXVe5QvHNWUIW0u0BUMH/A7Ywm/vljWGz/qU956ZjDvvuxrGdrZxMRIAN12ftNA==
+X-Received: by 2002:a05:620a:4611:b0:7c5:42c8:ac89 with SMTP id af79cd13be357-7c5b0c95cdamr219473385a.33.1742438414916;
+        Wed, 19 Mar 2025 19:40:14 -0700 (PDT)
+Received: from soleen.c.googlers.com.com (249.60.48.34.bc.googleusercontent.com. [34.48.60.249])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c573c4dd9fsm947815985a.4.2025.03.19.19.40.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Mar 2025 19:40:14 -0700 (PDT)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: changyuanl@google.com,
+	graf@amazon.com,
+	pasha.tatashin@soleen.com,
+	rppt@kernel.org,
+	rientjes@google.com,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com,
+	ojeda@kernel.org,
+	aliceryhl@google.com,
+	masahiroy@kernel.org,
+	akpm@linux-foundation.org,
+	tj@kernel.org,
+	yoann.congal@smile.fr,
+	mmaurer@google.com,
+	roman.gushchin@linux.dev,
+	chenridong@huawei.com,
+	axboe@kernel.dk,
+	mark.rutland@arm.com,
+	jannh@google.com,
+	vincent.guittot@linaro.org,
+	hannes@cmpxchg.org,
+	dan.j.williams@intel.com,
+	david@redhat.com,
+	joel.granados@kernel.org,
+	rostedt@goodmis.org,
+	anna.schumaker@oracle.com,
+	song@kernel.org,
+	zhangguopeng@kylinos.cn,
+	linux@weissschuh.net,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org,
+	gregkh@linuxfoundation.org,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	bartosz.golaszewski@linaro.org,
+	cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com,
+	yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com,
+	quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com,
+	ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com,
+	leon@kernel.org,
+	lukas@wunner.de,
+	bhelgaas@google.com,
+	wagi@kernel.org,
+	djeffery@redhat.com,
+	stuart.w.hayes@gmail.com,
+	jgowans@amazon.com,
+	jgg@nvidia.com
+Subject: [RFC v1 0/3] Live Update Orchestrator
+Date: Thu, 20 Mar 2025 02:40:08 +0000
+Message-ID: <20250320024011.2995837-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.49.0.395.g12beb8f557-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250320015551.2157511-1-changyuanl@google.com>
-X-Mailer: git-send-email 2.49.0.rc1.451.g8f38331e32-goog
-Message-ID: <20250320015551.2157511-17-changyuanl@google.com>
-Subject: [PATCH v5 16/16] Documentation: add documentation for KHO
-From: Changyuan Lyu <changyuanl@google.com>
-To: linux-kernel@vger.kernel.org
-Cc: graf@amazon.com, akpm@linux-foundation.org, luto@kernel.org, 
-	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com, 
-	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com, 
-	dave.hansen@linux.intel.com, dwmw2@infradead.org, ebiederm@xmission.com, 
-	mingo@redhat.com, jgowans@amazon.com, corbet@lwn.net, krzk@kernel.org, 
-	rppt@kernel.org, mark.rutland@arm.com, pbonzini@redhat.com, 
-	pasha.tatashin@soleen.com, hpa@zytor.com, peterz@infradead.org, 
-	ptyadav@amazon.de, robh+dt@kernel.org, robh@kernel.org, saravanak@google.com, 
-	skinsburskii@linux.microsoft.com, rostedt@goodmis.org, tglx@linutronix.de, 
-	thomas.lendacky@amd.com, usama.arif@bytedance.com, will@kernel.org, 
-	devicetree@vger.kernel.org, kexec@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, x86@kernel.org, Changyuan Lyu <changyuanl@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Alexander Graf <graf@amazon.com>
+From: Pasha Tatashin <tatashin@google.com>
 
-With KHO in place, let's add documentation that describes what it is and
-how to use it.
+This series applies on top of the kho v5 patch series:
+https://lore.kernel.org/all/20250320015551.2157511-1-changyuanl@google.com
 
-Signed-off-by: Alexander Graf <graf@amazon.com>
-Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Co-developed-by: Changyuan Lyu <changyuanl@google.com>
-Signed-off-by: Changyuan Lyu <changyuanl@google.com>
----
- .../admin-guide/kernel-parameters.txt         |  25 ++++
- Documentation/kho/concepts.rst                |  70 +++++++++++
- Documentation/kho/fdt.rst                     |  62 +++++++++
- Documentation/kho/index.rst                   |  14 +++
- Documentation/kho/usage.rst                   | 118 ++++++++++++++++++
- Documentation/subsystem-apis.rst              |   1 +
- MAINTAINERS                                   |   1 +
- 7 files changed, 291 insertions(+)
- create mode 100644 Documentation/kho/concepts.rst
- create mode 100644 Documentation/kho/fdt.rst
- create mode 100644 Documentation/kho/index.rst
- create mode 100644 Documentation/kho/usage.rst
+The git branch for this series:
+https://github.com/googleprodkernel/linux-liveupdate/commits/luo/rfc-v1
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index fb8752b42ec8..d715c6d9dbb3 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2698,6 +2698,31 @@
- 	kgdbwait	[KGDB,EARLY] Stop kernel execution and enter the
- 			kernel debugger at the earliest opportunity.
- 
-+	kho=		[KEXEC,EARLY]
-+			Format: { "0" | "1" | "off" | "on" | "y" | "n" }
-+			Enables or disables Kexec HandOver.
-+			"0" | "off" | "n" - kexec handover is disabled
-+			"1" | "on" | "y" - kexec handover is enabled
-+
-+	kho_scratch=	[KEXEC,EARLY]
-+			Format: ll[KMG],mm[KMG],nn[KMG] | nn%
-+			Defines the size of the KHO scratch region. The KHO
-+			scratch regions are physically contiguous memory
-+			ranges that can only be used for non-kernel
-+			allocations. That way, even when memory is heavily
-+			fragmented with handed over memory, the kexeced
-+			kernel will always have enough contiguous ranges to
-+			bootstrap itself.
-+
-+			It is possible to specify the exact amount of
-+			memory in the form of "ll[KMG],mm[KMG],nn[KMG]"
-+			where the first parameter defines the size of a low
-+			memory scratch area, the second parameter defines
-+			the size of a global scratch area and the third
-+			parameter defines the size of additional per-node
-+			scratch areas.  The form "nn%" defines scale factor
-+			(in percents) of memory that was used during boot.
-+
- 	kmac=		[MIPS] Korina ethernet MAC address.
- 			Configure the RouterBoard 532 series on-chip
- 			Ethernet adapter MAC address.
-diff --git a/Documentation/kho/concepts.rst b/Documentation/kho/concepts.rst
-new file mode 100644
-index 000000000000..174e23404ebc
---- /dev/null
-+++ b/Documentation/kho/concepts.rst
-@@ -0,0 +1,70 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+.. _concepts:
-+
-+=======================
-+Kexec Handover Concepts
-+=======================
-+
-+Kexec HandOver (KHO) is a mechanism that allows Linux to preserve state -
-+arbitrary properties as well as memory locations - across kexec.
-+
-+It introduces multiple concepts:
-+
-+KHO State tree
-+==============
-+
-+Every KHO kexec carries a state tree, in the format of flattened device tree
-+(FDT), that describes the state of the system. Device drivers can register to
-+KHO to serialize their state before kexec. After KHO, device drivers can read
-+the FDT and extract previous state.
-+
-+KHO only uses the FDT container format and libfdt library, but does not
-+adhere to the same property semantics that normal device trees do: Properties
-+are passed in native endianness and standardized properties like ``regs`` and
-+``ranges`` do not exist, hence there are no ``#...-cells`` properties.
-+
-+Scratch Regions
-+===============
-+
-+To boot into kexec, we need to have a physically contiguous memory range that
-+contains no handed over memory. Kexec then places the target kernel and initrd
-+into that region. The new kernel exclusively uses this region for memory
-+allocations before during boot up to the initialization of the page allocator.
-+
-+We guarantee that we always have such regions through the scratch regions: On
-+first boot KHO allocates several physically contiguous memory regions. Since
-+after kexec these regions will be used by early memory allocations, there is a
-+scratch region per NUMA node plus a scratch region to satisfy allocations
-+requests that do not require particular NUMA node assignment.
-+By default, size of the scratch region is calculated based on amount of memory
-+allocated during boot. The ``kho_scratch`` kernel command line option may be
-+used to explicitly define size of the scratch regions.
-+The scratch regions are declared as CMA when page allocator is initialized so
-+that their memory can be used during system lifetime. CMA gives us the
-+guarantee that no handover pages land in that region, because handover pages
-+must be at a static physical memory location and CMA enforces that only
-+movable pages can be located inside.
-+
-+After KHO kexec, we ignore the ``kho_scratch`` kernel command line option and
-+instead reuse the exact same region that was originally allocated. This allows
-+us to recursively execute any amount of KHO kexecs. Because we used this region
-+for boot memory allocations and as target memory for kexec blobs, some parts
-+of that memory region may be reserved. These reservations are irrelevant for
-+the next KHO, because kexec can overwrite even the original kernel.
-+
-+.. _finalization_phase:
-+
-+KHO finalization phase
-+======================
-+
-+To enable user space based kexec file loader, the kernel needs to be able to
-+provide the FDT that describes the previous kernel's state before
-+performing the actual kexec. The process of generating that FDT is
-+called serialization. When the FDT is generated, some properties
-+of the system may become immutable because they are already written down
-+in the FDT. That state is called the KHO finalization phase.
-+
-+With the in-kernel kexec file loader, i.e., using the syscall
-+``kexec_file_load``, KHO FDT is not created until the actual kexec. Thus the
-+finalization phase is much shorter. User space can optionally choose to generate
-+the FDT early using the debugfs interface.
-diff --git a/Documentation/kho/fdt.rst b/Documentation/kho/fdt.rst
-new file mode 100644
-index 000000000000..70b508533b77
---- /dev/null
-+++ b/Documentation/kho/fdt.rst
-@@ -0,0 +1,62 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+=======
-+KHO FDT
-+=======
-+
-+KHO uses the flattened device tree (FDT) container format and libfdt
-+library to create and parse the data that is passed between the
-+kernels. The properties in KHO FDT are stored in native format and can
-+include any data KHO users need to preserve. Parsing of FDT subnodes is
-+responsibility of KHO users, except for nodes and properties defined by
-+KHO itself.
-+
-+KHO nodes and properties
-+========================
-+
-+Node ``preserved-memory``
-+-------------------------
-+
-+KHO saves a special node named ``preserved-memory`` under the root node.
-+This node contains the metadata for KHO to preserve pages across kexec.
-+
-+Property ``compatible``
-+-----------------------
-+
-+The ``compatible`` property determines compatibility between the kernel
-+that created the KHO FDT and the kernel that attempts to load it.
-+If the kernel that loads the KHO FDT is not compatible with it, the entire
-+KHO process will be bypassed.
-+
-+Examples
-+========
-+
-+The following example demonstrates KHO FDT that preserves two memory
-+regions create with ``reserve_mem`` kernel command line parameter::
-+
-+  /dts-v1/;
-+
-+  / {
-+  	compatible = "kho-v1";
-+
-+  	memblock {
-+  		compatible = "memblock-v1";
-+
-+  		region1 {
-+  			compatible = "reserve-mem-v1";
-+  			start = <0xc07a 0x4000000>;
-+			size = <0x01 0x00>;
-+  		};
-+
-+		region2 {
-+			compatible = "reserve-mem-v1";
-+			start = <0xc07b 0x4000000>;
-+			size = <0x8000 0x00>;
-+		};
-+
-+  	};
-+
-+	preserved-memory {
-+                metadata = <0x00 0x00>;
-+        };
-+  };
-diff --git a/Documentation/kho/index.rst b/Documentation/kho/index.rst
-new file mode 100644
-index 000000000000..d108c3f8d15c
---- /dev/null
-+++ b/Documentation/kho/index.rst
-@@ -0,0 +1,14 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+========================
-+Kexec Handover Subsystem
-+========================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   concepts
-+   usage
-+   fdt
-+
-+.. only::  subproject and html
-diff --git a/Documentation/kho/usage.rst b/Documentation/kho/usage.rst
-new file mode 100644
-index 000000000000..b45dc58e8d3f
---- /dev/null
-+++ b/Documentation/kho/usage.rst
-@@ -0,0 +1,118 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+====================
-+Kexec Handover Usage
-+====================
-+
-+Kexec HandOver (KHO) is a mechanism that allows Linux to preserve state -
-+arbitrary properties as well as memory locations - across kexec.
-+
-+This document expects that you are familiar with the base KHO
-+:ref:`concepts <concepts>`. If you have not read
-+them yet, please do so now.
-+
-+Prerequisites
-+=============
-+
-+KHO is available when the ``CONFIG_KEXEC_HANDOVER`` config option is set to y
-+at compile time. Every KHO producer may have its own config option that you
-+need to enable if you would like to preserve their respective state across
-+kexec.
-+
-+To use KHO, please boot the kernel with the ``kho=on`` command line
-+parameter. You may use ``kho_scratch`` parameter to define size of the
-+scratch regions. For example ``kho_scratch=16M,512M,256M`` will reserve a
-+16 MiB low memory scratch area, a 512 MiB global scratch region, and 256 MiB
-+per NUMA node scratch regions on boot.
-+
-+Perform a KHO kexec
-+===================
-+
-+First, before you perform a KHO kexec, you can optionally move the system into
-+the :ref:`KHO finalization phase <finalization_phase>` ::
-+
-+  $ echo 1 > /sys/kernel/debug/kho/out/finalize
-+
-+After this command, the KHO FDT is available in
-+``/sys/kernel/debug/kho/out/fdt``.
-+
-+Next, load the target payload and kexec into it. It is important that you
-+use the ``-s`` parameter to use the in-kernel kexec file loader, as user
-+space kexec tooling currently has no support for KHO with the user space
-+based file loader ::
-+
-+  # kexec -l Image --initrd=initrd -s
-+  # kexec -e
-+
-+If you skipped finalization in the first step, ``kexec -e`` triggers
-+FDT finalization automatically. The new kernel will boot up and contain
-+some of the previous kernel's state.
-+
-+For example, if you used ``reserve_mem`` command line parameter to create
-+an early memory reservation, the new kernel will have that memory at the
-+same physical address as the old kernel.
-+
-+Unfreeze KHO FDT data
-+=====================
-+
-+You can move the system out of KHO finalization phase by calling ::
-+
-+  $ echo 0 > /sys/kernel/debug/kho/out/finalize
-+
-+After this command, the KHO FDT is no longer available in
-+``/sys/kernel/debug/kho/out/fdt``, and the states kept in KHO can be
-+modified by other kernel subsystems again.
-+
-+debugfs Interfaces
-+==================
-+
-+Currently KHO creates the following debugfs interfaces. Notice that these
-+interfaces may change in the future. They will be moved to sysfs once KHO is
-+stabilized.
-+
-+``/sys/kernel/debug/kho/out/finalize``
-+    Kexec HandOver (KHO) allows Linux to transition the state of
-+    compatible drivers into the next kexec'ed kernel. To do so,
-+    device drivers will serialize their current state into an FDT.
-+    While the state is serialized, they are unable to perform
-+    any modifications to state that was serialized, such as
-+    handed over memory allocations.
-+
-+    When this file contains "1", the system is in the transition
-+    state. When contains "0", it is not. To switch between the
-+    two states, echo the respective number into this file.
-+
-+``/sys/kernel/debug/kho/out/fdt_max``
-+    KHO needs to allocate a buffer for the FDT that gets
-+    generated before it knows the final size. By default, it
-+    will allocate 10 MiB for it. You can write to this file
-+    to modify the size of that allocation.
-+
-+``/sys/kernel/debug/kho/out/fdt``
-+    When KHO state tree is finalized, the kernel exposes the
-+    flattened device tree blob that carries its current KHO
-+    state in this file. Kexec user space tooling can use this
-+    as input file for the KHO payload image.
-+
-+``/sys/kernel/debug/kho/out/scratch_len``
-+    To support continuous KHO kexecs, we need to reserve
-+    physically contiguous memory regions that will always stay
-+    available for future kexec allocations. This file describes
-+    the length of these memory regions. Kexec user space tooling
-+    can use this to determine where it should place its payload
-+    images.
-+
-+``/sys/kernel/debug/kho/out/scratch_phys``
-+    To support continuous KHO kexecs, we need to reserve
-+    physically contiguous memory regions that will always stay
-+    available for future kexec allocations. This file describes
-+    the physical location of these memory regions. Kexec user space
-+    tooling can use this to determine where it should place its
-+    payload images.
-+
-+``/sys/kernel/debug/kho/in/fdt``
-+    When the kernel was booted with Kexec HandOver (KHO),
-+    the state tree that carries metadata about the previous
-+    kernel's state is in this file in the format of flattened
-+    device tree. This file may disappear when all consumers of
-+    it finished to interpret their metadata.
-diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-index b52ad5b969d4..5fc69d6ff9f0 100644
---- a/Documentation/subsystem-apis.rst
-+++ b/Documentation/subsystem-apis.rst
-@@ -90,3 +90,4 @@ Other subsystems
-    peci/index
-    wmi/index
-    tee/index
-+   kho/index
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a000a277ccf7..d0df0b380e34 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12828,6 +12828,7 @@ F:	include/linux/kernfs.h
- KEXEC
- L:	kexec@lists.infradead.org
- W:	http://kernel.org/pub/linux/utils/kernel/kexec/
-+F:	Documentation/kho/
- F:	include/linux/kexec*.h
- F:	include/uapi/linux/kexec.h
- F:	kernel/kexec*
+What is Live Update?
+Live Update is a specialized reboot process where selected devices are
+kept operational across a kernel transition. For these devices, DMA and
+interrupt activity may continue uninterrupted during the kernel reboot.
+
+Please find attached a series of three patches introducing the Live
+Update Orchestrator (LUO), a new kernel subsystem designed to
+facilitate live kernel updates with minimal downtime. The primary
+use case is in cloud environments, allowing hypervisor updates without
+fully disrupting running virtual machines by keeping selected devices
+alive across the reboot boundary. This series also inroduces a device
+layer infrastructure (dev_liveupdate) to be used with LUO.
+
+The core of LUO is a state machine that tracks the progress of a live
+update, along with a callback API that allows other kernel subsystems
+to participate in the process. Example subsystems that can hook into LUO
+include: kvm, iommu, interrupts, the Device Layer (through the
+dev_liveupdate infrastructure introduced in patch 2), and mm.
+
+LUO uses KHO to transfer memory state from Old Kernel to the New Kernel.
+
+LUO can be controlled through sysfs interface. It provides the following
+files under: `/sys/kernel/liveupdate/{state, prepare, finish}`
+
+The `state` file can contain the following values:
+
+normal
+The system is operating normally, and no live update is in progress.
+This is the initial state.
+
+prepared
+The system has begun preparing for a live update. This state is reached
+after subsystems have successfully responded to the `LIVEUPDATE_PREPARE`
+callback. It indicates that initial preparation is done, but it does not
+necessarily mean all state has been serialized; subsystems can save more
+state during the subsequent `LIVEUPDATE_REBOOT` callback.
+
+updated
+The new kernel has successfully taken over, and any suspended operations
+are resumed. However, the system has not yet fully transitioned back to
+a normal operational state; this happens after the `LIVEUPDATE_FINISH`
+callback is invoked.
+
+Writing '1' to the `prepare` file triggers a transition from normal
+to prepared (if possible), which involves invoking the
+`LIVEUPDATE_PREPARE` notifiers. Similarly, writing to the `finish` file
+attempts a transition to the normal state from updated via the
+`LIVEUPDATE_FINISH` notifiers.
+
+The state machine ensures that operations are performed in the correct
+sequence and provides a mechanism to track and recover from potential
+failures, and select devices and subsystems that should participate in
+live update sequence.
+
+==============
+dev_liveupdate
+==============
+
+To allow device drivers and bus drivers to participate, the second patch
+introduces the `dev_liveupdate` infrastructure. This provides a
+`liveupdate()` callback in `struct device_driver` and `struct bus_type`,
+which receives the LUO state machine events.
+
+The `dev_liveupdate` component also adds a "liveupdate" sysfs directory
+under each device (e.g., `/sys/devices/.../device/liveupdate/`). This
+directory contains the following attributes:
+
+`requested`
+A read-write attribute allowing userspace to control whether a device
+should participate in the live update sequence. Writing `1` requests the
+device and its ancestors (that support live update) be preserved.
+Writing `0` requests the device be excluded. This attribute can only be
+modified when LUO is in the `normal` state.
+
+`preserved`
+A read-only attribute indicating whether the device's state was
+preserved during the `prepare` and `reboot` stages.
+
+`reclaimed`
+A read-only attribute indicating whether the device was successfully
+re-attached and resumed operation in the new kernel after an update.
+For example, a VM to which this device was passthrough has been resumed.
+
+By default, devices do not participate in the live update. Userspace can
+explicitly request participation by writing '1' to the `requested` file.
+
+TODO:
+- Expand, improve, clean-up documentation
+- Embed a flow chart via Graphviz
+- Add selftests for LUO and dev_liveupdate
+- Add debug interface to allow LUO to perform LIVEUPDATE_REBOOT via sysfs
+  to help developers of subsystems and device drivers.
+- dev_liveupdate should add KHO node names to dev / drivers/ bus, and also
+  dev->lu should contain a link to a KHO node for this device that is allocated
+  and freed through dev_liveupdate
+- dev_liveupdate should also partcipate during boot to track the reclaimed
+  devices
+
+Pasha Tatashin (3):
+  luo: Live Update Orchestrator
+  luo: dev_liveupdate: Add device live update infrastructure
+  luo: x86: Enable live update support
+
+ .../ABI/testing/sysfs-kernel-liveupdate       |  51 ++
+ Documentation/admin-guide/index.rst           |   1 +
+ Documentation/admin-guide/liveupdate.rst      |  23 +
+ Documentation/driver-api/index.rst            |   1 +
+ Documentation/driver-api/liveupdate.rst       |  23 +
+ MAINTAINERS                                   |  13 +
+ arch/x86/Kconfig                              |   1 +
+ drivers/base/Makefile                         |   1 +
+ drivers/base/core.c                           |  25 +-
+ drivers/base/dev_liveupdate.c                 | 816 ++++++++++++++++++
+ include/linux/dev_liveupdate.h                | 109 +++
+ include/linux/device.h                        |   6 +
+ include/linux/device/bus.h                    |   4 +
+ include/linux/device/driver.h                 |   4 +
+ include/linux/liveupdate.h                    | 238 +++++
+ init/Kconfig                                  |   2 +
+ kernel/Kconfig.liveupdate                     |  19 +
+ kernel/Makefile                               |   1 +
+ kernel/liveupdate.c                           | 749 ++++++++++++++++
+ kernel/reboot.c                               |   4 +
+ 20 files changed, 2083 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-kernel-liveupdate
+ create mode 100644 Documentation/admin-guide/liveupdate.rst
+ create mode 100644 Documentation/driver-api/liveupdate.rst
+ create mode 100644 drivers/base/dev_liveupdate.c
+ create mode 100644 include/linux/dev_liveupdate.h
+ create mode 100644 include/linux/liveupdate.h
+ create mode 100644 kernel/Kconfig.liveupdate
+ create mode 100644 kernel/liveupdate.c
+
 -- 
-2.48.1.711.g2feabab25a-goog
+2.49.0.395.g12beb8f557-goog
 
