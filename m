@@ -1,200 +1,116 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C87A3204F85;
-	Thu, 20 Mar 2025 14:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959B6EEBA;
+	Thu, 20 Mar 2025 14:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742479306; cv=none; b=dhD+Di1+q+m32ekZZZl30bJ22mZIfHH+wDrYlDLT5PEmH6Z1iq31EBIAj5gGpaegV9BZgFqOY65qwYKDLH9Q7Rp62Gmn67RmhLBtqyWdpWyQ7PRx+CUmJBrzmntIkazezWpdyWQTokWVKILWUp/0PI0LWn+DvJC4okZngvCIi3s=
+	t=1742479792; cv=none; b=uNrBhCDEcwVdRg3FKrjE5P576O5OxTDcazAMNjyzqC0w2y1tU5ABkmRTaIAxQgPjWbR7+s7EXT9OGBSPt0MbBrHWFB196mYRrvOtS4ngN54ZHchL1FIyNgT60SD0bQCPsevgCmb3HKTF+W2xupZamPapptjPKjJSAdAxVwb04Zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742479306; c=relaxed/simple;
-	bh=EbDfeZBW+Qqxz9QJQfg9SBKQSFAEasL45ys9LJXsEhQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zt0ir2zis7GaWeMXWyVwG0BElX/O84pRqnBm+YrLkfNiZ8Z8kgtEDWlmRrS8m4Tp5vfp3eDfaqoVIEWjhW0T7ZJ12e6I4WPVtDKxutK7U+EuIQ/yq7/u4RlFeME9uXYRG0CU9/XPT1qrS3nwtF6PJZioAPWN3ryL7OoT8tRA+Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DFF5A113E;
-	Thu, 20 Mar 2025 07:01:51 -0700 (PDT)
-Received: from [10.57.84.158] (unknown [10.57.84.158])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B7EAC3F63F;
-	Thu, 20 Mar 2025 07:01:39 -0700 (PDT)
-Message-ID: <2cbca34c-477c-4055-b388-a13bb6c22b4d@arm.com>
-Date: Thu, 20 Mar 2025 14:01:38 +0000
+	s=arc-20240116; t=1742479792; c=relaxed/simple;
+	bh=3gUsqaE7mUufKOG+8Ij0UulGdSKP7dyRB6jukOjry5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j4dK9tmiBtTp6InsfuPnLSryiHUlotFM1WFhkHhRSC1+XK2pRWOntJpWyaWUiS7X1mSxOchuZvfnFjhJbSPHukt4SMLZ3LxWPc0yqnZrGrwcx0S8+z5HHJ+K6smazNI1EfoI0xxdixi5c2v/KZ9jKEQm83Y9WtQnDxiMmAH7ybY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RnjYKOkT; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RnjYKOkT"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9A3AB444F5;
+	Thu, 20 Mar 2025 14:09:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742479787;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+k1WKBS8wmBGYzs9sr3LXVqLTZJWa/ILl+XBNscDrbY=;
+	b=RnjYKOkToOruA8gtWMfVJQ2lVzosiERg2s/F0lfOMsW+ruPaTOwSBxJrVEsbEBOUHf/zsi
+	Taf0zisRRm7yXvuh9Y9N/mcLcRLWcp9ghxNIIYxEdy4JgNKmvIzry06R7k4pdux4r+kp3/
+	Jc8HCqJe+bRnGbNoYJ7/HbDSLXy8gId8hxT7K3adtc9V9+q7l8sWWqbpXywAuhYgDoFbLW
+	XxgGGb4+afw6A+479MukdQiPptRg7ekdm1cE33XeQWAMLG2GpfHYuROX5G5njn2M6xixjx
+	uCjG68LJ3GXjQQhXjXUpVGe1Yppmn19/s3b/4tpGVIw1gaJFCZLHvOOs+TeVfw==
+Date: Thu, 20 Mar 2025 15:09:44 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam
+ Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v6 03/12] net: pse-pd: tps23881: Add support
+ for PSE events and interrupts
+Message-ID: <20250320150944.6ee054c3@kmaincent-XPS-13-7390>
+In-Reply-To: <Z9fu3u34K3-OeDis@pengutronix.de>
+References: <20250304-feature_poe_port_prio-v6-0-3dc0c5ebaf32@bootlin.com>
+	<20250304-feature_poe_port_prio-v6-3-3dc0c5ebaf32@bootlin.com>
+	<Z9fu3u34K3-OeDis@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] arm64: Add BBM Level 2 cpu feature
-Content-Language: en-GB
-To: Ard Biesheuvel <ardb@kernel.org>,
- =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
-Cc: suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net,
- catalin.marinas@arm.com, will@kernel.org, jean-philippe@linaro.org,
- robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
- mark.rutland@arm.com, joey.gouly@arm.com, maz@kernel.org,
- james.morse@arm.com, broonie@kernel.org, oliver.upton@linux.dev,
- baohua@kernel.org, david@redhat.com, ioworker0@gmail.com, jgg@ziepe.ca,
- nicolinc@nvidia.com, mshavit@google.com, jsnitsel@redhat.com,
- smostafa@google.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev
-References: <20250319150533.37440-2-miko.lenczewski@arm.com>
- <20250319150533.37440-3-miko.lenczewski@arm.com>
- <CAMj1kXFOofRCiVHxxxBZMGQHRH-ghtqNxgd=uww9D4sr4vvjEQ@mail.gmail.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <CAMj1kXFOofRCiVHxxxBZMGQHRH-ghtqNxgd=uww9D4sr4vvjEQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeekgedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfdutdefvedtudegvefgvedtgfdvhfdtueeltefffefffffhgfetkedvfeduieeinecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehkmhgrihhntggvnhhtqdgirffuqddufedqjeefledtpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdejpdhrtghpthhtohepohdrrhgvmhhpvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehku
+ hgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopeguohhnrghlugdrhhhunhhtvghrsehgmhgrihhlrdgtohhm
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On 20/03/2025 13:37, Ard Biesheuvel wrote:
-> On Wed, 19 Mar 2025 at 16:06, Mikołaj Lenczewski
-> <miko.lenczewski@arm.com> wrote:
->>
->> The Break-Before-Make cpu feature supports multiple levels (levels 0-2),
->> and this commit adds a dedicated BBML2 cpufeature to test against
->> support for, as well as a kernel commandline parameter to optionally
->> disable BBML2 altogether.
->>
->> This is a system feature as we might have a big.LITTLE architecture
->> where some cores support BBML2 and some don't, but we want all cores to
->> be available and BBM to default to level 0 (as opposed to having cores
->> without BBML2 not coming online).
->>
->> To support BBML2 in as wide a range of contexts as we can, we want not
->> only the architectural guarantees that BBML2 makes, but additionally
->> want BBML2 to not create TLB conflict aborts. Not causing aborts avoids
->> us having to prove that no recursive faults can be induced in any path
->> that uses BBML2, allowing its use for arbitrary kernel mappings.
->> Support detection of such CPUs.
->>
->> Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
->> ---
->>  .../admin-guide/kernel-parameters.txt         |  3 +
->>  arch/arm64/Kconfig                            | 11 +++
->>  arch/arm64/include/asm/cpucaps.h              |  2 +
->>  arch/arm64/include/asm/cpufeature.h           |  5 ++
->>  arch/arm64/kernel/cpufeature.c                | 68 +++++++++++++++++++
->>  arch/arm64/kernel/pi/idreg-override.c         |  2 +
->>  arch/arm64/tools/cpucaps                      |  1 +
->>  7 files changed, 92 insertions(+)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index fb8752b42ec8..3e4cc917a07e 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -453,6 +453,9 @@
->>         arm64.no32bit_el0 [ARM64] Unconditionally disable the execution of
->>                         32 bit applications.
->>
->> +       arm64.nobbml2   [ARM64] Unconditionally disable Break-Before-Make Level
->> +                       2 support
->> +
->>         arm64.nobti     [ARM64] Unconditionally disable Branch Target
->>                         Identification support
->>
->> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->> index 940343beb3d4..49deda2b22ae 100644
->> --- a/arch/arm64/Kconfig
->> +++ b/arch/arm64/Kconfig
->> @@ -2057,6 +2057,17 @@ config ARM64_TLB_RANGE
->>           The feature introduces new assembly instructions, and they were
->>           support when binutils >= 2.30.
->>
->> +config ARM64_BBML2_NOABORT
->> +       bool "Enable support for Break-Before-Make Level 2 detection and usage"
->> +       default y
->> +       help
->> +         FEAT_BBM provides detection of support levels for break-before-make
->> +         sequences. If BBM level 2 is supported, some TLB maintenance requirements
->> +         can be relaxed to improve performance. We additonally require the
->> +         property that the implementation cannot ever raise TLB Conflict Aborts.
->> +         Selecting N causes the kernel to fallback to BBM level 0 behaviour
->> +         even if the system supports BBM level 2.
->> +
->>  endmenu # "ARMv8.4 architectural features"
->>
->>  menu "ARMv8.5 architectural features"
->> diff --git a/arch/arm64/include/asm/cpucaps.h b/arch/arm64/include/asm/cpucaps.h
->> index 0b5ca6e0eb09..2d6db33d4e45 100644
->> --- a/arch/arm64/include/asm/cpucaps.h
->> +++ b/arch/arm64/include/asm/cpucaps.h
->> @@ -23,6 +23,8 @@ cpucap_is_possible(const unsigned int cap)
->>                 return IS_ENABLED(CONFIG_ARM64_PAN);
->>         case ARM64_HAS_EPAN:
->>                 return IS_ENABLED(CONFIG_ARM64_EPAN);
->> +       case ARM64_HAS_BBML2_NOABORT:
->> +               return IS_ENABLED(CONFIG_ARM64_BBML2_NOABORT);
->>         case ARM64_SVE:
->>                 return IS_ENABLED(CONFIG_ARM64_SVE);
->>         case ARM64_SME:
->> diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
->> index e0e4478f5fb5..108ef3fbbc00 100644
->> --- a/arch/arm64/include/asm/cpufeature.h
->> +++ b/arch/arm64/include/asm/cpufeature.h
->> @@ -866,6 +866,11 @@ static __always_inline bool system_supports_mpam_hcr(void)
->>         return alternative_has_cap_unlikely(ARM64_MPAM_HCR);
->>  }
->>
->> +static inline bool system_supports_bbml2_noabort(void)
->> +{
->> +       return alternative_has_cap_unlikely(ARM64_HAS_BBML2_NOABORT);
->> +}
->> +
->>  int do_emulate_mrs(struct pt_regs *regs, u32 sys_reg, u32 rt);
->>  bool try_emulate_mrs(struct pt_regs *regs, u32 isn);
->>
->> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
->> index d561cf3b8ac7..1a4adcda267b 100644
->> --- a/arch/arm64/kernel/cpufeature.c
->> +++ b/arch/arm64/kernel/cpufeature.c
->> @@ -2176,6 +2176,67 @@ static bool hvhe_possible(const struct arm64_cpu_capabilities *entry,
->>         return arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_HVHE);
->>  }
->>
->> +static bool cpu_has_bbml2_noabort(unsigned int cpu_midr)
->> +{
-> 
-> We generally start these block comments with just /* on the first line
-> 
->> +       /* We want to allow usage of bbml2 in as wide a range of kernel contexts
->> +        * as possible. This list is therefore an allow-list of known-good
->> +        * implementations that both support bbml2 and additionally, fulfill the
->> +        * extra constraint of never generating TLB conflict aborts when using
->> +        * the relaxed bbml2 semantics (such aborts make use of bbml2 in certain
->> +        * kernel contexts difficult to prove safe against recursive aborts).
->> +        *
->> +        * Note that implementations can only be considered "known-good" if their
->> +        * implementors attest to the fact that the implementation never raises
->> +        * TLBI conflict aborts for bbml2 mapping granularity changes.
->> +        */
->> +       static const struct midr_range supports_bbml2_noabort_list[] = {
->> +               MIDR_REV_RANGE(MIDR_CORTEX_X4, 0, 3, 0xf),
->> +               MIDR_REV_RANGE(MIDR_NEOVERSE_V3, 0, 2, 0xf),
->> +               {}
->> +       };
->> +
-> 
-> Why on earth is this needed? Is there nothing in the architecture that
-> can inform us about this? That seems like a huge oversight to me ...
+On Mon, 17 Mar 2025 10:43:58 +0100
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-Currently the architecture can only tell us about the BBM support level.
-Currently level 2 is the highest and that permits an implementation to raise a
-conflict abort instead of handling it in HW.
+> On Tue, Mar 04, 2025 at 11:18:52AM +0100, Kory Maincent wrote:
+> > +static int tps23881_irq_handler(int irq, struct pse_controller_dev *pc=
+dev,
+> > +				unsigned long *notifs,
+> > +				unsigned long *notifs_mask)
+> > +{
+> > +	struct tps23881_priv *priv =3D to_tps23881_priv(pcdev);
+> > +	struct i2c_client *client =3D priv->client;
+> > +	int ret, it_mask;
+> > +
+> > +	/* Get interruption mask */
+> > +	ret =3D i2c_smbus_read_word_data(client, TPS23881_REG_IT_MASK);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +	it_mask =3D ret;
+> > +
+> > +	/* Read interrupt register until it frees the interruption pin. */
+> > +	while (true) { =20
+>=20
+> If the hardware has a stuck interrupt, this could result in an infinite
+> loop. max_retries with some sane value would be good.
 
-Since this series only relies on BBML2 for user space memory, we believe we
-could contain and handle any conflict abort safely (the first version of this
-series handled the abort). But Yang Shi has a series on list that aims to use
-BBML2 to enable dynamically splitting the linear map. It becomes much harder to
-reason about the safety of any conflict abort in that case.
+Ack I will. Do you have a value in mind as a sane value?
 
-Will was keen to take this approach were we decide if the HW supports
-"BBML2+NOABORT" semanitics based on the MIDR. Plans are in flight to fix the
-arch so we can tidy this up long term, but Will didn't want to hold up Ampere.
+> > +
+> > +static int tps23881_setup_irq(struct tps23881_priv *priv, int irq)
+> > +{
+> > +	struct i2c_client *client =3D priv->client;
+> > +	struct pse_irq_desc irq_desc =3D {
+> > +		.name =3D "tps23881-irq", =20
+>=20
+> here or in devm_pse_irq_helper() it would be good to add intex suffix to
+> the irq handler name.
 
-Thanks,
-Ryan
+You mean index? Like the PSE index?
+So I will need to add back the support of the PSE index in the series.
 
-
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
