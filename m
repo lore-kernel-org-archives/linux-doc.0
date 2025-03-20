@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B441221D3C7;
-	Thu, 20 Mar 2025 13:36:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202051388;
+	Thu, 20 Mar 2025 13:37:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742477771; cv=none; b=c3weWtJKL9Kq3RIc6cOw5Xe29KZX7PHdDC6HuzkwHKxCKvg3GHHgl/HMLjy3Bm3JsviRiN4INqbGZu9Jj3q1cMi3ODRsMkCwmjyKe5Sn6Uj1rUr6tlmogfaWYHuCmuFq3MmB8wh7vo8SJ9HwK2/+osAv4CSiHXbXSFRJFfJpXP4=
+	t=1742477835; cv=none; b=Uo4wJGdep572yhYSGuORP2bjIKy95cd4okWnt7NkcSlp2l8phLeMh5ZQiVxPQEovpt0o/Vl8eogAltXj/qmmQ+XWtdtwgNrKXjhtis7+iHxBptI0REhGz32X1DwfdvR2lS37QFlWhDQEpi/VMklED1l2QnOFEhJEZKXOSyLQs3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742477771; c=relaxed/simple;
-	bh=+nXJuo4PVgrYVzRLdytPzdcjJMPdL09Z4Vn3ItA2wxw=;
+	s=arc-20240116; t=1742477835; c=relaxed/simple;
+	bh=HgOwjnlAUewP8SAJu/g9z/qlSeumFvhqMtDK/+WW8LM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I4EXPYn3TjB6XkPt2sa6s+UuvdZaarYDUu2w+StdvujNCUIRx9y9i5GKqdXe3WUdaaPF7ziMRpSDte0iR51Mskk7MFx7xGL7qAGFHGGBgbF+Nc1TRldB6hN315Q4ylAQZUMALr+fL0Nodt06rxLYUgycGfQjjn6UFobJOg8twHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=r/LwXuCd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TJxdsSmuYDa+vCrcI2VYZ4jXX0yJBBbmjc+aZyXA4HiR3+14HqDn5akqu+Y9imEuxgZhlAgoZTG7F/AM2i2y9CWNmes3QFnqiN8UTV5X2ZINHHEki67MrZNii2cB/ibhSTlann41zPS5JE/j2Jkihn5YaewBCIShTYhkRmDamdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1bFENl3u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="r/LwXuCd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E784AC4CEDD;
-	Thu, 20 Mar 2025 13:36:10 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1bFENl3u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9406AC4CEDD;
+	Thu, 20 Mar 2025 13:37:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1742477771;
-	bh=+nXJuo4PVgrYVzRLdytPzdcjJMPdL09Z4Vn3ItA2wxw=;
+	s=korg; t=1742477834;
+	bh=HgOwjnlAUewP8SAJu/g9z/qlSeumFvhqMtDK/+WW8LM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r/LwXuCd/zhrldkbCAunIsE57gCSgS9itwMKb3ImZMbOZr7o+8D2nQI03PyWDDhxh
-	 OmWcLhT5ToBm/Ddz9ne3xn9vXy96MDIK2gg56dXQFdnqX2j1/0n1Y+2i7Kwcw4t6B5
-	 vjBHDrbmsq+wg3QZhMxh0XkN9HRNLilBO64mikKA=
-Date: Thu, 20 Mar 2025 06:34:51 -0700
+	b=1bFENl3uvFQ4E/3fVjVyRk5hYOzEmq+SHHmMSOhklsg0dq6yXpyTlaN0FJ7P9LS9P
+	 o3VMx0sciKN20bBacYkshwa02qVNN2oDwjwufUz0kBgHXr/OizmZZojuvUex4WN4tN
+	 WLz53tiHNLnfgJjesquYZ8CVqwDmcmEQxfHKIfoM=
+Date: Thu, 20 Mar 2025 06:35:55 -0700
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: changyuanl@google.com, graf@amazon.com, rppt@kernel.org,
@@ -48,11 +48,9 @@ Cc: changyuanl@google.com, graf@amazon.com, rppt@kernel.org,
 	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
 	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
 	stuart.w.hayes@gmail.com, jgowans@amazon.com, jgg@nvidia.com
-Subject: Re: [RFC v1 2/3] luo: dev_liveupdate: Add device live update
- infrastructure
-Message-ID: <2025032058-reassure-veneering-0fdb@gregkh>
+Subject: Re: [RFC v1 0/3] Live Update Orchestrator
+Message-ID: <2025032015-urgency-partake-9dc1@gregkh>
 References: <20250320024011.2995837-1-pasha.tatashin@soleen.com>
- <20250320024011.2995837-3-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,56 +59,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250320024011.2995837-3-pasha.tatashin@soleen.com>
+In-Reply-To: <20250320024011.2995837-1-pasha.tatashin@soleen.com>
 
-On Thu, Mar 20, 2025 at 02:40:10AM +0000, Pasha Tatashin wrote:
-> Introduce a new subsystem within the driver core to enable keeping
-> devices alive during kernel live update. This infrastructure is
-> designed to be registered with and driven by a separate Live Update
-> Orchestrator, allowing the LUO's state machine to manage the save and
-> restore process of device state during a kernel transition.
-> 
-> The goal is to allow drivers and buses to participate in a coordinated
-> save and restore process orchestrated by a live update mechanism. By
-> saving device state before the kernel switch and restoring it
-> immediately after, the device can appear to remain continuously
-> operational from the perspective of the system and userspace.
-> 
-> components introduced:
-> 
-> - `struct dev_liveupdate`: Embedded in `struct device` to track the
->   device's participation and state during a live update, including
->   request status, preservation status, and dependency depth.
-> 
-> - `liveupdate()` callback: Added to `struct bus_type` and
->   `struct device_driver`. This callback receives an enum
->   `liveupdate_event` to manage device state at different stages of the
->   live update process:
->     - LIVEUPDATE_PREPARE: Save device state before the kernel switch.
->     - LIVEUPDATE_REBOOT: Final actions just before the kernel jump.
->     - LIVEUPDATE_FINISH: Clean-up after live update.
->     - LIVEUPDATE_CANCEL: Clean up any saved state if the update is
->       aborted.
-> 
-> - Sysfs attribute "liveupdate/requested": Added under each device
->   directory, allowing user to request that a specific device to
->   participate in live update. I.e. its state is to be preserved
->   during the update.
+On Thu, Mar 20, 2025 at 02:40:08AM +0000, Pasha Tatashin wrote:
+> From: Pasha Tatashin <tatashin@google.com>
 
-As you can imagine, I have "thoughts" about all of this being added to
-the driver core.  But, before I go off on that, I want to see some real,
-actual, working, patches for at least 3 bus subsystems that correctly
-implement this before I even consider reviewing this.
-
-Show us real users please, otherwise any attempt at reviewing this is
-going to just be a waste of our time as I have doubts that this actually
-even works :)
-
-Also, as you are adding a new user/kernel api, please also point at the
-userspace tools that are written to handle all of this.  As you are
-going to be handling potentially tens of thousands of devices from
-userspace this way, in a single system, real code is needed to even
-consider that this is an acceptable solution.
+Note, this does not match the author and signed-off-by on the actual
+patches themselves.  Please use your google.com email address to
+send/review/work on this.
 
 thanks,
 
