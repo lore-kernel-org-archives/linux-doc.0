@@ -1,107 +1,103 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1224F1EB5F0
-	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 17:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA9A2A1A4;
+	Thu, 20 Mar 2025 17:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742491098; cv=none; b=USAtP1Zwvb1pPkWdP9N6/1MQkAsak2QG9aMDrT+UnTFAZfK09KNs9gGwwUaZ9Ps0XSYoKoiNNoxH28X0CZ88CeWhYB9yux2zudVsfduJGujfo86PSbbYIZBfQN7O7O0CR+8RGzmvRU/e/JqHJ7F+wWSkOOon0l0fnan/zg5IPu4=
+	t=1742491369; cv=none; b=cTu88/HedbRvGzv9hYFKQLt0jhVMS6Egh+ndZGMwHbrKbRHxDx5k/VFKhhADy12s6EzPHEmvJxMGavoYzsDMYf7v1lJFUjhR1MLhM2CnB9h4C2Gf3c2o6F3sZqeEsFB1wcZzv3VT+cZBBTnjkt7EML0CxeipbriXHIHlyS3m15U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742491098; c=relaxed/simple;
-	bh=88p1w7uEcFSCHYKOCDuBHPZGg/x3AAPkfIOOrr6qmRE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=LP3vVndu6WDu3H6+x+86pXn262G58PLLnVIC0blsKXKraZtuPjxvWCA53SP9wQjqQ07amP69c1yr5tslv08cUpBXsriTmDvn+sKZhudG8vqBfQECpPtct4FAZylqid5bKiW25chytxJBopRiITeeGaxSIHivroTNRKf8K6Ud+ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YHgsKRfP; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
+	s=arc-20240116; t=1742491369; c=relaxed/simple;
+	bh=o2g+aeF0m1ZtGAU6jmcbwumD06kUHya/WZT+ebSfW9I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ji6abE3hGhrZNpZnswPhAIpI6II9HF8Q7sBuRV+8SxTemuTr5SLWwlZTyHLY6KiLNLZlFqSAwcCW64lZCU5OeKth0Lach4fUMwBFLqO+a2PpJPwkeBEs/xSFuSVyyVx7+re2JAybYpt9I4KVjXF9KiQ4wCbOHVS6U2jz01nCPGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mGy2gam1; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YHgsKRfP"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2ff7aecba07so1480162a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 10:18:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1742491096; x=1743095896; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=88p1w7uEcFSCHYKOCDuBHPZGg/x3AAPkfIOOrr6qmRE=;
-        b=YHgsKRfPf2/nBiD260ANuo5qn3IAPdiMNnoxnuLCprv9Owqxk5Kkyo2SoDWa0RKRol
-         iYMIEdX4+eG2ZvmRhzvtBhrl1gmZYGhSpNf/vEAUhBK0Tw7zHng1MqpbWWQ0gFfi6pxi
-         /6OJkbLTti8JDeCXHBxE836tbZjU8J1WurYsSEKnCUV0dGmm1dVrsuvEAQw/0gsT1rHz
-         xrqNSOY/MDRaul1Gi2uPBL8SH+zeyMa1J8KqHa1PZTKTN8WJTaIwUXHk4Wlz++7DyqQD
-         1YSBxXLUNKdZdpp4Vm319W5pi7CadEuoygSUsLKjeq2reBB4BwSGpKokHYshcLLJ2fzE
-         jeXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742491096; x=1743095896;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=88p1w7uEcFSCHYKOCDuBHPZGg/x3AAPkfIOOrr6qmRE=;
-        b=Syf5lsea2WU81dvKcKkXScKobua3B26+jsuZXyM3pPtbI6ZsMuNpsKoYnDpFnlXDYn
-         5rJuMfirsXRQkZpANU5xi3evsM/lH4BtOqiPlsYrDi2UvXvOrMEzFqv/JzfLj3zledHU
-         ktZXwSL4KeTRpRF0IwcvdK2o4pMdzYxPlNg7pipzlRn+gUqTqVwrk+gKXgnYx+0tK13p
-         MdRa67CAfXrM/orv4sIOAzS5irGolPgrmGv4azd0g9vdEykzZOlw0JQ7Fop/JkVsPqdm
-         nw7frOdLAs9Y0oR2XP1iaIrcQaq3Ycvghjq4n0GlSw1SFYyRV8N1WKkglWlwtuQ97EzH
-         ffFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW9/IUY6xuTS0llC5pKUBIZyQIDcery3sMd/cBXxvG7XrQ9DOsGvSO1Bml6tX1T4G41Es5i3+O9GHs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuX2yOVV6KrkhlDL6XbFrSy5yPI63AeY8qQiVosaCKfg0DeTaa
-	OesQ2AGE2TBbIg/kmfMGF2n5sz9SgGhiFy0WvHrNLPrK69wc1ACwmfeDmu0Y8dUl5sEo9x5iS0q
-	nJN2cS5c0qexhihUy8g==
-X-Google-Smtp-Source: AGHT+IGpaoCewgRhvYW5fa+HpkkDxI6GYIKVShvL+72MGW8IdbGecEsEYFRFVCnEraF7VtF/dPJ/f4MPXZFrOdbn
-X-Received: from pjbpq9.prod.google.com ([2002:a17:90b:3d89:b0:2fa:a101:755])
- (user=changyuanl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:2707:b0:2ff:6488:e01c with SMTP id 98e67ed59e1d1-3030fefe3e4mr5163a91.29.1742491096376;
- Thu, 20 Mar 2025 10:18:16 -0700 (PDT)
-Date: Thu, 20 Mar 2025 10:18:02 -0700
-In-Reply-To: <d5f7379c-c66b-47f5-bc97-eab90ab34346@kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mGy2gam1"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id ACD8644324;
+	Thu, 20 Mar 2025 17:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742491365;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zr0LN2ywhctrz98g/ztt7BNk1UlMTcPiWZ2+H7lH0II=;
+	b=mGy2gam1GeJJoq6YqMrza7TyScT6M3R5gFR4vqTQxF3aVDSR9yJGzIQgytegJZRpcWJUpk
+	zbeab+OfyD+YZ/P8oletSCOWhTpZo3CK7j3MDU5nwj7Rw0sPaNnnPPhAIxr0XNynl5qpdT
+	+IFkpOfe+a2ri4Z8I6qYL1K709Rrvv++mMIBpuyz4bV0bDLk5+byvLviSZ7km276DNpQzH
+	P5YDvwZtVQgFUiqnGeHWd4UBmEVLrJA0o64p1nTpWCTe5UwJno91TnEcKTjLlzB5kwNB9u
+	8FfZFjjercF+XnWUyE2Kd4kTrNG3MX3bRlN3gN6BPrZ61ouGkgjd4bM6M3CznQ==
+Date: Thu, 20 Mar 2025 18:22:42 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam
+ Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
+ Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v6 11/12] net: pse-pd: tps23881: Add support
+ for static port priority feature
+Message-ID: <20250320182242.401fd6af@kmaincent-XPS-13-7390>
+In-Reply-To: <Z9gklcNz6wHU9cPC@pengutronix.de>
+References: <20250304-feature_poe_port_prio-v6-0-3dc0c5ebaf32@bootlin.com>
+	<20250304-feature_poe_port_prio-v6-11-3dc0c5ebaf32@bootlin.com>
+	<Z9gklcNz6wHU9cPC@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <d5f7379c-c66b-47f5-bc97-eab90ab34346@kernel.org>
-X-Mailer: git-send-email 2.49.0.395.g12beb8f557-goog
-Message-ID: <20250320171802.2325561-1-changyuanl@google.com>
-Subject: Re: [PATCH v5 11/16] kexec: add config option for KHO
-From: Changyuan Lyu <changyuanl@google.com>
-To: krzk@kernel.org
-Cc: akpm@linux-foundation.org, anthony.yznaga@oracle.com, arnd@arndb.de, 
-	ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de, 
-	catalin.marinas@arm.com, changyuanl@google.com, corbet@lwn.net, 
-	dave.hansen@linux.intel.com, devicetree@vger.kernel.org, dwmw2@infradead.org, 
-	ebiederm@xmission.com, graf@amazon.com, hpa@zytor.com, jgowans@amazon.com, 
-	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	luto@kernel.org, mark.rutland@arm.com, mingo@redhat.com, 
-	pasha.tatashin@soleen.com, pbonzini@redhat.com, peterz@infradead.org, 
-	ptyadav@amazon.de, robh+dt@kernel.org, robh@kernel.org, rostedt@goodmis.org, 
-	rppt@kernel.org, saravanak@google.com, skinsburskii@linux.microsoft.com, 
-	tglx@linutronix.de, thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeekkedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfdutdefvedtudegvefgvedtgfdvhfdtueeltefffefffffhgfetkedvfeduieeinecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehkmhgrihhntggvnhhtqdgirffuqddufedqjeefledtpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdejpdhrtghpthhtohepohdrrhgvmhhpvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehku
+ hgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopeguohhnrghlugdrhhhunhhtvghrsehgmhgrihhlrdgtohhm
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hi Krzysztof,
+On Mon, 17 Mar 2025 14:33:09 +0100
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-On Thu, Mar 20, 2025 at 08:10:37 +0100, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> On 20/03/2025 02:55, Changyuan Lyu wrote:
-> > From: Alexander Graf <graf@amazon.com>
-> >
-> > We have all generic code in place now to support Kexec with KHO. This
-> > patch adds a config option that depends on architecture support to
-> > enable KHO support.
-> >
-> > Signed-off-by: Alexander Graf <graf@amazon.com>
-> > Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > Co-developed-by: Changyuan Lyu <changyuanl@google.com>
-> > Signed-off-by: Changyuan Lyu <changyuanl@google.com>
-> What did you exactly co-develop here? Few changes does not mean you are
-> a co-developer.
+> On Tue, Mar 04, 2025 at 11:19:00AM +0100, Kory Maincent wrote:
+> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+...
+> > @@ -190,7 +201,22 @@ static int tps23881_pi_enable(struct
+> > pse_controller_dev *pcdev, int id) BIT(chan % 4));
+> >  	}
+> > =20
+> > -	return i2c_smbus_write_word_data(client, TPS23881_REG_PW_EN, val);
+> > +	ret =3D i2c_smbus_write_word_data(client, TPS23881_REG_PW_EN, val);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	/* Enable DC disconnect*/
+> > +	chan =3D priv->port[id].chan[0];
+> > +	ret =3D i2c_smbus_read_word_data(client, TPS23881_REG_DISC_EN);
+> > +	if (ret < 0)
+> > +		return ret; =20
+>=20
+> Here we have RMW operation without lock on two paths: pi_enable and
+> pi_disable.
 
-I proposed and implemented the hashtable-based state tree API in the
-previous patch "kexec: add Kexec HandOver (KHO) generation helpers" [1]
-and then added `select XXHASH` here. If one line of change is not
-qualified for "Co-developed-by", I will remove it from the commit message
-in the next version.
+I don't understand, pi_enable and pi_disable are called with pcdev->lock
+acquired thanks to the pse core.
 
-[1] https://lore.kernel.org/all/20250320015551.2157511-8-changyuanl@google.com/
-
-Best,
-Changyuan
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
