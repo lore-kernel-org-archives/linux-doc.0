@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F481E32C6;
-	Thu, 20 Mar 2025 07:11:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DBA2744D;
+	Thu, 20 Mar 2025 07:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742454668; cv=none; b=EJSg2EKH4dL1BV1Qn1irwOPqx7gmlBAGdPRHTqo6EZGXV3L8cZ3rOTuRgGy0QOSDQZg0K9c4fJJK43VlrjMtdPG+tlTW3KHXjD8yBkxvvyaZQ7hJJUsnB44+0PPxx2t8zUgxYffh9vEhslUpfqT+5ziR1Y57iHWwwiNRiXPfsYg=
+	t=1742454820; cv=none; b=QNwVur65W+9575crbvxYk+E0ZSQzYqQpFUzWoHexSoNBt40BBcGVgjSYzN2f1vhNCXh7x5t/tGiYegph1HN96/kKyGvGhBS2+nJxIDWaF7URqZBLw+d3FjEfviNb4pOeBOE+7roAQm5aRyC31UONTVt/yhvtvfDFH3sJwCL6uOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742454668; c=relaxed/simple;
-	bh=ofKcg6Jw4XQiuJNA+UQgX1XP/VvJ056b5xfgIenWamA=;
+	s=arc-20240116; t=1742454820; c=relaxed/simple;
+	bh=UuARulmInnBUADHH7bXdcjHIkE+FWXcsYmX41MdIaHw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uP3LeNEXIbCOhiexC6cdvEdpqdyPHI0UahSlfohDN7MaufbtUMMkG3BIpuXO89mbm4dJSlnBfPvAiwFKKXNtQ4/BTUDy+LKw6JLY2Kr4dGc/PNgrSF4DT/kYAkivSw36MmHjdxQ0+UmskTBPGKOgmEhXDDr3nzDA7HK6xw62Shw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aD9hkPNj; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=YKul00KW/mxcPDIpAcqW9083eUpcfJtIek+GBUqFc6L1WXkhSADiTAut4JIwhRITOJcu/VB8+8cSxiNWGjWKyWhIjM6/+arpObCN9GvrxrtXmhLNmrHOEPXgegQte8+pIAMvUoi3t1wx36Mm5N8bYRGhKh7CFGMCuXrFr1t/D54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LNSPxtcI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aD9hkPNj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 238BEC4CEE7;
-	Thu, 20 Mar 2025 07:10:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LNSPxtcI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFAF9C4CEDD;
+	Thu, 20 Mar 2025 07:13:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742454668;
-	bh=ofKcg6Jw4XQiuJNA+UQgX1XP/VvJ056b5xfgIenWamA=;
+	s=k20201202; t=1742454819;
+	bh=UuARulmInnBUADHH7bXdcjHIkE+FWXcsYmX41MdIaHw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aD9hkPNjqy15EuSIzjKCpaOfe6I1L3lv0AbIOUbPp5nVXl0tUm+BWVx5TDgmhj/AE
-	 l79BcGv+F+x/NdW2kUUn/+Eyy6Ipe5/H9/deo1xVyTiVpwmDwfM9HH5+ESmr1B4JSS
-	 qVmPv+0MSBYEdjmWyAw17klsP31h1guQE25x6w4Q/UnxVGtGTeoCObHAqzjWhgaOad
-	 X9D2kBU7LDfZSIeBHG4nhGgW9LQMOECFcqfa4kIsouOKUK2Zs8/+PflABiOf2lCSt8
-	 d22KIax95MOK5mrReAyhevdgCgVA38lbW0XNmM0Je4iqUwU83nVIWmHH3YJrdlvr/y
-	 Q1PbQMW+zyPHA==
-Message-ID: <16b14662-d69b-478a-9e2f-a05c56f2c4ce@kernel.org>
-Date: Thu, 20 Mar 2025 08:10:48 +0100
+	b=LNSPxtcIT+quFnMch+1xRe99sSi2+AhhMvgDgUtHtkPqDjHwmeMNVqFGGBKFQF3YT
+	 PLvYOAVUgt+EsFLGPeZo3oh8iJ0nLWEkATaGqBjDu2pu/UauFkyGvbUG6a9eG9a03X
+	 P7YzeTbU+axLToXgOtAIIb4cpHgdqfhDaNgXtm8xRd+q87oBJ4V42Ol/xgmQAhebyC
+	 iYr0HvYbPqk8KOB9Rz71WVSvX572uSNv17ZoYEVSFX/ISWfEaTWjVs6czgYKtJLmSJ
+	 zLULHCG2Ct8W3Pi1qloDBzglAV8eNW5qlWv23gdz49f6HF9boFblxeP5fzXY3/fmCo
+	 MeE9c8uW2V9jA==
+Message-ID: <55a5e3f3-1b3f-469b-bde0-69abfff826e4@kernel.org>
+Date: Thu, 20 Mar 2025 08:13:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 02/16] mm/mm_init: rename init_reserved_page to
- init_deferred_page
+Subject: Re: [PATCH v5 12/16] arm64: add KHO support
 To: Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org
 Cc: graf@amazon.com, akpm@linux-foundation.org, luto@kernel.org,
  anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
@@ -51,7 +50,7 @@ Cc: graf@amazon.com, akpm@linux-foundation.org, luto@kernel.org,
  kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
 References: <20250320015551.2157511-1-changyuanl@google.com>
- <20250320015551.2157511-3-changyuanl@google.com>
+ <20250320015551.2157511-13-changyuanl@google.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -97,22 +96,33 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250320015551.2157511-3-changyuanl@google.com>
+In-Reply-To: <20250320015551.2157511-13-changyuanl@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 20/03/2025 02:55, Changyuan Lyu wrote:
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> 
-> When CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, init_reserved_page()
-> function performs initialization of a struct page that would have been
-> deferred normally.
-> 
-> Rename it to init_deferred_page() to better reflect what the function does.
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>  
+> +/**
+> + * early_init_dt_check_kho - Decode info required for kexec handover from DT
+> + */
+> +static void __init early_init_dt_check_kho(void)
+> +{
+> +	unsigned long node = chosen_node_offset;
+> +	u64 kho_start, scratch_start, scratch_size;
+> +	const __be32 *p;
+> +	int l;
+> +
+> +	if (!IS_ENABLED(CONFIG_KEXEC_HANDOVER) || (long)node < 0)
+> +		return;
+> +
+> +	p = of_get_flat_dt_prop(node, "linux,kho-fdt", &l);
 
-Incorrect DCO chain.
+
+You are adding undocumented ABI for OF properties. That's not what was
+explained last time.
+
+NAK.
+
 
 Best regards,
 Krzysztof
