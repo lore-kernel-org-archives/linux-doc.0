@@ -1,223 +1,283 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2057.outbound.protection.outlook.com [40.107.220.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25378221735;
-	Thu, 20 Mar 2025 12:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742472907; cv=fail; b=RasMPMB7bZLFEDRevvOVxIL8LbbXy89O2/PHTZg2M+nwX24598gnRFp7gzpybB6X+WjYDkIA6lw2EwVCwj9MVZQmElhY+O1x6f1UTyYQUT7KTWwoGxH8AVYG6IezoDUj1qG66HlNrFskoX4vVk5gk/BTWIdHtZSXLgiIS0K6hNk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742472907; c=relaxed/simple;
-	bh=YX7AYyI8ksst6afWAMpMFVP7Fxx/rgRBgauuZY4FG0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=abqsEbENmjIU8WojdacKQTZ+9MX5072Y5Wi+pAhnnwqDbiG3T/Lda3PnwlBmmuK5DibwqfmdfcC1pUtkCwuz1vcESh83LEFV5l3q8WW0T542a25QKKROSvdTMqUvwSEVgus45rKnxEQbOIRfcTHCLyJcIqfyp/KR4hARgC+Xjhw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Hnag9lb9; arc=fail smtp.client-ip=40.107.220.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Hnag9lb9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rlQVcpCaMJR1GR8qwLiGYYU7Y57dIise3UyxjMH0DlPa9KxVCBPj9v6okHpHNgctSGsbJKqXNSFJUXh3QlbStE/+EyRwxSHcrb8mNAkoGSutHp2RgyihbnFmbHEmIix/l7d7Qk4NpBwazfxP+99s45i29HsajaNn5uuN0hL/xcSkCKZi1mBaIUgUKPNnevoDclVguqpLr1nNIGY6rxtwlFrUWBD9GQiPAxcoDXYJEQ3a27sRfFe9erNfzJCvnebx4zyoxaUMnaAA2Sial1I73MjK2TQqZBvnyWECw2VOI7u5Efma7m0unLnswnPfvSGiLAtTElOAVc/JfQNqdzSuLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hAWOBSIxJKpzyBexAdLZEIMQMLXbijVGHPO7lpmGTBU=;
- b=LUog0iLTw8mZujvxKRnFaXdKu9LC5XGbHb3dpjxu+B9UdQ764YK5JT7PSTpR9K+wHreNO9IE2RTQ78fvSw3347uB8yEhuZ40O2tdc0vEZ49KeY5p862/MQSYMUhkKjR/LhsYRdp2s/Rhgd1OASLUiFCraUn8NPaTXE8hTt101OWe+BFZ37QE2q68LTkeXEub90u1l0m9My2kJ3VN9HUAv66Vecd6hlXbVQ9pGKUIowin+y/j17cXeVs+ypZiZH3ETRBECcrtcOTGJQOZfzYmmXBPuh0//EagaQ28bOQox4RAmEdjIvKEpMZ9PW4IAnN7aaj2C8W4FoAnEY8cy9B0wQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hAWOBSIxJKpzyBexAdLZEIMQMLXbijVGHPO7lpmGTBU=;
- b=Hnag9lb9fmnDp4m2MHKkT/mTzOx9Kb57Coy8OHSm/InKwBOne2svV4jVFzlK4iqce3PBln5krVw8AXlTRq0ugfUWPvixz3ss2RsyyUNwwqOXOLqKFURdk6HicTkw3IMGipJ0GIMgoaxUeG59RttjgcIs3yp55hMCy8lym3bMdzGCe/Y5CysS6RBB2MfXjGUApnla2H/aoBDUHzmqb0SkcJBfr/NL5f496ns1/xRN0AXv3rIvrmmfAXxCnaRywZNUZ0x7LJZq6l6yn1wR/zYNFgUJWdV7EhrsYFESKEKlYZUR/zr0VRPaDkkdCVADPLGYoz63+s3ZUBt45NxlqfE+IA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by PH7PR12MB5926.namprd12.prod.outlook.com (2603:10b6:510:1d9::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Thu, 20 Mar
- 2025 12:15:01 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8534.034; Thu, 20 Mar 2025
- 12:15:00 +0000
-Date: Thu, 20 Mar 2025 09:14:59 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Pratyush Yadav <ptyadav@amazon.de>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Hugh Dickins <hughd@google.com>, Alexander Graf <graf@amazon.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	David Woodhouse <dwmw2@infradead.org>,
-	James Gowans <jgowans@amazon.com>, Mike Rapoport <rppt@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pasha Tatashin <tatashin@google.com>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Dave Hansen <dave.hansen@intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, kexec@lists.infradead.org
-Subject: Re: [RFC PATCH 1/5] misc: introduce FDBox
-Message-ID: <20250320121459.GS9311@nvidia.com>
-References: <20250307005830.65293-2-ptyadav@amazon.de>
- <20250307-sachte-stolz-18d43ffea782@brauner>
- <mafs0ikokidqz.fsf@amazon.de>
- <20250309-unerwartet-alufolie-96aae4d20e38@brauner>
- <20250317165905.GN9311@nvidia.com>
- <20250318-toppen-elfmal-968565e93e69@brauner>
- <20250318145707.GX9311@nvidia.com>
- <mafs0a59i3ptk.fsf@amazon.de>
- <20250318232727.GF9311@nvidia.com>
- <mafs05xk53zz0.fsf@amazon.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <mafs05xk53zz0.fsf@amazon.de>
-X-ClientProxiedBy: BN9PR03CA0080.namprd03.prod.outlook.com
- (2603:10b6:408:fc::25) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A4152AE99;
+	Thu, 20 Mar 2025 13:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742477073; cv=none; b=m3YIqkP/U14ZFX/CxWJgcsO47ssOPsjvoznECzCc2pEB7naXKwm04gLWMsiX64HEqsLKbtuGmUvJE6glB3OTLHiR4Js8Tuj7d9BB++/iWYrsOgM8Xc8UQu+F+WUsPRpk38cgxZM4dlvCjPCS5Kz4d1MQWhda8GuNThoq86vYgrc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742477073; c=relaxed/simple;
+	bh=CE4N6jRoeEj6N1mdza1452J1YYtyUgbjf7fDXEZjpMc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=umNNsxMqolILTRXW1/fvLJzQEtod+EdTRecmvVKYdFXlczeM0uUBcCgXygrRvk17GfhY02ZKM/cajp3jt1xEU9qcRECAvlMcX2pudGOwybSbEHuv+02MCbf4tmZPWFugyv6kVupnkPWT4mw74Htyk40H+PVn9yW3SpVzjU9X/9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90492113E;
+	Thu, 20 Mar 2025 06:24:38 -0700 (PDT)
+Received: from [10.57.69.2] (unknown [10.57.69.2])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 901E43F63F;
+	Thu, 20 Mar 2025 06:24:26 -0700 (PDT)
+Message-ID: <f9c5839e-5d55-497e-9df3-ab778c4eae72@arm.com>
+Date: Thu, 20 Mar 2025 13:24:25 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB5926:EE_
-X-MS-Office365-Filtering-Correlation-Id: 07d0471b-0cc2-46bb-2666-08dd67a8d631
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?iBddJ1lP3AXFmW/RIHdkDxKBGDxDiIgokhdwYroxr2G+Nhp+WxvavapZTWx4?=
- =?us-ascii?Q?crHXUCM+VQKyYp4LJWNqgeDaRpRCP1tYqqpSG1iTNpAT2FwA1QMwFRFyO/ie?=
- =?us-ascii?Q?AKrsIPssusXshhHynIOkHnQerIwJDVVCZMkKvPurMSacuK37CHK2kkHPVvrE?=
- =?us-ascii?Q?qjUbXYCX9AwyV0907P8dUTa48OSfou40/B+2YQ9s+kNXxcgIHiEquM/rEOap?=
- =?us-ascii?Q?FCisW6DD+B5AdG0jBTqF4KJcD1pez5/9K1q5i7gZTkPP+jPN5UGYJDEZYbQq?=
- =?us-ascii?Q?x7AMRPeCnV0QaZsnoLu7FXAFwluaMtCvfJv/4xQf0vKGb0iRBnIXZEaJGXrJ?=
- =?us-ascii?Q?EgLN4BRJgL68SgnB/ucngr6SLsImbWPzmQRGhCoiwUcIFcSfyYTnfaXzGv0h?=
- =?us-ascii?Q?C1Pu7op3Rx8oGpsJ/ykBgt/mUPo8nT0uWAdZilMyPN5fCSrlbad49QP/QbOS?=
- =?us-ascii?Q?VW4x6xUraGUnAU12LOzpV7xUqO8YeScgjzTAJC4Zwfxg3Muo7/EZzYBcPWRH?=
- =?us-ascii?Q?blUCB7sdNczOVH++Bw3jt8v3Myb2WMFCUB7KPOuKSELDJNK/KihU8mI/dFj0?=
- =?us-ascii?Q?2w+1leq9SuqcFWrlURwkZCOZMIjXp3UMWza00nMf/ldHunZ+ki2yKBsYqCGB?=
- =?us-ascii?Q?szvsZfaqbqm0zffnn91NvjScaKDETZo68192SHjF+afXcJrj0fU8O9bjch4U?=
- =?us-ascii?Q?/lu1W18C6mC0MMgoJjfDtnUAsW2oBMfTMFKT8XQd/nadQ1WbFuVxi2ig6DUZ?=
- =?us-ascii?Q?KVvWGa72G1amPTlrbmqdBBH7RbYZLaUosxnyRXwd4NsxmyAG+V85FN5V4OgD?=
- =?us-ascii?Q?u0okx1pw/MI9ZRC5DQy3Zj+BnpQtirbP+ADnejS43X7wGj+cOLDaE4FZtysq?=
- =?us-ascii?Q?LwIA/g07dPTMwHmyrKYcDmXpNUMV1tk+I5MzviFL/sxNrMO8jFB+ABH+sHEC?=
- =?us-ascii?Q?/tMRaWT5uJ8Jgi13hM6oWafXHi1EGKg9hLzAodLxui6EEMfGz7Ydfl6hkQBz?=
- =?us-ascii?Q?6U1ICM2kV17H8KHHfLX7rrSFGncurWS0rx0uda2tK7qZ4phtDihPRz0seWVw?=
- =?us-ascii?Q?7TmWFsbcZvIocVg6TFiWvJQEaENNhptgW4v6Nh6MfeVouKZgXTyoSF8epH6t?=
- =?us-ascii?Q?Y+FEzbdj5G6olMMhOUReFWZwIA99mHjL9zHqQ+g0IP3Zwy2zt2bXkEt0nqhp?=
- =?us-ascii?Q?yiGnMoszERVvHbr7XD4tgj1Xqdb9kTjSs7S6JywIrpX6yISs+oAwk8MFsWzc?=
- =?us-ascii?Q?j3yVxVS713doD1yGNVrVqNUU3NiDC6pCyF5FKpCvGoOEnB7lUftVsavFthgp?=
- =?us-ascii?Q?A6bWvwuVDzzlfhQy37EmenZR4oydZ6vFd6ypdr2Q0wNm9uV70Pm64h7GO9Ka?=
- =?us-ascii?Q?T+h64ldMKVTRsj8FwiFWq4wS5gtF?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?aFocaXte8zvhf7Noglsuq5m7v5lMK5iwsGZ775uLUDwBaEOqWoh9jBOWYqG6?=
- =?us-ascii?Q?2Q/FMs4JGjWJR1FxlCSaeIQSuQN1LxNUZgWMQMejY304k3dUTLoil1pbNU6c?=
- =?us-ascii?Q?o10ozxnGbAXXiVvcmBudNqKzUYX6a019XQ8RFDmshmDswWIvtGDqv0U1xHxa?=
- =?us-ascii?Q?4Kv+FjisNN94HL4YOXDEjxeOHcmCaa7u8tgkfP8Vdv8yH8Joi69y65qYUBRF?=
- =?us-ascii?Q?o7njFwpnJ6emGO+iAb2ty5FHJl9SQXlAioMSGyTwFrsmlWOv6q+58YsfjHnn?=
- =?us-ascii?Q?eMEfMsU6SEaSnUk6ZCTqWo3YhnYLcNY2pGw8/N3Lox0M07JMoI0Xw6bJiv96?=
- =?us-ascii?Q?w6XUepjXSF1PpW6pZmRBx6pj0jZSAntMF/KjAZX+l3PAj4oiTmyHDdtUFd17?=
- =?us-ascii?Q?3QQXODvqUsbEKNcDadmAh7f79Hb+reDRl5t2mfsDtggx38cRp9y6NiFsOciy?=
- =?us-ascii?Q?Zm6UTrfGvAtnKrjI9C7wvvPmfXBWPZRWTBsrMZ6bTBvUW/CUj7tZFFjCvVkn?=
- =?us-ascii?Q?9C14LEwaJcXINxUBOGcX4ofshb0hi3DZ7xMY4/E4QOMq+i6b0X8gmv2frOcQ?=
- =?us-ascii?Q?RTbLyn/QYpXP3UsDGE9oqRHqvhgymDZmQamPFawq5i/dsv4R/5MRoTkit+9H?=
- =?us-ascii?Q?KnJNzSU4dMZ0bRSAXHAg4YbY2FYAnVT7rUuqtHj+lhjno5g7+KSjpZ33apqC?=
- =?us-ascii?Q?hgTUPcfMavRT2oPInOmZY9kamhb09RG3x99J3NPlfCh3jCsT6+IxqMZHz1un?=
- =?us-ascii?Q?7qb8vpdcYLwx4BC+R+RYFrSkCemvhu/s7kOUa4Vs7/RupyTJus5+YH6lN4XP?=
- =?us-ascii?Q?21cgmnvzSbUnWM3e7nydz5cqUye+DmQewW0MMBnliGsyTJjbZ8RaaImWhJyb?=
- =?us-ascii?Q?NdGkmkQctbpZN51hEbRTyDsxsXeOnRT4RauLgGebu1Y7d7/Gc9McMaaERSDv?=
- =?us-ascii?Q?UVqX0DEuR3CxOM1sD2DUZupT/vfVVEO5V2ZwoSO3ahmN+/Ah9d5al3wua4ky?=
- =?us-ascii?Q?f8/VSv3YNlzbTMYAqjtEk/bUkDVgXjJvXGTQ7nz0SRx67WhnH5JYn6iu7IPK?=
- =?us-ascii?Q?xzD464gVk0UE6C/McIc5eWUFpl24ux810j7AGIEKvw5C1hWDbtCBNKJmfH+E?=
- =?us-ascii?Q?N3x1F5OCsndBDpE8RyMbtNkm8gDWfIOwAA12SOv0o9PmDNEJFDrYLVvOl7cc?=
- =?us-ascii?Q?Bpo5onobGyxSPlS0fwimG895vRfKcdCXNsPCKz6vkLcP06X9GhG33dVp6V80?=
- =?us-ascii?Q?GnOVir8VBrFfOcIOsNGb7K+nzTFHrB1JOmaWQQgl8158I9nzIzTjB4s2XmBs?=
- =?us-ascii?Q?hT8wfqlnKUk6RZ0i+vrx74WB2raEZs4A6HwyR3fvLEYBIlFaLBiwisJCWw1m?=
- =?us-ascii?Q?QqzYrGylbhQAtrGIMaZQnvr79l1Fc3bt0EdSGgYshq7T7i3+ahq6K3uTpaoD?=
- =?us-ascii?Q?kFIBn1PrNJuctLyCtvz2THbWNwqii6IRtR7ff6yXmB0neoHH+i3Xl94qZ+ul?=
- =?us-ascii?Q?nTznEw7lPoa0MGNJ8JVG2n+qKZuPwEXpepsbCYbInjTIRY5DIGkp/kO56bqm?=
- =?us-ascii?Q?R+y0QgFtUy+Yq8opH7k=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07d0471b-0cc2-46bb-2666-08dd67a8d631
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2025 12:15:00.4647
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tDTmY/rRaW6uMSIKHWlLtevuncvStYX6b+VTv9XFUj+hap4+J3O7WFtUI/zuerAf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5926
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] arm64: Add BBM Level 2 cpu feature
+Content-Language: en-GB
+To: =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
+ ryan.roberts@arm.com, yang@os.amperecomputing.com, corbet@lwn.net,
+ catalin.marinas@arm.com, will@kernel.org, jean-philippe@linaro.org,
+ robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
+ ardb@kernel.org, mark.rutland@arm.com, joey.gouly@arm.com, maz@kernel.org,
+ james.morse@arm.com, broonie@kernel.org, oliver.upton@linux.dev,
+ baohua@kernel.org, david@redhat.com, ioworker0@gmail.com, jgg@ziepe.ca,
+ nicolinc@nvidia.com, mshavit@google.com, jsnitsel@redhat.com,
+ smostafa@google.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux.dev
+References: <20250319150533.37440-2-miko.lenczewski@arm.com>
+ <20250319150533.37440-3-miko.lenczewski@arm.com>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20250319150533.37440-3-miko.lenczewski@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 19, 2025 at 01:35:31PM +0000, Pratyush Yadav wrote:
-> On Tue, Mar 18 2025, Jason Gunthorpe wrote:
+On 19/03/2025 15:05, Mikołaj Lenczewski wrote:
+> The Break-Before-Make cpu feature supports multiple levels (levels 0-2),
+> and this commit adds a dedicated BBML2 cpufeature to test against
+> support for, as well as a kernel commandline parameter to optionally
+> disable BBML2 altogether.
 > 
-> > On Tue, Mar 18, 2025 at 11:02:31PM +0000, Pratyush Yadav wrote:
-> >
-> >> I suppose we can serialize all FDs when the box is sealed and get rid of
-> >> the struct file. If kexec fails, userspace can unseal the box, and FDs
-> >> will be deserialized into a new struct file. This way, the behaviour
-> >> from userspace perspective also stays the same regardless of whether
-> >> kexec went through or not. This also helps tie FDBox closer to KHO.
-> >
-> > I don't think we can do a proper de-serialization without going
-> > through kexec. The new stuff Mike is posting for preserving memory
-> > will not work like that.
+> This is a system feature as we might have a big.LITTLE architecture
+> where some cores support BBML2 and some don't, but we want all cores to
+> be available and BBM to default to level 0 (as opposed to having cores
+> without BBML2 not coming online).
 > 
-> Why not? If the next kernel can restore the file from the serialized
-> content, so can the current kernel. What stops this from working with
-> the new memory preservation scheme (which I assume is the idea you
-> proposed in [0])? 
+> To support BBML2 in as wide a range of contexts as we can, we want not
+> only the architectural guarantees that BBML2 makes, but additionally
+> want BBML2 to not create TLB conflict aborts. Not causing aborts avoids
+> us having to prove that no recursive faults can be induced in any path
+> that uses BBML2, allowing its use for arbitrary kernel mappings.
+> Support detection of such CPUs.
+> 
+> Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
+> ---
+>   .../admin-guide/kernel-parameters.txt         |  3 +
+>   arch/arm64/Kconfig                            | 11 +++
+>   arch/arm64/include/asm/cpucaps.h              |  2 +
+>   arch/arm64/include/asm/cpufeature.h           |  5 ++
+>   arch/arm64/kernel/cpufeature.c                | 68 +++++++++++++++++++
+>   arch/arm64/kernel/pi/idreg-override.c         |  2 +
+>   arch/arm64/tools/cpucaps                      |  1 +
+>   7 files changed, 92 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index fb8752b42ec8..3e4cc917a07e 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -453,6 +453,9 @@
+>   	arm64.no32bit_el0 [ARM64] Unconditionally disable the execution of
+>   			32 bit applications.
+>   
+> +	arm64.nobbml2	[ARM64] Unconditionally disable Break-Before-Make Level
+> +			2 support
+> +
+>   	arm64.nobti	[ARM64] Unconditionally disable Branch Target
+>   			Identification support
+>   
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 940343beb3d4..49deda2b22ae 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -2057,6 +2057,17 @@ config ARM64_TLB_RANGE
+>   	  The feature introduces new assembly instructions, and they were
+>   	  support when binutils >= 2.30.
+>   
+> +config ARM64_BBML2_NOABORT
+> +	bool "Enable support for Break-Before-Make Level 2 detection and usage"
+> +	default y
+> +	help
+> +	  FEAT_BBM provides detection of support levels for break-before-make
+> +	  sequences. If BBM level 2 is supported, some TLB maintenance requirements
+> +	  can be relaxed to improve performance. We additonally require the
+> +	  property that the implementation cannot ever raise TLB Conflict Aborts.
+> +	  Selecting N causes the kernel to fallback to BBM level 0 behaviour
+> +	  even if the system supports BBM level 2.
 
-It is because the current kernel does not destroy the struct page
-before the kexec and the new kernel assumes a zero'd fresh struct page
-at restore.
+minor nit: Should we mention that the feature can be disabled at runtime 
+using a kernel parameter ?
 
-So it would be very easy to corrupt the struct page information if you
-attempt to deserialize without going through the kexec step.
+> +
+>   endmenu # "ARMv8.4 architectural features"
+>   
+>   menu "ARMv8.5 architectural features"
+> diff --git a/arch/arm64/include/asm/cpucaps.h b/arch/arm64/include/asm/cpucaps.h
+> index 0b5ca6e0eb09..2d6db33d4e45 100644
+> --- a/arch/arm64/include/asm/cpucaps.h
+> +++ b/arch/arm64/include/asm/cpucaps.h
+> @@ -23,6 +23,8 @@ cpucap_is_possible(const unsigned int cap)
+>   		return IS_ENABLED(CONFIG_ARM64_PAN);
+>   	case ARM64_HAS_EPAN:
+>   		return IS_ENABLED(CONFIG_ARM64_EPAN);
+> +	case ARM64_HAS_BBML2_NOABORT:
+> +		return IS_ENABLED(CONFIG_ARM64_BBML2_NOABORT);
+>   	case ARM64_SVE:
+>   		return IS_ENABLED(CONFIG_ARM64_SVE);
+>   	case ARM64_SME:
+> diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+> index e0e4478f5fb5..108ef3fbbc00 100644
+> --- a/arch/arm64/include/asm/cpufeature.h
+> +++ b/arch/arm64/include/asm/cpufeature.h
+> @@ -866,6 +866,11 @@ static __always_inline bool system_supports_mpam_hcr(void)
+>   	return alternative_has_cap_unlikely(ARM64_MPAM_HCR);
+>   }
+>   
+> +static inline bool system_supports_bbml2_noabort(void)
+> +{
+> +	return alternative_has_cap_unlikely(ARM64_HAS_BBML2_NOABORT);
+> +}
+> +
+>   int do_emulate_mrs(struct pt_regs *regs, u32 sys_reg, u32 rt);
+>   bool try_emulate_mrs(struct pt_regs *regs, u32 isn);
+>   
+> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+> index d561cf3b8ac7..1a4adcda267b 100644
+> --- a/arch/arm64/kernel/cpufeature.c
+> +++ b/arch/arm64/kernel/cpufeature.c
+> @@ -2176,6 +2176,67 @@ static bool hvhe_possible(const struct arm64_cpu_capabilities *entry,
+>   	return arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_HVHE);
+>   }
+>   
+> +static bool cpu_has_bbml2_noabort(unsigned int cpu_midr)
+> +{
+> +	/* We want to allow usage of bbml2 in as wide a range of kernel contexts
+> +	 * as possible. This list is therefore an allow-list of known-good
+> +	 * implementations that both support bbml2 and additionally, fulfill the
+> +	 * extra constraint of never generating TLB conflict aborts when using
+> +	 * the relaxed bbml2 semantics (such aborts make use of bbml2 in certain
+> +	 * kernel contexts difficult to prove safe against recursive aborts).
+> +	 *
+> +	 * Note that implementations can only be considered "known-good" if their
+> +	 * implementors attest to the fact that the implementation never raises
+> +	 * TLBI conflict aborts for bbml2 mapping granularity changes.
+> +	 */
+> +	static const struct midr_range supports_bbml2_noabort_list[] = {
+> +		MIDR_REV_RANGE(MIDR_CORTEX_X4, 0, 3, 0xf),
+> +		MIDR_REV_RANGE(MIDR_NEOVERSE_V3, 0, 2, 0xf),
+> +		{}
+> +	};
+> +
+> +	return is_midr_in_range_list(cpu_midr, supports_bbml2_noabort_list);
+> +}
+> +
+> +static inline unsigned int cpu_read_midr(int cpu)
+> +{
+> +	WARN_ON_ONCE(!cpu_online(cpu));
+> +
+> +	return per_cpu(cpu_data, cpu).reg_midr;
+> +}
+> +
+> +static bool has_bbml2_noabort(const struct arm64_cpu_capabilities *caps, int scope)
+> +{
+> +	if (!IS_ENABLED(CONFIG_ARM64_BBML2_NOABORT))
+> +		return false;
+> +
+> +	if (scope & SCOPE_SYSTEM) {
+> +		int cpu;
+> +
+> +		/* We are a boot CPU, and must verify that all enumerated boot
 
-There would be a big risk of getting things like refcounts out of
-sync.
+minor nit: See Documentation/process/coding-style.rst,
+Section 8 Commenting.
 
-Then you have the issue that I don't actually imagine shutting down
-something like iommufd, I was intending to leave it frozen in place
-with all its allocations and so on. If you try to de-serialize you
-can't de-serialize into the thing that is frozen, you'd create a new
-one from empty. Now you have two things pointing at the same stuff,
-what a mess.
+		/*
+		 * <multi-line comment>
+		 */
 
-> The seal operation does bulk serialize/deserialize for _one_ box. You
-> can have multiple boxes and distribute your FDs in the boxes based on
-> the serialize or deserialize order you want. Userspace decides when to
-> seal or unseal a particular box, which gives it full control over the
-> order in which things happen.
+> +		 * CPUs have MIDR values within our allowlist. Otherwise, we do
+> +		 * not allow the BBML2 feature to avoid potential faults when
+> +		 * the insufficient CPUs access memory regions using BBML2
+> +		 * semantics.
+> +		 */
+> +		for_each_online_cpu(cpu) {
+> +			if (!cpu_has_bbml2_noabort(cpu_read_midr(cpu)))
+> +				return false;
+> +		}
+> +	} else if (scope & SCOPE_LOCAL_CPU) {
+> +		/* We are a hot-plugged CPU, so must only check our MIDR.
 
-Why have more than one box? What is the point? I've been thinking we
-should just have a KHO control char dev FD for serializing and you can
-do all the operations people have been talking about in sysfs, as well
-as record FDs for serializing.
+minot nit: same as above
 
-Why do we need more than one fdbox container fd?
+Rest looks good to me.
 
-> All of this is made easier if each component has its own FDT (or any
-> other data structure) and doesn't have to share the same FDT. This is
-> the direction we are going in anyway with the next KHO versions.
+Suzuki
 
-Yes, I agree with that for sure.
 
-Jason
+
+> +		 * If we have the correct MIDR, but the kernel booted on an
+> +		 * insufficient CPU, we will not use BBML2 (this is safe). If
+> +		 * we have an incorrect MIDR, but the kernel booted on a
+> +		 * sufficient CPU, we will not bring up this CPU.
+> +		 */
+> +		if (!cpu_has_bbml2_noabort(read_cpuid_id()))
+> +			return false;
+> +	}
+> +
+> +	return has_cpuid_feature(caps, scope);
+> +}
+> +
+>   #ifdef CONFIG_ARM64_PAN
+>   static void cpu_enable_pan(const struct arm64_cpu_capabilities *__unused)
+>   {
+> @@ -2926,6 +2987,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+>   		.matches = has_cpuid_feature,
+>   		ARM64_CPUID_FIELDS(ID_AA64MMFR2_EL1, EVT, IMP)
+>   	},
+> +	{
+> +		.desc = "BBM Level 2 without conflict abort",
+> +		.capability = ARM64_HAS_BBML2_NOABORT,
+> +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+> +		.matches = has_bbml2_noabort,
+> +		ARM64_CPUID_FIELDS(ID_AA64MMFR2_EL1, BBM, 2)
+> +	},
+>   	{
+>   		.desc = "52-bit Virtual Addressing for KVM (LPA2)",
+>   		.capability = ARM64_HAS_LPA2,
+> diff --git a/arch/arm64/kernel/pi/idreg-override.c b/arch/arm64/kernel/pi/idreg-override.c
+> index c6b185b885f7..803a0c99f7b4 100644
+> --- a/arch/arm64/kernel/pi/idreg-override.c
+> +++ b/arch/arm64/kernel/pi/idreg-override.c
+> @@ -102,6 +102,7 @@ static const struct ftr_set_desc mmfr2 __prel64_initconst = {
+>   	.override	= &id_aa64mmfr2_override,
+>   	.fields		= {
+>   		FIELD("varange", ID_AA64MMFR2_EL1_VARange_SHIFT, mmfr2_varange_filter),
+> +		FIELD("bbm", ID_AA64MMFR2_EL1_BBM_SHIFT, NULL),
+>   		{}
+>   	},
+>   };
+> @@ -246,6 +247,7 @@ static const struct {
+>   	{ "rodata=off",			"arm64_sw.rodataoff=1" },
+>   	{ "arm64.nolva",		"id_aa64mmfr2.varange=0" },
+>   	{ "arm64.no32bit_el0",		"id_aa64pfr0.el0=1" },
+> +	{ "arm64.nobbml2",		"id_aa64mmfr2.bbm=0" },
+>   };
+>   
+>   static int __init parse_hexdigit(const char *p, u64 *v)
+> diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+> index 1e65f2fb45bd..b03a375e5507 100644
+> --- a/arch/arm64/tools/cpucaps
+> +++ b/arch/arm64/tools/cpucaps
+> @@ -14,6 +14,7 @@ HAS_ADDRESS_AUTH_ARCH_QARMA5
+>   HAS_ADDRESS_AUTH_IMP_DEF
+>   HAS_AMU_EXTN
+>   HAS_ARMv8_4_TTL
+> +HAS_BBML2_NOABORT
+>   HAS_CACHE_DIC
+>   HAS_CACHE_IDC
+>   HAS_CNP
+
