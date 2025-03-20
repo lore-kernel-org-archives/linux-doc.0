@@ -1,55 +1,55 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBD21EB1A3
-	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 01:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A3C1EB9F9
+	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 01:56:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742435779; cv=none; b=gGwIY96FozZFDKWh/FDDNkSSzp6q3c4IxNjSvURuTnenLN6q9I9T8psXrh8phrVlyqY1/5WhM7aezq1b8eORBs45NzYWpja2Pnj1QNrGBNtD1SZID9sw0SWpKL+fszZjtYfRwgWla4paPdE+U+zC3RPpERmvmtgy/GGAviwxpc8=
+	t=1742435781; cv=none; b=fa+P2w1jOqHOaW1+JlHGzFwexwlwouzehafHvAeZsrZYoouoIcHMYgTSwlW1EVpPMagVCOpEuxK3JlWqnTzjU23lrHmBV6n8gnvyb5/hKxYqdw694c6N+pAOFGftZkBjQIY6zK8RFPhm+v0iYTvKgbhK76g1wsqQu+sVNkROtzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742435779; c=relaxed/simple;
-	bh=DO4ULc+54d14lpaTVIQ8OW7DrsUOJj3+3e0epl5v40w=;
+	s=arc-20240116; t=1742435781; c=relaxed/simple;
+	bh=iaPmmz3gZt9Is93e08vjI3CIdCB5+LGhTAb1vR5Vvzs=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=FbOXPMLhBh7aKFLmYNk295DAsoDhxuQMKqINtDE/QiqDGk5ixCfD+OyI8FlZ5aWsf2q7+4Fq4xG1Dzrg4hOMxxlfibPjg4TtompejVxBTl1HzSFjcq1g97gEgHCfe8BVvD4fATr7woAC7l/vPKNgObUi1DkzUd8lFbkEWBy/vyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uP4dJdQo; arc=none smtp.client-ip=209.85.214.201
+	 To:Cc:Content-Type; b=dolsJBr15Xvfw+mjSrLTKwWm0SJqUkicRoCnzNmMwcE/OP55ygiA7lYlYrWKKhzU+yMduGTnh2SYMlQv0e7advx7MGduLzgR7Ry+u9KDsiN2Zmba/vCT9LPXWS9POks9gndyxOi3XxwI5Ra+aiqTLi3/VoZyac4c/25PVcs+x6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oDkcFfKN; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uP4dJdQo"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2241ae15dcbso4041165ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 18:56:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oDkcFfKN"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2241aad40f3so2904655ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 18:56:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1742435777; x=1743040577; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1742435779; x=1743040579; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UkcR0SU+CU01cj/UMVFVKIzr3SF+GMypT0ANn4wKrhE=;
-        b=uP4dJdQotY7rTu2uOCJvd4Ke5hkXKgZAQqCihiZm6YysMA8rSW7OPuwWsJsyT7UZX2
-         wlsXFDc8QM5WqoLaK62CZPXTd0F6PPMuXzCdW1raWw2vuQcd7QQo4UzJbfbkjULi7vdY
-         kGyLqPKx4bQbY1uwFrskFxf+wg2+Y/oXPEG8+8arKDKIrMfG0QWbcU3pup4AGFIWmAcR
-         oAiDo0PtxVTEPMfUFhpIaWecDMNfNfjz/1AhR7UEv5ajOnNU8ZClHd3afrafAZ8oVjGM
-         LWc4QnQW4bfZiSh8FF6pi6DBvj5GzV+TAMQ2JfdJcU1WcoAJN2E1Ypng9DB5L9XRo6j0
-         hpCQ==
+        bh=rd3wJc2IZkbxeklI0oyF9EA5atShYqSy3T5piwpZMms=;
+        b=oDkcFfKNj0Add+iH6ZBw6FTzjXAWySMB0ZfMBzWuphJt2IivAVBhNezjOP89e0uFJi
+         fPK89VpBCt7oWeTDuKxWVrGCBOYEZD3NBVF/22aiiW/R3jaCZt6FDUvqyWP8DkQHm9qm
+         2UkMwAVIhL7I8LyInHABlSFYOPTW2FpiOfXkI+v4R0btEYQV97ipCK6tzftLfjk9Zj5R
+         NP8IhsOpafAEWFDptRQRd0mUEjGC1FZ4WpqDZIEroaW2fzquyqvFxw411QfBLaSPWc7i
+         i62tzvhC2QMRmFABU3bXN6t0v59weL+JhyPvp25iCNTKWejC0z+1LVpYhXkuGJiMiiOZ
+         L2qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742435777; x=1743040577;
+        d=1e100.net; s=20230601; t=1742435779; x=1743040579;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UkcR0SU+CU01cj/UMVFVKIzr3SF+GMypT0ANn4wKrhE=;
-        b=jTrL9DZ+SIcis6R+UvWMumJB3g5x8OkuqQYiPKxvwndJTPed88+KAhYARvkBOmkl30
-         B+e4tpQnpexmklIcYNNZZUh9+cIFGXwhkIA0yzlgCPkxF35xE6s6V/f+hYCDOs3KdASK
-         ZQsTKxqjwGuWPzeWw+UmNEuB11k4zMGgJcStaNEaEhRWL6EoDJuQVPF3QZZt2hmlBAMU
-         QXuM4x/e7/oQYQG6OGEnZYIHaNjHhTGWXVOkHKlcLfyr8cgcEllOZgiLLnf1Y/AVmAfF
-         /0HN4ZgIpgmGUBGFBlBKPJ9f3peAMx5w3bepgl2ymoMV18pj0LDTALeqmt6c+MmDH7qe
-         59kA==
-X-Forwarded-Encrypted: i=1; AJvYcCVMoo0pUDvTEAhgvO62Gp5kDSs2a7dpiuFhtMYsPRhr1A06J5XJhX93EryiL5SEbzNE1NumweahLUE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7ZhuacUF66qReTyVi3PBw63lYnt+9kG2wiTJbIxf+DT/pz+zF
-	WgblSTy4h9ptYRMFRprU0Waoog+vuKDoDx+T6Z72do8IB3BfMzag7zos8C6yw4hQi24OfyHhtR4
-	xQxvJU57AADZUaHQupg==
-X-Google-Smtp-Source: AGHT+IEq833KvKiO9EApYrAEuf1UTsJySLJu5CjTMNPxyZpCp1rooyCfDuUQ3lxBHQoctugFxssTdHmFh/kEHnmc
-X-Received: from plsq4.prod.google.com ([2002:a17:902:bd84:b0:223:3ab:e4a0])
+        bh=rd3wJc2IZkbxeklI0oyF9EA5atShYqSy3T5piwpZMms=;
+        b=Mr0H9keI4EJAHhrDyn/EenTy8j8dNSQDwMuuPU3dbGPkPYYRZ6s6x1YLAPXJ6P5khZ
+         zwa0+I8KvZ+dZvXf0zJkV772PoTucU8vmFiBzjha2hJ53URyf9VS6ArYVxzHeuuM+0NV
+         4PkHDqv++EwBca/OA+3fcSDGB3/7vWW077QcBF99paCJAW5JR+ve5/SyDDNHy/DmM4Mh
+         mjO7ucEBj+nahCpPFLuGcSdYUa4cXKk2UTzjLmxt5j6DYgU7hVC41aWlKyj8V186pixb
+         LySiom4vYHWjLhLSxIEtiip5FNX0fjcMCxv0E/1LfviwaEBDzHkeI1kgbAhIV/HBfGd2
+         9M0g==
+X-Forwarded-Encrypted: i=1; AJvYcCW7bUDBY9tIJDgyheuGv5h6H7ldWxqGabE4ZkySn54weTpT7vgLR4KrdYiXWZ13Ja9sVp+4QRgo4Vo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzORuoQdLLD5bk1ItR8bj0X+SKwqoRqp/PF86pA7FCBkYqD5Ed+
+	wnh7LukBAwKwHUdmQfw0Syzx16Qe/dPcbTNX6Wifm3D4G/lQbGHRkREIbSU0J4YHFjfwzG5hxy4
+	hL4zDym6FOmS0v/sZlg==
+X-Google-Smtp-Source: AGHT+IGJMwZEQr7XX54NJ2Wc09gQFNrebDpGN2LmiuqxXXpWV4PLS6zLIf0YQX/7suAC0aQ3d5AJ2BOMHO4N4Oqa
+X-Received: from pfbig24.prod.google.com ([2002:a05:6a00:8b98:b0:730:597f:f227])
  (user=changyuanl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:e801:b0:21f:c67:a68a with SMTP id d9443c01a7336-22649a2ee71mr75511855ad.31.1742435777590;
- Wed, 19 Mar 2025 18:56:17 -0700 (PDT)
-Date: Wed, 19 Mar 2025 18:55:46 -0700
+ 2002:a05:6a00:3a08:b0:736:57cb:f2b6 with SMTP id d2e1a72fcca58-7376d62aac5mr7233223b3a.12.1742435779245;
+ Wed, 19 Mar 2025 18:56:19 -0700 (PDT)
+Date: Wed, 19 Mar 2025 18:55:47 -0700
 In-Reply-To: <20250320015551.2157511-1-changyuanl@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250320015551.2157511-1-changyuanl@google.com>
 X-Mailer: git-send-email 2.49.0.rc1.451.g8f38331e32-goog
-Message-ID: <20250320015551.2157511-12-changyuanl@google.com>
-Subject: [PATCH v5 11/16] kexec: add config option for KHO
+Message-ID: <20250320015551.2157511-13-changyuanl@google.com>
+Subject: [PATCH v5 12/16] arm64: add KHO support
 From: Changyuan Lyu <changyuanl@google.com>
 To: linux-kernel@vger.kernel.org
 Cc: graf@amazon.com, akpm@linux-foundation.org, luto@kernel.org, 
@@ -80,9 +80,10 @@ Content-Type: text/plain; charset="UTF-8"
 
 From: Alexander Graf <graf@amazon.com>
 
-We have all generic code in place now to support Kexec with KHO. This
-patch adds a config option that depends on architecture support to
-enable KHO support.
+We now have all bits in place to support KHO kexecs. Add awareness of
+KHO in the kexec file as well as boot path for arm64 and adds the
+respective kconfig option to the architecture so that it can use KHO
+successfully.
 
 Signed-off-by: Alexander Graf <graf@amazon.com>
 Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
@@ -90,35 +91,138 @@ Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 Co-developed-by: Changyuan Lyu <changyuanl@google.com>
 Signed-off-by: Changyuan Lyu <changyuanl@google.com>
 ---
- kernel/Kconfig.kexec | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ arch/arm64/Kconfig |  3 +++
+ drivers/of/fdt.c   | 33 +++++++++++++++++++++++++++++++++
+ drivers/of/kexec.c | 37 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 73 insertions(+)
 
-diff --git a/kernel/Kconfig.kexec b/kernel/Kconfig.kexec
-index 4d111f871951..57db99e758a8 100644
---- a/kernel/Kconfig.kexec
-+++ b/kernel/Kconfig.kexec
-@@ -95,6 +95,21 @@ config KEXEC_JUMP
- 	  Jump between original kernel and kexeced kernel and invoke
- 	  code in physical address mode via KEXEC
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 940343beb3d4..c997b27b7da1 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1589,6 +1589,9 @@ config ARCH_SUPPORTS_KEXEC_IMAGE_VERIFY_SIG
+ config ARCH_DEFAULT_KEXEC_IMAGE_VERIFY_SIG
+ 	def_bool y
  
-+config KEXEC_HANDOVER
-+	bool "kexec handover"
-+	depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FILE
-+	select MEMBLOCK_KHO_SCRATCH
-+	select KEXEC_FILE
-+	select DEBUG_FS
-+	select LIBFDT
-+	select CMA
-+	select XXHASH
-+	help
-+	  Allow kexec to hand over state across kernels by generating and
-+	  passing additional metadata to the target kernel. This is useful
-+	  to keep data or state alive across the kexec. For this to work,
-+	  both source and target kernels need to have this option enabled.
++config ARCH_SUPPORTS_KEXEC_HANDOVER
++	def_bool y
 +
- config CRASH_DUMP
- 	bool "kernel crash dumps"
- 	default ARCH_DEFAULT_CRASH_DUMP
+ config ARCH_SUPPORTS_CRASH_DUMP
+ 	def_bool y
+ 
+diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
+index aedd0e2dcd89..73f80e3f7188 100644
+--- a/drivers/of/fdt.c
++++ b/drivers/of/fdt.c
+@@ -25,6 +25,7 @@
+ #include <linux/serial_core.h>
+ #include <linux/sysfs.h>
+ #include <linux/random.h>
++#include <linux/kexec_handover.h>
+ 
+ #include <asm/setup.h>  /* for COMMAND_LINE_SIZE */
+ #include <asm/page.h>
+@@ -875,6 +876,35 @@ void __init early_init_dt_check_for_usable_mem_range(void)
+ 		memblock_add(rgn[i].base, rgn[i].size);
+ }
+ 
++/**
++ * early_init_dt_check_kho - Decode info required for kexec handover from DT
++ */
++static void __init early_init_dt_check_kho(void)
++{
++	unsigned long node = chosen_node_offset;
++	u64 kho_start, scratch_start, scratch_size;
++	const __be32 *p;
++	int l;
++
++	if (!IS_ENABLED(CONFIG_KEXEC_HANDOVER) || (long)node < 0)
++		return;
++
++	p = of_get_flat_dt_prop(node, "linux,kho-fdt", &l);
++	if (l != (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32))
++		return;
++
++	kho_start = dt_mem_next_cell(dt_root_addr_cells, &p);
++
++	p = of_get_flat_dt_prop(node, "linux,kho-scratch", &l);
++	if (l != (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32))
++		return;
++
++	scratch_start = dt_mem_next_cell(dt_root_addr_cells, &p);
++	scratch_size = dt_mem_next_cell(dt_root_addr_cells, &p);
++
++	kho_populate(kho_start, scratch_start, scratch_size);
++}
++
+ #ifdef CONFIG_SERIAL_EARLYCON
+ 
+ int __init early_init_dt_scan_chosen_stdout(void)
+@@ -1169,6 +1199,9 @@ void __init early_init_dt_scan_nodes(void)
+ 
+ 	/* Handle linux,usable-memory-range property */
+ 	early_init_dt_check_for_usable_mem_range();
++
++	/* Handle kexec handover */
++	early_init_dt_check_kho();
+ }
+ 
+ bool __init early_init_dt_scan(void *dt_virt, phys_addr_t dt_phys)
+diff --git a/drivers/of/kexec.c b/drivers/of/kexec.c
+index 5b924597a4de..db7d7014d8b4 100644
+--- a/drivers/of/kexec.c
++++ b/drivers/of/kexec.c
+@@ -264,6 +264,38 @@ static inline int setup_ima_buffer(const struct kimage *image, void *fdt,
+ }
+ #endif /* CONFIG_IMA_KEXEC */
+ 
++static int kho_add_chosen(const struct kimage *image, void *fdt, int chosen_node)
++{
++	int ret = 0;
++#ifdef CONFIG_KEXEC_HANDOVER
++	phys_addr_t dt_mem = 0;
++	phys_addr_t dt_len = 0;
++	phys_addr_t scratch_mem = 0;
++	phys_addr_t scratch_len = 0;
++
++	if (!image->kho.fdt || !image->kho.scratch)
++		return 0;
++
++	dt_mem = image->kho.fdt->mem;
++	dt_len = image->kho.fdt->memsz;
++
++	scratch_mem = image->kho.scratch->mem;
++	scratch_len = image->kho.scratch->bufsz;
++
++	pr_debug("Adding kho metadata to DT");
++
++	ret = fdt_appendprop_addrrange(fdt, 0, chosen_node, "linux,kho-fdt",
++				       dt_mem, dt_len);
++	if (ret)
++		return ret;
++
++	ret = fdt_appendprop_addrrange(fdt, 0, chosen_node, "linux,kho-scratch",
++				       scratch_mem, scratch_len);
++
++#endif /* CONFIG_KEXEC_HANDOVER */
++	return ret;
++}
++
+ /*
+  * of_kexec_alloc_and_setup_fdt - Alloc and setup a new Flattened Device Tree
+  *
+@@ -414,6 +446,11 @@ void *of_kexec_alloc_and_setup_fdt(const struct kimage *image,
+ #endif
+ 	}
+ 
++	/* Add kho metadata if this is a KHO image */
++	ret = kho_add_chosen(image, fdt, chosen_node);
++	if (ret)
++		goto out;
++
+ 	/* add bootargs */
+ 	if (cmdline) {
+ 		ret = fdt_setprop_string(fdt, chosen_node, "bootargs", cmdline);
 -- 
 2.48.1.711.g2feabab25a-goog
 
