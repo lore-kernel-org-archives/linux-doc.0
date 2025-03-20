@@ -1,102 +1,122 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071D3157A72;
-	Thu, 20 Mar 2025 03:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A622E17BA6;
+	Thu, 20 Mar 2025 03:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742441137; cv=none; b=Vf/+q1rqhoDt4HoOVc0plWT9Ytk8NShbsdWfkT8949PQML+Ao8dYMKN734MxvlsgYntN5kXfysWRrZ8W3C8LyjuGll+pedAaUdBu4XVv46EimTjqkgEj3rt1r6bc17gWONhDdW5ggfFIs25uoihs0ipYR2M87DsPMeCWLPTYMqg=
+	t=1742442997; cv=none; b=ofr0NLVqaJ/TVU8wjvSvm9huODZk0lhFi71EzVS5RcULOQMBTp8fn8o6z/E91Dag7EHUs39ozl1XROhZc0sv0g4HRz7x4EiIVm6O6eisHfpDQp5L4sgUATIMvIqmFc0gwl/rInBYRR1R+vqtBQB5NJtcLgH8fUd2qMwS9kPeQ7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742441137; c=relaxed/simple;
-	bh=H7lnaBN5SZm6OkgoNmP24ilkdoieYSGpSoSXBz9EiNA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rVTbMqtwgRab41Vtgwl8q4jme06DQ7BEnVNT2tg9gYiJAyZdf1QAYVwiDOdGQYmm9BOYqSeNCT/OwYFX4OJdX6E/J6SrKNtBUApaQa5RJUlsBKFTyoGVKEXA2dSuUDZP9/ui09AzN7uXzjWQIQQr6rLS28Yo9yN+OpByRi9rMgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JR5mQLw5; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742442997; c=relaxed/simple;
+	bh=/h3zP33Mov53MvJ5F8oD97YZG7pYUTKqEZRskc9VT44=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=BDrlf9woDTsPMqAiBh3SYwm4k0jIbvSicO82rC8ENJGG/0m1QGWQdP6nPxqOVRI8t6JnpZjjMgJf9v6tPc9TQ+6fSSWBMgEoLMlwOnNj2SyHg5ddZBOYWMPLKOV5ou1zBFmx0mWEkG+4mddqj1l+mzLXOD2IZ645aleb8ywvDLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=jWIdNGAB; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JR5mQLw5"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5e4d50ed90aso506503a12.0;
-        Wed, 19 Mar 2025 20:25:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742441134; x=1743045934; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H7lnaBN5SZm6OkgoNmP24ilkdoieYSGpSoSXBz9EiNA=;
-        b=JR5mQLw5VZ4adcw+hk8StnubjbCsvrI424Kws24/XFkS3B8DRjZPRs5m744DkTeCI5
-         K3s/QrO9/Dt2gn0eTDRH3ofp2axOp0WiYODzDB6inrMnOpZ262F2QWLKlz7XLwwEAXDS
-         csNy5y6nitpp/PDxOoUaqAUQp7nyAnij3J7IELtWm/NCYAd/RQEsoQi9cisTloHO89/P
-         xoflydu5qgtmlNOSIFNWObl4RSMyoDjKv/AZtNT41XZlygI1QZLo8S3nztfNu77CJ7em
-         N+4fS2PzqpyXWiLLElL2kxzMQ7tSqtXCMa07nYq3AYvayOM5VEMG2WP7PWz5MiS5F3Gx
-         nXtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742441134; x=1743045934;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H7lnaBN5SZm6OkgoNmP24ilkdoieYSGpSoSXBz9EiNA=;
-        b=uoUORPk+QFAArhVz1skWQYLfo7Z7ZodeMA4540QWf/K+grB9V/mw85aYsJNdf1hil3
-         kCh2Yz/DmoC4JQiEeGkZmRUpumu2h/zJu3Wk4C885NvXVSAVhMdznrrUDyNWNFnOVu1H
-         GEM05O0tqhCAun/VlKN1RgYi+FLqVUZ4vygb9K9C+yJaDQDlFp9omrGokr3Y+O8Vnfza
-         Ts/M8++5DA+GlcSZ/58aW+rZI8ri0tGgDtHIkxMbXfbR9HY6VMWJAz0pmL+W7gBMW4E8
-         FuNb2gwqO6a+9yV8s55+sYif7JRK2M42e4hWJKfDfsjmTJ321yJun/j/RlY6sDyvduzq
-         6SLg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/5h00RsJB92Q0eFfQvUKx9xpCaLI2z18nLrXMW5K9+tAMA9/B2/RNWRCT+3AhBlGne74rXcu1WO8=@vger.kernel.org, AJvYcCWmZcJbk7Suk86aDzvfpEWChrHvcAqv16Gy7yDSK1F+hW4svlBz8TPP51B2mcferPQUcQ2lx3OjHBTGF6ZM@vger.kernel.org
-X-Gm-Message-State: AOJu0YzS/bZbzaLE+mPG6GlEROqwC3HzfURk00ENpdBrrKKBsbRIVsn8
-	4hZ2L/OrZpbOWSm+6B/E5QJ4SJ0ZkiqDYCp4XyBd3Q/ntVyJMRT7zFXHkW0VmEiginCy5ufbLa+
-	3TNMajR9/nrldrjdYsokdhlZYKWw=
-X-Gm-Gg: ASbGnctPFIZy58ST0/z2p5A8/EAfG+JyMcWdvjFokzsoaH8N6mAti5ZsrpwtXJeV4zx
-	KNZbZpMTdvrrgDk3Mz0DUwcjRfZaoZdlgqi+iGeLJ2WxKEHChSQzyPj1/+co/KlnSwesBNv4kpH
-	DKyzT0uPxAJQImeR/SbfghG8weeg==
-X-Google-Smtp-Source: AGHT+IG52k4ca442AWo/QH7lQRw6KyfHF7U1QMXqi1uSwYO1EebwnJFsud5lcaJQAjQE6fqSyOUSA2tlHYQVzEDA3gg=
-X-Received: by 2002:a05:6402:3487:b0:5e5:2c0a:448e with SMTP id
- 4fb4d7f45d1cf-5eb9f1d2a6cmr1716099a12.6.1742441134043; Wed, 19 Mar 2025
- 20:25:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="jWIdNGAB"
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52K2oEuT030651;
+	Wed, 19 Mar 2025 23:56:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=aILvfTq/rdHZeO+eIoU0Yi5qGiB
+	teuutlXkFQ4NtMOs=; b=jWIdNGABUQotCVg8zsgdbygJg0EWBiQYNIh0mLqyR+2
+	e+JjSXz3lxt18ZboyIsxeVjYOVon6R3HQNaTU5p5Z9oh9gTxFlkWx6hEAXYJ0bR7
+	0qpu/sOwuZLNasynrm1Ih2KNURk4Es0DJHfeq27GMzIS6MIVfEGvgxffZC5SfN+d
+	dPP12gxxdm55MDuralD0HDYMn5x5PjavX21SR5HxB20+MH14Fhtl4yGj1VvsZRNF
+	xuEOMSa5WGAM4MF9ZHSRiNBK3hH6Z2kbaG4cbu7XYLUMpNT3aPsyPEl5NiKiMANc
+	ZTJd+matJbi4OuZEgcf/2TRUZYQQfoKTISZJDTh6fHw==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 45fwvmm66e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Mar 2025 23:56:16 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 52K3uF1u012604
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 19 Mar 2025 23:56:15 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Wed, 19 Mar
+ 2025 23:56:15 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Wed, 19 Mar 2025 23:56:15 -0400
+Received: from ATORRENO-L02.ad.analog.com (ATORRENO-L02.ad.analog.com [10.117.223.3])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 52K3tvid030363;
+	Wed, 19 Mar 2025 23:55:59 -0400
+From: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Subject: [PATCH 0/2] Add support for ADPM12160 a DC/DC Power Module
+Date: Thu, 20 Mar 2025 11:55:46 +0800
+Message-ID: <20250320-dev_adpm12160-v1-0-8f7b975eac75@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250319155237978a-_o_XXMLszvXPDlyRsb4@zte.com.cn>
-In-Reply-To: <20250319155237978a-_o_XXMLszvXPDlyRsb4@zte.com.cn>
-From: Alex Shi <seakeel@gmail.com>
-Date: Thu, 20 Mar 2025 11:24:57 +0800
-X-Gm-Features: AQ5f1Jpl0KnmmzSMsJlg3wjX0rLTgUXiXWmaIE2JlpCps6TgFEmcyiR_mZhBYak
-Message-ID: <CAJy-Amm4qkwffCAnOb8oz+24-jG-7NKT7zmfcNjrpyMtwmzyXg@mail.gmail.com>
-Subject: Re: [PATCH linux next 2/2 v5] Docs/zh_CN: Translate msg_zerocopy.rst
- to Simplified Chinese
-To: jiang.kun2@zte.com.cn
-Cc: alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, xu.xin16@zte.com.cn, 
-	yang.yang29@zte.com.cn, wang.yaxin@zte.com.cn, fan.yu9@zte.com.cn, 
-	he.peilin@zte.com.cn, tu.qiang35@zte.com.cn, qiu.yutan@zte.com.cn, 
-	zhang.yunkai@zte.com.cn, ye.xingchen@zte.com.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMOR22cC/x3MQQqAIBBA0avIrBNGQ6WuEhGWU82iEgUJorsnL
+ d/i/wcyJaYMvXggUeHM11mhGgHL7s+NJIdq0KgNthploDL5EA+llUVpOovknHfdTFCbmGjl+/8
+ N4/t+yCmwy18AAAA=
+X-Change-ID: 20250320-dev_adpm12160-5960e77a79be
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Delphine CC Chiu
+	<Delphine_CC_Chiu@Wiwynn.com>
+CC: <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        Alexis Czezar
+ Torreno <alexisczezar.torreno@analog.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1742442957; l=1228;
+ i=alexisczezar.torreno@analog.com; s=20250213; h=from:subject:message-id;
+ bh=/h3zP33Mov53MvJ5F8oD97YZG7pYUTKqEZRskc9VT44=;
+ b=YxORlbo5aQfFwruurTsBTx3J9EfMjfb2ZODygrTKqtodas0wmnv3/c7Sa+i8cg7Wkfw6dxTx8
+ W0ERn7aymvzDnYwmpqy3XeH21aiUq/zjMBch2H1G7Ar/nl8qJoNo4Mh
+X-Developer-Key: i=alexisczezar.torreno@analog.com; a=ed25519;
+ pk=XpXmJnRjnsKdDil6YpOlj9+44S+XYXVFnxvkbmaZ+10=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: u1aaZNwEV6JDabxyGvePtO3c9ZAIBysk
+X-Authority-Analysis: v=2.4 cv=J5+q7BnS c=1 sm=1 tr=0 ts=67db91e0 cx=c_pps a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=gAnH3GRIAAAA:8 a=pX8K7AMcFWmkIJv9s54A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: u1aaZNwEV6JDabxyGvePtO3c9ZAIBysk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-20_01,2025-03-19_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=794 mlxscore=0
+ clxscore=1011 phishscore=0 suspectscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503200023
 
-<jiang.kun2@zte.com.cn> =E4=BA=8E2025=E5=B9=B43=E6=9C=8819=E6=97=A5=E5=91=
-=A8=E4=B8=89 15:52=E5=86=99=E9=81=93=EF=BC=9A
->
-> From: Wang Yaxin <wang.yaxin@zte.com.cn>
->
-> translate the "msg_zerocopy.rst" into Simplified Chinese.
->
-> Update to commit bac2cac12c26("docs: net: description of
-> MSG_ZEROCOPY for AF_VSOCK")
->
-> Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
-> Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
-> Signed-off-by: xu xin <xu.xin16@zte.com.cn>
-> Signed-off-by: He Peilin <he.peilin@zte.com.cn>
-> Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
-> ---
+Before adding the support for ADPM12160, this series includes a commit
+to fix the issue with max34451. The family of max344** contains switched
+PMBUS addresses 0x46 and 0x4A. For max34451, the version MAX34451ETNA6+
+and later fixed this issue and this first commit supports this.
 
-Both are aplied. thanks
-but a better way to send your patches as a patchset in one thread,
-You could use "git format-patch -2" for your 2 patches, and then use
-'git send-email 000*" for your just generated 2 patches.
-For details, check
-https://www.kernel.org/doc/html/v6.12/translations/zh_CN/process/submitting=
--patches.html
+The second commit adds the actual driver for adpm12160. ASPM12160 is a
+quarter brick DC/DC Power Module. It is a high power non-isolated
+converter capable of delivering a fully regulated 12V, with continuous
+power level of 1600W with peak power at 2400W for a limited time.
+Uses PMBus Configuration.
+
+Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+---
+Alexis Czezar Torreno (2):
+      hwmon: (pmbus/max34440): Fix support for max34451
+      hwmon: (pmbus/max3440): add support adpm12160
+
+ Documentation/hwmon/max34440.rst |  37 ++++++++---
+ drivers/hwmon/pmbus/Kconfig      |   1 +
+ drivers/hwmon/pmbus/max34440.c   | 139 +++++++++++++++++++++++++++++----------
+ 3 files changed, 133 insertions(+), 44 deletions(-)
+---
+base-commit: c812cc42f92d3d0b17c01b5db9a1dee5793a1491
+change-id: 20250320-dev_adpm12160-5960e77a79be
+
+Best regards,
+-- 
+Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+
