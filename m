@@ -1,96 +1,92 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF8616D32A;
-	Thu, 20 Mar 2025 14:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6766A8BF8;
+	Thu, 20 Mar 2025 14:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742481908; cv=none; b=O4szitWigpWBpZKdfXO95dPYr/CPFm/+PnQjMEm8S07Q6QaLu20EXNkoxjd80Ywu87spgsO9Q+PkSf3lFXR8NG83o+i2zGjcExgiz7KPHSger0KQso+FzQWI6Tu1XBYgvcjTfOWX+5Gz0zI3IoZrcD+ZE+Wzy8G0grXxaCvnJJo=
+	t=1742482566; cv=none; b=mh1ve5cv2flho31P+ityFIuaZD02Lg5LS5NARLEBtkTLZq779i9CbrWiPFdjpvseyNYdezbv90Jt8yX4+NKeQ8ifyBX0WNPOmQv0oCNlC0OODHj4UyF+PM3QPtIvaHTqK7foMTEJJcaFBeLKkT6fNomgMqoctLUDL2oPYQtqOac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742481908; c=relaxed/simple;
-	bh=kvFDZZfubpKqfDarf88i3jdXBTPwFlTbnMmYGlzeAK0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fskSpV+iVsAnypHQiP4tz5umBDfaGQ1dZHRSyI2QGYG6AvCNTovSCKTC3cpqWMW6cWBJBlsoUuP/qBHBbu5+HAAIR+ohECCkxmNizY8jE7D04n54Du8Gz2V5TKorEE4tbTWhBCFcX0swbHJH7OYQMUveHIYHvbcFMLtep+39u1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=islBIcnP; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1742482566; c=relaxed/simple;
+	bh=DEQ4SQovtGJhf5I7qm+v1bo7YXqeiuODFmBSdVBmv4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T5XME/LgeFq9Z9/Aq9fTw/3G/2AwLZdgeKHwu00nRzPafU9jsL85tgWEjdedAbYFZSbIMg7bnAm6t7r8cZz32rwdT++5VzJcj+VOVmlBYAY1nnVajYl0VUGsyulkKbp4v8E/5a/AblfSWyOfgBVzI20Scc31VoY12fQo9Xt7/kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YSVMFLXy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="islBIcnP"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6D2FF41067
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1742481904; bh=CoF70uKeI5oxzSiOPNjzHWGikLf7hCVkYp2xH2dZwr8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=islBIcnPKt8uW5hA3T3PPSmSCAiYqTkWFBEgj6iGu0PWPhW3yjcXFHgamlCxP1MrS
-	 /Lj+fUKxr5XHpTVprLUBgUismDvPS5CB5J1IUUz2odXEXKxobBdvyGKp74eASDg1b7
-	 3NcoQjKXG2u/38NTpV85yQL2oGjhpBevYaOfsEqQNZYT3+llSNJ46De0it7L6QHik5
-	 4OCNYQKMEJTCOOJW9yd4iQ9bGRG/5GewfSs/+M1vFeCmQII3N0M93VIhTR33fzTGT2
-	 XjQTWkJpZniQrdJpagKpy1B+EeTb8h9XOtTFnPpNxPzbj/PPuetJF6/iR/xdwKAoCn
-	 7GVrkwxcSB9Ag==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6D2FF41067;
-	Thu, 20 Mar 2025 14:45:04 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org
-Cc: graf@amazon.com, akpm@linux-foundation.org, luto@kernel.org,
- anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
- benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com,
- dave.hansen@linux.intel.com, dwmw2@infradead.org, ebiederm@xmission.com,
- mingo@redhat.com, jgowans@amazon.com, krzk@kernel.org, rppt@kernel.org,
- mark.rutland@arm.com, pbonzini@redhat.com, pasha.tatashin@soleen.com,
- hpa@zytor.com, peterz@infradead.org, ptyadav@amazon.de,
- robh+dt@kernel.org, robh@kernel.org, saravanak@google.com,
- skinsburskii@linux.microsoft.com, rostedt@goodmis.org, tglx@linutronix.de,
- thomas.lendacky@amd.com, usama.arif@bytedance.com, will@kernel.org,
- devicetree@vger.kernel.org, kexec@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, x86@kernel.org, Changyuan Lyu <changyuanl@google.com>
-Subject: Re: [PATCH v5 16/16] Documentation: add documentation for KHO
-In-Reply-To: <20250320015551.2157511-17-changyuanl@google.com>
-References: <20250320015551.2157511-1-changyuanl@google.com>
- <20250320015551.2157511-17-changyuanl@google.com>
-Date: Thu, 20 Mar 2025 08:45:03 -0600
-Message-ID: <87wmcj69sg.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YSVMFLXy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 909BBC4CEDD;
+	Thu, 20 Mar 2025 14:56:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742482565;
+	bh=DEQ4SQovtGJhf5I7qm+v1bo7YXqeiuODFmBSdVBmv4k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YSVMFLXyFzPJI+hkOQlOLu+y4DXUt2bDNDNburzDNwR9viykexwmdG3Jdp0RaYwSH
+	 +ZFT/SrMHPUxZyhpjyrx/+Py3pUnIqWDEUQVtfwjDTgGt8QEWFkeTLD6Xx0DW5xqN5
+	 I4zBCSuzfgrNP3RZa9GPa7Pc3fjcgvoFxp2MiSjsSahfg90jCvZnlH+pqkUW3J96TH
+	 pMIyyVQ/2xtap+g/qlVnh3opT3GX8psMTBXvIfD4J3/N/DFnXiUmsFlFmMw0s9UyOd
+	 VT/IvIle3SPNmPK6GZF2A/CNEbwt0JfPV/i5zCxTtajyykItR9uTSkUOrUrRfDwUYA
+	 7ytacpmnvrw/A==
+Date: Thu, 20 Mar 2025 14:55:59 +0000
+From: Simon Horman <horms@kernel.org>
+To: Gur Stavi <gur.stavi@huawei.com>
+Cc: Fan Gong <gongfan1@huawei.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Lee Trager <lee@trager.us>,
+	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Cai Huoqing <cai.huoqing@linux.dev>, luosifu <luosifu@huawei.com>,
+	Xin Guo <guoxin09@huawei.com>,
+	Shen Chenyang <shenchenyang1@hisilicon.com>,
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+	Shi Jing <shijing34@huawei.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>,
+	Suman Ghosh <sumang@marvell.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Joe Damato <jdamato@fastly.com>
+Subject: Re: [PATCH net-next v09 1/1] hinic3: module initialization and tx/rx
+ logic
+Message-ID: <20250320145559.GB889584@horms.kernel.org>
+References: <cover.1742202778.git.gur.stavi@huawei.com>
+ <60a3c7b146920eee8b15464e0b0d1ea35db0b30e.1742202778.git.gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <60a3c7b146920eee8b15464e0b0d1ea35db0b30e.1742202778.git.gur.stavi@huawei.com>
 
-Changyuan Lyu <changyuanl@google.com> writes:
+On Mon, Mar 17, 2025 at 11:40:39AM +0200, Gur Stavi wrote:
+> From: Fan Gong <gongfan1@huawei.com>
+> 
+> This is [1/3] part of hinic3 Ethernet driver initial submission.
+> With this patch hinic3 is a valid kernel module but non-functional
+> driver.
+> 
+> The driver parts contained in this patch:
+> Module initialization.
+> PCI driver registration but with empty id_table.
+> Auxiliary driver registration.
+> Net device_ops registration but open/stop are empty stubs.
+> tx/rx logic.
+> 
+> All major data structures of the driver are fully introduced with the
+> code that uses them but without their initialization code that requires
+> management interface with the hw.
+> 
+> Co-developed-by: Xin Guo <guoxin09@huawei.com>
+> Signed-off-by: Xin Guo <guoxin09@huawei.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
+> Co-developed-by: Gur Stavi <gur.stavi@huawei.com>
+> Signed-off-by: Gur Stavi <gur.stavi@huawei.com>
 
-> From: Alexander Graf <graf@amazon.com>
->
-> With KHO in place, let's add documentation that describes what it is and
-> how to use it.
->
-> Signed-off-by: Alexander Graf <graf@amazon.com>
-> Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Co-developed-by: Changyuan Lyu <changyuanl@google.com>
-> Signed-off-by: Changyuan Lyu <changyuanl@google.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         |  25 ++++
->  Documentation/kho/concepts.rst                |  70 +++++++++++
->  Documentation/kho/fdt.rst                     |  62 +++++++++
->  Documentation/kho/index.rst                   |  14 +++
->  Documentation/kho/usage.rst                   | 118 ++++++++++++++++++
->  Documentation/subsystem-apis.rst              |   1 +
->  MAINTAINERS                                   |   1 +
->  7 files changed, 291 insertions(+)
->  create mode 100644 Documentation/kho/concepts.rst
->  create mode 100644 Documentation/kho/fdt.rst
->  create mode 100644 Documentation/kho/index.rst
->  create mode 100644 Documentation/kho/usage.rst
 
-I will ask again: please let's not create another top-level docs
-directory for this...?  It looks like it belongs in the admin guide to
-me.
+Thanks for addressing my feedback on v8.
 
-Thanks,
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-jon
