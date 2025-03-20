@@ -1,264 +1,109 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2083.outbound.protection.outlook.com [40.107.101.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0AE2A1A4;
-	Thu, 20 Mar 2025 20:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.83
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742502565; cv=fail; b=ZrFO5JwcsVIsTkNR/oTPeRHEsul2clsoW8eTRiB+Nf/1QOnvHDd6zWEddVMJHILMfcu+Iu+5vKgAOagbzzLTw/c2jjl9wUGBqfqvZl996b6YD3D8M8jROKvS8HAbAYSIjg9v5E2YXN1JXuyyaEOawLyjI39w0zz4Js8nEf8w/00=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742502565; c=relaxed/simple;
-	bh=222yo6iLVt9/WPbPAb5lhYAtXWBVWrGBZ5UJZgs9Czw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=KhVvaNQ94OpxEXaNQzjAywyjIPBBxB9dC3HBYdHTEeczg/AbIrKBgY8O/5q93werzYQ2mTpl9kb9GBvoB3dHaNNB/vfYcyAKXQ0nLYv76bLMHNZ+eOYkOyxCULpnwq97Diwhoc5If4AoZ1tLWQ3STv0+RgeliObMXkjyNpYyFmU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=gsavcUHE; arc=fail smtp.client-ip=40.107.101.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB10D22A4E0
+	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 20:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742503387; cv=none; b=eobCR/azZpN2QKQTH/YecBXA3xgyuX5Kt9fr16HItn3+dA+rfLpogBKzTNPT2etfIxeAzMZ0IADVeHPfqKcHVSDrDJZmuUJyoXAiVFT+V4DUT5xcm0jxvKAN/G0sd6sLU3xWtYZenLuGBSQb3VLX8EUf1YGbxEdhF/uFhHQ3bxA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742503387; c=relaxed/simple;
+	bh=FpuegLmU5tbQxu4BeI6waAfSkfTSY0kMV2xhhNvEvm0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uTpCf9VVPkKciJVk70im7zoxjRdtec5tHYfhGUs/GbGtdq0CMJ8GkLfDaLkjVsG4mXI0NW/StE+mQoGQvc/645XwrR0rbvbc6NjObxeus4M2p7GCFdCm6HKXAwlgNvYbmP/pY/oHdQaBoe6Bk20hwF9tec+VcB7yPctTG1/YrZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=kpt3j7rE; arc=none smtp.client-ip=209.85.167.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="gsavcUHE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pnmL/lxgyTf7RFPeYYtuOa6RPZ/ayMWBAeN3ZR6I7JvkHGzz+WMTFgIeVhIOQj//UpFOFLKXsjQC21BUu6OFIxxVqdIpw4ruTWCbT9urPHhvtkfIyyw0akpzjr7tBPvsS/hlH6tPgoLJWT9YrnV17Ku8A0rrYKgWfqmgo4n5u4gyosVUJyt/bs7/KyaUN4+2yxORVOzGYoZbSGs/y6hIK6IVaiflSdCrbFwOXXGAQaUwRGcRQ1sqJ1mwdVpPebAzqyjmdjykGc6ldu8V/g3bMHpg1CIoLrovwTqncMB0CB1wnU4/r6yInMNpeaEcf5zTkfrVxIEAw3lF9LpNQeIo8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YrUTLoSgG+MJ5S/FDZA1kCa4WxycjLQaDUBQ7F1vQA8=;
- b=H8MozzGm49ZgRuTJtt+ZkveP+gMG/ImbM5vf1rgrlEQk9t0jhPeLIIaMMJ1a+kZicslOF/WQzCRd9Btq3SzVs8Nryt/RCL6PDtIWtYChl7pcza12AUp9AU5Hv/hiYtyyCzE8igG8zbGB9HVw+0c396gAT4mUy4helKU9KBbGXkDYiMBWrXujwGueSPVNH/+Ob+UywWYKFziX12yeF7d7qkwVKcsF4CzzQz7WwIKTBAj6sAy/8myovO4KKGNbOR6ZI5rLZhzwKdJcxsMt9vmnDUA32s8gmkFGAiHttC02OsAnkrJcNZmkG+mFReGOzW4FRZoZFisY/KFjt70guf0u1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YrUTLoSgG+MJ5S/FDZA1kCa4WxycjLQaDUBQ7F1vQA8=;
- b=gsavcUHEWwNKkD6feJx+LHbUOmx1QxipMq2L5CJrSrM1vtS4pIyovuXFkj+23bz1LLDuSfx2TrqoUE35wccpB7Q6/9Iv6y0A8Tjo1sK3QKCAio8Wm3w5qfZf7wdLwv0skubPGYU0cA0GoneSrwdUOsyc8Bfyc9Ecvg/vOuqODP0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by MW4PR12MB7481.namprd12.prod.outlook.com (2603:10b6:303:212::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.34; Thu, 20 Mar
- 2025 20:29:20 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8534.034; Thu, 20 Mar 2025
- 20:29:19 +0000
-Message-ID: <7853e74f-661f-4e24-beb8-560998f230d6@amd.com>
-Date: Thu, 20 Mar 2025 15:29:15 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: Reinette Chatre <reinette.chatre@intel.com>, "Moger, Babu"
- <bmoger@amd.com>, Peter Newman <peternewman@google.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>, Dave Martin <Dave.Martin@arm.com>,
- corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
- rostedt@goodmis.org, xiongwei.song@windriver.com,
- pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
- jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
- kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
- xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
- mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- maciej.wieczor-retman@intel.com, eranian@google.com
-References: <fc3a67ee-6e97-4b9f-88d9-c24c6dab20c3@intel.com>
- <d1ca9220-1ab7-4a39-819a-03a6069b7ac4@amd.com>
- <CALPaoChLL8p49eANYgQ0dJiFs7G=223fGae+LJyx3DwEhNeR8A@mail.gmail.com>
- <a4ab53b5-03be-4299-8853-e86270d46f2e@amd.com>
- <c1c0a99a-a467-4ae6-80ee-04b6a9cdb6e5@amd.com>
- <Z890Q2GoP6GecwW4@agluck-desk3>
- <04e47d0e-6447-451e-98e4-7ea65187d370@amd.com>
- <6508cf67-3263-432e-892c-9b502b3c6cd4@intel.com>
- <f8a20ed8-6e30-4cff-a96b-8df89a605081@amd.com>
- <d07a70f5-b1ca-4766-a1d9-53988dd9164f@intel.com>
- <14c14b11-5b45-4810-8e46-019c8a67fc90@amd.com>
- <1db8ad73-5194-4821-844a-8fd7cac72ad4@intel.com>
- <9b8653a3-c6fd-4748-a4b5-94d5598d180f@amd.com>
- <20ec195a-c4dd-48d9-89f6-4d48fd438fe8@intel.com>
- <be6d23c8-3e93-4bdc-8b33-d3af7df7cc94@amd.com>
- <7f54f9aa-1102-49ed-b830-6facb6f48366@intel.com>
- <CALPaoCj7aSVxHisQTdKQ5KN0-aNzN8rRkRPVc7pjGMLSxfPvrA@mail.gmail.com>
- <8babbd2a-50ae-4a18-8e48-5421539ef0e6@amd.com>
- <ad3867b7-cf4c-4098-9639-e98d1145617e@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <ad3867b7-cf4c-4098-9639-e98d1145617e@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA0PR11CA0011.namprd11.prod.outlook.com
- (2603:10b6:806:d3::16) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="kpt3j7rE"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3fea67e64caso746395b6e.2
+        for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 13:43:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1742503384; x=1743108184; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JndwPcEu40LTfcktnqoRyV1fHHjivjql1RHGUu6ZCpk=;
+        b=kpt3j7rETHSFaFIAO+I3sKZH9baiTJ5sqT8BYFy9kuZK+aH3yKsmd0DyDmcGgKTPYJ
+         KkNijPHk+4eHa5efJIqGDD2eo0DEUix7af5hcRSHd4fkJ15BA/aosl/JPemddTIAe92u
+         PKEQoIuZVt1ZOtuNb51CqAX0qehMaYl6h5QEOg5COFuI3Hf0nc1NZooTTMXwJjDFSTJN
+         DDZJ0gRa4admAOtzuTPqJ/yqhm6dIpy+jRBZECQKXHw8vlteVEY3SE3ssi+36r6Q/gTD
+         on3h96wteoecb+X5oKEYNYbHEfZ/g2w/DlPsvzFiNkXGPPry7X5vbeX27AOADvx1KQi2
+         xtVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742503384; x=1743108184;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JndwPcEu40LTfcktnqoRyV1fHHjivjql1RHGUu6ZCpk=;
+        b=H0NSx2pu/EgfvwPMLGVJ50/oQu+MoXFB2zwxDXcP8GsC6eVz0a4MPxGxzA/OcI44B5
+         XO11gwdWCkPidVuBhsEjbK17YL0u0saekjR3DuZUTcYB1PEz+MPjjP+sQqS1uo5WOeub
+         6/RJSeo7FC67/fXUfS2xgN/mZxbtRy9JDLmsqWMi+Wu1Fu9A0in6upnanPs75CoE3rWk
+         6N4fFFU4X2Dkq7z52VDBoJglx61FvVXp0tJpUWbjtUeI/vylh2f3iybCYSofM2emcOoV
+         0fleSAWs+BlbZ2FA2+771Ku92/utgHvdA2/r+LJTccLLcmP/yPh50IeHKgAZEStm8AM0
+         AmiA==
+X-Forwarded-Encrypted: i=1; AJvYcCUulZOiR8cfCrcRB67jLrEWUx7W/9+fvqgJVaSB6s3G4fDm09H3qsrG1tREGnpB0DghR9Q/rk3mJTo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhVKJhJBIfKxQeMlBoZ5+ug7nMmM/fyJ97KluYZ8rT/AuayxM7
+	WhLqHySwYuMa7pN7lKsbiEDxn3xn0BltpkM7hX/Mn6c0+GkaUunavA6LegYnrck=
+X-Gm-Gg: ASbGncu+BNGlsPUosMO6EwEWTWwlnQ/+25Ye0XntNDt5Mk4j1VfzyV0zl/vrHAvq/As
+	jSwJQ2gKBgKEN0kQHwgGODnkg0ZATVm56rTppuIWXW9r4fiJBEF8r2ALH8aEwztxpuJIx8CgRW0
+	9I1DDCQ5NI9sY1Q+aIwaKApl7U+Gu5Vqcs4GfT4fxu3+AMOa19+KRnyDRbG0fCDCKe9Cq+Nu6Uo
+	I4fUhs98/yk8Bzxhnyy5h8Ghw+CLm7AybxX8q0If8GSUp0ly5TmxI9ND8W1pPGnOg4mrpwJrihR
+	wViQZg5D/qj247AhVvmTSGYzUb7GNVwe6BSVD3aG8+uuDvOr61ORmCUlYkLiO98ix4VwqyYZs70
+	LFn+UzQ==
+X-Google-Smtp-Source: AGHT+IGrPQlyXSXYBY7u+saxCR6isREiortDVdrxVss20iMydrEK8XXm7gPitUstCTe1G0rs6K8I/Q==
+X-Received: by 2002:a05:6808:178d:b0:3fa:cf11:1493 with SMTP id 5614622812f47-3febf70afbfmr451429b6e.1.1742503383804;
+        Thu, 20 Mar 2025 13:43:03 -0700 (PDT)
+Received: from [192.168.0.113] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3febf6dce65sm62432b6e.14.2025.03.20.13.43.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Mar 2025 13:43:02 -0700 (PDT)
+Message-ID: <4fb5329f-be34-4d98-b34e-2da4e035f44c@baylibre.com>
+Date: Thu, 20 Mar 2025 15:43:00 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MW4PR12MB7481:EE_
-X-MS-Office365-Filtering-Correlation-Id: 749e3ef3-5974-4b0b-0f01-08dd67ede436
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?M29MQSszenlQM2kyeVJnTEI3a1lZT3R3b1ZMZ2h5TmFUeFlhUWxrR2h5Z0Mx?=
- =?utf-8?B?dXVJejE2UFJqNnZ6NnRzd3ZCa3RyeUlYdFQrc1JkQUNCRncrbW8wZ3RWbkE4?=
- =?utf-8?B?dmpHSnRnZE5TSzBTYktMUzhWY2hHbGg1RlBESkpJOE1XYlZuQ25oV3V5d3Rz?=
- =?utf-8?B?eEg0TitaVERHY3RlWlgvNFYwRndvbWQwYThpMGovLzNFRHRyTWExNVkvc1dV?=
- =?utf-8?B?YmcxODBrNy9LeTBUT3JrMkxrVVZ3a0lsQ3M1Vk5LYmlCTXBFOVBFck45aFFB?=
- =?utf-8?B?MU9MeXJtak9DeXg1eWFGV29BVWlPczhPQWNYaGEwVDZLSWFhM2JwTUpaS0pR?=
- =?utf-8?B?bWxnYno5VjhnTDQrN0dxcERXWmMxUDFRMjB2SjhrTmFlcmlXb2gyeTBjVFRs?=
- =?utf-8?B?N3Fvc1IyY3dtYVIzOVZ5N0VsRnVnMnVjS2lxSnNsRlFWMzhCZjBkSGpSU0I0?=
- =?utf-8?B?dWNnQnczS3lFOEhhSjlRdkdNYlNlcnJURXVpSFZPbm5UNTlFcjE0Nm4yOHhu?=
- =?utf-8?B?Y2RORWZHekxVZEJ3cWtNd1JDUkJpME8zbk9KQ0hEMWxYWEZpczNsdW5jZEZD?=
- =?utf-8?B?TW9wVVBUeEdOVW5NdDdBZTJycmJLeXR3UXRiTkRROVl4Q2E4Z3kvSW9NcGww?=
- =?utf-8?B?RktRUEwyck0rMGpmR2dPY29UNSs3R3NSeis4ZU9CcjF2c3Zuc3hGT0NFY0FI?=
- =?utf-8?B?cEs3b1dFMm9HM21vZ0RLM0hmNFkzbUNIUzROV1dHWlV0Q1JKRnNNdG13NnlP?=
- =?utf-8?B?c1BzN1VxRklDTHY5TTlaRmY1cnUzYklCNW13ZmxjQVdES1padUhSZy9vSlEr?=
- =?utf-8?B?WU5pL0hMZGNmeFNQazRYb3FLaENLRUFNbmx3M3lSUW5RSkd5ZUYwL3ZYWHcy?=
- =?utf-8?B?VDBNK0ZRRERtbm9jNmFhblQ1ZEhObWpyWHJBZTdVUUlGUm0rR281cW5ydDVl?=
- =?utf-8?B?VUpOMGNKYjFqMmhLZWFGNE9kNFU1aWhWWVNXemFpRU5WaVVXYm9ZYzBtTkMx?=
- =?utf-8?B?amRsZHBwTFY0VkpXS0srRmRnekpuVk1YNzZHVUhKZXZ4eGhlWFZyNlZIaGQ5?=
- =?utf-8?B?Rm0xY2lVNThMQnlsSXhKUzZSODhwTjR0NW80N1F4K012RGJOMFFReGlINjZn?=
- =?utf-8?B?ZWxpeVYxeFZ6U2ExUThESUl6TWIrZTFDWnM2WGZzOHJZQW5CZ21aZGFvYitZ?=
- =?utf-8?B?UzZ5YkRkNG10NklCWncyVEdBbktlTXB4L2FvY1hOUzI1Z3NCMERLeEkxYXda?=
- =?utf-8?B?YXk3NU03YXAxZGdZY3NLTVdOQ0ErdmFpb0JESzVsck9tSklTeGNmRFg1VkVZ?=
- =?utf-8?B?WWR6SW9PdGMycS9uRWhvSGREMVNPZ01GRWlodHFmNnBCNFlHQitVZDZvclpV?=
- =?utf-8?B?elh4UTlNMHJ1OStKZkVsM1RBSXgrK2hBVWE3L093ZzRjOU1zTVFocnRnWWZs?=
- =?utf-8?B?WjdHa3dicFlieE1iT1ZaUTl2RFN2TkJBZngyZFFlNWVaTFZEbGhYZmt3UnRM?=
- =?utf-8?B?RVAvYnkyd0l5VkdPMXRiOFhUL3M3blJKblAxVU5jWWFSVklva2k3MFp2ZkhH?=
- =?utf-8?B?Q2hMamtEdExpOFd5QndJdXhtOTI0TGxobVdBZUhiaGRtRnRRYVpFa1F5dHJy?=
- =?utf-8?B?dXVjVTFUdXdoS2RrS1lka2hhdHZvTG9rbzZnNXBlTHl3cHQrQ1RrS0FBS3Z3?=
- =?utf-8?B?em9iMFQwNWF2MXVUZUNXaUdKbUdWTi8wNkJ4MkcvbzZaTFpzMFZBd3M0T1l2?=
- =?utf-8?B?OUJaS1pwVXBWSHFUdmZmcXVsNTdkMjdBWjZLU1RZVGdjdjlWSEQwczZFMW5U?=
- =?utf-8?B?S2tCcXNMeVVTQnhGU2FPZjVyMVBhYVBaOFp4cUFVUWhrUzFjWVF6dVlWa2Zj?=
- =?utf-8?Q?P8qapAM5HepZl?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RUZzNkRqd2NNSGNDWG5ObjMvenMra1VXajJpbXFoeDBWZXB3bHZZZDZtb1Z0?=
- =?utf-8?B?ZGxaSk9ucExxbkZIaEVUL2d6aXRVNllDeHJnbnZ0ZlVyN011cUVsOHdhSzFa?=
- =?utf-8?B?V3ZuZHJDZU1BNjF2eGQrNktkME5iMGp4ajVWL3JEU2Rrd2xUM2ZNc1dtcStZ?=
- =?utf-8?B?VHpWN2dYZHVaeVIrWGk5THNtajZMaUFaVEM2NDUxSGVUM1orTjVZbkptS3VX?=
- =?utf-8?B?Y1ZmaGNtczdFTE1VeHFRc1VCRjFUQWMyWEk2aWltTEhVRS9zNXVVVlVRMnVk?=
- =?utf-8?B?czFockcxWFpWSG01MmVMWlVYd0hvWVA3Q2hydGhmY1ZuaWVybUlEQnN1cXBn?=
- =?utf-8?B?T00zb0Rrakw5akJ5bElVWWN5ZUNJYzZ6djlqdjhTZEtRRDZ6Rk9sTUpqdzJR?=
- =?utf-8?B?R1NqZjU1QkxFTUJZak5zSUs5YVlSRFJLcWRma2kySUdTN3lpNzA3ckNSRUZI?=
- =?utf-8?B?OHMxOEdZUlBhd3U5YjYrZno4Y2RwRjZ6eWRPNlEwc2drV0NwWm1QNkREaVpS?=
- =?utf-8?B?Mm80WGdPRTlDUWFRRW80WENDRkh6MHRCcEdBdmJDQzFVV0ZpUHd1VDd0SUx6?=
- =?utf-8?B?a1Y4YUxEVC9pTHNHdDJOS1hTVlRXOUxMb3lLUXptS1dkS0hXcE1MT2d6VSti?=
- =?utf-8?B?RktJSHhwenpwVUs5aEdaa3VOL2lUUEg0MW4wdTh3dXZRTEpER2E1VXdqa243?=
- =?utf-8?B?dTlJQXJyMFFWMlBaKzlTVXg0RCtMZ0MrSTZ4bm9VWjZOY0RFaURkV3IzdWpp?=
- =?utf-8?B?QlV5QjNpbGpQc0pxNTFkVWhLNVFZMjhoVTZRNnZobGdvWjg0eHF2TEx0NEZ4?=
- =?utf-8?B?ak5wMklqSW83V0NLTlpHc3Q5N3U3MmJVUWlQaVBhY2ZzQ3dkSTR6cHF4WURl?=
- =?utf-8?B?NWRCblNNRVZiZGZlMk1pL2hmYmd6U01OMnpBNmNLVkZDa1JHVXk3TFJwYnhP?=
- =?utf-8?B?elNNQWZEWkFFR0lEZmcxVTdGV2ROT0N2NzNDKzVpNHQzemJ6d2d3ZU5HQzhU?=
- =?utf-8?B?NC80cFMwSitpR3BqMmgwYUpJb0hmTXE1Q2ZIRnVGaS90VUo2b1BxMTV2c1Rp?=
- =?utf-8?B?RWRWeUVWL05QTlZVWUdVbEpwNFdvNFJ6MnI5Ni9QcE8rbDVLcG44amFpOHA2?=
- =?utf-8?B?VXVQWHJmcmFpYVVEek53STAxRUo2UXQ2bnR3c0h2NFI3WUFGTXZOM0VSYlJl?=
- =?utf-8?B?MjJ1cXFCMFdlMTI0ZlFEY29BLzZxM1c3L3ZreGpYalU3MlV3UE03MWVTMnU3?=
- =?utf-8?B?SHZ0WHc2bjF6aUd0UzJlQmhwRUhmUkVaMjkvUHJMSWxwYTZpL1NYanZSRGhy?=
- =?utf-8?B?dG05dUwzUmpkMkM0bFJHM3djK01jYnNsdWZPWXJtZWV3QmhGRS9XRTBLYThm?=
- =?utf-8?B?Q0JZRkl2dWlZVUVDNmpHRGQ3d2M4Q3dWaHhvRVhrZjRJZlNmNUU3aS8yQkhR?=
- =?utf-8?B?dEpvQUZoM0tMM044VDlVN2FKWU4zWDhuRytUZTBhcHFqNWtLMzJyeFhxTEZv?=
- =?utf-8?B?MmNFQVR2bjNxS2dUZ3FUbm4wTkQ5SHhYY2Q1S2svU0tTejZ6TmtjMkIwcVBE?=
- =?utf-8?B?bnpMMjE1YTRtb3VwejNXTU1mcWJXYkVOaHBON0xXa2dROWVlSlIzMG50Um5Q?=
- =?utf-8?B?SGtvUHdaQ0pIaFVhRWViV1hNK1piTTdlNkdHR281V3BxY0JxRmh3R0paa29m?=
- =?utf-8?B?enRSeTEzWVZ5Q3lzaER5Mk5TMXIrK1hyRjZCVklESW1XWnAza3dSNXp3Ui9O?=
- =?utf-8?B?bHNIYVpPY0c2QlJQaFZRcnV1bkFPUGUrejE0cUJCSmZuYUtLSStMSy9SbHBS?=
- =?utf-8?B?RzR4MHlDdWhlSURGQmcwZy9KcnoyLzlSV050eE5FZ2xBS3dDV1BTY1lwbHp6?=
- =?utf-8?B?dkhxRU1yUXpRcXljQ1VPd21nMFY5ZTU3OEtiQzRvUUJJMkRaOEQ1Z2o0Z0M3?=
- =?utf-8?B?OWMyaVl3WlNoMFgxbnlWNk4vRm1uMk9tdHJ0N09wN1JoM0RKL0Fqc29UR3Iy?=
- =?utf-8?B?TlJqd0ZTcXdoOHc3cFJ6TXllZ2Q0VXh3SW8wcmplTTkyWXZ5VTN0YzNDRDRx?=
- =?utf-8?B?cmRLbTFJV3pPdVV6ejJOdmViTURBUnpzTTVLK0lWRXFNY0J5TmdybDRsbjdQ?=
- =?utf-8?Q?9ozI=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 749e3ef3-5974-4b0b-0f01-08dd67ede436
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2025 20:29:19.2324
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ks6akpT/FdXv0txeAdiSWpH1128VGD7T4pQbofMa+MNOhNrrUnQ9vvlI2j7G/BDh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7481
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] iio: adc: ad400: Set transfer bits_per_word to
+ have data in CPU endianness
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+ corbet@lwn.net, marcelo.schmitt1@gmail.com
+References: <cover.1742394806.git.marcelo.schmitt@analog.com>
+ <930560a0d0ca7af597d4ad901422bc9ba3fc6a79.1742394806.git.marcelo.schmitt@analog.com>
+From: David Lechner <dlechner@baylibre.com>
+Content-Language: en-US
+In-Reply-To: <930560a0d0ca7af597d4ad901422bc9ba3fc6a79.1742394806.git.marcelo.schmitt@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Reinette,
+On 3/19/25 9:57 AM, Marcelo Schmitt wrote:
+> When SPI `bits_per_word` is not set, SPI transfers default 8-bit word size
+> and ADC data gets stored in big-endian format in memory. Because of that,
+> the IIO driver requests ADC data to be rearranged from BE to CPU
+> endianness. However, with `bits_per_word` set to the number of ADC
+> precision bits, transfers use larger word sizes that get stored in
+> 'in-memory wordsizes' and can be read in CPU endianness.
+> 
+> Use proper `bits_per_word` size for SPI transfers thus saving the driver
+> from requesting endianness conversions. With that, shifting the buffer
+> data is also no longer needed. This change has no impact on IIO device
+> functionality.
+> 
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> ---
 
-On 3/19/25 15:53, Reinette Chatre wrote:
-> Hi Babu and Peter,
-> 
-> On 3/17/25 4:00 PM, Moger, Babu wrote:
->> Hi Peter,
->>
->> On 3/17/2025 11:27 AM, Peter Newman wrote:
->>> Hi Reinette,
->>>
->>> On Thu, Mar 13, 2025 at 10:22 PM Reinette Chatre
->>> <reinette.chatre@intel.com> wrote:
->>>>
->>>> Hi Babu,
->>>>
->>>> On 3/13/25 1:13 PM, Moger, Babu wrote:
->>>>> On 3/13/25 11:08, Reinette Chatre wrote:
->>>>>> On 3/12/25 11:14 AM, Moger, Babu wrote:
->>>>>>> On 3/12/25 12:14, Reinette Chatre wrote:
->>>>>>>> On 3/12/25 9:03 AM, Moger, Babu wrote:
->>>>>>>>> On 3/12/25 10:07, Reinette Chatre wrote:
->>>>
->>>>
->>>>> Here are the steps. Just copying steps from Peters proposal.
->>>>> https://lore.kernel.org/lkml/CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com/
->>>>
->>>> Thank you very much for detailing the steps. It is starting the fall into place
->>>> for me.
->>>>
->>>>>
->>>>>
->>>>> 1. Mount the resctrl
->>>>>     mount -t resctrl resctrl /sys/fs/resctrl
->>>>
->>>> I assume that on ABMC system the plan remains to have ABMC enabled by default, which
->>>> will continue to depend on BMEC.
->>>>
->>>> How would the k existing BMEC implementation be impacted in this case?
->>>>
->>>> Without any changes to BMEC support the mbm_total_bytes_config and mbm_local_bytes_config
->>>> files will remain and user space may continue to use them to change the event
->>>> configurations with confusing expecations/results on an ABMC system.
->>>>
->>>> One possibility may be that a user may see below on ABMC system even if BMEC is supported:
->>>> # cat /sys/fs/resctrl/info/L3_MON/mon_features
->>>> llc_occupancy
->>>> mbm_total_bytes
->>>> mbm_local_bytes
->>>>
->>>> With the above a user cannot be expected to want to interact with mbm_total_bytes_config
->>>> and mbm_local_bytes_config, which may be the simplest to do.
->>>
->>> How about making mbm_local_bytes and mbm_total_bytes always be
->>> configured using mbm_{local,total}_bytes_config and only allowing the
->>> full ABMC configurability on user-defined configurations. This could
->>> resolve the issue of backwards compatibility with the BMEC files and
->>> remove the need for the user opting-in to ABMC mode.
-> 
-> hmmm, yes, backward compatibility is a big issue with an earlier suggestion
-> from me. Users with scripts/tools using mbm_{local,total}_bytes_config
-> would expect that to continue to work on systems that support BMEC.
-> resctrl could continue to use mbm_{local,total}_bytes_config
-> even though the inconsistent interface is not ideal
-> 
->>
->> There is no opt-in mode. ABMC will be enabled by default if supported.
->> Users will have option to go back to legacy mode.
-> 
-> I assume there will still be the opt-in for automatic counter assignment
-> on monitor group creation (mkdir)?
+This is a breaking change. Some SPI controllers, like RPi can only do 8-bit
+transfers, so this driver would stop working on those platforms. Also, if
+anyone made software already that depended on the big-endian ordering without
+checking the scan_type attribute, it would break that software.
 
-Yes. It will be available.
--- 
-Thanks
-Babu Moger
+I would leave this as-is (drop this patch) and just make it:
+
+	.endianness = _offl ? IIO_CPU : IIO_BE,
+
+in the next patch.
