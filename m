@@ -1,212 +1,182 @@
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7682327A3;
-	Thu, 20 Mar 2025 18:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9168122C33A
+	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 19:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742496824; cv=none; b=ajeRnTRbbb16lC1G478/wG+Mt7rg7JPDuqAHsuFjlGOOcgucJkp9s0ExpTlgBR4dLHHshMaG54DiiHYSL8tJf7a5lTn6COZBAgbxfghy7aVZHW2anf8jqgAR8hGY+fOktivb/j51mLGqS9ORUbfuZpkbgl99QEdq55sHR1VqlTg=
+	t=1742497271; cv=none; b=B3j1xAAFAoUljIe3FQC7IDl4H3MgWiU+2zTyX9BEZC0wDNa/nAFAT68UaWpx7DXJfsK8U30Ywe9C2mu/BEqiY3yoUoLJsMeKSj2I+vBm6zLjSPARHGzWXhYcWCXSx/NFKLmW7ttV7R4hOdEwjEosBUrkOuPZ/yeCqyy1P58MlZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742496824; c=relaxed/simple;
-	bh=aJ/D7usPSlAaXa5RYkYp2EWZZhosXbZpnA7cfZLfreo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gW/6RsRFHwUOGk75SGhnrzPmVVPPMTpXJ8GduNbfiOk78wsSG3YNzh2Sww5pfGmDyGcI24ES7/lh4gnivGvpob6+/5EWta2IJzSPDnQJS4uDzObWXWa4xBuDMBGbQXF5o5Sc+tU0PQOdPfgoSnqrd6bHfwNyyN50p3Ed2yzCUrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S0GUwDxd; arc=none smtp.client-ip=209.85.166.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742497271; c=relaxed/simple;
+	bh=1AEV0UefWPqmLk11yVWlf8pY3IE091dEEE3fKtmBJ9E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=galfdmhvVVGUs9L0DCRU4mFbjIvL2KZCgKjzacJ5/VwxSDaxnFu6l25BlfCwWKiHkXnIaVxSxJ4RlcOtESgvutUO/y3KOlbXF/5Bk0944Q4gdSdZw4mWtXMd2YnYGJqneY3OQjllexn72D2LXr+xWT3ea6xWUV+W9R6lCK+r1Yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=UILZNxMe; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S0GUwDxd"
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-85ae131983eso125344139f.0;
-        Thu, 20 Mar 2025 11:53:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="UILZNxMe"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-47663aeff1bso11457291cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 12:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742496821; x=1743101621; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iiJ7Gpr92Q6ANZI0grpR2HAyoakBNuE25K03SLq7bv0=;
-        b=S0GUwDxdja4ha7Ng3au5L/LBEGKij+P5GSaPlVpmsFLGOaMA9dDOc7iriuVJ/1oes4
-         ssB4kIconloMUoPzaS9nNzVB5tEdIFHvqHxXlIeCBMrofacI564vd497gRpaRt7aR5UW
-         wjR2hOhLPu/4bVWfNskrjr9K2XyRbEijP1eufmi0Lx0UtBuxrFwScEPjzeqc4L1duFZD
-         FNQLe0fsSTHnytSe/pHDfrDTy+FfgaIVBu0dB9akeBoFPDKg+KrGK5U6lzlCIEm52iir
-         oqTkZcacmh8Qeq6Tos3JOeKhGnLEMPZvokYZG4gxBBHL4JEyvK5aPGe/Sw8Rt8devr/G
-         GUPQ==
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1742497268; x=1743102068; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BhESFHo1Qup0h87mxwY0rWQxJzpcXtzcXamkJ/AajPs=;
+        b=UILZNxMeBalRgpqvW96mIFgljCh/sDCMei65OfTkv60r7Ndb7L+4s+oEOsT6i1Bas2
+         r5ntC1cEyScwf/srb78tmVZmLtYRv84BeoGhHjGvawnMLcQ5PnPmeUFdiPDkWTu+j+zF
+         A8Xn0QQdb23dXiBVhsUxRgdCiHc88cspzijG7WBsqkzSqvnM3ivg0wGcGXjpqYGgJ1J1
+         gYkeZPqG10Y2z+bLMAtYK7eQzxUMaGE4YDZSNRDp2LSLL6sdHvWe0kHhBjAfiw62xM8p
+         kkDyKfqCFjgJ8CfJCB3Y/LUM6ChTXE0gHOaAtQv7UXAyd+HtyfSOznviwQnm0W7V3NWz
+         zwWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742496821; x=1743101621;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iiJ7Gpr92Q6ANZI0grpR2HAyoakBNuE25K03SLq7bv0=;
-        b=qqHegNijUQti62qz59zzSU8X5UoDBt5ZKeBB5dHZ5SkqQJzejbSNoQ5EhGCDdcvOd3
-         vcqiLRMqR7rj3sOd3Ss/tPUWFbbnmVfYYUhaAV2OkcRHqfrxvxNMUCLcgLOmfz6UJivz
-         W0TqRS8Avp3hFiZvKd2ownzWZnN51kMJn2joPznQpPxatx3dr4NePVdCHQZpHx38CLxD
-         UfAfHwswwZ9KhAqLOJwcT2fr43f+2p/fmJ/R8ENwtEamQhZKPNinUcSpMqWuo3NHo+Ba
-         H3MNF3/GAcqbkFrdH6p2KrvODkdrC9ivmxluQc8EOv+jRsFqNiUjsQnu/VGnrz2JXwvc
-         6cbg==
-X-Forwarded-Encrypted: i=1; AJvYcCWCqNRQ/113FU+QlkJPVX39oP2gHSa5FgoXHUNH1zjz7YcZSGQhMrUcWZjROTR8APxCZVwlvxxhUrY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz017dmJlcgFaSM+s3tnJxlk0Ars2qJQipXhFrieqqCtB1oKwe3
-	YXpeYjGyIMVWYO63O4LzhjD0PWrkalQgW4DOmPqavf4vHh4CjkRnGI0SKTDp
-X-Gm-Gg: ASbGncv2pNNWq/ayHVFpt9Oh+5OMLtjDqoH546dZEnI7Wj/uOh1cwVG6uaRvE9IlNXM
-	b+0J9aOpvLnAZVdBHmCUVOh0Cq1aCQHRMUsEOa4ZI3YCsGTTNhNt81qUmRjC1onGcFc+nS8aoWq
-	Bpfov5BPD1JbaUTQ0jy+J3ZtFL8WQwrDihPzYyYS/9T18aLC36mzpf2rM9hN7xODCnMFVP632S+
-	31X+U7Gg+F5rhzjJTu7yzARR6Fnhe5zwl5hcvUYoYcgDOTDedEFxfglqGWaH2u6Frn/AeJuzlhJ
-	cs2LsPwrFX7lf0Pae351RAzwRhnX4sA9mt2Z64VDJhxlIUmnaFrXb8iZL0hRkR2eooJLUTlAulF
-	AbA==
-X-Google-Smtp-Source: AGHT+IH4i8LbvrmrRpjy8J+JJRVU0+1Vb1Ug4cLDBgaSWuZTQzWXN+4Vhhh5tVc2tWWaiXCHMDRfQg==
-X-Received: by 2002:a05:6602:3786:b0:85b:5869:b5b with SMTP id ca18e2360f4ac-85e2ca899f5mr52693339f.6.1742496821278;
-        Thu, 20 Mar 2025 11:53:41 -0700 (PDT)
-Received: from gandalf.. (c-67-165-245-5.hsd1.co.comcast.net. [67.165.245.5])
-        by smtp.googlemail.com with ESMTPSA id ca18e2360f4ac-85e2bc273e7sm7078039f.17.2025.03.20.11.53.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Mar 2025 11:53:40 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org,
-	intel-gvt-dev@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	intel-gfx-trybot@lists.freedesktop.org
-Cc: jbaron@akamai.com,
-	gregkh@linuxfoundation.org,
-	ukaszb@chromium.org,
-	louis.chauvet@bootlin.com,
-	daniel.vetter@ffwll.ch,
-	tvrtko.ursulin@linux.intel.com,
-	jani.nikula@intel.com,
-	ville.syrjala@linux.intel.com,
-	Jim Cromie <jim.cromie@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 33/59] docs/dyndbg: add classmap info to howto (TBD)
-Date: Thu, 20 Mar 2025 12:52:11 -0600
-Message-ID: <20250320185238.447458-34-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250320185238.447458-1-jim.cromie@gmail.com>
-References: <20250320185238.447458-1-jim.cromie@gmail.com>
+        d=1e100.net; s=20230601; t=1742497268; x=1743102068;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BhESFHo1Qup0h87mxwY0rWQxJzpcXtzcXamkJ/AajPs=;
+        b=tImxiIxc4WKdEkCsv288b+qYs1ypVy9Q/wsmr2Ung6OSZqXoYRs+8G/wotrOoya8qs
+         2MoS/YZ2ePR0tHYi1gsSET49jg8BxpblN56F85pQ6C75qkVeyXP6LrxocyKK4nHyct+w
+         cUCJoi7NfOpxBlVuA/kjp1FRr1lRUloFinY2pDzG8jg0od7A//wZ4+nJmDnFxi5U1v2Y
+         lTC4y39x/MyukBk2ojF7Flq/VA973sYyl+ZmXCtupuIAV1+YPjNjcI+sIszGgX7f87La
+         vo3OY2tSBk52Oapaaa3Gi6G5otPEJRu3aWOYVOV9d2GlkEqEEOEAhn6xnj9i78OlVxY5
+         /Cew==
+X-Forwarded-Encrypted: i=1; AJvYcCVcmBjSwzb3OvUw6O8ZapVhMpjPMocRWcTgamzaF/Pz33X4MCxKwLiV4xNwKD1C1+ek7GZ1UGzg3b0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8a46wgUIZ7rG5w2sus8u9ZGc0lQb2ry9TOw1ooEd1WEc5An4w
+	hHEerRQKOh6AZPPC8RjByN/Trgz1rYxNzTioRfJwj47X/HqBdcZzMfAe4m/YluBufCXxlU/IaB2
+	CkpYlZQMcFrTrW0i84IvSiD1FA99pu7tvArcJEg==
+X-Gm-Gg: ASbGncsQpCfJjtt4+K/ht+014RGRS83mTogQkOz4KNgqrYuHbb7ufDGhALJd4/a7rSw
+	ZmidZBM2RQxk1OY79MCRhi5Fx33AbWDkBOxVI36kAJ4RB9F/nQHFUSWInk0uL9gUUjT55Z1/MCS
+	oCBPRw1G/GLWy6hJMLSDK+OzM=
+X-Google-Smtp-Source: AGHT+IEWuzyg9BKoYY96+r28nA923Sxob7bNjbOsMkoucEcF17cRXDEr0XabgiEuLbqh8S3+owG87YRnG7PjRKEVrfI=
+X-Received: by 2002:a05:622a:5108:b0:476:fe1b:d979 with SMTP id
+ d75a77b69052e-4771de612d0mr7065671cf.48.1742497268430; Thu, 20 Mar 2025
+ 12:01:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250320024011.2995837-1-pasha.tatashin@soleen.com>
+ <20250320024011.2995837-2-pasha.tatashin@soleen.com> <20250320144338.GW9311@nvidia.com>
+In-Reply-To: <20250320144338.GW9311@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 20 Mar 2025 15:00:31 -0400
+X-Gm-Features: AQ5f1JoRx2DXMVlFoq6PSocQQynFcw4m_U7KN9tp2PZfJfgfG69kbcGZpJvT488
+Message-ID: <CA+CK2bBovJ68FPOqD5J-_xmzy_mm8gNhJW80EsWGLgq+NhuX5Q@mail.gmail.com>
+Subject: Re: [RFC v1 1/3] luo: Live Update Orchestrator
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: changyuanl@google.com, graf@amazon.com, rppt@kernel.org, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, jgowans@amazon.com
+Content-Type: text/plain; charset="UTF-8"
 
-Describe the 3 API macros providing dynamic_debug's classmaps
+Hi Jason,
 
-DYNDBG_CLASSMAP_DEFINE - create & export a classmap
-DYNDBG_CLASSMAP_USE    - refer to exported map
-DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+Thank you for your feedback.
 
-TBD: some of this might be over-specification, or just over-talked.
+> > Features introduced:
+> >
+> > - Core orchestration logic for managing the live update process.
+> > - A state machine (NORMAL, PREPARED, UPDATED, *_FAILED) to track
+> >   the progress of live updates.
+> > - Notifier chains for subsystems (device layer, interrupts, KVM, IOMMU,
+> >   etc.) to register callbacks for different live update events:
+> >     - LIVEUPDATE_PREPARE: Prepare for reboot (before blackout).
+> >     - LIVEUPDATE_REBOOT: Final serialization before kexec (blackout).
+> >     - LIVEUPDATE_FINISH: Cleanup after update (after blackout).
+> >     - LIVEUPDATE_CANCEL: Rollback actions on failure or user request.
+>
+> I still don't think notifier chains are the right way to go about alot
+> of this, most if it should be driven off of the file descriptors and
+> fdbox, not through notification.
+>
+> At the very least we should not be adding notifier chains without a
+> clear user of them, and I'm not convinced that the iommu driver or
+> vfio are those users at the moment.
+>
+> I feel more like the iommu can be brought into the serialization
+> indirectly by putting an iommufd into a fdbox.
 
-NB: The _DEFINE & _USE model makes the user dependent on the definer,
-just like EXPORT_SYMBOL(__drm_debug) already does.
+We have identified the subsystems that need to participate in Live
+Update: KVM, IOMMU, Devices, and Interrupts. We are planning to
+present how each of them will integrate with the LUO.
 
-cc: linux-doc@vger.kernel.org
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
-v5 adjustments per Randy Dunlap
-v7 checkpatch fixes
-v8 more
-v9 rewords
----
- .../admin-guide/dynamic-debug-howto.rst       | 80 ++++++++++++++++++-
- 1 file changed, 79 insertions(+), 1 deletion(-)
+> > - A sysfs interface (/sys/kernel/liveupdate/) for user-space control:
+> >     - `prepare`: Initiate preparation (write 1) or reset (write 0).
+> >     - `finish`: Finalize update in new kernel (write 1).
+> >     - `cancel`: Abort ongoing preparation or reboot (write 1).
+> >     - `reset`: Force state back to normal (write 1).
+> >     - `state`: Read-only view of the current LUO state.
+> >     - `enabled`: Read-only view of whether live update is enabled.
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index d2928884c92b..9422dc4917d0 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -243,7 +243,6 @@ the ``p`` flag has meaning, other flags are ignored.
- Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-fslmpt``.
- 
--
- Debug messages during Boot Process
- ==================================
- 
-@@ -393,3 +392,82 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-+
-+Dynamic Debug classmaps
-+=======================
-+
-+The "class" keyword selects prdbgs based on author supplied,
-+domain-oriented names.  This complements the nested-scope keywords:
-+module, file, function, line.
-+
-+The main difference from the others: class'd prdbgs must be named to
-+be changed.  This protects them from generic overwrite:
-+
-+  # IOW this cannot undo any DRM.debug settings
-+  :#> ddcmd -p
-+
-+So each class must be enabled individually (no wildcards):
-+
-+  :#> ddcmd class DRM_UT_CORE +p
-+  :#> ddcmd class DRM_UT_KMS +p
-+  # or more selectively
-+  :#> ddcmd class DRM_UT_CORE module drm +p
-+
-+Or the legacy/normal (more convenient) way:
-+
-+  :#> echo 0x1ff > /sys/module/drm/parameters/debug
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DRM.debug is built upon:
-+  ~23 macros, all passing a DRM_UT_* constant as arg-1.
-+  ~5000 calls to them, across drivers/gpu/drm/*
-+  bits in /sys/module/drm/parameters/debug control all DRM_UT_* together
-+
-+The const short ints are good for optimizing compilers; a classmaps
-+design goal was to keep that.  So basically .classid === category.
-+
-+And since prdbgs are cataloged with just a DRM_UT_* to identify them,
-+the "class" keyword maps known classnames to those reserved IDs, and
-+by explicitly requiring "class FOO" in queries, we protect FOO class'd
-+debugs from overwrite by generic queries.
-+
-+Its expected that other classmap users will also provide debug-macros
-+using an enum-defined categorization scheme like DRM's, and dyndbg can
-+be adapted under them similarly.
-+
-+DYNAMIC_DEBUG_CLASSMAP_DEFINE(var,type,_base,classnames) - this maps
-+classnames onto class-ids consecutively, starting at _base, it also
-+maps the names onto CLASSMAP_PARAM bits 0..N.
-+
-+DYNAMIC_DEBUG_CLASSMAP_USE(var) - modules call this to refer to the
-+var _DEFINEd elsewhere (and exported).
-+
-+Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
-+dyndbg to update those classes.  "class FOO" queries are validated
-+against the classes, this finds the classid to alter; classes are not
-+directly selectable by their classid.
-+
-+There are 2 types of classmaps:
-+
-+ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-+ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
-+refers to a DEFINEd classmap, and associates it to the param's
-+data-store.  This state is then applied to DEFINEr and USEr modules
-+when they're modprobed.
-+
-+The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-+amongst the contained classnames; all classes are independent in the
-+control parser itself; there is no implied meaning in names like "V4".
-+
-+Modules or module-groups (drm & drivers) can define multiple
-+classmaps, as long as they share the limited 0..62 per-module-group
-+_class_id range, without overlap.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones.  This won't be reflected in the PARAM readback value,
-+but the class'd pr_debug callsites can be forced off by toggling the
-+classmap-kparam all-on then all-off.
--- 
-2.49.0
+I forgot to update the commit message, there are no: enabled, reset,
+and cancel files. We only have three files in LUO: `prepare`,
+`finish`, and `prepare`
 
+>
+> I also think we should give up on the sysfs. If fdbox is going forward
+> in a char dev direction then I think we should have two char devs
+> /dev/kho/serialize and /dev/kho/deserialize and run the whole thing
+
+KHO is a mechanism to preserve kernel memory across reboots. It can be
+used independently of live update, for example, to preserve kexec
+reboot telemetry, traces, and for other purposes. The LUO utilizes KHO
+for memory preservation but also orchestrates specifically a live
+update process, provides a generic way for subsystems and devices to
+participate, handles error recovery, unclaimed devices, and other live
+update-specific steps.
+
+That said, I can transition the LUO interface from sysfs to a character device.
+
+> through that. The concepts shown in the fdbox patches should be merged
+> into the kho/serialize char dev as just a general architecture of open
+> the char dev, put stuff into it, then finalize and do the kexec.
+
+Some participating subsystems, such as interrupts, do not have a way
+to export a file descriptor. It is unclear why we would require this
+for kernel-internal state that needs to be preserved for live update,
+which should instead register with internally.
+
+> It gives you more options to avoid things like notifiers and a very
+> clear "session" linked to a FD lifetime that encloses the
+> serialization effort. I think that will make error case cleanup easier
+> and the whole thing more maintainable. IMHO sysfs is not a great API
+> choice for something so complicated.
+
+IMO, the current API and state machine are quite simple (I plan to
+present and go through them at one of the Hypervisor Live Update
+meetings). However, I am open to changing to a different API, and we
+can expose it through a character device.
+
+> Also agree with Greg, I think this needs more thoughtful patch staging
+> with actual complete solutions. I think focusing on a progression of
+> demonstrable kexec preservation:
+>  - A simple KVM and the VM's backing memory in a memfd is perserved
+>  - A simple vfio-noiommu doing DMA to a preserved memfd, including not
+>    resetting the device (but with no iommu driver)
+>  - iommufd
+
+We are working on this. However, each component builds upon the
+previous one, so it makes sense to discuss the lower layers early to
+get early feedback.
+
+Pasha
