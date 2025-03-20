@@ -1,258 +1,184 @@
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598A81D9A50;
-	Thu, 20 Mar 2025 18:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFEC1BD9FA
+	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 18:03:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742493714; cv=none; b=o9zg2C1kt0SJ0heftdv2BBSTCXEB81Hn9ZB2eCgp0nfUeEBkGeQOfCbfFml0+rOcXDWa5H0VKEaUvQ0hymi6Zbk81EBVGt34nK2ZKi1gSauUqJrucwlKgtP+Qdw/B67U9iPnUA8zbGcNO4Z5IpPrPPdj/n8nVF8+15iO/K4A0WI=
+	t=1742493830; cv=none; b=oxd89HvdJkWEwh3mN6OKT8ChXDMso8SX4vGc79ijqjf8kW1CYw8oPptiPEIoE2U2NLngPU5qlL3X7j6lZXoQU7HZrmGzSqCeVaNwE3rpYqd87EW0sDpMlJm3pz0XFVKOn/5X2wI2hTYebIKfUqvYnw8f0XWggl+nBbdCxHLJ/DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742493714; c=relaxed/simple;
-	bh=ri4iePpKdHJZbPjuAz2uuFnkK1A0W4w0YFmS0f70L9c=;
+	s=arc-20240116; t=1742493830; c=relaxed/simple;
+	bh=xY9jTF3mF9q2tHWOqWwgarBOfsep4yNt1Wf6UXZSQE4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lgn5Y3nyVnkKFP7X48P3Vo1XPD3qWpemZt3w7m2QjSngyRKBzQQdWrR4Zcjt+OdGGac3d1791eIchNCajFpYoEWRXH5UBI3i5EDYPTlrIjeJ+MXMiOx4kAxXOMWcP23A9JsisfzffseF8jGwtHWkv5PXRZyA+3YpapAnb8h2g7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=Ioeb1umN; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	 To:Cc:Content-Type; b=ufAzUgDNDm07kENwZcoe1cuvkBvnHnizfVst7fHZOha8osihrU/1Ap6hO9plljKI3JPLGk5JiTp0Ju3HG2egpH3jJLWZQ1vh2hamot+ou8Ka1N1fbmOoKRWhuQApsxWttnBW17XiIvcanjUL81UqEqyTrN0oJRH5U11tD8yPX7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=RArY62rl; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="Ioeb1umN"
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id D72852E09430;
-	Thu, 20 Mar 2025 20:01:40 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1742493701;
-	bh=bfcDkCq066rbtoTdEqNCoKT/INV1aOtvGSYxQcLPl5g=;
-	h=Received:From:Subject:To;
-	b=Ioeb1umNACm1DpUB0pnCUIi5e8b4t2gYxDU81cW2p8BJmz65RlVXMtKLj3vLtv5px
-	 lgDm5JroMKdwbJZW21W31+hriZWtWY1WVzqtses1VfCADi3jSrA9VteFLtZQznyCAj
-	 Flw0ynpxAWjkTB/33q8wMuVs8S5UtHoevIH4wTz0=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.167.42) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lf1-f42.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-549b159c84cso1309219e87.3;
-        Thu, 20 Mar 2025 11:01:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5UkZGfXEEnWPYMC2s9CAka8p4U7/SiXMkazatTTrU5y80jrQTu14yQN09IcWQNtfYQKtW+5ubEKME22y5@vger.kernel.org,
- AJvYcCU6pVPo7tuZUlnH9hfn/swBFxkeN0ycrd+/X/TV1BD2MmkGh3vvgL644R3pRSro+dGn5K17+4IohyWNo5A=@vger.kernel.org,
- AJvYcCUNHWR0LVEYoyFkDh2epeESjrWJCHOBNDzZMu7d/IXv3g4XPRZGJ9heuBwXST3jXyVZmj9iPHHQT40=@vger.kernel.org,
- AJvYcCVOpmtnn6zkG9b5QADAmN8uH5xsI8sX2yjpx9VDVoSDl3QonNS4wBJaMkSBT2x347sRRNEkfEh+RVs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywj1RHVsA444HQO1BYbbC0K4Eb8TiPERAomgLftWI//fCSxvd4j
-	q3VHJGTfpEm1FAzXPZvd3qZ2kW5mkla05hpvuTGnnnHD+E4DMWWCxN2zJBh+y3Z6lScdSso5wfA
-	UjtfUqDI/8OuET062VflQYtka6OU=
-X-Google-Smtp-Source: 
- AGHT+IGfhvfuOiB+DEb6uOTl9EpxtzHoqw+6Gezd8dTghpF9jNKTgiZmVV/+1AlX1dPtpovYPwKYj9IP3xGz+Cdgws0=
-X-Received: by 2002:a05:6512:1254:b0:549:8924:2212 with SMTP id
- 2adb3069b0e04-54ad64865bemr99041e87.17.1742493700020; Thu, 20 Mar 2025
- 11:01:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="RArY62rl"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-476a304a8edso10258711cf.3
+        for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 11:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1742493827; x=1743098627; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aEWRrYL81JihAJazUhZRKND0YCO46+skLrt/0zhqckA=;
+        b=RArY62rlYHgRZQBdlxiv3gu11Zo2DMqT6/Fxz2oKpa2ktDUyA/o1T4mz5eUl2hkdkb
+         0HjtDx2r/MMGZgx9LjWEU+yFD/bWNcZfMsl3VthP3WL9fn8/GuKpJZrN+6pq9FiT7ibl
+         afnRpRH59mONBFqpcX3FlxEaWVup0Xsu6UNrakhzwgSuBxXbYAm41/EKMMf4b1ak1O6C
+         DKs6z3bA8CjATdMST5I+GhDdagLPVPgIo177vB8JQXEMD+kVykKJ/0GnsXmU9FM4wxd4
+         /SOW0He0G3p1JghzjlaNohwaHWa0dF+46QZJLHh5F3q7jkzT2NQ1h7HEa1eKAV9nXSAj
+         Unhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742493827; x=1743098627;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aEWRrYL81JihAJazUhZRKND0YCO46+skLrt/0zhqckA=;
+        b=T/X0yfPf1sIHSXiUuhZEtF118fX2+ssFAe9jxELep4EUXbYEtTIM7W9esbn0MsK+c8
+         IiClIC8pI7B8ZHqtsuvMCf4NQBBXKQ1NGeUDQ0SFJRA1NuHsBC1gkmg4Sx0W7vWXjz/W
+         eGdtkqkOHKgZ7+Maokw31NagvVkR0Drf/HUg/NhmTiv7VW/SLrslhLXzNf+U4AJybPxd
+         A8sMQ4Cwh/zPpYy+aqG7miQrfJA8eaBQ72CY8cNTrcNxocNSZKEakOv9npwC2nF+ir2E
+         M8YdFGkld5ywkb2xshwW35DV8iZOB4qufLwCvzZ19mSz6p1kRH5/CQrASo8s9JX9ycYz
+         KXSg==
+X-Forwarded-Encrypted: i=1; AJvYcCVTvdrmL1JamF2Vv/PhkX3ft92yf9lf3dPqI0rTD/krUegTVF0xSvZGsL1aDz9l581y1h9+9Kh/o7Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuofXsYMCfj/ly1rj+ErDET2XipPPDiUkd7nmRaP0COVpVJO+M
+	L/LWEMaJog1fqvRKsPNwYS2vmyzBhHz4qpVbauE0r/q7v4PNBUCXywV7ILy8inEMVtJavmVbgGL
+	sTtfOJPaSi6pj7jvYK5laWn769p9AqPQKdpdaXw==
+X-Gm-Gg: ASbGncv7UQCF3e30yYNVz51sT2xYzwsRCybmUvCqgU/wHMWE96ppUuHqxAnksjhXrAm
+	kgvileJVI4E3JG0AtDoVlMn6NKa+oq5qkVYubCr29lVVF0e5wFu1jdQyPIz+MZ7WNUllpeRideC
+	XtiinKas7/8f26Za14rdJssss=
+X-Google-Smtp-Source: AGHT+IGY2UOOzyotLrqjin40PYelcsYa/VhmCLulBzUFzsbC3V6wg+CyJm8VRhjJJFkAkC9pww3riPd+ntiYsa9NfTA=
+X-Received: by 2002:a05:622a:5c8b:b0:474:e255:db2c with SMTP id
+ d75a77b69052e-4771dd8dd21mr3600651cf.26.1742493827149; Thu, 20 Mar 2025
+ 11:03:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250319175512.27059-1-lkml@antheas.dev>
- <41DE9E62-7BE6-4E65-BCFF-98DB243BB527@gmail.com>
-In-Reply-To: <41DE9E62-7BE6-4E65-BCFF-98DB243BB527@gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Thu, 20 Mar 2025 19:01:28 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwGXW_H1TdLNiYGctTpMpXBEYLtgdn-dcn9zP+LSpnYUew@mail.gmail.com>
-X-Gm-Features: AQ5f1JoKC-br4Ylipx4s-aD-wtdmaefte9GBB96ByJ_g9JolJcvjF51P1NHYNlo
-Message-ID: 
- <CAGwozwGXW_H1TdLNiYGctTpMpXBEYLtgdn-dcn9zP+LSpnYUew@mail.gmail.com>
-Subject: Re: [PATCH v6 00/14] hwmon: (oxpsensors) Add devices, features, fix
- ABI and move to platform/x86
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>
-Cc: platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
-	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
- Kevin Greenberg <kdgreenberg234@protonmail.com>,
-	Joshua Tam <csinaction@pm.me>, Parth Menon <parthasarathymenon@gmail.com>,
-	Eileen <eileen@one-netbook.com>, linux-kernel@vger.kernel.org,
- sre@kernel.org,
-	linux@weissschuh.net, ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com,
-	mario.limonciello@amd.com
+References: <20250320024011.2995837-1-pasha.tatashin@soleen.com>
+ <20250320024011.2995837-3-pasha.tatashin@soleen.com> <2025032058-reassure-veneering-0fdb@gregkh>
+In-Reply-To: <2025032058-reassure-veneering-0fdb@gregkh>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 20 Mar 2025 14:03:10 -0400
+X-Gm-Features: AQ5f1JqUt7jlSeOStqUEKgBoUzbkc-shkgv5lvEs9-PxXsZsyZ9P_iNSvHCE62k
+Message-ID: <CA+CK2bA8vLjODhM1puia-SOnk9kiFhd7WXHVemh+YBuN4kSgwQ@mail.gmail.com>
+Subject: Re: [RFC v1 2/3] luo: dev_liveupdate: Add device live update infrastructure
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: changyuanl@google.com, graf@amazon.com, rppt@kernel.org, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
+	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, jgowans@amazon.com, jgg@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-PPP-Message-ID: 
- <174249370148.7628.2782718619305504685@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
 
-On Thu, 20 Mar 2025 at 18:33, Derek J. Clark <derekjohn.clark@gmail.com> wr=
-ote:
+On Thu, Mar 20, 2025 at 9:36=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
 >
->
->
-> On March 19, 2025 7:54:55 AM HST, Antheas Kapenekakis <lkml@antheas.dev> =
-wrote:
-> >This four part series updates the oxpsensors module to bring it in line
-> >with its Windows OneXPlayer counterpart. First, it adds support for all
-> >2024, 2025 OneXPlayer handhelds and their special variants. Then, it mov=
-es
-> >the module to platform/x86 to allow for including more EC features.
+> On Thu, Mar 20, 2025 at 02:40:10AM +0000, Pasha Tatashin wrote:
+> > Introduce a new subsystem within the driver core to enable keeping
+> > devices alive during kernel live update. This infrastructure is
+> > designed to be registered with and driven by a separate Live Update
+> > Orchestrator, allowing the LUO's state machine to manage the save and
+> > restore process of device state during a kernel transition.
 > >
-> >Then, it adds the new charge limiting and bypass features that were firs=
-t
-> >introduced in the X1 and retrofit to older OneXFly variants and for
-> >controlling the turbo led found in the X1 models. For Bypass, it adds a =
-new
-> >charge_behaviour variant called inhibit-charge-s0.
+> > The goal is to allow drivers and buses to participate in a coordinated
+> > save and restore process orchestrated by a live update mechanism. By
+> > saving device state before the kernel switch and restoring it
+> > immediately after, the device can appear to remain continuously
+> > operational from the perspective of the system and userspace.
 > >
-> >Finally, it performs a minor refactor by moving around switch statements
-> >into their own functions, in order to allow for fixing the pwm1_enable A=
-BI
-> >in the final patch. Currently, pwm1_enable sets the fan to auto with the
-> >value 0 and allows manual control with the value 1. This patch makes it
-> >so 0 sets the fan to full speed, 1 sets the fan to manual control, and
-> >2 sets the fan to auto. This requires both setting enable and the fan
-> >speed when the enable sysfs is written to as 0, hence the refactor.
+> > components introduced:
 > >
-> >As this is a minor ABI break and there is userspace software relying
-> >on this previous behavior, the last patch also changes the /name of the
-> >hwmon endpoint to "oxp_ec" from "oxpec" (mirroring WMI module convention=
-s)
-> >such that userspace software that relied on the previous behavior can be
-> >retrofit to the new kernel while enabling correct functionality on old
-> >and new kernels. Failing that, software that is not updated will just
-> >stop controlling the fans, ensuring no malignant behavior.
+> > - `struct dev_liveupdate`: Embedded in `struct device` to track the
+> >   device's participation and state during a live update, including
+> >   request status, preservation status, and dependency depth.
 > >
-> >---
-> >V5: https://lore.kernel.org/all/20250317155349.1236188-1-lkml@antheas.de=
-v/
-> >V4: https://lore.kernel.org/all/20250311165406.331046-1-lkml@antheas.dev=
-/
-> >V3: https://lore.kernel.org/all/20250309112114.1177361-1-lkml@antheas.de=
-v/
+> > - `liveupdate()` callback: Added to `struct bus_type` and
+> >   `struct device_driver`. This callback receives an enum
+> >   `liveupdate_event` to manage device state at different stages of the
+> >   live update process:
+> >     - LIVEUPDATE_PREPARE: Save device state before the kernel switch.
+> >     - LIVEUPDATE_REBOOT: Final actions just before the kernel jump.
+> >     - LIVEUPDATE_FINISH: Clean-up after live update.
+> >     - LIVEUPDATE_CANCEL: Clean up any saved state if the update is
+> >       aborted.
 > >
-> >Changes since V5:
-> >    - Separate doc entries with Fixes as by Mario
-> >    - Add sysfs file name to subject as per Thomas
-> >    - Make tt_led and tt_turbo const as per Thomas
-> >    - Align a couple of structs as per Thomas
-> >    - Remove excess battery check as per Thomas
-> >    - For Thomas: devices without a BIOS update battery control is a NOO=
-P
-> >      OXP is a boutique manufacturer for now, so gathering information
-> >      about old devices to add BIOS checks is not practical unfortunatel=
-y
+> > - Sysfs attribute "liveupdate/requested": Added under each device
+> >   directory, allowing user to request that a specific device to
+> >   participate in live update. I.e. its state is to be preserved
+> >   during the update.
 >
-> Antheas,
-> This sort of begs the question on how this feature was tested on those de=
-vices? That question includes whether or not it is really a no-op in unsupp=
-orted BIOS. My old contacts at OXP are no longer employed there, are you in=
- contact with anyone at OXP currently that can potentially provide the data=
-?
+> As you can imagine, I have "thoughts" about all of this being added to
+> the driver core.  But, before I go off on that, I want to see some real,
+> actual, working, patches for at least 3 bus subsystems that correctly
+> implement this before I even consider reviewing this.
 >
-> I'm still of the opinion that the attribute should be explicitly enabled =
-only on a known supported BIOS.  IMO there is a general assumption that a d=
-river exposed attribute fd will work and having a no-op will confuse users =
-and lead to spurious bug reports. We shouldn't be exposing a no-op in the s=
-ysfs for a driver if we can avoid it. If we add the BIOS checks we can also=
- print to dmesg if a BIOS is too low a version so they will know why it isn=
-'t there.
+> Show us real users please, otherwise any attempt at reviewing this is
+> going to just be a waste of our time as I have doubts that this actually
+> even works :)
 >
-> That being said, it does seem likely low risk, so I'm not nacking the fea=
-ture as is if the subsystem maintainers are okay with it.
->
-> - Derek
+> Also, as you are adding a new user/kernel api, please also point at the
+> userspace tools that are written to handle all of this.  As you are
+> going to be handling potentially tens of thousands of devices from
+> userspace this way, in a single system, real code is needed to even
+> consider that this is an acceptable solution.
 
-Hi Derek,
-I have tested this patch series on an X1 (AMD) personally. I also have
-multiple people that have tested it on an F1 Pro, X1 Intel, and an X1
-Mini. And I am pretty sure that at least 1 or 2 people have tested on
-an older BIOS too without an ill effect.
+Hi Greg,
 
-The older F1s are a bit of a question mark. The BIOS update for those
-came out around Xmas and I do not have that many users with them.
-However, they act identically to the new ones when it comes to the EC
-and the controller, so I do not think that is that big of an issue.
-Also, no one has asked yet about it not working on those devices. And
-they ask about a lot of things. Yanking charging support from those
-will just hurt those users unnecessarily as they will get it later.
+Thanks for the feedback on this RFC. I understand your hesitation
+about adding this to the driver core without seeing concrete
+implementations. The primary goal of posting this RFC now is to get
+early feedback on the overall state machine and rules concept. We have
+a bi-weekly meeting [1] where the "Live Update Orchestrator" is
+scheduled for presentation. I wanted to give people a chance to look
+at the framework ahead of those discussions.
 
-Eileen is from OneXPlayer and is cc'd in this series.
+Regarding your request for real, working patches, we are actively
+working on that. Our current efforts are focused on adding live update
+support for LUO for these subsystems: KVM, Interrupts, IOMMU, Devices
 
-Antheas
+Within the devices subsystem, we are targeting generic PCI, VFIO, and
+a few other device types (real and emulated) to demonstrate the
+implementation.
 
-> >Changes since V4:
-> >    - Fix nits by Hans
-> >    - change inhibit-charge-s0 to inhibit-charge-awake
-> >    - use devm_battery_hook_register and power_supply_unregister_extensi=
-on
-> >      (based on cros driver)
-> >    - move charge behavior patches to the end to make the rest of the se=
-ries
-> >      easier to merge
-> >    - CC platform-x86 and power maintainers
-> >
-> >Changes since V3:
-> >    - Fix nits by Derek
-> >    - Remove the hwmon documentation as it is not required for platform
-> >      drivers (suggested by Guenter)
-> >    - Add ACPI_BATTERY and HWMON depends to Kconfig
-> >      (reported by kernel robot)
-> >    - Homogenize driver into following reverse xmas convention
-> >
-> >Changes since V2:
-> >    - Add ack by Guenter, move platform move patch to be third (not firs=
-t
-> >      to allow for device support backport to lts kernels)
-> >    - Rework patch text, especially in the refactor patches as per Derek
-> >    - Change bypass to use charge_behaviour instead of charge_type, as t=
-hat
-> >      ABI supports capability detection and is more appropriate
-> >    - Move battery attach to probe instead of init
-> >    - Fix bug where reading tt_led would instead use the turbo register
-> >
-> >Changes since V1:
-> >    - Add X1 Pro, F1 Pro variants
-> >    - Fix minor typo in initial patches
-> >    - Convert oxp-sensors into a platform driver, as it is no longer
-> >      considered a hwmon driver.
-> >    - Add sysfs documentation and myself to the MAINTAINERS file
-> >    - Update documentation to state that this is the OneXPlayer/AOKZOE
-> >      platform driver, and that support for Ayaneo/OPI is provided until
-> >      they gain their own platform driver.
-> >
-> >Antheas Kapenekakis (14):
-> >  hwmon: (oxp-sensors) Distinguish the X1 variants
-> >  hwmon: (oxp-sensors) Add all OneXFly variants
-> >  platform/x86: oxpec: Move hwmon/oxp-sensors to platform/x86
-> >  ABI: testing: sysfs-class-oxp: add missing documentation
-> >  ABI: testing: sysfs-class-oxp: add tt_led attribute documentation
-> >  platform/x86: oxpec: Rename ec group to tt_toggle
-> >  platform/x86: oxpec: Add turbo led support to X1 devices
-> >  platform/x86: oxpec: Move pwm_enable read to its own function
-> >  platform/x86: oxpec: Move pwm value read/write to separate functions
-> >  platform/x86: oxpec: Move fan speed read to separate function
-> >  platform/x86: oxpec: Adhere to sysfs-class-hwmon and enable pwm on 2
-> >  platform/x86: oxpec: Follow reverse xmas convention for tt_toggle
-> >  power: supply: add inhibit-charge-awake to charge_behaviour
-> >  platform/x86: oxpec: Add charge threshold and behaviour to OneXPlayer
-> >
-> > Documentation/ABI/testing/sysfs-class-power   |  11 +-
-> > Documentation/ABI/testing/sysfs-platform-oxp  |  25 +
-> > Documentation/hwmon/index.rst                 |   2 +-
-> > Documentation/hwmon/oxp-sensors.rst           |  89 ---
-> > MAINTAINERS                                   |   7 +-
-> > drivers/hwmon/Kconfig                         |  11 -
-> > drivers/hwmon/Makefile                        |   1 -
-> > drivers/platform/x86/Kconfig                  |  13 +
-> > drivers/platform/x86/Makefile                 |   3 +
-> > .../oxp-sensors.c =3D> platform/x86/oxpec.c}    | 624 ++++++++++++++---=
--
-> > drivers/power/supply/power_supply_sysfs.c     |   7 +-
-> > drivers/power/supply/test_power.c             |   1 +
-> > include/linux/power_supply.h                  |   1 +
-> > 13 files changed, 540 insertions(+), 255 deletions(-)
-> > create mode 100644 Documentation/ABI/testing/sysfs-platform-oxp
-> > delete mode 100644 Documentation/hwmon/oxp-sensors.rst
-> > rename drivers/{hwmon/oxp-sensors.c =3D> platform/x86/oxpec.c} (52%)
-> >
-> >
-> >base-commit: 4701f33a10702d5fc577c32434eb62adde0a1ae1
+I absolutely agree that demonstrating a real use case is important.
+However, this is a complicated project that involves changes in many
+parts of the kernel, and we can't deliver everything in one large
+patchset; it has to be divided and addressed incrementally.
+
+So far, we have the following pieces of the Live Update puzzle: KHO
+(for preserving kernel memory), LUO (for driving the live update
+process), and Dev_Liveupdate (for managing device participation in
+live update), IOMMU preservation [2], guest memory [3], and we are
+planning to add support for interrupts, PCIe, VFIO, some drivers, and
+other components.
+
+On the user side, we are planning to propose the necessary changes to
+VMMs such as CloudHypervisor and QEMU.
+
+Thanks,
+Pasha
+
+[1] https://lore.kernel.org/all/a350f3e5-e764-4ba6-f871-da7252f314da@google=
+.com
+[2] https://lpc.events/event/18/contributions/1686
+[3] https://lore.kernel.org/all/20240805093245.889357-1-jgowans@amazon.com
