@@ -1,380 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA5D22155C;
-	Thu, 20 Mar 2025 22:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C39C21D3FB
+	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 23:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742511437; cv=none; b=ZAN5GN0nS/19DDdQ8XkBnmvOKmmwbE7T+3Pq45RMp9oUxkt17NBEtB1bhbMwovnXM8rjEhRRugMRYCCyM/nUKap/uiN5UAaiBOygKf0QX2TlBai9oid7lK0uHExutDbkrfIe/6akrcwEYMFKH/Djm02tJJ+Qadpb5o77ANbjra4=
+	t=1742512169; cv=none; b=iQ40OPiYr9IvnU6L0h3r1pVXrVyN3tCcdZydYsgF/515gtZsIQOju6uEe0zZKuTl6WycCeZQtrdCVrVTSOURfPuMI2ZA9V/AIHy+7zRHxQpB435louRZd64StDrNCWi6TXV2N25LmvGgtELAUJ2iFsvVhWMxNYjM8BzuIJ2bmmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742511437; c=relaxed/simple;
-	bh=QhJZ7XfUCUm2tG+ko7aBpX/k+gafGVYwXUhRAOblxyk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I3q1Xm8FQqI560OQ4bJfUGH25xiJ7i6M4NTwey58EQlX5rsCXW6QyeXL70qEzF9eYNWWH/qLfK+0Q2NKRYFIOqfPv95Ox0BawZqqu+YVRm86FQ/eAxZRXvRyu3l3Q5Q/ZnPz3xA/ftuzYc1kzU2SPNIBqi/6jak9VCXbdSH5mTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JeMQAbIq; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742512169; c=relaxed/simple;
+	bh=m3fIwQ9KL4fgaQ92P1LNTsIoLo1mURu7HsKB6VAksDs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YO2N3HavSEFjk74WaC5jMk24amNmCZpqy2w6tyuJH1xnOXZe6+BVohqRlimzzJyFBzyqmcUovK1QdPs3xMMkLhRu8BCKfhaNaYPBoziuVxZzTh1R70po6qLTH/UtOXnBPifG5j4RjQsygGtI6Bb0AHm+KIb9oU5mnxow1ylrTYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=D9N3LRzE; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JeMQAbIq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742511435; x=1774047435;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QhJZ7XfUCUm2tG+ko7aBpX/k+gafGVYwXUhRAOblxyk=;
-  b=JeMQAbIqFM1lc1JvvvYqLf0Q4t26qGJsoiUQi4Y92HSxOVon/fFdDx3I
-   9Z6aLufsO/621+KJuY40L7qXmLffoDe9u73LkIi2gO5txG82PGy4+6UPX
-   MqhsUHActQm7JgrLLZYj2Vcvs9WnK/06DHTarCsuu37mKrf7u5wKw9l7t
-   Hhe2Vu7q1kirHnxvsABVRtObgP4mQ0gRSegJPAiADGRHpf0YFwRZ4HKas
-   T1cnh4UQdEd++LK37EM5E6EPd32QZfcThc101zLXSVAwtnLIA+zJXaZns
-   SiDrYm0VqfDpbJLDCFR8r5ii+Umv7gUulKHYk2O1/NXNJLVRLhfcq4MA/
-   w==;
-X-CSE-ConnectionGUID: fXTN12ZcSsKnBDB+GUrx1g==
-X-CSE-MsgGUID: Hnm61t6YSFuUSkOWukaxqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="47428925"
-X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
-   d="scan'208";a="47428925"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 15:57:14 -0700
-X-CSE-ConnectionGUID: agGNVLwyS/eCq7lZK7glqA==
-X-CSE-MsgGUID: 3gwNGhAPQbWHJ2mmgeTpsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
-   d="scan'208";a="146461757"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Mar 2025 15:57:10 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tvOp2-0000qh-1A;
-	Thu, 20 Mar 2025 22:57:08 +0000
-Date: Fri, 21 Mar 2025 06:56:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Subject: Re: [PATCH 1/2] hwmon: (pmbus/max34440): Fix support for max34451
-Message-ID: <202503210647.xC0D586I-lkp@intel.com>
-References: <20250320-dev_adpm12160-v1-1-8f7b975eac75@analog.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="D9N3LRzE"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e64165ae78cso1037578276.0
+        for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 16:09:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1742512166; x=1743116966; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NsQLaUzZKjouDcBV/YPUh/MkwoWlaLe69i4Or3Hkjms=;
+        b=D9N3LRzEwVwUGzERakDxMC1Z12UtJQpmpaeZL0v0HL23mPdVp9Dy/ClhM4kYxMIf2r
+         pQ6/VSqYOQcAjbWaxXxv/iyhpVV1hvO9EumTCou5UITQ1ARPzg6SUYHR+iF+ONhkC52C
+         yHNDMGQDmuYo9WMyYYD1D7wuRHAHytIE5jUNORDdQeIgAJMi1PcNe511MjC/FcAlBi5p
+         Z6oAcvChIxIHhbzkmQLVP2E7Fqo4lju85tJIx69osgoBROfJCU5K1xql7eq2Zlgfyy3B
+         yEDTh4G26QMDU2oEKL2DhvfGQf/CrsHoCf9o4SuLsGr+nU+aJNEJ1/xlqj1ZwrdXokN/
+         519Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742512166; x=1743116966;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NsQLaUzZKjouDcBV/YPUh/MkwoWlaLe69i4Or3Hkjms=;
+        b=HucY5z6Bg3/ofMTztgB+JhukLMHiea++jdULo4Akyl6ITNk3ialF7aMW876lf5oGKj
+         1N+V57JuP8sUlwMRE9n1MSSxQvCBaYgNzonBbOslI6jMT9rXbXp+H6fyI9O6p7tRQq86
+         MQL7LFK9exHFxwDIRaNruqcmsl3mRdiYw/yLFyaztngsVMJq7UcfFKG38P2E6PExiW8t
+         WZe5s7sAZyyp28ifN05sY9XBRVnuCV9/mYaMomqSAsJr1CW2ZdKQSsJ3U0M4RCyZk/zO
+         rybhR4osRvPy2cyEWYYRLzwEPMp9tt2zHvb5SZnWVMDSnBoipYEvyp1X0spFBAQNLgRw
+         xkBg==
+X-Forwarded-Encrypted: i=1; AJvYcCXO1CsShouTbev503xIHXgMdw42RvySNQ2wqSdxUgd6lRYJLhO38O8ZQTxPfxdL6MlirwL8lq4uEBI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHEfZmtg5Orj2eqo0Mb4L6rwSamKvCCznkjlWkxTaOYyqM3Lbc
+	w+BGLLc94OuMWxOcq0I3nSpM7TFFChdrQxBZgoWRqSJImki0ySyw9lZQp/0Nxx1Dgr5lAa9Wbci
+	T/VhjrimzHCd9YVqP1QJcHNIgWeAQ4f2j7duvyQ==
+X-Gm-Gg: ASbGncvNYriNM0RKVj4SqxxO4gHKKjw6tSlYY7HJKBnk1exFXSsPTYX5xOnu8bbAG/z
+	ZtvC4LrxQUMnbll90PiMTCuDROratQyHtZleElHLZtkud/tySV3SWhmJdbOVwwNW++pjdj4uNI6
+	Q0A0sDAI00n5uBXUIXKpZ6hSpxOoNmQzkYZs9lZw==
+X-Google-Smtp-Source: AGHT+IFDRrLxIAnQM1sktWzlO7b7dXnBgFLapHyMV4vMjPpWfJaidUEdMv15+RgA77Z60kHjKJe06Yio1uLKOlCq2sA=
+X-Received: by 2002:a05:690c:9a05:b0:6fb:277f:f022 with SMTP id
+ 00721157ae682-700bac63638mr18849517b3.15.1742512166144; Thu, 20 Mar 2025
+ 16:09:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250320-dev_adpm12160-v1-1-8f7b975eac75@analog.com>
+References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
+ <20250314-v5_user_cfi_series-v12-19-e51202b53138@rivosinc.com> <D8LG1TTBMPWX.3MKAEM8X1WYAX@ventanamicro.com>
+In-Reply-To: <D8LG1TTBMPWX.3MKAEM8X1WYAX@ventanamicro.com>
+From: Deepak Gupta <debug@rivosinc.com>
+Date: Thu, 20 Mar 2025 16:09:12 -0700
+X-Gm-Features: AQ5f1JreP6HXwpJ5ynf6jYICgHmcVMtUgEM9ETC-KUSuZNcuhzZ0eOngfgfDvqY
+Message-ID: <CAKC1njQ8P2mNiiev-NDyTJPjJ6AAVqrtHMcwt_sc5A7Z+3-Jrg@mail.gmail.com>
+Subject: Re: [PATCH v12 19/28] riscv/ptrace: riscv cfi status and state via
+ ptrace and in core files
+To: =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
+	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
+	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
+	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
+	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
+	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
+	linux-riscv <linux-riscv-bounces@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alexis,
+On Thu, Mar 20, 2025 at 3:24=E2=80=AFPM Radim Kr=C4=8Dm=C3=A1=C5=99 <rkrcma=
+r@ventanamicro.com> wrote:
+>
+> 2025-03-14T14:39:38-07:00, Deepak Gupta <debug@rivosinc.com>:
+> > Expose a new register type NT_RISCV_USER_CFI for risc-v cfi status and
+> > state. Intentionally both landing pad and shadow stack status and state
+> > are rolled into cfi state. Creating two different NT_RISCV_USER_XXX wou=
+ld
+> > not be useful and wastage of a note type. Enabling or disabling of feat=
+ure
+> > is not allowed via ptrace set interface. However setting `elp` state or
+> > setting shadow stack pointer are allowed via ptrace set interface. It i=
+s
+> > expected `gdb` might have use to fixup `elp` state or `shadow stack`
+> > pointer.
+> >
+> > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> > ---
+> >  arch/riscv/include/uapi/asm/ptrace.h | 18 ++++++++
+> >  arch/riscv/kernel/ptrace.c           | 83 ++++++++++++++++++++++++++++=
+++++++++
+> >  include/uapi/linux/elf.h             |  1 +
+> >  3 files changed, 102 insertions(+)
+> >
+> > diff --git a/arch/riscv/include/uapi/asm/ptrace.h b/arch/riscv/include/=
+uapi/asm/ptrace.h
+> > index 659ea3af5680..e6571fba8a8a 100644
+> > --- a/arch/riscv/include/uapi/asm/ptrace.h
+> > +++ b/arch/riscv/include/uapi/asm/ptrace.h
+> > @@ -131,6 +131,24 @@ struct __sc_riscv_cfi_state {
+> >       unsigned long ss_ptr;   /* shadow stack pointer */
+> >  };
+> >
+> > +struct __cfi_status {
+> > +     /* indirect branch tracking state */
+> > +     __u64 lp_en : 1;
+> > +     __u64 lp_lock : 1;
+> > +     __u64 elp_state : 1;
+> > +
+> > +     /* shadow stack status */
+> > +     __u64 shstk_en : 1;
+> > +     __u64 shstk_lock : 1;
+>
+> I remember there was deep hatred towards bitfields in the Linux
+> community, have things changes?
 
-kernel test robot noticed the following build errors:
+hmm. I didn't know about the strong hatred.
+Although I can see lots of examples of this pattern in existing kernel code=
+.
+No strong feelings on my side, I can change this and have it single 64bit f=
+ield
+and accessed via bitmasks.
 
-[auto build test ERROR on c812cc42f92d3d0b17c01b5db9a1dee5793a1491]
+>
+> > +     __u64 rsvd : sizeof(__u64) - 5;
+>
+> I think you meant "64 - 5".
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexis-Czezar-Torreno/hwmon-pmbus-max34440-Fix-support-for-max34451/20250320-115905
-base:   c812cc42f92d3d0b17c01b5db9a1dee5793a1491
-patch link:    https://lore.kernel.org/r/20250320-dev_adpm12160-v1-1-8f7b975eac75%40analog.com
-patch subject: [PATCH 1/2] hwmon: (pmbus/max34440): Fix support for max34451
-config: x86_64-randconfig-074-20250321 (https://download.01.org/0day-ci/archive/20250321/202503210647.xC0D586I-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503210647.xC0D586I-lkp@intel.com/reproduce)
+eeh. bad bug. thanks.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503210647.xC0D586I-lkp@intel.com/
+>
+> > +};
+> > +
+> > +struct user_cfi_state {
+> > +     struct __cfi_status     cfi_status;
+> > +     __u64 shstk_ptr;
+> > +};
+> > +
+> >  #endif /* __ASSEMBLY__ */
+> >
+> >  #endif /* _UAPI_ASM_RISCV_PTRACE_H */
+> > diff --git a/arch/riscv/kernel/ptrace.c b/arch/riscv/kernel/ptrace.c
+> > @@ -224,6 +297,16 @@ static const struct user_regset riscv_user_regset[=
+] =3D {
+> >               .set =3D tagged_addr_ctrl_set,
+> >       },
+> >  #endif
+> > +#ifdef CONFIG_RISCV_USER_CFI
+> > +     [REGSET_CFI] =3D {
+> > +             .core_note_type =3D NT_RISCV_USER_CFI,
+> > +             .align =3D sizeof(__u64),
+> > +             .n =3D sizeof(struct user_cfi_state) / sizeof(__u64),
+> > +             .size =3D sizeof(__u64),
+>
+> Why not `size =3D sizeof(struct user_cfi_state)` and `n =3D 1`?
 
-All errors (new ones prefixed by >>):
+yeah another good catch.
+Should write a kselftest against it, so that it can be caught.
 
->> drivers/hwmon/pmbus/max34440.c:447:23: error: expected expression
-     447 |                 MAX34451_COMMON_INFO,
-         |                                     ^
-   drivers/hwmon/pmbus/max34440.c:450:23: error: expected expression
-     450 |                 MAX34451_COMMON_INFO,
-         |                                     ^
->> drivers/hwmon/pmbus/max34440.c:566:18: error: expected ';' after top level declarator
-     566 | MODULE_IMPORT_NS(PMBUS);
-         |                  ^
-   3 errors generated.
-
-
-vim +447 drivers/hwmon/pmbus/max34440.c
-
-   299	
-   300	#define MAX34451_COMMON_INFO \
-   301		.pages = 21, \
-   302		.format[PSC_VOLTAGE_OUT] = direct, \
-   303		.format[PSC_TEMPERATURE] = direct, \
-   304		.format[PSC_CURRENT_OUT] = direct, \
-   305		.m[PSC_VOLTAGE_OUT] = 1, \
-   306		.b[PSC_VOLTAGE_OUT] = 0, \
-   307		.R[PSC_VOLTAGE_OUT] = 3, \
-   308		.m[PSC_CURRENT_OUT] = 1, \
-   309		.b[PSC_CURRENT_OUT] = 0, \
-   310		.R[PSC_CURRENT_OUT] = 2, \
-   311		.m[PSC_TEMPERATURE] = 1, \
-   312		.b[PSC_TEMPERATURE] = 0, \
-   313		.R[PSC_TEMPERATURE] = 2, \
-   314		/* func 0-15 is set dynamically before probing */ \
-   315		.func[16] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP, \
-   316		.func[17] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP, \
-   317		.func[18] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP, \
-   318		.func[19] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP, \
-   319		.func[20] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP, \
-   320		.read_word_data = max34440_read_word_data, \
-   321		.write_word_data = max34440_write_word_data,
-   322	
-   323	static struct pmbus_driver_info max34440_info[] = {
-   324		[max34440] = {
-   325			.pages = 14,
-   326			.format[PSC_VOLTAGE_IN] = direct,
-   327			.format[PSC_VOLTAGE_OUT] = direct,
-   328			.format[PSC_TEMPERATURE] = direct,
-   329			.format[PSC_CURRENT_OUT] = direct,
-   330			.m[PSC_VOLTAGE_IN] = 1,
-   331			.b[PSC_VOLTAGE_IN] = 0,
-   332			.R[PSC_VOLTAGE_IN] = 3,	    /* R = 0 in datasheet reflects mV */
-   333			.m[PSC_VOLTAGE_OUT] = 1,
-   334			.b[PSC_VOLTAGE_OUT] = 0,
-   335			.R[PSC_VOLTAGE_OUT] = 3,    /* R = 0 in datasheet reflects mV */
-   336			.m[PSC_CURRENT_OUT] = 1,
-   337			.b[PSC_CURRENT_OUT] = 0,
-   338			.R[PSC_CURRENT_OUT] = 3,    /* R = 0 in datasheet reflects mA */
-   339			.m[PSC_TEMPERATURE] = 1,
-   340			.b[PSC_TEMPERATURE] = 0,
-   341			.R[PSC_TEMPERATURE] = 2,
-   342			.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   343			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   344			.func[1] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   345			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   346			.func[2] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   347			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   348			.func[3] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   349			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   350			.func[4] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   351			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   352			.func[5] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   353			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   354			.func[6] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   355			.func[7] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   356			.func[8] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   357			.func[9] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   358			.func[10] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   359			.func[11] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   360			.func[12] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   361			.func[13] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   362			.read_byte_data = max34440_read_byte_data,
-   363			.read_word_data = max34440_read_word_data,
-   364			.write_word_data = max34440_write_word_data,
-   365		},
-   366		[max34441] = {
-   367			.pages = 12,
-   368			.format[PSC_VOLTAGE_IN] = direct,
-   369			.format[PSC_VOLTAGE_OUT] = direct,
-   370			.format[PSC_TEMPERATURE] = direct,
-   371			.format[PSC_CURRENT_OUT] = direct,
-   372			.format[PSC_FAN] = direct,
-   373			.m[PSC_VOLTAGE_IN] = 1,
-   374			.b[PSC_VOLTAGE_IN] = 0,
-   375			.R[PSC_VOLTAGE_IN] = 3,
-   376			.m[PSC_VOLTAGE_OUT] = 1,
-   377			.b[PSC_VOLTAGE_OUT] = 0,
-   378			.R[PSC_VOLTAGE_OUT] = 3,
-   379			.m[PSC_CURRENT_OUT] = 1,
-   380			.b[PSC_CURRENT_OUT] = 0,
-   381			.R[PSC_CURRENT_OUT] = 3,
-   382			.m[PSC_TEMPERATURE] = 1,
-   383			.b[PSC_TEMPERATURE] = 0,
-   384			.R[PSC_TEMPERATURE] = 2,
-   385			.m[PSC_FAN] = 1,
-   386			.b[PSC_FAN] = 0,
-   387			.R[PSC_FAN] = 0,
-   388			.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   389			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   390			.func[1] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   391			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   392			.func[2] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   393			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   394			.func[3] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   395			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   396			.func[4] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   397			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   398			.func[5] = PMBUS_HAVE_FAN12 | PMBUS_HAVE_STATUS_FAN12,
-   399			.func[6] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   400			.func[7] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   401			.func[8] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   402			.func[9] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   403			.func[10] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   404			.func[11] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   405			.read_byte_data = max34440_read_byte_data,
-   406			.read_word_data = max34440_read_word_data,
-   407			.write_word_data = max34440_write_word_data,
-   408		},
-   409		[max34446] = {
-   410			.pages = 7,
-   411			.format[PSC_VOLTAGE_IN] = direct,
-   412			.format[PSC_VOLTAGE_OUT] = direct,
-   413			.format[PSC_TEMPERATURE] = direct,
-   414			.format[PSC_CURRENT_OUT] = direct,
-   415			.format[PSC_POWER] = direct,
-   416			.m[PSC_VOLTAGE_IN] = 1,
-   417			.b[PSC_VOLTAGE_IN] = 0,
-   418			.R[PSC_VOLTAGE_IN] = 3,
-   419			.m[PSC_VOLTAGE_OUT] = 1,
-   420			.b[PSC_VOLTAGE_OUT] = 0,
-   421			.R[PSC_VOLTAGE_OUT] = 3,
-   422			.m[PSC_CURRENT_OUT] = 1,
-   423			.b[PSC_CURRENT_OUT] = 0,
-   424			.R[PSC_CURRENT_OUT] = 3,
-   425			.m[PSC_POWER] = 1,
-   426			.b[PSC_POWER] = 0,
-   427			.R[PSC_POWER] = 3,
-   428			.m[PSC_TEMPERATURE] = 1,
-   429			.b[PSC_TEMPERATURE] = 0,
-   430			.R[PSC_TEMPERATURE] = 2,
-   431			.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   432			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_POUT,
-   433			.func[1] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   434			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   435			.func[2] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   436			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_POUT,
-   437			.func[3] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-   438			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
-   439			.func[4] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   440			.func[5] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   441			.func[6] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   442			.read_byte_data = max34440_read_byte_data,
-   443			.read_word_data = max34440_read_word_data,
-   444			.write_word_data = max34440_write_word_data,
-   445		},
-   446		[max34451] = {
- > 447			MAX34451_COMMON_INFO,
-   448		},
-   449		[max34451_na6] = {
-   450			MAX34451_COMMON_INFO,
-   451		},
-   452		[max34460] = {
-   453			.pages = 18,
-   454			.format[PSC_VOLTAGE_OUT] = direct,
-   455			.format[PSC_TEMPERATURE] = direct,
-   456			.m[PSC_VOLTAGE_OUT] = 1,
-   457			.b[PSC_VOLTAGE_OUT] = 0,
-   458			.R[PSC_VOLTAGE_OUT] = 3,
-   459			.m[PSC_TEMPERATURE] = 1,
-   460			.b[PSC_TEMPERATURE] = 0,
-   461			.R[PSC_TEMPERATURE] = 2,
-   462			.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   463			.func[1] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   464			.func[2] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   465			.func[3] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   466			.func[4] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   467			.func[5] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   468			.func[6] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   469			.func[7] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   470			.func[8] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   471			.func[9] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   472			.func[10] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   473			.func[11] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   474			.func[13] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   475			.func[14] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   476			.func[15] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   477			.func[16] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   478			.func[17] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   479			.read_word_data = max34440_read_word_data,
-   480			.write_word_data = max34440_write_word_data,
-   481		},
-   482		[max34461] = {
-   483			.pages = 23,
-   484			.format[PSC_VOLTAGE_OUT] = direct,
-   485			.format[PSC_TEMPERATURE] = direct,
-   486			.m[PSC_VOLTAGE_OUT] = 1,
-   487			.b[PSC_VOLTAGE_OUT] = 0,
-   488			.R[PSC_VOLTAGE_OUT] = 3,
-   489			.m[PSC_TEMPERATURE] = 1,
-   490			.b[PSC_TEMPERATURE] = 0,
-   491			.R[PSC_TEMPERATURE] = 2,
-   492			.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   493			.func[1] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   494			.func[2] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   495			.func[3] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   496			.func[4] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   497			.func[5] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   498			.func[6] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   499			.func[7] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   500			.func[8] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   501			.func[9] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   502			.func[10] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   503			.func[11] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   504			.func[12] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   505			.func[13] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   506			.func[14] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   507			.func[15] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT,
-   508			/* page 16 is reserved */
-   509			.func[17] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   510			.func[18] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   511			.func[19] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   512			.func[20] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   513			.func[21] = PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-   514			.read_word_data = max34440_read_word_data,
-   515			.write_word_data = max34440_write_word_data,
-   516		},
-   517	};
-   518	
-   519	static int max34440_probe(struct i2c_client *client)
-   520	{
-   521		struct max34440_data *data;
-   522		int rv;
-   523	
-   524		data = devm_kzalloc(&client->dev, sizeof(struct max34440_data),
-   525				    GFP_KERNEL);
-   526		if (!data)
-   527			return -ENOMEM;
-   528		data->id = i2c_match_id(max34440_id, client)->driver_data;
-   529		data->info = max34440_info[data->id];
-   530	
-   531		if (data->id == max34451 || data->id == max34451_na6) {
-   532			rv = max34451_set_supported_funcs(client, data);
-   533			if (rv)
-   534				return rv;
-   535		}
-   536	
-   537		return pmbus_do_probe(client, &data->info);
-   538	}
-   539	
-   540	static const struct i2c_device_id max34440_id[] = {
-   541		{"max34440", max34440},
-   542		{"max34441", max34441},
-   543		{"max34446", max34446},
-   544		{"max34451", max34451},
-   545		{"max34451_na6", max34451_na6},
-   546		{"max34460", max34460},
-   547		{"max34461", max34461},
-   548		{}
-   549	};
-   550	MODULE_DEVICE_TABLE(i2c, max34440_id);
-   551	
-   552	/* This is the driver that will be inserted */
-   553	static struct i2c_driver max34440_driver = {
-   554		.driver = {
-   555			   .name = "max34440",
-   556			   },
-   557		.probe = max34440_probe,
-   558		.id_table = max34440_id,
-   559	};
-   560	
-   561	module_i2c_driver(max34440_driver);
-   562	
-   563	MODULE_AUTHOR("Guenter Roeck");
-   564	MODULE_DESCRIPTION("PMBus driver for Maxim MAX34440/MAX34441");
-   565	MODULE_LICENSE("GPL");
- > 566	MODULE_IMPORT_NS(PMBUS);
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> > +             .regset_get =3D riscv_cfi_get,
+> > +             .set =3D riscv_cfi_set,
+> > +     },
+> > +#endif
+>
+> [I haven't yet reviewed if a new register is the right thing to do nor
+>  looked at the rest of the patch.]
