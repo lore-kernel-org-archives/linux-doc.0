@@ -1,140 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0222D1DE3A9;
-	Wed, 19 Mar 2025 23:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF57E555
+	for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 01:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742428702; cv=none; b=RXJm0eYgEzTrzNxukvGjmWFame/uNzATeuuEp03JZkYfGq4B//dMqhC1AprfNf6ZzycTeS+UK10qis6se0jHDw1u7j/AqlyMvTOC7E4MAlZrKI1joWYEVQaASzsHPP1hykc+7uQnxPppSLimGIJ0YVAXnJ105AeJxiwJLxo8k18=
+	t=1742432472; cv=none; b=j3dOksiIB7QChmUvgc0QpIAWnAf/iYnX4+JYZGycX97Lg7+yjeaay1L3Qaxf/GsdGPQtFRGNAPSOVK6vApOIoyPqTX71PQUnUNx30RTQJb1/ao/1Y7Q+gGjVDD5d+O5NpUb/UQq2fESYiy4YRFcnCmnTzvKqAIOpdbhKPRFctTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742428702; c=relaxed/simple;
-	bh=rSoECxcX9b+KRE1xg6jEVohUbJ3UCjA1B7aestxTcxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ltAe43yX/MwUjLmIJ+JOay2wecmLGS7IKurla7Gg2l5jwDf8PD7h5QZbX+0j0eDJRCuQbcHC7jOBxPLJSGDNoDD3dFpda0/wAl9j8bUeGuB6t0/set5DbxlE8ZA+n8A8jdHulQTDpIpOUTaPKp3ID2+oTWkuuRDL4yK2uFa9IFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=q+zJaD5Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742432472; c=relaxed/simple;
+	bh=II2U1RHQ/jr4BI0zGRltHv3SonmERB5EJHALDWvyq9Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O9gw3g5S80L9lCorx6sdz4NRfu4LVdxHitvH1U4sYet5Bkree+4lLzRgfj/LI34TyxgatA0Fe71rrV11lrn9li5Sap8WzlUISKuDtCV6jLT1/hKRVv10FMdX+5LkjOYykbcJ0KC1zqOeBasNM2nmjCz6zMfAo6zIezrKkFyfe9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FSGv224Q; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="q+zJaD5Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FDC3C4CEE4;
-	Wed, 19 Mar 2025 23:58:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1742428701;
-	bh=rSoECxcX9b+KRE1xg6jEVohUbJ3UCjA1B7aestxTcxw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q+zJaD5ZkbHyP65BU62zb0Z09w1g8gdTKWaro2JmheI6rghm/wSVjxss59SjF+HkY
-	 ghX1cHNnun2clJl+F8/XZIGBHM8Shbn5pDWMl5zoX/DWIMP6mbWkDdI+KYvtYL60o5
-	 exXZV9mru0SWOyahtPKOPl1WAimpdJ/TO0RkkxfE=
-Date: Wed, 19 Mar 2025 16:57:02 -0700
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrei Vagin <avagin@gmail.com>, David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Kalesh Singh <kaleshsingh@google.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Jann Horn <jannh@google.com>, Juan Yescas <jyescas@google.com>,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
-	criu@lists.linux.dev,
-	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
-	Pavel Tikhomirov <snorcht@gmail.com>,
-	Mike Rapoport <mike.rapoport@gmail.com>
-Subject: Re: [PATCH 1/2] fs/proc/task_mmu: add guard region bit to pagemap
-Message-ID: <2025031926-engraved-footer-3e9b@gregkh>
-References: <cover.1740139449.git.lorenzo.stoakes@oracle.com>
- <521d99c08b975fb06a1e7201e971cc24d68196d1.1740139449.git.lorenzo.stoakes@oracle.com>
- <857b2c3f-7be7-44e8-a825-82a7353665fb@redhat.com>
- <cd57ed04-c6b1-4df3-a5cb-a33078a08e74@lucifer.local>
- <09d7ca19-e6cc-4aa9-8474-8975373bdebd@redhat.com>
- <CANaxB-yMBSFeYcTr-PaevooSeHUkCN9GWTUkLZUNW2vxKzm0sg@mail.gmail.com>
- <10c3e304-1a6d-45ac-a3ad-7c0c8d00e03f@lucifer.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FSGv224Q"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e4d50ed90aso402869a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Mar 2025 18:01:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742432469; x=1743037269; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BAk0kapKS9PdluPJPIWkY1Z5efMx+hLqnhDZC1SJLRs=;
+        b=FSGv224Q8N9DNA1zdh+hMcWAPbkocl1OylyHSzr5GQt7sbO0Q6iM+fCdgU+toHHMLV
+         TScW5kMXvBOzJGsQI1BUYtChAbNrzvuIyVAYyP4F1myVti6GFum6RX04vyADA/osCEou
+         7NdNBoyaR0Nfc9TocJKLL4fHurGhVBQc/SzrdXfgu+lT/x/L2bmBz5aWjeA+jrdlILNe
+         BUWEwwW5tOADX1x/hLTXRngNViNvuSxhfHp1aZka+fmHrGo5bIXqhIFRdeIhA1zCAbT1
+         WFZtQ427l+Tx9qRDUrb47MIaZAOZkrYYgtgdouafHEaLHTq3djzZDQe+YLk64YNQ3y+O
+         4VCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742432469; x=1743037269;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BAk0kapKS9PdluPJPIWkY1Z5efMx+hLqnhDZC1SJLRs=;
+        b=qHVKl8yCMQVn5/9SsprNs5F/2nbAYyBYvDYiBihfG5uRd1YpSdf+q43giTnARqWL2W
+         deGuwLWppx17yG8Z/0bKnmtKILyifxOf9aagesl1s5c1zuTlHZ8XS52Debp45LedNm7a
+         R7d3Fg9rFrw+WCQhIrgQETopdPEzX/fVlEspwA59MPflrHty54XVSKaolR+Ca/0W/DRz
+         7NEfSfyKtvMTCEo0N7L0JqLwh4WxMCumlWC9tXaesOKay4lEdJTZFIwqLJWFE4jmro1k
+         JpsxGkKICc/N3BymGFCHtPuZOaby/HBKxJcgEHWTZJv8IM3KhOB6JBa7ILzkx2QXdpPR
+         zi8g==
+X-Forwarded-Encrypted: i=1; AJvYcCVexrX9xckthfm2Rk+eiTSaXZlhgXVH5dnE/W94GBKmYrlJTJJh59mG/BwrzHMMTArwNGYW/nfsf4k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtdZoO0tnSvAOO/tOCbi7NKbZBDm6FXbqT+go9/dm2N8u5F2T9
+	sW+VHcaqvz51j7qN207sa7spZDSWVRYNH7JR0JnL7AmC4g3Qhw0/VFylfNCgNFIRNu7To+0mWGl
+	NhmNif7KgpXJQGeMFTVuIr48uKkYTrg0DQdc=
+X-Gm-Gg: ASbGnctcu6MPIGBSBG0h6cDBR8S8w63UHM69PvOb9qZwViQV4qn0dKf3xvzE93zg32J
+	uQDcvjNNig0lOyVnMq9j6z13qUQ2avjvzTrlfgbCqCc4ZhZTV1eP1FFCaym9NX27T4xuuO82Nsd
+	ugYh0QnXFyBYV1PBKjGerS1/mSOQ==
+X-Google-Smtp-Source: AGHT+IHXlpA/PMdNofoovtEr+pQnhs/su4QQ7j9VeE5ahap3eEa9uT9nBwzui8z+w5L5Ct2JgAZ19cpecxACakhXE04=
+X-Received: by 2002:a05:6402:d0d:b0:5e4:d4d3:569d with SMTP id
+ 4fb4d7f45d1cf-5eba00bca9bmr937434a12.22.1742432468285; Wed, 19 Mar 2025
+ 18:01:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <10c3e304-1a6d-45ac-a3ad-7c0c8d00e03f@lucifer.local>
+References: <20250318062957.2120-1-alexs@kernel.org> <875xk6crzd.fsf@trenco.lwn.net>
+ <CAJy-Amk+M2OVgrRp8CUXssX2XFc6ciKFMS1iHLcyLNZ5Gm4fEw@mail.gmail.com> <875xk4al8c.fsf@trenco.lwn.net>
+In-Reply-To: <875xk4al8c.fsf@trenco.lwn.net>
+From: Alex Shi <seakeel@gmail.com>
+Date: Thu, 20 Mar 2025 09:00:32 +0800
+X-Gm-Features: AQ5f1JqPR3dnm3imqGi4Gq-OdqkWevoBcVqJiFj_zxBhE3fd-JdaDEVQGU992Us
+Message-ID: <CAJy-Amn=s+sBvDNiM1n6JOK8Q9Tf9twT7ka4v9qrkBbJqdJpBw@mail.gmail.com>
+Subject: Re: [GIT PULL] Chinese-docs changes for v6.15-rc1
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: alexs@kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 19, 2025 at 07:12:45PM +0000, Lorenzo Stoakes wrote:
-> +cc Greg for stable question
-> 
-> On Wed, Mar 19, 2025 at 11:22:40AM -0700, Andrei Vagin wrote:
-> > On Mon, Feb 24, 2025 at 2:39 AM David Hildenbrand <david@redhat.com> wrote:
-> > >
-> > > On 24.02.25 11:18, Lorenzo Stoakes wrote:
-> 
-> [snip]
-> > > >>
-> > > >> Acked-by: David Hildenbrand <david@redhat.com>
-> > > >
-> > > > Thanks! :)
-> > > >>
-> > > >> Something that might be interesting is also extending the PAGEMAP_SCAN
-> > > >> ioctl.
-> > > >
-> > > > Yeah, funny you should mention that, I did see that, but on reading the man
-> > > > page it struck me that it requires the region to be uffd afaict? All the
-> > > > tests seem to establish uffd, and the man page implies it:
-> > > >
-> > > >         To start tracking the written state (flag) of a page or range of
-> > > >         memory, the UFFD_FEATURE_WP_ASYNC must be enabled by UFFDIO_API
-> > > >         ioctl(2) on userfaultfd and memory range must be registered with
-> > > >         UFFDIO_REGISTER ioctl(2) in UFFDIO_REGISTER_MODE_WP mode.
-> > > >
-> > > > It would be a bit of a weird edge case to add support there. I was excited
-> > > > when I first saw this ioctl, then disappointed afterwards... but maybe I
-> > > > got it wrong?
+Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2025=E5=B9=B43=E6=9C=8820=E6=97=
+=A5=E5=91=A8=E5=9B=9B 03:12=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Alex Shi <seakeel@gmail.com> writes:
+>
+> >> It's a bit close to the merge window for this.  I could consider that,
+> >> but I really need you to put a signed tag on there and have me pull
+> >> that.
 > >
-> > > >
-> > >
-> > > I never managed to review that fully, but I thing that
-> > > UFFD_FEATURE_WP_ASYNC thingy is only required for PM_SCAN_CHECK_WPASYNC
-> > > and PM_SCAN_WP_MATCHING.
-> > >
-> > > See pagemap_scan_test_walk().
-> > >
-> > > I do recall that it works on any VMA.
-> > >
-> > > Ah yes, tools/testing/selftests/mm/vm_util.c ends up using it for
-> > > pagemap_is_swapped() and friends via page_entry_is() to sanity check
-> > > that what pagemap gives us is consistent with what pagemap_scan gives us.
-> > >
-> > > So it should work independent of the uffd magic.
-> > > I might be wrong, though ...
-> >
-> >
-> > PAGEMAP_SCAN can work without the UFFD magic. CRIU utilizes PAGEMAP_SCAN
-> > as a more efficient alternative to /proc/pid/pagemap:
-> > https://github.com/checkpoint-restore/criu/blob/d18912fc88f3dc7bde5fdfa3575691977eb21753/criu/pagemap-cache.c#L178
-> >
-> 
-> Yeah we ascertained that - is on my list, LSF coming up next week means we
-> aren't great on timing here, but I'll prioritise this. When I'm back.
-> 
-> > For CRIU, obtaining information about guard regions is critical.
-> > Without this functionality in the kernel, CRIU is broken. We probably should
-> > consider backporting these changes to the 6.13 and 6.14 stable branches.
-> >
-> 
-> I'm not sure on precedent for backporting a feature like this - Greg? Am
-> happy to do it though.
+> > Sorry, it's my fault. I thought gpg guarded gitolite.org may help us.
+> > Here is the new pull request with my signed tag: chinese-doc-6.15-rc1
+>
+> OK ... I had to update my keys, then harangue gpg to actually trust your
+> key ... but it's done.  Congratulations on your first pull (and to me
+> for accepting my first one :)
 
-If it's a regression, sure, we can take it for stable.
+Yes, a life achievement for both of us. :)
 
-> As a stop gap we can backport the pagemap feature if Greg feels this is
-> appropriate?
+>
+> At this point, that definitely closes docs-next for 6.15; between LSFMM
+> and the merge window, expect me to be pretty quiet for a bit.
 
-Which do the maintainers of the code feel is appropriate?  I'll defer to
-them for making that call :)
+Yes, enjoy the peace with the coming spring. :)
 
-thanks,
-
-greg k-h
+Thanks
