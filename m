@@ -1,329 +1,187 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3ECE18FC75;
-	Fri, 21 Mar 2025 19:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E880622DFA6;
+	Fri, 21 Mar 2025 20:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742586809; cv=none; b=khULmtWyD/mHsB3c6/kmz+Ve+kFu6LTQ3otu1pPw2BX0rYe3GKeUAH5YHn0eqP20M9ILmfHeoC7WcIs9fSO3QKBeIrQLOvnSf6pf87nkYdQnvQw1/pFAiRmbTMcXSLxY73RUP6NsykTsz3bDs6zSiGr3crV1+Yx75r5eQuNTTk0=
+	t=1742587639; cv=none; b=ew9FzrS1M/NMp0fKAmXA97Aw9YLF7KH2CL5ElIv/lM7ChagPWm3DWZMWm4mclN5dB8eNMaQaR+l6ZHDJqjdhjRgQgCxSMnHZadP5BM/9XKRN8aOSA3B14qc14QVPZB3TT0je9xcOUmUD0UsWgctAgpDf0N3q6KcDzmIY/c4df2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742586809; c=relaxed/simple;
-	bh=PepEawDlAhfft5Kfof5D4dNZild5PgEwhpRwDzrtsis=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mwsrGIYbQ9yluJ+8iwGjmHsvTzZhdfGuhQFKFxbP5vfz2LOOZbG7jOlxJVu2U65cQK9LsMT6NMzE+d+WBFNQ1vovGkSvNBWwEFDDEj7/HlKM73nprdHVLAk/VBXKMFgTmNwncWgXuS/sgMJgseq/kSIG5M/VAanVYufw4QC0lx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hfB1RpcM; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742587639; c=relaxed/simple;
+	bh=19oUotyDOCLDkmDdkLpuedsgL2cIAvuGUJEHwHnOgLQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Cvi5Fgg/bodmrxfmk+C85EL4y0gPd+J1XKZicKr2i47rDQlgWEG/s8vPBGLePcpXbcbdLdv5Fsa5LjJxsRT+Vg2Udxix6rElIBViHsB3bo0l1oJmHzXj7J4KVEpJk1DLIkMtoxozonyB2940cFcY9fhGdssdqp8SsOcSj9RaGYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lzwYbugI; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hfB1RpcM"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-225fbdfc17dso40350935ad.3;
-        Fri, 21 Mar 2025 12:53:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742586807; x=1743191607; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fdURz2Kaz0+qhRK8StocNSydHxInyqrwDwL12Xdfbr8=;
-        b=hfB1RpcMyAR3c+Oh23L0o17gTfIAKKK3S1LOhmVwXljuiS4jEQmwRD1hejCmDWJBsj
-         ZDoc2a69Q8czJjZsE9ZiK43PY6fnHW6YS7FeRjOJ/BZFatVKE5s/vz26T1oeELB+xG3f
-         LwS2L7Qwd9Sib0f5X6bdbQPDf4YqtteAApotLYGNmxs7dx20NW3wygCB1zPuTRSxbyaG
-         MmdL4gB5zkHB/Qf/+L3Zbo2qnQNY+/pxVPAQJLvKulTs/+0C57xS4KqQNfGie/GpTnjw
-         S0d5ce2NAiZHNRG5eypoLoHyyYC8JEhBMqAo1uaxKuZqVwPDEzNGZekHVi9gzARYlokB
-         LeUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742586807; x=1743191607;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fdURz2Kaz0+qhRK8StocNSydHxInyqrwDwL12Xdfbr8=;
-        b=p/55yG2rqBzZXBh67Um0mJMJAW2YqfJVR8SikhPpxT+i49HPHcNZOJJ0PNv2/pzseL
-         bRiSzsbMDX5OQqK2ivty5ntwASHFcuj/+5HZwgIeTa5X2KKFq/oNGJrZslX7zCqV7Kgt
-         8RnazX3LSORJxN0Tia6plNs6nTrZoozDERyudxfzySpx5/s9Kuwtw1Kcw20gldycPklb
-         Et8eoaTeRQGp81pYxJYaDlUxtIpRZBM8xMXhBawiU39RLSYvApyZCSPwTp9Mo87ysUaZ
-         qpLCyJT+vBoMbpGxR9YtiNMDBSAvjXPCx5lXZtsFhEneN2ExPPj1aDOgcXxDN9Nk90PB
-         RU0g==
-X-Forwarded-Encrypted: i=1; AJvYcCUIHohQYfEsKd2415XfV7cy2JoGBkix7aZBm9T3KPOqDa/HK07NX+cto9dezFhXJUwXoLR0kTDORvM=@vger.kernel.org, AJvYcCUnCZUm/747rXJTeg/mBRXOL3Cu2YJrfzC2ahOLiWlbbGtOWCGqoDfWj5SI6Wc7YbqfikbTSkSXK8sWPpTx@vger.kernel.org, AJvYcCWTn3CwUP1/i6wrxN7gIySxxCEK+ry97ZA6Wgj+7I4DntWkIZzdWkX0pNwYya3VZERide+5sjUTE1M2@vger.kernel.org
-X-Gm-Message-State: AOJu0YwP3l1vrQzf6hH7YhFnOtHP6HJ3XaY+pfuP5eGn/NvU9uzofRXs
-	EH1Y8i2gHj67xiaGaOx64bxdzcvdeqDyxI/xpBGPoK561vMAlluU
-X-Gm-Gg: ASbGncvxdgTmnud3YE81sidVir6pWpnlpYHUnTddsb/EA5v72P0UQv2WWpnaItY13jN
-	o2ppjSBnAqZocGlpWGQQdyQDIA5dDBNP6cx9Bo/ahK9r9lfxhNshwmsn1lXhBtUSNsKHUP3iPTl
-	RjR/vKH7m1e+6BohjyjYg9L18wL/3g8E59nSHhNUyVfTUyLeOgcWk8Ma7yFAWjqQCz/pFLuRU+E
-	CRsD8gXKnoAKYDPsPqmIeGRzR85cLaSUeX6a92K+TsazRFu4PtS0l/JFoe5abdvNc9hGma/EEGT
-	M/Dx38yzgvug0o/1niJukSHnTbIgExWiVkOZOyzswCe04os9dQhESw==
-X-Google-Smtp-Source: AGHT+IEqg4QZll0BAfnRMKMrmYtfWUSyYS56GiG56j8wxsdpir1mb5UrPwN+3AyiY/rxW3evEQvxRg==
-X-Received: by 2002:a05:6a21:6e01:b0:1f3:3804:9740 with SMTP id adf61e73a8af0-1fe42f2ccb6mr7994025637.15.1742586806541;
-        Fri, 21 Mar 2025 12:53:26 -0700 (PDT)
-Received: from localhost ([2804:30c:b31:2d00:277c:5cbe:7f44:752b])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-af8a27ff1efsm2235011a12.18.2025.03.21.12.53.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Mar 2025 12:53:25 -0700 (PDT)
-Date: Fri, 21 Mar 2025 16:54:24 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
-	corbet@lwn.net
-Subject: Re: [PATCH v2 2/5] iio: adc: ad4000: Add support for SPI offload
-Message-ID: <Z93D8CAmgKSO-Ta6@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1742394806.git.marcelo.schmitt@analog.com>
- <84843837a2acab58f8853152ecaa67c79b9a9666.1742394806.git.marcelo.schmitt@analog.com>
- <c449fff5-ef23-4094-8306-0a6b27a22c1c@baylibre.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lzwYbugI"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52LAT9tR022053;
+	Fri, 21 Mar 2025 20:06:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BAZWiy3q1WUqRoaiLvI9dIJslrFXt+ABgbRRNuix8fQ=; b=lzwYbugIwJgPebOs
+	BZR/l5K91Y2wuiUb0UD3Gi7Gp32OKbT04rL0j0kY2MF0WH8SVRX2CbYm6IcqVEjr
+	UID4lkN8eXiMXF/SQFE2TQX0ARLW71+kODkzxdwYzQguDZ1sl9M3Tbnuku2fclWR
+	XwKEWoejSh+d/reKnd9s6JZaVnBQy9G2DALzyxBFZafiZqYuhNxWMalDgW+aVIAT
+	siR2Wu0TpyOlc8YgHvTYzJq3cdlECYH1/Pk6wolEN0E/98dxw3JzPf27VlCdu8Ka
+	a3ftzIEA5yAs9xy8FjeOS//ZCL0XT3viLGRdbVAb935rNz8sCjkGrWvlbLTe/3ev
+	EQ9ZYA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45h4wphrb5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 21 Mar 2025 20:06:50 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52LK6nCH020958
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 21 Mar 2025 20:06:49 GMT
+Received: from [10.71.113.245] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 21 Mar
+ 2025 13:06:49 -0700
+Message-ID: <5ba0912a-4d8c-4321-9fa4-0bac89af8224@quicinc.com>
+Date: Fri, 21 Mar 2025 13:06:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c449fff5-ef23-4094-8306-0a6b27a22c1c@baylibre.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v36 00/31] Introduce QC USB SND audio offloading support
+To: Luca Weiss <luca.weiss@fairphone.com>, <srinivas.kandagatla@linaro.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+        <tiwai@suse.com>, <robh@kernel.org>, <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
+ <D8LYYEQJ2W4L.1H7FPF4140BVS@fairphone.com>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <D8LYYEQJ2W4L.1H7FPF4140BVS@fairphone.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 8zEwo_wZhHpbeBVNYzwvKCMZbXs1_InH
+X-Proofpoint-GUID: 8zEwo_wZhHpbeBVNYzwvKCMZbXs1_InH
+X-Authority-Analysis: v=2.4 cv=ZN3XmW7b c=1 sm=1 tr=0 ts=67ddc6db cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=qC_FGOx9AAAA:8 a=NEAV23lmAAAA:8 a=XwCJkI7jc2rzYGe07aMA:9
+ a=QEXdDO2ut3YA:10 a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-21_06,2025-03-21_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=999 clxscore=1011 phishscore=0 adultscore=0 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 spamscore=0 mlxscore=0 priorityscore=1501
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503210149
 
-On 03/20, David Lechner wrote:
-> On 3/19/25 9:57 AM, Marcelo Schmitt wrote:
-> > FPGA HDL projects can include a PWM generator in addition to SPI-Engine.
-> > The PWM IP is used to trigger SPI-Engine offload modules that in turn set
-> > SPI-Engine to execute transfers to poll data from the ADC. That allows data
-> > to be read at the maximum sample rates. Also, it is possible to set a
-> > specific sample rate by setting the proper PWM duty cycle and related state
-> > parameters, thus allowing an adjustable ADC sample rate when a PWM (offload
-> > trigger) is used in combination with SPI-Engine.
-> > 
-> > Add support for SPI offload.
-> > 
-> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > ---
-> 
-> I'm surprised I'm not on the CC for this series. scripts/get_maintainer.pl should
-> have picked me up due to K: spi_offload which matches this patch.
+Hi Luca,
 
-get_maintainers doesn't list you if run over ad4000.c.
-If run over the patch file, get_maintainers lists many developers. Some of them
-don't seem to be related to this series, so I cropped the list to avoid churn.
-Will CC you on the next versions.
+On 3/21/2025 6:13 AM, Luca Weiss wrote:
+> Hi Wesley,
+> 
+> On Wed Mar 19, 2025 at 1:51 AM CET, Wesley Cheng wrote:
+>> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
+>>
+>> Several Qualcomm based chipsets can support USB audio offloading to a
+>> dedicated audio DSP, which can take over issuing transfers to the USB
+>> host controller.  The intention is to reduce the load on the main
+>> processors in the SoC, and allow them to be placed into lower power modes.
+>> There are several parts to this design:
+>>   1. Adding ASoC binding layer
+>>   2. Create a USB backend for Q6DSP
+>>   3. Introduce XHCI interrupter support
+>>   4. Create vendor ops for the USB SND driver
+>>
+> 
+> I was able to test this series (v35) on SM6350/SM7225 Fairphone 4
+> smartphone and it appears to work as expected!
 
-> 
-> > Instead of changing bits_per_word according to buffer endianness, I set
-> > bits_per_word for other SPI transfers and updated IIO channels to always use CPU
-> > endianness (the first patch in the series). With that, bits_per_word no longer
-> > needs be updated according to buffer endianness or, in other words, buffer
-> > endianness is no longer related to bits_per_word.
-> 
-> As mentioned in my reply to the previous patch, this is a breaking change, so
-> probably not the best choice.
-Ack
-
-> 
-> > 
-> >  drivers/iio/adc/Kconfig  |   7 +-
-> >  drivers/iio/adc/ad4000.c | 491 ++++++++++++++++++++++++++++++++-------
-> >  2 files changed, 419 insertions(+), 79 deletions(-)
-> > 
-> > diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> > index b7ae6e0ae0df..1cfa3a32f3a7 100644
-> > --- a/drivers/iio/adc/Kconfig
-> > +++ b/drivers/iio/adc/Kconfig
-> > @@ -25,10 +25,15 @@ config AD4000
-> >  	tristate "Analog Devices AD4000 ADC Driver"
-> >  	depends on SPI
-> >  	select IIO_BUFFER
-> > +	select IIO_BUFFER_DMAENGINE
-> >  	select IIO_TRIGGERED_BUFFER
-> > +	select SPI_OFFLOAD
-> >  	help
-> >  	  Say yes here to build support for Analog Devices AD4000 high speed
-> > -	  SPI analog to digital converters (ADC).
-> > +	  SPI analog to digital converters (ADC). If intended to use with
-> > +	  SPI offloading support, it is recommended to enable
-> > +	  CONFIG_SPI_AXI_SPI_ENGINE, CONFIG_PWM_AXI_PWMGEN, and
-> > +	  CONFIG_SPI_OFFLOAD_TRIGGER_PWM.
-> 
-> I guess this is fine here, but people might be more likely to see it on the
-> ADI wiki where the HDL project that has these requirements is described.
-
-I don't see any word about that at
-https://analogdevicesinc.github.io/hdl/projects/pulsar_adc/index.html
-If no one opposes to that, I'd like to keep the piece of advice.
+Thank you for taking the time to testing this :), much appreciated.
 
 > 
-> >  
-> >  	  To compile this driver as a module, choose M here: the module will be
-> >  	  called ad4000.
-> > diff --git a/drivers/iio/adc/ad4000.c b/drivers/iio/adc/ad4000.c
-> > index 19bc021e1b5d..b3f4d215cad4 100644
-> > --- a/drivers/iio/adc/ad4000.c
-> > +++ b/drivers/iio/adc/ad4000.c
-> > @@ -21,9 +21,12 @@
-> >  #include <linux/iio/iio.h>
-> >  
-> >  #include <linux/iio/buffer.h>
-> > +#include <linux/iio/buffer-dmaengine.h>
-> >  #include <linux/iio/triggered_buffer.h>
-> >  #include <linux/iio/trigger_consumer.h>
-> >  
-> > +#include <linux/spi/offload/consumer.h>
+> Based on the sm8350 branch you shared[0] I added similar dts bits for my
+> device, I've pushed that branch here[1] for reference.
 > 
-> Why not before #include <linux/spi/spi.h> ?
+> [0] https://git.codelinaro.org/clo/linux-kernel/kernel-qcom/-/commits/usb_audio_offload/
+> [1] https://github.com/sm6350-mainline/linux/commits/sm6350-6.14-wip-usb-snd-offload/
+> 
+> And I've used these commands to test:
+> 
+> fairphone-4:~$ amixer -c0 cset name='USB Mixer MultiMedia2' On
+> 
+> fairphone-4:~$ aplay -l
+> **** List of PLAYBACK Hardware Devices ****
+> card 0: F4 [Fairphone 4], device 0: MultiMedia1 (*) []
+> Subdevices: 1/1
+> Subdevice #0: subdevice #0
+> card 0: F4 [Fairphone 4], device 1: MultiMedia2 (*) []
+> Subdevices: 1/1
+> Subdevice #0: subdevice #0
+> card 1: Audio [Hi-Res Audio], device 0: USB Audio [USB Audio]
+> Subdevices: 1/1
+> Subdevice #0: subdevice #0
+> 
+> fairphone-4:~$ ffmpeg -i test.m4a -acodec pcm_s16le test.wav
+> 
+> fairphone-4:~$ aplay --device=plughw:0,1 Music/test.wav
+> Playing WAVE 'Music/test.wav' : Signed 16 bit Little Endian, Rate 44100 Hz, Stereo
+> 
+> And then music was coming out of these headphones connected via a USB-C
+> to 3.5mm dongle.
+> 
+> Every time I'm starting playback this error appears in dmesg, do you
+> also see this on your test setup?
+> 
+> [ 1336.081525] q6afe-dai 3000000.remoteproc:glink-edge:apr:service@4:dais: AFE Port already open
+> 
 
-Okay, will put it there.
+The print is coming because the Q6 USB backend DAI link is utilizing the
+q6afe_port_get_from_id() API to fetch the proper AFE port to issue commands
+to.  IMO, that log level should be decreased to at least dev_info() instead
+of an error, but we can probably take that discussion into a different series.
 
-> 
-...
-> >  
-> > -#define __AD4000_DIFF_CHANNEL(_sign, _real_bits, _storage_bits, _reg_access)	\
-> > +#define AD4000_TQUIET1_NS		190
-> > +#define AD4000_TQUIET2_NS		60
-> > +#define AD4000_TCONV_NS			320
-> 
-> Does this actually work for every single chip? For example, the AD7983 datasheet
-> give the max as 500 ns for this timing parameter. Might need to put this in the
-> chip_info to account for differences.
-> 
-> Also AD7983 doesn't have any quite time in the datasheet, so those might not be
-> needed in some cases?
-
-I've tested the series with AD7687 and ADAQ4003 and got good readings.
-I'll check the timing specifications again and provide a delay long enough
-for AD7983 and any other device with longer TCONV.
-
-> 
-...
-> > -#define AD4000_DIFF_CHANNELS(_sign, _real_bits, _reg_access)			\
-> > +#define AD4000_DIFF_CHANNELS(_sign, _real_bits, _reg_access, _offl)		\
-> 
-> We always pass 0 to _offl here, so we can leave out this parameter and just
-> hard-code the 0 below. We will never have a case with offload + soft timestamp.
-
-Good catch. Will apply the simplification.
+To add, I also see this on my set up.
 
 > 
-...
-> > -#define __AD4000_PSEUDO_DIFF_CHANNEL(_sign, _real_bits, _storage_bits, _reg_access)\
-> > +#define __AD4000_PSEUDO_DIFF_CHANNEL(_sign, _real_bits, _storage_bits,		\
-> > +				     _reg_access, _offl)			\
-> >  {										\
-> >  	.type = IIO_VOLTAGE,							\
-> >  	.indexed = 1,								\
-> >  	.channel = 0,								\
-> >  	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |				\
-> >  			      BIT(IIO_CHAN_INFO_SCALE) |			\
-> > -			      BIT(IIO_CHAN_INFO_OFFSET),			\
-> > -	.info_mask_separate_available = _reg_access ? BIT(IIO_CHAN_INFO_SCALE) : 0,\
-> > +			      BIT(IIO_CHAN_INFO_OFFSET) |			\
-> > +			      (_offl ? BIT(IIO_CHAN_INFO_SAMP_FREQ) : 0),	\
-> > +	.info_mask_separate_available = (_reg_access ? BIT(IIO_CHAN_INFO_SCALE) : 0),\
+> And if I'm not mistaken it's possible to check that actually the offload
+> path is getting used by checking the interrupt counts of the xhci-hcd
+> interrupt.
 > 
-> Unrelated change (adding braces)?
+> With regular USB audio card playback there's many interrupts per second
+> happening:
+> 
+> fairphone-4:~$ aplay --device=plughw:1,0 Music/test.wav # regular USB
+> fairphone-4:~$ cat /proc/interrupts | grep -i usb
+> 188:     137524          0          0          0          0          0          0          0    GICv3 165 Level     xhci-hcd:usb1
+> fairphone-4:~$ cat /proc/interrupts | grep -i usb
+> 188:     137591          0          0          0          0          0          0          0    GICv3 165 Level     xhci-hcd:usb1
+> 
+> And with the offload card during playback there's no interrupts
+> happening (just a few when initially starting playback):
+> 
+> fairphone-4:~$ aplay --device=plughw:0,1 Music/test.wav # offload
+> fairphone-4:~$ cat /proc/interrupts | grep -i usb
+> 188:     141947          0          0          0          0          0          0          0    GICv3 165 Level     xhci-hcd:usb1
+> fairphone-4:~$ cat /proc/interrupts | grep -i usb
+> 188:     141947          0          0          0          0          0          0          0    GICv3 165 Level     xhci-hcd:usb1
+> 
 
-Oops, will undo.
+This is correct.  With offload enabled, you should probably only see a few
+interrupts from xHCI from the initial USB headset enumeration and control
+transfers, but the data packets itself should result in no increase of the
+xHCI IRQ.
 
-> 
-> Also, could be nice to have sampling_frequency_available so that userspace can
-> discover the max sample rate.
-
-I don't think we should have sampling_frequency_available in this case because
-there is no clear list of sample frequency values nor they can always be
-expressed as "[min step max]" triad.
-https://web.git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/tree/Documentation/ABI/testing/sysfs-bus-iio?h=testing#n121
-
-> 
-...
-> > -#define AD4000_PSEUDO_DIFF_CHANNELS(_sign, _real_bits, _reg_access)		\
-> > +#define AD4000_PSEUDO_DIFF_CHANNELS(_sign, _real_bits, _reg_access, _offl)	\
-> 
-> ditto about hard-coding _offl here
-Ack
-
-> 
-...
-> >  static const struct ad4000_chip_info ad7983_chip_info = {
-> >  	.dev_name = "ad7983",
-> > -	.chan_spec = AD4000_PSEUDO_DIFF_CHANNELS('u', 16, 0),
-> > +	.chan_spec = AD4000_PSEUDO_DIFF_CHANNELS('u', 16, 0, 0),
-> > +	.offload_chan_spec = AD4000_PSEUDO_DIFF_CHANNEL('u', 16, 0, 1),
-> >  	.time_spec = &ad7983_t_spec,
-> > +	.max_rate_hz = 1330 * KILO,
-> 
-> This is actually 752 ns period when 750 is allowed. Could make it 1 * MEGA + 333
-> * KILO + 333 or 1333333.
-Ack
-
-> 
-> >  };
-> >  
-> >  static const struct ad4000_chip_info ad7984_chip_info = {
-> >  	.dev_name = "ad7984",
-> > -	.chan_spec = AD4000_DIFF_CHANNELS('s', 18, 0),
-> > +	.chan_spec = AD4000_DIFF_CHANNELS('s', 18, 0, 0),
-> > +	.offload_chan_spec = AD4000_DIFF_CHANNEL('s', 18, 0, 1),
-> >  	.time_spec = &ad7983_t_spec,
-> > +	.max_rate_hz = 1330 * KILO,
-> 
-> ditto
-Ack
-
-> 
-...
-> > +static const struct iio_buffer_setup_ops ad4000_offload_buffer_setup_ops = {
-> > +	.postenable = &ad4000_offload_buffer_postenable,
-> > +	.postdisable = &ad4000_offload_buffer_postdisable,
-> 
-> Needs to be predisable to correctly balance postenable.
-Ack
-
-> 
-...
-> > +static int ad4000_prepare_offload_turbo_message(struct ad4000_state *st,
-> > +						const struct iio_chan_spec *chan)
-> > +{
-> > +	struct spi_transfer *xfers = st->offload_xfers;
-> > +
-> > +	/* Have to do a short CS toggle to trigger conversion. */
-> > +	xfers[0].cs_change = 1;
-> > +	xfers[0].cs_change_delay.value = AD4000_TQUIET1_NS;
-> > +	xfers[0].cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
-> > +	xfers[0].offload_flags = SPI_OFFLOAD_XFER_RX_STREAM;
-> 
-> There is no data transferred in this xfer, so we don't need to set this flag.
-Ack
-
-> 
-...
-> >  	case AD4000_SDI_VIO:
-> > -		indio_dev->info = &ad4000_info;
-> > -		indio_dev->channels = chip->chan_spec;
-> > +		if (st->using_offload) {
-> > +			indio_dev->info = &ad4000_offload_info;
-> > +			indio_dev->channels = &chip->offload_chan_spec;
-> > +			indio_dev->num_channels = 1;
-> > +
-> > +			spi->cs_hold.value = AD4000_TCONV_NS;
-> > +			spi->cs_hold.unit = SPI_DELAY_UNIT_NSECS;
-> 
-> Modifying spi is suspicious. Normally, this would come from the devicetree. And
-> this isn't used by all SPI drivers - notably the AXI SPI Engine ignores it.
-> Better to just handle this in individual spi xfer structs.
-Will try that.
-
-> 
-> > +			ret = ad4000_prepare_offload_message(st, indio_dev->channels);
-> > +			if (ret)
-> > +				return dev_err_probe(dev, ret,
-> > +						     "Failed to optimize SPI msg\n");
-> > +		} else {
-> > +			indio_dev->info = &ad4000_info;
-> > +			indio_dev->channels = chip->chan_spec;
-> > +			indio_dev->num_channels = ARRAY_SIZE(chip->chan_spec);
-> > +		}
-> 
-> nit: add extra blank line here
-Ack
-
-> 
-> >  		ret = ad4000_prepare_3wire_mode_message(st, &indio_dev->channels[0]);
-> >  		if (ret)
-> > -			return ret;
-> > +			return dev_err_probe(dev, ret,
-> > +					     "Failed to optimize SPI msg\n");
-> >  
-> >  		break;
-> 
+Thanks
+Wesley Cheng
