@@ -1,424 +1,1284 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2067.outbound.protection.outlook.com [40.107.236.67])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07999A31;
-	Fri, 21 Mar 2025 00:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742517368; cv=fail; b=n+2W5yT0zya/tPwDAIlKm23WDolJKZzgoiiBXzVuHYipdpf918RR7peqgT11N4HRhi742OVdhaYilOCXAwPyUDCv0YWotkFKfrU4S0oww2mAYvg+Y8TThdrrDgZMgaMmz9R2mNk/9D2LVo7idqbSvk8Pek9vu0MahZD0qg07MbE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742517368; c=relaxed/simple;
-	bh=0CW7Fu6T5lPgWi1MOVVRkT+wD6nNdaQQgVETAH5XU7w=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jY5/8OK49Z376ZvjGW1kbQ5sR47m3sn7OPjMT4jEJvTc1PIIH8T9esYIZ0zP0WfAPjoTYAgUnkbjgG6XgJFZ4bCWPq1rvygYnk74p4mP5HCXtky7aqsD4PJESeSxSsa/w3ODIWzdwnnHMf0FBYxCxUmep7novpdCTIc/0MtTtjU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Te7doTm3; arc=fail smtp.client-ip=40.107.236.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825AA3594F
+	for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 01:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742519629; cv=none; b=AjEasKEfEWulTGARVjfg8RnNliw+BxdcH5avv6jJ7xZC9lz/XiIUBcToyS843Jz0zY87FFnfGVPhDt1LMyidYLQvQh6oC+qxhy4TzUs/u36pgjUc8ebA6cGEUEixPe7xHzNikbOfZ73R1FG651QeRNDX7cshElZqP8txTmzHoaY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742519629; c=relaxed/simple;
+	bh=CNMgfMs7PIXrUlbeDXFIimGEacCQ1lexRprF+m6OoNE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FHjMAflFlXzOtrG2jzbrAcidA2SiLY1R3xQJB3sWyj/Y+MQBdH+b/nFVSOz0OExgwWeSFwDOsz3kDgJTSVgNQfpOKaMaxttr1+9v6+34HvrGT2kynJYRvlzm24CNH/a+cpiLkusTbwNCw8BEmFLN/leNJIsUL7jIgDlBMLzT9sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AXqRXhqQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Te7doTm3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n0PLn6Bedo5X/1EL8prm1WldvfaL6g9XjjdH+OYzjpbL1AnKoJSqmQyAewCtEiBVPxxtO9PQVJBuxVsSh1kSj5wFrCVmF3ethrEjl9tzmpYgj8gPuCk5dSJnsNR4AMoBrZap5+2VauZ/34szkBLRs9gemb2apCf8a3mlZEjkOluQVocfX5knaUkKQ0vlzbvnos3pwagBhL78WcOecO4UuDI/euvEP3ALFcTEunfWmRrHJrNLYHi6agYN+e6ppvTD+UnJYs6luqOpjbbhs27LLafmqepzysB4Rl7YMjNc+kRugKYyxvWtXyGv3D6DF27JE0ES0nzQ/NThIw6eF3szNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DnUfra+YE7EP7CoCKLGSUX6Uzso8BX2QxXl81noPspA=;
- b=w2bLK5Ge+Oyo8zQvtHfDLCaGIUnzQ9p1ez9vgDUSxmelSeh5QOTFeQQ3WrS+Hlrmz8+ZAWFCu1S0XxZxR/mfn0eHJPRcVVLq+Ip5NXjH8ra4GOC65yZxB/WfNqpWyZD/f/KXu0GNYPebOR+B+tpnL3duMcIX7BYlr78E+wv1eSp/IF4uK1bfKW/N3W11ueT9Tz2TYVo/FWgBVqIJOI/UxJ4iZJLBqqduEY/dnJVx2v2Ad+VdKxOqp145wJEIsd3CKHpzjzVVU5G6ZZBNWWaKemKSvHAJUvoYhCHQ8/MN0KgWde2qTGlA5Knpm8PAkEo8XG0ZOdOnIVE7Wci73zuvKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DnUfra+YE7EP7CoCKLGSUX6Uzso8BX2QxXl81noPspA=;
- b=Te7doTm3+rA2DJl8K+X4EgpKrFRqwK6r5rkv4fiAkR3fGnKRU9jhT3DFrQ4k++IDVtZzWE4w6509Jli7A8OIH8C4XUiD22jTQH4IG7x5fdUk5eJ2c2hary8Ye5mI5U5BX1r3dDDNmSY6XNhKnSypc7tHdT1RXISoPUplp1B+Or0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by MW4PR12MB8609.namprd12.prod.outlook.com (2603:10b6:303:1e2::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Fri, 21 Mar
- 2025 00:36:01 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8534.034; Fri, 21 Mar 2025
- 00:36:01 +0000
-Message-ID: <4b66ea1c-2f76-4218-a67b-2232b2be6990@amd.com>
-Date: Thu, 20 Mar 2025 19:35:56 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 00/23] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com,
- "Luck, Tony" <tony.luck@intel.com>
-Cc: Peter Newman <peternewman@google.com>, Dave Martin <Dave.Martin@arm.com>,
- corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
- rostedt@goodmis.org, xiongwei.song@windriver.com,
- pawan.kumar.gupta@linux.intel.com, daniel.sneddon@linux.intel.com,
- jpoimboe@kernel.org, perry.yuan@amd.com, sandipan.das@amd.com,
- kai.huang@intel.com, xiaoyao.li@intel.com, seanjc@google.com,
- xin3.li@intel.com, andrew.cooper3@citrix.com, ebiggers@google.com,
- mario.limonciello@amd.com, james.morse@arm.com, tan.shaopeng@fujitsu.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- maciej.wieczor-retman@intel.com, eranian@google.com
-References: <fc3a67ee-6e97-4b9f-88d9-c24c6dab20c3@intel.com>
- <d1ca9220-1ab7-4a39-819a-03a6069b7ac4@amd.com>
- <CALPaoChLL8p49eANYgQ0dJiFs7G=223fGae+LJyx3DwEhNeR8A@mail.gmail.com>
- <a4ab53b5-03be-4299-8853-e86270d46f2e@amd.com>
- <c1c0a99a-a467-4ae6-80ee-04b6a9cdb6e5@amd.com>
- <Z890Q2GoP6GecwW4@agluck-desk3>
- <04e47d0e-6447-451e-98e4-7ea65187d370@amd.com>
- <6508cf67-3263-432e-892c-9b502b3c6cd4@intel.com>
- <f8a20ed8-6e30-4cff-a96b-8df89a605081@amd.com>
- <d07a70f5-b1ca-4766-a1d9-53988dd9164f@intel.com>
- <14c14b11-5b45-4810-8e46-019c8a67fc90@amd.com>
- <1db8ad73-5194-4821-844a-8fd7cac72ad4@intel.com>
- <9b8653a3-c6fd-4748-a4b5-94d5598d180f@amd.com>
- <20ec195a-c4dd-48d9-89f6-4d48fd438fe8@intel.com>
- <be6d23c8-3e93-4bdc-8b33-d3af7df7cc94@amd.com>
- <7f54f9aa-1102-49ed-b830-6facb6f48366@intel.com>
- <c840cb69-41fe-49a8-a7a8-d75f68e1d84c@amd.com>
- <0cecd52d-253c-4b2d-9841-a86870d5945e@intel.com>
- <1244c9d3-233a-4da7-97d7-2c4097b3741b@amd.com>
- <c378cc5c-c589-43be-a101-e2c625f23688@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <c378cc5c-c589-43be-a101-e2c625f23688@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN1PR12CA0089.namprd12.prod.outlook.com
- (2603:10b6:802:21::24) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AXqRXhqQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742519625;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mxUWxALaqNN5lUvJMKMNpR6Ea0WgZ73Ozs73qhw7brI=;
+	b=AXqRXhqQXqfnnkNEqitv+/LnviqX5NCXZ3n4RHBw87yXEmwEEYoxNYqPBepu/gva4k2mSJ
+	oCXQ+4lXHLqdRiELB89J7T3X3BJYs48KrQEnCy/0e+55yGcib1/zBFAlTwm2RCg805H2jR
+	TAW6zxeUnPOE3N9xQS6Y3DuOtEVfXeM=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-622-FZZuKazYO1OnVssx8TZGaA-1; Thu, 20 Mar 2025 21:13:43 -0400
+X-MC-Unique: FZZuKazYO1OnVssx8TZGaA-1
+X-Mimecast-MFC-AGG-ID: FZZuKazYO1OnVssx8TZGaA_1742519623
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-2ff7aecba07so2076588a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 20 Mar 2025 18:13:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742519623; x=1743124423;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mxUWxALaqNN5lUvJMKMNpR6Ea0WgZ73Ozs73qhw7brI=;
+        b=k7bI0N8eCDLNq3FS5dsWz8iN9Sj7x1AlNxkPQqOTaLZmgjk78L1rGS4OCJkGar/k3R
+         lGS/JT8byJVjAI+9NByZNmT1lOAgApqYRTTq2U9MrQON/fVIxnVkVNbL2E4ncZoa8iR3
+         O3WsLWP1QaS+B+bskP+z5wyRGGxLlKfX0y/WKl+QVM1iSvnfXod4/85TIX3Q4VwZd5nC
+         tevWxtNY1IRMzm5Bv6zUfmVsI8UnVzWWiSdNDOrDgBgqipsgjJQrgKwRg5VFh4sSFh1s
+         GdiDW1NbPXI543g0QAqZOHdk3zuh4dQl5fldRoiFnwJA1Rw1Hkj5qyhwdi7CrReq4+ln
+         ToNg==
+X-Forwarded-Encrypted: i=1; AJvYcCXj4loGNRGaTZPZoHKz9dQXzapyLsJcI2xuS1ADTgmv3HqiNyfJ4iQZN/Sw9Wboh1/m8/YodT0O0Fc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6vnSPJ75CbAFQoUxkyNm3flpAxNefFg4rbx8RLogyLpbZRftB
+	J4u3/Y7In1CfsT/Dkec9pviWQyR8EN/NQccUhNv5B1u+OG68e3GuEVDyxKsuYB2m4xP3TTCHjV8
+	TFELIjD8v2b/NYYWCS/jrJNHmJl9D8coZUoh1NRR2PoynHDpNAnXWbzAnFGS/8YrAUAPWoJxQWj
+	Arrxt8vHoGzDnY0lay1B3GfTtRu36QhnXH
+X-Gm-Gg: ASbGnctOQEGj6zJzdKKvhvoBWsJOeZFRCsGvmtq95b3rTy0mc1QwJw+ix0yrdkzb9iW
+	szRcmMtqF9VdFzC4fG3EBsEa3yazLAAkDRkMo5G4A76iZvf9QgYupZg2KXD8Q5GJrrfHdlg9l
+X-Received: by 2002:a17:90b:35c4:b0:2fe:80cb:ac05 with SMTP id 98e67ed59e1d1-3030fe7f0fcmr2069323a91.9.1742519621938;
+        Thu, 20 Mar 2025 18:13:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGA5tf5etNYP52/vQ8cvatd+U1Kwj4L1D/KoXOrE733z/Yf8RIuUNtXjQREbJS5bfH8sqQLG96KeJet04uwVQc=
+X-Received: by 2002:a17:90b:35c4:b0:2fe:80cb:ac05 with SMTP id
+ 98e67ed59e1d1-3030fe7f0fcmr2069247a91.9.1742519621064; Thu, 20 Mar 2025
+ 18:13:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MW4PR12MB8609:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4c909b33-a389-4243-1d1d-08dd68105aee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MXJCeWhCcVN0ZUpoakZxc3gwZm4xbTlqdDYxTmVqVUNRTlhlVXJDV3lMQTBv?=
- =?utf-8?B?U0JTWkRXdDAwOHBMZzBJT1lQTGNIWnhoSDVuN2NTWlFRbC9OUFlFR1JvcVpC?=
- =?utf-8?B?ZGY0WFFXRm1xT3NVOXludm9YNElKRDJGWDdBa0ZwWkFESjNWZlFGZ3dtVlFX?=
- =?utf-8?B?R2o3NGg3VkJjTWhkR3FzRDEyMStMWWFFQjYvOEV0TGhiNXhBTXk5L04zZldC?=
- =?utf-8?B?T3FHWVJxMm1KQ25RZjVpNG80bW5Yc1I0NnFXaDdFek1pb3J3ak9Ba1VHcTFk?=
- =?utf-8?B?bjk3SW0xWjI5anl1dUdYUm51bXA2VlVhREg3K0xQNFNzdHprOWNkY1JzZXVP?=
- =?utf-8?B?ZmdnN1pIU2Q4U0N3bVFXS0tBb1VjNC9oR3doaTYzSG9Ya1RNNUJuMXJpUkZ0?=
- =?utf-8?B?WUFFYWFGTld0MHBaOW5FZnRmeVpHV3EvMjRmRHFLeFBxeHZvb3dwNXNtYzM2?=
- =?utf-8?B?eTd5SnRFQVd6VkdQVmVsanFndW9mZU1vaml3enJiSjc5RzQ0VGRkcnprdFBR?=
- =?utf-8?B?aXg1WmVnVnR4dDQzeFplQTBmdXdkMjJuNmgyb1JTaW5DMGp6Y2RuMldPQ05h?=
- =?utf-8?B?ZHlXeDNMaS9rMklxYmtXaitQYXBObldWMm8zb016d2dvUEFaTTl2MVFCTEYz?=
- =?utf-8?B?dWNxdUdCRWJiSTBmamFvSStjQjdIWHY0M21Cckl3Yk5kOXlNQmJMcXNlZlEz?=
- =?utf-8?B?K3VheDYwcXErUDJMMU9LS1U4NlhKQmkzZ2FTNEFUQUV2WXZMMDN0czQ0RzZ0?=
- =?utf-8?B?OGExMG5wWkthZW5KQk1qRjI4UjJyeHRhVlhwM2lZNHhBcEJneVBQSHpwMnk0?=
- =?utf-8?B?Y0RUK3JFNy9saTZQUlBtREpvUlpkZnZwUnY4M2VyZDM2SXZBeFJPVzdFN3Q4?=
- =?utf-8?B?TGVWRnlvUmlySnhiWDhxai9xVlkrYWU3MFZ0c0VGNjE0RFEwSEREcVJpUGha?=
- =?utf-8?B?SEM3dVJjd0dnRFR5WVZOZEtvT1U0UWlsczBSWW9nUVlhT0lCK3FxMTIxWEtX?=
- =?utf-8?B?NUdNRHJ6eFlFVWdwdXNWVy9DUVFyaEhXR215VU81WHZtVzM2OHV5RjBNaDZK?=
- =?utf-8?B?SlhEeElKQnpoY2YyQVFETFFDakRSL0kvanE5QkJ4eTNMNU91WFZ0N3VjMGsz?=
- =?utf-8?B?Mzd0YnVCVE11c3F4UVNkT2MxMStHMi9ObmJzaExiWkNISTJqMDRUMHNoOWpN?=
- =?utf-8?B?RWNsUnVVVzlHVVQwQUlYdnlBUXdxUGt6WUtUbWlGRzA5YkJxcUVDSmI0VG9n?=
- =?utf-8?B?cllkelhsTktpaWNRQVd3a3FSK1N6Z1pUR2pNR3Z1ZklGVTVVbUZtUVM0aFBD?=
- =?utf-8?B?TFlTd0tiVi9LaGVVWkR3TG1Nay9uV25OUVhZZERzaENibGxDYlZTcTRQVU1Z?=
- =?utf-8?B?QjVZZEVkRE1XODVNNTJiTUVLay9tUVM2UWVFWUI2NmtyV0tGMzVjUkJtbVdz?=
- =?utf-8?B?ODZMMTROZmdXZ1hKMUxIUkZzWEt3K3dSWXRGblQ5QVYwR2tUZmxZM2RJalJY?=
- =?utf-8?B?aXdKMFJVeFRTM1JCN2lIajZvMXRZMWIxZmxPcWwyVW42cG55UnhuVDkvb09q?=
- =?utf-8?B?RTBsMUt5TDR5ZFhrSlpXdGtkaW5WU2ZLNWN1QnZybkdhVGZubjAxWkRDcEFt?=
- =?utf-8?B?b3RSWDM2V3A1M1p0azY2dHQwWEtXbGgzRGdlMFQzVTd2SGhKWnlWeGpEa04w?=
- =?utf-8?B?ZWlMR1VyQU0xRHRrQWNRWDBoQ0JSbW92NUd0NTBSQ0JFdEtzMkNBa0IwaDJ3?=
- =?utf-8?B?Y1h0NVFqQllaT21IeUJHR1JjbExyaThQckNBN3hQMUcrclVHSkJEQi9LR2Vz?=
- =?utf-8?B?a2dBZGVLQkthYTg0c1RVbS85a0lvZmVid1pscHBjc2tWRHMvcDhwd2ZQQU5v?=
- =?utf-8?B?SEEvRUc5eGhRNlVyYnh3b0RqamRMMVlDc3dPK0RSN0pUZ3c9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Yml2amZtVDhZZ0lsOVBXcTNBVGVOQmdFVVNzTDA5ZTMzWmZmdnQwT2ZFb0Ro?=
- =?utf-8?B?RkhxaVM3bEhKZ0F2MUcxSEszN2hTVGRrcWcxamVsZjV2RlYyV2tMUy93K0ZG?=
- =?utf-8?B?NGhwWVpSL3B0STlYK1E3UVQ4djZxQ2hXQm5sNWhVUm4zdUYyeFpjdmdnSVM1?=
- =?utf-8?B?Q1IxMmNUcHlTSjFSWUdhUDR3dGd1cmxlL09VMStPL0pEd1o3WVVvYTA4aUF6?=
- =?utf-8?B?ZnZxMi9kUWhESm5VR0gzVXNwU2lUYVhPVFRrU2JZREI1R3lESllaRC9laHRp?=
- =?utf-8?B?Q1RIcnJiRzJpOGkxek92aGNTSm9uai9XVUxoYVJ0ZlJneUFyMW9LQnNsWS9Z?=
- =?utf-8?B?emFDSGVzR1hoZ05JZ3lpazArdjU2aitjY0xpMFVsampjd1hHdkJuVVdnRXVW?=
- =?utf-8?B?Q0g1YjBLa0dlR2l3eFFHZjJhSDdhUGhvVUg1YVR2T0kwQkdveW1PZDJDc2NB?=
- =?utf-8?B?eEw3YWwzSUw2VWNtVkJ6c1lwTVZwOWtmdGdMWm9sdzVxQ2g3Smw4RHRUQkNO?=
- =?utf-8?B?Y05KN2U1WXFaelErTWlvMGZ0SnUvaWZQbzY5THdHUFJza0p5WEk0SHl3Nitp?=
- =?utf-8?B?SUxCODE3VXBGNW1xbEg1NEswMFJxS1pnVjU4RlRoYVQyRXhvMHpGbmhvVTB1?=
- =?utf-8?B?U1RtRlFLVk8vYTM1MTRxWDhhbTdVeWZ2cDdVYU9UOFJObjlxN0U5MnFiNGJD?=
- =?utf-8?B?aVBLS1Rza0Y3bzNNc0pVUVpSMHkwNHBSMEtHYmZ4RFJWTmk3dnhEOFZWd3BM?=
- =?utf-8?B?bitQLzk4QWowSmFpUWpGMmVsUS9nN0hGR0xacENZRDdyNHh2eUVRLytpTWVR?=
- =?utf-8?B?UllwdVU3Ymd3NEJ6b2Z6MEZHZTFGaW8wZyt1bUZlZThyd0JKQkNUQ093QUxK?=
- =?utf-8?B?eEtmZ1dKY2o4M0lkcHdFVCtueDFVZ1pWNVE0Uy9CZkhFYk9HdDBpa1pkMkEw?=
- =?utf-8?B?cXpwNlRWU3dsV0VOUEZwcHl5djdqVzlmKzNMd3NsKytZSE5adVNrUkZIM2hZ?=
- =?utf-8?B?SVZDSHI5VmtIYUZZVThhVjJjaUYwTzhkT1hHNUVmRFF3Y2RrMTEyZUpHL2VG?=
- =?utf-8?B?eVROTTVSYk9OR3BnV3hyVnRZUGhVenl1RmpabEFuWkd0WVZUTHhoZjNESkRY?=
- =?utf-8?B?bDJIN2VGSFAzZWdBYmhMUTQ0WlhNQWk1cEErSWQxVUdiUkcyUE1XZ2hTUWN1?=
- =?utf-8?B?Q1Y1aFcrK2lQZmFpYlI1VXY5UGM3S0pNcDVORDZPMW52RDJGUUptdVNxYkZq?=
- =?utf-8?B?clBoaUIzMlZQMzNoa2QySE5OamhQTEloVTY3OEwxd1k0VzVlV0JmY3JReFBo?=
- =?utf-8?B?YmNVbEJKckhTSHdsRHF5eXF0dHkxOThZU0grbWZCWGt6U1RkaWlJT2I1U2d4?=
- =?utf-8?B?WVJkN1hUdTBSazNGQjVhbEpYcHVFT29iTUlsa2xqeHVkYmlDOEtQNzZsRnpR?=
- =?utf-8?B?bWlZL05veDFWSkJ5ZDg4NEdDcFpnUFZ0Y25weGVXcCt3UmFLMFFKaW1LOFpL?=
- =?utf-8?B?N3d2d2xnNUJSSjZ0eWxOdVRtNmJ6UFMrczQzTTh3TjRPZUlHKzVkVE9lVXZ3?=
- =?utf-8?B?aFlEdHlhQVdWZ0lyVjFsOCtSdGYwc3RicTN0alVZRDZCTGxCeEp4NjJxbWpO?=
- =?utf-8?B?SXBqNjVVbUxWWWRQalZkbXdPakwyOEx3alp5VFFjVEZjN003SXlNYm5KbTZ6?=
- =?utf-8?B?YkxIQUc1T1JVRkhIOVNmdUNjb09sS3gxZFFZRG9lQk16dkhzL2FYbjhkdXE0?=
- =?utf-8?B?YXBEclVGOUVFbVhjeE4rSDBMbzdndTd3NjB5V3ZqL2xHQmlPcUZLUStjTGd4?=
- =?utf-8?B?V0dETlBZb0dZNFBsNGtjRGVJWi9lSzdGdi9kdENoK3BkU0hxYUxXSTRqc1lX?=
- =?utf-8?B?T1ZtNW9nc3l4UVIrcmUxTjNhKzlHSGJXcUd0UUpabzE3UlJjMDdWZjA3YU1H?=
- =?utf-8?B?QzUyek5kcS9QUitjVDg2UXNPSERwbm5yYnhhWW56VmtlbVd4N1VqS1FES2ph?=
- =?utf-8?B?b01TL3hBdFhBdmJWamJic1FMTytNZkt4VHIyazVGcFVxUTlyTEFqMys0WUI3?=
- =?utf-8?B?ZkRNRTB1dWJvNlVHMS9OcC9WeEpDZFJBVENMU0lGcUFKYjFTRFJ1TGtQb0Qz?=
- =?utf-8?Q?FPpA=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c909b33-a389-4243-1d1d-08dd68105aee
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 00:36:01.2852
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pUji8jwYYIEl6pFc0OlazyQtaZsoo76+QQFCwbNgxdjVoEECA8wTtmsSbjOpNuFY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB8609
+References: <20250307-rss-v9-0-df76624025eb@daynix.com> <20250307-rss-v9-3-df76624025eb@daynix.com>
+ <CACGkMEsNHba=PY5UQoH1zdGQRiHC8FugMG1nkXqOj1TBdOQrww@mail.gmail.com>
+ <7978dfd5-8499-44f3-9c30-e53a01449281@daynix.com> <CACGkMEsR4_RreDbYQSEk5Cr29_26WNUYheWCQBjyMNUn=1eS2Q@mail.gmail.com>
+ <edf41317-2191-458f-a315-87d5af42a264@daynix.com> <CACGkMEta3k_JOhKv44XiBXZb=WuS=KbSeJNpYxCdeiAgRY2azg@mail.gmail.com>
+ <ff7916cf-8a9c-4c27-baaf-ca408817c063@daynix.com> <CACGkMEsVgbJPhz2d2ATm5fr3M2uSEoSXWW7tXZ_FrkQtmmu1wA@mail.gmail.com>
+ <73250942-9ab9-4ee4-9bbe-e0a155a61f51@daynix.com> <CACGkMEud0Ki8p=z299Q7b4qEDONpYDzbVqhHxCNVk_vo-KdP9A@mail.gmail.com>
+ <1f06b4b6-267a-4091-a3ba-e7b9dafae918@daynix.com> <CACGkMEsACb5S4rv-bWeBadDmnCcwFfnNp4MN7_4RQGB0MUWrzQ@mail.gmail.com>
+ <20c34c80-7549-43e1-8bec-f7210a90f94e@daynix.com> <CACGkMEs8DyrusOsLPXSwhBvr3mKerzfNBQD3mLNfzLXhbCpR5A@mail.gmail.com>
+ <ed72ad97-4ca7-40ba-ac47-9e776a07df64@daynix.com>
+In-Reply-To: <ed72ad97-4ca7-40ba-ac47-9e776a07df64@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 21 Mar 2025 09:13:29 +0800
+X-Gm-Features: AQ5f1Jqvx1I2DgNNU612vc_-XVgNtGwswYCVUZGrSHFRpm4Q6X8kZ1aphzxyXPc
+Message-ID: <CACGkMEt-Y5E11qhE=vJP95fV+JAtLA+BW9P1jFUoocxysQ=W_g@mail.gmail.com>
+Subject: Re: [PATCH net-next v9 3/6] tun: Introduce virtio-net hash feature
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
+	Lei Yang <leiyang@redhat.com>, Simon Horman <horms@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Reinette,
+On Thu, Mar 20, 2025 at 1:33=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix=
+.com> wrote:
+>
+> On 2025/03/20 10:31, Jason Wang wrote:
+> > On Wed, Mar 19, 2025 at 1:29=E2=80=AFPM Akihiko Odaki <akihiko.odaki@da=
+ynix.com> wrote:
+> >>
+> >> On 2025/03/19 9:58, Jason Wang wrote:
+> >>> On Tue, Mar 18, 2025 at 6:10=E2=80=AFPM Akihiko Odaki <akihiko.odaki@=
+daynix.com> wrote:
+> >>>>
+> >>>> On 2025/03/18 9:15, Jason Wang wrote:
+> >>>>> On Mon, Mar 17, 2025 at 3:07=E2=80=AFPM Akihiko Odaki <akihiko.odak=
+i@daynix.com> wrote:
+> >>>>>>
+> >>>>>> On 2025/03/17 10:12, Jason Wang wrote:
+> >>>>>>> On Wed, Mar 12, 2025 at 1:03=E2=80=AFPM Akihiko Odaki <akihiko.od=
+aki@daynix.com> wrote:
+> >>>>>>>>
+> >>>>>>>> On 2025/03/12 11:35, Jason Wang wrote:
+> >>>>>>>>> On Tue, Mar 11, 2025 at 2:11=E2=80=AFPM Akihiko Odaki <akihiko.=
+odaki@daynix.com> wrote:
+> >>>>>>>>>>
+> >>>>>>>>>> On 2025/03/11 9:38, Jason Wang wrote:
+> >>>>>>>>>>> On Mon, Mar 10, 2025 at 3:45=E2=80=AFPM Akihiko Odaki <akihik=
+o.odaki@daynix.com> wrote:
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> On 2025/03/10 12:55, Jason Wang wrote:
+> >>>>>>>>>>>>> On Fri, Mar 7, 2025 at 7:01=E2=80=AFPM Akihiko Odaki <akihi=
+ko.odaki@daynix.com> wrote:
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> Hash reporting
+> >>>>>>>>>>>>>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> Allow the guest to reuse the hash value to make receive st=
+eering
+> >>>>>>>>>>>>>> consistent between the host and guest, and to save hash co=
+mputation.
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> RSS
+> >>>>>>>>>>>>>> =3D=3D=3D
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> RSS is a receive steering algorithm that can be negotiated=
+ to use with
+> >>>>>>>>>>>>>> virtio_net. Conventionally the hash calculation was done b=
+y the VMM.
+> >>>>>>>>>>>>>> However, computing the hash after the queue was chosen def=
+eats the
+> >>>>>>>>>>>>>> purpose of RSS.
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> Another approach is to use eBPF steering program. This app=
+roach has
+> >>>>>>>>>>>>>> another downside: it cannot report the calculated hash due=
+ to the
+> >>>>>>>>>>>>>> restrictive nature of eBPF steering program.
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> Introduce the code to perform RSS to the kernel in order t=
+o overcome
+> >>>>>>>>>>>>>> thse challenges. An alternative solution is to extend the =
+eBPF steering
+> >>>>>>>>>>>>>> program so that it will be able to report to the userspace=
+, but I didn't
+> >>>>>>>>>>>>>> opt for it because extending the current mechanism of eBPF=
+ steering
+> >>>>>>>>>>>>>> program as is because it relies on legacy context rewritin=
+g, and
+> >>>>>>>>>>>>>> introducing kfunc-based eBPF will result in non-UAPI depen=
+dency while
+> >>>>>>>>>>>>>> the other relevant virtualization APIs such as KVM and vho=
+st_net are
+> >>>>>>>>>>>>>> UAPIs.
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> >>>>>>>>>>>>>> Tested-by: Lei Yang <leiyang@redhat.com>
+> >>>>>>>>>>>>>> ---
+> >>>>>>>>>>>>>>         Documentation/networking/tuntap.rst |   7 ++
+> >>>>>>>>>>>>>>         drivers/net/Kconfig                 |   1 +
+> >>>>>>>>>>>>>>         drivers/net/tap.c                   |  68 ++++++++=
+++++++-
+> >>>>>>>>>>>>>>         drivers/net/tun.c                   |  98 ++++++++=
++++++++++-----
+> >>>>>>>>>>>>>>         drivers/net/tun_vnet.h              | 159 ++++++++=
+++++++++++++++++++++++++++--
+> >>>>>>>>>>>>>>         include/linux/if_tap.h              |   2 +
+> >>>>>>>>>>>>>>         include/linux/skbuff.h              |   3 +
+> >>>>>>>>>>>>>>         include/uapi/linux/if_tun.h         |  75 ++++++++=
++++++++++
+> >>>>>>>>>>>>>>         net/core/skbuff.c                   |   4 +
+> >>>>>>>>>>>>>>         9 files changed, 386 insertions(+), 31 deletions(-=
+)
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> diff --git a/Documentation/networking/tuntap.rst b/Documen=
+tation/networking/tuntap.rst
+> >>>>>>>>>>>>>> index 4d7087f727be5e37dfbf5066a9e9c872cc98898d..86b4ae8caa=
+8ad062c1e558920be42ce0d4217465 100644
+> >>>>>>>>>>>>>> --- a/Documentation/networking/tuntap.rst
+> >>>>>>>>>>>>>> +++ b/Documentation/networking/tuntap.rst
+> >>>>>>>>>>>>>> @@ -206,6 +206,13 @@ enable is true we enable it, otherwis=
+e we disable it::
+> >>>>>>>>>>>>>>               return ioctl(fd, TUNSETQUEUE, (void *)&ifr);
+> >>>>>>>>>>>>>>           }
+> >>>>>>>>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>> [...]
+> >>>>>>>>>
+> >>>>>>>>>>>>>> +static inline long tun_vnet_ioctl_sethash(struct tun_vnet=
+_hash_container __rcu **hashp,
+> >>>>>>>>>>>>>> +                                         bool can_rss, vo=
+id __user *argp)
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> So again, can_rss seems to be tricky. Looking at its caller=
+, it tires
+> >>>>>>>>>>>>> to make eBPF and RSS mutually exclusive. I still don't unde=
+rstand why
+> >>>>>>>>>>>>> we need this. Allow eBPF program to override some of the pa=
+th seems to
+> >>>>>>>>>>>>> be common practice.
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> What's more, we didn't try (or even can't) to make automq a=
+nd eBPF to
+> >>>>>>>>>>>>> be mutually exclusive. So I still didn't see what we gain f=
+rom this
+> >>>>>>>>>>>>> and it complicates the codes and may lead to ambiguous uAPI=
+/behaviour.
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> automq and eBPF are mutually exclusive; automq is disabled w=
+hen an eBPF
+> >>>>>>>>>>>> steering program is set so I followed the example here.
+> >>>>>>>>>>>
+> >>>>>>>>>>> I meant from the view of uAPI, the kernel doesn't or can't re=
+ject eBPF
+> >>>>>>>>>>> while using automq.
+> >>>>>>>>>>       > >>
+> >>>>>>>>>>>> We don't even have an interface for eBPF to let it fall back=
+ to another
+> >>>>>>>>>>>> alogirhtm.
+> >>>>>>>>>>>
+> >>>>>>>>>>> It doesn't even need this, e.g XDP overrides the default rece=
+iving path.
+> >>>>>>>>>>>
+> >>>>>>>>>>>> I could make it fall back to RSS if the eBPF steeering
+> >>>>>>>>>>>> program is designed to fall back to automq when it returns e=
+.g., -1. But
+> >>>>>>>>>>>> such an interface is currently not defined and defining one =
+is out of
+> >>>>>>>>>>>> scope of this patch series.
+> >>>>>>>>>>>
+> >>>>>>>>>>> Just to make sure we are on the same page, I meant we just ne=
+ed to
+> >>>>>>>>>>> make the behaviour consistent: allow eBPF to override the beh=
+aviour of
+> >>>>>>>>>>> both automq and rss.
+> >>>>>>>>>>
+> >>>>>>>>>> That assumes eBPF takes precedence over RSS, which is not obvi=
+ous to me.
+> >>>>>>>>>
+> >>>>>>>>> Well, it's kind of obvious. Not speaking the eBPF selector, we =
+have
+> >>>>>>>>> other eBPF stuffs like skbedit etc.
+> >>>>>>>>>
+> >>>>>>>>>>
+> >>>>>>>>>> Let's add an interface for the eBPF steering program to fall b=
+ack to
+> >>>>>>>>>> another steering algorithm. I said it is out of scope before, =
+but it
+> >>>>>>>>>> makes clear that the eBPF steering program takes precedence ov=
+er other
+> >>>>>>>>>> algorithms and allows us to delete the code for the configurat=
+ion
+> >>>>>>>>>> validation in this patch.
+> >>>>>>>>>
+> >>>>>>>>> Fallback is out of scope but it's not what I meant.
+> >>>>>>>>>
+> >>>>>>>>> I meant in the current uAPI take eBPF precedence over automq. I=
+t's
+> >>>>>>>>> much more simpler to stick this precedence unless we see obviou=
+s
+> >>>>>>>>> advanatge.
+> >>>>>>>>
+> >>>>>>>> We still have three different design options that preserve the c=
+urrent
+> >>>>>>>> precedence:
+> >>>>>>>>
+> >>>>>>>> 1) Precedence order: eBPF -> RSS -> automq
+> >>>>>>>> 2) Precedence order: RSS -> eBPF -> automq
+> >>>>>>>> 3) Precedence order: eBPF OR RSS -> automq where eBPF and RSS ar=
+e
+> >>>>>>>> mutually exclusive
+> >>>>>>>>
+> >>>>>>>> I think this is a unique situation for this steering program and=
+ I could
+> >>>>>>>> not find another example in other eBPF stuffs.
+> >>>>>>>
+> >>>>>>> As described above, queue mapping could be overridden by tc-ebpf.=
+ So
+> >>>>>>> there's no way to guarantee the RSS will work:
+> >>>>>>>
+> >>>>>>> https://github.com/DPDK/dpdk/blob/main/drivers/net/tap/bpf/tap_rs=
+s.c#L262
+> >>>>>>>
+> >>>>>>> Making eBPF first leaves a chance for the management layer to ove=
+rride
+> >>>>>>> the choice of Qemu.
+> >>>>>>
+> >>>>>> I referred to the eBPF steering program instead of tc-ebpf. tc-ebp=
+f is
+> >>>>>> nothing to do with the TUNSETSTEERINGEBPF ioctl, which this patch =
+changes.
+> >>>>>
+> >>>>> I meant you can't do "full control" in any case, the point below
+> >>>>> doesn't stand. Queue mapping could be restored even if RSS is set.
+> >>>>
+> >>>> What matters here is how we handle the control when tc didn't take i=
+t.
+> >>>> eBPF, RSS, or automq make take all of it; I referred that as "full c=
+ontrol".
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>>>>
+> >>>>>>>>
+> >>>>>>>> The current version implements 3) because it is not obvious whet=
+her we
+> >>>>>>>> should choose either 1) or 2).
+> >>>>>>>
+> >>>>>>> But you didn't explain why you choose 3), and it leads to tricky =
+code
+> >>>>>>> (e.g the can_rss stuff etc).
+> >>>>>>
+> >>>>>> I wrote: "because it is not obvious whether we should choose eithe=
+r 1)
+> >>>>>> or 2)", but I think I can explain it better:
+> >>>>>>
+> >>>>>> When an eBPF steering program cannot implement a fallback, it mean=
+s the
+> >>>>>> eBPF steering program requests the full control over the steering.=
+ On
+> >>>>>> the other hand, RSS also requests the same control. So these two w=
+ill
+> >>>>>> conflict and the entity controlling the steering will be undefined=
+ when
+> >>>>>> both are enabled.
+> >>>>>
+> >>>>> Well, the fallback is orthogonal to the proposal here. We haven't h=
+ad
+> >>>>> that since the introduction of the eBPF steering program. This mean=
+s
+> >>>>> automq has been in "conflict" with eBPF for years. Again, another
+> >>>>> advantage, allowing the eBPF program to be the first to allow the
+> >>>>> management layer to override Qemu's steering.
+> >>>>
+> >>>> What if a VMM uses eBPF steering program and the management layer
+> >>>> decides to override it with RSS?
+> >>>
+> >>> That's possible but I think we're seeking which approach is better. I=
+n
+> >>> this case, RSS could be implemented in eBPF but not the reverse.
+> >>>
+> >>> So my point is to start from something that is simpler. Simply allow
+> >>> eBPF on top of RSS as automq. And optimize on top.
+> >>
+> >>
+> >> The in-kernel RSS implementation is more optimized and capable of hash
+> >> reporting. I don't think either eBPF steering program or in-kernel RSS
+> >> is more capable than the other and there is a reason to place eBPF on
+> >> top of RSS.
+> >>
+> >>>
+> >>>>
+> >>>> eBPF is obviously predecedent to automq as eBPF is an opt-in feature=
+ and
+> >>>> automq is the implicit default. But this logic cannot be applied to
+> >>>> decide the order of eBPF and RSS because they are both opt-in featur=
+es.
+> >>>
+> >>> This is from the perspective of kernel development. But let's try to
+> >>> think from the userspace: A well written user space knows what it
+> >>> does, rejecting eBPF while RSS is set doesn't help. But anyhow if you
+> >>> stick, it doesn't harm.
+> >>
+> >> Yes, it not for the current userspace but for the future kernel
+> >> development; the kernel can reserve the freedom to decide the priority
+> >> of eBPF and RSS by rejecting eBPF while RSS.
+> >>
+> >>>
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>>> 3) eliminates the undefined semantics by rejecting to enable both.
+> >>>>>
+> >>>>> This would lead a usersapce noticeable change of the behaviour? And
+> >>>>> what do you mean by "rejecting to enable both"?
+> >>>>
+> >>>> Existing userspace code should see no change as it only cares the ca=
+se
+> >>>> where RSS is enabled.
+> >>>>
+> >>>> Here, rejecting to enable both means to deny setting an eBPF steerin=
+g
+> >>>> program when RSS is enabled, and visa-versa.
+> >>>>
+> >>>>>
+> >>>>>> An
+> >>>>>> alternative approach is to allow eBPF steering programs to fall ba=
+ck.
+> >>>>>> When both the eBPF program and RSS are enabled, RSS will gain the
+> >>>>>> control of steering under the well-defined situation where the eBP=
+F
+> >>>>>> steering program decides to fall back.
+> >>>>>
+> >>>>> How about just stick the eBPF precedence in this proposal and
+> >>>>> introduce the fallback on top? This helps to speed up the iteration
+> >>>>> (as the version has been iterated to 11).
+> >>>>
+> >>>> I don't think that helps much since we have another ongoing discussi=
+on
+> >>>> below and it is not the sole roadblock.
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>>>>
+> >>>>>>>> But 1) will be the most capable option if
+> >>>>>>>> eBPF has a fall-back feature.
+> >>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>>>
+> >>>>>>>>>>>
+> >>>>>>>>>>>>
+> >>>>>>>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>> [...]
+> >>>>>>>>>
+> >>>>>>>>>>>>> Is there a chance that we can reach here without TUN_VNET_H=
+ASH_REPORT?
+> >>>>>>>>>>>>> If yes, it should be a bug.
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> It is possible to use RSS without TUN_VNET_HASH_REPORT.
+> >>>>>>>>>>>
+> >>>>>>>>>>> Another call to separate the ioctls then.
+> >>>>>>>>>>
+> >>>>>>>>>> RSS and hash reporting are not completely independent though.
+> >>>>>>>>>
+> >>>>>>>>> Spec said:
+> >>>>>>>>>
+> >>>>>>>>> """
+> >>>>>>>>> VIRTIO_NET_F_RSSRequires VIRTIO_NET_F_CTRL_VQ.
+> >>>>>>>>> """
+> >>>>>>>>
+> >>>>>>>> I meant the features can be enabled independently, but they will=
+ share
+> >>>>>>>> the hash type set when they are enabled at the same time.
+> >>>>>>>
+> >>>>>>> Looking at the spec:
+> >>>>>>>
+> >>>>>>> Hash repot uses:
+> >>>>>>>
+> >>>>>>> """
+> >>>>>>> struct virtio_net_hash_config {
+> >>>>>>>         le32 hash_types;
+> >>>>>>>         le16 reserved[4];
+> >>>>>>>         u8 hash_key_length;
+> >>>>>>>         u8 hash_key_data[hash_key_length];
+> >>>>>>> };
+> >>>>>>> """
+> >>>>>>>
+> >>>>>>> RSS uses
+> >>>>>>>
+> >>>>>>> """
+> >>>>>>> struct rss_rq_id {
+> >>>>>>>        le16 vq_index_1_16: 15; /* Bits 1 to 16 of the virtqueue i=
+ndex */
+> >>>>>>>        le16 reserved: 1; /* Set to zero */
+> >>>>>>> };
+> >>>>>>>
+> >>>>>>> struct virtio_net_rss_config {
+> >>>>>>>         le32 hash_types;
+> >>>>>>>         le16 indirection_table_mask;
+> >>>>>>>         struct rss_rq_id unclassified_queue;
+> >>>>>>>         struct rss_rq_id indirection_table[indirection_table_leng=
+th];
+> >>>>>>>         le16 max_tx_vq;
+> >>>>>>>         u8 hash_key_length;
+> >>>>>>>         u8 hash_key_data[hash_key_length];
+> >>>>>>> };
+> >>>>>>> """
+> >>>>>>>
+> >>>>>>> Instead of trying to figure out whether we can share some data
+> >>>>>>> structures, why not simply start from what has been done in the s=
+pec?
+> >>>>>>> This would ease the usersapce as well where it can simply do 1:1
+> >>>>>>> mapping between ctrl vq command and tun uAPI.
+> >>>>>>
+> >>>>>> The spec also defines struct virtio_net_hash_config (which will be=
+ used
+> >>>>>> when RSS is disabled) and struct virtio_net_rss_config to match th=
+e
+> >>>>>> layout to share some fields. However, the UAPI does not follow the
+> >>>>>> interface design of virtio due to some problems with these structu=
+res.
+> >>>>>
+> >>>>> Copy-paste error. The above is copied from the virtio spec, but I
+> >>>>> meant the existing uAPI in virtio_net.h:
+> >>>>>
+> >>>>> /*
+> >>>>>     * The command VIRTIO_NET_CTRL_MQ_RSS_CONFIG has the same effect=
+ as
+> >>>>>     * VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET does and additionally configu=
+res
+> >>>>>     * the receive steering to use a hash calculated for incoming pa=
+cket
+> >>>>>     * to decide on receive virtqueue to place the packet. The comma=
+nd
+> >>>>>     * also provides parameters to calculate a hash and receive virt=
+queue.
+> >>>>>     */
+> >>>>> struct virtio_net_rss_config {
+> >>>>>            __le32 hash_types;
+> >>>>>            __le16 indirection_table_mask;
+> >>>>>            __le16 unclassified_queue;
+> >>>>>            __le16 indirection_table[1/* + indirection_table_mask */=
+];
+> >>>>>            __le16 max_tx_vq;
+> >>>>>            __u8 hash_key_length;
+> >>>>>            __u8 hash_key_data[/* hash_key_length */];
+> >>>>> };
+> >>>>>>     #define VIRTIO_NET_CTRL_MQ_RSS_CONFIG          1
+> >>>>>
+> >>>>> /*
+> >>>>>     * The command VIRTIO_NET_CTRL_MQ_HASH_CONFIG requests the devic=
+e
+> >>>>>     * to include in the virtio header of the packet the value of th=
+e
+> >>>>>     * calculated hash and the report type of hash. It also provides
+> >>>>>     * parameters for hash calculation. The command requires feature
+> >>>>>     * VIRTIO_NET_F_HASH_REPORT to be negotiated to extend the
+> >>>>>     * layout of virtio header as defined in virtio_net_hdr_v1_hash.
+> >>>>>     */
+> >>>>> struct virtio_net_hash_config {
+> >>>>>            __le32 hash_types;
+> >>>>>            /* for compatibility with virtio_net_rss_config */
+> >>>>>            __le16 reserved[4];
+> >>>>>            __u8 hash_key_length;
+> >>>>>            __u8 hash_key_data[/* hash_key_length */];
+> >>>>> };
+> >>>>>
+> >>>>> This has been used by Qemu but I see a virtio-net version of:
+> >>>>>
+> >>>>> struct virtio_net_ctrl_rss {
+> >>>>>            u32 hash_types;
+> >>>>>            u16 indirection_table_mask;
+> >>>>>            u16 unclassified_queue;
+> >>>>>            u16 hash_cfg_reserved; /* for HASH_CONFIG (see
+> >>>>> virtio_net_hash_config for details) */
+> >>>>>            u16 max_tx_vq;
+> >>>>>            u8 hash_key_length;
+> >>>>>            u8 key[VIRTIO_NET_RSS_MAX_KEY_SIZE];
+> >>>>>
+> >>>>>            u16 *indirection_table;
+> >>>>> };
+> >>>>>
+> >>>>> This is ugly and results in a tricky code when trying to submit
+> >>>>> RSS/HASH commands to the device:
+> >>>>>
+> >>>>>            if (vi->has_rss) {
+> >>>>>                    sg_buf_size =3D sizeof(uint16_t) * vi->rss_indir=
+_table_size;
+> >>>>>                    sg_set_buf(&sgs[1], vi->rss.indirection_table, s=
+g_buf_size);
+> >>>>>            } else {
+> >>>>>                    sg_set_buf(&sgs[1], &vi->rss.hash_cfg_reserved,
+> >>>>> sizeof(uint16_t));
+> >>>>>            }
+> >>>>
+> >>>> The only reference to struct virtio_net_rss_config in QEMU is to der=
+ive
+> >>>> the offset of indirection_table. This is because the definition in
+> >>>> virtio_net.h also includes indirection_table in the middle and the
+> >>>> offsets of later part are unusable.
+> >>>
+> >>> Yes.
+> >>>
+> >>>>
+> >>>> QEMU internally has a structure named VirtioNetRssData which just lo=
+oks
+> >>>> like struct virtio_net_ctrl_rss.
+> >>>
+> >>> It's a pity that it doesn't use uAPI. We might need to fix them.
+> >>
+> >> It doesn't want to use the UAPI structures for the internal storage
+> >> because it wants to store them in native endians and QEMU is not
+> >> interested in some fields in the UAPI structures. struct tun_vnet_hash
+> >> and struct tun_vnet_hash_rss are easy to fill using VirtioNetRssData.
+> >>
+> >>>
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>>> Below is the definition of struct virtio_net_hash_config:
+> >>>>>>
+> >>>>>> struct virtio_net_hash_config {
+> >>>>>>         le32 hash_types;
+> >>>>>>         le16 reserved[4];
+> >>>>>>         u8 hash_key_length;
+> >>>>>>         u8 hash_key_data[hash_key_length];
+> >>>>>> };
+> >>>>>>
+> >>>>>> Here, hash_types, hash_key_length, and hash_key_data are shared wi=
+th
+> >>>>>> struct virtio_net_rss_config.
+> >>>>>>
+> >>>>>> One problem is that struct virtio_net_rss_config has a flexible ar=
+ray
+> >>>>>> (indirection_table) between hash_types and hash_key_length. This i=
+s
+> >>>>>> something we cannot express with C.
+> >>>>>
+> >>>>> We can split the virtio_net_rss_config to ease the dealing with
+> >>>>> arrays, more below.
+> >>>>>
+> >>>>>>
+> >>>>>> Another problem is that the semantics of the key in struct
+> >>>>>> virtio_net_hash_config is not defined in the spec.
+> >>>>>
+> >>>>> If this is the case. Let's fix that in the spec first to make sure =
+our
+> >>>>> uAPI aligns with spec without ambiguity. It would be a nightmare to
+> >>>>> deal with the in-consistency between virtio spec and Linux uAPIs.
+> >>>>
+> >>>> The userspace doesn't need to do anything to deal with inconsistency
+> >>>> since these fields are unused.
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>>> To solve these problems, I defined the UAPI structures that do not
+> >>>>>> include indiretion_table.
+> >>>>>>
+> >>>>>>>
+> >>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>>>
+> >>>>>>>>>> A plot twist is the "types" parameter; it is a parameter that =
+is
+> >>>>>>>>>> "common" for RSS and hash reporting.
+> >>>>>>>>>
+> >>>>>>>>> So we can share part of the structure through the uAPI.
+> >>>>>>>>
+> >>>>>>>> Isn't that what this patch does?
+> >>>>>>>
+> >>>>>>> I didn't see, basically I see only one TUNSETVNETHASH that is use=
+d to
+> >>>>>>> set both hash report and rss:
+> >>>>>>
+> >>>>>> The UAPI shares struct tun_vnet_hash for both hash report and rss.
+> >>>>>
+> >>>>> I meant sharing structure in two ioctls instead of reusing a specif=
+ic
+> >>>>> structure for two semantics in one ioctl if possible. Though I don'=
+t
+> >>>>> think we need any sharing.
+> >>>>
+> >>>> The UAPI implemented in this patch already shares struct tun_vnet_ha=
+sh
+> >>>> and having two ioctls doesn't change that.
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>>>>
+> >>>>>>> """
+> >>>>>>> +/**
+> >>>>>>> + * define TUNSETVNETHASH - ioctl to configure virtio_net hashing
+> >>>>>>> + *
+> >>>>>>> + * The argument is a pointer to &struct tun_vnet_hash.
+> >>>>>>> + *
+> >>>>>>> + * The argument is a pointer to the compound of the following in=
+ order if
+> >>>>>>> + * %TUN_VNET_HASH_RSS is set:
+> >>>>>>> + *
+> >>>>>>> + * 1. &struct tun_vnet_hash
+> >>>>>>> + * 2. &struct tun_vnet_hash_rss
+> >>>>>>> + * 3. Indirection table
+> >>>>>>> + * 4. Key
+> >>>>>>> + *
+> >>>>>>> """
+> >>>>>>>
+> >>>>>>> And it seems to lack parameters like max_tx_vq.
+> >>>>>>
+> >>>>>> max_tx_vq is not relevant with hashing.
+> >>>>>
+> >>>>> It is needed for RSS and we don't have that, no?
+> >>>>
+> >>>> No. RSS is Receive Side Scaling but it's not about receiving.
+> >>>
+> >>> Just to make sure I understand this, max_tx_vq is part of the
+> >>> virtio_net_rss_config, how would Qemu behave when it receives this
+> >>> from guest?
+> >>>
+> >>> """
+> >>> A driver sets max_tx_vq to inform a device how many transmit
+> >>> virtqueues it may use (transmitq1=E2=80=A6transmitq max_tx_vq).
+> >>> """
+> >>
+> >> It does nothing.
+> >
+> > Nope, see:
+> >
+> > commit 50bfcaedd78e53135ec0504302269b3b65bf1eff
+> > Author: Philo Lu <lulie@linux.alibaba.com>
+> > Date:   Mon Nov 4 16:57:06 2024 +0800
+> >
+> >      virtio_net: Update rss when set queue
+> >
+> >      RSS configuration should be updated with queue number. In particul=
+ar, it
+> >      should be updated when (1) rss enabled and (2) default rss configu=
+ration
+> >      is used without user modification.
+> >
+> >      During rss command processing, device updates queue_pairs using
+> >      rss.max_tx_vq. That is, the device updates queue_pairs together wi=
+th
+> >      rss, so we can skip the sperate queue_pairs update
+> >      (VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET below) and return directly.
+> >
+> >      Also remove the `vi->has_rss ?` check when setting vi->rss.max_tx_=
+vq,
+> >      because this is not used in the other hash_report case.
+> >
+> >      Fixes: c7114b1249fa ("drivers/net/virtio_net: Added basic RSS supp=
+ort.")
+> >      Signed-off-by: Philo Lu <lulie@linux.alibaba.com>
+> >      Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> >      Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> >      Signed-off-by: Paolo Abeni <pabeni@redhat.com>
+> >
+> > RSS doesn't depend on MQ.
+> >
+> > If it is not handled by Qemu, it should be a bug?
+>
+> I was wrong; QEMU does handle this field, but it doesn't use the
+> definition of struct virtio_net_rss_config and name it queue_pairs
+> instead of max_tx_vq so I could not find it by grep.
 
-On 3/20/2025 5:35 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 3/20/25 11:12 AM, Moger, Babu wrote:
->> Hi Reinette,
->>
->> On 3/19/25 13:36, Reinette Chatre wrote:
->>> Hi Babu,
->>>
->>> On 3/14/25 9:18 AM, Moger, Babu wrote:
->>>> On 3/13/2025 4:21 PM, Reinette Chatre wrote:
->>>>> On 3/13/25 1:13 PM, Moger, Babu wrote:
->>>>>> On 3/13/25 11:08, Reinette Chatre wrote:
->>>>>>> On 3/12/25 11:14 AM, Moger, Babu wrote:
->>>>>>>> On 3/12/25 12:14, Reinette Chatre wrote:
->>>>>>>>> On 3/12/25 9:03 AM, Moger, Babu wrote:
->>>>>>>>>> On 3/12/25 10:07, Reinette Chatre wrote:
->>>>>
->>>>>
->>>>>> Here are the steps. Just copying steps from Peters proposal.
->>>>>> https://lore.kernel.org/lkml/CALPaoCiii0vXOF06mfV=kVLBzhfNo0SFqt4kQGwGSGVUqvr2Dg@mail.gmail.com/
->>>>>
->>>>> Thank you very much for detailing the steps. It is starting the fall into place
->>>>> for me.
->>>>>
->>>>>>
->>>>>>
->>>>>> 1. Mount the resctrl
->>>>>>      mount -t resctrl resctrl /sys/fs/resctrl
->>>>>
->>>>> I assume that on ABMC system the plan remains to have ABMC enabled by default, which
->>>>> will continue to depend on BMEC.
->>>>
->>>> Yes. ABMC will be enabled by default. ABMC will use the configurations from info/L3_MON/counter_configs. ABMC will not depend on BMEC.
->>>
->>> I see. The previous dependency was thus just something enforced by OS to support the
->>> chosen implementation?
->>
->> Yes. That is correct. We went that route mainly not to change the
->> rmid_read operation.
->>
->> With ABMC, we need to set Extended EVTID and ABMC bit in QM_EVTSEL
->> register while reading the cntr_id events. Will add those patches in next
->> version to make it clear.
-> 
-> Thank you.
-> 
->>
->>> Looks like the two features share some registers.
->>>
->>>>
->>>>> How would the existing BMEC implementation be impacted in this case?
->>>>
->>>> BMEC will only work with pre-ABMC(or default) mode.
->>>
->>> ok. Does this mean that if a user boots kernel with "rdt=!bmec" then ABMC will keep working?
->>
->> Yes. That is correct.
-> 
-> Just to confirm and bring the two email threads together ... it sounds like the
-> expectation is that existing users of BMEC are expected to use mon_features to
-> know if mbm_{total,local}_bytes_config are supported. If system supports ABMC
-> then BMEC will not be available and thus mon_features will not contain
-> mbm_{total,local}_bytes_config. Existing users that rely on
-> mbm_{total,local}_bytes_config will experience failures and are expected
-> to switch to ABMC?
+Yes, another side effect is that uAPI is not even used there...
 
-Yes. Exactly.
+>
+> For tap, max_tx_vq is handled by changing the number of open file
+> descriptors so passing it via an ioctl is redundant.
 
-> 
-> 
->>
->>>
->>>
->>>>> Without any changes to BMEC support the mbm_total_bytes_config and mbm_local_bytes_config
->>>>> files will remain and user space may continue to use them to change the event
->>>>> configurations with confusing expecations/results on an ABMC system.
->>>>>
->>>>> One possibility may be that a user may see below on ABMC system even if BMEC is supported:
->>>>> # cat /sys/fs/resctrl/info/L3_MON/mon_features
->>>>> llc_occupancy
->>>>> mbm_total_bytes
->>>>> mbm_local_bytes
->>>>>
->>>>> With the above a user cannot be expected to want to interact with mbm_total_bytes_config
->>>>> and mbm_local_bytes_config, which may be the simplest to do.
->>>>
->>>> yes.
-> 
-> 
-> ...
-> 
->>>>>
->>>>> I do think, and Peter also mentioned [1] this, that it may be useful,
->>>>> to "put a group/resource-scoped assign_* file higher in the hierarchy
->>>>> to make it easier for users who want to configure all domains the
->>>>> same for a group."
->>>>>
->>>>> Placing *additional* files higher in hierarchy (used to manage counters in all
->>>>> domains) may be more useful that trying to provide the shared/exclusive/unassign
->>>>> in one file per domain.
->>>>
->>>> Yea. To make it better we can add "mon_l3_assignments" in groups main directory. We can do all the operation in just one file.
->>>>
->>>> https://lore.kernel.org/lkml/efb5293f-b0ef-4c94-bf10-9ca7ebb3b53f@amd.com/
->>>
->>> I am hesitant to respond to that message considering the corporate preamble that
->>> sneaked in so I'll just add some thoughts here:
->>
->> Yea. I noticed it later. Will take care next time.
->>
->>>
->>> Having the file higher in hierarchy does seem more useful. It may be useful to reduce
->>> amount of parsing to get to needed information. Compare with below two examples that can
->>> be used to convey the same information:
->>>
->>> # cat /sys/fs/resctrl/test/mon_L3_assignments
->>> mbm_total_bytes: 0=unassigned; 1=unassigned
->>> mbm_local_bytes: 0=unassigned; 1=unassigned
->>>
->>> #cat /sys/fs/resctrl/test/mon_L3_assignments
->>> 0=_; 1=_
->>>
->>> We need to take care that it is always clear what "0" or "1" means ...
->>> Tony has been mentioning a lot of interesting things about scope
->>> changes. I assume the "L3" in mon_L3_assignments will dictate the scope?
->>
->> I didnt think about the scope here. I was thinking of changing it to
->> "mbm_assignments".
-> 
-> ah, I see, not a general "monitoring" file but specific to MBM. This still
-> may encounter difficulty if AMD does something like SNC where MBM could
-> be done per numa node. Perhaps we could constrain this even more with a
-> "mbm_L3_assignments". If anything ever shows up that need to do MBM
-> counter assignment at some other scope then at least we have the option
-> to create another file "mbm_?_assignments".
+See my reply below.
 
-Yes. Sounds good to me.
+>
+> >
+> >>
+> >>>
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>>>>
+> >>>>>>> What's more, we've already had virito-net uAPI. Why not simply re=
+using them?
+> >>>>>>
+> >>>>>> See the above.
+> >>>>>>
+> >>>>>>>
+> >>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>>> RSS and hash reporting must share
+> >>>>>>>>>> this parameter when both are enabled at the same time; otherwi=
+se RSS may
+> >>>>>>>>>> compute hash values that are not suited for hash reporting.
+> >>>>>>>>>
+> >>>>>>>>> Is this mandated by the spec? If yes, we can add a check. If no=
+t,
+> >>>>>>>>> userspace risk themselves as a mis-configuration which we don't=
+ need
+> >>>>>>>>> to bother.
+> >>>>>>>>
+> >>>>>>>> Yes, it is mandated. 5.1.6.4.3 Hash calculation for incoming pac=
+kets says:
+> >>>>>>>>      > A device attempts to calculate a per-packet hash in the f=
+ollowing
+> >>>>>>>>      > cases:
+> >>>>>>>>      >
+> >>>>>>>>      >   - The feature VIRTIO_NET_F_RSS was negotiated. The devi=
+ce uses the
+> >>>>>>>>      >     hash to determine the receive virtqueue to place inco=
+ming packets.
+> >>>>>>>>      >   - The feature VIRTIO_NET_F_HASH_REPORT was negotiated. =
+The device
+> >>>>>>>>      >     reports the hash value and the hash type with the pac=
+ket.
+> >>>>>>>>      >
+> >>>>>>>>      > If the feature VIRTIO_NET_F_RSS was negotiated:
+> >>>>>>>>      >
+> >>>>>>>>      >   - The device uses hash_types of the virtio_net_rss_conf=
+ig structure
+> >>>>>>>>      >     as =E2=80=99Enabled hash types=E2=80=99 bitmask.
+> >>>>>>>>      >   - The device uses a key as defined in hash_key_data and
+> >>>>>>>>            hash_key_length of the virtio_net_rss_config structur=
+e (see
+> >>>>>>>>      >      5.1.6.5.7.1).
+> >>>>>>>>      >
+> >>>>>>>>      > If the feature VIRTIO_NET_F_RSS was not negotiated:
+> >>>>>>>>      >
+> >>>>>>>>      >   - The device uses hash_types of the virtio_net_hash_con=
+fig structure
+> >>>>>>>>      >     as =E2=80=99Enabled hash types=E2=80=99 bitmask.
+> >>>>>>>>      >   - The device uses a key as defined in hash_key_data and
+> >>>>>>>>      >     hash_key_length of the virtio_net_hash_config structu=
+re (see
+> >>>>>>>>      >      .1.6.5.6.4).
+> >>>>>>>>
+> >>>>>>>> So when both VIRTIO_NET_F_RSS and VIRTIO_NET_F_HASH_REPORT are
+> >>>>>>>> negotiated, virtio_net_rss_config not only controls RSS but also=
+ the
+> >>>>>>>> reported hash values and types. They cannot be divergent.
+> >>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>> Note that spec use different commands for hash_report and rss.
+> >>>>>>>>
+> >>>>>>>> TUNSETVNETHASH is different from these commands in terms that it=
+ also
+> >>>>>>>> negotiates VIRTIO_NET_F_HASH_REPORT and VIRTIO_NET_F_RSS.
+> >>>>>>>>
+> >>>>>>>
+> >>>>>>> There Are different "issues" here:
+> >>>>>>>
+> >>>>>>> 1) Whether or not we need to use a unified API for negotiating RS=
+S and
+> >>>>>>> HASH_REPORT features
+> >>>>>>> 2) Whether or not we need to sue a unified API for setting RSS an=
+d
+> >>>>>>> HASH_REPORT configuration
+> >>>>>>>
+> >>>>>>> What I want to say is point 2. But what you raise is point 1.
+> >>>>>>>
+> >>>>>>> For simplicity, it looks to me like it's a call for having separa=
+ted
+> >>>>>>> ioctls for feature negotiation (for example via TUNSETIFF). You m=
+ay
+> >>>>>>> argue that either RSS or HASH_REPORT requires configurations, we =
+can
+> >>>>>>> just follow what spec defines or not (e.g what happens if
+> >>>>>>> RSS/HASH_REPORT were negotiated but no configurations were set).
+> >>>>>>
+> >>>>>> Unfortunately TUNSETIFF does not fit in this use case. The flags s=
+et
+> >>>>>> with TUNSETIFF are fixed, but the guest can request a different fe=
+ature
+> >>>>>> set anytime by resetting the device.
+> >>>>>
+> >>>>> TUNSETIFF, enables the device to be able to handle RSS/HASREPORT.
+> >>>>> TUNSETHASH/RSS. dealing with RSS/HASH command from userspace.
+> >>>>
+> >>>> We also needs to be able to disable them at runtime so that we can
+> >>>> handle resets.
+> >>>
+> >>> Via TUNSETHASH/RSS? I think it should have a way to accept parameters
+> >>> that disable RSS or hash report.
+> >>
+> >> That's what this patch implements. TUNSETVNETHASH accepts parameters t=
+o
+> >> choose what features to be enabled.
+> >>
+> >>>
+> >>>>
+> >>>>>
+> >>>>> This is the way we used to do for multi queue and vnet header.
+> >>>>> TUNSETIFF requires CAP_NET_ADMIN, this could be an extra safe guard
+> >>>>> for unprivileged userspace.
+> >>>>
+> >>>> I intend to allow using this feature without privilege. A VMM is usu=
+ally
+> >>>> unprivileged and requiring a privilege to configure tuntap is too
+> >>>> prohibitive.
+> >>>
+> >>> For safety, tun is not allowed to be created by unprivileged users.
+> >>> And it's not to configure the tuntap dynamically, it's about telling
+> >>> the function that tuntap can have (not necessarily enabled though) .
+> >>
+> >> I don't think we need another barrier for the new functions. Once an
+> >> unprivileged user get a file descriptor of tuntap from a privileged
+> >> user, they are free to enable RSS and/or hash reporting.
+> >
+> > Only if such a feature is allowed by the privileged user.
+>
+> I don't see a reason not to allow the feature to unprivileged users. It
+> only complicates the setup.
 
-> 
->>
->>>
->>> With a syntax like above the needed information can be presented in one line.
->>> For example,
->>>
->>> #cat /sys/fs/resctrl/test/mon_L3_assignments
->>> 0=mbm_total_bytes; 1=mbm_local_bytes
->>>
->>> The caveat is that is only for assigned counters, not shared, so this needs
->>> to change.
->>>
->>> To support shared assignment ...  I wonder if it will be useful to users to
->>> get the information on which other monitor groups the counter is shared _with_?
->>>
->>> Some examples:
->>>
->>> a) Just indicate whether a counter is shared or dedicated. (Introduce flags).
->>> #cat /sys/fs/resctrl/test/mon_L3_assignments
->>> 0=mbm_total_bytes:s; 1=mbm_local_bytes:d
->>>
->>> b) Indicate which groups a counter is shared with:
->>> #cat /sys/fs/resctrl/testA/mon_L3_assignments
->>> 0=mbm_total_bytes:s(testB); 1=mbm_local_bytes:d(not needed but perhaps empty for consistent interface?)
->>> #cat /sys/fs/resctrl/testB/mon_L3_assignments
->>> 0=mbm_total_bytes:s(testA); 1=mbm_local_bytes:d(?)
->>
->> This format does not tell what is going on with all other domains. We need
->> to display all the domains. I think that is important because users need
->> to know what to expect reading the events on specific domains.
->>
->> I think we need to convey all the following information to the user.
->>
->> 1. Event Configuation: What is event configuration applied here?
->>
->> 2. Domains: To which all the domains the configaration is applied?
->>     This is useful in multi-domain configuration.
->>     We also need to know if which domains are assigned or unassigned.
->>
->> 3. Type of assignment: Exclusive(e or d) or Shared(s) or Unassigned(_)
->>
->> 4. Finally: Where to read the events?
->>   This is important when we add "mkdir" support in the future,
->> mon_data/mon_l3_*/config_name will be created.
->>
->>
->> With that in mind this might be helpful.
->>
->> # cat /sys/fs/resctrl/test/mon_L3_assignments
->> mbm_total_bytes: 0=e; 1=_
->> mbm_local_bytes: 0=_; 1=s
->>
->> This format tells the user all the information.
->> mbm_total_bytes and mbm_local_bytes configurations are applied and
->> configuration are coming from counter_configs.
->>
->> User can read the events in
->> mon_data/mon_L3_*/mbm_total_bytes
->> mon_data/mon_L3_*/mbm_local_bytes
->>
->> mbm_total_bytes is assigned on domain 0 and not on domain 1.
->> Reading the mbm_total_bytes on domain 1 will report "unassigned".
->>
->> mbm_local_bytes is not assigned on domain 0 and assigned on domain 1.
->> Reading the mbm_local_bytes on domain 0 will report "unassigned".
-> 
-> Thank you very much for spelling it out. Much appreciated. This looks good to me.
-> Please include your list of requirements for interface in the cover-letter and/or
-> patch that introduces the interface.
+For safety, e.g reduce the chance for unprivileged user to explore
+part of the kernel codes.
 
-Sure. Will do.
+>
+> >
+> >>
+> >>>
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>>>     > >> In the virtio-net specification, it is not defined what w=
+ould
+> >>>>>> happen if
+> >>>>>>>> these features are negotiated but the VIRTIO_NET_CTRL_MQ_RSS_CON=
+FIG or
+> >>>>>>>> VIRTIO_NET_CTRL_MQ_HASH_CONFIG commands are not sent. There is n=
+o such
+> >>>>>>>> ambiguity with TUNSETVNETHASH.
+> >>>>>>>
+> >>>>>>> So I don't see advantages of unifying hash reports and rss into a
+> >>>>>>> single ioctl. Let's just follow what has been done in the spec th=
+at
+> >>>>>>> uses separated commands. Tuntap is not a good place to debate whe=
+ther
+> >>>>>>> those commands could be unified or not. We need to move it to the=
+ spec
+> >>>>>>> but assuming spec has been done, it might be too late or too few
+> >>>>>>> advantages for having another design.
+> >>>>>>
+> >>>>>> It makes sense for the spec to reuse the generic feature negotiati=
+on
+> >>>>>> mechanism, but the situation is different for tuntap; we cannot us=
+e
+> >>>>>> TUNSETIFF and need to define another. Then why don't we exploit th=
+is
+> >>>>>> opportunity to have an interface with well-defined semantics?
+> >>>>>
+> >>>>> That's perfectly fine, but it needs to be done in virtio-net's uAPI
+> >>>>> not tun's. What's more, if you think two commands are not
+> >>>>> well-defined, let's fix that in the virtio spec first.
+> >>>>>
+> >>>>>> The virtio
+> >>>>>> spec does its best as an interface between the host and guest and =
+tuntap
+> >>>>>> does its best as an UAPI.
+> >>>>>
+> >>>>> See above, let's fix the uAPI first. We don't want DPDK to use tun'=
+s
+> >>>>> uAPI for RSS
+> >>>>
+> >>>> virtio-net's UAPI is for the virtio spec which has a capable generic
+> >>>> feature negotiation mechanism. tuntap needs its own feature negotiat=
+ion
+> >>>> and it's nothing to do with virtio-net's UAPI.
+> >>>
+> >>> Well, I don't mean the part of the feature negotiation. I mean the
+> >>> part for rss and hash report configuration.
+> >>
+> >> The feature negotiation still matters when deciding the granularity of
+> >> ioctls. We need one ioctl for a feature negotiation, and to avoid havi=
+ng
+> >> an intermediate state,
+> >
+> > I don't understand this. For example, driver can choose to
+> >
+> > 1) negotiate RSS
+> > 2) do something else.
+> > 3) configure RSS
+> >
+> > Spec doesn't require those two to be configured at the same time, so
+> > "intermediate state" is allowed.
+>
+> The spec doesn't define what should happen in the intermediate state eith=
+er.
 
-> 
->>
->> I dont have much information on shared assignment at this point. Dont know
->> if we can display shared group.
-> 
-> The proposed interface accommodates shared counters. The expectation is that
-> users can keep track themselves and if not, then the information can be
-> obtained with a read of every group's counter assignment. The issue here is
-> that this may worst case need a large number of file operations if expectation
-> is that it will still be possible to create num RMID monitoring groups.
-> 
-> Using files inside monitor group for this information may actually not be ideal.
-> If this information is needed then we could perhaps add a new file. For
-> example:
-> /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes/<file reporting which monitor groups share this counter configuration in different domains>
-> Of course, I do not know if this will be required and this seems manageable as
-> a later enhancement if needed.
-> 
+Yes but my point is that in the uAPI layer we don't need to care about
+the intermediate state. It can just work as other features, e.g having
+a default state after feature negotiation is more than enough. This is
+the way we deal with other features like vnet header etc.
 
-Yes. It can be done this way.
+>
+> For a hardware implementation I think it's fine whatever the
+> implementation defines as the intermediate state. But for the UAPI, it's
+> better avoiding having such a definition to keep the interface minimal
+> and maximize the UAPI stability.
+
+Well, even if you think there's an issue:
+
+1) I don't see how we can avoid the intermediate state consider guest
+have such state
+2) We need to "fix" virtio spec and virito-net first, tuntap is not
+the right place to workaround virtio specific issues
+
+>
+> >
+> >> the ioctl should also do the configuration. Hence
+> >> that one ioctl should do all of the feature negotiation and configurat=
+ion.
+> >>
+> >>>
+> >>>>
+> >>>> The structures for two commands have unused or redundant fields and =
+a
+> >>>> flexible array in the middle of the structure, but they are ABIs so =
+we
+> >>>> can't change it.
+> >>>>
+> >>>> DPDK is another reason to define tuntap's own UAPIs. They don't care
+> >>>> unused or redundant fields and a flexible array in middle that are
+> >>>> present in the virtio spec. It will also not want to deal with the
+> >>>> requirement of little endian. Constructing struct virtio_net_rss_con=
+fig
+> >>>> is an extra burden for DPDK.
+> >>>
+> >>> I meant for vhost-user implementation in DPDK, it needs to use
+> >>> virtio-net uAPI not tuntap's for example.
+> >>
+> >> The vhost-user implementation will use tuntap's UAPIs for its ethernet
+> >> device backend.
+> >
+> > That sounds pretty weird, vhost-user has nothing related to tuntap.
+>
+> My expression in the last email was weird. More precisely, the ethernet
+> backend of tuntap will use the UAPIs, and the vhost-user will use the
+> ethernet backend in turn.
+
+I don't understand what "ethernet backend" means here.
+
+>
+> >
+> >> It uses the generic interface of ethernet device so for
+> >> RSS it will use functions like rte_eth_dev_rss_hash_update() for
+> >> example. tuntap's UAPIs are more suited to implement these interfaces =
+as
+> >> they operate in native endian and don't have extra fields.
+> >
+> > Nope, for example it needs to use le for virtio_net_hdr if a modern
+> > device is used. But it needs a "native" endian according to the guest
+> > endian via TUNSETVNETLE/BE. We don't have a choice as virtio-net hdr
+> > support in tuntap is much earlier than modern devices.
+> >
+> > Let's don't do the same thing (native endian) for tuntap as RSS
+> > depends on modern, so we know it must be le.
+>
+> virtio_net_hdr is the data path while the current discussion is about
+> the control path. All configuration knobs of tuntap operates in the
+> native endian.
+
+Because they are not directly related to virtio specification.  We
+don't want to duplicate virtio-net with our own version every time E.g
+once RSSv2 or aRFS were implemented. Or I would even introduce a
+single uAPI to transport possible cvq commands then we can avoid
+inventing new ioctls that just transport cvq commands.
+
+>
+> So I think we should stick to the little endian for the data path while
+> we should stick to the native endian for the control path to maximize
+> the consistency.
+
+I don't see a reason to differ datapath from control path. Virtio-net
+uAPI has been reused by tuntap for more than a decade.
+
+>
+> >
+> >
+> >>
+> >> DPDk applications other than vhost-user also matter; they do not care
+> >> what virtio does at all.
+> >>
+> >>   > >>
+> >>>> On the other hand, Constructing tuntap-specific structures is not th=
+at
+> >>>> complicated for VMMs.
+> >>>
+> >>> Not complicated but redundant.
+> >>>
+> >>>> A VMM will need to inspect struct
+> >>>> virtio_net_rss_config anyway to handle migration and check its size =
+so
+> >>>> it can store the values it inspected to struct tun_vnet_hash and str=
+uct
+> >>>> tun_vnet_hash_rss and pass them to the kernel.
+> >>>
+> >>> I don't see how rss and hash reports differ from what we have now.
+> >>> Those inspections must be done anyhow for compatibility for example
+> >>> the check of offloading features. Such steps could not be eliminated
+> >>> no matter how we design the uAPI.
+> >>
+> >> I explained the difference between the virtio and tuntap UAPIs, not
+> >> between RSS and hash reporting.
+> >
+> > See above.
+> >
+> >>
+> >>>
+> >>>>
+> >>>> The overall userspace implementation will be simpler by having
+> >>>> structures specifically tailored for the communication between the
+> >>>> userspace and kernel.
+> >>>
+> >>> This is exactly how a good uAPI should behave. If uAPI in virtio-net
+> >>> can't do this, I don't understand why uAPI in tuntap can solve it.
+> >>
+> >> The UAPI in virtio-net cannot do it because it's already fixed and it
+> >> also needs to perform endian conversion for the VM use case. tuntap
+> >> doesn't have these restrictions.
+> >
+> > Same here.
+> >
+> >>
+> >>>
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>>> I don't think there is an advantage to split ioctls to follow the =
+spec
+> >>>>>> after all. It makes sense if we can pass-through virtio commands t=
+o
+> >>>>>> tuntap, but it is not possible as ioctl operation codes are differ=
+ent
+> >>>>>> from virtio commands.
+> >>>>>
+> >>>>> I don't see a connection with the operation code. For example, we c=
+an
+> >>>>> add new uAPIs in virtio-net which could be something like:
+> >>>>>
+> >>>>>     struct virtio_net_rss_config_header {
+> >>>>>          __le32 hash_types;
+> >>>>>          __le16 indirection_table_mask;
+> >>>>>          __le16 unclassified_queue;
+> >>>>>          __le16 indirection_table[];
+> >>>>> }
+> >>>>>
+> >>>>> struct virtio_net_rss_config_tailer {
+> >>>>>          __le16 max_tx_vq;
+> >>>>>          u8 hash_key_length;
+> >>>>>          u8 hash_key_data[];
+> >>>>> }
+> >>>>>
+> >>>>> These two are used by TUNSETVNETRSS. And simply reuse the
+> >>>>> virtio_net_hash_config for TUNSETVETHASH.
+> >>>>    > > With this, we can tweak the virtio-net driver with this new u=
+API. Then
+> >>>>> tap* can reuse this.
+> >>>>
+> >>>> I implemented a UAPI and driver change accordingly:
+> >>>> https://lore.kernel.org/r/20250318-virtio-v1-0-344caf336ddd@daynix.c=
+om
+> >>>>
+> >>>> This is a nice improvement for the driver, but I still don't think i=
+t is
+> >>>> suited for the UAPI of tuntap.
+> >>>
+> >>> Any reason for this? It should work like virtio_net_hdr.
+> >>>
+> >>>> The requirements of extra fields and
+> >>>> little endian cannot be removed from the virtio spec but they are
+> >>>> irrelevant for tuntap.
+> >>>
+> >>> I don't understand this part. What fields are "extra" and need to be
+> >>> removed from the spec?
+> >>
+> >> All fields not included in struct tun_vnet_hash and struct
+> >> tun_vnet_hash_rss. Namely, for struct virtio_net_hash_config:
+> >> - reserved
+> >> - hash_key_length
+> >> - hash_key_data
+> >>
+> >> For struct virtio_net_rss_config:
+> >> - max_tx_vq
+> >> - hash_key_length
+> >
+> > See my above reply, and I basically meant
+> >
+> > TUNSETVETHASH accept struct virtio_net_hash_config;
+> > TUNSETVETRSS accept struct virtio_net_rss_config_hdr + struct
+> > virtio_net_rss_config_trailer;
+>
+> That still bring the extra fields I noted in the last email.
+
+I don't know how to define "extra" here. Let's summarize here:
+
+Method A:
+
+1) virtio specification use separate commands for has_report and rss
+2) hash_port ans rss doesn't depend on each other
+3) reuse virtio-net uAPI
+
+Method B:
+
+1) trying to define and remove the "extra" fields in tuntap, and
+redefine it in TUNTAP
+
+It would always be much easier to start from simply reusing the
+virtio-net uAPI. Method B makes both the implementation and reviewing
+harder, as we need to
+
+1) revisit the design of the virtio spec, this needs to be done in the
+virtio community not here
+2) audit the difference between virtio spec and TUN/TAP, that's why we
+have a very long discussion here
+
+For example, the root cause of why you think the max_tx_vq is "extra" is:
+
+1) The spec defines VIRTIO_NET_F_RSS and VIRTIO_NET_F_MQ as independent fea=
+tures
+2) Your code tries to re-use IFF_MULTI_QUEUE for both VIRTIO_NET_F_RSS
+and VIRTIO_NET_F_MQ, this would have a lot of implications, e.g
+automatic steering might be applied when only RSS is negotiated etc
+
+The correct way to implement this is:
+
+1) Introduce IFF_RSS and only set it during TUNSETIFF when device only
+offers RSS
+2) reuse virtio-net uAPI and accept max_tx_vq and use that to change
+the queue(or queue paris) if necessary
+
+Then we have a clean and well defined behaviour (for example when
+devices only support RSS but not MQ).
 
 Thanks
-Babu
+
+>
+> Regards,
+> Akihiko Odaki
+>
+> >
+> > Thanks
+> >
+> >>
+> >> Regards,
+> >> Akihiko Odaki
+> >>
+> >>>
+> >>>>
+> >>>>>
+> >>>>>> The best possibility is to share structures, not
+> >>>>>> commands, and I don't think even sharing structures makes sense he=
+re
+> >>>>>> because of the reasons described above.
+> >>>>>
+> >>>>> I don't want to share structures, I meant starting from something t=
+hat
+> >>>>> is simple and has been sorted in the virtio spec. Optimization coul=
+d
+> >>>>> be done on top.
+> >>>>
+> >>>> I meant to reuse the structures in virtio_net.h.
+> >>>>
+> >>>> Regards,
+> >>>> Akihiko Odaki
+> >>>
+> >>> Thanks
+> >>>
+> >>>>
+> >>>>>
+> >>>>> Thanks
+> >>>>>
+> >>>>>
+> >>>>>>
+> >>>>>> Regards,
+> >>>>>> Akihiko Odaki
+> >>>>>>
+> >>>>>>>
+> >>>>>>> Thanks
+> >>>>>>>
+> >>>>>>>>
+> >>>>>>>> Regards,
+> >>>>>>>> Akihiko Odaki
+> >>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>>>
+> >>>>>>>>>> The paramter will be duplicated if we have separate ioctls for=
+ RSS and
+> >>>>>>>>>> hash reporting, and the kernel will have a chiken-egg problem =
+when
+> >>>>>>>>>> ensuring they are synchronized; when the ioctl for RSS is issu=
+ed, should
+> >>>>>>>>>> the kernel ensure the "types" parameter is identical with one =
+specified
+> >>>>>>>>>> for hash reporting? It will not work if the userspace may deci=
+de to
+> >>>>>>>>>> configure hash reporting after RSS.
+> >>>>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>> See my reply above.
+> >>>>>>>>>
+> >>>>>>>>> Thanks
+> >>>>>>>>>
+> >>>>>>>>
+> >>>>>>>
+> >>>>>>
+> >>>>>
+> >>>>
+> >>>
+> >>
+> >
+>
 
