@@ -1,414 +1,302 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DD820C472
-	for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 10:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742551402; cv=none; b=nCk9dMMUArWOM2hmAGL/BTLBHglhJkU/z6mJ1SP66N0BnJJmZP/bs0FwaDhUNJ5X6GxgbkhZAMtSK2m4ksAHT9JtuinjBdWv4esFZNbzlOlVlXknEeYuc541QyfUmg7UpGqEaI35K+6hlJ9Lal94Y07dUts5JSnBa5SEKzp//74=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742551402; c=relaxed/simple;
-	bh=eUA8JiOX/x0FVnmL9BhL4qpQ5DUxhRUg6qTzKtX5ipI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hHKpINB3kwNJxkofFC3nf2Gk2cGnL4nQMXxPaMW5399n8xjYRWuBAUA6dyWqmF3xLOsS2Cm3pH1bhOnM2RwcVh4Gyo6BPo4pyQ7vPJFu5eGY6DKmIqd0bvZCiniLct0MYF21AbSXE+8CGCwwZ7jQL4utz83iC6WQtEoRKtKSR+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZtHMKsaG; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF38214A7A;
+	Fri, 21 Mar 2025 10:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742553626; cv=fail; b=LeB2AHffIA4CnvoXvoUHiQljWCN1orEUAqbC1H03iOvvvakF0JHDMJXkp1OIBZ5j+aKvBUbU6xYmExdirqztYniIGZLWRiPsNp7M3k5e2Yx33OV9p33TYc/R8qRxUR3flyU6V6HbW3uexNFybw6pws7JYUOMpg9fBG+8/Z+S6Es=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742553626; c=relaxed/simple;
+	bh=NaP41133jcBkRAKkABaE7pHPzQGg3CIzFOusZ03kh6w=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=NmtxQ4EnlcnEMDukv8t0R2oghcowYxSxbBXl8D0luUL3/Wtj/YCY3Ynh6W5JFl4G1cJOA76mWqi8xVylrwZ2rpeyIXNPbl0yQjDawCb5OfCna7TUk9tQypzR6F+f5Ti1XRiD+2QsNzpDtbTzmurZ+Nr0mLZpDvb+gmgSb2jDHYI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rkq1Iy0F; arc=fail smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZtHMKsaG"
-Message-ID: <4fbf991a-f0ce-48e0-a408-f3d7ec2d561c@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1742551396;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BazCzNf/8iD6sq19tdSoAcio+QF3DBzXtdepRLLxG80=;
-	b=ZtHMKsaGmE5V1foxzpBSHr5B58HaUqDFCQUHVdwSkS3RQ2n/fCR7Y9POrWe913T1cqPfFp
-	fX7+McFzzlhn8tIQt9449AmMcytzpb+G2970cnrC8UX/2JHk/uTboThFYEzgZvzL8MXyP0
-	8Ts9DDhzfB1o67EWChSTBVv0B7srQNY=
-Date: Fri, 21 Mar 2025 18:03:01 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rkq1Iy0F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742553625; x=1774089625;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=NaP41133jcBkRAKkABaE7pHPzQGg3CIzFOusZ03kh6w=;
+  b=Rkq1Iy0FzSKhroqk6g0EYtLANiaXi03I9YQY2b1WzJhlpwtpCWzMDhYv
+   aBDvduMgndAfncADrVBMursqZhtDPPpNQo8VnbC+9aAB3dgXl/J9oib3j
+   qdcAnc8DPF16KjdXBWd2xvkv9FQsxyUKMeeVFqaQr3wnZJ9XmFeX9hVhR
+   fxTpHFi/y46EpQd3ZYUPDQrrV3hsNoNfyOiMIz46lPSHU5KqT+Y7KVwIq
+   0jnv46Kci4ywTC/dqAYl5BfXbXp7fJp7k6oJiN7RkS10JHYbJqF75b5FY
+   ywXYeJ5RyeZFp2veYlgmP7EAAXQB7/FbMvFKJUTfoun+akoFI8u2ATFyz
+   A==;
+X-CSE-ConnectionGUID: 7jiPrCl7R1WKisK262MNng==
+X-CSE-MsgGUID: ih4b4fWzQ+uy4iSHLFFoWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43979715"
+X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
+   d="scan'208";a="43979715"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 03:40:24 -0700
+X-CSE-ConnectionGUID: XOLuRHxzSJakM0GaVbF/eA==
+X-CSE-MsgGUID: o0ixPV2VSQmDt3KDAel4iw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
+   d="scan'208";a="123541633"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 03:40:21 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Fri, 21 Mar 2025 03:40:21 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Fri, 21 Mar 2025 03:40:21 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Fri, 21 Mar 2025 03:40:20 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=grglC8c/YKs539CRKBfV1EsbTV5H5m4aD5AC/JvNZLTHTdx2Y0tthSWr0DafbBVCeJMwrQ0tu0byTir9RN2v9xDPO+tfALpUOBzYeOr4rSyE5Ecna5wN/rMNJfBtm3M1ArPQJMTChngvkW4ElrbXOa+HlHXlIbIB/inQk07E9emAtxWCdjQOPLZjJnxyyv3e4dh64/TMd4f7x3eScH94+o2IPmCpRWC0dpeAcEMyzqZGjHbyEAlWANQdFv9W7PnGKrsGh91pi949aNeI3TfBtDzz900zC3Bl5h5efBD2PRaLQ+EJiMFTS6EZum2tX4CtJs5aurfEUZV4JFwbf9zg4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lJCa0VdNHwZ1RziCymSVITLgcx5Ii66V+Frv47z9Sgo=;
+ b=lFSmsZgijZqeCcoW2mgeISsX1dG0WvJP4IHBfUPbpwqO782XVS+bB8mAKpOuJQe3c/hr6RkXaNvZO5lhARXN13mL6l/I8qNiKvXCwJaGVpxPgVkuNicEk4tH8ovzbburPdIJhESbulTFHHJ6mOmaKU616hMfTl/aCFuG2iU6ErsOpuPo/DsW4HJCK6XOt/+5KGW/orIPajl0cbzPgU7BJWzkyQDFmGPqA4W/z6AxlbsZdvq85bXXYYOGTF82aQsr9yeKrfy75qPXHXvedMbX6iAIl3OEj2YR5UvCT2do7Sao62dSuzg0x7mXwMoxGLgG2fi2ZVSCKLLpwk8wmLfzVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
+ by SA1PR11MB5874.namprd11.prod.outlook.com (2603:10b6:806:229::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Fri, 21 Mar
+ 2025 10:40:18 +0000
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::a137:ffd0:97a3:1db4]) by MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::a137:ffd0:97a3:1db4%5]) with mapi id 15.20.8534.034; Fri, 21 Mar 2025
+ 10:40:17 +0000
+Date: Fri, 21 Mar 2025 11:40:04 +0100
+From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+CC: <kees@kernel.org>, <julian.stecklina@cyberus-technology.de>,
+	<kevinloughlin@google.com>, <peterz@infradead.org>, <tglx@linutronix.de>,
+	<justinstitt@google.com>, <catalin.marinas@arm.com>,
+	<wangkefeng.wang@huawei.com>, <bhe@redhat.com>,
+	<kirill.shutemov@linux.intel.com>, <will@kernel.org>, <ardb@kernel.org>,
+	<jason.andryuk@amd.com>, <dave.hansen@linux.intel.com>,
+	<pasha.tatashin@soleen.com>, <ndesaulniers@google.com>,
+	<guoweikang.kernel@gmail.com>, <dwmw@amazon.co.uk>, <mark.rutland@arm.com>,
+	<broonie@kernel.org>, <apopple@nvidia.com>, <bp@alien8.de>,
+	<rppt@kernel.org>, <kaleshsingh@google.com>, <richard.weiyang@gmail.com>,
+	<luto@kernel.org>, <glider@google.com>, <pankaj.gupta@amd.com>,
+	<andreyknvl@gmail.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<kuan-ying.lee@canonical.com>, <tony.luck@intel.com>, <tj@kernel.org>,
+	<jgross@suse.com>, <dvyukov@google.com>, <baohua@kernel.org>,
+	<samuel.holland@sifive.com>, <dennis@kernel.org>,
+	<akpm@linux-foundation.org>, <thomas.weissschuh@linutronix.de>,
+	<surenb@google.com>, <kbingham@kernel.org>, <ankita@nvidia.com>,
+	<nathan@kernel.org>, <ziy@nvidia.com>, <xin@zytor.com>,
+	<rafael.j.wysocki@intel.com>, <andriy.shevchenko@linux.intel.com>,
+	<cl@linux.com>, <jhubbard@nvidia.com>, <hpa@zytor.com>,
+	<scott@os.amperecomputing.com>, <david@redhat.com>, <jan.kiszka@siemens.com>,
+	<vincenzo.frascino@arm.com>, <corbet@lwn.net>, <maz@kernel.org>,
+	<mingo@redhat.com>, <arnd@arndb.de>, <ytcoode@gmail.com>, <xur@google.com>,
+	<morbo@google.com>, <thiago.bauermann@linaro.org>,
+	<linux-doc@vger.kernel.org>, <kasan-dev@googlegroups.com>,
+	<linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>, <linux-mm@kvack.org>,
+	<linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>
+Subject: Re: [PATCH v2 09/14] mm: Pcpu chunk address tag reset
+Message-ID: <7v47bmgtm5jyvbxzgr2465kkho2bcziiilz7fw736fghto32cd@nmrwxwbtdptl>
+References: <cover.1739866028.git.maciej.wieczor-retman@intel.com>
+ <383482f87ad4f68690021e0cc75df8143b6babe2.1739866028.git.maciej.wieczor-retman@intel.com>
+ <CAPAsAGxDRv_uFeMYu9TwhBVWHCCtkSxoWY4xmFB_vowMbi8raw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPAsAGxDRv_uFeMYu9TwhBVWHCCtkSxoWY4xmFB_vowMbi8raw@mail.gmail.com>
+X-ClientProxiedBy: DU6P191CA0072.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:53e::25) To MN0PR11MB6231.namprd11.prod.outlook.com
+ (2603:10b6:208:3c4::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] docs/zh_CN: Add security SCTP Chinese translation
-To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org, corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn, zhangwei@cqsoftware.com.cn,
- maoyuxian@cqsoftware.com.cn, linux-doc@vger.kernel.org
-References: <cover.1742542887.git.zhaoshuo@cqsoftware.com.cn>
- <be59d1786013dcac314949245132ff72e9deb827.1742542887.git.zhaoshuo@cqsoftware.com.cn>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <be59d1786013dcac314949245132ff72e9deb827.1742542887.git.zhaoshuo@cqsoftware.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|SA1PR11MB5874:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c40e264-a2ab-4b62-2dc0-08dd6864c554
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eXR0RXZraERMcFF1OU9CK1ozRVUyTHUwSWE2QTVQS0ZRMURYb1p3N3NLaEJ0?=
+ =?utf-8?B?cHZTNEdQWkplVG9SWW5YS1NxWUcyU01rK2JFRUNoV2RqZ2ZsNFVtazR2ZEc3?=
+ =?utf-8?B?MVA2UWtpcDUrN1hZc2Vtdjk4Zmk4YUlSS0RXcElDUWVMaWhJdnZQSlRBNHlq?=
+ =?utf-8?B?QktWbVJhTVNGM1RGQ3NtNnljVnFKNTdGa3BCRE5FRnl4MlBJcDNhUW1LQzIr?=
+ =?utf-8?B?TDdQM0lZOGFja2VSei9RSXRJNXQ3L2RPZUhkVFlHWnFRWTYxam9aT0x1OHV3?=
+ =?utf-8?B?bThCZkhEMit6Q2tneUg5K29pU0tGcWR4aGoxVHNoK0xPc1FLeVN4aGt5Qllz?=
+ =?utf-8?B?SlZQeVBUQm9KSEllREFvL1hVU0xJV3I2TENneHMyNm4zK0hSM2xzdTUzRGJY?=
+ =?utf-8?B?ZGp3cXU0aWduK054Mk00SjBBRXdGSk5UaThxVmNic1VmRGdwRTVYdmRZMm82?=
+ =?utf-8?B?MGM1Q1lwS2hldUJwdUkwcjZHdmFoaVRPdWpib29hZk54b1pkY21CTEk5aE84?=
+ =?utf-8?B?VW1DTU1wbTFTdEpWcGc3SXFWdjB4eWU3c1VnZTJ3QVpYTFhGUkI2YXVNYUh3?=
+ =?utf-8?B?bE9wSVNKekptOXJxdDYySHJneDNncmtYeURtSzNyWk5IVXJ2Y0NweDhweHpu?=
+ =?utf-8?B?cXFNd1BDNHEzdklURHNsVU90R1I3MXZkbU4yVTQ0Z1BCN2t1YXozQW12ZlRh?=
+ =?utf-8?B?Y1F5L3ppU3dTUFBzRXVRZVNjMzV1R3BWcXBpbExlbEtkV29oM1htTjRqcDFw?=
+ =?utf-8?B?dVhxQzN0VGVwclJFY0FCM2FMWjNybUNTanhQSjYydGE2ck9EOCtkZHltQzZs?=
+ =?utf-8?B?MGJOcCt1Q2xza3RPZnYwbDFQd3E5d3NUTTBLelB2cEllZStEMVN5aUh5K0k0?=
+ =?utf-8?B?OTRhdllnMHE4YnRJdUFSWkM2RnZQc2N6SDVHYkxaNWdId3E1d01HYnVtS3Nn?=
+ =?utf-8?B?RmJacU5BRjgyWGl3UUF0ZG5iTCtpWldVOVZvMEZrT1JydVNnNmlYWVM2aWMz?=
+ =?utf-8?B?MTB4OGNzTkRHZit4aDd3Zm5QWTlxc2IvRkV2R0JzdmNCd0UydFZMRTE1bjRH?=
+ =?utf-8?B?SkI3Z090ZmlWU01Wamh3Y2ZaemNQSi9LM1pUYUp2WndsRXZydU1JbGpkTXpT?=
+ =?utf-8?B?U2hmdjBSV0dKTFltU1duUEpFaHN4STcxaHFxQmxUTDlxOHZBRzVpM0RnZm1I?=
+ =?utf-8?B?Ris3V2hpUUtMejdjNEhDaWUvdldQUnR4NkRwS3BZWnpVckNKODFSTWhRam56?=
+ =?utf-8?B?emdLVHVxN2liU1MydmUrTkxQM3h6SG1ISXVIcW9TcVJrN1RpWVRsdUxHNHND?=
+ =?utf-8?B?WDFkSko5UGdxRGk4N0RkS2N1aGdGNElhL25WZEZTSnJPOWdvUEpXZ2ErQXNP?=
+ =?utf-8?B?SGJocU45ajd4YWk0aTFNRklOSFJIbGFURmVUdklvMm5hZWFuS09qbi8za2g4?=
+ =?utf-8?B?WFU0NG9Xcy9pV0ZpOHVWSEZCT0l2OEtxc1dFQ1lkWG9VZEphUFBxV1FERWdE?=
+ =?utf-8?B?TGpGamVCYkNORWdWck1lajF5emxVc0RXSU9rMzE2RzJpSGVlYnYzMzZyTU5o?=
+ =?utf-8?B?S0YxZ2RGOHVRemVEQVVrSDBOTi9NOWlJNEdtMGdiMGdoYmRYeTc0MmN5bkxL?=
+ =?utf-8?B?OVQzeGtlc0VZQ3BwajFWSEVEdzM1SmRBTXBnTmV5T3JCNFRkOTBma2FDVUpD?=
+ =?utf-8?B?TDRBTm5sNHJnd29HTlBpMmdJSjJyb1JwdkU4ZkhaUFY4cHc2ek4rb0cwQUJC?=
+ =?utf-8?B?ZmFBTXlZd2xDQm9mVW80UnFKT0Y3SFJCU2lHaFdpVk1kLzhaMWp3NDFWTmNn?=
+ =?utf-8?B?L1J1UWVnZDRrdWxpRVRENjZVMGgvRU5VZWFnRXpvZDZiZkVQYkwxc3UwRmZ4?=
+ =?utf-8?Q?M1DzmXyLJuNAQ?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VzlObllvSXhYV1lLZnNxekZjUUpGOUwrUVRYUHVtYTJEM2JTczFWTEwzMThJ?=
+ =?utf-8?B?U1hjKzBTclh1bEJCTHBEMjFsUlBnNkt0RFlIKzRUd2xkVnAzUkFsS2l1OER2?=
+ =?utf-8?B?YmVNV0FoZGpQRlIrWlgzdlZ1THl4UEtBWmRWRFpkRkRJcHlrZUR5Z0RCeEcz?=
+ =?utf-8?B?NlVTMlV4Sm9wUEZiUytyb0o4eEx5dUw5Qk4wTWsyM2l2MytZLzdyV2FiTnlt?=
+ =?utf-8?B?bCtmaFpFdnpka3N3Zi9OME1FT25wMldjMWtqTXl5ZURpUisrRkxnL2VKdGpk?=
+ =?utf-8?B?RDE4N2p0bVBxOGR6OHI2ZnRXekNjMFlwUHVKR0Rid3N5bkFIMFJKRWE3MU8z?=
+ =?utf-8?B?N2ZLYWtUU0MwdE56UklYaVZBZlJIYkJxRzBqeFFqUlovbSs3emZRS01UWW1t?=
+ =?utf-8?B?cGNoVnpqQk0zZEFJbTF4S01XWmhSakRCQkprRk9kbGFSK3N1ZFdlZTFYZEZY?=
+ =?utf-8?B?R1FLbGtrQUFVV01DM0hSNVBuTFVvbUwxa0JQQS9KYzIxdGFxRG9aT3pzZ2w1?=
+ =?utf-8?B?MjBzVm9GZ0JLN20vU3JVZ21BeE8wZVc2YXhER21nNnUvNE1TYmNMeHhvQy9B?=
+ =?utf-8?B?WUZDWFU2b0RjenhKUWlQeVJveWswWHpzbWpsd3dPQ3RwTHJTNWQxODNkRFJ1?=
+ =?utf-8?B?NzllSGJpQmc0dXhIUEV2YUFtRkFyZ3BtSERaNkV5L3FrSkZvQ3hKSlNEY1Q2?=
+ =?utf-8?B?elp4cUprYkJKdTh5RUFoTVk2bHJKREtRRm9lK2xVa3FyN3AyQVY3TzlONXJj?=
+ =?utf-8?B?b2oyS1VmUFpEQnBqcEh6cDVLSXByeHhDZDVJT0tWaTFHS2VnVkdkRDFRVDVS?=
+ =?utf-8?B?QVdJbVJ3SkVVYmpQWHFNVldnL0ZveHlYWEdrd053Rm1ua2x6dFJEMjU0Z1hi?=
+ =?utf-8?B?YzBNVDJCODAzV1RrTFhjVS9yL1A1NDROUkJIOE9HV3hmbkp5MW1vYnYzNy8y?=
+ =?utf-8?B?UTlJbkxTZ3NIaHdjN1dOQTZJTS9WODJpM0RqOXRmZEExTGtwS1RtaGUrYU42?=
+ =?utf-8?B?azR5NjVlVHNocU5XNkZIdlZmS2tUYmNaTWxHdHYzVm1Lb0dhM0ZOano5MFlx?=
+ =?utf-8?B?VjY3RDJJNWZYSXRSdHdpeG9VVnFoVFNiTkJOZHA3SkxrUkFvL09PTkxVbVlZ?=
+ =?utf-8?B?eWFocXJUT2o3dUVscDdBc0tQTFZ6ZUZzUkp1MUorZmlMV3ZpbHg3U0hybGpD?=
+ =?utf-8?B?YXNEeHFQUWlnLzF5cVplS0dCTGp1R1V4dFFQSWFEMExFcjE2Z3NTWEV5d0o5?=
+ =?utf-8?B?aVplK1BEQ3hwSTBXYjYrZE9HTERiM2V0QTAwOHI0Qkt1Q21KaTJVSWNNQUhh?=
+ =?utf-8?B?cExLRlhEV1RWblErNStvM2xmeEtuV2lQbGVHSHpYU0JOQnNrQ2NncWZMR2hU?=
+ =?utf-8?B?Vmw1aW4ySXV3TnlsS2dFRTFxYzBUK0JCc1poOXpOSkRVY0tSbWppNlErNHZq?=
+ =?utf-8?B?QTRPSWkvSVozaEVvaXdwWXVZekNmU0t0dkVxYzB2azJuRmFHdE1iQVBXYTRV?=
+ =?utf-8?B?clNXNDE4QjZQRkdUaGhZVDIxWmdzNndiTXBwVkp6VTlDelJTekRDM3VNR2t5?=
+ =?utf-8?B?NHQ2Mkp4eDhvOHFKTEt0WjlYWHUzeVVYY0xsL1N3OEpjbktKTmU0M3Rtc0pN?=
+ =?utf-8?B?OVVzUFFvdFpOcXF0bHZmZi8yc2xBLytOZXBmaWNjNW9WWnAzczNvWlg3cHVT?=
+ =?utf-8?B?MXN2QzJNRXRzYXl6TkszQThiM05HMVhWMlNKMlFCc1JHdXgvRy9yMDJvb2lM?=
+ =?utf-8?B?UjZXOWZoQWEvUHBFUnk1c21PQ0dCTlJqN0FJZUoyNGNkVDhEMkk3OVNsU2RG?=
+ =?utf-8?B?bWdmL0poa1c2emdPOTdpVnFLK0RMcFJKbTBKdEZoa2QrbDVtVFVRTnh0cnQ5?=
+ =?utf-8?B?OXZWU1hYRzcxWmEyRVZ1bzUzVC9kckJnZ000WEVrWVIwa1VOdi9SdUJuV3hj?=
+ =?utf-8?B?ZGNNVko3L3VaK05jL05TaHllSEVkazlMUzYzbmFLVldGSk5tNitMWVdmQlAr?=
+ =?utf-8?B?VkxBU0xIUnhwQmQ4N01EeGdVWFhLNDhnRUdtZDN3ZmhCL2w5THU0RmUveGU0?=
+ =?utf-8?B?NWFiN21nNmk1ZFlrbjJjSVdReWtMbnFWeDR2SWV6TnJsbWV3bjlUaVFtT0dj?=
+ =?utf-8?B?S2l2TE9RUjd4SUEwSXBpbmk2M3llbFZTbHVFOG1tVXBQVEE5amlTTkVLdldm?=
+ =?utf-8?Q?Eh+ElHTM3mkYlC1QfobYKN4=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c40e264-a2ab-4b62-2dc0-08dd6864c554
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 10:40:17.4940
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 76SeblngGH4Wlv6Op8ID1T8vgHXe70ZAG3/eBgc+EaJXPYDWiIKhaN3XIomsPZ5mtIXBsuUdMXmrny7v2qHjV7JVAIlEf20fTtCIPxNSWAc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5874
+X-OriginatorOrg: intel.com
 
-
-在 3/21/25 3:49 PM, Shuo Zhao 写道:
-> Translate .../security/SCTP.rst into Chinese.
+On 2025-03-20 at 18:39:35 +0100, Andrey Ryabinin wrote:
+>On Tue, Feb 18, 2025 at 9:19 AM Maciej Wieczor-Retman
+><maciej.wieczor-retman@intel.com> wrote:
+>>
+>> The problem presented here is related to NUMA systems and tag-based
+>> KASAN mode. Getting to it can be explained in the following points:
+>>
+>>         1. A new chunk is created with pcpu_create_chunk() and
+>>            vm_structs are allocated. On systems with one NUMA node only
+>>            one is allocated, but with more NUMA nodes at least a second
+>>            one will be allocated too.
+>>
+>>         2. chunk->base_addr is assigned the modified value of
+>>            vms[0]->addr and thus inherits the tag of this allocated
+>>            structure.
+>>
+>>         3. In pcpu_alloc() for each possible cpu pcpu_chunk_addr() is
+>>            executed which calculates per cpu pointers that correspond to
+>>            the vms structure addresses. The calculations are based on
+>>            adding an offset from a table to chunk->base_addr.
+>>
+>> Here the problem presents itself since for addresses based on vms[1] and
+>> up, the tag will be different than the ones based on vms[0] (base_addr).
+>> The tag mismatch happens and an error is reported.
+>>
+>> Reset the base_addr tag, since it will disable tag checks for pointers
+>> derived arithmetically from base_addr that would inherit its tag.
+>>
+>> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>> ---
+>>  mm/percpu-vm.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/mm/percpu-vm.c b/mm/percpu-vm.c
+>> index cd69caf6aa8d..e13750d804f7 100644
+>> --- a/mm/percpu-vm.c
+>> +++ b/mm/percpu-vm.c
+>> @@ -347,7 +347,7 @@ static struct pcpu_chunk *pcpu_create_chunk(gfp_t gfp)
+>>         }
+>>
+>>         chunk->data = vms;
+>> -       chunk->base_addr = vms[0]->addr - pcpu_group_offsets[0];
+>> +       chunk->base_addr = kasan_reset_tag(vms[0]->addr) - pcpu_group_offsets[0];
 >
-> Update the translation through commit da51bbcdbace
-> ("Docs: typos/spelling")
+>This looks like a generic tags mode bug. I mean that arm64 is also
+>affected by this.
+>I assume it just wasn't noticed before because arm64 with multiple
+>NUMAs are much less common.
+
+That was my assumption as well
+
 >
-> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-
-Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
-
-
-Thanks,
-
-Yanteng
-
-> ---
->   .../translations/zh_CN/security/SCTP.rst      | 317 ++++++++++++++++++
->   .../translations/zh_CN/security/index.rst     |   2 +-
->   2 files changed, 318 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/security/SCTP.rst
+>With this change tag-mode KASAN won't be able to catch bugus accesses
+>to pcpu areas.
+>I'm thinking it would be better to fix this on the pcpu_get_vm_areas()
+>area side by replacing
+>this
+>    for (area = 0; area < nr_vms; area++)
+>        vms[area]->addr = kasan_unpoison_vmalloc(vms[area]->addr,
+>                                             vms[area]->size,
+>KASAN_VMALLOC_PROT_NORMAL);
 >
-> diff --git a/Documentation/translations/zh_CN/security/SCTP.rst b/Documentation/translations/zh_CN/security/SCTP.rst
-> new file mode 100644
-> index 000000000000..f2774b0d66b5
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/security/SCTP.rst
-> @@ -0,0 +1,317 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/security/SCTP.rst
-> +
-> +:翻译:
-> + 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-> +
-> +====
-> +SCTP
-> +====
-> +
-> +SCTP的LSM支持
-> +=============
-> +
-> +安全钩子
-> +--------
-> +
-> +对于安全模块支持，已经实现了三个特定于SCTP的钩子::
-> +
-> +	security_sctp_assoc_request()
-> +	security_sctp_bind_connect()
-> +	security_sctp_sk_clone()
-> +	security_sctp_assoc_established()
-> +
-> +这些钩子的用法在下面的 `SCTP的SELinux支持`_ 一章中描述SELinux的实现。
-> +
-> +
-> +security_sctp_assoc_request()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +将关联INIT数据包的 ``@asoc`` 和 ``@chunk->skb`` 传递给安全模块。
-> +成功时返回 0，失败时返回错误。
-> +::
-> +
-> +	@asoc - 指向sctp关联结构的指针。
-> +	@skb - 指向包含关联数据包skbuff的指针。
-> +
-> +
-> +security_sctp_bind_connect()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +将一个或多个IPv4/IPv6地址传递给安全模块进行基于 ``@optname`` 的验证，
-> +这将导致是绑定还是连接服务，如下面的权限检查表所示。成功时返回 0，失败
-> +时返回错误。
-> +::
-> +
-> +	@sk      - 指向sock结构的指针。
-> +	@optname - 需要验证的选项名称。
-> +	@address - 一个或多个IPv4 / IPv6地址。
-> +	@addrlen - 地址的总长度。使用sizeof(struct sockaddr_in)或
-> +			   sizeof(struct sockaddr_in6)来计算每个ipv4或ipv6地址。
-> +
-> +  ------------------------------------------------------------------
-> +  |                     BIND 类型检查                               |
-> +  |       @optname             |         @address contains         |
-> +  |----------------------------|-----------------------------------|
-> +  | SCTP_SOCKOPT_BINDX_ADD     | 一个或多个 ipv4 / ipv6 地址         |
-> +  | SCTP_PRIMARY_ADDR          | 单个 ipv4 or ipv6 地址             |
-> +  | SCTP_SET_PEER_PRIMARY_ADDR | 单个 ipv4 or ipv6 地址             |
-> +  ------------------------------------------------------------------
-> +
-> +  ------------------------------------------------------------------
-> +  |                   CONNECT 类型检查                              |
-> +  |       @optname             |         @address contains         |
-> +  |----------------------------|-----------------------------------|
-> +  | SCTP_SOCKOPT_CONNECTX      | 一个或多个 ipv4 / ipv6 地址         |
-> +  | SCTP_PARAM_ADD_IP          | 一个或多个 ipv4 / ipv6 地址         |
-> +  | SCTP_SENDMSG_CONNECT       | 单个 ipv4 or ipv6 地址             |
-> +  | SCTP_PARAM_SET_PRIMARY     | 单个 ipv4 or ipv6 地址             |
-> +  ------------------------------------------------------------------
-> +
-> +条目 ``@optname`` 的摘要如下::
-> +
-> +	SCTP_SOCKOPT_BINDX_ADD - 允许在（可选地）调用 bind(3) 后，关联额外
-> +							 的绑定地址。
-> +							 sctp_bindx(3) 用于在套接字上添加一组绑定地址。
-> +
-> +	SCTP_SOCKOPT_CONNECTX - 允许分配多个地址以连接到对端（多宿主）。
-> +							sctp_connectx(3) 使用多个目标地址在SCTP
-> +							套接字上发起连接。
-> +
-> +	SCTP_SENDMSG_CONNECT  - 通过sendmsg(2)或sctp_sendmsg(3)在新关联上
-> +							发起连接。
-> +
-> +	SCTP_PRIMARY_ADDR     - 设置本地主地址。
-> +
-> +	SCTP_SET_PEER_PRIMARY_ADDR - 请求远程对端将某个地址设置为其主地址。
-> +
-> +	SCTP_PARAM_ADD_IP          - 在启用动态地址重配置时使用。
-> +	SCTP_PARAM_SET_PRIMARY     - 如下所述，启用重新配置功能。
-> +
-> +
-> +为了支持动态地址重新配置，必须在两个端点上启用以下
-> +参数（或使用适当的 **setsockopt**\(2)）::
-> +
-> +	/proc/sys/net/sctp/addip_enable
-> +	/proc/sys/net/sctp/addip_noauth_enable
-> +
-> +当相应的 ``@optname`` 存在时，以下的 *_PARAM_* 参数会
-> +通过ASCONF块发送到对端::
-> +
-> +		  @optname                      ASCONF Parameter
-> +		 ----------                    ------------------
-> +	SCTP_SOCKOPT_BINDX_ADD     ->   SCTP_PARAM_ADD_IP
-> +	SCTP_SET_PEER_PRIMARY_ADDR ->   SCTP_PARAM_SET_PRIMARY
-> +
-> +
-> +security_sctp_sk_clone()
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +每当通过 **accept**\(2)创建一个新的套接字（即TCP类型的套接字），或者当
-> +一个套接字被‘剥离’时如用户空间调用 **sctp_peeloff**\(3)，会调用此函数。
-> +::
-> +
-> +	@asoc -  指向当前sctp关联结构的指针。
-> +	@sk - 指向当前套接字结构的指针。
-> +	@newsk - 指向新的套接字结构的指针。
-> +
-> +
-> +security_sctp_assoc_established()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +当收到COOKIE ACK时调用，对于客户端，对端的secid将被保存
-> +到 ``@asoc->peer_secid`` 中::
-> +
-> +	@asoc - 指向sctp关联结构的指针。
-> +	@skb - 指向COOKIE ACK数据包的skbuff指针。
-> +
-> +
-> +用于关联建立的安全钩子
-> +----------------------
-> +
-> +下图展示了在建立关联时 ``security_sctp_bind_connect()``、 ``security_sctp_assoc_request()``
-> +和 ``security_sctp_assoc_established()`` 的使用。
-> +::
-> +
-> +      SCTP 端点 "A"                                 SCTP 端点 "Z"
-> +      =============                                 =============
-> +    sctp_sf_do_prm_asoc()
-> + 关联的设置可以通过connect(2),
-> + sctp_connectx(3),sendmsg(2)
-> + or sctp_sendmsg(3)来发起。
-> + 这将导致调用security_sctp_bind_connect()
-> + 发起与SCTP对端端点"Z"的关联。
-> +         INIT --------------------------------------------->
-> +                                                   sctp_sf_do_5_1B_init()
-> +                                                 响应一个INIT数据块。
-> +                                             SCTP对端端点"A"正在请求一个临时关联。
-> +                                             如果是首次关联，调用security_sctp_assoc_request()
-> +                                             来设置对等方标签。
-> +                                             如果不是首次关联，检查是否被允许。
-> +                                             如果允许，则发送:
-> +          <----------------------------------------------- INIT ACK
-> +          |
-> +          |                                  否则，生成审计事件并默默丢弃该数据包。
-> +          |
-> +    COOKIE ECHO ------------------------------------------>
-> +                                                  sctp_sf_do_5_1D_ce()
-> +                                             响应一个COOKIE ECHO数据块。
-> +                                             确认该cookie并创建一个永久关联。
-> +                                             调用security_sctp_assoc_request()
-> +                                             执行与INIT数据块响应相同的操作。
-> +          <------------------------------------------- COOKIE ACK
-> +          |                                               |
-> +    sctp_sf_do_5_1E_ca                                    |
-> + 调用security_sctp_assoc_established()                    |
-> + 来设置对方标签                                           |
-> +          |                                               |
-> +          |                               如果是SCTP_SOCKET_TCP或是剥离的套接
-> +          |                               字，会调用 security_sctp_sk_clone()
-> +          |                               来克隆新的套接字。
-> +          |                                               |
-> +         建立                                            建立
-> +          |                                               |
-> +    ------------------------------------------------------------------
-> +    |                            关联建立                            |
-> +    ------------------------------------------------------------------
-> +
-> +
-> +SCTP的SELinux支持
-> +=================
-> +
-> +安全钩子
-> +--------
-> +
-> +上面的 `SCTP的LSM支持`_ 章节描述了以下SCTP安全钩子，SELinux的细节
-> +说明如下::
-> +
-> +	security_sctp_assoc_request()
-> +	security_sctp_bind_connect()
-> +	security_sctp_sk_clone()
-> +	security_sctp_assoc_established()
-> +
-> +
-> +security_sctp_assoc_request()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +将关联INIT数据包的 ``@asoc`` 和 ``@chunk->skb`` 传递给安全模块。
-> +成功时返回 0，失败时返回错误。
-> +::
-> +
-> +    @asoc - 指向sctp关联结构的指针。
-> +    @skb - 指向关联数据包skbuff的指针。
-> +
-> +安全模块执行以下操作:
-> +	 如果这是 ``@asoc->base.sk`` 上的首次关联，则将对端的sid设置
-> +	 为 ``@skb`` 中的值。这将确保只有一个对端sid分配给可能支持多个
-> +	 关联的 ``@asoc->base.sk``。
-> +
-> +	 否则验证 ``@asoc->base.sk peer sid`` 是否与 ``@skb peer sid``
-> +	 匹配，以确定该关联是否应被允许或拒绝。
-> +
-> +	 将sctp的 ``@asoc sid`` 设置为套接字的sid（来自 ``asoc->base.sk``）
-> +	 并从 ``@skb peer sid`` 中提取MLS部分。这将在SCTP的TCP类型套接字及
-> +	 剥离连接中使用，因为它们会导致生成一个新的套接字。
-> +
-> +	 如果配置了IP安全选项（CIPSO/CALIPSO），则会在套接字上设置IP选项。
-> +
-> +
-> +security_sctp_bind_connect()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +根据 ``@optname`` 检查ipv4/ipv6地址所需的权限，具体如下::
-> +
-> +  ------------------------------------------------------------------
-> +  |                      BIND 权限检查                              |
-> +  |       @optname             |         @address contains         |
-> +  |----------------------------|-----------------------------------|
-> +  | SCTP_SOCKOPT_BINDX_ADD     | 一个或多个 ipv4 / ipv6 地址        |
-> +  | SCTP_PRIMARY_ADDR          | 单个 ipv4 or ipv6 地址            |
-> +  | SCTP_SET_PEER_PRIMARY_ADDR | 单个 ipv4 or ipv6 地址            |
-> +  ------------------------------------------------------------------
-> +
-> +  ------------------------------------------------------------------
-> +  |                   CONNECT 权限检查                              |
-> +  |       @optname             |         @address contains         |
-> +  |----------------------------|-----------------------------------|
-> +  | SCTP_SOCKOPT_CONNECTX      | 一个或多个 ipv4 / ipv6 地址        |
-> +  | SCTP_PARAM_ADD_IP          | 一个或多个 ipv4 / ipv6 地址        |
-> +  | SCTP_SENDMSG_CONNECT       | 单个 ipv4 or ipv6 地址            |
-> +  | SCTP_PARAM_SET_PRIMARY     | 单个 ipv4 or ipv6 地址            |
-> +  ------------------------------------------------------------------
-> +
-> +
-> +`SCTP的LSM支持`_ 提供了 ``@optname`` 摘要，并且还描述了当启用动态地址重新
-> +配置时，ASCONF块的处理过程。
-> +
-> +
-> +security_sctp_sk_clone()
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +每当通过 **accept**\(2)（即TCP类型的套接字）创建一个新的套接字，或者
-> +当一个套接字被“剥离”如用户空间调用 **sctp_peeloff**\(3)时，
-> +``security_sctp_sk_clone()`` 将会分别将新套接字的sid和对端sid设置为
-> +``@asoc sid`` 和 ``@asoc peer sid`` 中包含的值。
-> +::
-> +
-> +	@asoc - 指向当前sctp关联结构的指针。
-> +	@sk - 指向当前sock结构的指针。
-> +	@newsk - 指向新sock结构的指针。
-> +
-> +
-> +security_sctp_assoc_established()
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +当接收到COOKIE ACK时调用，它将连接的对端sid设置为 ``@skb`` 中的值::
-> +
-> +	@asoc - 指向sctp关联结构的指针。
-> +	@skb - 指向COOKIE ACK包skbuff的指针。
-> +
-> +
-> +策略声明
-> +--------
-> +以下支持SCTP的类和权限在内核中是可用的::
-> +
-> +	class sctp_socket inherits socket { node_bind }
-> +
-> +当启用以下策略功能时::
-> +
-> +	policycap extended_socket_class;
-> +
-> +SELinux对SCTP的支持添加了用于连接特定端口类型 ``name_connect`` 权限
-> +以及在下面的章节中进行解释的 ``association`` 权限。
-> +
-> +如果用户空间工具已更新，SCTP将支持如下所示的 ``portcon`` 声明::
-> +
-> +	portcon sctp 1024-1036 system_u:object_r:sctp_ports_t:s0
-> +
-> +
-> +SCTP对端标签
-> +------------
-> +每个SCTP套接字仅分配一个对端标签。这个标签将在建立第一个关联时分配。
-> +任何后续在该套接字上的关联都会将它们的数据包对端标签与套接字的对端标
-> +签进行比较，只有在它们不同的情况下 ``association`` 权限才会被验证。
-> +这是通过检查套接字的对端sid与接收到的数据包中的对端sid来验证的，以决
-> +定是否允许或拒绝该关联。
-> +
-> +注:
-> +   1) 如果对端标签未启用，则对端上下文将始终是 ``SECINITSID_UNLABELED``
-> +      （在策略声明中为 ``unlabeled_t`` ）。
-> +
-> +   2) 由于SCTP可以在单个套接字上支持每个端点（多宿主）的多个传输地址，因此
-> +      可以配置策略和NetLabel为每个端点提供不同的对端标签。由于套接字的对端
-> +      标签是由第一个关联的传输地址决定的，因此建议所有的对端标签保持一致。
-> +
-> +   3) 用户空间可以使用 **getpeercon**\(3) 来检索套接字的对端上下文。
-> +
-> +   4) 虽然这不是SCTP特有的，但在使用NetLabel时要注意，如果标签分配给特定的接
-> +      口，而该接口‘goes down’，则NetLabel服务会移除该条目。因此，请确保网络启
-> +      动脚本调用 **netlabelctl**\(8) 来设置所需的标签（详细信息，
-> +      请参阅 **netlabel-config**\(8) 辅助脚本）。
-> +
-> +   5) NetLabel SCTP对端标签规则应用如下所述标签为“netlabel”的一组帖子：
-> +      https://www.paul-moore.com/blog/t.
-> +
-> +   6) CIPSO仅支持IPv4地址： ``socket(AF_INET, ...)``
-> +      CALIPSO仅支持IPv6地址： ``socket(AF_INET6, ...)``
-> +
-> +      测试CIPSO/CALIPSO时请注意以下事项：
-> +         a) 如果SCTP数据包由于无效标签无法送达，CIPSO会发送一个ICMP包。
-> +         b) CALIPSO不会发送ICMP包，只会默默丢弃数据包。
-> +
-> +   7) RFC 3554不支持IPSEC —— SCTP/IPSEC支持尚未在用户空间实现(**racoon**\(8)
-> +      或 **ipsec_pluto**\(8))，尽管内核支持 SCTP/IPSEC。
-> diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
-> index 05d24e3acc11..d33b107405c7 100644
-> --- a/Documentation/translations/zh_CN/security/index.rst
-> +++ b/Documentation/translations/zh_CN/security/index.rst
-> @@ -20,6 +20,7 @@
->      lsm
->      lsm-development
->      sak
-> +   SCTP
->      self-protection
->      siphash
->      tpm/index
-> @@ -29,6 +30,5 @@
->   TODOLIST:
->   * IMA-templates
->   * keys/index
-> -* SCTP
->   * secrets/index
->   * ipe
+>with something like
+>    kasan_unpoison_vmap_areas(vms, nr_vms);
+>which will unpoison all areas using the same tag.
+>
+>Thoughts?
+
+I was looking for a solution that would preserve the individual tags for each
+area. But so far I didn't come up with anything that would work. I first assumed
+that some per-cpu pointers would always be derived from from vms[0]->addr, and
+some from vms[1]->addr. For example first half of the cpus would be tied to
+vms[0]->addr, second half to vms[1]->addr (since areas are allocated based on
+the NUMA layout as far as I know from the docs). But that didn't work and
+pointers popped up that were from the second half of the cores but had tags from
+the vms[0]->addr.
+
+I think unpoisoning all the areas with the same tag would work, but could it
+create issues for out-of-bounds accesses? From my testing the areas are nowhere
+near each other but I don't know if that's a given or just by accident?
+
+TLDR: can the areas be adjecent and therefor break OOB checking?
+
+-- 
+Kind regards
+Maciej Wieczór-Retman
