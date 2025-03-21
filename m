@@ -1,124 +1,151 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53EA1232368
-	for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 21:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A070723497B
+	for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 22:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742593435; cv=none; b=dtFeGSXiQ+fU44MILMYlC/VAq40Yf1NFIzb9+pQ01YJ7BClFX5aweAZvt6Kdx1UJRYoHXRZLmI1se63jmRoxzYCZ1Il+hGKngkuOgsiqnacAtn0klQ2wu90IwbLSqzxWK+RUpsDAaal4//BB1HKRUFk1rjV2QyGY80/z40tLNyc=
+	t=1742595330; cv=none; b=Z0ASLNQnrweHlC85hOcl8x3XVNOlsYIttHhf23ov8LvHUEXzZ2++4qkBoXJWvw9TDxWGyRD3UGgK/9C5FVMp6kouTnVlrbaJxBqua9ZS76BWfdvIQnxZOcq0v7Igwvd686aSYTeUufiZM5lSb0gpx44lrWBPDiXIc8p9NIp6oIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742593435; c=relaxed/simple;
-	bh=L6SJzLz3ZHsbGmHxGldjAhRkD/PLoIDEr7kwiukuZW0=;
+	s=arc-20240116; t=1742595330; c=relaxed/simple;
+	bh=BCN5JQqGHPfZWzsKH88CAQez5y3gRKn+dXSiBfdgsw0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ekcNwB2h0qX0fk70tH/4veq3xEKcQESW/eub0VLC6DH/9cEx6FXUf0U/+DNFL/EuC6QLliRioam8h3nmwB5MZ5PQL1CHwfD6xRsCL7W+t6MUdRx/l4+kOkaDjlTlhKoECr6BXEh1/QUDi9mVnWMgEbDkxOR2uuYVc4eMbZcOoZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=bh3t4CnB; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	 To:Cc:Content-Type; b=f8nWP/pnvLj4fnc0+F0GTWbCYTu2AguMZzX7gi/2rTx9zleavP24X7YJQs7jFBi7DuSqzDo7J5h5jTIiuJvbuMLbP4eaW5gINRyiUnY1WBOyU98d6ZXQ1cX29kpVg9Dr/6BQaCEhjiSfnpUh4o22v3oPoKkRKfecQqP4ecYGyC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yGwrJnrw; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="bh3t4CnB"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e455bf1f4d3so1989905276.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 14:43:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yGwrJnrw"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2264c9d0295so67925ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 15:15:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1742593432; x=1743198232; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1742595328; x=1743200128; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=REyftnO4MpLMzJPBIeESA3ysE+wlnss+4em0CBGNgTQ=;
-        b=bh3t4CnBP2VNXErbGwiRVhGGSOEV+rP70zCM47KNXfttNoQzAG7FUQRm2QmU/M500w
-         YHSq+eYo/8K5s8atR/snLk6SGpyxSf3vb1/qirzicwO77+GOU1JbYfupEMAeWb4x7etA
-         tmkhFV9mncMui6zdQ5cejpLJWVMbLgjTNG/8dEMyivqTRGdkfO6Y+Y7uUfEIzfnksXXG
-         LlQP5eogVdCMX536R3G1Awqw6DplRqgfnvj8mosiFjHLMpG2q2X0VxN+Gcmpelv2G/Cz
-         dE4FR7ZfjtAWtJf4Qadam+iAJx0rU8pvytlwk9cWBfsEsRDW/NkteY23TOOf0vSGLlXS
-         HNPw==
+        bh=hz7SI+MRITJdDDcuu+iapQr7TxDqFp3vr+TXoSWWGCE=;
+        b=yGwrJnrws2TIW3WCiFSxSiW6Pn6RwuwNoYEqwQcBBG7kAkt4qFmivjkPzEJH4wleZX
+         ByZdWBJw30nvL0XpIOT0XM7P52U6W286S2YiIQX/PvQcvcu3XcNZIGbQx3Bkb55iTHX3
+         MQbnzR9JR6Shu6TQTJmhoRbby1Z8QLNUQg0tGT2Zz3qIfyIt899AEde6OkJJ1Q081c2B
+         hl1vHRnjZV57Qy9/yQFUdMDKD8/QqJw7+NHfOgI0ly/jeQ9uOs8j2dBqDk64N9Fs/SHe
+         +6Z5NgcgvfZ9Qq4Rbad/h1qAETS9vCDuvE4t8x0kDJu6cnn/Io3SBNFIV/VOBWThm52z
+         1JIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742593432; x=1743198232;
+        d=1e100.net; s=20230601; t=1742595328; x=1743200128;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=REyftnO4MpLMzJPBIeESA3ysE+wlnss+4em0CBGNgTQ=;
-        b=uHaBPg/WOX+mb2O8dVFQpWMiXGBzUIuqBgQ3P+QmLJG5ISbtu4HJfjZmgSNON6NHkd
-         1HwDY8uHQM7+wa4l5IchXXyberxyo0oVsgiFWf8sog/0NdddyFQaecetZoRISzHDIRjs
-         31lrq/HcMANcRn0V70XOa5mLrJY+rtmgoA3FAFJdf7y31FZl3rNBFu49rPGr3PDSGtpx
-         8c66+AyAe4CEmfdFrT/QQLnQVgkSe100rb/vsPEgMU4ABb3DS0XWdXnO6s5TgVBAqPPH
-         JUicIOhRv5aKJXsdUwf0nm1FA5p8gLrlTqUNcMnm6DO002xzS683RedyQclEN70nqDCQ
-         hS5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUSO7207jC0fkyhFk6Zz9gXsTqKvkeKNUfzpha7Wz+9VsC0c48AKtHuahA6rnZ2xSwHpQQ5r1m0DpQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2P5nHn/ppXxtb6aSOXZp/Aeg5x5yKzWns/911TmndEIhpI88g
-	mYadZCMXyQyifovNGRhzk9gPf6QFL32OSBHyuJboIlAmRz3OQcL5VqDCiFZlqENEUBqVXCwPumU
-	sRh6dKDmpzqrlzXPItdWTYPVdN52OjtT0YvO8
-X-Gm-Gg: ASbGnctZjs1RLh5KJRbZh3Pg2ymS4V0z6GWWJWqEajQUUcMi/YkUy3XpHh2P/+AxwC2
-	cU8F3CnnplKrZseYuRHbUaRgH2qd++jrLemZ8HeUxJEoNVjYcf+DAnxQo3xCwnhdB6jz+UX2Jn3
-	77KjF3YQzvHiwkLWkdeFnb2DJ2Pw==
-X-Google-Smtp-Source: AGHT+IFhgDBVmWXOeUx6TUA58CI2V05fBEx4cashmyHcm9tr6dKV8HHQqh2yAD735f9jloo77ntcLNZlqEMFIu5HtQU=
-X-Received: by 2002:a05:6902:1584:b0:e65:c4be:6faf with SMTP id
- 3f1490d57ef6-e66a4debdb7mr6842789276.21.1742593432251; Fri, 21 Mar 2025
- 14:43:52 -0700 (PDT)
+        bh=hz7SI+MRITJdDDcuu+iapQr7TxDqFp3vr+TXoSWWGCE=;
+        b=jy+Mx0UkqqKh67UkL3Dzc2OxCwlQ4W5pOdHNLsHqNtH7d5OMntL4PV9Rvp+///Paee
+         Q6IsJiXZUcy51ixnlSQ8hr08ekSjGATybv6Hp8G65VtnEe8Jac/nOFhcnGyba/pVJiK2
+         GkRCmi5MVc8VfuVdoAxzYQtvdsxMq5qKarnq8Kfc0pRfab6NT/eZbDXmsb979bJ+A9QK
+         j8/rZkrz5/JeVLSb1yupTZrox0yepdCeNTKmiiXFtiUAs9wdWWBFalHskrdGXybj7kWF
+         Lxd9q/0IyRazYXrkRx92O2W2ntZ+dt3mJ4aY83wQmzevBMTmi1q80AaZNwF8HweYoyW4
+         SaHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVI7+uAJYxRffHYnLg+FmrzQ9FWRG/jKQp2ukd5AE3A9riRS++OeFtyFjqg95ZUm2hOJyrRHe7YaAE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yymzs9G/k95v3glx9OarbBGZ6O1FAo5uSXegjifaabQ8Y6GK2Sx
+	N/HjaRoTFlWDJPbnwt1hTk77zuXHSQsQBZOyojYd78Fkskmbk/645ZzyMsOWBKRqJEkIPE8MdDY
+	sE65Pb9X5pAPDsju95OHlw3wHcNhLSa3BUahk
+X-Gm-Gg: ASbGncvVPALfmlCoL0APoV82W6kCwL8UsMP2NQsxx4HztgBEx7ChojlQyvLieck/6ht
+	cME5atpbb3j7XkGp2+M98cX2dsy8OVJvi/BcMLdQJAsH2GPFYTV/HxZjgtXtnm/JFxJx97/M4KB
+	9NxRvvjm9UO1Jj8St7VQcUp8WpfVTkUY6S66IiyOD/sAbO0G5F9z08CmM=
+X-Google-Smtp-Source: AGHT+IGBoa3JmICUjXYWbIuZG1QnxGwt2v2Pxt/ddhpOPWc2le0JOM4R9EEoSgO2H5EsypXp8nLSfXGBeIbvxdvRzAY=
+X-Received: by 2002:a17:902:d4cf:b0:215:f0c6:4dbf with SMTP id
+ d9443c01a7336-227982bd0e7mr778235ad.14.1742595327611; Fri, 21 Mar 2025
+ 15:15:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250321164537.16719-1-bboscaccy@linux.microsoft.com>
-In-Reply-To: <20250321164537.16719-1-bboscaccy@linux.microsoft.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 21 Mar 2025 17:43:41 -0400
-X-Gm-Features: AQ5f1JpI85RWt_bAx7UPP82VU95uOW2DFn-bKsLOFnqGS9WmBCQebXEYShkzoyw
-Message-ID: <CAHC9VhTb90OxDKUGPYKmQV6faPjdzkuqE5COnWzuub8Q4otZaw@mail.gmail.com>
-Subject: Re: [RFC PATCH security-next 0/4] Introducing Hornet LSM
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, llvm@lists.linux.dev, nkapron@google.com, 
-	teknoraver@meta.com, roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
+References: <20250308214045.1160445-1-almasrymina@google.com>
+ <20250308214045.1160445-5-almasrymina@google.com> <5de5943b-5527-49f6-a454-b3c7358cff56@redhat.com>
+In-Reply-To: <5de5943b-5527-49f6-a454-b3c7358cff56@redhat.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 21 Mar 2025 15:15:14 -0700
+X-Gm-Features: AQ5f1Jp_bSaJYceldtfK0dIdQEXx63Idm2vF7CtmSVJ_E1ycJl8iObtXRhrS3vg
+Message-ID: <CAHS8izNfyfVhMj0wBvP0qa=7E4xL+eo9wn_Fi4o2PT8piwACWA@mail.gmail.com>
+Subject: Re: [PATCH net-next v7 4/9] net: devmem: Implement TX path
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Jeroen de Borst <jeroendb@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Willem de Bruijn <willemb@google.com>, 
+	David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk, 
+	Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, 
+	Pedro Tammela <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 21, 2025 at 12:45=E2=80=AFPM Blaise Boscaccy
-<bboscaccy@linux.microsoft.com> wrote:
+On Tue, Mar 18, 2025 at 1:53=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wro=
+te:
 >
-> This patch series introduces the Hornet LSM.
+> Adding Kuniyuki.
 >
-> Hornet takes a simple approach to light-skeleton-based eBPF signature
-> verification. Signature data can be easily generated for the binary
-> data that is generated via bpftool gen -L. This signature can be
-> appended to a skeleton executable via scripts/sign-ebpf. Hornet checks
-> the signature against a binary buffer containing the lskel
-> instructions that the loader maps use. Maps are frozen to prevent
-> TOCTOU bugs where a sufficiently privileged user could rewrite map
-> data between the calls to BPF_PROG_LOAD and
-> BPF_PROG_RUN. Additionally, both sparse-array-based and
-> fd_array_cnt-based map fd arrays are supported for signature
-> verification.
+> On 3/8/25 10:40 PM, Mina Almasry wrote:
+> > @@ -931,10 +932,67 @@ int netdev_nl_bind_rx_doit(struct sk_buff *skb, s=
+truct genl_info *info)
+> >       return err;
+> >  }
+> >
+> > -/* stub */
+> >  int netdev_nl_bind_tx_doit(struct sk_buff *skb, struct genl_info *info=
+)
+> >  {
+> > -     return 0;
+> > +     struct net_devmem_dmabuf_binding *binding;
+> > +     struct list_head *sock_binding_list;
+> > +     struct net_device *netdev;
+> > +     u32 ifindex, dmabuf_fd;
+> > +     struct sk_buff *rsp;
+> > +     int err =3D 0;
+> > +     void *hdr;
+> > +
+> > +     if (GENL_REQ_ATTR_CHECK(info, NETDEV_A_DEV_IFINDEX) ||
+> > +         GENL_REQ_ATTR_CHECK(info, NETDEV_A_DMABUF_FD))
+> > +             return -EINVAL;
+> > +
+> > +     ifindex =3D nla_get_u32(info->attrs[NETDEV_A_DEV_IFINDEX]);
+> > +     dmabuf_fd =3D nla_get_u32(info->attrs[NETDEV_A_DMABUF_FD]);
+> > +
+> > +     sock_binding_list =3D genl_sk_priv_get(&netdev_nl_family,
+> > +                                          NETLINK_CB(skb).sk);
+> > +     if (IS_ERR(sock_binding_list))
+> > +             return PTR_ERR(sock_binding_list);
+> > +
+> > +     rsp =3D genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+> > +     if (!rsp)
+> > +             return -ENOMEM;
+> > +
+> > +     hdr =3D genlmsg_iput(rsp, info);
+> > +     if (!hdr) {
+> > +             err =3D -EMSGSIZE;
+> > +             goto err_genlmsg_free;
+> > +     }
+> > +
+> > +     rtnl_lock();
 >
-> Blaise Boscaccy (4):
->   security: Hornet LSM
->   hornet: Introduce sign-ebpf
->   hornet: Add an example lskel data extactor script
->   selftests/hornet: Add a selftest for the hornet LSM
+> The above could possibly be a rtnl_net_lock(), right?
+>
+> (not strictily related to this series) The same for the existing
+> rtnl_lock() call in netdev-genl.c, right?
+>
 
-Thanks Blaise, I noticed a few minor things, but nothing critical.  As
-I understand it, you'll be presenting Hornet at LSFMMBPF next week?
-Assuming that's the case, I'm going to hold off on reviewing this
-until we hear how that went next week; please report back after the
-conference.
+Actually I think this can follow the example set in commit
+1d22d3060b9b ("net: drop rtnl_lock for queue_mgmt operations") and
+take the netdev_get_by_index_lock().
 
-However, to be clear, the Hornet LSM proposed here seems very
-reasonable to me and I would have no conceptual objections to merging
-it upstream.  Based on off-list discussions I believe there is a lot
-of demand for something like this, and I believe many people will be
-happy to have BPF signature verification in-tree.
 
 --=20
-paul-moore.com
+Thanks,
+Mina
