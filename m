@@ -1,251 +1,396 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EB42327A7
-	for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 20:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC8D22CBF8
+	for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 21:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742589014; cv=none; b=f7ADdh/2jv05LQxHQ4DAmtmQo8umoGmR8DnrKb7pGTcp0JrJEqnZ4n6iMOYiCkopnkyauS6gNnGLVYkV9vp3i0hHa1Rmke196ZIxJ9SRMkyJrN4ePm+/sdqz/UBlD/GrOfN0gcHZaEwgWGwQGYxjYC74VSckw/tzAof75qIB224=
+	t=1742591159; cv=none; b=tHegiVeybvkjBaKaLar8Tp0rPNvHa7oZwGYZcl1piMZHXROLMIutaE7msNyQjLW/iFXNKLM3iKrxlwqONtgC4D5t1oLohUxv+207jvkFgdnI+GgVToaSDILCxCCxzbdK3lNBc57ziQRlmItoQZcWtmyijN7FpIXgnGA3n5ucI8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742589014; c=relaxed/simple;
-	bh=lzaSJ/be6is8Rty2tbrCLJKH6+jdZRvilPwu+v8J4Cs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mUIw6lHPwZPL4OysWMX/IvUVEPLzXUUY13E5MOPI+4DSDVrTqZ8SMdmlcF7vOFGFY/LmMWGSu6x5zSu5SGWnpue/1teDsSoacgwKAbTzxmmSxGOkuW02hEZRVB9BfKz9H4LPyGxT4jSWOR+nBAThjNEKeh1Zd4jHQJ7P1kxhk8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LaHXZn6J; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1742591159; c=relaxed/simple;
+	bh=WsW2DMXDS3L3rkB0DvHWq2Ivir2+trMsAx21I9eHwoI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MEf/ym2NikpF0ykHfgNf8S9YLp2DXns7ddXd2h+ueG2W4CgSDAbSx/MlC3/06m5xgdWswhE6rhBQDDHsq40+XLH+TZzxRGtAvP24GrH+jiM9HDW0O4GPid7ozJaFOsmbCaFE10bKgLmRwDUdnS2StJcw8tYnF5iO31MO/t/7060=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dsnmskQV; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LaHXZn6J"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso22361315e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 13:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1742589010; x=1743193810; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IKB6yQ/p4p5H9UdGeKJqY+C71MSKxypTKujViSujDac=;
-        b=LaHXZn6JNPGfznqTGqNxxz0/9SWD3RNBiXmugdQJKD4Jt7+TUb/E0jb0uyzm1qpL8u
-         dR1utsSXX05dTQ8k23aws3sXkphrbwrbYZGI9CungIA3LyhHmyIffho5rhlDCmt/Xvpl
-         jCnuhrQ24TOyW7KfoL8ee8jaYds0Lcjdx9wPj60TlzvzaSOWooxuog6wgScKZ9QIACHM
-         I9ogDKrrOJqrdUJQYS6TknGKU2XTFKTw5dbHR4Pp+NEN0Akh4y2UukC/8l/JURVx+nJt
-         mvUhbxvXWPM6fCFyX+CUtGbXPdi8QcsHIrNWWSr3ofTg8o/6FmQc/+AmLhpRzhYV/pRi
-         Poyw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dsnmskQV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742591156;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WRnJoqDrjjM/0a1a+E2erJF3D59Mlmw/EEkVC6fPK4Y=;
+	b=dsnmskQVhWG++i07p8MmlPDE3fRHF74exSOtoy8GxaXX8qVXPRj72icM7VZvQDoOfHo/LM
+	m1Om08XIda9eZv4UyXC48+WsJC40ld8LYOkomEHY3jFkd7irfh4zy6bNxT612m54dSrgXb
+	AQkjnPSkZAsjBLPWo84h4ZjlBkvYK7k=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-647-T6Zy2EHnMWaeTAJOlNXILg-1; Fri, 21 Mar 2025 17:05:55 -0400
+X-MC-Unique: T6Zy2EHnMWaeTAJOlNXILg-1
+X-Mimecast-MFC-AGG-ID: T6Zy2EHnMWaeTAJOlNXILg_1742591154
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2242f3fd213so35286105ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 14:05:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742589010; x=1743193810;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1742591154; x=1743195954;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IKB6yQ/p4p5H9UdGeKJqY+C71MSKxypTKujViSujDac=;
-        b=Yzzi3r4aqF529xkRf15TFfDqnj9lFkQhhXIbmcc5QHriJ6itr6eg7eHoWla2NeUIih
-         mdsmoWb3g1T0NZ2N0LYgYXHBBqHpHtbxVmGNjFE96ZCSxGKa34jHv4EoJ9ei53Ka0887
-         mqHGEOqGo1VTc8X/kCZX0FnIW1Eu52z3VIs0Wsb0ALzCOnxvQ78NVg3JlVbf607+aWt2
-         DAlrLGZfvUbedwujv/QN9xCegmTa4fwT3ruCLC/VopioUsh+gqkugnXwWQwHvVAppFaU
-         RyHSVczJK2ZHgMqqXgyIBa664HENgoNJmd8Mq0czYwjLMm0tfIlHHEPSP8ymkvPZjgNX
-         412Q==
-X-Forwarded-Encrypted: i=1; AJvYcCURH53bHKZkLgWATbLADzZiJEnGlV6wLG94b+ATik4KFFx3Hf372RQAKdBGm8rzKzfTQ196FjXgunU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNAERtL/S2kd8A4S0hXs0NyFOmmxoAGmS0FApn05cn9Kcy0D4J
-	NdUbm0YnUUoYXEx1wkmz9GRtPWIBnY/uuFN9VZgrgr65jL6LSfbmuPcatwtd284=
-X-Gm-Gg: ASbGncs9TKUkSO6HhaZS479Kpnlr+EfO58bK6mmiJs/qlN7CeJlqgb71p6vNn1MAHjz
-	HAGJDGs/Jz7C4c/IZSq/4xOtdCLOW4YMmiuAEm8wR4X9luJUgRi5+p3CGy5cWRnoR/IoGR1fSDd
-	FLH3YE1Pf0iP7cB1ELq0PCIRxQL3gk6Uz/ERD9Lkec8rxV6PMox1qPmgjXRXFveDYweoExNVTEq
-	Z/JM/QNh1chpV++GrxsdxSb3YGRszRva0AuS3ohEgAwbjSnSp0HET/j1yhZM/BPsrocuylaFVzb
-	7oZOVy2PMho3kF23mib/sbCBb/3woMj1oT6xMLNHbFLRIUflXSUTBO8UQNVS2gOe/Powz5nrURs
-	podm7As9YXjm6hQ==
-X-Google-Smtp-Source: AGHT+IGW0KT9uYhjfvzDuW5HrybppxMZ12fXv96hH0ZZ7RsY03Ppzqsltv2FqtvQ54zHcEEm7eOWKg==
-X-Received: by 2002:a5d:588b:0:b0:399:737f:4de6 with SMTP id ffacd0b85a97d-3997f8f8c35mr4323719f8f.3.1742589009965;
-        Fri, 21 Mar 2025 13:30:09 -0700 (PDT)
-Received: from [127.0.1.1] (host-87-8-62-49.retail.telecomitalia.it. [87.8.62.49])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f9955c0sm3258380f8f.3.2025.03.21.13.30.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Mar 2025 13:30:09 -0700 (PDT)
-From: Angelo Dureghello <adureghello@baylibre.com>
-X-Google-Original-From: Angelo Dureghello <adureghello@baylibre.org>
-Date: Fri, 21 Mar 2025 21:28:51 +0100
-Subject: [PATCH 4/4] iio: dac: ad3552r-hs: add support for internal ramp
+        bh=WRnJoqDrjjM/0a1a+E2erJF3D59Mlmw/EEkVC6fPK4Y=;
+        b=GL57srowWMJJI6iW7b9OZGWj+nFoaP4qf4AThDQW8CsEFRFTwzeyTe8JSoKHDeym6j
+         PCBRBeFrmHQDNS55f/4RxQaZ92Tk6m4hsXltPMsptsWgI0sJnmn9eNPA6mMNYKvk11De
+         1faEgod/PpkdaIEy6pjgaiv2UGt3JIGjn1ml1h6YhYXm3tT3dDn9ZVG9pmFv2KwJ5CDp
+         gBAHZiwUFFCdT6BQsio4WZpzoWA/vnnM39ejFtiuaZ3m0rhQQ+/569x136d9T0JEEXDH
+         jysyuZ/FVueZABACPWGuo5huFnkyyc55BIsJR+BgCMaxVmrMGqKhbTioDfxX+A/bywpt
+         NsTg==
+X-Forwarded-Encrypted: i=1; AJvYcCX0IU3ZChuN9lOQCoIiGxWhrdL1f/yC6VwH+tTWzRfuARZ9QEuZ/jtE1J7vKqyuWSdzqBxnOflvDi8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBDFjMxF6hf6WZEozD1iNzPTc1H33M9Dn6x1fZxttrQur5IWYi
+	CU1EEgOWJzet5AqEHbamQFxRVcNKlP8uBdYtuBGjZv9BCWWLfUX1H1ybF79PhfvjorogNhAKFFX
+	78mocWtshu6s3o5G3SSUt6dKWf5fP8m9uMUwKFFNh7c2khHU+t+QwmTlcdmuEkazhruYYPKJshw
+	EGJgrTs5RL0bgT6htfdwZW155vh54vUfle
+X-Gm-Gg: ASbGncsZRVu2kBUQLdz7zQOF7oro8GUCKLCjadAGj8V3+4F1NJxf/z6knsAeO688Hij
+	hJuBGcttNKcQ8KSQRtd0GVQC+NQIAUpFBaBVhfega2DjCXitGVXgxEg8tUYEkKSMVc4y5LNM=
+X-Received: by 2002:a17:902:ce08:b0:224:2175:b0cd with SMTP id d9443c01a7336-22780db3884mr78325135ad.26.1742591153926;
+        Fri, 21 Mar 2025 14:05:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEN00ZwsCSvrb1GxmsoNJZNu7MKJs1Ucfk1lD2MiRFFRVzqqr5ClONI/dVh1idt8Msn85KVY7jetnaUeKy09VA=
+X-Received: by 2002:a17:902:ce08:b0:224:2175:b0cd with SMTP id
+ d9443c01a7336-22780db3884mr78324575ad.26.1742591153425; Fri, 21 Mar 2025
+ 14:05:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250321-wip-bl-ad3552r-fixes-v1-4-3c1aa249d163@baylibre.com>
-References: <20250321-wip-bl-ad3552r-fixes-v1-0-3c1aa249d163@baylibre.com>
-In-Reply-To: <20250321-wip-bl-ad3552r-fixes-v1-0-3c1aa249d163@baylibre.com>
-To: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Olivier Moysan <olivier.moysan@foss.st.com>, 
- Michael Hennerich <Michael.Hennerich@analog.com>
-Cc: linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Angelo Dureghello <adureghello@baylibre.com>
-X-Mailer: b4 0.14.2
+References: <20250313114329.284104-1-acarmina@redhat.com> <20250313114329.284104-11-acarmina@redhat.com>
+ <b6bb68f0-7e93-4db2-9fe6-f615f06ddeb1@roeck-us.net>
+In-Reply-To: <b6bb68f0-7e93-4db2-9fe6-f615f06ddeb1@roeck-us.net>
+From: Alessandro Carminati <acarmina@redhat.com>
+Date: Fri, 21 Mar 2025 22:05:42 +0100
+X-Gm-Features: AQ5f1JoQT0Axds-sBfJ5O3FpL2NPQAbk3ZSqHh9aN-1kzXKN_DmP6zsQowxJbF0
+Message-ID: <CAGegRW4GinPmsav5=VBfjXBKy4cUEs5FWv-ixXODk7ajZ69vYg@mail.gmail.com>
+Subject: Re: [PATCH v4 10/14] s390: Add support for suppressing warning backtraces
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+	Dan Carpenter <dan.carpenter@linaro.org>, Kees Cook <keescook@chromium.org>, 
+	Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>, 
+	Arthur Grillo <arthurgrillo@riseup.net>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	Naresh Kamboju <naresh.kamboju@linaro.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard <mripard@kernel.org>, 
+	=?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Alessandro Carminati <alessandro.carminati@gmail.com>, Jani Nikula <jani.nikula@intel.com>, 
+	dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com, 
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-sh@vger.kernel.org, loongarch@lists.linux.dev, x86@kernel.org, 
+	Linux Kernel Functional Testing <lkft@linaro.org>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Angelo Dureghello <adureghello@baylibre.com>
+Hello Guenter,
+Sorry for being late to the party.
 
-The ad3552r can be feeded from the HDL controller by an internally
-generated 16bit ramp, useful for debug pourposes. Add debugfs a file
-to enable or disable it.
+On Fri, Mar 21, 2025 at 6:06=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> =
+wrote:
+>
+> On 3/13/25 04:43, Alessandro Carminati wrote:
+> > From: Guenter Roeck <linux@roeck-us.net>
+> >
+> > Add name of functions triggering warning backtraces to the __bug_table
+> > object section to enable support for suppressing WARNING backtraces.
+> >
+> > To limit image size impact, the pointer to the function name is only ad=
+ded
+> > to the __bug_table section if both CONFIG_KUNIT_SUPPRESS_BACKTRACE and
+> > CONFIG_DEBUG_BUGVERBOSE are enabled. Otherwise, the __func__ assembly
+> > parameter is replaced with a (dummy) NULL parameter to avoid an image s=
+ize
+> > increase due to unused __func__ entries (this is necessary because
+> > __func__ is not a define but a virtual variable).
+> >
+> > Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> > Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Cc: Heiko Carstens <hca@linux.ibm.com>
+> > Cc: Vasily Gorbik <gor@linux.ibm.com>
+> > Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> > Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
+> > ---
+> >   arch/s390/include/asm/bug.h | 17 ++++++++++++++---
+> >   1 file changed, 14 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/arch/s390/include/asm/bug.h b/arch/s390/include/asm/bug.h
+> > index c500d45fb465..44d4e9f24ae0 100644
+> > --- a/arch/s390/include/asm/bug.h
+> > +++ b/arch/s390/include/asm/bug.h
+> > @@ -8,6 +8,15 @@
+> >
+> >   #ifdef CONFIG_DEBUG_BUGVERBOSE
+> >
+> > +#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
+> > +# define HAVE_BUG_FUNCTION
+> > +# define __BUG_FUNC_PTR      "       .long   %0-.\n"
+> > +# define __BUG_FUNC  __func__
+>
+> gcc 7.5.0 on s390 barfs; it doesn't like the use of "__func__" with "%0-.=
+"
+>
+> drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c: In function 'anx_dp_=
+aux_transfer':
+> ././include/linux/compiler_types.h:492:20: warning: asm operand 0 probabl=
+y doesn't match constraints
+>
+> I was unable to find an alternate constraint that the compiler would acce=
+pt.
+>
+> I don't know if the same problem is seen with older compilers on other ar=
+chitectures,
+> or if the problem is relevant in the first place.
+>
+> gcc 10.3.0 and later do not have this problem. I also tried s390 builds w=
+ith gcc 9.4
+> and 9.5 but they both crash for unrelated reasons.
+>
+> If this is a concern, the best idea I have is to make KUNIT_SUPPRESS_BACK=
+TRACE
+> depend on, say,
+>         depends on CC_IS_CLANG || (CC_IS_GCC && GCC_VERSION >=3D 100300)
+>
+> A more complex solution might be to define an architecture flag such
+> as HAVE_SUPPRESS_BACKTRACE, make that conditional on the gcc version
+> for s390 only, and make KUNIT_SUPPRESS_BACKTRACE depend on it.
 
-Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
+I've spent some time trying to better define the problem.
+Although it may seem trivial, the old compiler simply doesn't work=E2=80=94=
+I
+believe the issue is a bit more complex.
+
+So, let me share some code and then comment on it.
+$ cat bug-s390.c
+#include "bug_entry.h"
+#define asm_inline asm __inline
+# define __BUG_FUNC_PTR " .long %0-.\n"
+# define __BUG_FUNC __func__
+#define __EMIT_BUG(x) do { \
+asm_inline volatile( \
+"0: mc 0,0\n" \
+".section .rodata.str,\"aMS\",@progbits,1\n" \
+"1: .asciz \""__FILE__"\"\n" \
+".previous\n" \
+".section __bug_table,\"aw\"\n" \
+"2: .long 0b-.\n" \
+" .long 1b-.\n" \
+__BUG_FUNC_PTR \
+" .short %1,%2\n" \
+" .org 2b+%3\n" \
+".previous\n" \
+: : "i" (__BUG_FUNC), \
+    "i" (__LINE__), \
+    "i" (x), \
+    "i" (sizeof(struct bug_entry))); \
+} while (0)
+
+#define BUG() do { \
+__EMIT_BUG(0); \
+} while (0)
+
+void f1(){
+BUG();
+}
+void f2(){
+BUG();
+}
+int main() {
+BUG();
+        f1();
+        f2();
+return 0;
+}
+$ # This is a stripped version of the s390x code for bug
+$ ~/x-tools/s390x-ibm-linux-gnu_14/bin/s390x-ibm-linux-gnu-gcc -v
+Using built-in specs.
+COLLECT_GCC=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu_14/bin/s390x-ibm=
+-linux-gnu-gcc
+COLLECT_LTO_WRAPPER=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu_14/bin/.=
+./libexec/gcc/s390x-ibm-linux-gnu/14.2.0/lto-wrapper
+Target: s390x-ibm-linux-gnu
+Configured with:
+/home/alessandro/src/s390x-toolchain/.build/s390x-ibm-linux-gnu/src/gcc/con=
+figure
+--build=3Dx86_64-build_pc-linux-gnu --host=3Dx86_64-build_pc-linux-gnu
+--target=3Ds390x-ibm-linux-gnu
+--prefix=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu
+--exec_prefix=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu
+--with-sysroot=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu/s390x-ibm-lin=
+ux-gnu/sysroot
+--enable-languages=3Dc,c++ --with-pkgversion=3D'crosstool-NG
+1.27.0.18_7458341' --enable-__cxa_atexit --disable-libmudflap
+--disable-libgomp --disable-libssp --disable-libquadmath
+--disable-libquadmath-support --disable-libsanitizer --disable-libmpx
+--with-gmp=3D/home/alessandro/src/s390x-toolchain/.build/s390x-ibm-linux-gn=
+u/buildtools
+--with-mpfr=3D/home/alessandro/src/s390x-toolchain/.build/s390x-ibm-linux-g=
+nu/buildtools
+--with-mpc=3D/home/alessandro/src/s390x-toolchain/.build/s390x-ibm-linux-gn=
+u/buildtools
+--with-isl=3D/home/alessandro/src/s390x-toolchain/.build/s390x-ibm-linux-gn=
+u/buildtools
+--enable-lto --enable-threads=3Dposix --enable-target-optspace
+--disable-plugin --disable-nls --disable-multilib
+--with-local-prefix=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu/s390x-ib=
+m-linux-gnu/sysroot
+--enable-long-long
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 14.2.0 (crosstool-NG 1.27.0.18_7458341)
+$ ~/x-tools/s390x-ibm-linux-gnu_14/bin/s390x-ibm-linux-gnu-gcc -S -m64
+bug-s390.c
+$ ~/x-tools/s390x-ibm-linux-gnu_14/bin/s390x-ibm-linux-gnu-gcc -S -m64
+-fPIC bug-s390.c
+$ ~/x-tools/s390x-ibm-linux-gnu/bin/s390x-ibm-linux-gnu-gcc -v
+Using built-in specs.
+COLLECT_GCC=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu/bin/s390x-ibm-li=
+nux-gnu-gcc
+COLLECT_LTO_WRAPPER=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu/libexec/=
+gcc/s390x-ibm-linux-gnu/7.5.0/lto-wrapper
+Target: s390x-ibm-linux-gnu
+Configured with:
+/home/alessandro/src/cross-s390/.build/s390x-ibm-linux-gnu/src/gcc/configur=
+e
+--build=3Dx86_64-build_pc-linux-gnu --host=3Dx86_64-build_pc-linux-gnu
+--target=3Ds390x-ibm-linux-gnu
+--prefix=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu
+--exec_prefix=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu
+--with-sysroot=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu/s390x-ibm-lin=
+ux-gnu/sysroot
+--enable-languages=3Dc --with-pkgversion=3D'crosstool-NG
+1.27.0.18_7458341' --enable-__cxa_atexit --disable-tm-clone-registry
+--disable-libmudflap --disable-libgomp --disable-libssp
+--disable-libquadmath --disable-libquadmath-support
+--disable-libsanitizer --disable-libmpx --disable-libstdcxx-verbose
+--with-gmp=3D/home/alessandro/src/cross-s390/.build/s390x-ibm-linux-gnu/bui=
+ldtools
+--with-mpfr=3D/home/alessandro/src/cross-s390/.build/s390x-ibm-linux-gnu/bu=
+ildtools
+--with-mpc=3D/home/alessandro/src/cross-s390/.build/s390x-ibm-linux-gnu/bui=
+ldtools
+--with-isl=3D/home/alessandro/src/cross-s390/.build/s390x-ibm-linux-gnu/bui=
+ldtools
+--enable-lto --without-zstd --enable-threads=3Dposix
+--enable-target-optspace --disable-plugin --disable-nls
+--disable-multilib
+--with-local-prefix=3D/home/alessandro/x-tools/s390x-ibm-linux-gnu/s390x-ib=
+m-linux-gnu/sysroot
+--enable-long-long
+Thread model: posix
+gcc version 7.5.0 (crosstool-NG 1.27.0.18_7458341)
+$ ~/x-tools/s390x-ibm-linux-gnu/bin/s390x-ibm-linux-gnu-gcc  -S -m64 bug-s3=
+90.c
+$ ~/x-tools/s390x-ibm-linux-gnu/bin/s390x-ibm-linux-gnu-gcc  -S -m64
+-fPIC bug-s390.c
+bug-s390.c: In function 'f1':
+bug-s390.c:2:20: warning: asm operand 0 probably doesn't match constraints
+ #define asm_inline asm __inline
+                    ^
+bug-s390.c:6:2: note: in expansion of macro 'asm_inline'
+  asm_inline volatile(     \
+  ^~~~~~~~~~
+bug-s390.c:25:2: note: in expansion of macro '__EMIT_BUG'
+  __EMIT_BUG(0);     \
+  ^~~~~~~~~~
+bug-s390.c:29:2: note: in expansion of macro 'BUG'
+  BUG();
+  ^~~
+bug-s390.c:2:20: error: impossible constraint in 'asm'
+ #define asm_inline asm __inline
+                    ^
+bug-s390.c:6:2: note: in expansion of macro 'asm_inline'
+  asm_inline volatile(     \
+  ^~~~~~~~~~
+bug-s390.c:25:2: note: in expansion of macro '__EMIT_BUG'
+  __EMIT_BUG(0);     \
+  ^~~~~~~~~~
+bug-s390.c:29:2: note: in expansion of macro 'BUG'
+  BUG();
+  ^~~
+bug-s390.c: In function 'f2':
+bug-s390.c:2:20: warning: asm operand 0 probably doesn't match constraints
+ #define asm_inline asm __inline
+                    ^
+bug-s390.c:6:2: note: in expansion of macro 'asm_inline'
+  asm_inline volatile(     \
+  ^~~~~~~~~~
+bug-s390.c:25:2: note: in expansion of macro '__EMIT_BUG'
+  __EMIT_BUG(0);     \
+  ^~~~~~~~~~
+bug-s390.c:32:2: note: in expansion of macro 'BUG'
+  BUG();
+  ^~~
+bug-s390.c: In function 'main':
+bug-s390.c:2:20: warning: asm operand 0 probably doesn't match constraints
+ #define asm_inline asm __inline
+                    ^
+bug-s390.c:6:2: note: in expansion of macro 'asm_inline'
+  asm_inline volatile(     \
+  ^~~~~~~~~~
+bug-s390.c:25:2: note: in expansion of macro '__EMIT_BUG'
+  __EMIT_BUG(0);     \
+  ^~~~~~~~~~
+bug-s390.c:35:2: note: in expansion of macro 'BUG'
+  BUG();
+  ^~~
+$ cat linux-6.14-rc7/arch/s390/Makefile| grep "fPIC"
+KBUILD_AFLAGS_MODULE +=3D -fPIC
+KBUILD_CFLAGS_MODULE +=3D -fPIC
+KBUILD_CFLAGS +=3D -fPIC
+
+As you can see, the problem is not that the compiler itself doesn't
+work, but rather that -fPIC introduces some complications.
+__func__ is a compile-time constant, but this holds true only for
+traditionally linked code.
+When compiling position-independent code, this assumption no longer applies=
+.
+
+GCC makes significant efforts to handle this, and for several
+architectures, it manages to solve the problem.
+However, this is not universally the case.
+Additionally, -fPIC is not widely used in kernel code... I have only
+seen it used for VDSO, the x86 boot piggyback decompressor, PowerPC
+boot, and the s390x architecture.
+
+That said, GCC has been mitigating this issue, allowing us to treat a
+non-compile-time constant as if it were one.
+A proof of this is that, at least since GCC 11, the s390x version of
+GCC is able to build this code.
+Before that... certainly in GCC 7.5 it couldn't.
+
+A simple fix would be to restrict usage to GCC versions greater than
+11 for s390.
+
+The real concern is that we have a latent issue that could be
+triggered by changes in build settings, as "feature" support varies
+across GCC versions and architectures.
+For example, while x86_64 at version 14 seems to work both with and
+without -fPIC, this is not the case for AArch64, where enabling -fPIC
+causes failures even in version 14.
+
+I'm currently working on a long-term fix for this.
+
+>
+> Guenter
+>
+
+
+--=20
 ---
- drivers/iio/dac/ad3552r-hs.c | 106 ++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 100 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/iio/dac/ad3552r-hs.c b/drivers/iio/dac/ad3552r-hs.c
-index 37397e188f225a8099745ec03f7c604da76960b1..41fe78d982a68980db059b095fc27b37ea1a461b 100644
---- a/drivers/iio/dac/ad3552r-hs.c
-+++ b/drivers/iio/dac/ad3552r-hs.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include <linux/bitfield.h>
-+#include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
- #include <linux/iio/backend.h>
-@@ -65,6 +66,18 @@ static int ad3552r_hs_reg_read(struct ad3552r_hs_state *st, u32 reg, u32 *val,
- 	return st->data->bus_reg_read(st->back, reg, val, xfer_size);
- }
- 
-+static int ad3552r_hs_set_data_source(struct ad3552r_hs_state *st,
-+				      enum iio_backend_data_source type)
-+{
-+	int ret;
-+
-+	ret = iio_backend_data_source_set(st->back, 0, type);
-+	if (ret)
-+		return ret;
-+
-+	return iio_backend_data_source_set(st->back, 1, type);
-+}
-+
- static int ad3552r_hs_update_reg_bits(struct ad3552r_hs_state *st, u32 reg,
- 				      u32 mask, u32 val, size_t xfer_size)
- {
-@@ -483,6 +496,66 @@ static int ad3552r_hs_reg_access(struct iio_dev *indio_dev, unsigned int reg,
- 	return st->data->bus_reg_write(st->back, reg, writeval, 1);
- }
- 
-+static ssize_t ad3552r_hs_show_data_source(struct file *f, char __user *userbuf,
-+					   size_t count, loff_t *ppos)
-+{
-+	struct ad3552r_hs_state *st = file_inode(f)->i_private;
-+	enum iio_backend_data_source type;
-+	int ret;
-+
-+	ret = iio_backend_data_source_get(st->back, 0, &type);
-+	if (ret)
-+		return ret;
-+
-+	switch (type) {
-+	case IIO_BACKEND_INTERNAL_RAMP_16BIT:
-+		return simple_read_from_buffer(userbuf, count, ppos,
-+					       "backend-ramp-generator", 22);
-+	case IIO_BACKEND_EXTERNAL:
-+		return simple_read_from_buffer(userbuf, count, ppos,
-+					       "iio-buffer", 10);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static ssize_t ad3552r_hs_write_data_source(struct file *f,
-+					    const char __user *userbuf,
-+					    size_t count, loff_t *ppos)
-+{
-+	struct ad3552r_hs_state *st = file_inode(f)->i_private;
-+	char buf[64];
-+	int ret;
-+
-+	ret = simple_write_to_buffer(buf, sizeof(buf) - 1, ppos, userbuf,
-+				     count);
-+	if (ret < 0)
-+		return ret;
-+
-+	buf[count] = 0;
-+
-+	if (count == 10 && !strncmp(buf, "iio-buffer", 10)) {
-+		ret = ad3552r_hs_set_data_source(st, IIO_BACKEND_EXTERNAL);
-+		if (ret)
-+			return ret;
-+	} else if (count == 22 && !strncmp(buf, "backend-ramp-generator", 22)) {
-+		ret = ad3552r_hs_set_data_source(st,
-+			IIO_BACKEND_INTERNAL_RAMP_16BIT);
-+		if (ret)
-+			return ret;
-+	} else {
-+		return -EINVAL;
-+	}
-+
-+	return count;
-+}
-+
-+static const struct file_operations ad3552r_hs_data_source_fops = {
-+	.owner = THIS_MODULE,
-+	.write = ad3552r_hs_write_data_source,
-+	.read = ad3552r_hs_show_data_source,
-+};
-+
- static int ad3552r_hs_setup(struct ad3552r_hs_state *st)
- {
- 	u16 id;
-@@ -550,11 +623,7 @@ static int ad3552r_hs_setup(struct ad3552r_hs_state *st)
- 	if (ret)
- 		return ret;
- 
--	ret = iio_backend_data_source_set(st->back, 0, IIO_BACKEND_EXTERNAL);
--	if (ret)
--		return ret;
--
--	ret = iio_backend_data_source_set(st->back, 1, IIO_BACKEND_EXTERNAL);
-+	ret = ad3552r_hs_set_data_source(st, IIO_BACKEND_EXTERNAL);
- 	if (ret)
- 		return ret;
- 
-@@ -661,6 +730,24 @@ static const struct iio_info ad3552r_hs_info = {
- 	.debugfs_reg_access = &ad3552r_hs_reg_access,
- };
- 
-+static void ad3552r_hs_debugfs_init(struct iio_dev *indio_dev)
-+{
-+	struct ad3552r_hs_state *st = iio_priv(indio_dev);
-+	struct dentry *d = iio_get_debugfs_dentry(indio_dev);
-+
-+	if (!IS_ENABLED(CONFIG_DEBUG_FS))
-+		return;
-+
-+	d = iio_get_debugfs_dentry(indio_dev);
-+	if (!d) {
-+		dev_warn(st->dev, "can't set debugfs in driver dir\n");
-+		return;
-+	}
-+
-+	debugfs_create_file("data_source", 0600, d, st,
-+			    &ad3552r_hs_data_source_fops);
-+}
-+
- static int ad3552r_hs_probe(struct platform_device *pdev)
- {
- 	struct ad3552r_hs_state *st;
-@@ -705,7 +792,14 @@ static int ad3552r_hs_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	return devm_iio_device_register(&pdev->dev, indio_dev);
-+	ret = devm_iio_device_register(&pdev->dev, indio_dev);
-+	if (ret)
-+		return ret;
-+
-+	ad3552r_hs_debugfs_init(indio_dev);
-+
-+	return ret;
-+
- }
- 
- static const struct of_device_id ad3552r_hs_of_id[] = {
-
--- 
-2.49.0
+Alessandro
 
