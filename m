@@ -1,121 +1,179 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B616E2253FC
-	for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 12:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F0A22ACF3
+	for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 13:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742560212; cv=none; b=NMTXXNe3GhMzp5eEfGlO/YOKR/ru20Ins5DkTN1m0XwwC2EFIbTJGt0WN1MqN23if+fiH8H5U1YEU8Wf2nsWhyLniSxIMMLnRRl3uUKjSXyZvXWuS5NB6RzdvIxn9Do0oURikZJlKUVXUO+UQcaPGvSNyDdppDOdA/iJLFTu6Lk=
+	t=1742562795; cv=none; b=ImItVwr0ztMymJbWlB+pCJVse2lsQh8f+84gpHkarpf0KQjIQoE4BerbcamsCxX2QZzc3RKKDO3LwHsnAkLwOOW4ZKf2+lG4q/XpqlMcfIRliCOSI6RBGpD9P2fS3gmYQSZKKOecchDplc06KCYI7B4Sk2QjGwSnkzmU07Oj5L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742560212; c=relaxed/simple;
-	bh=z2h8kmcrvjsG0wHPqWEEDMYXLWs3RQptqRtGchizi+M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sznlFqWc3f56f14BfVnDc5M+HnIw0S0Kk7QklgBhbkqNjP4hM6D2xV73+8WrQilCpmhW0lAayMDRpQAvwoiKomT7kwr0lNv10UItNTUYRAulsxffG84ZpeLTO76s6Zg6BcmL0L0W8641Rx6h/sD5MlB0zeHpnnO6y7iI4Ow2t8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YIimjCTy; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1742562795; c=relaxed/simple;
+	bh=gBMuiDhCemk5cSPTk5dmy01AjipaPQhh1hQfbQoK9+w=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=BXliI+F/0OEmlGOOIsm+6E5eLP2kPQcOmoB6RaE26CJ5sQSWGiG0+HsJH6VaVfXLF6P9kjF7lgxyYsiRjKsvGyVB80Ww9P+CbWKEtvF1+wqXhBiFUuOkaT0V7/QBdnTpJP2FuvEVjSyCs6XuN5U9SBcAx0VnJPrblBeW+skxW80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=AVr7YmAw; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YIimjCTy"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38a25d4b9d4so959216f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 05:30:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="AVr7YmAw"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5e5e22e6ed2so3040627a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 06:13:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1742560208; x=1743165008; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=G65UV4/EPEL+kQ65PV9/uamD/u6L+fEtW/r8PlOFSsA=;
-        b=YIimjCTyLFFAlPTNbZO3VZsh/7j3Kc15NqeVnhXZBUOSddhkUAbprRzb0/3GMpZXk7
-         Yt3GwW/WqwgKlcU50hEPXMGjCpjFqno1EzgV3Hb5vJJrEU93vBWjvdn2abi2loOVwOgQ
-         GXNq9gWOTl3dcXxBKIa8U/zHyclZYfs09lgPw8jE1ldQzTkDKFKEwBuIwqpfLRXlT7MR
-         ZoFKS+Ry368BOm7oxaUEVR+8YG4bcX9YbOivunjJ/jE1lrokjvj4/rbEAcHj7h/k6y52
-         kRjUFB7BDRQzvpI72xL2dTvGrdHvXDnxmzkgvwufKA+n4WQJFLn2JlcR7HiKXtHsHFgA
-         FftQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742560208; x=1743165008;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=fairphone.com; s=fair; t=1742562792; x=1743167592; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G65UV4/EPEL+kQ65PV9/uamD/u6L+fEtW/r8PlOFSsA=;
-        b=pYW+md0GFv1UzcH7WNOPf8bHcFj66CCuz4LXml2BxPaQzx/b32XB9KWrRDB/Ctya3h
-         L4aGlLqQOv8n4E1FEmqeNyGiBpu4/by7eW8KBhUOvWj9KNCGF+sel/hvMA0aZ42Tzmiz
-         vYrsMDYxV3L0GLnmdmCqrssBnmjNXGeD9NsTY90RUy4qst0/TqeHgFTaOEvXc7FS+GKS
-         P6jFR3VWgvpUGgpd40MRjPHfssXcBFDwCy1Zy1oKMMYLWY5fvvHtwZ4WrSlZwBILfDk8
-         Yhv1IX+gMVlCmyDvq6FJEhjF1pf3WHLlqKvq8tQ3L7VYVHpgD5Pq1GddyPzv8NlNAm4n
-         CorA==
-X-Forwarded-Encrypted: i=1; AJvYcCWHkmVE9LZpZJKtE8H38/t8xWhXYob9KBIAZVhHnce6G5wThP6uBU6vtc1eYQHtDP+w4zBtzxBE93w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzevatCVml+cc0UaqumvlSfC5SPJJcdVIrEF1WjBjVmTOUgR6y8
-	dqgIMAXrKUmMWRU2OetWnnxuzWwSLVzRsDupiLIKSrt7LH5Vv3wa/drjzuTtzCc=
-X-Gm-Gg: ASbGnctNUDLHDDhzZwxnnfC8n4jHn3MvkFlyi9cZT03ixjjMLypJDRBpmO47gfWDUsU
-	TD5XhBiubiqtNP9mJpl6qlmOJrA/QxJZSE1r74wZYEAIUpP0TqtjWbSc1BsyZYtz/ozwthdmHK3
-	l4le035fELzGd6NRGxUl11TAd3pwiR2RCCzrN2PyQLEPOdIwwakAV60iIrz5bxZ+qs2viKqv7uE
-	kqdCGGnyKIQYufdYfq3Qv8qG6LpdNTmAV0P1Hf9Jg1tK4I7NE4Fxi5odjxv59ftpMpXFX+o5Rdy
-	ZixCunN6YkOvxmMUJ+FnOUb/bu+FatiSCzSzYAHkULqBYYY=
-X-Google-Smtp-Source: AGHT+IExv+tybR5ipnVHMChIozaD9HWg71HI9cTN6Q9laK+gRbql3sVz1wKjQhAcenueVqPKCCAWLw==
-X-Received: by 2002:a5d:598c:0:b0:391:3aaf:1d5f with SMTP id ffacd0b85a97d-3997f9595f6mr2940009f8f.52.1742560207835;
-        Fri, 21 Mar 2025 05:30:07 -0700 (PDT)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f9a3a10sm2231886f8f.28.2025.03.21.05.30.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Mar 2025 05:30:07 -0700 (PDT)
-Date: Fri, 21 Mar 2025 13:30:05 +0100
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Hao Jia <jiahao1@lixiang.com>, Hao Jia <jiahao.kernel@gmail.com>, 
-	akpm@linux-foundation.org, tj@kernel.org, corbet@lwn.net, mhocko@kernel.org, 
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev, 
-	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm: vmscan: Split proactive reclaim statistics from
- direct reclaim statistics
-Message-ID: <isr7mmozkvkj3e4zk55fx2lzkwjxjhl4ac2f45l75qnna3bntp@cfm6v7wkmpyc>
-References: <20250318075833.90615-1-jiahao.kernel@gmail.com>
- <20250318075833.90615-2-jiahao.kernel@gmail.com>
- <qt73bnzu5k7ac4hnom7jwhsd3qsr7otwidu3ptalm66mbnw2kb@2uunju6q2ltn>
- <f62cb0c2-e2a4-e104-e573-97b179e3fd84@gmail.com>
- <unm54ivbukzxasmab7u5r5uyn7evvmsmfzsd7zytrdfrgbt6r3@vasumbhdlyhm>
- <b8c1a314-13ad-e610-31e4-fa931531aea9@gmail.com>
- <hvdw5o6trz5q533lgvqlyjgaskxfc7thc7oicdomovww4pn6fz@esy4zzuvkhf6>
- <3a7a14fb-2eb7-3580-30f8-9a8f1f62aad4@lixiang.com>
- <rxgfvctb5a5plo2o54uegyocmofdcxfxfwwjsn2lrgazdxxbnc@b4xdyfsuplwd>
- <20250319154428.GA1876369@cmpxchg.org>
+        bh=azxH+KYm8tJkLH7rFHwCJLBDMbyPBsLOxN72/qPc1Xk=;
+        b=AVr7YmAw/ej31E45hIjLMKkNTCngcDZ6dcaInOv0CrseUD1VZgNWJVAolqi9newOIH
+         XUC7+F2hIyFEgnYhBDCEJKAjs4RQrq6E6Ah5z1ZsD9c3DZJah/SFTAaooMvz2hfXoqXu
+         buwDyX6Pi3CEZYJLhwDF8K7buus17ZaxoNvyQBsmnhjZb60B3p/epXkH97O31VT1eSp/
+         qr3R+PLDvTp5Sg7aereNlDPltuYKN6Bux0ilzQbS7qmG9ssT7jM0pPP4Ac5S6Kp0NJPd
+         GvsG1ylRS9oaDng2iGg+cWzIxErGtQ2Vb5jKrJ/E3vprpS3psmJQhwKC/JFdtKgsf2p8
+         yBKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742562792; x=1743167592;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=azxH+KYm8tJkLH7rFHwCJLBDMbyPBsLOxN72/qPc1Xk=;
+        b=wXDf85b5yjDYgNxc5JcWbZZvxkR0Al9kjN1jSKJnO8MsLCjbEn7JTeAFCV9gzLOE3t
+         Cz57uiu33zjh5yTEft/pMPLSmnngvE9Xl/2CCxq+ihxU3CqA/If9E8RdhsR1nx4CxHPz
+         mpcBlevgybBVufgIgXH42nEAtVdUBCkFxuX1DRrlunrMyEe8AmqXWUEBPkhe4KOrQ6lq
+         tpOcQjgnWYeBzCsX5uuU5rYv5GnrGTrhbe+m8VXYUvcGGbefDo+WWrcU4zvUiyJfdwo1
+         vXhdQWCySt/iKZrAtYeUZM0jNDto/XKKE9IkwRfGOqKXtTkASblpi6snhckriPVkDRim
+         aTmg==
+X-Forwarded-Encrypted: i=1; AJvYcCUi5Bn7WXMMUhHGNR17S5EC9CxNIAutuHFUmcxjx5IBKq5L55lkZXadPBo6l8A6InH8DLW4gCbcO3Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDIWMj4FpHnouxTuNk2N3eF1qFJdJlxl5fBFrV45IZDcKZS6Hu
+	uq96w36Csu/s32Yk3GstVhNvMzWnmtOwZdqf+107Q70CDljYaSDaajig9pmzh9A=
+X-Gm-Gg: ASbGncsANThqDi6GETIZ1yh4IKKAmdnIioq9gbnf0doSLZSUQYnQdfu5P8HTWV86q/H
+	7tSPErOOyew0cFtO2pXmpWkZG6QOw6rK1v6rzl5u9xGos3kXuHScmTodvs/9ubYQTXm+Rg70x6E
+	nTNbFtX1+/OlUcngOuIpGvYTMS9GZkF3nlDdjom8JE8uT01adtAqCKUr/ZgRopdtF8TSVwjdCvK
+	XtbB2hsUQo8T9NwPjcAA84rsPPJIdEw5l8M5mrBN6nn8oTN7vNvj4LeaSfDW9juX/QvDD78S2lE
+	7F42KIwrtJM6X/Paz1AoJhtiyBjM/cSTRvrNjGnpzcbJ22csp3avcoTAktdhdDF6tvWKIK70Uct
+	pA28jKC5XSghBNQ==
+X-Google-Smtp-Source: AGHT+IE8PhCgUGBY/JkCA/TsunqWtiCtyLdiJOJyXQ4SyEMmQjgGArax5BsxRlrz/Py8KVlD3G8r/g==
+X-Received: by 2002:a05:6402:1d4a:b0:5e8:bf8b:4396 with SMTP id 4fb4d7f45d1cf-5ebcd42dd1fmr3003367a12.13.1742562791878;
+        Fri, 21 Mar 2025 06:13:11 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ebcd0c7157sm1344509a12.60.2025.03.21.06.13.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Mar 2025 06:13:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250319154428.GA1876369@cmpxchg.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 21 Mar 2025 14:13:10 +0100
+Message-Id: <D8LYYEQJ2W4L.1H7FPF4140BVS@fairphone.com>
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Wesley Cheng" <quic_wcheng@quicinc.com>,
+ <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+ <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+ <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+ <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+ <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+ <gregkh@linuxfoundation.org>
+Cc: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+ <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v36 00/31] Introduce QC USB SND audio offloading support
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
+In-Reply-To: <20250319005141.312805-1-quic_wcheng@quicinc.com>
 
-On Wed, Mar 19, 2025 at 11:44:28AM -0400, Johannes Weiner <hannes@cmpxchg.org> wrote:
-> Can you clarify if you're proposing this as an addition or instead of
-> the memory.stat items?
+Hi Wesley,
 
-1) more precise info for given reclaim daemon
-2) slight saving in the long list of memory stats (sorry, I must
-   question new entries :-) to balance flushing[*])
+On Wed Mar 19, 2025 at 1:51 AM CET, Wesley Cheng wrote:
+> Requesting to see if we can get some Acked-By tags, and merge on usb-next=
+.
+>
+> Several Qualcomm based chipsets can support USB audio offloading to a
+> dedicated audio DSP, which can take over issuing transfers to the USB
+> host controller.  The intention is to reduce the load on the main
+> processors in the SoC, and allow them to be placed into lower power modes=
+.
+> There are several parts to this design:
+>   1. Adding ASoC binding layer
+>   2. Create a USB backend for Q6DSP
+>   3. Introduce XHCI interrupter support
+>   4. Create vendor ops for the USB SND driver
+>
 
-I was originally motivated by 2) to propose the alternative but it is
-not strong alone if 1) is unnecessary at the moment (and it seems the
-blurring via aggregation is acceptable for the users), so let's consider
-that idea a (potential) addition.
+I was able to test this series (v35) on SM6350/SM7225 Fairphone 4
+smartphone and it appears to work as expected!
 
-Michal
+Based on the sm8350 branch you shared[0] I added similar dts bits for my
+device, I've pushed that branch here[1] for reference.
 
-[*] You'd be right to argue that per-writer collection may not be more
-    efficient in implementation.
+[0] https://git.codelinaro.org/clo/linux-kernel/kernel-qcom/-/commits/usb_a=
+udio_offload/
+[1] https://github.com/sm6350-mainline/linux/commits/sm6350-6.14-wip-usb-sn=
+d-offload/
+
+And I've used these commands to test:
+
+fairphone-4:~$ amixer -c0 cset name=3D'USB Mixer MultiMedia2' On
+
+fairphone-4:~$ aplay -l
+**** List of PLAYBACK Hardware Devices ****
+card 0: F4 [Fairphone 4], device 0: MultiMedia1 (*) []
+Subdevices: 1/1
+Subdevice #0: subdevice #0
+card 0: F4 [Fairphone 4], device 1: MultiMedia2 (*) []
+Subdevices: 1/1
+Subdevice #0: subdevice #0
+card 1: Audio [Hi-Res Audio], device 0: USB Audio [USB Audio]
+Subdevices: 1/1
+Subdevice #0: subdevice #0
+
+fairphone-4:~$ ffmpeg -i test.m4a -acodec pcm_s16le test.wav
+
+fairphone-4:~$ aplay --device=3Dplughw:0,1 Music/test.wav
+Playing WAVE 'Music/test.wav' : Signed 16 bit Little Endian, Rate 44100 Hz,=
+ Stereo
+
+And then music was coming out of these headphones connected via a USB-C
+to 3.5mm dongle.
+
+Every time I'm starting playback this error appears in dmesg, do you
+also see this on your test setup?
+
+[ 1336.081525] q6afe-dai 3000000.remoteproc:glink-edge:apr:service@4:dais: =
+AFE Port already open
 
 
+And if I'm not mistaken it's possible to check that actually the offload
+path is getting used by checking the interrupt counts of the xhci-hcd
+interrupt.
 
-> The proactive reclaimer data points provide a nice bit of nuance to
-> this. They can easily be aggregated over many machines etc.
+With regular USB audio card playback there's many interrupts per second
+happening:
 
-That could be collected from memory.reclaim too.
+fairphone-4:~$ aplay --device=3Dplughw:1,0 Music/test.wav # regular USB
+fairphone-4:~$ cat /proc/interrupts | grep -i usb
+188:     137524          0          0          0          0          0     =
+     0          0    GICv3 165 Level     xhci-hcd:usb1
+fairphone-4:~$ cat /proc/interrupts | grep -i usb
+188:     137591          0          0          0          0          0     =
+     0          0    GICv3 165 Level     xhci-hcd:usb1
 
-> A usecase for per-fd stats would be interesting to hear about, but I
-> don't think they would be a suitable replacement for memory.stat data.
+And with the offload card during playback there's no interrupts
+happening (just a few when initially starting playback):
 
-There could be reclaim daemons running at different levels of hierarchy,
-the higher one would see effects of its operations only. Or differently
-parametrized reclaimers (swappiness), each interested in their own
-impact.
+fairphone-4:~$ aplay --device=3Dplughw:0,1 Music/test.wav # offload
+fairphone-4:~$ cat /proc/interrupts | grep -i usb
+188:     141947          0          0          0          0          0     =
+     0          0    GICv3 165 Level     xhci-hcd:usb1
+fairphone-4:~$ cat /proc/interrupts | grep -i usb
+188:     141947          0          0          0          0          0     =
+     0          0    GICv3 165 Level     xhci-hcd:usb1
+
+
+Let me know what you think about the message in dmesg I mentioned above.
+
+Regards
+Luca
