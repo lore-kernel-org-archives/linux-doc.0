@@ -1,541 +1,319 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4701F4183;
-	Fri, 21 Mar 2025 22:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742596190; cv=none; b=ie2WTJlC97bsGl6HyvUvK2gAQQQ8a8cirg1huHht8U0812G5xTiieBmHSx8iBlNGdht+U0kGKV7EZ0WiO/NFx7nmT4UrOtU88aZqiXsA/gnOttF4gKw8E90GUP3GD2vsgBd6r1qksz2vs12Awo2O2rw/G3KfiX6aOuK7AnPGvNk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742596190; c=relaxed/simple;
-	bh=MJnjYRN0LEgZ0tEihdscwvdV0tOUjsMvYyVAybCBfrg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q/XiFFkjy/J2on3gGe+bmEzMY+rUAiDyin+GN5fFbDA4CCT2WxNxLW44HiipxM97wpErRmwmlgCbgvCVOESPlMIpDGT/xfY6NGx4MdqwgIyz95auFkI1L2C9aN8+ucVWz9n+VQzB5wKSO1pxla8QJ6RcgMTR7dPuTZa/FyttAJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OMxpGn3o; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5259828E7;
+	Fri, 21 Mar 2025 22:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742597422; cv=fail; b=OOzdnKwuLRgx21oVAtK9S7uyYdbxDhxzN7+B9EWObOjWe4bx0wKul/biDZ90TtsYR8J+P5iIhrFblMulNhQpZG/b7mYeyU5F6Fp60CdK+mGoqE/cXK0y+VSvdhmso977LZYvQpEHoYIlRixz7/RkENgUu4avgGSTvEJ2YQEYTok=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742597422; c=relaxed/simple;
+	bh=GmwmkLkPGV3UWh5SzHdAZcgLuGaROUpr+ANFZPrtSoI=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=TjVqhTgNsQT6ad45DECm+j4QDLWenDjhykkII0qu2jHWnMXajKkgkUSlOagBGJlqOW3dqfH1ndntLniw4BAhyP1hP7pNG1H5orm9FjXjPqOx6Yc/RLFqrvqHR7rGXHn2iQ9LEXroE2JszyIZtuUgrjKT+b7hxBqiDpJs0ABtt1w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hV+IQrqu; arc=fail smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OMxpGn3o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20994C4CEE3;
-	Fri, 21 Mar 2025 22:29:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742596189;
-	bh=MJnjYRN0LEgZ0tEihdscwvdV0tOUjsMvYyVAybCBfrg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OMxpGn3onwmLIr77R5VCSx0MSVLUoWdyEI5YyV8/340EtL25+O9CmgCQbs58z7GS6
-	 Eu2W/kH7WuBbwSlzUpNTnqOn2sCvwl5ubNzAKZFwE7zALPjs4tmFcNZbzKTr+uK0+d
-	 0Y0Nz3fqVRYxtEFgdDwTBp+n9KPviSIVufjk3itXnJFTHj7nEoWPUd+3r7BZ0yE9mx
-	 aeBDTwstoJ2uAOP7v/q9l1xzG59uyII/F5Ze/n/QJAbAsecaXZonfujWsFbGwHG/Oi
-	 r2YI3b7idxY3BPi6OFHwdjXr8irY4rz/IyRI1TIWoJRsUz4NBtHx+fjoUANRtfaBZd
-	 rPFyZxVCiO3NA==
-Date: Fri, 21 Mar 2025 22:29:40 +0000
-From: sergeh@kernel.org
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	keyrings@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
-	llvm@lists.linux.dev, nkapron@google.com, teknoraver@meta.com,
-	roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
-Subject: Re: [RFC PATCH security-next 1/4] security: Hornet LSM
-Message-ID: <Z93oVD96C3Cvc4ps@lei>
-References: <20250321164537.16719-1-bboscaccy@linux.microsoft.com>
- <20250321164537.16719-2-bboscaccy@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hV+IQrqu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742597420; x=1774133420;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=GmwmkLkPGV3UWh5SzHdAZcgLuGaROUpr+ANFZPrtSoI=;
+  b=hV+IQrquUwbWxVsg5tpqC0E8Bs18zviEb0OhJR/Takpc8AJidJ9OHyhH
+   vgEjzISgdJ6wpH77v0Gt92QN4yoE8nBXGLAF6jaWnknX/3dJ5w5dFweVx
+   3oYxOpBY1XwdAVl6fchtI/QUZQOCFnD3T+NnsRDWpYxq/m65qyqfxdnsh
+   rLm5V2rkqaSXVK+JyCFcLAtJ9JQKyCqAJKawr0y2+VcE3CRIyKYNcQhX+
+   Qx7ssBOGOt2qRjW4H3KpSO5DoT/SQSbIyI3N6RCuwUd6koH8v7rHiGgEL
+   Xhan5xI4F+S7AGWqi9hwR7XtmrvcwLOzo1M3fMac2xhfDb8cQTz0c+aF7
+   A==;
+X-CSE-ConnectionGUID: v9OxLaAtRz6HsJu4IjGf4w==
+X-CSE-MsgGUID: OBNqOPV9TPOJ/nz96xQWhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="61401237"
+X-IronPort-AV: E=Sophos;i="6.14,266,1736841600"; 
+   d="scan'208";a="61401237"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 15:50:19 -0700
+X-CSE-ConnectionGUID: ZHWeILpHTtSuiRaWuMZ3ew==
+X-CSE-MsgGUID: eEylVfhMRni1XbVmhyrhSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,266,1736841600"; 
+   d="scan'208";a="123490444"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 15:50:19 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Fri, 21 Mar 2025 15:50:18 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Fri, 21 Mar 2025 15:50:18 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Fri, 21 Mar 2025 15:50:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s3CoeGMFC+yRRB64bdYzQtemuMw8HDSSfyDZBgeB6qHy/30uIj4axF5avJJuqxQSWo2s0WvrWhxf1aTLSsdx5y6L3kTn+QGu99/VRsOpn6Ob/ONL3WJDMtEjWCnAqI5Y07bek9fWlwUyDRAewq3reulNIoj5g7goxc3R2vBJUMKXMnAbHVowCy2mxHIMucZsQiyfKiEOBSp8ARjGKujO3u9twcrx8OnLDEoouoklb4jyffDyhANq6WAa1kat7hpsMkGmOzUusTO62wbPcWIpf89EEXHcVecb2ZFLEAgq313mvSAb/O3nTbXjKq+KF8puxU6hGr8avlkzfRYzt5CSRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4FeJ1me+LJ/L9lSNHMFyRH8wnGkYgyhi19jBHfkkvW8=;
+ b=TPjQbWhhPj0lz6PWka7NcqoKcgcBrqO7jaHJDrvgtGL/faxpPc04Z21zqr4s/ci0zWhGQilE1p0gRhF6sRjr4DdLlV8CsxDWCNauFOLD+gmMK6bnTdVs2N97yJKfYiwWag1VZTXn0Q9feu0iV3bWj6hwGNVeSpiHzbpXcNLr6Cu+2A9g5jLrRbvQZchnCOtm4oP9HwMtHIFZa0W8ZnW/pnDz1Gi/cNHMxYxcaeciidXK9d0YmAU1/E0ueC1Os15PB+XYyyrlKI4rTaW6i5FL7SuFTGPhMWwZ8F8gJEK/dMCgT9OjASPs9FbZNsLE/JM2pzIoYNy7GhOPUXKjNNLVCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by CH3PR11MB8155.namprd11.prod.outlook.com (2603:10b6:610:164::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.34; Fri, 21 Mar
+ 2025 22:50:12 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%4]) with mapi id 15.20.8534.034; Fri, 21 Mar 2025
+ 22:50:11 +0000
+Message-ID: <7c135464-d859-459b-b86d-e8c18f106fc4@intel.com>
+Date: Fri, 21 Mar 2025 15:50:08 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/7] Support L3 Smart Data Cache Injection Allocation
+ Enforcement (SDCIAE)
+To: Babu Moger <babu.moger@amd.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+	<bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<paulmck@kernel.org>, <thuth@redhat.com>, <rostedt@goodmis.org>,
+	<xiongwei.song@windriver.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<jpoimboe@kernel.org>, <daniel.sneddon@linux.intel.com>,
+	<thomas.lendacky@amd.com>, <perry.yuan@amd.com>, <sandipan.das@amd.com>,
+	<kai.huang@intel.com>, <seanjc@google.com>, <xin3.li@intel.com>,
+	<ebiggers@google.com>, <andrew.cooper3@citrix.com>,
+	<mario.limonciello@amd.com>, <tan.shaopeng@fujitsu.com>,
+	<james.morse@arm.com>, <tony.luck@intel.com>, <peternewman@google.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<eranian@google.com>, <corbet@lwn.net>
+References: <cover.1738272037.git.babu.moger@amd.com>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <cover.1738272037.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0274.namprd04.prod.outlook.com
+ (2603:10b6:303:89::9) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250321164537.16719-2-bboscaccy@linux.microsoft.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CH3PR11MB8155:EE_
+X-MS-Office365-Filtering-Correlation-Id: cac537a1-4d17-4a3b-7bf7-08dd68cabc81
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q1ZVMTM2L1lJdTNScVN1c0F2MHNrZEtzL1NTNmRaU3FvQU9IaEN4UW9MQUFj?=
+ =?utf-8?B?KzZsdko4UGQxdlFZRGhqMHdaaWdHN3ZOcG13S0ZuL0ozUGxSOWdiTkFjNERF?=
+ =?utf-8?B?Tk5XUmxneW15QnNBQ2hPTkt6UWgvZHg0cWs1NE5ZdGg5N2M0REFFWTd2SVBL?=
+ =?utf-8?B?NGhKT3VYUGduVGtlTWp2VzZPb1hYSmFLMloyZGVvYjllMlNQTUNGN2dnU081?=
+ =?utf-8?B?NFFGNHZ2S0VqWVF1REszNkh3WjZ3WXIraVljcHIxSkZLaGpCN3B1R2lUSlRq?=
+ =?utf-8?B?WlZKWXVnMHFyZ2ptRVF5UzFnUmpldCt0MXZ4RmZ5aEswN0pBWHdVeG1aemtq?=
+ =?utf-8?B?NmFzemZtaE9ZQkcrMjlKQXhXKzB6U2NjWmVHZFdkbjY5TkxUMWhBSWVtelVn?=
+ =?utf-8?B?amFiNGxaNkQrSWZJazVYVnFyQUZ3RllaYlRmdlZmS3pXWXhoeG1QSWxIWWM1?=
+ =?utf-8?B?MHNoMFdOd0w1K2VLSnZINkFhRkl6cUVrZUQxZ2hUZDBUUnBlYkxVdTJOVCtD?=
+ =?utf-8?B?MGZEa0dPUm9iOUJYd0ZqSWgvU2Jza3pPN0hvTkJ0cWhVenAvcGpqN0dPL3dB?=
+ =?utf-8?B?QkpJMS9DTXAzS2dQOFJ3Y3ZqOXl3NTkyWDhoWnhwODVGeEtYMDR4T1l5bnJu?=
+ =?utf-8?B?c1VEYUpSbUtEVTJwY1dWWTVKQXhOQzl2MXd6Rm9WWTBpdVA2WjFDa042MC8w?=
+ =?utf-8?B?TXdmRlJEZjltdFM0N2Z3dGRPZmduLzNqaTZVeVdqRFYyQU0yL0xvVVd2NThV?=
+ =?utf-8?B?R1lVZkNLMnIvVndGNkgvLzNTajcwWlJYdEVLbWNMbEJDeERLYXNsTnU1SUlk?=
+ =?utf-8?B?SzVSL2xpYXc0TGg0cktlMTJzZFA5d2dPNFNjcko0c2pMRDNYWXlOZ0xWT3lh?=
+ =?utf-8?B?Y2RpSVhkSk55MjdDbkJMSlRYNFRRZHBVcmxZTGlXT2VYYjJUc1dyck9ZYmRT?=
+ =?utf-8?B?Z2p4SktuelpWbitqUit3MkhxLytRVE5sZFhrZ291OWhkWVhTM1Zqa1BDZlkr?=
+ =?utf-8?B?ajV3QlpYSDVEeXlKZTNPdUFBOGg1N0h6UnBXa09aSENjdUlvRWV1WVhjUUNS?=
+ =?utf-8?B?a2x1YUJ4TWxsbmRVYzVUdmFPOFBNaTE1dy9HT3Q1aEg1M0Npd1pUeFVLd1I1?=
+ =?utf-8?B?WXdudXFxUTVBV25PSGh5VlVHSENjR2I4SzJNVG4wTHdGQXNNY0dTY3lDT1h6?=
+ =?utf-8?B?UW13VGtMTUE4WUhmS09TNkJyNjRlcGxoMVEvQmNZYlVMK014cDlWdEVleW90?=
+ =?utf-8?B?NnJtV3VBQ0JkK3cyOG1NSVNPbzZTc08zZlUvSzk1QkF6YnEvaGtCendKRzFZ?=
+ =?utf-8?B?WVV3b2JKRHkzWmdZemhCVGJRK1IwL0RiMGdBcnphVkl4cDBiOGhCeGFQL0FC?=
+ =?utf-8?B?S0JVYWFDTjIyQmtVaHcrKzloelZxT3oybnBPai9zdFcwZ1VHQ21zSWdvcmh3?=
+ =?utf-8?B?UDJoUEM1NFBucEZ6Y3Vmb2d3cEVPdXRKMlBUQmI5T2FINlRuaDhDVk0rck1v?=
+ =?utf-8?B?WW9FcjA2TEpJN1cvYWgrZDZzUjFiak5EWjkxOStGQW9tNmV4NXFKTW0yN0pH?=
+ =?utf-8?B?TnZuc3dJQzN5OXVha3JYRDQzOHFydWlQWlBXR0xDdC9maXhxSE5ILy9DdUxu?=
+ =?utf-8?B?dEhsa2gvaldkS3VmZmdoRU9RZjNqMmJ1OU84akp5YlRTS1pwSHA5a0lWRzBu?=
+ =?utf-8?B?VGJCY1NaeER4eFl4VitOMnMxRitkZm9zMUdOUTZHOHhkNVNwTlJpWXdlT1Br?=
+ =?utf-8?B?SU1XUGUvdTQ4bkVsaitvbWlkYTkxOUNPNTRGY2VXRm5ROHpURnVVaGNIbjZO?=
+ =?utf-8?B?SHJHSVBBSUR3OFFHNWdFbnM1aGV3ZnFCay8rN0lWeEpkSCs0bS9EL2x4WldF?=
+ =?utf-8?Q?IqSklAN+0f7vB?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Mys4SlJxb1c4WmlPQUlaWUZTem9hdWJXMWRhUXJXd1BsTnRTL2NrSVQyTnZQ?=
+ =?utf-8?B?MHUxSHVjdm1FNUdGWWgyS3dBUnZnUlMvQ1hiaXRWWFBuN0xLZEx2cERIY1VE?=
+ =?utf-8?B?UjhaRHJKNnhjQmxabm1tUlIyUDU5NVA2eUZZSzVKMEh0L0xnVHR5LzdHZmZo?=
+ =?utf-8?B?emNQck5uMExRa0RmYUVISmppb1V6UU1LR3NSd0JIWmhLRkd2ZWMvQm5UTmF2?=
+ =?utf-8?B?MW41RmZQcnUxRFpaTWRXZEtGNGJSaG11ejI4NXl4akZORUtVRGRkMnlPd0Ey?=
+ =?utf-8?B?YUtWVlZja1ZSTXBzR1NDUzFUcW1QZ1VmYkc4Q3ZzWTROVkU1TVYvZVYyUktQ?=
+ =?utf-8?B?YnJEeDVkellnazlyMHNTM2R2NlIvMGJIazdUaWxzU2F6U1JoY3ZXU2xadWVr?=
+ =?utf-8?B?bGNvcWFEY2hKOUN1QzQrZFIzWGd1RGludUdMVXp1cEpuaDZUdzc2SFVES2ZL?=
+ =?utf-8?B?L0ZjZDRQSTRqeHpSWUlkMWs3VFdYQVBkcTZlS3FiMWVsUnJuNS9OVVArKzAz?=
+ =?utf-8?B?N25sYlEvZVRKQUZjM1hqdlE4S2RQUkgwckV1YnZ1c3BzN2NxcHRab0xyWVZB?=
+ =?utf-8?B?T3N1MHZSblJqL3orMkltNy9LSER6QXFOWWtPRVNhc04vZVB5a25VOFpnMkc0?=
+ =?utf-8?B?V1RJS1BKMnkxYlM1VXl4dE5VdUVtbmw3ZWhma0MxK0RzRzJWbXBsL2EyZUI4?=
+ =?utf-8?B?cFd1bzBWcklMZGtjb29jbDc0aEt3ZHZGYlF4Um9rVE1OUEcvZTZncTJ1ZkMr?=
+ =?utf-8?B?NlA0dmVSdDZlUWtvTElRQWZJSHZXcVdxdHBZeGMwN3BoVGljTTJxajE3MVd0?=
+ =?utf-8?B?dVd0TW1sVmU4dVNRZjlpNXBhZTZjcmFSdzFGak00RjE1VTk4VVp2cGVJWjFP?=
+ =?utf-8?B?dldrUmNzQzRyUDZrMUowQ1crMTJ1STJveFpOeGp0UEdNM24vSldJSlhlWWNT?=
+ =?utf-8?B?aHA4UEdSeFlFZnYyTU84SVVIVVpSUk03Rk4rTlpTMXAvR09oSXREc25xTCsr?=
+ =?utf-8?B?aEM1RTZuL2l0SG1IQ0tXYmJwYzFkeHYwK2hsZ1Q2ck15cmNaNnhramxvcjRq?=
+ =?utf-8?B?Q3ZEZXM1dzQzdTRoWXVJSnRVZ1h1b1VZOVZTUDRIaHVNRDJIcnI2aVYxaFdE?=
+ =?utf-8?B?OWdmcmJHdmNqMUROOEk5QWtteWpaYUlySDlHbkU1Nk5ORXVSWXBMYjNBWWti?=
+ =?utf-8?B?bDhMN0Z4TmVJTHgvMi9TQVJrQ054Rzl5UU9CT1J6WkZxanFHbzduKzliNU5R?=
+ =?utf-8?B?dEZ5OTE0ZS9TUHI0ZlJpWkd1RGtSUmRIalNRMGFqRUhYdm1TVjNDOXlEclYx?=
+ =?utf-8?B?cktYUGpaRmowUlkxOW9KZ3F4Y0ZkRHpPSzcyUDRsdnJVV3NTdWN6Tng5akxE?=
+ =?utf-8?B?R04zZ2Y4ZXN0dmlSL2ppQy9BN09HQVQ0bkN3RnJoc3AyYlJEMnZDSTFpNnZN?=
+ =?utf-8?B?WHNoTmVWUkRlQzU1YzFqdEhmVjd3eWw4Wkl2U3psRWI5cGdvQVNCS0FIejJj?=
+ =?utf-8?B?YUhaenMyNUNaL1E2QzNUUU5tY2FkY3VRRTRBSUlVdkx2eFphaFJqM2htSkRo?=
+ =?utf-8?B?MDMrb2x5WlBOMUFaRVY0Ym12SHRxaHRuYzVTcCt3MXp3a0ExejRiM05kOWZo?=
+ =?utf-8?B?THpKVTBZL3d6cGttNjNUTWZrbUhZWFR4SGZUcGgvaWRJS0RrclNEbitTdFR2?=
+ =?utf-8?B?K2h5cWZENmJ3ZmRhVTZFZUJqQ243ZmtKcmphYmlEOEpmQWxyRmEwT01IMjVi?=
+ =?utf-8?B?QlhuYkFHUmVKTFVBZ0hjQ0JKbU55c3JUM1AwQWg2ajMzMVBUa3JTYnpIcDVj?=
+ =?utf-8?B?N1A2Z2lOQXZOSXVHS0hlZzlPTVNKbElUbVBNUjdIYVhrZG1GS3VSdVNveWdw?=
+ =?utf-8?B?WXNua0hTemc3U3NxMGI3ZkNhWlpqeDZUN2Z6S21yTTlFT0hXQlpucnpMOGFE?=
+ =?utf-8?B?M29YNy95OVpqakl1OEI2Q3NIQTY3ZXI0S0NGZTlyS3BKTDRPOGdVMTBycU1m?=
+ =?utf-8?B?MXU0WG9wM3RlTko0SkN1dFJpa016ai81OUI5RHZVZU9MV2p3MldKbnJ3UWFr?=
+ =?utf-8?B?VkFLRmZzSkJBcFF1Mi9aSWtoZ1pCN3RDZGdHYUliQTNhVEVrNTUyNW9qb3V1?=
+ =?utf-8?B?ZEVEbnVyMmtYN29udzh1cXlrYnJtMDdETC9hS0l6YkN3NnhJT0FGWWNxY1VS?=
+ =?utf-8?B?V1E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cac537a1-4d17-4a3b-7bf7-08dd68cabc81
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 22:50:11.3790
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S9NJbWGCa8iYJIkdmMYHOcDraM6MEKp+KeO+APuAk5cygSyQmAHRpCUwzb01is1501BK3rzxSAf2bGcflOv6c947mvOJznv2s56HrtWuqYg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8155
+X-OriginatorOrg: intel.com
 
-On Fri, Mar 21, 2025 at 09:45:03AM -0700, Blaise Boscaccy wrote:
-> This adds the Hornet Linux Security Module which provides signature
-> verification of eBPF programs.
+Hi Babu,
+
+On 1/30/25 1:20 PM, Babu Moger wrote:
 > 
-> Hornet uses a similar signature verification scheme similar to that of
+> This series adds the support for L3 Smart Data Cache Injection Allocation
+> Enforcement (SDCIAE) to resctrl infrastructure. It is refered as io_alloc
 
-used 'similar' twice
+"refered as" -> "referred to as"?
 
-> kernel modules. A pkcs#7 signature is appended to the end of an
-> executable file. During an invocation of bpf_prog_load, the signature
-> is fetched from the current task's executable file. That signature is
-> used to verify the integrity of the bpf instructions and maps which
-> where passed into the kernel. Additionally, Hornet implicitly trusts any
-
-s/where/were
-
-> programs which where loaded from inside kernel rather than userspace,
-
-s/where/were
-
-> which allows BPF_PRELOAD programs along with outputs for BPF_SYSCALL
-> programs to run.
+> in resctrl subsystem.
 > 
-> Hornet allows users to continue to maintain an invariant that all code
-> running inside of the kernel has been signed and works well with
-> light-skeleton based loaders, or any statically generated program that
-> doesn't require userspace instruction rewriting.
-> 
-> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-> ---
->  Documentation/admin-guide/LSM/Hornet.rst |  51 +++++
->  crypto/asymmetric_keys/pkcs7_verify.c    |  10 +
->  include/linux/kernel_read_file.h         |   1 +
->  include/linux/verification.h             |   1 +
->  include/uapi/linux/lsm.h                 |   1 +
->  security/Kconfig                         |   3 +-
->  security/Makefile                        |   1 +
->  security/hornet/Kconfig                  |  11 ++
->  security/hornet/Makefile                 |   4 +
->  security/hornet/hornet_lsm.c             | 239 +++++++++++++++++++++++
->  10 files changed, 321 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
->  create mode 100644 security/hornet/Kconfig
->  create mode 100644 security/hornet/Makefile
->  create mode 100644 security/hornet/hornet_lsm.c
-> 
-> diff --git a/Documentation/admin-guide/LSM/Hornet.rst b/Documentation/admin-guide/LSM/Hornet.rst
-> new file mode 100644
-> index 0000000000000..fa112412638f1
-> --- /dev/null
-> +++ b/Documentation/admin-guide/LSM/Hornet.rst
-> @@ -0,0 +1,51 @@
-> +======
-> +Hornet
-> +======
-> +
-> +Hornet is a Linux Security Module that provides signature verification
-> +for eBPF programs. This is selectable at build-time with
-> +``CONFIG_SECURITY_HORNET``.
-> +
-> +Overview
-> +========
-> +
-> +Hornet provides signature verification for eBPF programs by utilizing
-> +the existing PKCS#7 infrastructure that's used for module signature
-> +verification. Hornet works by creating a buffer containing the eBPF
-> +program instructions along with its associated maps and checking a
-> +signature against that buffer. The signature is appended to the end of
-> +the lskel executable file and is extracted at runtime via
-> +get_task_exe_file. Hornet works by hooking into the
-> +security_bpf_prog_load hook. Load invocations that originate from the
-> +kernel (bpf preload, results of bpf_syscall programs, etc.) are
-> +allowed to run unconditionally. Calls that originate from userspace
-> +require signature verification. If signature verification fails, the
-> +program will fail to load.
-> +
-> +Instruction/Map Ordering
-> +========================
-> +
-> +Hornet supports both sparse-array based maps via map discovery along
-> +with the newly added fd_array_cnt API for continuous map arrays. The
-> +buffer used for signature verification is assumed to be the
-> +instructions followed by all maps used, ordered by their index in
-> +fd_array.
-> +
-> +Tooling
-> +=======
-> +
-> +Some tooling is provided to aid with the development of signed eBPF lskels.
-> +
-> +extract-skel.sh
-> +---------------
-> +
-> +This simple shell script extracts the instructions and map data used
-> +by the light skeleton from the autogenerated header file created by
-> +bpftool.
-> +
-> +sign-ebpf
-> +---------
-> +
-> +sign-ebpf works similarly to the sign-file script with one key
-> +difference: it takes a separate input binary used for signature
-> +verification and will append the signature to a different output file.
-> diff --git a/crypto/asymmetric_keys/pkcs7_verify.c b/crypto/asymmetric_keys/pkcs7_verify.c
-> index f0d4ff3c20a83..1a5fbb3612188 100644
-> --- a/crypto/asymmetric_keys/pkcs7_verify.c
-> +++ b/crypto/asymmetric_keys/pkcs7_verify.c
-> @@ -428,6 +428,16 @@ int pkcs7_verify(struct pkcs7_message *pkcs7,
->  		}
->  		/* Authattr presence checked in parser */
->  		break;
-> +	case VERIFYING_EBPF_SIGNATURE:
-> +		if (pkcs7->data_type != OID_data) {
-> +			pr_warn("Invalid ebpf sig (not pkcs7-data)\n");
-> +			return -EKEYREJECTED;
-> +		}
-> +		if (pkcs7->have_authattrs) {
-> +			pr_warn("Invalid ebpf sig (has authattrs)\n");
-> +			return -EKEYREJECTED;
-> +		}
-> +		break;
->  	case VERIFYING_UNSPECIFIED_SIGNATURE:
->  		if (pkcs7->data_type != OID_data) {
->  			pr_warn("Invalid unspecified sig (not pkcs7-data)\n");
-> diff --git a/include/linux/kernel_read_file.h b/include/linux/kernel_read_file.h
-> index 90451e2e12bd1..7ed9337be5423 100644
-> --- a/include/linux/kernel_read_file.h
-> +++ b/include/linux/kernel_read_file.h
-> @@ -14,6 +14,7 @@
->  	id(KEXEC_INITRAMFS, kexec-initramfs)	\
->  	id(POLICY, security-policy)		\
->  	id(X509_CERTIFICATE, x509-certificate)	\
-> +	id(EBPF, ebpf)				\
->  	id(MAX_ID, )
->  
->  #define __fid_enumify(ENUM, dummy) READING_ ## ENUM,
-> diff --git a/include/linux/verification.h b/include/linux/verification.h
-> index 4f3022d081c31..812be8ad5f744 100644
-> --- a/include/linux/verification.h
-> +++ b/include/linux/verification.h
-> @@ -35,6 +35,7 @@ enum key_being_used_for {
->  	VERIFYING_KEXEC_PE_SIGNATURE,
->  	VERIFYING_KEY_SIGNATURE,
->  	VERIFYING_KEY_SELF_SIGNATURE,
-> +	VERIFYING_EBPF_SIGNATURE,
->  	VERIFYING_UNSPECIFIED_SIGNATURE,
->  	NR__KEY_BEING_USED_FOR
->  };
-> diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
-> index 938593dfd5daf..2ff9bcdd551e2 100644
-> --- a/include/uapi/linux/lsm.h
-> +++ b/include/uapi/linux/lsm.h
-> @@ -65,6 +65,7 @@ struct lsm_ctx {
->  #define LSM_ID_IMA		111
->  #define LSM_ID_EVM		112
->  #define LSM_ID_IPE		113
-> +#define LSM_ID_HORNET		114
->  
->  /*
->   * LSM_ATTR_XXX definitions identify different LSM attributes
-> diff --git a/security/Kconfig b/security/Kconfig
-> index f10dbf15c2947..0030f0224c7ab 100644
-> --- a/security/Kconfig
-> +++ b/security/Kconfig
-> @@ -230,6 +230,7 @@ source "security/safesetid/Kconfig"
->  source "security/lockdown/Kconfig"
->  source "security/landlock/Kconfig"
->  source "security/ipe/Kconfig"
-> +source "security/hornet/Kconfig"
->  
->  source "security/integrity/Kconfig"
->  
-> @@ -273,7 +274,7 @@ config LSM
->  	default "landlock,lockdown,yama,loadpin,safesetid,apparmor,selinux,smack,tomoyo,ipe,bpf" if DEFAULT_SECURITY_APPARMOR
->  	default "landlock,lockdown,yama,loadpin,safesetid,tomoyo,ipe,bpf" if DEFAULT_SECURITY_TOMOYO
->  	default "landlock,lockdown,yama,loadpin,safesetid,ipe,bpf" if DEFAULT_SECURITY_DAC
-> -	default "landlock,lockdown,yama,loadpin,safesetid,selinux,smack,tomoyo,apparmor,ipe,bpf"
-> +	default "landlock,lockdown,yama,loadpin,safesetid,selinux,smack,tomoyo,apparmor,ipe,hornet,bpf"
->  	help
->  	  A comma-separated list of LSMs, in initialization order.
->  	  Any LSMs left off this list, except for those with order
-> diff --git a/security/Makefile b/security/Makefile
-> index 22ff4c8bd8cec..e24bccd951f88 100644
-> --- a/security/Makefile
-> +++ b/security/Makefile
-> @@ -26,6 +26,7 @@ obj-$(CONFIG_CGROUPS)			+= device_cgroup.o
->  obj-$(CONFIG_BPF_LSM)			+= bpf/
->  obj-$(CONFIG_SECURITY_LANDLOCK)		+= landlock/
->  obj-$(CONFIG_SECURITY_IPE)		+= ipe/
-> +obj-$(CONFIG_SECURITY_HORNET)		+= hornet/
->  
->  # Object integrity file lists
->  obj-$(CONFIG_INTEGRITY)			+= integrity/
-> diff --git a/security/hornet/Kconfig b/security/hornet/Kconfig
-> new file mode 100644
-> index 0000000000000..19406aa237ac6
-> --- /dev/null
-> +++ b/security/hornet/Kconfig
-> @@ -0,0 +1,11 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config SECURITY_HORNET
-> +	bool "Hornet support"
-> +	depends on SECURITY
-> +	default n
-> +	help
-> +	  This selects Hornet.
-> +	  Further information can be found in
-> +	  Documentation/admin-guide/LSM/Hornet.rst.
-> +
-> +	  If you are unsure how to answer this question, answer N.
-> diff --git a/security/hornet/Makefile b/security/hornet/Makefile
-> new file mode 100644
-> index 0000000000000..79f4657b215fa
-> --- /dev/null
-> +++ b/security/hornet/Makefile
-> @@ -0,0 +1,4 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +obj-$(CONFIG_SECURITY_HORNET) := hornet.o
-> +
-> +hornet-y := hornet_lsm.o
-> diff --git a/security/hornet/hornet_lsm.c b/security/hornet/hornet_lsm.c
-> new file mode 100644
-> index 0000000000000..3616c68b76fbc
-> --- /dev/null
-> +++ b/security/hornet/hornet_lsm.c
-> @@ -0,0 +1,239 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Hornet Linux Security Module
-> + *
-> + * Author: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-> + *
-> + * Copyright (C) 2025 Microsoft Corporation
-> + */
-> +
-> +#include <linux/lsm_hooks.h>
-> +#include <uapi/linux/lsm.h>
-> +#include <linux/bpf.h>
-> +#include <linux/verification.h>
-> +#include <crypto/public_key.h>
-> +#include <linux/module_signature.h>
-> +#include <crypto/pkcs7.h>
-> +#include <linux/bpf_verifier.h>
-> +#include <linux/sort.h>
-> +
-> +#define EBPF_SIG_STRING "~eBPF signature appended~\n"
-> +
-> +struct hornet_maps {
-> +	u32 used_idx[MAX_USED_MAPS];
-> +	u32 used_map_cnt;
-> +	bpfptr_t fd_array;
-> +};
-> +
-> +static int cmp_idx(const void *a, const void *b)
-> +{
-> +	return *(const u32 *)a - *(const u32 *)b;
-> +}
-> +
-> +static int add_used_map(struct hornet_maps *maps, int idx)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < maps->used_map_cnt; i++)
-> +		if (maps->used_idx[i] == idx)
-> +			return i;
-> +
-> +	if (maps->used_map_cnt >= MAX_USED_MAPS)
-> +		return -E2BIG;
-> +
-> +	maps->used_idx[maps->used_map_cnt] = idx;
-> +	return maps->used_map_cnt++;
-> +}
-> +
-> +static int hornet_find_maps(struct bpf_prog *prog, struct hornet_maps *maps)
-> +{
-> +	struct bpf_insn *insn = prog->insnsi;
-> +	int insn_cnt = prog->len;
-> +	int i;
-> +	int err;
-> +
-> +	for (i = 0; i < insn_cnt; i++, insn++) {
-> +		if (insn[0].code == (BPF_LD | BPF_IMM | BPF_DW)) {
-> +			switch (insn[0].src_reg) {
-> +			case BPF_PSEUDO_MAP_IDX_VALUE:
-> +			case BPF_PSEUDO_MAP_IDX:
-> +				err = add_used_map(maps, insn[0].imm);
-> +				if (err < 0)
-> +					return err;
-> +				break;
-> +			default:
-> +				break;
-> +			}
-> +		}
-> +	}
-> +	/* Sort the spare-array indices. This should match the map ordering used during
-> +	 * signature generation
-> +	 */
-> +	sort(maps->used_idx, maps->used_map_cnt, sizeof(*maps->used_idx),
-> +	     cmp_idx, NULL);
-> +
-> +	return 0;
-> +}
-> +
-> +static int hornet_populate_fd_array(struct hornet_maps *maps, u32 fd_array_cnt)
-> +{
-> +	int i;
-> +
-> +	if (fd_array_cnt > MAX_USED_MAPS)
-> +		return -E2BIG;
-> +
-> +	for (i = 0; i < fd_array_cnt; i++)
-> +		maps->used_idx[i] = i;
-> +
-> +	maps->used_map_cnt = fd_array_cnt;
-> +	return 0;
-> +}
-> +
-> +/* kern_sys_bpf is declared as an EXPORT_SYMBOL in kernel/bpf/syscall.c, however no definition is
-> + * provided in any bpf header files. If/when this function has a proper definition provided
-> + * somewhere this declaration should be removed
-> + */
-> +int kern_sys_bpf(int cmd, union bpf_attr *attr, unsigned int size);
-> +
-> +static int hornet_verify_lskel(struct bpf_prog *prog, struct hornet_maps *maps,
-> +			       void *sig, size_t sig_len)
-> +{
-> +	int fd;
-> +	u32 i;
-> +	void *buf;
-> +	void *new;
-> +	size_t buf_sz;
-> +	struct bpf_map *map;
-> +	int err = 0;
-> +	int key = 0;
-> +	union bpf_attr attr = {0};
-> +
-> +	buf = kmalloc_array(prog->len, sizeof(struct bpf_insn), GFP_KERNEL);
-> +	if (!buf)
-> +		return -ENOMEM;
-> +	buf_sz = prog->len * sizeof(struct bpf_insn);
-> +	memcpy(buf, prog->insnsi, buf_sz);
-> +
-> +	for (i = 0; i < maps->used_map_cnt; i++) {
-> +		err = copy_from_bpfptr_offset(&fd, maps->fd_array,
-> +					      maps->used_idx[i] * sizeof(fd),
-> +					      sizeof(fd));
-> +		if (err < 0)
-> +			continue;
-> +		if (fd < 1)
-> +			continue;
-> +
-> +		map = bpf_map_get(fd);
-> +		if (IS_ERR(map))
-> +			continue;
-> +
-> +		/* don't allow userspace to change map data used for signature verification */
-> +		if (!map->frozen) {
-> +			attr.map_fd = fd;
-> +			err = kern_sys_bpf(BPF_MAP_FREEZE, &attr, sizeof(attr));
-> +			if (err < 0)
-> +				goto out;
-> +		}
-> +
-> +		new = krealloc(buf, buf_sz + map->value_size, GFP_KERNEL);
-> +		if (!new) {
-> +			err = -ENOMEM;
-> +			goto out;
-> +		}
-> +		buf = new;
-> +		new = map->ops->map_lookup_elem(map, &key);
-> +		if (!new) {
-> +			err = -ENOENT;
-> +			goto out;
-> +		}
-> +		memcpy(buf + buf_sz, new, map->value_size);
-> +		buf_sz += map->value_size;
-> +	}
-> +
-> +	err = verify_pkcs7_signature(buf, buf_sz, sig, sig_len,
-> +				     VERIFY_USE_SECONDARY_KEYRING,
-> +				     VERIFYING_EBPF_SIGNATURE,
-> +				     NULL, NULL);
-> +out:
-> +	kfree(buf);
-> +	return err;
-> +}
-> +
-> +static int hornet_check_binary(struct bpf_prog *prog, union bpf_attr *attr,
-> +			       struct hornet_maps *maps)
-> +{
-> +	struct file *file = get_task_exe_file(current);
-> +	const unsigned long markerlen = sizeof(EBPF_SIG_STRING) - 1;
-> +	void *buf = NULL;
-> +	size_t sz = 0, sig_len, prog_len, buf_sz;
-> +	int err = 0;
-> +	struct module_signature sig;
-> +
-> +	buf_sz = kernel_read_file(file, 0, &buf, INT_MAX, &sz, READING_EBPF);
-> +	fput(file);
-> +	if (!buf_sz)
-> +		return -1;
-> +
-> +	prog_len = buf_sz;
-> +
-> +	if (prog_len > markerlen &&
-> +	    memcmp(buf + prog_len - markerlen, EBPF_SIG_STRING, markerlen) == 0)
-> +		prog_len -= markerlen;
-> +
-> +	memcpy(&sig, buf + (prog_len - sizeof(sig)), sizeof(sig));
-> +	sig_len = be32_to_cpu(sig.sig_len);
-> +	prog_len -= sig_len + sizeof(sig);
-> +
-> +	err = mod_check_sig(&sig, prog->len * sizeof(struct bpf_insn), "ebpf");
-> +	if (err)
-> +		return err;
-> +	return hornet_verify_lskel(prog, maps, buf + prog_len, sig_len);
-> +}
-> +
-> +static int hornet_check_signature(struct bpf_prog *prog, union bpf_attr *attr,
-> +				  struct bpf_token *token, bool is_kernel)
 
-It's a little confusing that you are passing is_kernel in here, when the
-only caller will always pass in true.  Is there a good reason not to
-drop the arg here and pass 'true' in to make_bpfptr().  Of course, then
-people will ask why not define an IS_KERNEL to true as passing true to
-second argument is cryptic...  Maybe you just can't win here :)
+...
 
-> +{
-> +	struct hornet_maps maps = {0};
-> +	int err;
-> +
-> +	/* support both sparse arrays and explicit continuous arrays of map fds */
-> +	if (attr->fd_array_cnt)
-> +		err = hornet_populate_fd_array(&maps, attr->fd_array_cnt);
-> +	else
-> +		err = hornet_find_maps(prog, &maps);
-> +
-> +	if (err < 0)
-> +		return err;
-> +
-> +	maps.fd_array = make_bpfptr(attr->fd_array, is_kernel);
-> +	return hornet_check_binary(prog, attr, &maps);
-> +}
-> +
-> +static int hornet_bpf_prog_load(struct bpf_prog *prog, union bpf_attr *attr,
-> +				struct bpf_token *token, bool is_kernel)
-> +{
-> +	if (is_kernel)
-> +		return 0;
-> +	return hornet_check_signature(prog, attr, token, is_kernel);
-> +}
-> +
-> +static struct security_hook_list hornet_hooks[] __ro_after_init = {
-> +	LSM_HOOK_INIT(bpf_prog_load, hornet_bpf_prog_load),
-> +};
-> +
-> +static const struct lsm_id hornet_lsmid = {
-> +	.name = "hornet",
-> +	.id = LSM_ID_HORNET,
-> +};
-> +
-> +static int __init hornet_init(void)
-> +{
-> +	pr_info("Hornet: eBPF signature verification enabled\n");
-> +	security_add_hooks(hornet_hooks, ARRAY_SIZE(hornet_hooks), &hornet_lsmid);
-> +	return 0;
-> +}
-> +
-> +DEFINE_LSM(hornet) = {
-> +	.name = "hornet",
-> +	.init = hornet_init,
-> +};
-> -- 
-> 2.48.1
 > 
+> # Linux Implementation
+> 
+> Feature adds following interface files when the resctrl "io_alloc" feature is
+> supported:
+
+Please note that, for example when L3 supports io_alloc but L2 does not, the
+implementation also creates the files for L2 (since it sets flags for all
+cache resources). "io_alloc" may just be present for resource that does not
+actually support "io_alloc". (more below)
+
+> 
+> /sys/fs/resctrl/info/L3/io_alloc: Reports the feature status. Feature can be
+> 				  enabled/disabled by writing to the interface.
+> 
+> /sys/fs/resctrl/info/L3/io_alloc_cbm: Capacity Bit Masks (CBMs) available to SDCI
+> 				      supported IO devices. CBM can be configured
+
+(please use imperative tone throughout)
+
+> 				      by writing to the interface in the following
+> 				      format::
+
+("in the following format" is not followed by a format example as expected)
+
+> # Examples
+> 
+> a. Check if io_alloc feature is available
+> 	#mount -t resctrl resctrl /sys/fs/resctrl/
+> 
+> 	# cat /sys/fs/resctrl/info/L3/io_alloc
+> 	0
+
+Considering that io_alloc will be present for resources that may not support
+io_alloc I think it may be helpful if it instead display "enabled/disabled/not supported".
+User space can still interact with the file with typical boolean variants recognized
+by kstrtobool()
+
+> 
+> b. Enable the io_alloc feature. 
+> 
+> 	# echo 1 > /sys/fs/resctrl/info/L3/io_alloc 
+> 
+> c. Check the CBM values for the io_alloc feature.
+> 
+> 	# cat /sys/fs/resctrl/info/L3/io_alloc_cbm 
+> 	L3:0=ffff;1=ffff
+
+Is it expected that more resources may support IO alloc?
+In above output the resource name is redundant, but if
+more resources could support IO allocation then it may
+be more intuitive to move io_alloc_cbm one level up in hierarchy
+and keep resource name in output in order to potentially
+manage multiple resources. I do not see impact on feature
+in current design if files are kept within resource directories,
+but in that case the name seems redundant.
+
+> 
+> d. Change the CBM value for the domain 1:
+> 	# echo L3:1=FF > /sys/fs/resctrl/info/L3/io_alloc_cbm
+> 
+> 	# cat /sys/fs/resctrl/info/L3/io_alloc_cbm 
+> 	L3:0=ffff;1=00ff
+> 
+> d. Disable io_alloc feature and exit.
+> 
+> 	# echo 0 > /sys/fs/resctrl/info/L3/io_alloc 
+> 	#umount /sys/fs/resctrl/
+> 
+
+AMD also supports what is exposed to user space as "shareable_bits". According
+to APM:
+	Depending on the implementation, some portions of the L3 Cache may be
+	shared by other system functions or used for some other purpose not
+	under the control of the PQOS feature set. The L3 Cache Allocation
+	Sharing Mask returned by CPUID Fn0000_0010_EBX_x1[L3ShareAllocMask] is a
+	bitmask that represents portions of the L3 that may be shared by those
+	functions.
+
+Could you please include what (if any) the relationship is between the CBM
+discoverable via Fn0000_0010_EBX_x1[L3ShareAllocMask] and the CBM of 
+"highest-supported L3_MASK_n register" when SDCIAE is enabled?
+
+On the resctrl interface side the documentation currently states:
+
+	"shareable_bits":                                                               
+		Bitmask of shareable resource with other executing              
+		entities (e.g. I/O). User can use this when                     
+		setting up exclusive cache partitions. Note that                
+		some platforms support devices that have their                  
+		own settings for cache use which can over-ride                  
+		these bits.                             
+
+Even though this was originally used to expose the content of
+Fn0000_0010_EBX_x1[L3ShareAllocMask] the intent of the content does
+seem to also apply to the "io_alloc" CBM also.
+
+I also expect "bit_usage" to appropriately reflect the io_alloc mask.
+From what I can tell SDCIAE does not enforce isolation between hardware and
+software use of these cache allocations so it does seem to me that the
+existing legends apply. 
+
+Reinette
+
