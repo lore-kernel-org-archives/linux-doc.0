@@ -1,67 +1,67 @@
 Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220102F43;
-	Fri, 21 Mar 2025 17:06:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59510229B26;
+	Fri, 21 Mar 2025 17:10:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742576763; cv=none; b=nh2JPmM7AEK5d63GrGTYX8D8vAhklhb1xwE/DnrS9NR1u4IPmwU1jkKfxRqtMLahN0T7Whx40Z81sjqxNikMM/GfCEcT6RXuey1chjGEWPSGQcIggTdEgY9GjgcfDHx1Rl3dYzpXNISWzKw/KQcHr/18WHt2FsKFzLGHTzIL3IU=
+	t=1742577004; cv=none; b=OxlFEDSYxUSd4V5dTlinKdr3cJ1I0zpkIPx6Ksu5ppVQAyzZDaFkqotFvZtrx5Kspap65b+gsTDLGiLgaJdCawP7aCRVKbvyweqr+hqJVRjxICScaNQMosmPS3fFIRvG3FRcS5NgTTAEol2Avb22f290RDVgzfZNnC7jvKvgDzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742576763; c=relaxed/simple;
-	bh=n9/WVuTJiRxEQG1Hl0uQJuC2jaPbsPAQvGluwkYAflA=;
+	s=arc-20240116; t=1742577004; c=relaxed/simple;
+	bh=Jf9O7KjMNA7NxwmRd31l+c7sfUh3Eaqc9SV8oiR4vQw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K9s76l3pugIlq90oyMt61Ksxym72sKYVLhd7ryYKPz8m+/qeCyGB3JGD15R4xkGnwjv+QzGo+8gqoisYj8nfG6VGSJV1aiyPIvf4sBb6VEEJ/1+XW6RriYYklK+fz3gjP+cd4jdAQOCN3aJ52JSTDHMoKGTurtsIRWa6EC6Vm0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iYngl1c/; arc=none smtp.client-ip=209.85.214.174
+	 In-Reply-To:Content-Type; b=oUKziZW3TrYz3fKULWQTqZMvuxFcThJb/U7lGXUXarFVWD85YQmAnypHC2Es3I9/oiO7WYtRP2PoCmv/xT565tHVJekXdd5a/WdbW7bnBVbbdYbU7ZhgES9ntUA8FYTlkZwc9q7Gd7K+F2ka8iz9mL0+6Efyr5zZFJqRMVywTGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lZXwNoL6; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYngl1c/"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-223f4c06e9fso38313515ad.1;
-        Fri, 21 Mar 2025 10:06:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lZXwNoL6"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2260c915749so32383875ad.3;
+        Fri, 21 Mar 2025 10:10:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742576760; x=1743181560; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1742577001; x=1743181801; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=DGn88oPkGY52kMYyELFbKZ2t+jeQDt845yU5wPNCV7I=;
-        b=iYngl1c/lGFAzAEOcU53oOWcjgSzio2s1pdT3JmGra8iE8li0NDHJRZrwiDvLHCRjs
-         nvI0zNmwSO5lnZj0wCqjTAQLCLd1+TeEa+o2qh6jOsNsQXLZDIovvDImvVlf+MJ+ai19
-         GWZ/ZFVRcd8RKt4ftjczzm7UKsOG+22CARGS8A6zJ0ngfa78NPQydduamJXYPwSH9EZ6
-         9003bTONlp/qhWwRDTcEJopGbGFTuM5qrUuQVKlTuh0712ogzMcqJ5NvKRfbO463wZxZ
-         xZmMJj8M+jJ3GWUQgOtQAbNWXYsZnrUZugxLhrp62HOPh+g2BGMMq+dL36zkG/rr7hPw
-         DS3w==
+        bh=uztsJ7JzvIY981dArFAH0tUKF80EDOKJKLoCf65usL8=;
+        b=lZXwNoL65BjTcm6hc2GdLqorjndqIDKzzaYLHmlWmjmhVscRGC95MGHZ6xmLm2Ju4R
+         4AFzkFoAk66Xyg0o/K/dmQfIzervYu2o+G82LqvkI9Nw3x1nRX77TiRsjETGXiFSrvIU
+         vB+tNte/8V9D1RVGIP7eGGw/KfxQ3v0BXiZVS2UImiBaRSn6QY8XbTNS6kfL4v/pZMd+
+         qDj3PQpvXysvoMfe8vTe1vTkCgtq7N4oOnakZuDyefXZguPI4+QxxF9+tVtK8XtEAWkW
+         JvIGgyaJUtKh4vFwxBXJATpaL4KslAECg43p5DjIQUhvtxJlc+Vo/qgj7/C4uB3TBne9
+         h7jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742576760; x=1743181560;
+        d=1e100.net; s=20230601; t=1742577001; x=1743181801;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DGn88oPkGY52kMYyELFbKZ2t+jeQDt845yU5wPNCV7I=;
-        b=gny9UOCFPHO59n9ix1l8nWdSEi5Sh69DwAuKugCFcOlP+WoVUTxKlkxfMZsLQbUUJX
-         tLRDNq0Q+tp3NJVudkCHFxoSVdLgw6ScfCYh/2FWBPQ+rZj3XFP+GTjunNPZs3vzFrcU
-         A/z5HJykxM2XhGVhal/GZAwiiwougnFDT+EKRuPqTPcuBXg136zmETmkNTNIEbLfeC17
-         f2YSnwVGD0U9kITXwcHIjrOCnDHyWJuWs2zJ1RV5Ed8RwreaUg0ZvpJvsEr8wAbaq1EX
-         JqUQnzzSFXFThaSd3CmW3kSDkL2qcIMoEDDwwyCVee5YJsSe6BgtIu4yx52zXdOp/IKX
-         OkPw==
-X-Forwarded-Encrypted: i=1; AJvYcCUOuVXnCc41j2VPEQ5iYx5r5k1g0IqSBNCtL6Y/0+xbyfdN6zZXcWygUR6lcpM66MG6RVsHN5j+4QiqeO31@vger.kernel.org, AJvYcCUzQeHKKJ+Effu/08oXMwMCwFiGWwnJTONemos4xwypZnLfs23H57Rmc3MdAzcLBCKrnioCTyNvY8Qp8OovhR3C@vger.kernel.org, AJvYcCUzhu/GB8vfREJptOfRWSYLzDnjyT1el4YRof/WsItv7R0N4CSEEcOHF2fm0cpJNi0ATcjhDB6sAJ4E@vger.kernel.org, AJvYcCV3fjalcH0vHDcE+5fQVUnMvX6Puxo0gmpO+y4rKm8s7uEDXTcB4oBVUDYwPCdBdjN8Q2+nDrXw7r1Zdw==@vger.kernel.org, AJvYcCW9/ydJlAw+Mu7t4kyv6aezLeteosn9p+7O/ygo8m9tHn7WPzm5EgurmbOHeEy0iVlrAUkJfV8AAgrqdvs5@vger.kernel.org, AJvYcCXZeXtzt7kVNpIvLL6pLEZSgHqXd3DNQvy9QDX8b7TegQs1zt9L4VOti2+TGg73gTKZ/NUckbx/0RE=@vger.kernel.org, AJvYcCXiIuS+Ueyz0g3sOubfDqN/xh/IGox3TI0pTIwmuoTksGN5kspMqzJzNe5rLGY8tU5Hhf7vG6ZYXYzR@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPLDThGOy6wSz5n0QCJhWa1iQOdDbv78UNV7x9bRQE+q3LRBTx
-	y29AA9Ii/QX6d4Sm0jfURwC2WMmxoLTli8G6qPqU6zYDYf4Rtpjz
-X-Gm-Gg: ASbGncsQf/H2A7/bucwuS8q5IdPsJmyV7y8E1XSYD1mZBD/6KjTh70GyNbt4adeYxBI
-	vGfGcPAYqjXuzSxB765411on0f6gZ5JQZaG8M3ylBvFEu4qj5q7FfING1Zr9K8cqe1YzSuUdVIS
-	JWfTZFX/ac5D4zokNy0QrlUHJv/rFsW2m0y5BP6MhO94kp1Am9FZpY2bWSekXLjhir7nkuZw2LD
-	humKf864SVqaF9B/U2Ctm6trjZYm06fhNsKdLRGqhl+F96YvMhjbOYGmoYXfIrz9GfTK9OUnu7w
-	4Eg586jMb49s6kbPrMlriaY59B6Bz/yxM/qneyyYwvM+zUMTWTtGF6x48kNd5vXEgEfmV1xd9JU
-	OY3l4RPoIVyFk0T2aGQ==
-X-Google-Smtp-Source: AGHT+IGlJ+Z2e1+BqNuKZjJeYaVTSO5uEIrxfNDx54p4mNFYbbGfGIs11ZjWWb6jUGSm+z6+aHdutQ==
-X-Received: by 2002:a17:902:ce84:b0:223:fb95:b019 with SMTP id d9443c01a7336-2265e7a1b2emr136230625ad.24.1742576760001;
-        Fri, 21 Mar 2025 10:06:00 -0700 (PDT)
+        bh=uztsJ7JzvIY981dArFAH0tUKF80EDOKJKLoCf65usL8=;
+        b=ee7aOAkms3Nc7m2To+k2qWeGCh9C5jxJoKbJ3zt6bXIqEU/MEPD/uKag22JOdQjmnH
+         0ygULqFO9iAkhIYxWkMAY8x2442BoFzRRkxv82qRCz3t5gmEbGQjrENC1PBZQIF+KS0i
+         ybFkILQATgrYHFOv3RLkK27NX2DLmFJOTLzdwGLQybK2vuzTgeM7rJquGfYwTltT2BOL
+         xjgGLaWOCNZjSJAwIk7yzfjsmNnTsdxga9aRyprEuPbq5UJtzaxviaAcferIce0myV7S
+         l19aMVpsCF2G9EC39AEF4wGZ99c9myRTcCazKV6pngOx8MalL4g+AkdCmNkclhPi0fKy
+         bjTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU07vQ1HYTILz3qU0Wkt+Ty+N5ItBaSNtThrBwocKIEFH1+DOqMqcA/j2PAcXU2TJKH8q7u8iPTvjzFx7M=@vger.kernel.org, AJvYcCWM9VD9+AS6FB0fyo24EzU/bYWn/MMY9MF3AyC8DTGWJdypbJJ6i6dkekUpnACl4J9xM2nM6kuGnfo9@vger.kernel.org, AJvYcCWbdaPKTkt9jbrNmrNJ07hl6xf/r+JQijwpAaJUqHZN11i16nMBf2fY9KOG9sU4OSpiZqeVd45Y3JRXFsAZ@vger.kernel.org, AJvYcCXf6iQjVLvwgcZNHXnrvmn3MhYkOWq+XbSCLMqtDUMW/CnJeCAGB4OmydpWqqacqOvbZ2+Uzma+Sck5@vger.kernel.org, AJvYcCXpoQi/n3Hij5KDOFG0PKmbNf+KRBn2c8IVmhMMXhWmH0+hJ5lIstqlG+pmkCHpmV0LO7Nn7Z8Ignkn@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9t1e167A55df+4DpEsc2wKK2Lk+0ImRsNGM9RABaSc1KaYaZs
+	6IlTtZHOAzfKyvM1t7eGB5sNf3RpwUFAE03WtuDZIm9ul2Tlsl1/
+X-Gm-Gg: ASbGnctyUZIeZLPZmgzTxQsrWrjqUSHYQqhfqOyKHWDYScdz+Ts8QChBjztWHRkNhkq
+	r5DyMoG5KZ8U4abWPPej38WsfVQymJEdWKEw8+7zzuKYpen4nqzbBE4L6TW1bnpeksMd772W6e4
+	coPrCSAC/fcPoRqjNPvuXfTW2uX2/vNwRMDH12lyQZ4rhR+jdZMu2HkpSs2c4jtUmy9IsLMCyE6
+	hPR9SyIIq8NssKQfIKooWvQ134xTTwjQTL8oGofhaLbgyB1rNoW7eQ6ylDSECNtaoPz8W/S35yj
+	1a69OP1k72Qh7sInQAf6V2OaS05Cortj4SaiEGqVBaSiea8hKqzrBXMJEEUf9PPGGSpWRv37+81
+	DdsPVerORKV8f+owWyw==
+X-Google-Smtp-Source: AGHT+IHtcpZdirGnF20GsQ/Lw15UUPPEPMY1zNwB4lkIWMtRuLnEhyFubklIvJ0hyQuY5L2tiR7fGQ==
+X-Received: by 2002:a17:902:dacd:b0:220:d257:cdbd with SMTP id d9443c01a7336-22780e2a4c4mr69685285ad.48.1742577001190;
+        Fri, 21 Mar 2025 10:10:01 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22780f45879sm19661595ad.65.2025.03.21.10.05.56
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-227811d968asm19491495ad.162.2025.03.21.10.09.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Mar 2025 10:05:59 -0700 (PDT)
+        Fri, 21 Mar 2025 10:10:00 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <b6bb68f0-7e93-4db2-9fe6-f615f06ddeb1@roeck-us.net>
-Date: Fri, 21 Mar 2025 10:05:55 -0700
+Message-ID: <ab329813-2903-4bd1-8734-ab36466650c2@roeck-us.net>
+Date: Fri, 21 Mar 2025 10:09:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,35 +69,29 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/14] s390: Add support for suppressing warning
- backtraces
-To: Alessandro Carminati <acarmina@redhat.com>,
- linux-kselftest@vger.kernel.org
-Cc: David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, Kees Cook <keescook@chromium.org>,
- Daniel Diaz <daniel.diaz@linaro.org>, David Gow <davidgow@google.com>,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard
- <mripard@kernel.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alessandro Carminati <alessandro.carminati@gmail.com>,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- loongarch@lists.linux.dev, x86@kernel.org,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>
-References: <20250313114329.284104-1-acarmina@redhat.com>
- <20250313114329.284104-11-acarmina@redhat.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add lt3074
+To: "Encarnacion, Cedric justine" <Cedricjustine.Encarnacion@analog.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+References: <20250225-upstream-lt3074-v2-0-18ad10ba542e@analog.com>
+ <20250225-upstream-lt3074-v2-1-18ad10ba542e@analog.com>
+ <20250226-gentle-spicy-jacamar-2dd36a@krzk-bin>
+ <20250226145931.GA2314060-robh@kernel.org>
+ <3f7b031d-7b83-4a00-996d-aabb26278b67@roeck-us.net>
+ <20250227-sceptical-phenomenal-wolverine-56e3cf@krzk-bin>
+ <dbd9cc84-a0b6-4323-b343-6e80aaaf2d14@roeck-us.net>
+ <PH0PR03MB69385BEFFD04ECF850311E988EDE2@PH0PR03MB6938.namprd03.prod.outlook.com>
+ <15ce883f-444c-4b27-a48d-b17e3df5895d@roeck-us.net>
+ <PH0PR03MB693831397416C4247F8BA58D8ED92@PH0PR03MB6938.namprd03.prod.outlook.com>
+ <PH0PR03MB6938087B8F2EDB9899DD0F1D8EDB2@PH0PR03MB6938.namprd03.prod.outlook.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -143,67 +137,112 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20250313114329.284104-11-acarmina@redhat.com>
+In-Reply-To: <PH0PR03MB6938087B8F2EDB9899DD0F1D8EDB2@PH0PR03MB6938.namprd03.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/13/25 04:43, Alessandro Carminati wrote:
-> From: Guenter Roeck <linux@roeck-us.net>
+On 3/21/25 09:53, Encarnacion, Cedric justine wrote:
+>> -----Original Message-----
+>> From: Encarnacion, Cedric justine
+>> Sent: Wednesday, March 19, 2025 12:10 PM
+>> To: Guenter Roeck <linux@roeck-us.net>; Krzysztof Kozlowski <krzk@kernel.org>
+>> Cc: Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
+>> Conor Dooley <conor+dt@kernel.org>; Jean Delvare <jdelvare@suse.com>;
+>> Jonathan Corbet <corbet@lwn.net>; Delphine CC Chiu
+>> <Delphine_CC_Chiu@wiwynn.com>; devicetree@vger.kernel.org; linux-
+>> kernel@vger.kernel.org; linux-hwmon@vger.kernel.org; linux-
+>> doc@vger.kernel.org; linux-i2c@vger.kernel.org
+>> Subject: RE: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add lt3074
+>>
+>>> -----Original Message-----
+>>> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+>>> Sent: Tuesday, March 18, 2025 11:17 PM
+>>> To: Encarnacion, Cedric justine
+>>> <Cedricjustine.Encarnacion@analog.com>;
+>>> Krzysztof Kozlowski <krzk@kernel.org>
+>>> Cc: Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+>>> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Jean Delvare
+>>> <jdelvare@suse.com>; Jonathan Corbet <corbet@lwn.net>; Delphine CC
+>>> Chiu <Delphine_CC_Chiu@wiwynn.com>; devicetree@vger.kernel.org; linux-
+>>> kernel@vger.kernel.org; linux-hwmon@vger.kernel.org; linux-
+>>> doc@vger.kernel.org; linux-i2c@vger.kernel.org
+>>> Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add lt3074
+>>>
+>>> [External]
+>>>
+>>> On 3/18/25 03:03, Encarnacion, Cedric justine wrote:
+>>>>> -----Original Message-----
+>>>>> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+>>>>> Sent: Friday, February 28, 2025 12:33 AM
+>>>>> To: Krzysztof Kozlowski <krzk@kernel.org>
+>>>>> Cc: Rob Herring <robh@kernel.org>; Encarnacion, Cedric justine
+>>>>> <Cedricjustine.Encarnacion@analog.com>; Krzysztof Kozlowski
+>>>>> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Jean
+>>>>> Delvare <jdelvare@suse.com>; Jonathan Corbet <corbet@lwn.net>;
+>>>>> Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>;
+>>>>> devicetree@vger.kernel.org; linux- kernel@vger.kernel.org;
+>>>>> linux-hwmon@vger.kernel.org; linux- doc@vger.kernel.org;
+>>>>> linux-i2c@vger.kernel.org
+>>>>> Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add lt3074
+>>>>>
+>>>>> diff --git a/drivers/hwmon/pmbus/pmbus.h
+>>>>> b/drivers/hwmon/pmbus/pmbus.h index ddb19c9726d6..289767e5d599
+>>>>> 100644
+>>>>> --- a/drivers/hwmon/pmbus/pmbus.h
+>>>>> +++ b/drivers/hwmon/pmbus/pmbus.h
+>>>>> @@ -512,7 +512,6 @@ int pmbus_regulator_init_cb(struct
+>>>>> regulator_dev
+>>> *rdev,
+>>>>>    	{							\
+>>>>>    		.name = (_name),				\
+>>>>>    		.of_match = of_match_ptr(_name),		\
+>>>>> -		.regulators_node = of_match_ptr("regulators"),	\
+>>>>>    		.ops = &pmbus_regulator_ops,			\
+>>>>>    		.type = REGULATOR_VOLTAGE,			\
+>>>>>    		.owner = THIS_MODULE,				\
+>>>>>
+>>>>> Maybe someone can check if that works.
+>>>>>
+>>>>> Thanks,
+>>>>> Guenter
+>>>>
+>>>> I'd like to follow up on this one. As of this writing, my
+>>>> understanding is that the dt-binding should not expect regulators
+>>>> subnodes for simple devices like this. There is already a similar
+>>>> binding as mentioned in this thread particularly
+>>>> "dt-bindings/regulator/infineon,ir38060". I think a binding without
+>>>> the subnodes should still work with or without the change above.
+>>>
+>>> Interesting. I am not sure if it really works, though. I looked into
+>>> the regulator code, and I don't immediately see the code path it would
+>>> take.
+>>>
+>>>> With this, I'd like to know what the specific next steps are to
+>>>> continue this patch series.
+>>>
+>>> Can you try on hardware using a devicetree file which doesn't have the
+>>> regulators node ? If the current code works, just submit an updated
+>>> (simplified) .yaml file and we should be good. If not, I have an
+>>> untested patch series introducing another macro which doesn't set the
+>>> regulators node.
+>>
+>> Okay. I'll test this and get back to you.
 > 
-> Add name of functions triggering warning backtraces to the __bug_table
-> object section to enable support for suppressing WARNING backtraces.
+> The "simplified" dt file (without the regulators node) does not work with
+> the current regulator_desc macro. I have also tried simply removing the
+> regulators_node setting from the regulator_desc macro, and it does not
+> work too. of_match looks for a certain regulator name in dt, and it seems
+> like it must handle NULL cases as well as suggested previously. I would
+> appreciate if this would be also verified on other ends. For now, I think I'll
+> wait for another macro to be introduced in pmbus to support this kind of
+> bindings.
 > 
-> To limit image size impact, the pointer to the function name is only added
-> to the __bug_table section if both CONFIG_KUNIT_SUPPRESS_BACKTRACE and
-> CONFIG_DEBUG_BUGVERBOSE are enabled. Otherwise, the __func__ assembly
-> parameter is replaced with a (dummy) NULL parameter to avoid an image size
-> increase due to unused __func__ entries (this is necessary because
-> __func__ is not a define but a virtual variable).
-> 
-> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Cc: Heiko Carstens <hca@linux.ibm.com>
-> Cc: Vasily Gorbik <gor@linux.ibm.com>
-> Cc: Alexander Gordeev <agordeev@linux.ibm.com>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
-> ---
->   arch/s390/include/asm/bug.h | 17 ++++++++++++++---
->   1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/s390/include/asm/bug.h b/arch/s390/include/asm/bug.h
-> index c500d45fb465..44d4e9f24ae0 100644
-> --- a/arch/s390/include/asm/bug.h
-> +++ b/arch/s390/include/asm/bug.h
-> @@ -8,6 +8,15 @@
->   
->   #ifdef CONFIG_DEBUG_BUGVERBOSE
->   
-> +#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
-> +# define HAVE_BUG_FUNCTION
-> +# define __BUG_FUNC_PTR	"	.long	%0-.\n"
-> +# define __BUG_FUNC	__func__
 
-gcc 7.5.0 on s390 barfs; it doesn't like the use of "__func__" with "%0-."
+Figured. As it turns out, there is also a patch series pending which tries
+to fix the problem for ir38060 by changing its bindings.
 
-drivers/gpu/drm/bridge/analogix/analogix-i2c-dptx.c: In function 'anx_dp_aux_transfer':
-././include/linux/compiler_types.h:492:20: warning: asm operand 0 probably doesn't match constraints
+I'll dig up my patch series to add a new macro and send it out as RFT.
 
-I was unable to find an alternate constraint that the compiler would accept.
-
-I don't know if the same problem is seen with older compilers on other architectures,
-or if the problem is relevant in the first place.
-
-gcc 10.3.0 and later do not have this problem. I also tried s390 builds with gcc 9.4
-and 9.5 but they both crash for unrelated reasons.
-
-If this is a concern, the best idea I have is to make KUNIT_SUPPRESS_BACKTRACE
-depend on, say,
-	depends on CC_IS_CLANG || (CC_IS_GCC && GCC_VERSION >= 100300)
-
-A more complex solution might be to define an architecture flag such
-as HAVE_SUPPRESS_BACKTRACE, make that conditional on the gcc version
-for s390 only, and make KUNIT_SUPPRESS_BACKTRACE depend on it.
-
+Thanks,
 Guenter
 
