@@ -1,163 +1,117 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768D71EB5E3
-	for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 07:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DC21E9B1C
+	for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 07:24:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742541782; cv=none; b=fbVDo4ytdWRXq022mBbuLaqa/ZcATecRNCTSDdz1C4BVSPNt4Q0rsno08WBgG3xsYoTQAL0q/GhBkQWObacMZdBdawzZP4P9gPiY4VrpGJ7eS1pjQciX4lkOcknS4UFHqbZgZfWUGC2KW4un5g/aUBFBk2bMHRBgEdGeQHeRBxw=
+	t=1742541890; cv=none; b=VkD9rY9TZt0aszLnTlHpUeEbIf26ps4ettwvufLqbF1fg5e9IvIwdM/7sqekonAo7ddVCE+YNQVMV8IMyJg9d2kr1MoXFv+jZT/aFLY3vnVWSMXA7BrqJEebj/mkHACQD9k31WjBbEWySqMIB2z/gt0ylfDN44Stqg2ZzKVslio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742541782; c=relaxed/simple;
-	bh=32rEkeUdXgVpnkRY7KM86vuJasEtKRbGSmPjSbYp8Xc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=sKUaiPckbXeLbxA4xdXXQq0D88KROpOs3UFqgGYw55NS5AB38bqO2rPiCIPFoJs8RuKBkBKjmcaRyPBqCy7gO3JyZyf+LO+62Zc9TIQSpn/7CzUqZTA42hwZsJBOYs8n+aRlxx/sgOw5Nl21RU5kLxnRbjZy4/f3yu652i2Ta/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=M9kWwXLX; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1742541890; c=relaxed/simple;
+	bh=GvJbJb2k4SXkI+DB6xb7jXn1dzz1f7dnJ0eYK2KNtKc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V6qFTA9xRolvGSN8cDl80TLhF5OL17IawokbMz9ZNLQ4bz2yRVQ/zseWVonzTsR4pXmSgVL4D76Ae13Tk7g240hjSsaYQVYj7xEnP/c7I6lyWdaEX+VOC450WcDGYqJWDTOBxCIdThiLF2aqqdknHWAOCfCYf9F0rauywDgvHes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sKkRALy1; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="M9kWwXLX"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cf89f81c5so1848015e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 00:22:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sKkRALy1"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5493b5bc6e8so1697719e87.2
+        for <linux-doc@vger.kernel.org>; Fri, 21 Mar 2025 00:24:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1742541778; x=1743146578; darn=vger.kernel.org;
-        h=in-reply-to:references:from:to:cc:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1742541887; x=1743146687; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/25ortMfNWyDWu+kRgDZEazYd+Unr6LrL65OHsKgfr8=;
-        b=M9kWwXLX6vNoAi2egfFyP3urmOVzPh2gTSjUbT72iHXiNzrPTGdaiwTA6SWExaetV0
-         h23nOJ4XsjY8STmohFNDSfpJT+X8skskbsXRi6r5kOp2cZh6dQU4XUoutwRzVd6O4HYs
-         jlT6gI4Pbsts9ivYw2nitRVFD1IlseJtLgJGMmNJ2izFY55MVEgEQ4e+RdbqD8ocdSO9
-         YWyq1DT0hsD0tVcf0aLVYVcFZb1Iwc+fw8achxREO8J9a1VAgcahpdvTc3RGosgj5v3/
-         Y1LWNbvwpFyQjGj5bOcihJYA5dmMVFR+3dMmGn1puPHO4i0VWnptb+Fr9VxMt9u2oCC4
-         h5fg==
+        bh=jVyfGUOFUSHLpd+RTbyaNMFA8E3JrIjaFBTf+PEcZSM=;
+        b=sKkRALy1cans+zlKXhw3YjjDhJJ2xDeoyU46k7AYA+/wShZEwBxI51J452sF3wJ6M2
+         y9TZb/rgplviMyWcCfAOVidjS/9RyiAqSXD6rPoNioEEMsBRZSSPwlAq2C/jQvWChukV
+         0lh9O9NJx2AR+YbDP2ToZe1fqQk9eoMtN2bnA8BA/g1u8pJ2BFJyKRkgFGAp9MuNyCEJ
+         e3PHHgLGnVWAVxiwsWSpt8i11jRKJpflbCqSQVoytGcCHuyDFGKnFDNtidp5sVXYBhYZ
+         k1+gBe5RnSLDnllfu5KAKw7YjETMnKEGXhjCnBXTnSqk+/uaiQSO3EpmY2ovumFZb4iS
+         VWCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742541778; x=1743146578;
-        h=in-reply-to:references:from:to:cc:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/25ortMfNWyDWu+kRgDZEazYd+Unr6LrL65OHsKgfr8=;
-        b=RODTuBLb5ZUA3ZV8fQEZtxHf0rSqQW9V/VHkvyHuaOzbM5ZvoRe/JmBzUAa2YZchuq
-         0GyogFw54NHNGM0mCXY9Gd7H0sSuMsG5MIgtJUwVWomrh0dGI1epGigf/yHIq9oauYSk
-         DlXaEcidNkvri0bYW+pEda1lDWVIsLmoG61zjyRXERK7erSkxxOMDUT4THBOJBf1Vsed
-         2b/JGnf9gIVB3quL3c9nDbgia0gamEToISB47x6p/e+ppRbsOQRssrO4XxpRMKuK5J29
-         Qx4JBObBQqnXoqlv8Gx07wgiuHxSU/KHJSEJZXApm9dDx95ozf62O1PbV/Dc5kcIvWQ6
-         jKwg==
-X-Forwarded-Encrypted: i=1; AJvYcCV8cdT6QQ5ge+yFrcAZkNtXJsTlKSvCraAOfuN1vqgO7REjDw8aklmK+7CwYg1ElSkleabAgsBley4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7EGQxWEx65cTRmqeLcDNYX3ybYspLqDrl2jDsKUgRuMYbnNge
-	tVTx/Fd0+TlUwXj6gQf1CKYDJzOQeC2PVjd/AZ5OJebPpLdtYFfFWw2Bv+gSgAw=
-X-Gm-Gg: ASbGncsXqnhKIsA2uGTwovhSLxPWMYkNDMAD69RjuhwlnN7XQ7aTxA7TwDcuHPywz0j
-	M3CNzZl6j/kJE2BoUgyq2Wzd5m/w7qAnAtcj9GC+QnQWDS5K/IxEhNA6r3jxUi1p+cmRBg1ToV3
-	HQBFUYUQ6HyrFa7iy2R9tRQcAijXxIXjZY7bpdWAuTizQcdmvKJJ6GmFl7LN03PdOV1XOR9R1t0
-	zHax83G/at5bkzeQr4s3uZoEVb1niqYM/gFRGvhpSxLDUwtjTgU42321By4zLJodlJmauNT5atB
-	1aUPK0lna5f755lfDcSGPVMRGa6rdZMgzf0NksUHITmYnPpDH55k2kTDmKiUXshrZ6I2aCrkutn
-	Gu5BX
-X-Google-Smtp-Source: AGHT+IFU7wrxqVXUGlM5v1RoJxyo0mt50QhSrJ/ZcnqbElE1lD78gF7+vCkNQEgx0IT1Onq7RRwDeQ==
-X-Received: by 2002:a05:600c:1c1c:b0:439:9c0e:36e6 with SMTP id 5b1f17b1804b1-43d50a3b5ccmr5385925e9.3.1742541777651;
-        Fri, 21 Mar 2025 00:22:57 -0700 (PDT)
-Received: from localhost (ip-89-103-73-235.bb.vodafone.cz. [89.103.73.235])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d43f43cbasm68963045e9.9.2025.03.21.00.22.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Mar 2025 00:22:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742541887; x=1743146687;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jVyfGUOFUSHLpd+RTbyaNMFA8E3JrIjaFBTf+PEcZSM=;
+        b=G3u5kFn575G4nQVn36wCvn/4jXK7aNFOFmOSwvTNe6NDw7NXvG1RHoHCmkU4i8AtI9
+         l2+pCisH1QR4u6K6wj8+kLGTy60fEWyjcC0yuBw+hRP7/eu7uFqNogAqQ7vBqnau50Jr
+         13nIxL5VVrUWFvxaPb25EijHtoa44rfPtWJHWpXlbnpHR16yt8X1wVZ3Rc+NKzN/b6Uy
+         2X6qwGDeDo8QQlTiJqvSzp7AVXKiS2szfkSY6dwGYgGL3jzmO7KMiTzKGvH8ZdAtJthv
+         VbMN3nv3oWIinmbO+M4tzn/yIPAtQ/swSGhSU5QGSo4kRa8zvleNWWghskrGkbq9mVel
+         8fFA==
+X-Forwarded-Encrypted: i=1; AJvYcCW2C7qKc3QOxRo7ShoCRelCWN3Of1uTU/TYTe5qCcxaZWHSiaFK6XIm4C6h9TN6BsZNMlc9qDHwPuY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxj/AkWhpkuZSaTCSKcMf+/1h98jsqYF8J9UIR3nBv5iZ2ROHoa
+	SBTGfRhdFrdFZad5B01m7kRGY3RfKcnfIiqUDUFaG3byTXkoHVTdXChZdJtXwHpjenNar9QG0kc
+	s6BPfibyToefFouMf7WUg1dF187Tk5YZZe5q19g==
+X-Gm-Gg: ASbGncvXppcLVZKICpm6Ybu3bzZxDjFYr8e+9WUn03+JM8/soMOHQtj3o/D2u3GK3lF
+	6isV4YDP8mYNHk4c5o0JtC0YLTYVIrTBHGsrjbyt5EBQwAzH81YPwvxSsfhI3QH3wybZgDCN7gj
+	9nRMTgMIq2meeFOJwed1nWV6s=
+X-Google-Smtp-Source: AGHT+IEWRekqmOvhJIkrtmfcrr34V+9XLm1jjexqdrUw/nqwY2LEQjDKYJw0o/Gv3K8ftncPtiQfEPoemo3Nbl/AyTw=
+X-Received: by 2002:ac2:4c46:0:b0:54a:cc04:ea24 with SMTP id
+ 2adb3069b0e04-54ad64f8ca1mr798251e87.46.1742541886976; Fri, 21 Mar 2025
+ 00:24:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
+In-Reply-To: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 21 Mar 2025 08:24:36 +0100
+X-Gm-Features: AQ5f1JpxlbDrVh2n-nCT0EYt0uyc34jntnze-kB14guAoH3gv0enUrmOfcimymE
+Message-ID: <CACRpkdYF0sVB2-qgy=GzETSR3+2sagVQPGdunDQDJrn8KqJorA@mail.gmail.com>
+Subject: Re: [PATCH v3] arm: rust: Enable Rust support for ARMv7
+To: Christian Schrefl <chrisi.schrefl@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Jonathan Corbet <corbet@lwn.net>, Russell King <linux@armlinux.org.uk>, 
+	Rudraksha Gupta <guptarud@gmail.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Geert Stappers <stappers@stappers.nl>, Andrew Lunn <andrew@lunn.ch>, 
+	Jamie Cunliffe <Jamie.Cunliffe@arm.com>, Sven Van Asbroeck <thesven73@gmail.com>, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 21 Mar 2025 08:22:56 +0100
-Message-Id: <D8LRI8WGXGVD.3B0VB9PCQ9I2R@ventanamicro.com>
-Subject: Re: [PATCH v12 19/28] riscv/ptrace: riscv cfi status and state via
- ptrace and in core files
-Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar"
- <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
- <dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
- <hpa@zytor.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Liam R.
- Howlett" <Liam.Howlett@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>,
- "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, "Paul Walmsley"
- <paul.walmsley@sifive.com>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
- Ou" <aou@eecs.berkeley.edu>, "Conor Dooley" <conor@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Arnd Bergmann" <arnd@arndb.de>, "Christian Brauner" <brauner@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>, "Oleg Nesterov" <oleg@redhat.com>,
- "Eric Biederman" <ebiederm@xmission.com>, "Kees Cook" <kees@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Jann
- Horn" <jannh@google.com>, "Conor Dooley" <conor+dt@kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
- <devicetree@vger.kernel.org>, <linux-arch@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <alistair.francis@wdc.com>, <richard.henderson@linaro.org>,
- <jim.shu@sifive.com>, <andybnac@gmail.com>, <kito.cheng@sifive.com>,
- <charlie@rivosinc.com>, <atishp@rivosinc.com>, <evan@rivosinc.com>,
- <cleger@rivosinc.com>, <alexghiti@rivosinc.com>, <samitolvanen@google.com>,
- <broonie@kernel.org>, <rick.p.edgecombe@intel.com>, "linux-riscv"
- <linux-riscv-bounces@lists.infradead.org>
-To: "Deepak Gupta" <debug@rivosinc.com>
-From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
-References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
- <20250314-v5_user_cfi_series-v12-19-e51202b53138@rivosinc.com>
- <D8LG1TTBMPWX.3MKAEM8X1WYAX@ventanamicro.com>
- <CAKC1njQ8P2mNiiev-NDyTJPjJ6AAVqrtHMcwt_sc5A7Z+3-Jrg@mail.gmail.com>
-In-Reply-To: <CAKC1njQ8P2mNiiev-NDyTJPjJ6AAVqrtHMcwt_sc5A7Z+3-Jrg@mail.gmail.com>
 
-2025-03-20T16:09:12-07:00, Deepak Gupta <debug@rivosinc.com>:
-> On Thu, Mar 20, 2025 at 3:24=E2=80=AFPM Radim Kr=C4=8Dm=C3=A1=C5=99 <rkrc=
-mar@ventanamicro.com> wrote:
->> 2025-03-14T14:39:38-07:00, Deepak Gupta <debug@rivosinc.com>:
->> > Expose a new register type NT_RISCV_USER_CFI for risc-v cfi status and
->> > state. Intentionally both landing pad and shadow stack status and stat=
-e
->> > are rolled into cfi state. Creating two different NT_RISCV_USER_XXX wo=
-uld
->> > not be useful and wastage of a note type. Enabling or disabling of fea=
-ture
->> > is not allowed via ptrace set interface. However setting `elp` state o=
-r
->> > setting shadow stack pointer are allowed via ptrace set interface. It =
-is
->> > expected `gdb` might have use to fixup `elp` state or `shadow stack`
->> > pointer.
->> >
->> > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->> > ---
->> > diff --git a/arch/riscv/include/uapi/asm/ptrace.h b/arch/riscv/include=
-/uapi/asm/ptrace.h
->> > index 659ea3af5680..e6571fba8a8a 100644
->> > @@ -131,6 +131,24 @@ struct __sc_riscv_cfi_state {
->> >       unsigned long ss_ptr;   /* shadow stack pointer */
->> >  };
->> >
->> > +struct __cfi_status {
->> > +     /* indirect branch tracking state */
->> > +     __u64 lp_en : 1;
->> > +     __u64 lp_lock : 1;
->> > +     __u64 elp_state : 1;
->> > +
->> > +     /* shadow stack status */
->> > +     __u64 shstk_en : 1;
->> > +     __u64 shstk_lock : 1;
->>
->> I remember there was deep hatred towards bitfields in the Linux
->> community, have things changes?
->
-> hmm. I didn't know about the strong hatred.
+Hi Christian,
 
-There is a good reason for it. :)
+thanks for your patch!
 
-The C standard left important behavior as implementation-specific (by
-mistake, I hope).  I do like bitfields, but you have to be extra careful
-when working with them.
+Sorry for being late to the show. I missed this very nice patch
+that was actually on my personal TODO but I have to much
+to do and also I'm not smart with Rust, but I'm a big supporter.
 
-> Although I can see lots of examples of this pattern in existing kernel co=
-de.
-> No strong feelings on my side, I can change this and have it single 64bit=
- field
-> and accessed via bitmasks.
+On Thu, Jan 23, 2025 at 11:40=E2=80=AFPM Christian Schrefl
+<chrisi.schrefl@gmail.com> wrote:
 
-This is uapi and bitfields do not specify the internal representation.
-A program compiled at a different time can see completely different
-order of the bitfields, so the uapi would break.
+> +       select HAVE_RUST if CPU_LITTLE_ENDIAN && CPU_32v7
 
-We cannot use bitfields here.
+Nothing in the patch series really explains this restriction, so it
+should be in the commit message. Arnd mentions some atomics
+etc, but we really need to know exactly why this is in the patch.
+
+I'm a bit surprised by this since the rustc LLVM backend nowadays
+support all old ARM ISAs. I would have expected:
+
+select HAVE_RUST if AEABI
+
+Ideally this should work on any ARM core, but it's fair to require
+EABI.
+
+The big reason: I think we want to be able to use Rust in kernel
+core components sooner than ARMv5 goes away from the kernel.
+
+If testing is the only issue, I can provide testing on ARMv4, v5,
+ARMv5 BE etc, just tell me how to test. (But I guess it's more than
+that...)
+
+Yours,
+Linus Walleij
