@@ -1,48 +1,61 @@
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D6A6522A;
-	Sat, 22 Mar 2025 21:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C121622A81F;
+	Sat, 22 Mar 2025 21:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742678883; cv=none; b=cXRGJgXBR5SbFlyuonb38F0jwJ+zUVNSN/QhWgNBOBM7mbNlvR1FKdchUwiQcpfvdcQeKL51JRM5YLz5ltAHrsghyiF5A/fb1TGVQxaurqXyLehtR+/skmCUxrqA5eGWAeG9qasHX+sdcMMova5pNKpIG9sRpw2nkVi7zLMPvhE=
+	t=1742679751; cv=none; b=W/BwCjJyWfRaiHyNlBhYA+6G6pCR/JgIbNWN7fqRB7CGEsM/yEmn6TiDFu/SSkvvm5lJJXBMlxVlqO5WnzSoj/lD09JwT0yz/GGYtyS0b/NT0Jpz8FSvvh/H8/Rbh9yubGDMLmg75QMnpgbEo2wP1dT0Kzy1Ba7wmund9zDWBJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742678883; c=relaxed/simple;
-	bh=20yCmNw+QyfnwkRDsX+TL+ca4UDmjCz3rrUZ4a8soRo=;
+	s=arc-20240116; t=1742679751; c=relaxed/simple;
+	bh=exq6iWzoUThYOY0optbQ3p6M5BiGjaqnyiIoG504lPY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SVEXIBSCK6atYWi4lQbQh7Mk8d4EqFOAg3naBvxLjDQWcxJ2Wd7JRMC23DxK2BxSRgI/1rLbj5s1baJiWVHI7qBpSPCoI6zpykSlTdtTrbuqd4Y7W/lYZcb2xwHSt5sJ04S34l6Hx2IkJ9+uUn+pSgRe0d0K0+l9xuxGRkQt41s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=D4BDkLai; arc=none smtp.client-ip=62.210.214.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZxIn1+FAeMnA4AQvFS3pgU8+hsnSBMg8c2Kz8L9+axGTTemYylu0sL89pEtR4NzBacaEBbmwPGFOZ+iKXneNHiMTr6aOh+sOfnuYVptVzEvGWZM4YfpOH7fbOmspwvm06zHyeeSBKTiVNWIHWdfSHLCsF3JXh2CuPpnmwp0EwSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z/49ssj4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="D4BDkLai"
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id 493F614C2DB;
-	Sat, 22 Mar 2025 22:27:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1742678881;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9u1yOfLqG6Yy5TZ+cq9/fOzYgeoaRmP3HAHZBaFpqhY=;
-	b=D4BDkLaiESkGogJCUHlQYUwOZkVYFzY65sAhqz/GOak63aUtKlYo8XpAR/UhBVQnoavBsr
-	sXF1OGryOPpH+/1zKIsRkSq8XIl0C0u9OYBtU3xSAGBwyjbQUnN09+XT33HLoCR08QbPOH
-	alBFTwCATq8hd4jtCo+eUHR1eIdPLhOTzDC6n0K2RqG2dycBBIiOEGjnab+Fo6TyTmO+rC
-	lvRBTDSV3WxhdY9k8IwD3IbGAHQMEe+hBqNvtoEf3wm09CWD41HCWuRZUn10N6wQUtf2PR
-	UtJNPFsdPEWaA3VSAihcO/W+ZW8oGwZoSD73f55B7tCYqdjbc8YyVHPD1TOXqA==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id f7bd787b;
-	Sat, 22 Mar 2025 21:27:57 +0000 (UTC)
-Date: Sun, 23 Mar 2025 06:27:42 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Tuomas Ahola <taahol@utu.fi>
-Cc: v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] Documentation/fs/9p: fix broken link
-Message-ID: <Z98rTkLrIq5wEw1a@codewreck.org>
-References: <20250322153639.4917-1-taahol@utu.fi>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z/49ssj4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9722C4CEDD;
+	Sat, 22 Mar 2025 21:42:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742679750;
+	bh=exq6iWzoUThYOY0optbQ3p6M5BiGjaqnyiIoG504lPY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z/49ssj4d1Luorycc97EbgRyUWPSujwRGtWM9LvwFdZ4BfQiKo5V700eg7gSFP2dk
+	 aIUQMT3pCGAvLq+9+lpFY4xzNiJhBGNV+Ed716WJHWUrWa6hp7C0Lb9EPR9AkzpEoz
+	 DWlQAiRSwgmstJR5WpUXuADjy0LVZLAvks5QpoSnBW4OuQyS4aSnuHNn0PomQU+4ZB
+	 EfrWhFUiSfW7qY4EtWMVcwTRmx1CmjcYJVYfqbdkMNXBuTd/i6ESIyPM4cax3GEIiu
+	 jQJ0TBSaYxab0DLXzKgf6ZEcXbpG61+G1CKCPynSzwnDd176YMkTyEJTHq5LCyxtL8
+	 bFOkYc4chu9FQ==
+Date: Sat, 22 Mar 2025 23:42:26 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Howells <dhowells@redhat.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	keyrings@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+	llvm@lists.linux.dev, nkapron@google.com, teknoraver@meta.com,
+	roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
+Subject: Re: [RFC PATCH security-next 0/4] Introducing Hornet LSM
+Message-ID: <Z98uwvHOTleafw-9@kernel.org>
+References: <20250321164537.16719-1-bboscaccy@linux.microsoft.com>
+ <Z97xvUul1ObkmulE@kernel.org>
+ <CAHC9VhQ4a4Dinq+WLxM88KqJF8ruQ_rOdQx7UNrKcJqTpGGG+w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,38 +64,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250322153639.4917-1-taahol@utu.fi>
-X-Spam: Yes
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHC9VhQ4a4Dinq+WLxM88KqJF8ruQ_rOdQx7UNrKcJqTpGGG+w@mail.gmail.com>
 
-Tuomas Ahola wrote on Sat, Mar 22, 2025 at 05:36:39PM +0200:
-> In b529c06f9dc7 (Update the documentation referencing Plan 9 from User
-> Space., 2020-04-26), another instance of the link was left unfixed.
-> Fix that as well.
-
-Thank you, applied to 9p's -next
-(sorry for double reply Tuomas, I had apparently missed the reply-all
-key...)
-
-> Signed-off-by: Tuomas Ahola <taahol@utu.fi>
-> ---
->  Documentation/filesystems/9p.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, Mar 22, 2025 at 04:44:13PM -0400, Paul Moore wrote:
+> On Sat, Mar 22, 2025 at 1:22 PM Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> > On Fri, Mar 21, 2025 at 09:45:02AM -0700, Blaise Boscaccy wrote:
+> > > This patch series introduces the Hornet LSM.
+> > >
+> > > Hornet takes a simple approach to light-skeleton-based eBPF signature
+> >
+> > Can you define "light-skeleton-based" before using the term.
+> >
+> > This is the first time in my life when I hear about it.
 > 
-> diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
-> index 2bbf68b56b0d..28871200e87c 100644
-> --- a/Documentation/filesystems/9p.rst
-> +++ b/Documentation/filesystems/9p.rst
-> @@ -40,7 +40,7 @@ For remote file server::
->  
->  	mount -t 9p 10.10.1.2 /mnt/9
->  
-> -For Plan 9 From User Space applications (http://swtch.com/plan9)::
-> +For Plan 9 From User Space applications (https://9fans.github.io/plan9port/)::
->  
->  	mount -t 9p `namespace`/acme /mnt/9 -o trans=unix,uname=$USER
->  
+> I was in the same situation a few months ago when I first heard about it :)
 > 
-> base-commit: 88d324e69ea9f3ae1c1905ea75d717c08bdb8e15
+> Blaise can surely provide a much better answer that what I'm about to
+> write, but since Blaise is going to be at LSFMMBPF this coming week I
+> suspect he might not have a lot of time to respond to email in the
+> next few days so I thought I would do my best to try and answer :)
 
--- 
-Dominique Martinet | Asmadeus
+Yeah, I don't think there is anything largely wrong in the feature
+itself but it speaks language that would fit to eBPF subsystem list,
+not here :-)
+
+I.e. assume only very basic knowledge of eBPF and explain what stuff
+mentioned actually does. Like bpftool statement should be opened up
+fully.
+
+> 
+> An eBPF "light skeleton" is basically a BPF loader program and while
+> I'm sure there are several uses for a light skeleton, or lskel for
+> brevity, the single use case that we are interested in here, and the
+> one that Hornet deals with, is the idea of using a lskel to enable
+> signature verification of BPF programs as it seems to be the one way
+> that has been deemed acceptable by the BPF maintainers.
+
+I got some grip but the term only should be used IMHO in the commit
+message, if it is defined at first :-)
+
+> 
+> Once again, skipping over a lot of details, the basic idea is that you
+> take your original BPF program (A), feed it into a BPF userspace tool
+> to encapsulate the original program A into a BPF map and generate a
+> corresponding light skeleton BPF program (B), and then finally sign
+> the resulting binary containing the lskel program (B) and map
+> corresponding to the original program A.  At runtime, the lskel binary
+> is loaded into the kernel, and if Hornet is enabled, the signature of
+> both the lskel program A and original program B is verified.  If the
+> signature verification passes, lskel program A performs the necessary
+> BPF CO-RE transforms on BPF program A stored in the BPF map and then
+> attempts to load the original BPF program B, all from within the
+> kernel, and with the map frozen to prevent tampering from userspace.
+
+When you speak about corresponding lskel program what does that
+program contain? Is it some kind of new version of the same
+program with modifications, or?
+
+I neither did not know what BPF CO-RE is but I googled it ;-)
+
+> 
+> Hopefully that helps fill in some gaps until someone more
+> knowledgeable can provide a better answer and/or correct any mistakes
+> in my explanation above ;)
+
+Sure... Thanks for the explanations!
+
+> 
+> -- 
+> paul-moore.com
+
+BR, Jarkko
