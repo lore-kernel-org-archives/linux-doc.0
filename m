@@ -1,37 +1,37 @@
 Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 510B51D5176;
-	Sat, 22 Mar 2025 21:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D6A6522A;
+	Sat, 22 Mar 2025 21:28:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742678445; cv=none; b=BSiV9nPv0ysoLjbhxKrYRMY873gwu2tFEzR/wtROvvIcmfQQEm0GxBepQhz1L3Iy4NzTe/X6hUXEddZG6MzgKcWKUeLWOSw0M8fypAvpVUEyORN7ia6EtlBml8zy7qnt3BRSZgKubUOhbtJ2T0IV/yayh5gphiSpLersW45Xlcw=
+	t=1742678883; cv=none; b=cXRGJgXBR5SbFlyuonb38F0jwJ+zUVNSN/QhWgNBOBM7mbNlvR1FKdchUwiQcpfvdcQeKL51JRM5YLz5ltAHrsghyiF5A/fb1TGVQxaurqXyLehtR+/skmCUxrqA5eGWAeG9qasHX+sdcMMova5pNKpIG9sRpw2nkVi7zLMPvhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742678445; c=relaxed/simple;
-	bh=cyFNK89NgMLZ3xDWkwxzV2SM3xQXavlfGlrHVOrvwmQ=;
+	s=arc-20240116; t=1742678883; c=relaxed/simple;
+	bh=20yCmNw+QyfnwkRDsX+TL+ca4UDmjCz3rrUZ4a8soRo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N//7ZSt6vP5gT9deXfuCbdVM7T2lrTdMqxvHEfNusRte/MhnYA4JLHxllrjPaNYYK3LJwGADCeHBZBkHMDTYM3hJvR93lf4+2jgVhIGRhM/o0SNDTT9Ub+IQrBqoLWzgJkI+NL+5ObU6U1sH3UVRO92sZ8nIoQC//+cwsIeV9kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=qr/+QTY7; arc=none smtp.client-ip=62.210.214.84
+	 Content-Type:Content-Disposition:In-Reply-To; b=SVEXIBSCK6atYWi4lQbQh7Mk8d4EqFOAg3naBvxLjDQWcxJ2Wd7JRMC23DxK2BxSRgI/1rLbj5s1baJiWVHI7qBpSPCoI6zpykSlTdtTrbuqd4Y7W/lYZcb2xwHSt5sJ04S34l6Hx2IkJ9+uUn+pSgRe0d0K0+l9xuxGRkQt41s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=D4BDkLai; arc=none smtp.client-ip=62.210.214.84
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="qr/+QTY7"
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="D4BDkLai"
 Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id 7195614C2DB;
-	Sat, 22 Mar 2025 22:20:31 +0100 (CET)
+	by submarine.notk.org (Postfix) with ESMTPS id 493F614C2DB;
+	Sat, 22 Mar 2025 22:27:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1742678433;
+	s=2; t=1742678881;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=e0TjEf7FGRwFB0dAZVdeDg8D+prsnYkCAo5szH4wkaU=;
-	b=qr/+QTY7h9M8K+P97DGzWaAdHE/R8xPrJW5EugVRavIhoJNuQTPW1tarPA6fWVUYFVGmRZ
-	FadvjOTVEktYqP9UdA/lko52/QS+bUnU6eBEGNA/B7vI/BiwGEWW6QYKpxcdXDg3ZmiQJD
-	CPJ4kWl8a4GMDy3Wh2zhxRKINNPWGHwmsya2jost7HOqQZpp9WeM+8DLKj8WdJjSWB7H2B
-	K0MtFnPtyQNFioTM+vo2V9Vy9zgjwZXHJpasjgeUsVQ4MVME6bTTyOlI4ZGuXXL3KMttA3
-	fOKV6C7kPK+HiVxXGi6Wu2MdN+ZC39fqt8iLgAEcR3+goHV5Rlzrorpb2LpPQw==
+	bh=9u1yOfLqG6Yy5TZ+cq9/fOzYgeoaRmP3HAHZBaFpqhY=;
+	b=D4BDkLaiESkGogJCUHlQYUwOZkVYFzY65sAhqz/GOak63aUtKlYo8XpAR/UhBVQnoavBsr
+	sXF1OGryOPpH+/1zKIsRkSq8XIl0C0u9OYBtU3xSAGBwyjbQUnN09+XT33HLoCR08QbPOH
+	alBFTwCATq8hd4jtCo+eUHR1eIdPLhOTzDC6n0K2RqG2dycBBIiOEGjnab+Fo6TyTmO+rC
+	lvRBTDSV3WxhdY9k8IwD3IbGAHQMEe+hBqNvtoEf3wm09CWD41HCWuRZUn10N6wQUtf2PR
+	UtJNPFsdPEWaA3VSAihcO/W+ZW8oGwZoSD73f55B7tCYqdjbc8YyVHPD1TOXqA==
 Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id e68e2ca7;
-	Sat, 22 Mar 2025 21:20:29 +0000 (UTC)
-Date: Sun, 23 Mar 2025 06:20:14 +0900
+	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id f7bd787b;
+	Sat, 22 Mar 2025 21:27:57 +0000 (UTC)
+Date: Sun, 23 Mar 2025 06:27:42 +0900
 From: Dominique Martinet <asmadeus@codewreck.org>
 To: Tuomas Ahola <taahol@utu.fi>
 Cc: v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
@@ -41,7 +41,7 @@ Cc: v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
 	Christian Schoenebeck <linux_oss@crudebyte.com>,
 	Jonathan Corbet <corbet@lwn.net>
 Subject: Re: [PATCH] Documentation/fs/9p: fix broken link
-Message-ID: <Z98pjo6ptwNee8d7@codewreck.org>
+Message-ID: <Z98rTkLrIq5wEw1a@codewreck.org>
 References: <20250322153639.4917-1-taahol@utu.fi>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,7 +59,9 @@ Tuomas Ahola wrote on Sat, Mar 22, 2025 at 05:36:39PM +0200:
 > Space., 2020-04-26), another instance of the link was left unfixed.
 > Fix that as well.
 
-Thank you, applied to 9p tree
+Thank you, applied to 9p's -next
+(sorry for double reply Tuomas, I had apparently missed the reply-all
+key...)
 
 > Signed-off-by: Tuomas Ahola <taahol@utu.fi>
 > ---
