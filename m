@@ -1,66 +1,66 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16654AD27
-	for <linux-doc@vger.kernel.org>; Sun, 23 Mar 2025 19:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC432E3399
+	for <linux-doc@vger.kernel.org>; Sun, 23 Mar 2025 19:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742756540; cv=none; b=peEAwCmfCvKT0rWfFtOdXfVgcWSWaZ6e91fwb9asDdcFUKozeYlte1vCnXZhEOAT6q7dHxcH4tuv2PqthgwmDhC8Q3YhvZjQXXLi2rLXGm4RVluGcrOOXpYAld5uIrt/IbxDW+uTjlj3tYYw2RjwL/e15mStCA0F+GEdYpFWu04=
+	t=1742756884; cv=none; b=sSAq/Oa5APsnZxYtoyUi+VvtltNXEacwVzeofIKijyBMpteiKDqIu09qCRTtGCKF2Y8DNRNySKvlKfPMfZfdKVqyyKOMzcI9Qb4S60p9Jog7TCZV14gPCkmtH5hOgYYdmAqT5pTI3XG74x8MFj3Aoj/DzIhCfR/zC34ldHGsaNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742756540; c=relaxed/simple;
-	bh=tDa9vpNu/b8nQeMcsn/2LF0GMloBDuo9YzrQSkldP8Q=;
+	s=arc-20240116; t=1742756884; c=relaxed/simple;
+	bh=+Q/fyk76Z1cDSounHVDPFMlvEhnXOKGnub0ZYWoMU+I=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=u/QsUpKu+MS4dBAkwZSh8ELsiBimqTv7w2Ykti70uSnJ+cFBgpd0KP9BLQeNODSb/h/t8J8E7hALkyaDB0BiL22pcJeR/iafye8AF91pry4z2AZ8B8l61XU8mOBs9UqATngNbItpNpsA2eMOE763hVKQOLT4LJGncRjgQliHEkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rkagMSux; arc=none smtp.client-ip=209.85.216.74
+	 To:Cc:Content-Type; b=QBXMR4hIVR0DrhRzzzJxwxvHVidzkzrxnhElr8Xs5ynFvTh6J4lRXyVFO6irsBRSv5OOMPFpiBjwRi5wzhNd9d7JFvi2x5Ldjuv/kFNcuqN3fiEw1CKyQCuTbJ4x/KuUAH75IsgY5cvlvQfUnbFLp3/7ienzH2iKfz+d3BZmADk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Az3L8dq+; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rkagMSux"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2ff6af1e264so10318267a91.3
-        for <linux-doc@vger.kernel.org>; Sun, 23 Mar 2025 12:02:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Az3L8dq+"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-22651aca434so56790425ad.1
+        for <linux-doc@vger.kernel.org>; Sun, 23 Mar 2025 12:08:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1742756538; x=1743361338; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1742756883; x=1743361683; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RuNRgEM1/VSSZOP8AP4UeKswwiKQNT+cWOtWKPuUrmU=;
-        b=rkagMSuxRsQn7+0LkxmjtFs7DEOGvu02Wd+ek3J8WMS8dyuLVar0abAhUPSUClOWpF
-         dhX7YdcsKnmB+HUlglrob2dqx9EDR6cNTrKD/M7Hh7DTF9WhO3J27mVtL6lNMsYsqcju
-         zC1wVa/EiEgCQ7Ly6/A2DWCzvMEPqsaLv5sBY9t05cEN/gxxKiFw3oQtwZs6c5r+00g0
-         qhI5AFaLehU8jEws4OeWrXW43Y6JFVQ/z33cjRZgWdwTB0+S5i8xZ9eYIhOz7saPWii4
-         Jti+aUWiVmQv2GrrM7pJHdAmV3oobz3h1qyLyDqnWzuLyjoj48HGHEc2qZ+6FYboEmNQ
-         wM/w==
+        bh=rzd5n04s6jxEJ+gCSK/dDhucMnvX+2uhB2qdLifXWko=;
+        b=Az3L8dq+SQbeeJ5G4q3dk6p0wFJSbIff45SeENBII3gOMHfuG+L4lXxzK+lvt++H4l
+         qSYVTtmo4J5nrAtNXVKMJuDF+e3VJMJtIO3jkNEIgquOYSYswElpE2y+p6K1G2w3qx9a
+         vHzalNUd4/ce+fNAFM9ew0cUAaYwXdaT7T/4RBpsBetxezbBROW5xSANHjO2yCFfkBlh
+         KFXLN06sOFCjngr/M7tpixJTlgpRTFjmra+UX+H3LOpda2P9Ud62u1YWtasFnZRkH8c0
+         H4dHKiQ82Evx3M5gb0aOJhvNIppom9uWGyj/SdwiRq01d/2iKnhNNKdfWdwPXxaB9bi6
+         3iFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742756538; x=1743361338;
+        d=1e100.net; s=20230601; t=1742756883; x=1743361683;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RuNRgEM1/VSSZOP8AP4UeKswwiKQNT+cWOtWKPuUrmU=;
-        b=KjPZnzsnIXb8PpwzAqonlkvQw8kveSFVzIqzcu1i9WwnL5HX3HcIDAjQY0CCHT4k2a
-         tnCjLXtHKL8OOMoK4QDAoybVQ6LB0yU7VgOlKIVT5CquQwSoOLAxDsXPaI86skegUnTo
-         PSb+CBJHCbSfVbypzsOAVkeQHYcd3kPTwwnzwX8xmjTPEDVPPDMtnkfBLhCOC5S3FRHS
-         hF33jVjDbC6hueSAAEtQEvmtkfenFREWI6kAulxvvbKHlPaHTvo//uxFr+TZ5qSxDfWm
-         YWUyIIZfkXSsgq3gaed7Hv/SPRGXIi8zkCpThP5MVa0fx4MhPlq5BkJC8wgs1/bzq/Wl
-         pWlg==
-X-Forwarded-Encrypted: i=1; AJvYcCWxjigQGyr8tNJFiLtyvX0vcUQo1j8k4LGAy/iAOvRGixhr/02OTM+d7TZCn65909oxKu4/fS0pekU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoPi0AKoXfuFmkUeL7FEbYddl3B7pR5pIioDKt1LWUodl0poF8
-	Mci+pDEkxxZey2vPSRXIlaklU1M5Idt6IRMNSBUa4ir5NAtHgPPTUfKC9VVacLR5/qJtT2IIJKq
-	rJmG8rHa6JeT5G+wa7A==
-X-Google-Smtp-Source: AGHT+IHqKpRChgtgDh49YPKj5euGR0CZLSvO9CAU4Y43PCYdmIBq9tlLyCyLELbaKPjbaTiHWY1Fon3WmY7MX6oI
-X-Received: from pjbok3.prod.google.com ([2002:a17:90b:1d43:b0:301:1bf5:2f07])
+        bh=rzd5n04s6jxEJ+gCSK/dDhucMnvX+2uhB2qdLifXWko=;
+        b=f7ykXO0P7v/hhFcL5ja4O1m2rLY2S//qPbGrkFOQrrv3j7l8cAQ6UETFBtrv98WVqk
+         PX5zvV6ZwoG3phqmMLK5YAnsxkoavlgr20nXJZBW9dmWukRn6uzQa2w2aB1YEEIWPtLm
+         KdXRWUhYtWXySd01n454Qu1G6DdxG7NBIfrREjIDdzn+rDl4zgEsTb8+3yD2rtklX+Ac
+         ARGSeNmesnJaSKnCInDoysdoBe92w9HMLeUPPeICvRVPZS9q/KqujLWqgS+4NyCBm5R4
+         KCankHOpK0iQywI6GyCZBzpgeCJxMBm+uVlT0q4IrPzGjK1YOSNlm/Xlaoy0p0GLdzMO
+         FqJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUkvkExv1ci/CtUI+vkyrECDzB5yBO+E9HYxX4G3ScLbqt1sZighoJacb5CeHUX5hpXK2V4DhJNXNI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMOkmaXVCkEBqI/eDqMyE1Fe+zqh3ACjtltCC/JQlIynVOBSEo
+	uR9/29NnefWKoNggWJV3sAYrbJwo1+lkRX4zKHKMDeszEOUPtJ4085WI/zXI5iBbiMXgfiTGd1u
+	cFbv/l+RKl5QRJuJbNg==
+X-Google-Smtp-Source: AGHT+IGWzYSY0zabXCYcrGJkQenZmyCPMKhLyeRtNYw0Z+Vw+fyMnZoqvv9CAHyz7l26vGknvFW4powxBM9q/JtU
+X-Received: from plri3.prod.google.com ([2002:a17:903:32c3:b0:220:e84e:350c])
  (user=changyuanl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90a:d008:b0:2ff:693a:7590 with SMTP id 98e67ed59e1d1-3030ff08de9mr20652493a91.33.1742756538347;
- Sun, 23 Mar 2025 12:02:18 -0700 (PDT)
-Date: Sun, 23 Mar 2025 12:02:04 -0700
-In-Reply-To: <20250321133447.GA251739@nvidia.com>
+ 2002:a17:902:da82:b0:224:162:a3e0 with SMTP id d9443c01a7336-22780e2a37fmr150656275ad.49.1742756882709;
+ Sun, 23 Mar 2025 12:08:02 -0700 (PDT)
+Date: Sun, 23 Mar 2025 12:07:58 -0700
+In-Reply-To: <20250321134629.GA252045@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20250321133447.GA251739@nvidia.com>
+References: <20250321134629.GA252045@nvidia.com>
 X-Mailer: git-send-email 2.49.0.395.g12beb8f557-goog
-Message-ID: <20250323190204.742672-1-changyuanl@google.com>
-Subject: Re: [PATCH v5 07/16] kexec: add Kexec HandOver (KHO) generation helpers
+Message-ID: <20250323190758.743798-1-changyuanl@google.com>
+Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory preservation
 From: Changyuan Lyu <changyuanl@google.com>
 To: jgg@nvidia.com
 Cc: akpm@linux-foundation.org, anthony.yznaga@oracle.com, arnd@arndb.de, 
@@ -78,111 +78,150 @@ Cc: akpm@linux-foundation.org, anthony.yznaga@oracle.com, arnd@arndb.de,
 	thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Jason, thanks for reviewing the patchset!
-
-On Fri, Mar 21, 2025 at 10:34:47 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
-> On Wed, Mar 19, 2025 at 06:55:42PM -0700, Changyuan Lyu wrote:
-> > From: Alexander Graf <graf@amazon.com>
-> >
-> > Add the core infrastructure to generate Kexec HandOver metadata. Kexec
-> > HandOver is a mechanism that allows Linux to preserve state - arbitrary
-> > properties as well as memory locations - across kexec.
-> >
-> > It does so using 2 concepts:
-> >
-> >   1) State Tree - Every KHO kexec carries a state tree that describes the
-> >      state of the system. The state tree is represented as hash-tables.
-> >      Device drivers can add/remove their data into/from the state tree at
-> >      system runtime. On kexec, the tree is converted to FDT (flattened
-> >      device tree).
->
-> Why are we changing this? I much prefered the idea of having recursive
-> FDTs than this notion copying eveything into tables then out into FDT?
-> Now that we have the preserved pages mechanism there is a pretty
-> direct path to doing recursive FDT.
-
-We are not copying data into the hashtables, instead the hashtables only
-record the address and size of the data to be serialized into FDT.
-The idea is similar to recording preserved folios in xarray
-and then serialize it to linked pages.
-
-> I feel like this patch is premature, it should come later in the
-> project along with a stronger justification for this approach.
->
-> IHMO keep things simple for this series, just the very basics.
-
-The main purpose of using hashtables is to enable KHO users to save
-data to KHO at any time, not just at the time of activate/finalize KHO
-through sysfs/debugfs. For example, FDBox can save the data into KHO
-tree once a new fd is saved to KHO. Also, using hashtables allows KHO
-users to add data to KHO concurrently, while with notifiers, KHO users'
-callbacks are executed serially.
-
-Regarding the suggestion of recursive FDT, I feel like it is already
-doable with this patchset, or even with Mike's V4 patch. A KHO user can
-just allocates a buffer, serialize all its states to the buffer using
-libfdt (or even using other binary formats), save the address of the
-buffer to KHO's tree, and finally register the buffer's underlying
-pages/folios with kho_preserve_folio().
-
-> > +int register_kho_notifier(struct notifier_block *nb)
+On Fri, Mar 21, 2025 at 10:46:29 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
+> On Wed, Mar 19, 2025 at 06:55:44PM -0700, Changyuan Lyu wrote:
+> > +/**
+> > + * kho_preserve_folio - preserve a folio across KHO.
+> > + * @folio: folio to preserve
+> > + *
+> > + * Records that the entire folio is preserved across KHO. The order
+> > + * will be preserved as well.
+> > + *
+> > + * Return: 0 on success, error code on failure
+> > + */
+> > +int kho_preserve_folio(struct folio *folio)
 > > +{
-> > +	return blocking_notifier_chain_register(&kho_out.chain_head, nb);
-> > +}
-> > +EXPORT_SYMBOL_GPL(register_kho_notifier);
->
-> And another different set of notifiers? :(
-
-I changed the semantics of the notifiers. In Mike's V4, the KHO notifier
-is to pass the fdt pointer to KHO users to push data into the blob. In
-this patchset, it notifies KHO users about the last chance for saving
-data to KHO.
-
-It is not necessary for every KHO user to register a
-notifier, as they can use the helper functions to save data to KHO tree
-anytime (but before the KHO tree is converted and frozen). For example,
-FDBox would not need a notifier if it saves data to KHO tree immediately
-once an FD is registered to it.
-
-However, some KHO users may still want to add data just before kexec,
-so I kept the notifiers and allow KHO users to get notified when the
-state tree hashtables are about to be frozen and converted to FDT.
-
-> > +static int kho_finalize(void)
-> > +{
-> > +	int err = 0;
-> > +	void *fdt;
+> > +	unsigned long pfn = folio_pfn(folio);
+> > +	unsigned int order = folio_order(folio);
+> > +	int err;
 > > +
-> > +	fdt = kvmalloc(kho_out.fdt_max, GFP_KERNEL);
-> > +	if (!fdt)
-> > +		return -ENOMEM;
+> > +	if (!kho_enable)
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	down_read(&kho_out.tree_lock);
+> > +	if (kho_out.fdt) {
 >
-> We go to all the trouble of keeping track of stuff in dynamic hashes
-> but still can't automatically size the fdt and keep the dumb uapi to
-> have the user say? :( :(
+> What is the lock and fdt test for?
 
-The reason of keeping fdt_max in the this patchset is to simplify the
-support of kexec_file_load().
+It is to avoid the competition between the following 2 operations,
+- converting the hashtables and mem traker to FDT,
+- adding new data to hashtable/mem tracker.
+Please also see function kho_finalize() in the previous patch
+"kexec: add Kexec HandOver (KHO) generation helpers" [1].
 
-We want to be able to do kexec_file_load()
-first and then do KHO activation/finalization to move kexec_file_load()
-out of the blackout window. At the time of kexec_file_load(), we need to
-pass the KHO FDT address to the new kernel's setup data (x86) or
-devicetree (arm), but KHO FDT is not generated yet. The simple solution
-used in this patchset is to reserve a ksegment of size fdt_max and pass
-the address of that ksegment to the new kernel. The final FDT is copied
-to that ksegment in kernel_kexec().
-The extra benefit of this solution is the reserved ksegment is
-physically contiguous.
+The function kho_finalize() iterates over all the hashtables and
+the mem tracker. We want to make sure that during the iterations,
+no new data is added to the hashtables and mem tracker.
 
-To completely remove fdt_max, I am considering the idea in [1]. At the
-time of kexec_file_load(), we pass the address of an anchor page to
-the new kernel, and the anchor page will later be fulfilled with the
-physical addresses of the pages containing the FDT blob. Multiple
-anchor pages can be linked together. The FDT blob pages can be physically
-noncontiguous.
+Also if FDT is generated, the mem tracker then has been serialized
+to linked pages, so we return -EBUSY to prevent more data from
+being added to the mem tracker.
 
-[1] https://lore.kernel.org/all/CA+CK2bBBX+HgD0HLj-AyTScM59F2wXq11BEPgejPMHoEwqj+_Q@mail.gmail.com/
+> I'm getting the feeling that probably kho_preserve_folio() and the
+> like should accept some kind of
+> 'struct kho_serialization *' and then we don't need this to prove we
+> are within a valid serialization window. It could pass the pointer
+> through the notifiers
+
+If we use notifiers, callbacks have to be done serially.
+
+> The global variables in this series are sort of ugly..
+>
+> We want this to be fast, so try hard to avoid a lock..
+
+In most cases we only need read lock. Different KHO users can adding
+data into their own subnodes in parallel.
+We only need a write lock if
+- 2 KHO users register subnodes to the KHO root node at the same time
+- KHO root tree is about to be converted to FDT.
+
+> > +void *kho_restore_phys(phys_addr_t phys, size_t size)
+> > +{
+> > +	unsigned long start_pfn, end_pfn, pfn;
+> > +	void *va = __va(phys);
+> > +
+> > +	start_pfn = PFN_DOWN(phys);
+> > +	end_pfn = PFN_UP(phys + size);
+> > +
+> > +	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
+> > +		struct page *page = pfn_to_online_page(pfn);
+> > +
+> > +		if (!page)
+> > +			return NULL;
+> > +		kho_restore_page(page);
+> > +	}
+> > +
+> > +	return va;
+> > +}
+> > +EXPORT_SYMBOL_GPL(kho_restore_phys);
+>
+> What do you imagine this is used for? I'm not sure what value there is
+> in returning a void *? How does the caller "free" this?
+
+This function is also from Mike :)
+
+I suppose some KHO users may still
+preserve memory using memory ranges (instead of folio). In the restoring
+stage they need a helper to setup the pages of reserved memory ranges.
+A void * is returned so the KHO user can access the memory
+contents through the virtual address.
+I guess the caller can free the ranges by free_pages()?
+
+It makes sense to return nothing and let caller to call `__va`
+if they want. Then the function signature looks more symmetric to
+`kho_preserve_phys`.
+
+> > +#define KHOSER_PTR(type)          \
+> > +	union {                   \
+> > +		phys_addr_t phys; \
+> > +		type ptr;         \
+> > +	}
+> > +#define KHOSER_STORE_PTR(dest, val)                 \
+> > +	({                                          \
+> > +		(dest).phys = virt_to_phys(val);    \
+> > +		typecheck(typeof((dest).ptr), val); \
+> > +	})
+> > +#define KHOSER_LOAD_PTR(src) \
+> > +	((src).phys ? (typeof((src).ptr))(phys_to_virt((src).phys)) : NULL)
+>
+> I had imagined these macros would be in a header and usably by drivers
+> that also want to use structs to carry information.
+>
+
+OK I will move them to the header file in the next version.
+
+> > [...]
+> > @@ -829,6 +1305,10 @@ static __init int kho_init(void)
+> >
+> >  	kho_out.root.name = "";
+>
+> ?
+
+Set the root node name to an empty string since fdt_begin_node
+calls strlen on the node name.
+
+It is equivalent to `err = fdt_begin_node(fdt, "")` in kho_serialize()
+of Mike's V4 patch [2].
+
+> >  	err = kho_add_string_prop(&kho_out.root, "compatible", "kho-v1");
+> > +	err |= kho_add_prop(&kho_out.preserved_memory, "metadata",
+> > +			    &kho_out.first_chunk_phys, sizeof(phys_addr_t));
+>
+> metedata doesn't fee like a great a better name..
+>
+> Please also document all the FDT schema thoroughly!
+>
+> There should be yaml files just like in the normal DT case defining
+> all of this. This level of documentation and stability was one of the
+> selling reasons why FDT is being used here!
+
+YAML files were dropped because we think it may take a while for our
+schema to be near stable. So we start from some simple plain text. We
+can add some prop and node docs (that are considered stable at this point)
+back to YAML in the next version.
+
+[1] https://lore.kernel.org/all/20250320015551.2157511-8-changyuanl@google.com/
+[2] https://lore.kernel.org/all/20250206132754.2596694-6-rppt@kernel.org/
 
 Best,
 Changyuan
