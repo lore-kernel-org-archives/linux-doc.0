@@ -1,250 +1,396 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7147261573;
-	Mon, 24 Mar 2025 15:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9E82638BF;
+	Mon, 24 Mar 2025 16:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742829806; cv=none; b=SCFLOLtJJfIH7zbyB16oqtCDPtugs45V/zOqH+uQp4n+srkt0ryPVLPUVaj+Yy46yHNWocSdvHTGTLifNopiHWh9ZC5qRRpIQf4i6TncsbiVLfSKNQeyHgcPlfyFV80ZsY1JzezcGs3vzLyi6npJgQOAMPIXNanFQGwEUjpMuLs=
+	t=1742833505; cv=none; b=j7sp82v4jSoKAOqSMXnVHmHuVXF7Rzw1uiS1j8JZ1pGZHW6QB2DllRPvQfpW19w03zUykksLIjcgMt3+W+1J1CMHLTQGxNXaHSSpPNyFMGhCTBdeNZcBJzTRtM8L9tW0jYxIVN2Cxy0LLtRQCTMwaj4ABbhZtB/acrb+juiRUNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742829806; c=relaxed/simple;
-	bh=RlMc1qQkGcDTfhh/qUr5RqVrBV5Y7vj0LSbOljmbBic=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Kgxh5LthRuaxIx4k3BsKsO26eVvQBC1BVde3/jcX6WCk0zR9GowxT3bKQRjK6Roch8xpWYNg3RxPz+aN6mQgm87LRXpHj3M4ruraYVxvJ+8k/jaslbCThCyQJ84b8/PGDUFpnW6+8pLnWi8g1RT4WnlYwPeg8yEcZTsk5Bcbsc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nha9iTbP; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1742833505; c=relaxed/simple;
+	bh=nKiaV2uy994lXoUMTABtnMyxxM77OqDyio0SZZIffOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qlOoZ90fWRQ6tLc7cBqGsEzwdtTQPffiiV0T3LJfxEyzqSnONB5wnsh00lQ1NIXiriMeSBShyFYUvcHp+VJ1549s6DAVLFoyh0l+i3V0Ln9F+nIzC/21plCSrr+qWbLAmxgG8GhDml0L5PzZy1rmxQoV9Buh9EWipgsyrlmP6Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ghkYaMu/; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nha9iTbP"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3036420577;
-	Mon, 24 Mar 2025 15:23:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1742829802;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=JwuW83OwbehfUQ0b6+agTugM6hRqyHyoBrJtyNV0PR8=;
-	b=nha9iTbPOTGXk7vnAYcvtxfeysInYpzSHd4B2KH1ACm6z9TOgwI+3rBp6CvrNjyJYgNrsq
-	aJXVrzyol+B9LcvkXL++meTsgHNSZf3X1mrzEC0HF4ut36datmQ4bDs0KtgKv9hzIFx98A
-	gHVVgsq9XpvJNI5QDIwcmoERRLUQdoQ2qzeTT1/jrDvQa35yCczV8FGj1V8NYak8WtQUMD
-	T/kJvGU3jqSjPP2ijXaBUCjqqUOv3A0AxY9rZMLLxX54WCZJGOC/1L98qO/yYYxzs0FClQ
-	9wU/FS1je6gjVon727tjoY9VZy6lO5tUs8z9WVBT0uSFtDo5TamKY74dTS6Cyg==
-Message-ID: <2dffcb05-1c31-4704-9081-91107b3ce165@bootlin.com>
-Date: Mon, 24 Mar 2025 16:23:21 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ghkYaMu/"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22622ddcc35so15895285ad.2;
+        Mon, 24 Mar 2025 09:25:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742833502; x=1743438302; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xgwbZFV4k14U0YMVn2vdNZn0XHzElupWe5Rio/k7zP8=;
+        b=ghkYaMu/mpjx0jgfnayzX69LSz7S8UbiytUN78W9VXoB+6yLDbwAmpWPl//wmFgXot
+         896tNAk5op9emHSc+/oiIIAFklOACQGOW1rkeimFaHttY0c45ourWYzq1nMuGn8INDM4
+         id9YaPHO3T2yevnHuxMG/VOwFbyafj7XuqBVZWQzzkt9oqAkXG64V0pjotX6VZ2KvdkW
+         V8HetI+C/ApASvzGbYI3V+/RWbw+8GcGTzWHhHOhGNcyDiNOkpTXl8IudnQbClFXgB3W
+         cJ80hrhvKIt909RHIanYLjC9NiT+Q1eHjthDbfzzCL1X1BHr+zjuS0TxWxvndXNNOfS1
+         zM2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742833502; x=1743438302;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xgwbZFV4k14U0YMVn2vdNZn0XHzElupWe5Rio/k7zP8=;
+        b=lzn1XZMoMbBjunCce42hVD1Ne3Ea0tvso8NtKA2eGD7zlUAKrUxtjIJf5djvZKwt0b
+         IEbXNUYfLYi8ju4pNS7XRixmM4WnoQAxrGZdWfRLIM+/Bs8qWOBpB06vDgQj4ciIv8NC
+         5PW8DFO68P67a1ECemUHpRN/bYAG+XFOMdEHzM2fv56Cdl+fbGZreY5+TMBONHNMYriF
+         MFisuDKTjR3aVCQNv/ssR+RQ32aU601wljBZ3ApdSykv+g2/zjZEBUknyG4ItA5a2xHc
+         rcdajcXnOfDYazoBklFPoXA/gIkZe4jkzqUl6OdwHHMA0geCBmI4FaO09ee6esECnf/F
+         b8Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCUjS01FfLPg5wr0j9WwuA8kPzVm/H2+2cx+2hnRJl4EsG4JY9DXEQqU9+WtqHOtNmXcIkIgRzTU6Kq8oPx5tMS9@vger.kernel.org, AJvYcCVUUyWqLfSwUpIgqfIBRvZ4dyXhL+bUb1Hr2gC4Q3A9n34W8U4JA9h0kcAxAZSHeJoE5rpCfSsUg3J/@vger.kernel.org, AJvYcCWzeh2lwAhZUVYCAKQOVbrXcmDRPGy9J/atbrDaPvZiUfVuYGUoD8ajlitJgTAp1sq1DpVSARqdciXtlOfk@vger.kernel.org, AJvYcCXNi6pG/1XJoUdsLwEzMlDYkSkRvz8BkjEy9+YV9/bWbULdV+B/yjXIkReao8CdukixAi4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuY6d2WW/Jm38armMs71eMYtUbPzl3hnxqdNwuW43M2c+bA22P
+	v8YzmgWbEQSovKyZvVmrtSATBZksIULhYvKS+SHTPXkFWfriZxA=
+X-Gm-Gg: ASbGncuxUMSTp0CM52AWI88NxZIQNsodmQYcIbv2wnhHplMu13YOgKD26RrrBPigALR
+	jNqm/fJf+TuAYkjp7IntW0XtUszIrNaMS+0L/fFw7n/+nTNw8dtuBpak7UqYXbER3nPyR0Tabkt
+	a/uG8f4o1+xMOKUBcJaDJKNC2nOk2mnsV/eCllb5qu9jzStOmXo0gpnW6pOM+ZzCZHsy9le2I8Z
+	G5B/BXH4/naOz/76mjnb/yF3HQeT3CZR8bMzkYKVuFAMU/IK6vz8M95A0F16GQ5flJRzEV5X5f8
+	UKjY7ny3/BPReWsffCSsF1hHf2VTskNi6lR45uteI5hYpPcy0hg8iW0=
+X-Google-Smtp-Source: AGHT+IGiKdTRdw+DiZr6HOCnUFelGGI14bMpQuoiyBGUP2qfPnA02Nacb7vxr2vvXb4uQfUTp7x5gw==
+X-Received: by 2002:a17:902:d48b:b0:21f:52e:939e with SMTP id d9443c01a7336-22780d8ff5bmr203919345ad.28.1742833502117;
+        Mon, 24 Mar 2025 09:25:02 -0700 (PDT)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-227811e34cfsm73122975ad.201.2025.03.24.09.25.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Mar 2025 09:25:01 -0700 (PDT)
+Date: Mon, 24 Mar 2025 09:25:00 -0700
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Willem de Bruijn <willemb@google.com>,
+	David Ahern <dsahern@kernel.org>,
+	Neal Cardwell <ncardwell@google.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
+	asml.silence@gmail.com, dw@davidwei.uk,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Victor Nogueira <victor@mojatatu.com>,
+	Pedro Tammela <pctammela@mojatatu.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v7 4/9] net: devmem: Implement TX path
+Message-ID: <Z-GHXCOgP0pZBSlS@mini-arch>
+References: <20250308214045.1160445-1-almasrymina@google.com>
+ <20250308214045.1160445-5-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v2 33/59] docs/dyndbg: add classmap info to howto (TBD)
-To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-gfx-trybot@lists.freedesktop.org
-Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org,
- daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
- jani.nikula@intel.com, ville.syrjala@linux.intel.com,
- linux-doc@vger.kernel.org
-References: <20250320185238.447458-1-jim.cromie@gmail.com>
- <20250320185238.447458-34-jim.cromie@gmail.com>
-Content-Language: en-US
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20250320185238.447458-34-jim.cromie@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedtuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfffhtdeigfehffduuedvkeefgfdvuddugfffteetffdvteffgfejvedugffgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudehpdhrtghpthhtohepjhhimhdrtghrohhmihgvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsr
- dhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhvthdquggvvheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepihhnthgvlhdqghhfgidqthhrhigsohhtsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomh
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250308214045.1160445-5-almasrymina@google.com>
 
-
-
-Le 20/03/2025 à 19:52, Jim Cromie a écrit :
-> Describe the 3 API macros providing dynamic_debug's classmaps
+On 03/08, Mina Almasry wrote:
+> Augment dmabuf binding to be able to handle TX. Additional to all the RX
+> binding, we also create tx_vec needed for the TX path.
 > 
-> DYNDBG_CLASSMAP_DEFINE - create & export a classmap
-> DYNDBG_CLASSMAP_USE    - refer to exported map
-> DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-> DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+> Provide API for sendmsg to be able to send dmabufs bound to this device:
 > 
-> TBD: some of this might be over-specification, or just over-talked.
+> - Provide a new dmabuf_tx_cmsg which includes the dmabuf to send from.
+> - MSG_ZEROCOPY with SCM_DEVMEM_DMABUF cmsg indicates send from dma-buf.
 > 
-> NB: The _DEFINE & _USE model makes the user dependent on the definer,
-> just like EXPORT_SYMBOL(__drm_debug) already does.
+> Devmem is uncopyable, so piggyback off the existing MSG_ZEROCOPY
+> implementation, while disabling instances where MSG_ZEROCOPY falls back
+> to copying.
 > 
-> cc: linux-doc@vger.kernel.org
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> We additionally pipe the binding down to the new
+> zerocopy_fill_skb_from_devmem which fills a TX skb with net_iov netmems
+> instead of the traditional page netmems.
+> 
+> We also special case skb_frag_dma_map to return the dma-address of these
+> dmabuf net_iovs instead of attempting to map pages.
+> 
+> The TX path may release the dmabuf in a context where we cannot wait.
+> This happens when the user unbinds a TX dmabuf while there are still
+> references to its netmems in the TX path. In that case, the netmems will
+> be put_netmem'd from a context where we can't unmap the dmabuf, Resolve
+> this by making __net_devmem_dmabuf_binding_free schedule_work'd.
+> 
+> Based on work by Stanislav Fomichev <sdf@fomichev.me>. A lot of the meat
+> of the implementation came from devmem TCP RFC v1[1], which included the
+> TX path, but Stan did all the rebasing on top of netmem/net_iov.
+> 
+> Cc: Stanislav Fomichev <sdf@fomichev.me>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+> 
 > ---
-> v5 adjustments per Randy Dunlap
-> v7 checkpatch fixes
-> v8 more
-> v9 rewords
-> ---
->   .../admin-guide/dynamic-debug-howto.rst       | 80 ++++++++++++++++++-
->   1 file changed, 79 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-> index d2928884c92b..9422dc4917d0 100644
-> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -243,7 +243,6 @@ the ``p`` flag has meaning, other flags are ignored.
->   Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
->   To clear all flags at once, use ``=_`` or ``-fslmpt``.
->   
-> -
->   Debug messages during Boot Process
->   ==================================
->   
-> @@ -393,3 +392,82 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
->   For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
->   its ``prefix_str`` argument, if it is constant string; or ``hexdump``
->   in case ``prefix_str`` is built dynamically.
+> v6:
+> - Retain behavior that MSG_FASTOPEN succeeds even if cmsg is invalid
+>   (Paolo).
+> - Rework the freeing of tx_vec slightly to improve readability. Now it
+>   has its own err label (Paolo).
+> - Squash making unbinding scheduled work (Paolo).
+> - Add comment to clarify that net_iovs stuck in the transmit path hold
+>   a ref on the underlying dmabuf binding (David).
+> - Fix the comment on how binding refcounting works on RX (the comment
+>   was not matching the existing code behavior).
+> 
+> v5:
+> - Return -EFAULT from zerocopy_fill_skb_from_devmem (Stan)
+> - don't null check before kvfree (stan).
+> 
+> v4:
+> - Remove dmabuf_tx_cmsg definition and just use __u32 for the dma-buf id
+>   (Willem).
+> - Check that iov_iter_type() is ITER_IOVEC in
+>   zerocopy_fill_skb_from_iter() (Pavel).
+> - Fix binding->tx_vec not being freed on error paths (Paolo).
+> - Make devmem patch mutually exclusive with msg->ubuf_info path (Pavel).
+> - Check that MSG_ZEROCOPY and SOCK_ZEROCOPY are provided when
+>   sockc.dmabuf_id is provided.
+> - Don't mm_account_pinned_pages() on devmem TX (Pavel).
+> 
+> v3:
+> - Use kvmalloc_array instead of kcalloc (Stan).
+> - Fix unreachable code warning (Simon).
+> 
+> v2:
+> - Remove dmabuf_offset from the dmabuf cmsg.
+> - Update zerocopy_fill_skb_from_devmem to interpret the
+>   iov_base/iter_iov_addr as the offset into the dmabuf to send from
+>   (Stan).
+> - Remove the confusing binding->tx_iter which is not needed if we
+>   interpret the iov_base/iter_iov_addr as offset into the dmabuf (Stan).
+> - Remove check for binding->sgt and binding->sgt->nents in dmabuf
+>   binding.
+> - Simplify the calculation of binding->tx_vec.
+> - Check in net_devmem_get_binding that the binding we're returning
+>   has ifindex matching the sending socket (Willem).
+> ---
+>  include/linux/skbuff.h                  |  17 +++-
+>  include/net/sock.h                      |   1 +
+>  net/core/datagram.c                     |  48 ++++++++++-
+>  net/core/devmem.c                       | 105 ++++++++++++++++++++++--
+>  net/core/devmem.h                       |  61 +++++++++++---
+>  net/core/netdev-genl.c                  |  64 ++++++++++++++-
+>  net/core/skbuff.c                       |  18 ++--
+>  net/core/sock.c                         |   6 ++
+>  net/ipv4/ip_output.c                    |   3 +-
+>  net/ipv4/tcp.c                          |  50 ++++++++---
+>  net/ipv6/ip6_output.c                   |   3 +-
+>  net/vmw_vsock/virtio_transport_common.c |   5 +-
+>  12 files changed, 330 insertions(+), 51 deletions(-)
+> 
+> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+> index 14517e95a46c..67a7e069a9bf 100644
+> --- a/include/linux/skbuff.h
+> +++ b/include/linux/skbuff.h
+> @@ -1707,13 +1707,16 @@ static inline void skb_set_end_offset(struct sk_buff *skb, unsigned int offset)
+>  extern const struct ubuf_info_ops msg_zerocopy_ubuf_ops;
+>  
+>  struct ubuf_info *msg_zerocopy_realloc(struct sock *sk, size_t size,
+> -				       struct ubuf_info *uarg);
+> +				       struct ubuf_info *uarg, bool devmem);
+>  
+>  void msg_zerocopy_put_abort(struct ubuf_info *uarg, bool have_uref);
+>  
+> +struct net_devmem_dmabuf_binding;
 > +
-> +Dynamic Debug classmaps
-> +=======================
+>  int __zerocopy_sg_from_iter(struct msghdr *msg, struct sock *sk,
+>  			    struct sk_buff *skb, struct iov_iter *from,
+> -			    size_t length);
+> +			    size_t length,
+> +			    struct net_devmem_dmabuf_binding *binding);
+>  
+>  int zerocopy_fill_skb_from_iter(struct sk_buff *skb,
+>  				struct iov_iter *from, size_t length);
+> @@ -1721,12 +1724,14 @@ int zerocopy_fill_skb_from_iter(struct sk_buff *skb,
+>  static inline int skb_zerocopy_iter_dgram(struct sk_buff *skb,
+>  					  struct msghdr *msg, int len)
+>  {
+> -	return __zerocopy_sg_from_iter(msg, skb->sk, skb, &msg->msg_iter, len);
+> +	return __zerocopy_sg_from_iter(msg, skb->sk, skb, &msg->msg_iter, len,
+> +				       NULL);
+>  }
+>  
+>  int skb_zerocopy_iter_stream(struct sock *sk, struct sk_buff *skb,
+>  			     struct msghdr *msg, int len,
+> -			     struct ubuf_info *uarg);
+> +			     struct ubuf_info *uarg,
+> +			     struct net_devmem_dmabuf_binding *binding);
+>  
+>  /* Internal */
+>  #define skb_shinfo(SKB)	((struct skb_shared_info *)(skb_end_pointer(SKB)))
+> @@ -3697,6 +3702,10 @@ static inline dma_addr_t __skb_frag_dma_map(struct device *dev,
+>  					    size_t offset, size_t size,
+>  					    enum dma_data_direction dir)
+>  {
+> +	if (skb_frag_is_net_iov(frag)) {
+> +		return netmem_to_net_iov(frag->netmem)->dma_addr + offset +
+> +		       frag->offset;
+> +	}
+>  	return dma_map_page(dev, skb_frag_page(frag),
+>  			    skb_frag_off(frag) + offset, size, dir);
+>  }
+> diff --git a/include/net/sock.h b/include/net/sock.h
+> index 8daf1b3b12c6..59875bed75e7 100644
+> --- a/include/net/sock.h
+> +++ b/include/net/sock.h
+> @@ -1816,6 +1816,7 @@ struct sockcm_cookie {
+>  	u32 tsflags;
+>  	u32 ts_opt_id;
+>  	u32 priority;
+> +	u32 dmabuf_id;
+>  };
+>  
+>  static inline void sockcm_init(struct sockcm_cookie *sockc,
+> diff --git a/net/core/datagram.c b/net/core/datagram.c
+> index f0693707aece..09c74a1d836b 100644
+> --- a/net/core/datagram.c
+> +++ b/net/core/datagram.c
+> @@ -63,6 +63,8 @@
+>  #include <net/busy_poll.h>
+>  #include <crypto/hash.h>
+>  
+> +#include "devmem.h"
 > +
-> +The "class" keyword selects prdbgs based on author supplied,
-> +domain-oriented names.  This complements the nested-scope keywords:
-> +module, file, function, line.
+>  /*
+>   *	Is a socket 'connection oriented' ?
+>   */
+> @@ -692,9 +694,49 @@ int zerocopy_fill_skb_from_iter(struct sk_buff *skb,
+>  	return 0;
+>  }
+>  
+> +static int
+> +zerocopy_fill_skb_from_devmem(struct sk_buff *skb, struct iov_iter *from,
+> +			      int length,
+> +			      struct net_devmem_dmabuf_binding *binding)
+> +{
+> +	int i = skb_shinfo(skb)->nr_frags;
+> +	size_t virt_addr, size, off;
+> +	struct net_iov *niov;
 > +
-> +The main difference from the others: class'd prdbgs must be named to
-> +be changed.  This protects them from generic overwrite:
+> +	/* Devmem filling works by taking an IOVEC from the user where the
+> +	 * iov_addrs are interpreted as an offset in bytes into the dma-buf to
+> +	 * send from. We do not support other iter types.
+> +	 */
+> +	if (iov_iter_type(from) != ITER_IOVEC)
+> +		return -EFAULT;
 > +
-> +  # IOW this cannot undo any DRM.debug settings
-> +  :#> ddcmd -p
+> +	while (length && iov_iter_count(from)) {
+> +		if (i == MAX_SKB_FRAGS)
+> +			return -EMSGSIZE;
+> +
+> +		virt_addr = (size_t)iter_iov_addr(from);
+> +		niov = net_devmem_get_niov_at(binding, virt_addr, &off, &size);
+> +		if (!niov)
+> +			return -EFAULT;
+> +
+> +		size = min_t(size_t, size, length);
+> +		size = min_t(size_t, size, iter_iov_len(from));
+> +
+> +		get_netmem(net_iov_to_netmem(niov));
+> +		skb_add_rx_frag_netmem(skb, i, net_iov_to_netmem(niov), off,
+> +				       size, PAGE_SIZE);
+> +		iov_iter_advance(from, size);
+> +		length -= size;
+> +		i++;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  int __zerocopy_sg_from_iter(struct msghdr *msg, struct sock *sk,
+>  			    struct sk_buff *skb, struct iov_iter *from,
+> -			    size_t length)
+> +			    size_t length,
+> +			    struct net_devmem_dmabuf_binding *binding)
+>  {
+>  	unsigned long orig_size = skb->truesize;
+>  	unsigned long truesize;
+> @@ -702,6 +744,8 @@ int __zerocopy_sg_from_iter(struct msghdr *msg, struct sock *sk,
+>  
+>  	if (msg && msg->msg_ubuf && msg->sg_from_iter)
+>  		ret = msg->sg_from_iter(skb, from, length);
+> +	else if (unlikely(binding))
+> +		ret = zerocopy_fill_skb_from_devmem(skb, from, length, binding);
+>  	else
+>  		ret = zerocopy_fill_skb_from_iter(skb, from, length);
+>  
+> @@ -735,7 +779,7 @@ int zerocopy_sg_from_iter(struct sk_buff *skb, struct iov_iter *from)
+>  	if (skb_copy_datagram_from_iter(skb, 0, from, copy))
+>  		return -EFAULT;
+>  
+> -	return __zerocopy_sg_from_iter(NULL, NULL, skb, from, ~0U);
+> +	return __zerocopy_sg_from_iter(NULL, NULL, skb, from, ~0U, NULL);
+>  }
+>  EXPORT_SYMBOL(zerocopy_sg_from_iter);
+>  
+> diff --git a/net/core/devmem.c b/net/core/devmem.c
+> index 0cf3d189f06c..393e30d72dc8 100644
+> --- a/net/core/devmem.c
+> +++ b/net/core/devmem.c
+> @@ -17,6 +17,7 @@
+>  #include <net/netdev_rx_queue.h>
+>  #include <net/page_pool/helpers.h>
+>  #include <net/page_pool/memory_provider.h>
+> +#include <net/sock.h>
+>  #include <trace/events/page_pool.h>
+>  
+>  #include "devmem.h"
+> @@ -54,8 +55,10 @@ static dma_addr_t net_devmem_get_dma_addr(const struct net_iov *niov)
+>  	       ((dma_addr_t)net_iov_idx(niov) << PAGE_SHIFT);
+>  }
+>  
+> -void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
+> +void __net_devmem_dmabuf_binding_free(struct work_struct *wq)
+>  {
+> +	struct net_devmem_dmabuf_binding *binding = container_of(wq, typeof(*binding), unbind_w);
+> +
+>  	size_t size, avail;
+>  
+>  	gen_pool_for_each_chunk(binding->chunk_pool,
+> @@ -73,8 +76,10 @@ void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
+>  	dma_buf_detach(binding->dmabuf, binding->attachment);
+>  	dma_buf_put(binding->dmabuf);
+>  	xa_destroy(&binding->bound_rxqs);
+> +	kvfree(binding->tx_vec);
+>  	kfree(binding);
+>  }
+> +EXPORT_SYMBOL(__net_devmem_dmabuf_binding_free);
+>  
+>  struct net_iov *
+>  net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding)
+> @@ -119,6 +124,13 @@ void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
+>  	unsigned long xa_idx;
+>  	unsigned int rxq_idx;
+>  
+> +	xa_erase(&net_devmem_dmabuf_bindings, binding->id);
+> +
+> +	/* Ensure no tx net_devmem_lookup_dmabuf() are in flight after the
+> +	 * erase.
+> +	 */
+> +	synchronize_net();
+> +
+>  	if (binding->list.next)
+>  		list_del(&binding->list);
+>  
 
-Patch 30/59 just dropped this behavior no?
-
-> +So each class must be enabled individually (no wildcards):
-> +
-> +  :#> ddcmd class DRM_UT_CORE +p
-> +  :#> ddcmd class DRM_UT_KMS +p
-> +  # or more selectively
-> +  :#> ddcmd class DRM_UT_CORE module drm +p
-> +
-> +Or the legacy/normal (more convenient) way:
-> +
-> +  :#> echo 0x1ff > /sys/module/drm/parameters/debug
-> +
-> +Dynamic Debug Classmap API
-> +==========================
-> +
-> +DRM.debug is built upon:
-> +  ~23 macros, all passing a DRM_UT_* constant as arg-1.
-> +  ~5000 calls to them, across drivers/gpu/drm/*
-> +  bits in /sys/module/drm/parameters/debug control all DRM_UT_* together
-> +
-> +The const short ints are good for optimizing compilers; a classmaps
-> +design goal was to keep that.  So basically .classid === category.
-> +
-> +And since prdbgs are cataloged with just a DRM_UT_* to identify them,
-> +the "class" keyword maps known classnames to those reserved IDs, and
-> +by explicitly requiring "class FOO" in queries, we protect FOO class'd
-> +debugs from overwrite by generic queries.
-> +
-> +Its expected that other classmap users will also provide debug-macros
-> +using an enum-defined categorization scheme like DRM's, and dyndbg can
-> +be adapted under them similarly.
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_DEFINE(var,type,_base,classnames) - this maps
-> +classnames onto class-ids consecutively, starting at _base, it also
-> +maps the names onto CLASSMAP_PARAM bits 0..N.
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_USE(var) - modules call this to refer to the
-> +var _DEFINEd elsewhere (and exported).
-> +
-> +Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
-> +dyndbg to update those classes.  "class FOO" queries are validated
-> +against the classes, this finds the classid to alter; classes are not
-> +directly selectable by their classid.
-> +
-> +There are 2 types of classmaps:
-> +
-> + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-> + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
-> +refers to a DEFINEd classmap, and associates it to the param's
-> +data-store.  This state is then applied to DEFINEr and USEr modules
-> +when they're modprobed.
-> +
-> +The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-> +amongst the contained classnames; all classes are independent in the
-> +control parser itself; there is no implied meaning in names like "V4".
-> +
-> +Modules or module-groups (drm & drivers) can define multiple
-> +classmaps, as long as they share the limited 0..62 per-module-group
-> +_class_id range, without overlap.
-
-Maybe clarify that a driver using _USE macro should take care that he 
-only use distinct non-overlaping classmaps?
-
-> +``#define DEBUG`` will enable all pr_debugs in scope, including any
-> +class'd ones.  This won't be reflected in the PARAM readback value,
-> +but the class'd pr_debug callsites can be forced off by toggling the
-> +classmap-kparam all-on then all-off.
-
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
-
+One thing forgot to mention: we should probably do the same for the
+allocation path? Move the binding->id allocation to the end of the 
+routine to make sure we 'post' fully initialized bindings? Otherwise,
+net_devmem_bind_dmabuf migh race with the sendmsg?
