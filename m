@@ -1,396 +1,240 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2081.outbound.protection.outlook.com [40.107.212.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9E82638BF;
-	Mon, 24 Mar 2025 16:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742833505; cv=none; b=j7sp82v4jSoKAOqSMXnVHmHuVXF7Rzw1uiS1j8JZ1pGZHW6QB2DllRPvQfpW19w03zUykksLIjcgMt3+W+1J1CMHLTQGxNXaHSSpPNyFMGhCTBdeNZcBJzTRtM8L9tW0jYxIVN2Cxy0LLtRQCTMwaj4ABbhZtB/acrb+juiRUNQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742833505; c=relaxed/simple;
-	bh=nKiaV2uy994lXoUMTABtnMyxxM77OqDyio0SZZIffOY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qlOoZ90fWRQ6tLc7cBqGsEzwdtTQPffiiV0T3LJfxEyzqSnONB5wnsh00lQ1NIXiriMeSBShyFYUvcHp+VJ1549s6DAVLFoyh0l+i3V0Ln9F+nIzC/21plCSrr+qWbLAmxgG8GhDml0L5PzZy1rmxQoV9Buh9EWipgsyrlmP6Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ghkYaMu/; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35F3263C77;
+	Mon, 24 Mar 2025 16:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.81
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742833740; cv=fail; b=MQZLLb2KKCYYYBpScRYtYR/Z5dFJSIEtD72RQVkyuavCK4UgFnmPEDS4H4V6naJpCesonmeP7cn4e4gzpqebjVVqRZEEM9RuzZqQx1ClT612HUQhtZZa7eFFwJBmgc8GLR5ihWniNQiZh8NO0Vpgx2VoTMTsXIxILcaU5wCpz38=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742833740; c=relaxed/simple;
+	bh=84tWVPIvHC1S7ccUgxHOd86ng3aQ8WenW+csBKi8R1w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=PHloesrOhRe4fT0AcczE8aLqzkWQH5PvOgqmL4wq9LYrkVMY++11BwSoshc2ZDHAFHuWW+NIjYps9ly4IfDqkFoleEJtf4F5FTeU09S/eM/GSEvCY/I6dG3IairhfvXwxVKnO15QGyCiqm3uxc2iFVmlIZc8f1XxaMIw/ZLQ0+E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=HGW9+uiq; arc=fail smtp.client-ip=40.107.212.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ghkYaMu/"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22622ddcc35so15895285ad.2;
-        Mon, 24 Mar 2025 09:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742833502; x=1743438302; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xgwbZFV4k14U0YMVn2vdNZn0XHzElupWe5Rio/k7zP8=;
-        b=ghkYaMu/mpjx0jgfnayzX69LSz7S8UbiytUN78W9VXoB+6yLDbwAmpWPl//wmFgXot
-         896tNAk5op9emHSc+/oiIIAFklOACQGOW1rkeimFaHttY0c45ourWYzq1nMuGn8INDM4
-         id9YaPHO3T2yevnHuxMG/VOwFbyafj7XuqBVZWQzzkt9oqAkXG64V0pjotX6VZ2KvdkW
-         V8HetI+C/ApASvzGbYI3V+/RWbw+8GcGTzWHhHOhGNcyDiNOkpTXl8IudnQbClFXgB3W
-         cJ80hrhvKIt909RHIanYLjC9NiT+Q1eHjthDbfzzCL1X1BHr+zjuS0TxWxvndXNNOfS1
-         zM2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742833502; x=1743438302;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xgwbZFV4k14U0YMVn2vdNZn0XHzElupWe5Rio/k7zP8=;
-        b=lzn1XZMoMbBjunCce42hVD1Ne3Ea0tvso8NtKA2eGD7zlUAKrUxtjIJf5djvZKwt0b
-         IEbXNUYfLYi8ju4pNS7XRixmM4WnoQAxrGZdWfRLIM+/Bs8qWOBpB06vDgQj4ciIv8NC
-         5PW8DFO68P67a1ECemUHpRN/bYAG+XFOMdEHzM2fv56Cdl+fbGZreY5+TMBONHNMYriF
-         MFisuDKTjR3aVCQNv/ssR+RQ32aU601wljBZ3ApdSykv+g2/zjZEBUknyG4ItA5a2xHc
-         rcdajcXnOfDYazoBklFPoXA/gIkZe4jkzqUl6OdwHHMA0geCBmI4FaO09ee6esECnf/F
-         b8Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCUjS01FfLPg5wr0j9WwuA8kPzVm/H2+2cx+2hnRJl4EsG4JY9DXEQqU9+WtqHOtNmXcIkIgRzTU6Kq8oPx5tMS9@vger.kernel.org, AJvYcCVUUyWqLfSwUpIgqfIBRvZ4dyXhL+bUb1Hr2gC4Q3A9n34W8U4JA9h0kcAxAZSHeJoE5rpCfSsUg3J/@vger.kernel.org, AJvYcCWzeh2lwAhZUVYCAKQOVbrXcmDRPGy9J/atbrDaPvZiUfVuYGUoD8ajlitJgTAp1sq1DpVSARqdciXtlOfk@vger.kernel.org, AJvYcCXNi6pG/1XJoUdsLwEzMlDYkSkRvz8BkjEy9+YV9/bWbULdV+B/yjXIkReao8CdukixAi4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuY6d2WW/Jm38armMs71eMYtUbPzl3hnxqdNwuW43M2c+bA22P
-	v8YzmgWbEQSovKyZvVmrtSATBZksIULhYvKS+SHTPXkFWfriZxA=
-X-Gm-Gg: ASbGncuxUMSTp0CM52AWI88NxZIQNsodmQYcIbv2wnhHplMu13YOgKD26RrrBPigALR
-	jNqm/fJf+TuAYkjp7IntW0XtUszIrNaMS+0L/fFw7n/+nTNw8dtuBpak7UqYXbER3nPyR0Tabkt
-	a/uG8f4o1+xMOKUBcJaDJKNC2nOk2mnsV/eCllb5qu9jzStOmXo0gpnW6pOM+ZzCZHsy9le2I8Z
-	G5B/BXH4/naOz/76mjnb/yF3HQeT3CZR8bMzkYKVuFAMU/IK6vz8M95A0F16GQ5flJRzEV5X5f8
-	UKjY7ny3/BPReWsffCSsF1hHf2VTskNi6lR45uteI5hYpPcy0hg8iW0=
-X-Google-Smtp-Source: AGHT+IGiKdTRdw+DiZr6HOCnUFelGGI14bMpQuoiyBGUP2qfPnA02Nacb7vxr2vvXb4uQfUTp7x5gw==
-X-Received: by 2002:a17:902:d48b:b0:21f:52e:939e with SMTP id d9443c01a7336-22780d8ff5bmr203919345ad.28.1742833502117;
-        Mon, 24 Mar 2025 09:25:02 -0700 (PDT)
-Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-227811e34cfsm73122975ad.201.2025.03.24.09.25.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 09:25:01 -0700 (PDT)
-Date: Mon, 24 Mar 2025 09:25:00 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Willem de Bruijn <willemb@google.com>,
-	David Ahern <dsahern@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
-	asml.silence@gmail.com, dw@davidwei.uk,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Victor Nogueira <victor@mojatatu.com>,
-	Pedro Tammela <pctammela@mojatatu.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v7 4/9] net: devmem: Implement TX path
-Message-ID: <Z-GHXCOgP0pZBSlS@mini-arch>
-References: <20250308214045.1160445-1-almasrymina@google.com>
- <20250308214045.1160445-5-almasrymina@google.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="HGW9+uiq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fdI7/qiTaLFMnOO3TMzTbefSYbGVNHm+sKGjOFHO2/57EQLIMcpjg3itsO4zUvJby77V/DiG8i8pEMRVv8yEreqvJtofa1t3O929y209MHipFsFe6AeVw3bhP5rOlwYh7EZA/USPwa2q+JePz/XqT0axREKL2vd6s+/+y+gF+wS5iiB97kbOZ80cP/udEwSZ8H83Me6kfFvj90zes+z8NwwLIWJ7I9KjVBpz+pySAEMH5Aa56TztgmujcWHNAdAI7uQtoxkB9L/fJZ023WS31SxkaTluEm7ncujFs+N+1nMMR40n9fPXcIt/PWiiCR9KW4zVUx8BAJ01M5g7MDgrhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sV+C6tvjamxJ4X426YMRD+cxEIVDqEjZC8Ma+sfAYhs=;
+ b=n4DAJhby6vc0veHAchOa4J7xrOWJSEWFYYZtGxaC1lHokPps9LiCm/qBvhyDdiwzdBLdQVj3UcxEYHyQb4SAm6PXVEhu/x4zreQDxYvKI/E60fBt617zlHMuF7b43TxVnmfyaTqxz4uiQ42OntAy6slTqHG1HwtdCwoiiTgdjAFHvBz5BECWZw9ejTGkp5XmzEUwQLJkDslLRTkyAUq+ehCvi8HRP3oHzu3g/7aoQJTXEyDhLKGhaPCrJLeM2juHNFUwmjELtC9hjWdstT3zzLDgGJPlaTYSL4Zb8ucos9pO7Nko5NfCkqw9i1OaoOyV7sbCHDo2klXjrTJ7E3+47A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sV+C6tvjamxJ4X426YMRD+cxEIVDqEjZC8Ma+sfAYhs=;
+ b=HGW9+uiqrV43hm9lvK/nUbwXfGxb9mZptZWXgdn6lC1s5rWvv4imk9ZvVsVwk0/j5AqxF/rf0Kr0JTviZ0mWKtFzLWI90e6k0cCPmiws7hiNMJtA419+CcYEjTFrdILzxXDQQqOTqbBVm0zMM2rBbAa8nzE57d1g+Zpmn62tPym01e2E4iS4gj+sXnygJQsSTFEQec/jN2lVz8vSo3kL/vMmT+yiEKfIo6IRUdLhniEcLxZqjZH134HtSIKx+7KVizm2R2WwdA7cKLBisFd/zbnG8S5weZVmJnCEqt3XJDB4gIQJirBB5b8Mkm0OHO4pAO7628TKpQ56cZe8dIWmaw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by PH7PR12MB9102.namprd12.prod.outlook.com (2603:10b6:510:2f8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Mon, 24 Mar
+ 2025 16:28:55 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8534.040; Mon, 24 Mar 2025
+ 16:28:55 +0000
+Date: Mon, 24 Mar 2025 13:28:53 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Changyuan Lyu <changyuanl@google.com>
+Cc: akpm@linux-foundation.org, anthony.yznaga@oracle.com, arnd@arndb.de,
+	ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de,
+	catalin.marinas@arm.com, corbet@lwn.net,
+	dave.hansen@linux.intel.com, devicetree@vger.kernel.org,
+	dwmw2@infradead.org, ebiederm@xmission.com, graf@amazon.com,
+	hpa@zytor.com, jgowans@amazon.com, kexec@lists.infradead.org,
+	krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, luto@kernel.org, mark.rutland@arm.com,
+	mingo@redhat.com, pasha.tatashin@soleen.com, pbonzini@redhat.com,
+	peterz@infradead.org, ptyadav@amazon.de, robh+dt@kernel.org,
+	robh@kernel.org, rostedt@goodmis.org, rppt@kernel.org,
+	saravanak@google.com, skinsburskii@linux.microsoft.com,
+	tglx@linutronix.de, thomas.lendacky@amd.com, will@kernel.org,
+	x86@kernel.org
+Subject: Re: [PATCH v5 07/16] kexec: add Kexec HandOver (KHO) generation
+ helpers
+Message-ID: <Z+GIRecXeYXiPrYv@nvidia.com>
+References: <20250321133447.GA251739@nvidia.com>
+ <20250323190204.742672-1-changyuanl@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250323190204.742672-1-changyuanl@google.com>
+X-ClientProxiedBy: BLAPR03CA0140.namprd03.prod.outlook.com
+ (2603:10b6:208:32e::25) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250308214045.1160445-5-almasrymina@google.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB9102:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0b857bba-35f1-4d41-db27-08dd6af0f878
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?GDIISu9WESnPwal+3dOawugQn/zGlQ8j0p6CCa11N0j4atHbDWDP6O6qEo6w?=
+ =?us-ascii?Q?gIxaGBoAfDp/pomoACAp8fZsUg7pt3hiLkapZvmNSKufraVqHHcgRyj42LIB?=
+ =?us-ascii?Q?CSUq2kdX3fIwVF36V52WTC766okLBFQ0WiA+iwjDwQVeGV1E3WZBT9bxGV5R?=
+ =?us-ascii?Q?1ncfUr58bZknj6j7N5HpiDZiWiUPHSmak8pBRBztaTyu+/DsAm4Iebm3b98v?=
+ =?us-ascii?Q?kycWdc+8xMBWOfQbUPyJ1shebIlXhc1k14Hqx8tMsPhiD1uzx8TiYwY1oW2P?=
+ =?us-ascii?Q?qvJhQw+G8tjw51zaAkfMWA/tiNyMUAgJAZGbqaCP/7vRU4mt37A9kEURWjfI?=
+ =?us-ascii?Q?0FXZNVNH8ryNOQNy8lDqac+vj39t4gYnJmOHqN5P4nF0oMLDYH1ZeCQ7AAJc?=
+ =?us-ascii?Q?BlMdARkAc809CTMUrBohGr42ZcqHhlQC5tBRFmNsxqC9HrQ5sOvtreRA1uOR?=
+ =?us-ascii?Q?5q6yCYdiTq2GuHQk/CV9fEBvpWkfHPEDKz2KqRcjaQwcuxdhMGgWWgc+aiRG?=
+ =?us-ascii?Q?Y/08/nMbaLlhqvwJXmgurP6LSWpC0vkh2tFbLdQneKI78VO7+xUD8+oonhZA?=
+ =?us-ascii?Q?/B8CRmqKqwsH+o/vlwhrSMUvRP3G8ECOZmlt/ET/Ogobvu+HNvpEjfbzCpMd?=
+ =?us-ascii?Q?5YX13PxteCjuRyyae49XDwKqsxBtx1v0Ps9NZGW5aYbk1B2uzUqqcOe/dahw?=
+ =?us-ascii?Q?+hK9kC4Sj8vczoVBEOPFsc9AtGImnrgxmINg0sr8CDltqCs+cMP/CHFTeIkN?=
+ =?us-ascii?Q?fvHRAaqK9NaBauucVOnlbREOjM1tHA2C0y6rXIul3qm/9ZuLoBR+UM6ay50r?=
+ =?us-ascii?Q?LyeSWd/dpu4XVdUpk66+bcxqp+yZxbZNqKLOZUa70iAnH01KyXh7VTixFoC2?=
+ =?us-ascii?Q?W5Xlnd0QbzauAQgn0V4onhYos4zc/anOvVSs7Z6DQyTo2MECPnRKn8cV2Fkn?=
+ =?us-ascii?Q?8uY6ldq+vuNyt3AyThiWcGHcwzauNTVIZKWe4YqxaUDDMnqJXsoaMkPLytmQ?=
+ =?us-ascii?Q?tEy7DAKxH/q4q834PfKvvqE3ZnagPL2Cy0xYUGFHkevo/MKOwEJC0NFfTwLn?=
+ =?us-ascii?Q?G3J1tp/+Ij6VdUE3As8yirvJQ32zG8J7lat6PPojdHbLYGD9HtqOakW7NONi?=
+ =?us-ascii?Q?EH2ucgD/BUgvg9PG1EpsJR9v0m/sTwrr6o+yLY4ZRFX9l6IE4agwb4MlLaft?=
+ =?us-ascii?Q?VhBbJICJGJRbbiaCilShz3VukHygOa72McwrxqBY5fcyNTQC4owygh49Mgb/?=
+ =?us-ascii?Q?Tnnn6n4wgRJwTCsoPZ2YY0puo3KpYAGS/a31yHteJ5R43StH7LvHjWAGFpXK?=
+ =?us-ascii?Q?FUSEoBdqdERMJRT6nid5miqsHfILONLPBBvX8etYmloUQyho6IGHnVzoNvl8?=
+ =?us-ascii?Q?TBN+gFth/Z5zg4WdJhySb40X7LfS?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?1g/CRns82T0FDE3aKveVW9dWwF8XHdL4g2gxqD0+mQfI2/+vOFUHSAG6c2LN?=
+ =?us-ascii?Q?D3HA8vKKW53I51IZbZ9FN5NVl49A/L3ahYJUG1mWQqs4/HP7diFnekYHJMKB?=
+ =?us-ascii?Q?zm6wJKA9irapwhSkD3Vm72bWgruoxr/fsGwi0SwQWGoAbi6hDy2bwyYty4se?=
+ =?us-ascii?Q?73lXqgvtzHhKiegdwz9NZjPKtKDjNa6o0rAdRxnMx6MK5OlFylSRBJAidbCF?=
+ =?us-ascii?Q?TKKha+HNhW0vi4Phqe96YCmaTZQyubGpl6flquJNvJhrLsC3nDT/IOeyD/q4?=
+ =?us-ascii?Q?27LQ4weE3JnToJ/0WJULXIlaa4F7gIoqFAKBrZup72og3yFkmNO7Uyv32R72?=
+ =?us-ascii?Q?fqrQRFd0F56DW0W0zJ91rxUUtDAksuzQkgiSmNevYOh6Gqi9a+FfHijqs+1B?=
+ =?us-ascii?Q?eQu30AKqFIH31R66WnFBwKwQkTHiz/Y5JbGh4u6wG9xCgkg/Xf4mX1gqzhuC?=
+ =?us-ascii?Q?5y6NUep8JGHmfts3X8305h8ETTE11iwMPHjdHRpMXIU6BJyOau3OuIsXoB4v?=
+ =?us-ascii?Q?wdBxXbbYPzIadECP6TfkSqAUvMb1IbMtGE8bdNmOqTzU9lnN8kC6CEMur0Cb?=
+ =?us-ascii?Q?QcuXcMYo/eYIptSvjPG9d7x8PS6Bicj4PSkMJJt2gqQMRnVvZYkWDQjQZcVk?=
+ =?us-ascii?Q?VczcxqJFmdWDANzZhwaKyI+RXX4wkk1hUW6XMSWGOEkTGR5ItTZ4szafVIRj?=
+ =?us-ascii?Q?EwAYeaLQciscRVSdRxk70Qjdp+SAN++0Nj2xImScdNKsTFgFYN+QtVJFW8Fs?=
+ =?us-ascii?Q?pEIt30u2Um/AIm98R1UmZIIM6Qs1e+j3buLM4/FqF3wn+jrf21P31a0hz+Ml?=
+ =?us-ascii?Q?uKhsxeFKT1AwPbyhM9PuIq0mypJA9X7qFGbZeVFd/WYrIGQgm0a42WGxmFpX?=
+ =?us-ascii?Q?nY1rhH1zqNRSBUhjhRgF4MAkBP+f0MBOInaeylTOd5csSM8haYey9L4BebDD?=
+ =?us-ascii?Q?TwX2hiHKrzt8sCLCT79+f9Z+h5oXdqfWlZffx3vAzTRna/Q81m9cvhOL8VbV?=
+ =?us-ascii?Q?NdAv5VFVNBQqQNDAEkybJ9MYryA9eT9HJfLADlfs40pqENpy805dLcunNKd2?=
+ =?us-ascii?Q?c9w/hfsZeBfaWLEE0fTiT7cOeZ4Qb7qt7F7wqW9b4F4df3TAAJY+Zzg5Z4Ym?=
+ =?us-ascii?Q?8sqvEtdjeI/SKi4IXQ/Br6U8eNKqV4TbzGpfB++JYVsZrO5hcjQKFyPw8v/t?=
+ =?us-ascii?Q?SkXKdch50Iw+ZABLMSbaDe7oSaXyyUFl+wYX1mKZsm9+oujo97dsgHSU0bck?=
+ =?us-ascii?Q?kpg4KhVyFGSKDQoPpNr0IuJvStXW/yhirmjvlP/kaU8dT0iFWe/vPSB8eyfF?=
+ =?us-ascii?Q?5gTwcQOtx6lz/F3vHp1W+yUA20K5quEY6l1+9LN4RG+Y/q9IFczRr2cnOOjt?=
+ =?us-ascii?Q?u2+WSt/RWVunaZDihK/rZrVjquCobktdDV9MTk8nyy98XK9YEhH4XLEW9hp6?=
+ =?us-ascii?Q?XKy6M+VqDVx7KYCy6d5MWJACVxl7QGnQBRxUQOjxRl9qsDMV7deMG/X8Sqbk?=
+ =?us-ascii?Q?96GdHhWrABpoQjpKzoc3iuyJJoBjhHo1Q5bLSjn2r56n8JIONWbai6lUOo2G?=
+ =?us-ascii?Q?FFyAiO4O1VFiWXUl11YiB0zLBh2bhwZhaafMkoW9?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b857bba-35f1-4d41-db27-08dd6af0f878
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2025 16:28:55.2693
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QRalG4PrOXvXN4bTs8rhEOfkq0SYZ4A5RVSm8y+0IAehN6bAYe8ge1J4gPNBiuD8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9102
 
-On 03/08, Mina Almasry wrote:
-> Augment dmabuf binding to be able to handle TX. Additional to all the RX
-> binding, we also create tx_vec needed for the TX path.
-> 
-> Provide API for sendmsg to be able to send dmabufs bound to this device:
-> 
-> - Provide a new dmabuf_tx_cmsg which includes the dmabuf to send from.
-> - MSG_ZEROCOPY with SCM_DEVMEM_DMABUF cmsg indicates send from dma-buf.
-> 
-> Devmem is uncopyable, so piggyback off the existing MSG_ZEROCOPY
-> implementation, while disabling instances where MSG_ZEROCOPY falls back
-> to copying.
-> 
-> We additionally pipe the binding down to the new
-> zerocopy_fill_skb_from_devmem which fills a TX skb with net_iov netmems
-> instead of the traditional page netmems.
-> 
-> We also special case skb_frag_dma_map to return the dma-address of these
-> dmabuf net_iovs instead of attempting to map pages.
-> 
-> The TX path may release the dmabuf in a context where we cannot wait.
-> This happens when the user unbinds a TX dmabuf while there are still
-> references to its netmems in the TX path. In that case, the netmems will
-> be put_netmem'd from a context where we can't unmap the dmabuf, Resolve
-> this by making __net_devmem_dmabuf_binding_free schedule_work'd.
-> 
-> Based on work by Stanislav Fomichev <sdf@fomichev.me>. A lot of the meat
-> of the implementation came from devmem TCP RFC v1[1], which included the
-> TX path, but Stan did all the rebasing on top of netmem/net_iov.
-> 
-> Cc: Stanislav Fomichev <sdf@fomichev.me>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> Acked-by: Stanislav Fomichev <sdf@fomichev.me>
-> 
-> ---
-> 
-> v6:
-> - Retain behavior that MSG_FASTOPEN succeeds even if cmsg is invalid
->   (Paolo).
-> - Rework the freeing of tx_vec slightly to improve readability. Now it
->   has its own err label (Paolo).
-> - Squash making unbinding scheduled work (Paolo).
-> - Add comment to clarify that net_iovs stuck in the transmit path hold
->   a ref on the underlying dmabuf binding (David).
-> - Fix the comment on how binding refcounting works on RX (the comment
->   was not matching the existing code behavior).
-> 
-> v5:
-> - Return -EFAULT from zerocopy_fill_skb_from_devmem (Stan)
-> - don't null check before kvfree (stan).
-> 
-> v4:
-> - Remove dmabuf_tx_cmsg definition and just use __u32 for the dma-buf id
->   (Willem).
-> - Check that iov_iter_type() is ITER_IOVEC in
->   zerocopy_fill_skb_from_iter() (Pavel).
-> - Fix binding->tx_vec not being freed on error paths (Paolo).
-> - Make devmem patch mutually exclusive with msg->ubuf_info path (Pavel).
-> - Check that MSG_ZEROCOPY and SOCK_ZEROCOPY are provided when
->   sockc.dmabuf_id is provided.
-> - Don't mm_account_pinned_pages() on devmem TX (Pavel).
-> 
-> v3:
-> - Use kvmalloc_array instead of kcalloc (Stan).
-> - Fix unreachable code warning (Simon).
-> 
-> v2:
-> - Remove dmabuf_offset from the dmabuf cmsg.
-> - Update zerocopy_fill_skb_from_devmem to interpret the
->   iov_base/iter_iov_addr as the offset into the dmabuf to send from
->   (Stan).
-> - Remove the confusing binding->tx_iter which is not needed if we
->   interpret the iov_base/iter_iov_addr as offset into the dmabuf (Stan).
-> - Remove check for binding->sgt and binding->sgt->nents in dmabuf
->   binding.
-> - Simplify the calculation of binding->tx_vec.
-> - Check in net_devmem_get_binding that the binding we're returning
->   has ifindex matching the sending socket (Willem).
-> ---
->  include/linux/skbuff.h                  |  17 +++-
->  include/net/sock.h                      |   1 +
->  net/core/datagram.c                     |  48 ++++++++++-
->  net/core/devmem.c                       | 105 ++++++++++++++++++++++--
->  net/core/devmem.h                       |  61 +++++++++++---
->  net/core/netdev-genl.c                  |  64 ++++++++++++++-
->  net/core/skbuff.c                       |  18 ++--
->  net/core/sock.c                         |   6 ++
->  net/ipv4/ip_output.c                    |   3 +-
->  net/ipv4/tcp.c                          |  50 ++++++++---
->  net/ipv6/ip6_output.c                   |   3 +-
->  net/vmw_vsock/virtio_transport_common.c |   5 +-
->  12 files changed, 330 insertions(+), 51 deletions(-)
-> 
-> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> index 14517e95a46c..67a7e069a9bf 100644
-> --- a/include/linux/skbuff.h
-> +++ b/include/linux/skbuff.h
-> @@ -1707,13 +1707,16 @@ static inline void skb_set_end_offset(struct sk_buff *skb, unsigned int offset)
->  extern const struct ubuf_info_ops msg_zerocopy_ubuf_ops;
->  
->  struct ubuf_info *msg_zerocopy_realloc(struct sock *sk, size_t size,
-> -				       struct ubuf_info *uarg);
-> +				       struct ubuf_info *uarg, bool devmem);
->  
->  void msg_zerocopy_put_abort(struct ubuf_info *uarg, bool have_uref);
->  
-> +struct net_devmem_dmabuf_binding;
-> +
->  int __zerocopy_sg_from_iter(struct msghdr *msg, struct sock *sk,
->  			    struct sk_buff *skb, struct iov_iter *from,
-> -			    size_t length);
-> +			    size_t length,
-> +			    struct net_devmem_dmabuf_binding *binding);
->  
->  int zerocopy_fill_skb_from_iter(struct sk_buff *skb,
->  				struct iov_iter *from, size_t length);
-> @@ -1721,12 +1724,14 @@ int zerocopy_fill_skb_from_iter(struct sk_buff *skb,
->  static inline int skb_zerocopy_iter_dgram(struct sk_buff *skb,
->  					  struct msghdr *msg, int len)
->  {
-> -	return __zerocopy_sg_from_iter(msg, skb->sk, skb, &msg->msg_iter, len);
-> +	return __zerocopy_sg_from_iter(msg, skb->sk, skb, &msg->msg_iter, len,
-> +				       NULL);
->  }
->  
->  int skb_zerocopy_iter_stream(struct sock *sk, struct sk_buff *skb,
->  			     struct msghdr *msg, int len,
-> -			     struct ubuf_info *uarg);
-> +			     struct ubuf_info *uarg,
-> +			     struct net_devmem_dmabuf_binding *binding);
->  
->  /* Internal */
->  #define skb_shinfo(SKB)	((struct skb_shared_info *)(skb_end_pointer(SKB)))
-> @@ -3697,6 +3702,10 @@ static inline dma_addr_t __skb_frag_dma_map(struct device *dev,
->  					    size_t offset, size_t size,
->  					    enum dma_data_direction dir)
->  {
-> +	if (skb_frag_is_net_iov(frag)) {
-> +		return netmem_to_net_iov(frag->netmem)->dma_addr + offset +
-> +		       frag->offset;
-> +	}
->  	return dma_map_page(dev, skb_frag_page(frag),
->  			    skb_frag_off(frag) + offset, size, dir);
->  }
-> diff --git a/include/net/sock.h b/include/net/sock.h
-> index 8daf1b3b12c6..59875bed75e7 100644
-> --- a/include/net/sock.h
-> +++ b/include/net/sock.h
-> @@ -1816,6 +1816,7 @@ struct sockcm_cookie {
->  	u32 tsflags;
->  	u32 ts_opt_id;
->  	u32 priority;
-> +	u32 dmabuf_id;
->  };
->  
->  static inline void sockcm_init(struct sockcm_cookie *sockc,
-> diff --git a/net/core/datagram.c b/net/core/datagram.c
-> index f0693707aece..09c74a1d836b 100644
-> --- a/net/core/datagram.c
-> +++ b/net/core/datagram.c
-> @@ -63,6 +63,8 @@
->  #include <net/busy_poll.h>
->  #include <crypto/hash.h>
->  
-> +#include "devmem.h"
-> +
->  /*
->   *	Is a socket 'connection oriented' ?
->   */
-> @@ -692,9 +694,49 @@ int zerocopy_fill_skb_from_iter(struct sk_buff *skb,
->  	return 0;
->  }
->  
-> +static int
-> +zerocopy_fill_skb_from_devmem(struct sk_buff *skb, struct iov_iter *from,
-> +			      int length,
-> +			      struct net_devmem_dmabuf_binding *binding)
-> +{
-> +	int i = skb_shinfo(skb)->nr_frags;
-> +	size_t virt_addr, size, off;
-> +	struct net_iov *niov;
-> +
-> +	/* Devmem filling works by taking an IOVEC from the user where the
-> +	 * iov_addrs are interpreted as an offset in bytes into the dma-buf to
-> +	 * send from. We do not support other iter types.
-> +	 */
-> +	if (iov_iter_type(from) != ITER_IOVEC)
-> +		return -EFAULT;
-> +
-> +	while (length && iov_iter_count(from)) {
-> +		if (i == MAX_SKB_FRAGS)
-> +			return -EMSGSIZE;
-> +
-> +		virt_addr = (size_t)iter_iov_addr(from);
-> +		niov = net_devmem_get_niov_at(binding, virt_addr, &off, &size);
-> +		if (!niov)
-> +			return -EFAULT;
-> +
-> +		size = min_t(size_t, size, length);
-> +		size = min_t(size_t, size, iter_iov_len(from));
-> +
-> +		get_netmem(net_iov_to_netmem(niov));
-> +		skb_add_rx_frag_netmem(skb, i, net_iov_to_netmem(niov), off,
-> +				       size, PAGE_SIZE);
-> +		iov_iter_advance(from, size);
-> +		length -= size;
-> +		i++;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  int __zerocopy_sg_from_iter(struct msghdr *msg, struct sock *sk,
->  			    struct sk_buff *skb, struct iov_iter *from,
-> -			    size_t length)
-> +			    size_t length,
-> +			    struct net_devmem_dmabuf_binding *binding)
->  {
->  	unsigned long orig_size = skb->truesize;
->  	unsigned long truesize;
-> @@ -702,6 +744,8 @@ int __zerocopy_sg_from_iter(struct msghdr *msg, struct sock *sk,
->  
->  	if (msg && msg->msg_ubuf && msg->sg_from_iter)
->  		ret = msg->sg_from_iter(skb, from, length);
-> +	else if (unlikely(binding))
-> +		ret = zerocopy_fill_skb_from_devmem(skb, from, length, binding);
->  	else
->  		ret = zerocopy_fill_skb_from_iter(skb, from, length);
->  
-> @@ -735,7 +779,7 @@ int zerocopy_sg_from_iter(struct sk_buff *skb, struct iov_iter *from)
->  	if (skb_copy_datagram_from_iter(skb, 0, from, copy))
->  		return -EFAULT;
->  
-> -	return __zerocopy_sg_from_iter(NULL, NULL, skb, from, ~0U);
-> +	return __zerocopy_sg_from_iter(NULL, NULL, skb, from, ~0U, NULL);
->  }
->  EXPORT_SYMBOL(zerocopy_sg_from_iter);
->  
-> diff --git a/net/core/devmem.c b/net/core/devmem.c
-> index 0cf3d189f06c..393e30d72dc8 100644
-> --- a/net/core/devmem.c
-> +++ b/net/core/devmem.c
-> @@ -17,6 +17,7 @@
->  #include <net/netdev_rx_queue.h>
->  #include <net/page_pool/helpers.h>
->  #include <net/page_pool/memory_provider.h>
-> +#include <net/sock.h>
->  #include <trace/events/page_pool.h>
->  
->  #include "devmem.h"
-> @@ -54,8 +55,10 @@ static dma_addr_t net_devmem_get_dma_addr(const struct net_iov *niov)
->  	       ((dma_addr_t)net_iov_idx(niov) << PAGE_SHIFT);
->  }
->  
-> -void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
-> +void __net_devmem_dmabuf_binding_free(struct work_struct *wq)
->  {
-> +	struct net_devmem_dmabuf_binding *binding = container_of(wq, typeof(*binding), unbind_w);
-> +
->  	size_t size, avail;
->  
->  	gen_pool_for_each_chunk(binding->chunk_pool,
-> @@ -73,8 +76,10 @@ void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
->  	dma_buf_detach(binding->dmabuf, binding->attachment);
->  	dma_buf_put(binding->dmabuf);
->  	xa_destroy(&binding->bound_rxqs);
-> +	kvfree(binding->tx_vec);
->  	kfree(binding);
->  }
-> +EXPORT_SYMBOL(__net_devmem_dmabuf_binding_free);
->  
->  struct net_iov *
->  net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding)
-> @@ -119,6 +124,13 @@ void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
->  	unsigned long xa_idx;
->  	unsigned int rxq_idx;
->  
-> +	xa_erase(&net_devmem_dmabuf_bindings, binding->id);
-> +
-> +	/* Ensure no tx net_devmem_lookup_dmabuf() are in flight after the
-> +	 * erase.
-> +	 */
-> +	synchronize_net();
-> +
->  	if (binding->list.next)
->  		list_del(&binding->list);
->  
+On Sun, Mar 23, 2025 at 12:02:04PM -0700, Changyuan Lyu wrote:
 
-One thing forgot to mention: we should probably do the same for the
-allocation path? Move the binding->id allocation to the end of the 
-routine to make sure we 'post' fully initialized bindings? Otherwise,
-net_devmem_bind_dmabuf migh race with the sendmsg?
+> > Why are we changing this? I much prefered the idea of having recursive
+> > FDTs than this notion copying eveything into tables then out into FDT?
+> > Now that we have the preserved pages mechanism there is a pretty
+> > direct path to doing recursive FDT.
+> 
+> We are not copying data into the hashtables, instead the hashtables only
+> record the address and size of the data to be serialized into FDT.
+> The idea is similar to recording preserved folios in xarray
+> and then serialize it to linked pages.
+
+I understand that, I mean you are copying the keys/tree/etc. It
+doesn't seem like a good idea idea to me.
+ 
+> > I feel like this patch is premature, it should come later in the
+> > project along with a stronger justification for this approach.
+> >
+> > IHMO keep things simple for this series, just the very basics.
+> 
+> The main purpose of using hashtables is to enable KHO users to save
+> data to KHO at any time, not just at the time of activate/finalize KHO
+> through sysfs/debugfs. For example, FDBox can save the data into KHO
+> tree once a new fd is saved to KHO. Also, using hashtables allows KHO
+> users to add data to KHO concurrently, while with notifiers, KHO users'
+> callbacks are executed serially.
+
+This is why I like the recursive FDT scheme. Each serialization
+operation can open its own FDT write to it and the close it
+sequenatially within its operation without any worries about
+concurrency.
+
+The top level just aggregates the FDT blobs (which are in preserved
+memory)
+
+To me all this complexity here with the hash table and the copying
+makes no sense compared to that. It is all around slower.
+
+> Regarding the suggestion of recursive FDT, I feel like it is already
+> doable with this patchset, or even with Mike's V4 patch. 
+
+Of course it is doable, here we are really talk about what is the
+right, recommended way to use this system. recurisive FDT is a better
+methodology than hash tables
+
+> just allocates a buffer, serialize all its states to the buffer using
+> libfdt (or even using other binary formats), save the address of the
+> buffer to KHO's tree, and finally register the buffer's underlying
+> pages/folios with kho_preserve_folio().
+
+Yes, exactly! I think this is how we should operate this system as a
+paradig, not a giant FDT, hash table and so on...
+
+> I changed the semantics of the notifiers. In Mike's V4, the KHO notifier
+> is to pass the fdt pointer to KHO users to push data into the blob. In
+> this patchset, it notifies KHO users about the last chance for saving
+> data to KHO.
+
+I think Mike's semantic makes more sense.. At least I'd want to see an
+actual example of someting that wants to do a list minute adjustment
+before adding the code.
+
+> However, some KHO users may still want to add data just before kexec,
+> so I kept the notifiers and allow KHO users to get notified when the
+> state tree hashtables are about to be frozen and converted to FDT.
+
+Let's try not adding API surface that has no present user as much as
+possible please. You can shove this into speculative patches that
+someone can pick up if they need this semantic
+ 
+> To completely remove fdt_max, I am considering the idea in [1]. At the
+> time of kexec_file_load(), we pass the address of an anchor page to
+> the new kernel, and the anchor page will later be fulfilled with the
+> physical addresses of the pages containing the FDT blob. Multiple
+> anchor pages can be linked together. The FDT blob pages can be physically
+> noncontiguous.
+
+Yes, this is basically what I suggested too. I think this is much
+prefered and doesn't require the wakky uapi.
+
+Except I suggested you just really need a single u64 to point to a
+preserved page holding the top level FDT.
+
+With recursive FDT I think we can say that no FDT fragement should
+exceed PAGE_SIZE, and things become much simpler, IMHO.
+
+Jason
