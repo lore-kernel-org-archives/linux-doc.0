@@ -1,55 +1,55 @@
-Received: from mail-oi1-f201.google.com (mail-oi1-f201.google.com [209.85.167.201])
+Received: from mail-io1-f73.google.com (mail-io1-f73.google.com [209.85.166.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AAE2054ED
-	for <linux-doc@vger.kernel.org>; Mon, 24 Mar 2025 06:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B626A205AAB
+	for <linux-doc@vger.kernel.org>; Mon, 24 Mar 2025 06:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742799216; cv=none; b=K1hpDMIDQTiBGjI/G6F4jMKrYiDO5NDkD+TMjza27XN/69v6v+RNGchsU6gNfiQwvXPzalJdyx1MkgnzPbIRh4hsiLOYKXaG/pCe92zVQtvjKadDaaWklhV4IWhJfSfiuU0Xl1ybI9A2Jbwb3CM+Wmb08Diif9rTrZGuWe1qT08=
+	t=1742799217; cv=none; b=e00CQmvoCwvYIus7X8apLpbc1vlEHfAbgWz06I6CRINZ5EMAsBSrjh0u+imgLvXg+WCVTPXO00j9bMi2hIfYBiv9oSqgs+l/rQFOPnaFpF4zVJ24zcLDIESHfOxnnhJ6xbSpts4PTEcdRTUBGKcP3ZFjkxyBDoEXlGLAh9Kpff4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742799216; c=relaxed/simple;
-	bh=6Iry22bjOWQ1AjPaz9MRQqCkIqRJczbOa9UlGPD4ElM=;
+	s=arc-20240116; t=1742799217; c=relaxed/simple;
+	bh=a/655ARJD96yOrrJq8qv2chSeO2igeF+EpgPoB34Lko=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=jye1ioImaKpUtHlb05hzBbwenN7nH9HQc59tyWYlEyma5AinyLO9IbgAjObKvnV6x5VImKexVkY0oK5oOftlGJHYf8NAdKLJhVAwRCnXNIoOOQja9fXKl6+Miocz+ZFEZ/knuOYhB4vUO/XeOrfm1fjbKPNjjmi98uqzcHoWChE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--avagin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LpvXYy0x; arc=none smtp.client-ip=209.85.167.201
+	 To:Cc:Content-Type; b=IbKqRAAr/cnzgPI4oBb1gcMgK+YmolLheeYbDeHgmlLMHdWcIbykj1aHdO6YH/QY65GVLwoNk1+6AiY62OM/ZOLdQwfbt47mAQS6Kjo14C9s06NU5WkjKgfc4bdCcAEd59PI6jCw0FZ8+on/Lv14t+B1S/pk6Qt3WgWxln3twuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--avagin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BN51GcXY; arc=none smtp.client-ip=209.85.166.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--avagin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LpvXYy0x"
-Received: by mail-oi1-f201.google.com with SMTP id 5614622812f47-3feb1dce9ceso1122958b6e.1
-        for <linux-doc@vger.kernel.org>; Sun, 23 Mar 2025 23:53:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BN51GcXY"
+Received: by mail-io1-f73.google.com with SMTP id ca18e2360f4ac-851a991cf8bso432201639f.0
+        for <linux-doc@vger.kernel.org>; Sun, 23 Mar 2025 23:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1742799213; x=1743404013; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1742799214; x=1743404014; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mHKQPGagMOpPzVXkQrg+YdchEGJ0YJ8P2M6qhZ6IcLg=;
-        b=LpvXYy0x1/rlGCWEvwQJRccgpccdpNxLYJJa0AaN/K5VWbmXhypizwu7ZTMHZJzIDn
-         nG6NcLodvxmOlHTwSPQVkQm7/rVW4WbUobSjFghcd8HqpqO5ie5Lb9vgSrXjypHJraOT
-         decivjcIWv8u1Vx1MI6S6v3kmQjJX1PljRuDOo/JHS09yCphHhc/p1QgMvdEqztIi1Hd
-         4hO1fA5tr4HZZU7QzY4XwCxWraJWyjlva/VOLH68fllrXWWS7Wd9h1LV3KRl1AS5ZSNF
-         uRWa8SPWW4IV1STsWfSp0KnNPFaDM+3IZiTlWYPBrMDqARTUaiSJG4LFUa5H6WdGPoWx
-         0FZA==
+        bh=ffy3DLCEfKN3in8d5zlc7vx3iwgfrqHuCXTxXTm84ts=;
+        b=BN51GcXYon69e0DC3wmCG7WMntjOUTb3SBB+Gr7psZ5Oic05Ub9A9VnlMIxiQg4OVo
+         sSY0y99d38pDT6F/BgOq0k0Udql1nVxT5qHpxlHlaQp2NsOtgK8L3JaEcF7TTszUaDt6
+         yP99+3LZjCg9G4p1e96aAxYOLxcuqz69LRCD1x8uvrmPZyzkz7Zw0G40PTfaZ0V1QxFi
+         uXYyjgnQKtrP5OFOuXEtXczjFPIa70OcCf5nCarrYczJulzXcQyMmdknixeTutMEWAob
+         F8GOkto/ckriWp8A2xVKwRUZD+8BqJfqK4K+gU7GuIsWDJwy+ealOAWjyEtaIZYeB8sI
+         V6xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742799213; x=1743404013;
+        d=1e100.net; s=20230601; t=1742799214; x=1743404014;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mHKQPGagMOpPzVXkQrg+YdchEGJ0YJ8P2M6qhZ6IcLg=;
-        b=IdjLRZ/vh90Eh8WJjbKL31p7oo/HEalkXfr/nZe5VA6hhLyKb0K2uxfZkgJg1x8pif
-         xolSUJMMXkobLQnCczaR9qDhVhcK46ZNvc71Z7ZBIXEhz5bZuaJSepbGtRB0FTZt5QfA
-         VXnFByd9C2Sm2RiXnT0DmcELMj8k1Kg7unA2TYL/4Nm/n2qOW6PjYy0yrILDdR2o8UDq
-         4+iuC7G4CLtktoeW8DjSrdjtvTvhdNH1378PChkj1vLo5k3VVyb2oeahwGFKskmlXpn/
-         WPeNc5hDsVG7K+ZVPSfeWLEFtQkR6gcHeKOPeDlM8Q0EbbhWf3ZUfLE0wSWWPt1t/uGC
-         bbMw==
-X-Forwarded-Encrypted: i=1; AJvYcCWUb5pwW7hyW/WNEzsSTg6/oNytlqSx72S1iRxBsqC4s1NSphAcM8r2vDEZDi1oAxE42tnzEM+aZ6o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7E++xW84atLkgJGJx79GTxNrEZPXgygEn67TGEz+XGfCuUTwP
-	UUwjnxKHfAEhncrVzHM17JMJu24y57qZ2ZsT9Hv0cRPl//nVzAyUzqAprB8aK/GsAVRh5bOjR2J
-	Hbw==
-X-Google-Smtp-Source: AGHT+IHdUZdDUihniNDxIj7Y5cXrzFf0YBkU/hlZx14R7lVEo/UwEmOdH9bM8gXluf4n8aUSHGMsn5H0BYM=
-X-Received: from oabry11.prod.google.com ([2002:a05:6871:208b:b0:2ae:bdb:eb0])
- (user=avagin job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6830:2813:b0:72b:919a:fa96
- with SMTP id 46e09a7af769-72c0ae465f1mr8859493a34.5.1742799213422; Sun, 23
- Mar 2025 23:53:33 -0700 (PDT)
-Date: Mon, 24 Mar 2025 06:53:27 +0000
+        bh=ffy3DLCEfKN3in8d5zlc7vx3iwgfrqHuCXTxXTm84ts=;
+        b=mBgO0NSP85kDldpaxmYuPBwAEoBzBCNvPOLI+M5tXsPTMutWDsYk2ekUZLE5CyjCcX
+         vnH5y/Vk4S7zovYQPYx89WkDhuLxBysyGUr8zFq6EGWFngJJJ1/fXCSLIvY8QuaujG0K
+         RUo1p/94eeIdwWWL/7ewL0tvcK77rp7nMmL2J0aHtov4+0MixM3WMXtySHI82j5OX6Oa
+         RJxJ4X6Gu0iWdPG+NtdowBNFPKsg1+/LfUAh5iJMR07MyOIMshMlprHOMvaDkI2Qls8q
+         PRwd8ohtpB3XRKNHKPYhc5N6TmM+aMcAKxFMz8qHPuhkjKCjfyMfUylGri95H9+O6LvR
+         8fGw==
+X-Forwarded-Encrypted: i=1; AJvYcCWcjM8X9sigm02dRnNs8Akch2OOsmptngaIZN6kjHt85eQupHxLTeyc9E2TK9eKqvCQUlXrSgTNDkc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpN0Uam2xU7z7PhtJ8QncRGtb3rVVHRaIqK89d76Cs2I4UUeGm
+	gDhZG5+X5Jm+YCbHTjIbgQi/z9KEGtY3gBs4QyhjD40calgOIxsWmuEFgkd6XqQbZnYnqgtKUt8
+	fHQ==
+X-Google-Smtp-Source: AGHT+IFwtFlPb7SBpjbVuF+q5bn8QiiRzWt4tMIZGVuP7apCHzJYW7HGlUxBgl+wR+Dv2VtTkkVMvH9ZZQw=
+X-Received: from iobbw19.prod.google.com ([2002:a05:6602:3993:b0:85b:40c7:ce65])
+ (user=avagin job=prod-delivery.src-stubby-dispatcher) by 2002:a6b:7b07:0:b0:85b:5511:e47f
+ with SMTP id ca18e2360f4ac-85e1ef9251emr1427245839f.3.1742799214336; Sun, 23
+ Mar 2025 23:53:34 -0700 (PDT)
+Date: Mon, 24 Mar 2025 06:53:28 +0000
 In-Reply-To: <20250324065328.107678-1-avagin@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250324065328.107678-1-avagin@google.com>
 X-Mailer: git-send-email 2.49.0.395.g12beb8f557-goog
-Message-ID: <20250324065328.107678-3-avagin@google.com>
-Subject: [PATCH 2/3] tools headers UAPI: Sync linux/fs.h with the kernel sources
+Message-ID: <20250324065328.107678-4-avagin@google.com>
+Subject: [PATCH 3/3] selftests/mm: add PAGEMAP_SCAN guard region test
 From: Andrei Vagin <avagin@google.com>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Andrew Morton <akpm@linux-foundation.org>
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
@@ -71,59 +71,87 @@ Content-Type: text/plain; charset="UTF-8"
 
 From: Andrei Vagin <avagin@gmail.com>
 
-Required for a new PAGEMAP_SCAN test to verify guard region reporting.
+Add a selftest to verify the PAGEMAP_SCAN ioctl correctly reports guard
+regions using the newly introduced PAGE_IS_GUARD flag.
 
 Signed-off-by: Andrei Vagin <avagin@gmail.com>
 ---
- tools/include/uapi/linux/fs.h | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ tools/testing/selftests/mm/guard-regions.c | 57 ++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
-diff --git a/tools/include/uapi/linux/fs.h b/tools/include/uapi/linux/fs.h
-index 8a27bc5c7a7f..24ddf7bc4f25 100644
---- a/tools/include/uapi/linux/fs.h
-+++ b/tools/include/uapi/linux/fs.h
-@@ -40,6 +40,15 @@
- #define BLOCK_SIZE_BITS 10
- #define BLOCK_SIZE (1<<BLOCK_SIZE_BITS)
+diff --git a/tools/testing/selftests/mm/guard-regions.c b/tools/testing/selftests/mm/guard-regions.c
+index 0c7183e8b661..c99f3da8bfb7 100644
+--- a/tools/testing/selftests/mm/guard-regions.c
++++ b/tools/testing/selftests/mm/guard-regions.c
+@@ -8,6 +8,7 @@
+ #include <fcntl.h>
+ #include <linux/limits.h>
+ #include <linux/userfaultfd.h>
++#include <linux/fs.h>
+ #include <setjmp.h>
+ #include <signal.h>
+ #include <stdbool.h>
+@@ -2079,4 +2080,60 @@ TEST_F(guard_regions, pagemap)
+ 	ASSERT_EQ(munmap(ptr, 10 * page_size), 0);
+ }
  
-+/* flags for integrity meta */
-+#define IO_INTEGRITY_CHK_GUARD		(1U << 0) /* enforce guard check */
-+#define IO_INTEGRITY_CHK_REFTAG		(1U << 1) /* enforce ref check */
-+#define IO_INTEGRITY_CHK_APPTAG		(1U << 2) /* enforce app check */
++/*
++ * Assert that PAGEMAP_SCAN correctly reports guard region ranges.
++ */
++TEST_F(guard_regions, pagemap_scan)
++{
++	const unsigned long page_size = self->page_size;
++	struct page_region pm_regs[10];
++	struct pm_scan_arg pm_scan_args = {
++		.size = sizeof(struct pm_scan_arg),
++		.category_anyof_mask = PAGE_IS_GUARD,
++		.return_mask = PAGE_IS_GUARD,
++		.vec = (long)&pm_regs,
++		.vec_len = ARRAY_SIZE(pm_regs),
++	};
++	int proc_fd, i;
++	char *ptr;
 +
-+#define IO_INTEGRITY_VALID_FLAGS (IO_INTEGRITY_CHK_GUARD | \
-+				  IO_INTEGRITY_CHK_REFTAG | \
-+				  IO_INTEGRITY_CHK_APPTAG)
++	proc_fd = open("/proc/self/pagemap", O_RDONLY);
++	ASSERT_NE(proc_fd, -1);
 +
- #define SEEK_SET	0	/* seek relative to beginning of file */
- #define SEEK_CUR	1	/* seek relative to current file position */
- #define SEEK_END	2	/* seek relative to end of file */
-@@ -329,9 +338,16 @@ typedef int __bitwise __kernel_rwf_t;
- /* per-IO negation of O_APPEND */
- #define RWF_NOAPPEND	((__force __kernel_rwf_t)0x00000020)
- 
-+/* Atomic Write */
-+#define RWF_ATOMIC	((__force __kernel_rwf_t)0x00000040)
++	ptr = mmap_(self, variant, NULL, 10 * page_size,
++		    PROT_READ | PROT_WRITE, 0, 0);
++	ASSERT_NE(ptr, MAP_FAILED);
 +
-+/* buffered IO that drops the cache after reading or writing data */
-+#define RWF_DONTCACHE	((__force __kernel_rwf_t)0x00000080)
++	pm_scan_args.start = (long)ptr;
++	pm_scan_args.end = (long)ptr + 10 * page_size;
++	ASSERT_EQ(ioctl(proc_fd, PAGEMAP_SCAN, &pm_scan_args), 0);
++	ASSERT_EQ(pm_scan_args.walk_end, (long)ptr + 10 * page_size);
 +
- /* mask of flags supported by the kernel */
- #define RWF_SUPPORTED	(RWF_HIPRI | RWF_DSYNC | RWF_SYNC | RWF_NOWAIT |\
--			 RWF_APPEND | RWF_NOAPPEND)
-+			 RWF_APPEND | RWF_NOAPPEND | RWF_ATOMIC |\
-+			 RWF_DONTCACHE)
- 
- #define PROCFS_IOCTL_MAGIC 'f'
- 
-@@ -347,6 +363,7 @@ typedef int __bitwise __kernel_rwf_t;
- #define PAGE_IS_PFNZERO		(1 << 5)
- #define PAGE_IS_HUGE		(1 << 6)
- #define PAGE_IS_SOFT_DIRTY	(1 << 7)
-+#define PAGE_IS_GUARD		(1 << 8)
- 
- /*
-  * struct page_region - Page region with flags
++	/* Install a guard region in every other page. */
++	for (i = 0; i < 10; i += 2) {
++		char *ptr_p = &ptr[i * page_size];
++
++		ASSERT_EQ(syscall(__NR_madvise, ptr_p, page_size, MADV_GUARD_INSTALL), 0);
++	}
++
++	/*
++	 * Assert ioctl() returns the count of located regions, where each
++	 * region spans every other page within the range of 10 pages.
++	 */
++	ASSERT_EQ(ioctl(proc_fd, PAGEMAP_SCAN, &pm_scan_args), 5);
++	ASSERT_EQ(pm_scan_args.walk_end, (long)ptr + 10 * page_size);
++
++	/* Re-read from pagemap, and assert guard regions are detected. */
++	for (i = 0; i < 5; i++) {
++		long ptr_p = (long)&ptr[2 * i * page_size];
++
++		ASSERT_EQ(pm_regs[i].start, ptr_p);
++		ASSERT_EQ(pm_regs[i].end, ptr_p + page_size);
++		ASSERT_EQ(pm_regs[i].categories, PAGE_IS_GUARD);
++	}
++
++	ASSERT_EQ(close(proc_fd), 0);
++	ASSERT_EQ(munmap(ptr, 10 * page_size), 0);
++}
++
+ TEST_HARNESS_MAIN
 -- 
 2.49.0.395.g12beb8f557-goog
 
