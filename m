@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115A1192D77;
-	Mon, 24 Mar 2025 19:19:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0F619DF5F;
+	Mon, 24 Mar 2025 19:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742844000; cv=none; b=ZxKFmKguLLoVDHM3eL8IxQKBCk1rILyksjH9kBqybg9I2NEDOkrD8e6h4Vtuna4D59WYmE3KbZVyc77m35j/LX/4+x7mx1CKxulzpWSQhoco+nRhbkzbSqU69FxYM7xBaIyfauhnFbgM3tUhSrQNuDjVh0PARrjbKUFxiT/Dp38=
+	t=1742844002; cv=none; b=SLvkbRwIyDPY8/PLWMKX2pkvmaE3A2uy8erAE0vieWGkJ5MaDHdsS511rkQCUjWtRt2GZnOL4Q7OmsYosczseJzbwhs8g3CsFesYXS4i3HLf1iaCNnEqUjxTlmKVMZMSjTarGK/tgA94QJj/mL2yFp7v8IB3iLv9J9qkU3QBsK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742844000; c=relaxed/simple;
-	bh=RGnsYNzqSuhW1ytu/VzC9cXgwSxO24DHBmZ735ykH84=;
+	s=arc-20240116; t=1742844002; c=relaxed/simple;
+	bh=PeehUfjfAxD5S2vu36KoL/A4lTpmyqrRjLXpa2o19UQ=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=MiJjoYweNfAHtE3IF4NjBPPkp6hK303fCphwY8D4KwzoagAfi07Fw5gHy5ZruaI5BakWX0VYVNqOjKHZAc8A1Hp+4gY/WBwBBSJii1fTBjG5Jpo8vsnoU1uETRa0c8hsdAbQ6RX5/w9gccZTmuPpBZ5HGaV8SRPa2T/qijLvxSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GKbNpEuC; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=LnJFditZZZdXtcrL6aWxCD30ZnBOgW+Ve9/D85BpWPh/ariiAKKcBORrvrlfoxAsf8+kvVDRjc7jIXEk4to/cEYWaoSC1epJvd8LyBa2WiofUxr2+bIrEkm+2Zvwc/cHAqkc2gjo3v6DFgzC+D6lyNLwHSzmxBc8XZ2Z7nzTGLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M6ot5uJI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GKbNpEuC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82BB0C4CEED;
-	Mon, 24 Mar 2025 19:19:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M6ot5uJI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C53C4CEDD;
+	Mon, 24 Mar 2025 19:20:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742843999;
-	bh=RGnsYNzqSuhW1ytu/VzC9cXgwSxO24DHBmZ735ykH84=;
+	s=k20201202; t=1742844002;
+	bh=PeehUfjfAxD5S2vu36KoL/A4lTpmyqrRjLXpa2o19UQ=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=GKbNpEuCLa1JcYM/lE7jGRmjMBzKVLMywNbaOEA9e+WL27uzg05BSDPTBuYh6SIdY
-	 q780MVlYiDN/BdMaT/6pgPDJFQ+riiasHEl2U6ctdvk9tJ0kY5RviTlTriju7JHlQe
-	 IgKe84Xz1MIKdAZOhNqJekjHlRSPZNtq4Oabb5lbP7eMwXZlXGt4KMSva1W7AigGbb
-	 YMHYJ5Vrg9Ss5+nQ9UYPwUkBgVVRZroJzTdBbxR933hxepkngecSBhbXF1i+KrYHj+
-	 raJmMAA+/O/Rmko86w5uVndCTCsQ/HKrLkFarhIAMqEreduibrhzTcf2L1Skz6VHAa
-	 UYK5WyryP3K5Q==
+	b=M6ot5uJIgkeqpi5u2/8IkQeqX23DoR6Y5Iu2dGE8XUZ1XokHFiIhC+DNhFVExpgf9
+	 qse7211vTuhHzKrlwxzckpy8WLR9bIw+6ckXzgnQhyhJp0TVaQvJnNmBAKKDAIqmmh
+	 Verghsv5BfCfaN+oxf5dha/SHMoT/2ENOM3+QQSXFiQbVhmvn+xwgA7JuvuN9+Ntz4
+	 LbdwrL+BAsLDI6biK9fxfScSoplZXiP+MwBL7iQLbjyRXS8PPxz2WVH4dZZlU2k3lY
+	 fXrMV5UFvq7sBbPBwMMKFhepvdB7C3ViDt28TE8ygw5Wrrsi5p398eh6yUWazjEPsS
+	 SGv13nW9pX0Sw==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ECBAB380664D;
-	Mon, 24 Mar 2025 19:20:36 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE68E380664D;
+	Mon, 24 Mar 2025 19:20:39 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -37,35 +37,39 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] docs: fix the path of example code and example
- commands for device memory TCP
+Subject: Re: [PATCH] docs: networking: strparser: Fix a typo
 From: patchwork-bot+netdevbpf@kernel.org
 Message-Id: 
- <174284403574.4140851.745371503688027549.git-patchwork-notify@kernel.org>
-Date: Mon, 24 Mar 2025 19:20:35 +0000
-References: <20250318061251.775191-1-yui.washidu@gmail.com>
-In-Reply-To: <20250318061251.775191-1-yui.washidu@gmail.com>
-To: Yui Washizu <yui.washidu@gmail.com>
+ <174284403852.4140851.16314793821703962181.git-patchwork-notify@kernel.org>
+Date: Mon, 24 Mar 2025 19:20:38 +0000
+References: <A43BEA49ED5CC6E5+20250318074656.644391-1-wangyuli@uniontech.com>
+In-Reply-To: <A43BEA49ED5CC6E5+20250318074656.644391-1-wangyuli@uniontech.com>
+To: WangYuli <wangyuli@uniontech.com>
 Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, almasrymina@google.com,
- sdf@fomichev.me, linux-doc@vger.kernel.org, netdev@vger.kernel.org
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, tom@herbertland.com,
+ zhanjun@uniontech.com, niecheng1@uniontech.com, guanwentao@uniontech.com,
+ hello@sourcery.ai
 
 Hello:
 
 This patch was applied to netdev/net-next.git (main)
 by Jakub Kicinski <kuba@kernel.org>:
 
-On Tue, 18 Mar 2025 15:12:41 +0900 you wrote:
-> This updates the old path and fixes the description of unavailable options.
+On Tue, 18 Mar 2025 15:46:56 +0800 you wrote:
+> The context indicates that 'than' is the correct word instead of 'then',
+> as a comparison is being performed.
 > 
-> Signed-off-by: Yui Washizu <yui.washidu@gmail.com>
-> ---
->  Documentation/networking/devmem.rst | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> Given that 'then' is also a valid English word, checkpatch.pl wouldn't
+> have picked up on this spelling error.
+> 
+> This typo was caught by AI during code review.
+> 
+> [...]
 
 Here is the summary with links:
-  - [net-next] docs: fix the path of example code and example commands for device memory TCP
-    https://git.kernel.org/netdev/net-next/c/f8e1bcec62ef
+  - docs: networking: strparser: Fix a typo
+    https://git.kernel.org/netdev/net-next/c/6d1929475e36
 
 You are awesome, thank you!
 -- 
