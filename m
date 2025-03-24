@@ -1,221 +1,194 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2043.outbound.protection.outlook.com [40.107.22.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C3E25EFA7
-	for <linux-doc@vger.kernel.org>; Mon, 24 Mar 2025 16:46:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742834805; cv=none; b=UN20x6SIyybkVpdH4WHUBCxsOw2aLOORWon/XpQXWBsZSye4+3QwvME6MafBXtSJ5wnvVFHWshpxHxEqPFXU9S4ZBBtRNS5xz304Y1/C935Ev0D+WDXSl3f6kxBPGpzykiS3qXaJw20wjiCJV3VDkv1O3xb7FsgENiYsKJPjhwQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742834805; c=relaxed/simple;
-	bh=oM1nTZR0YPys7KYdFrAmLvaeev/fI884tyB92cEcs9E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BqpIP/HpusRxGqz6FrKYEqViIOPOtzeOh8fxK1Db6wURHeYLdr+q5D+/r8Yj9L03e/VsFVnZukIPVM1/iniThfXRAWaKhCW9ALipAdulnuLQDJJurRBntxzbgq7cVeRfQRvsaa0+/+CwgYzK5Y9RAYT6G+TFw3waxflcbI6rjpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OBF3ZmFt; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E5E267F48;
+	Mon, 24 Mar 2025 17:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742837605; cv=fail; b=VR6JW5tMP4Lvdxr3vn6fibscabIsumZOd5gudMNqwYNXTM+aELnQ5b/cBCVAW/wK/vNvT5xCkBEUlMLoJGQAO9rXweHkvwqxwpUDwaGglhKWOB6AHNX65467OgRXUpuVFASxj7uqNBQ+W90bikiJgmsgncrq8+OvWDFvcAmcI4g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742837605; c=relaxed/simple;
+	bh=y2zRnjMit8EzZUrVrd0TVhyleMyUSu+R2+RKsInd/3Y=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=hQmaMldXFKOrkH2SAlNmRrwWSBREn2y6Noc0XiHSvqg31KBzO0Wjcv/oesFUs/nSYE+eQjsJSJFxTac0/5bDUZpjhSEObvsU+7Uhs+PY4CswQjvdUmGlTz9NB0XE7OEkmN2OUtDIGch2+Sk1jAASiL26Wt22LK28t2eSQR+BoIY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=UzVzCao8; arc=fail smtp.client-ip=40.107.22.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OBF3ZmFt"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e60cab0f287so3257878276.0
-        for <linux-doc@vger.kernel.org>; Mon, 24 Mar 2025 09:46:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742834800; x=1743439600; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XGUOo4Avg6cO5Orqf/NRJe8cNTcq1zX8N5PrEUl5k34=;
-        b=OBF3ZmFtUiJaPUalAGY/UyYzvCEh3I/IVqhI8kxqlq6RHWcw/WfUAei2fKi1LXgY2Y
-         tnSDkPuRj5QDKsgWM6BnlapbK2Pp8GUIgTthRu7U6qIe752/kJXZdlO85FJCGh+i8Es1
-         MEVRuPY6KsVfMJHlDbnH2PtwvUG0OaSnVQw3cvuZqISdOIElopeNZwR2GToi/FxQi/w6
-         jKCD4cmbVL3xcDWWl8BrG2LhcnthxblRvqllTw2nJude5bF5bOnuB6UVJTNutcLbmGkI
-         Yxkl4m5SkejLjrxxWhLa2wRvCHyausb/6zgQAlVkqTjaQnUeW8bBUSZGloLWUchTxT7Q
-         KQ8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742834800; x=1743439600;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XGUOo4Avg6cO5Orqf/NRJe8cNTcq1zX8N5PrEUl5k34=;
-        b=HZQB4cNgPdFQBZvDFHsugvX93ppsglcDljheI94vj8uKRl4FIjQD1NR6DDRb2KGdYC
-         jv7Yau3MZftKlOBdFRJecWD+ars18duhJx2sJe98iUAJIUgf3ZDPR27Z3AYf1G70dzHo
-         sqhFJJDaDLT3d3MopO11rM+BKqmPqaPXP/B9BDdIzj87QaeI/uh2kT0+ermpBQ0D9rpH
-         boXOSduC96QyBcEKBQ8FVp3SBqDO+Fqr6ARaODyk94Q4RvqYUTPXHBiPM2cv/POXeAA4
-         gNfz3+QNikA1YY0Z7boQoPAViwwhrnqFHOU0+FD6yhqbYrLXX1plox0clk9KJOxqvavY
-         mmKA==
-X-Forwarded-Encrypted: i=1; AJvYcCXS8Mr+QNJ9TBpwdYWBmqSiFUZx0f0pz42O66Cen6UDh2MHqduptVKLgR/7qwGsZVtdE2qGvVmqfgE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJB7w9Tj/1T5fCLgK8zM7aYtX34xjIDcd+T+XXQSYNtifTQFRx
-	CK6Zby3Ei2aR5GtU5J3nwDXokEYUGPq4S4y1Tk/noHPVXitRWjcK
-X-Gm-Gg: ASbGncshYOoYEbcZfYbS/w4wgXTJtFx+mJmx8mFv5MKZinj9j3LGQs0vxARcbj9ddgZ
-	vEsyWak5BWVGepzxxiw7NznNBNzHXCRVJihLrwf1n1nLfT9ONkIdIUzCGEXztwX7K2o2/qnlqjv
-	3hHvnYJxJ1l93PFtlHG+IG1nLu5iSKguw7v8fRQqbDLnCdNsMS8rLmX/m+YQ+bvp1PUxkCm+qm5
-	urGS7Rsvl/owHKJxbeUeZFKsWZAgt56SNfggq9Z2EUM2nb+/BM3hrnzOuUxkxd2G6I1VDXXsIQ2
-	KJtvcYflsccebzVFiQ0WkoWzWn/g+X4lCdjtIeZxad43uw==
-X-Google-Smtp-Source: AGHT+IFA9rwep5PHQvm91xvv0JKu/rB2VF301e3Ic6Jp8P3UFvod1F76pO2Nl5bUNhcGAcz609rCNQ==
-X-Received: by 2002:a05:6902:2188:b0:e60:aae8:1efd with SMTP id 3f1490d57ef6-e66a4d3e50amr16719528276.4.1742834799980;
-        Mon, 24 Mar 2025 09:46:39 -0700 (PDT)
-Received: from velo.. ([191.104.150.128])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e66a442e19esm1665961276.36.2025.03.24.09.46.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Mar 2025 09:46:39 -0700 (PDT)
-From: Andres Urian Florez <andres.emb.sys@gmail.com>
-To: carlos.bilbao@kernel.org,
-	avadhut.naik@amd.com,
-	corbet@lwn.net
-Cc: Andres Urian Florez <andres.emb.sys@gmail.com>,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] docs/sp_SP: fix links to mailing list services
-Date: Mon, 24 Mar 2025 11:45:58 -0500
-Message-ID: <20250324164613.12639-1-andres.emb.sys@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="UzVzCao8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rJ5jHdSyQNbVEH0rJpyrMnfSxVKf3ZNlBPVvyijzq6OL6z1lGpgZCZQd2O5ueB33bbrN9I3GLoWwYaHw5UkWLL6evx2E7Zsrmu5xb9Dpg6/B7tRVL07gsA/Ua+HeWMNw2unRl95pbsbJWtX7tSpO4F+6V5Tt9qHsZzCJ+OrJDTsZ27mzsVjFgHAwjsZuRyVIeKZArd0Y6VqeGroecN3ld/i2bSZ1BUYdQXUWQHv0cpfi8HwsXeJcC8kNv0AUB6S0PNjrNz8YR//OarCvdCUWAPcm8w6LbYfpxhUd/Ht4AVr1TSTNvjQvo4mNFBDAeVHVTdcMpWgw+PdGTkPXmFlfJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PvE10IwudV6H0iEtr1T70/lYAIqDa2cPyCXFvRvdO3Q=;
+ b=xsZ/g8DFEtRW8QP+4kGmDc2J+fd91D/sF7mdpuwnLEm239ZhwYXqfeFz01pHYs9qsBi0uwMjBjq/C4aFkqqu5fbI4m0zxuFDqGGjqGVeIFQCDaNYalhFDHxw7VvxJh2ApsGxYjijl3KSRcxenT9ATLy5PO06qFkRQ0M3v0IyJDY9hBPy9KH43QSU0Zndks6TTNJdB8z1XW1/9huUAYayPAhdRQMAgNVtJC08VcfI93X/0isq2GkL7zzHmdz079jJl+m4w2+koWaghyrMdlzUpKYzLxXMBwspLeMdGUmCHUYPYafr8/b9obFkriI+soI6Dndst26gQXEmqGpv+TJuHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PvE10IwudV6H0iEtr1T70/lYAIqDa2cPyCXFvRvdO3Q=;
+ b=UzVzCao8/MjPhu0NOVCpmlIa55FzKNEs1IMK9V7d/Q7UuKmesxSHQKWRadJ+eZFYWOGVGPI5Hnv+s3+7tQAwgOT+eOHI+mnWtT3fgeMYK+G3JoL1hbcAIeIpPRi6RJ/UJdwpS62W1oPVbuPl3L5OKhAXNR3JYlyvcH+Jppi9Rk2YW+E8FnqOB/ZiDZedW/hkw7w053Rx7JAve00f1AOyMYIBI2kvsLQABfXMpSK51um0F6Yq3xaxFMQt+NdOntrFF3NQEvwNnKWmlbPqY7f2e2uxwBb13DAWePHQqa5/SRq85I3cqRb8gW7q/qAGzdoiOBveioznu4THtJvHTJoHoA==
+Received: from AM7P189MB0807.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:115::19)
+ by DB8P189MB0952.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:162::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Mon, 24 Mar
+ 2025 17:33:18 +0000
+Received: from AM7P189MB0807.EURP189.PROD.OUTLOOK.COM
+ ([fe80::53cd:a2f6:34be:7dab]) by AM7P189MB0807.EURP189.PROD.OUTLOOK.COM
+ ([fe80::53cd:a2f6:34be:7dab%3]) with mapi id 15.20.8534.040; Mon, 24 Mar 2025
+ 17:33:18 +0000
+From: Kyle Swenson <kyle.swenson@est.tech>
+To: Kory Maincent <kory.maincent@bootlin.com>
+CC: Oleksij Rempel <o.rempel@pengutronix.de>, Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Rob Herring
+	<robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
+	<horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+	<linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Dent Project
+	<dentproject@linuxfoundation.org>, "kernel@pengutronix.de"
+	<kernel@pengutronix.de>, Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next v6 06/12] net: pse-pd: Add support for budget
+ evaluation strategies
+Thread-Topic: [PATCH net-next v6 06/12] net: pse-pd: Add support for budget
+ evaluation strategies
+Thread-Index: AQHbjO8caskJTxThsESplQo7JHQUoLN3WbyAgAT4m4CABkpQgIAADxwA
+Date: Mon, 24 Mar 2025 17:33:18 +0000
+Message-ID: <Z-GXROTptwg3jh4J@p620>
+References: <20250304-feature_poe_port_prio-v6-0-3dc0c5ebaf32@bootlin.com>
+ <20250304-feature_poe_port_prio-v6-6-3dc0c5ebaf32@bootlin.com>
+ <Z9gYTRgH-b1fXJRQ@pengutronix.de>
+ <20250320173535.75e6419e@kmaincent-XPS-13-7390>
+ <20250324173907.3afa58d2@kmaincent-XPS-13-7390>
+In-Reply-To: <20250324173907.3afa58d2@kmaincent-XPS-13-7390>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM7P189MB0807:EE_|DB8P189MB0952:EE_
+x-ms-office365-filtering-correlation-id: 3fbe56ed-a52e-42a8-af0b-08dd6af9f71f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?wfJ4FPzR1r+MWTI/9LSJLD4yNYGffQRFQq3YJ4L/oWgZMkDullLq3eSUarQ3?=
+ =?us-ascii?Q?H7xECwA4fktnar7SDbBbTdxWWo98DIH7di5YUl4fG4tC1VDKNr7KMdwwNqfr?=
+ =?us-ascii?Q?CKNgcMTD+h2oI6FLdFTVRYomHvp8tjKcXAjQoC1pFFsH6HVVChU74vky9YHg?=
+ =?us-ascii?Q?h1o5FJ9TE3T0KWvgl7Jls13J2SpEtHa6lVBEpHpAqcZmQ0xvhs4RHfNDvIE4?=
+ =?us-ascii?Q?IKXfQ9uEri5Ybm2ALFatzi9wtY9Mj1QZST20+aCMs4AN5ClJwA3Hz22LyHgJ?=
+ =?us-ascii?Q?3yKdsO8xDVekPP5DSOJzylKB0LOA0uZAsXJDZAUOhVeXgTGuifmaJ5gz2DrI?=
+ =?us-ascii?Q?PgPa7xr87ygHIQjPP0t2w98dL+FDrEfSYCBfU3AR5WUmIcV1eOda+6sXXktm?=
+ =?us-ascii?Q?J/pcBVqa4aMXaaMIyeXBaNC4X90uWjBpE+3bsQd21/HEWrIkhpFdHXJlIS7C?=
+ =?us-ascii?Q?PQxS6qkP5tenQH2InknWVYZunOsnxJ/oOLsEBthiGJhFrI60fHUwggOP6mAB?=
+ =?us-ascii?Q?76JulrAbq+MZxICWdAgcuAxGlD5APAKT+XI5NdEbvGvoSLJoMjyZzBnotfOH?=
+ =?us-ascii?Q?+tRRDTzqMMK343iMx2SbM8iJ9uVvO7Y9TvT5JP3sEgCF4j3JjN75hgCV9lHb?=
+ =?us-ascii?Q?DcrZjiW6XnkQSfYPbUwUBw+SLUmXZtrIoDtA/5C/CA+bdJ3hjwDCw4T3p0yI?=
+ =?us-ascii?Q?/X6XSkuPNA7bL36UqxiODeF71aORh6ivIobQiHlObYha/mNl/Z++t3XH3iJv?=
+ =?us-ascii?Q?TUehSQPjqYfRwhTF4/bWNmcW5SrJiIV2yneMaIdq0vk+2Y8tf8jQk3k1DKnM?=
+ =?us-ascii?Q?/FQNPaDbMHJkb1ywWgUY6r9aHrB9RZEBGAi/OpfdtzrIXVSAxxkVE76qdSja?=
+ =?us-ascii?Q?zJIq83USAIKkJxjvawblbgBgg83A2m4XgQj772qtWri1AMOKjFflRKQUE2Hi?=
+ =?us-ascii?Q?Z2URLgPe+i04IvGCrrWuJCWf4qM34tiRB+fdhaQIGtQ7v0IEs0exAcw9hQIe?=
+ =?us-ascii?Q?vOET+iu7cU0bpNSQcZbZf80Hm4eRkEhN5iwLuxn9Xqpa76K1xMyyw5DktLr+?=
+ =?us-ascii?Q?7e8GNX+uDuMBj+f8v2I4GHo++fJTPhqbrWAkU/3y0P1CCxk37ZEXJedvj4Kc?=
+ =?us-ascii?Q?Zrq3ah7KeNg3mKbx0UuK74QsYTIaacc15tcjmvOiO2gg0+RgSePOs9hMAQWZ?=
+ =?us-ascii?Q?UasMGxwTrV9+7xQ7/XBfghK5ePHFcKaL3m5pFnQ7jeD1rAreiQieqH/ieU39?=
+ =?us-ascii?Q?SqanyPRXxZoQO/t+9iALow8ThJeqsGtTgR/zOW+wRe7i9YgOlCgrrAJwbbeD?=
+ =?us-ascii?Q?qdhU8ViuruB/AcHU0PyNG4CNwZDbhi6JBsgYzqWsX4BTTPW0IGDaiiKdoI8/?=
+ =?us-ascii?Q?P1kzIr4QQnLEQGvhC4kN4DgQ5Y+ijcPwHhhTyB/Xgvcr/MbDgnUdvsXAk93K?=
+ =?us-ascii?Q?Gy+a3Op5INKQPZDpJSCoZucnOVd8UXsW?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7P189MB0807.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?1iKPQ5CA9C5aSTMBbZtWXqbVM7YYRpzQzuj10nt5v9xWH9o94fe/HRlDpVT9?=
+ =?us-ascii?Q?o7h/jfKZaeEuUL35zX+h9KNkTpb3cTJUfPzFBPhtOB203V8qGw2E8fsHbTk/?=
+ =?us-ascii?Q?i5OAvKS6ABckt+sNDv+00wEcVhjq7FaiqTNSO128Ds4Ayn/z3XDdakIqMwyV?=
+ =?us-ascii?Q?1caRCSVxQx7M3B+EZHWR/UeccnQpoy9zXXEGFmOKsxjB3cP/OubmghnApNAM?=
+ =?us-ascii?Q?nDKuRhvnqpHcIdWy8YJIcYnaXBJghyonqJuuEAESYQDjtui83ZFmYovJJrjr?=
+ =?us-ascii?Q?ViwW4hDipUIs6DOF5ONN5AOIwKnMWEmgVtftZ9byUFo5BIjilJ9zy/BZuxOb?=
+ =?us-ascii?Q?lWuhYX8Sw2fZxCRshxtgCEW722OzFXsFqb3Ni9XKPXuBU6nG3GKbbSpG/GU6?=
+ =?us-ascii?Q?i3TQja+tawW+F3ezf7sKQa5xe4qTDblSIldge+HEbeQAhjE57UjeG2wzZRBD?=
+ =?us-ascii?Q?tHENmiHxTN+cBIYhAJsU0/Vg3VWijScNw7BzVgz76zwd1jYylpxj7HrWT19R?=
+ =?us-ascii?Q?cSJm7VBRX+x5uz++BJqJGybgdopx4DyqSTONXHYvX4Tou8TyQ14GQTAlyGwj?=
+ =?us-ascii?Q?/0gDkhi8v1pTdGL3644GR641wHdf76E48nGzeXWGyBTxr8wep8Agl9MI2WH5?=
+ =?us-ascii?Q?fxsqYL7wuXR2IE2PPJ8bjDMbQb82BNPcNcqZM55xFQGado+kcIgw9Smg+0wH?=
+ =?us-ascii?Q?4kJp66zruRsBKaNhnCD6WhHXfdJHHtX5twSHW9+Fly5mzv3//CCFO3WZDWjS?=
+ =?us-ascii?Q?b5YnGN9djH/78M7B8MU6RlzvNIIi93ZG47X2XnrbRHxzE2gE2OGGeB/TcP44?=
+ =?us-ascii?Q?OuZhaFxI+15Q6Z8+uIVndfk6My6+bKaoxnW2FzeNhDj1y0K/h14JhzfnutVD?=
+ =?us-ascii?Q?eB+rYw+W2FMEhnd8QxMn17busoLAWLooJgo15zSlm1+J6r1CmxCNFMHPcoAQ?=
+ =?us-ascii?Q?JXM8kQjySA5uTktFhVECH/xr8bk+jGZGFelUlTKv5kPY7MqtBP/1lLm3iWir?=
+ =?us-ascii?Q?kuoTlHduNFPYOrEH9QvgaiE9yTh5O11AtiffjtoGQsHdxw/JyfIegzM15sOY?=
+ =?us-ascii?Q?qGqGQPkbPy9CgfpsrNys/WeeUtDHVNfvoNVf+pyd1vZherL8rRD230RmYbv1?=
+ =?us-ascii?Q?xxQ2zRQNHP5QsrU6VbjamnMLe3nTh5gVZrpbxlX9yEh+WF6Qx9QaDjKmuWU/?=
+ =?us-ascii?Q?C3uslNFChe495IHSW2M2eyZ4Sg+jeKQpi8Pt3Rm+RYJ+A9IHLp+XY01OIJeL?=
+ =?us-ascii?Q?7qLbjP6SRKj4qFx3QKD9q2W02WXnfE7XfEQIcfaPEJZqaMllF0LWZuuClcOS?=
+ =?us-ascii?Q?BrmcsoCToXcIWe7bpCaajZiXk3wbFECqcm8qYXnQJ3viUeIV4bFMvbemBTGW?=
+ =?us-ascii?Q?x1LmMZ7EShOS7Yw9Fsn13MTfnE3WdQ4HkDEjVEC05QTZSRGCHBXbhO/DD2Hn?=
+ =?us-ascii?Q?PclGDw85H3TI4wSJg8aDsm+V1018KA0VN6k82XCZro+Q1iRge4U+1A97hYXQ?=
+ =?us-ascii?Q?pjsXbdj1w9RySwxEGrL9DHAW/cnZt/D/fV5nsvvkfgAjaGPCluO4yrblg3p9?=
+ =?us-ascii?Q?RuTFUbwi9Ndce0V7Y99OubIQLcqTGM0SyQ5FKhc/m6GNK4ViBYaUkwnNZpd8?=
+ =?us-ascii?Q?nw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <45C82789750E704396717BD19C2F7D23@EURP189.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM7P189MB0807.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fbe56ed-a52e-42a8-af0b-08dd6af9f71f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Mar 2025 17:33:18.1577
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: B8jVENFCB09QX6zJ13H59pTpVSh5TPzkgDnmkG9GePIdTjlNxzMlrcg7e0yXH8YLZntuWntE0P36LIFdrt74Pg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0952
 
-With the changes in the way mailing lists are hostet at kernel.org, there
-is a need to sync the Spanish documentation to:
+Hello Kory,
 
-1. fix links that are pointing at the outdated resources
-2. remove an outdated patchbomb admonition
+On Mon, Mar 24, 2025 at 05:39:07PM +0100, Kory Maincent wrote:
+> Hello Kyle, Oleksij,
+...
+>=20
+> Small question on PSE core behavior for PoE users.
+>=20
+> If we want to enable a port but we can't due to over budget.
+> Should we :
+> - Report an error (or not) and save the enable action from userspace. On =
+that
+>   case, if enough budget is available later due to priority change or por=
+t
+>   disconnected the PSE core will try automatically to re enable the PoE p=
+ort.
+>   The port will then be enabled without any action from the user.
+> - Report an error but do nothing. The user will need to rerun the enable
+>   command later to try to enable the port again.
+>=20
+> How is it currently managed in PoE poprietary userspace tools?
 
-Signed-off-by: Andres Urian Florez <andres.emb.sys@gmail.com>
----
- .../translations/sp_SP/process/2.Process.rst        | 11 ++++++-----
- Documentation/translations/sp_SP/process/howto.rst  | 10 +++++-----
- .../translations/sp_SP/process/kernel-docs.rst      |  5 ++---
- .../sp_SP/process/submitting-patches.rst            | 13 +++++--------
- 4 files changed, 18 insertions(+), 21 deletions(-)
+So in our implementation, we're using the first option you've presented.
+That is, we save the enable action from the user and if we can't power
+the device due to insufficient budget remaining, we'll indicate that status=
+ to the
+user.  If enough power budget becomes available later, we'll power up
+the device automatically.
 
-diff --git a/Documentation/translations/sp_SP/process/2.Process.rst b/Documentation/translations/sp_SP/process/2.Process.rst
-index 5993eed71563..c21b0134cfa1 100644
---- a/Documentation/translations/sp_SP/process/2.Process.rst
-+++ b/Documentation/translations/sp_SP/process/2.Process.rst
-@@ -428,13 +428,14 @@ los desarrolladores, que corren el riesgo de quedar enterrados bajo una
- carga de correo electrónico, incumplir las convenciones utilizadas en las
- listas de Linux, o ambas cosas.
- 
--La mayoría de las listas de correo del kernel se ejecutan en
--vger.kernel.org; la lista principal se puede encontrar en:
-+La mayoría de las listas de correo del kernel se alojan en kernel.org; la
-+lista principal se puede encontrar en:
- 
--	http://vger.kernel.org/vger-lists.html
-+	https://subspace.kernel.org
- 
--Sim embargo, hay listas alojadas en otros lugares; varios de ellos se
--encuentran en redhat.com/mailman/listinfo.
-+Sin embargo, hay listas alojadas en otros lugares; consulte el archivo
-+MAINTAINERS para obtener la lista relevante para cualquier subsistema en
-+particular.
- 
- La lista de correo principal para el desarrollo del kernel es, por
- supuesto, linux-kernel. Esta lista es un lugar intimidante; el volumen
-diff --git a/Documentation/translations/sp_SP/process/howto.rst b/Documentation/translations/sp_SP/process/howto.rst
-index 72ea855ac9dc..e1a6e6a52ae4 100644
---- a/Documentation/translations/sp_SP/process/howto.rst
-+++ b/Documentation/translations/sp_SP/process/howto.rst
-@@ -334,7 +334,7 @@ con el árbol principal, necesitan probar su integración. Para ello, existe
- un repositorio especial de pruebas en el que se encuentran casi todos los
- árboles de subsistema, actualizado casi a diario:
- 
--	https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
-+	https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
- 
- De esta manera, linux-next ofrece una perspectiva resumida de lo que se
- espera que entre en el kernel principal en el próximo período de "merge"
-@@ -378,13 +378,13 @@ desarrolladores del kernel participan en la lista de correo del kernel de
- Linux. Detalles sobre cómo para suscribirse y darse de baja de la lista se
- pueden encontrar en:
- 
--	http://vger.kernel.org/vger-lists.html#linux-kernel
-+	https://subspace.kernel.org/subscribing.html
- 
- Existen archivos de la lista de correo en la web en muchos lugares
- distintos. Utilice un motor de búsqueda para encontrar estos archivos. Por
- ejemplo:
- 
--	http://dir.gmane.org/gmane.linux.kernel
-+	https://lore.kernel.org/linux-kernel/
- 
- Es muy recomendable que busque en los archivos sobre el tema que desea
- tratar, antes de publicarlo en la lista. Un montón de cosas ya discutidas
-@@ -398,13 +398,13 @@ los diferentes grupos.
- Muchas de las listas están alojadas en kernel.org. La información sobre
- estas puede ser encontrada en:
- 
--	http://vger.kernel.org/vger-lists.html
-+	https://subspace.kernel.org
- 
- Recuerde mantener buenos hábitos de comportamiento al usar las listas.
- Aunque un poco cursi, la siguiente URL tiene algunas pautas simples para
- interactuar con la lista (o cualquier lista):
- 
--	http://www.albion.com/netiquette/
-+	https://subspace.kernel.org/etiquette.html
- 
- Si varias personas responden a su correo, el CC (lista de destinatarios)
- puede hacerse bastante grande. No elimine a nadie de la lista CC: sin una
-diff --git a/Documentation/translations/sp_SP/process/kernel-docs.rst b/Documentation/translations/sp_SP/process/kernel-docs.rst
-index a62c6854f59b..b9e0ca4be324 100644
---- a/Documentation/translations/sp_SP/process/kernel-docs.rst
-+++ b/Documentation/translations/sp_SP/process/kernel-docs.rst
-@@ -170,9 +170,8 @@ Recursos varios
- 
-     * Título: **linux-kernel mailing list archives and search engines**
- 
--      :URL: http://vger.kernel.org/vger-lists.html
--      :URL: http://www.uwsg.indiana.edu/hypermail/linux/kernel/index.html
--      :URL: http://groups.google.com/group/mlist.linux.kernel
-+      :URL: https://subspace.kernel.org
-+      :URL: https://lore.kernel.org
-       :Palabras Clave: linux-kernel, archives, buscar, search, archivos.
-       :Descripción: Algunos de los archivadores de listas de correo del
-         kernel de Linux. Si usted tiene uno mejor/otro, por favor hágamelo
-diff --git a/Documentation/translations/sp_SP/process/submitting-patches.rst b/Documentation/translations/sp_SP/process/submitting-patches.rst
-index 328ec80bd61d..ecb08b14c2c0 100644
---- a/Documentation/translations/sp_SP/process/submitting-patches.rst
-+++ b/Documentation/translations/sp_SP/process/submitting-patches.rst
-@@ -136,11 +136,11 @@ algo documentado en la web, referencie esto.
- 
- Cuando se vincule a archivos de listas de correo, preferiblemente use el
- servicio de archivador de mensajes lore.kernel.org. Para crear la URL del
--enlace, utilice el contenido del encabezado ("header") ``Message-Id`` del
-+enlace, utilice el contenido del encabezado ("header") ``Message-ID`` del
- mensaje sin los corchetes angulares que lo rodean.
- Por ejemplo::
- 
--    Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
-+    Link: https://lore.kernel.org/30th.anniversary.repost@klaava.Helsinki.FI
- 
- Verifique el enlace para asegurarse de que realmente funciona y apunta al
- mensaje correspondiente.
-@@ -257,10 +257,10 @@ archivo MAINTAINERS una lista específica de los subsistemas; su parche
- probablemente recibirá más atención allí. Sin embargo, no envíe spam a
- listas no relacionadas.
- 
--Muchas listas relacionadas con el kernel están alojadas en vger.kernel.org;
-+Muchas listas relacionadas con el kernel están alojadas en kernel.org;
- puedes encontrar un listado de estas en
--http://vger.kernel.org/vger-lists.html. Existen listas relacionadas con el
--kernel alojadas en otros lugares, no obstante.
-+https://subspace.kernel.org. Existen listas relacionadas con el kernel
-+alojadas en otros lugares, no obstante.
- 
- ¡No envíe más de 15 parches a la vez a las listas de correo de vger!
- 
-@@ -907,9 +907,6 @@ Referencias
- 
-   <http://www.kroah.com/log/linux/maintainer-06.html>
- 
--NO!!!! Gente, no mas bombas enormes de parches a linux-kernel@vger.kernel.org!
--  <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
--
- Kernel Documentation/process/coding-style.rst
- 
- Email de Linus Torvalds sobre la forma canónica de los parches:
--- 
-2.43.0
-
+Hope this helps,
+Kyle
