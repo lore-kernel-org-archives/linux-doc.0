@@ -1,310 +1,176 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73B419B5B4
-	for <linux-doc@vger.kernel.org>; Tue, 25 Mar 2025 09:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EA84258CE8;
+	Tue, 25 Mar 2025 09:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742894693; cv=none; b=IS5Ip1t489WQ38bfl3i6WwJzrRlSzEfd0MPIlAjxOfYyfR/m6AMS5PooJ3TzI57+c6Rs5LesATXfc1qUJYOLUPjBd8NKfrPgW+Np7dhU7aThHwxNG47TAygYXse6CvlEW/Mg7ZJXBdW0pGYRiacgv0YuLUH6kBHzxcpUqZAYvWQ=
+	t=1742895400; cv=none; b=dZedhvmNo3k7QkqrfcJwWtQdKDU3B0Fpl586YrYCKPN2KBUuNUEPDSkb9N/RngjkkjiOoWTa21yEvk7t2kcI55T+j1lU7x5HeYMCIb5SN7GlTLsuNs51EzpWN68ym96+5vVBW/XQ6moytnJxN9mvnLswjc7Jv6NmMoY/QDB/ibk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742894693; c=relaxed/simple;
-	bh=RDgi8oUrYPzxq8I/3imAdzSYLiEZID1DXXJxuZZFr3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qTF8EuZGFJNDODmiKvdEjUbld8mEFV7p20CxVSzop2NQv7YgQcroRdn8ng0nyF64WZOgj++3KKhk/p7BS3f+Ypn/S9PspX0gt3K88rva0kb6sEtQXCSbZa0Nawao4snlLiTXoqC3k4s/fC68++2OLSJugVSiKsl04D9vy1Bbgw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g/I7qsIG; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g/I7qsIG"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3965c995151so2639637f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Mar 2025 02:24:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742894689; x=1743499489; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=86AzUTJ4+mEfJqZADF0whmQAVP0hg36bqJP63AG39wo=;
-        b=g/I7qsIG9eEZo8eaf3zSSPxuEZ9Vnfhit3kPSkYQJgLT4QBOqNbn37TRnqDo7DKsk5
-         R19JrDHLPB7xoUyLWctY0mupAT7SFhml9Gv6g0aLADEzpIlLxHJb66Xs84S5L7uEyPCK
-         cEEL8jcf93kwtTQj5bpGTatPMKHk1Gfug5Xxvi7/LxYj/5g5pbc7qqhTOI1HYuh3+rXh
-         aYc8qKlldAjF29CYr8TUTucRNIJ9PmcokrI74HLOFhuVCy/FgVeytSwnFZVSQHOrDFuh
-         6PGBDN8wGtkjM0TKc14Iqy+IV0bRtUlBA5s9fz1bg70L8V22oOKbxxJaovhJuNYbxYuS
-         rTYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742894689; x=1743499489;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=86AzUTJ4+mEfJqZADF0whmQAVP0hg36bqJP63AG39wo=;
-        b=e2V9olOOTBdyAcdRhcPrBF/vh8rwVXf83h1kninxp17VBcRRz4bgdJoZTMFw/Wt3cg
-         C14oo+pHHHZIpnNfdrOb9F9/ueP125HseS80g2xMQzwUCI+axafxB344kMgdH//s1PST
-         xwn8CF1dbtv13LFBgfzpokAnadom8E/p99dEFbuJTNYo1QdL1DPlrjdsGPgRAd21nUiO
-         v7B8rNaUiLYWvfN7wRa4psKAAL/I1xGzFvDRAo30XyLQ9bz/RipVHk3TWAdj2zFnjxNU
-         W671cjj5424AdW0zQ/5nw+bHtBY6tE5VDyF+eXkhyOxyFXX+Y9z2IHxYp4HXQQZ/x4Zc
-         yeTw==
-X-Forwarded-Encrypted: i=1; AJvYcCVi5LeNjgJPBL2AUM+tkyg3sYilPWvGzSa1Pe6fQNSdyGJ+Q5D+lk6sq/FmvxzO3rHgmTYzuWHKo2U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOYciEy4q6JIiK2F1w/4NYbtm4WZZoCOhP7NYpgj38KaAYBt4G
-	1S9wxP7BQgJ2jacNJnqZkTyw7oa+YkXfXFx4+Sm081UVp9FlX4hRdYlXu9hs48A=
-X-Gm-Gg: ASbGncuYPBMDJD6iVW0PvceVTo0A+tKakKL0+C06eW+9DzJkwgnMxoXczyHdi7bHBVF
-	MkggSdi7PW/gCnlgyqs+96jVygSLLkVCrFIP3kB0rkOAbFDZAJCYZVY/e5NTHHiAT/Ms7nv5gDU
-	kGFchgyty58BKdajMWhx/eQv7gKY1Gi9g1vxgKJ43xl42feYk4WTpuNSGHRj1fu4AQ0nBEKypCS
-	ivgCsh98myxh3iyPySQQM4OmYzuocRZVGT8KKLEQKdKsyevJgLx9np7ofoLi2+vDuT5CSkhBbRX
-	fQ+HDyhBjH1b/6z+1F3ekAjwPO6T/INh0QlyLdR80sMwjpwBQx7pMWvC+NB45eLRyQ==
-X-Google-Smtp-Source: AGHT+IH3278bGiz+UZjf2wAVfJw46AJiKS/mkdQDYD7N/oxrEgBXGJu9FDwxWA2QpMXJGkhHSIm5jA==
-X-Received: by 2002:a05:6000:21c2:b0:399:6d53:68d9 with SMTP id ffacd0b85a97d-3997f939949mr10089874f8f.38.1742894688812;
-        Tue, 25 Mar 2025 02:24:48 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:f88a:e8d5:82b:cbb5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f9b260fsm13004461f8f.43.2025.03.25.02.24.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Mar 2025 02:24:48 -0700 (PDT)
-Date: Tue, 25 Mar 2025 10:24:42 +0100
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
-Subject: Re: [PATCH v36 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-Message-ID: <Z-J2WnrZHP6iMIhT@linaro.org>
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-23-quic_wcheng@quicinc.com>
+	s=arc-20240116; t=1742895400; c=relaxed/simple;
+	bh=6YUFodGvRO7ancqe4YJYSmSbtp2WWchxxkOPo59Mctw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fLT0cR7BKfvgsmNzgfbq65u9EEHq+7XQdmSEW4N5nRldI0Nvbn3udSxZe4tXo7Doa2CynUTH9Ci+l5889TH+Ptbj85qrp0Gi7N0ezaiGWXMrM9e5foQmH5rTmRK88XDPJFGlzq2Q4XqzM+5U7kKl3xSeHhJOopwN3JpSkuJe/nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 78F42106F;
+	Tue, 25 Mar 2025 02:36:43 -0700 (PDT)
+Received: from mazurka.cambridge.arm.com (mazurka.cambridge.arm.com [10.2.80.18])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D1813F63F;
+	Tue, 25 Mar 2025 02:36:33 -0700 (PDT)
+From: =?UTF-8?q?Miko=C5=82aj=20Lenczewski?= <miko.lenczewski@arm.com>
+To: ryan.roberts@arm.com,
+	suzuki.poulose@arm.com,
+	yang@os.amperecomputing.com,
+	corbet@lwn.net,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	jean-philippe@linaro.org,
+	robin.murphy@arm.com,
+	joro@8bytes.org,
+	akpm@linux-foundation.org,
+	ardb@kernel.org,
+	mark.rutland@arm.com,
+	joey.gouly@arm.com,
+	maz@kernel.org,
+	james.morse@arm.com,
+	broonie@kernel.org,
+	oliver.upton@linux.dev,
+	baohua@kernel.org,
+	david@redhat.com,
+	ioworker0@gmail.com,
+	jgg@ziepe.ca,
+	nicolinc@nvidia.com,
+	mshavit@google.com,
+	jsnitsel@redhat.com,
+	smostafa@google.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev
+Cc: =?UTF-8?q?Miko=C5=82aj=20Lenczewski?= <miko.lenczewski@arm.com>
+Subject: [PATCH v5 0/3] Initial BBML2 support for contpte_convert()
+Date: Tue, 25 Mar 2025 09:36:22 +0000
+Message-ID: <20250325093625.55184-1-miko.lenczewski@arm.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250319005141.312805-23-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 18, 2025 at 05:51:32PM -0700, Wesley Cheng wrote:
-> The QC ADSP is able to support USB playback endpoints, so that the main
-> application processor can be placed into lower CPU power modes.  This adds
-> the required AFE port configurations and port start command to start an
-> audio session.
-> 
-> Specifically, the QC ADSP can support all potential endpoints that are
-> exposed by the audio data interface.  This includes isochronous data
-> endpoints, in either synchronous mode or asynchronous mode. In the latter
-> case both implicit or explicit feedback endpoints are supported.  The size
-> of audio samples sent per USB frame (microframe) will be adjusted based on
-> information received on the feedback endpoint.
-> 
-> Some pre-requisites are needed before issuing the AFE port start command,
-> such as setting the USB AFE dev_token.  This carries information about the
-> available USB SND cards and PCM devices that have been discovered on the
-> USB bus.  The dev_token field is used by the audio DSP to notify the USB
-> offload driver of which card and PCM index to enable playback on.
-> 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
->  sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
->  sound/soc/qcom/qdsp6/q6afe.c             | 192 ++++++++++++++++++++++-
->  sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
->  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
->  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
->  sound/soc/qcom/qdsp6/q6routing.c         |  32 +++-
->  6 files changed, 341 insertions(+), 3 deletions(-)
-> 
-> diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
-> index 7d9628cda875..0f47aadaabe1 100644
-> --- a/sound/soc/qcom/qdsp6/q6afe-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
-> [...]
-> @@ -513,12 +520,96 @@ struct afe_param_id_cdc_dma_cfg {
->  	u16	active_channels_mask;
->  } __packed;
->  
-> +struct afe_param_id_usb_cfg {
-> +/* Minor version used for tracking USB audio device configuration.
-> + * Supported values: AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG
-> + */
-> +	u32                  cfg_minor_version;
-> +/* Sampling rate of the port.
-> + * Supported values:
-> + * - AFE_PORT_SAMPLE_RATE_8K
-> + * - AFE_PORT_SAMPLE_RATE_11025
-> + * - AFE_PORT_SAMPLE_RATE_12K
-> + * - AFE_PORT_SAMPLE_RATE_16K
-> + * - AFE_PORT_SAMPLE_RATE_22050
-> + * - AFE_PORT_SAMPLE_RATE_24K
-> + * - AFE_PORT_SAMPLE_RATE_32K
-> + * - AFE_PORT_SAMPLE_RATE_44P1K
-> + * - AFE_PORT_SAMPLE_RATE_48K
-> + * - AFE_PORT_SAMPLE_RATE_96K
-> + * - AFE_PORT_SAMPLE_RATE_192K
-> + */
-> +	u32                  sample_rate;
-> +/* Bit width of the sample.
-> + * Supported values: 16, 24
-> + */
-> +	u16                  bit_width;
-> +/* Number of channels.
-> + * Supported values: 1 and 2
-> + */
-> +	u16                  num_channels;
-> +/* Data format supported by the USB. The supported value is
-> + * 0 (#AFE_USB_AUDIO_DATA_FORMAT_LINEAR_PCM).
-> + */
-> +	u16                  data_format;
-> +/* this field must be 0 */
-> +	u16                  reserved;
-> +/* device token of actual end USB audio device */
-> +	u32                  dev_token;
-> +/* endianness of this interface */
-> +	u32                   endian;
+Hi All,
 
-Nitpick: The indentation between u32 and the struct field names is odd,
-can you use a single tab character like in the afe_param_id_cdc_dma_cfg
-instead?
+This patch series adds initial support for eliding Break-Before-Make
+requirements on systems that support BBML2 and additionally guarantee
+to never raise a conflict abort.
 
-> +/* service interval */
-> +	u32                  service_interval;
-> +} __packed;
-> +
-> + [...]
-> diff --git a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
-> index 4919001de08b..4a96b11f7fd1 100644
-> --- a/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
-> +++ b/sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c
-> @@ -97,6 +97,26 @@
->  	}
->  
->  static struct snd_soc_dai_driver q6dsp_audio_fe_dais[] = {
-> +	{
-> +		.playback = {
-> +			.stream_name = "USB Playback",
-> +			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_11025 |
-> +					SNDRV_PCM_RATE_16000 | SNDRV_PCM_RATE_22050 |
-> +					SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
-> +					SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000 |
-> +					SNDRV_PCM_RATE_192000,
-> +			.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S16_BE |
-> +					SNDRV_PCM_FMTBIT_U16_LE | SNDRV_PCM_FMTBIT_U16_BE |
-> +					SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S24_BE |
-> +					SNDRV_PCM_FMTBIT_U24_LE | SNDRV_PCM_FMTBIT_U24_BE,
-> +			.channels_min = 1,
-> +			.channels_max = 2,
-> +			.rate_min =	8000,
-> +			.rate_max = 192000,
+This support elides a TLB invalidation in contpte_convert(). This
+leads to a 12% improvement when executing a microbenchmark designed
+to force the pathological path where contpte_convert() gets called.
+This represents an 80% reduction in the cost of calling
+contpte_convert().
 
-Nitpick: Indentation after rate_max is also odd here, please choose one
-of the styles, either
+This series is based on v6.14-rc5 (7eb172143d55).
 
-			.rate_min = 8000,
+Notes
+======
 
-or
+Patch 1 implements an allow-list of cpus that support BBML2, but with
+the additional constraint of never causing TLB conflict aborts. We
+settled on this constraint because we will use the feature for kernel
+mappings in the future, for which we cannot handle conflict aborts
+safely.
 
-			.rate_max =     192000,
+Yang Shi has a series at [1] that aims to use BBML2 to enable splitting
+the linear map at runtime. This series partially overlaps with it to add
+the cpu feature. We believe this series is fully compatible with Yang's
+requirements and could go first.
 
-> +		},
-> +		.id = USB_RX,
-> +		.name = "USB_RX",
-> +	},
->  	{
->  		.playback = {
->  			.stream_name = "HDMI Playback",
-> [...]
-> diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
-> index 90228699ba7d..b7439420b425 100644
-> --- a/sound/soc/qcom/qdsp6/q6routing.c
-> +++ b/sound/soc/qcom/qdsp6/q6routing.c
-> @@ -435,6 +435,26 @@ static struct session_data *get_session_from_id(struct msm_routing_data *data,
->  
->  	return NULL;
->  }
-> +
-> +static bool is_usb_routing_enabled(struct msm_routing_data *data)
-> +{
-> +	int i;
-> +
-> +	/*
-> +	 * Loop through current sessions to see if there are active routes
-> +	 * to the USB_RX backend DAI.  The USB offload routing is designed
-> +	 * similarly to the non offload path.  If there are multiple PCM
-> +	 * devices associated with the ASoC platform card, only one active
-> +	 * path can be routed to the USB offloaded endpoint.
-> +	 */
-> +	for (i = 0; i < MAX_SESSIONS; i++) {
-> +		if (data->sessions[i].port_id == USB_RX)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
+Due to constraints with the current design of the cpufeature framework
+and the fact that our has_bbml2_noabort() check relies on both a MIDR
+allowlist and the exposed MMFR2 register value, if an implementation
+supports our desired BBML2+NOABORT semantics but fails to declare
+support for BBML2 via the id_aa64mmfr2.bbm field, the check will fail.
 
-What is different about USB_RX compared to other output ports we have in
-Q6AFE? Obviously, we can only play one stream on an output port. But
-doesn't the ADSP mix streams together when you have multiple routes?
+Not declaring base support for BBML2 when supporting BBML2+NOABORT
+should be considered an erratum [2], and a workaround can be applied in
+__cpuinfo_store_cpu() to patch in support for BBML2 for the sanitised
+register view used by SCOPE_SYSTEM. However, SCOPE_LOCAL_CPU bypasses
+this sanitised view and reads the MSRs directly by design, and so an
+additional workaround can be applied in __read_sysreg_by_encoding()
+for the MMFR2 case.
 
-Also, this doesn't actually check for *active* routes only. It just
-looks if any other MultiMedia DAI is configured to output to USB_RX.
-That doesn't mean they will ever be active at the same time.
+For situations where support for BBML2+NOABORT is claimed by an
+implementor and subsequently built into the kernel, but problems later
+arise that require user damage control [3], we introduce a kernel
+commandline parameter override for disabling all BBML2 support.
 
-I might for example want to have MultiMedia1 and MultiMedia2 both
-configured to output to USB_RX. Let's assume MultiMedia1 is a normal PCM
-DAI, MultiMedia2 is a compress offload DAI. When I want to playback
-normal audio, I go through MultiMedia1, when I want to play compressed
-audio, I go through MultiMedia2. Only one of them active at a time.
-Why can't I set this up statically in the mixers?
+[1]:
+  https://lore.kernel.org/linux-arm-kernel/20250304222018.615808-1-yang@os.amperecomputing.com/
 
-If you confirm that it is really impossible to have multiple streams
-mixed together to the USB_RX output in the ADSP, then this should be a
-runtime check instead when starting the stream IMO.
+[2]:
+  https://lore.kernel.org/linux-arm-kernel/3bba7adb-392b-4024-984f-b6f0f0f88629@arm.com/
 
-> +
->  /**
->   * q6routing_stream_close() - Deregister a stream
->   *
-> @@ -499,7 +519,8 @@ static int msm_routing_put_audio_mixer(struct snd_kcontrol *kcontrol,
->  	struct session_data *session = &data->sessions[session_id];
->  
->  	if (ucontrol->value.integer.value[0]) {
-> -		if (session->port_id == be_id)
-> +		if (session->port_id == be_id ||
-> +		    (be_id == USB_RX && is_usb_routing_enabled(data)))
->  			return 0;
->  
->  		session->port_id = be_id;
-> @@ -515,6 +536,9 @@ static int msm_routing_put_audio_mixer(struct snd_kcontrol *kcontrol,
->  	return 1;
->  }
->  
-> +static const struct snd_kcontrol_new usb_mixer_controls[] = {
+[3]:
+  https://lore.kernel.org/all/0ac0f1f5-e4a0-46ae-8ea0-2eba7e21a7e1@arm.com/
 
-usb_rx_mixer_controls
+Changelog
+=========
 
-> +	Q6ROUTING_RX_MIXERS(USB_RX) };
-> +
->  static const struct snd_kcontrol_new hdmi_mixer_controls[] = {
->  	Q6ROUTING_RX_MIXERS(HDMI_RX) };
->  
-> @@ -950,6 +974,10 @@ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
->  	SND_SOC_DAPM_MIXER("MultiMedia8 Mixer", SND_SOC_NOPM, 0, 0,
->  		mmul8_mixer_controls, ARRAY_SIZE(mmul8_mixer_controls)),
->  
-> +	SND_SOC_DAPM_MIXER("USB Mixer", SND_SOC_NOPM, 0, 0,
-> +			   usb_mixer_controls,
-> +			   ARRAY_SIZE(usb_mixer_controls)),
+v5:
+  - fixup coding style nits
+  - document motivation for kernel commandline parameter
 
-Please put this next to the other playback mixers above (below
-"RX_CODEC_DMA_RX_7 Audio Mixer").
+v4:
+  - https://lore.kernel.org/all/20250319150533.37440-2-miko.lenczewski@arm.com/
+  - rebase onto v6.14-rc5
+  - switch from arm64 sw feature override to hw feature override
+  - reintroduce has_cpuid_feature() check in addition to MIDR check
 
-I think it would also be more clear if you call this "USB_RX Mixer"
-instead for consistency with the other playback mixers. This would also
-avoid confusion later when USB_TX is added in addition to USB_RX.
+v3:
+  - https://lore.kernel.org/all/20250313104111.24196-2-miko.lenczewski@arm.com/
+  - rebase onto v6.14-rc4
+  - add arm64.nobbml2 commandline override
+  - squash "delay tlbi" and "elide tlbi" patches
 
+v2:
+  - https://lore.kernel.org/all/20250228182403.6269-2-miko.lenczewski@arm.com/
+  - fix buggy MIDR check to properly account for all boot+late cpus
+  - add smmu bbml2 feature check
 
-Are you planning to send follow-up patches for USB recording offload
-(USB_TX) later? Me and Luca successfully used your series to playback
-voice call audio via the ADSP to an USB headset, recording would be also
-needed to use this fully. :-)
+v1:
+  - https://lore.kernel.org/all/20250219143837.44277-3-miko.lenczewski@arm.com/
+  - rebase onto v6.14-rc3
+  - remove kvm bugfix patches from series
+  - strip out conflict abort handler code
+  - switch from blocklist to allowlist of bmml2+noabort implementations
+  - remove has_cpuid_feature() in favour of MIDR check
 
-Thanks,
-Stephan
+rfc-v1:
+  - https://lore.kernel.org/all/20241211154611.40395-1-miko.lenczewski@arm.com/
+  - https://lore.kernel.org/all/20241211160218.41404-1-miko.lenczewski@arm.com/
+
+Mikołaj Lenczewski (3):
+  arm64: Add BBM Level 2 cpu feature
+  iommu/arm: Add BBM Level 2 smmu feature
+  arm64/mm: Elide tlbi in contpte_convert() under BBML2
+
+ .../admin-guide/kernel-parameters.txt         |  3 +
+ arch/arm64/Kconfig                            | 19 +++++
+ arch/arm64/include/asm/cpucaps.h              |  2 +
+ arch/arm64/include/asm/cpufeature.h           |  5 ++
+ arch/arm64/kernel/cpufeature.c                | 71 +++++++++++++++++++
+ arch/arm64/kernel/pi/idreg-override.c         |  2 +
+ arch/arm64/mm/contpte.c                       |  3 +-
+ arch/arm64/tools/cpucaps                      |  1 +
+ .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  3 +
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |  3 +
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  4 ++
+ 11 files changed, 115 insertions(+), 1 deletion(-)
+
+-- 
+2.48.1
+
