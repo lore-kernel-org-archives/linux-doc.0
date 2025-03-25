@@ -1,215 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E24838382;
-	Tue, 25 Mar 2025 00:55:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784EF2F3B
+	for <linux-doc@vger.kernel.org>; Tue, 25 Mar 2025 01:23:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742864148; cv=none; b=itzOTEKHCNWUKB1Bq+xv0anpC0qRwic5pHA1LBOxNyxUdayopjBSr5+fVvKfajux1CIVFULCrQBvWw/Iy4vk0cPcYIzDBotoZZS/OuQit3hdzH9u1u4z7i8c7yYu9IO6mwYhOtJOWKeKITxsOvXXx7q4BAuLPxUkLLCo0MailGQ=
+	t=1742865826; cv=none; b=iJQ0ljI6lxSE6ZX0G8GZvFLHL5gNsQl57t9Cd9ShO7lCY+2wD6Zq48nCNeqisEdUznyjW3fWXWiM9e8CvB36jJzYub3BEjo/FBSTS+mzBTs7N6b04SUi3xNi+as4BaR1MEOEN/ZOV1VkjempL6BypvZDAFc+GzvJKxBABmGpczI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742864148; c=relaxed/simple;
-	bh=NpcfTHMukeXCXP30oO1UEectOwTNw1m34QU+vW3Sbbo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Nf/hnobjNlGpro+QfFjvXOMrMb/9wN9C3nvKJB7F8d1uzndFYWBvKOE/TcooKPsKZ8S4UgRXJ7rLqvr6RV003kvsJNQ7F0Bknkq6pyKIhEeKCuTmDVpdDWKq4S+1Y99vAutuIi8BO6IF6EMYntkwKmKmlsZnIrgf5aHdY5M5Ukg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pmavc0Rl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742865826; c=relaxed/simple;
+	bh=dmXOgSyiMkzP5lmOjikLvzTL3OGmqHkvRNIsCLUyNUs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VNrXBEvEIiwqf4DdzgvSgHo7wI3UD7ZqbYzx4r4940BbpRY/VfBlKEtGdCFDu8OqwGRdzh1bPMcrj5yV8zQRUGsDVa+2AMU5pShlFJffbfDJRK6Iq9rtVKjGG4iVMnYPdWfsnzrL2IhStJSNPg6r2bQQ5OLtPNTNYMrKeCWGmt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Oni1+47t; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pmavc0Rl"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CB7BCC4CEDD;
-	Tue, 25 Mar 2025 00:55:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742864147;
-	bh=NpcfTHMukeXCXP30oO1UEectOwTNw1m34QU+vW3Sbbo=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Pmavc0RlSBOGR6xNKAbF/ZR+32lscvN/+vAiuRs5EvOratNllS7fc9ufMMXXdFNwC
-	 pF0HqlI/FUJcScL43RQAT/+I2h1KqLKoDtq4hnKzRm3WNNxygNN5OheR5CF+A+fEYZ
-	 ds41xn56susr/8TI0seDvPSBrMCZultxtJzW2J0o9C7sa+PKY4z2UPvRjs+dpnqiZf
-	 zW0v4rq2Fh4DYcMeEwjveh7tYE61s00b1NcaMg2QGh7rxunqEwDG9gbb+c/4x01iwi
-	 oKwuRso27tw3IkTCdyGKwJjsF1bcy40Ld6OvX4xGw6NU4E5xmx0ZTwqri5p5kRgzVP
-	 P1VySxhLYo2gA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB29C36002;
-	Tue, 25 Mar 2025 00:55:47 +0000 (UTC)
-From: Denis Mukhin via B4 Relay <devnull+dmukhin.ford.com@kernel.org>
-Date: Mon, 24 Mar 2025 17:55:40 -0700
-Subject: [PATCH v3] x86/early_printk: add MMIO-based UARTs
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Oni1+47t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742865823;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=80YXslX43Vd+KzUMLEtvDw9pbdwUBTF2zW23HR+RDds=;
+	b=Oni1+47tB1OU7EAqp5eF68eTMmt54QyVeEyZB8LHbK014ecJI4NHj519XZKW2nzTe3bz5L
+	UVWYJ3pslKmroeavmLuSdKNdd/ngyd3V1k0ekD/2/s6HY4yHAcgLldkMhmUhXMK4uiVyRl
+	WrzBA9DaZMd9s5rEkXV/yXNB8niu3OI=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-583-xYb6qW4yNvu1bvt5LuHUBA-1; Mon, 24 Mar 2025 21:23:42 -0400
+X-MC-Unique: xYb6qW4yNvu1bvt5LuHUBA-1
+X-Mimecast-MFC-AGG-ID: xYb6qW4yNvu1bvt5LuHUBA_1742865821
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-3d5bb1708e4so2357495ab.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Mar 2025 18:23:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742865821; x=1743470621;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=80YXslX43Vd+KzUMLEtvDw9pbdwUBTF2zW23HR+RDds=;
+        b=UoYEq3RlW1fxH6TNXUasJizp/j41fr7NFvK81SzlfL8h+wN1jtI27QQ5QyXVzq/hk+
+         BNpGKun4I6Y203NZfLxi4TUQQn/AsWyrx+WKj7JL0yuz/DvvLShuntwyoJJnRQbcm7EX
+         WAijaPpz9mMMdriUQgUEeS50MYhTtuGef6gxRm0H+674Xw5yy1/zi7BA6u3AIsMTl5xQ
+         LBW+5TcwWZ8fHh3MLqbwTDciNtcL74tkx/oXOve7DkAJp+oPN+2wiVvkeYcpgQ4WxeUo
+         VSge3o2gwjlAOBT3MNZk4zjxHtWRb49IKe4mdn9Vs855tf1kOIGxQlZGs7c2AxcYJjr1
+         5kYg==
+X-Forwarded-Encrypted: i=1; AJvYcCUx5jfjYpACvP5G0hsXlrcUWLHrai76iiYqJV6qogg5iaCIQ1JGEytKTj1eSVQHX238NiXCMwJ1vx0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3tJjQSO/SdFI+DapdYqp0KalbF9Ks6U6tfVCKUFiIoNxvy4+Y
+	E9h3NFm1C4MmL//BKOQpSVfNBfhzcHhiFt5IrydmImuUFUVvqTOG/cleLjsxXkVb9piR+OxIgHs
+	0rvfI/kd0k5TuHyUjfquXxPoDzBEL+aZFZ+sNhV7omCJM0aCk5h0icP7KtSNU37TeDJnVH5+bEp
+	+5mphulWJwvqVqwjQ4xpITptYlOORTtcyK
+X-Gm-Gg: ASbGnct0mGLQ/64SUC+HOg7rIQjLnj8XU1Ek1T82dMLVxSgT5I6Snh+2Km4Ym81ZOTN
+	n6LKqsJcblyHm5WhdqIrnHNcQG10wMm5rwPxyxEzA5APz9an4ojDZiV0PkG3nj7K/IlIx5yqtFg
+	==
+X-Received: by 2002:a05:6e02:349c:b0:3d3:dd60:bc37 with SMTP id e9e14a558f8ab-3d5961c530dmr173137375ab.22.1742865821211;
+        Mon, 24 Mar 2025 18:23:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH/JUKTQmyT7rmzB1113MDJsVnMSnwa5fEmJ4QQvGW8nT/qrXson+JpXQKKM8geQr7VEFqwbzNfblKLM2iKFAI=
+X-Received: by 2002:a05:6e02:349c:b0:3d3:dd60:bc37 with SMTP id
+ e9e14a558f8ab-3d5961c530dmr173136965ab.22.1742865820779; Mon, 24 Mar 2025
+ 18:23:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250324-earlyprintk-v3-1-aee7421dc469@ford.com>
-X-B4-Tracking: v=1; b=H4sIAAv/4WcC/23MQQ6CMBCF4auQrq1pi0hl5T2MC9pOZaJSMiWNh
- HB3CytMXL6XfP/MIhBCZE0xM4KEEUOfR3komO3a/gEcXd5MCVWJUpYcWnpNA2E/Prk/a2O9FB6
- MZVkMBB4/W+12z7vDOAaatniS6/u/kySXXHsttavrVjt39YHc0YY3WzNJ7enpl6pMlbEGRKUuw
- ugdXZblC3ge2nPgAAAA
-X-Change-ID: 20250313-earlyprintk-f68bcf10febc
-To: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Denis Mukhin <dmukhin@ford.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1742864146; l=5064;
- i=dmukhin@ford.com; s=20241125; h=from:subject:message-id;
- bh=RdmhzMXgwjWmCEHYWUItw+iaOq3OmT/DclEG21o0wbE=;
- b=DLjU+YwK42mtzlVicEbf642u6xddAlYO6z8RLgOGDSz5avySPSRCFa7osFhaV/NtS3/koWUUg
- MNxUjmiYQ1wBfTbCc2sltGt4f6HIhpmhJEa2jGotB/vBvvz15tpYdci
-X-Developer-Key: i=dmukhin@ford.com; a=ed25519;
- pk=SsDZ9p39s0fqcpUKQuqKqrbn0rq6EtEAClvpOpzx6+U=
-X-Endpoint-Received: by B4 Relay for dmukhin@ford.com/20241125 with
- auth_id=287
-X-Original-From: Denis Mukhin <dmukhin@ford.com>
-Reply-To: dmukhin@ford.com
+References: <20250320015551.2157511-1-changyuanl@google.com>
+ <20250320015551.2157511-12-changyuanl@google.com> <CALu+AoS01QJ-H5Vpr378rbx==iRQLG0HajtMCUzDXRO75biCag@mail.gmail.com>
+ <CA+CK2bC4PM0JnHOUm7qfpQ=wUhwsYQ-hJ12tTK_7pSWgYk+bhg@mail.gmail.com>
+In-Reply-To: <CA+CK2bC4PM0JnHOUm7qfpQ=wUhwsYQ-hJ12tTK_7pSWgYk+bhg@mail.gmail.com>
+From: Dave Young <dyoung@redhat.com>
+Date: Tue, 25 Mar 2025 09:24:02 +0800
+X-Gm-Features: AQ5f1JqwitaQjBg4ofN5mWtcdKnJXVa6ylkj6L0R0h_oYxt_kysMu1ZOpV0VfzE
+Message-ID: <CALu+AoRL+oHW2vN8nf1wpsG2Ki8d44AABQRCBMd+CE4_XzqRTw@mail.gmail.com>
+Subject: Re: [PATCH v5 11/16] kexec: add config option for KHO
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org, graf@amazon.com, 
+	akpm@linux-foundation.org, luto@kernel.org, anthony.yznaga@oracle.com, 
+	arnd@arndb.de, ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de, 
+	catalin.marinas@arm.com, dave.hansen@linux.intel.com, dwmw2@infradead.org, 
+	ebiederm@xmission.com, mingo@redhat.com, jgowans@amazon.com, corbet@lwn.net, 
+	krzk@kernel.org, rppt@kernel.org, mark.rutland@arm.com, pbonzini@redhat.com, 
+	hpa@zytor.com, peterz@infradead.org, ptyadav@amazon.de, robh+dt@kernel.org, 
+	robh@kernel.org, saravanak@google.com, skinsburskii@linux.microsoft.com, 
+	rostedt@goodmis.org, tglx@linutronix.de, thomas.lendacky@amd.com, 
+	usama.arif@bytedance.com, will@kernel.org, devicetree@vger.kernel.org, 
+	kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Denis Mukhin <dmukhin@ford.com>
+On Tue, 25 Mar 2025 at 03:27, Pasha Tatashin <pasha.tatashin@soleen.com> wr=
+ote:
+>
+> On Mon, Mar 24, 2025 at 12:18=E2=80=AFAM Dave Young <dyoung@redhat.com> w=
+rote:
+> >
+> > On Thu, 20 Mar 2025 at 23:05, Changyuan Lyu <changyuanl@google.com> wro=
+te:
+> > >
+> > > From: Alexander Graf <graf@amazon.com>
+> > >
+> > > We have all generic code in place now to support Kexec with KHO. This
+> > > patch adds a config option that depends on architecture support to
+> > > enable KHO support.
+> > >
+> > > Signed-off-by: Alexander Graf <graf@amazon.com>
+> > > Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > > Co-developed-by: Changyuan Lyu <changyuanl@google.com>
+> > > Signed-off-by: Changyuan Lyu <changyuanl@google.com>
+> > > ---
+> > >  kernel/Kconfig.kexec | 15 +++++++++++++++
+> > >  1 file changed, 15 insertions(+)
+> > >
+> > > diff --git a/kernel/Kconfig.kexec b/kernel/Kconfig.kexec
+> > > index 4d111f871951..57db99e758a8 100644
+> > > --- a/kernel/Kconfig.kexec
+> > > +++ b/kernel/Kconfig.kexec
+> > > @@ -95,6 +95,21 @@ config KEXEC_JUMP
+> > >           Jump between original kernel and kexeced kernel and invoke
+> > >           code in physical address mode via KEXEC
+> > >
+> > > +config KEXEC_HANDOVER
+> > > +       bool "kexec handover"
+> > > +       depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXE=
+C_FILE
+> > > +       select MEMBLOCK_KHO_SCRATCH
+> > > +       select KEXEC_FILE
+> > > +       select DEBUG_FS
+> > > +       select LIBFDT
+> > > +       select CMA
+> > > +       select XXHASH
+> > > +       help
+> > > +         Allow kexec to hand over state across kernels by generating=
+ and
+> > > +         passing additional metadata to the target kernel. This is u=
+seful
+> > > +         to keep data or state alive across the kexec. For this to w=
+ork,
+> > > +         both source and target kernels need to have this option ena=
+bled.
+> > > +
+> >
+> > Have you tested kdump?  In my mind there are two issues,  one is with
+> > CMA enabled, it could cause kdump crashkernel memory reservation
+> > failures more often due to the fragmented low memory.  Secondly,  in
+>
+> As I understand cma low memory scratch reservation is needed only to
+> support some legacy pci devices that cannot use the full 64-bit space.
+> If so, I am not sure if KHO needs to be supported on machines with
+> such devices. However, even if we keep it, it should really be small,
+> so I would not expect that to be a problem for crash kernel memory
+> reservation.
 
-During the bring-up of an x86 board, the kernel was crashing before
-reaching the platform's console driver because of a bug in the firmware,
-leaving no trace of the boot progress.
+It is not easy to estimate how much of the KHO reserved memory is
+needed.  I assume this as a mechanism for all different users, it is
+not  predictable.  Also it is not only about the size, but also it
+makes the memory fragmented.
 
-It was discovered that the only available method to debug the kernel
-boot process was via the platform's MMIO-based UART, as the board lacked
-an I/O port-based UART, PCI UART, or functional video output.
+>
+> > kdump kernel dump the crazy scratch memory in vmcore is not very
+> > meaningful.  Otherwise I suspect this is not tested under kdump.  If
+> > so please disable this option for kdump.
+>
+> The scratch memory will appear as regular CMA in the vmcore. The crash
+> kernel can be kexec loaded only from userland, long after the scratch
+> memory is converted to CMA.
 
-Then it turned out that earlyprintk= does not have a knob to configure
-the MMIO-mapped UART.
+Depending on the reserved size, if big enough it should be excluded in
+vmcore dumping.
+Otherwise if it is a kdump kernel it should skip the handling of the
+KHO passed previous old states.
 
-Extend the early printk facility to support platform MMIO-based UARTs
-on x86 systems, enabling debugging during the system bring-up phase.
-
-The command line syntax to enable platform MMIO-based UART is:
-  earlyprintk=mmio,membase[,{nocfg|baudrate}][,keep]
-
-Note, the change does not integrate MMIO-based UART support to:
-  arch/x86/boot/early_serial_console.c
-
-Also, update kernel parameters documentation with the new syntax and
-add missing 'nocfg' setting to PCI serial cards description.
-
-Signed-off-by: Denis Mukhin <dmukhin@ford.com>
----
-Changes in v3:
-- Fixed formatting in early_mmio_serial_init()
-- Rebased on tip/master, new code switched to using static_call_update()
-- Doc update: added nocfg description for earlyprintk=pciserial and a note
-  on 32-bit memory-mapped UARTs
-- Link to v2: https://lore.kernel.org/r/20250314-earlyprintk-v2-1-2bcbe05290b8@ford.com
-
-Changes in v2:
-- Fixed description of early_mmio_serial_init()
-- Link to v1: https://lore.kernel.org/r/20250313-earlyprintk-v1-1-8f818d77a8dd@ford.com
----
- Documentation/admin-guide/kernel-parameters.txt |  9 ++++-
- arch/x86/kernel/early_printk.c                  | 45 ++++++++++++++++++++++++-
- 2 files changed, 52 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3e5e41cbe3ce907bb286a6d86456241e02976f6d..1d1eaeac04b31ba808b9196d0f928050acfd17b7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1407,14 +1407,21 @@
- 			earlyprintk=serial[,0x...[,baudrate]]
- 			earlyprintk=ttySn[,baudrate]
- 			earlyprintk=dbgp[debugController#]
--			earlyprintk=pciserial[,force],bus:device.function[,baudrate]
-+			earlyprintk=pciserial[,force],bus:device.function[,{nocfg|baudrate}]
- 			earlyprintk=xdbc[xhciController#]
- 			earlyprintk=bios
-+			earlyprintk=mmio,membase[,{nocfg|baudrate}]
- 
- 			earlyprintk is useful when the kernel crashes before
- 			the normal console is initialized. It is not enabled by
- 			default because it has some cosmetic problems.
- 
-+			Only 32-bit memory addresses are supported for "mmio"
-+			and "pciserial" devices.
-+
-+			Use "nocfg" to skip UART configuration, assume
-+			BIOS/firmware has configured UART correctly.
-+
- 			Append ",keep" to not disable it when the real console
- 			takes over.
- 
-diff --git a/arch/x86/kernel/early_printk.c b/arch/x86/kernel/early_printk.c
-index fc1714bad04588abc3468a0e72df26513250162b..611f27e3890c2852cece31a9e948e7212c4e10fe 100644
---- a/arch/x86/kernel/early_printk.c
-+++ b/arch/x86/kernel/early_printk.c
-@@ -190,7 +190,6 @@ static __init void early_serial_init(char *s)
- 	early_serial_hw_init(divisor);
- }
- 
--#ifdef CONFIG_PCI
- static __noendbr void mem32_serial_out(unsigned long addr, int offset, int value)
- {
- 	u32 __iomem *vaddr = (u32 __iomem *)addr;
-@@ -207,6 +206,45 @@ static __noendbr unsigned int mem32_serial_in(unsigned long addr, int offset)
- }
- ANNOTATE_NOENDBR_SYM(mem32_serial_in);
- 
-+/*
-+ * early_mmio_serial_init() - Initialize MMIO-based early serial console.
-+ * @s: MMIO-based serial specification.
-+ */
-+static __init void early_mmio_serial_init(char *s)
-+{
-+	unsigned long baudrate;
-+	unsigned long membase;
-+	char *e;
-+
-+	if (*s == ',')
-+		s++;
-+
-+	if (!strncmp(s, "0x", 2)) {
-+		/* NB: only 32-bit addresses are supported. */
-+		membase = simple_strtoul(s, &e, 16);
-+		early_serial_base = (unsigned long)early_ioremap(membase, PAGE_SIZE);
-+
-+		static_call_update(serial_in, mem32_serial_in);
-+		static_call_update(serial_out, mem32_serial_out);
-+
-+		s += strcspn(s, ",");
-+		if (*s == ',')
-+			s++;
-+	}
-+
-+	if (!strncmp(s, "nocfg", 5)) {
-+		baudrate = 0;
-+	} else {
-+		baudrate = simple_strtoul(s, &e, 0);
-+		if (baudrate == 0 || s == e)
-+			baudrate = DEFAULT_BAUD;
-+	}
-+
-+	if (baudrate)
-+		early_serial_hw_init(115200 / baudrate);
-+}
-+
-+#ifdef CONFIG_PCI
- /*
-  * early_pci_serial_init()
-  *
-@@ -351,6 +389,11 @@ static int __init setup_early_printk(char *buf)
- 	keep = (strstr(buf, "keep") != NULL);
- 
- 	while (*buf != '\0') {
-+		if (!strncmp(buf, "mmio", 4)) {
-+			early_mmio_serial_init(buf + 4);
-+			early_console_register(&early_serial_console, keep);
-+			buf += 4;
-+		}
- 		if (!strncmp(buf, "serial", 6)) {
- 			buf += 6;
- 			early_serial_init(buf);
-
----
-base-commit: cc086afdd3132fa2a80c3891639c2352521e5d73
-change-id: 20250313-earlyprintk-f68bcf10febc
-
-Best regards,
--- 
-Denis Mukhin <dmukhin@ford.com>
-
+>
+> Pasha
+>
 
