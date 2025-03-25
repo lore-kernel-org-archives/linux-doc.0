@@ -1,225 +1,215 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E424354F81
-	for <linux-doc@vger.kernel.org>; Tue, 25 Mar 2025 00:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E24838382;
+	Tue, 25 Mar 2025 00:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742862110; cv=none; b=nYqbnDEUwepxXxZSTXgvmzglwBRBOLXEflz+klVWT8sOthAPhdLSzoCuStLCaD68Gkj1YnOC02rmlGFcz/nyjfAsvFdKZP4vpUuouRt4W4Q/TTjb/PDDFXlB/CABB/JZVCqjyqM3KsDJBxYB1zBm48WYMyl9+o0V0F2NacQ3o80=
+	t=1742864148; cv=none; b=itzOTEKHCNWUKB1Bq+xv0anpC0qRwic5pHA1LBOxNyxUdayopjBSr5+fVvKfajux1CIVFULCrQBvWw/Iy4vk0cPcYIzDBotoZZS/OuQit3hdzH9u1u4z7i8c7yYu9IO6mwYhOtJOWKeKITxsOvXXx7q4BAuLPxUkLLCo0MailGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742862110; c=relaxed/simple;
-	bh=vrj35GYsxNq9sLVJo6Xi68dZRxTptMeao+yGxpd7dYA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=LGWZHUCwQxwq15tFZbTQes+gPu9XiwoxEqrn/bqs11euNYO+v5bXhZwRNI+7FnALM0723jIxM9EEQfX8bP6zH1THykqNjFq1bLgyoJbR03Ql39ZleueJb6U1L0OVgKaaB82gmrmrudkvini/f9p5Vf9tpUkVH/0a1WI/msX4KmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EHRDuH2o; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
+	s=arc-20240116; t=1742864148; c=relaxed/simple;
+	bh=NpcfTHMukeXCXP30oO1UEectOwTNw1m34QU+vW3Sbbo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Nf/hnobjNlGpro+QfFjvXOMrMb/9wN9C3nvKJB7F8d1uzndFYWBvKOE/TcooKPsKZ8S4UgRXJ7rLqvr6RV003kvsJNQ7F0Bknkq6pyKIhEeKCuTmDVpdDWKq4S+1Y99vAutuIi8BO6IF6EMYntkwKmKmlsZnIrgf5aHdY5M5Ukg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pmavc0Rl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EHRDuH2o"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-225505d1ca5so79220505ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 24 Mar 2025 17:21:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1742862108; x=1743466908; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kb8y09wjWZKZXgN+OK6vm5oWH5+mueKid+6zGQwN3TE=;
-        b=EHRDuH2oeDAdWBCfFcLk4ugHp0+QF2zJ163DPdc74wvbz12fWe55OmupORyBfmAkJk
-         7zi7ggzYJJQahDptjPVfaUBsEHqLNeZKhhVAaIXJxc+wlrxPunRLx/ayPQORmByHTuXk
-         3Hd+Abvpy762noQJUwZzwZp7vrLq7OGVjxSZaApZHJHPw6iSqbnRzrBx60kKE9y/JCZb
-         wYX8ewgTP7odMGMJEEwxzx51pZIQvZb7Sy3QVPSVUw8BVNy8zG6JRdDG834+ACclm02x
-         0d+1PCNQMgB8kuaZDaHmBLyHR3ZCcWZluYe6OdEgoI57NGhhBKUmbGoI8wpF70rRcT8j
-         te/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742862108; x=1743466908;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kb8y09wjWZKZXgN+OK6vm5oWH5+mueKid+6zGQwN3TE=;
-        b=Vq6oDf6odgGkhuWjwN1rSwwufP0fny7Pp61ByNPQN0OhGUDcQxyp8dlgmXLDR0e6at
-         V9ddhPRKhBNpoc3sHZspGCQbAxDIFNkt3SUlN3yTm1QohZrrhPiXFp/p3TXztCNOalb4
-         Sa4GvBN3fqkm2Zk09IrQSiMoxFpZE9bSE6UnRQ9zYZLuuGA0DsJf8AKr0x2wGhwW0CeH
-         6PkyfZUJHNv/IA7bzPznaAkuEIhf9Yxls9SVYncQUZK+BrjjHDLG4KimpYcoXwmqQVuq
-         BSTV5pH9D/LcBZzBXkBonJGj2LbrG14/sFGqvTQo+0b0CN9GeFiJdLgf95uwooasoRcZ
-         RZuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV7/nLvbQkn/fIhJkVt+zds9laf9nqcYY0B3q1yKVIpnQisjAfB/tDRUHXUQuII/B/85vG4LfODopg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGzh0tQc9ynWv9jZzqwxsCGr/2o3ni5alRRK/MK5ilYXUF10J4
-	8VAJKxDQOC+l2trTHAxA4o/5rFAdCY4ImxfaBtLUEpJ9VwQ6xvm8mm9RnYB2fxlpl3w9HAybLNz
-	COtn36/OMH7qRMUWt2A==
-X-Google-Smtp-Source: AGHT+IHG0g+Hm1IqtMzqXUj5Qn0QldzYjiLvO8Nyoi1zqCX0pxtjOavFlFPqDc4bNSQjw3dO9geHCTStZpDWLXuA
-X-Received: from pfbgi10.prod.google.com ([2002:a05:6a00:63ca:b0:736:59f0:d272])
- (user=changyuanl job=prod-delivery.src-stubby-dispatcher) by
- 2002:aa7:88c7:0:b0:736:5725:59b9 with SMTP id d2e1a72fcca58-7390593d43fmr22362509b3a.2.1742862108166;
- Mon, 24 Mar 2025 17:21:48 -0700 (PDT)
-Date: Mon, 24 Mar 2025 17:21:45 -0700
-In-Reply-To: <Z+GIRecXeYXiPrYv@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pmavc0Rl"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CB7BCC4CEDD;
+	Tue, 25 Mar 2025 00:55:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742864147;
+	bh=NpcfTHMukeXCXP30oO1UEectOwTNw1m34QU+vW3Sbbo=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=Pmavc0RlSBOGR6xNKAbF/ZR+32lscvN/+vAiuRs5EvOratNllS7fc9ufMMXXdFNwC
+	 pF0HqlI/FUJcScL43RQAT/+I2h1KqLKoDtq4hnKzRm3WNNxygNN5OheR5CF+A+fEYZ
+	 ds41xn56susr/8TI0seDvPSBrMCZultxtJzW2J0o9C7sa+PKY4z2UPvRjs+dpnqiZf
+	 zW0v4rq2Fh4DYcMeEwjveh7tYE61s00b1NcaMg2QGh7rxunqEwDG9gbb+c/4x01iwi
+	 oKwuRso27tw3IkTCdyGKwJjsF1bcy40Ld6OvX4xGw6NU4E5xmx0ZTwqri5p5kRgzVP
+	 P1VySxhLYo2gA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB29C36002;
+	Tue, 25 Mar 2025 00:55:47 +0000 (UTC)
+From: Denis Mukhin via B4 Relay <devnull+dmukhin.ford.com@kernel.org>
+Date: Mon, 24 Mar 2025 17:55:40 -0700
+Subject: [PATCH v3] x86/early_printk: add MMIO-based UARTs
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <Z+GIRecXeYXiPrYv@nvidia.com>
-X-Mailer: git-send-email 2.49.0.395.g12beb8f557-goog
-Message-ID: <20250325002145.982402-1-changyuanl@google.com>
-Subject: Re: [PATCH v5 07/16] kexec: add Kexec HandOver (KHO) generation helpers
-From: Changyuan Lyu <changyuanl@google.com>
-To: jgg@nvidia.com
-Cc: akpm@linux-foundation.org, anthony.yznaga@oracle.com, arnd@arndb.de, 
-	ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de, 
-	catalin.marinas@arm.com, changyuanl@google.com, corbet@lwn.net, 
-	dave.hansen@linux.intel.com, devicetree@vger.kernel.org, dwmw2@infradead.org, 
-	ebiederm@xmission.com, graf@amazon.com, hpa@zytor.com, jgowans@amazon.com, 
-	kexec@lists.infradead.org, krzk@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org, 
-	mark.rutland@arm.com, mingo@redhat.com, pasha.tatashin@soleen.com, 
-	pbonzini@redhat.com, peterz@infradead.org, ptyadav@amazon.de, 
-	robh+dt@kernel.org, robh@kernel.org, rostedt@goodmis.org, rppt@kernel.org, 
-	saravanak@google.com, skinsburskii@linux.microsoft.com, tglx@linutronix.de, 
-	thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250324-earlyprintk-v3-1-aee7421dc469@ford.com>
+X-B4-Tracking: v=1; b=H4sIAAv/4WcC/23MQQ6CMBCF4auQrq1pi0hl5T2MC9pOZaJSMiWNh
+ HB3CytMXL6XfP/MIhBCZE0xM4KEEUOfR3komO3a/gEcXd5MCVWJUpYcWnpNA2E/Prk/a2O9FB6
+ MZVkMBB4/W+12z7vDOAaatniS6/u/kySXXHsttavrVjt39YHc0YY3WzNJ7enpl6pMlbEGRKUuw
+ ugdXZblC3ge2nPgAAAA
+X-Change-ID: 20250313-earlyprintk-f68bcf10febc
+To: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Denis Mukhin <dmukhin@ford.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1742864146; l=5064;
+ i=dmukhin@ford.com; s=20241125; h=from:subject:message-id;
+ bh=RdmhzMXgwjWmCEHYWUItw+iaOq3OmT/DclEG21o0wbE=;
+ b=DLjU+YwK42mtzlVicEbf642u6xddAlYO6z8RLgOGDSz5avySPSRCFa7osFhaV/NtS3/koWUUg
+ MNxUjmiYQ1wBfTbCc2sltGt4f6HIhpmhJEa2jGotB/vBvvz15tpYdci
+X-Developer-Key: i=dmukhin@ford.com; a=ed25519;
+ pk=SsDZ9p39s0fqcpUKQuqKqrbn0rq6EtEAClvpOpzx6+U=
+X-Endpoint-Received: by B4 Relay for dmukhin@ford.com/20241125 with
+ auth_id=287
+X-Original-From: Denis Mukhin <dmukhin@ford.com>
+Reply-To: dmukhin@ford.com
 
-Hi Jason,
+From: Denis Mukhin <dmukhin@ford.com>
 
-On Mon, Mar 24, 2025 at 13:28:53 -0300, Jason Gunthorpe <jgg@nvidia.com> wrote:
-> [...]
-> > > I feel like this patch is premature, it should come later in the
-> > > project along with a stronger justification for this approach.
-> > >
-> > > IHMO keep things simple for this series, just the very basics.
-> >
-> > The main purpose of using hashtables is to enable KHO users to save
-> > data to KHO at any time, not just at the time of activate/finalize KHO
-> > through sysfs/debugfs. For example, FDBox can save the data into KHO
-> > tree once a new fd is saved to KHO. Also, using hashtables allows KHO
-> > users to add data to KHO concurrently, while with notifiers, KHO users'
-> > callbacks are executed serially.
->
-> This is why I like the recursive FDT scheme. Each serialization
-> operation can open its own FDT write to it and the close it
-> sequenatially within its operation without any worries about
-> concurrency.
->
-> The top level just aggregates the FDT blobs (which are in preserved
-> memory)
->
-> To me all this complexity here with the hash table and the copying
-> makes no sense compared to that. It is all around slower.
->
-> > Regarding the suggestion of recursive FDT, I feel like it is already
-> > doable with this patchset, or even with Mike's V4 patch.
->
-> Of course it is doable, here we are really talk about what is the
-> right, recommended way to use this system. recurisive FDT is a better
-> methodology than hash tables
->
-> > just allocates a buffer, serialize all its states to the buffer using
-> > libfdt (or even using other binary formats), save the address of the
-> > buffer to KHO's tree, and finally register the buffer's underlying
-> > pages/folios with kho_preserve_folio().
->
-> Yes, exactly! I think this is how we should operate this system as a
-> paradig, not a giant FDT, hash table and so on...
->
-> [...]
-> > To completely remove fdt_max, I am considering the idea in [1]. At the
-> > time of kexec_file_load(), we pass the address of an anchor page to
-> > the new kernel, and the anchor page will later be fulfilled with the
-> > physical addresses of the pages containing the FDT blob. Multiple
-> > anchor pages can be linked together. The FDT blob pages can be physically
-> > noncontiguous.
->
-> Yes, this is basically what I suggested too. I think this is much
-> prefered and doesn't require the wakky uapi.
->
-> Except I suggested you just really need a single u64 to point to a
-> preserved page holding the top level FDT.
->
-> With recursive FDT I think we can say that no FDT fragement should
-> exceed PAGE_SIZE, and things become much simpler, IMHO.
+During the bring-up of an x86 board, the kernel was crashing before
+reaching the platform's console driver because of a bug in the firmware,
+leaving no trace of the boot progress.
 
-Thanks for the suggestions! I am a little bit concerned about assuming
-every FDT fragment is smaller than PAGE_SIZE. In case a child FDT is
-larger than PAGE_SIZE, I would like to turn the single u64 in the parent
-FDT into a u64 list to record all the underlying pages of the child FDT.
+It was discovered that the only available method to debug the kernel
+boot process was via the platform's MMIO-based UART, as the board lacked
+an I/O port-based UART, PCI UART, or functional video output.
 
-To be concrete and make sure I understand your suggestions correctly,
-I drafted the following design,
+Then it turned out that earlyprintk= does not have a knob to configure
+the MMIO-mapped UART.
 
-Suppose we have 2 KHO users, memblock and gpu@0x2000000000, the KHO
-FDT (top level FDT) would look like the following,
+Extend the early printk facility to support platform MMIO-based UARTs
+on x86 systems, enabling debugging during the system bring-up phase.
 
-    /dts-v1/;
-    / {
-            compatible = "kho-v1";
-            memblock {
-                    kho,recursive-fdt = <0x00 0x40001000>;
-            };
-            gpu@0x100000000 {
-                    kho,recursive-fdt = <0x00 0x40002000>;
-            };
-    };
+The command line syntax to enable platform MMIO-based UART is:
+  earlyprintk=mmio,membase[,{nocfg|baudrate}][,keep]
 
-kho,recursive-fdt in "memblock" points to a page containing another
-FDT,
+Note, the change does not integrate MMIO-based UART support to:
+  arch/x86/boot/early_serial_console.c
 
-    / {
-            compatible = "memblock-v1";
-            n1 {
-                    compatible = "reserve-mem-v1";
-                    size = <0x04 0x00>;
-                    start = <0xc06b 0x4000000>;
-            };
-            n2 {
-                    compatible = "reserve-mem-v1";
-                    size = <0x04 0x00>;
-                    start = <0xc067 0x4000000>;
-            };
-    };
+Also, update kernel parameters documentation with the new syntax and
+add missing 'nocfg' setting to PCI serial cards description.
 
-Similarly, "kho,recursive-fdt" in "gpu@0x2000000000" points to a page
-containing another FDT,
+Signed-off-by: Denis Mukhin <dmukhin@ford.com>
+---
+Changes in v3:
+- Fixed formatting in early_mmio_serial_init()
+- Rebased on tip/master, new code switched to using static_call_update()
+- Doc update: added nocfg description for earlyprintk=pciserial and a note
+  on 32-bit memory-mapped UARTs
+- Link to v2: https://lore.kernel.org/r/20250314-earlyprintk-v2-1-2bcbe05290b8@ford.com
 
-    / {
-            compatible = "gpu-v1"
-            key1 = "v1";
-            key2 = "v2";
+Changes in v2:
+- Fixed description of early_mmio_serial_init()
+- Link to v1: https://lore.kernel.org/r/20250313-earlyprintk-v1-1-8f818d77a8dd@ford.com
+---
+ Documentation/admin-guide/kernel-parameters.txt |  9 ++++-
+ arch/x86/kernel/early_printk.c                  | 45 ++++++++++++++++++++++++-
+ 2 files changed, 52 insertions(+), 2 deletions(-)
 
-            node1 {
-                    kho,recursive-fdt = <0x00 0x40003000 0x00 0x40005000>;
-            }
-            node2 {
-                    key3 = "v3";
-                    key4 = "v4";
-            }
-    }
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 3e5e41cbe3ce907bb286a6d86456241e02976f6d..1d1eaeac04b31ba808b9196d0f928050acfd17b7 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1407,14 +1407,21 @@
+ 			earlyprintk=serial[,0x...[,baudrate]]
+ 			earlyprintk=ttySn[,baudrate]
+ 			earlyprintk=dbgp[debugController#]
+-			earlyprintk=pciserial[,force],bus:device.function[,baudrate]
++			earlyprintk=pciserial[,force],bus:device.function[,{nocfg|baudrate}]
+ 			earlyprintk=xdbc[xhciController#]
+ 			earlyprintk=bios
++			earlyprintk=mmio,membase[,{nocfg|baudrate}]
+ 
+ 			earlyprintk is useful when the kernel crashes before
+ 			the normal console is initialized. It is not enabled by
+ 			default because it has some cosmetic problems.
+ 
++			Only 32-bit memory addresses are supported for "mmio"
++			and "pciserial" devices.
++
++			Use "nocfg" to skip UART configuration, assume
++			BIOS/firmware has configured UART correctly.
++
+ 			Append ",keep" to not disable it when the real console
+ 			takes over.
+ 
+diff --git a/arch/x86/kernel/early_printk.c b/arch/x86/kernel/early_printk.c
+index fc1714bad04588abc3468a0e72df26513250162b..611f27e3890c2852cece31a9e948e7212c4e10fe 100644
+--- a/arch/x86/kernel/early_printk.c
++++ b/arch/x86/kernel/early_printk.c
+@@ -190,7 +190,6 @@ static __init void early_serial_init(char *s)
+ 	early_serial_hw_init(divisor);
+ }
+ 
+-#ifdef CONFIG_PCI
+ static __noendbr void mem32_serial_out(unsigned long addr, int offset, int value)
+ {
+ 	u32 __iomem *vaddr = (u32 __iomem *)addr;
+@@ -207,6 +206,45 @@ static __noendbr unsigned int mem32_serial_in(unsigned long addr, int offset)
+ }
+ ANNOTATE_NOENDBR_SYM(mem32_serial_in);
+ 
++/*
++ * early_mmio_serial_init() - Initialize MMIO-based early serial console.
++ * @s: MMIO-based serial specification.
++ */
++static __init void early_mmio_serial_init(char *s)
++{
++	unsigned long baudrate;
++	unsigned long membase;
++	char *e;
++
++	if (*s == ',')
++		s++;
++
++	if (!strncmp(s, "0x", 2)) {
++		/* NB: only 32-bit addresses are supported. */
++		membase = simple_strtoul(s, &e, 16);
++		early_serial_base = (unsigned long)early_ioremap(membase, PAGE_SIZE);
++
++		static_call_update(serial_in, mem32_serial_in);
++		static_call_update(serial_out, mem32_serial_out);
++
++		s += strcspn(s, ",");
++		if (*s == ',')
++			s++;
++	}
++
++	if (!strncmp(s, "nocfg", 5)) {
++		baudrate = 0;
++	} else {
++		baudrate = simple_strtoul(s, &e, 0);
++		if (baudrate == 0 || s == e)
++			baudrate = DEFAULT_BAUD;
++	}
++
++	if (baudrate)
++		early_serial_hw_init(115200 / baudrate);
++}
++
++#ifdef CONFIG_PCI
+ /*
+  * early_pci_serial_init()
+  *
+@@ -351,6 +389,11 @@ static int __init setup_early_printk(char *buf)
+ 	keep = (strstr(buf, "keep") != NULL);
+ 
+ 	while (*buf != '\0') {
++		if (!strncmp(buf, "mmio", 4)) {
++			early_mmio_serial_init(buf + 4);
++			early_console_register(&early_serial_console, keep);
++			buf += 4;
++		}
+ 		if (!strncmp(buf, "serial", 6)) {
+ 			buf += 6;
+ 			early_serial_init(buf);
 
-and kho,recursive-fdt in "node1" contains 2 non-contagious pages backing
-the following large FDT fragment,
+---
+base-commit: cc086afdd3132fa2a80c3891639c2352521e5d73
+change-id: 20250313-earlyprintk-f68bcf10febc
 
-    / {
-            compatible = "gpu-subnode1-v1";
+Best regards,
+-- 
+Denis Mukhin <dmukhin@ford.com>
 
-            key5 = "v5";
-            key6 = "v6";
-            key7 = "v7";
-            key8 = "v8";
-            ... // many many keys and small values
-    }
 
-In this way we assume that most FDT fragment is smaller than 1 page so
-"kho,recursive-fdt" is usually just 1 u64, but we can also handle
-larger fragments if that really happens.
-
-I also allow KHO users to add sub nodes in-place, instead of forcing
-to create a new FDT fragment for every sub node, if the KHO user is
-confident that those subnodes are small enough to fit in the parent
-node's page. In this way we do not need to waste a full page for a small
-sub node. An example is the "memblock" node above.
-
-Finally, the KHO top level FDT may also be larger than 1 page, this can
-be handled using the anchor-page method discussed in the previous mails.
-
-What do you think?
-
-Best,
-Changyuan
