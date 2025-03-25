@@ -1,151 +1,152 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205721F463F
-	for <linux-doc@vger.kernel.org>; Tue, 25 Mar 2025 17:26:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D7E264633;
+	Tue, 25 Mar 2025 18:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742923620; cv=none; b=Ujbi2IKjRS47ysp9EtHnPxHGKzkH4wHqwhqp5qUXg2csVrxA1HHJZGPhHNmLyxeOMy+dgaA8m6FgtY2p3lo+qZ+tOfAOKdZh0ovHI9feQiD8KoImco8HRuVARYuFgosg5TqOESO7Jdo7c0loZqJV46UL8XT8aVvuF5nvonvEjSc=
+	t=1742926044; cv=none; b=OvUE4yeRC1OlurKmmmEZge/g1MRGYud6cWmpr2iFgVvNu/W6IJx0x81Dyyu/YIU1q7twqT+bHHNbmODqjSZKoyVv1ttWhc4zkjWMVmWz2j1sZrn0PvcOE2RdeQqoD4Q73XeL2bjRivrBBQEJaTP/R2KgkoP3igBftuZ2IbdOuqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742923620; c=relaxed/simple;
-	bh=/y7lDbhWEeCOfDKCk2aLYRdTJIUGbyw+5R1P9AO87SE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kzAE8ZsUd8/gLPY4f1ykf9xcZeebWjCrYrvBLyEqsdCK/rdT2soRJk4FN83dmo7iV2gWLEOW9jtEXt5ZJL/ePav/P7yISfBcTOfzgHmW9MP2AbQdrWpaInqPdbiK5Cf2bn4Rhj6Q34sdFLqNqJyO0Fho8nq0t3GY/QVlU8ztpQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=fGEGSKT6; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1742926044; c=relaxed/simple;
+	bh=Twjcgia1kl1JBpQ1+WFzTi0fh1hTe/8jMqsC+Tie0Z8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oRp/NXoFNDGvTOMvr6+WSemOoZHkHmqUy/2Ola+nEb5CBOQSdgLtcFUELF1DKYew8NCxu+GmOb6WIdcrpNRKdIasLx48UpTQZsZ+E1tlJ5xAD9Ry2+CkKmPZSmz9o22QC3GUcQoJbpN71nnWj5eFs/CBPVcBpcH/IDpijGooPmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=RsIOhEBj; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="fGEGSKT6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=ZVmZkjekO9+uWiqt3jqrwTn6BAkroCefAs+ZztmYJ8A=; b=fGEGSKT6NH1kMmIfRGTCrgKRzb
-	2qC/TUDIjf0lVDGkTJ4liSvbH4ZE3LcWnSQ+g4CEs8WcIE9KdHVy+lfG3RDiGJv5/o8+8+Jlm5JnQ
-	xrIY3MUlqaCLonwV2XDAQXjvpAFJgVUfGOK1huOplyUhrZdGpU3rMtJ1KeoZ2XV8vXb0wBysdeIyc
-	H5FfpJCzURx4UGHYcbgZn7AWkDBWw+thBpgPZXjDTuybmkpcATRg9aIDOjKyQ1h6yuA4slL+LENF6
-	uagbH2t8x9iv4ub1qqpePctvQuW8Ag48sUz4gERSejHjZaGfC8y8WvVTXptJNsd/aE/YJS8gPD/CF
-	AuVmNNEA==;
-Received: from d162-157-58-14.abhsia.telus.net ([162.157.58.14] helo=maloca.lan)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1tx83B-006FdA-GG; Tue, 25 Mar 2025 18:26:53 +0100
-From: Rodrigo Siqueira <siqueira@igalia.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?=27Christian=20K=C3=B6nig=27?= <christian.koenig@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Melissa Wen <mwen@igalia.com>,
-	=?UTF-8?q?=27Andr=C3=A9=20Almeida=27?= <andrealmeid@igalia.com>,
-	=?UTF-8?q?=27Timur=20Krist=C3=B3f=27?= <timur.kristof@gmail.com>
-Cc: amd-gfx@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	kernel-dev@igalia.com,
-	Rodrigo Siqueira <siqueira@igalia.com>
-Subject: [PATCH 6/6] Documentation/gpu: Add an intro about MES
-Date: Tue, 25 Mar 2025 11:18:47 -0600
-Message-ID: <20250325172623.225901-7-siqueira@igalia.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250325172623.225901-1-siqueira@igalia.com>
-References: <20250325172623.225901-1-siqueira@igalia.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="RsIOhEBj"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52PE3KDS026760;
+	Tue, 25 Mar 2025 18:07:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=mh3ohw+njVlf9wH6/xxNFl6yPEkERp
+	31on0advkcpig=; b=RsIOhEBjoHSNN6d5Q/nF7XaWYlccuwR71z3cCN5uDOFx8s
+	qn6lAMp/HsCwBlTkS/+PqPDK3V+gNBZibgZ0mXxaNZYsXru9KxdspBu1Rh8FzYA6
+	miOdTt7Hq8Bur3fEbJkpZK/qEMWV1oPuUnfMc03zikPxPXio/bJoIUproPl2tAyP
+	ayWz6qRapHvnhdNBXh3jf/FlrQgvEoO7L5CuK3HIG74sINiS0MECwEJA/CCPdkXh
+	KBAss607aYWERTQF9GyG7soXQLXQ4tp3L/SQOKNEW4Ikq2E73eRLDkhD3yG9oJSH
+	IYCn+OqCdR7GF0ZxXRDu8kFR9JK1/uRsWb9YaSag==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45kwwq9cfy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 25 Mar 2025 18:07:08 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 52PGkvq3019995;
+	Tue, 25 Mar 2025 18:07:07 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 45j8hnvng5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 25 Mar 2025 18:07:06 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 52PI75x854395236
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 25 Mar 2025 18:07:05 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E87CE20043;
+	Tue, 25 Mar 2025 18:07:04 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0E15220040;
+	Tue, 25 Mar 2025 18:07:03 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.124.215.78])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 25 Mar 2025 18:07:02 +0000 (GMT)
+Date: Tue, 25 Mar 2025 23:37:00 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Tom Vierjahn <tom.vierjahn@acm.org>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>, dirk.gouders@w-hs.de,
+        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: ext4: Add fields to ext4_super_block
+ documentation
+Message-ID: <Z-LwxGyxp-f_QhET@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <20250324221004.5268-1-tom.vierjahn@acm.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250324221004.5268-1-tom.vierjahn@acm.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: MSAa_6RKT-qeg86VqkQCChHDUCjUwLW3
+X-Proofpoint-ORIG-GUID: MSAa_6RKT-qeg86VqkQCChHDUCjUwLW3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-25_07,2025-03-25_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ bulkscore=0 clxscore=1011 mlxlogscore=981 spamscore=0 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 mlxscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502280000 definitions=main-2503250122
 
-MES is an important firmware that lacks some essential documentation.
-This commit introduces an overview of it and how it works.
+On Mon, Mar 24, 2025 at 11:09:30PM +0100, Tom Vierjahn wrote:
+> Documentation and implementation of the ext4 super block have
+> slightly diverged: Padding has been removed in order to make room for
+> new fields that are still missing in the documentation.
+> 
+> Add the new fields s_encryption_level, s_first_error_errorcode,
+> s_last_error_errorcode to the documentation of the ext4 super block.
+> 
+> Fixes: f542fbe8d5e8 ("ext4 crypto: reserve codepoints used by the ext4 encryption feature")
+> Fixes: 878520ac45f9 ("ext4: save the error code which triggered an ext4_error() in the superblock")
+> 
+> Signed-off-by: Tom Vierjahn <tom.vierjahn@acm.org>
 
-Signed-off-by: Rodrigo Siqueira <siqueira@igalia.com>
----
- Documentation/gpu/amdgpu/driver-core.rst |  2 ++
- Documentation/gpu/amdgpu/gc/index.rst    |  7 ++++-
- Documentation/gpu/amdgpu/gc/mes.rst      | 38 ++++++++++++++++++++++++
- 3 files changed, 46 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/gpu/amdgpu/gc/mes.rst
+Looks good, thanks for updating the docs.
 
-diff --git a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu/amdgpu/driver-core.rst
-index 2af1e919d76a..f39077c44799 100644
---- a/Documentation/gpu/amdgpu/driver-core.rst
-+++ b/Documentation/gpu/amdgpu/driver-core.rst
-@@ -77,6 +77,8 @@ VCN (Video Core Next)
-     decode.  It's exposed to userspace for user mode drivers (VA-API,
-     OpenMAX, etc.)
- 
-+.. _pipes-and-queues-description:
-+
- GFX, Compute, and SDMA Overall Behavior
- =======================================
- 
-diff --git a/Documentation/gpu/amdgpu/gc/index.rst b/Documentation/gpu/amdgpu/gc/index.rst
-index f8128cca7028..b115d5883959 100644
---- a/Documentation/gpu/amdgpu/gc/index.rst
-+++ b/Documentation/gpu/amdgpu/gc/index.rst
-@@ -39,10 +39,15 @@ CP (Command Processor)
-         GFX/compute engine.
- 
-     MES (MicroEngine Scheduler)
--        This is the engine for managing queues.
-+        This is the engine for managing queues. For more details check
-+        :ref:`MicroEngine Scheduler (MES) <amdgpu-mes>`.
- 
- RLC (RunList Controller)
-     This is another microcontroller in the GFX/Compute engine. It handles
-     power management related functionality within the GFX/Compute engine.
-     The name is a vestige of old hardware where it was originally added
-     and doesn't really have much relation to what the engine does now.
-+
-+.. toctree::
-+
-+   mes.rst
-diff --git a/Documentation/gpu/amdgpu/gc/mes.rst b/Documentation/gpu/amdgpu/gc/mes.rst
-new file mode 100644
-index 000000000000..b99eb211b179
---- /dev/null
-+++ b/Documentation/gpu/amdgpu/gc/mes.rst
-@@ -0,0 +1,38 @@
-+.. _amdgpu-mes:
-+
-+=============================
-+ MicroEngine Scheduler (MES)
-+=============================
-+
-+.. note::
-+   Queue and ring buffer are used as a synonymous.
-+
-+.. note::
-+   This section assumes that you are familiar with the concept of Pipes, Queues, and GC.
-+   If not, check :ref:`GFX, Compute, and SDMA Overall Behavior<pipes-and-queues-description>`
-+   and :ref:`drm/amdgpu - Graphics and Compute (GC) <amdgpu-gc>`.
-+
-+Every GFX has a pipe component with one or more hardware queues. Pipes can
-+switch between queues depending on certain conditions, and one of the
-+components that can request a queue switch to a pipe is the MicroEngine
-+Scheduler (MES). Whenever the driver is initialized, it creates one MQD per
-+hardware queue, and then the MQDs are handed to the MES firmware for mapping
-+to:
-+
-+1. Kernel Queues (legacy): This queue is statically mapped to HQDs and never
-+   preempted. Even though this is a legacy feature, it is the current default, and
-+   most existing hardware supports it. When an application submits work to the
-+   kernel driver, it submits all of the application command buffers to the kernel
-+   queues. The CS IOCTL takes the command buffer from the applications and
-+   schedules them on the kernel queue.
-+
-+2. User Queues: These queues are dynamically mapped to the HQDs. Regarding the
-+   utilization of User Queues, the userspace application will create its user
-+   queues and submit work directly to its user queues with no need to IOCTL for
-+   each submission and no need to share a single kernel queue.
-+
-+In terms of User Queues, MES can dynamically map them to the HQD. If there are
-+more MQDs than HQDs, the MES firmware will preempt other user queues to make
-+sure each queues get a time slice; in other words, MES is a microcontroller
-+that handles the mapping and unmapping of MQDs into HQDs, as well as the
-+priorities and oversubscription of MQDs.
--- 
-2.49.0
+Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
 
+Regards,
+ojaswin
+> ---
+>  Documentation/filesystems/ext4/super.rst | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/ext4/super.rst b/Documentation/filesystems/ext4/super.rst
+> index a1eb4a11a1d0..1b240661bfa3 100644
+> --- a/Documentation/filesystems/ext4/super.rst
+> +++ b/Documentation/filesystems/ext4/super.rst
+> @@ -328,9 +328,13 @@ The ext4 superblock is laid out as follows in
+>       - s_checksum_type
+>       - Metadata checksum algorithm type. The only valid value is 1 (crc32c).
+>     * - 0x176
+> -     - __le16
+> -     - s_reserved_pad
+> -     -
+> +     - \_\_u8
+> +     - s\_encryption\_level
+> +     - Versioning level for encryption.
+> +   * - 0x177
+> +     - \_\_u8
+> +     - s\_reserved\_pad
+> +     - Padding to next 32bits.
+>     * - 0x178
+>       - __le64
+>       - s_kbytes_written
+> @@ -466,9 +470,13 @@ The ext4 superblock is laid out as follows in
+>       - s_last_error_time_hi
+>       - Upper 8 bits of the s_last_error_time field.
+>     * - 0x27A
+> -     - __u8
+> -     - s_pad[2]
+> -     - Zero padding.
+> +     - \_\_u8
+> +     - s\_first\_error\_errcode
+> +     -
+> +   * - 0x27B
+> +     - \_\_u8
+> +     - s\_last\_error\_errcode
+> +     -
+>     * - 0x27C
+>       - __le16
+>       - s_encoding
+> 
+> base-commit: d5e206778e96e8667d3bde695ad372c296dc9353
+> -- 
+> 2.49.0
+> 
