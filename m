@@ -1,152 +1,189 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D7E264633;
-	Tue, 25 Mar 2025 18:07:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AB31F2C3B;
+	Tue, 25 Mar 2025 18:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742926044; cv=none; b=OvUE4yeRC1OlurKmmmEZge/g1MRGYud6cWmpr2iFgVvNu/W6IJx0x81Dyyu/YIU1q7twqT+bHHNbmODqjSZKoyVv1ttWhc4zkjWMVmWz2j1sZrn0PvcOE2RdeQqoD4Q73XeL2bjRivrBBQEJaTP/R2KgkoP3igBftuZ2IbdOuqQ=
+	t=1742928155; cv=none; b=WCz6X+N40y0Rh/0MjNe2V6n8yypFnX2rv/bL424br3WLVcz8vOxCJs+N6ifSl0f+xafIjJr5dJKdtF3jmDPjUtc4JY7MlXAk+ByEHs9StLb9lSiDlDzhqD5nqnLfY9mYSx3UahE9N2mKbiygzm2ULwdTvlzEW9OAw4H71lNZvq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742926044; c=relaxed/simple;
-	bh=Twjcgia1kl1JBpQ1+WFzTi0fh1hTe/8jMqsC+Tie0Z8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oRp/NXoFNDGvTOMvr6+WSemOoZHkHmqUy/2Ola+nEb5CBOQSdgLtcFUELF1DKYew8NCxu+GmOb6WIdcrpNRKdIasLx48UpTQZsZ+E1tlJ5xAD9Ry2+CkKmPZSmz9o22QC3GUcQoJbpN71nnWj5eFs/CBPVcBpcH/IDpijGooPmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=RsIOhEBj; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1742928155; c=relaxed/simple;
+	bh=vhVAOzv5qjTv3qc4CBpptkbK8G9euFvMmiNYu0HhVoc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HucRzWZi2Nzcnl2Z1BPTLpLIpQno+ns4EOM05zGVOHHg09oB/8gK8RP28kgaqP67gGKMh44J2SujAYuScsEZepDVx63cjx9CC6D5GG869hc2beLiviudB2txpvkWIgRV+ZisD8aE0/pWd6bmZAG+HELL0vK3Z3lnKuDWTmV6PEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WkDQYww2; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="RsIOhEBj"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52PE3KDS026760;
-	Tue, 25 Mar 2025 18:07:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=mh3ohw+njVlf9wH6/xxNFl6yPEkERp
-	31on0advkcpig=; b=RsIOhEBjoHSNN6d5Q/nF7XaWYlccuwR71z3cCN5uDOFx8s
-	qn6lAMp/HsCwBlTkS/+PqPDK3V+gNBZibgZ0mXxaNZYsXru9KxdspBu1Rh8FzYA6
-	miOdTt7Hq8Bur3fEbJkpZK/qEMWV1oPuUnfMc03zikPxPXio/bJoIUproPl2tAyP
-	ayWz6qRapHvnhdNBXh3jf/FlrQgvEoO7L5CuK3HIG74sINiS0MECwEJA/CCPdkXh
-	KBAss607aYWERTQF9GyG7soXQLXQ4tp3L/SQOKNEW4Ikq2E73eRLDkhD3yG9oJSH
-	IYCn+OqCdR7GF0ZxXRDu8kFR9JK1/uRsWb9YaSag==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45kwwq9cfy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Mar 2025 18:07:08 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 52PGkvq3019995;
-	Tue, 25 Mar 2025 18:07:07 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 45j8hnvng5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Mar 2025 18:07:06 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 52PI75x854395236
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 25 Mar 2025 18:07:05 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E87CE20043;
-	Tue, 25 Mar 2025 18:07:04 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0E15220040;
-	Tue, 25 Mar 2025 18:07:03 +0000 (GMT)
-Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.124.215.78])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Tue, 25 Mar 2025 18:07:02 +0000 (GMT)
-Date: Tue, 25 Mar 2025 23:37:00 +0530
-From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-To: Tom Vierjahn <tom.vierjahn@acm.org>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>, dirk.gouders@w-hs.de,
-        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: ext4: Add fields to ext4_super_block
- documentation
-Message-ID: <Z-LwxGyxp-f_QhET@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-References: <20250324221004.5268-1-tom.vierjahn@acm.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WkDQYww2"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6febf391132so52576467b3.1;
+        Tue, 25 Mar 2025 11:42:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742928152; x=1743532952; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PeUoecMq8P9nHeIOh/xIrCNU1yJBHCZceaN06+7PEC4=;
+        b=WkDQYww226C0NUhBhiDm919zqbUdSQT9kNxFmKQ05rYE7zfNA5O+PND2Nwu7F3dQKk
+         GBXi1DIW/43BRo7OR2lYdSCjPx/GwCq3z1xl5Z90fBbrFdX57Lb7G4Lqpdjqwrwx5PVx
+         ToKXFDkEbWrSRq2BAbo1A1y0q4T3QsQ3TUnSoR3t4uBzH5wlomCnKp65vtfz+ORMwEQM
+         dgvH5PENSg2z9Qk/q2X3qruBEtYT/S/4uFqznfOR+8EW+qoEBYqA1GzT6fzW1AudpOGL
+         X7IPLBW7a9r1iZNylpyHJDFXHxWQv3jMshf34oPJvyVSf8rLQt9NCMd2aXJoIphr9XMf
+         o/SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742928152; x=1743532952;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PeUoecMq8P9nHeIOh/xIrCNU1yJBHCZceaN06+7PEC4=;
+        b=JQdVWD954MKGhHgE1qinAwARxji9umLUYWWu/QQX0fPplTW/kLdfwGa4r3xvT7DyRv
+         nA62SqbOQKj3iW8OBK5p+XvNv4ckTZkAoMiesquy/1vzhuo3gUVxW4a6ASM/vuEzcDbI
+         pyuqhtXVzbwxRmZMY9QBebNabB84/tCqyBxLt+iCHyUa7dALfOhiYk6dAv9gTAbTmloJ
+         bsEc9UrEc5xAC8U6BTAFDlnI2XSQhl+Ot7VEMMw+LS3ClxjEgYk/Eq9kzGQ7vSnTG1rW
+         9hOptJXwDVsmJZZmP6s8j7u3W3tMUekGskoC5L+ljPgGNm3+cHjO9XwhxfSEv7XB89xf
+         z46g==
+X-Forwarded-Encrypted: i=1; AJvYcCWEiAW93jNEAuWLQZ+82Zn3wIIH0xCLEcFy2uCH+RWkexB6Sf/mLBGgl0Wu8eurNl1EH94X09QDtqs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywBtckcHpJiHwH/Rz2cdb9VLbTXuU9mtuIOSTVSZQha7mXr/QI
+	JBKo5B4TjgiRbyh1E57wLd002f8VosZevcewukeLQ8b6UPLxWfHy5doWe+sKNZYxmTCTBKSUiZt
+	R5jw1UTGSxI/KIlY3YAxszf0+TnQ=
+X-Gm-Gg: ASbGncvfWaK5aZN1vXKOGShZjlE0mKSSCDUTUAEdcmdfMh1CpjxuA4ISUrf4jz971py
+	h/vP62mX8xC0b/+NVFrEKhrgBHforVGQ4Vg2cbBL+HOE5atxbdmKXGUl68E2N7ri5Orz0iu0l1s
+	r9zC70XNOAUM+AQGKIR+rYLZbS
+X-Google-Smtp-Source: AGHT+IEYJVEdhxBYqC+vn+T0V878WmSY+Hkd8JEVzl5vnSfQjiTFWsv1pJ/9u3CtXGZJrGgT7+9EyoeQDEqXNs0ITcY=
+X-Received: by 2002:a05:690c:4d49:b0:6f9:aecf:ab34 with SMTP id
+ 00721157ae682-700bad42af9mr237984777b3.38.1742928151983; Tue, 25 Mar 2025
+ 11:42:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250324221004.5268-1-tom.vierjahn@acm.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: MSAa_6RKT-qeg86VqkQCChHDUCjUwLW3
-X-Proofpoint-ORIG-GUID: MSAa_6RKT-qeg86VqkQCChHDUCjUwLW3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-25_07,2025-03-25_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
- bulkscore=0 clxscore=1011 mlxlogscore=981 spamscore=0 lowpriorityscore=0
- malwarescore=0 impostorscore=0 mlxscore=0 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2503250122
+References: <20250320185238.447458-1-jim.cromie@gmail.com> <20250320185238.447458-34-jim.cromie@gmail.com>
+ <2dffcb05-1c31-4704-9081-91107b3ce165@bootlin.com>
+In-Reply-To: <2dffcb05-1c31-4704-9081-91107b3ce165@bootlin.com>
+From: jim.cromie@gmail.com
+Date: Tue, 25 Mar 2025 12:42:05 -0600
+X-Gm-Features: AQ5f1JonfOJIFA8uirzWISL6HB1CZ8tZUdwOAeNYz4kp6Txu9CT7sVkQi1xw55c
+Message-ID: <CAJfuBxwHQOqDobL-FZiMA81OaccWw9RRJp2gL__CrQVnM+z33w@mail.gmail.com>
+Subject: Re: [PATCH v2 33/59] docs/dyndbg: add classmap info to howto (TBD)
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
+	intel-gfx@lists.freedesktop.org, intel-gfx-trybot@lists.freedesktop.org, 
+	jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org, 
+	daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com, 
+	ville.syrjala@linux.intel.com, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 24, 2025 at 11:09:30PM +0100, Tom Vierjahn wrote:
-> Documentation and implementation of the ext4 super block have
-> slightly diverged: Padding has been removed in order to make room for
-> new fields that are still missing in the documentation.
-> 
-> Add the new fields s_encryption_level, s_first_error_errorcode,
-> s_last_error_errorcode to the documentation of the ext4 super block.
-> 
-> Fixes: f542fbe8d5e8 ("ext4 crypto: reserve codepoints used by the ext4 encryption feature")
-> Fixes: 878520ac45f9 ("ext4: save the error code which triggered an ext4_error() in the superblock")
-> 
-> Signed-off-by: Tom Vierjahn <tom.vierjahn@acm.org>
+On Mon, Mar 24, 2025 at 9:23=E2=80=AFAM Louis Chauvet <louis.chauvet@bootli=
+n.com> wrote:
+>
+>
+>
+> Le 20/03/2025 =C3=A0 19:52, Jim Cromie a =C3=A9crit :
+> > Describe the 3 API macros providing dynamic_debug's classmaps
+> >
+> > DYNDBG_CLASSMAP_DEFINE - create & export a classmap
+...
+> > +Dynamic Debug classmaps
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +The "class" keyword selects prdbgs based on author supplied,
+> > +domain-oriented names.  This complements the nested-scope keywords:
+> > +module, file, function, line.
+> > +
+> > +The main difference from the others: class'd prdbgs must be named to
+> > +be changed.  This protects them from generic overwrite:
+> > +
+> > +  # IOW this cannot undo any DRM.debug settings
+> > +  :#> ddcmd -p
+>
+> Patch 30/59 just dropped this behavior no?
 
-Looks good, thanks for updating the docs.
+Yes, that chunk is obsolete, given my capitulation :-/
 
-Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
 
-Regards,
-ojaswin
-> ---
->  Documentation/filesystems/ext4/super.rst | 20 ++++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/ext4/super.rst b/Documentation/filesystems/ext4/super.rst
-> index a1eb4a11a1d0..1b240661bfa3 100644
-> --- a/Documentation/filesystems/ext4/super.rst
-> +++ b/Documentation/filesystems/ext4/super.rst
-> @@ -328,9 +328,13 @@ The ext4 superblock is laid out as follows in
->       - s_checksum_type
->       - Metadata checksum algorithm type. The only valid value is 1 (crc32c).
->     * - 0x176
-> -     - __le16
-> -     - s_reserved_pad
-> -     -
-> +     - \_\_u8
-> +     - s\_encryption\_level
-> +     - Versioning level for encryption.
-> +   * - 0x177
-> +     - \_\_u8
-> +     - s\_reserved\_pad
-> +     - Padding to next 32bits.
->     * - 0x178
->       - __le64
->       - s_kbytes_written
-> @@ -466,9 +470,13 @@ The ext4 superblock is laid out as follows in
->       - s_last_error_time_hi
->       - Upper 8 bits of the s_last_error_time field.
->     * - 0x27A
-> -     - __u8
-> -     - s_pad[2]
-> -     - Zero padding.
-> +     - \_\_u8
-> +     - s\_first\_error\_errcode
-> +     -
-> +   * - 0x27B
-> +     - \_\_u8
-> +     - s\_last\_error\_errcode
-> +     -
->     * - 0x27C
->       - __le16
->       - s_encoding
-> 
-> base-commit: d5e206778e96e8667d3bde695ad372c296dc9353
-> -- 
-> 2.49.0
-> 
+>
+> > +So each class must be enabled individually (no wildcards):
+> > +
+> > +  :#> ddcmd class DRM_UT_CORE +p
+> > +  :#> ddcmd class DRM_UT_KMS +p
+> > +  # or more selectively
+> > +  :#> ddcmd class DRM_UT_CORE module drm +p
+> > +
+> > +Or the legacy/normal (more convenient) way:
+> > +
+> > +  :#> echo 0x1ff > /sys/module/drm/parameters/debug
+> > +
+> > +Dynamic Debug Classmap API
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > +
+> > +DRM.debug is built upon:
+> > +  ~23 macros, all passing a DRM_UT_* constant as arg-1.
+> > +  ~5000 calls to them, across drivers/gpu/drm/*
+> > +  bits in /sys/module/drm/parameters/debug control all DRM_UT_* togeth=
+er
+> > +
+> > +The const short ints are good for optimizing compilers; a classmaps
+> > +design goal was to keep that.  So basically .classid =3D=3D=3D categor=
+y.
+> > +
+> > +And since prdbgs are cataloged with just a DRM_UT_* to identify them,
+> > +the "class" keyword maps known classnames to those reserved IDs, and
+> > +by explicitly requiring "class FOO" in queries, we protect FOO class'd
+> > +debugs from overwrite by generic queries.
+> > +
+> > +Its expected that other classmap users will also provide debug-macros
+> > +using an enum-defined categorization scheme like DRM's, and dyndbg can
+> > +be adapted under them similarly.
+> > +
+> > +DYNAMIC_DEBUG_CLASSMAP_DEFINE(var,type,_base,classnames) - this maps
+> > +classnames onto class-ids consecutively, starting at _base, it also
+> > +maps the names onto CLASSMAP_PARAM bits 0..N.
+> > +
+> > +DYNAMIC_DEBUG_CLASSMAP_USE(var) - modules call this to refer to the
+> > +var _DEFINEd elsewhere (and exported).
+> > +
+> > +Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
+> > +dyndbg to update those classes.  "class FOO" queries are validated
+> > +against the classes, this finds the classid to alter; classes are not
+> > +directly selectable by their classid.
+> > +
+> > +There are 2 types of classmaps:
+> > +
+> > + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
+> > + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
+> > +
+> > +DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
+> > +refers to a DEFINEd classmap, and associates it to the param's
+> > +data-store.  This state is then applied to DEFINEr and USEr modules
+> > +when they're modprobed.
+> > +
+> > +The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
+> > +amongst the contained classnames; all classes are independent in the
+> > +control parser itself; there is no implied meaning in names like "V4".
+> > +
+> > +Modules or module-groups (drm & drivers) can define multiple
+> > +classmaps, as long as they share the limited 0..62 per-module-group
+> > +_class_id range, without overlap.
+>
+> Maybe clarify that a driver using _USE macro should take care that he
+> only use distinct non-overlaping classmaps?
+
+ack
+
+>
+> > +``#define DEBUG`` will enable all pr_debugs in scope, including any
+> > +class'd ones.  This won't be reflected in the PARAM readback value,
+> > +but the class'd pr_debug callsites can be forced off by toggling the
+> > +classmap-kparam all-on then all-off.
+>
+> --
+> Louis Chauvet, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
