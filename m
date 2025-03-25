@@ -1,37 +1,37 @@
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D24F19D090
-	for <linux-doc@vger.kernel.org>; Tue, 25 Mar 2025 17:26:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C326E25EFAC
+	for <linux-doc@vger.kernel.org>; Tue, 25 Mar 2025 17:26:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742923612; cv=none; b=dh9duAFyqZkk/qO7N1TeaNCegdmDs0LSB7q70MwS9AKOZWYNDKsAag304yFak1MMqNiLtH43IIOJdrUsbeD25K9V2mq8CZRBKJkxcHbCqJnLzrNOnHVpj11j9GWqh76UsTJQmU4z/8HehG85nve07SGCHASXl6r9ur+xPqCcKTY=
+	t=1742923613; cv=none; b=SXEk9GlfHgv+Kjr+qhff8LdJs0tXy3KA+Mltp/aIcY65b9nnlwAtSRg6/VPggUQl/LhP82p7OOODJc8Oq8T/wyOim2S9+vOqhXafrv7vbKHH23LSg1EUCMnm2g2gZuCxSgRGBYFxarG27vvsNziQ+W5kp0Dj9+HmRwp/xJvPtlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742923612; c=relaxed/simple;
-	bh=OmrfvMhkiaTKdzQqFMrY3DOLhi6+yvSNn32B5WZq5HY=;
+	s=arc-20240116; t=1742923613; c=relaxed/simple;
+	bh=QBHPT43bBmP3l77iF85yHlwQN/Ni5A0grsgQjB4YmkI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mWCZY311jLLugTT656AyJ7VJgXLGEjKJodd/8MrxOqhJsCWRFjGQvzH2Wb6aqZRA7GZtAGz4i6vUvvKdw8EqKCO33xb04/hLgDJVMoCS9HwcSDB7XAf7NxQN7oP+0EmwcP8B/a5LXIFYNHxxY+HC3I9JYC45h+g07HYPNeJ3KR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=pBxBc/BP; arc=none smtp.client-ip=178.60.130.6
+	 MIME-Version; b=K0C6Pgv6+o0zHGupbVOghFey5otdyrD2UamWR17Gm9l74z8FaYkYobrTkKAxLQ4vTYZCYEjB57YoC5f+FN1ps1D9nhl3fcL9l5R20rlg3kb37LS389nSTRQl5ar8XVe9joaaX0kigAWQ3UbSWVcI2usUiNIGQIDOhZZBpIHwNNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=RCfGLW7F; arc=none smtp.client-ip=178.60.130.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="pBxBc/BP"
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="RCfGLW7F"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
 	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=GmjFnrihjVc0EG1uQ8V65xmrxiTWdWQbXmk0sDhP6KE=; b=pBxBc/BP40tUiIp5TmnNzeMZ9G
-	bVOu+6p++bTwf24ZyU4FfjzhVnZ3vh/qNsO4tYzim5ZK/MKSxjWJ99CmVDlRXfJ6Ol1LRvvIJef3z
-	Hl884WRPEG5hTKZAH4D16zEuk/ISzRfpVBEmRzuUmGlxyC4a8WnHaNImGVY3RCRYKch5liRnbFoWJ
-	z3wPwLLR851loLNXcsU22UJOWJTXs9aJAI1y/TcDTWXnkhmP2yH85YzbW8R8KGDwDy07yreZjmAF5
-	JJD/CYmnoRtlCvbdV6zulz+x9ZFMUUY5oGujEWqicFHoTZ8/oZzJEBDv31ANqfkmQ/CSQ3Bn/TZeh
-	vB24RePw==;
+	bh=M1owNA9LTalVJORCl+yeCvwoBz1nTBHdJqePTwwU49Y=; b=RCfGLW7FHu3crkTbw17OEwduYQ
+	OLHWoccMMqPhvveUlHsQnYGy15nagjkYC5l6l1oW5wpQcCwS3PspRrnNGL0/LPAZKYimOX+G5RM+k
+	2qGlal9grjIMFamlBuTgbni/VHDMyj4mXqn40aLhTNuMhkySAI03al1tCma4JatnT+zSO6ll0RtKD
+	J16H74sv36lnhDv1sg+uT/xhS90r/OUQB99N9HwbFVuuovPSXdTYmz7b8AiHtLTQdDh7zpiPanvuj
+	XQGX+UEBGcH4tTYMweZnzXiYA+xFuVL9iLJHq714qGLXDc52e/Xd/UsS9qqDlLwY/pIoHhxxZQuFF
+	jAIlLzaw==;
 Received: from d162-157-58-14.abhsia.telus.net ([162.157.58.14] helo=maloca.lan)
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1tx831-006FdA-U0; Tue, 25 Mar 2025 18:26:44 +0100
+	id 1tx834-006FdA-7g; Tue, 25 Mar 2025 18:26:46 +0100
 From: Rodrigo Siqueira <siqueira@igalia.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
 	=?UTF-8?q?=27Christian=20K=C3=B6nig=27?= <christian.koenig@amd.com>,
@@ -43,9 +43,9 @@ Cc: amd-gfx@lists.freedesktop.org,
 	linux-doc@vger.kernel.org,
 	kernel-dev@igalia.com,
 	Rodrigo Siqueira <siqueira@igalia.com>
-Subject: [PATCH 2/6] Documentation/gpu: Change index order to show driver core first
-Date: Tue, 25 Mar 2025 11:18:43 -0600
-Message-ID: <20250325172623.225901-3-siqueira@igalia.com>
+Subject: [PATCH 3/6] Documentation/gpu: Create a documentation entry just for hardware info
+Date: Tue, 25 Mar 2025 11:18:44 -0600
+Message-ID: <20250325172623.225901-4-siqueira@igalia.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250325172623.225901-1-siqueira@igalia.com>
 References: <20250325172623.225901-1-siqueira@igalia.com>
@@ -57,29 +57,88 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since driver-core has an overview of the AMD GPU hardware structure, it
-makes more sense to keep it first. This commit move driver-core up in
-the index list.
+The APU and dGPU tables are hidden in the driver misc info, which makes
+it hard to find specific hardware info when users need it. This commit
+creates a single page for this information and adds it to the top of the
+amdgpu list to improve searchability.
 
 Signed-off-by: Rodrigo Siqueira <siqueira@igalia.com>
 ---
- Documentation/gpu/amdgpu/index.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/amdgpu/amd-hardware-list-info.rst     | 23 +++++++++++++++++++
+ Documentation/gpu/amdgpu/driver-misc.rst      | 17 --------------
+ Documentation/gpu/amdgpu/index.rst            |  1 +
+ 3 files changed, 24 insertions(+), 17 deletions(-)
+ create mode 100644 Documentation/gpu/amdgpu/amd-hardware-list-info.rst
 
+diff --git a/Documentation/gpu/amdgpu/amd-hardware-list-info.rst b/Documentation/gpu/amdgpu/amd-hardware-list-info.rst
+new file mode 100644
+index 000000000000..1786544fe7c1
+--- /dev/null
++++ b/Documentation/gpu/amdgpu/amd-hardware-list-info.rst
+@@ -0,0 +1,23 @@
++=================================================
++ AMD Hardware Components Information per Product
++=================================================
++
++On this page, you can find the AMD product name and which component version is
++part of it.
++
++Accelerated Processing Units (APU) Info
++---------------------------------------
++
++.. csv-table::
++   :header-rows: 1
++   :widths: 3, 2, 2, 1, 1, 1, 1
++   :file: ./apu-asic-info-table.csv
++
++Discrete GPU Info
++-----------------
++
++.. csv-table::
++   :header-rows: 1
++   :widths: 3, 2, 2, 1, 1, 1
++   :file: ./dgpu-asic-info-table.csv
++
+diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu/amdgpu/driver-misc.rst
+index e40e15f89fd3..25b0c857816e 100644
+--- a/Documentation/gpu/amdgpu/driver-misc.rst
++++ b/Documentation/gpu/amdgpu/driver-misc.rst
+@@ -50,23 +50,6 @@ board_info
+ .. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+    :doc: board_info
+ 
+-Accelerated Processing Units (APU) Info
+----------------------------------------
+-
+-.. csv-table::
+-   :header-rows: 1
+-   :widths: 3, 2, 2, 1, 1, 1, 1
+-   :file: ./apu-asic-info-table.csv
+-
+-Discrete GPU Info
+------------------
+-
+-.. csv-table::
+-   :header-rows: 1
+-   :widths: 3, 2, 2, 1, 1, 1
+-   :file: ./dgpu-asic-info-table.csv
+-
+-
+ GPU Memory Usage Information
+ ============================
+ 
 diff --git a/Documentation/gpu/amdgpu/index.rst b/Documentation/gpu/amdgpu/index.rst
-index 302d039928ee..3832aa764c72 100644
+index 3832aa764c72..7e9d60754287 100644
 --- a/Documentation/gpu/amdgpu/index.rst
 +++ b/Documentation/gpu/amdgpu/index.rst
-@@ -7,8 +7,8 @@ Next (GCN), Radeon DNA (RDNA), and Compute DNA (CDNA) architectures.
- 
+@@ -8,6 +8,7 @@ Next (GCN), Radeon DNA (RDNA), and Compute DNA (CDNA) architectures.
  .. toctree::
  
--   module-parameters
     driver-core
-+   module-parameters
++   amd-hardware-list-info
+    module-parameters
     display/index
     flashing
-    xgmi
 -- 
 2.49.0
 
