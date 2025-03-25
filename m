@@ -1,189 +1,163 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AB31F2C3B;
-	Tue, 25 Mar 2025 18:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20C319ABD8;
+	Tue, 25 Mar 2025 19:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742928155; cv=none; b=WCz6X+N40y0Rh/0MjNe2V6n8yypFnX2rv/bL424br3WLVcz8vOxCJs+N6ifSl0f+xafIjJr5dJKdtF3jmDPjUtc4JY7MlXAk+ByEHs9StLb9lSiDlDzhqD5nqnLfY9mYSx3UahE9N2mKbiygzm2ULwdTvlzEW9OAw4H71lNZvq4=
+	t=1742930390; cv=none; b=C9EWB4+wdSmDwSrVBjJoHPaVXxLxY0yssN8sI+SL0aeJx0EgDthrdDHqm/0tbja/03UZtNgSKeP0/hJhzcjGYFVgN/7PZBj2iGlfzEU/eprM1CN21RlnD+kVwodLkuEcnq58H7eCusEuzIWgiOTF2+BC/UE2hPzSrbMUI7YQgak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742928155; c=relaxed/simple;
-	bh=vhVAOzv5qjTv3qc4CBpptkbK8G9euFvMmiNYu0HhVoc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HucRzWZi2Nzcnl2Z1BPTLpLIpQno+ns4EOM05zGVOHHg09oB/8gK8RP28kgaqP67gGKMh44J2SujAYuScsEZepDVx63cjx9CC6D5GG869hc2beLiviudB2txpvkWIgRV+ZisD8aE0/pWd6bmZAG+HELL0vK3Z3lnKuDWTmV6PEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WkDQYww2; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742930390; c=relaxed/simple;
+	bh=wafZEi25K9c1JaTWa6sefMLZsC4dbteHbRRbzmLF/cQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WnL4opMhVONEhFFJ1gwhj/DGgcOR0Y6Lf/rnYEWWt/UVnkJ/GnNAboOVyMV4adZG6VxgekX8p2E0GeXOMR72kWs3ihOPXuHcryYSePpZsTthELRopOeYVC1toRiYPpaxOo03QYQ4cIBRg7lPbfdDZvinrF0yLQwPtz/UTYo4D7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EPbGLGyB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WkDQYww2"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6febf391132so52576467b3.1;
-        Tue, 25 Mar 2025 11:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742928152; x=1743532952; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PeUoecMq8P9nHeIOh/xIrCNU1yJBHCZceaN06+7PEC4=;
-        b=WkDQYww226C0NUhBhiDm919zqbUdSQT9kNxFmKQ05rYE7zfNA5O+PND2Nwu7F3dQKk
-         GBXi1DIW/43BRo7OR2lYdSCjPx/GwCq3z1xl5Z90fBbrFdX57Lb7G4Lqpdjqwrwx5PVx
-         ToKXFDkEbWrSRq2BAbo1A1y0q4T3QsQ3TUnSoR3t4uBzH5wlomCnKp65vtfz+ORMwEQM
-         dgvH5PENSg2z9Qk/q2X3qruBEtYT/S/4uFqznfOR+8EW+qoEBYqA1GzT6fzW1AudpOGL
-         X7IPLBW7a9r1iZNylpyHJDFXHxWQv3jMshf34oPJvyVSf8rLQt9NCMd2aXJoIphr9XMf
-         o/SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742928152; x=1743532952;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PeUoecMq8P9nHeIOh/xIrCNU1yJBHCZceaN06+7PEC4=;
-        b=JQdVWD954MKGhHgE1qinAwARxji9umLUYWWu/QQX0fPplTW/kLdfwGa4r3xvT7DyRv
-         nA62SqbOQKj3iW8OBK5p+XvNv4ckTZkAoMiesquy/1vzhuo3gUVxW4a6ASM/vuEzcDbI
-         pyuqhtXVzbwxRmZMY9QBebNabB84/tCqyBxLt+iCHyUa7dALfOhiYk6dAv9gTAbTmloJ
-         bsEc9UrEc5xAC8U6BTAFDlnI2XSQhl+Ot7VEMMw+LS3ClxjEgYk/Eq9kzGQ7vSnTG1rW
-         9hOptJXwDVsmJZZmP6s8j7u3W3tMUekGskoC5L+ljPgGNm3+cHjO9XwhxfSEv7XB89xf
-         z46g==
-X-Forwarded-Encrypted: i=1; AJvYcCWEiAW93jNEAuWLQZ+82Zn3wIIH0xCLEcFy2uCH+RWkexB6Sf/mLBGgl0Wu8eurNl1EH94X09QDtqs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywBtckcHpJiHwH/Rz2cdb9VLbTXuU9mtuIOSTVSZQha7mXr/QI
-	JBKo5B4TjgiRbyh1E57wLd002f8VosZevcewukeLQ8b6UPLxWfHy5doWe+sKNZYxmTCTBKSUiZt
-	R5jw1UTGSxI/KIlY3YAxszf0+TnQ=
-X-Gm-Gg: ASbGncvfWaK5aZN1vXKOGShZjlE0mKSSCDUTUAEdcmdfMh1CpjxuA4ISUrf4jz971py
-	h/vP62mX8xC0b/+NVFrEKhrgBHforVGQ4Vg2cbBL+HOE5atxbdmKXGUl68E2N7ri5Orz0iu0l1s
-	r9zC70XNOAUM+AQGKIR+rYLZbS
-X-Google-Smtp-Source: AGHT+IEYJVEdhxBYqC+vn+T0V878WmSY+Hkd8JEVzl5vnSfQjiTFWsv1pJ/9u3CtXGZJrGgT7+9EyoeQDEqXNs0ITcY=
-X-Received: by 2002:a05:690c:4d49:b0:6f9:aecf:ab34 with SMTP id
- 00721157ae682-700bad42af9mr237984777b3.38.1742928151983; Tue, 25 Mar 2025
- 11:42:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EPbGLGyB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95819C4CEE4;
+	Tue, 25 Mar 2025 19:19:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742930390;
+	bh=wafZEi25K9c1JaTWa6sefMLZsC4dbteHbRRbzmLF/cQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EPbGLGyBiB1SvRfjtdKDPGZo2ETHpmtg4qXxmT/GsGNeAR+CaOgpCSQkLho6C5cyc
+	 BeFl650l1ufdKyeIojv+r6tvos6q1QYTea+agnc7gVeN//anBFAS8jHYiYDVjzt75S
+	 s4ZzhkBDnUKxoUSQebcAdRQCh05nh9CfvgA1nGA7rbw2k4oclzJMZbHrxqVlBm48wb
+	 Z621YrYZ+JHXHsHghbHMhKcOrjvBF8Y03gX03F9+y0ZGfKdZwqTAliB69pFxnQnTxA
+	 /WTgRa7IozzmoX/kArbLGdEvNkKtPUwcd3I8f3yvhQKyd+ycRUqXs6b97otN3YzUpL
+	 HwRTkHR1eqHGg==
+Date: Tue, 25 Mar 2025 15:19:44 -0400
+From: Mike Rapoport <rppt@kernel.org>
+To: Frank van der Linden <fvdl@google.com>
+Cc: Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org,
+	graf@amazon.com, akpm@linux-foundation.org, luto@kernel.org,
+	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
+	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com,
+	dave.hansen@linux.intel.com, dwmw2@infradead.org,
+	ebiederm@xmission.com, mingo@redhat.com, jgowans@amazon.com,
+	corbet@lwn.net, krzk@kernel.org, mark.rutland@arm.com,
+	pbonzini@redhat.com, pasha.tatashin@soleen.com, hpa@zytor.com,
+	peterz@infradead.org, ptyadav@amazon.de, robh+dt@kernel.org,
+	robh@kernel.org, saravanak@google.com,
+	skinsburskii@linux.microsoft.com, rostedt@goodmis.org,
+	tglx@linutronix.de, thomas.lendacky@amd.com,
+	usama.arif@bytedance.com, will@kernel.org,
+	devicetree@vger.kernel.org, kexec@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v5 07/16] kexec: add Kexec HandOver (KHO) generation
+ helpers
+Message-ID: <Z-MB0Cj4tM6QgOAg@kernel.org>
+References: <20250320015551.2157511-1-changyuanl@google.com>
+ <20250320015551.2157511-8-changyuanl@google.com>
+ <CAPTztWbFXajArSN8yKu32eSoR=xsk1CHM_4V7MJ0eQxydFqPUQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250320185238.447458-1-jim.cromie@gmail.com> <20250320185238.447458-34-jim.cromie@gmail.com>
- <2dffcb05-1c31-4704-9081-91107b3ce165@bootlin.com>
-In-Reply-To: <2dffcb05-1c31-4704-9081-91107b3ce165@bootlin.com>
-From: jim.cromie@gmail.com
-Date: Tue, 25 Mar 2025 12:42:05 -0600
-X-Gm-Features: AQ5f1JonfOJIFA8uirzWISL6HB1CZ8tZUdwOAeNYz4kp6Txu9CT7sVkQi1xw55c
-Message-ID: <CAJfuBxwHQOqDobL-FZiMA81OaccWw9RRJp2gL__CrQVnM+z33w@mail.gmail.com>
-Subject: Re: [PATCH v2 33/59] docs/dyndbg: add classmap info to howto (TBD)
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
-	intel-gfx@lists.freedesktop.org, intel-gfx-trybot@lists.freedesktop.org, 
-	jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org, 
-	daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com, 
-	ville.syrjala@linux.intel.com, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPTztWbFXajArSN8yKu32eSoR=xsk1CHM_4V7MJ0eQxydFqPUQ@mail.gmail.com>
 
-On Mon, Mar 24, 2025 at 9:23=E2=80=AFAM Louis Chauvet <louis.chauvet@bootli=
-n.com> wrote:
->
->
->
-> Le 20/03/2025 =C3=A0 19:52, Jim Cromie a =C3=A9crit :
-> > Describe the 3 API macros providing dynamic_debug's classmaps
+On Mon, Mar 24, 2025 at 11:40:43AM -0700, Frank van der Linden wrote:
+> On Wed, Mar 19, 2025 at 6:56 PM Changyuan Lyu <changyuanl@google.com> wrote:
 > >
-> > DYNDBG_CLASSMAP_DEFINE - create & export a classmap
-...
-> > +Dynamic Debug classmaps
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > From: Alexander Graf <graf@amazon.com>
+> >
+> > Add the core infrastructure to generate Kexec HandOver metadata. Kexec
+> > HandOver is a mechanism that allows Linux to preserve state - arbitrary
+> > properties as well as memory locations - across kexec.
+> >
+> > It does so using 2 concepts:
+> >
+> >   1) State Tree - Every KHO kexec carries a state tree that describes the
+> >      state of the system. The state tree is represented as hash-tables.
+> >      Device drivers can add/remove their data into/from the state tree at
+> >      system runtime. On kexec, the tree is converted to FDT (flattened
+> >      device tree).
+> >
+> >   2) Scratch Regions - CMA regions that we allocate in the first kernel.
+> >      CMA gives us the guarantee that no handover pages land in those
+> >      regions, because handover pages must be at a static physical memory
+> >      location. We use these regions as the place to load future kexec
+> >      images so that they won't collide with any handover data.
+> >
+> > Signed-off-by: Alexander Graf <graf@amazon.com>
+> > Co-developed-by: Pratyush Yadav <ptyadav@amazon.de>
+> > Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
+> > Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > Co-developed-by: Changyuan Lyu <changyuanl@google.com>
+> > Signed-off-by: Changyuan Lyu <changyuanl@google.com>
+> > ---
+> >  MAINTAINERS                    |   2 +-
+> >  include/linux/kexec_handover.h | 109 +++++
+> >  kernel/Makefile                |   1 +
+> >  kernel/kexec_handover.c        | 865 +++++++++++++++++++++++++++++++++
+> >  mm/mm_init.c                   |   8 +
+> >  5 files changed, 984 insertions(+), 1 deletion(-)
+> >  create mode 100644 include/linux/kexec_handover.h
+> >  create mode 100644 kernel/kexec_handover.c
+> [...]
+> > diff --git a/mm/mm_init.c b/mm/mm_init.c
+> > index 04441c258b05..757659b7a26b 100644
+> > --- a/mm/mm_init.c
+> > +++ b/mm/mm_init.c
+> > @@ -30,6 +30,7 @@
+> >  #include <linux/crash_dump.h>
+> >  #include <linux/execmem.h>
+> >  #include <linux/vmstat.h>
+> > +#include <linux/kexec_handover.h>
+> >  #include "internal.h"
+> >  #include "slab.h"
+> >  #include "shuffle.h"
+> > @@ -2661,6 +2662,13 @@ void __init mm_core_init(void)
+> >         report_meminit();
+> >         kmsan_init_shadow();
+> >         stack_depot_early_init();
 > > +
-> > +The "class" keyword selects prdbgs based on author supplied,
-> > +domain-oriented names.  This complements the nested-scope keywords:
-> > +module, file, function, line.
+> > +       /*
+> > +        * KHO memory setup must happen while memblock is still active, but
+> > +        * as close as possible to buddy initialization
+> > +        */
+> > +       kho_memory_init();
 > > +
-> > +The main difference from the others: class'd prdbgs must be named to
-> > +be changed.  This protects them from generic overwrite:
-> > +
-> > +  # IOW this cannot undo any DRM.debug settings
-> > +  :#> ddcmd -p
->
-> Patch 30/59 just dropped this behavior no?
+> >         mem_init();
+> >         kmem_cache_init();
+> >         /*
+> 
+> 
+> Thanks for the work on this.
+> 
+> Obviously it needs to happen while memblock is still active - but why
+> as close as possible to buddy initialization?
 
-Yes, that chunk is obsolete, given my capitulation :-/
+One reason is to have all memblock allocations done to autoscale the
+scratch area. Another reason is to keep memblock structures small as long
+as possible as memblock_reserve()ing the preserved memory would quite
+inflate them.
 
+And it's overall simpler if memblock only allocates from scratch rather
+than doing some of early allocations from scratch and some elsewhere and
+still making sure they avoid the preserved ranges.
+ 
+> Ordering is always a sticky issue when it comes to doing things during
+> boot, of course. In this case, I can see scenarios where code that
+> runs a little earlier may want to use some preserved memory. The
 
->
-> > +So each class must be enabled individually (no wildcards):
-> > +
-> > +  :#> ddcmd class DRM_UT_CORE +p
-> > +  :#> ddcmd class DRM_UT_KMS +p
-> > +  # or more selectively
-> > +  :#> ddcmd class DRM_UT_CORE module drm +p
-> > +
-> > +Or the legacy/normal (more convenient) way:
-> > +
-> > +  :#> echo 0x1ff > /sys/module/drm/parameters/debug
-> > +
-> > +Dynamic Debug Classmap API
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> > +
-> > +DRM.debug is built upon:
-> > +  ~23 macros, all passing a DRM_UT_* constant as arg-1.
-> > +  ~5000 calls to them, across drivers/gpu/drm/*
-> > +  bits in /sys/module/drm/parameters/debug control all DRM_UT_* togeth=
-er
-> > +
-> > +The const short ints are good for optimizing compilers; a classmaps
-> > +design goal was to keep that.  So basically .classid =3D=3D=3D categor=
-y.
-> > +
-> > +And since prdbgs are cataloged with just a DRM_UT_* to identify them,
-> > +the "class" keyword maps known classnames to those reserved IDs, and
-> > +by explicitly requiring "class FOO" in queries, we protect FOO class'd
-> > +debugs from overwrite by generic queries.
-> > +
-> > +Its expected that other classmap users will also provide debug-macros
-> > +using an enum-defined categorization scheme like DRM's, and dyndbg can
-> > +be adapted under them similarly.
-> > +
-> > +DYNAMIC_DEBUG_CLASSMAP_DEFINE(var,type,_base,classnames) - this maps
-> > +classnames onto class-ids consecutively, starting at _base, it also
-> > +maps the names onto CLASSMAP_PARAM bits 0..N.
-> > +
-> > +DYNAMIC_DEBUG_CLASSMAP_USE(var) - modules call this to refer to the
-> > +var _DEFINEd elsewhere (and exported).
-> > +
-> > +Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
-> > +dyndbg to update those classes.  "class FOO" queries are validated
-> > +against the classes, this finds the classid to alter; classes are not
-> > +directly selectable by their classid.
-> > +
-> > +There are 2 types of classmaps:
-> > +
-> > + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-> > + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-> > +
-> > +DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
-> > +refers to a DEFINEd classmap, and associates it to the param's
-> > +data-store.  This state is then applied to DEFINEr and USEr modules
-> > +when they're modprobed.
-> > +
-> > +The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-> > +amongst the contained classnames; all classes are independent in the
-> > +control parser itself; there is no implied meaning in names like "V4".
-> > +
-> > +Modules or module-groups (drm & drivers) can define multiple
-> > +classmaps, as long as they share the limited 0..62 per-module-group
-> > +_class_id range, without overlap.
->
-> Maybe clarify that a driver using _USE macro should take care that he
-> only use distinct non-overlaping classmaps?
+Can you elaborate about such scenarios?
 
-ack
+> current requirement in the patch set seems to be "after sparse/page
+> init", but I'm not sure why it needs to be as close as possibly to
+> buddy init.
 
->
-> > +``#define DEBUG`` will enable all pr_debugs in scope, including any
-> > +class'd ones.  This won't be reflected in the PARAM readback value,
-> > +but the class'd pr_debug callsites can be forced off by toggling the
-> > +classmap-kparam all-on then all-off.
->
-> --
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
+Why would you say that sparse/page init would be a requirement here?
+ 
+> - Frank
+
+-- 
+Sincerely yours,
+Mike.
