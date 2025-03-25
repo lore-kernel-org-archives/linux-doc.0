@@ -1,183 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924DE25A33A;
-	Tue, 25 Mar 2025 15:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6038425BAD7;
+	Tue, 25 Mar 2025 15:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742915280; cv=none; b=eZok98O4FBoI35DcP0X2fRod4UMB1FhPKzdN82ucxURQ7MsJ7NmYqOfL0nNBs2yD1oRrgA+nuSGi54zsFP4wcdwIWrcfvzDONm2YzUhFLWxbrf8I2hnzt37wP2EAMgMGU30g3QBgZ2Hln8SAMyY91FzKJjceWIljJ7eDKFCHKdQ=
+	t=1742916348; cv=none; b=lhypNuMa1D9lwmNwi2XP0jG5WqnagttoDxN4dwzqQxY9CDWd6NWoCKfiPBAeQny2kcxYD8gkROkWp6aB7sNJRdBQxN0AOqyS+gPXhHsP+UzJVRa0rInEon7tdtbyR4fH9jjCOVYxjbA1QkLgHiJWQPpi/hzGKgO5hAh1WexRIE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742915280; c=relaxed/simple;
-	bh=FVtW+znZpqIiN9CqfSZ9CbuEpNile4mPRx1yMLXOKBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WA3JT730T8iE0xEXlcUzCxiugGQM4MNzLfEv+nxkDwhWoGsdKZ/4JruZ+gBaKUbLLJS+5rpdATEkgyIWKoIbp4BZn5IHlzbPDq2b3n2cIxgxu451E3Kr+P+8thOWYf00n9XrasFjUnldd8561XD/iwf0trBj1O6h5t4A7f1QcX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kQXjsABG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742916348; c=relaxed/simple;
+	bh=VQWn4M7EP2MF3fIYO7HiCsSuFD2znXteEraa+9LgTc4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p+w7SvIvO8w94fe6A4lxs6T0V7SAyVg8dGM940A2oUkknV1j/3E7tOQCFNw4M/B5O+sGl/PY8VWbXoKa96uZJMk3dTaJqv8FE1c1GD3rMUEVjbl4udseyx17RvsslgIxijvWy8CxanjinX2gBpGVGxYyS7/+SZluqfgAZk9DcDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YQc+EsDG; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kQXjsABG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6207BC4CEE4;
-	Tue, 25 Mar 2025 15:08:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742915280;
-	bh=FVtW+znZpqIiN9CqfSZ9CbuEpNile4mPRx1yMLXOKBA=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=kQXjsABGJFG7H/SydkIhmI9ti6PbsbLSitopLcSKhCyb1xZYJ6DV2oNA5jYmwCjDq
-	 ptq13iaxKhRsr61P2b28vGBE6y2eZRw4fjPkxRQrQ2Ah0+B+oXNgnV0gARBcI1S895
-	 Lz2/P3cqM5Zq/PM3V0PMmfehqubuW/CqtULK0AUUgMFW//grEiSliEshbBgXOfqZlY
-	 V9MsXfmbI+6OQly3Iuss1wPBKwEhGGVcA0xTD2VCtSMKNnPKecQZ+tWOceb637oNRp
-	 UeMJdM6uid8QWyAJehuJT6XUKFfNjpfF8S25s2iTgYxkFg/uc9tVIbt7lKZ6j9GCio
-	 Wd7nmM+860+8w==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id F1C1CCE0843; Tue, 25 Mar 2025 08:07:59 -0700 (PDT)
-Date: Tue, 25 Mar 2025 08:07:59 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>, rcu@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>, Shuah Khan <shuah@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Huth <thuth@redhat.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Yury Norov <yury.norov@gmail.com>,
-	Valentin Schneider <vschneid@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH rcu 10/11] srcu: Add FORCE_NEED_SRCU_NMI_SAFE Kconfig for
- testing
-Message-ID: <b4ac95ce-7cfd-4d31-aa7d-54ef04f4ae24@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20250219153938.24966-1-boqun.feng@gmail.com>
- <20250219153938.24966-11-boqun.feng@gmail.com>
- <CAMuHMdX6dy9_tmpLkpcnGzxyRbe6qSWYukcPp=H1GzZdyd3qBQ@mail.gmail.com>
- <5bf94fdb-7556-4b34-ba21-389dfa1df4f7@paulmck-laptop>
- <CAMuHMdVVQWZCUFT2uF+QSQz-GzOz2PvugkeatA6bDQeNHU9PSA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YQc+EsDG"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 37E1744363;
+	Tue, 25 Mar 2025 15:25:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1742916336;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WNERZZ738wDx61ssPaDcdyrzrk/vAGydwo3/RwU91Ls=;
+	b=YQc+EsDG9MNKN2meN0b8m3atUfX1A+O4OTFfF4aouPgBRniDp7T0fa1KR0XwfkkHN/PrGB
+	FgBpgI8Dv0Wp9YIlFOsoCq+MX7G8ZCEHxcYt4W/BWW5NbfBvuzu6I5KZtWug7E7qcaynbD
+	iyprLoygSC7aX6i6BmNN9AcN3wpu0g3KY6QwInjb3QjaiSLcI0GBOroovkGNnosImbKrpy
+	GUEDs/fn5Mt7xGmOFNlG3CJzD5URbzxtj4tpl6luAszSG0e3jWh08adetTI9LcvvBzTAr5
+	xB6k9Qo8d9nvGEVZDoWh+REL5yceuRQAjNy6auSSdA/CpK9wjHgRRKemrXxilw==
+Date: Tue, 25 Mar 2025 16:25:34 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Kyle Swenson <kyle.swenson@est.tech>, Andrew Lunn <andrew@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam
+ Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, Dent Project
+ <dentproject@linuxfoundation.org>, "kernel@pengutronix.de"
+ <kernel@pengutronix.de>, Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next v6 06/12] net: pse-pd: Add support for budget
+ evaluation strategies
+Message-ID: <20250325162534.313bc066@kmaincent-XPS-13-7390>
+In-Reply-To: <Z-JAWfL5U-hq79LZ@pengutronix.de>
+References: <20250304-feature_poe_port_prio-v6-0-3dc0c5ebaf32@bootlin.com>
+	<20250304-feature_poe_port_prio-v6-6-3dc0c5ebaf32@bootlin.com>
+	<Z9gYTRgH-b1fXJRQ@pengutronix.de>
+	<20250320173535.75e6419e@kmaincent-XPS-13-7390>
+	<20250324173907.3afa58d2@kmaincent-XPS-13-7390>
+	<Z-GXROTptwg3jh4J@p620>
+	<Z-JAWfL5U-hq79LZ@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVVQWZCUFT2uF+QSQz-GzOz2PvugkeatA6bDQeNHU9PSA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduieeftddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfdutdefvedtudegvefgvedtgfdvhfdtueeltefffefffffhgfetkedvfeduieeinecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehkmhgrihhntggvnhhtqdgirffuqddufedqjeefledtpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdejpdhrtghpthhtohepohdrrhgvmhhpvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopehkhihlvgdrshifvghnshhonhesvghsthdrthgvtghhpdhrtghpthhtoheprghnughrvgifsehluhhnnhdrtghhpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhop
+ egvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvght
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Tue, Mar 25, 2025 at 03:57:43PM +0100, Geert Uytterhoeven wrote:
-> Hi Paul,
-> 
-> On Tue, 25 Mar 2025 at 15:36, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > On Tue, Mar 25, 2025 at 09:04:31AM +0100, Geert Uytterhoeven wrote:
-> > > On Wed, 19 Feb 2025 at 16:44, Boqun Feng <boqun.feng@gmail.com> wrote:
-> > > > From: "Paul E. McKenney" <paulmck@kernel.org>
-> > > >
-> > > > The srcu_read_lock_nmisafe() and srcu_read_unlock_nmisafe() functions
-> > > > map to __srcu_read_lock() and __srcu_read_unlock() on systems like x86
-> > > > that have NMI-safe this_cpu_inc() operations.  This makes the underlying
-> > > > __srcu_read_lock_nmisafe() and __srcu_read_unlock_nmisafe() functions
-> > > > difficult to test on (for example) x86 systems, allowing bugs to creep in.
-> > > >
-> > > > This commit therefore creates a FORCE_NEED_SRCU_NMI_SAFE Kconfig that
-> > > > forces those underlying functions to be used even on systems where they
-> > > > are not needed, thus providing better testing coverage.
-> > > >
-> > > > Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > > > Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> > >
-> > > Thanks for your patch, which is now commit 536e8b9b80bc7a0a ("srcu:
-> > > Add FORCE_NEED_SRCU_NMI_SAFE Kconfig for testing") in linus/master
-> > >
-> > > > --- a/kernel/rcu/Kconfig
-> > > > +++ b/kernel/rcu/Kconfig
-> > > > @@ -65,6 +65,17 @@ config TREE_SRCU
-> > > >         help
-> > > >           This option selects the full-fledged version of SRCU.
-> > > >
-> > > > +config FORCE_NEED_SRCU_NMI_SAFE
-> > > > +       bool "Force selection of NEED_SRCU_NMI_SAFE"
-> > >
-> > > What am I supposed to answer here? "n" I guess.
-> > > What about distro and allmodconfig kernels?
-> >
-> > Yes, you should select "n" unless ...
-> >
-> > > > +       depends on !TINY_SRCU
-> > > > +       select NEED_SRCU_NMI_SAFE
-> > > > +       default n
-> > > > +       help
-> > > > +         This option forces selection of the NEED_SRCU_NMI_SAFE
-> > > > +         Kconfig option, allowing testing of srcu_read_lock_nmisafe()
-> > > > +         and srcu_read_unlock_nmisafe() on architectures (like x86)
-> > > > +         that select the ARCH_HAS_NMI_SAFE_THIS_CPU_OPS Kconfig option.
-> > >
-> > > Perhaps this should depend on ARCH_HAS_NMI_SAFE_THIS_CPU_OPS?
-> >
-> > ... you are on a system selecting ARCH_HAS_NMI_SAFE_THIS_CPU_OPS and
-> 
-> So a dependency on ARCH_HAS_NMI_SAFE_THIS_CPU_OPS does make sense,
-> doesn't it?
+On Tue, 25 Mar 2025 06:34:17 +0100
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-The FORCE_NEED_SRCU_NMI_SAFE has no effect otherwise, so it cannot
-hurt.  Again, please see below.
+> Hi,
+>=20
+> On Mon, Mar 24, 2025 at 05:33:18PM +0000, Kyle Swenson wrote:
+> > Hello Kory,
+> >=20
+> > On Mon, Mar 24, 2025 at 05:39:07PM +0100, Kory Maincent wrote: =20
+> > > Hello Kyle, Oleksij, =20
+> > ... =20
+> > >=20
+> > > Small question on PSE core behavior for PoE users.
+> > >=20
+> > > If we want to enable a port but we can't due to over budget.
+> > > Should we :
+> > > - Report an error (or not) and save the enable action from userspace.=
+ On
+> > > that case, if enough budget is available later due to priority change=
+ or
+> > > port disconnected the PSE core will try automatically to re enable the
+> > > PoE port. The port will then be enabled without any action from the u=
+ser.
+> > > - Report an error but do nothing. The user will need to rerun the ena=
+ble
+> > >   command later to try to enable the port again.
+> > >=20
+> > > How is it currently managed in PoE poprietary userspace tools? =20
+> >=20
+> > So in our implementation, we're using the first option you've presented.
+> > That is, we save the enable action from the user and if we can't power
+> > the device due to insufficient budget remaining, we'll indicate that st=
+atus
+> > to the user.  If enough power budget becomes available later, we'll pow=
+er up
+> > the device automatically. =20
+>=20
+> It seems to be similar to administrative UP state - "ip link set dev lan1=
+ up".
+> I'm ok with this behavior.
 
-							Thanx, Paul
+Ack I will go for it then, thank you!
 
-> > you would like to test the SRCU setup that needed only by systems that
-> > do not select ARCH_HAS_NMI_SAFE_THIS_CPU_OPS.
-> >
-> > Ah.  I forgot to add "depends on RCU_EXPERT".
-> 
-> Yes, that makes sense.
-> 
-> > Apologies, I will fix this.  Does the patch show below do the trick?
-> >
-> >                                                         Thanx, Paul
+Other question to both of you:
+If we configure manually the current limit for a port. Then we plug a Power=
+ed
+Device and we detect (during the classification) a smaller current limit
+supported. Should we change the current limit to the one detected. On that =
+case
+we should not let the user set a power limit greater than the one detected =
+after
+the PD has been plugged.
 
------------------------------------------------------------------------
+What do you think? Could we let a user burn a PD?
 
-commit 2245ef8605a80726548253d885b4cadd97f69f3b
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Tue Mar 25 07:31:45 2025 -0700
-
-    srcu: Make FORCE_NEED_SRCU_NMI_SAFE depend on RCU_EXPERT
-    
-    The FORCE_NEED_SRCU_NMI_SAFE is useful only for those wishing to test
-    the SRCU code paths that accommodate architectures that do not have
-    NMI-safe per-CPU operations, that is, those architectures that do not
-    select the ARCH_HAS_NMI_SAFE_THIS_CPU_OPS Kconfig option.  As such, this
-    is a specialized Kconfig option that is not intended for casual users.
-    
-    This commit therefore hides it behind the RCU_EXPERT Kconfig option.
-    Given that this new FORCE_NEED_SRCU_NMI_SAFE Kconfig option has no effect
-    unless the ARCH_HAS_NMI_SAFE_THIS_CPU_OPS Kconfig option is also selected,
-    it also depends on this Kconfig option.
-    
-    [ paulmck: Apply Geert Uytterhoeven feedback. ]
-    
-    Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-    Closes: https://lore.kernel.org/all/CAMuHMdX6dy9_tmpLkpcnGzxyRbe6qSWYukcPp=H1GzZdyd3qBQ@mail.gmail.com/
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-
-diff --git a/kernel/rcu/Kconfig b/kernel/rcu/Kconfig
-index b3f985d41717a..ceaf6594f634c 100644
---- a/kernel/rcu/Kconfig
-+++ b/kernel/rcu/Kconfig
-@@ -68,6 +68,8 @@ config TREE_SRCU
- config FORCE_NEED_SRCU_NMI_SAFE
- 	bool "Force selection of NEED_SRCU_NMI_SAFE"
- 	depends on !TINY_SRCU
-+	depends on RCU_EXPERT
-+	depends on ARCH_HAS_NMI_SAFE_THIS_CPU_OPS
- 	select NEED_SRCU_NMI_SAFE
- 	default n
- 	help
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
