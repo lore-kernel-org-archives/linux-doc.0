@@ -1,171 +1,140 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60031F4E2F
-	for <linux-doc@vger.kernel.org>; Wed, 26 Mar 2025 16:26:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC5B2192F5
+	for <linux-doc@vger.kernel.org>; Wed, 26 Mar 2025 17:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743006374; cv=none; b=BZUZ3OtYMokhP4Y5R6NPLHpGa90kbaeuBVYNS9UnkpPDNTsTzaqNgelaEWYWC3Lwft9xrlvN0h+E2cbv4IzPzjgTpz8zjeVDCOxUQPcC5Rx24AN1ad3Hs2agxv/soVizIUrARQBXZ/7oPZqo1uxNn4W9P4R7L7SW+ohXdoB8ZKQ=
+	t=1743011837; cv=none; b=gsAEDO5IRTSwtDyeLZc49Ul6nWyyB/kdKBRd2tJkgS3skEY8mh0u7gPixkB3kM2ZBykVxwFzrUe2ut5NN7p/I7RLXtJ5UzEAtbrTQF0DzpiY350DSgeVrw8LdJO8soxf+tg7qvn2BBEQfQ3RSOhOEsq/FvgzqrWCXHp059bUCLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743006374; c=relaxed/simple;
-	bh=TP3pQO3RlTwxLWj//K05AHCYcZl/96NtoRgWC1Sg7VM=;
+	s=arc-20240116; t=1743011837; c=relaxed/simple;
+	bh=ggI4Yw9WDJXzBuhHjhpn6e5Xa2NwdDTKh/aOPTDmNMk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=udrQ3g59BpBsLxGp9p6v6TXl75UNRAKAn4lE9Vf8E+5+H3lKMKxJ+B52/FViGqlx7tcvk2QbJidAOGAChT3fD6MzDJflN8pl2B4JZcJGXF621XBtuXQlnX0/6k6wKZLq1FSn+oI7/kmJKh/omW4Ms+46t8fxVx7i/mQlZffu8Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RePp/+t/; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=F9CazipPkbGRZpdsRxxIUTl2yaNi03HYPEKVuanK5HVlARPfMLnwu6brRwAtzKoZn87P+7sGX8xFrclsv/dKwsud2P3PRt7EWGcPmRmYkGfrucX7eIgbsjobDZ0M4afFvTNkHKg3+VpWGOED6HmQEPxA0bRohQXlejcoRBmAvU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hu1ZTnOE; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RePp/+t/"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4769e30af66so421881cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 26 Mar 2025 09:26:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hu1ZTnOE"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ff7255b8c6so15080a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Mar 2025 10:57:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1743006371; x=1743611171; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1743011835; x=1743616635; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TP3pQO3RlTwxLWj//K05AHCYcZl/96NtoRgWC1Sg7VM=;
-        b=RePp/+t/Kb7BpHZYznSBUEBVTbaC6MgaQcmiD7TY7CAyS2Pkzk8Ms96fF13d0vcM0H
-         YXkMQOl9UIAnTlY0cSx17a0IWl85//MBEWxSHYlDScjx9xQ/e/KUw4T3FmcY75R2Srgg
-         Q0HiL2o8IgEYh/eIwqNaOghZCkOIe2PMODr4s6MPrX8IBfJj4Q8bsc58jVJQUwP7/W/j
-         L5fcT0r/wrcIFdWsI7gDI3UhAoJkDCAYYy3CFdByXdjCd2tRSiEPZti+y3vpyLIcDZFA
-         w0OPNtFsH9RuSfSKyN4n3DIqNbbiKMiJNySPZU1BXdZ3+eLqqkMgrdUonSiCX8gnrySW
-         0lYw==
+        bh=63fjjrVzZF7U9nA12lUfHyh6yrdFiEzR4qrxstyzVz8=;
+        b=hu1ZTnOE7avG7nbKBghk/IhGiGKRVnAa5+l8gVeqriYYC1iVtm60UJUwEG3imfwbbL
+         mRAFFya4vN7N/Ez9JA8dPKAMHBunq7KAoLRcW4kP6SHhG+l2KYCZrE+jno/C2ROE11l1
+         Tp+CRyVAj5DMZxYOEhuHz6wJbvfeC83MbCyXgOvmhlx2iw8oLhekM6zbc2ufz+WdIRgn
+         sOCrpckXzONwYHSP0M/BIERu1u8q0kymMSG2ucqfeyju3hcTgPQ1QKLyQVDYSkydes6f
+         5zz5DDezkOszex2ruorTV3+ktbu/fYVTmJfrP2YHBGgZWhvC+3mgTLJNlrKo4ib2W/Uq
+         6ewg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743006371; x=1743611171;
+        d=1e100.net; s=20230601; t=1743011835; x=1743616635;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TP3pQO3RlTwxLWj//K05AHCYcZl/96NtoRgWC1Sg7VM=;
-        b=ewn25/B3Pd5xoVLW9EHTk+mfnyzFRsisDFbZBtj+JZ80Rs6eHfz4OKuaDXqFWdcRNF
-         SvqBqi60ANpY1n4uu15sVUJ5GcQvjkd9PJg2CmHcrzwL7f/PkTr9vVdgtinXBCqzCeWq
-         b3KvgWn8q44+LwvuwZtmPQEJdHO5HwpRzi8Che8J03dpfz0aMF3d0n66kPoSPbTDdZBn
-         6BjpoKRmBJSvHvVMvdqOb5n0P10xqH5GcVXDbwBcKlAFnnzw+aeJj9kYZsqo11KknQ7V
-         hsjnHrBg5caIZ4sehnUUNSQC6j1ANKYAAB1OPjAE2wK1BRzYjtO+riueJTp19sEK7hiA
-         iWbg==
-X-Forwarded-Encrypted: i=1; AJvYcCWmIe84jTIxknIe63TRVXUvtwqmVmcbPYWsXvgCEzWPb5SliaMm4qQpc4oGaUH8OPLcuWjI3eOievI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkpBUvyQDzYh7ga385QL2l4vYogauoTs06QpxBr/qQvp0SzMsS
-	FuPuvFtjaJ6MtmIAPBVC4Ys4N5l9GSDhCzoy6fT67EmzXRjjscJaZPbxHwK6uiTXrTWmap5W5WE
-	lp1yo1B5S5lJGGzFHXjetTDrEqmkU6aIHalH7
-X-Gm-Gg: ASbGncuapxCxPwJuxBq4pCvrhbKZA11wsHn2rriG7Qy7ZqVvDgmVgMP3pan5UXpyl1q
-	AZZcyQccC8meYW0we/obzmGfR93xEaViRnmJNp9+/EbTT2xQ8G9qBe7PxdOI+t2deWopcqeEfmp
-	EXjWXwqZd441LQ4CmuuhHJQUmBjhpgg1kbyg==
-X-Google-Smtp-Source: AGHT+IFOa5U4EkoXfdO0+LtQUSzYhAnBQIC8ww9fg/mAwgTBmcE9rzJd63FTHpnj7/g5eVnvx4SFKaBHLQRjG62h4KA=
-X-Received: by 2002:a05:622a:2515:b0:477:2c1e:d252 with SMTP id
- d75a77b69052e-47762eb2ac5mr4836571cf.20.1743006371331; Wed, 26 Mar 2025
- 09:26:11 -0700 (PDT)
+        bh=63fjjrVzZF7U9nA12lUfHyh6yrdFiEzR4qrxstyzVz8=;
+        b=qD+d3j3qq9Xr63c7rcGgmbZceek1ET/UnD8E5cK64Mgocf2JhXZQXXbsD72kKXk5dH
+         R8T8myi8vH/fhK6a5jQNbgvwObbDobFF/ke2sP88LiuKrhTm2ju8bAPrKF4J4xnLb+W+
+         gExEGh5ARmDsTc1TeE7wpbGIOrKuwQJ+GZ6SNP4QLW+AhFFzAtkfwMYQXMkeguBHe2Fw
+         bi6a3gjcnckbywnMMQLFFkFDGWPfjRmVD4pjWkOAUhnNBWQY6IxCwQULUlGHzWwlv0oF
+         cONDmjm+xZ9/zJCCijtWTMFFhMA3D0qaxmxP6dRFjfbiiP12320Fn3fb4RxrDvJwIeof
+         RNKA==
+X-Forwarded-Encrypted: i=1; AJvYcCW8MNDIUJHyp2MHmxKrNY9fE+/XxGCbevnM2guk7qLYbtmm3wOxAxSEwYmUpZKRe+1vIH+wE0JHoKA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynGVhS5iK2roUwrXzhXwfGHiPpCXe755UNn8zs/49QVpR53ult
+	wosP45b85nMxkLepN3PWZy9GiZh5e/um/u/5SR10gonOANXc3F+2jDr4bdgw7Rm8hXB4vx5r8rd
+	LZgO4mncaNOASbsWREfs45rSzlv0=
+X-Gm-Gg: ASbGncuX9E2jnYfQnPTSCnud/G1/88xxSzmeSgMzoMVKyBjUhlIY8jJBh8ab2/8XG8Y
+	72xDm0MpRg9y7Q9rBSrEw0M1IvjGL8ScsPK6RvUhnRRHoZMEw+2nHtOlUXnM2doECAuP77e+AN3
+	Jyz2Z9M93lfWxybSzYWj8kGeXAPQ==
+X-Google-Smtp-Source: AGHT+IFb4SEstX+/J9aVa/lak6Q1K8so67eSN72VztIppG579APDLZXb+PxCLyLaLw/Nuz0xYqGAsd80iPddj13PKM8=
+X-Received: by 2002:a17:90b:4b92:b0:2ff:7b15:8138 with SMTP id
+ 98e67ed59e1d1-303a91b2681mr267988a91.7.1743011834466; Wed, 26 Mar 2025
+ 10:57:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250320015551.2157511-1-changyuanl@google.com>
- <20250320015551.2157511-8-changyuanl@google.com> <CAPTztWbFXajArSN8yKu32eSoR=xsk1CHM_4V7MJ0eQxydFqPUQ@mail.gmail.com>
- <Z-MB0Cj4tM6QgOAg@kernel.org> <CAPTztWbDtDhKZS89-aEBaZoPW2jZM2CAWW1Y_m3OnNE26=d9UQ@mail.gmail.com>
- <Z-PsLDv-DkxitRv1@kernel.org>
-In-Reply-To: <Z-PsLDv-DkxitRv1@kernel.org>
-From: Frank van der Linden <fvdl@google.com>
-Date: Wed, 26 Mar 2025 09:25:59 -0700
-X-Gm-Features: AQ5f1JqROvSmDfkTDrNCkDrxnAL_58GWFP96LlXcUaVtPVLlGbzUuTMgIm7BDUs
-Message-ID: <CAPTztWazH=bJHTvpLfqHK3cYRnO=TXcLWEUJKYsxW1WV8XifrA@mail.gmail.com>
-Subject: Re: [PATCH v5 07/16] kexec: add Kexec HandOver (KHO) generation helpers
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org, graf@amazon.com, 
-	akpm@linux-foundation.org, luto@kernel.org, anthony.yznaga@oracle.com, 
-	arnd@arndb.de, ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de, 
-	catalin.marinas@arm.com, dave.hansen@linux.intel.com, dwmw2@infradead.org, 
-	ebiederm@xmission.com, mingo@redhat.com, jgowans@amazon.com, corbet@lwn.net, 
-	krzk@kernel.org, mark.rutland@arm.com, pbonzini@redhat.com, 
-	pasha.tatashin@soleen.com, hpa@zytor.com, peterz@infradead.org, 
-	ptyadav@amazon.de, robh+dt@kernel.org, robh@kernel.org, saravanak@google.com, 
-	skinsburskii@linux.microsoft.com, rostedt@goodmis.org, tglx@linutronix.de, 
-	thomas.lendacky@amd.com, usama.arif@bytedance.com, will@kernel.org, 
-	devicetree@vger.kernel.org, kexec@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, x86@kernel.org
+References: <20250325172623.225901-1-siqueira@igalia.com>
+In-Reply-To: <20250325172623.225901-1-siqueira@igalia.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 26 Mar 2025 13:57:02 -0400
+X-Gm-Features: AQ5f1JrJXGbs8Sb8S_t305FOfs8CojJkoSogqnVNxQIYA3I5rXe3UQiJK8no14s
+Message-ID: <CADnq5_MEfXnGtGNbBxj-WFZce0Dyf0ikmXqxre+UeFgvoVjozg@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Documentation/gpu/amdgpu: Add documentation about
+ Pipes, Queues, MES, and others
+To: Rodrigo Siqueira <siqueira@igalia.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Melissa Wen <mwen@igalia.com>, 
+	=?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	=?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>, 
+	amd-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	kernel-dev@igalia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 26, 2025 at 4:59=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
-[...]
-> > There has, for example, been some talk about making hugetlbfs
-> > persistent. You could have hugetlb_cma active. The hugetlb CMA areas
-> > are set up quite early, quite some time before KHO restores memory. So
-> > that would have to be changed somehow if the location of the KHO init
-> > call would remain as close as possible to buddy init as possible. I
-> > suspect there may be other uses.
->
-> I think we can address this when/if implementing preservation for hugetlb=
-fs
-> and it will be tricky.
-> If hugetlb in the first kernel uses a lot of memory, we just won't have
-> enough scratch space for early hugetlb reservations in the second kernel
-> regardless of hugetlb_cma. On the other hand, we already have the preserv=
-ed
-> hugetlbfs memory, so we'd probably need to reserve less memory in the
-> second kernel.
->
-> But anyway, it's completely different discussion about how to preserve
-> hugetlbfs.
+Applied the series with some minor clarifications per the comments and
+my proof reading.
 
-Right, there would have to be a KHO interface way to carry over the
-early reserved memory and reinit it early too.
+Thanks!
 
+Alex
+
+On Tue, Mar 25, 2025 at 1:27=E2=80=AFPM Rodrigo Siqueira <siqueira@igalia.c=
+om> wrote:
 >
-> > > > current requirement in the patch set seems to be "after sparse/page
-> > > > init", but I'm not sure why it needs to be as close as possibly to
-> > > > buddy init.
-> > >
-> > > Why would you say that sparse/page init would be a requirement here?
-> >
-> > At least in its current form, the KHO code expects vmemmap to be
-> > initialized, as it does its restore base on page structures, as
-> > deserialize_bitmap expects them. I think the use of the page->private
-> > field was discussed in a separate thread, I think. If that is done
-> > differently, it wouldn't rely on vmemmap being initialized.
+> Hi,
 >
-> In the current form KHO does relies on vmemmap being allocated, but it do=
-es
-> not rely on it being initialized. Marking memblock ranges NOINT ensures
-> nothing touches the corresponding struct pages and KHO can use their fiel=
-ds
-> up to the point the memory is returned to KHO callers.
+> This patchset came from my endeavor to understand better how some of the
+> amdgpu components operate; in particular, I was focused on the ideas
+> behind Pipes, Hardware Queues, MES, and Ring Buffers. In some way, this
+> series is an attempt to put multiple pieces of information spread around
+> many different places in an organized way in the amdgpu kernel-doc. In
+> particular, the following links were crucial to create this series:
 >
-> > A few more things I've noticed (not sure if these were discussed before=
-):
-> >
-> > * Should KHO depend on CONFIG_DEFERRED_STRUCT_PAGE_INIT? Essentially,
-> > marking memblock ranges as NOINIT doesn't work without
-> > DEFERRED_STRUCT_PAGE_INIT. Although, if the page->private use
-> > disappears, this wouldn't be an issue anymore.
+> * https://lore.kernel.org/amd-gfx/CADnq5_Pcz2x4aJzKbVrN3jsZhD6sTydtDw=3D6=
+PaN4O3m4t+Grtg@mail.gmail.com/T/#m9a670b55ab20e0f7c46c80f802a0a4be255a719d
+> * https://gitlab.freedesktop.org/mesa/mesa/-/issues/11759
+> * https://www.x.org/docs/AMD/old/R5xx_Acceleration_v1.5.pdf
+> * https://gpuopen.com/videos/graphics-pipeline/
 >
-> It does.
-> memmap_init_reserved_pages() is called always, no matter of
-> CONFIG_DEFERRED_STRUCT_PAGE_INIT is set or not and it skips initializatio=
-n
-> of NOINIT regions.
-
-Yeah, I see - the ordering makes this work out.
-
-MEMBLOCK_RSRV_NOINIT is a bit confusing in the sense that if you do a
-memblock allocation in the !CONFIG_DEFERRED_STRUCT_PAGE_INIT case, and
-that allocation is done before free_area_init(), the pages will always
-get initialized regardless, since memmap_init_range() will do it. But
-this is done before the KHO deserialize, so it works out.
-
+> The first part of this series just updates the amdgpu-glossary with some
+> new acronyms (some of them useful for other patches). The next two
+> patches are just some basic organization to improve the documentation
+> flow. The last part describes pipes, hardware queues, ring buffers, and
+> MES.
 >
-> > * As a future extension, it could be nice to store vmemmap init
-> > information in the KHO FDT. Then you can use that to init ranges in an
-> > optimized way (HVO hugetlb or DAX-style persisted ranges) straight
-> > away.
+> Thanks
+> Siqueira
 >
-> These days memmap contents is unstable because of the folio/memdesc
-> project, but in general carrying memory map data from kernel to kernel is
-> indeed something to consider.
-
-Yes, I think we might have a need for that, but we'll see.
-
-Thanks,
-
-- Frank
+> Rodrigo Siqueira (6):
+>   Documentation/gpu: Add new acronyms
+>   Documentation/gpu: Change index order to show driver core first
+>   Documentation/gpu: Create a documentation entry just for hardware info
+>   Documentation/gpu: Add explanation about AMD Pipes and Queues
+>   Documentation/gpu: Create a GC entry in the amdgpu documentation
+>   Documentation/gpu: Add an intro about MES
+>
+>  .../gpu/amdgpu/amd-hardware-list-info.rst     |   23 +
+>  Documentation/gpu/amdgpu/amdgpu-glossary.rst  |   36 +
+>  Documentation/gpu/amdgpu/driver-core.rst      |   77 +-
+>  Documentation/gpu/amdgpu/driver-misc.rst      |   17 -
+>  Documentation/gpu/amdgpu/gc/index.rst         |   53 +
+>  Documentation/gpu/amdgpu/gc/mes.rst           |   38 +
+>  Documentation/gpu/amdgpu/index.rst            |    4 +-
+>  .../gpu/amdgpu/pipe_and_queue_abstraction.svg | 1279 +++++++++++++++++
+>  8 files changed, 1485 insertions(+), 42 deletions(-)
+>  create mode 100644 Documentation/gpu/amdgpu/amd-hardware-list-info.rst
+>  create mode 100644 Documentation/gpu/amdgpu/gc/index.rst
+>  create mode 100644 Documentation/gpu/amdgpu/gc/mes.rst
+>  create mode 100644 Documentation/gpu/amdgpu/pipe_and_queue_abstraction.s=
+vg
+>
+> --
+> 2.49.0
+>
