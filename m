@@ -1,162 +1,175 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-fw-52002.amazon.com (smtp-fw-52002.amazon.com [52.119.213.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CAE23FC68;
-	Wed, 26 Mar 2025 22:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9826F82899;
+	Wed, 26 Mar 2025 22:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743028035; cv=none; b=bCGfM/VmOamhZfrxZbKpOxWIEjJb6OhT/o+azb+Zw2jnguE21HQGmKfv+sxUVkfuwvZDJeelexsiH0pVvY/F8YvOlhWPESnjLh0Iosm7TosNRmUNaVUbfPVnn2S7ePPiQ4f0o3IAnGSqADYwvKpkOYQMOrQgWdOVJvkdzv3c0S0=
+	t=1743028841; cv=none; b=bt5+nQr5ImN570jFlL95yGkdpNayJ4I/1STmf/miqynOKd23vHdBXbj+I47Rov4OiWu/O81zyqweoPk3EraV7iSWcSeo7XOnS3Q9q4fgoRvCqZf8SeeFvKpWQ0dGfZMWPZ8tKSeiM6W30ScloaZaf5cFwAWaTSEr6XWDH7Jmzlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743028035; c=relaxed/simple;
-	bh=Cg31gcloS20i38aytFkyiYYXihpkTfoCeFdfxAFrHBg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kst/advMcqqKDL4RWQ3iUbvo8hB6DCvywBtUyx4Wc1fj+g841Ag/f5PJf/gtot0cC8UouHVeimSKdPlAPS28O2dd7LKh9jgHLlV+fmD0TcuIa6FiZn2dTGKFpvqp026LPSUU8QtJMpK5PprSuW+nvaSb5Lm7BPX7urRJUlRFrNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jsabKr+8; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743028841; c=relaxed/simple;
+	bh=5BDxA3HqxThMPERYGuOk5WsAA0Pr9oqn94iYzC4t9ds=;
+	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FAAqvry0ydI7RfXMqgc9l/c9MuRNE1ayp+1OfI64dlJhqDfEFBnNxMmaMA5KcErlZVnfK4XnNiQDUQfT+ZMoxTflSZ1mOA+ayUxyTh2+9eMOj8c9y/MRdCq1TckKyGFCvtSc2PFLymRzpn68lWuRMScDtzRwrg27M+8qoYZua+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=HFvMYwIT; arc=none smtp.client-ip=52.119.213.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jsabKr+8"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-224171d6826so9261445ad.3;
-        Wed, 26 Mar 2025 15:27:13 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="HFvMYwIT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743028033; x=1743632833; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xNiFJYuqC4TWb0blkWVovRiBin8ce70LYV9sPG1m0Ks=;
-        b=jsabKr+8FM1Gmb40BvHbC1zMNFLdDioA540fUdPOLkIMBlYh7ugjjfXH+inQ8cHeeh
-         jNU4vCH5RriTT9jNfOkm00A5dAiakJTA+dc4mYNXFOUMlbdQBV+knD+89BK5l7kLDQA7
-         Ejxg5r9RqwRrQVd3FRlcuWr+9/2Z9DQXMhKNjR1yX4oQNHG31yEwpq56cHKaBK5AMWVH
-         zYdoDHRkCc/4OrKFZXDODh5IpPjLwy6S+guhp6PoAnplILXnDP6bvLke6WnmZiPli6lI
-         IqYP2NYvqHcSmO/HfP6VS/q9zBtCbvv8p73MKNRwDn2HDOFAH8MHlwLmeVc39Yz8K2C7
-         B9ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743028033; x=1743632833;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xNiFJYuqC4TWb0blkWVovRiBin8ce70LYV9sPG1m0Ks=;
-        b=p3EIJt4J+2fGzDRfqEe4JnsKx2AO2nq1LKxwPOtqKfkoXgs3X/ZiB7HNvQDPMaAvEN
-         31DA/a3shMFUBOKsfnhYzRgsN+qKL6YcR35lqH8UjNMlmJ4ryYG53ppT4B6kEIxhIIk7
-         50HqAlva2eX1a6SAKOuhHpGnfJ06sEbxMCiGTRvqjSu2i72kEhAFWPZyaMcNWhCEtRhC
-         zmb2hyT7t4kyTErzwVIw7XlcBnyf6Z1gEuFZLf4QoinH446hlPHPpwGZh6Gju7GJQS3x
-         zEiEPXcKs29oARKscJ3jpUtwz+4HvucMI4pWFCpfr2pIKxvUyjnsvyh5eSoJSsM4ciA1
-         0LOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU8XUQLEyazv/VSNQPsgpTfVS19CEQ5ylWvjx4NP6sgRnocIKk7qgJZvQgB99bt6bkHb2eIzFAvh4uuuVKo@vger.kernel.org, AJvYcCV+pfqhonb4dsh56tJtRPWNM0PniNhfbOib5Yo4lU0MoMmfk1tQkqeWL1hi7pUYWoOZHFOcVXFZXWg=@vger.kernel.org, AJvYcCV0uSXjyAq2ytVJa5lgyGRzdgb4pf33zQK0FmD+sjjYk7sZVyxm8Dlogeqe87NojNh/EXZxse9x1vqs@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsIY0V4cZYtTDoMZxgWSUzK+RjL3s9KPyyc3wuWQkGtCHciWVa
-	I2Spp+PUSGblvbHqkgntT5r4SEy01yU284JdVlxSaSLhjJgpdOSZ
-X-Gm-Gg: ASbGncuzzIv6rIbzd8wfVK8gvBsjiHeuVjF/YHqT1bZEaCH6/vcEnAX42oYdNRBtx8t
-	v72cXI9HtTVz4jMd+o5izmZHmV/Xwvt/8pK+UC8fei4zSbfiY0lBPEugk3sVKCtuav6QfUkxq/E
-	ADhTZiP1f39hmcN44H0tgGFVedkRa0cCkgDNAB/bI6oosAOnOBZM7CuRr4Pr1KWcEc95v982lcc
-	82RLcyZxvwkPsXoo7wli0Km6a6UorUNv9IqZDFmYtx4O8ZMZqyeJr/PylPXa2ehBv8Vev4JNrYQ
-	gZAnh8pOpcpiADktbEEGnyeEKE30LV4POq6214b2E7h7gDddH92cEGs=
-X-Google-Smtp-Source: AGHT+IHtHBb93fP3zQEgFqGFlNqMMfooEoozpPEQHkmOFESJJjinzM4IWlZA0S93iZXSwVgBuefZSg==
-X-Received: by 2002:a05:6a21:6e4c:b0:1f5:9d5d:bcdd with SMTP id adf61e73a8af0-1fea2d2c774mr2883754637.1.1743028033033;
-        Wed, 26 Mar 2025 15:27:13 -0700 (PDT)
-Received: from localhost ([2804:30c:1f10:1900:2580:2d5b:b16d:c55b])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-af8a284695dsm11549123a12.44.2025.03.26.15.27.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 15:27:12 -0700 (PDT)
-Date: Wed, 26 Mar 2025 19:28:14 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Angelo Dureghello <adureghello@baylibre.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] docs: iio: add documentation for ad3552r driver
-Message-ID: <Z-R_fiDpOqV6yXcd@debian-BULLSEYE-live-builder-AMD64>
-References: <20250321-wip-bl-ad3552r-fixes-v1-0-3c1aa249d163@baylibre.com>
- <20250321-wip-bl-ad3552r-fixes-v1-1-3c1aa249d163@baylibre.com>
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1743028840; x=1774564840;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=clwLN2YhLA41I0snKPHwdNicUbCluLtbHF3lSV2GSW8=;
+  b=HFvMYwITu1DMsDJTcI2+xWAoXH6btVNEFXlHXwU++WffrmMG7lrMCwP7
+   NHGZ8UoaBPKuCBvVcVx8epA/c7Hd4yfFPL1crVOjfoOOi+qn8T4sjd0mU
+   Rk9tJjzKSG5Krte4RYIUANr4LJ4RWAznULcwp1Hg42V8/abX0O7AF65ul
+   4=;
+X-IronPort-AV: E=Sophos;i="6.14,279,1736812800"; 
+   d="scan'208";a="708491672"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+  by smtp-border-fw-52002.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 22:40:34 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [10.0.38.20:62713]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.62.254:2525] with esmtp (Farcaster)
+ id 21996b69-f902-4603-9409-820b1efec001; Wed, 26 Mar 2025 22:40:33 +0000 (UTC)
+X-Farcaster-Flow-ID: 21996b69-f902-4603-9409-820b1efec001
+Received: from EX19D020UWC002.ant.amazon.com (10.13.138.147) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Wed, 26 Mar 2025 22:40:31 +0000
+Received: from EX19MTAUWA001.ant.amazon.com (10.250.64.204) by
+ EX19D020UWC002.ant.amazon.com (10.13.138.147) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Wed, 26 Mar 2025 22:40:30 +0000
+Received: from email-imr-corp-prod-iad-all-1a-6ea42a62.us-east-1.amazon.com
+ (10.25.36.214) by mail-relay.amazon.com (10.250.64.204) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1544.14 via Frontend Transport; Wed, 26 Mar 2025 22:40:30 +0000
+Received: from dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com [172.19.91.144])
+	by email-imr-corp-prod-iad-all-1a-6ea42a62.us-east-1.amazon.com (Postfix) with ESMTP id 363B540391;
+	Wed, 26 Mar 2025 22:40:30 +0000 (UTC)
+Received: by dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (Postfix, from userid 23027615)
+	id E67211568; Wed, 26 Mar 2025 22:40:29 +0000 (UTC)
+From: Pratyush Yadav <ptyadav@amazon.de>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Christian Brauner <brauner@kernel.org>, Linus Torvalds
+	<torvalds@linux-foundation.org>, <linux-kernel@vger.kernel.org>, "Jonathan
+ Corbet" <corbet@lwn.net>, Eric Biederman <ebiederm@xmission.com>, "Arnd
+ Bergmann" <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, "Hugh
+ Dickins" <hughd@google.com>, Alexander Graf <graf@amazon.com>, "Benjamin
+ Herrenschmidt" <benh@kernel.crashing.org>, David Woodhouse
+	<dwmw2@infradead.org>, James Gowans <jgowans@amazon.com>, Mike Rapoport
+	<rppt@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Pasha Tatashin
+	<tatashin@google.com>, Anthony Yznaga <anthony.yznaga@oracle.com>, "Dave
+ Hansen" <dave.hansen@intel.com>, David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>, Wei Yang <richard.weiyang@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-mm@kvack.org>,
+	<kexec@lists.infradead.org>
+Subject: Re: [RFC PATCH 1/5] misc: introduce FDBox
+In-Reply-To: <20250320121459.GS9311@nvidia.com>
+References: <20250307005830.65293-2-ptyadav@amazon.de>
+	<20250307-sachte-stolz-18d43ffea782@brauner> <mafs0ikokidqz.fsf@amazon.de>
+	<20250309-unerwartet-alufolie-96aae4d20e38@brauner>
+	<20250317165905.GN9311@nvidia.com>
+	<20250318-toppen-elfmal-968565e93e69@brauner>
+	<20250318145707.GX9311@nvidia.com> <mafs0a59i3ptk.fsf@amazon.de>
+	<20250318232727.GF9311@nvidia.com> <mafs05xk53zz0.fsf@amazon.de>
+	<20250320121459.GS9311@nvidia.com>
+Date: Wed, 26 Mar 2025 22:40:29 +0000
+Message-ID: <mafs05xjvs9eq.fsf@amazon.de>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250321-wip-bl-ad3552r-fixes-v1-1-3c1aa249d163@baylibre.com>
+Content-Type: text/plain
 
-The doc seems to be all about the high-speed setup despite classical SPI support
-being mentioned. It would be interesting to see how the regular SPI and hs
-ad3552r IIO devices differ from each other (wiring connections, IIO device
-interfaces (attributes, debug files, ...), any other relevant peculiarities).
-Some comments about that inline.
+On Thu, Mar 20 2025, Jason Gunthorpe wrote:
 
-On 03/21, Angelo Dureghello wrote:
-> From: Angelo Dureghello <adureghello@baylibre.com>
-> 
-> Add documentation for ad3552r driver, needed to describe the high-speed
-> driver debugfs attributes and shows how the user may use them.
-> 
-> Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
-> ---
-...
-> +==============
-> +AD3552R driver
-> +==============
-> +
-> +Device driver for Analog Devices Inc. AD35XXR series of DACs. The module name
-> +is ``ad3552r``.
-> +With the same module name, two different driver variants are available, the
-> +``generic spi`` variant, to be used with any classic SPI controllers, and the
-> +``hs`` (high speed) variant, for an ADI ``axi-dac`` (IP core) based controller
-> +that allows to reach the maximum sample rate supported from the DACs, using the
-> +DMA transfer and all the SPI lines available (D/QDSPI)..
-Is D/QDSPI about dual and quad SPI? If so, what about saying that more clearly? 
+> On Wed, Mar 19, 2025 at 01:35:31PM +0000, Pratyush Yadav wrote:
+>> On Tue, Mar 18 2025, Jason Gunthorpe wrote:
+>> 
+>> > On Tue, Mar 18, 2025 at 11:02:31PM +0000, Pratyush Yadav wrote:
+>> >
+>> >> I suppose we can serialize all FDs when the box is sealed and get rid of
+>> >> the struct file. If kexec fails, userspace can unseal the box, and FDs
+>> >> will be deserialized into a new struct file. This way, the behaviour
+>> >> from userspace perspective also stays the same regardless of whether
+>> >> kexec went through or not. This also helps tie FDBox closer to KHO.
+>> >
+>> > I don't think we can do a proper de-serialization without going
+>> > through kexec. The new stuff Mike is posting for preserving memory
+>> > will not work like that.
+>> 
+>> Why not? If the next kernel can restore the file from the serialized
+>> content, so can the current kernel. What stops this from working with
+>> the new memory preservation scheme (which I assume is the idea you
+>> proposed in [0])? 
+>
+> It is because the current kernel does not destroy the struct page
+> before the kexec and the new kernel assumes a zero'd fresh struct page
+> at restore.
+>
+> So it would be very easy to corrupt the struct page information if you
+> attempt to deserialize without going through the kexec step.
+>
+> There would be a big risk of getting things like refcounts out of
+> sync.
 
-> +The high speed driver variant is intended to be used with the ``adi-axi-dac``
-> +backend support enabled, that is enabled by default when the driver is selected.
-> +
-> +Supported devices
-> +=================
-> +
-> +* `AD3541R <https://www.analog.com/en/products/ad3541r.html>`_
-> +* `AD3542R <https://www.analog.com/en/products/ad3542r.html>`_
-> +* `AD3551R <https://www.analog.com/en/products/ad3551r.html>`_
-> +* `AD3552R <https://www.analog.com/en/products/ad3552r.html>`_
-> +
-> +Wiring connections
-> +------------------
-> +
-> +::
-> +
-> +    .-----------------.                .-------.
-> +    |                 |--- D/QSPI -----|       |
-> +    |   DAC IP CORE   |--- SPI S_CLK --|  DAC  |
-> +    |                 |--- SPI CS -----|       |
-> +    |                 |--- LDAC -------|       |
-> +    |                 |--- RESET ------|       |
-> +    |_________________|                |_______|
+Ideally, kho_preserve_folio() should be similar to freeing the folio,
+except that it doesn't go to buddy for re-allocation. In that case,
+re-using those pages should not be a problem as long as the driver made
+sure the page was properly "freed", and there are no stale references to
+it. They should be doing that anyway since they should make sure the
+file doesn't change after it has been serialized.
 
-This only describes how the HDL IP connects to the DAC which is the high speed
-use case. Maybe add a diagram for the regular SPI connection wiring or say that
-the above is only for the hs setup?
-Also, what about adding a link to the HDL documentation page?
-https://analogdevicesinc.github.io/hdl/projects/ad35xxr_evb/index.html
+Doing that might be easier said than done though. On a quick look, most
+of the clearing of struct page seems to be happening in
+free_pages_prepare(). This is usually followed by free_one_page(), which
+gives the page back to buddy. Though I am not sure how much sense it
+would make to use free_pages_prepare() outside of page free path. I need
+to look deeper...
 
-> +
-> +
-> +High speed features
-> +===================
-> +
-> +Device attributes
-> +-----------------
-This is only describing the debugfs file. What about also listing the usual
-IIO device channels and attributes (out_voltageX_raw, out_voltageX_en, ...)?
+>
+> Then you have the issue that I don't actually imagine shutting down
+> something like iommufd, I was intending to leave it frozen in place
+> with all its allocations and so on. If you try to de-serialize you
+> can't de-serialize into the thing that is frozen, you'd create a new
+> one from empty. Now you have two things pointing at the same stuff,
+> what a mess.
 
-> +
-> +The following table shows the ad35xxr related device debug files, found in the
-> +specific device debug folder path ``/sys/kernel/debug/iio/iio:deviceX``.
-> +
-> ++----------------------+-------------------------------------------------------+
-> +| Debugfs device files | Description                                           |
-> ++----------------------+-------------------------------------------------------+
-> +| data_source          | The used data source,                                 |
-> +|                      | as ``iio-buffer`` or ``backend-ramp-generator``.      |
-> ++----------------------+-------------------------------------------------------+
-> +
+What do you mean by "frozen in place"? Isn't that the same as being
+serialized? Considering that we want to make sure a file is not opened
+by any process before we serialize it, what do we get by keeping the
+struct file around (assuming we can safely deserialize it without going
+through kexec)?
+
+>
+>> The seal operation does bulk serialize/deserialize for _one_ box. You
+>> can have multiple boxes and distribute your FDs in the boxes based on
+>> the serialize or deserialize order you want. Userspace decides when to
+>> seal or unseal a particular box, which gives it full control over the
+>> order in which things happen.
+>
+> Why have more than one box? What is the point? I've been thinking we
+> should just have a KHO control char dev FD for serializing and you can
+> do all the operations people have been talking about in sysfs, as well
+> as record FDs for serializing.
+
+Main idea is for logical grouping and dependency management. If some FDs
+have a dependency between them, grouping them in different boxes makes
+it easy to let userspace choose the order of operations, but still have
+a way to make sure all dependencies are met when the FDs are serialized.
+Similarly, on the deserialize side, this ensures that all dependent FDs
+are deserialized together.
+
+[...]
+
+-- 
+Regards,
+Pratyush Yadav
