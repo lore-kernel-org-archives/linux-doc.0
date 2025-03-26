@@ -1,174 +1,159 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89ADC42A8B;
-	Wed, 26 Mar 2025 01:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B807E74040
+	for <linux-doc@vger.kernel.org>; Wed, 26 Mar 2025 01:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742953348; cv=none; b=glXm5oKxnHlRoa3f6xgdlK4wAplvni20HEHSjErEWLYXf12Q58T3pTHrGlBPaM3O+B7mnbUW0hZjBeqnaeRfWA7XyvTYgbJCwkCFazYIMWV0XPOl52k4qcGXzkdgVk4Ow8f/JJi3dDOy1Ai+k0gLMkMmWg0H7q2XHMXCXFlluok=
+	t=1742954029; cv=none; b=VhwDXVCk1LUKV8ZMkYiN2/Xmig0sFwPlx2G+S5P3GCVfTcJ0Vlq6W7NKTtbJlqqKzlyaWN/GTuwD++Ih5bu8ZLzAWXnVd1syFjpH7rNMB9kwO/BMuxkZdaZ5y9dQrNlCyzT0d23PAGUob0+aRJ+c5Ljc1Z+Onr/L4B+gkGRzkyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742953348; c=relaxed/simple;
-	bh=R8bZfYTsflNVy1yZXbqqdlmcNo1EUdTi/3plZ6Xv40c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=i+CBzGI5jbpuQlRoUL72YqE+iv/MjnpUJqN7n+GPRnQxBhUmQq06hdzEgNgkmOX2brcgzKHwZKyl8Dk5tTBvqPi+jCPLfcoBwAsFzgqCtq315d0JP1Fk1CiQIRIg33m+GkgfDVBFwdE7mfuPvWXMpUw5k8SFACKNr4Ur3+i0+Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LxGXRUlZ; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1742954029; c=relaxed/simple;
+	bh=bHUdmQyO2BpdhwAwvhp39Sm8OM9BEkdjoS919AZ2eZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oZ2rOJ8DwWGpYSd+8koQiO44ZvZB3b9bZjLfb8s9U8eFKQzohqOb4QFy/hIXCzgBK+uKF6HWAY3QZAJqdU7HShhXxZkHo8Jgu9fxSoe2VKYqCO+pduYgCVgCWFOvKSWFSMgtPdRp5QGCB5SgUrcr4fG/8xFHNuV34yCkWq8B2wQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ag/Z/n+a; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LxGXRUlZ"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52PGaiTO005622;
-	Wed, 26 Mar 2025 01:42:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	jG/8MmXGi1LUrYwjdXq076vQieCBZbIBFH+A7XlR4kc=; b=LxGXRUlZEJEQRRG5
-	s7UNp+aaw45hTxwvlXKDp+t0WNk+57LQSM/graCzYoYBsj4vGOMOyHUREswP6IR6
-	qs+WnX/wWqtrNVqKmmu1wavCUClOnZHUs0goiDH+Md1J0mO1Ho4k9hWqjcnTtcxh
-	qfmfQxvFHr9nZfuraYYFKWIZvYfjZOWdfXQp58Iqh9ELKjx+aeqEMJDqxCnnxN67
-	sYAvvtL1nEngkkSwMNcqOllH/187pwdgByi0oL6vDDpFENwvauxW6o56NbiH4oX+
-	O6hmYf41S381iydIpy1ipEWsmAz3Cq1/Q4UNTQH3sUgHSjAjvscuqSx9g6rsvWvs
-	aP8fQw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45kmcybbef-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Mar 2025 01:42:12 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52Q1gC16000531
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Mar 2025 01:42:12 GMT
-Received: from [10.71.112.253] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 25 Mar
- 2025 18:42:11 -0700
-Message-ID: <ee95520b-cdcc-4e10-a70e-683993cafe36@quicinc.com>
-Date: Tue, 25 Mar 2025 18:42:11 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ag/Z/n+a"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2255003f4c6so121853715ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Mar 2025 18:53:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742954027; x=1743558827; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bHUdmQyO2BpdhwAwvhp39Sm8OM9BEkdjoS919AZ2eZ4=;
+        b=Ag/Z/n+agymy7suQ86faAUNHg3calWprCQ447h719YT9LOerbNMYm2bCZu6zxWMQrE
+         YpNna1gbIONKsufouRyI9kcNXUfpjVe3WHh9DnxcNMgdn/UkKUH5rLKZh+e04esLNmoz
+         ZrzT6IacKYAb4ulOg8Maqn7L+rwBgIv6aKx5Um5gjImazqljUpTWxwIRQ570Vxftjg53
+         jubgCCwjh8qslOKotF0zad7BIQGVFPvS/BezmDj50/gZH/FCOv8G/+xYFowDG7b96JHW
+         yZLLfRUtOIkXydGetaW6EGhdSX8yXQDfM7E6CkluifxjifVdaXBZ+CTy2HGkwb4yPGD8
+         Ey2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742954027; x=1743558827;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bHUdmQyO2BpdhwAwvhp39Sm8OM9BEkdjoS919AZ2eZ4=;
+        b=MFuWQHGu30gSeV14yaTc+HIoWLf2a3Ik1eoOejhe0VQMiJucdaN0sJvzkV2yMU10VE
+         X3xoAA7PwTeQCXOwIosFCREMa+VbKdpOjGMBjMIGdwRXWG+wPZIwpW0al8LyTgVAn8LX
+         m/dKXz6KHExrrqaATFBDoZA/eJyU/VAY+URPsX7a9kff0XU8I/ZChALJL8XMvNlIn0hZ
+         J90it9IXObhflcqcygmZ+30UD8HgyLeu4jNug2RKVKKtrrVfB38Xb5b268y+wORQSnTt
+         Ki8ouTWfKcjdhHo4P/LMf91FvkjriKdVKutHfwgRVqVSfppqqjuJDW/n6bGgF/du/UW1
+         p1SQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXiWV5fncFvBQfop8NcIR6rOUfnrYRVCzonmi8O1w2zuD+Z9uT35wDZcMFI8uNZlRHGqYnI3EqBc/E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhzFL90bBftwnXaPZgS56K/t4rNDIPI3Ci3PE25FzC8r7E4R+p
+	0AVuN2kkWM+IO+zDrj6BSqx8LRg8RIRaC0m1OroLtkvlGOKHdRFk
+X-Gm-Gg: ASbGncvhA/cpF0d33o9h/dDmYLtJqy5PDgK3fkXgNQycqM6/hbmA1uuuV2/dtCw5N1k
+	zv9rwngbHIorBgBjkU9Qp+ay27vulzDGsAZqzeQ5G2l2StoZkkNOABD00XIiDGdqQWnZ9yJEXNK
+	FANlXqIELSoDqo3nurUpAzYQFTMf4LNhvfMXn+lsbfZTEa++sWdGJ59g2vvopUy//hDpDw3bwxs
+	oPl+WcUaGD2Vpjle9AoHXjEV/Gd/ZWWKuGyCIYWt+4Ik36FRHoiWsW+tcK1Ccb4kp7kn673tsZZ
+	tRrkr7UUNckK7VXcgnXp01Zke2xTxqKDRBhHkjxi2BPqLhEW9h7hIsc=
+X-Google-Smtp-Source: AGHT+IHD8Vo8UwujuN7hNNDBusTP3KjsT+y+ccOlwpD/9Ek/nB8mPA7Mfk+LlbXQbxCuUDQpKgy6fw==
+X-Received: by 2002:a05:6a20:729e:b0:1f5:6abb:7cbb with SMTP id adf61e73a8af0-1fe42f585c0mr33547160637.23.1742954026671;
+        Tue, 25 Mar 2025 18:53:46 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739061560d6sm11307073b3a.148.2025.03.25.18.53.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Mar 2025 18:53:45 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id AD0C54230C05; Wed, 26 Mar 2025 08:53:43 +0700 (WIB)
+Date: Wed, 26 Mar 2025 08:53:43 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Rodrigo Siqueira <siqueira@igalia.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	'Christian =?utf-8?Q?K=C3=B6nig'?= <christian.koenig@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Melissa Wen <mwen@igalia.com>,
+	=?utf-8?Q?'Andr=C3=A9?= Almeida' <andrealmeid@igalia.com>,
+	'Timur =?utf-8?B?S3Jpc3TDs2Yn?= <timur.kristof@gmail.com>
+Cc: amd-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	kernel-dev@igalia.com
+Subject: Re: [PATCH 4/6] Documentation/gpu: Add explanation about AMD Pipes
+ and Queues
+Message-ID: <Z-NeJwfu1Gyx_CeX@archie.me>
+References: <20250325172623.225901-1-siqueira@igalia.com>
+ <20250325172623.225901-5-siqueira@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v36 30/31] ALSA: usb-audio: qcom: Add USB offload route
- kcontrol
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
-        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-31-quic_wcheng@quicinc.com>
- <Z-KU_o_LE3PO6J2y@linaro.org>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <Z-KU_o_LE3PO6J2y@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=EZ3IQOmC c=1 sm=1 tr=0 ts=67e35b74 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=IcsNMMq9lF3Nb9e63dgA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: wQIdrz1gWLNeevlFMaxy0Ufrl9lyiWk0
-X-Proofpoint-GUID: wQIdrz1gWLNeevlFMaxy0Ufrl9lyiWk0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-25_10,2025-03-25_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- impostorscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
- spamscore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0 phishscore=0
- adultscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503260009
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/mnH3a2A936fTjj8"
+Content-Disposition: inline
+In-Reply-To: <20250325172623.225901-5-siqueira@igalia.com>
 
-Hi Stephan,
 
-On 3/25/2025 4:35 AM, Stephan Gerhold wrote:
-> On Tue, Mar 18, 2025 at 05:51:40PM -0700, Wesley Cheng wrote:
->> In order to allow userspace/applications know about USB offloading status,
->> expose a sound kcontrol that fetches information about which sound card
->> and PCM index the USB device is mapped to for supporting offloading.  In
->> the USB audio offloading framework, the ASoC BE DAI link is the entity
->> responsible for registering to the SOC USB layer.
->>
->> It is expected for the USB SND offloading driver to add the kcontrol to the
->> sound card associated with the USB audio device.  An example output would
->> look like:
->>
->> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
->> -1, -1 (range -1->255)
->>
->> This example signifies that there is no mapped ASoC path available for the
->> USB SND device.
->>
->> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
->> 0, 0 (range -1->255)
->>
->> This example signifies that the offload path is available over ASoC sound
->> card index#0 and PCM device#0.
->>
->> The USB offload kcontrol will be added in addition to the existing
->> kcontrols identified by the USB SND mixer.  The kcontrols used to modify
->> the USB audio device specific parameters are still valid and expected to be
->> used.  These parameters are not mirrored to the ASoC subsystem.
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
->>  sound/usb/Kconfig                  |  10 ++
->>  sound/usb/qcom/Makefile            |   4 +
->>  sound/usb/qcom/mixer_usb_offload.c | 158 +++++++++++++++++++++++++++++
->>  sound/usb/qcom/mixer_usb_offload.h |  17 ++++
->>  sound/usb/qcom/qc_audio_offload.c  |   2 +
->>  5 files changed, 191 insertions(+)
->>  create mode 100644 sound/usb/qcom/mixer_usb_offload.c
->>  create mode 100644 sound/usb/qcom/mixer_usb_offload.h
->>
->> diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
->> index 6daa551738da..7d8833945711 100644
->> --- a/sound/usb/Kconfig
->> +++ b/sound/usb/Kconfig
->> @@ -176,9 +176,19 @@ config SND_BCD2000
->>  	  To compile this driver as a module, choose M here: the module
->>  	  will be called snd-bcd2000.
->>  
->> +config SND_USB_QC_OFFLOAD_MIXER
->> +	tristate "Qualcomm USB Audio Offload mixer control"
-> 
-> This looks like a "bool" and not a "tristate", since the ifneq in the
-> Makefile below ignores whether this is a "y" or "m".
-> 
+--/mnH3a2A936fTjj8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yeah, let me fix this.
+On Tue, Mar 25, 2025 at 11:18:45AM -0600, Rodrigo Siqueira wrote:
+> +.. kernel-figure:: pipe_and_queue_abstraction.svg
+> +
+> +In the central part of this figure, you can see two elements, one called
+Did you mean hardware block?
+> +**Pipe** and another named **Queues**; it is important to highlight that=
+ Queues
+> +must be associated with a Pipe and vice-versa. Every specific hardware m=
+ay have
+> +a different number of Pipes and, in turn, a different number of Queues; =
+for
+> +example, GFX 11 has two Pipes and two Queues=C2=A0per Pipe.
+> +
+> +Pipe is the hardware that processes the instructions available in the Qu=
+eues;
+> +in other words, it is a thread executing the operations inserted in the =
+Queue.
+> +One crucial characteristic of Pipes is that they can only execute one Qu=
+eue at
+> +a time; no matter if the hardware has multiple Queues in the Pipe, it on=
+ly runs
+> +one Queue per Pipe. When a queue is running in the Pipe, it is said that=
+ the
+> +Queue is **Active**.
+> +
+> +Pipes have the mechanics of swapping between queues at the hardware leve=
+l.
+> +Nonetheless, they only make use of Queues that are considered mapped. Pi=
+pes can
+> +switch between queues based on any of the following inputs:
+> +
+> +1. Command Stream;
+> +2. Packet by Packet;
+> +3. Other hardware requests the change (e.g., MES).
+> +
+> +Queues within Pipes are defined by the Hardware Queue Descriptors (HQD).
+> +Associated with the HQD concept, we have the Memory Queue Descriptor (MQ=
+D),
+Related to HQD, we have MQD?
+> +which is responsible for storing information about the state of each of =
+the
+> +available Queues in the memory. The state of a Queue contains informatio=
+n such
+> +as the GPU virtual address of the queue itself, save areas, doorbell, et=
+c. The
+> +MQD also stores the HQD registers, which are vital for activating or
+> +deactivating a given Queue.
+> +
 
->> +	help
->> +	 Say Y to enable the Qualcomm USB audio offloading mixer controls.
->> +	 This exposes an USB offload capable kcontrol to signal to
->> +	 applications about which platform sound card can support USB
->> +	 audio offload.  The returning values specify the mapped ASoC card
->> +	 and PCM device the USB audio device is associated to.
->> +
->>  config SND_USB_AUDIO_QMI
->>  	tristate "Qualcomm Audio Offload driver"
->>  	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND && SND_SOC_USB
->> +	select SND_USB_OFFLOAD_MIXER
-> 
-> And I think "SND_USB_OFFLOAD_MIXER" (without _QC suffix) doesn't exist
-> anymore after v30? I see there was some discussion around that there.
-> Is this supposed to be "select SND_USB_QC_OFFLOAD_MIXER"?
-> 
-> If yes, isn't this option always selected if SND_USB_AUDIO_QMI is
-> enabled? In that case you could just drop the config option...
-> 
+Thanks.
 
-Will address this as well.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Thanks
-Wesley Cheng
+--/mnH3a2A936fTjj8
+Content-Type: application/pgp-signature; name=signature.asc
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ+NeGQAKCRD2uYlJVVFO
+oye9AP4iR8Vfseiyzk8xEC38+vn4Jm0SA+1phHuaBIUg4JgxTAEA0b0qh5O2KT7G
+AqtO7nxuNxNoBeaZD1kAxX4AszF8DQA=
+=TdVl
+-----END PGP SIGNATURE-----
+
+--/mnH3a2A936fTjj8--
