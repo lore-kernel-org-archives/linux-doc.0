@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2738819E992;
-	Wed, 26 Mar 2025 11:59:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A514C2A1B2;
+	Wed, 26 Mar 2025 12:07:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742990386; cv=none; b=sxrfXv4IE56yuGYXlezVUnTcwmEX237Av2YK5Ftbec4K5LyUiQlwHsNeocTd4unRgIuugfpN5WMkRyRWpGW4I3pXpg4wbhJbmP1e0D26oUfuDvKhWbHmBhn0bBPGBx0s0qQYeioZCr5UV4TZBJItGh6VRNTSbvmOonMWtpOnNno=
+	t=1742990845; cv=none; b=obmDv4pc6av+jQnIv374SmTX0gH/v7FqR4SyI84l8jSQwcNO6K7LCA/FGnERPJVejzksSWJiuIA72L5F12kwvvv0Gp1x/1BKrxwE7RROb8MerN7GMoEaR10nEw2uuFGpTih4okaBMIgQhi9s3AKAL45Cn7fR5SIt2nUDnDiw5Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742990386; c=relaxed/simple;
-	bh=cjxrsIzX/WPyXr7qdJpErRGIpF/kZxl22HylGb7mEwc=;
+	s=arc-20240116; t=1742990845; c=relaxed/simple;
+	bh=MfJ0FXYJCv8THmu44KFWCJKW5Y6BQslOAVgSU6DpjPw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ks1Quqh5GN6SeuNLLtKuMA8hC1dPRBassCMCa0YzxCMT1JiNEPCgX/dRGiXlMkNBvLYhiw7targ8AXWQKxdrWJn1bWUK2dPJEcZMKFnuiG2aiWSsQGPr+FHPItEnMknBgRGNf/DnurFXUBcjd6oKvKpVNSYQnvYavpOJXRrXGk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LhPUdmq1; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tSxyLxSQRN00rBTte326TCM/+uop0uzjzQ2A90CUzvO4P1gokGe7MU2MEbcGccbnnD1wfdZOKcimE/AM/IhZ6m/MJZsdch8HhhkHBOwPg+C6GlSzfs/oRU0TwMOtLudL+O0uzTrSiJUaGNe368raPUgwo0M1XvlfV2T/E/d5Bw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q4AjXU5U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LhPUdmq1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E8AEC4CEE2;
-	Wed, 26 Mar 2025 11:59:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q4AjXU5U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95BC6C4CEED;
+	Wed, 26 Mar 2025 12:07:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742990385;
-	bh=cjxrsIzX/WPyXr7qdJpErRGIpF/kZxl22HylGb7mEwc=;
+	s=k20201202; t=1742990845;
+	bh=MfJ0FXYJCv8THmu44KFWCJKW5Y6BQslOAVgSU6DpjPw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LhPUdmq1h7gvCSyDJ4n5B+4eRaGO5moH9CfG7jg7AQW5aPyeCDq2hBlFxoYjjVSlZ
-	 VC/V+Bixj8HZzyowNqA066Z5Np/7rN3pTPMilK3q5mgy0LnHOq+14v86HCYR2l+yn6
-	 e6g8oVWNq4Oy9Ij3p/6BCYiNZnS5659ckKwyTePqMI8tZZz0VPq9KTqvsWWEwQ9zsJ
-	 f/61VbQQ9B4OxQWSMiWDMS+ss5uyO8eyB1ZikVuHGAoUaYZ7BLWyzPftmXh+1uIeY+
-	 ru6EG6DyITSaRWZbJTdd9xC6DquohsYrSIlfLjsLjC60xDWGZmxOIvftTBoNzZfTMB
-	 7ZVrb394mhsAg==
-Date: Wed, 26 Mar 2025 07:59:40 -0400
+	b=Q4AjXU5UbkAQx5aYar7PCRjCmarMZeYXZZkrMlCatQoWK5Vt4UvNZUDT6N/8RNsTZ
+	 7o5Uxs8c15urYeBLkON6Vo+a/MWPcWMcSWDzJDC7U/kxmVCl4X3jmNI9XSk2Lypjuj
+	 Q5b9Qy1JR/Y+stStQg60BmTHSgU4Ma1/0fWEyqpudzP/0aUueElJ4ot+DcUUMTbuYr
+	 9C09LODiWWoP6DYgnYWcFcVBxLrb2hOz3xJiCc9Ffrxdf7OQs5rJ0TAY0gOfwc295v
+	 P9J6rYku7UtdVF/dK6zoP0E9eWJm0EkggPLgNL1NqZ/b3BX8aJ/V4x18OQn4+KJYqA
+	 KXKzGSk4uhW/w==
+Date: Wed, 26 Mar 2025 08:07:19 -0400
 From: Mike Rapoport <rppt@kernel.org>
-To: Frank van der Linden <fvdl@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org,
 	graf@amazon.com, akpm@linux-foundation.org, luto@kernel.org,
 	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
@@ -45,110 +45,58 @@ Cc: Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org, kexec@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
 	linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v5 07/16] kexec: add Kexec HandOver (KHO) generation
- helpers
-Message-ID: <Z-PsLDv-DkxitRv1@kernel.org>
+Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory
+ preservation
+Message-ID: <Z-Pt9yLP0cMR23cJ@kernel.org>
 References: <20250320015551.2157511-1-changyuanl@google.com>
- <20250320015551.2157511-8-changyuanl@google.com>
- <CAPTztWbFXajArSN8yKu32eSoR=xsk1CHM_4V7MJ0eQxydFqPUQ@mail.gmail.com>
- <Z-MB0Cj4tM6QgOAg@kernel.org>
- <CAPTztWbDtDhKZS89-aEBaZoPW2jZM2CAWW1Y_m3OnNE26=d9UQ@mail.gmail.com>
+ <20250320015551.2157511-10-changyuanl@google.com>
+ <20250321134629.GA252045@nvidia.com>
+ <Z98Lmo50h5RboFXq@kernel.org>
+ <Z+BZOKSpyPA1Pyu+@nvidia.com>
+ <Z-Gh-t9xB21UNGU2@kernel.org>
+ <Z+G7iHUdRZGv1Ose@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPTztWbDtDhKZS89-aEBaZoPW2jZM2CAWW1Y_m3OnNE26=d9UQ@mail.gmail.com>
+In-Reply-To: <Z+G7iHUdRZGv1Ose@nvidia.com>
 
-On Tue, Mar 25, 2025 at 02:56:52PM -0700, Frank van der Linden wrote:
-> On Tue, Mar 25, 2025 at 12:19 PM Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> > On Mon, Mar 24, 2025 at 11:40:43AM -0700, Frank van der Linden wrote:
-> [...]
-> > > Thanks for the work on this.
-> > >
-> > > Obviously it needs to happen while memblock is still active - but why
-> > > as close as possible to buddy initialization?
-> >
-> > One reason is to have all memblock allocations done to autoscale the
-> > scratch area. Another reason is to keep memblock structures small as long
-> > as possible as memblock_reserve()ing the preserved memory would quite
-> > inflate them.
-> >
-> > And it's overall simpler if memblock only allocates from scratch rather
-> > than doing some of early allocations from scratch and some elsewhere and
-> > still making sure they avoid the preserved ranges.
+On Mon, Mar 24, 2025 at 05:07:36PM -0300, Jason Gunthorpe wrote:
+> On Mon, Mar 24, 2025 at 02:18:34PM -0400, Mike Rapoport wrote:
+> > On Sun, Mar 23, 2025 at 03:55:52PM -0300, Jason Gunthorpe wrote:
+> > > On Sat, Mar 22, 2025 at 03:12:26PM -0400, Mike Rapoport wrote:
+> > >  
+> > > > > > +		page->private = order;
+> > > > > 
+> > > > > Can't just set the page order directly? Why use private?
+> > > > 
+> > > > Setting the order means recreating the folio the way prep_compound_page()
+> > > > does. I think it's better to postpone it until the folio is requested. This
+> > > > way it might run after SMP is enabled. 
+> > > 
+> > > I see, that makes sense, but also it could stil use page->order..
+> > 
+> > But there's no page->order :)
 > 
-> Ah, thanks, I see the argument for the scratch area sizing.
+> I mean this:
 > 
-> >
-> > > Ordering is always a sticky issue when it comes to doing things during
-> > > boot, of course. In this case, I can see scenarios where code that
-> > > runs a little earlier may want to use some preserved memory. The
-> >
-> > Can you elaborate about such scenarios?
-> 
-> There has, for example, been some talk about making hugetlbfs
-> persistent. You could have hugetlb_cma active. The hugetlb CMA areas
-> are set up quite early, quite some time before KHO restores memory. So
-> that would have to be changed somehow if the location of the KHO init
-> call would remain as close as possible to buddy init as possible. I
-> suspect there may be other uses.
+> static inline unsigned int folio_order(const struct folio *folio)
+> {
+>         if (!folio_test_large(folio))
+>                 return 0;
+>         return folio->_flags_1 & 0xff;
+> }
 
-I think we can address this when/if implementing preservation for hugetlbfs
-and it will be tricky. 
-If hugetlb in the first kernel uses a lot of memory, we just won't have
-enough scratch space for early hugetlb reservations in the second kernel
-regardless of hugetlb_cma. On the other hand, we already have the preserved
-hugetlbfs memory, so we'd probably need to reserve less memory in the
-second kernel.
-
-But anyway, it's completely different discussion about how to preserve
-hugetlbfs.
- 
-> > > current requirement in the patch set seems to be "after sparse/page
-> > > init", but I'm not sure why it needs to be as close as possibly to
-> > > buddy init.
-> >
-> > Why would you say that sparse/page init would be a requirement here?
-> 
-> At least in its current form, the KHO code expects vmemmap to be
-> initialized, as it does its restore base on page structures, as
-> deserialize_bitmap expects them. I think the use of the page->private
-> field was discussed in a separate thread, I think. If that is done
-> differently, it wouldn't rely on vmemmap being initialized.
-
-In the current form KHO does relies on vmemmap being allocated, but it does
-not rely on it being initialized. Marking memblock ranges NOINT ensures
-nothing touches the corresponding struct pages and KHO can use their fields
-up to the point the memory is returned to KHO callers.
- 
-> A few more things I've noticed (not sure if these were discussed before):
-> 
-> * Should KHO depend on CONFIG_DEFERRED_STRUCT_PAGE_INIT? Essentially,
-> marking memblock ranges as NOINIT doesn't work without
-> DEFERRED_STRUCT_PAGE_INIT. Although, if the page->private use
-> disappears, this wouldn't be an issue anymore.
-
-It does. 
-memmap_init_reserved_pages() is called always, no matter of
-CONFIG_DEFERRED_STRUCT_PAGE_INIT is set or not and it skips initialization
-of NOINIT regions.
-
-> * As a future extension, it could be nice to store vmemmap init
-> information in the KHO FDT. Then you can use that to init ranges in an
-> optimized way (HVO hugetlb or DAX-style persisted ranges) straight
-> away.
- 
-These days memmap contents is unstable because of the folio/memdesc
-project, but in general carrying memory map data from kernel to kernel is
-indeed something to consider.
-
-> - Frank
+I don't think it's better than page->private, KHO will need to
+prep_compound_page() anyway so these will be overwritten there.
+And I don't remember, but having those set before prep_compound_page()
+might trigger VM_BUG_ON_PGFLAGS().
+  
+> Jason
 
 -- 
 Sincerely yours,
