@@ -1,80 +1,59 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAD41B3935
-	for <linux-doc@vger.kernel.org>; Wed, 26 Mar 2025 10:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BE11DC9AC;
+	Wed, 26 Mar 2025 11:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742983760; cv=none; b=gqVc34n8qUUgFYySWCkf4/SAilAx93RPto2evx2oGTHnP9bVTvN8ifcaEcNY8k6v5h+MtiK35/GBme3BzZ6zRk0hug3vsrYKBdVlEBFn53o+rIo4tWHOK1YjpcYbFUj/I2pQSuHAIykGSDvi05z8keakVibs5a6082Diz2HoJ1o=
+	t=1742988539; cv=none; b=HwkRay/yf2ybTAX6w2Ie/7TqFbm4QATWzTar+NT00cOXqjnIZ2cRV08empkau/VGRq4qBAhpDm7/18I8qE4fHl6tF4MRYojB1cB7PTA3re3qQogI/LHwxOdUjz90wh32ilUpMiPZYB1Iv2ZdhE18X8s2SJFP0/f0Exx6zoRGi2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742983760; c=relaxed/simple;
-	bh=P2ErozGc1YzloiYKFY8XVll++8O7M+IJCl8ipftI2Iw=;
+	s=arc-20240116; t=1742988539; c=relaxed/simple;
+	bh=4Sh1ikImfk7eyob7pJYLP87Gp+VBMFoDyKt80LgWr+w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DDD9AEGu5M453JrhCpoaTpJpHj3tKcX8XPotOJa9kX4hOfeh7eFDrVcHt8rdosrmT6sCCSwmsVYYOO3/X6E9GRyZmcbjOIJdRLxfJ1jQZBl1wIMO9PfBd9onUaXDxpbvZ6l/nw8d3UKumBApXlfESaoSn8L2QtoFaVvI8cQiqJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q0aKifaQ; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=plw8L5OCv0Ar3yYMz0KWPNTZyjlhZmOJPAX2K1F/n51rb5Yei4QX/xbXN5u5B/Hqiq5i7sHIJCw8LQL8KzWZNK/GrLmr96LvvlebILrsD0SpFT+u0PY2IoC02NyjlbzheuoewPYEsislaaRG0QgtQo/YfaclX4Xd021E2Ac7JuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dO+wudTy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q0aKifaQ"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abec8b750ebso1198934066b.0
-        for <linux-doc@vger.kernel.org>; Wed, 26 Mar 2025 03:09:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742983756; x=1743588556; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mxE8mSuQFba5USugxIRzMPXLK6rZ2IlU479/J4S7RRQ=;
-        b=q0aKifaQ2qy5v288k5NA63z5aNi0UvdiSrsQXvU1PzWFATC5wn/+uaFX05IL5Gi6Xl
-         T6wSSwD0/qtdTxQtx83rT/9A+LcCPNWK7UO7v8wZjF2Wet5rLDWIoUKvKMrttpByUuUq
-         QQegCzmu73TDiurY1QJNV1ry+9zjEpxFbViPQoQ8s0bjCvOdcQgtV6+OY2Mt2qQMUXqK
-         2ag+iKc1VemK1wWwGLGjoEU5pLGcN8oSQwn1E3tshfHMEcgGdPDVG7sf/HFXs8+pDVVs
-         QtsTg4UEBke3wDZs9YJBrJxPemcBwfulTiZETMnMC8Rimp/YWcHdnrOaPXipVIgkqTJN
-         Ggbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742983756; x=1743588556;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mxE8mSuQFba5USugxIRzMPXLK6rZ2IlU479/J4S7RRQ=;
-        b=h45PpvCP9sYaKWlLVYOzlozECvtsUUaGi9Hb9NsSyxFNriPDIzNgRQmPfAsmVr2acE
-         KPyQnu1tAWQrPzg72eYLWP4S9FRe1Aw+lFb+vpdVjjA/N5FmsEbRkGu8nqMaPQWO41cx
-         wZmoxVMSVUs5rcTBU+ubCStobRfdwLGIyRD7AJEysX/n+cb+MoBeL64AI5uPzyE4HtHZ
-         LJZuGyb8/3JIvQVrMGT6fvXJOsZ2UH9oqq/ZW1bo1ipdXpekjUGSAuWO6PR9eW7WtaVW
-         v8P7LaE3hNDFGjpuqtmpv7hM7mdBREUyc3PYgIuFn8NyTksFo9dFqAIlUEx7d77YnlPJ
-         kqVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUTQZwcebsb8Tj7rlA6/AGq8zP6VmfnlPNbEaRTzST++aGvTNpNXxqbgA584+BhaAXrYd0XFQl5UJY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw271F2mdDY/VeWs3LgLD7s418lWHg6cltvFb1B57OslatBy/U3
-	0vG7cbexGNvvV5BxZhFkaP5F2Dm3a+WBJooitqF4M6cVQ7VsYJ+OUSa7rC57bDY=
-X-Gm-Gg: ASbGncttCcIS7bm/FXtmXf/SRTjntyIRJZHsmGuf2UiA3tRF5wmt/U1MzpEU4zmBPCx
-	vOkqepA6EUfVsGwXDDEnjre0R7pzSQ0AWFGG/Rqi1UMVJbC+a6BGmlEE+RhraC7m//ZmC4vRQMS
-	d0aoegtFDAnXUrnl9n2cLG+3kfxJtrXIgtmyc4iVaMqghDNA6dMD4ZfSuNISpDiL7R04XkbRda9
-	mKje/mYE9oLls+XhcpV4tO/4GJTafI1gMFNXXKRizUW1xB5XPlJ8XRwJhwM1pW1wZ5hJ83YCPtD
-	yoOpRpaFWf1tbsYBaouaXOOqQV7WtmirfHKWQiXbmPZLeWBn8aylhDY=
-X-Google-Smtp-Source: AGHT+IGuB/epcJCgNqpypGqs/8PJnFxUfea7pF2X+I+R3S5XuLqn/BDqdYJIFIeL24XP+sXSUduRlw==
-X-Received: by 2002:a17:907:7292:b0:ac3:8895:8e99 with SMTP id a640c23a62f3a-ac3f20ba753mr2011787766b.3.1742983755500;
-        Wed, 26 Mar 2025 03:09:15 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:b2cf:5182:7604:e8d])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3ef869eefsm993244766b.30.2025.03.26.03.09.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 03:09:15 -0700 (PDT)
-Date: Wed, 26 Mar 2025 11:09:13 +0100
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
-Subject: Re: [PATCH v36 28/31] ALSA: usb-audio: qcom: Introduce QC USB SND
- offloading support
-Message-ID: <Z-PSSXt8WY3yVFM4@linaro.org>
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-29-quic_wcheng@quicinc.com>
- <Z-J7n8qLMPVxpwuV@linaro.org>
- <5a7442c9-493d-4c23-a179-128f02a29f73@quicinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dO+wudTy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82D4CC4CEEA;
+	Wed, 26 Mar 2025 11:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742988538;
+	bh=4Sh1ikImfk7eyob7pJYLP87Gp+VBMFoDyKt80LgWr+w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dO+wudTy752jbZBiKbEzH/y7kZltbC12thCjkIvnZenkEwF5D2goiKObY33+DZByK
+	 62goXNL37ZMBjPsOFTzt1itoLJjbfI4q2kHo+gcavcD8Ed+ocOY+Elo0yUuq/RzkD4
+	 FOqbHWsKAMpikkVh2I3TcWSLtiluyof3uUc5RxuLdFK2gbkm+vCt964jw4Ou0EI2Iy
+	 SJHfXybHBPCt7535DKZ9pCxr1axSlbqbsF7nsodCCYZDBGsbw1rDAozoM+sEo3H3k5
+	 40tkPnOq6VoCDvDqRAzPP/4s0qs6uIS8Ba3o5wFBmsURz9VrW0qQnuUQ5iLdNYoEuu
+	 YHaiM9Fkt9Z/A==
+Date: Wed, 26 Mar 2025 07:28:52 -0400
+From: Mike Rapoport <rppt@kernel.org>
+To: Dave Young <dyoung@redhat.com>
+Cc: Baoquan He <bhe@redhat.com>, Changyuan Lyu <changyuanl@google.com>,
+	linux-kernel@vger.kernel.org, graf@amazon.com,
+	akpm@linux-foundation.org, luto@kernel.org,
+	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
+	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com,
+	dave.hansen@linux.intel.com, dwmw2@infradead.org,
+	ebiederm@xmission.com, mingo@redhat.com, jgowans@amazon.com,
+	corbet@lwn.net, krzk@kernel.org, mark.rutland@arm.com,
+	pbonzini@redhat.com, pasha.tatashin@soleen.com, hpa@zytor.com,
+	peterz@infradead.org, ptyadav@amazon.de, robh+dt@kernel.org,
+	robh@kernel.org, saravanak@google.com,
+	skinsburskii@linux.microsoft.com, rostedt@goodmis.org,
+	tglx@linutronix.de, thomas.lendacky@amd.com,
+	usama.arif@bytedance.com, will@kernel.org,
+	devicetree@vger.kernel.org, kexec@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v5 11/16] kexec: add config option for KHO
+Message-ID: <Z-Pk9Bnr0lDVopKj@kernel.org>
+References: <20250320015551.2157511-1-changyuanl@google.com>
+ <20250320015551.2157511-12-changyuanl@google.com>
+ <CALu+AoS01QJ-H5Vpr378rbx==iRQLG0HajtMCUzDXRO75biCag@mail.gmail.com>
+ <Z+JT7kx+sfPqfWFA@MiWiFi-R3L-srv>
+ <CALu+AoQj+mHECTvbuK8CpUTmOYgx6n2oMFm5kQXtSigL+5Ks2w@mail.gmail.com>
+ <CALu+AoRdfjNcjweq_ipxCC6UGBzM-a5ma417RBr-C3EQ=Em9OQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,180 +62,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5a7442c9-493d-4c23-a179-128f02a29f73@quicinc.com>
+In-Reply-To: <CALu+AoRdfjNcjweq_ipxCC6UGBzM-a5ma417RBr-C3EQ=Em9OQ@mail.gmail.com>
 
-On Tue, Mar 25, 2025 at 06:32:14PM -0700, Wesley Cheng wrote:
-> On 3/25/2025 2:47 AM, Stephan Gerhold wrote:
-> > On Tue, Mar 18, 2025 at 05:51:38PM -0700, Wesley Cheng wrote:
-> >> Several Qualcomm SoCs have a dedicated audio DSP, which has the ability to
-> >> support USB sound devices.  This vendor driver will implement the required
-> >> handshaking with the DSP, in order to pass along required resources that
-> >> will be utilized by the DSP's USB SW.  The communication channel used for
-> >> this handshaking will be using the QMI protocol.  Required resources
-> >> include:
-> >> - Allocated secondary event ring address
-> >> - EP transfer ring address
-> >> - Interrupter number
-> >>
-> >> The above information will allow for the audio DSP to execute USB transfers
-> >> over the USB bus.  It will also be able to support devices that have an
-> >> implicit feedback and sync endpoint as well.  Offloading these data
-> >> transfers will allow the main/applications processor to enter lower CPU
-> >> power modes, and sustain a longer duration in those modes.
-> >>
-> >> Audio offloading is initiated with the following sequence:
-> >> 1. Userspace configures to route audio playback to USB backend and starts
-> >> playback on the platform soundcard.
-> >> 2. The Q6DSP AFE will communicate to the audio DSP to start the USB AFE
-> >> port.
-> >> 3. This results in a QMI packet with a STREAM enable command.
-> >> 4. The QC audio offload driver will fetch the required resources, and pass
-> >> this information as part of the QMI response to the STREAM enable command.
-> >> 5. Once the QMI response is received the audio DSP will start queuing data
-> >> on the USB bus.
-> >>
-> >> As part of step#2, the audio DSP is aware of the USB SND card and pcm
-> >> device index that is being selected, and is communicated as part of the QMI
-> >> request received by QC audio offload.  These indices will be used to handle
-> >> the stream enable QMI request.
-> >>
-> >> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> >> ---
-> >>  sound/usb/Kconfig                 |   14 +
-> >>  sound/usb/Makefile                |    2 +-
-> >>  sound/usb/qcom/Makefile           |    2 +
-> >>  sound/usb/qcom/qc_audio_offload.c | 1988 +++++++++++++++++++++++++++++
-> >>  4 files changed, 2005 insertions(+), 1 deletion(-)
-> >>  create mode 100644 sound/usb/qcom/Makefile
-> >>  create mode 100644 sound/usb/qcom/qc_audio_offload.c
-> >>
-> >> diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
-> >> index 4a9569a3a39a..6daa551738da 100644
-> >> --- a/sound/usb/Kconfig
-> >> +++ b/sound/usb/Kconfig
-> >> @@ -176,6 +176,20 @@ config SND_BCD2000
-> >>  	  To compile this driver as a module, choose M here: the module
-> >>  	  will be called snd-bcd2000.
-> >>  
-> >> +config SND_USB_AUDIO_QMI
-> >> +	tristate "Qualcomm Audio Offload driver"
-> >> +	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND && SND_SOC_USB
-> >> +	help
-> >> +	  Say Y here to enable the Qualcomm USB audio offloading feature.
-> >> +
-> >> +	  This module sets up the required QMI stream enable/disable
-> >> +	  responses to requests generated by the audio DSP.  It passes the
-> >> +	  USB transfer resource references, so that the audio DSP can issue
-> >> +	  USB transfers to the host controller.
-> >> +
-> >> +	  To compile this driver as a module, choose M here: the module
-> >> +	  will be called snd-usb-audio-qmi.
-> >> [...]
-> >> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-> >> new file mode 100644
-> >> index 000000000000..3319363a0fd0
-> >> --- /dev/null
-> >> +++ b/sound/usb/qcom/qc_audio_offload.c
-> >> @@ -0,0 +1,1988 @@
-> >> [...]
-> >> +static int __init qc_usb_audio_offload_init(void)
-> >> +{
-> >> +	struct uaudio_qmi_svc *svc;
-> >> +	int ret;
-> >> +
-> >> +	svc = kzalloc(sizeof(*svc), GFP_KERNEL);
-> >> +	if (!svc)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	svc->uaudio_svc_hdl = kzalloc(sizeof(*svc->uaudio_svc_hdl), GFP_KERNEL);
-> >> +	if (!svc->uaudio_svc_hdl) {
-> >> +		ret = -ENOMEM;
-> >> +		goto free_svc;
-> >> +	}
-> >> +
-> >> +	ret = qmi_handle_init(svc->uaudio_svc_hdl,
-> >> +			      QMI_UAUDIO_STREAM_REQ_MSG_V01_MAX_MSG_LEN,
-> >> +			      &uaudio_svc_ops_options,
-> >> +			      &uaudio_stream_req_handlers);
-> >> +	ret = qmi_add_server(svc->uaudio_svc_hdl, UAUDIO_STREAM_SERVICE_ID_V01,
-> >> +			     UAUDIO_STREAM_SERVICE_VERS_V01, 0);
-> >> +
-> >> +	uaudio_svc = svc;
-> >> +
-> >> +	ret = snd_usb_register_platform_ops(&offload_ops);
-> >> +	if (ret < 0)
-> >> +		goto release_qmi;
-> >> +
-> >> +	return 0;
-> >> +
-> >> +release_qmi:
-> >> +	qmi_handle_release(svc->uaudio_svc_hdl);
-> >> +free_svc:
-> >> +	kfree(svc);
-> >> +
-> >> +	return ret;
-> >> +}
-> >> +
-> >> +static void __exit qc_usb_audio_offload_exit(void)
-> >> +{
-> >> +	struct uaudio_qmi_svc *svc = uaudio_svc;
-> >> +	int idx;
-> >> +
-> >> +	/*
-> >> +	 * Remove all connected devices after unregistering ops, to ensure
-> >> +	 * that no further connect events will occur.  The disconnect routine
-> >> +	 * will issue the QMI disconnect indication, which results in the
-> >> +	 * external DSP to stop issuing transfers.
-> >> +	 */
-> >> +	snd_usb_unregister_platform_ops();
-> >> +	for (idx = 0; idx < SNDRV_CARDS; idx++)
-> >> +		qc_usb_audio_offload_disconnect(uadev[idx].chip);
-> >> +
-> >> +	qmi_handle_release(svc->uaudio_svc_hdl);
-> >> +	kfree(svc);
-> >> +	uaudio_svc = NULL;
-> >> +}
-> >> +
-> >> +module_init(qc_usb_audio_offload_init);
-> >> +module_exit(qc_usb_audio_offload_exit);
-> >> +
-> >> +MODULE_DESCRIPTION("QC USB Audio Offloading");
-> >> +MODULE_LICENSE("GPL");
-> > 
-> > What will trigger loading this if this code is built as module?
-> > 
-> > Testing suggests nothing does at the moment: If this is built as module,
-> > playback via USB_RX will fail until you manually modprobe
-> > snd-usb-audio-qmi.
-> > 
-> 
-> Yes, it would only get triggered on a modprobe.  I think the more important
-> part is when snd_usb_register_platform_ops() is called.  This is what would
-> register the vendor USB offload driver callbacks for USB connect/disconnect
-> events.
-> 
-> > I think the easiest way to solve this would be to drop the
-> > module_init()/module_exit() and instead call into these init/exit
-> > functions from one of the other audio modules. This would also ensure
-> > that the QMI server is only registered if we actually need it (if the
-> > board sound card actually has a USB DAI link).
-> > 
-> 
-> It would be difficult from the perspective of USB SND, because if we got
-> rid of the vendor ops, it would be messy, since the USB offload vendor
-> driver will be specific for every SoC.
-> 
+Hi Dave,
 
-What I meant is calling qc_usb_audio_offload_init() from any of the
-other drivers that are involved, e.g. q6usb. Or register an auxilliary
-device like in qcom_pd_mapper, so the modules don't need to link
-together directly. That shouldn't get too messy.
+On Wed, Mar 26, 2025 at 05:17:16PM +0800, Dave Young wrote:
+> On Tue, 25 Mar 2025 at 16:36, Dave Young <dyoung@redhat.com> wrote:
+> >
+> > > >
+> > > > Have you tested kdump?  In my mind there are two issues,  one is with
+> > > > CMA enabled, it could cause kdump crashkernel memory reservation
+> > > > failures more often due to the fragmented low memory.  Secondly,  in
+> > >
+> > > kho scracth memorys are reserved much later than crashkernel, we may not
+> > > need to worry about it.
+> > > ====================
+> > > start_kernel()
+> > >   ......
+> > >   -->setup_arch(&command_line);
+> > >      -->arch_reserve_crashkernel();
+> > >   ......
+> > >   -->mm_core_init();
+> > >      -->kho_memory_init();
+> > >
+> > > > kdump kernel dump the crazy scratch memory in vmcore is not very
+> > > > meaningful.  Otherwise I suspect this is not tested under kdump.  If
+> > > > so please disable this option for kdump.
+> >
+> > Ok,  it is fine if this is the case, thanks Baoquan for clearing this worry.
+> >
+> > But the other concerns are still need to address, eg. KHO use cases
+> > are not good for kdump.
+> > There could be more to think about.
+> > eg. the issues talked in thread:
+> > https://lore.kernel.org/lkml/Z7dc9Cd8KX3b_brB@dwarf.suse.cz/T/
+> 
+> Rethink about this,  other than previous concerns.  Transferring the
+> old kernel state to kdump kernel makes no sense since the old state is
+> not stable as the kernel has crashed.
+ 
+KHO won't be active for kdump case. The KHO segments are only added to
+kexec_image and never to kexec_crash_image. 
 
-There are several reasonable options here, any of them is fine as long
-as this module will get automatically loaded for users that need it.
-Anything else would defeat the purpose of the generic USB sound
-offloading userspace interface, because you would need to load the
-QC-specific snd-usb-audio-qmi module manually. :-)
-
-Thanks,
-Stephan
+-- 
+Sincerely yours,
+Mike.
